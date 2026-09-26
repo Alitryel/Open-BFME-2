@@ -89,6 +89,36 @@ def markers():
     return found
 
 
+def _marker_in(text, donor, symbol):
+    """The exact marker block to clear, or None when the destination has none.
+
+    Two axes, and getting either wrong reports an empty lane instead of a queue:
+
+    * Line terminator. These destinations hold CRLF blocks inside otherwise-LF
+      files, and every marker in them ends "\r\n". A literal match built with
+      "\n" therefore found nothing, which is why all thirteen screenable pairs
+      in the queue reported no-marker-pair -- the lane looked exhausted when
+      nothing had been measured.
+    * Pairing. The two-line form is what crosslink.py writes, and it has not been
+      run over most of the tree. The pair is not what establishes the
+      relationship anyway: markers() builds the queue from the DONOR's own
+      "// readable body of <symbol>: <dest>" line and screen() has already
+      checked the donor owns the row, so a bare marker is enough on its own.
+
+    Preferring the paired form keeps clearing it whole where it exists, so the
+    orphaned "byte-exact reconstruction:" line is not left pointing at nothing.
+    """
+    for eol in ("\r\n", "\n"):
+        for candidate in (
+            "// byte-exact reconstruction: %s%s// %s present-unmatched%s" % (
+                donor, eol, symbol, eol),
+            "// %s present-unmatched%s" % (symbol, eol),
+        ):
+            if text.count(candidate) == 1:
+                return candidate
+    return None
+
+
 def screen(donor, dest, symbol):
     note = re.search(r"object-symbol=([^;\r\n]*)", _notes.get(symbol, ""))
     if note and note.group(1) != symbol:
@@ -105,8 +135,8 @@ def screen(donor, dest, symbol):
         return "NO-DESTINATION: " + dest
     original = path.read_bytes()
     text = original.decode("utf-8")
-    marker = "// byte-exact reconstruction: %s\n// %s present-unmatched\n" % (donor, symbol)
-    if text.count(marker) != 1:
+    marker = _marker_in(text, donor, symbol)
+    if marker is None:
         return "no-marker-pair"
     # read_bytes/write_bytes throughout: thirteen destinations hold CRLF blocks
     # inside otherwise-LF files and read_text would rewrite every one of them.
@@ -125,7 +155,12 @@ def screen(donor, dest, symbol):
 
 
 def _screen_cleared(path, original, dest, symbol):
-    built = subprocess.run(["./build.sh", dest], cwd=ROOT,
+    # tools/build.py rather than ./build.sh: the shell wrapper only execs this
+    # same module, and CreateProcess cannot run a .sh at all, so invoking the
+    # wrapper made every screen on a Windows checkout die with WinError 193
+    # before it compiled anything. sys.executable rather than "python3" so the
+    # child is the interpreter already running this.
+    built = subprocess.run([sys.executable, "tools/build.py", dest], cwd=ROOT,
                            capture_output=True, text=True, timeout=1800)
     if "Functions: OK" not in built.stdout:
         path.write_bytes(original)
@@ -133,7 +168,7 @@ def _screen_cleared(path, original, dest, symbol):
         return "DEST-RED: " + (failed.group(0).strip() if failed else "build error")
 
     rva, size, _ = _rows[symbol]
-    diffed = subprocess.run(["python3", "tools/explain_mismatch.py", symbol,
+    diffed = subprocess.run([sys.executable, "tools/explain_mismatch.py", symbol,
                              "--rva", rva, "--size", size, "--source", dest],
                             cwd=ROOT, capture_output=True, text=True, timeout=1800)
     if "OK: bytes match" in diffed.stdout:

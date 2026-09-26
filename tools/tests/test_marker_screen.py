@@ -84,3 +84,45 @@ def test_an_absent_destination_is_decided_before_any_file_is_touched(tmp_path,
     assert marker_screen.screen(
         "donor.cpp", str(tmp_path / "Nope.cpp"), "?f@C@@QAEXXZ"
     ).startswith("NO-DESTINATION")
+
+
+CRLF_CASES = {
+    "paired LF": "// byte-exact reconstruction: {donor}\n// {sym} present-unmatched\n",
+    "paired CRLF": "// byte-exact reconstruction: {donor}\r\n// {sym} present-unmatched\r\n",
+    "bare LF": "// {sym} present-unmatched\n",
+    "bare CRLF": "// {sym} present-unmatched\r\n",
+}
+
+
+@pytest.mark.parametrize("case", sorted(CRLF_CASES))
+def test_a_marker_is_found_under_either_terminator_paired_or_bare(case):
+    """All thirteen screenable pairs in the queue reported no-marker-pair.
+
+    Not because they lacked a marker: these destinations hold CRLF blocks inside
+    otherwise-LF files, so their markers end "\r\n" and a literal match built
+    with "\n" found nothing. The lane read as exhausted when nothing had been
+    measured. Pairing was the second half -- crosslink.py writes the two-line
+    form and has not been run over most of the tree, while the donor's own
+    "readable body of" line already establishes the relationship.
+    """
+    donor, sym = "d.cpp", "?f@C@@QAEXXZ"
+    block = CRLF_CASES[case].format(donor=donor, sym=sym)
+    found = marker_screen._marker_in("above\n" + block + "below\n", donor, sym)
+    assert found == block, (case, repr(found))
+
+
+def test_the_paired_form_wins_so_no_orphan_link_is_left_behind():
+    """Clearing only the marker line would strand the reconstruction pointer."""
+    donor, sym = "d.cpp", "?f@C@@QAEXXZ"
+    paired = CRLF_CASES["paired CRLF"].format(donor=donor, sym=sym)
+    assert marker_screen._marker_in("x\r\n" + paired, donor, sym) == paired
+
+
+def test_no_marker_at_all_is_still_no_marker_pair():
+    assert marker_screen._marker_in("nothing here\n", "d.cpp", "?f@C@@QAEXXZ") is None
+
+
+def test_a_marker_appearing_twice_is_refused_rather_than_guessed():
+    donor, sym = "d.cpp", "?f@C@@QAEXXZ"
+    bare = CRLF_CASES["bare LF"].format(donor=donor, sym=sym)
+    assert marker_screen._marker_in(bare + bare, donor, sym) is None
