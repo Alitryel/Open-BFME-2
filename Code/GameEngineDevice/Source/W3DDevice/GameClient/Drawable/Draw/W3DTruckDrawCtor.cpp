@@ -50,10 +50,12 @@ public:
 private:
 	char m_pad[0x2E8 - 0x0C - 0x04 - 0x04];
 };
-struct BfmeParticleSystemHandle
+// Native member cleanups use the rowed 11-byte conditional destructor at
+// 0x002115C5; the bare 55-byte unlink at 0x0004CBC0 remains a separate body.
+struct RvaSmartPtr12
 {
-	BfmeParticleSystemHandle(void *system) { m_system = system; m_next = 0; m_previous = 0; }
-	~BfmeParticleSystemHandle();
+	RvaSmartPtr12(void *system) { m_system = system; m_next = 0; m_previous = 0; }
+	~RvaSmartPtr12() throw();
 	void *m_system;
 	void *m_previous;
 	void *m_next;
@@ -62,14 +64,15 @@ class W3DTruckDraw : public W3DScriptedModelDraw
 {
 public:
 	W3DTruckDraw(Thing *thing, const ModuleData *moduleData);
+	virtual ~W3DTruckDraw(); // Existing out-of-line retail body at 0x000CDE73.
 private:
 	bool m_effectsInitialized;
 	bool m_wasAirborne;
 	bool m_isPowersliding;
 	char m_pad2EB;
-	BfmeParticleSystemHandle m_dust;
-	BfmeParticleSystemHandle m_dirt;
-	BfmeParticleSystemHandle m_power;
+	RvaSmartPtr12 m_dust;
+	RvaSmartPtr12 m_dirt;
+	RvaSmartPtr12 m_power;
 	float m_f310;
 	float m_f314;
 	float m_f318;
