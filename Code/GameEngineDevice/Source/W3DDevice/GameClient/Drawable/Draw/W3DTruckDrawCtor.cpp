@@ -11,11 +11,13 @@ struct OpaqueRefElement4
 {
 	OpaqueRefCounted *referent;
 };
-struct BfmePoolRef08
+// Native temporary cleanups jump to 0x0010F149: the existing counted-handle
+// destructor, whole 12-byte body and Release_Ref relocation. Original type unknown.
+struct Rva0010F149Handle
 {
 	OpaqueRefCounted *m_target;
-	BfmePoolRef08() : m_target(0) {}
-	~BfmePoolRef08() { if (m_target != 0) m_target->Release_Ref(); }
+	Rva0010F149Handle() : m_target(0) {}
+	~Rva0010F149Handle() { if (m_target != 0) m_target->Release_Ref(); }
 };
 struct BfmeAudioEventPrefix136
 {
@@ -130,8 +132,8 @@ W3DTruckDraw::W3DTruckDraw(Thing *thing, const ModuleData *moduleData)
 	, m_i368(0)
 	, m_f36C(0)
 	, m_i370(0)
-	, m_sound374((const OpaqueRefElement4 &)BfmePoolRef08(), 0)
-	, m_sound3FC((const OpaqueRefElement4 &)BfmePoolRef08(), 0)
+	, m_sound374((const OpaqueRefElement4 &)Rva0010F149Handle(), 0)
+	, m_sound3FC((const OpaqueRefElement4 &)Rva0010F149Handle(), 0)
 	, m_unk484(0)
 {
 }
