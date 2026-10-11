@@ -46,13 +46,22 @@ private:
 	char m[4];
 };
 
-class Rva0033DDA1E8
+// The +0x124 field is the existing 56-record array holder: its cleanup
+// calls the verified 16-byte destructor at 0x00254B72. Use that owner and
+// its 8-byte record callback (0x004C9F38), rather than a private nested name.
+class OpaqueRefCounted;
+class Rva002390CB
 {
 public:
-	~Rva0033DDA1E8();
-
+	~Rva002390CB();
 private:
-	char m[8];
+	void *unknown00;
+	OpaqueRefCounted *owner04;
+};
+
+class Rva00254B72
+{
+	Rva002390CB records[56];
 };
 
 class AssetList
@@ -209,10 +218,7 @@ private:
 	char m_padA4[0xfc - 0xa4];
 	Rva0033C3F3 m_cFC; // +0xfc
 	char m_pad104[0x124 - 0x104];
-	struct Rva0033DDA1E124
-	{
-		Rva0033DDA1E8 e[0x38];
-	} m_e124; // +0x124
+	Rva00254B72 m_e124; // +0x124, 56 records of 8 bytes
 	Rva0033CD02Vec m_v2e4; // +0x2e4
 	Rva0033CD02Vec m_v2f0; // +0x2f0
 	Rva0033CD02Vec m_v2fc; // +0x2fc
