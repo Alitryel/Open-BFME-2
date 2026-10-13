@@ -30,10 +30,16 @@ public:
 	virtual void behaviorAnchor() = 0;		///< vptr at 0x0c
 };
 
+enum UpdateSleepTime
+{
+	UPDATE_SLEEP_NONE = 1
+};
+
+// The 0x10 vftable 0x00C4ED30 opens with DemoTrapUpdate::update (0x00495ABA).
 class UpdateInterface
 {
 public:
-	virtual void updateAnchor() = 0;		///< vptr at 0x10
+	virtual UpdateSleepTime update() = 0;	///< vptr at 0x10
 };
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/UpdateModule.h
@@ -46,7 +52,6 @@ public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 
 	virtual void behaviorAnchor();
-	virtual void updateAnchor();
 
 	int m_nextCallFrameAndPhase;			///< 0x14
 	int m_indexInLogic;						///< 0x18
@@ -61,7 +66,7 @@ public:
 
 	virtual void objectModuleAnchor();
 	virtual void behaviorAnchor();
-	virtual void updateAnchor();
+	virtual UpdateSleepTime update();
 
 	int m_value20;							///< 0x20
 	bool m_flag24;							///< 0x24
