@@ -33,19 +33,7 @@ enum ObjectID
 	INVALID_ID = 0
 };
 
-struct Region3D
-{
-	Coord3D lo;
-	Coord3D hi;
-
-	Real width() const { return hi.x - lo.x; }
-	Real height() const { return hi.y - lo.y; }
-	void zero()
-	{
-		lo.x = 0.0f; lo.y = 0.0f; lo.z = 0.0f;
-		hi.x = 0.0f; hi.y = 0.0f; hi.z = 0.0f;
-	}
-};
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 
 class WaterHandle
 {

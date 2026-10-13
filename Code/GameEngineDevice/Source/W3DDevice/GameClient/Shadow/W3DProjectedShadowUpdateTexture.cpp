@@ -64,14 +64,7 @@ public:
 };
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath/aabox.h
-struct Region3D
-{
-public:
-	Region3D(void) {}
-	Region3D(const Region3D &) throw();
-
-	float x_min,y_min,z_min,x_max,y_max,z_max;
-};
+#include "../../../../../Libraries/Include/Lib/Region3D.h"
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/surfaceclass.h
 class SurfaceClass

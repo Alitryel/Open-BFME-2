@@ -15,14 +15,7 @@ typedef float Real;
 
 #include "Coord3D.h"
 
-struct Region3D
-{
-	Region3D(const Region3D &that);
-	~Region3D();
-
-	Coord3D lo;
-	Coord3D hi;
-};
+#include "../../../../../../Libraries/Include/Lib/Region3D.h"
 
 #include "../../../../../../Libraries/Include/Lib/ICoord2D.h"
 

@@ -54,28 +54,7 @@ __forceinline void bfmeZeroCoord3D(Coord3D &c)
 }
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct Region3D
-{
-	__forceinline Region3D() {}
-
-	__forceinline Region3D(const Region3D &other)
-	{
-		lo.x = other.lo.x;
-		lo.y = other.lo.y;
-		lo.z = other.lo.z;
-		hi.x = other.hi.x;
-		hi.y = other.hi.y;
-		hi.z = other.hi.z;
-	}
-
-	__forceinline ~Region3D() {}
-
-	Real width() const { return hi.x - lo.x; }
-	Real height() const { return hi.y - lo.y; }
-
-	Coord3D lo;
-	Coord3D hi;
-};
+#include "../../../Libraries/Include/Lib/Region3D.h"
 
 class BfmeCellFC
 {

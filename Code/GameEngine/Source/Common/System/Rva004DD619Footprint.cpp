@@ -19,11 +19,7 @@ struct Coord3DBase
 
 #include "../../../../Libraries/Include/Lib/ICoord2D.h"
 
-struct Region3D
-{
-	Coord3DBase lo;
-	Coord3DBase hi;
-};
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 
 struct IRegion3D
 {

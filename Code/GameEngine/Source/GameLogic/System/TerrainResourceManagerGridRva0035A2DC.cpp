@@ -8,12 +8,7 @@
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../Common/GameLogicObjectLookupView.h"
 
-struct Region3D {
- Coord3D lo,hi;
- Region3D(const Region3D&);
- float width() const {return hi.x-lo.x;}
- float height() const {return hi.y-lo.y;}
-};
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 struct BfmePod8 {int a[2];};
 struct BfmeE8 {int a,b;};
 namespace _STL {template<> void vector<BfmeE8,allocator<BfmeE8> >::reserve(unsigned int);}

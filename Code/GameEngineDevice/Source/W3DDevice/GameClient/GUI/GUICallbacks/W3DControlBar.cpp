@@ -354,16 +354,7 @@ public:
 		Color color);   // ZH Display::drawFillRect
 };
 
-struct Region3D
-{
-	Region3D() {}
-	Region3D(const Region3D &that);
-	~Region3D() {}
-	Real width(void) const { return hi.x - lo.x; }
-	Real height(void) const { return hi.y - lo.y; }
-	Coord3D lo;
-	Coord3D hi;
-};
+#include "../../../../../../Libraries/Include/Lib/Region3D.h"
 
 class MapMetaData
 {

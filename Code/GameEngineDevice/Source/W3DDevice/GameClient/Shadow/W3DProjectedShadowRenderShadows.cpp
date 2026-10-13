@@ -284,7 +284,7 @@ class WW3D {friend class W3DProjectedShadowManager;static bool IsCurrentlyRender
 static int drawStartX, drawStartY, drawEdgeX, drawEdgeY;
 inline void *operator new(size_t,void *p) throw(){return p;}
 inline void operator delete(void *,void *) throw(){}
-struct Region3D {__declspec(nothrow) Region3D(const Region3D&);Coord3D lo,hi;};
+#include "../../../../../Libraries/Include/Lib/Region3D.h"
 static __forceinline void copyBox(AABoxClass *dst,const AABoxClass &src){new(dst)Region3D(*(const Region3D *)&src);}
 enum ShadowType {SHADOW_NONE=0};
 class W3DProjectedShadowManager { public:

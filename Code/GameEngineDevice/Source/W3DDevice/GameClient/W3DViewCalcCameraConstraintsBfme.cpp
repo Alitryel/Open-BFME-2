@@ -14,7 +14,7 @@
 typedef float Real;typedef int Int;typedef bool Bool;
 #include "../../../../Libraries/Include/Lib/ICoord2D.h"
 #include "../../../../Libraries/Include/Lib/Region2D.h"
-struct Region3D{Coord3D lo,hi;};
+#include "../../../../Libraries/Include/Lib/Region3D.h"
 #include "vector3.h"
 
 #include <math.h>

@@ -10,7 +10,7 @@
 #define height height_RV
 #include "../../Common/GameLogicObjectLookupView.h"
 #include "../../../../Libraries/Include/Lib/ICoord2D.h"
-struct IRegion2D {ICoord2D lo,hi;int width()const{return hi.x-lo.x;}int height()const{return hi.y-lo.y;}};
+#include "../../../../Libraries/Include/Lib/IRegion2D.h"
 union GameMessageArgumentType {int integer;IRegion2D pixelRegion;};
 class GameMessage {public:const GameMessageArgumentType*getArgument(int)const;};
 enum ObjectStatusTypes;

@@ -12,16 +12,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
-struct Region3D
-{
-    Region3D(const Region3D &that);
-    float x_min;
-    float y_min;
-    float z_min;
-    float x_max;
-    float y_max;
-    float z_max;
-};
+#include "../../../Include/Lib/Region3D.h"
 struct Rva00541021
 {
     int m_field0;
