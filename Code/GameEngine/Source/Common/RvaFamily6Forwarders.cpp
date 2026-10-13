@@ -6,8 +6,8 @@
 // (empty, unpinned) and the helpers are opaque address-named pins. Holder,
 // member and helper identities are unproven.
 // All current consumer views and helper56BABF hold a single counted pointer.
-// The37BE15 caller proves the30FA44 result is a four-byte AsciiString;
-// other helpers retain their own opaque counted-handle semantics.
+// The former 0x003113DD member (field +0x10 through 0x0030FA44) is
+// GameMessage::getCommandAsAsciiString, landed in MessageStream.cpp.
 struct RvaF6Ret
 {
 	int m_00;
@@ -19,25 +19,10 @@ struct RvaF6Ret
 // visible body lets the compiler elide that protection. Defining it changes
 // the codegen (frameless, no EH state). Nothing links this TU in the gates.
 
-RvaF6Ret Helper0030FA44(int v);
 RvaF6Ret Helper0056BCE5(int v);
 RvaF6Ret Helper0056BABF(int v);
 RvaF6Ret Helper0056BB8C(int v);
 RvaF6Ret Helper0056BC3D(int v);
-
-class Rva003113DD
-{
-public:
-	RvaF6Ret method();
-private:
-	int m_pad[4];
-	int m_10; // +0x10
-};
-
-RvaF6Ret Rva003113DD::method()
-{
-	return Helper0030FA44(m_10);
-}
 
 class Rva005747F9
 {

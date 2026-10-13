@@ -5771,7 +5771,6 @@ name,address,notes
 ?Grow@?$SimpleDynVecClass@PAV?$MultiListClass@VDX8FVFCategoryContainer@@@@@@IAE_NH@Z,0x001001D5,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?Grow@?$SimpleDynVecClass@VVector3@@@@QAE_NH@Z,0x001001D5,REL32 from SimpleDynVecClass Vector3 Add at 0x1002C5
 ?HeaderTemplateGetRegistryLanguage@@YA?AVHeaderTemplateString@@XZ,0x00235029,callee of ?bfmeHeaderTemplateRegistryLanguage@@YA?AVHeaderTemplateString@@XZ at retail 0x002604BA read from its REL32 displacement; ICF alias onto ?GetRegistryLanguage@@YA?AVAsciiString@@XZ (matched)
-?Helper0030FA44@@YA?AURvaF6Ret@@H@Z,0x0030FA44,opaque value-return helper called by forwarder 0x003113DD; identity unproven; address-derived name
 ?Helper0056BABF@@YA?AURvaF6Ret@@H@Z,0x0056BABF,opaque value-return helper called by forwarder 0x005773C0; identity unproven; address-derived name
 ?Helper0056BB8C@@YA?AURvaF6Ret@@H@Z,0x0056BB8C,opaque value-return helper called by forwarder 0x005CE3DE; identity unproven; address-derived name
 ?Helper0056BC3D@@YA?AURvaF6Ret@@H@Z,0x0056BC3D,opaque value-return helper called by forwarder 0x005CEC10; identity unproven; address-derived name

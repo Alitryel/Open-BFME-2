@@ -183,7 +183,6 @@ void GameMessage::appendTimestampArgument( UnsignedInt arg )
 	a->m_type = ARGUMENTDATATYPE_TIMESTAMP;
 }
 
-// ?getCommandAsAsciiString@GameMessage@@ present-unmatched
 AsciiString GameMessage::getCommandAsAsciiString( void )
 {
 	return getCommandTypeAsAsciiString(m_type);

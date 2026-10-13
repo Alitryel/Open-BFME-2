@@ -293,6 +293,7 @@ class GameMessage {public:
  enum Type{MSG_CLEAR_GAME_DATA=0x1d,MSG_NEW_GAME=0x1e,MSG_BEGIN_NETWORK_MESSAGES=0x3e8,MSG_END_NETWORK_MESSAGES=0x7cf};
  GameMessage(Type);virtual ~GameMessage();GameMessage*m_next;GameMessage*m_prev;void*m_list;Type m_type;int m_playerIndex;unsigned char m_argCount;char p19[3];void*m_argFirst;void*m_argLast;
  Type getType()const{return m_type;}unsigned char getArgumentCount()const{return m_argCount;}int getPlayerIndex()const{return m_playerIndex;}const GameMessageArgumentType*getArgument(int)const;GameMessageArgumentDataType getArgumentDataType(int);void friend_setPlayerIndex(int index){m_playerIndex=index;}
+ AsciiString getCommandAsAsciiString();
 };
 struct Rva0054D54ANode {virtual void*destroy(unsigned);Rva0054D54ANode*next;int type,count;};
 class Rva0054D54A {public:Rva0054D54A();Rva0054D54A(GameMessage*);virtual ~Rva0054D54A();Rva0054D54ANode*first;void*last;int numTypes;};
@@ -463,10 +464,6 @@ class SpecialPowerTemplate:public Overridable {public:char pad0[0x10];AsciiStrin
 class SpecialPowerStore {public:const SpecialPowerTemplate*findSpecialPowerTemplateByID(unsigned);};extern SpecialPowerStore*TheSpecialPowerStore;
 enum NameKeyType {NAMEKEY_INVALID=-1};
 class ScienceStore {public:AsciiString rva001FF5F2(NameKeyType);};extern ScienceStore*TheScienceStore;
-// The four-byte counted result at native local2C is an AsciiString.
-// This neutral name is the already-rowed forwarder's hidden-return type.
-struct RvaF6Ret {AsciiString value;};
-class Rva003113DD {public:RvaF6Ret method();};
 class CommandDumpFile0037BE15 {public:virtual void s0();virtual void s1();virtual void s2();virtual void s3();virtual int write(const void*,int);};
 class Drawable0037BE15:public Thing {};
 class Client0037BE15 {public:virtual void s0();virtual void s1();virtual void s2();virtual void s3();virtual void s4();virtual void s5();virtual void s6();virtual void s7();virtual void s8();virtual void s9();virtual void s10();virtual void s11();virtual void s12();virtual void s13();virtual void s14();virtual void s15();virtual Drawable0037BE15*find(int);};
@@ -506,8 +503,8 @@ void RecorderClass::dumpCommandHistory(CommandDumpFile0037BE15* file,unsigned ma
    if ((read0037BE15<int>(message,0x10)!=0x44a || (!g_Rva00A02D86 && !(*(unsigned char *)&TheLiteCRC) && NET_CRC_INTERVAL!=1)) && read0037BE15<int>(message,0x10)!=0x447 && read0037BE15<int>(message,0x10)>1000 && read0037BE15<int>(message,0x10)<1999) {
    unsigned frame=message->getArgument(read0037BE15<unsigned char>(message,0x18)-1)->timestamp;
    if (frame>maxFrame) break;
-   RvaF6Ret name=((Rva003113DD*)message)->method();
-   text.format("\nFrame:%d, %s(%d):\n",frame,name.value.str(),read0037BE15<int>(message,0x10));
+   AsciiString name=message->getCommandAsAsciiString();
+   text.format("\nFrame:%d, %s(%d):\n",frame,name.str(),read0037BE15<int>(message,0x10));
    write0037BE15(file,text);
    bool string=false;
    for (int i=0;i<read0037BE15<unsigned char>(message,0x18)-1;++i) {

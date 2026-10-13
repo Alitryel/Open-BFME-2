@@ -27545,7 +27545,6 @@ pin	reverse/symbols.csv	0x0030F604	1
 pin	reverse/symbols.csv	0x0030F880	1
 pin	reverse/symbols.csv	0x0030F8FF	2
 pin	reverse/symbols.csv	0x0030F936	1
-pin	reverse/symbols.csv	0x0030FA44	1
 pin	reverse/symbols.csv	0x00310FF5	1
 pin	reverse/symbols.csv	0x00311537	2
 pin	reverse/symbols.csv	0x003115AD	2
@@ -37188,7 +37187,6 @@ present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	0GameMessage@@
 present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	1GameMessage@@	1
 present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	attachTranslator@MessageStream@@	1
 present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	containsMessageOfType@GameMessageList@@	1
-present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	getCommandAsAsciiString@GameMessage@@	1
 present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	init@CommandList@@	1
 present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	init@MessageStream@@	1
 present_unmatched	Code/GameEngine/Source/Common/MessageStream.cpp	removeMessage@GameMessageList@@	1
