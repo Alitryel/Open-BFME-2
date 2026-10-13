@@ -17,8 +17,8 @@
 // and return rva00369064(); at or below it return rva0036914D().
 // Same +0x3C/+0x40 id pair and own-machine scan (0x00369FDF) as the landed
 // 0x0036A979 idle-state update; owner identity unproven so the owner and
-// its three opaque same-this callees carry address-derived names with pins
-// read from the retail REL32 sites. The machine view flattens the proven
+// its three same-this callees now bind the independently rowed normal-flight
+// methods at the retail REL32 destinations. The machine view flattens the proven
 // AIGuardMachine +0x3C/+0x40 id pair.
 
 typedef float Real;
@@ -102,13 +102,31 @@ public:
 	void setGoalPosition(const Coord3D *pos);
 };
 
+enum StateExitType
+{
+	EXIT_NORMAL = 0
+};
+enum StateReturnType
+{
+	STATE_CONTINUE = 0,
+	STATE_SUCCESS = -1,
+	STATE_FAILURE = -2
+};
+
+// Declaration-only call view of the rowed providers. Explicit qualification
+// preserves retail's direct calls; no virtual slot or owner layout is inferred.
+class GiantBirdNormalFlightState
+{
+public:
+	virtual StateReturnType onEnter();
+	virtual void onExit(StateExitType status);
+	virtual StateReturnType update();
+};
+
 class Rva0036A88AOwner
 {
 public:
 	int rva0036A88A();
-	void rva00369217(int status);
-	int rva00369064();
-	int rva0036914D();
 
 private:
 	char m_pad00[0x18];
@@ -121,10 +139,8 @@ private:
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
-// ?rva00369217@Rva0036A88AOwner@@QAEXH@Z pins 0x00369217 (rowed as
-// GiantBirdNormalFlightState::onExit; same address, direct call here).
-// ?rva00369064@Rva0036A88AOwner@@QAEHXZ pins 0x00369064.
-// ?rva0036914D@Rva0036A88AOwner@@QAEHXZ pins 0x0036914D.
+// Native direct destinations: onExit 0x00369217, onEnter 0x00369064,
+// update 0x0036914D; all use this unchanged.
 int Rva0036A88AOwner::rva0036A88A()
 {
 	UnsignedInt frame = TheGameLogic->m_frame;
@@ -141,7 +157,7 @@ int Rva0036A88AOwner::rva0036A88A()
 	} else {
 		Team *team = TheTeamFactory->findTeamByID(machine->m_teamToGuard);
 		if (team == NULL)
-			return rva0036914D();
+			return ((GiantBirdNormalFlightState *)this)->GiantBirdNormalFlightState::update();
 		team->rva0039E5B9(&target);
 	}
 	const Coord3D *position = &m_pos;
@@ -160,8 +176,8 @@ int Rva0036A88AOwner::rva0036A88A()
 	if (delta.GetLengthEstimate() > 10.0f) {
 		m_pos = target;
 		((StateMachine *)m_machine)->setGoalPosition(&m_pos);
-		rva00369217(0);
-		return rva00369064();
+		((GiantBirdNormalFlightState *)this)->GiantBirdNormalFlightState::onExit(EXIT_NORMAL);
+		return ((GiantBirdNormalFlightState *)this)->GiantBirdNormalFlightState::onEnter();
 	}
-	return rva0036914D();
+	return ((GiantBirdNormalFlightState *)this)->GiantBirdNormalFlightState::update();
 }
