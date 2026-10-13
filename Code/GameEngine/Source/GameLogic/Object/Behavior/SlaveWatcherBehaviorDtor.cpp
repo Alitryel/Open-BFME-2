@@ -91,10 +91,12 @@ public:
 
 extern GameLogic *TheGameLogic;
 
+// Slot 0 of each module's primary vftable is its deleting destructor
+// (0x004848CA in 0x00C4A264), so the base's first virtual is the destructor.
 class BehaviorModuleBase
 {
 public:
-	virtual void unused();
+	virtual ~BehaviorModuleBase();
 	const SlaveWatcherBehaviorModuleData *m_moduleData; // +0x04
 	Object *m_object; // +0x08
 };

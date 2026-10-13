@@ -30,9 +30,11 @@ class Thing;
 class ModuleData;
 class Object;
 
+// Slot 0 of each module's primary vftable is its deleting destructor
+// (0x00484C3C in 0x00C4A448), so the base's first virtual is the destructor.
 class BehaviorModuleBase
 {
-	virtual void unused();
+	virtual ~BehaviorModuleBase();
 	int a;
 	int b;
 };

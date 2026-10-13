@@ -50,14 +50,19 @@ protected:
 	int m_bfmeReserved;
 };
 
+class Coord3D;
+
+// The +0x20 interface's vftable 0x00C5E8C4 opens with onCollide (0x004C8E83).
 class CritterEmitterUpdateIface
 {
 public:
-	virtual void trailingAnchor();
+	virtual void onCollide(Object *other, const Coord3D *loc, const Coord3D *normal) = 0;
 };
 
 class CritterEmitterUpdate : public UpdateModule, public CritterEmitterUpdateIface
 {
+public:
+	virtual void onCollide(Object *other, const Coord3D *loc, const Coord3D *normal);
 protected:
 	virtual ~CritterEmitterUpdate();
 };

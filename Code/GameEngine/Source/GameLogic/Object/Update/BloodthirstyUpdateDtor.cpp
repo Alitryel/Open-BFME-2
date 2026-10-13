@@ -49,14 +49,22 @@ protected:
 	int m_bfmeReserved;
 };
 
+enum CommandSourceType
+{
+	CMD_FROM_AI = 2
+};
+
+// The +0x20 interface's vftable 0x00C3EFC4 opens with sacrificeHorde (0x0044E374).
 class BloodthirstyUpdateIface
 {
 public:
-	virtual void trailingAnchor();
+	virtual void sacrificeHorde(Object *victim, CommandSourceType source) = 0;
 };
 
 class BloodthirstyUpdate : public UpdateModule, public BloodthirstyUpdateIface
 {
+public:
+	virtual void sacrificeHorde(Object *victim, CommandSourceType source);
 protected:
 	virtual ~BloodthirstyUpdate();
 };

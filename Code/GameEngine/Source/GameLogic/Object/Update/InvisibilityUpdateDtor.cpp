@@ -53,14 +53,17 @@ protected:
 	int m_bfmeReserved;
 };
 
+// The +0x20 interface's vftable 0x00C52518 opens with the rowed 0x004A3A09.
 class TrailingModuleInterface
 {
 public:
-	virtual void trailingAnchor();
+	virtual bool rva004A3A09() = 0;
 };
 
 class InvisibilityUpdate : public UpdateModule, public TrailingModuleInterface
 {
+public:
+	virtual bool rva004A3A09();
 protected:
 	virtual ~InvisibilityUpdate();
 };
