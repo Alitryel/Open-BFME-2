@@ -190,10 +190,19 @@ public:
 
 // Existing whole-map query provider returns this one-word handle. Native
 // 4C78AF calls 6256F0 and the canonical next/dtor at 45623/4AA28;
-// The legacy return handle forwards cleanup to the actual canonical owner,
-// avoiding the existing mismatched BfmeResultA destructor pin. Provider names
-// remain neutral, not original type claims.
-struct BfmeResultA { void *m_value; BfmeResultA(); BfmeResultA(const BfmeResultA &); __forceinline ~BfmeResultA() { ((BfmeWideResult *)this)->~BfmeWideResult(); } };
+// Provider names remain neutral, not original type claims. Every native
+// caller calls the 34-byte /O1 teardown 4AA28 out of line; this unit emits
+// that body (the payload storage dtor folds to 7FAB3, as in
+// BfmeWideResultTeardown.cpp). BfmeResultSourceA's /O2 copy inlines the
+// storage free and is not retail's.
+struct BfmeWideResultPayload { void *m_storage; unsigned char m_unmodelled[0x0c]; int m_refCount; ~BfmeWideResultPayload(); };
+struct BfmeResultA { void *m_value; BfmeResultA(); BfmeResultA(const BfmeResultA &);
+ __declspec(noinline) ~BfmeResultA() {
+  void *&payload = m_value;
+  --static_cast<BfmeWideResultPayload *>(payload)->m_refCount;
+  if (static_cast<BfmeWideResultPayload *>(payload)->m_refCount == 0)
+   delete static_cast<BfmeWideResultPayload *>(payload);
+ } };
 class BfmeResultForwardB { public: BfmeResultA bfmeForwardResultB(int); };
 extern PartitionManager *ThePartitionManager;
 
