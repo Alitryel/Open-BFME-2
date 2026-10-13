@@ -4,8 +4,8 @@
 // the body is the banked one up to statement/operand order and local types.
 //
 // ?rva00335C88@Rva00335C88@@QAEXXZ @ 0x00335C88 (38B).
-// Unlock: thin wrapper over Rva000ADE45Copy.
-// Evidence: callees rowed Copy 0x000ADE45; callers at 0x000B06F5,
+// Unlock: thin wrapper over STLport's by-reference-tag __copy_ptrs.
+// Evidence: callees rowed __copy_ptrs 0x000ADE45; callers at 0x000B06F5,
 // 0x003360FB, 0x00337CE3; prev/next TU flags.
 
 struct BfmeStringRecord00063BE4 {
@@ -13,7 +13,14 @@ struct BfmeStringRecord00063BE4 {
 	char text[4];
 	unsigned char tail0, tail1;
 };
-BfmeStringRecord00063BE4 *__cdecl Rva000ADE45Copy(BfmeStringRecord00063BE4 *a, BfmeStringRecord00063BE4 *b, BfmeStringRecord00063BE4 *c, BfmeStringRecord00063BE4 *d);
+namespace _STL
+{
+struct __false_type
+{
+};
+template <class InputIter, class OutputIter>
+OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result, const __false_type &);
+}
 
 class Rva00335C88
 {
@@ -24,9 +31,11 @@ private:
 	BfmeStringRecord00063BE4 *m_04;
 };
 
+// Retail passes the tag at &a + 3; a __false_type() temporary lands in b's
+// slot (&b + 3) under every flag set tried, so the address stays explicit.
 void *Rva00335C88::rva00335C88(void *a, void *b)
 {
-	BfmeStringRecord00063BE4 *r = Rva000ADE45Copy((BfmeStringRecord00063BE4 *)b, m_04, (BfmeStringRecord00063BE4 *)a, (BfmeStringRecord00063BE4 *)((char *)&a + 3));
+	BfmeStringRecord00063BE4 *r = _STL::__copy_ptrs((BfmeStringRecord00063BE4 *)b, m_04, (BfmeStringRecord00063BE4 *)a, *(const _STL::__false_type *)((char *)&a + 3));
 	m_04 = r;
 	return a;
 }

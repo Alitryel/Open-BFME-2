@@ -6015,7 +6015,6 @@ name,address,notes
 ?Rva000A46B7Draw@@YAXPAVGameWindow@@PAVWinInstanceData@@@Z,0x000A46B7,"gadget draw function (cdecl window, instance data) slot 3 of gadget vtable 0x00BC91D8#3 calls (REL32 at 0x000A479B); identity not recovered"
 ?Rva000A53DEDraw@@YAXPAVGameWindow@@PAVWinInstanceData@@@Z,0x000A53DE,"gadget draw function (cdecl window, instance data) slot 3 of gadget vtable 0x00BC9204#3 calls (REL32 at 0x000A600D); identity not recovered"
 ?Rva000A90B0@@YAKK@Z,0x000A90B0,callee of ?rva00062A1C@Rva00062A1C@@QAEXH@Z at retail 0x00062A20 read from its REL32 displacement; argument count from the callee ret
-?Rva000ADE45Copy@@YAPAUBfmeStringRecord00063BE4@@PAU1@000@Z,0x000ADE45,"auto-pin (permute --pins): REL32 call target read from retail in 0x00335c88, whose banked body is byte-exact once this call resolves"
 ?Rva000B3FD0BuildFieldParse@@YAXAAVMultiIniFieldParse@@@Z,0x000B3FD0,SquishCollide factory0x254AAB pushes VA0x4B3FD0; empty folded proc distinct from DelayedLuaEventUpdate parser0x4A8D06
 ?Rva000BDCEFDestroy32@@YAXPAVRva000C24EA@@0@Z,0x000BDCEF,Call-only record32 cleanup ABI; full25B provider walks stride32 and calls full15B storage release at4; no pair payload name asserted
 ?Rva000C4795Copy4@@YAPAVRva000C24EA@@PBV1@0PAV1@PBX@Z,0x000C4795,Native erases push four cdecl arguments; full29B rowed copy wrapper reads only first three and ignores the unused tag pointer
@@ -6122,7 +6121,6 @@ name,address,notes
 ?Rva003F09DFFallback@@YAHHH@Z,0x003F09DF,__cdecl obfuscated fallback callee of ?Rva003F1D7CHook@@YAHHH@Z (BigObfHookWrappers.cpp) at retail 0x003F1DCC read from its REL32 displacement; body unrowed
 ?Rva003F0AB8Fallback@@YAHHH@Z,0x003F0AB8,__cdecl obfuscated fallback callee of ?Rva003F1DD5Hook@@YAHHH@Z (BigObfHookWrappers.cpp) at retail 0x003F1E25 read from its REL32 displacement; body unrowed
 ?Rva003F0B92Fallback@@YAHHH@Z,0x003F0B92,__cdecl obfuscated fallback callee of ?Rva003F1E2EHook@@YAHHH@Z (BigObfHookWrappers.cpp) at retail 0x003F1E7E read from its REL32 displacement; body unrowed
-?Rva003F29D2_CopyRange@@YAPAVLivingWorldRegionConnection@@PAV1@00ABU__false_type@_STL@@@Z,0x003F29D2,4-arg tag-ignored twin of rowed 3-arg CopyRange same 38B loop via caller 0x003F2CD6
 ?Rva003FE7E6@@YA_NVRva00211E75Callback@@PAH@Z,0x003FE7E6,unrowed 155B cdecl (Ghidra FUN_007fe7e6); GameClient::update 0x0023BF67 passes a by-value 0x00211E75 handle and &0x00E02EC4 then pops 8; the body stores the 0x00DC1984 counter through its second argument and returns BL; address name
 ?Rva0040E269@@YAXPAVXfer0051FFF5@@PAX@Z,0x0040E269,cdecl spelling of the rowed Xfer vector helper for range feed 0x0051FFF5 (REL32 at 0x00520055/0x0052005F/0x00520069); body rowed as ?Rva0040E269Xfer@@YAPAVXfer@@PAV1@PAV?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@@Z; address name
 ?Rva0041267F@@YAXXZ,0x0041267F,unrowed 10B (Ghidra FUN_0081267f: two calls); REL32 read at AptMainMenu::ResetResolution 0x00514CD1 with no arguments after the window resize; address name

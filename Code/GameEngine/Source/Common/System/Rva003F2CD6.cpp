@@ -2,8 +2,9 @@
 // ??$_M_allocate_and_copy@PAVLivingWorldRegionConnection@@@?$vector@UBfmeStringRecord000B9534@@V?$allocator@UBfmeStringRecord000B9534@@@_STL@@@_STL@@IAEPAUBfmeStringRecord000B9534@@IPAVLivingWorldRegionConnection@@0@Z @0x003F2CD6 45B
 // vector<BfmeStringRecord000B9534>::_M_allocate_and_copy, same 45B ebp-tag shape as 0x00319304 and 0x004F6C05.
 // Allocates n 24B slots through the end-of-storage proxy (rowed BfmeStringRecord000B9534 allocate at 0x00395944,
-// same 24B stride as LivingWorldRegionConnection) and copies the range with the 4-arg Living copy twin at
-// 0x003F29D2 (tag unused, same 38B loop as rowed 3-arg CopyRange). Casts like Rva00318D75Copy precedent.
+// same 24B stride as LivingWorldRegionConnection) and copies the range with STLport's tagged
+// __uninitialized_copy<LivingWorldRegionConnection*> at 0x003F29D2 (every retail caller pushes the tag;
+// the STLport vector family units emit that name with retail's bytes). Casts like Rva00318D75Copy precedent.
 // Evidence: unlock lane, all callees rowed or pinned, caller 0x003F318C, landing unblocks it.
 struct BfmeStringRecord000B9534
 {
@@ -38,13 +39,17 @@ private:
 	Proxy m_endOfStorage;
 };
 }
-LivingWorldRegionConnection *Rva003F29D2_CopyRange(LivingWorldRegionConnection *first, LivingWorldRegionConnection *last, LivingWorldRegionConnection *result, const _STL::__false_type &tag);
+namespace _STL
+{
+template <class InputIter, class ForwardIter>
+ForwardIter __uninitialized_copy(InputIter first, InputIter last, ForwardIter result, const __false_type &);
+}
 template <class Type, class Allocator>
 template <class ForwardIter>
 Type *_STL::vector<Type, Allocator>::_M_allocate_and_copy(size_type n, ForwardIter first, ForwardIter last)
 {
 	Type *result = m_endOfStorage.m_alloc.allocate(n, 0);
-	Rva003F29D2_CopyRange((LivingWorldRegionConnection *)first, (LivingWorldRegionConnection *)last, (LivingWorldRegionConnection *)result, _STL::__false_type());
+	_STL::__uninitialized_copy((LivingWorldRegionConnection *)first, (LivingWorldRegionConnection *)last, (LivingWorldRegionConnection *)result, _STL::__false_type());
 	return result;
 }
 template BfmeStringRecord000B9534 *_STL::vector<BfmeStringRecord000B9534, _STL::allocator<BfmeStringRecord000B9534> >::_M_allocate_and_copy<LivingWorldRegionConnection *>(unsigned int, LivingWorldRegionConnection *, LivingWorldRegionConnection *);
