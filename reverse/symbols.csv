@@ -1768,10 +1768,8 @@ name,address,notes
 ??0BFME2NativeNetwork@@QAE@XZ,0x0025DB6D,ctor spelling of the rowed construct body: only caller is the new-expression at 0x0025E4A8 in 0x0025E46D whose unwind entry frees the 0x40 allocation
 ??0BFME2ScopedRenderEvent@@QAE@PBD0I@Z,0x00117CF0,"Descriptive scope ctor: label256 group64; bounded copy and BeginEvent wrapper11F340(label,color); RET12 full167"
 ??0BFME2StreamMotionChannel@@QAE@XZ,0x001B2138,Descriptive stream-channel constructor; calls base1A465B to initialize type and pivot then zeros payload pointer28 and installs BD7624; factory encoding1 and2 allocate44 bytes and invoke it before installing derived tables
-??0BFMEAutoLockRef@@QAE@PAVBFMENetworkLock@@I@Z,0x00613A70,callee of ?popQueue0@BFMENetwork@@QAE_NPAVBFMENetworkQueueItem@@@Z at retail 0x00557D98 read from its REL32 displacement; ICF alias onto ??0LockClass@MutexClass@@QAE@AAV1@H@Z (matched)
 ??0BFMENetGameSpyStatsAuthKeyCommandMsg@@QAE@XZ,0x004D65DC,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0BFMENetRequestGameSpyStatsAuthKeyCommandMsg@@QAE@XZ,0x004D64F5,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-??0BFMENetworkLock@@QAE@PBD@Z,0x006139F0,callee of ??0BFMENetwork@@QAE@XZ at retail 0x00558EC1 read from its REL32 displacement; ICF alias onto ??0MutexClass@@QAE@PBD@Z (matched)
 ??0BFMENetworkPayloadList@@QAE@XZ,0x00558D6B,callee of ??0BFMENetwork@@QAE@XZ at retail 0x00558EC1 read from its REL32 displacement; body unrowed
 ??0BFMENetworkQueue1@@QAE@XZ,0x00558D56,callee of ??0BFMENetwork@@QAE@XZ at retail 0x00558EC1 read from its REL32 displacement; ICF alias onto ??0Rva00558D56@@QAE@XZ (matched)
 ??0BFMENetworkQueue@@QAE@XZ,0x00558D41,callee of ??0BFMENetwork@@QAE@XZ at retail 0x00558EC1 read from its REL32 displacement; body unrowed
@@ -2980,7 +2978,6 @@ name,address,notes
 ??1BFME2ParticleTextureHandle@@QAE@XZ,0x0017098D,TU-private view (particle_emitter units) of the texture reference released by the rowed RefCountPtr<TextureClass> destructor; their unwind funclets destroy it by jumping to this ICF-folded release-if-non-null body
 ??1BFME2ScopedRenderEvent@@QAE@XZ,0x00117DA0,Descriptive scope dtor:5-byte tail to EndEvent11F3C0 optional callbackDEDBE0; same EH action at766200
 ??1BFME2TextureRef@@QAE@XZ,0x0017098D,TU-private view (DX8FVFCategoryFindMatchingTextureBFME.cpp) of the texture reference whose destructor releases the referent when non-null; the unwind funclet 0x00766310 of the rowed DX8FVFCategoryContainer::Find_Matching_Texture_Category destroys it by jumping to this ICF-folded body shared with RefCountPtr<TextureClass>; the original class name is unknown
-??1BFMEAutoLockRef@@QAE@XZ,0x00613AC0,callee of ?popQueue0@BFMENetwork@@QAE_NPAVBFMENetworkQueueItem@@@Z at retail 0x00557D98 read from its REL32 displacement; ICF alias onto ??1LockClass@MutexClass@@QAE@XZ (matched)
 ??1BFMEDX8DeviceLock@@QAE@XZ,0x00042F8C,repo shim name for the DX8 device-lock guard (dx8indexbuffer.h shim; original name unknown): its 5-byte destructor is a bare tail jump to the rowed device-mutex release BFME_DX8_Thread_Assert 0x00120F50; 102 unwind funclets jump here - among them those of the rowed IndexBufferClass::WriteLockClass and DX8IndexBufferClass destructors and the BfmeDynamicVB constructors/destructors/Create and WW3D::_Invalidate_Mesh_Cache
 ??1BFMERetailAsciiString@@QAE@XZ,0x00036410,BFME2 4-byte string temp teardown; folds with StringBase and AsciiString clear at same address; sole caller getGhostObject worker
 ??1BFMETextureHandleHonestCopy@@QAE@XZ,0x0017098D,TU-private view (part_buf.cpp) of the same texture reference; its unwind funclets destroy it through the ICF-folded release-if-non-null body at this address
@@ -8730,8 +8727,6 @@ name,address,notes
 ?copyFrom@BfmeTailF4@@QAEXPAU1@@Z,0x000365F0,address read from the REL32 displacement at placed bfmeCopyF4 0x6BEEC0; tail copy folds with StringBase/AsciiString copy-ctor
 ?copyFrom@BfmeTailF5@@QAEXPBU1@@Z,0x000365F0,address read from the REL32 displacement at placed bfmeFillF5 0x6BEF10; tail copy folds with StringBase/AsciiString copy-ctor
 ?copyFrom@Rva004E1FE4TreeCopyView@@QAEXABV1@@Z,0x004E1FE4,opaque 12-byte copy member; native REL32 at 0x004E2C92 and Ghidra FUN_008E1FE4 boundary 165B establish destination; source identity inferred
-?copyFromQueueNode@BFMENetworkQueueItem1@@QAEXPAX@Z,0x00556132,callee of ?popQueue1@BFMENetwork@@QAE_NPAVBFMENetworkQueueItem1@@@Z at retail 0x00557DFB read from its REL32 displacement; body unrowed
-?copyFromQueueNode@BFMENetworkQueueItem@@QAEXPAX@Z,0x005565C5,callee of ?popQueue0@BFMENetwork@@QAE_NPAVBFMENetworkQueueItem@@@Z at retail 0x00557D98 read from its REL32 displacement; body unrowed
 ?copyItems@Rva00403055@@QAEXABV1@@Z,0x00402FD8,address read from the REL32 displacement at byte-matched body 0x00403055
 ?copyPayloadTo@BFME2WideStringRef@@QBEHPAG@Z,0x0021AC32,null-safe UTF16 payload memcpy with empty-literal fallback; called twice from pair copier 0x21B8A0
 ?copyPlane009AF0D0@@YAXPAURva009AF320Context@@IHIIPAE1PBI@Z,0x001BFAC0
@@ -10153,8 +10148,6 @@ name,address,notes
 ?playerHasPrereqsForScience@ScienceStore@@QBE_NPBVRva0043D3A8@@W4ScienceType@@@Z,0x001FF47D,callee of the byte-verified Player::hasPrereqsForScience 0x002A9EAC on TheScienceStore with the player science-holder base read from its REL32 displacement; Zero Hour call; body opens with findScienceInfo; unrowed Ghidra FUN_005ff47d 86B
 ?pointInTrigger@PolygonTrigger@@QAE_NABVICoord3D@@@Z,0x002E3A13,target direct call from evaluateNamedInsideArea candidate 0x003E5EFF with trigger as this and local integer XYZ vector by const reference; BFME1 donor confirms point-in-trigger semantics
 ?pop@FreelistPool@@QAEPAXXZ,0x002393E2,TU spelling of the freelist pop folded at this address; resolves the Rva0029FB3BMember init TU call
-?popFront@BFMENetworkQueue1@@QAEXXZ,0x005562B6,callee of ?popQueue1@BFMENetwork@@QAE_NPAVBFMENetworkQueueItem1@@@Z at retail 0x00557DFB read from its REL32 displacement; ICF alias onto the rowed deque<BfmeOpaqueOwnedRecord1408>::pop_front
-?popFront@BFMENetworkQueue@@QAEXXZ,0x0055628F,callee of ?popQueue0@BFMENetwork@@QAE_NPAVBFMENetworkQueueItem@@@Z at retail 0x00557D98 read from its REL32 displacement; ICF alias onto ?pop_front@?$deque@UBfmeOpaqueOwnedRecord1432@@V?$allocator@UBfmeOpaqueOwnedRecord1432@@@_STL@@@_STL@@QAEXXZ (matched)
 ?popFront@Rva00800550Chain@@QAEXXZ,0x0066CA10
 ?pop_front@?$deque@VBuddyResponse@@V?$allocator@VBuddyResponse@@@_STL@@@_STL@@QAEXXZ,0x00550B9F,address read from the REL32 displacement at a placed body; the body there is held under another instantiation name and the two folded
 ?pop_front@?$deque@VPeerRequest@@V?$allocator@VPeerRequest@@@_STL@@@_STL@@QAEXXZ,0x0038A4C3,callee of getRequest (0x0038D4C4) at the site its BFME1 donor calls it; may be an ICF alias
@@ -10198,8 +10191,6 @@ name,address,notes
 ?pubimbue@?$basic_streambuf@DV?$char_traits@D@_STL@@@_STL@@QAE?AVlocale@2@ABV32@@Z,0x0001C760,STLport basic_streambuf<char>::pubimbue; read from the REL32 in the byte-true basic_ios<char>::imbue body at 0x00016110
 ?publish@Rva00435A40Sink@@QAEXABV?$StringBase@G@@I@Z,0x00260BBF,callee of ?update@Rva006EE520@@QAEXH@Z at retail 0x0004802C read from its REL32 displacement; donor subtitle sink publish name at this unrowed address
 ?push@Shell@@QAEXVAsciiString@@_N@Z,0x0035C74A,callee of _bfme_showCampaignReview (0x0051291C) at the site its BFME1 donor calls it; may be an ICF alias
-?pushBack@BFMENetworkQueue1@@QAEXABVBFMENetworkQueueItem1@@@Z,0x00558FBC,callee of ?pushQueue1@BFMENetwork@@QAEXPAVBFMENetworkQueueItem1@@@Z at retail 0x005592AE read from its REL32 displacement; ICF alias onto the rowed deque<BfmeOpaqueOwnedRecord1408>::push_back
-?pushBack@BFMENetworkQueue@@QAEXABVBFMENetworkQueueItem@@@Z,0x00558F8A,callee of ?pushQueue0@BFMENetwork@@QAEXPAVBFMENetworkQueueItem@@@Z at retail 0x00559261 read from its REL32 displacement; ICF alias onto the rowed deque<BfmeOpaqueOwnedRecord1432>::push_back
 ?pushBack@DrawableList@@QAEXAAPBVDrawable@@@Z,0x00239E0B,TU-local DrawableList pushBack pinned to rowed list Drawable push_back 0x239E0B decoded from retail call at 0x239FDC for 0x239FCC
 ?pushStatsToRoom@PeerThreadClass@@QAEXPAX@Z,0x0038AF29,"joinRoomCallback native REL32 at 0x0038E4E3 targets 0x0038AF29 where the source calls t->pushStatsToRoom(peer); PeerThread.cpp carries the same name as present-unmatched (donor 6-key body, retail sends 7 keys); the call site is the target evidence binding this name to this body"
 ?push_back@?$BfmeVector@VAsciiString@@@@QAEXABVAsciiString@@@Z,0x002DBE6,TU-local spelling for vector<AsciiString>::push_back; body 0x2DBE6 is the 53B AsciiString push_back (4B stride plus copy via 0x2C485 plus rowed 0x365F0); needed by INI_getNextTokenOrNull

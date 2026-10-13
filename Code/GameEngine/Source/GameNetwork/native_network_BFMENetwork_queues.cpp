@@ -9,10 +9,8 @@
 //   ?popQueue1@BFMENetwork@@UAE_NPAVBFMENetworkQueueItem1@@@Z  retail 0x00557DFB, 98 bytes
 // One BFME 2 repair against the donor: retail's queue push is the out-of-line
 // deque push_back (0x00558F8A for queue 0, 0x00558FBC for queue 1, both
-// rowed), not the donor's inline fast path, so pushBack is declared, not
-// defined, here (pinned to those rows). popQueue1's callees, Item1's
-// copyFromQueueNode 0x00556132 and queue 1's pop_front 0x005562B6, are pinned
-// from its REL32s.
+// rowed), not the donor's inline fast path. The bodies call those rows, the
+// record assignments and pop_fronts, and the lock by their owners' names.
 #include <new>
 
 typedef bool Bool;
@@ -47,23 +45,15 @@ public:
 template <class T, class Allocator>
 class deque
 {
-protected:
-	void _M_push_back_aux_v(const T &value);
-	friend class ::BFMENetworkQueue;
-	friend class ::BFMENetworkQueue1;
-	friend class ::BFMENetwork;
+public:
+	void push_back(const T &value);
+	void pop_front();
 };
-
-template <class T1, class T2>
-inline void _Construct(T1 *destination, const T2 &value)
-{
-	new (destination) T1(value);
-}
 }
 
 typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > BFMENetworkString;
 
-class BFMENetworkLock;
+class MutexClass;
 void *BFMENetworkAllocate(unsigned int bytes);
 
 struct BFMENetworkListNode
@@ -114,7 +104,7 @@ private:
 class BFMENetworkBackend : public ThreadClass
 {
 public:
-	BFMENetworkBackend(BFMENetworkLock *ownerLock);
+	BFMENetworkBackend(MutexClass *ownerLock);
 	virtual ~BFMENetworkBackend();
 	void *destroyAndMaybeDelete(unsigned int flags);
 	virtual void Thread_Function();
@@ -127,7 +117,7 @@ private:
 	Bool m_flag58;
 	char m_pad59[3];
 	BFMENetworkList m_list;
-	BFMENetworkLock *m_ownerLock;
+	MutexClass *m_ownerLock;
 };
 
 class BFMENetworkBackendDestructorShim
@@ -136,26 +126,29 @@ public:
 	void destroy();
 };
 
-class BFMENetworkLock
+class MutexClass
 {
 public:
-	BFMENetworkLock(const char *name);
-	~BFMENetworkLock();
+	MutexClass(const char *name);
+	~MutexClass();
+
+	// WWLib's scoped lock (mutex.h). The queue members' lock calls land on
+	// its rowed ctor 0x00613A70 and dtor 0x00613AC0 (WWLib/mutex.cpp), and
+	// retail's deleting copy is ??_GLockClass@MutexClass 0x00099203.
+	class LockClass
+	{
+	public:
+		LockClass(MutexClass &mutex, int time);
+		~LockClass();
+		Bool Failed() { return m_failed; }
+
+	private:
+		MutexClass &m_mutex;
+		Bool m_failed;
+	};
 
 	void *m_handle;
 	int m_refCount;
-};
-
-class BFMEAutoLockRef
-{
-public:
-	BFMEAutoLockRef(BFMENetworkLock *lock, unsigned int timeout);
-	__declspec(noinline) ~BFMEAutoLockRef();
-	Bool failed() const { return m_failed; }
-
-private:
-	BFMENetworkLock *m_lock;
-	Bool m_failed;
 };
 
 class BFMENetworkLockRefOwner
@@ -163,26 +156,43 @@ class BFMENetworkLockRefOwner
 public:
 	~BFMENetworkLockRefOwner()
 	{
-		BFMEAutoLockRef *ref = m_ref;
+		MutexClass::LockClass *ref = m_ref;
 		if (ref)
 			delete ref;
 	}
 
-	BFMEAutoLockRef *m_ref;
+	MutexClass::LockClass *m_ref;
 };
+
+// The queue records and their STLport deques. Retail's queue 0 calls land on
+// the rowed assignment of BfmeOpaqueOwnedRecord1432 (0x005565C5) and on its
+// deque's pop_front 0x0055628F and push_back 0x00558F8A; queue 1's on
+// BfmeOpaqueOwnedRecord1408's (0x00556132) and on 0x005562B6 and 0x00558FBC
+// (WWLib/StlportOwnedRecordDeque.cpp). The queue members call those through
+// the casts below; only those member ABIs are used here.
+struct BfmeOpaqueOwnedRecord1432
+{
+	BfmeOpaqueOwnedRecord1432 &operator=(const BfmeOpaqueOwnedRecord1432 &that);
+};
+
+struct BfmeOpaqueOwnedRecord1408
+{
+	BfmeOpaqueOwnedRecord1408 &operator=(const BfmeOpaqueOwnedRecord1408 &that);
+};
+
+typedef _STL::deque<BfmeOpaqueOwnedRecord1432, _STL::allocator<BfmeOpaqueOwnedRecord1432> > BFMENetworkRecordDeque;
+typedef _STL::deque<BfmeOpaqueOwnedRecord1408, _STL::allocator<BfmeOpaqueOwnedRecord1408> > BFMENetworkRecordDeque1;
 
 class BFMENetworkQueueItem
 {
 public:
 	BFMENetworkQueueItem(const BFMENetworkQueueItem &that);
-	void copyFromQueueNode(void *node);
 };
 
 class BFMENetworkQueueItem1
 {
 public:
 	BFMENetworkQueueItem1(const BFMENetworkQueueItem1 &that);
-	void copyFromQueueNode(void *node);
 };
 
 
@@ -212,8 +222,6 @@ public:
 	~BFMENetworkQueue();
 
 	Bool empty() const { return m_end == m_begin; }
-	void pushBack(const BFMENetworkQueueItem &item);
-	void popFront();
 	void finishConstruct(void *unused);
 
 	void *volatile m_begin;
@@ -248,8 +256,6 @@ public:
 	~BFMENetworkQueue1();
 
 	Bool empty() const { return m_end == m_begin; }
-	void pushBack(const BFMENetworkQueueItem1 &item);
-	void popFront();
 	void finishConstruct(void *unused);
 
 	void *volatile m_begin;
@@ -371,8 +377,8 @@ public:
 	BFMENetworkString copyState84();
 
 private:
-	BFMENetworkLock m_lock0;
-	BFMENetworkLock m_lock1;
+	MutexClass m_lock0;
+	MutexClass m_lock1;
 	BFMENetworkQueue m_queue0;
 	BFMENetworkQueue1 m_queue1;
 	BFMENetworkBackend *m_backend;
@@ -381,7 +387,7 @@ private:
 	BFMENetworkState m_state78;
 	BFMENetworkState m_state84;
 	BFMENetworkPayloadList m_list90;
-	BFMENetworkLock m_lock9c;
+	MutexClass m_lock9c;
 	BFMENetworkLockRefOwner m_backendLockRef;
 };
 
@@ -398,27 +404,27 @@ extern BfmeAwakenDebug *TheBfmeAwakenDebug;
 
 void BFMENetwork::pushQueue0(BFMENetworkQueueItem *item)
 {
-	BFMEAutoLockRef lock(&m_lock0, -1);
+	MutexClass::LockClass lock(m_lock0, -1);
 
-	if (!lock.failed()) {
-		m_queue0.pushBack(*item);
+	if (!lock.Failed()) {
+		reinterpret_cast<BFMENetworkRecordDeque *>(&m_queue0)->push_back(*reinterpret_cast<const BfmeOpaqueOwnedRecord1432 *>(item));
 	}
 }
 
 void BFMENetwork::pushQueue1(BFMENetworkQueueItem1 *item)
 {
-	BFMEAutoLockRef lock(&m_lock1, -1);
+	MutexClass::LockClass lock(m_lock1, -1);
 
-	if (!lock.failed()) {
-		m_queue1.pushBack(*item);
+	if (!lock.Failed()) {
+		reinterpret_cast<BFMENetworkRecordDeque1 *>(&m_queue1)->push_back(*reinterpret_cast<const BfmeOpaqueOwnedRecord1408 *>(item));
 	}
 }
 
 Bool BFMENetwork::popQueue1(BFMENetworkQueueItem1 *item)
 {
-	BFMEAutoLockRef lock(&m_lock1, 0);
+	MutexClass::LockClass lock(m_lock1, 0);
 
-	if (lock.failed()) {
+	if (lock.Failed()) {
 		return false;
 	}
 
@@ -428,7 +434,7 @@ Bool BFMENetwork::popQueue1(BFMENetworkQueueItem1 *item)
 	}
 
 	void *node = queue->m_begin;
-	item->copyFromQueueNode(node);
-	queue->popFront();
+	*reinterpret_cast<BfmeOpaqueOwnedRecord1408 *>(item) = *static_cast<const BfmeOpaqueOwnedRecord1408 *>(node);
+	reinterpret_cast<BFMENetworkRecordDeque1 *>(queue)->pop_front();
 	return true;
 }

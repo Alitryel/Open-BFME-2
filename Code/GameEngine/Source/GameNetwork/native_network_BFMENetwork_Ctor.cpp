@@ -37,22 +37,6 @@ class __node_alloc
 public:
 	static void _M_deallocate(void *p, unsigned int bytes);
 };
-
-template <class T, class Allocator>
-class deque
-{
-protected:
-	void _M_push_back_aux_v(const T &value);
-	friend class ::BFMENetworkQueue;
-	friend class ::BFMENetworkQueue1;
-	friend class ::BFMENetwork;
-};
-
-template <class T1, class T2>
-inline void _Construct(T1 *destination, const T2 &value)
-{
-	new (destination) T1(value);
-}
 }
 
 typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > BFMENetworkString;
@@ -139,20 +123,23 @@ public:
 	MutexClass(const char *name);
 	~MutexClass();
 
+	// WWLib's scoped lock (mutex.h). The queue members' lock calls land on
+	// its rowed ctor 0x00613A70 and dtor 0x00613AC0 (WWLib/mutex.cpp), and
+	// retail's deleting copy is ??_GLockClass@MutexClass 0x00099203.
+	class LockClass
+	{
+	public:
+		LockClass(MutexClass &mutex, int time);
+		~LockClass();
+		Bool Failed() { return m_failed; }
+
+	private:
+		MutexClass &m_mutex;
+		Bool m_failed;
+	};
+
 	void *m_handle;
 	int m_refCount;
-};
-
-class BFMEAutoLockRef
-{
-public:
-	BFMEAutoLockRef(MutexClass *lock, unsigned int timeout);
-	__declspec(noinline) ~BFMEAutoLockRef();
-	Bool failed() const { return m_failed; }
-
-private:
-	MutexClass *m_lock;
-	Bool m_failed;
 };
 
 class BFMENetworkLockRefOwner
@@ -160,34 +147,24 @@ class BFMENetworkLockRefOwner
 public:
 	~BFMENetworkLockRefOwner()
 	{
-		BFMEAutoLockRef *ref = m_ref;
+		MutexClass::LockClass *ref = m_ref;
 		if (ref)
 			delete ref;
 	}
 
-	BFMEAutoLockRef *m_ref;
+	MutexClass::LockClass *m_ref;
 };
 
 class BFMENetworkQueueItem
 {
 public:
 	BFMENetworkQueueItem(const BFMENetworkQueueItem &that);
-	void copyFromQueueNode(void *node);
 };
 
 class BFMENetworkQueueItem1
 {
 public:
 	BFMENetworkQueueItem1(const BFMENetworkQueueItem1 &that);
-	void copyFromQueueNode(void *node);
-};
-
-struct BFMENetworkQueuePushFields
-{
-	char m_padding[0x10];
-	char *m_end;
-	char *m_first;
-	char *m_storageEnd;
 };
 
 class BFMENetworkListPayload
@@ -216,17 +193,6 @@ public:
 	~BFMENetworkQueue();
 
 	Bool empty() const { return m_end == m_begin; }
-	__forceinline void pushBack(const BFMENetworkQueueItem &item)
-	{
-		BFMENetworkQueuePushFields *fields = reinterpret_cast<BFMENetworkQueuePushFields *>(this);
-		if (fields->m_end != fields->m_storageEnd - 0x210) {
-			_STL::_Construct(reinterpret_cast<BFMENetworkQueueItem *>(fields->m_end), item);
-			fields->m_end += 0x210;
-		} else {
-			reinterpret_cast<_STL::deque<BFMENetworkQueueItem, _STL::allocator<BFMENetworkQueueItem> > *>(this)->_M_push_back_aux_v(item);
-		}
-	}
-	void popFront();
 	void finishConstruct(void *unused);
 
 	void *volatile m_begin;
@@ -261,17 +227,6 @@ public:
 	~BFMENetworkQueue1();
 
 	Bool empty() const { return m_end == m_begin; }
-	__forceinline void pushBack(const BFMENetworkQueueItem1 &item)
-	{
-		BFMENetworkQueuePushFields *fields = reinterpret_cast<BFMENetworkQueuePushFields *>(this);
-		if (fields->m_end != fields->m_storageEnd - 0x1f0) {
-			_STL::_Construct(reinterpret_cast<BFMENetworkQueueItem1 *>(fields->m_end), item);
-			fields->m_end += 0x1f0;
-		} else {
-			reinterpret_cast<_STL::deque<BFMENetworkQueueItem1, _STL::allocator<BFMENetworkQueueItem1> > *>(this)->_M_push_back_aux_v(item);
-		}
-	}
-	void popFront();
 	void finishConstruct(void *unused);
 
 	void *volatile m_begin;

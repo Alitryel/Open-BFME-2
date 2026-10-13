@@ -41,23 +41,15 @@ public:
 template <class T, class Allocator>
 class deque
 {
-protected:
-	void _M_push_back_aux_v(const T &value);
-	friend class ::BFMENetworkQueue;
-	friend class ::BFMENetworkQueue1;
-	friend class ::BFMENetwork;
+public:
+	void push_back(const T &value);
+	void pop_front();
 };
-
-template <class T1, class T2>
-inline void _Construct(T1 *destination, const T2 &value)
-{
-	new (destination) T1(value);
-}
 }
 
 typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > BFMENetworkString;
 
-class BFMENetworkLock;
+class MutexClass;
 void *BFMENetworkAllocate(unsigned int bytes);
 
 struct BFMENetworkListNode
@@ -108,7 +100,7 @@ private:
 class BFMENetworkBackend : public ThreadClass
 {
 public:
-	BFMENetworkBackend(BFMENetworkLock *ownerLock);
+	BFMENetworkBackend(MutexClass *ownerLock);
 	virtual ~BFMENetworkBackend();
 	void *destroyAndMaybeDelete(unsigned int flags);
 	virtual void Thread_Function();
@@ -121,7 +113,7 @@ private:
 	Bool m_flag58;
 	char m_pad59[3];
 	BFMENetworkList m_list;
-	BFMENetworkLock *m_ownerLock;
+	MutexClass *m_ownerLock;
 };
 
 class BFMENetworkBackendDestructorShim
@@ -130,26 +122,29 @@ public:
 	void destroy();
 };
 
-class BFMENetworkLock
+class MutexClass
 {
 public:
-	BFMENetworkLock(const char *name);
-	~BFMENetworkLock();
+	MutexClass(const char *name);
+	~MutexClass();
+
+	// WWLib's scoped lock (mutex.h). The queue members' lock calls land on
+	// its rowed ctor 0x00613A70 and dtor 0x00613AC0 (WWLib/mutex.cpp), and
+	// retail's deleting copy is ??_GLockClass@MutexClass 0x00099203.
+	class LockClass
+	{
+	public:
+		LockClass(MutexClass &mutex, int time);
+		~LockClass();
+		Bool Failed() { return m_failed; }
+
+	private:
+		MutexClass &m_mutex;
+		Bool m_failed;
+	};
 
 	void *m_handle;
 	int m_refCount;
-};
-
-class BFMEAutoLockRef
-{
-public:
-	BFMEAutoLockRef(BFMENetworkLock *lock, unsigned int timeout);
-	__declspec(noinline) ~BFMEAutoLockRef();
-	Bool failed() const { return m_failed; }
-
-private:
-	BFMENetworkLock *m_lock;
-	Bool m_failed;
 };
 
 class BFMENetworkLockRefOwner
@@ -157,34 +152,43 @@ class BFMENetworkLockRefOwner
 public:
 	~BFMENetworkLockRefOwner()
 	{
-		BFMEAutoLockRef *ref = m_ref;
+		MutexClass::LockClass *ref = m_ref;
 		if (ref)
 			delete ref;
 	}
 
-	BFMEAutoLockRef *m_ref;
+	MutexClass::LockClass *m_ref;
 };
+
+// The queue records and their STLport deques. Retail's queue 0 calls land on
+// the rowed assignment of BfmeOpaqueOwnedRecord1432 (0x005565C5) and on its
+// deque's pop_front 0x0055628F and push_back 0x00558F8A; queue 1's on
+// BfmeOpaqueOwnedRecord1408's (0x00556132) and on 0x005562B6 and 0x00558FBC
+// (WWLib/StlportOwnedRecordDeque.cpp). The queue members call those through
+// the casts below; only those member ABIs are used here.
+struct BfmeOpaqueOwnedRecord1432
+{
+	BfmeOpaqueOwnedRecord1432 &operator=(const BfmeOpaqueOwnedRecord1432 &that);
+};
+
+struct BfmeOpaqueOwnedRecord1408
+{
+	BfmeOpaqueOwnedRecord1408 &operator=(const BfmeOpaqueOwnedRecord1408 &that);
+};
+
+typedef _STL::deque<BfmeOpaqueOwnedRecord1432, _STL::allocator<BfmeOpaqueOwnedRecord1432> > BFMENetworkRecordDeque;
+typedef _STL::deque<BfmeOpaqueOwnedRecord1408, _STL::allocator<BfmeOpaqueOwnedRecord1408> > BFMENetworkRecordDeque1;
 
 class BFMENetworkQueueItem
 {
 public:
 	BFMENetworkQueueItem(const BFMENetworkQueueItem &that);
-	void copyFromQueueNode(void *node);
 };
 
 class BFMENetworkQueueItem1
 {
 public:
 	BFMENetworkQueueItem1(const BFMENetworkQueueItem1 &that);
-	void copyFromQueueNode(void *node);
-};
-
-struct BFMENetworkQueuePushFields
-{
-	char m_padding[0x10];
-	char *m_end;
-	char *m_first;
-	char *m_storageEnd;
 };
 
 class BFMENetworkListPayload
@@ -213,17 +217,6 @@ public:
 	~BFMENetworkQueue();
 
 	Bool empty() const { return m_end == m_begin; }
-	__forceinline void pushBack(const BFMENetworkQueueItem &item)
-	{
-		BFMENetworkQueuePushFields *fields = reinterpret_cast<BFMENetworkQueuePushFields *>(this);
-		if (fields->m_end != fields->m_storageEnd - 0x210) {
-			_STL::_Construct(reinterpret_cast<BFMENetworkQueueItem *>(fields->m_end), item);
-			fields->m_end += 0x210;
-		} else {
-			reinterpret_cast<_STL::deque<BFMENetworkQueueItem, _STL::allocator<BFMENetworkQueueItem> > *>(this)->_M_push_back_aux_v(item);
-		}
-	}
-	void popFront();
 	void finishConstruct(void *unused);
 
 	void *volatile m_begin;
@@ -258,17 +251,6 @@ public:
 	~BFMENetworkQueue1();
 
 	Bool empty() const { return m_end == m_begin; }
-	__forceinline void pushBack(const BFMENetworkQueueItem1 &item)
-	{
-		BFMENetworkQueuePushFields *fields = reinterpret_cast<BFMENetworkQueuePushFields *>(this);
-		if (fields->m_end != fields->m_storageEnd - 0x1f0) {
-			_STL::_Construct(reinterpret_cast<BFMENetworkQueueItem1 *>(fields->m_end), item);
-			fields->m_end += 0x1f0;
-		} else {
-			reinterpret_cast<_STL::deque<BFMENetworkQueueItem1, _STL::allocator<BFMENetworkQueueItem1> > *>(this)->_M_push_back_aux_v(item);
-		}
-	}
-	void popFront();
 	void finishConstruct(void *unused);
 
 	void *volatile m_begin;
@@ -390,8 +372,8 @@ public:
 	BFMENetworkString copyState84();
 
 private:
-	BFMENetworkLock m_lock0;
-	BFMENetworkLock m_lock1;
+	MutexClass m_lock0;
+	MutexClass m_lock1;
 	BFMENetworkQueue m_queue0;
 	BFMENetworkQueue1 m_queue1;
 	BFMENetworkBackend *m_backend;
@@ -400,7 +382,7 @@ private:
 	BFMENetworkState m_state78;
 	BFMENetworkState m_state84;
 	BFMENetworkPayloadList m_list90;
-	BFMENetworkLock m_lock9c;
+	MutexClass m_lock9c;
 	BFMENetworkLockRefOwner m_backendLockRef;
 };
 
@@ -417,9 +399,9 @@ extern BfmeAwakenDebug *TheBfmeAwakenDebug;
 
 Bool BFMENetwork::popQueue0(BFMENetworkQueueItem *item)
 {
-	BFMEAutoLockRef lock(&m_lock0, 2);
+	MutexClass::LockClass lock(m_lock0, 2);
 
-	if (lock.failed()) {
+	if (lock.Failed()) {
 		return false;
 	}
 
@@ -429,8 +411,8 @@ Bool BFMENetwork::popQueue0(BFMENetworkQueueItem *item)
 	}
 
 	void *node = queue->m_begin;
-	item->copyFromQueueNode(node);
-	queue->popFront();
+	*reinterpret_cast<BfmeOpaqueOwnedRecord1432 *>(item) = *static_cast<const BfmeOpaqueOwnedRecord1432 *>(node);
+	reinterpret_cast<BFMENetworkRecordDeque *>(queue)->pop_front();
 	return true;
 }
 
