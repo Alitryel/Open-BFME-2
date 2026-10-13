@@ -67,6 +67,8 @@ public:
 	typename Traits::int_type sbumpc();
 };
 
+// The accessors are inline-only: both __match bodies inline them, and their
+// out-of-line copies (calling _M_getc) would differ from retail's.
 template <class CharT, class Traits>
 class istreambuf_iterator
 {

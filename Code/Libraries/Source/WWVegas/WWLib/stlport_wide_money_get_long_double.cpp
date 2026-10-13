@@ -76,6 +76,11 @@ __declspec(noinline) void istreambuf_iterator<wchar_t, char_traits<wchar_t> >::_
     _M_eof = traits_type::eq_int_type(c, traits_type::eof());
     _M_have_c = true;
 }
+// operator* stays inline-only: with _M_getc out of line its copy would differ
+// from retail's and be the first one in link order.
+template <> __declspec(dllimport) __forceinline
+wchar_t istreambuf_iterator<wchar_t, char_traits<wchar_t> >::operator*() const
+{ this->_M_getc(); return _M_c; }
 }
 
 namespace _STL

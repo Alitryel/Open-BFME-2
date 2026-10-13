@@ -36,6 +36,8 @@ public:
 	typename Traits::int_type sbumpc();
 };
 
+// The inlined accessors and operator!= are inline-only: their out-of-line
+// copies (calling _M_getc and equal) would differ from retail's.
 template <class CharT, class Traits>
 class istreambuf_iterator
 {
