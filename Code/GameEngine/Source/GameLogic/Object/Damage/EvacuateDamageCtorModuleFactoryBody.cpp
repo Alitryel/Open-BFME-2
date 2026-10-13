@@ -28,8 +28,10 @@ class DamageModule : public PB_DeepBase,
                      public EvacuateDamageInterface
 {
 public:
-    DamageModule(Thing *thing, const ModuleData *moduleData)
-        : PB_DeepBase(thing, moduleData) {}
+    // Retail 0x004BAE1D calls the one linked base ctor, DamageModule's row at
+    // 0x004B9704; an inline body here emitted a second, wrong copy first in
+    // link order.
+    DamageModule(Thing *thing, const ModuleData *moduleData);
 };
 
 struct EvacuationRecord
