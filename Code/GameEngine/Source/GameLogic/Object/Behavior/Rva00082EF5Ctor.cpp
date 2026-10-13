@@ -95,11 +95,13 @@ class TextureClass;
 template <class T> class RefCountPtr
 {
 public:
+	RefCountPtr() : m_ptr(0) {}
 	~RefCountPtr();
 	T *m_ptr;
 };
 struct Rva008291DTextureRef
 {
+	Rva008291DTextureRef() : m_ptr(0) {}
 	~Rva008291DTextureRef() { if (m_ptr) m_ptr->Release_Ref(); }
 	TextureBaseClass *m_ptr;
 };
@@ -112,8 +114,11 @@ struct Rva0007E971 : public _STL::set<Rva008291DItem *>
 {
 	~Rva0007E971();
 };
-class Rva008291DPrimary : public Rva00082EF5
+class __declspec(novtable) Rva008291DPrimary : public Rva00082EF5
 {
+public:
+	Rva008291DPrimary(void *mgr) : Rva00082EF5(mgr) {}
+private:
 	unsigned char m_pad24[0x3C - 0x24];
 };
 class Rva008291DSecond
@@ -124,6 +129,7 @@ public:
 class Rva008291D : public Rva008291DPrimary, public Rva008291DSecond
 {
 public:
+	Rva008291D(void *owner);
 	virtual ~Rva008291D();
 private:
 	void *m_owner40;
@@ -137,7 +143,24 @@ private:
 	_STL::vector<BfmeE16> m_7C;
 	_STL::vector<BfmeE16> m_88;
 	_STL::vector<BfmeE16> m_94;
+	bool m_A0;
 };
+
+class Rva00081CDF { public: void rva00081CDF(); };
+// ??0Rva008291D@@QAE@PAX@Z, native 0x00082F6A..0x0008304A (224 bytes): the
+// constructor of the class above. It builds the 0x00082EF5 primary on the
+// owner, stores the same four vtables the destructor restores, constructs
+// the members in the destructor's unwind order (EH states 0..10: second
+// base, three texture references, RefCountPtr[2] through ??_L, the set,
+// five vectors), joins the owner's +0x68 observer list and runs the rowed
+// texture setup 0x00081CDF before marking +0xA0.
+Rva008291D::Rva008291D(void *owner)
+	: Rva008291DPrimary(owner), m_owner40(owner)
+{
+	((Rva005A0B4CList *)((char *)owner + 0x68))->append((Rva002BA8F1Listener *)static_cast<Rva008291DSecond *>(this));
+	((Rva00081CDF *)this)->rva00081CDF();
+	m_A0 = true;
+}
 
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
