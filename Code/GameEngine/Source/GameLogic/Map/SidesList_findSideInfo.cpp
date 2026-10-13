@@ -9,6 +9,8 @@
 // StringBase<char>::compare 0x000069D6 with bool materialization, temps via
 // rowed releaseBuffer 0x00036410. /G7 for imul scaling of the return pointer.
 // The shared comparison declaration preserves the native nonthrowing call.
+// AsciiString::compare(const char *) is declared throw() in the canonical
+// shim so retail's state-0 call schedule reproduces at this site too.
 #include "ascii_string.h"
 
 enum NameKeyType
@@ -27,6 +29,7 @@ private:
 };
 
 extern Rva00148F5ECache g_00DBDE24;
+extern Rva00148F5ECache TheKey_teamName;	// VA 0x00DBD9F4
 
 class Dict
 {
@@ -48,11 +51,21 @@ private:
 	unsigned char m_pad[0x60 - 8];
 };
 
+class TeamsInfo
+{
+public:
+	Dict *getDict() { return &m_dict; }
+
+private:
+	Dict m_dict;
+};
+
 class SidesList
 {
 public:
 	SidesInfo *findSideInfo(AsciiString name, int *index = 0);
 	SidesInfo *findSkirmishSideInfo(AsciiString name, int *index = 0);
+	bool isPlayerDefaultTeam(TeamsInfo *t);
 	bool validateAllyEnemyList(const AsciiString &tname, AsciiString &allies);
 
 private:
@@ -89,6 +102,30 @@ SidesInfo *SidesList::findSkirmishSideInfo(AsciiString name, int *index)
 		}
 	}
 	return 0;
+}
+
+// ?isPlayerDefaultTeam@SidesList@@QAE_NPAVTeamsInfo@@@Z @0x0032B1E1 196B.
+// Donor: ZH SidesList.cpp isPlayerDefaultTeam ("teamfoo" with a player
+// "foo"); retail compares through the rowed StringBase compare(const char *)
+// at 0x000069B1 instead of strcmp. The named volatile rest feeds retail's
+// operand order; the shared nonthrowing compare declaration keeps the call's
+// EH state at retail's 0.
+bool SidesList::isPlayerDefaultTeam(TeamsInfo *t)
+{
+	AsciiString tname = t->getDict()->getAsciiString(TheKey_teamName.get());
+	if (tname.startsWith("team"))
+	{
+		const char * volatile rest = tname.str() + 4;
+		for (int j = 0; j < m_numSides; j++)
+		{
+			AsciiString pname = m_sides[j].getDict()->getAsciiString(g_00DBDE24.get());
+			if (pname.compare(rest) == 0)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 // ?validateAllyEnemyList@SidesList@@QAE_NABVAsciiString@@AAV2@@Z @0x0032B2A5

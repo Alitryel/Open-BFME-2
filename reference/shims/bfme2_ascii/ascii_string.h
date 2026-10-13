@@ -169,7 +169,7 @@ public:
 	bool endsWith(const AsciiString &s) const { return endsWith(s.str()); }
 	bool endsWithNoCase(const char *p) const { return ((const StringBase<char> *)this)->endsWithNoCase(p); }
 	bool endsWithNoCase(const AsciiString &s) const { return endsWithNoCase(s.str()); }
-	int compare(const char *p) const;
+	int compare(const char *p) const throw();
 	__declspec(dllimport) __forceinline int compareNoCase(const char *p) const { return ((const StringBase<char> *)this)->compareNoCase(p); }
 	int compare(const AsciiString &s) const throw();
 	__declspec(dllimport) __forceinline int compareNoCase(const AsciiString &s) const { return ((const StringBase<char> *)this)->compareNoCase(*(const StringBase<char> *)&s); }
