@@ -29,6 +29,7 @@ typedef unsigned short DataChunkVersionType;
 enum NameKeyType { NAMEKEY_INVALID = 0 };
 
 #include "ascii_string.h"
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 class Rva00333B02 { public: void rva00333B02(AsciiString); };
 class Rva0034FF50 { public: __declspec(noinline) void checkAndSet(); int m_val0; };
@@ -88,12 +89,7 @@ private:
 	Int m_int;
 	float m_real;
 	AsciiString m_string;
-	struct Coord3D
-	{
-		float x;
-		float y;
-		float z;
-	} m_coord;
+	Coord3D m_coord;
 	struct ObjectStatusMask
 	{
 		__forceinline ObjectStatusMask() : m_low(0), m_high(0) {}
