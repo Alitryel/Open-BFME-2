@@ -90932,3 +90932,4 @@ uw_00772c8a,,0x00772C8A,8,Code/GameEngine/Source/GameNetwork/NetworkGetCommandsF
 uw_00772c92,,0x00772C92,10,Code/GameEngine/Source/GameNetwork/NetworkGetCommandsFromCommandList.cpp,matched,gen-funclet;parent=?rva0025E75F@Rva0025E4CD@@QAEXXZ;object-symbol=$L1354
 ?rva002238E6@Rva00224CDC@@QAEXVAsciiString@@@Z,,0x002238E6,199,Code/GameEngine/Source/GameClient/GUI/AptPlayer.cpp,matched,Native 2238E6..2239AD RET4; WB B8F570 AptPlayer.cpp158 tooltip lookup on lazy AptButtonTooltipMap holder (rva00224D80) map +0C; early return on missing text gives retail frame homes
 __ehhandler$?rva002238E6@Rva00224CDC@@QAEXVAsciiString@@@Z,,0x0076F324,10,Code/GameEngine/Source/GameClient/GUI/AptPlayer.cpp,matched,Compiler-emitted C++ EH handler of the rowed parent 0x002238E6; its EH prologue loads this handler address
+?createEmbeddedPortals@Drawable@@QAEXXZ,,0x0027A018,513,Code/GameEngine/Source/GameClient/DrawableXfer.cpp,matched,
