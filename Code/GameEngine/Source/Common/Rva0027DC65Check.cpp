@@ -4,15 +4,7 @@
 // bounds (lo.x<p.x<hi.x, lo.y<p.y<hi.y) else refresh via slot13 copy;
 // then slot19 with (p.x,p.y,0,0,0) and return inverted boolean.
 // Evidence: TheTerrainLogic 0x009FEC50, slots 0x20/0x34/0x4c, callers huge.
-struct Region3D
-{
-	float loX;
-	float loY;
-	float loZ;
-	float hiX;
-	float hiY;
-	float hiZ;
-};
+#include "../../../Libraries/Include/Lib/Region3D.h"
 
 struct Triple
 {
@@ -53,7 +45,7 @@ bool __cdecl Rva0027DC65Check(float *p)
 	if (TheTerrainLogic != 0) {
 		Region3D r;
 		TheTerrainLogic->getExtent(&r);
-		if (p[0] > r.loX && r.hiX > p[0] && p[1] > r.loY && r.hiY > p[1])
+		if (p[0] > r.lo.x && r.hi.x > p[0] && p[1] > r.lo.y && r.hi.y > p[1])
 			goto done;
 		{
 			Triple tmp;

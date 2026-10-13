@@ -27,15 +27,7 @@
 #include "Coord3D.h"
 #include <math.h>
 
-struct Region3D
-{
-	float loX;
-	float loY;
-	float loZ;
-	float hiX;
-	float hiY;
-	float hiZ;
-};
+#include "Region3D.h"
 
 struct GridEntry
 {
@@ -179,29 +171,29 @@ void Rva0027DCF2::rva0027DCF2(Coord3D *center, float radius, Rva0027D244 *out, b
 	getBounds(&b);
 	float px = center->x - radius;
 	float py = center->y - radius;
-	if (b.loX > px)
-		px = b.loX;
-	if (b.loY > py)
-		py = b.loY;
-	if (px > b.hiX)
-		px = b.hiX;
-	if (py > b.hiY)
-		py = b.hiY;
-	int xmin = fast_float2long_round(floorf((px - b.loX) / (b.hiX - b.loX) * 49.9f));
-	int ymin = fast_float2long_round(floorf((py - b.loY) / (b.hiY - b.loY) * 49.9f));
+	if (b.lo.x > px)
+		px = b.lo.x;
+	if (b.lo.y > py)
+		py = b.lo.y;
+	if (px > b.hi.x)
+		px = b.hi.x;
+	if (py > b.hi.y)
+		py = b.hi.y;
+	int xmin = fast_float2long_round(floorf((px - b.lo.x) / (b.hi.x - b.lo.x) * 49.9f));
+	int ymin = fast_float2long_round(floorf((py - b.lo.y) / (b.hi.y - b.lo.y) * 49.9f));
 	px = center->x + radius;
 	py = center->y + radius;
-	if (b.loX > px)
-		px = b.loX;
-	if (b.loY > py)
-		py = b.loY;
-	if (px > b.hiX)
-		px = b.hiX;
-	if (py > b.hiY)
-		py = b.hiY;
-	px = ceilf((px - b.loX) / (b.hiX - b.loX) * 49.9f);
+	if (b.lo.x > px)
+		px = b.lo.x;
+	if (b.lo.y > py)
+		py = b.lo.y;
+	if (px > b.hi.x)
+		px = b.hi.x;
+	if (py > b.hi.y)
+		py = b.hi.y;
+	px = ceilf((px - b.lo.x) / (b.hi.x - b.lo.x) * 49.9f);
 	int xmax = fast_float2long_round(px);
-	py = ceilf((py - b.loY) / (b.hiY - b.loY) * 49.9f);
+	py = ceilf((py - b.lo.y) / (b.hi.y - b.lo.y) * 49.9f);
 	int ymax = fast_float2long_round(py);
 	for (int x = xmin; x < xmax; ++x) {
 		if (ymin >= ymax)
@@ -257,29 +249,29 @@ void Rva0027DF9D::rva0027DF9D(Coord3D *center, float radius, Rva0027D244 *out, b
 	getBounds(&b);
 	float px = center->x - radius;
 	float py = center->y - radius;
-	if (b.loX > px)
-		px = b.loX;
-	if (b.loY > py)
-		py = b.loY;
-	if (px > b.hiX)
-		px = b.hiX;
-	if (py > b.hiY)
-		py = b.hiY;
-	int xmin = fast_float2long_round(floorf((px - b.loX) / (b.hiX - b.loX) * 49.9f));
-	int ymin = fast_float2long_round(floorf((py - b.loY) / (b.hiY - b.loY) * 49.9f));
+	if (b.lo.x > px)
+		px = b.lo.x;
+	if (b.lo.y > py)
+		py = b.lo.y;
+	if (px > b.hi.x)
+		px = b.hi.x;
+	if (py > b.hi.y)
+		py = b.hi.y;
+	int xmin = fast_float2long_round(floorf((px - b.lo.x) / (b.hi.x - b.lo.x) * 49.9f));
+	int ymin = fast_float2long_round(floorf((py - b.lo.y) / (b.hi.y - b.lo.y) * 49.9f));
 	px = center->x + radius;
 	py = center->y + radius;
-	if (b.loX > px)
-		px = b.loX;
-	if (b.loY > py)
-		py = b.loY;
-	if (px > b.hiX)
-		px = b.hiX;
-	if (py > b.hiY)
-		py = b.hiY;
-	px = ceilf((px - b.loX) / (b.hiX - b.loX) * 49.9f);
+	if (b.lo.x > px)
+		px = b.lo.x;
+	if (b.lo.y > py)
+		py = b.lo.y;
+	if (px > b.hi.x)
+		px = b.hi.x;
+	if (py > b.hi.y)
+		py = b.hi.y;
+	px = ceilf((px - b.lo.x) / (b.hi.x - b.lo.x) * 49.9f);
 	int xmax = fast_float2long_round(px);
-	py = ceilf((py - b.loY) / (b.hiY - b.loY) * 49.9f);
+	py = ceilf((py - b.lo.y) / (b.hi.y - b.lo.y) * 49.9f);
 	int ymax = fast_float2long_round(py);
 	for (int x = xmin; x < xmax; ++x) {
 		if (ymin >= ymax)
@@ -335,29 +327,29 @@ void Rva0027E248::rva0027E248(Coord3D *center, float radius, Rva0027D30D *out, b
 	getBounds(&b);
 	float px = center->x - radius;
 	float py = center->y - radius;
-	if (b.loX > px)
-		px = b.loX;
-	if (b.loY > py)
-		py = b.loY;
-	if (px > b.hiX)
-		px = b.hiX;
-	if (py > b.hiY)
-		py = b.hiY;
-	int xmin = fast_float2long_round(floorf((px - b.loX) / (b.hiX - b.loX) * 49.9f));
-	int ymin = fast_float2long_round(floorf((py - b.loY) / (b.hiY - b.loY) * 49.9f));
+	if (b.lo.x > px)
+		px = b.lo.x;
+	if (b.lo.y > py)
+		py = b.lo.y;
+	if (px > b.hi.x)
+		px = b.hi.x;
+	if (py > b.hi.y)
+		py = b.hi.y;
+	int xmin = fast_float2long_round(floorf((px - b.lo.x) / (b.hi.x - b.lo.x) * 49.9f));
+	int ymin = fast_float2long_round(floorf((py - b.lo.y) / (b.hi.y - b.lo.y) * 49.9f));
 	px = center->x + radius;
 	py = center->y + radius;
-	if (b.loX > px)
-		px = b.loX;
-	if (b.loY > py)
-		py = b.loY;
-	if (px > b.hiX)
-		px = b.hiX;
-	if (py > b.hiY)
-		py = b.hiY;
-	px = ceilf((px - b.loX) / (b.hiX - b.loX) * 49.9f);
+	if (b.lo.x > px)
+		px = b.lo.x;
+	if (b.lo.y > py)
+		py = b.lo.y;
+	if (px > b.hi.x)
+		px = b.hi.x;
+	if (py > b.hi.y)
+		py = b.hi.y;
+	px = ceilf((px - b.lo.x) / (b.hi.x - b.lo.x) * 49.9f);
 	int xmax = fast_float2long_round(px);
-	py = ceilf((py - b.loY) / (b.hiY - b.loY) * 49.9f);
+	py = ceilf((py - b.lo.y) / (b.hi.y - b.lo.y) * 49.9f);
 	int ymax = fast_float2long_round(py);
 	for (int x = xmin; x < xmax; ++x) {
 		if (ymin >= ymax)
@@ -413,29 +405,29 @@ void Rva0027E4F3::rva0027E4F3(Coord3D *center, float radius, Rva0027D347 *out, b
 	getBounds(&b);
 	float px = center->x - radius;
 	float py = center->y - radius;
-	if (b.loX > px)
-		px = b.loX;
-	if (b.loY > py)
-		py = b.loY;
-	if (px > b.hiX)
-		px = b.hiX;
-	if (py > b.hiY)
-		py = b.hiY;
-	int xmin = fast_float2long_round(floorf((px - b.loX) / (b.hiX - b.loX) * 49.9f));
-	int ymin = fast_float2long_round(floorf((py - b.loY) / (b.hiY - b.loY) * 49.9f));
+	if (b.lo.x > px)
+		px = b.lo.x;
+	if (b.lo.y > py)
+		py = b.lo.y;
+	if (px > b.hi.x)
+		px = b.hi.x;
+	if (py > b.hi.y)
+		py = b.hi.y;
+	int xmin = fast_float2long_round(floorf((px - b.lo.x) / (b.hi.x - b.lo.x) * 49.9f));
+	int ymin = fast_float2long_round(floorf((py - b.lo.y) / (b.hi.y - b.lo.y) * 49.9f));
 	px = center->x + radius;
 	py = center->y + radius;
-	if (b.loX > px)
-		px = b.loX;
-	if (b.loY > py)
-		py = b.loY;
-	if (px > b.hiX)
-		px = b.hiX;
-	if (py > b.hiY)
-		py = b.hiY;
-	px = ceilf((px - b.loX) / (b.hiX - b.loX) * 49.9f);
+	if (b.lo.x > px)
+		px = b.lo.x;
+	if (b.lo.y > py)
+		py = b.lo.y;
+	if (px > b.hi.x)
+		px = b.hi.x;
+	if (py > b.hi.y)
+		py = b.hi.y;
+	px = ceilf((px - b.lo.x) / (b.hi.x - b.lo.x) * 49.9f);
 	int xmax = fast_float2long_round(px);
-	py = ceilf((py - b.loY) / (b.hiY - b.loY) * 49.9f);
+	py = ceilf((py - b.lo.y) / (b.hi.y - b.lo.y) * 49.9f);
 	int ymax = fast_float2long_round(py);
 	for (int x = xmin; x < xmax; ++x) {
 		if (ymin >= ymax)
@@ -491,29 +483,29 @@ void Rva0027E79E::rva0027E79E(Coord3D *center, float radius, Rva0027D35F *out, b
 	getBounds(&b);
 	float px = center->x - radius;
 	float py = center->y - radius;
-	if (b.loX > px)
-		px = b.loX;
-	if (b.loY > py)
-		py = b.loY;
-	if (px > b.hiX)
-		px = b.hiX;
-	if (py > b.hiY)
-		py = b.hiY;
-	int xmin = fast_float2long_round(floorf((px - b.loX) / (b.hiX - b.loX) * 49.9f));
-	int ymin = fast_float2long_round(floorf((py - b.loY) / (b.hiY - b.loY) * 49.9f));
+	if (b.lo.x > px)
+		px = b.lo.x;
+	if (b.lo.y > py)
+		py = b.lo.y;
+	if (px > b.hi.x)
+		px = b.hi.x;
+	if (py > b.hi.y)
+		py = b.hi.y;
+	int xmin = fast_float2long_round(floorf((px - b.lo.x) / (b.hi.x - b.lo.x) * 49.9f));
+	int ymin = fast_float2long_round(floorf((py - b.lo.y) / (b.hi.y - b.lo.y) * 49.9f));
 	px = center->x + radius;
 	py = center->y + radius;
-	if (b.loX > px)
-		px = b.loX;
-	if (b.loY > py)
-		py = b.loY;
-	if (px > b.hiX)
-		px = b.hiX;
-	if (py > b.hiY)
-		py = b.hiY;
-	px = ceilf((px - b.loX) / (b.hiX - b.loX) * 49.9f);
+	if (b.lo.x > px)
+		px = b.lo.x;
+	if (b.lo.y > py)
+		py = b.lo.y;
+	if (px > b.hi.x)
+		px = b.hi.x;
+	if (py > b.hi.y)
+		py = b.hi.y;
+	px = ceilf((px - b.lo.x) / (b.hi.x - b.lo.x) * 49.9f);
 	int xmax = fast_float2long_round(px);
-	py = ceilf((py - b.loY) / (b.hiY - b.loY) * 49.9f);
+	py = ceilf((py - b.lo.y) / (b.hi.y - b.lo.y) * 49.9f);
 	int ymax = fast_float2long_round(py);
 	for (int x = xmin; x < xmax; ++x) {
 		if (ymin >= ymax)
