@@ -1,20 +1,11 @@
-// ?rva004B42DB@ObjectCreationUpgradeUpdateView@@QAE?AW4UpdateSleepTime@@XZ
-// partial score=0.7 date=2026-10-10
-// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include
-//
-// ?rva004B42DB@ObjectCreationUpgradeUpdateView@@QAE?AW4UpdateSleepTime@@XZ, target 0x004B42DB (753 bytes).
-// Target identity: ObjectCreationUpgrade ctor 0x004B40A6 stores vptr 0x00C57560
-// at object+0x18; its slot 0 is this body. The matched ObjectCreationUpgrade
-// module-data ctor at 0x004B425B establishes the data pointer at owner+0x0C.
-// Donor semantics and interface spelling: reference/open-bfme-1/game/.../
-// ObjectCreationUpgradeUpdate.cpp (pointer f98983a7d).
-// New target repairs: special-context rejection returns1; BuildAssistant slot14
-// passes FIVE arguments; fade input/output are unsigned; named existing globals
-// replace the old hard-coded addresses. Context currentView is not substituted
-// into later owner accesses because the special branch returns or applies upgrades.
-// Virtual-view names are structural emitter labels, not additional target types.
-// Target-only offsets and call paths are from BFME2 retail bytes; field labels
-// remain donor-derived where the retail table establishes only an offset.
+// ?update@ObjectCreationUpgrade@@MAE?AW4UpdateSleepTime@@XZ
+// partial score=0.815 date=2026-10-13
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include
+#include "Lib/Coord3D.h"
+#include "ascii_string.h"
+
+typedef float Real;
+typedef unsigned int UnsignedInt;
 
 enum UpdateSleepTime
 {
@@ -24,18 +15,16 @@ enum UpdateSleepTime
 
 enum NameKeyType
 {
-	NK_UNKNOWN = 0
+	NAMEKEY_INVALID = 0
 };
 
-#include "Lib/Coord3D.h"
-#include "ascii_string.h"
 class Team;
 class Player;
 class Module;
 class ThingTemplate;
 class UpgradeTemplate;
 class Object;
-class Drawable;
+class ModuleData;
 
 class NameKeyGenerator
 {
@@ -55,88 +44,38 @@ public:
 	const UpgradeTemplate *findUpgrade(const AsciiString &name) const;
 };
 
+class GameLogic
+{
+public:
+	UnsignedInt getFrame() const { return m_frame; }
+private:
+	char m_pad00[0x40];
+	UnsignedInt m_frame;
+};
+
 class Drawable
 {
 public:
-	void fadeIn(unsigned int frames);
+	void fadeIn(UnsignedInt frames);
 };
 
-class Thing
+template<int N> class OCUSlots : public OCUSlots<N - 1> { public: virtual void slot(char (*)[N]); };
+template<> class OCUSlots<0> {};
+
+class BuildAssistant : public OCUSlots<14>
 {
 public:
-	Drawable *getDrawable() const;
-	void setPosition(const Coord3D *position);
+	virtual Object *buildObjectNow(Object *constructorObject, const ThingTemplate *what,
+		const Coord3D *pos, Real angle, Player *owningPlayer);
 };
 
-class Object : public Thing
-{
-public:
-	Player *getControllingPlayer() const;
-	void *rva0028BC58(int query);
-	Module *findModule(NameKeyType key) const;
-	void rva00293077(const void *upgrade);
-	void rva00290D42(const UpgradeTemplate *upgrade);
-	Team *getTeam() const
-	{
-		return *(Team *const *)((const char *)this + 0x304);
-	}
-	int getID() const
-	{
-		return *(const int *)((const char *)this + 0x74);
-	}
-};
-
-class SlaveWatcherBehavior
-{
-public:
-	void rva00484869(int objectID);
-};
-
-class RvaObjectCreationAuxView
-{
-public:
-	virtual void *slot00();
-	virtual void *slot01();
-	virtual void *slot02();
-	virtual void *slot03();
-	virtual void *slot04();
-	virtual void *slot05();
-	virtual void *slot06();
-	virtual void *slot07();
-	virtual void *slot08();
-	virtual void *slot09();
-	virtual void *slot10();
-	virtual void *slot11();
-	virtual void *slot12();
-	virtual void *slot13();
-	virtual void *slot14();
-	virtual void *slot15();
-	virtual void *slot16();
-	virtual void *slot17();
-	virtual void *slot18();
-	virtual void *slot19();
-	virtual void *slot20();
-	virtual void *slot21();
-	virtual void *slot22();
-	virtual void *slot23();
-	virtual void *slot24();
-	virtual void *slot25();
-	virtual void *slot26();
-};
-
-class RvaObjectCreationAuxAction
-{
-public:
-	virtual void slot0();
-	virtual void setOwner(Object *owner);
-};
-
-class RvaObjectCreationSpecialContext
+// Retail calls slot 2 to open a request and slot 8 to test the template.
+class OCUSpecialContext
 {
 public:
 	virtual void slot0();
 	virtual void slot1();
-	virtual int prepare(int objectID, int zero, const void *kind, int enabled);
+	virtual int prepare(int objectID, int zero, const AsciiString *name, int enabled);
 	virtual void slot3();
 	virtual void slot4();
 	virtual void slot5();
@@ -145,197 +84,221 @@ public:
 	virtual bool accept(const ThingTemplate *thing, int objectID, int token);
 };
 
-class Rva00A027B8
+class OCUOwnerAction
 {
 public:
-	virtual void slot00();
-	virtual void slot01();
-	virtual void slot02();
-	virtual void slot03();
-	virtual void slot04();
-	virtual void slot05();
-	virtual void slot06();
-	virtual void slot07();
-	virtual void slot08();
-	virtual void slot09();
-	virtual void slot10();
-	virtual void slot11();
-	virtual void slot12();
-	virtual void slot13();
-	virtual Object *createObject(Object *owner, const ThingTemplate *thing,
-		const Coord3D *position, float angle, Player *controller);
+	virtual void slot0();
+	virtual void setOwner(Object *owner);
 };
 
-class ObjectCreationUpgradeUpdateView
+class OCUModuleView : public OCUSlots<26>
 {
 public:
-	UpdateSleepTime rva004B42DB();
+	virtual OCUOwnerAction *getOwnerAction();
 };
 
-struct ObjectCreationUpgradeModuleDataView
+struct OCUModuleEntry
 {
-	unsigned char pad000[0x120];
-	AsciiString m_upgradeToRemove;		// +0x120
-	AsciiString m_upgradeToGrant;		// +0x124
+	char m_pad00[0x0C];
+	OCUModuleView m_view;
+};
+
+struct OCUVector3
+{
+	float X, Y, Z;
+	OCUVector3() {}
+	OCUVector3(float x, float y, float z) { X = x; Y = y; Z = z; }
+};
+
+struct OCUMatrix3D
+{
+	float Row[3][4];
+};
+
+inline OCUVector3 operator*(const OCUMatrix3D &A, const OCUVector3 &a)
+{
+	float x = A.Row[0][0] * a.X + A.Row[0][1] * a.Y + A.Row[0][2] * a.Z + A.Row[0][3];
+	float y = A.Row[1][0] * a.X + A.Row[1][1] * a.Y + A.Row[1][2] * a.Z + A.Row[1][3];
+	float z = A.Row[2][0] * a.X + A.Row[2][1] * a.Y + A.Row[2][2] * a.Z + A.Row[2][3];
+	return OCUVector3(x, y, z);
+}
+
+class Thing
+{
+public:
+	Drawable *getDrawable() const;
+	void setPosition(const Coord3D *pos);
+	const Coord3D *getPosition() const { return &m_cachedPos; }
+	Real getOrientation() const { return m_cachedAngle; }
+	const float *getTransform() const { return m_transform; }
+	const OCUMatrix3D *getTransformMatrix() const { return (const OCUMatrix3D *)m_transform; }
+private:
+	char m_pad00[0x08];
+	float m_transform[12];
+	Coord3D m_cachedPos;
+	Real m_cachedAngle;
+};
+
+class Object : public Thing
+{
+public:
+	Player *getControllingPlayer() const;
+	void *rva0028BC58(int query);
+	Module *findUpdateModule(NameKeyType key) const { return findModule(key); }
+	void rva00293077(const void *upgrade);
+	void rva00290D42(const UpgradeTemplate *upgrade);
+	int getID() const { return m_id; }
+protected:
+	Module *findModule(NameKeyType key) const;
+public:
+	char m_pad48[0x74 - 0x48];
+	int m_id;
+	char m_pad78[0x1C0 - 0x78];
+	Real m_1C0;
+	char m_pad1C4[0x244 - 0x1C4];
+	OCUModuleEntry **m_244;
+};
+
+class SlaveWatcherBehavior
+{
+public:
+	void rva00484869(int objectID);
+};
+
+struct ObjectCreationUpgradeModuleData
+{
+	unsigned char m_pad000[0x120];
+	AsciiString m_removeUpgrade;		// +0x120
+	AsciiString m_grantUpgrade;		// +0x124
 	AsciiString m_thingToSpawn;		// +0x128
-	float m_offsetX;			// +0x12C
-	float m_offsetY;			// +0x130
-	float m_offsetZ;			// +0x134
-	float m_angleOffset;			// +0x138
-	unsigned char m_flag13C;
-	unsigned char pad13D[3];
-	int m_140;
-	int m_144;
-	int m_148;
-	unsigned m_fadeInMilliseconds;		// +0x14C
-	unsigned char m_specialPath;		// +0x150
+	Coord3D m_offset;			// +0x12C
+	Real m_angleOffset;			// +0x138
+	unsigned char m_pad13C[0x14C - 0x13C];
+	UnsignedInt m_fadeInTime;		// +0x14C
+	bool m_useSpecialContext;		// +0x150
 };
 
-struct ObjectCreationUpgradeView
+class UpgradeMux
 {
-	unsigned char pad000[0x0C];
-	ObjectCreationUpgradeModuleDataView *m_moduleData;	// +0x0C
-	Object *m_object;			// +0x10
-	unsigned char pad014[0x14];
-	unsigned int m_nextFrame;		// +0x28
-	bool m_updatePending;			// +0x2C
+public:
+	virtual ~UpgradeMux();
+private:
+	bool m_executed;
 };
 
-class GameLogic;
+class BehaviorModule
+{
+public:
+	virtual ~BehaviorModule();
+protected:
+	const ObjectCreationUpgradeModuleData *m_moduleData;
+	Object *m_object;
+};
+
+class BehaviorModuleInterface
+{
+public:
+	virtual void behaviorSlot0();
+};
+
+class UpdateModuleInterface
+{
+public:
+	virtual UpdateSleepTime update() = 0;
+};
+
+class UpdateModule : public BehaviorModule, public BehaviorModuleInterface, public UpdateModuleInterface
+{
+public:
+	virtual ~UpdateModule();
+private:
+	unsigned int m_1C[3];
+};
+
+class ObjectCreationUpgrade : public UpgradeMux, public UpdateModule
+{
+protected:
+	virtual UpdateSleepTime update();
+	const ObjectCreationUpgradeModuleData *getObjectCreationUpgradeModuleData() const { return m_moduleData; }
+	Object *getObject() const { return m_object; }
+private:
+	UnsignedInt m_28;
+	bool m_2C;
+};
+
 extern GameLogic *TheGameLogic;
 extern ThingFactory *TheThingFactory;
 extern UpgradeCenter *TheUpgradeCenter;
 extern NameKeyGenerator *TheNameKeyGenerator;
-extern Rva00A027B8 *g_00A027B8;
+extern BuildAssistant *TheBuildAssistant;
 extern float g_00DBA500;
 
-UpdateSleepTime ObjectCreationUpgradeUpdateView::rva004B42DB()
+UpdateSleepTime ObjectCreationUpgrade::update()
 {
-	char *currentView = (char *)this;
-	ObjectCreationUpgradeView *upgrade =
-		(ObjectCreationUpgradeView *)(currentView - 0x18);
-	if (!upgrade->m_updatePending ||
-		*(unsigned int *)((char *)TheGameLogic + 0x40) <= upgrade->m_nextFrame)
+	if (m_2C && TheGameLogic->getFrame() > m_28)
 	{
-		return UPDATE_SLEEP_NONE;
-	}
-
-	const ObjectCreationUpgradeModuleDataView *data =
-		*(ObjectCreationUpgradeModuleDataView **)(currentView - 0x0C);
-	if (!data)
-		goto apply_upgrades;
-
-	if (((const StringBase<char> &)data->m_thingToSpawn).isEmpty())
-		goto apply_upgrades;
-
-	const ThingTemplate *thingTemplate =
-		TheThingFactory->findTemplate(data->m_thingToSpawn);
-
-	if (data->m_specialPath)
+	const ObjectCreationUpgradeModuleData *data = getObjectCreationUpgradeModuleData();
+	if (data && !((const StringBase<char> &)data->m_thingToSpawn).isEmpty())
 	{
-		Object *ownerBeforeSpecial = *(Object **)(currentView - 8);
-		RvaObjectCreationSpecialContext *context =
-			(RvaObjectCreationSpecialContext *)ownerBeforeSpecial->rva0028BC58(0);
-		if (!context)
-			goto apply_upgrades;
-
-		int token = context->prepare(-1, 0, &AsciiString::TheEmptyString, 1);
-		if (context->accept(thingTemplate, -1, token))
-			goto apply_upgrades;
-		return UPDATE_SLEEP_NONE;
-	}
-
-	Object *owner = *(Object **)(currentView - 8);
-	Coord3D position;
-	position.x = ((const Coord3D *)((const char *)owner + 0x38))->x;
-	position.y = ((const Coord3D *)((const char *)owner + 0x38))->y;
-	position.z = ((const Coord3D *)((const char *)owner + 0x38))->z;
-
-	const float *matrix = (const float *)((const char *)owner + 0x08);
-	Coord3D offset;
-	offset.x = data->m_offsetX;
-	offset.y = data->m_offsetY;
-	offset.z = data->m_offsetZ;
-	Coord3D transformed;
-	transformed.x = matrix[1] * offset.y + matrix[2] * offset.z;
-	transformed.x += matrix[0] * offset.x;
-	transformed.x += matrix[3];
-	transformed.y = matrix[4] * offset.x + matrix[5] * offset.y;
-	transformed.y += matrix[6] * offset.z;
-	transformed.y += matrix[7];
-	transformed.z = matrix[8] * offset.x + matrix[9] * offset.y;
-	transformed.z += matrix[10] * offset.z;
-	transformed.z += matrix[11];
-	position = transformed;
-
-	owner = *(Object **)(currentView - 8);
-	Rva00A027B8 *factory = g_00A027B8;
-	float ownerAngle = *(const float *)((const char *)owner + 0x44);
-	Player *controller = owner->getControllingPlayer();
-	float angle = data->m_angleOffset + ownerAngle;
-	Object *spawned = factory->createObject(owner, thingTemplate,
-		&position, angle, controller);
-
-	if (spawned)
-	{
-		if (spawned->getDrawable())
+		const ThingTemplate *tmplate = TheThingFactory->findTemplate(data->m_thingToSpawn);
+		if (data->m_useSpecialContext)
 		{
-			unsigned frames = (unsigned)(data->m_fadeInMilliseconds
-				* g_00DBA500);
-			spawned->getDrawable()->fadeIn(frames);
-		}
-
-		owner = *(Object **)(currentView - 8);
-		float spawnAngle = data->m_angleOffset + *(const float *)((const char *)owner + 0x44);
-		*(float *)((char *)spawned + 0x1C0) = spawnAngle;
-		spawned->setPosition(&position);
-
-		static NameKeyType slaveWatcherKey =
-			TheNameKeyGenerator
-				->nameToKey("SlaveWatcherBehavior");
-		owner = *(Object **)(currentView - 8);
-		Module *slaveWatcher = owner->findModule(slaveWatcherKey);
-		if (slaveWatcher)
-			((SlaveWatcherBehavior *)slaveWatcher)->rva00484869(spawned->getID());
-
-		void **entries = *(void ***)((char *)spawned + 0x244);
-		while (*entries)
-		{
-			RvaObjectCreationAuxView *aux =
-				(RvaObjectCreationAuxView *)((char *)*entries + 0x0C);
-			void *action = aux->slot26();
-			if (action)
+			OCUSpecialContext *context = (OCUSpecialContext *)getObject()->rva0028BC58(0);
+			if (context)
 			{
-				Object *currentOwner = *(Object **)(currentView - 8);
-				if (currentOwner)
-					((RvaObjectCreationAuxAction *)action)->setOwner(currentOwner);
+				if (!context->accept(tmplate, -1, context->prepare(-1, 0, &AsciiString::TheEmptyString, 1)))
+					return UPDATE_SLEEP_NONE;
 			}
-			++entries;
+		}
+		else
+		{
+			OCUVector3 pos;
+			pos.X = getObject()->getPosition()->x;
+			pos.Y = getObject()->getPosition()->y;
+			pos.Z = getObject()->getPosition()->z;
+			OCUVector3 offset(data->m_offset.x, data->m_offset.y, data->m_offset.z);
+			pos = *getObject()->getTransformMatrix() * offset;
+
+			Object *owner = getObject();
+			Real angle = owner->getOrientation();
+			Object *obj = TheBuildAssistant->buildObjectNow(owner, tmplate, (const Coord3D *)&pos,
+				data->m_angleOffset + angle, owner->getControllingPlayer());
+			if (obj == 0)
+				return UPDATE_SLEEP_FOREVER;
+
+			if (obj->getDrawable())
+				obj->getDrawable()->fadeIn((UnsignedInt)(data->m_fadeInTime * g_00DBA500));
+
+			obj->m_1C0 = data->m_angleOffset + getObject()->getOrientation();
+			obj->setPosition((const Coord3D *)&pos);
+
+			static NameKeyType slaveWatcherKey = TheNameKeyGenerator->nameToKey("SlaveWatcherBehavior");
+			SlaveWatcherBehavior *slaveWatcher = (SlaveWatcherBehavior *)getObject()->findUpdateModule(slaveWatcherKey);
+			if (slaveWatcher)
+				slaveWatcher->rva00484869(obj->getID());
+
+			for (OCUModuleEntry **entry = obj->m_244; *entry; ++entry)
+			{
+				OCUOwnerAction *action = (*entry)->m_view.getOwnerAction();
+				if (action)
+				{
+					Object *current = getObject();
+					if (current)
+						action->setOwner(current);
+				}
+			}
 		}
 	}
 
-apply_upgrades:
-	{
-		const UpgradeTemplate *upgradeToGrant =
-			TheUpgradeCenter
-				->findUpgrade(data->m_upgradeToGrant);
-		if (upgradeToGrant)
-		{
-			Object *currentOwner = *(Object **)((char *)this - 8);
-			currentOwner->rva00293077(upgradeToGrant);
-		}
-	}
+	const UpgradeTemplate *upgrade = TheUpgradeCenter->findUpgrade(data->m_grantUpgrade);
+	if (upgrade)
+		getObject()->rva00293077(upgrade);
 
-	{
-		const UpgradeTemplate *upgradeToRemove =
-			TheUpgradeCenter
-				->findUpgrade(data->m_upgradeToRemove);
-		if (upgradeToRemove)
-		{
-			Object *currentOwner = *(Object **)((char *)this - 8);
-			currentOwner->rva00290D42(upgradeToRemove);
-		}
-	}
+	upgrade = TheUpgradeCenter->findUpgrade(data->m_removeUpgrade);
+	if (upgrade)
+		getObject()->rva00290D42(upgrade);
 
 	return UPDATE_SLEEP_FOREVER;
+	}
+	return UPDATE_SLEEP_NONE;
 }
