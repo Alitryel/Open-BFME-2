@@ -232,7 +232,6 @@ extern ThingFactory *TheThingFactory;
 extern UpgradeCenter *TheUpgradeCenter;
 extern NameKeyGenerator *TheNameKeyGenerator;
 extern BuildAssistant *TheBuildAssistant;
-extern float g_00DBA500;
 
 UpdateSleepTime ObjectCreationUpgrade::update()
 {
@@ -268,7 +267,7 @@ UpdateSleepTime ObjectCreationUpgrade::update()
 				return UPDATE_SLEEP_FOREVER;
 
 			if (obj->getDrawable())
-				obj->getDrawable()->fadeIn((UnsignedInt)(data->m_fadeInTime * g_00DBA500));
+				obj->getDrawable()->fadeIn((UnsignedInt)(data->m_fadeInTime * 0.03f));
 
 			Real a2 = data->m_angleOffset + getObject()->getOrientation();
 			obj->m_1C0 = a2;
