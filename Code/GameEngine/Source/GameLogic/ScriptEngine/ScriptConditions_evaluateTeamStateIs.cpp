@@ -2074,6 +2074,7 @@ public:
 	Rva000421C8() : m_next(0) {}
 	virtual ~Rva000421C8() {}
 	virtual bool allow(Object *obj) = 0;
+	virtual int getPlayerMask();	// slot 2, 0x0036CC7A
 	bool allows(Object *obj);	// 0x00625720
 	Rva000421C8 *m_next;
 };
