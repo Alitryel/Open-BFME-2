@@ -3,14 +3,8 @@
 
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
-struct IRegion2D
-{
-	int m_loX;
-	int m_loY;
-	int m_hiX;
-	int m_hiY;
-};
 #include "../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../Libraries/Include/Lib/IRegion2D.h"
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 class GameMessage
 {
@@ -94,9 +88,9 @@ private:
 int Rva005D1F45::rva005D1F45(IRegion2D *region, int unused)
 {
 	(void)unused;
-	if (region->m_hiX - region->m_loX > 0)
+	if (region->hi.x - region->lo.x > 0)
 		return 0;
-	if (region->m_hiY - region->m_loY > 0)
+	if (region->hi.y - region->lo.y > 0)
 		return 0;
 	if ((*(Rva002BA8F1Logic **)&TheLivingWorldLogic) == 0)
 		return 0;
@@ -106,8 +100,8 @@ int Rva005D1F45::rva005D1F45(IRegion2D *region, int unused)
 		return 0;
 	ICoord2D cell;
 	Coord3D pos;
-	cell.x = region->m_loX;
-	cell.y = region->m_loY;
+	cell.x = region->lo.x;
+	cell.y = region->lo.y;
 	m_04->conv(&cell, &pos);
 	GameMessage *msg = TheMessageStream->appendType(0x6A8);
 	msg->appendIntegerArgument(m_0C->m_20);

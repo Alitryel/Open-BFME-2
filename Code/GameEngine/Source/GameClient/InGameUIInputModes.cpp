@@ -112,7 +112,8 @@ public:
 	void setDragSelecting( void );
 };
 
-struct IRegion2D { int loX, loY, hiX, hiY; };
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../Libraries/Include/Lib/IRegion2D.h"
 typedef unsigned int DrawableID;
 
 union GameMessageArgumentType

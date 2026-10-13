@@ -12,14 +12,8 @@
 // (rowed at 0x30F8FF) and stamp the tag at +0x18 over the data at +0x08.
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
-
-struct IRegion2D
-{
-	int m_loX;
-	int m_loY;
-	int m_hiX;
-	int m_hiY;
-};
+#include "../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../Libraries/Include/Lib/IRegion2D.h"
 
 class GameMessageArgument
 {

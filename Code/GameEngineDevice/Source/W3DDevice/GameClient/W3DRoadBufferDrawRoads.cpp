@@ -261,10 +261,8 @@ private:
 	Int m_stackingOrder;	// +0x20
 };
 
-struct IRegion2D
-{
-	struct { Int x, y; } lo, hi;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../../Libraries/Include/Lib/IRegion2D.h"
 
 #define MAP_XY_FACTOR (10.0f)
 

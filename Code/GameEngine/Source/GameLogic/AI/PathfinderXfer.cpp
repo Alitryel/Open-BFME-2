@@ -14,13 +14,8 @@
 // (unrowed 002EAC9F). BFME1's 003E38F0 Pathfinder::xfer has the same CRC
 // order without the BFME2 additions. Field names stay offset-derived.
 
-struct IRegion2D
-{
-	int loX;
-	int loY;
-	int hiX;
-	int hiY;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../../Libraries/Include/Lib/IRegion2D.h"
 
 enum ObjectID { INVALID_OBJECT_ID = 0 };
 
@@ -195,8 +190,8 @@ void Pathfinder::xfer(Xfer *xfer)
 		*xfer == m_1BEB0;
 		*xfer == m_1BEB1;
 		if (m_map != 0) {
-			for (int y = 0; y <= m_extent.hiY; ++y) {
-				for (int x = 0; x <= m_extent.hiX; ++x) {
+			for (int y = 0; y <= m_extent.hi.y; ++y) {
+				for (int x = 0; x <= m_extent.hi.x; ++x) {
 					if (m_map[x][y].m_info != 0)
 						m_map[x][y].DoXfer(xfer);
 				}
