@@ -118,14 +118,15 @@ void iniParseObjectFilter(INI *ini, void *instance, void *store, const void *use
 // Zero Hour defines these two in this unit through DEFINE_TERRAIN_LOD_NAMES
 // (TerrainVisual.h) and DEFINE_BODYDAMAGETYPE_NAMES (BodyModule.h), each a
 // per-unit static; retail's copies are VA 0x00DBA470 (BFME 2 keeps ZH's ten
-// names) and VA 0x00DBA444 (TerrainRoads has its own at 0x00DBCF30).
-static const char *TerrainLODNames[] =
+// names) and VA 0x00DBA444 (TerrainRoads has its own at 0x00DBCF30). They are
+// named for this unit here so data rows can own the two addresses.
+char *GlobalDataTerrainLODNames[] =
 {
  "NONE", "MIN", "STRETCH_NO_CLOUDS", "HALF_CLOUDS", "NO_CLOUDS",
  "STRETCH_CLOUDS", "NO_WATER", "MAX", "AUTOMATIC", "DISABLE",
  0
 };
-static const char *TheBodyDamageTypeNames[] =
+char *GlobalDataBodyDamageTypeNames[] =
 {
  "PRISTINE", "DAMAGED", "REALLYDAMAGED", "RUBBLE",
  0
@@ -813,7 +814,7 @@ const FieldParse GlobalData::s_GlobalDataFieldParseTable[] =
 	{ "LivingWorldCampaignOverrride", INI::parseBool, 0, 0x008C },
 	{ "LivingWorldTurbo", INI::parseBool, 0, 0x0088 },
 	{ "DrawEntireTerrain", INI::parseBool, 0, 0x004E },
-	{ "TerrainLOD", INI::parseIndexList, TerrainLODNames, 0x0050 },
+	{ "TerrainLOD", INI::parseIndexList, GlobalDataTerrainLODNames, 0x0050 },
 	{ "TerrainLODTargetTimeMS", INI::parseInt, 0, 0x0058 },
 	{ "RightMouseAlwaysScrolls", INI::parseBool, 0, 0x005D },
 	{ "UseCloudPlane", INI::parseBool, 0, 0x005F },
@@ -1016,7 +1017,7 @@ const FieldParse GlobalData::s_GlobalDataFieldParseTable[] =
 	{ "EnforceMaxCameraHeight", INI::parseBool, 0, 0x0AB4 },
 	{ "KeyboardScrollSpeedFactor", INI::parseReal, 0, 0x0AF8 },
 	{ "KeyboardDefaultScrollSpeedFactor", INI::parseReal, 0, 0x0AFC },
-	{ "MovementPenaltyDamageState", INI::parseIndexList, TheBodyDamageTypeNames, 0x0B3C },
+	{ "MovementPenaltyDamageState", INI::parseIndexList, GlobalDataBodyDamageTypeNames, 0x0B3C },
 	{ "HealthBonus_Veteran", INI::parsePercentToReal, 0, 0x0AD8 },
 	{ "HealthBonus_Elite", INI::parsePercentToReal, 0, 0x0ADC },
 	{ "HealthBonus_Heroic", INI::parsePercentToReal, 0, 0x0AE0 },
