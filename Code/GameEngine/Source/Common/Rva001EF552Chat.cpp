@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /DNDEBUG /MD /EHsc /arch:SSE
 // ?Rva001EF552Chat@@YGXVUnicodeString@@H@Z
 // ?Rva001EF552Chat@@YGXABVUnicodeString@@H@Z, retail 0x001EF552, 107 bytes.
-// Chain from 0x00381C82: if g_00E02324 flags at +0x10/+0x11 set, show a copy
+// Chain from 0x00381C82: if TheGameSpyGame flags at +0x10/+0x11 set, show a copy
 // of the text via TheInGameUI slot 0x40, then forward (1, text, color) to
 // Rva00381C82AddChatText. Evidence: rowed callees, TheInGameUI use, ret 8.
 #include "unicode_string.h"
