@@ -14531,7 +14531,6 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?append@Rva00540B48@@QAEXHABVRva0053FDE6@@@Z,0x0054098B,callee of ?rva00540B48@Rva00540B48@@QAE_NPAVDataChunkInput@@PAX@Z
 ?rvaClear@Rva001E7087@@AAEXXZ,0x001E7E25,callee of ??1Rva001E7087@@MAE@XZ
 ?rva002A8F24@Rva002A8F24Holder@@QAEPAXPAVPlayer@@@Z,0x002A8F24,callee of ?setCommandSetStringOverride@Object@@QAEXABVAsciiString@@@Z
-?rva002E79A8_ret@@YAHHEHHH@Z,0x002E79A8,callee of ?cellCallback@Rva002E7ED6Info@@QAEHPAVPathfindCell@@0HH@Z
 ?rva000AE490@Rva000AFA92@@QAE_NHGHHH@Z,0x000AE490,callee of ?rva000AFA92@Rva000AFA92@@QAE_NHHHHH@Z
 ?rva00531FE6@Rva002E99F9Sub460@@QAEGHHG@Z,0x00531FE6,callee of ?rva00532041@Rva002E99F9Sub460@@QAEGHHHPAPAURva00532041Record@@@Z
 ?rva0059DD3F@Rva0059DD3F@@QAEXPAX000HPAHH@Z,0x0059DD3F,Native REL32 at RVA 004FB2B3 in the 67B wrapper; callee Ghidra entry 0059DD3F has RET 28 and clears the sixth output-count argument at EBP+1C; address-derived receiver and method.

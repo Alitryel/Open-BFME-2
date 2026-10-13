@@ -129,7 +129,7 @@ int Pathfinder::FindBrokenBridge(Rva002E99F9Arg1 *a1, const Coord3D * volatile a
 
 // ?rva00531FE6@Rva002E99F9Sub460@@QAEG_NPAXG@Z @0x00531FE6 91B
 // Target evidence: item bit 3 returns 1; rowed 0x005310E3 supplies a signed count; the
-// address-derived 0x0053123A lookup maps negative -1 to 1 and other negative values to 0;
+// GetCollapseIndex (0x0053123A) lookup maps negative -1 to 1 and other negative values to 0;
 // nonnegative indexes select an Rva00531A44 slot ending in rowed 0x00531B20.
 // Structural inference: the class relation to Rva002E99F9Sub460 is supported by thunk
 // 0x0053241F which forwards (true, item, value) to this body; item identity remains unknown.
@@ -163,7 +163,7 @@ __declspec(noinline) unsigned short Rva002E99F9Sub460::rva0053241F(void *s, unsi
 
 // ?rva005318DB@Rva002E99F9Sub460@@QAE_NPAX00@Z @0x005318DB 157B. The item
 // bit 3 returns true; otherwise rowed 0x005310E3 supplies a count and the
-// address-derived 0x0053123A helper supplies an index. Two input records each
+// GetCollapseIndex (0x0053123A) supplies an index. Two input records each
 // contribute their word at +8 to the two rowed 0x00531720 checks, then the
 // WB-proven CouldBeInEquivSet531757 and InEquivSet5317D7 checks. The receiver
 // association with Rva002E99F9Sub460 is structural; item and record types

@@ -5,7 +5,7 @@
 // banked-attempt sweep. Identity and evidence: see reverse/re_attempts.log.
 //
 // ?cellCallback@Rva002E7ED6Info@@QAEHPAVPathfindCell@@0HH@Z @0x002E7ED6 72B
-// Evidence: pin cellCallback; rowed Rva002E6E8AGet 0x002E6E8A; pinned rva002E79A8 0x002E79A8 returns pointer in eax per retail mov esi eax but pin types it void; probe uses int return to reproduce mov; caller Pathfinder::iterateCellsAlongLine 0x002E8B0C.
+// Evidence: pin cellCallback; rowed Rva002E6E8AGet 0x002E6E8A; rowed rva002E79A8 0x002E79A8 returns its centre by value (retail copies from the EAX it returns: mov esi eax); caller Pathfinder::iterateCellsAlongLine 0x002E8B0C.
 // Finish from stash 0x002e7ed6.cpp score 0.98; fix lea esi ebp-0c vs mov esi eax.
 
 #include "Lib/Coord3D.h"

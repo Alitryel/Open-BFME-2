@@ -8,8 +8,8 @@
 // is refused to a locomotor whose +0x05 byte is set. The cell's zone (+0x08)
 // is mapped for the locomotor through the +0x460 zone manager (rowed
 // 0x0053241F, and 0x00531FD4 when the last flag asks for it) and must equal
-// the wanted zone; then the cell's centre (pinned static 0x002E79A8, which
-// returns its result's address) is copied out and the probe succeeds.
+// the wanted zone; then the cell's centre (pathfinder.cpp's rowed 0x002E79A8, returned
+// by value) is copied out and the probe succeeds.
 //
 // WorldBuilder's unoptimized twin (0x00D59AA0) gives the statement shape
 // retail needs: one early return per check, the bit-18 flag converted to
@@ -49,7 +49,15 @@ public:
 	unsigned short rva00531FD4(void *locomotor, unsigned short zone);
 };
 
-int rva002E79A8_ret(int result, unsigned char flag, int x, int y, int layer);
+// pathfinder.cpp's cell-centre helper 0x002E79A8: it returns the centre by
+// value through the caller's temporary (whose address comes back in EAX).
+struct PathfinderCellPoint : Coord3D
+{
+	__forceinline PathfinderCellPoint() {}
+	__forceinline PathfinderCellPoint(const PathfinderCellPoint &o) { x = o.x; y = o.y; z = o.z; }
+	__forceinline ~PathfinderCellPoint() {}
+};
+PathfinderCellPoint rva002E79A8(bool centerInCell, int cellX, int cellY, PathfindLayerEnum layer);
 
 struct Rva002E7BF0Locomotor
 {
@@ -83,8 +91,7 @@ bool Rva002EC3CEProbes::rva002E7BF0(int locomotor, int zone, bool flag, int x, i
 	if (remap)
 		z = m_zones460.rva00531FD4((void *)locomotor, z);
 	if (zone == z) {
-		Coord3D centre;
-		*(Coord3D *)out = *(Coord3D *)rva002E79A8_ret((int)&centre, flag, x, y, layer);
+		*(Coord3D *)out = rva002E79A8(flag, x, y, (PathfindLayerEnum)layer);
 		return true;
 	}
 	return false;
