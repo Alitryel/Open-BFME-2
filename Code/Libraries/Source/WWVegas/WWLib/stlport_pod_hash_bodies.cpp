@@ -8,6 +8,7 @@
 // is claimed.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
 #include <stl/_algobase.h>
 
 // vector<int> fill/insert otherwise instantiates the _Construct<int,int>

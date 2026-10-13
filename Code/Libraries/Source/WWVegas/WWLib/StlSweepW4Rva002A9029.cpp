@@ -2,6 +2,7 @@
 // Element identity and unconstrained fields remain address-derived structural inference.
 // cl: /Og /Os /Ob1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
 #include <hash_map>
 
 // map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()

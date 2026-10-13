@@ -3,6 +3,7 @@
 // Player constructor semantic donor: BF1 f98983a7d Player.cpp399-459 and
 // ZH Player.cpp303-362. Target init2AF729 establishes field meanings;
 // native2B0F3C establishes initialization order and three base views.
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
 #include "ascii_string.h"
 #include "unicode_string.h"
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned

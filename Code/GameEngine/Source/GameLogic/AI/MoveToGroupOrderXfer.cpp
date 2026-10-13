@@ -24,6 +24,7 @@
 // 0x00427195, iterator ++ 0x0041E832, the converting pair copy 0x0004254E and
 // the default pair ctor 0x00326BE6.
 
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
 #include <hash_map>
 #include <cstddef>
 // Inline-only STLport bodies preserve mod/ref visibility without emitting

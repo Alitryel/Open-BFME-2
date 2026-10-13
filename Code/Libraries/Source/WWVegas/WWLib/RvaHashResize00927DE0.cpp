@@ -15,6 +15,7 @@
 // of its four ints into the bucket key.
 
 #define _STLP_NO_EXCEPTIONS 1
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
 #include <hash_map>
 #include <cstddef>
 // bfme link decl-only begin

@@ -88,6 +88,15 @@ _Hashtable_iterator<_Val,_Key,_HF,_ExK,_EqK,_All>::_M_skip_to_next() {
   return __i;
 }
 
+// Retail keeps one copy of the prime-list search (0x00568D2F, the /O1 shape)
+// and both _M_next_size bodies call it; a unit built for speed emits a
+// different copy the link rejects. Such a unit defines
+// _STLP_BFME_LOWER_BOUND_EXTERN to call retail's copy instead.
+#ifdef _STLP_BFME_LOWER_BOUND_EXTERN
+template <>
+const size_t* __lower_bound(const size_t*, const size_t*, const size_t&, less<size_t>, ptrdiff_t*);
+#endif
+
 template <class _Val, class _Key, class _HF, class _ExK, class _EqK, 
           class _All>
 __size_type__

@@ -33,6 +33,7 @@
 // 0x0041E832, and operator[] 0x0041F4E5. They are viewed here per key type.
 // The relationship goes through XferRelationship (0x00305C32).
 
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
 #include <hash_map>
 
 // map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()

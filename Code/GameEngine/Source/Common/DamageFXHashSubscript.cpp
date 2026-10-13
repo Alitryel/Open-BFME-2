@@ -5,6 +5,7 @@
 // 480-dword pair copy, find148B27 and insert3609F7. The existing
 // address-derived template views are opaque interfaces to folded helpers;
 // the native node stores the full 0x784-byte pair, not their small placeholders.
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
 #include <hash_map>
 #include <cstddef>
 // Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):

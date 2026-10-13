@@ -29,6 +29,7 @@
 // ground point / translation through Vector3 constructors: both shapes are
 // needed for retail's evaluation order. Member and view names besides the
 // method are address-derived or descriptive.
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
 #include "ascii_string.h"
 #include "Coord2D.h"
 #include "Coord3D.h"

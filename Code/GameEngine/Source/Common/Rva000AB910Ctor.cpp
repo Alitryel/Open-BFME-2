@@ -2,6 +2,7 @@
 // stlport
 // ??0Rva000AB910@@QAE@ABVAsciiString@@@Z @ 0x000AB910, 70 bytes. Retail
 // copies a narrow string and initializes two hash maps; member identities are inferred from offsets.
+#define _STLP_BFME_LOWER_BOUND_EXTERN  // call retail's one __lower_bound<const size_t*> (vendor/stlport/stl/_hashtable.c)
 #include "ascii_string.h"
 #include <hash_map>
 // map<unsigned> internals otherwise instantiate the less<unsigned>::operator()
