@@ -16,7 +16,7 @@ public:
 	void *rva00141800();
 };
 
-extern Rva0006EFC8 g_Rva0006EFC8Pool00DB424C;
+extern Rva0006EFC8 g_BfmeSceneNodePool;
 
 class Rva00141DC0
 {
@@ -29,7 +29,7 @@ private:
 
 void *Rva00141DC0::rva00141DC0(void *arg)
 {
-	void *node = g_Rva0006EFC8Pool00DB424C.rva00141800();
+	void *node = g_BfmeSceneNodePool.rva00141800();
 	void **valuePtr = (void **)((char *)node + 4);
 	if (valuePtr != 0)
 		valuePtr[0] = *(void **)arg;
@@ -49,7 +49,7 @@ public:
 
 void *Rva00141D60::rva00141D60(void *arg)
 {
-	void *node = g_Rva0006EFC8Pool00DB424C.rva00141800();
+	void *node = g_BfmeSceneNodePool.rva00141800();
 	void **valuePtr = (void **)((char *)node + 4);
 	if (valuePtr != 0)
 		valuePtr[0] = *(void **)arg;
@@ -69,5 +69,5 @@ void *Rva00141CB0::rva00141CB0(unsigned int count, const void *hint)
 {
 	if (count > 1)
 		return 0;
-	return g_Rva0006EFC8Pool00DB424C.rva00141800();
+	return g_BfmeSceneNodePool.rva00141800();
 }

@@ -449,8 +449,15 @@ GapFloatWord rva0006F345(const float &a, const int &b)
 }
 
 // --- 0x0006F35B (24B): push a block onto the free list headed at VA
-// 0x00DB4254.
-extern void *g_00DB4254;
+// 0x00DB4254, the head (+8) of the scene node pool Rva0006EFC8Grow.cpp owns.
+class Rva0006EFC8
+{
+public:
+	int m_00;
+	void *m_04;
+	void *m_head;
+};
+extern Rva0006EFC8 g_BfmeSceneNodePool;
 
 class Rva0006F35B
 {
@@ -462,7 +469,7 @@ void Rva0006F35B::rva0006F35B(void *block, int size)
 {
 	if (block)
 	{
-		*(void **)block = g_00DB4254;
-		g_00DB4254 = block;
+		*(void **)block = g_BfmeSceneNodePool.m_head;
+		g_BfmeSceneNodePool.m_head = block;
 	}
 }

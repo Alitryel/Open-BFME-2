@@ -16764,7 +16764,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009B3F7C,152,.data,global,?g_00DB3F7C@@3EA,Code/GameEngine/Source/Common/Rva00699180Volume_Refresh.cpp,owned,,1,3
 0x009B4014,84,.data,global,_animationDisableOverride,Code/GameEngineDevice/Source/W3DDevice/GameLogic/W3DGhostObjectScene.cpp,owned,,1,1
 0x009B4068,484,.data,global,_AXIS_ROTATION,Code/GameEngineDevice/Source/W3DDevice/GameClient/camerashakesystem_shaker.cpp,owned,,1,1
-0x009B424C,344,.data,global,?g_Rva0006EFC8Pool00DB424C@@3VRva0006EFC8@@A,,unowned,?g_Rva0006EFC8Pool00DB424C@@3VRva0006EFC8@@A;?g_Va00DB424C@@3IA,0,9
+0x009B424C,344,.data,global,?g_BfmeSceneNodePool@@3VRva0006EFC8@@A,Code/Libraries/Source/WWVegas/WWLib/Rva0006EFC8Grow.cpp,owned,,1,13
 0x009B43A4,8,.data,global,?g_Va00DB43A4@@3PAPAPAVRva00077F80Shader@@A,,unowned,,0,2
 0x009B43AC,196,.data,global,?g_Va00DB43AC@@3PAPAPAVRva00077F80Filter@@A,,unowned,,0,2
 0x009B4470,12,.data,global,?g_00DB4470@@3UDb12@@A,,unowned,,0,2

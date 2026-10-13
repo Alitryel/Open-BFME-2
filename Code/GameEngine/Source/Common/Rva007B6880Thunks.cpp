@@ -1046,12 +1046,13 @@ void __cdecl rva007B70AB()
 	return p->Rva00041004::~Rva00041004();
 }
 
-extern unsigned g_Va00DB424C;
+class Rva0006EFC8;
+extern Rva0006EFC8 g_BfmeSceneNodePool; // owned by Rva0006EFC8Grow.cpp
 
-// ?rva007B6B91@@YAXXZ @ 0x007B6B91 (10B). Global Rva001EAF7B thunk: ecx=&g_Va00DB424C then tail-jmp to rowed ?rva001EAF7B@Rva001EAF7B@@QAE_NXZ (0x001EAF7B).
+// ?rva007B6B91@@YAXXZ @ 0x007B6B91 (10B). Global Rva001EAF7B thunk: ecx=&g_BfmeSceneNodePool then tail-jmp to rowed ?rva001EAF7B@Rva001EAF7B@@QAE_NXZ (0x001EAF7B).
 void __cdecl rva007B6B91()
 {
-	Rva001EAF7B *p = (Rva001EAF7B *)&g_Va00DB424C;
+	Rva001EAF7B *p = (Rva001EAF7B *)&g_BfmeSceneNodePool;
 	p->rva001EAF7B();
 }
 

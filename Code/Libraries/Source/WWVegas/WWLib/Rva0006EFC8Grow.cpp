@@ -21,9 +21,19 @@ public:
 	void *m_04;		// +0x04 current block (linked into block header)
 	void *m_head;	// +0x08 free-list head
 	void *(__cdecl *m_alloc)(int size, int arg); // +0x0C block allocator
-	int m_10;		// +0x10
+	void (__cdecl *m_free)(void *block, int arg); // +0x10 block free
 	int m_14;		// +0x14 allocator argument
 };
+
+// The 8-byte list-node pool BfmeSceneVector's node lists draw from (consumers
+// 0x00141DC0, 0x00141EF0, 0x00142170). Retail's 24 initialized bytes at VA
+// 0x00DB424C are {0x80 0 0 0x0002FFC0 0x0002FFE0 0}: this layout with the
+// rowed default-heap callbacks; the dynamic initializer 0x007ABEF3 grows it and
+// the atexit thunk 0x007B6B91 clears it. Descriptive name; the original
+// identifier is unknown.
+void *__cdecl Rva0002FFC0Alloc(int size, int context);
+void __cdecl Rva0002FFE0Free(void *block, int context);
+Rva0006EFC8 g_BfmeSceneNodePool = { 0x80, 0, 0, Rva0002FFC0Alloc, Rva0002FFE0Free, 0 };
 
 
 bool Rva0006EFC8::rva0006EFC8(int arena, int size)

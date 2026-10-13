@@ -88,7 +88,7 @@ void __cdecl rva007B70AB();
 void __cdecl rva007B7B14();
 void __cdecl rva007B6C2A();
 
-extern unsigned g_Va00DB424C;
+extern Rva0006EFC8 g_BfmeSceneNodePool; // owned by Rva0006EFC8Grow.cpp
 extern unsigned g_Va00DEBE0C;
 extern unsigned g_Va00DEBE24;
 extern unsigned g_Va00DF94D0;
@@ -170,7 +170,7 @@ struct Rva007ABEF3ArgCtorInits
 // 0x007ABEF3 (26B): 0x0006EFC8(0, -1) on VA 0x00DB424C, atexit(0x007B6B91 -> 0x001EAF7B)
 void Rva007ABEF3ArgCtorInits::rva007ABEF3()
 {
-	( (Rva0006EFC8 *)&g_Va00DB424C )->rva0006EFC8( 0, -1 );
+	g_BfmeSceneNodePool.rva0006EFC8( 0, -1 );
 	atexit( rva007B6B91 );
 }
 

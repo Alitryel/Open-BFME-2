@@ -36,7 +36,7 @@ public:
 	int m_14; // +0x14 retail 0
 };
 
-extern Rva0006EFC8 g_Rva0006EFC8Pool00DB424C; // VA 0xDB424C (.data RVA 0x9B424C), 24B pool
+extern Rva0006EFC8 g_BfmeSceneNodePool; // VA 0xDB424C (.data RVA 0x9B424C), 24B pool
 typedef char Rva0006EFC8PoolSize24[(sizeof(Rva0006EFC8) == 0x18) ? 1 : -1];
 
 class Gen_00943CF0
@@ -63,7 +63,7 @@ struct Rva00943FF0List
 	{
 		// Retail inlines the 8-byte free-list push at VA 0xDB4254 (no CALL).
 		// Typed pool base VA 0xDB424C (.data RVA 0x9B424C, 24B: 80/0/0/42FFC0/42FFE0/0)
-		// via g_Rva0006EFC8Pool00DB424C.m_head (+8 == 0xDB4254); phony
+		// via g_BfmeSceneNodePool.m_head (+8 == 0xDB4254); phony
 		// g_SceneNodeFreeList00DB4254 removed (was undefined, no symbols.csv row,
 		// no defining TU; Gemini-r4 CRITICAL_LINK_HAZARD). Manual push keeps byte
 		// shape; _M_deallocate would emit push-8+CALL and fail.
@@ -71,8 +71,8 @@ struct Rva00943FF0List
 		while (current != 0) {
 			Gen_00943CF0_Node *old = current;
 			current = current->m_next;
-			old->m_next = (Gen_00943CF0_Node *)g_Rva0006EFC8Pool00DB424C.m_head;
-			g_Rva0006EFC8Pool00DB424C.m_head = old;
+			old->m_next = (Gen_00943CF0_Node *)g_BfmeSceneNodePool.m_head;
+			g_BfmeSceneNodePool.m_head = old;
 		}
 	}
 };

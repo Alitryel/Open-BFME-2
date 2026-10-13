@@ -40,7 +40,7 @@ public:
 	int m_14; // +0x14 retail 0 (allocator arg via 0x6FAEC mov [esi+0x14],0)
 };
 
-extern Rva0006EFC8 g_Rva0006EFC8Pool00DB424C;
+extern Rva0006EFC8 g_BfmeSceneNodePool;
 typedef char Rva0006EFC8PoolSize24[(sizeof(Rva0006EFC8) == 0x18) ? 1 : -1];
 
 struct BfmeSceneVectorElement
@@ -85,18 +85,18 @@ void BfmeSceneVector::rva00141EF0(Gen_00943CF0_Node **objects)
 			// grow + prepend, far pop at end jumping back (no jmp on fail path).
 			Gen_00943CF0_Node *node;
 		retry:
-			if (g_Rva0006EFC8Pool00DB424C.m_head != 0)
+			if (g_BfmeSceneNodePool.m_head != 0)
 				goto pop_end;
 			{
-				int size = g_Rva0006EFC8Pool00DB424C.m_00 * 8 + 4;
-				if (g_Rva0006EFC8Pool00DB424C.rva0006EFC8(0, size))
+				int size = g_BfmeSceneNodePool.m_00 * 8 + 4;
+				if (g_BfmeSceneNodePool.rva0006EFC8(0, size))
 					goto retry;
 				node = 0;
 			}
 			goto prepend;
 		pop_end:
-			node = (Gen_00943CF0_Node *)g_Rva0006EFC8Pool00DB424C.m_head;
-			g_Rva0006EFC8Pool00DB424C.m_head = node->m_next;
+			node = (Gen_00943CF0_Node *)g_BfmeSceneNodePool.m_head;
+			g_BfmeSceneNodePool.m_head = node->m_next;
 		prepend:
 			void **valuePtr = (void **)((char *)node + 4);
 			if (valuePtr != 0)
