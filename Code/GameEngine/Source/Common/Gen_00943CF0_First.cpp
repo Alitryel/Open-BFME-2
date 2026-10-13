@@ -2,6 +2,17 @@
 // ?first@Gen_00943CF0@@AAEXPAXPAH11@Z -- retail 0x00140FA0, 266 bytes, ret 0x10.
 // BFME1 donor Gen_00943CF0_First.cpp (0x009432B0 240B) adapted: BFME2 vtable +4
 // (Get_Obj_Space_Bounding_Sphere at +0x10c, extent getter at +0x11c).
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #include "rendobj.h"
 #include "sphere.h"
 

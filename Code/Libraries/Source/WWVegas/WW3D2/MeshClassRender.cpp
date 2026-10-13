@@ -26,6 +26,17 @@
 // +0x138, rendering-method stack vector at +0x13C), reduced to what Render
 // touches.
 
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #include "colmath.h"
 #include "colmathinlines.h"
 #include "frustum.h"

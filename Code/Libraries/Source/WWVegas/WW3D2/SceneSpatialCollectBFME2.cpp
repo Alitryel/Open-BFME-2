@@ -2,6 +2,17 @@
 // Target [142330,142407) maps a floating rectangle to spatial cells and
 // calls the recursive tree query at142170. Its node stride is 28 bytes.
 // Original function names are unknown; no donor name is asserted.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #include "rendobj.h"
 #include "aabox.h"
 #include "scene.h"

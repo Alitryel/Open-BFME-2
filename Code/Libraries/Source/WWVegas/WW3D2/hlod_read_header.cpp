@@ -7,6 +7,17 @@
 // "present-unmatched" for that reason. Compiled here at the sweep's default
 // /O2 /GR- /EHsc- it is byte-exact against game.dat, unique in .text, and
 // Ghidra independently calls 0x0019ECE0 a 232-byte function.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #include "winbase_shim.h"
 #include "hlod.h"
 #include "chunkio.h"

@@ -6,6 +6,17 @@
 // Keep Remove 0x141640 CALL out of line (inlining adds 98B per 2313).
 // Layout 0x28 via TU-local view matching canonical BFME2SceneSpatialIndex
 // (actual header included, equivalence asserted). Reject 16B dtor view.
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// It can also change how later array constructions here compile; checked to
+// change nothing else in this unit, but if a function added later that builds
+// an array will not match, try it without this block.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
 #include "rendobj.h"
 #include "aabox.h"
 #include "scene.h"

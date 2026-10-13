@@ -16,6 +16,18 @@
 // Open-BFME-1 did for BFME 1's version.  Unrecovered types keep address-derived
 // names.  /G7 is the unit's tell.
 
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// auto_inline(off) keeps the iterator out of line: without it the functions
+// here that build arrays inline the /O1 body and lose retail's call to ??_H.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma auto_inline(off)
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#pragma auto_inline(on)
 extern "C" void *memcpy(void *destination, const void *source, unsigned int count);
 #pragma intrinsic(memcpy)
 
