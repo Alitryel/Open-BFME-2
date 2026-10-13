@@ -1,4 +1,5 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
+// stlport
 // RenderableStandingWaterArea::createTexture: native 0x0007EDBC..0x0007EEB0,
 // 244 bytes, RET4. WB 0x0073EFF0 identifies the method and W3DWater.cpp.
 // Native calls and member accesses prove area+40, texture slots+50, and
@@ -78,27 +79,30 @@ void RenderableStandingWaterArea::createTexture(int index) {
 // resource teardown semantics; target owns three area-list observers and
 // different member offsets. Retain the existing opaque owner spelling.
 #include "Common/Snapshot.h"
+#include <string.h>
+#include <vector>
 #include "ascii_string.h"
 void __cdecl operator delete(void*) throw();
 class RefCountClass { public: virtual void Delete_This(); virtual ~RefCountClass(); int refs; };
 class MultiListObjectClass { public: virtual ~MultiListObjectClass(); void *node; };
 class RenderObjClass : public RefCountClass,public MultiListObjectClass {
-public: virtual ~RenderObjClass();
+public: RenderObjClass(); virtual ~RenderObjClass();
 private: char unmodelled[0xC4-0x10];
 };
 template<int N> class WaterAreaObserver {public: virtual ~WaterAreaObserver(){} };
 class CreateAHeroData;
 class Rva002B7250 {public: void rva002B7250(CreateAHeroData*);};
-struct WaterTextureHandle { TextureBaseClass *ptr; ~WaterTextureHandle(){if(ptr)ptr->Release_Ref();} };
+struct WaterTextureHandle { TextureBaseClass *ptr; WaterTextureHandle():ptr(0){} ~WaterTextureHandle(){if(ptr)ptr->Release_Ref();} };
 struct WaterCountedRef {
  RefCountClass *ptr;
+ WaterCountedRef():ptr(0){}
+ WaterCountedRef(RefCountClass *p):ptr(p){}
  __forceinline ~WaterCountedRef(){ RefCountClass *p=ptr; if(p && --p->refs==0)p->Delete_This(); }
 };
 struct TreeHintRef00217D4C { ~TreeHintRef00217D4C(); };
-namespace _STL { template<class T> class allocator; template<class T,class A=allocator<T> > class vector {
-public: ~vector();
-private: void *first,*last,*limit;
-}; }
+// The unit's vectors use STLport's own empty construction; their destructor
+// is the existing out-of-line instantiation.
+namespace _STL { template<> vector<TreeHintRef00217D4C>::~vector(); }
 class WaterTracksRenderSystem {public: ~WaterTracksRenderSystem();};
 class Rva0007E12F {public: void rva0007E12F();};
 void BFME_DX8_Thread_Lock();
@@ -119,13 +123,22 @@ template<class T> class OVERRIDE {public: T *ptr;};
 extern OVERRIDE<WaterTransparencySetting> TheWaterTransparency;
 class WaterRenderObjClass {
 public:
- struct Setting {~Setting(); char data[0x30];};
+ struct Setting {Setting():skyTexture(0),waterTexture(0){} ~Setting(); TextureBaseClass *skyTexture,*waterTexture; char data[0x28];};
+};
+class CameraClass : public RenderObjClass {
+public: CameraClass();
+private: char unmodelled[0x3FC-0xC4];
 };
 class Rva0082140 : public Snapshot,public RenderObjClass,
  public WaterAreaObserver<0>,public WaterAreaObserver<1>,public WaterAreaObserver<2> {
-public: virtual ~Rva0082140();
+public: Rva0082140(); virtual ~Rva0082140();
 private:
- char unknownD4[0xF8-0xD4];
+ int fieldD4;
+ unsigned fieldD8;
+ float fieldDC,fieldE0,fieldE4,fieldE8;
+ int fieldEC;
+ bool fieldF0;
+ int fieldF4;
  WaterTextureHandle textureF8;
  WaterCountedRef refFC;
  WaterTracksRenderSystem *tracks100;
@@ -135,9 +148,25 @@ private:
  _STL::vector<TreeHintRef00217D4C> rivers118;
  Rva002B7250 *waves124;
  WaterCountedRef ref128;
- char unknown12C[0x138-0x12C];
+ float field12C,field130;
+ bool field134,field135;
  WaterRenderObjClass::Setting settings138[6];
+ int field258;
+ bool field25C;
+ int field260;
 };
+// Native 00082329..000824C3,410B, the WaterRenderObjClass constructor: it
+// stores the vtables this unit's destructor restores and builds the members
+// the destructor's unwind map tears down, in the same order (EH states 5..A).
+Rva0082140::Rva0082140()
+ : fieldD4(0),fieldD8(0x10441B),fieldDC(0),fieldE0(0),fieldE4(0),fieldE8(0),
+   fieldEC(0),fieldF0(false),fieldF4(0),
+   refFC(new CameraClass),tracks100(0),standing104(0),rivers114(0),waves124(0),
+   field12C(0),field130(0),field134(false),field135(false),
+   field258(2),field25C(false),field260(0)
+{
+ memset(settings138,0,sizeof(settings138));
+}
 Rva0082140::~Rva0082140() {
  if(standing104) {
   standing104->rva002B7250(reinterpret_cast<CreateAHeroData*>(static_cast<WaterAreaObserver<0>*>(this)));standing104=0;
