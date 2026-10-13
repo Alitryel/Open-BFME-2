@@ -15,7 +15,7 @@ extern AptValue *gpUndefinedValue;
 struct ScopedStringText {unsigned char prefix[8];EAStringC text;};
 class AptString {public:static AptString *Create();static AptValue *sMethod_charCodeAt(AptValue *,int);};
 void *rva006d4d40(void *,int);
-class Rva006D5E70String {void *data;public:void *rva006d5e70ptr(int);};
+class Rva006D5E70String {void *data;public:void *rva006d5e70(int);};
 int rva006d3e40(const char *);
 extern "C" int __cdecl sprintf(char *,const char *,...);
 AptValue *AptString::sMethod_charCodeAt(AptValue *self,int)
@@ -26,7 +26,7 @@ AptValue *AptString::sMethod_charCodeAt(AptValue *self,int)
  if(index<0)return gpUndefinedValue;
  else
  {
- const char *buffer=static_cast<const char *>(reinterpret_cast<Rva006D5E70String *>(local)->rva006d5e70ptr(index));
+ const char *buffer=static_cast<const char *>(reinterpret_cast<Rva006D5E70String *>(local)->rva006d5e70(index));
  if(!buffer)return gpUndefinedValue;
  int code=rva006d3e40(buffer);
  char out[8];

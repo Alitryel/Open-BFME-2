@@ -32,7 +32,7 @@ public:
 class Rva006D5E70String
 {
 public:
-	void *rva006d5e70ptr(int count);
+	void *rva006d5e70(int count);
 private:
 	char *m_pData;
 };
@@ -67,7 +67,7 @@ void *rva006D7350(Rva006DCE50Opaque *source)
 	if (index < 0) {
 		return (void *)gpUndefinedValue;
 	} else {
-		void *looked = str->rva006d5e70ptr(index);
+		void *looked = str->rva006d5e70(index);
 		if (looked == 0) {
 			return (void *)gpUndefinedValue;
 		} else {
