@@ -346,7 +346,7 @@ public:
 };
 
 class Rva00270BA8 { public: Rva00270025 *rva00270BA8(); };
-class Rva00271058 { public: void rva00271058(void *); };
+class Rva00271058 { public: void setID(void *); };
 class Rva002716Holder { public: void rva00271547(); };
 class Rva0027974B { public: void rva0027974B(); };
 class Rva00279354Host { public: void rva00279354(bool); };
@@ -454,7 +454,7 @@ public:
 	void rva002791E7(const ModelConditionFlags &flags, unsigned int a, unsigned int b);
 	bool rva00272C1E();
 
-	void setID(int id) { reinterpret_cast<Rva00271058 *>(this)->rva00271058((void *)id); }
+	void setID(int id) { reinterpret_cast<Rva00271058 *>(this)->setID((void *)id); }
 	Rva00270025 *getIconInfo() { return reinterpret_cast<Rva00270BA8 *>(this)->rva00270BA8(); }
 
 	void createEmbeddedPortals();
