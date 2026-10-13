@@ -1,6 +1,8 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ??1Rva0033FB20@@UAE@XZ, retail 0x0033FB20, 77 bytes.
+// ??1AttackHordeStateMachine@@UAE@XZ, retail 0x0033FB20, 77 bytes. Slot 2 of
+// vtable 0x00811B18 is the name getter 0x0033FB6D returning
+// "AttackHordeStateMachine"; its ctor 0x00343367 shares the vtable.
 // Dtor restoring vtable 0x00811B18, calling Object::rva0028C197 0x0028C197
 // on member +0x14 when present then virtual slot 0x250 on its result when
 // present, then calling the pinned base 0x004D759C. Caller is the deleting
@@ -40,17 +42,17 @@ public:
 	virtual ~StateMachine();
 };
 
-class Rva0033FB20 : public StateMachine
+class AttackHordeStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva0033FB20();
+	virtual ~AttackHordeStateMachine();
 
 private:
 	char m_pad04[0x14 - 0x04];
 	Object *m_ptr14;
 };
 
-Rva0033FB20::~Rva0033FB20()
+AttackHordeStateMachine::~AttackHordeStateMachine()
 {
 	if (m_ptr14 != 0) {
 		Ret250 *p = (Ret250 *)m_ptr14->rva0028C197();

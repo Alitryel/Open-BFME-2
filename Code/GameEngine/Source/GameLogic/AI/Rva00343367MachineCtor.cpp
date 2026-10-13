@@ -1,7 +1,10 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
 //
-// Rva00343367::Rva00343367, retail 0x00343367 (632 bytes; called from
-// 0x0034B1E9): Zero Hour's AttackStateMachine constructor shape (owner,
+// AttackHordeStateMachine::AttackHordeStateMachine, retail 0x00343367 (632
+// bytes; called from 0x0034B1E9). The name is a target fact: its vftable
+// 0x00811B18 (dtor 0x0033FB20, deleting dtor 0x003435DF in slot 0) has the
+// name getter 0x0033FB6D in slot 2, returning "AttackHordeStateMachine".
+// Zero Hour's AttackStateMachine constructor shape (owner,
 // attack state, name, follow, attackingObject, forceAttacking). BFME 2
 // target facts: the rowed StateMachine constructor 0x004D79E1 with the name
 // key; an owner whose template has kind byte +0x116 bit 0x80 and whose
@@ -137,14 +140,14 @@ public:
 private:
 	unsigned char m_pad04[0x28 - 0x04];
 };
-class Rva00343367 : public StateMachine
+class AttackHordeStateMachine : public StateMachine
 {
 public:
-	Rva00343367(Object *obj, Rva00343367Attack *att, UnsignedInt nameKey, Bool follow, Bool attackingObject, Bool forceAttacking);
-	virtual ~Rva00343367();
+	AttackHordeStateMachine(Object *obj, Rva00343367Attack *att, UnsignedInt nameKey, Bool follow, Bool attackingObject, Bool forceAttacking);
+	virtual ~AttackHordeStateMachine();
 };
 
-Rva00343367::Rva00343367(Object *obj, Rva00343367Attack *att, UnsignedInt nameKey, Bool follow, Bool attackingObject, Bool forceAttacking) : StateMachine(obj, nameKey, false)
+AttackHordeStateMachine::AttackHordeStateMachine(Object *obj, Rva00343367Attack *att, UnsignedInt nameKey, Bool follow, Bool attackingObject, Bool forceAttacking) : StateMachine(obj, nameKey, false)
 {
 	const Weapon *weapon;
 	if ((obj->m_template->m_kind116 & 0x80) && (weapon = obj->getCurrentWeapon(NULL)) != NULL && weapon->m_template->get())

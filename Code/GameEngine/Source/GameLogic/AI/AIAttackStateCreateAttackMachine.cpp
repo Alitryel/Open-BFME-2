@@ -6,7 +6,8 @@
 // Target deltas: +24 machine, +40/+41/+42 flags, +4C selector; 3C-byte
 // allocations; scalar name keys in place of donor strings; two added kinds.
 // Constructor spellings preserve the existing owners or neutral banked views.
-// Original names of the concrete machine classes remain unproven here.
+// Kind 6 builds AttackHordeStateMachine (its vtable 0x00811B18's name getter
+// 0x0033FB6D returns that string); the other machine names remain unproven.
 class Object;
 class Rva00343367Attack;
 class Rva00346D17Attack;
@@ -53,10 +54,10 @@ public:
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
-class Rva00343367
+class AttackHordeStateMachine
 {
 public:
-    Rva00343367(Object*,Rva00343367Attack*,unsigned,bool,bool,bool);
+    AttackHordeStateMachine(Object*,Rva00343367Attack*,unsigned,bool,bool,bool);
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
@@ -97,7 +98,7 @@ void AIAttackState::createAttackMachine(Object *owner)
     else if (kind == 2)
         machine = new Rva0034316A(owner, reinterpret_cast<int>(this), 0xbaaacfcb);
     else if (kind == 6)
-        machine = new Rva00343367(owner, reinterpret_cast<Rva00343367Attack*>(this), 0xeeba4547, follow, attackingObject, forceAttacking);
+        machine = new AttackHordeStateMachine(owner, reinterpret_cast<Rva00343367Attack*>(this), 0xeeba4547, follow, attackingObject, forceAttacking);
     else if (kind == 5)
         machine = new Rva00343756(owner, reinterpret_cast<int>(this), 0x30c4498f);
     else if (kind == 8)
