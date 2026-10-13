@@ -1,4 +1,4 @@
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
 //
 // ??0PassiveAreaEffectBehaviorModuleData@@QAE@XZ, retail 0x00484DF4,
@@ -50,11 +50,16 @@ private:
 	int m_handle;
 };
 
+extern "C" const void *const vtbl_00C4A490[];  // ??_7PassiveAreaEffectBehaviorModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4A490=??_7PassiveAreaEffectBehaviorModuleData@@6B@")
+
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
 	__declspec(dllimport) __forceinline UpdateModuleData() {}
-	~UpdateModuleData();
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };
@@ -82,7 +87,7 @@ private:
 
 // ??0PassiveAreaEffectBehaviorModuleData@@QAE@XZ @0x484DF4
 PassiveAreaEffectBehaviorModuleData::PassiveAreaEffectBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C4A490))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4A490)))
 	, m_effectRadius(200.0f)
 	, m_healPercentPerSecond(0.0f)
 	, m_pingDelay(15)

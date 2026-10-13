@@ -1,4 +1,4 @@
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /O1 /arch:SSE /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /O1 /arch:SSE /GX /MD /D_CRTIMP= /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
 // stlport
 
 // ??0StealthUpdateModuleData@@QAE@XZ, retail 0x0037588B, 334 bytes.
@@ -75,11 +75,16 @@ private:
 	int m_zero;
 };
 
+extern "C" const void *const vtbl_00C184D8[];  // ??_7StealthUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C184D8=??_7StealthUpdateModuleData@@6B@")
+
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
 	__declspec(dllimport) __forceinline UpdateModuleData() {}
-	~UpdateModuleData();
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 class StealthUpdateModuleData : public UpdateModuleData
@@ -136,7 +141,7 @@ Rva004CEE6EMemberTracked::~Rva004CEE6EMemberTracked()
 }
 
 StealthUpdateModuleData::StealthUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C184D8))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C184D8)))
 	, m_flags08(-1)
 	, m_zero0C(0)
 	, m_speed20(0.0f)

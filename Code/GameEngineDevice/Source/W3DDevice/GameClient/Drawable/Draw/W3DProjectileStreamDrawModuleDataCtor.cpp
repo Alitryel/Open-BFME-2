@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX /Ireference/shims/moduledata
 //
 // W3DProjectileStreamDrawModuleData file-unit (parse first; the ctor at
 // 0xD11D2 remains pinned for a follow-up).
@@ -23,11 +23,13 @@ extern "C" const void *const __identifier("??_7W3DProjectileStreamDrawModuleData
 
 #include "ascii_string.h"
 
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
 	__declspec(dllimport) __forceinline UpdateModuleData() {}
-	~UpdateModuleData();
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 class MultiIniFieldParse;

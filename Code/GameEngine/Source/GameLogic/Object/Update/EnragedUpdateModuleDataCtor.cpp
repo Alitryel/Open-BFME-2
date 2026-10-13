@@ -1,4 +1,4 @@
-// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/moduledata
 // Identity: ModuleFactory registers this data class under "EntEnragedUpdate" (addModule
 // pairs the name with this factory); formerly misnamed EnragedUpdateModuleData.
 //
@@ -35,11 +35,16 @@ public:
 
 #define LogicFramesPerSecond BfmeLogicFramesPerSecond
 
+extern "C" const void *const vtbl_00C56980[];  // ??_7EntEnragedUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C56980=??_7EntEnragedUpdateModuleData@@6B@")
+
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
 	__declspec(dllimport) __forceinline UpdateModuleData() {}
-	~UpdateModuleData();
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };
@@ -66,7 +71,7 @@ private:
 
 // ??0EntEnragedUpdateModuleData@@QAE@XZ @0x4B249D
 EntEnragedUpdateModuleData::EntEnragedUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C56980))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C56980)))
 {
 	m_scanDelayTime = LogicFramesPerSecond;
 	m_scanDistance = 300.0f;

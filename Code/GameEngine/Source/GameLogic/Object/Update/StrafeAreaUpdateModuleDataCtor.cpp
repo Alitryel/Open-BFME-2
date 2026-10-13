@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/moduledata
 //
 // ??0StrafeAreaUpdateModuleData@@QAE@XZ, retail 0x003A4E5A, 117 bytes.
 //
@@ -26,11 +26,13 @@ typedef int Int;
 
 #include "ascii_string.h"
 
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
 	__declspec(dllimport) __forceinline UpdateModuleData() {}
-	~UpdateModuleData();
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };

@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX /Ireference/shims/moduledata
 //
 // W3DTornadoDrawModuleData file-unit (parse + ctor).
 //
@@ -16,8 +16,22 @@
 // Row supersedes the ctor pin.
 
 class MultiIniFieldParse;
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
 
+class INI
+{
+public:
+	static void parseUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+};
 
 class MultiIniFieldParse
 {
@@ -29,16 +43,30 @@ class RadiusDecalTemplate
 {
 public:
 	RadiusDecalTemplate();
+	static void parseRadiusDecalTemplate(INI *ini, void *instance, void *store, const void *userData);
 
 private:
 	unsigned char m_data[0x34];
 };
 
+// Retail VA 0x00BCE150 (.rdata): 3 field records and a zero sentinel.
+extern const FieldParse g_00BCE150[] = {
+	{ "DecalTemplate", &RadiusDecalTemplate::parseRadiusDecalTemplate, 0, 0x8 },
+	{ "DecalCount", &INI::parseUnsignedInt, 0, 0x3C },
+	{ "DecalMaxRadius", &INI::parseReal, 0, 0x40 },
+	{ 0, 0, 0, 0 }
+};
+
+extern "C" const void *const vtbl_00BCE198[];  // ??_7W3DTornadoDrawModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BCE198=??_7W3DTornadoDrawModuleData@@6B@")
+
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
 	__declspec(dllimport) __forceinline UpdateModuleData() {}
-	~UpdateModuleData();
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };
@@ -65,7 +93,7 @@ private:
 
 // ??0W3DTornadoDrawModuleData@@QAE@XZ @0x000D16B4
 W3DTornadoDrawModuleData::W3DTornadoDrawModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BCE198))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00BCE198)))
 {
 	m_decalCount &= 0;
 	m_decalMaxRadius = 200.0f;
@@ -74,5 +102,5 @@ W3DTornadoDrawModuleData::W3DTornadoDrawModuleData()
 // ?buildFieldParse@W3DTornadoDrawModuleData@@SAXAAVMultiIniFieldParse@@@Z @0x000D16A3
 void W3DTornadoDrawModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BCE150), 0);
+	parse.add(g_00BCE150, 0);
 }

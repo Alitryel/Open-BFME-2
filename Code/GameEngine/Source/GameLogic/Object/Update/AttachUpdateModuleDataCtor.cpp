@@ -1,4 +1,4 @@
-// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/moduledata
 // stlport
 //
 // ??0AttachUpdateModuleData@@QAE@XZ, retail 0x00491968, 167 bytes.
@@ -44,11 +44,16 @@ private:
 	int m_x;
 };
 
+extern "C" const void *const vtbl_00C4DD18[];  // ??_7AttachUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4DD18=??_7AttachUpdateModuleData@@6B@")
+
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
 	__declspec(dllimport) __forceinline UpdateModuleData() {}
-	~UpdateModuleData();
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 class AttachUpdateModuleData : public UpdateModuleData
@@ -76,7 +81,7 @@ private:
 
 // ??0AttachUpdateModuleData@@QAE@XZ @0x491968
 AttachUpdateModuleData::AttachUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C4DD18))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4DD18)))
 {
 	((_STL::bitset<128> *)m_parentStatus)->reset();
 	m_scanRange = 10.0f;

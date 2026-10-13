@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /GX /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /GX /DNDEBUG /MD /Ireference/shims/moduledata
 //
 // ??0BoneFXUpdateModuleData@@QAE@XZ, retail 0x00487797, 196 bytes.
 //
@@ -85,11 +85,16 @@ struct BoneParticleSystemInfo
 	const ParticleSystemTemplate *particleSysTemplate;
 };
 
+extern "C" const void *const vtbl_00C4B0E8[];  // ??_7BoneFXUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4B0E8=??_7BoneFXUpdateModuleData@@6B@")
+
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
 	__declspec(dllimport) __forceinline UpdateModuleData() {}
-	~UpdateModuleData();
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };
@@ -114,7 +119,7 @@ private:
 };
 
 BoneFXUpdateModuleData::BoneFXUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C4B0E8))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4B0E8)))
 {
 	Int i, j;
 	for (i = 0; i < BODYDAMAGETYPE_COUNT; ++i) {

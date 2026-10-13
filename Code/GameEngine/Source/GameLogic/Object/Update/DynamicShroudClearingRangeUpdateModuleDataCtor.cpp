@@ -1,4 +1,4 @@
-// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/moduledata
 //
 // ??0DynamicShroudClearingRangeUpdateModuleData@@QAE@XZ, retail 0x0048B5C6,
 // 82 bytes. ModuleData-side ctor in the DynamicShroud file-unit: the
@@ -21,11 +21,16 @@ private:
 	unsigned char m_data[0x34];
 };
 
+extern "C" const void *const vtbl_00C4BEF8[];  // ??_7DynamicShroudClearingRangeUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C4BEF8=??_7DynamicShroudClearingRangeUpdateModuleData@@6B@")
+
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
 	__declspec(dllimport) __forceinline UpdateModuleData() {}
-	~UpdateModuleData();
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 private:
 };
@@ -52,7 +57,7 @@ private:
 
 // ??0DynamicShroudClearingRangeUpdateModuleData@@QAE@XZ @0x48B5C6
 DynamicShroudClearingRangeUpdateModuleData::DynamicShroudClearingRangeUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C4BEF8))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4BEF8)))
 {
 	m_shrinkDelay = 0;
 	m_shrinkTime = 0;
