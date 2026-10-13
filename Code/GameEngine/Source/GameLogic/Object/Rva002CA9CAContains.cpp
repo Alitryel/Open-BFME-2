@@ -5,6 +5,19 @@
 // slot 0x1C gate, slot 0x28 id compare at +0x158, slot 0x2C child recurse.
 // Evidence: unlock lane, 4 callers including self 0x002CAA39, callees rowed,
 // prev Rva002CA88BParse.cpp flags.
+//
+// ?rva002CCED3@Weapon@@QAE_NPBVObject@@0@Z, retail 0x002CCED3, 244 bytes.
+// Whether the weapon (its template the Rva002CA9CA view above, at +4) may
+// fire for the source object: no template, or out of ammo (computeStatus
+// 0x002CC422 == 1) with template +0x128 set, refuses; when template byte
+// +0x168 is nonzero, a source whose rowed 0x0028B511 count reaches 16
+// refuses, and so does one the CastleBehavior module (rowed key
+// 0x003955DA) of the closest kind-0x78 object within 9999 (one
+// Rva0004584D mask filter temporary, getClosestObject 0x00625360) holds
+// (rowed 0x00396722 on the source's +0x74 id) while its byte +0x44 is set;
+// otherwise the template's rva002CAA59 decides. Callers 0x0041BAD2 and the
+// WeaponSet lock bodies; WB twin 0x00BB7AA0 (same checks, 9999.0f radius,
+// SetBit(0x78) mask over KINDOFMASK_NONE).
 class Rva00507823
 {
 public:
@@ -121,10 +134,19 @@ private:
 	Rva001E11F8 *m_c4;
 	char m_padc8[0x110 - 0xc8];
 	unsigned char m_110;
-	char m_pad111[0x130 - 0x111];
+	char m_pad111[0x128 - 0x111];
+	int m_128;
+	char m_pad12c[0x130 - 0x12c];
 	float m_130;
-	char m_pad134[0x17c - 0x134];
+	char m_pad134[0x168 - 0x134];
+	unsigned char m_168;
+	char m_pad169[0x17c - 0x169];
 	ListNode *m_17c;
+
+	friend class Weapon;
+public:
+	bool getAutoReloadsClip() const { return m_128 == 0; }
+	float getReal168() const { return m_168; }
 };
 
 class AsciiString;
@@ -315,4 +337,128 @@ void Rva002CA9CA::rva002CAC6E(int a, int b)
 			obj->v24(a, b);
 		cur = cur->m_next;
 	}
+}
+
+#include "../../Common/PartitionRangeQueryCallView.h"
+
+enum NameKeyType
+{
+	NAMEKEY_INVALID = 0
+};
+
+class Module;
+
+class Object
+{
+	friend class Weapon;
+public:
+	int rva0028B511() const;	// 0x0028B511
+	const Coord3D *getPosition() const { return (const Coord3D *)m_38; }
+	int getID() const { return m_74; }
+protected:
+	Module *findModule(NameKeyType key) const;	// 0x0028B6D6
+private:
+	char m_pad00[0x38];
+	float m_38[3];
+	char m_pad44[0x74 - 0x44];
+	int m_74;
+};
+
+class CastleBehavior
+{
+public:
+	static NameKeyType rva0003955DA();
+};
+
+// The CastleBehavior module as Rva00396722Contains.cpp rows its member test.
+class Rva00396722
+{
+public:
+	bool rva00396722(void *p);
+	bool getFlag44() const { return m_44; }
+	char m_pad00[0x44];
+	bool m_44;
+};
+
+// BFME 2's partition filters (the view AIPlayerIsLocationSafe.cpp documents).
+class Rva000421C8
+{
+public:
+	Rva000421C8() : m_next(0) {}
+	virtual ~Rva000421C8() {}
+	virtual bool allow(Object *obj) = 0;
+	virtual int getPlayerMask();
+	Rva000421C8 *m_next;
+};
+
+class BfmeFixedStorage0004543D
+{
+public:
+	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other) throw();
+private:
+	unsigned char m_bytes[28];
+};
+
+struct Rva00045411BitSet
+{
+	Rva00045411BitSet(int unused, int bit);	// 0x00045411
+	unsigned int m_bits[7];
+};
+
+template <int N> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
+
+// vftable 0x00BC2908: accept what has every kind of the first mask and none
+// of the second.
+class Rva0004584D : public Rva000421C8
+{
+public:
+	Rva0004584D(const BfmeFixedStorage0004543D &a, const BfmeFixedStorage0004543D &b) throw();
+	virtual bool allow(Object *obj);
+	BfmeFixedStorage0004543D m_08;
+	BfmeFixedStorage0004543D m_24;
+};
+
+extern PartitionManager *ThePartitionManager;
+
+enum WeaponStatus
+{
+	READY_TO_FIRE,
+	OUT_OF_AMMO
+};
+
+class Weapon
+{
+public:
+	WeaponStatus computeStatus(bool *a) const;	// 0x002CC422
+	bool rva002CCED3(const Object *victim, const Object *source);
+	Rva002CA9CA *getTemplate() const { return m_template; }
+private:
+	void *m_vtbl;
+	Rva002CA9CA *m_template;
+};
+
+bool Weapon::rva002CCED3(const Object *victim, const Object *source)
+{
+	(void)victim;
+	if (m_template == 0)
+		return false;
+	if (computeStatus(0) == OUT_OF_AMMO && !m_template->getAutoReloadsClip())
+		return false;
+	if (m_template->getReal168() != 0.0f)
+	{
+		if (source->rva0028B511() >= 16)
+			return false;
+		Object *castle = ThePartitionManager->getClosestObject(source->getPosition(), 9999.0f, 0,
+			&Rva0004584D(*(BfmeFixedStorage0004543D *)&Rva00045411BitSet(0, 0x78),
+				*(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE));
+		if (castle != 0)
+		{
+			NameKeyType key = CastleBehavior::rva0003955DA();
+			Rva00396722 *behavior = (Rva00396722 *)castle->findModule(key);
+			if (behavior != 0 && behavior->rva00396722((void *)source->getID()) && behavior->getFlag44())
+				return false;
+		}
+	}
+	return m_template->rva002CAA59((int)source, this);
 }
