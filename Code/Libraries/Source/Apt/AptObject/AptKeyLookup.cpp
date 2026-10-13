@@ -8,7 +8,7 @@
 // are retained; the animation/listener prefix remains a scoped receiver view.
 #include "AptScriptFunction.h"
 class BfmeAptValue006DCD20 {
-public: int isKey() const;int isCIH(bool=false) const; void setGCRootCount(unsigned int);
+public: int isKey() const;bool isCIH(bool=false) const; void setGCRootCount(unsigned int);
 };
 class Rva006DBB60ShrNAndField { public: bool get()const; };
 class Rva008A4570Owner { public: bool nameEquals(const char *); };
