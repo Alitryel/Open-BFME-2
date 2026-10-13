@@ -220,7 +220,7 @@ void Drawable::draw(View *view)
 		(*dm)->doDrawModule(&transformMtx);
 }
 
-static const char *TheDrawableIconNames[] = 
+const char *TheDrawableIconNames[] = 
 {
 	"DefaultHeal",
 	"StructureHeal",
