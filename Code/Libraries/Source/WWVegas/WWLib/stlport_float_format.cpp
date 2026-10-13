@@ -183,6 +183,13 @@ namespace _STL {
 template <> void __node_alloc<true, 0>::_M_deallocate(void *, size_t);
 }
 
+// Retail's one __malloc_alloc<0>::_S_oom_malloc is the /Od body at 0x00024200
+// (STLMallocAlloc0OutOfMemory.cpp). This unit's /O2 copy precedes it in link
+// order and would be kept for every unit that calls it: declare it instead.
+namespace _STL {
+template <> void * _STLP_CALL __malloc_alloc<0>::_S_oom_malloc(size_t);
+}
+
 _STLP_BEGIN_NAMESPACE
 
 // Note that grouping[0] is the number of digits in the *rightmost* group.
