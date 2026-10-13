@@ -24,5 +24,8 @@ struct BfmeStringRecord005DDD40 {
 };
 namespace _STL {
 template <> void _Construct<BfmeStringRecord005DDD40, BfmeStringRecord005DDD40>(BfmeStringRecord005DDD40 *, const BfmeStringRecord005DDD40 &);
+// The range-erase specialization is byte-verified in the separate erase unit.
+// Keep this explicit vector instantiation from emitting a competing body.
+template <> BfmeStringRecord005DDD40 *vector<BfmeStringRecord005DDD40, allocator<BfmeStringRecord005DDD40> >::erase(BfmeStringRecord005DDD40 *, BfmeStringRecord005DDD40 *);
 }
 template class _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >;

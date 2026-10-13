@@ -18,6 +18,8 @@ struct BfmeStringRecord005DDD40 {
 };
 namespace _STL {
 template <> void _Construct<BfmeStringRecord005DDD40, BfmeStringRecord005DDD40>(BfmeStringRecord005DDD40 *, const BfmeStringRecord005DDD40 &);
+// Calls use the separately verified 0x00381B1F range-erase specialization.
+template <> BfmeStringRecord005DDD40 *vector<BfmeStringRecord005DDD40, allocator<BfmeStringRecord005DDD40> >::erase(BfmeStringRecord005DDD40 *, BfmeStringRecord005DDD40 *);
 }
 extern _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> > g_00E022F8[2];
 
