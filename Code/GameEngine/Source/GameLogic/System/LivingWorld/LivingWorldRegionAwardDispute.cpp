@@ -7,7 +7,7 @@
 // deliberately opaque. GameSlot's host player id at +0x4C is read by both images.
 // STLport 4.5.3 pointer find / __find are ordinary typed instantiations; their
 // complete 27 / 103 B bodies and relocations fold to the established owners.
-// cl: /O1 /G7 /arch:SSE
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfmealloc
 // stlport
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.

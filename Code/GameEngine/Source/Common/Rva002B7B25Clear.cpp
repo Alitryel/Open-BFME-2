@@ -1,4 +1,4 @@
-// cl: /O1
+// cl: /O1 /Ireference/shims/bfmealloc
 // stlport
 // ?rva002B7B25@Rva002B7B25@@QAEXXZ retail 0x002B7B25 76 bytes.
 // Chain lane: erase vector at +0x10c via rowed STL erase 0x0031BD55,

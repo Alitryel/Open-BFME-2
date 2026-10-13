@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /EHsc /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /O1 /G7 /EHsc /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // Owned-pointer list teardown, native copies of one shape: walk a
 // vector<void *> of polymorphic owned objects, run each one's slot-0 deleteInstance(0) (null
