@@ -485,6 +485,45 @@ bool AptPlayer::RemoveLevel(int index)
  return true;
 }
 
+// Native 2238E6..2239AD RET4; WB B8F570 (AptPlayer.cpp:158, unnamed) shows the
+// same tooltip lookup. The owner is the lazy holder object returned by
+// rva00224D80 (AptButtonTooltipMap per its constructor); its name map at +0x0C
+// may redirect the key, then GameText slot 0x38 fetches "TOOLTIP:"+key and
+// the mouse tooltip setter 0x001EEA6D receives the text when it was found.
+// The early return on a missing string is a target fact: it gives retail's
+// frame homes (key temporary at EBP-18, text at EBP-14).
+struct Rva002226E5TextPlusString { Rva002226E5TextPlusString() {} const char *text; int length; const AsciiString *string; operator AsciiString(); };
+Rva002226E5TextPlusString operator+(const char *, const AsciiString &);
+class GameText {
+public:
+#define GAME_TEXT_SLOT(n) virtual void gameTextSlot##n();
+ GAME_TEXT_SLOT(0) GAME_TEXT_SLOT(1) GAME_TEXT_SLOT(2) GAME_TEXT_SLOT(3) GAME_TEXT_SLOT(4)
+ GAME_TEXT_SLOT(5) GAME_TEXT_SLOT(6) GAME_TEXT_SLOT(7) GAME_TEXT_SLOT(8) GAME_TEXT_SLOT(9)
+ GAME_TEXT_SLOT(10) GAME_TEXT_SLOT(11) GAME_TEXT_SLOT(12) GAME_TEXT_SLOT(13)
+#undef GAME_TEXT_SLOT
+ virtual UnicodeString fetch(const AsciiString &label, bool *exists);
+};
+extern GameText *TheGameText;
+class Rva00224CDC {
+public:
+ void rva002238E6(AsciiString name);
+private:
+ char m_pad[0xc];
+ Rva00056F61 m_tooltipNames; // +0x0C
+};
+void Rva00224CDC::rva002238E6(AsciiString name)
+{
+ Rva00056F61 *table = &m_tooltipNames;
+ void *node = table->rva00056F61(&name);
+ if (node)
+  name = *(AsciiString *)((char *)node + 8);
+ bool found = false;
+ UnicodeString text = TheGameText->fetch("TOOLTIP:" + name, &found);
+ if (!found)
+  return;
+ TheMouse->rva001EEA6D(text, -1, 0, 1.0f);
+}
+
 #include "unicode_string.h"
 #include "GameWindowManagerRecordView.h"
 #include <list>
