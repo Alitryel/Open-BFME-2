@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /O1 /arch:SSE /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/moduledata
 //
 // ??0RadiateFearUpdateModuleData@@QAE@XZ, retail 0x0049C06C, 120 bytes.
 // RadiateFear ModuleData: own table at 0x00C510B8 carries InitiallyActive
@@ -13,6 +13,11 @@
 // 0x00DFEFA4 through the rowed 0x4543D copy): the VictimFilter member
 // builds through the 0x3623E5 pin and the +0x20 member through the rowed
 // 0x25342C construct.
+
+extern "C" const void *const vtbl_00C50FF0[];  // ??_7RadiateFearUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C50FF0=??_7RadiateFearUpdateModuleData@@6B@")
+
+#include "Common/Snapshot.h"
 
 extern unsigned char g_00DFEFA4StoragePrototype[28];
 
@@ -45,14 +50,9 @@ public:
 class UpdateModuleData
 {
 public:
-	UpdateModuleData();
-	~UpdateModuleData();
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
-
-// ?UpdateModuleData::UpdateModuleData present-unmatched
-inline UpdateModuleData::UpdateModuleData()
-{
-}
 
 class RadiateFearUpdateModuleData : public UpdateModuleData
 {
@@ -78,7 +78,7 @@ private:
 
 // ??0RadiateFearUpdateModuleData@@QAE@XZ @0x0049C06C
 RadiateFearUpdateModuleData::RadiateFearUpdateModuleData()
-	: m_vtable((void *)0x00C50FF0)
+	: m_vtable((void *)((unsigned int)vtbl_00C50FF0))
 	, m_initiallyActive(false)
 	, m_whichSpecialPower(-1)
 	, m_generateTerror(0)

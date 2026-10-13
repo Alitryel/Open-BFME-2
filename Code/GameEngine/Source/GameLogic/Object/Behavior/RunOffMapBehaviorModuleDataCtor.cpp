@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/shims/moduledata
 //
 // ??0RunOffMapBehaviorModuleData@@QAE@XZ, retail 0x00254ECE (86 bytes).
 // The module-data half of RunOffMapBehavior: vtable 0x00BF3298,
@@ -14,13 +14,16 @@
 
 #include "ascii_string.h"
 
+extern "C" const void *const vtbl_00BF3298[];  // ??_7RunOffMapBehaviorModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF3298=??_7RunOffMapBehaviorModuleData@@6B@")
+
+#include "Common/Snapshot.h"
+
 class UpdateModuleData
 {
 public:
-	UpdateModuleData()
-	{
-	}
-	~UpdateModuleData();
+	__declspec(dllimport) __forceinline UpdateModuleData() {}
+	~UpdateModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 
@@ -41,7 +44,7 @@ private:
 
 // ??0RunOffMapBehaviorModuleData@@QAE@XZ @0x254ECE
 RunOffMapBehaviorModuleData::RunOffMapBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BF3298))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00BF3298)))
 {
 	m_dieOnMap = false;
 	m_runToLocation = 10.0f;
