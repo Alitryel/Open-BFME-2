@@ -112,3 +112,9 @@ Rva003438C7::Rva003438C7(Object *owner, Rva003438C7Host *host, UnsignedInt nameK
             defineState(600,new AIAttackApproachTargetState00C12678(this),601,9999);
     } else defineState(600,new Rva004D7491(this),9999,9999);
 }
+
+// The destructor restores vtable 0x00811C90 and tail-calls the base; slot 0
+// of that vtable is the deleting destructor 0x00343A6A.
+Rva003438C7::~Rva003438C7()
+{
+}

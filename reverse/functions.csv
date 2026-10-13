@@ -7318,12 +7318,12 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ??1Rva0033FB73@@UAE@XZ,,0x0033FB73,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1Rva0033FB84@@UAE@XZ,,0x0033FB84,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1Rva0033FB95@@UAE@XZ,,0x0033FB95,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
-??1Rva0033FBA6@@UAE@XZ,,0x0033FBA6,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
+??1Rva003438C7@@UAE@XZ,,0x0033FBA6,11,Code/GameEngine/Source/GameLogic/AI/Rva003438C7AttackStateMachine.cpp,matched,dtor of the 0x003438C7 machine: restores the vtable 0x00811C90 its constructor installs and tail-calls StateMachine 0x004D759C
 ??1Rva0033FC0A@@UAE@XZ,,0x0033FC0A,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1Rva0034004C@@UAE@XZ,,0x0034004C,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1Rva003402D0@@UAE@XZ,,0x003402D0,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1Rva0034144B@@UAE@XZ,,0x0034144B,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
-??1Rva003677B3@@UAE@XZ,,0x003677B3,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
+??1Rva003676A2@@UAE@XZ,,0x003677B3,11,Code/GameEngine/Source/GameLogic/AI/Rva003676A2MachineCtor.cpp,matched,dtor of the 0x003676A2 machine: restores the vtable 0x008174E0 its constructor installs and tail-calls StateMachine 0x004D759C
 ??1Rva0048898C@@UAE@XZ,,0x0048898C,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1SupplyTruckStateMachine@@UAE@XZ,,0x004A6C59,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,derived dtor: stores vtable 0x008532A8 (installed by the rowed ctor 0x004A7010; slot 2 returns the name string SupplyTruckStateMachine) then tail-jmps to ~StateMachine
 ??1Rva004A9964@@UAE@XZ,,0x004A9964,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
@@ -11130,7 +11130,7 @@ _math_mod,,0x007485A0,65,Code/Libraries/Source/Lua/lmathlib.c,matched,Lua math.m
 ??_GRva0033FB73@@UAEPAXI@Z,,0x00343723,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva0033FB84@@UAEPAXI@Z,,0x0034381C,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva0033FB95@@UAEPAXI@Z,,0x003438AB,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
-??_GRva0033FBA6@@UAEPAXI@Z,,0x00343A6A,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
+??_GRva003438C7@@UAEPAXI@Z,,0x00343A6A,28,Code/GameEngine/Source/GameLogic/AI/Rva003438C7AttackStateMachine.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva0033FC0A@@UAEPAXI@Z,,0x00343C9E,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ?get@Rva0048E84BAddDwordField@@QBEHXZ,,0x0048E84B,7,Code/GameEngine/Source/Common/Disp8AddDwordFieldGetters.cpp,matched,disp8 add dword getter; opaque holder
 ?name@Rva00414307Named@@QBEPBDXZ,,0x00414307,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning ScoredKillEvaAnnouncer; vtable ref in .rdata; address-derived placeholder name
@@ -11197,7 +11197,7 @@ _math_rad,,0x00748740,38,Code/Libraries/Source/Lua/lmathlib.c,matched,Lua math.r
 ??_GRva0026201C@@UAEPAXI@Z,,0x00262077,28,Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva002D22CA@@UAEPAXI@Z,,0x002D23D1,28,Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva0034144B@@UAEPAXI@Z,,0x003460BF,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
-??_GRva003677B3@@UAEPAXI@Z,,0x0036898C,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
+??_GRva003676A2@@UAEPAXI@Z,,0x0036898C,28,Code/GameEngine/Source/GameLogic/AI/Rva003676A2MachineCtor.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva0041B8C7@@UAEPAXI@Z,,0x0041BBC8,28,Code/GameEngine/Source/Common/GameEngineDeletingBaseDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva00485983@@UAEPAXI@Z,,0x00485B80,28,Code/GameEngine/Source/Common/Rva0048593DDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva0048898C@@UAEPAXI@Z,,0x00488EE0,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact

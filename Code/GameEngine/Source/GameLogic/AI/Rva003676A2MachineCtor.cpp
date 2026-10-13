@@ -141,6 +141,12 @@ static __forceinline Bool rva0036890EAttacking(const Rva0036890EObject *owner)
 	}
 	return false;
 }
+// The destructor restores vtable 0x008174E0 and tail-calls the base; slot 0
+// of that vtable is the deleting destructor 0x0036898C.
+Rva003676A2::~Rva003676A2()
+{
+}
+
 Bool Rva003676A2::isInAttackState() const
 {
 	const Rva0036890EMachine *machine = (const Rva0036890EMachine *)this;

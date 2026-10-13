@@ -75,16 +75,6 @@ Rva0033FB95::~Rva0033FB95()
 {
 }
 
-class Rva0033FBA6 : public StateMachine
-{
-public:
-	virtual ~Rva0033FBA6();
-};
-
-Rva0033FBA6::~Rva0033FBA6()
-{
-}
-
 class Rva0033FC0A : public StateMachine
 {
 public:
@@ -122,16 +112,6 @@ public:
 };
 
 Rva0034144B::~Rva0034144B()
-{
-}
-
-class Rva003677B3 : public StateMachine
-{
-public:
-	virtual ~Rva003677B3();
-};
-
-Rva003677B3::~Rva003677B3()
 {
 }
 
