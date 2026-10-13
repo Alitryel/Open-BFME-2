@@ -72,11 +72,7 @@ public:
 
 // The three-word value the record copies; its constructor is rowed at
 // 0x005CC49A under WWMath's ICoord3D, which this body shares.
-struct ICoord3D
-{
-	ICoord3D(int x, int y, int z);
-	int x, y, z;
-};
+#include "../../../Libraries/Include/Lib/ICoord3D.h"
 
 struct Rva005E8C54Source
 {

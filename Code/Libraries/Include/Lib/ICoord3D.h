@@ -9,6 +9,8 @@ struct ICoord3D {
     int y;
     int z;
     ICoord3D() {}
+    // Byte-verified owner in icoord.cpp (0x5CC49A).
+    ICoord3D(int x, int y, int z);
 };
 
 #endif // CANONICAL_ICOORD3D_H

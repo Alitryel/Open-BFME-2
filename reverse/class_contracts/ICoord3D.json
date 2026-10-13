@@ -4,6 +4,16 @@
  "class": "ICoord3D",
  "evidence": {
   "census": 29,
+  "method_declarations": [
+   {
+    "decided_by": "byte-verified ledger owner (functions.csv matched, retail export ??0ICoord3D@@QAE@HHH@Z); declaration only, no layout change; Rva005E8C54 (0x005E8C54) and AIGuardMachine guard-position code construct ICoord3D from three ints",
+    "declaration": "ICoord3D(int x, int y, int z);",
+    "name": "??0ICoord3D@@QAE@HHH@Z",
+    "rva": "0x005CC49A",
+    "size": 25,
+    "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp"
+   }
+  ],
   "retail_access": {
    "0x0": {
     "4": 2

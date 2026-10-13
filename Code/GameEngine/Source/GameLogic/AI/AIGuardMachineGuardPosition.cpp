@@ -73,13 +73,10 @@ __forceinline long fast_float2long_round(Real f)
 #define COORD3D_VIEW_INLINE
 #include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
-// struct, as Lib/ICoord3D.h and PolygonTrigger::pointInTrigger's owner spell it.
-struct ICoord3D
-{
-	// dllimport+forceinline: expanded here, never emitted against icoord.cpp's strong copy (0x005CC49A).
-	__declspec(dllimport) __forceinline ICoord3D(Int ix, Int iy, Int iz) : x(ix), y(iy), z(iz) {}
-	Int x, y, z;
-};
+#include "../../../../Libraries/Include/Lib/ICoord3D.h"
+// Retail expands the three-int construction here instead of calling
+// icoord.cpp's owner (0x005CC49A).
+static __forceinline void setICoord3D(ICoord3D &c, Int ix, Int iy, Int iz) { c.x = ix; c.y = iy; c.z = iz; }
 
 class ThingTemplate
 {
@@ -411,7 +408,8 @@ Bool AIGuardMachine::lookForInnerTarget()
 	if (area)
 	{
 		Coord3D center = m_bfmeAreaCenter;
-		ICoord3D icenter(REAL_TO_INT_FLOOR(center.x), REAL_TO_INT_FLOOR(center.y),
+		ICoord3D icenter;
+		setICoord3D(icenter, REAL_TO_INT_FLOOR(center.x), REAL_TO_INT_FLOOR(center.y),
 			REAL_TO_INT_FLOOR(center.z));
 		if (m_bfmeAreaCenterValid && !((PolygonTrigger *)area)->pointInTrigger(icenter))
 		{
