@@ -7,7 +7,9 @@
 // when the hint cannot prove a neighboring slot. It compares the first
 // unsigned dword, returns an 8-byte iterator/flag record, and inserts through
 // the rowed worker at 0x00079AB9. The owning container and full value layout
-// remain unknown; names are address-derived.
+// remain unknown; names are address-derived. The keys compare with a plain
+// unsigned <: an instantiated less<unsigned> would emit this unit's /O1 copy,
+// which is not retail's (0x00758C50) and loses at link time.
 #include <map>
 
 class Rva00079D14Value;
@@ -58,8 +60,7 @@ Rva00079D14Out Rva00079D14Tree::rva00079B41(
 	bool comp = true;
 	while (x != 0) {
 		y = x;
-		comp = _STL::less<unsigned int>()(
-			*(const unsigned int *)&value, x->_key);
+		comp = *(const unsigned int *)&value < x->_key;
 		x = comp ? x->_left : x->_right;
 	}
 	Rva00079D14Iter j;
@@ -68,9 +69,7 @@ Rva00079D14Out Rva00079D14Tree::rva00079B41(
 		return Rva00079D14Out(rva00079AB9(y, y, value, 0), true);
 	if (comp)
 		--j;
-	if (_STL::less<unsigned int>()(
-		((Rva00079D14Node *)j._M_node)->_key,
-		*(const unsigned int *)&value))
+	if (((Rva00079D14Node *)j._M_node)->_key < *(const unsigned int *)&value)
 		return Rva00079D14Out(rva00079AB9(x, y, value, 0), true);
 	return Rva00079D14Out(j, false);
 }

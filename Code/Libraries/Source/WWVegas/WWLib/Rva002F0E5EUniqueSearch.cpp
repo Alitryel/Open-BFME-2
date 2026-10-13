@@ -7,7 +7,9 @@
 // when the hint cannot prove a neighboring slot. It compares the first
 // unsigned dword, returns an 8-byte iterator/flag record, and inserts through
 // the rowed worker at 0x002F0DD6. The owning container and full value layout
-// remain unknown; names are address-derived.
+// remain unknown; names are address-derived. The keys compare with a plain
+// unsigned <: an instantiated less<unsigned> would emit this unit's /O1 copy,
+// which is not retail's (0x00758C50) and loses at link time.
 #include <map>
 
 class Rva002F1DDCValue;
@@ -58,8 +60,7 @@ Rva002F1DDCOut Rva002F1DDCTree::rva002F0E5E(
 	bool comp = true;
 	while (x != 0) {
 		y = x;
-		comp = _STL::less<unsigned int>()(
-			*(const unsigned int *)&value, x->_key);
+		comp = *(const unsigned int *)&value < x->_key;
 		x = comp ? x->_left : x->_right;
 	}
 	Rva002F1DDCIter j;
@@ -68,9 +69,7 @@ Rva002F1DDCOut Rva002F1DDCTree::rva002F0E5E(
 		return Rva002F1DDCOut(rva002F0DD6(y, y, value, 0), true);
 	if (comp)
 		--j;
-	if (_STL::less<unsigned int>()(
-		((Rva002F1DDCNode *)j._M_node)->_key,
-		*(const unsigned int *)&value))
+	if (((Rva002F1DDCNode *)j._M_node)->_key < *(const unsigned int *)&value)
 		return Rva002F1DDCOut(rva002F0DD6(x, y, value, 0), true);
 	return Rva002F1DDCOut(j, false);
 }
