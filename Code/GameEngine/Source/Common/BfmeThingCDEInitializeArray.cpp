@@ -7,6 +7,9 @@
 // BfmeThingCDEDestructor.cpp: this body needs /EHsc for the array-new EH
 // frame where its siblings verify under /EHs-c-.
 
+void *__cdecl operator new[](unsigned int);
+void __cdecl operator delete[](void*);
+
 struct CDEArraySlot
 {
 	CDEArraySlot();
@@ -32,9 +35,6 @@ public:
 	void *m_array;
 	int m_count;
 };
-
-void *__cdecl operator new[](unsigned int);
-void __cdecl operator delete[](void*);
 
 void BfmeThingCDE::initializeArray(int count)
 {
