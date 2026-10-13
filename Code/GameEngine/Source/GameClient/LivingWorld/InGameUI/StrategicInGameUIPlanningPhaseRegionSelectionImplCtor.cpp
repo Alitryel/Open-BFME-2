@@ -1,3 +1,6 @@
+// The complete native parents and associative EH code/data graphs prove
+// the naturally emitted handlers recorded with this unit. Each has one
+// primary owner and its full 10-byte extent.
 // cl: /O1 /DNDEBUG /MD /EHsc
 //
 // ??0Rva005CF27A@@QAE@PAVRva005CF7BF@@HHHHHHHH@Z, retail 0x005CF27A..
