@@ -564,8 +564,21 @@ def _literal_sites(text):
     for found in COMMENT_OR_STRING.finditer(text):
         masked[found.start():found.end()] = " " * (found.end() - found.start())
     masked = "".join(masked)
-    return [(m.start(), m.end(), int(m.group(1), 0), m.group(1).lower().startswith("0x"))
+    return [(m.start(), m.end(), _c_integer(m.group(1)), m.group(1).lower().startswith("0x"))
             for m in LITERAL.finditer(masked)]
+
+
+def _c_integer(literal):
+    """A C integer literal's value: a leading 0 makes it octal ("01", "0777"),
+    which int(_, 0) refuses."""
+    if literal.lower().startswith("0x"):
+        return int(literal, 16)
+    if len(literal) > 1 and literal.startswith("0"):
+        try:
+            return int(literal, 8)
+        except ValueError:  # "08": not valid C either; keep its decimal reading
+            return int(literal, 10)
+    return int(literal, 10)
 
 
 LOCAL_DECL = re.compile(r"^\s*(?:const\s+|unsigned\s+|signed\s+|struct\s+|class\s+)*[A-Za-z_][\w:<>,\s]*?[\s*&]+"
