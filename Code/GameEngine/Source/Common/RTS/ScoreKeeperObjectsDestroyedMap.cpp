@@ -8,6 +8,17 @@
 // allocator gives the native tree base; /EHs gives the native frame.
 #include <map>
 class ThingTemplate;
+// The tree units (ScoreKeeper.cpp, ScoreKeeper_insert_unique.cpp) keep these
+// node allocators out of line under /O2; this /O1 unit calls them rather
+// than emitting its own differing copy first in link order.
+namespace _STL {
+template <> _Rb_tree_node<pair<const ThingTemplate *const, int> > *
+allocator<_Rb_tree_node<pair<const ThingTemplate *const, int> > >::allocate(size_t, const void *) const;
+template <> _Rb_tree_node<pair<const ThingTemplate *const, int> > *
+_STLP_alloc_proxy<_Rb_tree_node<pair<const ThingTemplate *const, int> > *,
+    _Rb_tree_node<pair<const ThingTemplate *const, int> >,
+    allocator<_Rb_tree_node<pair<const ThingTemplate *const, int> > > >::allocate(size_t);
+}
 typedef _STL::map<const ThingTemplate*,int> ScoreCountMap;
 class ScoreKeeper {
  char pad00[0x1fc];
