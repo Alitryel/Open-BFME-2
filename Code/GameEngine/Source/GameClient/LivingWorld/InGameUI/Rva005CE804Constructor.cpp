@@ -1,3 +1,6 @@
+// The complete native parents and associative EH code/data graphs prove
+// the naturally emitted handlers recorded with this unit. Each has one
+// primary owner and its full 10-byte extent.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // Native 005CE804..005CE874,112B: six-argument constructor called by
 // unrowed005759A5. Address-derived identity retained from prior attempt;
