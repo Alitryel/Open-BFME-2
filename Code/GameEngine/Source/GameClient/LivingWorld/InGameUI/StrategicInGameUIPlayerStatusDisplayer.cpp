@@ -59,7 +59,7 @@ GameMessageDisposition StrategicInGameUI::PlayerStatusDisplayer::rva005CD690(con
 // rowed 0x002B254F check does not hold, the player status screen opens
 // (0x00523592) and the answer is true. 0x00523592 only reads the screen's
 // global (0x00E04934) and never ECX, so it is called as the static it is
-// (pinned); the 0x002B254F result is the byte retail tests.
+// (rowed in StrategicPlayerStatusCallbacks.cpp); the 0x002B254F result is the byte retail tests.
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 
@@ -72,7 +72,7 @@ public:
 class StrategicPlayerStatus
 {
 public:
-	static void rva00523592Open();
+	static void rva00523592();
 };
 
 bool StrategicInGameUI::PlayerStatusDisplayer::rva005CD625()
@@ -81,6 +81,6 @@ bool StrategicInGameUI::PlayerStatusDisplayer::rva005CD625()
 		return false;
 	if ((unsigned char)reinterpret_cast<Rva002B254F *>(TheLivingWorldLogic)->rva002B254F())
 		return false;
-	StrategicPlayerStatus::rva00523592Open();
+	StrategicPlayerStatus::rva00523592();
 	return true;
 }

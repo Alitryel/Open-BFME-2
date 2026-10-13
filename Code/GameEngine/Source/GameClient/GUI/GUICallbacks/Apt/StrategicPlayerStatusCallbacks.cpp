@@ -289,8 +289,10 @@ class StrategicPlayerStatus
 {
 public:
 	void OnCloseWindow(const char *unused);
-	void rva005234AD();
-	void rva00523592();
+	// Neither reads ECX: 0x00523592's one caller (0x005CD63E) leaves a
+	// clobbered ECX and 0x005234AD is reached only by its tail jump.
+	static void rva005234AD();
+	static void rva00523592();
 	// Bound as "StrategicPlayerStatus::PlayerIndex" (query 0),
 	// "...::NumAlliedPlayers" (1) and "...::NumEnemyPlayers" (2), so it
 	// keeps its address.
