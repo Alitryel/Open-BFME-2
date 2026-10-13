@@ -1,11 +1,14 @@
 // ?HandleOverButtons@AptPlayer@@QAEXXZ
-// partial score=0.949 date=2026-10-13
-// ?HandleOverButtons@AptPlayer@@QAEXXZ
-// partial score=0.92 date=2026-10-09
-// cl: /O1 /G7 /GX /MD /arch:SSE /DNDEBUG /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP=
+// partial score=0.95 date=2026-10-13
+// cl: /Ireference/shims/bfmealloc /O1 /G7 /GX /MD /arch:SSE /DNDEBUG /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
+#define strchr _stlport_hides_strchr
+#define sprintf _stlport_hides_sprintf
 #include <utility>
+#include <new>
 #include "ascii_string.h"
+#undef strchr
+#undef sprintf
 struct TargetRef00217D4C { virtual void *destroy(unsigned); int references; };
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct TreeHintRef00222C5A {
@@ -85,6 +88,9 @@ TreeHintRef002BF0D6 &Rva002BFC59::rva002BFC59(const AsciiString &key)
 typedef bool Bool;
 
 class AptFocusTarget;
+class GameWindow;
+class Image;
+struct AptLayoutInfoView;
 
 // STLport vector<AptFocusTarget *> view.
 class AptFocusStack
@@ -103,6 +109,7 @@ class AptRefCounted { public: void *m_vtbl; int m_refCount; };
 class AptCommandMap : public AptRefCounted {};
 class AptCustomRender : public AptRefCounted {};
 class AptTimer : public AptRefCounted {};
+class AptExternHandler : public AptRefCounted {};
 class AptOverButtonHandler : public AptRefCounted {};
 template <class T> class AptRef {
 public:
@@ -134,17 +141,24 @@ class Rva00062908Host {public:
   void rva00222647(int,const AsciiString &,const AsciiString &,int);
   AsciiString m_s0,m_s4;
   int m_8,m_c;
-  unsigned char m_pad10[0x14],m_flags,m_tail[3]; // +0x10: per-level button map
+  unsigned char m_pad10[0x14],m_flags,m_tail[3];
  };
 };
 struct AptLevelOverrideNode {void *next; AsciiString key; int index;};
 class AptPlayer
 {
 public:
+ static int GetLevelIndex(GameWindow *window);
+ GameWindow *WinCreate(const AsciiString *name,AptLayoutInfoView *layout);
+ bool ShowLevel(int index);
+ bool UnloadLevel(int index);
+ bool HideLevel(int index);
+ bool RemoveLevel(int index);
+ void GetExtern(const char *name,char *out);
+ const Image *FindRenderImage(const char *targetName,const char *parameters);
 	void PopFocus(AptFocusTarget *target);
- void HandleOverButtons();
  void SetExtern(const char *name,int value);
- void rva00223E4B(const char *name,char *value);
+ void HandleOverButtons();
 // Native vtable BE6E80 has AddLevel at +50 (entry 20). Earlier slots
  // are declaration-only positions; their original names and hierarchy remain unknown.
 #define APT_PLAYER_SLOT(n) virtual void aptPlayerSlot##n();
@@ -157,6 +171,7 @@ public:
  void AddCommandMap(const AsciiString &name, AptRef<AptCommandMap> map);
  void AddCustomRender(const AsciiString &name, AptRef<AptCustomRender> render);
  void AddTimer(const AsciiString &name, AptRef<AptTimer> timer);
+ void AddExternHandler(const AsciiString &name,int context,AptRef<AptExternHandler> handler);
  void AddOverButtonHandler(const AsciiString &name, AptRef<AptOverButtonHandler> handler);
 
 private:
@@ -266,7 +281,7 @@ int AptPlayer::AddLevel(AsciiString directory,AsciiString file,bool show,int par
  }
  if(static_cast<unsigned>(level)>=14) return 0;
  if(m_levelData[level].m_c!=-1) return -1;
- if(!directory.endsWith("\\") && !directory.endsWith("/")) directory.concat("\\");
+ if(!directory.endsWith("\\") && !directory.endsWith("/")) reinterpret_cast<StringBase<char> *>(&directory)->concat("\\");
  m_levelData[level].rva00222647(level,directory,file,parameter);
  *static_cast<int *>(reinterpret_cast<Rva002235F3 *>(m_pad05c)->rva002235F3(&file))=level;
  if(show) {
@@ -276,33 +291,317 @@ int AptPlayer::AddLevel(AsciiString directory,AsciiString file,bool show,int par
  return level;
 }
 
-extern "C" char *__cdecl strcpy(char *,const char *);
-// Native223E4B..223F4B: query prefixes return extern/fscommand/0;
-// normal lookup resolves map20 then SkipLevelN and invokes node8 with
-// contextC, output buffer, and zero. Original query method name unproven.
-void AptPlayer::rva00223E4B(const char *name,char *value)
+// WorldBuilder B958E0 names the static level-index query. Native
+// 222547..222597 returns -1, 14, or the integer at reply+274.
+typedef unsigned int UnsignedInt;
+typedef unsigned int WindowMsgData;
+
+enum WindowMsgHandledType
 {
- if(!name || !value) return;
- value[0]=0;
- if(name[0]=='?') {
-  ++name;
-  Rva0041534BIter found=reinterpret_cast<AptExternTable *>(m_commandMap+0x14)->find(AsciiString(AptUtils::SkipLevelN(name)));
-  if(found.m_node) strcpy(value,"extern");
-  else {
-   Rva0041534BIter command=reinterpret_cast<AptExternTable *>(m_commandMap)->find(AsciiString(name));
-   if(command.m_node) strcpy(value,"fscommand");
-   else strcpy(value,"0");
-  }
- } else {
-  Rva0041534BIter found=reinterpret_cast<AptExternTable *>(m_commandMap+0x14)->find(AsciiString(name));
-  if(!found.m_node) {
-   found=reinterpret_cast<AptExternTable *>(m_commandMap+0x14)->find(AsciiString(AptUtils::SkipLevelN(name)));
-  }
-  if(found.m_node) {
-   AptExternNode *node=static_cast<AptExternNode *>(found.m_node);
-   node->handle.invoke(node->context,(int)value,0);
+	MSG_IGNORED,
+	MSG_HANDLED
+};
+
+class UnicodeString;
+class GameWindow {
+public:
+ GameWindow *winGetParent();
+ virtual int winSetText(UnicodeString);
+ unsigned char m_pad04[0x1f4-4];
+ void *m_field1f4;
+ unsigned char m_pad1f8[0x270-0x1f8];
+ AsciiString m_name;
+};
+
+class GameWindowManager
+{
+public:
+#define V(n) virtual void pad##n() = 0;
+	V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7)
+	V(8) V(9) V(10) V(11) V(12) V(13) V(14) V(15)
+	V(16) V(17) V(18) V(19) V(20) V(21) V(22) V(23)
+	V(24) V(25) V(26) V(27) V(28) V(29) V(30) V(31)
+	V(32) V(33) V(34) V(35) V(36) V(37) V(38) V(39)
+	virtual void windowHiding(GameWindow *window) = 0;
+	V(41) V(42) V(43) V(44) V(45) V(46) V(47)
+	virtual GameWindow *winGetFocus() = 0;
+	virtual int winSetFocus(GameWindow *window) = 0;
+	V(50) V(51) V(52) V(53) V(54) V(55)
+	V(56) V(57)
+#undef V
+	virtual WindowMsgHandledType winSendSystemMsg(GameWindow *window, UnsignedInt msg, WindowMsgData mData1, WindowMsgData mData2) = 0;
+};
+
+extern GameWindowManager *TheWindowManager;
+
+struct Rva00222547Out
+{
+	char m_pad[0x274];
+	int m_result;
+};
+
+int AptPlayer::GetLevelIndex(GameWindow *w)
+{
+	if (w == 0)
+		return -1;
+	Rva00222547Out *out = 0;
+	for (;;)
+	{
+		if (w == 0)
+			return 14;
+		TheWindowManager->winSendSystemMsg(w, 29, 2000, (WindowMsgData)&out);
+		w = w->winGetParent();
+		if (out == 0)
+			continue;
+		return out->m_result;
+	}
+}
+
+bool Rva004128F0GetParam(const char *,const char *,AsciiString &);
+extern "C" __declspec(dllimport) char *__cdecl strchr(const char *,int);
+class ImageCollection { public: const Image *findImageByName(const AsciiString &); };
+extern ImageCollection *TheMappedImageCollection;
+struct AptImageNode { void *next; AsciiString key; const Image *image; };
+// WB B92F00 names the resolver. Native223AC4..223BF6 proves image map90
+// and the temporary truncation before ~ (or its preceding slash).
+const Image *AptPlayer::FindRenderImage(const char *targetName,const char *parameters)
+{
+ AsciiString imageName;
+ if(parameters) Rva004128F0GetParam(parameters,"_imageMap",imageName);
+ else imageName=targetName;
+ if(!imageName.isEmpty()) {
+  AptImageNode *node=static_cast<AptImageNode *>(reinterpret_cast<Rva00056F61 *>(m_pad05c+0x34)->find(imageName).m_node);
+  if(node) return node->image;
+  if(TheMappedImageCollection) {
+   const Image *image=TheMappedImageCollection->findImageByName(imageName);
+   if(image) return image;
   }
  }
+ targetName=AptUtils::SkipLevelN(targetName);
+ if(!*targetName) return 0;
+ Rva0041534BIter it=reinterpret_cast<Rva00056F61 *>(m_pad05c+0x34)->find(AsciiString(targetName));
+ if(!it.m_node) {
+  char *delimiter=strchr(targetName,'~');
+  if(!delimiter) return 0;
+  if(delimiter[-1]=='/') --delimiter;
+  char saved=*delimiter;
+  *delimiter=0;
+  it=reinterpret_cast<Rva00056F61 *>(m_pad05c+0x34)->find(AsciiString(targetName));
+  *delimiter=saved;
+  if(!it.m_node) return 0;
+ }
+ return static_cast<AptImageNode *>(it.m_node)->image;
+}
+
+// Existing 22402A owns an eight-byte mapped {reference word,index} value.
+// Only a call projection is needed here; its first word follows AptRef's
+// proven intrusive retain/release ABI and the second is a plain context.
+class Rva00468520;
+class Rva0022402A { public: Rva00468520 &rva0022402A(const AsciiString &); };
+struct AptExternMappedValue { AptRef<AptExternHandler> handler; int context; };
+void AptPlayer::AddExternHandler(const AsciiString &name,int context,AptRef<AptExternHandler> handler)
+{
+ if(!handler.m_ptr) return;
+ AptExternMappedValue &entry=reinterpret_cast<AptExternMappedValue &>(reinterpret_cast<Rva0022402A *>(m_commandMap+0x14)->rva0022402A(name));
+ AptRef<AptExternHandler> oldHandler=entry.handler;
+ if(oldHandler.m_ptr) return;
+ entry.handler=handler;
+ entry.context=context;
+}
+
+extern "C" char *__cdecl _mbscpy(char *,const char *);
+void AptPlayer::GetExtern(const char *name,char *out)
+{
+ if(!name || !out) return;
+ *out=0;
+ if(*name=='?') {
+  ++name;
+  Rva0041534BIter found=reinterpret_cast<AptExternTable *>(m_commandMap+0x14)->find(AsciiString(AptUtils::SkipLevelN(name)));
+  if(found.m_node) _mbscpy(out,"extern");
+  else {
+   void *commandNode=reinterpret_cast<AptExternTable *>(m_commandMap)->find(AsciiString(name)).m_node;
+   if(commandNode) _mbscpy(out,"fscommand");
+   else _mbscpy(out,"0");
+  }
+  return;
+ }
+ Rva0041534BIter found=reinterpret_cast<AptExternTable *>(m_commandMap+0x14)->find(AsciiString(name));
+ if(!found.m_node) {
+  found=reinterpret_cast<AptExternTable *>(m_commandMap+0x14)->find(AsciiString(AptUtils::SkipLevelN(name)));
+  if(!found.m_node) return;
+ }
+ AptExternNode *node=static_cast<AptExternNode *>(found.m_node);
+ node->handle.invoke(node->context,reinterpret_cast<int>(out),0);
+}
+
+bool AptPlayer::ShowLevel(int index)
+{
+ if(static_cast<unsigned>(index)>=14) return false;
+ Rva00062908Host::Slot &entry=m_levelData[index];
+ if(entry.m_flags&2) return false;
+ entry.m_flags|=1;
+ m_levelsDirty=true;
+ return true;
+}
+
+extern "C" __declspec(dllimport) int __cdecl sprintf(char *,const char *,...);
+#pragma function(sprintf)
+void Rva006CC600(const char *,char *);
+void Rva00411E80(int);
+// WB AptPlayer::UnloadLevel; native22481..224DE is the existing93-byte owner.
+bool AptPlayer::UnloadLevel(int index)
+{
+ if(static_cast<unsigned>(index)>=14) return false;
+ Rva00062908Host::Slot &entry=m_levelData[index];
+ if(!(entry.m_flags&2)) return false;
+ char key[32];
+ sprintf(key,"_level%d",index);
+ Rva006CC600("",key);
+ entry.m_flags&=0xF5;
+ Rva00411E80(index);
+ return true;
+}
+
+#include "unicode_string.h"
+struct RGBColor;
+class Mouse { public: void rva001EEA6D(UnicodeString,int,const RGBColor *,float); };
+extern Mouse *TheMouse;
+// WB B94EA0 AptPlayer.cpp1240 names HideLevel. Native2277D..227DF is98 bytes.
+bool AptPlayer::HideLevel(int index)
+{
+ if(static_cast<unsigned>(index)>=14) return false;
+ Rva00062908Host::Slot *entry=&m_levelData[index];
+ if(TheMouse) TheMouse->rva001EEA6D(UnicodeString::TheEmptyString,0,0,1.0f);
+ if(!(entry->m_flags&2)) return false;
+ return UnloadLevel(index);
+}
+
+class Rva000427195 { public: int rva00223429(const AsciiString *); };
+class Rva0022494F { public: void rva0022494F(); };
+// WB B94410 AptPlayer.cpp1118..1121 names RemoveLevel; native24B7D..24BC9.
+bool AptPlayer::RemoveLevel(int index)
+{
+ if(static_cast<unsigned>(index)>=14) return false;
+ Rva00062908Host::Slot *entry=&m_levelData[index];
+ if(entry->m_c==-1) return false;
+ if(entry->m_flags&2) UnloadLevel(index);
+ reinterpret_cast<Rva000427195 *>(m_pad05c)->rva00223429(&entry->m_s0);
+ reinterpret_cast<Rva0022494F *>(entry)->rva0022494F();
+ return true;
+}
+
+// Native 2238E6..2239AD RET4; WB B8F570 (AptPlayer.cpp:158, unnamed) shows the
+// same tooltip lookup. The owner is the lazy holder object returned by
+// rva00224D80 (AptButtonTooltipMap per its constructor); its name map at +0x0C
+// may redirect the key, then GameText slot 0x38 fetches "TOOLTIP:"+key and
+// the mouse tooltip setter 0x001EEA6D receives the text when it was found.
+// The early return on a missing string is a target fact: it gives retail's
+// frame homes (key temporary at EBP-18, text at EBP-14).
+struct Rva002226E5TextPlusString { Rva002226E5TextPlusString() {} const char *text; int length; const AsciiString *string; operator AsciiString(); };
+Rva002226E5TextPlusString operator+(const char *, const AsciiString &);
+class GameText {
+public:
+#define GAME_TEXT_SLOT(n) virtual void gameTextSlot##n();
+ GAME_TEXT_SLOT(0) GAME_TEXT_SLOT(1) GAME_TEXT_SLOT(2) GAME_TEXT_SLOT(3) GAME_TEXT_SLOT(4)
+ GAME_TEXT_SLOT(5) GAME_TEXT_SLOT(6) GAME_TEXT_SLOT(7) GAME_TEXT_SLOT(8) GAME_TEXT_SLOT(9)
+ GAME_TEXT_SLOT(10) GAME_TEXT_SLOT(11) GAME_TEXT_SLOT(12) GAME_TEXT_SLOT(13)
+#undef GAME_TEXT_SLOT
+ virtual UnicodeString fetch(const AsciiString &label, bool *exists);
+};
+extern GameText *TheGameText;
+class Rva00224CDC {
+public:
+ void rva002238E6(AsciiString name);
+private:
+ char m_pad[0xc];
+ Rva00056F61 m_tooltipNames; // +0x0C
+};
+void Rva00224CDC::rva002238E6(AsciiString name)
+{
+ Rva00056F61 *table = &m_tooltipNames;
+ void *node = table->rva00056F61(&name);
+ if (node)
+  name = *(AsciiString *)((char *)node + 8);
+ bool found = false;
+ UnicodeString text = TheGameText->fetch("TOOLTIP:" + name, &found);
+ if (!found)
+  return;
+ TheMouse->rva001EEA6D(text, -1, 0, 1.0f);
+}
+
+#include "unicode_string.h"
+#include "GameWindowManagerRecordView.h"
+#include <list>
+enum NameKeyType {NAMEKEY_INVALID=0};
+class NameKeyGenerator {public: NameKeyType nameToKey(const AsciiString &);};
+extern NameKeyGenerator *TheNameKeyGenerator;
+class Rva00DFF024Registry {public: void *lookup56(int,int);};
+class FunctionLexicon {
+public: enum TableIndex {TABLE_ANY=-1,TABLE_MAIN_WINDOW=11};
+protected: void *findFunction(NameKeyType,TableIndex);
+friend class AptPlayer;
+};
+extern Rva00DFF024Registry *TheRva00DFF024Registry;
+
+class AptWindowSendView {
+public:
+#define V(n) virtual void slot##n();
+ V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7) V(8) V(9)
+ V(10) V(11) V(12) V(13) V(14) V(15) V(16) V(17) V(18) V(19)
+ V(20) V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28) V(29)
+ V(30) V(31) V(32) V(33) V(34) V(35) V(36) V(37) V(38) V(39)
+ V(40) V(41) V(42) V(43) V(44) V(45) V(46) V(47) V(48) V(49)
+ V(50) V(51) V(52) V(53) V(54) V(55) V(56) V(57)
+#undef V
+ virtual void findWindow(GameWindow *,int,int,GameWindow **);
+};
+class GameWindowManager;
+extern GameWindowManager *TheWindowManager;
+struct AptLayoutInfoView {
+ unsigned int version;
+ void *init,*update,*shutdown,*callback;
+ AsciiString initName,updateName,shutdownName,unknown20,unknown24;
+ _STL::list<GameWindow *> windows;
+};
+// Owned factory2223FE forwards the layout-info word to constructor40FDD1.
+class AptWindowLayout;
+AptWindowLayout * __stdcall Rva002223FECreateLayout(void *);
+class ObjectSellInfo;
+typedef _STL::list<ObjectSellInfo *> NativePointerList;
+
+// Primary semantic guide: BFME1 9cbfb551fe20dae985f91f2319d8997287b6a705,
+// game/.../GUI/Rva0046A870CreateMainWindow.cpp. WB B93760 names WinCreate.
+// Native 223263..2233A6 proves name-by-reference, descriptor size0x34,
+// slots88/E8, GameWindow name270 and layout callback10/list28.
+GameWindow *AptPlayer::WinCreate(const AsciiString *name,AptLayoutInfoView *layout)
+{
+ GadgetCreateView view;
+ const AsciiString *originalName=name;
+ view.status=0x08000001;
+ view.unknown24=TheRva00DFF024Registry->lookup56(TheNameKeyGenerator->nameToKey(*originalName),-1);
+ if(!view.unknown24) return 0;
+ GameWindow *window=reinterpret_cast<TabWindowManagerView *>(TheWindowManager)->createFromView(&view);
+ window->m_field1f4=0;
+ // Native reuses the dead incoming pointer word for the found-window slot.
+ // Start a new pointer lifetime there after retaining the key in originalName.
+ GameWindow *&found=*new (static_cast<void *>(&name)) GameWindow *(0);
+ reinterpret_cast<AptWindowSendView *>(TheWindowManager)->findWindow(window,29,2000,&found);
+ if(found!=window) return 0;
+ found->m_name.setCopyInline(*originalName);
+ AsciiString mainName(*originalName);
+ reinterpret_cast<StringBase<char> *>(&mainName)->concat(":MainWindow");
+ UnicodeString title;
+ title.translate(mainName);
+ window->GameWindow::winSetText(title);
+ if(layout) {
+  // Existing rowed pointer-list provider: node payload and argument are
+  // the same four-byte pointer word. No application type is reclassified.
+  reinterpret_cast<NativePointerList *>(&layout->windows)->push_back(reinterpret_cast<ObjectSellInfo *const &>(window));
+  NameKeyType key=TheNameKeyGenerator->nameToKey(*originalName);
+  layout->callback=reinterpret_cast<FunctionLexicon *>(TheRva00DFF024Registry)->findFunction(key,FunctionLexicon::TABLE_MAIN_WINDOW);
+  if(!layout->callback) layout->callback=reinterpret_cast<void *>(&Rva002223FECreateLayout);
+ }
+ return found;
 }
 
 // WorldBuilder B905A0 names HandleOverButtons (AptPlayer.cpp:426..443); the
@@ -317,11 +616,7 @@ extern unsigned int g_rva00E02FC0Bits;
 bool Rva006CD100Get();
 void Rva006CD2A0(char *target);
 namespace AptUtils { int __cdecl LevelIndexFromTarget(const char *path); }
-class Mouse;
-extern Mouse *TheMouse;
 class Rva001EDE45 { public: void *rva001EDE45(); };
-class GameWindowManager;
-extern GameWindowManager *TheWindowManager;
 class Rva00224F6CWindowManager {
 public:
 #define WM_SLOT(n) virtual void wmSlot##n();
@@ -339,7 +634,6 @@ struct AptOverButtonNode { AptOverButtonNode *next; AsciiString key; Rva0057CC15
 struct Rva002229E3S12 { Rva002229E3S12() {} char m_c; const char *m_ptr; int m_len; };
 Rva002229E3S12 __cdecl Rva002229E3Build(const char &c, const char *s);
 AsciiString &__cdecl Rva00222C93Append(AsciiString &str, const char *s);
-class Rva00224CDC { public: void rva002238E6(AsciiString name); };
 Rva00224CDC *rva00224D80();
 // Retail expands the character read in place here (buffer text at +8, zero
 // for an empty string) instead of calling StringBase::getCharAt 0x00035720.
