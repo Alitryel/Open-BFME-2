@@ -25,11 +25,12 @@ public:
 	void *m_ptr;
 };
 
+// Base vtable C4EF80: every slot is __purecall (0x0003B810).
 class Rva005F2B22Base
 {
 public:
 	~Rva005F2B22Base() {}
-	virtual void Rva005F2B22Slot0();
+	virtual void Rva005F2B22Slot0() = 0;
 };
 
 class Rva005F2B22 : public Rva005F2B22Base

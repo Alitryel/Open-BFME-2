@@ -148,14 +148,18 @@ public:
 	void rva005CB260();
 };
 
-class Rva005E6D0DBase
-{
-public:
-	~Rva005E6D0DBase() {}
-	virtual void Rva005E6D0DSlot0();
+// Base vtable C79544: the listener callbacks rowed in StrategicUiArmyHandler.cpp.
+class Rva005FPrimaryCallbacks {public:
+
+ virtual void primary0(void*,void*){}
+
+ virtual void primary1(void*){}
+
+ virtual void primary2(void*,void*){}
+ __forceinline ~Rva005FPrimaryCallbacks(){}
 };
 
-class Rva005E6D0D : public Rva005E6D0DBase
+class Rva005E6D0D : public Rva005FPrimaryCallbacks
 {
 public:
     Rva005E6D0D(void *,HeroDetailsInput *);

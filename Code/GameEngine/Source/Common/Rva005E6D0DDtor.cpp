@@ -45,22 +45,25 @@ struct Rva005E6D0DRef
 	TargetRef00217D4C *m_ref;
 };
 
-class Rva005E6D0DBase
-{
-public:
-	~Rva005E6D0DBase() {}
-	virtual void Rva005E6D0DSlot0();
+// Base vtable C79544 holds the three RET8/RET4/RET8 listener callbacks rowed
+// in StrategicUiArmyHandler.cpp; same definition, so the COMDATs agree.
+class Rva005FPrimaryCallbacks {public:
 
-private:
-	char m_pad04[4];
+ virtual void primary0(void*,void*){}
+
+ virtual void primary1(void*){}
+
+ virtual void primary2(void*,void*){}
+ __forceinline ~Rva005FPrimaryCallbacks(){}
 };
 
-class Rva005E6D0D : public Rva005E6D0DBase
+class Rva005E6D0D : public Rva005FPrimaryCallbacks
 {
 public:
 	~Rva005E6D0D();
 
 private:
+	char m_pad04[4];
 	Rva005CB265 *m_owner; // +0x08
 	char m_pad0C[4];
 	Rva002B7250 *m_container; // +0x10
