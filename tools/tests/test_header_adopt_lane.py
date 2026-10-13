@@ -60,3 +60,21 @@ def test_closure_diff_flags_lost_rows(tmp_path):
     lost.write_text(head + "?f@@YAXXZ,0x00401000,0\n?g@@YAXXZ,0x00401010,1\n")
     assert lane.closure_diff(before, same) == 0      # negative control: closure only grew
     assert lane.closure_diff(before, lost) == 1      # positive control: a closed row was lost
+
+
+def test_view_methods_merge_void_spelling_and_skip_declspec_special_members(tmp_path, monkeypatch):
+    # Region3D views spell width() and width(void), and declare
+    # `__declspec(nothrow) Region3D(const Region3D&);`: both once made every
+    # generated methods header C2535.
+    monkeypatch.setattr(lane, "ROOT", tmp_path)
+    (tmp_path / "a.cpp").write_text("struct Region3D {\n    float lo, hi;\n"
+                                    "    float width() const { return hi - lo; }\n"
+                                    "    bool in(const Coord3D *p) const;\n"
+                                    "    __declspec(nothrow) Region3D(const Region3D&);\n};\n")
+    (tmp_path / "b.cpp").write_text("struct Region3D {\n    float lo, hi;\n"
+                                    "    float width(void) const { return hi - lo; }\n"
+                                    "    bool in(const Coord3D *query) const { return query != 0; }\n};\n")
+    assert len(lane.view_methods("Region3D", ["a.cpp", "b.cpp"])) == 1   # in() names a class not included
+    methods = lane.view_methods("Region3D", ["a.cpp", "b.cpp"], {"Coord3D"})
+    assert len(methods) == 2                    # one width, one in(): pointer parameter names do not count
+    assert "{" in methods[lane.signature("bool in(const Coord3D *p) const;", "Region3D")]   # the body wins

@@ -156,6 +156,8 @@ def signature(member, name):
     head = re.sub(r"\b(inline|__forceinline)\s+", "", head)
     head = re.sub(r"\s*([*&,()])\s*", r"\1", head)
     head = re.sub(r"(\w[*&]?)\s+\w+([,)=])", r"\1\2", head)
+    head = re.sub(r"([*&])\w+([,)=])", r"\1\2", head)   # `T *name`: step 3 ate the space
+    head = re.sub(r"\(void\)", "()", head)     # f(void) and f() are one member (C2535 otherwise)
     return re.sub(r"\)\s*:.*$", ")", head)
 
 
@@ -168,14 +170,18 @@ PRIMITIVE_WORDS = set("void int float double char short long unsigned signed boo
                       "operator inline sqrtf sqrt fabs fabsf static_cast".split())
 
 
-def view_methods(name, sources):
+def view_methods(name, sources, known=()):
     """{signature: text} of the non-special inline methods the views declare.
+
+    A method may name the types in `known` (the member aggregates whose
+    canonical headers the generated header includes) and no other class.
 
     One method spelled several ways keeps its most common spelling; the
     tournament and the per-unit gate decide whether that spelling is
     byte-equivalent for each unit."""
     seen = collections.defaultdict(collections.Counter)
-    special = re.compile(r"^\s*(?:(?:__forceinline|inline)\s+)?~?" + re.escape(name.split("::")[-1]) + r"\s*\(")
+    special = re.compile(r"^\s*(?:__declspec\(\w+\)\s*)*(?:(?:__forceinline|inline)\s+)?~?"
+                         + re.escape(name.split("::")[-1]) + r"\s*\(")
     for source in sources:
         text = (ROOT / source).read_text(encoding="latin-1")
         span = body_span(text, name)
@@ -189,11 +195,12 @@ def view_methods(name, sources):
                 continue
             for typedef, spelling in TYPEDEFS.items():
                 member = re.sub(r"\b%s\b" % typedef, spelling, member)
-            words = set(re.findall(r"[A-Za-z_]\w*", member)) - PRIMITIVE_WORDS - {name}
+            words = set(re.findall(r"[A-Za-z_]\w*", member)) - PRIMITIVE_WORDS - {name} - set(known)
             if any(w[0].isupper() for w in words):
                 continue                      # needs a type the header does not declare
             seen[signature(member, name)][member] += 1
-    return {sig: spellings.most_common(1)[0][0] for sig, spellings in seen.items()}
+    # an inline body beats a bare declaration: units that inline the method need it
+    return {sig: max(spellings, key=lambda m: ("{" in m, spellings[m])) for sig, spellings in seen.items()}
 
 
 SPELL = {"uint": "unsigned int", "ushort": "unsigned short", "uchar": "unsigned char", "ulong": "unsigned long",
@@ -342,7 +349,8 @@ def try_renamed(items, jobs):
 
 def tournament(name, contract, sources, header, variants, jobs, fixed_header=False):
     strip = [name] + STRIP_WITH.get(name, [])
-    methods = view_methods(name, sources) if not fixed_header else {}
+    nested = {f["kind"][2:] for f in contract["fields"] if f["kind"].startswith("S:")} & set(registered())
+    methods = view_methods(name, sources, nested) if not fixed_header else {}
     results = {}
     keep = (ROOT / header).read_bytes() if (ROOT / header).exists() else None
     for variant in variants:
