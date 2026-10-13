@@ -67,7 +67,9 @@ class UpgradeModule : public BehaviorModule, public UpgradeMux, public UpgradeTa
 {
 public:
 	UpgradeModule(Thing *thing, const ModuleData *moduleData);
-	~UpgradeModule();
+
+protected:
+	virtual ~UpgradeModule(); // retail ??1UpgradeModule@@MAE@XZ, 0x0046089D
 };
 
 #include "ascii_string.h"
