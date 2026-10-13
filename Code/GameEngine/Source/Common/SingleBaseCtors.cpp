@@ -6,20 +6,25 @@
 // recovered.
 //
 
-class Rva003FAE68Base
+// 0x00210EF1 forwards its one argument to the rowed 0x003FAE68 constructor
+// Rva003FAFB9(const AsciiString &) (LivingWorldSound.cpp), so it takes the
+// same reference.
+class AsciiString;
+
+class Rva003FAFB9
 {
 public:
-	Rva003FAE68Base(int a);
+	Rva003FAFB9(const AsciiString &name);
 	virtual void f0() = 0;
 };
 
-class Rva00210EF1 : public Rva003FAE68Base
+class Rva00210EF1 : public Rva003FAFB9
 {
 public:
-	Rva00210EF1(int a);
+	Rva00210EF1(const AsciiString &name);
 };
 
-Rva00210EF1::Rva00210EF1(int a) : Rva003FAE68Base(a)
+Rva00210EF1::Rva00210EF1(const AsciiString &name) : Rva003FAFB9(name)
 {
 }
 

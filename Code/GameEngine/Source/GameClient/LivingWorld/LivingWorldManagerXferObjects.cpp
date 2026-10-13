@@ -193,11 +193,11 @@ struct Rva00213C6ENode
 };
 
 // The object the load path creates for a name the table lacks (rowed ctor,
-// whose parameter the ledger spells int; it receives the name's address).
+// forwarding the name to the 0x003FAE68 sound object's ctor).
 class Rva00210EF1
 {
 public:
-	Rva00210EF1(int name);							// 0x00210EF1
+	Rva00210EF1(const AsciiString &name);			// 0x00210EF1
 private:
 	unsigned char m_bytes[0x34];
 };
@@ -271,7 +271,7 @@ void LivingWorldManager::rva00213C6E(Rva00213D93Target *target)
 			xfer->xferAsciiString(&name);
 			Rva00213C6ENode *node = (Rva00213C6ENode *)((Rva00056F61 *)m_table)->rva00056F61(&name);
 			if (node == 0)
-				xfer->xferSnapshot((Snapshot *)new Rva00210EF1((int)&name));
+				xfer->xferSnapshot((Snapshot *)new Rva00210EF1(name));
 			else
 				xfer->xferSnapshot((Snapshot *)node->m_object);
 		}
