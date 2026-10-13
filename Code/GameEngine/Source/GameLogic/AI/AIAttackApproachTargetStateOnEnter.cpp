@@ -567,15 +567,22 @@ public:
 	Bool isWithinAttackRange(Object *source, const Coord3D *sourcePos, Object *victim, const Coord3D *victimPos, Real extra, Bool flag);
 };
 
-// The line-of-sight partition filter (vtable 0x00C07150).
-class Rva002619C1FilterBase
+// BFME 2's partition filter base (ctor 0x000421C8): a vptr and the +0x04 link
+// to the next filter (link 0x00625790 appends its argument and returns this).
+class Rva000421C8
 {
 public:
-	Rva002619C1FilterBase() : m_zero(0) {}
-	Int m_zero;
+	Rva000421C8() : m_next(0) {}
+	virtual ~Rva000421C8() {}
+	virtual Bool allow(Object *objOther) = 0;
+	virtual Int getPlayerMask(); // slot 2, 0x0036CC7A
+	Rva000421C8 *link(Rva000421C8 *next);
+private:
+	Rva000421C8 *m_next; // +0x04
 };
 
-class Rva002619C1Filter : public Rva002619C1FilterBase
+// The line-of-sight partition filter (vtable 0x00C07150).
+class Rva002619C1Filter : public Rva000421C8
 {
 public:
 	Rva002619C1Filter(Object *owner) : m_owner(owner) {}
@@ -2079,19 +2086,6 @@ public:
 	void rva001E702E(Thing *obj, Int targetPos, Int flag);
 };
 
-// BFME 2's partition filter base (ctor 0x000421C8): a vptr and the +0x04 link
-// to the next filter (link 0x00625790 appends its argument and returns this).
-class Rva000421C8
-{
-public:
-	Rva000421C8() : m_next(0) {}
-	virtual ~Rva000421C8() {}
-	virtual Bool allow(Object *objOther) = 0;
-	virtual Int getPlayerMask(); // slot 2, 0x0036CC7A
-	Rva000421C8 *link(Rva000421C8 *next);
-private:
-	Rva000421C8 *m_next; // +0x04
-};
 enum AbleToAttackType
 {
 	ATTACK_NEW_TARGET = 0
