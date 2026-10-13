@@ -13,11 +13,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 class Rva002E0A0A {
-    char opaque[40];
+    char opaque[36];
 public:
     Rva002E0A0A(const Rva002E0A0A &);
     Rva002E0A0A &operator=(const Rva002E0A0A &);
-    ~Rva002E0A0A();
+    virtual ~Rva002E0A0A();
 };
 namespace _STL {
 template <> void _Construct<Rva002E0A0A, Rva002E0A0A>(

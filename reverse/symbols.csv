@@ -1797,7 +1797,7 @@ name,address,notes
 ??0BfmeBaseVNI@@QAE@ID@Z,0x003FD199,address read from the REL32 displacement at a placed body
 ??0BfmeBinkPlayerMember@@QAE@XZ,0x00326BE6,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0BfmeBstrVGP@@QAE@PBD@Z,0x00176CD0,"ICF-folded with the rowed _bstr_t const char* ctor at the same address; called by rva001776a0 0x001776A0 and layout-identical per the BFME1 WebBrowserComWrappers donor"
-??0BfmeC1137@@QAE@XZ,0x0035DB3F,callee of ?rva0059EB90@@YAXPAVINI@@PAVGen_00489270@@@Z at retail 0x0035DBA2 read from its REL32 displacement; body unrowed
+??0BfmeC1137@@QAE@XZ,0x0035DB3F,callee of ?rva0059EB90@@YAXPAVINI@@PAUGen_00489270@@@Z at retail 0x0035DBA2 read from its REL32 displacement; body unrowed
 ??0BfmeC994@@QAE@PADH@Z,0x00655900
 ??0BfmeContainerRecord005FDEC7@@QAE@ABU0@@Z,0x005F93E3,ICF twin of rowed StringRecord copy at same address retail call at 0x005FE871
 ??0BfmeCreated_0035B680@@QAE@PAVGen_0035B680@@@Z,0x0016FFD0
