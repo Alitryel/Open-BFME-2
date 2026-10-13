@@ -8,8 +8,15 @@
 
 class Made002CC907;
 
-struct FieldParse;
-extern const FieldParse GrabFieldTable;
+class INI;
+
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *, void *, void *, const void *);
+	const void *userData;
+	int offset;
+};
 
 int Rva00507552Get();
 
@@ -26,12 +33,31 @@ class INI
 {
 public:
 	void initFromINIMulti(void *p, const MultiIniFieldParse &m);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// The table pushed at 0x00C64A30 (.rdata): 8 16-byte records and the
+// null terminator read from retail, parsers resolved to their ledger
+// names, userData null, nugget offsets 0x128-0x13C. The table name is
+// descriptive; the original spelling is unknown.
+extern const FieldParse GrabFieldTable[] =
+{
+	{ "ContainTargetOnEffect",        &INI::parseBool,  0, 0x128 },
+	{ "ImpactTargetOnEffect",         &INI::parseBool,  0, 0x129 },
+	{ "RemoveTargetFromOtherContain", &INI::parseBool,  0, 0x12A },
+	{ "ShockWaveAmount",              &INI::parseReal,  0, 0x12C },
+	{ "ShockWaveRadius",              &INI::parseReal,  0, 0x130 },
+	{ "ShockWaveTaperOff",            &INI::parseReal,  0, 0x134 },
+	{ "ShockWaveSpeed",               &INI::parseReal,  0, 0x138 },
+	{ "ShockWaveZMult",               &INI::parseReal,  0, 0x13C },
+	{ 0, 0, 0, 0 }
 };
 
 void q4Notify002CC907(void *ini, Made002CC907 *m, int c, int d)
 {
 	MultiIniFieldParse tmp;
 	tmp.add((FieldParse *)Rva00507552Get(), 0);
-	tmp.add(&GrabFieldTable, 0);
+	tmp.add(GrabFieldTable, 0);
 	((INI *)ini)->initFromINIMulti(m, tmp);
 }

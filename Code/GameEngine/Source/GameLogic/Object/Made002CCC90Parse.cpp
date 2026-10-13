@@ -11,8 +11,15 @@
 
 class Made002CCC90;
 
-struct FieldParse;
-extern const FieldParse LuaEventFieldTable;
+class INI;
+
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *, void *, void *, const void *);
+	const void *userData;
+	int offset;
+};
 
 class MultiIniFieldParse
 {
@@ -27,11 +34,28 @@ class INI
 {
 public:
 	void initFromINIMulti(void *p, const MultiIniFieldParse &m);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// The table pushed at 0x00C64F18 (.rdata): 5 16-byte records and the
+// null terminator read from retail, parsers resolved to their ledger
+// names, userData null, nugget offsets 0x128-0x132. The table name is
+// descriptive; the original spelling is unknown.
+extern const FieldParse LuaEventFieldTable[] =
+{
+	{ "LuaEvent",      &INI::parseAsciiString,  0, 0x128 },
+	{ "Radius",        &INI::parseReal,         0, 0x12C },
+	{ "SendToEnemies", &INI::parseBool,         0, 0x130 },
+	{ "SendToAllies",  &INI::parseBool,         0, 0x131 },
+	{ "SendToNeutral", &INI::parseBool,         0, 0x132 },
+	{ 0, 0, 0, 0 }
 };
 
 void q4Notify002CCC90(void *ini, Made002CCC90 *m, int c, int d)
 {
 	MultiIniFieldParse tmp;
-	tmp.add(&LuaEventFieldTable, 0);
+	tmp.add(LuaEventFieldTable, 0);
 	((INI *)ini)->initFromINIMulti(m, tmp);
 }

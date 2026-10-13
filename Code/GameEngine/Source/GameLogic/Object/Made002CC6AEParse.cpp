@@ -8,8 +8,15 @@
 
 class Made002CC6AE;
 
-struct FieldParse;
-extern const FieldParse SpecialModelConditionFieldTable;
+class INI;
+
+struct FieldParse
+{
+    const char *token;
+    void (*parse)(INI *, void *, void *, const void *);
+    const void *userData;
+    int offset;
+};
 
 int __cdecl Rva00507552Get();
 
@@ -26,12 +33,25 @@ class INI
 {
 public:
     void initFromINIMulti(void *p, const MultiIniFieldParse &m);
+    static void parseAsciiStringVector(INI *ini, void *instance, void *store, const void *userData);
+    static void parseDurationUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// The table pushed at 0x00C643D4 (.rdata): 2 16-byte records and the
+// null terminator read from retail, parsers resolved to their ledger
+// names, userData null, nugget offsets 0x128-0x134. The table name is
+// descriptive; the original spelling is unknown.
+extern const FieldParse SpecialModelConditionFieldTable[] =
+{
+    { "ModelConditionNames",    &INI::parseAsciiStringVector,    0, 0x128 },
+    { "ModelConditionDuration", &INI::parseDurationUnsignedInt,  0, 0x134 },
+    { 0, 0, 0, 0 }
 };
 
 void q4Notify002CC6AE(void *ini, Made002CC6AE *m, int c, int d)
 {
     MultiIniFieldParse tmp;
     tmp.add((const FieldParse *)Rva00507552Get(), 0);
-    tmp.add(&SpecialModelConditionFieldTable, 0);
+    tmp.add(SpecialModelConditionFieldTable, 0);
     ((INI *)ini)->initFromINIMulti(m, tmp);
 }

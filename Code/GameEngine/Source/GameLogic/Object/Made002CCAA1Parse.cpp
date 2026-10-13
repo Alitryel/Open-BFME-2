@@ -12,8 +12,15 @@
 
 class Made002CCAA1;
 
-struct FieldParse;
-extern const FieldParse OpenGateFieldTable2;
+class INI;
+
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *, void *, void *, const void *);
+	const void *userData;
+	int offset;
+};
 
 int Rva00507552Get();
 
@@ -30,12 +37,23 @@ class INI
 {
 public:
 	void initFromINIMulti(void *p, const MultiIniFieldParse &m);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// The table pushed at 0x00C64C74 (.rdata): 1 16-byte records and the
+// null terminator read from retail, parsers resolved to their ledger
+// names, userData null, nugget offsets 0x128-0x128. The table name is
+// descriptive; the original spelling is unknown.
+extern const FieldParse OpenGateFieldTable2[] =
+{
+	{ "Radius", &INI::parseReal,  0, 0x128 },
+	{ 0, 0, 0, 0 }
 };
 
 void q4Notify002CCAA1(void *ini, Made002CCAA1 *m, int c, int d)
 {
 	MultiIniFieldParse tmp;
 	tmp.add((FieldParse *)Rva00507552Get(), 0);
-	tmp.add(&OpenGateFieldTable2, 0);
+	tmp.add(OpenGateFieldTable2, 0);
 	((INI *)ini)->initFromINIMulti(m, tmp);
 }

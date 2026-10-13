@@ -12,8 +12,15 @@
 
 class Made002CCB04;
 
-struct FieldParse;
-extern const FieldParse EmotionFieldTable;
+class INI;
+
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *, void *, void *, const void *);
+	const void *userData;
+	int offset;
+};
 
 int Rva00507552Get();
 
@@ -30,12 +37,27 @@ class INI
 {
 public:
 	void initFromINIMulti(void *p, const MultiIniFieldParse &m);
+	static void Rva004DC702_ParseEmotionType(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// The table pushed at 0x00C64CD0 (.rdata): 3 16-byte records and the
+// null terminator read from retail, parsers resolved to their ledger
+// names, userData null, nugget offsets 0x128-0x130. The table name is
+// descriptive; the original spelling is unknown.
+extern const FieldParse EmotionFieldTable[] =
+{
+	{ "EmotionType", &INI::Rva004DC702_ParseEmotionType,  0, 0x128 },
+	{ "Radius",      &INI::parseReal,                     0, 0x12C },
+	{ "Duration",    &INI::parseUnsignedInt,              0, 0x130 },
+	{ 0, 0, 0, 0 }
 };
 
 void q4Notify002CCB04(void *ini, Made002CCB04 *m, int c, int d)
 {
 	MultiIniFieldParse tmp;
 	tmp.add((FieldParse *)Rva00507552Get(), 0);
-	tmp.add(&EmotionFieldTable, 0);
+	tmp.add(EmotionFieldTable, 0);
 	((INI *)ini)->initFromINIMulti(m, tmp);
 }

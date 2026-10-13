@@ -8,8 +8,15 @@
 
 class Made002CC7DE;
 
-struct FieldParse;
-extern const FieldParse WeaponOCLFieldTable;
+class INI;
+
+struct FieldParse
+{
+    const char *token;
+    void (*parse)(INI *, void *, void *, const void *);
+    const void *userData;
+    int offset;
+};
 
 int __cdecl Rva00507552Get();
 
@@ -26,12 +33,23 @@ class INI
 {
 public:
     void initFromINIMulti(void *p, const MultiIniFieldParse &m);
+    static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// The table pushed at 0x00C64568 (.rdata): 1 16-byte records and the
+// null terminator read from retail, parsers resolved to their ledger
+// names, userData null, nugget offsets 0x12C-0x12C. The table name is
+// descriptive; the original spelling is unknown.
+extern const FieldParse WeaponOCLFieldTable[] =
+{
+    { "WeaponOCLName", &INI::parseAsciiString,  0, 0x12C },
+    { 0, 0, 0, 0 }
 };
 
 void q4Notify002CC7DE(void *ini, Made002CC7DE *m, int c, int d)
 {
     MultiIniFieldParse tmp;
     tmp.add((const FieldParse *)Rva00507552Get(), 0);
-    tmp.add(&WeaponOCLFieldTable, 0);
+    tmp.add(WeaponOCLFieldTable, 0);
     ((INI *)ini)->initFromINIMulti(m, tmp);
 }
