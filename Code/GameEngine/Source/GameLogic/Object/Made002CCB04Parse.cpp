@@ -37,9 +37,14 @@ class INI
 {
 public:
 	void initFromINIMulti(void *p, const MultiIniFieldParse &m);
-	static void Rva004DC702_ParseEmotionType(INI *ini, void *instance, void *store, const void *userData);
 	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
 	static void parseUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
+};
+
+class EmotionNuggetTemplate
+{
+public:
+	static void IniParseEmotionType(INI *ini, void *instance, void *store, const void *userData);
 };
 
 // The table pushed at 0x00C64CD0 (.rdata): 3 16-byte records and the
@@ -48,7 +53,7 @@ public:
 // descriptive; the original spelling is unknown.
 extern const FieldParse EmotionFieldTable[] =
 {
-	{ "EmotionType", &INI::Rva004DC702_ParseEmotionType,  0, 0x128 },
+	{ "EmotionType", &EmotionNuggetTemplate::IniParseEmotionType, 0, 0x128 },
 	{ "Radius",      &INI::parseReal,                     0, 0x12C },
 	{ "Duration",    &INI::parseUnsignedInt,              0, 0x130 },
 	{ 0, 0, 0, 0 }
