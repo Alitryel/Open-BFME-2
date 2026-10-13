@@ -54,13 +54,13 @@ private:
 
 bool Bridge::isPointOnBridge(const Coord3D *point)
 {
-	if (point->x < m_bounds.lo)
+	if (point->x < m_bounds.lo.x)
 		return false;
-	if (point->x > m_bounds.hi)
+	if (point->x > m_bounds.hi.x)
 		return false;
-	if (point->y < m_bounds.y_min)
+	if (point->y < m_bounds.lo.y)
 		return false;
-	if (point->y > m_bounds.y_max)
+	if (point->y > m_bounds.hi.y)
 		return false;
 
 	PolygonTrigger *extra = m_extra;

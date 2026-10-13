@@ -107,13 +107,11 @@ class Player;
 
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
 
-struct Region2D
-{
-	Coord2D lo;
-	Coord2D hi;
-	Real width() const { return hi.x - lo.x; }
-	Real height() const { return hi.y - lo.y; }
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
+// Region2D::width()/height() of ZH BaseType.h, as TU helpers: the canonical
+// header carries the data layout only.
+inline Real regionWidth(const Region2D &r) { return r.hi.x - r.lo.x; }
+inline Real regionHeight(const Region2D &r) { return r.hi.y - r.lo.y; }
 
 // Coord3D: shared header/view; no private copy.
 #define COORD3D_VIEW_INLINE
@@ -770,8 +768,8 @@ void AIPlayer::computeSuperweaponTarget(const SpecialPowerTemplate *power,
 		bounds.hi.y = bounds.lo.y = (bounds.hi.y + bounds.lo.y) / 2.0f;
 	}
 
-	xCount = REAL_TO_INT_CEIL(bounds.width() / weaponRadius) + 1;
-	yCount = REAL_TO_INT_CEIL(bounds.height() / weaponRadius) + 1;
+	xCount = REAL_TO_INT_CEIL(regionWidth(bounds) / weaponRadius) + 1;
+	yCount = REAL_TO_INT_CEIL(regionHeight(bounds) / weaponRadius) + 1;
 
 	if (xCount > 10) xCount = 10;
 	if (yCount > 10) yCount = 10;
@@ -783,8 +781,8 @@ void AIPlayer::computeSuperweaponTarget(const SpecialPowerTemplate *power,
 
 	for (i = 0; i < xCount; i++) {
 		for (j = 0; j < yCount; j++) {
-			pos.x = bounds.lo.x + (bounds.width() * i) / xCount;
-			pos.y = bounds.lo.y + (bounds.height() * j) / yCount;
+			pos.x = bounds.lo.x + (regionWidth(bounds) * i) / xCount;
+			pos.y = bounds.lo.y + (regionHeight(bounds) * j) / yCount;
 			pos.z = 0;
 			Int curCash = getPlayerSuperweaponValue(&pos, playerNdx, 2 * weaponRadius);
 			if (curCash > cash) {

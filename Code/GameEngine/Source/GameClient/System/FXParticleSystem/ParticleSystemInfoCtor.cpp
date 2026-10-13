@@ -94,14 +94,14 @@ ParticleSystemInfo::ParticleSystemInfo()
     m_slavePosOffset.x = 0.0f;
     m_slavePosOffset.y = 0.0f;
     m_slavePosOffset.z = 0.0f;
-    m_uv.lo = 0.0f;
-    m_uv.y_min = 0.0f;
+    m_uv.lo.x = 0.0f;
+    m_uv.lo.y = 0.0f;
     float one = g_Va00BBB8D8;
     m_systemLifetime = 0;
     m_volumeParticleDepth = 0;
     m_windMotion = 0;
-    m_uv.hi = one;
-    m_uv.y_max = one;
+    m_uv.hi.x = one;
+    m_uv.hi.y = one;
     m_unknown98 = 0;
 }
 

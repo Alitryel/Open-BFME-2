@@ -42,13 +42,11 @@ class ThingTemplate;
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
-struct Region2D
-{
-	Coord2D lo;
-	Coord2D hi;
-	Real width() const { return hi.x - lo.x; }
-	Real height() const { return hi.y - lo.y; }
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
+// Region2D::width()/height() of ZH BaseType.h, as TU helpers: the canonical
+// header carries the data layout only.
+inline Real regionWidth(const Region2D &r) { return r.hi.x - r.lo.x; }
+inline Real regionHeight(const Region2D &r) { return r.hi.y - r.lo.y; }
 
 inline Real sqr(Real x) { return x * x; }
 
@@ -671,8 +669,8 @@ void AISkirmishPlayer::acquireEnemy()
 			Coord3D enemyPos = m_baseCenter;
 			Region2D bounds;
 			getPlayerStructureBounds(&bounds, i);
-			enemyPos.x = bounds.lo.x + bounds.width() / 2;
-			enemyPos.y = bounds.lo.y + bounds.height() / 2;
+			enemyPos.x = bounds.lo.x + regionWidth(bounds) / 2;
+			enemyPos.y = bounds.lo.y + regionHeight(bounds) / 2;
 			Real curDistSqr = sqr(enemyPos.x - m_baseCenter.x) + sqr(enemyPos.y - m_baseCenter.y);
 
 			// Fudge for in bad shape. If an enemy is crippled, concentrate on the other ones.
@@ -748,8 +746,8 @@ void AISkirmishPlayer::computeSuperweaponTarget(const SpecialPowerTemplate *powe
 		} else {
 			Region2D bounds;
 			getPlayerStructureBounds(&bounds, getMyEnemyPlayerIndex());
-			goalPos.x = bounds.lo.x + bounds.width()/2;
-			goalPos.y = bounds.lo.y + bounds.height()/2;
+			goalPos.x = bounds.lo.x + regionWidth(bounds)/2;
+			goalPos.y = bounds.lo.y + regionHeight(bounds)/2;
 		}
 		Coord2D offset;
 		offset.x = goalPos.x-m_baseCenter.x;

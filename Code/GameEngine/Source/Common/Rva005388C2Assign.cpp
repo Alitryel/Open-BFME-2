@@ -132,10 +132,10 @@ void QuadStrip2D::rva00538383(float scale)
 	}
 	if (m_20 != 0)
 		return;
-	m_region.lo *= scale;
-	m_region.y_min *= scale;
-	m_region.hi *= scale;
-	m_region.y_max *= scale;
+	m_region.lo.x *= scale;
+	m_region.lo.y *= scale;
+	m_region.hi.x *= scale;
+	m_region.hi.y *= scale;
 	m_1c *= scale;
 }
 
@@ -158,9 +158,9 @@ void QuadStrip2D::rva005382F4(const BfmeE8 &delta)
 	}
 	if (m_20 != 0)
 		return;
-	float &ry0 = m_region.y_min;
-	(m_region.lo) += delta.x;
+	float &ry0 = m_region.lo.y;
+	(m_region.lo.x) += delta.x;
 	ry0 += delta.y;
-	m_region.hi += delta.x;
-	m_region.y_max += delta.y;
+	m_region.hi.x += delta.x;
+	m_region.hi.y += delta.y;
 }
