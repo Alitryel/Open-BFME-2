@@ -7,15 +7,15 @@
 // GameEngine/Source/Common/RTS/PlayerList.cpp, "Player* p =
 // m_players[m_playerCount++]; p->initFromDict(d);"), it takes the next free
 // player slot, but BFME2 bounds it at 19 slots (cmp 0x13) and hands the
-// argument to the unrowed EH-framed Player initializer 0x002B07A9 (pinned
-// address-derived, it reads arg+0x5C), giving the slot back on failure.
+// argument to Player::cloneFrom 0x002B07A9 (PlayerCloneFrom.cpp), giving the
+// slot back on failure.
 
 typedef int Int;
 
 class Player
 {
 public:
-	bool rva002B07A9(void *data);
+	bool cloneFrom(Player *other);
 };
 
 class PlayerList
@@ -34,7 +34,7 @@ Player *PlayerList::createClonedAllyFor(void *data)
 	if (m_playerCount < 19)
 	{
 		Player *p = m_players[m_playerCount++];
-		if (p->rva002B07A9(data))
+		if (p->cloneFrom((Player *)data))
 			return p;
 		m_playerCount--;
 	}
