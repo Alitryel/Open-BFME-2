@@ -207,9 +207,9 @@ _Slist_base<int,allocator<int> >::_M_erase_after(_Slist_node_base* head,_Slist_n
  while(current!=stop) {
   _Slist_node_base* old=current;
   current=current->_M_next;
-  _Slist_node_base* freeHead=*(_Slist_node_base* volatile*)&g_Rva0006EFC8Pool00DB424C.m_head;
+  _Slist_node_base* freeHead=*(_Slist_node_base* volatile*)&g_BfmeSceneNodePool.m_head;
   old->_M_next=freeHead;
-  *(_Slist_node_base* volatile*)&g_Rva0006EFC8Pool00DB424C.m_head=old;
+  *(_Slist_node_base* volatile*)&g_BfmeSceneNodePool.m_head=old;
  }
  return head->_M_next=stop;
 }
