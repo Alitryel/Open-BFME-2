@@ -3,6 +3,19 @@
 // ShareBufferClass<ShaderClass> copy constructor. Twin of the landed
 // Vector2 body; ShaderClass is one dword so the loop is a raw copy.
 
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// auto_inline(off) keeps the iterator out of line: without it the copy
+// constructor's ShaderClass array inlines it and loses retail's call to ??_H.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma auto_inline(off)
+#pragma optimize("gsy", on)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#pragma auto_inline(on)
+
 void *operator new[](unsigned int size);
 inline void *operator new(unsigned int, void *place) { return place; }
 extern void __cdecl operator delete[](void *) throw();
@@ -21,6 +34,9 @@ private:
 	unsigned ShaderBits;
 };
 
+// Retail's RefCountClass inline copies (scalar deleting dtor 0x00072899) are
+// the size form: compile this class for size, as hlod.cpp does.
+#pragma optimize("s", on)
 class RefCountClass
 {
 public:
@@ -34,6 +50,7 @@ protected:
 private:
 	int NumRefs;
 };
+#pragma optimize("", on)
 
 template <class Type>
 class ShareBufferClass : public RefCountClass

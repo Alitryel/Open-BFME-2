@@ -7,6 +7,9 @@
 // W3DMPO is empty and contributes nothing.
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/refcount.h
+// Retail's RefCountClass inline copies (scalar deleting dtor 0x00072899) are
+// the size form: compile this class for size, as hlod.cpp does.
+#pragma optimize("s", on)
 class RefCountClass
 {
 public:
@@ -16,6 +19,7 @@ protected:
 private:
 	int NumRefs;
 };
+#pragma optimize("", on)
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/multilist.h
 class MultiListObjectClass
@@ -30,13 +34,26 @@ class W3DMPO
 {
 };
 
+class ChunkLoadClass;
+class Vector3;
+class Vector4;
+enum WW3DErrorType {};
+
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.h
 class MeshGeometryClass : public W3DMPO, public RefCountClass, public MultiListObjectClass
 {
 public:
 	virtual ~MeshGeometryClass();
+	// The rest of the RefCountClass-side vtable, as meshgeometry.cpp emits it;
+	// declared so this unit's ??_7 copy is the same table.
+	virtual WW3DErrorType Load_W3D(ChunkLoadClass &cload);
 
 	void Reset_Geometry(int polycount, int vertcount, bool keepAlloc = true);
+
+protected:
+	virtual void Compute_Plane_Equations(Vector4 *array);
+	virtual void Compute_Vertex_Normals(Vector3 *array);
+	virtual void Compute_Bounds(Vector3 *verts);
 };
 
 // ??1MeshGeometryClass@@UAE@XZ
