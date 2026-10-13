@@ -7,16 +7,8 @@
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
-struct ICoord2DBase
-{
-	int x;
-	int y;
-};
-
-struct ICoord2D : ICoord2DBase
-{
-	bool operator==(const ICoord2DBase &other) const;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../../Libraries/Include/Lib/ICoord2DBase.h"
 
 struct Rva002EBC7FPair
 {

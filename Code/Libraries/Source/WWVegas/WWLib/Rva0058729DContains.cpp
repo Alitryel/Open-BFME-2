@@ -4,16 +4,8 @@
 // Linear search: count at +0x10, inline ICoord2D array at +0x14 (8B each).
 // For i in 0..count-1 if arr[i]==needle (rowed ??8ICoord2D 0x00004CAD)
 // return true else false. Caller 0x00588553.
-struct ICoord2DBase
-{
-	int x;
-	int y;
-};
-
-struct ICoord2D : public ICoord2DBase
-{
-	bool operator==(const ICoord2DBase &that) const;
-};
+#include "../../../Include/Lib/ICoord2D.h"
+#include "../../../Include/Lib/ICoord2DBase.h"
 
 class Rva0058729D
 {

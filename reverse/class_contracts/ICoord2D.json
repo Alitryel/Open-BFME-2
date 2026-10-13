@@ -30,7 +30,7 @@
     "rva": "0x00004CAD",
     "size": 28,
     "source": "Code/Libraries/Source/WWVegas/WWMath/icoord.cpp",
-    "decided_by": "byte-verified owner; native Pathfinder::GetHordeUnitPath 0x002F6075 calls it on two stack ICoord2D cell indices whose frame slots retail shares, so pathfinder.cpp keeps an inline definition visible"
+    "decided_by": "byte-verified owner (retail export ??8ICoord2D@@QBE_NABUICoord2DBase@@@Z); native Pathfinder::GetHordeUnitPath 0x002F6075 calls it on two stack ICoord2D cell indices whose frame slots retail shares, so pathfinder.cpp keeps an inline definition visible; PathfindLayer::AddWallConnectCell 0x00366AE3 and Rva0058729D call it on eight-byte two-int cells"
    }
   ]
  },

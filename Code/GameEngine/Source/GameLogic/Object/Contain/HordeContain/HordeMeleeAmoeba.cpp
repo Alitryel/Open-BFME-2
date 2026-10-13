@@ -67,8 +67,8 @@ class AmoebaListProvider : public AmoebaSlots<70> { public: virtual void fill(Am
 struct AmoebaHeld { unsigned char pad[0x120]; bool active; };
 class Rva0046ACF6 { public: int rva0046ACF6(int); };
 
-struct ICoord2DBase { int x,y; };
-struct ICoord2D : public ICoord2DBase {};
+#include "../../../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../../../../Libraries/Include/Lib/ICoord2DBase.h"
 struct AmoebaAttackEntry {
  void rva005872CF(const ICoord2DBase &);
  Coord3D position;
@@ -163,7 +163,7 @@ void AmoebaAttackEntry::rva005872CF(const ICoord2DBase &cell)
  if(timer==4) {
   for(int i=1;i<4;++i) cells[i-1]=cells[i];
  } else ++timer;
- static_cast<ICoord2DBase &>(cells[timer-1])=cell;
+ asBase(cells[timer-1])=cell;
 }
 
 // Native58776E..5877AF:65B RET8. Existing constructor table86FF38

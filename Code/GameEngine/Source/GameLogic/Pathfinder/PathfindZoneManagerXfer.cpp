@@ -17,11 +17,8 @@ struct Rva005334A4Element {unsigned short first, second;};
 // qualified lookup ABI; its complete class extent is not claimed.
 // Reusing the transferred count as the cell index matches WB source lifetime
 // and native stack layout. The block's vector call retains its transfer chain.
-struct ICoord2D
-{
- __forceinline void zero() {x=0;y=0;}
-	int x, y;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+static __forceinline void zeroICoord2D(ICoord2D &c) {c.x=0;c.y=0;}
 #include "../../../../Libraries/Include/Lib/IRegion2D.h"
 class Xfer
 {
@@ -753,7 +750,7 @@ Rva00534557Record rva0053442A(const int *src) {
 PathfindZoneManager::PathfindZoneManager()
  : Rva00531E14(24000),changed(24000),affected(24000),flag1BA30(false),flag1BA31(true),allocation(0),blocks(0)
 {
- dimensions.zero();
+ zeroICoord2D(dimensions);
 }
 
 // BooleanBitmapSet::DoEnum (WB Source/common/BitmapSet.h; retail 0x0053104A,

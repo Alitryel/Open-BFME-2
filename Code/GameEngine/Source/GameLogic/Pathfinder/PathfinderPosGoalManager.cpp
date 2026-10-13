@@ -183,8 +183,8 @@ __declspec(noinline) int __cdecl Rva004DD6CFGet(float angle)
 // offsets below are native; opaque virtual slots preserve the observed ABI.
 // Slot +0C is the path layer; +10 is the node-list category used by removal.
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
-struct ICoord2DBase { int x,y; };
-struct ICoord2D : ICoord2DBase { bool operator==(const ICoord2DBase &) const; };
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../../Libraries/Include/Lib/ICoord2DBase.h"
 template<int N> class NativeSlots : public NativeSlots<N-1> { public: virtual void gap(char (*)[N])=0; };
 template<> class NativeSlots<0> {};
 class AIUpdateInterface : public NativeSlots<137> { public: virtual bool isDoingGroundMovement() const=0; bool isAircraftThatAdjustsDestination() const; };
@@ -214,7 +214,7 @@ void Rva004DD843::SetGoal(int position,float angle,int layer)
  if (cell==*(ICoord2DBase *)goal && bin==m_goal.m_angle && layer==m_goal.m_pathLayer) return;
  Object *goalObject=m_object;
  if (goalObject->m_template->kind115 & 0x20) {
-   *(ICoord2DBase *)goal=cell; m_goal.m_angle=bin; m_goal.m_pathLayer=layer;
+   *(ICoord2DBase *)goal=asBase(cell); m_goal.m_angle=bin; m_goal.m_pathLayer=layer;
    NativeGoalContain *contain=(NativeGoalContain *)goalObject->rva0028C197();
    if (contain) contain->slot50();
  } else {
@@ -225,7 +225,7 @@ void Rva004DD843::SetGoal(int position,float angle,int layer)
      mode=2;
    }
    if (goal->m_value!=-666666) rva004DD8FA(goal);
-   *(ICoord2DBase *)goal=cell; m_goal.m_angle=bin; m_goal.m_pathLayer=layer; m_goal.m_listKind=mode;
+   *(ICoord2DBase *)goal=asBase(cell); m_goal.m_angle=bin; m_goal.m_pathLayer=layer; m_goal.m_listKind=mode;
    rva004DDF51(goal);
  }
 }

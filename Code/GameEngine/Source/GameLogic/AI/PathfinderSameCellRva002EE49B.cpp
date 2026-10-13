@@ -8,14 +8,8 @@
 // outputs feed the rowed ICoord2D equality operator4CAD. Original name unknown.
 
 #include "PathfinderPositionValue.h"
-struct ICoord2DBase
-{
-    int x, y;
-};
-struct ICoord2D : ICoord2DBase
-{
-    bool operator==(const ICoord2DBase &other) const;
-};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../../Libraries/Include/Lib/ICoord2DBase.h"
 
 bool __cdecl Rva002EBBFBIsOdd(void *object);
 ICoord2D *__cdecl Rva002E7875WorldToCell(ICoord2D *out, bool odd, const Coord3D *position);
@@ -136,7 +130,7 @@ Bool Pathfinder::IsValidObjectMovement(Object *obj, const Coord3D *oldPos, const
 	Rva002E7875WorldToCell(&newCell, center, newPos);
 	oldLayer = TheTerrainLogic->getLayerForDestination(obj, oldPos);
 	newLayer = TheTerrainLogic->getLayerForDestination(obj, newPos);
-	if (oldCell == newCell && oldLayer == newLayer)
+	if (oldCell == asBase(newCell) && oldLayer == newLayer)
 		return true;
 
 	oldC = getCell(oldLayer, oldCell.x, oldCell.y);
@@ -198,5 +192,5 @@ bool Pathfinder::rva002EE49B(Object *object, Rva002EE49BPosition first, Rva002EE
     bool odd = Rva002EBBFBIsOdd(object);
     ICoord2D firstCell, secondCell;
     return *Rva002E7875WorldToCell(&firstCell, odd, &first)
-        == *Rva002E7875WorldToCell(&secondCell, odd, &second);
+        == asBase(*Rva002E7875WorldToCell(&secondCell, odd, &second));
 }
