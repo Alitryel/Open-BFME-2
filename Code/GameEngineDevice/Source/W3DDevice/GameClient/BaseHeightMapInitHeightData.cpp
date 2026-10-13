@@ -239,9 +239,9 @@ int BaseHeightMapRenderObjClass::initHeightData(int x,int y,WorldHeightMap*pMap,
  if(pMap)data=pMap->data;
  if(treeBuffer){
   Region2D bounds;
-  bounds.lo=0;bounds.y_min=0;
-  bounds.hi=(pMap->getXExtent()-2*pMap->getBorderSize())*10.0f;
-  bounds.y_max=(pMap->getYExtent()-2*pMap->getBorderSize())*10.0f;
+  bounds.lo.x=0;bounds.lo.y=0;
+  bounds.hi.x=(pMap->getXExtent()-2*pMap->getBorderSize())*10.0f;
+  bounds.hi.y=(pMap->getYExtent()-2*pMap->getBorderSize())*10.0f;
   treeBuffer->bounds=bounds;
  }
  if(pMap){

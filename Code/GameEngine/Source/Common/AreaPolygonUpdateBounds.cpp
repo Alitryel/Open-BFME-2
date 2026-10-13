@@ -48,29 +48,29 @@ struct AreaPolygonBase
 
 void AreaPolygonBase::rva0030B3D1()
 {
-	m_bounds.lo = m_bounds.y_min = FLT_MAX;
-	m_bounds.hi = m_bounds.y_max = -FLT_MAX;
+	m_bounds.lo.x = m_bounds.lo.y = FLT_MAX;
+	m_bounds.hi.x = m_bounds.hi.y = -FLT_MAX;
 
 	_STL::vector<MathCoord2D, _STL::allocator<MathCoord2D> >::const_iterator end = m_points.end();
 	_STL::vector<MathCoord2D, _STL::allocator<MathCoord2D> >::const_iterator it;
 	for (it = m_points.begin(); it != end; ++it)
 	{
-		if (it->x < m_bounds.lo)
-			m_bounds.lo = it->x;
-		if (it->y < m_bounds.y_min)
-			m_bounds.y_min = it->y;
-		if (it->x > m_bounds.hi)
-			m_bounds.hi = it->x;
-		if (it->y > m_bounds.y_max)
-			m_bounds.y_max = it->y;
+		if (it->x < m_bounds.lo.x)
+			m_bounds.lo.x = it->x;
+		if (it->y < m_bounds.lo.y)
+			m_bounds.lo.y = it->y;
+		if (it->x > m_bounds.hi.x)
+			m_bounds.hi.x = it->x;
+		if (it->y > m_bounds.hi.y)
+			m_bounds.hi.y = it->y;
 	}
 
-	float halfWidth = (m_bounds.hi - m_bounds.lo) / 2.0f;
-	float halfHeight = (m_bounds.y_max - m_bounds.y_min) / 2.0f;
+	float halfWidth = (m_bounds.hi.x - m_bounds.lo.x) / 2.0f;
+	float halfHeight = (m_bounds.hi.y - m_bounds.lo.y) / 2.0f;
 	m_radius = sqrt(halfHeight * halfHeight + halfWidth * halfWidth);
 
 	float minDistSqr = FLT_MAX;
-	MathCoord2D center((m_bounds.lo + m_bounds.hi) * 0.5f, (m_bounds.y_min + m_bounds.y_max) * 0.5f);
+	MathCoord2D center((m_bounds.lo.x + m_bounds.hi.x) * 0.5f, (m_bounds.lo.y + m_bounds.hi.y) * 0.5f);
 	_STL::vector<MathCoord2D, _STL::allocator<MathCoord2D> >::const_iterator prev = m_points.end() - 1;
 	for (it = m_points.begin(); it != end; prev = it, ++it)
 	{

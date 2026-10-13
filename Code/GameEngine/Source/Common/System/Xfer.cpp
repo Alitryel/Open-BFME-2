@@ -29,11 +29,7 @@ struct IRegion3D
     ICoord3D hi;
 };
 
-struct Region2D
-{
-    Coord2D lo;
-    Coord2D hi;
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 
 #include "../../../../Libraries/Include/Lib/IRegion2D.h"
 

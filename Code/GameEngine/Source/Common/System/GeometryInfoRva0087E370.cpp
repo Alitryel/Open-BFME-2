@@ -19,11 +19,7 @@ struct Point2D
 	Real y;
 };
 
-struct Region2D
-{
-	Point2D lo;
-	Point2D hi;
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 

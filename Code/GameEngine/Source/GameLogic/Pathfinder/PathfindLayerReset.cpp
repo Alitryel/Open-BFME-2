@@ -392,10 +392,10 @@ void PathfindLayer::ClassifyBridgeCells()
    {
     if(inside!=0)cell->SetType_Dirty(6);
     Region2D region;
-    region.lo=lo.x;
-    region.y_min=lo.y;
-    region.hi=hi.x;
-    region.y_max=hi.y;
+    region.lo.x=lo.x;
+    region.lo.y=lo.y;
+    region.hi.x=hi.x;
+    region.hi.y=hi.y;
     if(m_bridge->isCellOnSide(&region))cell->SetType_Dirty(6);
     else 
     {

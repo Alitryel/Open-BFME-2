@@ -106,7 +106,11 @@ def views(name, sources, jobs=8):
     def one(source):
         try:
             got = class_layouts.private_views(source, builder, {name})
-            return source, got.get(name) or {"error": "no CodeView record"}, got
+            # The whole type stream (cached by private_views' compile) supplies
+            # the member aggregates flatten(leaves=True) expands.
+            every = dict(class_layouts.compile_layouts(source, builder)) if got.get(name) else {}
+            every.update(got)
+            return source, got.get(name) or {"error": "no CodeView record"}, every
         except RuntimeError as exc:
             return source, {"error": str(exc)}, {}
     out, every = {}, {}
@@ -124,18 +128,74 @@ def kind(type_name):
     return PRIMK.get(type_name, "S:" + type_name)
 
 
-def flatten(layout, every, base=0, depth=0):
-    """[(offset, size, kind, name, type)] with known bases expanded and pads dropped."""
+def aggregate(every, type_name, size):
+    """The layout of a plain member aggregate `type_name` (no vftable), else None."""
+    layout = every.get(type_name)
+    if not layout or layout.get("fwd") or layout.get("vfptr") or layout.get("virtual") or layout.get("size") != size:
+        return None
+    return layout
+
+
+def flatten(layout, every, base=0, depth=0, leaves=False, prefix=""):
+    """[(offset, size, kind, name, type)] with known bases expanded and pads dropped.
+
+    leaves=True also expands plain member aggregates into their scalars, named
+    `member.field`: a view spelling `Coord2D lo` and one spelling `float x_min,
+    y_min` then vote on the same offsets (regroup() restores the aggregate)."""
     out = []
     if layout.get("vfptr") and not layout.get("bases"):
-        out.append((base, 4, "VPTR", "__vfptr", "void*"))
+        out.append((base, 4, "VPTR", prefix + "__vfptr", "void*"))
     for base_name, offset in layout.get("bases", []):
         if base_name in every and depth < 6:
-            out += flatten(every[base_name], every, base + max(offset, 0), depth + 1)
+            out += flatten(every[base_name], every, base + max(offset, 0), depth + 1, leaves, prefix)
     for offset, field, type_name, size in layout.get("fields", []):
         if PAD.match(field) or (type_name.startswith(("char[", "uchar[")) and field.startswith(("pad", "_", "m_pad"))):
             continue
-        out.append((base + offset, size, kind(type_name), field, type_name))
+        member = aggregate(every, type_name, size) if leaves and depth < 6 else None
+        if member is not None:
+            inner = flatten(member, every, base + offset, depth + 1, True, prefix + field + ".")
+            if inner:
+                out += inner
+                continue
+        out.append((base + offset, size, kind(type_name), prefix + field, type_name))
+    return out
+
+
+def leaf_shape(layout, every, offset):
+    return [(o, size, k) for o, size, k, _, _ in flatten(layout, every, offset, 1, True)]
+
+
+RULE_STRENGTH = ("bytes", "retail-access", "zh", "majority")
+
+
+def regroup(name, fields, nested, queue):
+    """Fold decided scalar leaves back into the member aggregate that declares them.
+
+    `nested` lists (offset, size, type, label, rule, leaves) candidates, ZH's own
+    members first, then the views' by majority. A candidate folds when the
+    decided fields in its span are exactly its leaves (offset, width, kind); a
+    dotted label left over is a member no candidate explains: queued."""
+    out, taken = list(fields), set()
+    for offset, size, type_name, label, rule, leaves in nested:
+        if any(offset <= t < offset + size for t in taken):
+            continue
+        inside = [f for f in out if offset <= f["offset"] < offset + size]
+        if [(f["offset"], f["size"], f["kind"]) for f in inside] != leaves:
+            continue
+        weakest = max((f["decided_by"] for f in inside), key=lambda r: RULE_STRENGTH.index(r)
+                      if r in RULE_STRENGTH else len(RULE_STRENGTH))
+        folded = {"offset": offset, "size": size, "kind": "S:" + type_name, "type": type_name, "name": label,
+                  "decided_by": weakest, "name_by": rule, "views": max(f["views"] for f in inside),
+                  "retail_widths": {}, "witness": None,
+                  "members": [{"offset": f["offset"] - offset, "size": f["size"], "kind": f["kind"],
+                               "type": f["type"], "name": f["name"].split(".")[-1]} for f in inside]}
+        index = out.index(inside[0])
+        out = [f for f in out if f not in inside]
+        out.insert(index, folded)
+        taken.update(range(offset, offset + size))
+    for f in out:
+        if "." in f["name"]:
+            queue.append({"class": name, "attribute": f"nested@{f['offset']:#x}", "candidates": {f["name"]: f["views"]}})
     return out
 
 
@@ -280,9 +340,9 @@ def decide(name, sources=None, jobs=8, sample=None):
         sources = sorted(random.Random(20261006).sample(sources, sample))
     got, every = views(name, sources, jobs)
     good = {s: L for s, L in got.items() if "error" not in L}
-    flat = {s: flatten(L, every[s]) for s, L in good.items()}
+    flat = {s: flatten(L, every[s], leaves=True) for s, L in good.items()}
     zh = zh_layout(name, builder)
-    zh_flat = flatten(zh["layout"], zh["every"]) if zh and "layout" in zh else []
+    zh_flat = flatten(zh["layout"], zh["every"], leaves=True) if zh and "layout" in zh else []
     zh_at = {o: (s, k, n, t) for o, s, k, n, t in zh_flat}
     access = retail_access(name, rows, builder)
     witness = witnesses(name)
@@ -339,6 +399,21 @@ def decide(name, sources=None, jobs=8, sample=None):
         fields.append({"offset": offset, "size": pick[0], "kind": pick[1], "type": type_name, "name": label,
                        "decided_by": rule, "name_by": label_rule, "views": sum(votes.values()),
                        "retail_widths": access.get(offset, {}), "witness": witness.get(offset)})
+    nested = []
+    if zh and "layout" in zh:
+        for offset, field, type_name, size in zh["layout"].get("fields", []):
+            member = aggregate(zh["every"], type_name, size)
+            if member is not None:
+                nested.append((offset, size, type_name, field, "zh", leaf_shape(member, zh["every"], offset)))
+    seen, shapes = collections.Counter(), {}
+    for source, L in good.items():
+        for offset, field, type_name, size in L.get("fields", []):
+            member = aggregate(every[source], type_name, size)
+            if member is not None:
+                seen[(offset, size, type_name, field)] += 1
+                shapes.setdefault((offset, size, type_name, field), leaf_shape(member, every[source], offset))
+    nested += [(*member, "majority", shapes[member]) for member, _ in seen.most_common()]
+    fields = regroup(name, fields, nested, queue)
     # A field that straddles another decided field is a layout conflict, whatever the votes say.
     spans = [(f["offset"], f["offset"] + f["size"]) for f in fields if f["size"]]
     for f in fields:

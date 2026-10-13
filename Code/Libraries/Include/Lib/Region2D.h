@@ -4,11 +4,11 @@
 #ifndef CANONICAL_REGION2D_H
 #define CANONICAL_REGION2D_H
 
+#include "Coord2D.h"
+
 struct Region2D {
-    float lo;
-    float y_min;
-    float hi;
-    float y_max;
+    Coord2D lo;
+    Coord2D hi;
     Region2D() {}
 };
 

@@ -30,11 +30,7 @@ enum GeometryType
 
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
 
-struct Region2D
-{
-	Coord2D lo;
-	Coord2D hi;
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 
 struct GeometryShape
 {

@@ -79,11 +79,7 @@ public:
 
 class Drawable;
 
-struct Region2D
-{
-	Coord2D lo;
-	Coord2D hi;
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 
 // LineInRegion (0x0027C4F4) is defined here, ahead of the Bridge cell tests
 // that call it, as retail's adjacent layout has it: Zero Hour's TerrainLogic.cpp

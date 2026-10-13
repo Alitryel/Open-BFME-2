@@ -31,10 +31,7 @@ struct Coord2DView
 {
 	Real x, y;
 };
-struct Region2D
-{
-	Coord2DView lo, hi;
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 
 #define PATHFIND_CELL_SIZE_F 10.0f
 

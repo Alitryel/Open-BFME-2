@@ -112,3 +112,46 @@ def test_qualified_class_key_rewrite_preserves_scope(tmp_path, monkeypatch):
     monkeypatch.setattr(lane, "LEDGER", ledger)
     assert lane.ledger_renames("clip.cpp", NAME, "class") == [
         (before, before.replace("PAUImpl", "PAVImpl"))]
+
+
+COORD2D = {"size": 8, "bases": [], "fields": [[0, "x", "float", 4], [4, "y", "float", 4]]}
+REGION2D = {"size": 16, "bases": [], "fields": [[0, "lo", "Coord2D", 8], [8, "hi", "Coord2D", 8]]}
+
+
+def test_member_aggregates_vote_as_leaves_and_fold_back():
+    every = {"Coord2D": COORD2D, "Region2D": REGION2D}
+    # Without leaves a member aggregate stays one 8-byte field (the old,
+    # retail-access-overridden shape: `float lo` at +0 with a 4-byte width).
+    assert [f[3] for f in contract.flatten(REGION2D, every)] == ["lo", "hi"]
+    flat = contract.flatten(REGION2D, every, leaves=True)
+    assert [(o, s, k, n) for o, s, k, n, _ in flat] == [
+        (0, 4, "f4", "lo.x"), (4, 4, "f4", "lo.y"), (8, 4, "f4", "hi.x"), (12, 4, "f4", "hi.y")]
+    fields = [{"offset": o, "size": s, "kind": k, "type": t, "name": n, "decided_by": "retail-access", "views": 3}
+              for o, s, k, n, t in flat]
+    nested = [(0, 8, "Coord2D", "lo", "zh", contract.leaf_shape(COORD2D, every, 0)),
+              (8, 8, "Coord2D", "hi", "zh", contract.leaf_shape(COORD2D, every, 8))]
+    queue = []
+    out = contract.regroup("Region2D", fields, nested, queue)
+    assert [(f["offset"], f["kind"], f["name"]) for f in out] == [(0, "S:Coord2D", "lo"), (8, "S:Coord2D", "hi")]
+    assert [m["name"] for m in out[0]["members"]] == ["x", "y"]
+    assert queue == []
+    # A dotted leaf no candidate explains is queued, never spelled.
+    queue = []
+    contract.regroup("Region2D", fields, nested[:1], queue)
+    assert [q["attribute"] for q in queue] == ["nested@0x8", "nested@0xc"]
+
+
+def test_generated_header_includes_nested_canonical_headers(tmp_path, monkeypatch):
+    registry = tmp_path / "canonical_classes.csv"
+    registry.write_text("class,header,notes\nCoord2D,Code/Lib/Coord2D.h,x\n", encoding="utf-8")
+    monkeypatch.setattr(lane, "REGISTRY", registry)
+    monkeypatch.setattr(lane, "ROOT", tmp_path)
+    monkeypatch.setattr(contract, "ROOT", tmp_path)
+    monkeypatch.setattr(contract, "CONTRACTS", tmp_path / "contracts")
+    region = {"class": "Region2D", "key": "struct", "key_by": "bytes", "size": 16, "size_by": "zh", "bases": [],
+              "fields": [{"offset": 0, "size": 8, "kind": "S:Coord2D", "type": "Coord2D", "name": "lo"},
+                         {"offset": 8, "size": 8, "kind": "S:Coord2D", "type": "Coord2D", "name": "hi"}]}
+    text = lane.generate(region, "data", {}, "Code/Lib/Region2D.h")
+    assert text.count('#include "Coord2D.h"') == 1
+    assert "Coord2D lo;" in text and "Coord2D hi;" in text
+    assert '#include "../Lib/Coord2D.h"' in lane.generate(region, "data", {}, "Code/Other/Region2D.h")

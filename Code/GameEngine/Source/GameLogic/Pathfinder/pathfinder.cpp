@@ -3476,11 +3476,11 @@ Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToA
  while((parent=rva002F36E5())!=0) {
   Region2D bounds;
   PathfinderCellPoint cellCenter=Rva002E8C23Call(center,parent);
-  bounds.lo=cellCenter.x-boxHalfWidth;bounds.y_min=cellCenter.y-boxHalfWidth;
-  bounds.hi=cellCenter.x+boxHalfWidth;bounds.y_max=cellCenter.y+boxHalfWidth;
+  bounds.lo.x=cellCenter.x-boxHalfWidth;bounds.lo.y=cellCenter.y-boxHalfWidth;
+  bounds.hi.x=cellCenter.x+boxHalfWidth;bounds.hi.y=cellCenter.y+boxHalfWidth;
   PathNode *node;
   Bool overlap=false;
-  if(bounds.lo<obj->position[0] && bounds.hi>obj->position[0] && bounds.y_min<obj->position[1] && bounds.y_max>obj->position[1])overlap=true;
+  if(bounds.lo.x<obj->position[0] && bounds.hi.x>obj->position[0] && bounds.lo.y<obj->position[1] && bounds.hi.y>obj->position[1])overlap=true;
   if(pathToAvoid) {
    for(node=pathToAvoid->firstNode;node && node->getNextOptimized();node=node->getNextOptimized()) {
     Coord2D first,last;first.x=node->getPosition()->x;first.y=node->getPosition()->y;
@@ -3488,7 +3488,7 @@ Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToA
     if(LineInRegion(&first,&last,&bounds)){overlap=true;break;}
    }
   }
-  if(bounds.lo<otherObj->position[0] && bounds.hi>otherObj->position[0] && bounds.y_min<otherObj->position[1] && bounds.y_max>otherObj->position[1])overlap=true;
+  if(bounds.lo.x<otherObj->position[0] && bounds.hi.x>otherObj->position[0] && bounds.lo.y<otherObj->position[1] && bounds.hi.y>otherObj->position[1])overlap=true;
   if(!overlap && pathToAvoid2) {
    for(node=pathToAvoid2->firstNode;node && node->getNextOptimized();node=node->getNextOptimized()) {
     Coord2D first,last;first.x=node->getPosition()->x;first.y=node->getPosition()->y;

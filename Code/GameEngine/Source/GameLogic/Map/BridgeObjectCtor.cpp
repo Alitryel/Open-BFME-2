@@ -77,11 +77,7 @@ const Real PATHFIND_CELL_SIZE_F = 10.0f;
 
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
 
-struct Region2D
-{
-	Coord2D lo;
-	Coord2D hi;
-};
+#include "../../../../Libraries/Include/Lib/Region2D.h"
 
 class Rva0027C36A
 {
