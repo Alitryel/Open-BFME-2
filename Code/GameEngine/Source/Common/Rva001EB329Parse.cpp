@@ -1,22 +1,46 @@
 // cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // ?rva001EB329@Rva001EB329@@QAEXPAVINI@@@Z, retail 0x001EB329, 89 bytes.
 // __thiscall INI parse validator: initFromINI(this) via rowed 0x0002DE78 and table
-// g_00BDF0E8, then if map string at +4 isEmpty (rowed StringBase 0x00001E2F) throw
+// CampaignMissionFieldParse (VA 0x00BDF0E8), then if map string at +4 isEmpty (rowed StringBase 0x00001E2F) throw
 // INIException code 3 with retail literal using mission string at +0 as t ? t+8
 // : g_Rva0107301CEmptyString. Throw idiom (ctor 0x0002F681 plus CxxThrow plus
 // throwinfo anchor) from Rva004135CDParse. Evidence: leaf lane, caller 0x001ED326,
 // prev Rva001EB2CCMapPath and next Rva001EB3A6BoundsCheck share flags.
 #include "ascii_string.h"
 
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 
 class INI
 {
 public:
 	void initFromINI(void *what, const FieldParse *table);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseDurationUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseAsciiStringVectorAppend(INI *ini, void *instance, void *store, const void *userData);
 };
 
-extern const FieldParse g_00BDF0E8;
+void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
+
+// Retail's campaign mission field table at VA 0x00BDF0E8 (.rdata, 112 bytes:
+// six records and the zero sentinel), transcribed from retail's own bytes.
+extern const FieldParse CampaignMissionFieldParse[] =
+{
+	{ "Map",                                 &INI::parseAsciiString,             0, 0x04 },
+	{ "IntroMovie",                          &INI::parseAsciiString,             0, 0x08 },
+	{ "LoadScreenImage",                     &INI::parseAsciiString,             0, 0x0C },
+	{ "LoadScreenMusicTrack",                &Rva00339900Parse,                  0, 0x10 },
+	{ "MillisecondsAfterStartToStartFadeUp", &INI::parseDurationUnsignedInt,     0, 0x14 },
+	{ "DelayCarryoverSpawningOf",            &INI::parseAsciiStringVectorAppend, 0, 0x18 },
+	{ 0, 0, 0, 0 }
+};
+
 
 struct INIException
 {
@@ -40,7 +64,7 @@ private:
 
 void Rva001EB329::rva001EB329(INI *ini)
 {
-	ini->initFromINI(this, &g_00BDF0E8);
+	ini->initFromINI(this, CampaignMissionFieldParse);
 	if (((const StringBase<char> *)&m_mapName)->isEmpty())
 	{
 		char *t = *(char **)this;

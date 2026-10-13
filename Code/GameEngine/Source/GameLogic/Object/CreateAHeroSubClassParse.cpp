@@ -41,11 +41,22 @@ public:
 };
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 class INI
 {
 public:
 	void initFromINI(void *what, const FieldParse *parseTable);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseColorInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseIndexList(INI *ini, void *instance, void *store, const void *userData);
 };
 
 class INIException
@@ -115,7 +126,7 @@ template <class _RandomAccessIter, class _Compare>
 void sort(_RandomAccessIter first, _RandomAccessIter last, _Compare comp);
 }
 
-extern "C" const FieldParse CreateAHeroSubClassFieldParse[];
+extern "C" FieldParse CreateAHeroSubClassFieldParse[];
 
 class CreateAHeroManager
 {
@@ -140,9 +151,58 @@ public:
 	};
 
 	static void parseCreateAHeroSubClass(INI *ini, void *instance, void *store, const void *userData);
+	static void parseHeroBlingUpgrades(INI *ini, void *instance, void *store, const void *userData);
 	Bool FindBlingByUpgradeName(const AsciiString &upgradeName, Int *index, Int *blingId);
 };
 extern CreateAHeroManager *TheCreateAHeroManager;
+
+void rva0021A7A3(INI *ini, void *instance, void *store, const void *userData);
+void rva0021A859(INI *ini, void *instance, void *store, const void *userData);
+void parseCreateAHeroBlingBinder(INI *ini, void *instance, void *store, const void *userData);
+void Rva00219440Parse(INI *ini, void *instance, void *store, const void *userData);
+class Rva0021B7B6
+{
+public:
+	static void parseFromINI(INI *ini, void *instance, void *store, const void *userData);
+};
+
+// Retail's faction name list at VA 0x00DB9D18 (.data, 32 bytes: seven names
+// and the null), the parseIndexList user data of DefaultFaction below; the
+// table is its only reference.
+const char *CreateAHeroFactionNames[] =
+{
+	"Men",
+	"Elves",
+	"Dwarves",
+	"Isengard",
+	"Mordor",
+	"Wild",
+	"Neutral",
+	0
+};
+
+// Retail's subclass field table at VA 0x00DB9FC8 (.data, 272 bytes: sixteen
+// records and the zero sentinel), transcribed from retail's own bytes.
+extern "C" FieldParse CreateAHeroSubClassFieldParse[] =
+{
+	{ "BlingUpgrades",            &CreateAHeroManager::parseHeroBlingUpgrades, 0,                       0x00 },
+	{ "Awards",                   &rva0021A7A3,                                0,                       0x30 },
+	{ "Stats",                    &rva0021A859,                                0,                       0x3C },
+	{ "UpgradeName",              &INI::parseAsciiString,                      0,                       0x20 },
+	{ "NameTag",                  &INI::parseAsciiString,                      0,                       0x00 },
+	{ "DescriptionTag",           &INI::parseAsciiString,                      0,                       0x04 },
+	{ "IconImage",                &INI::parseAsciiString,                      0,                       0x08 },
+	{ "ButtonImage",              &INI::parseAsciiString,                      0,                       0x0C },
+	{ "DefaultPrimaryColor",      &INI::parseColorInt,                         0,                       0x10 },
+	{ "DefaultSecondaryColor",    &INI::parseColorInt,                         0,                       0x14 },
+	{ "DefaultTertiaryColor",     &INI::parseColorInt,                         0,                       0x18 },
+	{ "SpendableAttributePoints", &INI::parseInt,                              0,                       0x1C },
+	{ "Attribute",                &parseCreateAHeroBlingBinder,                0,                       0x00 },
+	{ "DefaultFaction",           &INI::parseIndexList,                        CreateAHeroFactionNames, 0x64 },
+	{ "UsableFactions",           &Rva0021B7B6::parseFromINI,                  0,                       0x68 },
+	{ "ViewInfo",                 &Rva00219440Parse,                           0,                       0x6C },
+	{ 0, 0, 0, 0 }
+};
 
 // The subclass vector's push_back is rowed at 0x0021FAAE (stlport_pod_vector_bodies.cpp);
 // declare its specialization so this unit calls it instead of emitting a copy.

@@ -15,7 +15,19 @@ struct RegionBonusNameValue
 	int value;
 };
 
-extern RegionBonusNameValue g_regionBonusNameValues[]; // retail 0x00C36880
+// Retail's {name, value} table at VA 0x00C36880 (.rdata, 64 bytes: seven
+// pairs and the null pair), transcribed from retail's own bytes.
+extern const RegionBonusNameValue g_regionBonusNameValues[] =
+{
+	{ "None",       0 },
+	{ "Resource",   1 },
+	{ "Army",       2 },
+	{ "Legendary",  3 },
+	{ "Attack",     4 },
+	{ "Defense",    5 },
+	{ "Experience", 6 },
+	{ 0,            0 }
+};
 
 // ?Rva003F1540_LookupRegionBonus@@YAHABVAsciiString@@@Z
 int Rva003F1540_LookupRegionBonus(const AsciiString &name)
