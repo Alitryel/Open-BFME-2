@@ -574,13 +574,13 @@ void FireLogicSystem::rva002872BA(const PolygonTrigger *area, Int delta, bool on
 		return;
 	Rva0030B719Shape *shape = (Rva0030B719Shape *)((char *)area + 8);
 	Region2D bounds = shape->rva0030B6E3();
-	float f = (float)floor(bounds.lo * 0.1f + 0.5);
+	float f = (float)floor(bounds.lo.x * 0.1f + 0.5);
 	Int x0 = FloatToLong(f);
-	f = (float)floor(bounds.hi * 0.1f + 0.5);
+	f = (float)floor(bounds.hi.x * 0.1f + 0.5);
 	Int x1 = FloatToLong(f);
-	f = (float)floor(bounds.y_min * 0.1f + 0.5);
+	f = (float)floor(bounds.lo.y * 0.1f + 0.5);
 	Int y0 = FloatToLong(f);
-	f = (float)floor(bounds.y_max * 0.1f + 0.5);
+	f = (float)floor(bounds.hi.y * 0.1f + 0.5);
 	Int y1 = FloatToLong(f);
 	for (Int x = x0; x <= x1; ++x)
 	{
@@ -673,10 +673,10 @@ bool FireLogicSystem::rva00286772(const PolygonTrigger *area, Int minBurn)
 		node = (Rva00286214Node *)_STL::_Rb_global<bool>::_M_increment((_STL::_Rb_tree_node_base *)node))
 	{
 		float x = (float)node->m_key.x;
-		if (bounds.lo > x || x > bounds.hi)
+		if (bounds.lo.x > x || x > bounds.hi.x)
 			continue;
 		float y = (float)node->m_key.y;
-		if (bounds.y_min > y || y > bounds.y_max)
+		if (bounds.lo.y > y || y > bounds.hi.y)
 			continue;
 		Coord3D pos;
 		pos.x = x;

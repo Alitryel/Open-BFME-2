@@ -243,6 +243,9 @@ def generate(contract, variant, methods, header=None):
         lines.append(f"    {spelled(field['type'], field['name'])};")
     if "ctor" in variant:
         lines.append(f"    {name}() {{}}")
+    if "copy" in variant.split("+"):
+        # an out-of-line copy constructor: retail calls one (a matched ??0X@@QAE@ABU0@@Z row)
+        lines.append(f"    {name}(const {name} &that);")
     if "methods" in variant:
         for member in methods.values():
             lines.append("    " + member.replace("\n", "\n    "))
@@ -574,7 +577,8 @@ def main(argv=None):
     p.add_argument("--class", dest="name", required=True)
     p.add_argument("--header")
     p.add_argument("--generate", action="store_true", help="generate the header from the contract (tournament)")
-    p.add_argument("--variants", default="data,data+ctor,data+methods")
+    p.add_argument("--variants", default="data,data+ctor,data+methods",
+                   help="tokens joined by +: data, ctor (inline default ctor), copy (out-of-line copy ctor), methods")
     p.add_argument("--sample", type=int)
     p.add_argument("--seed", type=int, default=20261006)
     p.add_argument("--jobs", type=int, default=max(2, (os.cpu_count() or 4) // 2))

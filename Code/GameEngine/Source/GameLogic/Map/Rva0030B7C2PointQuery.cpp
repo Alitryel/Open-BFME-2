@@ -24,8 +24,8 @@ bool rva0030B5AF(const Rva0030B7C2Point *, Rva0030B719Shape *);
 bool rva0030B7C2(const Rva0030B7C2Point *point, Rva0030B719Shape *shape)
 {
  Region2D bounds = shape->rva0030B6E3();
- if (bounds.lo > point->x || bounds.y_min > point->y ||
-     point->x > bounds.hi || point->y > bounds.y_max)
+ if (bounds.lo.x > point->x || bounds.lo.y > point->y ||
+     point->x > bounds.hi.x || point->y > bounds.hi.y)
   return false;
  return rva0030B5AF(point,shape);
 }

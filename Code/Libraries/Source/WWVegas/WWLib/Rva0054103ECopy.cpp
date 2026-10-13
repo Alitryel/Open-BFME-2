@@ -8,14 +8,7 @@
 // at 0x005410B1 with count (last-first)/0x14, guard at 0x0054106D, uninit copy
 // at 0x0054115F, insert at 0x00541DDF); no vptr stores so non-virtual.
 
-struct Region2D
-{
-	Region2D(const Region2D &that);
-	float x_min;
-	float y_min;
-	float x_max;
-	float y_max;
-};
+#include "../../../Include/Lib/Region2D.h"
 
 class Rva0054103E
 {

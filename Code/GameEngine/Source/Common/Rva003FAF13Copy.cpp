@@ -20,13 +20,7 @@ public:
     char m_bytes[4];
 };
 
-struct Region2D {
-    Region2D(const Region2D &that);
-    float x_min;
-    float y_min;
-    float x_max;
-    float y_max;
-};
+#include "../../../Libraries/Include/Lib/Region2D.h"
 
 class Rva003FAB93 {
 public:

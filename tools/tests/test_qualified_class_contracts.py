@@ -155,3 +155,6 @@ def test_generated_header_includes_nested_canonical_headers(tmp_path, monkeypatc
     assert text.count('#include "Coord2D.h"') == 1
     assert "Coord2D lo;" in text and "Coord2D hi;" in text
     assert '#include "../Lib/Coord2D.h"' in lane.generate(region, "data", {}, "Code/Other/Region2D.h")
+    copy = lane.generate(region, "data+ctor+copy", {}, "Code/Lib/Region2D.h")
+    assert "Region2D() {}" in copy and "Region2D(const Region2D &that);" in copy
+    assert "Region2D(const Region2D &that);" not in text

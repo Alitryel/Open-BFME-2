@@ -21,14 +21,7 @@
 typedef bool Bool;
 typedef float Real;
 
-struct Region2D
-{
-	Region2D(const Region2D &that);
-	float x_min;
-	float y_min;
-	float x_max;
-	float y_max;
-};
+#include "../../../Libraries/Include/Lib/Region2D.h"
 
 struct Rva0030B72CPoint
 {
@@ -91,8 +84,8 @@ Rva0030B72CPoint Rva0030B719Shape::rva0030B72C() const
 	if (m_dirty)
 		const_cast<Rva0030B719Shape *>(this)->rva0030B3D1();
 	Rva0030B72CPoint result;
-	result.x = (m_region.x_max + m_region.x_min) * 0.5f;
-	result.y = (m_region.y_max + m_region.y_min) * 0.5f;
+	result.x = (m_region.hi.x + m_region.lo.x) * 0.5f;
+	result.y = (m_region.hi.y + m_region.lo.y) * 0.5f;
 	return result;
 }
 
