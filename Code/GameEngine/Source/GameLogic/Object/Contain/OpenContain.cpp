@@ -665,17 +665,9 @@ void OpenContain::scatterToNearbyPosition(Object* rider)
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?OpenContain::onContaining present-unmatched
-void OpenContain::onContaining( Object *rider, Bool wasSelected )
-{
-	// Play audio
-	if( m_loadSoundsEnabled )
-	{
-		AudioEventRTS enterSound = *getObject()->getTemplate()->getSoundEnter();
-		enterSound.setObjectID(getObject()->getID());
-		TheAudio->addAudioEvent(&enterSound);
-	}
-}
+// OpenContain::onContaining is defined with its independently verified BFME2
+// body in Rva00463097Audio.cpp (0x00463097), which keys the enter sound
+// by the owner's Drawable instead of the donor's template sound.
 
 //-------------------------------------------------------------------------------------------------
 // OpenContain::onRemoving is defined with its independently verified BFME2
