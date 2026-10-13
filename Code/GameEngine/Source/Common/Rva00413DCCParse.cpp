@@ -7,13 +7,30 @@
 // 0x0002F681 plus CxxThrow 0x00629094 plus throwinfo anchor 0x00CFE2FC).
 // Evidence: unlock lane; caller 0x00414009; packet message; drain sibling of
 // 0x004135CD.
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 class INI
 {
 public:
 	void initFromINI(void *what, const FieldParse *table);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
 };
-extern const FieldParse g_00839E58;
+// Retail's field table at VA 0x00C39E58 (.rdata, 64 bytes), transcribed from
+// retail's own bytes: three records plus the null terminator.
+extern const FieldParse ResourceBonusFieldParse[] =
+{
+	{ "MinResourceBonus", &INI::parseInt,  0, 0x0 },
+	{ "WeaponMultiplier", &INI::parseReal, 0, 0x4 },
+	{ "ArmorMultiplier",  &INI::parseReal, 0, 0x8 },
+	{ 0, 0, 0, 0 }
+};
 struct INIException
 {
 	char *mFailureMessage;
@@ -33,7 +50,7 @@ private:
 // was ?rva00413DCC@Rva00413DCC@@QAEXPAVINI@@@Z
 void LivingWorldAutoResolveResourceBonus::parseBonusIniSubBlock(INI *ini)
 {
-	ini->initFromINI(this, &g_00839E58);
+	ini->initFromINI(this, ResourceBonusFieldParse);
 	if (m_value00 < 0)
 	{
 		INIException exc(3, "Must provide a MinResourceBonus, and it must be >= 0");

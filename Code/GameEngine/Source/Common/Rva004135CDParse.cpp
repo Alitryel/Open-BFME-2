@@ -7,13 +7,30 @@
 // 0x00629094 plus throwinfo anchor 0x00CFE2FC) from RankInfoParse. Evidence:
 // unlock lane; caller 0x004138C7 (Duplicate message sibling in string_xrefs);
 // string_xrefs full message; prev/next Common TUs.
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 class INI
 {
 public:
 	void initFromINI(void *what, const FieldParse *table);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
 };
-extern const FieldParse g_00839A78;
+// Retail's field table at VA 0x00C39A78 (.rdata, 64 bytes), transcribed from
+// retail's own bytes: three records plus the null terminator.
+extern const FieldParse SciencePurchasePointBonusFieldParse[] =
+{
+	{ "MinSciencePurchasePointsForBonus", &INI::parseInt,  0, 0x0 },
+	{ "WeaponMultiplier",                 &INI::parseReal, 0, 0x4 },
+	{ "ArmorMultiplier",                  &INI::parseReal, 0, 0x8 },
+	{ 0, 0, 0, 0 }
+};
 struct INIException
 {
 	char *mFailureMessage;
@@ -33,7 +50,7 @@ private:
 // was ?rva004135CD@Rva004135CD@@QAEXPAVINI@@@Z
 void LivingWorldAutoResolveSciencePurchasePointBonus::parseBonusIniSubBlock(INI *ini)
 {
-	ini->initFromINI(this, &g_00839A78);
+	ini->initFromINI(this, SciencePurchasePointBonusFieldParse);
 	if (m_value00 < 0)
 	{
 		INIException exc(3, "Must provide a MinSciencePurchasePointsForBonus, and it must be >= 0");

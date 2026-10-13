@@ -1,19 +1,29 @@
 // cl: /Oy- /DNDEBUG /MD /GX-
 // ?Rva004FD77CParse@@YAXPAVINI@@PAVScenario@LivingWorldScenario@@@Z @0x004FD77C 98B.
 // TeamDefeatCondition ParseINI helper: new Rva004FCD49 0x14, initFromINI via
-// table g_00C63640, then holder->addTeamDefeatCondition. Throws INIException code 3 with
+// table TeamDefeatConditionFieldParse, then holder->addTeamDefeatCondition. Throws INIException code 3 with
 // retail literal when either pointer is null.
 // Evidence: chain lane calls landed 0x004FD3E2; caller 0x004FD7B5 pattern;
-// table VA 0x00C63640 no name yet; string "Invalid data in
+// table VA 0x00C63640 defined below; string "Invalid data in
 // TeamDefeatCondition::ParseINI"; throwinfo anchor 0x00CFE2FC; neighbours
 // Rva004135CDParse/Rva00413DCCParse same filler plus CxxThrow recipe.
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 
 class INI
 {
 public:
 	void initFromINI(void *what, const FieldParse *table);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
 };
+
+void Rva004FCB23Parse(INI *ini, void *instance, void *store, const void *userData);
 
 class ModuleData;
 
@@ -38,7 +48,15 @@ public:
 	void addTeamDefeatCondition(const ModuleData *p);
 };
 
-extern const FieldParse g_00C63640;
+// Retail's TeamDefeatCondition field table at VA 0x00C63640 (.rdata, 48
+// bytes), transcribed from retail's own bytes: two records plus the null
+// terminator.
+extern const FieldParse TeamDefeatConditionFieldParse[] =
+{
+	{ "Teams",                             &Rva004FCB23Parse, 0, 0x04 },
+	{ "NumControlledRegionsLessOrEqualTo", &INI::parseInt,    0, 0x10 },
+	{ 0, 0, 0, 0 }
+};
 struct INIException
 {
 	char *mFailureMessage;
@@ -57,6 +75,6 @@ void Rva004FD77CParse(INI *ini, LivingWorldScenario::Scenario *holder)
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva004FD77CThrowInfoAnchor); __assume(0);
 	}
 	Rva004FCD49 *p = new Rva004FCD49;
-	ini->initFromINI(p, &g_00C63640);
+	ini->initFromINI(p, TeamDefeatConditionFieldParse);
 	holder->addTeamDefeatCondition((const ModuleData *)p);
 }
