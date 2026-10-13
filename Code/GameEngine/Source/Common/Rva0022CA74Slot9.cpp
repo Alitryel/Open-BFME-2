@@ -5,6 +5,7 @@
 // Iterates vector at +0xC..+0x10, calls rowed deleteOverrides 0x001E35ED,
 // erases via rowed vector<void*> erase 0x001FF51F when it returns 0.
 // Evidence: leaf packet; prev Rva0023C6A4Check.cpp, next RankInfoCtor.cpp.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 class Overridable

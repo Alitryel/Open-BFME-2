@@ -6,6 +6,7 @@
 // __find_if with the two by-value comparison functors rowed at 0x40A16E and
 // 0x40A187 (one resp. two dwords of state). Evidence: target bytes of
 // 0x40A1AC/0x40A1D7/0x40A283; functor spelling is donor inference.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <algorithm>
 #include <vector>
 

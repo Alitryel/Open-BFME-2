@@ -4,6 +4,7 @@
 // Evidence: called by matched PeerThreadClass::stopHostingAlready 0x0038D53B plus 6 more; callees rowed _peerStopGame 0x00699410 plus basic_string assign 0x0001B790 plus string openstaging 0x00819890; prev PeerResponseAssign next OwnedRecordDeque.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)

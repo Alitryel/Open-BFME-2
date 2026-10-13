@@ -4,6 +4,7 @@
 // Copy ctor of TU-local class with vector<unsigned> at +0 via rowed vector copy 0x002CFAB9.
 // Then calls just-landed Rva003ED498Count 0x003ED498 with this; callers 0x0020D8C9/0x0020D9B9 pass this.
 // Neighbour StringRecordCopyBFME2.cpp shares /O1 /EHsc STLport flags and vector idioms.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 void __cdecl Rva003ED498Count(void const *);
 class Rva003ED658

@@ -1,6 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD /EHsc
 // stlport
 // ?Rva0056BDFCParse@@YAXPAVINI@@PAX1PBX@Z @0x0056BDFC 255B. LivingWorldBuildingIcon sub-object parse: checks INI type at +8 for map.ini override (2) and reload (5) throwing INIException(8) then getNextToken plus new Rva0056BDC8 via AsciiString temp plus MultiIniFieldParse two-table init plus vector push_back. Evidence: chain via just-landed 0x0056BDC8 ctor plus sibling 0x0056BF1F same 255B shape with BuildPlotIcon strings plus BlockParse LivingWorldBuildingIcon plus FieldParse tables 0x00C6D690 and 0x00C6D8F8.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include "ascii_string.h"
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.

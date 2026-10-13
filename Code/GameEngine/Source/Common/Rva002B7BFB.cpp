@@ -5,6 +5,7 @@
 // element runs rowed 0x003193D1; then clears vector at +0x10C via rowed erase
 // 0x0031BD55. Evidence: same erase as vslot clear precedent; caller at
 // 0x002BD379 unblocks 0x002BD36D; prev/next share /O1 family.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 class Rva003193D1
 {

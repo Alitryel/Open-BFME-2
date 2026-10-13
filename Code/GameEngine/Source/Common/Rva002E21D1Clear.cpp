@@ -6,6 +6,7 @@
 // the returned pointer, then STL erase begin/end via rowed 0x0031BD55.
 // Evidence: same +0x1b8 vector and +0x78/GameLogic pattern as sibling
 // Rva002E10BDFind.cpp; callees rowed/pinned per packet; neighbours /O1.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 // vector<void*> operator[] otherwise instantiates a per-TU COMDAT (one

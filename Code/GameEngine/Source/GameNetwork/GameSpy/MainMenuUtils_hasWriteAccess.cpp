@@ -45,6 +45,7 @@
 // calls them) instead of the Zero Hour header's inline bodies, so this unit
 // emits no private copies of shared-class methods.
 #define ASCIISTRING_H
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include "ascii_string.h"
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 

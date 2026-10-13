@@ -14,6 +14,7 @@
 //     the early return for an empty slot also honours it.
 // /Oy- is target evidence: both keep an ebp frame without EH, unlike the
 // frame-omitting template tables.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <algorithm>
 #include <vector>
 

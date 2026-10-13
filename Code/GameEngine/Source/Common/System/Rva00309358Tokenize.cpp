@@ -28,6 +28,7 @@ static inline const unsigned int &min(const unsigned int &a, const unsigned int 
     return b < a ? b : a;
 }
 }
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <string>
 #include <vector>
 

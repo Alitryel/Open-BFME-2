@@ -6,6 +6,7 @@
 // placement-copy callers. Application names and scalar meanings are unknown.
 // String semantics follow BFME1 AsciiString/UnicodeString: the inline derived
 // copies call StringBase<char>0x365F0 or StringBase<unsigned short>0x37050.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <memory>
 #include <vector>
 #include "ascii_string.h"

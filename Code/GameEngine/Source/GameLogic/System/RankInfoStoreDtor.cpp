@@ -9,6 +9,7 @@
 // by the donor's explicit null test. Pointer storage uses the already rowed
 // void-pointer erase fold. Game allocator30830 retains native EH state0;
 // ordinary CRT free is nonthrowing and incorrectly removes that transition.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 void Rva00030830FreeAllocation(void *);
 namespace _STL {

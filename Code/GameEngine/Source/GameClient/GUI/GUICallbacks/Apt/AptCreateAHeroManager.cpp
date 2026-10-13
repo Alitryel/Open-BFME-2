@@ -2,6 +2,7 @@
 // stlport
 // WB157DCE0 names Manager::PopulateHeroList; native5B6755..5B692F.
 // Target prefixes and the comparator words are measured from retail.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 #include "ascii_string.h"
 #include "unicode_string.h"

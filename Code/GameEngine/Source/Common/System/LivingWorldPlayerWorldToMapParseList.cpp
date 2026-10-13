@@ -10,6 +10,7 @@
 // helper 0x003F005F (cdecl and independently byte verified), then compares the new pair against every
 // earlier pair: a matching first string throws the World duplicate message and a
 // matching second string throws the RTS duplicate message, naming the corresponding new string. Names are address-derived; the pair layout is target fact.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include "ascii_string.h"
 
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned

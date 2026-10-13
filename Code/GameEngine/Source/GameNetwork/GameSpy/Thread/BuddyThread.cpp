@@ -13,6 +13,7 @@
 // bodies are carried; the donor's other definitions are omitted.
 // The emitted unsigned max copy must match retail RVA 0x00013740.
 // Define it for speed, then restore this unit's flags for its own bodies.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <stl/_algobase.h>
 #pragma optimize("s", off)
 #pragma optimize("t", on)

@@ -9,6 +9,7 @@
 // bytes at +0x580/+0x581 and dwords at +0x584/+0x588. Total 0x598=1432.
 // Evidence: LINK BONUS caller names it ??0BfmeOpaqueOwnedRecord1432@@QAE@ABU0@@Z;
 // callers 0x00557C52 (_Construct dup) and 0x00558DA0 (deque push_back_aux_v).
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <string>
 #include <cstddef>
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):

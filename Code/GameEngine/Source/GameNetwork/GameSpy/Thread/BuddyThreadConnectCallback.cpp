@@ -31,6 +31,7 @@ private:
 	int m_priority;
 };
 
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.

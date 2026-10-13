@@ -9,6 +9,7 @@
 // Define it for speed, then restore this unit's flags for its own bodies.
 class InGameUI;
 extern InGameUI *TheInGameUI;
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)

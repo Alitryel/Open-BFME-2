@@ -7,6 +7,7 @@
 // (GameLogic/System/CaveSystem.cpp) without its lazy creation: the tracker
 // vector sits at +0x10.
 
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 typedef int Int;

@@ -5,6 +5,7 @@
 // narrow-string constructor 9100. Key/default arguments expose only word 0;
 // their original C++ wrapper types and these method spellings are unknown.
 // stlport
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <string>
 #include <cstddef>
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):

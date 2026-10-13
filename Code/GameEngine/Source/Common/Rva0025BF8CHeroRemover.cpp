@@ -7,6 +7,7 @@
 // via rowed erase at 0x0025BF5D when present, returns 1 else 0 (mov al,1 / xor al).
 // Callers (4 at 0x005960F1 etc.) pass a holder with hero at +0x74; unblocks 4.
 // Prev is VectorObjectIDFillInsert, next is Rva0025BFE3 ctor; EBP frame needs /Oy-.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 class CreateAHeroData;
 class AIStatBase

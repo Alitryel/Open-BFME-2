@@ -14,6 +14,7 @@
 // materialises andm_08 into edi and reuses edi for andm_14, as retail does,
 // whereas erase(begin, end) makes MSVC7.1 recompute the args from esi and swap
 // edi/ebx. See reverse/re_attempts.log for both shapes.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 struct Polymorph004F

@@ -12,6 +12,7 @@
 // keeps the pair address in eax (no re-lea) and homes the hidden
 // insert-result temp at [ebp-0x10].
 
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <map>
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU

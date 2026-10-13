@@ -16,6 +16,7 @@
 // reconstruction. Limit this access adaptation to the string header; layout
 // and source semantics are unchanged.
 #define private public
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <stl/_alloc.h>
 // Keep retail's inline character-buffer cleanup; the public allocator
 // entry point is supplied by its separately verified owner.

@@ -4,6 +4,7 @@
 // Vector clear at +0x36c: deletes each element via first virtual (int 0) then operator delete, then erases range.
 // Evidence: callees rowed ??3@YAXPAX@Z erase vector<void*>; prev/next OpaqueScalarDeletingDtorsB05; caller 0x00530241.
 // Neighbour flags /O1 /DNDEBUG /MD copied.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 class RvaVecElem

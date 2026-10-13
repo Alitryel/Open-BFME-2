@@ -9,6 +9,7 @@
 // and vector<void*>::erase 0x0031BD55 (via clear), caller dtor
 // 0x0041E875 (which then frees +0x1C buffer and 3 StringBases) and
 // its deleting dtor 0x0041E8F6; unlocks 0x0041E875.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 void __cdecl operator delete(void *p);

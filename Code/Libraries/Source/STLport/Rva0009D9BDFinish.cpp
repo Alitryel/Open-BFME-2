@@ -16,6 +16,7 @@
 // arithmetic: an unsigned bound turns `sar eax,2 ; je` into
 // `test eax,0xfffffffc ; jbe`. Both together reproduce retail exactly, with the
 // count recomputed per pass as retail does rather than hoisted.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 // The loop callee is the rowed free thunk at 0x000518E0. Retail loads the

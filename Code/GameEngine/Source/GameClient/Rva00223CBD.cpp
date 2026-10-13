@@ -5,6 +5,7 @@
 // Evidence: lea eax esp+8 plus lea ecx esi+0x2FC matches const-ref push_back; ret 4 one pointer arg; neighbours share /O1 /MD; unblocks 0x0040FB9C 0x002B5195 0x00224296 0x005157EE.
 // Use the native 17-byte specialization at RVA 0x00013740 rather than
 // emitting a separately optimized copy from this unit.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <stl/_algobase.h>
 namespace _STL {
 template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);

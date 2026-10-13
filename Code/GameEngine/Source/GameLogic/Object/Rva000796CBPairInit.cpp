@@ -6,6 +6,7 @@
 // key pointer plus a template vector. The vector copy folds to the rowed
 // unsigned-int spelling (twin pin).
 
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU

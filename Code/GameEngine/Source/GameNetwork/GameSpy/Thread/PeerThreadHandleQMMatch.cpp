@@ -3,6 +3,7 @@
 // ?handleQMMatch@PeerThreadClass@@QAEXPAXHHQAPAD11111@Z @0x0038B6C1 502B: quickmatch matched path leaves group room notifies others and posts QM status with IP/port/side/color/nat/extra. Evidence: donor BFME1 PeerThread.cpp handleQMMatch plus PeerHandleQMMatch.cpp 6-field plus port 8088; strings "We're matched!" plus empty g_Rva0107301CEmptyString; callees row peerLeaveRoomA 0x69A2C0 peerMessagePlayerA 0x698F70 ctor 0x389F77 dtor 0x38A063 basic_string assign 0x1B790 atoi strcmpi IAT; global g_00A02340 slot 0x20; QM_WORKING 4 to QM_MATCHED 7.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)

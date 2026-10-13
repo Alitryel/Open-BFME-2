@@ -2,6 +2,7 @@
 // stlport
 // Use the native 17-byte specialization at RVA 0x00013740 rather than
 // emitting a separately optimized copy from this unit.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <stl/_algobase.h>
 namespace _STL {
 template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);

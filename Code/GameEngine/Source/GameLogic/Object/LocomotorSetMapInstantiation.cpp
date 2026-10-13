@@ -3,6 +3,7 @@
 //
 // LocomotorSetType to template-vector map instantiation (AIUpdate parse cluster).
 
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <map>
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU

@@ -3,6 +3,7 @@
 // WB F45310 names Palantir::Impl::UpdatePlayerStats. Native2D4BDB..2D4DD0
 // proves the cache/flag offsets and20 science buttons. All callees already
 // have verified providers. Unobserved portions of the objects remain opaque.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <algorithm>
 namespace _STL {
 template <> bool *find(bool *, bool *, const bool &);

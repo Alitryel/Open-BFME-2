@@ -8,6 +8,7 @@
 // 0x0021C21B for RankInfo; ScienceType and int are both 4B PODs with identical
 // codegen per that row). Caller 0x0040F94F passes [edi+0x1CC] with
 // this=Player from getNthPlayer.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 // vector<int>/char destruction otherwise instantiates per-TU allocator

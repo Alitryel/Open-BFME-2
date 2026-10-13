@@ -1,5 +1,6 @@
 // cl: /O1 /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 // ?rva0052B003@Holder0052B003@@QAEXH@Z @0x0052B003 33B
 // Pointer-range loop: for each Obj* from +0x2C to +0x30 call pinned

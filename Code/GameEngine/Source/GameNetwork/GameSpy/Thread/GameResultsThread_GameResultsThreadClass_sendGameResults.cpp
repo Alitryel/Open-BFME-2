@@ -47,6 +47,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
     return a < b ? b : a;
 }
 }
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <queue>		// BFME uses STLport's node allocator for the results queues; parse it
 						// before PreRTS.h enables the plain-new allocator.
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine

@@ -5,6 +5,7 @@
 // Evidence: donor game/GameEngine/Source/GameLogic/Object/Behavior/SiegeDockingBehaviorXfer.cpp (BFME1 0x00206FF0) direct reuse with Version1 repair; base model from PoisonedBehaviorXfer UpdateModule 0x20 plus secondary at 0x20; callers none; callees Version1 0x53EE UpdateModule xfer 0x44DF9F IsStoring slot8 XferSiegeTypeEnum 0x306112 XferObjectID 0x3060B2 stopDocking 0x459C27 new 0x2FDA0 push_back 0x4DFCB0 rowed.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)

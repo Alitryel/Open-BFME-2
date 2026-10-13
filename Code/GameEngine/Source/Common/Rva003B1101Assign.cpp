@@ -11,6 +11,7 @@
 // +0x34/+0x38, strings +0x3c/+0x40, ints +0x44..+0x54, bytes +0x58/+0x59,
 // string +0x5c, int +0x60, 16B +0x64, ints +0x74/+0x78/+0x7c.
 // Evidence: unlock lane, all callees rowed or pinned, neighbours same class.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 // vector<int>/char destruction otherwise instantiates per-TU allocator

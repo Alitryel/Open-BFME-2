@@ -7,6 +7,7 @@
 // constructor and appending it to the module-data vector. BFME1 BannerCarrierParseExpLevelDraw
 // supplies the skeleton; its donor field names are not transferred to BFME2. The throws sit
 // inline: with goto labels the two exception temporaries swap stack slots.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include "ascii_string.h"
 #include "Common/INIException.h"
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned

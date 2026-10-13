@@ -32,6 +32,7 @@
 // a flag, a second position, an int, a short and two more flags. A loaded
 // record with a template is registered with the fire logic system at
 // 0x00DFEC68 (0x00286373).
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include "ascii_string.h"
 #include "Lib/Coord3D.h"
 #include "../../Common/GameLogicObjectLookupView.h"

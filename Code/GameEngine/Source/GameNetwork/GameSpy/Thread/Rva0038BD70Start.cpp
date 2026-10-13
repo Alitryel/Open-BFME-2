@@ -3,6 +3,7 @@
 // ?rva0038BD70@Rva0038BDEEReceiver@@QAEXPAX@Z @0x0038BD70 126B: formats port at +0x90 via AsciiString sets room to closedplaying and starts game with flag true. Evidence: neighbour Rva0038BDEEInvoke same class string at +0xC4 flag at +0x49C; strings "%d" plus closedplaying plus empty g_Rva0107301CEmptyString; callees row format 0x38150 basic_string assign 0x1B790 peerStartGameA 0x69A780 releaseBuffer 0x36410.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)

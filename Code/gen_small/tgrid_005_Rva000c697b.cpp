@@ -19,6 +19,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
     return a < b ? b : a;
 }
 }
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 struct Gen_p64cd { int a[16]; Gen_p64cd(); Gen_p64cd(const Gen_p64cd&); ~Gen_p64cd(); Gen_p64cd& operator=(const Gen_p64cd&); };

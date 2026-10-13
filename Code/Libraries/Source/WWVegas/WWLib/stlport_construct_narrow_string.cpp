@@ -2,6 +2,7 @@
 // stlport
 // STLport placement-copy helper at0x79A41; the direct copy call resolves to
 // the independently matched basic_string<char> copy constructor at0x9170.
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <string>
 #include <memory>
 #include <cstddef>

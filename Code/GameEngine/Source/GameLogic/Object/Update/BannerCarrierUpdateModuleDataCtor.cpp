@@ -41,6 +41,7 @@ extern "C" const void *const vtbl_00C4F870[];  // ??_7BannerCarrierUpdateModuleD
 
 extern int BfmeLogicFramesPerSecond;
 
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
 struct BfmeMorphCondition;

@@ -9,6 +9,7 @@ static inline const int &min(const int &a, const int &b)
     return b < a ? b : a;
 }
 }
+#define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <map>
 #include <string>
 
