@@ -25,7 +25,7 @@ struct NotifyCoord:Coord3D{
  __forceinline void add(const Coord3D&r){x+=r.x;y+=r.y;z+=r.z;}
  float estimate()const{return GetLengthEstimate2D();}
 };
-struct Region2D{float x1,y1,x2,y2;};
+#include "Lib/Region2D.h"
 struct Rva0087E650Bounds{NotifyCoord lo,hi;};
 enum GeometryType{GEOMETRY_SPHERE,GEOMETRY_CYLINDER,GEOMETRY_BOX};
 class GeometryInfo{public:
@@ -81,7 +81,7 @@ bool Rva004CE700Notifier::rva004CE700(Object*object,const int*data,UpdateSleepTi
  float length=bounds.hi.x-bounds.lo.x;
  GeometryInfo projected(GEOMETRY_BOX,false,height,(velocity.estimate()+length)*0.5f,width*0.5f);
  Region2D xy;((const Rva0087E370*)&projected)->method(center,angle,xy);
- NotifyRegion3D query;query.lo.x=xy.x1;query.lo.y=xy.y1;query.lo.z=nmin(position.z,end.z);query.hi.x=xy.x2;query.hi.y=xy.y2;float maxz=nmax(position.z,end.z);query.hi.z=maxz+height;
+ NotifyRegion3D query;query.lo.x=xy.lo.x;query.lo.y=xy.lo.y;query.lo.z=nmin(position.z,end.z);query.hi.x=xy.hi.x;query.hi.y=xy.hi.y;float maxz=nmax(position.z,end.z);query.hi.z=maxz+height;
  Rva00261603Filter collision(center,projected,angle,true);
  Rva0026156C source(object,2);Rva0026119DFilter alive;
  ((Rva000421C8*)&source)->link(&collision)->link(&alive);
