@@ -9,7 +9,7 @@
 //
 // ?Rva0041F524_ParseArmyMember@INI@@SAXPAV1@PAX1PBX@Z, retail 0x0041F524
 // (75B): the ArmyMemberDefinition FieldParse proc (row 0x00C3B648) of the same
-// shape: a zeroed 0x10-byte member (int, three floats), table 0x00C3B000, and
+// shape: a zeroed 0x10-byte member (int, three floats), table at VA 0x00C3B000 (ArmyMemberDefinitionFieldParse), and
 // the pointer appended to the vector at instance + 4 (4-byte pointer
 // push_back fold 0x004DFCB0).
 
@@ -47,7 +47,16 @@ extern const FieldParse g_00C4C850[] =
 	{ "MemberSpeed", INI::parseReal, 0, 0x34 },
 	{ 0, 0, 0, 0 }
 };
-extern const FieldParse g_00C3B000[];
+// Retail's ArmyMemberDefinition field table at RVA 0x0083B000 (.rdata, 64
+// bytes = four records), transcribed from retail's own bytes. Retail has no
+// zero sentinel after the fourth record: the token strings follow directly.
+extern const FieldParse ArmyMemberDefinitionFieldParse[] =
+{
+	{ "Unit", INI::parseAsciiString, 0, 0x00 },
+	{ "PercentageOfArmyPhase1", INI::parseReal, 0, 0x04 },
+	{ "PercentageOfArmyPhase2", INI::parseReal, 0, 0x08 },
+	{ "PercentageOfArmyPhase3", INI::parseReal, 0, 0x0C }
+};
 
 struct Rva0041F524Member
 {
@@ -122,6 +131,6 @@ void INI::Rva0041F524_ParseArmyMember(INI *ini, void *instance, void *, const vo
 {
 	Rva0041F524Member *member = new Rva0041F524Member;
 	const Rva0041F524Member *entry = member;
-	ini->initFromINI(member, g_00C3B000);
+	ini->initFromINI(member, ArmyMemberDefinitionFieldParse);
 	((Rva0041F524Army *)instance)->m_members.push_back(*(const ModuleData * const *)&entry);
 }

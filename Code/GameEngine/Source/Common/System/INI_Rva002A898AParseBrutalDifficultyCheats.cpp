@@ -9,7 +9,14 @@
 // AnyTypeTemplateDisabledSlots). The struct name is a readable local model;
 // the owning struct is BFME2-new (no BFME1 donor).
 
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 
 struct BrutalDifficultyCheats
 {
@@ -23,9 +30,17 @@ class INI
 public:
 	void initFromINI(void *instance, const FieldParse *table);
 	static void Rva002A898A_ParseBrutalDifficultyCheats(INI *ini, void *instance, void *store, const void *userData);
+	static void parsePercentToReal(INI *ini, void *instance, void *store, const void *userData);
 };
 
-extern const FieldParse g_00BFD85C[];
+// Retail's BrutalDifficultyCheats field table at VA 0x00BFD85C (.rdata, 32
+// bytes), transcribed from retail's own bytes. Retail has no zero sentinel
+// after the second record: the token strings follow directly.
+extern const FieldParse BrutalDifficultyCheatsFieldParse[] =
+{
+	{ "BuildCostReduction", &INI::parsePercentToReal, 0, 0x0 },
+	{ "BuildTimeReduction", &INI::parsePercentToReal, 0, 0x4 }
+};
 
 // ?Rva002A898A_ParseBrutalDifficultyCheats@INI@@SAXPAV1@PAX1PBX@Z
 void INI::Rva002A898A_ParseBrutalDifficultyCheats(INI *ini, void *instance, void *store, const void *userData)
@@ -33,7 +48,7 @@ void INI::Rva002A898A_ParseBrutalDifficultyCheats(INI *ini, void *instance, void
 	BrutalDifficultyCheats cheats;
 	cheats.buildCostReduction = 0.0f;
 	cheats.buildTimeReduction = 0.1f;
-	ini->initFromINI(&cheats, g_00BFD85C);
+	ini->initFromINI(&cheats, BrutalDifficultyCheatsFieldParse);
 	float *slot = (float *)((char *)instance + 0x840);
 	slot[0] = cheats.buildCostReduction;
 	slot[1] = cheats.buildTimeReduction;
