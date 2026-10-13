@@ -1,5 +1,19 @@
 // cl: /Ireference/shims/bfmerendobj /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body, so it no longer loses to retail's at link time.
+// auto_inline(off) keeps that /O1 iterator out of line: otherwise the /O2
+// ShareBufferClass<Vector3> constructor inlines it and drops the Vector3
+// construction loop that retail's copy (0x00169780) still calls ??_H for.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+#pragma auto_inline(off)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma auto_inline(on)
+#pragma optimize("", on)
+
 #include <string.h>
 // Retail's out-of-line RefCountClass deleting-dtor copy is the /O1 form
 // (pop ecx after the delete call); this TU builds /G7 which emits add esp,4

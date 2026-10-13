@@ -76,6 +76,7 @@ template <> bool SimpleVecClass<Vector4>::Resize(int);
 // These specializations are rowed in their canonical defining units. Keep
 // this TU a client so it does not emit conflicting inline destructor copies.
 template <> ShareBufferClass<unsigned char>::~ShareBufferClass(void);
+template <> ShareBufferClass<Vector3>::~ShareBufferClass(void);
 template <> ShareBufferClass<Vector4>::~ShareBufferClass(void);
 template <> ShareBufferClass<float>::~ShareBufferClass(void);
 template <> SimpleDynVecClass<unsigned char>::~SimpleDynVecClass(void);
