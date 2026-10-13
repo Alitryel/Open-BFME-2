@@ -1,6 +1,17 @@
-// ?update@ObjectCreationUpgrade@@MAE?AW4UpdateSleepTime@@XZ
-// partial score=0.815 date=2026-10-13
-// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include
+// cl: /Ireference/shims/bfme2_ascii /O1 /G6 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include
+// ObjectCreationUpgrade::update, retail 0x004B42DB (753 B): slot 0 of the
+// UpdateModuleInterface vftable at +0x18 (0x10 vftable of the module). Once
+// the upgrade is armed (+0x2C) and the frame passes +0x28 it spawns the
+// data's thing (+0x128) at the owner's transform applied to the offset
+// (+0x12C), rotated by +0x138, either through the owner's special context
+// (byte +0x150) or BuildAssistant slot 14, fades it in (+0x14C frames scaled
+// by the frame/millisecond global), hands it to the owner's SlaveWatcher,
+// sets the spawn's owner actions, then grants (+0x124) and removes (+0x120)
+// upgrades. Target facts: boundary 0x4B42DB..0x4B45CC, callees by their
+// rows, the "SlaveWatcherBehavior" key string; field names follow Zero
+// Hour's ObjectCreationUpgrade/OCL semantics (donor inference). /G6 rather
+// than the /G7 of ReplaceSelfUpgrade: only /G6 schedules the angle spill.
+#include "../../../Common/GameLogicObjectLookupView.h"
 #include "Lib/Coord3D.h"
 #include "ascii_string.h"
 
@@ -42,15 +53,6 @@ class UpgradeCenter
 {
 public:
 	const UpgradeTemplate *findUpgrade(const AsciiString &name) const;
-};
-
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	char m_pad00[0x40];
-	UnsignedInt m_frame;
 };
 
 class Drawable
@@ -130,7 +132,6 @@ public:
 	void setPosition(const Coord3D *pos);
 	const Coord3D *getPosition() const { return &m_cachedPos; }
 	Real getOrientation() const { return m_cachedAngle; }
-	const float *getTransform() const { return m_transform; }
 	const OCUMatrix3D *getTransformMatrix() const { return (const OCUMatrix3D *)m_transform; }
 private:
 	char m_pad00[0x08];
@@ -253,23 +254,24 @@ UpdateSleepTime ObjectCreationUpgrade::update()
 		else
 		{
 			OCUVector3 pos;
+			OCUVector3 offset(data->m_offset.x, data->m_offset.y, data->m_offset.z);
 			pos.X = getObject()->getPosition()->x;
 			pos.Y = getObject()->getPosition()->y;
 			pos.Z = getObject()->getPosition()->z;
-			OCUVector3 offset(data->m_offset.x, data->m_offset.y, data->m_offset.z);
 			pos = *getObject()->getTransformMatrix() * offset;
 
 			Object *owner = getObject();
 			Real angle = owner->getOrientation();
 			Object *obj = TheBuildAssistant->buildObjectNow(owner, tmplate, (const Coord3D *)&pos,
-				data->m_angleOffset + angle, owner->getControllingPlayer());
+				angle + data->m_angleOffset, owner->getControllingPlayer());
 			if (obj == 0)
 				return UPDATE_SLEEP_FOREVER;
 
 			if (obj->getDrawable())
 				obj->getDrawable()->fadeIn((UnsignedInt)(data->m_fadeInTime * g_00DBA500));
 
-			obj->m_1C0 = data->m_angleOffset + getObject()->getOrientation();
+			Real a2 = data->m_angleOffset + getObject()->getOrientation();
+			obj->m_1C0 = a2;
 			obj->setPosition((const Coord3D *)&pos);
 
 			static NameKeyType slaveWatcherKey = TheNameKeyGenerator->nameToKey("SlaveWatcherBehavior");

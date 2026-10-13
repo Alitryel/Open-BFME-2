@@ -40,10 +40,12 @@ public:
 	virtual void ifaceAnchor();
 };
 
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
+
 class UpdateModuleInterface
 {
 public:
-	virtual void updateAnchor();
+	virtual UpdateSleepTime update() = 0;
 };
 
 class UpdateModule : public BehaviorModule,
@@ -61,6 +63,8 @@ public:
 
 protected:
 	virtual ~ObjectCreationUpgrade();
+	// Slot 0 of the +0x18 vftable 0x00C57560 is 0x004B42DB, this class's update.
+	virtual UpdateSleepTime update();
 };
 
 // ??1ObjectCreationUpgrade@@MAE@XZ @0x004B3F90
