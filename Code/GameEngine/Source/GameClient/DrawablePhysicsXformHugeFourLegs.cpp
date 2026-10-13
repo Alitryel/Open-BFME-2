@@ -187,25 +187,25 @@ typedef void(_STL::vector<Coord3D>::*FillValue)(unsigned int,EmptyFootPoint);
 
 Real s=Sin(direction),c=Cos(direction);
 
-points[1].x=bounds.hi*c-bounds.y_max*s;
-points[1].y=bounds.y_max*c+bounds.hi*s;
+points[1].x=bounds.hi.x*c-bounds.hi.y*s;
+points[1].y=bounds.hi.y*c+bounds.hi.x*s;
 points[1].z=pos->z;
 
-points[0].x=bounds.lo*c-bounds.y_max*s;
-points[0].y=bounds.y_max*c+bounds.lo*s;
+points[0].x=bounds.lo.x*c-bounds.hi.y*s;
+points[0].y=bounds.hi.y*c+bounds.lo.x*s;
 points[0].z=pos->z;
 
-points[3].x=bounds.hi*c-bounds.y_min*s;
+points[3].x=bounds.hi.x*c-bounds.lo.y*s;
 _ReadWriteBarrier();
-points[3].y=bounds.y_min*c+bounds.hi*s;
+points[3].y=bounds.lo.y*c+bounds.hi.x*s;
 points[3].z=pos->z;
 
-points[2].x=bounds.lo*c-bounds.y_min*s;
-points[2].y=bounds.y_min*c+bounds.lo*s;
+points[2].x=bounds.lo.x*c-bounds.lo.y*s;
+points[2].y=bounds.lo.y*c+bounds.lo.x*s;
 points[2].z=pos->z;
 
 }
-Real*heights=&scratch.lo;
+Real*heights=&scratch.lo.x;
 
 for(Int i=0;i<4;++i){if(i==0||points[i].x!=points[i-1].x||points[i].y!=points[i-1].y)heights[i]=TheTerrainLogic->getLayerHeight(points[i].x,points[i].y,obj->rva0028B511(),0,true);
 else heights[i]=heights[i-1];
