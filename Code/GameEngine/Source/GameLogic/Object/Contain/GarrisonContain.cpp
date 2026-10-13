@@ -502,68 +502,8 @@ void GarrisonContain::updateEffects( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?GarrisonContain::update present-unmatched
-UpdateSleepTime GarrisonContain::update( void )
-{
-	const GarrisonContainModuleData *modData = getGarrisonContainModuleData();
-
-	// extend functionality
-	UpdateSleepTime result;
-	result = OpenContain::update();
-
-	// remove effectively dead objects from this garrison container
-	const ContainedItemsList& containList = getContainList();
-	Object *contained;
-	for( ContainedItemsList::const_iterator it = containList.begin(); it != containList.end(); /*empty*/ )
-	{
-
-		// get object
-		contained = *it;
-
-		// increment iterator, we may delete the object
-		++it;
-
-		// remove if dead
-		if( contained->isEffectivelyDead() )
-		{
-			// remove from container
-			removeFromContain( contained );
-
-			// set the safe occlusion frame to way way way in the future so we never see it during death
-			#define HUGE_FRAME_IN_FUTURE (LOGICFRAMES_PER_SECOND * 1000)
-			contained->setSafeOcclusionFrame( TheGameLogic->getFrame() + HUGE_FRAME_IN_FUTURE );
-
-		}  // end if
-
-	}  // end for, it
-	
-// Lorenzen changed, 6/11/03, so that garrisoncontains that are not enclosing will keep units at their assigned stations,
-// rather than Bamphing them all over the building as they fire.
-//	// are there any objects at the garrison points who now need to go back to the center of the structure
-//	removeInvalidObjectsFromGarrisonPoints();
-//
-//	//
-//	// are there any objects in the center that have now obtained targets and need to move to
-//	// a garrison point
-//	//
-//	addValidObjectsToGarrisonPoints();
-  matchObjectsToGarrisonPoints();
-
-	healObjects();
-
-	if (modData->m_mobileGarrison && (getObject()->isMobile() == TRUE) ) 
-	{
-		moveObjectsWithMe();
-	}
-	else
-	{
-		// sanity information
-		DEBUG_ASSERTCRASH( getObject()->isMobile() == FALSE,
-		 ("GarrisonContain::update - Objects with garrison contain can be spec'd as 'mobile' in the INI. Do you really want to do this? \n") );
-	}
-
-	return UPDATE_SLEEP_NONE;
-}  // end update
+// GarrisonContain::update is retail 0x00479643, recovered in
+// GarrisonContainUpdate.cpp.
 
 
 
