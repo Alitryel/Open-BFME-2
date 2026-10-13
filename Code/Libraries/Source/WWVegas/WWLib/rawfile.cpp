@@ -20,7 +20,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 // 0x00078257. Give its inline declaration the same compact stack cleanup;
 // restore the unit's settings before RawFileClass and its implementations.
 #pragma optimize("gsy", on)
-#include "wwfile.h"
+// BFME2 keeps Zero Hour's FileClass interface: its vftable (0x007C6730) has
+// 18 slots, ending where FileFactoryClass's (0x007C6778) begins, so Error and
+// Bias are RawFileClass's own virtuals, not __purecall slots of the base.
+// The BFME 1 wwfile.h adds both to FileClass and emits a 20-slot vftable.
+#include "../../../../../reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib/WWFILE.H"
 #pragma optimize("", on)
 #include	"rawfile.h"
 #include	<direct.h>
