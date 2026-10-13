@@ -278,7 +278,9 @@ class TexBufferClass : public ShareBufferClass < TextureClass * >
 	// BFME: same as MatBufferClass — allocate via global operator new, not W3DMPO pool.
 	// W3DMPO_GLUE(TexBufferClass)
 public:
-	TexBufferClass(int count, const char* msg) : ShareBufferClass<TextureClass *>(count, msg) { Clear(); }
+	// Out of line in TexBufferClassCtor.cpp (retail 0x0015D080, called by Get_Texture_Array):
+	// an inline body here emits a per-TU copy over ShareBufferClass that is not retail's.
+	TexBufferClass(int count, const char* msg);
 	TexBufferClass(const TexBufferClass & that);
 	~TexBufferClass(void);						
 
