@@ -77,9 +77,20 @@ public:
 	Rva00170999Data *rva00171128(const AssetReference &ref);
 };
 
+typedef _STL::map<unsigned, void *> MapIntPtr;
+typedef _STL::_Rb_tree<unsigned, _STL::pair<const unsigned, void *>,
+	_STL::_Select1st<_STL::pair<const unsigned, void *> >, _STL::less<unsigned>,
+	_STL::allocator<_STL::pair<const unsigned, void *> > > MapIntPtrTree;
+
+// Retail calls the rowed _M_lower_bound (stlport_map_int_ptr_lower.cpp); this
+// declaration binds it instead of instantiating a copy here, whose inlined
+// less<unsigned> would also emit this unit's /O1 copy (not retail's 0x00758C50).
+namespace _STL {
+template <> MapIntPtrTree::_Link_type MapIntPtrTree::_M_lower_bound(const unsigned &) const;
+}
+
 Rva00170999Data *Rva00170BFF::rva00171128(const AssetReference &ref)
 {
-	typedef _STL::map<unsigned, void *> MapIntPtr;
 	const unsigned &key = *(const unsigned *)&ref;
 	MapIntPtr &m = *(MapIntPtr *)this;
 	MapIntPtr::iterator it = m.lower_bound(key);
