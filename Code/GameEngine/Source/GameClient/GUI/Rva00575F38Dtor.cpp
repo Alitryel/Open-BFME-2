@@ -140,6 +140,7 @@ class Rva005CC61E { public: Rva005CC61E(); private: void *ptr; };
 class Rva005753E9
 {
 public:
+	__declspec(dllimport) __forceinline Rva005753E9() {}
 	virtual ~Rva005753E9() {}
 };
 
