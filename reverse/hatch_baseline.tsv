@@ -34907,9 +34907,6 @@ pragma_optimize	Code/GameEngine/Source/Common/Thing/Rva00569543DedupPush.cpp	"t"
 pragma_optimize	Code/GameEngine/Source/Common/Thing/Thing.cpp	"",on	3
 pragma_optimize	Code/GameEngine/Source/Common/Thing/Thing.cpp	"gsy",on	1
 pragma_optimize	Code/GameEngine/Source/Common/Thing/Thing.cpp	"s",on	2
-pragma_optimize	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	"",on	1
-pragma_optimize	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	"s",off	1
-pragma_optimize	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	"t",on	1
 pragma_optimize	Code/GameEngine/Source/Common/VectorPod88CopyConstructor.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/Common/VectorPod88CopyConstructor.cpp	"s",off	1
 pragma_optimize	Code/GameEngine/Source/Common/VectorPod88CopyConstructor.cpp	"t",on	1
@@ -37792,7 +37789,6 @@ present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTem
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::calcCostToBuild	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::calcTimeToBuild	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::canPossiblyHaveAnyWeapon	1
-present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::copyFrom	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::findArmorTemplateSet	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::findWeaponTemplateSet	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::getBuildable	1
@@ -37805,7 +37801,6 @@ present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTem
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::parseArmorTemplateSet	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::parseIntList	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::parseMaxSimultaneous	1
-present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::parseModuleName	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::parsePerUnitFX	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::parsePerUnitSounds	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingTemplate.cpp	ThingTemplate::parseWeaponTemplateSet	1
@@ -38727,7 +38722,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	0
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	0PartitionFilterPossibleToHijack@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	0PartitionFilterRejectBehind@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	0PartitionFilterRejectBuildings@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	0PartitionFilterWouldCollide@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	0PartitionManager@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	0SightingInfo@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	1CellAndObjectIntersection@@	1
@@ -38772,7 +38766,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	a
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	allow@PartitionFilterThing@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	allow@PartitionFilterUnmannedObject@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	allow@PartitionFilterValidCommandButtonTarget@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	allow@PartitionFilterWouldCollide@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	attachToGhostObject@PartitionData@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	attachToObject@PartitionData@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	calcMaxCoiForObject@PartitionData@@	1
