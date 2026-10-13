@@ -9,7 +9,7 @@ extern "C" int __cdecl isdigit(int);
 extern "C" int __cdecl atoi(const char*);
 class EAStringC {void *data;public:bool IsEmpty()const;const char *rva00620090()const;unsigned int rva006D3750()const;};
 class AsciiString;
-class BfmeAptValue006DCD20 {public:bool isCIH(bool)const;BfmeAptValue006DCD20 *rva006DCF60(bool);bool isUndefined()const;};
+class BfmeAptValue006DCD20 {public:int isCIH(bool)const;BfmeAptValue006DCD20 *rva006DCF60(bool);bool isUndefined()const;};
 class Rva006DBB30SarDwordField {public:int get()const;};
 class AptNativeHash {public:struct Entry {EAStringC key;BfmeAptValue006DCD20 *value;};AsciiString *rva0070AA40();Entry *rva0070AAA0(Entry*);};
 struct AptInputInst {char unknown00[0x10];AptNativeHash *hash;};
@@ -98,7 +98,7 @@ AptCIH *rva006F99D0(int direction,AptCIH *current,AptCIH *reference)
   if(reference){bool bRet=rva006F97F0Parse(&reference->name,&referenceFirst,&referenceSecond);INPUT_ASSERT(bRet,"bRet",0xAB);}
   for(AptNativeHash::Entry *iterator=(AptNativeHash::Entry*)current->inst->hash->rva0070AA40();iterator;iterator=current->inst->hash->rva0070AAA0(iterator)){
    BfmeAptValue006DCD20 *value=iterator->value;
-   if(!value->isCIH(false))continue;
+   if(!(unsigned char)value->isCIH(false))continue;
    AptCIH *candidate=(AptCIH*)value->rva006DCF60(false);
    if(reference==candidate)continue;
    if(!candidate->rva006CFCD0()){
