@@ -24909,8 +24909,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x003589CD,28,code,Code/GameEngine/Source/GameClient/DisplayString.cpp,approved,N,N=Code/GameEngine/Source/GameClient/DisplayString.cpp,Code/GameEngine/Source/GameClient/DisplayString.cpp
 0x003589E9,26,code,Code/GameEngine/Source/GameClient/DisplayString.cpp,approved,S,S=Code/GameEngine/Source/GameClient/DisplayString.cpp N=Code/GameEngine/Source/GameClient/DisplayString.cpp,Code/GameEngine/Source/GameClient/DisplayString.cpp
 0x00358A03,80,code,Code/GameEngine/Source/GameClient/DisplayString.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/DisplayString.cpp S=Code/GameEngine/Source/GameClient/DisplayString.cpp N=Code/GameEngine/Source/GameClient/DisplayString.cpp,Code/GameEngine/Source/GameClient/DisplayString.cpp
-0x00358A53,120,code,,,-,,Code/GameEngine/Source/Common/RTS/Rva00358A53Audio.cpp
-0x00358ACB,120,code,,,-,,Code/GameEngine/Source/Common/RTS/Rva00358A53Audio.cpp
+0x00358A53,120,code,,,-,,Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp
+0x00358ACB,120,code,,,-,,Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp
 0x00358B43,34,code,,,-,,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_hint_00218022.cpp
 0x00358B65,57,code,,,-,,Code/GameEngine/Source/Common/Rva00358B65Dtor.cpp
 0x00358B9E,194,code-unledgered,,,-,,
@@ -24943,8 +24943,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x003592FA,8,code,,,-,,Code/GameEngine/Source/Common/VslotMemberForwarders.cpp
 0x00359302,214,code-unledgered,,,-,,
 0x003593D8,16,code,,,-,,Code/GameEngine/Source/Common/Rva003593D8.cpp
-0x003593E8,366,code-unledgered,,,-,,
-0x00359556,343,code-unledgered,,,-,,
+0x003593E8,366,code,,,-,,Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp
+0x00359556,343,code,,,-,,Code/GameEngine/Source/GameClient/MessageStream/HotKey.cpp
 0x003596AD,124,code,,,-,,Code/GameEngine/Source/Common/Rva005C6CCC.cpp
 0x00359729,20,code,,,-,,Code/GameEngine/Source/Common/VslotSmallBodiesAD.cpp
 0x0035973D,79,code-unledgered,,,-,,
