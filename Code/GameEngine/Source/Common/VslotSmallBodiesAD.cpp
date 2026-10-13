@@ -101,14 +101,20 @@ Int Rva00349D02::rva00349D02()
 	return result;
 }
 
-// 0x00359729: the pinned 0x00359556 of the object at VA 0x00E01E28 with the
-// argument, 0 without the object.
-class Rva00359556
+// 0x00359729: HotKeyManager::translate (0x00359556, rowed in
+// MessageStream/HotKey.cpp) of the manager at VA 0x00E01E28 with the
+// argument, 0 without the manager.
+class GameMessage;
+enum GameMessageDisposition
+{
+	KEEP_MESSAGE,
+	DESTROY_MESSAGE
+};
+class HotKeyManager
 {
 public:
-	Int rva00359556(Int a);
+	GameMessageDisposition translate(const GameMessage *msg);
 };
-class HotKeyManager;
 extern HotKeyManager *TheHotKeyManager;
 class Rva00359729
 {
@@ -118,7 +124,7 @@ public:
 Int Rva00359729::rva00359729(Int a)
 {
 	if (TheHotKeyManager)
-		return ((Rva00359556 *)TheHotKeyManager)->rva00359556(a);
+		return TheHotKeyManager->translate((const GameMessage *)a);
 	return 0;
 }
 
