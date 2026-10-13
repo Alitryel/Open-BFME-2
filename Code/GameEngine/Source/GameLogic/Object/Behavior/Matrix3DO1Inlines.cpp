@@ -2,7 +2,7 @@
 // stlport
 //
 // Matrix3D / OBBoxClass header bodies (Pre_Rotate_Z Rotate_X In_Place_Pre_Rotate_X/Y/Z Translate(x y z) Set(12 floats)
-// Set(axis, s, c) Set(axis, angle) Matrix3D(axis, angle) Matrix3D(const Vector3&) OBBoxClass(const Vector3& const Vector3&) and the Matrix3x3(bool) it calls):
+// Set(axis, s, c) Set(axis, angle) Matrix3D(axis, angle) Matrix3D(const Vector3&) Set(const Vector3&) OBBoxClass(const Vector3& const Vector3&) and the Matrix3x3(bool) it calls):
 // retail holds one size-optimised (/O1) out-of-line copy of each.
 // The pointer constants and the anchor below only make this TU emit them out of line; they are not retail code or data.
 //
