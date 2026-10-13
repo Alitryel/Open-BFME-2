@@ -6075,10 +6075,7 @@ name,address,notes
 ?Rva002DBF28FillN@@YAPAVSaveMapPreview@@PAV1@IABV1@ABU__false_type@_STL@@@Z,0x002DBF28,hand insert 0x002DDD48 fill_n helper
 ?Rva002E00E0Swap@@YAXAAUS4SortElem12@@0@Z,0x003319FB,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?Rva002E17A0Copy@@YAPAVRva002E0D93@@PAV1@00PADH@Z,0x002E17A0,5-arg overload proven by caller 0x002E1E9A 5 pushes same bytes as 3-arg row
-?Rva002EBB53SiftUp@@YAXPAPAU_Rva002EBB53Wrap@@HHPAU1@PAX@Z,0x002EBB53,Push wrapper 5-arg passthrough same address as rowed 4-arg SiftUp caller 0x002EF216
 ?Rva002EBEF0Intro@@YAXPAUS4SortElem20@@00HUS4Cmp002EB8E0@@@Z,0x00337D21,callee read from the retail REL32 in placed BFME1-donor body ?Rva002EBEF0@@YAXPAUS4SortElem20@@0US4Cmp002EB8E0@@@Z (0x00337DA9)
-?Rva002EF27DPop@@YAXPAPAU_Rva002EBB53Wrap@@00PAU1@HPAX@Z,0x002EF27D,"__pop_heap worker called by the 0x2f0ee4 __pop_heap_aux; *result=*first then __adjust_heap(first,0,(last-first)/4,val,comp); 41B at 0x2ef27d; address-derived name"
-?Rva002F1F02Wrap@@YAXPAPAU_Rva002EBB53Wrap@@0E@Z,0x002F1F02,"auto-pin (permute --pins): REL32 call target read from retail in 0x002f301f, whose banked body is byte-exact once this call resolves"
 ?Rva003063A9XferThingTemplate@@YAXPAVXfer@@PAPBVThingTemplate@@@Z,0x003063A9,"cdecl ThingTemplate* transfer: copies template name (+0x64) or the empty string, xfers it as AsciiString, and on load looks it up via the factory at 0xDFF000 (0x002D06CA); callers WorkOrder::xfer 0x4F073B and 0x468FC5"
 ?Rva0030662AXfer@@YAXPAVXfer@@PAX@Z,0x0030662A,address-derived callee of matched slot 0x003FD1FA; retail REL32 targets 0x0030662A; Ghidra FUN bounds 217 bytes; cdecl (Xfer*; member address) ret; caller pops 8; callee body remains unclaimed; no named identity inferred
 ?Rva003207F5System@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z,0x003207F5,"gadget system callback (cdecl window, msg, data1, data2) slot 2 of gadget vtable 0x00BC8C54 calls (REL32 at 0x0009FDB3); identity not recovered"
@@ -13658,7 +13655,6 @@ rva009C7380WeightPairs,0x009B84E0
 ??1?$_Rb_tree_base@U?$pair@$$CBHURva002F0B8AElement@@@_STL@@V?$allocator@U?$pair@$$CBHURva002F0B8AElement@@@_STL@@@2@@_STL@@QAE@XZ,0x002EEA09,
 ?clear@?$_Rb_tree@HU?$pair@$$CBHURva002F0BB5Element@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva002F0BB5Element@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva002F0BB5Element@@@_STL@@@2@@_STL@@QAEXXZ,0x002EEA1D,
 ??1?$_Rb_tree_base@U?$pair@$$CBHURva002F0BB5Element@@@_STL@@V?$allocator@U?$pair@$$CBHURva002F0BB5Element@@@_STL@@@2@@_STL@@QAE@XZ,0x002EEA46,
-??$__adjust_heap@PAURva002EF27DElement@@HU1@U?$less@URva002EF27DElement@@@_STL@@@_STL@@YAXPAURva002EF27DElement@@HHU1@U?$less@URva002EF27DElement@@@0@@Z,0x002EBB9B,
 ??0Rva004157BBElement@@QAE@ABU0@@Z,0x0041573F,
 ??0Rva0050078DElement@@QAE@ABU0@@Z,0x0050055D,
 ??0Rva00500839Element@@QAE@ABU0@@Z,0x0050055D,

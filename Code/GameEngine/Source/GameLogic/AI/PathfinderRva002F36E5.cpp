@@ -12,11 +12,23 @@ public:
 	static int ReleaseClosedList(class MixFileInfoBuffer *buf);
 };
 
-class Rva002F301F
+// The queue at +0x1D1F0 is an STLport priority_queue; 0x002F301F is its
+// out-of-line pop (Rva002F301FRva002F301F.cpp). Its element and comparator
+// keep that unit's address-derived names.
+struct _Rva002EBB53Wrap;
+struct Rva002EBB53Compare;
+namespace _STL {
+template <class T> class allocator;
+template <class T, class A> class vector;
+template <class T, class S, class C> class priority_queue
 {
 public:
-	void rva002F301F();
+	void pop();
 };
+}
+typedef _STL::priority_queue<_Rva002EBB53Wrap *,
+	_STL::vector<_Rva002EBB53Wrap *, _STL::allocator<_Rva002EBB53Wrap *> >,
+	Rva002EBB53Compare> Rva002EBB53Queue;
 
 class MixFileInfoBuffer;
 
@@ -53,7 +65,7 @@ PathfindCell *Pathfinder::rva002F36E5()
 	{
 		front = *base;
 		front->SetOpen(false);
-		((Rva002F301F *)q)->rva002F301F();
+		((Rva002EBB53Queue *)q)->pop();
 	}
 	return front;
 }
@@ -66,7 +78,7 @@ int Pathfinder::rva002F370D()
 	{
 		PathfindCell *front = q->front();
 		front->SetOpen(false);
-		((Rva002F301F *)q)->rva002F301F();
+		((Rva002EBB53Queue *)q)->pop();
 		++count;
 	}
 	return count;

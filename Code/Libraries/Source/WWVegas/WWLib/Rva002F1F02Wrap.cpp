@@ -1,6 +1,12 @@
-// cl: /MD
-// ?Rva002F1F02Wrap@@YAXPAPAU_Rva002EBB53Wrap@@0H@Z @0x002F1F02 23B
-// Pop-wrapper forwarder to rowed 0x002F0EE4 with NULL result. Evidence: caller 0x002F302B passes 3 args and cleans 12; callee rowed.
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// stlport
+// STLport 4.5.3 pop_heap with comparator over the pathfinder priority queue
+// of _Rva002EBB53Wrap pointers, retail 0x002F1F02, 23 bytes. Called by the
+// priority-queue pop 0x002F301F (call at 0x002F302B); forwards to
+// __pop_heap_aux 0x002F0EE4 (Rva002F0EE4Finish.cpp) with the null value-type
+// pointer.
+#include <algorithm>
+
 struct _Rva002EBB53Inner {
     char m_pad[0x10];
     unsigned short m_key;
@@ -8,8 +14,14 @@ struct _Rva002EBB53Inner {
 struct _Rva002EBB53Wrap {
     _Rva002EBB53Inner *m_inner;
 };
-void __cdecl Rva002F0EE4Wrap(_Rva002EBB53Wrap **base, _Rva002EBB53Wrap **end, _Rva002EBB53Wrap **result, int extra);
-void __cdecl Rva002F1F02Wrap(_Rva002EBB53Wrap **base, _Rva002EBB53Wrap **end, int extra)
-{
-    Rva002F0EE4Wrap(base, end, 0, extra);
-}
+// Empty comparator, greater-than on the payload key: the smallest key is on
+// top of the heap.
+struct Rva002EBB53Compare {
+    bool operator()(const _Rva002EBB53Wrap *a, const _Rva002EBB53Wrap *b) const
+    {
+        return a->m_inner->m_key > b->m_inner->m_key;
+    }
+};
+
+extern template void _STL::__pop_heap_aux(_Rva002EBB53Wrap **, _Rva002EBB53Wrap **, _Rva002EBB53Wrap **, Rva002EBB53Compare);
+template void _STL::pop_heap(_Rva002EBB53Wrap **, _Rva002EBB53Wrap **, Rva002EBB53Compare);

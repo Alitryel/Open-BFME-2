@@ -1,8 +1,16 @@
-// cl: /MD
-//
-// ?rva002F301F@Rva002F301F@@QAEXXZ, retail 0x002f301f, 26 bytes. Banked partial (score 1.0) closed by tools/permute.py;
-// the body is the banked one up to statement/operand order and local types.
-// Pop-style method that forwards base/end/extra to 0x002F1F02 then pops end by one pointer. Evidence: caller 0x002F3703 and 0x002F3726 as thiscall with no stack args; callee rowed. Row 0x002F1F02 declares int extra but retail mov al proves byte so declared unsigned char per code use.
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// stlport
+// STLport 4.5.3 priority_queue<_Rva002EBB53Wrap *, vector<...>,
+// Rva002EBB53Compare>::pop, retail 0x002F301F, 26 bytes: pop_heap(c.begin(),
+// c.end(), comp) through pop_heap 0x002F1F02, then c.pop_back() as finish -=
+// 4. Layout from the body: the vector at +0 (begin +0, finish +4) and the
+// empty comparator byte at +0xC, pushed by value. Thiscall callers 0x002F3703
+// and 0x002F3726 (pathfinder). The heap family and its element view live in
+// Code/Libraries/Source/WWVegas/WWLib/Rva002EBB53SiftUp.cpp; same shape as
+// the rowed priority_queue<int, vector<int>, greater<int> >::pop 0x003B032A.
+#include <queue>
+#include <vector>
+
 struct _Rva002EBB53Inner {
     char m_pad[0x10];
     unsigned short m_key;
@@ -10,17 +18,14 @@ struct _Rva002EBB53Inner {
 struct _Rva002EBB53Wrap {
     _Rva002EBB53Inner *m_inner;
 };
-void __cdecl Rva002F1F02Wrap(_Rva002EBB53Wrap **base, _Rva002EBB53Wrap **end, unsigned char extra);
-class Rva002F301F {
-public:
-    _Rva002EBB53Wrap **m_base;
-    _Rva002EBB53Wrap **m_end;
-    unsigned int m_pad08;
-    unsigned char m_extra;
-    void rva002F301F();
+// Empty comparator, greater-than on the payload key: the smallest key is on
+// top of the heap.
+struct Rva002EBB53Compare {
+    bool operator()(const _Rva002EBB53Wrap *a, const _Rva002EBB53Wrap *b) const
+    {
+        return a->m_inner->m_key > b->m_inner->m_key;
+    }
 };
-void Rva002F301F::rva002F301F()
-{
-    Rva002F1F02Wrap(m_base, m_end, m_extra);
-    m_end--;
-}
+
+extern template void _STL::pop_heap(_Rva002EBB53Wrap **, _Rva002EBB53Wrap **, Rva002EBB53Compare);
+template void _STL::priority_queue<_Rva002EBB53Wrap *, _STL::vector<_Rva002EBB53Wrap *>, Rva002EBB53Compare>::pop();
