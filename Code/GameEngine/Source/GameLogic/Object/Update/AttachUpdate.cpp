@@ -20,13 +20,8 @@
 
 class Object;
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-	bool equals(const Coord3D &r) const;	// 0x00003702
-};
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../../../Libraries/Include/Lib/Coord3DBase.h"	// Coord3D::equals 0x00003702
 
 enum ObjectID
 {
@@ -143,7 +138,7 @@ UpdateSleepTime AttachUpdate::update()
 		}
 		Coord3D pos;
 		rva00491C84(&pos, parent);
-		if (!pos.equals(*obj->getPosition())) {
+		if (!pos.equals(asBase(*obj->getPosition()))) {
 			if (getAttachUpdateModuleData()->m_alwaysTeleport)
 				obj->rva0029660C(&pos, 0);
 			else
