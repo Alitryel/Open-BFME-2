@@ -244,11 +244,12 @@ AptValue *callback006F2640(AptValue *context,int) {
 // Donor f1e86798adbb054c getTransform semantics; native6F2760..6F29BF
 // uses eight CIH floats at24..40, integer scaling100/255, and hash properties.
 // Placement allocation keeps the native32B pool allocation local to this use.
-enum FactoryObjectAllocation { factoryObjectAllocation };
+// The tag carries the pooled block size the unwind funclet frees (0x20).
+enum FactoryObjectAllocation { factoryObjectAllocation = sizeof(AptObject) };
 // ?operator new absent-from-retail
 inline void *operator new(unsigned int n,FactoryObjectAllocation){return g_pChainBlockAllocatorF4->allocBlock(n);}
 // ?operator delete absent-from-retail
-inline void operator delete(void *p,FactoryObjectAllocation){g_pChainBlockAllocatorF4->freeBlock(p,32);}
+inline void operator delete(void *p,FactoryObjectAllocation size){g_pChainBlockAllocatorF4->freeBlock(p,size);}
 class Rva8D0D80String;class Rva8D0D80Value;
 class Rva8D0D80Table {public:void add(Rva8D0D80String *,Rva8D0D80Value *);};
 #define COLOUR_ASSERT(expr,line) if(!(expr)){g_bfmeAptAssertAtE17734(#expr,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptObject\\AptScriptColour.cpp",line);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}

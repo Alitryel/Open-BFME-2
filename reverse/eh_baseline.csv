@@ -58,7 +58,6 @@ name,target_rva,verdict
 ??0Rva006DE630@@QAE@XZ,0x006DE630,bytes_differ
 ??0Rva006DE6D0@@QAE@XZ,0x006DE6D0,bytes_differ
 ??0Rva006DE790@@QAE@XZ,0x006DE790,bytes_differ
-?callback006F2760@@YAPAVAptValue@@PAV1@H@Z,0x006F2760,bytes_differ
 ?rva006F6E00@BfmeQuery1279@@QAEPAVAptCIH@@HHPAXPAV2@PAVAptValue@@@Z,0x006F6E00,bytes_differ
 ??0BfmeQuery1279@@QAE@XZ,0x006F7B20,bytes_differ
 ??0Rva006F8D70@@QAE@XZ,0x006F8550,bytes_differ
