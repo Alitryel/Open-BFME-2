@@ -6,6 +6,7 @@
 // Emitted via explicit instantiation of this one member; _M_clone_node stays
 // an external call resolved by its ledger row. Callers at 0x002D03C2
 // 0x002D03EF (self) and 0x002D089E unblocks 0x002D0867.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.

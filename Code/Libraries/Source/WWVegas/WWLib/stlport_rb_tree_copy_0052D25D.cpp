@@ -4,6 +4,7 @@
 // _Rb_tree copy ctor for map<int AsciiString> (28B pair 44B node) caller of matched _M_copy 0x0050427F via WOLBuddyOverlay.
 // Evidence: unlock lane unblocking 0x0052D477; callees get_allocator fold 0x0021983A and base 0x00417B55 and _M_copy 0x0050427F; EH_prolog with handler.
 // Private 24B AsciiString (not shared 4B header): retail header-node is 0x2c/44B requiring 28B pair; shared 4B gives 8B pair/24B node so gate fails; size not in mangling so _M_copy name still matches.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 class AsciiString { public: unsigned char m_data[24]; };
 typedef _STL::_Rb_tree<int, _STL::pair<const int, AsciiString>, _STL::_Select1st<_STL::pair<const int, AsciiString> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, AsciiString> > > HAsciiStringMapTree;

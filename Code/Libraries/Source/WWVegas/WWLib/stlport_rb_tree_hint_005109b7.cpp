@@ -7,6 +7,7 @@
 // followed by copying a pointer and incrementing its non-null pointee at +4.
 // Comparison reaches the established AsciiString operator< at 0x5598C.
 // Semantic donor: BFME1 RvaTreeInsertUniqueHint.cpp and STLport pair/tree.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <stl/_prolog.h>
 #include <stl/type_traits.h>
 #undef _STLP_DEFAULT_CONSTRUCTOR_BUG

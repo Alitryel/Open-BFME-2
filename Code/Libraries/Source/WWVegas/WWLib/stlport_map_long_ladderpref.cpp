@@ -2,6 +2,7 @@
 // stlport
 
 
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include "unicode_string.h"
 
 // Retail copies each string through its matching narrow or wide StringBase body.

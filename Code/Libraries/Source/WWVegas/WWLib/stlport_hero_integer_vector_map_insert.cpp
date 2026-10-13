@@ -2,6 +2,7 @@
 // stlport
 // ?insert@?$map@HV?$vector@IV?$allocator@I@_STL@@@_STL@@U?$less@H@2@V?$allocator@U?$pair@$$CBHV?$vector@IV?$allocator@I@_STL@@@_STL@@@_STL@@@2@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHV?$vector@IV?$allocator@I@_STL@@@_STL@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHV?$vector@IV?$allocator@I@_STL@@@_STL@@@_STL@@@2@@2@U32@ABU?$pair@$$CBHV?$vector@IV?$allocator@I@_STL@@@_STL@@@2@@Z @0x0021DB74 29B
 // Hinted map::insert forwarder to rowed hinted _Rb_tree::insert_unique 0x0021D6A9. Same 29B shape as Locomotor map::insert 0x001E9066. Evidence: caller 0x0021E0BB passes hidden+pos+pair with this=map; callee rowed.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()

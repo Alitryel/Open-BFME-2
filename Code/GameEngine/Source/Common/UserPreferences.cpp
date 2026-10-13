@@ -26,6 +26,7 @@
 // (the map occupies +4..+0xF); load(AsciiString) widens its leaf name and
 // forwards to the wide overload.
 
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <utility>
 #undef _STLP_DEFAULT_CONSTRUCTED
 #define _STLP_DEFAULT_CONSTRUCTED(T) T()

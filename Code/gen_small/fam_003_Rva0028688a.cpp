@@ -5,6 +5,7 @@
 // game/gen_small/fam_003.cpp: the donor preamble and this one _Rb_tree
 // instantiation, the donor's other containers omitted. The synthetic
 // payloads reproduce a layout and a lifecycle, never a class identity.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 #include <set>
 

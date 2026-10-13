@@ -16,6 +16,7 @@
 // 0x00425FEC. Evidence: chain lane (calls 0x00425FEC just landed); same
 // explicit anchor as _bfmePristineBoneAnchor's map() call in
 // W3DModelDrawO1Inlines.cpp; unblocks 0x004261B8, 0x000C6A4D, 0x00385FE1.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.

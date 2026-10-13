@@ -9,6 +9,7 @@
 // 0x00413EE6. Evidence: chain lane calls both rowed bodies; add edi 0xC
 // plus lea ecx [esi+0xC] pins the +0xC tree offset; ret 4 copy-ctor shape
 // with EH_prolog.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <vector>
 #include <map>
 

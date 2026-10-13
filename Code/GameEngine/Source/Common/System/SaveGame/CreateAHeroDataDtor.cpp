@@ -7,6 +7,7 @@
 // as string release36410 in an unrelated baseline caller; do not reuse it here.
 // WriteNamedHero4074CF opens a wide path with mode w, writes map50 entries
 // as "%s = %d\n", closes the file and returns success as a bool.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <memory>
 #include <vector>
 #include <map>

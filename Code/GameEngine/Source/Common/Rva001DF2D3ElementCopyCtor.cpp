@@ -8,6 +8,7 @@
 // to lea/push/lea. That needs inlining on (no /Ob0, unlike the vector sweep TU).
 // Donor provenance: tree and vector member copy operations follow the rowed callees; the class name and unconstrained fields remain address-derived from matched callers.
 #define _STLP_NO_EXCEPTIONS 1
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 #include <set>
 #include <vector>

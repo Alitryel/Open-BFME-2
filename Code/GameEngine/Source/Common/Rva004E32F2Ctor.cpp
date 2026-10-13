@@ -4,6 +4,7 @@
 // Copy ctor of Rva004E32F2: vptr store plus int at +4 plus byte at +8 plus tree copy at +0xC.
 // Evidence: chain lane calls just-landed Rb_tree copy 0x0052D25D; vtable 0x00861F68 stored at [this] matches dtor 0x004E32F2 class; caller 0x0052D4BE.
 // Tree member uses 24B private AsciiString so its copy call mangles to the landed Rb_tree<int AsciiString> row; size not in mangling.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 #include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 

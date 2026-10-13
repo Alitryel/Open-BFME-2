@@ -6,6 +6,7 @@
 // list/template-tree purpose, with target slots and layout witnessed below.
 // This unit retains only independently verified STL helper instantiations.
 // The1013B caller is banked at reverse/attempts/0x001fa04b.cpp.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include "ascii_string.h"
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #define _STLP_USE_STATIC_LIB

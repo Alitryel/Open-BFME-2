@@ -9,6 +9,7 @@
 // 0x0021B775 and color-tree dtor 0x0038103F. Shard, not graft: the /EHs flag
 // the EH state store needs would perturb the /EHsc erase/clear home TU.
 // Companion to stlport_map_int_pod52_o1.cpp.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()

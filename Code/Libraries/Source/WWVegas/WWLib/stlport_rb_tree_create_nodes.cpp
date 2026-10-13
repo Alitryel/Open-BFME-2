@@ -7,6 +7,7 @@
 // stlport_rb_tree_hint_asciistring_set (no allocation-cleanup catch
 // path); each _Construct is declared only so its call resolves
 // through its own row.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU

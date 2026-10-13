@@ -3,6 +3,7 @@
 // ??0Rva00502909Sub@@QAE@ABU0@@Z, retail 0x005026EE 153B.
 // Subobject copy ctor: 4 ints then 5 vector<ScienceType> then map<int Rva00501E3FElement>.
 // Evidence: rowed vector copy 0x0054878E x5 and rowed rb_tree copy 0x00501E88; element copy 0x00502909 tail-calls it; neighbours share stlport /O1 /EHsc flags.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 #include <vector>
 

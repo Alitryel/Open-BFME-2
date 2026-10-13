@@ -15,6 +15,7 @@
 // in the same landing. _Rebalance resolves through its matched row at
 // 0x00025490. Flags copy the signed int-int _M_insert TU
 // stlport_map_int_int_os.cpp which gives the same 136B/59-insn shape.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU

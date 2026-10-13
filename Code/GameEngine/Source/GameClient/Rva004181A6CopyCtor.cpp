@@ -7,6 +7,7 @@
 // AsciiString inline copy/dtor via StringBase releaseBuffer gives EH state
 // after first call; FixedStorage nothrow and Rb_tree NO_EXCEPTIONS need none.
 // Evidence: unlock lane; callees rowed/pinned; unblocks 0x00418232 0x004181F5.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 struct BfmePod24 { int a[6]; };
 #include "ascii_string.h"

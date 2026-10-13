@@ -4,6 +4,7 @@
 // Retail insertion at0x21D203 uses signed key comparisons. Node0x21D159
 // allocates32 bytes; value copy0x795C1 copies the int key then the established
 // vector<unsigned int> copy0x2CFAB9. These calls anchor the complete family.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()

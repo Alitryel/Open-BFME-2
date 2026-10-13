@@ -11,6 +11,7 @@
 // RVA 0x0005598C, and both iterator-step helpers are already independently matched.
 // Semantic reference: reference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib/
 // RvaTreeInsertUniqueHint.cpp. Here /O1 leaves the comparator out of line.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU

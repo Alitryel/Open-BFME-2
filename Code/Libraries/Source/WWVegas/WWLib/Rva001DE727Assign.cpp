@@ -4,6 +4,7 @@
 // Evidence: 5 dwords + Rb_tree set at +0x14 via rowed assign 0x001DDC52 +
 // 4B-POD vector at +0x20 via int pin at 0x0021C21B + 3 bytes at +0x2C.
 #define _STLP_NO_EXCEPTIONS 1
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 #include <vector>
 

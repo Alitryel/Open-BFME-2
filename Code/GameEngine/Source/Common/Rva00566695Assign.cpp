@@ -6,6 +6,7 @@
 // map<int AsciiString> at +0xC through the rowed _Rb_tree assign at
 // 0x00504496. Vptr at +0 is not copied. Caller at 0x00566959; unblocks
 // 0x0056693D. Prev Rva00566663Copy same page same flags.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 #include "ascii_string.h"

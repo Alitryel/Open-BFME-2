@@ -90,11 +90,15 @@ typedef bool _Rb_tree_Color_type;
 // rejects as not retail's body, and an optimize pragma alone makes /O1 callers
 // stop expanding them. Such a unit defines _STLP_BFME_TREE_NODE_BASE_O2: the
 // helpers are then compiled favouring speed and forced inline, so the copy is
-// retail's and the callers keep their bytes. Without the macro the header
+// retail's and the callers keep their bytes. A unit that only inlines them
+// defines _STLP_BFME_RB_MINMAX_IMPORT instead: the dllimport idiom keeps the
+// inlined bodies and drops the losing copy. Without either macro the header
 // expands as before.
 #ifdef _STLP_BFME_TREE_NODE_BASE_O2
 #  pragma optimize("t", on)
 #  define _STLP_BFME_TREE_NODE_INLINE __forceinline
+#elif defined(_STLP_BFME_RB_MINMAX_IMPORT)
+#  define _STLP_BFME_TREE_NODE_INLINE __declspec(dllimport) __forceinline
 #else
 #  define _STLP_BFME_TREE_NODE_INLINE
 #endif

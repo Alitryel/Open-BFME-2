@@ -5,6 +5,7 @@
 // Retail2031FB constructs the default mapped string directly. Disable the
 // old compiler-workaround wrapper locally; modern direct value-initialization
 // preserves its zero pointer and exact temporary lifetime.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <utility>
 #undef _STLP_DEFAULT_CONSTRUCTED
 #define _STLP_DEFAULT_CONSTRUCTED(T) T()

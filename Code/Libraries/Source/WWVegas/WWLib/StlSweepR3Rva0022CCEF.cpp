@@ -13,6 +13,7 @@ static inline const int &min(const int &a, const int &b)
     return b < a ? b : a;
 }
 }
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <stl/_algobase.h>
 #pragma optimize("s", off)
 #pragma optimize("t", on)

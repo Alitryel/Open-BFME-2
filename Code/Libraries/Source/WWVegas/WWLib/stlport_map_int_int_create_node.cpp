@@ -8,6 +8,7 @@
 // compiler name is already claimed by the distinct 0x2CF6CF implementation.
 // Keep this TU-local method spelling address-scoped without changing its type.
 #define _M_copy _M_copy_0021C2CC
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()

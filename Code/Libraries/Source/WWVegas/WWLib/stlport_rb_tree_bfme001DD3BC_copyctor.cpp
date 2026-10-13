@@ -2,6 +2,7 @@
 // stlport
 // ??0?$_Rb_tree@UBfmeRecord001DD3BC@@U1@U?$_Identity@UBfmeRecord001DD3BC@@@_STL@@U?$less@UBfmeRecord001DD3BC@@@3@V?$allocator@UBfmeRecord001DD3BC@@@3@@_STL@@QAE@ABV01@@Z @0x001DDD85 165B copy ctor via rowed base ctor plus copy 0x001DDA57.
 // Evidence: chain lane every callee rowed; same 165B shape as 0x0021CF2C 0x0021E146 0x00301EF6.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 struct BfmeRecord001DD3BC {
 	unsigned char m_data[8];

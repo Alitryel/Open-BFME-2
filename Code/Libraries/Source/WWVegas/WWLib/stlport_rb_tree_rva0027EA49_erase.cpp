@@ -5,6 +5,7 @@
 // Evidence: recurse-right via [esi+0x0C] walk-left via [esi+0x08] destroy value at node+0x10 via rowed
 // ??1Rva0027EA49@@QAE@XZ at 0x0027EA49 release node via GameMemory free 0x00030830 ret 4.
 // Reached from rowed clear 0x005C6B83 pattern and vector destroy sharing same element dtor.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.

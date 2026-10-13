@@ -5,6 +5,7 @@
 // <AsciiString,AsciiString> at +4 via rowed 0x0052274D with null-checked
 // other (neg/sbb/and ternary per ScriptListSwap precedent) and UnicodeString
 // at +0x10 via pin 0x00037150. Caller 0x005232D9 in 0x005231B0/282.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include "unicode_string.h"
 #include <utility>
 #include <map>

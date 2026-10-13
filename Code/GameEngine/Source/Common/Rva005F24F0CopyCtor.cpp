@@ -9,6 +9,7 @@
 // stays address-derived. The earlier blocked verdict was on 0x005F2439,
 // which is rowed now.
 
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <set>
 #include <vector>
 

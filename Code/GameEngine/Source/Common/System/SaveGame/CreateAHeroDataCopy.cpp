@@ -5,6 +5,7 @@
 // Container identities follow the independently recovered copy-call chains:
 // int/int trees21CF2C; AsciiString payload tree40884B; bit-vector389413;
 // int/vector<unsigned> tree21E146. Unknown application fields stay offset-named.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <memory>
 #include <vector>
 #include <map>

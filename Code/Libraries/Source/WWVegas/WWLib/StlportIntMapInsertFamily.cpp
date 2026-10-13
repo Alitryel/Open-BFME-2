@@ -25,6 +25,7 @@
 //   0x00502BCD     0x00502B45  0x005028E7
 //   0x00559076     0x00558FEE  0x00558E9C
 
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU

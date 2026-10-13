@@ -10,6 +10,7 @@
 // 0x00409D4D and dtor 0x00409285 with vtable C38D88; callees all rowed
 // (setters 407A6A 407004 406EFD 406F12 406F27 406F3C, vector/tree assigns,
 // BfmeHeroElement assign 406E22); callers 40A384 2DBAB9 5B5C02 5B2725 21A428 3FF50C 5B1E71.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <memory>
 #include <vector>
 #include <map>

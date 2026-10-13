@@ -11,6 +11,7 @@
 // records of20B, with real copy302CE2 and dtor22D920 callbacks. Their three
 // flags/team/map layout also agrees with the matched MPPositionInfo writer.
 // Unknown BFME2 wordF4 remains opaque; no extra meaning is inferred.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <list>
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.

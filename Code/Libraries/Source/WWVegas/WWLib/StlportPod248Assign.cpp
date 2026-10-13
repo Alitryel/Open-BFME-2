@@ -7,6 +7,7 @@
 // not establish an application WeaponTemplateSet field. Original type unknown.
 // Assignment: Self-check, StringBase set at +0 and +0x6C, 19-dword POD copy, then the
 // rowed container assigns. Six vector slots at +0xAC step by 0xC. Returns this.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include "ascii_string.h"
 // Declare the container assigns. Do not compile their bodies into this TU.
 #define _STLP_LINK_TIME_INSTANTIATION

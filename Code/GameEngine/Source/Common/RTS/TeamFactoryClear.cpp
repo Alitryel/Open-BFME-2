@@ -11,6 +11,7 @@
 // Structural inference: the existing CopyTree/BfmePod8 ABI names describe
 // the owned copy constructor, not proof that retail's semantic key is int.
 // The second payload word holds the prototype; the first remains opaque.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 #include <string.h>
 

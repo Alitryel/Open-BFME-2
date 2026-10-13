@@ -5,6 +5,7 @@
 // this container appear as COMDATs that build/objplace.py can place against
 // unlanded functions; the suffix says which optimisation level, because for
 // these containers different bodies survive the link from different units.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()

@@ -8,6 +8,7 @@
 // tree header plus the 0x10-byte pair). The tree bodies are the int-keyed ones
 // stlport_map_int_int_os.cpp lands for map<int, int>, with its flags.
 
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()

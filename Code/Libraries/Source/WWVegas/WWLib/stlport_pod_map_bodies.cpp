@@ -8,6 +8,7 @@
 // reach the retail tree/allocation helpers instead of emitting competing
 // COMDAT copies. _M_create_node/_M_copy are declared only; their rowed
 // bodies live in the sibling pod-map units.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU

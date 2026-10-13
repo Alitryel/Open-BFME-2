@@ -1,6 +1,7 @@
 // cl: /DBFME_ASCII_DTOR_DECL /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // STLport 4.5.3 AsciiString set header allocation with BFME's byte allocator.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <set>
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.

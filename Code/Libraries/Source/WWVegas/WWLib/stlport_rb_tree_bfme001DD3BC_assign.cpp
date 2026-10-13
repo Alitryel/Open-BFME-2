@@ -2,6 +2,7 @@
 // stlport
 // ??4?$_Rb_tree@UBfmeRecord001DD3BC@@U1@U?$_Identity@UBfmeRecord001DD3BC@@@_STL@@U?$less@UBfmeRecord001DD3BC@@@3@V?$allocator@UBfmeRecord001DD3BC@@@3@@_STL@@QAEAAV01@ABV01@@Z @0x001DDC52 115B operator= via rowed clear 0x001DD9F3 and copy 0x001DDA57.
 // Evidence: chain lane every callee rowed; same 115B shape as 0x0021DD0E 0x0030200E 0x0052274D.
+#define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 struct BfmeRecord001DD3BC {
 	unsigned char m_data[8];
