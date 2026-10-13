@@ -20,5 +20,14 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
+// Suppress this TU's int __get_decimal_integer copies: do_get_year calls them
+// out of line, and retail folds them into the long readers at 0x00009CD0 and
+// 0x0000B4C0, whose units emit the int instantiations too.
+namespace _STL {
+template <> bool _STLP_CALL __get_decimal_integer<istreambuf_iterator<char, char_traits<char> >, int>(
+    istreambuf_iterator<char, char_traits<char> > &, istreambuf_iterator<char, char_traits<char> > &, int &);
+template <> bool _STLP_CALL __get_decimal_integer<istreambuf_iterator<wchar_t, char_traits<wchar_t> >, int>(
+    istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, istreambuf_iterator<wchar_t, char_traits<wchar_t> > &, int &);
+}
 template _STL::time_get<char, _STL::istreambuf_iterator<char, _STL::char_traits<char> > >::time_get(_Locale_time *, size_t);
 template _STL::time_get<wchar_t, _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> > >::time_get(_Locale_time *, size_t);

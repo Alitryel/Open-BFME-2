@@ -78,4 +78,9 @@ bool __cdecl __get_decimal_integer(
 template bool __cdecl __get_decimal_integer<wide_iterator, long>(
         wide_iterator &, wide_iterator &, long &);
 
+// The int instantiation __get_formatted_time and do_get_year call: the same
+// code, which retail folds into this address.
+template bool __cdecl __get_decimal_integer<wide_iterator, int>(
+        wide_iterator &, wide_iterator &, int &);
+
 }

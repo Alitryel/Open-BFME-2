@@ -100,15 +100,17 @@ public:
 	typename Traits::int_type sbumpc();
 };
 
+// operator*, the postfix operator++, equal and _M_bumpc are inline-only: the
+// body inlines them, and their out-of-line copies would differ from retail's.
 template <class CharT, class Traits>
 class istreambuf_iterator
 {
 public:
-	CharT operator*() const { _M_getc(); return _M_c; }
+	__declspec(dllimport) __forceinline CharT operator*() const { _M_getc(); return _M_c; }
 
 	istreambuf_iterator<CharT, Traits> &operator++() { _M_bumpc(); return *this; }
 
-	istreambuf_iterator<CharT, Traits> operator++(int)
+	__declspec(dllimport) __forceinline istreambuf_iterator<CharT, Traits> operator++(int)
 	{
 		istreambuf_iterator<CharT, Traits> __tmp = *this;
 		_M_bumpc();
@@ -130,7 +132,7 @@ public:
 private:
 	void _M_getc() const;
 
-	void _M_bumpc()
+	__declspec(dllimport) __forceinline void _M_bumpc()
 	{
 		_M_buf->sbumpc();
 		_M_have_c = false;
