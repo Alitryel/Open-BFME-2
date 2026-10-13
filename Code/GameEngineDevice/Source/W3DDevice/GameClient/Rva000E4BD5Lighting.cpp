@@ -1,5 +1,6 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /Oy- /ICode/Libraries/Include
 #include "Lib/Coord3D.h"
+#include "Lib/RGBColor.h"
 // Semantic guide: Zero Hour W3DTreeBuffer lighting through BFME1. Target
 // E4BD5..E4F20 owns all offsets, globals, weather and terrain virtual slots.
 // Original target method/class name is unproven; retain address-derived identity.
@@ -62,11 +63,7 @@ static void InitLightVector3(Vector3 &v, Real x, Real y, Real z)
 };
 
 struct BfmeLighting36 {
-    struct RGBColor {
-        Real red;
-        Real green;
-        Real blue;
-    } ambient;
+    RGBColor ambient;
     RGBColor diffuse;
     Coord3D lightPos;
 };

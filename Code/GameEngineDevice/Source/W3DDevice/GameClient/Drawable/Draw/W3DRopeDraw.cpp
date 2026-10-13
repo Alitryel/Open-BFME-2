@@ -24,6 +24,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../../../../Libraries/Include/Lib/RGBColor.h"
 
 enum NameKeyType
 {
@@ -139,12 +140,7 @@ private:
 	float m_curLen;
 	float m_maxLen;
 	float m_width;
-	struct RGBColor
-	{
-		float red;
-		float green;
-		float blue;
-	} m_color;
+	RGBColor m_color;
 	float m_curSpeed;
 	float m_maxSpeed;
 	float m_accel;

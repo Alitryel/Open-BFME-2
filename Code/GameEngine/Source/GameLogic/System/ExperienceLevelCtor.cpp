@@ -10,7 +10,7 @@
 // const UpgradeTemplate pointers; names/attribute modifiers are AsciiStrings.
 // Base 0x001E3624 adds the override index at +0x0C; name is +0x10.
 // Empty vector constructors are complete emitted STLport folds of 0x00211E58.
-// The real radius-decal members and visible RGBColor::setFromInt definition
+// The real radius-decal members and a nothrow RGBColor::setFromInt call
 // preserve the five-state exception cleanup; all bytes and EH match retail.
 #include <vector>
 #include "ascii_string.h"
@@ -43,12 +43,10 @@ public:
 	unsigned int m_unmodelled28;
 	float m_unmodelled2C, m_unmodelled30;
 };
-class RGBColor
-{
-public:
-	void setFromInt(int v) { red = ((v >> 16) & 0xff) / 255.0f; green = ((v >> 8) & 0xff) / 255.0f; blue = (v & 0xff) / 255.0f; }
-	float red, green, blue;
-};
+#include "../../../../Libraries/Include/Lib/RGBColor.h"
+// Retail calls the color.cpp owner 0x4EDF out of line; a nothrow wrapper
+// reproduces its EH shape.
+static inline void rgbColorSetFromInt(RGBColor &c, int v) throw() { c.setFromInt(v); }
 
 #include "ascii_string.h"
 
@@ -126,7 +124,7 @@ Rva002894A2::Rva002894A2()
 	, m102(0)
 	, m104(-1)
 {
-	mDC.setFromInt(0);
+	rgbColorSetFromInt(mDC, 0);
 }
 
 // Copy constructor 0x00289CEB default-constructs owned members, then calls

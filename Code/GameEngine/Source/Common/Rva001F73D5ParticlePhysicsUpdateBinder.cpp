@@ -41,6 +41,7 @@
 // sub-binders declare no dtor.
 
 #include "../../../Libraries/Include/Lib/Coord2D.h"
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 typedef const char *D3DXHANDLE;
 typedef int BOOL;
@@ -77,13 +78,6 @@ struct ID3DXEffect
 	virtual void v44(); virtual void v45(); virtual void v46(); virtual void v47();
 	virtual void v48(); virtual void v49(); virtual void v50(); virtual void v51();
 	virtual long __stdcall SetTexture(D3DXHANDLE parameter, IDirect3DBaseTexture8 *texture);
-};
-
-struct RGBColor
-{
-	float r;
-	float g;
-	float b;
 };
 
 struct Out001F5141
@@ -194,7 +188,7 @@ void Rva001F7558DriftVelocity(ID3DXEffect *effect, D3DXHANDLE handle)
 	{
 		const RGBColor *velocity = TheParticleSystemManager->get()->rva001F512F();
 		if (velocity)
-			drift = D3DXVECTOR4(velocity->r, velocity->g, velocity->b, 0.0f);
+			drift = D3DXVECTOR4(velocity->red, velocity->green, velocity->blue, 0.0f);
 	}
 	effect->SetVector(handle, &drift);
 }

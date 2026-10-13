@@ -22,6 +22,7 @@
 #include "ascii_string.h"
 #include "../../../Libraries/Include/Lib/Coord2D.h"
 #include "../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -36,16 +37,12 @@ public:
 
 void adjustVector(Coord3D *vec, const Matrix3D *mtx);
 
-struct RGBColor
+// Retail inlines RGBColor::getAsInt here (the canonical header only declares
+// the out-of-line owner in color.cpp).
+static __forceinline Int rgbColorAsInt(const RGBColor &c)
 {
-	__forceinline Int getAsInt() const
-	{
-		return ((Int)(red * 255.0) << 16) | ((Int)(green * 255.0) << 8) | ((Int)(blue * 255.0));
-	}
-	Real red;
-	Real green;
-	Real blue;
-};
+	return ((Int)(c.red * 255.0) << 16) | ((Int)(c.green * 255.0) << 8) | ((Int)(c.blue * 255.0));
+}
 
 class Shadow
 {
@@ -180,7 +177,7 @@ void DynamicDecalFXNugget::doFXPos(const Coord3D *primary, const Matrix3D *prima
 		else
 			shadow->m_angle = 0.0f;
 
-		shadow->rva00330995(m_color.getAsInt());
+		shadow->rva00330995(rgbColorAsInt(m_color));
 		shadow->m_position = pos;
 
 		Real initialOpacity = (m_startingDelay > 0.0f) ? 0.0f : (Real)m_opacityStart;
