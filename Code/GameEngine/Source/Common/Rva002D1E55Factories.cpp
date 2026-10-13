@@ -7,7 +7,9 @@
 // pointer table in .rdata/.data and has no direct caller.  Each class is
 // named after its constructor address (pinned) and carries only its size;
 // identities are not recovered except AptLanLobby, whose complete constructor
-// and native callback registrations now establish the existing6C4-byte view.
+// and native callback registrations now establish the existing6C4-byte view,
+// and AptCampaignMenu, whose 0x005212FC constructor binds the
+// AptCampaignMenu::OnBttn* commands.
 //
 //   factory     size   ctor
 //   0x002D1E55  0x27C  0x0051268C
@@ -212,17 +214,17 @@ Rva005202C8 *__stdcall Rva002D2147Create(void *context)
 	return new Rva005202C8(context);
 }
 
-class Rva005212FC
+class AptCampaignMenu
 {
 public:
-	Rva005212FC(void *context);
+	AptCampaignMenu(void *context);
 private:
 	char m_pad[0x288];
 };
 
-Rva005212FC *__stdcall Rva002D2181Create(void *context)
+AptCampaignMenu *__stdcall Rva002D2181Create(void *context)
 {
-	return new Rva005212FC(context);
+	return new AptCampaignMenu(context);
 }
 
 // Retail 0x002D21BB (64 bytes): the skirmish screen's factory takes the same

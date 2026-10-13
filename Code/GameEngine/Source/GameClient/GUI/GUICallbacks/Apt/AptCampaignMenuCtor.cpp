@@ -1,6 +1,6 @@
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHs
 //
-// ??0Rva005212FC@@QAE@PAX@Z @0x005212FC 807B: BFME2's campaign menu screen
+// ??0AptCampaignMenu@@QAE@PAX@Z @0x005212FC 807B: BFME2's campaign menu screen
 // constructor (0x288-byte factory 0x002D2181). Target evidence: rowed
 // _bfme_AptGameWindow base ctor 0x0051268C; vptrs 0x00C67720 and 0x00C6771C
 // at +0x218 (the class whose dtor is rowed at 0x00521206); the +0x27C member
@@ -11,8 +11,8 @@
 // TheLinearCampaignManager fills the +0x27C member (rowed 0x001EB74B); the
 // first string prefixed "CampaignName:" is fetched as the mission name text
 // and the second names the campaign image. Pattern from AptCampaignReview.cpp.
-// The callback names identify the class as AptCampaignMenu; the row keeps
-// the pinned address name.
+// The callback names identify the class as AptCampaignMenu; its dtor
+// (0x00521206) and factory (0x002D2181) use the same name.
 
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -182,29 +182,25 @@ extern int g_Va00E0492C;
 extern const char BfmeCampaignMenuVictoriousName[] = "CampaignMenu:Victorious";
 const char *BfmeCampaignMenuQueryNames[2] = { BfmeCampaignMenuVictoriousName, 0 };
 
-class AptCampaignMenu
+class AptCampaignMenu : public _bfme_AptGameWindow
 {
 public:
+	AptCampaignMenu(void *context);
+	virtual ~AptCampaignMenu();
+
 	void OnBttnMainMenu(const char *unused);
 	void OnBttnSaveGame(const char *unused);
 	void OnBttnLoadGame(const char *unused);
 	void OnBttnLastMission(const char *unused);
 	void OnBttnNextMission(const char *unused);
 	void Victorious(int query, char *result, bool skip);
-};
-
-class Rva005212FC : public _bfme_AptGameWindow
-{
-public:
-	Rva005212FC(void *context);
-	virtual ~Rva005212FC();
 
 private:
 	Rva005211D1 m_content; // +0x27C
 };
 
 #pragma pointers_to_members(full_generality, multiple_inheritance)
-Rva005212FC::Rva005212FC(void *context)
+AptCampaignMenu::AptCampaignMenu(void *context)
 	: _bfme_AptGameWindow(context)
 {
 	if (g_Va00E0492C != 0)
