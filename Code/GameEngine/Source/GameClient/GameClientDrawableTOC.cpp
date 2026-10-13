@@ -1051,10 +1051,10 @@ private:
 	unsigned char m_pad[0x44 - 4];
 };
 
-class Rva0043216D : public GameMessageTranslator
+class PlaceEventTranslator : public GameMessageTranslator
 {
 public:
-	Rva0043216D();
+	PlaceEventTranslator();
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
 
 private:
@@ -1523,7 +1523,7 @@ void GameClient::init()
 	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new MetaEventTranslator, 20);
 	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new HotKeyTranslator, 25);
 	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new Rva0042CBB6, 27);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new Rva0043216D, 30);
+	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new PlaceEventTranslator, 30);
 	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new FormationTranslator, 35);
 	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new Rva005B1A00, 40);
 	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new SelectionTranslator, 50);

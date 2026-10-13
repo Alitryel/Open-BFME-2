@@ -44096,7 +44096,7 @@ __purecall,,0x0003B810,62,Code/Libraries/Source/debug/debug_purecall.cpp,matched
 ?rva00433498@Rva00433498@@QAEXM@Z,,0x00433498,23,Code/Libraries/Source/WWVegas/WW3D2/Rva00433498Float.cpp,matched,or dword ecx+C4 0x40 then call dup 0x00210C91 true RenderObjClass set98 caller 0x00433A3D
 ??1AptTranslator@@QAE@XZ,,0x0043283C,28,Code/GameEngine/Source/Common/Rva0043283CDtor.cpp,matched,dtor singleton clear via g_Va00E032C8 base vtable 0x00BDBA74 caller 0x00432A1F
 ??_GAptTranslator@@QAEPAXI@Z,,0x00432A1F,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_Rva0043283C.cpp,matched,chain deleting dtor calls rowed 0x0043283C plus delete 0x0002FD60 slot1 0x0083CA28
-??0Rva0043216D@@QAE@XZ,,0x0043216D,29,Code/GameEngine/Source/Common/Rva0043216DCtor.cpp,matched,ctor vtable 0x00C3C9C0 zeroes 0x04-0x15 caller 0x0023A502
+??0PlaceEventTranslator@@QAE@XZ,,0x0043216D,29,Code/GameEngine/Source/Common/Rva0043216DCtor.cpp,matched,ctor vtable 0x00C3C9C0 zeroes 0x04-0x15 caller 0x0023A502; vtable slot 0 is rowed PlaceEventTranslator::translateGameMessage 0x0043218A and the zeroed fields are its; ZH priority 30
 ?rva0043287E@Rva0043287E@@QAEHXZ,,0x0043287E,31,Code/GameEngine/Source/Common/Rva0043287ECheck.cpp,matched,unlock OR-shape callers 0x00432AFB et al row 0x00222A53
 ?rva00432AEB@Rva00432AEB@@QAEHH@Z,,0x00432AEB,45,Code/GameEngine/Source/Common/Rva00432AEBSet.cpp,matched,setter +0x1F0 old-return Mouse slot 0x4C via row 0x0043287E
 ?rva00432E5D@Rva00432F23@@QAEXPAVRva00432F23Node@@@Z,,0x00432E5D,99,Code/GameEngine/Source/Common/Rva00432F23Remove.cpp,matched,move list2 to head list1 mirror of 0x00432EC0
