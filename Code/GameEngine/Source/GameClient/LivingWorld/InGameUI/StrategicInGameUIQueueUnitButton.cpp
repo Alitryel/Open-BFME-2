@@ -238,7 +238,6 @@ static inline int CountQueuedUnits(const QueueUnitButtonIds*queue,int id) {
  for(int*p=queue->m_start;p!=end;++p)if(*p==id)++count;
  return count;
 }
-// ?FindQueuedUnit present-unmatched
 static inline int FindQueuedUnit(const QueueUnitButtonIds*queue,int id) {
  int size=queue->m_finish-queue->m_start;
  for(int i=0;i<size;++i)if(queue->m_start[i]==id)return i;
