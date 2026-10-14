@@ -32,7 +32,7 @@ public:
   void advance(void);
 };
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class LivingWorldEyeTower {
   char m_head[0x3C];
   EyeTowerPair *m_begin;
@@ -92,7 +92,7 @@ void LivingWorldEyeTower::beginState()
   if (m_progress68 >= 1.0f)
     m_progress68 = 1.0f;
 
-  ((BfmeStateDF *)g_00DFEF18)->interpolate(
+  ((BfmeStateDF *)((Rva002D3627Host *)TheLivingWorld))->interpolate(
       (Gen0060CBB0Pair *)&m_from,
       (Gen0060CBB0Pair *)&m_to,
       (Gen0060CBB0Pair *)&m_current,

@@ -173,7 +173,7 @@ public:
 	virtual void slot80(Coord3D *out);
 };
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Rva0005121F
 {
 public:
@@ -215,8 +215,8 @@ void Rva0005121F::rva000511C3(Coord3D *out)
 		}
 		break;
 	case 1:
-		if (g_00DFEF18) {
-			((Rva00DFEF18View *)g_00DFEF18)->slot80(out);
+		if (((Rva002D3627Host *)TheLivingWorld)) {
+			((Rva00DFEF18View *)((Rva002D3627Host *)TheLivingWorld))->slot80(out);
 			return;
 		}
 		break;
@@ -235,8 +235,8 @@ bool Rva0005121F::rva000516EF(const Coord3D *pos)
 			return TheTacticalView->slot160(pos, &screen) == 0;
 		break;
 	case 1:
-		if (g_00DFEF18)
-			return ((Rva00DFEF18View *)g_00DFEF18)->slot3C(pos, &screen);
+		if (((Rva002D3627Host *)TheLivingWorld))
+			return ((Rva00DFEF18View *)((Rva002D3627Host *)TheLivingWorld))->slot3C(pos, &screen);
 		break;
 	default:
 		return true;

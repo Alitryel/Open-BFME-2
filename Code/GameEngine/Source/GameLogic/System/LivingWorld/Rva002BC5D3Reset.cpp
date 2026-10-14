@@ -74,7 +74,7 @@ public:
 	virtual void slot28(int value);
 };
 
-extern Rva002D3627Host *g_00DFEF18;	// 0x009FEF18 pin
+class LivingWorld; extern LivingWorld *TheLivingWorld;	// 0x009FEF18 pin
 
 // The 0x00A04544 global object (16 B, owned by Rva007B6880Thunks.cpp).
 extern unsigned int g_Va00E04544;
@@ -144,7 +144,7 @@ void Rva002BC5D3::rva002BC5D3()
 		logic->setLocal(m_player8C);
 
 		if (!((BfmeSelectionState *)logic)->isSelectionLocked())
-			g_00DFEF18->slot28(0);
+			((Rva002D3627Host *)TheLivingWorld)->slot28(0);
 
 		if (m_dc != 0)
 			((Rva002B296F *)logic)->rva002B296F();

@@ -75,7 +75,7 @@ class Rva002D3627Host {
 public:
 	void method_002BFFD4(void *, int, void *);
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class LivingWorldBuildPlotIconSubObject : public Rva005C4B56 {
 public:
@@ -97,7 +97,7 @@ LivingWorldBuildPlotIconSubObject::LivingWorldBuildPlotIconSubObject(void *arg0,
 			m_c0 = arg1->m_field38->m_1c->m_13c;
 		}
 		if (m_ac->m_flag58) {
-			g_00DFEF18->method_002BFFD4(this, 5, m_b0);
+			((Rva002D3627Host *)TheLivingWorld)->method_002BFFD4(this, 5, m_b0);
 		}
 		rva005C4B96(rva005C4B26());
 	}

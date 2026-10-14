@@ -28,7 +28,7 @@ public:
     unsigned x, y;
     union Bits { float f; unsigned u; };
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class LivingWorldLogic
 {
 public:
@@ -45,13 +45,13 @@ void LivingWorldLogic::rva002B2A0A()
     pos.x = 0.0f;
     pos.y = 0.0f;
     host->rva0020F27E(index, (int)&pos);
-    if (g_00DFEF18)
+    if (((Rva002D3627Host *)TheLivingWorld))
     {
-        ((Rva002BECCD*)g_00DFEF18)->rva002BECCD(pos, 0.0f);
+        ((Rva002BECCD*)((Rva002D3627Host *)TheLivingWorld))->rva002BECCD(pos, 0.0f);
         Rva002D3627Host::Bits bits[2];
         bits[0].f = pos.x;
         bits[1].f = pos.y;
-        g_00DFEF18->x = *(volatile unsigned*)&bits[0].u;
-        g_00DFEF18->y = bits[1].u;
+        ((Rva002D3627Host *)TheLivingWorld)->x = *(volatile unsigned*)&bits[0].u;
+        ((Rva002D3627Host *)TheLivingWorld)->y = bits[1].u;
     }
 }

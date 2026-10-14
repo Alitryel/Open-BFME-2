@@ -96,7 +96,7 @@ public:
 	void ZoomInTo(void *arg);				// 0x002BE8F9
 };
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class Rva002B7C74
 {
@@ -138,6 +138,6 @@ bool LivingWorldLogic::rva002B89E1(int battleArg)
 	else
 		region->PrepareSkirmishOpponents(battle);
 	m_regionManager->SetActiveBattleID(battle->m_id, 2);
-	((LivingWorld *)g_00DFEF18)->ZoomInTo((char *)g_00DFEF18 + 0x8C);
+	((LivingWorld *)((Rva002D3627Host *)TheLivingWorld))->ZoomInTo((char *)((Rva002D3627Host *)TheLivingWorld) + 0x8C);
 	return true;
 }

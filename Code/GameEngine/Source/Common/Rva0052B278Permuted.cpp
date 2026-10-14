@@ -50,7 +50,7 @@ struct IconHelpRef {
 };
 class Rva002BF4F3 {public:bool rva002BF5B0(const Vector3 *,Vector3 *);};
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Rva005392C2 {public:void rva0052B045();};
 class Rva0052B278:public Rva00539411 {
  _STL::vector<Rva005C4230 *> items;
@@ -64,7 +64,7 @@ Rva0052B278::Rva0052B278(void *lookup,void *owner,void *point)
  const Vector3 *xy=(const Vector3 *)point;
  Vector3 position;
  position.X=xy->X;position.Y=xy->Y;position.Z=0;
- ((Rva002BF4F3 *)g_00DFEF18)->rva002BF5B0(xy,&position);
+ ((Rva002BF4F3 *)((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0(xy,&position);
  *(Vector3 *)((char *)this+0x18)=position;
  IconTemplate *source=(IconTemplate *)lookup;
  if(source) {

@@ -18920,7 +18920,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009FEF0C,4,.data,global,_s_rva007AE19E,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x009FEF10,4,.data,global,?TheLivingWorldLogic@@3PAVLivingWorldLogic@@A,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogic.cpp,provisional,,3,342
 0x009FEF14,4,.data,global,_s_rva007AE1FC,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
-0x009FEF18,4,.data,global,?g_00DFEF18@@3PAVRva002D3627Host@@A,Code/GameEngine/Source/Common/System/Rva002D3627Check.cpp,provisional,?g_00DFEF18@@3PAURva003FEC05Host@@A;?g_00DFEF18@@3PAVRva002BF6B7@@A;?g_00DFEF18@@3PAVRva002D3627Host@@A;?g_00DFEF18@@3PAVRva003BCC94Host@@A;?g_00DFEF18@@3PAVRva003FD27EGlobal@@A;?g_00DFEF18query@@3PAVRva00DFEF18QueryHost@@A,1,91
+0x009FEF18,4,.data,global,?TheLivingWorld@@3PAVLivingWorld@@A,Code/GameEngine/Source/Common/System/Rva002D3627Check.cpp,owned,,1,132
 0x009FEF1C,4,.data,global,?TheWindowManager@@3PAVGameWindowManager@@A,Code/GameEngine/Source/GameClient/GUI/GameWindowManager.cpp,provisional,?TheWindowManager@@3PAVGameWindowManager@@A;?TheWindowManager@@3PAVWindowManager@@A;?g_rva00410421Manager@@3PAVRva00410421Manager@@A,1,612
 0x009FEF20,4,.data,global,_s_rva007AE240,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x009FEF24,4,.data,global,?imeCompositeTextBorder@?1??assignDefaultGadgetLook@GameWindowManager@@UAEXPAVGameWindow@@PAVGameFont@@_N@Z@4HA,Code/GameEngine/Source/GameClient/GUI/GameWindowManagerAssignDefaultGadgetLook.cpp,owned,,1,6

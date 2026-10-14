@@ -108,7 +108,7 @@ public:
 
 	int rva002BEDCA(const Coord3D *pos, Real seconds);
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class Rva002E0687
 {
@@ -250,7 +250,7 @@ void LivingWorldLogic::rva002BA3F2(const Rva002E0687 *player)
 {
 	if (player->rva002E0687())
 	{
-		Real seconds = Rva002BA3F2Max::max(g_00DFEF18->slot25(), g_00BFDF64);
+		Real seconds = Rva002BA3F2Max::max(((Rva002D3627Host *)TheLivingWorld)->slot25(), g_00BFDF64);
 		Coord3D pos;
 		pos.x = 0.0f;
 		pos.y = 0.0f;
@@ -270,9 +270,9 @@ void LivingWorldLogic::rva002BA3F2(const Rva002E0687 *player)
 			}
 		}
 		if (!found)
-			g_00DFEF18->slot28(&pos);
-		int frames = g_00DFEF18->rva002BEDCA(&pos, seconds);
-		g_00DFEF18->slot39(&pos, 0.0f, seconds, frames);
+			((Rva002D3627Host *)TheLivingWorld)->slot28(&pos);
+		int frames = ((Rva002D3627Host *)TheLivingWorld)->rva002BEDCA(&pos, seconds);
+		((Rva002D3627Host *)TheLivingWorld)->slot39(&pos, 0.0f, seconds, frames);
 		return;
 	}
 	if (m_field175)

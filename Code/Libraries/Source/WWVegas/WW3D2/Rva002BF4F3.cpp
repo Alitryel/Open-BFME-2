@@ -263,13 +263,13 @@ public:
     bool rva0020E354(RenderObjClass *,const Vector3 &,const Vector3 &);
 };
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 // Native20E354..20E374 RET12. Caller20F91D preserves its original receiver;
 // this wrapper replaces it with the named scene singleton for the cast call.
 // Incoming receiver is intentionally unused; this keeps one code owner.
 bool Rva0020F91D::rva0020E354(RenderObjClass *obj,const Vector3 &start,const Vector3 &dir)
 {
-    return ((Rva00DFEF18Host *)g_00DFEF18)->Cast(obj,start,dir,0,1,true);
+    return ((Rva00DFEF18Host *)((Rva002D3627Host *)TheLivingWorld))->Cast(obj,start,dir,0,1,true);
 }
 
 // Native20F91D..20F9F6 RET12: construct asset prefix/name from manager268,

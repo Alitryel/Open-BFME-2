@@ -21,7 +21,7 @@ public:
  char pad04[0x88];
  CoordinatePair2112 screen8C;
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Rva002112A9 {
  char pad[0x2C8];
  bool showCoordinates;
@@ -33,7 +33,7 @@ void Rva002112A9::rva002112A9()
   TheMouse->rva001EEBD5(UnicodeString::TheEmptyString,0,0);
  } else {
   CoordinateVector2112 position;
-  g_00DFEF18->project(&g_00DFEF18->screen8C,&position);
+  ((Rva002D3627Host *)TheLivingWorld)->project(&((Rva002D3627Host *)TheLivingWorld)->screen8C,&position);
   AsciiString text;
   text.format("X:%d, Y:%d <<< World position coordinate >>",(int)position.x,(int)position.y);
   UnicodeString wide;

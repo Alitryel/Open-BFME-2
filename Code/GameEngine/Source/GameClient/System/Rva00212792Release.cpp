@@ -41,7 +41,7 @@ public:
 class Rva002D3627Host;
 class Rva002BFF5A { public: void rva002C004F(const char *name); };
 
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 namespace _STL
 {
@@ -80,7 +80,7 @@ void Rva002141D1::rva00212792()
 		if (((Rva00212792Entry *)m_entries234[i])->m_target)
 		{
 			((Rva00212792Entry *)m_entries234[i])->m_target->slot16();
-			((Rva002BFF5A *)g_00DFEF18)->rva002C004F(((Rva00212792Entry *)m_entries234[i])->m_name.str());
+			((Rva002BFF5A *)((Rva002D3627Host *)TheLivingWorld))->rva002C004F(((Rva00212792Entry *)m_entries234[i])->m_name.str());
 			::delete (Rva00212792Entry *)m_entries234[i];
 		}
 	}

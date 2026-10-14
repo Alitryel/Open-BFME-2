@@ -131,7 +131,7 @@ public:
 	virtual void s12(); virtual void s13();
 	virtual void screenToTerrain(const ICoord2D *screen, Coord3D *world);	// +0x38
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class Rva0027070CGlobal
 {
@@ -207,7 +207,7 @@ void Rva0021193B::rva0021193B(ICoord2D pos)
 				{
 					m_240[index]->m_98 = 1.2f * m_14C;
 				}
-				g_00DFEF18->screenToTerrain(&screen, &world);
+				((Rva002D3627Host *)TheLivingWorld)->screenToTerrain(&screen, &world);
 				m_240[index]->setPosition(&world);
 				m_240[index]->getRenderObject()->Set_Hidden(0);
 				Rva0010E676_SetEmissive(m_240[index]->getRenderObject(), 0.0f, 0.0f, 0.0f);

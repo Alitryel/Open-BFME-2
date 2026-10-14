@@ -2472,7 +2472,7 @@ class BfmeAptWindowManager; extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 class Rva00222A8BTarget { public: void rva00222F55(Bool); };
 class Rva002BBBE7 { public: void rva002BC39D(); };
 extern UnsignedInt g_Va00E04544;
-class Rva002D3627Host; extern Rva002D3627Host *g_00DFEF18;
+class Rva002D3627Host; class LivingWorld; extern LivingWorld *TheLivingWorld;
 class LivingWorldResetDispatch
 {
 public:
@@ -2512,8 +2512,8 @@ void LivingWorldLogic::rva002BD544(Int campaign)
         ((Rva00222A8BTarget *)g_bfmeAptWindowManager)->rva00222F55(false);
     }
     ((Rva002BBBE7 *)&g_Va00E04544)->rva002BC39D();
-    ((LivingWorldResetDispatch *)g_00DFEF18)->slot1C();
-    ((LivingWorldResetDispatch *)g_00DFEF18)->slot4C(true, true);
+    ((LivingWorldResetDispatch *)((Rva002D3627Host *)TheLivingWorld))->slot1C();
+    ((LivingWorldResetDispatch *)((Rva002D3627Host *)TheLivingWorld))->slot4C(true, true);
     HideControlBar(true);
     slot04();
     rva002B84CD(campaign);
@@ -3309,7 +3309,7 @@ void LivingWorldLogic::rva002BB15F()
 			pos.x = center.x;
 			pos.y = center.y;
 			pos.z = 0.0f;
-			((Rva002BF4F3 *)g_00DFEF18)->rva002BF5B0((const Vector3 *)&center, (Vector3 *)&pos);
+			((Rva002BF4F3 *)((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0((const Vector3 *)&center, (Vector3 *)&pos);
 			TheEva->reportEvaEvent(static_cast<EvaEventID>(0x15), (const Coord3D *)&pos, 0);
 		}
 		((Rva002B37B4 *)this)->rva002B37B4((Rva002B37B4P1 *)region, (Rva002B37B4P2 *)player);
@@ -3800,14 +3800,14 @@ void LivingWorldLogic::logicMessageDispatcher(GameMessage*msg,void*unused){
   player->loadVote=msg->getArgument(0)->integer;
   for(unsigned i=0;i<m_players.size();++i){DispatcherPlayer*p=(DispatcherPlayer*)m_players[i];if(p&&!p->kind&&!p->gone&&p->loadVote!=1)return;}
   for(unsigned i=0;i<m_players.size();++i)if(m_players[i])((DispatcherPlayer*)m_players[i])->loadVote=0;
-  ((DispatcherClient*)g_00DFEF18)->s94();*((bool*)this+0x176)=false;
+  ((DispatcherClient*)((Rva002D3627Host *)TheLivingWorld))->s94();*((bool*)this+0x176)=false;
   {Rva002B3740Item*p=((Rva002BA8F1Logic*)this)->rva002B2B2D();if(p)((Rva0021237E*)TheLivingWorldManager)->rva0021246D((Rva0021246DInput*)p);}
   *((bool*)this+0xb5)=false;((Rva0023D26F*)TheGameLogic)->rva0023D26F(true);break;
  case 1723:
   player->startVote=msg->getArgument(0)->integer;
   for(unsigned i=0;i<m_players.size();++i){DispatcherPlayer*p=(DispatcherPlayer*)m_players[i];if(p&&!p->kind&&!p->gone&&p->startVote!=1)return;}
   for(unsigned i=0;i<m_players.size();++i)if(m_players[i])((DispatcherPlayer*)m_players[i])->startVote=0;
-  ((DispatcherClient*)g_00DFEF18)->s98();*((bool*)this+0x177)=false;
+  ((DispatcherClient*)((Rva002D3627Host *)TheLivingWorld))->s98();*((bool*)this+0x177)=false;
   TheLivingWorldManager->rva0021100E();*((bool*)this+0xb5)=true; m_fieldB6=false;
   ((Rva0023D26F*)TheGameLogic)->rva0023D26F(false);
   {GameLogic*logic=TheGameLogic;if(((Rva00210C66CmpBoolField*)logic)->get())logic->CreateWOTRMPPlayers();}

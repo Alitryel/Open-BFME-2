@@ -79,7 +79,7 @@ class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class Rva00211589
 {
@@ -195,7 +195,7 @@ void Rva00213A85::rva00213BBE()
 		((Rva003FAC83 *)*(void **)((char *)iterator.m_node + 8))->rva003FAD9A();
 		iterator.next();
 	}
-	int state = *(int *)((char *)g_00DFEF18 + 0x14);
+	int state = *(int *)((char *)((Rva002D3627Host *)TheLivingWorld) + 0x14);
 	if (state != 0 && state != 1) {
 		m_state_2C0 = 1;
 	} else {

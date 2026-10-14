@@ -58,7 +58,7 @@ class LivingWorldVisual {public:
     void rva003FC291(float);
 };
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class BfmeRenderSceneView {public:
     virtual void slot00();
     virtual void slot01();
@@ -160,7 +160,7 @@ void LivingWorldManager::rva002133E0()
                 reinterpret_cast<DoomPrimaryView *>(doomPrimary(visual))->setHidden(true);
                 *reinterpret_cast<DoomVec12 *>(&visual->fA0)=m_rayScale;
                 doomSetOpacity(visual,m_rayOpacity);
-                reinterpret_cast<BfmeRenderSceneView *>(g_00DFEF18)->insertObject(doomPrimary(visual));
+                reinterpret_cast<BfmeRenderSceneView *>(((Rva002D3627Host *)TheLivingWorld))->insertObject(doomPrimary(visual));
                 rayList().push_back(entry);
             }
         }
@@ -195,9 +195,9 @@ void LivingWorldManager::rva002133E0()
             int c=(int)((WWMath::Random_Float()*(0.9f-0.75f)+0.75f)*range)+base;
             reinterpret_cast<Rva003FBA0E *>(visual)->rva003FBA0E(base,a,b,c,1,0.0f);
             reinterpret_cast<LivingWorldVisual *>(visual)->rva003FC291(m_cloudScale);
-            reinterpret_cast<BfmeRenderSceneView *>(g_00DFEF18)->insertObject(reinterpret_cast<RenderObjClass *>(visual->m_primary));
+            reinterpret_cast<BfmeRenderSceneView *>(((Rva002D3627Host *)TheLivingWorld))->insertObject(reinterpret_cast<RenderObjClass *>(visual->m_primary));
             cloudList().push_back(entry);
-            reinterpret_cast<Rva002BFF5A *>(g_00DFEF18)->rva002BFFD4(reinterpret_cast<Rva002BFFD4Template *>(visual),3,0);
+            reinterpret_cast<Rva002BFF5A *>(((Rva002D3627Host *)TheLivingWorld))->rva002BFFD4(reinterpret_cast<Rva002BFFD4Template *>(visual),3,0);
         }
     }
 }

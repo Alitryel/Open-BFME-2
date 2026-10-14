@@ -35,7 +35,7 @@ public:
 #include "ascii_string.h"
 
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Rva0021294A;
 class LivingWorldManager;
 extern LivingWorldManager *TheLivingWorldManager;
@@ -148,7 +148,7 @@ void Rva004E3CD0::rva004E3A6E()
 {
     Rva004E3A6EOuterVec &entries=reinterpret_cast<Rva004E3A6EOuterVec &>(m_14);
     if (!m_22) {
-        void *host = g_00DFEF18;
+        void *host = ((Rva002D3627Host *)TheLivingWorld);
         if (host && ((char *)host)[0x19])
             return;
     }

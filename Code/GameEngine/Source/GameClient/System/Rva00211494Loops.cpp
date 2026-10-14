@@ -180,7 +180,7 @@ struct Rva001F3899Arg {int x,y,z;};
 class Rva001F3899Slot {public:void set(const Rva001F3899Arg &);};
 class Rva003FD9FA {public:void rva003FD9FA(const RvaSmartPtr12 *,Vec3);};
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 struct ParticleSetupEnabledView {char pad[0x18];bool enabled18; bool enabled()const{return enabled18;} };
 class ParticleSystemTemplate;
 class ParticleSystemManager {public:
@@ -197,7 +197,7 @@ class Rva002115EC {public:
  void rva002115EC();
 };
 void Rva002115EC::rva002115EC() {
- if(!((ParticleSetupEnabledView *)g_00DFEF18)->enabled())return;
+ if(!((ParticleSetupEnabledView *)((Rva002D3627Host *)TheLivingWorld))->enabled())return;
  unsigned i;
  Vec3 position;
  for(i=0;i<items240.size();++i) {

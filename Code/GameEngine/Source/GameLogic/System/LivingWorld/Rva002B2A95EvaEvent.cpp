@@ -9,7 +9,7 @@ public:
 };
 
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 // The coordinate helper 0x002BF5B0, rowed as Rva002BF4F3::rva002BF5B0.
 class Vector3;
@@ -58,7 +58,7 @@ void Rva002B2A95Callback::rva002B2A95(const Rva002E0687 *target,
 		xy.x = record->m_position.x;
 		xy.y = record->m_position.y;
 		Coord3D position = { xy.x, xy.y, 0.0f };
-		((Rva002BF4F3 *)g_00DFEF18)->rva002BF5B0((const Vector3 *)&xy, (Vector3 *)&position);
+		((Rva002BF4F3 *)((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0((const Vector3 *)&xy, (Vector3 *)&position);
 		TheEva->reportEvaEvent((EvaEventID)record->m_event, &position, 0);
 	}
 }

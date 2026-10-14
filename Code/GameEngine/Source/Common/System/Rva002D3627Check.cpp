@@ -18,11 +18,13 @@ private:
 	unsigned char m_7C;
 };
 
-extern Rva002D3627Host *g_00DFEF18;
-// g_00DFEF18: matched references place it at VA 0xdfef18 (zero-filled .bss).
-Rva002D3627Host * g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
+// TheLivingWorld: GameClient::init owns the VA00DFEF18 singleton.
+// Target callers use the rowed LivingWorld::FindClickableObject/ZoomInTo interface.
+// Private accessed-field views below do not introduce another global.
+LivingWorld *TheLivingWorld;
 
 bool Rva002D3627Host::check()
 {
-	return g_00DFEF18->m_18 == 0 && m_10->m_7C != 0;
+	return ((Rva002D3627Host *)TheLivingWorld)->m_18 == 0 && m_10->m_7C != 0;
 }

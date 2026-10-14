@@ -60,7 +60,7 @@ class Rva002B7C74{public:void rva002B7C74();};
 class Glo012F1028Type{public:void rva002B7D03();};
 class Rva002B6AA2{public:void rva002B6AA2();};
 class Rva002BED10{public:void rva002BED10();};
-class Rva002D3627Host;extern Rva002D3627Host*g_00DFEF18;
+class Rva002D3627Host;class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Rva00E02D6C;extern Rva00E02D6C*TheCampaignManager;
 class LivingWorldManager;extern LivingWorldManager*TheLivingWorldManager;
 #include "../../../Common/GameLogicObjectLookupView.h"
@@ -86,8 +86,8 @@ void Rva002BC653Snapshot::rva002BC653(Xfer*xfer){
  if(version.current>=5)XferLivingWorldPlayerID(xfer,&playerA0);
  if(xfer->IsLoading()){
   xfer->xferBool(&loadEnabledBD);
-  if(!loadEnabledBD){((Rva002BED10*)g_00DFEF18)->rva002BED10();return;}
-  ((Rva002BED10*)g_00DFEF18)->rva002BED10();
+  if(!loadEnabledBD){((Rva002BED10*)((Rva002D3627Host *)TheLivingWorld))->rva002BED10();return;}
+  ((Rva002BED10*)((Rva002D3627Host *)TheLivingWorld))->rva002BED10();
   ((Rva002BBA45*)((BfmeSelectionState*)((char*)this-12)))->rva002BBA45(xfer);
  }else{
   loadEnabledBD=enabledA8;
@@ -106,11 +106,11 @@ void Rva002BC653Snapshot::rva002BC653(Xfer*xfer){
  TheGameLogic->rva0023CFE4(xfer);
  if(!xfer->IsCRC()){
   ((RvaSnapshotView*)((char*)TheLivingWorldManager+12))->transfer(xfer);
-  if(version.current>=6)xfer->xferSnapshot(g_00DFEF18);
+  if(version.current>=6)xfer->xferSnapshot(((Rva002D3627Host *)TheLivingWorld));
  }
  if(xfer->IsLoading()){
   if(((BfmeSelectionState*)((char*)this-12))->isSelectionLocked())((Rva002B6AA2*)((BfmeSelectionState*)((char*)this-12)))->rva002B6AA2();
-  else ((RvaSnapshotResetView*)g_00DFEF18)->reset(0);
+  else ((RvaSnapshotResetView*)((Rva002D3627Host *)TheLivingWorld))->reset(0);
  }
  if(version.current>=2)xfer->xferInt(&counterF0);
  else if(xfer->IsLoading())counterF0=0;

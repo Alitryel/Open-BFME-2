@@ -255,8 +255,7 @@ public:
 	void *rva002BFDAE(void *a);
 };
 
-extern Rva00DFEF18QueryHost *g_00DFEF18query;
-#pragma comment(linker, "/alternatename:?g_00DFEF18query@@3PAVRva00DFEF18QueryHost@@A=?g_00DFEF18@@3PAVRva002D3627Host@@A")
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 struct Rva0020FAB4Block
 {
@@ -269,7 +268,7 @@ void *Rva0020EE29::rva0020FAB4(int a1, int a2)
 {
 	Rva0020FAB4Block bBlock;
 	Rva0020FAB4Block aBlock;
-	g_00DFEF18query->v13(a1, &bBlock, &aBlock);
+	((Rva00DFEF18QueryHost *)TheLivingWorld)->v13(a1, &bBlock, &aBlock);
 	return rva0020F9F6(&bBlock, &aBlock, (void *)a2);
 }
 
@@ -598,7 +597,7 @@ class Rva003FD14D;
 // its pointer type, the call binds the rowed member through a cast.
 class Rva002D3627Host;
 class Rva002BFF5A { public: void rva002C004F(const char *name); };
-extern Rva002D3627Host *g_00DFEF18;
+
 class Rva00212655Virt { public: virtual void *v00(int); };
 
 // Complete native 212655..2126BB and WB B608E0. The map at +218 is
@@ -612,7 +611,7 @@ void Rva00DFE1C8Host::rva00212655(int arg)
     _STL::hash_map<int,Rva003FD14D*>::iterator it = beacons.find(arg);
     if (it != beacons.end()) {
         Rva003FD14D *beacon = it->second;
-        ((Rva002BFF5A *)g_00DFEF18)->rva002C004F(((AsciiString*)((char*)beacon+4))->str());
+        ((Rva002BFF5A *)((Rva002D3627Host *)TheLivingWorld))->rva002C004F(((AsciiString*)((char*)beacon+4))->str());
         Rva00212655Virt *view = (Rva00212655Virt*)beacon;
         void *allocation = view ? view->v00(0) : 0;
         ::operator delete(allocation);
@@ -661,7 +660,7 @@ public:
 
 void __stdcall Rva00210E5B(void *a1, void *a2)
 {
-	void *p = g_00DFEF18query->rva002BFDAE(a1);
+	void *p = ((Rva00DFEF18QueryHost *)TheLivingWorld)->rva002BFDAE(a1);
 	if (!p)
 		return;
 	((Rva003FA781Host *)p)->rva003FA781(a2);

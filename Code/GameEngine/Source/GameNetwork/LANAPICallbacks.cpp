@@ -529,7 +529,7 @@ public:
 	virtual void v8(); virtual void v9();
 	virtual void rva10( Int value );			// slot 10 (+0x28)
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class GameMessage
 {
@@ -1048,7 +1048,7 @@ void LANAPI::OnWOTRGameStart( void )
 			TheLivingWorldManager->rva0021427A();
 		TheLivingWorldLogic->m_bfmeEC = 0;
 		TheGameLogic->rva00376E92( false, false );
-		g_00DFEF18->rva10( 1 );
+		((Rva002D3627Host *)TheLivingWorld)->rva10( 1 );
 
 		GameMessage *msg = MessageStreamSubsystem->appendMessage( 0x1F );
 		if( msg && g_Va00E0333C )

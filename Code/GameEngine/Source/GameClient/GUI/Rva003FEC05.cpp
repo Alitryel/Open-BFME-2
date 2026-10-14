@@ -64,7 +64,7 @@ public:
 	virtual void f18();
 	virtual void slot19(int a, int b);
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 #include "../../../../Libraries/Include/Lib/RGBColor.h"
 
@@ -109,8 +109,8 @@ int Rva003FEC05FadeScreenRegionToMapBlack(int, bool start)
 			TheRecorder->stopRecording();
 		TheTransitionHandler->reverse(AsciiString("FadeScreenRegionToMapBlack"));
 		((Rva001DBB87ZeroSetter *)TheTransitionHandler)->disable();
-		g_00DFEF18->slot10(1);
-		g_00DFEF18->slot19(3, 0);
+		((Rva002D3627Host *)TheLivingWorld)->slot10(1);
+		((Rva002D3627Host *)TheLivingWorld)->slot19(3, 0);
 	}
 	else if (TheTransitionHandler->isFinished())
 	{
@@ -118,7 +118,7 @@ int Rva003FEC05FadeScreenRegionToMapBlack(int, bool start)
 		((MouseV4CView *)TheMouse)->v19(1);
 		TheMouse->_bfme_setEngineVisibility(true);
 		TheMouse->rva001EEA6D(UnicodeString::TheEmptyString, -1, 0, 1.0f);
-		g_00DFEF18->slot19(1, 0);
+		((Rva002D3627Host *)TheLivingWorld)->slot19(1, 0);
 	}
 	return result;
 }

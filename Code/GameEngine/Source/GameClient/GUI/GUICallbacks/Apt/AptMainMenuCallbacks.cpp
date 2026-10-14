@@ -869,7 +869,7 @@ class LivingWorldCampaignManager {public:int rva003B8F20();};
 class Rva00E02D6C;extern Rva00E02D6C *TheCampaignManager;
 class LivingWorldManager {public:void rva0021427A();};
 extern LivingWorldManager *TheLivingWorldManager;
-class Rva002D3627Host;extern Rva002D3627Host *g_00DFEF18;
+class Rva002D3627Host;class LivingWorld; extern LivingWorld *TheLivingWorld;
 class TutorialControlView {public:
 #define V(n) virtual void pad##n();
  V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7) V(8) V(9)
@@ -918,7 +918,7 @@ void AptMainMenu::OnTutorial(const char *params) {
   if(index<0)return;
   TheGameLogic->rva00376E92(false,false);
   if(TheLivingWorldManager)TheLivingWorldManager->rva0021427A();
-  ((TutorialControlView*)g_00DFEF18)->slot10(1);
+  ((TutorialControlView*)((Rva002D3627Host *)TheLivingWorld))->slot10(1);
   GameMessage *message=TheMessageStream->appendMessage(0x1F);
   if(!message)return;
   message->appendIntegerArgument(index);

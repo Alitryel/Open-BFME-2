@@ -43,7 +43,7 @@ public:
 
 // Bind to the existing data-ledger owner; keep the retail access view local.
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class Rva00319AA0Helper
 {
@@ -66,7 +66,7 @@ void Rva003195C9Owner::rva00319AA0(const int *arg)
 		rec.m_00 = *(float *)&m_44;
 		rec.m_04 = *(float *)&m_48;
 		rec.m_08 = 0.0f;
-		((Rva002BF4F3 *)g_00DFEF18)->rva002BF5B0((const Vector3 *)pm, (Vector3 *)&rec);
+		((Rva002BF4F3 *)((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0((const Vector3 *)pm, (Vector3 *)&rec);
 		((Rva00319AA0Helper *)m_88)->slot05(&rec);
 	}
 }

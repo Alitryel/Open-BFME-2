@@ -116,7 +116,7 @@ class LivingWorldLogic; extern LivingWorldLogic *TheLivingWorldLogic;
 // the old Rva002D3627Host spelling named an unresolved symbol. The global keeps
 // its pointer type, the call binds the rowed member through a cast.
 class Rva002D3627Host;
-class Rva002BFF5A { public: void rva002C004F(const char *name); }; extern Rva002D3627Host *g_00DFEF18;
+class Rva002BFF5A { public: void rva002C004F(const char *name); }; class LivingWorld; extern LivingWorld *TheLivingWorld;
 class RadarWindowOverrideSource;
 extern RadarWindowOverrideSource *theRadarWindowOverrideSource;
 struct SingletonView21123 { char pad14[0x14];int mode; };
@@ -148,7 +148,7 @@ void Rva0021237E::rva002123BE()
  if(view->tower2C4) view->tower2C4->updateState();
  for(UpdateMapView::iterator it=view->map218.begin();it!=view->map218.end();++it)
   ((UpdateSlot21123*)it->second)->v0C();
- if(!view->hidden2C0 && ((SingletonView21123*)g_00DFEF18)->mode==1 && theRadarWindowOverrideSource->rva002D35E6() && !((Rva002B5073*)TheLivingWorldLogic)->rva002B5073(8) && TheMouse)
+ if(!view->hidden2C0 && ((SingletonView21123*)((Rva002D3627Host *)TheLivingWorld))->mode==1 && theRadarWindowOverrideSource->rva002D35E6() && !((Rva002B5073*)TheLivingWorldLogic)->rva002B5073(8) && TheMouse)
   TheMouse->_bfme_setEngineVisibility(true);
  theRadarWindowOverrideSource->v28();
 }
@@ -226,7 +226,7 @@ void Rva0021237E::rva002126BB()
  for(UpdateMapView::iterator it=map->begin();it!=map->end();++it) {
   BeaconCleanupView21126 *beacon=(BeaconCleanupView21126*)it->second;
   if(beacon) {
-   ((Rva002BFF5A *)g_00DFEF18)->rva002C004F(beacon->name.str());
+   ((Rva002BFF5A *)((Rva002D3627Host *)TheLivingWorld))->rva002C004F(beacon->name.str());
    ::operator delete(beacon->destroy(0));
   }
  }

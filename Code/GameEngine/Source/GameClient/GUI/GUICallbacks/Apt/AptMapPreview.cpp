@@ -475,7 +475,7 @@ public:
 	void rva002BED10();
 };
 
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 // The preview's +0x18 holder of the game (GameInfo): 0x0043DA65 returns
 // its validated +0x08 value; the registration clears that directly.
@@ -824,11 +824,11 @@ void AptMapPreview::rva0057D5E5()
 	{
 		((Rva002B7250 *)m_livingWorldWindow->m_listeners)->rva002B7250((CreateAHeroData *)this);
 		m_livingWorldWindow = 0;
-		if (g_00DFEF18->m_19)
+		if (((Rva002D3627Host *)TheLivingWorld)->m_19)
 		{
-			((Rva002BED10 *)g_00DFEF18)->rva002BED10();
-			g_00DFEF18->v50(0);
-			g_00DFEF18->v28(0);
+			((Rva002BED10 *)((Rva002D3627Host *)TheLivingWorld))->rva002BED10();
+			((Rva002D3627Host *)TheLivingWorld)->v50(0);
+			((Rva002D3627Host *)TheLivingWorld)->v28(0);
 		}
 	}
 	if (m_ownsPicture && m_picture != 0)

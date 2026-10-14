@@ -47,7 +47,7 @@ class Rva002BA8F1Logic {public: Rva002B488EResult *rva002B488E(int);Rva002B2579R
 extern GameLogic *TheGameLogic;
 extern GameClient *TheGameClient;
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 BfmeEventPositionView BfmeAudioEventPrefix136::rva002DA1CC(bool &valid) {
  switch(m_int38) {
@@ -62,8 +62,8 @@ BfmeEventPositionView BfmeAudioEventPrefix136::rva002DA1CC(bool &valid) {
   break;
  }
  case 3:
-  if(g_00DFEF18) {
-   Rva003FA835 *window=(Rva003FA835*)((LivingWorld *)g_00DFEF18)->FindClickableObject((void*)m_int34);
+  if(((Rva002D3627Host *)TheLivingWorld)) {
+   Rva003FA835 *window=(Rva003FA835*)((LivingWorld *)((Rva002D3627Host *)TheLivingWorld))->FindClickableObject((void*)m_int34);
    if(window) {m_b48=1;m_position=window->rva003FA835();}
   }
   break;

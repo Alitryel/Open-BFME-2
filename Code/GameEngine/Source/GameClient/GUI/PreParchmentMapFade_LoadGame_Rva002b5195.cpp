@@ -141,7 +141,7 @@ class LoadGameFadeDisplayDispatch { public:
 	virtual void slot43();
 	virtual void refresh();
 };
-class Rva002D3627Host; extern Rva002D3627Host *g_00DFEF18;
+class Rva002D3627Host; class LivingWorld; extern LivingWorld *TheLivingWorld;
 class LoadGameFadeSceneDispatch { public:
 	virtual void slot00();
 	virtual void slot01();
@@ -160,7 +160,7 @@ int rva002B513E(float, bool)
 	((AptPlayer *)g_bfmeAptWindowManager)->PopFocus((AptFocusTarget *)-1);
 	((LoadGameFadeDisplayDispatch *)TheDisplay)->refresh();
 	TheShell->rva0035BF4C(true);
-	((LoadGameFadeSceneDispatch *)g_00DFEF18)->activate(true);
+	((LoadGameFadeSceneDispatch *)((Rva002D3627Host *)TheLivingWorld))->activate(true);
 	TheTransitionHandler->reverse(AsciiString("SoloMordorFade_LoadGame"));
 	return 2;
 }

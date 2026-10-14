@@ -89,7 +89,7 @@ public:
 };
 
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class Rva003FD584
 {
@@ -116,7 +116,7 @@ bool Rva003FD584::rva003FD584(bool advance)
 		Rva00064390 record;
 		m_tree0C.rva005042F2(m_index18, &record);
 		Rva002BE7DBValue position;
-		reinterpret_cast<Rva002BECCD *>(g_00DFEF18)->rva002BECCD(
+		reinterpret_cast<Rva002BECCD *>(((Rva002D3627Host *)TheLivingWorld))->rva002BECCD(
 			reinterpret_cast<const RvaFloatPair &>(reinterpret_cast<const Rva002BE7DB *>(&record)->rva002BE7DB(position)),
 			record.m_0c * 0.017453292f);
 	}

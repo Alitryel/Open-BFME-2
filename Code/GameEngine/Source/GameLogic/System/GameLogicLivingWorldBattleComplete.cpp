@@ -115,7 +115,7 @@ private:
 	unsigned char m_pad00[0x18];
 	unsigned char m_18;
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class Rva00210C66CmpBoolField
 {
@@ -177,7 +177,7 @@ void GameLogic::LivingWorldTacticalBattleComplete()
 	m_livingWorldVictorIndex = lwVictor ? lwVictor->m_playerIndex : -1;
 	if (battle && lwVictor)
 		battle->SetWinningSide(battle->rva003F4752(lwVictor));
-	if (g_00DFE1C8->rva00210DC9() && !g_00DFEF18->getFlag18()) {
+	if (g_00DFE1C8->rva00210DC9() && !((Rva002D3627Host *)TheLivingWorld)->getFlag18()) {
 		GameLogic *logic = TheGameLogic;
 		if (((Rva00210C66CmpBoolField *)logic)->get())
 			((Rva0023D29F *)logic)->rva0023D29F();

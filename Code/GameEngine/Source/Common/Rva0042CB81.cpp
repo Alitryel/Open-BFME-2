@@ -128,7 +128,7 @@ void Rva0042CBB6::rva0042CC1B()
 }
 
 // Reuse the data ledger owner at 0x009FEF18; original class identity is unknown.
-class Rva002D3627Host; extern Rva002D3627Host *g_00DFEF18;
+class Rva002D3627Host; class LivingWorld; extern LivingWorld *TheLivingWorld;
 extern int BfmeClientFramesPerSecond;
 class Rva002BE8D4 { public: bool rva002BE8D4(); };
 struct CameraPoint42 { float x,y,z; };
@@ -156,11 +156,11 @@ public:
 // Keep the height query nested: its vtable stays in ESI across both calls.
 void Rva0042CBB6::rva0042CAFB()
 {
- if(!reinterpret_cast<Rva002BE8D4 *>(g_00DFEF18)->rva002BE8D4()) {
+ if(!reinterpret_cast<Rva002BE8D4 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BE8D4()) {
   CameraPoint42 point;
-  reinterpret_cast<CameraOperations42 *>(g_00DFEF18)->s29(&point);
-  reinterpret_cast<CameraOperations42 *>(g_00DFEF18)->s39(
-   &point,0.0f,reinterpret_cast<CameraOperations42 *>(g_00DFEF18)->s25(BfmeClientFramesPerSecond / 4));
+  reinterpret_cast<CameraOperations42 *>(((Rva002D3627Host *)TheLivingWorld))->s29(&point);
+  reinterpret_cast<CameraOperations42 *>(((Rva002D3627Host *)TheLivingWorld))->s39(
+   &point,0.0f,reinterpret_cast<CameraOperations42 *>(((Rva002D3627Host *)TheLivingWorld))->s25(BfmeClientFramesPerSecond / 4));
  }
 }
 
@@ -213,7 +213,7 @@ void Rva0042CBB6::rva0042D068()
  float extra=0.0f;
  if(m_39) {
   if(!moved) rva0042CB81(8);
-  if(reinterpret_cast<Rva002BE8D4 *>(g_00DFEF18)->rva002BE8D4()) rva0042CB81(1);
+  if(reinterpret_cast<Rva002BE8D4 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BE8D4()) rva0042CB81(1);
  }
  if(m_39) {
   if(m_08 & 1) {
@@ -248,13 +248,13 @@ void Rva0042CBB6::rva0042D068()
    if(m_18<3) offset.x-=CAMERA_DATA42->keyboard*CAMERA_DATA42->edge*CAMERA_DATA42->horizontal*350.0f;
    if((unsigned)m_18>=width-3) offset.x+=CAMERA_DATA42->keyboard*CAMERA_DATA42->edge*CAMERA_DATA42->horizontal*350.0f;
   }
-  reinterpret_cast<CameraMotion42 *>(g_00DFEF18)->s11(&offset,extra);
+  reinterpret_cast<CameraMotion42 *>(((Rva002D3627Host *)TheLivingWorld))->s11(&offset,extra);
   m_30+=fabs(offset.x);
   m_34+=fabs(offset.y);
  } else {
-  if(m_3E) reinterpret_cast<CameraMotion42 *>(g_00DFEF18)->s11(&offset,CAMERA_DATA42->rotate*-15.0f);
-  else if(m_3F) reinterpret_cast<CameraMotion42 *>(g_00DFEF18)->s11(&offset,CAMERA_DATA42->rotate*15.0f);
-  else if(m_40) reinterpret_cast<CameraMotion42 *>(g_00DFEF18)->s21(1);
-  else if(m_41) reinterpret_cast<CameraMotion42 *>(g_00DFEF18)->s21(-1);
+  if(m_3E) reinterpret_cast<CameraMotion42 *>(((Rva002D3627Host *)TheLivingWorld))->s11(&offset,CAMERA_DATA42->rotate*-15.0f);
+  else if(m_3F) reinterpret_cast<CameraMotion42 *>(((Rva002D3627Host *)TheLivingWorld))->s11(&offset,CAMERA_DATA42->rotate*15.0f);
+  else if(m_40) reinterpret_cast<CameraMotion42 *>(((Rva002D3627Host *)TheLivingWorld))->s21(1);
+  else if(m_41) reinterpret_cast<CameraMotion42 *>(((Rva002D3627Host *)TheLivingWorld))->s21(-1);
  }
 }

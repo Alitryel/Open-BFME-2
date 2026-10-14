@@ -1282,7 +1282,7 @@ extern GameWindowManager *TheWindowManager;
 extern FontLibrary *TheFontLibrary;
 extern Mouse *TheMouse;
 extern Rva00432F23 *g_004C9DC9Container;               // TheAnimationSoundModuleManager
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 extern G00DFF080Obj *g_00DFF080;                        // TheTerrainVisual
 extern Display *TheDisplay;
 extern GlobalData *TheWritableGlobalData;
@@ -1419,8 +1419,8 @@ GameClient::~GameClient()
 	::delete g_004C9DC9Container;
 	g_004C9DC9Container = 0;
 
-	::delete g_00DFEF18;
-	g_00DFEF18 = 0;
+	::delete ((Rva002D3627Host *)TheLivingWorld);
+	TheLivingWorld = 0;
 
 	::delete g_00DFF080;
 	g_00DFF080 = 0;
@@ -1603,11 +1603,11 @@ void GameClient::init()
 		g_00DFF080->setName(AsciiString("TheTerrainVisual"));
 	}
 
-	g_00DFEF18 = vf50();
-	if (g_00DFEF18)
+	TheLivingWorld = (LivingWorld *)vf50();
+	if (((Rva002D3627Host *)TheLivingWorld))
 	{
-		g_00DFEF18->vf04();
-		((Rva0023A053 *)&m_owned13C)->reset((Rva00239D7A *)new Rva0023A128(this, g_00DFEF18, (int)g_00E03210));
+		((Rva002D3627Host *)TheLivingWorld)->vf04();
+		((Rva0023A053 *)&m_owned13C)->reset((Rva00239D7A *)new Rva0023A128(this, ((Rva002D3627Host *)TheLivingWorld), (int)g_00E03210));
 	}
 
 	// create the ray effects manager
@@ -1704,8 +1704,8 @@ void GameClient::reset()
 	g_00DFF080->reset();
 	TheRayEffects->reset();
 	TheVideoPlayer->reset();
-	if (g_00DFEF18)
-		g_00DFEF18->vf05();
+	if (((Rva002D3627Host *)TheLivingWorld))
+		((Rva002D3627Host *)TheLivingWorld)->vf05();
 	g_004C9DC9Container->reset();
 	bfmeReset();
 
@@ -1738,9 +1738,9 @@ void GameClient::update()
 	((Rva0042CBB6 *)g_00E03210)->rva0042D068();
 	((Rva005D124D *)g_00E0322C)->rva005D124D();
 
-	if (g_00DFEF18)
+	if (((Rva002D3627Host *)TheLivingWorld))
 	{
-		g_00DFEF18->vf27();
+		((Rva002D3627Host *)TheLivingWorld)->vf27();
 		((Rva00239105 *)m_owned13C.get())->rva00239105();
 	}
 

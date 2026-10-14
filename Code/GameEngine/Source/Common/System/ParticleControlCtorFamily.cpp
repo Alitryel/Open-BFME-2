@@ -223,7 +223,7 @@ class LivingWorldVisual { public:
 };
 // Reuse the existing scene-pointer owner spelling; no new global pin or definition.
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class BfmeRenderSceneView { public:
  virtual void slot00();
  virtual void slot01();
@@ -331,7 +331,7 @@ bool Rva003FD849::rva003FD849()
  reinterpret_cast<BfmeVisualPositionView *>(visual)->setPosition(&position);
  visual->rva003FC82C(angle*0.017453292f);
  if (visual->m_primary) {
- reinterpret_cast<BfmeRenderSceneView *>(g_00DFEF18)->insertObject(reinterpret_cast<RenderObjClass *>(visual->m_primary));
+ reinterpret_cast<BfmeRenderSceneView *>(((Rva002D3627Host *)TheLivingWorld))->insertObject(reinterpret_cast<RenderObjClass *>(visual->m_primary));
  if (animate) {
   AsciiString animationName(model); reinterpret_cast<StringBase<char> *>(&animationName)->concat("."); animationName.concat(model);
   HAnimClass *animation=Get_HAnim(animationName.str());
@@ -385,5 +385,3 @@ void Rva003FD14DBase::rva003FBD9F()
   }
  }
 }
-
-

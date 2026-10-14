@@ -63,7 +63,7 @@ public:
 // literals: a hard-coded image address here would break the linked build the
 // moment data moved.
 extern class GameLogic *TheGameLogic;	// VA 0x00DFE78C
-extern class Rva002D3627Host *g_00DFEF18;	// VA 0x00DFEF18
+class LivingWorld; extern LivingWorld *TheLivingWorld;	// VA 0x00DFEF18
 
 class Rva002B5073
 {
@@ -72,7 +72,7 @@ public:
 };
 
 #define TheRva00DFE78C (*(Rva0023C6A4 **)&TheGameLogic)
-#define TheRva00DFEF18 (*(Rva002BE8D4 **)&g_00DFEF18)
+#define TheRva00DFEF18 (*(Rva002BE8D4 **)&TheLivingWorld)
 
 struct Rva002B59FFHolder
 {

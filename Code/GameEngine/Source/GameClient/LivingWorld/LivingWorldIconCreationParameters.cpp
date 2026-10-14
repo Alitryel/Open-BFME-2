@@ -16,7 +16,7 @@ struct AsciiStringPlusText : AsciiStringRef { operator AsciiString(); Rva000B3F8
 AsciiStringPlusText operator+(const AsciiString&,const char*);
 extern "C" __declspec(dllimport) char *__cdecl _itoa(int,char*,int);
 class Rva002D3627Host {public: int rva002BED69();};
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 struct IconTemplateName {char pad[0x18]; AsciiString name;};
 struct Helper005C4D4B {
  void *m_00; AsciiString m_str; int m_08; unsigned char m_0c; char pad[3];
@@ -24,7 +24,7 @@ struct Helper005C4D4B {
 };
 Helper005C4D4B::Helper005C4D4B(void *arg) : m_00(arg) {
  m_0c=0;
- m_08=g_00DFEF18->rva002BED69();
+ m_08=((Rva002D3627Host *)TheLivingWorld)->rva002BED69();
  const AsciiString &name=((IconTemplateName*)m_00)->name;
  char buffer[128];
  m_str=name + _itoa(m_08,buffer,10);

@@ -12,7 +12,7 @@
 class Rva002D3627Host;
 class Rva002BFF5A { public: void rva002C004F(const char *name); };
 
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 __forceinline const char *GetStr005DB221(const AsciiString &s)
 {
@@ -42,5 +42,5 @@ public:
 
 Rva005DB221::~Rva005DB221()
 {
-	((Rva002BFF5A *)g_00DFEF18)->rva002C004F(GetStr005DB221(m_str));
+	((Rva002BFF5A *)((Rva002D3627Host *)TheLivingWorld))->rva002C004F(GetStr005DB221(m_str));
 }

@@ -24,7 +24,7 @@ class Rva003FDE50 {public:void rva003FDE50(unsigned int);};
 struct Position00538D3B {float x,y,z; Position00538D3B(float a,float b,float c):x(a),y(b),z(c){} };
 class Vector3;
 class Rva002BF4F3 {public:bool rva002BF5B0(const Vector3*,Vector3*);};
-class Rva002D3627Host;extern Rva002D3627Host *g_00DFEF18;
+class Rva002D3627Host;class LivingWorld; extern LivingWorld *TheLivingWorld;
 struct Record00538D3B {int unused;float x,y,z;};
 struct Rva00538CEFPair {int a,b;};
 class Rva00538CEF
@@ -67,7 +67,7 @@ void Rva00538CEF::rva00538D3B(int flag) {
   owner->rva003FDD41((int)&record->x,(int)context,flag);
   ((Rva003FDE8C*)owner)->rva003FDE8C(1);
   Position00538D3B point(record->x,record->y,0.0f);
-  ((Rva002BF4F3*)g_00DFEF18)->rva002BF5B0((const Vector3*)&record->x,(Vector3*)&point);
+  ((Rva002BF4F3*)((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0((const Vector3*)&record->x,(Vector3*)&point);
   ((Rva003FDE50*)owner)->rva003FDE50((unsigned int)&point);
  }
 }

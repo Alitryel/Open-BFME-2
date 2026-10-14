@@ -450,7 +450,7 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 // 0x002BF5B0 maps a world-map point to a 3D position (rowed as
 // Rva002BF4F3::rva002BF5B0).
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Vector3;
 class Rva002BF4F3
 {
@@ -485,7 +485,7 @@ EvaCoord Rva001DCDAF::getPlayPositionForEvent(const Arg001DCDAF *info, Player *l
 				pos.x = center.x;
 				pos.y = center.y;
 				pos.z = 0.0f;
-				((Rva002BF4F3 *)g_00DFEF18)->rva002BF5B0((const Vector3 *)&center, (Vector3 *)&pos);
+				((Rva002BF4F3 *)((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0((const Vector3 *)&center, (Vector3 *)&pos);
 				return EvaCoord(pos.x, pos.y, pos.z);
 			}
 		}

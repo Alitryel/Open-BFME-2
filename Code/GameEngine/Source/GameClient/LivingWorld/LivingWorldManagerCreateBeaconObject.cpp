@@ -120,7 +120,7 @@ public:
 };
 
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class Rva00213171Scene
 {
@@ -230,10 +230,10 @@ void LivingWorldManager::CreateBeaconObject(int id, const Coord2D *pos, int type
 		{
 			Matrix3D tm(true);
 			Vector3 ground(pos->x, pos->y, 0.0f);
-			((Rva002BF4F3 *)g_00DFEF18)->rva002BF5B0((const Vector3 *)pos, &ground);
+			((Rva002BF4F3 *)((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0((const Vector3 *)pos, &ground);
 			tm.Set_Translation(pos->x, pos->y, ground.Z + m_data.m_beaconHeight);
 			((Rva00213171RenderObj *)beacon->m_primaryRObj)->Set_Transform(tm);
-			((Rva00213171Scene *)g_00DFEF18)->addRenderObject(beacon->getRenderObject());
+			((Rva00213171Scene *)((Rva002D3627Host *)TheLivingWorld))->addRenderObject(beacon->getRenderObject());
 			beacon->m_30 = 1;
 			Coord3D scale;
 			scale.x = scale.y = scale.z = 1.0f;
@@ -241,7 +241,7 @@ void LivingWorldManager::CreateBeaconObject(int id, const Coord2D *pos, int type
 			((Rva003FB9C8 *)beacon)->rva003FB9EB(30, 0);
 		}
 		m_beacons[id] = beacon;
-		((Rva002BFF5A *)g_00DFEF18)->rva002BFFD4((Rva002BFFD4Template *)beacon, layer, 0);
+		((Rva002BFF5A *)((Rva002D3627Host *)TheLivingWorld))->rva002BFFD4((Rva002BFFD4Template *)beacon, layer, 0);
 		if (m_data.m_beaconSound.referent != 0)
 		{
 			BfmeAudioEventPrefix136 sound(m_data.m_beaconSound, 1);

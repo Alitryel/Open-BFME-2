@@ -25,7 +25,7 @@ public:
     Rva003F99DCVec3 position;
 };
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Rva003F936EHost;
 class LivingWorldEyeTower
 {
@@ -44,7 +44,7 @@ private:
 void LivingWorldEyeTower::processFrame()
 {
     Rva003F99DCVec3 temporary;
-    Rva003F99DCView *view = reinterpret_cast<Rva003F99DCView *>(g_00DFEF18);
+    Rva003F99DCView *view = reinterpret_cast<Rva003F99DCView *>(((Rva002D3627Host *)TheLivingWorld));
     view->sample(&view->position, &temporary);
     // Retail copies the two words as raw float representations, preserving
     // NaNs and signed zeros. The separate destination fields reproduce its

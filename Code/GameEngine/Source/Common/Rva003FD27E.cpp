@@ -117,7 +117,7 @@ public:
 };
 
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class Rva003FD2C2 : public Rva003FD1C5
 {
@@ -134,6 +134,6 @@ private:
 bool Rva003FD2C2::rva003FD27E()
 {
 	float deg = m_18 * 0.017453292f;
-	reinterpret_cast<Rva003FD27EGlobal *>(g_00DFEF18)->slot39(&m_0c, deg, reinterpret_cast<Rva003FD27EGlobal *>(g_00DFEF18)->slot25(m_1c));
+	reinterpret_cast<Rva003FD27EGlobal *>(((Rva002D3627Host *)TheLivingWorld))->slot39(&m_0c, deg, reinterpret_cast<Rva003FD27EGlobal *>(((Rva002D3627Host *)TheLivingWorld))->slot25(m_1c));
 	return true;
 }

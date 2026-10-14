@@ -36,7 +36,7 @@ public:
     virtual void slot10(bool);
     char pad[0x18-4]; bool flag;
 };
-extern Rva00DFEF18Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class StatsCollector { public: void writeFileEnd(); };
 extern StatsCollector *g_00E032F8;
 class ScriptActions {
@@ -94,7 +94,7 @@ void GameLogic::rva00376E92(bool showScoreScreen, bool arg2)
     Rva0023D46F counterRef(theBfmeDfe6e4);
     Rva00248558Scope scope;
     TheAudio->slot100();
-    if (g_00DFEF18 && g_00DFEF18->flag) g_00DFEF18->slot10(false);
+    if (((Rva00DFEF18Host *)TheLivingWorld) && ((Rva00DFEF18Host *)TheLivingWorld)->flag) ((Rva00DFEF18Host *)TheLivingWorld)->slot10(false);
     if (g_00E032F8) g_00E032F8->writeFileEnd();
     if (TheScriptActions) TheScriptActions->slot15(false);
     if (TheAudio && !TheAudio->slot21()) TheAudio->slot20(2);

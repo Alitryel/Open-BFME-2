@@ -45,7 +45,7 @@ private:
 };
 
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class HostView
 {
@@ -103,12 +103,12 @@ private:
 
 BfmeAptScreenInGameChat::BfmeAptScreenInGameChat(void *context)
 	: _bfme_AptGameWindow(context)
-	, m_member27C(g_00DFEF18)
+	, m_member27C(((Rva002D3627Host *)TheLivingWorld))
 	, m_29C(0)
 	, m_2A0(0)
 {
-	((Rva002BED10 *)g_00DFEF18)->rva002BED10();
-	((HostView *)g_00DFEF18)->slot20(1);
-	((HostView *)g_00DFEF18)->slot10(1);
+	((Rva002BED10 *)((Rva002D3627Host *)TheLivingWorld))->rva002BED10();
+	((HostView *)((Rva002D3627Host *)TheLivingWorld))->slot20(1);
+	((HostView *)((Rva002D3627Host *)TheLivingWorld))->slot10(1);
 	((AptLivingWorldWindow *)this)->SelectCampaign(0);
 }

@@ -60,7 +60,7 @@ class Rva002D3627Host
 public:
 	void method_002BFFD4(void *, int, void *);
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class LivingWorldArmyIconSubObject : public Rva005C4B56
 {
@@ -82,7 +82,7 @@ LivingWorldArmyIconSubObject::LivingWorldArmyIconSubObject(void *arg0, void *arg
 	m_c4 = arg1;
 	if (arg1) {
 		if (m_ac->m_flag5C) {
-			g_00DFEF18->method_002BFFD4(this, 0, m_b0);
+			((Rva002D3627Host *)TheLivingWorld)->method_002BFFD4(this, 0, m_b0);
 		}
 		rva005C4B96(rva0056B89F());
 	}

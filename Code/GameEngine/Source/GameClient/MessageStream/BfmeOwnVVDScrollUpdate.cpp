@@ -231,7 +231,7 @@ extern Keyboard *TheKeyboard;
 extern GameEngine *TheGameEngine;
 extern GameLogic *TheGameLogic;
 extern MessageStream *TheMessageStream;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 extern bool g_00E03218[4];
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 
@@ -325,9 +325,9 @@ void BfmeOwnVVD::rva0042F213()
 			break;
 		}
 
-		if (g_00DFEF18 && g_00DFEF18->m_18)
+		if (((Rva002D3627Host *)TheLivingWorld) && ((Rva002D3627Host *)TheLivingWorld)->m_18)
 		{
-			g_00DFEF18->slot2C(&offset, 0.0f);
+			((Rva002D3627Host *)TheLivingWorld)->slot2C(&offset, 0.0f);
 		}
 		else
 		{

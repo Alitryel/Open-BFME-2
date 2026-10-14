@@ -675,7 +675,7 @@ class Rva002D3627Host
  
 }
 ;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 // EvaEventStatus::getPlayPositionForEvent, retail 0x001DCE6B (279 bytes;
 // WorldBuilder's Eva.cpp 0x00AC8E80, whose assert names both player
 // parameters): the event's own position unless the info record's +0x2C byte

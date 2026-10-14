@@ -37,7 +37,7 @@ class Rva003FE13E {public:float rva003FE13E();};
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Vector3 {public:float X,Y,Z;};
 class Rva002B4C09 {public:bool rva002B4C09();};
 class Rva003FDEAD {public:void rva003FDFFB();};
@@ -118,7 +118,7 @@ void LivingWorldArmyIcon::rva003FE342()
 			v.X=step.x;
 			v.Y=step.y;
 			v.Z=0.0f;
-			((Rva002BF4F3 *)g_00DFEF18)->rva002BF5B0((const Vector3 *)&step,&v);
+			((Rva002BF4F3 *)((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0((const Vector3 *)&step,&v);
 			((Rva003FE342Virtual *)this)->s5(&v);
 		}
 	}

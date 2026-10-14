@@ -30,7 +30,7 @@ public:
 };
 
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class LivingWorldManager;
 extern LivingWorldManager *TheLivingWorldManager;
@@ -72,10 +72,10 @@ void Rva00538F6B::rva00538F6B(void *a, void *b, void *c, void *d)
 			m_points[i].x = pos.x;
 			m_points[i].y = pos.y;
 
-			if (!reinterpret_cast<Rva002BF4F3 *>(g_00DFEF18)->rva002BF935(b, reinterpret_cast<const Vector3 *>(&pos), reinterpret_cast<Vector3 *>(&result))
-				&& !reinterpret_cast<Rva002BF4F3 *>(g_00DFEF18)->rva002BF935(d, reinterpret_cast<const Vector3 *>(&pos), reinterpret_cast<Vector3 *>(&result)))
+			if (!reinterpret_cast<Rva002BF4F3 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BF935(b, reinterpret_cast<const Vector3 *>(&pos), reinterpret_cast<Vector3 *>(&result))
+				&& !reinterpret_cast<Rva002BF4F3 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BF935(d, reinterpret_cast<const Vector3 *>(&pos), reinterpret_cast<Vector3 *>(&result)))
 			{
-				reinterpret_cast<Rva002BF4F3 *>(g_00DFEF18)->rva002BF5B0(reinterpret_cast<const Vector3 *>(&pos), reinterpret_cast<Vector3 *>(&result));
+				reinterpret_cast<Rva002BF4F3 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0(reinterpret_cast<const Vector3 *>(&pos), reinterpret_cast<Vector3 *>(&result));
 			}
 
 			m_points[i].z = result.z;

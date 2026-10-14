@@ -73,7 +73,7 @@ RenderObjClass *Create_Render_Obj(const char *);
 void rva0010E4F6(void *,bool);
 class Rva002BF4F3 { public: void rva002BEA10(RenderObjClass *,bool); };
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 struct RegionObjectTransform
@@ -128,11 +128,11 @@ void Rva003EEC63::rva003EEC63(void *slot,AsciiString name,bool flag,bool prepare
             RegionRenderObjectView *view=(RegionRenderObjectView *)renderObj;
             RegionPosition pos=view->position();
             pos.z=((unsigned char *)TheWritableGlobalData)[0x87]
-                ? -100.0f : ((RegionSceneView *)g_00DFEF18)->slot40();
+                ? -100.0f : ((RegionSceneView *)((Rva002D3627Host *)TheLivingWorld))->slot40();
             transform.m[0][3]=pos.x;transform.m[1][3]=pos.y;transform.m[2][3]=pos.z;
             view->slot54(transform);
-            ((Rva002BF4F3 *)g_00DFEF18)->rva002BEA10(renderObj,flag);
-            ((RegionSceneView *)g_00DFEF18)->slot44(renderObj);
+            ((Rva002BF4F3 *)((Rva002D3627Host *)TheLivingWorld))->rva002BEA10(renderObj,flag);
+            ((RegionSceneView *)((Rva002D3627Host *)TheLivingWorld))->slot44(renderObj);
         }
         *out=renderObj;
     }

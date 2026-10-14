@@ -262,7 +262,7 @@ extern LinearCampaignManager *TheLinearCampaignManager;
 
 // The living-world host (0x009FEF18): a war of the ring game.
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 // Target 0x0023D0E3: Zero Hour QuitMenu.cpp's exitQuitMenu tail moved
 // onto GameLogic, as the quit menu's destructor (0x0051B15E) and restart
@@ -280,7 +280,7 @@ void GameLogic::rva0023D0E3(bool selfDestruct)
 	}
 	((Rva001EB0B1Holder *)TheLinearCampaignManager)->rva001EB0B1();
 	GameMessage *msg = TheMessageStream->appendMessage(0x1D);
-	if (g_00DFEF18)
+	if (((Rva002D3627Host *)TheLivingWorld))
 		msg->appendIntegerArgument(2);
 	if (!isInMultiplayerGame())
 		rva0023CD9E(false, 0, true);

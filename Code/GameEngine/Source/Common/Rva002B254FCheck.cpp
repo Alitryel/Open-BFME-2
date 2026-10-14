@@ -35,7 +35,7 @@ struct GameLogicView002B2535
 	int m_114;
 };
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Rva002BED10
 {
 public:
@@ -49,6 +49,5 @@ public:
 void Rva002B2535::rva002B2535()
 {
 	if (reinterpret_cast<GameLogicView002B2535 *>(TheGameLogic)->m_114 == 3)
-		reinterpret_cast<Rva002BED10 *>(g_00DFEF18)->rva002BED10();
+		reinterpret_cast<Rva002BED10 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BED10();
 }
-

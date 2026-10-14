@@ -1031,7 +1031,7 @@ public:
 	int m_14; // +0x14
 };
 
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 // Greys out the named button of a screen's Apt movie.
 static __forceinline void DisableButton(GameWindow *window, const char *button)
@@ -1078,7 +1078,7 @@ void AptQuitMenu::OnInitialized(const char *unused_in)
 			if (!TheGameLogic || TheGameLogic->m_114 == 3
 				|| (unsigned char)((Rva002B254F *)livingWorld)->rva002B254F() != 0)
 				DisableButton(this, "Restart");
-			int count = g_00DFEF18->m_14;
+			int count = ((Rva002D3627Host *)TheLivingWorld)->m_14;
 			if (count == 0)
 			{
 				DisableButton(this, "Save");

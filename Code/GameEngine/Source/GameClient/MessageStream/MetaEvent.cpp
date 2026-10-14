@@ -170,7 +170,7 @@ public:
 	unsigned char m_00[0x18];
 	bool m_18;
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 enum GameMessageDisposition { KEEP_MESSAGE, DESTROY_MESSAGE };
 
@@ -250,7 +250,7 @@ GameMessageDisposition MetaEventTranslator::translateGameMessage(const GameMessa
 			{
 				if (!(keyState & KEY_STATE_AUTOREPEAT))
 					TheMessageStream->appendMessage(map->m_meta);
-				if (!g_00DFEF18->m_18)
+				if (!((Rva002D3627Host *)TheLivingWorld)->m_18)
 					disp = DESTROY_MESSAGE;
 				break;
 			}

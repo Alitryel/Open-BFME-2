@@ -45,7 +45,7 @@ public:
 };
 
 class Rva002D3627Host { public: int rva002BED69(); };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class Rva00330757Member : public Rva005393F3List { public: Rva00330757Member(); };
 class Rva0053947D : public Rva00330757Member
@@ -75,7 +75,7 @@ private:
 Rva0053947D::~Rva0053947D()
 {
 	forEach((void (Rva005393F3Listener::*)(void *))&Rva001FF3A9::rva001FF3A9, this);
-	((Rva002BF6B7*)g_00DFEF18)->rva002BF6B7(this);
+	((Rva002BF6B7*)((Rva002D3627Host *)TheLivingWorld))->rva002BF6B7(this);
 }
 
 class Rva005C4B56
@@ -94,8 +94,8 @@ void Rva0053947D::rva005391D3()
 class Rva002BFA12 { public: void rva002BFA12(void*); };
 Rva0053947D::Rva0053947D(void *arg1,const Vector3 *arg2) : Rva00330757Member(),m_14(arg1),position(*arg2) {
   m_28=0;
- m_24=((Rva002D3627Host*)g_00DFEF18)->rva002BED69();
- ((Rva002BFA12*)g_00DFEF18)->rva002BFA12(this);
+ m_24=((Rva002D3627Host*)((Rva002D3627Host *)TheLivingWorld))->rva002BED69();
+ ((Rva002BFA12*)((Rva002D3627Host *)TheLivingWorld))->rva002BFA12(this);
 }
 
 // Native539411 and53947D share C69228 and receiver offsets. This joins their

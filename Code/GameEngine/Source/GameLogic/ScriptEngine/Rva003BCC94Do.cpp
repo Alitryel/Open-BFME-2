@@ -19,13 +19,9 @@ public:
     virtual void s09();
     virtual void slot10(int v);
 };
-extern Rva003BCC94Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 void ScriptActions::Rva003BCC94Do()
 {
-	g_00DFEF18->slot10(1);
+	((Rva003BCC94Host *)TheLivingWorld)->slot10(1);
 }
-
-// The global(s) below are defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_00DFEF18@@3PAVRva003BCC94Host@@A=?g_00DFEF18@@3PAVRva002D3627Host@@A")

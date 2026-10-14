@@ -52,7 +52,7 @@ struct IconSubTemplate {char pad[0x1c];float height;};
 struct IconTemplate {void *name;_STL::vector<IconSubTemplate *> items;};
 class Rva002BF4F3 {public:bool rva002BF5B0(const Vector3 *,Vector3 *);};
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 
 struct Arg1Host005DB271;
@@ -73,7 +73,7 @@ LivingWorldBuildPlotIcon::LivingWorldBuildPlotIcon(LivingWorldBuildPlotIconTempl
  const Vector3 *xy=(const Vector3 *)&point;
  Vector3 position;
  position.X=xy->X;position.Y=xy->Y;position.Z=0;
- ((Rva002BF4F3 *)g_00DFEF18)->rva002BF5B0(xy,&position);
+ ((Rva002BF4F3 *)((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0(xy,&position);
  *(Vector3 *)((char *)this+0x18)=position;
  IconTemplate *source=(IconTemplate *)lookup;
  if(source) {

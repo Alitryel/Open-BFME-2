@@ -37,7 +37,7 @@ private:
 };
 
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class HostView
 {
@@ -75,10 +75,10 @@ private:
 
 Rva0056D915::~Rva0056D915()
 {
-	unsigned char flag = ((HostView *)g_00DFEF18)->m_19;
+	unsigned char flag = ((HostView *)((Rva002D3627Host *)TheLivingWorld))->m_19;
 	if (flag)
 	{
-		((Rva002BED10 *)g_00DFEF18)->rva002BED10();
-		((HostView *)g_00DFEF18)->slot10(0);
+		((Rva002BED10 *)((Rva002D3627Host *)TheLivingWorld))->rva002BED10();
+		((HostView *)((Rva002D3627Host *)TheLivingWorld))->slot10(0);
 	}
 }

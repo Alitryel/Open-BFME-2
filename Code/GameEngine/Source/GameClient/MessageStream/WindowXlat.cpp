@@ -213,7 +213,7 @@ public:
 	unsigned char m_00[0x18];
 	bool m_18;
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 #include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
@@ -337,7 +337,7 @@ GameMessageDisposition WindowTranslator::translateGameMessage(const GameMessage 
 
 	if (m_mode == 1)
 	{
-		if (!(g_00DFEF18 && g_00DFEF18->m_18 && !TheGameLogic->isGamePaused() && !(TheShell && TheShell->isShellActive())))
+		if (!(((Rva002D3627Host *)TheLivingWorld) && ((Rva002D3627Host *)TheLivingWorld)->m_18 && !TheGameLogic->isGamePaused() && !(TheShell && TheShell->isShellActive())))
 			goto checkView;
 		return KEEP_MESSAGE;
 	}
@@ -374,7 +374,7 @@ checkView:
 				returnCode = TheWindowManager->winProcessMouseEvent(gwm, &mousePos, 0);
 			if (m_mode == 0)
 				break;
-			if (g_00DFEF18 && g_00DFEF18->m_18 && !TheGameLogic->isGamePaused())
+			if (((Rva002D3627Host *)TheLivingWorld) && ((Rva002D3627Host *)TheLivingWorld)->m_18 && !TheGameLogic->isGamePaused())
 				break;
 			if (TheShell && TheShell->isShellActive())
 				returnCode = WIN_INPUT_USED;

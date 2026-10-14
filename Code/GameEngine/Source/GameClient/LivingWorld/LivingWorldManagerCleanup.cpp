@@ -26,7 +26,7 @@ public:
     bool active18;
     __forceinline bool enabled() const { return active18; }
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class Rva003EF14A { public: void rva003EF1B8(); };
 class Rva003FA5B9 { public: void clear(); };
 // Additional target evidence for 2142EA..214407 RET0: the +48 AsciiString
@@ -111,7 +111,7 @@ void LivingWorldManager::rva0021427A()
     ((Rva00213A85 *)this)->rva00213A0E();
     ((Rva0021237E *)this)->rva0021237E();
     if (TheGameLogic) TheGameLogic->rva0023D033();
-    if (g_00DFEF18) g_00DFEF18->slot6();
+    if (((Rva002D3627Host *)TheLivingWorld)) ((Rva002D3627Host *)TheLivingWorld)->slot6();
     if (m_cleanup268) {
         m_cleanup268->rva003EF1B8();
         m_cleanup268=0;
@@ -123,7 +123,7 @@ void LivingWorldManager::rva0021427A()
 // ?rva002142EA@LivingWorldManager@@QAEXXZ
 void LivingWorldManager::rva002142EA()
 {
-    if (g_00DFEF18->enabled()) {
+    if (((Rva002D3627Host *)TheLivingWorld)->enabled()) {
         ParticleSystemTemplate *templ;
         {
             AsciiString name(m_template48.str());

@@ -154,7 +154,7 @@ void Rva0020E3D6::rva0020E3D6(void *value)
 // key (rowed 0x002BFDAE then 0x003FA7D3); 0x00210E9D (15B): toggle the
 // +0x2C8 flag.
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class LivingWorld
 {
@@ -180,7 +180,7 @@ private:
 
 void Rva00210E7C::rva00210E7C(void *key, int value)
 {
-	void *record = ((LivingWorld *)g_00DFEF18)->FindClickableObject(key);
+	void *record = ((LivingWorld *)((Rva002D3627Host *)TheLivingWorld))->FindClickableObject(key);
 	if (record)
 		((Rva003FA835 *)record)->rva003FA7D3(value);
 }

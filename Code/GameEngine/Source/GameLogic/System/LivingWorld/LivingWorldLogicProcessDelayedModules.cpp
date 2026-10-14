@@ -25,7 +25,7 @@ template<> __forceinline void _STL::allocator<int>::deallocate(int*p,unsigned)co
 class Glo012F1028Entry{public:virtual void*deleteInstance(int);virtual void s1();virtual void s2();virtual void s3();virtual bool process();virtual bool advance(bool);unsigned counter;__forceinline unsigned getRemaining()const{return counter;}};
 class Rva003FD1EB{public:unsigned rva003FD1EB();};
 class Rva002B5023Owner{public:void rva002B5023(Glo012F1028Entry*);};
-class Rva002D3627Host;extern Rva002D3627Host*g_00DFEF18;
+class Rva002D3627Host;class LivingWorld; extern LivingWorld *TheLivingWorld;
 class LivingWorldManager;extern LivingWorldManager*TheLivingWorldManager;
 class ManagerStateView{public:
 virtual void s0();
@@ -59,7 +59,7 @@ class ModuleData;
 class Rva002B8AEA {public:void rva002B8AEA();char pad[0xCC];_STL::vector<Glo012F1028Entry*> entries;char padD8[16];bool locked;};
 void Rva002B8AEA::rva002B8AEA(){
  _STL::vector<int> collected;
- ManagerStateView*state=(ManagerStateView*)g_00DFEF18;
+ ManagerStateView*state=(ManagerStateView*)((Rva002D3627Host *)TheLivingWorld);
  if(state->mode==1 && state->ready() && !((WorldStateView*)TheLivingWorldManager)->active && !locked){
   for(unsigned i=0;i<entries.size();++i){
    Glo012F1028Entry*entry=entries[i];

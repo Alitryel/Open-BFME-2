@@ -7,7 +7,7 @@ public:
 };
 
 class Rva002D3627Host;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class HostView
 {
@@ -48,12 +48,12 @@ int Rva0056D9C1::rva0056D9C1(int a, unsigned int b, unsigned int c)
 {
 	if (a != 0x1b)
 		return ((_bfme_AptGameWindow *)this)->rva0051274F(a, b, c);
-	HostView *h = (HostView *)g_00DFEF18;
+	HostView *h = (HostView *)((Rva002D3627Host *)TheLivingWorld);
 	if (b != 0) {
 		if (h->m_19 != 0 && h->m_18 != 0)
 			return 1;
 		h->slot20(1);
-		((HostView *)g_00DFEF18)->slot10(1);
+		((HostView *)((Rva002D3627Host *)TheLivingWorld))->slot10(1);
 		return 1;
 	} else {
 		if (h->m_19 == 0)

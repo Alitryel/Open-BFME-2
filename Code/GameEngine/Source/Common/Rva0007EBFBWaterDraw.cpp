@@ -213,7 +213,7 @@ public:
 	char m_pad00[0x18];
 	unsigned char m_18;
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class GlobalData
 {
@@ -396,7 +396,7 @@ void Rva0007EBFB_Member1::ResolveBindings(const char *name, const char *handle, 
 
 void Rva000800D6BlendUsingTerrainAlpha(ID3DXEffect *effect, D3DXHANDLE handle)
 {
-	if (g_00DFEF18 && g_00DFEF18->m_18)
+	if (((Rva002D3627Host *)TheLivingWorld) && ((Rva002D3627Host *)TheLivingWorld)->m_18)
 		effect->SetBool(handle, FALSE);
 	else
 		effect->SetBool(handle, TRUE);

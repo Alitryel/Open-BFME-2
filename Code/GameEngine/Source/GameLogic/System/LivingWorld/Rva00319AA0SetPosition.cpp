@@ -13,7 +13,7 @@ class Rva002BF4F3
 public:
 	bool rva002BF5B0(const Vector3 *input, Vector3 *output);
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class Rva00319AA0Target
 {
@@ -86,7 +86,7 @@ void Rva00319AA0::rva00319AA0(const Coord2D *position)
 	if (m_target)
 	{
 		Coord3D world = { m_position.x, m_position.y, 0.0f };
-		((Rva002BF4F3 *)g_00DFEF18)->rva002BF5B0((const Vector3 *)&m_position, (Vector3 *)&world);
+		((Rva002BF4F3 *)((Rva002D3627Host *)TheLivingWorld))->rva002BF5B0((const Vector3 *)&m_position, (Vector3 *)&world);
 		m_target->slot5(&world);
 	}
 }

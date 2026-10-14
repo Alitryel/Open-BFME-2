@@ -73,7 +73,7 @@ public:
 
 extern View *TheTacticalView;
 extern Display *TheDisplay;
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 
 class MilesAudioManager
 {
@@ -89,24 +89,24 @@ void MilesAudioManager::getScreenToTerrainPositions(ScreenToTerrainSet *out)
 	ICoord2D pixel;
 	switch (m_mode) {
 	case 1:
-		if (g_00DFEF18 != 0 && TheDisplay != 0) {
+		if (((Rva002D3627Host *)TheLivingWorld) != 0 && TheDisplay != 0) {
 			pixel.x = TheDisplay->getWidth() >> 1;
 			pixel.y = TheDisplay->getHeight() >> 1;
 			out->m_entry[0].m_valid = true;
-			g_00DFEF18->screenToTerrain(&pixel, &out->m_entry[0].m_pos);
+			((Rva002D3627Host *)TheLivingWorld)->screenToTerrain(&pixel, &out->m_entry[0].m_pos);
 			pixel.x = 0;
 			pixel.y = 0;
 			out->m_entry[1].m_valid = true;
-			g_00DFEF18->screenToTerrain(&pixel, &out->m_entry[1].m_pos);
+			((Rva002D3627Host *)TheLivingWorld)->screenToTerrain(&pixel, &out->m_entry[1].m_pos);
 			pixel.y = TheDisplay->getHeight() - 1;
 			out->m_entry[2].m_valid = true;
-			g_00DFEF18->screenToTerrain(&pixel, &out->m_entry[2].m_pos);
+			((Rva002D3627Host *)TheLivingWorld)->screenToTerrain(&pixel, &out->m_entry[2].m_pos);
 			pixel.x = TheDisplay->getWidth() - 1;
 			out->m_entry[3].m_valid = true;
-			g_00DFEF18->screenToTerrain(&pixel, &out->m_entry[3].m_pos);
+			((Rva002D3627Host *)TheLivingWorld)->screenToTerrain(&pixel, &out->m_entry[3].m_pos);
 			pixel.y = 0;
 			out->m_entry[4].m_valid = true;
-			g_00DFEF18->screenToTerrain(&pixel, &out->m_entry[4].m_pos);
+			((Rva002D3627Host *)TheLivingWorld)->screenToTerrain(&pixel, &out->m_entry[4].m_pos);
 			return;
 		}
 		break;

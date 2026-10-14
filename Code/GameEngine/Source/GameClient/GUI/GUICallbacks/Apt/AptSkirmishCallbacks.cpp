@@ -768,7 +768,7 @@ class Rva002D3627Host {public:
  virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9();
  virtual void enable(bool);
 };
-extern Rva002D3627Host *g_00DFEF18;
+class LivingWorld; extern LivingWorld *TheLivingWorld;
 class MessageStream {public:
  virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15(); virtual void v16(); virtual void v17();
  virtual GameMessage *append(int);
@@ -793,7 +793,7 @@ void AptSkirmish::rva00521CFF() {
    TheDisplay->flag=true;
    TheVideoPlayer->stopAll();
    TheGameLogic->rva00376E92(false,false);
-   g_00DFEF18->enable(true);
+   ((Rva002D3627Host *)TheLivingWorld)->enable(true);
    GameMessage *msg=TheMessageStream->append(31);
    if(msg) {msg->appendIntegerArgument(((StartGameInfoView *)(*(GameInfo * *)&TheSkirmishGameInfo))->scenario);msg->wb00EC9680(0);}
   } else {
