@@ -82,25 +82,8 @@ template <typename T> struct hash
 // Retail stores the zeros before the map ctor call, so they come from member
 // construction in declaration order: the float-triple ctor in the init lists
 // and the memberwise copy ctor (same inline bodies as WWMath/coord3d.cpp).
-struct Coord3D
-{
-	inline Coord3D(float x, float y, float z)
-	{
-		this->x = x;
-		this->y = y;
-		this->z = z;
-	}
-	Coord3D(const Coord3D &that)
-	{
-		x = that.x;
-		y = that.y;
-		z = that.z;
-	}
-
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 typedef std::hash_map<
 	ObjectID,

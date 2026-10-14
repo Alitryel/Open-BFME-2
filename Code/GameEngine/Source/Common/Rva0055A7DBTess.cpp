@@ -16,14 +16,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 struct Gen_p12pod { int a[3]; };
 
-struct Coord3D
-{
-	Coord3D();
-	~Coord3D();
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 #include "../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
 
 class Rva0055A246

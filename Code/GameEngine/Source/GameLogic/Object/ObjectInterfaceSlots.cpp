@@ -18,19 +18,9 @@
 
 #include "ascii_string.h"
 typedef float Real;
-struct Coord3D
-{
-	Coord3D() {}
-	Coord3D(const Coord3D &o) : x(o.x), y(o.y), z(o.z) {}
-	Coord3D(float ax, float ay, float az) : x(ax), y(ay), z(az) {}
-	// BFME 2's Coord3D has an empty destructor (retail 0x000B3FD0, rowed in
-	// WWMath/coord3d.cpp); 0x0028BE93's conditional temporary keeps its
-	// destruction flag (and [ebp-4], 0) because of it.
-	~Coord3D() {}
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 class GeometryInfo
 {
 	friend class Object;

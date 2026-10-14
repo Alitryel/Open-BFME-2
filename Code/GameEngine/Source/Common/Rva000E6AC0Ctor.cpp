@@ -74,13 +74,8 @@ namespace _STL {
  template<> inline void allocator<BfmeE16>::deallocate(BfmeE16 *p, size_type) const { if (p) Rva00030830FreeAllocation(p); }
 }
 
-struct Coord3D
-{
-    float x;
-    float y;
-    float z;
-    Coord3D();
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 class Rva000E6AC0Base
 {
 public:

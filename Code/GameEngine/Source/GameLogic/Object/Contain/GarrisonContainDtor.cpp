@@ -27,14 +27,9 @@ public:
 	virtual ~OpenContain();
 };
 
-class Coord3D
-{
-public:
-	~Coord3D();
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class GarrisonContain : public OpenContain
 {

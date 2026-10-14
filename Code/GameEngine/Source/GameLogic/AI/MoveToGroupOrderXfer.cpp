@@ -76,21 +76,9 @@ template <typename T> struct hash
 
 // The WWMath Coord3D shape (Libraries/Source/WWVegas/WWMath/coord3d.cpp):
 // empty default ctor and dtor plus a memberwise copy ctor.
-struct Coord3D
-{
-	Coord3D() {}
-	Coord3D(const Coord3D &that)
-	{
-		x = that.x;
-		y = that.y;
-		z = that.z;
-	}
-	~Coord3D() {}
-
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 typedef std::hash_map<
 	ObjectID,

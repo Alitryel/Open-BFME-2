@@ -13,15 +13,9 @@
 // address spilled to [ebp+0x14] for the destructor's unwind).
 typedef float Real;
 
-// class-gate: allow Coord3D proved codegen view: BFME 2 passes Coord3D by value through a user copy constructor and destructor (as in BaseHeightMapAddProp.cpp); the shared header's trivial Coord3D would be copied with a block move
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-	Coord3D( const Coord3D &c ) { x = c.x; y = c.y; z = c.z; }
-	~Coord3D() {}
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 // ECF79's own by-value location view; same shape and user copy semantics.
 struct Rva000ECF79Coord

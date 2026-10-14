@@ -15,14 +15,9 @@ public:
 };
 #include "Common/Snapshot.h"
 
-struct Coord3D
-{
-	Coord3D(const Coord3D &other) { x = other.x; y = other.y; z = other.z; }
-	// This no-op destructor retains the temporary stack cleanup slot present in
-	// retail; it does not assert a target-side destructor effect or layout.
-	~Coord3D() {}
-	float x, y, z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 template <class OBJCLASS>
 class DLINK_ITERATOR
