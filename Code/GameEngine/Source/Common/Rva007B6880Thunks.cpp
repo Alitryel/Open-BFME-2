@@ -7628,3 +7628,100 @@ int Rva00583D4C::rva00583D4C(int key)
 	return m_member->rva0046ACF6(key);
 }
 
+namespace StrategicHUD
+{
+class RegionAwardMovieClip
+{
+public:
+	class Impl;
+};
+}
+
+// RegionAwardMovieClip::Impl view for the thunk below. The method is declared
+// only and reproduces the rowed
+// ?rva005ED708@Impl@RegionAwardMovieClip@StrategicHUD@@QAEXHH@Z (0x005ED708,
+// 98B in Rva005ED708Apt.cpp); declared here (not defined) so the tailcall is
+// preserved.
+class StrategicHUD::RegionAwardMovieClip::Impl
+{
+public:
+	void rva005ED708(int index, int num);
+};
+
+// ?rva005ED851@Rva005ED851@@QAEXHH@Z @0x005ED851 8B member forwarder to rowed
+// ?rva005ED708@Impl@RegionAwardMovieClip@StrategicHUD@@QAEXHH@Z (0x005ED708;
+// int args pass through the shared stack slots). No callers. Honest address
+// name.
+class Rva005ED851
+{
+public:
+	void rva005ED851(int index, int num);
+private:
+	char m_pad[4];
+	StrategicHUD::RegionAwardMovieClip::Impl *m_member;
+};
+void Rva005ED851::rva005ED851(int index, int num)
+{
+	return m_member->rva005ED708(index, num);
+}
+
+namespace StrategicInGameUI
+{
+class BuildQueueDetailsPanel
+{
+public:
+	class Impl;
+};
+}
+
+// BuildQueueDetailsPanel::Impl view for the thunk below. The method is
+// declared only and reproduces the rowed
+// ?rva005E7AC6@Impl@BuildQueueDetailsPanel@StrategicInGameUI@@QAEXXZ
+// (0x005E7AC6 in StrategicInGameUIBuildQueueIconSelect.cpp).
+class StrategicInGameUI::BuildQueueDetailsPanel::Impl
+{
+public:
+	void rva005E7AC6();
+};
+
+// ?rva005E7BCE@Rva005E7BCE@@QAEXXZ @0x005E7BCE 8B member forwarder to rowed
+// ?rva005E7AC6@Impl@BuildQueueDetailsPanel@StrategicInGameUI@@QAEXXZ
+// (0x005E7AC6). No callers. Honest address name.
+class Rva005E7BCE
+{
+public:
+	void rva005E7BCE();
+private:
+	char m_pad[8];
+	StrategicInGameUI::BuildQueueDetailsPanel::Impl *m_member;
+};
+void Rva005E7BCE::rva005E7BCE()
+{
+	return m_member->rva005E7AC6();
+}
+
+// Rva005EA58B view for the thunk below. The method is declared only and
+// resolves to the rowed ?rva005EA8C4@Rva005EA58B@@QAEXXZ (0x005EA8C4, 31B in
+// Rva005EA58BMethod.cpp).
+class Rva005EA58B
+{
+public:
+	void rva005EA8C4();
+};
+
+// ?rva005EA91A@Rva005EA91A@@QAEXXZ @0x005EA91A 8B member forwarder to rowed
+// ?rva005EA8C4@Rva005EA58B@@QAEXXZ (0x005EA8C4). No callers. Honest address
+// name.
+class Rva005EA91A
+{
+public:
+	void rva005EA91A();
+private:
+	char m_pad[4];
+	Rva005EA58B *m_member;
+};
+void Rva005EA91A::rva005EA91A()
+{
+	return m_member->rva005EA8C4();
+}
+
