@@ -1,4 +1,6 @@
 // ?Render@W3DAptComponentColorPicker@@UAEXHHHH@Z
+// partial score=0.97 date=2026-10-14
+// ?Render@W3DAptComponentColorPicker@@UAEXHHHH@Z
 // partial score=0.9759 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // Target evidence: WorldBuilder identifies Init (17EF830) and ExternFunc
@@ -131,8 +133,8 @@ void W3DAptComponentColorPicker::Render(int x,int y,int width,int height) {
   void *pixels;
   ColorSurfaceLock lock(surface,&pitch,left,top,left+cursorX,top+cursorY,pixels);
   if(!pixels)return;
-  ColorIntPoint nearest(0,0);unsigned best=0x7fffffff;
   unsigned char *pixel=(unsigned char*)pixels;
+  ColorIntPoint nearest(0,0);unsigned best=0x7fffffff;
   for(int j=0;j<cursorY;++j) {
    unsigned char *rowStart=pixel;
    for(int i=0;i<cursorX;++i) {
@@ -145,8 +147,10 @@ void W3DAptComponentColorPicker::Render(int x,int y,int width,int height) {
   float ox=cursorX?((float)nearest.x*(float)width)/(float)cursorX:0.0f;
   float oy=cursorY?((float)nearest.y*(float)height)/(float)cursorY:0.0f;
   const ColorFloatPoint *screenScale=(const ColorFloatPoint*)Rva000A8F5EGet();
+  {
   ColorIntPoint cursor(WWMath::Float_To_Long(WWMath::Floor(ox*screenScale->x+0.5f)),WWMath::Float_To_Long(WWMath::Floor(oy*screenScale->y+0.5f)));
   Rva00525235Fire(TheRva00222A8BTarget,(void*)14,colorName(owner),"SetCursor",&cursor.x,&cursor.y);
+  }
   seek=false;
  }
 }

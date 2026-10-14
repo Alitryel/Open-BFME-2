@@ -1,4 +1,6 @@
 // ?rva00596908@FadeInTextRender@@UAEXPAVText004721F0@@PBUICoord2D@@I@Z
+// partial score=0.97 date=2026-10-14
+// ?rva00596908@FadeInTextRender@@UAEXPAVText004721F0@@PBUICoord2D@@I@Z
 // partial score=0.9305 date=2026-10-13
 // ?rva00596908@FadeInTextRender@@UAEXPAVText004721F0@@PBUICoord2D@@I@Z
 // partial score=0.9 date=2026-10-13
@@ -11,6 +13,8 @@
 // Phase stores straddle two reads of canonical g_009BA4E8; preserve that alias-sensitive order.
 // Existing address-derived constructor argument views retain provider identity uncertainty.
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "Lib/ICoord2D.h"
@@ -86,12 +90,13 @@ void FadeInTextRender::rva00596908(Text004721F0* text, const ICoord2D* pos, unsi
  UnicodeString s = text->getText();
  const ICoord2D &point = *pos;
  volatile int y=point.y-(height-h)/2;
+ _ReadWriteBarrier();
  int x = point.x;
  int width = 0;
  text->size(&width, 0);
  int bottom = y + (width ? height : height);
- int right = x + width;
- ((Gen_00470870*)this)->bfmeExtend(x,y,right,bottom);
+
+ ((Gen_00470870*)this)->bfmeExtend(x,y,(x + width),bottom);
  for(int i=0;i<3;++i) {
   unsigned start=starts[i], end=ends[i];
   if(frame>=start && frame<=end) {
