@@ -26,12 +26,12 @@ struct Rva002BED91
 	void set(TargetRef00217D4C *p);
 };
 
-class Rva005398CD
+class InGameSimpleHelp
 {
 	char m_opaque[12];
 
 public:
-	Rva005398CD(const UnicodeString &first, const UnicodeString &second);
+	InGameSimpleHelp(const UnicodeString &first, const UnicodeString &second);
 };
 
 class Rva001FF3A9
@@ -88,7 +88,7 @@ InGameHotSpotSimpleHelp::InGameHotSpotSimpleHelp(InGameHelpBox *helpBox,
 	if (((Rva005CC208 *)m_hotSpot)->Rva005CC208::rva005CC208())
 	{
 		TargetRef00217D4C *hint =
-			(TargetRef00217D4C *)new Rva005398CD(m_string0, m_string1);
+			(TargetRef00217D4C *)new InGameSimpleHelp(m_string0, m_string1);
 		m_hint.set(hint);
 		((Rva001FF3A9 *)m_helpBox)->rva001FF3A9((const TreeHintRef00217D4C &)m_hint);
 	}
@@ -98,7 +98,7 @@ void InGameHotSpotSimpleHelp::OnHotSpotRollOver(InGameHotSpot *&hotSpot)
 {
 	(void)hotSpot;
 	TargetRef00217D4C *hint =
-		(TargetRef00217D4C *)new Rva005398CD(m_string0, m_string1);
+		(TargetRef00217D4C *)new InGameSimpleHelp(m_string0, m_string1);
 	m_hint.set(hint);
 	((Rva001FF3A9 *)m_helpBox)->rva001FF3A9((const TreeHintRef00217D4C &)m_hint);
 }

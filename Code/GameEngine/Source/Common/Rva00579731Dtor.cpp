@@ -86,10 +86,10 @@ struct TreeHintRef00217D4C
 	TargetRef00217D4C *m_ptr;
 };
 
-class Rva005398CD
+class InGameSimpleHelp
 {
 public:
-	Rva005398CD(const UnicodeString &first, const UnicodeString &second);
+	InGameSimpleHelp(const UnicodeString &first, const UnicodeString &second);
 
 private:
 	char m_opaque[12];
@@ -194,7 +194,7 @@ TreeHintRef00217D4C Rva00579731::rva00579770(int stat)
 	UnicodeString help;
 	if (!((const StringBase<char> *)&row.m_help)->isEmpty())
 		help = TheGameText->fetch(row.m_help);
-	return TreeHintRef00217D4C((TargetRef00217D4C *)new Rva005398CD(title, help));
+	return TreeHintRef00217D4C((TargetRef00217D4C *)new InGameSimpleHelp(title, help));
 }
 
 // ??1Rva005796FC@@QAE@XZ: rowed in stlport_vector_stringrecord_b94d2_allocate_copy.cpp but that TU emits ??1BfmeStringRecord000B94D2@@QAE@XZ; bind this spelling.

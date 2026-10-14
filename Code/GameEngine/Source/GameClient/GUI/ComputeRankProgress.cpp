@@ -88,7 +88,7 @@ static float ComputeRankProgress(const Rva005E4300Entry *entry) {
 }
 }
 class Rva0037DCA5 {public:void *rva0037DC52();};
-class Rva005398CD {public:Rva005398CD(const UnicodeString &,const UnicodeString &);private:char storage[12];};
+class InGameSimpleHelp {public:InGameSimpleHelp(const UnicodeString &,const UnicodeString &);private:char storage[12];};
 namespace StrategicInGameUI {
 TreeHintRef00217D4C Rva005E6A23(const Rva005E4300Entry *entry) {
  const UnicodeString &title=Rva005E3967(entry)->titleText();
@@ -96,7 +96,7 @@ TreeHintRef00217D4C Rva005E6A23(const Rva005E4300Entry *entry) {
   Rva005E3967Template *t=(Rva005E3967Template *)((Rva0037DCA5 *)entry)->rva0037DC52();
   if(t) {
    const UnicodeString &description=t->descriptionText();
-   return TreeHintRef00217D4C((TargetRef00217D4C *)new Rva005398CD(title,description));
+   return TreeHintRef00217D4C((TargetRef00217D4C *)new InGameSimpleHelp(title,description));
   }
  }
  return TreeHintRef00217D4C();

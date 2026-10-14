@@ -38,10 +38,10 @@ void **vector<void*>::end()
 }
 class Rva003FDE1AHelper { public: void rva003FDE1A(int); };
 
-class Rva005398CD
+class InGameSimpleHelp
 {
 public:
-    Rva005398CD(const UnicodeString &, const UnicodeString &);
+    InGameSimpleHelp(const UnicodeString &, const UnicodeString &);
 private:
     char opaque[12];
 };
@@ -617,7 +617,7 @@ void LivingWorldArmy::loadPostProcess()
             reinterpret_cast<Rva003FDE1AHelper *>(status88)->rva003FDE1A(v70);
             ((Rva0031A02AImpl*)status88)->setState(b65, 0);
             reinterpret_cast<Rva003FE0B3 *>(status88)->rva003FE0B3(
-                TreeHintRef00217D4C(reinterpret_cast<TargetRef00217D4C *>(new Rva005398CD(text68, text6C))));
+                TreeHintRef00217D4C(reinterpret_cast<TargetRef00217D4C *>(new InGameSimpleHelp(text68, text6C))));
         }
     }
     else
