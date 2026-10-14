@@ -1,5 +1,3 @@
-// ?Thread_Function@PingThreadClass@@UAEXXZ
-// partial score=0.99 date=2026-10-15
 // cl: /O1 /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
 // stlport
 //
@@ -15,7 +13,8 @@
 // addResponse +0x18, isdigit/inet_addr/gethostbyname imports, the rowed
 // MutexClass::LockClass pair 0x00613A70/0x00613AC0, STLport string default
 // ctor 0x00007850 and assignment 0x000120C0, and the ICMP helper 0x0054F99E
-// called as a thiscall member (this in ECX) with IP and timeout.
+// called as a thiscall member (this in ECX) with IP and timeout (an
+// address-named member pin beside its stdcall row).
 #define Matrix4x4 Matrix4  // BFME renamed it
 #define __PLACEMENT_VEC_NEW_INLINE
 // Retail's allocators free through the game's free wrapper at 0x00030830 (the rowed
@@ -50,7 +49,10 @@ public:
 	virtual void Thread_Function();
 
 private:
-	Int doPing(UnsignedInt IP, Int timeout);
+	// 0x0054F99E, rowed as the stdcall ?MeasureIcmpPing@@YGHIH@Z (Zero Hour's
+	// doPing; its body never reads ECX): this caller passes ECX=this, so here
+	// it is an address-named member.
+	Int rva0054F99E(UnsignedInt IP, Int timeout);
 	MutexClass *m_runMutex;		// +0x50, held by the owner while the thread may run
 };
 
@@ -85,7 +87,7 @@ void PingThreadClass::Thread_Function()
 				MutexClass::LockClass pingLock(*m_runMutex, 1);
 				if (!pingLock.Failed())
 					break;
-				Int ping = doPing(IP, req.timeout);
+				Int ping = rva0054F99E(IP, req.timeout);
 				if (ping >= 0) {
 					totalPing += ping;
 					++goodReps;
