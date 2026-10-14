@@ -35,8 +35,8 @@ private:
 };
 template <class InputIter, class OutputIter>
 OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result, const __false_type &tag);
-template <class InputIter, class OutputIter>
-OutputIter __copy(InputIter first, InputIter last, OutputIter result, const random_access_iterator_tag &tag, int *distance);
+template <class InputIter, class OutputIter, class Distance>
+OutputIter __copy(InputIter first, InputIter last, OutputIter result, const random_access_iterator_tag &tag, Distance *distance);
 template <class ForwardIter>
 void _Destroy(ForwardIter first, ForwardIter last);
 }
@@ -44,7 +44,9 @@ void _Destroy(ForwardIter first, ForwardIter last);
 template <>
 __declspec(noinline) BfmeStringRecord005DDD40 *_STL::__copy_ptrs<BfmeStringRecord005DDD40 *, BfmeStringRecord005DDD40 *>(BfmeStringRecord005DDD40 *first, BfmeStringRecord005DDD40 *last, BfmeStringRecord005DDD40 *result, const _STL::__false_type &tag)
 {
-	return _STL::__copy(first, last, result, _STL::random_access_iterator_tag(), (int *)0);
+	// The empty tag carries no state; retail passes its address without initializing storage.
+	_STL::random_access_iterator_tag iteratorTag;
+	return _STL::__copy(first, last, result, iteratorTag, (int *)0);
 }
 inline _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >::iterator _STL::vector<BfmeStringRecord005DDD40, _STL::allocator<BfmeStringRecord005DDD40> >::erase(iterator first, iterator last)
 {
