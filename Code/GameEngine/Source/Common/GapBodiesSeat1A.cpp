@@ -258,6 +258,7 @@ class Rva00077710Value
 public:
 	void rva0022D189(int value);
 	Rva00077710Value &rva0022D979(const int &value);
+	int rva0022D98D();
 	int m_a;
 	int m_b;
 };
@@ -266,6 +267,14 @@ Rva00077710Value &Rva00077710Value::rva0022D979(const int &value)
 {
 	rva0022D189(value);
 	return *this;
+}
+
+// --- 0x0022D98D (13B): directly after it, reads the stored word at +4 back
+// through the rowed 0x0022CC0E hook applied to it twice (the getter
+// counterpart; same shape as Rva00435B71::rva00435D70 0x00435D70).
+int Rva00077710Value::rva0022D98D()
+{
+	return Rva0022CC0EHook(m_b, m_b);
 }
 
 // --- 0x0023262C (23B): whether the halfword at +6 of the indexed 8-byte
