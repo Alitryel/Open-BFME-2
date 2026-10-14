@@ -15,6 +15,8 @@ class PlayerTemplate;
 class ControlBarSchemeManager
 {
 public:
+	ControlBarSchemeManager(void);	// 0x003200EB, built by ControlBar::init
+	void init(void);		// 0x00320205
 	ControlBarScheme *findControlBarScheme(AsciiString name);
 	ControlBarScheme *newControlBarScheme(AsciiString name);
 	void setControlBarScheme(AsciiString name);

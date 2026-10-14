@@ -17008,3 +17008,6 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ??4Rva000AD6F4@@QAEAAV0@U?$auto_ptr@VBfmeThingGX@@@_STL@@@Z,0x00405AC9,callee of ?rva00405C04@Rva00405A50@@QAEXPAVBfmeThingGX@@@Z
 ?rva001F9BA4@ParticleSystem@@QAEXPAX0@Z,0x001F9BA4,callee of ?rva003AFF06@Rva003AFF06@@UAEXPAX0@Z; native 207B RET8 (ghidra FUN_005f9ba4)
 ?rva000D28FA@W3DBuffBuffer@@QAEXHH@Z,0x000D28FA,callee of ?rva0006BBD9@BaseHeightMapRenderObjClass@@QAEXHH@Z
+??0ControlBarSchemeManager@@QAE@XZ,0x003200EB,callee of ?init@ControlBar@@UAEXXZ
+?initObserverControls@ControlBar@@QAEXXZ,0x0050DE39,callee of ?init@ControlBar@@UAEXXZ
+?postProcessCommands@ControlBar@@QAEXXZ,0x0031AC39,callee of ?init@ControlBar@@UAEXXZ
