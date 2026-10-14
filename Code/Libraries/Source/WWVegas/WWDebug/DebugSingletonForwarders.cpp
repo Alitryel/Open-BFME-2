@@ -90,3 +90,22 @@ void rva00225A1F()
 {
 	theDebug->slot37();
 }
+
+// The assert-dialog answer flag Debug::AssertDone (0x0003A8A0) raises
+// (Debug_AssertDone.cpp defines it at VA 0x00DE089D). These two leaves are
+// its setter and its read-and-clear reader; no referencing site was found.
+extern bool g_debugAssertDialogAnswered;
+
+// ?rva000383B0@@YAXXZ @0x000383B0: raise the flag
+void rva000383B0()
+{
+	g_debugAssertDialogAnswered = true;
+}
+
+// ?rva000383C0@@YA_NXZ @0x000383C0: return the flag and clear it
+bool rva000383C0()
+{
+	bool answered = g_debugAssertDialogAnswered;
+	g_debugAssertDialogAnswered = false;
+	return answered;
+}

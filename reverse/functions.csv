@@ -88510,3 +88510,6 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ?rva00030880@@YAXXZ,,0x00030880,6,Code/GameEngine/Source/Common/System/GameMemoryBlockSlots.cpp,matched,tail jump into the VerifyIntegrity memory-pool slot VA 0x00DE03EC
 ?rva0002FC80@@YAIPAX@Z,,0x0002FC80,24,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,_msize shape: block-heap slot VA 0x00DE03F0 then rowed 0x00030860 block-size forwarder
 ?rva0002BA86@FileSystem@@QAEPAVFile@@PBDH@Z,,0x0002BA86,18,Code/GameEngine/Source/Common/GapBodiesGE19.cpp,matched,openFile forwarder with zero third argument; this passed through to 0x00600C34; unreferenced
+?rva000338D0@GeneralAllocator@Allocator@EA@@QAEXPAUSnapshot@123@@Z,,0x000338D0,31,Code/GameEngine/Source/Common/System/memory_pool.cpp,matched,SNAP-magic snapshot release tail-calling freeBlock pin 0x00033150; thunk 0x006C1D50
+?rva000383B0@@YAXXZ,,0x000383B0,8,Code/Libraries/Source/WWVegas/WWDebug/DebugSingletonForwarders.cpp,matched,raises the AssertDone dialog-answered flag VA 0x00DE089D
+?rva000383C0@@YA_NXZ,,0x000383C0,13,Code/Libraries/Source/WWVegas/WWDebug/DebugSingletonForwarders.cpp,matched,read-and-clear of the AssertDone dialog-answered flag VA 0x00DE089D

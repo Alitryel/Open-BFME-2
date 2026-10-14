@@ -55011,3 +55011,6 @@ CatchContinuation_0x0073F646	0x0073F646	194	no-boundary	Not a standalone functio
 ?rva00030880@@YAXXZ	0x00030880	6	landed	add_match verified Code/GameEngine/Source/Common/System/GameMemoryBlockSlots.cpp 6B; tail jump into the VerifyIntegrity memory-pool slot VA 0x00DE03EC
 ?rva0002FC80@@YAIPAX@Z	0x0002FC80	24	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE21.cpp 24B; _msize shape: block-heap slot VA 0x00DE03F0 then rowed 0x00030860 block-size forwarder
 ?rva0002BA86@FileSystem@@QAEPAVFile@@PBDH@Z	0x0002BA86	18	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE19.cpp 18B; openFile forwarder with zero third argument; this passed through to 0x00600C34; unreferenced
+?rva000338D0@GeneralAllocator@Allocator@EA@@QAEXPAUSnapshot@123@@Z	0x000338D0	31	landed	add_match verified Code/GameEngine/Source/Common/System/memory_pool.cpp 31B; SNAP-magic snapshot release tail-calling freeBlock pin 0x00033150; thunk 0x006C1D50
+?rva000383B0@@YAXXZ	0x000383B0	8	landed	add_match verified Code/Libraries/Source/WWVegas/WWDebug/DebugSingletonForwarders.cpp 8B; raises the AssertDone dialog-answered flag VA 0x00DE089D
+?rva000383C0@@YA_NXZ	0x000383C0	13	landed	add_match verified Code/Libraries/Source/WWVegas/WWDebug/DebugSingletonForwarders.cpp 13B; read-and-clear of the AssertDone dialog-answered flag VA 0x00DE089D

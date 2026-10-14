@@ -142,6 +142,7 @@ public:
 	int rva00031BF0(const void *block);
 	bool rva00031BB0(const void *block);	// small-block fencepost check via 0x31680 caller 0x3324E
 	void rva000338F0(void *block);				// Free-like
+	void rva000338D0(Snapshot *snapshot);			// snapshot release
 	void *rva00035080(unsigned int size, int flags);	// Malloc-like
 	void *rva00035190(void *block, unsigned int size, int flags);	// Realloc-like
 	void *rva00035210(unsigned int count, unsigned int size, int flags);	// Calloc-like
@@ -617,6 +618,17 @@ unsigned int GeneralAllocator::rva006C1D10(const void *block)
 	if (base >= (unsigned int)block)
 		return base - (unsigned int)block;
 	return rva00032A20(block);
+}
+
+// ?rva000338D0@GeneralAllocator@Allocator@EA@@QAEXPAUSnapshot@123@@Z @0x000338D0 31B
+// Releases a snapshot block: only when its magic is 'SNAP' (the value the
+// Snapshot constructor stores at +0) and the first state byte at +0xC is
+// clear does it tail-call Rva00033E90::freeBlock (pin 0x00033150) with the
+// same this. Reached through the thunk at 0x006C1D50. Name address-derived.
+void GeneralAllocator::rva000338D0(Snapshot *snapshot)
+{
+	if (snapshot->m_magic == 0x534E4150 && snapshot->m_state[0] == 0)
+		((::Rva00033E90 *)this)->freeBlock(snapshot);
 }
 
 // ?rva000338F0@GeneralAllocator@Allocator@EA@@QAEXPAX@Z @0x000338F0 63B
