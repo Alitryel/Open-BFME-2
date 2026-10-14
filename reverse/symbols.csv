@@ -7617,7 +7617,6 @@ name,address,notes
 ?b_007f78e0@@YAXXZ,0x00663FA0
 ?b_00800550@@YAXXZ,0x0066C970,callee of j_00800660 (0x0066CA80) at the site its BFME1 donor calls it; may be an ICF alias
 ?b_00801570@@YAXXZ,0x0066D890
-?b_00881ef0@@YAXXZ,0x0002FD80
 ?b_00881f30@@YAXXZ,0x0002FDA0,callee of j_0082ad80 (0x00023790) at the site its BFME1 donor calls it; may be an ICF alias
 ?b_00893b30@@YAXXZ,0x006CDBF0
 ?b_00893e70@@YAXXZ,0x006CE570
@@ -7799,8 +7798,6 @@ name,address,notes
 ?bfmeCtorECMa@BfmeThingECMa@@QAEPAV1@XZ,0x00672340
 ?bfmeCur1094@BfmeK1094@@QAEPAVBfmeR1094@@XZ,0x0028AFA9,callee read from the retail REL32 in placed BFME1-donor body ?bfmeVisitABG@BfmeHostABG@@QAEXPAX0@Z (0x0036E22F)
 ?bfmeDecVGO@@YAIPAI@Z,0x006CFDF0
-?bfmeDelArrVGP@@YAXPAX@Z,0x0002FD80
-?bfmeDelArrVHY@@YAXPAX@Z,0x0002FD80
 ?bfmeDeleteVMP@@YAXPAXI@Z,0x0065D030
 ?bfmeDestroy@Rva0078AFC0Owned@@QAEXXZ,0x0061ED10
 ?bfmeDestroyRange@@YAXPAVBfmeVecAW@@@Z,0x003ED7A2,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
@@ -7857,7 +7854,6 @@ name,address,notes
 ?bfmeDropVIH@BfmeSubVIH@@QAEXPAVBfmeThingVIH@@@Z,0x006891E0,BFME1 BfmeConv1374 donor call site
 ?bfmeDtorATYA@BfmeHeadTYA@@QAEXXZ,0x0066D900,read from REL32 at placed ?bfmeDelTYA 0x66E3D0; BFME1 pins same name at 0x00801600; folds with clear@Rva00801600 row
 ?bfmeDtorBTYA@BfmeSlotTYA@@QAEXXZ,0x00663FA0
-?bfmeDtorCBF@@YAXPAX@Z,0x0002FD80
 ?bfmeDtorTRB@BfmeThingTRB@@QAEXXZ,0x00719CC0,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeDtorTVA@BfmeThingTVA@@QAEXXZ,0x0065D180
 ?bfmeDtorTWA@BfmeStrTWA@@QAEXXZ,0x00655780
@@ -7964,25 +7960,7 @@ name,address,notes
 ?bfmeForward@Gen_0094BFB0Target@@QAEXXZ,0x0061ED10
 ?bfmeForwardWideA@BfmeWideForwardA@@QAE?AUBfmeWideResult@@HMHH@Z,0x006255D0,float radius version same address as HHHH row via exact 360B call site fld-fstp plus iterate precedent
 ?bfmeFree1040E@@YGXPAX@Z,0x00628F6E,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-?bfmeFreeArrDLB@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDLC@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDLD@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDLE@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDLF@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDLG@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDLH@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDLI@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDLJ@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDMA@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDMB@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDMD@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDME@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArray@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrayTVB@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrayUND@@YAXPAX@Z,0x0002FD80
 ?bfmeFreeBW@@YAXPAX@Z,0x006D0440
-?bfmeFreeBlock@@YAXPAX@Z,0x0002FD80
-?bfmeFreeDXK@@YAXPAX@Z,0x0002FD80
 ?bfmeFreeOneJT@@YAXPAX@Z,0x001B6410,5B ILT thunk at this RVA jumps to matched bfmeTwoBZB body at 0x1B63A0; called from bfmeAllocJX at 0x1B56F0
 ?bfmeFreeRecUNA@@YAXPAX@Z,0x006725B0
 ?bfmeFreeSizedVF@@YAXPAXI@Z,0x0065D030
@@ -8863,7 +8841,6 @@ name,address,notes
 ?deleteInstance@MemoryPoolObject@@QAEXXZ,0x0061ED10,address read from the REL32 displacement at a placed body
 ?deleteLoadScreen@GameLogic@@QAEXXZ,0x002423E3,GameEngine slot 39 call target; BFME1 GameLogic deleteLoadScreen is the first client-subsystem operation and this BFME2 body owns the same GameLogic state
 ?deleteNode@Rva00289371HashTable@@AAEXPAUNode@1@@Z,0x00289164,callee of ?clear@Rva00289371HashTable@@QAEXXZ at retail 0x00289392 read from its REL32 displacement; destroys node+4 (0x00288B89) then operator delete
-?deleteTerrainIndexArray@@YAXPAX@Z,0x0002FD80
 ?deselectObject@GameLogic@@QAEXPAVObject@@IH@Z,0x0023C9F8,address read from the REL32 at StructureCollapseUpdate::onDie 0x004A466E; BFME2 PlayerMaskType 32-bit
 ?destroy@CustomAsciiStringShim@@QAEXXZ,0x00036410,AsciiString temp teardown for the volume-key temp; aliases the releaseBuffer pin at the same address
 ?destroy@ParticleSystem@@QAEXXZ,0x001F462C,call site in destroyParticleSystemByID (0x1F5B79) mov ecx [ebp-0x18] (m_system) test je then bare thiscall matching ParticleSystem::destroy void; BFME1 ILT 0xE525
@@ -9093,7 +9070,6 @@ name,address,notes
 ?evaluateNamedInsideArea@ScriptConditions@@IAE_NPAVParameter@@0@Z,0x003E5EFF,target 0x3E66D5 wrapper directly calls the named-inside-area handler at this exact boundary
 ?evaluateSkirmishPlayerHasUnitsInArea@ScriptConditions@@IAE_NPAVCondition@@PAVParameter@@1@Z,0x003E782D,"call-site agreement: matched evaluateSkirmishPlayerIsOutsideArea 0x003E79AF returns its negation with the same three arguments, as the BFME1 donor does"
 ?expandPrototypeValues@Rva00700170@@QAEXPAX0@Z,0x00700170,BFME1 donor method name is provisional; target call from 0x702B40 and thiscall signature support this address but owner identity remains RVA-derived
-?f_00881ef0@@YAXPAX@Z,0x0002FD80
 ?factoryCreateString@@YAPAVAptValue@@XZ,0x006D7210,Native Error lookup calls original AptString::Create static factory; pointer return ABI alias
 ?factoryGetProperty@AptCIH@@QBEMH@Z,0x006E0920,Native Colour getRGB float-return getter indices8/9/10; alias to existing exact float-array getter with same const thiscall int ABI
 ?factorySetProperty@AptCIH@@QAEXHM_N@Z,0x006E0930,Native Colour setRGB pushes index8/9/10 float and bool0; helper reads this+44 float-array and bool flag16 at5C and returns ret12; later AptCIH SetProceduralProperty establishes semantic role
@@ -10151,7 +10127,6 @@ name,address,notes
 ?opaqueCall@Rva005088C8@@SAPAXXZ,0x005088C8,opaque static table getter (6B mov eax,0xC64180 + ret: Damage/DamageTaperOff/AcceptDamageAdd table); called once from dup_0050B107 with ignored pushed 0; host opaque, identity unproven
 ?openDataChunk@DataChunkOutput@@QAEXPADI@Z,0x00307C76,call site in OrCondition::WriteOrConditionDataChunk (0x3B4A3C) pushes a version int then a literal char* then dispatches thiscall matching ZH DataChunkOutput::openDataChunk(char* name UnsignedInt ver)
 ?openFile@FileSystem@@QAEPAVFile@@PBDHH@Z,0x00600C34,LanguageFilter init call38876C through TheFileSystem globalE06A48; donor filesystem open role and target local/archive dispatch; target stack args8/C/10 and ret12 at600D7A; third32-bit argument forwarded unchanged with unknown specific meaning; complete329B entry
-?operator_delete_sized@@YAXPAX@Z,0x0002FD80
 ?orderPairs@GameWindow@@QAEXXZ,0x0031394A,GameWindow spelling of the rowed orderPairs helper at 0x31394A; shared layout on +0x14/+0x1C/+0x18/+0x20
 ?other@Rva0007D9B5Host@@QAEXXZ,0x0007C8AE,pin for 0x7D9B5/0x7D9CF other call
 ?overflow@?$basic_streambuf@DV?$char_traits@D@_STL@@@_STL@@MAEHH@Z,0x0001CA70,STLport 4.5.3 narrow streambuf base overflow - folded onto pbackfail; both return eof with or eax -1 / ret 4 and the narrow streambuf vtable holds this address in slots 9 and 12
@@ -12440,7 +12415,6 @@ _GdipGetImagePaletteSize@8,0x00628F3E,GDI+ flat-API import thunk; retail target 
 _GdipGetImagePixelFormat@8,0x00628F38,GDI+ flat-API import thunk; retail target of Gdiplus::Image::GetPixelFormat
 _GdipGetImageWidth@8,0x00628F2C,GDI+ flat-API import thunk; retail target of Gdiplus::Image::GetWidth
 _GdiplusStartup@12,0x00628F68,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-_Gen00881EF0,0x0002FD80
 _GetCurrentThreadId@0,0x006105D0,kernel32 GetCurrentThreadId IAT thunk; REL32 from BFME_DX8_Thread_Assert
 _GetReceiveBufferSize,0x0060A970,GameSpy callee already byte-verified in Code/GameEngine/Source/GameNetwork/GameSpy/nonport.c at commit edcf90f6c5e1; direct call from _gpiSetPeerSocketSizes
 _GetSendBufferSize,0x0060A9B0,GameSpy callee already byte-verified in Code/GameEngine/Source/GameNetwork/GameSpy/nonport.c at commit edcf90f6c5e1; direct call from _gpiSetPeerSocketSizes
@@ -12668,7 +12642,6 @@ _bfmeCiThinkFromEsi,0x006A10F0,address read from the REL32 displacement at place
 _bfmeCopy1152,0x00024FC0
 _bfmeCopy1153,0x00024FC0
 _bfmeCopy1154,0x00024FC0
-_bfmeDeleteBlock,0x0002FD80
 _bfmeDirectXErrorName@4,0x0062B16A,Recovered HRESULT-to-symbolic-name role; stdcall switch includes XACT_E_NOISORETAIN and RPC_S_OUT_OF_RESOURCES; original SDK symbol spelling unasserted
 _bfmeFormatText,0x0060C36E,callee of skipBadBlock (0x0060C4EA) at the site its BFME1 donor calls it; may be an ICF alias
 _bfmeFreeAYX@4,0x0065477E
@@ -12737,7 +12710,6 @@ _g_pRva003BD424,0x009FF028,global pointer read by global-this forward 0x003BD424
 _g_pRva00437E9C,0x00A032FC,global pointer read by wrapper 0x00437E9C (peer notes same); identity unproven
 _g_pRva007B6890,0x009A6214,global pointer read by singleton virtual forward 0x007B6890; identity unproven
 _gameTextPrepare@16,0x00629110
-_gameTextRelease,0x0002FD80
 _gethostbyname@4,0x006556A0,PE-verified FF25 import thunk to wsock32.dll!gethostbyname via IAT 0x00BBA978; independently read from retail import directory
 _gethostname@8,0x006556BE,PE-verified FF25 import thunk to wsock32.dll!gethostname via IAT 0x00BBA964; independently read from retail import directory
 _getpeername@12,0x00687CEA,PE-verified FF25 import thunk to ws2_32.dll!getpeername via IAT 0x00BBA930; retail REL32 target of Rva007FDB60 at 0x66A030
