@@ -435,7 +435,7 @@ public:
 	Bool canEnterObject(const Object *obj, const Object *objectToEnter, CommandSourceType commandSource,
 		CanEnterType mode, Bool passThrough, Bool *outFlag);
 };
-extern BFMEActionManager *TheActionManager;
+extern ActionManager *TheActionManager;
 extern GameLogic *TheGameLogic;
 
 class RadarObject;
@@ -1059,7 +1059,7 @@ StateReturnType AIMoveToPositionAndEnterState::update()
 {
 	Object *owner = getMachineOwner();
 	Object *goal = getMachine()->getGoalObject();
-	if (owner->getAI() && !TheActionManager->canEnterObject(owner, goal,
+	if (owner->getAI() && !((BFMEActionManager *)TheActionManager)->canEnterObject(owner, goal,
 			owner->getAI()->getLastCommandSource(), CHECK_CAPACITY, 1, 0))
 		return (StateReturnType)STATE_FAILURE;
 
@@ -1178,7 +1178,7 @@ StateReturnType AIEnterState::update()
 			m_goalPosition = *goal->getPosition();
 
 		obj->getAI()->friend_setGoalObject(goal);
-		if (!TheActionManager->canEnterObject(obj, goal, obj->getAI()->getLastCommandSource(),
+		if (!((BFMEActionManager *)TheActionManager)->canEnterObject(obj, goal, obj->getAI()->getLastCommandSource(),
 				CHECK_CAPACITY, 0, 0))
 		{
 			if (obj->getRelationship(goal) == ENEMIES && obj->getAI())
@@ -1246,7 +1246,7 @@ StateReturnType AIEnterAndAttackState::onEnter()
 		m_victimID = INVALID_OBJECT_ID;
 	if (goal)
 	{
-		if (!TheActionManager->canEnterObject(obj, goal, obj->getAI()->getLastCommandSource(),
+		if (!((BFMEActionManager *)TheActionManager)->canEnterObject(obj, goal, obj->getAI()->getLastCommandSource(),
 				CHECK_CAPACITY, 0, 0))
 			return (StateReturnType)STATE_FAILURE;
 
@@ -1286,7 +1286,7 @@ StateReturnType AIEnterAndAttackState::update()
 
 		m_goalPosition = *goal->getPosition();
 		obj->getAI()->friend_setGoalObject(goal);
-		if (!TheActionManager->canEnterObject(obj, goal, obj->getAI()->getLastCommandSource(),
+		if (!((BFMEActionManager *)TheActionManager)->canEnterObject(obj, goal, obj->getAI()->getLastCommandSource(),
 				CHECK_CAPACITY, 0, 0))
 		{
 			if (obj->getRelationship(goal) == ENEMIES && obj->getAI())

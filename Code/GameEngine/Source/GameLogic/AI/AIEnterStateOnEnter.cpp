@@ -170,7 +170,8 @@ public:
 	Bool canEnterObject(const Object *obj, const Object *objectToEnter,
 		CommandSourceType commandSource, CanEnterType mode, Bool a, Bool *b);
 };
-extern BFMEActionManager *TheActionManager;
+class ActionManager;
+extern ActionManager *TheActionManager;
 
 class GlobalData
 {
@@ -249,7 +250,7 @@ StateReturnType AIEnterState::onEnter()
 	Object *goal = getMachineGoalObject();
 	if (goal)
 	{
-		if (!TheActionManager->canEnterObject(obj, goal, obj->getAI()->getLastCommandSource(),
+		if (!((BFMEActionManager *)TheActionManager)->canEnterObject(obj, goal, obj->getAI()->getLastCommandSource(),
 				CHECK_CAPACITY, false, 0))
 			return STATE_FAILURE;
 
