@@ -506,11 +506,6 @@ int Rva00558D07Get(void)
 	return 0x009588A1;
 }
 
-// ?Rva0073F640Get@@YAHXZ @ 0x0073F640 (6B): returns 0x00B3F646.
-int Rva0073F640Get(void)
-{
-	return 0x00B3F646;
-}
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
