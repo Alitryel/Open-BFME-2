@@ -1,7 +1,13 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?Rva003E40AFGet@@YGHH@Z @0x003E40AF 35B switch 0 to 1 plus 1 to 2 plus 2 to 4 else minus 1.
-// Evidence: unlock lane no callees; callers 0x003E56FC plus 0x003E687D; push pop plus or minus 1 plus xor inc.
-int __stdcall Rva003E40AFGet(int v)
+// ?rva003E40AF@ScriptConditions@@QAEHH@Z @0x003E40AF 35B switch 0 to 1 plus 1 to 2 plus 2 to 4 else minus 1.
+// Evidence: callers 0x003E56FC (ScriptConditions::rva003E56C5) and 0x003E687D (ScriptConditions::rva003E6835) load this into ECX before the call; ret 4, ECX unused.
+class ScriptConditions
+{
+public:
+	int rva003E40AF(int v);
+};
+
+int ScriptConditions::rva003E40AF(int v)
 {
 	switch (v)
 	{

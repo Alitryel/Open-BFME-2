@@ -40298,7 +40298,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva00340C5F@Rva00340C5F@@QAEHXZ,,0x00340C5F,81,Code/GameEngine/Source/Common/Rva00340C5FMethod.cpp,matched,unlock turret goal copy flag
 ?rva004DFA0E@Rva004DFA0E@@QAEXPAX0@Z,,0x004DFA0E,53,Code/GameEngine/Source/Common/Rva004DFA0EChain.cpp,matched,guarded dispatch reusing arg slot plus base triple call
 ??$__uninitialized_fill_n@PAURva00423A4A@@IU1@@_STL@@YAPAURva00423A4A@@PAU1@IABU1@@Z,,0x004246EE,27,Code/Libraries/Source/WWVegas/WWLib/Rva00423A4AFillN.cpp,matched,chain filln dispatch via rowed false type
-?Rva003E40AFGet@@YGHH@Z,,0x003E40AF,35,Code/GameEngine/Source/Common/Rva003E40AFGet.cpp,matched,unlock switch 0 1 2 to 1 2 4 else minus 1
+?rva003E40AF@ScriptConditions@@QAEHH@Z,,0x003E40AF,35,Code/GameEngine/Source/Common/Rva003E40AFGet.cpp,matched,ScriptConditions member: callers 0x003E56FC and 0x003E687D pass this in ECX; switch 0 1 2 to 1 2 4 else minus 1
 ?rva00271547@Rva002716Holder@@QAEXXZ,,0x00271547,186,Code/GameEngine/Source/Common/Rva00271547.cpp,matched,holder 0x14c array plus ThePlayerList local plus InGameUI slot 0x10C via caller 0x00271601
 ?setDrawableHidden@Drawable@@QAEX_N@Z,,0x00271601,24,Code/GameEngine/Source/Common/Rva00271547.cpp,matched,plus 0x43d setter guards then calls 0x00271547 chain; Drawable::setDrawableHidden by its callers (BezierProjectileBehavior 0x0045C200 passes true after a detonation as in Zero Hour) and the Drawable fade-mode setters that call it on this; formerly rowed as Rva002716Holder::rva00271601
 ?rva006E02B0@BfmeAptValue006DCD20@@QBEHXZ,,0x006E02B0,75,Code/Libraries/Source/Apt/AptValue/AptValueTypePredicatesBFME2.cpp,matched,AptCIH predicate type 15 via rowed get plus rowed isUndefined 15 callers
