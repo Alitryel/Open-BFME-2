@@ -163,3 +163,25 @@ void Rva004B96C4::rva004B96C4()
 {
 	((InheritUpgradeCreate *)((char *)this - 0x10))->rva004B959C();
 }
+
+// --- 0x004F68A8 (8B): assign the TreeHintRef member at +0x20 through the
+// rowed TreeHintRef00217D4C::operator= 0x002174A4 (add ecx, 0x20; jmp), the
+// positive-offset member forward of ~PlayerPosition 0x0022D920.
+struct TreeHintRef00217D4C
+{
+	TreeHintRef00217D4C &operator=(const TreeHintRef00217D4C &other);	// 0x002174A4
+};
+
+class Rva004F68A8
+{
+public:
+	void rva004F68A8(const TreeHintRef00217D4C &ref);
+private:
+	char m_pad00[0x20];
+	TreeHintRef00217D4C m_20;
+};
+
+void Rva004F68A8::rva004F68A8(const TreeHintRef00217D4C &ref)
+{
+	m_20 = ref;
+}
