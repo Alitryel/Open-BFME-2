@@ -1,5 +1,5 @@
 // ?rva006D0D70@Rva006D1090@@QAEXPAX@Z
-// partial score=0.4 date=2026-10-14
+// partial score=0.45 date=2026-10-14
 // ?rva006D0D70@Rva006D1090@@QAEXPAX@Z
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 // partial score=0.86 date=2026-10-10
@@ -41,8 +41,8 @@ void Rva006D1090::rva006D0D70(void *name){
  else if(type==3||type==4||type==5){
   for(short i=0;i<key.getTable()->count28;++i){
    Rva006D07E0Key dependent=((Rva006D0A30List*)this)->find(&EAStringC(key.getTable()->records2c[i].text));
-   if(!dependent.isNull()&&!(g_bfmeAptLinkerAtE176F8 ? g_bfmeAptLinkerAtE176F8 : g_bfmeAptLinkerAtE176F8)->contains(dependent))
-    rva006D0D70(&EAStringC(key.getTable()->records2c[i].text));
+   if(!dependent.isNull()&&!g_bfmeAptLinkerAtE176F8->contains(dependent))
+    rva006D0D70(&EAStringC((type ? (key.getTable()->records2c[i].text) : (key.getTable()->records2c[i].text))));
   }
  }
 

@@ -1,4 +1,6 @@
 // ?drawStaticTextText@@YAXPAVGameWindow@@PAVWinInstanceData@@HH@Z
+// partial score=0.7 date=2026-10-14
+// ?drawStaticTextText@@YAXPAVGameWindow@@PAVWinInstanceData@@HH@Z
 // partial score=0.92 date=2026-10-06
 // cl: /O1 /Ireference/shims/bfme2gwm /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
 // stlport
@@ -48,6 +50,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // SYSTEM INCLUDES ////////////////////////////////////////////////////////////
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <stdlib.h>
 
 // USER INCLUDES //////////////////////////////////////////////////////////////
@@ -135,7 +139,7 @@ static void drawStaticTextText( GameWindow *window, WinInstanceData *instData,
 	tData = (BfmeStaticTextData *)window->winGetUserData();
 	text = tData->text;
 	// sanity
-	if( text == NULL )
+	if(NULL == text)
 		return;
 	if( text->getTextLength() == 0 )
 		return;
@@ -170,6 +174,7 @@ static void drawStaticTextText( GameWindow *window, WinInstanceData *instData,
 	if( tData->centered )
 	{
 		textPos.x = origin.x + ((size.x / 2) - (textWidth / 2));
+		_ReadWriteBarrier();
 	}
 	else
 	{
