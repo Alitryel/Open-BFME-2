@@ -1,4 +1,8 @@
 // ?ClassifyBridgeCells@PathfindLayer@@QAEXXZ
+// partial score=0.99753 date=2026-10-14
+// ?ClassifyBridgeCells@PathfindLayer@@QAEXXZ
+// partial score=0.99753 date=2026-10-14
+// ?ClassifyBridgeCells@PathfindLayer@@QAEXXZ
 // partial score=0.9681 date=2026-10-14
 // ?ClassifyBridgeCells@PathfindLayer@@QAEXXZ
 // partial score=0.852 date=2026-10-14
@@ -17,6 +21,13 @@
 #include "Lib/Coord3D.h"
 #include "Lib/Coord2D.h"
 #include <math.h>
+
+inline float Coord3D::length() const { return (float)sqrt(x*x+y*y+z*z); }
+inline void Coord3D::normalize() { float len=length(); if(len!=0.0f){float scale=1.0f/len;x*=scale;y*=scale;z*=scale;} }
+
+inline float Coord3D::GetLengthSqrd() const { float x_value=x,y_value=y,z_value=z; return x_value*x_value+y_value*y_value+z_value*z_value; }
+__declspec(noinline) inline float Coord3D::GetLength() const { float x_value=x,y_value=y,z_value=z; return (float)sqrt(x_value*x_value+y_value*y_value+z_value*z_value); }
+
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 void __cdecl operator delete(void *pointer);
 void __cdecl operator delete[](void *pointer);
@@ -435,7 +446,7 @@ void PathfindLayer::ClassifyBridgeCells()
       cell->SetType_Dirty(0);
       reinterpret_cast<Rva00366500*>(cell)->rva0036652D(1);
       PathfindCell *ground=TheAI->pathfinder->getCell(LAYER_GROUND,worldX,worldY);
-      if((worldY ? (reinterpret_cast<Rva00366500*>(ground)->rva0036652D((cell->m_flags>>4)&0x3f)) : (reinterpret_cast<Rva00366500*>(ground)->rva0036652D((cell->m_flags>>4)&0x3f))))
+      if((reinterpret_cast<Rva00366500*>(ground)->rva0036652D((cell->m_flags>>4)&0x3f)))
       reinterpret_cast<PathfindZoneManager*>(reinterpret_cast<char*>(TheAI->pathfinder)+0x460)->MarkDirty(worldX,worldY);
       
      }

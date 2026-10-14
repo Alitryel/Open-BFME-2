@@ -1,4 +1,8 @@
 // ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
+// partial score=0.9759 date=2026-10-14
+// ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
+// partial score=0.9759 date=2026-10-14
+// ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
 // partial score=0.975902 date=2026-10-10
 // ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
 // partial score=0.95 date=2026-10-09
