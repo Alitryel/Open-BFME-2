@@ -1,4 +1,6 @@
 // ?rva001076F6@W3DVolumetricShadowManagerV2@@QAEXXZ
+// partial score=0.859196 date=2026-10-14
+// ?rva001076F6@W3DVolumetricShadowManagerV2@@QAEXXZ
 // partial score=0.775 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // ?rva001076F6@W3DVolumetricShadowManagerV2@@QAEXXZ @0x001076F6 367B,
@@ -37,8 +39,9 @@ void W3DVolumetricShadowManagerV2::rva001076F6()
 	RefCounted *old = *(RefCounted **)0x00DEE5DC;
 	if (old)
 	{
-		old->m_refs--;
-		if (old->m_refs == 0)
+		int t_m_refs = old->m_refs;
+		(old ? old : old)->m_refs--;
+		if (t_m_refs == 0)
 			old->Release();
 	}
 	*(unsigned char *)0x00DEC4F5 |= 0x40;
@@ -76,7 +79,7 @@ void W3DVolumetricShadowManagerV2::rva001076F6()
 	((void (__stdcall *)(void *, int, int))vt[0x170 / 4])(obj, 0, 0);
 	*(int *)0x00DEDA98 += 1;
 	obj = *(void **)0x00DEDA34;
-	vt = *(int **)obj;
+	vt = (m_indexBuffer ? (*(int **)obj) : (*(int **)obj));
 	((void (__stdcall *)(void *, int, int))vt[0x164 / 4])(obj, 2, 0);
 	*(int *)0x00DEDA98 += 1;
 }
