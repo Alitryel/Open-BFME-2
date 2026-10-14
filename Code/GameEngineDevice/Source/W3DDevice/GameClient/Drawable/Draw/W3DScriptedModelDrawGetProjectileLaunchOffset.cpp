@@ -188,10 +188,17 @@ public:
 	AsciiString m_attachToDrawableBone;					///< +0x40
 };
 
+// Drawable::getScale is ICF-folded onto the matched +0x200 float getter row
+// at 0x000788D3 (DispFloatFieldGetters.cpp); called here by that row name.
+class Rva000788D3FloatField
+{
+public:
+	float get() const;
+};
+
 class Drawable
 {
 public:
-	const Real getScale() const;
 	Real getOrientation() const { return m_orientation; }
 	Int getPristineBonePositions(const char *boneNamePrefix, Int startIndex, Coord3D *positions,
 		Matrix3D *transforms, Int maxBones, Int unk) const;
@@ -279,7 +286,7 @@ Bool W3DScriptedModelDraw::getProjectileLaunchOffset(
 		return false;
 
 	const W3DModelDrawModuleData *d = getW3DModelDrawModuleData();
-	((Rva000C3886 *)stateToUse)->rva000C3886(NULL, getDrawable()->getScale(),
+	((Rva000C3886 *)stateToUse)->rva000C3886(NULL, ((const Rva000788D3FloatField *)getDrawable())->get(),
 		(Rva000C3886Range *)&d->m_extraPublicBones, (Rva000C3886Obj *)boneState, getDrawable()->m_bones);
 
 	Coord3D techOffset;

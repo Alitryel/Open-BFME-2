@@ -104,10 +104,17 @@ private:
 class AsciiString;
 struct Rva00774AA0DrawableBones;
 
+// Drawable::getScale is ICF-folded onto the matched +0x200 float getter row
+// at 0x000788D3 (DispFloatFieldGetters.cpp); called here by that row name.
+class Rva000788D3FloatField
+{
+public:
+	float get() const;
+};
+
 class Drawable
 {
 public:
-	const Real getScale() const;
 	const Object *getObject() const { return m_object; }
 
 	UnsignedByte m_unmodelled000[0xfc];
@@ -200,7 +207,7 @@ Int Rva000C4069::rva000C4069(
 	const ModelConditionInfo *boneState = getW3DModelDrawModuleData()->rva00765DC0(condition);
 	RenderObjClass *robj = stateToUse == m_curState ? m_renderObject : NULL;
 	const Rva00774AA0DrawableBones *drawBones = getDrawable()->m_rva2F0Bones;
-	((Rva000C3886*)stateToUse)->rva000C3886(robj,getDrawable()->getScale(),(Rva000C3886Range*)&getW3DModelDrawModuleData()->m_extraPublicBones,(Rva000C3886Obj*)boneState,(void*)drawBones);
+	((Rva000C3886*)stateToUse)->rva000C3886(robj,((const Rva000788D3FloatField *)getDrawable())->get(),(Rva000C3886Range*)&getW3DModelDrawModuleData()->m_extraPublicBones,(Rva000C3886Obj*)boneState,(void*)drawBones);
 
 	const int MAX_BONE_GET = 64;
 	static Matrix3D tmpMtx[MAX_BONE_GET];
