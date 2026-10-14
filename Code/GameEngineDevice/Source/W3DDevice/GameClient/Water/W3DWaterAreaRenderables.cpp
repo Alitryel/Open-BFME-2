@@ -1,0 +1,145 @@
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// stlport
+// Native 0x00083780..0x000837F1, RET 8; standing-water observer slot 1
+// of vtable BC70F0. Owner is Rva0082140, the rowed WaterRenderObjClass
+// destructor at 82140. Native allocates A4, calls the rowed Rva008291D
+// constructor 82F6A, retains at +4, pushes into its vector at this+40,
+// and releases via 7DEEF. Constructor's established API takes void*.
+// Real STLport vector definitions expose the growth/copy call graph and let
+// MSVC reuse the dead area argument for the counted temporary.
+// Observer/base offsets are target-derived; original member spelling is unknown.
+void *__cdecl operator new(unsigned int size);
+void __cdecl operator delete(void *p);
+
+struct TargetRef00217D4C;
+void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *p);
+
+#include <vector>
+
+struct TreeHintRef00217D4C {void *p; ~TreeHintRef00217D4C();};
+namespace _STL {template<> vector<TreeHintRef00217D4C>::~vector();}
+
+class Rva00081BAFVector { public: void reserve(unsigned int n); };
+class Rva00081C17Vector { public: void reserve(unsigned int n); };
+
+struct Rva002BA8F1Listener;
+class Rva005A0B4CList { public: void append(Rva002BA8F1Listener *listener); };
+
+class StandingWaveArea;
+class RiverArea;
+
+// Counted renderable prefix: vtable, then the reference count.
+class WaterAreaRenderable
+{
+public:
+	void *m_vtable;
+	int m_references;
+};
+
+class Rva008291D : public WaterAreaRenderable
+{
+public:
+	Rva008291D(void *area);
+private:
+	char m_body[0xA4 - 8];
+};
+
+class RenderableRiverArea : public WaterAreaRenderable
+{
+public:
+	RenderableRiverArea(void *area);
+private:
+	char m_body[0x5C - 8];
+};
+
+// Counted handles as the loops hold them: retain on construction, release
+// through 0x0007DEEF. Each is spelled as the element of its push_back row.
+#define WATER_AREA_REF(Name, T) struct Name { 	T *m_ptr; 	Name(T *p) : m_ptr(p) { if (m_ptr) ++m_ptr->m_references; } 	Name(const Name &other):m_ptr(other.m_ptr){if(m_ptr)++m_ptr->m_references;} ~Name() { if (m_ptr) ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)m_ptr); } };
+WATER_AREA_REF(Rva00082BE6Element, Rva008291D)
+WATER_AREA_REF(Rva00082C1DElement, RenderableRiverArea)
+
+template <class T> struct AreaSetEntry
+{
+	int m_id;
+	T *m_area;
+};
+
+template <class T> class AreaSet
+{
+public:
+	char m_observers[0x14];
+	AreaSetEntry<T> *m_begin;
+	AreaSetEntry<T> *m_end;
+	unsigned int size() const { return m_end - m_begin; }
+};
+
+struct WaterAreaCursor
+{
+	const void *m_set;
+	int m_index;
+	WaterAreaCursor(const void *set, int index) : m_set(set), m_index(index) {}
+};
+extern "C" bool __cdecl rva0007E394CursorEqual(const WaterAreaCursor &a, const WaterAreaCursor &b);
+
+// The renderables vector as one STLport vector<counted handle>.
+typedef _STL::vector<TreeHintRef00217D4C> WaterAreaRenderables;
+
+template <class Element, class Reserve> class WaterAreaRenderableList
+	: public WaterAreaRenderables
+{
+public:
+	__forceinline WaterAreaRenderableList() {}
+	__forceinline ~WaterAreaRenderableList() {}
+	void reserve(unsigned int n) { reinterpret_cast<Reserve *>(this)->reserve(n); }
+	void push_back(const Element &ref) { reinterpret_cast<_STL::vector<Element> *>(this)->push_back(ref); }
+	void swapInto(WaterAreaRenderables *out)
+	{
+		reinterpret_cast<_STL::vector<int> *>(out)->swap(*reinterpret_cast<_STL::vector<int> *>(this));
+	}
+};
+
+class WaterRenderObjHead
+{
+public:
+	virtual ~WaterRenderObjHead();
+private:
+	char m_body[0xC8 - 4];
+};
+// Area set observer: vtables 0x00BC70F0 (standing water, at +0xC8),
+// 0x00BC70E0 (rivers, at +0xCC) and 0x00BC70D0 (+0xD0). Slot 1 takes the id
+// and the area that was added.
+template <class T> class AreaSetObserver
+{
+public:
+	virtual void slot0(int id);
+	virtual void onAreaAdded(int id, T *area);
+	virtual void slot2(int a, int b);
+	virtual void slot3(int a, int b);
+};
+class WaterWaveArea;
+
+class Rva0082140 : public WaterRenderObjHead,
+	public AreaSetObserver<StandingWaveArea>, public AreaSetObserver<RiverArea>,
+	public AreaSetObserver<WaterWaveArea>
+{
+public:
+	virtual ~Rva0082140();
+	virtual void onAreaAdded(int id, StandingWaveArea *area);
+	virtual void onAreaAdded(int id, RiverArea *area);
+	void rva0008385F(AreaSet<StandingWaveArea> *areas, WaterAreaRenderables *out);
+	void rva00083959(AreaSet<RiverArea> *areas, WaterAreaRenderables *out);
+private:
+	char m_unknownD4[0x104 - 0xD4];
+	AreaSet<StandingWaveArea> *m_standingAreas;
+	_STL::vector<Rva00082BE6Element> m_standingRenderables;
+	AreaSet<RiverArea> *m_riverAreas;
+	_STL::vector<Rva00082C1DElement> m_riverRenderables;
+};
+
+// 0x00083780, 113 bytes, RET8: a standing water area was added.
+void Rva0082140::onAreaAdded(int, StandingWaveArea *area)
+{
+	Rva00082BE6Element ref(new Rva008291D(area));
+	m_standingRenderables.push_back(ref);
+}
+
