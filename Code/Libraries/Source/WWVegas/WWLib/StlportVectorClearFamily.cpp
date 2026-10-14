@@ -36,3 +36,25 @@ template void _STL::vector<Rva004758F4Element>::clear();
 template void _STL::vector<Rva004F6352>::clear();
 template void _STL::vector<Rva00501E3FElement>::clear();
 template void _STL::vector<ParticleSystemID>::clear();
+
+// 0x004C3F40 (8B): a member push_back over a vector embedded at +0x7C
+// (add ecx, 0x7C; jmp vector<Rva004C3F09Element>::push_back 0x004C3F09, the
+// element reference passed through); the member-forward shape of
+// ~PlayerPosition 0x0022D920. The owner is not recovered (no direct
+// caller), so the view is address-named.
+struct Rva004C3F09Element;
+namespace _STL {
+template <> void vector<Rva004C3F09Element>::push_back(const Rva004C3F09Element &);
+}
+class Rva004C3F40
+{
+public:
+	void rva004C3F40(const Rva004C3F09Element &element);
+private:
+	char m_pad00[0x7C];
+	_STL::vector<Rva004C3F09Element> m_7C;
+};
+void Rva004C3F40::rva004C3F40(const Rva004C3F09Element &element)
+{
+	m_7C.push_back(element);
+}

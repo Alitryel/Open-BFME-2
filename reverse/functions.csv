@@ -89445,3 +89445,4 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva004FB128@Rva004FB128@@QAE_NHPAURva004FAFF2@@@Z,,0x004FB128,8,Code/GameEngine/Source/Common/GapBodiesS9B.cpp,matched,owner-registry forward ([this-4] then rowed lookup 0x004FB0C7 with args in place)
 ?reset@Rva0042C07B@@QAEXXZ,,0x0042C07B,8,Code/GameEngine/Source/Common/GapBodiesS9B.cpp,matched,flag byte +0x94 clear; twin of AABTreeIterator::Reset 0x0065D1C0
 ?reset@Rva0043DA9D@@QAEXXZ,,0x0043DA9D,8,Code/GameEngine/Source/Common/GapBodiesS9B.cpp,matched,flag byte +0x2C3 clear; twin of AABTreeIterator::Reset 0x0065D1C0
+?rva004C3F40@Rva004C3F40@@QAEXABURva004C3F09Element@@@Z,,0x004C3F40,8,Code/Libraries/Source/WWVegas/WWLib/StlportVectorClearFamily.cpp,matched,member push_back forward over the +0x7C vector to rowed push_back 0x004C3F09; twin of 0x0022D920
