@@ -135,12 +135,6 @@ extern GameTextInterface *TheGameText;
 
 // GameLogic::selectObject 0x0023C924 (row) through its pinned selection-view
 // spelling; the shared GameLogic view does not declare it.
-class Rva0047BA10SelectionView
-{
-public:
-	void rva0023C924(Object *obj, Bool createNewGroup, UnsignedInt playerMask, Bool affectClient);
-};
-
 extern GameLogic *TheGameLogic;
 
 class InGameUI
@@ -231,7 +225,7 @@ void InGameUI::rva0029BE05(Bool viaLogic, Player *player)
 		}
 		else
 		{
-			((Rva0047BA10SelectionView *)TheGameLogic)->rva0023C924(obj, createNewGroup, player->getPlayerMask(), false);
+			TheGameLogic->selectObject(obj, createNewGroup, player->getPlayerMask(), false);
 			createNewGroup = false;
 		}
 	}
