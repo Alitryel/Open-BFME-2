@@ -217,13 +217,11 @@ public:
 	ShroudFilter *getFilter(void);
 };
 
-class Rva0006B4CC
+class BaseHeightMapRenderObjClass
 {
 public:
-	int call(int x, int y, int flag);
+	int getStaticDiffuse(int x, int y, bool skipFirstLight);
 };
-
-class BaseHeightMapRenderObjClass;
 extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
 
 class GameClient;
@@ -270,8 +268,8 @@ public:
 	UnsignedShort getHeight(Int x, Int y) { return ((BoundedShortGrid *)this)->rva00062A58(x, y); }
 	bool isInMesh(Int x, Int y) { return ((const Rva00729300BitPlane *)this)->test(x, y); }
 	void getTerrainNormal(Int x, Int y, Vector3 *normal) { ((Rva0006653B *)this)->rva0006AA45(x, y, normal); }
-	RefCountPtr<TextureClass> rva000AE989(int xCell, int yCell, int cellWidth,
-		int pixelsPerCell, int format, bool second);
+	RefCountPtr<TextureClass> getFlatTexture(int xCell, int yCell, int cellWidth,
+		int pixelsPerCell, int format, int tileKind);
 
 private:
 	Int m_width;
@@ -366,7 +364,7 @@ void W3DTerrainBackground::doTesselatedUpdate(const IRegion2D &partialRange, Wor
 	for (j = minY; j <= maxY; j++) {
 		for (i = minX; i <= maxX; i++) {
 			if (m_map->isInMesh(i, j)) {
-				Int diffuse = ((Rva0006B4CC *)TheTerrainRenderObject)->call(i, j, 1);
+				Int diffuse = TheTerrainRenderObject->getStaticDiffuse(i, j, true);
 				Vector3 pos;
 				Int k = i < limitX ? i : limitX;
 				Int l = j < limitY ? j : limitY;
@@ -429,16 +427,16 @@ void W3DTerrainBackground::doTesselatedUpdate(const IRegion2D &partialRange, Wor
 	if (m_terrainTexture.isNull() || doTextures) {
 		((BfmeResetTextureRef *)&m_terrainTexture2X)->clear();
 		if (TheGameClient)
-			m_terrainTexture = m_map->rva000AE989(m_xOrigin, m_yOrigin, m_width, 0x10, 0x31545844, false);
+			m_terrainTexture = m_map->getFlatTexture(m_xOrigin, m_yOrigin, m_width, 0x10, 0x31545844, 0);
 		else
-			m_terrainTexture = m_map->rva000AE989(m_xOrigin, m_yOrigin, m_width, 0x10, 0x19, false);
+			m_terrainTexture = m_map->getFlatTexture(m_xOrigin, m_yOrigin, m_width, 0x10, 0x19, 0);
 		((ShroudTexture *)&m_terrainTexture)->getFilter()->m_uAddressMode = 1;
 		((ShroudTexture *)&m_terrainTexture)->getFilter()->m_vAddressMode = 1;
 	}
 	if (TheGlobalData->m_secondTerrainTexture) {
 		if (m_normalTexture.isNull() || doTextures) {
 			((BfmeResetTextureRef *)&m_normalTexture2X)->clear();
-			m_normalTexture = m_map->rva000AE989(m_xOrigin, m_yOrigin, m_width, 0x10, 0x19, true);
+			m_normalTexture = m_map->getFlatTexture(m_xOrigin, m_yOrigin, m_width, 0x10, 0x19, 1);
 			((ShroudTexture *)&m_normalTexture)->getFilter()->m_uAddressMode = 1;
 			((ShroudTexture *)&m_normalTexture)->getFilter()->m_vAddressMode = 1;
 		}

@@ -60,8 +60,8 @@ public:
 class WorldHeightMap
 {
 public:
-	RefCountPtr<TextureClass> rva000AE989(int xCell, int yCell, int cellWidth,
-		int pixelsPerCell, int format, bool second);
+	RefCountPtr<TextureClass> getFlatTexture(int xCell, int yCell, int cellWidth,
+		int pixelsPerCell, int format, int tileKind);
 };
 
 class GlobalData
@@ -121,14 +121,14 @@ bool W3DTerrainBackground::updateTexture(void)
 
 	if (m_texMultiplier == 2 || TheGlobalData->m_stretchTerrain) {
 		if (m_terrainTexture.isNull()) {
-			m_terrainTexture = m_map->rva000AE989(m_xOrigin, m_yOrigin, m_width, 0x20, 0x19, false);
+			m_terrainTexture = m_map->getFlatTexture(m_xOrigin, m_yOrigin, m_width, 0x20, 0x19, 0);
 			((ShroudTexture *)&m_terrainTexture)->getFilter()->m_uAddressMode = 1;
 			((ShroudTexture *)&m_terrainTexture)->getFilter()->m_vAddressMode = 1;
 			if (m_fillSurfaces)
 				((CursorTextureSlot *)&m_terrainTexture)->FillLevelSurfaces();
 
 			if (TheGlobalData->m_secondTerrainTexture && m_terrainTexture2.isNull()) {
-				m_terrainTexture2 = m_map->rva000AE989(m_xOrigin, m_yOrigin, m_width, 0x20, 0x19, true);
+				m_terrainTexture2 = m_map->getFlatTexture(m_xOrigin, m_yOrigin, m_width, 0x20, 0x19, 1);
 				((ShroudTexture *)&m_terrainTexture2)->getFilter()->m_uAddressMode = 1;
 				((ShroudTexture *)&m_terrainTexture2)->getFilter()->m_vAddressMode = 1;
 				if (m_fillSurfaces)
