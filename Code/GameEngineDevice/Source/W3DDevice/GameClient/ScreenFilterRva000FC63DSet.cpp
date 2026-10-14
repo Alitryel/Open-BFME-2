@@ -264,15 +264,17 @@ Int BfmeScreenTransitionSwapCounter = 1;		// swap counter
 Real BfmeScreenTransitionFadeValue = 0.0f;
 UnsignedInt BfmeScreenTransitionLastLogicFrame;	// last logic frame
 
+class Coord2D;
+
 class Rva000FC63DFilter
 {
 public:
 	Rva000FC63DFilter();
-	virtual int slot00();
-	virtual int slot01();
-	virtual bool slot02();
-	virtual bool slot03();
-	virtual bool slot04(int);
+	virtual int init();
+	virtual int shutdown();
+	virtual bool preRender(bool &, int &);
+	virtual bool postRender(FilterModes, Coord2D &, bool &, Coord2D *);
+	virtual bool setup(FilterModes);
 protected:
 	virtual Int set(FilterModes mode);
 	virtual void reset();
@@ -483,11 +485,14 @@ struct BfmeCaps
 // Target evidence proves capability byte +0x2A8, D3D9 slots 65/83/89,
 // cached texture ownership, shader dirty flag and the same fade value used
 // by the setup above. Constant half-pixel and 255 alpha factors are native.
-// The owner stays address-derived; no original class name or inheritance
-// is asserted. Complete body bytes and every relocation match.
-class Rva000FCF54Filter
+// The owner stays address-derived. Its constructor (0x000FD4A5) calls the
+// base filter constructor 0x000FC946 and then installs 0x00BCF3F4, so it
+// derives from Rva000FC63DFilter; slot names follow this vftable's.
+// Complete body bytes and every relocation match.
+class Rva000FCF54Filter : public Rva000FC63DFilter
 {
 public:
+	Rva000FCF54Filter();
 	virtual int init();
 	virtual int shutdown();
 	virtual bool preRender(bool &, int &);
@@ -497,6 +502,13 @@ protected:
 	virtual int set(FilterModes);
 	virtual void reset();
 };
+// ??0Rva000FCF54Filter@@QAE@XZ, retail 0x000FD4A5 (14B): the base
+// constructor (visible in this unit, so ecx is reused after the call), then
+// the vftable at VA 0x00BCF3F4.
+Rva000FCF54Filter::Rva000FCF54Filter()
+{
+}
+
 // ?postRender@Rva000FCF54Filter@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z @0x000FCF54
 Bool Rva000FCF54Filter::postRender(FilterModes mode, Coord2D &scrollDelta,
 	Bool &doExtraRender, Coord2D *displaySize)
