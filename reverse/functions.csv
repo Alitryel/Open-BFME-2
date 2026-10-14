@@ -89033,3 +89033,4 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ?Rva0052A321@@YAXH@Z,,0x0052A321,44,Code/GameEngine/Source/GameClient/Rva0052A295BannerSteps.cpp,matched,TheInGameUI float field from the level step table at VA 0x00C6847C via rowed setter 0x0029A767
 ?Rva0052A295@@YAPBURva0052A295Step@@H@Z,,0x0052A295,34,Code/GameEngine/Source/GameClient/Rva0052A295BannerSteps.cpp,matched,first step record above the level in the 12-byte table at VA 0x00C68440
 ?Rva0052A2B7@@YAXH@Z,,0x0052A2B7,75,Code/GameEngine/Source/GameClient/Rva0052A295BannerSteps.cpp,matched,banner UI two slot x offsets from the level step record via rowed BannerUI::SetBannerSlotXOffset 0x00216670
+?rva0051E766@Rva0051E766@@QAEXHPAD_N@Z,,0x0051E766,354,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptTimeLineRva0051E766.cpp,matched,game-setup value text by index: mode name strings and counts via sprintf %d and strcpy
