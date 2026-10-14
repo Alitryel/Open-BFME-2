@@ -103,25 +103,9 @@ enum DisabledType
 	DISABLED_BFME_8 = 8
 };
 
-struct Coord3D
-{
-	Real x, y, z;
-	void normalize();
-	Coord3D &operator*=(Real scale)
-	{
-		x *= scale;
-		y *= scale;
-		z *= scale;
-		return *this;
-	}
-	Coord3D &operator+=(const Coord3D &other)
-	{
-		x += other.x;
-		y += other.y;
-		z += other.z;
-		return *this;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 // Retail copies the direction member-wise (three movss loads, no movsd block
 // copy) and keeps x apart from the in-place y/z scaling; only a user-written
 // copy constructor reproduces that register shape. The shipped type is not

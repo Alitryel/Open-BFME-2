@@ -50,16 +50,9 @@ enum CellShroudStatus
 	CELLSHROUD_SHROUDED
 };
 
-struct Coord3D
-{
-	float x, y, z;
-	Coord3D() {}
-	Coord3D(const Coord3D &that) { x = that.x; y = that.y; z = that.z; }
-	Coord3D &operator-=(const Coord3D &that) { x -= that.x; y -= that.y; z -= that.z; return *this; }
-	float Normalize();
-	void set(float ax, float ay, float az) { x = ax; y = ay; z = az; }
-	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 #include "../../../Libraries/Include/Lib/ICoord3D.h"
 

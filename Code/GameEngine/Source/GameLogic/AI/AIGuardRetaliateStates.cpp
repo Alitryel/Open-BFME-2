@@ -87,23 +87,9 @@ enum StateReturnType
 	STATE_SUCCESS = -1,
 	STATE_FAILURE = -2
 };
-struct Coord3D
-{
-	Real x, y, z;
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-	Real lengthSqr() const { return x*x + y*y + z*z; }
-	void set(const Coord3D *a)
-	{
-		x = a->x;
-		y = a->y;
-		z = a->z;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 class Object;
 class LocomotorSet;
 template <int N> class VSlots : public VSlots<N - 1>

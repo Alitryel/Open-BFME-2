@@ -536,19 +536,9 @@ Real normalizeAngle(Real angle);
 // argument pops, and its float fabs overload is the CRT fabs compared as float.
 #include <math.h>
 
-struct Coord3D
-{
-	Real x, y, z;
-	Real Normalize();
-	__declspec(dllimport) __forceinline void scale(Real scale) { x *= scale; y *= scale; z *= scale; }
-	void sub(const Coord3D *a) { x -= a->x; y -= a->y; z -= a->z; }
-	void add(const Coord3D *a) { x += a->x; y += a->y; z += a->z; }
-	Real length() const;
-	void normalize();
-	Real GetLength() const;
-	void set(const Coord3D *p) { x = p->x; y = p->y; z = p->z; }
-	Coord3D &operator*=(Real s) { x *= s; y *= s; z *= s; return *this; }
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 // The contain module's slot 87 hands back the position an entering unit
 // walks to (BFME 1 donor: slot 82, its GetContainedObjectPosition typedef);
