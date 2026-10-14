@@ -240,6 +240,8 @@ insertPosition:
 // Native247B47A77E..47A875 has dynamic frame-rate defaults, out-of-line
 // Coord3D length and a KindOf215 query instead of the donor's condition bit.
 // The receiver/callee spellings retain unresolved target method identities.
+enum KindOfType { KINDOF_RVA_0 = 0 };
+
 class Object;
 struct Rva0028AC4EEntry;
 class Rva001E46E1
@@ -252,7 +254,8 @@ class Object
 {
 public:
     const Rva0028AC4EEntry *rva0028AC4E() const;
-    bool rva0006F039(int kind) const;
+    bool isKindOf(KindOfType kind) const;
+    __forceinline bool rva0006F039(int kind) const { return isKindOf((KindOfType)kind); }
 };
 class Rva0055A627Difference
 {

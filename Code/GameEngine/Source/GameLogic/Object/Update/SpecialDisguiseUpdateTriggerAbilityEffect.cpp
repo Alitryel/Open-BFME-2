@@ -220,10 +220,13 @@ private:
 	unsigned int m_words[19];
 };
 
+enum KindOfType { KINDOF_RVA_0 = 0 };
+
 class Object
 {
 public:
-	bool rva0006F039(int bit) const; // tests a word-run bit at +0x10C
+	bool isKindOf(KindOfType bit) const; // tests a word-run bit at +0x10C
+	__forceinline bool rva0006F039(int bit) const { return isKindOf((KindOfType)bit); }
 	void rva0028AE6D();
 	void *getTemplate() const { return m_template; }
 	void setWeaponSetFlag(WeaponSetType type);

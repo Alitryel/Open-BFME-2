@@ -180,12 +180,15 @@ private:
 	Real m_cachedAngle; // +0x44
 };
 
+enum KindOfType { KINDOF_RVA_0 = 0 };
+
 class Object : public Thing
 {
 public:
 	void rva001E42F2(const int *clear);
 	void rva0028AE6D();
-	Bool rva0006F039(Int bit) const;
+	Bool isKindOf(KindOfType bit) const;
+	__forceinline Bool rva0006F039(Int bit) const { return isKindOf((KindOfType)bit); }
 	void teleportTo(const Coord3D *pos, Bool preserve);
 
 	Bool testModelConditionFlag(ModelConditionFlagType mc) const { return rva0006F039(mc); }
