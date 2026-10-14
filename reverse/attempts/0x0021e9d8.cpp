@@ -1,4 +1,6 @@
 // ?rva0021E9D8@Rva0021E9D8@@QAEHIABVAsciiString@@00@Z
+// partial score=0.8399 date=2026-10-14
+// ?rva0021E9D8@Rva0021E9D8@@QAEHIABVAsciiString@@00@Z
 // partial score=0.8139 date=2026-10-14
 // ?rva0021E9D8@Rva0021E9D8@@QAEHIABVAsciiString@@00@Z
 // partial score=0.93 date=2026-10-06
@@ -6,6 +8,8 @@
 // stlport
 // ?rva0021E9D8@Rva0021E9D8@@QAEHIABVAsciiString@@00@Z @0x0021E9D8 129B: caller 0x0021EA6B and vector/helper operations at +0x15C; class identity unproven.
 #define _STLP_NO_EXCEPTIONS 1
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 #include "ascii_string.h"
 
@@ -45,11 +49,12 @@ int Rva0021E9D8::rva0021E9D8(unsigned int word, const AsciiString &a, const Asci
     int count = (int)((char *)records.end() - (char *)records.begin());
     count >>= 4;
     BfmeStringRecord002199C8 *found = rva0021D120(records.begin(), records.end(), a);
-    if (found == records.end()) {
+    if (found == (count ? (records.end()) : (records.end()))) {
         Rva0021A0C2 record(word, a, b, c);
         records.push_back(record);
     } else {
         count = (int)((char *)found - (char *)records.begin());
+        _ReadWriteBarrier();
         count >>= 4;
     }
     return count;
