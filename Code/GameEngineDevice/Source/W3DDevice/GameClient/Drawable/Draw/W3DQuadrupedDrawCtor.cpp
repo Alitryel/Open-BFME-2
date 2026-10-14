@@ -13,13 +13,10 @@
 // DIR32-masked in comparison). Zero new pins (base resolves via the existing
 // W3DScriptedModelDraw pin). Row supersedes the ctor pin.
 
-extern "C" const void *const vtbl_00BCA08C[];  // folded, 5 classes; via ??_7Rva000CA119@@6BRva000CA119_B2@@@
-#pragma comment(linker, "/alternatename:_vtbl_00BCA08C=??_7Rva000CA119@@6BRva000CA119_B2@@@")
+extern "C" const unsigned char __identifier("??_7Rva000CA119@@6BRva000CA119_B2@@@")[];
 
-extern "C" const void *const vtbl_00BCBB78[];  // ??_7Rva000CA119@@6BMiBase1@@@
-#pragma comment(linker, "/alternatename:_vtbl_00BCBB78=??_7Rva000CA119@@6BMiBase1@@@")
-extern "C" const void *const vtbl_00BCBC40[];  // ??_7Rva000CA119@@6BRva000C79C9@@@
-#pragma comment(linker, "/alternatename:_vtbl_00BCBC40=??_7Rva000CA119@@6BRva000C79C9@@@")
+extern "C" const unsigned char __identifier("??_7Rva000CA119@@6BMiBase1@@@")[];
+extern "C" const unsigned char __identifier("??_7Rva000CA119@@6BRva000C79C9@@@")[];
 
 class Thing;
 class ModuleData;
@@ -40,7 +37,7 @@ public:
 W3DQuadrupedDraw::W3DQuadrupedDraw(Thing *thing, const ModuleData *moduleData) :
 	W3DScriptedModelDraw(thing, moduleData)
 {
-	*(unsigned int *)this = ((unsigned int)vtbl_00BCBC40);
-	*(unsigned int *)((char *)this + 0x0C) = ((unsigned int)vtbl_00BCBB78);
-	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00BCA08C);
+	*(unsigned int *)this = ((unsigned int)__identifier("??_7Rva000CA119@@6BRva000C79C9@@@"));
+	*(unsigned int *)((char *)this + 0x0C) = ((unsigned int)__identifier("??_7Rva000CA119@@6BMiBase1@@@"));
+	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)__identifier("??_7Rva000CA119@@6BRva000CA119_B2@@@"));
 }

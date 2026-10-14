@@ -13,10 +13,8 @@
 // DIR32-masked in comparison). Zero new pins (base resolves via the existing
 // W3DScriptedModelDraw pin). Row supersedes the ctor pin.
 
-extern "C" const void *const vtbl_00BCA08C[];  // folded, 5 classes; via ??_7Rva000CA119@@6BRva000CA119_B2@@@
-#pragma comment(linker, "/alternatename:_vtbl_00BCA08C=??_7Rva000CA119@@6BRva000CA119_B2@@@")
-extern "C" const void *const vtbl_00BCC588[];  // folded, 3 classes; via ??_7W3DTankDraw@@6BDrawInterfaceA@@@
-#pragma comment(linker, "/alternatename:_vtbl_00BCC588=??_7W3DTankDraw@@6BDrawInterfaceA@@@")
+extern "C" const unsigned char __identifier("??_7Rva000CA119@@6BRva000CA119_B2@@@")[];
+extern "C" const unsigned char __identifier("??_7W3DTankDraw@@6BDrawInterfaceA@@@")[];
 
 extern "C" const unsigned char __identifier("??_7W3DSailModelDraw@@6B@")[];
 
@@ -47,8 +45,8 @@ W3DSailModelDraw::W3DSailModelDraw(Thing *thing, const ModuleData *moduleData) :
 	W3DScriptedModelDraw(thing, moduleData)
 {
 	*(unsigned int *)this = (unsigned int)__identifier("??_7W3DSailModelDraw@@6B@");
-	*(unsigned int *)((char *)this + 0x0C) = ((unsigned int)vtbl_00BCC588);
-	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00BCA08C);
+	*(unsigned int *)((char *)this + 0x0C) = ((unsigned int)__identifier("??_7W3DTankDraw@@6BDrawInterfaceA@@@"));
+	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)__identifier("??_7Rva000CA119@@6BRva000CA119_B2@@@"));
 	m_2E8 = 0.0f;
 	m_flag2EC = false;
 }
