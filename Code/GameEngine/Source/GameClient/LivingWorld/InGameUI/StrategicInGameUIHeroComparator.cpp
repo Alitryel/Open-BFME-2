@@ -204,3 +204,26 @@ bool Rva005D57EB::rva005D57EB(const UnicodeString &msg, GameWindow *window) {
 
 
 
+
+// ?rva005D50AD@Rva005D50AD@@QAE_NABVUnicodeString@@PAVGameWindow@@@Z @0x005D50AD 23B.
+// Same skeleton as 0x005D57EB above: forwards (m_04, msg, window) to the rowed
+// cdecl LAN chat submit 0x0038169D and returns its bool. Retail pushes three
+// arguments although the callee reads only two, so the call goes through the
+// three-argument type the call site shows. Slot owner names stay address-derived.
+bool __cdecl Rva0038169D(int channel, const UnicodeString &input);
+typedef bool (__cdecl *Rva005D50ADSend)(int, const UnicodeString &, GameWindow *);
+struct Rva005D50ADInner {
+ __forceinline bool send(const UnicodeString &msg, GameWindow *window) {
+  return ((Rva005D50ADSend)&Rva0038169D)((int)this, msg, window);
+ }
+};
+class Rva005D50AD {
+public:
+ bool rva005D50AD(const UnicodeString &msg, GameWindow *window);
+private:
+ int m_00;
+ Rva005D50ADInner *m_04;
+};
+bool Rva005D50AD::rva005D50AD(const UnicodeString &msg, GameWindow *window) {
+ return m_04->send(msg, window);
+}
