@@ -26,6 +26,9 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 // unit in link order stops poisoning the family.
 #define BFME_ASCII_DTOR_DECL
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
+namespace _STL {
+template<> _Rb_tree_base<AsciiString, allocator<AsciiString> >::_Rb_tree_base(allocator<AsciiString> const &);
+}
 bool operator<(const AsciiString &, const AsciiString &);
 // Retail _M_create_node 0x0002C552 allocates 20 bytes: 16-byte links + AsciiString.
 // _Construct 0x0002C485 invokes the independently established AsciiString copy at 0x000365F0.
