@@ -1,4 +1,6 @@
 // ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
+// partial score=0.97 date=2026-10-14
+// ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.93 date=2026-10-13
 // ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.8 date=2026-10-09
@@ -483,14 +485,13 @@ StateReturnType AIFollowPathAndEvacuateState::update()
   ContainedObjects objects=owner->m_contain->getContainedObjects();
   for(_STL::list<Object *>::const_iterator it=objects.list->begin();it!=objects.list->end();++it) {
    Object *unit=*it;
-   AIUpdateInterface *ai=unit->getAI();
-   ai->ignoreObstacle(owner);
+   unit->getAI()->ignoreObstacle(owner);
    unit->clearDisabled(DISABLED_HELD);
    bool special=(unit->m_template->kind115 & 0x20)!=0;
    if(special)
-    ai->m_command.rva00353168(owner,reinterpret_cast<const Rva0035149F &>(path),owner->getAI()->getSource());
+    unit->getAI()->m_command.rva00353168(owner,reinterpret_cast<const Rva0035149F &>(path),owner->getAI()->getSource());
    else
-    ai->m_command.rva00353080(owner,reinterpret_cast<const Rva0035149F &>(path),owner->getAI()->getSource());
+    unit->getAI()->m_command.rva00353080(owner,reinterpret_cast<const Rva0035149F &>(path),owner->getAI()->getSource());
   }
   reinterpret_cast<AICommandInterface *>(&owner->getAI()->m_command)->aiIdle(CMD_FROM_AI);
   return STATE_SUCCESS;
