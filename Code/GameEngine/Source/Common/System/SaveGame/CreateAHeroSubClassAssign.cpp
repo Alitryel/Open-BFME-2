@@ -1,0 +1,81 @@
+// cl: /Ireference/shims/bfme2_ascii /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
+// ??4CreateAHeroSubClass@CreateAHeroManager@@QAEAAV01@ABV01@@Z 0x0021E5B3 192B.
+// CreateAHeroManager::CreateAHeroSubClass copy assignment, beside its rowed
+// destructor 0x0021E50F (BfmePod216Dtor.cpp, whose member order this follows):
+// a self check, then the strings +0x00..+0x0C through StringBase<char>::set
+// (0x000366F0), the ints +0x10..+0x1C, the string +0x20, the int-vector map
+// +0x24 (tree operator= 0x0021DD0E), the vectors +0x30/+0x3C (operator=
+// 0x0021C21B), the map +0x48 (tree operator= 0x0021C33F), the set +0x54 (tree
+// operator= 0x0021D842), the bool +0x60, the ints +0x64/+0x68 and a 27-dword
+// block at +0x6C copied whole (rep movsd), which fills the 216-byte layout.
+// The container element types use the spellings their rowed operations carry.
+#include <vector>
+#include <map>
+#include <set>
+#include "ascii_string.h"
+
+struct Rva0021C21BElement { char bytes[4]; };
+struct Rva0021C33FElement
+{
+    int words[1];
+    bool operator<(const Rva0021C33FElement &b) const { return words[0] < b.words[0]; }
+};
+struct BfmeStringRecord0021A940 { unsigned char m_data[20]; };
+bool operator<(const BfmeStringRecord0021A940 &a, const BfmeStringRecord0021A940 &b);
+
+struct Rva0021E5B3Block { int words[27]; };
+
+class CreateAHeroManager
+{
+public:
+    class CreateAHeroSubClass
+    {
+    public:
+        CreateAHeroSubClass &operator=(const CreateAHeroSubClass &that);
+    private:
+        AsciiString m_00;
+        AsciiString m_04;
+        AsciiString m_08;
+        AsciiString m_0c;
+        int m_10;
+        int m_14;
+        int m_18;
+        int m_1c;
+        AsciiString m_20;
+        _STL::map<int, _STL::vector<unsigned int> > m_24;
+        _STL::vector<Rva0021C21BElement> m_30;
+        _STL::vector<Rva0021C21BElement> m_3c;
+        _STL::map<Rva0021C33FElement, int> m_48;
+        _STL::set<BfmeStringRecord0021A940> m_54;
+        bool m_60;
+        int m_64;
+        int m_68;
+        Rva0021E5B3Block m_6c;
+    };
+};
+
+CreateAHeroManager::CreateAHeroSubClass &CreateAHeroManager::CreateAHeroSubClass::operator=(const CreateAHeroSubClass &that)
+{
+    if (this != &that) {
+        m_00 = that.m_00;
+        m_04 = that.m_04;
+        m_08 = that.m_08;
+        m_0c = that.m_0c;
+        m_10 = that.m_10;
+        m_14 = that.m_14;
+        m_18 = that.m_18;
+        m_1c = that.m_1c;
+        m_20 = that.m_20;
+        m_24 = that.m_24;
+        m_30 = that.m_30;
+        m_3c = that.m_3c;
+        m_48 = that.m_48;
+        m_54 = that.m_54;
+        m_60 = that.m_60;
+        m_64 = that.m_64;
+        m_68 = that.m_68;
+        m_6c = that.m_6c;
+    }
+    return *this;
+}
