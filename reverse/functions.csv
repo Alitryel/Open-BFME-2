@@ -89478,3 +89478,9 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?invert@Rva00419CAF@@QAEXXZ,,0x00419CAF,3,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,not of the word at +0 (no caller reference; address-named view)
 ??0Rva0040C92D@@QAE@H@Z,,0x0040C92D,15,Code/GameEngine/Source/Common/Rva0040C92DVtableCtors.cpp,matched,vtable VA 0xBC6F20 ctor clearing +4 (ret 4 unused arg); twin of the 0x0059B7CB family
 ??0Rva004BB391@@QAE@_N@Z,,0x004BB391,22,Code/GameEngine/Source/Common/Rva0040C92DVtableCtors.cpp,matched,vtable VA 0xC59EA8 ctor clearing +4 and storing the byte arg at +8; twin of the 0x0059B7CB family
+?rva007ACDE1@@YAXXZ,,0x007ACDE1,22,Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp,matched,STLport container global initializer map ctor 0033C432 then atexit cleanup 007B70D3
+?rva007B02C3@@YAXXZ,,0x007B02C3,22,Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp,matched,STLport container global initializer map ctor 0033C432 then atexit cleanup 007B82DD
+?rva007AF8CD@@YAXXZ,,0x007AF8CD,22,Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp,matched,STLport container global initializer map ctor 0024613C then atexit cleanup 007B80F1
+?rva007B0290@@YAXXZ,,0x007B0290,22,Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp,matched,STLport container global initializer map ctor 0024613C then atexit cleanup 007B82D3
+?rva007B3945@@YAXXZ,,0x007B3945,22,Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp,matched,STLport container global initializer hash_map ctor 00524ED5 then atexit cleanup 007B91F8
+?rva007AE6E6@@YAXXZ,,0x007AE6E6,22,Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp,matched,STLport container global initializer hash_map ctor 0030A101 then atexit cleanup 007B7AE1
