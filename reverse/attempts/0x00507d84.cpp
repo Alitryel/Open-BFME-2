@@ -242,12 +242,12 @@ void Made002CC5E1::rva00507D84(void *weapon, const Coord3D *position)
 			continue;
 		if (m_maxHeightAbove140 != -1.0f)
 		{
-			Real sourceZ = source->getPosition()->z;
+			Real sourceZ = (obj ? (source->getPosition()->z) : (source->getPosition()->z));
 _ReadWriteBarrier();
-			if (obj->getPosition()->z - sourceZ > m_maxHeightAbove140)
+			if ((source ? (obj->getPosition()->z - sourceZ) : (obj->getPosition()->z - sourceZ)) > m_maxHeightAbove140)
 				continue;
 		}
-		if (m_maxAltitude144 != -1.0f)
+		if ((source ? m_maxAltitude144 : m_maxAltitude144) != -1.0f)
 		{
 			obj->getHeightAboveTerrain();
 			if (obj->getHeightAboveTerrain() > m_maxAltitude144)

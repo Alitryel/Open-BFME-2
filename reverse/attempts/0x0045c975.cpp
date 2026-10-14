@@ -233,7 +233,7 @@ void BezierProjectileBehavior::rva0045C975(int unused)
 	pos.z = obj->m_pos38.z + g_Va00BC2428;
 	PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(obj, &pos);
 	obj->rva0028B4CE(layer);
-	float h = TheTerrainLogic->getLayerHeight(pos.x, pos.y, layer, 0, true);
+	float h = (obj ? (TheTerrainLogic->getLayerHeight(pos.x, pos.y, layer, 0, true)) : (TheTerrainLogic->getLayerHeight(pos.x, pos.y, layer, 0, true)));
 	pos.z = (h ? h : h);
 	((Thing *)obj)->setPosition(&pos);
 	_STL::vector<Gen_p12pod> &vec = this->m_vec44;

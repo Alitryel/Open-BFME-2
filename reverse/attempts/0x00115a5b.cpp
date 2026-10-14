@@ -186,7 +186,7 @@ void W3DTerrainBackground::calcBlendHeight(Real param, Int mode, Real *maxDelta)
 			if (m_map->isInMesh(i, j)) {
 				Int idx = (j - yOrigin) * (m_width + 1) + (i - xOrigin);
 				m_heights[idx].Z = (1.0f - m_blend) * m_heights[idx].X + m_heights[idx].Y * m_blend;
-				Real delta = fabs(m_heights[idx].Y - m_heights[idx].X);
+				Real delta = (m_width ? (fabs(m_heights[idx].Y - m_heights[idx].X)) : (fabs(m_heights[idx].Y - m_heights[idx].X)));
 				if (!(largest > delta))
 					largest = delta;
 				if (i - xOrigin == 0 || j - yOrigin == 0 || i - xOrigin == m_width || j - yOrigin == m_width) {

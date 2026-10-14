@@ -126,7 +126,7 @@ unsigned char AITacticOffensive::checkTarget(void *targetPtr)
 			bool canReach;
 			Object *structure = target->rva002C5DA6();
 			if (structure)
-				canReach = TheAI->pathfinder()->QuickDoesPathExistToStructure(obj, &obj->m_pos, structure, 0);
+				canReach = (i ? (TheAI->pathfinder()->QuickDoesPathExistToStructure(obj, &obj->m_pos, structure, 0)) : (TheAI->pathfinder()->QuickDoesPathExistToStructure(obj, &obj->m_pos, structure, 0)));
 			else
 				canReach = TheAI->pathfinder()->QuickDoesPathExist(obj, &obj->m_pos, &target->m_pos, 0);
 			if (slot10() == canReach)

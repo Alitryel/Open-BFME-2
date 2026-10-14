@@ -66,7 +66,7 @@ void Rva003EEBEF::rva003EEBEF(Int p)
 	int offset = 0;
 	int remaining = count;
 	do {
-		int index = *(int *)(offset + (unsigned int)arg->m_begin + 4);
+		int index = (remaining ? (*(int *)(offset + (unsigned int)arg->m_begin + 4)) : (*(int *)(offset + (unsigned int)arg->m_begin + 4)));
 		Rva0020E89C *found = ((Rva002BA8F1Logic*)TheLivingWorldLogic)->m_B0->rva0020EAF6(index);
 		((Rva003EE84A *)this)->rva003EE84A((Int)found, (Int)((char *)arg->m_begin + offset + 8));
 		offset += 0x14;

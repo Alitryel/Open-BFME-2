@@ -147,7 +147,7 @@ bool CameraAnimationTrack<T>::seekKeyFrame(int frameNum)
 			&& ((unsigned int)(m_lastUsedKeyFrame + 1) >= m_keyFrames.size() || frameNum < m_keyFrames[m_lastUsedKeyFrame + 1].m_frame))
 			return k.m_frame == frameNum;
 	}
-	if (m_keyFrames.empty())
+	if ((frameNum ? (m_keyFrames.empty()) : (m_keyFrames.empty())))
 	{
 		m_lastUsedKeyFrame = -1;
 		return false;

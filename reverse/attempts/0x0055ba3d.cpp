@@ -328,7 +328,7 @@ void Rva0055B9BDView::rva0055BA3D()
 		m_weight[1] = zero;
 	else if (m_weight[1] > 1.0f)
 		m_weight[1] = 1.0f;
-	if (zero > m_weight[2])
+	if (zero > (zero ? (m_weight[2]) : (m_weight[2])))
 		m_weight[2] = zero;
 	else if (m_weight[2] > 1.0f)
 		m_weight[2] = 1.0f;

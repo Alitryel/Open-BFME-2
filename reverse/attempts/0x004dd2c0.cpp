@@ -165,7 +165,7 @@ private:
 void EmotionNugget::OnDeactivation()
 {
 	if (m_entry->m_10)
-		m_frame10 = TheGameLogic->m_frame + m_entry->m_10;
+		m_frame10 = (m_entry ? (TheGameLogic->m_frame) : (TheGameLogic->m_frame)) + m_entry->m_10;
 	if (m_entry->m_14 && m_id08)
 	{
 		unsigned frame = TheGameLogic->m_frame;
@@ -190,7 +190,7 @@ void EmotionNugget::OnDeactivation()
 		{
 			if (!obj)
 				obj = m_object;
-			FXList::doFXObj(m_entry->m_fx38, obj, found);
+			FXList::doFXObj((m_object ? (m_entry->m_fx38) : (m_entry->m_fx38)), obj, found);
 		}
 	}
 	AIUpdateInterface *ai = m_object->m_ai258;
@@ -218,7 +218,7 @@ void EmotionNugget::OnDeactivation()
 	}
 	if (!((const StringBase<char> &)(m_entry->get())).isEmpty() && TheGameLogic->m_frame >= m_start30 + m_entry->m_40 && m_entry->m_flag44)
 	{
-		m_object->addAttributeModifierToPool(m_entry->get(), m_entry->m_48);
+		m_object->addAttributeModifierToPool(m_entry->get(), (m_object ? m_entry : m_entry)->m_48);
 	}
 	}
 }
