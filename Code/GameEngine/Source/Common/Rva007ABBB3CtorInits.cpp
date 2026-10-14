@@ -104,6 +104,24 @@ public:
 	Rva005D00A6();
 };
 
+class Rva000F8348
+{
+public:
+	Rva000F8348();
+};
+
+class Rva000F9C3C
+{
+public:
+	Rva000F9C3C();
+};
+
+class Rva0023DBF9
+{
+public:
+	Rva0023DBF9();
+};
+
 class Rva005EA635
 {
 public:
@@ -136,6 +154,9 @@ void __cdecl rva007B9748();
 void __cdecl rva007B9997();
 void __cdecl rva007B9B1E();
 void __cdecl rva007B7CC3();
+void __cdecl rva007B6EAE();
+void __cdecl rva007B6EC2();
+void __cdecl rva007B7786();
 void __cdecl rva007B83B9();
 void __cdecl rva007B9071();
 
@@ -165,6 +186,9 @@ extern unsigned g_Va00E06634;
 extern unsigned g_Va00E06778;
 extern unsigned g_Va00E09E60;
 extern unsigned int g_Va00E01E7C;
+extern unsigned g_Va00DEC018;
+extern unsigned g_Va00DEC080;
+extern unsigned g_Va00DFE7A8;
 extern unsigned g_Va00E032EC;
 extern unsigned int g_Va00E04544;
 
@@ -196,6 +220,9 @@ struct Rva007ABBB3CtorInits
 	static void rva007B5181();
 	static void rva007B559D();
 	static void rva007AED71();
+	static void rva007AC8B0();
+	static void rva007AC8E0();
+	static void rva007ADCAE();
 	static void rva007B063B();
 	static void rva007B3486();
 };
@@ -394,4 +421,25 @@ void Rva007ABBB3CtorInits::rva007B3486()
 {
 	( (IntPod24Map *)&g_Va00E04544 )->IntPod24Map::map();
 	atexit( rva007B9071 );
+}
+
+// 0x007AC8B0 (22B): unrowed vtable 0x00BCF254 ctor 0x000F8348 (pinned) on VA 0x00DEC018, atexit(0x007B6EAE -> 0x000F82F5)
+void Rva007ABBB3CtorInits::rva007AC8B0()
+{
+	( (Rva000F8348 *)&g_Va00DEC018 )->Rva000F8348::Rva000F8348();
+	atexit( rva007B6EAE );
+}
+
+// 0x007AC8E0 (22B): unrowed vtable 0x00BCF270 ctor 0x000F9C3C (pinned) on VA 0x00DEC080, atexit(0x007B6EC2 -> 0x000F9BD7)
+void Rva007ABBB3CtorInits::rva007AC8E0()
+{
+	( (Rva000F9C3C *)&g_Va00DEC080 )->Rva000F9C3C::Rva000F9C3C();
+	atexit( rva007B6EC2 );
+}
+
+// 0x007ADCAE (22B): unrowed zeroing ctor 0x0023DBF9 (pinned) on VA 0x00DFE7A8, atexit(0x007B7786 -> 0x0023DBC3)
+void Rva007ABBB3CtorInits::rva007ADCAE()
+{
+	( (Rva0023DBF9 *)&g_Va00DFE7A8 )->Rva0023DBF9::Rva0023DBF9();
+	atexit( rva007B7786 );
 }

@@ -16994,3 +16994,6 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?CreateBMPFile@@YAXPBDPADHH@Z,0x00045127,static CreateBMPFile callee of W3DDisplay screenshot saver 0x00047BC0: WB debug twin names it; retail 236B body (private ECX width / EAX height convention); bank nd4 same structure
 ?rva00035540@GeneralAllocator@Allocator@EA@@QAE_NP6A_NPBUBlockInfo@23@PAX@Z1H_NPADI@Z,0x00035540,callee of ?rva00030910@MemoryPool@@YAIXZ
 ?rva000C19C3@Rva000C19C3@@QAEXPAXPB_N@Z,0x000C19C3,callee of ?Rva000C32C7@@YAXPAVRva000C19C3@@PAXPB_N@Z
+??0Rva000F8348@@QAE@XZ,0x000F8348,callee of ?rva007AC8B0@Rva007ABBB3CtorInits@@SAXXZ
+??0Rva000F9C3C@@QAE@XZ,0x000F9C3C,callee of ?rva007AC8E0@Rva007ABBB3CtorInits@@SAXXZ
+??0Rva0023DBF9@@QAE@XZ,0x0023DBF9,callee of ?rva007ADCAE@Rva007ABBB3CtorInits@@SAXXZ
