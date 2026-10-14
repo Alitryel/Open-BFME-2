@@ -54003,3 +54003,4 @@ __ehhandler$?friend_xferSubAudioEventRTS@MilesAudioManager@@QAEXPAVXfer@@PAVBfme
 ?rva006C2510@GeneralAllocatorDebug@@QAEIPADHPAPAD@Z	0x006C2510	214	partial	trailer word at block+size-10 (nd16->14, 210B) score=0.97 stash=reverse/attempts/0x006c2510.cpp
 ??0AutoAbilityBehaviorModuleData@@QAE@XZ	0x0045A2E7	135	partial	float zeros in initializer list nd17->10; ehvec ctor still not init@0x45A1D9 score=0.93 stash=reverse/attempts/0x0045a2e7.cpp
 ?rva0039E84B@Team@@QAEMPAVObject@@@Z	0x0039E84B	160	partial	one return of max(best, f*factor) nd13->12 clen153 score=0.93 stash=reverse/attempts/0x0039e84b.cpp
+?rva00033700@Rva00033B90Allocator@@QAE_NPAXI_N000@Z	0x00033700	450	landed	add_match verified Code/GameEngine/Source/Common/System/MemoryPoolInit.cpp 450B; one-time allocator setup; retail returns true (mov al 1 at 0x338B9) so the void pin was renamed void->bool; true extent 450B includes ret 0x18 at 0x338BF (the 447B note omitted it); caller 0x33B90 ctor

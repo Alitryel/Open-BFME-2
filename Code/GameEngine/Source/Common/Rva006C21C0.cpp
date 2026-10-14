@@ -85,7 +85,7 @@ class Rva00033B90Allocator
 public:
 	Rva00033B90Allocator(void *a, unsigned int size, bool b, void *c, void *d, void *e);
 	~Rva00033B90Allocator();
-	void rva00033700(void *a, unsigned int size, bool b, void *c, void *d, void *e);
+	bool rva00033700(void *a, unsigned int size, bool b, void *c, void *d, void *e);
 protected:
 	unsigned char m_base000[0x508];
 	unsigned char m_fill508; // +0x508

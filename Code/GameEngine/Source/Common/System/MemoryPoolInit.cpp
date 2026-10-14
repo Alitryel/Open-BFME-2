@@ -23,7 +23,11 @@ void Rva002253C2Init();
 // Empty callback: native pointer VA00A9E440 is the shared ICF RET.
 static void MemoryPoolAllocatorAssertion() {}
 namespace EA { namespace Allocator {
-class GeneralAllocator { public: void SetAssertionFailureFunction(void *, void *); };
+class GeneralAllocator
+{
+public: void SetAssertionFailureFunction(void *, void *);
+ bool rva000332D0(int, int, int, int, int, int);
+};
 }}
 // Native ctor33B90 zeroes these member blocks separately. The template
 // expresses initialization; widths and every scalar offset are target facts.
@@ -34,17 +38,50 @@ template<int N> struct AllocatorZeroWords
 };
 void Rva000327D0Assertion(const char *);
 void Rva00031420Callback(const char *);
+
+// The lock the allocator creates on first setup: a CRITICAL_SECTION at +0
+// whose initialize/addref/release helpers are the rowed 0x30D90/0x30DD0/
+// 0x30DF0 family. Layout from that unit: 0x18-byte section, int at +0x18.
+extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void *cs);
+extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void *cs);
+extern "C" __declspec(dllimport) void __stdcall GetSystemInfo(void *info);
+struct Rva00030DD0Lock
+{
+    unsigned char m_cs[0x18];
+    volatile int m_ref;
+};
+Rva00030DD0Lock *Rva00030D90Init(Rva00030DD0Lock *lock);
+
+// Linked-list headers embedded in the zero blocks. m_448's first 8 dwords
+// zero and its +0x18/+0x1C slots self-link; m_49c's first 4 dwords zero and
+// its +8/+0xC slots self-link. Default construction zeroes the whole list
+// header exactly as the AllocatorZeroWords blocks do.
+struct Rva00033B90ListHead
+{
+    unsigned int m_words[6];
+    void *m_first;
+    void *m_last;
+    Rva00033B90ListHead() { memset(this, 0, sizeof(*this)); }
+};
+struct Rva00033B90BinHead
+{
+    unsigned int m_words[2];
+    void *m_first;
+    void *m_last;
+    Rva00033B90BinHead() { memset(this, 0, sizeof(*this)); }
+};
+
 class Rva00033B90Allocator {
 public:
  Rva00033B90Allocator(void *, unsigned int, bool, void *, void *, void *);
- void rva00033700(void *, unsigned int, bool, void *, void *, void *);
+ bool rva00033700(void *, unsigned int, bool, void *, void *, void *);
 private:
  bool m_0; unsigned int m_4;
  AllocatorZeroWords<10> m_8;
  AllocatorZeroWords<256> m_30;
  AllocatorZeroWords<4> m_430;
  unsigned int m_440,m_444;
- AllocatorZeroWords<8> m_448;
+ Rva00033B90ListHead m_448;
  unsigned int m_468;
  bool m_46c,m_46d;
  unsigned int m_470;
@@ -53,7 +90,7 @@ private:
  bool m_484;
  unsigned int m_488,m_48c,m_490,m_494;
  bool m_498;
- AllocatorZeroWords<4> m_49c;
+ Rva00033B90BinHead m_49c;
  unsigned int m_4ac,m_4b0,m_4b4;
  void (*m_4b8)(const char *); void *m_4bc;
  void (*m_4c0)(const char *); void *m_4c4;
@@ -83,6 +120,80 @@ Rva00033B90Allocator::Rva00033B90Allocator(
     rva00033700(a, size, b, c, d, e);
 }
 typedef char AllocatorExtentMustBe510[sizeof(Rva00033B90Allocator) == 0x510 ? 1 : -1];
+
+// Native 0x0033700..0x00338BF (447B): one-time allocator setup, thiscall
+// ret 0x18. Retail returns true on every path (mov al,1 at 0x338B9): the
+// void pin signature was wrong and is renamed to bool. The 0x006FFD20
+// WorldBuilder pair is the derived debug ctor, not this body.
+bool Rva00033B90Allocator::rva00033700(void *a, unsigned int size, bool b,
+    void *c, void *d, void *e)
+{
+    if (m_0)
+        goto tail;
+    m_0 = true;
+    if (!m_4e4)
+        m_4e4 = Rva00030D90Init((Rva00030DD0Lock *)&m_4e8);
+
+    Rva00030DD0Lock *lock = (Rva00030DD0Lock *)m_4e4;
+    if (lock != 0)
+    {
+        EnterCriticalSection(lock);
+        lock->m_ref = lock->m_ref + 1;
+    }
+
+    m_4 = 0x40;
+    memset(&m_8, 0, sizeof(m_8));
+    memset(&m_30, 0, sizeof(m_30));
+
+    // 0x7F self-linked 8-byte nodes; each node's next/prev point at the
+    // 8-byte slot before it (the array header walks back to &m_30).
+    unsigned int *node = (unsigned int *)&m_30;
+    for (int i = 0; i < 0x7F; ++i)
+    {
+        node[2] = (unsigned int)node;
+        node[3] = (unsigned int)node;
+        node += 2;
+    }
+
+    memset(&m_430, 0, sizeof(m_430));
+    m_440 = (unsigned int)(unsigned int *)&m_30;
+    m_444 = 0;
+    memset(&m_448, 0, sizeof(m_448));
+    m_448.m_first = &m_448;
+    m_448.m_last = &m_448;
+
+    m_4 = (m_4 & 1) | 0x48;
+    m_468 = 0;
+    m_46c = false;
+    m_488 = 0;
+    m_48c = 0;
+    m_490 = 0x10000;
+    m_494 = 0x20000;
+    m_498 = false;
+    memset(&m_49c, 0, sizeof(m_49c));
+    m_49c.m_first = &m_49c;
+    m_49c.m_last = &m_49c;
+    m_4c8 = 0x20000;
+    m_4cc = 0x10000;
+    m_4d0 = m_440;
+
+    struct SysInfo { unsigned long m_00[9]; };
+    SysInfo info;
+    GetSystemInfo(&info);
+    m_4d4 = info.m_00[1];
+
+    if (lock != 0)
+    {
+        lock->m_ref = lock->m_ref - 1;
+        LeaveCriticalSection(lock);
+    }
+
+tail:
+    if (a != 0 || size != 0)
+        ((EA::Allocator::GeneralAllocator *)this)->rva000332D0(
+            (int)a, (int)size, *(int *)&b, (int)c, (int)d, (int)e);
+    return true;
+}
 
 namespace MemoryPool {
 struct HeapRecord
