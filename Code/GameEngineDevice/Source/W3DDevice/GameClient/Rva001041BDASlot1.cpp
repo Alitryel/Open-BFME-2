@@ -1,19 +1,10 @@
-// ?rva00104BDA@Rva001041D8@@UAEXXZ
-// partial score=0.992 date=2026-10-14
-// r6 W7-D1 update: 405B/88diff -> 409B, Lab2 nd2 (only real diff is the
-// position of lea ecx,[ebp-0x60] for the by-ref Set_Transform argument:
-// retail emits it before the 12 matrix stores, ours after them; every other
-// instruction matches). Fixes applied:
-//   (1) drop the `scene` local and use self->m_scene directly (frees a
-//       callee-saved register -> this=ESI, literal=EDI as retail)
-//   (2) CameraClass gets its real 0x3FC-byte extent (new pushed 1 vs 0x3FC)
-//   (3) camera uses self->m_camera directly
-//   (4) _ReadWriteBarrier() between the matrix init and Set_Transform keeps
-//       the vtable load after the stores (without it the call setup hoists)
-// Exhausted on the lea: ptr/reference init, double barrier, ctor temporary,
-// by-value arg, const/volatile arg, ms_nd 334 evals, chain 4 rounds.
-// ?rva00104BDA@Rva001041D8@@UAEXXZ
-// partial score=0.83 date=2026-10-14
+// Rva001041BDASlot1.cpp -- Palantir/Rva001041D8 vtable slot 1, retail 0x00104BDA (409B).
+// Landed 409/409 from the exact bank: the identity transform is passed as an
+// argument temporary (Matrix3D 12-float ctor) and the receiver is re-read through
+// self->m_model, so cl builds the argument slot first (retail's early lea),
+// keeps the 12 matrix stores before the vtable load, and re-reads the receiver
+// after them. The dtor of the same class lives in
+// Rva001041D8Dtor.cpp; this TU owns only slot 1.
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ?rva00104BDA@Rva001041D8@@UAEXXZ @0x00104BDA 409B
@@ -32,8 +23,6 @@
 // pinned pointer-set family. The Palantir identity is the dtor file's
 // donor/structural lead; names stay address-derived.
 #include <set>
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 
 class Rva009EB960;
 // Owned by W3DDisplayDtor.cpp: the asset registry the W3DDisplay dtor deletes.
@@ -68,6 +57,8 @@ struct Vector3
 struct Matrix3D
 {
 	float m[3][4];
+	Matrix3D(float a,float b,float c,float d,float e,float f,float g,float h,float i,float j,float k,float l)
+	{ m[0][0]=a;m[0][1]=b;m[0][2]=c;m[0][3]=d;m[1][0]=e;m[1][1]=f;m[1][2]=g;m[1][3]=h;m[2][0]=i;m[2][1]=j;m[2][2]=k;m[2][3]=l; }
 };
 
 class RenderObjClass
@@ -165,11 +156,7 @@ void Rva001041D8::rva00104BDA()
 	self->m_model = model;
 	if (model != 0 && (RenderObjClass *)self->m_model == model)
 	{
-		Matrix3D transform = { 1.0f, 0.0f, 0.0f, 0.0f,
-		                       0.0f, 1.0f, 0.0f, 0.0f,
-		                       0.0f, 0.0f, 1.0f, 0.0f };
-		_ReadWriteBarrier();
-		model->Set_Transform(transform);
+		((RenderObjClass *)self->m_model)->Set_Transform(Matrix3D(1.0f,0.0f,0.0f,0.0f, 0.0f,1.0f,0.0f,0.0f, 0.0f,0.0f,1.0f,0.0f));
 	}
 
 	self->m_scene = new Rva001040D5;
