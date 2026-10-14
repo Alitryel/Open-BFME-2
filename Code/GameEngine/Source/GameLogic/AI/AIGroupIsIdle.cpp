@@ -46,6 +46,7 @@ class AIGroup
 {
 public:
 	Bool isIdle() const;
+	void setMineClearingDetail(Bool set);
 
 private:
 	std::list<Object *> m_memberList;
@@ -73,4 +74,13 @@ Bool AIGroup::isIdle() const
 	}
 
 	return isIdle;
+}
+
+// ZH names the dispatcher MSG_SET_MINE_CLEARING_DETAIL operation. BFME2's
+// implementation is empty: WB table F54016 sends message 1099 to F4E9D0,
+// which passes true to EEAB50 (only a debug frame and RET4). The retail
+// case at 7793CA passes the same selected-group receiver and true to the
+// shared RET4 at 87A69C. No AIGroup layout is accessed by this method.
+void AIGroup::setMineClearingDetail(Bool set)
+{
 }
