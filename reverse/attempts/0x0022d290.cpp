@@ -1,4 +1,6 @@
 // ?rva0022D290@GameEngine@@QAEXXZ
+// partial score=0.9717338543362639 date=2026-10-14
+// ?rva0022D290@GameEngine@@QAEXXZ
 // partial score=0.9686445964036327 date=2026-10-13
 // ?rva0022D290@GameEngine@@QAEXXZ
 // partial score=0.9685 date=2026-10-13
@@ -17,6 +19,7 @@ extern "C" __declspec(dllimport) unsigned __stdcall timeGetTime();
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned);
 extern "C" __declspec(dllimport) int __cdecl sprintf(char*,const char*,...);
 class Profile 
+
 {
  public: static void StartRange(const char*);
  static void StopRange(const char*);
@@ -25,6 +28,7 @@ class Profile
 ;
 void _bfme_debugRecordCallsite(int);
 struct BfmeSubobject0022CE19 
+
 {
  virtual ~BfmeSubobject0022CE19();
  char opaque[0xDE4];
@@ -32,6 +36,7 @@ struct BfmeSubobject0022CE19
 }
 ;
 struct TreeHintOpaque0043671B 
+
 {
  UnicodeString m_text;
  BfmeSubobject0022CE19 m_subobject;
@@ -43,6 +48,7 @@ struct TreeHintOpaque0043671B
 }
 ;
 class GameState 
+
 {
  public: bool getSaveGameInfoFromFile(UnicodeString,BfmeSubobject0022CE19*);
  int rva002DE3C1(TreeHintOpaque0043671B);
@@ -51,6 +57,7 @@ class GameState
 ;
 extern GameState *TheGameState;
 class Shell 
+
 {
  public: void rva0035BF4C(bool);
  
@@ -58,6 +65,7 @@ class Shell
 ;
 extern Shell *TheShell;
 class Mouse 
+
 {
  public: void _bfme_setEngineVisibility(bool);
  
@@ -65,6 +73,7 @@ class Mouse
 ;
 extern Mouse *TheMouse;
 class GlobalLanguage 
+
 {
  public: void onGameEngineExit();
  
@@ -74,6 +83,7 @@ extern GlobalLanguage *TheGlobalLanguageData;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 struct EngineGlobalDataView 
+
 {
  char gap00[0x26];
  bool useFpsLimit;
@@ -89,6 +99,7 @@ struct EngineGlobalDataView
 class GameLogic;
 extern GameLogic *TheGameLogic;
 struct EngineLogicFrameView 
+
 {
  char pad[0x40];
  unsigned frame;
@@ -98,6 +109,7 @@ struct EngineLogicFrameView
 class ScriptEngine;
 extern ScriptEngine *TheScriptEngine;
 class Rva00203B47Host 
+
 {
  public: bool rva00203B47();
  
@@ -106,6 +118,7 @@ class Rva00203B47Host
 class View;
 extern View *TheTacticalView;
 class EngineTacticalSlots 
+
 {
  public:
  virtual void slot00();
@@ -170,6 +183,7 @@ class EngineTacticalSlots
 class NetworkInterface;
 extern NetworkInterface *TheNetwork;
 class EngineNetworkSlots 
+
 {
  public:
  virtual void slot00();
@@ -224,6 +238,7 @@ class EngineNetworkSlots
 class GameClient;
 extern GameClient *TheGameClient;
 class EngineClientSlots 
+
 {
  public:
  virtual void slot00();
@@ -262,6 +277,7 @@ class EngineClientSlots
 }
 ;
 class CrashMessage 
+
 {
  public:
  virtual void v00();
@@ -290,6 +306,7 @@ class CrashMessage
 class Debug;
 extern Debug *theDebug;
 class EngineDebugSlots 
+
 {
  public:
  virtual void slot00();
@@ -332,6 +349,7 @@ class EngineDebugSlots
 }
 ;
 struct Bfme939Helper 
+
 {
  int get() const;
  
@@ -339,6 +357,7 @@ struct Bfme939Helper
 ;
 extern Bfme939Helper *g_bfme939Helper;
 class RecorderClass 
+
 {
  public: bool isMultiplayer();
  void cleanUpReplayFile();
@@ -346,6 +365,7 @@ class RecorderClass
 }
 ;
 class BfmeDfe6e4 
+
 {
  public: void rva00225492();
  
@@ -353,6 +373,7 @@ class BfmeDfe6e4
 ;
 extern BfmeDfe6e4 *theBfmeDfe6e4;
 class Watchdog 
+
 {
  public: void stop();
  
@@ -367,6 +388,7 @@ unsigned EngineSleepTimeRemaining,EngineSleepTimeTotal;
 bool EngineLimitFrameRate;
 extern bool TheDeepCRC,TheLiteCRC;
 class GameEngine 
+
 {
  public:
  virtual void slot00();
@@ -405,10 +427,12 @@ void GameEngine::rva0022D290()
  if (!EngineInitialFrameTime) EngineInitialFrameTime=timeGetTime();
  const AsciiString &initialFile=GLOBAL_DATA->initialFile;
  if (!reinterpret_cast<const StringBase<char>*>(&initialFile)->isEmpty()) 
+ 
  {
   AsciiString file(initialFile);
   file.toLower();
   if (file.endsWithNoCase(".BfME2Campaign") || file.endsWithNoCase(".BfME2Skirmish") || file.endsWithNoCase(".BfME2WotR") || file.endsWithNoCase(".BfME2WotRMP")) 
+  
   {
    TreeHintOpaque0043671B saved;
    saved.m_text=UnicodeString(file);
@@ -416,8 +440,10 @@ void GameEngine::rva0022D290()
    saved.m_wordDF0=0;
    bool loaded=false;
    if (TheGameState->getSaveGameInfoFromFile(saved.m_text,&saved.m_subobject)) 
+   
    {
     if (TheGameState->rva002DE3C1(saved)==0) 
+    
     {
      loaded=true;
      if(TheShell)TheShell->rva0035BF4C(true);
@@ -427,6 +453,7 @@ void GameEngine::rva0022D290()
     
    }
    if(GLOBAL_DATA->autoExit) 
+   
    {
     if(!loaded)Sleep(666);
     char text[100];
@@ -439,8 +466,10 @@ void GameEngine::rva0022D290()
   
  }
  for (; !m_quitting;) 
+ 
  {
   try 
+  
   {
    Profile::StartRange(0);
    update();
@@ -448,9 +477,11 @@ void GameEngine::rva0022D290()
    
   }
   catch(INIException *e) 
+  
   {
    char *failure=e->mFailureMessage;
    if(failure) 
+   
    {
     _bfme_debugRecordCallsite(1);
     EngineDebugSlots *manager=DEBUG_MANAGER;
@@ -466,14 +497,17 @@ void GameEngine::rva0022D290()
    
   }
   catch(...) 
+  
   {
    try 
+   
    {
     if(g_bfme939Helper && g_bfme939Helper->get()==0 && ((RecorderClass*)g_bfme939Helper)->isMultiplayer())
     ((RecorderClass*)g_bfme939Helper)->cleanUpReplayFile();
     
    }
    catch(...) 
+   
    {
     
    }
@@ -489,12 +523,15 @@ void GameEngine::rva0022D290()
   EngineNetworkSlots *network=(EngineNetworkSlots*)TheNetwork;
   if(!network || TheDeepCRC || TheLiteCRC) LOGIC_SCALE=1.0f;
   else if(m_clientFramePeriod==1) 
+  
   {
    LOGIC_SCALE=1.0f;
    if(network->getNumPlayers()==1)LOGIC_SCALE=1.0f;
    else 
+   
    {
     if(((EngineNetworkSlots*)TheNetwork)->isPacketRouter()) 
+    
     {
      EngineLimitFrameRate=true;
      int headroom=((EngineNetworkSlots*)TheNetwork)->getFrameHeadroom();
@@ -506,6 +543,7 @@ void GameEngine::rva0022D290()
      
     }
     else 
+    
     {
      float desired=(float)((EngineNetworkSlots*)TheNetwork)->PeekFrameReady()*0.1f+0.7f;
      if(!(desired<1.0f))desired=1.0f;
@@ -520,18 +558,21 @@ void GameEngine::rva0022D290()
   if(LOGIC_SCALE!=1.0f)EngineLimitFrameRate=true;
   if((unsigned)SavedClientFrame+6>((EngineClientSlots*)TheGameClient)->getFrame())EngineLimitFrameRate=false;
   if(EngineLimitFrameRate) 
+  
   {
    unsigned now=timeGetTime();
    int limit=(int)(1000.0f/(float)((double)m_maxFPS*LOGIC_SCALE));
    unsigned elapsed=now-EnginePreviousFrameTime;
-   unsigned remaining=((unsigned)limit-elapsed) & ((unsigned)(elapsed>=(unsigned)limit)-1);
+   unsigned remaining=((now ? ((unsigned)limit-elapsed) : ((unsigned)limit-elapsed))) & ((unsigned)(elapsed>=(unsigned)limit)-1);
    EngineFrameElapsedTime=elapsed;
    EngineSleepTimeTotal+=remaining;
    _ReadWriteBarrier();
    EngineSleepTimeRemaining=remaining;
    if(elapsed<(unsigned)limit) 
+   
    {
     do 
+    
     {
      Sleep(0);
      now=timeGetTime();
@@ -544,6 +585,7 @@ void GameEngine::rva0022D290()
    
   }
   else 
+  
   {
    unsigned now=timeGetTime();
    EngineFrameElapsedTime=now-EnginePreviousFrameTime;
