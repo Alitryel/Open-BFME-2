@@ -6,8 +6,7 @@
 // (TerrainResourceManager.cpp lines 800..879: "Trying to use uninitialized
 // TerrainResourceManager!", "-1 != claimerPlayerID", "Claimed terrain
 // resource cell has other than one claim!"); its callee 0x0035A4A3 is WB's
-// TerrainResourceManager::isCellClaimable (pinned here under its address
-// name). Retail owner layout as TerrainResourceManager::DoXfer (0x0035ABE0):
+// TerrainResourceManager::isCellClaimable (recovered as isCellClaimable). Retail owner layout as TerrainResourceManager::DoXfer (0x0035ABE0):
 // width at +0x34 and the 16-byte cell array at +0x40 (claimant vector of
 // 8-byte (player id object id) records plus a state). Its only caller is the
 // functor slot at 0x0035AB7F (two counters at +0x10/+0x14). With cells it
@@ -56,15 +55,10 @@ public:
 	int state;
 };
 
-class Rva0035A4A3
-{
-public:
-	bool rva0035A4A3(int x, int y, int a, int id, bool exclusive, int b);
-};
-
 class TerrainResourceManager
 {
 public:
+	bool isCellClaimable(int, int, int, int, bool, int);
 	void tryToClaimCell(int x, int y, int a, ObjectID id, bool exclusive, int *attempts, int *successes);
 
 private:
@@ -81,7 +75,7 @@ void TerrainResourceManager::tryToClaimCell(int x, int y, int a, ObjectID id, bo
 	if (m_cells == 0)
 		return;
 	++*attempts;
-	if (!((Rva0035A4A3 *)this)->rva0035A4A3(x, y, a, id, exclusive, -1))
+	if (!isCellClaimable(x, y, a, id, exclusive, -1))
 		return;
 	Object *obj = TheGameLogic->findObjectByID(id);
 	if (obj == 0)

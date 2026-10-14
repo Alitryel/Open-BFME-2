@@ -1,15 +1,17 @@
-// ?isCellClaimable@TerrainResourceManager@@QAE_NHHHH_NH@Z
-// partial score=0.95 date=2026-10-12
-// ?isCellClaimable@TerrainResourceManager@@QAE_NHHHH_NH@Z
-// partial score=0.94 date=2026-10-10
-// ?isCellClaimable@TerrainResourceManager@@QAE_NHHHH_NH@Z
-// partial score=0.94 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
+// Retail 0x0035A4A3..0x0035A61F, 380 bytes, ret 0x18.
+// WorldBuilder 0x00E61100 names TerrainResourceManager::isCellClaimable
+// (TerrainResourceManager.cpp lines 589..671). The retail 16-byte cell
+// has an 8-byte claimant vector and state at +0x0C; claimant words are
+// player and object IDs. Layout follows accesses in retail and named WB.
+// Separate initialization/X/Y guards and the case-3 fall-through failure
+// preserve retail's shared true block between cases 3 and 2.
+// ?isCellClaimable@TerrainResourceManager@@QAE_NHHHH_NH@Z
 #include <vector>
-#include "../../Code/Libraries/Include/Lib/Coord3D.h"
-#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
-#include "../../Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../Common/GameLogicObjectLookupView.h"
+#include "../../Common/PartitionRangeQueryCallView.h"
 class Object {public: CellShroudStatus getShroudStatusForPlayer(int) const;};
 extern GameLogic *TheGameLogic;
 extern PartitionManager *TheShroudManager;
@@ -24,7 +26,9 @@ private: char pad00[0x1c];float originX1C,originY20;char pad24[0x10];int width34
 };
 bool TerrainResourceManager::isCellClaimable(int x,int y,int id,int ownId,bool force,int player)
 {
- if(!cells40 || x<0 || x>=width34 || y<0 || y>=height38) return false;
+ if(!cells40) return false;
+ if(x<0 || x>=width34) return false;
+ if(y<0 || y>=height38) return false;
  int shroud=0;
  if(!force && player>=0) {
     Coord3D point;
@@ -59,15 +63,12 @@ bool TerrainResourceManager::isCellClaimable(int x,int y,int id,int ownId,bool f
           int status=(int)object->getShroudStatusForPlayer(player);
           if(status==3 || status==4) return true;
        }
-       if(!force) return false;
-       if(claimant.a[0]==player) return true;
-       if(id==0x7FFFF43) return true;
-       if(id==claimant.a[1]) return true;
-       if(ownId!=claimant.a[1]) return false;
+       if(force && (claimant.a[0]==player || id==0x7FFFF43 || id==claimant.a[1] || ownId==claimant.a[1])) return true;
     }
-    else cell.state=0;
-    return true;
+    else { cell.state=0; return true; }
+    break;
  }
- default:return false;
+ default:break;
  }
+ return false;
 }

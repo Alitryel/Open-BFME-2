@@ -8,22 +8,17 @@
 // Method name is address-derived; owner identity follows the named WB callee
 // and TerrainResourceManager neighbours. Colour is a packed ARGB dword.
 // ?rva0035A61F@TerrainResourceManager@@QAEXPAIHHH@Z
-class Rva0035A4A3
-{
-public:
-	bool rva0035A4A3(int x, int y, int c, int zero, bool flag, int d);
-};
-
 typedef unsigned int Rva0035A61FColor;
 
 class TerrainResourceManager
 {
 public:
+	bool isCellClaimable(int, int, int, int, bool, int);
 	void rva0035A61F(Rva0035A61FColor *color, int x, int y, int claimant);
 private:
 	__forceinline bool isClaimable(int cx, int cy, int claimant)
 	{
-		return ((Rva0035A4A3 *)this)->rva0035A4A3(cx, cy, 0, 0, false, claimant);
+		return isCellClaimable(cx, cy, 0, 0, false, claimant);
 	}
 };
 
