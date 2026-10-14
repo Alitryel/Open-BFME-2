@@ -35,3 +35,8 @@ template NoCaseTree4CF550::_Link_type NoCaseTree4CF550::_M_copy(NoCaseTree4CF550
 // Whole-class instantiation of this tree. It reproduces operator= (retail 0x002D0867)
 // byte for byte; their calls read the tree's matched STL helpers.
 template class _STL::_Rb_tree<AsciiString,_STL::pair<AsciiString const ,NoCaseTreeValue4>,_STL::_Select1st<_STL::pair<AsciiString const ,NoCaseTreeValue4> >,BfmeStringNoCaseLess,_STL::allocator<_STL::pair<AsciiString const ,NoCaseTreeValue4> > >;
+
+// map::operator= at retail 0x002D0B48 (18B, RET4): assigns the tree through
+// its operator= 0x002D0867 above (the only callee) and returns this.
+typedef _STL::map<AsciiString, NoCaseTreeValue4, BfmeStringNoCaseLess> NoCaseMap4CF550;
+template NoCaseMap4CF550 &NoCaseMap4CF550::operator=(const NoCaseMap4CF550 &);
