@@ -1,4 +1,6 @@
 // ?loadCharBitmap@FontCharsClass@@AAEPBUFontCharsClassCharDataStruct@@G@Z
+// partial score=0.775 date=2026-10-14
+// ?loadCharBitmap@FontCharsClass@@AAEPBUFontCharsClassCharDataStruct@@G@Z
 // partial score=0.7604897040120062 date=2026-10-10
 // cl: /Ireference/shims/sweep /O2 /G7 /DNDEBUG /MD /EHsc /arch:SSE
 // stlport
@@ -91,7 +93,7 @@ const FontCharsClassCharDataStruct *FontCharsClass::loadCharBitmap(unsigned shor
  }
 
  int area=Scale*Scale;
- int halfArea=area>>1;
+ volatile int halfArea = area>>1;
  int tileX=64/Scale;
  int tileY=64/Scale;
  int tileWidth=Scale*tileX;
@@ -110,7 +112,7 @@ const FontCharsClassCharDataStruct *FontCharsClass::loadCharBitmap(unsigned shor
  memset(pixels+width*height,0,bottom*width*2);
  int tilesX=(width+tileX-1)/tileX;
  int tilesY=(height+tileY-1)/tileY;
- RECT rect={0,0,tileWidth,tileHeight};
+ RECT rect={0,0,(Scale*tileX),tileHeight};
  for(int ty=0;ty<tilesY;++ty) {
   for(int tx=0;tx<tilesX;++tx) {
 

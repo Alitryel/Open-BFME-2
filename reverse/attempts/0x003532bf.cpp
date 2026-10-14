@@ -1,4 +1,6 @@
 // ?rva003532BF@@YAXPAVObject@@PAVStateMachine@@_N@Z
+// partial score=0.9037 date=2026-10-14
+// ?rva003532BF@@YAXPAVObject@@PAVStateMachine@@_N@Z
 // partial score=0.8 date=2026-10-11
 // cl: /ICode/GameEngine/Source/Common /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
@@ -1120,14 +1122,16 @@ void rva003532BF(Object *source,StateMachine *,Bool attackMove) {
  for(ShipContainedNode *node=objects.list->header->next; node!=objects.list->header; node=node->next) {
   Object *passenger=node->object;
   passenger->getAI()->ignoreObstacle(source);
+  {
   Coord3D point;
   point.x=((ShipEvacuatePositionView *)source)->x;
   point.y=((ShipEvacuatePositionView *)source)->y;
   point.z=source->getPosition()->z;
   AIUpdateInterface *passengerAI=passenger->getAI();
-  if(passenger->getTemplate()->m_kindOf[13]&0x20) {
+  if((node->object)->getTemplate()->m_kindOf[13]&0x20) {
    if(attackMove) ((Rva00352F9D *)((char *)passengerAI+0x20))->rva003531DB(source,point,(CommandSourceType)source->getAI()->slot143());
    else ((Rva00352F9D *)((char *)passengerAI+0x20))->rva003530F3(source,point,(CommandSourceType)source->getAI()->slot143());
   } else ((Rva00352F9D *)((char *)passengerAI+0x20))->rva0035300B(source,point,(CommandSourceType)source->getAI()->slot143());
+  }
  }
 }

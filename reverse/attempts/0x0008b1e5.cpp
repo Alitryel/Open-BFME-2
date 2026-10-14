@@ -1,4 +1,6 @@
 // ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
+// partial score=0.9575 date=2026-10-14
+// ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
 // partial score=0.92 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib
 // stlport
@@ -292,7 +294,7 @@ Drawable *W3DView::pickDrawable(const ICoord2D *screen, bool forceAttack, int pi
 			{
 				Drawable *other = (Drawable *)((Rva0025DE76Slot *)draw)->rva000D43D0();
 				if (other)
-					draw = other;
+					draw = ((Drawable *)((Rva0025DE76Slot *)draw)->rva000D43D0());
 				if (draw)
 					return draw;
 			}

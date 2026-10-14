@@ -1,4 +1,6 @@
 // ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
+// partial score=0.8867 date=2026-10-14
+// ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
 // partial score=0.8996551009461485 date=2026-10-10
 // ?rva00177F82@Rva00177860@@QAEXAAVRenderInfoClass@@@Z
 // partial score=0.8459835826528512 date=2026-10-09
@@ -199,22 +201,22 @@ void Rva00177860::rva00177F82(RenderInfoClass&)
   && shader.Get_Alpha_Test()==ShaderClass::ALPHATEST_DISABLE
   && WW3D::Is_Sorting_Enabled() && g_Va00DB5F7D;
  DX8Wrapper::Set_Index_Buffer(sort?reinterpret_cast<IndexBufferClass*>(Rva009F7048):reinterpret_cast<IndexBufferClass*>(Rva009F7044),0);
- unsigned defaultDiffuse=ConvertDefaultPointColor(Vector4(defaultColor.X,defaultColor.Y,defaultColor.Z,defaultAlpha));
  int current=0;
+ unsigned defaultDiffuse=ConvertDefaultPointColor(Vector4(defaultColor.X,defaultColor.Y,defaultColor.Z,defaultAlpha));
  while(current<count) {
   int delta=MIN(count-current,512);
   BfmeSortingVBAccess vertices(sort?BUFFER_TYPE_DYNAMIC_SORTING:BUFFER_TYPE_DYNAMIC_DX8,5,delta*4,0);
   {
    BfmeSortingVBAccess::WriteLock lock(&vertices);
-   unsigned char *vb=(unsigned char*)lock.Get_Formatted_Vertex_Array();
    const PointGroupTargetFVF &fvf=vertices.FVF_Info();
+   unsigned char *vb=(unsigned char*)lock.Get_Formatted_Vertex_Array();
    unsigned stride=fvf.Get_FVF_Size();
    const Vector3 *volatile input=locations->Get_Array()+current*4;
 _ReadWriteBarrier();
 
    unsigned char *out=vb+fvf.Get_Location_Offset();
    for(unsigned i=0;i<static_cast<unsigned>(delta*4);++i) {((Vector3*)out)->X=input->X;((Vector3*)out)->Y=input->Y;((Vector3*)out)->Z=(input++)->Z;out+=stride;}
-   out=vb+fvf.Get_Diffuse_Offset();
+   out=vb+(vertices.FVF_Info()).Get_Diffuse_Offset();
    if(diffuse) {
     const Vector4 *input=diffuse->Get_Array()+current*4;
     for(unsigned i=0;i<static_cast<unsigned>(delta*4);++i) {*(unsigned*)out=ConvertPointColor(*input);out+=stride;++input;}
@@ -223,7 +225,7 @@ _ReadWriteBarrier();
    }
    out=vb+fvf.Get_Normal_Offset();
    if(normals) {
-    const Vector3 *input=normals->Get_Array()+current*4;
+    const Vector3 * volatile input = normals->Get_Array()+current*4;
     for(unsigned i=0;i<static_cast<unsigned>(delta*4);++i) {*(Vector3*)out=*input;out+=stride;++input;}
    } else {
     for(unsigned i=0;i<static_cast<unsigned>(delta*4);++i) {*(Vector3*)out=Vector3(0.0f,0.0f,1.0f);out+=stride;}

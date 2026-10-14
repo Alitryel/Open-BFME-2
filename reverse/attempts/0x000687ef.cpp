@@ -1,4 +1,6 @@
 // ?rva000687EF@BaseHeightMapRenderObjClass@@QAEXXZ
+// partial score=0.7429 date=2026-10-14
+// ?rva000687EF@BaseHeightMapRenderObjClass@@QAEXXZ
 // partial score=0.691852 date=2026-10-10
 // ?rva000687EF@BaseHeightMapRenderObjClass@@QAEXXZ
 // partial score=0.638345 date=2026-10-10
@@ -8,6 +10,7 @@
 // to the projection edge and samples the terrain virtual height there.
 #include <math.h>
 #include "Lib/BaseType.h"
+template<class T> static __forceinline T __cp(const T &x) { T t = x; return t; }
 struct Rva000EAFA4Coord3 {float x,y,z;};struct Rva000EAFA4Coord2 {float x,y;};
 class W3DTreeBuffer {public:bool rva000EAFA4(int,Rva000EAFA4Coord3*,float*,Rva000EAFA4Coord2*,Rva000EAFA4Coord2*);char pad00[0x44540];int count;};
 struct ProjectionVertex687EF {float x,y,z;unsigned diffuse;float u,v;};
@@ -189,7 +192,7 @@ void BaseHeightMapRenderObjClass::rva000687EF(){
       for(i=minX;i<maxX;i++){
        if(vertices37b0>=maxVertices37b8){vertices37b0=startVertex;return;}
        float X=i*10.0f;float u=(X-loc.x)/(2*radius)+0.5f,v=(Y-loc.y)/(2*radius)+0.5f;
-       float x=X,y=Y;
+       float x=X,y=__cp(j*10.0f);
        if(!(u<0.0f||u>1.0f||v<0.0f||v>1.0f)){
         u=u*scale.x+offset.x;v=v*scale.y+offset.y;
         curVb->z=(float)((Rva0006653B*)map37c0)->rva0006653B(i+borderSize,j+borderSize)*0.0390625f+1.0f;
@@ -212,7 +215,7 @@ void BaseHeightMapRenderObjClass::rva000687EF(){
         *curIb++=startVertex+j*yOffset+i+1;*curIb++=startVertex+(j+1)*yOffset+i+1;*curIb++=startVertex+(j+1)*yOffset+i;
        }else{
         *curIb++=startVertex+j*yOffset+i;*curIb++=startVertex+(j+1)*yOffset+i+1;*curIb++=startVertex+(j+1)*yOffset+i;
-        *curIb++=startVertex+j*yOffset+i;*curIb++=startVertex+j*yOffset+i+1;*curIb++=startVertex+(j+1)*yOffset+i+1;
+        *curIb++=startVertex+j*yOffset+i;*curIb++=startVertex+j*(maxX-minX)+i+1;*curIb++=startVertex+(j+1)*yOffset+i+1;
        }
        indices37b4+=6;
       }

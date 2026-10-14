@@ -1,4 +1,6 @@
 // ?queueSupplyTruck@AIPlayer@@IAEXXZ
+// partial score=0.8516 date=2026-10-14
+// ?queueSupplyTruck@AIPlayer@@IAEXXZ
 // partial score=0.83555863613803 date=2026-10-10
 // ?queueSupplyTruck@AIPlayer@@IAEXXZ
 // partial score=0.8124231700502887 date=2026-10-09
@@ -131,6 +133,8 @@
 //    The first queue walk holds the count in a local that only guards the
 //    shift loop, which is how retail keeps it in edi across the lookup; the
 //    two Coord3D initialisations copy member-wise (movss) as retail does.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <list>
 #include <vector>
 
@@ -831,6 +835,8 @@ private:
 
 class TeamPoolView {public:virtual ~TeamPoolView();};
 #include "Common/Snapshot.h"
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
+template<class T> static __forceinline T __cp(const T &x) { T t = x; return t; }
 class Rva0055B156:public Snapshot
 {
 public:
@@ -1244,6 +1250,7 @@ void AIPlayer::queueSupplyTruck( void )
 						Object *obj = objIter.cur();
 						if (!obj)  continue;
 						if (!((obj->getTemplate()->m_kindOf10A&1)!=0)) continue;
+						_ReadWriteBarrier();
 						if (!obj->getAI()) continue;
 
 						SupplyTruckAIInterface* supplyTruckAI = obj->getAI()->getSupplyTruckAIInterface();
@@ -1307,7 +1314,7 @@ void AIPlayer::queueSupplyTruck( void )
 							order->m_factoryID = factory->getID();
 							info->setCurrentGatherers(0);
 						}	else {
-							startTraining( order, team->m_priorityBuild, team->m_team->getName());
+							startTraining( order, __cp(__vref(team->m_priorityBuild)), team->m_team->getName());
 						}
 						break;
 					}

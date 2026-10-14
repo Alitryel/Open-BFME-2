@@ -1,7 +1,11 @@
 // ?rva0008304A@Rva0008304A@@QAEXXZ
+// partial score=0.8173 date=2026-10-14
+// ?rva0008304A@Rva0008304A@@QAEXXZ
 // partial score=0.226 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_STLP_NO_EXCEPTIONS
 // stlport
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 #include <string.h>
 #include "../../Code/Libraries/Include/Lib/Coord2D.h"
@@ -115,6 +119,7 @@ void Rva0008304A::rva0008304A() {
  }
  if(count){
   int origin[3];origin[0]=*reinterpret_cast<int*>(&bounds.x0);origin[1]=*reinterpret_cast<int*>(&bounds.y0);origin[2]=*reinterpret_cast<int*>(boundary+2);
+  _ReadWriteBarrier();
   int indexCount=count*6;
   Rva00082A53 cache(reinterpret_cast<int>(this),nx,ny,spacing,origin,2*count+nx+1);
   const ModuleData *ib=reinterpret_cast<const ModuleData*>(new DX8IndexBufferClass(indexCount,DX8IndexBufferClass::USAGE_DEFAULT));
@@ -123,7 +128,7 @@ void Rva0008304A::rva0008304A() {
    IndexBufferClass::WriteLockClass lock(reinterpret_cast<IndexBufferClass*>(const_cast<ModuleData*>(indexBuffers.back())),0);
    unsigned short *out=lock.indices;
    for(int y=0;y<ny;++y){
-    char *slot=*reinterpret_cast<char**>(&flags)+y*nx;
+    char * volatile slot = *reinterpret_cast<char**>(&flags)+y*nx;
     for(int x=0;x<nx;++x){
      if(*slot){
       out[0]=cache.rva00082E33(x,y);
@@ -138,7 +143,7 @@ void Rva0008304A::rva0008304A() {
     }
    }
   }
-  _STL::vector<BfmePod44> *records=reinterpret_cast<_STL::vector<BfmePod44>*>(&cache.records);
+  _STL::vector<BfmePod44> * volatile records = reinterpret_cast<_STL::vector<BfmePod44>*>(&cache.records);
   const ModuleData *vb=reinterpret_cast<const ModuleData*>(new BfmeDynamicNativeVB(0x252,records->size(),0,0));
   vertexBuffers.push_back(vb);
   {

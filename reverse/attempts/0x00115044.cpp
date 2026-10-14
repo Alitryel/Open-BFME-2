@@ -1,4 +1,6 @@
 // ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
+// partial score=0.8212 date=2026-10-14
+// ?doPartialUpdate@W3DTerrainBackground@@QAEXABUIRegion2D@@PAVWorldHeightMap@@_N2@Z
 // partial score=0.823 date=2026-10-10
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
@@ -15,6 +17,7 @@ extern "C" void _ReadWriteBarrier();
 // helper receivers keep their ledger names.
 
 #include <string.h>
+template<class T> static __forceinline T __cp(const T &x) { T t = x; return t; }
 
 typedef int Int;
 typedef float Real;
@@ -390,11 +393,12 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 	Int maxY = m_yOrigin + m_width;
 	WorldHeightMap *map = m_map;
 	Int limitX = map->getXExtent() - 1;
+	_ReadWriteBarrier();
 	Int limitY = map->getYExtent() - 1;
 	if (maxX > limitX)
 		maxX = limitX;
 	if (maxY > limitY)
-		maxY = limitY;
+		maxY = __cp(map->getYExtent() - 1);
 	if (partialRange.lo.x > maxX || partialRange.lo.y > maxY
 		|| partialRange.hi.x < minX || partialRange.hi.y < minY)
 		return;
@@ -448,7 +452,7 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			TCliffInfo info;
 			m_map->rva000AE44B(i, j, &info);
 			Int base = m_curNumCliffVertices;
-			if (base + 4 >= m_vertexCliffSize)
+			if (base + 4 >= __cp(m_vertexCliffSize))
 				return;
 			bool flip = false;
 			unsigned char alpha[4];
@@ -465,8 +469,8 @@ void W3DTerrainBackground::doPartialUpdate(const IRegion2D &partialRange, WorldH
 			Vector3 normal;
 			curVb->diffuse = (alpha[0] << 24) | ((Rva0006B4CC *)TheTerrainRenderObject)->call(i, j, 1);
 			pos.Z = ((Real)m_map->getHeight(i, j) * MAP_HEIGHT_SCALE);
-			pos.X = i * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			pos.Y = j * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
+			pos.X = i * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
 			m_map->getTerrainNormal(i, j, &normal);
 			curVb->u1 = info.u0;
 			curVb->v1 = info.v0;

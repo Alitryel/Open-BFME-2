@@ -1,4 +1,6 @@
 // ?update@AIFollowPathAsTeamState@@UAE?AW4StateReturnType@@XZ
+// partial score=0.8825 date=2026-10-14
+// ?update@AIFollowPathAsTeamState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.95 date=2026-10-14
 // cl: /ICode/GameEngine/Source/Common /ICode/Libraries/Include/Lib /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
@@ -89,6 +91,7 @@ static __forceinline void critterDesyncLog(const char *text)
 // math.h: its sqrt declaration keeps the x87 result store after the argument
 // pops, and its float fabs overload is the CRT fabs compared as float.
 #include <math.h>
+template<class T> static __forceinline T __cp(const T &x) { T t = x; return t; }
 Real normalizeAngle(Real angle);
 
 #define PATHFIND_CELL_SIZE_F 10.0f
@@ -1509,6 +1512,7 @@ StateReturnType AIFollowPathAsTeamState::update()
 		if (m_57 && m_index > 0)
 			m_index--;
 		const Coord3D *pos = (const Coord3D *)ai->m_goalPath->rva00346FA5(m_index + 1);
+		_ReadWriteBarrier();
 		if (pos)
 		{
 			Real speed = ((const Rva00340E5E *)this)->rva00340E5E();
@@ -1519,6 +1523,7 @@ StateReturnType AIFollowPathAsTeamState::update()
 		}
 		m_index++;
 		ai->m_currentGoalPathIndex = m_index;
+		_ReadWriteBarrier();
 		m_waitingForTeam = pos != 0;
 	}
 	if (m_waitingForTeam && !canMoveToNextFormationPathPoint())
@@ -1536,13 +1541,14 @@ StateReturnType AIFollowPathAsTeamState::update()
 		while (pos && tooClose)
 		{
 			Real dx = pos->x - ownerX;
+			_ReadWriteBarrier();
 			Real dy = pos->y - ownerY;
 			tooClose = false;
 			if (dy * dy + dx * dx < PATHFIND_CELL_SIZE_F * PATHFIND_CELL_SIZE_F)
 				tooClose = true;
 			Int nextIndex = m_index + 1;
 			const Coord3D *nextPos = (const Coord3D *)ai->m_goalPath->rva00346FA5(nextIndex);
-			if (nextPos && (nextPos->y - pos->y) * (pos->y - ownerY) + (nextPos->x - pos->x) * dx < 0.0f)
+			if (nextPos && (nextPos->y - pos->y) * (pos->y - ownerY) + (nextPos->x - pos->x) * __cp(pos->x - ownerX) < 0.0f)
 				tooClose = true;
 			if (tooClose)
 			{
@@ -1594,6 +1600,7 @@ StateReturnType AIFollowPathAsTeamState::update()
 						m_goalPosition.x += obj->getPosition()->x;
 						goal->y += obj->getPosition()->y;
 						goal->z += obj->getPosition()->z;
+						_ReadWriteBarrier();
 						goal->x *= 0.5f;
 						goal->y *= 0.5f;
 						goal->z *= 0.5f;

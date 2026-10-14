@@ -1,4 +1,8 @@
 // ?rva00100568@?$SimpleDynVecClass@VVector3@@@@QAEXXZ
+// partial score=0.6613 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva00100568@?$SimpleDynVecClass@VVector3@@@@QAEXXZ
 // partial score=0.93 date=2026-10-04
 // ?rva00100568@?$SimpleDynVecClass@VVector3@@@@QAEXXZ
 // partial score=0.93 date=2026-10-02
@@ -37,10 +41,12 @@ public:
 // ?rva00100568@?$SimpleDynVecClass@VVector3@@@@QAEXXZ present-unmatched
 void SimpleDynVecClass<Vector3>::rva00100568()
 {
+	_ReadWriteBarrier();
 	int count = ActiveCount;
 	if (count == 0)
 		return;
 	float eps = g_Va00BCF628;
+	_ReadWriteBarrier();
 	if (count < 3)
 		return;
 	int mask = 0x7fffffff;
@@ -57,7 +63,7 @@ void SimpleDynVecClass<Vector3>::rva00100568()
 		*(int *)&dx1 &= mask;
 		if (eps <= dx1)
 			goto check_cur;
-		float dy1 = outerV->Y - prevV->Y;
+		float dy1 = (&base[outer])->Y - prevV->Y;
 		*(int *)&dy1 &= mask;
 		if (eps <= dy1)
 			goto check_cur;
@@ -96,6 +102,7 @@ void SimpleDynVecClass<Vector3>::rva00100568()
 	next:
 		outer++;
 		inner++;
+		_ReadWriteBarrier();
 		if (outer >= ActiveCount)
 			return;
 		count = ActiveCount;
