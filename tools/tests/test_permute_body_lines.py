@@ -82,3 +82,13 @@ def test_without_focus_every_body():
 def test_missing_target_falls_back_to_every_body():
     src = "int a()\n{\n    return 1;\n}\n"
     assert picked(src, "?nope@Foo@@QAEHXZ") == ["return 1;"]
+
+
+def test_return_type_of_indented_and_one_line_definitions():
+    src = ("namespace n {\n  int Foo::bar(int x)\n  {\n    return x * 2;\n  }\n}\n"
+           "float baz() { return 1.5f * 2.0f; }\n"
+           "void Foo::none()\n{\n    return;\n}\n")
+    lines = src.split("\n")
+    assert permute._return_type(lines, 3) == "int"
+    assert permute._return_type(lines, 6) == "float"
+    assert permute._return_type(lines, 9) is None

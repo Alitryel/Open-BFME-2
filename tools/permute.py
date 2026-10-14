@@ -348,12 +348,10 @@ SIMPLE_RETURN = re.compile(r"^(?:static\s+|inline\s+)*((?:unsigned\s+|signed\s+|
 
 def _return_type(lines, i):
     """The simple return type of the function enclosing line i, or None."""
-    for k in range(i, -1, -1):
-        found = SIMPLE_RETURN.match(lines[k])
-        if found:
-            return found.group(1)
-        if BODY_START.match(lines[k]):
-            return None
+    for header, _brace, end in _definitions(lines):
+        if header <= i <= end:
+            found = SIMPLE_RETURN.match(lines[header].strip())
+            return found.group(1) if found else None
     return None
 
 
