@@ -18,11 +18,6 @@ class StringBase
 {
 public:
 	void set(const StringBase<T> &other);
-	StringBase<T> &operator=(const StringBase<T> &other)
-	{
-		set(other);
-		return *this;
-	}
 
 private:
 	T *m_data;
@@ -45,6 +40,6 @@ Rva005F91C6 &Rva005F91C6::operator=(const Rva005F91C6 &other)
 	m_00 = other.m_00;
 	m_04 = other.m_04;
 	m_08 = other.m_08;
-	m_0C = other.m_0C;
+	m_0C.set(other.m_0C);
 	return *this;
 }
