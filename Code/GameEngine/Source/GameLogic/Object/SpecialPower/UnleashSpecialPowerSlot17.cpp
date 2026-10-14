@@ -41,10 +41,13 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class Module;
 class UnleashSpecialPower;
 
-class SlaveWatcherBehavior
+class SlaveWatcherBehavior;
+
+// 0x0030D377 is the ICF-folded 4-byte getter matched as NetWrapperCommandMsg::getDataLength.
+class NetWrapperCommandMsg
 {
 public:
-	ObjectID rva0030D377() const;
+	unsigned int getDataLength();
 };
 
 class AICommandInterface
@@ -143,7 +146,7 @@ void UnleashSpecialPower::triggerAbilityEffect()
 	SlaveWatcherBehavior *watcher = (SlaveWatcherBehavior *)obj->findModule(key);
 	if (watcher == 0)
 		return;
-	Object *slaver = TheGameLogic->findObjectByID(watcher->rva0030D377());
+	Object *slaver = TheGameLogic->findObjectByID((ObjectID)((NetWrapperCommandMsg *)watcher)->getDataLength());
 	if (slaver == 0)
 		return;
 	for (BehaviorModule **m = slaver->m_behaviors; *m; ++m)
