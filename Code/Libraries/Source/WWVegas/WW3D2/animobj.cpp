@@ -89,6 +89,15 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "wwmemlog.h"
 #include "animatedsoundmgr.h"
 
+// Likewise for HTreeClass's scalar deleting destructor: retail links one copy,
+// the /O1-shaped body at 0x0017FADF (pop ecx after operator delete), where this
+// unit's command-line state emits add esp,4. The ??_H anchor cannot share this
+// block: it has to precede the includes, and this one needs the complete
+// HTreeClass. If a later HTree delete here will not match, try it without this.
+#pragma optimize("gsy", on)
+static void bfmeHTreeDeleteAnchor(HTreeClass * tree) { delete tree; }
+#pragma optimize("", on)
+
 
 /***********************************************************************************************
  * Animatable3DObjClass::Animatable3DObjClass -- constructor                                   *
