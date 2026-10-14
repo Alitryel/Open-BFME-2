@@ -1,4 +1,6 @@
 // ?rva00489D09@DozerAIUpdate@@UAEXXZ
+// partial score=0.94 date=2026-10-14
+// ?rva00489D09@DozerAIUpdate@@UAEXXZ
 // partial score=0.94 date=2026-10-07
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
 //

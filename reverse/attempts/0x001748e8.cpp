@@ -1,5 +1,7 @@
 // ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ
 // partial score=0.59397 date=2026-10-14
+// ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ
+// partial score=0.59397 date=2026-10-14
 // cl: /O1 /G7 /MD /EHsc
 //
 // ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ, retail

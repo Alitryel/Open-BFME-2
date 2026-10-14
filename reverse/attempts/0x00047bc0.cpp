@@ -1,4 +1,6 @@
 // ?rva00047BC0@W3DDisplay@@AAEXPADIIPBD@Z
+// partial score=0.8 date=2026-10-14
+// ?rva00047BC0@W3DDisplay@@AAEXPADIIPBD@Z
 // partial score=0.8 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 //

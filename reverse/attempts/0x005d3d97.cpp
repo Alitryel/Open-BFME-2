@@ -1,4 +1,6 @@
 // ?rva005D3D97@SelectionUIImpl@@QAEXXZ
+// partial score=0.85 date=2026-10-14
+// ?rva005D3D97@SelectionUIImpl@@QAEXXZ
 // partial score=0.85 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 struct TargetRef00217D4C { virtual void *destroy(unsigned flags); int references; };

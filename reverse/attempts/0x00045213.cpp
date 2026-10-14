@@ -1,4 +1,6 @@
 // ?rva00045213@W3DDisplay@@AAEXPADI@Z
+// partial score=0.8 date=2026-10-14
+// ?rva00045213@W3DDisplay@@AAEXPADI@Z
 // partial score=0.8 date=2026-10-13
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
 // ?rva00045213@W3DDisplay@@AAEXPADI@Z @0x00045213 377B, thiscall ret 8.

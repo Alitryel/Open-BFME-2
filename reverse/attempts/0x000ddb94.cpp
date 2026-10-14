@@ -1,4 +1,6 @@
 // ?getBridgeInfo@W3DBridge@@QAEXPAVRva0027C36A@@@Z
+// partial score=0.36 date=2026-10-14
+// ?getBridgeInfo@W3DBridge@@QAEXPAVRva0027C36A@@@Z
 // partial score=0.36 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //

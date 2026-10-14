@@ -1,4 +1,6 @@
 // ?rva0073BC60@Gen_008F7CD0@@QBEXHHPAUBfmeCellOut@@@Z
+// partial score=0.9 date=2026-10-14
+// ?rva0073BC60@Gen_008F7CD0@@QBEXHHPAUBfmeCellOut@@@Z
 // partial score=0.9 date=2026-10-13
 // BFME1 BfmeConv1574.cpp adapted to the target constants below.
 // Target identity: Ghidra boundary 0x73BD70/131 bytes and the direct calls

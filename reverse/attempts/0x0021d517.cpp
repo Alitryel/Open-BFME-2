@@ -1,4 +1,6 @@
 // ?RegisterCreateAHeroAtRva0021D517@@YAXPAVCreateAHeroData@@@Z
+// partial score=0.99 date=2026-10-14
+// ?RegisterCreateAHeroAtRva0021D517@@YAXPAVCreateAHeroData@@@Z
 // partial score=0.99 date=2026-10-04
 // ?RegisterCreateAHeroAtRva0021D517@@YAXPAVCreateAHeroData@@@Z
 // cl: /O1 /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc

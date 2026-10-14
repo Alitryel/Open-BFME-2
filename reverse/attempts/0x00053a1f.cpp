@@ -1,4 +1,6 @@
 // ?rva00053A1F@MilesAudioManager@@QAEMPAVAudioEventRTS@@@Z
+// partial score=0.93 date=2026-10-14
+// ?rva00053A1F@MilesAudioManager@@QAEMPAVAudioEventRTS@@@Z
 // partial score=0.93 date=2026-10-09
 // ?rva00053A1F@MilesAudioManager@@QAEMPAVAudioEventRTS@@@Z 0x53A1F 219B added lines (AudioSettings +0x70 int, class decl, BfmeAudioEventPrefix136 view for 0x2DA1CC, body)
 #if 0

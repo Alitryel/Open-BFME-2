@@ -1,4 +1,6 @@
 // ?CreateBMPFile@@YAXPBDPADHH@Z
+// partial score=0.6 date=2026-10-14
+// ?CreateBMPFile@@YAXPBDPADHH@Z
 // partial score=0.6 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 //

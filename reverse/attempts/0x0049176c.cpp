@@ -2,6 +2,8 @@
 // partial score=0.7 date=2026-10-14
 // ?rva0049176C@Rva0049176C@@QAE_NXZ
 // partial score=0.7 date=2026-10-14
+// ?rva0049176C@Rva0049176C@@QAE_NXZ
+// partial score=0.7 date=2026-10-14
 // cl: /O1 /Oy- /arch:SSE /G7 /EHsc /MD /Ireference/shims/bfme2_ascii /DNDEBUG
 // ?rva0049176C@Rva0049176C@@QAE_NXZ @0x0049176C 289B: command-set switch of an upgrade module (slot
 // 31 of the module's secondary base, so the module data sits at this-0xC and the object at

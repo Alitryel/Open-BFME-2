@@ -1,4 +1,6 @@
 // ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z
+// partial score=0.8 date=2026-10-14
+// ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z
 // partial score=0.8 date=2026-10-08
 // ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z
 // partial score=0.8 date=2026-10-08

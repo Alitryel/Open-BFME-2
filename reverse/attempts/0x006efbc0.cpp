@@ -1,5 +1,7 @@
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
 // partial score=0.7892620310435328 date=2026-10-14
+// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
+// partial score=0.7892620310435328 date=2026-10-14
 // ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
 // partial score=0.7730629595203664 date=2026-10-13
 extern "C" void _ReadWriteBarrier();
