@@ -1,30 +1,10 @@
-// ?rva00113399@W3DTerrainBackground@@QAEXPAGPAXHHHH0AAH@Z
-// partial score=0.997 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-// Native [00113399,00113C07),2158B, RET32. WorldBuilder places the body in
-// W3DTerrainBackground.cpp (unnamed there). Rectangle form of the ZH
-// fillVBRecursive triangle fan: clamp the (width x height) block at
-// (xOffset, yOffset) to the map extent, walk its left and right edges with
-// the advance helpers 0x0011274C / 0x001127F2 and emit three indices per
-// fan triangle into ib (when present), counting through curIndex. Corner
-// triangles are emitted only for in-mesh corners (0x001126FD); when the
-// auxiliary height buffer is present every emitted triangle is also cast
-// through getTriangleIntersection (0x0011319A). Retail computes the last
-// triangle's right-vertex Y from the X origin (+0x50); kept as found.
-// Bank state: correct 2158B size, 0x90 frame and register allocation, 6
-// differing lines with the volatile m_width/m_height view (12 without it). The fix was defining the callees test/advanceYThenX/
-// advanceScan (from Rva00729300BitPlanes.cpp) in this TU so intra-TU mod/ref
-// keeps right.y in ebx, and writing (m_width + 1) inline (retail [ebp+4Ch] is
-// its CSE). Remaining: commutative operand order of the minX lea, the maxY
-// clamp lea and the topRight test y-arg (push edx deferred), and the
-// point.x-before-m_xOrigin load order at the three later triangle starts.
-// Source operand order, /EHs-c-, struct vs memberwise prev copies make no
-// difference; scalar prev ints break the size. Land beside the callees.
-// r8 (6 lines left, all three are point.x-vs-m_xOrigin load order at the
-// later triangle starts): operand swaps in X or the getHeight arg, an inline
-// worldXY(Int) helper and an explicit x local are inert or break the size;
-// WB's zero-initialised Vector3 ctors grow it to 2350B. Next: find a non-
-// volatile cause for the prologue lea order, then retry the load order.
+// Native00113399..00113C07: rectangle triangle fan, 2158B RET32.
+// Target origin50/54, width58 and map5C accesses establish this view.
+// ZH fillVBRecursive is the semantic guide; the original name is unknown.
+// Complete grid-reader visibility permits ordinary map dimensions and
+// reproduces the native coordinate load order. Exact helper copies retain
+// their existing owners. See reverse/attempt_evidence/0x00113399_visibility.txt.
 typedef int Int;
 typedef float Real;
 typedef bool Bool;
@@ -32,52 +12,39 @@ typedef unsigned short UnsignedShort;
 #define MAP_XY_FACTOR 10.0f
 #define MAP_HEIGHT_SCALE (10.0f / 256.0f)
 class Vector3
-
 {
  public:
  Real X;
  Real Y;
  Real Z;
- 
-}
-;
-struct ICoord2D
-
-{
- Int x;
- Int y;
- 
-}
-;
+};
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 class BoundedShortGrid
-
 {
- public:
- short rva00062A58(Int x, Int y);
- 
-}
-;
+public:
+	short rva00062A58(int a, int b);
+private:
+	unsigned char m_unknown00[0x08];
+	int m_stride;
+	unsigned char m_unknown0C[0x20 - 0x0C];
+	int m_capacity;
+	short *m_data;
+};
 typedef unsigned char Byte;
 struct Rva00729300Bytes
-
 {
  Byte *m_begin;
  Byte *m_end;
  unsigned size() const 
  {
   return (unsigned)(m_end - m_begin);
-  
  }
  Byte operator[]( int index ) const 
  {
   return m_begin[index];
-  
  }
- 
-}
-;
+};
 class Rva00729300BitPlane
-
 {
  public:
  bool test( int x, int y ) const;
@@ -89,72 +56,55 @@ class Rva00729300BitPlane
  int m_stride;
  Byte m_opaque38[0x0c];
  Rva00729300Bytes m_bits;
- 
-}
-;
-bool Rva00729300BitPlane::test( int x, int y ) const
-
+};
+__declspec(noinline) inline bool Rva00729300BitPlane::test( int x, int y ) const
 {
  register const Rva00729300BitPlane *self = this;
  if( x < 0 || y < 0 || y >= self->m_height || x >= self->m_width )
- 
  {
   return false;
-  
  }
  const int index = self->m_stride * y + (x >> 3);
  if( (unsigned)index >= self->m_bits.size() )
- 
  {
   return false;
-  
  }
  int mask = 1;
  mask <<= x & 7;
  Byte value = self->m_bits[index];
  bool result = (value & mask) != 0;
  return result;
- 
 }
 class WorldHeightMap
-
 {
  public:
  Int getXExtent() 
  {
   return m_width;
-  
  }
  Int getYExtent() 
  {
   return m_height;
-  
  }
  Int getBorderSize() 
  {
   return m_borderSize;
-  
  }
  UnsignedShort getHeight(Int x, Int y) 
  {
   return ((BoundedShortGrid *)this)->rva00062A58(x, y);
-  
  }
  bool isInMesh(Int x, Int y) 
  {
   return ((const Rva00729300BitPlane *)this)->test(x, y);
-  
  }
  private:
  unsigned char m_pad00[0x08];
- volatile Int m_width;
- volatile Int m_height;
+ Int m_width;
+ Int m_height;
  Int m_borderSize;
- 
-}
-;
+};
 class Rva001127F2TerrainPrefix
-
 {
  public:
  bool advanceScan( ICoord2D &right, int xOffset, int yOffset,
@@ -166,18 +116,15 @@ class Rva001127F2TerrainPrefix
  int m_yOrigin;
  int m_unmodelled58;
  Rva00729300BitPlane *m_map;
- 
-}
-;
+};
 // The full BFME1 ba7ddda7 donor with the same +10 origin/map shift also
 // places this entire 166B body at 1127F2..112898. Independent native RET20,
 // two scan loops, ordered coordinate updates and calls to 1126FD establish
 // the behavior. Its earlier bank differed in loop bounds; the donor source
 // now reproduces every byte. Original owner and directional labels remain
 // unproven; keep this separate observed prefix from the other receiver.
-bool Rva001127F2TerrainPrefix::advanceScan( ICoord2D &right, int xOffset,
+__declspec(noinline) inline bool Rva001127F2TerrainPrefix::advanceScan( ICoord2D &right, int xOffset,
 int yOffset, int width, int height )
-
 {
  Rva00729300BitPlane *map = m_map;
  int mapWidth = map->m_width;
@@ -188,28 +135,23 @@ int yOffset, int width, int height )
  limitX--;
  limitY--;
  while( right.x < width + xOffset && right.x < limitX )
- 
  {
   right.x++;
   if( m_map->test( right.x + m_xOrigin, right.y + m_yOrigin ) )
   return true;
-  
  }
  while( right.y < yOffset + height - 1 && right.y < limitY - 1 )
- 
  {
   right.y++;
   if( m_map->test( right.x + m_xOrigin, right.y + m_yOrigin ) )
   return true;
-  
  }
  return false;
- 
 }
 // Native 11274C..1127F2 is the Y-first counterpart: both loops and RET20
 // independently reproduce all 166 bytes with this compatible observed prefix.
 // Shared offsets do not establish a shared original class or allocation size.
-bool Rva001127F2TerrainPrefix::advanceYThenX(ICoord2D &point,
+__declspec(noinline) inline bool Rva001127F2TerrainPrefix::advanceYThenX(ICoord2D &point,
 int xOffset,int yOffset,int width,int height) 
 {
  Rva00729300BitPlane *map = m_map;
@@ -225,20 +167,16 @@ int xOffset,int yOffset,int width,int height)
   point.y++;
   if (m_map->test(point.x + m_xOrigin, point.y + m_yOrigin))
   return true;
-  
  }
  while (point.x < xOffset + width - 1 && point.x < limitX - 1) 
  {
   point.x++;
   if (m_map->test(point.x + m_xOrigin, point.y + m_yOrigin))
   return true;
-  
  }
  return false;
- 
 }
 class W3DTerrainBackground
-
 {
  public:
  void getTriangleIntersection(Vector3 *heights, int x, int y, int width, int height,
@@ -247,29 +185,33 @@ class W3DTerrainBackground
  Int width, Int height, UnsignedShort *ndx, Int &curIndex);
  private:
  bool advanceLeft(ICoord2D &left, Int xOffset, Int yOffset, Int width, Int height)
- 
  {
   return ((Rva001127F2TerrainPrefix *)this)->advanceYThenX(left, xOffset, yOffset, width, height);
-  
  }
  bool advanceRight(ICoord2D &right, Int xOffset, Int yOffset, Int width, Int height)
- 
  {
   return ((Rva001127F2TerrainPrefix *)this)->advanceScan(right, xOffset, yOffset, width, height);
-  
  }
  unsigned char m_pad00[0x50];
  Int m_xOrigin;
  Int m_yOrigin;
  Int m_width;
  WorldHeightMap *m_map;
- 
-}
-;
+};
 // ?rva00113399@W3DTerrainBackground@@QAEXPAGPAXHHHH0AAH@Z
+inline __declspec(noinline) short BoundedShortGrid::rva00062A58(int a, int b)
+{
+	int idx = m_stride * b + a;
+	if (idx < 0)
+		return 0;
+	if (idx >= m_capacity)
+		return 0;
+	if (m_data)
+		return m_data[idx];
+	return 0;
+}
 void W3DTerrainBackground::rva00113399(UnsignedShort *ib, void *heights, Int xOffset, Int yOffset,
 Int width, Int height, UnsignedShort *ndx, Int &curIndex)
-
 {
  Int minX = m_xOrigin + xOffset;
  Int minY = m_yOrigin + yOffset;
@@ -321,9 +263,7 @@ Int width, Int height, UnsignedShort *ndx, Int &curIndex)
    v2.Y = (m_yOrigin + left.y) * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
    v2.Z = m_map->getHeight(m_xOrigin + left.x, m_yOrigin + left.y) * MAP_HEIGHT_SCALE;
    getTriangleIntersection((Vector3 *)heights, xOffset, yOffset, width, height, v0, v1, v2);
-   
   }
-  
  }
  else 
  {
@@ -332,7 +272,6 @@ Int width, Int height, UnsignedShort *ndx, Int &curIndex)
   curIndex++;
   curIndex++;
   curIndex++;
-  
  }
  Bool didLeft = true;
  Bool didRight = true;
@@ -367,9 +306,7 @@ Int width, Int height, UnsignedShort *ndx, Int &curIndex)
     v2.Y = (m_yOrigin + left.y) * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
     v2.Z = m_map->getHeight(m_xOrigin + left.x, m_yOrigin + left.y) * MAP_HEIGHT_SCALE;
     getTriangleIntersection((Vector3 *)heights, xOffset, yOffset, width, height, v0, v1, v2);
-    
    }
-   
   }
   ICoord2D prevRight = right;
   didRight = advanceRight(right, xOffset, yOffset, width, height);
@@ -400,11 +337,8 @@ Int width, Int height, UnsignedShort *ndx, Int &curIndex)
     v2.Y = (m_yOrigin + right.y) * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
     v2.Z = m_map->getHeight(m_xOrigin + right.x, m_yOrigin + right.y) * MAP_HEIGHT_SCALE;
     getTriangleIntersection((Vector3 *)heights, xOffset, yOffset, width, height, v0, v1, v2);
-    
    }
-   
   }
-  
  }
  if (topRightInMesh) 
  {
@@ -432,9 +366,6 @@ Int width, Int height, UnsignedShort *ndx, Int &curIndex)
    v2.Y = (minY + width) * MAP_XY_FACTOR - m_map->getBorderSize() * MAP_XY_FACTOR;
    v2.Z = m_map->getHeight(minX + width, minY + width) * MAP_HEIGHT_SCALE;
    getTriangleIntersection((Vector3 *)heights, xOffset, yOffset, width, height, v0, v1, v2);
-   
   }
-  
  }
- 
 }
