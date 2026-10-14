@@ -3,8 +3,6 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 // Open-BFME5: clean-C++ DefaultModuleTemplate (ledger $02 / N=3) default constructor.
 
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 class GameClientRandomVariable
 {
 public:
@@ -109,7 +107,6 @@ __declspec(noinline) DefaultPhysicsModuleInfo::DefaultPhysicsModuleInfo()
     m_float04 = 0.0f;
     m_float08 = 0.0f;
     m_float0C = 0.0f;
-    _ReadWriteBarrier();
     m_var14.setRange(0.0f, 0.0f, GameClientRandomVariable::UNIFORM);
     m_flag20 = false;
     m_flag21 = false;

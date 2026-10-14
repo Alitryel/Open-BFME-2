@@ -1,34 +1,13 @@
 // ??0WeatherSetting@@QAE@XZ
-// partial score=0.9931 date=2026-10-13
-// ??0WeatherSetting@@QAE@XZ
-// partial score=0.9931467796991634 date=2026-10-13
-// ??0WeatherSetting@@QAE@XZ
-// partial score=0.9908623729322181 date=2026-10-13
-// ??0WeatherSetting@@QAE@XZ
-// partial score=0.9908623729322181 date=2026-10-13
-// ??0WeatherSetting@@QAE@XZ
-// partial score=0.99 date=2026-10-13
-// ??0WeatherSetting@@QAE@XZ
-// partial score=0.99 date=2026-10-13
-// ??0WeatherSetting@@QAE@XZ
-// partial score=0.98 date=2026-10-10
-// ??0WeatherSetting@@QAE@XZ
-// partial score=0.98 date=2026-10-09
-// ??0WeatherSetting@@QAE@XZ
-// partial score=0.95 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /ICode/Libraries/Include
-// stlport
-// ??0WeatherSetting@@QAE@XZ @0x00201618 503B.
-// BFME 2's WeatherSetting constructor: Zero Hour's field defaults over the
-// BFME 2 layout (the same offsets as the copy assignment 0x00201412 and
-// SnowManager::updateIniSettings). The two bases are the 0x10-byte
-// Overridable-style base at +0 (vptr 0x00BDDC48 during construction, the
-// override link and flag, the +0x0C word set to -1) and the registered module
-// base Rva00200D38 at +0x10 (built from the name "Weather" through the rowed
-// constructor 0x00200D38, which also files the object in the global module
-// vector); the final vptrs are 0x00BE3070 and 0x00BE3064. Snow texture
-// "EXSnowFlake.tga" goes through AsciiString::set; the colour at +0x8C is
-// set from the packed int 0x00886655 (RGBColor::setFromInt 0x00004EDF).
+// partial score=0.997 date=2026-10-14
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include /Ireference/shims/bfme2_ascii
+//
+// W7-MP6 r13: WeatherSetting default ctor 0x00201618 (503B) reconstruction.
+// A dedicated TU because the class view is private to this body; the volatile
+// Coord2D m_84 pair (x then y, no barrier) puts the two movss stores in
+// retail's x/y order, and the 20.0f literal is the pool value Float-ref
+// verifies by content. Bank: reverse/attempts/0x00201618.cpp.
+//
 #include "ascii_string.h"
 #include "Lib/Coord2D.h"
 extern "C" void _ReadWriteBarrier();
@@ -103,7 +82,7 @@ public:
 	volatile int m_70;
 	volatile Coord2D m_74;
 	Coord2D m_7C;
-	Coord2D m_84;
+	volatile Coord2D m_84;
 	RGBColor m_8C;
 	bool m_98;
 	Coord2D m_9C;
@@ -144,10 +123,9 @@ WeatherSetting::WeatherSetting() : Rva00200D38(AsciiString("Weather")), m_58(0),
 	p7C->x = 0.0f;
 	float e20 = 20.0f;
 	p7C->y = 100.0f;
-	Coord2D *p84 = &m_84;
-	p84->y = e20;
-	_ReadWriteBarrier();
+	volatile Coord2D *p84 = &m_84;
 	p84->x = 50.0f;
+	p84->y = e20;
 	m_8C.setFromInt(0x886655);
 	m_9C.x = 300.0f;
 	m_98 = false;
