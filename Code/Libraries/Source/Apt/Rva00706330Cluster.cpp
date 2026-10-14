@@ -44,7 +44,7 @@ void Rva00706330Stack::rva00706330()
 	--m_bfmeCount;
 	Rva006FBDB0 *element = m_bfmeArray[m_bfmeCount];
 	if (element) {
-		element->~Rva006FBDB0();
+		element->Rva006FBDB0::~Rva006FBDB0();
 		g_pChainBlockAllocator->freeBlock(element, 0xC);
 	}
 	m_bfmeArray[m_bfmeCount] = 0;

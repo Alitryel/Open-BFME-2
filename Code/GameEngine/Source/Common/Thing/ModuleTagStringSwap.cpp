@@ -58,7 +58,7 @@ private:
 			if (*p == 0)
 			{
 				Rva006D0280 *owner = (Rva006D0280 *)m_count;
-				owner->~Rva006D0280();
+				owner->Rva006D0280::~Rva006D0280();
 				g_pChainBlockAllocator->freeBlock(owner, 0x1C);
 			}
 		}

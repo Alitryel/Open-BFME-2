@@ -14,7 +14,7 @@ __forceinline static int dec(int*p){return --*p;}
 class Rva006D07E0Key{public:Rva006D0280*m_object;
  Rva006D07E0Key(Rva006D0280*p=0):m_object(p){if(p)++p->m_useCount;}
  Rva006D07E0Key(const Rva006D07E0Key&o):m_object(o.m_object){if(m_object)++m_object->m_useCount;}
- ~Rva006D07E0Key(){Rva006D0280*p=m_object;if(p&&dec(&p->m_useCount)==0){p->~Rva006D0280();g_pChainBlockAllocator->freeBlock(p,0x1c);}}
+ ~Rva006D07E0Key(){Rva006D0280*p=m_object;if(p&&dec(&p->m_useCount)==0){p->Rva006D0280::~Rva006D0280();g_pChainBlockAllocator->freeBlock(p,0x1c);}}
 };
 class Rva008951B0Node{public:Rva006D0280*entry;Rva008951B0Node*next;};
 class Rva008951B0Handle{public:Rva008951B0Node*node;};

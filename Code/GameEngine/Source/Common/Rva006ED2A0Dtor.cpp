@@ -42,7 +42,7 @@ inline Rva006ED2A0Base::~Rva006ED2A0Base()
 {
     Rva0070A840 *p = m_10;
     if (p) {
-        p->~Rva0070A840();
+        p->Rva0070A840::~Rva0070A840();
         g_pChainBlockAllocator->freeBlock(p, 0x14);
     }
 }

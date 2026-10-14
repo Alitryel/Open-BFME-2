@@ -54,7 +54,7 @@ public:
     // tree-cleanup owner; no second destructor pin is introduced.
     __forceinline ~Rva003ED658()
     {
-        ((Rva003ED94FDtor *)this)->~Rva003ED94FDtor();
+        ((Rva003ED94FDtor *)this)->Rva003ED94FDtor::~Rva003ED94FDtor();
     }
     char m_storage[12];
 };
@@ -73,7 +73,7 @@ class Rva003EDD68KeyMap : public ObjectCreationList
 public:
     __forceinline ~Rva003EDD68KeyMap()
     {
-        ((Rva003ED94FDtor *)this)->~Rva003ED94FDtor();
+        ((Rva003ED94FDtor *)this)->Rva003ED94FDtor::~Rva003ED94FDtor();
     }
 };
 

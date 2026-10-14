@@ -26,7 +26,7 @@ public:
  ~Rva006D07E0Key() {
   Rva006D0280 *p=m_object;
   if(p && --p->m_useCount==0) {
-   p->~Rva006D0280();
+   p->Rva006D0280::~Rva006D0280();
    g_pChainBlockAllocator->freeBlock(p,0x1c);
   }
  }

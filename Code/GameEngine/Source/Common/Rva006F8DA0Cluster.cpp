@@ -41,7 +41,7 @@ public:
 	{
 		Rva0070A840 *p = m_10;
 		if (p != 0) {
-			p->~Rva0070A840();
+			p->Rva0070A840::~Rva0070A840();
 			g_pChainBlockAllocator->freeBlock(p, 0x14);
 		}
 	}
