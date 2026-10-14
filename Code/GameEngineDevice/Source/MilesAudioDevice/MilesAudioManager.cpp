@@ -1071,6 +1071,7 @@ public:
     float getGlobalReverbMultiplier(void);
     void rva00053AFA(void *pendingSlot);
     void rva000562CF(int key);
+    void friend_xferSubAudioEventRTS(Xfer *xfer, BfmePoolRef10 *eventRef);
     void rva000562A2(int key, const void *value);
     void rva0005A92A(int key, Rva0005A084Vector *output);
     void rva0005AE2B(int type, Rva0005A084Vector *output);
@@ -5497,6 +5498,7 @@ struct BfmeAudioEventPrefix136;
 class Rva005813E
 {
 public:
+    Rva005813E();
     Rva005813E(const BfmeAudioEventPrefix136 &source);
 private:
     char m_opaque[0x90];
@@ -6148,4 +6150,54 @@ __declspec(noinline) inline void Rva0005800A::rva0005800A(const Rva0036CA00Str &
     new (p->finish.cur) Rva0036CA00Str(*copy.value());
     p->finish.set_node(p->finish.node + 1);
     p->finish.cur = p->finish.first;
+}
+
+// Native5987D..59A13,406B RET8; WB79AEB0 names friend_xferSubAudioEventRTS.
+// Saved event IDs share the pooled event through the hash table at+B78.
+// The native29B pair constructor,36B insert and112B noresize chain establish
+// the two-word payload and by-value iterator/bool result. Let the complete
+// STLport chain remain visible so its result shares the dead lookup slots.
+typedef _STL::hash_map<unsigned int, BfmePoolRef10> MilesSavedAudioEventMap;
+
+void MilesAudioManager::friend_xferSubAudioEventRTS(Xfer *xfer, BfmePoolRef10 *eventRef)
+{
+    XferVersion version;
+    version.m_version = 1;
+    version.m_currentVersion = 1;
+    xfer->xferVersion(&version);
+    bool present = *reinterpret_cast<AudioEventRTS *const *>(eventRef) != 0;
+    xfer->xferBool(&present);
+    if (present) {
+        unsigned int id = reinterpret_cast<unsigned int>(eventRef->get());
+        xfer->xferInt(reinterpret_cast<int *>(&id));
+        MilesHandleMap *loaded = reinterpret_cast<MilesHandleMap *>(atB78);
+        {
+            MilesHandleMap::iterator found = loaded->find(id);
+            // Compare the nodes directly, avoiding an unused external iterator wrapper.
+            if (found._M_cur != loaded->end()._M_cur) {
+                if (xfer->isLoading())
+                    *eventRef = *reinterpret_cast<const BfmePoolRef10 *>(&found->second);
+                return;
+            }
+        }
+        {
+            if (xfer->isLoading())
+                eventRef->rva00053D26(reinterpret_cast<BfmePoolHolder88 *>(new Rva005813E()));
+            unsigned int savedHandle = (*eventRef)->m_playingHandle;
+            xfer->xferUnsignedInt(&savedHandle);
+            if (xfer->isLoading()) {
+                reinterpret_cast<GameMessage *>(eventRef->get())->friend_setList(reinterpret_cast<GameMessageList *>(allocateNewHandle()));
+                _STL::pair<Rva0005B256HandleMap::iterator, bool> result =
+                    reinterpret_cast<Rva0005B256HandleMap *>(atB6C)->insert(
+                        Rva0005B256HandleMap::value_type(savedHandle, reinterpret_cast<Image *>((*eventRef)->m_playingHandle)));
+                if (!result.second)
+                    reinterpret_cast<GameMessage *>(eventRef->get())->friend_setList(reinterpret_cast<GameMessageList *>(result.first->second));
+            }
+            reinterpret_cast<MilesSavedAudioEventMap *>(loaded)->insert(
+                MilesSavedAudioEventMap::value_type(id, *eventRef));
+            reinterpret_cast<Rva002D9F9FOwner *>(eventRef->get())->rva002D9F9F(reinterpret_cast<Rva002D9F9FArg *>(xfer));
+        }
+    } else if (xfer->isLoading()) {
+        eventRef->rva000519BD();
+    }
 }
