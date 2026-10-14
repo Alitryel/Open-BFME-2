@@ -1,0 +1,77 @@
+// Small unrowed .text bodies from the 0x00654850..0x00681AAF (/O2) region.
+// Retail bytes establish every shape; no caller is recovered and the owning
+// classes are unknown, so each keeps an address-derived name and a view of
+// only the fields it touches. Callees are the rowed bodies the jmp targets.
+
+// ?rva0066D4F0@Rva0066D4F0@@QAEXH@Z @0x0066D4F0 10B: store the argument at +0x4C.
+class Rva0066D4F0
+{
+public:
+	void rva0066D4F0(int value);
+private:
+	char m_pad[0x4c];
+	int m_4c;
+};
+void Rva0066D4F0::rva0066D4F0(int value)
+{
+	m_4c = value;
+}
+
+// Destructors whose only non-trivial member is a BfmeMsg (rowed virtual
+// ??1BfmeMsg@@UAE@XZ 0x00655780, called directly for a member).
+class BfmeMsg
+{
+public:
+	virtual ~BfmeMsg();
+};
+
+// ??1Rva00665970@@QAE@XZ @0x00665970 8B: BfmeMsg member at +0x14.
+class Rva00665970
+{
+public:
+	~Rva00665970();
+private:
+	char m_pad[0x14];
+	BfmeMsg m_14;
+};
+Rva00665970::~Rva00665970()
+{
+}
+
+// ??1Rva0066CAC0@@QAE@XZ @0x0066CAC0 8B: BfmeMsg member at +0x10.
+class Rva0066CAC0
+{
+public:
+	~Rva0066CAC0();
+private:
+	char m_pad[0x10];
+	BfmeMsg m_10;
+};
+Rva0066CAC0::~Rva0066CAC0()
+{
+}
+
+// ?rva00674BA0@Rva00674BA0@@QBEPAXXZ @0x00674BA0 11B: rowed lea-field getter
+// 0x0066D7D0 on the object at +0x0C of the object held at +0x08.
+class Rva0066D7D0LeaField
+{
+public:
+	void *get() const;
+};
+struct Rva00674BA0Inner
+{
+	char m_pad[0x0c];
+	Rva0066D7D0LeaField *m_0c;
+};
+class Rva00674BA0
+{
+public:
+	void *rva00674BA0() const;
+private:
+	char m_pad[0x08];
+	Rva00674BA0Inner *m_08;
+};
+void *Rva00674BA0::rva00674BA0() const
+{
+	return m_08->m_0c->get();
+}

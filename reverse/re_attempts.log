@@ -56336,3 +56336,11 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ?rva00588A95@Rva00588A95@@UAEXI@Z	0x00588A95	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 8B; vftable slot resize of +08 vector via rowed 0x00588A72
 ?rva005CFACB@Rva005CFACB@@UAEXXZ	0x005CFACB	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 8B; vftable slot forward to rowed 0x005EA91A on +0C member
 ?rva00574AB3@Rva00574AB3@@UAE_NXZ	0x00574AB3	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 8B; vftable slot qualified call of rowed 0x005743C0 on object at +04
+?rva0066D4F0@Rva0066D4F0@@QAEXH@Z	0x0066D4F0	10	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp 10B; store argument at +4C
+??1Rva00665970@@QAE@XZ	0x00665970	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp 8B; dtor of BfmeMsg member at +14 via rowed 0x00655780
+??1Rva0066CAC0@@QAE@XZ	0x0066CAC0	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp 8B; dtor of BfmeMsg member at +10 via rowed 0x00655780
+?rva00674BA0@Rva00674BA0@@QBEPAXXZ	0x00674BA0	11	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp 11B; rowed lea-field getter 0x0066D7D0 on object at +0C of object at +08
+?rva006CBDD0@Rva006CBDD0@@QBEIXZ	0x006CBDD0	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 9B; low 16 bits of +5C word
+?rva006F6960@Rva006F6960@@QBEIXZ	0x006F6960	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 9B; bit0 of byte +5E twin of 0x006FBCF0
+?Rva00698A30@@YAHPBURva00698A30Record@@@Z	0x00698A30	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 8B; cdecl read of argument +58 word
+?rva006D6350@Rva006D6350@@QAEAAVEAStringC@@ABV2@@Z	0x006D6350	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 8B; assign +08 EAStringC via rowed 0x006D3030
