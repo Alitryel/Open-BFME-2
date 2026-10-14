@@ -2353,3 +2353,48 @@ public:
 Rva00668610::Rva00668610()
 {
 }
+
+// ??0Rva0023DB34@@QAE@XZ @0x0023DB34 20B, vtable VA 0xbedaa8. Slot 0 of that
+// vtable is the rowed 45B member 0x00306C15 (not a destructor), slots 1..3
+// the rowed 0x00306C42/0x00306C49/0x00306C58 bodies; the same vtable store
+// is inlined at 0x00240022 for a member at +0x10. Owner unresolved.
+class Rva0023DB34
+{
+public:
+	Rva0023DB34();
+	virtual int slot00(void *p, int n);
+	virtual int slot04();
+	virtual bool slot08(int n);
+	virtual bool slot0C();
+private:
+	void *m_04;
+	void *m_08;
+	void *m_0C;
+};
+
+Rva0023DB34::Rva0023DB34()
+	: m_04(0), m_08(0), m_0C(0)
+{
+}
+
+// ??0Rva002AA39B@@QAE@XZ @0x002AA39B 20B, vtable VA 0xbfdc48. That vtable is
+// Energy's by its slots (slot 2 the "Energy" name getter 0x002AA3AF directly
+// after this body, slot 3 the rowed Energy::xfer 0x004DF290), and the Player
+// constructor inlines the same store at 0x002B0FE1. The ledger's
+// ??0Energy@@QAE@XZ row sits elsewhere (0x00674870), so this body keeps an
+// address-derived name until that is reconciled.
+class Rva002AA39B
+{
+public:
+	Rva002AA39B();
+	virtual ~Rva002AA39B() {}
+private:
+	void *m_04;
+	void *m_08;
+	void *m_0C;
+};
+
+Rva002AA39B::Rva002AA39B()
+	: m_04(0), m_08(0), m_0C(0)
+{
+}
