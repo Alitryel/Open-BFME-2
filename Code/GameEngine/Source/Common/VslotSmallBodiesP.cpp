@@ -38,23 +38,29 @@ private:
 	char m_pad00[0x08];
 	Rva006D8670 *m_next;
 };
-Rva006D8670 * g_rva006D8670FreeA;	// retail RVA 0x00A18020 (.data, 4 bytes), defined here: nothing else owns it
-Rva006D8670 * g_rva006D8670FreeB;	// retail RVA 0x00A18024 (.data, 4 bytes), defined here: nothing else owns it
-Rva006D8670 * g_rva006D8670FreeC;	// retail RVA 0x00A18028 (.data, 4 bytes), defined here: nothing else owns it
+// The AptInteger, AptFloat and AptBoolean free lists (heads at VA 0x00E18020,
+// 0x00E18024 and 0x00E18028), popped by their Create bodies and drained by
+// AptScalarClearPoolsBFME2.cpp; defined here: nothing else owns them.
+class AptInteger;
+class AptFloat;
+class AptBoolean;
+AptInteger *g_aptIntegerFreeList;
+AptFloat *g_aptFloatFreeList;
+AptBoolean *g_aptBooleanFreeList;
 void Rva006D8670::rva006D8670()
 {
-	m_next = g_rva006D8670FreeA;
-	g_rva006D8670FreeA = this;
+	m_next = (Rva006D8670 *)g_aptIntegerFreeList;
+	g_aptIntegerFreeList = (AptInteger *)this;
 }
 void Rva006D8670::rva006D8810()
 {
-	m_next = g_rva006D8670FreeB;
-	g_rva006D8670FreeB = this;
+	m_next = (Rva006D8670 *)g_aptFloatFreeList;
+	g_aptFloatFreeList = (AptFloat *)this;
 }
 void Rva006D8670::rva006D8A20()
 {
-	m_next = g_rva006D8670FreeC;
-	g_rva006D8670FreeC = this;
+	m_next = (Rva006D8670 *)g_aptBooleanFreeList;
+	g_aptBooleanFreeList = (AptBoolean *)this;
 }
 
 // slot at VA 0x00CE8C4C: runs vslot 0 of the +0x4C object unless it is NULL

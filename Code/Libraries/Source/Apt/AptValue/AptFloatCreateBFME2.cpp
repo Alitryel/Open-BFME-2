@@ -1,7 +1,7 @@
 // cl: /O2 /DNDEBUG /MD /EHsc
 // ?Rva008A4EA0MakeFloat@@YAPAVAptValue@@M@Z @0x006D8700 263B. Pooled Apt Float factory (type 6).
 // H1 twin of landed int/bool: union + class-local sized new/delete, NO user dtor.
-// Fast path reuses free-list head g_00E18024 at +8 next slot, checks vtbl index 6 and
+// Fast path reuses free-list head g_aptFloatFreeList (VA 0x00E18024) at +8 next slot, checks vtbl index 6 and
 // refcount 0 via rowed getters with AptFloat.inl 0x4B/0x4D asserts, sets defined bit via
 // rowed apply 0x006DBDB0, pushes to release vector 0x006E6C00, stores float at +8.
 // Slow path is new AptFloat(value): allocBlock(0xC) via pool + base ctor 0x006DCCC0 type 6
@@ -81,13 +81,13 @@ public:
 		g_pChainBlockAllocator->freeBlock(p, (int)s);
 	}
 };
-extern AptFloat *g_00E18024;
+extern AptFloat *g_aptFloatFreeList;
 AptValue *Rva008A4EA0MakeFloat(float value)
 {
-	AptFloat *pNewFloat = g_00E18024;
+	AptFloat *pNewFloat = g_aptFloatFreeList;
 	if (pNewFloat != 0)
 	{
-		g_00E18024 = pNewFloat->m_next;
+		g_aptFloatFreeList = pNewFloat->m_next;
 		if (!(((const Rva006DBB30SarDwordField *)pNewFloat)->get() == 6))
 		{
 			g_bfmeAptAssertAtE17734("pNewFloat->getVtblIndex() == AptVFT_Float", ".\\AptValue/AptFloat.inl", 0x4B);

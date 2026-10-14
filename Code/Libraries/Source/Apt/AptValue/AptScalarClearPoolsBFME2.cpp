@@ -30,14 +30,14 @@ public:
     AptInteger *nextFree;
     static void ClearPool();
 };
-extern AptInteger *g_00E18020;
+extern AptInteger *g_aptIntegerFreeList;
 void AptInteger::ClearPool()
 {
-    while (g_00E18020 != 0) {
-        AptInteger *next = g_00E18020->nextFree;
-        g_00E18020->DestroyGCPointers();
-        delete g_00E18020;
-        g_00E18020 = next;
+    while (g_aptIntegerFreeList != 0) {
+        AptInteger *next = g_aptIntegerFreeList->nextFree;
+        g_aptIntegerFreeList->DestroyGCPointers();
+        delete g_aptIntegerFreeList;
+        g_aptIntegerFreeList = next;
     }
 }
 class AptFloat : public AptValue {
@@ -45,14 +45,14 @@ public:
     AptFloat *nextFree;
     static void ClearPool();
 };
-extern AptFloat *g_00E18024;
+extern AptFloat *g_aptFloatFreeList;
 void AptFloat::ClearPool()
 {
-    while (g_00E18024 != 0) {
-        AptFloat *next = g_00E18024->nextFree;
-        g_00E18024->DestroyGCPointers();
-        delete g_00E18024;
-        g_00E18024 = next;
+    while (g_aptFloatFreeList != 0) {
+        AptFloat *next = g_aptFloatFreeList->nextFree;
+        g_aptFloatFreeList->DestroyGCPointers();
+        delete g_aptFloatFreeList;
+        g_aptFloatFreeList = next;
     }
 }
 class AptBoolean : public AptValue {
@@ -60,13 +60,13 @@ public:
     AptBoolean *nextFree;
     static void ClearPool();
 };
-extern AptBoolean *g_00E18028;
+extern AptBoolean *g_aptBooleanFreeList;
 void AptBoolean::ClearPool()
 {
-    while (g_00E18028 != 0) {
-        AptBoolean *next = g_00E18028->nextFree;
-        g_00E18028->DestroyGCPointers();
-        delete g_00E18028;
-        g_00E18028 = next;
+    while (g_aptBooleanFreeList != 0) {
+        AptBoolean *next = g_aptBooleanFreeList->nextFree;
+        g_aptBooleanFreeList->DestroyGCPointers();
+        delete g_aptBooleanFreeList;
+        g_aptBooleanFreeList = next;
     }
 }

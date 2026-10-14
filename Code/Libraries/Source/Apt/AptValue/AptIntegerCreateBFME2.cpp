@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
 // ?Create@AptInteger@@SAPAVAptValue@@H@Z @0x006D8520 263B. Pooled Apt Integer factory (type 7).
 // H1: union + class-local sized new/delete, NO user dtor (same TU shape as landed bool).
-// Fast path reuses free-list head g_00E18020 at +8 next slot, checks vtbl index 7 and
+// Fast path reuses free-list head g_aptIntegerFreeList (VA 0x00E18020) at +8 next slot, checks vtbl index 7 and
 // refcount 0 via rowed getters with AptInteger.inl 0x4B/0x4D asserts, sets defined bit via
 // rowed apply 0x006DBDB0, pushes to release vector 0x006E6C00, stores int at +8.
 // Slow path is new AptInteger(value): allocBlock(0xC) via pool + base ctor 0x006DCCC0 type 7
@@ -80,13 +80,13 @@ public:
 	}
 	static AptValue *Create(int value);
 };
-extern AptInteger *g_00E18020;
+extern AptInteger *g_aptIntegerFreeList;
 AptValue *AptInteger::Create(int value)
 {
-	AptInteger *pNewInt = g_00E18020;
+	AptInteger *pNewInt = g_aptIntegerFreeList;
 	if (pNewInt != 0)
 	{
-		g_00E18020 = pNewInt->m_next;
+		g_aptIntegerFreeList = pNewInt->m_next;
 		if (!(((const Rva006DBB30SarDwordField *)pNewInt)->get() == 7))
 		{
 			g_bfmeAptAssertAtE17734("pNewInt->getVtblIndex() == AptVFT_Integer", ".\\AptValue/AptInteger.inl", 0x4B);

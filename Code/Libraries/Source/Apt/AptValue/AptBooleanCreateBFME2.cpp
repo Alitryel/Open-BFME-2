@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
 // ?Create@AptBoolean@@SAPAVAptValue@@_N@Z @0x006D88C0 263B. Pooled Apt Boolean factory (type 5).
 // H1-B1: union + class-local sized new/delete, NO user dtor (same TU shape as int/float).
-// Fast path reuses free-list head g_00E18028 at +8 next slot, checks vtbl index 5 and
+// Fast path reuses free-list head g_aptBooleanFreeList (VA 0x00E18028) at +8 next slot, checks vtbl index 5 and
 // refcount 0 via rowed getters with AptBoolean.inl 0x4B/0x4D asserts, sets defined bit via
 // rowed apply 0x006DBDB0, pushes to release vector 0x006E6C00, stores bool at +8.
 // Slow path is new AptBoolean(value): allocBlock(0xC) via pool + base ctor 0x006DCCC0 type 5
@@ -77,13 +77,13 @@ public:
 	}
 	static AptValue *Create(bool value);
 };
-extern AptBoolean *g_00E18028;
+extern AptBoolean *g_aptBooleanFreeList;
 AptValue *AptBoolean::Create(bool value)
 {
-	AptBoolean *pNewBool = g_00E18028;
+	AptBoolean *pNewBool = g_aptBooleanFreeList;
 	if (pNewBool != 0)
 	{
-		g_00E18028 = pNewBool->m_next;
+		g_aptBooleanFreeList = pNewBool->m_next;
 		if (!(((const Rva006DBB30SarDwordField *)pNewBool)->get() == 5))
 		{
 			g_bfmeAptAssertAtE17734("pNewBool->getVtblIndex() == AptVFT_Boolean", ".\\AptValue/AptBoolean.inl", 0x4B);
