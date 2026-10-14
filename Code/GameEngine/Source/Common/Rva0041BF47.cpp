@@ -1,12 +1,7 @@
-// cl: /MD
-// ?Rva0041BF47Get@@YG_NPAVObject@@0H@Z @0x0041BF47 91B. Free stdcall bool
-// (Object *a, Object *b, int unused): a/b non-null, a template +0x109
-// bit 0x40 set, a->getRelationship(b)==2 (ALLIES), b->testStatus(2),
-// a+0x438 bit0 clear, and b->getSoleHealingBenefactor()==0 or ==a->m_id
-// (+0x74). Evidence: caller 0x00488B36 in 81B body; prev/next
-// Rva0041B94A/Rva0041C21BIsVisible share /O1 /MD and (Object*,Object*,int)
-// shape with unused third arg; callees pinned getRelationship and rowed
-// testStatus/getSoleHealingBenefactor.
+// cl: /O1 /G7 /arch:SSE /MD
+// ActionManager receiver proven by native488B2E and WB11CB926. BFME1
+// a7c38d3b2597 ActionManager_canResumeConstructionOf_Thunk.cpp establishes
+// the same operation; BFME2 retains its own template/status/object offsets.
 enum Relationship
 {
 	ENEMIES = 0,
@@ -48,7 +43,13 @@ public:
 	unsigned char m_flags438;                // +0x438 bit0
 };
 
-bool __stdcall Rva0041BF47Get(Object *a, Object *b, int)
+enum CommandSourceType { CMD_FROM_UNRECONSTRUCTED = 0 };
+class ActionManager {
+public:
+ bool canResumeConstructionOf(const Object *a, const Object *b, CommandSourceType);
+};
+
+bool ActionManager::canResumeConstructionOf(const Object *a, const Object *b, CommandSourceType)
 {
 	if (a == 0 || b == 0)
 		return false;
