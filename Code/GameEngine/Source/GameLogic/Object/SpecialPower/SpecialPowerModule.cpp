@@ -694,3 +694,36 @@ void SpecialPowerModule::loadPostProcess( void )
 
 
 }  // end loadPostProcess
+
+//-------------------------------------------------------------------------------------------------
+// Two more out-of-line final-override accessors in the shape of the
+// SpecialPowerTemplate getters above (call the rowed const
+// friend_getFinalOverride 0x00288609, then read the result): 0x0028F8CE
+// returns the address of the dword at +0x10 and 0x002AAE46 the dword at
+// +0x20. The BFME2 template fields there are not identified (ZH's m_id /
+// m_initiateSound positions do not fit both), so the owner is an
+// address-named Overridable view and the fields are named by offset.
+class Rva0028F8CEOverrideView : public Overridable
+{
+public:
+	const UnsignedInt *rva0028F8CE( void ) const;
+	UnsignedInt rva002AAE46( void ) const;
+private:
+	const Rva0028F8CEOverrideView *getFO( void ) const { return (const Rva0028F8CEOverrideView *)friend_getFinalOverride(); }
+	UnsignedInt m_0C;
+	UnsignedInt m_10;
+	UnsignedInt m_14;
+	UnsignedInt m_18;
+	UnsignedInt m_1C;
+	UnsignedInt m_20;
+};
+
+const UnsignedInt *Rva0028F8CEOverrideView::rva0028F8CE( void ) const
+{
+	return &getFO()->m_10;
+}
+
+UnsignedInt Rva0028F8CEOverrideView::rva002AAE46( void ) const
+{
+	return getFO()->m_20;
+}

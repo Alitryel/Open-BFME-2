@@ -61,3 +61,34 @@ void Rva005CC24C::rva005CC24C(Int)
 {
 	rva005CC23B();
 }
+
+// 0x005CE125 (interface at +0x08; slots at VA 0x00C7514C and 0x00C75180):
+// returns the rowed no-argument +4 callback forwarder 0x005E6817 (ledger
+// spelling Rva005E57A2Callback::invoke) on the complete object, dropping its
+// one argument (call, then ret 4).
+class Rva005E57A2Callback
+{
+public:
+	int invoke();
+};
+class Rva005CE125Primary
+{
+public:
+	virtual void primarySlot();
+private:
+	Int m_04;
+};
+class Rva005CE125Iface
+{
+public:
+	virtual Int rva005CE125(Int unused) = 0;
+};
+class Rva005CE125 : public Rva005CE125Primary, public Rva005CE125Iface
+{
+public:
+	Int rva005CE125(Int unused);
+};
+Int Rva005CE125::rva005CE125(Int)
+{
+	return ((Rva005E57A2Callback *)this)->invoke();
+}
