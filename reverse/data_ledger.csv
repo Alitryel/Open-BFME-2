@@ -18541,7 +18541,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009FDA78,320,.data,global,?g_bfmeTableC800@@3HA,Code/Libraries/Source/VP6/FilterBlock2dBicubic.cpp,owned,,1,1
 0x009FDBB8,12,.data,global,?g_vp6ModeDebugFrameCounter@@3HA,Code/Libraries/Source/VP6/debug.cpp,owned,,1,3
 0x009FDBC4,4,.data,global,?TheArmorStore@@3PAVArmorStore@@A,Code/GameEngine/Source/GameLogic/Object/Armor.cpp,owned,,1,4
-0x009FDBC8,4,.data,global,?g_Va00DFDBC8@@3_NA,Code/GameEngine/Source/Common/ReloadIniFileNotices.cpp,owned,,1,2
+0x009FDBC8,4,.data,global,_g_Va00DFDBC8,Code/GameEngine/Source/GameLogic/Object/ArmorStoreReload.cpp,owned,,1,2
 0x009FDBCC,44,.data,global,_s_rva007ACFE5,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x009FDBF8,4,.data,global,?TheMetaMap@@3PAVMetaMap@@A,,unowned,?TheMetaMap@@3PAVMetaMap@@A;?g_00DFDBF8@@3PAVMetaMap@@A,0,4
 0x009FDBFC,24,.data,global,_s_rva007AD0CC,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
