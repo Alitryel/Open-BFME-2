@@ -169,15 +169,9 @@ public:
 	virtual void slot8C(int a, int b, int c);
 };
 
-class RvaLogicHolder {};
-// The rowed stdcall wrapper at 2B2E77 ignores ECX; native callers still load
-// the living-world receiver before its ret-4 call. Project only that unused
-// receiver register while naming the existing real provider.
-void __stdcall Rva002B2E77Append(int value);
-union LogicAppendCall {
- void (__stdcall *provider)(int);
- void (RvaLogicHolder::*receiver)(int);
-};
+// The rowed 0x002B2E77 ignores ECX, but both native callers load the
+// living-world receiver before its ret-4 call: a thiscall member.
+class LivingWorldLogic { public: void rva002B2E77(int value); };
 
 void Rva0051AF0BEnable(int value);
 void Rva005210ECEnable(bool value);
@@ -317,15 +311,12 @@ Rva00435DE7::~Rva00435DE7()
 		if (m_29C)
 			((Shell *)*(void **)&TheShell)->hide(one);
 
-		RvaLogicHolder *livingWorld =
-			(RvaLogicHolder *)*(void **)&TheLivingWorldLogic;
-		LogicAppendCall append;
-		append.provider = &Rva002B2E77Append;
+		LivingWorldLogic *livingWorld = TheLivingWorldLogic;
 		if (m_2A8 == 1 && livingWorld != 0)
-			(livingWorld->*append.receiver)(1);
+			livingWorld->rva002B2E77(1);
 		else if (m_2A8 == 2 && livingWorld != 0)
 		{
-			(livingWorld->*append.receiver)(2);
+			livingWorld->rva002B2E77(2);
 		}
 	}
 

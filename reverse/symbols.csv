@@ -10002,7 +10002,6 @@ name,address,notes
 ?rva002B2702@Rva002B2702@@QAEXPAX0H@Z,0x002B2702,"thiscall (void*,void*,int) with EH state; RETAIL REL32 at 0x0056AE94 (body 0x0056AE5C) targets this address; honest address-derived name"
 ?rva002B2B2D@Rva002BA8F1Logic@@QAEPAURva002B3740Item@@XZ,0x002B2B2D,lookup called by the byte-verified Rva002BA8F1Logic::rva002B3740 0x002B3740 (its result's byte +0xA8 is returned) read from its REL32 displacement; name unknown
 ?rva002B2BAA@Rva002B4650@@QAE_NXZ,0x002B2BAA,thiscall bool guard via global 0xDFE78C chain plus rowed 0x2B254F plus +0xF4 and +0x78 tests; Ghidra FUN_006b2baa 66B
-?rva002B2E77@RvaLogicHolder@@QAEXH@Z,0x002B2E77,thiscall spelling of the 23-byte body rowed as the stdcall ?Rva002B2E77Append@@YGXH@Z (it ignores ECX; appends message 0x6B9 with the int): the save prompt answer 0x00433D4D calls it at 0x00433D6B with TheLivingWorldLogic 0x00DFEF10 in ECX
 ?rva002B3621@Rva002B4C09@@QAE_NXZ,0x002B3621,thiscall bool: +0x160 target non-null with +0x25 flag set; Ghidra FUN_006b3621 23B
 ?rva002B3740@Rva002BA8F1Logic@@QAE_NXZ,0x002B3740,unrowed thiscall on TheLivingWorldLogic (g_009FEF10 0x00DFEF10) returning a byte of its 0x002B2B2D entry (+0xA8) or 0; REL32 read at AptScoreScreen::Continue 0x0051BFBF; address name
 ?rva002B488E@Rva002BA8F1Logic@@QAEPAURva002B488EResult@@H@Z,0x002B488E,PC audio owner-position worker2DA1CC direct call; target disassembly verifies thiscall and return ABI; original receiver identity unasserted

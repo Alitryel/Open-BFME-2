@@ -1,10 +1,14 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?Rva002B2E77Append@@YGXH@Z @0x002B2E77 23B
-// __stdcall void(int) wrapper: global factory at 0x00A00950 slot 0x48 creates
-// message 0x6B9, then tail-appends the incoming int argument through the rowed
-// 0x0030F936. Callers 0x433D6B and 0x436014 push the value; the callee-clean
-// ABI is what lets MSVC tail-jmp with the argument still in place. The old
-// address-derived YAXXZ guess was void(void) and could only emit call+ret.
+// ?rva002B2E77@LivingWorldLogic@@QAEXH@Z @0x002B2E77 23B
+// void(int) wrapper: global factory at 0x00A00950 slot 0x48 creates message
+// 0x6B9, then tail-appends the incoming int argument through the rowed
+// 0x0030F936. Both retail callers (0x00433D6B in Rva00433D4D, 0x00436014 in
+// the AptSaveLoad destructor) load ECX with TheLivingWorldLogic (0x00DFEF10)
+// and null-test it before the push, which only the thiscall member spelling
+// emits. The body never reads `this` and cleans the same four stack bytes, so
+// the former stdcall Rva002B2E77Append row is byte-identical under the
+// member name; the callee-clean ABI is what lets MSVC tail-jmp with the
+// argument still in place.
 class GameMessage { public: void appendIntegerArgument(int v); };
 class GlobalHolder {
 public:
@@ -16,7 +20,12 @@ public:
 	virtual GameMessage* newMessage(int type);
 };
 extern class MessageStream *TheMessageStream;
-void __stdcall Rva002B2E77Append(int x)
+class LivingWorldLogic
+{
+public:
+	void rva002B2E77(int x);
+};
+void LivingWorldLogic::rva002B2E77(int x)
 {
 	GameMessage *msg = (*(GlobalHolder **)&TheMessageStream)->newMessage(0x6B9);
 	msg->appendIntegerArgument(x);
