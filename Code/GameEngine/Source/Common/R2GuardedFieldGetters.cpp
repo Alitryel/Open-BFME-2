@@ -129,3 +129,23 @@ const void *Rva00203510Pointer::getPointer() const
         return &AsciiString::TheEmptyString;
     return value + 0x14;
 }
+
+// Native 0x0028A79F..0x0028A7B0 (17B): the same conditional getter on the
+// receiver's +0x30 pointer, returning pointer+0x10 when set and
+// AsciiString::TheEmptyString (VA 0xDE0878) otherwise. Owner and payload
+// type are unknown; address-owned view as for 0x00203510 above.
+class Rva0028A79FPointer
+{
+public:
+    const void *getPointer() const;
+private:
+    char m_unmodelled0[0x30];
+    const char *m_value;
+};
+const void *Rva0028A79FPointer::getPointer() const
+{
+    const char *value = m_value;
+    if (!value)
+        return &AsciiString::TheEmptyString;
+    return value + 0x10;
+}
