@@ -3077,7 +3077,6 @@ name,address,notes
 ??1CDEArraySlot@@QAE@XZ,0x0069E440,CDE array-slot dtor folds with the DX8_Assert empty body; pushed as ehvec element-dtor by initializeArray 0x73A402
 ??1CDownload@@QAE@XZ,0x006C9730,address read from the REL32 displacement at a placed body
 ??1CacheStraw@@UAE@XZ,0x006159A0,address read from the retail REL32 in INIClass::Load(Straw&) at 0x00617B10
-??1CallHelpOnDamageModuleData@@UAE@XZ,0x004BB517,ICF twin of dup_004bb517 row at this address; retail ??_G at 0x004BB4FB calls it; resolves the deleter TU out-of-line
 ??1CameraMarker@@QAE@XZ,0x0029D7C2,callee of clear (0x0025F30D) at the site its BFME1 donor calls it; may be an ICF alias
 ??1CameraMarkerVec@@QAE@XZ,0x0048D003,FlammableUpdateModuleData dtor at 0x48D075 calls this on its +0x28 CameraMarker vector member (lea ecx [esi+0x28] plus direct call); the rowed _Destroy at 0x48CE25 proves CameraMarker elements and the dup_ vector-dtor row lives at this address
 ??1CashHackSpecialPowerModuleData@@UAE@XZ,0x004C28DD,dtor called by audited wrapper RVA 0x004C28C1; retail registration CashHackSpecialPower -> data factory RVA 0x00251957 -> ctor RVA 0x004C2889; primary vptr store RVA 0x004C289D
