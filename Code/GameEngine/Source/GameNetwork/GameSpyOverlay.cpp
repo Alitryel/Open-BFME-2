@@ -229,6 +229,12 @@ void GameSpyToggleOverlay( GSOverlayType overlay )
 		GameSpyOpenOverlay(overlay);
 }
 
+// Zero Hour GameSpyOverlay.cpp ReOpenPlayerInfo, retail 0x00548C51 (8B).
+void ReOpenPlayerInfo( void )
+{
+	reOpenPlayerInfoFlag = TRUE;
+}
+
 void CheckReOpenPlayerInfo(void )
 {
 	if(!reOpenPlayerInfoFlag)
