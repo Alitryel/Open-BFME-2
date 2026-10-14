@@ -1,9 +1,12 @@
 // cl: /Ireference/shims/bfme2_ascii /EHs /MD
-// ?Rva004107CDParse@@YAXPAXPBD@Z @0x004107CD 321B: free cdecl parsing _light and _frame= tokens via GetParam plus sscanf plus virtuals at +0x10 +0x14 plus AsciiString at +8.
+// ?UpdateView3D@AptComponents@@YAXPAVAptView3D@@PBD@Z @0x004107CD 321B: free cdecl parsing _light and _frame= tokens via GetParam plus sscanf plus virtuals at +0x10 +0x14 plus AsciiString at +8.
+// Name: WorldBuilder twin 0x01094F30 AptComponents::UpdateView3D (AptComponents.cpp:861 asserts
+// "View should be set" on arg 0; DEBUG strings "->AptView3D:SetLight(" and "->AptView3D:SetFrame(").
+// Inference: namespace-scope AptComponents (cdecl, no this) rather than a class static; bytes cannot tell.
 // Evidence: callers at 0x004120E4 with void-star plus char-star plus caller-cleaned 8B; strings _light _frame= _AnimMode plus "%d=%f,%f,%f" plus IAT _strnicmp sscanf atoi isdigit; rowed StringBase compare set releaseBuffer plus pin Rva004128F0GetParam; vtable offsets +0x10 int-float-float-float plus +0x14 int-AsciiString.
 #include "ascii_string.h"
 
-class Rva004107CDObj
+class AptView3D
 {
 public:
 	virtual void f0();
@@ -20,9 +23,13 @@ extern "C" __declspec(dllimport) int __cdecl sscanf(const char *buf, const char 
 extern "C" __declspec(dllimport) int __cdecl atoi(const char *s);
 extern "C" __declspec(dllimport) int __cdecl isdigit(int c);
 
-void __cdecl Rva004107CDParse(void *obj_, const char *params)
+namespace AptComponents
 {
-	Rva004107CDObj *obj = (Rva004107CDObj *)obj_;
+void __cdecl UpdateView3D(AptView3D *obj, const char *params);
+}
+
+void __cdecl AptComponents::UpdateView3D(AptView3D *obj, const char *params)
+{
 	if (obj == 0)
 		return;
 	if (params == 0)

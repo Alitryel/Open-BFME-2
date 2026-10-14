@@ -16,7 +16,11 @@
 const char *bfmePathLeafAfterMarker(const char *path);
 void *Rva004110DCGet(const char *key);
 void *Rva004118B4(const char *path, const char *parameters);
-void Rva004107CDParse(void *asset, const char *parameters);
+class AptView3D;
+namespace AptComponents
+{
+void UpdateView3D(AptView3D *view, const char *parameters);
+}
 class Rva004120B3Asset
 {
 public:
