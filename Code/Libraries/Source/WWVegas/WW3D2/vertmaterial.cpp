@@ -505,66 +505,6 @@ int VertexMaterialClass::Get_UV_Source(int stage)
 
 // VertexMaterialClass::Init_From_Material3: defined in VertexMaterialInitFromMaterial3.cpp (its row's unit).
 
-// ?Load_W3D@VertexMaterialClass@@QAE?AW4WW3DErrorType@@AAVChunkLoadClass@@@Z present-unmatched
-WW3DErrorType VertexMaterialClass::Load_W3D(ChunkLoadClass & cload)
-{
-	char name[256];
-
-	W3dVertexMaterialStruct vmat;
-	bool hasname = false;
-
-	char *mapping0_arg_buffer = NULL;
-	char *mapping1_arg_buffer = NULL;
-	unsigned int mapping0_arg_len = 0U;
-	unsigned int mapping1_arg_len = 0U;
-
-	while (cload.Open_Chunk()) {
-		switch (cload.Cur_Chunk_ID()) {
-			case W3D_CHUNK_VERTEX_MATERIAL_NAME:
-				cload.Read(&name,cload.Cur_Chunk_Length());
-				hasname = true;
-				break;
-
-			case W3D_CHUNK_VERTEX_MATERIAL_INFO:
-				if (cload.Read(&vmat,sizeof(vmat)) != sizeof(vmat)) {
-					return WW3D_ERROR_LOAD_FAILED;
-				}
-				break;
-
-			case W3D_CHUNK_VERTEX_MAPPER_ARGS0:
-				mapping0_arg_len = cload.Cur_Chunk_Length();
-				mapping0_arg_buffer = MSGW3DNEWARRAY("VertexMaterialClassTemp") char[mapping0_arg_len];
-				if (cload.Read(mapping0_arg_buffer, mapping0_arg_len) != mapping0_arg_len) {
-					return WW3D_ERROR_LOAD_FAILED;
-				}
-				break;
-
-			case W3D_CHUNK_VERTEX_MAPPER_ARGS1:
-				mapping1_arg_len = cload.Cur_Chunk_Length();
-				mapping1_arg_buffer = MSGW3DNEWARRAY("VertexMaterialClassTemp") char[mapping1_arg_len];
-				if (cload.Read(mapping1_arg_buffer, mapping1_arg_len) != mapping1_arg_len) {
-					return WW3D_ERROR_LOAD_FAILED;
-				}
-				break;
-		};
-		cload.Close_Chunk();
-	}
-
-	if (hasname) {
-		Set_Name(name);
-	}
-
-	Parse_W3dVertexMaterialStruct(vmat);
-	Parse_Mapping_Args(vmat,mapping0_arg_buffer,mapping1_arg_buffer);
-
-	delete [] mapping0_arg_buffer;
-	mapping0_arg_buffer = NULL;
-
-	delete [] mapping1_arg_buffer;
-	mapping1_arg_buffer = NULL;
-
-	return WW3D_ERROR_OK;
-}
 
 // Native Parse_W3dVertexMaterialStruct is owned by VertexMaterialParseStruct.cpp
 // at 13D030. Do not emit the non-retail donor inline copy from this unit.
@@ -971,31 +911,6 @@ WW3DErrorType VertexMaterialClass::Save_W3D(ChunkSaveClass & csave)
 	return WW3D_ERROR_OK;
 }
 
-// ?Apply@VertexMaterialClass@@ABEXXZ present-unmatched (select-any inline copy; row owned by VertexMaterialApply.cpp)
-inline void VertexMaterialClass::Apply(void) const
-{
-	int i;
-
-	DX8Wrapper::Set_DX8_Material(Material);
-
-	if (WW3D::Is_Coloring_Enabled())
-		DX8Wrapper::Set_DX8_Render_State(D3DRS_LIGHTING,FALSE);
-	else
-		DX8Wrapper::Set_DX8_Render_State(D3DRS_LIGHTING,UseLighting);
-	DX8Wrapper::Set_DX8_Render_State(D3DRS_AMBIENTMATERIALSOURCE,AmbientColorSource);
-	DX8Wrapper::Set_DX8_Render_State(D3DRS_DIFFUSEMATERIALSOURCE,DiffuseColorSource);
-	DX8Wrapper::Set_DX8_Render_State(D3DRS_EMISSIVEMATERIALSOURCE,EmissiveColorSource);
-
-	// set to default values if no mappers
-	for (i=0; i<MeshBuilderClass::MAX_STAGES; i++) {
-		if (Mapper[i]) {
-			Mapper[i]->Apply(UVSource[i]);
-		} else {
-			DX8Wrapper::Set_DX8_Texture_Stage_State(i,D3DTSS_TEXCOORDINDEX,D3DTSS_TCI_PASSTHRU | UVSource[i]);	
-			DX8Wrapper::Set_DX8_Texture_Stage_State(i,D3DTSS_TEXTURETRANSFORMFLAGS,D3DTTFF_DISABLE);		
-		}
-	}
-}
 
 void VertexMaterialClass::Apply_Null(void)
 {

@@ -308,27 +308,6 @@ Bool SkirmishPreferences::usesSystemMapDir(void)
 	return FALSE;
 }
 
-// ?getPreferredMap@SkirmishPreferences@@ present-unmatched
-AsciiString SkirmishPreferences::getPreferredMap(void)
-{
-	AsciiString ret;
-	SkirmishPreferences::const_iterator it = find("Map");
-	if (it == end())
-	{
-		ret = getDefaultMap(TRUE);
-		return ret;
-	}
-
-	ret = QuotedPrintableToAsciiString(it->second);
-	ret.trim();
-	if (ret.isEmpty() || !isValidMap(ret, TRUE))
-	{
-		ret = getDefaultMap(TRUE);
-		return ret;
-	}
-	
-	return ret;
-}
 
 static const char superweaponRestrictionKey[] = "SuperweaponRestrict";
 

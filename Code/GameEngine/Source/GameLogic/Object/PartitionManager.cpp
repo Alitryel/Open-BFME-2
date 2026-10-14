@@ -3592,32 +3592,8 @@ Object *PartitionManager::getClosestObjects(
 
 
 //-----------------------------------------------------------------------------
-// ?getClosestObject@PartitionManager@@ present-unmatched
-Object *PartitionManager::getClosestObject(
-	const Object *obj, 
-	Real maxDist, 
-	DistanceCalculationType dc, 
-	PartitionFilter **filters, 
-	Real *closestDist,
-	Coord3D *closestDistVec
-)
-{
-	return getClosestObjects(obj, NULL, maxDist, dc, filters, NULL, closestDist, closestDistVec);
-}
 
 //-----------------------------------------------------------------------------
-// ?getClosestObject@PartitionManager@@ present-unmatched
-Object *PartitionManager::getClosestObject(
-	const Coord3D *pos, 
-	Real maxDist, 
-	DistanceCalculationType dc, 
-	PartitionFilter **filters, 
-	Real *closestDist,
-	Coord3D *closestDistVec
-)
-{
-	return getClosestObjects(NULL, pos, maxDist, dc, filters, NULL, closestDist, closestDistVec);
-}
 
 //-----------------------------------------------------------------------------
 // ?getVectorTo@PartitionManager@@ present-unmatched
@@ -4105,82 +4081,6 @@ static Real ringSpacing = 5.0f;
 	* return FALSE no legal position exists or invalid params 
 	*/
 //-------------------------------------------------------------------------------------------------
-// ?findPositionAround@PartitionManager@@ present-unmatched
-Bool PartitionManager::findPositionAround( const Coord3D *center, 
-																					 const FindPositionOptions *options, 
-																					 Coord3D *result )
-{
-
-	// sanity
-	if( center == NULL || result == NULL || options == NULL )
-		return FALSE;
-
-	Region3D extent;
-	TheTerrainLogic->getMaximumPathfindExtent(&extent);
-	// If the goal is off the map, it is a scripted setup, so just
-	// use the center.
-	if (!extent.isInRegionNoZ(center)) {
-		*result = *center;
-		return true;
-	}
-	// sanity, FPF_IGNORE_WATER and FPF_WATER_ONLY are mutually exclusive
-	DEBUG_ASSERTCRASH( !(BitTest( options->flags, FPF_IGNORE_WATER ) == TRUE &&
-										   BitTest( options->flags, FPF_WATER_ONLY ) == TRUE),
-										 ("PartitionManager::findPositionAround - The options FPF_WATER_ONLY and FPF_IGNORE_WATER are mutually exclusive.  You cannot use them together\n") );
-
-	// pick a random angle from the center location to start at
-	Real startAngle;
-	if( options->startAngle == RANDOM_START_ANGLE )
-		startAngle = GameLogicRandomValueReal( 0.0f, TWO_PI );
-	else
-		startAngle = options->startAngle;
-
-	// start the search at the most inner ring (minRadius) and expand to outer most ring (maxRadius)
-	for( Real dist = options->minRadius; dist <= options->maxRadius; dist += ringSpacing )
-	{
-
-		//
-		// given the spacing that we've been using for the angles on the 'idea' inner circle,
-		// we will need more points on larger circles to cover more ground
-		//
-		Real angleSpacing;
-		if( dist == options->minRadius )
-			angleSpacing = TWO_PI;
-		else
-			angleSpacing = (ringSpacing / (dist + 1.0f)) * (TWO_PI / 6.0f);  // larger float = more samples
-
-		//
-		// on this "ring", try all the angles available to us in a circle ... we'll start at
-		// the 'startAngle', then try 'angleSpacing' to the left, then 'angleSpacing' to the
-		// right, then '2 angleSpacings' to the left etc., ping ponging around the start angle
-		// until we've done them all the way around the circle
-		//
-
-		// how many samples will we test
-		Int samples = REAL_TO_INT_CEIL( (TWO_PI / angleSpacing) / 2.0f);
-		for( Int i = 0; i < samples; ++i )
-		{
-
-			// try one "side"
-			if( tryPosition( center, dist, startAngle + angleSpacing * i, options, result ) == TRUE )
-				return TRUE;
-
-			//
-			// try the other "side" ... note for the first point at minRadius this position is
-			// the same so we won't test it again in that case
-			//
-			if( i != 0 )
-				if( tryPosition( center, dist, startAngle - angleSpacing * i, options, result ) == TRUE )
-					return TRUE;	
-
-		}  // end if
-
-	}  // end for, dist
-
-	// no position was able to be found
-	return FALSE;
-
-}  // end findPositionAround
 
 //-----------------------------------------------------------------------------
 // This is the main accessor of the shroud system.  At this level, allies are taken
@@ -5489,12 +5389,6 @@ Bool PartitionFilterAcceptOnSquad::allow(Object *objOther)
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-// ?allow@PartitionFilterSameMapStatus@@ present-unmatched
-Bool PartitionFilterSameMapStatus::allow(Object* objOther)
-{
-	// objOther is guaranteed to be non-null, so we don't need to check (srj)
-	return objOther->isOffMap() == m_obj->isOffMap();
-}
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------

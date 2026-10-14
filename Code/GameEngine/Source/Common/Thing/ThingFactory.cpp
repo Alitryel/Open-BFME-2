@@ -311,21 +311,6 @@ Object *ThingFactory::newObject( const ThingTemplate *tmplate, Team *team, Objec
 } 
 
 //=============================================================================
-// ?newDrawable@ThingFactory@@ present-unmatched
-Drawable *ThingFactory::newDrawable(const ThingTemplate *tmplate, DrawableStatus statusBits)
-{
-	if (tmplate == NULL)
-		throw ERROR_BAD_ARG;
-
-	Drawable *draw = TheGameClient->friend_createDrawable( tmplate, statusBits );
-
-	/** @todo we should keep track of all the drawables we've allocated here
-	but we'll wait until we have an drawable storage to do that cause it will
-	all be tied together */
-
-	return draw;
-
-}  // end newDrawableByType
 
 #if defined(_DEBUG) || defined(_INTERNAL)
 AsciiString TheThingTemplateBeingParsedName;

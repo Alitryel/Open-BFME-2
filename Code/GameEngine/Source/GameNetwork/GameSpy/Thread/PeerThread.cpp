@@ -578,16 +578,6 @@ void PeerThreadClass::clearServers( void )
 	m_stagingServers.clear();
 }
 
-// ?findServerByID@PeerThreadClass@@ present-unmatched
-static enum CallbackType
-{
-	CALLBACK_CONNECT,
-	CALLBACK_ERROR,
-	CALLBACK_RECVMESSAGE,
-	CALLBACK_RECVREQUEST,
-	CALLBACK_RECVSTATUS,
-	CALLBACK_MAX
-};
 
 void connectCallbackWrapper( PEER peer, PEERBool success, void *param )
 {

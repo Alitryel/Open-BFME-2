@@ -37353,7 +37353,7 @@ present_unmatched	Code/GameEngine/Source/Common/RTS/PlayerList.cpp	PlayerList::v
 present_unmatched	Code/GameEngine/Source/Common/RTS/PlayerList.cpp	PlayerList::xfer	1
 present_unmatched	Code/GameEngine/Source/Common/RTS/PlayerO1Shard.cpp	0ClosestKindOfData@@QAE@XZ	1
 present_unmatched	Code/GameEngine/Source/Common/RTS/PlayerRva002AA8EF.cpp	body	1
-present_unmatched	Code/GameEngine/Source/Common/RTS/ProductionPrerequisite.cpp	addUnitPrereq@ProductionPrerequisite@@	2
+present_unmatched	Code/GameEngine/Source/Common/RTS/ProductionPrerequisite.cpp	addUnitPrereq@ProductionPrerequisite@@	1
 present_unmatched	Code/GameEngine/Source/Common/RTS/ProductionPrerequisite.cpp	getRequiresList@ProductionPrerequisite@@QBE?AVUnicodeString@@PBVPlayer@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/RTS/ProductionPrerequisite.cpp	init@ProductionPrerequisite@@QAEXXZ	1
 present_unmatched	Code/GameEngine/Source/Common/RTS/Rva00263895Init.cpp	rva00263895_dummy@Rva00263895Member@@UAEXXZ	1
@@ -37700,9 +37700,7 @@ present_unmatched	Code/GameEngine/Source/Common/System/Upgrade.cpp	crc@Upgrade@@
 present_unmatched	Code/GameEngine/Source/Common/System/Upgrade.cpp	findNonConstUpgradeByKey@UpgradeCenter@@	1
 present_unmatched	Code/GameEngine/Source/Common/System/Upgrade.cpp	firstUpgradeTemplate@UpgradeCenter@@	1
 present_unmatched	Code/GameEngine/Source/Common/System/Upgrade.cpp	init@UpgradeCenter@@	1
-present_unmatched	Code/GameEngine/Source/Common/System/Upgrade.cpp	linkUpgrade@UpgradeCenter@@	1
 present_unmatched	Code/GameEngine/Source/Common/System/Upgrade.cpp	loadPostProcess@Upgrade@@	1
-present_unmatched	Code/GameEngine/Source/Common/System/Upgrade.cpp	newUpgrade@UpgradeCenter@@	1
 present_unmatched	Code/GameEngine/Source/Common/System/Upgrade.cpp	reset@UpgradeCenter@@	1
 present_unmatched	Code/GameEngine/Source/Common/System/Upgrade.cpp	xfer@Upgrade@@	1
 present_unmatched	Code/GameEngine/Source/Common/T4LeafPredicatesAndMath.cpp	isClear@T4Host005F3010@@	1
@@ -37759,7 +37757,6 @@ present_unmatched	Code/GameEngine/Source/Common/Thing/ThingFactory.cpp	addTempla
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingFactory.cpp	findTemplateInternal@ThingFactory@@	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingFactory.cpp	freeDatabase@ThingFactory@@	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingFactory.cpp	init@ThingFactory@@	1
-present_unmatched	Code/GameEngine/Source/Common/Thing/ThingFactory.cpp	newDrawable@ThingFactory@@	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingFactory.cpp	newObject@ThingFactory@@	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingFactory.cpp	newOverride@ThingFactory@@	1
 present_unmatched	Code/GameEngine/Source/Common/Thing/ThingFactory.cpp	newTemplate@ThingFactory@@	1
@@ -37821,7 +37818,6 @@ present_unmatched	Code/GameEngine/Source/GameClient/Drawable_rva002736BA.cpp	rva
 present_unmatched	Code/GameEngine/Source/GameClient/FXList.cpp	0FXListStore@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/FXList.cpp	1FXList@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/FXList.cpp	1FXListStore@@	1
-present_unmatched	Code/GameEngine/Source/GameClient/FXList.cpp	doFXObj@FXList@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/FXList.cpp	doFXObj@FXNugget@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/FXNuggetDeletingDtors.cpp	1SoundFXNugget@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameClient/FXParticleSystem.cpp	SecondaryModuleBase::SecondaryModuleBase	1
@@ -37898,7 +37894,6 @@ present_unmatched	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/Optio
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/OptionsMenu.cpp	OptionPreferences::getUseHeatEffects	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/SkirmishGameOptionsMenu.cpp	getPreferredColor@SkirmishPreferences@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/SkirmishGameOptionsMenu.cpp	getPreferredFaction@SkirmishPreferences@@	1
-present_unmatched	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/SkirmishGameOptionsMenu.cpp	getPreferredMap@SkirmishPreferences@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/SkirmishGameOptionsMenu.cpp	getSlotList@SkirmishPreferences@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/SkirmishGameOptionsMenu.cpp	getStartingCash@SkirmishPreferences@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/SkirmishGameOptionsMenu.cpp	getSuperweaponRestricted@SkirmishPreferences@@	1
@@ -37944,7 +37939,6 @@ present_unmatched	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	reverseAnimateWindow@ProcessAnimateWindowSlideFromLeft@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	reverseAnimateWindow@ProcessAnimateWindowSlideFromRightFast@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	reverseAnimateWindow@ProcessAnimateWindowSlideFromTop@@	1
-present_unmatched	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	reverseAnimateWindow@ProcessAnimateWindowSlideFromTopFast@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	updateAnimateWindow@ProcessAnimateWindowSlideFromLeft@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	updateAnimateWindow@ProcessAnimateWindowSlideFromRightFast@@	1
 present_unmatched	Code/GameEngine/Source/GameClient/GUI/ProcessAnimateWindow.cpp	updateAnimateWindow@ProcessAnimateWindowSlideFromTop@@	1
@@ -38416,9 +38410,7 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior.cpp	maySpawnSelfTaskAI@SpawnBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior.cpp	orderSlavesDisabledUntil@SpawnBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior.cpp	orderSlavesToClearDisabled@SpawnBehavior@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior.cpp	reclaimOrphanSpawn@SpawnBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior.cpp	revealSlaves@SpawnBehavior@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior.cpp	shouldTryToSpawn@SpawnBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior.cpp	startSpawning@SpawnBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior.cpp	stopSpawning@SpawnBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehaviorDtor.cpp	bfmeEmitSpawnBehaviorDtor@@YAXPAVSpawnBehavior@@@Z	1
@@ -38774,7 +38766,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	a
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	allow@PartitionFilterRejectByObjectStatus@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	allow@PartitionFilterRelationship@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	allow@PartitionFilterRepulsor@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	allow@PartitionFilterSameMapStatus@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	allow@PartitionFilterSamePlayer@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	allow@PartitionFilterStealthedAndUndetected@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	allow@PartitionFilterThing@@	1
@@ -38801,7 +38792,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	d
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	doThreatAffect@PartitionManager@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	doValueAffect@PartitionManager@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	estimateTerrainExtremesAlongLine@PartitionManager@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	findPositionAround@PartitionManager@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	freeCoiArray@PartitionData@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	friend_addToCellList@CellAndObjectIntersection@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	friend_addToCellList@PartitionCell@@	1
@@ -38812,7 +38802,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	g
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	getCashValue@PartitionCell@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	getCellCenterPos@PartitionCell@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	getCellCenterPos@PartitionManager@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	getClosestObject@PartitionManager@@	2
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	getClosestObjects@PartitionManager@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	getControllingPlayerIndex@PartitionData@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/PartitionManager.cpp	getDistanceSquared@PartitionManager@@	2
@@ -39967,7 +39956,6 @@ present_unmatched	Code/GameEngine/Source/GameNetwork/GameSpy/Chat.cpp	unregister
 present_unmatched	Code/GameEngine/Source/GameNetwork/GameSpy/GameSpyStagingRoomCopy.cpp	Rva003835F4Use@@YAXPAXABVGameSpyStagingRoom@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerStatMapTreeDestructor.cpp	_Rb_tree_base::~_Rb_tree_base	1
 present_unmatched	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThread.cpp	clearServers@PeerThreadClass@@	1
-present_unmatched	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThread.cpp	findServerByID@PeerThreadClass@@	1
 present_unmatched	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThread.cpp	getThread@GameSpyPeerMessageQueue@@QAEPAVPeerThreadClass@@XZ	1
 present_unmatched	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThread.cpp	pushStatsToRoom@PeerThreadClass@@	1
 present_unmatched	Code/GameEngine/Source/GameNetwork/GameSpy/Thread/PeerThreadOwnedRecord1432Dtor.cpp	BfmeOwnedBuffer12::~BfmeOwnedBuffer12	1
@@ -40137,7 +40125,6 @@ present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Dra
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	getBestModelNameForWB@W3DModelDrawModuleData@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	getCurAnimDistanceCovered@W3DModelDraw@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	getCurrentAnimFraction@W3DModelDraw@@	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	getCurrentBonePositions@W3DModelDraw@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	getCurrentWorldspaceClientBonePositions@W3DModelDraw@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	getPristineBonePositionsForConditionState@W3DModelDraw@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	getProjectileLaunchOffset@W3DModelDraw@@	1
@@ -40160,7 +40147,6 @@ present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Dra
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	preloadAssets@ModelConditionInfo@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	preloadAssets@W3DModelDraw@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	preloadAssets@W3DModelDrawModuleData@@	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	reactToTransformChange@W3DModelDraw@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	rebuildWeaponRecoilInfo@W3DModelDraw@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	recalcBonesForClientParticleSystems@W3DModelDraw@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp	replaceIndicatorColor@W3DModelDraw@@	1
@@ -40258,7 +40244,6 @@ present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DPr
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowUpdate.cpp	addDecal@W3DProjectedShadowManager@@UAEPAVShadow@@PAVRenderObjClass@@PAUShadowTypeInfo@2@@Z	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowUpdate.cpp	createDecalShadow@W3DProjectedShadowManager@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowUpdate.cpp	createTexture@W3DShadowTextureManager@@QAEHPAVRenderObjClass@@PBD@Z	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowUpdate.cpp	flushDecals@W3DProjectedShadowManager@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowUpdate.cpp	getRenderCost@W3DProjectedShadow@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowUpdate.cpp	init@W3DProjectedShadow@@QAEXXZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowUpdate.cpp	init@W3DShadowTexture@@QAEHPAVRenderObjClass@@@Z	1
@@ -40930,7 +40915,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Check_If_M
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Find_Matching_Texture_Category@DX8FVFCategoryContainer@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Flush@DX8MeshRendererClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Generate_Texture_Categories@DX8FVFCategoryContainer@@	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Insert_To_Texture_Category@DX8FVFCategoryContainer@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Log@DX8RigidFVFCategoryContainer@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Log@DX8SkinFVFCategoryContainer@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Log@DX8TextureCategoryClass@@	1
@@ -40938,7 +40922,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Register_M
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Render@DX8SkinFVFCategoryContainer@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Render@DX8TextureCategoryClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Render_Decal_Meshes@DX8MeshRendererClass@@	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Render_Procedural_Material_Passes@DX8FVFCategoryContainer@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Set_Material@DX8Wrapper@@	2
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Set_Shader@DX8Wrapper@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp	Unregister_Mesh_Type@DX8MeshRendererClass@@	1
@@ -41416,7 +41399,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/render2d.cpp	0Render2DText
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/render2d.cpp	1Render2DClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/render2d.cpp	1Render2DTextClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/render2d.cpp	Add_Line@Render2DClass@@	4
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/render2d.cpp	Add_Outline@Render2DClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/render2d.cpp	Add_Quad@Render2DClass@@	3
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/render2d.cpp	Add_Quad_Backfaced@Render2DClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/render2d.cpp	Add_Quad_HGradient@Render2DClass@@	2

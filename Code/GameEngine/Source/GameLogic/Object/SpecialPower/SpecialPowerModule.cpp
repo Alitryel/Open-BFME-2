@@ -137,43 +137,6 @@ void SpecialPowerModule::resolveSpecialPower( void )
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/Common/SpecialPowerModule_onSpecialPowerCreationMethodThunk.cpp
-// ?onSpecialPowerCreation@SpecialPowerModule@@UAEXXZ present-unmatched
-void SpecialPowerModule::onSpecialPowerCreation( void )
-{
-	// THIS gets called by addScience(), that is, when the General has purchased a new special power, 
-	// and this module is thus activated.
-
-	// start a power recharge going
-	startPowerRecharge();
-
-	// Dustin wants these special powers to start ready to fire, 
-	// so here (and only here) we will expressly set them to ready-now.
-	if ( getSpecialPowerTemplate()->isSharedNSync())
-	{
-		Player *player = getObject()->getControllingPlayer();
-		if ( player )
-		{
-			player->expressSpecialPowerReadyFrame( getSpecialPowerTemplate(), TheGameLogic->getFrame() );
-			m_availableOnFrame = player->getOrStartSpecialPowerReadyFrame( getSpecialPowerTemplate() );
-		}
-	}
-
-	// Some Special powers need to be activated by an Upgrade, so prevent the timer from going until then
-	const SpecialPowerModuleData *md = getSpecialPowerModuleData();
-	if( md->m_startsPaused )
-		pauseCountdown( TRUE );
-
-	// add this weapon to the UI if it has a public timer for all to see
-	if( getSpecialPowerModuleData()->m_specialPowerTemplate->hasPublicTimer() == TRUE &&
-			getObject()->getControllingPlayer() &&
-			getObject()->isKindOf( KINDOF_STRUCTURE ) )
-	{
-		TheInGameUI->addSuperweapon( getObject()->getControllingPlayer()->getPlayerIndex(), 
-																 getPowerName(), 
-																 getObject()->getID(), 
-																 getSpecialPowerModuleData()->m_specialPowerTemplate );
-	}
-}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------

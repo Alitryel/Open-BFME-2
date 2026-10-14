@@ -166,17 +166,6 @@ void ProductionPrerequisite::addUnitPrereq( AsciiString unit, Bool orUnitWithPre
 	* a new 'block' and is required in ADDDITION to other entries. 
 	* Return FALSE if no space left to add unit */
 //-------------------------------------------------------------------------------------------------
-// ?addUnitPrereq@ProductionPrerequisite@@ present-unmatched
-void ProductionPrerequisite::addUnitPrereq( const std::vector<AsciiString>& units )
-{
-	Bool orWithPrevious = false;
-	for (int i = 0; i < units.size(); ++i)
-	{
-		addUnitPrereq(units[i], orWithPrevious);
-		orWithPrevious = true;
-	}
-
-}  // end addUnitPrereq
 
 //-------------------------------------------------------------------------------------------------
 // ProductionPrerequisite::getRequiresList is defined with its retail-matched body in Code/GameEngine/Source/Common/RTS/ProductionPrerequisiteIsSatisfied_ProductionPrerequisite_isSatisfied.cpp (0x004F4DF2).

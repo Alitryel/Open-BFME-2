@@ -228,38 +228,6 @@ static void findClosestOrphan( Object *obj, void *userData )
 }  // findClosestOrphan
 
 // ------------------------------------------------------------------------------------------------
-// ?reclaimOrphanSpawn@SpawnBehavior@@ present-unmatched
-Object *SpawnBehavior::reclaimOrphanSpawn( void )
-{
-	Player *player = getObject()->getControllingPlayer();
-	const SpawnBehaviorModuleData *md = getSpawnBehaviorModuleData();
-
-	//
-	// iterate all the objects my controlling player has and look for any orphaned things
-	// that we would normally spawn, if found we'll just make it our own
-	//
-	// EVEN MORE NEW AND DIFFERENT
-	// This block scans the list for matchTemplates 
-	//
-
-	OrphanData orphanData;
-	AsciiString prevName = "";
-	for (std::vector<AsciiString>::const_iterator tempName = md->m_spawnTemplateNameData.begin();
-			tempName != md->m_spawnTemplateNameData.end(); 
-			++tempName)
-	{
-		if (prevName.compare(*tempName)) // the list may have redundancy, this will skip some of it
-			continue;
-		orphanData.m_matchTemplate = TheThingFactory->findTemplate( *tempName );;
-		orphanData.m_source = getObject();
-		orphanData.m_closest = NULL;
-		orphanData.m_closestDistSq = BIG_DISTANCE;
-		player->iterateObjects( findClosestOrphan, &orphanData );
-		prevName = *tempName;
-	}
-
-	return orphanData.m_closest;
-}
 
 //-------------------------------------------------------------------------------------------------
 // SpawnBehavior::createSpawn is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Behavior/SpawnBehavior_createSpawn.cpp (0x0045FA57).
@@ -287,29 +255,6 @@ void SpawnBehavior::startSpawning()
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?shouldTryToSpawn@SpawnBehavior@@ present-unmatched
-Bool SpawnBehavior::shouldTryToSpawn()
-{
-	const SpawnBehaviorModuleData *modData = getSpawnBehaviorModuleData();
-
-	// Not if we are turned off
-	if( !m_active )
-		return FALSE;
-	if( getObject()->getStatusBits().test( OBJECT_STATUS_RECONSTRUCTING ) && modData->m_isOneShotData )
-	{
-		// If we are a Hole rebuild, not only should we not, but we should never ask again.
-		stopSpawning();
-		return FALSE;
-	}
-	// Not if we are under construction or being sold
-	if( getObject()->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION) || getObject()->testStatus(OBJECT_STATUS_SOLD) )
-		return FALSE;
-	// Not if we are civilian controlled
-	if( getObject()->isNeutralControlled() )
-		return FALSE;
-
-	return TRUE;
-}
 
 //********************************************************************
 //* This function allows various object states to be either inherited

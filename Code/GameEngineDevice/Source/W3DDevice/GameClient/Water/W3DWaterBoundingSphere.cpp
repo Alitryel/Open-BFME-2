@@ -426,28 +426,6 @@ struct BfmeWaterIndexLayout
 /**Copies GDF settings dealing with a particular time of day into our own
 	* structures.  Also allocates any required W3D assets (textures). */
 //-------------------------------------------------------------------------------------------------
-// ?loadSetting@WaterRenderObjClass@@IAEXPAUSetting@1@W4TimeOfDay@@@Z present-unmatched
-
-
-//-------------------------------------------------------------------------------------------------
-/** Our water may use effects that require run-time rendered textures.  These
-	*	textures need to be updated before we start rendering to the main screen
-	* render target because D3D doesn't multiple render targets. */
-//-------------------------------------------------------------------------------------------------
-// ?updateRenderTargetTextures@WaterRenderObjClass@@QAEXPAVCameraClass@@@Z
-
-
-//-------------------------------------------------------------------------------------------------
-/** Renders the reflected scene into an offscreen texture. */
-//-------------------------------------------------------------------------------------------------
-// Retail gives the temporary depth target ref-counted ownership; the upstream
-// one-argument call loses that lifetime and selects a different overload shape.
-// Retail reads +0x400 here, while the shared upstream layout places the field elsewhere.
-struct BFMEWaterRenderObjOffset400View
-{
-	char BeforeOffset400[0x400];
-	Int Value;
-};
 
 class WaterTextureRef
 {

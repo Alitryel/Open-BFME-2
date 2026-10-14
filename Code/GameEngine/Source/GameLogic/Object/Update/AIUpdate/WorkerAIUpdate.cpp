@@ -845,85 +845,6 @@ const Coord3D* WorkerAIUpdate::getDockPoint( DozerTask task, DozerDockPoint poin
 // ------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
-// ?aiDoCommand@WorkerAIUpdate@@UAEXPBUAICommandParms@@@Z present-unmatched
-void WorkerAIUpdate::aiDoCommand(const AICommandParms* parms)
-{
-
-	//
-	// anytime we get a command, just remove any model condition that has us actively building
-	// if we need to show that, that bit will be set anyway again during the build process
-	//
-	getObject()->clearModelConditionState( MODELCONDITION_ACTIVELY_CONSTRUCTING );
-
-	if (!isAllowedToRespondToAiCommands(parms))
-		return;
-	
-	// create our machines if they don't yet exist
-	createMachines();
-
-	switch( parms->m_cmd )
-	{
-
-		// --------------------------------------------------------------------------------------------
-		case AICMD_REPAIR:
-		{
-
-			// if we have no task right now, go idle so we can immediately respond to this
-			if( getCurrentTask() == DOZER_TASK_INVALID )
-				aiIdle( CMD_FROM_AI );
-
-			// do the repair
-			privateRepair(parms->m_obj, parms->m_cmdSource);
-			break;
-
-		}  // end repair
-
-		// --------------------------------------------------------------------------------------------
-		case AICMD_RESUME_CONSTRUCTION:
-		{
-
-			// if we have no task right now, go idle so we can immediately respond to this
-			if( getCurrentTask() == DOZER_TASK_INVALID )
-				aiIdle( CMD_FROM_AI );
-
-			// do the command
-			privateResumeConstruction( parms->m_obj, parms->m_cmdSource );
-			break;
-
-		}  // end resume construction
-
-		// --------------------------------------------------------------------------------------------
-		default:
-		{
-
-			// if this is from the player, cancel our current task
-			if( parms->m_cmdSource == CMD_FROM_PLAYER && getCurrentTask() != DOZER_TASK_INVALID )
-				cancelTask( getCurrentTask() );
-
-			// issue the command
-			AIUpdateInterface::aiDoCommand(parms);
-
-			// when a player issues commands, this will cause the dozer to re-evaluate what it's doing
-			if( parms->m_cmdSource == CMD_FROM_PLAYER )
-				m_dozerMachine->resetToDefaultState();
-			break;
-
-		}  // end default
-
-	}  // end switch
-
-	if (isClearingMines() && m_numberBoxes > 0 )
-	{
-		// if clearing mines, we drop any boxes we were carrying
-		m_numberBoxes = 0;
-		Drawable *draw = getObject()->getDrawable();
-		if( draw )
-		{
-			draw->updateDrawableSupplyStatus( getWorkerAIUpdateModuleData()->m_maxBoxesData, m_numberBoxes );
-		}
-	}
-
-}
 
 
 // ------------------------------------------------------------------------------------------------
@@ -955,48 +876,6 @@ Bool WorkerAIUpdate::loseOneBox()
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?gainOneBox@WorkerAIUpdate@@UAE_NH@Z present-unmatched
-Bool WorkerAIUpdate::gainOneBox( Int remainingStock )
-{
-	if( getWorkerAIUpdateModuleData() && m_numberBoxes >= getWorkerAIUpdateModuleData()->m_maxBoxesData )
-		return FALSE;
-
-	++m_numberBoxes;
-
-	//if I just took the last box, 
-	//i will announce that this supply source is now empty
-	if (remainingStock == 0)
-	{
-		Object* bestWarehouse = getObject()->getControllingPlayer()->getResourceGatheringManager()->findBestSupplyWarehouse( getObject() );
-		
-		Bool playDepleted = FALSE;
-		if ( bestWarehouse )
-		{
-			//figure out whether the best one is considerably far from the previous one (current position)
-			Coord3D delta = *getObject()->getPosition();
-			delta.sub( bestWarehouse->getPosition() ); 
-			if ( delta.length() > getWarehouseScanDistance()/4)
-			playDepleted = TRUE;
-		}
-		else
-			playDepleted = TRUE;
-
-		if (playDepleted && m_suppliesDepletedVoice.getEventName().isEmpty() == false)
-		{
-			m_suppliesDepletedVoice.setObjectID(getObject()->getID());
-			m_suppliesDepletedVoice.setPlayingHandle(TheAudio->addAudioEvent(&m_suppliesDepletedVoice));
-		}
-	}
-
-
-	Drawable *draw = getObject()->getDrawable();
-	if( draw )
-	{
-		draw->updateDrawableSupplyStatus( getWorkerAIUpdateModuleData()->m_maxBoxesData, m_numberBoxes );
-	}
-
-	return TRUE;
-}
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -1106,44 +985,9 @@ void WorkerStateMachine::loadPostProcess( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?supplyTruckSubMachineWantsToEnter@WorkerStateMachine@@SA_NPAVState@@PAX@Z present-unmatched
-Bool WorkerStateMachine::supplyTruckSubMachineWantsToEnter( State *thisState, void* userData )
-{
-	Object *owner = thisState->getMachineOwner();
-	WorkerAIUpdate *update = (WorkerAIUpdate*)owner->getAIUpdateInterface();
-	if( !update )
-	{
-		return false;
-	}
-	AIStateType masterState = update->getAIStateType();
-
-	//If I detect a Supply force message, or if I have been put straight in dock,
-	//then the worker master part of me wants to switch to the Supply sub-brain
-
-	return update->isForcedIntoWantingState() || (masterState == AI_DOCK);
-}
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?supplyTruckSubMachineReadyToLeave@WorkerStateMachine@@SA_NPAVState@@PAX@Z present-unmatched
-Bool WorkerStateMachine::supplyTruckSubMachineReadyToLeave( State *thisState, void* userData )
-{
-	Object *owner = thisState->getMachineOwner();
-	WorkerAIUpdate *update = (WorkerAIUpdate*)owner->getAIUpdateInterface();
-	if( !update )
-	{
-		return false;
-	}
-//	AIStateType masterState = update->getAIStateType();
-
-	// It isn't ready to leave if it is on its way in.  The first clause
-	// allow a latch for a moment
-	// so there is no transition out on the way in.  Active and Busy means it isn't doing
-	// anything Supply related.
-
-	return !supplyTruckSubMachineWantsToEnter( thisState, NULL )
-				&& update->isSupplyTruckBrainActiveAndBusy();
-}
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------

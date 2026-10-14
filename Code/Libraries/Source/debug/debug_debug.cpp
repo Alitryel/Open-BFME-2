@@ -328,37 +328,6 @@ bool Debug::AssertDone(void)
   return false;
 }
 
-// ?CheckBegin@Debug@@SAAAV1@PBDH0@Z present-unmatched
-Debug& Debug::CheckBegin(const char *file, int line, const char *expr)
-{
-  // avoid infinite recursion...
-  ++Instance.disableAssertsEtc;
-
-  // anything to flush first?
-  if (Instance.curType!=DebugIOInterface::StringType::MAX)
-    Instance.FlushOutput();
-
-  // set new output
-  __ASSERT(Instance.curFrameEntry==NULL);
-  Instance.curFrameEntry=Instance.GetFrameEntry(curStackFrame,FrameTypeCheck,file,line);
-  if (Instance.curFrameEntry->status==NoSkip)
-  {
-    ++Instance.curFrameEntry->hits;
-    Instance.StartOutput(DebugIOInterface::StringType::Check,"%s(%i)",
-                  Instance.curFrameEntry->fileOrGroup,
-                  Instance.curFrameEntry->line);
-
-    // if there is a \code\ section in the filename truncate
-    // everything before that (including \code\)
-    const char *p=strstr(file,"\\code\\");
-    p=p?p+6:file;
-
-    Instance << "\n" << RepeatChar('=',80) << "\nCheck failed in " << p << ", line " << line 
-             << ",\nexpression " << expr;
-  }
-
-  return Instance;
-}
 
 // ?CheckDone@Debug@@UAE_NXZ present-unmatched
 bool Debug::CheckDone(void)
@@ -1030,12 +999,6 @@ void Debug::RemoveCommands(DebugCmdInterface *cmdif)
   }
 }
 
-// ?Command@Debug@@SAXPBD@Z present-unmatched
-void Debug::Command(const char *cmd)
-{
-  DFAIL_IF(!cmd) return;
-  Instance.ExecCommand(cmd,cmd+strlen(cmd));
-}
 
 void Debug::Update(void)
 {

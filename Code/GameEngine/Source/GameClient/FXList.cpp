@@ -839,19 +839,6 @@ void FXList::doFXPos(const Coord3D *primary, const Matrix3D* primaryMtx, const R
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?doFXObj@FXList@@ present-unmatched
-void FXList::doFXObj(const Object* primary, const Object* secondary) const
-{
-	if (primary && primary->getShroudedStatus(ThePlayerList->getLocalPlayer()->getPlayerIndex()) > OBJECTSHROUD_PARTIAL_CLEAR)
-		return;	//the primary object is fogged or shrouded so don't bother with the effect.
-
-	for (FXNuggetList::const_iterator it = m_nuggets.begin(); it != m_nuggets.end(); ++it)
-	{
-
-		// HERE THE PRIMARY IS THE GUY RECEIVING THE FX, AND SECONDARY MIGHT BE THE GUY DEALING IT
-		(*it)->doFXObj(primary, secondary);
-	}
-}
 
 
 

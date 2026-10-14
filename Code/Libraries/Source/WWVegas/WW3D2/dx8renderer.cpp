@@ -326,43 +326,6 @@ void DX8FVFCategoryContainer::Remove_Texture_Category(DX8TextureCategoryClass* t
 // DX8FVFCategoryContainer::Add_Visible_Material_Pass: BFME 2's body is the row 0x00144CB0 in DX8RigidDelayedMaterialPass.cpp;
 // Zero Hour's copy here duplicated it.
 
-// ?Render_Procedural_Material_Passes@DX8FVFCategoryContainer@@ present-unmatched
-void DX8FVFCategoryContainer::Render_Procedural_Material_Passes(void)
-{
-	// additional passes
-	MatPassTaskClass * mpr = visible_matpass_head;
-	MatPassTaskClass * last_mpr = NULL;
-   	bool renderTasksRemaining=false;
-
-	while (mpr != NULL) {
-		SNAPSHOT_SAY(("Render_Procedural_Material_Pass\n"));
-
-   		MeshClass * mesh = mpr->Peek_Mesh();
-   	
-   		if (mesh->Get_Base_Vertex_Offset() == VERTEX_BUFFER_OVERFLOW)	//check if this mesh is valid
-   		{	//skip this mesh so it gets rendered later after vertices are filled in.
-	        last_mpr = mpr;
-   			mpr = mpr->Get_Next_Visible();
-   			renderTasksRemaining = true;
-   			continue;
-   		}
-	
-		mpr->Peek_Mesh()->Render_Material_Pass(mpr->Peek_Material_Pass(),index_buffer);
-		MatPassTaskClass * next_mpr = mpr->Get_Next_Visible();
-		
-		// remove from list, then delete
-		if (last_mpr == NULL) {
-			visible_matpass_head = next_mpr;
-		} else {
-	       last_mpr->Set_Next_Visible(next_mpr);
-	    }
-
-		delete mpr;
-		mpr = next_mpr;
-	}
-
-	visible_matpass_tail = renderTasksRemaining ? last_mpr : NULL;
-}
 
 // Owned by DX8RigidDelayedMaterialPass.cpp.
 
@@ -1066,63 +1029,6 @@ void DX8RigidFVFCategoryContainer::Add_Mesh(MeshModelClass* mmc_)
 	used_vertices+=needed_vertices;//vertex_count;
 }
 
-// ?Insert_To_Texture_Category@DX8FVFCategoryContainer@@ present-unmatched
-void DX8FVFCategoryContainer::Insert_To_Texture_Category(
-	Vertex_Split_Table& split_table,
-	TextureClass** texs,
-	VertexMaterialClass* mat,
-	ShaderClass shader,
-	int pass,
-	unsigned vertex_offset)
-{
-	/*
-	** Try to find a DX8TextureCategoryClass in this FVF container which matches the
-	** given textures(one per stage), material and shader combination.
-	*/
-	bool fit_in_existing_category = false;
-	TextureCategoryListIterator it(&texture_category_list[pass]);
-	while (!it.Is_Done()) {
-		DX8TextureCategoryClass * tex_category=it.Peek_Obj();
-		// Compare all stage's textures
-		bool all_textures_same = true;
-		for (unsigned int stage = 0; stage < MeshMatDescClass::MAX_TEX_STAGES; stage++) {
-			all_textures_same = all_textures_same && (tex_category->Peek_Texture(stage) == texs[stage]);
-		}
-		if (all_textures_same && Equal_Material(tex_category->Peek_Material(),mat) && tex_category->Get_Shader()==shader) {
-			used_indices+=tex_category->Add_Mesh(split_table,vertex_offset,used_indices,index_buffer,pass);
-			fit_in_existing_category = true;
-			break;
-		}
-		it.Next();
-	}
-
-	if (!fit_in_existing_category) {
-		
-		DX8TextureCategoryClass * new_tex_category=W3DNEW DX8TextureCategoryClass(this,texs,shader,mat,pass);
-		used_indices+=new_tex_category->Add_Mesh(split_table,vertex_offset,used_indices,index_buffer,pass);
-		
-		/*
-		** Add the texture category object into the list, immediately after any existing
-		** texture category object which uses the same texture.  This will result in
-		** the list always having matching texture categories next to each other.
-		*/
-		bool found_similar_category = false;
-		TextureCategoryListIterator it(&texture_category_list[pass]);
-		while (!it.Is_Done()) {
-			// Categorize according to first stage's texture for now
-			if (it.Peek_Obj()->Peek_Texture(0) == texs[0]) {
-				texture_category_list[pass].Add_After(new_tex_category,it.Peek_Obj());
-				found_similar_category = true;
-				break;
-			}
-			it.Next();
-		}
-
-		if (!found_similar_category) {
-			texture_category_list[pass].Add_Tail(new_tex_category);
-		}
-	}
-}
 
 const unsigned MAX_ADDED_TYPE_COUNT=64;
 struct Textures_Material_And_Shader_Booking_Struct

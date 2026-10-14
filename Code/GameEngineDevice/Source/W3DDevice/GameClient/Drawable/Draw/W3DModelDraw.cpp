@@ -3378,41 +3378,6 @@ Bool W3DModelDraw::getCurrentWorldspaceClientBonePositions(const char* boneName,
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?getCurrentBonePositions@W3DModelDraw@@ present-unmatched
-//-------------------------------------------------------------------------------------------------
-// ?reactToTransformChange@W3DModelDraw@@ present-unmatched
-void W3DModelDraw::reactToTransformChange( const Matrix3D* oldMtx, 
-																					 const Coord3D* oldPos, 
-																					 Real oldAngle )
-{
-
-	// set the position of our render object
-	if( m_renderObject )
-	{
-		Matrix3D mtx = *getDrawable()->getTransformMatrix();
-		adjustTransformMtx(mtx);
-		m_renderObject->Set_Transform(mtx);
-	}
-
-	if (m_trackRenderObject) 
-	{
-		Object *obj = getDrawable()->getObject();
-		const Coord3D* pos = getDrawable()->getPosition();
-
-		if ( m_fullyObscuredByShroud || obj->testStatus( OBJECT_STATUS_STEALTHED ) == TRUE )
-		{
-				m_trackRenderObject->addCapEdgeToTrack(pos->x, pos->y);
-		}
-		else
-		{
-			if (obj && obj->isSignificantlyAboveTerrain())
-			{
-				m_trackRenderObject->setAirborne();
-			} 
-			m_trackRenderObject->addEdgeToTrack(pos->x, pos->y);
-		}
-	}
-} 
 
 //-------------------------------------------------------------------------------------------------
 // ?findBestInfo@W3DModelDraw@@ present-unmatched

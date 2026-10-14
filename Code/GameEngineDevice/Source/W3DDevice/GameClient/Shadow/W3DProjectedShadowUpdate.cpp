@@ -300,45 +300,6 @@ DWORD BDToVA[9][4]=
 
 #endif
 
-// ?flushDecals@W3DProjectedShadowManager@@ present-unmatched
-
-
-/*
-
-*/
-
-#define BRIDGE_OFFSET_FACTOR 1.5f
-/**Decals have a low poly count so its better to render large numbers at once.  This system will queue them
-
-
-/**Simpler/faster decal system that always uses 2 triangles that are roughly oriented
-to terrain.  Since they are not projected onto terrain, there may be clipping
-artifacts in certain situations.
-TODO: Too much clipping.  Need to check terrain heights at all 4 corners and adjust tilt to match*/
-///@todo: We should have a pre-made static filled index buffer since we always send down 2 triangles.
-// ?queueSimpleDecal@W3DProjectedShadowManager@@QAEXPAVW3DProjectedShadow@@@Z present-unmatched
-
-
-// renderShadows is implemented in W3DProjectedShadowRenderShadows.cpp.
-
-
-/** Generic function which can be used to create arbitrary decals that don't have to be used for shadows.
-Some examples: Scorch marks, blood, stains, selection/status indicators, etc.*/
-struct BFMEShadowTypeInfo
-{
-	Char name[128];
-	ShadowType type;
-	Bool allowUpdates;
-	Bool allowWorldAlign;
-	Char pad[2];
-	Real sizeX;
-	Real sizeY;
-	Real offsetX;
-	Real offsetY;
-	Int unused98;
-	Int flags;
-	Bool force;
-};
 
 extern void j_000193bc();
 
