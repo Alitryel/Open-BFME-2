@@ -1,8 +1,11 @@
-// cl: /O1 /MD /EHs /arch:SSE /G7 /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common /ICode/Libraries/Include
+// cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHs /arch:SSE /G7 /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common /ICode/Libraries/Include
 // stlport
+#define _BFME_RETAIL_TREE_INSERT_LAYOUT
+#include <map>
+#include "ascii_string.h"
 #include <vector>
 #include <set>
-#include "../../../Common/GameLogicObjectLookupView.h"
+#include "GameLogicObjectLookupView.h"
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
@@ -18,12 +21,14 @@ class Player;
 struct AITeamRequirementView;
 struct AITargetView;
 struct Rva002A8AB1Record;
-class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); };
+class Rva002A8F24 { public: Rva002A8AB1Record *rva002A8AB1(void *); void *rva002A8F24(Player *); void *rva002A8B73(void *,int); };
 extern Rva002A8F24 *g_00DFEEF8;
 extern GameLogic *TheGameLogic;
+class TeamPrototype;
+class Rva0039D769;
 class Team {
 public:
- char pad[0x5d]; bool active; bool dirty;
+ char pad[0x30]; TeamPrototype *prototype30; char pad34[0x5d-0x34]; bool active; bool dirty;
  char pad5f[0x110-0x5f]; bool flag110; bool flag111;
  Team *dlink_next_TeamInstanceList() const;
  void disband();
@@ -45,6 +50,7 @@ struct Requirements {
 };
 class TeamPrototype {
 public:
+ void rva003A0E08(const Rva0039D769 &);
  char prefix[0x12c]; Requirements requirements;
  char pad2d8[0x31c-0x2d8]; bool building; bool ready;
  char pad31e[0x334-0x31e]; Team *head;
@@ -52,6 +58,7 @@ public:
 };
 class AITeamBuilder {
 public:
+ void recruitPreDefined(Team*,int*,TeamPrototype*);
  int getCurNumUnits(Team *);
  int doesTeamMeetThreat(Team *);
  bool rva0059A01C(Object*,const AITeamRequirementView*,const AITargetView*);
@@ -150,10 +157,11 @@ void Rva0059AC4D::rva0059A153(TeamPrototype *prototype)
 // the actual requirement storage and any() instantiation are BitFlags<218>.
 template<int N> class BitFlags { public: bool any() const; unsigned int words[7]; };
 class Thing { public: bool isAnyKindOf(const BitFlags<69>&) const; };
-struct RecruitThingTemplate { char prefix[0x113]; unsigned char kind113; };
+struct RecruitThingTemplate { char prefix[0x64]; AsciiString name; char pad68[0x113-0x68]; unsigned char kind113; };
 class AIUpdateInterface { public: Object* getCurrentVictim() const; };
 class Object {
 public:
+ void setTeam(Team*);
  char pad00[4]; RecruitThingTemplate* objectTemplate;
  char pad08[0x38-8]; Coord3D position;
  char pad44[0x258-0x44]; AIUpdateInterface* ai;
@@ -163,8 +171,8 @@ public:
 };
 class Player { public: char prefix[0x2ec]; Team* defaultTeam; };
 struct AITeamRequirementView {
- char prefix[0xf0]; int priority;
- char padf4[0x1b4-0xf4]; BitFlags<218> required;
+ int first; char records04[0xa8]; unsigned recordCount; char padb0[0xf0-0xb0]; int priority;
+ char padf4[0x198-0xf4]; int targetKind; char pad19c[0x1b4-0x19c]; BitFlags<218> required;
  BitFlags<218> forbidden;
 };
 struct AITargetView { int word0; int kind; int word8; Coord3D position; };
@@ -199,4 +207,93 @@ bool AITeamBuilder::rva0059A01C(Object* obj,const AITeamRequirementView* req,con
  return true;
 reject:
  return false;
+}
+
+class Rva005C4AD1LeaField { public: void* get() const; };
+
+class Rva0039EA9C {
+public:
+ Rva0039EA9C(); ~Rva0039EA9C();
+ int first; int second; int third;
+ AsciiString name0c; AsciiString name10; int final14;
+};
+
+class Rva0039D7C1ByteField { public: unsigned char get() const; };
+class Rva0039D7C8LeaGetter { public: void* get() const; };
+struct TreeOpaqueMapped00372FF4 { unsigned int m_bits; };
+typedef _STL::pair<const float, TreeOpaqueMapped00372FF4> DistanceValue;
+typedef _STL::_Rb_tree<float, DistanceValue, _STL::_Select1st<DistanceValue>,
+    _STL::less<float>, _STL::allocator<DistanceValue> > DistanceTree;
+typedef _STL::map<int, void *> HeaderConstructor;
+
+enum ScienceType { SCIENCE_0 = 0 };
+typedef _STL::vector<ScienceType> IDVectorView;
+// Existing owned providers keep their verified compiler settings.
+namespace _STL {
+template <> void IDVectorView::reserve(unsigned int);
+template <> void IDVectorView::push_back(const ScienceType &);
+}
+
+
+// The rowed destructor owns an eight-byte tree header/count pair. Native
+// construction uses the existing map constructor with this same storage.
+class Rva00599FAA : public HeaderConstructor
+{
+public:
+    __forceinline Rva00599FAA() {}
+    ~Rva00599FAA();
+};
+
+// Native 59A499..59A71C, 643B; WB015297E0 names recruitPreDefined (assert236..279).
+// Runtime object offsets, requirement stride 0x18, priority 0x21C and call relationships
+// are target evidence. ScienceType and the opaque map value retain existing ABI
+// provider spellings; the stored values here are object IDs. Begin before end
+// and a named squared distance before the pair preserve native register ordering.
+void AITeamBuilder::recruitPreDefined(Team* team,int* count,TeamPrototype* remaining) {
+ AITeamRequirementView* requirements=(AITeamRequirementView*)((char*)remaining+0x12c);
+ if(requirements->priority<20)requirements->priority=20;
+ void* stats=g_00DFEEF8->rva002A8F24(owner14);
+ const IDVectorView* units=(const IDVectorView*)((Rva005C4AD1LeaField*)*(void**)stats)->get();
+ IDVectorView sorted;
+ TeamPrototype* prototype=team->prototype30;
+ if(((Rva0039D7C1ByteField*)prototype)->get()) {
+  Rva00599FAA distances;
+  const ScienceType* it=units->begin();
+  const ScienceType* end=units->end();
+  for(;it!=end;++it) {
+   Object* object=TheGameLogic->findObjectByID((ObjectID)*it);
+   const Coord3D* center=(const Coord3D*)((Rva0039D7C8LeaGetter*)prototype)->get();
+   Coord3D delta={center->x,center->y,center->z};
+   delta.x-=object->position.x;delta.y-=object->position.y;delta.z-=object->position.z;
+   float distance=delta.x*delta.x+delta.y*delta.y+delta.z*delta.z;
+   TreeOpaqueMapped00372FF4 value; value.m_bits=*it;
+   ((DistanceTree*)&distances)->insert_equal(DistanceValue(distance,value));
+  }
+  sorted.reserve(distances.size());
+  DistanceTree* tree=(DistanceTree*)&distances;
+  DistanceTree::iterator finish=tree->end();
+  for(DistanceTree::iterator it=tree->begin();it._M_node!=finish._M_node;++it)sorted.push_back(*(const ScienceType*)&it->second.m_bits);
+  units=&sorted;
+ }
+ AITargetView* target=(AITargetView*)g_00DFEEF8->rva002A8B73(owner14,requirements->targetKind);
+ const ScienceType* end=units->end();
+ for(const ScienceType* it=units->begin();it!=end;++it) {
+  if(((Rva0039D5A9*)requirements)->rva0039D5A9()<=0)break;
+  Object* obj=TheGameLogic->findObjectByID((ObjectID)*it);
+  if(rva0059A01C(obj,requirements,target)) {
+   bool recruited=false;
+   for(unsigned i=0;i<requirements->recordCount&&!recruited;++i) {
+    Rva0039EA9C* req=(Rva0039EA9C*)requirements->records04+i;
+    if(((const StringBase<char>&)req->name10).compare((const StringBase<char>&)obj->objectTemplate->name)==0 && req->first>0) {
+     obj->setTeam(team); ++*count;
+     Rva0039EA9C used;
+     used.first=1; used.second=1;
+     used.name10=obj->objectTemplate->name;
+     used.final14=req->final14;
+     remaining->rva003A0E08((const Rva0039D769&)used);
+     recruited=true;
+    }
+   }
+  }
+ }
 }
