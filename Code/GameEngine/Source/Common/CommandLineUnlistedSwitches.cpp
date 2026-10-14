@@ -372,3 +372,11 @@ int Rva003B9963Parse(char *args[],int num) {
     return 1;
 }
 
+// Native 3B94FC..3B9505: calls the shared empty body 0x000B3FD0 (a release
+// build's emptied hook, reached through its pinned no-argument spelling)
+// and consumes one, the shape of the rowed Rva003B9D23 (GapBodiesGE14.cpp).
+void rva001216E7ShutdownPhase();
+int Rva003B94FCParse(char *args[],int num) {
+    rva001216E7ShutdownPhase();
+    return 1;
+}
