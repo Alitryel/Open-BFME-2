@@ -9,7 +9,19 @@
 // ParameterChangesVer2 values verified in target data at RVA9C10DC.
 // Shared 24-byte Template and 12-byte remapper emitted before the parser
 // retain native caller register usage; /Gy makes these common copies.
-// Remaining dependency: Parameter::ReadParameter @3B5CA1 (banked 516B).
+//
+// Template::getParameterType 0x003B27A3 (24 bytes), ScriptAction::setActionType
+// 0x003B4343 and Condition::setConditionType 0x003B4A94 (137 bytes each) share
+// this unit as they shared retail's Scripts.cpp: all three callers keep the new
+// parameter pointer in edx across getParameterType, which cl only does when that
+// callee was compiled earlier in the same TU, so one unit must own the callee.
+// BFME1 donor Scripts.cpp setActionType/setConditionType: free the old
+// parameters, store the type, look the template up through the pinned
+// ScriptEngine::getActionTemplate 0x00203926 / getConditionTemplate 0x00203941
+// and new one Parameter per template slot. Retail deltas: the delete inlines to
+// releaseBuffer 0x00036410 plus ::operator delete (not a pooled deleteInstance).
+// ZH Template::getParameterType with DEBUG_CRASH compiled out (/DNDEBUG)
+// returns Parameter::INT (0) out of range, matching retail xor eax,eax.
 
 typedef int Int;
 typedef bool Bool;
@@ -53,6 +65,8 @@ public:
 	Parameter(ParameterType type, Int value = 0) throw();
 
 	static Parameter *ReadParameter(DataChunkInput &file);
+
+	void deleteInstance() { this->~Parameter(); ::operator delete(this); }
 
 	__forceinline ParameterType getParameterType() const
 	{
@@ -104,10 +118,49 @@ Parameter::ParameterType Template::getParameterType(Int index) const
 	if (index >= 0 && index < m_numParameters) return m_parameters[index];
 	return (Parameter::ParameterType)0;
 }
+class ActionTemplate : public Template {};
 class ConditionTemplate : public Template {};
-class ScriptEngine { public: const ConditionTemplate *getConditionTemplate(Int type) throw(); };
+class ScriptEngine
+{
+public:
+	const ActionTemplate *getActionTemplate(Int type) throw();
+	const ConditionTemplate *getConditionTemplate(Int type) throw();
+};
 
 extern ScriptEngine *TheScriptEngine;
+
+enum { MAX_PARMS = 12 };
+
+class ScriptAction
+{
+public:
+	enum ScriptActionType
+	{
+		NO_OP = 5
+	};
+	void setActionType(ScriptActionType type);
+private:
+	void *m_vtable; // +0x00
+	Int m_actionType; // +0x04
+	Int m_numParms; // +0x08
+	Parameter *m_parms[MAX_PARMS]; // +0x0C
+};
+
+void ScriptAction::setActionType(ScriptActionType type)
+{
+	Int i;
+	for (i = 0; i < m_numParms; i++) {
+		if (m_parms[i])
+			m_parms[i]->deleteInstance();
+		m_parms[i] = 0;
+	}
+	m_actionType = type;
+	const ActionTemplate *pTemplate = TheScriptEngine->getActionTemplate(m_actionType);
+	m_numParms = pTemplate->getNumParameters();
+	for (i = 0; i < m_numParms; i++) {
+		m_parms[i] = new Parameter(pTemplate->getParameterType(i));
+	}
+}
 
 class MemoryPoolObject
 {
@@ -128,6 +181,8 @@ public:
 	};
 
 	Condition() throw();
+
+	void setConditionType(ConditionType type);
 
 	static Bool __cdecl ParseConditionDataChunk(DataChunkInput &file,
 		DataChunkInfo *info, void *userData);
@@ -183,6 +238,22 @@ private:
 	OrCondition *m_nextOr;
 	Condition *m_firstAnd;
 };
+
+void Condition::setConditionType(ConditionType type)
+{
+	Int i;
+	for (i = 0; i < m_numParms; i++) {
+		if (m_parms[i])
+			m_parms[i]->deleteInstance();
+		m_parms[i] = 0;
+	}
+	m_conditionType = type;
+	const ConditionTemplate *pTemplate = TheScriptEngine->getConditionTemplate(m_conditionType);
+	m_numParms = pTemplate->getNumParameters();
+	for (i = 0; i < m_numParms; i++) {
+		m_parms[i] = new Parameter(pTemplate->getParameterType(i));
+	}
+}
 
 static int ParameterChangesVer2[] =
 {

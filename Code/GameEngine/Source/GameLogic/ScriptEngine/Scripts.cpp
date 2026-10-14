@@ -1310,7 +1310,7 @@ m_nextAndCondition(NULL)
 // Owned by ConditionCtor.cpp.
 
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/ScriptEngine/Condition_setConditionType_Thunk.cpp
-// Condition::setConditionType: defined in TemplateGetParameterType.cpp (its row's unit).
+// Condition::setConditionType: defined in Rva003b6d92Finish.cpp (its row's unit).
 
 // Owned by ConditionDuplicate.cpp.
 
@@ -1384,7 +1384,7 @@ AsciiString Condition::getUiText(void)
 //-------------------------------------------------------------------------------------------------
 // ******************************** class Parameter ***********************************************
 //-------------------------------------------------------------------------------------------------
-// Template::getParameterType: defined in TemplateGetParameterType.cpp (its row's unit).
+// Template::getParameterType: defined in Rva003b6d92Finish.cpp (its row's unit).
 
 // Parameter::getCoord3D: defined in ParameterGetCoord3D.cpp (its row's unit).
 
@@ -1454,7 +1454,7 @@ m_nextAction(NULL)
 
 // Owned by ScriptActionCtor.cpp.
 
-// ScriptAction::setActionType: defined in TemplateGetParameterType.cpp (its row's unit).
+// ScriptAction::setActionType: defined in Rva003b6d92Finish.cpp (its row's unit).
 
 // Owned by ScriptActionDuplicate.cpp.
 
