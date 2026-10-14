@@ -133,8 +133,9 @@ class SpellFrameClock
  
 }
 ;
-class Display;
-extern Display *TheDisplay;
+// Retail reads the frame clock through VA 0x00DFE77C, TheGameClient (not TheDisplay).
+class GameClient;
+extern GameClient *TheGameClient;
 
 struct SpellPlayerListView 
 {
@@ -479,7 +480,7 @@ void AptInGameSpellBookInterface::Impl::Update()
    Rva0052519DFire(g_bfmeAptWindowManager,m_level,m_clipName.str(),"FlashButton",&index);
    
   }
-  if(button->getFlashCount()>0 && ((SpellFrameClock *)TheDisplay)->getFrame()%10==0)button->setFlashCount(button->getFlashCount()-1);
+  if(button->getFlashCount()>0 && ((SpellFrameClock *)TheGameClient)->getFrame()%10==0)button->setFlashCount(button->getFlashCount()-1);
   bool flashing=button->getFlashCount()>0;
   if(flashing!=slot.flashing) 
   {
