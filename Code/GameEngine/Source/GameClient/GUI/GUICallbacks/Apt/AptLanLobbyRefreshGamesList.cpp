@@ -128,7 +128,8 @@ public:
 	// Empty throw() dtor, matching the BfmeConv/Q3 record views: the type
 	// stays non-trivial (outgoing-slot template with the esp home), but no
 	// destruction call and no EH registration is emitted.
-	~Rva000795C1Record() throw() {}
+	// Keep this outgoing-slot view inline-only; the sort TUs own cleanup.
+	__declspec(dllimport) __forceinline ~Rva000795C1Record() throw() {}
 
 private:
 	unsigned int m_key;
