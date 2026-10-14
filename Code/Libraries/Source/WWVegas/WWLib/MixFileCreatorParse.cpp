@@ -1,8 +1,11 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ?Rva00218E96Parse@@YAXPAVINI@@HPAU?$vector@UFileInfoStruct@MixFileCreator@@V?$allocator@UFileInfoStruct@MixFileCreator@@@_STL@@@_STL@@@_STL@@@Z @0x00218E96 300B
-// INI-driven fill of a MixFileCreator::FileInfoStruct vector. Two leading
+// ?parseFontSizeMapping@FontLibrary@@SAXPAVINI@@PAX1PBX@Z @0x00218E96 300B
+// FontLibrary::parseFontSizeMapping: WorldBuilder's twin (GameFont.cpp,
+// asserts 463 and 470 on subst.ReplacementFontName) has the same token loop
+// and callees. The record is still viewed as MixFileCreator::FileInfoStruct
+// (same 16-byte shape; its push_back row keeps that name). Two leading
 // integers (CRC, Offset) come from getNextToken/scanInt; following string
 // tokens are style markers ("+bold" -> 1, "-bold" -> 2, "normal" -> 0) or the
 // entry filename. The record is pushed only when the filename is non-empty.
@@ -76,6 +79,7 @@ class FontLibrary
 {
 public:
 	_STL::vector<Rva00218FC2Record> *rva00218C2B(const AsciiString &name);
+	static void parseFontSizeMapping(INI *ini, void *instance, void *store, const void *userData);
 };
 
 extern FontLibrary *TheFontLibrary;
@@ -84,8 +88,9 @@ namespace _STL
 {
 template <class I, class C> void sort(I first, I last, C comp);
 }
-void Rva00218E96Parse(INI *ini, int unused, _STL::vector<FileInfoStruct> *out)
+void FontLibrary::parseFontSizeMapping(INI *ini, void * /*instance*/, void *store, const void * /*userData*/)
 {
+	_STL::vector<FileInfoStruct> *out = (_STL::vector<FileInfoStruct> *)store;
 	int crc = ini->scanInt(ini->getNextToken(0));
 	int offset = ini->scanInt(ini->getNextToken(0));
 	FileInfoStruct info;
@@ -116,7 +121,7 @@ void rva00219005(INI *ini)
 	(void)&ini;
 	AsciiString name = ini->getNextQuotedAsciiString();
 	_STL::vector<Rva00218FC2Record> *table = TheFontLibrary->rva00218C2B(name);
-	FieldParse fields[2] = {{"Size", (INIFieldParseProc)Rva00218E96Parse, 0, 0}, {0, 0, 0, 0}};
+	FieldParse fields[2] = {{"Size", FontLibrary::parseFontSizeMapping, 0, 0}, {0, 0, 0, 0}};
 	ini->initFromINI(table, fields);
 	Rva00218FC2RecordCompare compare = {};
 	_STL::sort(table->begin(), table->end(), compare);
