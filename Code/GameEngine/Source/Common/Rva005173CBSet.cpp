@@ -87,7 +87,7 @@ class Rva004C5DD0
 	Rva004C5DD0Ref *m_04;
 
 public:
-	Rva004C5DD0 &set(const Rva004C5DD0Pair *p);
+	Rva004C5DD0(const Rva004C5DD0 &other);
 };
 
 struct Rva0044BD34

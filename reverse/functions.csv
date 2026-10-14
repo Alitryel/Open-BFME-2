@@ -15815,7 +15815,7 @@ _D3DXMatrixInverse@12,,0x0062AF38,6,Code/GameEngineDevice/Source/W3DDevice/D3DXM
 ?ReleaseResources@W3DSmudgeManager@@UAEXXZ,,0x000A6135,65,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DSmudgeManagerReleaseResources.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ??1Gen_dtor_00970f60@@UAE@XZ,,0x0018021C,82,Code/Libraries/Source/WWVegas/WW3D2/Gen_dtor_00970f60.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ??0BfmeOwnVVD@@QAE@XZ,,0x0042E926,170,Code/GameEngine/Source/Common/BfmeOwnVVDCtor.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
-?set@Rva004C5DD0@@QAEAAV1@PBURva004C5DD0Pair@@@Z,,0x0044BD00,33,Code/GameEngine/Source/Common/Rva004C5DD0Set.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
+??0Rva004C5DD0@@QAE@ABV0@@Z,,0x0044BD00,33,Code/GameEngine/Source/Common/Rva004C5DD0Set.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
 ??0Open2Rec81C6B0@@QAE@ABV0@@Z,,0x00689650,122,Code/GameEngine/Source/Common/Open2Records.cpp,matched,BFME1 donor (donor flags); callees pinned from the retail calls
 ?bfmeGo943E@BfmeThing943E@@QAEXXZ,,0x001A7F20,70,Code/GameEngine/Source/Common/BfmeConv943.cpp,matched,BFME1 donor (donor flags); callees pinned from the retail calls
 ??4Rva00336C90@@QAEAAV0@ABV0@@Z,,0x0020395F,87,Code/GameEngine/Source/Common/Rva00336C90Assign.cpp,matched,BFME1 donor (/O1); callees pinned from the retail calls
