@@ -1,6 +1,7 @@
 // ?pickAndPlayUnitVoiceResponse@@YA_NPBVDrawableList@@W4Type@GameMessage@@PAVPickAndPlayInfo@@@Z
-// partial score=0.8823459717142452 date=2026-10-13
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /ICode/Libraries/Include/Lib
+// partial score=0.9957860523191573 date=2026-10-13
+// stlport
+// cl: /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /ICode/Libraries/Include/Lib
 // PickAndPlayUnitVoiceResponse.cpp (WorldBuilder twin path
 // GameEngine/Source/GameClient/Drawable/PickAndPlayUnitVoiceResponse.cpp).
 //
@@ -19,6 +20,7 @@
 //   0x004DAAFD 5078 B pickAndPlayUnitVoiceResponse (WB 0x1293980, asserts
 //                     1270..1808), the only caller of the statics above.
 #include <new>
+#include <list>
 #include "ascii_string.h"
 #include "Coord3D.h"
 #include "Common/BfmeAudioEventPrefix136.h"
@@ -50,22 +52,7 @@ template <class T> struct hash {};
 class FreelistPool { public: void *pop(); };
 extern FreelistPool g_freelistPool00DBA5E0;
 namespace _STL {
-template <class T> class allocator
-{
-public:
-	allocator() {}
-};
-template <class T> struct less {};
-template <class T> struct equal_to {};
 template <class T> struct hash {};
-template <class T1, class T2> struct pair
-{
-	pair(T1 a, T2 b) : first(a), second(b) {}
-	T1 first;
-	T2 second;
-};
-template <class P> struct _Select1st {};
-template <class T> struct _Nonconst_traits {};
 template <class T, class A> class _Vector_base
 {
 public:
@@ -159,45 +146,18 @@ public:
 	hash_map();
 	Rva004D9FB9ObjectIndex m_table;
 };
-template <class T> struct _List_node
-{
-	_List_node *_M_next;
-	_List_node *_M_prev;
-	T _M_data;
-};
-template <class T, class Tr> struct _List_iterator
-{
-	_List_iterator(_List_node<T> *n) : _M_node(n) {}
-	_List_iterator(const _List_iterator &o) : _M_node(o._M_node) {}
-	_List_node<T> *_M_node;
-};
-template <class T, class A> class _List_base
-{
-public:
-	_List_base(const A &a);
-	~_List_base();
-	_List_node<T> *_M_node;
-};
-template <class T, class A> class list : public _List_base<T, A>
-{
-public:
-	typedef _List_iterator<T, _Nonconst_traits<T> > iterator;
-	list(const A &a = A()) : _List_base<T, A>(a) {}
-	iterator end() { return iterator(this->_M_node); }
-	__declspec(noinline) iterator insert(iterator pos,const T &value) {
- _List_node<T> *node=_M_create_node(value);
- _List_node<T> *next=pos._M_node;
- _List_node<T> *prev=next->_M_prev;
- node->_M_next=next;node->_M_prev=prev;
- prev->_M_next=node;next->_M_prev=node;
- return iterator(node);
- }
-	void push_back(const T &x) { insert(end(), x); }
-protected:
- _List_node<T> *_M_create_node(const T&value);
-};
+
 }
 
+namespace _STL {
+template<> __declspec(noinline) _List_base<Drawable*,allocator<Drawable*> >::_List_base(const allocator<Drawable*>&a)
+ : _M_node(allocator<_List_node<Drawable*> >(a), (_List_node<Drawable*>*)0) {
+ _List_node<Drawable*> *n=(_List_node<Drawable*>*)g_freelistPool00DBA5E0.pop();
+ n->_M_next=n;n->_M_prev=n;_M_node._M_data=n;
+}
+template<> _List_base<Drawable*,allocator<Drawable*> >::~_List_base();
+template<> _List_base<const Object*,allocator<const Object*> >::~_List_base();
+}
 namespace _STL {
 template <> __declspec(noinline) _List_node<Drawable*>* list<Drawable*,allocator<Drawable*> >::_M_create_node(Drawable*const&value) {
  _List_node<Drawable*> *node=(_List_node<Drawable*>*)g_freelistPool00DBA5E0.pop();
@@ -903,7 +863,7 @@ public:
 extern ActionManager *TheActionManager;
 
 class ArmorTemplate;
-class PlannedOrderList;
+
 class Rva0035516C
 {
 public:
@@ -917,34 +877,8 @@ public:
 class AiOrdersManager;
 extern AiOrdersManager *TheAiOrdersManager;
 
-struct PlannedOrderNode
-{
-	PlannedOrderNode *m_next;
-	PlannedOrderNode *m_prev;
-	NameKeyType m_id;
-};
-struct PlannedOrderIterator {
- PlannedOrderNode *node;
- PlannedOrderIterator(PlannedOrderNode*n):node(n) {}
- PlannedOrderIterator(const PlannedOrderIterator&o):node(o.node) {}
- PlannedOrderIterator &operator--() { node=node->m_prev;return *this; }
- NameKeyType &operator*() const { return node->m_id; }
- bool operator==(const PlannedOrderIterator&o) const { return node==o.node; }
-};
-struct PlannedOrderReverseIterator {
- PlannedOrderIterator current;
- PlannedOrderReverseIterator(PlannedOrderNode*n):current(n) {}
- PlannedOrderReverseIterator(const PlannedOrderReverseIterator&o):current(o.current) {}
- NameKeyType &operator*() const { PlannedOrderIterator tmp=current;return *--tmp; }
- PlannedOrderReverseIterator &operator++() { --current;return *this; }
- bool operator!=(const PlannedOrderReverseIterator&o) const { return !(current==o.current); }
-};
-struct PlannedOrderList {
- PlannedOrderNode *head;
- bool empty() const { return head->m_next==head; }
- PlannedOrderReverseIterator rbegin() const { return PlannedOrderReverseIterator(head); }
- PlannedOrderReverseIterator rend() const { return PlannedOrderReverseIterator(head->m_next); }
-};
+typedef _STL::list<NameKeyType, _STL::allocator<NameKeyType> > PlannedOrderList;
+typedef PlannedOrderList::const_reverse_iterator PlannedOrderReverseIterator;
 struct PlannedOrders
 {
 	void *m_vtbl;
@@ -1390,9 +1324,9 @@ bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type ms
 
 	ObjectIndexTable objects;
 	int index = 0;
-	for (_STL::_List_node<Drawable *> *it = list->_M_node->_M_next; it != list->_M_node; it = it->_M_next)
+	for (DrawableList::const_iterator it = list->begin(); it != list->end(); ++it)
 	{
-		Object *obj = it->_M_data->getObject();
+		Object *obj = (*it)->getObject();
 		++index;
 		if (!obj || obj->getTemplate()->isKindOf<0x2F>())
 			continue;
@@ -1401,10 +1335,10 @@ bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type ms
 		{
 			_STL::list<const Object *, _STL::allocator<const Object *> > items;
 			contain->getContainedItems(&items);
-			_STL::_List_node<const Object *> *itemsEnd = items._M_node;
-			for (_STL::_List_node<const Object *> *c = itemsEnd->_M_next; c != itemsEnd; c = c->_M_next)
+			_STL::list<const Object*,_STL::allocator<const Object*> >::iterator itemsEnd = items.end();
+			for (_STL::list<const Object*,_STL::allocator<const Object*> >::iterator c = items.begin(); c != itemsEnd; ++c)
 			{
-				const Object *rider = c->_M_data;
+				const Object *rider = *c;
 				if (rider && !rider->getTemplate()->isKindOf<0x2F>())
 					((NameKeyGenerator::KeyToBucketMap *)&objects)->insert(NameKeyGenerator::KeyToBucketMap::value_type(rider, index));
 			}
@@ -1426,7 +1360,7 @@ bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type ms
 		CrowdResponseTemplate *crowd = drawable->m_template->m_crowdResponse;
 		if (!crowd)
 			continue;
-		CrowdInsertResult result = ((CrowdCountTree *)&crowds)->insert_unique(CrowdPair((unsigned int)crowd, 0));
+		CrowdInsertResult result = ((CrowdCountTree *)&crowds)->insert_unique(CrowdPair((unsigned int)crowd, (Image*)0));
 		int &weight = *(int *)((char *)result.first._M_node + 0x14);
 		weight += crowd->getWeight();
 	}
@@ -1456,8 +1390,7 @@ bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type ms
 		int objIndex = oit._M_cur->m_value;
 		++oit;
 		Drawable *drawable = obj->getDrawable();
-		if (!drawable)
-			continue;
+		if (drawable) {
 
 		Rva004D95CE record(obj, drawable, crowdData);
 		Rva004D9367Key key;
@@ -1888,6 +1821,7 @@ bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type ms
                 ++*(int *)((char *)inserted.first._M_node + 0x30);
 			}
 		}
+ }
 	}
 
 	if (voices.m_count == 0)
@@ -1898,26 +1832,27 @@ bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type ms
 		if (((VoiceNode *)n)->m_record.m_1C > best->m_record.m_1C)
 			best = (VoiceNode *)n;
 	}
-	if (isAttackOrMove && best->m_record.m_04 != 0 && best->m_record.m_drawable->rva002766AE(&best->m_record.m_04))
+ const OpaqueRefElement4 &bestSound=*(const OpaqueRefElement4*)&best->m_record.m_04;
+
+	if (isAttackOrMove && bestSound.referent != 0 && best->m_record.m_drawable->rva002766AE((const int*)&bestSound))
 		return false;
 	if (best->m_record.hasVoice())
 	{
-		bool remember = isAttackOrMove && best->m_record.m_04 != 0;
-		bool flag20 = best->m_record.m_20;
+		bool remember = isAttackOrMove && bestSound.referent != 0;
+		int flag20 = best->m_record.m_20;
 		if (remember || flag20)
 		{
 			for (oit = objectsBegin(objects); oit._M_cur != 0; ++oit)
 			{
 				Object *o = oit._M_cur->m_key;
-				if (!o)
-					continue;
+				if (o) {
 				Drawable *d = o->getDrawable();
-				if (!d)
-					continue;
+				if (d) {
 				if (remember)
-					d->rva002766F8(*(const OpaqueRefElement4 *)&best->m_record.m_04);
+					d->rva002766F8(bestSound);
 				if (flag20)
 					((Rva00271C1C *)d)->rva00271C1C();
+ } }
 			}
 		}
 	}
@@ -1929,22 +1864,25 @@ bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type ms
 		{
 			if (best->m_record.m_obj->getControllingPlayer() && best->m_record.m_obj->getControllingPlayer()->isLocalPlayer())
 				local = true;
-			pos = &best->m_record.m_obj->m_pos;
+			const Object *positionObject=best->m_record.m_obj;
+			pos=&positionObject->m_pos;
 		}
 		bool reported = false;
 		if (local || isAttackOrMove)
 			reported = TheEva->reportEvaEvent((EvaEventID)best->m_record.m_00, pos, 0);
-		if (best->m_record.m_04 == 0)
+		if (bestSound.referent == 0)
 			return reported;
 	}
-	BfmeAudioEventPrefix136 first(*(const OpaqueRefElement4 *)&best->m_record.m_04, 0);
+	BfmeAudioEventPrefix136 first(bestSound, 0);
 	BfmeAudioEventPrefix136 second(*(const OpaqueRefElement4 *)&best->m_record.m_0C, 0);
 	if (!TheAudio->isValidAudioEvent(&first))
 		return false;
 	if (best->m_record.m_obj)
 	{
-		((Rva002D9531 *)&first)->rva002D9531(best->m_record.m_obj->m_id);
-		((Rva002D9531 *)&second)->rva002D9531(best->m_record.m_obj->m_id);
+        const Object *firstObject=best->m_record.m_obj;
+		((Rva002D9531 *)&first)->rva002D9531(firstObject->m_id);
+        const Object *secondObject=best->m_record.m_obj;
+		((Rva002D9531 *)&second)->rva002D9531(secondObject->m_id);
 	}
 	TheAudio->addAudioEvent(&first);
 	TheAudio->addAudioEvent(&second);
