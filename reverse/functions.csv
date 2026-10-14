@@ -30829,7 +30829,6 @@ uw_007a2719,,0x007A2719,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;obje
 uw_007a2721,,0x007A2721,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L2265
 uw_007a2729,,0x007A2729,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L2280
 uw_007a2731,,0x007A2731,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L2298
-uw_007a2753,,0x007A2753,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1341
 uw_007a276d,,0x007A276D,8,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L4673
 uw_007a277f,,0x007A277F,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4566
 uw_007a2791,,0x007A2791,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1521
@@ -88380,3 +88379,4 @@ uw_007a2743,,0x007A2743,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialP
 ??1Rva00261409Filter@@UAE@XZ,,0x0049C38A,7,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,Native C004D8 partition-relationship filter temporary lifetime. Exact parent EH graph places cleanup7A274B in rva005D75BE and its REL32 tail-transfer reaches49C38A. Implicit derived destructor emits the complete seven-byte BC26E0 base-vptr reset matching the rowed base destructor and sibling filter destructor roles. Identity follows the constructed vftable and native cleanup edge. ICF twin adds zero unique bytes. No new pin
 ?rva0029FCD9@InGameUI@@QAE_NPBD@Z,,0x0029FCD9,66,Code/GameEngine/Source/GameClient/Rva0029FCD9HasKey.cpp,matched,known-key test of the name-key hash table at +0x874 (callee of the radius-cursor parser 0x0035AED4): empty name false else nameToKey then shared int-keyed hash lookup; neutral views
 uw_007a274b,,0x007A274B,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?rva005D75BE@Rva005EE816@@QAE_NPAVObject@@@Z;object-symbol=$L1736
+uw_007a2753,,0x007A2753,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?rva005D75BE@Rva005EE816@@QAE_NPAVObject@@@Z;object-symbol=$L1737
