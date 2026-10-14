@@ -663,9 +663,11 @@ int Rva00260F3B::rva00260F3B(const Rva00260F3BOther *other)
 	return other->m_304 == m_08;
 }
 
-// --- 0x00261750 (30B): whether the +8 template's rowed isEquivalentTo the
-// argument's +4 template agrees with the +0x0C flag; 0x0026176E (34B): the
-// same over the rowed 0x00376A62 test of that template's +0x64 name.
+// --- 0x00261750 (30B): allow() of the thing-template partition filter
+// (vftable 0x00C1FDEC; Zero Hour's PartitionFilterThing): whether the +8
+// template's rowed isEquivalentTo the object's +4 template agrees with the
+// +0x0C flag; 0x0026176E (34B): the same over the rowed 0x00376A62 test of
+// that template's +0x64 name.
 class ThingTemplate
 {
 public:
@@ -690,26 +692,39 @@ struct Rva00261750Arg
 	const void *m_04;
 };
 
-class Rva00261750
+
+class Rva000421C8
 {
 public:
-	int rva00261750(const Rva00261750Arg *arg);
-	int rva0026176E(const Rva00261750Arg *arg);
-private:
-	int m_00;
-	int m_04;
+	virtual ~Rva000421C8();
+	virtual bool allow(Object *obj) = 0;
+	Rva000421C8 *m_next;
+};
+
+class Rva00261750Filter : public Rva000421C8
+{
+public:
+	virtual bool allow(Object *obj);
+	const ThingTemplate *m_template;
+	bool m_match;
+};
+
+bool Rva00261750Filter::allow(Object *obj)
+{
+	return m_template->isEquivalentTo((const ThingTemplate *)((const Rva00261750Arg *)obj)->m_04) == m_match;
+}
+
+class Rva0026176EFilter : public Rva000421C8
+{
+public:
+	virtual bool allow(Object *obj);
 	void *m_08;
 	bool m_0C;
 };
 
-int Rva00261750::rva00261750(const Rva00261750Arg *arg)
+bool Rva0026176EFilter::allow(Object *obj)
 {
-	return ((ThingTemplate *)m_08)->isEquivalentTo((const ThingTemplate *)arg->m_04) == m_0C;
-}
-
-int Rva00261750::rva0026176E(const Rva00261750Arg *arg)
-{
-	return ((Rva00376A62 *)m_08)->rva00376A62(*(const StringBase<char> *)&((const Rva00261750Template *)arg->m_04)->m_name) == m_0C;
+	return ((Rva00376A62 *)m_08)->rva00376A62(*(const StringBase<char> *)&((const Rva00261750Template *)((const Rva00261750Arg *)obj)->m_04)->m_name) == m_0C;
 }
 
 // --- 0x002619AE (19B): the argument's rowed BitFlags<69>::test of this

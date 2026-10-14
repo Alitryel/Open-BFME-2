@@ -46,13 +46,16 @@ struct Rva00260E44Arg
 	char m_pad00[0x264];
 	Int m_264;
 };
-class Rva00260E44
+// Slot 1 (allow) of partition filter vftable 0x00C5A99C.
+class Rva00260E44Filter
 {
 public:
-	bool rva00260E44(const Rva00260E44Arg *arg);
+	virtual ~Rva00260E44Filter();
+	virtual bool allow(Object *obj);
 };
-bool Rva00260E44::rva00260E44(const Rva00260E44Arg *arg)
+bool Rva00260E44Filter::allow(Object *obj)
 {
+	const Rva00260E44Arg *arg = (const Rva00260E44Arg *)obj;
 	if (TheExperienceLevelSystem && reinterpret_cast<Rva00288CFA *>(TheExperienceLevelSystem)->rva00288CFA(arg->m_264))
 		return true;
 	return false;

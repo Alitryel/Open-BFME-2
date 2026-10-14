@@ -198,12 +198,15 @@ struct Rva00261D01Holder
 	void *m_00;
 	Rva00261C89 *m_04;
 };
-class Rva00261D01
+class Object;
+// Slot 1 (allow) of partition filter vftable 0x00C35B28.
+class Rva00261D01Filter
 {
 public:
-	void rva00261D01(Rva00261D01Holder *holder);
+	virtual ~Rva00261D01Filter();
+	virtual bool allow(Object *obj);
 };
-void Rva00261D01::rva00261D01(Rva00261D01Holder *holder) { holder->m_04->rva00261C89(); }
+bool Rva00261D01Filter::allow(Object *obj) { return ((Rva00261D01Holder *)obj)->m_04->rva00261C89(); }
 
 // vtable 0x00BE25B4#1 (shared by five stores): clear the pointer vector at
 // +0xC (STLport erase(begin, end), 0x0031BD55). WorldBuilder names the body

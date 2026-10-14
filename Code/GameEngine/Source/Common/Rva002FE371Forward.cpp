@@ -9,11 +9,12 @@ class Object;
 class AI {
 public: static bool rva002FE193(Object *, Object *);
 };
-class Rva002FE371Forward {
-public: void invoke(Object *argument);
-private: unsigned char unknown0[8]; Object *word8;
+// Slot 1 (allow) of partition filter vftable 0x00C071C0.
+class Rva002FE371Filter {
+public: virtual ~Rva002FE371Filter(); virtual bool allow(Object *argument);
+private: unsigned char unknown4[4]; Object *word8;
 };
-void Rva002FE371Forward::invoke(Object *argument)
+bool Rva002FE371Filter::allow(Object *argument)
 {
-    AI::rva002FE193(word8, argument);
+    return AI::rva002FE193(word8, argument);
 }

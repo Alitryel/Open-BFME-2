@@ -1,5 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc /O1 /arch:SSE /G7
-// ?rva00261BFB@Rva00261BFB@@UAE_NPAVObject@@@Z @ 0x00261BFB (93B).
+// ?allow@Rva00261BFBFilter@@UAE_NPAVObject@@@Z @ 0x00261BFB (93B): slot 1
+// (allow) of partition filter vftable 0x00C07178.
 // Identity evidence: stored callback table slot with neighbouring FileClass entries;
 // those neighbours do not establish this callback's semantic class name.
 // Layout evidence: target reads its object pointer at +8; remaining fields are address-named.
@@ -34,17 +35,17 @@ public:
 	unsigned char m_flags438;
 };
 
-class Rva00261BFB
+class Rva00261BFBFilter
 {
 public:
 	virtual void slot0() {}
-	virtual bool rva00261BFB(Object *obj);
+	virtual bool allow(Object *obj);
 private:
 	int m_pad04;
 	Object *m_object;
 };
 
-bool Rva00261BFB::rva00261BFB(Object *obj)
+bool Rva00261BFBFilter::allow(Object *obj)
 {
 	Object *filterObject = m_object;
 	if (obj == filterObject)

@@ -12,19 +12,21 @@ public:
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 };
 
-class BfmeC985
+// Slot 1 (allow) of partition filter vftable 0x00C51150.
+class Rva00261130Filter
 {
 public:
-	char bfmeGo985C(BfmeArg985 *a);
+	virtual ~Rva00261130Filter();
+	virtual bool allow(Object *a);
 
-	char m_bfmePad[8];
+	char m_bfmePad[4];
 	int m_bfmeVal;
 };
 
-char BfmeC985::bfmeGo985C(BfmeArg985 *a)
+bool Rva00261130Filter::allow(Object *a)
 {
-	if (((Object *)a)->affectedByUpgrade((const UpgradeTemplate *)m_bfmeVal) && !((Object *)a)->rva00290D2B((const UpgradeTemplate *)m_bfmeVal))
-		return 1;
+	if (a->affectedByUpgrade((const UpgradeTemplate *)m_bfmeVal) && !a->rva00290D2B((const UpgradeTemplate *)m_bfmeVal))
+		return true;
 
-	return 0;
+	return false;
 }

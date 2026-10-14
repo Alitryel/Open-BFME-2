@@ -37,16 +37,20 @@ public:
 	int find(int val);
 };
 
-struct BfmeThingD02
+class Object;
+// Slot 1 (allow) of partition filter vftable 0x00C0716C.
+class Rva00261353Filter
 {
-	unsigned char m_pad[0x8];
+public:
+	virtual ~Rva00261353Filter();
+	virtual bool allow(Object *obj);
+	unsigned char m_pad[0x4];
 	int m_val8;
-	bool contains(BfmeFinderD02 *finder);
 };
 
-bool BfmeThingD02::contains(BfmeFinderD02 *finder)
+bool Rva00261353Filter::allow(Object *obj)
 {
-	return finder->find(m_val8) == 1;
+	return ((BfmeFinderD02 *)obj)->find(m_val8) == 1;
 }
 
 class BfmeSub9BB

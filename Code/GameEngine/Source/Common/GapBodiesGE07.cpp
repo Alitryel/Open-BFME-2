@@ -131,20 +131,24 @@ struct Rva00261603Object
 	char m_geometry[4];										// +0xA8 GeometryInfo
 };
 
-class Rva00261603
+class Object;
+// Slot 1 (allow) of partition filter vftable 0x00BFB1B8.
+class Rva00261603Filter
 {
 public:
-	bool rva00261603(const Rva00261603Object *obj) const;
+	virtual ~Rva00261603Filter();
+	virtual bool allow(Object *object);
 private:
-	char m_pad[8];
+	char m_pad[4];
 	char m_pos[0x0C];										// +0x08 Coord3D
 	GeometryInfo *m_geometry;								// +0x14
 	float m_radius;											// +0x18
 	bool m_inside;											// +0x1C
 };
 
-bool Rva00261603::rva00261603(const Rva00261603Object *obj) const
+bool Rva00261603Filter::allow(Object *object)
 {
+	const Rva00261603Object *obj = (const Rva00261603Object *)object;
 	return m_geometry->CollidesWith(*(const Coord3D *)m_pos, m_radius, *(const GeometryInfo *)obj->m_geometry,
 		*(const Coord3D *)obj->m_pos, obj->m_44) == m_inside;
 }

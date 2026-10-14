@@ -1,5 +1,5 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?rva0026185B@Rva0026185B@@QAE_NPAVObject@@@Z, retail 0x0026185B, 71 bytes.
+// ?allow@Rva0026185BFilter@@UAE_NPAVObject@@@Z, retail 0x0026185B, 71 bytes.
 // Chain from Object::rva002931BA (rowed 0x002931BA): if arg Object template
 // dword +0x108 low byte carries 0x80 or 0x04 return false; else if
 // arg->rva002931BA() return false; else if arg AI (+0x258) null return false;
@@ -147,17 +147,19 @@ public:
 	AI110 *m_ai;
 };
 
-class Rva0026185B
+// Partition filter with vftable 0x00C59EA8; this body is its allow (slot 1).
+class Rva0026185BFilter
 {
 public:
-	Bool rva0026185B(Object *obj);
+	virtual ~Rva0026185BFilter();
+	virtual Bool allow(Object *obj);
 
 private:
-	unsigned char m_pad00[8];
+	unsigned char m_pad04[4];
 	UByte m_unk08;
 };
 
-Bool Rva0026185B::rva0026185B(Object *obj)
+Bool Rva0026185BFilter::allow(Object *obj)
 {
 	unsigned int flags108 = obj->m_template->m_flags108;
 	if ((flags108 & 0x80) != 0)

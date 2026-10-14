@@ -1,12 +1,11 @@
 // cl: /MD /GX
-// ?rva00260F9E@Rva00260F9E@@QAE_NH@Z @0x00260F9E (50B): bool with vcall.
+// ?allow@Rva00260F9EFilter@@UAE_NPAVObject@@@Z @0x00260F9E (50B): bool with vcall.
 // Retail: esi=ecx; ecx=[esp+8] (arg); call Object::rva0028C197 (0x28C197
 // rowed) on arg; test eax,eax; je skip; push [esi+8]; edx=[eax];
 // ecx=eax; call [edx+0x180] (v96); test eax,eax; jbe skip2; al=[esi+12];
 // jmp ret; skip2: xor eax,eax; cmp [esi+12],al; sete al; pop esi; ret 4.
-// Single int arg, bool return; no EH; address-derived outer; real Object
-// view for rowed mangling; 97-virtual inner for slot 96.
-// NOTE: initial guess; expects add_match verification.
+// Object* arg, bool return; no EH; real Object view for rowed mangling;
+// 97-virtual inner for slot 96.
 class Object
 {
 public:
@@ -115,20 +114,29 @@ public:
 	virtual int v96(int arg);
 };
 
-class Rva00260F9E
+class Rva000421C8
 {
 public:
-	bool rva00260F9E(int arg);
+	virtual ~Rva000421C8();
+	virtual bool allow(Object *obj) = 0;
+	Rva000421C8 *m_next;
+};
+
+// allow() of the partition filter with vftable 0x00C4D040 (LargeGroupBonusUpdate
+// builds it over its member filter): +0x08 the member filter handed to the
+// contain's slot 96, +0x0C whether a counted hit allows.
+class Rva00260F9EFilter : public Rva000421C8
+{
+public:
+	virtual bool allow(Object *obj);
 private:
-	char m_pad00[0x08];
 	int m_08;
 	bool m_0C;
 };
 
-// ?rva00260F9E@Rva00260F9E@@QAE_NH@Z
-bool Rva00260F9E::rva00260F9E(int arg)
+// ?allow@Rva00260F9EFilter@@UAE_NPAVObject@@@Z
+bool Rva00260F9EFilter::allow(Object *o)
 {
-	Object *o = (Object *)arg;
 	void *p = o->rva0028C197();
 	if (p == 0) {
 		return m_0C == 0;

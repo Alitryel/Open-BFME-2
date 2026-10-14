@@ -99,14 +99,6 @@ public:
 
 class PolygonTrigger;
 
-// The PolygonTrigger test 0x00261723 is rowed under this address-named view.
-class Arg00261723;
-class Rva00261723
-{
-public:
-	bool rva00261723(Arg00261723 *arg);	// 0x00261723
-};
-
 // vftable 0x00C07184, allow 0x00261723: +0x08 the polygon trigger (Zero
 // Hour's PartitionFilterPolygonTrigger).
 class Rva00261723Filter : public Rva000421C8
@@ -114,7 +106,6 @@ class Rva00261723Filter : public Rva000421C8
 public:
 	Rva00261723Filter(const PolygonTrigger *trigger) : m_trigger(trigger) {}
 	virtual bool allow(Object *obj);
-	bool allowNow(Object *obj) { return ((Rva00261723 *)this)->rva00261723((Arg00261723 *)obj); }
 	const PolygonTrigger *m_trigger;
 };
 
@@ -420,7 +411,7 @@ bool Rva00369FDFGuardMachine::lookForInnerTarget()
 				if (!target && owner->getControllingPlayer() && owner->getControllingPlayer()->m_33d)
 					target = TheAI->findClosestEnemy(owner, visionRange, 0x4A, 0, 0, 0);
 			}
-			if (!target || (area && !f2.allowNow(target)))
+			if (!target || (area && !f2.allow(target)))
 				target = ThePartitionManager->getClosestObject(&pos, visionRange, 1, &f1);
 		}
 	}

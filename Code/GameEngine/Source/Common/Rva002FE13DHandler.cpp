@@ -1,5 +1,5 @@
 // cl: /Os /MD
-// ?rva002FE13D@Rva002FE13D@@QAEEPAVObject@@@Z @0x002FE13D 86B evidence: REF table slot 0x008071B8 neighbours FileClass Get_File_Handle; flags Object+0x438 bits 1 8; ptr+0x25c bool check pinned 0x00390533; block+0x10e 0x40 +0x115 0x20; final pinned Object getRelationship 0x0028D156
+// ?allow@Rva002FE13DFilter@@UAE_NPAVObject@@@Z @0x002FE13D 86B evidence: REF table slot 0x008071B8 neighbours FileClass Get_File_Handle; flags Object+0x438 bits 1 8; ptr+0x25c bool check pinned 0x00390533; block+0x10e 0x40 +0x115 0x20; final pinned Object getRelationship 0x0028D156
 enum Relationship
 {
 	ENEMIES = 0,
@@ -55,17 +55,19 @@ public:
 
 extern PlayerList *ThePlayerList;
 
-class Rva002FE13D
+// Partition filter with vftable 0x00C071B4: allow (slot 1) and
+// getPlayerMask (slot 2).
+class Rva002FE13DFilter
 {
 public:
-	unsigned char rva002FE13D(Object *obj);
-	int rva002FE108();
-	Object *m_pad0;
+	virtual ~Rva002FE13DFilter();
+	virtual bool allow(Object *obj);
+	virtual int getPlayerMask();
 	Object *m_pad4;
 	Object *m_target;
 };
 
-unsigned char Rva002FE13D::rva002FE13D(Object *obj)
+bool Rva002FE13DFilter::allow(Object *obj)
 {
 	unsigned char flags = obj->m_flags438;
 	if (flags & 1)
@@ -82,12 +84,12 @@ unsigned char Rva002FE13D::rva002FE13D(Object *obj)
 			return 0;
 		if ((blk->m_115 & 0x20) != 0)
 			return 0;
-		return m_target->getRelationship(obj) == ENEMIES;
+		return m_target->getRelationship(obj) == ENEMIES ? true : false;
 	}
 }
 
-// ?rva002FE108@Rva002FE13D@@QAEHXZ @0x002FE108 53B evidence: VTABLE slot 2 table 0x008071B4 neighbour Rva002FE13D; this+8 Object for rowed getControllingPlayer 0x0028AFA9; flag 0x125 bit 0x40; Player+0x54 via ThePlayerList rowed getPlayersWithRelationship 0x002A7C70 args 0 4
-int Rva002FE13D::rva002FE108()
+// ?getPlayerMask@Rva002FE13DFilter@@UAEHXZ @0x002FE108 53B evidence: VTABLE slot 2 table 0x008071B4 neighbour Rva002FE13D; this+8 Object for rowed getControllingPlayer 0x0028AFA9; flag 0x125 bit 0x40; Player+0x54 via ThePlayerList rowed getPlayersWithRelationship 0x002A7C70 args 0 4
+int Rva002FE13DFilter::getPlayerMask()
 {
 	Player *player = m_target->getControllingPlayer();
 	if (player == 0)

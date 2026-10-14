@@ -159,12 +159,14 @@ struct Rva002612C6ObjectView
     Rva002612C6ContainView *contain;
 };
 struct Rva002612C6State { Object *owner; unsigned char bad; };
-class Rva002612C6
+// Slot 1 (allow) of partition filter vftable 0x00C11A5C.
+class Rva002612C6Filter
 {
 public:
-    bool rva002612C6(Object *candidate);
+    virtual ~Rva002612C6Filter();
+    virtual bool allow(Object *candidate);
 private:
-    char unknown00[8];
+    char unknown04[4];
     Object *owner;
     bool skipRelationship;
 };
@@ -173,10 +175,10 @@ private:
 // game/GameEngine/Source/Common/Gen_001DCF50.cpp, nested can-enter flow.
 // Target evidence: d_002612c6.asm and WB 0x00E5CDB0 share the call graph;
 // native bytes establish owner +8, flag +0xC, contain +0x250 and virtual
-// slots +0x10/+0x110. The original target class/method name remains unknown.
+// slots +0x10/+0x110. The original filter class name remains unknown.
 // Both Object readers return int with their low byte tested; the established
 // ActionManager provider takes a bool fifth argument. No donor ILT alias is used.
-bool Rva002612C6::rva002612C6(Object *candidate)
+bool Rva002612C6Filter::allow(Object *candidate)
 {
     if (static_cast<unsigned char>(candidate->rva0028D481())) {
         if (static_cast<unsigned char>(candidate->rva0028D4C4())) {

@@ -1,5 +1,5 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?rva00261723@Rva00261723@@QAE_NPAVArg00261723@@@Z, retail 0x00261723, 45 bytes.
+// ?allow@Rva00261723Filter@@UAE_NPAVObject@@@Z, retail 0x00261723, 45 bytes.
 // Float-to-ICoord helper: cvttss2si arg +0x38/+0x3C floats to ICoord x/y with
 // z 0, then PolygonTrigger::pointInTrigger (pin 0x002E3A13) on this +0x08.
 // Evidence: arg float offsets match Rva000CBA20 +0x38 layout Sumatra-side;
@@ -26,18 +26,24 @@ public:
 	float m_fy3C;
 };
 
-class Rva00261723
+class Object;
+
+// Slot 1 (allow) of partition filter vftable 0x00C07184 (Zero Hour's
+// PartitionFilterPolygonTrigger).
+class Rva00261723Filter
 {
 public:
-	Bool rva00261723(Arg00261723 *arg);
+	virtual ~Rva00261723Filter();
+	virtual Bool allow(Object *obj);
 
 private:
-	unsigned char m_pad00[8];
+	unsigned char m_pad04[4];
 	PolygonTrigger *m_trig08;
 };
 
-Bool Rva00261723::rva00261723(Arg00261723 *arg)
+Bool Rva00261723Filter::allow(Object *obj)
 {
+	Arg00261723 *arg = (Arg00261723 *)obj;
 	ICoord3D pt;
 	pt.x = (int)arg->m_fx38;
 	pt.y = (int)arg->m_fy3C;

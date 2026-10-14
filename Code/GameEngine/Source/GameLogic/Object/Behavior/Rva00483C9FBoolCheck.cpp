@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva00483C9F@Rva00483C9F@@QAE_NPAVObject@@@Z 0x00483C9F 80B evidence: gap between Disp8 getter 0x00483C75 and pool-key 0x00483CF4; thiscall bool(Object*) via ret 4 plus al returns; rowed isUsingAirborneLocomotor 0x0028B81E plus pinned rva0028CE7B plus virtual slot 8 on +0x254 with cmp 3; honest Rva name
+// ?allow@Rva00483C9FFilter@@UAE_NPAVObject@@@Z 0x00483C9F 80B evidence: gap between Disp8 getter 0x00483C75 and pool-key 0x00483CF4; thiscall bool(Object*) via ret 4 plus al returns; rowed isUsingAirborneLocomotor 0x0028B81E plus pinned rva0028CE7B plus virtual slot 8 on +0x254 with cmp 3; honest Rva name
 class Object;
 struct LocoSlot
 {
@@ -22,18 +22,20 @@ public:
 	bool isUsingAirborneLocomotor() const;
 };
 
-class Rva00483C9F
+// Slot 1 (allow) of partition filter vftable 0x00C49E84.
+class Rva00483C9FFilter
 {
 public:
-	bool rva00483C9F(Object *obj);
+	virtual ~Rva00483C9FFilter();
+	virtual bool allow(Object *obj);
 
 private:
-	char m_00[8];
+	char m_04[4];
 	Object *m_08;
 	signed char m_0c;
 };
 
-bool Rva00483C9F::rva00483C9F(Object *obj)
+bool Rva00483C9FFilter::allow(Object *obj)
 {
 	if (m_0c != 0) {
 		signed char c = obj->rva0028CE7B();

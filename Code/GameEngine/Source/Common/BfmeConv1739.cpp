@@ -11,17 +11,21 @@ public:
 	virtual bool bfmeTestAM(void *value);
 };
 
-class BfmeOwnAM
+class Object;
+
+// Partition filter with vftable 0x00C49F14; bfmeCheckAM is its allow (slot 1).
+class Rva00260F77Filter
 {
 public:
-	bool bfmeCheckAM(void *value);
+	virtual ~Rva00260F77Filter();
+	virtual bool allow(Object *value);
 
-	unsigned char m_bfmeHeadAM[8];
+	unsigned char m_bfmeHeadAM[4];
 	BfmeTargetAM *m_bfmeTargetAM;
 	char m_bfmeInvertAM;
 };
 
-bool BfmeOwnAM::bfmeCheckAM(void *value)
+bool Rva00260F77Filter::allow(Object *value)
 {
 	if (m_bfmeTargetAM == 0)
 		return 1;
