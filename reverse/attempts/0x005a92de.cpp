@@ -1,4 +1,6 @@
 // ?rva005A92DE@Rva005A9562@@QAEMPAX@Z
+// partial score=0.9407 date=2026-10-14
+// ?rva005A92DE@Rva005A9562@@QAEMPAX@Z
 // partial score=0.861 date=2026-10-13
 // ?rva005A92DE@Rva005A9562@@QAEMPAX@Z
 // partial score=0.861269 date=2026-10-10
@@ -11,9 +13,9 @@
 // trivial-return fallback copy and stack homes remain. A separate scratch
 // nontrivial return-view trial scored .9128 with an unadmitted provider
 // prototype/map change; it is not included in this usable bank.
+#include "Lib/Coord3DCtorView.h"
 class Rva005A9562 {public:float rva005A92DE(void *);private:void *m_ptr;};
 #include "wwmath.h"
-#include "Code/Libraries/Include/Lib/Coord3D.h"
 struct Rva002A8AB1Record;
 class Rva002A8F24 {public:Rva002A8AB1Record *rva002A8AB1(void *);};
 extern Rva002A8F24 *g_00DFEEF8;
@@ -38,9 +40,9 @@ float Rva005A9562::rva005A92DE(void *other)
   Rva005A92DEPosition position(mine->rva004EBF4B());
   return positionDistance(enemy->rva004EBF4B(),position);
  }else{
-  const Coord3D &position=Rva00506CF5(other,0);
+  Coord3D position=Rva00506CF5(other,0);
   Coord3D zero;zero.x=0;zero.y=0;zero.z=0;
-  if(const_cast<Coord3D &>(position)==zero)return 0;
+  if(position==zero)return 0;
   Rva005A92DEPosition saved(position);
   return positionDistance(mine->rva004EBF4B(),saved);
  }

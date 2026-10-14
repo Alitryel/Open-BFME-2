@@ -1,4 +1,6 @@
 // ?DoXfer@W3DShrubBuffer@@QAEXPAVXfer@@@Z
+// partial score=0.9139 date=2026-10-14
+// ?DoXfer@W3DShrubBuffer@@QAEXPAVXfer@@@Z
 // partial score=0.9 date=2026-10-14
 // ?DoXfer@W3DShrubBuffer@@QAEXPAVXfer@@@Z
 // partial score=0.7940174605388512 date=2026-10-10
@@ -13,14 +15,13 @@
 // typed offset views. Copy301 and its31B Region2D callee only load/store,
 // so the scratch copy-constructor view is declared nonthrowing. Its original
 // construction-versus-assignment identity remains a repair concern.
+#include "Lib/Coord3DCtorView.h"
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include "vector3.h"
 #include "matrix3d.h"
 #include "sphere.h"
-
-#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 // Retail's global at 0x012ED5C8 is EA's GlobalData *TheWritableGlobalData, defined
 // once in Common/GlobalData.cpp. Only the field this body reads is described on a

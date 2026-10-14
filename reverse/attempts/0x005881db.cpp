@@ -1,4 +1,6 @@
 // ?updateMeleeAttack@HordeMeleeAmoeba@@UAEXPAVObject@@@Z
+// partial score=0.8288 date=2026-10-14
+// ?updateMeleeAttack@HordeMeleeAmoeba@@UAEXPAVObject@@@Z
 // partial score=0.87 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /GX- /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common
 // stlport
@@ -6,7 +8,7 @@
 // Existing587D9C constructor establishes held4 / vector8 / force14 / data18.
 // Native and WB prove60B entry offsets and circular-list / AI slots individually.
 // The swarm recovery supplied the matching STLport indexing pattern.
-#include "Coord3D.h"
+#include "Lib/Coord3DCtorView.h"
 #include "Coord2D.h"
 #include <math.h>
 #include <vector>

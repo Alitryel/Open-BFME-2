@@ -1,4 +1,6 @@
 // ?exitObjectViaDoor@SiegeEngineContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
+// partial score=0.9049 date=2026-10-14
+// ?exitObjectViaDoor@SiegeEngineContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.91114 date=2026-10-14
 // ?exitObjectViaDoor@SiegeEngineContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.85 date=2026-10-09
@@ -8,8 +10,9 @@
 // Independently named WB11A9380 and native47C4F2..47C927 prove SiegeEngine exit.
 // Receiver is primary+30: owner-28 data-2C closed F4; contain slot41 at-10.
 // Target adds filter/D4 radius wall exits, Ladder04 and deployed siege gating.
+#define COORD3D_VIEW_DTOR
+#include "Lib/Coord3DCtorView.h"
 #include <vector>
-#include "Lib/Coord3D.h"
 #include "GameLogicObjectLookupView.h"
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 enum ExitDoorType { DOOR_1=0 };

@@ -1,4 +1,6 @@
 // ?rva003469F5@AIBurningDeathState@@QAE?AUCoord3D@@XZ
+// partial score=0.7835 date=2026-10-14
+// ?rva003469F5@AIBurningDeathState@@QAE?AUCoord3D@@XZ
 // partial score=0.8 date=2026-10-09
 // cl: /I. /G7 /O1 /DNDEBUG /MD /arch:SSE
 //
@@ -18,6 +20,7 @@
 // (AIStates.cpp); StateReturnType values follow Zero Hour (CONTINUE 0,
 // SUCCESS -1, FAILURE -2). Structural inference: +0x20/+0x24 are the base
 // move's goal x/y.
+#include "Lib/Coord3DCtorView.h"
 
 typedef unsigned int UnsignedInt;
 
@@ -33,7 +36,6 @@ enum StateExitType
 	EXIT_NORMAL = 0
 };
 
-#include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class BfmeSubBGB

@@ -1,4 +1,6 @@
 // ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
+// partial score=0.6336 date=2026-10-14
+// ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
 // partial score=0.585187 date=2026-10-14
 // cl: /O2 /G6 /MD /GX- /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib
 // ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z @0x006BEF80, 1079B.
@@ -8,8 +10,8 @@
 // the result. Repair of the r9 bank; donor shape from BFME1 575ba2b04 attempt
 // plus the target's own WB body and native offsets/shape stride 0x24.
 // Target 006BEF80..006BF3B7 RET24; WB 006F91B0 names GeometryInfo::getBestContactPoint.
+#include "Lib/Coord3DCtorView.h"
 #include "ascii_string.h"
-#include "Coord3D.h"
 #include <float.h>
 extern "C" int fprintf(void*,const char*,...);
 extern "C" void *theLogicRandomLogFile;
