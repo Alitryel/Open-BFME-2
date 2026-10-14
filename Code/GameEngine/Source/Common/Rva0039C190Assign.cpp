@@ -18,6 +18,7 @@ class Rva0039C190
 {
 public:
 	Rva0039B893 *rva0039C190(Rva0039B893 *result, Rva0039B893 *first);
+	void rva0039C40A();
 
 private:
 	int m_00;
@@ -32,4 +33,12 @@ Rva0039B893 *Rva0039C190::rva0039C190(Rva0039B893 *result, Rva0039B893 *first)
 	Rva0022C8E3DestroyRange(newEnd, m_04);
 	m_04 = newEnd;
 	return result;
+}
+
+// ?rva0039C40A@Rva0039C190@@QAEXXZ, retail 0x0039C40A, 11 bytes: clear() -
+// the range erase above over [+0, +4) (its call at 0x0039C40F). Skeleton
+// twin of STLport vector clear 0x000BCFB8.
+void Rva0039C190::rva0039C40A()
+{
+	rva0039C190((Rva0039B893 *)m_00, (Rva0039B893 *)m_04);
 }

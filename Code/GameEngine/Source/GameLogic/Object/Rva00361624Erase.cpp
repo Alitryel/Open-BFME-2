@@ -26,6 +26,7 @@ void _Destroy(_Tp first, _Tp last);
 struct Rva00361624
 {
 	Rva0036105B *rva00361624(Rva0036105B *first, Rva0036105B *last);
+	void rva00361675();
 
 	Rva0036105B *m_start;
 	Rva0036105B *m_finish;
@@ -38,4 +39,12 @@ Rva0036105B *Rva00361624::rva00361624(Rva0036105B *first, Rva0036105B *last)
 	_STL::_Destroy(newFinish, m_finish);
 	m_finish = newFinish;
 	return first;
+}
+
+// ?rva00361675@Rva00361624@@QAEXXZ, retail 0x00361675, 11 bytes: clear() -
+// the erase above over [start, finish) (its call at 0x0036167A). Skeleton
+// twin of STLport vector clear 0x000BCFB8.
+void Rva00361624::rva00361675()
+{
+	rva00361624(m_start, m_finish);
 }
