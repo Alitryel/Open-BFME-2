@@ -187,13 +187,6 @@ public:
 private:
 	unsigned char m_pad[0x08];
 };
-class Rva005B4A46
-{
-public:
-	Rva005B4A46(AppearanceOwner *owner);
-private:
-	unsigned char m_pad[0x10];
-};
 struct GlobalData2
 {
 	unsigned char m_pad000[0x68];
@@ -233,6 +226,13 @@ public:
 	private:
 		unsigned char m_pad[0x74];
 	};
+	class Appearance
+	{
+	public:
+		Appearance(AppearanceOwner *owner);
+	private:
+		unsigned char m_pad[0x10];
+	};
 	AptCreateAHero(void *context);
 	virtual ~AptCreateAHero();
 	void PrepareToTakePicture(const char *unused);
@@ -253,7 +253,7 @@ private:
 	void *m_previousPage; // +0x414
 	Rva005B6B93 *m_pageM; // +0x418
 	Class *m_pageC; // +0x41C
-	Rva005B4A46 *m_pageA; // +0x420
+	Appearance *m_pageA; // +0x420
 	Powers *m_pageP; // +0x424
 	Rva005B2575 *m_pageB; // +0x428
 	bool m_42c; // +0x42C
@@ -305,7 +305,7 @@ AptCreateAHero::AptCreateAHero(void *context)
 	s_instance = this;
 	m_pageM = new Rva005B6B93(this);
 	m_pageC = new Class((Rva005B3676Owner *)this);
-	m_pageA = new Rva005B4A46((AppearanceOwner *)this);
+	m_pageA = new Appearance((AppearanceOwner *)this);
 	m_pageP = new Powers((Rva005B3676Owner *)this);
 	m_pageB = new Rva005B2575(this);
 #define BIND_COMMAND(handler, label) \

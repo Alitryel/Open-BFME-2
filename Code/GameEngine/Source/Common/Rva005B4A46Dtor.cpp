@@ -146,10 +146,14 @@ protected:
 	void *m_04;
 };
 
-class Rva005B4A46 : public Rva005B253F
+// WorldBuilder: AptCreateAHero::Appearance (WB VA 0x0157AE60 for ExternFunc,
+// callgraph lead score 4); the command-map strings in the constructor below
+// spell the same scope.
+namespace AptCreateAHero {
+class Appearance : public Rva005B253F
 {
 public:
-	Rva005B4A46(AppearanceOwner*);
+	Appearance(AppearanceOwner*);
  void AutoChangeBttn(const char*);
  void OnComplete(const char*);
  void OnPaintColor(const char*);
@@ -162,14 +166,15 @@ public:
  void InitGadgets(const char*,unsigned,GameWindow*);
  void ExternFunc(int,char*,bool);
 
-	virtual ~Rva005B4A46();
+	virtual ~Appearance();
 private:
 	void *m_window08;
 	char m_pad0C;
 	bool m_imeActive;
 };
+}
 
-Rva005B4A46::~Rva005B4A46()
+AptCreateAHero::Appearance::~Appearance()
 {
 	_bfme_closeAptScreen(AsciiString("CahAppearance::InitGadgets"));
 	{
@@ -180,41 +185,41 @@ Rva005B4A46::~Rva005B4A46()
 		TheIMEManager->m40();
 }
 
-Rva005B4A46::Rva005B4A46(AppearanceOwner*owner):Rva005B253F(owner),m_window08(0),m_pad0C(true),m_imeActive(false){
- {AsciiString name("AptCreateAHero::Appearance::AutoChangeBttn");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::AutoChangeBttn),(AptCommandTarget*)this));}
- {AsciiString name("AptCreateAHero::Appearance::OnComplete");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::OnComplete),(AptCommandTarget*)this));}
+AptCreateAHero::Appearance::Appearance(AppearanceOwner*owner):Rva005B253F(owner),m_window08(0),m_pad0C(true),m_imeActive(false){
+ {AsciiString name("AptCreateAHero::Appearance::AutoChangeBttn");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::AutoChangeBttn),(AptCommandTarget*)this));}
+ {AsciiString name("AptCreateAHero::Appearance::OnComplete");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::OnComplete),(AptCommandTarget*)this));}
  {AsciiString name("AptCreateAHero::Appearance::NamePrompt");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4BDB::rva005B4AD9),(AptCommandTarget*)this));}
- {AsciiString name("AptCreateAHero::Appearance::OnPaintColor");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::OnPaintColor),(AptCommandTarget*)this));}
- {AsciiString name("AptCreateAHero::Appearance::OnSkinColor");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::OnSkinColor),(AptCommandTarget*)this));}
- {AsciiString name("AptCreateAHero::Appearance::OnHairColor");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::OnHairColor),(AptCommandTarget*)this));}
- {AsciiString name("AptCreateAHero::Appearance::IncreaseAttribute");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::IncreaseAttribute),(AptCommandTarget*)this));}
- {AsciiString name("AptCreateAHero::Appearance::DecreaseAttribute");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::DecreaseAttribute),(AptCommandTarget*)this));}
- {AsciiString name("AptCreateAHero::Appearance::NextAppearance");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::NextAppearance),(AptCommandTarget*)this));}
- {AsciiString name("AptCreateAHero::Appearance::PrevAppearance");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::PrevAppearance),(AptCommandTarget*)this));}
- {AsciiString name("CahAppearance::InitGadgets");_bfme_setAptScreenRef(name,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::InitGadgets),(AptCommandTarget*)this));}
+ {AsciiString name("AptCreateAHero::Appearance::OnPaintColor");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::OnPaintColor),(AptCommandTarget*)this));}
+ {AsciiString name("AptCreateAHero::Appearance::OnSkinColor");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::OnSkinColor),(AptCommandTarget*)this));}
+ {AsciiString name("AptCreateAHero::Appearance::OnHairColor");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::OnHairColor),(AptCommandTarget*)this));}
+ {AsciiString name("AptCreateAHero::Appearance::IncreaseAttribute");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::IncreaseAttribute),(AptCommandTarget*)this));}
+ {AsciiString name("AptCreateAHero::Appearance::DecreaseAttribute");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::DecreaseAttribute),(AptCommandTarget*)this));}
+ {AsciiString name("AptCreateAHero::Appearance::NextAppearance");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::NextAppearance),(AptCommandTarget*)this));}
+ {AsciiString name("AptCreateAHero::Appearance::PrevAppearance");owner->maps.AddCommandMap(name,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::PrevAppearance),(AptCommandTarget*)this));}
+ {AsciiString name("CahAppearance::InitGadgets");_bfme_setAptScreenRef(name,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::InitGadgets),(AptCommandTarget*)this));}
  {AsciiString fallback(" ");AsciiString name("APT:HeroTypeDescription");g_bfmeAptWindowManager->rva00225375(name,fallback,false);}
- {AsciiString name("CahAppearance::ShowNamePrompt");owner->externs.AddExternHandler(name,0,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::ExternFunc),(AptCommandTarget*)this));}
- {AsciiString name("CahAppearance::HeroNameSet");owner->externs.AddExternHandler(name,1,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::ExternFunc),(AptCommandTarget*)this));}
- {AsciiString name("CahAppearance::PaintColor");owner->externs.AddExternHandler(name,4,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::ExternFunc),(AptCommandTarget*)this));}
- {AsciiString name("CahAppearance::SkinColor");owner->externs.AddExternHandler(name,3,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::ExternFunc),(AptCommandTarget*)this));}
- {AsciiString name("CahAppearance::HairColor");owner->externs.AddExternHandler(name,2,MakeBinding(reinterpret_cast<FunctorMethod>(&Rva005B4A46::ExternFunc),(AptCommandTarget*)this));}
+ {AsciiString name("CahAppearance::ShowNamePrompt");owner->externs.AddExternHandler(name,0,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::ExternFunc),(AptCommandTarget*)this));}
+ {AsciiString name("CahAppearance::HeroNameSet");owner->externs.AddExternHandler(name,1,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::ExternFunc),(AptCommandTarget*)this));}
+ {AsciiString name("CahAppearance::PaintColor");owner->externs.AddExternHandler(name,4,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::ExternFunc),(AptCommandTarget*)this));}
+ {AsciiString name("CahAppearance::SkinColor");owner->externs.AddExternHandler(name,3,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::ExternFunc),(AptCommandTarget*)this));}
+ {AsciiString name("CahAppearance::HairColor");owner->externs.AddExternHandler(name,2,MakeBinding(reinterpret_cast<FunctorMethod>(&AptCreateAHero::Appearance::ExternFunc),(AptCommandTarget*)this));}
 }
 
-void Rva005B4A46::OnHairColor(const char*path){AppearanceHeroView*hero=reinterpret_cast<AppearanceHeroView*>(static_cast<char*>(m_04)+0x27C);reinterpret_cast<Rva00406F12*>(hero)->rva00406F12(atoi(path));hero->refresh(false);}
+void AptCreateAHero::Appearance::OnHairColor(const char*path){AppearanceHeroView*hero=reinterpret_cast<AppearanceHeroView*>(static_cast<char*>(m_04)+0x27C);reinterpret_cast<Rva00406F12*>(hero)->rva00406F12(atoi(path));hero->refresh(false);}
 
-void Rva005B4A46::OnSkinColor(const char*path){AppearanceHeroView*hero=reinterpret_cast<AppearanceHeroView*>(static_cast<char*>(m_04)+0x27C);reinterpret_cast<Rva00406F27*>(hero)->rva00406F27(atoi(path));hero->refresh(false);}
+void AptCreateAHero::Appearance::OnSkinColor(const char*path){AppearanceHeroView*hero=reinterpret_cast<AppearanceHeroView*>(static_cast<char*>(m_04)+0x27C);reinterpret_cast<Rva00406F27*>(hero)->rva00406F27(atoi(path));hero->refresh(false);}
 
-void Rva005B4A46::OnPaintColor(const char*path){AppearanceHeroView*hero=reinterpret_cast<AppearanceHeroView*>(static_cast<char*>(m_04)+0x27C);reinterpret_cast<Rva00406F3C*>(hero)->rva00406F3C(atoi(path));hero->refresh(false);}
+void AptCreateAHero::Appearance::OnPaintColor(const char*path){AppearanceHeroView*hero=reinterpret_cast<AppearanceHeroView*>(static_cast<char*>(m_04)+0x27C);reinterpret_cast<Rva00406F3C*>(hero)->rva00406F3C(atoi(path));hero->refresh(false);}
 
-void Rva005B4A46::IncreaseAttribute(const char*path){int value=atoi(path);reinterpret_cast<AptMyHero*>(static_cast<char*>(m_04)+0x27C)->AdjustBling(0,value,1);}
+void AptCreateAHero::Appearance::IncreaseAttribute(const char*path){int value=atoi(path);reinterpret_cast<AptMyHero*>(static_cast<char*>(m_04)+0x27C)->AdjustBling(0,value,1);}
 
-void Rva005B4A46::DecreaseAttribute(const char*path){int value=atoi(path);reinterpret_cast<AptMyHero*>(static_cast<char*>(m_04)+0x27C)->AdjustBling(0,value,-1);}
+void AptCreateAHero::Appearance::DecreaseAttribute(const char*path){int value=atoi(path);reinterpret_cast<AptMyHero*>(static_cast<char*>(m_04)+0x27C)->AdjustBling(0,value,-1);}
 
-void Rva005B4A46::NextAppearance(const char*path){int value=atoi(path);reinterpret_cast<AptMyHero*>(static_cast<char*>(m_04)+0x27C)->AdjustBling(1,value,1);}
+void AptCreateAHero::Appearance::NextAppearance(const char*path){int value=atoi(path);reinterpret_cast<AptMyHero*>(static_cast<char*>(m_04)+0x27C)->AdjustBling(1,value,1);}
 
-void Rva005B4A46::PrevAppearance(const char*path){int value=atoi(path);reinterpret_cast<AptMyHero*>(static_cast<char*>(m_04)+0x27C)->AdjustBling(1,value,-1);}
+void AptCreateAHero::Appearance::PrevAppearance(const char*path){int value=atoi(path);reinterpret_cast<AptMyHero*>(static_cast<char*>(m_04)+0x27C)->AdjustBling(1,value,-1);}
 
-void Rva005B4A46::AutoChangeBttn(const char*path) {
+void AptCreateAHero::Appearance::AutoChangeBttn(const char*path) {
  if(strcmp(path,"AppearanceDefault")==0) {
   AptMyHero *hero=reinterpret_cast<AptMyHero*>(static_cast<char*>(m_04)+0x27C);
   hero->rva005B0FCD(1);reinterpret_cast<CreateAHeroHero*>(hero)->SetDefaultColors();reinterpret_cast<AppearanceHeroView*>(hero)->refresh14();
@@ -222,15 +227,15 @@ void Rva005B4A46::AutoChangeBttn(const char*path) {
  else if(strcmp(path,"AttribReset")==0) reinterpret_cast<AptMyHero*>(static_cast<char*>(m_04)+0x27C)->rva005B097F(0);
  else if(strcmp(path,"AttribRecommend")==0) reinterpret_cast<AptMyHero*>(static_cast<char*>(m_04)+0x27C)->rva005B0FCD(0);
 }
-void Rva005B4A46::InitGadgets(const char*name,unsigned,GameWindow*window) {
+void AptCreateAHero::Appearance::InitGadgets(const char*name,unsigned,GameWindow*window) {
  if(window&&strcmp(name,"CreateAHero::HeroName")==0){m_window08=window;reinterpret_cast<Rva005B4BDB*>(this)->rva005B4C3C();}
 }
-void Rva005B4A46::OnComplete(const char*) {
+void AptCreateAHero::Appearance::OnComplete(const char*) {
  AppearanceOwner *owner=static_cast<AppearanceOwner*>(m_04);Rva005B5C02Box *selected=owner->selected418;
  if(owner->current414==selected){reinterpret_cast<Rva005B4BDB*>(this)->rva005B4BDB();selected->Run();}
 }
 
-void Rva005B4A46::ExternFunc(int property,char*buffer,bool writing) {
+void AptCreateAHero::Appearance::ExternFunc(int property,char*buffer,bool writing) {
  AppearanceHeroView*hero=reinterpret_cast<AppearanceHeroView*>(static_cast<char*>(m_04)+0x27C);
  bool result;
  switch(property){
