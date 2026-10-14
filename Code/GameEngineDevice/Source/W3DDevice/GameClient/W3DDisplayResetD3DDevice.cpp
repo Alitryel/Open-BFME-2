@@ -16,15 +16,15 @@ bool __cdecl BFME_DX8_Thread_Assert(void);
 void __cdecl Rva001171B0(void);
 void __cdecl clipCursorToClient(void);
 
-class DX8DeviceGuard
+class BFMEDX8DeviceLock
 {
 public:
-	DX8DeviceGuard(void)
+	BFMEDX8DeviceLock(void)
 	{
 		BFME_DX8_Thread_Lock();
 	}
 
-	~DX8DeviceGuard(void)
+	~BFMEDX8DeviceLock(void)
 	{
 		BFME_DX8_Thread_Assert();
 	}
@@ -103,7 +103,7 @@ void Reset_D3D_Device(bool active)
 {
 	if (TheDisplay && WW3D::Is_Initted() && !TheDisplay->getWindowed())
 	{
-		DX8DeviceGuard lock;
+		BFMEDX8DeviceLock lock;
 
 		if (active)
 		{

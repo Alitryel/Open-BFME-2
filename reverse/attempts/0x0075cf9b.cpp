@@ -1,5 +1,5 @@
 // $L545
-// partial score=0.5 date=2026-10-14
+// partial score=1.0 date=2026-10-14
 // cl: /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/GameEngineDevice/Source/W3DDevice/GameClient
 //
 // ?createVideoBuffer@W3DDisplay@@UAEPAVVideoBuffer@@_N@Z
@@ -101,15 +101,15 @@ public:
 void __cdecl W3DRadarResetLock(void);
 bool __cdecl BFME_DX8_Thread_Assert(void);
 
-class W3DRadarResetGuard
+class BFMEDX8DeviceLock
 {
 public:
-	W3DRadarResetGuard(void)
+	BFMEDX8DeviceLock(void)
 	{
 		W3DRadarResetLock();
 	}
 
-	~W3DRadarResetGuard(void)
+	~BFMEDX8DeviceLock(void)
 	{
 		BFME_DX8_Thread_Assert();
 	}
@@ -157,7 +157,7 @@ public:
 
 VideoBuffer *W3DDisplay::createVideoBuffer(bool allowAlpha)
 {
-	W3DRadarResetGuard lock;
+	BFMEDX8DeviceLock lock;
 	int format = 0;
 
 	if (allowAlpha && TheW3DRadarFormatCaps->supportTextureFormat((WW3DFormat)0x15))

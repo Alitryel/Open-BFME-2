@@ -8,14 +8,14 @@ typedef bool Bool;
 void __cdecl BFME_DX8_Thread_Lock(void);
 bool __cdecl BFME_DX8_Thread_Assert(void);
 
-class DX8DeviceGuard
+class BFMEDX8DeviceLock
 {
 public:
-	DX8DeviceGuard(void)
+	BFMEDX8DeviceLock(void)
 	{
 		BFME_DX8_Thread_Lock();
 	}
-	~DX8DeviceGuard(void)
+	~BFMEDX8DeviceLock(void)
 	{
 		BFME_DX8_Thread_Assert();
 	}
@@ -82,7 +82,7 @@ private:
 
 Bool W3DDisplay::setDisplayMode(UnsignedInt xres, UnsignedInt yres, UnsignedInt bitdepth, Bool windowed)
 {
-	DX8DeviceGuard lock;
+	BFMEDX8DeviceLock lock;
 	if (WW3D::Set_Device_Resolution(xres, yres, bitdepth, windowed, true) == true)
 	{
 		m_render2D->Set_Coordinate_Range(RectClass(0.0f, 0.0f, (float)xres, (float)yres));

@@ -1,5 +1,5 @@
 // $L420
-// partial score=0.5 date=2026-10-14
+// partial score=1.0 date=2026-10-14
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
 // ?setDisplayMode@W3DDisplay@@UAE_NIII_N@Z @0x00043240 256B
 // W3DDisplay::setDisplayMode donor ZH W3DDisplay.cpp Bool setDisplayMode UnsignedInt xres yres bitdepth Bool windowed. Calls WW3D Set_Device_Resolution then Render2D Set_Coordinate_Range via +0x168 then Display setDisplayMode 0x0025C262. Failure restores old Display values. Evidence: slot22 vtable 0x007C3C80; rowed Set_Device_Resolution 0x00116FC0 and setDisplayMode 0x0025C262 and Set_Coordinate_Range 0x001188C0; Display slots +0x40 +0x44 +0x4C +0x54 per W3DDisplayResetD3DDevice; m_render2D +0x168 per W3DDisplayRva000433AC; caller none.
@@ -10,14 +10,14 @@ typedef bool Bool;
 void __cdecl BFME_DX8_Thread_Lock(void);
 bool __cdecl BFME_DX8_Thread_Assert(void);
 
-class DX8DeviceGuard
+class BFMEDX8DeviceLock
 {
 public:
-	DX8DeviceGuard(void)
+	BFMEDX8DeviceLock(void)
 	{
 		BFME_DX8_Thread_Lock();
 	}
-	~DX8DeviceGuard(void)
+	~BFMEDX8DeviceLock(void)
 	{
 		BFME_DX8_Thread_Assert();
 	}
@@ -84,7 +84,7 @@ private:
 
 Bool W3DDisplay::setDisplayMode(UnsignedInt xres, UnsignedInt yres, UnsignedInt bitdepth, Bool windowed)
 {
-	DX8DeviceGuard lock;
+	BFMEDX8DeviceLock lock;
 	if (WW3D::Set_Device_Resolution(xres, yres, bitdepth, windowed, true) == true)
 	{
 		m_render2D->Set_Coordinate_Range(RectClass(0.0f, 0.0f, (float)xres, (float)yres));

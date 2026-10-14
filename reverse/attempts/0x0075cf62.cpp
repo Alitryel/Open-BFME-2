@@ -1,5 +1,5 @@
 // $L398
-// partial score=0.6363636363636364 date=2026-10-14
+// partial score=1.0 date=2026-10-14
 // cl: /DNDEBUG /MD /EHsc
 // ?Reset_D3D_Device@@YAX_N@Z, retail 0x0004312A, 278 bytes.
 // Ported from Open-BFME-1
@@ -18,15 +18,15 @@ bool __cdecl BFME_DX8_Thread_Assert(void);
 void __cdecl Rva001171B0(void);
 void __cdecl clipCursorToClient(void);
 
-class DX8DeviceGuard
+class BFMEDX8DeviceLock
 {
 public:
-	DX8DeviceGuard(void)
+	BFMEDX8DeviceLock(void)
 	{
 		BFME_DX8_Thread_Lock();
 	}
 
-	~DX8DeviceGuard(void)
+	~BFMEDX8DeviceLock(void)
 	{
 		BFME_DX8_Thread_Assert();
 	}
@@ -105,7 +105,7 @@ void Reset_D3D_Device(bool active)
 {
 	if (TheDisplay && WW3D::Is_Initted() && !TheDisplay->getWindowed())
 	{
-		DX8DeviceGuard lock;
+		BFMEDX8DeviceLock lock;
 
 		if (active)
 		{

@@ -1,5 +1,5 @@
 // $L1931
-// partial score=0.5 date=2026-10-14
+// partial score=1.0 date=2026-10-14
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
 // BF1 2f243e26d WaterRenderObjInit.cpp supplies setup order and purpose.
 // BFME2 removes the old light/material/caustic/sky mesh branches; native
@@ -7,9 +7,9 @@
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 void BFME_DX8_Thread_Lock();
 bool BFME_DX8_Thread_Assert();
-struct WaterDeviceScope {
- WaterDeviceScope() { BFME_DX8_Thread_Lock(); }
- ~WaterDeviceScope() { BFME_DX8_Thread_Assert(); }
+struct BFMEDX8DeviceLock {
+ BFMEDX8DeviceLock() { BFME_DX8_Thread_Lock(); }
+ ~BFMEDX8DeviceLock() { BFME_DX8_Thread_Assert(); }
 };
 class ShaderClass {
 public:
@@ -63,7 +63,7 @@ public:
  char settings[4][0x30];
 };
 int Rva0007FC38::rva0007FC38(float,float,float,SceneClass *scene,WaterType waterType) {
- WaterDeviceScope lock;
+ BFMEDX8DeviceLock lock;
  lastTime=timeGetTime();
  parentScene=scene;
  type=waterType;
