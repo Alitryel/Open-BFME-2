@@ -1,199 +1,203 @@
-// ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAXI@Z
-// partial score=0.502 date=2026-10-14
-// Shared GeneralAllocator view: sibling member offsets from the banked
-// siblings 0x00032B00/0x00031E60/0x000334A0 (bin +0x30, head +0x440,
-// core-list sentinel +0x448, granularity +0x4DC, lock +0x4E4).
-#include <string.h>
+// ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
+// partial score=0.938 date=2026-10-15
+// ?rva00031010@Rva00031010@@QAEXPAURva00031010Node@@_N@Z @0x00031010 66B evidence EA GeneralAllocator large-bin insert beside GetLargeBinIndex plus caller 0x000333ED plus head at +0x440 plus bin at +0x30
+struct Rva00031010Node
+{
+    unsigned char m_pad[8];
+    Rva00031010Node *m_link8;
+    Rva00031010Node *m_linkC;
+};
+class Rva00031010
+{
+public:
+    void rva00031010(Rva00031010Node *node, bool flag);
+private:
+    unsigned char m_pad0[0x30];
+    Rva00031010Node m_bin;
+    unsigned char m_pad1[0x440 - 0x30 - sizeof(Rva00031010Node)];
+    Rva00031010Node *m_head;
+};
+void Rva00031010::rva00031010(Rva00031010Node *node, bool flag)
+{
+    Rva00031010Node *old = m_head;
+    m_head = node;
+    node->m_linkC = node;
+    node = *(Rva00031010Node * volatile *)&m_head;
+    Rva00031010Node *bin;
+    {
+        Rva00031010Node *next = *(Rva00031010Node * volatile *)&node->m_linkC;
+        bin = (Rva00031010Node *)((char *)this + 0x30);
+        node->m_link8 = next;
+        if (old == bin)
+            return;
+    }
+    if (!flag)
+        return;
+    Rva00031010Node *after = bin->m_linkC;
+    old->m_link8 = bin;
+    old->m_linkC = after;
+    bin->m_linkC = old;
+    after->m_link8 = old;
+}
+
+// ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z @0x000334A0 604B
+// Core growth for a size (PPMalloc ExtendCore-like), caller 0x00034244: finds
+// the first core (list after the sentinel at this+0x448, next +0x18) whose
+// reserved-minus-committed span (+0x08 - +0x04) fits, commits max(size,
+// +0x4DC granularity) capped to that span with VirtualAlloc (on failure the
+// reserve is dropped to the committed size), then grows the chunk ending at
+// the core's trailing fencepost (merging a free predecessor, which may be the
+// top chunk) or lays out a fresh first chunk and makes it the top through the
+// 0x00031010 insert above. Without such a core, and unless +0x4AC forbids
+// it, a new core from 0x00032B00 becomes the top. A chunk larger than the
+// request is split; the remainder becomes the top or heads the bin at +0x30.
+// Target bytes supply offsets and flow; field labels are descriptive.
 extern "C" __declspec(dllimport) void *__stdcall VirtualAlloc(void *address, unsigned int size, unsigned long type, unsigned long protect);
-extern "C" __declspec(dllimport) int __stdcall VirtualQuery(const void *address, void *information, unsigned long informationSize);
-extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void *section);
-extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void *section);
-namespace EA {
-namespace Allocator {
-struct Snapshot;
-struct BlockInfo;
-struct ListNode
+
+namespace EA
 {
-	unsigned int m_unk0; // +0x00
-	unsigned int m_size; // +0x04
-	unsigned int m_size8; // +0x08 committed limit
-	unsigned int m_padC;
-	unsigned int m_pad10;
-	void *m_releaseContext;
-	ListNode *m_next; // +0x18
-	ListNode *m_prev; // +0x1C
-};
-struct FreeChunk
+namespace Allocator
 {
-	unsigned int m_prevSize; // +0x00
-	unsigned int m_size; // +0x04
-	FreeChunk *m_next; // +0x08
-	FreeChunk *m_prev; // +0x0C
-};
-struct Lock
-{
-	unsigned char m_pad[0x18];
-	volatile int m_count;
-};
-struct BlockInfo
-{
-	unsigned char m_pad[0x40];
-};
 class GeneralAllocator
 {
 public:
-	void *rva00032B00(unsigned int size);
-	void *rva000334A0(volatile unsigned int size);
-	bool rva000332D0(int coreInfo, int coreSize, int blockType, int blockFlags, int context, int arg6);
-	const BlockInfo *rva00032F60(void *context, int blockTypes);
-	void rva00032EC0(const void *block, BlockInfo *info);
-	int rva00031E60(const void *block);
-	int probe31D00(const void *block);
-	unsigned char m_pad0[0x30];
-	FreeChunk m_bin30; // +0x30 (free-bin sentinel)
-	unsigned char m_pad40[0x440 - 0x40];
-	FreeChunk *m_head440; // +0x440
-	unsigned char m_pad444[0x448 - 0x444];
-	ListNode m_sentinel; // +0x448 (core list)
-	unsigned char m_pad468[0x4D4 - 0x468];
-	unsigned int m_4D4; // +0x4D4
-	unsigned char m_pad4D8[0x4DC - 0x4D8];
-	unsigned int m_granularity4DC; // +0x4DC
-	unsigned char m_pad4E0[0x4E4 - 0x4E0];
-	Lock *m_4E4; // +0x4E4
-};
-}}
-typedef EA::Allocator::GeneralAllocator GeneralAllocator;
-typedef EA::Allocator::ListNode ListNode;
-typedef EA::Allocator::FreeChunk FreeChunk;
-typedef EA::Allocator::Lock Lock;
-typedef EA::Allocator::BlockInfo BlockInfo;
-typedef EA::Allocator::Snapshot Snapshot;
-void *GeneralAllocator::rva000334A0(volatile unsigned int size)
-{
-	struct Scratch
+	Rva00031010Node *rva000334A0(unsigned int size);
+	Rva00031010Node *rva00032B00(unsigned int size);
+
+private:
+	struct Chunk
 	{
-		char pad[3];
-		bool moveHead;
-		FreeChunk *oldHead;
-		FreeChunk *tail;
+		unsigned int m_priorSize;
+		unsigned int m_size;
+		Chunk *m_prev;
+		Chunk *m_next;
 	};
-	register GeneralAllocator *allocator = this;
-	volatile Scratch scratch;
-	scratch.moveHead = false;
-	register unsigned int commit = 0;
-	register ListNode *segment = allocator->m_sentinel.m_next;
-	FreeChunk *chunk = 0;
-	while (segment != &m_sentinel)
+	struct CoreBlock
 	{
-		unsigned int used = segment->m_size;
-		unsigned int capacity = segment->m_size8;
-		unsigned int available = capacity - used;
-		if (size > available)
+		Chunk *m_firstChunk;
+		unsigned int m_size;
+		unsigned int m_reservedSize;
+		unsigned char m_flags[4];
+		void *m_releaseFunction;
+		void *m_releaseContext;
+		CoreBlock *m_next;
+		CoreBlock *m_prev;
+	};
+	unsigned char m_pad000[0x30];
+	Chunk m_bin;						// +0x30
+	unsigned char m_pad040[0x440 - 0x40];
+	Chunk *m_top;						// +0x440
+	unsigned char m_pad444[4];
+	CoreBlock m_cores;					// +0x448
+	unsigned char m_pad468[0x4AC - 0x468];
+	int m_noNewCores;					// +0x4AC
+	unsigned char m_pad4B0[0x4DC - 0x4B0];
+	unsigned int m_granularity;				// +0x4DC
+};
+
+Rva00031010Node *GeneralAllocator::rva000334A0(unsigned int size)
+{
+	CoreBlock *core = m_cores.m_next;
+	bool newTop = false;
+	Chunk *chunk = 0;
+	unsigned int extend = 0;
+	unsigned int chunkSize;
+	for (; core != &m_cores; core = core->m_next)
+	{
+		if (size <= core->m_reservedSize - core->m_size)
 		{
-			segment = segment->m_next;
-			continue;
+			extend = size;
+			if (extend < m_granularity)
+				extend = m_granularity;
+			if (extend > core->m_reservedSize - core->m_size)
+				extend = core->m_reservedSize - core->m_size;
+			if (!VirtualAlloc((char *)core + core->m_size, extend, 0x1000, 4))
+				core->m_reservedSize = core->m_size;
+			break;
 		}
-
-		commit = size;
-		unsigned int granularity = *(unsigned int *)((char *)allocator + 0x4DC);
-		if (commit < granularity)
-			commit = granularity;
-		if (commit > available)
-			commit = available;
-		if (VirtualAlloc((char *)segment + used, commit, 0x1000, 4) == 0)
-			segment->m_size8 = used;
-
-		if (used != 0)
+	}
+	if (core != &m_cores)
+	{
+		if (core->m_size)
 		{
-			FreeChunk *last = (FreeChunk *)((char *)segment + used - 0x10);
-			if ((last->m_size & 1) != 0)
+			Chunk *fencepost = (Chunk *)((char *)core + core->m_size - 0x10);
+			chunk = fencepost;
+			if (fencepost->m_size & 1)
 			{
-				chunk = last;
-				chunk->m_size = commit | 1;
+				chunkSize = extend;
+				fencepost->m_size = extend | 1;
 			}
 			else
 			{
-				chunk = (FreeChunk *)((char *)last - last->m_prevSize);
-				chunk->m_next->m_prev = chunk->m_prev;
+				chunk = (Chunk *)((char *)chunk - fencepost->m_priorSize);
 				chunk->m_prev->m_next = chunk->m_next;
-				unsigned int total = last->m_prevSize + commit;
-				chunk->m_size = total | 1;
-				scratch.moveHead = chunk == allocator->m_head440;
-				FreeChunk *fence = (FreeChunk *)((char *)chunk + total);
-				fence->m_prevSize = total;
-				fence->m_size = 8;
-				*(unsigned int *)((char *)fence + 8) = 8;
-				*(unsigned int *)((char *)fence + 12) = 9;
+				chunk->m_next->m_prev = chunk->m_prev;
+				chunkSize = fencepost->m_priorSize + extend;
+				chunk->m_size = chunkSize | 1;
+				newTop = chunk == m_top;
 			}
+			Chunk *end = (Chunk *)((char *)chunk + chunkSize);
+			end->m_priorSize = chunkSize;
+			end->m_size = 8;
+			end = (Chunk *)((char *)end + 8);
+			end->m_priorSize = 8;
+			end->m_size = 9;
 		}
 		else
 		{
-			unsigned char *data = (unsigned char *)(((unsigned int)segment + 0x27) & 0xFFFFFFF8);
-			segment->m_unk0 = (unsigned int)data;
-			unsigned int blockSize = (unsigned int)((char *)segment + commit - (char *)data);
-			FreeChunk *first = (FreeChunk *)data;
-			first->m_prevSize = 0;
-			first->m_size = blockSize | 1;
-			FreeChunk *fence = (FreeChunk *)(data + (blockSize & 0x7FFFFFF8));
-			fence->m_prevSize = blockSize & 0x7FFFFFF8;
-			fence->m_size = 8;
-			*(unsigned int *)((char *)fence + 8) = 8;
-			*(unsigned int *)((char *)fence + 12) = 9;
+			Chunk *first = (Chunk *)(((unsigned int)core + 0x27) & ~7);
+			unsigned int header = ((unsigned int)core - (unsigned int)first + extend) | 1;
+			core->m_firstChunk = first;
+			first->m_priorSize = 0;
+			unsigned int fencepostOffset = ((header & 0x7FFFFFF8) - 9) & 0xFFFFFFF8;
+			first->m_size = (header & 0x80000007) | fencepostOffset;
+			unsigned int *fence = (unsigned int *)((char *)first + fencepostOffset);
+			fence[0] = fencepostOffset;
+			fence[1] = 8;
+			fence[2] = 8;
+			fence[3] = 9;
+			chunk = first;
+			chunkSize = extend;
+			((Rva00031010 *)this)->rva00031010((Rva00031010Node *)chunk, true);
+			newTop = true;
 		}
-		segment->m_size = used + commit;
-		if (chunk != 0)
-			break;
-		break;
+		core->m_size += extend;
 	}
-
-	if (chunk == 0)
+	if (!chunk)
 	{
-		if (*(void **)((char *)allocator + 0x4AC) != 0)
-			return 0;
-		chunk = (FreeChunk *)allocator->rva00032B00(size);
-		if (chunk == 0)
-			return 0;
-		scratch.oldHead = allocator->m_head440;
-		allocator->m_head440 = chunk;
-		chunk->m_prev = chunk;
-		chunk->m_next = chunk->m_prev;
-		FreeChunk *bin = &allocator->m_bin30;
-		if (chunk->m_prev != bin)
+		if (!m_noNewCores)
 		{
-			scratch.tail = bin->m_prev;
-			scratch.oldHead->m_next = bin;
-			scratch.oldHead->m_prev = scratch.tail;
-			bin->m_prev = scratch.oldHead;
-			scratch.tail->m_next = scratch.oldHead;
+			chunk = (Chunk *)rva00032B00(size);
+			if (chunk)
+			{
+				((Rva00031010 *)this)->rva00031010((Rva00031010Node *)chunk, true);
+				newTop = true;
+				chunkSize = chunk->m_size & 0x7FFFFFF8;
+			}
 		}
-		scratch.moveHead = true;
 	}
-
-	unsigned int oldSize = chunk->m_size & 0x7FFFFFF8;
-	if (oldSize <= size)
-		return 0;
-	chunk->m_size = size | 1;
-	FreeChunk *remainder = (FreeChunk *)((char *)chunk + size);
-	unsigned int remainderSize = oldSize - size;
-	remainder->m_prevSize = size;
-	remainder->m_size = remainderSize;
-	*(unsigned int *)((char *)remainder + remainderSize) = remainderSize;
-	if (scratch.moveHead)
+	if (chunk && chunkSize > size)
 	{
-		allocator->m_head440 = remainder;
-		remainder->m_prev = remainder;
-		remainder->m_next = remainder->m_prev;
+		chunk->m_size = size | 1;
+		unsigned int remainder = chunkSize - size;
+		Chunk *rest = (Chunk *)((char *)chunk + size);
+		rest->m_size = remainder;
+		rest->m_priorSize = size;
+		*(unsigned int *)((char *)rest + remainder) = remainder;
+		if (newTop)
+			((Rva00031010 *)this)->rva00031010((Rva00031010Node *)rest, false);
+		else
+		{
+			Chunk *bin = &m_bin;
+			Chunk *after = bin->m_next;
+			rest->m_prev = bin;
+			rest->m_next = after;
+			bin->m_next = rest;
+			after->m_prev = rest;
+		}
 	}
-	else
-	{
-		FreeChunk *bin = &allocator->m_bin30;
-		scratch.tail = bin->m_prev;
-		remainder->m_next = bin;
-		remainder->m_prev = scratch.tail;
-		scratch.tail->m_next = remainder;
-		bin->m_prev = remainder;
-	}
-	return chunk;
+	return (Rva00031010Node *)chunk;
 }
 
+}
+}
