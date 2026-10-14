@@ -1,12 +1,16 @@
 // cl: /EHsc /MD
-// ?rva0044BF77@Rva0044BF77@@QAEPAU1@URva0051732A@@@Z @0x0044BF77 59B
-// EH setter-twin of rowed Rva00517547Set (0x00517547 59B): forward the by-value
-// holder at [ebp+8] as const ref to the rowed twin setter Rva0044BEE6::
-// rva0044BEE6 (0x0044BEE6, same shape as rowed 0x005173CB), then Release the
-// input pointer via rowed fastcall 0x0007DEEF, return this. Model and flags
-// mirror Code/GameEngine/Source/Common/Rva00517547Set.cpp; holder layout
-// mirrors Code/GameEngine/Source/Common/Rva005173CBSet.cpp. Caller 0x0044C0A8
-// (MessageBoxOk pin); landing this unblocks 0x0044C0A8.
+// ??0Rva0044BF77@@QAE@URva0051732ABase@@@Z @0x0044BF77 59B
+// Ctor of the single-callback holder: forward the by-value ref holder at
+// [ebp+8] as const ref to the rowed ctor-like 0x0044BEE6 (new impl plus AddRef,
+// same shape as rowed 0x005173CB), then Release the input pointer via rowed
+// fastcall 0x0007DEEF, return this. Model and flags mirror
+// Code/GameEngine/Source/Common/Rva00517547Set.cpp. Caller 0x0044C0A8
+// (MessageBoxOk): the call site builds the holder in the outer arg slot and
+// pushes the by-value holder copy; target evidence is the ctor shape (the
+// receiver slot is built first and the holder copied inline after it).
+// Rva0051732ABase is the holder's by-value parameter view; this unit sees its
+// dtor (the callee releases the argument), callers see it as a plain copy
+// (their temp of the derived Rva0051732A owns the release).
 struct TargetRef00217D4C
 {
 	void *m_vtbl;
@@ -14,10 +18,11 @@ struct TargetRef00217D4C
 };
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *p);
 
-struct Rva0051732A
+struct Rva0051732A;
+struct Rva0051732ABase
 {
 	TargetRef00217D4C *m_ptr;
-	~Rva0051732A() { if (m_ptr) ReleaseTreeHintRef00217D4C(m_ptr); }
+	~Rva0051732ABase() { if (m_ptr) ReleaseTreeHintRef00217D4C(m_ptr); }
 };
 
 struct Rva0044BDA2
@@ -36,11 +41,10 @@ struct Rva0044BEE6
 
 struct Rva0044BF77 : Rva0044BEE6
 {
-	Rva0044BF77 *rva0044BF77(Rva0051732A arg);
+	Rva0044BF77(Rva0051732ABase arg);
 };
 
-Rva0044BF77 *Rva0044BF77::rva0044BF77(Rva0051732A arg)
+Rva0044BF77::Rva0044BF77(Rva0051732ABase arg)
 {
-	rva0044BEE6(arg);
-	return this;
+	rva0044BEE6(*(const Rva0051732A *)&arg);
 }
