@@ -38,3 +38,20 @@ InsertRet001F8F2A Rva000427195::rva001F93A3(const void *key)
 	rva00212858(m_numElements + 1);
 	return rva001F8F2A(key);
 }
+
+// Retail 0x001FA45F (20B, RET8): the hash container member over this table
+// (at +0): the hidden result pointer and the key go straight to the
+// insert-with-grow above, its only callee (the hash_map::insert ->
+// insert_unique forwarding shape). Owner unresolved, address-named.
+class Rva001FA45F
+{
+public:
+	InsertRet001F8F2A rva001FA45F(const void *key);
+private:
+	Rva000427195 m_table;
+};
+
+InsertRet001F8F2A Rva001FA45F::rva001FA45F(const void *key)
+{
+	return m_table.rva001F93A3(key);
+}
