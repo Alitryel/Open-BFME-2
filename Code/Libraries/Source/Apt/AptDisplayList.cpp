@@ -64,6 +64,7 @@ class BfmeQuery1279
 {
 public:
 	void bfmeQuery1279(int nDepth, int name, void **ppPrev, void **ppItem);
+	BfmeNestedBE *rva006F7D50(int nDepth);
 
 private:
 	BfmeQueryNode1279 *m_root;
@@ -228,4 +229,16 @@ void *Rva006F6D00List::rva006F6D00(int n)
         --n;
     }
     return 0;
+}
+
+// ?rva006F7D50@BfmeQuery1279@@QAEPAVBfmeNestedBE@@H@Z, retail 0x006F7D50
+// (39 bytes, RET 4): query the item at a depth (no name) on the same
+// receiver, then unlink it through bfmeUnlinkNestedBE and return it; retail
+// keeps the found item in the depth argument's home. Address name.
+BfmeNestedBE *BfmeQuery1279::rva006F7D50(int nDepth)
+{
+	void *pPrev;
+	void *pItem;
+	bfmeQuery1279(nDepth, 0, &pPrev, &pItem);
+	return bfmeUnlinkNestedBE((BfmeNestedBE *)pItem);
 }

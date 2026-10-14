@@ -55162,3 +55162,4 @@ CatchContinuation_0x0073F646	0x0073F646	194	no-boundary	Not a standalone functio
 ?isHeld@Rva006FBDF0@@QBE_NXZ	0x006FBDC0	11	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/Rva006FBDF0Release.cpp 11B; +0x60 member non-null test beside rowed Release 0x006FBDF0
 ?Hold@Rva006FBDF0@@QAEXPAVRva006FBDF0Iface@@@Z	0x006FBDD0	22	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/Rva006FBDF0Release.cpp 22B; vslot0 on arg then store at +0x60; partner of rowed Release 0x006FBDF0
 ?setName@Rva006FBE10Scope@@QAEXPBVEAStringC@@PAVAptValue@@@Z	0x006FE360	28	landed	add_match verified Code/Libraries/Source/Apt/Rva006FBE10HasName.cpp 28B; pinned rva006FBED0 when spFrameStack E1835C null then tail AptNativeHash::Set on frame+8
+?rva006F7D50@BfmeQuery1279@@QAEPAVBfmeNestedBE@@H@Z	0x006F7D50	39	landed	add_match verified Code/Libraries/Source/Apt/AptDisplayList.cpp 39B; depth query via rowed bfmeQuery1279 0x006F6BB0 then rowed bfmeUnlinkNestedBE 0x006F7090
