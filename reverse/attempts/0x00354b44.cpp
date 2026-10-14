@@ -1,4 +1,6 @@
 // ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
+// partial score=0.9723 date=2026-10-14
+// ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.97 date=2026-10-14
 // ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.93 date=2026-10-13
@@ -37,67 +39,147 @@
 // pathfinder's cell test 0x002E996E; on success the evacuate state also
 // hands the owner and machine to the helper 0x003532BF with its slot-18
 // Bool. Callees pinned by address.
-
 enum StateExitType
-{
-	EXIT_NORMAL = 0
-};
-enum StateReturnType
-{
-	STATE_CONTINUE = 0,
-	STATE_SUCCESS = -1,
-	STATE_FAILURE = -2
-};
 
+{
+ EXIT_NORMAL = 0
+ 
+}
+;
+enum StateReturnType
+
+{
+ STATE_CONTINUE = 0,
+ STATE_SUCCESS = -1,
+ STATE_FAILURE = -2
+ 
+}
+;
 #include "Coord3D.h"
 #include <vector>
 #include <list>
-struct BfmePod12 { unsigned m_data[3]; };
-class Rva0034C0D0: public _STL::vector<BfmePod12> {public: Rva0034C0D0(const Rva0034C0D0 &);};
-class Rva0035149F;
-enum CommandSourceType {CMD_FROM_AI=2};
-enum DisabledType {DISABLED_HELD=3};
-class Rva00352F9D {public: virtual void slot0(); void rva00353168(const void *,const Rva0035149F &,CommandSourceType); void rva00353080(const void *,const Rva0035149F &,CommandSourceType);};
-class AICommandInterface {public:void aiIdle(CommandSourceType);};
+struct BfmePod12 
 
+{
+ unsigned m_data[3];
+ 
+}
+;
+class Rva0034C0D0: public _STL::vector<BfmePod12> 
+
+{
+ public: Rva0034C0D0(const Rva0034C0D0 &);
+ 
+}
+;
+class Rva0035149F;
+enum CommandSourceType 
+
+{
+ CMD_FROM_AI=2
+ 
+}
+;
+enum DisabledType 
+
+{
+ DISABLED_HELD=3
+ 
+}
+;
+class Rva00352F9D 
+
+{
+ public: virtual void slot0();
+ void rva00353168(const void *,const Rva0035149F &,CommandSourceType);
+ void rva00353080(const void *,const Rva0035149F &,CommandSourceType);
+ 
+}
+;
+class AICommandInterface 
+
+{
+ public:void aiIdle(CommandSourceType);
+ 
+}
+;
 // What the path's 0x003642DF returns by value (16 bytes): a node and a
 // position (as in AIUpdateInterfacePrivateCommands.cpp). Unnamed.
 struct Rva003642DFNode;
 struct Rva003642DFResult
-{
-	Rva003642DFResult();
-	Rva003642DFNode *m_node; // +0x00
-	Coord3D m_pos; // +0x04
-};
 
+{
+ Rva003642DFResult();
+ Rva003642DFNode *m_node;
+// +0x00
+ Coord3D m_pos;
+// +0x04
+ 
+}
+;
 class Path
-{
-public:
-	Rva003642DFResult rva003642DF(float dist);
-};
 
+{
+ public:
+ Rva003642DFResult rva003642DF(float dist);
+ 
+}
+;
 class Object;
 class Pathfinder
+
 {
-public:
+ public:
  bool getClosestPointOnLand(const Coord3D *,Object *,Coord3D *);
-	bool IsBuildRestrictedCell(const Coord3D *pos, bool flagA, bool flagB, int layer);
-};
-
+ bool IsBuildRestrictedCell(const Coord3D *pos, bool flagA, bool flagB, int layer);
+ 
+}
+;
 class AI
-{
-public:
-	Pathfinder *pathfinder() { return m_pathfinder; }
-private:
-	unsigned char m_pad00[0x10];
-	Pathfinder *m_pathfinder; // +0x10
-};
-extern AI *TheAI;
 
-class ObjectRingNode {public:ObjectRingNode *next,*prev;Object *value;};
-struct ObjectRing {ObjectRingNode *head;};
-struct ContainedObjects {void *context;_STL::list<Object *> *list;};
-class ContainModuleInterface {public:
+{
+ public:
+ Pathfinder *pathfinder() 
+ 
+ {
+  return m_pathfinder;
+  
+ }
+ private:
+ unsigned char m_pad00[0x10];
+ Pathfinder *m_pathfinder;
+// +0x10
+ 
+}
+;
+extern AI *TheAI;
+class ObjectRingNode 
+
+{
+ public:ObjectRingNode *next,*prev;
+ Object *value;
+ 
+}
+;
+struct ObjectRing 
+
+{
+ ObjectRingNode *head;
+ 
+}
+;
+struct ContainedObjects 
+
+{
+ void *context;
+ _STL::list<Object *> *list;
+ 
+}
+;
+class ContainModuleInterface 
+
+{
+ public:
  virtual void slot00();
  virtual void slot01();
  virtual void slot02();
@@ -169,11 +251,19 @@ class ContainModuleInterface {public:
  virtual void slot68();
  virtual void slot69();
  virtual ContainedObjects getContainedObjects();
-};
+ 
+}
+;
 class AIUpdateInterface
+
 {
-public:
- Path *getPath()const{return m_path;}
+ public:
+ Path *getPath()const
+ 
+ {
+  return m_path;
+  
+ }
  void ignoreObstacle(const Object *);
  virtual void slot000();
  virtual void slot001();
@@ -319,182 +409,273 @@ public:
  virtual void slot141();
  virtual void slot142();
  virtual CommandSourceType getSource();
- Rva0034C0D0 &getCommandPath()const{return *(Rva0034C0D0 *)((char *)m_moveMachine+0x3C);}
- char m_pad04[0x20-4]; Rva00352F9D m_command;
- char m_pad24[0x30-0x24]; void *m_moveMachine;
- char m_pad34[0x140-0x34];Path *m_path;
-};
-struct ObjectTemplateView {char pad00[0x115]; unsigned char kind115;};
-class Object
-{
-public:
- AIUpdateInterface *getAI(){return m_ai;}
- float getBfmeRealB8()const{return m_bfmeRealB8;}
- bool clearDisabled(DisabledType);
- char pad00[4];ObjectTemplateView *m_template;
- char pad08[0x38-8];Coord3D m_position;
- char pad44[0xB8-0x44];float m_bfmeRealB8;
- char padBC[0x250-0xBC];ContainModuleInterface *m_contain;
- char pad254[4];AIUpdateInterface *m_ai;
-};
+ Rva0034C0D0 &getCommandPath()const
+ 
+ {
+  return *(Rva0034C0D0 *)((char *)m_moveMachine+0x3C);
+  
+ }
+ char m_pad04[0x20-4];
+ Rva00352F9D m_command;
+ char m_pad24[0x30-0x24];
+ void *m_moveMachine;
+ char m_pad34[0x140-0x34];
+ Path *m_path;
+ 
+}
+;
+struct ObjectTemplateView 
 
+{
+ char pad00[0x115];
+ unsigned char kind115;
+ 
+}
+;
+class Object
+
+{
+ public:
+ AIUpdateInterface *getAI()
+ 
+ {
+  return m_ai;
+  
+ }
+ float getBfmeRealB8()const
+ 
+ {
+  return m_bfmeRealB8;
+  
+ }
+ bool clearDisabled(DisabledType);
+ char pad00[4];
+ ObjectTemplateView *m_template;
+ char pad08[0x38-8];
+ Coord3D m_position;
+ char pad44[0xB8-0x44];
+ volatile float m_bfmeRealB8;
+ char padBC[0x250-0xBC];
+ ContainModuleInterface *m_contain;
+ char pad254[4];
+ AIUpdateInterface *volatile m_ai;
+ 
+}
+;
 class StateMachine;
 void rva003532BF(Object *owner, StateMachine *machine, bool flag);
-
 class Object0033FA64;
 void Rva0033FA64Do(const Object0033FA64 *obj);
 class Object0033FA79;
 void Rva0033FA79Do(const Object0033FA79 *obj);
-
 class StateMachine
-{
-public:
-	Object *getOwner() const { return m_owner; }
-private:
-	unsigned char m_pad00[0x14];
-	Object *m_owner; // +0x14
-};
 
+{
+ public:
+ Object *getOwner() const 
+ 
+ {
+  return m_owner;
+  
+ }
+ private:
+ unsigned char m_pad00[0x14];
+ Object *m_owner;
+// +0x14
+ 
+}
+;
 class State
-{
-public:
-	virtual ~State();
-	virtual void slot01();
-	virtual void slot02();
-	virtual void slot03();
-	virtual StateReturnType onEnter();
-	virtual void onExit(StateExitType status);
-	virtual StateReturnType update();
-	virtual void slot07(); virtual void slot08(); virtual void slot09();
-	virtual void slot10(); virtual void slot11(); virtual void slot12();
-	virtual void slot13(); virtual void slot14(); virtual void slot15();
-	virtual void slot16(); virtual void slot17();
-	virtual bool rva00354B2ESlot18();
-protected:
-	StateMachine *getMachine() const { return m_machine; }
-	Object *getMachineOwner() const { return m_machine->getOwner(); }
-	unsigned char m_pad04[0x18 - 0x04];
-	StateMachine *m_machine; // +0x18
-};
 
+{
+ public:
+ virtual ~State();
+ virtual void slot01();
+ virtual void slot02();
+ virtual void slot03();
+ virtual StateReturnType onEnter();
+ virtual void onExit(StateExitType status);
+ virtual StateReturnType update();
+ virtual void slot07();
+ virtual void slot08();
+ virtual void slot09();
+ virtual void slot10();
+ virtual void slot11();
+ virtual void slot12();
+ virtual void slot13();
+ virtual void slot14();
+ virtual void slot15();
+ virtual void slot16();
+ virtual void slot17();
+ virtual bool rva00354B2ESlot18();
+ protected:
+ StateMachine *getMachine() const 
+ 
+ {
+  return m_machine;
+  
+ }
+ Object *getMachineOwner() const 
+ 
+ {
+  return m_machine->getOwner();
+  
+ }
+ unsigned char m_pad04[0x18 - 0x04];
+ StateMachine *m_machine;
+// +0x18
+ 
+}
+;
 class AIInternalMoveToState : public State
-{
-public:
-	virtual void onExit(StateExitType status);
-};
 
+{
+ public:
+ virtual void onExit(StateExitType status);
+ 
+}
+;
 class AIMoveToState : public AIInternalMoveToState
-{
-public:
-	virtual StateReturnType onEnter();
-	virtual void onExit(StateExitType status);
-	virtual StateReturnType update();
-};
 
+{
+ public:
+ virtual StateReturnType onEnter();
+ virtual void onExit(StateExitType status);
+ virtual StateReturnType update();
+ 
+}
+;
 class AIMoveToAndEvacuateState : public AIMoveToState
-{
-public:
-	virtual void onExit(StateExitType status);
-	virtual StateReturnType update();
-};
 
+{
+ public:
+ virtual void onExit(StateExitType status);
+ virtual StateReturnType update();
+ 
+}
+;
 void AIMoveToAndEvacuateState::onExit(StateExitType status)
-{
-	AIInternalMoveToState::onExit(status);
-	Rva0033FA79Do((const Object0033FA79 *)getMachineOwner());
-}
 
+{
+ AIInternalMoveToState::onExit(status);
+ Rva0033FA79Do((const Object0033FA79 *)getMachineOwner());
+ 
+}
 StateReturnType AIMoveToAndEvacuateState::update()
-{
-	StateReturnType status = AIMoveToState::update();
-	Object *owner = getMachineOwner();
-	if (owner->getAI()->getPath() != 0)
-	{
-		Rva003642DFResult end = owner->getAI()->getPath()->rva003642DF(owner->getBfmeRealB8() * 0.9f);
-		if (!TheAI->pathfinder()->IsBuildRestrictedCell(&end.m_pos, false, false, 1))
-			status = STATE_SUCCESS;
-	}
-	if (status == STATE_SUCCESS)
-		rva003532BF(owner, getMachine(), rva00354B2ESlot18());
-	return status;
-}
 
+{
+ StateReturnType status = AIMoveToState::update();
+ Object *owner = getMachineOwner();
+ if (owner->getAI()->getPath() != 0)
+ 
+ {
+  Rva003642DFResult end = owner->getAI()->getPath()->rva003642DF(owner->getBfmeRealB8() * 0.9f);
+  if (!TheAI->pathfinder()->IsBuildRestrictedCell(&end.m_pos, false, false, 1))
+  status = STATE_SUCCESS;
+  
+ }
+ if (status == STATE_SUCCESS)
+ rva003532BF(owner, getMachine(), rva00354B2ESlot18());
+ return status;
+ 
+}
 class AIMoveForBoarding : public AIMoveToAndEvacuateState
-{
-public:
-	virtual StateReturnType onEnter();
-	virtual StateReturnType update();
-};
 
+{
+ public:
+ virtual StateReturnType onEnter();
+ virtual StateReturnType update();
+ 
+}
+;
 StateReturnType AIMoveForBoarding::onEnter()
-{
-	Rva0033FA64Do((const Object0033FA64 *)getMachineOwner());
-	return AIMoveToState::onEnter();
-}
 
+{
+ Rva0033FA64Do((const Object0033FA64 *)getMachineOwner());
+ return AIMoveToState::onEnter();
+ 
+}
 StateReturnType AIMoveForBoarding::update()
-{
-	StateReturnType status = AIMoveToState::update();
-	Object *owner = getMachineOwner();
-	if (owner->getAI()->getPath() != 0)
-	{
-		Rva003642DFResult end = owner->getAI()->getPath()->rva003642DF(owner->getBfmeRealB8());
-		if (!TheAI->pathfinder()->IsBuildRestrictedCell(&end.m_pos, false, false, 1))
-			status = STATE_SUCCESS;
-	}
-	return status;
-}
 
+{
+ StateReturnType status = AIMoveToState::update();
+ Object *owner = getMachineOwner();
+ if (owner->getAI()->getPath() != 0)
+ 
+ {
+  Rva003642DFResult end = owner->getAI()->getPath()->rva003642DF(owner->getBfmeRealB8());
+  if (!TheAI->pathfinder()->IsBuildRestrictedCell(&end.m_pos, false, false, 1))
+  status = STATE_SUCCESS;
+  
+ }
+ return status;
+ 
+}
 class AIFollowPathState : public AIInternalMoveToState
-{
-protected: char unknown1C[0x4C-0x1C]; int m_pathIndex;
-public:
- virtual StateReturnType update();
-	virtual StateReturnType onEnter();
-	virtual void onExit(StateExitType status);
-};
 
+{
+ protected: char unknown1C[0x4C-0x1C];
+ int m_pathIndex;
+ public:
+ virtual StateReturnType update();
+ virtual StateReturnType onEnter();
+ virtual void onExit(StateExitType status);
+ 
+}
+;
 class AIFollowPathAndEvacuateState : public AIFollowPathState
+
 {
-public:
+ public:
  virtual StateReturnType update();
-	virtual StateReturnType onEnter();
-	virtual void onExit(StateExitType status);
-};
-
+ virtual StateReturnType onEnter();
+ virtual void onExit(StateExitType status);
+ 
+}
+;
 StateReturnType AIFollowPathAndEvacuateState::onEnter()
-{
-	Rva0033FA64Do((const Object0033FA64 *)getMachineOwner());
-	return AIFollowPathState::onEnter();
-}
 
+{
+ Rva0033FA64Do((const Object0033FA64 *)getMachineOwner());
+ return AIFollowPathState::onEnter();
+ 
+}
 void AIFollowPathAndEvacuateState::onExit(StateExitType status)
-{
-	AIFollowPathState::onExit(status);
-	Rva0033FA79Do((const Object0033FA79 *)getMachineOwner());
-}
 
+{
+ AIFollowPathState::onExit(status);
+ Rva0033FA79Do((const Object0033FA79 *)getMachineOwner());
+ 
+}
 StateReturnType AIFollowPathAndEvacuateState::update()
+
 {
  Object *owner=getMachineOwner();
  Coord3D shore;
  const Coord3D *position=&owner->m_position;
- if(TheAI->pathfinder()->getClosestPointOnLand(position,owner,&shore)) {
+ if(TheAI->pathfinder()->getClosestPointOnLand(position,owner,&shore)) 
+ 
+ {
   Rva0034C0D0 path(owner->getAI()->getCommandPath());
   for(int i=0;i<m_pathIndex;++i)path.erase(path.begin());
   ContainedObjects objects=owner->m_contain->getContainedObjects();
-  for(_STL::list<Object *>::const_iterator it=objects.list->begin();it!=objects.list->end();++it) {
+  for(_STL::list<Object *>::const_iterator it=objects.list->begin();it!=objects.list->end();++it) 
+  
+  {
    Object *unit=*it;
    unit->getAI()->ignoreObstacle(owner);
    unit->clearDisabled(DISABLED_HELD);
    bool special=(unit->m_template->kind115 & 0x20)!=0;
    if(special)
-    unit->getAI()->m_command.rva00353168(owner,reinterpret_cast<const Rva0035149F &>(path),owner->getAI()->getSource());
+   unit->getAI()->m_command.rva00353168(owner,reinterpret_cast<const Rva0035149F &>(path),owner->getAI()->getSource());
    else
-    unit->getAI()->m_command.rva00353080(owner,reinterpret_cast<const Rva0035149F &>(path),owner->getAI()->getSource());
+   unit->getAI()->m_command.rva00353080(owner,reinterpret_cast<const Rva0035149F &>(path),owner->getAI()->getSource());
+   
   }
   reinterpret_cast<AICommandInterface *>(&owner->getAI()->m_command)->aiIdle(CMD_FROM_AI);
   return STATE_SUCCESS;
+  
  }
  return AIFollowPathState::update();
+ 
 }
