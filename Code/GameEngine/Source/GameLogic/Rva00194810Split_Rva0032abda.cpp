@@ -43,6 +43,9 @@ public:
 
 struct BfmePairEL
 {
+	// Callers destroy this pair through the established pair provider.
+	// This producer does not own an independent cleanup implementation.
+	~BfmePairEL();
 	BfmeWordEL first;
 	BfmeWordEL second;
 };

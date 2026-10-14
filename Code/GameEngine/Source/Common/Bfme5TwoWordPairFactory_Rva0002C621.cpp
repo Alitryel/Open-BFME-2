@@ -40,6 +40,9 @@ typedef char BfmeWordELSizeCheck[sizeof(BfmeWordEL) == 4 ? 1 : -1];
 
 struct BfmePairEL
 {
+	// Callers destroy this pair through the established pair provider.
+	// This producer does not own an independent cleanup implementation.
+	~BfmePairEL();
 	// Defined by the shared pair ctor at 0x0002C4FD (see header note);
 	// declared here so the factory below encodes the same single call.
 	BfmePairEL(const BfmeWordEL &firstValue, const BfmeWordEL &secondValue);
