@@ -171,7 +171,8 @@ public:
 private:
 	unsigned char m_bytes[28];
 };
-extern unsigned char g_00DFEFA4StoragePrototype[28];
+template <int NUMBITS> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
 
 // vftable 0x00BC2908, allow 0x002610DE: every kind of the first mask and
 // none of the second (ZH's PartitionFilterAcceptByKindOf).
@@ -296,7 +297,7 @@ Object *CommandButtonHuntUpdate::scanClosestTarget()
 						Rva00260E2AFilter filterPlayer(me->getControllingPlayer());
 						mine = ThePartitionManager->getClosestObject(other->getPosition(), range, 1,
 							Rva0004584D(BfmeFixedStorage0004543D(0, KINDOF_MINE),
-								*(const BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype).link(&filterPlayer));
+								*(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE).link(&filterPlayer));
 					}
 					if (mine)
 						continue;

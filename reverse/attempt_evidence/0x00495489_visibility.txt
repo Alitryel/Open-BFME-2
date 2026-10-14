@@ -50,6 +50,8 @@ EH and coverage:
 Integrity and verification:
 - Removed obsolete ?rva00495489@Rva00495840@@QAEPAVObject@@XZ pin after
   rebinding its sole source caller. No new pins.
+- The bank's address-named mask was replaced by the existing
+  BitFlags<116> KINDOFMASK_NONE global, cast only at the storage-view use.
 - build.sh:3/3 rows across new TU and existing caller.
 - EH graph EXACT; class_gate and find_declared_unmatched pass.
 - link_check --new-variants passes; not a whole-program link claim.
