@@ -1623,3 +1623,6 @@ const void *GhostObject::vslot00() const { return &m_parentGeometryInfo; }
 
 // Native BC5970 slot 1 implementation; its vtordisp thunk is compiler-emitted.
 const void *GhostObject::vslot04() const { return &m_parentPosition; }
+
+// Native BC5970 slot 2 implementation; its vtordisp thunk is compiler-emitted.
+Real GhostObject::vslot08() const { return m_parentAngle; }
