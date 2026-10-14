@@ -39,6 +39,21 @@ typedef _STL::vector<Rva0033A23AElement, _STL::allocator<Rva0033A23AElement> > R
 template _STL::_Vector_base<ScienceType, _STL::allocator<ScienceType> >::_Vector_base(const _STL::allocator<ScienceType> &);
 template <> void Rva0033A23AVector::push_back(const Rva0033A23AElement &);
 
+// Retail calls the rowed out-of-line push_back (0x002E01C6) and range erase
+// (0x00532803); this unit's own instantiations (and push_back's guarded
+// overflow path) lost to retail's copies at link time. Retail has no copy of
+// ~_Vector_base<ScienceType>: every use is inline.
+namespace _STL {
+template <> ScienceType *SciVec::erase(ScienceType *, ScienceType *);
+template <> void SciVec::push_back(const ScienceType &);
+template <> __declspec(dllimport) __forceinline
+_Vector_base<ScienceType, allocator<ScienceType> >::~_Vector_base()
+{
+	if (_M_start != 0)
+		_M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start);
+}
+}
+
 namespace _STL {
 template <>
 class vector<SciVec, allocator<SciVec> >
