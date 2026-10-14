@@ -39,7 +39,11 @@ extern PlayerTemplateStore*ThePlayerTemplateStore;
 enum ScienceType { SCIENCE_STORAGE_ZERO=0 };
 // Native table-owner dtor keeps vector teardown in its EH state. Use the
 // rowed throwing game-memory provider rather than the nonthrowing CRT view.
-namespace _STL {template<> inline void allocator<ScienceType>::deallocate(ScienceType*p,size_t)const {if(p)Rva00030830FreeAllocation(p);}}
+// Nothing here calls the deallocation helpers out of line; declared imported and
+// force-inlined, their copies (which differed from the first ones) are not emitted.
+namespace _STL {template<> __declspec(dllimport) __forceinline void allocator<ScienceType>::deallocate(ScienceType*p,size_t)const {if(p)Rva00030830FreeAllocation(p);}
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<ScienceType*,ScienceType,allocator<ScienceType> >::deallocate(ScienceType*__p,size_t __n){__stl_alloc_rebind(__STATIC_CAST(_Base&,*this),(ScienceType*)0).deallocate(__p,__n);}
+template<> __declspec(dllimport) __forceinline void vector<ScienceType,allocator<ScienceType> >::_M_clear(){_Destroy(this->_M_start,this->_M_finish);this->_M_end_of_storage.deallocate(this->_M_start,this->_M_end_of_storage._M_data-this->_M_start);}}
 class AptStats : public GameStats::Persistent {
 public:
  AptStats(void*host);

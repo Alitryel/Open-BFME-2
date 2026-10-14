@@ -304,6 +304,22 @@ typedef _STL::map<AsciiString, TreeHintPayload002A1D9D, _STL::less<AsciiString>,
 
 // The folded four-byte vector reserve 0x002A1410 is rowed for ScienceType.
 enum ScienceType { SCIENCE_INVALID = -1 };
+// Nothing here calls the science vector's deallocation helpers out of line;
+// their unreferenced copies differed from the first ones in link order.
+// Declared imported and force-inlined, they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<ScienceType>::deallocate(ScienceType *__p, size_t) const
+{ if (__p != 0) ::_STL::free((void *)__p); }
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<ScienceType *, ScienceType, allocator<ScienceType> >::deallocate(ScienceType *__p, size_t __n)
+{ __stl_alloc_rebind(__STATIC_CAST(_Base&, *this),(ScienceType*)0).deallocate(__p, __n); }
+template <> __declspec(dllimport) __forceinline
+void vector<ScienceType, allocator<ScienceType> >::_M_clear() {
+    _Destroy(this->_M_start, this->_M_finish);
+    this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start);
+}
+}
 typedef _STL::vector<ScienceType> FoldedReserveVector;
 
 // InGameUI::removeNamedTimer, rowed address-named at 0x002A44D5.

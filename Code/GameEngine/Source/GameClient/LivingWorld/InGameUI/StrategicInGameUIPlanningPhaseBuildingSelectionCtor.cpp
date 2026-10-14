@@ -280,6 +280,17 @@ class ExitInterface;
 class CommandSet { public: const class CommandButton *getCommandButton(int) const; };
 enum ObjectStatusTypes { CommandPopulationStatus=100 };
 enum ScienceType { CommandPopulationScienceInvalid=-1 };
+// Nothing here calls the science vector's deallocation helpers out of line;
+// their unreferenced copies differed from the first ones in link order.
+// Declared imported and force-inlined, they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<ScienceType>::deallocate(ScienceType *__p, size_t __n) const
+{ if (__p != 0) __sgi_alloc::deallocate((void *)__p, __n * sizeof(value_type)); }
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<ScienceType *, ScienceType, allocator<ScienceType> >::deallocate(ScienceType *__p, size_t __n)
+{ __stl_alloc_rebind(__STATIC_CAST(_Base&, *this),(ScienceType*)0).deallocate(__p, __n); }
+}
 class Rva0029FCB4 { public: _STL::vector<ScienceType> rva0029FCB4(); };
 class Rva0023C6A4 { public: bool rva00200084(); };
 class GameLogic; extern GameLogic *TheGameLogic;

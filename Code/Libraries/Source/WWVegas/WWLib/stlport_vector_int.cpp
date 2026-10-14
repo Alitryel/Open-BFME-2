@@ -17,6 +17,10 @@ template <> __declspec(dllimport) __forceinline
 void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int* __p, size_t __n) {
     __stl_alloc_rebind(__STATIC_CAST(_Base&, *this),(int*)0).deallocate(__p, __n);
 }
+template <> __declspec(dllimport) __forceinline
+int* _STLP_alloc_proxy<int*, int, allocator<int> >::allocate(size_t __n) {
+    return __stl_alloc_rebind(__STATIC_CAST(_Base&,*this),(int*)0).allocate(__n,0);
+}
 }
 
 // Only the rowed members are instantiated: instantiating the whole class

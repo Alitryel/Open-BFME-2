@@ -151,7 +151,7 @@ enum UpdateSleepTime
 class Drawable
 {
 public:
-	const Matrix3D *getInstanceMatrix() const { return &m_instance; }
+	__declspec(dllimport) __forceinline const Matrix3D *getInstanceMatrix() const { return &m_instance; }
 	// BFME 2's setInstanceMatrix (0x002711C6) adds preservePrevious.
 	void setInstanceMatrix(const Matrix3D *instance, Bool preservePrevious);
 

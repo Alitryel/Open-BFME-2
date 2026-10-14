@@ -199,6 +199,27 @@ EMPTY_DTOR(Squad)
 namespace _STL { template <> vector<ObjectID, allocator<ObjectID> >::vector(vector<ObjectID, allocator<ObjectID> > const &); }
 // bfme link decl-only end
 
+// Every vector<ScienceType> teardown here is inline in retail's game units; this
+// unit's out-of-line copies (through the STLport __new_alloc import) came first
+// in link order and differed from theirs. Declared imported and force-inlined,
+// they are not emitted. Bodies are verbatim primary.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<ScienceType>::deallocate(ScienceType* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<ScienceType*, ScienceType, allocator<ScienceType> >::deallocate(ScienceType* __p, size_t __n) {
+    __stl_alloc_rebind(__STATIC_CAST(_Base&, *this),(ScienceType*)0).deallocate(__p, __n);
+}
+template <> __declspec(dllimport) __forceinline
+void vector<ScienceType, allocator<ScienceType> >::_M_clear() {
+    _Destroy(this->_M_start, this->_M_finish);
+    this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start);
+}
+}
+
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
 // overloads take those calls instead so this TU emits no external copy.

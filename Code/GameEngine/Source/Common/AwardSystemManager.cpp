@@ -15,7 +15,13 @@ const Rva0040ABA5Item *Rva0040AD5AFind(const Rva0040ABA5Item *,const Rva0040ABA5
 
 enum NameKeyType { NAMEKEY_INVALID=0 };
 namespace _STL {
-template<> inline void allocator<NameKeyType>::deallocate(pointer p,size_type) const { if(p) _STL::free(static_cast<void *>(p)); }
+// Nothing here calls the vector<NameKeyType> deallocation helpers out of line;
+// their unreferenced copies (calling _STL::free, not _free) differed from the
+// first ones in link order. Declared imported and force-inlined, they are not
+// emitted.
+template<> __declspec(dllimport) __forceinline void allocator<NameKeyType>::deallocate(pointer p,size_type) const { if(p) _STL::free(static_cast<void *>(p)); }
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<NameKeyType *,NameKeyType,allocator<NameKeyType> >::deallocate(NameKeyType *__p,size_t __n)
+ { __stl_alloc_rebind(__STATIC_CAST(_Base&,*this),(NameKeyType*)0).deallocate(__p,__n); }
 template<> __declspec(noinline) _Vector_base<NameKeyType,allocator<NameKeyType> >::_Vector_base(const allocator<NameKeyType> &a)
  : _M_start(0),_M_finish(0),_M_end_of_storage(a,0) {}
 }
