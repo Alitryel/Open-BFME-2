@@ -1,0 +1,121 @@
+// ??0Rva003FE58A@@QAE@PAX0@Z
+// partial score=0.8 date=2026-10-14
+// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib /D_STLP_USE_STATIC_LIB /D_CRTIMP=
+// stlport
+//
+// Rva003FE58A constructor (LivingWorldArmyIcon), retail 0x003FE412..0x003FE566
+// (342 bytes, ret 8, WB 0x01072E30 names LivingWorldArmyIcon::LivingWorldArmyIcon).
+// Class and vtable (0x00C37E48) are the ones the matched destructor 0x003FE58A
+// already establishes: base Rva0053947D with the -99999 sentinel, child vector
+// +0x2C, owner +0x38, queue +0x3C, zeroed +0x4C/+0x50/+0x54, speed 5.0f +0x58,
+// active +0x5C; the owner's +0x54 color lookup goes through TheLivingWorldLogic.
+typedef int Int;
+typedef unsigned int UnsignedInt;
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+
+#define BFME_SNAPSHOT_NAME_SLOT
+#include <vector>
+#include "ascii_string.h"
+#include "Common/Snapshot.h"
+#include "Coord2D.h"
+
+class Vector3 { public: float X, Y, Z; Vector3(float a, float b, float c) { X=a; Y=b; Z=c; } };
+
+class Rva0053947D
+{
+public:
+	Rva0053947D(void *owner, const Vector3 *sentinel);
+	virtual ~Rva0053947D();
+	virtual void v01(); virtual void rva005391D3(); virtual void v03();
+	virtual void v04(); virtual void v05(); virtual void v06();
+	virtual void v07(); virtual void v08(); virtual void v09();
+	virtual void v10(); virtual void v11(); virtual void v12();
+	virtual int v13(); virtual void v14(); virtual void *v15(int);
+	char m_unmodelled04[0x10];
+};
+
+class Rva00538E22
+{
+public:
+	Rva00538E22(Int tag);
+	char m_data[0x10];
+};
+
+class LivingWorldArmyIconSubObject
+{
+public:
+	LivingWorldArmyIconSubObject(void *element, void *owner, Int color);
+	char m_data[0xC8];
+};
+class ModuleData;
+class Rva002E2903Player;
+class Rva002BA8F1Logic
+{
+public:
+	Rva002E2903Player *find(Int player, UnsignedInt *out);
+};
+class LivingWorldLogic;
+extern LivingWorldLogic *TheLivingWorldLogic;
+class RGBColor { public: Int getAsInt() const; };
+class Rva003FDD29 { public: unsigned char rva003FDD29(); };
+class Rva00539281 { public: void rva00539281(Int a, Int b); };
+class Rva003FE05E { public: void rva003FE05E(); };
+
+typedef _STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > SubObjectVector;
+
+class Rva003FE58A : public Rva0053947D
+{
+public:
+	Rva003FE58A(void *elements, void *owner);
+	virtual ~Rva003FE58A();
+	char m_unmodelled14[0x18];
+	SubObjectVector m_children;					// +0x2C
+	void *m_owner;								// +0x38
+	Rva00538E22 m_queue;						// +0x3C
+	Int m_4C;									// +0x4C
+	float m_50;									// +0x50
+	float m_54;									// +0x54
+	float m_58;									// +0x58
+	bool m_5C;									// +0x5C
+};
+
+struct Rva003FE412Elements
+{
+	char m_pad04[4];
+	void **m_begin;			// +0x4
+	void **m_end;			// +0x8
+};
+
+Rva003FE58A::Rva003FE58A(void *elements, void *owner)
+	: Rva0053947D(elements, &Vector3(-99999.0f, -99999.0f, -99999.0f))
+	, m_owner(owner)
+	, m_queue((Int)this)
+{
+	m_4C = 0;
+	_ReadWriteBarrier();
+	m_50 = 0.0f;
+	m_54 = 0.0f;
+	m_58 = 5.0f;
+	m_5C = false;
+	Int color = 0;
+	bool haveColor = false;
+	Int playerIndex = *(Int *)((char *)owner + 0x54);
+	Rva002E2903Player *found = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->find(playerIndex, 0);
+	if (found) {
+		color = ((RGBColor *)((char *)found + 0x19C))->getAsInt() | (Int)0xff000000;
+		haveColor = true;
+	}
+	Rva003FE412Elements *elems = (Rva003FE412Elements *)elements;
+	m_children.reserve((Int)(elems->m_end - elems->m_begin));
+	for (void **it = elems->m_begin; it != elems->m_end; ++it) {
+		LivingWorldArmyIconSubObject *sub = new LivingWorldArmyIconSubObject(*it, this, haveColor ? (Int)&color : 0);
+		m_children.push_back(reinterpret_cast<const ModuleData *>(sub));
+	}
+	if (m_owner) {
+		m_58 = *(float *)((char *)m_owner + 0x5C);
+		unsigned char r = ((Rva003FDD29 *)this)->rva003FDD29();
+		((Rva00539281 *)this)->rva00539281((Int)r, 1);
+	}
+	((Rva003FE05E *)this)->rva003FE05E();
+}
