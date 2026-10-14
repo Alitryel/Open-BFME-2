@@ -25,7 +25,7 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "Common/Snapshot.h"
-#include "GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class Xfer;
 class DynamicAudioEventInfo {public:void xferNoName(Xfer*);};

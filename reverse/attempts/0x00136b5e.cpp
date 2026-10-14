@@ -4,7 +4,7 @@
 // partial score=0.850662 date=2026-10-10
 // cl: /O1 /Ob1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /ICode/GameEngineDevice/Source/W3DDevice/GameClient
 #include "ascii_string.h"
-#include "BFME2ParticleTextureHandles.h"
+#include "Code/GameEngineDevice/Source/W3DDevice/GameClient/BFME2ParticleTextureHandles.h"
 template<class T> inline RefCountPtr<T>::~RefCountPtr(){if(Ptr)Ptr->Release_Ref();}
 struct BfmeResetTagged;
 struct BfmeResetAnyRef{BfmeResetTagged*pointer;};

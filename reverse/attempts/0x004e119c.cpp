@@ -21,7 +21,7 @@
 #define BFME_SNAPSHOT_NAME_SLOT
 #define BFME_SNAPSHOT_NONCONST_NAME_SLOT
 #include "Common/Snapshot.h"
-#include "Coord2D.h"
+#include "Code/Libraries/Include/Lib/Coord2D.h"
 void Rva00030830FreeAllocation(void*);
 struct BfmeE16{float x,y,z,w;};
 namespace _STL{

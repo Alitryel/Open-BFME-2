@@ -1,7 +1,7 @@
 // ?_horseUpdatePosition@HorseHordeContain@@QAEXPAVObject@@PBUCoord3D@@M@Z
 // partial score=0.8029213121 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include
-#include "Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 #include <math.h>
 class Object;class Thing;class Locomotor;class Path;
 struct Rva001E4194A;bool __stdcall Rva001E4194Get(Rva001E4194A*);

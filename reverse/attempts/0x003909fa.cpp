@@ -1,7 +1,7 @@
 // ?consume@Rva003909FAObj@@QAEXPAXHH@Z
 // partial score=0.94 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /ICode/Libraries/Include
-#include "Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 #include <math.h>
 #include <string.h>
 #pragma intrinsic(memcpy)

@@ -2,8 +2,8 @@
 // partial score=0.94 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /ICode/Libraries/Include /ICode/GameEngine/Source/Common /DNDEBUG /MD /GX
 // Scratch reference reconstruction; donor 6c1e0b51, target WB11D9170.
-#include "Lib/Coord3D.h"
-#include "GameLogicObjectLookupView.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 typedef bool Bool;
 typedef unsigned int UnsignedInt;
 enum UpdateSleepTime { UPDATE_SLEEP_NONE=1, UPDATE_SLEEP_FOREVER=0x3fffffff };

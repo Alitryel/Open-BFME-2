@@ -70,7 +70,7 @@ Team* AITeamBuilder::getTeamForAIPrototype(TeamPrototype* prototype) {
 }
 
 #include "GameLogicObjectLookupView.h"
-#include "Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 // Both rowed native query providers walk seven words. The existing
 // Thing::isAnyKindOf provider retains BitFlags<69> in its ABI spelling;
 // the actual requirement storage and any() instantiation are BitFlags<218>.

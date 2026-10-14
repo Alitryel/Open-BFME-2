@@ -21,8 +21,7 @@
 // line 349, DEBUG logs "Allowed backwards due to overlap" and "Moving too far
 // away from group."); callees are rowed or pinned under the spellings used
 // here.
-
-#include "Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "../../../../Common/GameLogicObjectLookupView.h"
 #include <math.h>
 

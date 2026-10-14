@@ -4,7 +4,7 @@
 // Native365309..365B8A RET28; WB F1FC60 confirms curve construction.
 // ZH Vector3 math and Path/PathNode ownership are semantic guides. Native
 // provides portal20, optimized-link8, options0/1/4/8, and all call addresses.
-#include "Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 #include <math.h>
 #include <new>
 enum PathfindLayerEnum {LAYER_GROUND=1};

@@ -45,8 +45,7 @@
 // obj web that sorts its slot FIRST (-0x10); a single shared 0x80 local (kind7
 // + 2 tests + 2 ors, born right before kind7) should then take ebx.
 // t=40 model=muse-spark (seat W7-MP6).
-
-#include "Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;

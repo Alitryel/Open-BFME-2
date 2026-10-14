@@ -10,7 +10,7 @@ namespace _STL { void __cdecl free(void*); }
 #include <vector>
 #undef free
 #include "GameLogicObjectLookupView.h"
-#include "Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 // Native Team's two-base member-pointer ABI is shared with the verified
 // TeamPrototypeTeamIterators.cpp; ZH supplies the same DLINK iterator.
 class MemoryPoolObject { public: virtual ~MemoryPoolObject(); };

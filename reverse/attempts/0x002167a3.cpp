@@ -18,7 +18,7 @@
 // +0x14 timer +0x18 delete flag).
 #include "ascii_string.h"
 #include "unicode_string.h"
-#include "../../../../Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 struct BfmePod28
 {
