@@ -23,6 +23,12 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 
+// Step map<int,int> iterators through the tree walker that operator++ wraps:
+// instantiating the member emits this unit's /O1 copy of it, which is not
+// retail's (stlport_map_int_int.cpp holds the /O2 one) and loses at link time.
+static inline void StepMapIterator(_STL::map<int, int>::iterator &it)
+{ it._M_node = _STL::_Rb_global_inst::_M_increment(it._M_node); }
+
 class Rva002E1E6FListener
 {
 public:
@@ -99,12 +105,12 @@ void LivingWorldPlayer::CheckForRemovedMultiRegionBonuses()
 			if (entry != 0) {
 				m_list.forEach((void (Rva002E1E6FListener::*)(void *, int, int))&Rva002E1FC2Slot2Callback::notify, this, (int)entry, (int)&entry->m_extra);
 			}
-			++it2;
+			StepMapIterator(it2);
 		} else if ((*it1).first == (*it2).first) {
-			++it1;
-			++it2;
+			StepMapIterator(it1);
+			StepMapIterator(it2);
 		} else {
-			++it1;
+			StepMapIterator(it1);
 		}
 	}
 }

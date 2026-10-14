@@ -47,6 +47,12 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 
+// Step map<int,int> iterators through the tree walker that operator++ wraps:
+// instantiating the member emits this unit's /O1 copy of it, which is not
+// retail's (stlport_map_int_int.cpp holds the /O2 one) and loses at link time.
+static inline void StepMapIterator(_STL::map<int, int>::iterator &it)
+{ it._M_node = _STL::_Rb_global_inst::_M_increment(it._M_node); }
+
 enum CommandSourceType
 {
 	CMD_FROM_PLAYER = 0,
@@ -199,7 +205,7 @@ void Rva00472B54::rva00472B54(Object *obj, CommandSourceType src)
 	AIGroup *grp = TheAI->createGroup();
 	for (_STL::list<int>::iterator it = snap.begin(); it != snap.end(); ++it)
 		slotA8(*it);
-	for (_STL::map<int, int>::iterator it = m_map.begin(); it != m_map.end(); ++it) {
+	for (_STL::map<int, int>::iterator it = m_map.begin(); it != m_map.end(); StepMapIterator(it)) {
 		Object *o = TheGameLogic->findObjectByID((ObjectID)(*it).first);
 		if (o)
 			grp->add(o);
