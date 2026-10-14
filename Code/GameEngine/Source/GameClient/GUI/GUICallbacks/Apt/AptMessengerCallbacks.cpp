@@ -270,7 +270,9 @@ private:
 	unsigned char m_pad279[0x27C - 0x279];
 	int m_state; // +0x27C
 	Rva005B000C **m_entries; // +0x280, one per tab
-	unsigned char m_pad284[0x298 - 0x284];
+	unsigned char m_pad284[0x28C - 0x284];
+	struct MessengerButton *m_buttons; // +0x28C, one per button
+	unsigned char m_pad290[0x298 - 0x290];
 	GameWindow *m_chatEntry; // +0x298
 	bool m_29c; // +0x29C
 	bool m_dragging; // +0x29D
@@ -558,3 +560,78 @@ void AptMessenger::rva005118B2()
 
 // Retail's strcpy call lands on the import thunk rowed as ji_00629176.
 #pragma comment(linker, "/alternatename:_strcpy=?ji_00629176@@YAXXZ")
+
+// Retail 0x00511CE6, 310 bytes: refreshes the two messenger buttons when the
+// screen is maximized: each takes its text from the "APT:MessengerBttn_%d"
+// key (a blank when the button has no label) and is enabled by its flag.
+#include "ascii_string.h"
+
+struct MessengerButton
+{
+	AsciiString label;
+	bool enabled;
+};
+
+class Rva002D34FE
+{
+public:
+	bool rva00401E2F();
+};
+
+class BfmeAptWindowManager
+{
+public:
+	void bfmeSetText(const AsciiString &, const UnicodeString &, bool);
+};
+
+class GameTextInterface
+{
+public:
+	virtual ~GameTextInterface() {}
+	virtual void slot00() = 0;
+	virtual void slot04() = 0;
+	virtual void slot08() = 0;
+	virtual void slot0c() = 0;
+	virtual void slot10() = 0;
+	virtual void slot14() = 0;
+	virtual void slot18() = 0;
+	virtual void slot1c() = 0;
+	virtual void slot20() = 0;
+	virtual void slot24() = 0;
+	virtual void slot28() = 0;
+	virtual void slot2c() = 0;
+	virtual void slot30() = 0;
+	virtual UnicodeString fetch(const char *label, bool *exists = 0) = 0;
+	virtual UnicodeString fetch(const AsciiString &label, bool *exists = 0) = 0;
+};
+
+extern GameTextInterface *TheGameText;
+int __cdecl Rva00511C3AInvoke(Rva00222A8BTarget *target, void *owner, const char *name, const int &a, const bool &b);
+
+void AptMessenger::rva00511CE6()
+{
+	if (!g_Va00DD13D8)
+		return;
+	v14();
+	for (int i = 0; i < 2; ++i)
+	{
+		AsciiString key;
+		key.format("APT:MessengerBttn_%d", i);
+		int index = *(volatile int *)&i;
+		MessengerButton *buttons = m_buttons;
+		if (((Rva002D34FE *)&buttons[index].label)->rva00401E2F())
+		{
+			((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(key, UnicodeString(L" "), false);
+			void *movie = ((AptMessenger *)AptMessenger::s_instance)->m_274;
+			bool enabled = false;
+			Rva00511C3AInvoke(TheRva00222A8BTarget, movie, "EnableButton", i, enabled);
+		}
+		else
+		{
+			((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(key, TheGameText->fetch(buttons[i].label, 0), false);
+			MessengerButton *current = m_buttons;
+			void *movie = ((AptMessenger *)AptMessenger::s_instance)->m_274;
+			Rva00511C3AInvoke(TheRva00222A8BTarget, movie, "EnableButton", i, current[i].enabled);
+		}
+	}
+}
