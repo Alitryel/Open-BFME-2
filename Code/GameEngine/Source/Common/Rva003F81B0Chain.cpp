@@ -30,7 +30,24 @@ public:
 	void rva003F8090();
 	unsigned char rva003F8536();
 	void *rva003F80C3();						// 0x003F80C3
+	void rva003F8509();							// 0x003F8509
 	void rva003F8FB2();							// 0x003F8FB2
+};
+
+class Rva003F8052
+{
+public:
+	unsigned char rva003F8478();				// 0x003F8478
+};
+
+class LivingWorldTutorial
+{
+public:
+	class PhaseSession
+	{
+	public:
+		void rva003F8F94();						// 0x003F8F94
+	};
 };
 
 class Rva003F8101
@@ -141,6 +158,24 @@ Rva003F7D86Inner *Rva003F81FDProxy::rva003F81B0()
 	if (inner == 0)
 		return 0;
 	return (Rva003F7D86Inner *)inner->rva003F80C3();
+}
+
+// 0x003F8FB2 65B: fetch the current session through 0x003F80C3, advancing
+// once through 0x003F8509 when none is active; step it, and advance again
+// when its 0x003F8478 test reports done.
+void Rva003F8090::rva003F8FB2()
+{
+	Rva003F8052 *s = (Rva003F8052 *)rva003F80C3();
+	if (s == 0)
+	{
+		rva003F8509();
+		s = (Rva003F8052 *)rva003F80C3();
+		if (s == 0)
+			return;
+	}
+	((LivingWorldTutorial::PhaseSession *)s)->rva003F8F94();
+	if (s->rva003F8478())
+		rva003F8509();
 }
 
 // 0x003F8FF3 17B: run 0x003F8FB2 on the 0x003F8101 lookup when present.
