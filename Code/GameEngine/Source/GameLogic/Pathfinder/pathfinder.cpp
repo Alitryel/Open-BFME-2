@@ -586,7 +586,13 @@ struct PathfinderCellIndex : ICoord2D {
 };
 class Rva002F6F90Context { public: Bool rva002F6F90(unsigned int,Int); };
 class Rva002F70E5Context { public: Bool rva002F70E5(unsigned int,Int); };
-class Rva002E7440 { public: Bool rva002E7440(Int,Int); };
+class Rva002E7440 {
+public:
+    Rva002E7440(Pathfinder *owner) : pf(owner) {}
+    Bool rva002E7440(Int,Int);
+private:
+    Pathfinder *pf;
+};
 class Rva002E7414 { public: Int rva002E7414(Int,Int); };
 class Rva002F336AOwner { public: Bool rva002F336A(Int,Int); };
 struct PathfinderOpenQueue {PathfindCell **first,**last;Bool empty()const{return first==last;}PathfindCell *front()const{return *first;}};
@@ -598,6 +604,7 @@ class HierarchicalPath;
 class Pathfinder
 {
 public:
+ Bool AdjustToNearestValidCell(Coord3D *);
 bool rva002ED313(Object*);
 void AdjustMeleeOffset(Object*,Object*,Coord3D*);
 Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
@@ -4220,4 +4227,44 @@ void Pathfinder::AdjustMeleeOffset(Object *object,Object *target,Coord3D *offset
     }
     if (found)
         scaleMeleeOffset(*offset,(float)i);
+}
+
+// Rehomed 0x002E7440/66 from AI/Rva002E7440ValidCell.cpp. The real callback
+// must be visible with the circular search: cl can then prove how its
+// one-pointer context is used and delays that store in the 178-byte caller.
+__declspec(noinline) inline Bool Rva002E7440::rva002E7440(Int x,Int y)
+{
+    PathfindCell *cell=pf->getCell(PATHFIND_LAYER_GROUND,x,y);
+    if (cell) {
+        unsigned int flags=*(unsigned int *)((char *)cell+12);
+        unsigned char blocked=(unsigned char)(flags>>18);
+        if (blocked&1)
+            return false;
+        unsigned int type=flags&15;
+        if (type==2 || type==5 || type==4 || type==1)
+            return false;
+    }
+    return true;
+}
+
+// WB D465D0; native 002EDDA9..002EDE5B RET4. The search budget is +1208
+// in the existing GlobalData owner, and the final height query is slot 1C.
+Bool Pathfinder::AdjustToNearestValidCell(Coord3D *position)
+{
+    ICoord2D found;
+    {
+        ICoord2D cell;
+        ((Rva002E7964 *)this)->rva002E7964(&cell,1,position);
+        if (cell.x<0)
+            return false;
+        found.x=0;
+        found.y=0;
+        Rva002E7440 context(this);
+        if (!rva002EB11B(&cell,*(Int *)((char *)TheWritableGlobalData+0x1208),&found,&context))
+            return false;
+    }
+    position->x=found.x*10+1.0f;
+    position->y=found.y*10+1.0f;
+    position->z=TheTerrainLogic->getLayerHeight(position->x,position->y,PATHFIND_LAYER_GROUND,0,true);
+    return true;
 }
