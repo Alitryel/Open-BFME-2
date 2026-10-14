@@ -43,6 +43,15 @@
  */
 
 
+// Keep the already-inlined unsigned comparison local: this TU's standalone
+// max<unsigned int> copy differs from the retail provider.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+ return a < b ? b : a;
+}
+}
 #include <vector>
 struct BfmeAssignRecord172 { unsigned char bytes[172]; BfmeAssignRecord172(const BfmeAssignRecord172&);~BfmeAssignRecord172();BfmeAssignRecord172&operator=(const BfmeAssignRecord172&); };
 struct BfmePod172 { unsigned char bytes[172]; };
