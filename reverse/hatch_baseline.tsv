@@ -1136,8 +1136,6 @@ address_global	Code/GameEngine/Source/Common/Rva007ABEF3ArgCtorInits.cpp	g_Va00E
 address_global	Code/GameEngine/Source/Common/Rva007AC13CEntryArrayInit.cpp	g_Va00DE44A8	2
 address_global	Code/GameEngine/Source/Common/Rva007AC7FFCosInit.cpp	g_Va00DEBE08	2
 address_global	Code/GameEngine/Source/Common/Rva007AF1DEFrameScaleSseInits.cpp	g_Va00DBA4E4	3
-address_global	Code/GameEngine/Source/Common/Rva007B3A58StatsFileNames.cpp	g_Va00E05E00	2
-address_global	Code/GameEngine/Source/Common/Rva007B3A58StatsFileNames.cpp	g_Va00E05E04	2
 address_global	Code/GameEngine/Source/Common/Rva007B401CButtonNameInits.cpp	g_Va00E062FC	2
 address_global	Code/GameEngine/Source/Common/Rva007B401CButtonNameInits.cpp	g_Va00E0630C	2
 address_global	Code/GameEngine/Source/Common/Rva007B49B3ButtonNameInits.cpp	g_Va00E06620	2
@@ -1360,8 +1358,6 @@ address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E
 address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E04998	2
 address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E049A0	2
 address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E049A4	2
-address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E05E00	2
-address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E05E04	2
 address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E062FC	2
 address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E0630C	2
 address_global	Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	g_Va00E0631C	2

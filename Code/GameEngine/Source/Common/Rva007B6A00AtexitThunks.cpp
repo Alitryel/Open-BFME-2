@@ -230,8 +230,6 @@ extern unsigned g_Va00E0498C;
 extern unsigned g_Va00E04998;
 extern unsigned g_Va00E049A0;
 extern unsigned g_Va00E049A4;
-extern unsigned g_Va00E05E00;
-extern unsigned g_Va00E05E04;
 extern unsigned g_Va00E062FC;
 extern unsigned g_Va00E0630C;
 extern unsigned g_Va00E0631C;
@@ -762,20 +760,6 @@ void __cdecl rva007B927A()
 {
 	AsciiString *p = (AsciiString *)&g_Va00E04998;
 	p->~AsciiString();
-}
-
-// ?rva007B92B6@@YAXXZ @ 0x007B92B6 (10B): ecx=&g_Va00E05E00, tail-jump to rowed ??1UnicodeString@@QAE@XZ (0x005B804E)
-void __cdecl rva007B92B6()
-{
-	UnicodeString *p = (UnicodeString *)&g_Va00E05E00;
-	p->~UnicodeString();
-}
-
-// ?rva007B92C0@@YAXXZ @ 0x007B92C0 (10B): ecx=&g_Va00E05E04, tail-jump to rowed ??1UnicodeString@@QAE@XZ (0x005B804E)
-void __cdecl rva007B92C0()
-{
-	UnicodeString *p = (UnicodeString *)&g_Va00E05E04;
-	p->~UnicodeString();
 }
 
 // ?rva007B94AA@@YAXXZ @ 0x007B94AA (10B): ecx=&g_Va00E062FC, tail-jump to rowed ??1Rva00574499@@QAE@XZ (0x00574499)

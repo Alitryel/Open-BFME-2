@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 //
 // Player-profile preferences (vtable 0x00C68DD8, retail 0x00535762).
@@ -15,13 +15,22 @@
 //
 // loadStatsFile at 0x00537D33 is the shared stats loader the subclasses
 // below will forward to: it clears the preference map, and unless the
-// incoming profile path equals the empty wide sentinel (global at
-// 0x00E0C898, default-constructed at 0x007B6740), it appends the leaf name
+// incoming profile path equals UnicodeString::TheEmptyString (0x00E0C898,
+// default-constructed at 0x007B6740), it appends the leaf name
 // and runs UserPreferences::load on the result. Helper and class names
 // are descriptive -- no retail spellings are known.
 
 #include <map>
 #include <stdlib.h>
+
+// Retail's tree frees nodes through a direct _free; the dllimport+forceinline
+// specialization takes __malloc_alloc<0>::deallocate inline so this TU emits
+// no copy of its own (retail's is the unoptimized import entry, 0x00023A70).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
 
 typedef bool Bool;
 typedef int Int;
@@ -83,12 +92,12 @@ protected:
 	UnicodeString m_filename;
 };
 
-// Empty wide sentinel the loader compares the profile path against.
-extern UnicodeString g_emptyProfilePath;
-
-// Per-class stats leaves appended to the profile path.
-extern UnicodeString g_strategicStatsLeaf;
-extern UnicodeString g_realTimeStatsLeaf;
+// Per-class stats leaves appended to the profile path (0x00E05E00 and
+// 0x00E05E04). Their dynamic initializers (0x007B3A58, 0x007B3AA5) build
+// each from a temporary AsciiString of the .rdata leaf and register the
+// destructor thunks at 0x007B92B6 and 0x007B92C0, in this order.
+UnicodeString g_realTimeStatsLeaf(AsciiString("RealTimeStats.ini"));
+UnicodeString g_strategicStatsLeaf(AsciiString("StrategicStats.ini"));
 
 // File deleter shared by the stat-clear helpers below: appends the leaf to
 // the profile path and removes that file from the user-data directory.
@@ -143,7 +152,7 @@ void ProfilePreferences::loadStatsFile(const UnicodeString &profilePath, const U
 {
 	clear();
 
-	if (profilePath.compare(g_emptyProfilePath) == 0)
+	if (profilePath.compare(UnicodeString::TheEmptyString) == 0)
 		return;
 
 	UnicodeString path(profilePath);

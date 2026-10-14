@@ -175,7 +175,6 @@ Code/GameEngine/Source/Common/NetworkInterfaceFrameAdvance.cpp	wrong-name	?g_Va0
 Code/GameEngine/Source/Common/NetworkInterfaceFramePacing.cpp	wrong-name	?g_Va00DBA4E4@@3HA	0x009BA4E4
 Code/GameEngine/Source/Common/OpaqueScalarDeletingDtors.cpp	wrong-name	?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A	0x009FE4CC
 Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB05.cpp	wrong-name	?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A	0x009FE4CC
-Code/GameEngine/Source/Common/ProfilePreferences.cpp	wrong-name	?g_emptyProfilePath@@3VUnicodeString@@A	0x00A0C898
 Code/GameEngine/Source/Common/R2GuardedGlobalCalls.cpp	wrong-name	?R2Ptr01306DF0@@3PAVR2GlobalReceiver@@A	0x009EC2D8
 Code/GameEngine/Source/Common/RTS/MoneyRva003B0D7C.cpp	duplicate-def	?g_00E032F8@@3PAXA	0x00A032F8
 Code/GameEngine/Source/Common/RTS/MoneyRva003B0D7C.cpp	wrong-name	?g_00E032F8@@3PAXA	0x00A032F8
@@ -730,8 +729,6 @@ Code/GameEngine/Source/Common/Rva007ABEF3ArgCtorInits.cpp	wrong-name	?g_Va00E060
 Code/GameEngine/Source/Common/Rva007ABEF3ArgCtorInits.cpp	wrong-name	?g_Va00E0660C@@3IA	0x00A0660C
 Code/GameEngine/Source/Common/Rva007ADC9CMaskInits.cpp	wrong-name	?g_00DFEFA4StoragePrototype@@3PAEA	0x009FEFA4
 Code/GameEngine/Source/Common/Rva007AF1DEFrameScaleSseInits.cpp	wrong-name	?g_Va00DBA4E4@@3HA	0x009BA4E4
-Code/GameEngine/Source/Common/Rva007B3A58StatsFileNames.cpp	wrong-name	?g_Va00E05E00@@3IA	0x00A05E00
-Code/GameEngine/Source/Common/Rva007B3A58StatsFileNames.cpp	wrong-name	?g_Va00E05E04@@3IA	0x00A05E04
 Code/GameEngine/Source/Common/Rva007B4C70FrameScaleInits.cpp	wrong-name	?g_Va00DBA4E4@@3HA	0x009BA4E4
 Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	duplicate-def	?g_Va00DE1E98@@3IA	0x009E1E98
 Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp	duplicate-def	?g_Va00DFF14C@@3IA	0x009FF14C
@@ -800,8 +797,6 @@ Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	wrong-name	?g_Va00DFE4
 Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	wrong-name	?g_Va00E03318@@3IA	0x00A03318
 Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	wrong-name	?g_Va00E0445C@@3IA	0x00A0445C
 Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	wrong-name	?g_Va00E0447C@@3IA	0x00A0447C
-Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	wrong-name	?g_Va00E05E00@@3IA	0x00A05E00
-Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	wrong-name	?g_Va00E05E04@@3IA	0x00A05E04
 Code/GameEngine/Source/Common/Rva007B6A00AtexitThunks.cpp	wrong-name	?g_Va00E09E50@@3IA	0x00A09E50
 Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	duplicate-def	?g_Va00DB6344@@3PAXA	0x009B6344
 Code/GameEngine/Source/Common/Rva007B7024Cluster.cpp	duplicate-def	?g_Va00DB6364@@3PAXA	0x009B6364
