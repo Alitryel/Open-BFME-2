@@ -1,4 +1,6 @@
 // ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z
+// partial score=0.55 date=2026-10-14
+// ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z
 // partial score=0.9 date=2026-10-14
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -169,7 +171,7 @@ Xfer &XferSave::operator==(PooledString &str)
 	if (!m_flag || str.m_text == 0 || *str.m_text == 0)
 		return *(Xfer *)this;
 	{
-		char marker = 0x44534352;
+		int marker = 0x44534352;
 		if (m_stream->write(&marker, 4) != 4)
 			throw XferException(1, 0);
 			_ReadWriteBarrier();
