@@ -8,6 +8,15 @@
 // that order rather than replacing it with the BFME1 value-map clear path.
 // Native constructor1E2747 owns the record class; its original spelling is
 // uncertain. No payload-type claim is made by the pointer-vector ABI view.
+// Keep the inlined unsigned comparison without emitting a nonretail
+// external max template. The overload preserves reference-return semantics.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+ return a < b ? b : a;
+}
+}
 #include <hash_map>
 #include <vector>
 #include "ascii_string.h"
