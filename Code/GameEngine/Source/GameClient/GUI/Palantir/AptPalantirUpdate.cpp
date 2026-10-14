@@ -1,20 +1,18 @@
-// ?update@AptPalantir@@QAEXXZ
-// partial score=0.9727782021899669 date=2026-10-14
 // cl: /I. /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// The palantir's Apt implementation (WorldBuilder: Palantir.cpp,
-// Palantir::Impl; its Apt callbacks are rowed under AptPalantir, the class
-// name the registration strings carry):
-//
-// - AptPalantir::AptPalantir, retail 0x002D57B6..0x002D628F (2777 bytes),
-//   EH thiscall ret 8, WB twin 0x00F41A50 (assert line 941): the same member
-//   order and the same 28 Apt registrations. The caller 0x002D638E
-//   allocates 0x154 bytes and passes the owning Palantir subsystem and the
-//   level its Apt\ load returned.
-// - ~AptPalantir, retail 0x002D5380 (357 bytes; WB 0x00F43790).
-// - init, retail 0x002D54E5 (229 bytes; WB 0x00F43B70).
-// - the subsystem's reset of the palantir's flags, retail 0x002D55EF.
+// AptPalantir::update, retail 0x002D65F6..0x002D6AE2 (1260 bytes, EH thiscall,
+// the palantir's per-frame Apt update; WorldBuilder twin Palantir::Impl update
+// 0x00F43EC0). Target evidence: the REL32 callees and data addresses, the field
+// offsets and the call order are read from the retail bytes. The member
+// holders below are private views for this unit: the unit carries only what
+// update touches (the constructor view lives in AptPalantirConstructor.cpp).
+// Structural inferences: the statement forms; the objective-change loop keeps
+// its two byte flags (old/now) in 4-byte padded frame slots (Flag4), which is
+// what places them at retail's int-aligned homes; one compiler barrier before
+// the faction string block keeps retail's EBX/EDI roles.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <map>
 #include <list>
 
@@ -937,6 +935,7 @@ void playPlayerSpellPointEffect();
 void Rva003FF02EPowerCap(int points);
 void Rva003FECCASetPlayerFaction(void **faction);
 
+struct Flag4 { unsigned char v; unsigned char pad[3]; };
 void AptPalantir::update()
 {
 	RadarWindowOverrideSource *owner = reinterpret_cast<RadarWindowOverrideSource *>(m_owner);
@@ -1043,16 +1042,16 @@ void AptPalantir::update()
 				int count = (objectives->m_end - objectives->m_begin) >> 3;
 				for (int i = 0; i < count; ++i)
 				{
-					unsigned char old = 0;
+					Flag4 old; old.v = 0;
 					_STL::map<int, int>::iterator it = reinterpret_cast<_STL::map<int, int> &>(m_11c).find(i);
 					if (it != reinterpret_cast<_STL::map<int, int> &>(m_11c).end())
-						old = *reinterpret_cast<unsigned char *>(&(*it).second);
-					unsigned char now = objectives->rva0042680D(i);
-					if (now != old)
+						old.v = *reinterpret_cast<unsigned char *>(&(*it).second);
+					Flag4 now; now.v = objectives->rva0042680D(i);
+					if (now.v != old.v)
 					{
-						if (!old && now)
+						if (!old.v && now.v)
 							m_e5 = true;
-						reinterpret_cast<unsigned char &>(reinterpret_cast<_STL::map<int, bool> &>(m_11c)[i]) = now;
+						reinterpret_cast<unsigned char &>(reinterpret_cast<_STL::map<int, bool> &>(m_11c)[i]) = now.v;
 					}
 				}
 			}
@@ -1084,6 +1083,7 @@ void AptPalantir::update()
 		if (cost0)
 		{
 			--cost0->m_count;
+			_ReadWriteBarrier();
 			if (cost0->m_count <= 0)
 			{
 				AptPalantirSpellPointCost *cost = m_ec.m_ptr;
