@@ -1,14 +1,29 @@
-// ?rva003449C5@@YA_NPAUCoord3D@@PAVObject@@1@Z
-// partial score=0.985 date=2026-10-13
-// ?rva003449C5@@YA_NPAUCoord3D@@PAVObject@@1@Z
-// partial score=0.985 date=2026-10-13
 // cl: /O1 /G7 /EHsc /MD /arch:SSE /DNDEBUG /ICode/Libraries/Include/Lib
+// Native 0x003449C5..0x00344D60, cdecl RET0, 923 bytes. Calls from the
+// matched AI approach states at 0x00345AB7 and 0x00348E9F establish the
+// goal/source/victim ABI. WB 0x00E10AB0 and BFME1's melee-engage helper
+// support the approach/fallback purpose; the original helper name is unknown.
+// Object position38, radiusB8, AI258, template108 kind bits, and AI data D4
+// are target accesses, not claims of complete class layouts. The existing
+// Pathfinder integer gate spelling is retained with explicit pointer bits
+// and an AL-sized result, as the owned provider and native call require.
 //
+// All four real Coord3D length/normalization bodies must be visible together
+// for MSVC7.1 to reproduce the native loop's XMM allocation. Every proper
+// subset leaves the register mirror. These are the existing coord3d.cpp
+// implementations, kept out of line as in retail; no new helper pins.
+
+#include <math.h>
 #include "Coord3D.h"
-struct ApproachCoordCopy:Coord3D{
- __forceinline ApproachCoordCopy(const Coord3D&r){x=r.x;y=r.y;z=r.z;}
- __forceinline void sub(const Coord3D*p){x-=p->x;y-=p->y;z-=p->z;}
- __forceinline void scale(float r){x*=r;y*=r;z*=r;}
+// Scalar copy/subtraction/scale preserve the target's component operations.
+struct ApproachCoordCopy : Coord3D
+{
+    __forceinline ApproachCoordCopy(const Coord3D &other)
+    { x = other.x; y = other.y; z = other.z; }
+    __forceinline void sub(const Coord3D *other)
+    { x -= other->x; y -= other->y; z -= other->z; }
+    __forceinline void scale(float factor)
+    { x *= factor; y *= factor; z *= factor; }
 };
 
 enum NameKeyType
@@ -71,9 +86,9 @@ public:
 	const ThingTemplate *getTemplate() const { return m_template; }
 	const Coord3D *getPosition() const { return &m_position; }
 	AIUpdateInterface *getAI() { return m_ai; }
-	protected:
- Module *findModule(NameKeyType key) const;
- friend bool rva003449C5(Coord3D*,Object*,Object*);
+protected:
+	Module *findModule(NameKeyType key) const;
+	friend bool rva003449C5(Coord3D *, Object *, Object *);
 public:
 	const Weapon *getCurrentWeapon(WeaponSlotType *slot) const;
 
@@ -197,4 +212,38 @@ bool rva003449C5(Coord3D *goal, Object *source, Object *victim)
 	TheAI->pathfinder()->adjustToPossibleDestination(source, *ai->locomotorSet(), &pos);
 	*goal = pos;
 	return true;
+}
+
+__declspec(noinline) inline float Coord3D::GetLength() const
+{
+    float x_value = x;
+    float y_value = y;
+    float z_value = z;
+    return (float)sqrt(x_value * x_value + y_value * y_value + z_value * z_value);
+}
+
+__declspec(noinline) inline float Coord3D::length() const
+{
+    return (float)sqrt(x * x + y * y + z * z);
+}
+
+__declspec(noinline) inline void Coord3D::normalize()
+{
+    float len = length();
+    if (len != 0.0f) {
+        float scale = 1.0f / len;
+        x *= scale;
+        y *= scale;
+        z *= scale;
+    }
+}
+
+__declspec(noinline) inline float Coord3D::Normalize()
+{
+    float len = GetLength();
+    float scale = 1.0f / len;
+    x *= scale;
+    y *= scale;
+    z *= scale;
+    return len;
 }
