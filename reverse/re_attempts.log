@@ -54560,3 +54560,4 @@ _BfmeAux006FC670	0x006FC670	2512	partial	crack-e: Complete2512B including both n
 ?rva0040AAF8@Rva0040BAD0@@QAEHH@Z	0x0040aaf8	173	partial	recovery: dropped superseded PRIOR BANK block (duplicate AsciiString/NameKeyGenerator); nd74 (263/173); nd=74 clen=263/173; t=25 model=deepseek-v3 score=0.4045 stash=reverse/attempts/0x0040aaf8.cpp
 ?rva0021E9D8@Rva0021E9D8@@QAEHIABVAsciiString@@00@Z	0x0021e9d8	129	partial	recovery: rva0021D120 retyped to BfmeStringRecord002199C8* (pointer not iterator); nd18 (135/129); nd=18 clen=135/129; t=25 model=deepseek-v3 score=0.8139 stash=reverse/attempts/0x0021e9d8.cpp
 ?rva002C58B3@Rva002C589B@@QAEXXZ	0x002c58b3	92	partial	recovery: owner Rva002C589BDtor class view + canonical Coord3D include; nd2 92/92 (push-edi rotation); nd=2 clen=92/92; t=25 model=deepseek-v3 score=0.9728 stash=reverse/attempts/0x002c58b3.cpp
+?rva00026C00@@YAXXZ	0x00026C00	13	landed	add_match verified Code/GameEngine/Source/Common/BfmeFillCount82DD70.cpp 13B
