@@ -88,7 +88,7 @@ public:
 	bool rva0052DEEF(const Rva0052DEEFArg *a, bool b, In002E6BA1 *c);
 	void rva0052DAE9(bool flag);
 	void PutOnClosedList(MixFileInfoBuffer **head);
-	void rva0052DAFF();
+	void RemoveFromClosedList();
 
 private:
 	Rva0052DE5BNode *m_node;
@@ -171,7 +171,8 @@ void PathfindCell::PutOnClosedList(MixFileInfoBuffer **head)
 	((MixFileInfoBuffer *)m_node)->bfmeLinkInto(head);
 }
 
-void PathfindCell::rva0052DAFF()
+// WorldBuilder PathfindCell::RemoveFromClosedList, WB VA 0x012D7DC0 (align lead, score 1; no args).
+void PathfindCell::RemoveFromClosedList()
 {
 	((MixFileInfoBuffer *)m_node)->bfmeUnlink();
 	m_node->m_nodeFlags &= ~0x10u;

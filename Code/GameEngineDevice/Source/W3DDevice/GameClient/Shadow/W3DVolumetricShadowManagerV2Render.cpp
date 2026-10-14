@@ -48,7 +48,7 @@ private:
 class W3DVolumetricShadowManagerV2 {
 public:
  void rva001076F6();
- void rva0010720E(int);
+ void InitDeviceForShadowPass(int);
  void drawAndRelease(int);
  void renderShadows(RenderInfoClass&);
 private:
@@ -73,7 +73,7 @@ void W3DVolumetricShadowManagerV2::renderShadows(RenderInfoClass &info)
        bufferedShadow=shadow;
       }else{
        if(!setupDone){setupDone=true;rva001076F6();}
-       if(!stencilDone){stencilDone=true;rva0010720E(0);}
+       if(!stencilDone){stencilDone=true;InitDeviceForShadowPass(0);}
        shadow->UpdateAndRender();
       }
      }
@@ -83,7 +83,7 @@ void W3DVolumetricShadowManagerV2::renderShadows(RenderInfoClass &info)
   if(lock)drawAndRelease(0);
   if(bufferedShadow){
    if(!setupDone){setupDone=true;rva001076F6();}
-   rva0010720E(1);
+   InitDeviceForShadowPass(1);
    for(shadow=bufferedShadow;shadow;shadow=shadow->bufferNext)
     shadow->UpdateAndRenderZfail();
    if(lock)drawAndRelease(1);
@@ -107,7 +107,8 @@ bool W3DVolumetricShadowV2::rva00107046(Vector3 *point)
          pos.Y-extent+(lightOffsetY<0.0f?lightOffsetY:0.0f)<point->Y);
 }
 
-void W3DVolumetricShadowManagerV2::rva0010720E(int pass)
+// WorldBuilder W3DVolumetricShadowManagerV2::InitDeviceForShadowPass, WB VA 0x008E28D0 (callsite lead, score 1): one pass argument, called before each UpdateAndRender[Zfail] pass.
+void W3DVolumetricShadowManagerV2::InitDeviceForShadowPass(int pass)
 {
 	int one = 1;
 	if (pass == 0) {

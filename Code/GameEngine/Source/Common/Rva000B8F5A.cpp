@@ -239,8 +239,8 @@ struct Rva000C14BDTarget
 class W3DScriptedModelDraw
 {
 public:
-	bool rva000B57A7(int,int,const FXList*,float,const Coord3D*);
-	void rva000C15F1(int i,float *first,float *second);
+	bool handleWeaponFireFX(int,int,const FXList*,float,const Coord3D*);
+	void getPlayingAnimationFrameRanges(int i,float *first,float *second);
 	AsciiString getPlayingAnimationName(int i);
 	void rva000B8F5A(char *a, AsciiString b);
 	void rva000BFD77();
@@ -594,7 +594,8 @@ void Rva000BFB76Interface::rva000BFB76(const ModelConditionFlags&conditions,bool
 // existing indexed getters and native B5D7F blending. Field roles inferred
 // only from accesses: mode10, direction14, active18; no full record identity.
 struct Rva000C15F1Range {float first,second;};
-void W3DScriptedModelDraw::rva000C15F1(int i,float*first,float*second){
+// WorldBuilder W3DScriptedModelDraw::getPlayingAnimationFrameRanges, WB VA 0x00930BA0 (align lead, score 1.8; ret 0xC); vtable 0x007CBBB4 slot beside getPlayingAnimationName/NameKey.
+void W3DScriptedModelDraw::getPlayingAnimationFrameRanges(int i,float*first,float*second){
  ((Rva000B8F5AOuter*)((char*)this-12))->rva000C0386();
  if(i<0 || (unsigned)i>=3 || !m_entries104[i].m_ptr00){
   first[0]=0.0f;first[1]=0.0f;
@@ -639,7 +640,8 @@ void W3DScriptedModelDraw::rva000C15F1(int i,float*first,float*second){
 // local view names retain uncertainty about original target types.
 // Slot51 passes a return buffer and bone index in retail; the donor returns
 // a matrix reference, so its return convention is not copied here.
-bool W3DScriptedModelDraw::rva000B57A7(int slot,int barrel,const FXList*fx,float speed,const Coord3D*victim){
+// WorldBuilder W3DScriptedModelDraw::handleWeaponFireFX, WB VA 0x009416C0 (callgraph lead, score 1; ret 0x14; FXList::doFXPos callees).
+bool W3DScriptedModelDraw::handleWeaponFireFX(int slot,int barrel,const FXList*fx,float speed,const Coord3D*victim){
  StateView367*state=(StateView367*)m_ptr0C;
  if(!state || !(state->validF4&8))return false;
  const BarrelVector367&vec=state->barrels[slot];
@@ -672,7 +674,7 @@ bool W3DScriptedModelDraw::rva000B57A7(int slot,int barrel,const FXList*fx,float
 }
 
 // ?rva000B5766@W3DScriptedModelDraw@@QAEHH@Z, retail 0x000B5766 (65 bytes, RET 4), slot 23 of the
-// table 0x007CC588 beside rva000B57A7: the barrel count of the given slot in the active
+// table 0x007CC588 beside handleWeaponFireFX: the barrel count of the given slot in the active
 // state record (the +0x1C0 override while the +0x1BF flag is set, else +0x0C), or zero
 // when there is no record or its +0xF4 bit 3 is clear.
 int W3DScriptedModelDraw::rva000B5766(int slot)

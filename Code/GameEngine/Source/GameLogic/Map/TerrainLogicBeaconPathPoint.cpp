@@ -48,7 +48,7 @@ class TerrainLogic
 public:
 	virtual void tlSlot00(void) = 0;
 
-	Bool rva0028077ANearestBeaconPathPoint(Coord3D *result, const Coord3D *pos, const Coord3D *endpointRef, Real maxDist, Bool snapToEndpoint);
+	Bool FindClosestBeacon(Coord3D *result, const Coord3D *pos, const Coord3D *endpointRef, Real maxDist, Bool snapToEndpoint);
 
 private:
 	unsigned char m_unreconstructed_04[0x60];
@@ -85,7 +85,8 @@ static Coord3D rva0027F383NearestPointOnSegment(const Coord3D &start, const Coor
 	return closest;
 }
 
-Bool TerrainLogic::rva0028077ANearestBeaconPathPoint(Coord3D *result, const Coord3D *pos, const Coord3D *endpointRef, Real maxDist, Bool snapToEndpoint)
+// WorldBuilder TerrainLogic::FindClosestBeacon, WB VA 0x00C4D8B0 (callgraph lead, score 1; ret 0x14; nearest-point-on-segment and Coord3D::GetLengthSqrd callees).
+Bool TerrainLogic::FindClosestBeacon(Coord3D *result, const Coord3D *pos, const Coord3D *endpointRef, Real maxDist, Bool snapToEndpoint)
 {
 	Real bestDistSqr = maxDist * maxDist;
 	const Coord3DList *bestPath = 0;
