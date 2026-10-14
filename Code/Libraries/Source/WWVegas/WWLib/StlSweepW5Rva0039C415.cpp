@@ -1,6 +1,6 @@
 // STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
 // Element identity and unconstrained fields remain address-derived structural inference.
-// cl: /O1 /arch:SSE /G7 /Ob0 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: -O1 -arch:SSE -G7 -Ob0 -EHsc -MD -D_CRTIMP= -D_STLP_USE_STATIC_LIB -D_STLP_NO_EXCEPTIONS -Ireference/shims/bfmealloc
 // stlport
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
@@ -25,3 +25,6 @@ struct Rva0039C415Element { unsigned words[5];Rva0039C415Element();Rva0039C415El
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::vector<Rva0039C415Element, _STL::allocator<Rva0039C415Element> >::_M_fill_insert(Rva0039C415Element *, unsigned int, Rva0039C415Element const &);
 template void _STL::vector<Rva00587375, _STL::allocator<Rva00587375> >::_M_fill_insert(Rva00587375 *, unsigned int, Rva00587375 const &);
+
+// STLport4.5.3 _vector.h public count-insertion adaptor; complete native tail to owned _M_fill_insert.
+template void _STL::vector<Rva0039C415Element, _STL::allocator<Rva0039C415Element> >::insert(Rva0039C415Element *, unsigned int, const Rva0039C415Element &);
