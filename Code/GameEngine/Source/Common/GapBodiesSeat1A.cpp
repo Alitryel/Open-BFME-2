@@ -427,7 +427,6 @@ class Rva00254628ModuleData
 {
 public:
 	static void rva00254628(MultiIniFieldParse &p);
-	static ModuleData *rva0025464A(INI *ini);
 };
 
 void Rva00254628ModuleData::rva00254628(MultiIniFieldParse &p)
@@ -436,11 +435,14 @@ void Rva00254628ModuleData::rva00254628(MultiIniFieldParse &p)
 	p.add(s_Rva00254628FieldParse, 0);
 }
 
-ModuleData *Rva00254628ModuleData::rva0025464A(INI *ini)
+// ModuleFactory::init registers 0x0025464A (DelayedUpgrade) and 0x0025470D
+// (LocomotorSetUpgrade) as data factories; they keep the address-derived
+// names of their symbols.csv pins like their unowned peers.
+ModuleData *ModuleFactoryDataAt0025464A(INI *ini)
 {
 	Rva0025460F *data = new Rva0025460F;
 	if (ini)
-		ini->initFromINIMultiProc(data, rva00254628);
+		ini->initFromINIMultiProc(data, Rva00254628ModuleData::rva00254628);
 	return (ModuleData *)data;
 }
 
@@ -448,7 +450,6 @@ class Rva002546EBModuleData
 {
 public:
 	static void rva002546EB(MultiIniFieldParse &p);
-	static ModuleData *rva0025470D(INI *ini);
 };
 
 void Rva002546EBModuleData::rva002546EB(MultiIniFieldParse &p)
@@ -457,11 +458,11 @@ void Rva002546EBModuleData::rva002546EB(MultiIniFieldParse &p)
 	p.add(s_Rva002546EBFieldParse, 0);
 }
 
-ModuleData *Rva002546EBModuleData::rva0025470D(INI *ini)
+ModuleData *ModuleFactoryDataAt0025470D(INI *ini)
 {
 	RadarUpgradeModuleData *data = new RadarUpgradeModuleData;
 	if (ini)
-		ini->initFromINIMultiProc(data, rva002546EB);
+		ini->initFromINIMultiProc(data, Rva002546EBModuleData::rva002546EB);
 	return (ModuleData *)data;
 }
 

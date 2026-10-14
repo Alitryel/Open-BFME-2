@@ -89,7 +89,6 @@ public:
 	Rva0025349C() : m_08(0.0f), m_0C(0) {}
 	virtual ~Rva0025349C() {}
 	static void rva002534B1(MultiIniFieldParse &p);
-	static Rva0025349C *rva002534C2(INI *ini);
 private:
 	int m_04;
 	float m_08;
@@ -101,10 +100,13 @@ void Rva0025349C::rva002534B1(MultiIniFieldParse &p)
 	p.add(s_Rva002534B1FieldParse, 0);
 }
 
-Rva0025349C *Rva0025349C::rva002534C2(INI *ini)
+// ModuleFactory::init registers this as FoundationAIUpdate's data factory; it
+// keeps the address-derived name of its symbols.csv pin like its unowned peers.
+class ModuleData;
+ModuleData *ModuleFactoryDataAt002534C2(INI *ini)
 {
 	Rva0025349C *data = new Rva0025349C;
 	if (ini)
-		ini->initFromINIMultiProc(data, rva002534B1);
-	return data;
+		ini->initFromINIMultiProc(data, Rva0025349C::rva002534B1);
+	return (ModuleData *)data;
 }
