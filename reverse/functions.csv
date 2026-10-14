@@ -88989,3 +88989,4 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ??0Rva002B31DB@@QAE@XZ,,0x002B31D2,9,Code/GameEngine/Source/Common/Rva002B31DBCtor.cpp,matched,out-of-line default ctor of the Rva002B31DB battle visitor: installs vtable 0x007FE090 whose single slot is the rowed invoke 0x002B31DB
 ?rva002BF687@Rva002BF6A7@@QAEXH@Z,,0x002BF687,16,Code/GameEngine/Source/Common/Rva002BF6A7Forward.cpp,matched,twin of 0x002BF6A7: passes an argument sub-object to member 0x002BF61B on the same object
 ?rva002BF697@Rva002BF6A7@@QAEXH@Z,,0x002BF697,16,Code/GameEngine/Source/Common/Rva002BF6A7Forward.cpp,matched,twin of 0x002BF6A7: passes an argument sub-object to member 0x002BF61B on the same object
+?rva002B8DDE@LivingWorldLogic@@QAEXH@Z,,0x002B8DDE,30,Code/GameEngine/Source/GameLogic/LivingWorld/LivingWorldLogicRva002B8DDE.cpp,matched,remove the player with this id: id lookup 0x002B51F8 then RemovePlayer 0x002B7DE6; method name address-derived
