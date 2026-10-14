@@ -1,87 +1,147 @@
 // ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z
-// partial score=0.69 date=2026-10-14
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfmealloc
+// partial score=0.86 date=2026-10-15
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z @0x00307EDC
-// 372B, retail-guided: open the file, read its bytes into a temp vector, run
-// CompressionManager on compressed data, then swap into the out vector.
-class AsciiString;
-class File;
-class FileSystem
+//
+// ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z, retail
+// 0x00307EDC (372B, cdecl). Reads a whole file into a byte vector: open it
+// through TheFileSystem (access 0x141), size it, read it into a local
+// vector<char>, and when CompressionManager reports the data compressed,
+// decompress into a second vector and swap that in. The result is swapped
+// into the caller's vector (the +4 vector of the 0x00240000 stream, whose
+// load member 0x00308050 is the caller and owns this spelling).
+//
+// Evidence (target): the File virtual slots used (size +0x2C, read +0x0C,
+// close +0x08 -- Zero Hour's file.h slot order), the openFile call with
+// (name, 0x141, 0), the rowed vector<char> resize 0x000826E3 and count ctor
+// 0x00307C43, the rowed CompressionManager statics, and the out-of-line
+// _Vector_base ctor 0x0007FAEA and swap 0x003079C1 (ICF-shared bodies).
+// The loader's original name is unknown; the name stays address-derived.
+#include <vector>
+#include "ascii_string.h"
+
+// game.dat's STLport passes vector<char>::resize's fill by value (the rowed
+// 0x000826E3 body; the call site pushes the byte itself), so this unit
+// specializes vector<char> to that interface. The count constructor and
+// resize are the rowed out-of-line bodies; swap is STLport's inline one.
+namespace _STL
+{
+template <>
+class vector<char, allocator<char> > : public _Vector_base<char, allocator<char> >
 {
 public:
-	File *openFile(const char *name, int mode, int flags);
+	typedef allocator<char> allocator_type;
+	typedef unsigned int size_type;
+
+	explicit vector(const allocator_type &a = allocator_type()) : _Vector_base<char, allocator<char> >(a) {}
+	explicit vector(size_type n) : _Vector_base<char, allocator<char> >(n, allocator_type())
+	{
+		this->_M_finish = uninitialized_fill_n(this->_M_start, n, char());
+	}
+
+	char *begin() { return this->_M_start; }
+	char *end() { return this->_M_finish; }
+	size_type size() const { return size_type(this->_M_finish - this->_M_start); }
+	char *erase(char *first, char *last);
+	void _M_fill_insert(char *position, size_type n, const char &x);
+
+	char &operator[](size_type n) { return this->_M_start[n]; }
+	void resize(size_type newSize, char x)
+	{
+		if (newSize < size())
+			erase(begin() + newSize, end());
+		else
+			_M_fill_insert(end(), newSize - size(), x);
+	}
+	void swap(vector<char, allocator<char> > &x)
+	{
+		_STLP_STD::swap(this->_M_start, x._M_start);
+		_STLP_STD::swap(this->_M_finish, x._M_finish);
+		_STLP_STD::swap(this->_M_end_of_storage, x._M_end_of_storage);
+	}
 };
-extern FileSystem *TheFileSystem;
+}
 
 class File
 {
 public:
-	virtual void v0();
-	virtual void v1();
+	virtual ~File();
+	virtual bool open(const char *filename, int access);
 	virtual void close();
-	virtual int read(void *buf, int size);
-	virtual void v4();
-	virtual void v5();
-	virtual void v6();
-	virtual void v7();
-	virtual void v8();
-	virtual void v9();
-	virtual void v10();
+	virtual int read(void *buffer, int bytes);
+	virtual int write(const void *buffer, int bytes);
+	virtual int seek(int bytes, int mode);
+	virtual bool nextLine(char *buf, int bufSize);
+	virtual bool scanInt(int &newInt);
+	virtual bool scanReal(float &newReal);
+	virtual bool scanString(AsciiString &newString);
+	virtual bool print(const char *format, ...);
 	virtual int size();
 };
+
+class FileSystem
+{
+public:
+	File *openFile(const char *filename, int access, int flags);
+};
+
+extern FileSystem *TheFileSystem;
 
 class CompressionManager
 {
 public:
-	static bool isDataCompressed(const void *data, int size);
-	static int getUncompressedSize(const void *data, int size);
-	static int decompressData(const void *src, int srcSize, void *dst, int dstSize);
+	static bool isDataCompressed(const void *mem, int len);
+	static int getUncompressedSize(const void *mem, int len);
+	static int decompressData(const void *src, int srcLen, void *dest, int destLen);
 };
 
-struct Rva00240000ByteVector
+struct Rva00240000ByteVector : public std::vector<char>
 {
-	unsigned char *m_begin; // +0x00
-	unsigned char *m_end;   // +0x04
-	unsigned char *m_cap;   // +0x08
-	~Rva00240000ByteVector();
-
-	void rva0047FAEA();                            // default ctor
-	void rva00707C43(unsigned int n);              // fill ctor
-	void rva004826E3(unsigned int n, unsigned char val); // resize
-	void rva007079C1(Rva00240000ByteVector &other);      // swap
 };
 
-bool rva00307EDC(AsciiString *path, Rva00240000ByteVector *out)
+// Closes the file when the read scope ends, on every path.
+struct Rva00307EDCFileCloser
 {
-	Rva00240000ByteVector tmp;
-	tmp.rva0047FAEA();
-	const char *name = (*(char **)path) ? (const char *)((char *)(*(char **)path) + 8) : (const char *)0x00BBAC1C;
-	File *f = TheFileSystem->openFile(name, 0x141, 0);
-	if (!f)
-		return false;
-	int size = f->size();
-	if (size <= 0)
+	Rva00307EDCFileCloser(File *file) : m_file(file) {}
+	~Rva00307EDCFileCloser()
 	{
-		f->close();
-		return false;
+		if (m_file != NULL)
+			m_file->close();
 	}
-	tmp.rva004826E3(size, 0);
-	unsigned char *buf = tmp.m_begin;
-	if (f->read(buf, size) != size)
+	File *m_file;
+};
+
+bool rva00307EDC(AsciiString *path, Rva00240000ByteVector *data)
+{
+	std::vector<char> bytes;
+	int size;
+	char *buffer;
 	{
-		f->close();
-		return false;
+		Rva00307EDCFileCloser file(TheFileSystem->openFile(path->str(), 0x141, 0));
+		if (file.m_file == NULL)
+			return false;
+
+		size = file.m_file->size();
+		if (size <= 0)
+			return false;
+
+		bytes.resize(size, 0);
+		buffer = &bytes[0];
+		if (file.m_file->read(buffer, size) != size)
+			return false;
 	}
-	f->close();
-	if (CompressionManager::isDataCompressed(buf, size))
+
+	if (CompressionManager::isDataCompressed(buffer, size))
 	{
-		int usize = CompressionManager::getUncompressedSize(buf, size);
-		Rva00240000ByteVector tmp2;
-		tmp2.rva00707C43(usize);
-		if (CompressionManager::decompressData(buf, size, tmp2.m_begin, usize) == usize)
-			tmp.rva007079C1(tmp2);
+		int uncompressedSize = CompressionManager::getUncompressedSize(buffer, size);
+		std::vector<char> uncompressed(uncompressedSize);
+		int result = CompressionManager::decompressData(buffer, size, &uncompressed[0], uncompressedSize);
+		if (result == 0)
+			return false;
+		if (result == uncompressedSize)
+			bytes.swap(uncompressed);
 	}
-	out->rva007079C1(tmp);
+
+	data->swap(bytes);
 	return true;
 }
