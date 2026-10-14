@@ -286,7 +286,7 @@ struct Rva006E1F00Character
 class BfmeSubmitter1283
 {
 public:
-	void bfmeSubmit1283(int a1, int a2, int a3, int a4, int a5, int a6, int a7, float *a8, int a9, int a10, int a11, int a12);	// 0x006F8B70
+	void *bfmeSubmit1283(AptCIH *a1, int a2, int a3, int a4, int a5, int a6, int a7, float *a8, int a9, int a10, int a11, int a12);	// 0x006F8B70
 };
 class AptDisplayList { public: void clear(bool deep); };	// 0x006F80C0
 struct Rva006E1F00Instance

@@ -8332,7 +8332,7 @@ name,address,notes
 ?bfmeSubVJC@BfmeThingVJC@@QAEXPAVBfmeMsgVJC@@PAX1@Z,0x0065E380
 ?bfmeSubVJD@BfmeThingVJD@@QAEXPAVBfmeMsgVJC@@HPAX@Z,0x0065E380
 ?bfmeSubVJE@BfmeThingVJE@@QAEXPAVBfmeMsgVJC@@HPAX@Z,0x0065E380
-?bfmeSubmit1283@BfmeSubmitter1283@@QAEXHHHHHHHPAMHHHH@Z,0x006F8B70
+?bfmeSubmit1283@BfmeSubmitter1283@@QAEPAXPAVAptCIH@@HHHHHHPAMHHHH@Z,0x006F8B70,AptDisplayList submit; renamed void -> void* because retail returns the item in eax (0xAF8D51/0xAF8D5A); 12 args; body in AptDisplayList.cpp
 ?bfmeSumBuildingsDestroyed20@ScoreKeeper@@AAEHPBH@Z,0x0039B72B
 ?bfmeSumUnitsDestroyed20@ScoreKeeper@@AAEHPBH@Z,0x0039B756
 ?bfmeSymbolSZA@@YAXIPADI@Z,0x0003B9E0
@@ -17031,3 +17031,5 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?_M_next_size@?$hashtable@U?$pair@$$CBIH@_STL@@IU?$hash@I@2@U?$_Select1st@U?$pair@$$CBIH@_STL@@@2@U?$equal_to@I@2@V?$allocator@U?$pair@$$CBIH@_STL@@@2@@_STL@@ABEII@Z,0x0005571B,Native593CD handle-table operation; whole emitted STLport chain and owner relocations verified; fold-proof=Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp
 ?_M_new_node@?$hashtable@U?$pair@$$CBIH@_STL@@IU?$hash@I@2@U?$_Select1st@U?$pair@$$CBIH@_STL@@@2@U?$equal_to@I@2@V?$allocator@U?$pair@$$CBIH@_STL@@@2@@_STL@@AAEPAU?$_Hashtable_node@U?$pair@$$CBIH@_STL@@@2@ABU?$pair@$$CBIH@2@@Z,0x003ED191,Native593CD handle-table operation; whole emitted STLport chain and owner relocations verified; fold-proof=Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp
 ??0Rva003ED94FDtor@@QAE@XZ,0x001F81BF,ICF-folded 19B empty vector-base holder default ctor of the 12-byte LargeGroupAudio key map; caller rva002862C9 function-local static ctor; fold-proof=Code/GameEngine/Source/GameLogic/LargeGroupAudio/LargeGroupAudioKeyMapBfmeAddKey.cpp
+?instantiateCharacter@AptDisplayList@@QAEXHHHHHHPAX0@Z,0x006F85E0,AptDisplayList::instantiateCharacter; WB 0x1791780; called by rowed submit 0x6F8B70 with 8 args (six ints plus &item/&created out pointers); unrowed provider; address-derived ABI from the retail call
+?rva006E2EE0@AptCIH@@QAEXXZ,0x006E2EE0,AptCIH no-arg thunk called at the end of submit 0x6F8B70 (ecx=item); unrowed provider; address-derived ABI from the retail call
