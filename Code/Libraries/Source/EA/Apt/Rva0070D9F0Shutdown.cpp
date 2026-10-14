@@ -1,5 +1,7 @@
 // cl: /DNDEBUG /MD
-// ?Rva0070D9F0Shutdown@@YAXXZ, retail 0x0070D9F0 (435B).
+// ?Teardown@StringPool@@SAXXZ, retail 0x0070D9F0 (435B).
+// Name: WorldBuilder 0x1772060 StringPool::Teardown (StringPool.cpp asserts
+// 297..332, same strings); static member vs namespace is an inference (no this).
 // StringPool shutdown: walks the hash buckets at g_00E18368/g_00E1836C,
 // asserts each string's GC root (0x7F) and refcount (1) via StringPool.cpp
 // 0x129/0x12A, tracks sCurrentMemorySaved at g_00E18374, releases each node
@@ -72,7 +74,13 @@ extern "C" EAStringC bfmeObjDAE[178];
 // g_00E18650: matched references place it at VA 0xe18650 (zero-filled; a plain-data view).
 EAStringC g_00E18650;
 
-void Rva0070D9F0Shutdown()
+class StringPool
+{
+public:
+	static void Teardown();
+};
+
+void StringPool::Teardown()
 {
 	for (int i = 0; i < g_00E1836C; ++i) {
 		StringNode0070D9F0 *node = g_00E18368[i];

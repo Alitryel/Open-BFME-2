@@ -43487,7 +43487,7 @@ __purecall,,0x0003B810,62,Code/Libraries/Source/debug/debug_purecall.cpp,matched
 ??0XferException@@QAE@ABV0@@Z,,0x000588C5,21,Code/GameEngine/Source/Common/System/XferException.cpp,matched,
 ??0XferException@@QAA@HPBDZZ,,0x0060C36E,85,Code/GameEngine/Source/Common/System/XferException.cpp,matched,
 ??1XferException@@QAE@XZ,,0x0002BD30,9,Code/GameEngine/Source/Common/System/XferException.cpp,matched,
-?Rva0070D9F0Shutdown@@YAXXZ,,0x0070D9F0,435,Code/Libraries/Source/EA/Apt/Rva0070D9F0Shutdown.cpp,matched,StringPool shutdown via StringPool asserts and pool free
+?Teardown@StringPool@@SAXXZ,,0x0070D9F0,435,Code/Libraries/Source/EA/Apt/Rva0070D9F0Shutdown.cpp,matched,name=WB 0x1772060 StringPool::Teardown (StringPool.cpp asserts 297..332); StringPool shutdown via StringPool asserts and pool free
 ?rva006E34A0@Rva006E34A0@@QAEPAXI@Z,,0x006E34A0,42,Code/Libraries/Source/Apt/Rva006E34A0.cpp,matched,array owner release plus sized self free
 ?rva0039C0F4@Rva0039C0F4@@QAEHABVAsciiString@@@Z,,0x0039C0F4,93,Code/GameEngine/Source/Common/Rva0039C0F4Sum.cpp,matched,unlock lane twin of 0x0039BF67 sum with name compare callers 0x003C2E61 0x003E82E2 ret 4
 ?rva00404781@Rva00404781@@QAEXMHH@Z,,0x00404781,77,Code/GameEngine/Source/Common/Rva00404781Method.cpp,matched,thiscall float int int via caller 0x0056C4D3 stride 0xA8

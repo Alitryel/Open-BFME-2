@@ -79,14 +79,13 @@ extern AptValueVector *g_releaseVectorAtE17710;
 extern AptValueVector *g_aptOptionalValueVector;
 class EAStringC {void *data;public:void rva006D3470();};
 extern void *g_eaStringAtE177D4Storage;
-void Rva0070D9F0Shutdown();
 void Rva006D37F0Clear();
 struct AptActionInterpreter {void rva006FEB50();};
 extern AptActionInterpreter g_aptDateInterpreter;
 class AptBoolean {public:static void ClearPool();};
 class AptInteger {public:static void ClearPool();};
 class AptFloat {public:static void ClearPool();};
-class StringPool {public:static void ClearTemporaryPool();};
+class StringPool {public:static void ClearTemporaryPool();static void Teardown();};
 
 void Rva006CFAB0(int arg)
 {
@@ -122,7 +121,7 @@ void Rva006CFAB0(int arg)
 	if(g_aptOptionalValueVector)delete (AptValueVectorDelete *)g_aptOptionalValueVector;
 	g_aptOptionalValueVector=0;
 	(*reinterpret_cast<EAStringC *>(&g_eaStringAtE177D4Storage)).rva006D3470();
-	Rva0070D9F0Shutdown();
+	StringPool::Teardown();
 	g_releaseVectorAtE17710->ReleaseValues();
 	delete (AptValueVectorDelete *)g_releaseVectorAtE17710;
 	g_releaseVectorAtE17710=0;
