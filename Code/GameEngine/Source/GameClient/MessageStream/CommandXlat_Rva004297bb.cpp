@@ -662,7 +662,7 @@ void Rva004C1040(int);
 int Rva00459060(bool);
 int rva005A9B00(Object*,void*);
 class DrawableList;
-void pickAndPlayUnitVoiceResponse(const DrawableList*,GameMessage::Type,PickAndPlayInfo* = 0);
+bool pickAndPlayUnitVoiceResponse(const DrawableList*,GameMessage::Type,PickAndPlayInfo* = 0);
 
 class CommandTranslator {public:void rva0042AF97(GameMessage*); public:
  virtual GameMessageDisposition translateGameMessage(const GameMessage*);

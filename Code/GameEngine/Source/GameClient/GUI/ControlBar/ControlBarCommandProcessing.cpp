@@ -29,7 +29,7 @@ class PickAndPlayInfo { public:
  PickAndPlayInfo(); bool value; Drawable *source,*target; int *weaponSlot;
  void *other; Coord3D pos; const CommandButton *commandButton;
 };
-void __cdecl pickAndPlayUnitVoiceResponse(const DrawableList*,GameMessage::Type,PickAndPlayInfo*);
+bool __cdecl pickAndPlayUnitVoiceResponse(const DrawableList*,GameMessage::Type,PickAndPlayInfo*);
 class NameKeyGenerator { public: NameKeyType nameToKey(const char*); };
 extern NameKeyGenerator *TheNameKeyGenerator;
 class Keyboard { public: bool isShift(); }; extern Keyboard *TheKeyboard;

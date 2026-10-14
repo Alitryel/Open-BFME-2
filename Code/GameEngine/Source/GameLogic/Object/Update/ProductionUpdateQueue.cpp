@@ -778,7 +778,7 @@ class DrawableList: public _STL::list<Drawable *> {public: ~DrawableList() throw
 class PickAndPlayInfo;
 class Rva004D92FE { public: Rva004D92FE(); char pad[8]; Drawable *drawTarget; char tail[24]; };
 class GameMessage { public: enum Type { MSG_NONE=0 }; };
-void pickAndPlayUnitVoiceResponse(const DrawableList *,GameMessage::Type,PickAndPlayInfo *);
+bool pickAndPlayUnitVoiceResponse(const DrawableList *,GameMessage::Type,PickAndPlayInfo *);
 // WB1207EF0 and native caller prove this member ABI; provider corrected and byte-verified.
 struct Rva0049DF81Input;
 
