@@ -20,7 +20,10 @@
 // of the current one (callers Network 0x0025E297 and the update pass
 // 0x004D34C0); the donor's has no parameter. The second FRAMEINFO builder
 // (0x004D0BE5, no direct caller in the image) takes no slot argument despite
-// the donor's name for it, so it keeps an address name here.
+// the donor's name for it. WorldBuilder names it
+// ConnectionManager::SendFinishedLogicFrame (WB VA 0x0138E210,
+// ConnectionManager.cpp:2107; align lead, score 4): same thiscall, no
+// arguments, plain ret, and the same NetFrameCommandMsg build and router send.
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -162,7 +165,7 @@ class BFMEConnectionManager
 public:
 	void sendKeepAliveCommand();
 	void sendFrameInfo(Bool nextFrame);
-	void rva004D0BE5();
+	void SendFinishedLogicFrame();
 	void broadcastRouterFallbackPlan();
 
 private:
@@ -235,7 +238,7 @@ void BFMEConnectionManager::sendFrameInfo(Bool nextFrame)
 	msg->detach();
 }
 
-void BFMEConnectionManager::rva004D0BE5()
+void BFMEConnectionManager::SendFinishedLogicFrame()
 {
 	NetFrameCommandMsg *msg = new NetFrameCommandMsg;
 	msg->setFrame(TheGameLogic->getFrame());
