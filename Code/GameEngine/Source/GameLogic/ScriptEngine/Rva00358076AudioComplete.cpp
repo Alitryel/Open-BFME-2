@@ -63,11 +63,53 @@ extern AudioManager *TheAudio;
 class ScriptEngine
 {
 public:
+	bool rva00357F5E(const AsciiString &s, bool remove);
 	bool rva00358076(const AsciiString &s, bool remove);
 private:
-	char m_pad[0x1A25C];
+	char m_pad[0x1A258];
+	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> > m_list1A258;
 	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> > m_list1A25C;
 };
+
+// Native 0x00357F5E..0x00358076 (280B). The matched
+// evaluateSpeechHasCompleted caller supplies the name and removal flag.
+// Retail uses the speech timer list at +0x1A258; the audio sibling below
+// uses +0x1A25C. The visible timer insertion helper preserves the native
+// call scheduling in both bodies; no new callee pins are needed.
+bool ScriptEngine::rva00357F5E(const AsciiString &s, bool remove)
+{
+	unsigned long crc = Rva003ECA13Get(s);
+	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> > &lst = m_list1A258;
+	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> >::iterator it;
+	for (it = lst.begin(); it != lst.end(); ++it) {
+		if (it->m_templateID == crc)
+			break;
+	}
+	if (it == lst.end()) {
+		BfmeSpecialPowerTimer8 timer;
+		timer.m_templateID = 0;
+		timer.m_readyFrame = 0;
+		AudioRef ref = ((AudioManagerView *)TheAudio)->getAudioRef(s);
+		if (ref.referent == 0)
+			return true;
+		{
+			BfmeAudioEventPrefix136 ev(*(const OpaqueRefElement4 *)&ref, 0);
+			float len = ((AudioManagerView *)TheAudio)->getLength(&ev);
+			int frames = (int)(len / g_00DBA4F0);
+			timer.m_readyFrame = TheGameLogic->getFrame() + frames;
+			timer.m_templateID = crc;
+			((Rva00357DF8 *)&lst)->rva00357DF8(timer);
+			it = lst.begin();
+		}
+	}
+	if (TheGameLogic->getFrame() >= it->m_readyFrame) {
+		if (remove) {
+			((_STL::list<int, _STL::allocator<int> > *)&lst)->erase((_STL::list<int, _STL::allocator<int> >::iterator &)it);
+		}
+		return true;
+	}
+	return false;
+}
 
 bool ScriptEngine::rva00358076(const AsciiString &s, bool remove)
 {
