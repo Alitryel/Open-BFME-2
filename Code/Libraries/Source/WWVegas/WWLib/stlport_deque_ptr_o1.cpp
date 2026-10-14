@@ -17,3 +17,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <deque>
 template class _STL::deque<void *, _STL::allocator<void *> >;
+
+// Native 0x0038938C: STLport4.5.3 pointer queue pop forwarding to its owned provider.
+#include <queue>
+template void _STL::queue<void*,_STL::deque<void*,_STL::allocator<void*> > >::pop();
