@@ -321,12 +321,14 @@ Int LivingWorldRegion::rva003F05CE()
     return count;
 }
 
-class Rva003F3F27 { public: void rva003F2106(); void rva003F3B4F(); };
+class Rva003F3F27 { public: void rva003F3B4F(); };
+// 0x003F2106 is rowed as Rva003F2106::rva003F2106 (Rva002B7B71DeleteAll.cpp).
+class Rva003F2106 { public: void rva003F2106(); };
 class Rva002B3166BumpCounter { public: int bump(); };
 void LivingWorldRegion::CreateBuildPlots()
 {
     if (m_buildPlots.size() != 0)
-        reinterpret_cast<Rva003F3F27 *>(this)->rva003F2106();
+        reinterpret_cast<Rva003F2106 *>(this)->rva003F2106();
     m_buildPlots.reserve(m_plotPositions.size());
     for (unsigned i=0; i<m_plotPositions.size(); ++i) {
         int id = reinterpret_cast<Rva002B3166BumpCounter *>(TheLivingWorldLogic)->bump();
@@ -535,7 +537,7 @@ void LivingWorldRegion::DoXfer(Xfer *xfer)
     Rva003F2394Xfer(xfer,&values164);
     Rva003F2394Xfer(xfer,&values158);
     if(xfer->IsLoading()) {
-        reinterpret_cast<Rva003F3F27 *>(this)->rva003F2106();
+        reinterpret_cast<Rva003F2106 *>(this)->rva003F2106();
         m_plotIndex=0; m_plotFlag=false;
         if(m_ownerPlayerID!=-1) {
             int count;
@@ -655,14 +657,14 @@ void Rva003F2A8C::rva003F2A8C(Int newOwner)
 		if (*it)
 			reinterpret_cast<Rva004FC176 *>(*it)->rva004FC176(newOwner);
 	}
-	reinterpret_cast<Rva003F3F27 *>(this)->rva003F2106();
+	reinterpret_cast<Rva003F2106 *>(this)->rva003F2106();
 	region->m_plotIndex = 0;
 	region->m_plotFlag = false;
 	reinterpret_cast<Rva003F1AFF *>(this)->rva003F1AFF(newOwner);
 	if (newOwner != -1)
 		region->CreateBuildPlots();
 	else
-		reinterpret_cast<Rva003F3F27 *>(this)->rva003F2106();
+		reinterpret_cast<Rva003F2106 *>(this)->rva003F2106();
 }
 
 // Native3F1CFE..3F1D18 RET8 calls the plot lookup then the region member.

@@ -50,5 +50,6 @@ child=new Rva003F1F6A((void*)id_);
 _STL::vector<ScienceType>*v=(_STL::vector<ScienceType>*)&values158;v->erase(v->begin(),v->end());
 }
 
-class Rva003F3F27{public:void rva003F2106();};
-Rva003F332E::~Rva003F332E(){delete child;child=0;((Rva003F3F27*)this)->rva003F2106();}
+// 0x003F2106 is rowed as Rva003F2106::rva003F2106 (Rva002B7B71DeleteAll.cpp).
+class Rva003F2106 { public: void rva003F2106(); };
+Rva003F332E::~Rva003F332E(){delete child;child=0;((Rva003F2106*)this)->rva003F2106();}

@@ -17,6 +17,9 @@ public:
 	void rva003F318C(void *block);
 };
 
+// 0x003F2106 is rowed as Rva003F2106::rva003F2106 (Rva002B7B71DeleteAll.cpp).
+class Rva003F2106 { public: void rva003F2106(); };
+
 class Rva003F3F27
 {
 public:
@@ -24,7 +27,6 @@ public:
 	void rva003F20B0();
 	void rva003F1AFF(int n);
 	void rva003FEFDF5(int n);
-	void rva003F2106();
 	void rva003F3B4F();
 private:
 	char m_pad00[0x60];
@@ -45,7 +47,7 @@ void Rva003F3F27::rva003F3F27()
 	rva003F20B0();
 	rva003F1AFF(-1);
 	rva003FEFDF5(1);
-	rva003F2106();
+	((Rva003F2106 *)this)->rva003F2106();
 	m_17c = 0;
 	m_1a3 = 0;
 	m_1a8.rva003F318C(&m_60marker);
