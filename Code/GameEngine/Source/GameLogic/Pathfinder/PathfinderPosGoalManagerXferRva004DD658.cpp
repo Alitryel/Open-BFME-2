@@ -162,3 +162,13 @@ void Rva004DD843::rva004DD658(Xfer *xfer)
 		Rva004DD619Footprint(&(*next == m_goal.m_cell), &m_goal.m_angle),
 		&m_goal.m_pathLayer);
 }
+
+// Retail 0x0028A818 (18B, cdecl): transfers the manager through the xfer
+// member above (its only callee) and returns the Xfer, the stream-operator
+// shape (twin skeleton of the STLport ostream operator<< at 0x001F65F4).
+// The original spelling (operator or helper) is unknown; address-named.
+Xfer *__cdecl rva0028A818(Xfer *xfer, Rva004DD843 *manager)
+{
+	manager->rva004DD658(xfer);
+	return xfer;
+}
