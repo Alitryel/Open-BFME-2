@@ -37,7 +37,7 @@ public:
 	float &operator[](int index) { return (&X)[index]; }
 };
 
-// TU-local: the DX8Wrapper::Clamp_Color symbol is owned by DX8WrapperClampColor.cpp
+// TU-local: the DX8Wrapper::Clamp_Color symbol is owned by DX8WrapperConvertColorClamp.cpp
 static __forceinline void PackColorClamp(Rva00177ACBColor4 &color)
 {
 	if (!CPUDetectClass::Has_CMOV_Instruction()) {

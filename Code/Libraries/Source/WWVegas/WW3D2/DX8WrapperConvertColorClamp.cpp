@@ -1,7 +1,12 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
+// DX8Wrapper::Clamp_Color, retail 0x00126082 (250 B), and
 // DX8Wrapper::Convert_Color_Clamp, retail 0x0012617C (399 B), directly after
-// the out-of-line Clamp_Color at 0x0012611E (DX8WrapperClampColor.cpp), the
-// same pair and order as BFME 1's 0x0090F3FA / 0x0090F460.
+// it: the same pair and order as BFME 1's 0x0090F3FA / 0x0090F460. Clamp_Color
+// is Zero Hour's dx8wrapper.h inline whole, out of line: the HasCMOVSupport
+// test with four SSE clamps, then the header's own inline-asm CMOV clamp,
+// which starts at 0x0012611E and is reached only by the jne at 0x00126089.
+// Indexing through operator[] is what keeps each store ahead of the next
+// component's compare, as retail orders them.
 // Donor: reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/
 // Rva0090F460ConvertColorClamp.cpp. Target facts: the color arrives by value
 // (four floats at [ebp+8], plain ret), the no-CMOV path tests
@@ -46,6 +51,7 @@ private:
 class DX8Wrapper
 {
 public:
+	static void Clamp_Color(Vector4 &color);
 	static unsigned int Convert_Color_Clamp(Vector4 color);
 
 private:
@@ -111,6 +117,61 @@ not_changed:
 	}
 
 	return col;
+}
+
+// ?Clamp_Color@DX8Wrapper@@SAXAAVVector4@@@Z
+void DX8Wrapper::Clamp_Color(Vector4 &color)
+{
+	if (!CPUDetectClass::Has_CMOV_Instruction()) {
+		color[0] = color[0] <= 0.0f ? 0.0f : (color[0] > 1.0f ? 1.0f : color[0]);
+		color[1] = color[1] <= 0.0f ? 0.0f : (color[1] > 1.0f ? 1.0f : color[1]);
+		color[2] = color[2] <= 0.0f ? 0.0f : (color[2] > 1.0f ? 1.0f : color[2]);
+		color[3] = color[3] <= 0.0f ? 0.0f : (color[3] > 1.0f ? 1.0f : color[3]);
+		return;
+	}
+
+	__asm
+	{
+		mov	esi,dword ptr color
+
+		mov edx,0x3f800000
+
+		mov edi,dword ptr[esi]
+		mov ebx,edi
+		sar edi,31
+		not edi
+		and edi,ebx
+		cmp edi,edx
+		cmovnb edi,edx
+		mov dword ptr[esi],edi
+
+		mov edi,dword ptr[esi+4]
+		mov ebx,edi
+		sar edi,31
+		not edi
+		and edi,ebx
+		cmp edi,edx
+		cmovnb edi,edx
+		mov dword ptr[esi+4],edi
+
+		mov edi,dword ptr[esi+8]
+		mov ebx,edi
+		sar edi,31
+		not edi
+		and edi,ebx
+		cmp edi,edx
+		cmovnb edi,edx
+		mov dword ptr[esi+8],edi
+
+		mov edi,dword ptr[esi+12]
+		mov ebx,edi
+		sar edi,31
+		not edi
+		and edi,ebx
+		cmp edi,edx
+		cmovnb edi,edx
+		mov dword ptr[esi+12],edi
+	}
 }
 
 // ?Convert_Color_Clamp@DX8Wrapper@@SAIVVector4@@@Z
