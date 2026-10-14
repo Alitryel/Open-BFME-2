@@ -40102,7 +40102,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ??_GBfmeStrVM0@@UAEPAXI@Z,,0x0025DA57,28,Code/GameEngine/Source/Common/BfmeStrVM0Dtor.cpp,matched,BfmeStrVM0 deleting dtor via TU vtable
 ??_GRva004444D2@@UAEPAXI@Z,,0x00444509,28,Code/GameEngine/Source/Common/Rva004444D2Dtor.cpp,matched,chain deleting dtor for Rva004444D2 via famgenDelete; rehomed from FamilyDeletingDtors_muse-08.cpp: Rva004444D2Dtor.cpp owns ~Rva004444D2 and emits this deleting dtor itself (the family placeholder dtor was a duplicate definition)
 ?rva00444462@Rva00444462@@QAEXXZ,,0x00444462,11,Code/GameEngine/Source/Common/Rva00444462.cpp,matched,tail jmp enable at plus288
-?rva00206255@Rva00206255@@QAEPAXHABVAsciiString@@@Z,,0x00206255,83,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineRva00206255.cpp,matched,ThePlayerList getNthPlayer plus bfmeAskRV plus CRC plus map find at 0x1A164
+?getObjectCount@ScriptEngine@@QBEHHABVAsciiString@@@Z,,0x00206255,83,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineRva00206255.cpp,matched,ThePlayerList getNthPlayer plus bfmeAskRV plus CRC plus map find at 0x1A164
 ??1Rva00573B23@@UAE@XZ,,0x00573B23,59,Code/GameEngine/Source/Common/Rva00573B23Dtor.cpp,matched,vptr plus StringBase member plus virtual base dtor unlocks 2
 ??0Rva004382FC@@QAE@ABVRva002542F3Member@@H@Z,,0x004383BA,49,Code/GameEngine/Source/GameLogic/Object/Update/Rva004382FCWrapper.cpp,matched,wrapper param ctor via member copy and TheGameLogic frame
 ??1Rva00573F03@@UAE@XZ,,0x00573F03,11,Code/GameEngine/Source/Common/Rva00573B23Dtor.cpp,matched,derived dtor vptr store plus tail jump to base dtor
@@ -46434,7 +46434,7 @@ _Rva0084ED20Tail,,0x00021EB0,420,Code/Libraries/Source/WWVegas/WWLib/stlport_Loc
 ??0Rva00601BBCHelper@@QAE@XZ,,0x00601BBC,55,Code/GameEngine/Source/Common/System/INIHelperRva00601BBC.cpp,matched,INI+0x838 helper ctor: vtable 0xC7A6B0 then rowed Rva00524415 member and two vectors then pinned once-only init 0x6016C9
 ??1Rva00601BBCHelper@@UAE@XZ,,0x00601BF3,96,Code/GameEngine/Source/Common/System/INIHelperRva00601BBC.cpp,matched,INI helper dtor: vtable re-store then pinned clear 0x601A8D then free both vector buffers then pinned member dtor 0x601AE9
 ??_GRva00601BBCHelper@@UAEPAXI@Z,,0x00602056,28,Code/GameEngine/Source/Common/System/INIHelperRva00601BBC.cpp,matched,INI helper scalar deleting dtor: vtable 0xC7A6B0 slot 0
-?rva00207DF4@Rva00207DF4@@QAEXHABVAsciiString@@PAVImage@@@Z,,0x00207DF4,50,Code/Libraries/Source/WWVegas/WWLib/Rva00207DF4Method.cpp,matched,unlock lane CRC keyed Image store via rowed Get and subscript caller 0x003E9EB0
+?setObjectCount@ScriptEngine@@QAEXHABVAsciiString@@H@Z,,0x00207DF4,50,Code/Libraries/Source/WWVegas/WWLib/Rva00207DF4Method.cpp,matched,unlock lane CRC keyed Image store via rowed Get and subscript caller 0x003E9EB0
 ?rva0022161B@Rva0022161B@@QAEXXZ,,0x0022161B,26,Code/GameEngine/Source/Common/Rva0022161BClear.cpp,matched,chain body rowed dtor plus caller jmp 0x00221685 plus vtable 0x00BE6BA8
 ?Rva002C5761Sort@@YGXPAX@Z,,0x002C5761,162,Code/Libraries/Source/WWVegas/WWLib/rva002C5761_sort.cpp,matched,collect sort relink via rowed pushback sort base free and comparator 0x002C0C45
 ??1Rva00419C7F@@UAE@XZ,,0x00419C7F,48,Code/GameEngine/Source/Common/Rva00419C7FDtor.cpp,matched,vtable g_00BC0990 plus rowed releaseBuffer 0x00036410 caller 0x00419C63 novtable Pillage shape

@@ -451,13 +451,13 @@ public:
 	Bool rva002943B2(const Player *player);
 	Object *rva002931F5(Bool flag);
 	void rva00346C53(ObjectStatusTypes bit, Bool set);
-	void rva0028ACDC(const Coord3D *pos);
+	void rva0028ACDC(int pos);
 	void setStatus(ObjectStatusTypes bit, Bool set);
 	Bool isKindOf(KindOfType t) const;
 	void preFireCurrentWeapon(const Object *victim, const Coord3D *pos);
 	void rva0028FC8F();
 	void fireCurrentWeapon(const Coord3D *pos);
-	void rva0028ACEE(const Coord3D *pos, Int layer);
+	void rva0028ACEE(int pos, Int layer);
 	Bool GetGoalPosition(Coord3D *pos) const;
 	void *rva0029439D();
 	ObjectID getID() const { return (ObjectID)m_id; }
@@ -1032,7 +1032,7 @@ StateReturnType AIAttackMeleeEngageState::updateInternal()
 		pos.x = source->getPosition()->x;
 		pos.y = source->getPosition()->y;
 		pos.z = source->getPosition()->z;
-		source->rva0028ACEE(&pos, source->rva0028B511());
+		source->rva0028ACEE((int)&pos, source->rva0028B511());
 		if (source->GetGoalPosition(&pos))
 		{
 			ai->m_finalPosition = pos;
@@ -1069,7 +1069,7 @@ StateReturnType AIAttackMeleeEngageState::updateInternal()
 		pos.x = source->getPosition()->x;
 		pos.y = source->getPosition()->y;
 		pos.z = source->getPosition()->z;
-		source->rva0028ACEE(&pos, source->rva0028B511());
+		source->rva0028ACEE((int)&pos, source->rva0028B511());
 		if (source->GetGoalPosition(&pos))
 		{
 			ai->m_finalPosition = pos;

@@ -671,7 +671,7 @@ public:
 	Real GetRelativeAngle(const Coord3D *pos) const;
 	const Weapon *getCurrentWeapon(WeaponSlotType *slot) const;
 	void rva0028AD32();
-	void rva0028ACDC(const Coord3D *pos);
+	void rva0028ACDC(int pos);
 	bool isMobile() const;
 	Real rva002C97E8(const Coord3D *from, const Coord3D *to) const;
 	void rva0028AE6D();
@@ -1743,7 +1743,7 @@ Bool AIAttackMeleeHordeApproachTargetState::computePath()
 				}
 			}
 			if (m_isInitialApproach)
-				source->rva0028ACDC(goal);
+				source->rva0028ACDC((int)goal);
 		}
 		ai->requestPath(goal, false);
 		}

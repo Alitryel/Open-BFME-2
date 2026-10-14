@@ -48,7 +48,7 @@ public:
  bool testStatus(ObjectStatusTypes) const;
  const Weapon *getCurrentWeapon(WeaponSlotType *) const;
  int rva0028B511() const;
- void rva0028ACEE(const Coord3D *,int);
+ void rva0028ACEE(int,int);
  void rva00295F05(bool); void rva0028CDB6(); void rva001E42F2(const int *);
  unsigned char pad0[4]; void *m_template;
  unsigned char pad8[0x38-8]; Coord3D m_position;

@@ -100,7 +100,7 @@ public:
  Real getVisionRange()const;
  void rva0028ACEE(int,Int);
  void rva0028AD32();
- void rva0028ACDC(const Coord3D*); // the layer
+ void rva0028ACDC(int); // the layer
 	signed char rva0028CE7B() const; // the crushable level
 	Bool testStatus(ObjectStatusTypes status) const;
 	Bool isKindOf(KindOfType kind) const;

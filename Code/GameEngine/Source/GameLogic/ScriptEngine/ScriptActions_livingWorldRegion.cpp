@@ -227,13 +227,9 @@ extern LinearCampaignManager *TheLinearCampaignManager;
 // ScriptConditions_delayedCarryover.cpp).
 class ObjectTypes;
 // 0x0040E589 is rowed as ArmySummary::SpawnOneDelayedCarryoverUnit.
-class ArmySummary { public: ObjectID SpawnOneDelayedCarryoverUnit(ObjectTypes *types); };
+class ArmySummary { public: ObjectID SpawnOneDelayedCarryoverUnit(ObjectTypes *types); bool SpawnOneDelayedCarryoverUnitIntoUnitRevivalTracker(ObjectTypes *types); };
 
-class Rva0040D701ArmySummary
-{
-public:
-	bool SpawnOneDelayedCarryoverUnitIntoUnitRevivalTracker(ObjectTypes *types);
-};
+class Rva0040D701ArmySummary;
 
 struct Coord3D;
 
@@ -697,7 +693,7 @@ void ScriptActions::doCreateUnitRevivalEntryFromDelayedCarryoverHero(const Ascii
 			_STL::vector<Rva0040D701ArmySummary *>::iterator it = armies.begin();
 			_STL::vector<Rva0040D701ArmySummary *>::iterator end = armies.end();
 			for (; it != end; ++it) {
-				if ((*it)->SpawnOneDelayedCarryoverUnitIntoUnitRevivalTracker(types))
+				if (((ArmySummary *)*it)->SpawnOneDelayedCarryoverUnitIntoUnitRevivalTracker(types))
 					return;
 			}
 		}

@@ -480,7 +480,7 @@ public:
 	Bool rva002943B2(const Player *player);
 	Bool isOutOfAmmo() const;
 	Object *adjustVictim(Object *owner, Int flag, Int extra);
-	void rva0028ACDC(const Coord3D *pos);
+	void rva0028ACDC(int pos);
  void rva0028C2DD(Coord3D*) const;
 	void setStatus(ObjectStatusTypes bit, Bool set);
 	Bool isKindOf(KindOfType t) const;
@@ -489,7 +489,7 @@ public:
 	void fireCurrentWeapon(const Coord3D *pos);
 	void fireCurrentWeapon(Object *victim, Int goalID);
 	Bool getWorldspaceBestContactPoint(Coord3D *result, const Coord3D *from, const char *boneName, Int a, Int b, Bool c) const;
-	void rva0028ACEE(const Coord3D *pos, Int layer);
+	void rva0028ACEE(int pos, Int layer);
 	Bool GetGoalPosition(Coord3D *pos) const;
 	void *rva0029439D();
 	friend class AIAttackMeleeHordeWaitPathState;
@@ -1538,7 +1538,7 @@ Bool AIAttackApproachTargetState::computePath()
    else ai->requestAttackPath(victim->getID(),&pos);
   } else {
    if(!rva00344749(&pos,source)) {m_waiting=true;m_waitFrame=TheGameLogic->getFrame()+10*LOGICFRAMES_PER_SECOND;return true;}
-   source->rva0028ACDC(&pos);ai->requestPath(&pos,true);
+   source->rva0028ACDC((int)&pos);ai->requestPath(&pos,true);
   }
   m_waitingForPath=ai->isWaitingForPath();m_stopIfInRange=false;return true;
  }

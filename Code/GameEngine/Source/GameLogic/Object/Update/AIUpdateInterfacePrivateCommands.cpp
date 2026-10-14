@@ -615,7 +615,7 @@ public:
 	// 0x0028AD7C forward to the helper at +0xA4, and 0x0028B525 stores the
 	// word at +0x40C back. Unnamed.
 	Int rva0028B511() const;
-	void rva0028ACEE(const Coord3D *pos, Int value);
+	void rva0028ACEE(int pos, Int value);
 	void rva0028AD7C();
 	void rva0028B525(Int value);
 	AIUpdateInterface *getAI() const { return m_ai; }
@@ -2809,7 +2809,7 @@ void AIUpdateInterface::loadPostProcess()
 	if (!isMoving())
 	{
 		Int value = obj->rva0028B511();
-		obj->rva0028ACEE(obj->getPosition(), value);
+		obj->rva0028ACEE((int)obj->getPosition(), value);
 		obj->rva0028AD7C();
 		obj->rva0028B525(value);
 	}

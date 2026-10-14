@@ -179,7 +179,7 @@ public:
 	bool rva002931BA();
 	float GetRelativeAngle(const Coord3D*)const;
 	void rva0028AD00(int,float,int);
-	void rva0028ACEE(const Coord3D*,int);
+	void rva0028ACEE(int,int);
 	int m_31C; // +0x31C float bits
 	int m_320; // +0x320 float bits
 };
@@ -519,7 +519,7 @@ Coord3D *MoveToGroupOrder::rva005476C8(ObjectID id)
 				float rel = obj->GetRelativeAngle(&result) + angle;
 				obj->rva0028AD00((int)&result, rel, layer);
 			} else {
-				obj->rva0028ACEE(&result, layer);
+				obj->rva0028ACEE((int)&result, layer);
 			}
 			return &m_positions.insert(*(ObjectCoord3DPair *)Rva00547297Init(
 				(Rva00547223 *)&pair, (int *)&id, (int *)&result)).first->second;
