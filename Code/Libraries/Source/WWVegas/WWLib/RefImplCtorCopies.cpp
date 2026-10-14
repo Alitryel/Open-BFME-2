@@ -6,6 +6,10 @@
 // copies out of line beside their callers. Each constructor is select-any
 // like the inline copies elsewhere, and an anchor keeps the noinline body
 // emitted.
+// Retail points every impl vftable here at one folded scalar deleting
+// destructor (0x005FAA31) that calls the destructor (0x004E84A4) out of
+// line; /GX- would inline it, so each impl names its destructor noinline
+// and this unit emits the same copies as the /EHsc units.
 inline void *operator new(unsigned int, void *p) { return p; }
 
 struct Rva00080221RefImpl
@@ -20,6 +24,7 @@ struct Rva007C6FF4Impl : Rva00080221RefImpl
 {
 	int m_value;
 	Rva007C6FF4Impl(const int &value);
+	__declspec(noinline) ~Rva007C6FF4Impl() {}
 };
 
 __declspec(noinline) inline Rva007C6FF4Impl::Rva007C6FF4Impl(const int &value) : m_value(value)
@@ -37,6 +42,7 @@ struct Impl00211E75 : Rva00080221RefImpl
 {
 	int m_value;
 	Impl00211E75(const int &value);
+	__declspec(noinline) ~Impl00211E75() {}
 };
 
 __declspec(noinline) inline Impl00211E75::Impl00211E75(const int &value) : m_value(value)
@@ -54,6 +60,7 @@ struct Impl002D4594 : Rva00080221RefImpl
 {
 	int m_value;
 	Impl002D4594(const int &value);
+	__declspec(noinline) ~Impl002D4594() {}
 };
 
 __declspec(noinline) inline Impl002D4594::Impl002D4594(const int &value) : m_value(value)
@@ -71,6 +78,7 @@ struct Impl002D45C9 : Rva00080221RefImpl
 {
 	int m_value;
 	Impl002D45C9(const int &value);
+	__declspec(noinline) ~Impl002D45C9() {}
 };
 
 __declspec(noinline) inline Impl002D45C9::Impl002D45C9(const int &value) : m_value(value)
@@ -88,6 +96,7 @@ struct Impl002D45FE : Rva00080221RefImpl
 {
 	int m_value;
 	Impl002D45FE(const int &value);
+	__declspec(noinline) ~Impl002D45FE() {}
 };
 
 __declspec(noinline) inline Impl002D45FE::Impl002D45FE(const int &value) : m_value(value)
@@ -105,6 +114,7 @@ struct Impl005773DB : Rva00080221RefImpl
 {
 	int m_value;
 	Impl005773DB(const int &value);
+	__declspec(noinline) ~Impl005773DB() {}
 };
 
 __declspec(noinline) inline Impl005773DB::Impl005773DB(const int &value) : m_value(value)

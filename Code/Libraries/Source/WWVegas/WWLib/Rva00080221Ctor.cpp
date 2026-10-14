@@ -198,26 +198,3 @@ Rva0044BC76::Rva0044BC76(const int *arg)
 	if (p != 0)
 		++p->m_ref;
 }
-
-// ??0Rva005773DB@@QAE@PBH@Z @0x005773DB 53B, impl vtable VA 0xc6e970
-struct Impl005773DB : Rva00080221RefImpl
-{
-	int m_value;
-	Impl005773DB(const int &value) : m_value(value) {}
-};
-
-class Rva005773DB
-{
-public:
-	Rva005773DB(const int *arg);
-private:
-	Impl005773DB *m_impl;
-};
-
-Rva005773DB::Rva005773DB(const int *arg)
-{
-	Impl005773DB *p = new Impl005773DB(*arg);
-	m_impl = p;
-	if (p != 0)
-		++p->m_ref;
-}

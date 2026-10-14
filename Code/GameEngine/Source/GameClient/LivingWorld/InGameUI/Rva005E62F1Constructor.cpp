@@ -81,6 +81,8 @@ Rva005E62F1::Rva005E62F1(void*p4,int p8,int pC,void*p10,Rva005CB84A*p14,void*p18
 
 struct Rva00080221RefImpl {virtual ~Rva00080221RefImpl(){} int refs;Rva00080221RefImpl():refs(0){}};
 struct Impl005773DB: Rva00080221RefImpl {int value;Impl005773DB(const int &v):value(v){}};
+// ??0Rva005773DB@@QAE@PBH@Z: retail 0x005773DB (53B). Its home is this unit: a
+// second, strong definition elsewhere was a duplicate symbol at link.
 inline Rva005773DB::Rva005773DB(const int *arg){Impl005773DB *p=new Impl005773DB(*arg);pointer=(TargetRef00217D4C*)p;if(p)++p->refs;}
 
 int Rva005E62F1::rva005E57A2(void*){return reinterpret_cast<Rva005E57A2Callback*>(a4)->invoke();}
