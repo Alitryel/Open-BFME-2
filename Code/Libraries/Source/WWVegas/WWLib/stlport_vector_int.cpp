@@ -3,8 +3,8 @@
 
 #include <vector>
 
-// vector<int>/char destruction otherwise instantiates per-TU allocator
-// deallocate COMDATs (one byte shape per TU flags); explicit
+// vector<int>/char destruction otherwise instantiates per-TU allocator and
+// _STLP_alloc_proxy deallocate COMDATs (one byte shape per TU flags); explicit
 // dllimport+forceinline specializations take those calls inline so this
 // TU emits no external copies. Bodies are verbatim primary.
 namespace _STL {
@@ -12,6 +12,10 @@ template <> __declspec(dllimport) __forceinline
 void allocator<int>::deallocate(int* __p, size_t __n) const {
   _STLP_ASSERT( (__p == 0) == (__n == 0) )
     if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int* __p, size_t __n) {
+    __stl_alloc_rebind(__STATIC_CAST(_Base&, *this),(int*)0).deallocate(__p, __n);
 }
 }
 
