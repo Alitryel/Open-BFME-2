@@ -15,7 +15,7 @@
 //   0x005AADD9  slot 3: set the running key, then the AITactic's slot 3
 //   0x005AABA5  slot 5: xfer: the AITactic's, then +0x58
 //   0x005AAB9C  slot 6: start and mark roaming
-//   0x005AB085  slot 7: while roaming, send the first idle, unbusy (status
+//   0x005AB085  slot 7 (WB AIRoamingDefenseTactic::update): while roaming, send the first idle, unbusy (status
 //               0x5A clear) owner unit of the owner's player to roam
 //               (0x005AAE3F), then finish. The owner argument of the
 //               0x002A8F24 lookup is an equal-arm conditional (late-folded
@@ -313,7 +313,7 @@ public:
 	virtual void v4();
 	virtual void xfer(Xfer *xfer);
 	virtual void v6();
-	virtual void v7();
+	virtual void update();
 	virtual void v8();
 	virtual Rva004ECECD *create();
 	void rva004ED748(int a, int b);
@@ -330,22 +330,22 @@ public:
 	char m_pad28[0x58 - 0x28];
 };
 
-class Rva005AAB91 : public Rva005DC73C
+class AIRoamingDefenseTactic : public Rva005DC73C
 {
 public:
-	virtual ~Rva005AAB91();
+	virtual ~AIRoamingDefenseTactic();
 	virtual bool appliesTo(void *request);
 	virtual void v2();
 	virtual bool v3(void *unit, int count);
 	virtual void xfer(Xfer *xfer);
 	virtual void v6();
-	virtual void v7();
+	virtual void update();
 	void rva005AAE3F(Object *unit);
 private:
 	bool m_roaming;		// +0x58
 };
 
-void Rva005AAB91::v7()
+void AIRoamingDefenseTactic::update()
 {
 	if (!m_roaming)
 		return;

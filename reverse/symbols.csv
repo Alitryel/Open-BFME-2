@@ -16979,7 +16979,7 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?rva000C6E1A@W3DModelDraw@@QAEXXZ,0x000C6E1A,W3DModelDraw per-frame helpers called by doDrawModule 0xC7BC4 (unrowed; names address-derived)
 ?rva000BD6C2@W3DModelDraw@@QAEXXZ,0x000BD6C2,W3DModelDraw per-frame helpers called by doDrawModule 0xC7BC4 (unrowed; names address-derived)
 ?Flush@RTS3DScene@@QAEXAAVRenderInfoClass@@@Z,0x00071606,callee of ?Render@RTS3DScene@@UAEXAAVRenderInfoClass@@@Z
-?rva005AAE3F@Rva005AAB91@@QAEXPAVObject@@@Z,0x005AAE3F,callee of AIRoamingDefenseTactic slot 7 (0x005AB085): sends the chosen unit to roam; address read from the REL32 at the call; body unclaimed
+?rva005AAE3F@AIRoamingDefenseTactic@@QAEXPAVObject@@@Z,0x005AAE3F,callee of AIRoamingDefenseTactic slot 7 (0x005AB085): sends the chosen unit to roam; address read from the REL32 at the call; body unclaimed
 ?rva0006BBD9@BaseHeightMapRenderObjClass@@QAEXAAVRenderInfoClass@@_N@Z,0x0006BBD9,callee of ?Flush@RTS3DScene@@QAEXAAVRenderInfoClass@@@Z
 ??0Rva005774E3@@QAE@PAURva00577634Owner@@H@Z,0x005774E3,Rva005774E3 ctor (owner id) called by 0x577634; unrowed 0x1C-byte entry
 ??0?$_Rb_tree@UBfmeObject872Header@@U?$pair@$$CBUBfmeObject872Header@@PBUBfmeObject872@@@_STL@@U?$_Select1st@U?$pair@$$CBUBfmeObject872Header@@PBUBfmeObject872@@@_STL@@@3@UArmorSetKeyLess@@V?$allocator@U?$pair@$$CBUBfmeObject872Header@@PBUBfmeObject872@@@_STL@@@3@@_STL@@QAE@ABUArmorSetKeyLess@@ABV?$allocator@U?$pair@$$CBUBfmeObject872Header@@PBUBfmeObject872@@@_STL@@@1@@Z,0x0046AB53,ThingTemplate native member construction; typed STLport allocator and comparator; complete ICF proof; fold-proof=Code/GameEngine/Source/Common/Thing/ThingTemplateConstructor.cpp
