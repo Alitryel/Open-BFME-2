@@ -36,17 +36,6 @@ struct FieldParse
 // Unrowed INI callback for the "Target" field (pinned at 0x002FEE2C).
 void Rva002FEE2CParse(INI *ini, void *instance, void *store, const void *userData);
 
-// Retail's own two-field table, transcribed from .rdata at RVA 0x00807414 (VA 0x00C07414): "Default"
-// with INI::parseInt into the node's +8 value and "Target" with the callback above into the list at
-// +0x0C, then the zero terminator.
-extern const FieldParse g_00C07414[];
-const FieldParse g_00C07414[] =
-{
-	{ "Default", &INI::parseInt, 0, 8 },
-	{ "Target", &Rva002FEE2CParse, 0, 12 },
-	{ 0, 0, 0, 0 }
-};
-
 class Rva002FED8D
 {
 public:
@@ -72,6 +61,15 @@ public:
 
 void AI::rva002FFD03(INI *ini, void *instance, void * /*store*/, const void * /*userData*/)
 {
+	// Retail's two-field table (.rdata RVA 0x00807414): "Default" with INI::parseInt into the
+	// node's +8 value and "Target" with the callback above into the list at +0x0C.
+	static const FieldParse fieldParse[] =
+	{
+		{ "Default", &INI::parseInt, 0, 8 },
+		{ "Target", &Rva002FEE2CParse, 0, 12 },
+		{ 0, 0, 0, 0 }
+	};
+
 	const char *c = ini->getNextToken();
 	AsciiString name(c);
 
@@ -92,5 +90,5 @@ void AI::rva002FFD03(INI *ini, void *instance, void * /*store*/, const void * /*
 		node->next = data->m_namedLists;
 		data->m_namedLists = node;
 	}
-	ini->initFromINI(node, g_00C07414);
+	ini->initFromINI(node, fieldParse);
 }
