@@ -18,20 +18,13 @@ bool FileSystem::getFileInfo(const AsciiString &a, FileInfo *b) const
 	return getFileInfo(a.str(), b);
 }
 
-// Two 17-byte shape twins (push 0x00BC668C; call [OutputDebugStringA IAT];
-// mov eax, imm32; ret). Retail's imm32 is a VA of code, the continuation of
-// the catch that these funclets end, so each returns that address. Parents
-// are not recovered; names are address-derived.
+// Legacy separately rowed 17-byte catch at 0x00077CFE. Its immediate is
+// the native continuation VA. The sibling catch at 0x00077F5E belongs
+// inside Rva00077E05Load and is emitted by its actual C++ try/catch.
 extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA( const char *text );
 
 int Rva00077CFE()
 {
 	OutputDebugStringA( "Error opening file \n" );
 	return 0x00477CE6;
-}
-
-int Rva00077F5E()
-{
-	OutputDebugStringA( "Error opening file \n" );
-	return 0x00477E53;
 }
