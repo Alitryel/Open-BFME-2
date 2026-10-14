@@ -1,4 +1,5 @@
-// cl: /DNDEBUG /MD /Ireference/shims/bfme2_ascii
+// cl: /DNDEBUG /MD /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// stlport
 //
 // "Reload INI file" notifications (slot 4) of ten INI-backed stores, each
 // in the vftable of the class its rowed deleting destructor names. When the
@@ -28,7 +29,10 @@
 // player to restart and appends message 0x70 to MessageStreamSubsystem (its
 // slot 18). The message type's meaning is not recovered.
 
+#include <hash_map>
+#include <vector>
 #include "unicode_string.h"
+#include "ascii_string.h"
 
 class GameMessage;
 
@@ -94,13 +98,55 @@ bool Rva001F092A::rva001F04D9(int reason)
 	return false;
 }
 
-// g_Va00DFDBC8: VA 0x00DFDBC8 (.bss); retail initial byte 00.
-bool g_Va00DFDBC8;
+// g_Va00DFDBC8: VA 0x00DFDBC8 (.bss); retail initial byte 00. File-static:
+// the Armor store's slot 5 (0x001D93CE) clears it only after loading the
+// pending vector's bounds, a store cl could not sink past those loads if
+// the byte could alias them.
+static bool g_Va00DFDBC8;
+
+// Armor store containers (WB ABCAB0 ArmorStore::parseArmorDefinition fills
+// the same +0x0C map and +0x2C vector). Their out-of-line STLport members
+// were built in another unit: this unit's own copies of hashtable::erase and
+// vector::_M_insert_overflow compile to 155 and 132 bytes against retail's
+// 138 and 140, so those calls bind through the spellings the ledger already
+// gives the shared bodies (declared, never instantiated here): the lookup-map
+// slot view 0x0041F4E5 / 0x0054883B, vector<const ModuleData *>::push_back
+// 0x004DFCB0 and vector<void *>::erase 0x0031BD55. find's _M_find 0x002888D4
+// has its own pinned ArmorTemplate spelling.
+enum NameKeyType { NAMEKEY_INVALID = 0, NAMEKEY_MAX = 1 << 23, FORCE_NAMEKEYTYPE_LONG = 0x7fffffff };
+namespace rts { template <class T> struct hash { size_t operator()(const T &value) const { return (size_t)value; } }; }
+class NameKeyGenerator { public: NameKeyType nameToKey(const AsciiString &nameString); };
+extern NameKeyGenerator *TheNameKeyGenerator;
+class ModuleData;
+class Object;
+class ObjectLookupMap { public: Object **findSlot(int *key); void eraseSlot(int *key); };
+namespace _STL {
+template <> void vector<const ModuleData *>::push_back(const ModuleData * const &);
+template <> vector<void *>::iterator vector<void *>::erase(iterator first, iterator last);
+}
+
+class ArmorTemplate
+{
+public:
+	float m_head;				// +0x00
+	float m_damageCoefficient[27];		// +0x04
+	float m_damageScalar;			// +0x70
+	int m_flag;				// +0x74
+	AsciiString m_name;			// +0x78
+};
+typedef _STL::hash_map<NameKeyType, ArmorTemplate *, rts::hash<NameKeyType>, _STL::equal_to<NameKeyType> > ArmorTemplateMap;
 
 class Rva001D92C0 : public RifStore
 {
 public:
 	bool rva001D8FAD(int reason);
+	bool rva001D93CE();
+private:
+	int m_04;
+	int m_08;
+	ArmorTemplateMap m_armorTemplates;		// +0x0C
+	_STL::vector<ArmorTemplate *> m_retired;	// +0x20
+	_STL::vector<ArmorTemplate *> m_pending;	// +0x2C
 };
 
 bool Rva001D92C0::rva001D8FAD(int reason)
@@ -111,6 +157,32 @@ bool Rva001D92C0::rva001D8FAD(int reason)
 		g_Va00DFDBC8 = true;
 	}
 	return g_Va00DFDBC8;
+}
+
+// Armor slot 5 (vftable 0x00BD9CB0), retail 0x001D93CE..0x001D9484 RET0;
+// WB ABC710 is its debug twin. When the reload byte is set it is cleared and
+// every template of the pending vector at +0x2C is keyed by its name (+0x78);
+// a template already under that key moves to the vector at +0x20 and leaves
+// the NameKeyType map at +0x0C, the pending one takes the key, the pending
+// vector is emptied, and the result is whether any template was applied.
+bool Rva001D92C0::rva001D93CE()
+{
+	if (g_Va00DFDBC8) {
+		g_Va00DFDBC8 = false;
+		int i;
+		for (i = 0; i < m_pending.size(); ++i) {
+			NameKeyType key = TheNameKeyGenerator->nameToKey(m_pending[i]->m_name);
+			ArmorTemplateMap::const_iterator it = m_armorTemplates.find(key);
+			if (it != m_armorTemplates.end()) {
+				reinterpret_cast<_STL::vector<const ModuleData *> &>(m_retired).push_back(reinterpret_cast<const ModuleData * const &>((*it).second));
+				reinterpret_cast<ObjectLookupMap &>(m_armorTemplates).eraseSlot((int *)&key);
+			}
+			*reinterpret_cast<ArmorTemplate **>(reinterpret_cast<ObjectLookupMap &>(m_armorTemplates).findSlot((int *)&key)) = m_pending[i];
+		}
+		reinterpret_cast<_STL::vector<void *> &>(m_pending).clear();
+		return i > 0;
+	}
+	return false;
 }
 
 // g_Va00DFE0D4: VA 0x00DFE0D4 (.bss); retail initial byte 00.
