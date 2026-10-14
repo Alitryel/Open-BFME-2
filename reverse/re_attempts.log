@@ -55153,3 +55153,8 @@ CatchContinuation_0x0073F646	0x0073F646	194	no-boundary	Not a standalone functio
 ?Rva006DAE50ArrayAlloc@@YAPAXI@Z	0x006DAE50	37	landed	add_match verified Code/Libraries/Source/Apt/DogmaAllocator.cpp 37B; DogmaAllocator.cpp line 0x5E arrays assert then tail call of alloc callback E17728
 ?Rva006DAE80ArrayFree@@YAXPAX@Z	0x006DAE80	37	landed	add_match verified Code/Libraries/Source/Apt/DogmaAllocator.cpp 37B; DogmaAllocator.cpp line 0x63 arrays assert then tail call of free callback E1772C
 ?roundSize@Rva006DB090@@QBEII@Z	0x006DB120	32	landed	add_match verified Code/Libraries/Source/Apt/DogmaAllocator.cpp 32B; request rounding to 4 with +0x13 low-nibble minimum as inlined in rowed allocBlock 0x006DB160
+?set@Rva006E0060Flags@@QAEXI@Z	0x006E0060	15	landed	add_match verified Code/Libraries/Source/Apt/AptGapLeaves.cpp 15B; or mask into +0x10 flag word
+?clear@Rva006E0060Flags@@QAEXI@Z	0x006E0070	17	landed	add_match verified Code/Libraries/Source/Apt/AptGapLeaves.cpp 17B; and-not mask out of +0x10 flag word
+?test@Rva006E0060Flags@@QBEII@Z	0x006E0090	10	landed	add_match verified Code/Libraries/Source/Apt/AptGapLeaves.cpp 10B; and mask against +0x10 flag word
+?release@Rva006E3200Owner@@QAEXXZ	0x006E3200	10	landed	add_match verified Code/Libraries/Source/Apt/AptGapLeaves.cpp 10B; +0 block to rowed Rva006CD460Free
+?isValue@Rva006E3210Field@@QBEHH@Z	0x006E3210	19	landed	add_match verified Code/Libraries/Source/Apt/AptGapLeaves.cpp 19B; arg equals +8 word

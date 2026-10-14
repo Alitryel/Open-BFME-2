@@ -221,3 +221,64 @@ bool Rva006DAE30Table::isSet(unsigned int key)
 {
 	return m_slots[key >> 2] != 0;
 }
+
+// ?set@Rva006E0060Flags@@QAEXI@Z @ 0x006E0060 (15B), ?clear@...@QAEXI@Z
+// @ 0x006E0070 (17B) and ?test@...@QBEII@Z @ 0x006E0090 (10B): OR a mask
+// into, AND its complement out of, and AND a mask against the +0x10 flag
+// word, the three adjacent RET4 leaves after the AptMath clip stack.
+class Rva006E0060Flags
+{
+public:
+	void set(unsigned int mask);
+	void clear(unsigned int mask);
+	unsigned int test(unsigned int mask) const;
+private:
+	char m_pad[0x10];
+	unsigned int m_flags;
+};
+
+void Rva006E0060Flags::set(unsigned int mask)
+{
+	m_flags |= mask;
+}
+
+void Rva006E0060Flags::clear(unsigned int mask)
+{
+	m_flags &= ~mask;
+}
+
+unsigned int Rva006E0060Flags::test(unsigned int mask) const
+{
+	return m_flags & mask;
+}
+
+// ?release@Rva006E3200Owner@@QAEXXZ @ 0x006E3200 (10B): hands the +0 block
+// to the rowed array free Rva006CD460Free (0x006CD460).
+void Rva006CD460Free(void *);
+class Rva006E3200Owner
+{
+public:
+	void release();
+private:
+	void *m_block;
+};
+
+void Rva006E3200Owner::release()
+{
+	Rva006CD460Free(m_block);
+}
+
+// ?isValue@Rva006E3210Field@@QBEHH@Z @ 0x006E3210 (19B): compares the
+// argument with the +8 word.
+class Rva006E3210Field
+{
+public:
+	int isValue(int value) const;
+private:
+	int m_0, m_4, m_8;
+};
+
+int Rva006E3210Field::isValue(int value) const
+{
+	return value == m_8;
+}
