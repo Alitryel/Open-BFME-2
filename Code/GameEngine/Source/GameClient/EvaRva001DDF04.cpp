@@ -19,8 +19,7 @@
 // and info records are addressed by byte offsets (i*0x34, i*0x30) off bases
 // that are reloaded every iteration. The info record's flag byte is at +0x2D.
 // Retail keeps edx (priority) and xmm0/xmm1 live across the call to 0x001DCE4C,
-// so that callee is defined here as a visible noinline copy (it is rowed in
-// Code/GameEngine/Source/GameLogic/System/Rva001DCDAF.cpp).
+// so that callee's single out-of-line definition and ledger row live here.
 #include <map>
 #include "ascii_string.h"
 #include "Common/BfmeAudioEventPrefix136.h"

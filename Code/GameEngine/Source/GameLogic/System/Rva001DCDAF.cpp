@@ -62,11 +62,6 @@ bool Rva001DCDAF::rva001DCDAF(Arg001DCDAF const *a, Vec001DCDAF const *b, Vec001
     }
 }
 
-float Rva001DCDAF::rva001DCE4C(Arg001DCDAF const *a)
-{
-    return (float)a->u4 - m_4;
-}
-
 void Rva001DCDAF::rva001DCD8C()
 {
     m_0 -= g_00DBA4FC;
@@ -77,5 +72,4 @@ void Rva001DCDAF::rva001DCE3E()
 {
     m_4 = -1.0f;
 }
-
 
