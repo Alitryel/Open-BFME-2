@@ -1,4 +1,4 @@
-// cl: /MD /EHsc /O1 /G7
+// cl: /MD /EHsc /O1 /G7 /Ireference/shims/bfme2_ascii
 // Three caller-identified EH factories. 0x000A8AA6 forwards one integer to
 // 0x0010FA6B; the null-guarded float forwards at 0x000A8AD8 and 0x000A8AEE
 // call 0x0010FC58 and 0x0010FCDB. Each body retains its source object through
@@ -6,6 +6,8 @@
 // (or null) to the address-derived helper pinned at 0x0010F8D0. The callers
 // and decoded target call sites establish these relationships; owner names
 // and broader event semantics remain unproven.
+
+#include "ascii_string.h"
 
 void *__cdecl operator new(unsigned int size) throw();
 
@@ -383,4 +385,46 @@ void Rva0010FFA2::rva0010FFA2(const Rva0010FFA2Packet *packet)
 	(second = new Rva0010EF61(AudioEventInfoRef(
 		reinterpret_cast<AudioEventInfo *>(this)), packet->m_value8, 6000),
 		((Rva0010F8D0 *)this)->rva0010F8D0(second));
+}
+
+// Native 0x0010F962..0x0010F9F1 (143 B, ret 8): when the source object (+0x0C) is set, builds the
+// rowed 0x0010F185 event record (AudioEventInfoRef of this, the source's +0x34 field, the two
+// arguments) and hands it to the helper pinned at 0x0010F8D0; same factory shape as the batch above.
+// The owner, the argument roles and the +0x34 field are address-derived.
+class Rva0010F185 : public Rva001164D3
+{
+public:
+	Rva0010F185(const Rva0036CA00Str &a1, void const *a2, const AsciiString &a3, void const *a4);
+private:
+	void const *m_0C;
+	AsciiString m_s10;
+	void const *m_14;
+};
+
+struct Rva0010F962Source
+{
+	char m_pad00[0x34];
+	void const *m_34;
+	void const *get34() const { return m_34; }
+};
+
+class Rva0010F962
+{
+public:
+	void rva0010F962(const AsciiString &name, void const *tag);
+
+private:
+	char m_pad00[0x0C];
+	Rva0010F962Source *m_source0C;
+};
+
+void Rva0010F962::rva0010F962(const AsciiString &name, void const *tag)
+{
+	if (m_source0C)
+	{
+		Rva0010F185 *eventInfo;
+		(eventInfo = new Rva0010F185(AudioEventInfoRef(
+			reinterpret_cast<AudioEventInfo *>(this)), m_source0C->get34(), name, tag),
+			((Rva0010F8D0 *)this)->rva0010F8D0(eventInfo));
+	}
 }
