@@ -13,11 +13,13 @@
 
 void __cdecl Rva006CC110Log(int level, const char *fmt, ...);
 
+struct Rva006CC9F0Input { int first,second; unsigned char flag; char pad09[3]; int eventId; };
 class Rva006E34D0
 {
 public:
 	void rva006E3580(int x, int y);
 	void rva006E3530(int a, int b, int c);
+	void rva006E4480(Rva006CC9F0Input input);
 };
 
 extern int g_bfmeAptInitAtE17700;
@@ -37,4 +39,18 @@ void Rva006CC9A0(int a, int b, int c)
 	if (!p)
 		return;
 	p->rva006E3530(a, b, c);
+}
+
+// Native6CC9F0..6CCA42 RET is82B; aligned CC padding surrounds it.
+// This input sibling uses the same globals and full warning as6CC9A0.
+// The explicit sixteen-byte copy proves a by-value record at both sides of
+// call6E4480; its former four-scalar declaration lost this caller ABI.
+void Rva006CC9F0(Rva006CC9F0Input input)
+{
+ if (!g_bfmeAptInitAtE17700)
+  return Rva006CC110Log(0, "WARNING: trying to add input when Apt not initalized\n");
+ if (g_bfmeAptFlagAtE176D4) return;
+ Rva006E34D0 *p=g_bfmeAptPtrAtE176D0;
+ if (!p) return;
+ p->rva006E4480(input);
 }
