@@ -3,7 +3,7 @@
 // The native +258 AI view and slots168/188 supply the airborne height path;
 // only accessed prefixes are modeled. Two EH states reset the local-static
 // name/key guard bits; coordinates and the 32-byte command own no cleanup.
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib
 #include "ascii_string.h"
 #include "Coord3D.h"
 #include "../GameLogicObjectLookupView.h"

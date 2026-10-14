@@ -14,6 +14,7 @@ void Rva00030830GameFree(void*);
 namespace _STL {template<> __declspec(dllimport) __forceinline void allocator<unsigned>::deallocate(unsigned*p,size_t)const{if(p)Rva00030830GameFree(p);}}
 class FreelistPool {public:void*pop();};
 extern FreelistPool g_freelistPool00DB8FEC;
+namespace _STL {template<> __declspec(dllimport) __forceinline unsigned*allocator<unsigned>::allocate(size_t n,const void*)const{return n?(unsigned*)allocator<char>::allocate(n*sizeof(unsigned),0):0;}}
 class Object;
 class GameWindow;
 struct BfmePod32 {int words[8];};
@@ -110,11 +111,7 @@ class Rva00421A16 {public:
  ~Rva00421A16(){}
  float x,y,z;
 };
-struct MiniList00421E1C {void *head;};
- void __cdecl Rva004236F5(MiniList00421E1C &,Rva00421A16);
- class Rva00423D2FOwner {public:
-  __declspec(noinline) void rva00423D2F(Rva00421A16 comp){Rva004236F5(*(MiniList00421E1C*)this,comp);}
- };
+class Rva00423D2FOwner {public:void rva00423D2F(Rva00421A16);};
 class Rva00423D92 {public:
  typedef _STL::_List_iterator<GameWindow*,_STL::_Const_traits<GameWindow*> > ConstIter;
  typedef _STL::_List_iterator<GameWindow*,_STL::_Nonconst_traits<GameWindow*> > Iter;
