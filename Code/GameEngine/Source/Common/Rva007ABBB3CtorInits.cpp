@@ -49,6 +49,12 @@ namespace _STL
 }
 
 typedef _STL::map<int, void *, _STL::less<int>, _STL::allocator<_STL::pair<const int, void *> > > IntPtrMap;
+struct TreeHintOpaque0043671B;
+struct BfmePod24;
+class AsciiString;
+typedef _STL::map<unsigned char, int, _STL::less<unsigned char>, _STL::allocator<_STL::pair<const unsigned char, int> > > ByteIntMap;
+typedef _STL::map<AsciiString, TreeHintOpaque0043671B, _STL::less<AsciiString>, _STL::allocator<_STL::pair<const AsciiString, TreeHintOpaque0043671B> > > AsciiHintMap;
+typedef _STL::map<int, BfmePod24, _STL::less<int>, _STL::allocator<_STL::pair<const int, BfmePod24> > > IntPod24Map;
 
 // class-gate: allow AsciiString retail calls the out-of-line folded default ctor at 0x00326BE6; the shared header's inline m_text(0) ctor would store inline instead of emitting that call
 class AsciiString
@@ -129,6 +135,9 @@ void __cdecl rva007B916C();
 void __cdecl rva007B9748();
 void __cdecl rva007B9997();
 void __cdecl rva007B9B1E();
+void __cdecl rva007B7CC3();
+void __cdecl rva007B83B9();
+void __cdecl rva007B9071();
 
 extern unsigned BfmeINIMacroTableStorage[8];
 extern AsciiString BfmeINICurrentFilename;
@@ -155,6 +164,9 @@ extern unsigned g_Va00E048C4;
 extern unsigned g_Va00E06634;
 extern unsigned g_Va00E06778;
 extern unsigned g_Va00E09E60;
+extern unsigned int g_Va00E01E7C;
+extern unsigned g_Va00E032EC;
+extern unsigned int g_Va00E04544;
 
 struct Rva007ABBB3CtorInits
 {
@@ -183,6 +195,9 @@ struct Rva007ABBB3CtorInits
 	static void rva007B4A1A();
 	static void rva007B5181();
 	static void rva007B559D();
+	static void rva007AED71();
+	static void rva007B063B();
+	static void rva007B3486();
 };
 
 // 0x007ABBB3 (22B): ??0INIMacroTable@@QAE@XZ on VA 0x00DDF58C, atexit(0x007B6A6E)
@@ -358,4 +373,25 @@ void Rva007ABBB3CtorInits::rva007B559D()
 {
 	( (ATL::CAtlBaseModule *)&g_Va00E09E60 )->ATL::CAtlBaseModule::CAtlBaseModule();
 	atexit( rva007B9B1E );
+}
+
+// 0x007AED71 (22B): folded map<unsigned char,int> ctor 0x0033C432 on VA 0x00E01E7C, atexit(0x007B7CC3 -> 0x00362B5A)
+void Rva007ABBB3CtorInits::rva007AED71()
+{
+	( (ByteIntMap *)&g_Va00E01E7C )->ByteIntMap::map();
+	atexit( rva007B7CC3 );
+}
+
+// 0x007B063B (22B): map<AsciiString,TreeHintOpaque0043671B> ctor 0x00435CE0 on VA 0x00E032EC, atexit(0x007B83B9 -> 0x00435CDB)
+void Rva007ABBB3CtorInits::rva007B063B()
+{
+	( (AsciiHintMap *)&g_Va00E032EC )->AsciiHintMap::map();
+	atexit( rva007B83B9 );
+}
+
+// 0x007B3486 (22B): map<int,BfmePod24> ctor 0x005011C1 on VA 0x00E04544, atexit(0x007B9071 -> 0x005011AA)
+void Rva007ABBB3CtorInits::rva007B3486()
+{
+	( (IntPod24Map *)&g_Va00E04544 )->IntPod24Map::map();
+	atexit( rva007B9071 );
 }
