@@ -98,7 +98,9 @@ class GeometryInfo
 {
   public:
     float getMaxHeightAbovePosition() const;
-    float getMajorRadius() const
+    // Local +0x24 geometry view; do not emit the generic accessor name used
+    // by views with different layouts. The native movement body inlines this.
+    float movementMajorRadius() const
     {
         return m_majorRadius;
     }
@@ -293,14 +295,14 @@ void HordeContain::rva0046B05B(Object *objArg, Coord3D *posArg, Object *otherArg
         Rva0046B05BTransform(inverse, &local);
         GeometryInfo *geom = &o->m_geometry;
         bool inside =
-            fabs(local.x) <= geom->getMajorRadius() && geom->getMaxHeightAbovePosition() >= local.z;
+            fabs(local.x) <= geom->movementMajorRadius() && geom->getMaxHeightAbovePosition() >= local.z;
         if ((inside == 0) && !obj->isKindOf(KINDOF_67) && !obj->isKindOf(KINDOF_69) &&
             !obj->isSignificantlyAboveTerrain())
         {
             MovementPoint midpoint((target.x + start.x) * 0.5f, (target.y + start.y) * 0.5f,
                                    target.z);
             Rva0046B05BTransform(inverse, &midpoint);
-            inside = fabs(midpoint.x) <= geom->getMajorRadius() &&
+            inside = fabs(midpoint.x) <= geom->movementMajorRadius() &&
                      geom->getMaxHeightAbovePosition() >= midpoint.z;
         }
         if (inside)
@@ -312,10 +314,10 @@ void HordeContain::rva0046B05B(Object *objArg, Coord3D *posArg, Object *otherArg
             {
                 MovementPoint startPoint(start.x, start.y, start.z);
                 Rva0046B05BTransform(inverse, &startPoint);
-                if (startPoint.x > geom->getMajorRadius())
-                    startPoint.x = geom->getMajorRadius();
-                else if (-geom->getMajorRadius() > startPoint.x)
-                    startPoint.x = -geom->getMajorRadius();
+                if (startPoint.x > geom->movementMajorRadius())
+                    startPoint.x = geom->movementMajorRadius();
+                else if (-geom->movementMajorRadius() > startPoint.x)
+                    startPoint.x = -geom->movementMajorRadius();
                 Rva0046B05BTransform(o->m_transform, &startPoint);
                 start.x = startPoint.x;
                 start.y = startPoint.y;
