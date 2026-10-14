@@ -104,7 +104,7 @@ void FormationTranslator::WaitForSecondButtonDownStateHandler::Restart(void *p)
 
 // ?rva00431C9D@WaitForSecondButtonDownStateHandler@FormationTranslator@@QAEHPAVGameMessage@@@Z @0x00431C9D 445B
 
-class BFMERopeDrawable
+class Drawable
 {
 public:
 	const Coord3D *getPosition() const;
@@ -118,7 +118,7 @@ public:
 	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
 	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
 	virtual void s08();
-	virtual BFMERopeDrawable *s09(const ICoord2D *a, bool b, unsigned int c);
+	virtual Drawable *s09(const ICoord2D *a, bool b, unsigned int c);
 	virtual void s10(); virtual void s11(); virtual void s12(); virtual void s13();
 	virtual void s14(); virtual void s15(); virtual void s16(); virtual void s17();
 	virtual void s18(); virtual void s19(); virtual void s20(); virtual void s21();
@@ -241,7 +241,7 @@ int FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D(GameMe
 	bool b = TheInGameUI->m_8B8;
 	unsigned int mode = Rva0030F099(b);
 	b = TheInGameUI->m_8B8;
-	BFMERopeDrawable *draw = TheTacticalView->s09(&tmp, b, mode);
+	Drawable *draw = TheTacticalView->s09(&tmp, b, mode);
 	Slot48Ret *v = TheInGameUI->slot48();
 	if (v != 0 && v->m_14 != 0 && v->m_14 != 0xA)
 	{

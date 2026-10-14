@@ -28,7 +28,7 @@ class Rva0007BB79Owner{public:Rva0008B689Element rva0007BB79();};
 class Rva0007D9B5Host{public:void rva0007D9B5(int);};
 class Rva0006ED29{public:void rva0006ED29(void*);};
 extern Rva0007BB79Owner *TheWaterRenderObj;
-class BFMERopeDrawable { public: const Coord3D *getPosition() const; };
+class Drawable { public: const Coord3D *getPosition() const; };
 class Object { char gap[0x38]; public: Coord3D m_position; };
 class ScriptEngine;
 class Rva00203B08 {public:bool rva0020424FF();};
@@ -236,7 +236,7 @@ class GameClient { public: virtual void target00();virtual void target04();virtu
  virtual void slot020();
  virtual void slot024();
  virtual void slot028();
- virtual BFMERopeDrawable *slot02c(int);
+ virtual Drawable *slot02c(int);
  virtual void slot030();
  virtual void slot034();
  virtual void slot038();
@@ -570,7 +570,7 @@ void W3DView::update()
         Object* cameraLockObj=TheGameLogic->findObjectByID((ObjectID)cameraLock);
         bool loseLock=false;
         if(cameraLockObj==0) loseLock=true;
-        BFMERopeDrawable *drawable=TheGameClient->slot02c(getCameraLockDrawable());
+        Drawable *drawable=TheGameClient->slot02c(getCameraLockDrawable());
         if(loseLock) {
             slot19c();
             W3DViewFollowFactor=-1.0f;
@@ -662,7 +662,7 @@ void W3DView::update()
                 }
             }
         } else {
-            BFMERopeDrawable *drawable=TheGameClient->slot02c(getCameraLockDrawable());
+            Drawable *drawable=TheGameClient->slot02c(getCameraLockDrawable());
             const Coord3D *pos;
             if(drawable) pos=drawable->getPosition();
             else {
