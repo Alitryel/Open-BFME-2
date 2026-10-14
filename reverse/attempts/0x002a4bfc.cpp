@@ -1,4 +1,6 @@
 // ?rva002A4BFC@Rva002A3DD3@@QAEXPAVObject@@PAVThingTemplate@@PBUICoord2D@@URGBColor@@@Z
+// partial score=0.8273216979099332 date=2026-10-14
+// ?rva002A4BFC@Rva002A3DD3@@QAEXPAVObject@@PAVThingTemplate@@PBUICoord2D@@URGBColor@@@Z
 // partial score=0.85 date=2026-10-10
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/Libraries/Include /O1 /arch:SSE /G7 /Oy-
 // stlport
@@ -337,7 +339,7 @@ void Rva002A3DD3::rva002A4BFC(Object *object,ThingTemplate *type,const ICoord2D 
    FormationGroup *group=*it;
    int length=group->last-group->first;
    for(int i=0; remaining>0 && i<length; ++i) {
-    average.x+=group->first[i].x; --remaining; average.y+=group->first[i].y;
+    --remaining; average.x+=group->first[i].x; average.y+=group->first[i].y;
    }
   }
   float reciprocal=1.0f/total;
