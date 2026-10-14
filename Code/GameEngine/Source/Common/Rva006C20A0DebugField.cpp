@@ -28,6 +28,7 @@ public:
 	static unsigned rva006C16D0(const void *chunk);
 	void rva006C1710(int a, int b, int c);
 	int rva006C1770(short option);
+	bool rva006C19F0(void *a, unsigned int size, bool b, void *c, void *d, void *e);
 };
 
 void *GeneralAllocatorDebug::rva006C20A0(void *block, unsigned length, unsigned short id, const void *data, unsigned dataLength)
@@ -148,4 +149,41 @@ void Rva006C1A80::rva006C1A80(void *owner)
 		m_owner = owner;
 	else
 		m_owner = this;
+}
+
+// 0x006C19F0 (94B): the debug allocator's setup: the rowed base setup
+// 0x00033700 with the same six arguments, then, the first time only, the
+// +0x570 table (0x100 bytes) and the +0x670/+0x674 words cleared under the
+// +0x510 once flag. The base result is returned. The table is cleared by an
+// element loop (cl turns it into the retail rep stosd; a memset call orders
+// the edi/ecx setup the other way). Address-derived name.
+class Rva00033B90Allocator
+{
+public:
+	bool rva00033700(void *a, unsigned int size, bool b, void *c, void *d, void *e);
+};
+
+struct Rva006C19F0State
+{
+	char m_pad000[0x510];
+	bool m_initialized;					// +0x510
+	char m_pad511[0x570 - 0x511];
+	unsigned int m_table[0x40];			// +0x570
+	int m_670;
+	int m_674;
+};
+
+bool GeneralAllocatorDebug::rva006C19F0(void *a, unsigned int size, bool b, void *c, void *d, void *e)
+{
+	bool result = ((Rva00033B90Allocator *)this)->rva00033700(a, size, b, c, d, e);
+	Rva006C19F0State *state = (Rva006C19F0State *)this;
+	if (!state->m_initialized)
+	{
+		state->m_initialized = true;
+		for (int i = 0; i < 0x40; ++i)
+			state->m_table[i] = 0;
+		state->m_670 = 0;
+		state->m_674 = 0;
+	}
+	return result;
 }
