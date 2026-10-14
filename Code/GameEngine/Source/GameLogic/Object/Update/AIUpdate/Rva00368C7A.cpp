@@ -152,8 +152,15 @@ class Object{public:void rva0028AE6D();char pad0[0x38];Coord3D position;char pad
 class StateMachine{public:void setGoalPosition(const Coord3D*,float);char pad0[0x14];Object*owner;};
 class FollowTerrain:public FollowSlots<6>{public:virtual float height(float,float,Coord3D*)=0;};class TerrainLogic;extern TerrainLogic*TheTerrainLogic;
 enum StateReturnType{STATE_CONTINUE=0,STATE_FAILURE=-2};
-struct FollowPosition:public Coord3D{__forceinline FollowPosition(const FollowPosition&r){x=r.x;y=r.y;z=r.z;}__forceinline FollowPosition(float xx,float yy,float zz){x=xx;y=yy;z=zz;}};
-class Rva0036C6AFState:public FollowSlots<4>{public:virtual StateReturnType rva0036C6AF();FollowPosition rva0036C8A5(bool*,bool);char pad4[0x18-4];StateMachine*machine;char pad1c[4];bool enabled;char pad21[3];int counter;};
+// set/scale/add mirror the Coord3D helpers WB F30B00 calls (scale 41A300, add 419C70);
+// retail inlines them. The matrix view is the owner transform at +08.
+struct FollowPosition:public Coord3D{__forceinline FollowPosition(){}__forceinline FollowPosition(const FollowPosition&r){x=r.x;y=r.y;z=r.z;}__forceinline FollowPosition(float xx,float yy,float zz){x=xx;y=yy;z=zz;}
+ __forceinline void set(float xx,float yy,float zz){x=xx;y=yy;z=zz;}__forceinline void scale(float s){x*=s;y*=s;z*=s;}__forceinline void add(const FollowPosition*p){x+=p->x;y+=p->y;z+=p->z;}};
+struct FollowVector{float X,Y,Z;__forceinline FollowVector(float xx,float yy,float zz){X=xx;Y=yy;Z=zz;}};
+struct FollowMatrix{float Row[3][4];__forceinline FollowVector Get_X_Vector()const{return FollowVector(Row[0][0],Row[1][0],Row[2][0]);}};
+struct FollowSamplingData{char pad0[0x74];float limit,step,slope;};
+struct FollowAIData{char pad0[4];FollowSamplingData*data;};
+class Rva0036C6AFState:public FollowSlots<4>{public:virtual StateReturnType rva0036C6AF();FollowPosition rva0036C8A5(bool*,bool);bool rva0036CA3B(const Coord3D*,float);char pad4[0x18-4];StateMachine*machine;char pad1c[4];bool enabled;char pad21[3];int counter;};
 StateReturnType Rva0036C6AFState::rva0036C6AF(){
  counter=0;Object*owner=machine->owner;owner->clear(155);FollowAI*ai=owner->ai;if(!ai)return STATE_FAILURE;ai->follow=true;if(owner->status&1)return STATE_FAILURE;
  ai->chooseLocomotorSet(0);Rva00368C7AMetrics*locomotor=ai->metrics;if(!locomotor)return STATE_FAILURE;
@@ -166,4 +173,24 @@ StateReturnType Rva0036C6AFState::rva0036C6AF(){
  ((Rva0036748E*)ai)->rva0036C897(false);if(!ai->success)return STATE_FAILURE;
  if(ai->test(6)&&ai->victim!=INVALID_OBJECT_ID){Object*target=TheGameLogic->findObjectByID(ai->victim);if(target)target->set(72);}
  return STATE_CONTINUE;
+}
+
+// Native36C8A5..36CA3B RET12, statement flow from WB F30B00: walk the owner's facing (transform
+// X axis) in step increments up to the sampling limit while the goal check 36CA3B accepts the
+// sample. The separate X-axis vector and direction locals are retail's frame 48.
+FollowPosition Rva0036C6AFState::rva0036C8A5(bool*shortGoal,bool longer){
+ Object*owner=machine->owner;FollowPosition best=*(const FollowPosition*)&owner->position;float reached=0.0f;FollowAI*ai=owner->ai;
+ if(!ai)return best;
+ float height=owner->position.z;const FollowMatrix*mtx=(const FollowMatrix*)((char*)owner+8);FollowVector v=mtx->Get_X_Vector();
+ FollowPosition dir;dir.set(v.X,v.Y,v.Z);
+ FollowSamplingData*data=((FollowAIData*)ai)->data;float limit=data->limit;float step=data->step;float slope=data->slope;
+ if(longer)limit*=2.0f;
+ for(float distance=step;distance<=limit;distance+=step){
+  FollowPosition offset=dir;offset.scale(distance);
+  FollowPosition candidate=*(const FollowPosition*)&owner->position;candidate.add(&offset);
+  if(!rva0036CA3B(&candidate,slope*distance+height))break;
+  reached=distance;best=candidate;
+ }
+ if(limit/2.0f>reached)*shortGoal=true;else *shortGoal=false;
+ return best;
 }
