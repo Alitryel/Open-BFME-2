@@ -54,10 +54,6 @@ struct BfmeStringRecord000B757D
  
 }
 ;
-BfmeStringRecord000B757D::~BfmeStringRecord000B757D()
-{
- 
-}
 void __cdecl free(void*);
 struct Rva000B2BE5Src;
 class Rva000BB694 
@@ -215,17 +211,6 @@ class ParticleSystem
  
 }
 ;
-// ?BfmeParticleSystemHandle::~BfmeParticleSystemHandle present-unmatched
-inline BfmeParticleSystemHandle::~BfmeParticleSystemHandle()
-{
- if(m_previous)((BfmeParticleSystemHandle*)m_previous)->m_next=m_next;
- else ((ParticleSystem*)m_system)->first=(BfmeParticleSystemHandle*)m_next;
- if(m_next)((BfmeParticleSystemHandle*)m_next)->m_previous=m_previous;
- else ((ParticleSystem*)m_system)->last=(BfmeParticleSystemHandle*)m_previous;
- m_previous=0;
- m_next=0;
- 
-}
 class RvaSmartPtr12 
 {
  public: void rva0004CBC0() throw();
@@ -501,7 +486,6 @@ class W3DScriptedModelDrawInterface10
  
 }
 ;
-extern int g_Va00DE1B40;
 int Rva000B2BA3Get(const Rva000B2BE5Src *src, bool *out);
 class Rva000BC9B1 
 {
