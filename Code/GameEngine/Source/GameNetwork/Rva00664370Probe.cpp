@@ -1,7 +1,5 @@
-// ?rva00664370@Rva00664370@@UAEXHPAURva00664370Probe@@@Z
-// partial score=0.6 date=2026-10-12
-// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
-// ?rva00664370@Rva00664370@@UAEXHPAURva00664370Probe@@@Z, retail
+// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /Ot
+// Rva00664370::rva00664370, retail
 // 0x00664370..0x00664417 (167B): a Ghidra-unlisted slot of table 0x00CE3008
 // in the online-services cluster (beside the rowed 0x00662B60 / 0x00662A80).
 // For a probe in state 4: a non-zero result is reported through the
@@ -67,7 +65,7 @@ class Rva00664370Iface
 {
 public:
 	virtual void rva00664370(int result, Rva00664370Probe *probe);
-	char m_pad0C[0x14 - 0x0C];
+	char m_pad04[0x14 - 0x04];
 	Rva00664370Listener *m_listener;						// +0x14 (from the interface)
 };
 
@@ -85,12 +83,13 @@ void Rva00664370::rva00664370(int result, Rva00664370Probe *probe)
 		{
 			Rva007EB810Get()->log(0, "probe err %d\n", result);
 			int a, b;
+			Rva00664370Base0 *self = this;
 			int *pa = probe->first(&a);
 			int *pb = probe->second(&b);
-			s23(*pb, *pa);
+			self->s23(*pb, *pa);
 			probe->m_state = 0;
 			m_listener->probeDone(probe, result);
-			finish(probe);
+			self->finish(probe);
 		}
 		else
 		{
