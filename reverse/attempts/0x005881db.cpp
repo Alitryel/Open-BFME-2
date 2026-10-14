@@ -8,7 +8,7 @@
 // Existing587D9C constructor establishes held4 / vector8 / force14 / data18.
 // Native and WB prove60B entry offsets and circular-list / AI slots individually.
 // The swarm recovery supplied the matching STLport indexing pattern.
-#include "Lib/Coord3DCtorView.h"
+#include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
 #include "Coord2D.h"
 #include <math.h>
 #include <vector>

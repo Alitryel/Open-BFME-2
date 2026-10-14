@@ -20,7 +20,7 @@
 // (AIStates.cpp); StateReturnType values follow Zero Hour (CONTINUE 0,
 // SUCCESS -1, FAILURE -2). Structural inference: +0x20/+0x24 are the base
 // move's goal x/y.
-#include "Lib/Coord3DCtorView.h"
+#include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
 
 typedef unsigned int UnsignedInt;
 

@@ -54,7 +54,7 @@ public:
 private:
 	unsigned int m_words[19];
 };
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 enum ObjectStatusTypes
 {
 	OBJECT_STATUS_NONE = 0

@@ -10,7 +10,7 @@
 // the result. Repair of the r9 bank; donor shape from BFME1 575ba2b04 attempt
 // plus the target's own WB body and native offsets/shape stride 0x24.
 // Target 006BEF80..006BF3B7 RET24; WB 006F91B0 names GeometryInfo::getBestContactPoint.
-#include "Lib/Coord3DCtorView.h"
+#include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
 #include "ascii_string.h"
 #include <float.h>
 extern "C" int fprintf(void*,const char*,...);
