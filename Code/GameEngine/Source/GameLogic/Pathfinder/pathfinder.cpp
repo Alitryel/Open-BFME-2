@@ -601,6 +601,7 @@ bool rva002ED313(Object*);
 void AdjustMeleeOffset(Object*,Object*,Coord3D*);
 Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
  Bool adjustToMeleeDestination(Object*,const LocomotorSet&,Coord3D*);
+ Bool adjustToPossibleDestination(Object*,const LocomotorSet&,Coord3D*);
  Bool CheckForAdjust(Object *,const LocomotorSet &,Bool,Int,Int,PathfindLayerEnum,Int,Bool,Coord3D *,const Coord3D *,float,Int *,Int);
  Bool QuickDoesPathExist(Object *,const Coord3D *,const Coord3D *,Int);
  Bool IsValidMovementPositionForObject(const Coord3D *,Int,Int,const Object *);
@@ -4105,3 +4106,66 @@ bool Rva002F23A6::rva002F23A6(Object *unit,int weapon,int locomotor,Coord3D *des
  }
  return false;
 }
+
+// BFME1 cee35b7d8 PathfinderAdjustToPossibleDestination semantic donor.
+// WB D455F0; native 002F287A..002F2B88 RET12. One spiral counter spans
+// all four legs, matching the sibling melee search and retail stack reuse.
+static __forceinline bool possibleFootprint(Pathfinder *p,Object *object,int x,int y,int layer,int radius,bool center) {
+ // Native RET24 uses four-byte words and tests only the final low-byte bool.
+ typedef unsigned char (Pathfinder::*Call)(Object *,int,int,int,int,bool);
+ Call typed=reinterpret_cast<Call>(&Pathfinder::bfmeWrapE6E90);
+ return (p->*typed)(object,x,y,layer,radius,center)!=0;
+}
+bool Pathfinder::adjustToPossibleDestination(Object *object,const LocomotorSet &set,Coord3D *destination) {
+ int radius; bool center;
+ Rva002EBCA7Split(object,&radius,reinterpret_cast<unsigned char *>(&center));
+ int count; int i,j,zone; bool obstacle; PathfindLayerEnum layer;
+ // Radius/center remain live; coordinate locals end before the spiral.
+ ICoord2D goal;
+ reinterpret_cast<Rva002E7964 *>(this)->rva002E7964(&goal,center,destination);
+ if(goal.x<0) return false;
+ layer=TheTerrainLogic->getLayerForDestination(object,destination);
+ Coord3D from;
+ const PathfindCell *goalCell=getCell(layer,goal.x,goal.y);
+ from.x=object->position[0];from.y=object->position[1];from.z=object->position[2];
+ ICoord2D start;
+ Rva002E7875WorldToCell(&start,true,&from);
+ const PathfindLayerEnum startLayer=(PathfindLayerEnum)object->rva0028B511();
+ PathfindCell *parent=rva002E8BF8(startLayer,&from);
+ if((parent == 0)) return false;
+ int maxLayer=object->m_template->priority;
+ unsigned char aircraftFlag=object->m_template->flag;
+ 
+ Rva002E99F9Sub460 *zones=reinterpret_cast<Rva002E99F9Sub460 *>((char *)this+0x460);
+ Rva002E8BCF profile(reinterpret_cast<const Rva002E8BCFSrc *>(&set),aircraftFlag==0,maxLayer-1,object->rva0028AFBB());
+ zone=zones->rva0053241F(&profile,parent->quickZone());
+ obstacle=false;
+ if((parent->m_info&15)==4) { obstacle=true;zone=zones->rva00531FD4(&profile,zone);zone=zones->rva0053241F(&profile,zone); }
+ if(zone==zones->rva0053241F(&profile,goalCell->quickZone()) && possibleFootprint(this,object,goal.x,goal.y,layer,radius,center)) return true;
+ int limit=*(int *)((char *)TheWritableGlobalData+0x11fc);
+ i=goal.x;j=goal.y;
+ int delta=1;
+ while(limit>0) {
+  for(count=delta;count>0;--count) {
+   ++i;--limit;
+   if(reinterpret_cast<Rva002EC3CEProbes *>(this)->rva002E7BF0((int)&profile,zone,center,i,j,layer,destination,obstacle) && possibleFootprint(this,object,i,j,layer,radius,center)) return true;
+  }
+  for(count=delta;count>0;--count) {
+   ++j;--limit;
+   if(reinterpret_cast<Rva002EC3CEProbes *>(this)->rva002E7BF0((int)&profile,zone,center,i,j,layer,destination,obstacle) && possibleFootprint(this,object,i,j,layer,radius,center)) return true;
+  }
+  ++delta;
+  for(count=delta;count>0;--count) {
+   --i;--limit;
+   if(reinterpret_cast<Rva002EC3CEProbes *>(this)->rva002E7BF0((int)&profile,zone,center,i,j,layer,destination,obstacle) && possibleFootprint(this,object,i,j,layer,radius,center)) return true;
+  }
+  for(count=delta;count>0;--count) {
+   --j;--limit;
+   if(reinterpret_cast<Rva002EC3CEProbes *>(this)->rva002E7BF0((int)&profile,zone,center,i,j,layer,destination,obstacle) && possibleFootprint(this,object,i,j,layer,radius,center)) return true;
+  }
+  ++delta;
+ }
+ return false;
+}
+
+
