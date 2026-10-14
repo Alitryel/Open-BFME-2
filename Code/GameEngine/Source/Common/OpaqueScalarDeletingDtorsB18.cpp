@@ -347,3 +347,24 @@ private:
 Rva0073EF3A::Rva0073EF3A() : m_00(0), m_08(0)
 {
 }
+
+// ??0Rva0073EEA7@@QAE@ABV0@@Z @0x0073EEA7 20B: copy constructor of a counted
+// handle: copy the pointer and bump the +0x0C count of a non-null pointee.
+struct Rva0073EEA7Target
+{
+	char m_pad[0x0c];
+	int m_refs;
+};
+class Rva0073EEA7
+{
+public:
+	Rva0073EEA7(const Rva0073EEA7 &other);
+private:
+	Rva0073EEA7Target *m_target;
+};
+
+Rva0073EEA7::Rva0073EEA7(const Rva0073EEA7 &other) : m_target(other.m_target)
+{
+	if (m_target)
+		++m_target->m_refs;
+}

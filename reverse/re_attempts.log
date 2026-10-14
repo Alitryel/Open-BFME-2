@@ -56386,3 +56386,13 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ?rva005E358A@Rva005E358A@@QAEXXZ	0x005E358A	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; tail jump to rowed 0x005F1B51 on member at +0
 ?rva005EB8D1@Rva005EB8D1@@QAEXXZ	0x005EB8D1	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; tail jump to rowed 0x0022999F on member at +0
 ?rva005AA0CA@Rva005AA0CA@@QAEPAURva005AA0CAEntry@@XZ	0x005AA0CA	14	blocked	next 12-byte slot take (count +0 storage +4): retail stores the bumped count before reading storage +4; post-increment index, explicit index/store and byte-offset spellings all hoist the +4 load above the store t=5 model=claude-opus-5-5
+??0Rva00665B70@@QAE@XZ	0x00665B70	13	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp 13B; default ctor zeroing three words
+?rva00674A20@Rva00674A20@@QAEHXZ	0x00674A20	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp 8B; post-increment of +0 counter returning old value
+?rva006200A0@Rva006200A0@@QBEPAXXZ	0x006200A0	6	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 6B; address 12 bytes into record held at +0
+?rva006C1840@Rva006C1840@@QAEXXZ	0x006C1840	14	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 14B; clear +0 byte +4 +8 +10
+??ERva006CD4B0@@QAEAAV0@XZ	0x006CD4B0	6	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 6B; pre-increment of 8-byte element pointer
+??FRva006CD4B0@@QAEAAV0@XZ	0x006CD5E0	6	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 6B; pre-decrement of 8-byte element pointer
+?rva006CFE30@Rva006CFE30@@QAE?AURva006CFE30Iterator@@H@Z	0x006CFE30	16	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 16B; unlink head node and return by value twin of 0x002C1F6F
+?rva006E0160@Rva006E0160@@QBEHH@Z	0x006E0160	18	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 18B; signed low 24 bits of +1C masked by argument
+?rva0073B640@Rva0073B640@@QBEHHH@Z	0x0073B640	19	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 19B; 16-bit table entry row column at +6
+??0Rva0073EEA7@@QAE@ABV0@@Z	0x0073EEA7	20	landed	add_match verified Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB18.cpp 20B; counted handle copy ctor bumping pointee +0C count

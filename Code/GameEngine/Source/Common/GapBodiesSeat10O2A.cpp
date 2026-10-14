@@ -95,3 +95,34 @@ void Rva0066CA80::rva0066CA80()
 {
 	m_chain.clear();
 }
+
+// ??0Rva00665B70@@QAE@XZ @0x00665B70 13B: default constructor zeroing three words.
+class Rva00665B70
+{
+public:
+	Rva00665B70();
+private:
+	int m_00;
+	int m_04;
+	int m_08;
+};
+Rva00665B70::Rva00665B70()
+{
+	m_04 = 0;
+	m_00 = 0;
+	m_08 = 0;
+}
+
+// ?rva00674A20@Rva00674A20@@QAEHXZ @0x00674A20 8B: post-increment of the +0
+// counter, returning the old value.
+class Rva00674A20
+{
+public:
+	int rva00674A20();
+private:
+	int m_00;
+};
+int Rva00674A20::rva00674A20()
+{
+	return m_00++;
+}
