@@ -1,4 +1,6 @@
 // ?Capture_Update@HTreeClass@@QAEHH@Z
+// partial score=0.8507274193219757 date=2026-10-14
+// ?Capture_Update@HTreeClass@@QAEHH@Z
 // partial score=0.8507 date=2026-10-13
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)

@@ -1,24 +1,28 @@
 // ?rva002F5022@Pathfinder@@QAEXABUICoord2D@@0PAVPathfindCell@@1GPAGAAHH3@Z
-// partial score=0.8217747378020976 date=2026-10-10
 // ?rva002F5022@Pathfinder@@QAEXABUICoord2D@@0PAVPathfindCell@@1GPAGAAHH3@Z
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
+// Crack-y: allocator and initializer visibility prove the scan and adjacent
+// positions do not escape. Reload examinedCount in the scan; a cached count
+// extends the coordinate lifetime and changes retail register allocation.
+// BFME1 cee35b7d ProcessHierarchicalCell supplied the visibility lead only;
+// the two provider bodies below are existing BFME2 owners, preserved verbatim.
 // Native2F5022..2F52A7 RET36; BF1 pinned575 PathfinderProcessHierarchicalCell.cpp
 // and ZH AIPathfind.cpp7346 give purpose/semantic structure only. Native
 // independently proves extent14..20, closed-list34, zone manager460,16B cells,
 // neighbor zone test and two CalcCostToHierGoal calls. Original spelling unknown.
 typedef unsigned short Zone;
-struct ICoord2D { int x,y; };
-struct IRegion2D { ICoord2D lo,hi; };
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../../Libraries/Include/Lib/IRegion2D.h"
 struct In002E6BA1 {int x,y;};
 class MixFileInfoBuffer {
 public:
  char pad0[0xC];int previous;
  unsigned short totalCost,costSoFar;
- char pad14[0x2C-0x14];unsigned flags;
+ char pad14[0x2C-0x14];unsigned flags; int cell; MixFileInfoBuffer *next; MixFileInfoBuffer **prevNext; void bfmeUnlink();
 };
 extern int TheMixFileInfoPool;
 void Rva0052DBCDInit();
-MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer**,int,In002E6BA1*);
+inline __declspec(noinline) MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer**,int,In002E6BA1*);
 class Rva002E6AF3 {public:int get()const;};
 class Rva002E6B06 {public:int rva002E6B06();};
 class Rva003F69C0Object {public:void set(int*,int);};
@@ -63,7 +67,7 @@ void Pathfinder::rva002F5022(const ICoord2D &scan,const ICoord2D &delta,Pathfind
   PathfindCell *next=getCell(PATHFIND_LAYER_OBSERVED_1,adjacent.x,adjacent.y);
   if(next->getOpen() || next->getClosed())return;
   Zone nextZone=zoneManager.rva00532041(profile,adjacent.x,adjacent.y,(Rva00532041Record**)map);
-  int count=examinedCount;for(int j=0;j<count;++j) {
+  for(int j=0;j<examinedCount;++j) {
    if(examined[j]==nextZone){next->allocateInfo(adjacent);next->PutOnClosedList(&closed);return;}
   }
   if(!zoneManager.rva005318DB((void*)profile,first,next))return;
@@ -79,3 +83,49 @@ void Pathfinder::rva002F5022(const ICoord2D &scan,const ICoord2D &delta,Pathfind
   next->setParent(parent);AddToOpenList(next);
  }
 }
+
+extern int TheMixFileInfoCount;
+extern "C" void * __cdecl memset(void*,int,unsigned int);
+class Rva002E6BA1
+{
+public:
+	__declspec(noinline) void rva002E6BA1(int a, In002E6BA1 *b);
+
+private:
+	int m_00;
+	int m_04;
+	int m_08;
+	int m_0C;
+	unsigned short m_10;
+	unsigned short m_12;
+	int m_14[5];
+	int m_28;
+	int m_2C;
+	int m_30;
+};
+
+inline void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
+{
+	m_30 = a;
+	m_00 = b->x;
+	m_04 = b->y;
+	m_08 = 0;
+	m_0C = 0;
+	m_10 = 0;
+	m_12 = 0;
+	memset(m_14, 0, 20);
+	m_2C &= 0xffffffe0;
+	m_28 = 0;
+	++TheMixFileInfoCount;
+}
+
+// Rehomed 0x002E8B7A (33 B), original Rva002E8B7AInit.cpp: takes the pool
+// head, unlinks it (0x002E6BE2) and initializes it for the cell (0x002E6BA1).
+inline __declspec(noinline) MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, int a, In002E6BA1 *in)
+{
+	MixFileInfoBuffer *node = *pp;
+	node->bfmeUnlink();
+	((Rva002E6BA1 *)node)->rva002E6BA1(a, in);
+	return node;
+}
+

@@ -1,4 +1,6 @@
 // ?projectRangesRva00108FBD@@YAXABVRva00108E7AVector@@0MMMMAAVRva00108E33Pair@@1@Z
+// partial score=0.75314807219032 date=2026-10-14
+// ?projectRangesRva00108FBD@@YAXABVRva00108E7AVector@@0MMMMAAVRva00108E33Pair@@1@Z
 // partial score=0.75314807219032 date=2026-10-10
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas
 // BFME 1 W3DProjectedShadowDecalHelpers.cpp, donor revision
