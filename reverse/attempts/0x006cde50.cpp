@@ -42,7 +42,7 @@ void Rva00893030Manager::rva006CDE50(Rva004A9DF3Element *output,volatile int nMa
  if(!node)return;
  Rva006CDE50Cursor cursor(output);
  for(;node;node=node->next){
-  if(!(j<nMaxSize)){
+  if(!(j<(node ? nMaxSize : nMaxSize))){
    g_bfmeAptAssertAtE17734("j < nMaxSize","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\_AptLoad.h",0x4C);
    if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();
   }

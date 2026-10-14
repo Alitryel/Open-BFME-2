@@ -126,7 +126,7 @@ class Rva00808CB0LanGameEntry : public Rva007E86B0Base
  {
   *(volatile int *)&m_field08 = 0;
   *(volatile int *)&m_field0c = 0;
-  *(volatile int *)&m_field04 = 0;
+  *(int *)&m_field04 = 0;
   
  }
  virtual ~Rva00808CB0LanGameEntry();

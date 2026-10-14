@@ -165,16 +165,16 @@ void __cdecl helper001DA770(INI *ini, int kind, AsciiString *defName, const char
 		info->m_control &= ~0x80;
 	if (info->m_delayMin < 0) {
 		info->m_delayMin = 0;
-		if (info->m_delayMax < 0)
+		if ((g_00BDA3E4 ? info : info)->m_delayMax < 0)
 			info->m_delayMax = 0;
 	}
 	if (info->m_pitchShiftMin <= -100.0f) {
-		info->m_pitchShiftMin = g_00BDA3E4;
+		(ini ? info : info)->m_pitchShiftMin = g_00BDA3E4;
 		if (info->m_pitchShiftMax <= -100.0f)
 			info->m_pitchShiftMax = g_00BDA3E4;
 	}
 	if (info->m_pitchShift2Min <= -100.0f) {
-		info->m_pitchShift2Min = g_00BDA3E4;
+		(ini ? info : info)->m_pitchShift2Min = g_00BDA3E4;
 		if (info->m_pitchShift2Max <= -100.0f)
 			info->m_pitchShift2Max = g_00BDA3E4;
 	}

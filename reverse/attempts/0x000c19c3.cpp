@@ -56,7 +56,7 @@ do{
 ++s;name=(AsciiString*)((char*)name+0xfc);
 }while(s!=statesEnd);
 }
-for(Record14*p=extra;p!=extraEnd;++p)for(AsciiString*n=p->begin;n!=p->end;++n)caches[index]<<*n;
+for(Record14*p=(p ? extra : extra);p!=extraEnd;++p)for(AsciiString*n=p->begin;n!=p->end;++n)caches[index]<<*n;
 for(Record2C*p=handles;p!=handlesEnd;++p)((Rva0006C995*)&caches[index])->rva0006C995(p->value);
 Rva001408C0Target*last=handle;AssetList*lastCache=&caches[index];
 ((Rva0006C995*)lastCache)->rva0006C995(last);

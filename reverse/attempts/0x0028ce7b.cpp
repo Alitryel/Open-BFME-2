@@ -44,7 +44,7 @@ signed char Object::rva0028CE7B() const
 	if (pool && pool->rva00403382(0x19, &bonus, 0))
 		add = (signed char)(int)bonus;
 	signed char level = tpl->m_alternateCrushable;
-	if (level == -1 || ((m_flags124 >> 22) & 1) == 0)
+	if (level == -1 || (((add ? m_flags124 : m_flags124) >> 22) & 1) == 0)
 		level = tpl->m_crushable;
 	return level + add;
 }

@@ -320,7 +320,7 @@ void Rva0055B9BDView::rva0055BA3D()
 		m_velocity[1] = zero;
 		m_velocity[2] = zero;
 	}
-	if (zero > m_weight[0])
+	if (zero > (m_weight[0] ? m_weight[0] : m_weight[0]))
 		m_weight[0] = zero;
 	else if (m_weight[0] > 1.0f)
 		m_weight[0] = 1.0f;

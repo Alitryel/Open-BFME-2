@@ -145,7 +145,7 @@ void TransportContain::UpdateUpgradeCreationTriggers()
   unsigned total=record->count;
   for(unsigned j=0;j<total;++j) {
    if(!((Rva00466D50*)this)->rva00466D50((unsigned)tmpl->transportSlots))break;
-   Object*created=TheThingFactory->newObject(tmpl,obj->team,&mask,false);
+   Object*created=TheThingFactory->newObject(tmpl,(i ? obj->team : obj->team),&mask,false);
    if(!created)break;
    if(iface.s98(created,false,false)) {
     TransportBodyView*body=obj->body;

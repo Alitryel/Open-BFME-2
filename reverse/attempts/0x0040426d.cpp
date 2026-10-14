@@ -215,7 +215,7 @@ void AttributeModifierPoolUpdate::xfer(Xfer *xfer)
 		vec->EraseRange(first, last);
 		int count = 0;
 		xfer->xferInt(count);
-		for (int i = 0; i < count; ++i) {
+		for (int i = 0; (count ? i : i) < count; ++i) {
 			Rva00368270 tmp(0, AsciiString(g_Rva0107301CEmptyString));
 			reinterpret_cast<Rva004031F3 *>(&tmp)->rva004031F3(
 				reinterpret_cast<Obj *>(xfer), reinterpret_cast<Info *>(&version));

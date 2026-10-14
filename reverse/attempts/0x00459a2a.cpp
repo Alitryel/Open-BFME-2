@@ -103,7 +103,7 @@ bool SiegeDockingBehavior::rva00459A2A( ObjectID id, Coord3D *out )
 			dx *= scale;
 			dy *= scale;
 			dz *= scale;
-			px -= dx;
+			px -= (scale ? dx : dx);
 			py -= dy;
 			pz -= dz;
 			Coord3D approach;

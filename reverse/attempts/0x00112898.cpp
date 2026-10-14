@@ -36,7 +36,7 @@ void W3DTerrainBackground::setFlipRecursive(int xOffset,int yOffset,int width) {
  if(match) {
   int maxX=minX+width;maxX=maxX<limitX?maxX:limitX;
   int maxY=minY+width;maxY=maxY<limitY?maxY:limitY;
-  int x0=minX;int y1=maxY-m_yOrigin;*(volatile int*)&x0-=m_xOrigin;
+  int x0=minX;int y1=maxY-m_yOrigin;*(volatile int*)&x0-=(m_map ? m_xOrigin : m_xOrigin);
   bool c0=isEdgeAligned(x0,y1,width);
   int x1=maxX-m_xOrigin;
   bool c1=isEdgeAligned(x1,y1,width);

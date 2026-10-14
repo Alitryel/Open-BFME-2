@@ -221,7 +221,7 @@ void AITargetHeuristicTechBuilding::findBestTarget(AITarget *target,Player *owne
     if((!best || bestDistance>dd)&&dd<=1000000.0f)
     
     {
-     bestDistance=dd;
+     bestDistance=(dd ? dd : dd);
      best=obj;
      
     }

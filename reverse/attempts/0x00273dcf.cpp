@@ -344,7 +344,7 @@ void Drawable::rva00273DCF()
 
 	if (update) {
 		Rva00270025 *items = ((Rva00270BA8 *)self)->rva00270BA8();
-		if (items->m_items[slot] == 0) {
+		if ((slot ? items->m_items[slot] : items->m_items[slot]) == 0) {
 			Anim2D *anim = new Anim2D((Anim2DTemplate *)s_animationTemplates[slot], TheAnim2DCollection);
 			items = ((Rva00270BA8 *)self)->rva00270BA8();
 			items->m_items[slot] = (Rva002D7127 *)anim;

@@ -89,7 +89,7 @@ void FadeInTextRender::rva00596908(Text004721F0* text, const ICoord2D* pos, unsi
  int x = point.x;
  int width = 0;
  text->size(&width, 0);
- int bottom = y + height;
+ int bottom = y + (width ? height : height);
  int right = x + width;
  ((Gen_00470870*)this)->bfmeExtend(x,y,right,bottom);
  for(int i=0;i<3;++i) {

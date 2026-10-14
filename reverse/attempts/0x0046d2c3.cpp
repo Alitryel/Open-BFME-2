@@ -960,7 +960,7 @@ Object *HordeContain::rva0046D2C3(int kind)
 			return node->m_value;
 		node = node->m_next;
 	}
-	node = head->m_next;
+	node = (node ? head->m_next : head->m_next);
 	if (node != head)
 		return node->m_value;
 	for (_STL::set<int>::iterator it = m_170.begin(); it != m_170.end(); ++it)

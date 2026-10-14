@@ -404,7 +404,7 @@ bool Rva005AB7E5::rva005AC294()
 	m_order->m_radius = -1.0f;
 	m_order->m_21 = true;
 	m_order->m_20 = false;
-	m_order->m_name = name;
+	m_order->m_name = (m_order ? name : name);
 	m_order->m_08 = __vref(m_58);
 	m_order->m_28 = false;
 	((Rva00573A00 *)m_order)->rva00573A00((const Coord3D *)&pos);

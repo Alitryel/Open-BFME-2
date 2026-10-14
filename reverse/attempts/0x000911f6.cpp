@@ -37,14 +37,14 @@ int Rva007E3C20Vp6Stream::rva000911F6( int arg )
 		int m44 = m_at44; int m40 = m_at40;
 		unsigned int now = timeGetTime();
 		__int64 mult = ( (__int64)( m44 * 1000 ) * trans );
-		__int64 div1 = mult / m40;
+		__int64 div1 = mult / (edi ? m40 : m40);
 		int diff = (int)now - (int)div1;
 		int q1 = m40 / m44;
 		int q2 = 1000 / q1;
 		if ( diff - m_at50 > q2 )
 			m_at50 = diff;
 	}
-	while ( m_at48 < trans ) {
+	while ( m_at48 < (arg ? trans : trans) ) {
 		if ( v13() )
 			break;
 		if ( edi != 0 )
@@ -54,7 +54,7 @@ int Rva007E3C20Vp6Stream::rva000911F6( int arg )
 	}
 	if ( arg & 1 )
 		return ebx;
-	if ( m_at4c == m_at48 )
+	if ( (m_at48 ? m_at4c : m_at4c) == m_at48 )
 		return ebx;
 	v3();
 	m_at2c->v0();

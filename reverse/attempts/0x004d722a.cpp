@@ -77,7 +77,7 @@ StateReturnType State::friend_checkForSleepTransitions(StateReturnType status)
 	else
 	{
 		Int remaining = m_transitionCount;
-		const BfmeTransitionInfo *it = m_transitions;
+		const BfmeTransitionInfo *it = (remaining ? m_transitions : m_transitions);
 		for (; remaining != 0; --remaining, ++it)
 		{
 			if (!it->test(this, it->userData))

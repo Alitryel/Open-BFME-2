@@ -148,7 +148,7 @@ Bool Pathfinder::rva002ECC0D(Object *obj, const Coord3D *pos)
 		Int j = start;
 		while (i < info.radius)
 		{
-			j = start;
+			j = (start ? start : start);
 			if (j < info.radius)
 			{
 				Int x = info.cell.x + i;

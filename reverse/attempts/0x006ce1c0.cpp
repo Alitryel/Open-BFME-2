@@ -41,7 +41,7 @@ void Rva006CC110Log(int,const char *,...);
 void rva006CE1C0(int force) {
  if(!g_aptOptionalValueVector)return;
  for(int i=g_aptOptionalValueVector->GetNumValues()-1;i>=0;--i) {
-  AptValue *value=g_aptOptionalValueVector->at(i);
+  AptValue *value=(i ? g_aptOptionalValueVector : g_aptOptionalValueVector)->at(i);
   if(value) {
    Rva006CE1C0CIH *cih=(Rva006CE1C0CIH *)((BfmeAptValue006DCD20 *)value)->rva006DCF60(true);
    if((cih->flags&0xc0000)==0x40000 && ((unsigned char)force || !(cih->flags&0xffff))) {

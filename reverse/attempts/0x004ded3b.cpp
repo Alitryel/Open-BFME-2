@@ -659,7 +659,7 @@ UpdateSleepTime FiringTracker::update()
 
 	if (m_frameToStartCooldown != 0 && now > m_frameToStartCooldown)
 	{
-		m_frameToStartCooldown = now + g_00DBA4E4;
+		m_frameToStartCooldown = now + (m_frameToForceReload ? g_00DBA4E4 : g_00DBA4E4);
 		coolDown(false);
 		return UPDATE_SLEEP(g_00DBA4E4);
 	}

@@ -133,7 +133,7 @@ void HordeTransportContain::rva00477BA2(OldContain*old,Object*object){
  object->setTransformMatrix(&matrices[index]);
  PhysicsBehavior*physics=object->physics;
  if(physics){
-  RvaVector direction(object->matrix.rows[0].x,object->matrix.rows[1].x,1.0f);
+  RvaVector direction(object->matrix.rows[0].x,(physics ? object->matrix.rows[1].x : object->matrix.rows[1].x),1.0f);
   int r=GetGameLogicRandomValue(3,8,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeTransportContain.cpp",702);
   RvaVector force=direction*(float)r;
   physics->rva00390629(true);

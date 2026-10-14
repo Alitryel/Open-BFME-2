@@ -47,7 +47,7 @@ int Rva003B573E::rva003B7C47(const StringBase<char>&key)
   index=(int)m_sorted[position];
   offset=index*20;
   BfmeStringRecord003B3F78 *rec=(BfmeStringRecord003B3F78*)((char*)&m_records[0]+offset);
-  if(!rec->flag) return -1;
+  if(!(index ? rec->flag : rec->flag)) return -1;
  } else {
   unsigned int wanted=m_sorted.size()+1;
   if(wanted>m_sorted.capacity()) m_sorted.reserve(wanted+(wanted>>1)+8);

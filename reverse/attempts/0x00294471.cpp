@@ -38,7 +38,7 @@ bool Object::rva00294471(void*arg,int mode){
   if(tmpl->b115&0x20){
    ContainView*base=contain;if(base){ContainView*sub=base->child();if(sub){
     sub->listA(&view);bool any=false;
-    ObjectNode*endNode=view.list->head;for(ObjectNode*n=endNode->next;n!=endNode;n=n->next){
+    ObjectNode*endNode=view.list->head;for(ObjectNode*n=endNode->next;(player ? n : n)!=endNode;n=n->next){
      Object*obj=n->value;if(obj){if(!obj->rva0028F518() || !obj->testStatus(STATUS15) || (unsigned char)obj->rva002933CD() || obj->testStatus(STATUS17))goto accept;any=true;}
     }
     if(any)return false;goto accept;

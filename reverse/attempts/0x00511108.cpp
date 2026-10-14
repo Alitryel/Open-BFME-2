@@ -256,7 +256,7 @@ void Rva00510D0C::OnPageLoaded(const char *params)
 	if (!Rva004128F0GetParam(params, "name", name))
 		return;
 	int level = Rva004128BBGetLevel(name.str());
-	if (level == m_level)
+	if (level == (level ? m_level : m_level))
 	{
 		AsciiString type;
 		if (Rva004128F0GetParam(params, "type", type))

@@ -65,7 +65,7 @@ void Rva0029FEBB::rva0029FEBB(int x, int y)
 		int threshInt = (int)(TheMouse->m_12e8 / 3);
 		float thresh = (float)threshInt;
 		int dx = x - (int)last.m_templateID;
-		int dy = y - (int)last.m_readyFrame;
+		int dy = (x ? y : y) - (int)last.m_readyFrame;
 		Coord3D delta;
 		delta.x = (float)dx;
 		delta.y = (float)dy;

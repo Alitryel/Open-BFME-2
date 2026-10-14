@@ -125,7 +125,7 @@ void EmotionNugget::OnActivation(Object *target, int duration)
         else object00->rva0028CFB2((entry04?entry04:entry04)->clearec, (entry04?entry04:entry04)->set54);
         if (target && target->isSignificantlyAboveTerrain()) {
             Object *object = object00;
-            if (!(object->conditionWord124 & 0x100)) {
+            if (!((object ? object : object)->conditionWord124 & 0x100)) {
                 object->conditionWord124 |= 0x100;
                 object->rva0028AE6D();
             }

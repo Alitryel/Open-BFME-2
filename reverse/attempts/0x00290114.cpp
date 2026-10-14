@@ -758,7 +758,7 @@ void Object::setDisabledUntil(DisabledType type, const unsigned int frame)
 		}
 	}
 
-	if (disabledTill[type] != frame)
+	if ((disabledTill[type] ? disabledTill[type] : disabledTill[type]) != frame)
 	{
 		if (type != (DisabledType)3 && !(unsigned char)((Rva001E4A4E *)this)->rva001E4A4E(type))
 			rva0028B292(1);

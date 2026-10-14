@@ -107,7 +107,7 @@ bool ScriptConditions::evaluateNamedBaseUnpackableForPlayer(Parameter *baseParm,
     CommandSet *commandSet = TheControlBar->rva0031D5F8(&base->getCommandSetString());
     if (commandSet) {
         int i;
-        for (i = 0; i < 32; ++i) {
+        for (i = 0; (castle ? i : i) < 32; ++i) {
             const CommandButton *button = commandSet->getCommandButton(i);
             if (button && button->m_command == 0x32) {
                 ThingTemplate *thing = button->rva0035B570();

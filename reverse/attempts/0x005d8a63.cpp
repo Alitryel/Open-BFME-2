@@ -55,7 +55,7 @@ bool Rva005D8964::rva005D8A63(Object* obj)
 	const Coord3D* b = &victim->m_position;
 	float dx = b->x - a->x;
 	float dy = b->y - a->y;
-	float dz = b->z - a->z;
+	float dz = b->z - (victim ? a->z : a->z);
 	float distSq = dz * dz + dy * dy + dx * dx;
 	return distSq >= 22500.0f;
 }

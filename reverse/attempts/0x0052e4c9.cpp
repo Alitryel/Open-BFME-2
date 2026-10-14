@@ -141,12 +141,12 @@ void Pathfinder::rva0052E4C9(Object *fenceObject, Bool insertFence)
 	{
 		Real x = tl_x;
 		Real y = tl_y;
-		for (Int ix = numStepsX; ix > 0; --ix, x += xdx, y += xdy)
+		for (Int ix = numStepsX; (c ? ix : ix) > 0; --ix, x += xdx, y += xdy)
 		{
 			Int cx = RealToIntFloor((x + 0.5f) / PATHFIND_CELL_SIZE_F);
 			Int cy = RealToIntFloor((y + 0.5f) / PATHFIND_CELL_SIZE_F);
 
-			if (cx >= 0 && cy >= 0 && cx < m_extent.hiX && cy < m_extent.hiY)
+			if (cx >= 0 && cy >= 0 && cx < m_extent.hiX && cy < (cy ? m_extent.hiY : m_extent.hiY))
 			{
 				Bool changed;
 				if (insertFence) {

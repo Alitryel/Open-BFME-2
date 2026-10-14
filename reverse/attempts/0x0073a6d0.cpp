@@ -82,14 +82,14 @@ ObjectShroudStatus PartitionData::getShroudedStatus(int playerIndex)
 	if (playerIndex < 0 || playerIndex >= 20)
 		return OBJECTSHROUD_SHROUDED;
 	if (m_shroudedness[playerIndex] != OBJECTSHROUD_INVALID)
-		return (ObjectShroudStatus)m_shroudedness[playerIndex];
+		return (ObjectShroudStatus)m_shroudedness[(m_ghost ? playerIndex : playerIndex)];
 
 	int shroudedCells = 0;
 	int total = 0;
 	int foggedCells = 0;
 	CellAndObjectIntersection *coi = m_coiArray;
 	CellAndObjectIntersection *end = (CellAndObjectIntersection *)((char *)coi + m_coiInUseCount * 16);
-	for (; coi != end; ++coi)
+	for (; coi != (shroudedCells ? end : end); ++coi)
 	{
 		PartitionCell *cell = coi->m_cell;
 		if (!cell)

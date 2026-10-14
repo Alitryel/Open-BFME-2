@@ -27,7 +27,7 @@ Bool Rva001E46E1::rva001E4015(Object *obj,const Coord3D *dest)
   if(entry->settings->flagD8) {
    Coord3D direction;((const Thing *)obj)->getUnitDirectionVector2D(direction);
    const Coord3D *pos=&((const Direction4015Object *)obj)->pos;
-   float x=dest->x-pos->x;float y=dest->y-pos->y;direction.y*=y;direction.x*=x;float dot=direction.y+direction.x;
+   float x=(obj ? dest->x : dest->x)-pos->x;float y=dest->y-pos->y;direction.y*=y;direction.x*=x;float dot=direction.y+direction.x;
    if(dot<0.0f)return true;
   }
  }

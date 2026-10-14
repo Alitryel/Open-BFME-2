@@ -53,5 +53,5 @@ bool Rva0054034A::rva0054034A(int key)
 	m_hint = index;
 	if ((unsigned int)index >= m_records.size() || (index > 0 && first[index].m_00 != key))
 		m_hint = index - 1;
-	return m_records[m_hint].m_00 == key;
+	return m_records[(key ? m_hint : m_hint)].m_00 == key;
 }

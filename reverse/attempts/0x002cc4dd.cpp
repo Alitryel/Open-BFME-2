@@ -80,7 +80,7 @@ extern ThingFactory *g_009FF000;
 
 void Weapon::rva002CC4DD()
 {
-	const AsciiString &tmplName = m_template->m_name178;
+	const AsciiString &tmplName = (m_template ? m_template : m_template)->m_name178;
 	if (((const StringBase<char> *)&tmplName)->isEmpty())
 		return;
 	Object *owner;

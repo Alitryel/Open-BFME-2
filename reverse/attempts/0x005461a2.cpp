@@ -226,7 +226,7 @@ Bool AITNGuardMachine::lookForInnerTarget(void)
 	}
 	const _STL::list<ObjectID> *allTunnels = tunnels->getContainerList();
 	for( _STL::list<ObjectID>::const_iterator iter = allTunnels->begin(); iter != allTunnels->end(); iter++ ) {
-		Object *currentTunnel = gameLogic->findObjectByID( *iter );
+		Object *currentTunnel = gameLogic->findObjectByID( (gameLogic ? *iter : *iter) );
 		if( currentTunnel ) {
 			// Check for attacking.
 			if (currentTunnel->m_ai) {

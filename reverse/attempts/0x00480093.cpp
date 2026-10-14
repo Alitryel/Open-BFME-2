@@ -242,7 +242,7 @@ void ShareExperienceBehavior::rva00480093(float amount)
 {
 	const ShareExperienceBehaviorModuleData *data = m_moduleData;
 	Object *obj = m_object;
-	if (!(data->m_10 > 0.0f))
+	if (!((obj ? data->m_10 : data->m_10) > 0.0f))
 		return;
 	if (obj->testStatus(OBJECT_STATUS_RVA00480093_65))
 		return;

@@ -104,7 +104,7 @@ bool Rva005EE816::rva005D9471(Object *target)
 	Object *other = hits.next();
 	if (other != 0) {
 		const Coord3D *otherPos = &other->m_pos;
-		Rva005D95CFVec d(otherPos->x - pos->x, otherPos->y - pos->y, otherPos->z - pos->z);
+		Rva005D95CFVec d(otherPos->x - pos->x, (pos ? otherPos->y : otherPos->y) - pos->y, otherPos->z - pos->z);
 		if (d.lengthSqr() >= (radius * 0.8f) * (radius * 0.8f))
 			return rva005EE8DD(otherPos, target);
 	}

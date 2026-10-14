@@ -297,7 +297,7 @@ void Rva00529B6E::rva00529B6E(Object *obj)
 	}
 	if (m_mode == 0)
 	{
-		if (!m_rankSet || result.rank != m_rank)
+		if (!m_rankSet || result.rank != (m_mode ? m_rank : m_rank))
 			((Rva00529130 *)this)->rva00529130(result.rank);
 	}
 	else if (m_mode == 1 && !wasShown)

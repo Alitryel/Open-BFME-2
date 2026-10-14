@@ -60,7 +60,7 @@ void Rva002A71BC::rva002A71BC(int index, bool hero) {
   else { heroes=&data->multiplayer[0][1]; normal=&data->multiplayer[0][0]; }
   if(hero) { points=heroes->initial; maxPoints=heroes->maximum; }
   else { points=normal->initial; maxPoints=normal->maximum; }
-  points+=additionalNormal*normal->initial;
+  points+=(points ? additionalNormal : additionalNormal)*normal->initial;
   points+=additionalHero*heroes->initial;
  } else {
   Player *player=ThePlayerList->getNthPlayer(playerIndex);

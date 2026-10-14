@@ -169,7 +169,7 @@ void W3DScriptedModelDraw::rva000BD6C2()
     Rva00B9AC2 &event=*reinterpret_cast<Rva00B9AC2*>(&copied);
     if(frame==event.start||(event.start<0&&(event.period==0||frame%event.period==0))){
      _STL::list<Rva000BC0DBElement> events(reinterpret_cast<EventCollection*>(event.events)->list);
-     for(ListNode*n=events.node->next;n!=events.node;n=n->next){
+     for(ListNode*n=(it ? events.node->next : events.node->next);n!=events.node;n=n->next){
       EventNugget *e=reinterpret_cast<EventNugget*>(n->value);
       if(e->type==9){
        ParticleEvent32 particle;

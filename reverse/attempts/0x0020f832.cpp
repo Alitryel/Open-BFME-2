@@ -1078,7 +1078,7 @@ bool Rva0020EE29::rva0020F832(void *entry, void *state)
 {
  ((Rva003F2A8C *)entry)->rva003F2A8C(((Rva0020F832State *)state)->value);
  Rva0020FB8BVec14 *source = &m_14;
- for (unsigned i = 0; i < (unsigned)(source->m_end - source->m_begin); ++i) {
+ for (unsigned i = 0; i < (unsigned)(source->m_end - (i ? source : source)->m_begin); ++i) {
   if (((Rva0020F832Node *)source->m_begin[i])->entry == entry) {
    ((Rva00DFE1C8Host *)TheLivingWorldManager)->rva00212655(
     ((Rva0020F832Node *)source->m_begin[i])->key);

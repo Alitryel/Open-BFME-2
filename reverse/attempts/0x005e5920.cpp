@@ -76,7 +76,7 @@ int Rva005E5920::rva005E5920(void *a, int b)
  _ReadWriteBarrier();
  int r = RAMFile::write(a, b);
  if (r == -1)
- return m_8->rva005E5884(a, b);
+ return (b ? m_8 : m_8)->rva005E5884(a, b);
  return r;
  
 }

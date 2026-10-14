@@ -395,7 +395,7 @@ void PopulatePlayerTemplateComboBox(Int comboBox, GameWindow *comboArray[], Game
 			continue;
 
 		AsciiString side;
-		side.format("SIDE:%s", fac->getSide().str());
+		side.format("SIDE:%s", (comboBox ? (fac->getSide().str()) : (fac->getSide().str())));
 		if (seenSides.find(side) != seenSides.end())
 			continue;
 

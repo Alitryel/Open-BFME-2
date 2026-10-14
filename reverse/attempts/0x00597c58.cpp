@@ -42,7 +42,7 @@ void AIUpgradeScienceBuilder::Register(Object *object,void *)
     Rva005970ED *record=new Rva005970ED;
     item=record;
     record->cost=cost; record->id=object->id; record->command=button;
-    record->name.set(upgrade->name); record->rva0059717F(upgrade->heuristic);
+    (i ? record->name : record->name).set(upgrade->name); record->rva0059717F(upgrade->heuristic);
     upgrades.push_back((AIUpgrade *const &)item);
    } else if (button->command==1 && button->rva0035B570() &&
        !(((ScienceBuildTemplateView *)button->rva0035B570())->bit11B & 0x10) &&

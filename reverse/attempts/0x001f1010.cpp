@@ -116,7 +116,7 @@ bool GenericObjectCreationNugget::canCreate(Object *primary, const Coord3D *pos)
                 const SlowDeathData *data=(const SlowDeathData*)info->nthData(i);
                 for(int j=0;j<4;++j) {
                     for(ObjectCreationList **list=data->ocls[j].begin;list!=data->ocls[j].end;++list) {
-                        if(!(*list)->rva001F0434(primary,(void*)pos)) return false;
+                        if(!((what ? *list : *list))->rva001F0434(primary,(void*)pos)) return false;
                     }
                 }
             }

@@ -170,7 +170,7 @@ void FontLibrary::rva00218468(AsciiString *name, float *size, bool *style)
 		if (previous->m_name.getLength() != 0)
 			((StringBase<char> *)name)
 				->set(*(const StringBase<char> *)&previous->m_name);
-		flags = previous->m_flags;
+		flags = (next ? previous->m_flags : previous->m_flags);
 		*sizePtr = (float)previous->m_outputSize;
 	}
 

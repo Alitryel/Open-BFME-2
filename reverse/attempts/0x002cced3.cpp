@@ -871,7 +871,7 @@ bool Weapon::rva002CCED3(const Object *source, const Object *victim)
 		if (!found)
 			return ((Rva002CA9CA *)m_template)->rva002CAA59((int)victim, this);
 		Rva00396722 *holder = (Rva00396722 *)found->findModule(CastleBehavior::rva0003955DA());
-		if (!holder)
+		if (!(m_template ? holder : holder))
 			return ((Rva002CA9CA *)m_template)->rva002CAA59((int)victim, this);
 		if (!holder->rva00396722((void *)victim->m_id))
 			return ((Rva002CA9CA *)m_template)->rva002CAA59((int)victim, this);

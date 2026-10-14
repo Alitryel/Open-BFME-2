@@ -177,7 +177,7 @@ void Rva00460F90::rva00460F90()
 		_ReadWriteBarrier();
 		if (!alreadyCreated)
 			m_waypoints[first]->addLink(m_waypoints[last]);
-		TheAI->m_pathfinder->rva002E8FE5(m_waypoints[first]);
+		(alreadyCreated ? TheAI->m_pathfinder : TheAI->m_pathfinder)->rva002E8FE5(m_waypoints[first]);
 		if (!alreadyCreated)
 		{
 			const int limit = count - 2;

@@ -43,7 +43,7 @@ void AptActionInterpreter::callFunction(AptValue *context,AptValue *function,int
   } else {
    thisStack.push(context); _AptScriptFunctionState state;mpCurrentFunction->AddRef();mpCurrentFunction->SetupBeforeExecution(&state,context);
    int expected=mpCurrentFunction->GetNumArguments();int count=expected;if(nParams<count)count=nParams;int i;
-   for(i=0;i<count;++i){AptValue *param=(AptValue*)stack.At(i);mpCurrentFunction->SetArgument(param,i);}
+   for(i=0;i<count;++i){AptValue *param=(AptValue*)stack.At(i);(i ? mpCurrentFunction : mpCurrentFunction)->SetArgument(param,i);}
    for(;i<expected;++i)mpCurrentFunction->SetArgument(gpUndefinedValue,i);
    stack.rva006E3AA0(nParams);
    const AptCIH *root=mpCurrentFunction->mpParentAnim->rva006E0CB0();AptCharacterInst *character=root?(AptCharacterInst*)((Rva006CD650*)root)->rva006CD650():0;

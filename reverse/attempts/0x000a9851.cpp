@@ -24,7 +24,7 @@ void Rva000A9851PairTable3::copyFrom(const Rva000A9851Pair *src)
 	int n = 3;
 	do
 	{
-		du->u = s->u;
+		du->u = (m_pairs ? s->u : s->u);
 		d->f = s->f;
 		++s;
 		++du;

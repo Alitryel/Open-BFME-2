@@ -149,7 +149,7 @@ void ParticleSystemManager::rva001FCF11(const AsciiString &name,FXParticleSystem
  if(node) {
   ((TemplateDeleteView191*)*(FXParticleSystem::ParticleSystemTemplate**)((char*)node+8))->destroy(0);
   FXParticleSystem::ParticleSystemTemplate *old=*(FXParticleSystem::ParticleSystemTemplate**)((char*)node+8);
-  new(old) FXParticleSystem::ParticleSystemTemplate(*system);
+  new((node ? old : old)) FXParticleSystem::ParticleSystemTemplate(*system);
   ::operator delete(system?((TemplateDeleteView191*)system)->destroy(0):0);
  } else {
   if(!((Rva000427195*)&m_templateMap)->rva001F93A3(&Rva001FCF11TemplatePairKey(makeTemplatePair191(name,system))).found) {

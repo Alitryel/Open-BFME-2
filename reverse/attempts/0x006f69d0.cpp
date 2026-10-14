@@ -55,7 +55,7 @@ void Rva006F69D0::rva006F69D0(const Src006F69D0 *src, unsigned short w, unsigned
     else
         dst->m_0C = 0;
     if (src->m_flags & 0x10)
-        dst->m_10 = src->m_float30;
+        dst->m_10 = (src->m_flags ? src->m_float30 : src->m_float30);
     else
         dst->m_10 = BfmeZeroRange;
 }

@@ -53,7 +53,7 @@ int GeneralAllocator::rva00031D00(const void *block)
 		if ((size & 2) != 0)
 		{
 			score += (rva00031680(block) != 0);
-			unsigned int mask = m_4D4 - 1;
+			unsigned int mask = (size ? m_4D4 : (score ? m_4D4 : m_4D4)) - 1;
 			score += ((((unsigned int)block - hdr[0]) & mask) != 0);
 			score += ((((unsigned int)block + (size & 0x7FFFFFF8) + 0x10) & mask) != 0);
 			_ReadWriteBarrier();
@@ -71,11 +71,11 @@ int GeneralAllocator::rva00031D00(const void *block)
 			if (block == m_440)
 			{
 				score += (hdr[2] != (unsigned int)block || hdr[3] != (unsigned int)block);
-				score += ((size & 0x7FFFFFF8) < 0x10);
+				score += (((score ? size : size) & 0x7FFFFFF8) < 0x10);
 				score += ((unsigned char)~(*(const unsigned char *)(hdr + 1))) & 1 && 1;
 				_ReadWriteBarrier();
 			}
-			else if (m_464 == m_460)
+			else if ((block ? m_464 : m_464) == m_460)
 			{
 				score += ((unsigned int)block < node->m_start);
 				score += ((unsigned int)node + node->m_size - 0x10 < blockEnd);

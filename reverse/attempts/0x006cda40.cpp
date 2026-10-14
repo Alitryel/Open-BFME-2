@@ -681,7 +681,7 @@ void Rva006CDA40ReportZombies() {
  int i=g_aptOptionalValueVector->GetNumValues()-1;
  Rva006CC110Log(4,"ZOMBIE VECTOR HAS %d ITEMS IN IT\n",i+1);
  for(;i>=0;--i) {
-  ZombieCIH *cih=(ZombieCIH *)((BfmeAptValue006DCD20 *)(*g_aptOptionalValueVector)[i])->rva006DCF60(false);
+  ZombieCIH *cih=(ZombieCIH *)((BfmeAptValue006DCD20 *)((i ? *g_aptOptionalValueVector : *g_aptOptionalValueVector))[i])->rva006DCF60(false);
   ZombieInst *inst=(ZombieInst *)((Rva006CD650 *)cih)->rva006CD650();
   Rva006CC110Log(4,"%d :: ZOMBIE SPRITE[name %s  file = %s.swf  size = %d bytes] HAS %d EXTERNAL REFERENCES\n",i+1,cih->name.rva00620090(),inst->resource->file.rva00620090(),inst->resource->size,cih->refs&0xffff);
   Rva006CC110Log(4,"      REFER TO BUG253 ON COREFORGE FOR MORE INFORMATION [http://coreforge.eac.ad.ea.com/tracker/index.php?func=detail&aid=253&group_id=41&atid=247].  EVALUATION OF YOUR SWF FILES IS HIGHLY RECOMMENDED");

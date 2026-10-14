@@ -32,7 +32,7 @@ int Rva005AD9E6::rva005AD9E6()
 		return 0;
 	int n = 0;
 	while (cur != head) {
-		cur = cur->m_next;
+		cur = (cur ? cur->m_next : cur->m_next);
 		++n;
 	}
 	return n;

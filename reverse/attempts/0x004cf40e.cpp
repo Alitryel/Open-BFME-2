@@ -134,7 +134,7 @@ void ConnectionManager::ackCommand(NetCommandRef *ref, const BfmeNetAddress *sou
 
 	for (Int i = 0; i < MAX_SLOTS; ++i)
 	{
-		if (m_connections[i] != 0 && m_connections[i]->isQuitting() == false)
+		if ((msg ? m_connections[i] : m_connections[i]) != 0 && m_connections[i]->isQuitting() == false)
 			sendRelay = sendRelay | (1 << i);
 	}
 

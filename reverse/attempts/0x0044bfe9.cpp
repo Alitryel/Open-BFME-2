@@ -62,7 +62,7 @@ extern "C" void __cdecl Rva00437F61(int,const UnicodeString &,const UnicodeStrin
 typedef void(*GameWinMsgBoxFunc)();
 __declspec(noinline) void MessageBoxNullCallback() {}
 void MessageBoxYesNo(UnicodeString title,UnicodeString message,GameWinMsgBoxFunc yes,GameWinMsgBoxFunc no) {
-    Rva00437F61(2,title,message,Rva0023E8D8(Rva0044BA4E(yes?yes:MessageBoxNullCallback,no?no:MessageBoxNullCallback),2));
+    Rva00437F61(2,(yes ? title : title),message,Rva0023E8D8(Rva0044BA4E(yes?yes:MessageBoxNullCallback,no?no:MessageBoxNullCallback),2));
 }
 void MessageBoxOkCancel(UnicodeString title,UnicodeString message,GameWinMsgBoxFunc ok,GameWinMsgBoxFunc cancel) {
     Rva00437F61(1,title,message,Rva0023E8D8(Rva0044BA4E(ok?ok:MessageBoxNullCallback,cancel?cancel:MessageBoxNullCallback),1));

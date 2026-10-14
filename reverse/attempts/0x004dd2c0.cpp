@@ -176,7 +176,7 @@ void EmotionNugget::OnDeactivation()
 	{
 		int duration = m_entry->m_18;
 
-		m_map20[m_key0C] = (TheGameLogic->m_frame) + duration;
+		m_map20[m_key0C] = ((m_object ? TheGameLogic->m_frame : TheGameLogic->m_frame)) + duration;
 	}
 	if (m_entry->m_fx38)
 	{

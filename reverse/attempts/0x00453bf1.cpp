@@ -366,7 +366,7 @@ void GettingBuiltBehavior::rva00453BF1()
 			module->rva00453BF1Slot15();
 		player->m_money.rva003B0D7C((int)(unsigned int)other->m_324, &player->m_3BC, true);
 		other->setStatus((ObjectStatusTypes)0x56, true);
-		if (other->m_280 <= 0.075f)
+		if ((me ? other->m_280 : other->m_280) <= 0.075f)
 			TheGameLogic->destroyObject(other);
 		else
 		{

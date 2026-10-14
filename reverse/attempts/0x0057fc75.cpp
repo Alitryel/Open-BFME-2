@@ -37,9 +37,9 @@ bool Rva0057F2DE::rva0057FC75(unsigned int msg, unsigned int data1, unsigned int
 {
 	GameWindow *window = (GameWindow *)data1;
 	(void)data2;
-	if (!m_flagA8)
+	if (!(window ? m_flagA8 : m_flagA8))
 		return false;
-	switch (msg)
+	switch ((m_clanPlayers ? msg : msg))
 	{
 	case 0x4015:
 		if (window == m_clanPlayers)
