@@ -1,7 +1,5 @@
 // ?rva00113399@W3DTerrainBackground@@QAEXPAGPAXHHHH0AAH@Z
-// partial score=0.99 date=2026-10-13
-// ?rva00113399@W3DTerrainBackground@@QAEXPAGPAXHHHH0AAH@Z
-// partial score=0.989 date=2026-10-13
+// partial score=0.997 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // Native [00113399,00113C07),2158B, RET32. WorldBuilder places the body in
 // W3DTerrainBackground.cpp (unnamed there). Rectangle form of the ZH
@@ -13,8 +11,8 @@
 // auxiliary height buffer is present every emitted triangle is also cast
 // through getTriangleIntersection (0x0011319A). Retail computes the last
 // triangle's right-vertex Y from the X origin (+0x50); kept as found.
-// Bank state: correct 2158B size, 0x90 frame and register allocation, 12
-// differing lines. The fix was defining the callees test/advanceYThenX/
+// Bank state: correct 2158B size, 0x90 frame and register allocation, 6
+// differing lines with the volatile m_width/m_height view (12 without it). The fix was defining the callees test/advanceYThenX/
 // advanceScan (from Rva00729300BitPlanes.cpp) in this TU so intra-TU mod/ref
 // keeps right.y in ebx, and writing (m_width + 1) inline (retail [ebp+4Ch] is
 // its CSE). Remaining: commutative operand order of the minX lea, the maxY
@@ -22,6 +20,11 @@
 // point.x-before-m_xOrigin load order at the three later triangle starts.
 // Source operand order, /EHs-c-, struct vs memberwise prev copies make no
 // difference; scalar prev ints break the size. Land beside the callees.
+// r8 (6 lines left, all three are point.x-vs-m_xOrigin load order at the
+// later triangle starts): operand swaps in X or the getHeight arg, an inline
+// worldXY(Int) helper and an explicit x local are inert or break the size;
+// WB's zero-initialised Vector3 ctors grow it to 2350B. Next: find a non-
+// volatile cause for the prologue lea order, then retry the load order.
 typedef int Int;
 typedef float Real;
 typedef bool Bool;
