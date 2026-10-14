@@ -77,13 +77,16 @@ class AIUpdateInterface
 {
 public:
 	char m_pad00[0x1CC];
-	LocomotorSet *locomotorSet() { return (LocomotorSet *)((char *)this + 0x1CC); }
+	LocomotorSet &getLocomotorSet() { return *(LocomotorSet *)((char *)this + 0x1CC); }
+ LocomotorSet *locomotorSet() { return (LocomotorSet *)((char *)this + 0x1CC); }
 };
 
 class Object
 {
 public:
-	const ThingTemplate *getTemplate() const { return m_template; }
+	int rva0028B511() const;
+ float getBfmeRadiusB8() const { return m_radius; }
+ const ThingTemplate *getTemplate() const { return m_template; }
 	const Coord3D *getPosition() const { return &m_position; }
 	AIUpdateInterface *getAI() { return m_ai; }
 protected:
@@ -109,6 +112,7 @@ public:
 	bool QuickDoesPathExist(Object *obj, const Coord3D *from, const Coord3D *to, int flags);
 	int isBlockedGateObstacleCell(int pos, int layer);
 	bool adjustToPossibleDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest);
+ bool adjustDestination(Object *, const LocomotorSet &, Coord3D *, const Coord3D *);
 };
 
 struct Rva003449C5AIData
@@ -246,4 +250,72 @@ __declspec(noinline) inline float Coord3D::Normalize()
     y *= scale;
     z *= scale;
     return len;
+}
+
+// Native344249..3444CE, complete645B RET8. The rowed
+// AIMoveToStateSA::computePath347959 calls this as a member; receiver unused.
+// BFME1 Rva0016EE00 is the semantic guide. Like static sibling344749, it
+// steps the goal toward its owner, applies clearance, and adjusts the result.
+// Its original member name is unresolved. The neutral three-float temporary
+// retains scalar copies while the canonical Coord3D supplies math workers.
+struct MoveGoalCoord {
+ float x,y,z;
+ MoveGoalCoord() {}
+ MoveGoalCoord(const Coord3D &p){x=p.x;y=p.y;z=p.z;}
+ void sub(const Coord3D*p){x-=p->x;y-=p->y;z-=p->z;}
+ void scale(float s){x*=s;y*=s;z*=s;}
+ __forceinline float GetLength()const{return reinterpret_cast<const Coord3D*>(this)->GetLength();}
+ __forceinline float length()const{return reinterpret_cast<const Coord3D*>(this)->length();}
+ __forceinline float Normalize(){return reinterpret_cast<Coord3D*>(this)->Normalize();}
+ __forceinline void normalize(){reinterpret_cast<Coord3D*>(this)->normalize();}
+};
+class AIMoveToStateSA
+{
+public:
+	bool rva00344249(Coord3D *destination, Object *obj);
+};
+
+bool AIMoveToStateSA::rva00344249(Coord3D *destination, Object *obj)
+{
+	if (obj->rva0028B511() > 1)
+		return true;
+	AIUpdateInterface *ai = obj->getAI();
+	if (!ai)
+		return false;
+	MoveGoalCoord direction(*destination);
+	direction.sub(obj->getPosition());
+	direction.z = 0.0f;
+	float distance = direction.GetLength();
+	direction = *reinterpret_cast<MoveGoalCoord*>(destination);
+	MoveGoalCoord candidate(*destination);
+	direction.sub(obj->getPosition());
+	direction.z = 0.0f;
+	int count = -(int)(direction.length() * -0.05f) - 1;
+	direction.Normalize();
+	direction.scale(20.0f);
+	bool found = false;
+	for (int i = 0; i < count; ++i)
+	{
+		candidate.sub(reinterpret_cast<Coord3D*>(&direction));
+		if (TheAI->pathfinder()->QuickDoesPathExist(obj, obj->getPosition(), reinterpret_cast<Coord3D*>(&candidate), 0))
+		{
+			found = true;
+			break;
+		}
+	}
+	if (!found)
+		return false;
+	float clearance = TheAI->getAiData()->m_meleeOffset + obj->getBfmeRadiusB8();
+	direction.normalize();
+	direction.scale(clearance);
+	candidate.sub(reinterpret_cast<Coord3D*>(&direction));
+	direction = *reinterpret_cast<MoveGoalCoord*>(destination);
+	direction.sub(reinterpret_cast<Coord3D*>(&candidate));
+	direction.z = 0.0f;
+	if (direction.GetLength() + 20.0f > distance)
+		return false;
+	TheAI->pathfinder()->adjustToPossibleDestination(obj, ai->getLocomotorSet(), reinterpret_cast<Coord3D*>(&candidate));
+	TheAI->pathfinder()->adjustDestination(obj, ai->getLocomotorSet(), reinterpret_cast<Coord3D*>(&candidate), 0);
+	*destination = *reinterpret_cast<Coord3D*>(&candidate);
+	return true;
 }
