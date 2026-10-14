@@ -131,6 +131,8 @@ public:
 	int rva00031430(const void *block, char *dst, unsigned int left);
 	unsigned int rva000311E0(const void *src, unsigned int count, char *ascii, unsigned short *wide, unsigned int cap);
 	unsigned int rva00032A20(const void *block);		// GetUsableSize-like
+	int rva00031D00(void *block);				// callee of 0x32160 (body unrecovered, address-derived name)
+	unsigned int rva00032160(void *block);		// locked 0x31D00 count plus fencepost bit and second-list membership test
 	unsigned int rva006C1D10(const void *block);		// fast usable-size with tail call to 0x32A20 caller 0x6C36FD
 	void *rva00031B60(const void *block);
 	void *rva00031680(const void *block);	// intrusive-list search unblocking 0x31BB0 0x31D00 0x32920
@@ -180,7 +182,18 @@ private:
 		unsigned char m_pad[0x18];
 		int volatile m_count;
 	};
-	unsigned char m_pad468[0x4E4 - (0x448 + sizeof(ListNode))];
+	unsigned char m_pad468[0x49C - (0x448 + sizeof(ListNode))];
+	// Second intrusive list proven by 0x00032160: sentinel embedded at +0x49C
+	// with its next pointer at +0xC; entries compare (node - *node) with the key.
+	// Only the offsets are target facts; the labels are descriptive.
+	struct RegionLink
+	{
+		unsigned int m_base;
+		unsigned char m_pad[8];
+		RegionLink *m_next;
+	};
+	RegionLink m_regions;
+	unsigned char m_pad4AC[0x4E4 - (0x49C + sizeof(RegionLink))];
 	Lock *m_4E4;
 };
 
@@ -421,6 +434,43 @@ int GeneralAllocator::rva00031430(const void *block, char *dst, unsigned int lef
 		}
 	}
 	return dst - start;
+}
+
+// ?rva00032160@GeneralAllocator@Allocator@EA@@QAEIPAX@Z @0x00032160 137B
+// Under the +0x4E4 lock: the 0x31D00 result, plus the inverted bit1 of the
+// block's second dword, plus one when the block's (address - first dword) key is
+// not found among the +0x49C list entries. The equal-arm on the membership
+// compare is a scheduling lever (retail keeps the sentinel test in its own branch).
+unsigned int GeneralAllocator::rva00032160(void *block)
+{
+	Lock *lock = m_4E4;
+	if (lock != 0)
+	{
+		EnterCriticalSection(lock);
+		++lock->m_count;
+	}
+
+	unsigned int result = rva00031D00(block);
+	result += ((unsigned char)~(((unsigned int *)block)[1] >> 1)) & 1 && 1;
+	RegionLink *sentinel = &m_regions;
+	RegionLink *cur = m_regions.m_next;
+	if (cur != sentinel)
+	{
+		unsigned int key = (unsigned int)block - *(unsigned int *)block;
+		do
+		{
+			if ((unsigned int)cur - *(unsigned int *)cur == key)
+				break;
+			cur = cur->m_next;
+		} while (cur != sentinel);
+	}
+	unsigned int total = result + ((block ? (cur == sentinel) : (cur == sentinel)));
+	if (lock != 0)
+	{
+		--lock->m_count;
+		LeaveCriticalSection(lock);
+	}
+	return total;
 }
 
 // ?rva00032A20@GeneralAllocator@Allocator@EA@@QAEIPBX@Z @0x00032A20 146B
