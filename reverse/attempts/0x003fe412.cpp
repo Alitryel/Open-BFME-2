@@ -1,10 +1,9 @@
 // ??0Rva003FE58A@@QAE@PAX0@Z
-// partial score=0.684 date=2026-10-14
-// ??0Rva003FE58A@@QAE@PAX0@Z
-// partial score=0.82 date=2026-10-14
+// partial score=0.95 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
 //
+// ??0Rva003FE58A@@QAE@PAX0@Z partial score=0.95 date=2026-10-15
 // Rva003FE58A constructor (LivingWorldArmyIcon), retail 0x003FE412..0x003FE566
 // (342 bytes, ret 8, WB 0x01072E30 names LivingWorldArmyIcon::LivingWorldArmyIcon).
 // Class and vtable (0x00C37E48) are the ones the matched destructor 0x003FE58A
@@ -13,8 +12,6 @@
 // active +0x5C; the owner's +0x54 color lookup goes through TheLivingWorldLogic.
 typedef int Int;
 typedef unsigned int UnsignedInt;
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 
 #define BFME_SNAPSHOT_NAME_SLOT
 #include <vector>
@@ -67,6 +64,16 @@ class Rva003FE05E { public: void rva003FE05E(); };
 
 typedef _STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > SubObjectVector;
 
+// The +0x4C holder: null on construction; its out-of-line destructor
+// 0x005F8F96 is the unwind action retail registers for that member.
+class Rva005F8F96
+{
+public:
+	Rva005F8F96() : m_ptr(0) {}
+	~Rva005F8F96();
+	void *m_ptr;
+};
+
 class Rva003FE58A : public Rva0053947D
 {
 public:
@@ -76,7 +83,7 @@ public:
 	SubObjectVector m_children;					// +0x2C
 	void *m_owner;								// +0x38
 	Rva00538E22 m_queue;						// +0x3C
-	Int m_4C;									// +0x4C
+	Rva005F8F96 m_4C;							// +0x4C
 	float m_50;									// +0x50
 	float m_54;									// +0x54
 	float m_58;									// +0x58
@@ -95,8 +102,6 @@ Rva003FE58A::Rva003FE58A(void *elements, void *owner)
 	, m_owner(owner)
 	, m_queue((Int)this)
 {
-	m_4C = 0;
-	_ReadWriteBarrier();
 	m_50 = 0.0f;
 	m_54 = 0.0f;
 	m_58 = 5.0f;
@@ -118,7 +123,7 @@ Rva003FE58A::Rva003FE58A(void *elements, void *owner)
 	if (m_owner) {
 		m_58 = *(float *)((char *)m_owner + 0x5C);
 		unsigned char r = ((Rva003FDD29 *)this)->rva003FDD29();
-		if (it) { ((Rva00539281 *)this)->rva00539281((Int)r, 1); } else { ((Rva00539281 *)this)->rva00539281((Int)r, 1); }
+		((Rva00539281 *)this)->rva00539281((Int)r, 1);
 	}
 	((Rva003FE05E *)this)->rva003FE05E();
 }
