@@ -53,10 +53,18 @@ private:
 	Payload m_data; // +8
 };
 
-Rva00574ABB::Rva00574ABB(const Payload *src)
+// Select-any like Rva00574EE9Method.cpp's identical inline copy (an exclusive
+// definition would duplicate it at link time); the anchor keeps it emitted.
+inline __declspec(noinline) Rva00574ABB::Rva00574ABB(const Payload *src)
 	: m_ref(0)
 	, m_data(*src)
 {
+}
+
+// ?bfmeAnchorRva00574ABBCtor absent-from-retail
+Rva00574ABB *bfmeAnchorRva00574ABBCtor(const Rva00574ABB::Payload *src)
+{
+	return new Rva00574ABB(src);
 }
 
 class Rva0057AA1F

@@ -43,7 +43,10 @@ struct OpaqueRefElement4
     OpaqueRefElement4 &rva00239057(const OpaqueRefElement4 *other);
 };
 
-OpaqueRefElement4 &OpaqueRefElement4::operator=(const OpaqueRefElement4 &other)
+// Select-any like MilesAudioIsMusicAlreadyLoaded.cpp's identical copy (an
+// exclusive definition would duplicate it at link time); nothing here calls
+// it, so the anchor after it keeps the noinline body emitted.
+inline __declspec(noinline) OpaqueRefElement4 &OpaqueRefElement4::operator=(const OpaqueRefElement4 &other)
 {
     if (this != &other) {
         if (other.referent)
@@ -53,6 +56,11 @@ OpaqueRefElement4 &OpaqueRefElement4::operator=(const OpaqueRefElement4 &other)
         referent = other.referent;
     }
     return *this;
+}
+// ?bfmeAnchorOpaqueRefElement4Assign absent-from-retail
+OpaqueRefElement4 &bfmeAnchorOpaqueRefElement4Assign(OpaqueRefElement4 *to, const OpaqueRefElement4 &from)
+{
+    return *to = from;
 }
 OpaqueRefElement4 &OpaqueRefElement4::rva00239057(const OpaqueRefElement4 *other)
 {
