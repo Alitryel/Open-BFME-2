@@ -5,12 +5,12 @@
 // slot 19 rva003FF3B5 rowed in GameSlotApparent.cpp). BFME2 reset vs ZH donor
 // (GameInfo.cpp reset: NOMAP via temp, seed from GetTickCount, slots loop,
 // preorderMask clear): extra Unicode clear at +0x04, Version init at +0x90,
-// global at +0x0C from g_00DBC800, rules reset at +0x60 via Rva00559FAC,
+// global at +0x0C from g_00DBC800, rules reset at +0x60 via MpGameRules::GetDefaults,
 // rand seed at +0x88, owned ptr at +0xC8 via TreeHint dtor+delete, tail block
 // at +0xCC via memset. Callees rowed/pinned: releaseBuffer wide 0x36E70,
 // initializeBuildMetadata 0x23870E, StringBase ctor 0x37BA0, set 0x366F0,
 // releaseBuffer narrow 0x36410, GetTickCount IAT, rand IAT, TreeHint dtor
-// 0x229840, operator delete 0x2FD60, memset thunk 0x6291AE, Rva00559FAC pin.
+// 0x229840, operator delete 0x2FD60, memset thunk 0x6291AE, MpGameRules::GetDefaults pin.
 // Callers 0x00400A07 (ctor) and 0x004FDC73.
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -22,7 +22,11 @@ extern int NET_CRC_INTERVAL;
 #define g_00DBC800 (*(int *)&NET_CRC_INTERVAL)
 extern "C" __declspec(dllimport) unsigned int __stdcall GetTickCount(void);
 extern "C" __declspec(dllimport) int __cdecl rand(void);
-void __cdecl Rva00559FAC(int mode, void *rules);
+class MpGameRules
+{
+public:
+	static void GetDefaults(int mode, void *rules);
+};
 void *__cdecl ji_006291ae(void *dest, int val, unsigned int count);
 #pragma comment(linker, "/alternatename:?ji_006291ae@@YAPAXPAXHI@Z=?ji_006291ae@@YAXXZ")
 
@@ -134,7 +138,7 @@ void GameInfo::reset()
 	}
 	m_5C = -1;
 	m_08 = 0;
-	Rva00559FAC(-1, m_60);
+	MpGameRules::GetDefaults(-1, m_60);
 	m_88 = rand();
 	m_8C = false;
 	if (m_C8 != 0)

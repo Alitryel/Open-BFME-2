@@ -38,7 +38,11 @@ struct AptMpGameRulesWidgets
 
 // Rowed 0x00559FAC in Common/RTS/MpGameRules.cpp: resets rules at +0x8C
 // for the mode at +0x60; existing cdecl caller ABI.
-void __cdecl Rva00559FAC(int mode, void *rules);
+class MpGameRules
+{
+public:
+	static void GetDefaults(int mode, void *rules);
+};
 
 // The Apt callback functors (Rva0057BC63FunctorHolder.cpp, as in
 // MpGameSetupSlots.cpp): a binding of an

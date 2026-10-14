@@ -510,12 +510,12 @@ void Rva005BB5F6::rva005BBF15() {
 // frame homes for the temporaries and the param-home reuse of the new NAT).
 class MapMetaData {public:char pad[0x20];int players;};class MapCache{public:const MapMetaData *findMap(AsciiString);};extern MapCache *TheMapCache;
 class Rva003821E2 {public:void assign(UnicodeString);};class Rva004FDD36AsciiField{public:void rva004FDD36(AsciiString);};
-void Rva00559FAC(int,void*);void SendStatsToOtherPlayers(GameInfo*);
+class MpGameRules { public: static void GetDefaults(int,void*); };void SendStatsToOtherPlayers(GameInfo*);
 class Rva005A734B{public:char storage[0x974];Rva005A734B();};struct NAT{public:void attachSlotList(GameInfo*,int,unsigned,unsigned,bool);};
 void Rva005BB5F6::rva005BAF35(PeerResponse &resp){
  TheGameSpyGame->clear();TheGameSpyGame->enterGame();TheGameSpyGame->setSeed(resp.payload_572.words[3]);
  {GameSpyStagingRoom *game=TheGameSpyGame;int m=mode;*(bool*)((char*)game+0xff4)=true;*(int*)((char*)game+0xff8)=m;}
- int rules[10];memset(rules,0xff,sizeof(rules));Rva00559FAC(0,rules);rules[0]=0;rules[2]=0;memcpy((char*)TheGameSpyGame+0x60,rules,sizeof(rules));
+ int rules[10];memset(rules,0xff,sizeof(rules));MpGameRules::GetDefaults(0,rules);rules[0]=0;rules[2]=0;memcpy((char*)TheGameSpyGame+0x60,rules,sizeof(rules));
  int numPlayers=0;for(int i=0;i<8;++i)if(!resp.unknown_88[i].empty())++numPlayers;
  _STL::list<AsciiString> maps=TheGameSpyConfig->getQMMaps();
  for(_STL::list<AsciiString>::const_iterator it=maps.begin();it!=maps.end();++it){AsciiString map=*it;map.toLower();const MapMetaData *md=TheMapCache->findMap(map);if(md&&md->players==numPlayers){TheGameSpyGame->setMap(*it);if(resp.payload_572.words[2]--==0)break;}}

@@ -41,7 +41,7 @@ struct AptMpGameRulesWidgets
 
 // Rowed 0x00559FAC in Common/RTS/MpGameRules.cpp: resets rules at +0x8C
 // for the mode at +0x60; existing cdecl caller ABI.
-void __cdecl Rva00559FAC(int mode, void *rules);
+class MpGameRules { public: static void GetDefaults(int mode, void *rules); static UnicodeString GetRuleString(int rule); };
 
 // The Apt callback functors (Rva0057BC63FunctorHolder.cpp, as in
 // MpGameSetupSlots.cpp): a binding of an
@@ -241,7 +241,7 @@ void AptMpGameRules::rva0057E6C1()
 // for the mode, reports rule 10 and refreshes the widgets.
 void AptMpGameRules::Reset(const char *unused)
 {
-	Rva00559FAC(m_mode, m_rules);
+	MpGameRules::GetDefaults(m_mode, m_rules);
 	ruleChanged(10, true);
 	rva0057E6C1();
 }
@@ -292,7 +292,7 @@ void AptMpGameRules::rva0057F0AA()
 		key.format("APT:RuleCheckBox_%d", i);
 		g_bfmeAptWindowManager->bfmeSetText(key, UnicodeString(L" "), false);
 	}
-	Rva00559FAC(m_mode, m_rules);
+	MpGameRules::GetDefaults(m_mode, m_rules);
 	rva0057EF18();
 	{
 		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptMpGameRules::ExternFunc);
@@ -414,7 +414,6 @@ void AptMpGameRules::rva0057EF46(AptMpGameRulesWidgets *widgets, const char *ind
 struct RuleChoice {const char *label; int value;};
 struct RuleCombo {int id; const RuleChoice *choices; int count; int defaultIndex;};
 const RuleCombo * const *Rva00559F48Get(int);
-class MpGameRules { public: static UnicodeString GetRuleString(int rule); };
 void GadgetComboBoxReset(GameWindow *);
 int GadgetComboBoxAddEntry(GameWindow *, UnicodeString, int);
 void GadgetComboBoxSetItemData(GameWindow *, int, void *);

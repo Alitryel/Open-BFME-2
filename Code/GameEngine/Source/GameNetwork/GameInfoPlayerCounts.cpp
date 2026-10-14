@@ -66,7 +66,11 @@ unsigned char Rva0056BD91Pack(unsigned char a, unsigned char b,
 void Rva0056BDA5Split(unsigned char a, char b, char c,
 	unsigned char *out1, unsigned char *out2);
 
-void __cdecl Rva00559FAC(int mode, void *rules);
+class MpGameRules
+{
+public:
+	static void GetDefaults(int mode, void *rules);
+};
 
 class CreateAHeroData
 {
@@ -597,18 +601,18 @@ bool GameSlot::decodeHero(unsigned char v)
 }
 
 // ?rva003FF1A7@GameInfo@@QAEXH@Z @0x003FF1A7 27B: mode setter at +0x5C with
-// rules reset at +0x60 via pinned Rva00559FAC 0x00559FAC. Early-out when the
+// rules reset at +0x60 via pinned MpGameRules::GetDefaults 0x00559FAC. Early-out when the
 // stored mode already equals the new value. A GameInfo member, not GameSlot
 // (the earlier spelling): ParseAsciiStringToGameInfo 0x00401EF0 calls it on
 // its GameInfo argument with the parsed "GT=" value, between the inline
 // GSID and "SI=" stores and before copying the parsed "GR=" ten-int rules
-// block (the one Rva00559FAC fills) over +0x60. 8 callers.
+// block (the one MpGameRules::GetDefaults fills) over +0x60. 8 callers.
 void GameInfo::rva003FF1A7(int v)
 {
 	if (m_5c == v)
 		return;
 	m_5c = v;
-	Rva00559FAC(v, m_60);
+	MpGameRules::GetDefaults(v, m_60);
 }
 
 // ?adjustSlotsForMap@GameInfo@@UAEXXZ @0x0040052C (599B): vtable slot 16
@@ -792,7 +796,7 @@ AsciiString GameInfoToAsciiString(const GameInfo *game, bool withNames)
 
 // ?rva00401015@GameInfo@@UAEPBVImage@@H@Z @0x00401015 (342B), vtable slot 6
 // (+0x18): the lobby icon for the game. Kind 1 is the non-default rules icon
-// (the +0x60 rules against the defaults Rva00559FAC gives for the +0x5C mode);
+// (the +0x60 rules against the defaults MpGameRules::GetDefaults gives for the +0x5C mode);
 // kind 0 is, in mode 0, the user-map icon for a map the cache lacks or does
 // not mark official (+0x26), and in mode 1 the resumed-save icon when the
 // +0xCC digest is set. The unused UnicodeString is retail's (constructed and
@@ -806,7 +810,7 @@ const Image *GameInfo::rva00401015(Int kind)
 	case 1:
 	{
 		Int defaults[10];
-		Rva00559FAC(m_5c, defaults);
+		MpGameRules::GetDefaults(m_5c, defaults);
 		Int numDiffs = Rva00559EDCCompare(defaults, m_60);
 		if (numDiffs != 0)
 			image = TheMappedImageCollection->findImageByName(AsciiString("AptLobbyNonDefaultSettings"));
@@ -873,7 +877,7 @@ bool ParseAsciiStringToGameInfo(GameInfo *game, AsciiString options, bool withNa
 	Int gsid = 0;
 	Int gt = 0;
 	Int gameRules[10];
-	Rva00559FAC(-1, gameRules);
+	MpGameRules::GetDefaults(-1, gameRules);
 
 	bool sawMap, sawMapCRC, sawMapSize, sawSeed, sawSlotlist, sawGR, sawGSID, sawGT, sawSI;
 	sawMap = sawMapCRC = sawMapSize = sawSeed = sawSlotlist = sawGR = sawGSID = sawGT = sawSI = false;

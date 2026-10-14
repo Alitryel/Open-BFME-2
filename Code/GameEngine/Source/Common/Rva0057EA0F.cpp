@@ -19,7 +19,11 @@ public:
 };
 
 int __cdecl Rva00559EDCCompare(int *a, int *b);
-void __cdecl Rva00559FAC(int mode, void *dst);
+class MpGameRules
+{
+public:
+	static void GetDefaults(int mode, void *dst);
+};
 
 class Rva0057E97A
 {
@@ -100,7 +104,7 @@ void Rva0057EE5C::rva0057EA0F()
 	} else {
 		if (!changed)
 			return;
-		Rva00559FAC(m_60, m_8C);
+		MpGameRules::GetDefaults(m_60, m_8C);
 	}
 	vslot1(10, 0);
 	if (changed)

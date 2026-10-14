@@ -203,7 +203,11 @@ void GadgetListBoxSetColumnWidths(GameWindow*,int,int*);
 int GadgetListBoxAddEntryText(GameWindow*,UnicodeString,int,int,int,bool);
 int GadgetListBoxAddEntryImage(GameWindow*,const Image*,int,int,int,int,bool,int);
 void GadgetListBoxSetItemData(GameWindow *listbox, void *data, int row, int column);
-void Rva00559FAC(int,void*);
+class MpGameRules
+{
+public:
+	static void GetDefaults(int,void*);
+};
 int Rva00559EDCCompare(int*,int*);
 int Rva005DB335Get(int);
 class Version{public:int rva00237E63(const void*,bool);};extern Version*TheVersion;
@@ -246,7 +250,7 @@ int AptOnlineCustomMatch::rva0059F496(GameSpyStagingRoom*game)
   break;
  }
  if(!lock&&game->locked)lock=TheMappedImageCollection->findImageByName("AptLock");
- int defaults[10];const int currentMode=mode;Rva00559FAC(currentMode,defaults);
+ int defaults[10];const int currentMode=mode;MpGameRules::GetDefaults(currentMode,defaults);
  const Image*settings=Rva00559EDCCompare(defaults,game->rules)?TheMappedImageCollection->findImageByName("AptLobbyNonDefaultSettings"):0;
  GadgetListBoxAddEntryImage(list,lock,row,2,20,20,true,-1);
  GadgetListBoxAddEntryImage(list,settings,row,1,20,20,true,-1);
