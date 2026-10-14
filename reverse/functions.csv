@@ -89463,3 +89463,6 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?Rva00481BABInvert@@YAXPAI@Z,,0x00481BAB,7,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,cdecl not of the pointed word
 ?rva004D973E@Rva004D973EOverridable@@QBEPBHXZ,,0x004D973E,9,Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerTemplateFieldGetters.cpp,matched,final-override member address +0x3C via 0x00288609
 ?rva004D9747@Rva004D973EOverridable@@QBEPBHXZ,,0x004D9747,9,Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerTemplateFieldGetters.cpp,matched,final-override member address +0x40 via 0x00288609
+??$_Destroy@URva0040AFF3@@@_STL@@YAXPAURva0040AFF3@@@Z,,0x0040B3D5,9,Code/GameEngine/Source/Common/DestroyInstances.cpp,matched,STLport single-object _Destroy tail-jumping the rowed dtor 0x0040AFF3; twin of 0x005BC6F5
+??$_Destroy@ULightSubPoint@@@_STL@@YAXPAULightSubPoint@@@Z,,0x00424DCC,9,Code/GameEngine/Source/Common/DestroyInstances.cpp,matched,STLport single-object _Destroy tail-jumping the rowed dtor 0x004247E3; twin of 0x005BC6F5
+??$_Destroy@UTreeHintOpaque0043671B@@@_STL@@YAXPAUTreeHintOpaque0043671B@@@Z,,0x00434A26,9,Code/GameEngine/Source/Common/DestroyInstances.cpp,matched,STLport single-object _Destroy tail-jumping the rowed dtor 0x00229840; twin of 0x005BC6F5

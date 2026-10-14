@@ -244,6 +244,18 @@ struct Rva004F69C3
 {
 	~Rva004F69C3();
 };
+struct Rva0040AFF3
+{
+	~Rva0040AFF3();
+};
+struct LightSubPoint
+{
+	~LightSubPoint();
+};
+struct TreeHintOpaque0043671B
+{
+	~TreeHintOpaque0043671B();
+};
 struct Rva004F6986
 {
 	~Rva004F6986();
@@ -355,3 +367,6 @@ template void _STL::_Destroy<Rva004FFE39>(Rva004FFE39 *);				// 0x0050051D
 template void _STL::_Destroy<Rva004FFE89>(Rva004FFE89 *);				// 0x00500526
 template void _STL::_Destroy<Rva0050174A>(Rva0050174A *);				// 0x00502070
 template void _STL::_Destroy<Rva005017AC>(Rva005017AC *);				// 0x00502079
+template void _STL::_Destroy<Rva0040AFF3>(Rva0040AFF3 *);				// 0x0040B3D5
+template void _STL::_Destroy<LightSubPoint>(LightSubPoint *);				// 0x00424DCC
+template void _STL::_Destroy<TreeHintOpaque0043671B>(TreeHintOpaque0043671B *);	// 0x00434A26
