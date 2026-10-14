@@ -142,7 +142,8 @@ public:
 	virtual void onAreaAdded(int id, RiverArea *area);
 	void rva0008385F(AreaSet<StandingWaveArea> *areas, WaterAreaRenderables *out);
 	void rva00083959(AreaSet<RiverArea> *areas, WaterAreaRenderables *out);
-void rva00083A7A(AreaSet<StandingWaveArea>*,AreaSet<RiverArea>*,AreaSet<WaterWaveArea>*);
+void rva000B3FD0();
+	void rva00083A7A(AreaSet<StandingWaveArea>*,AreaSet<RiverArea>*,AreaSet<WaterWaveArea>*);
 private:
 	char m_unknownD4[0x104 - 0xD4];
 	AreaSet<StandingWaveArea> *m_standingAreas;
@@ -219,4 +220,11 @@ void Rva0082140::rva00083A7A(AreaSet<StandingWaveArea>*standing,AreaSet<RiverAre
   Rva00082BE6Element ref(*i);
   ref.m_ptr->m_area->rva00308C31();
  }
+}
+
+// Terrain load at 9213F calls the full water owner through REL32 at 9241D.
+// This no-argument thiscall is the shared relocation-free RET at B3FD0.
+// The original method name is unproven; it contributes zero unique bytes.
+void Rva0082140::rva000B3FD0()
+{
 }
