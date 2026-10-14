@@ -31,3 +31,21 @@ typedef _STL::_Rb_tree<Rva00359032Value, Rva00359032Value,
 
 template _STL::pair<Rva00359032Tree::iterator, bool>
 Rva00359032Tree::insert_unique(const Rva00359032Tree::value_type &value);
+
+// Retail 0x00359218/20 (RET 8): an insert over the same tree held at +0
+// that forwards the hidden return pair and the value straight to the
+// insert_unique above. STLport's set::insert would copy the pair through a
+// temporary, so this is a direct tree forwarder; the owner's application
+// identity is not established and its name is address-derived.
+class Rva00359218Set
+{
+public:
+	_STL::pair<Rva00359032Tree::iterator, bool> insert(const Rva00359032Value &value);
+private:
+	Rva00359032Tree m_tree;
+};
+
+_STL::pair<Rva00359032Tree::iterator, bool> Rva00359218Set::insert(const Rva00359032Value &value)
+{
+	return m_tree.insert_unique(value);
+}
