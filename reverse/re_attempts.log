@@ -55623,3 +55623,7 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?get@Rva00042F91FloatField@@QBEMXZ	0x00042F91	7	landed	add_match verified Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp 7B; float at +0x37E8; unreferenced
 ?Is_Snapshot_Activated@WW3D@@SA_NXZ	0x00065F60	6	landed	add_match verified Code/Libraries/Source/WWVegas/WW3D2/ww3d_snapshot_activated.cpp 6B; ZH ww3d.h inline out of line: SnapshotActivated VA 0x00DEC3FD; unreferenced
 ?rva00042334@@YAKXZ	0x00042334	6	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 6B; timeGetTime import tail jump; unreferenced
+?rva00030900@MemoryPool@@YA_NPBUBlockInfo@Allocator@EA@@PAX@Z	0x00030900	16	landed	add_match verified Code/GameEngine/Source/Common/System/memory_pool.cpp 16B; heap-report callback summing BlockInfo data size into the context total
+?rva00030970@MemoryPool@@YAXXZ	0x00030970	8	landed	add_match verified Code/GameEngine/Source/Common/System/memory_pool.cpp 8B; raises g_heaps shut-down flag VA 0x00DE0820; unreferenced
+?rva00030910@MemoryPool@@YAIXZ	0x00030910	90	landed	add_match verified Code/GameEngine/Source/Common/System/memory_pool.cpp 90B; allocated-block data bytes summed over all heaps via the 0x00030900 callback and the unrowed report walk 0x00035540 (pinned); unreferenced
+?rva000308F0@@YAPAVGeneralAllocator@Allocator@EA@@I@Z	0x000308F0	6	landed	add_match verified Code/GameEngine/Source/Common/System/GameMemoryBlockSlots.cpp 6B; tail jump into the GetHeapAllocator memory-pool slot VA 0x00DE03E4; unreferenced

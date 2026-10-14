@@ -150,6 +150,8 @@ public:
 	void rva00032EC0(const void *block, BlockInfo *out);	// chunk -> BlockInfo for the report
 	const BlockInfo *rva00032F60(void *context, int blockTypes);	// ReportNext-like
 	void rva00033E90(void *context);			// ReportEnd-like
+	// ReportHeap-like walk over blocks of the given types (unrowed 0x00035540).
+	bool rva00035540(bool (*callback)(const BlockInfo *info, void *context), void *context, int blockTypes, bool copy, char *storage, unsigned int storageSize);
 
 private:
 	// Intrusive list node proven by 0x00031680 (size at +4 next at +0x18)
@@ -788,6 +790,32 @@ void _VerifyIntegrity()
 {
 	for (int i = 0; i <= g_heaps.m_count; ++i)
 		g_heaps.m_allocators[i]->rva000329E0(3);
+}
+
+// 0x00030900 (16B): heap-report callback adding a block's data size to the
+// running total its context points at; always continues the walk.
+bool rva00030900(const EA::Allocator::BlockInfo *info, void *context)
+{
+	*(unsigned int *)context += info->m_dataSize;
+	return true;
+}
+
+// 0x00030910 (90B), unreferenced: the data bytes of every allocated block
+// (type 2) across all heaps, summed by walking each allocator's report with
+// the callback above and a 512-byte scratch buffer.
+unsigned int rva00030910()
+{
+	unsigned int total = 0;
+	char storage[0x200];
+	for (int i = 0; i <= g_heaps.m_count; ++i)
+		g_heaps.m_allocators[i]->rva00035540(rva00030900, &total, 2, false, storage, sizeof(storage));
+	return total;
+}
+
+// 0x00030970 (8B), unreferenced: raise the shut-down flag _Free tests.
+void rva00030970()
+{
+	g_heaps.m_shutDown = true;
 }
 
 void _Exit()

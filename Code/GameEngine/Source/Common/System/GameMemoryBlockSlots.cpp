@@ -44,3 +44,14 @@ bool rva00030850(void *block, unsigned int heap)
 {
 	return ((bool (__cdecl *)(void *, unsigned int))g_00DE03F8)(block, heap);
 }
+
+// --- 0x000308F0 (6B): tail-jump into the heap-allocator slot VA 0x00DE03E4
+// (?_GetHeapAllocator@MemoryPool@@YAPAVGeneralAllocator@Allocator@EA@@I@Z),
+// unreferenced.
+namespace EA { namespace Allocator { class GeneralAllocator; } }
+extern void *g_00DE03E4;
+
+EA::Allocator::GeneralAllocator *rva000308F0(unsigned int id)
+{
+	return ((EA::Allocator::GeneralAllocator *(__cdecl *)(unsigned int))g_00DE03E4)(id);
+}
