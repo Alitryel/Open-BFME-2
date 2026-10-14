@@ -89641,3 +89641,5 @@ _chatEnumJoinedChannels,,0x006A2100,5,Code/GameEngine/Source/GameNetwork/GameSpy
 ?rva00104BDA@Rva001041D8@@UAEXXZ,,0x00104BDA,409,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva001041BDASlot1.cpp,matched,
 ?Rva007ACFB0StoreTableValid@@YAXXZ,,0x007ACFB0,11,Code/Libraries/Source/WWVegas/WW3D2/Rva007ACFB0EncodingFilterValid.cpp,matched,
 ?Update@Impl@AptInGameSpellBookInterface@@QAEXXZ,,0x0052A85D,941,Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/AptInGameSpellBookInterface.cpp,matched,
+??0Rva007E9B40Object@@QAE@PAX@Z,,0x006562E0,32,Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp,matched,out-of-line copy of the inline family ctor: BaseB vptr 0xCE0FB4 and payload then the primary vptr 0xCE1078 that factory 0x00656B30 also stores; BFME1 twin b1 0x007E92F0
+??0Rva0065E7A0Object@@QAE@PAX@Z,,0x0065DB70,32,Code/GameEngine/Source/Common/Q3MakeDerivedFamily.cpp,matched,out-of-line copy of the inline family ctor: BaseB vptr 0xCE0FB4 and payload then the primary vptr 0xCE20E4 that factory 0x0065E7A0 also stores; BFME1 twin b1 0x007E92F0
