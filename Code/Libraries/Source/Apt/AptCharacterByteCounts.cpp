@@ -367,7 +367,7 @@ AptValue *Rva006EC3E0LoadMovie(AptValue *self,int nParams){
 // tested against count > 0..3 as retail does (the lock-centre slot shifts
 // the indices); the first bound clears the other three. Returns undefined.
 // Names of the context type, its fields and the native are not proved.
-class BfmeAptValue006DCD20 {public:BfmeAptValue006DCD20 *rva006DCEA0();};
+class BfmeAptValue006DCD20 {public:BfmeAptValue006DCD20 *rva006DCEA0();BfmeAptValue006DCD20 *rva006DD0E0();BfmeAptValue006DCD20 *checkedFloat();};
 class Rva006E34D0
 {
 public:
@@ -411,6 +411,41 @@ AptValue *__cdecl Rva006EC900StartDrag(AptValue *self,int count)
 // signed 17-bit +0x58 depth for the receiver's, and the receiver's rowed
 // rva006E1170 character instance stores the other's old depth plus one at
 // +4; an undefined argument stores -1 there. Name remains address-derived.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+class AptFloat {public:float GetFloat() const;};
+class AptNativeHash {public:AptValue *Lookup(const EAStringC *const) const;void Set(const EAStringC *const,AptValue *const);};
+class BfmeAptObject006DD0E0 {public:char m_pad0[8];AptNativeHash m_hash;};
+struct BfmeM1208;
+void bfmeMul1208(const BfmeM1208 *,const BfmeM1208 *,BfmeM1208 *);
+AptValue *Rva008A4EA0MakeFloat(float);
+// Retail 0x006ECCB0 (381 B), Apt Point-like localToGlobal: the barrier before the
+// c_cih walk keeps the point.y store ahead of the receiver load.
+AptValue *__cdecl Rva006ECCB0LocalToGlobal(AptValue *self,int count)
+{
+ if(count>=2){
+  g_bfmeAptAssertAtE17734("nParams < 2","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptCharacter.cpp",0xB63);
+  if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();
+ }
+ if(count==0)return gpUndefinedValue;
+ BfmeAptObject006DD0E0 *object=(BfmeAptObject006DD0E0*)((BfmeAptValue006DCD20*)g_aptDateInterpreter.stack.At(0))->rva006DD0E0();
+ EAStringC xName("x");
+ EAStringC yName("y");
+ AptValue *xValue=object->m_hash.Lookup(&xName);
+ AptValue *yValue=object->m_hash.Lookup(&yName);
+ AptFloat *xFloat=(AptFloat*)((BfmeAptValue006DCD20*)xValue)->checkedFloat();
+ AptFloat *yFloat=(AptFloat*)((BfmeAptValue006DCD20*)yValue)->checkedFloat();
+ struct {float m[4];float x,y;} point;
+ point.x=xFloat->GetFloat();
+ point.y=(xFloat ? (yFloat->GetFloat()) : (yFloat->GetFloat()));
+ _ReadWriteBarrier();
+ for(char *cih=(char*)self->c_cih(false);cih;cih=*(char**)(cih+0x48))
+  bfmeMul1208((const BfmeM1208*)(cih+0xC),(const BfmeM1208*)&point,(BfmeM1208*)&point);
+ object->m_hash.Set(&xName,Rva008A4EA0MakeFloat(point.x));
+ object->m_hash.Set(&yName,Rva008A4EA0MakeFloat(point.y));
+ return gpUndefinedValue;
+}
+
 AptValue *Rva006EDF20SwapDepths(AptValue *self,int count){
  if(count!=1 && self->isCIH(false))return gpUndefinedValue;
  AptCIH *mine=self->c_cih(false);

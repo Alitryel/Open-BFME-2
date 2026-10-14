@@ -53783,3 +53783,4 @@ FXShaderGeometry::Init	0x0018C84E	2333	blocked	Cold 2333B with 5421B WB; 69 call
 ??0Rva005C4B56@@QAE@ABUHelper005C4D4B@@_NPBH@Z	0x005c4de0	415	partial	multisite compose nd 17->8 score=0.9 stash=reverse/attempts/0x005c4de0.cpp
 ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z	0x0060ce41	281	partial	multisite compose nd 33->28 score=0.9 stash=reverse/attempts/0x0060ce41.cpp
 ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z	0x00759490	363	partial	multisite compose nd 58->57 score=0.9 stash=reverse/attempts/0x00759490.cpp
+?Rva006ECCB0LocalToGlobal@@YAPAVAptValue@@PAV1@H@Z	0x006ECCB0	381	landed	add_match verified Code/Libraries/Source/Apt/AptCharacterByteCounts.cpp 381B; Apt localToGlobal native; barrier before the c_cih walk
