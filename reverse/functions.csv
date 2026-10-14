@@ -88167,3 +88167,4 @@ $L17825,,0x0077F708,24,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Persist
 ?cacheGameLogicFrame@StatusBitsEldestFrame@@QAEPAU1@XZ,,0x00485975,14,Code/GameEngine/Source/GameLogic/Object/Upgrade/StatusBitsEldestFrameCache.cpp,matched,returns this; WB 011C1270 unnamed
 ?rva0043F483@AptMpGameSetup@@QAEXH@Z,,0x0043F483,1072,Code/GameEngine/Source/GameClient/GUI/Rva0043F483PopulatePlayerCombo.cpp,matched,
 ?rva0039A270Move@Rva0039A270MoveOwner@@QAEXPAVObject@@@Z,,0x0039A270,542,Code/GameEngine/Source/GameLogic/Object/Behavior/Rva0039A270Move.cpp,matched,Native RET4 boundary and WB EC0F30 collision displacement twin; Object stack argument and unused member receiver; canonical partition and Coord3D helpers; all542 bytes exact; crack-v evidence
+?rva00433F7F@AptSaveLoad@@QAEHXZ,,0x00433F7F,94,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00433F7F.cpp,matched,WB 012AEB20 unnamed returns item data
