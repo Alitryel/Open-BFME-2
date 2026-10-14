@@ -14,6 +14,8 @@
 #include "unicode_string.h"
 #include "Coord2D.h"
 #include "wwmath.h"
+struct OpaqueRefCounted;
+struct OpaqueRefElement4{OpaqueRefCounted*referent;OpaqueRefElement4():referent(0){}OpaqueRefElement4&operator=(const OpaqueRefElement4&);};
 #include <stdlib.h>
 // Notification-box ownership transfer: native004E6BF6..004E6C34 RET4;
 // WorldBuilder013238A0 returns a consuming holder through a hidden result.
@@ -21,19 +23,36 @@
 // existing owner spellings. Copy empties its source before publishing the
 // pointer; the returned holder has the independently rowed destructor.
 // The original method name is unproven; preserve a neutral address name.
-class Rva004E6935;
+class Image;
+struct Rva004E6935 {
+ UnicodeString text;const Image*icon;OpaqueRefElement4 sound;UnicodeString fontName;
+ void*font;unsigned color;int timeout;bool show;char pad1D[3];int context;
+ Rva004E6935(){}
+ ~Rva004E6935();
+};
+// Consuming conversion (auto_ptr_ref shape): Open's by-value assignment loads the
+// source pointer before pushing the argument home, as in UpdateNotice 0x004E701E.
+struct Rva004E6A37Ref {
+ Rva004E6935 *&m_r;
+ Rva004E6935 *const m_p;
+ Rva004E6A37Ref(Rva004E6935 *&r,Rva004E6935 *p):m_r(r),m_p(p) {}
+ Rva004E6935 *release() const { m_r=0; return m_p; }
+};
 class Rva004E6A37 {
 public:
  Rva004E6935 *m_ptr;
  Rva004E6A37(Rva004E6935 *p=0):m_ptr(p) {}
  Rva004E6A37(Rva004E6A37 &v) { Rva004E6935 *p=v.m_ptr; v.m_ptr=0; m_ptr=p; }
+ Rva004E6A37(Rva004E6A37Ref r) { m_ptr=r.release(); }
+ operator Rva004E6A37Ref() { return Rva004E6A37Ref(m_ptr,m_ptr); }
  ~Rva004E6A37();
  Rva004E6A37 &operator=(Rva004E6A37);
 };
 class Rva004E6A1D {
 public:
  Rva004E6935 *m_ptr;
- Rva004E6A1D():m_ptr(0){}
+ Rva004E6A1D(Rva004E6935*p=0):m_ptr(p){}
+ Rva004E6935*operator->(){return m_ptr;}
  ~Rva004E6A1D(){clear();}
  void clear();
  Rva004E6A37 rva004E6BF6();
@@ -41,7 +60,7 @@ public:
 Rva004E6A37 Rva004E6A1D::rva004E6BF6() {
  Rva004E6A37 transfer(m_ptr);
  m_ptr=0;
- return Rva004E6A37(transfer);
+ return transfer;
 }
 
 // ?rva002B54BB@Rva002B54BB@@QAE?AVRva002B4349@@XZ @0x002B54BB (62B): the same ownership transfer on another owner whose
@@ -142,6 +161,13 @@ virtual int load(AsciiString,AsciiString,int,int);
 class AptPlayer {public:bool ShowLevel(int);};
 class Rva004E67B3 {public:void rva004E67B3(unsigned);};
 class Rva002217EA;
+class Rva005045DBTree {public:Rva005045DBTree&self();};
+class Rva005C4AD1LeaField {public:void*get()const;};
+class NetCommandList;
+class FrameData {public:NetCommandList*getCommandList();};
+class UpgradeTemplate;
+class UpgradeCenter {public:const UpgradeTemplate*rva001DB0A8()const;};
+class Rva001DB09DDwordField {public:int get()const;};
 class Rva004E6A9BBase {public:virtual unsigned char rva00578522()const;virtual void rva004E6B7D(bool);virtual void rva004E725F(const UnicodeString&,const Rva002217EA&,int);virtual void DoClose();~Rva004E6A9BBase(){}};
 class InGameNotificationBoxMovieClip:public Rva004E6A9BBase {public:
  InGameNotificationBoxMovieClip();
@@ -179,6 +205,23 @@ void InGameNotificationBoxMovieClip::RenderMessage(const Coord2D*position,const 
 }
 typedef char NotificationFieldsHave84Bytes[sizeof(InGameNotificationBoxMovieClip)==84 ? 1 : -1];
 
+// WB1322140 Open and native4E6F30..4E7019 RET20 (233B) establish the 36-byte
+// descriptor and the consuming assignment into the pending holder. The spec
+// getters are the rowed ICF twins (0x0047A6A9 self, LeaField get, 0x0030F45F,
+// rva001DB0A8, DwordField get); the descriptor field names are structural.
+void InGameNotificationBoxMovieClip::rva004E6F30(const UnicodeString&message,const Rva002217EA&spec,int timeout,bool show,int location){
+ if(!flag50)return;
+ Rva004E6A1D value(new Rva004E6935);
+ Rva004E6935*descriptor=value.operator->();
+ descriptor->text=reinterpret_cast<const UnicodeString&>(reinterpret_cast<Rva005045DBTree&>(const_cast<Rva002217EA&>(spec)).self());
+ descriptor->sound=*reinterpret_cast<const OpaqueRefElement4*>(reinterpret_cast<const Rva005C4AD1LeaField&>(spec).get());
+ descriptor->icon=reinterpret_cast<const Image*>(reinterpret_cast<FrameData&>(const_cast<Rva002217EA&>(spec)).getCommandList());
+ descriptor->fontName=message;
+ descriptor->font=const_cast<UpgradeTemplate*>(reinterpret_cast<const UpgradeCenter&>(spec).rva001DB0A8());
+ descriptor->color=reinterpret_cast<const Rva001DB09DDwordField&>(spec).get();
+ descriptor->timeout=timeout;descriptor->show=show;descriptor->context=location;
+ *(Rva004E6A37*)&pending=value.rva004E6BF6();
+}
 // Vtable862440 slot2 and WB1322EB0 forward three args to Open1322140;
 // native4E725F..4E7277 RET12 proves exact24B. Original wrapper name unproven.
 void InGameNotificationBoxMovieClip::rva004E725F(const UnicodeString&message,const Rva002217EA&spec,int timeout){rva004E6F30(message,spec,timeout,false,0);}
