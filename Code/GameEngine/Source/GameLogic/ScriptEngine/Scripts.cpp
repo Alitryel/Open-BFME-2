@@ -1067,25 +1067,8 @@ void Script::updateFrom(Script *pSrc)
 /**
   Script::deleteOrCondition - delete pCond from the or condition list.
 */
-// ?deleteOrCondition@Script@@QAEXPAVOrCondition@@@Z present-unmatched
-void Script::deleteOrCondition(OrCondition *pCond)
-{
-	OrCondition *pPrev = NULL;
-	OrCondition *pCur = m_condition;
-	while (pCond != pCur) {
-		pPrev = pCur;
-		pCur = pCur->getNextOrCondition();
-	}
-	DEBUG_ASSERTCRASH(pCur, ("Couldn't find condition."));
-	if (pCur==NULL) return;
-	if (pPrev) {
-		pPrev->setNextOrCondition(pCur->getNextOrCondition());
-	} else {
-		m_condition = pCur->getNextOrCondition();
-	}
-	pCur->setNextOrCondition(NULL);
-	pCur->deleteInstance();
-}
+// Script::deleteOrCondition: byte-exact reconstruction on BFME 2's Script layout in
+// Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptDeleteClauses.cpp.
 
 
 /**
