@@ -1,6 +1,7 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /ICode/GameEngine/Source/Common /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// retail 0x000D2301..0x000D28FA (1529 bytes, ret 0x10).
+// retail 0x000D2301..0x000D28FA (1529 bytes, ret 0x10) and its only caller
+// 0x000D28FA..0x000D3940 (4166 bytes, RET 8, EH).
 // W3DBuffBuffer: fills the dynamic vertex / index buffers with one copy of a
 // buff mesh per TBuff of one buff type. WorldBuilder's twin (va 0x0082EF10;
 // misnamed after its inlined RefCountClass::ReleaseRef) has the same body:
@@ -11,11 +12,84 @@
 // target object stored through 0x000D1EAA (every tenth client frame for
 // camera-facing models) / transformed vertices with color array tint and
 // fade alpha (TBuff::UpdateFade 0x000D1C10 named by WB W3DBuffBuffer.cpp:139)
-// / offset indices / unlocks. Original method name unresolved: its only
-// caller 0x000D3744 sits in the unrowed 0x000D28FA draw body.
+// / offset indices / unlocks. Original method name unresolved.
 // Buffer layout follows the rowed allocateBuffBuffers / addBuffType units.
+//
+// Draw step 0x000D28FA, target facts: returns early while the shadow map
+// renders (WW3D 0x009EC404), while the game is paused (0x0023CD97) or
+// without both dynamic buffers; sets FVF 0x142 and the cached render /
+// texture stage states through the inlined DX8Wrapper setters (snapshot
+// value-name temporaries are the EH states 0..0x10, 0x12..0x16, 0x18..0x20);
+// saves the projection depth bias (0x009EDA74) and, for the bool pass,
+// switches to ZFUNC LESSEQUAL / ZENABLE with no bias. Per buff type whose +8
+// flag equals that bool and whose TBuff set is not empty it walks the sub
+// objects of the type's render object (vslots 0x70 / 0x78), takes the mesh
+// (vslot 0x14), its model (+C4) and the model's material description (+94,
+// Get_Shader 0x0015B6C0, vertex material at +A8), binds stage textures 0 and
+// 1 (Peek_Single_Texture 0x000D206A, counted references are the EH states
+// 0x11 and 0x17) with COLOROP chosen from the shader bits, sampler address
+// modes from the texture filter (0x00132856) and the material's texture
+// mapper (+20 / +24) or an identity texture transform, fills through
+// 0x000D2301 starting at the set's first TBuff and draws the filled range
+// (Set_Index_Buffer 0x0011D530, Set_Vertex_Buffer 0x0011D4A0, Draw_Triangles
+// 0x00120620). The tail restores LIGHTING, ZENABLE, ZFUNC and the saved bias
+// and marks the shader dirty. WorldBuilder's twin (va 0x00830700, misnamed
+// after the inlined PerfGather::stopTimer) has the same order. Original
+// method name unknown: the caller BaseHeightMapRenderTreesShrubs.cpp reaches
+// it through +0x3874. Stage-state names follow Direct3D; mapper, sub object
+// and shader-bit names are structural inferences. The fill must be defined
+// in this unit: cl then knows it does not keep the iterator's address and
+// packs the iterator into the shared value-name temporary slot (retail's
+// 0xE4 frame). ZH's Set_Transform switch with the Transpose temporaries
+// gives retail's texture-transform code and loop induction.
 
 #include <set>
+
+#include "GameLogicObjectLookupView.h"
+
+extern GameLogic *TheGameLogic;
+
+typedef unsigned long DWORD;
+typedef long HRESULT;
+typedef DWORD D3DRENDERSTATETYPE;
+typedef DWORD D3DTEXTURESTAGESTATETYPE;
+
+// Direct3D 9 slot order behind the dx8 names: SetTransform +0xB0,
+// SetRenderState +0xE4, SetTextureStageState +0x10C, SetSamplerState
+// +0x114, SetFVF +0x164.
+struct IDirect3DDevice8
+{
+	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
+	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
+	virtual void s08(); virtual void s09(); virtual void s10(); virtual void s11();
+	virtual void s12(); virtual void s13(); virtual void s14(); virtual void s15();
+	virtual void s16(); virtual void s17(); virtual void s18(); virtual void s19();
+	virtual void s20(); virtual void s21(); virtual void s22(); virtual void s23();
+	virtual void s24(); virtual void s25(); virtual void s26(); virtual void s27();
+	virtual void s28(); virtual void s29(); virtual void s30(); virtual void s31();
+	virtual void s32(); virtual void s33(); virtual void s34(); virtual void s35();
+	virtual void s36(); virtual void s37(); virtual void s38(); virtual void s39();
+	virtual void s40(); virtual void s41(); virtual void s42(); virtual void s43();
+	virtual HRESULT __stdcall SetTransform(DWORD state, const void *matrix) = 0;
+	virtual void s45(); virtual void s46(); virtual void s47();
+	virtual void s48(); virtual void s49(); virtual void s50(); virtual void s51();
+	virtual void s52(); virtual void s53(); virtual void s54(); virtual void s55();
+	virtual void s56();
+	virtual HRESULT __stdcall SetRenderState(D3DRENDERSTATETYPE state, DWORD value) = 0;
+	virtual void s58(); virtual void s59();
+	virtual void s60(); virtual void s61(); virtual void s62(); virtual void s63();
+	virtual void s64(); virtual void s65(); virtual void s66();
+	virtual HRESULT __stdcall SetTextureStageState(DWORD stage, D3DTEXTURESTAGESTATETYPE type, DWORD value) = 0;
+	virtual void s68();
+	virtual HRESULT __stdcall SetSamplerState(DWORD sampler, DWORD type, DWORD value) = 0;
+	virtual void s70(); virtual void s71();
+	virtual void s72(); virtual void s73(); virtual void s74(); virtual void s75();
+	virtual void s76(); virtual void s77(); virtual void s78(); virtual void s79();
+	virtual void s80(); virtual void s81(); virtual void s82(); virtual void s83();
+	virtual void s84(); virtual void s85(); virtual void s86(); virtual void s87();
+	virtual void s88();
+	virtual HRESULT __stdcall SetFVF(DWORD fvf) = 0;
+};
 
 #include "../../../../../reference/shims/wwmath/Vector2.h"
 
@@ -72,18 +146,63 @@ public:
 class Vector4
 {
 public:
-	float &operator[](int i) { return (&X)[i]; }
-	const float &operator[](int i) const { return (&X)[i]; }
-
 	float X;
 	float Y;
 	float Z;
 	float W;
+
+	__forceinline Vector4(void) {}
+	__forceinline Vector4(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
+	__forceinline Vector4(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
+	__forceinline Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
+	__forceinline void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
+	__forceinline float &operator[](int i) { return (&X)[i]; }
+	__forceinline const float &operator[](int i) const { return (&X)[i]; }
+};
+
+class Matrix4
+{
+public:
+	__forceinline Matrix4(void) {}
+	__forceinline explicit Matrix4(bool identity)
+	{
+		if (identity) {
+			Make_Identity();
+		}
+	}
+	__forceinline explicit Matrix4(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	{
+		Init(r0, r1, r2, r3);
+	}
+	__forceinline void Make_Identity(void)
+	{
+		Row[0].Set(1.0, 0.0, 0.0, 0.0);
+		Row[1].Set(0.0, 1.0, 0.0, 0.0);
+		Row[2].Set(0.0, 0.0, 1.0, 0.0);
+		Row[3].Set(0.0, 0.0, 0.0, 1.0);
+	}
+	__forceinline void Init(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3)
+	{
+		Row[0] = r0; Row[1] = r1; Row[2] = r2; Row[3] = r3;
+	}
+	__forceinline Matrix4 Transpose(void) const
+	{
+		return Matrix4(
+			Vector4(Row[0][0], Row[1][0], Row[2][0], Row[3][0]),
+			Vector4(Row[0][1], Row[1][1], Row[2][1], Row[3][1]),
+			Vector4(Row[0][2], Row[1][2], Row[2][2], Row[3][2]),
+			Vector4(Row[0][3], Row[1][3], Row[2][3], Row[3][3])
+		);
+	}
+
+protected:
+	Vector4 Row[4];
 };
 
 class Matrix3D
 {
 public:
+	__forceinline Matrix3D() {}
 	Vector4 &operator[](int i) { return Row[i]; }
 
 	void Get_Translation(Vector3 *set) const
@@ -179,7 +298,6 @@ private:
 };
 }
 
-
 namespace {
 class BuffVertexBufferView
 {
@@ -194,7 +312,6 @@ private:
 	IDirect3DVertexBuffer8 *VertexBuffer;
 };
 }
-
 
 class DX8IndexBufferClass
 {
@@ -216,11 +333,252 @@ private:
 	T *Array;
 };
 
+class StringClass
+{
+public:
+	StringClass(int initial_len = 0, bool hint_temporary = false);
+	~StringClass() { Free_String(); }
+private:
+	char *m_Buffer;
+	void Free_String();
+};
+
+class WW3D
+{
+public:
+	static bool Is_Snapshot_Activated() { return SnapshotActivated; }
+	static bool Is_Currently_Rendering_Shadow_Map() { return IsCurrentlyRenderingShadowMap; }
+private:
+	static bool SnapshotActivated;
+	static bool IsCurrentlyRenderingShadowMap;
+};
+
+class ShaderClass
+{
+	friend class W3DBuffBuffer;
+public:
+	unsigned ShaderBits;
+protected:
+	static bool ShaderDirty;
+};
+
+class TextureBaseClass
+{
+public:
+	void Release_Ref();
+};
+class TextureClass : public TextureBaseClass
+{
+};
+
+template <class T> class RefCountPtr
+{
+public:
+	~RefCountPtr()
+	{
+		if (Referent)
+			Referent->Release_Ref();
+	}
+	T *Peek() const { return Referent; }
+private:
+	T *Referent;
+};
+
+struct BFME2TextureRef;
+void BFME2Set_Texture(unsigned int stage, const BFME2TextureRef &texture);
+static __forceinline const BFME2TextureRef &AsTextureRef(const RefCountPtr<TextureClass> &ref)
+{
+	return reinterpret_cast<const BFME2TextureRef &>(ref);
+}
+
+// The texture's filter (0x00132856 on the counted reference): +0xC is the U
+// address mode, 0 for repeat.
+class ShroudFilter
+{
+public:
+	int m_minFilter;
+	int m_magFilter;
+	int m_mipFilter;
+	int m_uAddressMode;
+	int m_vAddressMode;
+};
+class ShroudTexture
+{
+public:
+	ShroudFilter *getFilter(void);
+};
+
+class IndexBufferClass;
+class VertexBufferClass;
+
+extern unsigned number_of_DX8_calls;
+void bfmeSetProjectionDepthBias(float bias);
+extern float bfmeProjectionBias;
+
+class DX8Wrapper
+{
+public:
+	static void Apply_Render_State_Changes(void);
+	static void Get_DX8_Render_State_Value_Name(StringClass &name, D3DRENDERSTATETYPE state, unsigned value);
+	static void Get_DX8_Texture_Stage_State_Value_Name(StringClass &name, D3DTEXTURESTAGESTATETYPE state, unsigned value);
+	static void Set_Index_Buffer(const IndexBufferClass *ib, unsigned short index_base_offset);
+	static void Set_Vertex_Buffer(const VertexBufferClass *vb, unsigned stream);
+	static void Draw_Triangles(unsigned start_index, unsigned polygon_count, unsigned min_vertex_index, unsigned vertex_count);
+
+	static __forceinline void Set_Vertex_Shader(DWORD fvf)
+	{
+		D3DDevice->SetFVF(fvf);
+		number_of_DX8_calls++;
+	}
+	static __forceinline void Set_DX8_Render_State(D3DRENDERSTATETYPE state, unsigned value)
+	{
+		if (RenderStates[state] == value) return;
+		if (WW3D::Is_Snapshot_Activated()) {
+			StringClass value_name(0, true);
+			Get_DX8_Render_State_Value_Name(value_name, state, value);
+		}
+		RenderStates[state] = value;
+		D3DDevice->SetRenderState(state, value);
+		number_of_DX8_calls++;
+		render_state_changes++;
+	}
+	static __forceinline void Set_DX8_Texture_Stage_State(unsigned stage, D3DTEXTURESTAGESTATETYPE state, unsigned value)
+	{
+		if (TextureStageStates[stage][state] == value) return;
+		if (WW3D::Is_Snapshot_Activated()) {
+			StringClass value_name(0, true);
+			Get_DX8_Texture_Stage_State_Value_Name(value_name, state, value);
+		}
+		TextureStageStates[stage][state] = value;
+		D3DDevice->SetTextureStageState(stage, state, value);
+		number_of_DX8_calls++;
+		texture_stage_state_changes++;
+	}
+	static __forceinline void Set_DX8_Sampler_State(unsigned stage, DWORD state, DWORD value)
+	{
+		D3DDevice->SetSamplerState(stage, state, value);
+		number_of_DX8_calls++;
+		texture_stage_state_changes++;
+	}
+	static __forceinline void Set_Transform(DWORD transform, const Matrix4 &m)
+	{
+		switch ((int)transform) {
+		case D3DTS_WORLD:
+			render_state.world = m.Transpose();
+			render_state_changed |= (unsigned)WORLD_CHANGED;
+			render_state_changed &= ~(unsigned)WORLD_IDENTITY;
+			break;
+		case D3DTS_VIEW:
+			render_state.view = m.Transpose();
+			render_state_changed |= (unsigned)VIEW_CHANGED;
+			render_state_changed &= ~(unsigned)VIEW_IDENTITY;
+			break;
+		case D3DTS_PROJECTION:
+			{
+				Matrix4 ProjectionMatrix = m.Transpose();
+				ZFar = 0.0f;
+				ZNear = 0.0f;
+				D3DDevice->SetTransform(D3DTS_PROJECTION, &ProjectionMatrix);
+				number_of_DX8_calls++;
+			}
+			break;
+		default:
+			matrix_changes++;
+			Matrix4 m2 = m.Transpose();
+			D3DDevice->SetTransform(transform, &m2);
+			number_of_DX8_calls++;
+			break;
+		}
+	}
+
+	enum
+	{
+		WORLD_CHANGED = 1 << 0,
+		VIEW_CHANGED = 1 << 1,
+		WORLD_IDENTITY = 1 << 30,
+		VIEW_IDENTITY = 1 << 31
+	};
+	enum { D3DTS_VIEW = 2, D3DTS_PROJECTION = 3, D3DTS_WORLD = 256 };
+	struct RenderStateStruct
+	{
+		Matrix4 world;
+		Matrix4 view;
+	};
+
+protected:
+	static IDirect3DDevice8 *D3DDevice;
+	static unsigned RenderStates[];
+	static unsigned TextureStageStates[][32];
+	static unsigned render_state_changes;
+	static unsigned texture_stage_state_changes;
+	static unsigned matrix_changes;
+	static RenderStateStruct render_state;
+	static unsigned render_state_changed;
+	static float ZNear;
+	static float ZFar;
+};
+
+enum
+{
+	D3DRS_ZENABLE = 7,
+	D3DRS_ZWRITEENABLE = 14,
+	D3DRS_ALPHATESTENABLE = 15,
+	D3DRS_CULLMODE = 22,
+	D3DRS_ZFUNC = 23,
+	D3DRS_ALPHABLENDENABLE = 27,
+	D3DRS_SRCBLEND = 19,
+	D3DRS_DESTBLEND = 20,
+	D3DRS_FOGENABLE = 28,
+	D3DRS_LIGHTING = 137
+};
+enum
+{
+	D3DTSS_COLOROP = 1,
+	D3DTSS_COLORARG1 = 2,
+	D3DTSS_COLORARG2 = 3,
+	D3DTSS_ALPHAOP = 4,
+	D3DTSS_TEXCOORDINDEX = 11,
+	D3DTSS_TEXTURETRANSFORMFLAGS = 24
+};
+enum { D3DTOP_DISABLE = 1, D3DTOP_SELECTARG1 = 2, D3DTOP_MODULATE = 4, D3DTOP_MODULATE2X = 5 };
+enum { D3DTA_DIFFUSE = 0, D3DTA_TEXTURE = 2 };
+enum { D3DSAMP_ADDRESSU = 1, D3DSAMP_ADDRESSV = 2 };
+enum { D3DTADDRESS_WRAP = 1, D3DTADDRESS_CLAMP = 3 };
+enum { D3DTS_TEXTURE0 = 16, D3DTS_TEXTURE1 = 17 };
+enum { D3DTTFF_COUNT2 = 2 };
+
+// The vertex material's texture mappers at +20 / +24.
+class TextureMapperClass
+{
+public:
+	virtual void s00();
+	virtual void s01();
+	virtual void s02();
+	virtual void s03();
+	virtual bool slot04();
+	virtual void Apply(int uv_array_index);
+};
+
+class VertexMaterialClass
+{
+public:
+	void Get_Emissive(Vector3 *set) const;
+	TextureMapperClass *Peek_Mapper(int stage) const { return Mapper[stage]; }
+private:
+	char m_pad00[0x20];
+	TextureMapperClass *Mapper[2];
+};
+
 class MeshMatDescClass
 {
 public:
 	Vector2 *Get_UV_Array_By_Index(int index, bool create);
 	unsigned int *Get_Color_Array(int index, bool create);
+	ShaderClass Get_Shader(int pass, int stage) const;
+	VertexMaterialClass *Peek_Material() const { return Material; }
+private:
+	char m_pad00[0xA8];
+	VertexMaterialClass *Material;
 };
 
 // Consumed BFME2 model fields; isolated from older shared MeshModel views.
@@ -254,10 +612,15 @@ private:
 
 } // namespace
 
-class VertexMaterialClass
+class MeshModelClass
 {
 public:
-	void Get_Emissive(Vector3 *set) const;
+	ShaderClass Get_Shader(int pass, int stage) const { return CurMatDesc->Get_Shader(pass, stage); }
+	VertexMaterialClass *Peek_Material() const { return CurMatDesc->Peek_Material(); }
+	RefCountPtr<TextureClass> Peek_Single_Texture(int pass, int stage) const;
+private:
+	char m_pad00[0x94];
+	MeshMatDescClass *CurMatDesc;
 };
 
 namespace {
@@ -287,19 +650,33 @@ private:
 };
 }
 
-
 #define RENDOBJ_SLOTS4(n) virtual void slot##n##a(); virtual void slot##n##b(); virtual void slot##n##c(); virtual void slot##n##d();
+
+class MeshClass;
 
 class RenderObjClass
 {
 public:
-	RENDOBJ_SLOTS4(00) RENDOBJ_SLOTS4(04) RENDOBJ_SLOTS4(08) RENDOBJ_SLOTS4(12) RENDOBJ_SLOTS4(16)
+	virtual void Delete_This(); // slot 0
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	virtual void slot04();
+	virtual MeshClass *slot05();
+	RENDOBJ_SLOTS4(06) RENDOBJ_SLOTS4(10) RENDOBJ_SLOTS4(14)
+	virtual void slot18();
+	virtual void slot19();
 	virtual void Validate_Transform() const; // slot 20
-	RENDOBJ_SLOTS4(21) RENDOBJ_SLOTS4(25) RENDOBJ_SLOTS4(29) RENDOBJ_SLOTS4(33) RENDOBJ_SLOTS4(37)
-	RENDOBJ_SLOTS4(41) RENDOBJ_SLOTS4(45) RENDOBJ_SLOTS4(49) RENDOBJ_SLOTS4(53) RENDOBJ_SLOTS4(57)
-	RENDOBJ_SLOTS4(61) RENDOBJ_SLOTS4(65) RENDOBJ_SLOTS4(69) RENDOBJ_SLOTS4(73) RENDOBJ_SLOTS4(77)
-	virtual void slot81();
-	virtual void slot82();
+	RENDOBJ_SLOTS4(21)
+	virtual void slot25();
+	virtual void slot26();
+	virtual void slot27();
+	virtual int Get_Num_Sub_Objects() const; // slot 28
+	virtual void slot29();
+	virtual RenderObjClass *Get_Sub_Object(int index) const; // slot 30
+	RENDOBJ_SLOTS4(31) RENDOBJ_SLOTS4(35) RENDOBJ_SLOTS4(39) RENDOBJ_SLOTS4(43) RENDOBJ_SLOTS4(47)
+	RENDOBJ_SLOTS4(51) RENDOBJ_SLOTS4(55) RENDOBJ_SLOTS4(59) RENDOBJ_SLOTS4(63) RENDOBJ_SLOTS4(67)
+	RENDOBJ_SLOTS4(71) RENDOBJ_SLOTS4(75) RENDOBJ_SLOTS4(79)
 	virtual void slot83();
 	virtual void slot84();
 	virtual BuffMaterialInfoView *Get_Material_Info(); // slot 85
@@ -309,22 +686,27 @@ public:
 		Validate_Transform();
 		return Transform;
 	}
+	void Release_Ref()
+	{
+		if (--NumRefs == 0)
+			Delete_This();
+	}
 
 private:
-	char m_pad04[0x14];
+	int NumRefs;
+	char m_pad08[0x10];
 	Matrix3D Transform;
 };
 
 class MeshClass : public RenderObjClass
 {
 public:
-	// Model accesses below use the target-proven +C4 view.
+	MeshModelClass *Peek_Model() const { return Model; }
 
 private:
 	char m_pad48[0xC4 - 0x48];
-	BuffMeshModelData *Model;
+	MeshModelClass *Model;
 };
-
 
 namespace {
 // Native D2301 reads MeshClass model storage at +C4. The existing
@@ -337,6 +719,17 @@ public:
 	BuffMeshModelData *peekModel() { return model; }
 };
 }
+
+class CameraClass : public RenderObjClass
+{
+};
+
+class RenderInfoClass
+{
+public:
+	CameraClass &Camera;
+};
+
 class Player
 {
 public:
@@ -411,6 +804,13 @@ public:
 
 typedef _STL::set<TBuff *> TBuffSet;
 
+struct BuffTypeView
+{
+	RenderObjClass *m_render;
+	void *m_name;
+	bool m_flag;
+};
+
 class W3DBuffBuffer
 {
 public:
@@ -420,6 +820,7 @@ public:
 		MAX_BUFF_INDEX = 60000
 	};
 	void rva000D2301(MeshClass *mesh, RenderObjClass *target, int type, TBuffSet::iterator *it);
+	void rva000D28FA(RenderInfoClass &rinfo, bool flag);
 
 private:
 	BuffVertexBufferView *m_vertexBuffer;
@@ -428,7 +829,7 @@ private:
 	int m_curNumBuffIndices;
 	int m_vertexOffset;
 	int m_indexOffset;
-	char m_types[10][12];
+	BuffTypeView m_types[10];
 	int m_numTypes;
 	TBuffSet m_buffs[10];
 	bool m_initialized;
@@ -596,4 +997,138 @@ void W3DBuffBuffer::rva000D2301(MeshClass *mesh, RenderObjClass *target, int typ
 	}
 	m_vertexBuffer->Get_DX8_Vertex_Buffer()->Unlock();
 	m_indexBuffer->Get_DX8_Index_Buffer()->Unlock();
+}
+
+void W3DBuffBuffer::rva000D28FA(RenderInfoClass &rinfo, bool flag)
+{
+	if (WW3D::Is_Currently_Rendering_Shadow_Map())
+		return;
+	if (TheGameLogic && TheGameLogic->isGamePaused())
+		return;
+	if (!m_indexBuffer)
+		return;
+	if (!m_vertexBuffer)
+		return;
+
+	DX8Wrapper::Set_Vertex_Shader(0x142);
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_LIGHTING, 0);
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_CULLMODE, 1);
+	DX8Wrapper::Set_DX8_Texture_Stage_State(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	DX8Wrapper::Set_DX8_Texture_Stage_State(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+	DX8Wrapper::Set_DX8_Texture_Stage_State(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+	DX8Wrapper::Set_DX8_Texture_Stage_State(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	DX8Wrapper::Set_DX8_Texture_Stage_State(1, D3DTSS_COLORARG2, 1);
+	DX8Wrapper::Set_DX8_Texture_Stage_State(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_ZWRITEENABLE, 0);
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_ZENABLE, 0);
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_ALPHATESTENABLE, 0);
+	float savedBias = bfmeProjectionBias;
+	if (flag) {
+		DX8Wrapper::Set_DX8_Render_State(D3DRS_ZFUNC, 4);
+		DX8Wrapper::Set_DX8_Render_State(D3DRS_ZENABLE, 1);
+		bfmeSetProjectionDepthBias(0.0f);
+	}
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_ALPHABLENDENABLE, 1);
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_SRCBLEND, 2);
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_DESTBLEND, 2);
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_FOGENABLE, 0);
+	DX8Wrapper::Apply_Render_State_Changes();
+
+	m_vertexOffset = MAX_BUFF_VERTEX;
+	m_indexOffset = MAX_BUFF_INDEX;
+	m_curNumBuffVertices = 0;
+	m_curNumBuffIndices = 0;
+	int i;
+	for (i = 0; i < m_numTypes; i++) {
+		if (flag != m_types[i].m_flag)
+			continue;
+		TBuffSet *buffs = &m_buffs[i];
+		int numBuffs = buffs->size();
+		if (numBuffs == 0)
+			continue;
+		int count = m_types[i].m_render->Get_Num_Sub_Objects();
+		for (int j = 0; j < count; j++) {
+			RenderObjClass *sub = m_types[i].m_render->Get_Sub_Object(j);
+			MeshClass *mesh = sub ? sub->slot05() : 0;
+			MeshModelClass *model = mesh ? mesh->Peek_Model() : 0;
+			VertexMaterialClass *material = model ? model->Peek_Material() : 0;
+			if (model && material) {
+				const ShaderClass &shader = model->Get_Shader(0, 0);
+				RefCountPtr<TextureClass> tex0 = model->Peek_Single_Texture(0, 0);
+				if (tex0.Peek()) {
+					BFME2Set_Texture(0, AsTextureRef(tex0));
+					if ((shader.ShaderBits & 0x1C00) == 0x1400)
+						DX8Wrapper::Set_DX8_Texture_Stage_State(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
+					else
+						DX8Wrapper::Set_DX8_Texture_Stage_State(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+					if (((ShroudTexture *)&tex0)->getFilter()->m_uAddressMode == 0) {
+						DX8Wrapper::Set_DX8_Sampler_State(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+						DX8Wrapper::Set_DX8_Sampler_State(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+					} else {
+						DX8Wrapper::Set_DX8_Sampler_State(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+						DX8Wrapper::Set_DX8_Sampler_State(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+					}
+					TextureMapperClass *mapper = material->Peek_Mapper(0);
+					if (mapper && mapper->slot04()) {
+						mapper->Apply(0);
+					} else {
+						DX8Wrapper::Set_Transform(D3DTS_TEXTURE0, Matrix4(true));
+						DX8Wrapper::Set_DX8_Texture_Stage_State(0, D3DTSS_TEXCOORDINDEX, 0);
+						DX8Wrapper::Set_DX8_Texture_Stage_State(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
+					}
+				} else {
+					DX8Wrapper::Set_DX8_Texture_Stage_State(0, D3DTSS_COLOROP, D3DTOP_DISABLE);
+				}
+				RefCountPtr<TextureClass> tex1 = model->Peek_Single_Texture(0, 1);
+				if (tex1.Peek()) {
+					BFME2Set_Texture(1, AsTextureRef(tex1));
+					if ((shader.ShaderBits & 0x1E00000) == 0x1600000)
+						DX8Wrapper::Set_DX8_Texture_Stage_State(1, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
+					else
+						DX8Wrapper::Set_DX8_Texture_Stage_State(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+					if (((ShroudTexture *)&tex1)->getFilter()->m_uAddressMode == 0) {
+						DX8Wrapper::Set_DX8_Sampler_State(1, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+						DX8Wrapper::Set_DX8_Sampler_State(1, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+					} else {
+						DX8Wrapper::Set_DX8_Sampler_State(1, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+						DX8Wrapper::Set_DX8_Sampler_State(1, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+					}
+					TextureMapperClass *mapper = material->Peek_Mapper(1);
+					if (mapper && mapper->slot04()) {
+						mapper->Apply(0);
+					} else {
+						DX8Wrapper::Set_Transform(D3DTS_TEXTURE1, Matrix4(true));
+						DX8Wrapper::Set_DX8_Texture_Stage_State(1, D3DTSS_TEXCOORDINDEX, 0);
+						DX8Wrapper::Set_DX8_Texture_Stage_State(1, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
+					}
+				} else {
+					DX8Wrapper::Set_DX8_Texture_Stage_State(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+				}
+				DX8Wrapper::Set_DX8_Texture_Stage_State(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+
+				TBuffSet::iterator it = buffs->begin();
+				RenderObjClass *camera = &rinfo.Camera;
+				rva000D2301(mesh, camera, i, &it);
+				if (m_curNumBuffIndices > 0 && m_curNumBuffVertices > 0) {
+					DX8Wrapper::Set_Index_Buffer((const IndexBufferClass *)m_indexBuffer, 0);
+					DX8Wrapper::Set_Vertex_Buffer((const VertexBufferClass *)m_vertexBuffer, 0);
+					DX8Wrapper::Draw_Triangles(m_indexOffset, m_curNumBuffIndices / 3, m_vertexOffset, m_curNumBuffVertices);
+					m_vertexOffset += m_curNumBuffVertices;
+					m_indexOffset += m_curNumBuffIndices;
+					DX8Wrapper::Set_Index_Buffer(0, 0);
+					DX8Wrapper::Set_Vertex_Buffer(0, 0);
+					m_curNumBuffVertices = 0;
+					m_curNumBuffIndices = 0;
+				}
+			}
+			if (sub)
+				sub->Release_Ref();
+		}
+	}
+
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_LIGHTING, 1);
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_ZENABLE, 1);
+	DX8Wrapper::Set_DX8_Render_State(D3DRS_ZFUNC, 4);
+	bfmeSetProjectionDepthBias(savedBias);
+	ShaderClass::ShaderDirty = true;
 }
