@@ -22,7 +22,7 @@ class Rva00261058 : public Rva00261058Base
 {
 public:
 	Rva00261058(Object *obj, bool flag);
-	virtual bool rva0026109D(Object *obj);
+	virtual bool allow(Object *obj);
 private:
 	Player *m_player;
 	bool m_flag;
@@ -35,9 +35,10 @@ Rva00261058::Rva00261058(Object *obj, bool flag) : Rva00261058Base()
 		m_player = obj->getControllingPlayer();
 	m_flag = flag;
 }
-// ?rva0026109D@Rva00261058@@UAE_NPAVObject@@@Z @ 0x0026109D (65B):
-// Vtable 0x007F8FE4 and fields from the constructor; calls and branches from target.
-bool Rva00261058::rva0026109D(Object *obj)
+// ?allow@Rva00261058@@UAE_NPAVObject@@@Z @ 0x0026109D (65B): slot 1 (allow)
+// of partition filter vftable 0x00BF8FE4; fields from the constructor; calls
+// and branches from target.
+bool Rva00261058::allow(Object *obj)
 {
 	bool result = obj->rva00294471(m_player, 0);
 	if (!result && m_player != 0 && *(int *)((char *)m_player + 0x5c) == 1 && obj->rva0028C1CC())

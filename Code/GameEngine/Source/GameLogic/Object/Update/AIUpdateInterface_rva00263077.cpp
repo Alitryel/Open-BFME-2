@@ -1,6 +1,8 @@
 // cl: /DNDEBUG /MD
-// ?rva00263077@AIUpdateInterface@@QAE_NPAVObject@@@Z @0x00263077 126B
-// Evidence: chain lane calls rowed isWithinAttackRange 0x002CB933; neighbours rva0026304D and rva002630F5 prove AIUpdateInterface with m_object at +0x08.
+// ?allow@Rva00263077Filter@@UAE_NPAVObject@@@Z @0x00263077 126B
+// Evidence: chain lane calls rowed isWithinAttackRange 0x002CB933. The body is
+// slot 1 (allow) of partition filter vftable 0x00BF91F0, whose object is at
+// +0x08 (constructor copy 0x00263061); the +0x3C1 byte is on that object's AI.
 
 typedef bool Bool;
 
@@ -56,15 +58,20 @@ public:
 class AIUpdateInterface
 {
 public:
-	char m_pad00[8];
-	Object *m_object; // +0x08
-	char m_pad0C[0x3C1 - 0x0C];
+	char m_pad00[0x3C1];
 	unsigned char m_3C1; // +0x3C1
-public:
-	Bool rva00263077(Object *target);
 };
 
-Bool AIUpdateInterface::rva00263077(Object *target)
+class Rva00263077Filter
+{
+public:
+	virtual ~Rva00263077Filter();
+	virtual Bool allow(Object *target);
+	char m_pad04[4];
+	Object *m_object; // +0x08
+};
+
+Bool Rva00263077Filter::allow(Object *target)
 {
 	const Weapon *weapon = m_object->getCurrentWeapon(0);
 	if (weapon != 0)
