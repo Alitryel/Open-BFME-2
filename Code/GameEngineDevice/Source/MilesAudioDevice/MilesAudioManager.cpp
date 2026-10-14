@@ -3637,7 +3637,7 @@ void MilesAudioManager::processRequestList(void)
 // 0x000A8C7C (rowed as Rva0036CA00Str); 0x606CE releases it unguarded.
 class Rva0036CA00Str {
 public:
-    Rva0036CA00Str(const Rva0036CA00Str &other);
+    __declspec(nothrow) Rva0036CA00Str(const Rva0036CA00Str &other);
     ~Rva0036CA00Str() { reinterpret_cast<OpaqueRefCounted *>(m_ptr)->Release_Ref(); }
     PlayingAudio *operator->(void) const { return m_ptr; }
     PlayingAudio *get(void) const { return m_ptr; }
@@ -6055,4 +6055,97 @@ void MilesAudioManager::rva00053646(Rva00051107AudioRequest *req, bool *removeRe
         reinterpret_cast<Rva002D94EB *>(event.get())->rva002D94EB(m_at90);
         req->m_at11 = true;
     }
+}
+// WorldBuilder names putPlayingMusicOnStack (assert line 7431).
+// Retail 0x0005A812..0x0005A908. The visible deque chain below proves that
+// pushing the counted copy does not retain its address, so its release stays
+// in EDI and the iterator's return value can share the dead argument slot.
+void MilesAudioManager::putPlayingMusicOnStack(int viewType, int arg)
+{
+    MusicSystem activeMusicSystem = m_activeMusicSystem[viewType];
+    PlayingAudioRef &music = m_playingMusic[viewType];
+    if (music.get()) {
+        MusicSystem musicSystem = music->m_event->m_musicSystem;
+        ((Rva00058B90 *)&m_musicStack[viewType][musicSystem])->rva00058B90(*(const Rva0036CA00Str *)&music);
+        ((Rva000A8C9B *)&music)->clear();
+        return;
+    }
+    PlayingAudioList::iterator it = rva0005442A(viewType, activeMusicSystem, 1);
+    if (it != m_playingStreams.end()) {
+        const Rva0036CA00Str ref(*reinterpret_cast<const Rva0036CA00Str *>(&*it));
+        ((Rva00058B90 *)&m_musicStack[viewType][activeMusicSystem])->rva00058B90(ref);
+        PlayingAudio *playing = ref.get();
+        playing->m_at45 = false;
+        if (!arg) {
+            playing->m_at44 = true;
+        } else {
+            playing->m_at44 = false;
+            ((MilesStreamRef *)&playing->m_at0C)->rva000A8AC0();
+            playing->m_at30 = (float)m_audioSettings->m_at78;
+            reinterpret_cast<OpaqueRefList &>(m_playingStreams).erase(
+                OpaqueRefList::iterator((OpaqueRefList::_Node *)it._M_node));
+        }
+    }
+}
+
+// Exact select-any copies of the existing 31/18/45/132-byte owners. All four
+// bodies and their relocations were checked against retail; see the evidence.
+__declspec(noinline) inline Rva0036CA00Str::Rva0036CA00Str(const Rva0036CA00Str &other)
+    : m_ptr(other.m_ptr)
+{
+    if (m_ptr)
+        InterlockedIncrement((long volatile *)((char *)m_ptr + 4));
+}
+
+class Rva0005800A { public: void rva0005800A(const Rva0036CA00Str &); };
+namespace _STL {
+template <> __declspec(noinline) inline void _Construct<Rva0036CA00Str, Rva0036CA00Str>(
+    Rva0036CA00Str *p, const Rva0036CA00Str &v) throw()
+{
+    new (p) Rva0036CA00Str(v);
+}
+}
+struct StackIterator {
+    void set_node(Rva0036CA00Str **n) { node = n; first = *n; last = first + 32; }
+    Rva0036CA00Str *cur, *first, *last;
+    Rva0036CA00Str **node;
+};
+struct StackLayout {
+    StackIterator start, finish;
+    Rva0036CA00Str **map;
+    unsigned mapSize;
+};
+__declspec(noinline) inline void Rva00058B90::rva00058B90(const Rva0036CA00Str &v)
+{
+    StackLayout *p = (StackLayout *)this;
+    if (p->finish.cur != p->finish.last - 1) {
+        _STL::_Construct(p->finish.cur, v);
+        ++p->finish.cur;
+    } else {
+        ((Rva0005800A *)this)->rva0005800A(v);
+    }
+}
+
+namespace _STL { template <> void deque<void *, allocator<void *> >::_M_reserve_map_at_back(unsigned int); }
+struct StackReserve : _STL::deque<void *, _STL::allocator<void *> > {
+    using _STL::deque<void *, _STL::allocator<void *> >::_M_reserve_map_at_back;
+};
+// Like NullablePlayingAudioCopy above, this guard constructs the counted value
+// explicitly and releases only a non-null copy, matching the slow path's EH.
+class StackCopy {
+    unsigned storage;
+public:
+    StackCopy(const Rva0036CA00Str &v) { value()->Rva0036CA00Str::Rva0036CA00Str(v); }
+    ~StackCopy() { if (value()->get()) value()->~Rva0036CA00Str(); }
+    Rva0036CA00Str *value() { return (Rva0036CA00Str *)&storage; }
+};
+__declspec(noinline) inline void Rva0005800A::rva0005800A(const Rva0036CA00Str &v)
+{
+    StackCopy copy(v);
+    StackLayout *p = (StackLayout *)this;
+    ((StackReserve *)this)->_M_reserve_map_at_back(1);
+    *(p->finish.node + 1) = (Rva0036CA00Str *)_STL::allocator<char>().allocate(0x80, 0);
+    new (p->finish.cur) Rva0036CA00Str(*copy.value());
+    p->finish.set_node(p->finish.node + 1);
+    p->finish.cur = p->finish.first;
 }
