@@ -1,10 +1,15 @@
 // ?rva00365B8A@Path@@QAEXPAVObject@@PAVPathNode@@1PBUCoord3D@@M@Z
+// partial score=0.9126 date=2026-10-14
+// ?rva00365B8A@Path@@QAEXPAVObject@@PAVPathNode@@1PBUCoord3D@@M@Z
 // partial score=0.901357220412595 date=2026-10-09
 // cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc
 // Native365B8A..365DF0; WB F21F60 vector arithmetic; ZH Vector3 copy,
 // constructors and operations guide inline shape. This 3-float local
 // adapter uses retail's rowed Coord3D::normalize ABI, preserving its layout.
 #include "Lib/Coord3D.h"
+#include <math.h>
+inline float Coord3D::length() const {return (float)sqrt(x*x+y*y+z*z);}
+inline void Coord3D::normalize(){float len=length();if(len!=0.0f){float scale=1.0f/len;x*=scale;y*=scale;z*=scale;}}
 class Object;
 class PathNode {public:PathNode *next,*previous,*nextOptimized;Coord3D pos;int layer;bool canOptimize;char pad1D[3];int portalID;};
 struct DirectionOptions {bool flag0,flag1;float value4;bool flag8;};
@@ -22,7 +27,7 @@ struct PathWorkingCoord {
 };
 class Path {public:
  void rva00365B8A(Object *,PathNode *,PathNode *,const Coord3D *,float);
- bool rva00365309(Object *,PathNode *,const Coord3D *,DirectionOptions *,int,float,int);
+ bool rva00365309(Object *,PathNode *,const Coord3D *,DirectionOptions *,int,float,bool);
 };
 void Path::rva00365B8A(Object *obj,PathNode *start,PathNode *end,const Coord3D *input,float radius)
 {
