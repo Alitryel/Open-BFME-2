@@ -195,7 +195,7 @@ public:
 	Bool QuickDoesPathExistToStructure(Object *obj, const Coord3D *fromPos, Object *structure, Int flag);
 	Bool QuickDoesPathExist(Object *obj, const Coord3D *fromPos, const Coord3D *toPos, Int flag);
  Bool adjustToPossibleDestination(Object*,const LocomotorSet&,Coord3D*);
- Bool adjustDestination(Object*,const LocomotorSet&,Coord3D*,const Coord3D*);
+ Bool AdjustDestination(Object*,const LocomotorSet&,Coord3D*,const Coord3D*);
 };
 
 enum NameKeyType
@@ -1498,7 +1498,7 @@ static Bool rva00344749(Coord3D *destination, Object *obj)
  direction.sub(&candidate);direction.z=0.0f;
  if(direction.GetLength()+20.0f>distance)return false;
  TheAI->pathfinder()->adjustToPossibleDestination(obj,*(LocomotorSet*)ai->m_locomotorSet,&candidate);
- TheAI->pathfinder()->adjustDestination(obj,*(LocomotorSet*)ai->m_locomotorSet,&candidate,0);
+ TheAI->pathfinder()->AdjustDestination(obj,*(LocomotorSet*)ai->m_locomotorSet,&candidate,0);
  *destination=candidate;return true;
 }
 
@@ -1528,7 +1528,7 @@ Bool AIAttackApproachTargetState::computePath()
    ai->ignoreObstacle(victim);
    critterDesyncLog("CritterDesync: setAdjustDestination(FALSE) 19");
    setAdjustsDestination(false);ai->setPathExtraDistance(100.0f);
-   TheAI->pathfinder()->adjustDestination(getMachineOwner(),*(LocomotorSet*)ai->m_locomotorSet,&m_goalPosition,0);
+   TheAI->pathfinder()->AdjustDestination(getMachineOwner(),*(LocomotorSet*)ai->m_locomotorSet,&m_goalPosition,0);
   } else if(ai->getPath() && ai->rva00262BEC())return true;
   Coord3D pos;victim->rva0028C2DD(&pos);
   Bool invalid=rva00344EB2Gate(source,victim);
