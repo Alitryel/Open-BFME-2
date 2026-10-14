@@ -1,4 +1,7 @@
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
+// partial score=0.8920744680851063 date=2026-10-14
+// cl: /I. /O1 /G7 /arch:SSE /MD
+// ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
 // partial score=0.84 date=2026-10-07
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ @0x004B13D8 470B.
 // Walks the entry vector at +0x90. Relationship masks 3 and 4 from the
@@ -6,7 +9,7 @@
 // position, then each live entry is offered those sums plus the object
 // named by its slot. A set +0xB4 flag clears and the scan repeats.
 
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 enum ObjectID
 {
@@ -127,7 +130,7 @@ private:
 struct Rva004B13D8Frame
 {
 	int mine;
-	Rva004DD018 **cursor;
+	Rva004DD018 **volatile cursor;
 	int level;
 	int slotA;
 	int slotB;
@@ -176,7 +179,7 @@ restart:
 			}
 		}
 
-		int flag = m_b4;
+		int flag = m_b4;ModuleData *data=m_data;
 		int kind = entry->m_4->m_4;
 		if (flag)
 		{
@@ -190,7 +193,7 @@ restart:
 
 		if (!flag)
 		{
-			if (m_data->m_2c == (unsigned char)flag && frame.level >= m_data->m_30)
+			if (data->m_2c == (unsigned char)flag && frame.level >= data->m_30)
 			{
 				if (kind == 4)
 					continue;

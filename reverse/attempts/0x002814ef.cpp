@@ -1,4 +1,6 @@
 // ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
+// partial score=0.9912424362009998 date=2026-10-14
+// ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
 // partial score=0.9912 date=2026-10-14
 // ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
 // partial score=0.9 date=2026-10-14

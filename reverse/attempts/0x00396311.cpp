@@ -1,6 +1,8 @@
 // ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
 // partial score=0.9972188802775525 date=2026-10-14
 // ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
+// partial score=0.9972188802775525 date=2026-10-14
+// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
 // partial score=0.994893 date=2026-10-14
 // ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
 // partial score=0.87 date=2026-10-13

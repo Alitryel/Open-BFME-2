@@ -1,4 +1,6 @@
 // ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
+// partial score=0.9758102899985258 date=2026-10-14
+// ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
 // partial score=0.93 date=2026-10-13
 // ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
 // partial score=0.93 date=2026-10-13
@@ -75,7 +77,7 @@ class NameKeyGenerator { public: NameKeyType nameToKey(const AsciiString &); };
 extern NameKeyGenerator *TheNameKeyGenerator;
 struct DelayedLuaEventList {
     DelayedLuaEventList(); virtual ~DelayedLuaEventList();
-    void *vtable; char events04[0x48];
+    char events04[0x48];
 };
 class Rva00332E60 { public: void *rva00333918(int); };
 class LuaScriptEngine {

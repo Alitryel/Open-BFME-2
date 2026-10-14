@@ -1,8 +1,32 @@
 // ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
+// partial score=0.8855415106117354 date=2026-10-14
+// ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
 // partial score=0.673469387755102 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
 // Native 28F326..28F44C 294B RET8; complete WB CE75F0 twin.
-#include "Coord3D.h"
+#include "Coord3DBase.h"
+#include <math.h>
+__declspec(noinline) inline float Coord3D::length() const { return (float)sqrt(x * x + y * y + z * z); }
+__declspec(noinline) inline float Coord3D::GetLength() const
+{
+	float x_value = x;
+	float y_value = y;
+	float z_value = z;
+	return (float)sqrt(x_value * x_value + y_value * y_value + z_value * z_value);
+}
+__declspec(noinline) inline float Coord3D::Normalize()
+{
+	float len = GetLength();
+	float scale = 1.0f / len;
+	x *= scale;
+	y *= scale;
+	z *= scale;
+	return len;
+}
+
+inline void subCoord(Coord3D*p,const Coord3D*a,const Coord3D*b){p->x=a->x-b->x;p->y=a->y-b->y;p->z=a->z-b->z;}
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
 struct Vec2 {float x,y;};
 extern bool Rva004DF8D8Test(const Vec2*,const Vec2*,const Vec2*,float,float,float,float);
 extern float Cos(float),Sin(float);
@@ -18,17 +42,18 @@ unsigned char Rva0028F326Owner::rva0028F326(unsigned targetWord,float range)
  const RangeTemplate*type=data;
  if(range<0.0f)range=((const Object*)this)->getVisionRange();
  const Rva0028F326Owner*target=(const Rva0028F326Owner*)targetWord;
- const Coord3D*targetPos=&target->position;
+ float sourceRadius=radius;float targetRadius=target->radius;
  const Coord3D*sourcePos=&position;
+ const Coord3D*targetPos=&target->position;
  if(!Rva004DF8D8Test((const Vec2*)targetPos,(const Vec2*)sourcePos,
-    (const Vec2*)((const Thing*)this)->getUnitDirectionVector2D(),range,1.0f,1.0f,radius+target->radius))return 0;
+    (const Vec2*)((const Thing*)this)->getUnitDirectionVector2D(),range,1.0f,1.0f,sourceRadius+targetRadius))return 0;
  if(type->visionAngle>=360.0f)return 1;
- Coord3D delta={targetPos->x-sourcePos->x,targetPos->y-sourcePos->y,0.0f};
+ Coord3D delta;subCoord(&delta,targetPos,sourcePos);delta.z=0;_ReadWriteBarrier();
  delta.Normalize();
  FacingVector facing;
  facing.x=Cos(angle);
  facing.y=Sin(angle);
  facing.z=0.0f;
- range=facing.dot(delta);
+ range=delta.x*facing.x+delta.y*facing.y+delta.z*facing.z;
  return range>=Cos(type->visionAngle*0.008725001f);
 }

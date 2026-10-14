@@ -1,4 +1,6 @@
 // ?CanBeActivatedFor@EmotionNugget@@QAE_NHHPAURva004DD018Arg@@@Z
+// partial score=0.9214253974523551 date=2026-10-14
+// ?CanBeActivatedFor@EmotionNugget@@QAE_NHHPAURva004DD018Arg@@@Z
 // partial score=0.9244692406438234 date=2026-10-14
 // ?CanBeActivatedFor@EmotionNugget@@QAE_NHHPAURva004DD018Arg@@@Z
 // partial score=0.9 date=2026-10-09
