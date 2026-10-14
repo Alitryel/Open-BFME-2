@@ -56,6 +56,7 @@ public:
 	__declspec(noinline) int rva00079157();
 	__declspec(noinline) int rva00079167();
 	__declspec(noinline) float rva00079176();
+	int rva00079186(int count);
 	char m_pad[0x188];
 	HordeLodEntry m_lods[3];
 };
@@ -82,6 +83,19 @@ __declspec(noinline) float W3DHordeModelDrawModuleData::rva00079176()
 {
 	int idx = GetLODIndex();
 	return m_lods[idx].m_delta;
+}
+
+// 0x00079186 (59B), reached through the forwarder 0x000791E5: a client
+// random pick in [0, count-1] (W3DHordeModelDraw.cpp line 726) scaled by the
+// current LOD entry's percentage at +0x10. GetLODIndex is visible here, so
+// the pick stays in ecx across that call as in retail. Name address-derived.
+int GetGameClientRandomValue(int lo, int hi, char *file, int line);
+
+int W3DHordeModelDrawModuleData::rva00079186(int count)
+{
+	return GetGameClientRandomValue(0, count - 1,
+		"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\Drawable\\W3DHordeModelDraw.cpp", 0x2D6)
+		* m_lods[GetLODIndex()].m_start / 100;
 }
 
 class Rva00079911 {public: void rva00079911();};
