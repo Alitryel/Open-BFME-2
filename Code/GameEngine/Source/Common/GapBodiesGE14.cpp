@@ -95,6 +95,34 @@ int Rva003B9D23(char *args[], int)
 	return 1;
 }
 
+// --- 0x003B9A20 / 0x003B9A9C / 0x003B9D6F (9B each): more handlers of this
+// family that raise one byte global and return 1. Their option strings are
+// not referenced from the image; the globals are the existing providers:
+// ShaderOverbrightEnabled (VA 0x00DB5F84, ShaderClassApply.cpp), the save
+// flag Rva002DBC97Get.cpp reads as g_00E02D7B, and
+// g_natTransportContextEnabled (VA 0x00E02D8C, NATUpdateBfme.cpp).
+extern bool ShaderOverbrightEnabled;
+extern bool g_00E02D7B;
+extern bool g_natTransportContextEnabled;
+
+int Rva003B9A20(char *args[], int)
+{
+	ShaderOverbrightEnabled = true;
+	return 1;
+}
+
+int Rva003B9A9C(char *args[], int)
+{
+	g_00E02D7B = true;
+	return 1;
+}
+
+int Rva003B9D6F(char *args[], int)
+{
+	g_natTransportContextEnabled = true;
+	return 1;
+}
+
 // --- 0x00391FC4 (77B): four zero floats, an emptied name (+0x14), a -1 id
 // and a cleared flag.
 // The 0x00392092 array initializer pairs this ctor with the folded destructor
