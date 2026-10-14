@@ -36,3 +36,28 @@ int SpecialPowerTemplate::rva0044EB4B() const
 {
 	return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_44;
 }
+
+// 0x004D973E / 0x004D9747 (9B each): the same final-override read returning
+// the ADDRESS of a member (+0x3C, +0x40) instead of its value. The owning
+// Overridable subclass is not identified, so it is a separate view.
+class Rva004D973EOverridable : public Overridable
+{
+public:
+	const int *rva004D973E() const;
+	const int *rva004D9747() const;
+
+private:
+	char m_pad00[0x3C];
+	int m_3C;	// +0x3C
+	int m_40;	// +0x40
+};
+
+const int *Rva004D973EOverridable::rva004D973E() const
+{
+	return &((const Rva004D973EOverridable *)friend_getFinalOverride())->m_3C;
+}
+
+const int *Rva004D973EOverridable::rva004D9747() const
+{
+	return &((const Rva004D973EOverridable *)friend_getFinalOverride())->m_40;
+}

@@ -56,3 +56,40 @@ void Rva003BA655::set(bool value)
 {
 	m_4A = value;
 }
+
+// --- 0x0047B9A6 (7B): return the float at +0x354 (x87 return, fld).
+class Rva0047B9A6
+{
+public:
+	float get() const;
+private:
+	char m_pad00[0x354];
+	float m_354;
+};
+
+float Rva0047B9A6::get() const
+{
+	return m_354;
+}
+
+// --- 0x004F032A (10B): whether the int at +0x10 is below the one at +0x14.
+class Rva004F032A
+{
+public:
+	bool isBelow() const;
+private:
+	char m_pad00[0x10];
+	int m_10;
+	int m_14;
+};
+
+bool Rva004F032A::isBelow() const
+{
+	return m_10 < m_14 ? true : false;
+}
+
+// --- 0x00481BAB (7B): invert the word the argument points at.
+void Rva00481BABInvert(unsigned int *value)
+{
+	*value = ~*value;
+}
