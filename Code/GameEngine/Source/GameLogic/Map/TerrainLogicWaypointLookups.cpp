@@ -30,12 +30,13 @@
 
 #include <map>
 
-// map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()
-// COMDAT (one byte shape per TU flags); a declaration-only specialization
-// stops this TU emitting its copy so callers bind the kept copy.
-// Plain (non-dllimport) form: no __imp_ reference is emitted.
+// map/set<unsigned> internals otherwise emit the less<unsigned>::operator()
+// COMDAT in a register shape retail's 0x00758C50 does not have. The compare
+// is inlined into the map's _M_find (retail's 0x00357180 compares in place),
+// so an inline-only specialization keeps it there and emits no copy; a
+// declaration-only one would turn this TU's _M_find into a call.
 namespace _STL {
-template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const;
+template <> __declspec(dllimport) __forceinline bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const { return a < b; }
 }
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
