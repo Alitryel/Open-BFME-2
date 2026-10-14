@@ -11,7 +11,7 @@
 // 15 tallies at +0x6C). Evidence: vtable slot 3 callers none callees rowed
 // EraseRange 0x2983DA push_back 0x403E3B Rva00368270 0x4034D5 rva004031F3
 // 0x4031F3 releaseBuffer 0x36410 BfmeStringRecord 0x40360E UpdateModule xfer
-// 0x44DF9F empty string g_Rva0107301CEmptyString Version 1 3 IsLoading gate.
+// 0x44DF9F empty string literal Version 1 3 IsLoading gate.
 //
 // Shape (WorldBuilder twin 0x00E92C60, retail evidence): the 16-byte modifier
 // entry views carry their real members so their destructors are the inline
@@ -92,8 +92,6 @@ public:
 
 	virtual Xfer &xferBool(bool &value);
 };
-
-extern const char g_Rva0107301CEmptyString[];
 
 class Rva00297360Element
 {
@@ -227,7 +225,7 @@ void AttributeModifierPoolUpdate::xfer(Xfer *xfer)
 		int count = 0;
 		xfer->xferInt(count);
 		for (int i = 0; i < count; ++i) {
-			Rva00368270 tmp(0, AsciiString(g_Rva0107301CEmptyString));
+			Rva00368270 tmp(0, AsciiString(""));
 			reinterpret_cast<Rva004031F3 *>(&tmp)->rva004031F3(
 				reinterpret_cast<Obj *>(xfer), reinterpret_cast<Info *>(&version));
 			m_modifiers.push_back(*reinterpret_cast<Rva00297360Element *>(&tmp));
