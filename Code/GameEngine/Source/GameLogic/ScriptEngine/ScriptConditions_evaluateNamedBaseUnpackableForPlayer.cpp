@@ -1,25 +1,29 @@
-// ?evaluateNamedBaseUnpackableForPlayer@ScriptConditions@@IAE_NPAVParameter@@0@Z
-// partial score=0.95 date=2026-10-14
-// ?evaluateNamedBaseUnpackableForPlayer@ScriptConditions@@IAE_NPAVParameter@@0@Z
-// partial score=0.93 date=2026-10-08
-// ?evaluateNamedBaseUnpackableForPlayer@ScriptConditions@@IAE_NPAVParameter@@0@Z
-// partial score=0.93 date=2026-10-08
-// Remaining diff is register allocation only: retail splits player (EBX before the
-// loop, spilled to [ebp+8] at its definition) and gives the loop index EBX; this
-// shape keeps player in EBX throughout and the index at [ebp+8]. Dropping one player
-// use (inside or outside the loop) flips VC7 to retail's split, so it is a weight
-// tie. No effect: index/player declaration order, copies, forceinline helpers,
-// nested ifs, continue form, flags (G6, Oy-, no Op), pointer-returning callees.
-// A named `const AsciiString &` for the command-set string flips the loop register
-// to commandSet instead (281 bytes).
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /O1 /arch:SSE /G7
+//
 // ?evaluateNamedBaseUnpackableForPlayer@ScriptConditions@@IAE_NPAVParameter@@0@Z
-// 0x003E4565 276B. Donor: BFME1 ScriptConditionsNamedBaseUnpackableForPlayer.cpp. Retail calls resolve the named base and player, check ownership and castle unpack eligibility, then inspect command buttons.
+// @0x003E4565 276B.
+//
+// ZH/BFME1 donor: ScriptConditionsNamedBaseUnpackableForPlayer.cpp (the only
+// copy of this condition in the reference tree); BFME2 renames the module key
+// source to CastleBehavior::rva0003955DA (rowed 0x003955DA), resolves
+// ScriptEngine::rva00357B82 for the player mask, and reads the command button
+// through rva0031D5F8/getCommandButton/rva0035B570 and the CastleBehavior
+// chain canUnpack/rva00397F45/rva0039718B/Finish.
+//
+// Retail's schedule at the findModule call is: call rva0003955DA, push eax,
+// mov ecx, base, call findModule. Passing the call result straight as the
+// argument schedules mov ecx before push eax (nd 2); binding the key to a
+// named NameKeyType local reproduces retail exactly (the donor also keeps a
+// named module-key local). Raw stream instruction-identical, 276/276.
 #include "ascii_string.h"
-typedef int NameKeyType;
+enum NameKeyType
+{
+	NAMEKEY_INVALID = 0
+};
 class Parameter;
 class Player;
 class Object;
+class Module;
 class CommandButton;
 class CommandSet;
 class ThingTemplate;
@@ -68,7 +72,7 @@ class Rva00395686 : public Rva0039718B
 
 {
  public:
- bool Finish(Player *, ThingTemplate *);
+ bool rva00395686(Player *, ThingTemplate *);
  
 }
 ;
@@ -94,7 +98,7 @@ class CommandButton
  public:
  char pad[0x14];
  int m_command;
- ThingTemplate *rva0035B570() const;
+ const ThingTemplate *rva0035B570() const;
  
 }
 ;
@@ -103,7 +107,10 @@ class Object
 {
  public:
  Player *getControllingPlayer() const;
- CastleBehavior *findModule(NameKeyType) const;
+protected:
+ Module *findModule(NameKeyType) const;
+ friend class ScriptConditions;
+public:
  const AsciiString &getCommandSetString() const;
  
 }
@@ -112,7 +119,7 @@ class Rva0031D5F8
 
 {
  public:
- CommandSet *rva0031D5F8(const AsciiString *);
+ void *rva0031D5F8(const AsciiString *);
  
 }
 ;
@@ -145,10 +152,11 @@ bool ScriptConditions::evaluateNamedBaseUnpackableForPlayer(Parameter *baseParm,
  Player *player = ThePlayerList->getPlayerFromMask(mask);
  if (!player || base->getControllingPlayer() != player)
  return false;
- CastleBehavior *castle = (playerParm ? (base->findModule(CastleBehavior::rva0003955DA())) : (base->findModule(CastleBehavior::rva0003955DA())));
+ const NameKeyType baseModuleKey = CastleBehavior::rva0003955DA();
+ CastleBehavior *castle = (CastleBehavior *)base->findModule(baseModuleKey);
  if (castle && castle->canUnpack(true) && castle->rva00397F45(player, 1) && castle->rva0039718B(player))
  return true;
- CommandSet *commandSet = TheControlBar->rva0031D5F8(&base->getCommandSetString());
+ CommandSet *commandSet = (CommandSet *)TheControlBar->rva0031D5F8(&base->getCommandSetString());
  if (commandSet) 
  
  {
@@ -160,9 +168,9 @@ bool ScriptConditions::evaluateNamedBaseUnpackableForPlayer(Parameter *baseParm,
    if (button && button->m_command == 0x32) 
    
    {
-    ThingTemplate *thing = button->rva0035B570();
+    ThingTemplate *thing = (ThingTemplate *)button->rva0035B570();
     if (thing && castle && castle->canUnpack(true) && castle->rva00397F45(player, 1) &&
-    castle->Finish(player, thing))
+    castle->rva00395686(player, thing))
     return true;
     
    }
