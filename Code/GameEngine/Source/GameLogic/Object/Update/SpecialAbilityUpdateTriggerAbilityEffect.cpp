@@ -1,7 +1,6 @@
 // ?triggerAbilityEffect@SpecialAbilityUpdate@@UAEXXZ
-// partial score=0.643166 date=2026-10-13
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
-// W7-GODOT: full native45108D..451B92 reconstruction. Not yet byte matched.
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /I. /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// Retail 0x0045108D..0x00451B92: SpecialAbilityUpdate::triggerAbilityEffect.
 // WB10E4270 establishes SpecialAbilityUpdate::triggerAbilityEffect and its
 // branch structure. Release instructions establish every accessed offset,
 // virtual slot, numeric kind/status/condition and helper argument below.
@@ -12,9 +11,9 @@
 #include <string.h>
 #include <stddef.h>
 #include "Common/BfmeAudioEventPrefix136.h"
-#include "../../../Common/GameLogicObjectLookupView.h"
-#include "../../../Common/PartitionRangeQueryCallView.h"
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 extern GameLogic *TheGameLogic;
 class Player;
@@ -33,6 +32,23 @@ enum DamageType { DAMAGE_CAPTURE = 8 };
 enum DeathType { DEATH_NORMAL = 0 };
 enum DisabledType { DISABLED_SPECIAL_ABILITY = 3 };
 enum EvaEventID { EVA_CAPTURED = 17 };
+struct GrabPosition : Coord3D {
+    GrabPosition() {}
+    GrabPosition(const Coord3D &p) { x=p.x; y=p.y; z=p.z; }
+    ~GrabPosition() {}
+};
+// Vector3::Rotate_Z from the cited ZH reference. Keep the CRT float
+// wrappers visible: replacing them with casts of sin/cos changes scheduling.
+struct GrabRotation {
+    float x,y,z;
+    __forceinline GrabRotation(float a,float b,float c){x=a; y=b; z=c;}
+    __forceinline void rotate(float sine,float cosine) {
+        float oldX=x,oldY=y;
+        x=cosine*oldX-sine*oldY;
+        y=sine*oldX+cosine*oldY;
+    }
+    __forceinline void rotate(float angle) { rotate(sinf(angle),cosf(angle)); }
+};
 class Matrix3D {
   public:
     float Get_Z_Rotation() const;
@@ -115,10 +131,13 @@ class FXList {
   public:
     static void doFXPos(const FXList *, const Coord3D *, const Matrix3D *, float, const Coord3D *);
 };
-struct Coord2D {
+// Eight-byte hidden-result view for BodyModuleInterface slot 0x7C; the
+// original type name is unproven. WB also shows the temporary's empty cleanup.
+struct GrabOffsetValue {
     float x, y;
-    Coord2D() {}
-    __forceinline Coord2D(const Coord2D &other) : x(other.x), y(other.y) {}
+    GrabOffsetValue() {}
+    __forceinline GrabOffsetValue(const GrabOffsetValue &other) : x(other.x), y(other.y) {}
+    ~GrabOffsetValue() {}
 };
 class SpecialPowerModuleInterface {
   public:
@@ -224,7 +243,7 @@ class BodyModuleInterface {
     virtual AsciiString getGrabObject() const;
     virtual const FXList *getGrabFX() const;
     virtual float getGrabDamage() const;
-    virtual Coord2D getGrabOffset() const;
+    virtual GrabOffsetValue getGrabOffset() const;
 };
 class CaptureRefundInterface {
   public:
@@ -245,14 +264,16 @@ class CaptureRefundInterface {
 };
 class AICommandInterface {
   public:
+    virtual void aiDoCommand(const void *);
     void rva0026C2D9(Object *, int, CommandSourceType);
     void rva0044FFD9(Object *, CommandSourceType);
 };
-class AIUpdateInterface {
+class AIUpdateModuleView {
   public:
-    char prefix[0x20];
-    AICommandInterface commands;
+    virtual void updateSlot();
+    char prefix[0x1c];
 };
+class AIUpdateInterface : public AIUpdateModuleView, public AICommandInterface {};
 struct Rva00297612Entry;
 class Rva00263895Member {
   public:
@@ -271,10 +292,20 @@ class WeaponSet {
   public:
     Weapon *getWeaponInWeaponSlot(WeaponSlotType) const;
 };
+class ModelConditionFlags {
+public:
+    unsigned words[19];
+    unsigned test(unsigned bit) const { return words[bit >> 5] & (1U << (bit & 31)); }
+    void set(unsigned bit) { words[bit >> 5] |= 1U << (bit & 31); }
+    void clear(unsigned bit) { words[bit >> 5] &= ~(1U << (bit & 31)); }
+};
 class Object : public Thing {
     friend class SpecialAbilityUpdate;
 
   public:
+    const Matrix3D *getTransform() const { return &transform; }
+    Team *getTeam() const { return team; }
+    const Coord3D &getPosition() const { return position; }
     void *vtable;
     const ThingTemplate *tmplate;
     Matrix3D transform;
@@ -284,7 +315,7 @@ class Object : public Thing {
     char pad78[8];
     int captor;
     char pad84[0x10c - 0x84];
-    unsigned modelConditions[19];
+    ModelConditionFlags modelConditions;
     char pad158[0x250 - 0x158];
     ContainModuleInterface *contain;
     BodyModuleInterface *body;
@@ -313,18 +344,19 @@ class Object : public Thing {
     bool setWeaponLock(WeaponSlotType, WeaponLockType);
     Rva00373EC6 *rva0028F4BC();
     void setDisabledUntil(DisabledType, unsigned);
+    void setDisabledFor(DisabledType type, unsigned frames) {
+        setDisabledUntil(type, TheGameLogic->getFrame()+frames);
+    }
     bool addAttributeModifierToPool(const AsciiString &, int);
     __forceinline void setModelCondition(unsigned bit) {
-        if (!(modelConditions[bit >> 5] & (1U << (bit & 31)))) {
-            modelConditions[bit >> 5] |= 1U << (bit & 31);
-            rva0028AE6D();
-        }
+        if (modelConditions.test(bit)) return;
+        modelConditions.set(bit);
+        rva0028AE6D();
     }
     __forceinline void clearModelCondition(unsigned bit) {
-        if (modelConditions[bit >> 5] & (1U << (bit & 31))) {
-            modelConditions[bit >> 5] &= ~(1U << (bit & 31));
-            rva0028AE6D();
-        }
+        if (!modelConditions.test(bit)) return;
+        modelConditions.clear(bit);
+        rva0028AE6D();
     }
 
   protected:
@@ -393,6 +425,7 @@ class TerrainLogic {
 extern TerrainLogic *TheTerrainLogic;
 extern PartitionManager *ThePartitionManager;
 struct CreateMask {
+    CreateMask() { memset(words, 0, sizeof(words)); }
     unsigned words[4];
 };
 class ThingFactory {
@@ -425,9 +458,9 @@ class Rva002A8F24 {
 };
 // Descriptive bank-only declarations: existing address-named owners need a
 // coherent rename before landing. Never bind a second global at their address.
-extern Rva002A8F24 *TheSkirmishAI;
+extern Rva002A8F24 *g_00DFEEF8;
 class Rva00421520;
-extern Rva00421520 *TheSpecialPowerResourceManager;
+extern Rva00421520 *g_00E03158;
 class LuaScriptEngine;
 extern LuaScriptEngine *TheLuaScriptEngine;
 struct BfmeDelayedLuaEventList;
@@ -492,6 +525,9 @@ class SpecialAbilityUpdate {
     virtual void slot15();
     virtual void slot16();
     virtual void triggerAbilityEffect();
+    const SpecialAbilityUpdateModuleData *getData() const { return data; }
+    const AsciiString &getRechargeTrigger() const { return getData()->rechargeTrigger; }
+    Object *getObject() const { return object; }
     SpecialAbilityUpdateModuleData *data;
     Object *object;
     char pad0c[0x24 - 0xc];
@@ -583,7 +619,7 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
     Object *target = TheGameLogic->findObjectByID(targetID);
     SpecialPowerModuleInterface *power =
         (SpecialPowerModuleInterface *)((Rva0044E633 *)this)->rva0044E633();
-    if (power && ((const StringBase<char> *)&data->rechargeTrigger)->isEmpty())
+    if (power && ((const StringBase<char> *)&getRechargeTrigger())->isEmpty())
         power->resetRecharge(1.0f);
     ++triggerCount;
     if (moduleData->awardXPForTriggering) {
@@ -599,7 +635,7 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
         if (player)
             player->skill.rva003805BB((float)skillPoints, false);
     }
-    if (TheSpecialPowerResourceManager) {
+    if (g_00E03158) {
         Player *player = owner->getControllingPlayer();
         if (player)
             ((Rva002A9EFB *)player)
@@ -630,22 +666,22 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
                 targetID = target->id;
             }
             {
+                const ThingTemplate *targetTemplate = target->tmplate;
                 bool createGrabObject = false;
-                if (target->tmplate->isKind(132) &&
+                if (targetTemplate->isKind(132) &&
                     powerTemplate->friend_getFinalOverride()->powerType == 0x28)
                     createGrabObject = true;
-                if (target->tmplate->isKind(136) &&
+                if (targetTemplate->isKind(136) &&
                     powerTemplate->friend_getFinalOverride()->powerType == 0x27)
                     createGrabObject = true;
                 if (createGrabObject) {
-                    if (!target->body)
+                    BodyModuleInterface *grabBody = target->body;
+                    if (!grabBody)
                         return;
-                    if (!((const StringBase<char> *)&target->body->getGrabObject())->isEmpty()) {
+                    if (!((const StringBase<char> *)&grabBody->getGrabObject())->isEmpty()) {
                         const ThingTemplate *replacement =
                             TheThingFactory->findTemplate(target->body->getGrabObject());
-                        CreateMask mask;
-                        memset(&mask, 0, sizeof(mask));
-                        Object *created = TheThingFactory->newObject(replacement, 0, &mask, false);
+                        Object *created = TheThingFactory->newObject(replacement, 0, &CreateMask(), false);
                         if (created) {
                             created->setProducer(owner);
                             holder->contain(created);
@@ -658,14 +694,11 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
                     damage.amount = target->body->getGrabDamage();
                     damage.deathType = 7;
                     target->rva002975AC((Rva00297612Entry *)&damage);
-                    Coord3D position = object->position;
-                    Coord2D offset = target->body->getGrabOffset();
-                    float angle = object->transform.Get_Z_Rotation();
-                    Coord3D rotated = {offset.x, offset.y, 0.0f};
-                    float sine = (float)sin((double)angle), cosine = (float)cos((double)angle);
-                    float rotatedX = cosine * rotated.x - sine * rotated.y;
-                    rotated.y = cosine * rotated.y + sine * rotated.x;
-                    rotated.x = rotatedX;
+                    GrabPosition position(getObject()->getPosition());
+                    GrabOffsetValue offset = target->body->getGrabOffset();
+                    float angle = getObject()->getTransform()->Get_Z_Rotation();
+                    GrabRotation rotated(offset.x, offset.y, 0.0f);
+                    rotated.rotate(angle);
                     position.x += rotated.x;
                     position.y += rotated.y;
                     position.z += rotated.z;
@@ -677,10 +710,11 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
                     Object *container = target->container;
                     if (container) {
                         ContainModuleInterface *containerModule = container->contain;
-                        ContainModuleInterface *riders =
-                            containerModule ? containerModule->rvaSlot7C() : 0;
-                        if (riders)
-                            riders->remove(target);
+                        if (containerModule) {
+                            ContainModuleInterface *riders = containerModule->rvaSlot7C();
+                            if (riders)
+                                riders->remove(target);
+                        }
                     }
                     holder->contain(target);
                     if (target->tmplate->isKind(99))
@@ -723,14 +757,18 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
             }
         }
         break;
-    case 0x15:
-        if (target && owner->weaponSet.getWeaponInWeaponSlot(SECONDARY_WEAPON)) {
-            owner->setWeaponLock(SECONDARY_WEAPON, LOCKED_TEMPORARILY);
-            AIUpdateInterface *ai = owner->ai;
-            if (ai)
-                ai->commands.rva0026C2D9(target, 0x7fffffff, CMD_FROM_AI);
+    case 0x15: {
+        if (target) {
+            const Weapon *weapon = owner->weaponSet.getWeaponInWeaponSlot(SECONDARY_WEAPON);
+            if (weapon) {
+                owner->setWeaponLock(SECONDARY_WEAPON, LOCKED_TEMPORARILY);
+                AIUpdateInterface *ai = owner->ai;
+                if (ai)
+                    ai->rva0026C2D9(target, 0x7fffffff, CMD_FROM_AI);
+            }
         }
         break;
+    }
     case 0x2a: {
         AIUpdateInterface *ai = owner->ai;
         if (ai) {
@@ -739,7 +777,7 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
                 object->setModelCondition(132);
             }
             if (target) {
-                ai->commands.rva0044FFD9(target, CMD_FROM_AI);
+                ai->rva0044FFD9(target, CMD_FROM_AI);
                 attackIssued = true;
             }
         }
@@ -789,7 +827,7 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
             if (!captured)
                 return;
         }
-        if (target->team == owner->team && captured->team == owner->team)
+        if (target->getTeam() == owner->getTeam() && captured->getTeam() == owner->getTeam())
             return;
         Team *newTeam = owner->getControllingPlayer()->defaultTeam;
         ContainModuleInterface *holder = captured ? captured->contain : 0;
@@ -828,12 +866,12 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
             target->rva0028DA28();
             target->rva00298C76(newTeam, 1);
         }
-        TheSkirmishAI->rva002A8F56(captured);
+        g_00DFEEF8->rva002A8F56(captured);
         captured->rva0028DA28();
         captured->rva00298C76(newTeam, 1);
         ((Rva001E431E *)captured)->rva001E431E((const int *)&Rva0028F59A(0, 119));
         target->captor = 0;
-        TheSkirmishAI->rva002A9365(captured);
+        g_00DFEEF8->rva002A9365(captured);
         if (powerTemplate->friend_getFinalOverride()->powerType == 0x1a)
             power->resetRecharge(1.0f);
     } break;
@@ -852,8 +890,7 @@ void SpecialAbilityUpdate::triggerAbilityEffect() {
         TheGameLogic->getManager178()->rva00439E0C(owner, 0, 0, 1);
     }
     if (moduleData->disableFrames > 0)
-        owner->setDisabledUntil(DISABLED_SPECIAL_ABILITY,
-                                TheGameLogic->getFrame() + moduleData->disableFrames);
+        owner->setDisabledFor(DISABLED_SPECIAL_ABILITY,moduleData->disableFrames);
     if (!((const StringBase<char> *)&moduleData->attributeModifier)->isEmpty())
         owner->addAttributeModifierToPool(moduleData->attributeModifier,
                                           moduleData->attributeDuration);
