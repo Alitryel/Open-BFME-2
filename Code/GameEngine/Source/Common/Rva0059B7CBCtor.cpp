@@ -104,6 +104,24 @@ Rva00567847::Rva00567847(unsigned int field04, unsigned int field08)
 }
 
 
+// 0x004E7AF3 (VA 0xc625a8): one more of the shape above, found by its
+// identical instruction skeleton (only the vtable immediate differs).
+class Rva004E7AF3
+{
+public:
+	Rva004E7AF3(unsigned int field04, unsigned int field08);
+	virtual void slot00() {}
+private:
+	unsigned int m_field04;
+	unsigned int m_field08;
+};
+
+Rva004E7AF3::Rva004E7AF3(unsigned int field04, unsigned int field08)
+{
+	m_field04 = field04;
+	m_field08 = field08;
+}
+
 // Three more of this shape, out-of-line copies with their own vtables:
 // 0x0029B32D (VA 0xbfd010), 0x002B25D6 (VA 0xbfdfec), 0x002B262D (VA 0xbfdff0).
 // Same select-any recipe as Rva00359853 above; class names address-derived.
