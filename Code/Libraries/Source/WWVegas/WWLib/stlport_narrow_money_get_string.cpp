@@ -137,13 +137,12 @@ __declspec(noinline) void istreambuf_iterator<char, char_traits<char> >::_M_getc
     _M_have_c = true;
 }
 }
+// Retail calls the independently verified 126-byte equality body at 0xFA00.
+// Keep its declaration here; this unit's 46-byte copy calls _M_getc instead
+// of inlining the cache fill and sgetc, so it cannot provide that symbol.
 namespace _STL {
 template <> __declspec(noinline) bool
-istreambuf_iterator<char, char_traits<char> >::equal(const istreambuf_iterator<char, char_traits<char> >& other) const {
-    if (_M_buf) _M_getc();
-    if (other._M_buf) other._M_getc();
-    return _M_eof == other._M_eof;
-}
+istreambuf_iterator<char, char_traits<char> >::equal(const istreambuf_iterator<char, char_traits<char> >& other) const;
 template <> __forceinline istreambuf_iterator<char, char_traits<char> >&
 istreambuf_iterator<char, char_traits<char> >::operator++() {
     _M_buf->sbumpc();
