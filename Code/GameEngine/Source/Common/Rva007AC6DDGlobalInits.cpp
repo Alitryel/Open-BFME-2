@@ -462,3 +462,79 @@ void rva007AE7FB()
 {
 	BfmeTheMapObjectListHolder = (BfmeMapObjectListHolder *)((char *)&WorldMapObjects + 4);
 }
+
+// ?rva007AE614@@YAXXZ @0x007AE614 22B: TechAndSupplyImages ctor 0x003015E7 on
+// TheSupplyAndTechImageLocations (VA 0x00DFF14C), atexit(0x007B7A9B), right
+// after the two MapUtil position-list initializers 0x007AE5DA/0x007AE5F7.
+class TechAndSupplyImages
+{
+public:
+	TechAndSupplyImages();
+};
+extern TechAndSupplyImages TheSupplyAndTechImageLocations;
+void __cdecl rva007B7A9B();
+
+void rva007AE614()
+{
+	new (&TheSupplyAndTechImageLocations) TechAndSupplyImages;
+	atexit(rva007B7A9B);
+}
+
+// ?rva007B6800@@YAXXZ @0x007B6800 15B: Vector3Randomizer::Randomizer (VA
+// 0x00E1D070, v3_rnd.cpp) built as Random3Class(0, 0) through the pinned
+// ctor 0x006200B0 (ICF-folded with a hashtable iterator ctor); no cleanup.
+class Random3Class
+{
+public:
+	Random3Class(unsigned int seed1 = 0, unsigned int seed2 = 0);
+};
+void rva007B6800();
+class Vector3Randomizer
+{
+	friend void rva007B6800();
+protected:
+	static Random3Class Randomizer;
+};
+
+void rva007B6800()
+{
+	new (&Vector3Randomizer::Randomizer) Random3Class(0, 0);
+}
+
+// ?rva007B3E9E@@YAXXZ @0x007B3E9E 11B and ?rva007B3EA9@@YAXXZ @0x007B3EA9 11B:
+// a second unit's copies of the DefaultModuleKey<6>/DefaultModuleName<6>
+// VALUE initializers (FXParticleSystemDefaults.cpp rows the first copies at
+// 0x007AF475/0x007AF480): store the rowed GetValue() result into VALUE.
+void rva007B3E9E();
+void rva007B3EA9();
+namespace FXParticleSystem
+{
+	template <int CATEGORY>
+	struct DefaultModuleKey
+	{
+		friend void ::rva007B3E9E();
+	public:
+		static const char *const VALUE;
+	private:
+		static const char *GetValue();
+	};
+	template <int CATEGORY>
+	struct DefaultModuleName
+	{
+		friend void ::rva007B3EA9();
+	public:
+		static const char *const VALUE;
+	private:
+		static const char *GetValue();
+	};
+}
+
+void rva007B3E9E()
+{
+	*const_cast<const char **>(&FXParticleSystem::DefaultModuleKey<6>::VALUE) = FXParticleSystem::DefaultModuleKey<6>::GetValue();
+}
+
+void rva007B3EA9()
+{
+	*const_cast<const char **>(&FXParticleSystem::DefaultModuleName<6>::VALUE) = FXParticleSystem::DefaultModuleName<6>::GetValue();
+}

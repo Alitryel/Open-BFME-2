@@ -34,7 +34,11 @@ namespace _STL
 	template <class T> struct equal_to;
 	template <class T> struct hash;
 	template <class A, class B> struct pair;
-	template <class T> class allocator;
+	template <class T> class allocator
+	{
+	public:
+		allocator() {}
+	};
 
 	template <class K, class V, class C = less<K>, class A = allocator<pair<const K, V> > >
 	class map
@@ -48,6 +52,19 @@ namespace _STL
 	{
 	public:
 		hash_map();
+	};
+	template <class T, class A = allocator<T> >
+	class list
+	{
+	public:
+		explicit list(const A &a);
+	};
+
+	template <class T, class A = allocator<T> >
+	class deque
+	{
+	public:
+		explicit deque(const A &a);
 	};
 }
 
@@ -114,4 +131,39 @@ void rva007AE6E6()
 {
 	new (&g_Va00DFF494) Rva0030A101Map;
 	atexit(rva007B7AE1);
+}
+
+// Containers built from an explicit default allocator temporary: retail
+// reserves the one-byte allocator in a pushed stack slot (push ecx; lea
+// eax,[esp+3]) and passes it by reference to the rowed (const allocator &)
+// constructor, then registers the cleanup and pops both slots.
+struct Coord3D;
+struct BfmeWordValue4;
+
+extern unsigned int g_Va00E03174;
+extern unsigned int g_Va00DFF144;
+extern unsigned int g_Va00DFF148;
+void __cdecl rva007B82C9();
+void __cdecl rva007B7A87();
+void __cdecl rva007B7A91();
+
+// ?rva007B02A6@@YAXXZ @0x007B02A6 29B: deque ctor 0x002F0BE0 on &g_Va00E03174, atexit(0x007B82C9).
+void rva007B02A6()
+{
+	new (&g_Va00E03174) _STL::deque<BfmeWordValue4>(_STL::allocator<BfmeWordValue4>());
+	atexit(rva007B82C9);
+}
+
+// ?rva007AE5DA@@YAXXZ @0x007AE5DA 29B: list<Coord3D> ctor 0x0073F451 on &g_Va00DFF144 (MapUtil's supply positions), atexit(0x007B7A87).
+void rva007AE5DA()
+{
+	new (&g_Va00DFF144) _STL::list<Coord3D>(_STL::allocator<Coord3D>());
+	atexit(rva007B7A87);
+}
+
+// ?rva007AE5F7@@YAXXZ @0x007AE5F7 29B: list<Coord3D> ctor 0x0073F451 on &g_Va00DFF148 (MapUtil's tech positions), atexit(0x007B7A91).
+void rva007AE5F7()
+{
+	new (&g_Va00DFF148) _STL::list<Coord3D>(_STL::allocator<Coord3D>());
+	atexit(rva007B7A91);
 }

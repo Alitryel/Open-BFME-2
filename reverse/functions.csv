@@ -89514,3 +89514,10 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ??1Rva0060D0AE@@QAE@XZ,,0x0060D0AE,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,dtor tail jump to member rowed dtor 0x0060D031; unwind-funclet reached
 ?rva00525E00@Rva00525E00@@QAEXPAVXfer@@@Z,,0x00525E00,7,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,forward Xfer to rowed 0x00525ABF on object held at +0
 ?rva0066CA80@Rva0066CA80@@QAEXXZ,,0x0066CA80,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp,matched,clear chain member at +0 via rowed 0x0066C970
+?rva007B02A6@@YAXXZ,,0x007B02A6,29,Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp,matched,deque global initializer via allocator temp ctor 0x002F0BE0 then atexit 0x007B82C9
+?rva007AE5DA@@YAXXZ,,0x007AE5DA,29,Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp,matched,list Coord3D global initializer via allocator temp ctor 0x0073F451 then atexit 0x007B7A87
+?rva007AE5F7@@YAXXZ,,0x007AE5F7,29,Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp,matched,list Coord3D global initializer via allocator temp ctor 0x0073F451 then atexit 0x007B7A91
+?rva007AE614@@YAXXZ,,0x007AE614,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,TheSupplyAndTechImageLocations initializer ctor 0x003015E7 then atexit 0x007B7A9B
+?rva007B6800@@YAXXZ,,0x007B6800,15,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,Vector3Randomizer Randomizer initializer Random3Class 0 0 via pinned 0x006200B0
+?rva007B3E9E@@YAXXZ,,0x007B3E9E,11,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,second-unit DefaultModuleKey 6 VALUE initializer
+?rva007B3EA9@@YAXXZ,,0x007B3EA9,11,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,second-unit DefaultModuleName 6 VALUE initializer
