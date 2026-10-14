@@ -126,7 +126,7 @@ class DOTManager
 {
 public:
     virtual void DoXfer(Xfer*);
-    void rva0043B278(int key, int value);
+    void rva0043B278(ObjectID id, int value);
     void rva0043B8C0(int key, const Rva0043B163 *incoming);
 private:
     Rva0043B2E2 tree;
@@ -143,7 +143,7 @@ void DOTManager::rva0043B8C0(int key, const Rva0043B163 *incoming)
                 current, const_cast<Rva0043B163 *>(incoming)))
         {
             *current = *incoming;
-            rva0043B278(key, incoming->value10);
+            rva0043B278((ObjectID)key, incoming->value10);
         }
     }
     else

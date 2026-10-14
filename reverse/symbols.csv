@@ -11206,7 +11206,6 @@ name,address,notes
 ?rva00437050@@YIXPAVRva005F90F6Sub@@H@Z,0x00437050,fastcall sub method called from 0x005F90F6; identity unproven
 ?rva00439CF7@Rva00439CF7@@QAEXPAVObject@@HPBX@Z,0x00439CF7,"member of TheGameLogic's +0x178 object (ret 0xC: an object, an int and a pointer into module data); REL32 at 0x004C25F8 in InvisibilitySpecialPower 0x004C2517 (module data +0x13C, &+0x7C) and at 0x004C2444 in its slot-11 twin; identity not recovered"
 ?rva00439E0C@Rva00439E0C@@QAEXPAVObject@@HHH@Z,0x00439E0C,callee of ?rva00464EE7@OpenContain@@UAE_NPAVObject@@@Z
-?rva0043B2A4Clear@Rva0043B725@@QAEXW4ObjectID@@H@Z,0x0043B2A4,ICF twin of the matched free stdcall ?Rva0043B2A4Clear@@YGXW4ObjectID@@H@Z: same 44-byte body at the same address. rva0043B73D loads this into ecx before each call, so the call site is thiscall on Rva0043B725.
 ?rva0043B30F@Rva0043B2E2@@QAEPAXPBX@Z,0x0043B30F,ICF twin of free NewNode for tree insert call with this same 0x9C node and pair copy
 ?rva0043B3A1Hidden@Rva0043B2E2@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHPAX@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHPAX@_STL@@@2@@_STL@@PAURva0043B2E2Node@@0PBH0@Z,0x0043B3A1,ICF twin of rowed insert worker returning iterator for hidden-ret callers
 ?rva0043BD36@SkirmishPreferences@@QAEXXZ,0x0043BD36,unrowed 256B thiscall (Ghidra FUN_0083bd36; EH; plain ret) on SkirmishPreferences: reads TheSkirmishGameInfo 0x00E02EF0 into the preferences after the map; REL32 at 0x0043BEB7 in SkirmishPreferences::rva0043BE7C; address name
@@ -12878,7 +12877,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?switchToContext@ControlBar@@QAEXHPAX@Z,0x0031BF64,ControlBar context switch callee of reset at 0x0031E09E; honest address-derived name
 ?rva0039CF1D@ScoreKeeper@@QAEXPAXPAVPlayer@@I@Z,0x0039CF1D,thiscall member of the per-player record at Player+0x3BC (the class of the rowed rva0039D0FB): with its +0x110 flag set adds the amount to per-player-index (Player+0x54) counters; SlaughterHordeContain 0x004804DD calls it on the other player's record with the found template, its own player and the amount; identity not recovered
 ?disband@Team@@QAEXXZ,0x0039E9E0,fallback when no item claims the unit; REL32 at 0x00505A43 in Rva00506909::rva005059A1; WB Team::disband: retail body calls rowed Team::transferUnitsTo 0x0039E660 as WB's does
-?rva0043B2A4Clear@DOTManager@@QAEXW4ObjectID@@H@Z,0x0043B2A4,ICF twin of the matched free stdcall ?Rva0043B2A4Clear@@YGXW4ObjectID@@H@Z: same 44-byte body at the same address. rva0043B73D loads this into ecx before each call, so the call site is thiscall on Rva0043B725.
 ?rva0043DC40@AptMpGameSetup@@QAEXH@Z,0x0043DC40,unrowed 53B thiscall (ret 4) on the MpGameSetup panel picking the games list sort column (+0x3AC; same column again moves to the next value and the old one is kept at +0x3B0); called by the OnSortName/OnSortPlayers/OnSortIcons callbacks 0x0043DC77/81/8B with 0/2/4; address name
 ?rva0043DF22@AptMpGameSetup@@QAEIXZ,0x0043DF22,unrowed thiscall on the LAN lobby MpGameSetup panel counting accepted seated humans (banked near miss); the countdown 0x0044130E compares it unsigned with +0x3A8; address name
 ?rva0043F244@AptMpGameSetup@@QAEXH_N@Z,0x0043F244,unrowed 575B thiscall (Ghidra FUN_0083f244; ret 8; second argument tested as a byte) on the LAN lobby MpGameSetup panel; 0x004427D8 calls it with the slot and 0; address name
@@ -14787,7 +14785,6 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?Rva004118B4@@YAPAXPBD0@Z,0x004118B4,callee of ?Rva004120B3@@YAXPBVCoord2D@@0PBD1@Z
 ?rva00431C9D@WaitForSecondButtonDownStateHandler@FormationTranslator@@QAEHPAVGameMessage@@@Z,0x00431C9D,callee of ?rva00432038@WaitForSecondButtonDownStateHandler@FormationTranslator@@QAEHPAVGameMessage@@@Z
 ?rva0043B864@Rva0043B2E2@@QAEAAVRva0043B196@@ABH@Z,0x0043B864,callee of ?rva0043B8C0@DOTManager@@QAEXHPBVRva0043B163@@@Z
-?rva0043B278@DOTManager@@QAEXHH@Z,0x0043B278,callee of ?rva0043B8C0@DOTManager@@QAEXHPBVRva0043B163@@@Z
 ??0Rva005CCC69@@QAE@PAVRva005CCDDD@@@Z,0x005CCC50,callee of ??0Rva005CCDDD@@QAE@XZ
 ?rva005EC017@Rva005EBC74@@QAE_NPAX@Z,0x005EC017,callee of ??0Rva005CFEDF@@QAE@PAX@Z
 ?GSMessageBoxOk@@YAXVUnicodeString@@0P6AXXZ@Z,0x00548C59,GSMessageBoxOk(title message okFunc) cdecl: Ghidra FUN_00948c59 126B copies both UnicodeStrings by value into 0x0044C0A8 with callback 0x00548B08; called after two TheGameText slot-15 fetches (GUI:Error then GUI:GSGroupRoomJoinFail) by 0x00385678; body unrowed

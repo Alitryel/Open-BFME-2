@@ -2,8 +2,11 @@
 // GameLogic/System/DOTManager.cpp carries the __FUNCTION__ string
 // "DOTManager::update" and calls findObjectByID, 0x0043B2A4 and 0x0043B72D
 // as retail does)
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
+// _STLP_NO_EXCEPTIONS: push_back's out-of-line overflow path is retail's one copy
+// (ThingTemplate.cpp's 179-byte row at 0x00148D00), which has no unwind guard; with
+// the guard this TU emitted a 240-byte copy that loses to it at link time.
 //
 // Evidence: this+4 Rva0043B2E2 tree via rva0043B72D erase; TheGameLogic+0x40
 // frame; rowed findObjectByID 0x49DC5, push_back ScienceType 0x2E01C6, Clear
