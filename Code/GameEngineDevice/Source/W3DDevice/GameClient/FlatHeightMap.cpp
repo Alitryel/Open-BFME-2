@@ -206,6 +206,7 @@ class BaseHeightMapRenderObjClass
 {
 public:
 	virtual void ReleaseResources(void);
+	virtual void ReAcquireResources(void);
 };
 extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
 class BfmeTerrainRenderView
@@ -228,6 +229,7 @@ public:
  void renderTerrain(RenderInfoClass&rinfo,int *minX,int *maxX,int *minY,int *maxY);
  void rva000E1C1A(RenderInfoClass&rinfo,bool untextured,int *minX,int *maxX,int *minY,int *maxY,FXShader::RenderingMethod*method);
  virtual void ReleaseResources(void);
+ virtual void ReAcquireResources(void);
 private:
  char unknown04[0x3888-4];
  struct TerrainTileView *m_tiles; int m_numTiles,m_tilesWidth,m_tilesHeight;
@@ -286,4 +288,12 @@ void FlatHeightMapRenderObjClass::rva000E1C1A(RenderInfoClass &rinfo,bool untext
 void FlatHeightMapRenderObjClass::ReleaseResources(void)
 {
 	reinterpret_cast<BaseHeightMapRenderObjClass *>(this)->BaseHeightMapRenderObjClass::ReleaseResources();
+}
+
+// Retail 0x000E1276 (5 bytes), the next resource-hook entry: Zero Hour's
+// FlatHeightMapRenderObjClass::ReAcquireResources, which only forwards to
+// the rowed base reacquire 0x00066962 (a tail jump).
+void FlatHeightMapRenderObjClass::ReAcquireResources(void)
+{
+	reinterpret_cast<BaseHeightMapRenderObjClass *>(this)->BaseHeightMapRenderObjClass::ReAcquireResources();
 }

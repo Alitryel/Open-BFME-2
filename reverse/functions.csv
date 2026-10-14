@@ -88958,3 +88958,4 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ?Rva001174C0Get@@YAHXZ,,0x001174C0,5,Code/Libraries/Source/WWVegas/WW3D2/Rva00116FA0Forwarders.cpp,matched,tail jump to rowed Rva0011CDB0Get 0x0011CDB0; int3-padded; no direct caller
 ?Rva001174E0Get@@YAHXZ,,0x001174E0,5,Code/Libraries/Source/WWVegas/WW3D2/Rva00116FA0Forwarders.cpp,matched,tail jump to rowed Rva00174F30Get 0x00174F30; int3-padded; no direct caller
 ?Rva0012E830Sort@@YAXPAUTempIndexStruct@@0@Z,,0x0012E830,5,Code/Libraries/Source/WWVegas/WW3D2/Rva00116FA0Forwarders.cpp,matched,tail jump to rowed Sort 0x0012DCF0 with the caller's two arguments; int3-padded; no direct caller
+?ReAcquireResources@FlatHeightMapRenderObjClass@@UAEXXZ,,0x000E1276,5,Code/GameEngineDevice/Source/W3DDevice/GameClient/FlatHeightMap.cpp,matched,Zero Hour FlatHeightMap ReAcquireResources forwarding to the base heightmap reacquire 0x00066962; vftable slot after ReleaseResources 0x000E1271
