@@ -32,7 +32,15 @@ void bfmeRva0011F340(const char *text, void *context)
 	}
 }
 
-// Declaration only: the 12 B body at 0x0011F3C0 is pinned but not rowed, and
-// this TU emits a wrong COMDAT copy (je02 jmp ret vs retail jne01 ret jmp).
-// Calls reach the retail copy once it lands.
-void bfmeRva0011F3C0(void);
+// The hook's result is returned to the caller (WorldBuilder's debug body
+// returns the call result or zero). Returning it as int puts the null path on
+// the fall-through ('jne / ret / jmp eax'); a void spelling of the same body
+// lays out 'je / jmp eax / ret'. The data global keeps its void-hook type
+// (dx8wrapper.cpp owns it); the call goes through an int-returning cast.
+int bfmeRva0011F3C0(void)
+{
+	BfmeVoidHook hook = bfmeData00DEDBE0;
+	if (!hook)
+		return 0;
+	return ((int (*)(void))hook)();
+}
