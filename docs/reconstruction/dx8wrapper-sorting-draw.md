@@ -1,6 +1,6 @@
 # BFME2 sorting-buffer draw conversion
 
-The recovered role `bfmeDrawSortingPrimitive` matches the complete 539-byte
+The recovered role `DX8Wrapper::Draw_Sorting_IB_VB` (formerly `bfmeDrawSortingPrimitive`) matches the complete 539-byte
 routine at RVA `0x11D710`. The final return at `0x11D92A` is followed by five
 alignment bytes before render-state application. All code and all five nodes
 of its C++ exception metadata are independently verified.

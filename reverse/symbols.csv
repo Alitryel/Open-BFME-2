@@ -7791,7 +7791,7 @@ name,address,notes
 ?bfmeDoneVJM@BfmeMsgVJM@@QAEXXZ,0x00655780
 ?bfmeDoneVJN@BfmeMsgVJN@@QAEXXZ,0x00655780
 ?bfmeDoneVJO@BfmeMsgVJO@@QAEXXZ,0x00655780
-?bfmeDrawSortingPrimitive@@YAXIIIII@Z,0x0011D710,Recovered five-unsigned sorting-draw role; complete 539-byte dynamic-buffer conversion and draw body independently decoded with two 65535 count guards and RAII cleanup
+?Draw_Sorting_IB_VB@DX8Wrapper@@CAXIIIII@Z,0x0011D710,WB 0x009A46D0 DXWrapper::Draw_Sorting_IB_VB; recovered five-unsigned sorting-draw role; complete 539-byte dynamic-buffer conversion and draw body independently decoded with two 65535 count guards and RAII cleanup
 ?bfmeDropA@@YAXPAX@Z,0x006D0440
 ?bfmeDropBAB@BfmeOwnerBAB@@QAEXPAX@Z,0x00665600
 ?bfmeDropTWB@BfmeListTWB@@QAEXXZ,0x0066C730

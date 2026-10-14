@@ -251,12 +251,16 @@ class DX8Wrapper
 			LIGHT0_CHANGED|LIGHT1_CHANGED|LIGHT2_CHANGED|LIGHT3_CHANGED,
 	};
 
+	// BFME2 retail (0x0011D710) takes five dwords and rejects counts above 65535,
+	// so the counts are unsigned here, not ZH's unsigned short.
 	static void Draw_Sorting_IB_VB(
 		unsigned primitive_type,
-		unsigned short start_index,
-		unsigned short polygon_count,
-		unsigned short min_vertex_index,
-		unsigned short vertex_count);
+		unsigned start_index,
+		unsigned polygon_count,
+		unsigned min_vertex_index,
+		unsigned vertex_count);
+	// dx8wrapper.cpp's recovered Draw view calls the private sorting draw.
+	friend struct BfmeDrawOps;
 
 	static void Draw(
 		unsigned primitive_type,

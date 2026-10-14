@@ -2351,97 +2351,6 @@ void DX8Wrapper::Set_Index_Buffer(const DynamicIBAccessClass& iba_,unsigned shor
 
 // ----------------------------------------------------------------------------
 //
-// Private function for the special case of rendering polygons from sorting
-// index and vertex buffers.
-//
-// ----------------------------------------------------------------------------
-
-// ?Draw_Sorting_IB_VB@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Draw_Sorting_IB_VB(
-	unsigned primitive_type,
-	unsigned short start_index,
-	unsigned short polygon_count,
-	unsigned short min_vertex_index,
-	unsigned short vertex_count)
-{
-	WWASSERT(render_state.vertex_buffer_types[0]==BUFFER_TYPE_SORTING || render_state.vertex_buffer_types[0]==BUFFER_TYPE_DYNAMIC_SORTING);
-	WWASSERT(render_state.index_buffer_type==BUFFER_TYPE_SORTING || render_state.index_buffer_type==BUFFER_TYPE_DYNAMIC_SORTING);
-
-	// Fill dynamic vertex buffer with sorting vertex buffer vertices
-	DynamicVBAccessClass dyn_vb_access(BUFFER_TYPE_DYNAMIC_DX8,dynamic_fvf_type,vertex_count);
-	{
-		DynamicVBAccessClass::WriteLockClass lock(&dyn_vb_access);
-		VertexFormatXYZNDUV2* src = static_cast<SortingVertexBufferClass*>(render_state.vertex_buffers[0])->VertexBuffer;
-		VertexFormatXYZNDUV2* dest= lock.Get_Formatted_Vertex_Array();
-		src += render_state.vba_offset + render_state.index_base_offset + min_vertex_index;
-		unsigned  size = dyn_vb_access.FVF_Info().Get_FVF_Size()*vertex_count/sizeof(unsigned);
-		unsigned *dest_u =(unsigned*) dest;
-		unsigned *src_u = (unsigned*) src;
-
-		for (unsigned i=0;i<size;++i) {
-			*dest_u++=*src_u++;
-		}
-	}
-
-	DX8CALL(SetStreamSource(
-		0,
-		static_cast<DX8VertexBufferClass*>(dyn_vb_access.VertexBuffer)->Get_DX8_Vertex_Buffer(),
-		dyn_vb_access.FVF_Info().Get_FVF_Size()));
-	// If using FVF format VB, set the FVF as vertex shader (may not be needed here KM)
-	unsigned fvf=dyn_vb_access.FVF_Info().Get_FVF();
-	if (fvf!=0) {
-		DX8CALL(SetVertexShader(fvf));
-	}
-	DX8_RECORD_VERTEX_BUFFER_CHANGE();
-
-	unsigned index_count=0;
-	switch (primitive_type) {
-	case D3DPT_TRIANGLELIST: index_count=polygon_count*3; break;
-	case D3DPT_TRIANGLESTRIP: index_count=polygon_count+2; break;
-	case D3DPT_TRIANGLEFAN: index_count=polygon_count+2; break;
-	default: WWASSERT(0); break; // Unsupported primitive type
-	}
-
-	// Fill dynamic index buffer with sorting index buffer vertices
-	DynamicIBAccessClass dyn_ib_access(BUFFER_TYPE_DYNAMIC_DX8,index_count);
-	{
-		DynamicIBAccessClass::WriteLockClass lock(&dyn_ib_access);
-		unsigned short* dest=lock.Get_Index_Array();
-		unsigned short* src=NULL;
-		src=static_cast<SortingIndexBufferClass*>(render_state.index_buffer)->index_buffer;
-		src+=render_state.iba_offset+start_index;
-
-		try {
-		for (unsigned short i=0;i<index_count;++i) {
-			unsigned short index=*src++;
-			index-=min_vertex_index;
-			WWASSERT(index<vertex_count);
-			*dest++=index;
-		}
-		IndexBufferExceptionFunc();
-		} catch(...) {
-			IndexBufferExceptionFunc();
-		}
-	}
-
-	DX8CALL(SetIndices(
-		static_cast<DX8IndexBufferClass*>(dyn_ib_access.IndexBuffer)->Get_DX8_Index_Buffer(),
-		dyn_vb_access.VertexBufferOffset));
-	DX8_RECORD_INDEX_BUFFER_CHANGE();
-
-	DX8_RECORD_DRAW_CALLS();
-	DX8CALL(DrawIndexedPrimitive(
-		D3DPT_TRIANGLELIST,
-		0,		// start vertex
-		vertex_count,
-		dyn_ib_access.IndexBufferOffset,
-		polygon_count));
-
-	DX8_RECORD_RENDER(polygon_count,vertex_count,render_state.shader);
-}
-
-// ----------------------------------------------------------------------------
-//
 //
 //
 // ----------------------------------------------------------------------------
@@ -4545,7 +4454,6 @@ void bfmeSetProjectionDepthBias(float bias)
 extern bool bfmeOnlyEmissiveDraws;
 // bfmeOnlyEmissiveDraws: matched references place it at VA 0xdec3d8 (zero-filled .bss).
 bool bfmeOnlyEmissiveDraws;
-void bfmeDrawSortingPrimitive(unsigned,unsigned,unsigned,unsigned,unsigned);
 struct BfmeDrawOps:DX8Wrapper {
  static void Draw(unsigned primitive_type,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count,bool indexed);
 };
@@ -4589,7 +4497,7 @@ void BfmeDrawOps::Draw(unsigned primitive_type,unsigned start_index,unsigned pol
  case BUFFER_TYPE_SORTING:case BUFFER_TYPE_DYNAMIC_SORTING:
   switch (bfmeApplyRenderState.indexType) {
   case BUFFER_TYPE_SORTING:case BUFFER_TYPE_DYNAMIC_SORTING:
-   bfmeDrawSortingPrimitive(primitive_type,start_index,polygon_count,min_vertex_index,vertex_count);break;
+   Draw_Sorting_IB_VB(primitive_type,start_index,polygon_count,min_vertex_index,vertex_count);break;
   case BUFFER_TYPE_DX8:case BUFFER_TYPE_DYNAMIC_DX8:break;
   }break;
  }
@@ -4620,7 +4528,9 @@ struct BfmeSortingStats:DX8Wrapper {
  static __forceinline void Index() { DX8_RECORD_INDEX_BUFFER_CHANGE(); }
  static __forceinline void Draw() { DX8_RECORD_DRAW_CALLS(); }
 };
-void bfmeDrawSortingPrimitive(unsigned primitive_type,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count)
+// Name: WorldBuilder twin 0x009A46D0 DXWrapper::Draw_Sorting_IB_VB (dxwrapper.cpp asserts
+// 2406..2473, call graph); the ledger's class spelling is ZH's DX8Wrapper.
+void DX8Wrapper::Draw_Sorting_IB_VB(unsigned primitive_type,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count)
 {
  if (polygon_count>65535) return;
  if (vertex_count>65535) return;

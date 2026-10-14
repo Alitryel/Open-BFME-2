@@ -51,7 +51,7 @@ Two callees are identified without claiming their code as new completed bodies:
   proven caps support flag, optionally scales polygon count by the square of
   the NPatch level, and updates polygon, vertex, and draw counters. This agrees
   with the reference statistics source.
-* `bfmeDrawSortingPrimitive`, RVA `0x11D710`, is the recovered five-unsigned
+* `DX8Wrapper::Draw_Sorting_IB_VB` (formerly `bfmeDrawSortingPrimitive`), RVA `0x11D710`, is the recovered five-unsigned
   sorting conversion role. All 539 bytes through return `0x11D92A` were decoded.
   It rejects polygon/vertex counts above 65535, creates dynamic vertex/index
   access objects, copies and rebases the sorting data, binds D3D9 buffers,
