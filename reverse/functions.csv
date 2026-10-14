@@ -18156,13 +18156,6 @@ uw_007624ad,,0x007624AD,14,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;obj
 uw_007624bb,,0x007624BB,14,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L653
 uw_007624c9,,0x007624C9,14,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L654
 uw_007624d7,,0x007624D7,14,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L655
-uw_00762521,,0x00762521,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4028
-uw_00762529,,0x00762529,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L7140
-uw_00762537,,0x00762537,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4028
-uw_0076253f,,0x0076253F,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L7141
-uw_0076256e,,0x0076256E,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2908
-uw_007625a0,,0x007625A0,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L7140
-uw_007625ae,,0x007625AE,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L7141
 uw_007625c6,,0x007625C6,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2928
 uw_007625ce,,0x007625CE,14,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L636
 uw_007625e6,,0x007625E6,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2918
@@ -88384,3 +88377,10 @@ uw_0077c82a,,0x0077C82A,14,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.c
 uw_0077c838,,0x0077C838,14,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L658
 ?rva0077c8c4@@YAXXZ,,0x0077C8C4,24,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L668
 ?rva0077c75e@@YAXXZ,,0x0077C75E,22,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L643
+uw_00762521,,0x00762521,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawCtor.cpp,matched,gen-funclet;parent=??0W3DTruckDraw@@QAE@PAVThing@@PBVModuleData@@@Z;object-symbol=$L4028
+uw_00762529,,0x00762529,14,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawCtor.cpp,matched,gen-funclet;parent=??0W3DTruckDraw@@QAE@PAVThing@@PBVModuleData@@@Z;object-symbol=$L7140
+uw_00762537,,0x00762537,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawCtor.cpp,matched,gen-funclet;parent=??0W3DTruckDraw@@QAE@PAVThing@@PBVModuleData@@@Z;object-symbol=$L4028
+uw_0076253f,,0x0076253F,14,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawCtor.cpp,matched,gen-funclet;parent=??0W3DTruckDraw@@QAE@PAVThing@@PBVModuleData@@@Z;object-symbol=$L7141
+uw_0076256e,,0x0076256E,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawDtor.cpp,matched,gen-funclet;parent=??1W3DTruckDraw@@UAE@XZ;object-symbol=$L2908
+uw_007625a0,,0x007625A0,14,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawDtor.cpp,matched,gen-funclet;parent=??1W3DTruckDraw@@UAE@XZ;object-symbol=$L7140
+uw_007625ae,,0x007625AE,14,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawDtor.cpp,matched,gen-funclet;parent=??1W3DTruckDraw@@UAE@XZ;object-symbol=$L7141
