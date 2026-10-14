@@ -164,6 +164,15 @@ char *_Locale_common_default(char *buf)
     return __GetLocaleName(0x400, cp, buf);
 }
 
+// __Locale_ctype_default (0x00021980, 5B, unreferenced): STLport
+// c_locale_win32.c's first per-category default, a tail jump into
+// _Locale_common_default; the other categories' identical forwarders fold
+// onto it.
+char *_Locale_ctype_default(char *buf)
+{
+    return _Locale_common_default(buf);
+}
+
 // __Locale_ctype_name
 char *_Locale_ctype_name(const void *loc, char *buf)
 {

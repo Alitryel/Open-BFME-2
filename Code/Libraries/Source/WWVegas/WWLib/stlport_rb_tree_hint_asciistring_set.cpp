@@ -65,3 +65,6 @@ template StringSetTree::_Rb_tree(const StringSetTree &);
 // Erase56CC3 destroys each string at node+16 through the proven dtor48BA39.
 template void StringSetTree::_M_erase(StringSetTree::_Link_type);
 template void StringSetTree::clear();
+// 0x000589A0 (5B), unreferenced: set<AsciiString>::clear, a tail jump into
+// the tree clear above (0x00057B4B).
+template void SetExtra::clear();

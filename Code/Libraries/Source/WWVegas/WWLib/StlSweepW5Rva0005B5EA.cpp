@@ -19,3 +19,6 @@ struct Rva0005B5EAElement { short words[1]; bool operator<(const Rva0005B5EAElem
 
 // Instantiate the recovered operation and its required template dependencies.
 template unsigned int _STL::_Rb_tree<Rva0005B5EAElement, _STL::pair<Rva0005B5EAElement const, int>, _STL::_Select1st<_STL::pair<Rva0005B5EAElement const, int> >, _STL::less<Rva0005B5EAElement>, _STL::allocator<_STL::pair<Rva0005B5EAElement const, int> > >::erase(Rva0005B5EAElement const &);
+// 0x0005CC1E (5B), unreferenced: map<Rva0005B5EAElement, int>::erase(key),
+// a tail jump into the tree erase above (0x0005B5EA).
+template _STL::map<Rva0005B5EAElement, int>::size_type _STL::map<Rva0005B5EAElement, int>::erase(const Rva0005B5EAElement &);

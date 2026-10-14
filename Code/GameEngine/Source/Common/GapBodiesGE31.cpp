@@ -677,3 +677,112 @@ unsigned char *Rva00078298::rva00078298()
 {
 	return &m_09;
 }
+
+// Tail-jump forwarders to a rowed member of the object at +0 (unreferenced):
+// 0x0005CC23 -> Rva00056CF8::rva0005B633 (0x0005B633), 0x00085294 ->
+// Rva00148F5ECache::get (0x00148F5E), 0x00073421 -> Rva00072FE6::rva000733D8
+// (0x000733D8), 0x000730D9 -> Rva00072FE6::rva00072FE6 (0x00072FE6),
+// 0x00057AE9 -> Rva00056DA2::rva00056DA2 (0x00056DA2), 0x0005A07F ->
+// Rva00058B90::rva00058B90 (0x00058B90).
+enum NameKeyType
+{
+	NAMEKEY_INVALID = 0
+};
+
+class Rva00148F5ECache
+{
+public:
+	NameKeyType get();
+};
+
+class Rva00072FE6
+{
+public:
+	void rva00072FE6();
+	unsigned int rva000733D8(const int &key);
+};
+
+class Rva00056DA2
+{
+public:
+	void rva00056DA2();
+};
+
+class Rva0036CA00Str;
+
+class Rva00058B90
+{
+public:
+	void rva00058B90(const Rva0036CA00Str &value);
+};
+
+class Rva0005CC23
+{
+public:
+	unsigned int rva0005CC23(const AsciiString &key);
+private:
+	Rva00056CF8 m_00;
+};
+
+unsigned int Rva0005CC23::rva0005CC23(const AsciiString &key)
+{
+	return m_00.rva0005B633(key);
+}
+
+class Rva00085294
+{
+public:
+	NameKeyType rva00085294();
+private:
+	Rva00148F5ECache m_00;
+};
+
+NameKeyType Rva00085294::rva00085294()
+{
+	return m_00.get();
+}
+
+class Rva00073421
+{
+public:
+	unsigned int rva00073421(const int &key);
+	void rva000730D9();
+private:
+	Rva00072FE6 m_00;
+};
+
+unsigned int Rva00073421::rva00073421(const int &key)
+{
+	return m_00.rva000733D8(key);
+}
+
+void Rva00073421::rva000730D9()
+{
+	m_00.rva00072FE6();
+}
+
+class Rva00057AE9
+{
+public:
+	void rva00057AE9();
+private:
+	Rva00056DA2 m_00;
+};
+
+void Rva00057AE9::rva00057AE9()
+{
+	m_00.rva00056DA2();
+}
+
+class Rva0005A07F
+{
+public:
+	void rva0005A07F(const Rva0036CA00Str &value);
+private:
+	Rva00058B90 m_00;
+};
+
+void Rva0005A07F::rva0005A07F(const Rva0036CA00Str &value)
+{
+	m_00.rva00058B90(value);
+}
