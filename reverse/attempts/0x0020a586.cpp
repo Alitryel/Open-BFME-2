@@ -82,9 +82,9 @@ void ScriptEngine::rva0020A586(void *script, void *name)
 		return;
 	((AsciiStringVector *)&g_00DFE174)->push_back(*(const AsciiString *)name);
 	ScriptScheduleView *view = (ScriptScheduleView *)script;
+	GameLogic *game = TheGameLogic;
 	int delay = view->m_delay;
 	if (delay > 0) {
-		GameLogic *game = TheGameLogic;
 		if (!game->rva001DCD1C())
 			view->m_frameToEvaluate = game->getFrame() + delay * g_Va00DBA4E4;
 		else

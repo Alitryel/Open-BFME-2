@@ -20,7 +20,7 @@ class Rva000F9C3C {
 public:
 	virtual ~Rva000F9C3C();
 	Rva000F9C3C();
-	int m04, m08, m0C, m10, m14, m18, m1C;
+	volatile int m04, m08, m0C, m10, m14, m18, m1C;
 	float f20, f24, f28;
 	BfmeE16Vec v2C;
 	BfmeE16Vec v38;

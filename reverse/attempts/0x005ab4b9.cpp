@@ -425,8 +425,9 @@ bool Rva005AB309::rva005AB4B9()
 	unsigned int tag = m_30;
 	const char *side = sidePtr ? (const char *)sidePtr + 8 : g_Rva0107301CEmptyString;
 	tmp.format("%s_%s_%u_%u", g_00DBC1B8, side, tag, 0);
-	void *ownerData = (char *)m_owner + 0x4c;
-	Rva003A2FD4Proto *proto = TheTeamFactory->rva003A2FD4(tmp, ownerData, -1, m_30);
+	unsigned int tag2 = m_30;
+	Player *owner = m_owner;
+	Rva003A2FD4Proto *proto = TheTeamFactory->rva003A2FD4(tmp, (void *)((char *)owner + 0x4c), -1, tag2);
 	if (proto == 0)
 		return false;
 	proto->m_31c = 0;

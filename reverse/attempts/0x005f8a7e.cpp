@@ -12,7 +12,7 @@
 // 0x005E118B. matches is early-declared (push ebx placement) and counted in
 // edx with an ebx join copy; ok is byte bool with raw push. Sub/result/vec
 // views are TU-local (slots honest, dummies structural).
-#include <xmmintrin.h>
+
 
 class Rva005F8A7ESub;
 void __fastcall rva005E1160(Rva005F8A7ESub *sub, bool ok);
@@ -51,19 +51,14 @@ private:
 };
 
 int __cdecl Rva005F88F4Get(int arg);
-__m128 __cdecl Rva005F8A0C(int a, int b, int c);
+float __cdecl Rva005F8A0C(int a, int b, int c);
 
 // ?rva005F8A7E@Rva005F8A7E@@QAEXXZ present-unmatched
 void Rva005F8A7E::rva005F8A7E()
 {
 	Rva005F8A7ERes *res = (Rva005F8A7ERes *)Rva005F88F4Get(m_20);
-	bool ok;
-	if (res && res->rva005F8A7ECheck(m_28))
-		ok = true;
-	else
-		ok = false;
-	Rva005F8A7ESub *sub = (Rva005F8A7ESub *)((char *)this + 8);
-	rva005E1160(sub, ok);
+	bool ok = res && res->rva005F8A7ECheck(m_28);
+	rva005E1160((Rva005F8A7ESub *)((char *)this + 8), ok);
 	int matches;
 	if (res)
 	{
@@ -83,15 +78,13 @@ void Rva005F8A7E::rva005F8A7E()
 		matches = 0;
 	}
 	if (matches > 0)
-		rva005E1168(sub, matches);
+		rva005E1168((Rva005F8A7ESub *)((char *)this + 8), matches);
 	else
-		rva005E1170(sub);
+		rva005E1170((Rva005F8A7ESub *)((char *)this + 8));
 	if (matches > 0)
 	{
-		float r;
-		_mm_store_ss(&r, Rva005F8A0C(m_20, m_28, m_2C));
-		rva005E1178(sub, r);
+		rva005E1178((Rva005F8A7ESub *)((char *)this + 8), Rva005F8A0C(m_20, m_28, m_2C));
 	}
 	else
-		return rva005E118B(sub);
+		return rva005E118B((Rva005F8A7ESub *)((char *)this + 8));
 }
