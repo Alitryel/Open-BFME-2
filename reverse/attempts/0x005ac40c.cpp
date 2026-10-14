@@ -814,5 +814,5 @@ void AIStructureCreepTactic::moveDozerAway()
 	dir.X *= 500.0f;
 	dir.Y *= 500.0f;
 	dir.Z *= 500.0f;
-	dozer->m_ai->m_commands.aiMoveToPosition(&Coord3D(dozer->m_pos[0] + dir.X, dozer->m_pos[1] + dir.Y, dozer->m_pos[2] + dir.Z), CMD_FROM_PLAYER);
+	dozer->m_ai->m_commands.aiMoveToPosition(&Coord3D(dozer->m_pos[0] + dir.X, (dozer ? (dozer->m_pos[1] + dir.Y) : (dozer->m_pos[1] + dir.Y)), dozer->m_pos[2] + dir.Z), CMD_FROM_PLAYER);
 }

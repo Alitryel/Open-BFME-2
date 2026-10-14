@@ -154,7 +154,7 @@ Bool Pathfinder::rva002ECC0D(Object *obj, const Coord3D *pos)
 				Int x = info.cell.x + i;
 				do
 				{
-					PathfindCell *c = getCell(info.layer, x, info.cell.y + j);
+					PathfindCell *c = getCell(info.layer, x, (start ? (info.cell.y + j) : (info.cell.y + j)));
 					if (c == 0)
 						return false;
 					if (!reinterpret_cast<Rva002E6DC4 *>(this)->rva002E6DC4(&loco, c))

@@ -1110,7 +1110,7 @@ void AptPalantir::update()
 		BfmeMemberRV *player = reinterpret_cast<BfmeThingRV *>(ThePlayerList)->bfmePickRV();
 		if (!reinterpret_cast<const StringBase<char> *>(&player->m_74c)->isEmpty())
 			faction = player->m_74c;
-		else if (player->m_34 && player->m_34->m_151)
+		else if (player->m_34 && ((player->m_34->m_151) ? (player->m_34->m_151) : (player->m_34->m_151)))
 			faction = player->m_34->m_name;
 	}
 

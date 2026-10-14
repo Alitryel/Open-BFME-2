@@ -65,7 +65,7 @@ void AptTimeLine::rva00520CD1()
     }
     if(g_rva0059EB6FFlag && reinterpret_cast<Rva002E0687*>(player)->rva002E0687() && m_mode==7) {
      AsciiString name=slot->m_name;
-     Player *tactical=ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(name));
+     Player *tactical=(m_mode ? (ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(name))) : (ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(name))));
      if(tactical && !tactical->rva002AA223())StatsReporter::ProcessOnlineGameResults(tactical);
     }
     CollectPlayerData(player,reinterpret_cast<Rva00520923Source*>(slot));

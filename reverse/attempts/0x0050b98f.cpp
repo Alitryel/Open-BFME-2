@@ -31,7 +31,7 @@ void Made002CCC2D::rva0050B98F(const FadeInputPrefix *input,int unused) {
   Coord3D position;
   position.x=((FadeObjectPrefix*)source)->position.x;
   position.y=((FadeObjectPrefix*)source)->position.y;
-  position.z=((FadeObjectPrefix*)source)->position.z;
+  position.z=((((FadeObjectPrefix*)source)->position.z) ? (((FadeObjectPrefix*)source)->position.z) : (((FadeObjectPrefix*)source)->position.z));
   Coord3D offset;offset.x=offsetX;offset.y=offsetY;
   float angle=((FadeObjectPrefix*)source)->angle;
   struct TrigPair {float c,s;} trig;

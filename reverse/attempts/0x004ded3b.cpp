@@ -641,7 +641,7 @@ UpdateSleepTime FiringTracker::update()
 {
 	UnsignedInt now = TheGameLogic->getFrame();
 
-	if (!(*getObject()->getPosition() == m_lastShotPosition))
+	if (!((now ? (*getObject()->getPosition()) : (*getObject()->getPosition())) == m_lastShotPosition))
 		coolDown(true);
 
 	if (m_frameToForceReload != 0 && now >= m_frameToForceReload)

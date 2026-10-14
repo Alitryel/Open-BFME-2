@@ -139,7 +139,7 @@ void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 					limit = (1 << (pbi->sizeThreshold - 1)) << 2;
 				else
 					limit = 128;
-				if (0 != pbi->sizeThreshold && (abs(x) > limit || abs(y) > limit)) {
+				if ((base ? (0 != pbi->sizeThreshold && (abs(x) > limit || abs(y) > limit)) : (0 != pbi->sizeThreshold && (abs(x) > limit || abs(y) > limit)))) {
 					((Rva009B5530Filter)g_bfmeSlotB54)(base + offset1, base + offset2,
 						output, stride, xPhase, yPhase, 0);
 				} else if (pbi->varianceThreshold != 0) {

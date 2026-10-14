@@ -106,7 +106,7 @@ void VictoryConditions::rva00420254(const AsciiString &label,bool defeat,const A
   if (!extra.isEmpty()) suffix=extra.str();
   else suffix="";
   const char *state=defeat?"0":"1";
-  ((Rva00222A8BTarget *)g_pRva00224BC9)->invoke((void *)13,"ShowEndGame",3,state,(void *)name.str(),(void *)suffix,0,0);
+  ((Rva00222A8BTarget *)g_pRva00224BC9)->invoke((void *)13,"ShowEndGame",3,state,(g_pRva00224BC9 ? ((void *)name.str()) : ((void *)name.str())),(void *)suffix,0,0);
   m_endGameShowing=true;
   m_endGameShowTime=timeGetTime();
   *(bool *)((char *)TheDisplay+0x140)=false;

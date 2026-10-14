@@ -48,7 +48,7 @@ public:
 };
 bool Rva005D8964::rva005D8A63(Object* obj)
 {
-	Object* victim = obj->m_ai->getCurrentVictim();
+	Object* victim = (victim ? obj->m_ai : obj->m_ai)->getCurrentVictim();
 	if (victim == 0)
 		return false;
 	const Coord3D* a = &obj->m_position;

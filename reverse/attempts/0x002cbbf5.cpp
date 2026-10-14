@@ -707,7 +707,7 @@ void WeaponTemplate::rva002CBBF5(Object *source, int wordC, int barrel, int word
         float heading;
         if(pitch != 0.f)
         {
-            heading=atan2f(position->y - source->pos.y, position->x - source->pos.x);
+            heading=(victim ? (atan2f(position->y - source->pos.y, position->x - source->pos.x)) : (atan2f(position->y - source->pos.y, position->x - source->pos.x)));
         }
         else
             heading=0.f;

@@ -98,7 +98,7 @@ bool GenericObjectCreationNugget::canCreate(Object *primary, const Coord3D *pos)
             if(part==0) continue;
             if(disposition40 & 0x2000) angle=spin48;
             if(disposition40 & 0x8000) { angle=spin48; angle+=primary->angle44; angle=normalizeAngle(angle); }
-            if(TheBuildAssistant->isLocationLegalToBuild(pos,part,angle,0x19d,primary,0) != LBC_OK) return false;
+            if((what ? (TheBuildAssistant->isLocationLegalToBuild(pos,part,angle,0x19d,primary,0)) : (TheBuildAssistant->isLocationLegalToBuild(pos,part,angle,0x19d,primary,0))) != LBC_OK) return false;
         }
     } else if((what->kind108[0] & 0x80) && !(what->kind108[0] & 0x400)) {
         Coord3D offset;

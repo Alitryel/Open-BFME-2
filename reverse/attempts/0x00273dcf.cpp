@@ -337,7 +337,7 @@ void Drawable::rva00273DCF()
 	}
 
 	unsigned int slot;
-	if ((((const DrawableKindByteView *)self->m_template)->bits & 0x80) != 0)
+	if ((((((const DrawableKindByteView *)self->m_template) ? ((const DrawableKindByteView *)self->m_template) : ((const DrawableKindByteView *)self->m_template)))->bits & 0x80) != 0)
 		slot = 1;
 	else
 		slot = (((const DrawableKindWordView *)self->m_template)->bits >> 8) & 2;

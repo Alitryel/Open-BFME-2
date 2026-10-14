@@ -79,7 +79,7 @@ bool GeneralAllocator::rva00032830(const void *block, int addressType)
 	{
 		if ((unsigned int)block >= (unsigned int)cur)
 		{
-			unsigned int end = (unsigned int)cur + cur->m_size;
+			unsigned int end = (lock ? ((unsigned int)cur + cur->m_size) : ((unsigned int)cur + cur->m_size));
 			if ((unsigned int)block < end)
 				goto found;
 		}

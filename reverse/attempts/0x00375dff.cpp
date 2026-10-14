@@ -118,7 +118,7 @@ bool AerialPathfinder::rva00375DFF(Object *obj, Rva00375A73Context *context, flo
             where.z = 0.0f;
             if (TheAerialPathfinder->rva00375C28(obj, &pos, &t, &where))
                 hit = true;
-            if (above != true)
+            if ((t ? (above != true) : (above != true)))
                 return false;
             if (hit != true)
                 return false;

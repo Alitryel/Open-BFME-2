@@ -151,7 +151,7 @@ int Rva0049C93F::rva0049C93F()
 	return code;
 
 recheck:
-	if (!m_flag88)
+	if ((owner ? (!m_flag88) : (!m_flag88)))
 		goto done;
 timer:
 	m_value -= (*(Rva0049C93FClock **)((char *)this - 0xc))->m_delta;

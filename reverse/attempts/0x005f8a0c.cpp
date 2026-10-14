@@ -74,7 +74,7 @@ __m128 __cdecl Rva005F8A0C(int a, int b, int c)
 		r = _mm_setzero_ps();
 		return r;
 	}
-	if (c <= 0)
+	if ((res ? (c <= 0) : (c <= 0)))
 	{
 		r = _mm_setzero_ps();
 		return r;
