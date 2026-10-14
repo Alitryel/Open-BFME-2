@@ -1,15 +1,28 @@
-// cl: /DNDEBUG /MD
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 
 // ?GadgetButtonGetData@@YAPAXPAVGameWindow@@@Z, retail 0x00327D56 (24B).
 // Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetPushButton.cpp
 // (BFME1 0x004BBEE0). PushButtonData keeps its ZH field order up to userData;
-// winGetUserData resolves through the ledger (no new pins). Trimmed to the
-// placed getter; the 11 siblings are declared-only here.
+// winGetUserData resolves through the ledger. The native display-string
+// toggle below extends the same PushButtonData view through +0x30.
 
 typedef int Int;
 typedef bool Bool;
 typedef unsigned char UnsignedByte;
 typedef unsigned int Color;
+
+class DisplayString;
+class DisplayStringManager {
+public:
+ virtual ~DisplayStringManager();
+ virtual void slot04();virtual void slot08();virtual void slot0C();
+ virtual void slot10();virtual void slot14();virtual void slot18();virtual void slot1C();
+ virtual void slot20();virtual void slot24();virtual void slot28();virtual void slot2C();
+ virtual void slot30();virtual void slot34();
+ virtual DisplayString *newDisplayString();
+ virtual void freeDisplayString(DisplayString *);
+};
+extern DisplayStringManager *TheDisplayStringManager;
 
 struct PushButtonData
 {
@@ -19,6 +32,10 @@ struct PushButtonData
 	Bool drawBorder;
 	Color colorBorder;
 	void *userData;
+	char pad18[0x28-0x18];
+	bool flag28;
+	int value2C;
+	DisplayString *displayString30;
 };
 
 class WinInstanceData
@@ -114,3 +131,24 @@ void GadgetButtonEnableCheckLike( GameWindow *g, Bool makeCheckLike, Bool initia
 		instData->m_state &= ~4;
 
 }  // end GadgetButtonEnableCheckLike
+
+// Native327D86..327DD8 and WB1122D00..1122D8B agree on both guards,
+// flag28/value2C stores and the manager factory/free slots38/3C. Native
+// PushButton destruction328639 frees the same display string at30.
+// The method name and flag semantics are unknown; retain the RVA spelling.
+void Rva00327D86Update(GameWindow *button,bool enabled)
+{
+ if (!button) return;
+ PushButtonData *data=(PushButtonData *)button->winGetUserData();
+ if (!data) return;
+ data->flag28=enabled;
+ data->value2C=0;
+ if(enabled) {
+  if(!data->displayString30) data->displayString30=TheDisplayStringManager->newDisplayString();
+ } else {
+  if(data->displayString30) {
+   TheDisplayStringManager->freeDisplayString(data->displayString30);
+   data->displayString30=0;
+  }
+ }
+}
