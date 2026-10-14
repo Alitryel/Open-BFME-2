@@ -368,6 +368,7 @@ Code/GameEngine/Source/GameNetwork/GameSpy/gp/gpiSearch.c,,13,1,region default l
 Code/GameEngine/Source/GameNetwork/GameSpy/qr2/qr2.c,,37,6,region default loses rows
 Code/GameEngine/Source/GameNetwork/GameSpy/serverbrowsing/sb_serverlist.c,,57,1,region default loses rows
 Code/GameEngine/Source/GameNetwork/Rva00657590Finish.cpp,-O2,1,1,region default loses rows
+Code/GameEngine/Source/GameNetwork/Rva00661650AriesUdp.cpp,-O2,1,1,region default loses rows
 Code/GameEngine/Source/GameNetwork/Rva006750C0Finish.cpp,-O2,1,1,region default loses rows
 Code/GameEngine/Source/GameNetwork/Rva007B55E0TxnNameInits.cpp,-O2,62,62,region default loses rows
 Code/GameEngine/Source/GameNetwork/Rva007E8D30FeslSetField.cpp,,3,3,region default loses rows
