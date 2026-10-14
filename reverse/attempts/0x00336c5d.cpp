@@ -1,4 +1,6 @@
 // ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
+// partial score=0.99664 date=2026-10-14
+// ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
 // partial score=0.99664 date=2026-10-13
 // ?rva002E9680ParseModelConditionEvent@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
 // partial score=0.9966386555 date=2026-10-08

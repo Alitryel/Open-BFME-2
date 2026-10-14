@@ -1,4 +1,6 @@
 // ?rva002CBBF5@WeaponTemplate@@QAEXPAVObject@@HHH0HPBUCoord3D@@H_NPAVWeapon@@H@Z
+// partial score=0.9974 date=2026-10-14
+// ?rva002CBBF5@WeaponTemplate@@QAEXPAVObject@@HHH0HPBUCoord3D@@H_NPAVWeapon@@H@Z
 // partial score=0.9973962532548357 date=2026-10-13
 // ?rva002CBBF5@WeaponTemplate@@QAEXPAVObject@@HHH0HPBUCoord3D@@H_NPAVWeapon@@H@Z
 // partial score=0.9973962532548357 date=2026-10-13
