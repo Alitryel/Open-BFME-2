@@ -177,6 +177,7 @@ namespace _STL { template <> UnicodeString * __uninitialized_fill_n<UnicodeStrin
 namespace _STL { template <> _List_node<void *> * list<void *, allocator<void *> >::_M_create_node(void *const &); }
 namespace _STL { template <> void vector<UnicodeString, allocator<UnicodeString> >::_M_insert_overflow(UnicodeString *, UnicodeString const &, __false_type const &, unsigned int, bool); }
 namespace _STL { template <> UnicodeString * vector<UnicodeString, allocator<UnicodeString> >::erase(UnicodeString *, UnicodeString *); }
+namespace _STL { template <> void vector<UnicodeString, allocator<UnicodeString> >::push_back(const UnicodeString &); }
 // bfme link decl-only end
 
 // Declaration-only: the rowed set<AsciiString> tree members are bound,
@@ -212,7 +213,9 @@ struct AudioEventChannelVolume {
 // AudioEventInfo view: +0x44 is the priority the lowest-priority scan ranks by.
 // prep3DSample passes +0x94 as AIL_set_3D_sample_distances' max distance and
 // +0x98 (non-global sounds) as its min distance.
+struct RvaPair001D9F62 { AsciiString m_key; int m_value; ~RvaPair001D9F62(); };
 struct AudioEventInfo {
+    const _STL::vector<RvaPair001D9F62> &getSoundsVector(void) const;
     int getVolumeSlider(void);
     bool isTightlyCoupledSound(void) const;
     char at00[0x08];
@@ -308,7 +311,8 @@ public:
     bool m_at50;             // +0x50, set once a sample starts playing
     char at51[0x52 - 0x51];
     bool m_at52;             // +0x52, playAudioEvent tests it after starting a stream
-    char at53[0x64 - 0x53];
+    bool m_at53;
+    char at54[0x64 - 0x54];
     float m_at64;            // +0x64, compared with AudioSettings +0xB4 and one frame
     char at68[0x74 - 0x68];
     int m_portionToPlayNext; // +0x74, the portion advanceNextPlayPortion steps
@@ -345,6 +349,7 @@ class Rva000A8A6C {
 public:
     void rva000A8A6C(void);
     bool isOpen(void) const { return m_ptr != 0; }
+    int getAt3C(void) const { return m_ptr ? m_ptr->m_at3C : 0; }
     const AsciiString &getFileName(void) const { return m_ptr ? m_ptr->m_fileName : AsciiString::TheEmptyString; }
     const MilesSoundInfo *getMilesSoundInfo(void) const { return m_ptr ? &m_ptr->m_soundInfo : 0; }
     void *getFileImage(void) const { return m_ptr ? m_ptr->m_fileImage : 0; }
@@ -6008,4 +6013,46 @@ void MilesAudioManager::rva000533CB(void)
         AIL_set_3D_speaker_type(m_provider3D[provider].id, 5);
     else
         AIL_set_3D_speaker_type(m_provider3D[provider].id, m_selectedSpeakerType);
+}
+
+// Existing event-delay subtractor, rowed at 0x002D94EB.
+class Rva002D94EB { public: void rva002D94EB(float value); };
+// Retail 0x00053646: processRequest's failed-file/portion fallback.
+// See reverse/attempt_evidence/0x00053646_visibility.txt.
+void MilesAudioManager::rva00053646(Rva00051107AudioRequest *req, bool *removeRequest)
+{
+    BfmePoolRef10 &event = req->m_pendingEvent;
+    AudioEventRTS *first = event.get();
+    if (!first) return;
+    if (first->getNextPlayPortion() == 3) { *removeRequest = true; return; }
+    if (req->m_at14 && !m_at6AC) {
+        req->m_at14 = false;
+        if (!m_at6B0) reinterpret_cast<Weapon *>(first)->setLeechRangeActive(true);
+    }
+    if (reinterpret_cast<Rva00050DD0 *>(&req->m_file)->rva00050DD0()) {
+        int oldPortion = event->m_portionToPlayNext;
+        event->m_at53 = true;
+        event->advanceNextPlayPortion();
+        event->m_at50 = true;
+        event->rva002D9ADC();
+        if (event->m_portionToPlayNext != 3) {
+            if (oldPortion != event->m_portionToPlayNext) {
+                reinterpret_cast<Rva00691040Handle &>(req->m_file) = m_audioFileCache->requestFile(event, req->m_file.getAt3C());
+            } else if (event->m_portionToPlayNext == 1) {
+                int count = event->m_info->getSoundsVector().size();
+                for (int i=0; i<count; ++i) {
+                    reinterpret_cast<Rva00691040Handle &>(req->m_file) = m_audioFileCache->requestFile(event, req->m_file.getAt3C());
+                    if (!reinterpret_cast<Rva00050DD0 *>(&req->m_file)->rva00050DD0()) break;
+                    event->m_at50 = true;
+                    event->rva002D9ADC();
+                }
+                if (reinterpret_cast<Rva00050DD0 *>(&req->m_file)->rva00050DD0()) *removeRequest = true;
+            } else *removeRequest = true;
+        } else *removeRequest = true;
+        event->m_at53 = false;
+    }
+    if (!reinterpret_cast<Rva00050DF0 *>(req)->rva00050DF0()) {
+        reinterpret_cast<Rva002D94EB *>(event.get())->rva002D94EB(m_at90);
+        req->m_at11 = true;
+    }
 }
