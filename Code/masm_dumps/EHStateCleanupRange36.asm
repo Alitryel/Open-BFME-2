@@ -234,19 +234,6 @@ PUBLIC ?rva00760B14@@YAXXZ
     ret
 ?rva00760B14@@YAXXZ ENDP
 
-; Unwind@00b60b77: bit 0 at [ebp-0x10], cleanup pointer at [ebp+8].
-PUBLIC ?rva00760B77@@YAXXZ
-?rva00760B77@@YAXXZ PROC
-    mov eax, DWORD PTR [ebp-16]
-    and eax, 1
-    jz NEAR PTR cleanup_done_00760B77
-    and DWORD PTR [ebp-16], -2
-    mov ecx, DWORD PTR [ebp+8]
-    jmp ??1Rva00690FF0Handle@@QAE@XZ
-cleanup_done_00760B77:
-    ret
-?rva00760B77@@YAXXZ ENDP
-
 ; Unwind@00b60bd8: bit 0 at [ebp-0x10], cleanup pointer at [ebp+8].
 PUBLIC ?rva00760BD8@@YAXXZ
 ?rva00760BD8@@YAXXZ PROC
