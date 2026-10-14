@@ -88399,3 +88399,4 @@ __ehhandler$?scanClosestTarget@CommandButtonHuntUpdate@@IAEPAVObject@@XZ,,0x0078
 ?Rva00468908Parse@@YAXPAVINI@@PAX1PBX@Z,,0x00468908,215,Code/GameEngine/Source/GameLogic/Object/Contain/Rva00468908Parse.cpp,matched,
 ?rva005EFFA6@Rva005EFFA6@@QAEXPAVINI@@@Z,,0x005EFFA6,134,Code/GameEngine/Source/Common/Rva005EFFA6FieldTable.cpp,matched,
 ?isValidContainerFor@HordeTransportContain@@UAE_NPAVObject@@_N1@Z,,0x004771EB,147,Code/GameEngine/Source/GameLogic/Object/Contain/HordeTransportContainIsValidContainerFor.cpp,matched,slot 38 of HordeTransportContain +0x20 vftable 0xC45D30 beside rowed slot 27: OpenContain base admission 462977; status 0x26 rider without +0x250 member via +0x11D helper 588BF3; capacity iface slots 0x114(0)+0xCC plus rowed 28FBBE against module data +0x98
+?rva00428B27@VersionBlockParser@@QAEXPBD0@Z,,0x00428B27,201,Code/GameEngine/Source/Common/VersionBlockParserUpdate.cpp,matched,
