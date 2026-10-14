@@ -10,7 +10,15 @@
 // Pair8 at -0x18). Byte-equal ratio 633/643.
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // RecorderClass::copyCurrentRecordingToFile, retail [0x0037D6E8,0x0037D96B),
-// 643 bytes including the out-of-line success tail at 0x0037D930.
+// 643 bytes including the out-of-line success tail at 0x0037D930. BFME1
+// RecorderCopyReplayFile (9cbfb551) is the semantic guide and WB F5BC90 the
+// name: copy the recording being written (the replay header, its title, then
+// the rest in 64K chunks) to a new file named by `name` (the replay directory
+// plus the name, or the default replay name when empty), leave the live file
+// open and positioned as before. The triple-concat builder is the rowed
+// Pair8/Triple12 one at 0x0037BA97, kept visible; the pair's two words are
+// volatile so the branch string temporaries and the spills share the triple's
+// slots as retail does (T1 farm mutation volatile-member-pair, W7-U1 r7 port).
 #include "unicode_string.h"
 struct _iobuf;
 typedef _iobuf FILE;
