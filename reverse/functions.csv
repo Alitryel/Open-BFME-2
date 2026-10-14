@@ -18368,9 +18368,6 @@ uw_0076360d,,0x0076360D,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;obje
 uw_00763615,,0x00763615,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6525
 uw_00763627,,0x00763627,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5632
 uw_0076362f,,0x0076362F,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5857
-uw_0076368d,,0x0076368D,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L560
-uw_00763698,,0x00763698,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L561
-uw_007636a3,,0x007636A3,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L562
 uw_007636b8,,0x007636B8,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
 uw_007636c0,,0x007636C0,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L808
 uw_007636c8,,0x007636C8,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L793
@@ -18385,9 +18382,6 @@ uw_0076375e,,0x0076375E,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;obje
 uw_00763766,,0x00763766,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6525
 uw_00763778,,0x00763778,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5641
 uw_00763783,,0x00763783,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5893
-uw_007637e4,,0x007637E4,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L560
-uw_007637ef,,0x007637EF,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L561
-uw_007637fa,,0x007637FA,11,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L562
 uw_0076380f,,0x0076380F,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L329
 uw_00763817,,0x00763817,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L320
 uw_0076381f,,0x0076381F,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L808
@@ -88384,3 +88378,9 @@ uw_007a2a03,,0x007A2A03,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialP
 ?rva00083A7A@Rva0082140@@QAEXPAV?$AreaSet@VStandingWaveArea@@@@PAV?$AreaSet@VRiverArea@@@@PAV?$AreaSet@VWaterWaveArea@@@@@Z,,0x00083A7A,257,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterAreaRenderables.cpp,matched,Native three-area subscription replacement RET12; existing observers C8 CC D0 and vectors108 118; rebuild through verified8385F and83959 then retain each standing renderable while invoking existing308C31 binding
 uw_007a2a1d,,0x007A2A1D,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerSelfBuff@@UAE_NPAVObject@@@Z;object-symbol=$L1674
 uw_007a2a25,,0x007A2A25,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerSelfBuff@@UAE_NPAVObject@@@Z;object-symbol=$L1675
+uw_0076368d,,0x0076368D,11,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00735D80TreeTypeDtor.cpp,matched,gen-funclet;parent=??1Rva000E86B8@@QAE@XZ;object-symbol=$L450
+uw_00763698,,0x00763698,11,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00735D80TreeTypeDtor.cpp,matched,gen-funclet;parent=??1Rva000E86B8@@QAE@XZ;object-symbol=$L451
+uw_007636a3,,0x007636A3,11,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00735D80TreeTypeDtor.cpp,matched,gen-funclet;parent=??1Rva000E86B8@@QAE@XZ;object-symbol=$L452
+uw_007637e4,,0x007637E4,11,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00735D80TreeTypeDtor.cpp,matched,gen-funclet;parent=??1Rva00735D80TreeType@@QAE@XZ;object-symbol=$L430
+uw_007637ef,,0x007637EF,11,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00735D80TreeTypeDtor.cpp,matched,gen-funclet;parent=??1Rva00735D80TreeType@@QAE@XZ;object-symbol=$L431
+uw_007637fa,,0x007637FA,11,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00735D80TreeTypeDtor.cpp,matched,gen-funclet;parent=??1Rva00735D80TreeType@@QAE@XZ;object-symbol=$L432
