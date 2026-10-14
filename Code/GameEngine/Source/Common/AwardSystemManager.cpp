@@ -1,9 +1,8 @@
-// cl: /Ob2 /O1 /G7 /arch:SSE /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_CSTD_FUNCTION_IMPORTS /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /ICode/Libraries/Source/debug
+// cl: /Ob2 /O1 /G7 /arch:SSE /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_CSTD_FUNCTION_IMPORTS /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /ICode/Libraries/Source/debug
 // stlport
 // Native40ADDD..40ADFA and40BAAA..40BAD0. Award trigger records
 // occupy16B, and their key-list prefixes are compared by rowed40AD5A.
 // The389B INI award parser40BAF7 uses these contains/add operations.
-namespace _STL { void __cdecl free(void *); }
 #include <vector>
 #include "ascii_string.h"
 typedef bool Bool;
@@ -16,10 +15,11 @@ const Rva0040ABA5Item *Rva0040AD5AFind(const Rva0040ABA5Item *,const Rva0040ABA5
 enum NameKeyType { NAMEKEY_INVALID=0 };
 namespace _STL {
 // Nothing here calls the vector<NameKeyType> deallocation helpers out of line;
-// their unreferenced copies (calling _STL::free, not _free) differed from the
-// first ones in link order. Declared imported and force-inlined, they are not
-// emitted.
-template<> __declspec(dllimport) __forceinline void allocator<NameKeyType>::deallocate(pointer p,size_type) const { if(p) _STL::free(static_cast<void *>(p)); }
+// their unreferenced copies differed from the first ones in link order. Declared
+// imported and force-inlined, they are not emitted. Retail's free (0x00030830)
+// may throw, so this unit compiles /EHs and calls it through its C name, as the
+// first copies of the vector<NameKeyType> destructors (CreateAHero) do.
+template<> __declspec(dllimport) __forceinline void allocator<NameKeyType>::deallocate(pointer p,size_type) const { if(p) ::free(static_cast<void *>(p)); }
 template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<NameKeyType *,NameKeyType,allocator<NameKeyType> >::deallocate(NameKeyType *__p,size_t __n)
  { __stl_alloc_rebind(__STATIC_CAST(_Base&,*this),(NameKeyType*)0).deallocate(__p,__n); }
 template<> __declspec(noinline) _Vector_base<NameKeyType,allocator<NameKeyType> >::_Vector_base(const allocator<NameKeyType> &a)
