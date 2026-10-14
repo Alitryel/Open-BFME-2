@@ -1,9 +1,11 @@
 // cl: /MD
-// ?Rva0027D3CBForward@@YGXPAXHHH@Z, retail 0x0027D3CB, 14 bytes.
-// Free __stdcall forwarder via global 0x009FF080 to slot32 (0x80)
-// Rva0027D88E (void*,float,float,float) as ints to avoid x87 shuffling
-// and keep the tail jmp. Same manager as Rva00306769Forward.
-// Caller 0x545140.
+// ?rva0027D3CB@Rva0027D3CB@@QAE_NH@Z, retail 0x0027D3CB, 14 bytes.
+// WB 0x00C483B0 is a one-argument member forwarding through TheTerrainVisual.
+// Native caller 0x005450D3 passes ECX, pushes one word, and tests AL.
+// W3DTerrainVisual primary vtable VA 0x00BC80A0 slot 32 contains 0x00091F95:
+// that verified provider returns false or forwards the word, and ends RET 4.
+// The old void/four-argument declaration confused this with TerrainLogic's
+// unrelated water-height slot. The receiver is unused in this forwarding body.
 extern class G00DFF080Obj *g_00DFF080;
 
 class Rva009FF080Manager0027D3CB
@@ -41,14 +43,20 @@ public:
 	virtual void _slot29(int a, int b);
 	virtual void _slot30();
 	virtual void _slot31();
-	virtual void _slot32(void *water, int a, int b, int c);
+	virtual bool _slot32(int handle);
 };
 
 #define TheRva009FF080Manager0027D3CB (*(Rva009FF080Manager0027D3CB **)&g_00DFF080)
 
-void __stdcall Rva0027D3CBForward(void *water, int a, int b, int c)
+class Rva0027D3CB
 {
-	TheRva009FF080Manager0027D3CB->_slot32(water, a, b, c);
+public:
+	bool rva0027D3CB(int handle);
+};
+
+bool Rva0027D3CB::rva0027D3CB(int handle)
+{
+	return TheRva009FF080Manager0027D3CB->_slot32(handle);
 }
 
 //

@@ -39770,7 +39770,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?Rva0027D960@Rva0062AF7@@QAEXPAXPAM@Z,,0x0027D960,248,Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp,matched,follows 0x27D88E same TU slot08 box plus water poly via 0x7E016
 ??$__uninitialized_copy@PAVRva00585B16@@PAV1@@_STL@@YAPAVRva00585B16@@PAV1@00ABU__false_type@0@@Z,,0x00585CE0,38,Code/Libraries/Source/WWVegas/WWLib/Rva00585CE0Copy.cpp,matched,copy loop calls rowed Construct 0x5859C6 stride 0x54
 ??4Rva005E7198@@QAEAAV0@ABV0@@Z,,0x005E7198,46,Code/GameEngine/Source/Common/Bfme/Rva005E7198Assign.cpp,matched,assign self-check plus AddRef plus Release 0x7DEEF plus reload
-?Rva0027D3CBForward@@YGXPAXHHH@Z,,0x0027D3CB,14,Code/GameEngine/Source/Common/Rva0027D3CBForward.cpp,matched,global 0x9FF080 to slot32 0x80 ints stand for floats for tail jmp
+?rva0027D3CB@Rva0027D3CB@@QAE_NH@Z,,0x0027D3CB,14,Code/GameEngine/Source/Common/Rva0027D3CBForward.cpp,matched,one-argument bool member; WB C483B0 and native caller 5450D3; TerrainVisual VA BC80A0 slot32 provider 91F95 RET4
 ??0Rva004FA830@@QAE@ABV?$StringBase@D@@@Z,,0x004FA815,27,Code/GameEngine/Source/Common/Rva004FA830Ctor.cpp,matched,vtable 0x008633A0 plus StringBase copy 0x365F0 caller 0x4FAC21
 ?rva0029B53C@Rva0029A407@@QAEPAXI@Z,,0x0029B53C,28,Code/GameEngine/Source/GameClient/Rva0029A407Clear.cpp,matched,calls rowed Clear 0x29A407 then delete 0x2FD60 on flag
 ?clearMissionHelpText@Rva0029B17C@@QAEXXZ,,0x0029B17C,11,Code/GameEngine/Source/GameClient/Rva0029B17CFwd.cpp,matched,forwarder loads 0x7F4 jumps vtable 0x24 callers 0x213B3B; wb-lead 2/callgraph: WB DBF910 InGameUI::clearMissionHelpText (InGameUI.cpp:8084 m_missionTextDisplay assert; vcall +0x24)
