@@ -1,9 +1,12 @@
 // ?rva00225DA9@GameEngine@@QAEXXZ
+// partial score=0.999 date=2026-10-14
+// ?rva00225DA9@GameEngine@@QAEXXZ
 // partial score=0.9911 date=2026-10-12
 // ?rva00225DA9@GameEngine@@QAEXXZ
 // partial score=0.9911 date=2026-10-06
 // ?rva00225DA9@GameEngine@@QAEXXZ
 // partial score=0.97 date=2026-10-05
+// W7-U1 r14: LAB-EXACT (nd0/361B/EH ok) with the extern double below; the multiplier is the compiler literal 0.001 at 0x7C6E68 (data_ledger 'literal'), a plain 0.001 literal folds the SSE ratio into x87 (347B, nd50); a named extern double keeps retail's memory operand (alias order). Not landable without a pin for an rdata literal. Double temp `ext19` = one-site extraction lever.
 // cl: /O1 /DNDEBUG /DWIN32 /MD /EHsc /arch:SSE /G7
 //
 // The GameEngine stores the client-frame period at +0x34, the derived
@@ -11,10 +14,9 @@
 // helpers are the small pieces used by the main frame loop around the
 // network/logic update path.
 
-extern int g_009BA4E8;
-extern int g_Va00DBA4E4;
+extern int BfmeClientFramesPerSecond;
+extern int BfmeLogicFramesPerSecond;
 
-extern int g_00DBA4E8;
 extern float g_00BC26EC;
 extern double g_bfmeFactorBW;
 
@@ -32,7 +34,7 @@ class ScriptEngine
 public:
 	void _bfme_updateClientDebugFrame();
 };
-extern ScriptEngine *g_Va009FE16C;
+extern ScriptEngine *TheScriptEngine;
 
 class Rva00203B08
 {
@@ -76,8 +78,8 @@ void __cdecl Rva00225A0C(int v);
 
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 
-#define FramesPerSecond g_009BA4E8
-#define LogicFramesPerSecond g_Va00DBA4E4
+#define FramesPerSecond BfmeClientFramesPerSecond
+#define LogicFramesPerSecond BfmeLogicFramesPerSecond
 
 class GameEngine
 {
@@ -128,8 +130,8 @@ void GameEngine::_bfme_updateClientFrameRatio(void)
 void GameEngine::rva00225DA9(void)
 {
 	g_00E099F8->s10();
-	g_Va009FE16C->_bfme_updateClientDebugFrame();
-	bool flag = ((Rva00203B08 *)g_Va009FE16C)->rva00203B08();
+	TheScriptEngine->_bfme_updateClientDebugFrame();
+	bool flag = ((Rva00203B08 *)TheScriptEngine)->rva00203B08();
 	s39();
 	if (flag) {
 		TheGameClient->m_c8 = 0;
@@ -139,7 +141,7 @@ void GameEngine::rva00225DA9(void)
 	TheGameClient->m_c8 = 1;
 	int period = m_clientFramePeriod;
 	if (period == 6 && m_40 != 0) {
-		m_clientFrameCounter = g_00DBA4E8 / g_Va00DBA4E4;
+		m_clientFrameCounter = BfmeClientFramesPerSecond / BfmeLogicFramesPerSecond;
 		m_40 = 0;
 	}
 	int next = period + 1;
@@ -153,7 +155,8 @@ void GameEngine::rva00225DA9(void)
 		if (m_50 % 25 == 0) {
 			unsigned int t = timeGetTime();
 			unsigned int dt = t - m_54;
-			float den = (float)((double)(float)dt * g_bfmeFactorBW);
+			double ext19 = ((double)(float)dt * g_bfmeFactorBW);
+			float den = (float)ext19;
 			float a = (float)m_50;
 			m_50 = 0;
 			float b = (float)m_5c;
