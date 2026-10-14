@@ -23,6 +23,7 @@ class CommandButton;
 class WindowLayout;
 class Rva0023E928;
 class UnicodeString;
+class TerrainResourceManager;
 
 struct ObjectIdNode
 {
@@ -83,7 +84,11 @@ public:
 private:
 	char pad118[0x125 - 0x118];
 	bool m_flag125;
-	char pad126[0x178 - 0x126];
+	char pad126[0x170 - 0x126];
+	// Native handleBuildPlacements (0x002A21E1) enumerates resource claimants
+	// through this manager; WorldBuilder's corresponding field is at +0x174.
+	TerrainResourceManager *m_resourceManager;
+	char pad174[0x178 - 0x174];
 	Rva00439E0C *m_manager178;
 	char pad17C[0x1B8 - 0x17C];
 	// Window cleanup 0x00376D49 owns this layout and clears the pending byte.
@@ -139,5 +144,6 @@ public:
 	unsigned int getFrame() const { return m_frame; }
 	bool getDrawIconUI() const { return m_drawIconUI; }
 	Rva00439E0C *getManager178() const { return m_manager178; }
+	TerrainResourceManager *getTerrainResourceManager() const { return m_resourceManager; }
 	PlayerLeaveStatus *getPlayerLeaveStatus(int playerIndex); // 0x0023D1E3, verified eight-slot status accessor
 };

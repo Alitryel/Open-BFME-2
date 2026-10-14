@@ -26720,7 +26720,6 @@ pin	reverse/symbols.csv	0x002A1D4B	1
 pin	reverse/symbols.csv	0x002A1D9D	1
 pin	reverse/symbols.csv	0x002A1E31	1
 pin	reverse/symbols.csv	0x002A1EC8	1
-pin	reverse/symbols.csv	0x002A21E1	2
 pin	reverse/symbols.csv	0x002A3E5A	1
 pin	reverse/symbols.csv	0x002A3F5B	1
 pin	reverse/symbols.csv	0x002A3FAF	1
@@ -38163,7 +38162,6 @@ present_unmatched	Code/GameEngine/Source/GameClient/InGameUI.cpp	InGameUI::getPl
 present_unmatched	Code/GameEngine/Source/GameClient/InGameUI.cpp	InGameUI::getPlacementPoints	1
 present_unmatched	Code/GameEngine/Source/GameClient/InGameUI.cpp	InGameUI::getScrollAmount	1
 present_unmatched	Code/GameEngine/Source/GameClient/InGameUI.cpp	InGameUI::getSuperweaponDisplayEnabledByScript	1
-present_unmatched	Code/GameEngine/Source/GameClient/InGameUI.cpp	InGameUI::handleBuildPlacements	1
 present_unmatched	Code/GameEngine/Source/GameClient/InGameUI.cpp	InGameUI::hideIdleWorkerLayout	1
 present_unmatched	Code/GameEngine/Source/GameClient/InGameUI.cpp	InGameUI::hideObjectSuperweaponDisplayByScript	1
 present_unmatched	Code/GameEngine/Source/GameClient/InGameUI.cpp	InGameUI::init	1

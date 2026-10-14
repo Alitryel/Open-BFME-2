@@ -5,6 +5,7 @@
 class Drawable;
 class TerrainResourceBehaviorModuleData;
 class FeedbackDisplayString;
+struct ICoord2D;
 
 // InGameUI embeds this 20-byte settings record at +0x574. The Impl
 // constructor reads font +4, size +8, bold +C and color +10; the decal
@@ -28,6 +29,7 @@ public:
     class Impl;
     PlaceTerrainResourceClaimantFeedback(FeedbackParams *, Drawable *,
         const TerrainResourceBehaviorModuleData *);
+    void rva004E6693(ICoord2D *);
 private:
     Impl *m_impl;
 };

@@ -1,4 +1,4 @@
-Seat N checkpoint, 2026-10-14 07:36 UTC. Work is continuing; this is not a recovery claim for either bank.
+Seat N checkpoint history, 2026-10-14. The final update below supersedes the earlier placement status; FindAttackPath remains partial.
 
 - Landed assigned bodies: 418a6712ed, HordeContain movement position 0x46B05B/2037B; 1a778ffb6c, HordeContain::_updatePosition 0x471464/2966B.
 - ABI repairs: eea6f2960b Locomotor receiver1E4194; e59dfc9375 Pathfinder receiver/coordinate values2EE49B; 97317fa06f getPortTransform392802 Boolean return; 6745c2f45f overlap30596C nontrivial position value and exact1701B message caller; c0e439cf5c feedback constructors4E6745/70B and4E669A/171B. Normal hooks, no pushes.
@@ -26,3 +26,46 @@ Post-repair place_bodies scans across the four affected overlap/feedback sources
 2026-10-14 08:14 UTC: Four typed FindAttackPath helpers now also verify TOGETHER in one private context: 48+168+544+83 bytes, no unresolved relocations, exact full bodies. Parent remains2117/frame7C/.97969, or.97876 without the ordered local reads. The typed-context patch and JSON manifest preserve this combined proof. Applying that diagnostic patch adds an extended private Coord3D view; production landing must reconcile the shared header and real owners. The current pathfinder.cpp/neighbor claim belongs to crack-z and was not touched.
 
 Ghidra MCP became unavailable (HTTP transport to127.0.0.1:8000); a retry after a minute failed too. Prior saved Ghidra evidence, full native disassemblies and WorldBuilder bodies remain available.
+
+
+2026-10-14 final placement recovery: `InGameUI::handleBuildPlacements` at
+0x002A21E1 is now whole-body exact, 4212 bytes, with the complete seven-state
+EH graph and native 0x194 frame. The static module lookup at 0x0029B9E5 is
+also whole-body exact, 67 bytes, compiled through this real caller. Production
+source: `Code/GameEngine/Source/GameClient/InGameUIHandleBuildPlacements.cpp`.
+Both rows passed `add_match`; the new source and the old InGameUI home passed
+9/9 rows together, with one string and eleven floating literals verified.
+The old unpinned ZH placement definition was removed from the home file.
+
+The decisive source change was joint: initialize the default command before
+fetching its button, and retain WorldBuilder's named Boolean result from
+getBuildPortData. Either change alone missed; together they restored all
+register and stack allocation and the EH graph. Native chained assignments
+then fixed store order. One final commutative SIB byte at 0x002A2DD4 required
+a qualified distinct read of the icon pointer after setPosition. That local
+volatile access changes no instruction count and makes no volatile layout
+claim. Broad helper-visibility, type, lifetime, compiler and constructor-order
+trials had left that same single-byte difference.
+
+The data audit also mattered: the terrain renderer is the existing
+`g_00DFF080` owner, not the draft's `TheTerrainVisual` name. DIR32 masking alone
+would not have caught that wrong binding. Shared GameLogic, PlaceCoord and
+feedback headers now provide the relevant layout and call contracts. Retired
+the false Object::unlook pin at this address and the redundant correct parent
+pin, and removed their hatch entries plus the obsolete present-unmatched
+entry; no baseline grants were added.
+
+FindAttackPath is the remaining handoff: bank .97969, native extent 2117,
+all opcodes and control flow aligned, different local stack homes as detailed
+above. Later named-Boolean and helper-visibility trials made no further gain.
+Its body claim was released after several hours without measurable progress;
+foreign-owned helper files remain untouched. The typed-helper patch and JSON
+are diagnostic proofs, not production recovery claims. Ghidra stayed down;
+link prediction remains unavailable without the census index.
+
+The shared Coord3D-to-PlaceCoord constructor initially shifted two pointer
+spill slots in the existing 1701-byte PlaceEventTranslator body. Private
+isolation proved the constructor, not GameLogic's manager field, caused it.
+Restoring that consumer's direct native kind-bit test (the same field, mask
+and condition as its prior accessor) restores the complete body with the
+new constructor present. Providers and both consumers are verified together.

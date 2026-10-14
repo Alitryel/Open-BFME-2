@@ -97,7 +97,6 @@ class ThingTemplate
 {
 public:
 	unsigned short getTemplateID() const { return m_templateID; }
-	bool isPort() const { return (m_kindOfByte23 & 0x10) != 0; }
 	char m_pad[0x11F];
 	unsigned char m_kindOfByte23; // KindOf bits 184..191; 0x10 is bit 188
 	char m_pad120[0x5D8 - 0x120];
@@ -391,7 +390,7 @@ GameMessageDisposition PlaceEventTranslator::translateGameMessage(const GameMess
 
 			if (lbc == 0 && !portBlocked)
 			{
-				if (pendingBuild->isPort())
+				if (pendingBuild->m_kindOfByte23 & 0x10)
 				{
 					PlaceCoord newWorld;
 					float newAngle;

@@ -9610,7 +9610,6 @@ name,address,notes
 ?handle@Gen0083E8F0@@QAEXXZ,0x0001BC50
 ?handle@Gen0089C880@@QAEXXZ,0x0070A8B0
 ?handle@Rva008091C0Owner@@QAEXPAVBfmeC994@@HPAD@Z,0x006750C0
-?handleBuildPlacements@InGameUI@@IAEXXZ,0x002A21E1,address read from the REL32 displacement at a placed body
 ?handleNode@Rva006BDB00@@QAEXPAVRva006BDB00Node@@@Z,0x00063A77,callee of ?detach@Rva006BD6C0@@QAEXXZ at retail 0x00063C33 read from its REL32 displacement; address already carries the matched ?removeGhostObject@W3DGhostObjectManager row
 ?handleRadiusCursor@InGameUI@@IAEXXZ,0x0029A661,address read from the REL32 displacement at a placed body
 ?hasAnyObjects@Team@@QAE_N_N@Z,0x0039E042,target direct call from evaluateIsDestroyed 0x003E5DE9 with Team this and false; body walks members and applies object-state masks; identity corroborated by BFME1 Team::hasAnyObjects
@@ -12207,7 +12206,6 @@ name,address,notes
 ?unlink@Gen_00943CF0@@AAEXPAX@Z,0x00141640
 ?unlink@PartitionData@@QAEXXZ,0x0073A0A0
 ?unlinkChain@Rva009A36F0Owner@@QAEXPAVRva009A36F0Thing@@@Z,0x00759220,BFME1 Rva009A36F0Owner donor unlinker; sole E8 caller is apply at 0x007592E0
-?unlook@Object@@IAEXXZ,0x002A21E1,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?unregister@AnimationSoundClientBehaviorGlobal@@QAEXPAVAnimationSoundClientBehavior@@@Z,0x00432F23,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?unregister@Manager012EF4F0@@QAEXPAVRva006DABB0@@@Z,0x00306769,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?unselectOtherRadioOfGroup@@YAXHHPAVGameWindow@@@Z,0x003275ED,retail GadgetRadioButtonInput at 0x327630 calls this at +0xB3 with group, screen, and except window; Ghidra boundary 0x3275ED/67B; BFME1 helper semantics corroborate

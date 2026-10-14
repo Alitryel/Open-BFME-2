@@ -10,6 +10,7 @@
 struct PlaceCoord : Coord3D
 {
     PlaceCoord() {}
+    PlaceCoord(const Coord3D &p) { x = p.x; y = p.y; z = p.z; }
     PlaceCoord(const PlaceCoord &p) { x = p.x; y = p.y; z = p.z; }
     ~PlaceCoord() {}
 };
