@@ -199,7 +199,7 @@ private:
 class BuildListInfo
 {
 public:
-	AsciiString rva000AF1DD() const;	// getTemplateName
+	AsciiString getTemplateName() const;	// 0x000AF1DD
 	const Coord3D *getLocation() const { return &m_location; }
 	// Built from components: adjustBuildList keeps the rotated location in
 	// registers and block-copies a filled temporary into place.
@@ -813,7 +813,7 @@ void AISkirmishPlayer::adjustBuildList(BuildListInfo *list)
 	Coord3D buildPos;
 	BuildListInfo *cur = list;
 	while (cur) {
-		const ThingTemplate *tTemplate = TheThingFactory->findTemplate(cur->rva000AF1DD());
+		const ThingTemplate *tTemplate = TheThingFactory->findTemplate(cur->getTemplateName());
 		if (tTemplate && tTemplate->isKindOfCommandCenter()) {
 			foundInBuildList = true;
 			buildPos = *cur->getLocation();
@@ -865,7 +865,7 @@ void AISkirmishPlayer::adjustBuildList(BuildListInfo *list)
 
 	cur = list;
 	while (cur) {
-		const ThingTemplate *tTemplate = TheThingFactory->findTemplate(list->rva000AF1DD());
+		const ThingTemplate *tTemplate = TheThingFactory->findTemplate(list->getTemplateName());
 		if (tTemplate && tTemplate->isKindOfCommandCenter()) {
 			foundInBuildList = true;
 			const Coord3D *loc = cur->getLocation();

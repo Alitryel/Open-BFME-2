@@ -268,7 +268,7 @@ public:
 	// getBuildingName and getTemplateName: retail calls the folded by-value
 	// AsciiString copies of +4 and +8.
 	AsciiString rva00564DF2() const;
-	AsciiString rva000AF1DD() const;
+	AsciiString getTemplateName() const;
 	Int getHealth() const { return m_health; }
 	Bool getUnsellable() const { return m_unsellable; }
 	void setUnderConstruction(Bool construction) { m_underConstruction = construction; }
@@ -1384,7 +1384,7 @@ void AIPlayer::computeCenterAndRadiusOfBase(Coord3D *center, Real *radius)
 	Int numBldg = 0;
 	for (info = m_player->getBuildList(); info; info = info->getNext())
 	{
-		AsciiString name = info->rva000AF1DD();
+		AsciiString name = info->getTemplateName();
 		if (name.isEmpty())
 			continue;
 		const ThingTemplate *bldgPlan = TheThingFactory->findTemplate(name);
@@ -1409,7 +1409,7 @@ void AIPlayer::computeCenterAndRadiusOfBase(Coord3D *center, Real *radius)
 	Real maxRadSqr = 0;
 	for (info = m_player->getBuildList(); info; info = info->getNext())
 	{
-		AsciiString name = info->rva000AF1DD();
+		AsciiString name = info->getTemplateName();
 		if (name.isEmpty())
 			continue;
 		const ThingTemplate *bldgPlan = TheThingFactory->findTemplate(name);
@@ -2091,7 +2091,7 @@ void AIPlayer::onStructureProduced(Object *factory, Object *bldg)
 
 	for (info = m_player->getBuildList(); info; info = info->getNext())
 	{
-		const ThingTemplate *bldgPlan = TheThingFactory->findTemplate(info->rva000AF1DD());
+		const ThingTemplate *bldgPlan = TheThingFactory->findTemplate(info->getTemplateName());
 		if (!bldgPlan)
 			continue;
 		if (!bldgPlan->isEquivalentTo(bldg->getTemplate()))

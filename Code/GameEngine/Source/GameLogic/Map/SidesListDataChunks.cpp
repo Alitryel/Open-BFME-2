@@ -358,7 +358,7 @@ public:
 	void setUnsellable(bool unsellable) { m_unsellable = unsellable; }
 	void setRepairable(bool repairable) { m_repairable = repairable; }
 
-	AsciiString rva000AF1DD() const;	// 0x000AF1DD, the folded +0x08 getter
+	AsciiString getTemplateName() const;	// 0x000AF1DD (ICF with TerrainType::getTexture)
 	AsciiString getScript() const;		// 0x0032A4A0
 	const Coord3D *getLocation() const { return &m_location; }
 	float getAngle() const { return m_angle; }
@@ -635,7 +635,7 @@ void SidesList::writeSidesDataChunk(DataChunkOutput &chunkWriter)
 		pBuildList = getSideInfo(i)->getBuildList();
 		while (pBuildList) {
 			chunkWriter.writeAsciiString(reinterpret_cast<const Rva00564DF2NameView *>(pBuildList)->rva00564DF2());
-			chunkWriter.writeAsciiString(pBuildList->rva000AF1DD());
+			chunkWriter.writeAsciiString(pBuildList->getTemplateName());
 			chunkWriter.writeReal(pBuildList->getLocation()->x);
 			chunkWriter.writeReal(pBuildList->getLocation()->y);
 			chunkWriter.writeReal(pBuildList->getLocation()->z);

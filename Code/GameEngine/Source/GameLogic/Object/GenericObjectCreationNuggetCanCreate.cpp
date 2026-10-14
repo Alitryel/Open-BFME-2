@@ -39,7 +39,7 @@ class BuildListInfo {
     friend class GenericObjectCreationNugget;
 public:
     BuildListInfo();
-    AsciiString rva000AF1DD() const;
+    AsciiString getTemplateName() const;
 protected: virtual ~BuildListInfo();
 private: char data[0x80-4];
 };
@@ -85,7 +85,7 @@ bool GenericObjectCreationNugget::canCreate(Object *primary, const Coord3D *pos)
         angle=0.0f;
         int key=((Rva00396A5C*)castle)->rva00396A5C(primary->getControllingPlayer());
         while(TheSidesList->rva0032BD25(key,index++,&entry)) {
-            const ThingTemplate *part=TheThingFactory->findTemplate(entry.rva000AF1DD());
+            const ThingTemplate *part=TheThingFactory->findTemplate(entry.getTemplateName());
             if(part==0) continue;
             if(disposition40 & 0x2000) angle=spin48;
             if(disposition40 & 0x8000) { angle=primary->angle44; angle+=spin48; angle=normalizeAngle(angle); }
