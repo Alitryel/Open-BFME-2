@@ -162,6 +162,14 @@ int Rva00143300Get(void)
 	return G00DEDA78;
 }
 
+// ?Rva001432F0Set@@YAXH@Z @ 0x001432F0 (10B): the matching setter that sits
+// just before the getter (mov eax,[esp+4] / mov [0xDEDA78],eax / ret);
+// prev and next are CC padding, no direct callers. Opaque address-derived name.
+void Rva001432F0Set(int value)
+{
+	G00DEDA78 = value;
+}
+
 // ?Rva00187F30Get@@YAHXZ @ 0x00187F30 (6B): returns global at 0xDB5F88.
 // Follows int3 (prev CC), followed by CC padding, no .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.

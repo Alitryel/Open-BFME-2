@@ -105,6 +105,14 @@ int Rva000EDF40Get(void)
 	return g_Va00DEDA24;
 }
 
+// ?Rva00149570Set@@YAXH@Z @ 0x00149570 (10B): the matching dword setter over
+// the same 0x00DEDA24 (mov eax,[esp+4]; mov [mem],eax; ret); CC padding on
+// both sides, no direct callers. Address-derived name.
+void Rva00149570Set(int value)
+{
+	g_Va00DEDA24 = value;
+}
+
 // ?Rva00171660Get@@YAHXZ @ 0x00171660 (6B) over 0x00DB5F90.
 
 extern int g_Va00DB5F90;

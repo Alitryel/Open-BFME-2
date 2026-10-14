@@ -65,3 +65,15 @@ if(writecode==nelems)
 	*errorcode=ERROR_FILEWRITE;
 return;
 }
+
+// nbench sysspec.c InitMemArray (inputs/vendor/nbench/sysspec.c), at 0x006B8A40
+// (11 B) in game.dat: clears mem_array_ents (VA 0x00E22780, defined by
+// nbench0.cpp and read by the rowed AllocateMemory 0x006B8C80). The
+// full-width `mov dword ptr [g], 0` store is this unit's /O2 shape.
+extern int mem_array_ents;
+
+void InitMemArray(void)
+{
+mem_array_ents=0;
+return;
+}

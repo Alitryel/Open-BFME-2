@@ -19,6 +19,10 @@
 //                            dtor 0x0017098D)
 //   0x007B6BB9               cleanup of 8 4-byte texture handles at VA 0x00DE1F8C
 //                            (dtor 0x0017098D)
+//   0x007B93EC               cleanup of the function-local static array of 30
+//                            12-byte points at VA 0x00E060B8 that the unrowed
+//                            body around 0x0055DDF8 builds under guard bit
+//                            0x00E06220 (ctor 0x0047A6A9, empty dtor 0x000B3FD0)
 
 extern "C" int __cdecl atexit(void (__cdecl *)(void));
 
@@ -30,6 +34,7 @@ extern "C" void Rva0048BA39AsciiStringDtor(void *);
 extern "C" void Rva00256646VectorCtorClosure(void *);
 extern "C" void Rva00381AE0VectorDtor(void *);
 extern "C" void Rva0017098DTextureHandleDtor(void *);
+extern "C" void Rva000B3FD0EmptyPointDtor(void *);
 
 namespace _STL
 {
@@ -44,6 +49,7 @@ extern CursorTextureSlot cursorTextures[][21];
 
 extern unsigned g_Va00E01D60[20];
 extern unsigned g_Va00DE1F8C[8];
+extern unsigned g_Va00E060B8[90];
 
 void __cdecl rva007B7BBE()
 {
@@ -63,6 +69,11 @@ void __cdecl rva007B6C84()
 void __cdecl rva007B6BB9()
 {
 	bfmeRegisterDAB(g_Va00DE1F8C, 4, 8, Rva0017098DTextureHandleDtor);
+}
+
+void __cdecl rva007B93EC()
+{
+	bfmeRegisterDAB(g_Va00E060B8, 0xC, 0x1E, Rva000B3FD0EmptyPointDtor);
 }
 
 struct Rva007AEA2CArrayInits

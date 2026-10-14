@@ -52,6 +52,14 @@ public:
 	Rva00346BC0(unsigned a, unsigned b, unsigned c, unsigned d, unsigned e);
 };
 
+struct BfmePod4;
+
+template <class T> class SimpleDynVecClass
+{
+public:
+	SimpleDynVecClass(int size);
+};
+
 class Dict
 {
 public:
@@ -78,6 +86,7 @@ void __cdecl rva007B72C0();
 void __cdecl rva007B7400();
 void __cdecl rva007B70AB();
 void __cdecl rva007B7B14();
+void __cdecl rva007B6C2A();
 
 extern unsigned g_Va00DB424C;
 extern unsigned g_Va00DEBE0C;
@@ -126,11 +135,13 @@ extern unsigned g_Va00E06618;
 extern unsigned g_Va00E0661C;
 extern unsigned g_Va00DF2984;
 extern unsigned g_Va00E00944;
+extern unsigned g_Va00DE2084;
 
 typedef DynamicVectorClass<Curve3DClass::KeyClass> KeyVector;
 typedef VectorClass<Vector3> Vector3Vector;
 typedef VectorClass<Vector4> Vector4Vector;
 typedef BitFlags<11> Mask11;
+typedef SimpleDynVecClass<BfmePod4> Pod4Vector;
 
 struct Rva007ABEF3ArgCtorInits
 {
@@ -153,6 +164,7 @@ struct Rva007ABEF3ArgCtorInits
 	static void rva007B499E();
 	static void rva007ACDAC();
 	static void rva007AE806();
+	static void rva007AC0FA();
 };
 
 // 0x007ABEF3 (26B): 0x0006EFC8(0, -1) on VA 0x00DB424C, atexit(0x007B6B91 -> 0x001EAF7B)
@@ -275,4 +287,11 @@ void Rva007ABEF3ArgCtorInits::rva007AE806()
 {
 	( (Dict *)&g_Va00E00944 )->Dict::Dict( 0 );
 	atexit( rva007B7B14 );
+}
+
+// 0x007AC0FA (24B): SimpleDynVecClass<BfmePod4>(0) on VA 0x00DE2084, atexit(0x007B6C2A -> its dtor 0x00090088)
+void Rva007ABEF3ArgCtorInits::rva007AC0FA()
+{
+	( (Pod4Vector *)&g_Va00DE2084 )->Pod4Vector::SimpleDynVecClass( 0 );
+	atexit( rva007B6C2A );
 }
