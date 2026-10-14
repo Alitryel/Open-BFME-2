@@ -69,4 +69,4 @@ __declspec(noinline) inline int AsciiStringRefWithChar::write(char *dst){int n=A
 __declspec(noinline) inline int AsciiStringPlusString::length()const{return m_string->getLength()+m_second.m_string->getLength();}
 __declspec(noinline) inline int AsciiStringPlusString::write(char *dst){int n=AsciiStringRef::write(dst);return n+m_second.write(dst+n);}
 __declspec(noinline) inline int AsciiStringPlusStringText::write(char *dst){int n=AsciiStringPlusString::write(dst);return n+m_right.write(dst+n);}
-__declspec(noinline) inline Rva000B3F84Pair *Rva000B3F84Pair::init(const char *s){ptr=s;len=s?strlen(s):0;return this;}
+// Rva000B3F84Pair::init is defined by its row's unit, WinMainPairUnicode.cpp.
