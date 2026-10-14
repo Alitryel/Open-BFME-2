@@ -218,7 +218,7 @@ class AptMpGameSetup
 public:
 	void rva0043DE19();
 	void rva0043FFCF();
-	bool rva00440BDF(bool flag);
+	bool OnHostStartGame(bool flag);
 	bool WaitStartGame();
 	bool OnUpdate();
 	int rva00442CB3(unsigned int msg, unsigned int data1, unsigned int data2);
@@ -694,7 +694,7 @@ int AptLanLobby::OnUpdateData()
 			TheLAN->v27(UnicodeString((const unsigned short *)L""), 0);
 			break;
 		case 5:
-			if (m_panel.rva00440BDF(true))
+			if (m_panel.OnHostStartGame(true))
 				m_6a4 = 6;
 			else
 			{

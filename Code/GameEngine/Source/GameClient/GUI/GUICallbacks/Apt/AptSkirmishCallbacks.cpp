@@ -568,7 +568,7 @@ public:
 class AptMpGameSetup
 {
 public:
-	bool OnUpdate();bool rva00440BDF(int);
+	bool OnUpdate();bool OnHostStartGame(bool);
 	int rva00442CB3(unsigned int message, unsigned int data1, unsigned int data2);
 	void rva0044303D();
 };
@@ -723,7 +723,7 @@ int AptSkirmish::OnUpdateData() {
   break;
  case 8: m_state=9;break;
  case 10:
-  if(reinterpret_cast<AptMpGameSetup*>((char*)this+0x288)->rva00440BDF(0)) {
+  if(reinterpret_cast<AptMpGameSetup*>((char*)this+0x288)->OnHostStartGame(0)) {
    TheRva00222A8BTarget->invoke(m_274,"CloseMain",0,0,0,0,0,0);m_state=11;
   } else {
    TheRva00222A8BTarget->invoke(m_274,"ButtonReset",0,0,0,0,0,0);m_state=7;

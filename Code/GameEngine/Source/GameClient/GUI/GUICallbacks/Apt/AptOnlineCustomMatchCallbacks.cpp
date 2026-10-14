@@ -485,7 +485,7 @@ class AptMpGameSetup
 public:
 	void rva0043E5C1(int slot, int kind, int value);
 	void rva0043DE19();
-	bool rva00440BDF(bool host); // rowed 0x00440BDF (WB OnHostStartGame)
+	bool OnHostStartGame(bool host); // rowed 0x00440BDF (WB OnHostStartGame)
 	bool WaitStartGame();		 // rowed 0x0044127C
 	bool OnUpdate();			 // rowed 0x00443EA8
 };
@@ -1519,7 +1519,7 @@ void AptOnlineCustomMatch::rva005A61C6()
 		UpdateHostStartGameButton();
 		break;
 	case 7:
-		if (((AptMpGameSetup *)&m_70)->rva00440BDF(true))
+		if (((AptMpGameSetup *)&m_70)->OnHostStartGame(true))
 		{
 			m_state = 8;
 		}

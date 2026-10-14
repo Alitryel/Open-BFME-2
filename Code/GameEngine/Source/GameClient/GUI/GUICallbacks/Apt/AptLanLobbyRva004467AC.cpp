@@ -260,7 +260,7 @@ public:
 	// Unrowed panel methods, pinned by address: 0x0043FFCF (8 bytes),
 	// 0x00440BDF (1693 bytes), 0x0044127C (544 bytes), 0x00443EA8 (358 bytes).
 	void rva0043FFCF();
-	bool rva00440BDF(bool flag);
+	bool OnHostStartGame(bool flag);
 	bool rva0044127C();
 	void rva00443EA8();
 	// And its message handler 0x00442CB3 (690 bytes) and 0x0043FA68 (244

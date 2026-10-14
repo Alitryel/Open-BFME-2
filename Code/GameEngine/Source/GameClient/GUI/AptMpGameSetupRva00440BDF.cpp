@@ -1,5 +1,5 @@
 // cl: /O1 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /G7 /arch:SSE
-// ?rva00440BDF@AptMpGameSetup@@QAE_N_N@Z
+// ?OnHostStartGame@AptMpGameSetup@@QAE_N_N@Z
 // stlport
 //
 // Small AptMpGameSetup members of BFME2's LAN lobby panel (the screen's +0x288
@@ -865,7 +865,7 @@ public:
 	// Unrowed 0x0043DF22 (the number of accepted seated humans; banked) and
 	// 0x00440BDF (1693 bytes; ret 4), pinned by address.
 	unsigned int rva0043DF22();
-	bool rva00440BDF(bool value);
+	bool OnHostStartGame(bool value);
 
 	// Unrowed 0x0044009D (1039 bytes; ret 4, the slot; returns al), pinned
 	// by address.
@@ -1004,7 +1004,7 @@ template<> _Rb_tree<int, int, _Identity<int>, less<int>, allocator<int> >::~_Rb_
 // start body's exact EH graph calls this spelling from cleanup 0x00788AB4.
 template<> pair<set<int>::iterator,bool> set<int>::insert(const int&);
 }
-bool AptMpGameSetup::rva00440BDF(bool countdown)
+bool AptMpGameSetup::OnHostStartGame(bool countdown)
 {
  if(!m_owner->v01()) return false;
  GameInfo* game=(GameInfo*)m_game->rva0043DA65();

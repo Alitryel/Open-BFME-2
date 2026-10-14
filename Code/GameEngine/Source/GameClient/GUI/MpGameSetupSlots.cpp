@@ -904,7 +904,7 @@ public:
 	// Unrowed 0x0043DF22 (the number of accepted seated humans; banked) and
 	// 0x00440BDF (1693 bytes; ret 4), pinned by address.
 	unsigned int rva0043DF22();
-	bool rva00440BDF(int value);
+	bool OnHostStartGame(bool value);
 
 	// Unrowed 0x0044009D (1039 bytes; ret 4, the slot; returns al), pinned
 	// by address.
@@ -2438,7 +2438,7 @@ bool AptMpGameSetup::WaitStartGame()
 		return true;
 	}
 	m_pending = false;
-	return rva00440BDF(0);
+	return OnHostStartGame(0);
 }
 
 // Retail 0x00441693, 668 bytes. Name unknown. Refreshes a slot's player

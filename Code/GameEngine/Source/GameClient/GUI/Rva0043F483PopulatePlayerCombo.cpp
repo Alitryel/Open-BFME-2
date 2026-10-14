@@ -873,7 +873,7 @@ public:
 	// Unrowed 0x0043DF22 (the number of accepted seated humans; banked) and
 	// 0x00440BDF (1693 bytes; ret 4), pinned by address.
 	unsigned int rva0043DF22();
-	bool rva00440BDF(int value);
+	bool OnHostStartGame(bool value);
 
 	// Unrowed 0x0044009D (1039 bytes; ret 4, the slot; returns al), pinned
 	// by address.
