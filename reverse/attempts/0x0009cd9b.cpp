@@ -8,7 +8,7 @@
 // rva0009C0EB, the mesh texture assignment, two sun-ray matrix builds with
 // sin/cos, the livingworld.txt atof pass into the DE5E00 globals and the
 // SegmentedLineClass setup. Unrowed 0x9C18A/0x9B28C keep Rva-named methods.
-// cl: /O2 /MD /EHsc
+// cl: /O1 /arch:SSE /G7 /MD /EHsc
 #include <new>
 extern "C" __declspec(dllimport) void *__cdecl fopen(const char *, const char *);
 extern "C" __declspec(dllimport) char *__cdecl fgets(char *, int, void *);

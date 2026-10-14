@@ -1,6 +1,6 @@
 // ?rva00601C53@@YAXPAXH000@Z
 // partial score=0.7662205239603235 date=2026-10-10
-// cl: /O1 /G7 /MD /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /O1 /arch:SSE /G7 /MD /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 #define strcmp bfmeStatic_strcmp_unused
 #define strncpy bfmeStatic_strncpy_unused

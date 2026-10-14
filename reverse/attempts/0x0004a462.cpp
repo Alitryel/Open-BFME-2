@@ -8,7 +8,7 @@
 // the Begin_Render/RenderViews/RenderUI/End_Render sequence with the scoped
 // render events, the camera/region broadcast block and the paused/selection
 // tail. Virtual calls keep their retail slot offsets through the vtable.
-// cl: /O2 /MD /EHsc
+// cl: /O1 /arch:SSE /G7 /MD /EHsc
 
 struct Vector3 { float X, Y, Z; };
 

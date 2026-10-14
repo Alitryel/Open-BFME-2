@@ -1,6 +1,6 @@
 // ?RecolorHouseColor@MeshClass@@UAEXABVRva0013101E@@PBD@Z
 // partial score=0.85 date=2026-10-09
-// cl: /O2 /G7 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
+// cl: /O2 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
 // WB9CC5B0 mesh.cpp1517..1627 names MeshClass::RecolorHouseColor.
 // Native MeshClass vtable7D35A8 slot126 points14C470; Recolor_Prototype

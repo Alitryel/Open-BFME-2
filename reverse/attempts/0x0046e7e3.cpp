@@ -1,6 +1,6 @@
 // ?rva0046E7E3@HordeContain@@UAEXPBX_N@Z
 // partial score=0.91 date=2026-10-07
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ?rva0046E7E3@HordeContain@@QAEXPBX_N@Z @ 0x0046E7E3 (267B).
 // Identity: three table slots share HordeContain neighbours at -8; target

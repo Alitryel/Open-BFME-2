@@ -1,6 +1,6 @@
 // ?Store_Thai_GDI_Glyph@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z
 // partial score=0.924901 date=2026-10-09
-// cl: /O2 /G7 /DNDEBUG /MD /EHsc
+// cl: /O2 /arch:SSE /G7 /DNDEBUG /MD /EHsc
 // stlport
 // FontCharsClass::Store_Thai_GDI_Glyph, target 00157FF0..0015851B (1323B).
 // WB 009F1BD0 supplies the named glyph-index rasterization and averaging loop.

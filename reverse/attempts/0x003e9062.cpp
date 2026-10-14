@@ -1,6 +1,6 @@
 // ?evaluateSkirmishSpecialPowerIsReady@ScriptConditions@@IAE_NPAVParameter@@0@Z
 // partial score=0.74 date=2026-10-14
-// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Op /Os
+// cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Op
 // stlport
 // ZH donor: GeneralsMD ScriptConditions.cpp evaluateTeamStateIs and
 // evaluateTeamStateIsNot. Target evidence: the evaluateCondition jump table

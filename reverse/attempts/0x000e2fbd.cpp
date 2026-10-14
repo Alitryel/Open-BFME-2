@@ -8,7 +8,7 @@
 // RenderTreeShadows/RenderTerrainParticles/RenderBridges/RenderTerrainTracks/
 // RenderWaypoints/RenderOrders/RenderBibs/RenderProps scopes, the light
 // environment build and the 0xDEE7C4 terrain matrix stores.
-// cl: /O2 /MD /EHsc
+// cl: /O1 /arch:SSE /G7 /MD /EHsc
 #include <new>
 
 class RenderInfoClass;

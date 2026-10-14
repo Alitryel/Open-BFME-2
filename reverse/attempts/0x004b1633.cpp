@@ -7,7 +7,7 @@
 // object; the owning Thing is at +4, the tracked Object at +8. The body walks
 // the nugget vector at +0x90..+0x94, tests relationship/status/range filters
 // and activates/deactivates nuggets through the rowed EmotionNugget calls.
-// cl: /O2 /MD /EHsc
+// cl: /O1 /arch:SSE /G7 /MD /EHsc
 #include <new>
 
 enum UpdateSleepTime { UPDATE_SLEEP_NONE = 0 };

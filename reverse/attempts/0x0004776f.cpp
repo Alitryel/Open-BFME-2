@@ -8,7 +8,7 @@
 // Structure: render-state switch, texture handle getter + set, the clip
 // clamp/interpolate path for m_17C != 0, Add_Tri x2 or Add_Quad, then the
 // render-state restore.
-// cl: /O2 /MD /EHsc
+// cl: /O1 /arch:SSE /G7 /MD /EHsc
 
 class TextureClass { public: unsigned short m_refCount; void Release_Ref(); };
 class Render2DClass;

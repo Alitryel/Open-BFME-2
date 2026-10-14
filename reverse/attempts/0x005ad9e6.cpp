@@ -4,7 +4,7 @@
 // partial score=0.91 date=2026-10-01
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
 // partial score=0.91 date=2026-10-01
-// cl: /O2 /MD
+// cl: /O1 /arch:SSE /G7 /MD
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ @ 0x005AD9E6 25B
 // Circular list count: head at [this+0], empty when [head]==head.
 // Evidence: caller at 0x005ADB25 in 0x005ADAB2, no callees, honest Rva name.

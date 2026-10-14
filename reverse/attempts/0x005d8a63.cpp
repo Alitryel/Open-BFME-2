@@ -4,7 +4,7 @@
 // partial score=0.93 date=2026-09-26
 // ?rva005D8A63@Rva005D8964@@UAE_NPAVObject@@@Z
 // partial score=0.93 date=2026-09-26
-// cl: /O2 /MD /arch:SSE
+// cl: /O1 /arch:SSE /G7 /MD
 class Object;
 class ThingTemplate
 {

@@ -7,7 +7,7 @@
 // consts+strings). Structure from the retail body: destination adjust, the
 // "setup" point/angle block, the 5x200 collision-test search with sin/cos
 // probes, and the ProfileHighLevel report tail.
-// cl: /O2 /MD /EHsc
+// cl: /O1 /arch:SSE /G7 /MD /EHsc
 #include <new>
 
 struct Coord3D
