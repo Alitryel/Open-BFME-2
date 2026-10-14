@@ -103,6 +103,30 @@ public:
 	AptActionInterpreter();
 };
 
+class Rva000FB87B
+{
+public:
+	Rva000FB87B();
+};
+
+class Rva000FB8B6
+{
+public:
+	Rva000FB8B6();
+};
+
+class Rva00579731
+{
+public:
+	Rva00579731();
+};
+
+class Rva0057A4E7
+{
+public:
+	Rva0057A4E7();
+};
+
 extern unsigned g_Va00DEBC64;
 void __cdecl rva007B6DFA();
 
@@ -231,4 +255,54 @@ void rva007B67A0()
 {
 	new (&g_Va00E182E0) AptActionInterpreter;
 	atexit(rva007B9C50);
+}
+
+extern unsigned g_Va00DDEF54;
+void __cdecl rva007B6A50();
+
+// ?rva007ABB80@@YAXXZ @0x007ABB80 22B: ctor 0x0000F740 on &g_Va00DDEF54, atexit(0x007B6A50).
+void rva007ABB80()
+{
+	new (&g_Va00DDEF54) _STL::ios_base::_Loc_init;
+	atexit(rva007B6A50);
+}
+
+extern unsigned g_Va00DEC140;
+void __cdecl rva007B6EEA();
+
+// ?rva007AC940@@YAXXZ @0x007AC940 22B: ctor 0x000FB87B on &g_Va00DEC140, atexit(0x007B6EEA).
+void rva007AC940()
+{
+	new (&g_Va00DEC140) Rva000FB87B;
+	atexit(rva007B6EEA);
+}
+
+extern unsigned g_Va00DEC174;
+void __cdecl rva007B6EF4();
+
+// ?rva007AC956@@YAXXZ @0x007AC956 22B: ctor 0x000FB8B6 on &g_Va00DEC174, atexit(0x007B6EF4).
+void rva007AC956()
+{
+	new (&g_Va00DEC174) Rva000FB8B6;
+	atexit(rva007B6EF4);
+}
+
+extern unsigned g_Va00E0631C;
+void __cdecl rva007B94C8();
+
+// ?rva007B4100@@YAXXZ @0x007B4100 22B: ctor 0x00579C52 on &g_Va00E0631C, atexit(0x007B94C8).
+void rva007B4100()
+{
+	new (&g_Va00E0631C) Rva00579731;
+	atexit(rva007B94C8);
+}
+
+extern unsigned g_Va00E06360;
+void __cdecl rva007B94D2();
+
+// ?rva007B4116@@YAXXZ @0x007B4116 22B: ctor 0x0057AA45 on &g_Va00E06360, atexit(0x007B94D2).
+void rva007B4116()
+{
+	new (&g_Va00E06360) Rva0057A4E7;
+	atexit(rva007B94D2);
 }
