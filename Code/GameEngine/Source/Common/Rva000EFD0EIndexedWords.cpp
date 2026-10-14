@@ -61,3 +61,60 @@ unsigned int Rva000F0BE4IndexedWords::elementAddressBits(unsigned int index) con
 {
     return addressBits + index * 12u;
 }
+
+// 0x0007EBE1 (13B), unreferenced: the same 12-byte stride over a base
+// pointer at +0x14.
+class Rva0007EBE1Indexed
+{
+public:
+	Rva000EFD0ERecord12 *rva0007EBE1(int index);
+
+	char m_pad[0x14];
+	Rva000EFD0ERecord12 *m_items;
+};
+
+Rva000EFD0ERecord12 *Rva0007EBE1Indexed::rva0007EBE1(int index)
+{
+	return m_items + index;
+}
+
+// 0x000454D4 (13B), unreferenced: a 16-byte stride over a base pointer at
+// +4 (the SimpleVecClass operator[] shape).
+struct Rva000454D4Record16
+{
+	unsigned char opaque[16];
+};
+
+class Rva000454D4Indexed
+{
+public:
+	Rva000454D4Record16 *rva000454D4(int index);
+
+	char m_pad[0x04];
+	Rva000454D4Record16 *m_items;
+};
+
+Rva000454D4Record16 *Rva000454D4Indexed::rva000454D4(int index)
+{
+	return m_items + index;
+}
+
+// 0x0007E952 (12B), unreferenced: an 8-byte stride over a base pointer at
+// +0 (the vector<pair<int,int>> operator[] shape).
+struct Rva0007E952Record8
+{
+	unsigned char opaque[8];
+};
+
+class Rva0007E952Indexed
+{
+public:
+	Rva0007E952Record8 *rva0007E952(unsigned int index);
+
+	Rva0007E952Record8 *m_items;
+};
+
+Rva0007E952Record8 *Rva0007E952Indexed::rva0007E952(unsigned int index)
+{
+	return m_items + index;
+}

@@ -37,3 +37,12 @@ void *Rva0004CCFF::destroyDelete(unsigned int flags)
 		operator delete(this);
 	return this;
 }
+
+// ?Rva0004CD3DDestroy@@YAXPAVRva0004CCFF@@@Z @ 0x0004CD3D (12B), unreferenced:
+// destroy one handle in place, the destroy-plus-delete above with flags 0
+// (call site 0x0004CD43), the shape STLport's _Destroy takes over an
+// element whose destructor runs through its scalar deleting destructor.
+void Rva0004CD3DDestroy(Rva0004CCFF *p)
+{
+	p->destroyDelete(0);
+}

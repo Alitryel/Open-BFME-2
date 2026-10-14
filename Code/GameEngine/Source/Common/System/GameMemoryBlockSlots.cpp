@@ -26,3 +26,12 @@ void rva00030880()
 {
 	((VerifyIntegrityFunction)g_00DE03EC)();
 }
+
+// --- 0x00031420 (12B): forward a message to OutputDebugStringA. Its address
+// is taken at 0x00033D37 (a GeneralAllocator trace-callback store).
+extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA(const char *text);
+
+void rva00031420(const char *text)
+{
+	OutputDebugStringA(text);
+}

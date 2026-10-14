@@ -33,3 +33,11 @@ void Rva0008A1FDDestroy(Rva00087A93 *first, Rva00087A93 *last)
 	for (; first != last; ++first)
 		first->~Rva00087A93();
 }
+
+// ?Rva00089845Destroy@@YAXPAVRva00087A93@@@Z @ 0x00089845 (12B), unreferenced:
+// destroy one reference in place (STLport _Destroy's shape), again through
+// the scalar deleting destructor above with flags 0 (call site 0x0008984B).
+void Rva00089845Destroy(Rva00087A93 *p)
+{
+	p->~Rva00087A93();
+}
