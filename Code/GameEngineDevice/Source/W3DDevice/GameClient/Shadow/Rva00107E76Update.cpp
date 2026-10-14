@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc /O1 /G7 /arch:SSE
-// ?rva00107E76@Rva00107E76Mgr@@QAEXXZ @0x00107E76 277B: walk the 0x18-byte shadow
+// ?UpdateAndRenderZfail@W3DVolumetricShadowV2@@QAEXXZ @0x00107E76 277B: walk the 0x18-byte shadow
 // entries from the back; an entry flagged, or whose vslot 0x190 reports true while
 // the manager flag at +0x9C is set, gets its update sequence. Projected budget at
 // the global's +0x14/+0x18 is charged by the 0x18-entry size.
@@ -171,11 +171,15 @@ public:
 	int m_18;
 };
 
-class Rva00107E76Mgr
+// WorldBuilder W3DVolumetricShadowV2 (W3DVolumetricShadowV2.cpp): UpdateAndRender
+// WB VA 0x008E0C00 (callsite lead, score 1) and UpdateAndRenderZfail WB VA
+// 0x008E0ED0 (callgraph lead, score 5). The caller renderShadows 0x00107F8B's
+// unit walks W3DVolumetricShadowV2 lists into both.
+class W3DVolumetricShadowV2
 {
 public:
-	void rva00107E76();
-	void rva00107D8A();
+	void UpdateAndRenderZfail();
+	void UpdateAndRender();
 
 	char m_pad00[0x78];
 	int m_78;
@@ -185,8 +189,8 @@ public:
 	unsigned char m_9C;
 };
 
-// ?rva00107D8A@Rva00107E76Mgr@@QAEXXZ @0x00107D8A
-void Rva00107E76Mgr::rva00107D8A()
+// ?UpdateAndRender@W3DVolumetricShadowV2@@QAEXXZ @0x00107D8A
+void W3DVolumetricShadowV2::UpdateAndRender()
 {
 	Rva00107E76Elem *elem = m_7C + m_78;
 	if (elem == m_7C)
@@ -227,8 +231,8 @@ void Rva00107E76Mgr::rva00107D8A()
 	} while (elem != m_7C);
 }
 
-// ?rva00107E76@Rva00107E76Mgr@@QAEXXZ @0x00107E76
-void Rva00107E76Mgr::rva00107E76()
+// ?UpdateAndRenderZfail@W3DVolumetricShadowV2@@QAEXXZ @0x00107E76
+void W3DVolumetricShadowV2::UpdateAndRenderZfail()
 {
 	Rva00107E76Elem *elem = m_7C + m_78;
 	if (elem == m_7C)

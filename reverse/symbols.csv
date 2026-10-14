@@ -15243,9 +15243,9 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ?rva0051B90B@@YAXXZ,0x0051B90B,callee of the 0x0051BED7 poll with no ecx setup; true start verified by ret-4 fall-through at 0x0051B90A; 468B EH body unrecovered so arity is the call-site reading
 ?rva00200A40@@YIXPAURva00200A40Sub@@HH@Z,0x00600A40,fastcall mid-function entry called from 0x00600BFB/0x00600F76 with fwd untouched in edx; identity unproven
 ?rva00600991@Rva00600991@@QAEXPAX0@Z,0x00600991,thiscall-2 helper for 0x00600BC6 wrapper; forwards this plus tmp out and arg; identity unproven
-?rva00107961@Rva00107E76Elem@@QAEXXZ,0x00107961,callee of ?rva00107E76@Rva00107E76Mgr@@QAEXXZ
-?rva00107A50@Rva00107E76Elem@@QAEXPAX@Z,0x00107A50,callee of ?rva00107E76@Rva00107E76Mgr@@QAEXXZ
-?rva00107B41@Rva00107E76Elem@@QAEXPAVVector3@@FPAGABV2@@Z,0x00107B41,callee of ?rva00107E76@Rva00107E76Mgr@@QAEXXZ
+?rva00107961@Rva00107E76Elem@@QAEXXZ,0x00107961,callee of ?UpdateAndRenderZfail@W3DVolumetricShadowV2@@QAEXXZ
+?rva00107A50@Rva00107E76Elem@@QAEXPAX@Z,0x00107A50,callee of ?UpdateAndRenderZfail@W3DVolumetricShadowV2@@QAEXXZ
+?rva00107B41@Rva00107E76Elem@@QAEXPAVVector3@@FPAGABV2@@Z,0x00107B41,callee of ?UpdateAndRenderZfail@W3DVolumetricShadowV2@@QAEXXZ
 ?rva00468749@Rva047E59E@@QAEXXZ,0x00468749,callee of ?rva047E59E@Rva047E59E@@QAEXXZ
 ?rva00308C31@Rva00308DF0@@QAEXXZ,0x00308C31,unrowed member callee of 0x308DF0 (retail 0x308C31)
 ?rva003B9132@Rva003B92A2@@QAEXXZ,0x003B9132,unrowed member callee of 0x3B92A2 (retail 0x3B9132)
@@ -15612,7 +15612,7 @@ _D3DXVec3TransformCoordArray@24,0x0062AF6E,Native 0x00107A47 REL32 reaches six-b
 ?rva0010720E@W3DVolumetricShadowManagerV2@@QAEXH@Z,0x0010720E,Native107F8B..1080B4 REL32 call sites independently decoded with full target callee bodies: 107046 RET4 point bounds receiver74; 10720E RET4 two-sided stencil argument and ignored ECX supplied by manager; 1074D5 RET0 receiver74 light offset90; 1076F6 RET0 manager buffers0/4; 107D8A RET0 shadow entries78/7C also same receiver as matched107E76. Original helper names unknown and remain address-derived; not new recovered bodies.
 ?rva001074D5@W3DVolumetricShadowV2@@QAEXXZ,0x001074D5,Native107F8B..1080B4 REL32 call sites independently decoded with full target callee bodies: 107046 RET4 point bounds receiver74; 10720E RET4 two-sided stencil argument and ignored ECX supplied by manager; 1074D5 RET0 receiver74 light offset90; 1076F6 RET0 manager buffers0/4; 107D8A RET0 shadow entries78/7C also same receiver as matched107E76. Original helper names unknown and remain address-derived; not new recovered bodies.
 ?rva001076F6@W3DVolumetricShadowManagerV2@@QAEXXZ,0x001076F6,Native107F8B..1080B4 REL32 call sites independently decoded with full target callee bodies: 107046 RET4 point bounds receiver74; 10720E RET4 two-sided stencil argument and ignored ECX supplied by manager; 1074D5 RET0 receiver74 light offset90; 1076F6 RET0 manager buffers0/4; 107D8A RET0 shadow entries78/7C also same receiver as matched107E76. Original helper names unknown and remain address-derived; not new recovered bodies.
-?rva00107D8A@Rva00107E76Mgr@@QAEXXZ,0x00107D8A,Native107F8B..1080B4 REL32 call sites independently decoded with full target callee bodies: 107046 RET4 point bounds receiver74; 10720E RET4 two-sided stencil argument and ignored ECX supplied by manager; 1074D5 RET0 receiver74 light offset90; 1076F6 RET0 manager buffers0/4; 107D8A RET0 shadow entries78/7C also same receiver as matched107E76. Original helper names unknown and remain address-derived; not new recovered bodies.
+?UpdateAndRender@W3DVolumetricShadowV2@@QAEXXZ,0x00107D8A,Native107F8B..1080B4 REL32 call sites independently decoded with full target callee bodies: 107046 RET4 point bounds receiver74; 10720E RET4 two-sided stencil argument and ignored ECX supplied by manager; 1074D5 RET0 receiver74 light offset90; 1076F6 RET0 manager buffers0/4; 107D8A RET0 shadow entries78/7C also same receiver as matched107E76. Original helper names unknown and remain address-derived; not new recovered bodies.
 ??1DynamicPortalLinkVectorCopy1FFD2C@@QAE@XZ,0x001FFD2C,callee of ??1Rva001FFE93@@UAE@XZ
 ?rva0040D008@ArmySummarySystem@@QAEPAXH@Z,0x0040D008,callee of ?rva0023D049@Rva0023D049@@QAEPAXH@Z
 ?rva0040D2FD@ArmySummarySystem@@QAEXHHPAURva0040D2FDVec@@@Z,0x0040D2FD,callee of ?rva0023D054@GameLogic@@QAEXHHPAURva0040D2FDVec@@@Z
@@ -16769,7 +16769,7 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?top@?$AptValuePtrStack@VAptValue@@@@QAEPAVAptValue@@XZ,0x006DE160,callee of ?_FunctionAptActionCallMethod@AptActionInterpreter@@CAXQAU1@QAULocalContextT@1@@Z
 ?at@?$AptValuePtrStack@VAptValue@@@@QAEPAVAptValue@@H@Z,0x006DCC10,callee of ?_FunctionAptActionCallMethod@AptActionInterpreter@@CAXQAU1@QAULocalContextT@1@@Z
 ??3Rva006FBDB0@@SAXPAXI@Z,0x006D8680,class-scoped sized operator delete of the TU-private debug-stack record Rva006FBDB0 (AptActionInterpreterConstantHandlers.cpp): the throwing-new cleanup funclets of CallMethod CallFunction and PrepareForExecution push size 0xC and the block and call this pool-free
-?rva00106D56@Rva00107E76Elem@@QAEHHFHPAX@Z,0x00106D56,callee of ?rva00107D8A@Rva00107E76Mgr@@QAEXXZ
+?rva00106D56@Rva00107E76Elem@@QAEHHFHPAX@Z,0x00106D56,callee of ?UpdateAndRender@W3DVolumetricShadowV2@@QAEXXZ
 ?push_back@?$vector@UWeightedModel@@V?$allocator@UWeightedModel@@@_STL@@@_STL@@QAEXABUWeightedModel@@@Z,0x000C3411,callee of ?parseModel@AttachModelStruct@W3DScriptedModelDrawModuleData@@SAXPAVINI@@PAX1PBX@Z
 ??A?$hash_map@W4NameKeyType@@VRadiusDecalTemplate@@U?$hash@W4NameKeyType@@@rts@@U?$equal_to@W4NameKeyType@@@_STL@@V?$allocator@U?$pair@$$CBW4NameKeyType@@VRadiusDecalTemplate@@@_STL@@@6@@_STL@@QAEAAVRadiusDecalTemplate@@ABW4NameKeyType@@@Z,0x002A3FAF,callee of ?parseNamedRadiusDecalTemplate@InGameUI@@SAXPAVINI@@PAX1PBX@Z
 ??4RadiusDecalTemplate@@QAEAAV0@ABV0@@Z,0x00330CDD,callee of ?parseNamedRadiusDecalTemplate@InGameUI@@SAXPAVINI@@PAX1PBX@Z

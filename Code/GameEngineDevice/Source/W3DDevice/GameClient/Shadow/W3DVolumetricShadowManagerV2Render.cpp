@@ -32,11 +32,12 @@ public:
  static unsigned int Stencil_Caps(){return CurrentCaps->caps;}
 };
 class W3DVolumetricShadow {public: int bfmeIntersectsVisibleBounds(const AABoxClass&) const;};
-class Rva00107E76Mgr {public: void rva00107D8A(); void rva00107E76();};
 class W3DVolumetricShadowV2 {
 public:
  void rva001074D5();
  bool rva00107046(Vector3*);
+ void UpdateAndRender();
+ void UpdateAndRenderZfail();
  void *vtable;bool enabled,invisible;char pad06[0x66];
  W3DVolumetricShadowV2 *next,*bufferNext;
 private:
@@ -73,7 +74,7 @@ void W3DVolumetricShadowManagerV2::renderShadows(RenderInfoClass &info)
       }else{
        if(!setupDone){setupDone=true;rva001076F6();}
        if(!stencilDone){stencilDone=true;rva0010720E(0);}
-       ((Rva00107E76Mgr*)shadow)->rva00107D8A();
+       shadow->UpdateAndRender();
       }
      }
     }
@@ -84,7 +85,7 @@ void W3DVolumetricShadowManagerV2::renderShadows(RenderInfoClass &info)
    if(!setupDone){setupDone=true;rva001076F6();}
    rva0010720E(1);
    for(shadow=bufferedShadow;shadow;shadow=shadow->bufferNext)
-    ((Rva00107E76Mgr*)shadow)->rva00107E76();
+    shadow->UpdateAndRenderZfail();
    if(lock)drawAndRelease(1);
   }
  }
