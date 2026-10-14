@@ -3,6 +3,15 @@
 // primary owner and its full 10-byte extent.
 // cl: /O1 /G7 /arch:SSE /MD /EHs /EHc- /D_CRTIMP= /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
 // stlport
+// Keep vector growth's unsigned comparison local, as in the other recovered
+// STLport callers; this unit's standalone max template is not retail's copy.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
 #include "../../../../Common/RegionArmyIconSlotView.h"
 #include "../../../../Common/RegionDetailsArmiesClipImplView.h"
 class BfmeAptWindowManager;
