@@ -306,3 +306,118 @@ void rva007B4116()
 	new (&g_Va00E06360) Rva0057A4E7;
 	atexit(rva007B94D2);
 }
+
+// Atexit-only initializers: a file-scope object whose constructor is trivial
+// but whose destructor is not compiles to just atexit(cleanup thunk).
+
+void __cdecl Rva007B6890();
+
+// ?rva007AB8C0@@YAXXZ @0x007AB8C0 12B: atexit(0x007B6890).
+void rva007AB8C0()
+{
+	atexit(Rva007B6890);
+}
+
+void __cdecl rva007B6B73();
+
+// ?rva007ABE93@@YAXXZ @0x007ABE93 12B: atexit(0x007B6B73).
+void rva007ABE93()
+{
+	atexit(rva007B6B73);
+}
+
+void __cdecl rva007B700A();
+
+// ?rva007ACC9A@@YAXXZ @0x007ACC9A 12B: atexit(0x007B700A).
+void rva007ACC9A()
+{
+	atexit(rva007B700A);
+}
+
+void __cdecl rva007B7230();
+
+// ?rva007ACE70@@YAXXZ @0x007ACE70 12B: atexit(0x007B7230).
+void rva007ACE70()
+{
+	atexit(rva007B7230);
+}
+
+void __cdecl rva007B781A();
+
+// ?rva007ADFB2@@YAXXZ @0x007ADFB2 12B: atexit(0x007B781A).
+void rva007ADFB2()
+{
+	atexit(rva007B781A);
+}
+
+void __cdecl rva007B7824();
+
+// ?rva007ADFBE@@YAXXZ @0x007ADFBE 12B: atexit(0x007B7824).
+void rva007ADFBE()
+{
+	atexit(rva007B7824);
+}
+
+void __cdecl rva007B7CD7();
+
+// ?rva007AEDCB@@YAXXZ @0x007AEDCB 12B: atexit(0x007B7CD7).
+void rva007AEDCB()
+{
+	atexit(rva007B7CD7);
+}
+
+void __cdecl rva007B92A2();
+
+// ?rva007B3A22@@YAXXZ @0x007B3A22 12B: atexit(0x007B92A2).
+void rva007B3A22()
+{
+	atexit(rva007B92A2);
+}
+
+void __cdecl rva007B981A();
+
+// ?rva007B4C64@@YAXXZ @0x007B4C64 12B: atexit(0x007B981A).
+void rva007B4C64()
+{
+	atexit(rva007B981A);
+}
+
+void __cdecl rva007B9BA0();
+
+// ?rva007B6190@@YAXXZ @0x007B6190 12B: atexit(0x007B9BA0).
+void rva007B6190()
+{
+	atexit(rva007B9BA0);
+}
+
+void __cdecl rva007B9BB0();
+
+// ?rva007B6600@@YAXXZ @0x007B6600 12B: atexit(0x007B9BB0).
+void rva007B6600()
+{
+	atexit(rva007B9BB0);
+}
+
+void __cdecl rva007B9BD0();
+
+// ?rva007B6630@@YAXXZ @0x007B6630 12B: atexit(0x007B9BD0).
+void rva007B6630()
+{
+	atexit(rva007B9BD0);
+}
+
+void __cdecl rva007B9BE0();
+
+// ?rva007B6670@@YAXXZ @0x007B6670 12B: atexit(0x007B9BE0).
+void rva007B6670()
+{
+	atexit(rva007B9BE0);
+}
+
+void __cdecl rva007B9C00();
+
+// ?rva007B6680@@YAXXZ @0x007B6680 12B: atexit(0x007B9C00).
+void rva007B6680()
+{
+	atexit(rva007B9C00);
+}

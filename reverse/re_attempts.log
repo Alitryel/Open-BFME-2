@@ -55543,3 +55543,17 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?rva007AC956@@YAXXZ	0x007AC956	22	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 22B; global initializer ctor 0x000FB8B6 cb 007B6EF4 atexit
 ?rva007B4100@@YAXXZ	0x007B4100	22	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 22B; global initializer ctor 0x00579C52 cb 007B94C8 atexit
 ?rva007B4116@@YAXXZ	0x007B4116	22	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 22B; global initializer ctor 0x0057AA45 cb 007B94D2 atexit
+?rva007AB8C0@@YAXXZ	0x007AB8C0	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup Rva007B6890
+?rva007ABE93@@YAXXZ	0x007ABE93	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B6B73
+?rva007ACC9A@@YAXXZ	0x007ACC9A	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B700A
+?rva007ACE70@@YAXXZ	0x007ACE70	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B7230
+?rva007ADFB2@@YAXXZ	0x007ADFB2	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B781A
+?rva007ADFBE@@YAXXZ	0x007ADFBE	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B7824
+?rva007AEDCB@@YAXXZ	0x007AEDCB	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B7CD7
+?rva007B3A22@@YAXXZ	0x007B3A22	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B92A2
+?rva007B4C64@@YAXXZ	0x007B4C64	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B981A
+?rva007B6190@@YAXXZ	0x007B6190	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B9BA0
+?rva007B6600@@YAXXZ	0x007B6600	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B9BB0
+?rva007B6630@@YAXXZ	0x007B6630	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B9BD0
+?rva007B6670@@YAXXZ	0x007B6670	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B9BE0
+?rva007B6680@@YAXXZ	0x007B6680	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B9C00
