@@ -1162,6 +1162,7 @@ public:
 	virtual void rva004690A9(const Coord3D *pos);
 	virtual bool rva0046F8CD();
 	virtual bool rva00468C37();
+	virtual void rva004690D0(int value);
 	virtual float rva00468B5B(float value);
 	virtual void rva00468C60(const Coord3D *pos);
 	virtual bool rva00468C7B(Coord3D *pos);
@@ -1619,6 +1620,18 @@ bool HordeContain::rva0046F8CD()
 bool HordeContain::rva00468C37()
 {
 	return m_object->m_ai->m_1F0->m_4->m_150 && m_2F0;
+}
+
+// ?rva004690D0@HordeContain@@UAEXH@Z @0x004690D0: slot 141, hands the value and
+// the contained Object to the SkirmishAI record the global manager returns for
+// the controlling player. The equal-arm carrier on the manager global keeps the
+// Object's address out of a CSE'd esi hold so retail's two [esi-0x114] loads
+// stay put.
+void HordeContain::rva004690D0(int value)
+{
+	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1((g_00DFEEF8 ? m_object : m_object)->getControllingPlayer());
+	if (rec)
+		rec->rva002C6AA8(value, m_object);
 }
 
 // ?rva00468B5B@HordeContain@@UAEMM@Z @0x00468B5B: slot 144 (iface +0x1D0),
