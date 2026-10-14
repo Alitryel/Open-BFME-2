@@ -235,6 +235,34 @@ def test_a_drifted_size_warns_and_is_still_served():
     print("PASS size drift warns, and the retail extent is what gets served")
 
 
+def test_an_eh_funclet_is_refused_only_for_a_larger_claim():
+    """The inventory lists unwind funclets as functions, so the alignment vote
+    snapped 366-2519B claims (`_S_sort`, `Strip_Optimize_Mesh`) onto 8-14B
+    funclets that open on their parent's `[ebp+disp]`. The funclet itself is a
+    landed boundary and keeps being one."""
+    unwind = bytes([0x8B, 0x4D, 0xE8, 0xE9, 0, 0, 0, 0])           # mov ecx,[ebp-18h]; jmp
+    lea = bytes([0x8D, 0x8D, 0x70, 0xFF, 0xFF, 0xFF, 0xE9, 0, 0, 0, 0])  # lea ecx,[ebp-90h]
+    push = bytes([0xFF, 0x75, 0xF0, 0xE8, 0, 0, 0, 0, 0x59, 0xC3])  # push [ebp-10h]; call
+    real = bytes([0x55, 0x8B, 0xEC, 0x8B, 0x45, 0x08, 0x5D, 0xC3])
+    read = fake_image({0x1400: unwind, 0x1420: lea, 0x1440: push, 0x1460: real,
+                       0x1480: bytes([0x8B, 0x4C, 0x24, 0x04, 0xC3])})
+    known = boundary_validator.BoundaryValidator(
+        read, {0x1400: 8, 0x1420: 11, 0x1440: 10, 0x1460: 8, 0x1480: 5})
+    name = "?f@@YAXXZ"
+    for rva, extent in ((0x1400, 8), (0x1420, 11), (0x1440, 10)):
+        assert known.validate([name], rva, 385)["reject"] == "C1 eh-funclet", hex(rva)
+        assert known.validate([name], rva, extent)["reject"] is None, hex(rva)
+    # a framed body and an esp-relative one are not funclets, however drifted
+    assert known.validate([name], 0x1460, 385)["reject"] is None
+    assert known.validate([name], 0x1480, 385)["reject"] is None
+    # no extent, no comparison: absence of evidence decides nothing (the claim
+    # still runs into this fake image's padding, which is C2's business)
+    assert boundary_validator.BoundaryValidator(read, {}).validate(
+        [name], 0x1400, 385)["reject"] != "C1 eh-funclet"
+    assert not known.borrows_frame(0x1460) and known.borrows_frame(0x1440)
+    print("PASS EH funclets are refused for larger claims, served at their own size")
+
+
 def main():
     test_recorded_dead_ends_are_refused()
     test_byte_verified_boundaries_are_not_refused()
@@ -244,6 +272,7 @@ def main():
     test_a_refuted_address_is_corrected_to_the_body_the_inventory_names()
     test_arity_is_per_name_and_read_from_the_retail_body()
     test_a_drifted_size_warns_and_is_still_served()
+    test_an_eh_funclet_is_refused_only_for_a_larger_claim()
     print("ALL TESTS PASSED")
 
 
