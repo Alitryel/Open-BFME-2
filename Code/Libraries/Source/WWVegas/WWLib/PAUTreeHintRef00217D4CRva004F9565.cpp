@@ -58,3 +58,8 @@ template void _STL::sort<TreeHintRef00217D4C *, Rva004F9185Cmp>(TreeHintRef00217
 // A const key accessor preserves native half-count EDI and right-handle ESI.
 template TreeHintRef00217D4C *_STL::__lower_bound(TreeHintRef00217D4C *,TreeHintRef00217D4C *,const TreeHintRef00217D4C &,Rva004F9185Cmp,int *);
 template TreeHintRef00217D4C *_STL::__upper_bound(TreeHintRef00217D4C *,TreeHintRef00217D4C *,const TreeHintRef00217D4C &,Rva004F9185Cmp,int *);
+
+// Native 4F74A1..4F75F2, 337B: the random-access gcd __rotate (_algo.c),
+// reached from the 0x4F7A28 dispatcher; copy ctor inline, assignment the
+// out-of-line 0x2174A4 worker, swap_ranges the 0x4F6FFC body.
+template TreeHintRef00217D4C *_STL::__rotate(TreeHintRef00217D4C *,TreeHintRef00217D4C *,TreeHintRef00217D4C *,int *,TreeHintRef00217D4C *);
