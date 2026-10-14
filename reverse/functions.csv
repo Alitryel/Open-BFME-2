@@ -88226,3 +88226,4 @@ __ehhandler$?rva003449C5@@YA_NPAUCoord3D@@PAVObject@@1@Z,,0x0077CDBA,10,Code/Gam
 ??0Rva005C8EB3@@QAE@PAX@Z,,0x005C8EB3,100,Code/Libraries/Source/WWVegas/WWLib/Rva005C8EB3.cpp,matched,The +8 zero is an inline BfmePoolRef10 null ctor so the unwind funclet is add ecx 8.
 ?OnPageLoaded@Rva00510D0C@@QAEXPBD@Z,,0x00511108,242,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptTributePageCallbacks.cpp,matched,Apt tribute screen _OnPageLoaded; page factory result kept in the dead params slot; ref assignment through the rowed 0x2174A4 twin; release reloads the pointer; map operator[] via decl-only specialization replaces the alternatename alias
 ?rva004FBF8E@RegionAwardDispute@@QAEXXZ,,0x004FBF8E,111,Code/GameEngine/Source/GameLogic/System/LivingWorld/RegionAwardDisputeRva004FBF8E.cpp,matched,small body (wide scan)
+?rva00318EC0@Rva0031934BOwner@@QAEXXZ,,0x00318EC0,130,Code/GameEngine/Source/Common/System/Rva00318EC0Refresh.cpp,matched,small body (wide scan)
