@@ -1,5 +1,5 @@
 // ?AdjustFlingDestination@Pathfinder@@QAEXPAVObject@@PBUCoord3D@@PAU3@@Z
-// partial score=0.9454712643678161 date=2026-10-14
+// partial score=0.9389425287356321 date=2026-10-14
 // Native 002EE4DE..002EE64A, WB D632B0 Pathfinder::AdjustFlingDestination.
 // Complete clean C++ trial; scalar copy is explicit because canonical Coord3D is POD.
 // BF1 a7c38d3b pathfinder family inspected: no same-body fling donor.
