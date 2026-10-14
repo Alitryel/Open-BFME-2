@@ -14,7 +14,8 @@ extern int g_bfmeAptBreakOnAssertAtDDC01C;
 void __debugbreak();
 #pragma intrinsic(__debugbreak)
 
-class EAStringC { void *data; public: EAStringC(); ~EAStringC(); EAStringC &operator=(const EAStringC &); };
+class EAStringC { void *data; public: EAStringC(); ~EAStringC(); EAStringC &operator=(const EAStringC &); EAStringC &Rva006D4F00Append(const EAStringC &); };
+void rva006FD4C0(EAStringC *);
 class AptValue { public: bool isString() const; void toString(EAStringC &) const; };
 class AptString { public: virtual void v0(); int flags; EAStringC string; static AptString *Create(); };
 void rva006FD630(EAStringC *);
@@ -77,6 +78,33 @@ AptValue *callback006FF660(AptValue *, int nParams)
         value->toString(temp);
         rva006FD630(&temp);
         result->string = temp;
+    }
+    return (AptValue *)result;
+}
+
+// Retail 0x006FF750 (241B, RET): string-result argument callback, the
+// appending sibling of 0x006FF660. Native initializer 0x006DF470 pushes this
+// entry into the AptNativeFunction constructor 0x006D6500. It asserts
+// nParams <= 1 (AptActionInterpreter.cpp 0x5A7), creates the result string,
+// and returns it unchanged when there is no argument; otherwise a string
+// argument passes through the rowed transform 0x006FD4C0 and is appended
+// (rowed 0x006D4F00). The early return is what puts retail's nParams test
+// ahead of the result copy after the Create call.
+AptValue *callback006FF750(AptValue *, int nParams)
+{
+    if (!(nParams <= 1)) {
+        g_bfmeAptAssertAtE17734("nParams <= 1", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp", 0x5A7);
+        if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+    }
+    AptString *result = AptString::Create();
+    if (!nParams)
+        return (AptValue *)result;
+    AptValue *value = g_aptDateInterpreter.stack.At(0);
+    if (value->isString()) {
+        EAStringC temp;
+        value->toString(temp);
+        rva006FD4C0(&temp);
+        result->string.Rva006D4F00Append(temp);
     }
     return (AptValue *)result;
 }
