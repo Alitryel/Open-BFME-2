@@ -88424,3 +88424,4 @@ __ehhandler$??1Rva002AE4C5@@QAE@XZ,,0x00775A0D,10,Code/GameEngine/Source/Common/
 ?duplicate@Rva0030DBD5@@QAEPAV1@XZ,,0x0030E2FE,130,Code/GameEngine/Source/GameClient/Rva0030E2FEDuplicate.cpp,matched,ZH MapObject::duplicate plus bfmeRunEYE; by-value Coord3D arg needs retail non-POD Coord3D via opt-in Lib/Coord3DCtorView.h
 ?rva005CB748@Rva005CB748@@QAEXXZ,,0x005CB748,258,Code/GameEngine/Source/Common/VslotSmallBodiesW5SN4.cpp,matched,
 ?rva00026C00@@YAXXZ,,0x00026C00,13,Code/GameEngine/Source/Common/BfmeFillCount82DD70.cpp,matched,
+?calcCostToBuild@UpgradeTemplate@@QBEIPAVPlayer@@I@Z,,0x0026EF50,315,Code/GameEngine/Source/Common/System/UpgradeTemplateCalcCostToBuild.cpp,matched,WB BE5950 UpgradeTemplate::calcCostToBuild; native 26EF50..26F08B RET8; real resolved sub-upgrade vector agrees with matched 26F8D6; template override and player difficulty discount from retail; O1 G7 SSE; all existing owned calls

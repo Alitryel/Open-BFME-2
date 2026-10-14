@@ -1,11 +1,3 @@
-// ?calcCostToBuild@UpgradeTemplate@@QBEIPAVPlayer@@I@Z
-// partial score=0.619 date=2026-10-14
-// ?calcCostToBuild@UpgradeTemplate@@QBEIPAVPlayer@@I@Z
-// partial score=0.91168 date=2026-10-13
-// ?calcCostToBuild@UpgradeTemplate@@QBEIPAVPlayer@@I@Z
-// partial score=0.9013 date=2026-10-13
-// ?calcCostToBuild@UpgradeTemplate@@QBEIPAVPlayer@@I@Z
-// partial score=0.96 date=2026-10-12
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /Ireference/shims/bfme2_ascii /ICode/Libraries/Include
 //
 // ?calcCostToBuild@UpgradeTemplate@@QBEIPAVPlayer@@I@Z, retail 0x0026EF50
@@ -24,7 +16,11 @@
 // second argument is the requesting Object, spelled as the pinned unsigned
 // the rowed caller 0x00597476 passes it as.
 #include "ascii_string.h"
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
+#include <vector>
+// stlport
+// The resolved sub-upgrade vector is independently established by the matched
+// friend_resolveSubUpgradeNames at 0x0026F8D6. Keeping its real vector helpers
+// visible reproduces the native early tests without scheduling barriers.
 
 class Player;
 class Object;
@@ -99,9 +95,8 @@ private:
 	int m_type; // +0x04
 	AsciiString m_name; // +0x08
 	char m_pad0C[0x1C - 0x0C];
-	UpgradeTemplate **m_prerequisitesBegin; // +0x1C
-	UpgradeTemplate **m_prerequisitesEnd; // +0x20
-	char m_pad24[0x34 - 0x24];
+	_STL::vector<const UpgradeTemplate *> m_prerequisites;
+	char m_pad28[0x34 - 0x28];
 	int m_cost; // +0x34
 	char m_pad38[0x79 - 0x38];
 	bool m_79; // +0x79
@@ -123,12 +118,12 @@ unsigned int UpgradeTemplate::calcCostToBuild(Player *player, unsigned int reque
 		return cost;
 
 	Object *object = (Object *)requester;
-	if (m_prerequisitesBegin != (object ? (__vref(m_prerequisitesEnd)) : (__vref(m_prerequisitesEnd))))
+	if (!m_prerequisites.empty())
 	{
 		cost = 0;
-		for (UpgradeTemplate **it = m_prerequisitesBegin; it != m_prerequisitesEnd; ++it)
+		for (_STL::vector<const UpgradeTemplate *>::const_iterator it = m_prerequisites.begin(); it != m_prerequisites.end(); ++it)
 		{
-			UpgradeTemplate *prerequisite = *it;
+			const UpgradeTemplate *prerequisite = *it;
 			if (!object || !object->rva0029439D()
 				|| ((ObjectUpgradeInterface *)object->rva0029439D())->acceptsUpgrade(prerequisite))
 				cost += prerequisite->calcCostToBuild(0, 0);
@@ -142,9 +137,8 @@ unsigned int UpgradeTemplate::calcCostToBuild(Player *player, unsigned int reque
 
 	if ((int)((Rva002A9BF2 *)player)->rva002A9BF2() == 3 && g_00DFEEF8->rva002A8AB1(player))
 	{
-		float change = 1.0f;
-		if (change > __vref(g_00DFEEF8->m_850))
-			change = g_00DFEEF8->m_850;
+		const float one = 1.0f;
+		float change = g_00DFEEF8->m_850 < one ? g_00DFEEF8->m_850 : one;
 		return (int)((1.0f - change) * (float)scaled);
 	}
 	return scaled;
