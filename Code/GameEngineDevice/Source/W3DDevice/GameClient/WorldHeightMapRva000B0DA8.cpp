@@ -13,6 +13,7 @@
 enum ErrorCode { ERROR_CORRUPT_FILE_FORMAT = 0xDEAD0005 };
 void *__cdecl operator new[](unsigned int);
 void __cdecl operator delete(void *);
+void __cdecl operator delete[](void *);
 class DataChunkInput { public: int readInt(); void readArrayOfBytes(char *, int); };
 struct DataChunkInfo { AsciiString label, parent; unsigned short version; };
 struct BfmePod8 { int a[2]; };
@@ -25,6 +26,7 @@ class WorldHeightMap
 {
 public:
 	bool rva000B0DA8(DataChunkInput &file, DataChunkInfo *info);
+	bool rva000B0F82(DataChunkInput &file, DataChunkInfo *info);
 private:
 	char m_opaque00[8];
 	int m_width;
@@ -86,6 +88,67 @@ bool WorldHeightMap::rva000B0DA8(DataChunkInput &file, DataChunkInfo *info)
 		for (int i = 0; i < newHeight; ++i)
 			for (int j = 0; j < newWidth; ++j)
 				m_data[i * newWidth + j] = m_data[2 * i * m_width + 2 * j];
+	}
+	return true;
+}
+
+// retail 0x000B0F82 (497 B incl. trailing int3): the same reader for a map that already holds data
+// (frees the old array first, version 1 shrinks width/height after the resample).
+bool WorldHeightMap::rva000B0F82(DataChunkInput &file, DataChunkInfo *info)
+{
+	int i;
+	m_width = file.readInt();
+	m_height = file.readInt();
+	if (info->version >= 3)
+		m_borderSize = file.readInt();
+	else
+		m_borderSize = 0;
+
+	if (info->version >= 4)
+	{
+		int numBorders = file.readInt();
+		m_boundaries.resize(numBorders);
+		for (i = 0; i < numBorders; ++i)
+		{
+			m_boundaries[i].a[0] = file.readInt();
+			m_boundaries[i].a[1] = file.readInt();
+		}
+	}
+	else
+	{
+		BfmePod8 filler;
+		m_boundaries.resize(1, filler);
+		m_boundaries[0].a[0] = m_width - 2 * m_borderSize;
+		m_boundaries[0].a[1] = m_height - 2 * m_borderSize;
+	}
+
+	m_dataSize = file.readInt();
+	if (m_data)
+		operator delete[](m_data);
+	m_data = (short *)operator new[](m_dataSize * 2);
+	if (m_dataSize <= 0 || m_dataSize != m_width * m_height)
+		throw ERROR_CORRUPT_FILE_FORMAT;
+
+	if (info->version == 4)
+	{
+		unsigned char *bytes = (unsigned char *)operator new[](m_dataSize);
+		file.readArrayOfBytes((char *)bytes, m_dataSize);
+		for (i = 0; i < m_dataSize; ++i)
+			m_data[i] = (short)((float)bytes[i] * 16.0f + 0.5f);
+		operator delete(bytes);
+	}
+	else
+		file.readArrayOfBytes((char *)m_data, m_dataSize * 2);
+
+	if (info->version == 1)
+	{
+		int newWidth = (m_width + 1) / 2;
+		int newHeight = (m_height + 1) / 2;
+		for (int i = 0; i < newHeight; ++i)
+			for (int j = 0; j < newWidth; ++j)
+				m_data[i * newWidth + j] = m_data[2 * i * m_width + 2 * j];
+		m_width = newWidth;
+		m_height = newHeight;
 	}
 	return true;
 }
