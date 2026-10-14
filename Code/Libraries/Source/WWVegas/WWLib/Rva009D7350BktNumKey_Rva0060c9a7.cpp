@@ -13,6 +13,14 @@
 
 #include <hash_map>
 
+// The rowed /Od size provider owns the standalone body. Keep this
+// consumer's pointer-span calculation inline without a competing copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const
+{ return size_t(this->_M_finish - this->_M_start); }
+}
+
 struct Rva009D7350Mapped
 {
 	char m_data[4];

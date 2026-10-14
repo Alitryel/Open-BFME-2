@@ -13,6 +13,20 @@
 // shape); this TU's flags would emit a private copy.
 namespace _STL {
 template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+// Keep the pointer-range accessors inline in this consumer; their retail
+// standalone /Od bodies are owned by stlport_vector_voidptr.cpp.
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const
+{ return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin()
+{ return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end()
+{ return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void*>::operator[](size_t n)
+{ return *(begin() + n); }
 }
 
 class ModuleData;

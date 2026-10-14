@@ -13,6 +13,11 @@
 // byte shape per TU flags); an explicit dllimport+forceinline specialization
 // takes those calls inline so this TU emits no external copy.
 namespace _STL {
+// The rowed /Od size provider owns the standalone body. Keep this
+// consumer's pointer-span calculation inline without a competing copy.
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const
+{ return size_t(this->_M_finish - this->_M_start); }
 template <> __declspec(dllimport) __forceinline
 void *&vector<void*>::operator[](size_t __n)
 { return *(begin() + __n); }
