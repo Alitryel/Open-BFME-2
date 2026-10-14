@@ -42,6 +42,7 @@ void __cdecl rva007B69D0();
 void __cdecl rva007B69E0();
 void __cdecl rva007B69F0();
 void __cdecl rva007B6A00();
+void __cdecl rva007B6A10();
 void __cdecl rva007B6A20();
 void __cdecl rva007B6A30();
 void __cdecl rva007B6A40();
@@ -51,6 +52,7 @@ extern unsigned g_Va00DDEF08;
 extern unsigned g_Va00DDEEFC;
 extern unsigned g_Va00DDEF14;
 extern unsigned char g_009DEEF0Static[12];
+extern unsigned char g_00DDEF20Static[12];
 extern unsigned g_Va00DDEEE4;
 extern unsigned g_Va00DDEF38;
 extern unsigned g_Va00DDEF2C;
@@ -62,6 +64,7 @@ struct Rva007AB8D0StringInits
 	static void __cdecl rva007ABA30();
 	static void __cdecl rva007ABA60();
 	static void __cdecl rva007ABA90();
+	static void __cdecl rva007ABAC0();
 	static void __cdecl rva007ABAF0();
 	static void __cdecl rva007ABB20();
 	static void __cdecl rva007ABB50();
@@ -118,4 +121,13 @@ void __cdecl Rva007AB8D0StringInits::rva007ABA90()
 {
 	( (WideString *)g_009DEEF0Static )->WideString::basic_string( (const unsigned short *)L"true" );
 	atexit( rva007B6A00 );
+}
+
+// The __xc entry at RVA 0x9A4058 names this 35-byte initializer.
+// Its L"false" literal is at VA 0xBBC424; cleanup 0x7B6A10 destroys
+// the same existing 12-byte global at VA 0xDDEF20.
+void __cdecl Rva007AB8D0StringInits::rva007ABAC0()
+{
+	( (WideString *)g_00DDEF20Static )->WideString::basic_string( (const unsigned short *)L"false" );
+	atexit( rva007B6A10 );
 }
