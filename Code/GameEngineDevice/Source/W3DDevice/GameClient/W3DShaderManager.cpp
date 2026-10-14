@@ -36,7 +36,9 @@ struct IDirect3DDevice8
 class W3DShaderManager
 {
 public:
+	enum ShaderTypes { ST_INVALID };
 	W3DShaderManager();
+	static int getShaderPasses(ShaderTypes shader);
 	static void startRenderToTexture();
 	static IDirect3DTexture8 *endRenderToTexture();
 	static IDirect3DTexture8 *getRenderTexture();
@@ -446,6 +448,14 @@ W3DShaderManager::W3DShaderManager()
 	for (i = 0; i < 10; i++)
 		W3DFilters[i] = 0;
 	m_currentShader = -1;
+}
+
+// W3DShaderManager::getShaderPasses, retail 0x00075649 (12B), unreferenced:
+// Zero Hour's header accessor, the pass count of a shader from the table at
+// 0x00DE1F1C (out of line here).
+int W3DShaderManager::getShaderPasses(ShaderTypes shader)
+{
+	return W3DShadersPassCount[shader];
 }
 
 // Clean BF1 donor and native texture callers establish the static pointer ABI.
