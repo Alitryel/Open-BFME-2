@@ -1,6 +1,10 @@
-// ?rva002D937E@Image@@QAEXXZ
-// partial score=0.8 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /ICode/GameEngineDevice/Source/W3DDevice/GameClient
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /ICode/GameEngineDevice/Source/W3DDevice/GameClient /ICode/GameEngine/Source/GameClient/System /ICode
+// stlport
+//
+// ?rva002D937E@Image@@QAEXXZ retail 0x002D937E (217B): lazy texture setup and
+// registry; filename +8, holder +0x2C, status +0x30. Exact via W7-D3
+// sweepeq4x equal-arm (frame slot ranking).
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /ICode/GameEngineDevice/Source/W3DDevice/GameClient /ICode/GameEngine/Source/GameClient/System /ICode
 // stlport
 // Reference BF1 f98983a7d and ZH Image.cpp establish Image filename/status.
 // Target 0x002D937E..0x002D9457 supplies the lazy texture setup and registry;
@@ -14,7 +18,7 @@
 BFME2ParticleTextureHandle BFME2LoadParticleTexture(const char*,int,int);
 class ShroudFilter;
 class ShroudTexture { public: ShroudFilter *getFilter(); };
-class TextureAsset { public: void rva00132FE9(bool); };
+class TextureAsset { public: static BFME2ParticleTextureHandle Get(const char*,int,int); void rva00132FE9(bool); };
 class BfmeStringPresenceValue { public: bool isEmpty() const; };
 struct ImageTextureOptions { unsigned char pad[12]; int optionC,option10; };
 struct Rva001408C0Target;
@@ -44,9 +48,9 @@ void Image::rva002D937E()
  const AsciiString *source=&filename;
  if(reinterpret_cast<const BfmeStringPresenceValue*>(source)->isEmpty()) return;
  if(textureHolder || (status&2)) return;
- BFME2ParticleTextureHandle texture=BFME2LoadParticleTexture(source->str(),1,0);
+ BFME2ParticleTextureHandle texture=TextureAsset::Get(source->str(),1,0);
  ShroudTexture *getter=reinterpret_cast<ShroudTexture*>(&texture);
- reinterpret_cast<ImageTextureOptions*>(getter->getFilter())->option10=1;
+ reinterpret_cast<ImageTextureOptions*>((source ? (getter->getFilter()) : (getter->getFilter())))->option10=1;
  reinterpret_cast<ImageTextureOptions*>(getter->getFilter())->optionC=1;
  reinterpret_cast<TextureAsset*>(&texture)->rva00132FE9(true);
  if(Rva0134FAA0) {
