@@ -26,19 +26,8 @@ struct ThreeDwords
     unsigned int value2;
 };
 
-class Coord3D
-{
-public:
-    Coord3D(const Coord3D &that)
-        : x(that.x), y(that.y), z(that.z)
-    {
-    }
-
-private:
-    float x;
-    float y;
-    float z;
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 struct Region2D
 {

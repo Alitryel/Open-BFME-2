@@ -31,14 +31,9 @@ typedef int Int;
 typedef bool Bool;
 typedef float Real;
 
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-	Coord3D( const Coord3D &c ) { x = c.x; y = c.y; z = c.z; }
-	~Coord3D() {}
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 #include "ascii_string.h"
 

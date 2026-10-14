@@ -29,14 +29,9 @@ typedef float Real;
 typedef int Int;
 typedef bool Bool;
 
-// class-gate: allow Coord3D the corner array is built and torn down through BFME 2's out-of-line empty Coord3D constructor and destructor (the eh vector iterators push 0x0047A6A9 and 0x000B3FD0); the canonical data-only header cannot declare them; same three floats
-struct Coord3D
-{
-	Real x, y, z;
-	Coord3D() {}
-	~Coord3D() {}
-	void normalize();
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 Real ASin(Real x);
 

@@ -2,14 +2,9 @@
 
 enum { MAX_BONE_POINTS = 40 };
 
-struct Coord3D
-{
-	Coord3D();
-	~Coord3D();
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 // POD so world-space output does not emit a per-iteration ctor
 struct WorldPos

@@ -19,20 +19,8 @@ typedef bool Bool;
 
 #include "ascii_string.h"
 
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-
-	Coord3D() {}
-	Coord3D(const Coord3D &other)
-	{
-		x = other.x;
-		y = other.y;
-		z = other.z;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 struct Rva00740AE0Elem
 {
