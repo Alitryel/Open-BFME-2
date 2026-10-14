@@ -89157,3 +89157,7 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?Rva007AE756FireEffectInit@@YAXXZ,,0x007AE756,30,Code/GameEngine/Source/GameClient/Drawable_Rva0030a040.cpp,matched,dynamic remainder of s_fireEffectActive (VA DBD918) init: m_unknown28[1] copied to [2] and [0]
 ?Rva006EDFF0CreateEmptyMovieClip@@YAPAVAptValue@@PAV1@H@Z,,0x006EDFF0,434,Code/Libraries/Source/Apt/Rva006EDFF0CreateEmptyMovieClip.cpp,matched,createEmptyMovieClip native: 0x40 empty character from E176E8 pool (AptCharacter.cpp 0x5BD) submitted via pinned 0x006F8B70 at depth+0x4000; AptCIH.h 0xA5/0x7D asserts
 ?Rva006ED580AttachMovie@@YAPAVAptValue@@PAV1@H@Z,,0x006ED580,490,Code/Libraries/Source/Apt/Rva006ED580AttachMovie.cpp,matched,attachMovie native: rowed rva006ED490 lookup then pinned submit 0x006F8B70 at depth+0x4000 and rowed _tickNewInsts; AptCharacter.cpp 0x2CE assert and retail log text
+?Rva006CD060SetWord@@YAXH@Z,,0x006CD060,10,Code/Libraries/Source/Apt/Apt.cpp,matched,stores arg into Apt word E176C8
+?Rva006CD390AnyActive@@YA_NXZ,,0x006CD390,13,Code/Libraries/Source/Apt/Apt.cpp,matched,tail call rowed Rva006F7AC0List::rva006F7AC0 on Apt root E176D0 +0x30 list
+?rva006D0A10@Rva006CE660Vec@@QAEXPBVEAStringC@@@Z,,0x006D0A10,19,Code/Libraries/Source/Apt/AptValue/PlaybackBufferResize.cpp,matched,forwards name to rowed rva006D0930 with constants 1 3 2
+?rva006F6CE0@BfmeQuery1279@@QBEHXZ,,0x006F6CE0,17,Code/Libraries/Source/Apt/AptDisplayList.cpp,matched,count of root +0x54 chain; skeleton twin of BFME1 Rva008BD1B0ChainCount

@@ -660,7 +660,7 @@ void Rva006CD0B0ResetPoolCount() {
 
 // Native6CD350..6CD38A: asserts pMCInfo (Apt.cpp 0x7C0) and applies it to the
 // E176D0 pool's +30 child list through the rowed rva006F7AF0. Address name.
-class Rva006F7AC0List {public:void rva006F7AF0(int);};
+class Rva006F7AC0List {public:bool rva006F7AC0();void rva006F7AF0(int);};
 void Rva006CD350ApplyChild(void *pMCInfo) {
  GAPCHECK(pMCInfo,"pMCInfo",0x7C0);
  ((Rva006F7AC0List *)g_bfmeAptPtrAtE176D0->nodes)->rva006F7AF0((int)pMCInfo);
@@ -826,4 +826,17 @@ extern char g_aptFormattedFieldText[];
 const char *Rva006CD3C0FormatField(const Rva006DBB30SarDwordField *value) {
  sprintf(g_aptFormattedFieldText,"0x%X",value->get());
  return g_aptFormattedFieldText;
+}
+
+// Native6CD060..6CD069: store the argument into the Apt word at E176C8
+// (beside the E176D0 root and E176D4 suppression flag). Address names.
+extern int g_aptWordAtE176C8;
+void Rva006CD060SetWord(int value) {
+ g_aptWordAtE176C8=value;
+}
+
+// Native6CD390..6CD39C: tail-call the rowed Rva006F7AC0List::rva006F7AC0
+// (any node reporting rva006E24E0) on the list the Apt root holds at +0x30.
+bool Rva006CD390AnyActive() {
+ return ((Rva006F7AC0List *)g_bfmeAptPtrAtE176D0->nodes)->rva006F7AC0();
 }

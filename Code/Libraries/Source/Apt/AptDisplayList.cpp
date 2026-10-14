@@ -67,6 +67,7 @@ class BfmeQuery1279
 public:
 	void bfmeQuery1279(int nDepth, int name, void **ppPrev, void **ppItem);
 	BfmeNestedBE *rva006F7D50(int nDepth);
+	int rva006F6CE0() const;
 
 private:
 	BfmeQueryNode1279 *m_root;
@@ -366,4 +367,15 @@ void Rva006F8220List::rva006F8220(Rva006F8220CIH *pParent)
 		if (cih->isSpriteInstBase())
 			cih->displayList()->rva006F8220(cih);
 	}
+}
+
+// ?rva006F6CE0@BfmeQuery1279@@QBEHXZ, retail 0x006F6CE0 (17 bytes): count
+// the nodes on the root's +0x54 chain. Skeleton twin of Open-BFME-1's
+// Rva008BD1B0ChainCount.cpp (BFME 1 0x008BD1B0); address name.
+int BfmeQuery1279::rva006F6CE0() const
+{
+	int count = 0;
+	for (BfmeQueryNode1279 *node = m_root; node; node = node->m_next)
+		++count;
+	return count;
 }
