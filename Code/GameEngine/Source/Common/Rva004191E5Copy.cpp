@@ -8,14 +8,25 @@
 
 #include "ascii_string.h"
 
-class Rva00419035
+// The +4 member is the rowed STLport set tree; its copy constructor is
+// ??0?$_Rb_tree@URva00419035Element@@... @0x00419035 (StlSweepW4Rva00419035.cpp).
+struct Rva00419035Element;
+namespace _STL
+{
+template <class _Tp> struct _Identity;
+template <class _Tp> struct less;
+template <class _Tp> class allocator;
+template <class _Key, class _Value, class _KeyOfValue, class _Compare, class _Alloc>
+class _Rb_tree
 {
 public:
-	Rva00419035(const Rva00419035 &other);
+	_Rb_tree(const _Rb_tree &other);
 
 private:
 	char m_pad[0xC];
 };
+}
+typedef _STL::_Rb_tree<Rva00419035Element, Rva00419035Element, _STL::_Identity<Rva00419035Element>, _STL::less<Rva00419035Element>, _STL::allocator<Rva00419035Element> > Rva00419035;
 
 class BfmeFixedStorage002CF0F0
 {
