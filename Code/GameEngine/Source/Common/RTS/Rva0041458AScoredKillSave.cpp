@@ -1,16 +1,5 @@
-// ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
-// partial score=0.9911 date=2026-10-14
-// ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
-// partial score=0.9824 date=2026-10-14
-// ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
-// partial score=0.9736 date=2026-10-14
-// ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
-// partial score=0.907135 date=2026-10-14
-// ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
-// partial score=0.871 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
-// ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z @0x0041458A 344B.
 // WB 0x12B51A0: register every 0x30-byte ScoredKill element with the EVA
 // announcer interface, matching by the element's AsciiString name; the
 // interface's own list branch when vslot1 is false.
@@ -57,13 +46,11 @@ private:
 
 void Rva004147CF::rva0041458A(Rva0041458AInterface *iface)
 {
-	struct Flags { bool a; bool b; char pad[4]; };
-	{
+	struct Flags { bool a; bool b; char pad[2]; };
 	Flags flags;
 	flags.a = true;
 	flags.b = true;
 	iface->vslot10(&flags);
-	}
 
 	int count = (int)((char *)m_end - (char *)m_begin) / 0x30;
 	iface->vslot31(&count);
