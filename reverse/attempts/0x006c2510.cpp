@@ -1,4 +1,6 @@
 // ?rva006C2510@GeneralAllocatorDebug@@QAEIPADHPAPAD@Z
+// partial score=0.97 date=2026-10-14
+// ?rva006C2510@GeneralAllocatorDebug@@QAEIPADHPAPAD@Z
 // partial score=0.98 date=2026-10-09
 // ?rva006C1F60@Rva006C1F60@@QAEHI@Z @ 0x006C1F60 113B chain of 0x00030DF0
 // Release. AddRef at +0x4e4 Release guarded float clamp via __ftol2 returning
@@ -329,7 +331,9 @@ unsigned int GeneralAllocatorDebug::rva006C2510(char *block, int mode, char **ou
   unsigned int size;
   if(!(h&2))size=(h&0x7FFFFFF8)+4;
   else size=h&0x7FFFFFF8;
-  result=trailerSize(block,size-8,outBody);
+  unsigned short bodySize=*(unsigned short*)(block+size-10);
+  if(outBody)*outBody=block+size-10-bodySize;
+  result=bodySize+2;
  } else if(*(bool *)((char *)this+0x680)) {
   void *out=0;
   if(((Rva006C1850*)((char *)this+0x684))->rva006C1850((unsigned int)block,&out)&&out) {

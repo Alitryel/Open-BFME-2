@@ -1,4 +1,6 @@
 // ??0AutoAbilityBehaviorModuleData@@QAE@XZ
+// partial score=0.93 date=2026-10-14
+// ??0AutoAbilityBehaviorModuleData@@QAE@XZ
 // partial score=0.97 date=2026-10-04
 // ??0AutoAbilityBehaviorModuleData@@QAE@XZ
 // cl: /O1 /arch:SSE /EHsc /MD /DNDEBUG /DWIN32 /D_WINDOWS
@@ -139,13 +141,13 @@ private:
 // ??0AutoAbilityBehaviorModuleData@@QAE@XZ @0x0045A2E7
 AutoAbilityBehaviorModuleData::AutoAbilityBehaviorModuleData()
 	: m_vtable(reinterpret_cast<const void *>(0x00C41568))
+	, m_maxScanRange(0.0f)
+	, m_minScanRange(0.0f)
+	, m_workingRadius(0.0f)
+	, m_idleTimeSeconds(0.0f)
 	, m_specialAbility()
 	, m_forbiddenStatus()
 {
-	m_maxScanRange = 0.0f;
-	m_minScanRange = 0.0f;
-	m_workingRadius = 0.0f;
-	m_idleTimeSeconds = 0.0f;
 	m_startsActive = false;
 	m_baseMaxRangeFromStartPos = false;
 	m_adjustAttackMeleePosition = false;
