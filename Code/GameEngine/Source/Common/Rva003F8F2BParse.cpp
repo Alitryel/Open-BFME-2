@@ -1,6 +1,6 @@
 // cl: /Oy- /DNDEBUG /MD /GX- /G7 /arch:SSE /O1
-// ?Rva003F8F2BParse@@YAXPAVINI@@PAURva003F7C0C@@@Z
-// ?Rva003F907BParse@@YAXPAVINI@@PAURva003F9004@@@Z (0x003F907B, 104B): the
+// ?ParseINI@SessionTask@LivingWorldTutorial@@SAXPAVINI@@PAURva003F7C0C@@@Z (0x003F8F2B, 104B)
+// ?ParseINI@LogicTurn@LivingWorldTutorial@@SAXPAVINI@@PAURva003F9004@@@Z (0x003F907B, 104B): the
 // LogicTurn twin, same shape with the 0x1c Rva003F7EC7 (0x003F7E9D), table
 // 0x00C37468 and the rowed holder Rva003F9004::rva003F9004 (0x003F9004).
 // Seat Z1 (w5-z1) near-exact bank for 0x003F8F2B (104B), twin of the rowed
@@ -66,10 +66,20 @@ extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__T
 struct Rva003F2576ThrowInfoAnchor { int a; int b; int c; int d; };
 static const Rva003F2576ThrowInfoAnchor rva003F2576ThrowInfoAnchor = { 0, 0, 0, 0 };
 
+// Both parsers name themselves in their INIException text, and WB names them
+// LivingWorldTutorial::SessionTask::ParseINI and LivingWorldTutorial::
+// LogicTurn::ParseINI: static (cdecl, two arguments, plain ret), referenced
+// only from the FieldParse tables at 0x00C3749C and 0x00C374F0.
+namespace LivingWorldTutorial
+{
+	class SessionTask { public: static void ParseINI(INI *ini, Rva003F7C0C *outer); };
+	class LogicTurn { public: static void ParseINI(INI *ini, Rva003F9004 *outer); };
+}
+
 extern const FieldParse g_00C373D8;
 extern const FieldParse g_00C37468;
 
-void Rva003F8F2BParse(INI *ini, Rva003F7C0C *outer)
+void LivingWorldTutorial::SessionTask::ParseINI(INI *ini, Rva003F7C0C *outer)
 {
 	if (!ini || !outer)
 	{
@@ -81,7 +91,7 @@ void Rva003F8F2BParse(INI *ini, Rva003F7C0C *outer)
 	outer->rva003F7C0C(p);
 }
 
-void Rva003F907BParse(INI *ini, Rva003F9004 *outer)
+void LivingWorldTutorial::LogicTurn::ParseINI(INI *ini, Rva003F9004 *outer)
 {
 	if (!ini || !outer)
 	{
