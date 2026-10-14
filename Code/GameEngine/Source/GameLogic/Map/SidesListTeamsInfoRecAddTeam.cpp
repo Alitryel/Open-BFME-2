@@ -25,6 +25,15 @@
 // return is retail's (eax = index). 0x0032D103 is an unidentified TeamsInfoRec
 // member taking the index, named by address.
 
+// Vector growth already inlines this comparison. Keep its unused standalone
+// helper local instead of emitting a second, nonretail max<unsigned int>.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+	return a < b ? b : a;
+}
+}
 #include <vector>
 
 class Dict
