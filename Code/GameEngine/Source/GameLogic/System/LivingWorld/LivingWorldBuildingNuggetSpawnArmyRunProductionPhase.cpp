@@ -112,6 +112,7 @@ class Rva00319CED
 {
 public:
 	void *rva004E23C1();
+	int rva004E1755();
 };
 class Rva0040CB2CIndexedField
 {
@@ -184,6 +185,7 @@ public:
 	virtual bool canQueueUnit(ObjectID id);	// slot 7
 
 	void rva004FA992(void (Rva004FA953Listener::*notify)(void *, int), void *arg, int value);
+	int rva004FA6B5();
 
 	Rva004FA953List m_list;	// +0x04
 	_STL::vector<ObjectID> m_queue;	// +0x14
@@ -260,4 +262,25 @@ bool LivingWorldBuildingNuggetSpawnArmy::canQueueUnit(ObjectID id)
 			|| (((LivingWorldPlayer *)((Rva004E0705 *)m_building)->rva004E0705())->rva002E12F3(id)
 				&& !((LivingWorldPlayer *)((Rva004E0705 *)m_building)->rva004E0705())->HasArmyQueuedInAnyBuilding(*(void **)army.m_pad4C, 0, 0)));
 	return result;
+}
+
+// ?rva004FA6B5@Rva004FA992@@QAEHXZ @0x004FA6B5 131B. Totals rowed Rva00319CED::rva004E1755 (the
+// SpawnArmy's non-empty-key lookup to an int getter) over every queued unit the building can
+// produce (slot 4 fills a SpawnArmy temporary per entry). The temporary exists only for a
+// non-empty queue. Evidence: target bytes and WB debug body 0130A8F0 (unnamed): same loop; the
+// meaning of the summed value is inferred.
+int Rva004FA992::rva004FA6B5()
+{
+	int total = 0;
+	if (m_queue.size() > 0)
+	{
+		SpawnArmy army(0);
+		for (unsigned int i = 0; i < m_queue.size(); ++i)
+		{
+			ObjectID id = m_queue[i];
+			if (canProduce(id, &army))
+				total += ((Rva00319CED *)&army)->rva004E1755();
+		}
+	}
+	return total;
 }
