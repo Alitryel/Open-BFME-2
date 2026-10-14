@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii
 // ?rva0030D4F2@Rva0030D4F2@@QAEHXZ, retail 0x0030D4F2, 26B.
 // Dict getter twin of Rva0030D773 setter: Dict at +0x24 via rowed getInt
-// 0x003131CA with key from rowed NameKey cache get 0x00148F5E on g_00DBDC84,
+// 0x003131CA with key from rowed NameKey cache get 0x00148F5E on TheKey_GenericAIObjectType,
 // exists null. Caller 0x004E9C4A.
 // Evidence: packet disasm; same Dict offset and key as Rva0030D773Method.
 #include "ascii_string.h"
@@ -27,7 +27,10 @@ public:
 // Its name is descriptive; no original global spelling is inferred.
 Rva00148F5ECache MapGenericAIObjectIDCache = { NAMEKEY_INVALID, "GenericAIObjectID" };
 
-Rva00148F5ECache g_00DBDC84 = { NAMEKEY_INVALID, "GenericAIObjectType" };
+// The canonical const StaticNameKey owner is defined in WorldHeightMap.cpp.
+// Only its mutable key is changed by the retail cache getter.
+class StaticNameKey;
+extern const StaticNameKey TheKey_GenericAIObjectType;
 Rva00148F5ECache g_00DBDC8C = { NAMEKEY_INVALID, "GenericAIObjectWallHubNumber" };
 Rva00148F5ECache g_00DBDC74 = { NAMEKEY_INVALID, "waypointID" };
 Rva00148F5ECache g_00DBDC64 = { NAMEKEY_INVALID, "waypointName" };	// RVA 0x009BDC64
@@ -69,7 +72,7 @@ private:
 
 int Rva0030D4F2::rva0030D4F2()
 {
-	return m_dict.getInt(g_00DBDC84.get(), 0);
+	return m_dict.getInt(((Rva00148F5ECache *)&TheKey_GenericAIObjectType)->get(), 0);
 }
 
 // ?rva0030D50C@Rva0030D4F2@@QAEHXZ, retail 0x0030D50C, 26B.
