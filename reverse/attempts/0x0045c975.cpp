@@ -1,4 +1,7 @@
 // ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
+// partial score=0.594 date=2026-10-14
+// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 // partial score=0.509 date=2026-10-14
 // ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
 // partial score=0.8517 date=2026-10-05
@@ -236,8 +239,8 @@ void BezierProjectileBehavior::rva0045C975(int unused)
 	PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(obj, &pos);
 	obj->rva0028B4CE(layer);
 	float h = (obj ? (TheTerrainLogic->getLayerHeight(pos.x, pos.y, layer, 0, true)) : (TheTerrainLogic->getLayerHeight(pos.x, pos.y, layer, 0, true)));
-	pos.z = ((layer ? h : h) ? h : h);
 	((Thing *)obj)->setPosition(&pos);
+	pos.z = ((layer ? h : h) ? h : h);
 	_STL::vector<Gen_p12pod> &vec = this->m_vec44;
 	vec.erase(vec.begin(), vec.end());
 	this->m_int70 = 0;
@@ -248,9 +251,9 @@ void BezierProjectileBehavior::rva0045C975(int unused)
 	((obj->m_flags118 ? ((Rva001E42F2 *)obj) : ((Rva001E42F2 *)obj)))->rva001E42F2((const int *)bits.rva001E4912(0, 0x9a, 0x9b));
 	const BezierModuleData *d = (const BezierModuleData *)this->m_moduleData;
 	if (d->m_flag19 != 0) {
-		if ((obj->m_flags118 & 0x4000000) == 0) {
-			obj->rva0028AE6D();
+		if ((__vref(obj->m_flags118) & 0x4000000) == 0) {
 			obj->m_flags118 |= 0x4000000;
+			obj->rva0028AE6D();
 		}
 		obj->kill(DAMAGE_TYPE_8, DEATH_TYPE_0);
 	}

@@ -1,4 +1,6 @@
 // ?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z
+// partial score=0.894 date=2026-10-14
+// ?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z
 // partial score=0.9587909409209768 date=2026-10-14
 // ?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z
 // partial score=0.97 date=2026-10-14
@@ -37,6 +39,7 @@ typedef float Real;
 struct TurnAxis : Coord3D {TurnAxis(Real a,Real b,Real c){x=a;y=b;z=c;}~TurnAxis(){}Real dot(const Coord3D&o)const{return x*o.x+y*o.y+z*o.z;}};
 
 #include <math.h>
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 __declspec(noinline) inline float Coord3D::length() const { return (float)sqrt(x * x + y * y + z * z); }
 __declspec(noinline) inline float Coord3D::GetLength() const
 {
@@ -123,12 +126,12 @@ void Rva000D08C3::rva000D08C3(Matrix3D *mat)
 		angle = normalizeAngle(-angle);
 	if (m_hasLastAngle)
 	{
-		if (fabs(angle - m_lastAngle) > data->m_maxTurn)
+		if (fabs((data ? (angle - m_lastAngle) : (angle - m_lastAngle))) > data->m_maxTurn)
 		{
 			if (angle < m_lastAngle)
 				angle = m_lastAngle - data->m_maxTurn;
 			else
-				angle = data->m_maxTurn + m_lastAngle;
+				angle = __vref(data->m_maxTurn) + m_lastAngle;
 		}
 	}
 	m_lastAngle = angle;
