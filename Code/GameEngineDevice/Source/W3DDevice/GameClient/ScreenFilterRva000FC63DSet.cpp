@@ -267,6 +267,7 @@ UnsignedInt BfmeScreenTransitionLastLogicFrame;	// last logic frame
 class Rva000FC63DFilter
 {
 public:
+	Rva000FC63DFilter();
 	virtual int slot00();
 	virtual int slot01();
 	virtual bool slot02();
@@ -277,10 +278,22 @@ protected:
 	virtual void reset();
 
 private:
-	unsigned char m_pad04[0x08 - 0x04];
+	Int m_04;				// +0x04
 	BFME2TextureRef m_texture;		// +0x08
 	TimeOfDay m_savedTimeOfDay;		// +0x0C
 };
+
+// ??0Rva000FC63DFilter@@QAE@XZ, retail 0x000FC946 (24B): installs the
+// vftable at VA 0x00BCF3C8 (slot 5 is set above, slot 6 reset), clears +0x04
+// and the texture reference and remembers TIME_OF_DAY_AFTERNOON (2). The
+// static initializer at 0x007AC9B0 builds the instance at VA 0x00DEC1CC with
+// it, and the derived DOT3 filter's constructor (0x000FD4A5, vftable
+// 0x00BCF3F4) calls it first.
+Rva000FC63DFilter::Rva000FC63DFilter() :
+	m_04(0),
+	m_savedTimeOfDay((TimeOfDay)2)
+{
+}
 
 Int Rva000FC63DFilter::set(FilterModes mode)
 {
