@@ -31,6 +31,23 @@ class ModuleInfo { public: struct Nugget { ~Nugget(); }; };
 template void _STL::_Destroy<GeometryRecord>(GeometryRecord *);
 template void _STL::_Destroy<ModuleInfo::Nugget>(ModuleInfo::Nugget *);
 
+//   0x0021BA46 -> ??1BfmeStringRecord002199C8 0x0021A0C2
+//   0x0021BA4F -> ??1BfmeStringRecord00219A68 0x0021A728
+//   0x002B8373 -> ??1BfmeAssignRecord52 0x002B707E
+//   0x002B837C -> ??1Member44 0x002B6B4C
+//   0x002BC57F -> vector<Rva002BB6BE20Rec> dtor 0x002BBB57 (declared only)
+class BfmeStringRecord002199C8 { public: ~BfmeStringRecord002199C8(); };
+class BfmeStringRecord00219A68 { public: ~BfmeStringRecord00219A68(); };
+class BfmeAssignRecord52 { public: ~BfmeAssignRecord52(); };
+class Member44 { public: ~Member44(); };
+struct Rva002BB6BE20Rec;
+namespace _STL { template <> vector<Rva002BB6BE20Rec>::~vector(); }
+template void _STL::_Destroy<BfmeStringRecord002199C8>(BfmeStringRecord002199C8 *);
+template void _STL::_Destroy<BfmeStringRecord00219A68>(BfmeStringRecord00219A68 *);
+template void _STL::_Destroy<BfmeAssignRecord52>(BfmeAssignRecord52 *);
+template void _STL::_Destroy<Member44>(Member44 *);
+template void _STL::_Destroy<_STL::vector<Rva002BB6BE20Rec> >(_STL::vector<Rva002BB6BE20Rec> *);
+
 // --- 0x001F4A37 (9B, cdecl): whether the string argument is empty, a tail
 // jump to the rowed StringBase<char>::isEmpty 0x00001E2F.
 template <typename T> class StringBase

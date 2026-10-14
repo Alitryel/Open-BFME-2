@@ -967,3 +967,15 @@ bool Rva00334A38::rva00334A38(const S4SortElem20 &a, const S4SortElem20 &b) cons
 // 0x00278DF9 (5B) -> Drawable::calcPhysicsXformWheels 0x00276CFB.
 class Rva00278DF9 { public: void rva00278DF9(const Locomotor *locomotor, Drawable::PhysicsXformInfo &info); };
 void Rva00278DF9::rva00278DF9(const Locomotor *locomotor, Drawable::PhysicsXformInfo &info) { ((Drawable *)this)->calcPhysicsXformWheels(locomotor, info); }
+
+// ---- fourth group ----------------------------------------------------------
+class Rva0021915B;
+void Rva0021ACB9Swap(Rva0021915B *a, Rva0021915B *b);
+class Rva002BBBE7 { public: void rva002BC39D(); };
+
+// 0x0021BA41 (5B, cdecl) -> the rowed Rva0021ACB9Swap.
+void Rva0021BA41Swap(Rva0021915B *a, Rva0021915B *b) { Rva0021ACB9Swap(a, b); }
+
+// 0x002BC588 (5B) -> Rva002BBBE7::rva002BC39D 0x002BC39D.
+class Rva002BC588 { public: void rva002BC588(); };
+void Rva002BC588::rva002BC588() { ((Rva002BBBE7 *)this)->rva002BC39D(); }

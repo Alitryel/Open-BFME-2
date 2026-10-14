@@ -74,3 +74,12 @@ class Rva002F1C5A { public: ~Rva002F1C5A(); private: MapK m_map; };
 Rva002F1C5A::~Rva002F1C5A() {}
 class Rva0032C62D { public: ~Rva0032C62D(); private: MapD m_map; };
 Rva0032C62D::~Rva0032C62D() {}
+
+// 0x002BC5C4 (5B): vector<Rva002BC47DElement>::insert(pos, n, x) -> rowed
+// _M_fill_insert 0x002BC47D (StlSweepW4Rva002BC47D.cpp stand-in).
+struct Rva002BC47DElement { Rva002BC47DElement();Rva002BC47DElement(const Rva002BC47DElement&);~Rva002BC47DElement();Rva002BC47DElement&operator=(const Rva002BC47DElement&);char bytes[52]; bool operator<(const Rva002BC47DElement&)const; bool operator==(const Rva002BC47DElement&)const; };
+typedef _STL::vector<Rva002BC47DElement> VecL;
+namespace _STL {
+template <> void VecL::_M_fill_insert(VecL::iterator, VecL::size_type, const VecL::value_type &);
+}
+template void VecL::insert(VecL::iterator, VecL::size_type, const VecL::value_type &);
