@@ -12,8 +12,8 @@
 // Rva00517870TextEntryInput.cpp (f57439f7f4), the BFME1 neighbour of the
 // ClientStateName donor. Target deltas: the cursor test is the rowed
 // predicate GadgetTextEntryHasSelection 0x00444016 instead of the inlined user-data compare,
-// and the limit is 10 characters instead of 12. The fallback uses the
-// existing j_00003df0 pin at 0x00314596, as the sibling
+// and the limit is 10 characters instead of 12. The fallback calls the
+// rowed Rva003145B1::rva00314596 at 0x00314596, as the sibling
 // Rva004BE120TextEntryInput.cpp does.
 
 // Retail calls the CRT iswalnum import, not wchar.h's inline iswctype wrapper.
@@ -25,7 +25,13 @@ class GameWindow;
 
 extern UnicodeString GadgetTextEntryGetText(GameWindow *window);
 extern bool GadgetTextEntryHasSelection(GameWindow *window);
-extern void j_00003df0();
+// The fallback dispatch at 0x00314596 is rowed as Rva003145B1::rva00314596
+// (Rva003145B1Dispatch.cpp), a thiscall removing all three arguments.
+class Rva003145B1
+{
+public:
+	int rva00314596(int msg, int data1, int data2);
+};
 
 struct Rva00445172StringData
 {
@@ -68,9 +74,5 @@ int Rva00445172Owner::rva00445172(unsigned int message, unsigned int data1,
 		break;
 	}
 	}
-	typedef int (Rva00445172Owner::*Fallback)(
-		unsigned int, unsigned int, unsigned int);
-	union { void (*raw)(); Fallback member; } route;
-	route.raw = ::j_00003df0;
-	return (this->*route.member)(message, data1, data2);
+	return ((Rva003145B1 *)this)->rva00314596(message, data1, data2);
 }

@@ -25,6 +25,7 @@ class Rva003145B1
 {
 public:
     int Rva003145B1Dispatch(int a0, int a1, int a2);
+    int rva00314596(int msg, int data1, int data2);   // rowed 0x00314596
 };
 
 class GameWindowManager
@@ -58,7 +59,6 @@ private:
 
 extern bool __cdecl GadgetTextEntryValidateCharacter(
     WideChar character, signed char flags);
-extern void j_00003df0();
 
 int Rva004BE120Input::input(unsigned int msg, unsigned int data1,
                            unsigned int data2)
@@ -71,13 +71,9 @@ int Rva004BE120Input::input(unsigned int msg, unsigned int data1,
     if (msg == 0x19 && !policy((WideChar)data1, m_characterFlags))
         return 1;
 
-    // The thunk tails through a virtual slot; that callee removes all three
-    // arguments. The member-pointer view preserves the witnessed thiscall.
-    typedef int (Rva004BE120Input::*Fallback)(
-        unsigned int, unsigned int, unsigned int);
-    union { void (*raw)(); Fallback member; } route;
-    route.raw = ::j_00003df0;
-    return (this->*route.member)(msg, data1, data2);
+    // The fallback is the rowed Rva003145B1::rva00314596 dispatch, a thiscall
+    // that tails through a virtual slot and removes all three arguments.
+    return ((Rva003145B1 *)this)->rva00314596(msg, data1, data2);
 }
 
 int Rva004BE120Input::system(unsigned int msg, unsigned int data1,

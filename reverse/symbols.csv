@@ -9944,7 +9944,6 @@ name,address,notes
 ?iterate_TeamMemberList@Team@@QBE?AV?$DLINK_ITERATOR@VObject@@@@XZ,0x00263864,BFME2 TEAM_FACE_NAMED body at 0x3C9A80 calls this with a caller-owned 24-byte iterator output; target 0x263864 initializes current member and the inherited-DLINK member pointer layout
 ?j_00002a3b@@YAXXZ,0x00027400
 ?j_00002e69@@YAXXZ,0x002B2210
-?j_00003df0@@YAXXZ,0x00314596,callee read from the retail REL32 in placed BFME1-donor body ?input@Rva004BE120Input@@QAEHIII@Z (0x003206A4)
 ?j_00004935@@YAXXZ,0x0058D7B6,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?j_00005934@@YAXXZ,0x00024FC0
 ?j_00006730@@YAXXZ,0x0007A7AA,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
