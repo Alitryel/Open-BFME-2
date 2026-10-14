@@ -1,15 +1,20 @@
-// ?update@AttributeModifierPoolUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.9559 date=2026-10-14
-// ?update@AttributeModifierPoolUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.8 date=2026-10-12
-// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
+// cl: /ICode /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
+// Native403CA8..403E3B RET0: AttributeModifierPoolUpdate update slot.
+// Native receiver is the update interface at object+10. The rowed constructor
+// and factory establish vector20, next-frame2C, names30 and counts6C (hex).
+// BF1 cee35b7d AttributeModifierPoolUpdate_update supplied the source lead;
+// target reads establish frame40, nineteen condition words and deferred keys.
+// Original four-byte deque key type remains unknown; BfmeWordValue4 preserves
+// its observed scalar bits and trivial teardown without claiming a name.
+// Explicit argument snapshots and a separate min candidate preserve native
+// push ordering and CMOV. The small20B min provider belongs to these records.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include <deque>
 #include <vector>
-#include "reference/shims/bfme2_ascii/ascii_string.h"
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "ascii_string.h"
+#include "GameEngine/Source/Common/GameLogicObjectLookupView.h"
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 extern GameLogic *TheGameLogic;
 class Rva001E42F2 {public:void rva001E42F2(const int *);};
@@ -18,24 +23,25 @@ class Rva00297360Element {public:
  ~Rva00297360Element();
  int index;AsciiString name;unsigned expiration,upgrade;
 };
-class Rva0040314A {public:unsigned rva0040314A();};
+class Rva0040314A {public:unsigned rva0040314A();private:char pad[8];unsigned m_08,m_0c;};
+__declspec(noinline) unsigned Rva0040314A::rva0040314A(){if(m_0c>0)return m_08<m_0c?m_08:m_0c;return m_08;}
+
 namespace _STL {
 template<> Rva00297360Element *vector<Rva00297360Element>::erase(Rva00297360Element*);
 }
 struct BfmeWordValue4 {unsigned bits;};
 namespace _STL {template<>struct __type_traits<BfmeWordValue4>:__type_traits_aux<1>{};}
 namespace _STL {
-template<> void deque<BfmeWordValue4>::push_back(const BfmeWordValue4 &);
-template<> void deque<BfmeWordValue4>::pop_front();
+template<> __declspec(noinline) inline void deque<BfmeWordValue4>::push_back(const BfmeWordValue4 &x) {
+ if(this->_M_finish._M_cur != this->_M_finish._M_last-1) {_Construct(this->_M_finish._M_cur,x);++this->_M_finish._M_cur;}else _M_push_back_aux_v(x);
+}
+template<> __declspec(noinline) inline void deque<BfmeWordValue4>::pop_front() {
+ if(this->_M_start._M_cur != this->_M_start._M_last-1) {_STLP_STD::_Destroy(this->_M_start._M_cur);++this->_M_start._M_cur;}else _M_pop_front_aux();
+}
 template<> _Deque_base<BfmeWordValue4,allocator<BfmeWordValue4> >::~_Deque_base();
 }
 struct AttributeConditionWords {int words[19];};
-class AttributeModifierStore {public:
- void *rva00214801(void *,int);
- void *getEndFX(int,Object *);
- void *GetCategoryContainer(int);
- void *getDelayedUpgrade(int);
-};
+class AttributeModifierStore {public:void *rva00214801(void*,int);void *getEndFX(int,Object*);void *GetCategoryContainer(int);void *getDelayedUpgrade(int);};
 extern AttributeModifierStore *TheAttributeModifierStore;
 class FXList {public:static void doFXObj(const FXList *,const Object *,const Object *);};
 struct CategoryView {char unknown00[12];int category;};
@@ -73,14 +79,14 @@ UpdateSleepTime AttributeModifierPoolUpdate::update()
      TheAttributeModifierStore->rva00214801(&clear,entry->index);
      ((Rva001E42F2*)getObject())->rva001E42F2(clear.words);
      if(__vref(upgrade)<=frame) {
-       const FXList *fx=(const FXList*)TheAttributeModifierStore->getEndFX(entry->index,(frame ? (getObject()) : (getObject())));
+       Object *obj=getObject();int key=entry->index;const FXList *fx=(const FXList*)TheAttributeModifierStore->getEndFX(key,obj);
        if(fx)FXList::doFXObj(fx,getObject(),0);
-       CategoryView *category=(CategoryView*)TheAttributeModifierStore->GetCategoryContainer((entry->expiration ? (entry->index) : (entry->index)));
+       CategoryView *category=(CategoryView*)TheAttributeModifierStore->GetCategoryContainer(entry->index);
        if(category)--counts[category->category];
        it=modifiers.erase(it);
      } else {
        ++it;
-       next=next<upgrade?next:upgrade;
+       unsigned value=upgrade;value=next<value?next:value;next=value;
        _ReadWriteBarrier();
      }
    } else {

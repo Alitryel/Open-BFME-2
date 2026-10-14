@@ -5,22 +5,7 @@
 // Target evidence: mov/test/jbe, then cmp plus cmovb; cmov needs the P6
 // instruction set, which /arch:SSE enables (the banked attempt lacked it and
 // got jae plus mov).
-class Rva0040314A
-{
-public:
-	unsigned int rva0040314A();
-private:
-	char _pad[8];
-	unsigned int m_08;
-	unsigned int m_0c;
-};
-
-unsigned int Rva0040314A::rva0040314A()
-{
-	if (m_0c > 0)
-		return m_08 < m_0c ? m_08 : m_0c;
-	return m_08;
-}
+// The record minimum at40314A is owned by AttributeModifierPoolUpdateTick.cpp.
 
 // Whole BF1 f98983a7d3 Common/Rva004BE1D0Min.cpp and Rva004BE1F0Max.cpp
 // are the clean source guides (private pass /O1 /SSE2 /G7). Native complete
