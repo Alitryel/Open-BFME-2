@@ -1,4 +1,6 @@
 // ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
+// partial score=0.93 date=2026-10-14
+// ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z
 // partial score=0.78 date=2026-10-13
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /O1 /arch:SSE /G7 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
@@ -87,18 +89,18 @@ void Rva0007E90ECallee::rva000FF5E6(int filename)
  int flipU=0;Vector2 startPos,endPos;AssetList00208F90 assets;
  if(W3DGCData00DE2000) {
   TrackCollection *collection=reinterpret_cast<WaterMapView*>(W3DGCData00DE2000)->tracks;
-  for(IndexPair it=collection->begin();it!=collection->end();advance(it)) {
+  for(IndexPair it=collection->begin(),last=collection->end();it!=last;advance(it),const_cast<unsigned&>(last.first)=reinterpret_cast<unsigned>(collection),last.second=reinterpret_cast<Rva0007E394Element*>(collection->size())) {
    Rva0007E394Element *record=collection->at(it);
    if(reinterpret_cast<Rva0030C94ADwordField*>(record)->get())continue;
    int count=record->end-record->begin;
    if(count<2)continue;
    int segments=count-1;
    for(int i=0;i<segments;++i) {
-    Vector2 start=record->begin[i];Vector2 end=record->begin[i+1];
-    Vector2 perp=end-start;
-    Vector2 midpoint=start+perp*0.5f;
+    int next=i+1;Vector2 *base=record->begin;const Vector2 &a=base[i];const Vector2 &b=base[next];Vector2 start(a.X,a.Y);Vector2 end(b.X,b.Y);
+    Vector2 dir(end.X-start.X,end.Y-start.Y);
+    Vector2 midpoint=start+dir*0.5f;
     startPos=midpoint;
-    perp.Rotate(1.57079632679f);perp.Normalize();
+    Vector2 &perp=dir;perp.Rotate(1.57079632679f);perp.Normalize();
     endPos=midpoint+perp;
     if(reinterpret_cast<WaterTracksRenderSystem*>(this)->rva000FE207(&startPos.X,&endPos.X,1))continue;
     WaterTracksObj *track=TheWaterTracksRenderSystem->bindTrack(WaveTypeOcean);
