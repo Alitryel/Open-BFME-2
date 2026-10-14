@@ -1626,3 +1626,6 @@ const void *GhostObject::vslot04() const { return &m_parentPosition; }
 
 // Native BC5970 slot 2 implementation; its vtordisp thunk is compiler-emitted.
 Real GhostObject::vslot08() const { return m_parentAngle; }
+
+// Native BC5970 slot 3 implementation; its vtordisp thunk is compiler-emitted.
+void GhostObject::vslot0C(PartitionData *pd) { m_partitionData = pd; }
