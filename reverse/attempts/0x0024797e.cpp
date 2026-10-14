@@ -1,9 +1,27 @@
 // ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
+// partial score=0.995 date=2026-10-14
+// ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
 // partial score=0.99 date=2026-10-14
 // ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
 // partial score=0.99 date=2026-10-13
 // ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
 // partial score=0.99 date=2026-10-13
+// r7 2026-10-14: the buildable-override loop is now the real STLport iterator in
+// assignment form (`BuildableMap::iterator it; for (it = m.begin(); it != m.end();
+// ++it)`): begin() returns into a temp that is copied into `it` exactly like retail
+// (mov ebx,[tmp]; mov eax,[tmp+4]; mov [it],ebx; mov [it+4],eax) and _M_cur stays in
+// ebx across the calls; the old Rva000411084 POD view lost that caching. With the
+// string_base.h compare throw() shim: 2195 B = retail, frame 0x70 = retail, 49 diffs,
+// all stack-slot displacements. Remaining wall: cl places `it` high ([ebp-0x1c]/-0x18,
+// sharing with the else-branch defaultTeam) and the begin temp at -0x3c/-0x38 over the
+// guard; retail has id at -0x1c, objectCount at -0x20, the temp at -0x34/-0x30 and
+// `it` at -0x3c/-0x38. No change (49): `it` declared at function top, before the
+// guard, in the storing block or an inner block; a named first temp; it++; (*it).first;
+// BuildableStatus status; !(it == end); const_iterator. while form: 52. WB twin: it =
+// local_98/94, name local_9c, status local_a0, empty local_90, id local_18. Landing
+// also needs pins for hashtable<pair<const AsciiString,BuildableStatus>,...>::begin
+// (retail 0x00427195) and _Ht_iterator<...>::operator++ (retail 0x00411084), each
+// admitted with fold-proof= if folded.
 // r6 2026-10-14: the AsciiString::compare(const char*) throw() shim that landed
 // for 0x32B1E1 does not touch this body; the needed declaration is
 // StringBase<T>::compare(const StringBase<T>&) throw() in string_base.h. With it
@@ -248,8 +266,6 @@ typedef _STL::pair<const AsciiString, BuildableStatus> BuildableStatusPair;
 typedef _STL::hash_map<AsciiString, BuildableStatus, rts::hash<AsciiString>,
 	rts::equal_to<AsciiString>, _STL::allocator<BuildableStatusPair> > BuildableMap;
 
-class Rva000411084 { public: void *next(); void *m_current; void *m_table; };
-class Rva000427195 { public: void *first(Rva000411084 *iter); };
 
 // GameLogic as the logic-relative calls see it.
 class GameLogic
@@ -391,7 +407,7 @@ void GameLogicSnapshot::DoXfer(Xfer *xfer)
 	unsigned int objectCount = logic->getObjectCount();
 	xfer->xferUnsignedInt(&objectCount);
 
-	Rva000411084 it;
+	BuildableMap::iterator it;
 	ObjectID id;
 	Team *defaultTeam;
 	if (xfer->isStoring()) {
@@ -442,21 +458,11 @@ void GameLogicSnapshot::DoXfer(Xfer *xfer)
 	xfer->xferInt(&m_10c);
 
 	if (xfer->isStoring()) {
-		{
-			Rva000411084 first;
-			((Rva000427195 *)&m_buildableOverrides)->first(&first);
-			it = first;
-		}
-		char *node = (char *)it.m_current;
-		while (node) {
-			{
-				AsciiString name = *(AsciiString *)(node + 4);
-				int status = *(int *)(node + 8);
-				xfer->xferAsciiString(&name);
-				XferBuildableStatus(xfer, &status);
-			}
-			it.next();
-			node = (char *)it.m_current;
+		for (it = m_buildableOverrides.begin(); it != m_buildableOverrides.end(); ++it) {
+			AsciiString name = it->first;
+			int status = it->second;
+			xfer->xferAsciiString(&name);
+			XferBuildableStatus(xfer, &status);
 		}
 		AsciiString empty;
 		xfer->xferAsciiString(&empty);
