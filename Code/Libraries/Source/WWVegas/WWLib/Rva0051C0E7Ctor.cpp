@@ -71,7 +71,13 @@ struct Rva0051C0E7G {
 
 extern Rva0051C0E7G *g_00E031E8;
 
-void Rva0051C241Fill(Rva0051C0E7 *obj)
+class AptScoreScreen
+{
+public:
+	static void PreCollectGameData(Rva0051C0E7 *obj);
+};
+// WorldBuilder AptScoreScreen::PreCollectGameData, WB VA 0x01460FC0 (align lead, score 1.0).
+void AptScoreScreen::PreCollectGameData(Rva0051C0E7 *obj)
 {
 	PlayerList *pl = ThePlayerList;
 	if (!pl)

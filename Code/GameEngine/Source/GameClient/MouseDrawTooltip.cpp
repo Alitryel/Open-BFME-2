@@ -58,9 +58,15 @@ inline BfmeColor BfmeGameMakeColor(unsigned char red, unsigned char green, unsig
 	return (alpha << 24) | (red << 16) | (green << 8) | (blue);
 }
 
-void Rva003807F3Move(float x, float y);
+class AptGuiFX
+{
+public:
+	static void MoveToolTip(float x, float y);
+public:
+	static void ShowToolTip(void *tipText, AsciiString *fontName, int fontSize, int fontBold, int color);
+};
 void Rva003807B7Hide();
-void Rva003808F0Show(void *tipText, AsciiString *fontName, int fontSize, int fontBold, int color);
+
 
 class Mouse
 {
@@ -161,8 +167,8 @@ void Mouse::drawTooltip()
 			int color = BfmeGameMakeColor((unsigned char)m_tooltipTextColor.red,
 				(unsigned char)m_tooltipTextColor.green, (unsigned char)m_tooltipTextColor.blue,
 				(unsigned char)m_tooltipTextColor.alpha);
-			Rva003808F0Show(&m_12F8, &font, size, boldSlot.asInt, color);
-			Rva003807F3Move((float)m_4F0C, (float)m_4F10);
+			AptGuiFX::ShowToolTip(&m_12F8, &font, size, boldSlot.asInt, color);
+			AptGuiFX::MoveToolTip((float)m_4F0C, (float)m_4F10);
 		}
 		m_1304 = 4;
 		return;

@@ -254,6 +254,8 @@ public:
 	virtual void slot08();
 	virtual void slot09();
 	virtual bool Is_Initialized();	// +0x28
+public:
+	static class Rva0015145C Get(const char *name);
 };
 
 class CreateAHeroData;
@@ -319,7 +321,7 @@ class Rva0015145C : public Rva0015148D
 {
 };
 
-Rva0015145C Rva001514F5_MakeOwner(const char *name);	// 0x001514F5
+// FXShaderAsset::Get (declared above) is 0x001514F5.
 
 // A substring view {string, start, length}: built by 0x000B6AA9, copied
 // out by 0x000B980E.
@@ -545,7 +547,7 @@ bool FXShaderSetup::InitializeShader(const char *shaderName, const char *techniq
 	m_Technique = 0;
 	m_Textures.clear();
 
-	Rva0015145C asset = Rva001514F5_MakeOwner(shaderName);
+	Rva0015145C asset = FXShaderAsset::Get(shaderName);
 	if (!asset.IsValid() || !asset.Peek_Effect())
 		return false;
 	ID3DXEffectView *effect = asset.Peek_Effect();
@@ -646,7 +648,7 @@ bool FXShaderSetup::Load_W3D(ChunkLoadClass &cload)
 	cload.Close_Chunk();
 
 	BFMEDX8DeviceLock lock;
-	Rva0015145C asset = Rva001514F5_MakeOwner(info.ShaderName);
+	Rva0015145C asset = FXShaderAsset::Get(info.ShaderName);
 	if (!asset.IsValid() || !asset.Peek_Effect())
 		return false;
 	ID3DXEffectView *effect = asset.Peek_Effect();

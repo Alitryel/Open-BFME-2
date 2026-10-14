@@ -20,7 +20,11 @@ bool Render_Obj_Exists(const char *);
 void Register_Aggregate_Prototype(const char *,int,int);
 void Rva00180C6FCreate(const char *,int,int);
 void Rva001809EACreate(const char *,int,int);
-void Rva001516C1RegisterPrototype(const char *);
+class FXShaderAsset
+{
+public:
+	static void Register(const char *);
+};
 void Rva001806D8Create(const char *,int,int);
 void Rva001804CBCreate(const char *,int,int);
 void Rva001800B2Create(const char *,int,int);
@@ -69,7 +73,7 @@ bool Rva0012CB67(_iobuf *file,bool skipTextures)
     switch(header.assetKind){
     case 0x414E494D: Register_Aggregate_Prototype(assetName,asset.firstOffset,nameLen);break;
     case 0x41474752: Rva00180C6FCreate(assetName,asset.firstOffset,nameLen);break;
-    case 0x46585348: Rva001516C1RegisterPrototype(assetName);break;
+    case 0x46585348: FXShaderAsset::Register(assetName);break;
     case 0x544558: if(skipTextures)break;TextureAsset::Register(assetName);break;
     case 0x424F58: Rva001809EACreate(assetName,asset.firstOffset,nameLen);break;
     case 0x50415254: Rva001806D8Create(assetName,asset.firstOffset,nameLen);break;

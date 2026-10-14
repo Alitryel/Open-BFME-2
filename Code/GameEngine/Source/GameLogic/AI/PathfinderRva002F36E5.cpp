@@ -8,6 +8,8 @@ class PathfindCell
 {
 public:
 	void SetOpen(bool flag);
+public:
+	static int ReleaseClosedList(class MixFileInfoBuffer *buf);
 };
 
 class Rva002F301F
@@ -17,7 +19,7 @@ public:
 };
 
 class MixFileInfoBuffer;
-int __cdecl Rva0052DE9BRelease(MixFileInfoBuffer *buf);
+
 
 class Pathfinder
 {
@@ -77,7 +79,7 @@ int Pathfinder::rva002F40E7()
 	int r = 0;
 	if (p != 0)
 	{
-		r = Rva0052DE9BRelease(p);
+		r = PathfindCell::ReleaseClosedList(p);
 		m_34 = 0;
 	}
 	m_40 += n;

@@ -43,7 +43,7 @@ struct FieldParse
 };
 
 // Rowed parse proc (retail 0x004816F4).
-void parseFilterStringEntryRva004816F4(INI *ini, void *instance, void *store, const void *userData);
+
 
 class MultiIniFieldParse
 {
@@ -74,6 +74,8 @@ private:
 	unsigned char m_pad58[0x7C];
 	// +0xD4 vector (implicit default init; ends at the rowed 0xE0 size).
 	_STL::vector<int> m_vectorD4;
+public:
+	static void iniParseTemplateContainer(INI *ini, void *instance, void *store, const void *userData);
 };
 
 // ??0ProductionQueueHordeContainModuleData@@QAE@XZ @0x00481776
@@ -90,7 +92,7 @@ void ProductionQueueHordeContainModuleData::buildFieldParse(MultiIniFieldParse &
 	// Own table (retail .data 0x00C490D4): one entry and the terminator.
 	static const FieldParse dataFieldParse[] =
 	{
-		{ "DestinationTemplate", parseFilterStringEntryRva004816F4, 0, 0xD4 },
+		{ "DestinationTemplate", ProductionQueueHordeContainModuleData::iniParseTemplateContainer, 0, 0xD4 },
 		{ 0, 0, 0, 0 }
 	};
 	parse.add(dataFieldParse, 0);

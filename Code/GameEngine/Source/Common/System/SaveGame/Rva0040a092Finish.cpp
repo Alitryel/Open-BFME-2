@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /Ob2 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 //
-// ?Rva0040A092Parse@@YAXPAVINI@@PAXPAPBVCommandButton@@H@Z @0x0040A092 173B
+// ?parseCommandButton@CommandSet@@SAXPAVINI@@PAXPAPBVCommandButton@@H@Z @0x0040A092 173B
 // Evidence: chain lane; calls rowed findCommandButton 0x0031BE3C via g_bfmeWorldRV,
 // INI getNextToken 0x2DF97 getFilename 0x2C005 getLineNum 0x2BBED, INIException
 // 0x2F681 throw via pinned _CxxThrowException; stores found button into out[index];
@@ -44,7 +44,13 @@ public:
     INIException &operator=(const INIException &that);
 };
 
-void Rva0040A092Parse(INI *ini, void *unused, const CommandButton **out, int index)
+class CommandSet
+{
+public:
+	static void parseCommandButton(INI *ini, void *unused, const CommandButton **out, int index);
+};
+// WorldBuilder CommandSet::parseCommandButton, WB VA 0x00C28A00 (strings lead, score 1.0).
+void CommandSet::parseCommandButton(INI *ini, void *unused, const CommandButton **out, int index)
 {
     const char *token = ini->getNextToken(0);
     const CommandButton *found;

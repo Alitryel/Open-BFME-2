@@ -75,7 +75,11 @@ public:
 };
 class MeshInstancingInterfaceView { public: virtual int rva0041FB69(const char *) = 0; };
 void Rva0018C0F1Clear();
-void Rva0018C0E7Set(void *interfaceView);
+class FXShaderGeometry
+{
+public:
+	static void RegisterInstancingManager(void *interfaceView);
+};
 class Rva0041FB13 : public SubsystemInterface, public MeshInstancingInterfaceView
 {
 public:
@@ -90,7 +94,7 @@ private:
 };
 Rva0041FB13::Rva0041FB13()
 {
-    Rva0018C0E7Set(static_cast<MeshInstancingInterfaceView *>(this));
+    FXShaderGeometry::RegisterInstancingManager(static_cast<MeshInstancingInterfaceView *>(this));
 }
 Rva0041FB13::~Rva0041FB13() { Rva0018C0F1Clear(); }
 
@@ -115,7 +119,7 @@ int Rva0041FB13::rva0041FB69(const char *arg)
 
 // GameEngine::init stores this primary-base pointer at native RVA A03134;
 // its retail initial data is four zero bytes. The secondary interface is
-// registered separately by Rva0018C0E7Set.
+// registered separately by FXShaderGeometry::RegisterInstancingManager.
 Rva0041FB13 *TheMeshInstancingManager = 0;
 
 typedef char MeshInstancingSubsystemSize[(sizeof(Rva0041FB13) == 0x24) ? 1 : -1];

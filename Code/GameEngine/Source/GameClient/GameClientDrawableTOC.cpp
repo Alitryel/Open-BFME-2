@@ -1318,7 +1318,11 @@ extern int g_00E02EC4;
 void Rva0038072AClear();
 IMEManager *CreateIMEManagerInterface();
 LanguageFilter *createLanguageFilter();
-void Rva00380B0CInit();
+class AptGuiFX
+{
+public:
+	static void Init();
+};
 void Rva00220DCDInit();
 void rva002210CF();
 void Rva002220DCInit();
@@ -1674,7 +1678,7 @@ void GameClient::init()
 	}
 
 	((Rva002227DF *)g_bfmeAptWindowManager)->rva002227DF();
-	Rva00380B0CInit();
+	AptGuiFX::Init();
 	Rva00220DCDInit();
 	rva002210CF();
 	Rva002220DCInit();

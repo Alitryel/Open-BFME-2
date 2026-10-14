@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD
-// ?Rva003807F3Move@@YAXMM@Z @ 0x003807F3 (118B): MoveToolTip firer with float formatting.
+// ?MoveToolTip@AptGuiFX@@SAXMM@Z @ 0x003807F3 (118B): MoveToolTip firer with float formatting.
 // Retail fetches scale pair through GuiScale slot 0x40 on global 0x009FE4CC then formats
 // x*scale[0] and y*scale[1] with "%g" via msvcr71 _snprintf into 16B stack buffers.
 // Then fires "MoveToolTip" through Rva00222A8BTarget invoker with owner 0x009C06A0 as
@@ -38,7 +38,13 @@ public:
 
 extern "C" __declspec(dllimport) int __cdecl _snprintf(char *buf, unsigned int n, const char *fmt, ...);
 
-void Rva003807F3Move(float x, float y)
+class AptGuiFX
+{
+public:
+	static void MoveToolTip(float x, float y);
+};
+// WorldBuilder AptGuiFX::MoveToolTip, WB VA 0x00F659E0 (strings lead, score 1.0).
+void AptGuiFX::MoveToolTip(float x, float y)
 {
 	float *scale = (float *)(*(GuiScale **)&g_bfmeAptWindowManager)->getScale();
 	char bufX[16];

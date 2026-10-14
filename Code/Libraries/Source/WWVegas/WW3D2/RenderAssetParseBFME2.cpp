@@ -68,7 +68,11 @@ public: Rva0013101E &rva0013101E(const Rva0013101E *);
  unsigned m_a:3,m_b:27,m_c:1,m_keep:1;unsigned m_d1,m_d2,m_d3;
 };
 class RenderObjClass;
-RenderObjClass *Rva0013682BCreateRenderObj(const char *,float,const Rva0013101E &,Strings &,Strings &,Strings &);
+class RenderAsset
+{
+public:
+	static RenderObjClass *CreateRenderObj(const char *,float,const Rva0013101E &,Strings &,Strings &,Strings &);
+};
 // WB9B3AE0 RenderAsset::CreateRenderObj; retain the established target
 // provider spelling used by W3DMouse and W3DGhostObjectScene.
 // Native137364..137461. Options are copied through the proven13101E worker.
@@ -81,7 +85,7 @@ RenderObjClass *Rva00137364CreateRenderObj(const char *name,float scale,const Rv
  options.rva0013101E(&sourceOptions);
  Strings textures,replacements,excluded;
  if(name[0]=='#') UnMangleName(name,baseName,localScale,reinterpret_cast<RenderAssetOptions &>(options),textures,replacements,excluded);
- return Rva0013682BCreateRenderObj(baseName.str(),localScale,options,textures,replacements,excluded);
+ return RenderAsset::CreateRenderObj(baseName.str(),localScale,options,textures,replacements,excluded);
 }
 
 AsciiString Rva0013101E::rva001360EA() const
@@ -149,7 +153,7 @@ extern bool g_Va00DB6218;
 static float renderAssetAbs(float v){int b=*(int *)&v;b&=0x7fffffff;return *(float *)&b;}
 // WB9B42B0 RenderAsset::CreateRenderObj renderasset.cpp614..620; native
 //13682B..136A21 supplies option bits and counted lifetime independently.
-RenderObjClass *Rva0013682BCreateRenderObj(const char *name,float scale,const Rva0013101E &options,Strings &textures,Strings &replacements,Strings &excluded)
+RenderObjClass *RenderAsset::CreateRenderObj(const char *name,float scale,const Rva0013101E &options,Strings &textures,Strings &replacements,Strings &excluded)
 {
  if(!name)return 0;
  if(name[0]=='#')return 0;

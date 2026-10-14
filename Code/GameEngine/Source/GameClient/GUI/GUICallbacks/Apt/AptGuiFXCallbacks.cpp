@@ -14,6 +14,8 @@ class AptGuiFX
 {
 public:
 	static void OnInitialized(const char *unused);
+public:
+	static void ShowToolTip(void *text,class AsciiString *face,int size,int style,int color);
 };
 
 // Retail 0x003808E8, 8 bytes: "AptGuiFX::OnInitialized" marks the GuiFX
@@ -85,7 +87,8 @@ void Rva003807B7Hide();
 extern "C" __declspec(dllimport) int __cdecl _snprintf(char *,unsigned int,const char *,...);
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
-void Rva003808F0Show(void *text,AsciiString *face,int size,int style,int color)
+// WorldBuilder AptGuiFX::ShowToolTip, WB VA 0x00F65460 (strings lead, score 1.0).
+void AptGuiFX::ShowToolTip(void *text,AsciiString *face,int size,int style,int color)
 {
  if(TheTooltipString) Rva003807B7Hide();
  float *dimensions=reinterpret_cast<GuiFXDimensions *>(g_bfmeAptWindowManager)->getDimensions();

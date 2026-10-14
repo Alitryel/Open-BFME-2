@@ -1,6 +1,6 @@
 // cl: /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS
 //
-// ?Rva00136032_MakeOwner@@YA?AVRva00136001@@PBD@Z @ 0x00136032 (94 bytes).
+// ?Get@RenderAsset@@SA?AVRva00136001@@PBD@Z @ 0x00136032 (94 bytes).
 // Registry-owner factory (mixed named-return plus temporary-return recipe,
 // as the landed 0x0017FC1E/0x0014CF01 factories). Owner copy ctor pinned at
 // 0x00136001.
@@ -46,8 +46,14 @@ public:
 
 extern HierarchyPrototypeRef __cdecl Rva0061F230_GetPrototype(const char *name);
 
-// ?Rva00136032_MakeOwner@@YA?AVRva00136001@@PBD@Z
-Rva00136001 Rva00136032_MakeOwner(const char *name)
+// ?Get@RenderAsset@@SA?AVRva00136001@@PBD@Z
+class RenderAsset
+{
+public:
+	static Rva00136001 Get(const char *name);
+};
+// WorldBuilder RenderAsset::Get, WB VA 0x009B38F0 (callgraph lead, score 2.0).
+Rva00136001 RenderAsset::Get(const char *name)
 {
 	if (name == 0)
 	{

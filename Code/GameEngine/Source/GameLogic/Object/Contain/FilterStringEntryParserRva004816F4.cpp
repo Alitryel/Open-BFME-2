@@ -15,7 +15,13 @@ class Rva00360D26Member {public:Rva00360D26Member();private:unsigned handle;};
 struct Rva004816F4Entry {Rva00360D26Member filter;AsciiString name;~Rva004816F4Entry();};
 typedef char EntrySizeIsEight[sizeof(Rva004816F4Entry)==8?1:-1];
 class Rva004816F4Vector {public:void push_back(const Rva004816F4Entry&);};
-void parseFilterStringEntryRva004816F4(INI*ini,void*instance,void*store,const void*) {
+class ProductionQueueHordeContainModuleData
+{
+public:
+	static void iniParseTemplateContainer(INI*ini,void*instance,void*store,const void*);
+};
+// WorldBuilder ProductionQueueHordeContainModuleData::iniParseTemplateContainer, WB VA 0x011B71A0 (callgraph lead, score 2.0).
+void ProductionQueueHordeContainModuleData::iniParseTemplateContainer(INI*ini,void*instance,void*store,const void*) {
  Rva004816F4Entry entry;
  entry.name=ini->getNextTokenOrNull(0);
  iniParseObjectFilter(ini,instance,&entry.filter,0);

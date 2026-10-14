@@ -30,6 +30,8 @@ class AptGuiFX
 public:
 	static void OnInitialized(const char *unused);
 	
+public:
+	static void Init();
 };
 
 // OnInitialized is defined and rowed in AptGuiFXCallbacks.cpp.
@@ -83,7 +85,8 @@ class Coord2D;
 void rva00380869(Coord2D *,Coord2D *);
 class Rva003806D4 {public:void rva003806D4();};
 class AptStrategicMessageBox {public:static void CreateSingleton();};
-void Rva00380B0CInit() {
+// WorldBuilder AptGuiFX::Init, WB VA 0x00F650A0 (strings lead, score 2.0).
+void AptGuiFX::Init() {
  if (g_bfmeAptWindowManager) {
   g_Va00E022E0=false;
   reinterpret_cast<Rva002239B2 *>(g_bfmeAptWindowManager)->rva002239B2(&g_Va00E022E8,reinterpret_cast<Rva001408C0Target *>(13));

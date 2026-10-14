@@ -57,11 +57,17 @@ void AptOptions::OpenScreen(bool a1, bool a2, bool a3, bool a4)
 	(*(Rva00222A8BTarget **)&g_bfmeAptWindowManager)->rva002233A6(1);
 }
 
-// ?Rva0051E262Init@@YA_NHH@Z @0x0051E262 85B
+// ?OpenScreen@AptScoreScreen@@SA_NHH@Z @0x0051E262 85B
 // ScoreScreen.apt push plus two ints at +0x280/+0x288 plus the 0x51DE3D
 // tail; same Shell-push idiom as AptOptions::OpenScreen above. Always returns
 // true; early-out when the score screen state already exists.
-bool Rva0051E262Init(int a1, int a2)
+class AptScoreScreen
+{
+public:
+	static bool OpenScreen(int a1, int a2);
+};
+// WorldBuilder AptScoreScreen::OpenScreen, WB VA 0x0145FCE0 (strings lead, score 1.0).
+bool AptScoreScreen::OpenScreen(int a1, int a2)
 {
 	if (g_00E04914 != 0)
 		return true;

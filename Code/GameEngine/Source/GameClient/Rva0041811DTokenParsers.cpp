@@ -104,8 +104,14 @@ void Rva00419726Parse(INI *ini, void *, void *store, const void *)
 
 extern const char *g_00DC85C4[];
 
-// ?Rva0041951DParse@@YAXPAVINI@@PAX1PBX@Z
-void Rva0041951DParse(INI *ini, void *, void *store, const void *)
+// ?parseDamagePerRoundIntoTable@LivingWorldAutoResolveWeaponTemplate@@SAXPAVINI@@PAX1PBX@Z
+class LivingWorldAutoResolveWeaponTemplate
+{
+public:
+	static void parseDamagePerRoundIntoTable(INI *ini, void *, void *store, const void *);
+};
+// WorldBuilder LivingWorldAutoResolveWeaponTemplate::parseDamagePerRoundIntoTable, WB VA 0x00C6D010 (strings lead, score 1.1).
+void LivingWorldAutoResolveWeaponTemplate::parseDamagePerRoundIntoTable(INI *ini, void *, void *store, const void *)
 {
 	float damage = ini->scanReal(ini->getNextSubToken("Damage"));
 	const char *against = ini->getNextSubToken("Against");

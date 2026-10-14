@@ -46,8 +46,14 @@ public:
 
 extern HierarchyPrototypeRef __cdecl Rva0061F230_GetPrototype(const char *name);
 
-// ?Rva0017FC1E_MakeOwner@@YA?AVHTreePrototypeOwner@@PBD@Z
-HTreePrototypeOwner Rva0017FC1E_MakeOwner(const char *name)
+// ?Get@HierarchyAsset@@SA?AVHTreePrototypeOwner@@PBD@Z
+class HierarchyAsset
+{
+public:
+	static HTreePrototypeOwner Get(const char *name);
+};
+// WorldBuilder HierarchyAsset::Get, WB VA 0x00A44310 (callgraph lead, score 2.0).
+HTreePrototypeOwner HierarchyAsset::Get(const char *name)
 {
 	if (name == 0)
 	{

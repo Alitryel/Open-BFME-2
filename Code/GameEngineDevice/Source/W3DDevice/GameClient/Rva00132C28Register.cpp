@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?Rva00132C28Register@@YAXPAX00@Z
+// ?RegisterRecolorForHouseColorDecal@TextureAsset@@SAXPAX00@Z
 // Retail 0x00132C28, 85 bytes. The target rejects null first and second
 // arguments, allocates 0x54 bytes, calls the address-derived three-argument
 // constructor at 0x0013213B, then registers its return with Add_Prototype at
@@ -17,7 +17,13 @@ public:
 
 void Add_Prototype(void *prototype);
 
-void __cdecl Rva00132C28Register(void *a, void *b, void *c)
+class TextureAsset
+{
+public:
+	static void RegisterRecolorForHouseColorDecal(void *a, void *b, void *c);
+};
+// WorldBuilder TextureAsset::RegisterRecolorForHouseColorDecal, WB VA 0x009D4880 (callgraph lead, score 2.0).
+void __cdecl TextureAsset::RegisterRecolorForHouseColorDecal(void *a, void *b, void *c)
 {
 	if (a && b)
 	{

@@ -181,7 +181,9 @@ public:
     int m_loadType;
 };
 class Rva0031D5F8 { public: void *rva0031D5F8(const AsciiString *); };
-class CommandSet { public: static const FieldParse m_commandSetFieldParseTable[]; };
+class CommandSet { public: static const FieldParse m_commandSetFieldParseTable[]; public:
+	static void parseCommandButton(class INI *,void *,const class CommandButton **,int);
+};
 extern ControlBar *TheControlBar;
 void ControlBar::parseCommandSetDefinition(INI *ini)
 {
@@ -208,41 +210,41 @@ void ControlBar::parseCommandSetDefinition(INI *ini)
 // followed by InitialVisible at +0x94 and the four-zero terminator. Callback
 // 0x0040A092 already owns its address-derived name in the function ledger.
 class CommandButton;
-void Rva0040A092Parse(INI *,void *,const CommandButton **,int);
+
 const FieldParse CommandSet::m_commandSetFieldParseTable[] =
 {
-    {"1",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)0,0x14},
-    {"2",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)1,0x14},
-    {"3",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)2,0x14},
-    {"4",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)3,0x14},
-    {"5",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)4,0x14},
-    {"6",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)5,0x14},
-    {"7",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)6,0x14},
-    {"8",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)7,0x14},
-    {"9",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)8,0x14},
-    {"10",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)9,0x14},
-    {"11",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)10,0x14},
-    {"12",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)11,0x14},
-    {"13",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)12,0x14},
-    {"14",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)13,0x14},
-    {"15",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)14,0x14},
-    {"16",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)15,0x14},
-    {"17",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)16,0x14},
-    {"18",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)17,0x14},
-    {"19",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)18,0x14},
-    {"20",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)19,0x14},
-    {"21",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)20,0x14},
-    {"22",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)21,0x14},
-    {"23",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)22,0x14},
-    {"24",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)23,0x14},
-    {"25",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)24,0x14},
-    {"26",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)25,0x14},
-    {"27",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)26,0x14},
-    {"28",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)27,0x14},
-    {"29",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)28,0x14},
-    {"30",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)29,0x14},
-    {"31",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)30,0x14},
-    {"32",reinterpret_cast<INIFieldParseProc>(Rva0040A092Parse),(const void *)31,0x14},
+    {"1",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)0,0x14},
+    {"2",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)1,0x14},
+    {"3",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)2,0x14},
+    {"4",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)3,0x14},
+    {"5",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)4,0x14},
+    {"6",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)5,0x14},
+    {"7",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)6,0x14},
+    {"8",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)7,0x14},
+    {"9",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)8,0x14},
+    {"10",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)9,0x14},
+    {"11",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)10,0x14},
+    {"12",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)11,0x14},
+    {"13",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)12,0x14},
+    {"14",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)13,0x14},
+    {"15",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)14,0x14},
+    {"16",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)15,0x14},
+    {"17",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)16,0x14},
+    {"18",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)17,0x14},
+    {"19",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)18,0x14},
+    {"20",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)19,0x14},
+    {"21",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)20,0x14},
+    {"22",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)21,0x14},
+    {"23",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)22,0x14},
+    {"24",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)23,0x14},
+    {"25",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)24,0x14},
+    {"26",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)25,0x14},
+    {"27",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)26,0x14},
+    {"28",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)27,0x14},
+    {"29",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)28,0x14},
+    {"30",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)29,0x14},
+    {"31",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)30,0x14},
+    {"32",reinterpret_cast<INIFieldParseProc>(CommandSet::parseCommandButton),(const void *)31,0x14},
     {"InitialVisible",INI::parseInt,0,0x94},
     {0,0,0,0}
 };

@@ -284,7 +284,13 @@ AptOnlineSubScreen *AptOnlineLogin::Create(AptOnline *shell)
 }
 
 // Retail 0x00516D91, 65 bytes: the shell table's factory for a new "OnlineHome" sub-screen unless one is up (0x00E06480).
-AptOnlineSubScreen *__cdecl Rva00516D91(AptOnline *shell)
+class AptOnlineHome
+{
+public:
+	static AptOnlineSubScreen *Create(AptOnline *shell);
+};
+// WorldBuilder AptOnlineHome::Create, WB VA 0x0145AED0 (callgraph lead, score 1.0).
+AptOnlineSubScreen *__cdecl AptOnlineHome::Create(AptOnline *shell)
 {
 	if (g_Va00E06480)
 		return 0;

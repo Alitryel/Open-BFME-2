@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?Rva0052DE9BRelease (retail 0x0052DE9B, 56 bytes): walks a MixFileInfoBuffer
+// ?PathfindCell::ReleaseClosedList (retail 0x0052DE9B, 56 bytes): walks a MixFileInfoBuffer
 // list via +0x34, unlinks each node, clears 0x10 at +0x2c and calls
 // PathfindCell::ReleaseInfo on the state at +0x30 when present, returning the
 // node count. Callees are declared-only so the gate resolves them; the
@@ -15,6 +15,8 @@ class PathfindCell
 {
 public:
 	void ReleaseInfo();
+public:
+	static int ReleaseClosedList(class MixFileInfoBuffer *head);
 };
 
 class MixFileInfoBuffer
@@ -23,7 +25,7 @@ private:
 	void bfmeUnlink();
 public:
 	void releaseInto(void *pool);
-	friend int Rva0052DE9BRelease(MixFileInfoBuffer *head);
+	friend int PathfindCell::ReleaseClosedList(MixFileInfoBuffer *head);
 	char m_head[0x34];
 	MixFileInfoBuffer *m_next;
 	MixFileInfoBuffer **m_prevNext;
@@ -38,7 +40,8 @@ struct WalkNode
 	WalkNode **m_prevNext;
 };
 
-int Rva0052DE9BRelease(MixFileInfoBuffer *head)
+// WorldBuilder PathfindCell::ReleaseClosedList, WB VA 0x012D7F30 (callgraph lead, score 1.0).
+int PathfindCell::ReleaseClosedList(MixFileInfoBuffer *head)
 {
 	if (head == 0)
 		return 0;
