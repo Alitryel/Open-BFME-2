@@ -131,3 +131,16 @@ int bfmeEnableBinaryDeepCRC()
 // argument is read. No target option-table address reference was found;
 // original handler name, ignored arguments and bit1 meaning remain unknown.
 int Rva003B947ESetCommandBit() { BFME2CommandFlags |= 1u; return 1; }
+
+// Native 003B9C47..003B9C57: OR command bit 0x40000 and set the byte at VA
+// 0x00E02D8A, return int 1. That byte is the one GameLogic::ProcessCRC
+// (0x00241529, GameLogicInit.cpp) tests as ignoreCRCMismatches before
+// treating a mismatch as fatal; zero in retail .data. Handler name
+// address-derived; its option string is not referenced from the image.
+bool ignoreCRCMismatches = false;
+int Rva003B9C47SetIgnoreCRCMismatches()
+{
+    BFME2CommandFlags |= 0x40000;
+    ignoreCRCMismatches = true;
+    return 1;
+}
