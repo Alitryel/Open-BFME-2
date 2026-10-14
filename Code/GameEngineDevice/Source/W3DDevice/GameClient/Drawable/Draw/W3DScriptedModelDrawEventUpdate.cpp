@@ -38,7 +38,7 @@ class Rva00704980 {public:
  int m_00,m_04,m_08,m_0C,m_10,m_14,m_18;char m_1C,m_1D,m_1E,m_1F;
 };
 // ?Rva00704980::Rva00704980 present-unmatched
-inline Rva00704980::Rva00704980(){m_00=0;m_04=0;m_08=0;m_0C=0;m_10=0;m_14=0;m_18=0;m_1C=0;m_1D=0;m_1E=0;m_1F=0;}
+// Rva00704980's ctor is defined by its row's unit, Rva000C48DBFXParser.cpp.
 struct ParticleEvent32:public Rva00704980 {
  ~ParticleEvent32(){reinterpret_cast<StringBase<char>*>(this)->clear();}
 };
