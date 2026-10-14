@@ -20,9 +20,17 @@ extern GameLogic *TheGameLogic;
 // Use the same witnessed retail allocator cleanup as the matched builder.
 namespace _STL { void __cdecl free(void *); }
 #define free _STL::free
+// Reuse CastleBehavior's established growth-helper repair: inline the local
+// unsigned maximum so the unit emits no divergent generic max COMDAT.
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{ return a < b ? b : a; }
+}
 #include <vector>
 #undef free
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../../../Libraries/Include/Lib/Coord2D.h"
+#include <math.h>
 
 class Object;
 class Player {
@@ -78,6 +86,14 @@ float __cdecl GetGameLogicRandomValueReal(float, float, char *, int);
 // No vtable definition or assertion about unobserved slots is made here.
 struct WallPositionValue : Coord3D {
     WallPositionValue() {}
+    WallPositionValue(float a, float b, float c) { x=a; y=b; z=c; }
+    void scale(float factor) { x=x*factor; y=y*factor; z=z*factor; }
+    static void crossProduct(const WallPositionValue &a, const WallPositionValue &b, WallPositionValue *result) {
+        result->x = a.y*b.z - a.z*b.y;
+        result->y = a.z*b.x - a.x*b.z;
+        result->z = a.x*b.y - a.y*b.x;
+    }
+
     WallPositionValue(const Coord3D &other) {
         x=other.x; y=other.y; z=other.z;
     }
@@ -237,6 +253,51 @@ namespace _STL {
 template <> void vector<BfmeE8, allocator<BfmeE8> >::push_back(const BfmeE8 &);
 }
 
+// Caller storage/virtual-base ABI reused from the verified CastleBehavior
+// constructor caller00399370. Constructor2E3EB8 proves100B allocation and
+// the hidden most-derived flag. The other base layouts remain opaque here.
+class Rva00330C50Interface {
+public:
+    ~Rva00330C50Interface() {}
+    virtual void slot0()=0; virtual void slot1()=0; virtual void slot2()=0;
+    virtual void slot3()=0; virtual void slot4()=0; virtual void slot5()=0; virtual void slot6()=0;
+};
+class PolygonTrigger : public virtual Rva00330C50Interface {
+public:
+    PolygonTrigger(int);
+    static void addPolygonTrigger(PolygonTrigger *);
+    virtual void *deleteInstance(int);
+    virtual void slot0(); virtual void slot1(); virtual void slot2();
+    virtual void slot3(); virtual void slot4(); virtual void slot5(); virtual void slot6();
+    void setName(const AsciiString &name) {
+        *reinterpret_cast<AsciiString *>(reinterpret_cast<char *>(this)+0x40) = name;
+    }
+private:
+    char nativePrefix[0x54];
+};
+typedef char PolygonTriggerExtentCheck[sizeof(PolygonTrigger)==100?1:-1];
+// WB names addBoundaryPoint; native calls the existing slot1 member-pointer
+// thunk5CB260. This call view specifies only the observed primary slot.
+class WallPolygonBoundaryCallView {
+public:
+    virtual void slot0();
+    virtual void addBoundaryPoint(const Coord2D *);
+};
+class Rva002E3766Holder { public: void set(int, int); };
+struct WallBoundaryPoint : Coord2D {
+    WallBoundaryPoint &set(float a, float b) { x=a; y=b; return *this; }
+};
+// Native serial at VA00E044A4; descriptive name, original spelling unknown.
+int wallTriggerSerial;
+
+// Inline-only copies of the game allocator cleanup, using the same compiler
+// treatment as CastleBehavior's less<int> repair. The native growth body
+// expands these calls; suppress their otherwise divergent unused COMDATs.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline void allocator<PolygonTrigger *>::deallocate(PolygonTrigger **p,size_t n)const {if(p) _STL::free(p);}
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<PolygonTrigger **,PolygonTrigger *,allocator<PolygonTrigger *> >::deallocate(PolygonTrigger **p,size_t n){static_cast<allocator<PolygonTrigger *> &>(*this).deallocate(p,n);}
+template<> __declspec(dllimport) __forceinline void vector<PolygonTrigger *,allocator<PolygonTrigger *> >::_M_clear(){_Destroy(_M_start,_M_finish);_M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start);}
+}
 class AIWall
 {
 public:
@@ -246,6 +307,7 @@ public:
 	void update();
 	void activate(void *owner, float delay, const void *orderName);
 	bool rva004EB7CC(void *owner);
+    void rva004EBB58();
     static void __cdecl informInstanceOnTriggerEntered(Object *, void *, bool);
 private:
 	void *unknown00;
@@ -253,7 +315,7 @@ private:
 	_STL::vector<WallPositionOrderView *> orders08;
 	Rva004EB902Plan *m_14;	// +0x14
 	Player *m_18;		// +0x18
-	unsigned char unknown1c[0x0c];
+    _STL::vector<PolygonTrigger *> triggers1c;
     _STL::vector<BfmeE8> triggerCounts28;
 	int state34, index38, state3c, index40;
 };
@@ -450,4 +512,79 @@ void __cdecl AIWall::informInstanceOnTriggerEntered(Object *object, void *contex
         }
         ++found->b;
     }
+}
+
+// Native4EBB58..4EBDF9 and WB137C5F0 establish one trigger per order,
+// four XY boundary points, callback/context, generated name and registration.
+// WB's Coord2D::Set label comes from an inline assertion, not this method's
+// identity. Original helper name and serial-counter name are unknown.
+// Four actual Coord3D helper definitions below preserve native SSE scheduling;
+// the string member uses its real assignment wrapper before registration.
+// The reference WWMath vector3.h pointer cross-product implementation is
+// deliberately aliasing here, as native writes X before computing Y/Z.
+void AIWall::rva004EBB58()
+{
+    WallPositionValue previous(selected04->position().x, selected04->position().y, 0.0f);
+    _STL::vector<WallPositionOrderView *>::iterator end = orders08.end();
+    for (_STL::vector<WallPositionOrderView *>::iterator order=orders08.begin(); order!=end; ++order) {
+        PolygonTrigger *trigger = new PolygonTrigger(1);
+        WallPositionValue current((*order)->position().x, (*order)->position().y, 0.0f);
+        WallPositionValue delta(previous);
+        delta -= current;
+        delta.Normalize();
+        WallPositionValue up(0.0f, 0.0f, 1.0f);
+        WallPositionValue::crossProduct(delta, up, &delta);
+        delta.scale(40.0f);
+        WallBoundaryPoint point;
+        void (WallPolygonBoundaryCallView::*add)(const Coord2D *) = &WallPolygonBoundaryCallView::addBoundaryPoint;
+        (reinterpret_cast<WallPolygonBoundaryCallView *>(trigger)->*add)(&point.set(previous.x+delta.x, previous.y+delta.y));
+        (reinterpret_cast<WallPolygonBoundaryCallView *>(trigger)->*add)(&point.set(current.x+delta.x, current.y+delta.y));
+        delta.scale(-1.0f);
+        (reinterpret_cast<WallPolygonBoundaryCallView *>(trigger)->*add)(&point.set(previous.x+delta.x, previous.y+delta.y));
+        (reinterpret_cast<WallPolygonBoundaryCallView *>(trigger)->*add)(&point.set(current.x+delta.x, current.y+delta.y));
+        reinterpret_cast<Rva002E3766Holder *>(trigger)->set((int)&informInstanceOnTriggerEntered, (int)this);
+        AsciiString name;
+        name.format("AIWallTrigger_%d", wallTriggerSerial++);
+        trigger->setName(name);
+        PolygonTrigger::addPolygonTrigger(trigger);
+        triggers1c.push_back(trigger);
+        previous=current;
+    }
+}
+
+__declspec(noinline) inline float Coord3D::GetLength() const
+{
+    float x_value = x;
+    float y_value = y;
+    float z_value = z;
+    return (float)sqrt(x_value * x_value + y_value * y_value + z_value * z_value);
+}
+
+
+__declspec(noinline) inline float Coord3D::length() const
+{
+    return (float)sqrt(x * x + y * y + z * z);
+}
+
+
+__declspec(noinline) inline void Coord3D::normalize()
+{
+    float len = length();
+    if (len != 0.0f) {
+        float scale = 1.0f / len;
+        x *= scale;
+        y *= scale;
+        z *= scale;
+    }
+}
+
+
+__declspec(noinline) inline float Coord3D::Normalize()
+{
+    float len = GetLength();
+    float scale = 1.0f / len;
+    x *= scale;
+    y *= scale;
+    z *= scale;
+    return len;
 }
