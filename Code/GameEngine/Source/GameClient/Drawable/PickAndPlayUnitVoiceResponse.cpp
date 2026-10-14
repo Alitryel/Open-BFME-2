@@ -1010,7 +1010,6 @@ void __cdecl Rva004D990E(int command, Object *obj, Rva004D97B0 *out, const Coord
 
 // 0x004D9453: the victim is the target drawable's object; an enter command
 // asks the ActionManager which enter message the selection would send.
-// ?getVictimAndEnterMessage@@YAXPBVDrawableList@@W4Type@GameMessage@@PAVPickAndPlayInfo@@PAPAVObject@@PAW423@PA_N@Z present-unmatched
 static void getVictimAndEnterMessage(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info,
 	Object **victim, GameMessage::Type *enterMessage, bool *isAttackOrMove)
 {
