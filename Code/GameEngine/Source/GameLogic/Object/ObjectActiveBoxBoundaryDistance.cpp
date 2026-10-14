@@ -1,14 +1,18 @@
-// ?rva0028EFB8@Object@@QBEMPBUCoord3D@@PBV1@0@Z
-// partial score=0.992107 date=2026-10-13
-// ?rva0028EFB8@Object@@QBEMPBUCoord3D@@PBV1@0@Z
-// partial score=0.992107 date=2026-10-10
-// ?rva0028EFB8@Object@@QBEMPBUCoord3D@@PBV1@0@Z
-// BF1 pinned575 single-box distance C++ supplies semantic/structural guide;
-// native BF2 adds active-shape loop and nearest signed gap before squaring.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /ICode/Libraries/Include/Lib /I.
 
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "matrix3d.h"
+
+// Native 0x0028EFB8..0x0028F2C4: thiscall float result, RET 12.
+// WorldBuilder CE52E0 proves active-shape enumeration, Coord3D delta followed
+// by a Vector3 direction constructed from XY, and direction.Length2().
+// The BFME1 575ba2b04 single-box distance donor supplies the semantic guide;
+// BFME2 bytes establish the active shape loop, geometry offsets and minimum
+// signed gap. Matrix3D/Vector3 headers: verified BFME1 cee35b7d8ca0.
+// Keep the distinct coordinate and direction locals: using a Vector3 copy
+// for delta or taking delta.Length2() changes two x87/SSE scheduling ties.
+// The address-derived method name and const qualification are ABI views;
+// WorldBuilder alone does not establish the original public method name.
 
 typedef int Int;
 typedef float Real;
@@ -92,7 +96,7 @@ Real Object::rva0028EFB8(
 	const Coord3D *otherPosition) const
 {
 	const BfmeGeometryInfo *geometry=&m_geometry;
- Real best=3.402823466e+38F;
+ Real best=9999999.0f;
  bool found=false;
  for(Int i=0;i<geometry->m_end-geometry->m_begin;++i){
  const BfmeGeometryPiece *piece = BfmeGeometryPieceAt(*geometry,i);
@@ -101,15 +105,15 @@ Real Object::rva0028EFB8(
 	center.x=position->x;center.y=position->y;center.z=position->z;
 	BfmeTransformCenter(piece, &center, m_orientation);
 
-	Vector3 delta(
-		otherPosition->x - center.x,
-		otherPosition->y - center.y,
-		0.0f);
-	Vector3 direction(delta);
+	Coord3D delta;
+	delta.x = otherPosition->x - center.x;
+	delta.y = otherPosition->y - center.y;
+	delta.z = 0.0f;
+	Vector3 direction(delta.x, delta.y, 0.0f);
 	Real projectedX = (Real)fabs(Vector3::Dot_Product(
-		m_transform.Get_X_Vector(), delta));
+		m_transform.Get_X_Vector(), direction));
 	Real projectedY = (Real)fabs(Vector3::Dot_Product(
-		m_transform.Get_Y_Vector(), delta));
+		m_transform.Get_Y_Vector(), direction));
 
 	if (projectedX < piece->m_majorRadius &&
 		projectedY < piece->m_minorRadius)
@@ -131,7 +135,7 @@ Real Object::rva0028EFB8(
 	}
 	else
 	{
-		Real directionLengthSquared = delta.Length2();
+		Real directionLengthSquared = direction.Length2();
 		if (directionLengthSquared != 0.0f)
 		{
 			Real inverseDistance = WWMath::Inv_Sqrt(directionLengthSquared);
@@ -149,7 +153,7 @@ Real Object::rva0028EFB8(
 		Real minorProjection =
 			(Real)fabs(Vector3::Dot_Product(minorAxis, direction));
 		radius = majorProjection + minorProjection;
-		distanceSquared = delta.X * delta.X + delta.Y * delta.Y;
+		distanceSquared = delta.x * delta.x + delta.y * delta.y;
 	}
 
 	Real combinedRadius=radius+other->m_geometry.m_boundingCircleRadius;
