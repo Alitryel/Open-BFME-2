@@ -195,3 +195,23 @@ Rva00500BF5Node *Rva00500BF5Tree::copy(Rva00500BF5Node *source,
 }
 
 #pragma comment(linker, "/alternatename:?cloneNode@Rva00500BF5Tree@@QAEPAURva00500BF5Node@@PAU2@@Z=?Rva00501068Clone@@YGPAURva00500BF5Node@@PAU1@@Z")
+
+// Target 0x00501232/29B. The container-level insert(hint, value) over this
+// tree: forwards the by-value hint iterator and the value to the rowed
+// insert_equal(hint) worker at 0x00500F6E and returns its iterator, as
+// STLport's multiset/multimap::insert(iterator, const value_type &) does.
+// Skeleton twin of map<int,int>::insert(hint) at 0x00289147.
+class Rva00501232Container
+{
+public:
+    Rva00500BF5Tree::Iterator insert(Rva00500BF5Tree::Iterator position,
+                                     const Rva00500500 &value);
+private:
+    Rva00500BF5Tree m_tree;
+};
+
+Rva00500BF5Tree::Iterator Rva00501232Container::insert(
+    Rva00500BF5Tree::Iterator position, const Rva00500500 &value)
+{
+    return m_tree.insertEqual(position, value);
+}
