@@ -248,3 +248,35 @@ Rva005964B0Position Rva0025BFF8::rva005964C7(int index)
 {
 	return ((Rva005964B0Object *)rva0025BFF8(index))->m_position;
 }
+
+// --- 0x005D2F7E, 0x005D2F84, 0x005D2F8A (6B each) and 0x005D2F90 (6B): the
+// +0x20, +0x38 and +0x50 sub-blocks and the +0x68 byte of the record the
+// object's +0 pointer holds. The first three are the tail-jump targets of the
+// rowed forwarders 0x0057862E/0x00578636/0x0057863E (their callers bind the
+// existing void pins at these addresses; the bodies return the address).
+struct Rva005D2F7EBlock
+{
+	char m_pad00[0x20];
+	char m_20[0x18];
+	char m_38[0x18];
+	char m_50[0x18];
+	unsigned char m_68;
+};
+
+#define SEAT5_BLOCK_GETTER(RVA, RET, EXPR) \
+class Rva##RVA \
+{ \
+public: \
+	RET rva##RVA(); \
+private: \
+	Rva005D2F7EBlock *m_block; \
+}; \
+RET Rva##RVA::rva##RVA() \
+{ \
+	return EXPR; \
+}
+
+SEAT5_BLOCK_GETTER(005D2F7E, char *, m_block->m_20)
+SEAT5_BLOCK_GETTER(005D2F84, char *, m_block->m_38)
+SEAT5_BLOCK_GETTER(005D2F8A, char *, m_block->m_50)
+SEAT5_BLOCK_GETTER(005D2F90, unsigned char, m_block->m_68)
