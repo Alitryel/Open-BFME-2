@@ -15,6 +15,11 @@ class Rva00468E98Point
 {
 public:
     float x, y;
+    Rva00468E98Point() {}
+    ~Rva00468E98Point() {}
+    Rva00468E98Point(const Rva00468E98Point &other) { x=other.x; y=other.y; }
+    Rva00468E98Point &operator=(const Rva00468E98Point &other) { x=other.x; y=other.y; return *this; }
+
     __forceinline Rva00468E98Point(const Rva00468E98Point &, float);
 };
 struct Rva00468E98Owner
