@@ -1,5 +1,7 @@
 // ?Rva0060DFB5@@YA_NPAVFile@@0@Z
 // partial score=0.998969768783665 date=2026-10-14
+// ?Rva0060DFB5@@YA_NPAVFile@@0@Z
+// partial score=0.998969768783665 date=2026-10-14
 // cl: /O1 /G7 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // Tagged binary Xfer stream -> readable text. Native 0x0060DFB5..0x0060F0CE.
 // BF1 semantic/structural lead: targets/game/reverse/attempts/0x009d9d90.cpp
