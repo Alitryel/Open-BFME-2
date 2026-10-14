@@ -1,6 +1,4 @@
 // cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-// partial score=0.9 date=2026-10-13
-// cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
 // Retail 0x0030E2FE (130B, EH), an EH-prolog start Ghidra never listed, right
 // after the rowed bit-flag forwarders 0x0030E2EC / 0x0030E2F5: Zero Hour's
@@ -12,8 +10,10 @@
 // flag forwarders also end in). The class is the address-named view of
 // Rva0030DBD5Lifecycle.cpp (ctor 0x0030DA25); only the offsets duplicate
 // reads are modelled.
+// Coord3D is the non-POD retail view (Lib/Coord3DCtorView.h): the by-value position argument is built by three
+// dword copies through the user copy constructor, with the EH marker in the frame.
 #include "ascii_string.h"
-#include "Lib/Coord3D.h"
+#include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class Dict
 {
