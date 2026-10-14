@@ -1,7 +1,9 @@
-// ?rva0026CF11@AIUpdateInterface@@QAE_NPAVObject@@@Z
-// partial score=0.995 date=2026-10-13
-// ?rva0026CF11@AIUpdateInterface@@QAE_NPAVObject@@@Z
-// partial score=0.9949072454397704 date=2026-10-09
+// Native 0026CF11..0026D3FB, 1258 bytes, RET4.
+// AI collision response: target accesses establish the local ABI view.
+// ZH AIUpdate.cpp is a semantic lead only; target-specific branches retain
+// the address-derived name. The real Coord3D equality body must be visible
+// so cl preserves the native order of the saved-position stores.
+// See reverse/attempt_evidence/0x0026cf11_visibility.txt.
 // cl: /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common /O1 /G7 /arch:SSE /DNDEBUG /MD
 #include "Coord3D.h"
 #include "GameLogicObjectLookupView.h"
@@ -79,7 +81,7 @@ class TerrainLogic{public:
  virtual void v48();
  virtual void v49();
  virtual bool isUnderwater(const Coord3D*);
-};extern TerrainLogic*TheTerrainLogic;extern int g_Va00DBA4E4;
+};extern TerrainLogic*TheTerrainLogic;extern int BfmeLogicFramesPerSecond;
 class State{public:char pad[4];int id;};class Machine{public:char pad[4];State*state;int getID()const{return state?state->id:999999;}};
 class AICommandInterface{public:void aiMoveToPosition(const Coord3D*,CommandSourceType);char pad[0x10];};
 class AIUpdateInterface{public:
@@ -229,6 +231,7 @@ class AIUpdateInterface{public:
  char pad3be[0x3dc-0x3be];int responseID;
  const LocomotorSet&getLocomotorSet()const{return *reinterpret_cast<const LocomotorSet*>(reinterpret_cast<const char*>(this)+0x1cc);}
 };
+inline bool Coord3D::operator==(const Coord3D&r){return x==r.x&&y==r.y&&z==r.z;}
 bool AIUpdateInterface::rva0026CF11(Object*other)
 {
  AIUpdateInterface*aiOther=other->ai;if(!aiOther)return false;
@@ -270,9 +273,9 @@ bool AIUpdateInterface::rva0026CF11(Object*other)
  }
  blocked=true;if(blockedFrames==0)blockedFrames=1;
  if(otherMoving&&aiOther->waiting)return false;
- if(blockedFrames%g_Va00DBA4E4!=obj->id%g_Va00DBA4E4)return false;
+ if(blockedFrames%BfmeLogicFramesPerSecond!=obj->id%BfmeLogicFramesPerSecond)return false;
  if(responseID==0){responseID=other->id;TheAI->pathfinder->rva002EBD65((ObjectID)obj->id);}
- if(blockedFrames>2*g_Va00DBA4E4+1){blocked=false;blockedFrames=0;ignoreUntil=TheGameLogic->getFrame()+2*g_Va00DBA4E4;return true;}
+ if(blockedFrames>2*BfmeLogicFramesPerSecond+1){blocked=false;blockedFrames=0;ignoreUntil=TheGameLogic->getFrame()+2*BfmeLogicFramesPerSecond;return true;}
  if(!rva002641BA()){clearCondition(obj,0x3d);clearCondition(obj,0x9c);}
  return false;
 }
