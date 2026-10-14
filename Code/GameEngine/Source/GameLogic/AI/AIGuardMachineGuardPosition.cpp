@@ -78,9 +78,9 @@ struct Coord3D
 	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
 };
 
-class ICoord3D
+// struct, as Lib/ICoord3D.h and PolygonTrigger::pointInTrigger's owner spell it.
+struct ICoord3D
 {
-public:
 	// dllimport+forceinline: expanded here, never emitted against icoord.cpp's strong copy (0x005CC49A).
 	__declspec(dllimport) __forceinline ICoord3D(Int ix, Int iy, Int iz) : x(ix), y(iy), z(iz) {}
 	Int x, y, z;
