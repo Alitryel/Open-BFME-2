@@ -76,34 +76,6 @@ inline LanguageFilter::~LanguageFilter() {
 	m_wordList.clear();
 }
 
-// ?LanguageFilter::init present-unmatched
-inline void LanguageFilter::init() {
-	m_wordList.clear();
-
-	// read in the file already.
-	File *file1 = TheFileSystem->openFile(BadWordFileName, File::READ | File::BINARY);
-	if (file1 == NULL) {
-		return;
-	}
-
-	wchar_t word[128];
-	while (readWord(file1, word)) {
-		Int wordLen = wcslen(word);
-		if (wordLen == 0) {
-			continue;
-		}
-		for (Int i = 0; i < wordLen; ++i) {
-			word[i] = word[i] ^ LANGUAGE_XOR_KEY;
-		}
-		UnicodeString uniword(word);
-		unHaxor(uniword);
-		//DEBUG_LOG(("Just read %ls from the bad word file.  Entered as %ls\n", word, uniword.str()));
-		m_wordList[uniword] = true;
-	}
-
-	file1->close();
-	file1 = NULL;
-}
 
 // ?LanguageFilter::reset present-unmatched
 void LanguageFilter::reset() {
@@ -122,79 +94,7 @@ void LanguageFilter::update() {
 
 extern wchar_t ignoredChars[];
 
-// ?LanguageFilter::filterLine present-unmatched
-inline void LanguageFilter::filterLine(UnicodeString &line) 
-{
-	WideChar *buf = NEW WideChar[line.getLength()+1];
-	wcscpy(buf, line.str());
 
-	UnicodeString newLine(line);
-	UnicodeString token(L"");
-
-	while (newLine.nextToken(&token, UnicodeString(L" ;,.!?:=\\/><`~()&^%#\n\t"))) {
-		wchar_t *pos = wcsstr(buf, token.str());
-		if (pos == NULL) {
-			DEBUG_CRASH(("Couldn't find the token in its own string."));
-			continue;
-		}
-
-		Int len = token.getLength(); // need to get the length of the original word, not the unhaxor'd word.
-
-		unHaxor(token);
-		LangMapIter iter = m_wordList.find(token);
-		if (iter != m_wordList.end()) {
-			DEBUG_LOG(("Found word %ls in bad word list. Token was %ls\n", (*iter).first.str(), token.str()));
-			for (Int i = 0; i < len; ++i) {
-				*pos = L'*';
-				++pos;
-			}
-		}
-	}
-
-	line.set(buf);
-	delete[] buf;
-}
-
-// ?LanguageFilter::unHaxor present-unmatched
-inline void LanguageFilter::unHaxor(UnicodeString &word) {
-	Int len = word.getLength();
-	UnicodeString newWord(L"");
-	for (Int i = 0; i < len; ++i) {
-		wchar_t c = word.getCharAt(i);
-		if ((c == L'p') || (c == L'P')) {
-			if (((i + 1) < len) && ((word.getCharAt(i+1) == L'h') || (word.getCharAt(i+1) == L'H'))) {
-				newWord.concat(L'f');
-				++i; // skip the h
-			} else {
-				// not a problem at all.
-				newWord.concat(c);
-			}
-		} else if (c == L'1') {
-			newWord.concat(L'l');
-		} else if (c == L'3') {
-			newWord.concat(L'e');
-		} else if (c == L'4') {
-			newWord.concat(L'a');
-		} else if (c == L'5') {
-			newWord.concat(L's');
-		} else if (c == L'6') {
-			newWord.concat(L'b');
-		} else if (c == L'7') {
-			newWord.concat(L't');
-		} else if (c == L'0') {
-			newWord.concat(L'o');
-		} else if (c == L'@') {
-			newWord.concat(L'a');
-		} else if (c == L'$') {
-			newWord.concat(L's');
-		} else if (c == L'+') {
-			newWord.concat(L't');
-		} else if (wcsrchr(ignoredChars, c) == NULL) {
-			newWord.concat(c);
-		}
-	}
-	word.set(newWord);
-}
 
 // returning true means that there are more words in the file.
 // LanguageFilter::readWord: defined in LanguageFilterReadWord.cpp (its row's unit).

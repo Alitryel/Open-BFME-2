@@ -546,30 +546,6 @@ void HLodDefClass::Initialize(HLodClass &src_lod)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodDefClass::Save present-unmatched
-WW3DErrorType HLodDefClass::Save(ChunkSaveClass & csave)
-{
-	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_SAVE_FAILED;
-
-	// Begin a chunk that identifies an aggregate
-	if (csave.Begin_Chunk (W3D_CHUNK_HLOD) == TRUE) {
-		
-		// Attempt to save the different sections of the aggregate definition
-		if ((Save_Header (csave) == WW3D_ERROR_OK) &&
-			 (Save_Lod_Array (csave) == WW3D_ERROR_OK)) {
-			
-			// Success!
-			ret_val = WW3D_ERROR_OK;
-		}
-
-		// Close the aggregate chunk
-		csave.End_Chunk ();
-	}
-
-	// Return the WW3DErrorType return code
-	return ret_val;
-}
 
 
 /***********************************************************************************************
@@ -584,42 +560,6 @@ WW3DErrorType HLodDefClass::Save(ChunkSaveClass & csave)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodDefClass::Save_Header present-unmatched
-WW3DErrorType HLodDefClass::Save_Header(ChunkSaveClass &csave)
-{
-	// Assume error
-	WW3DErrorType ret_val = WW3D_ERROR_SAVE_FAILED;
-
-	// Begin a chunk that identifies the aggregate
-	if (csave.Begin_Chunk (W3D_CHUNK_HLOD_HEADER) == TRUE) {
-		
-		// Fill the header structure
-		W3dHLodHeaderStruct header = { 0 };
-		header.Version = W3D_CURRENT_HLOD_VERSION;
-		header.LodCount = LodCount;
-		
-		// Copy the name to the header
-		::lstrcpyn (header.Name, Name, sizeof (header.Name));
-		header.Name[sizeof (header.Name) - 1] = 0;
-
-		// Copy the hierarchy tree name to the header
-		::lstrcpyn (header.HierarchyName, HierarchyTreeName, sizeof (header.HierarchyName));
-		header.HierarchyName[sizeof (header.HierarchyName) - 1] = 0;		
-
-		// Write the header out to the chunk
-		if (csave.Write (&header, sizeof (header)) == sizeof (header)) {
-
-			// Success!
-			ret_val = WW3D_ERROR_OK;			
-		}
-
-		// End the header chunk
-		csave.End_Chunk ();
-	}
-
-	// Return the WW3DErrorType return code
-	return ret_val;
-}
 
 
 /***********************************************************************************************
@@ -634,20 +574,6 @@ WW3DErrorType HLodDefClass::Save_Header(ChunkSaveClass &csave)
  * HISTORY:                                                                                    *
  *   1/26/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ?HLodDefClass::Save_Lod_Array present-unmatched
-WW3DErrorType HLodDefClass::Save_Lod_Array(ChunkSaveClass &csave)
-{
-	// Loop through all the LODs and save their model array to the chunk
-	bool success = true;
-	for (int lod_index = 0;
-		  (lod_index < LodCount) && success;
-		  lod_index ++) {		
-		success = Lod[lod_index].Save_W3D (csave);
-	}
-
-	// Return the WW3DErrorType return code
-	return success ? WW3D_ERROR_OK : WW3D_ERROR_SAVE_FAILED;
-}
 
 
 /***********************************************************************************************

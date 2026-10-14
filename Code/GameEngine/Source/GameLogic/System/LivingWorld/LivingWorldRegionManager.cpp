@@ -94,14 +94,6 @@ private:
 };
 
 // LivingWorldRegionManager::GetRegionCenterPoint, retail 0x0020F27E.
-// ?LivingWorldRegionManager::GetRegionCenterPoint present-unmatched
-Bool LivingWorldRegionManager::GetRegionCenterPoint(Int regionID, Coord2D *out)
-{
-	Rva0020E89C *region = rva0020EAF6(regionID);
-	if (region == 0)
-		return false;
-	return GetRegionCenterPoint(region, out);
-}
 
 // LivingWorldRegionManager::EnumeratePendingBattles, retail 0x0020E7BD: visit
 // each pending battle until the visitor declines.
@@ -119,30 +111,9 @@ void LivingWorldRegionManager::EnumeratePendingBattles(PendingBattleVisitor &vis
 // LivingWorldRegionManager::GetRegionUiPopupPoint, retail 0x0020F2A2: the
 // region's own popup point when it has one, else its center. WB asserts the
 // region exists.
-// ?LivingWorldRegionManager::GetRegionUiPopupPoint present-unmatched
-Bool LivingWorldRegionManager::GetRegionUiPopupPoint(Int regionID, Coord2D *out)
-{
-	Rva0020E89C *region = rva0020EAF6(regionID);
-	if (region == 0)
-		return false;
-	if (region->m_hasUiPopupPoint)
-	{
-		Out0020E493 point;
-		*out = *((Rva0020E493 *)region)->rva0020E493(&point);
-		return true;
-	}
-	return GetRegionCenterPoint(regionID, out);
-}
 
 // LivingWorldRegionManager::SetRegionReinforcements, retail 0x0020EEC8:
 // forwards the settings to the region when it exists (WB logs otherwise).
-// ?LivingWorldRegionManager::SetRegionReinforcements present-unmatched
-void LivingWorldRegionManager::SetRegionReinforcements(Int regionID, const AsciiString &name, Int a, Int b, Int c, Bool d, Bool e)
-{
-	Rva0020E89C *region = rva0020EAF6(regionID);
-	if (region)
-		region->rva003F1AB9(name, a, b, c, d, e);
-}
 
 // LivingWorldRegionBonusRule::ParseINI, retail 0x00210AB8: the field-parse
 // proc of the region manager's "ConcurrentRegionBonus" entry (retail table

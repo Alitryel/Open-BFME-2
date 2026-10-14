@@ -2669,83 +2669,6 @@ Bool Player::doesObjectQualifyForBattlePlan( Object *obj ) const
 
 //-------------------------------------------------------------------------------------------------
 // note, bonus is an in-out parm.
-// ?Player::changeBattlePlan present-unmatched
-void Player::changeBattlePlan( BattlePlanStatus plan, Int delta, BattlePlanBonuses *bonus )
-{
-	DUMPBATTLEPLANBONUSES(bonus, this, NULL);
-	// The BFME retail layouts differ from the later SAGE headers retained by
-	// this tree.  Keep the accesses tied to the BFME ABI used by this body.
-	Int *const battlePlans = reinterpret_cast<Int *>(reinterpret_cast<char *>(this) + 0x64);
-	char *const battlePlanBonus = reinterpret_cast<char *>(bonus);
-	Bool addBonus = false;
-	Bool removeBonus = false;
-	switch( plan )
-	{
-		case PLANSTATUS_BOMBARDMENT:
-		{
-			battlePlans[ 0 ] += delta;
-			if( battlePlans[ 0 ] == 1 && delta == 1 )
-			{
-				addBonus = true;
-			}
-			else if( battlePlans[ 0 ] == 0 && delta == -1 )
-			{
-				removeBonus = true;
-			}
-			break;
-		}
-		case PLANSTATUS_HOLDTHELINE:
-		{
-			battlePlans[ 1 ] += delta;
-			if( battlePlans[ 1 ] == 1 && delta == 1 )
-			{
-				addBonus = true;
-			}
-			else if( battlePlans[ 1 ] == 0 && delta == -1 )
-			{
-				removeBonus = true;
-			}
-			break;
-		}
-		case PLANSTATUS_SEARCHANDDESTROY:
-		{
-			battlePlans[ 2 ] += delta;
-			if( battlePlans[ 2 ] == 1 && delta == 1 )
-			{
-				addBonus = true;
-			}
-			else if( battlePlans[ 2 ] == 0 && delta == -1 )
-			{
-				removeBonus = true;
-			}
-			break;
-		}
-	}
-	if( addBonus )
-	{
-		applyBattlePlanBonusesForPlayerObjects( bonus );
-	}
-	else if( removeBonus )
-	{
-		//First, inverse the bonuses
-		*reinterpret_cast<Real *>(battlePlanBonus + 0x00) = 1.0f / __max( *reinterpret_cast<Real *>(battlePlanBonus + 0x00), 0.01f );
-		*reinterpret_cast<Real *>(battlePlanBonus + 0x10) = 1.0f / __max( *reinterpret_cast<Real *>(battlePlanBonus + 0x10), 0.01f );
-		if( *reinterpret_cast<Int *>(battlePlanBonus + 0x04) > 0 )
-		{
-			*reinterpret_cast<Int *>(battlePlanBonus + 0x04) = -1;
-		}
-		if( *reinterpret_cast<Int *>(battlePlanBonus + 0x0c) > 0 )
-		{
-			*reinterpret_cast<Int *>(battlePlanBonus + 0x0c) = -1;
-		}
-		if( *reinterpret_cast<Int *>(battlePlanBonus + 0x08) > 0 )
-		{
-			*reinterpret_cast<Int *>(battlePlanBonus + 0x08) = -1;
-		}
-
-		applyBattlePlanBonusesForPlayerObjects( bonus );
-	}
-}
 
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/Common/RTS/PlayerGetBattlePlansActiveSpecificThunk.cpp
@@ -2862,38 +2785,6 @@ static void localApplyBattlePlanBonusesToObject( Object *obj, void *userData )
 //Battle plan bonuses changing, so apply to all of our objects!
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Player_applyBattlePlanBonusesForPlayerObjects_Thunk.cpp
-// ?applyBattlePlanBonusesForPlayerObjects@Player@@QAEXPBVBattlePlanBonuses@@@Z present-unmatched
-void Player::applyBattlePlanBonusesForPlayerObjects( const BattlePlanBonuses *bonus )
-{
-	DUMPBATTLEPLANBONUSES(bonus, this, NULL);
-
-	//Only allocate the battle plan bonuses if we actually use it!
-	if( !m_battlePlanBonuses )
-	{
-		DEBUG_LOG(("Allocating new m_battlePlanBonuses\n"));
-		m_battlePlanBonuses = newInstance( BattlePlanBonuses );	
-		*m_battlePlanBonuses = *bonus;
-	}
-	else
-	{
-		DEBUG_LOG(("Adding bonus into existing m_battlePlanBonuses\n"));
-		DUMPBATTLEPLANBONUSES(m_battlePlanBonuses, this, NULL);
-		//Just apply the differences by multiplying the scalars together (kindofs won't change)
-		//These bonuses are used for new objects that are created or objects that are transferred
-		//to our team.
-		m_battlePlanBonuses->m_armorScalar					*= bonus->m_armorScalar;
-		m_battlePlanBonuses->m_sightRangeScalar			*= bonus->m_sightRangeScalar;
-		m_battlePlanBonuses->m_bombardment					+= bonus->m_bombardment;
-		m_battlePlanBonuses->m_bombardment					=	 MAX( 0, m_battlePlanBonuses->m_bombardment );
-		m_battlePlanBonuses->m_holdTheLine					+= bonus->m_holdTheLine;
-		m_battlePlanBonuses->m_holdTheLine					=	 MAX( 0, m_battlePlanBonuses->m_holdTheLine );
-		m_battlePlanBonuses->m_searchAndDestroy			+= bonus->m_searchAndDestroy;
-		m_battlePlanBonuses->m_searchAndDestroy			=	 MAX( 0, m_battlePlanBonuses->m_searchAndDestroy );
-	}
-
-	DUMPBATTLEPLANBONUSES(m_battlePlanBonuses, this, NULL);
-	iterateObjects( localApplyBattlePlanBonusesToObject, (void*)bonus );
-}
 
 
 //-------------------------------------------------------------------------------------------------

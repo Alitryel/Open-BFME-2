@@ -347,38 +347,6 @@ void SlavedUpdate::doGuardLogic( Coord3D *pinnedPosition )
 // SlavedUpdate::moveToNewRepairSpot is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Update/SlavedUpdateMoveToNewRepairSpot.cpp (0x004A2144).
 
 //-------------------------------------------------------------------------------------------------
-// ?SlavedUpdate::startSlavedEffects present-unmatched
-void SlavedUpdate::startSlavedEffects( const Object *slaver )
-{
-	if( slaver == NULL )
-		return;
-
-	m_slaver = slaver->getID();
-	const SlavedUpdateModuleData* data = getSlavedUpdateModuleData();
-
-	// Decide where our pinned stray point is
-	Real randomDirection = GameLogicRandomValue( 0, 2*PI );
-	m_guardPointOffset.zero();
-	m_guardPointOffset.x += data->m_guardMaxRange * Cos( randomDirection );
-	m_guardPointOffset.y += data->m_guardMaxRange * Sin( randomDirection );
-	
-	// mark selves as not selectable
-	getObject()->setStatus( MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_UNSELECTABLE ) );
-
-
-  if ( slaver->testStatus( OBJECT_STATUS_STEALTHED ) )
-  {
-    StealthUpdate *myStealth = getObject()->getStealth();
-    if ( myStealth )
-    {
-      myStealth->receiveGrant( true );
-      // note to anyone... once stealth is granted to this drone(or such) 
-      // let its own stealthupdate govern the allowedtostealth cases
-    }
-  }
-
-
-}
 
 //-------------------------------------------------------------------------------------------------
 // ?SlavedUpdate::stopSlavedEffects present-unmatched

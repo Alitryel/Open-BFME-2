@@ -138,117 +138,16 @@ void PlayerList::teamAboutToBeDeleted(Team* team)
 }
 
 //=============================================================================
-// ?PlayerList::updateTeamStates present-unmatched
-//-----------------------------------------------------------------------------
-// ?PlayerList::validateTeam present-unmatched
-Team *PlayerList::validateTeam( AsciiString owner )
-{
-	// owner could be a player or team. first, check team names.
-	Team *t = TheTeamFactory->findTeam(owner);
-	if (t)
-	{
-		//DEBUG_LOG(("assigned obj %08lx to team %s\n",obj,owner.str()));
-	}	
-	else
-	{
-		DEBUG_CRASH(("no team or player named %s could be found!\n", owner.str()));
-		t = getNeutralPlayer()->getDefaultTeam();
-	}
-	return t;
-}
 
 //-----------------------------------------------------------------------------
 // PlayerList::setLocalPlayer is defined with its retail-matched body in Code/GameEngine/Source/Common/RTS/PlayerList_setLocalPlayer_Rva002A7B34.cpp (0x002A7B34).
 
 //-----------------------------------------------------------------------------
-// ?PlayerList::getPlayerFromMask present-unmatched
-Player *PlayerList::getPlayerFromMask( PlayerMaskType mask )
-{
-	Player *player = NULL;
-	Int i;
-
-	for( i = 0; i < MAX_PLAYER_COUNT; i++ )
-	{
-		
-		player = getNthPlayer( i );
-		if( player && player->getPlayerMask() == mask )
-			return player;
-
-	}  // end for i
-
-	DEBUG_CRASH( ("Player does not exist for mask\n") );
-	return NULL; // mask not found
-
-}  // end getPlayerFromMask
 
 //-----------------------------------------------------------------------------
-// ?PlayerList::getEachPlayerFromMask present-unmatched
-Player *PlayerList::getEachPlayerFromMask( PlayerMaskType& maskToAdjust )
-{
-	Player *player = NULL;
-	Int i;
-
-	for( i = 0; i < MAX_PLAYER_COUNT; i++ )
-	{
-		
-		player = getNthPlayer( i );
-		if ( player && BitTest(player->getPlayerMask(), maskToAdjust ))
-		{
-			maskToAdjust &= (~player->getPlayerMask());
-			return player;
-		}
-	}  // end for i
-
-	DEBUG_CRASH( ("No players found that contain any matching masks.\n") );
-	maskToAdjust = 0;
-	return NULL; // mask not found
-}
 
 
 //-------------------------------------------------------------------------------------------------
-// ?PlayerList::getPlayersWithRelationship present-unmatched
-PlayerMaskType PlayerList::getPlayersWithRelationship( Int srcPlayerIndex, UnsignedInt allowedRelationships )
-{
-	PlayerMaskType retVal = 0;
-
-	if (allowedRelationships == 0)
-		return retVal;
-
-	Player *srcPlayer = getNthPlayer(srcPlayerIndex);
-	if (!srcPlayer)
-		return retVal;
-
-	if (BitTest(allowedRelationships, ALLOW_SAME_PLAYER))
-		BitSet(retVal, srcPlayer->getPlayerMask());
-
-	for ( Int i = 0; i < getPlayerCount(); ++i )
-	{
-		Player *player = getNthPlayer(i);
-		if (!player)
-			continue;
-
-		if (player == srcPlayer)
-			continue;
-
-		switch (srcPlayer->getRelationship(player->getDefaultTeam()))
-		{
-			case ENEMIES:
-				if (BitTest(allowedRelationships, ALLOW_ENEMIES))
-					BitSet(retVal, player->getPlayerMask());
-				break;
-			case ALLIES:
-				if (BitTest(allowedRelationships, ALLOW_ALLIES))
-					BitSet(retVal, player->getPlayerMask());
-				break;
-			case NEUTRAL:
-				if (BitTest(allowedRelationships, ALLOW_NEUTRAL))
-					BitSet(retVal, player->getPlayerMask());
-				break;
-		}
-	}
-
-	return retVal;
-}
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */

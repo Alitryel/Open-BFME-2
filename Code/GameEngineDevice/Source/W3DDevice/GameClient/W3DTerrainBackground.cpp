@@ -497,24 +497,6 @@ void W3DTerrainBackground::setFlipRecursive(Int xOffset, Int yOffset, Int width)
 The coordinates in partialRange are map cell coordinates, relative to the entire map.
 The vertex coordinates and texture coordinates, as well as static lighting are updated.
 */
-// ?W3DTerrainBackground::doTesselatedUpdate present-unmatched
-//-----------------------------------------------------------------------------
-//         Public Functions                                                
-//-----------------------------------------------------------------------------
-
-//=============================================================================
-// W3DTerrainBackground::~W3DTerrainBackground
-//=============================================================================
-/** Destructor. Releases w3d assets. */
-//=============================================================================
-// ?W3DTerrainBackground::~W3DTerrainBackground present-unmatched
-W3DTerrainBackground::~W3DTerrainBackground(void)
-{
-	freeTerrainBuffers();
-	REF_PTR_RELEASE(m_terrainTexture);
-	REF_PTR_RELEASE(m_terrainTexture2X);
-	REF_PTR_RELEASE(m_terrainTexture4X);
-}
 
 //=============================================================================
 // W3DTerrainBackground::W3DTerrainBackground
@@ -579,92 +561,12 @@ void W3DTerrainBackground::allocateTerrainBuffers(WorldHeightMap *htMap, Int xOr
 //=============================================================================
 /** Updates the culling status. */
 //=============================================================================
-// ?W3DTerrainBackground::updateCenter present-unmatched
-void W3DTerrainBackground::updateCenter(CameraClass *camera)
-{
-	if (camera->Cull_Box(m_bounds)) {
-		m_cullStatus = CULL_STATUS_INVISIBLE;
-	}	else {
-		m_cullStatus = CULL_STATUS_VISIBLE;
-	}
-
-	if (m_cullStatus==CULL_STATUS_INVISIBLE) {
-		REF_PTR_RELEASE(m_terrainTexture2X);
-		REF_PTR_RELEASE(m_terrainTexture4X);
-		m_texMultiplier = TEX1X;
-		return;
-	}
-	Vector3 cameraPos = camera->Get_Position();
-	const Real mipDistance = 310;
-	const Real mipSlop = 40;
-	const Real mip4xDistanceSqr = sqr(mipDistance+mipSlop);
-	const Real mip2xDistanceSqr = sqr(2*mipDistance+mipSlop);
-	const Real mipLODDistanceSqr = sqr(4*mipDistance+mipSlop);
-	Real minDistSqr = 2*mip2xDistanceSqr;
-	Int i, j, k;
-	for (i=-1; i<2; i++) {
-		for (j=-1; j<2; j++) {
-			for (k=-1; k<2; k++) {
-				Vector3 corner = m_bounds.Center;
-				corner.X += m_bounds.Extent.X * i;
-				corner.Y += m_bounds.Extent.Y * j;
-				corner.Z += m_bounds.Extent.Z * k;
-				Real distSqr = (cameraPos-corner).Length2();
-				if (distSqr<minDistSqr) minDistSqr = distSqr;
-			}
-		}
-	}
-	m_texMultiplier = TEX1X;
-	if (minDistSqr<mip4xDistanceSqr) {
-		m_texMultiplier = TEX4X;
-	} else if (minDistSqr<mip2xDistanceSqr) {
-		m_texMultiplier = TEX2X;
-	} else {
-		REF_PTR_RELEASE(m_terrainTexture4X);
-		REF_PTR_RELEASE(m_terrainTexture2X);
-		Int LOD = 0; 
-		if (minDistSqr>mipLODDistanceSqr) {
-			LOD = 1;
-		}
-		m_terrainTexture->setLOD(LOD);
-	}
-
-}
 
 //=============================================================================
 // W3DTerrainBackground::updateCenter
 //=============================================================================
 /** Updates the culling status. */
 //=============================================================================
-// ?W3DTerrainBackground::updateTexture present-unmatched
-void W3DTerrainBackground::updateTexture(void)
-{
-	if (m_cullStatus==CULL_STATUS_INVISIBLE) {
-		REF_PTR_RELEASE(m_terrainTexture2X);
-		REF_PTR_RELEASE(m_terrainTexture4X);
-		return;
-	}
-
-	if (m_texMultiplier == TEX4X) {
-		REF_PTR_RELEASE(m_terrainTexture2X);
-		if (m_terrainTexture4X == NULL) {
-			m_terrainTexture4X = m_map->getFlatTexture(m_xOrigin, m_yOrigin, m_width, 4*PIXELS_PER_GRID);
-			m_terrainTexture4X->Get_Filter().Set_U_Addr_Mode(TextureFilterClass::TEXTURE_ADDRESS_CLAMP);
-			m_terrainTexture4X->Get_Filter().Set_V_Addr_Mode(TextureFilterClass::TEXTURE_ADDRESS_CLAMP);
-		}	
-	} else if (m_texMultiplier == TEX2X) {
-		REF_PTR_RELEASE(m_terrainTexture4X);
-		if (m_terrainTexture2X == NULL) {
-			m_terrainTexture2X = m_map->getFlatTexture(m_xOrigin, m_yOrigin, m_width, 2*PIXELS_PER_GRID);
-			m_terrainTexture2X->Get_Filter().Set_U_Addr_Mode(TextureFilterClass::TEXTURE_ADDRESS_CLAMP);
-			m_terrainTexture2X->Get_Filter().Set_V_Addr_Mode(TextureFilterClass::TEXTURE_ADDRESS_CLAMP);
-		}	
-	} else {
-		REF_PTR_RELEASE(m_terrainTexture4X);
-		REF_PTR_RELEASE(m_terrainTexture2X);
-	}
-
-}
 
 //=============================================================================
 // W3DTerrainBackground::renderTerrain

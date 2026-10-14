@@ -149,21 +149,6 @@ HAnimComboDataClass::HAnimComboDataClass(const HAnimComboDataClass &src)
 	Weight = src.Get_Weight();
 }
 
-// ?HAnimComboDataClass::Copy present-unmatched
-void HAnimComboDataClass::Copy(const HAnimComboDataClass *src)
-{
-	if(src) {
-		HAnim = src->Get_HAnim();
-		PivotMap = src->Get_Pivot_Map();
-		Frame = src->Get_Frame();
-			Weight = src->Get_Weight();
-	} else {
-		HAnim = 0;
-		PivotMap = 0;
-		Frame = 0;
-		Weight = 1;
-	}
-}
 
 // ?HAnimComboDataClass::~HAnimComboDataClass present-unmatched
 HAnimComboDataClass::~HAnimComboDataClass(void)
@@ -174,25 +159,6 @@ HAnimComboDataClass::~HAnimComboDataClass(void)
 		PivotMap->Release_Ref();
 }
 
-// ?HAnimComboDataClass::Clear present-unmatched
-void HAnimComboDataClass::Clear(void) 
-{
-	if ( HAnim != NULL ) {
-		HAnim->Release_Ref();
-		HAnim = NULL;
-	}
-
-	// not sure if the pivot map should be deleted or just have everything set to one.
-	// removing it effectively sets it to one, so that's what I'm doing for now.
-	if(PivotMap) {
-		PivotMap->Release_Ref();
-		PivotMap = NULL;
-	}
-
-	Frame = 0.0f;
-	Weight = 1.0;
-	PivotMap = NULL;
-}
 
 void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
 {
@@ -206,17 +172,6 @@ void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
 }
 
 
-// ?HAnimComboDataClass::Set_Pivot_Map present-unmatched
-void HAnimComboDataClass::Set_Pivot_Map(PivotMapClass *map)
-{
-	if ( map != NULL ) {
-		map->Add_Ref();
-	}
-	if ( PivotMap != NULL ) {
-		PivotMap->Release_Ref();
-	}
-	PivotMap = map;
-}
 
 /*
 **	This function will replace the current pivot map (if any) with another pivot map that is
@@ -270,114 +225,8 @@ HAnimComboClass::~HAnimComboClass(void)
 }
 
 
-// ?HAnimComboClass::Clear present-unmatched
-void	HAnimComboClass::Clear( void )
-{
-	int numAnimations = HAnimComboData.Count();
-	while ( numAnimations-- ) {
-		HAnimComboDataClass *data = HAnimComboData[numAnimations];
-		if(data && (! data->Is_Shared()))
-			data->Clear();
-	}
-}
 
-// ?HAnimComboClass::Reset present-unmatched
-void	HAnimComboClass::Reset( void )
-{
-	int numAnimations = HAnimComboData.Count();
-	while ( numAnimations-- ) {
-		HAnimComboDataClass *data = HAnimComboData[numAnimations];
-		if(data && (! data->Is_Shared())) {
-			delete data; 
-		}
-	}
-	HAnimComboData.Reset_Active();
-}
 
-// ?HAnimComboClass::Normalize_Weights present-unmatched
-bool	HAnimComboClass::Normalize_Weights(void)
-{
-	// NOTE: This can only work if either no anims have pivot weight maps (in which case we will
-	// adjust the anim weights to ensure normalization), or else if all do (in which case we will
-	// adjust the pivot maps). Otherwise we do nothing and return false.
-	int anim_count = Get_Num_Anims();
-	if (!anim_count) return true;	// Trivially succeeded
-	
-	// Loop over all anims. Check if all or none have pivot maps, and also calculate the minimum
-	// number of pivots.
-	int anim_idx = 0;
-	bool all_pivot_maps = true;
-	bool none_pivot_maps = true;
-	int num_anim_pivots = 100000;
-	for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
-		num_anim_pivots = MIN(num_anim_pivots, Peek_Motion(anim_idx)->Get_Num_Pivots());
-		bool has_pivot_map = Peek_Pivot_Weight_Map(anim_idx) != NULL;
-		all_pivot_maps &= has_pivot_map;
-		none_pivot_maps &= !has_pivot_map;
-	}
-	if ( num_anim_pivots == 100000 ) {
-		num_anim_pivots = 0;
-	}
-
-	if (none_pivot_maps) {
-
-		// Calculate total weight of all active anims, ensure it is very close to 1.
-		float weight_total = 0.0f;
-		for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
-			if (Peek_Motion(anim_idx) != NULL ) {
-				float	weight = Get_Weight(anim_idx);
-				weight_total += weight;
-			}
-		}
-
-		// weight_total should be very close to 1. If not, normalize this pivot's weights
-		if (weight_total != 0.0 && WWMath::Fabs( weight_total - 1.0 ) > WWMATH_EPSILON) {
-			float oo_total = 1.0f / weight_total;
-			for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
-				if (Peek_Motion(anim_idx) != NULL ) {
-					Set_Weight(anim_idx, Get_Weight(anim_idx) * oo_total);
-				}
-			}
-		}
-
-	} else {
-
-		if (all_pivot_maps) {
-
-			// For each pivot, calculate total weight of all active anims, ensure close to 1.
-			for (int piv_idx = 1; piv_idx < num_anim_pivots; piv_idx++) {
-
-				float weight_total = 0.0f;
-				for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
-					if (Peek_Motion(anim_idx) != NULL ) {
-						float	weight = Get_Weight(anim_idx) * (*Peek_Pivot_Weight_Map(anim_idx))[piv_idx];
-						weight_total += weight;
-					}
-				}
-
-				// weight_total should be very close to 1. If not, normalize this pivot's weights
-				if (weight_total != 0.0 && WWMath::Fabs( weight_total - 1.0 ) > WWMATH_EPSILON) {
-					float oo_total = 1.0f / weight_total;
-					for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
-						if (Peek_Motion(anim_idx) != NULL ) {
-							PivotMapClass *pivot_map = Get_Pivot_Weight_Map(anim_idx);
-							float new_weight = (*pivot_map)[piv_idx] * oo_total;
-							(*pivot_map)[piv_idx] = new_weight;
-							pivot_map->Release_Ref();
-						}
-					}
-				}
-
-			}
-
-		} else {
-			return false;
-		}
-	}
-
-	return true;
-
-}
 
 void	HAnimComboClass::Set_Motion( int index, HAnimClass *motion )
 {
@@ -436,14 +285,6 @@ float	HAnimComboClass::Get_Weight( int index )
 	return data->Get_Weight();
 }
 
-// ?HAnimComboClass::Set_Pivot_Weight_Map present-unmatched
-void	HAnimComboClass::Set_Pivot_Weight_Map( int index, PivotMapClass *map )
-{
-	HAnimComboDataClass *data = HAnimComboData[index];
-	WWASSERT(data);
-
-	data->Set_Pivot_Map(map);
-}
 
 // Get_Pivot_Weight_Map has the same /G7 provider as Get_Motion.
 

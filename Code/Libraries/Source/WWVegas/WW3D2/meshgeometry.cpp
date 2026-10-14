@@ -1455,19 +1455,6 @@ Vector3 * MeshGeometryClass::get_vert_normals(void)
  * HISTORY:                                                                                    *
  *   6/14/2001  gth : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshGeometryClass::Get_Vertex_Normal_Array present-unmatched
-const Vector3 * MeshGeometryClass::Get_Vertex_Normal_Array(void)
-{ 
-#if (OPTIMIZE_VNORM_RAM)
-	Compute_Vertex_Normals(get_vert_normals());
-	return get_vert_normals(); 
-#else
-	if (Get_Flag(DIRTY_VNORMALS)) {
-		Compute_Vertex_Normals(get_vert_normals());
-	}
-	return get_vert_normals(); 
-#endif
-}
 
 
 

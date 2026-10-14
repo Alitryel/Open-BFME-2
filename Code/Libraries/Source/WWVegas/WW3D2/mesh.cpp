@@ -512,12 +512,6 @@ void MeshClass::Scale(float scalex, float scaley, float scalez)
  * HISTORY:                                                                                    *
  *   3/4/2001   gth : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Get_Deformed_Vertices present-unmatched
-void	MeshClass::Get_Deformed_Vertices(Vector3 *dst_vert, Vector3 *dst_norm)
-{
-	WWASSERT(Model->Get_Flag(MeshGeometryClass::SKIN));
-	Model->get_deformed_vertices(dst_vert,dst_norm,Container->Get_HTree());
-}
 
 
 /***********************************************************************************************
@@ -532,15 +526,6 @@ void	MeshClass::Get_Deformed_Vertices(Vector3 *dst_vert, Vector3 *dst_norm)
  * HISTORY:                                                                                    *
  *   3/4/2001   gth : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Get_Deformed_Vertices present-unmatched
-void MeshClass::Get_Deformed_Vertices(Vector3 *dst_vert)
-{
-	WWASSERT(Model->Get_Flag(MeshGeometryClass::SKIN));
-	WWASSERT(Container != NULL);
-	WWASSERT(Container->Get_HTree() != NULL);
-
-	Model->get_deformed_vertices(dst_vert,Container->Get_HTree());
-}
 
 /***********************************************************************************************
  * MeshClass::Create_Decal -- creates a decal on this mesh                                     *
@@ -686,11 +671,6 @@ void MeshClass::Special_Render(SpecialRenderInfoClass & rinfo)
 	}
 }
 
-// ?MeshClass::Replace_Texture present-unmatched
-void MeshClass::Replace_Texture(TextureClass* texture,TextureClass* new_texture)
-{
-	Model->Replace_Texture(texture,new_texture);
-}
 
 
 /***********************************************************************************************
@@ -744,72 +724,6 @@ void MeshClass::Replace_VertexMaterial(VertexMaterialClass* vmat,VertexMaterialC
  * HISTORY:                                                                                    * 
  *   06/12/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ?MeshClass::Load_W3D present-unmatched
-WW3DErrorType MeshClass::Load_W3D(ChunkLoadClass & cload)
-{
-	Vector3 boxmin,boxmax;
-
-	/*
-	** Make sure this mesh is "empty"
-	*/
-	Free();
-
-	/*
-	** Create empty MaterialInfo and Model
-	*/
-	Model = NEW_REF(MeshModelClass,());
-	if (Model == NULL) {
-		WWDEBUG_SAY(("MeshClass::Load - Failed to allocate model\r\n"));
-		return WW3D_ERROR_LOAD_FAILED;
-	}
-
-	/*
-	** Create and read in the model...
-	*/
-	if (Model->Load_W3D(cload) != WW3D_ERROR_OK) {
-		Free();
-		return WW3D_ERROR_LOAD_FAILED;
-	}
-
-	/*
-	** Pull interesting stuff out of the w3d attributes bits
-	*/
-	int col_bits = (Model->W3dAttributes & W3D_MESH_FLAG_COLLISION_TYPE_MASK) >> W3D_MESH_FLAG_COLLISION_TYPE_SHIFT;
-	Set_Collision_Type( col_bits << 1 );
-	Set_Hidden(Model->W3dAttributes & W3D_MESH_FLAG_HIDDEN);
-	
-	/*
-	** Indicate whether this mesh is translucent.  The mesh is considered translucent
-	** if sorting has been enabled (alpha blending on pass 0) or if pass0 contains alpha-test.
-	** This flag is mainly being used by visibility preprocessing code in Renegade.
-	*/
-	int is_translucent = Model->Get_Flag(MeshModelClass::SORT);
-	int is_alpha = 0;	//keep track of alpha pieces that require sorting (including static sort lists).
-	int is_additive = 0;
-	if (Model->Has_Shader_Array(0)) {
-		for (int i=0; i<Model->Get_Polygon_Count(); i++) {
-			ShaderClass shader = Model->Get_Shader(i,0);
-			is_translucent |= (shader.Get_Alpha_Test() == ShaderClass::ALPHATEST_ENABLE);
-			is_alpha |= (shader.Get_Dst_Blend_Func() != ShaderClass::DSTBLEND_ZERO ||
-									shader.Get_Src_Blend_Func() != ShaderClass::SRCBLEND_ONE) && (shader.Get_Alpha_Test() != ShaderClass::ALPHATEST_ENABLE);
-			is_additive |= (shader.Get_Dst_Blend_Func() == ShaderClass::DSTBLEND_ONE &&
-									shader.Get_Src_Blend_Func() == ShaderClass::SRCBLEND_ONE);
-		}
-	} else {
-		ShaderClass shader = Model->Get_Single_Shader(0);
-		is_translucent |= (shader.Get_Alpha_Test() == ShaderClass::ALPHATEST_ENABLE);
-		is_alpha |= (shader.Get_Dst_Blend_Func() != ShaderClass::DSTBLEND_ZERO ||
-									shader.Get_Src_Blend_Func() != ShaderClass::SRCBLEND_ONE) && (shader.Get_Alpha_Test() != ShaderClass::ALPHATEST_ENABLE);
-		is_additive |= (shader.Get_Dst_Blend_Func() == ShaderClass::DSTBLEND_ONE &&
-									shader.Get_Src_Blend_Func() == ShaderClass::SRCBLEND_ONE);
-	}
-	Set_Translucent(is_translucent);
-	Set_Alpha(is_alpha);
-	Set_Additive(is_additive);
-
-	return WW3D_ERROR_OK;
-
-}
 
 
 /***********************************************************************************************

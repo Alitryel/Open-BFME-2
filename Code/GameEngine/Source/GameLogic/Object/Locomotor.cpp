@@ -826,59 +826,6 @@ Real Locomotor::getMaxLift(BodyDamageType condition) const
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?Locomotor::locoUpdate_moveTowardsAngle present-unmatched
-void Locomotor::locoUpdate_moveTowardsAngle(Object* obj, Real goalAngle)
-{
-	setFlag(MAINTAIN_POS_IS_VALID, false);
-
-	if (obj == NULL || m_template == NULL)
-		return;
-
-	PhysicsBehavior *physics = obj->getPhysics();
-	if (physics == NULL)
-	{
-		DEBUG_CRASH(("you can only apply Locomotors to objects with Physics"));
-		return;
-	}
-
-	// Skip moveTowardsAngle if physics say you're stunned
-	if(physics->getIsStunned())
-	{
-		return;
-	}
-
-#ifdef DEBUG_OBJECT_ID_EXISTS
-//	DEBUG_ASSERTLOG(obj->getID() != TheObjectIDToDebug, ("locoUpdate_moveTowardsAngle %f (%f deg), spd %f (%f)\n",goalAngle,goalAngle*180/PI,physics->getSpeed(),physics->getForwardSpeed2D()));
-#endif
-
-	Real minSpeed = getMinSpeed();
-	if (minSpeed > 0)
-	{
-		// can't stay in one place; move in the desired direction at min speed.
-		Coord3D desiredPos = *obj->getPosition();
-		desiredPos.x += Cos(goalAngle) * minSpeed * 2;
-		desiredPos.y += Sin(goalAngle) * minSpeed * 2;
-		// pass a huge num for "dist to goal", so that we don't think we're nearing
-		// our destination and thus slow down...
-		const Real onPathDistToGoal = 99999.0f;
-		Bool blocked = false;
-		locoUpdate_moveTowardsPosition(obj, desiredPos, onPathDistToGoal, minSpeed, &blocked);
-		
-		// don't need to call handleBehaviorZ() here, since locoUpdate_moveTowardsPosition() will do so
-		return;
-	}
-	else
-	{
-		DEBUG_ASSERTCRASH(m_template->m_appearance != LOCO_THRUST, ("THRUST should always have minspeeds!\n"));
-		Coord3D desiredPos = *obj->getPosition();
-		desiredPos.x += Cos(goalAngle) * 1000.0f;
-		desiredPos.y += Sin(goalAngle) * 1000.0f;
-		PhysicsTurningType rotating = rotateTowardsPosition(obj, desiredPos);
-		physics->setTurning(rotating);
-		handleBehaviorZ(obj, physics, *obj->getPosition());
-	}
-
-}
 
 //-------------------------------------------------------------------------------------------------
 // ?Locomotor::rotateTowardsPosition present-unmatched
@@ -2728,25 +2675,6 @@ void LocomotorSet::clear()
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?LocomotorSet::addLocomotor present-unmatched
-void LocomotorSet::addLocomotor(const LocomotorTemplate* lt)
-{
-	Locomotor* loco = TheLocomotorStore->newLocomotor(lt);
-	if (loco)
-	{
-		m_locomotors.push_back(loco);
-		m_validLocomotorSurfaces |= loco->getLegalSurfaces();
-		if (loco->getIsDownhillOnly())
-		{
-			m_downhillOnly = TRUE;
-		}
-		else // Previous locos were gravity only, but this one isn't!
-		{
-			DEBUG_ASSERTCRASH(!m_downhillOnly,("LocomotorSet, YOU CAN NOT MIX DOWNHILL-ONLY LOCOMOTORS WITH NON-DOWNHILL-ONLY ONES."));
-		}
-
-	}
-}
 
 //-------------------------------------------------------------------------------------------------
 // ?LocomotorSet::findLocomotor present-unmatched

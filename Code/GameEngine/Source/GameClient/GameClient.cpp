@@ -205,31 +205,6 @@ void GameClient::registerDrawable( Drawable *draw )
  */
 DECLARE_PERF_TIMER(GameClient_update)
 DECLARE_PERF_TIMER(GameClient_draw)
-// ?GameClient::update present-unmatched
-/** -----------------------------------------------------------------------------------------------
- * Call the given callback function for each object contained within the given region.
- */
-// ?GameClient::iterateDrawablesInRegion present-unmatched
-/**Helper function to update fake GLA structures to become visible to certain players.
-We should only call this during critical moments, such as changing teams, changing to
-observer, etc.*/
-// ?GameClient::updateFakeDrawables present-unmatched
-void GameClient::updateFakeDrawables(void)
-{
-	for( Drawable *draw = getDrawableList(); draw; draw = draw->getNextDrawable() )
-	{
-		const Object *object=draw->getObject();
-
-		if( object && object->isKindOf( KINDOF_FS_FAKE ) )
-		{	
-			Relationship rel=ThePlayerList->getLocalPlayer()->getRelationship(object->getTeam());
-			if (rel == ALLIES || rel == NEUTRAL)
-				draw->setTerrainDecal(TERRAIN_DECAL_SHADOW_TEXTURE);
-			else
-				draw->setTerrainDecal(TERRAIN_DECAL_NONE);
-		}
-	}
-}
 
 /** -----------------------------------------------------------------------------------------------
  * Destroy the drawable immediately.
@@ -280,32 +255,6 @@ void GameClient::removeDrawableFromLookupTable( Drawable *draw )
 
 //-------------------------------------------------------------------------------------------------
 /** Unload a map from the game interface */
-// ?GameClient::unloadMap present-unmatched
-//-------------------------------------------------------------------------------------------------
-// ?GameClient::setTimeOfDay present-unmatched
-//-------------------------------------------------------------------------------------------------
-// ?GameClient::assignSelectedDrawablesToGroup present-unmatched
-void GameClient::assignSelectedDrawablesToGroup( Int group )
-{
-/*
-	Drawable *draw = firstDrawable();
-	while( draw )
-	{
-	
-		if( draw->isSelected() && draw->getObject()->isLocallyControlled())
-		{
-			draw->setDrawableGroup( group );
-		}
-		else if( draw->getDrawableGroup() == group )
-		{
-			draw->setDrawableGroup( 0 );
-		}
-
-		draw = draw->getNextDrawable();
-
-	}
-*/
-}
 
 //-------------------------------------------------------------------------------------------------
 // ?GameClient::selectDrawablesInGroup present-unmatched
@@ -369,16 +318,6 @@ void GameClient::flushTextBearingDrawables( void )
 }
 
 // ------------------------------------------------------------------------------------------------
-// ?GameClient::evaluateContextCommand present-unmatched
-//-------------------------------------------------------------------------------------------------
-/** Get the ray effect data for a drawable */
-// ?GameClient::getRayEffectData present-unmatched
-void GameClient::getRayEffectData( Drawable *draw, RayEffectData *effectData )
-{
-
-	TheRayEffects->getRayEffectData( draw, effectData );
-
-}  // end getRayEffectData
 
 //-------------------------------------------------------------------------------------------------
 /** remove the drawble from the ray effects sytem if present */
@@ -391,163 +330,6 @@ void GameClient::removeFromRayEffects( Drawable *draw )
 }  // end removeFromRayEffects
 
 /** frees all shadow resources used by this module - used by Options screen.*/
-// ?GameClient::releaseShadows present-unmatched
-/** create shadow resources if not already present. Used by Options screen.*/
-// ?GameClient::allocateShadows present-unmatched
-//-------------------------------------------------------------------------------------------------
-/** Preload assets for the currently loaded map.  Those assets include all the damage states
-	* for every building loaded, as well as any faction units/structures we can build and
-	* all their damage states */
-//-------------------------------------------------------------------------------------------------
-// ?GameClient::preloadAssets present-unmatched
-void GameClient::preloadAssets( TimeOfDay timeOfDay )
-{
-
-	MEMORYSTATUS before, after;
-	GlobalMemoryStatus(&before);
-
-	// first, for every drawable in the map load the assets for all states we care about
-	Drawable *draw;
-	for( draw = firstDrawable(); draw; draw = draw->getNextDrawable() )
-		draw->preloadAssets( timeOfDay );
-
-	//
-	// now create a temporary drawble for each of the faction things we can create, preload
-	// their assets, and dump the drawable
-	//
-	AsciiString side;
-	const ThingTemplate *tTemplate;
-	for( tTemplate = TheThingFactory->firstTemplate();
-			 tTemplate;
-			 tTemplate = tTemplate->friend_getNextTemplate() )
-	{
-			
-		// if this isn't one of the objects that can be preloaded ignore it
-		if( tTemplate->isKindOf( KINDOF_PRELOAD ) == FALSE && !TheGlobalData->m_preloadEverything )
-			continue;
-
-		// create the drawable and do the preloading
-		draw = TheThingFactory->newDrawable( tTemplate );
-		if( draw )
-		{
-
-			// preload the assets
-			draw->preloadAssets( timeOfDay );
-
-			// destroy the drawable
-			TheGameClient->destroyDrawable( draw );
-
-		}  // end if
-
-	}  // end for
-	GlobalMemoryStatus(&after);
-
-	DEBUG_LOG(("Preloading memory dwAvailPageFile %d --> %d : %d\n",
-		before.dwAvailPageFile, after.dwAvailPageFile, before.dwAvailPageFile - after.dwAvailPageFile));
-	DEBUG_LOG(("Preloading memory dwAvailPhys     %d --> %d : %d\n",
-		before.dwAvailPhys, after.dwAvailPhys, before.dwAvailPhys - after.dwAvailPhys));
-	DEBUG_LOG(("Preloading memory dwAvailVirtual  %d --> %d : %d\n",
-		before.dwAvailVirtual, after.dwAvailVirtual, before.dwAvailVirtual - after.dwAvailVirtual));
-	/*
-	DEBUG_LOG(("Preloading memory dwLength        %d --> %d : %d\n",
-		before.dwLength, after.dwLength, before.dwLength - after.dwLength));
-	DEBUG_LOG(("Preloading memory dwMemoryLoad    %d --> %d : %d\n",
-		before.dwMemoryLoad, after.dwMemoryLoad, before.dwMemoryLoad - after.dwMemoryLoad));
-	DEBUG_LOG(("Preloading memory dwTotalPageFile %d --> %d : %d\n",
-		before.dwTotalPageFile, after.dwTotalPageFile, before.dwTotalPageFile - after.dwTotalPageFile));
-	DEBUG_LOG(("Preloading memory dwTotalPhys     %d --> %d : %d\n",
-		before.dwTotalPhys , after.dwTotalPhys, before.dwTotalPhys - after.dwTotalPhys));
-	DEBUG_LOG(("Preloading memory dwTotalVirtual  %d --> %d : %d\n",
-		before.dwTotalVirtual , after.dwTotalVirtual, before.dwTotalVirtual - after.dwTotalVirtual));
-	*/
-
-	GlobalMemoryStatus(&before);
-	extern std::vector<AsciiString>	debrisModelNamesGlobalHack;
-	for (Int i=0; i<debrisModelNamesGlobalHack.size(); ++i)
-	{
-		TheDisplay->preloadModelAssets(debrisModelNamesGlobalHack[i]);
-	}
-	GlobalMemoryStatus(&after);
-	debrisModelNamesGlobalHack.clear();
-
-	DEBUG_LOG(("Preloading memory dwAvailPageFile %d --> %d : %d\n",
-		before.dwAvailPageFile, after.dwAvailPageFile, before.dwAvailPageFile - after.dwAvailPageFile));
-	DEBUG_LOG(("Preloading memory dwAvailPhys     %d --> %d : %d\n",
-		before.dwAvailPhys, after.dwAvailPhys, before.dwAvailPhys - after.dwAvailPhys));
-	DEBUG_LOG(("Preloading memory dwAvailVirtual  %d --> %d : %d\n",
-		before.dwAvailVirtual, after.dwAvailVirtual, before.dwAvailVirtual - after.dwAvailVirtual));
-
-	TheControlBar->preloadAssets( timeOfDay );
-
-	GlobalMemoryStatus(&before);
-	TheParticleSystemManager->preloadAssets( timeOfDay );
-	GlobalMemoryStatus(&after);
-
-	DEBUG_LOG(("Preloading memory dwAvailPageFile %d --> %d : %d\n",
-		before.dwAvailPageFile, after.dwAvailPageFile, before.dwAvailPageFile - after.dwAvailPageFile));
-	DEBUG_LOG(("Preloading memory dwAvailPhys     %d --> %d : %d\n",
-		before.dwAvailPhys, after.dwAvailPhys, before.dwAvailPhys - after.dwAvailPhys));
-	DEBUG_LOG(("Preloading memory dwAvailVirtual  %d --> %d : %d\n",
-		before.dwAvailVirtual, after.dwAvailVirtual, before.dwAvailVirtual - after.dwAvailVirtual));
-
-	char *textureNames[] = {
-		"ptspruce01.tga",
-		"exrktflame.tga",
-		"cvlimo3_d2.tga",
-		"exfthrowerstream.tga",
-		"uvrockbug_d1.tga",
-		"arcbackgroundc.tga",
-		"grade3.tga",
-		"framebasec.tga",
-		"gradec.tga",
-		"frametopc.tga",
-		"arcbackgrounda.tga",
-		"arcglow2.tga",
-		"framebasea.tga",
-		"gradea.tga",
-		"frametopa.tga",
-		"sauserinterface256_002.tga",
-		"sauserinterface256_001.tga",
-		"unitbackgrounda.tga",
-		"sauserinterface256_004.tga",
-		"sagentank.tga",
-		"sauserinterface256_005.tga",
-		"sagenair.tga",
-		"sauserinterface256_003.tga",
-		"sagenspec.tga",
-		"snuserinterface256_003.tga",
-		"snuserinterface256_002.tga",
-		"unitbackgroundc.tga",
-		"snuserinterface256_004.tga",
-		"sngenredarm.tga",
-		"snuserinterface256_001.tga",
-		"sngenspewea.tga",
-		"sngensecpol.tga",
-		"ciburn.tga",
-		"ptmaple02.tga",
-		"scuserinterface256_005.tga",
-		"scuserinterface256_002.tga",
-		"sauserinterface256_006.tga",
-		"pmcrates.tga",
-		""
-	};
-
-	GlobalMemoryStatus(&before);
-	for (i=0; *textureNames[i]; ++i)
-		TheDisplay->preloadTextureAssets(textureNames[i]);
-	GlobalMemoryStatus(&after);
-
-	DEBUG_LOG(("Preloading memory dwAvailPageFile %d --> %d : %d\n",
-		before.dwAvailPageFile, after.dwAvailPageFile, before.dwAvailPageFile - after.dwAvailPageFile));
-	DEBUG_LOG(("Preloading memory dwAvailPhys     %d --> %d : %d\n",
-		before.dwAvailPhys, after.dwAvailPhys, before.dwAvailPhys - after.dwAvailPhys));
-	DEBUG_LOG(("Preloading memory dwAvailVirtual  %d --> %d : %d\n",
-		before.dwAvailVirtual, after.dwAvailVirtual, before.dwAvailVirtual - after.dwAvailVirtual));
-
-//	preloadTextureNamesGlobalHack2 = preloadTextureNamesGlobalHack;
-//	preloadTextureNamesGlobalHack.clear();
-
-}  // end preloadAssets
 
 // ------------------------------------------------------------------------------------------------
 /** Given a string name, find the drawable TOC entry (if any) associated with it */
