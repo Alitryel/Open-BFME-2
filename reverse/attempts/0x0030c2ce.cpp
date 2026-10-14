@@ -1,9 +1,14 @@
 // ?Rva0030C2CESave@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z
+// partial score=0.97 date=2026-10-14
+// ?Rva0030C2CESave@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z
 // partial score=0.93 date=2026-10-03
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHsc /arch:SSE
 // ?Rva0030C2CESave@@YAXPAVRva0030C2CECollection@@PAVDataChunkOutput@@@Z, retail 0x0030C2CE, 316 bytes.
 // RiverAreas save via DataChunkOutput: openDataChunk RiverAreas, write count, cursor-iterate areas, write int, Rva00537EAD, 4 AsciiStrings, RGBColor int, floats, enum string via 0xDB9650 table, Rva0053850B. Evidence: packet disassembly, WaterLookup cursor pattern, callees rowed.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 
 class DataChunkOutput
 {
@@ -78,7 +83,7 @@ extern "C" __declspec(noinline) bool __cdecl Rva0030C2CECursorEqual(const Rva003
 void __cdecl Rva0030C2CESave(Rva0030C2CECollection *coll, DataChunkOutput *out)
 {
 	out->openDataChunk("RiverAreas", 2);
-	int count = (int)(coll->m_end18 - coll->m_begin14);
+	int count = (int)(coll->m_end18 - __vref(coll->m_begin14));
 	out->writeInt(count);
 	Rva0030C2CECursor endCur;
 	Rva0030C2CECursor cur;
@@ -86,13 +91,16 @@ void __cdecl Rva0030C2CESave(Rva0030C2CECollection *coll, DataChunkOutput *out)
 	endCur.m_index = (int)(coll->m_end18 - coll->m_begin14);
 	cur.m_store = coll;
 	cur.m_index = 0;
-	if (Rva0030C2CECursorEqual(cur, endCur) == false)
+	unsigned char nc_91 = Rva0030C2CECursorEqual(cur, endCur);
+	if (nc_91 == false)
 	{
 		do
 		{
 			Rva0030C2CEElem *begin = cur.m_store->m_begin14;
 			int idx = cur.m_index;
+			{
 			Rva0030C2CEArea *area = (Rva0030C2CEArea *)begin[idx].m_ptr04;
+			_ReadWriteBarrier();
 			out->writeInt(begin[idx].m_int00);
 			((Rva00537EAD *)area)->rva00537EAD(out);
 			AsciiString *p = area->m_strings40;
@@ -109,6 +117,7 @@ void __cdecl Rva0030C2CESave(Rva0030C2CECollection *coll, DataChunkOutput *out)
 				((StringBase<char> &)tmp).set(g_00DB9650[area->m_int60]);
 			out->writeAsciiString(tmp);
 			area->m_save68.rva0053850B(out);
+			}
 			++cur.m_index;
 		} while (Rva0030C2CECursorEqual(cur, endCur) == false);
 	}
