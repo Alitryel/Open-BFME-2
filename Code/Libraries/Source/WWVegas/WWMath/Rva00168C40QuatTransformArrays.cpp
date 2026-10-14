@@ -16,6 +16,17 @@
 // names are address-derived; the layout is the quaternion+translation pivot
 // transform BFME2 keeps in place of a Matrix3D (HLod pivots, +0x30/+0x40).
 
+// The compiler-generated vector constructor iterator (??_H) takes the
+// optimization state of the first function that needs it. Retail links one
+// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
+// copy that same body instead of the /O2 one, which loses at link time.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+#pragma auto_inline(off)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma auto_inline(on)
+#pragma optimize("", on)
+
 #include "vector3.h"
 
 class Rva00168C40QuatTransform
