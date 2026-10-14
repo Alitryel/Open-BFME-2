@@ -1,8 +1,8 @@
 // cl: /O1 /arch:SSE /MD /EHsc
 //
-// ?ResolveBindings@Rva001F4A90Host_Physics@@UAEXPBD0PAVFXShaderParameterBinder@@@Z
+// ?ResolveBindings@SourceNamespace_Physics@ParticleFXShaderParameterSourceNamespace@@UAEXPBD0PAVFXShaderParameterBinder@@@Z
 // @0x001F73D5 156B and
-// ?ResolveBindings@Rva001F4A90Host_Update@@UAEXPBD0PAVFXShaderParameterBinder@@@Z
+// ?ResolveBindings@SourceNamespace_Update@ParticleFXShaderParameterSourceNamespace@@UAEXPBD0PAVFXShaderParameterBinder@@@Z
 // @0x001F7740 328B: vtable slot 1 of the "Physics" (vtable 0x00BE16F0) and
 // "Update" (vtable 0x00BE16F8) sub-binders that the rowed particle binder
 // select 0x001F4A90 reaches at ParticleFXShaderParameterSourceNamespace+8 and +0xC; the "Draw"
@@ -369,21 +369,30 @@ public:
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
 
+// WorldBuilder names the sub-binders ParticleFXShaderParameterSourceNamespace::SourceNamespace_*.
+class ParticleFXShaderParameterSourceNamespace
+{
+public:
+	struct SourceNamespace_Physics;
+	struct SourceNamespace_Update;
+	struct SourceNamespace_Draw;
+};
+
 // "Physics" sub-binder, vtable 0x00BE16F0 (dispatcher 0x001F73D5).
-struct Rva001F4A90Host_Physics : public FXShaderParameterSourceNamespace_Struct
+struct ParticleFXShaderParameterSourceNamespace::SourceNamespace_Physics : public FXShaderParameterSourceNamespace_Struct
 {
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
 
 // "Update" sub-binder, vtable 0x00BE16F8 (dispatcher 0x001F7740).
-struct Rva001F4A90Host_Update : public FXShaderParameterSourceNamespace_Struct
+struct ParticleFXShaderParameterSourceNamespace::SourceNamespace_Update : public FXShaderParameterSourceNamespace_Struct
 {
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
 
 // "Draw" sub-binder, vtable 0x00BE16E8 (dispatcher 0x001F69B1, rowed in
 // Rva001F69B1ParticleDrawBinder.cpp).
-struct Rva001F4A90Host_Draw : public FXShaderParameterSourceNamespace_Struct
+struct ParticleFXShaderParameterSourceNamespace::SourceNamespace_Draw : public FXShaderParameterSourceNamespace_Struct
 {
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
@@ -397,9 +406,9 @@ public:
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 
 private:
-	Rva001F4A90Host_Draw m_04;
-	Rva001F4A90Host_Physics m_08;
-	Rva001F4A90Host_Update m_0C;
+	ParticleFXShaderParameterSourceNamespace::SourceNamespace_Draw m_04;
+	ParticleFXShaderParameterSourceNamespace::SourceNamespace_Physics m_08;
+	ParticleFXShaderParameterSourceNamespace::SourceNamespace_Update m_0C;
 };
 
 Rva001F4B01::~Rva001F4B01()
@@ -407,7 +416,7 @@ Rva001F4B01::~Rva001F4B01()
 	Rva001532E1Erase("Particle");
 }
 
-void Rva001F4A90Host_Physics::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
+void ParticleFXShaderParameterSourceNamespace::SourceNamespace_Physics::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
 {
 	FXShaderParameterSourceNamespace_Struct::ResolveBindings(name, handle, registry);
 	if (name)
@@ -423,7 +432,7 @@ void Rva001F4A90Host_Physics::ResolveBindings(const char *name, const char *hand
 	}
 }
 
-void Rva001F4A90Host_Update::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
+void ParticleFXShaderParameterSourceNamespace::SourceNamespace_Update::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
 {
 	FXShaderParameterSourceNamespace_Struct::ResolveBindings(name, handle, registry);
 	if (name)

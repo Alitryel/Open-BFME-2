@@ -1,6 +1,6 @@
 // cl: /O1 /arch:SSE /MD /EHsc
 //
-// ?ResolveBindings@Rva001F4A90Host_Draw@@UAEXPBD0PAVFXShaderParameterBinder@@@Z
+// ?ResolveBindings@SourceNamespace_Draw@ParticleFXShaderParameterSourceNamespace@@UAEXPBD0PAVFXShaderParameterBinder@@@Z
 // @0x001F69B1 328B: vtable slot 1 of the "Draw" sub-binder (vtable 0x00BE16E8,
 // slot 0 0x001F45C3) that the rowed particle binder select 0x001F4A90 reaches
 // at ParticleFXShaderParameterSourceNamespace+4. Defers to the rowed default binder 0x00153664, then
@@ -398,13 +398,20 @@ public:
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
 
+// WorldBuilder names the sub-binders ParticleFXShaderParameterSourceNamespace::SourceNamespace_*.
+class ParticleFXShaderParameterSourceNamespace
+{
+public:
+	struct SourceNamespace_Draw;
+};
+
 // "Draw" sub-binder, vtable 0x00BE16E8 (dispatcher 0x001F69B1).
-struct Rva001F4A90Host_Draw : public FXShaderParameterSourceNamespace_Struct
+struct ParticleFXShaderParameterSourceNamespace::SourceNamespace_Draw : public FXShaderParameterSourceNamespace_Struct
 {
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
 
-void Rva001F4A90Host_Draw::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
+void ParticleFXShaderParameterSourceNamespace::SourceNamespace_Draw::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
 {
 	FXShaderParameterSourceNamespace_Struct::ResolveBindings(name, handle, registry);
 	if (name)
