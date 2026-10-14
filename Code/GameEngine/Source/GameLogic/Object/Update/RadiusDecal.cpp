@@ -60,7 +60,7 @@ extern GameClient *TheGameClient;extern GameLogic *TheGameLogic;
 class GlobalData { public: char pad00[0x5C];volatile bool at5C; };
 extern GlobalData *TheWritableGlobalData;
 class BfmeOwnVVD { public:virtual void slot0()=0;virtual void slot1()=0;virtual int slot2()=0; };
-extern BfmeOwnVVD *g_bfmeSingletonVVD;
+class LookAtTranslator; extern LookAtTranslator *TheLookAtTranslator;
 class Shadow { public:
  void setOpacity(int);void rva00330995(int);
  __forceinline void setRadius(float r) { radius58=r;radius5C=r; }
@@ -99,7 +99,7 @@ void RadiusDecal::update() {
   bool special=decal->type==0x1000;
   unsigned value=data->at28;
   if(value>0) special=true;
-  if(!special && TheWritableGlobalData->at5C && g_bfmeSingletonVVD->slot2()) opacity=0;
+  if(!special && TheWritableGlobalData->at5C && ((BfmeOwnVVD *)TheLookAtTranslator)->slot2()) opacity=0;
  }
  set_opacity:
  decal->setOpacity(opacity);

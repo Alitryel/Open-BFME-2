@@ -1301,7 +1301,7 @@ extern MessageStream *MessageStreamSubsystem;           // TheMessageStream
 extern GlobalLanguage *TheGlobalLanguageData;
 extern float g_00DBA4FC;                                // client frame rate
 extern void *g_00E03210;                                // the Rva0042CBB6 translator
-extern BfmeOwnVVD *g_bfmeSingletonVVD;
+class LookAtTranslator; extern LookAtTranslator *TheLookAtTranslator;
 extern FormationTranslator *g_00E0322C;
 extern Rva0022C22CSubsystem *TheScoredKillEvaAnnouncerController;
 extern Eva *TheEva;
@@ -1734,7 +1734,7 @@ void GameClient::reset()
 // ?update@GameClient@@UAEXXZ
 void GameClient::update()
 {
-	g_bfmeSingletonVVD->rva0042F213();
+	((BfmeOwnVVD *)TheLookAtTranslator)->rva0042F213();
 	((Rva0042CBB6 *)g_00E03210)->rva0042D068();
 	((Rva005D124D *)g_00E0322C)->rva005D124D();
 

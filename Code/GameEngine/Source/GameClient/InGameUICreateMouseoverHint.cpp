@@ -412,9 +412,8 @@ class RecorderClass { public: bool isMultiplayer(); RecorderModeType getMode(); 
 extern RecorderClass* TheRecorder;
 class LookAtTranslator;
 class BfmeOwnVVD { public: unsigned char Rva0042E8C1(); };
-// TheLookAtTranslator is only an alias of the owned global g_bfmeSingletonVVD (ledger names column); this unit reads the owner through its own view type.
-extern class BfmeOwnVVD *g_bfmeSingletonVVD;
-#define TheLookAtTranslator (*(LookAtTranslator* *)&g_bfmeSingletonVVD)
+// Use the canonical translator global; casts retain the verified local member view.
+class LookAtTranslator; extern LookAtTranslator *TheLookAtTranslator;
 class GlobalData { public:
  unsigned char pad0[0x9b8]; int tooltipFlag;
  unsigned char pad1[0xa5c-0x9bc]; int baseValuePerSupplyBox;

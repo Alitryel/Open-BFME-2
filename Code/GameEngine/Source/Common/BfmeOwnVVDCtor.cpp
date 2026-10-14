@@ -7,25 +7,12 @@ struct LookAtRegion {Coord2D lo,hi;};
 struct Rva001EDD80Pair { int x, y; };
 class GameMessage;
 
-// Historical BFME1 donor notes follow; their addresses are not BFME2 addresses.
-// The BFME2 owner remains BfmeOwnVVD until its complete class/vtable is reconciled.
-// Retail layout: 0x005B5470 installs vftable 0x0110DE48, already pinned as
-// ??_7BfmeOwnVVD@@6B@ by the landed destructor
-// Code/GameEngine/Source/Common/BfmeConv1663.cpp (??1BfmeOwnVVD@@QAE@XZ,
-// 0x005B5330), and stores `this` into the singleton at 0x012F4C84, already
-// pinned in reverse/symbols.csv both as TheLookAtTranslator and as
-// g_bfmeSingletonVVD -- but that name pin is stale for this address: the
-// real ??0LookAtTranslator@@QAE@XZ is already matched elsewhere at
-// 0x005A6580 (Code/GameEngine/Source/GameClient/MessageStream/
-// LookAtTranslator_ctor.cpp, vtable 0x0110D62C), a different class entirely.
-// This constructor is therefore address-derived, not LookAtTranslator; the
-// BfmeOwnVVD name (shared with the already-landed dtor) is kept for
-// consistency with that file. The array-new-with-ctor helper call (element
-// size 0x20, count 8) uses the same BfmeElemVVD ctor/dtor pair as that file:
-// the dtor is the existing pin ??1BfmeElemVVD@@QAE@XZ,0x0001479A; the ctor
-// is newly pinned here as ??0BfmeElemVVD@@QAE@XZ,0x00418A07 (additive; the
-// same address already carries an unrelated ??0BfmeS1059@@QAE@XZ pin
-// through Code/gen_small/thunks_011.cpp -> FUN_00796AD0).
+// BFME2 singleton identity: WB12C2CB0 names LookAtTranslator::LookAtTranslator
+// (LookAtXlat.cpp:144), paired to target ctor42E926; WB12C30D0 independently
+// names translateGameMessage, paired to rowed target42E9EC. The native ctor
+// installs C3C938 and stores this at VA00E03214. BfmeOwnVVD remains the
+// existing member/access-view identity; the single global uses the real type.
+// Older donor comments mixed BFME1 addresses and are superseded by this evidence.
 //
 // Retail interleaves two groups of zero-stores around the array
 // construction: some fields are zeroed via the (compiler-ordered)
@@ -96,9 +83,9 @@ private:
 	unsigned char m_157;                  // +0x157 body-set
 };
 
-extern BfmeOwnVVD *g_bfmeSingletonVVD;
-// g_bfmeSingletonVVD: matched references place it at VA 0xe03214 (zero-filled .bss).
-BfmeOwnVVD * g_bfmeSingletonVVD;
+class LookAtTranslator; extern LookAtTranslator *TheLookAtTranslator;
+// TheLookAtTranslator: owned pointer at native VA00E03214, zero at load.
+LookAtTranslator *TheLookAtTranslator;
 
 extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;
@@ -126,14 +113,14 @@ BfmeOwnVVD::BfmeOwnVVD()
 	m_2c = 0;
 	m_28 = 0;
 
-	g_bfmeSingletonVVD = this;
+	TheLookAtTranslator = (LookAtTranslator *)this;
 }
 
 // ??1BfmeOwnVVD@@QAE@XZ 0x0042E85C 79B: BFME1 donor BfmeConv1663.cpp; vtable 0x0083C938 base 0x007DBA74; caller 0x0042E9D3; singleton 0x00A03214
 BfmeOwnVVD::~BfmeOwnVVD()
 {
-	if (g_bfmeSingletonVVD == this)
-		g_bfmeSingletonVVD = 0;
+	if (((BfmeOwnVVD *)TheLookAtTranslator) == this)
+		TheLookAtTranslator = 0;
 }
 
 // ?Rva0042E8C1@BfmeOwnVVD@@QAEEXZ 0x0042E8C1 44B: uses m_150 plus globals 0x009FE78C 0x009BA4E4; callers 0x0029F2CF 0x0037A90C

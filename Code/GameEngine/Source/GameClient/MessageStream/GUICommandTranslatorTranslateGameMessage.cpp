@@ -343,7 +343,7 @@ public:
 };
 
 class BfmeOwnVVD;
-extern BfmeOwnVVD *g_bfmeSingletonVVD;
+class LookAtTranslator; extern LookAtTranslator *TheLookAtTranslator;
 
 class Rva0035AFE4;
 Object *__cdecl Rva00431012PickObject(ICoord2D *pixel, Rva0035AFE4 *mask, int pickType);
@@ -504,7 +504,7 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 	int status = 1;
 	const ICoord2D *hi = &msg->getArgument(0)->pixelRegion.hi;
 	ICoord2D mouse = *hi;
-	((Rva005B5440 *)g_bfmeSingletonVVD)->clearFlags();
+	((Rva005B5440 *)((BfmeOwnVVD *)TheLookAtTranslator))->clearFlags();
 	if (!command->isContextCommand())
 	{
 	switch (command->m_commandType)

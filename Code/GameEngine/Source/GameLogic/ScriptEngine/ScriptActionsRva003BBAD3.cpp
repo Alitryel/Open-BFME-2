@@ -122,7 +122,7 @@ public:
 	void rva00405AA7();
 };
 class BfmeOwnVVD;
-extern BfmeOwnVVD *g_bfmeSingletonVVD;
+class LookAtTranslator; extern LookAtTranslator *TheLookAtTranslator;
 class Rva005B5440
 {
 public:
@@ -137,7 +137,7 @@ void Rva003BBAD3Set()
 	TheInGameUI->s68();
 	((char *)TheInGameUI)[0x8b0] = 0;
 	((Rva00405AA7 *)(*(BfmeWorldRV **)&TheControlBar))->rva00405AA7();
-	return ((Rva005B5440 *)g_bfmeSingletonVVD)->clearFlags();
+	return ((Rva005B5440 *)((BfmeOwnVVD *)TheLookAtTranslator))->clearFlags();
 }
 
 class Rva003BBAD3
@@ -158,7 +158,7 @@ void Rva003BBAD3::rva003BBAD3()
 	TheInGameUI->s68();
 	((char *)TheInGameUI)[0x8b0] = 0;
 	((Rva00405AA7 *)(*(BfmeWorldRV **)&TheControlBar))->rva00405AA7();
-	return ((Rva005B5440 *)g_bfmeSingletonVVD)->clearFlags();
+	return ((Rva005B5440 *)((BfmeOwnVVD *)TheLookAtTranslator))->clearFlags();
 }
 
 // ?Rva003BBB36Enable@ScriptActions@@QAEXXZ @0x003BBB36 27B leaf caller 0x003CBF3E globals TheInGameUI TheMouse callees setInputEnabled setVisibility

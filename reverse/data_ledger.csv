@@ -19757,7 +19757,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A03208,4,.data,global,_s_rva007B041B,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x00A0320C,4,.data,global,_s_rva007B042B,Code/GameEngine/Source/Common/Rva007ABC6FFrameRateInits.cpp,owned,,1,1
 0x00A03210,4,.data,global,?g_00E03210@@3PAXA,,unowned,,0,3
-0x00A03214,4,.data,global,?g_bfmeSingletonVVD@@3PAVBfmeOwnVVD@@A,Code/GameEngine/Source/Common/BfmeOwnVVDCtor.cpp,provisional,?TheLookAtTranslator@@3PAVLookAtTranslator@@A;?g_bfmeSingletonVVD@@3PAVBfmeOwnVVD@@A,1,7
+0x00A03214,4,.data,global,?TheLookAtTranslator@@3PAVLookAtTranslator@@A,Code/GameEngine/Source/Common/BfmeOwnVVDCtor.cpp,owned,,1,9
 0x00A03218,4,.data,global,?g_00E03218@@3PA_NA,,unowned,,0,17
 0x00A0321C,4,.data,global,_s_rva007B0489,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x00A03220,4,.data,global,?TheSelectionTranslator@@3PAVSelectionTranslator@@A,,unowned,,0,1
