@@ -137,7 +137,7 @@ class Rva003B0D7C
 {
 public:
 	virtual ~Rva003B0D7C();
-	unsigned int rva003B0CB3(unsigned int amount, Rva0039B795 *arg2, bool flag);
+	unsigned int withdraw(unsigned int amount, Rva0039B795 *arg2, bool flag);
 	void rva003B0D7C(int amount, Rva0039B7AD *arg2, bool flag);
 	unsigned int countMoney() const { return m_money; }
 private:
@@ -211,7 +211,7 @@ Bool Player::cloneFrom(Player *other)
 		TheSidesList->addTeam(&teamDict);
 
 		initFromDict(&d);
-		m_money.rva003B0CB3(m_money.countMoney(), (Rva0039B795 *)&m_scoreKeeper, false);
+		m_money.withdraw(m_money.countMoney(), (Rva0039B795 *)&m_scoreKeeper, false);
 		m_money.rva003B0D7C(other->m_money.countMoney(), (Rva0039B7AD *)&m_scoreKeeper, false);
 		m_playerRelations->rva002ADE71(other->m_playerRelations);
 		setPlayerRelationship(other, ALLIES);
