@@ -169,7 +169,7 @@ class Drawable
 {
 public:
 	void rva00275598();
- void rva0027566B();
+ void updateDrawable();
  void rva00272DBB(Object *);
  void rva00272870(int);
  void rva0027541E(const RGBColor *,unsigned,unsigned,unsigned);
@@ -327,7 +327,7 @@ void Drawable::rva00272DEE() {
 // fade/decal/expiry/flash/envelope semantics; BFME2 condition flags, pause gating,
 // realtime deltas, extra tint states and position/normal forwarding are
 // independently read from the retail body and its callers/providers.
-void Drawable::rva0027566B() {
+void Drawable::updateDrawable() {
  unsigned now=TheGameLogic->getFrame();
  Object *obj=m_objectFC;
  if(TheGameEngine->rva00225D38() && dirty443) {
