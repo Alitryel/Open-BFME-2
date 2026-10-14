@@ -1,15 +1,9 @@
-// ?DoXfer@W3DShrubBuffer@@QAEXPAVXfer@@@Z
-// partial score=0.9139 date=2026-10-14
-// ?DoXfer@W3DShrubBuffer@@QAEXPAVXfer@@@Z
-// partial score=0.9 date=2026-10-14
-// ?DoXfer@W3DShrubBuffer@@QAEXPAVXfer@@@Z
-// partial score=0.7940174605388512 date=2026-10-10
-// ?DoXfer@W3DShrubBuffer@@QAEXPAVXfer@@@Z
-// partial score=0.8 date=2026-10-09
-// cl: /I. /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
-// Banked DoXfer reconstruction; nativeE96B4..E9BAC full1272B RET4.
+// cl: /ICode/Libraries/Include /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
+// W3DShrubBuffer::DoXfer; nativeE96B4..E9BAC full1272B RET4.
 // Primary semantic guide: verified BF1 f98983a7 ZH W3DTreeBuffer.cpp xfer.
 // WB898B00 names BFME2 DoXfer and proves version2 type-table extension.
+// Retail's Coord3D is the non-POD class (Lib/Coord3DCtorView.h, which takes Coord3D.h's guard); the
+// string compares call StringBase<char>::compareNoCase directly (arguments before the receiver).
 // Target: short partition array5C0/2500 entries; distinct16B bounds1948;
 // 2000 records of160B at1958;64 types of92B at4FB70. Unknown fields stay
 // typed offset views. Copy301 and its31B Region2D callee only load/store,
@@ -197,7 +191,7 @@ void W3DShrubBuffer::DoXfer(Xfer *xfer)
    if(xfer->IsLoading()){
     t.data=0;
 
-    if(((void*)TheThingFactory->findTemplate(t.templateName))){const ModuleData *module=reinterpret_cast<ModuleInfo *>(static_cast<char *>(((void*)TheThingFactory->findTemplate(t.templateName)))+0x2F0)->getNthData(0);if(module)t.data=module->TreeDrawData();}
+    if(const ThingTemplate *tt=TheThingFactory->findTemplate(t.templateName)){ModuleInfo *mi=reinterpret_cast<ModuleInfo *>(const_cast<char *>(reinterpret_cast<const char *>(tt))+0x2F0);const ModuleData *module=mi->getNthData(0);if(module)t.data=module->TreeDrawData();}
     if(!t.data)throw XferException(4,0);
     if(t.mesh){reinterpret_cast<RenderObjClass *>(t.mesh)->Release_Ref();t.mesh=0;}
     RenderObjClass *render=Create_Render_Obj(t.modelName.str());
@@ -215,15 +209,15 @@ void W3DShrubBuffer::DoXfer(Xfer *xfer)
   AsciiString modelName,modelTexture;
   int treeType=-2;
   if(xfer->IsStoring()){
-   new(&buffer) Rva000E73FC(*reinterpret_cast<const Rva000E73FC *>(&(count?trees:trees)[i]));
-   treeType=tree.treeType;
+   new(&buffer) Rva000E73FC(*reinterpret_cast<const Rva000E73FC *>(&trees[i]));
+   treeType=trees[i].treeType;
    _ReadWriteBarrier();
    if(treeType!=-2){modelName=types[treeType].data->modelName;modelTexture=types[treeType].data->nameC;}
   }
   xfer->String(&modelName);xfer->String(&modelTexture);
   if(xfer->IsLoading()){
    for(int j=0;j<numTypes;++j){
-    if(types[j].data->modelName.compareNoCase(modelName)==0 &&types[j].data->nameC.compareNoCase(modelTexture)==0){treeType=j;break;}
+    if(((const StringBase<char> *)&types[j].data->modelName)->compareNoCase(*(const StringBase<char> *)&modelName)==0 &&((const StringBase<char> *)&types[j].data->nameC)->compareNoCase(*(const StringBase<char> *)&modelTexture)==0){treeType=j;break;}
    }
   }
   xfer->Real(&tree.location.X);xfer->Real(&tree.location.Y);xfer->Real(&tree.location.Z);xfer->Real(&tree.scale);
@@ -240,14 +234,3 @@ void W3DShrubBuffer::DoXfer(Xfer *xfer)
   }
  }
 }
-
-// ---- W6-MP1 r6 prologue-wall diagnosis (2026-10-13, 1261/1272 in clean TU, 417 diffs) ----
-// TWO systemics, both register/home allocation (no size/structure/EH/calls diffs at head):
-// (1) prologue roles SWAPPED: retail xfer->esi + this->ebx (push esi; mov esi,[ebp+8]; push edi;
-//     push esi; mov ebx,ecx); ours xfer->ebx + this->esi (mov ebx,[ebp+8] first) plus a redundant
-//     `mov [ebp-0x38],esi` this-spill retail lacks. Frame 0xDC vs 0xD8 (+4B).
-// (2) tail pos-copy: retail movss-stores + earlier rva000E91CE call; ours movs-copy + later call.
-// Tail fix (restructure pos to movss stores) grows ~11B toward retail AND may re-birth temps;
-// prologue needs a this-first allocation flip (untried: version-scope invalid (live later),
-// named self (frame+), counter split). Layouts agree with landed siblings (+0x1958/+0x4FB58/+0x4FB70).
-// Verdict's findTemplate/Coord3D advice already incorporated. t=20 model=muse-spark.
