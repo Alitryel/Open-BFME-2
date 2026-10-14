@@ -3,6 +3,8 @@
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
 // partial score=0.9889924218835513 date=2026-10-14
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
+// partial score=0.9889924218835513 date=2026-10-14
+// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
 // partial score=0.9881152477314004 date=2026-10-14
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)

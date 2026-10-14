@@ -2,6 +2,8 @@
 // partial score=0.5730462519936204 date=2026-10-14
 // ??1?$_Vector_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ
 // partial score=0.5730462519936204 date=2026-10-14
+// ??1?$_Vector_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ
+// partial score=0.5730462519936204 date=2026-10-14
 // Native 001F1609..001F1634; WB B09640 has the same pointer-triple/free spine.
 // This diagnostic body is 14B; retail retains a 43B EH frame/state for empty
 // allocator cleanup at this+8. Object* is a consumer-view inference.

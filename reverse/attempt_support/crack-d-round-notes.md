@@ -58,7 +58,10 @@ as recovered or fully unblocked.
   Normal explain_mismatch confirms the true 545-byte extent and first
   difference at +6. The improved bank is committed, with no production draft.
   Trial timestamps show five minutes; the first log's t=13 estimate was
-  corrected through re_log rather than editing the log.
+  corrected through re_log rather than editing the log. Timestamp review
+  also corrected the earlier Apt/light/allocator estimates to approximately
+  3/2/5 minutes of sequential trials respectively; trial counts and outcomes
+  are unchanged. Historical time estimates are not impossibility evidence.
 
 ## Stopping condition
 
