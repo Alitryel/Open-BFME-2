@@ -119,3 +119,16 @@ private:
 Rva00574479::Rva00574479(int arg) : Rva00221635(arg)
 {
 }
+
+// --- 0x00580154 (30B): three-way compare of two flags: 0 when equal, else 1
+// when the first is set and -1 when it is clear. No direct reference.
+class Rva00580154
+{
+public:
+	int rva00580154(bool a, bool b) const;
+};
+
+int Rva00580154::rva00580154(bool a, bool b) const
+{
+	return a != b ? (a ? 1 : -1) : 0;
+}
