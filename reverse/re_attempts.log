@@ -55831,3 +55831,13 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ	0x00764B35	10	landed	add_m
 ?Rva003B9921Parse@@YAHQAPADH@Z	0x003B9921	20	landed	add_match verified Code/GameEngine/Source/Common/CommandLineUnlistedSwitches.cpp 20B; unlisted command-line switch parser: guarded TheWritableGlobalData byte store then 1
 ?Rva003B9935Parse@@YAHQAPADH@Z	0x003B9935	46	landed	add_match verified Code/GameEngine/Source/Common/CommandLineUnlistedSwitches.cpp 46B; unlisted command-line parser: guarded atoi of next argument into TheWritableGlobalData int then 2
 ?Rva003B9963Parse@@YAHQAPADH@Z	0x003B9963	20	landed	add_match verified Code/GameEngine/Source/Common/CommandLineUnlistedSwitches.cpp 20B; unlisted command-line switch parser: guarded TheWritableGlobalData byte store then 1
+?rva0052B634@@YAXXZ	0x0052B634	52	blocked	resets four globals with TheEmptyString through thiscall calls on them, but callees 0x0052B58F/0x0052B5C6/0x004FAC99 are rowed under stdcall spellings; a thiscall spelling needs second names on rowed addresses t=2 model=claude-opus-5-5
+?rva00524F77@@YAHPAX@Z	0x00524F77	48	blocked	eax-register argument (static custom convention) clamp of a vslot-5 float to 0..100; caller unit unknown t=2 model=claude-opus-5-5
+?rva0049A880@Rva0049A880@@QAE_NH@Z	0x0049A880	33	blocked	reads [ecx-0x3DC] then [eax+0x250]: an override reached through a secondary-base this whose complete-object layout is not established t=2 model=claude-opus-5-5
+?rva0049E1A3@Rva0049E1A3@@QAEPAXPAX@Z	0x0049E1A3	28	blocked	copies 4 bytes from [this-0xC]+0x2C through an import call and returns the destination: secondary-base this adjustment with unknown owner layout t=2 model=claude-opus-5-5
+?rva0030C4A6@@YAXXZ	0x0030C4A6	56	blocked	seven vtordisp thunks (sub ecx,[ecx-4]; jmp) of a virtual-base class whose targets are rowed under unrelated address-derived class names; emitting them needs the class vtable with those methods as overrides t=2 model=claude-opus-5-5
+?rva0030CD75@@YAXXZ	0x0030CD75	85	blocked	adjustor plus vtordisp thunk run (sub ecx,0x30/0x3C) to rowed bodies under unrelated class names; same vtable-emission requirement as 0x0030C4A6 t=2 model=claude-opus-5-5
+?rva0031771D@@YAXXZ	0x0031771D	92	blocked	not a function start: an EH-frame tail fragment (jmp back, [ebp-x] locals, fs:[0] restore) of an enclosing unrowed function t=2 model=claude-opus-5-5
+?rva0033705B@@YAXXZ	0x0033705B	55	blocked	not a function start: EH-frame tail fragment of an enclosing function t=2 model=claude-opus-5-5
+?rva00552BD8@@YAXXZ	0x00552BD8	48	blocked	switch jump table data, not code t=2 model=claude-opus-5-5
+?rva00558D0D@@YAXXZ	0x00558D0D	52	blocked	switch jump table data, not code t=2 model=claude-opus-5-5
