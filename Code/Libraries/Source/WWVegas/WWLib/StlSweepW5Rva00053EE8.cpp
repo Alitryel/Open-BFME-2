@@ -4,6 +4,16 @@
 // stlport
 #include <hash_map>
 
+// vector<void*> begin/operator[] otherwise instantiate per-TU COMDATs (one byte
+// shape per TU flags); explicit dllimport+forceinline specializations take
+// those calls inline so this TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void *>::operator[](size_t __n) { return *(begin() + __n); }
+}
+
 struct Rva00053EE8Element {Rva00053EE8Element();Rva00053EE8Element(const Rva00053EE8Element&);Rva00053EE8Element&operator=(const Rva00053EE8Element&);~Rva00053EE8Element(){}char bytes[8]; bool operator==(const Rva00053EE8Element&)const;};
 
 // Instantiate the recovered operation and its required template dependencies.

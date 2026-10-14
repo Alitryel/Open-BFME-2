@@ -9,9 +9,9 @@
 // adds no constructor, inline helper, vtable or by-value ABI.
 #include <vector>
 
-// vector<void*> operator[] otherwise instantiates a per-TU COMDAT (one
-// byte shape per TU flags); an explicit dllimport+forceinline specialization
-// takes those calls inline so this TU emits no external copy.
+// vector<void*> size/operator[] otherwise instantiate per-TU COMDATs (one
+// byte shape per TU flags); explicit dllimport+forceinline specializations
+// take those calls inline so this TU emits no external copies.
 namespace _STL {
 // The rowed /Od size provider owns the standalone body. Keep this
 // consumer's pointer-span calculation inline without a competing copy.

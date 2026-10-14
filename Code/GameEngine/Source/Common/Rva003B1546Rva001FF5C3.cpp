@@ -8,6 +8,16 @@
 // vector<void*> +0x0C, int +0x18).
 #include <vector>
 
+// vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte
+// shape per TU flags); explicit dllimport+forceinline specializations take
+// those calls inline so this TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::end() { return this->_M_finish; }
+}
+
 class Overridable {
 public:
 	Overridable *deleteOverrides();

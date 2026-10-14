@@ -19,6 +19,18 @@
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
+// vector<void*> begin/end/operator[] otherwise instantiate per-TU COMDATs (one byte
+// shape per TU flags); explicit dllimport+forceinline specializations take
+// those calls inline so this TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void *>::operator[](size_t __n) { return *(begin() + __n); }
+}
+
 // The loop callee is the rowed free thunk at 0x000518E0. Retail loads the
 // global instance into ecx and pushes only the element, and that thunk's body
 // reads its argument from [esp+4] without touching ecx. Calling it as the

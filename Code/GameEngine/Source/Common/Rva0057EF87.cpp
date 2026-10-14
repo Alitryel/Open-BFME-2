@@ -23,8 +23,8 @@ public:
 	T *m_start;
 	T *m_finish;
 	T *m_end_of_storage;
-	T *begin() { return m_start; }
-	T *end() { return m_finish; }
+	__declspec(dllimport) __forceinline T *begin() { return m_start; }
+	__declspec(dllimport) __forceinline T *end() { return m_finish; }
 	T *erase(T *first, T *last);
 	void resize(unsigned int n, T x);
 };

@@ -4,6 +4,16 @@
 // ??1Gen_001DB2C0@@QAE@XZ retail 0x004DE5D0 36B
 // Evidence: leaf lane; pin ??1Gen_001DB2C0; callers 0x004DE5F7 0x004DE646 0x004DE66E; callee erase 0x0031BD55 plus _free 0x00030830; prev Rva004DC9EDEntryDtor same /O1; donor BFME1 Bfme5SelfRangeDtor Gen layout begin end capacity key next.
 #include <vector>
+
+// vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte
+// shape per TU flags); explicit dllimport+forceinline specializations take
+// those calls inline so this TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::end() { return this->_M_finish; }
+}
 extern "C" void __cdecl free(void *block);
 struct GenVec
 {

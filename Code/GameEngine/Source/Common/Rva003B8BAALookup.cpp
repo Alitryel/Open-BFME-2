@@ -1,6 +1,18 @@
 // cl: /O1 /MD /D_STLP_USE_STATIC_LIB
 // stlport
 #include <vector>
+
+// vector<void*> begin/size/operator[] otherwise instantiate per-TU COMDATs (one byte
+// shape per TU flags); explicit dllimport+forceinline specializations take
+// those calls inline so this TU emits no external copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void *>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void *>::operator[](size_t __n) { return *(begin() + __n); }
+}
 // ?rva003B8BAA@Rva003B8BAA@@QAEPAXXZ @0x003B8BAA 30B.
 // Guard on the 0x00DFEF10 singleton byte +0xB4, then index/array chase +0x10/+0x14/[+0x20].
 // Evidence: retail mov eax,[0xDFEF10]; cmp [eax+0xB4],0; jne; xor eax,eax; ret; else mov eax,[ecx+0x10];

@@ -31,8 +31,8 @@ vector(unsigned int,const T&,const A&);
 A get_allocator()const;
 void swap(vector&);
 __declspec(dllimport) __forceinline ~vector(){if(first)free(first);}
-unsigned int size()const{return last-first;}
-T&operator[](unsigned int i){return first[i];}
+__declspec(dllimport) __forceinline unsigned int size()const{return last-first;}
+__declspec(dllimport) __forceinline T&operator[](unsigned int i){return first[i];}
 };
 template<class A,class B>struct pair;
 template<class P>struct _Select1st;
