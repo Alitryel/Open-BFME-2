@@ -194,7 +194,7 @@ public:
 	Int IsLinePassable(void *a8, void *ac, PathfindLayerEnum a10, const Coord3D *a14, const Coord3D *a18, void *a1c, Int a20, Int a24);
 	Bool IsValidMovementPositionForObject(const Coord3D *pos, Int layer, Int surfaces, const Object *obj);
 	void moveAllies(Object *obj, Path *path, Bool flag);
- Bool isAttackViewBlockedByObstacle(const Object*,const Coord3D*,const Object*,const Coord3D*);
+ Bool isAttackViewBlockedByObstacle(const Object*,const Coord3D&,const Object*,const Coord3D&);
  Bool AdjustDestination(Object*,const LocomotorSet&,Coord3D*,const Coord3D*);
  void rva003E3BFB(ObjectID);
  void SetDebugPath(struct Rva002EDEABArg*);
@@ -331,7 +331,7 @@ Bool AIUpdateInterface::computeAttackPath(PathfindServicesInterface *services,co
   if(weapon->isWithinAttackRange(source,victim,0.0f,1)){
    Bool viewBlocked=false;
    if(isDoingGroundMovement()&&!victim->isSignificantlyAboveTerrain())
-    viewBlocked=TheAI->pathfinder()->isAttackViewBlockedByObstacle(source,source->getPosition(),victim,victim->getPosition());
+    viewBlocked=TheAI->pathfinder()->isAttackViewBlockedByObstacle(source,*source->getPosition(),victim,*victim->getPosition());
    if(!viewBlocked){destroyPath();return true;}
   }
  }else if(victimPos){

@@ -186,7 +186,7 @@ class Rva002C9B80Owner;
 class Pathfinder
 {
 public:
-	Bool isAttackViewBlockedByObstacle(const Object *obj, const Coord3D *objPos, const Object *target, const Coord3D *targetPos);
+	Bool isAttackViewBlockedByObstacle(const Object *obj, const Coord3D &objPos, const Object *target, const Coord3D &targetPos);
 	Bool CanApproachToTarget(Object *obj, const Coord3D *targetPos, Rva002C9B80Owner *weapon, Bool flag);
 	Bool QuickDoesPathExistToStructure(Object *obj, const Coord3D *fromPos, Object *structure, Int flag);
 	Bool QuickDoesPathExist(Object *obj, const Coord3D *fromPos, const Coord3D *toPos, Int flag);
@@ -2479,7 +2479,7 @@ StateReturnType AIAttackApproachTargetState::updateInternal()
 	{
 		Bool viewBlocked = false;
 		if (ai->isDoingGroundMovement())
-			viewBlocked = TheAI->pathfinder()->isAttackViewBlockedByObstacle(source, source->getPosition(), 0, &m_goalPosition);
+			viewBlocked = TheAI->pathfinder()->isAttackViewBlockedByObstacle(source, *source->getPosition(), 0, m_goalPosition);
 		if (!viewBlocked)
 			return STATE_SUCCESS;
 	}
