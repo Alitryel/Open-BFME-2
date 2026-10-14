@@ -88445,3 +88445,4 @@ $L4881,,0x007A3EBE,10,Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/Str
 ??$make_pair@VAsciiString@@UNoCaseTreeValue4@@@_STL@@YA?AU?$pair@VAsciiString@@UNoCaseTreeValue4@@@0@ABVAsciiString@@ABUNoCaseTreeValue4@@@Z,,0x0032ACCF,27,Code/GameEngine/Source/Common/Rva002214A6Dtor.cpp,matched,ICF alias; NoCaseTreeValue4 make_pair
 ??0Rva002214A6@@QAE@ABVAsciiString@@@Z,,0x0022141E,136,Code/GameEngine/Source/Common/Rva002214A6Dtor.cpp,matched,
 ?rva0035A8D7@Rva0035A8D7@@QAEXPAX00@Z,,0x0035A8D7,167,Code/GameEngine/Source/GameLogic/System/TerrainResourceManagerGridRva0035A8D7.cpp,matched,
+?rva00224296@Rva00062918Host@@QAEXXZ,,0x00224296,333,Code/GameEngine/Source/GameClient/GUI/BfmeAptWindowManagerInit.cpp,matched,WB 0xB90280 statement order; Apt parameter block + global install + emit-flag bit 1 + three apt screens + loadAptWindow slot 0x50 + +0x2FC screen-vector range erase 0x0031BD55 + window flag clear; BFME1 WindowManager::init shape

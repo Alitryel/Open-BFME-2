@@ -404,6 +404,18 @@ struct Rva00222343 {Rva00222343();int fields[14];bool flag38,flag39;};
 extern void *g_eaStringAtE177D4Storage;
 unsigned char g_00E1771C=0;
 unsigned char g_aptInitFlag39=0;
+// VA 0x00E17718 (zero-filled): the Apt emit/transform flags between the
+// optional vector cellE17714 and flag38 atE1771C. BFME1 owns the same image
+// slot as g_bfmeExtra1282Flags at VA 0x01337818 -- the whole Apt global run
+// matches BFME2's at a constant +0x520100 offset (0x01337708->E17708
+// g_rva00891FA0Ready, 0x01337810->E17710 GcRoots, 0x0133781C->E1771C flag38,
+// 0x0133781D->E1771D flag39, 0x01337828/2C->E17728/2C alloc/free slots) --
+// and BFME1's node walk picks the transform callback over the walk callback
+// from bit 2 and skips an emit from bit 1. This target's 0x00224296
+// initializer sets bit 1 the same way BFME1's WindowManager::init does and
+// 0x006F7720 tests bit 2 to choose its pool-flush callback. Retail holds four
+// loader-zero bytes here.
+unsigned int g_bfmeExtra1282Flags=0;
 extern void (__cdecl *g_bfmeAptFreeSizeAtE17730)(void*,unsigned);
 extern void (__cdecl *g_aptBackgroundCallback)(int);
 extern "C" void (__cdecl *g_bfmeAptLogAtE1773C)(const char*,const char*);
