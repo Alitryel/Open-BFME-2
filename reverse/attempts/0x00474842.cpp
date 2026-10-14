@@ -1,4 +1,6 @@
 // ?rva00474842@Rva00474842@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
+// partial score=0.9196679438058749 date=2026-10-14
+// ?rva00474842@Rva00474842@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
 // partial score=0.95 date=2026-10-14
 // ?rva00474842@Rva00474842@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
 // partial score=0.9 date=2026-10-09
@@ -459,6 +461,7 @@ struct Rva00474842Definition
  
 }
 ;
+class HordeContain {public:void _updatePosition(Object*,const Coord3D*,float);};
 class Rva00474842 
 {
  public:
@@ -532,7 +535,7 @@ void Rva00474842::rva00474842(Object *obj,const Coord3D *position,float orientat
    return;
    
   }
-  rva00471464(obj,position,orientation);
+  ((HordeContain*)this)->_updatePosition(obj,position,orientation);
   return;
   
  }
@@ -563,6 +566,6 @@ void Rva00474842::rva00474842(Object *obj,const Coord3D *position,float orientat
  dest.y=position->y;
  dest.z=position->z;
  ((Rva0046E6EA*)this)->rva0046E6EA((Rva0046E6EAObject*)obj,(const Rva0046E6EACoord*)&dest,(Rva0046E6EACoord*)self,!flag);
- rva00471464(obj,&dest,orientation);
+ ((HordeContain*)this)->_updatePosition(obj,&dest,orientation);
  
 }

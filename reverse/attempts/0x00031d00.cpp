@@ -1,4 +1,6 @@
 // ?rva00031D00@GeneralAllocator@Allocator@EA@@QAEHPBX@Z
+// partial score=0.7680854786850106 date=2026-10-14
+// ?rva00031D00@GeneralAllocator@Allocator@EA@@QAEHPBX@Z
 // partial score=0.7 date=2026-10-13
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -7,6 +9,7 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void *section);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void *section);
 
+struct ErrorCount {int value;ErrorCount(int v):value(v){}operator int()const{return value;}ErrorCount&operator+=(int n){value+=n;return *this;}ErrorCount&operator=(int n){value=n;return *this;}};
 namespace EA { namespace Allocator {
 class GeneralAllocator
 {
@@ -17,7 +20,8 @@ public:
 		int volatile m_count;
 	};
 	struct Node { unsigned int m_start; unsigned int m_size; };
-	Node *rva00031680(const void *block);
+	struct RegionNode{unsigned start,size;char pad[0x10];RegionNode*next;};
+__declspec(noinline) void*rva00031680(const void*block){RegionNode*cur=*(RegionNode**)((char*)this+0x460);RegionNode*sentinel=(RegionNode*)((char*)this+0x448);while(cur!=sentinel){if((unsigned)block>=(unsigned)cur){unsigned end=(unsigned)cur+cur->size;if((unsigned)block<end)return cur;}cur=cur->next;}return 0;}
 	int rva00031D00(const void *block);
 
 	unsigned char m_pad0[0x440];
@@ -41,7 +45,7 @@ int GeneralAllocator::rva00031D00(const void *block)
 		EnterCriticalSection(lock);
 		++lock->m_count;
 	}
-	int score = 0;
+	ErrorCount score=0;
 	int depth = m_470;
 	if (depth <= 1)
 	{
@@ -61,7 +65,7 @@ int GeneralAllocator::rva00031D00(const void *block)
 		}
 		else
 		{
-			Node *node = rva00031680(block);
+			Node *node = (Node*)rva00031680(block);
 			score += (node == 0);
 			score += ((unsigned int)block < node->m_start);
 			unsigned int nodeEnd = node->m_start + node->m_size;
