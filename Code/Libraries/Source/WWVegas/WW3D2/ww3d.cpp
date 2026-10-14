@@ -1997,7 +1997,6 @@ void WW3D::Override_Current_Static_Sort_Lists(StaticSortListClass * sort_list)
 }
 
 
-// ?Reset_Current_Static_Sort_Lists_To_Default@WW3D@@ present-unmatched
 void WW3D::Reset_Current_Static_Sort_Lists_To_Default(void)
 {
 	CurrentStaticSortLists = DefaultStaticSortLists;

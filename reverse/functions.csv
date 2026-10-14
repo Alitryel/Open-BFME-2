@@ -88913,3 +88913,4 @@ __Locale_ctype_default,,0x00021980,5,Code/Libraries/Source/WWVegas/WWLib/stlport
 ?rva000B693D@Rva000B693D@@QAEXABVGen_0075EF90@@@Z,,0x000B693D,15,Code/GameEngine/Source/Common/GapBodiesSeat2A.cpp,matched,null-guarded tail jump into rowed bfmeAssign 0x000B4682 on the +0x68 object; no direct caller
 ??1Rva000FB85D@@QAE@XZ,,0x000FB85D,15,Code/GameEngine/Source/Common/GapBodiesSeat2A.cpp,matched,holder dtor freeing +0x18 through rowed _free 0x00030830; no direct caller
 ?rva000D167A@Rva000D167A@@QAEXI@Z,,0x000D167A,13,Code/GameEngine/Source/Common/GapBodiesSeat2A.cpp,matched,ORs the argument into the flag word at +0x118; no direct caller
+?Reset_Current_Static_Sort_Lists_To_Default@WW3D@@SAXXZ,,0x00117CC0,11,Code/Libraries/Source/WWVegas/WW3D2/ww3d.cpp,matched,ZH ww3d.cpp verbatim: CurrentStaticSortLists 0x00DEC3F4 = DefaultStaticSortLists 0x00DEC3F0; directly after Override_Current_Static_Sort_Lists 0x00117CB0
