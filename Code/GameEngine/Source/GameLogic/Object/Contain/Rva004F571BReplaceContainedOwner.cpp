@@ -41,8 +41,10 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
                               const _List_iterator<_IterTp, _RightTraits> &b)
 { return a._M_node != b._M_node; }
 }
+// This body inlines the target +0x274 container field. Give its local
+// accessor a distinct name from other Object views with different offsets.
 extern GameLogic *TheGameLogic;
-class Object {public:void onContainedBy(Object*); ObjectID getID()const{return id;} const Object*getContainedBy()const{return contained;}private:char pad[0x74];ObjectID id;char pad78[0x274-0x78];Object *contained;};
+class Object {public:void onContainedBy(Object*); ObjectID getID()const{return id;} const Object*tunnelContainer()const{return contained;}private:char pad[0x74];ObjectID id;char pad78[0x274-0x78];Object *contained;};
 class Rva00466398 {public:Rva0036AE51ListView rva00466398();};
 class Rva004F56FC {public:bool rva004F571B(const Object*);private:char pad[8];_STL::list<int> ids;char padC[0x1C-0xC];unsigned count;};
 bool Rva004F56FC::rva004F571B(const Object*dead){
@@ -52,7 +54,7 @@ bool Rva004F56FC::rva004F571B(const Object*dead){
   const Rva0036AE51ListView &view=((Rva00466398*)this)->rva00466398();ContainmentList *list=view.b;
   for(ContainmentList::iterator it=list->begin();it!=list->end();){
    Object *object=(Object*)containmentFirstWord(*it);++it;
-   if(object->getContainedBy()==dead)object->onContainedBy(replacement);
+   if(object->tunnelContainer()==dead)object->onContainedBy(replacement);
   }
  }
  return count==0 && (dead?true:true);
