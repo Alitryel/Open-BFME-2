@@ -212,3 +212,24 @@ NameKeyGenerator::KeyToBucketMap::rva00057C5C(const value_type &value)
 	resize(m_count + 1);
 	return rva0005559F(value);
 }
+
+// ?rva00058A6D@Rva00058A6D@@QAE?AUequal_result@KeyToBucketMap@NameKeyGenerator@@ABUvalue_type@34@@Z
+// @0x00058A6D 20B, unreferenced in retail: the multimap-style insert of a
+// container holding a KeyToBucketMap at +0; it forwards the value and the
+// hidden result pointer to rva00057C5C with the same this. Owner and name
+// are address-derived.
+class Rva00058A6D
+{
+public:
+	NameKeyGenerator::KeyToBucketMap::equal_result
+	rva00058A6D(const NameKeyGenerator::KeyToBucketMap::value_type &value);
+
+private:
+	NameKeyGenerator::KeyToBucketMap m_ht;
+};
+
+NameKeyGenerator::KeyToBucketMap::equal_result
+Rva00058A6D::rva00058A6D(const NameKeyGenerator::KeyToBucketMap::value_type &value)
+{
+	return m_ht.rva00057C5C(value);
+}
