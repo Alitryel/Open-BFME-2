@@ -51,6 +51,10 @@ struct Gen_p12pod
 	int unknown[2];
 	InGameUI::FormationPreviewPoolObject *pool;
 };
+// Use the byte-verified out-of-line erase owner at 0x002A133B.
+namespace _STL {
+template <> Gen_p12pod *vector<Gen_p12pod, allocator<Gen_p12pod> >::erase(Gen_p12pod *, Gen_p12pod *);
+}
 extern template class _STL::vector<Gen_p12pod>;
 
 struct FormationVectorView

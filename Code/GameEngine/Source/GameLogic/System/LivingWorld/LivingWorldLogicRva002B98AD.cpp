@@ -12,6 +12,10 @@
 #include <vector>
 
 struct Gen_p12pod { int m_a, m_b, m_c; };
+// Use the byte-verified out-of-line erase owner at 0x002A133B.
+namespace _STL {
+template <> Gen_p12pod *vector<Gen_p12pod, allocator<Gen_p12pod> >::erase(Gen_p12pod *, Gen_p12pod *);
+}
 struct TreeHintRef00217D4C { void *m_ptr; };
 
 class Rva002B254F { public: int rva002B254F(); };

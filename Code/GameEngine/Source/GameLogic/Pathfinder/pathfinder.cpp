@@ -3265,6 +3265,11 @@ static __forceinline void readMoverInfo(TCheckMovementInfo &info, Object *obj)
 	info.m_18 = ai ? (ObjectID)((const Rva0006E009DwordField *)ai)->get() : (ObjectID)0;
 }
 struct Gen_p12pod {Int a[3];};
+// Use the byte-verified out-of-line erase owner at 0x002A133B.
+namespace _STL {
+template <> Gen_p12pod *vector<Gen_p12pod, allocator<Gen_p12pod> >::erase(Gen_p12pod *, Gen_p12pod *);
+}
+
 // 0x002E7964 (68 B), rehomed from AI/Rva002E7964BoundedWorldToCell.cpp: the
 // world-to-cell conversion bounded by the cell extent at +0x14 (x = -1 outside).
 class Rva002E7964 {

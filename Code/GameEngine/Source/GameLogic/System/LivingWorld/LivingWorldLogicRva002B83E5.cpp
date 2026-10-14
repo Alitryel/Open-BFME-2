@@ -30,6 +30,10 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 }
 
 struct Gen_p12pod { int a[3]; };
+// Use the byte-verified out-of-line erase owner at 0x002A133B.
+namespace _STL {
+template <> Gen_p12pod *vector<Gen_p12pod, allocator<Gen_p12pod> >::erase(Gen_p12pod *, Gen_p12pod *);
+}
 
 class Rva0020EE29 { public: void rva0020F795(); };
 class Rva002B7C74 { public: void rva002B7C74(); };
