@@ -1,4 +1,4 @@
-// cl: /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: -O1 -arch:SSE -G7 -D_STLP_USE_STATIC_LIB -D_STLP_NO_EXCEPTIONS
 // stlport
 //
 // Bodies ported from Open-BFME-1's
@@ -51,3 +51,6 @@ template _STL::vector<EvaMessageInfo> &
 // Native 0x00784015 is the complete 14-byte placement-new exception action
 // of _Construct at 0x003F62C8. The whole parent and EH graph bind it to
 // the existing empty placement delete at 0x0069E440; element fields stay opaque.
+
+// STLport4.5.3 _vector.h public count-insertion adaptor; complete native tail to owned _M_fill_insert.
+template void _STL::vector<EvaMessageInfo, _STL::allocator<EvaMessageInfo> >::insert(EvaMessageInfo *, unsigned int, const EvaMessageInfo &);
