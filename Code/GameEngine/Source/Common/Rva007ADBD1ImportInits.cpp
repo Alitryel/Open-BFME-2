@@ -20,7 +20,7 @@ extern unsigned long g_00DFEA30;
 // Read by 0x005A671F and 0x005A672D.
 extern unsigned long g_00E063FC;
 // Read by 0x00325F14.
-extern unsigned int g_00E01D48;
+extern unsigned int doubleClickTime;
 // Read by 0x0023027C.
 extern bool g_00DFE718;
 
@@ -55,7 +55,7 @@ void Rva007ADBD1ImportInits::rva007ADDD3()
 // 0x007AE9E6 (12B): VA 0x00E01D48 = GetDoubleClickTime().
 void Rva007ADBD1ImportInits::rva007AE9E6()
 {
-	g_00E01D48 = GetDoubleClickTime();
+	doubleClickTime = GetDoubleClickTime();
 }
 
 // 0x007B4439 (12B): VA 0x00E063FC = timeGetTime().

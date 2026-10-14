@@ -609,8 +609,10 @@ void GadgetListBoxSetTopVisibleEntry(GameWindow *window, Int newPos)
 // adjustDisplayByDelta 0x00324B39 is rowed in its own unit.
 void Rva00324B39Add(GameWindow *window, Short delta, Bool updateSlider);
 
-// GetDoubleClickTime() captured by the dynamic initializer 0x007AE9E6.
-extern unsigned int g_00E01D48;
+// Zero Hour and BFME 1 name the shared OS double-click interval doubleClickTime.
+// Native 0x007AE9E6 writes VA 0x00E01D48, read by this callback at 0x00325F14.
+// Keep loader-zero storage here; the existing startup initializer supplies it.
+unsigned int doubleClickTime = 0;
 
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 
@@ -1104,7 +1106,7 @@ WindowMsgHandledType GadgetListBoxInput(GameWindow *window, UnsignedInt msg,
 				}
 			}
 
-			if (list->doubleClickTime + g_00E01D48 > timeGetTime() &&
+			if (list->doubleClickTime + doubleClickTime > timeGetTime() &&
 					(i == oldPos || (oldPos == -1 && (i >= 0 && i < list->endPos))))
 			{
 				Int temp;

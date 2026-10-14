@@ -19144,7 +19144,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A01D34,8,.data,global,?g_Va00E01D34@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E01Dxx.cpp,provisional,?$S1@?3??setControlBarSchemeByPlayerTemplate@ControlBar@@QAEXPBVPlayerTemplate@@@Z@4IA@Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBar_setControlBarSchemeByPlayerTemplate.cpp;?g_Va00E01D34@@3IA,2,12
 0x00A01D3C,8,.data,global,?g_Va00E01D3C@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E01Dxx.cpp,owned,,1,2
 0x00A01D44,4,.data,global,_curWindow,Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetTextEntrySystem.cpp,owned,,1,2
-0x00A01D48,4,.data,global,?g_00E01D48@@3IA,,unowned,,0,1
+0x00A01D48,4,.data,global,?doubleClickTime@@3IA,Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetListBoxMultiInput.cpp,owned,,1,2
 0x00A01D4C,4,.data,global,_lastRepeatTime,Code/GameEngine/Source/GameClient/GUI/Gadget/GadgetPushButtonInput.cpp,owned,,1,4
 0x00A01D50,8,.data,global,_s_rva007AE9F2,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x00A01D58,4,.data,global,?TheSidesList@@3PAVSidesList@@A,Code/GameEngine/Source/GameLogic/ScriptEngine/Rva00204E64Find.cpp,owned,,1,36
