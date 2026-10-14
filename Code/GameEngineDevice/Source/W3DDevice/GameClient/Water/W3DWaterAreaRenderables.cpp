@@ -17,7 +17,8 @@ void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *p);
 #include <vector>
 
 struct TreeHintRef00217D4C {void *p; ~TreeHintRef00217D4C();};
-namespace _STL {template<> vector<TreeHintRef00217D4C>::~vector();}
+namespace _STL {template<> vector<TreeHintRef00217D4C>::~vector();
+template<> TreeHintRef00217D4C*vector<TreeHintRef00217D4C>::erase(TreeHintRef00217D4C*,TreeHintRef00217D4C*);}
 
 class Rva00081BAFVector { public: void reserve(unsigned int n); };
 class Rva00081C17Vector { public: void reserve(unsigned int n); };
@@ -36,12 +37,15 @@ public:
 	int m_references;
 };
 
+class Rva00308DF0 {public:void rva00308C31();};
 class Rva008291D : public WaterAreaRenderable
 {
 public:
 	Rva008291D(void *area);
 private:
-	char m_body[0xA4 - 8];
+	char m_body[0x40 - 8];
+public:Rva00308DF0 *m_area;
+private:char m_tail[0xA4-0x44];
 };
 
 class RenderableRiverArea : public WaterAreaRenderable
@@ -64,12 +68,16 @@ template <class T> struct AreaSetEntry
 	T *m_area;
 };
 
+class CreateAHeroData;
+class Rva002B7250 {public:void rva002B7250(CreateAHeroData*);};
+
 template <class T> class AreaSet
 {
 public:
 	char m_observers[0x14];
 	AreaSetEntry<T> *m_begin;
 	AreaSetEntry<T> *m_end;
+	void removeObserver(void*p){reinterpret_cast<Rva002B7250*>(this)->rva002B7250((CreateAHeroData*)p);}
 	unsigned int size() const { return m_end - m_begin; }
 };
 
@@ -134,12 +142,14 @@ public:
 	virtual void onAreaAdded(int id, RiverArea *area);
 	void rva0008385F(AreaSet<StandingWaveArea> *areas, WaterAreaRenderables *out);
 	void rva00083959(AreaSet<RiverArea> *areas, WaterAreaRenderables *out);
+void rva00083A7A(AreaSet<StandingWaveArea>*,AreaSet<RiverArea>*,AreaSet<WaterWaveArea>*);
 private:
 	char m_unknownD4[0x104 - 0xD4];
 	AreaSet<StandingWaveArea> *m_standingAreas;
 	_STL::vector<Rva00082BE6Element> m_standingRenderables;
 	AreaSet<RiverArea> *m_riverAreas;
 	_STL::vector<Rva00082C1DElement> m_riverRenderables;
+AreaSet<WaterWaveArea> *m_waveAreas;
 };
 
 // 0x00083780, 113 bytes, RET8: a standing water area was added.
@@ -185,4 +195,28 @@ void Rva0082140::rva00083959(AreaSet<RiverArea> *areas, WaterAreaRenderables *ou
 	reinterpret_cast<Rva005A0B4CList *>(areas)->append(
 		reinterpret_cast<Rva002BA8F1Listener *>(static_cast<AreaSetObserver<RiverArea> *>(this)));
 	list.swapInto(out);
+}
+
+// Native 83A7A..83B7B RET12: replace all three area subscriptions, rebuild
+// standing/river lists and initialize each standing-area shader. The +40
+// area pointer and the pre-existing 308C31 member binding come from retail.
+void Rva0082140::rva00083A7A(AreaSet<StandingWaveArea>*standing,AreaSet<RiverArea>*rivers,AreaSet<WaterWaveArea>*waves)
+{
+ if(m_standingAreas) {
+  m_standingAreas->removeObserver(static_cast<AreaSetObserver<StandingWaveArea>*>(this));m_standingAreas=0;
+  m_riverAreas->removeObserver(static_cast<AreaSetObserver<RiverArea>*>(this));m_riverAreas=0;
+  m_waveAreas->removeObserver(static_cast<AreaSetObserver<WaterWaveArea>*>(this));m_waveAreas=0;
+ }
+ WaterAreaRenderables *sl=(WaterAreaRenderables*)&m_standingRenderables;
+ sl->erase(sl->begin(),sl->end());
+ WaterAreaRenderables *rl=(WaterAreaRenderables*)&m_riverRenderables;
+ rl->erase(rl->begin(),rl->end());
+ rva0008385F(standing,sl);m_standingAreas=standing;
+ rva00083959(rivers,rl);m_riverAreas=rivers;
+ reinterpret_cast<Rva005A0B4CList*>(waves)->append(reinterpret_cast<Rva002BA8F1Listener*>(static_cast<AreaSetObserver<WaterWaveArea>*>(this)));
+ m_waveAreas=waves;
+ for(_STL::vector<Rva00082BE6Element>::iterator i=m_standingRenderables.begin();i!=m_standingRenderables.end();++i) {
+  Rva00082BE6Element ref(*i);
+  ref.m_ptr->m_area->rva00308C31();
+ }
 }

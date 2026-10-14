@@ -1,4 +1,6 @@
 // ?loadFXShaderSetup@StandingWaterArea@@QAEXXZ
+// partial score=0.9846594152588136 date=2026-10-14
+// ?loadFXShaderSetup@StandingWaterArea@@QAEXXZ
 // partial score=0.98466 date=2026-10-14
 // ?loadFXShaderSetup@StandingWaterArea@@QAEXXZ
 // partial score=0.962 date=2026-10-13
@@ -14,7 +16,8 @@ struct AsciiStringPlusText:AsciiStringRef {operator AsciiString();Rva000B3F84Pai
 AsciiStringPlusText operator+(const AsciiString &,const char *);
 struct BfmeR1025 {char *m_bfmeName;};
 char bfmeGo1025F(BfmeR1025 *);
-class Rva003081C7 {public:unsigned char rva003081C7();};
+struct Rva003081C7Aux {char pad[4];unsigned short len;};
+class Rva003081C7 {public:inline __declspec(noinline) unsigned char rva003081C7(){int n=p?p->len:0;return (unsigned char)(n>0);}char pad[0x80];Rva003081C7Aux*p;};
 struct Rva003080AARef;
 class Rva003080AA {public:Rva003080AARef *rva003080AA(int);};
 class Rva00152D1CObj {public:void rva152d1c(int);};
@@ -62,10 +65,8 @@ void StandingWaterArea::loadFXShaderSetup() {
   }
   RenderObjClass *obj=createWaterModel(base+suffix);
   if(obj && obj->classID()==0) {
- if (0) { AsciiString t1_dead; }
    MeshClass *mesh=obj->peekLOD();
    if(mesh) {
- if (0) { AsciiString t1_dead; }
     MeshModelClass *model=mesh->Get_Model();
     if(model) {
      shader=model->material->rva003080AA(0);
