@@ -396,11 +396,11 @@ class Rva002B2508:public Rva00380200 {public:Rva002B2508();virtual ~Rva002B2508(
 class Rva002B2EA0 {public:void rva002B2EA0();};
 struct RetreatSlots {Rva002B2508 *first;RetreatSlots(Rva002B2508 *p):first(p){}~RetreatSlots(){reinterpret_cast<Rva002B2EA0 *>(this)->rva002B2EA0();}};
 struct PlayerStorage;
-class LivingWorldAutoResolveBattle {public:LivingWorldAutoResolveBattle(const PlayerStorage&);void applyResults();};
-class Rva004FA2E2 {public:
- // Keep the forwarding view inline: its external copy is not the retail ctor.
- __declspec(dllimport) __forceinline Rva004FA2E2(const _STL::vector<Rva002BBB96Element>&p){((LivingWorldAutoResolveBattle*)this)->LivingWorldAutoResolveBattle::LivingWorldAutoResolveBattle(*(const PlayerStorage*)&p);}
- ~Rva004FA2E2();char opaque00[0x80];};
+// The 0x80-byte object: ctor 0x004FA3C9 is LivingWorldAutoResolveBattle's
+// row, dtor 0x004FA2E2 is rowed as Rva004FA2E2 (LivingWorldAIArmyMover.cpp's
+// view). A wrapper constructor would emit a non-retail copy at 0x004FA3C9.
+class Rva004FA2E2 {public:~Rva004FA2E2();char opaque00[0x80];};
+class LivingWorldAutoResolveBattle : public Rva004FA2E2 {public:LivingWorldAutoResolveBattle(const PlayerStorage&);void applyResults();};
 class Rva004FA10FOwner {public:void rva004FA10F();};
 class Rva002B8644 {public:void rva002B8644(int);};
 class ModuleData;
@@ -421,7 +421,7 @@ void LivingWorldBattle::RetreatArmiesForPlayer(void *player) {
   Rva002BBB96Element &record=players[i];
   if(record.player30==id)record.strength18=0.0f;
  }
- Rva004FA2E2 battle(players);
+ LivingWorldAutoResolveBattle battle(*(const PlayerStorage*)&players);
  // Refresh the settings pointer each round, as retail does. Keeping this
  // pointer live gives VC7 the retail EDI induction variable.
  RetreatSettings *settings=reinterpret_cast<LivingWorldLogic *>(TheLivingWorldLogic)->campaignB0->settings08;
@@ -429,7 +429,7 @@ void LivingWorldBattle::RetreatArmiesForPlayer(void *player) {
   reinterpret_cast<Rva004FA10FOwner *>(&battle)->rva004FA10F();
   settings=reinterpret_cast<LivingWorldLogic *>(TheLivingWorldLogic)->campaignB0->settings08;
  }
- reinterpret_cast<LivingWorldAutoResolveBattle *>(&battle)->applyResults();
+ battle.applyResults();
  for(int i=int(entry->m_armies.size())-1;i>=0;--i) {
   LivingWorldArmy *army=entry->m_armies[i];
   if(!army->name.isEmpty())reinterpret_cast<Rva002B8644 *>(TheLivingWorldLogic)->rva002B8644((int)army);

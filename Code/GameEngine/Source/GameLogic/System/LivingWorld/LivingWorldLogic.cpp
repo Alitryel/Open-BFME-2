@@ -2219,17 +2219,23 @@ private:
 	unsigned char m_data[0x2c - 0x04];
 };
 // The local result list handed to the setup above and to the 0x80-byte
-// auto-resolve object (ctor 0x004FA3C9, pinned; dtor 0x004FA2E2); its list
+// auto-resolve object (ctor 0x004FA3C9 is LivingWorldAutoResolveBattle's row; dtor 0x004FA2E2); its list
 // dtor 0x002BBB18 is rowed in StlportVectorDtorFamily.cpp.
 struct Rva002BBB96Element { public: ~Rva002BBB96Element(); };
 class Rva004FA2E2
 {
 public:
-	Rva004FA2E2(const _STL::vector<Rva002BBB96Element> &results);	// 0x004FA3C9
 	~Rva004FA2E2();						// 0x004FA2E2
 
 private:
 	unsigned char m_data[0x80];
+};
+struct PlayerStorage;
+class LivingWorldAutoResolveBattle : public Rva004FA2E2
+{
+public:
+	LivingWorldAutoResolveBattle(const PlayerStorage &results);	// 0x004FA3C9
+	void applyResults();
 };
 
 // LivingWorldLogic::AutoBattleResolver::AutoBattleResolver, retail 0x002BD40D
@@ -2248,7 +2254,7 @@ Rva002B74DE::Rva002B74DE(LivingWorldLogic *logic, Int battle)
 	_STL::vector<Rva002BBB96Element> results;
 	m_holder08.rva002B2EC7((Item002B2EC7 *)new Rva002B2508[count]);
 	m_logic->rva002BCCFB(b, (Int)&results, (Int)&m_holder08);
-	m_holder0C.reset(new Rva004FA2E2(results));
+	m_holder0C.reset(new LivingWorldAutoResolveBattle(*(const PlayerStorage *)&results));
 	m_logic->m_resolverListeners.forEach(&Rva002B6126Listener::notify, m_logic, battle, (int)m_holder0C.get());
 }
 
@@ -3881,7 +3887,6 @@ struct ResolverTransfer { Rva004FA2E2 *p; };
 class Rva002B4349 { public: ~Rva002B4349(); Rva002B4349(Rva002B4349 &from) { Rva004FA2E2 *p = from.m_ptr; from.m_ptr = 0; m_ptr = p; } Rva002B4349(ResolverTransfer from) : m_ptr(from.p) {} ResolverTransfer transfer() { ResolverTransfer v = { m_ptr }; m_ptr = 0; return v; } Rva004FA2E2 *m_ptr; };
 class Rva002B43E7 { public: Rva002B43E7(Rva002B4349); ~Rva002B43E7() { ((Rva002B430C *)this)->clear(); } Rva004FA2E2 *m_ptr; };
 class Rva002B54BB { public: Rva002B4349 rva002B54BB(); };
-class LivingWorldAutoResolveBattle { public: void applyResults(); };
 // ?Update@Rva002B74DE@@QAEHXZ @0x002BB7D6 (623B): the auto-battle resolver
 // Update (WB LivingWorldLogic::AutoBattleResolver::Update). Evidence: WB
 // 0xD7B800 branch structure + retail 623B; holder members via get() exactly
