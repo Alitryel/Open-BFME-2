@@ -2,7 +2,7 @@
 // Locomotor wings position-maintenance helper, retail 0x001E7CDF (326 bytes;
 // WB 0x00AF0740): Zero Hour / BFME 1 Locomotor::maintainCurrentPositionWings
 // adapted (no Physics argument). The unrowed minimum-speed helper 0x001E4073
-// is pinned under its address-derived name.
+// is pinned under its address-derived name. Protected, as in ZH's Locomotor.h.
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 class Thing { public: bool isAboveTerrain() const; };
 class Object;
@@ -15,13 +15,14 @@ class Rva001E7C2B { public: void rva001e7c2b(unsigned,unsigned,float,float); };
 class Rva001E4073 { public: float rva001E4073(Object *,float *); };
 struct WingsObjectView { char gap[0x38]; Coord3D position; float angle; float getOrientation() const { return angle; } const Coord3D *getPosition() const { return &position; } };
 struct WingsTemplateView { char gap[0x64]; float radius; };
-class Rva001E7CDF {
+class Locomotor {
+protected:
+ void maintainCurrentPositionWings(Object *);
 public:
- void rva001E7CDF(Object *);
  void *unknown0; WingsTemplateView *parameters; Coord3D maintainPos;
  char unknown14[0x44-0x14]; unsigned flags;
 };
-void Rva001E7CDF::rva001E7CDF(Object *obj) {
+void Locomotor::maintainCurrentPositionWings(Object *obj) {
  if(((Thing *)obj)->isAboveTerrain()) {
   flags|=0x10;
   float radius=parameters->radius;
