@@ -122,7 +122,10 @@ Rva00500BF5Tree::Iterator Rva00500BF5Tree::insertEqual(const Rva00500500 &value)
 
 // Target 0x00500F6E/250B. STLport 4.5.3 insert_equal(hint, value),
 // with the unsigned first-word ordering independently established above.
-Rva00500BF5Tree::Iterator Rva00500BF5Tree::insertEqual(
+// Select-any like LivingWorldAIBuildingTypes.cpp's identical copy (an
+// exclusive definition would duplicate it at link time); nothing here calls
+// it, so the anchor after it keeps the noinline body emitted.
+inline __declspec(noinline) Rva00500BF5Tree::Iterator Rva00500BF5Tree::insertEqual(
     Iterator position, const Rva00500500 &value)
 {
     Rva00500BF5Node *pos = reinterpret_cast<Rva00500BF5Node *>(position._M_node);
@@ -168,6 +171,13 @@ Rva00500BF5Tree::Iterator Rva00500BF5Tree::insertEqual(
         }
         return insertEqualWorker(value);
     }
+}
+
+// ?bfmeAnchorRva00500BF5TreeInsertHint absent-from-retail
+Rva00500BF5Tree::Iterator bfmeAnchorRva00500BF5TreeInsertHint(
+    Rva00500BF5Tree *tree, Rva00500BF5Tree::Iterator position, const Rva00500500 &value)
+{
+    return tree->insertEqual(position, value);
 }
 
 // Target 0x0050146E/115B. Its two clone calls reach 0x00501068;

@@ -25,7 +25,7 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class Overridable;
 class Rva0028951F { public: const Overridable *rva0028951F(int); };
 class ExperienceLevelSystem;
-ExperienceLevelSystem *TheExperienceLevelSystem = 0;
+extern ExperienceLevelSystem *TheExperienceLevelSystem;  // defined in DelayedExperienceLevelGrantUpdate.cpp
 enum ObjectID { INVALID_ID = 0 };
 class Xfer;
 void XferObjectID(Xfer *, ObjectID *);

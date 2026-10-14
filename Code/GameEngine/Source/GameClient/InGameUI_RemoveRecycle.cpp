@@ -11,7 +11,9 @@ class Object;
 extern void *g_freeList001EB130;
 using namespace _STL;
 class Rva0029DFC5List { public: list<Object*>::iterator rva0029DFC5(list<Object*>::iterator); };
-list<Object*>::iterator Rva0029DFC5List::rva0029DFC5(list<Object*>::iterator position)
+// Select-any like FormationBuildRow.cpp's identical copy (an exclusive
+// definition would duplicate it at link time); the anchor keeps it emitted.
+inline __declspec(noinline) list<Object*>::iterator Rva0029DFC5List::rva0029DFC5(list<Object*>::iterator position)
 {
  _List_node_base *node=position._M_node;
  _List_node_base *prev=node->_M_prev;
@@ -21,4 +23,10 @@ list<Object*>::iterator Rva0029DFC5List::rva0029DFC5(list<Object*>::iterator pos
  node->_M_next=static_cast<_List_node_base*>(g_freeList001EB130);
  g_freeList001EB130=node;
  return list<Object*>::iterator(static_cast<_List_node<Object*>*>(next));
+}
+
+// ?bfmeAnchorRva0029DFC5 absent-from-retail
+list<Object*>::iterator bfmeAnchorRva0029DFC5(Rva0029DFC5List *owner, list<Object*>::iterator position)
+{
+ return owner->rva0029DFC5(position);
 }
