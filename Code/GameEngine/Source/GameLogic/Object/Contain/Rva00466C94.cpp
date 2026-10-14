@@ -7,6 +7,15 @@
 // R1/S2 equal-arm carrier on the reserve() object argument closes the
 // argument-push/register order: (obj->objectTemplate ? obj : obj).
 #include "GameLogic/ContainmentListView.h"
+
+// Compare the typed nodes locally; the shared base wrapper is not called by retail.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits> &a,
+                              const _List_iterator<T, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+}
+
 namespace _STL {template<> _List_base<Rva0036ADF9Element,allocator<Rva0036ADF9Element> >::~_List_base();}
 class Object {public:void* vptr;void* objectTemplate;};
 struct HealData {char pad[0x98];unsigned frames;};

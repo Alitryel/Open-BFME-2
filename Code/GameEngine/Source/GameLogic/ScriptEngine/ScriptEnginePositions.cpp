@@ -8,6 +8,15 @@
 #include "ascii_string.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include <list>
+
+// Compare the typed nodes locally; the shared base wrapper is not called by retail.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits> &a,
+                              const _List_iterator<T, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+}
+
 unsigned long Rva003ECA13Get(const AsciiString &);
 struct ScriptPositionRecord {
  ScriptPositionRecord();
