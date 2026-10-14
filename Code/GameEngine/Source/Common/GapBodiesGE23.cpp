@@ -152,10 +152,13 @@ public:
 	void rva00031640(GapCore *core, GapCore *before);
 	void *rva00031710(unsigned int size, unsigned int *outSize);
 	int rva00031750(void *p, unsigned int size);
+	GapChunk *rva00030BF0(int bin);
+	bool rva00031080(void *a, void *b, void *c);
 private:
 	int m_00;
 	unsigned int m_04;
-	char m_pad08[0x430 - 0x08];
+	char m_pad08[0x30 - 0x08];
+	GapChunk *m_bins[256];									// +0x30
 	unsigned int m_binBits[6];								// +0x430
 	GapCore m_cores;										// +0x448
 	char *m_468;
@@ -291,4 +294,117 @@ void *Rva00030C50Heap::rva00031710(unsigned int size, unsigned int *outSize)
 int Rva00030C50Heap::rva00031750(void *p, unsigned int size)
 {
 	return VirtualFree(p, 0, 0x8000);
+}
+
+// --- 0x00030A50 (15B): a request plus 0x1F bytes of overhead, rounded up to
+// whole 4 KB pages.
+unsigned int rva00030A50(unsigned int size)
+{
+	return (size + 0x1F + 0xFFF) & ~0xFFFu;
+}
+
+// --- 0x00030A60 (11B): fast-bin index of a chunk size (sixteen bytes is 0).
+unsigned int rva00030A60(unsigned int size)
+{
+	return (size >> 3) - 2;
+}
+
+// --- 0x00030A70 / 0x00030A80 / 0x00030A90 (11B each): the three low flag
+// bits of a chunk's own size word.
+int rva00030A70(GapChunk *chunk)
+{
+	return chunk->m_size & 1;
+}
+
+int rva00030A80(GapChunk *chunk)
+{
+	return chunk->m_size & 2;
+}
+
+int rva00030A90(GapChunk *chunk)
+{
+	return chunk->m_size & 4;
+}
+
+// --- 0x00030AA0 (9B): set flag bit 2.
+void rva00030AA0(GapChunk *chunk)
+{
+	chunk->m_size |= 4;
+}
+
+// --- 0x00030AB0 (13B): the top flag bit.
+unsigned int rva00030AB0(GapChunk *chunk)
+{
+	return chunk->m_size & 0x80000000;
+}
+
+// --- 0x00030AC0 (13B): the chunk size without its flag bits.
+unsigned int rva00030AC0(GapChunk *chunk)
+{
+	return GAP_CHUNK_SIZE(chunk);
+}
+
+// --- 0x00030AD0 (15B): the chunk that follows.
+GapChunk *rva00030AD0(GapChunk *chunk)
+{
+	return GAP_CHUNK_AT(chunk, GAP_CHUNK_SIZE(chunk));
+}
+
+// --- 0x00030BF0 (11B): the head of bin n, addressed so that its fd/bk links
+// overlay the bin's two pointer slots.
+GapChunk *Rva00030C50Heap::rva00030BF0(int bin)
+{
+	return (GapChunk *)((char *)&m_bins[bin << 1] - 8);
+}
+
+// --- 0x00030C00 (13B): a chunk size served by the small bins.
+int rva00030C00(unsigned int size)
+{
+	return size < 0x200;
+}
+
+// --- 0x00030C10 (8B): small-bin index of a chunk size.
+unsigned int rva00030C10(unsigned int size)
+{
+	return size >> 3;
+}
+
+// --- 0x00030C20 (12B): the last sixteen bytes of a core.
+GapChunk *rva00030C20(GapCore *core)
+{
+	return (GapChunk *)((char *)core + core->m_size - 0x10);
+}
+
+// --- 0x00030C30 (8B): the bitmap word holding a bin's bit.
+int rva00030C30(int bin)
+{
+	return bin >> 5;
+}
+
+// --- 0x00031080 (5B): an always-true three-argument check.
+bool Rva00030C50Heap::rva00031080(void *a, void *b, void *c)
+{
+	return true;
+}
+
+namespace EA
+{
+namespace Allocator
+{
+// Only the static bin-index helper rowed in memory_pool.cpp (0x00030F10).
+class GeneralAllocator
+{
+public:
+	static unsigned int GetLargeBinIndexFromChunkSize(unsigned int size);
+};
+}
+}
+
+// --- 0x00031770 (24B): bin index of any chunk size: small sizes index by
+// eight-byte steps, larger ones go to the large-bin helper (a tail call).
+unsigned int rva00031770(unsigned int size)
+{
+	if (size < 0x200)
+		return size >> 3;
+	return EA::Allocator::GeneralAllocator::GetLargeBinIndexFromChunkSize(size);
 }
