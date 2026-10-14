@@ -41608,7 +41608,7 @@ _piChannelMessageA,,0x006AACB0,305,Code/GameEngine/Source/GameNetwork/GameSpy/pe
 ?rva002B2B5B@Rva002B2B5B@@QAEHH@Z,,0x002B2B5B,11,Code/GameEngine/Source/Common/Rva002B2B5BForward.cpp,matched,tail forward via this+B0 to rowed 0x0020E3AD level caller 0x0031910E
 ?rva002B2B66@Rva002B2B66@@QAEHXZ,,0x002B2B66,18,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldLogic.cpp,matched,24 callers null minus1 else plus0x14 via plus0x98 (LivingWorldLogic local player index); rehomed into LivingWorldLogic.cpp because caller 2BB15F keeps EDX live across the call which cl does only for a same-unit callee
 ?rva00376A84@Rva00376A62@@QAE_NPBX@Z,,0x00376A84,24,Code/GameEngine/Source/Common/Rva00376A62Contains.cpp,matched,null-checked forward to contains via string at 0x64
-?rva00376B50@Rva00376A62@@QAEXABVAsciiString@@@Z,,0x00376B50,32,Code/GameEngine/Source/Common/Rva00376A62Contains.cpp,matched,check-then-add via contains plus vector push_back
+?addObjectType@ObjectTypes@@QAEXABVAsciiString@@@Z,,0x00376B50,32,Code/GameEngine/Source/Common/Rva00376A62Contains.cpp,matched,check-then-add via contains plus vector push_back
 ?q4Notify002CC5E1@@YAXPAXPAVMade002CC5E1@@HH@Z,,0x005088F0,53,Code/GameEngine/Source/GameLogic/Object/Made002CC5E1Parse.cpp,matched,DamageNugget parser via rowed buildFieldParse and pinned init
 ?rva000C2AA4@Rva000C2AA4@@QAEXABVAsciiString@@@Z,,0x000C2AA4,127,Code/GameEngine/Source/Common/Rva000C2AA4Add.cpp,matched,lowercased check-then-add via Find and push_back with EH temp
 ?rva006C1D10@GeneralAllocator@Allocator@EA@@QAEIPBX@Z,,0x006C1D10,59,Code/GameEngine/Source/Common/System/memory_pool.cpp,matched,chain of 0x32A20 fast size with tail call caller 0x6C36FD

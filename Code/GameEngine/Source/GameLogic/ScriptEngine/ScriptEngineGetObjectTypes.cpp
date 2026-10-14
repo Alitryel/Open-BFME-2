@@ -25,13 +25,13 @@ class ObjectTypes {
 public:
  ObjectTypes(const AsciiString &);
  virtual ~ObjectTypes();
+ void addObjectType(const AsciiString &);
  void remove(const AsciiString &);
  unsigned getListSize() const { return m_types.size(); }
 private:
  AsciiString m_name;
  _STL::vector<AsciiString> m_types;
 };
-class Rva00376A62 { public: void rva00376B50(const AsciiString &); };
 
 class ScriptEngine
 {
@@ -70,7 +70,7 @@ void ScriptEngine::doObjectTypeListMaintenance(const AsciiString &list,const Asc
   m_lists.push_back(newVec);
   current = newVec;
  }
- if(add) ((Rva00376A62*)current)->rva00376B50(type);
+ if(add) current->addObjectType(type);
  else current->remove(type);
  if(current->getListSize()==0) removeObjectTypes(current);
 }

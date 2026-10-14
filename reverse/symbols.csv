@@ -7218,7 +7218,6 @@ name,address,notes
 ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z,0x0058B2C6,callee of ?addCommand@FrameData@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z at retail 0x005DA5AE read from its REL32 displacement; it is the caller of the rowed NetCommandRef ctor 0x0058B88A
 ?addNeighborlessEdges@W3DVolumetricShadow@@QAEXHPAUPolyNeighbor@@@Z,0x000F17CA,retail REL32 at 0x000F2E99 in 0x000F2D25 targets 0x000F17CA (thiscall 2 stack args meshIndex plus poly ptr; donor W3DVolumetricShadow::addNeighborlessEdges identity; pin candidate-not-proof)
 ?addObjectCreationNugget@ObjectCreationListStore@@QAEXPAVObjectCreationNugget@@@Z,0x001F0AC4,address read from the REL32 displacement at a placed body
-?addObjectType@ObjectTypes@@QAEXABVAsciiString@@@Z,0x00376B50,"ObjectTypes add-if-absent (the matched Rva00376A62::rva00376B50 body, ret 4); REL32 at 0x003C9871 in ScriptActions::rva003C97D2 on a new ObjectTypes made from a single template name (Zero Hour ObjectTypes::addObjectType)"
 ?addPadded@Rva00800290Buffer@@QAEXH@Z,0x0066C7E0
 ?addProduction@Energy@@AAEXH@Z,0x004DF18D,address read from the REL32 displacement at a placed body; the body there is held under another instantiation name and the two folded
 ?addProp@W3DPropBuffer@@QAEXHUCoord3D@@MMABVAsciiString@@_N@Z,0x000EEBF7,ZH W3DPropBuffer::addProp with BFME 2's trailing flag (765B body); BaseHeightMapRenderObjClass::addProp (0x0006831C) forwards all six arguments to it with ECX = its +0x3858 prop buffer

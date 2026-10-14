@@ -31,11 +31,7 @@ extern ScriptEngine *TheScriptEngine;
 class ObjectTypes {
 public:
 	ObjectTypes &operator=(const ObjectTypes &that);
-};
-
-class Rva00376A62 {
-public:
-	void rva00376B50(const AsciiString &val);
+	void addObjectType(const AsciiString &objectType);
 };
 
 class Parameter {
@@ -56,7 +52,7 @@ void Script_objectTypesFromParam(Parameter *src, ObjectTypes *dst)
 		return;
 	ObjectTypes *found = TheScriptEngine->getObjectTypes(tmp);
 	if (!found)
-		((Rva00376A62 *)dst)->rva00376B50(tmp);
+		dst->addObjectType(tmp);
 	else
 		*dst = *found;
 }

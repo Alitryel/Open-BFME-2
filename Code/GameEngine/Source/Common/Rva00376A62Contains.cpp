@@ -3,6 +3,7 @@
 // Name: the pin a BFME 1 donor ObjectTypes::isInSet call resolves to (symbols.csv).
 // Evidence: this+0x08/+0x0C as begin/end into Rva000BD22FFind at 0xBD22F; cmp against end plus setne;
 // chain lane via 0xBD22F; same last-first locals shape as 0x59E2FD.
+// ?addObjectType@ObjectTypes@@QAEXABVAsciiString@@@Z at 0x00376B50 (32B).
 template <typename T> class StringBase {
 	void *m_data;
 };
@@ -27,6 +28,7 @@ class ObjectTypes {
 	StringBase<char> *m_end;	// +0x0C
 public:
 	bool isInSet(const AsciiString &name) const;
+	void addObjectType(const AsciiString &objectType);
 };
 
 class Rva00376A62 {
@@ -37,7 +39,6 @@ class Rva00376A62 {
 	StringBase<char> m_14;
 public:
 	bool rva00376A84(const void *o);
-	void rva00376B50(const AsciiString &val);
 	bool rva0059E872(const Rva00376A62 &o);
 };
 
@@ -55,10 +56,13 @@ bool Rva00376A62::rva00376A84(const void *o)
 	return ((const ObjectTypes *)this)->isInSet(*(const AsciiString *)((const char *)o + 0x64));
 }
 
-void Rva00376A62::rva00376B50(const AsciiString &val)
+// 0x00376B50 is Zero Hour's ObjectTypes::addObjectType: add the name unless
+// the list (the vector at +8) already holds it. Its callers pass ObjectTypes
+// (ScriptEngine::getObjectTypes results, ScriptActions 0x003C9871).
+void ObjectTypes::addObjectType(const AsciiString &objectType)
 {
-	if (!((const ObjectTypes *)this)->isInSet(val))
-		((_STL::vector<AsciiString> *)((char *)this + 8))->push_back(val);
+	if (!isInSet(objectType))
+		((_STL::vector<AsciiString> *)((char *)this + 8))->push_back(objectType);
 }
 
 bool Rva00376A62::rva0059E872(const Rva00376A62 &o)

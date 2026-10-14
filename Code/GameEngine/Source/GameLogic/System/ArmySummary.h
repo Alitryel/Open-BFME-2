@@ -35,6 +35,7 @@ struct Rva0040DD3ARef {
 #include "../../Common/BfmeIntVecG.h"
 class Rva0040CB3AIndexedField { public: int find(int key) const; int get(int key) const; };
 class ObjectTypes;
+enum ObjectID;
 class ArmySummary : public Snapshot, public Rva0040D8D6List {
 public:
  virtual ~ArmySummary();
@@ -45,6 +46,7 @@ public:
  void rva0040DF77();
  void rva0040DE16();
  bool HasDelayedCarryoverUnitOfTypes(ObjectTypes*);
+ ObjectID SpawnOneDelayedCarryoverUnit(ObjectTypes*);
 private:
  bool flag14;
  unsigned char pad15[3];

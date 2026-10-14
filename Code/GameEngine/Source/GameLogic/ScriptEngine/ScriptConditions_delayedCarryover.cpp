@@ -42,6 +42,7 @@ class ObjectTypes
 public:
 	ObjectTypes();
 	virtual ~ObjectTypes();
+	void addObjectType(const AsciiString &objectType);
 	int getListSize() const { return m_objectTypes.size(); }
 
 private:
@@ -64,13 +65,8 @@ extern ScriptEngine *TheScriptEngine;
 
 class UnitRevivalTracker;
 
-// The list append and the campaign query are rowed under their address
-// classes (Rva00376A62Contains.cpp, Rva001EB0FBHas.cpp).
-class Rva00376A62
-{
-public:
-	void rva00376B50(const AsciiString &objectType);
-};
+// The campaign query is rowed under its address classes (Rva001EB0FBHas.cpp).
+class Rva00376A62;
 
 class Rva001EB0FB
 {
@@ -122,7 +118,7 @@ bool ScriptConditions::evaluateHasDelayedCarryoverUnitOfType(const AsciiString &
 	ObjectTypes tempTypes;
 	ObjectTypes *types = TheScriptEngine->getObjectTypes(objectTypeName);
 	if (!types || types->getListSize() == 0) {
-		((Rva00376A62 *)&tempTypes)->rva00376B50(objectTypeName);
+		tempTypes.addObjectType(objectTypeName);
 		types = &tempTypes;
 	}
 	if (TheLinearCampaignManager->hasCampaign())

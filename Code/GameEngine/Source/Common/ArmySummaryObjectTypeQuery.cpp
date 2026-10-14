@@ -20,12 +20,6 @@ private:
     void *m_objectTypes[3];
 };
 
-class Rva00376A62
-{
-public:
-    void rva00376B50(const AsciiString &name);
-};
-
 enum ObjectID { INVALID_OBJECT_ID = 0 };
 
 class Rva0040D701ArmySummary
@@ -33,22 +27,22 @@ class Rva0040D701ArmySummary
 public:
     bool rva0040EC7C(const AsciiString &name);
     ObjectID rva0040E83A(const AsciiString &name);
-    ObjectID SpawnOneDelayedCarryoverUnit(ObjectTypes *types);
 };
 
 bool Rva0040D701ArmySummary::rva0040EC7C(const AsciiString &name)
 {
     ObjectTypes types;
-    reinterpret_cast<Rva00376A62 *>(&types)->rva00376B50(name);
+    types.addObjectType(name);
     return reinterpret_cast<ArmySummary*>(this)->HasDelayedCarryoverUnitOfTypes(&types);
 }
 
 // Native40E83A-40E88B constructs the same ObjectTypes temporary and returns
-// the complete ObjectID from the existing pinned spawn method at40E589.
+// the complete ObjectID from ArmySummary::SpawnOneDelayedCarryoverUnit at
+// 40E589 (ArmySummarySpawn.cpp).
 // The adapter's original name remains unknown; WB confirms its callgraph.
 ObjectID Rva0040D701ArmySummary::rva0040E83A(const AsciiString &name)
 {
     ObjectTypes types;
-    reinterpret_cast<Rva00376A62 *>(&types)->rva00376B50(name);
-    return SpawnOneDelayedCarryoverUnit(&types);
+    types.addObjectType(name);
+    return reinterpret_cast<ArmySummary*>(this)->SpawnOneDelayedCarryoverUnit(&types);
 }
