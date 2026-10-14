@@ -35,12 +35,17 @@ struct LANPlayer {
 };
 
 // Reduced interfaces: only the native call-site slots are named here.
+class GameInfo;
+struct LANGameInfoView {
+    char m_pad[0xF5C];
+    LANGameInfoView *next;
+};
 class LANAPI {
 public:
 #define V(n) virtual void slot##n();
 #define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
     V10(0) V10(1) V10(2) V10(3) V10(4)
-    V(50) V(51) V(52) V(53) V(54) V(55) V(56) V(57) V(58)
+    V(50) virtual LANGameInfoView *GetGames(); /* +CC */ V(52) V(53) V(54) V(55) V(56) V(57) V(58)
     virtual LANPlayer *GetLobbyPlayers(); // +EC
     V(60) V(61) V(62) V(63)
     virtual const BfmeNetAddress *GetLocalAddress(); // +100
@@ -63,6 +68,11 @@ class ChatWindowsLan {
 public:
     void GetLobbyPlayers(_STL::vector<BfmeStringRecord005D511F> *);
     bool PopulatePlayerList(_STL::vector<BfmeStringRecord005D511F>*);
+    bool rva005D574C();
+    // 0x005D5648, rowed as the stdcall Rva005D5648Fill: the body never reads
+    // ECX, but this caller sets ECX=this for it (retail hoists that into the
+    // loop test it shares with PopulatePlayerList), so here it is a member.
+    void rva005D5648(_STL::vector<BfmeStringRecord005D511F> *, GameInfo *);
     char unknown00[0x10]; class GameWindow *playerList10;
 };
 
@@ -148,4 +158,19 @@ bool ChatWindowsLan::PopulatePlayerList(_STL::vector<BfmeStringRecord005D511F>*p
  if(rows.size()!=i)TheWindowManager->selectionChanged(0);
  GadgetListBoxSetTopVisibleEntry(list,top);
  return true;
+}
+
+// Native 5D574C..5D57D3 (135 B). Refreshes the lobby list: the lobby players followed by the
+// players of every listed LAN game (rowed 0x005D5648 fill over the game chain through +0xF5C) are
+// collected and shown through PopulatePlayerList; false without a LAN API. The native EH frame
+// holds the collection vector. The method's real name is unproven (no WorldBuilder match).
+bool ChatWindowsLan::rva005D574C()
+{
+    if (!TheLAN)
+        return false;
+    _STL::vector<BfmeStringRecord005D511F> players;
+    GetLobbyPlayers(&players);
+    for (LANGameInfoView *game = TheLAN->GetGames(); game; game = game->next)
+        rva005D5648(&players, reinterpret_cast<GameInfo *>(game));
+    return PopulatePlayerList(&players);
 }
