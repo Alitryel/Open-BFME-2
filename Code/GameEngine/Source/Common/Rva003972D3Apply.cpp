@@ -6,7 +6,7 @@
 // rowed ?findObjectByID@GameLogic@@QAEPAVObject@@W4ObjectID@@@Z via TheGameLogic,
 // rowed ?rva00293003@Object@@QAEXPBX@Z, rowed ?rva0028BCF4@Object@@QBEPAXXZ with
 // virtual slot 3 (+0x0C) and slot 6 (+0x18), rowed ?rva00290D2B@Object@@QBE_NPBVUpgradeTemplate@@@Z,
-// pin-only ?bfmeHas985C@BfmeArg985@@QAEDH@Z; prev/next share /O1 /DNDEBUG /MD.
+// rowed Object::affectedByUpgrade; prev/next share /O1 /DNDEBUG /MD.
 
 enum ObjectID
 {
@@ -15,7 +15,6 @@ enum ObjectID
 
 class Object;
 class UpgradeTemplate;
-class BfmeArg985;
 class GameLogic;
 
 struct Rva003972D3Range
@@ -30,12 +29,7 @@ public:
 	void rva00293003(const void *arg);
 	void *rva0028BCF4() const;
 	bool rva00290D2B(const UpgradeTemplate *templ) const;
-};
-
-class BfmeArg985
-{
-public:
-	char bfmeHas985C(int v);
+	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 };
 
 class GameLogic
@@ -82,7 +76,7 @@ void Rva003972D3::rva003972D3(Rva003972D3Range *range, const UpgradeTemplate *up
 			continue;
 		if (obj2->rva00290D2B(upgrade))
 			continue;
-		if (!((BfmeArg985 *)obj2)->bfmeHas985C((int)upgrade))
+		if (!obj2->affectedByUpgrade(upgrade))
 			continue;
 		obj2->rva00293003(upgrade);
 	}

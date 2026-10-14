@@ -1,7 +1,7 @@
-// ?bfmeHas985C@BfmeArg985@@QAEDH@Z
+// ?affectedByUpgrade@Object@@QBE_NPBVUpgradeTemplate@@@Z
 // cl: /O1 /G7
 // stlport
-// ?bfmeHas985C@BfmeArg985@@QAEDH@Z RVA 0x002940B9 305B
+// ?affectedByUpgrade@Object@@QBE_NPBVUpgradeTemplate@@@Z RVA 0x002940B9 305B
 // Evidence: LINK BONUS 5 files call this name; pin-only callee of BfmeC985::bfmeGo985C at 0x00261130; Object::affectedByUpgrade per CommandButtonIsReady donor ZH Object.cpp affectedByUpgrade and BFME1 ObjectUpgrades.cpp; callers TeamRva0039E8EB HordeContain CommandButtonIsReady Rva003972D3Apply Rva00397357; prev 0x00293E64 next 0x0029439D share /O1 /G7.
 struct BfmeFixedStorage128
 {
@@ -117,6 +117,7 @@ public:
 	bool rva002931BA();
 	Object *rva002931F5(bool checkProducer);
 	bool rva0028D9E5(int bit) const;
+	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 public:
 	char m_pad00[0x244];
 	BehaviorModule **m_modules244;
@@ -126,15 +127,8 @@ public:
 	_STL::_Base_bitset<32> m_mask284;
 };
 
-class BfmeArg985
+bool Object::affectedByUpgrade(const UpgradeTemplate *upgrade) const
 {
-public:
-	char bfmeHas985C(int v);
-};
-
-char BfmeArg985::bfmeHas985C(int v)
-{
-	UpgradeTemplate *upgrade = (UpgradeTemplate *)v;
 	Object *self = (Object *)this;
 	if (upgrade == 0)
 		return 0;
@@ -152,7 +146,7 @@ char BfmeArg985::bfmeHas985C(int v)
 	}
 checkPlayer:
 	{
-		BfmeTab1026 *tab = &upgrade->m_tab80;
+		BfmeTab1026 *tab = (BfmeTab1026 *)&upgrade->m_tab80;
 		if (player->rva002AB2D9(tab, true))
 			goto haveMask;
 		if (!player->rva002AB390(tab))
@@ -186,7 +180,7 @@ haveMask:
 		do
 		{
 			Object *o = cur->m_obj;
-			if (((BfmeArg985 *)o)->bfmeHas985C(v) != 0)
+			if (o->affectedByUpgrade(upgrade))
 				return 1;
 			cur = cur->m_next;
 		} while (cur != *(Node **)out.b);

@@ -476,7 +476,7 @@ public:
 	Module *findUpdateModule(NameKeyType key) const { return findModule(key); }
 	Bool testStatus(ObjectStatusTypes bit) const;
 	Bool rva00290D2B(const UpgradeTemplate *upgrade) const; // hasUpgrade
-	Bool rva002940B9(const UpgradeTemplate *upgrade); // affectedByUpgrade
+	Bool affectedByUpgrade(const UpgradeTemplate *upgrade) const; // affectedByUpgrade
 	BehaviorModule **getBehaviorModules() const { return m_behaviors; }
 
 	char m_unknown00[4]; const ThingTemplate *m_template;
@@ -1277,7 +1277,7 @@ Bool ProductionUpdate::queueUpgrade( const UpgradeTemplate *upgrade )
 		return FALSE;
 	else if( upgrade->getUpgradeType() == UPGRADE_TYPE_OBJECT &&
 					 (getObject()->rva00290D2B( upgrade ) == TRUE ||
-					  getObject()->rva002940B9( upgrade ) == FALSE) )
+					  getObject()->affectedByUpgrade( upgrade ) == FALSE) )
 		return FALSE;
 
 	// you cannot queue the production of an upgrade twice in this queue
@@ -1873,7 +1873,7 @@ UpdateSleepTime ProductionUpdate::update()
  }
  if(production->m_type==PRODUCTION_UPGRADE) {
   const UpgradeTemplate *upgrade=production->m_upgradeToResearch;
-  if(upgrade && upgrade->getUpgradeType()==UPGRADE_TYPE_OBJECT && !getObject()->rva002940B9(upgrade)) { cancelUpgrade(upgrade); return UPDATE_SLEEP_NONE; }
+  if(upgrade && upgrade->getUpgradeType()==UPGRADE_TYPE_OBJECT && !getObject()->affectedByUpgrade(upgrade)) { cancelUpgrade(upgrade); return UPDATE_SLEEP_NONE; }
  }
  ++production->m_bfme1C;
  int total=calcTotalProductionFrames((Rva0049CD4FArg *)production);

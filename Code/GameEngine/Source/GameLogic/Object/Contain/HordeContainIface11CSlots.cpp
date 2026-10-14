@@ -114,6 +114,7 @@ enum UpdateSleepTime
 	UPDATE_SLEEP_NONE = 1
 };
 class Object;
+class UpgradeTemplate;
 class Rva004708BCBehavior;
 class AttributeModifierPoolUpdate
 {
@@ -293,11 +294,6 @@ class BfmeThingTFB
 {
 public:
 	void bfmeTwoTFB(int a1, int a2);
-};
-class BfmeArg985
-{
-public:
-	char bfmeHas985C(int a1);
 };
 struct Rva003642DFNode;
 struct Rva003642DFResult;
@@ -526,6 +522,7 @@ struct Rva00469F3AFlags
 class Object
 {
 public:
+	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	Weapon *getCurrentWeapon(WeaponSlotType *slot = 0);	// pinned 0x0028AEBD
 	int getID() const { return m_74; }
 	void setProducer(Object *);
@@ -2143,21 +2140,21 @@ void HordeContain::rva0046D384(Team *team)
 	}
 }
 
-// ?rva0046B9DC@HordeContain@@UAE_NH@Z @0x0046B9DC: slot 43; whether the pinned
-// bfmeHas985C(argument) holds for a contained Object or for the Object of a
+// ?rva0046B9DC@HordeContain@@UAE_NH@Z @0x0046B9DC: slot 43; whether
+// Object::affectedByUpgrade(argument) holds for a contained Object or for the Object of a
 // +0x170 key.
 bool HordeContain::rva0046B9DC(int a1)
 {
 	const _STL::list<Object *> *items = containedItems();
 	for (_STL::list<Object *>::const_iterator it = items->begin(); it != items->end(); ++it)
 	{
-		if (((BfmeArg985 *)*it)->bfmeHas985C(a1))
+		if ((*it)->affectedByUpgrade((const UpgradeTemplate *)a1))
 			return true;
 	}
 	for (_STL::set<int>::iterator k = m_170.begin(); k != m_170.end(); ++k)
 	{
 		Object *obj = TheGameLogic->findObjectByID((ObjectID)*k);
-		if (((BfmeArg985 *)obj)->bfmeHas985C(a1))
+		if (obj->affectedByUpgrade((const UpgradeTemplate *)a1))
 			return true;
 	}
 	return false;

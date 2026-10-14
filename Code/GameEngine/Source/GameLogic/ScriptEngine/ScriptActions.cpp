@@ -310,7 +310,7 @@ public:
  bool rva002922D9(const CommandButton *);
  void rva00297000(const CommandButton *, Object *, int, int);
  void rva00297149(const CommandButton *, const Coord3D *, int, int);
- bool rva002940B9(const UpgradeTemplate *);
+ bool affectedByUpgrade(const UpgradeTemplate *) const;
  bool rva00290D2B(const UpgradeTemplate *) const;
  void rva00293077(const void *);
  const ThingTemplate *getTemplate() const { return m_template; }
@@ -1319,7 +1319,7 @@ void ScriptActions::rva003C739D(Parameter *castleName, Parameter *upgradeParm, P
 		Rva0004584D(BfmeFixedStorage0004543D(0, 7), *(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE)
 			.link(&Rva0026119DFilter()), 1);
 	while ((obj = hits.next()) != 0) {
-		if (!obj->rva002940B9(upgrade))
+		if (!obj->affectedByUpgrade(upgrade))
 			continue;
 		if (obj->rva00290D2B(upgrade))
 			continue;

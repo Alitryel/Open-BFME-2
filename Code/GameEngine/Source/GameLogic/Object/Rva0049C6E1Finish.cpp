@@ -5,7 +5,7 @@
 // ?rva0049C6E1@Rva0049C6E1@@QAE_NPAVObject@@@Z @0x0049C6E1 89B. Upgrade check via
 // TheUpgradeCenter plus rowed find 0x0026F0F0 with mask at this+8 plus 0x284
 // then provider path via rowed 0x0049C5F4 plus virtual slot 43 plus pin
-// bfmeHas985C else path. Evidence: push esi plus TheUpgradeCenter plus
+// Object::affectedByUpgrade else path. Evidence: push esi plus TheUpgradeCenter plus
 // 0x284 plus find plus provider plus 0xAC plus pin plus al 1/0; callers
 // 0x0041CE8B 0x0049C9AE 0x0049CA77; honest address name.
 class Rva0026F0F0
@@ -23,9 +23,12 @@ enum ObjectID
 	INVALID_ID = 0
 };
 
+class UpgradeTemplate;
+
 class Object
 {
 public:
+	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	char m_pad00[0x78];
 	ObjectID m_id78;
 	char m_pad7C[0x250 - 0x7C];
@@ -55,12 +58,6 @@ public:
 	virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39();
 	virtual void v40(); virtual void v41(); virtual void v42();
 	virtual bool slot43(void *upgrade);
-};
-
-class BfmeArg985
-{
-public:
-	char bfmeHas985C(int x);
 };
 
 class Rva0049C6E1
@@ -94,7 +91,7 @@ bool Rva0049C6E1::rva0049C6E1(Object *arg)
 		}
 		else
 		{
-			ok = ((BfmeArg985 *)arg)->bfmeHas985C((int)upgrade);
+			ok = arg->affectedByUpgrade((const UpgradeTemplate *)upgrade);
 			if (ok != 0)
 				return true;
 		}

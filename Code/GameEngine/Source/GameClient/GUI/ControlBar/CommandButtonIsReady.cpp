@@ -35,12 +35,6 @@ public:
 	virtual Real getPercentReady() const = 0; // vslot 2
 };
 
-class BfmeArg985
-{
-public:
-	char bfmeHas985C(int upgrade); // Object::affectedByUpgrade
-};
-
 class GameLogic
 {
 public:
@@ -56,22 +50,18 @@ class Object
 public:
 	SpecialPowerModuleInterface *getSpecialPowerModule(const SpecialPowerTemplate *power) const;
 	Bool rva00290D2B(const UpgradeTemplate *upgrade) const; // Object::hasUpgrade
+	Bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	Bool bfmeReadyFrameReached() const { Bool ready = m_readyFrame <= TheGameLogic->getFrame(); return ready; }
 private:
 	char m_pad[0x458];
 	unsigned m_readyFrame; // +0x458
 };
 
-// Object::getSpecialPowerModule and Object::affectedByUpgrade through the
-// address-named views their rows carry (kept file-local so this unit emits
+// Object::getSpecialPowerModule through the view its row carries (kept file-local so this unit emits
 // no copy of the shared inline names).
 static inline SpecialPowerModuleInterface *getSpecialPowerModule(const Object *obj, const SpecialPowerTemplate *sp)
 {
 	return (SpecialPowerModuleInterface *)obj->getSpecialPowerModule(sp);
-}
-static inline Bool affectedByUpgrade(const Object *obj, const UpgradeTemplate *upgrade)
-{
-	return ((BfmeArg985 *)obj)->bfmeHas985C((int)upgrade) != 0;
 }
 
 class Image;
@@ -131,7 +121,7 @@ Bool CommandButton::isReady(const Object *sourceObj) const
 	if( mod && mod->getPercentReady() == 1.0f )
 		return true;
 
-	if (m_upgradeTemplate && affectedByUpgrade(sourceObj, m_upgradeTemplate) && !sourceObj->rva00290D2B(m_upgradeTemplate))
+	if (m_upgradeTemplate && sourceObj->affectedByUpgrade(m_upgradeTemplate) && !sourceObj->rva00290D2B(m_upgradeTemplate))
 		return true;
 
 	return false;

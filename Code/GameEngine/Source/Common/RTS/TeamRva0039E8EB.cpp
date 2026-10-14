@@ -57,7 +57,7 @@ Object *Team::rva0039E968(int bit)
 	return 0;
 }
 
-// ?rva0039E8FF@Team@@QAE_NH@Z @0x0039E8FF 105B unlock Team method iterating members via rowed iterate plus rowed DLINK_ITERATOR<Object> advance plus virtual 0x7c and 0xac plus pinned bfmeHas985C; caller 0x003C4A28
+// ?rva0039E8FF@Team@@QAE_NH@Z @0x0039E8FF 105B unlock Team method iterating members via rowed iterate plus rowed DLINK_ITERATOR<Object> advance plus virtual 0x7c and 0xac plus rowed Object::affectedByUpgrade; caller 0x003C4A28
 struct Rva0039E8FFMid
 {
 	virtual void f00(); virtual void f01(); virtual void f02(); virtual void f03();
@@ -83,14 +83,11 @@ struct Rva0039E8FFTarget
 	virtual void g36(); virtual void g37(); virtual void g38(); virtual void g39();
 	virtual void g40(); virtual void g41(); virtual void g42(); virtual bool g43(int val);
 };
-class BfmeArg985
-{
-public:
-	char bfmeHas985C(int v);
-};
+class UpgradeTemplate;
 class Object
 {
 public:
+	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	char m_pad[0x250];
 	Rva0039E8FFMid *m_mid;
 };
@@ -107,7 +104,7 @@ bool Team::rva0039E8FF(int val)
 			if (((Rva0039E8FFTarget *)res)->g43(val))
 				return true;
 		} else {
-			if ((char)((BfmeArg985 *)cur)->bfmeHas985C(val) == 1)
+			if (cur->affectedByUpgrade((const UpgradeTemplate *)val) == 1)
 				return true;
 		}
 		iter.advance();

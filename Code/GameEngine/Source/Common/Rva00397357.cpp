@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD
 // ?rva00397357@Rva003972D3@@QAEXPBVUpgradeTemplate@@@Z RVA 0x00397357 148B
 // Evidence: finish from stash 0.9 ebp-ebx mirror; callers none; rowed findObjectByID via TheGameLogic;
-//   rowed rva00290D2B rva00293003 rva003972D3; pin bfmeHas985C; prev/next share /O1 /DNDEBUG /MD.
+//   rowed rva00290D2B rva00293003 rva003972D3 affectedByUpgrade; prev/next share /O1 /DNDEBUG /MD.
 
 enum ObjectID
 {
@@ -10,7 +10,6 @@ enum ObjectID
 
 class Object;
 class UpgradeTemplate;
-class BfmeArg985;
 class GameLogic;
 
 struct Rva003972D3Range
@@ -25,12 +24,7 @@ public:
 	void rva00293003(const void *arg);
 	void *rva0028BCF4() const;
 	bool rva00290D2B(const UpgradeTemplate *templ) const;
-};
-
-class BfmeArg985
-{
-public:
-	char bfmeHas985C(int v);
+	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 };
 
 class GameLogic
@@ -93,7 +87,7 @@ void Rva003972D3::rva00397357(const UpgradeTemplate *upgrade)
 			continue;
 		if (obj2->rva00290D2B(upgrade))
 			continue;
-		if (!((BfmeArg985 *)obj2)->bfmeHas985C((int)upgrade))
+		if (!obj2->affectedByUpgrade(upgrade))
 			continue;
 		obj2->rva00293003(upgrade);
 	}

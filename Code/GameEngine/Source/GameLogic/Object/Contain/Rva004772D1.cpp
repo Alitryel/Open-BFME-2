@@ -10,7 +10,7 @@ class UpgradeTemplate;
 class Object
 {
 public:
-	bool rva002940B9(const UpgradeTemplate *upgrade);
+	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	void rva00293077(const void *upgrade);
 };
 
@@ -24,7 +24,7 @@ void rva004772D1(Object *object, const Rva004772D1RangePrefix &range)
 {
 	for (UpgradeTemplate **it = range.begin; it != range.end; ++it) {
 		UpgradeTemplate *upgrade = *it;
-		if (object->rva002940B9(upgrade))
+		if (object->affectedByUpgrade(upgrade))
 			object->rva00293077(upgrade);
 	}
 }

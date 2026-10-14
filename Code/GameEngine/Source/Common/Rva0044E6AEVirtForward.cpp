@@ -60,11 +60,14 @@ public:
 	void rva0027541E(const RGBColor *color, unsigned int a, unsigned int b, unsigned int c);
 };
 
+class UpgradeTemplate;
+
 class Object
 {
 public:
 	void *rva0028C197() const;
 	void rva00293077(const void *upgrade);
+	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	Drawable *getDrawable() const;
 
 	char m_pad00[4];
@@ -111,12 +114,6 @@ class Rva0049C67E
 {
 public:
 	void rva0049C67E(Object *obj);
-};
-
-class BfmeArg985
-{
-public:
-	char bfmeHas985C(int upgrade);
 };
 
 class Prov46
@@ -213,7 +210,7 @@ void Rva0044E6AE::rva0049CA2F()
 			: ((Rva0049C5F4 *)this)->rva0049C5F4(found);
 		if (prov != 0)
 			((Prov46 *)prov)->slot46(upgrade, 0);
-		else if (((BfmeArg985 *)found)->bfmeHas985C((int)upgrade) != 0)
+		else if (found->affectedByUpgrade((const UpgradeTemplate *)upgrade))
 		{
 			float shade = 0.99f;
 			RGBColor color;

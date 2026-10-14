@@ -315,7 +315,7 @@ public:
 	void *rva0028C197() const;
 	Rva00373EC6 *rva0028F4BC();
 	Bool rva00290D2B(const UpgradeTemplate *upgrade) const;
-	Bool rva002940B9(const UpgradeTemplate *upgrade);
+	Bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	const Weapon *getCurrentWeapon(WeaponSlotType *slot) const;
 	Bool isDisabled() const { return m_disabled.any(); }
 	__forceinline UnsignedInt commandDisabledMask(int type) const { return m_disabled.m_bits[type >> 5] & (1 << (type & 31)); }
@@ -877,7 +877,7 @@ CommandAvailability ControlBar::getCommandAvailability(const CommandButton *comm
 				return COMMAND_DONE;
 			if (queueMaxed)
 				return COMMAND_RESTRICTED;
-			if (!obj->rva002940B9(command->m_upgrade))
+			if (!obj->affectedByUpgrade(command->m_upgrade))
 				return COMMAND_RESTRICTED;
 			if (!TheUpgradeCenter->canAfford(player, command->m_upgrade, obj))
 				return COMMAND_CANT_AFFORD;

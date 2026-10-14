@@ -8073,7 +8073,6 @@ name,address,notes
 ?bfmeGrowV22@BfmeStrV22@@QAEXXZ,0x00023A40
 ?bfmeGrowV23@BfmeStrV23@@QAEXXZ,0x00023A40
 ?bfmeHas1026@BfmeTab1026@@QAEDHH@Z,0x00362437
-?bfmeHas985C@BfmeArg985@@QAEDH@Z,0x002940B9,callee of ?bfmeGo985C@BfmeC985@@QAEDPAVBfmeArg985@@@Z at retail 0x00261130 read from its REL32 displacement; member predicate on the arg object; body unrowed
 ?bfmeHas992C@BfmeAsk992@@QAEDXZ,0x00655950
 ?bfmeHash00010AFA@@YAIII@Z,0x0043538F,__cdecl hash helper callee of ?bfmeDiffers@Gen_0056E190@@QBE_NABV1@@Z at retail 0x00435B4F read from its REL32 displacement; reads a global at 0x00DC51A8; body rowed under this name in BigObfHookWrappers.cpp
 ?bfmeHash00013412@@YAIII@Z,0x0056F585,__cdecl hash helper callee of ?bfmeDiffers@Gen_0054EC80@@QBE_NABV1@@Z at retail 0x0056FA2E read from its REL32 displacement; reads a global at 0x00DC2D48; body rowed under this name in BigObfHookWrappers.cpp
@@ -10960,7 +10959,6 @@ name,address,notes
 ?rva00291916@Object@@QAEXPAX@Z,0x00291916,thiscall hook on Object taking the +0x38 member address called from 0x34BFFF; RETAIL REL32 at 0x0034C02B
 ?rva002922D9@Object@@QAE_NPBVCommandButton@@@Z,0x002922D9,"Object member taking a command button (ret 4) returning a bool gate; REL32 in script actions 0x003BDEB5 and 0x003BDB03's twin site with ECX the named unit after CommandButton::isReady; identity not recovered"
 ?rva002930A9@Object@@QAEXH@Z,0x002930A9,"Object member (ret 4) that starts by looking up the Object's producer (+0x78) through TheGameLogic; UntamedAllegianceSpecialPower slot 13 0x004C7BB0 calls it with 0 on the Object it takes over"
-?rva002940B9@Object@@QAE_NPBVUpgradeTemplate@@@Z,0x002940B9,"Object bool test of an upgrade template; REL32 in AIWall.cpp 0x004EB9F9 with the command button +0x24"
 ?rva002943B2@Object@@QAE_NPBVPlayer@@@Z,0x002943B2,thiscall Object query in place of Zero Hour's stealthed/detected/disguised status tests: Team::getTeamTargetObject 0x003A105B passes the team's controlling player (0x003A1087) and TunnelTracker::getCurNemesis 0x004F5684 passes null (0x004F56BE); ret 4; al tested; body checks contain modules and status 0x11/0xF; meaning not established
 ?rva00294815@Object@@QAEDXZ,0x00294815,"Object member returning a char level (plain ret on the fast path); PorcupineFormationBodyModule slot 38 0x004C2127 compares it with its module data's +0x6C level"
 ?rva0029493F@Rva0029493F@@QAEXHH@Z,0x0029493F,address-derived callee of matched slot 0x0026156C; retail REL32 targets 0x0029493F; Ghidra FUN bounds 111 bytes; thiscall two args; ret 8; callee body remains unclaimed; no named identity inferred

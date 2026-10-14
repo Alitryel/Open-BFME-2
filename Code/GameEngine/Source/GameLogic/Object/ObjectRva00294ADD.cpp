@@ -98,7 +98,7 @@ public:
 	const ThingTemplate *getTemplate() const { return m_template; }
 	void *rva0028BC94();
 	Bool rva00290D2B(const UpgradeTemplate *upgrade) const;
-	Bool rva002940B9(const UpgradeTemplate *upgrade);
+	Bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	Player *getControllingPlayer() const;
 	Int rva00294ADD(Int entry);
 
@@ -122,7 +122,7 @@ Int Object::rva00294ADD(Int entry)
 		return 9;
 	if (upgrade->getUpgradeType() == 1)
 	{
-		if (rva00290D2B(upgrade) || !rva002940B9(upgrade))
+		if (rva00290D2B(upgrade) || !affectedByUpgrade(upgrade))
 			return 9;
 	}
 	if (getControllingPlayer() != 0)

@@ -13,7 +13,7 @@
 #include <set>
 class AsciiString;
 class UpgradeTemplate;
-class Object {public:bool rva002940B9(const UpgradeTemplate *);void rva00293077(const void *);};
+class Object {public:bool affectedByUpgrade(const UpgradeTemplate *) const;void rva00293077(const void *);};
 #include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class UpgradeCenter {public:const UpgradeTemplate *rva0026EEA0(int)const;};
@@ -35,13 +35,13 @@ void Rva00472444::rva00472444(const Rva00472444Mask &mask,const AsciiString *nam
  while(it!=members.end()){
   Object *obj=*it;
   if(name && !((HordeContain *)((char *)this-0x20))->rva004723F2(obj,*name)){++it;continue;}
-  for(unsigned i=0;i<upgrades.size();++i){const UpgradeTemplate *upgrade=upgrades[i];if(obj->rva002940B9(upgrade))obj->rva00293077(upgrade);}
+  for(unsigned i=0;i<upgrades.size();++i){const UpgradeTemplate *upgrade=upgrades[i];if(obj->affectedByUpgrade(upgrade))obj->rva00293077(upgrade);}
   ++it;
  }
  for(_STL::set<int>::iterator entry=m_ids.begin();entry!=m_ids.end();++entry){
   Object *obj=TheGameLogic->findObjectByID((ObjectID)*entry);if(!obj)continue;
   if(name && !((HordeContain *)((char *)this-0x20))->rva004723F2(obj,*name))continue;
-  for(unsigned i=0;i<upgrades.size();++i){const UpgradeTemplate *upgrade=upgrades[i];if(obj->rva002940B9(upgrade))obj->rva00293077(upgrade);}
+  for(unsigned i=0;i<upgrades.size();++i){const UpgradeTemplate *upgrade=upgrades[i];if(obj->affectedByUpgrade(upgrade))obj->rva00293077(upgrade);}
  }
  upgrades.clear();
 }

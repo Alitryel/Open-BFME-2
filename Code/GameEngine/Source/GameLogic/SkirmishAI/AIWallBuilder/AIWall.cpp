@@ -175,7 +175,7 @@ public:
     Player *getControllingPlayer() const;
 	const AsciiString &getCommandSetString() const;	// 0x00290E67
 	void *rva0028BC58(int arg);			// 0x0028BC58
-	bool rva002940B9(const UpgradeTemplate *upgrade);	// 0x002940B9
+	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;	// 0x002940B9
 	int getID() const { return m_74; }
 	char m_pad000[0x74];
 	int m_74;		// +0x74 the ID
@@ -281,7 +281,7 @@ void AIWall::buildGate()
 			const ThingTemplate *tmpl = button->rva0035B570();
 			if (!tmpl || !(tmpl->m_120 & 0x800))
 				continue;
-			if (other->rva002940B9(upgrade)) {
+			if (other->affectedByUpgrade(upgrade)) {
 				m_14->m_2C = upgrade->rva0026EF50(m_18, other);
 				m_14->m_08 = other->getID();
 				m_14->m_30 = button;
