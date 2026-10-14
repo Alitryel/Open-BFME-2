@@ -1,4 +1,6 @@
 // ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
+// partial score=0.96725 date=2026-10-14
+// ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
 // partial score=0.79513 date=2026-10-14
 // ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
 // partial score=0.78053 date=2026-10-14
@@ -1782,22 +1784,22 @@ m_isTunneling=false;rva002F40E7();goal->ReleaseInfo();return MAX_COST;
 }
 
 static __forceinline Bool nativeBurning(BurningGrid *grid,const Coord3D &point){Int fireX=realToIntFloor((point.x+0.5f)*0.1f);Int fireY=realToIntFloor((point.y+0.5f)*0.1f);if(fireX>=0 && fireX<grid->width && fireY>=0 && fireY<grid->height)return grid->cells[fireX][fireY].count>0;return false;}
+struct NeighborWorldPoint:Coord3D {NeighborWorldPoint(){} ~NeighborWorldPoint(){}};
 Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
 {
 if(obj->m_template->hasKind(109)||obj->m_template->hasKind(191)){radius=1;centerInCell=true;}
 Bool canPathThroughUnits=false;
 if(obj->getAI())canPathThroughUnits=*(Bool *)((char *)obj->getAI()+0x3ba);
 if(!m_isTunneling && !locomotorSet.isDownhillOnly() && goalCell && !(parentCell->getXIndex()&3) && !(parentCell->getYIndex()&3)) {
-ICoord2D end;const ICoord2D *endPtr;
-if(m_1C1CC.empty()){end=*(ICoord2D *)goalCell->m_pathInfo;}
-else {end=*(ICoord2D *)&m_1C1CC.back().m_position;}PathfindLayerEnum layer=(PathfindLayerEnum)parentCell->getLayer();
-iterateCellsAlongLine((const ICoord2D *)parentCell->m_pathInfo,&end,layer,(Rva002F5925Info *)&Rva002EAB6F((Int)this,(const Rva002E8BCFSrc *)&locomotorSet,centerInCell,radius,obj,isHuman,(Int)goalCell,m_1C1CC.empty()?attackMode:0));
+const ICoord2D *start=(const ICoord2D *)parentCell->m_pathInfo;
+Int endX,endY; if(m_1C1CC.empty()){endX=goalCell->m_pathInfo->position.x;endY=goalCell->m_pathInfo->position.y;}else{endX=m_1C1CC.back().m_position.x;endY=m_1C1CC.back().m_position.y;} ICoord2D end={endX,endY};PathfindLayerEnum layer=(PathfindLayerEnum)parentCell->getLayer();
+iterateCellsAlongLine(start,&end,layer,(Rva002F5925Info *)&Rva002EAB6F((Int)this,(const Rva002E8BCFSrc *)&locomotorSet,centerInCell,radius,obj,isHuman,(Int)goalCell,m_1C1CC.empty()?attackMode:0));
 }
 {
 Int cellCount=0;
 TCheckMovementInfo info;((Rva002E6FDF *)&info)->rva002E6FDF();
-info.layer=(PathfindLayerEnum)parentCell->getLayer();info.radius=radius;info.centerInCell=centerInCell;
-info.options=12;if(!obj->m_template->hasKind(90))info.options=28;
+info.layer=(PathfindLayerEnum)parentCell->getLayer();info.centerInCell=centerInCell;info.radius=radius;
+info.options=12;if(!obj->m_template->hasKind(90))info.options|=16;
 info.ignore=obj->getAI()?((Rva0006E009DwordField *)obj->getAI())->get():0;
 Int priority=obj->m_template->priority;Bool flag=obj->m_template->flag;info.considerTransient=true;
 info.movement=Rva002E8BCF((const Rva002E8BCFSrc *)&locomotorSet,!flag,priority-1,obj->rva0028AFBB());
@@ -1813,9 +1815,9 @@ if(newCell->getLayer()!=parentCell->getLayer() && !(info.movement.surfaces&64) &
 if(isHuman){if(x<m_extentLowX)continue;if(y<m_extentLowY)continue;if(x>m_extentHighX)continue;if(y>m_extentHighY)continue;}
 if(i>=4 && !neighborFlags[i&3] && !neighborFlags[(i+1)&3])continue;
 if(locomotorSet.isDownhillOnly()) {
-float oldZ=TheTerrainLogic->getGroundHeight((float)(parentCell->getXIndex()*10),(float)(parentCell->getYIndex()*10),0);
-float newZ=TheTerrainLogic->getGroundHeight((float)(x*10),(float)(y*10),0);
-if(oldZ<newZ)continue;
+NeighborWorldPoint fromPoint;fromPoint.x=(float)(parentCell->getXIndex()*10);fromPoint.y=(float)(parentCell->getYIndex()*10);fromPoint.z=TheTerrainLogic->getGroundHeight(fromPoint.x,fromPoint.y,0);
+NeighborWorldPoint toPoint;toPoint.x=(float)(x*10);toPoint.y=(float)(y*10);toPoint.z=TheTerrainLogic->getGroundHeight(toPoint.x,toPoint.y,0);
+if(fromPoint.z<toPoint.z)continue;
 }
 Bool movementValid=((Rva002E6DC4 *)this)->rva002E6DC4(&info.movement,newCell);
 Bool tunnelingValid=false;
@@ -1833,9 +1835,9 @@ unsigned int newCostSoFar=0;
 Int dx=goalCell?abs(x-goalCell->getXIndex()):3;
 Int dy=goalCell?abs(y-goalCell->getYIndex()):3;
 if(newCell->getType()==2 && !(unsigned char)(newCell->m_info>>16&1)) {
-float oldZ=TheTerrainLogic->getGroundHeight((float)(parentCell->getXIndex()*10),(float)(parentCell->getYIndex()*10),0);
-float newZ=TheTerrainLogic->getGroundHeight((float)(x*10),(float)(y*10),0);
-if(fabs(oldZ-newZ)<10.0f)newCostSoFar=98;
+NeighborWorldPoint fromPoint;fromPoint.x=(float)(parentCell->getXIndex()*10);fromPoint.y=(float)(parentCell->getYIndex()*10);fromPoint.z=TheTerrainLogic->getGroundHeight(fromPoint.x,fromPoint.y,0);
+NeighborWorldPoint toPoint;toPoint.x=(float)(x*10);toPoint.y=(float)(y*10);toPoint.z=TheTerrainLogic->getGroundHeight(toPoint.x,toPoint.y,0);
+if(fabs(fromPoint.z-toPoint.z)<10.0f)newCostSoFar=98;
 } else if((unsigned char)(newCell->m_info>>16)&1 || (unsigned char)(newCell->m_info>>23)&1){if(dx+dy>3)newCostSoFar=10;}
 newCell->m_pathInfo->flags&=~1U;
 if(info.allyFixedCount){newCostSoFar+=14;if(!canPathThroughUnits)newCell->m_pathInfo->flags|=1;}
