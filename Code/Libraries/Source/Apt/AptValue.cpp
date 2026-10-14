@@ -1,16 +1,10 @@
+// cl: /O2
 // ?findChild@AptValue@@QAEPAV1@PBVEAStringC@@PAV1@@Z
-// partial score=0.9654 date=2026-10-15
-// cl: -I. -ICode/Libraries/Source/Apt
 // Native6DF9A0 lookup: owned gperf vocabulary proves the built-in cases;
 // getVariable caller proves AptValue::findChild name and two pointer arguments.
 // Final RET8 ends6DFD92, then13 targets and37 compact indices end6DFDED.
 // Layout facts below come from native accesses, not an inferred donor layout.
-// Banked at Code/Libraries/Source/Apt/AptValue.cpp (include root Apt/).
-// Remaining: case 18 final path compiles "mov eax,[eax+8]" + epilogue; retail
-// keeps prototype in esi ("mov esi,[eax+8]; pop edi; mov eax,esi") with its own
-// epilogue while !h, !isObject, !(flags&0x200) jump to case 3 root-return 0x189.
-// Joins (if(h) prototype=...; return prototype) keep esi but send !h to the join.
-#include "Code/Libraries/Source/Apt/AptObject/AptScriptFunction.h"
+#include "AptObject/AptScriptFunction.h"
 #include <stdlib.h>
 class EAStringC { void *mpData; public: unsigned int rva006D3750() const; const char *rva00620090() const; };
 struct R4Word { const char *name; int value; };
@@ -27,8 +21,7 @@ struct FindChildFunctionView { char prefix[0x24]; AptValue *parentAnim; };
 struct FindChildCIHView { char prefix[0x48]; AptValue *parent; };
 struct FindChildObjectView { char prefix[0x1c]; unsigned int flags; };
 AptCIH *_AptGetAnimationAtLevel(int);
-extern AptValue *g_bfmeAptDefaultValueAtE18078;
-#define gpUndefinedValue g_bfmeAptDefaultValueAtE18078
+extern AptValue *gpUndefinedValue;
 extern AptValue *g_shutdownAtE18068,*g_shutdownAtE18070,*g_shutdownAtE180AC,*g_shutdownAtE180B8,*g_shutdownAtE180BC,*g_shutdownAtE18360;
 class Rva00898D60Target;
 extern Rva00898D60Target *g_Rva01337A20;
@@ -109,16 +102,17 @@ AptValue *AptValue::findChild(const EAStringC *name,AptValue *context)
    if(h && h->mp__proto__) {
     AptValue *prototype=h->mp__proto__;
     if(context!=this && ((Rva006DC9E0 *)context)->rva006DC9E0() && !(unsigned char)B(context)->isCIH(false)) {
-     if(!(unsigned char)B(context)->isObject() || !(((FindChildObjectView *)B(context)->rva006DD0E0())->flags&0x200)) return prototype;
+     if((unsigned char)B(context)->isObject() && (((FindChildObjectView *)B(context)->rva006DD0E0())->flags&0x200)) {
+      h=prototype->GetNativeHashVirtual();
+      if(!h) return prototype;
+      prototype=h->mp__proto__;
+     }
+    } else if(!(unsigned char)B(context)->isPrototype() && !((unsigned char)B(prototype)->isPrototype() && ((FindChildObjectView *)B(prototype)->rva006DD120())->flags)) {
      h=prototype->GetNativeHashVirtual();
-     if(!h) return prototype;
-     prototype=h->mp__proto__;
-     return prototype;
+     if(h && h->mp__proto__) return h->mp__proto__;
+     return gpUndefinedValue;
     }
-    if((unsigned char)B(context)->isPrototype()) return prototype;
-    if((unsigned char)B(prototype)->isPrototype() && ((FindChildObjectView *)B(prototype)->rva006DD120())->flags) return prototype;
-    h=prototype->GetNativeHashVirtual();
-    if(h && h->mp__proto__) return h->mp__proto__;
+    return prototype;
    }
    return gpUndefinedValue;
   }
