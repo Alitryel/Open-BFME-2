@@ -57,7 +57,7 @@ class ModuleData;
 // row. 0x004FD571's REL32 call proves the target RVA used below; the helper's
 // owner and semantics remain unresolved.
 class LivingWorldRegion;
-class LivingWorldScenario { public: class TeamVictoryCondition; };
+class LivingWorldScenario { public: class TeamVictoryCondition; class OwnershipSet; };
 class LivingWorldScenario::TeamVictoryCondition
 {
 public:
@@ -116,4 +116,32 @@ bool Rva004FD448::rva004FD656(int key) const
             return true;
     }
     return false;
+}
+
+class Rva0059E2FD { public: bool rva0059E31F(const Rva0059E2FD &o); };
+class LivingWorldScenario::OwnershipSet { public: void getRegions(_STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > *out); };
+class ModuleData {};
+class Rva004FD699 {
+public:
+    void rva004FD699(const ModuleData *p, _STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > *out);
+private:
+    unsigned char m_pad[0x98];
+    ModuleData **m_begin;
+    ModuleData **m_end;
+};
+void Rva004FD699::rva004FD699(const ModuleData *p, _STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > *out)
+{
+    void **fields = (void **)out;
+    ((_STL::vector<void *, _STL::allocator<void *> > *)out)->erase((void **)fields[0], (void **)fields[1]);
+    ModuleData **pp = m_begin;
+    ModuleData **end = m_end;
+    for (; pp != end; ++pp) {
+        ModuleData *cur = *pp;
+        if (((Rva0059E2FD *)cur)->rva0059E31F(*(const Rva0059E2FD *)p)) {
+            ((LivingWorldScenario::OwnershipSet *)cur)->getRegions(out);
+            return;
+        }
+    }
+    *(const ModuleData *volatile *)&p = p;
+    out->push_back(p);
 }
