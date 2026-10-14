@@ -397,3 +397,19 @@ void Rva006BF9F0::rva006BF9F0(Rva0087FDC0Element *position, unsigned int count, 
 {
 	m_vector._M_fill_insert(position, count, value);
 }
+
+// ?Rva006CE3C0@@YAPAVAptValueNameEntry@@PAV1@HH@Z @0x006CE3C0 5B and
+// ?Rva006CE620@@YAPAVRva004A9DF3Element@@PAV1@HH@Z @0x006CE620 5B: cdecl
+// forwards to the rowed array resizers 0x006CDBF0 / 0x006CE3D0.
+class AptValueNameEntry;
+class Rva004A9DF3Element;
+AptValueNameEntry *Rva006CDBF0Resize(AptValueNameEntry *items, int oldCount, int newCount);
+Rva004A9DF3Element *Rva006CE3D0Resize(Rva004A9DF3Element *items, int oldCount, int newCount);
+AptValueNameEntry *Rva006CE3C0(AptValueNameEntry *items, int oldCount, int newCount)
+{
+	return Rva006CDBF0Resize(items, oldCount, newCount);
+}
+Rva004A9DF3Element *Rva006CE620(Rva004A9DF3Element *items, int oldCount, int newCount)
+{
+	return Rva006CE3D0Resize(items, oldCount, newCount);
+}

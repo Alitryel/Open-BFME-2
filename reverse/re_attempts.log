@@ -56471,3 +56471,8 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ?rva00584D50@Rva00584D50@@QBEHABV1@@Z	0x00584D50	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; deque iterator difference via rowed _M_subtract 0x004218A5
 ?rva005D7357@Rva005D7357@@QBEIXZ	0x005D7357	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; tail jump to rowed hash_map int int bucket_count 0x002BEDAB
 ??6?$basic_ostream@DV?$char_traits@D@_STL@@@_STL@@QAEAAV01@H@Z	0x0055C0D2	15	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/stlport_narrow_ostream_put_num.cpp 15B; STLport ostream operator<<(int) from the explicit basic_ostream<char> instantiation; forwards long to rowed _M_put_num 0x0055C000 (operator<<(long) has identical bytes)
+?rva0052B488@Rva0052B488@@QAEHPBD@Z	0x0052B488	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; tail jump to rowed XferSave rva0060D435 on member at +0
+?Rva005676FB@@YAPAXPAVGameWindow@@@Z	0x005676FB	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; cdecl tail jump to rowed GadgetButtonGetData
+?Rva005BE344@@YAPAHPAHHPBH@Z	0x005BE344	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; cdecl tail jump to rowed rva499ed0 0x005BE225
+?Rva006CE3C0@@YAPAVAptValueNameEntry@@PAV1@HH@Z	0x006CE3C0	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 5B; cdecl tail jump to rowed resizer 0x006CDBF0
+?Rva006CE620@@YAPAVRva004A9DF3Element@@PAV1@HH@Z	0x006CE620	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 5B; cdecl tail jump to rowed resizer 0x006CE3D0

@@ -1400,3 +1400,39 @@ unsigned int Rva005D7357::rva005D7357() const
 {
 	return m_map.bucket_count();
 }
+
+// ?rva0052B488@Rva0052B488@@QAEHPBD@Z @0x0052B488 5B: rowed
+// XferSave::rva0060D435 0x0060D435 on the saver at +0 (a tail jump).
+class XferSave
+{
+public:
+	int rva0060D435(const char *name);
+};
+class Rva0052B488
+{
+public:
+	int rva0052B488(const char *name);
+private:
+	XferSave m_xfer;
+};
+int Rva0052B488::rva0052B488(const char *name)
+{
+	return m_xfer.rva0060D435(name);
+}
+
+// ?Rva005676FB@@YAPAXPAVGameWindow@@@Z @0x005676FB 5B: cdecl forward to the
+// rowed GadgetButtonGetData 0x00327D56.
+class GameWindow;
+void *GadgetButtonGetData(GameWindow *window);
+void *Rva005676FB(GameWindow *window)
+{
+	return GadgetButtonGetData(window);
+}
+
+// ?Rva005BE344@@YAPAHPAHHPBH@Z @0x005BE344 5B: cdecl forward to the rowed
+// rva499ed0 0x005BE225 with the same arguments.
+int *rva499ed0(int *dest, int count, const int *value);
+int *Rva005BE344(int *dest, int count, const int *value)
+{
+	return rva499ed0(dest, count, value);
+}
