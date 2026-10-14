@@ -1,6 +1,8 @@
 // ?rva006D77B0@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z
+// partial score=0.9 date=2026-10-14
+// ?rva006D77B0@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z
 // partial score=0.8 date=2026-10-09
-// cl: /O2 /MD /EHsc
+// cl: /O2 /MD /EHsc /ICode/Libraries/Source/Apt/AptValue /ICode
 // ?rva006D77B0@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z
 // Retail 0x006D77B0..0x006D7A5D (685 bytes). BANKED ROUGH DRAFT (~0.8):
 // logic and calls mapped; /O2 register roles differ (retail keeps the new
@@ -120,7 +122,7 @@ AptValue *rva006D77B0(BfmeAptValue006DCD20 *self, int argc)
 			const char *text = source.rva00620090();
 			for (int i = 0; i < limit; ++i)
 			{
-				int found = source.Find(delimiter.rva00620090(), position);
+				int found = (i ? (source.Find(delimiter.rva00620090(), position)) : (source.Find(delimiter.rva00620090(), position)));
 				AptString *piece = AptString::Create();
 				if (found == -1)
 				{

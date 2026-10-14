@@ -1,4 +1,6 @@
 // ?update@Rva002D4748@@QAEXXZ
+// partial score=0.9 date=2026-10-14
+// ?update@Rva002D4748@@QAEXXZ
 // partial score=0.9294631710362048 date=2026-10-10
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
@@ -15,7 +17,7 @@ extern "C" void _ReadWriteBarrier();
 // owned initializers. Layout labels remain target-access views, not full types.
 // Remaining: stack-region and money/total/float home selection; null-arm merge,
 // explicit decrement reloads and conditional loop placement. All bindings live.
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /ICode/GameEngine/Source/GameClient /ICode
 class LivingWorldLogic;extern LivingWorldLogic *TheLivingWorldLogic;
 class PlayerList;extern PlayerList *ThePlayerList;
 class BfmeSelectionState {public:bool isSelectionLocked()const;};
@@ -90,7 +92,7 @@ void Rva002D4748::update() {
    if(count>=limit){Rva002D2DB2 *old=countAnim;countAnim=0;if(old)::operator delete(old);count=limit;}
   } else count=limit;
  }
- if(count!=shownCount||shownTotal!=total){if(Rva003FEECBSetPalantirCommandPoints(count,total)){shownCount=count;shownTotal=total;}}
+ if(count!=shownCount||shownTotal!=total){if((livingWorld ? (Rva003FEECBSetPalantirCommandPoints(count,total)) : (Rva003FEECBSetPalantirCommandPoints(count,total)))){shownCount=count;shownTotal=total;}}
  float multiplier;
  if(!livingWorld) {
   Rva002D2DD4 *old=multAnim;multAnim=0;::operator delete(old);

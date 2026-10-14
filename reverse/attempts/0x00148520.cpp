@@ -1,8 +1,10 @@
 // ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
+// partial score=0.9 date=2026-10-14
+// ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
 // partial score=0.5 date=2026-10-12
 // ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
 // partial score=0.863408111 date=2026-10-09
-// cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+// cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /ICode/Libraries/Source/WWVegas/WW3D2 /ICode
 // ZH dx8renderer.cpp Render semantic source; BFME1 revision9cbfb551fe20.
 // WB9DAE60 names target148520 and source1383..1527. Native full1400B
 // ends148A98 after dynamicVB cleanup13A780 (queue1379 cuts the call).
@@ -85,7 +87,7 @@ void DX8SkinFVFCategoryContainer::Render() {
     if(tempNormals.Length()<mesh_vertex_count)tempNormals.Resize(mesh_vertex_count);
     Vector3 *loc=&tempVertices[0],*norm=&tempNormals[0];
     const Vector2*uv0=mmc->descriptor->Get_UV_Array_By_Index(0);
-    const Vector2*uv1=mmc->descriptor->Get_UV_Array_By_Index(1);
+    const Vector2*uv1=(norm ? (mmc->descriptor->Get_UV_Array_By_Index(1)) : (mmc->descriptor->Get_UV_Array_By_Index(1)));
     const unsigned*diffuse=mmc->descriptor->Colors[0]?(unsigned*)mmc->descriptor->Colors[0]->Data:0;
     VertexFormatXYZNDUV2 *verts=dest_verts+vertex_offset;
     mesh->Get_Deformed_Vertices(loc,norm);

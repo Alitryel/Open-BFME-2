@@ -1,7 +1,9 @@
 // ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
+// partial score=0.9 date=2026-10-14
+// ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.9189885324707414 date=2026-10-13
 // ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
-// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common
+// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common /ICode
 // BF1 cee35b7d8 Locomotor.cpp handleBehaviorZ and clean ZH Locomotor.cpp2220
 // are the semantic guide. Native1E7ECA..1E84C1 is1527B plus36B jump table;
 // nine-case routing independently read:0 ground 1 sea 2/3 dynamic 4/5 fixed
@@ -91,7 +93,7 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal){
   Object*entry;while((entry=result.next())!=0){float h=((GeometryInfo*)((char*)entry+0xa8))->getMaxHeightAbovePosition();if(h>highest)highest=h;}
   pos.z=height48+highest;setTranslation(pos);break;
  }
- case 7:{requires=true;if(height48!=0.0f || (bool)((flags44>>3)&1)){
+ case 7:{requires=true;if(height48!=0.0f || (object ? ((bool)((flags44>>3)&1)) : ((bool)((flags44>>3)&1)))){
   int layer=object->rva0028B511();if(layer==1)layer=TheTerrainLogic->getHighestLayerForDestination((const Coord3D*)&pos,0);
   Coord3D &normal=work.normal;float preferred=((LocoTerrainView*)TheTerrainLogic)->layer(pos.x,pos.y,layer,&normal,false)+height48;
   if((bool)((flags44>>3)&1))preferred=goal->z;

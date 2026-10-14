@@ -1,6 +1,8 @@
 // ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
+// partial score=0.9 date=2026-10-14
+// ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
 // partial score=0.78 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common /ICode
 // stlport
 //
 // ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
@@ -288,7 +290,7 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 					}
 					else if (view.charAt(j) == 'm')
 					{
-						piece.format(L"%02d", seconds / 60 % 60);
+						piece.format(L"%02d", seconds / (series ? (60 % 60) : (60 % 60)));
 						text += piece;
 					}
 					else if (view.charAt(j) == 'h')

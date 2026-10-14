@@ -53803,3 +53803,13 @@ FXShaderGeometry::Init	0x0018C84E	2333	blocked	Cold 2333B with 5421B WB; 69 call
 ?v4@Made002CC5E1@@UAEXPAX0@Z	0x00507A04	435	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/Made002CC5E1Rva00507A04.cpp 435B
 ?rva003E59B0@ScriptConditions@@QAE_NPBVAsciiString@@0PAVParameter@@_N@Z	0x003E59B0	313	landed	add_match verified Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions_rva003E59B0.cpp 313B
 ?rva002D937E@Image@@QAEXXZ	0x002D937E	217	landed	add_match verified Code/GameEngine/Source/GameClient/System/ImageRva002D937E.cpp 217B
+?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z	0x0051eed7	2048	partial	70/2048 eq4x equal-arm only; large structural residue remains score=0.9 stash=reverse/attempts/0x0051eed7.cpp
+?Render@DX8SkinFVFCategoryContainer@@UAEXXZ	0x00148520	1400	partial	83/1400 eq4x equal-arm only; prologue/reg-save residue from +0x1B score=0.9 stash=reverse/attempts/0x00148520.cpp
+?update@SlavedUpdate@@UAE?AW4UpdateSleepTime@@XZ	0x004a265e	1395	partial	13/1395: v/pinnedPosition 12B locals swapped slots (ours -0x2c/-0x38, retail -0x38/-0x2c) score=0.9 stash=reverse/attempts/0x004a265e.cpp
+?update@Rva002D4748@@QAEXXZ	0x002d4748	801	partial	22/801: percent in ebx vs retail edi; lastPercent cached vs reloaded score=0.9 stash=reverse/attempts/0x002d4748.cpp
+?onExit@SpecialAbilityUpdate@@MAEX_N0@Z	0x004502ce	871	partial	40/871: eq4x equal-arm only score=0.9 stash=reverse/attempts/0x004502ce.cpp
+?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z	0x000d08c3	625	partial	36/625: eq4x equal-arm only score=0.9 stash=reverse/attempts/0x000d08c3.cpp
+?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z	0x001e7eca	1563	partial	71/1563: eq4x equal-arm only score=0.9 stash=reverse/attempts/0x001e7eca.cpp
+?rva006D77B0@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z	0x006d77b0	685	partial	41/685: eq4x equal-arm only score=0.9 stash=reverse/attempts/0x006d77b0.cpp
+?rva005C674A@Rva005C674A@@QAEXXZ	0x005c674a	758	partial	78/758: eq4x equal-arm only score=0.9 stash=reverse/attempts/0x005c674a.cpp
+_LoopDeringBlock	0x001d8b40	655	partial	64/655: eq4x equal-arm only score=0.9 stash=reverse/attempts/0x001d8b40.cpp

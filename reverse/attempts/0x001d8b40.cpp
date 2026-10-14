@@ -1,10 +1,12 @@
 // _LoopDeringBlock
+// partial score=0.9 date=2026-10-14
+// _LoopDeringBlock
 // partial score=0.867 date=2026-10-13
 // _LoopDeringBlock
 // partial score=0.867078825347759 date=2026-10-12
 // _LoopDeringBlock
 // partial score=0.8670788253477589 date=2026-10-10
-// cl: /O2 /DNDEBUG /MD
+// cl: /O2 /DNDEBUG /MD /ICode/Libraries/Source/VP6 /ICode
 // Clean-Room: reverse/vp6_cleanroom/specs/001d8b40.md
 // Only the approved spec, retail, and existing BFME2 repo code/history were read.
 // Complete cdecl five-argument leaf, retail 1D8B40..1D8DCF, RET at 1D8DCE.
@@ -51,7 +53,7 @@ extern "C" void LoopDeringBlock(Vp6LoopFilterInstance *context,unsigned char *bu
         }
         scan+=stride-width;
     }
-    high=context->deringThreshold[maximum];
+    high=(threshold ? (context->deringThreshold[maximum]) : (context->deringThreshold[maximum]));
     level=context->deringThreshold[255-minimum];
     if(level<=high)level=high;
     threshold=(int)level+((maximum-minimum)>>5);

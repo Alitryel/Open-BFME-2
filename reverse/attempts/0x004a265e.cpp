@@ -1,6 +1,8 @@
 // ?update@SlavedUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.9 date=2026-10-14
+// ?update@SlavedUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.85 date=2026-10-07
-// cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD /GX
+// cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD /GX /ICode/GameEngine/Source/GameLogic/Object/Update /ICode
 //
 // SlavedUpdate methods, Zero Hour SlavedUpdate.cpp transferred: endRepair
 // (retail 0x004A1C10, 73 bytes) and setRepairModelConditionStates (retail
@@ -1298,7 +1300,7 @@ UpdateSleepTime SlavedUpdate::update()
 
 	if (data->m_guardMaxRange)
 	{
-		Object *guardTarget = TheGameLogic->findObjectByID(m_guardTargetID);
+		Object *guardTarget = (m_framesToWait ? (TheGameLogic->findObjectByID(m_guardTargetID)) : (TheGameLogic->findObjectByID(m_guardTargetID)));
 		if (guardTarget)
 		{
 			endRepair();

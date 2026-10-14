@@ -1,6 +1,8 @@
 // ?rva005C674A@Rva005C674A@@QAEXXZ
+// partial score=0.9 date=2026-10-14
+// ?rva005C674A@Rva005C674A@@QAEXXZ
 // partial score=0.820314917892695 date=2026-10-11
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /ICode/Libraries/Include/Lib
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /ICode/Libraries/Include/Lib /ICode/Libraries/Source/WWVegas/WWLib /ICode
 // stlport
 #include <map>
 #include <math.h>
@@ -55,7 +57,7 @@ void Rva005C674A::rva005C674A(){
   RadialIntPoint extent;
   extent.x=(int)(((float)size.x-1.0f)*(scale>1.0f?1.0f:scale)+1.0f);
   extent.y=(int)(((float)size.y-1.0f)*(scale>1.0f?1.0f:scale)+1.0f);
-  float distance=((float)radius-0.1f)*scale+0.1f;
+  float distance=(elapsed ? (((float)radius-0.1f)) : (((float)radius-0.1f)))*scale+0.1f;
   int x=(int)((float)center.x+dir.x*distance);
   int y=(int)((float)center.y+dir.y*distance);
   _STL::map<int,int>::iterator b=buttons.find(i);

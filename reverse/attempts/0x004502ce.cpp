@@ -1,8 +1,10 @@
 // ?onExit@SpecialAbilityUpdate@@MAEX_N0@Z
+// partial score=0.9 date=2026-10-14
+// ?onExit@SpecialAbilityUpdate@@MAEX_N0@Z
 // partial score=0.98 date=2026-10-11
 // ?onExit@SpecialAbilityUpdate@@MAEX_N0@Z
 // partial score=0.98 date=2026-10-08
-// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD
+// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /ICode/GameEngine/Source/GameLogic/Object/Update /ICode
 // SpecialAbilityUpdate.cpp: bodies retail links from this TU (tu_map approved),
 // folded from three split units with these exact flags. The two
 // address-named helper classes keep their names (their rows are mangled with
@@ -498,7 +500,7 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 			{
 				a->vslot43(target, data->m_2C, obj);
 				float value = c->vslot05() * 100.0f + data->m_30;
-				if (value > 100.0f)
+				if ((data->m_28 ? (value > 100.0f) : (value > 100.0f)))
 					value = 100.0f;
 				c->vslot21(value, 0);
 				obj->setSpecialModelConditionState(data->m_24, data->m_28);

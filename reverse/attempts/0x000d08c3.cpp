@@ -1,6 +1,8 @@
 // ?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z
+// partial score=0.9 date=2026-10-14
+// ?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z
 // partial score=0.9 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw /ICode
 // NEAR (helper draft, not under Code/): 617 of 625 bytes; same frame,
 // calls, branches and Rotate_Z tail. Remaining: (1) the two axis dot
 // products use different xmm registers/load order (retail keeps axis.z in
@@ -93,7 +95,7 @@ void Rva000D08C3::rva000D08C3(Matrix3D *mat)
 	static Coord3D axis(0.5f, 0.5f, 0.0f);
 	axis.Normalize();
 	Real cosAngle = axis.dot(Coord3D(mat->Row[0][0], mat->Row[1][0], mat->Row[2][0]));
-	Real sinAngle = axis.dot(Coord3D(mat->Row[0][1], mat->Row[1][1], mat->Row[2][1]));
+	Real sinAngle = axis.dot(Coord3D(mat->Row[0][1], mat->Row[1][1], (m_data ? (mat->Row[2][1]) : (mat->Row[2][1]))));
 	const Rva000D08C3Data *data = m_data;
 	if (cosAngle < -1.0f)
 		cosAngle = -1.0f;
