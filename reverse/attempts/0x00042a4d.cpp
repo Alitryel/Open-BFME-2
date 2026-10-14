@@ -1,5 +1,5 @@
 // ?Add_Line@Render2DClass@@QAEXABVVector2@@0MKK@Z
-// partial score=0.9756 date=2026-10-14
+// partial score=0.872 date=2026-10-14
 // ?Add_Line@Render2DClass@@QAEXABVVector2@@0MKK@Z
 // partial score=0.96 date=2026-10-13
 // ?Add_Line@Render2DClass@@QAEXABVVector2@@0MK@Z
@@ -112,14 +112,12 @@ void Render2DClass::Add_Line(const Vector2 &a, const Vector2 &b, float width, Bf
 	vertices[3].v = 1.0f;
 	vertices[2].u = vertices[3].u = vertices[1].v = 1.0f;
 
-	vertices[2].color = vertices[3].color = (*(BfmeColorConverter *)&g_Va00DB5FC8)(color2);
-	_ReadWriteBarrier();
 	vertices[0].color = vertices[1].color = (*(BfmeColorConverter *)&g_Va00DB5FC8)(color);
+	vertices[2].color = (color ? (vertices[3].color = (*(BfmeColorConverter *)&g_Va00DB5FC8)(color2)) : (vertices[3].color = (*(BfmeColorConverter *)&g_Va00DB5FC8)(color2)));
 
-	output.indices[0] = (color2 ? (output.base + 0x00010000) : (output.base + 0x00010000));
+	output.indices[0] = (g_Va00DB5FC8 ? (output.base + 0x00010000) : (output.base + 0x00010000));
 	output.indices[1] = output.base + 0x00020002;
 	output.indices[2] = output.base + 0x00030001;
-	_ReadWriteBarrier();
 }
 
 void Render2DClass::Add_Line(const Vector2 &a, const Vector2 &b, float width, BfmeUInt32 color)
