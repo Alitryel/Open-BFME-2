@@ -325,14 +325,14 @@ int Rva00528232::rva00528232(int index) const
 	return m_DC[index];
 }
 
-// --- 0x00529B4E (19B, cdecl): the object's rowed 0x00290E67 text, empty
-// without the object.
-const char *Rva00529B4E(ObjectID id)
+// --- 0x00529B4E (32B, cdecl): the object's rowed 0x00290E67 string, else
+// the exported AsciiString::TheEmptyString (0x00DE0878) without the object.
+const AsciiString *Rva00529B4E(ObjectID id)
 {
 	Object *object = TheGameLogic->findObjectByID(id);
 	if (object)
-		return (const char *)object->rva00290E67();
-	return "";
+		return object->rva00290E67();
+	return &AsciiString::TheEmptyString;
 }
 
 // --- 0x0052D24B (18B): copy of a holder of the rowed 0x004334D7 vector.
