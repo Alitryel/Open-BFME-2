@@ -5,7 +5,7 @@
 // an XML-attributes writer. The base recipe is the rowed Rva006D6500
 // construction in Code/Libraries/Source/Apt/Rva006D6360Ctor.cpp; the writer's
 // callees are all pinned (isXmlAttributes 0x006DBEC0, rva006DD2A0 0x006DD2A0,
-// isString 0x006DC0D0, rva006DCE50 0x006DCE50, EAStringC 0x00620090). Class and
+// isString 0x006DC0D0, checkedString 0x006DCE50, EAStringC 0x00620090). Class and
 // method names are this image's addresses; nothing here names the real types.
 
 class Rva00711380AptBase
@@ -72,18 +72,15 @@ public:
 	int isXmlAttributes() const;
 	int isString() const;
 	BfmeAptValue006DCD20 *rva006DD2A0();
+	// 0x006DCE50, rowed in Apt/AptValue/Rva006DCE50Finish.cpp: the value's
+	// string payload.
+	BfmeAptValue006DCD20 *checkedString();
 
 private:
 	char m_pad[0x1C];		// +0x04..+0x1F
 
 public:
 	Rva007113B0Container *m_20;	// +0x20
-};
-
-class Rva006DCE50Opaque
-{
-public:
-	void *rva006DCE50();
 };
 
 class EAStringC
@@ -99,8 +96,8 @@ bool __stdcall Rva007113B0(BfmeAptValue006DCD20 *target, const EAStringC *key, B
 		BfmeAptValue006DCD20 *attributes = target->rva006DD2A0();
 
 		if (static_cast<unsigned char>(value->isString())) {
-			char *valueBuffer = static_cast<char *>(
-				reinterpret_cast<Rva006DCE50Opaque *>(value)->rva006DCE50());
+			char *valueBuffer = reinterpret_cast<char *>(
+				value->checkedString());
 
 			attributes->m_20->slot4(
 				key->rva00620090(),

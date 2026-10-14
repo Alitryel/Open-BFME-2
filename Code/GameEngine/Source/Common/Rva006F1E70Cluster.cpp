@@ -19,12 +19,9 @@ class BfmeAptValue006DCD20
 {
 public:
 	int isString() const;
-};
-
-class Rva006DCE50Opaque
-{
-public:
-	void *rva006DCE50();
+	// 0x006DCE50, rowed in Apt/AptValue/Rva006DCE50Finish.cpp: the value's
+	// string payload.
+	BfmeAptValue006DCD20 *checkedString();
 };
 
 class EAStringC
@@ -86,7 +83,7 @@ Rva006F1E70::Rva006F1E70(BfmeAptValue006DCD20 *argument0)
 	}
 	void *value;
 	if ((unsigned char)argument0->isString()) {
-		void *data = ((Rva006DCE50Opaque *)argument0)->rva006DCE50();
+		void *data = argument0->checkedString();
 		value = gpAptXmlImpl->slot0(((EAStringC *)((char *)data + 8))->rva00620090());
 	} else {
 		value = gpAptXmlImpl->slot0(0);

@@ -11745,8 +11745,6 @@ name,address,notes
 ?rva006D9500@BfmeAptValue006DCD20@@QAEXH@Z,0x006D9500,Apt array capacity resize (allocateBlock-freeBlock grow) address-derived pin
 ?rva006DAFE0@Rva006DB160@@QAEPAXI@Z,0x006DAFE0,"address read from the retail REL32 at 0x006DB1AF in DOGMA allocBlock 0x006DB160; free-list allocate for a size whose list head is non-null; thiscall (rounded size), ret 4"
 ?rva006DCB20@Rva006E05B0@@QAEXXZ,0x006DCB20,address-derived member tail target reached from 0x006E05B0
-?rva006DCE50@AptValue@@QAEPAXXZ,0x006DCE50,"alias pin for ?rva006DCE50@Rva006DCE50Opaque@@QAEPAXXZ at the same address; the 0x006FD3F0 body reaches it through the AptValue class view so the call site spells the owning class; caller uses the returned pointer plus 8 as EAStringC storage; body remains unclaimed"
-?rva006DCE50@Rva006DCE50Opaque@@QAEPAXXZ,0x006DCE50,Direct call from AptValue::toInteger at 0x006DD390; Ghidra boundary 68B; caller uses returned pointer plus 8 as EAStringC storage; callee identity and layout remain unknown
 ?rva006DD460@BfmeAptValue006DCD20@@QAEMXZ,0x006DD460,Apt numeric conversion; both REL32 sites in native Math.pow callback 0x6E8990 read this target; original member name unproved
 ?rva006DD6C0@BfmeAptValue006DCD20@@QAEXAAVEAStringC@@@Z,0x006DD6C0,"address-derived AptValue-to-EAStringC converter (Ghidra FUN_00add6c0 1430B) called by 0x006D74E0 and 0x006D7C80; body unrowed; naming pin only"
 ?rva006DD6C0@BfmeAptValue006DCD20@@QAEXPAVEAStringC@@@Z,0x006DD6C0,"Apt EAStringC key builder called by the array sort 0x006DA0C0; unrowed 1430B body with SEH (blocked in re_attempts for 0x006DE400/0x006DE870); address-derived name"

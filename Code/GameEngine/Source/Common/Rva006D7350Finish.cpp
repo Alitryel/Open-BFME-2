@@ -13,6 +13,9 @@ class BfmeAptValue006DCD20
 {
 public:
 	int toInteger() const;
+	// 0x006DCE50, rowed in Apt/AptValue/Rva006DCE50Finish.cpp: the value's
+	// string payload.
+	BfmeAptValue006DCD20 *checkedString();
 };
 
 class AptBasePtrStack
@@ -23,11 +26,7 @@ public:
 
 extern AptBasePtrStack g_aptValueStackAtE182E0; // 0x00E182E0
 
-class Rva006DCE50Opaque
-{
-public:
-	void *rva006DCE50();
-};
+class Rva006DCE50Opaque;
 
 class Rva006D5E70String
 {
@@ -62,7 +61,7 @@ extern AptValue *gpUndefinedValue;	// 0x00E18078, the rowed AptBuiltinValues.cpp
 void *rva006D7350(Rva006DCE50Opaque *source)
 {
 	int index = g_aptValueStackAtE182E0.At(0)->toInteger();
-	void *data = source->rva006DCE50();
+	void *data = ((BfmeAptValue006DCD20 *)source)->checkedString();
 	Rva006D5E70String *str = (Rva006D5E70String *)((char *)data + 8);
 	if (index < 0) {
 		return (void *)gpUndefinedValue;
