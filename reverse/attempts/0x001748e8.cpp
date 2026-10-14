@@ -1,125 +1,157 @@
 // ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ
-// partial score=0.59397 date=2026-10-14
-// ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ
-// partial score=0.59397 date=2026-10-14
+// partial score=0.82 date=2026-10-15
 // cl: /O1 /G7 /MD /EHsc
 //
 // ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ, retail
-// 0x001748E8..0x00174A57 (367B, RET0, EH states 0-1). Sorts the 32-byte
-// rendering tasks by the landed comparator 0x001736A7, sums the byte sizes of
-// the tasks that claim an unclaimed +0x310 state pointer, then repeatedly
-// opens a DynamicVBAccessClass (0x13B040) + WriteLock (0x13AA00), skins each
-// task that fits the 0xFFFF budget through 0x173C04, and renders the batch
-// (0x17438B) after Set_Vertex_Buffer (0x11D5C0); the final clear is 0x174350.
-// Helper identities are rowed; only the skinning worker 0x173C04 keeps an
-// address-derived spelling.
-struct BfmeAssignRecord32 { char unknown[32]; };
-struct Rva0017368AMesh;
-struct Rva0017368ATask { Rva0017368AMesh *mesh; char unknown[28]; };
-struct RvaC4 { char unknown[0x28]; int m_28; };
+// 0x001748E8 (367B). WB 0x00A21A90 names it. Sorts the pending 32-byte
+// rendering tasks (+0x0C..+0x10) with the rowed comparator 0x001736A7,
+// sums the skinned vertex counts of the meshes that claim their shared
+// state (mesh +0x310), then fills dynamic vertex buffers of at most 0xFFFF
+// vertices batch by batch: each claiming mesh is skinned into the locked
+// buffer (0x00173C04) at its running offset, which every task's mesh
+// records at +0x300, the buffer is bound, the batch's tasks are rendered
+// (0x0017438B), and finally the task list is cleared (0x00174350).
+//
+// Evidence (target): every call (the rowed DynamicVBAccessClass, its
+// WriteLock and destructors, DX8Wrapper::Set_Vertex_Buffer, the existing
+// sort / render / clear spellings), the 0x2C-byte skinned vertex stride and
+// the mesh fields +0xC4 (+0x28 vertex count), +0x300, +0x310. The task and
+// mesh record names are address-derived.
+
+struct Rva0017368ATask;
+
+// The skinned mesh as the flush reads it.
+struct Rva0017368AMeshCounts
+{
+	char m_pad00[0x28];
+	int m_vertexCount; // +0x28
+};
 
 struct Rva0017368AMesh
 {
-	char unknown[0x300];
-	int m_300;				// +0x300
-	char unknown304[0x310 - 0x304];
-	unsigned *state310;			// +0x310
+	char m_pad000[0xC4];
+	Rva0017368AMeshCounts *m_counts; // +0xC4
+	char m_pad0C8[0x300 - 0xC8];
+	int m_vertexOffset;              // +0x300
+	char m_pad304[0x310 - 0x304];
+	Rva0017368AMesh **m_state;       // +0x310
+};
+
+struct Rva0017368ATask
+{
+	Rva0017368AMesh *mesh;
+	char unknown[28];
 };
 
 unsigned Rva001736A7Compare(const Rva0017368ATask &a, const Rva0017368ATask &b);
-
-// Rowed: ?sort@_STL@@YAXPAUBfmeAssignRecord32@@0P6A_NABU1@0@Z@Z
-void __cdecl rva00174870(BfmeAssignRecord32 *begin, BfmeAssignRecord32 *end, void *compare);
+void rva00174870(int begin, int end, int compare);
 
 class DynamicVBAccessClass
 {
 public:
+	DynamicVBAccessClass(unsigned type, unsigned format_index, unsigned short vertex_count, unsigned declaration);
+	~DynamicVBAccessClass();
+
 	class WriteLock
 	{
 	public:
 		WriteLock(DynamicVBAccessClass *vb);
 		~WriteLock();
-		void *m_data;			// +0x04
-		char m_pad08[0x0C];
+		void *Get_Data() const { return m_data; }
+	private:
+		DynamicVBAccessClass *m_owner;
+		void *m_data;
+		int m_guard;
 	};
-	DynamicVBAccessClass(unsigned a, unsigned b, unsigned short count, unsigned flag);
-	~DynamicVBAccessClass();
-	char m_pad[0x2C];
+
+private:
+	const void *m_format;
+	unsigned m_type, m_formatIndex, m_declaration;
+	unsigned short m_vertexCount, m_vertexOffset;
+	void *m_buffer;
 };
 
-class Rva0017438B { public: void rva0017438B(int begin, int end); };	// 0x17438B
-class Rva00DF6F94GapFillerContext { public: void rva00174350(); };	// 0x174350
-class DX8Wrapper { public: static void Set_Vertex_Buffer(const DynamicVBAccessClass &vb); };
-
-class Rva00174A57
+class DX8Wrapper
 {
 public:
-	void rva00174A57();
-	char m_pad00[0x0C];
-	int m_start;				// +0x0C
-	int m_finish;				// +0x10
+	static void Set_Vertex_Buffer(const DynamicVBAccessClass &vb);
 };
 
-class FXShaderRenderer : public Rva0017438B, public Rva00DF6F94GapFillerContext,
-	public Rva00174A57
+class Rva0017438B { public: void rva0017438B(int begin, int end); };
+class Rva00DF6F94GapFillerContext { public: void rva00174350(); };
+
+class FXShaderRenderer
 {
 public:
 	void FlushSoftwareSkinnedRenderingTasks();
-	void rva00173C04(Rva0017368AMesh *mesh, void *offset);
+	void rva00173C04(Rva0017368AMesh *mesh, void *vertices);
+private:
+	char m_pad00[0x0C];
+	// The pending task list (an STLport vector of 32-byte tasks).
+	struct TaskList
+	{
+		bool empty() const { return m_begin == m_end; }
+		Rva0017368ATask *begin() const { return m_begin; }
+		Rva0017368ATask *end() const { return m_end; }
+		Rva0017368ATask *m_begin;
+		Rva0017368ATask *m_end;
+	} m_tasks; // +0x0C
 };
 
+// ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ @0x001748E8
 void FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks()
 {
-	BfmeAssignRecord32 *begin = (BfmeAssignRecord32 *)m_start;
-	BfmeAssignRecord32 *end = (BfmeAssignRecord32 *)m_finish;
-	if (begin == end)
+	if (m_tasks.empty())
 		return;
 
-	rva00174870(begin, end, &Rva001736A7Compare);
+	rva00174870((int)m_tasks.begin(), (int)m_tasks.end(), (int)&Rva001736A7Compare);
 
-	int total = 0;
-	BfmeAssignRecord32 *it;
-	for (it = begin; it != end; it = (BfmeAssignRecord32 *)((char *)it + 0x20))
+	int remaining = 0;
+	for (Rva0017368ATask *it = m_tasks.begin(); it != m_tasks.end(); ++it)
 	{
-		Rva0017368AMesh *mesh = *(Rva0017368AMesh **)it;
-		unsigned *state = mesh->state310;
-		if (state == 0 || *state == 0)
+		Rva0017368AMesh *mesh = it->mesh;
+		Rva0017368AMesh **state = mesh->m_state;
+		if (state)
 		{
-			if (state)
-				*state = (unsigned)mesh;
-			total += ((RvaC4 *)(*(void **)((char *)mesh + 0xc4)))->m_28;
+			if (*state)
+				continue;
+			*state = mesh;
 		}
+		remaining += mesh->m_counts->m_vertexCount;
 	}
 
-	BfmeAssignRecord32 *batch = begin;
-	while (batch != end)
+	for (Rva0017368ATask *batch = m_tasks.begin(); batch != m_tasks.end(); )
 	{
-		int budget = total > 0xffff ? 0xffff : total;
-
-		DynamicVBAccessClass vb(2, 5, (unsigned short)budget, 0);
-		DynamicVBAccessClass::WriteLock lock(&vb);
-		void *buffer = lock.m_data;
+		Rva0017368ATask *task = batch;
+		int budget = remaining;
+		if (budget > 0xFFFF)
+			budget = 0xFFFF;
 
 		int used = 0;
-		for (it = batch; it != end; it = (BfmeAssignRecord32 *)((char *)it + 0x20))
+		DynamicVBAccessClass vb(2, 5, (unsigned short)budget, 0);
 		{
-			Rva0017368AMesh *mesh = *(Rva0017368AMesh **)it;
-			unsigned *state = mesh->state310;
-			int oldUsed = used;
-			if (state == 0 || (unsigned)mesh == *state)
+			DynamicVBAccessClass::WriteLock lock(&vb);
+			char *vertices = (char *)lock.Get_Data();
+			int offset = 0;
+			for (; task != m_tasks.end(); ++task)
 			{
-				int size = ((RvaC4 *)(*(void **)((char *)mesh + 0xc4)))->m_28;
-				if (used + size > budget)
-					break;
-				rva00173C04(mesh, (char *)buffer + used * 0x2c);
-				used += size;
+				Rva0017368AMesh *mesh = task->mesh;
+				Rva0017368AMesh **state = mesh->m_state;
+				if (state == 0 || mesh == *state)
+				{
+					if (mesh->m_counts->m_vertexCount + used > budget)
+						break;
+					rva00173C04(mesh, vertices + used * 0x2C);
+					offset = used;
+					used += mesh->m_counts->m_vertexCount;
+				}
+				mesh->m_vertexOffset = offset;
 			}
-			mesh->m_300 = oldUsed;
+			remaining -= used;
 		}
-		total -= used;
 		DX8Wrapper::Set_Vertex_Buffer(vb);
-		rva0017438B((int)batch, (int)it);
-		batch = it;
+		((Rva0017438B *)this)->rva0017438B((int)batch, (int)task);
+		batch = task;
 	}
-	rva00174350();
+	((Rva00DF6F94GapFillerContext *)this)->rva00174350();
 }
