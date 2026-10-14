@@ -43,7 +43,7 @@ private:
 void Rva0059E242::rva0059DF60()
 {
     if (m_14->m_10.referent != 0) {
-        BfmeEventPositionView position(0.0f, 0.0f, 0.0f);
+        BfmeEventPositionView position;
         position.x = m_18;
         position.y = m_1c;
         position.z = m_20;
