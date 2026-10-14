@@ -18,16 +18,8 @@ enum StateReturnType
 	STATE_SUCCESS = -1,
 	STATE_FAILURE = -2
 };
-struct Coord3D
-{
-	Real x, y, z;
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../Libraries/Include/Lib/Coord3DInline.h"
 class StateMachine;
 class Xfer;
 class State

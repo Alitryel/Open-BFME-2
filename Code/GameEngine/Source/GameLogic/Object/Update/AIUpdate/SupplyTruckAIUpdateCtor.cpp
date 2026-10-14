@@ -29,11 +29,8 @@ typedef unsigned int UnsignedInt;
 enum ObjectID { INVALID_ID = 0 };
 typedef float Real;
 
-struct Coord3D
-{
-	Real x, y, z;
-	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 struct AIBase00 { virtual void f00(); const ModuleData *m_moduleData; Object *m_object; };
 struct AIBase0C { virtual void f0C(); };

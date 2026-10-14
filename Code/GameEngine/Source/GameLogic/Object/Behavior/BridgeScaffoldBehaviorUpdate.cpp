@@ -14,16 +14,8 @@
 
 typedef float Real;
 
-// class-gate: allow Coord3D the canonical data-only header cannot declare ZH's inline set(const Coord3D *) that update copies the direction through (explicit member copies compile to 529B, set() to retail's 534B); normalize/length stay the out-of-line 0x000035B6/0x00003571; same three floats
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-	Real length() const;
-	void normalize();
-	void set( const Coord3D *other ) { x = other->x; y = other->y; z = other->z; }
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 enum UpdateSleepTime
 {

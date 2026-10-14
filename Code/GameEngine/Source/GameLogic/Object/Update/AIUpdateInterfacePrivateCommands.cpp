@@ -158,14 +158,8 @@ enum WeaponSlotType
 };
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-struct Coord3D
-{
-	float x, y, z;
-
-	void set(const Coord3D *other) { x = other->x; y = other->y; z = other->z; }
-	void sub(const Coord3D *other) { x -= other->x; y -= other->y; z -= other->z; }
-	float length() const;						///< matched 0x00003571
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 // Reuse the verified Coord3D push-back specialization at2CE7DC.
 namespace _STL { template<> void vector<Coord3D>::push_back(const Coord3D&); }

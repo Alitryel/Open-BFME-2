@@ -50,11 +50,8 @@ struct Rva004F04FCAI
 };
 extern class AI *TheAI;
 
-struct Coord3D
-{
-	float x, y, z;
-	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 class TeamInQueue;
 

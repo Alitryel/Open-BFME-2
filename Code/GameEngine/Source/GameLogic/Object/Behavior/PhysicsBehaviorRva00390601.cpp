@@ -9,13 +9,8 @@ struct Gen_p12pod
 	int a[3];
 };
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 // Existing retail callee name; this is the PhysicsBehavior receiver at
 // 003909FA. Its original method identity is still unresolved.

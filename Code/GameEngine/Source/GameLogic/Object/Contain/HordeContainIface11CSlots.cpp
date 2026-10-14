@@ -63,17 +63,8 @@ bool less<int>::operator()(const int &a, const int &b) const
 // so its instance names (operator[] 0x00470041 and the folded callees it
 // reaches) stay placeholders.
 struct Rva00470041Less : public _STL::less<unsigned short> {};
-struct Coord3D
-{
-	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
-	void add(const Coord3D *a) { x += a->x; y += a->y; z += a->z; }
-	void scale(float s) { x *= s; y *= s; z *= s; }
-	float Normalize();
-	float GetLengthEstimate2D() const;
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 #include "../../../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
 // The float triple whose length is the address-owned copy 0x00003571.
 class Rva0055A627Difference

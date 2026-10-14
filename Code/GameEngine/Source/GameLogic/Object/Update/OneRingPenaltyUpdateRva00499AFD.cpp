@@ -20,19 +20,8 @@
 typedef float Real;
 typedef int Int;
 
-// class-gate: allow Coord3D inline member-wise set() is the copy retail inlines; the canonical header declares set out of line
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-	void set(const Coord3D *other)
-	{
-		x = other->x;
-		y = other->y;
-		z = other->z;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 class ThingTemplate;
 class Team;

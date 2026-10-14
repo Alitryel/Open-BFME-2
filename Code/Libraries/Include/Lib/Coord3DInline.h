@@ -1,0 +1,37 @@
+// Coord3D with Zero Hour's header-inline arithmetic: opt-in companion to Coord3D.h.
+//
+// In Zero Hour's Coord3D the small mutators (zero, set, add, sub, scale) are defined in the class,
+// so retail units that call them carry the stores in place. The canonical Coord3D.h declares them
+// out of line (their owner rows live in coord3d.cpp) and its dependents match against that, so a
+// unit whose bytes show the inline stores includes this header INSTEAD of Coord3D.h, before
+// anything else that includes it: it takes Coord3D.h's include guard. The type stays a POD triple;
+// only the bodies below differ from the canonical declaration set. Inline members that a unit
+// never calls are not emitted.
+#ifndef CANONICAL_COORD3D_H
+#define CANONICAL_COORD3D_H
+
+struct Coord3D {
+    float x;
+    float y;
+    float z;
+    float length() const;
+    void normalize();
+    bool operator==(const Coord3D &r);
+    float GetLengthSqrd() const;
+    float GetLength() const;
+    float GetLengthEstimate2D() const;
+    float GetLength2D() const;
+    float Normalize();
+    float operator*(const struct Coord3DBase &r) const;
+    void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
+    void set(float ax, float ay, float az) { x = ax; y = ay; z = az; }
+    void set(const struct Coord3DBase *p);
+    void set(const Coord3D *p) { x = p->x; y = p->y; z = p->z; }
+    void add(const Coord3D *p) { x += p->x; y += p->y; z += p->z; }
+    void sub(const Coord3D *p) { x -= p->x; y -= p->y; z -= p->z; }
+    void scale(float s) { x *= s; y *= s; z *= s; }
+    bool equals(const struct Coord3DBase &that) const;
+    float GetLengthEstimate() const;
+};
+
+#endif // CANONICAL_COORD3D_H

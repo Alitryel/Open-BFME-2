@@ -117,13 +117,8 @@ enum StateReturnType
 	STATE_SUCCESS = -1,
 	STATE_FAILURE = -2
 };
-struct Coord3D
-{
-	Real x, y, z;
-	Real GetLengthEstimate() const;
-	void set(const Coord3D *a) { x = a->x; y = a->y; z = a->z; }
-	void sub(const Coord3D *a) { x -= a->x; y -= a->y; z -= a->z; }
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../Libraries/Include/Lib/Coord3DInline.h"
 class Object;
 class AIUpdateInterface;
 class Rva0030B719Shape

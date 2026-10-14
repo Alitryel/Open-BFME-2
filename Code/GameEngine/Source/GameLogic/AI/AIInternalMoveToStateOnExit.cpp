@@ -92,11 +92,8 @@ private:
 	unsigned int m_words[19];
 };
 typedef bool Bool;
-struct Coord3D
-{
-	float x, y, z;
-	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../Libraries/Include/Lib/Coord3DInline.h"
 enum PathfindLayerEnum
 {
 	LAYER_INVALID = 0

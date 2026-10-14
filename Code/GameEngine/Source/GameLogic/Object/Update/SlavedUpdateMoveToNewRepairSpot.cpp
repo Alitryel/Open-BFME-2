@@ -13,18 +13,8 @@
 typedef int Int;
 typedef float Real;
 
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-	void set(const Coord3D *other)
-	{
-		x = other->x;
-		y = other->y;
-		z = other->z;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 enum ObjectID
 {

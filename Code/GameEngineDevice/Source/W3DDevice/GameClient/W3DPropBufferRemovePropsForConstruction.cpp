@@ -12,19 +12,8 @@
 typedef float Real;
 typedef bool Bool;
 
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-
-	void set(Real nx, Real ny, Real nz)
-	{
-		x = nx;
-		y = ny;
-		z = nz;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 struct Vector3
 {

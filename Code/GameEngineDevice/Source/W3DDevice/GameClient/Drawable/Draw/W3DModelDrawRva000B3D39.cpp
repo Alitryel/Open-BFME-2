@@ -16,26 +16,8 @@
 // slot 79 and records it in +0xBC/+0xC0, otherwise a new band is stored in
 // +0xC0 and pushed with rva00274176(false).
 
-// class-gate: allow Coord3D canonical header is data-only; this byte-verified
-// call uses the existing Coord3D::GetLengthEstimate thiscall at 0x00003ACE
-// (same reason as Rva0036A88A.cpp).
-struct Coord3D
-{
-	float x, y, z;
-	float GetLengthEstimate() const;
-	void set(const Coord3D *p)
-	{
-		x = p->x;
-		y = p->y;
-		z = p->z;
-	}
-	void sub(const Coord3D *p)
-	{
-		x -= p->x;
-		y -= p->y;
-		z -= p->z;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 template <int N> class Rva000B3D39Slots : public Rva000B3D39Slots<N - 1>
 {

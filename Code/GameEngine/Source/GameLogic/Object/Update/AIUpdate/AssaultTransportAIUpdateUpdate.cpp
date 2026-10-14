@@ -43,27 +43,8 @@ typedef float Real;
 class ModuleData;
 class Object;
 
-// class-gate: allow Coord3D the fighter centroid is built through the ZH zero() and add() members, which keep its dead stores in retail; the canonical data-only header cannot declare them; same three floats
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-
-	void add(const Coord3D *a)
-	{
-		x += a->x;
-		y += a->y;
-		z += a->z;
-	}
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 enum UpdateSleepTime
 {

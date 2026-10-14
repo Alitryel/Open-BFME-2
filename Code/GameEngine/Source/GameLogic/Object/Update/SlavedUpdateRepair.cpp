@@ -73,46 +73,8 @@ typedef float Real;
 typedef int Int;
 typedef bool Bool;
 
-// class-gate: allow Coord3D the Zero Hour inline members (zero/set/add/sub/scale)
-// and the out-of-line ?normalize@Coord3D@@QAEXXZ (0x000035B6) these bodies call;
-// the variant-data canonical header declares only the fields.
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-	void set(const Coord3D *p)
-	{
-		x = p->x;
-		y = p->y;
-		z = p->z;
-	}
-	void add(const Coord3D *a)
-	{
-		x += a->x;
-		y += a->y;
-		z += a->z;
-	}
-	void sub(const Coord3D *a)
-	{
-		x -= a->x;
-		y -= a->y;
-		z -= a->z;
-	}
-	void scale(Real s)
-	{
-		x *= s;
-		y *= s;
-		z *= s;
-	}
-	void normalize();
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 template <class NUM> inline NUM sqr(NUM x)
 {
