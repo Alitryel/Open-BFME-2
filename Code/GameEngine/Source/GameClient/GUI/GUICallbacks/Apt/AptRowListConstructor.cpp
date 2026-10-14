@@ -186,7 +186,7 @@ private:
 };
 
 // The 0x58-byte callback registry (as in BfmeAptGameWindowDestructor.cpp),
-// constructed by the pinned 0x002D2C34.
+// constructed by the rowed 0x002D2C34.
 class __declspec(novtable) Rva005248D0
 {
 public:

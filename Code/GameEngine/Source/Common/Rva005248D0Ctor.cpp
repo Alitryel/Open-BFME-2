@@ -26,8 +26,9 @@
 // over-button +0x1C, custom renders +0x34). The 24B +0x1C holder is the
 // stlport dual-vector object the 0x00524415 ctor row owns.
 //
-// The ledger pin ?rva002D2C34@Rva002D2C34@@QAEXXZ at this address is the
-// address-derived name 13 consumer units call; it is not renamed here.
+// Most consumer units call this constructor by name; the address-derived
+// pin ?rva002D2C34@Rva002D2C34@@QAEXXZ stays for the callers still spelling
+// it (AptRowListCallbacks.cpp, AptPalantirUpdate.cpp).
 
 class AptCommandMapAdder
 {
