@@ -89617,3 +89617,4 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva006BF9F0@Rva006BF9F0@@QAEXPAURva0087FDC0Element@@IABU2@@Z,,0x006BF9F0,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,tail jump to rowed vector _M_fill_insert 0x006BF800
 ?Rva005EA966@@YAPAMPAMHABH@Z,,0x005EA966,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed Rva005EA1B1Fill with same arguments
 ?Rva005EA5CE@@YAPAMPAMHABHABURva005EA5CETag@@@Z,,0x005EA5CE,21,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tagged four-argument fill dispatch to rowed Rva005EA1B1Fill
+?resize@BfmeVec60@@QAEXI@Z,,0x006BFE60,63,Code/GameEngine/Source/Common/System/GeometryParseType.cpp,matched,one-argument resize building default BfmeElem60 in argument slot then rowed resize 0x006BFCB0

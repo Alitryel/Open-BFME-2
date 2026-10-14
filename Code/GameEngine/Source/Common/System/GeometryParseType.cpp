@@ -76,6 +76,7 @@ class BfmeVec60
 {
 public:
 	void resize(unsigned int count, BfmeElem60 value) throw();
+	void resize(unsigned int count) throw();
 
 	BfmeElem60 *m_begin;
 	BfmeElem60 *m_end;
@@ -108,4 +109,12 @@ void GeometryInfo::parseGeometryType(INI *ini, void *, void *store, const void *
 	geometry->m_shapes.resize(1, BfmeElem60());
 	geometry->m_shapes.m_begin->m_type = type;
 	geometry->calcBoundingStuff();
+}
+
+// ?resize@BfmeVec60@@QAEXI@Z @0x006BFE60 63B: the one-argument resize, which
+// builds a default BfmeElem60 straight into the by-value argument slot and
+// calls the rowed two-argument resize 0x006BFCB0.
+void BfmeVec60::resize(unsigned int count) throw()
+{
+	resize(count, BfmeElem60());
 }
