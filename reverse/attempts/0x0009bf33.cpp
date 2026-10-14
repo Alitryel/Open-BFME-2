@@ -1,4 +1,11 @@
 // ?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z
+// partial score=0.561548 date=2026-10-14
+// ?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z
+template<class T> inline volatile T &__vref(T &x)
+{
+ return *(volatile T *)&x;
+ 
+}
 // partial score=0.559752 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG
 //
@@ -12,113 +19,179 @@
 typedef float Real;
 typedef int Int;
 typedef bool Bool;
+class Vector2 
 
-class Vector2 { public: Real X, Y; };
-class Vector3 { public: Real X, Y, Z; };
+{
+ public: Real X, Y;
+ 
+}
+;
+class Vector3 
 
+{
+ public: Real X, Y, Z;
+ 
+}
+;
 class Coord3D
-{
-public:
-	Real x, y, z;
-	Real Normalize();			// 0x00005A70
-};
 
+{
+ public:
+ Real x, y, z;
+ Real Normalize();
+// 0x00005A70
+ 
+}
+;
 class RenderObjClass
-{
-public:
-	Vector3 Get_Position() const;		// 0x0013B8A0
-private:
-	char m_pad[0x14];
-};
 
+{
+ public:
+ Vector3 Get_Position() const;
+// 0x0013B8A0
+ private:
+ char m_pad[0x14];
+ 
+}
+;
 class CameraClass : public RenderObjClass
-{
-public:
-	virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
-	virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
-	virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
-	virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-	virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
-	virtual void slot20();			// +0x50
-	void Get_View_Plane(Vector2 &min, Vector2 &max) const;	// 0x00134080
-private:
-public:
-	Real m_18, m_1c, m_20, m_24;		// +0x18 basis row 0
-	Real m_28, m_2c, m_30, m_34;		// +0x28 basis row 1
-	Real m_38, m_3c, m_40, m_44;		// +0x38 basis row 2
-};
 
+{
+ public:
+ virtual void v00();
+ virtual void v01();
+ virtual void v02();
+ virtual void v03();
+ virtual void v04();
+ virtual void v05();
+ virtual void v06();
+ virtual void v07();
+ virtual void v08();
+ virtual void v09();
+ virtual void v10();
+ virtual void v11();
+ virtual void v12();
+ virtual void v13();
+ virtual void v14();
+ virtual void v15();
+ virtual void v16();
+ virtual void v17();
+ virtual void v18();
+ virtual void v19();
+ virtual void slot20();
+// +0x50
+ void Get_View_Plane(Vector2 &min, Vector2 &max) const;
+// 0x00134080
+ private:
+ public:
+ Real m_18, m_1c, m_20, m_24;
+// +0x18 basis row 0
+ Real m_28, m_2c, m_30, m_34;
+// +0x28 basis row 1
+ Real m_38, m_3c, m_40, m_44;
+// +0x38 basis row 2
+ 
+}
+;
 class DisplayClass
-{
-public:
-	virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
-	virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
-	virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
-	virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-	virtual Int getWidth();			// +0x40
-	virtual Int getHeight();		// +0x44
-};
 
+{
+ public:
+ virtual void v00();
+ virtual void v01();
+ virtual void v02();
+ virtual void v03();
+ virtual void v04();
+ virtual void v05();
+ virtual void v06();
+ virtual void v07();
+ virtual void v08();
+ virtual void v09();
+ virtual void v10();
+ virtual void v11();
+ virtual void v12();
+ virtual void v13();
+ virtual void v14();
+ virtual void v15();
+ virtual Int getWidth();
+// +0x40
+ virtual Int getHeight();
+// +0x44
+ 
+}
+;
 extern DisplayClass *TheDisplay;
-
 class Rva0009BF33Point
-{
-public:
-	Int m_x;
-	Int m_y;
-};
 
+{
+ public:
+ Int m_x;
+ Int m_y;
+ 
+}
+;
 class Rva0009BF33
+
 {
-public:
-	void rva0009BF33(Rva0009BF33Point *screen, Vector3 *rayStart, Coord3D *rayEnd);
-
-private:
-	char m_pad00[0x19];
-	Bool m_19;				// +0x19
-	char m_pad1a[0xC0 - 0x1A];
-	CameraClass *m_camera;			// +0xC0
-	char m_padC4[0x1B0 - 0xC4];
-	Int m_1b0;				// +0x1B0
-	Int m_1b4;				// +0x1B4
-	Int m_1b8;				// +0x1B8
-	Int m_1bc;				// +0x1BC
-};
-
+ public:
+ void rva0009BF33(Rva0009BF33Point *screen, Vector3 *rayStart, Coord3D *rayEnd);
+ private:
+ char m_pad00[0x19];
+ Bool m_19;
+// +0x19
+ char m_pad1a[0xC0 - 0x1A];
+ CameraClass *m_camera;
+// +0xC0
+ char m_padC4[0x1B0 - 0xC4];
+ volatile Int m_1b0;
+// +0x1B0
+ volatile Int m_1b4;
+// +0x1B4
+ Int m_1b8;
+// +0x1B8
+ Int m_1bc;
+// +0x1BC
+ 
+}
+;
 void Rva0009BF33::rva0009BF33(Rva0009BF33Point *screen, Vector3 *rayStart, Coord3D *rayEnd)
+
 {
-	m_camera->slot20();
-	Vector2 min, max;
-	m_camera->Get_View_Plane(min, max);
-	Real dx = max.X - min.X;
-	Real dy = max.Y - min.Y;
-
-	Int px;
-	Int py;
-	Real width;
-	Real height;
-	if (m_19)
-	{
-		px = screen->m_x - m_1b0;
-		py = screen->m_y - m_1b4;
-		width = (Real)m_1b8;
-		height = (Real)m_1bc;
-	}
-	else
-	{
-		px = screen->m_x;
-		py = screen->m_y;
-		width = (Real)(unsigned int)TheDisplay->getWidth();
-		height = (Real)(unsigned int)TheDisplay->getHeight();
-	}
-
-	Real t0 = ((Real)px / width - 0.5f) * dx;
-	Real t2 = ((Real)py / height - 0.5f) * dy;
-	Real t1 = -t2;
-	Real w = 1.0f;
-	rayEnd->x = m_camera->m_18 * t0 + m_camera->m_1c * t1 - m_camera->m_20 * w;
-	rayEnd->y = m_camera->m_28 * t0 + m_camera->m_2c * t1 - m_camera->m_30 * w;
-	rayEnd->z = m_camera->m_38 * t0 + m_camera->m_3c * t1 - m_camera->m_40 * w;
-	rayEnd->Normalize();
-	*rayStart = m_camera->Get_Position();
+ m_camera->slot20();
+ Vector2 min, max;
+ m_camera->Get_View_Plane(min, max);
+ Real dx = max.X - min.X;
+ Real dy = max.Y - min.Y;
+ Int px;
+ Int py;
+ Real width;
+ Real height;
+ if (m_19)
+ 
+ {
+  px = screen->m_x - m_1b0;
+  py = screen->m_y - m_1b4;
+  width = (Real)m_1b8;
+  height = (Real)m_1bc;
+  
+ }
+ else
+ 
+ {
+  px = screen->m_x;
+  py = screen->m_y;
+  width = (Real)(unsigned int)TheDisplay->getWidth();
+  height = (Real)(unsigned int)TheDisplay->getHeight();
+  
+ }
+ Real t0 = ((Real)px / width - 0.5f) * dx;
+ volatile Real t2 = ((Real)py / height - 0.5f) * dy;
+ Real t1 = -t2;
+ Real w = 1.0f;
+ rayEnd->x = __vref(m_camera->m_18) * t0 + m_camera->m_1c * t1 - m_camera->m_20 * w;
+ rayEnd->y = m_camera->m_28 * t0 + m_camera->m_2c * t1 - m_camera->m_30 * w;
+ rayEnd->z = m_camera->m_38 * t0 + m_camera->m_3c * t1 - m_camera->m_40 * w;
+ rayEnd->Normalize();
+ *rayStart = m_camera->Get_Position();
+ 
 }
