@@ -92,6 +92,12 @@ namespace _STL
 	{
 	public:
 		void resize(unsigned int count);
+		T *erase(T *first, T *last);
+		void clear();
+	private:
+		T *_M_start;
+		T *_M_finish;
+		T *_M_end_of_storage;
 	};
 	template <class T, class A = allocator<T> >
 	class deque
@@ -698,3 +704,21 @@ Rva0060CAEAIterator Rva0060CC71::rva0060CC71(const Rva0060CC71String &key)
 {
 	return m_00.rva0060CB61(key);
 }
+
+// STLport vector::clear() is erase(begin(), end()): these instantiations
+// push the +4 finish and +0 start words and call the rowed erase(first,
+// last) of the same vector. ?clear@?$vector@URva0054107FRecord@@...@QAEXXZ
+// @0x00541BC9 11B (erase 0x0054152D), ?clear@?$vector@VRva0054103E@@...
+// @0x00541BD4 11B (erase 0x00541553) and ?clear@?$vector@URva00565865Element@@...
+// @0x00565A7E 11B (erase 0x00565865).
+template <class T, class A>
+void _STL::vector<T, A>::clear()
+{
+	erase(_M_start, _M_finish);
+}
+struct Rva0054107FRecord;
+class Rva0054103E;
+struct Rva00565865Element;
+template void _STL::vector<Rva0054107FRecord>::clear();
+template void _STL::vector<Rva0054103E>::clear();
+template void _STL::vector<Rva00565865Element>::clear();
