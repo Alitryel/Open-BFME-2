@@ -1,4 +1,6 @@
 // ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
+// partial score=0.9911 date=2026-10-14
+// ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
 // partial score=0.9824 date=2026-10-14
 // ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
 // partial score=0.9736 date=2026-10-14
@@ -97,13 +99,14 @@ void Rva004147CF::rva0041458A(Rva0041458AInterface *iface)
 	{
 		Rva004147CFElem *p = m_begin;
 		Rva004147CFElem *end = m_end;
-		for (; p != end; p = (Rva004147CFElem *)((char *)p + 0x30))
+		while (p != end)
 		{
 			AsciiString tmp(p->m_name);
 			iface->vslot27(&tmp);
 			iface->vslot05("ScoredKillEvaAnnouncer");
 			iface->vslot12(p);
 			iface->vslot06();
+			p = (Rva004147CFElem *)((char *)p + 0x30);
 		}
 	}
 }
