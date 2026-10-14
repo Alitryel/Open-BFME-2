@@ -19,14 +19,9 @@ public:
 	void rva002E9042(void *arg);
 };
 
-class Rva004618D4Caller {};
-void rva002E7023();
-union NativePortalRebuildCall
-{
- void (*target)();
- void (Rva004618D4Caller::*member)();
-};
-typedef char NativePortalRebuildMemberSize[sizeof(void (Rva004618D4Caller::*)())==4?1:-1];
+// The pathfinder rebuild walk, rowed as Rva004618D4Caller::rva002E7023
+// (0x002E7023), called as a thiscall on the AI's pathfinder pointer.
+class Rva004618D4Caller { public: void rva002E7023(); };
 
 struct Rva004618D4AI
 {
@@ -59,9 +54,7 @@ void DynamicPortalBehaviour::rva0046094C()
     *p=0;
    }
   }
-  NativePortalRebuildCall rebuild;
-  rebuild.target=&rva002E7023;
-  (reinterpret_cast<Rva004618D4Caller*>((*reinterpret_cast<Rva004618D4AI**>(&TheAI))->m_p10)->*rebuild.member)();
+  reinterpret_cast<Rva004618D4Caller*>((*reinterpret_cast<Rva004618D4AI**>(&TheAI))->m_p10)->rva002E7023();
   m_3C=false;
  }
 }

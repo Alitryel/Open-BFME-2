@@ -1,7 +1,10 @@
 // cl: /O1 /DNDEBUG /MD
 //
-// ?rva002E7023@@YAXXZ @0x002E7023 68B: global+call list walk
-// (free cdecl, void). Loads TheGameLogic (global 0xDFE78C), takes the first
+// ?rva002E7023@Rva004618D4Caller@@QAEXXZ @0x002E7023 68B: global+call list
+// walk. Every caller (MineshaftPortalBehaviour, FakePathfindPortalBehaviour,
+// DynamicPortalBehaviour) reaches it as a thiscall member on the AI's
+// pathfinder pointer; the body never reads this, so the member spelling
+// compiles to the same bytes as the earlier free-function view. Loads TheGameLogic (global 0xDFE78C), takes the first
 // object via rowed getFirstObject 0x0023CAD2, walks the +0x8C chain; for each
 // node with a +0x258 item whose +0x140 view passes rowed 0x00363AD7, invokes
 // pinned 0x00269566 on the item. Honest address-derived name; host/type
@@ -44,8 +47,14 @@ public:
 };
 extern GameLogic *TheGameLogic; // ?TheGameLogic@@3PAVGameLogic@@A
 
-// ?rva002E7023@@YAXXZ
-void rva002E7023()
+class Rva004618D4Caller
+{
+public:
+	void rva002E7023();
+};
+
+// ?rva002E7023@Rva004618D4Caller@@QAEXXZ
+void Rva004618D4Caller::rva002E7023()
 {
 	Object *node = TheGameLogic->getFirstObject();
 	if (node == 0)
