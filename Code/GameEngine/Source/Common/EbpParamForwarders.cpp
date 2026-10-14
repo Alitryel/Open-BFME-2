@@ -125,3 +125,28 @@ class Rva005F50D3
 public:
 	void rva005F50D3(int a, int b);
 };
+
+// 0x002B2955 (15B): the same ebp frame around a tail jump: the seven stack
+// arguments go unchanged to the rowed
+// LivingWorldRegionManager::SetRegionReinforcements (0x0020EEC8) on the
+// manager at +0xB0 of the receiver (TheLivingWorldLogic keeps its region
+// manager there; the receiver's class is not established).
+class LivingWorldRegionManager
+{
+public:
+	void SetRegionReinforcements(int a, int b, int c, int d, int e, int f, int g);
+};
+
+class Rva002B2955
+{
+public:
+	void rva002B2955(int a, int b, int c, int d, int e, int f, int g);
+private:
+	char m_pad00[0xB0];
+	LivingWorldRegionManager *m_regionManager; // +0xB0
+};
+
+void Rva002B2955::rva002B2955(int a, int b, int c, int d, int e, int f, int g)
+{
+	m_regionManager->SetRegionReinforcements(a, b, c, d, e, f, g);
+}
