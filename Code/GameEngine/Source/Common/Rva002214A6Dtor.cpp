@@ -14,6 +14,7 @@
 #include "ascii_string.h"
 
 _STL::map<int, void *, _STL::less<int>, _STL::allocator<_STL::pair<const int, void *> > > *Rva002213D9Get();
+struct NoCaseTreeValue4 { char m_body[4]; };
 
 class Rva002214A6 {
 public:
@@ -42,4 +43,13 @@ Rva002214A6::~Rva002214A6()
 
 Rva002215F4::~Rva002215F4()
 {
+}
+
+Rva002214A6::Rva002214A6(const AsciiString &name)
+{
+    typedef _STL::map<AsciiString, NoCaseTreeValue4, _STL::less<AsciiString>, _STL::allocator<_STL::pair<const AsciiString, NoCaseTreeValue4> > > MapV;
+    MapV *map = (MapV *)Rva002213D9Get();
+    NoCaseTreeValue4 value;
+    *(const void **)&value = this;
+    *(void *volatile *)&m_it = *(void *volatile *)&map->insert(_STL::make_pair(name, value)).first;
 }
