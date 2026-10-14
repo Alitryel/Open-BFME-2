@@ -395,3 +395,46 @@ GapTriple3 Rva00094AA0::rva00094AB3() const
 {
 	return m_3C;
 }
+
+// --- 0x0008564A (45B): fill a record from another of a different layout,
+// returning this: the string at +0x0C from the source's +8 through the
+// rowed narrow StringBase<char>::set (0x000366F0), then the three words at
+// +0 from the source's +0x0C and the word at +0x10 from its +4.
+template <class T> class StringBase
+{
+public:
+	void set(const StringBase &other);
+private:
+	T *m_data;
+};
+
+struct GapWords3B
+{
+	int w[3];
+};
+
+struct Rva0008564ASource
+{
+	int m_00;
+	int m_04;
+	StringBase<char> m_08;
+	GapWords3B m_0C;
+};
+
+class Rva0008564A
+{
+public:
+	Rva0008564A &rva0008564A(const Rva0008564ASource &source);
+private:
+	GapWords3B m_00;
+	StringBase<char> m_0C;
+	int m_10;
+};
+
+Rva0008564A &Rva0008564A::rva0008564A(const Rva0008564ASource &source)
+{
+	m_0C.set(source.m_08);
+	m_00 = source.m_0C;
+	m_10 = source.m_04;
+	return *this;
+}
