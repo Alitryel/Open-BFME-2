@@ -1,5 +1,3 @@
-// ?rva0043B864@Rva0043B2E2@@QAEAAVRva0043B196@@ABH@Z
-// partial score=0.9 date=2026-10-07
 // cl: /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
@@ -21,6 +19,10 @@ class Rva0043B196
 {
 public:
 	Rva0043B196(const Rva0043B196 &source);
+	// Empty inline destructor: no call is emitted, but cl keeps the ESP save
+	// that retail's by-value iterator argument carries while the pair temp
+	// is pending.
+	~Rva0043B196() {}
 private:
 	char m_data[0x88];
 };
