@@ -10,6 +10,7 @@ class Rva00051CBA
 {
 public:
 	int rva00051CBA(const Rva00051CBA &other);
+	int rva00051CE0(const Rva00051CBA &other);
 
 private:
 	Coord3D m_coord;
@@ -25,4 +26,12 @@ int Rva00051CBA::rva00051CBA(const Rva00051CBA &other)
 			return 1;
 	}
 	return 0;
+}
+
+// ?rva00051CE0@Rva00051CBA@@QAEHABV1@@Z @0x00051CE0 17B, unreferenced: the
+// negation of the equality above. Retail tests only the low byte of its
+// result (neg al / sbb / inc), so the call's value is narrowed to a byte.
+int Rva00051CBA::rva00051CE0(const Rva00051CBA &other)
+{
+	return !(unsigned char)rva00051CBA(other);
 }

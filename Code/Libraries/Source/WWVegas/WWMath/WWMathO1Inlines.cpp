@@ -18,3 +18,7 @@ extern float (*const g_bfmeFastSinAnchor)(float);
 float (*const g_bfmeFastSinAnchor)(float) = &WWMath::Fast_Sin;
 extern int (*const g_bfmeFloatToIntFloorAnchor)(const float &);
 int (*const g_bfmeFloatToIntFloorAnchor)(const float &) = &WWMath::Float_To_Int_Floor;
+// WWMath::Float_To_Long(float) (0x000422E6, 13B, unreferenced): the header's
+// fld/fistp body out of line.
+extern long (*const g_bfmeFloatToLongAnchor)(float);
+long (*const g_bfmeFloatToLongAnchor)(float) = &WWMath::Float_To_Long;

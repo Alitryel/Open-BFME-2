@@ -26,11 +26,22 @@ class Rva0002CD2F
     unsigned int m_count;
 public:
     struct Out0002CA72 *rva0002CD2F(struct Out0002CA72 *out, const struct Pair0002CA72 *obj);
+    struct Out0002CA72 *rva0002D1BB(struct Out0002CA72 *out, const struct Pair0002CA72 *obj);
 };
 
 struct Out0002CA72 *Rva0002CD2F::rva0002CD2F(struct Out0002CA72 *out, const struct Pair0002CA72 *obj)
 {
     ((Rva0002C7FD *)this)->rva0002C7FD(m_count + 1);
     ((Rva0002CA72 *)this)->rva0002CA72(out, obj);
+    return out;
+}
+
+// ?rva0002D1BB@Rva0002CD2F@@QAEPAUOut0002CA72@@PAU2@PBUPair0002CA72@@@Z @0x0002D1BB 20B
+// Unreferenced outer insert of the same container: forwards the result slot
+// and the pair to rva0002CD2F above (call site 0x0002D1C3) and returns the
+// slot, the map-over-hashtable insert shape.
+struct Out0002CA72 *Rva0002CD2F::rva0002D1BB(struct Out0002CA72 *out, const struct Pair0002CA72 *obj)
+{
+    rva0002CD2F(out, obj);
     return out;
 }

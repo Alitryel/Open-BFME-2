@@ -72,3 +72,20 @@ File *FileSystem::rva0002BA86(const char *filename, int access)
 {
 	return openFile(filename, access, 0);
 }
+
+// --- 0x0002BB71 (14B), unreferenced: whether the words at +0x24 and +0x20
+// differ (the shape of Rva003B03F3 in VtableSlotBodiesR3.cpp).
+class Rva0002BB71
+{
+public:
+	bool rva0002BB71();
+private:
+	char m_pad00[0x20];
+	int m_value20;
+	int m_value24;
+};
+
+bool Rva0002BB71::rva0002BB71()
+{
+	return m_value24 != m_value20;
+}
