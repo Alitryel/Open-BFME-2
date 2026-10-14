@@ -19018,7 +19018,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009FF0C4,12,.data,global,?TheTranslatedString@@3VUnicodeString@@A,,unowned,?TheTranslatedString@@3VUnicodeString@@A;?g_Va00DFF0C4@@3IA,0,3
 0x009FF0D0,4,.data,global,?g_00DFF0D0@@3MA,,unowned,,0,4
 0x009FF0D4,8,.data,global,_s_rva007AE51D,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
-0x009FF0DC,8,.data,global,?g_Va00DFF0DC@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_DFF0xx.cpp,owned,,1,2
+0x009FF0DC,8,.data,global,?$S1@?CM@??rva002EC479@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@0@Z@4IA,Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderFootprintAttackRangeQuery.cpp,owned,,1,4
 0x009FF0E4,4,.data,global,?g_Va00DFF0E4@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_DFF0xx.cpp,owned,,1,2
 0x009FF0E8,12,.data,global,?pathfinderRegistration@?2???0Pathfinder@@QAE@XZ@4UBlockParse@@A,Code/GameEngine/Source/GameLogic/AI/PathfinderConstructor.cpp,owned,,1,4
 0x009FF0F4,4,.data,global,?$S1@?2???0Pathfinder@@QAE@XZ@4IA,Code/GameEngine/Source/GameLogic/AI/PathfinderConstructor.cpp,owned,,1,2

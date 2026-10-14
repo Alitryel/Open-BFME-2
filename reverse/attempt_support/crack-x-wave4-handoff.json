@@ -62,6 +62,20 @@
     },
     "guard": "0x009FF0DC",
     "reason": "Compiler-produced static-key initialization rollback was mis-owned by standalone Rva00778DA9ClearFlag and separate g_Va00DFF0DC. Remove synthetic definition and datum; follow with parent-bound gen-funclet row.",
-    "precedent": "reverse/deleted_rows.csv Rva007A40C3ClearFlag"
+    "precedent": "reverse/deleted_rows.csv Rva007A40C3ClearFlag",
+    "result": "Retired in separate commit; add_match verifies parent-bound 13-byte gen-funclet. All six remaining standalone clearers still match. Data guard now has one actual definition and four references across parent and cleanup; three address-global escape-hatch occurrences removed.",
+    "data_refresh": "Scoped data_ledger.collect_uncached/ledger_rows/render on both affected current objects, copying only the derived 0x009FF0DC record with ledger_io terminator preservation. Native data_xrefs lists exactly the parent and cleanup as its two code owners; Code-wide search found no other old-global user. Includes neighboring clearers to retain the correct eight-byte upper-bound gap extent.",
+    "derived_data_row": {
+      "address": "0x009FF0DC",
+      "size": 8,
+      "section": ".data",
+      "kind": "global",
+      "name": "?$S1@?CM@??rva002EC479@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@0@Z@4IA",
+      "source": "Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderFootprintAttackRangeQuery.cpp",
+      "status": "owned",
+      "names": "",
+      "defs": 1,
+      "refs": 4
+    }
   }
 }
