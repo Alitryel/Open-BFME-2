@@ -18,18 +18,6 @@ static void bfmeIniVciAnchor() { BfmeIniVciAnchorElem anchor[2]; (void)anchor; }
 // Get_PKey/Put_PKey (need pk.h/int.h BigInt crypto) and Get_Wide_String/Put_Wide_String
 // (need widestring.h) are omitted here so this TU stays free of those heavy dependencies;
 // every other INIClass method is verbatim.
-// The compiler-generated vector constructor iterator (??_H) takes the
-// optimization state of the first function that needs it. Retail links one
-// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
-// copy that same body, so it no longer loses to retail's at link time.
-// auto_inline(off) keeps the iterator out of line: without it the functions
-// here that build arrays inline the /O1 body and lose retail's call to ??_H.
-struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
-#pragma auto_inline(off)
-#pragma optimize("gsy", on)
-static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
-#pragma optimize("", on)
-#pragma auto_inline(on)
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
