@@ -1,4 +1,6 @@
 // ?rva00106781@BfmeB996Range@@QAE_NPAPAXPAHPAIPAD_N@Z
+// partial score=0.93 date=2026-10-14
+// ?rva00106781@BfmeB996Range@@QAE_NPAPAXPAHPAIPAD_N@Z
 // partial score=0.9 date=2026-10-14
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHs-c-
 //
@@ -229,9 +231,7 @@ bool BfmeB996Range::rva00106781( void **firstOut, int *first, unsigned int *seco
 	if ( mode ) {
 		void *body = Rva0009072BAlloc( *first, *second );
 		*firstOut = body;
-		int width = *second - 8;
-		int value = (int)body + 8;
-		if ( m_dev->classify( value, width ) != *second - 8 ) {
+		if ( m_dev->classify( (int)body + 8, *second - 8 ) != *second - 8 ) {
 			Rva00090714Free( firstOut );
 			*stop = 1;
 			return false;
