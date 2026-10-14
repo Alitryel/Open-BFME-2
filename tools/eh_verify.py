@@ -287,24 +287,30 @@ def row_rows(sources):
 
 def verify(rows, objdir=None):
     """{(name, rva): (verdict, detail)} for the rows with EH data on either side."""
-    image, cache, results, missing = Image(), {}, {}, 0
-    for row in rows:
+    rows, image, verdicts, missing = list(rows), Image(), {}, 0
+    # The ledger is append-only, so one source's rows are scattered through it:
+    # visit them grouped by object, parsing each object once and holding one.
+    groups = {}
+    for at, row in enumerate(rows):
         path = build.obj_path(ROOT / row["source"])
         if objdir is not None:
             path = Path(objdir) / path.name
-        if path not in cache:
-            cache.clear()   # rows arrive grouped by source; keep one parsed object
-            cache[path] = Obj(path) if path.exists() else None
-        obj = cache[path]
+        groups.setdefault(path, []).append(at)
+    for path, ats in groups.items():
+        obj = Obj(path) if path.exists() else None
         if obj is None:
-            missing += 1
+            missing += len(ats)
             continue
-        name = build.ledger_object_symbol(row)
-        if build.is_funclet_row(row, name):
-            continue
-        verdict = verify_row(image, obj, name, int(row["target_rva"], 16))
-        if verdict is not None:
-            results[(row["name"], row["target_rva"])] = verdict + (row["source"],)
+        for at in ats:
+            row = rows[at]
+            name = build.ledger_object_symbol(row)
+            if build.is_funclet_row(row, name):
+                continue
+            verdict = verify_row(image, obj, name, int(row["target_rva"], 16))
+            if verdict is not None:
+                verdicts[at] = verdict + (row["source"],)
+    # Ledger order, as before: a (name, rva) on two rows keeps its last row's verdict.
+    results = {(rows[at]["name"], rows[at]["target_rva"]): verdicts[at] for at in sorted(verdicts)}
     return results, missing
 
 

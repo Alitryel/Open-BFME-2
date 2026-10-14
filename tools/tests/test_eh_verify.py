@@ -266,3 +266,24 @@ def test_sse_scheduled_frame_still_verifies_eh_graph(tmp_path):
     changed[4] = 2
     compiled.sections[2]["data"] = bytes(changed)
     assert eh_verify.verify_row(retail, compiled, "_f", FUNC)[0] == "bytes_differ"
+
+
+def test_scattered_rows_parse_each_object_once(tmp_path, monkeypatch):
+    # The ledger is append-only: one source's rows recur far apart.
+    parsed, rows = [], [{"source": s, "name": n, "target_rva": r} for s, n, r in
+                        (("a.cpp", "?f", "0x1"), ("b.cpp", "?g", "0x2"), ("a.cpp", "?h", "0x3"),
+                         ("b.cpp", "?f", "0x1"), ("gone.cpp", "?k", "0x4"))]
+    for name in ("a.obj", "b.obj"):
+        (tmp_path / name).write_bytes(b"")
+    monkeypatch.setattr(eh_verify.build, "obj_path", lambda source: tmp_path / source.with_suffix(".obj").name)
+    monkeypatch.setattr(eh_verify, "Image", lambda: None)
+    monkeypatch.setattr(eh_verify, "Obj", lambda path: parsed.append(path.name) or path.name)
+    monkeypatch.setattr(eh_verify.build, "ledger_object_symbol", lambda row: row["name"])
+    monkeypatch.setattr(eh_verify.build, "is_funclet_row", lambda row, name: False)
+    monkeypatch.setattr(eh_verify, "verify_row", lambda image, obj, name, rva: ("bytes_differ", obj))
+    results, missing = eh_verify.verify(rows)
+    assert sorted(parsed) == ["a.obj", "b.obj"] and missing == 1
+    # A (name, rva) on two rows keeps its last row's verdict, as in ledger order.
+    assert results == {("?f", "0x1"): ("bytes_differ", "b.obj", "b.cpp"),
+                       ("?g", "0x2"): ("bytes_differ", "b.obj", "b.cpp"),
+                       ("?h", "0x3"): ("bytes_differ", "a.obj", "a.cpp")}
