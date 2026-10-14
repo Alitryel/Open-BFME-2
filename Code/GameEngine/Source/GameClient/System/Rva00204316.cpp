@@ -38,3 +38,29 @@ void Rva00204316::rva00204316(const char *name, const FXParticleSystem::Particle
 	FXParticleSystem::ParticleSystemTemplate *tmpl = new FXParticleSystem::ParticleSystemTemplate(src);
 	TheParticleSystemManager->rva001FCF11(AsciiString(name), tmpl);
 }
+
+// ??0Rva00203EFD@@QAE@XZ, retail 0x00203EFD (17B): the constructor of the
+// object whose vtable 0x00BE39F4 holds the registration slot above
+// (0x00204316) first, then the rowed 0x00204386, 0x00204C21, 0x00206DA4 and
+// 0x002082F1 bodies. It clears the dword at +4 and the byte at +8. The
+// vtable store is also inlined at 0x00204057, 0x00204C18 and 0x0020A31A.
+// Owner unresolved; the slots' parameter types beyond slot 0 are not modelled.
+class Rva00203EFD
+{
+public:
+	Rva00203EFD();
+	virtual void slot00(const char *name, const FXParticleSystem::ParticleSystemTemplate &src);
+	virtual void slot04();
+	virtual void slot08();
+	virtual void slot0C();
+	virtual void slot10();
+private:
+	int m_04;
+	bool m_08;
+};
+
+Rva00203EFD::Rva00203EFD()
+{
+	m_04 = 0;
+	m_08 = false;
+}
