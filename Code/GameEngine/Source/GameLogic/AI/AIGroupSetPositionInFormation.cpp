@@ -38,11 +38,17 @@ private:
 	Coord2D m_formationOffset; // +0x414
 };
 
+// 0x0036D6B4 is matched as Rva0036ListOwner::rva0036D6B4 (same receiver).
+class Rva0036ListOwner
+{
+public:
+	void rva0036D6B4();
+};
+
 class AIGroup
 {
 public:
 	void groupSetPositionInFormation(const Coord3D *position, const Coord3D *goalPosition, int formation);
-	void rva0036D6B4();
 	void createFormation(int formation, int flags);
 	static void rotateOffset(const Coord3D *position, const Coord3D *goalPosition, Coord2D *offset);
 
@@ -52,7 +58,7 @@ private:
 
 void AIGroup::groupSetPositionInFormation(const Coord3D *position, const Coord3D *goalPosition, int formation)
 {
-	rva0036D6B4();
+	((Rva0036ListOwner *)this)->rva0036D6B4();
 	createFormation(formation, 0);
 
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
