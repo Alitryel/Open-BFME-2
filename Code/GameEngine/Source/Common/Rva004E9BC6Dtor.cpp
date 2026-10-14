@@ -19,13 +19,15 @@ struct Holder0C
 	}
 };
 
-class Rva00598CFDBase
+// The base is Rva00506B1B (ctor 0x00506B1B, vtable 0x00863F9C); its
+// destructor is the 7-byte vptr store at 0x00506B28.
+class Rva00506B1B
 {
 public:
-	virtual ~Rva00598CFDBase();
+	virtual ~Rva00506B1B();
 };
 
-class Rva004E9B46 : public Rva00598CFDBase
+class Rva004E9B46 : public Rva00506B1B
 {
 public:
 	virtual ~Rva004E9B46();

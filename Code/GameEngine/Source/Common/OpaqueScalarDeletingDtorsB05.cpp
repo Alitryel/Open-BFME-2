@@ -391,9 +391,12 @@ struct Rva002C6354Buffer
     void *begin, *end, *capacity;
     ~Rva002C6354Buffer() { if (begin != 0) free(begin); }
 };
+// The ctor is rowed at 0x00506B1B (vptr plus byte 0 at +4); declaring it keeps
+// this unit from emitting an implicit vptr-only copy under the same name.
 class Rva00506B1B
 {
 public:
+    Rva00506B1B();
     virtual ~Rva00506B1B();
 private:
     char m_unmodelled04[4];

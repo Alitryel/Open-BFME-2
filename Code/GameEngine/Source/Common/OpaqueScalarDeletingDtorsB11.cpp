@@ -255,7 +255,8 @@ Rva004E4655::Rva004E4655(EmitVtableTag *)
 // Rva004EA3B8's two tables (data ledger): BaseA at +0 and Rva00506B1B at +0xC, whose
 // slot 0 is a this-adjusting (sub ecx, 0xC) deleting-destructor thunk.
 class BaseA { public: virtual ~BaseA(); private: char m_unmodelled04[8]; };
-class Rva00506B1B { public: virtual ~Rva00506B1B(); };
+// Rva00506B1B's ctor is rowed at 0x00506B1B; declared so no implicit copy is emitted.
+class Rva00506B1B { public: Rva00506B1B(); virtual ~Rva00506B1B(); };
 class Rva004EA3B8 : public BaseA, public Rva00506B1B
 {
 public:

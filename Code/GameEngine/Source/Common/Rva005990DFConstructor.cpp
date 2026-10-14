@@ -31,7 +31,8 @@ class Gen_uwm_004ea016
 {
 public:
 	Gen_uwm_004ea016() : m_04(4), m_08(1) {}
-	virtual void slot00();
+	// Retail vtable 0x00862888 holds __purecall here.
+	virtual void slot00() = 0;
 	~Gen_uwm_004ea016() {}
 private:
 	int m_04;

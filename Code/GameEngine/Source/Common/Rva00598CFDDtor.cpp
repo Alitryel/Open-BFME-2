@@ -56,12 +56,14 @@ struct Holder004
 	void *m_ptr;
 	~Holder004() { if (m_ptr) free(m_ptr); }
 };
-class Rva00598CFDBase
+// The base is Rva00506B1B (ctor 0x00506B1B, vtable 0x00863F9C); its
+// destructor is the 7-byte vptr store at 0x00506B28.
+class Rva00506B1B
 {
 public:
-	virtual ~Rva00598CFDBase();
+	virtual ~Rva00506B1B();
 };
-class Rva00598B2A : public Rva00598CFDBase
+class Rva00598B2A : public Rva00506B1B
 {
 public:
 	void rva00598B2A();

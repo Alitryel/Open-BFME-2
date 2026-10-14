@@ -15,16 +15,19 @@ enum ObjectID { INVALID_ID = 0 };
 class Gen_uwm_004ea016
 {
 public:
-	virtual void slot00();
+	// Retail vtable 0x00862888 holds __purecall here.
+	virtual void slot00() = 0;
 	~Gen_uwm_004ea016() {}
 private:
 	char m_pad[8];
 };
 
-class Rva00598CFDBase
+// The base is Rva00506B1B (ctor 0x00506B1B, vtable 0x00863F9C); its
+// destructor is the 7-byte vptr store at 0x00506B28.
+class Rva00506B1B
 {
 public:
-	virtual ~Rva00598CFDBase();
+	virtual ~Rva00506B1B();
 };
 
 class AIUpgradeScienceBuilder
@@ -33,7 +36,7 @@ public:
 	void shutdown();
 };
 
-class Rva00597BD4 : public Gen_uwm_004ea016, public Rva00598CFDBase
+class Rva00597BD4 : public Gen_uwm_004ea016, public Rva00506B1B
 {
 public:
 	virtual ~Rva00597BD4();
@@ -46,5 +49,5 @@ private:
 
 Rva00597BD4::~Rva00597BD4()
 {
-	((AIUpgradeScienceBuilder *)static_cast<Rva00598CFDBase *>(this))->shutdown();
+	((AIUpgradeScienceBuilder *)static_cast<Rva00506B1B *>(this))->shutdown();
 }
