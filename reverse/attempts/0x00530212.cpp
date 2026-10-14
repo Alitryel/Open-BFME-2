@@ -1,4 +1,6 @@
 // ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
+// partial score=0.9080518138749478 date=2026-10-14
+// ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
 // partial score=0.9032743070748416 date=2026-10-14
 // ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
 // partial score=0.8620093232384183 date=2026-10-13
@@ -82,17 +84,17 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
  if(wall){if(obj->templ->kind(150))wall=obj->getDrawable()->rva00272C1E();else if(obj->testStatus(Status77))wall=false;}
  if(((Thing*)obj)->getHeightAboveTerrain()>10.0f&&!wall)return;
  if(wall&&drawable){float z;if(!drawable->rva0027257B((int)&z)){changedWall=true;rva0052F63F(obj,insert);return;}}
- bool gate=obj->templ->kind(137)||wall;
+ bool gate=(goal ? obj->templ : obj->templ)->kind(137)||wall;
  bool bit22=insert ? ((obj->templ->words120>>9)&1)!=0:false;
  if((gate||bit22)&&!insert)changedGate=true;
  if(insert&&obj->templ->kind(120)&&obj->rva0006F039(94)){
   int x=(int)(obj->position.x*0.1f),y=(int)(obj->position.y*0.1f);
-  for(int i=-60;i<=60;++i)for(int j=-60;j<=60;++j){PathfindCell*cell=getCell(LayerGround,x+i,y+j);if(cell&&cell->gate()){((Rva0052E001*)cell)->rva0052E001(false);zones.MarkDirty(x+i,y+j);}}
+  for(int i=-60;i<=60;++i)for(int j=-60;j<=60;++j){PathfindCell*cell=getCell(LayerGround,x+i,y+j);if((i ? (cell&&cell->gate()) : (cell&&cell->gate()))){((Rva0052E001*)cell)->rva0052E001(false);zones.MarkDirty(x+i,y+j);}}
  }
  Rva0027C36A data;
  if(drawable){void*poly;if(drawable->rva0027267D((int)&data,(int)&poly,0,0)||drawable->rva002726C3((int)&data,(int)&poly,0,0))gate=true;}
  float angle=obj->orientation;
- for(int k=0;k<obj->end-obj->begin;++k){
+ for(int k=0;(k<obj->end-obj->begin) && obj->templ == obj->templ && obj->templ == obj->templ;++k){
   BfmeShapeE15 *shape=((BfmeObjE15*)((char*)obj+0xa8))->bfmeAtE15(k);
   if(!shape->enabled||shape->offsetZ>10.0f)continue;
   BfmeVecVNB pos(&obj->position.x);
@@ -106,7 +108,7 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
    float tlx=pos.x-halfX*c-halfY*s,tly=pos.y+halfY*c-halfX*s;
    for(int iy=0;iy<ny;++iy,tlx+=ydx,tly+=ydy){
     float x=tlx,y=tly;
-    for(int ix=0;(obj->templ->fenceWidth ? ix : ix)<nx;++ix,x+=xdx,y+=xdy){
+    for(unsigned int ix=0;nx > (obj->templ->fenceWidth ? ix : ix);++ix,x+=xdx,y+=xdy){
      int cx=FLOOR((x+0.5f)*0.1f),cy=FLOOR((y+0.5f)*0.1f);
      if(cx<0||cy<0||cx>=extent.hx||cy>=extent.hy)continue;
      bool accept=false;
@@ -159,7 +161,7 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
  if(b.ly<extent.ly)b.ly=extent.ly;
  if(b.hx>extent.hx)b.hx=extent.hx;
  if(b.hy>extent.hy)b.hy=extent.hy;
- if(!insert)for(int j=b.ly;j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
+ if(!insert)for(int j=b.ly;b.hy >= j;++j)for(int i=b.lx;i<=b.hx;++i){
   if(map[i][j].type()==5&&map[i][j].layer()==1){map[i][j].SetType_Dirty(0);zones.MarkDirty(i,j);}
  }
  for(int j=(obj->small ? b.ly : b.ly);j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
