@@ -468,3 +468,27 @@ int Rva0057CB06::rva0057CB06()
 	}
 	return game->v13();
 }
+
+// --- 0x005CF9AA (8B): tail call of the rowed 0x005E96D4 on the member
+// object embedded at +8.
+class Rva005E96D4Owner
+{
+public:
+	void rva005E96D4();										// 0x005E96D4
+private:
+	void *m_00;
+};
+
+class Rva005CF9AA
+{
+public:
+	void rva005CF9AA();
+private:
+	char m_pad00[8];
+	Rva005E96D4Owner m_08;
+};
+
+void Rva005CF9AA::rva005CF9AA()
+{
+	m_08.rva005E96D4();
+}
