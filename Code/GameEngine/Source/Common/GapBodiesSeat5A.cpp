@@ -558,3 +558,16 @@ Rva0059AEE9::Rva0059AEE9(int value) : m_04(0), m_08(value)
 {
 }
 
+
+// --- 0x0059E08F (9B): default constructor of a vtable-0x00C70F6C object
+// with no data of its own.
+class Rva0059E08F
+{
+public:
+	Rva0059E08F();
+	virtual void slot0();
+};
+
+Rva0059E08F::Rva0059E08F()
+{
+}
