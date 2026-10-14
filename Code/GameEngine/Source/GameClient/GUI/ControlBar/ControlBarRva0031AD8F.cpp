@@ -6,17 +6,18 @@
 // this call and the following rowed hideSpecialPowerShortcut member.
 // That global's identity is established by ControlBarFields.cpp's matched
 // DIR32 uses. The receiver is unused; no object layout is claimed here.
-// BFME1 revision 1281192f682ce6f29b8f06b7daea4b5e8fdfbb24 and the ZH
-// GameLogicDispatch.cpp closeWindows body are relationship leads. Their
-// hidePurchaseScience name is not independently proved for this address,
-// so this member keeps an address-derived name.
+// Named ControlBar::hidePurchaseScience: Zero Hour's GeneralsExpPoints.cpp
+// calls TheControlBar->hidePurchaseScience(), and retail
+// GeneralsExpPointsSystem calls this thunk at the same point (REL32 at
+// 0x0050DE08, recorded by the existing pin); the closeWindows-style caller
+// 0x00376D49 then calls hideSpecialPowerShortcut, as Zero Hour's callers do.
 void __cdecl Rva0043C96FEnable();
 class ControlBar
 {
 public:
-    void rva0031AD8F();
+    void hidePurchaseScience();
 };
-void ControlBar::rva0031AD8F()
+void ControlBar::hidePurchaseScience()
 {
     Rva0043C96FEnable();
 }

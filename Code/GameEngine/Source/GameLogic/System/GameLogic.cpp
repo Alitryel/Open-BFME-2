@@ -101,7 +101,7 @@ public:
 class ControlBar
 {
 public:
-	void rva0031AD8F(void);
+	void hidePurchaseScience(void);
 	void hideSpecialPowerShortcut(void);
 };
 
@@ -148,7 +148,7 @@ void GameLogic::rva00376D49(void)
 	Rva004E855CClose();
 	Rva004E84ABRun();
 	Rva00511730(0);
-	TheControlBar->rva0031AD8F();
+	TheControlBar->hidePurchaseScience();
 	TheControlBar->hideSpecialPowerShortcut();
     ((Rva005CB265*)TheInGameUI->rva000CF155())->Rva005CB265::rva005CB265();
     if ((int)AptStrategicMessageBox::s_instance)

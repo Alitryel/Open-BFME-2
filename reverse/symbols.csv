@@ -9638,7 +9638,6 @@ name,address,notes
 ?helper@Rva005258F8@@AAEXPBUTwoInts005258F8@@@Z,0x00525407,unrowed member callee of two-int pack wrapper 0x005258F8 read from its REL32
 ?helper@Rva007FA2C0@@QAEXPAXH@Z,0x006666C0
 ?hide@Shell@@QAEX_N@Z,0x0035BF4C,callee of ??1BfmeAptScreenCampaignReview@@UAE@XZ at retail 0x005128ED read from its REL32 displacement; Shell hide(bool shutdownImmediate); body unrowed
-?hidePurchaseScience@ControlBar@@QAEXXZ,0x0031AD8F,callee of ?GeneralsExpPointsSystem@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z at retail 0x0050DE08 read from its REL32 displacement; ILT thunk route=0x0043C96F; body unrowed
 ?imbue@?$basic_ios@DV?$char_traits@D@_STL@@@_STL@@QAE?AVlocale@2@ABV32@@Z,0x00016110,STLport 4.5.3 basic_ios char imbue; address read from retail basic_ios char init REL32 at 0x00016341
 ?imbue@?$basic_ios@GV?$char_traits@G@_STL@@@_STL@@QAE?AVlocale@2@ABV32@@Z,0x00016200,harvested from retail REL32 displacement at 0x00016440
 ?imbue@?$basic_streambuf@DV?$char_traits@D@_STL@@@_STL@@MAEXABVlocale@2@@Z,0x00180FD0,STLport 4.5.3 narrow streambuf base default - slot 13 - folded onto the wide imbue; ret 4. Read from the narrow streambuf vtable where the slot holds an address already claimed for the wide facet
