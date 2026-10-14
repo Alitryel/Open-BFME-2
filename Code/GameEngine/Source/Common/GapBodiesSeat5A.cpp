@@ -86,3 +86,36 @@ Rva0057431D::Rva0057431D(void *owner)
 {
 	m_owner = owner;
 }
+
+// --- 0x00574479 (32B): derived constructor over the rowed 0x00221635 base
+// (its int argument passed through), vtable 0x00C6E3A8, +8 and +0xC zeroed.
+// The zeroing runs after the vptr store, as member constructors do: plain
+// int members let cl schedule the stores ahead of the vptr.
+class Rva00221635
+{
+public:
+	Rva00221635(int arg);									// 0x00221635
+	virtual void _pure() = 0;
+private:
+	void *m_ptr;
+};
+
+struct Rva00574479Slot
+{
+	Rva00574479Slot() : m_ptr(0) {}
+	void *m_ptr;
+};
+
+class Rva00574479 : public Rva00221635
+{
+public:
+	Rva00574479(int arg);
+	virtual void _pure();
+private:
+	Rva00574479Slot m_08;
+	Rva00574479Slot m_0C;
+};
+
+Rva00574479::Rva00574479(int arg) : Rva00221635(arg)
+{
+}
