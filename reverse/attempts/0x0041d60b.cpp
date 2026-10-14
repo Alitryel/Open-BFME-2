@@ -1,4 +1,6 @@
 // ?canDoSpecialPowerAtLocation@ActionManager@@QAE_NPBVObject@@PBUCoord3D@@W4CommandSourceType@@PBVSpecialPowerTemplate@@0I_N@Z
+// partial score=0.967448007813129 date=2026-10-14
+// ?canDoSpecialPowerAtLocation@ActionManager@@QAE_NPBVObject@@PBUCoord3D@@W4CommandSourceType@@PBVSpecialPowerTemplate@@0I_N@Z
 // partial score=0.955263981926797 date=2026-10-13
 // ?canDoSpecialPowerAtLocation@ActionManager@@QAE_NPBVObject@@PBUCoord3D@@W4CommandSourceType@@PBVSpecialPowerTemplate@@0I_N@Z
 // partial score=0.955263981926797 date=2026-10-13
@@ -20,6 +22,8 @@
 // See reverse/attempt_support/crack-e-0041d60b.json for the audited
 // instructions, switch entries, EH states, stack homes and rejected trials.
 // Helper41C9C4 must use the corrected member owner from commit5f1baada20.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Coord3D.h"
 struct ActionLocationCoord:Coord3D {
  ActionLocationCoord(const Coord3D &p) { x=p.x;y=p.y;z=p.z; }
@@ -148,6 +152,7 @@ bool ActionManager::canDoSpecialPowerAtLocation(const Object *obj,const Coord3D 
 {
  if(!spTemplate) return false;
  if(checkSourceRequirements && !obj->hasSpecialPower(spTemplate->getSpecialPowerType())) return false;
+ _ReadWriteBarrier();
  if(rva0041BA61(obj)) return false;
  NameKeyType castleKey=CastleBehavior::rva0003955DA();
  SpecialPowerModuleInterface *mod=obj->getSpecialPowerModule(spTemplate);
@@ -210,7 +215,7 @@ bool ActionManager::canDoSpecialPowerAtLocation(const Object *obj,const Coord3D 
     if(target->isAnyKindOf(*(const BitFlags<69> *)&mask)) {
      if(!(target->objectTemplate()[0x117]&1) && !(target->objectTemplate()[0x10e]&1)) return false;
     }
-    if(*(const float *)(target->objectTemplate()+0x610)>100.0f) return false;
+    if((loc ? (*(const float *)(target->objectTemplate()+0x610)>100.0f) : (*(const float *)(target->objectTemplate()+0x610)>100.0f))) return false;
    }
    ((BfmeRefCF *)&iter)->bfmeAssignCF((const BfmeRefCF &)ThePartitionManager->iterateObjectsInRange(loc,radius+500.0f,0,&FILTER(0x78),0));
    while((target=iter.next())!=0) {
