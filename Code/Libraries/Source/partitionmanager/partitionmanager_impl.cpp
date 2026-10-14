@@ -224,10 +224,14 @@ public:
 	int getMask(void);
 };
 
-class BfmeThingEQ
+class Object;
+
+// Partition filter base: allows (0x00625720) runs the chain from this filter
+// along the +0x04 links.
+class Rva000421C8
 {
 public:
-	unsigned char bfmeAskEQ(void *object);
+	bool allows(Object *obj);
 };
 
 struct S4SortElem24
@@ -412,7 +416,7 @@ void *PartitionManagerImpl::GetClosestObject(int position, float maxDistance, in
 			void *object = link->m_candidate->getObject();
 			if (!object)
 				continue;
-			if (filters && !((BfmeThingEQ *)filters)->bfmeAskEQ(object))
+			if (filters && !((Rva000421C8 *)filters)->allows((Object *)object))
 				continue;
 
 			maxDistanceSquared = distance;

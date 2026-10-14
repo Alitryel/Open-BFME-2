@@ -55,10 +55,15 @@ struct Rva009F4130NodeList
 	Rva009F4130Node *m_head;
 };
 
-class BfmeThingEQ
+class BfmeThingEQ;
+class Object;
+
+// Partition filter base: allows (0x00625720) runs the chain from this filter
+// along the +0x04 links.
+class Rva000421C8
 {
 public:
-	unsigned char bfmeAskEQ(void *value);
+	bool allows(Object *obj);
 };
 
 typedef float (__cdecl *Rva009F4130Distance)(void *context, void *item, float threshold);
@@ -102,7 +107,7 @@ void PartitionManagerImpl::_GetObjectsInRange(Rva009F39F0Result *result, Rva009F
             resultDistance.distance = dx * dx + dy * dy;
         }
         void *value = node->m_item->value();
-        if (value && (!filter || filter->bfmeAskEQ(value)))
+        if (value && (!filter || ((Rva000421C8 *)filter)->allows((Object *)value)))
             result->append((int)value, resultDistance.bits);
     }
     if (!nodes->m_hasChildren)

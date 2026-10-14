@@ -7546,7 +7546,6 @@ name,address,notes
 ?allow@Rva00260F1BFilter@@UAE_NPAVObject@@@Z,0x00260F1B,"slot 1 of partition filter vftable 0x00C6E1B0: tests bit (relationship of +0x08 to the object) of the +0x0C flags"
 ?allow@Rva0026119DFilter@@UAE_NPAVObject@@@Z,0x0026119D,"slot 1 of partition filter vftable 0x00BFAD10: returns the object's status +0x438 bit 0 clear (alive)"
 ?allow@Rva00261409Filter@@UAE_NPAVObject@@@Z,0x00261409,"slot 1 of partition filter vftable 0x00C004D8: the +0x08 player's relationship (0x002AD0C6) to the object's +0x304 team selects flag 4/8/2 of +0x10; a set flag returns the +0x0C match bool"
-?allows@Rva000421C8@@QAE_NPAVObject@@@Z,0x00625720,"partition filter chain test (the matched bfmeAskEQ body, ret 4): true when every filter from this one along the +0x04 links allows (slot 1) the object; REL32 at 0x002FF029 in AI::rva002FEEAD on its chain head"
 ?animSlideRight@@YAXPAVControlBarSchemeAnimation@@@Z,0x0031F743,BFME1 ControlBarScheme.cpp static helper; REL32 callee of the placed updateAnim 0x0031F799 (anim in EAX private convention; drives m_animImage/m_animDuration/m_currentFrame)
 ?append@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV12@ID@Z,0x00029380,address read from the REL32 displacement at a byte-verified placed body (0x1F978F)
 ?append@Rva0005548FNativeList@@QAEXABQAX@Z,0x0005548F,External native 4-byte-element append ABI; native2007B6 calls rowed5548F26 with this+8 and pointer to argument; full provider calls native5925E2 rather than distinct526103 provider insert125A87; linker alternate binds existing list-int provider; no container owner identity assertion
@@ -9399,7 +9398,6 @@ name,address,notes
 ?getNextToken@INI@@QAEPBDPBD@Z,0x0002DF97,INI thiscall next-token helper; parseDurationReal first REL32; ghidra 75 bytes
 ?getNextTokenOrNull@INI@@QAEPBDPBD@Z,0x002DEED,ZH INI null-token worker (sibling TU defines this honest name at 0x2DEED 170B); REL32 target of AIUpdate parseLocomotorSet 0x26E699 OrNull call plus ~376 INI-parser call sites
 ?getNextWaypoint@AIFollowWaypointPathState@@QAEPBVWaypoint@@XZ,0x00340F7C,REL32 callee of AIWanderState::update 0x0034A23E (ECX the state) whose result becomes m_currentWaypoint; the body picks a random link of m_currentWaypoint and records m_priorWaypoint like Zero Hour's
-?getNthInList@ObjectTypes@@QBE?AVAsciiString@@I@Z,0x002041AC,"ObjectTypes::getNthInList (Zero Hour), the AsciiString by hidden return; REL32 at 0x003C7511 in ScriptActions::rva003C739D"
 ?getNthPlayerTemplate@PlayerTemplateStore@@QBEPBVPlayerTemplate@@H@Z,0x001FD3C6,BFME1 PlayerTemplateStore::getNthPlayerTemplate(Int) const verbatim; thiscall idx with stride-0x1DC bounds check on ThePlayerTemplateStore; direct callee of DisplayName at 0x3FFBB4
 ?getNumChunks@NetWrapperCommandMsg@@QAEIXZ,0x003F3FE8,callee of 0NetCommandWrapperListNode (0x0058BFA8) at the site its BFME1 donor calls it; may be an ICF alias
 ?getObject@AptActionInterpreter@@CAPAVAptValue@@PAV2@0PBVEAStringC@@@Z,0x007064F0,SetTarget2 native REL32 with current-with-name; existing address-derived7064F0 pin; donor getObject and target string/context/child resolution; unrowed helper

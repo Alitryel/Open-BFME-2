@@ -8,10 +8,14 @@
 
 extern "C" void __cdecl free(void *block);
 
-class BfmeThingEQ
+class Object;
+
+// Partition filter base: allows (0x00625720) runs the chain from this filter
+// along the +0x04 links.
+class Rva000421C8
 {
 public:
-	unsigned char bfmeAskEQ(void *what);
+	bool allows(Object *obj);
 };
 
 class BfmeResultNodeItem
@@ -99,7 +103,7 @@ BfmeResultA PartitionManagerImpl::GetAllObjects(int value)
 	{
 		void *thing = node->m_bfmeItem->bfmeGetResultThing();
 
-		if (thing != 0 && (value == 0 || ((BfmeThingEQ *)value)->bfmeAskEQ(thing) != 0))
+		if (thing != 0 && (value == 0 || ((Rva000421C8 *)value)->allows((Object *)thing) != 0))
 			((Rva009F39F0Result *)&result)->append((int)thing, 0);
 
 		node = node->m_bfmeNext;

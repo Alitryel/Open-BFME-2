@@ -123,16 +123,10 @@ private:
 	Parameter *m_parameters[12];
 };
 
-// 0x002041AC: bounds-checked name getter over the vector at +8/+0xC.
-class Rva002041AC
-{
-public:
-	AsciiString rva002041AC(unsigned int index) const;
-};
-
 class ObjectTypes
 {
 public:
+	AsciiString getNthInList(unsigned int index) const;	// 0x002041AC
 	unsigned int getListSize(void) const { return m_end - m_begin; }
 
 private:
@@ -261,7 +255,7 @@ void ScriptEngine::setPriorityThing(ScriptAction *action)
 	{
 		for (unsigned int typeIndex = 0; typeIndex < types->getListSize(); typeIndex++)
 		{
-			AsciiString thisTypeName = ((const Rva002041AC *)types)->rva002041AC(typeIndex);
+			AsciiString thisTypeName = types->getNthInList(typeIndex);
 			Overridable *thisType = (Overridable *)TheThingFactory->findTemplate(thisTypeName);
 			if (!thisType)
 			{

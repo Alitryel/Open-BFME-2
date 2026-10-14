@@ -15,31 +15,35 @@ public:
 	void bfmeAlsoEU(void);
 };
 
-class BfmeThingEQ
+class Object;
+
+// Partition filter base (address-named after its constructor 0x000421C8):
+// allow is vftable slot 1; allows runs every filter along the +0x04 links.
+class Rva000421C8
 {
 public:
-	virtual void bfmeSpare000EQ(void) = 0;
-	virtual unsigned char bfmeDoEQ(void *what) = 0;
+	virtual ~Rva000421C8();
+	virtual bool allow(Object *obj) = 0;
 
-	unsigned char bfmeAskEQ(void *what);
+	bool allows(Object *obj);
 
-	BfmeThingEQ *m_bfmeNext;		// 0x4
+	Rva000421C8 *m_next;		// 0x4
 };
 
-// ?bfmeAskEQ@BfmeThingEQ@@QAEEPAX@Z
-unsigned char BfmeThingEQ::bfmeAskEQ(void *what)
+// ?allows@Rva000421C8@@QAE_NPAVObject@@@Z
+bool Rva000421C8::allows(Object *obj)
 {
-	BfmeThingEQ *at = this;
+	Rva000421C8 *at = this;
 
 	while (at != 0)
 	{
-		if (at->bfmeDoEQ(what) == 0)
-			return 0;
+		if (!at->allow(obj))
+			return false;
 
-		at = at->m_bfmeNext;
+		at = at->m_next;
 	}
 
-	return 1;
+	return true;
 }
 
 
