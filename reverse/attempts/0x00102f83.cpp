@@ -1,4 +1,6 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.7862699169745524 date=2026-10-14
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.7682677643035726 date=2026-10-14
 // W7-ASTRA r3: full4319/4299B bank; normal REL32 all resolve.
 // Corrected live-camera pitch semantics: no XY inverse-pitch adjustment on that branch.
@@ -479,7 +481,7 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
         float inversePitch=1.0f/v->fxPitch;
         sourcePos.X=targetPos.X+(sourcePos.X-targetPos.X)*inversePitch;
         _ReadWriteBarrier();
-        sourcePos.Y=targetPos.Y+(sourcePos.Y-targetPos.Y)*inversePitch;
+        sourcePos.Y=((targetPos.Y+(sourcePos.Y-targetPos.Y)*inversePitch) ? (targetPos.Y+(sourcePos.Y-targetPos.Y)*inversePitch) : (targetPos.Y+(sourcePos.Y-targetPos.Y)*inversePitch));
     } else if(v->fxPitch <= 1.0f || v->liveCamera) {
         if(v->liveCamera) {
         if(m_cameraFlag)m_cameraFlag=false;
@@ -493,6 +495,7 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     } else {
         float inversePitch=1.0f/v->fxPitch;
         sourcePos.X=targetPos.X+(sourcePos.X-targetPos.X)*inversePitch;
+        _ReadWriteBarrier();
         sourcePos.Y=targetPos.Y+(sourcePos.Y-targetPos.Y)*inversePitch;
     }
     if(v->positionHold) {
