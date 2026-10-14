@@ -244,6 +244,7 @@ public:
 	void rva0059BB50(int moves, int playerId, int unused, int armies);
 	void rva0059B8FD(_STL::vector<BfmePod20> *moves, int playerId,
 		Rva00501E3FElement *garrison, Rva0059BB50Records *candidates, int armies);
+	void rva0047A69C(int v);	// folded into 0x0047A69C
 };
 
 void Rva0059BB50::rva0059BB50(int moves, int playerId, int unused, int armies)
@@ -351,4 +352,11 @@ void Rva0059BB50::rva0059B8FD(_STL::vector<BfmePod20> *moves, int playerId,
 			}
 		}
 	}
+}
+
+// The +0x120 member call of the attach 0x004FB222, which hands the same int
+// to the +0x8C/+0xEC/+0xFC subobjects: on this class it is an empty stub that
+// folds into the shared 3-byte RET 4 at 0x0047A69C. Name address-derived.
+void Rva0059BB50::rva0047A69C(int v)
+{
 }

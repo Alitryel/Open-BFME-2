@@ -4,7 +4,7 @@
 // pointer at +0x00, then forward to a callee subobject at +0x120 / +0xFC
 // with the 0x00E04508 channel constant, addresses of the +0x18/+0x80 fields
 // and the target's +0x14 field. The callees (0x0059BB50, 0x0059C93C) are
-// pinned, not recovered.
+// rowed in their own units.
 
 // Shared global provider: reverse/data_ledger.csv 0x00A04508.
 extern unsigned int g_Va00E04508;
@@ -13,12 +13,21 @@ class Rva0059BB50
 {
 public:
 	void rva0059BB50(int a, int b, int c, int d);
+	void rva0047A69C(int v);	// empty, folded into 0x0047A69C
 };
 
-class Rva0059C93C
+// The 0x0059C93C row's own signature (LivingWorldAIArmyMover.cpp).
+namespace _STL {
+template<class T> class allocator;
+template<class T, class A> class vector;
+}
+struct BfmePod20;
+class Rva004FF5B7;
+class LivingWorldAIArmyMover
 {
 public:
-	void rva0059C93C(int a, int b, int c, int d, int e);
+	void rva0059C93C(_STL::vector<BfmePod20, _STL::allocator<BfmePod20> > *moves, int a, void *b,
+		Rva004FF5B7 *channel, int c);
 };
 
 struct Rva004FB303Target
@@ -56,14 +65,16 @@ void Rva004FB303Owner::rva004FB328()
 	Rva004FB303Target *t = (Rva004FB303Target *)m_00;
 	if (!t)
 		return;
-	((Rva0059C93C *)((char *)this + 0xFC))->rva0059C93C((int)&m_80, t->val14, (int)&m_18, (int)&g_Va00E04508, m_08);
+	((LivingWorldAIArmyMover *)((char *)this + 0xFC))->rva0059C93C(
+		(_STL::vector<BfmePod20, _STL::allocator<BfmePod20> > *)&m_80, t->val14, &m_18,
+		(Rva004FF5B7 *)&g_Va00E04508, m_08);
 }
 
 // ---- 0x004FB222 (92B): two-argument attach. Stores the target pointer at
 // +0x00, forwards its +0x14 field to the +0x18 subobject (pinned 0x00502FE9),
 // sets +0x08 to 5, forwards the int argument to the +0x8C/+0xEC/+0xFC/+0x120
-// subobjects (rowed 0x0059D74B/0x0059CE80/0x0059BD2D, empty 0x0047A69C via
-// the existing Gen alias pin), then clears the global byte 0x00E04508.
+// subobjects (rowed 0x0059D74B/0x0059CE80/0x0059BD2D, and the +0x120 class's
+// empty member folded into 0x0047A69C), then clears the global byte 0x00E04508.
 class Rva0042094D;
 
 class Rva0059D74B
@@ -90,11 +101,6 @@ public:
 	void rva00502FE9(int v);
 };
 
-class Gen_003bcb40
-{
-public:
-	void m(int v);
-};
 
 
 class Rva004FB222Owner
@@ -116,7 +122,7 @@ void Rva004FB222Owner::rva004FB222(Rva004FB303Target *t, int v)
 	((Rva0059D74B *)((char *)this + 0x8C))->rva0059D74B((Rva0042094D *)v);
 	((Rva0059CE80 *)((char *)this + 0xEC))->rva0059CE80((const void *)v);
 	((Rva0059BD2D *)((char *)this + 0xFC))->rva0059BD2D((const void *)v);
-	((Gen_003bcb40 *)((char *)this + 0x120))->m(v);
+	((Rva0059BB50 *)((char *)this + 0x120))->rva0047A69C(v);
 	*(unsigned char *)&g_Va00E04508 = 0;
 }
 
