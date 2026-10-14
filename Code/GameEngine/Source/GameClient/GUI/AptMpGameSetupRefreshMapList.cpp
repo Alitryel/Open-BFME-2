@@ -14,9 +14,13 @@ static inline const int &min(const int &a, const int &b)
     return b < a ? b : a;
 }
 }
+// The STL headers free through the C++-linkage ::free that MapUtilGetDefaultMap.cpp
+// declares, so this TU's vector<MapMetaData *> teardown COMDATs carry the same
+// relocation as that unit's first copy in link order (both pin 0x00030830).
+#define free bfmeUnusedCRTFree
 #include <stdlib.h>
-namespace _STL {void __cdecl free(void *);}
-#define free _STL::free
+#undef free
+void __cdecl free(void *);
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
 namespace _STL {
@@ -27,7 +31,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 #include <algorithm>
-#undef free
 #include "ascii_string.h"
 #include "unicode_string.h"
 
