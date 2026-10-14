@@ -173,7 +173,7 @@ class Player
 public:
 	bool isLocalPlayer() const;
 	Int getPlayerIndex() const { return m_playerIndex; }
-	Money *getMoney() { return &m_money; }
+	__declspec(dllimport) __forceinline Money *getMoney() { return &m_money; }
 	ScoreKeeper *getScoreKeeper() { return &m_scoreKeeper; }
 	const AsciiString &getSide() const { return m_side; }
 	__forceinline const char *getSideText() const { const char *text = *(const char *const *)(const void *)&m_side; return text ? text + 8 : ""; }
@@ -240,7 +240,7 @@ public:
 
 extern GlobalData *TheWritableGlobalData;
 #define TheGlobalData ((const GlobalData *)TheWritableGlobalData)
-extern char g_00DC8AF0[];
+static char statsDir[ 255 ] = "Stats\\";
 class Rva003006C4 { public: bool rva003006C4(const AsciiString &directory); };
 class FileSystem;
 extern FileSystem *TheFileSystem;
@@ -485,7 +485,7 @@ void StatsCollector::createFileName()
 	m_statsFileName.clear();
 	char *t = *(char **)(void *)&name;
 	const char *p = t ? t + 8 : "";
-	m_statsFileName.format("%s%s%s.txt", g_00DC8AF0, p, datestr);
+	m_statsFileName.format("%s%s%s.txt", statsDir, p, datestr);
 }
 
 // ?writeStatInfo@StatsCollector@@AAEXXZ, retail 0x00437921 (556 bytes).
@@ -651,7 +651,7 @@ void RvaA22F0FieldReset::reset()
 // Target setup sequence437DF8..437E72; WB12892C0 and ZHreset are semantic leads.
 void StatsCollector::rva00437DF8()
 {
-    { AsciiString directory(g_00DC8AF0); ((Rva003006C4 *)TheFileSystem)->rva003006C4(directory); }
+    { AsciiString directory(statsDir); ((Rva003006C4 *)TheFileSystem)->rva003006C4(directory); }
     createFileName(); writeInitialFileInfo(); collectUnitCountStats(); writeStatInfo();
     ((RvaA22F0FieldReset *)this)->reset(); collectScoreKeeperStats();
     m_lastUpdate=static_cast<GameLogic *>(TheGameLogic)->getFrame();
