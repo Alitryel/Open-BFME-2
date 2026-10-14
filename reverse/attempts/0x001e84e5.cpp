@@ -1,40 +1,72 @@
-// ?rva001E84E5@Rva001E46E1@@QAE_NPAVObject@@@Z
-// partial score=0.6643949902226793 date=2026-10-10
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /ICode/Libraries/Include /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
-// Reference Locomotor::locoUpdate_maintainCurrentPosition guides purpose;
-// all offsets and BFME2 movement-type dispatch below read independently from
-// native001E84E5..001E86D0 (including nine-entry dispatch table).
+// ?locoUpdate_maintainCurrentPosition@Locomotor@@QAE_NPAVObject@@@Z
+// partial score=0.85986 date=2026-10-14
+// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /ICode/Libraries/Include
+// Locomotor::locoUpdate_maintainCurrentPosition, native 1E84E5..1E86D0:
+// 455 bytes of instructions and a nine-entry switch table. WorldBuilder
+// AEF4D0 names the method and confirms the transform save/restore, flag clears
+// and maintain-position lifecycle. Pinned BFME1 a7c38d3b Locomotor.cpp provides
+// the appearance dispatch and wings/height-worker semantics; BFME2 removes
+// the Physics argument and changes the appearance enum and model conditions.
 #include "Lib/Coord3D.h"
-#include "matrix3d.h"
-class Thing {public:void setTransformMatrix(const Matrix3D*);};
-struct ModelFlags {unsigned words[19];bool test(int x)const{return (words[x>>5]&(1u<<(x&31)))!=0;}void clear(int x){words[x>>5]&=~(1u<<(x&31));}};
-class Object {public:char pad0[8];Matrix3D matrix;Coord3D position;char pad44[0x10c-0x44];ModelFlags modelFlags;char pad158[0x25c-0x158];void*physics;void rva0028AE6D();__forceinline void clearFlag(int n){if(modelFlags.test(n)){modelFlags.clear(n);rva0028AE6D();}}};
-class Rva001E6516 {public:void rva001E6516(Object*);};
-class Rva001E7CDF {public:void rva001E7CDF(Object*);};
-struct Rva001E46E1Data {char pad0[0x74];int appearance;};
-class Rva001E46E1 {public:bool rva001E84E5(Object*);bool rva001E7ECA(Object*,const Coord3D*);void*vptr;const Rva001E46E1Data*data;Coord3D maintain;char pad14[0x40-0x14];float speed;unsigned flags;char pad48[0x68-0x48];Matrix3D matrix;unsigned char state98;};
-bool Rva001E46E1::rva001E84E5(Object*obj)
+class Matrix3D {public: float m[12];};
+class Thing { public: void setTransformMatrix(const Matrix3D *); };
+class Object {
+public:
+ void rva0028AE6D();
+ __forceinline bool hasCondition(unsigned bit) const {return (condition[bit>>5]&(1U<<(bit&31)))!=0;}
+ __forceinline void clearCondition(unsigned bit) {
+  unsigned mask=1U<<(bit&31);
+  if(condition[bit>>5]&mask) {condition[bit>>5]&=~mask;rva0028AE6D();}
+ }
+ char unknown00[8]; Matrix3D transform; Coord3D position;
+ char unknown44[0x10C-0x44]; unsigned condition[19];
+ char unknown158[0x25C-0x158]; void *physics;
+};
+class Rva001E6516 {public: void rva001E6516(Object*);};
+class Rva001E46E1 {public: bool rva001E7ECA(Object*,const Coord3D*);};
+struct MaintainTemplate {char unknown[0x74];int appearance;};
+class Locomotor {
+public:
+ bool locoUpdate_maintainCurrentPosition(Object*);
+ __forceinline bool getFlag(unsigned bit) const {return (flags&(1U<<bit))!=0;}
+protected:
+ void maintainCurrentPositionWings(Object*);
+private:
+ void *unknown0; MaintainTemplate *parameters; Coord3D maintainPos;
+ char unknown14[0x40-0x14]; float speed; unsigned flags;
+ char unknown48[0x68-0x48]; Matrix3D savedTransform; bool unknown98;
+};
+bool Locomotor::locoUpdate_maintainCurrentPosition(Object *obj)
 {
- if(!obj)return false;
- const Matrix3D*transform=&matrix;
- matrix=obj->matrix;
- if(!(flags&4)){maintain=obj->position;flags|=4;}
- if(!obj->modelFlags.test(61)){
-  obj->clearFlag(133);obj->clearFlag(134);obj->clearFlag(137);obj->clearFlag(138);obj->clearFlag(135);obj->clearFlag(136);obj->clearFlag(131);
+ if(!obj) return false;
+ savedTransform.m[0]=obj->transform.m[0]; savedTransform.m[1]=obj->transform.m[1]; savedTransform.m[2]=obj->transform.m[2]; savedTransform.m[3]=obj->transform.m[3]; savedTransform.m[4]=obj->transform.m[4]; savedTransform.m[5]=obj->transform.m[5]; savedTransform.m[6]=obj->transform.m[6]; savedTransform.m[7]=obj->transform.m[7]; savedTransform.m[8]=obj->transform.m[8]; savedTransform.m[9]=obj->transform.m[9]; savedTransform.m[10]=obj->transform.m[10]; savedTransform.m[11]=obj->transform.m[11];
+ if(!getFlag(2)) {maintainPos=obj->position;flags|=4;}
+ if(!obj->hasCondition(61)) {
+  obj->clearCondition(133); obj->clearCondition(134);
+  obj->clearCondition(137); obj->clearCondition(138);
+  obj->clearCondition(135); obj->clearCondition(136);
+  obj->clearCondition(131);
  }
- flags&=~1u;state98=0;
- if(!obj->physics)return true;
- bool calling=true;
- switch(data->appearance){
- case 0:case 1:case 4:case 6:case 7:
-  speed=0;
+ flags&=~1U;
+ unknown98=false;
+ if(!obj->physics) return true;
+ bool requiresConstantCalling=true;
+ switch(parameters->appearance) {
+ case 0: case 1: case 4: case 6: case 7:
+  speed=0.0f;
+  ((Rva001E6516*)this)->rva001E6516(obj);
+  requiresConstantCalling=false;break;
  case 8:
-  ((Rva001E6516*)this)->rva001E6516(obj);calling=false;break;
- case 2:case 5:speed=0;calling=true;break;
- case 3:((Rva001E7CDF*)this)->rva001E7CDF(obj);calling=true;break;
- default:speed=0;((Rva001E6516*)this)->rva001E6516(obj);calling=true;break;
+  ((Rva001E6516*)this)->rva001E6516(obj);
+  requiresConstantCalling=false;break;
+ case 2: case 5:
+  speed=0.0f; requiresConstantCalling=true;break;
+ case 3:
+  maintainCurrentPositionWings(obj);requiresConstantCalling=true;break;
+ default:
+  speed=0.0f;((Rva001E6516*)this)->rva001E6516(obj);requiresConstantCalling=true;break;
  }
- if(rva001E7ECA(obj,&maintain))calling=true;
- ((Thing*)obj)->setTransformMatrix(transform);
- return calling;
+ if(((Rva001E46E1*)this)->rva001E7ECA(obj,&maintainPos)) requiresConstantCalling=true;
+ ((Thing*)obj)->setTransformMatrix(&savedTransform);
+ return requiresConstantCalling;
 }
