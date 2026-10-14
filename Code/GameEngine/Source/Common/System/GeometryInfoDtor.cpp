@@ -90,6 +90,22 @@ inline GeometryRecord::~GeometryRecord()
 {
 }
 
+// ??1Rva002189C5@@QAE@XZ @0x00218803
+// A second GeometryRecord vector destructor: the same 63 bytes as 0x50AB8
+// (rowed _Destroy 0x217B1E, then free) under its own EH handler. The scalar
+// deleting destructor 0x002189C5 and FontLibrary's map-value cleanup call it
+// directly; the owning class is not established, so it keeps its address
+// name and spells out the vector destructor over the vector's base.
+class Rva002189C5 : public _STL::_Vector_base<GeometryRecord, _STL::allocator<GeometryRecord> >
+{
+public:
+	~Rva002189C5();
+};
+Rva002189C5::~Rva002189C5()
+{
+	_STL::_Destroy(_M_start, _M_finish);
+}
+
 // The three bodies above are header inlines elsewhere: other units emit
 // select-any copies, so strong definitions here were duplicates in the linked
 // build. This anchor only makes this unit emit its copies for the ledger rows;

@@ -4061,23 +4061,19 @@ name,address,notes
 ??1Rva002146F7@@QAE@XZ,0x004043FF,non-virtual dtor called directly by scalar deleting dtor 0x002146F7; owning class unproven
 ??1Rva00216BF5@@UAE@XZ,0x00216BF5,"destructor the scalar deleting destructor 0x00216DA0 calls (REL32 at 0x00216DA3; vtable 0x00BE59E4#0); opaque address name"
 ??1Rva002186EB@@UAE@XZ,0x00218744,sole REL32 callee of the slot-0 ??_G at 0x00218728 in vftable 0x00BE5B10; body starts right after that ??_G
-??1Rva002189C5@@QAE@XZ,0x00218803,non-virtual dtor called directly by scalar deleting dtor 0x002189C5; owning class unproven
 ??1Rva002213C0Dtor@@QAE@XZ,0x002213C0,dtor thunk stub at 0x002213C0 to 0x002212F1 (target of thunk 0x007B7704)
 ??1Rva0022167C@@QAE@XZ,0x0022167C,address read from the REL32 displacement at byte-matched body 0x005CB3BE; 14B dtor storing vtable 0x00BE6BA8 then tail-jumping to 0x0022161B
 ??1Rva00221A58@@QAE@XZ,0x002218D0,ICF twin of Open2Dtor4793C0 from Rva00221B42 dtor call site
 ??1Rva00222061@@UAE@XZ,0x00221FFA,dtor installs its own vftable 0x00BE6C3C (bytes at ++19) and is the REL32 callee of the slot-0 ??_G at 0x002220C0
 ??1Rva00224A90@@UAE@XZ,0x00224A90,opaque SEH dtor (mov-eax-cookie prologue); tail-called by single-inheritance dtor at 0x628FD; identity unproven, address-derived name
 ??1Rva00224CDC@@UAE@XZ,0x00224D4B,sole REL32 callee of the slot-0 ??_G at 0x00224D2F in vftable 0x00BE6EE8; body starts right after that ??_G
-??1Rva00225B63@@QAE@XZ,0x001B5207,non-virtual dtor called directly by scalar deleting dtor 0x00225B63; owning class unproven
 ??1Rva00229487@@QAE@XZ,0x0022630F,non-virtual dtor called directly by scalar deleting dtor 0x00229487; owning class unproven
 ??1Rva0022CA74@@MAE@XZ,0x00200280,dtor installs its own vftable 0x00BE2704 (bytes at ++21) and is the REL32 callee of the slot-0 ??_G at 0x0020030F
 ??1Rva0022CA95@@MAE@XZ,0x002149AA,dtor installs its own vftable 0x00BE5348 (bytes at ++21) and is the REL32 callee of the slot-0 ??_G at 0x00214A6E
 ??1Rva0022DC9B@@QAE@XZ,0x0022DC9B,member destructor at +0xC called by the destructor 0x00413A24 (byte-exact modulo relocs in MemberBaseDtorsB01.cpp); identity unproven; address-derived name
 ??1Rva0022DCDA@@QAE@XZ,0x0022DCDA,member destructor at +0xC called by the destructor 0x00414166 (byte-exact modulo relocs in MemberBaseDtorsB01.cpp); identity unproven; address-derived name
 ??1Rva0022E0E5@@UAE@XZ,0x001B4D16,dtor installs its own vftable 0x00BD7678 (bytes at ++20) and is the REL32 callee of the slot-0 ??_G at 0x001B4D63
-??1Rva0023903B@@QAE@XZ,0x0042C1B7,non-virtual dtor called directly by scalar deleting dtor 0x0023903B; owning class unproven
 ??1Rva00239D7A@@QAE@XZ,0x00239D7A,pointee destructor called by the owning-pointer reset 0x0023A039 (byte-exact modulo relocs in OwnedPointerResets.cpp); identity unproven; address-derived name
-??1Rva00239E64@@QAE@XZ,0x00239D7A,non-virtual dtor called directly by scalar deleting dtor 0x00239E64; owning class unproven
 ??1Rva0023AE08@@UAE@XZ,0x0023AE08,opaque SEH dtor (mov-eax-cookie prologue); tail-called by 2-vptr dtor at 0x4C743; identity unproven, address-derived name
 ??1Rva0023DAA5List@@QAE@XZ,0x004EC395,address read from the REL32 displacement at byte-matched body 0x005997CD; folded _List_base dtor
 ??1Rva0023FD06@@UAE@XZ,0x0023FD06,"destructor the scalar deleting destructor 0x0023FCEA calls (REL32 at 0x0023FCED; vtable 0x00BEDC94#0); opaque address name"
