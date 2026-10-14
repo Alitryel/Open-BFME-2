@@ -191,8 +191,9 @@ public:
 	virtual void slot142() = 0;
 	virtual CommandSourceType getLastCommandSource() const = 0; // slot 0x23C
 
-	void rva00263025(); // resetNextMoodCheckTime
-	void resetNextMoodCheckTime() { rva00263025(); }
+	// resetNextMoodCheckTime; called by its rowed name, since a local inline
+	// of the ZH name would emit a COMDAT copy competing with AIUpdate.cpp's.
+	void rva00263025();
 	WhichTurretType friend_getTurretSync() const { return m_turretSyncFlag; }
 	void friend_setTurretSync(WhichTurretType t) { m_turretSyncFlag = t; }
 	Object *getGoalObject() { return m_stateMachine->getGoalObject(); }
@@ -478,8 +479,8 @@ static StateReturnType frameToSleepTime(
 }
 
 //----------------------------------------------------------------------------------------------------------
-// Retail 0x004D837D (rowed in TurretAI_rva004D837D.cpp): defined here ahead of its callers so the
-// compiler knows it leaves ecx alone (see onEnter below); /Gy makes this copy a COMDAT.
+// Retail 0x004D837D: defined here ahead of its callers so the compiler knows it leaves
+// ecx alone (see onEnter below). This unit owns the row: a second definer is a duplicate.
 UnsignedInt TurretAI::rva004D837D()
 {
 	char *owner = *(char **)((char *)this + 0x10);
@@ -503,7 +504,7 @@ StateReturnType TurretAIIdleState::onEnter()
 	AIUpdateInterface *ai = getMachineOwner()->getAI();
 	if (ai)
 	{
-		ai->resetNextMoodCheckTime();
+		ai->rva00263025();
 		if (ai->friend_getTurretSync() == getTurretAI()->friend_getWhichTurret())
 			ai->friend_setTurretSync(TURRET_INVALID);
 	} // ai doesn't exist if the object was just created this frame.

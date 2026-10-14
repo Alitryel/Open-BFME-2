@@ -47565,7 +47565,6 @@ _rva006D9D70Comparator,,0x006D9D70,203,Code/Libraries/Source/Apt/AptValue/Rva006
 ?rva00594EFC@Rva00594EFC@@QAEHXZ,,0x00594EFC,11,Code/GameEngine/Source/GameNetwork/Rva00594EFCGet.cpp,matched,retail and-clear plus return plus4 thiscall ret0
 ?rva00413D46@Rva00413D46@@QAEXPAVINI@@@Z,,0x00413D46,18,Code/GameEngine/Source/Common/Rva00413D46Parse.cpp,matched,retail INI forward via table 0x839D54 sibling Rva00413DCC
 ?Rva00203DA2Chain@@YAXPAVRva00203DA2A@@PAX@Z,,0x00203DA2,28,Code/GameEngine/Source/Common/Rva00203DA2Chain.cpp,matched,sibling chain slots 27 then 24 via virtual calls
-?rva004D837D@TurretAI@@QAEIXZ,,0x004D837D,29,Code/GameEngine/Source/GameLogic/Object/Update/TurretAI_rva004D837D.cpp,matched,unlock TurretAI owner 0x10-0x258-0x21c else TheGameLogic+0x40
 ?readFromDict@Handicap@@QAEXPBVDict@@@Z,,0x003B0EBD,227,Code/GameEngine/Source/Common/RTS/HandicapReadFromDict.cpp,matched,Handicap 2x2 via HANDICAP keys donor BFME1 readFromDict
 ?Rva00241955Insert@@YG?AURva00241955Iter@@U1@ABUBfmeStringRecord00239B46@@@Z,,0x00241955,37,Code/Libraries/Source/WWVegas/WWLib/Rva00241955Insert.cpp,matched,chain lane twin of 0x00239E80 via rowed create 0x00240C89 caller 0x00242EE7
 ?rva0043E132@Rva0043E0C5@@QAE_NHH@Z,,0x0043E132,154,Code/GameEngine/Source/Common/Rva0043E0C5.cpp,matched,same class adjacent body callers 0x0043E712 0x00442ECC
@@ -89899,3 +89898,4 @@ $L3985,,0x0075D58E,10,Code/GameEngine/Source/Common/Rva0004F84ESnapshotFactory.c
 ??1TreeHintRef00217D4C@@QAE@XZ,,0x005F8F96,12,Code/GameEngine/Source/Common/Rva002833A3C5.cpp,matched,ICF fold of the 12B counted-handle release destructor; proven sole owner of 0x5F8F96; parent Rva0028292B funclet 0x773B1B jmp target; fold-proof=Code/GameEngine/Source/Common/Rva002833A3C5.cpp
 $L499,,0x00773B1B,25,Code/GameEngine/Source/Common/Rva002833A3C5.cpp,matched,
 ?rva000E0298@Rva000E01B0@@QAE?AUNativeInsertResult@@ABURva000E007DPair@@@Z,,0x000E0298,138,Code/GameEngine/Source/Common/Rva000E0298HashInsert.cpp,matched,find-or-insert on the two-word-key hash table of rva000E01B0; allocateNode 0x3ED191; volatile bucket-pointer read replaces the scheduling fence (W7-S2 r14)
+?rva004D837D@TurretAI@@QAEIXZ,,0x004D837D,29,Code/GameEngine/Source/GameLogic/AI/TurretAIIdleStates.cpp,matched,unlock TurretAI owner 0x10-0x258-0x21c else TheGameLogic+0x40; rehomed from split unit TurretAI_rva004D837D.cpp to the TurretAIIdleStates copy its callers need (duplicate symbol)
