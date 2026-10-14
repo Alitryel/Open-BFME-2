@@ -1,4 +1,6 @@
-// ?rva004E2FBD@Rva004E2FBD@@QAEXAAVRenderInfoClass@@@Z
+// ?rva000E2FBD@FlatHeightMapRenderObjClass@@QAEXAAVRenderInfoClass@@@Z
+// partial score=0.43 date=2026-10-14
+// ?rva000E2FBD@FlatHeightMapRenderObjClass@@QAEXAAVRenderInfoClass@@@Z
 // partial score=0.43 date=2026-10-14
 // Bank draft of the BFME2 terrain-system render coordinator at 0x004E2FBD
 // (2768B, RET4). Decoded from the retail body: DoTerrainSystems scope, the
@@ -34,11 +36,7 @@ struct BFME2TextureRef { void *Ptr; };
 void BFME2Set_Texture(unsigned int slot, const BFME2TextureRef &ref);
 void Rva000685E2Reset();
 void Rva0004CB5FSet(int);
-class FlatHeightMapRenderObjClass
-{
-public:
-    void renderTerrain(RenderInfoClass &, int *, int *, int *, int *);
-};
+
 class Rva000D79CBCallee
 {
 public:
@@ -77,10 +75,11 @@ extern void *g_rva00DFE1E4;
 extern void *g_rva00DE2014;
 extern float g_rva00DEE7C4[16];
 
-class Rva004E2FBD
+class FlatHeightMapRenderObjClass
 {
 public:
-    void rva004E2FBD(RenderInfoClass &info);
+    void renderTerrain(RenderInfoClass &, int *, int *, int *, int *);
+    void rva000E2FBD(RenderInfoClass &info);
 
 private:
     unsigned char m_pad18[0x18];
@@ -104,7 +103,7 @@ private:
     if (handle != 0) \
         ((TextureBaseClass *)handle)->Release_Ref(); } while (0)
 
-void Rva004E2FBD::rva004E2FBD(RenderInfoClass &info)
+void FlatHeightMapRenderObjClass::rva000E2FBD(RenderInfoClass &info)
 {
     if (m_3880 != 0)
         return;
@@ -226,7 +225,7 @@ void Rva004E2FBD::rva004E2FBD(RenderInfoClass &info)
         {
             BFME2ScopedRenderEvent ev("RenderTerrain", "Frame", 0);
             int d = 0;
-            ((FlatHeightMapRenderObjClass *)this)->renderTerrain(info, &d, &a, &b, &c);
+            renderTerrain(info, &d, &a, &b, &c);
         }
         ((void (__fastcall *)(void *, void *))((*(void ***)g_rva00DEDA34)[0x170 / 4]))(g_rva00DEDA34, this);
         g_rva00DEDA98++;
