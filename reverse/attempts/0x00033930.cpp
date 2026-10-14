@@ -1,4 +1,6 @@
 // ?rva00033930@Rva00034C90@@QAEXXZ
+// partial score=0.985 date=2026-10-14
+// ?rva00033930@Rva00034C90@@QAEXXZ
 // partial score=0.985 date=2026-10-13
 // ?rva00033930@Rva00034C90@@QAEXXZ
 // partial score=0.985 date=2026-10-13
@@ -55,7 +57,7 @@ public:
 class Rva00033B90Allocator
 {
 public:
-	void rva00033700(void *, unsigned int, bool, void *, void *, void *);
+	bool rva00033700(void *, unsigned int, bool, void *, void *, void *);
 };
 
 class Rva00034C90
