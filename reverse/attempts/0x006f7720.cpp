@@ -1,6 +1,8 @@
 // ?rva006F7720Sub@AptAnimationPoolData@@QAEXPAXH@Z
+// partial score=0.85 date=2026-10-14
+// ?rva006F7720Sub@AptAnimationPoolData@@QAEXPAXH@Z
 // partial score=0.8 date=2026-10-09
-// cl: /O2 /G7 /arch:SSE /MD
+// cl: /DNDEBUG /MD
 // Native 6F7720..6F79A3 is 643B through RET8 (served636 extent cuts epilogue).
 // Display-list visitor uses the owned112B/395B rendering callbacks, sorted
 // 32-entry mask stack (owned7570/7600) and native AptDisplayList assertions.
@@ -36,7 +38,7 @@ void AptAnimationPoolData::rva006F7720Sub(void *context,int mode)
 {
  AptDisplayNode *item=list->head->next;
  Rva006F7600 masks;
- int maskCount=0;
+ int maskCount=masks.count;
  // Both visitors have the same native three-argument stack ABI; the clip
  // visitor's pointer result is discarded by this type-erased visitor API.
  AptDisplayVisitor visit;
