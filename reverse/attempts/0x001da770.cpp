@@ -1,4 +1,6 @@
 // ?helper001DA770@@YAXPAVINI@@HPAVAsciiString@@PBD@Z
+// partial score=0.93 date=2026-10-14
+// ?helper001DA770@@YAXPAVINI@@HPAVAsciiString@@PBD@Z
 // partial score=0.93 date=2026-10-07
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD
 //
