@@ -16,10 +16,12 @@ public:
 	void rva000A97A9(void *dst);
 };
 
-class Rva000AA966
+struct Rva000AAD88Arg;
+// 0x000AA966 is matched as the constructor W3DAptDisplayString(Rva000AAD88Arg *).
+class W3DAptDisplayString
 {
 public:
-	void *rva000AA966(void *arg);
+	W3DAptDisplayString(Rva000AAD88Arg *arg);
 };
 
 struct Rva000AAD88Arg
@@ -43,6 +45,6 @@ void *w3dAllocateString(Rva000AAD88Arg *u)
 	}
 	void *p = operator new(0x30);
 	if (p)
-		return ((Rva000AA966 *)p)->rva000AA966(u);
+		return &((W3DAptDisplayString *)p)->W3DAptDisplayString::W3DAptDisplayString(u);
 	return 0;
 }
