@@ -1,5 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
-// ?rva0055EECB@Rva0055EECB@@QAEXPAVXfer@@@Z 0x0055EECB 110B. Version-gated xfer:
+// ?DoXfer@DefaultPhysicsModuleInfo@FXParticleSystem@@UAEXAAVXfer@@@Z 0x0055EECB
+// 110B (the name Rva0055EF39Xfer.cpp calls it by). Version-gated xfer:
 // a two-byte version record (1, 3) is transferred first, then the +0x10 and +0x4
 // members, the RandomVariable at +0x14 through the matched xferRandomVariable,
 // and the +0x20 and +0x21 members once the version reaches 2 and 3.
@@ -55,29 +56,31 @@ struct Rva0055EECBVersion
 	unsigned char stored;
 };
 
-class Rva0055EECB
+namespace FXParticleSystem
+{
+class DefaultPhysicsModuleInfo
 {
 public:
-	void rva0055EECB(Xfer *xfer);
+	virtual void DoXfer(Xfer &xfer);
 private:
-	unsigned char m_pad00[4];
 	unsigned char m4[0x0C]; // +0x04
 	unsigned char m10[4]; // +0x10
 	unsigned char m14[0x0C]; // +0x14
 	unsigned char m20[2]; // +0x20
 };
+}
 
-void Rva0055EECB::rva0055EECB(Xfer *xfer)
+void FXParticleSystem::DefaultPhysicsModuleInfo::DoXfer(Xfer &xfer)
 {
 	Rva0055EECBVersion version;
 	version.current = 1;
 	version.stored = 3;
-	xfer->s28(&version);
-	xfer->s70(&m10);
-	xfer->s60(&m4);
-	xferRandomVariable(*xfer, *reinterpret_cast<GameClientRandomVariable *>(&m14));
+	xfer.s28(&version);
+	xfer.s70(&m10);
+	xfer.s60(&m4);
+	xferRandomVariable(xfer, *reinterpret_cast<GameClientRandomVariable *>(&m14));
 	if (version.stored >= 2)
-		xfer->s90(&m20[0]);
+		xfer.s90(&m20[0]);
 	if (version.stored >= 3)
-		xfer->s90(&m20[1]);
+		xfer.s90(&m20[1]);
 }
