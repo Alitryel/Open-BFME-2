@@ -1,6 +1,6 @@
-// ?rva005CB432@@YIXPAVRegionUI@@PAURva005CB432Owner@@@Z
-// partial score=0.96 date=2026-10-14
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD
+// cl: /Oy- /Ireference/shims/bfme2_ascii /DNDEBUG /MD
+// 0x005CB432 (56B): a TU of its own because retail keeps a frame pointer for this body (/Oy-); the region
+// default (/O1 /arch:SSE /G7) plus /Oy- is exact. RegionUI view as in VslotSmallBodiesW5SN4.cpp.
 // Bank for 0x005CB432; RegionUI view as in Code/GameEngine/Source/Common/VslotSmallBodiesW5SN4.cpp
 typedef int Int;
 class Image; class UnicodeString;
