@@ -324,6 +324,7 @@ public:
     Object * rva003C24F0(Coord3D const *, ObjectTypes *, Player *, bool);
 
 protected:
+    void doLoadAllTransports(const AsciiString &teamName);
     void doBorderSwitch(int);
     void doNamedSetRepulsor(AsciiString const &, bool);
     void doNamedAttackArea(AsciiString const &, AsciiString const &);
