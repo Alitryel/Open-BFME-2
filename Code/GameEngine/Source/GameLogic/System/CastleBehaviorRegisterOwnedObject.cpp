@@ -83,14 +83,21 @@ extern GameLogic* TheGameLogic;
 class Rva2225E0Filter { public: bool accepts(Object*,Player*); };
 class Rva00395F0B { public: void rva00395F0B(Object*); };
 class FoundationAIUpdate { protected: virtual void xfer(Xfer*); private: void rva0045527A(ObjectID); friend class CastleBehavior;
- friend class Rva00399959; };
+ friend class Rva00399959; char native04[0x2c]; };
 template<class T> inline T& field(void* p,int n) { return *(T*)((char*)p+n); }
 inline void* objectTemplate(Object* object) { return field<void*>(object,4); }
 inline ObjectID objectID(Object* object) { return field<ObjectID>(object,0x74); }
 class BuildListInfo;
 class ThingTemplate;
 class PolygonTrigger;
-class CastleBehavior { public: void rva0039865E(PolygonTrigger*); Object* buildCastleStructure(BuildListInfo*,bool); void* GetArmyIDFromClosestObject(); Object* createOwnedObject(void*); void rva003993F2(bool); void teleportStragglersFromWallToGround(bool); void registerOwnedObject(Object*); bool checkForAutoPack(); bool checkForInstantUnPack(); void rva00397B03(ObjectStatusTypes,bool); virtual void DoXfer(Xfer*); void rva00399370(); void rva0039792B(); void initiateUnpack(bool,const ThingTemplate*); };
+class CastleBehaviorInterface {
+public:
+ virtual void slot0()=0;
+ virtual void rva00395DAC()=0;
+ virtual void slot2()=0;
+ virtual bool slot3()=0;
+};
+class CastleBehavior : public FoundationAIUpdate, public CastleBehaviorInterface { public: virtual void rva00395DAC(); void rva0039865E(PolygonTrigger*); Object* buildCastleStructure(BuildListInfo*,bool); void* GetArmyIDFromClosestObject(); Object* createOwnedObject(void*); void rva003993F2(bool); void teleportStragglersFromWallToGround(bool); void registerOwnedObject(Object*); bool checkForAutoPack(); bool checkForInstantUnPack(); void rva00397B03(ObjectStatusTypes,bool); virtual void DoXfer(Xfer*); void rva00399370(); void rva0039792B(); void initiateUnpack(bool,const ThingTemplate*); };
 void CastleBehavior::registerOwnedObject(Object* object) {
  void* data=field<void*>(this,4);
  Object* owner=field<Object*>(this,8);
@@ -895,4 +902,22 @@ void CastleBehavior::rva0039865E(PolygonTrigger* polygon) {
   field<AsciiString>(polygon,0x40).setCopyInline(name);
   PolygonTrigger::addPolygonTrigger(polygon);
  }
+}
+
+// Native395DAC..395E19/109B and WB EB7E90: secondary interface +30,
+// table C1A680 slot1. WB confirms void/no arguments and the same owner,
+// module-data flag, area fuel reset, model-condition bit and status60.
+// Constructor3983D4 proves the FoundationAIUpdate prefix is30 bytes.
+class FireLogicSystem {public:void ChangeFuelInArea(float*,float,int,int,int,int,bool);};
+class Rva002872BA;
+extern Rva002872BA *TheTriggerManager;
+void CastleBehavior::rva00395DAC() {
+ void *data=field<void*>(this,4);
+ if(data && field<bool>(data,0x3c))field<bool>(this,0x3c)=true;
+ Object *owner=field<Object*>(this,8);
+ if(!owner)return;
+ if(TheTriggerManager)
+  reinterpret_cast<FireLogicSystem*>(TheTriggerManager)->ChangeFuelInArea(&field<float>(owner,0x38),reinterpret_cast<Rva00395A60*>(this)->rva00395A60(),(int)0x80000000,0,0,0,false);
+ castleSetCondition(owner,330);
+ owner->setStatus((ObjectStatusTypes)60,true);
 }
