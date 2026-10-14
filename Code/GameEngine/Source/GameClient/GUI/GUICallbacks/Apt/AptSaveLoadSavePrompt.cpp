@@ -49,7 +49,7 @@ extern GameTextInterface *TheGameText;
 class __multiple_inheritance FunctorTarget;
 typedef void (FunctorTarget::*FunctorMethod)();
 class AptSaveLoad {public:
-	static AptSaveLoad *s_instance;void rva00433D71(int);};
+	static AptSaveLoad *s_instance;void rva00433D71(int);void rva00435224();};
 class Rva00434337 {public:void rva00434337(int);};
 struct FunctorBinding { FunctorBinding(){}
  template<class T> FunctorBinding(T*t,void(T::*f)(int)):m_target(reinterpret_cast<FunctorTarget*>(t)),m_method(reinterpret_cast<FunctorMethod>(f)){}
@@ -75,6 +75,7 @@ void *__cdecl operator new(unsigned int size);
 class Rva0057BC63FunctorHolder
 {
 public:
+	Rva0057BC63FunctorHolder() : m_ptr(0) {}
 	Rva0057BC63FunctorHolder(const FunctorBinding &binding)
 	{
 		m_ptr = new Rva0057BC63FunctorWrapper(binding);
@@ -114,6 +115,7 @@ struct CallbackStorage {
 };
 struct ScopedFunctor {
  Rva0057BC63FunctorHolder holder;
+ ScopedFunctor(){}
  ScopedFunctor(const FunctorBinding& binding):holder(binding){}
  ScopedFunctor(const ScopedFunctor&r):holder(r.holder){if(holder.m_ptr)++((int*)holder.m_ptr)[1];}
  ~ScopedFunctor(){if(holder.m_ptr)ReleaseTreeHintRef00217D4C((TargetRef00217D4C*)holder.m_ptr);}
@@ -173,4 +175,48 @@ void __cdecl Rva00434EFA()
 	{
 		Rva00437F61(2, TheGameText->fetch("APT:SaveGameProgress", 0), TheGameText->fetch("APT:MultiplayerGameSaved", 0), CallbackStorage((void *)addressOf(SaveCallback(Rva00433D4D))));
 	}
+}
+
+// Retail 0x00435224 (299 B), called by AptSaveLoad::Load and ConfirmationOk:
+// warns when the save directory lacks space (two-button message box, the member
+// callback 0x00434337 bound through the functor holder), else picks the next
+// screen state from the number of human slots of the multiplayer game.
+class Rva002DC267 { public: bool rva002DC681() const; };
+class GameState;
+extern GameState *TheGameState;
+class GameSlot { public: bool isHuman() const; };
+class GameInfo { public: GameSlot *getSlot(int slotNum); };
+extern GameInfo *TheGameInfo;
+struct AptSaveLoadModeView
+{
+	unsigned char m_pad000[0x2A0];
+	int m_mode;
+};
+void AptSaveLoad::rva00435224()
+{
+	if (TheGameState != 0 && !((const Rva002DC267 *)TheGameState)->rva002DC681())
+	{
+		Rva00437FB3(0, TheGameText->fetch("GUI:Error", 0), TheGameText->fetch("APT:SaveFileDiskFull", 0),
+			ScopedFunctor(),
+			ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(this), reinterpret_cast<FunctorMethod>(&Rva00434337::rva00434337))));
+		((AptSaveLoadPromptScreen *)this)->m_state = 0x17;
+		return;
+	}
+
+	if (((AptSaveLoadModeView *)this)->m_mode == 0x10 && TheGameInfo != 0)
+	{
+		int humanCount = 0;
+		for (int i = 0; i < 8; ++i)
+		{
+			GameSlot *slot = TheGameInfo->getSlot(i);
+			if (slot != 0 && slot->isHuman())
+				++humanCount;
+		}
+		if (humanCount > 1)
+		{
+			((AptSaveLoadPromptScreen *)this)->m_state = 5;
+			return;
+		}
+	}
+	((AptSaveLoadPromptScreen *)this)->m_state = 4;
 }
