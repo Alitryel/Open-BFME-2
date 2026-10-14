@@ -12,7 +12,6 @@
 //   clear       erase       element
 //   0x00351BC5  0x002A133B  Gen_p12pod            (Rva007D85C0FilterShutdown.cpp)
 //   0x00475BDD  0x004758F4  Rva004758F4Element    (StlportVectorEraseRangeFamily.cpp)
-//   0x004F8871  0x000819EC  TreeHintRef00217D4C   (StlportVectorEraseRangeFamily.cpp)
 //   0x004F8DC9  0x004F89A8  Rva004F6352           (stlport_rva004f6352_sort.cpp)
 //   0x00501A00  0x0050126C  Rva00501E3FElement    (LocomotorSetMapThunks.cpp)
 //   0x003F1D18  0x00532803  ParticleSystemID      (BoneFXUpdate_eraseParticleSystemID.cpp)
@@ -20,7 +19,6 @@
 
 struct Gen_p12pod;
 struct Rva004758F4Element;
-struct TreeHintRef00217D4C;
 struct Rva004F6352;
 struct Rva00501E3FElement;
 enum ParticleSystemID { INVALID_PARTICLE_SYSTEM_ID = 0 };
@@ -28,7 +26,6 @@ enum ParticleSystemID { INVALID_PARTICLE_SYSTEM_ID = 0 };
 namespace _STL {
 template <> Gen_p12pod *vector<Gen_p12pod>::erase(Gen_p12pod *, Gen_p12pod *);
 template <> Rva004758F4Element *vector<Rva004758F4Element>::erase(Rva004758F4Element *, Rva004758F4Element *);
-template <> TreeHintRef00217D4C *vector<TreeHintRef00217D4C>::erase(TreeHintRef00217D4C *, TreeHintRef00217D4C *);
 template <> Rva004F6352 *vector<Rva004F6352>::erase(Rva004F6352 *, Rva004F6352 *);
 template <> Rva00501E3FElement *vector<Rva00501E3FElement>::erase(Rva00501E3FElement *, Rva00501E3FElement *);
 template <> ParticleSystemID *vector<ParticleSystemID>::erase(ParticleSystemID *, ParticleSystemID *);
@@ -36,7 +33,6 @@ template <> ParticleSystemID *vector<ParticleSystemID>::erase(ParticleSystemID *
 
 template void _STL::vector<Gen_p12pod>::clear();
 template void _STL::vector<Rva004758F4Element>::clear();
-template void _STL::vector<TreeHintRef00217D4C>::clear();
 template void _STL::vector<Rva004F6352>::clear();
 template void _STL::vector<Rva00501E3FElement>::clear();
 template void _STL::vector<ParticleSystemID>::clear();
