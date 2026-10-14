@@ -45,6 +45,17 @@ void *rva0002FC60(unsigned int size)
 	return __gameMemAllocatePtr(size, 0, 0);
 }
 
+// --- 0x0002FC80 (24B): _msize: the block's size through the null-guarded
+// block-size forwarder 0x00030860, with the heap word the block-heap slot
+// (VA 0x00DE03F0, ?_GetBlockHeap@MemoryPool@@YAIPAX@Z) reports.
+extern void *g_00DE03F0;
+unsigned int rva00030860(void *block, unsigned int heap);
+
+unsigned int rva0002FC80(void *block)
+{
+	return rva00030860(block, ((unsigned int (__cdecl *)(void *))g_00DE03F0)(block));
+}
+
 // --- 0x0002FCA0 (24B): realloc through the resize slot VA 0x00DE0400 with
 // two zero words.
 extern void *g_00DE0400;

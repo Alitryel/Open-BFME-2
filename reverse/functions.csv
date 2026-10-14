@@ -88506,3 +88506,7 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ??_GRva00005405@@UAEPAXI@Z,,0x00005405,29,Code/GameEngine/Source/Common/InlineDtorDeletingDtorsC03.cpp,matched,scalar deleting dtor with the empty inline dtor (stores Xfer vtable 0x00BBB910) then operator delete; second copy (??_GXfer names 0x0060C8B1)
 ??_ERva00001E13@@QAEPAXI@Z,,0x00002398,75,Code/Libraries/Source/WWVegas/WWLib/Rva0000234DVectorDeletingDtors.cpp,matched,vector deleting dtor element 0x8 via delete anchor; rowed dtor 0x00001E13; unreferenced in retail
 ??_ERva0000234DElem@@QAEPAXI@Z,,0x0000234D,75,Code/Libraries/Source/WWVegas/WWLib/Rva0000234DVectorDeletingDtors.cpp,matched,vector deleting dtor element 0x24 via delete anchor; element dtor pinned at 0x00001DAC; unreferenced in retail
+?rva00030860@@YAIPAXI@Z,,0x00030860,19,Code/GameEngine/Source/Common/System/GameMemoryBlockSlots.cpp,matched,null-guarded tail jump into the GetBlockSize memory-pool slot VA 0x00DE03F4
+?rva00030880@@YAXXZ,,0x00030880,6,Code/GameEngine/Source/Common/System/GameMemoryBlockSlots.cpp,matched,tail jump into the VerifyIntegrity memory-pool slot VA 0x00DE03EC
+?rva0002FC80@@YAIPAX@Z,,0x0002FC80,24,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,_msize shape: block-heap slot VA 0x00DE03F0 then rowed 0x00030860 block-size forwarder
+?rva0002BA86@FileSystem@@QAEPAVFile@@PBDH@Z,,0x0002BA86,18,Code/GameEngine/Source/Common/GapBodiesGE19.cpp,matched,openFile forwarder with zero third argument; this passed through to 0x00600C34; unreferenced

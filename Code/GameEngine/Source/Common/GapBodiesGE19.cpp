@@ -54,3 +54,21 @@ bool Rva0002C7E8::rva0002C7E8(const AsciiString &a, const AsciiString &b) const
 {
 	return ((const StringBase<char> &)a).compareNoCase((const StringBase<char> &)b) == 0;
 }
+
+// --- 0x0002BA86 (18B), unreferenced in retail: forwards filename and access
+// to the rowed three-argument FileSystem::openFile (0x00600C34) with a zero
+// third argument, `this` passed straight through in ecx. The owner is the
+// callee's class; the member name is address-derived.
+class File;
+
+class FileSystem
+{
+public:
+	File *openFile(const char *filename, int access, int unk);
+	File *rva0002BA86(const char *filename, int access);
+};
+
+File *FileSystem::rva0002BA86(const char *filename, int access)
+{
+	return openFile(filename, access, 0);
+}
