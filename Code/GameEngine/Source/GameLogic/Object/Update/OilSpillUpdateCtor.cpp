@@ -25,6 +25,10 @@ void allocator<int>::deallocate(int* __p, size_t __n) const {
     if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
 }
 template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
+// Declaration-only: retail keeps one 14-byte copy of the vector<int> teardown
+// (0x0007FAB3); this TU's flags would emit a private 24-byte one.
+template <> vector<int, allocator<int> >::~vector();
+template <> _Vector_base<int, allocator<int> >::~_Vector_base();
 }
 
 class Thing;

@@ -72,6 +72,10 @@ template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b
 // kept copy. Plain (non-dllimport) form: no __imp_ reference is emitted.
 namespace _STL {
 template <> void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int*, size_t);
+// Declaration-only: retail keeps one 14-byte copy of the vector<int> teardown
+// (0x0007FAB3); this TU's flags would emit a private 24-byte one.
+template <> vector<int, allocator<int> >::~vector();
+template <> _Vector_base<int, allocator<int> >::~_Vector_base();
 }
 typedef int Bool;
 #include "subsystem_interface.h"
