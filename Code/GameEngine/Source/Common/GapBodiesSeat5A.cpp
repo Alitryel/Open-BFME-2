@@ -492,3 +492,39 @@ void Rva005CF9AA::rva005CF9AA()
 {
 	m_08.rva005E96D4();
 }
+
+// --- 0x005E8183 and 0x00601972 (11B each): clear() of two vectors, the
+// whole [start, finish) range through their rowed range erasers 0x005E8044
+// and 0x0060194C (the same shape as the clears beside the erase family in
+// StlportVectorEraseRangeFamily.cpp).
+class Rva005E8044
+{
+public:
+	void *rva005E8044(void *first, void *last);				// 0x005E8044
+	void rva005E8183();
+private:
+	void *m_start;
+	void *m_finish;
+};
+
+void Rva005E8044::rva005E8183()
+{
+	rva005E8044(m_start, m_finish);
+}
+
+struct Rva00601A3AElement;
+class Rva00601A3AVectorView
+{
+public:
+	Rva00601A3AElement *eraseRange(Rva00601A3AElement *first, Rva00601A3AElement *last);	// 0x0060194C
+	void rva00601972();
+private:
+	Rva00601A3AElement *m_start;
+	Rva00601A3AElement *m_finish;
+	Rva00601A3AElement *m_end;
+};
+
+void Rva00601A3AVectorView::rva00601972()
+{
+	eraseRange(m_start, m_finish);
+}
