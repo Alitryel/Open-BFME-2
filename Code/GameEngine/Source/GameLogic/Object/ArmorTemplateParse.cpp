@@ -83,6 +83,9 @@ public:
 	static void parseArmorCoefficients(INI *ini, void *instance, void *store, const void *userData);
 	static void parseDamageScalar(INI *ini, void *instance, void *store, const void *userData);
 	void clear();
+	bool rva001D8E7F() const;
+	float rva001D8E88() const;
+	float rva001D8E8B(const struct Rva001D8E8BInput &input) const;
 
 private:
 	float m_head; // +0x00
@@ -90,6 +93,13 @@ private:
 	float m_damageScalar; // +0x70
 	int m_flag; // +0x74
 	AsciiString m_name; // +0x78
+};
+
+// The damage request read by 0x001D8E8B: its damage type sits at +0x0C.
+struct Rva001D8E8BInput
+{
+	int m_pad00[3];
+	int m_damageType; // +0x0C
 };
 
 typedef char AssertArmorTemplateSize[sizeof(ArmorTemplate) == 0x7C ? 1 : -1];
@@ -151,3 +161,24 @@ void ArmorTemplate::clear()
 }
 // ?TheDefaultArmorTemplateName@@3VAsciiString@@A: the global at VA 0xde0878 is ?TheEmptyString@AsciiString@@2V1@B.
 #pragma comment(linker, "/alternatename:?TheDefaultArmorTemplateName@@3VAsciiString@@A=?TheEmptyString@AsciiString@@2V1@B")
+
+// Three small const readers just ahead of parseArmorCoefficients
+// (0x001D8E99), after the 0x001D8E7A INI::parseAIDataDefinition jump; names
+// are address-derived, the receiver layout is the measured one above.
+// 0x001D8E7F (9B): whether the +0x74 flag is positive.
+bool ArmorTemplate::rva001D8E7F() const
+{
+	return m_flag > 0;
+}
+
+// 0x001D8E88 (3B): the +0x00 float.
+float ArmorTemplate::rva001D8E88() const
+{
+	return m_head;
+}
+
+// 0x001D8E8B (14B): the coefficient for the request's damage type.
+float ArmorTemplate::rva001D8E8B(const Rva001D8E8BInput &input) const
+{
+	return m_damageCoefficient[input.m_damageType];
+}
