@@ -41,10 +41,10 @@ public:
 void BFME_DX8_Thread_Lock();
 bool BFME_DX8_Thread_Assert();
 
-struct Rva00066A9ADx8Guard
+struct BFMEDX8DeviceLock
 {
-	Rva00066A9ADx8Guard() { BFME_DX8_Thread_Lock(); }
-	~Rva00066A9ADx8Guard() { BFME_DX8_Thread_Assert(); }
+	BFMEDX8DeviceLock() { BFME_DX8_Thread_Lock(); }
+	~BFMEDX8DeviceLock() { BFME_DX8_Thread_Assert(); }
 };
 
 class Rva00066A9ASub
@@ -82,7 +82,7 @@ public:
 
 void Rva00066A9ASub::headB()
 {
-	Rva00066A9ADx8Guard guard;
+	BFMEDX8DeviceLock guard;
 	{
 		headBSlot() = DX8Wrapper::Create_Render_Target(0x200, 0x200, WW3D_FORMAT_UNKNOWN);
 	}
