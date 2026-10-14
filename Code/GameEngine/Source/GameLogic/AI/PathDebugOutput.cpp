@@ -1,5 +1,3 @@
-// ??6@YAAAVDebug@@AAV0@ABVPath@@@Z
-// partial score=0.85 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //
 // ??6@YAAAVDebug@@AAV0@ABVPath@@@Z retail 0x002E7CCB (93B): the debug-stream
@@ -67,8 +65,7 @@ Debug &operator<<(Debug &debug, const Path &path)
 {
     debug << "[path:";
     PathNode *optimized = path.m_path;
-    PathNode *node = optimized;
-    while (node)
+    for (PathNode *node = path.m_path; node; node = node->m_next)
     {
         debug << "\n  ";
         if (node == optimized)
@@ -77,7 +74,6 @@ Debug &operator<<(Debug &debug, const Path &path)
             optimized = optimized->m_nextOptimized;
         }
         debug << *(const Coord3D *)&node->m_pos;
-        node = node->m_next;
     }
     debug << "]\n";
     return debug;
