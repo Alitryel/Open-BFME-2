@@ -195,3 +195,56 @@ void Rva005F5FD9::rva005F5FD9(const char *)
 	if (((Rva005F5FD9AptMode *)g_bfmeAptWindowManager)->m_mode == 0)
 		m_owner->v03();
 }
+
+// --- 0x005964B0 (23B) and 0x005964C7 (37B): through the rowed indexed
+// object getter 0x0025BFF8, virtual slot 4 of the object's +0x254 member,
+// and a copy of the object's +0x38 position returned by value. Reading
+// +0x254 through an inline accessor gives retail's ecx load; a direct member
+// read keeps the pointer in eax.
+struct Rva005964B0Position
+{
+	Rva005964B0Position(const Rva005964B0Position &o) : x(o.x), y(o.y), z(o.z) {}
+	float x;
+	float y;
+	float z;
+};
+
+class Rva005964B0Member
+{
+public:
+	virtual void v00();
+	virtual void v01();
+	virtual void v02();
+	virtual void v03();
+	virtual int v04() const;
+};
+
+class Rva005964B0Object
+{
+public:
+	char m_pad000[0x38];
+	Rva005964B0Position m_position;		// +0x38
+	char m_pad044[0x254 - 0x44];
+	Rva005964B0Member *m_254;			// +0x254
+	Rva005964B0Member *get254() const { return m_254; }
+};
+
+class Object;
+class Rva0025BFF8
+{
+public:
+	Object *rva0025BFF8(int index);							// 0x0025BFF8
+	int rva005964B0(int index);
+	Rva005964B0Position rva005964C7(int index);
+};
+
+int Rva0025BFF8::rva005964B0(int index)
+{
+	Rva005964B0Object *object = (Rva005964B0Object *)rva0025BFF8(index);
+	return object->get254()->v04();
+}
+
+Rva005964B0Position Rva0025BFF8::rva005964C7(int index)
+{
+	return ((Rva005964B0Object *)rva0025BFF8(index))->m_position;
+}
