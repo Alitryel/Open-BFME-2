@@ -301,6 +301,7 @@ private:
 // ?deleteRva006E00B0Triple absent-from-retail
 void deleteRva006E00B0Triple(Rva006E00B0Triple *p) { delete p; }
 
+
 // ?rva006D0410@Rva006D0410Table@@QAE_NXZ @0x006D0410 44B.
 // Same skeleton as Apt.cpp's Rva006CEB10Playback::ready (0x006CE7A0, kinds
 // 4/2): true unless some 8-byte entry (count +0, data +8, kind +4) has a kind
