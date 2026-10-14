@@ -1,7 +1,3 @@
-// ?xfer@AttributeModifierPoolUpdate@@MAEXPAVXfer@@@Z
-// partial score=0.8586 date=2026-10-14
-// ?xfer@AttributeModifierPoolUpdate@@MAEXPAVXfer@@@Z
-// partial score=0.93 date=2026-10-04
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
 // stlport
 //
@@ -16,6 +12,13 @@
 // EraseRange 0x2983DA push_back 0x403E3B Rva00368270 0x4034D5 rva004031F3
 // 0x4031F3 releaseBuffer 0x36410 BfmeStringRecord 0x40360E UpdateModule xfer
 // 0x44DF9F empty string g_Rva0107301CEmptyString Version 1 3 IsLoading gate.
+//
+// Shape (WorldBuilder twin 0x00E92C60, retail evidence): the 16-byte modifier
+// entry views carry their real members so their destructors are the inline
+// string release (no call); the 4-byte version struct and the two counts are
+// separate frame slots (the store-side count is declared at function scope so
+// the sibling arms do not share it); the store loop re-reads the vector end
+// each pass. Written from WB and retail, no donor.
 #include <vector>
 #include "ascii_string.h"
 
@@ -96,7 +99,6 @@ class Rva00297360Element
 {
 public:
 	~Rva00297360Element();
-private:
 	int m_00;
 	AsciiString m_04;
 	int m_08;
@@ -107,7 +109,11 @@ class Rva00368270
 {
 public:
 	Rva00368270(void *p, AsciiString name);
-	~Rva00368270();
+private:
+	int m_00;
+	AsciiString m_04;
+	int m_08;
+	int m_0C;
 };
 
 struct Obj
@@ -140,7 +146,11 @@ public:
 struct BfmeStringRecord0040360E
 {
 	BfmeStringRecord0040360E(const BfmeStringRecord0040360E &o);
-	~BfmeStringRecord0040360E();
+private:
+	int m_00;
+	AsciiString m_04;
+	int m_08;
+	int m_0C;
 };
 
 class Rva002983DAVector
@@ -201,11 +211,9 @@ private:
 	unsigned int m_poolCounts[15];
 };
 
-// ?xfer@AttributeModifierPoolUpdate@@MAEXPAVXfer@@@Z present-unmatched
 void AttributeModifierPoolUpdate::xfer(Xfer *xfer)
 {
-	char pad[28];
-	(void)pad;
+	int storeCount;
 	XferVersion version;
 	version.m_version = 1;
 	version.m_currentVersion = 3;
@@ -214,10 +222,11 @@ void AttributeModifierPoolUpdate::xfer(Xfer *xfer)
 		Rva002983DAVector *vec = reinterpret_cast<Rva002983DAVector *>(&m_modifiers);
 
 		Rva00297360Element *last = vec->m_finish;
-		vec->EraseRange((vec->m_start), last);
+		Rva00297360Element *first = vec->m_start;
+		vec->EraseRange(first, last);
 		int count = 0;
 		xfer->xferInt(count);
-		for (int i = 0; (count ? i : i) < count; ++i) {
+		for (int i = 0; i < count; ++i) {
 			Rva00368270 tmp(0, AsciiString(g_Rva0107301CEmptyString));
 			reinterpret_cast<Rva004031F3 *>(&tmp)->rva004031F3(
 				reinterpret_cast<Obj *>(xfer), reinterpret_cast<Info *>(&version));
@@ -225,17 +234,14 @@ void AttributeModifierPoolUpdate::xfer(Xfer *xfer)
 		}
 	} else {
 		{
-		int count = (int)(m_modifiers.end()-m_modifiers.begin());
-		xfer->xferInt(count);
+		storeCount = (int)(m_modifiers.end()-m_modifiers.begin());
+		xfer->xferInt(storeCount);
 		}
 		Rva002983DAVector *vec = reinterpret_cast<Rva002983DAVector *>(&m_modifiers);
-		Rva00297360Element *cur = vec->m_start;
-		Rva00297360Element *end = vec->m_finish;
-		while (cur != end) {
+		for (Rva00297360Element *cur = vec->m_start; cur != vec->m_finish; ++cur) {
 			BfmeStringRecord0040360E tmp(*reinterpret_cast<BfmeStringRecord0040360E *>(cur));
 			reinterpret_cast<Rva004031F3 *>(&tmp)->rva004031F3(
 				reinterpret_cast<Obj *>(xfer), reinterpret_cast<Info *>(&version));
-			++cur;
 		}
 	}
 	if (version.m_currentVersion >= 2) {
