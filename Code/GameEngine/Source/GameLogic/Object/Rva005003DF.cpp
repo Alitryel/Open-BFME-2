@@ -51,10 +51,12 @@ struct Rva005003DFDistances
 
 extern unsigned int g_Va00E04544;
 
-class Rva002E0BC0Helper
+// Rowed 0x002E0BC0 as Rva002E071E::rva002E0BC0(int) returning int
+// (Rva002E0BC0Find.cpp); this caller tests only its low byte.
+class Rva002E071E
 {
 public:
-	unsigned char rva002E0BC0(int id);
+	int rva002E0BC0(int id);
 };
 
 class Rva002E2903Player
@@ -98,8 +100,8 @@ int Rva005003DF::rva005003DF(int playerId, const int &key, int *outBest) const
 	for (int i = 0; i < TheLivingWorldLogic->getNumPlayers(); ++i)
 	{
 		int id = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->rva002B52A8(i)->m_id;
-		Rva002E0BC0Helper *player = (Rva002E0BC0Helper *)((Rva002BA8F1Logic *)(TheLivingWorldLogic?TheLivingWorldLogic:TheLivingWorldLogic))->find(playerId, 0);
-		if (!player->rva002E0BC0(id))
+		Rva002E071E *player = (Rva002E071E *)((Rva002BA8F1Logic *)(TheLivingWorldLogic?TheLivingWorldLogic:TheLivingWorldLogic))->find(playerId, 0);
+		if (!(unsigned char)player->rva002E0BC0(id))
 		{
 			_STL::pair<Rva005003DFIntMultiMap::const_iterator, Rva005003DFIntMultiMap::const_iterator> range = m_entries.equal_range(id);
 			for (Rva005003DFIntMultiMap::const_iterator it = range.first; it != range.second; ++it)
