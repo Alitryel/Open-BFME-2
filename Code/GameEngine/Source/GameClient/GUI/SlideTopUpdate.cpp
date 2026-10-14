@@ -60,3 +60,54 @@ bool ProcessAnimateWindowSlideFromTop::updateAnimateWindow(AnimateWindow *a)
  a->setVel(cur.output);
  return false;
 }
+
+// Retail 0x005C61EE (234 B, ret 4): TopFast reverse, directly after the SlideFromTop update. Same
+// private AnimateWindow view as above. Closed from a 'pure xmm0<->xmm1 swap' bank with two
+// equal-arm schedule levers: the finish-branch winSetPosition is duplicated on curY and the
+// slowed value is selected as (curY ? v*speedRatio : v*speedRatio).
+class ProcessAnimateWindowSlideFromTopFast {
+public:
+ virtual ~ProcessAnimateWindowSlideFromTopFast();
+ virtual void initAnimateWindow(AnimateWindow*);
+ virtual void initReverseAnimateWindow(AnimateWindow*,unsigned);
+ virtual bool updateAnimateWindow(AnimateWindow*);
+ virtual bool reverseAnimateWindow(AnimateWindow*);
+ virtual void setMaxDuration(unsigned);
+ RvaTopVelocity maxVel; int slowThreshold; float slowRatio,speedRatio;
+};
+bool ProcessAnimateWindowSlideFromTopFast::reverseAnimateWindow(AnimateWindow *a)
+{
+ if(!a) return true;
+ if(a->finished) return true;
+ unsigned startTime=a->startTime;
+ if(timeGetTime()<startTime) return false;
+ GameWindow *win=a->window;
+ if(!win) return true;
+ union { ICoord2D position; RvaTopVelocity velocity; } scratch;
+ ICoord2D startPos=a->start;
+ int curX=a->current.x;
+ int curY=a->current.y;
+ typedef void (AnimateWindow::*VelocityOutput)(RvaTopVelocity*);
+ (a->*reinterpret_cast<VelocityOutput>(&AnimateWindow::getVel))(&scratch.velocity);
+ curY+=(int)scratch.velocity.y;
+ if(curY<startPos.y) {
+  a->finished=true;
+  if (curY) { win->winSetPosition(curX,startPos.y); } else { win->winSetPosition(curX,startPos.y); }
+  return true;
+ }
+ win->winSetPosition(curX,curY);
+ a->current.x=curX; a->current.y=curY;
+ ICoord2D endPos=a->end;
+ float slowed;
+ if(endPos.y-curY<=slowThreshold)
+  slowed=(curY ? (scratch.velocity.y*speedRatio) : (scratch.velocity.y*speedRatio));
+ else
+  slowed=-maxVel.y;
+ if(slowed<-maxVel.y)
+  slowed=-maxVel.y;
+ RvaTopVelocity out;
+ out.x=scratch.velocity.x;
+ out.y=slowed;
+ a->setVel(out);
+ return false;
+}

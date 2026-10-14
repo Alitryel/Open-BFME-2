@@ -88129,3 +88129,4 @@ $L17825,,0x0077F708,24,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Persist
 ?copyCurrentRecordingToFile@RecorderClass@@QAE_NPAVUnicodeString@@0@Z,,0x0037D6E8,643,Code/GameEngine/Source/Common/RecorderCopyCurrentRecording.cpp,matched,copy the live recording to a named file with a replacement title; triple concat via rowed Pair8 builder; T1 volatile-member-pair mutation
 ??0PolygonTrigger@@QAE@HH@Z,,0x002E3FAB,158,Code/GameEngine/Source/GameLogic/Map/PolygonTriggerCtor.cpp,matched,PolygonTrigger ctor: next-link base declared first so its store precedes the rowed Rva00330C50 base call; WB AB9C60
 ?parse@PolygonTriggerDataChunkParserBase@@QAE_NAAVDataChunkInput@@PBUDataChunkInfo@@@Z,,0x002E40DB,273,Code/GameEngine/Source/Common/PolygonTriggerParserParse.cpp,matched,
+?reverseAnimateWindow@ProcessAnimateWindowSlideFromTopFast@@UAE_NPAVAnimateWindow@@@Z,,0x005C61EE,234,Code/GameEngine/Source/GameClient/GUI/SlideTopUpdate.cpp,matched,
