@@ -302,3 +302,45 @@ private:
 Rva005CBACC::Rva005CBACC(const Rva005CBACCPair &pair) : m_04(pair.m_00), m_08(pair.m_04)
 {
 }
+
+// --- 0x005E0CEB (60B): Apt callback by the window manager's +0x318 mode:
+// idle forwards to the +0 owner's virtual slot 1 or 2 by the +0x41 flag;
+// mode 2 to slot 3 or 4 by the same flag.
+class Rva005E0CEBOwner
+{
+public:
+	virtual void v00();
+	virtual void v01();
+	virtual void v02();
+	virtual void v03();
+	virtual void v04();
+};
+
+class Rva005E0CEB
+{
+public:
+	void rva005E0CEB(const char *path);
+private:
+	Rva005E0CEBOwner *m_owner;
+	char m_pad04[0x41 - 0x04];
+	bool m_41;
+};
+
+void Rva005E0CEB::rva005E0CEB(const char *)
+{
+	int mode = ((Rva005F5FD9AptMode *)g_bfmeAptWindowManager)->m_mode;
+	if (mode == 0)
+	{
+		if (m_41)
+			m_owner->v01();
+		else
+			m_owner->v02();
+	}
+	else if (mode == 2)
+	{
+		if (m_41)
+			m_owner->v03();
+		else
+			m_owner->v04();
+	}
+}
