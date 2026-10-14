@@ -89709,3 +89709,4 @@ __ehhandler$?allow@Rva00261F35Filter@@UAE_NPAVObject@@@Z,,0x00772D86,10,Code/Gam
 ?Rva00506BADDistSqr@@YAMPBURva00506BADCoord@@0@Z,,0x00506BAD,47,Code/GameEngine/Source/Common/Rva00506BADDistSqr.cpp,matched,
 ?Shutdown@ProfileFuncLevelTracer@@SAXXZ,,0x006C8360,31,Code/Libraries/Source/profile/profile_funclevel.cpp,matched,
 ??2?$AutoPoolClass@VMatPassTaskClass@@$0BAA@@@SAPAXI@Z,,0x001449D0,10,Code/Libraries/Source/WWVegas/WW3D2/DX8RigidDelayedMaterialPass.cpp,matched,
+?rva0030B3D1@AreaPolygonBase@@QAEXXZ,,0x0030B3D1,478,Code/GameEngine/Source/Common/AreaPolygonUpdateBounds.cpp,matched,AreaPolygonBase bounds refresh: point bounds / half-extent radius +0x20 / per-edge centre distance with the dead normalized-edge projection (only its sqrt survives) / sqrt(min)-0.1 clamped +0x1C / dirty +0x24 cleared; WB BF6BA0 statement shapes with cached end iterator
