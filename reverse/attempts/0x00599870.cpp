@@ -1,4 +1,6 @@
 // ?rva00599870@Rva005997CD@@QAE?AW4ObjectID@@PBUVec2@@_N@Z
+// partial score=0.93 date=2026-10-14
+// ?rva00599870@Rva005997CD@@QAE?AW4ObjectID@@PBUVec2@@_N@Z
 // partial score=0.94 date=2026-10-01
 // cl: /O1 /MD /GX- /arch:SSE2
 // ?rva00599870@Rva005997CD@@QAEW4ObjectID@@PBVVec2@@_N@Z present-unmatched
@@ -188,7 +190,7 @@ ObjectID Rva005997CD::rva00599870(const Vec2 *pos, bool flag)
                     float dx = pos->x - full->m_x38;
                     float dy = pos->y - full->m_y3C;
                     float d2 = dx * dx + dy * dy;
-                    if (bestDist > d2 || best == INVALID_OBJECT_ID) {
+                    if (bestDist > d2 || (obj ? (best == INVALID_OBJECT_ID) : (best == INVALID_OBJECT_ID))) {
                         bestDist = d2;
                         best = node->id;
                     }
