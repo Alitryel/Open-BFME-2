@@ -21,6 +21,7 @@ class Rva00082C98Host
 {
 public:
 	void rva00082C98(unsigned int count, Vector3 filler);
+	void rva00082D2A(unsigned int count);
 	Coord3D *m_begin;
 	Coord3D *m_end;
 	Coord3D *m_capacity;
@@ -74,4 +75,12 @@ void Rva00082D6A::rva00082D6A()
 		m_points.m_begin[i].z = height;
 	}
 	m_cleared = 0;
+}
+
+// 0x00082D2A 15B: resizes to the given count with an uninitialised filler (same
+// empty-copy-ctor Vector3 by value as the caller above).
+void Rva00082C98Host::rva00082D2A(unsigned int count)
+{
+	Vector3 filler;
+	rva00082C98(count, filler);
 }
