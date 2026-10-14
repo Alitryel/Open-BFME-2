@@ -91,6 +91,7 @@
 // failures are separate statements in retail.
 
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include <math.h>
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/Libraries/Include/Lib/Coord2D.h"
 #include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
@@ -160,7 +161,7 @@ static __forceinline void critterDesyncLog(const char *text)
 	}
 }
 
-extern "C" float __cdecl fabs(double); // CRT fabs (the /O1 call); x87 result compared as float
+// CRT math declarations come from math.h.
 Real normalizeAngle(Real angle);
 
 #define PATHFIND_CELL_SIZE_F 10.0f
@@ -1465,6 +1466,12 @@ struct ApproachCoordCopy : Coord3D {
  __forceinline void sub(const Coord3D *r){x-=r->x;y-=r->y;z-=r->z;}
  __forceinline void scale(float r){x*=r;y*=r;z*=r;}
 };
+// Native344749..3449C5, complete636B. The static helper is compiled with its
+// rowed computePath caller to preserve their private register convention.
+// BFME1 Rva0016EE00 supports the destination-backoff algorithm;
+// the original helper name remains unresolved. The four real Coord3D workers
+// below jointly expose its local direction to MSVC escape analysis and fix
+// the X/Z loop-register swap without changing the already-exact caller.
 static Bool rva00344749(Coord3D *destination, Object *obj)
 {
  if(obj->rva0028B511()>1)return true;
@@ -1538,4 +1545,39 @@ Bool AIAttackApproachTargetState::computePath()
  setAdjustsDestination(true);m_stopIfInRange=false;m_goalPosition=*getMachineGoalPosition();
  if(!forceRepath)return true;
  ai->requestAttackPath(INVALID_OBJECT_ID,&m_goalPosition);m_waitingForPath=ai->isWaitingForPath();return true;
+}
+
+// Existing coord3d.cpp implementations; keep retail out-of-line calls.
+__declspec(noinline) inline float Coord3D::GetLength() const
+{
+    float x_value = x;
+    float y_value = y;
+    float z_value = z;
+    return (float)sqrt(x_value * x_value + y_value * y_value + z_value * z_value);
+}
+
+__declspec(noinline) inline float Coord3D::length() const
+{
+    return (float)sqrt(x * x + y * y + z * z);
+}
+
+__declspec(noinline) inline void Coord3D::normalize()
+{
+    float len = length();
+    if (len != 0.0f) {
+        float scale = 1.0f / len;
+        x *= scale;
+        y *= scale;
+        z *= scale;
+    }
+}
+
+__declspec(noinline) inline float Coord3D::Normalize()
+{
+    float len = GetLength();
+    float scale = 1.0f / len;
+    x *= scale;
+    y *= scale;
+    z *= scale;
+    return len;
 }
