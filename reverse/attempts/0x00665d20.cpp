@@ -1,4 +1,6 @@
 // ?rva007F97B0@Rva007FA2C0@@QAEXPAVRva007E8810Message@@PAURva007FA170Slot@@@Z
+// partial score=0.9802987004150506 date=2026-10-14
+// ?rva007F97B0@Rva007FA2C0@@QAEXPAVRva007E8810Message@@PAURva007FA170Slot@@@Z
 // partial score=0.9812 date=2026-10-13
 // ?rva007F97B0@Rva007FA2C0@@QAEXPAVRva007E8810Message@@PAURva007FA170Slot@@@Z
 // partial score=0.9793 date=2026-10-13
@@ -39,7 +41,7 @@ class Rva007E8810Message
  void *m_vtable;
  int m_04;
  int m_08;
- volatile int m_0C;
+ int m_0C;
  char *volatile m_10;
  unsigned m_14;
  unsigned m_18;
@@ -95,12 +97,12 @@ class Gen007F0130
 struct Rva007FA170Slot
 
 {
- int m_00;
+ volatile int m_00;
  int m_04;
  Rva007E8810Message *m_08;
  void *m_0C;
  void *m_10;
- int m_14;
+ volatile int m_14;
  Gen007F0130 *m_18;
  
 }
