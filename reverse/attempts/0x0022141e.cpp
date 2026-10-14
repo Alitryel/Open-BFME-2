@@ -1,4 +1,6 @@
 // ??0Rva0022141E@@QAE@ABVAsciiString@@@Z
+// partial score=0.99 date=2026-10-14
+// ??0Rva0022141E@@QAE@ABVAsciiString@@@Z
 // partial score=0.985 date=2026-10-14
 // ??0Rva0022141E@@QAE@ABVAsciiString@@@Z
 // partial score=0.96 date=2026-10-13
@@ -35,8 +37,7 @@ private:
 
 Rva0022141E::Rva0022141E(const AsciiString &name) : m_vtbl(&s_slot3E4first)
 {
-    typedef _STL::map<AsciiString, NoCaseTreeValue4, _STL::less<AsciiString>, _STL::allocator<_STL::pair<const AsciiString, NoCaseTreeValue4> > > MapNoCase;
-    typedef _STL::pair<const AsciiString, NoCaseTreeValue4> NoCaseVal;
-    MapNoCase *map = (MapNoCase *)Rva002213D9Get();
-    m_04.p = *(void *volatile *)&map->insert(NoCaseVal(*(const NoCaseVal *)&_STL::make_pair(name, (const FXList *)this))).first;
+    typedef _STL::map<AsciiString, const FXList *, _STL::less<AsciiString>, _STL::allocator<_STL::pair<const AsciiString, const FXList *> > > MapFX;
+    MapFX *map = (MapFX *)Rva002213D9Get();
+    m_04.p = *(void *volatile *)&map->insert(_STL::make_pair(name, (const FXList *)this)).first;
 }
