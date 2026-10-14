@@ -16,3 +16,4 @@ struct Rva000C225DElement { Rva000C225DElement();Rva000C225DElement(const Rva000
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::vector<Rva000C225DElement, _STL::allocator<Rva000C225DElement> >::_M_fill_insert(Rva000C225DElement *, unsigned int, Rva000C225DElement const &);
+template void _STL::vector<Rva000C225DElement, _STL::allocator<Rva000C225DElement> >::insert(Rva000C225DElement *, unsigned int, Rva000C225DElement const &);

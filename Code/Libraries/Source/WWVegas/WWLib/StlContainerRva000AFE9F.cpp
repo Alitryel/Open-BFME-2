@@ -20,3 +20,4 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 
 template void _STL::vector<unsigned char>::_M_fill_insert(unsigned char*,unsigned int,const unsigned char&);
+template void _STL::vector<unsigned char>::insert(unsigned char*,unsigned int,const unsigned char&);
