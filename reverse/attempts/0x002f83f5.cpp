@@ -1574,9 +1574,6 @@ return &((PathfindCell**)m_unknown10)[x][y];}return 0;}
 struct Rva002E8BCFSrc{char pad[0x10];int m10;char m14;bool m15;};
 struct Rva002F5925Info {Pathfinder *pathfinder;char data4[16];bool center,human;char pad16[2];int radius;Object*object;PathfindCell*goal;int ignoreID;ICoord2D previous;int range;int cellCallback(PathfindCell*,PathfindCell*,int,int);};
 extern unsigned PathfinderSearchCellsVisited;
-Rva002E8BCF::Rva002E8BCF(const Rva002E8BCFSrc*src,Bool a,Int b,Bool c){surfaces=src->m10;field4=a;field5=c;maxLayer=b;fieldC=src->m15;}
-Rva002EAB6F::Rva002EAB6F(Int a1,const Rva002E8BCFSrc*src,unsigned char a3,Int a4,Object*obj,unsigned char a6,Int a7,Int a8):m0(a1),m4(src,obj->m_template->flag==0,obj->m_template->priority-1,obj->rva0028AFBB()){
-m14=a3;m15=a6;m18=a4;m20=a7;m1C=obj;m30=a8;m24=obj->getAI()?((Rva0006E009DwordField*)obj->getAI())->get():0;}
 Int Pathfinder::iterateCellsAlongLine( const ICoord2D *startCell, 
 	const ICoord2D *destinationCell, PathfindLayerEnum layer, 
 	Rva002F5925Info *callbackInfo ) 
@@ -1650,42 +1647,6 @@ Int Pathfinder::iterateCellsAlongLine( const ICoord2D *startCell,
 	return 0; 
 }
 
-int Rva002F5925Info::cellCallback(PathfindCell *from,PathfindCell *to,int x,int y)
-{
- if(PathfinderSearchCellsVisited>(*(const unsigned*)((const char*)TheWritableGlobalData+0x121c)))return 1;
- ++PathfinderSearchCellsVisited;
- if(range>0){int dx=x-goal->m_pathInfo->position.x;int dy=y-goal->m_pathInfo->position.y;if((dx*dx+dy*dy)*100<range*range)return 1;}
- Coord3D point;point.x=(float)(x*10);point.y=(float)(y*10);
- if(nativeBurning((BurningGrid*)TheTriggerManager,point))return 1;
- Pathfinder *localPathfinder=pathfinder;
- if(localPathfinder->m_isTunneling)return 1;
- if(from){
-  if(((unsigned char)((const Rva002E6AF3*)to)->get()!=0) || ((unsigned char)((Rva002E6B06*)to)->rva002E6B06()!=0))return 1;
-  if(!((Rva002E6DC4*)localPathfinder)->rva002E6DC4(data4,to))return 1;
-  if((unsigned char)Rva002E6E6CGet(to->getLayer()) && !localPathfinder->m_zoneManager.IsPassable(x,y))return 1;
-  if(from->getLayer()!=to->getLayer())return 1;
-  if(((to->m_info>>16)&1))return 1;
-  if(((to->m_info>>23)&1)){
-   if(goal->getType()!=0 || !(*(void**)((char*)object+0x250)) || !object->m_template->testKindWord(0xBF))return 1;
-  }
-  if(to->getType()==2)return 1;
-  if(human){if(x<pathfinder->m_extentLowX || y<pathfinder->m_extentLowY || x>pathfinder->m_extentHighX || y>pathfinder->m_extentHighY)return 1;}
-  TCheckMovementInfo info;((Rva002E6FDF*)&info)->rva002E6FDF();
-  info.cell.y=y;info.layer=(PathfindLayerEnum)from->getLayer();info.centerInCell=center;info.radius=radius;
-  info.options=(object->m_template->testKindWord(0x5A)?1:16)|2;info.ignore=ignoreID;
-  info.cell.x=x;
-  info.considerTransient=false;
-  if(!pathfinder->rva002EA658(object,info,&previous) || info.blockedCells)return 1;
-  In002E6BA1 coord;coord.x=x;coord.y=y;
-  unsigned newCost=from->m_pathInfo->costSoFar+(((to->m_info>>21)&1)?2.5f:5.0f);
-  newCost+=pathfinder->CalcExtraCosts(object,from,(Rva002EBC7FPair*)&coord,info.radius,info.radius+(info.centerInCell?1:0),true);
-  to->allocateInfo(&coord);to->m_pathInfo->flags&=~1U;
-  int remaining=pathfinder->rva002F0A72(to,goal);
-  to->m_pathInfo->costSoFar=(unsigned short)newCost;to->SetParentCell((int*)from);
-  to->m_pathInfo->totalCost=(unsigned short)(to->m_pathInfo->costSoFar+remaining);pathfinder->AddToOpenList(to);
- }
- previous.x=x;previous.y=y;return 0;
-}
 
 struct NeighborWorldPoint:Coord3D {NeighborWorldPoint(){} ~NeighborWorldPoint(){}};
 Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
