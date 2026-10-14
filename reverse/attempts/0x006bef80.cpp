@@ -1,5 +1,5 @@
 // ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
-// partial score=0.45 date=2026-10-14
+// partial score=0.585187 date=2026-10-14
 // cl: /O2 /G6 /MD /GX- /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib
 // ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z @0x006BEF80, 1079B.
 // WB 0x6F91B0 identifies GeometryInfo::getBestContactPoint (Geometry.cpp:275).
