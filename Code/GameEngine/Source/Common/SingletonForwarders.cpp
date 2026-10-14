@@ -59,13 +59,6 @@ class Rva00109DCF { public: void rva00108E28(); };
 class Q1Receiver0134FAAC { public: void Rva00624790(); };
 extern Q1Receiver0134FAAC *TheQ1Receiver;
 
-// ?rva0009A328@@YAXXZ @0x0009A328: Rva00DEC2D8Manager -> 0x00109236
-void rva0009A328()
-{
-	if (Rva00DEC2D8Manager)
-		((Rva00109236 *)Rva00DEC2D8Manager)->rva00109236();
-}
-
 // ?rva0009A487@@YAXXZ @0x0009A487: Rva00DEC2D8Manager -> 0x00108E28
 void rva0009A487()
 {
