@@ -300,3 +300,39 @@ private:
 // The delete helper only makes the compiler emit the deleting destructor.
 // ?deleteRva006E00B0Triple absent-from-retail
 void deleteRva006E00B0Triple(Rva006E00B0Triple *p) { delete p; }
+
+// ?rva006D0410@Rva006D0410Table@@QAE_NXZ @0x006D0410 44B.
+// Same skeleton as Apt.cpp's Rva006CEB10Playback::ready (0x006CE7A0, kinds
+// 4/2): true unless some 8-byte entry (count +0, data +8, kind +4) has a kind
+// other than 3 or 2. Retail's unrotated top-tested loop comes from the same
+// checked iterator/range pair (empty range checks) the twin uses.
+struct Rva006D0410Entry { int m_name; int m_kind; };
+inline void rva006D0410Check(bool, const char *) {}
+class Rva006D0410Iterator {
+ Rva006D0410Entry *cur, *first, *last;
+public:
+ Rva006D0410Iterator(Rva006D0410Entry *c, Rva006D0410Entry *f, Rva006D0410Entry *l) : cur(c), first(f), last(l) {}
+ Rva006D0410Iterator &operator++() { ++cur; return *this; }
+ Rva006D0410Entry &operator*() { rva006D0410Check(cur >= first && cur < last, "Trying to dereference an invalid iterator"); return *cur; }
+ bool operator!=(const Rva006D0410Iterator &other) { rva006D0410Check(first == other.first && last == other.last, "Iterators are not in same range"); return cur != other.cur; }
+};
+class Rva006D0410Range {
+ Rva006D0410Entry *first, *last;
+public:
+ Rva006D0410Range(Rva006D0410Entry *f, Rva006D0410Entry *l) : first(f), last(l) {}
+ Rva006D0410Iterator begin() { return Rva006D0410Iterator(first, first, last); }
+ Rva006D0410Iterator end() { return Rva006D0410Iterator(last, first, last); }
+};
+class Rva006D0410Table {
+public:
+ int size, capacity; Rva006D0410Entry *items;
+ Rva006D0410Iterator begin() { return Rva006D0410Range(items, items + size).begin(); }
+ Rva006D0410Iterator end() { return Rva006D0410Range(items, items + size).end(); }
+ __forceinline bool readyFor(int a, int b) {
+  for (Rva006D0410Iterator it = begin(); it != end(); ++it)
+   if ((*it).m_kind != a && (*it).m_kind != b) return false;
+  return true;
+ }
+ bool rva006D0410();
+};
+bool Rva006D0410Table::rva006D0410() { return readyFor(3, 2); }
