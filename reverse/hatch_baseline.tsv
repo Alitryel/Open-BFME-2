@@ -4197,7 +4197,6 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FoundationAIUpdateC
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FoundationAIUpdateCtor.cpp	_vtbl_00C40538	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FoundationAIUpdateCtor.cpp	_vtbl_00C40548	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/FoundationAIUpdateCtor.cpp	_vtbl_00C40608	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Update/GiveUpgradeUpdateModuleDataCtor.cpp	?Rva0044EB54_virt00@SpecialAbilityUpdateModuleData@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/GiveUpgradeUpdateRva0049C8E9.cpp	?getPlayerMask@Rva000421C8@@UAEHXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/GloriousChargeUpdateBehaviorCtor.cpp	_vtbl_00C4D640	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Update/GloriousChargeUpdateBehaviorCtor.cpp	_vtbl_00C552A4	1

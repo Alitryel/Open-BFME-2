@@ -3,7 +3,8 @@
 //
 // ??0GiveUpgradeUpdateModuleData@@QAE@XZ, retail 0x0049C4D2 (72 bytes).
 // Frameless derived ctor over the pinned SpecialAbilityUpdateModuleData intermediate base
-// (0x0044EB54, size 0xC8): the base holds the vptr (a placeholder virtual;
+// (0x0044EB54, size 0xC8): the base holds the vptr (vtable slot 0 is the
+// deleting destructor 0x0049C624, so both declare virtual destructors;
 // the +0xC8 member offset proves it, identity unknown) so the derived
 // shares it without shifting, the compiler installs vtable 0x00C51280
 // before the +0xC8 vector member constructs through the ICF-folded
@@ -41,7 +42,7 @@ class SpecialAbilityUpdateModuleData
 {
 public:
 	SpecialAbilityUpdateModuleData();
-	virtual void Rva0044EB54_virt00();
+	virtual ~SpecialAbilityUpdateModuleData();
 
 private:
 	unsigned char m_opaque[0xC8 - 4];
@@ -55,6 +56,7 @@ class GiveUpgradeUpdateModuleData : public SpecialAbilityUpdateModuleData
 {
 public:
 	GiveUpgradeUpdateModuleData();
+	virtual ~GiveUpgradeUpdateModuleData();
 
 private:
 	_STL::vector<int> m_vecC8;	// +0xC8, element stand-in
@@ -73,7 +75,6 @@ GiveUpgradeUpdateModuleData::GiveUpgradeUpdateModuleData()
 	m_flagE0 = false;
 }
 
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?Rva0044EB54_virt00@SpecialAbilityUpdateModuleData@@UAEXXZ=??_GGiveUpgradeUpdateModuleData@@UAEPAXI@Z")
+// ??_GGiveUpgradeUpdateModuleData@@UAEPAXI@Z @0x0049C624 (28 B): slot 0 of
+// vtable 0x00C51280, compiler-emitted here with the vtable; calls the rowed
+// dtor at 0x0049C640, then operator delete at 0x0002FD60.
