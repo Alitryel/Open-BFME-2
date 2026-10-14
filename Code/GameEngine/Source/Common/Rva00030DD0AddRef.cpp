@@ -58,7 +58,6 @@ Rva00030DD0Lock *Rva00030D90Init(Rva00030DD0Lock *lock)
 // Non-virtual deleting dtor: inlined DeleteCriticalSection at IAT 0xBBA158
 // then conditional operator delete 0x2FD60 on flag bit0. Gap between
 // 0x00030D90 and 0x00030DD0 same TU defaults. __thiscall ret 4.
-// ??1Rva00030DD0Lock@@QAE@XZ present-unmatched
 inline Rva00030DD0Lock::~Rva00030DD0Lock()
 {
 	DeleteCriticalSection(this);
@@ -90,3 +89,15 @@ Rva00030DD0Lock::Rva00030DD0Lock()
 	m_ref = 0;
 	InitializeCriticalSection(this);
 }
+
+// ??1Rva00030DD0Lock@@QAE@XZ @0x00030D80 8B: the out-of-line copy of the
+// inline destructor above (push ecx; DeleteCriticalSection; ret),
+// unreferenced in retail. The anchor below (no retail counterpart) only makes
+// this unit emit it.
+#pragma inline_depth(0)
+// ?bfmeEmitRva00030DD0LockDtor@@YAXPAURva00030DD0Lock@@@Z present-unmatched
+void bfmeEmitRva00030DD0LockDtor(Rva00030DD0Lock *p)
+{
+	p->~Rva00030DD0Lock();
+}
+#pragma inline_depth()

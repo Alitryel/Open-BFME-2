@@ -585,3 +585,19 @@ void rva00054F32(Rva0005333FHolder *p)
 {
 	p->rva0005333F();
 }
+
+// 0x00051888 (14B), unreferenced: post-increment the counter at +0xD0,
+// returning its previous value.
+class Rva00051888
+{
+public:
+	int rva00051888();
+private:
+	char m_pad[0xD0];
+	int m_D0;
+};
+
+int Rva00051888::rva00051888()
+{
+	return m_D0++;
+}

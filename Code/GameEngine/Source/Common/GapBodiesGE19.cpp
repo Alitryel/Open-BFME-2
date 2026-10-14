@@ -89,3 +89,19 @@ bool Rva0002BB71::rva0002BB71()
 {
 	return m_value24 != m_value20;
 }
+
+// --- 0x0002BF21 (14B), unreferenced: copy the byte at +0 out through the
+// pointer argument and report success.
+class Rva0002BF21
+{
+public:
+	int rva0002BF21(char *out);
+private:
+	char m_00;
+};
+
+int Rva0002BF21::rva0002BF21(char *out)
+{
+	*out = m_00;
+	return 1;
+}

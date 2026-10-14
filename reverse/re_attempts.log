@@ -55605,3 +55605,12 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?Rva0007E06D@@YAXXZ	0x0007E06D	53	blocked	SSE 2D cross-product sign helper reading eax/ecx/edx on entry (private register convention) with no caller in .text; unreproducible without its caller t=3 model=claude-opus-5-5
 ?rva0002BA98@Rva0002BA98@@QBEIXZ	0x0002BA98	8	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/stlport_vector_e12_holder_size.cpp 8B; count of the 12-byte-element vector at +4 tail-jumping into rowed vector size 0x005D5847; unreferenced
 ?rva0004B223@Rva0004B1D2@@QAEXXZ	0x0004B223	11	landed	add_match verified Code/GameEngine/Source/Common/StringContainerRecordAssign.cpp 11B; clear over rowed range erase rva0004B1D2 0x0004B1D2 from +0 to +4; unreferenced
+?rva000309D0@@YAHI@Z	0x000309D0	12	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE23.cpp 12B; GeneralAllocator eight-byte alignment test
+?rva00030B60@@YAXPAUGapChunk@@I@Z	0x00030B60	14	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE23.cpp 14B; clear in-use bit of the chunk at an offset
+?rva00030B90@@YAXPAUGapChunk@@I@Z	0x00030B90	12	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE23.cpp 12B; store size as next chunk previous-size word
+?rva00030D50@@YIH_N@Z	0x00030D50	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE23.cpp 8B; fastcall flag negation (flag in cl); unreferenced
+??1Rva00030DD0Lock@@QAE@XZ	0x00030D80	8	landed	add_match verified Code/GameEngine/Source/Common/Rva00030DD0AddRef.cpp 8B; out-of-line copy of the inline lock destructor: DeleteCriticalSection(this); unreferenced
+?Term@CComCriticalSection@ATL@@QAEJXZ	0x0000328B	10	landed	add_match verified Code/Libraries/Source/ATL/atlbase.cpp 10B; ATL 7.1 CComCriticalSection::Term out-of-line copy: DeleteCriticalSection(&m_sec) then S_OK; unreferenced
+?Rva000052D2WideLengthOrZero@@YAIPBG@Z	0x000052D2	15	landed	add_match verified Code/GameEngine/Source/Common/System/WideLengthOrZero.cpp 15B; null-safe wide length tail-jumping through the wcslen import; unreferenced twin of 0x000052C4
+?rva0002BF21@Rva0002BF21@@QAEHPAD@Z	0x0002BF21	14	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE19.cpp 14B; byte at +0 copied out through the pointer argument; returns 1; unreferenced
+?rva00051888@Rva00051888@@QAEHXZ	0x00051888	14	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 14B; post-increment of the counter at +0xD0; unreferenced

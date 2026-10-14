@@ -199,6 +199,18 @@ void _ATL_WIN_MODULE70::rva0000682F()
     AtlWinModuleTerm(this, g_00E09E64);
 }
 
+// CComCriticalSection::Term (retail 0x0000328B, 10B) is unreferenced there:
+// the out-of-line copy of the header inline (DeleteCriticalSection on the
+// section at +0, S_OK). The anchor (no retail counterpart) only makes this
+// unit emit it.
+#pragma inline_depth(0)
+// ?bfmeEmitAtlCritSecTerm@ATL@@YAXPAVCComCriticalSection@1@@Z present-unmatched
+void bfmeEmitAtlCritSecTerm(CComCriticalSection *p)
+{
+    p->Term();
+}
+#pragma inline_depth()
+
 }
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's

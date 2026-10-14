@@ -33,6 +33,12 @@ struct GapCore
 #define GAP_CHUNK_AT(p, offset) ((GapChunk *)((char *)(p) + (offset)))
 #define GAP_CHUNK_SIZE(p) ((p)->m_size & 0x7FFFFFF8)
 
+// --- 0x000309D0 (12B): is x eight-byte aligned (the low three bits clear).
+int rva000309D0(unsigned int x)
+{
+	return (x & 7) == 0;
+}
+
 // --- 0x000309E0 (17B): is x a multiple of the power-of-two a.
 bool rva000309E0(unsigned int x, unsigned int a)
 {
@@ -69,10 +75,23 @@ void rva00030B50(GapChunk *chunk, unsigned int offset)
 	GAP_CHUNK_AT(chunk, offset)->m_size |= 1;
 }
 
+// --- 0x00030B60 (14B): clear that bit of the chunk at an explicit offset.
+void rva00030B60(GapChunk *chunk, unsigned int offset)
+{
+	GAP_CHUNK_AT(chunk, offset)->m_size &= ~1u;
+}
+
 // --- 0x00030B70 (23B): store a size keeping the flag bits.
 void rva00030B70(GapChunk *chunk, unsigned int size)
 {
 	chunk->m_size = (chunk->m_size & 0x80000007) | size;
+}
+
+// --- 0x00030B90 (12B): write a chunk's size as the previous-size word of
+// the chunk that follows it.
+void rva00030B90(GapChunk *chunk, unsigned int size)
+{
+	GAP_CHUNK_AT(chunk, size)->m_prevSize = size;
 }
 
 // --- 0x00030BA0 (25B): link a chunk between fd and bk.
@@ -499,4 +518,10 @@ found:
 	}
 	m_top = best;
 	return best;
+}
+
+// --- 0x00030D50 (8B): the negation of a flag passed in ecx (__fastcall).
+int __fastcall rva00030D50(bool flag)
+{
+	return !flag;
 }
