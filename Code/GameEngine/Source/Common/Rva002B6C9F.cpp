@@ -1,7 +1,8 @@
 // cl: /MD
 // ?rva002B6CE5@Rva002B6C9F@@QAE_NHHH@Z @0x002B6CE5 51B: __thiscall bool
-// probe. Returns the rowed 0x2B2C40 check ANDed with the normalized pinned
-// 0x2B6BCF stage; the AND form shares the bare-pops exit (al still 0 from
+// probe. Returns the rowed 0x2B2C40 check ANDed with the normalized rowed
+// 0x2B6BCF stage (LivingWorldLogic::CanMoveArmyMembers_internal); the AND
+// form shares the bare-pops exit (al still 0 from
 // the first test, so no xor is emitted).
 // Evidence: retail
 //   push ebp; mov ebp,esp; push esi; push [ebp+0x10]; mov esi,ecx
@@ -17,7 +18,8 @@
 // else returns the rowed 0x3193EC check on the third argument through a
 // ternary, which is what gives retail's test al,al / setne al tail.
 // Boundary: 51B [0x2B6CE5,0x2B6D18); prev ret, next prologue. Names
-// address-derived except rowed callees and the 0x2B6BCF pin.
+// address-derived except rowed callees. The ternary on the bool
+// CanMoveArmyMembers_internal result gives retail's test al,al / setne al.
 struct Arg54;
 
 class Rva002B2C40
@@ -26,19 +28,15 @@ public:
 	bool rva002B2C40(Arg54 *a, Arg54 *b);
 };
 
-class Rva002B6BCF
-{
-public:
-	char rva002B6BCF(int a1, int a2, int a3, int *pa3);
-};
-
 struct LivingWorldArmy;
 class ArmySummaryEntry;
+namespace _STL { template<class T> class allocator; template<class T, class A> class vector; }
 
 class LivingWorldLogic
 {
 public:
 	bool CanMoveArmyMember_internal(LivingWorldArmy *army, ArmySummaryEntry *entry, LivingWorldArmy *target, bool checkRoom);
+	bool CanMoveArmyMembers_internal(LivingWorldArmy *army, const _STL::vector<int, _STL::allocator<int> > &members, LivingWorldArmy *target, int *count);	// 0x002B6BCF
 };
 
 class Rva003193EC
@@ -59,7 +57,7 @@ bool Rva002B6C9F::rva002B6C9F(int a1, int a2, int a3)
 {
 	if (!((Rva002B2C40 *)this)->rva002B2C40((Arg54 *)a1, (Arg54 *)a3))
 		return false;
-	else if (!((Rva002B6BCF *)this)->rva002B6BCF(a1, a2, a3, &a1))
+	else if (!((LivingWorldLogic *)this)->CanMoveArmyMembers_internal((LivingWorldArmy *)a1, *(const _STL::vector<int, _STL::allocator<int> > *)a2, (LivingWorldArmy *)a3, &a1))
 		return false;
 	else {
 		unsigned char r = ((Rva003193EC *)a3)->rva003193EC(a1);
@@ -70,7 +68,7 @@ bool Rva002B6C9F::rva002B6C9F(int a1, int a2, int a3)
 bool Rva002B6C9F::rva002B6CE5(int a1, int a2, int a3)
 {
 	if (((Rva002B2C40 *)this)->rva002B2C40((Arg54 *)a1, (Arg54 *)a3)) {
-		return ((Rva002B6BCF *)this)->rva002B6BCF(a1, a2, a3, &a3);
+		return ((LivingWorldLogic *)this)->CanMoveArmyMembers_internal((LivingWorldArmy *)a1, *(const _STL::vector<int, _STL::allocator<int> > *)a2, (LivingWorldArmy *)a3, &a3) ? true : false;
 	}
 }
 
@@ -105,9 +103,9 @@ bool Rva002B6D18::rva002B6D18(int a1, int a2, int a3, int a4)
 	int y = a3, x = a1;
 	if (!((Rva002B2C40 *)this)->rva002B2C40((Arg54 *)x, (Arg54 *)y))
 		return false;
-	if (!((Rva002B6BCF *)this)->rva002B6BCF(x, a2, y, &a3))
+	if (!((LivingWorldLogic *)this)->CanMoveArmyMembers_internal((LivingWorldArmy *)x, *(const _STL::vector<int, _STL::allocator<int> > *)a2, (LivingWorldArmy *)y, &a3))
 		return false;
-	if (!((Rva002B6BCF *)this)->rva002B6BCF(y, a4, x, &a1))
+	if (!((LivingWorldLogic *)this)->CanMoveArmyMembers_internal((LivingWorldArmy *)y, *(const _STL::vector<int, _STL::allocator<int> > *)a4, (LivingWorldArmy *)x, &a1))
 		return false;
 	if (a3 > a1) {
 		if (!((Rva003193EC *)y)->rva003193EC(a3 - a1))

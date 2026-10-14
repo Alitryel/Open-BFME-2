@@ -10966,7 +10966,6 @@ name,address,notes
 ?rva002B488E@Rva002BA8F1Logic@@QAEPAURva002B488EResult@@H@Z,0x002B488E,PC audio owner-position worker2DA1CC direct call; target disassembly verifies thiscall and return ABI; original receiver identity unasserted
 ?rva002B5BBA@Rva002B5BBA@@QAEXXZ,0x002B5BBA,EH funclet entered by tail-jmp from 0x2B6875 with ecx=this; shares caller frame; not standalone
 ?rva002B5EB5@Rva002B5EB5@@QAE_NXZ,0x002B5EB5,thiscall bool with 0 stack args seen at 0x2B5F8A site; 213B body fresh unattempted
-?rva002B6BCF@Rva002B6BCF@@QAEDHHHPAH@Z,0x002B6BCF,thiscall char with 4 stack args seen at 0x2B6C9F and 0x2B6CE5 sites; head undecoded; char return normalizes to test plus setne on bool use
 ?rva002B7DE6@Rva002B894DHost@@QAEXPAVRva002B894DElem@@@Z,0x002B7DE6,callee of ?rva002B894D@Rva002B894DHost@@QAEXH@Z
 ?rva002BED91@Rva002BED91Holder@@QAEXXZ,0x002BED91,thiscall with 0 stack args on the +0x160 slot seen at 0x2B6875 site; head undecoded
 ?rva002BEECD@Rva002BEECDTarget@@QAEXH@Z,0x002BEECD,callee of ?rva002BEF43@Rva002BEF43Forwarder@@QAEXH@Z at retail 0x002BEF43 read from its REL32 displacement; argument count from the callee's ret
