@@ -587,6 +587,7 @@ class HierarchicalPath;
 class Pathfinder
 {
 public:
+ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
  Bool adjustToMeleeDestination(Object*,const LocomotorSet&,Coord3D*);
  Bool CheckForAdjust(Object *,const LocomotorSet &,Bool,Int,Int,PathfindLayerEnum,Int,Bool,Coord3D *,const Coord3D *,float,Int *,Int);
  Bool QuickDoesPathExist(Object *,const Coord3D *,const Coord3D *,Int);
@@ -3875,4 +3876,132 @@ bool Pathfinder::adjustToMeleeDestination(Object*obj,const LocomotorSet&set,Coor
 ++steps;
  }
  return false;
+}
+
+// Native 0x002EEA8A..0x002EED41, RET 20; WB 0x00D69640 and its
+// IterateCircular3 diagnostic prove this expanding-ring search. The callback
+// first validates a cell, then ranks successful cells by squared distance.
+// BFME 1 donor 9cbfb551 supplies the same traversal; target keeps distance
+// calls out of line. Its real inline definition must stay visible: MSVC
+// reuses center+offset across the read-only call only with that definition.
+// The emitted 54-byte distance COMDAT is also identical to its existing owner.
+class Rva002EC3CE {public: Bool rva002EC3CE(Int,Int);};
+struct Rva002E8D74Pt
+{
+	char m_pad00[0x38];
+	float m_38;
+	float m_3C;
+};
+
+class Rva002E8D74
+{
+public:
+	float rva002E8D74(int a, int b);
+private:
+	char m_pad00[0x28];
+	Rva002E8D74Pt *m_28;
+};
+
+inline float Rva002E8D74::rva002E8D74(int a, int b)
+{
+	int x = a * 10;
+	int y = b * 10;
+	float dx = (float)x - m_28->m_38;
+	float dy = (float)y - m_28->m_3C;
+	return dx * dx + dy * dy;
+}
+
+
+// ?rva002EEA8A@Pathfinder@@QAE_NPBUICoord2D@@HPAU2@PAXH@Z
+Bool Pathfinder::rva002EEA8A(const ICoord2D *searchCenterCell, Int maxCells,
+	ICoord2D *foundCell, void *callbackData, Int iterationsAfterHit)
+{
+	Bool found = false;
+	float best = 0.0f;
+	Int remaining = 10000;
+
+	if (g_00E03745 && g_00DFEFF0)
+	{
+		fprintf((PathfinderLogFile *)g_00DFEFF0,
+			"\t\tIterateCircular3 called with center=%d,%d, maxCells=%d",
+			searchCenterCell->x, searchCenterCell->y, maxCells);
+	}
+
+	Rva002EC3CE *info = (Rva002EC3CE *)callbackData;
+	if (info->rva002EC3CE(searchCenterCell->x,searchCenterCell->y))
+	{
+		foundCell->x = searchCenterCell->x;
+		foundCell->y = searchCenterCell->y;
+		found = true;
+		best = ((Rva002E8D74 *)info)->rva002E8D74(searchCenterCell->x,searchCenterCell->y);
+		remaining = iterationsAfterHit;
+	}
+
+	Int side=1;
+	Int x=0;
+	Int y=0;
+	for (; maxCells>0; side+=2)
+	{
+		if (--remaining <= 0)
+			return found;
+		maxCells -= 4 * side + 2;
+
+		for (Int i=side; i>0; --i)
+		{
+			++x;
+			float distance = ((Rva002E8D74 *)info)->rva002E8D74(searchCenterCell->x+x,searchCenterCell->y+y);
+			if ((!found || !(distance >= best)) && info->rva002EC3CE(searchCenterCell->x+x,searchCenterCell->y+y))
+			{
+				foundCell->x = searchCenterCell->x + x;
+				foundCell->y = searchCenterCell->y + y;
+				found = true;
+				best = distance;
+				remaining = iterationsAfterHit;
+			}
+		}
+
+		for (Int j=side; j>0; --j)
+		{
+			++y;
+			float distance = ((Rva002E8D74 *)info)->rva002E8D74(searchCenterCell->x+x,searchCenterCell->y+y);
+			if ((!found || !(distance >= best)) && info->rva002EC3CE(searchCenterCell->x+x,searchCenterCell->y+y))
+			{
+				foundCell->x = searchCenterCell->x + x;
+				foundCell->y = searchCenterCell->y + y;
+				found = true;
+				best = distance;
+				remaining = iterationsAfterHit;
+			}
+		}
+
+		for (Int k=side; k>=0; --k)
+		{
+			--x;
+			float distance = ((Rva002E8D74 *)info)->rva002E8D74(searchCenterCell->x+x,searchCenterCell->y+y);
+			if ((!found || !(distance >= best)) && info->rva002EC3CE(searchCenterCell->x+x,searchCenterCell->y+y))
+			{
+				foundCell->x = searchCenterCell->x + x;
+				foundCell->y = searchCenterCell->y + y;
+				found = true;
+				best = distance;
+				remaining = iterationsAfterHit;
+			}
+		}
+
+		for (Int n=side; n>=0; --n)
+		{
+			--y;
+			float distance = ((Rva002E8D74 *)info)->rva002E8D74(searchCenterCell->x+x,searchCenterCell->y+y);
+			if ((!found || !(distance >= best)) && info->rva002EC3CE(searchCenterCell->x+x,searchCenterCell->y+y))
+			{
+				foundCell->x = searchCenterCell->x + x;
+				foundCell->y = searchCenterCell->y + y;
+				found = true;
+				best = distance;
+				remaining = iterationsAfterHit;
+			}
+		}
+	}
+
+	return found;
 }
