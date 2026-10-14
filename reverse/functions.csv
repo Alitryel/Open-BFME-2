@@ -89640,3 +89640,4 @@ _chatEnumJoinedChannels,,0x006A2100,5,Code/GameEngine/Source/GameNetwork/GameSpy
 ?advanceYThenX@Rva001127F2TerrainPrefix@@QAE_NAAUICoord2D@@HHHH@Z,,0x0011274C,166,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackgroundTriangleFan.cpp,matched,native mirrored scan with verified prefix and donor loop structure; row moved home from Rva00729300BitPlanes.cpp; exact complete166B body retained in native triangle-fan consumer
 ?rva00104BDA@Rva001041D8@@UAEXXZ,,0x00104BDA,409,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva001041BDASlot1.cpp,matched,
 ?Rva007ACFB0StoreTableValid@@YAXXZ,,0x007ACFB0,11,Code/Libraries/Source/WWVegas/WW3D2/Rva007ACFB0EncodingFilterValid.cpp,matched,
+?Update@Impl@AptInGameSpellBookInterface@@QAEXXZ,,0x0052A85D,941,Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/AptInGameSpellBookInterface.cpp,matched,

@@ -55,8 +55,230 @@ class Object {public:const AsciiString *rva00290E67() const;};
 class Player {public:Object *rva002AC629();};
 class CommandButton;
 enum CBCommandStatus { CBC_COMMAND_NOT_USED };
-class ControlBar { public: CBCommandStatus processCommandUI(const CommandButton *,bool,bool); };
+enum CommandAvailability { COMMAND_AVAILABLE=1 };
+class GameWindow;
+class ControlBar { public: CBCommandStatus processCommandUI(const CommandButton *,bool,bool); CommandAvailability getCommandAvailability(const CommandButton *,GameWindow *,Object *,float *,bool) const; };
 extern ControlBar *TheControlBar;
+
+class CommandSet 
+{
+ public:const CommandButton *getCommandButton(int) const;
+ 
+}
+;
+
+class Image;
+class CommandButton 
+{
+ public:
+ unsigned getOptions() const 
+ {
+  return options;
+  
+ }
+ int getFlashCount() const 
+ {
+  return flashTicks;
+  
+ }
+ void setFlashCount(int value) const 
+ {
+  flashTicks=value;
+  
+ }
+ const Image *rva0035B19E() const;
+ char unknown0[0x1c];
+ unsigned options;
+ char unknown20[0xd8];
+ mutable int flashTicks;
+ 
+}
+;
+class GameWindow;
+class SpellFrameClock 
+{
+ public:
+ virtual void s00();
+ virtual void s01();
+ virtual void s02();
+ virtual void s03();
+ virtual void s04();
+ virtual void s05();
+ virtual void s06();
+ virtual void s07();
+ virtual void s08();
+ virtual void s09();
+ virtual void s10();
+ virtual void s11();
+ virtual void s12();
+ virtual void s13();
+ virtual void s14();
+ virtual void s15();
+ virtual void s16();
+ virtual void s17();
+ virtual void s18();
+ virtual void s19();
+ virtual void s20();
+ virtual void s21();
+ virtual void s22();
+ virtual void s23();
+ virtual void s24();
+ virtual void s25();
+ virtual void s26();
+ virtual void s27();
+ virtual void s28();
+ virtual void s29();
+ virtual void s30();
+ virtual unsigned getFrame();
+ 
+}
+;
+class Display;
+extern Display *TheDisplay;
+
+struct SpellPlayerListView 
+{
+ char unknown0[0x10];
+ BfmeMemberRV *localPlayer;
+ 
+}
+;
+struct SpellControlBarColorView 
+{
+ char unknown0[0x208];
+ unsigned color;
+ 
+}
+;
+class Rva00223A94 
+{
+ public:int rva00223A94(const AsciiString *);
+ 
+}
+;
+class Rva002239B2 
+{
+ public:void rva002239E2(const AsciiString &,const Image *);
+ 
+}
+;
+int __cdecl Rva005FB5E6AptCall(Rva00222A8BTarget *,void *,const char *,const char *,const char *);
+int __cdecl Rva0052519DFire(void *,void *,const char *,const char *,int *);
+class BannerUI 
+{
+ public:void SetBannerSlotXOffset(unsigned,float);
+ 
+}
+;
+extern BannerUI *g_00DFE32C;
+class InGameUI;
+extern InGameUI *TheInGameUI;
+class Rva0029A767FloatField 
+{
+ public:void set(float);
+ 
+}
+;
+struct SpellBannerLayout 
+{
+ float offsets[2];
+ int limit;
+ 
+}
+;
+static const SpellBannerLayout spellBannerLayouts[5]=
+{
+ 
+ {
+  
+  {
+   0,0
+  }
+  ,7
+ }
+ ,
+ {
+  
+  {
+   0,60
+  }
+  ,9
+ }
+ ,
+ {
+  
+  {
+   60,60
+  }
+  ,18
+ }
+ ,
+ {
+  
+  {
+   60,102
+  }
+  ,20
+ }
+ ,
+ {
+  
+  {
+   102,102
+  }
+  ,0
+ }
+ 
+}
+;
+struct SpellWidthEntry 
+{
+ float width;
+ int limit;
+ 
+}
+;
+struct SpellWidthTable 
+{
+ SpellWidthEntry entries[2];
+ float fallback;
+ 
+}
+;
+static const SpellWidthTable spellWidths=
+{
+ 
+ {
+  
+  {
+   0,7
+  }
+  ,
+  {
+   0.05859375f,18
+  }
+  
+ }
+ ,0.099609375f
+}
+;
+__forceinline void SetSpellBannerLayout(int count) 
+{
+ if(!g_00DFE32C)return;
+ unsigned i=0;
+ while(i<4 && count>=spellBannerLayouts[i].limit)++i;
+ const float *offsets=spellBannerLayouts[i].offsets;
+ for(unsigned j=0;j<2;++j)g_00DFE32C->SetBannerSlotXOffset(j,offsets[j]);
+ 
+}
+__forceinline void SetSpellWindowWidth(int count) 
+{
+ unsigned i=0;
+ while(i<2 && count>=spellWidths.entries[i].limit)++i;
+ float width=*(const float *)((const char *)&spellWidths+i*8);
+ ((Rva0029A767FloatField *)TheInGameUI)->set(width);
+ 
+}
 extern "C" __declspec(dllimport) int __cdecl atoi(const char *);
 struct SpellAptModeView {char prefix00[0x318];int mode318;};
 class CommandSet;
@@ -67,9 +289,9 @@ class Rva0031D5F8 {public:void *rva0031D5F8(const AsciiString *);};
 // Original entry spelling and the roles of fields0/C/10 remain unknown.
 struct Rva0052A34D {
  Rva0052A34D();
- int unknown0,state; float value8; int unknownC; bool unknown10;
+ const CommandButton *button; int state; float progress; unsigned color; bool flashing; char unknown11[3];
 };
-Rva0052A34D::Rva0052A34D():unknown0(0),state(0),value8(1.0f),unknownC(0),unknown10(false){}
+Rva0052A34D::Rva0052A34D():button(0),state(0),progress(1.0f),color(0),flashing(false){}
 class AptInGameSpellBookInterface {
 public: class Impl {
  public: void SetButtonState(int slotNum,int state);
@@ -77,6 +299,7 @@ public: class Impl {
  void OnClipUnloaded(const char *params);
  void OnButtonPressed(const char *params);
  void rva0052A53B();
+ void Update();
  static AsciiString GetButtonImageTargetName(int slotNum);
  private:
  typedef Rva0052A34D ButtonSlot;
@@ -96,7 +319,7 @@ void AptInGameSpellBookInterface::Impl::OnClipUnloaded(const char *) {
 void AptInGameSpellBookInterface::Impl::OnButtonPressed(const char *param) {
  int index=atoi(param);
  if(index<0 || index>=24)return;
- const CommandButton *button=(const CommandButton *)m_slots[index].unknown0;
+ const CommandButton *button=(const CommandButton *)m_slots[index].button;
  if(button) {
   TheControlBar->processCommandUI(button,((SpellAptModeView *)g_bfmeAptWindowManager)->mode318!=2,false);
  }
@@ -190,4 +413,102 @@ Rva0052AD30Payload::Rva0052AD30Payload(void *o,void *l)
   SpellTimerDesc desc={this,index};
   timers.AddTimer(name,&desc);
  }
+}
+
+// Whole941B52A85D..52AC0A and WB13C6030 read. All table values from retail80B.
+void AptInGameSpellBookInterface::Impl::Update() 
+{
+ if(((StringBase<char> *)&m_clipName)->isEmpty())return;
+ if(!initialized) 
+ {
+  Rva005FB5E6AptCall((Rva00222A8BTarget *)g_bfmeAptWindowManager,m_level,m_clipName.str(),"SetState","_show");
+  return;
+  
+ }
+ rva0052A53B();
+ int slotNum=0;
+ if(m_commandSet)for(int i=0;i<32 && slotNum<24;++i) 
+ {
+  bool &available=flashFlags[i];
+  bool wasAvailable=available;
+  available=false;
+  const CommandButton *button=m_commandSet->getCommandButton(i);
+  if(!button)continue;
+  float progress;
+  int availability=TheControlBar->getCommandAvailability(button,0,0,&progress,false);
+  if(availability==3)continue;
+  if(availability!=5)progress=1.0f;
+  bool disabled=false;
+  if(m_player!=((SpellPlayerListView *)ThePlayerList)->localPlayer) 
+  {
+   if(((SpellPlayerListView *)ThePlayerList)->localPlayer->bfmeAskRV())availability=0;
+   else disabled=true;
+   
+  }
+  int state;
+  switch(availability) 
+  {
+   case 0:case 4:case 6:case 7:state=1;
+   break;
+   case 1:case 2:state=(button->getOptions() & 0x10000000)?3:5;
+   break;
+   case 5:state=4;
+   break;
+   default:state=1;
+   break;
+   
+  }
+  if(disabled && state==5)state=6;
+  available=state==5 || state==3;
+  ButtonSlot &slot=m_slots[slotNum];
+  if(slot.button!=button) 
+  {
+   AsciiString target=GetButtonImageTargetName(slotNum);
+   if(slot.button)((Rva00223A94 *)g_bfmeAptWindowManager)->rva00223A94(&target);
+   slot.button=button;
+   const Image *image=button->rva0035B19E();
+   if(image)((Rva002239B2 *)g_bfmeAptWindowManager)->rva002239E2(target,image);
+   
+  }
+  SetButtonState(slotNum,state);
+  slot.progress=progress;
+  slot.color=TheControlBar?((SpellControlBarColorView *)TheControlBar)->color:0xc0000000;
+  if(!wasAvailable && available) 
+  {
+   int index=slotNum+1;
+   Rva0052519DFire(g_bfmeAptWindowManager,m_level,m_clipName.str(),"FlashButton",&index);
+   
+  }
+  if(button->getFlashCount()>0 && ((SpellFrameClock *)TheDisplay)->getFrame()%10==0)button->setFlashCount(button->getFlashCount()-1);
+  bool flashing=button->getFlashCount()>0;
+  if(flashing!=slot.flashing) 
+  {
+   const char *stateText=flashing?"_show":"_hide";
+   int index=slotNum+1;
+   Rva005252CDInvoke((Rva00222A8BTarget *)g_bfmeAptWindowManager,m_level,m_clipName.str(),"SetButtonFlashEffectState",index,stateText);
+   slot.flashing=flashing;
+   
+  }
+  ++slotNum;
+  
+ }
+ SetSpellBannerLayout(slotNum);
+ SetSpellWindowWidth(slotNum);
+ for(;slotNum<24;++slotNum) 
+ {
+  ButtonSlot &slot=m_slots[slotNum];
+  if(slot.button) 
+  {
+   ((Rva00223A94 *)g_bfmeAptWindowManager)->rva00223A94(&GetButtonImageTargetName(slotNum));
+   slot.button=0;
+   
+  }
+ if (0) { AsciiString t1_dead; }
+  SetButtonState(slotNum,0);
+  slot.progress=1.0f;
+  slot.color=0;
+  slot.flashing=false;
+  
+ }
+ 
 }
