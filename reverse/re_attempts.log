@@ -55662,3 +55662,4 @@ __Locale_ctype_default	0x00021980	5	landed	add_match verified Code/Libraries/Sou
 ?rva0006F313@Rva0006F313@@QBEPBVLocomotorTemplate@@XZ	0x0006F313	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 5B; OVERRIDE<LocomotorTemplate> holder forwarder tail-jumping into rowed operator-> 0x0035C95F; unreferenced
 ??1Rva0004208C@@QAE@XZ	0x0004208C	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 5B; holder dtor destroying its polymorphic member at +0 directly (tail jump); unreferenced
 ??1Rva00042100@@QAE@XZ	0x00042100	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 5B; holder dtor destroying its polymorphic member at +0 directly (tail jump); unreferenced
+?rva00041EB9@Rva00041EB9@@QAEXXZ	0x00041EB9	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 5B; qualified call of the rowed virtual GameEngine::rva0023054C on the object at +0 (tail jump); unreferenced

@@ -881,3 +881,25 @@ private:
 Rva00042100::~Rva00042100()
 {
 }
+
+// 0x00041EB9 (5B), unreferenced: the rowed virtual GameEngine::rva0023054C
+// (0x0023054C) called non-virtually (qualified) on the GameEngine at +0, a
+// tail jump -- the shape of a derived engine forwarding to its base.
+class GameEngine
+{
+public:
+	virtual void rva0023054C();
+};
+
+class Rva00041EB9
+{
+public:
+	void rva00041EB9();
+private:
+	GameEngine m_00;
+};
+
+void Rva00041EB9::rva00041EB9()
+{
+	m_00.GameEngine::rva0023054C();
+}
