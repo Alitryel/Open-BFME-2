@@ -353,7 +353,7 @@ bool	HAnimComboClass::Normalize_Weights(void)
 					float oo_total = 1.0f / weight_total;
 					for (anim_idx = 0; anim_idx < anim_count; anim_idx++ ) {
 						if (Peek_Motion(anim_idx) != NULL ) {
-							PivotMapClass *pivot_map = Get_Pivot_Weight_Map(anim_idx);
+							PivotMapClass *pivot_map = HAnimComboData[anim_idx]->Get_Pivot_Map();
 							float new_weight = (*pivot_map)[piv_idx] * oo_total;
 							(*pivot_map)[piv_idx] = new_weight;
 							pivot_map->Release_Ref();
@@ -417,14 +417,8 @@ void	HAnimComboClass::Set_Pivot_Weight_Map( int index, PivotMapClass *map )
 	data->Set_Pivot_Map(map);
 }
 
-// ?HAnimComboClass::Get_Pivot_Weight_Map present-unmatched
-inline PivotMapClass	*HAnimComboClass::Get_Pivot_Weight_Map( int index )
-{
-	HAnimComboDataClass *data = HAnimComboData[index];
-	WWASSERT(data);
-
-	return data->Get_Pivot_Map();
-}
+// Get_Pivot_Weight_Map is owned by HAnimComboClassGetMotion.cpp at 0x00196740.
+// Normalize_Weights inlines the data accessor; do not emit a competing copy.
 
 // ?HAnimComboClass::Peek_Pivot_Weight_Map present-unmatched
 inline PivotMapClass	*HAnimComboClass::Peek_Pivot_Weight_Map( int index )
