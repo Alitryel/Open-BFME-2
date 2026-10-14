@@ -27,7 +27,16 @@ struct BfmeStringRecord00204A30 {
 namespace _STL {
 template <> void _Construct<BfmeStringRecord00204A30, BfmeStringRecord00204A30>(BfmeStringRecord00204A30 *, const BfmeStringRecord00204A30 &);
 }
-template class _STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> >;
+// Only the rowed members. A whole-class instantiation also emitted this TU's
+// two erase overloads, which differ from retail and, first in link order, were
+// kept over the retail copies; clear() calls the range erase that is defined
+// elsewhere.
+typedef _STL::vector<BfmeStringRecord00204A30, _STL::allocator<BfmeStringRecord00204A30> > BfmeStringRecord00204A30Vector;
+template <> BfmeStringRecord00204A30 *BfmeStringRecord00204A30Vector::erase(BfmeStringRecord00204A30 *, BfmeStringRecord00204A30 *);
+template BfmeStringRecord00204A30Vector::~vector();
+template void BfmeStringRecord00204A30Vector::push_back(const BfmeStringRecord00204A30 &);
+template void BfmeStringRecord00204A30Vector::clear();
+template BfmeStringRecord00204A30 *_STL::__copy_ptrs<BfmeStringRecord00204A30 *, BfmeStringRecord00204A30 *>(BfmeStringRecord00204A30 *, BfmeStringRecord00204A30 *, BfmeStringRecord00204A30 *, _STL::__false_type);
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.

@@ -34,4 +34,10 @@ Rva000B435F &Rva000B435F::operator=(const Rva000B435F &o)
 	return *this;
 }
 
-template class _STL::vector<Rva000B435F, _STL::allocator<Rva000B435F> >;
+// Only the rowed members. A whole-class instantiation also emitted this TU's
+// range erase, which differs from retail (stlport_vector_rva000b435f_erase.cpp,
+// 0x000C059B) and, first in link order, was kept; clear() calls that one.
+typedef _STL::vector<Rva000B435F, _STL::allocator<Rva000B435F> > Rva000B435FVector;
+template <> Rva000B435F *Rva000B435FVector::erase(Rva000B435F *, Rva000B435F *);
+template void Rva000B435FVector::clear();
+template Rva000B435F *_STL::__copy<Rva000B435F *, Rva000B435F *, int>(Rva000B435F *, Rva000B435F *, Rva000B435F *, const _STL::random_access_iterator_tag &, int *);
