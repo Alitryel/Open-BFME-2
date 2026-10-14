@@ -16,3 +16,6 @@ struct Rva0017422DElement { Rva0017422DElement();Rva0017422DElement(const Rva001
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::vector<Rva0017422DElement, _STL::allocator<Rva0017422DElement> >::_M_fill_insert(Rva0017422DElement *, unsigned int, Rva0017422DElement const &);
+
+// Native 0x001746BE: STLport4.5.3 vector count-insertion forwarding to its owned provider.
+template void _STL::vector<Rva0017422DElement, _STL::allocator<Rva0017422DElement> >::insert(Rva0017422DElement *, unsigned int, Rva0017422DElement const &);
