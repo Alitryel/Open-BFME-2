@@ -89115,3 +89115,6 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ?dispatch@Rva0073EB70CellDispatch@@QAEXIIH@Z,,0x0073EB70,58,Code/GameEngine/Source/Common/RTS/Rva0073EB70CellDispatch.cpp,matched,BFME1 donor Rva008FC250CellDispatch skeleton twin; type +64 origin +2C width +24 callback +6C; 0xA8-byte cells (donor 104)
 ??0Rva0073BAA0@@QAE@PAVGen_008F7CD0@@IH@Z,,0x0073B4E0,32,Code/GameEngine/Source/Common/RTS/Rva0073BB40.cpp,matched,derived updater ctor vtable CF13A0 grid +4 mask +8 extra +C
 ??0Rva0073BB40@@QAE@PAVGen_008F7CD0@@IH@Z,,0x0073B500,32,Code/GameEngine/Source/Common/RTS/Rva0073BB40.cpp,matched,derived updater ctor vtable CF13A4 grid +4 mask +8 extra +C
+?advance@Rva0073B670Stepper@@QAEHXZ,,0x0073B6B0,26,Code/GameEngine/Source/Common/RTS/Rva0073B670Stepper.cpp,matched,stepper advance: value += step then --steps > 0
+?Rva0073B6D0NextIndex@@YAHHH@Z,,0x0073B6D0,20,Code/GameEngine/Source/Common/RTS/Rva0073B670Stepper.cpp,matched,cyclic successor index wrap to 0 at count
+?Rva0073B6F0PrevIndex@@YAHHH@Z,,0x0073B6F0,14,Code/GameEngine/Source/Common/RTS/Rva0073B670Stepper.cpp,matched,cyclic predecessor index wrap from 0 to count-1
