@@ -6,8 +6,8 @@
 // Owner0, vector4, eight-byte (player index, float priority) records and selected
 // index14 are native facts. Counter10 remains neutral. BfmeE8/BfmePod8 are
 // existing library stand-ins: erase touches only POD storage; sort uses float4.
-// Priority350B remains unrowed. Its target-proven float/thiscall/RET4 binding
-// retains the neutral bank name; the unresolved Coord3D return view is not imported.
+// Priority350B is rowed in AIEnemyManagerPriority.cpp (non-POD Coord3D view); its
+// float/thiscall/RET4 binding keeps the neutral owner name used by the call below.
 // ThePlayerList uses the sole converged global spelling. No private Player layout.
 #include <vector>
 #include <algorithm>
