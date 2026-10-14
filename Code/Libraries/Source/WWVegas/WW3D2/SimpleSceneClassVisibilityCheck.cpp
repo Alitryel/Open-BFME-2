@@ -33,10 +33,10 @@ public:
 
 extern Rva0006EFC8 g_Rva0006EFC8Pool00DB424C;
 
-struct Rva00943FF0List
+struct Rva0006FB50List
 {
 	Gen_00943CF0_Node *head;
-	~Rva00943FF0List()
+	~Rva0006FB50List() throw()
 	{
 		Gen_00943CF0_Node *current = head;
 		while (current) {
@@ -92,7 +92,7 @@ void SimpleSceneClass::Visibility_Check(CameraClass *camera)
 	++_bfme_visibility_token;
 	RefMultiListClass<RenderObjClass> *visible = &_bfme_visible_objects;
 	visible->Reset_List();
-	Rva00943FF0List objects = {0};
+	Rva0006FB50List objects = {0};
 	((BfmeSceneVector *)&_bfme_spatial_index)->rva00142410(&objects.head, camera, 0);
 	for (Gen_00943CF0_Node *node = objects.head; node; node = (node->m_next ? node->m_next : node->m_next)) {
 		RenderObjClass *obj = (RenderObjClass *)node->m_value;
