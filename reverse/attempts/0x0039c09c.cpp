@@ -1,4 +1,6 @@
 // ?unhookAllScoredKillTrackers@ScoreKeeper@@QAEXXZ
+// partial score=0.8444 date=2026-10-14
+// ?unhookAllScoredKillTrackers@ScoreKeeper@@QAEXXZ
 // partial score=0.793 date=2026-10-14
 // ?unhookAllScoredKillTrackers@ScoreKeeper@@QAEXXZ
 // partial score=0.95 date=2026-10-13
@@ -44,8 +46,8 @@ void ScoreKeeper::unhookAllScoredKillTrackers()
 		const unsigned int *it = begin;
 		do
 		{
-			((ScoredKillTracker *)*it)->rva0055A91A();
 			it++;
+			((begin ? ((ScoredKillTracker *)*it) : ((ScoredKillTracker *)*it)))->rva0055A91A();
 		} while (it != tmp.end());
 	}
 }
