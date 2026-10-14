@@ -3335,7 +3335,19 @@ def verify_dir32_consistency(rows):
             identity = f"{row['source']}::{sym}" if sym in static_symbols[obj] else sym
             final = struct.unpack_from("<I", target, off)[0]
             addend = struct.unpack_from("<I", body, off)[0]
-            sym2base[identity].add((final - addend) & 0xFFFFFFFF)
+            base = (final - addend) & 0xFFFFFFFF
+            if sym.startswith("??_9@"):
+                # MSVC reuses the decorated vcall-thunk name across virtual
+                # slots. Partition only when retail proves the exact thunk
+                # shape; identical slot identities must still resolve to one
+                # base, and unknown shapes retain the ordinary strict check.
+                try:
+                    thunk = read_target_bytes((base - IMAGE_BASE) & 0xFFFFFFFF, 5)
+                except (OSError, ValueError):
+                    thunk = b""
+                if len(thunk) == 5 and thunk[:4] == b"\x8b\x01\xff\x60":
+                    identity = f"{identity} [vcall-slot+0x{thunk[4]:02X}]"
+            sym2base[identity].add(base)
     object_paths.check()
     inconsistent = sorted(s for s, b in sym2base.items() if len(b) > 1)
     # Duplicate IAT entries can independently declare the exact same import.
@@ -3362,7 +3374,8 @@ def verify_dir32_consistency(rows):
             "currently inconsistent symbol(s) are listed below; READ them, confirm each is a legitimate "
             "doubly-linked TU or investigated vtable artifact, and commit the file by hand:\n"
             + "".join("    " + s + "\n" for s in inconsistent))
-    whitelist = {l.strip() for l in whitelist_path.read_text().splitlines() if l.strip() and not l.startswith("#")}
+    whitelist = {l.strip() for l in whitelist_path.read_text().splitlines()
+                 if l.strip() and not l.startswith("#")}
     new = [s for s in inconsistent if s not in whitelist]
     if new:
         print(f"DIR32 consistency: FAIL {len(new)} NEW inconsistent symbol(s) (candidate hidden bug — same symbol, multiple addresses)")
