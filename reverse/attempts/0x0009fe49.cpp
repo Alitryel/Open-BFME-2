@@ -1,4 +1,6 @@
 // ?drawTextEntryText@@YAXPAVGameWindow@@HHHHHH@Z
+// partial score=0.9906556336734523 date=2026-10-14
+// ?drawTextEntryText@@YAXPAVGameWindow@@HHHHHH@Z
 // partial score=0.9829879260533392 date=2026-10-14
 // ?drawTextEntryText@@YAXPAVGameWindow@@HHHHHH@Z
 // partial score=0.9832740490862433 date=2026-10-10
@@ -59,11 +61,13 @@ class Image
 {
  public:
  Int getImageWidth( void ) const 
+ 
  {
   return m_width;
   
  }
  Int getImageHeight( void ) const 
+ 
  {
   return m_height;
   
@@ -116,6 +120,7 @@ class WinInstanceData
 {
  public:
  UnsignedInt getState( void ) 
+ 
  {
   return m_state;
   
@@ -331,11 +336,13 @@ template <class T> inline const T& min( const T& a, const T& b )
 
 {
  if( a < b ) 
+ 
  {
   return a;
   
  }
  else 
+ 
  {
   return b;
   
@@ -346,11 +353,13 @@ template <class T> inline const T& max( const T& a, const T& b )
 
 {
  if( a > b ) 
+ 
  {
   return a;
   
  }
  else 
+ 
  {
   return b;
   
@@ -403,6 +412,7 @@ struct CtorCoord : ICoord2D
 
 {
  CtorCoord() 
+ 
  {
   
  }
@@ -466,7 +476,7 @@ Int x, Int y )
  if( text->getFont() != window->winGetFont() )
  text->setFont( window->winGetFont() );
  if( e->constructText->getFont() != window->winGetFont() )
- e->constructText->setFont( window->winGetFont() );
+ e->constructText->setFont( (x ? (window->winGetFont()) : (window->winGetFont())) );
 // clip the text to the edit window
  window->winGetScreenPosition( &origin.x, &origin.y );
  window->winGetSize( &size.x, &size.y );
