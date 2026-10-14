@@ -1,7 +1,6 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 extern "C" unsigned char bfmeVftUD[];
 
-void bfmeFreeUD(void *what);
 
 class BfmeThingUD
 {
@@ -16,6 +15,6 @@ void *BfmeThingUD::bfmeKillUD(int flags)
 	m_bfmeVft = bfmeVftUD;
 	bfmeDtorUD();
 	if ((flags & 1) != 0)
-		bfmeFreeUD(this);
+		::operator delete(this);
 	return this;
 }

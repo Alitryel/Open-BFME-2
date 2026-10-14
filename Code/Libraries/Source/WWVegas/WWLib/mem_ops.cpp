@@ -50,15 +50,10 @@ void bfmeEmitMemOps(void *p, unsigned int s)
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?bfmeFreeTWB@@YAXPAX@Z=??3@YAXPAX@Z")
 #pragma comment(linker, "/alternatename:?bfmeFreeArrayTXA@@YAXPAX@Z=??_V@YAXPAX@Z")
 #pragma comment(linker, "/alternatename:?bfmeFreeTXA@@YAXPAX@Z=??3@YAXPAX@Z")
-#pragma comment(linker, "/alternatename:?bfmeFreeArrDMC@@YAXPAX@Z=??_V@YAXPAX@Z")
-#pragma comment(linker, "/alternatename:?bfmeFreeDMC@@YAXPAX@Z=??3@YAXPAX@Z")
 #pragma comment(linker, "/alternatename:?bfmeDelArrVJS@@YAXPAX@Z=??_V@YAXPAX@Z")
 #pragma comment(linker, "/alternatename:?bfmeFreeRC@@YAXPAX@Z=??_V@YAXPAX@Z")
 #pragma comment(linker, "/alternatename:?bfmeAlloc1039@@YAPAXH@Z=??2@YAPAXI@Z")
-#pragma comment(linker, "/alternatename:?bfmeFreeCDE@@YAXPAX@Z=??3@YAXPAX@Z")
 #pragma comment(linker, "/alternatename:?bfmeFreeTA@@YAXPAX@Z=??_V@YAXPAX@Z")
-#pragma comment(linker, "/alternatename:?bfmeFreeUD@@YAXPAX@Z=??3@YAXPAX@Z")
 #pragma comment(linker, "/alternatename:?bfmeFreeUB@@YAXPAX@Z=??_V@YAXPAX@Z")

@@ -5549,16 +5549,11 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/chunkio.cpp	?bfmeReadVFC@BfmeC
 alternatename	Code/Libraries/Source/WWVegas/WWLib/chunkio.cpp	?bfmeWriteUQB@BfmeChunkUQB@@QAEIPAXI@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeAlloc1039@@YAPAXH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeDelArrVJS@@YAXPAX@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeArrDMC@@YAXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeArrayTXA@@YAXPAX@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeCDE@@YAXPAX@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeDMC@@YAXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeRC@@YAXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeTA@@YAXPAX@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeTWB@@YAXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeTXA@@YAXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeUB@@YAXPAX@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeUD@@YAXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/node_alloc_M_deallocateThunk.cpp	?_S_free_list@?$__node_alloc@$00$0A@@_STL@@0PAPAU_Obj@12@A	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/rva002da398_audio_string.cpp	?g_00BBD3EC@@3QBDB	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/stlport_asciistring_nocase_less.cpp	??RRecordNocaseLess@@QBE_NABUBfmeStringRecord004071F7@@0@Z	1
@@ -23274,8 +23269,8 @@ pin	reverse/symbols.csv	0x0002F11E	1
 pin	reverse/symbols.csv	0x0002F681	2
 pin	reverse/symbols.csv	0x0002FBB0	2
 pin	reverse/symbols.csv	0x0002FBC0	2
-pin	reverse/symbols.csv	0x0002FD60	10
-pin	reverse/symbols.csv	0x0002FD80	37
+pin	reverse/symbols.csv	0x0002FD60	6
+pin	reverse/symbols.csv	0x0002FD80	36
 pin	reverse/symbols.csv	0x0002FDA0	4
 pin	reverse/symbols.csv	0x0002FDE0	2
 pin	reverse/symbols.csv	0x0002FFC0	1

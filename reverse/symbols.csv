@@ -7984,7 +7984,6 @@ name,address,notes
 ?bfmeFreeArrDLJ@@YAXPAX@Z,0x0002FD80
 ?bfmeFreeArrDMA@@YAXPAX@Z,0x0002FD80
 ?bfmeFreeArrDMB@@YAXPAX@Z,0x0002FD80
-?bfmeFreeArrDMC@@YAXPAX@Z,0x0002FD80
 ?bfmeFreeArrDMD@@YAXPAX@Z,0x0002FD80
 ?bfmeFreeArrDME@@YAXPAX@Z,0x0002FD80
 ?bfmeFreeArray@@YAXPAX@Z,0x0002FD80
@@ -7993,8 +7992,6 @@ name,address,notes
 ?bfmeFreeArrayUND@@YAXPAX@Z,0x0002FD80
 ?bfmeFreeBW@@YAXPAX@Z,0x006D0440
 ?bfmeFreeBlock@@YAXPAX@Z,0x0002FD80
-?bfmeFreeCDE@@YAXPAX@Z,0x0002FD60,BFME1 BfmeConv583 donor call site; same body as rowed scalar delete
-?bfmeFreeDMC@@YAXPAX@Z,0x0002FD60
 ?bfmeFreeDXK@@YAXPAX@Z,0x0002FD80
 ?bfmeFreeOneJT@@YAXPAX@Z,0x001B6410,5B ILT thunk at this RVA jumps to matched bfmeTwoBZB body at 0x1B63A0; called from bfmeAllocJX at 0x1B56F0
 ?bfmeFreeRC@@YAXPAX@Z,0x0002FD80
@@ -8005,12 +8002,10 @@ name,address,notes
 ?bfmeFreeTQD@@YAXPAXH@Z,0x0065D030
 ?bfmeFreeTVC@@YAXPAXH@Z,0x0065D030
 ?bfmeFreeTWA@@YAXPAXH@Z,0x0065D030
-?bfmeFreeTWB@@YAXPAX@Z,0x0002FD60,BFME1 BfmeConv1325 donor call site; same body as rowed scalar delete
 ?bfmeFreeTWC@@YAXPAXH@Z,0x0065D030
 ?bfmeFreeTXA@@YAXPAX@Z,0x0002FD60,BFME1 BfmeConv1326 donor call site; same body as rowed scalar delete
 ?bfmeFreeTYA@@YAXPAXH@Z,0x0065D030
 ?bfmeFreeUB@@YAXPAX@Z,0x0002FD80
-?bfmeFreeUD@@YAXPAX@Z,0x0002FD60,callee of bfmeKillUD (0x000F1CF7) at the site its BFME1 donor calls it; may be an ICF alias
 ?bfmeFreeUNA@@YAXPAXH@Z,0x0065D030
 ?bfmeFreeVCC@@YAXPAXH@Z,0x0065D030
 ?bfmeFreeVDB@@YAXPAX@Z,0x0002FD60,BFME1 BfmeConv1350 donor call site; same body as rowed scalar delete
