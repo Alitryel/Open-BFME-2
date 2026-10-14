@@ -812,6 +812,33 @@ int Rva0030C025::rva0030C025(int, int index) const
 // rowed 0x0030D65B.
 float normalizeAngle(float angle);							// 0x00238954
 
+class BfmeRetBWF;
+class Rva0030D631 { public: BfmeRetBWF *rva0030D631(); };	// 0x0030D631
+class Rva0030D606 { public: void rva0030D606(); };			// 0x0030D606
+// TheAudio (VA 0x00DFE6E8) viewed only through its slot 53 (+0xD4), which
+// takes the sound handle and the position the 0x0030D631 member returns.
+class Rva0030D65BAudio
+{
+public:
+	virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
+	virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
+	virtual void slot08(); virtual void slot09(); virtual void slot10(); virtual void slot11();
+	virtual void slot12(); virtual void slot13(); virtual void slot14(); virtual void slot15();
+	virtual void slot16(); virtual void slot17(); virtual void slot18(); virtual void slot19();
+	virtual void slot20(); virtual void slot21(); virtual void slot22(); virtual void slot23();
+	virtual void slot24(); virtual void slot25(); virtual void slot26(); virtual void slot27();
+	virtual void slot28(); virtual void slot29(); virtual void slot30(); virtual void slot31();
+	virtual void slot32(); virtual void slot33(); virtual void slot34(); virtual void slot35();
+	virtual void slot36(); virtual void slot37(); virtual void slot38(); virtual void slot39();
+	virtual void slot40(); virtual void slot41(); virtual void slot42(); virtual void slot43();
+	virtual void slot44(); virtual void slot45(); virtual void slot46(); virtual void slot47();
+	virtual void slot48(); virtual void slot49(); virtual void slot50(); virtual void slot51();
+	virtual void slot52();
+	virtual void setPosition(unsigned int handle, const BfmeRetBWF *position);
+};
+class AudioManager;
+extern AudioManager *TheAudio;
+
 class BfmeThingEOC
 {
 public:
@@ -820,7 +847,25 @@ public:
 private:
 	char m_pad00[0x1C];
 	float m_1C;
+	char m_pad20[0x54 - 0x20];
+	unsigned int m_54;
 };
+
+// --- 0x0030D65B (55B, its tail jump ends at the 0x0030D692 body): with
+// TheAudio up and a live handle at +0x54 (5 and above), moves the sound to
+// the position 0x0030D631 returns; with no position, releases it through
+// 0x0030D606 (tail jump). Name from the existing symbols.csv pin.
+void BfmeThingEOC::bfmeAfterEOC()
+{
+	if (TheAudio != 0 && m_54 >= 5)
+	{
+		BfmeRetBWF *position = ((Rva0030D631 *)this)->rva0030D631();
+		if (position != 0)
+			((Rva0030D65BAudio *)TheAudio)->setPosition(m_54, position);
+		else
+			((Rva0030D606 *)this)->rva0030D606();
+	}
+}
 
 void BfmeThingEOC::rva0030D692(float angle)
 {
