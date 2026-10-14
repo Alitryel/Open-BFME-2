@@ -98,7 +98,7 @@ public:
 class Rva005EBCC0Object : public Rva005EBD40
 {
 public:
-	Rva005EBCC0Object( const Rva005EBCC0Object &o ) : Rva005EBD40( o ) {}
+	Rva005EBCC0Object( const Rva005EBCC0Object &o );
 	Rva005EBCC0Object *clone() const;
 	char m_storage[ 0x8e4 - 0x1c ];
 };
