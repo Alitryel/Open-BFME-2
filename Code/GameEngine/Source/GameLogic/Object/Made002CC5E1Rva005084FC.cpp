@@ -96,10 +96,14 @@ int Rva00360C1FEqual(const void*,const void*);
 class Thing {public:bool isKindOfMulti(const BitFlags<116>&,const BitFlags<116>&) const;};
 template<class T> static __forceinline const T& minDamageRatio(const T&a,const T&b) {return b<a?b:a;}
 
-class DamageInfo
+// Construct the verified owner of the native 0x7C damage record. The
+// older DamageInfo constructor pin also names divergent definitions.
+// DamageInfo stays opaque at the already-owned method boundaries.
+class DamageInfo;
+class Rva00263895Member
 {
 public:
- DamageInfo();
+ Rva00263895Member() throw();
  unsigned char pad00[0x10];
  int damageType10;
  unsigned char pad14[0x0C];
@@ -158,14 +162,14 @@ private:
 };
 bool Made002CC5E1::rva005084FC(void *weapon, Object *target, const Coord3D *position)
 {
- DamageInfo info;
- if (rva00508120(weapon, target, &info, false, position) == true)
+ Rva00263895Member info;
+ if (rva00508120(weapon, target, (DamageInfo*)&info, false, position) == true)
  {
   if (info.damageType10 == 7)
    target->attemptHealing(info.amount20, target);
   else
   {
-   target->attemptDamage(&info);
+   target->attemptDamage((DamageInfo*)&info);
    float factor = value198 * info.value70;
    if (flag194)
    {
@@ -194,8 +198,8 @@ bool Made002CC5E1::rva005086CE(void *weapon,Object *target)
 {
  Rva005084FCWeaponView *descriptor=(Rva005084FCWeaponView*)weapon;
  if(!rva005075D6(weapon,target)) return false;
- DamageInfo info;
- rva00508120(weapon,target,&info,true,0);
+ Rva00263895Member info;
+ rva00508120(weapon,target,(DamageInfo*)&info,true,0);
  if(!target) return false;
  Object *source=TheGameLogic->findObjectByID((ObjectID)descriptor->sourceID08);
  if(!source) return false;
@@ -212,16 +216,16 @@ bool Made002CC5E1::rva005086CE(void *weapon,Object *target)
  if(descriptor->parameters->scaleByCount) {
   Rva005086CEContain *contain=source->contain250;
   if(contain) {
-  Rva005086CEPair pair;
-  unsigned count=((Rva00291793*)contain->members(&pair))->rva00291793();
-  int divisor=descriptor->parameters->divisor;
-  if(divisor>0) {
-   float ratio=(float)count/divisor;
-   const float& selected=minDamageRatio(ratio,1.0f);
-   float scale=selected;
-   damage=damage*scale;
+   Rva005086CEPair pair;
+   unsigned count=((Rva00291793*)contain->members(&pair))->rva00291793();
+   int divisor=descriptor->parameters->divisor;
+   if(divisor>0) {
+    float ratio=(float)count/divisor;
+    const float& selected=minDamageRatio(ratio,1.0f);
+    float scale=selected;
+    damage=damage*scale;
+   }
   }
- }
  }
  if(damage<=0.0f && !info.flag24) return false;
  return true;
