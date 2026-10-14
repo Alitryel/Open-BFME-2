@@ -26,6 +26,13 @@ inline const T &(max)(const T &a, const T &b)
 	return a < b ? b : a;
 }
 
+// The unsigned callers inline this comparison. Avoid a second external
+// template provider, whose standalone /O1 body differs from retail's /O2 copy.
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+
 void *__cdecl __copy_trivial(const void *first, const void *last, void *result);
 
 inline unsigned short *uninitialized_copy(const unsigned short *first,

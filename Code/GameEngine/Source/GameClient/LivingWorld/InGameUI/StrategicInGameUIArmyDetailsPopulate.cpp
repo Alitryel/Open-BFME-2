@@ -10,6 +10,16 @@
 // as in the verified EntryAdded sibling; no science identity is inferred.
 // Retail EH mapD5BDA8 keeps vector[-2C] in state0 and entry[-18] in state1.
 // The temporary icon uses its existing provisional SBServer provider ABI.
+// Keep the unsigned comparison local: this TU's standalone template copy
+// differs from retail's provider; its existing callers inline the comparison.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
+
 #include <vector>
 #include "ascii_string.h"
 void __cdecl Rva00030830GameFree(void *);
