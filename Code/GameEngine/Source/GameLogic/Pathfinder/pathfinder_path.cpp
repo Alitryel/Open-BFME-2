@@ -27,7 +27,7 @@ class Path
 public:
 	~Path();
 	bool rva00363930(const Coord3D *position, bool stopAtPortal);
-	void rva00365DF0(Rva00263404Product *product);
+	void SpliceAndPrepend(Rva00263404Product *product);
 private:
 	void *m_unknown00;
 	PathNode *m_path;
@@ -38,7 +38,8 @@ private:
 	float m_distance;
 };
 
-void Path::rva00365DF0(Rva00263404Product *product)
+// WorldBuilder Path::SpliceAndPrepend, WB VA 0x00F25F50 (callgraph lead, score 2).
+void Path::SpliceAndPrepend(Rva00263404Product *product)
 {
 	Path *other = (Path *)product;
 	if (!other)

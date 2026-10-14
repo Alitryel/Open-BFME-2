@@ -43,7 +43,7 @@ class AIEconomyStats : public Rva0025BFE3
 public:
 	AIEconomyStats(int arg);
 	virtual ~AIEconomyStats();
-	int rva00596394() const;
+	int getTotalMoney() const;
 	void rva0059640C(void *holder);
 	void withdrawSavedAmount(int amount);
 	void rva005963A1(int amount);
@@ -78,12 +78,13 @@ AIEconomyStats::~AIEconomyStats()
 {
 }
 
-// ?rva00596394@AIEconomyStats@@QBEHXZ @0x00596394 13B
+// ?getTotalMoney@AIEconomyStats@@QBEHXZ @0x00596394 13B
 // Const chase-add getter of AIEconomyStats: return *(int*)(*(int*)(this+0x10)+0x94)
 // plus *(this+0x14). Evidence: neighbours 0x00596389 dtor / 0x005963F0 deleting
 // dtor prove AIEconomyStats owner (+0x10 arg ptr +0x14 zero per rowed ctor
 // 0x00596366); single caller at 0x005AC092; no donor string vtable or export.
-int AIEconomyStats::rva00596394() const
+// WorldBuilder AIEconomyStats::getTotalMoney, WB VA 0x0148CFD0 (callgraph lead, score 1).
+int AIEconomyStats::getTotalMoney() const
 {
 	int const *ptr = reinterpret_cast<int const *>(m_arg10);
 	return *(int const *)((char const *)ptr + 0x94) + m_zero14;

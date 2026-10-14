@@ -140,8 +140,8 @@ struct NAT
     static unsigned s_probeRetryInterval;
 
 	void rva005A7A96(const std::vector<Rva005A7A96Pair> *pairs);
-    void rva005A74D8();
-    void rva005A7C9C();
+    void notifyConnectionFromTargetDone();
+    void notifyNATHostSlot();
     void processUDPPacket();
     void rva005A73DE(Rva005A7A96Slot*);
     void rva005A831E();
@@ -186,7 +186,8 @@ __forceinline void natAppendChar(AsciiString &s,char c) {
 // Target574D8..57683 carries both endpoint indices and the action cookie,
 // selects the host and optional target names, and uses the492-byte PeerRequest.
 // These target fields are witnessed by this body; original member name unknown.
-void NAT::rva005A74D8() {
+// WorldBuilder NAT::notifyConnectionFromTargetDone, WB VA 0x014DFAC0 (strings lead, score 1).
+void NAT::notifyConnectionFromTargetDone() {
  Rva005A7A96Slot *local=m_8[m_localSlot];
  Rva005A7A96Slot *target=m_8[m_targetSlot];
  if(!local) { m_state94c=5;m_state950=5;return; }
@@ -216,7 +217,8 @@ class GameSlot { public: bool isHuman() const; };
 unsigned NAT::s_hostUpdateInterval=4000;
 // Reference NAT notification purpose with BFME2 per-slot status payloads.
 // Target5A7C9C..5A7EDC,576B; named notifyNATHostSlot by WB family.
-void NAT::rva005A7C9C() {
+// WorldBuilder NAT::notifyNATHostSlot, WB VA 0x014E35D0 (strings lead, score 1).
+void NAT::notifyNATHostSlot() {
  if(m_localSlot!=m_hostSlot)return;
  unsigned now=timeGetTime();
  if(m_nextHostUpdate>now)return;
@@ -271,7 +273,7 @@ void NAT::processUDPPacket() {
      { NetPacketAddress *address=m_addresses[m_targetSlot];unsigned incomingIP=natAddress(m_04,i);if(incomingIP!=address->ip) {address->ip=incomingIP;changed=true;} }
      { NetPacketAddress *address=m_addresses[m_targetSlot];unsigned short incomingPort=natPort(m_04,i);if(incomingPort!=address->port) {address->port=incomingPort;m_970=false;changed=true;} }
      if(changed)m_04->setDestAddrToSocket(m_targetSlot,m_addresses[m_targetSlot]);
-     rva005A74D8();setConnectionState(m_targetSlot,m_localSlot,m_cookie,4);
+     notifyConnectionFromTargetDone();setConnectionState(m_targetSlot,m_localSlot,m_cookie,4);
     }
    } else if(!memcmp(ptr,"PONG",strlen("PONG"))) {
     int source,cookie,stamp;

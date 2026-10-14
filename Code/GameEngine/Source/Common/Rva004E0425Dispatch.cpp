@@ -6,7 +6,7 @@
 //   m_0C->rva00596491(holder) true  -> loop(holder,2), any++, done=1
 //   m_08->UnRegister(holder) true  -> loop(holder,1), any=1, done=any
 //   any != 0                        -> m_10->rva004E02D7(holder)
-//   m_00->rva0059614B(holder) || m_04->rva005960E0(holder) -> loop(holder,4), done=1
+//   m_00->UnRegister(holder) || m_04->rva005960E0(holder) -> loop(holder,4), done=1
 //   done != 0 -> key = TheNameKeyGenerator->nameToKey(*(AsciiString*)(*(void**)(holder+4)+0x64));
 //                node = map14._M_find(key); if (node) --*(int*)(node+8)
 // Members m_0C/m_04 are AIStatBase (rowed 0x596491/0x5960E0), m_08 is
@@ -34,7 +34,7 @@ class AIUnitStats
 {
 public:
 	bool Register(void *holder);
-	bool rva0059614B(void *holder);
+	bool UnRegister(void *holder);
 };
 
 // Rowed under their own address classes.
@@ -246,7 +246,7 @@ void AIStatCollector::UnRegister(void *holder)
 	}
 	if (any != 0)
 		((Rva004E02D7Owner *)m_10)->rva004E02D7((CreateAHeroData *)holder);
-	if (((AIUnitStats *)m_00)->rva0059614B(holder) || m_04->rva005960E0(holder))
+	if (((AIUnitStats *)m_00)->UnRegister(holder) || m_04->rva005960E0(holder))
 	{
 		Rva004DF9E4::rva004DF9E4(holder, 4);
 		done = true;

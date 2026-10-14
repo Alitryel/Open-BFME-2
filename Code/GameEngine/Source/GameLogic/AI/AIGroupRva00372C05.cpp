@@ -9,7 +9,7 @@ class AIGroup
 public:
 	bool isIdle() const;
 	void cohereMoveSpeed();
-	void rva003705C2();
+	void cohereAttackState();
 	void rva00372C05();
 };
 
@@ -18,5 +18,5 @@ void AIGroup::rva00372C05()
 	if (isIdle())
 		return;
 	cohereMoveSpeed();
-	rva003705C2();
+	cohereAttackState();
 }

@@ -150,7 +150,7 @@ class AIGameTeam
 public:
 	void rva004E94FB();
 	void rva004E951C(void *o);
-	void *rva004E955F(int unused, int key);
+	void *getTargetByIndexForPlayer(int unused, int key);
 	void update();
 
 private:
@@ -180,8 +180,9 @@ void AIGameTeam::rva004E951C(void *o)
 		((SkirmishAI *)n->m_14)->DoXfer((Xfer *)o);
 }
 
-// ?rva004E955F@AIGameTeam@@QAEPAXHH@Z @0x004E955F 51B.
-void *AIGameTeam::rva004E955F(int unused, int key)
+// ?getTargetByIndexForPlayer@AIGameTeam@@QAEPAXHH@Z @0x004E955F 51B.
+// WorldBuilder AIGameTeam::getTargetByIndexForPlayer, WB VA 0x01372EA0 (callgraph lead, score 1).
+void *AIGameTeam::getTargetByIndexForPlayer(int unused, int key)
 {
 	Rva004E94FBHead *head = m_00;
 	for (Rva004E94FBNode *n = head->m_first; n != (Rva004E94FBNode *)head; n = (Rva004E94FBNode *)_STL::_Rb_global<bool>::_M_increment((_STL::_Rb_tree_node_base *)n))

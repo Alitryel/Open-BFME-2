@@ -11108,7 +11108,7 @@ name,address,notes
 ?rva0036276F@Rva0036276F@@QAEXXZ,0x0036276F,"retail REL32 at 0x0036289B in notify 0x00362862 targets 0x0036276F (ecx=esi thiscall no args); same target as blocked Lever L/M trials; candidate not identity"
 ?rva00362862@Rva00362862Item@@QAEXHH@Z,0x00362862,"vector element notify helper called in loop at 0x00239300"
 ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z,0x003642DF,"AIUpdate+0x140 path member returning a node+position by value for a distance; REL32 in AIUpdate slot 141 0x0026345A; identity not recovered"
-?rva00365DF0@Path@@QAEXPAVRva00263404Product@@@Z,0x00365DF0,"AIUpdate+0x140 path member taking slot 141's product; REL32 in AIUpdate slot 141 0x002634B2; identity not recovered"
+?SpliceAndPrepend@Path@@QAEXPAVRva00263404Product@@@Z,0x00365DF0,"AIUpdate+0x140 path member taking slot 141's product; REL32 in AIUpdate slot 141 0x002634B2; identity not recovered"
 ?rva0036736E@Rva0036666B@@QAE_N_N@Z,0x0036736E,pin for 0x2E7205 thiscall bool(bool) on same +0x60 item as rowed 0x36666B; target cmp/sete/push shape
 ?rva00369064@Rva0036A88AOwner@@QAEHXZ,0x00369064,address read from the retail REL32 at 0x0036A88A+ in Rva0036A88AOwner::rva0036A88A (same-this no-arg call, result returned)
 ?rva0036914D@Rva0036A88AOwner@@QAEHXZ,0x0036914D,address read from the retail REL32 at 0x0036A88A+ in Rva0036A88AOwner::rva0036A88A (same-this no-arg call, result returned)
@@ -11116,7 +11116,7 @@ name,address,notes
 ?rva0036D3A3@BfmeC986@@QAEDHH@Z,0x0036D3A3,two-arg check on same this in rva003724B8 at 0x372509 (REL32); returns byte tested; identity not recovered
 ?rva0036FB57@AIGroup@@QAEXPBVWaypoint@@W4CommandSourceType@@H@Z,0x0036FB57,AIGroup waypoint member mirroring rowed 0x0036F9FE; REL32 callee of dump-range-18 0x003BF39F selected by flag; identity unproven
 ?rva0036FC23@AIGroup@@QAEXH@Z,0x0036FC23,AIGroup member taking an int (called with 1); REL32 callee of dump-range-18 0x003C08CC after getTeamAsAIGroup; identity unproven
-?rva003705C2@AIGroup@@QAEXXZ,0x003705C2,tail-callee of AIGroup 0x00372C05 on the same this (REL32 jmp at 0x372C1B); void-void thiscall; identity not recovered
+?cohereAttackState@AIGroup@@QAEXXZ,0x003705C2,tail-callee of AIGroup 0x00372C05 on the same this (REL32 jmp at 0x372C1B); void-void thiscall; identity not recovered
 ?rva00372571@AIGroup@@QAEXPAURva00372571Params@@H@Z,0x00372571,"AIGroup member taking a 0x20-byte argument block (+0x00 a position pointer, +0x14 -1, the rest zero) and a command source, ret 8; REL32 in script action 0x003C2662 with ECX the team's new group, the block built inline and 1; identity not recovered (a group move order in shape)"
 ?rva00372B09@@YGXHHH@Z,0x00372B09,stdcall spelling of the range-16 thiscall body (same bytes); dump-range-18 0x003BEB01 else-path sets no ecx so the call is spelled without this; identity unproven
 ?rva00372B09@BfmeC986@@QAEXHHH@Z,0x00372B09,three-arg fallback on same this in rva00372C74 at 0x372C9E (REL32); range-16 target, name will be reused by its row; identity not recovered
@@ -11571,7 +11571,7 @@ name,address,notes
 ?rva00590F13@Rva004D6208@@QAEXVAsciiString@@@Z,0x00590F13,AsciiString setter on Rva004D6208 twin of 0x004D65F9 via caller 0x005922FB
 ?rva00590F13@Rva004D62A9@@QAEXVAsciiString@@@Z,0x00590F13,AsciiString setter on Rva004D62A9 twin of 0x004D65F9 via caller 0x005923C5
 ?rva00594F19@Rva00594F19@@QAEHHPAG0AAHAA_N@Z,0x00594F19,REL32 callee decoded at the retail call site 0x0059598E in detectionTest3WaitForResponsesUpdate (BFME 2 getNATPortAllocationScheme with Int relativeDelta; body unmatched)
-?rva0059614B@Rva0059614B@@QAE_NPAX@Z,0x0059614B,thiscall predicate callee of 0x004E0425 read from its REL32 displacement; Ghidra FUN_0099614b 139B; body unrowed
+?UnRegister@Rva0059614B@@QAE_NPAX@Z,0x0059614B,thiscall predicate callee of 0x004E0425 read from its REL32 displacement; Ghidra FUN_0099614b 139B; body unrowed
 ?rva00596B10@Rva00596B10@@QAEXXZ,0x00596B10,
 ?rva005996FF@Rva00599825@@QAEXPAVObject@@_N@Z,0x005996FF,"owner-record +0x140 object list: drop the object (the matched ?rva005996FF@Rva005996FF row); REL32 in StructureCreep slot 6 0x005ABAF6"
 ?rva00599870@Rva00599825@@QAEPAXABUCoord3D@@H@Z,0x00599870,owner-record +0x140 object list: entry near a point; REL32 at 0x005AC079 in the StructureCreep slot 1
@@ -14753,7 +14753,7 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ??1Rva00240000@@QAE@XZ,0x0023F4F0,destructor of the 0x00240000 stream (60B; stores 0x00C4EF80 at +0x10 and +0 around free of the +4 buffer) called by GameLogic 0x002469A5 at 0x00246B51 on the local the 0x00240000 constructor built at 0x00246AE6
 ?rva0032FF91@SidesList@@QAEXXZ,0x0032FF91,TheSidesList member (FUN_0072ff91 1199B; ret 0) called by GameLogic 0x002469A5 at 0x00246BF6 when TheGameEngine virtual +0x58 or the AI-slot flag is set (BFME 1 startNewGame calls prepareForMP_or_Skirmish under the same test)
 ?rva00207C02@ScriptEngine@@QAEXXZ,0x00207C02,TheScriptEngine (0x009FE16C) member (FUN_00607c02 498B; ret 0) called by GameLogic 0x002469A5 at 0x00246C90 after progress 0xD
-?rva00287015@Rva002872BA@@QAEXXZ,0x00287015,TheTriggerManager (0x009FEC68) member (FUN_00687015 399B; ret 0) called by GameLogic 0x002469A5 at 0x00246E3C
+?NewMap@Rva002872BA@@QAEXXZ,0x00287015,TheTriggerManager (0x009FEC68) member (FUN_00687015 399B; ret 0) called by GameLogic 0x002469A5 at 0x00246E3C
 ?rva0024622F@GameLogic@@QAEX_N@Z,0x0024622F,GameLogic bridge pass (banked partial reverse/attempts/0x0024622f.cpp; ret 4) called by 0x002469A5 at 0x00246E74 with its bool param
 ?rva002817F2@TerrainLogic@@QAEXABVAsciiString@@@Z,0x002817F2,TheTerrainLogic (0x009FEC50) member (FUN_006817f2 443B; first calls the rowed clear 0x0027DA58 then opens the AsciiString argument through FileSystem::openFile with mode 0x41 and reads an 0x12-byte header: the ambient light map loader) called by GameLogic 0x0023E628 at 0x0023E77C with the folder ambientlightmap.tga path
 ?rva0032E02B@SidesList@@QAEXXZ,0x0032E02B,TheSidesList (0x00A01D58) member (FUN_0072e02b 1097B; EH frame; walks the +0x3C side count) called by GameLogic 0x0023E0C7 at 0x0023E2EA right after TeamsInfoRec::addTeam where BFME 1 startNewGame calls SidesList::validateSides
@@ -16384,7 +16384,7 @@ _D3DXMatrixTranslation@16,0x0062AF32,First named PE import thunk: FF25 IAT00BBA9
 ?rva0045479A@GettingBuiltBehavior@@QAEXXZ,0x0045479A,callee of ?update@GettingBuiltBehaviorUpdateReceiver@@QAE?AW4UpdateSleepTime@@XZ
 ?rva000A8C2B@Rva000A8C2B@@QAEXPAVXfer@@PAURva0010FFA2Packet@@@Z,0x000A8C2B,thiscall spelling of the placeholder-rowed A8C2B (retail calls it with ecx = playing+0x0C; the body ignores ecx); caller the MilesAudioManager stream xfer 0x0005B256
 ?rva0028C149@Object@@QAE_NHPAMPBVAsciiString@@@Z,0x0028C149,same rowed 0x0028C149 (?rva0028C149@Object@@QAE_NHPAMH@Z) seen from Armor::adjustDamage 0x001D90A1; which passes the address of a local AsciiString (damage-type name) as the third argument (lea eax;[ebp+0xc]; push eax); 0x00508120 passes null
-?rva005A7829@NAT@@QAEXH@Z,0x005A7829,NAT members called on this (ecx=esi) from NAT::processGlobalMessage 0x005A8ABF: 0x5A7829 (ret 4) with the NATHOST cookie; 0x5A89C2 (ret 8) with the NEGO peer slot and value; 0x5A6732 (rowed as Rva005A6732; bool const) as the NEGO gate; boundaries from Ghidra (331/253 B)
+?notifyHostMyNATCreated@NAT@@QAEXH@Z,0x005A7829,NAT members called on this (ecx=esi) from NAT::processGlobalMessage 0x005A8ABF: 0x5A7829 (ret 4) with the NATHOST cookie; 0x5A89C2 (ret 8) with the NEGO peer slot and value; 0x5A6732 (rowed as Rva005A6732; bool const) as the NEGO gate; boundaries from Ghidra (331/253 B)
 ?rva005A89C2@NAT@@QAEXHH@Z,0x005A89C2,NAT members called on this (ecx=esi) from NAT::processGlobalMessage 0x005A8ABF: 0x5A7829 (ret 4) with the NATHOST cookie; 0x5A89C2 (ret 8) with the NEGO peer slot and value; 0x5A6732 (rowed as Rva005A6732; bool const) as the NEGO gate; boundaries from Ghidra (331/253 B)
 ?rva005A6732@NAT@@QBE_NXZ,0x005A6732,NAT members called on this (ecx=esi) from NAT::processGlobalMessage 0x005A8ABF: 0x5A7829 (ret 4) with the NATHOST cookie; 0x5A89C2 (ret 8) with the NEGO peer slot and value; 0x5A6732 (rowed as Rva005A6732; bool const) as the NEGO gate; boundaries from Ghidra (331/253 B)
 ??1NuggetCreated@@QAE@XZ,0x001F22A3,callee of ?create@GenericObjectCreationNugget@@UBEXPBVObject@@0I@Z

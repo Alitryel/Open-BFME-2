@@ -54,11 +54,11 @@ bool g_natTransportContextEnabled=false;unsigned g_natStatsWaitStartTick=0;
 struct Rva005A7A96Pair{void *opaque00;unsigned short first,second;};
 struct Rva005A7172:public _STL::vector<int>{~Rva005A7172();};
 class PortNegotiationSchema{public:void negotiationStarted(unsigned short,unsigned short,int,bool);char pad00[0x18];int state[81];char pad15c[0x738-0x15c];unsigned timeout[8][8];unsigned short tries[8][8];bool rva005DBA9C(bool);bool rva005DBA60(unsigned short);bool rva005DC586(_STL::vector<Rva005A7A96Pair>*);};
-class NAT{public:void findMyMangledPort();void rva005A89C2(int,int);bool rva005A6709();void rva005A7C9C();void rva005A6CA5();void sendPings();void processUDPPacket();int rva005A879B();void processManglerResponse(unsigned short);bool SetUDPSocketForSlot(unsigned short,unsigned short,void*);void notifyConnectionToTargetFailed();void rva005A74D8();void rva005A7829(int);void rva005A6C90(int);void rva005A831E();void rva005A7974(unsigned short,void*);static unsigned s_probeRetryInterval;static int s_manglerMaxRetryCount;bool rva005A6732()const;void rva005A7A96(const _STL::vector<Rva005A7A96Pair>*);};
+class NAT{public:void findMyMangledPort();void rva005A89C2(int,int);bool rva005A6709();void notifyNATHostSlot();void rva005A6CA5();void sendPings();void processUDPPacket();int rva005A879B();void processManglerResponse(unsigned short);bool SetUDPSocketForSlot(unsigned short,unsigned short,void*);void notifyConnectionToTargetFailed();void notifyConnectionFromTargetDone();void notifyHostMyNATCreated(int);void rva005A6C90(int);void rva005A831E();void rva005A7974(unsigned short,void*);static unsigned s_probeRetryInterval;static int s_manglerMaxRetryCount;bool rva005A6732()const;void rva005A7A96(const _STL::vector<Rva005A7A96Pair>*);};
 class Rva005A6D47 {public:void *vptr;Transport *transport;GameSpyGameSlot **slots;int host,state,local;char pad18[0x10];PortNegotiationSchema schema;int rva005A8F57();};
 int Rva005A6D47::rva005A8F57(){
  NAT *nat=(NAT*)this;
- if(nat->rva005A6709()&&((UnicodeString*)((char*)slots[local]+0x30))->getLength()>0)nat->rva005A7C9C();
+ if(nat->rva005A6709()&&((UnicodeString*)((char*)slots[local]+0x30))->getLength()>0)nat->notifyNATHostSlot();
  if(transport){nat->rva005A6CA5();nat->sendPings();if(g_natTransportContextEnabled)transport->update((Rva00594DC0*)g_a063b0);else transport->update(0);nat->processUDPPacket();}
  switch(state){
  case 2:{bool all=true;bool timeout=false;for(int i=0;i<8;++i){GameSpyGameSlot *slot=TheGameSpyGame->getGameSpySlot(i);if(slot&&slot->isHuman()){PSPlayerAllStats stats=TheGameSpyPSMessageQueue->findPlayerStatsByID(slot->profile);if(!stats.id)all=false;}}
@@ -196,7 +196,8 @@ void NAT::notifyConnectionToTargetFailed(){NatConnectionView *v=(NatConnectionVi
  tmp.translate(*(UnicodeString*)((char*)v->slots[v->target]+0x30));if(!names.isEmpty()){delimiter=',';((StringBase<char>*)&names)->concat(&delimiter,1);}names+=tmp;
  request.unknown_04=names.str();request.unknown_40=options.str();TheGameSpyPeerMessageQueue->addRequest(request);
 }}
-void NAT::rva005A7829(int hostIndex){
+// WorldBuilder NAT::notifyHostMyNATCreated, WB VA 0x014E08D0 (strings lead, score 1).
+void NAT::notifyHostMyNATCreated(int hostIndex){
  NatConnectionView*v=(NatConnectionView*)this;GameSpyGameSlot*local=v->slots[v->local];GameSpyGameSlot*host=v->slots[v->host];if(!local||!host)return;
  BfmeOpaqueOwnedRecord492 request;AsciiString options,name;name.translate(*(UnicodeString*)((char*)local+0x30));options.format("NATINITED%d %d %s",v->local,hostIndex,name.str());request.unknown_00=13;request.payload_flag0.value=true;request.unknown_34="NAT";
  AsciiString hostName;hostName.translate(*(UnicodeString*)((char*)v->slots[v->host]+0x30));request.unknown_04=hostName.str();request.unknown_40=options.str();TheGameSpyPeerMessageQueue->addRequest(request);

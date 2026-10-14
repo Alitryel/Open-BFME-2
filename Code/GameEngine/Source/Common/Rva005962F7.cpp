@@ -64,7 +64,7 @@ class AIUnitStats : public Rva0025C061
 {
 public:
 	bool Register(void *holder);
- bool rva0059614B(void *holder);
+ bool UnRegister(void *holder);
  private:
   typedef _STL::vector<ObjectID,_STL::allocator<ObjectID> > IdVector;
   IdVector &ids() { return *(IdVector *)((char *)this + 0x98); }   // +0x98
@@ -96,7 +96,8 @@ bool AIUnitStats::Register(void *holder)
 // +0x10 element like Register. The vector is reached through an accessor
 // at each use: native adjusts ESI to it only after pushing the value
 // address, which a cached vector pointer moves ahead of the push.
-bool AIUnitStats::rva0059614B(void *holder) {
+// WorldBuilder AIUnitStats::UnRegister, WB VA 0x0148E380 (callgraph lead, score 2).
+bool AIUnitStats::UnRegister(void *holder) {
  if((unsigned char)Rva005960FFGet(holder)) {
   void *inner=*(void**)((char*)holder+4);
   unsigned int flags=*(unsigned int*)((char*)inner+0x108);

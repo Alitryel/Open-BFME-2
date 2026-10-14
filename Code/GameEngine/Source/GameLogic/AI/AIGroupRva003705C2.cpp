@@ -1,5 +1,5 @@
 // cl: /Oy- /DNDEBUG /MD
-// ?rva003705C2@AIGroup@@QAEXXZ, retail 0x003705C2, 190 bytes.
+// ?cohereAttackState@AIGroup@@QAEXXZ, retail 0x003705C2, 190 bytes.
 // AIGroup order-issuing walk over the raw member list at +4 (same ListNode
 // idiom as AIGroupRva0036DF92): phase 1 keeps the first
 // non-null AIUpdateInterface::getCurrentVictim (rowed 0x268D71, called twice
@@ -71,14 +71,15 @@ struct ListNode
 class AIGroup
 {
 public:
-	void rva003705C2();
+	void cohereAttackState();
 
 private:
 	char m_pad00[4];
 	ListNode *m_head;
 };
 
-void AIGroup::rva003705C2()
+// WorldBuilder AIGroup::cohereAttackState, WB VA 0x00EEB350 (callgraph lead, score 3).
+void AIGroup::cohereAttackState()
 {
 	Object *found = NULL;
 	ListNode *head = m_head;

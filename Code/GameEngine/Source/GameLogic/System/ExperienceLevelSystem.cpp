@@ -226,7 +226,7 @@ class ExperienceLevelStore
 {
 public:
     bool CreateNewExpLevel(const AsciiString &, const AsciiString &, const AsciiString &, const AsciiString &, const AsciiString &);
-    void rva0028A1AA(void *, const BfmePod264 *);
+    void AddExperienceLevel(void *, const BfmePod264 *);
     void rva002891DB(const Rva002894A2 *);
     static void friend_parseExperienceLevelDefinition(INI *);
 	Int GetLevelRank(ExperienceLevelHandle levelHandle) const;
@@ -505,7 +505,7 @@ bool ExperienceLevelStore::CreateNewExpLevel(const AsciiString &sourceName, cons
         SplitString(level.attributes30, attributes);
         level.upgrades4C.erase(level.upgrades4C.begin(), level.upgrades4C.end());
         SplitUpgrades(&level.upgrades4C, upgrades);
-        rva0028A1AA(m_levelLists, (const BfmePod264 *)&level);
+        AddExperienceLevel(m_levelLists, (const BfmePod264 *)&level);
         ((Rva0028881C *)((char *)this + 0x28))->rva002889BB();
     } else {
         _STL::vector<AsciiString> &targets = existing->targets24;
@@ -687,7 +687,7 @@ void ExperienceLevelStore::friend_parseExperienceLevelDefinition(INI *ini)
         level.key14 = TheNameKeyGenerator->nameToKey(name);
         ini->initFromINI(&level, experienceLevelFieldParse);
         if (ini->loadType08 != 5) {
-            ((ExperienceLevelStore *)TheExperienceLevelSystem)->rva0028A1AA(((ExperienceLevelStore *)TheExperienceLevelSystem)->m_levelLists, (const BfmePod264 *)&level);
+            ((ExperienceLevelStore *)TheExperienceLevelSystem)->AddExperienceLevel(((ExperienceLevelStore *)TheExperienceLevelSystem)->m_levelLists, (const BfmePod264 *)&level);
             ((Rva0028881C *)((char *)TheExperienceLevelSystem + 0x28))->rva002889BB();
         } else {
             Rva002894A2 *existing = (Rva002894A2 *)((Rva0028951F *)TheExperienceLevelSystem)->rva0028951F(TheNameKeyGenerator->nameToKey(name));
@@ -696,7 +696,7 @@ void ExperienceLevelStore::friend_parseExperienceLevelDefinition(INI *ini)
                 if (existing->override08) g_Va00DFECC9 = true;
             }
             level.overrideIndex0C = 0;
-            ((ExperienceLevelStore *)TheExperienceLevelSystem)->rva0028A1AA(((ExperienceLevelStore *)TheExperienceLevelSystem)->m_reloadLevelLists, (const BfmePod264 *)&level);
+            ((ExperienceLevelStore *)TheExperienceLevelSystem)->AddExperienceLevel(((ExperienceLevelStore *)TheExperienceLevelSystem)->m_reloadLevelLists, (const BfmePod264 *)&level);
         }
     }
 }

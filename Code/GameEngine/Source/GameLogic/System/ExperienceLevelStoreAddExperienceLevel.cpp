@@ -49,8 +49,9 @@ template<> list<Rva00289FBCRecord> &list<Rva00289FBCRecord>::operator=(const lis
 enum NameKeyType { NAMEKEY_UNKNOWN=0 };
 class NameKeyGenerator { public: NameKeyType nameToKey(const AsciiString &); };
 extern NameKeyGenerator *TheNameKeyGenerator;
-class ExperienceLevelStore { public: void rva0028A1AA(void *,const BfmePod264 *); };
-void ExperienceLevelStore::rva0028A1AA(void *table,const BfmePod264 *level)
+class ExperienceLevelStore { public: void AddExperienceLevel(void *,const BfmePod264 *); };
+// WorldBuilder ExperienceLevelStore::AddExperienceLevel, WB VA 0x00BE9FF0 (callgraph lead, score 3).
+void ExperienceLevelStore::AddExperienceLevel(void *table,const BfmePod264 *level)
 {
     ExperienceMap *map=(ExperienceMap *)table;
     for(unsigned i=0;i<level->targetNames24.size();++i) {

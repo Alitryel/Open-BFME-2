@@ -1,5 +1,5 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /GX /ICode/Libraries/Include /ICode/GameEngine/Source/Common /Ireference/shims/moduledata/Common
-// ?rva00287015@FireLogicSystem@@QAEXXZ
+// ?NewMap@FireLogicSystem@@QAEXXZ
 //
 // FireLogicSystem's registration of a placed object (0x00286373): the id is
 // filed in the grid cell under its world position and the cell takes the
@@ -212,7 +212,7 @@ public:
 	void *rva00286D4E(ObjectID id, Int x, Int y, bool add);
 	bool rva00286772(const PolygonTrigger *area, Int minBurn);
 	void rva00286CC4();
-	void rva00287015();
+	void NewMap();
 private:
 	// A cell's watcher list (16-byte nodes from the 0xDFEC94 pool).
 	struct WatcherNode
@@ -331,10 +331,11 @@ struct Rva00287015Extent
 	Coord3D hi;
 };
 
-// ?rva00287015@FireLogicSystem@@QAEXXZ @0x00287015
+// ?NewMap@FireLogicSystem@@QAEXXZ @0x00287015
 // Rebuilds the grid over the terrain extent (one cell per 10 units) and
 // seeds each cell from the material TheTerrainLogic reports at its centre.
-void FireLogicSystem::rva00287015()
+// WorldBuilder FireLogicSystem::NewMap, WB VA 0x00C382E0 (align lead, score 2).
+void FireLogicSystem::NewMap()
 {
 	rva00286CC4();
 	Rva00287015Extent extent;

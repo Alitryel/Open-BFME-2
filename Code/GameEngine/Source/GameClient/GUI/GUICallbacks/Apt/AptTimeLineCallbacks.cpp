@@ -255,7 +255,7 @@ public:
 	void GraphFocus(int index, const char *value, bool set);
 	void PlayerColor(int index, char *value, bool set);
 	void CaHAwardNumber(const char *value);
- void rva0051FA13();
+ void CollectAllPlayerData();
 
 	// Retail 0x0051ED7E (345 bytes), the continue action shared by two callbacks.
 	void rva0051ED7E();
@@ -350,7 +350,8 @@ struct Rva002226E5TextPlusString {
  operator AsciiString();
 };
 Rva002226E5TextPlusString operator+(const char*,const AsciiString&);
-void AptTimeLine::rva0051FA13() {
+// WorldBuilder AptTimeLine::CollectAllPlayerData, WB VA 0x013DE230 (strings lead, score 2.25).
+void AptTimeLine::CollectAllPlayerData() {
  for(_STL::vector<AptTimeLinePlayer>::iterator row=m_players.begin();row!=m_players.end();++row) {
   AsciiString key;
   key.format("TimeLine:PlayerName:%d",row-m_players.begin());

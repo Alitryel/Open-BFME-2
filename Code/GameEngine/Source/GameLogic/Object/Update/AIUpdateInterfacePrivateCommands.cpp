@@ -840,7 +840,7 @@ public:
 	// The point `dist` along the path, and what slot 141 hands back to it.
 	// Unnamed.
 	Rva003642DFResult rva003642DF(float dist);
-	void rva00365DF0(Rva00263404Product *product);
+	void SpliceAndPrepend(Rva00263404Product *product);
 	unsigned char m_unmodelled_00[0x0C];
 	// Set by slot 134 on a path it starts; 0x002655E3 tests it. Unnamed.
 	Bool m_bfmeFlag0C;							// +0x0C
@@ -2774,7 +2774,7 @@ void AIUpdateInterface::rva00263404(Rva00263404Source *source)
 			Rva00263404Product *product = source->slot6(obj, &info.m_pos, info.m_node);
 			if (product)
 			{
-				path->rva00365DF0(product);
+				path->SpliceAndPrepend(product);
 				m_blockedFrames = 0;
 				m_isBlocked = false;
 				rva00262989(m_bfmeWord3DC);

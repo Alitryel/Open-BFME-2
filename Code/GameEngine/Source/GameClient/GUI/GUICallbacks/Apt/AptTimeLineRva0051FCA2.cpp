@@ -218,7 +218,7 @@ public:
 	void PlayerColor(int index, char *value, bool set);
 	void PlayerFaction(int index, char *value, bool set);
 	void GraphFocus(int index, const char *value, bool set);
-	void rva0051FA13();
+	void CollectAllPlayerData();
 private:
 	unsigned char m_pad27C[0x280 - 0x27C];
 	AptTimeLineStats *m_stats; // +0x280
@@ -272,5 +272,5 @@ void AptTimeLine::rva0051FCA2()
 		name.format("TimeLine:GraphFocus:%d", index);
 		m_externHandlers.AddExternHandler(name, index, AptRef<AptExternHandler>(MakeBinding(reinterpret_cast<FunctorMethod>(&AptTimeLine::GraphFocus), reinterpret_cast<FunctorTarget *>(this))));
 	}
-	rva0051FA13();
+	CollectAllPlayerData();
 }

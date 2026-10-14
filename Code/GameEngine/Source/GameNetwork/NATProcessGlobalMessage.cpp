@@ -87,7 +87,7 @@ struct NAT
 	void targetNotifyMeIWasProbed(Int slot);
 	void gotTargetMangledPort(Int slot, UnsignedShort port, Int addr);
 	Bool rva005A6732() const;
-	void rva005A7829(Int cookie);
+	void notifyHostMyNATCreated(Int cookie);
 	void rva005A89C2(Int slot, Int value);
 };
 // TheNAT: defined here (zero-initialised, exactly as retail's image holds the
@@ -128,7 +128,7 @@ void NAT::processGlobalMessage(Int slotNum, const char *options)
 		{
 			m_hostSlot = (UnsignedShort)slot;
 			m_hostKnown[m_hostSlot] = 1;
-			rva005A7829(cookie);
+			notifyHostMyNATCreated(cookie);
 			m_addresses[m_localSlot]->m_ip = m_slotList[m_localSlot]->m_ip;
 		}
 	}
