@@ -92,7 +92,8 @@ private:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	// Local implementation name keeps this +0x10 view out of unrelated COMDAT copies.
+	Player *idleWorkerLocalPlayer() { return m_local; }
 private:
 	char m_unknown00[0x10];
 	Player *m_local;
@@ -267,7 +268,7 @@ extern InGameUI *TheInGameUI;
 
 void InGameUI::selectNextIdleWorker(void)
 {
-	int index = ThePlayerList->getLocalPlayer()->getPlayerIndex();
+	int index = ThePlayerList->idleWorkerLocalPlayer()->getPlayerIndex();
 	if(m_idleWorkers[index].empty())
 		return;
 	Object *selectThisObject = 0;
