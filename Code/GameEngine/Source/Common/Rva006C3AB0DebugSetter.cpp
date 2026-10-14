@@ -1,12 +1,4 @@
-// ?rva006C3AB0@GeneralAllocatorDebug@@QAEPAXPAXGPBXIH@Z
-// partial score=0.9945 date=2026-10-14
-// ?rva006C3AB0@GeneralAllocatorDebug@@QAEPAXPAXGPBXIH@Z
-// partial score=0.9 date=2026-10-13
-// ?rva006C3AB0@GeneralAllocatorDebug@@QAEPAXPAXGPBXIH@Z
-// partial score=0.9 date=2026-10-13
-// ?rva006C3AB0@GeneralAllocatorDebug@@QAEPAXPAXGPBXIH@Z
-// partial score=0.9 date=2026-10-11
-// cl: /O2 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /O2 /arch:SSE /DNDEBUG /MD /EHsc /Gy
 //
 // ?rva006C3AB0@GeneralAllocatorDebug@@QAEPAXPAXGPBXIH@Z @ 0x006C3AB0 514B, ret 0x14
 //
@@ -28,6 +20,11 @@
 // twin at 0x0070E3B0 (same control flow plus "dataLength < UINT16_MAX" and
 // "bResult" asserts that retail drops; WB's fields sit eight bytes later).
 // The original names are not established; the name is address-derived.
+//
+// The leaf hash lookup 0x006C1850 is defined ahead of the caller (its real
+// body, copied from Rva006C1850Rva006C1920.cpp) so cl knows the address-taken
+// out slot is not retained by it; retail hoists the slot reload above the
+// record stores.
 
 #include <string.h>
 
@@ -35,11 +32,44 @@ struct Rva00030DD0Lock;
 int Rva00030DD0AddRef(Rva00030DD0Lock *lock);
 int Rva00030DF0Release(Rva00030DD0Lock *lock);
 
+struct Rva006C1850Node
+{
+	unsigned int m_key;
+	void *m_value;
+	Rva006C1850Node *m_next;
+};
 class Rva006C1850
 {
 public:
 	bool rva006C1850(unsigned key, void **value);
+private:
+	Rva006C1850Node **m_table;
+	bool m_flag;
+	char _pad04[3];
+	unsigned int m_bucketCount;
+	int m_pad0C;
+	int m_count;
+	void *m_allocFn;
+	void *m_freeFn;
+	void *m_allocator;
 };
+inline __declspec(noinline) bool Rva006C1850::rva006C1850(unsigned key, void **out)
+{
+	Rva006C1850Node **table = m_table;
+	Rva006C1850Node *node = 0;
+	if (table) {
+		int h = (key >> 3) % m_bucketCount;
+		node = table[h];
+		while (node && node->m_key != key)
+			node = node->m_next;
+	if (node) {
+		if (out)
+			*out = &node->m_value;
+		return true;
+	}
+	}
+	return false;
+}
 
 class Rva006C1A50Owner
 {
@@ -143,5 +173,8 @@ void *GeneralAllocatorDebug::rva006C3AB0(void *block, unsigned short id, const v
 	}
 	return result;
 
- if (0) throw 1;
+	// layout lever: a dead throw after the sibling blocks restores cl's slot merge
+	// in this EH function (retail frame size); emits no code.
+	if (0)
+		throw 1;
 }
