@@ -10,6 +10,12 @@ template <> __forceinline void __malloc_alloc<0>::deallocate(void *p, size_t) { 
 }
 
 #include <locale>
+// The 64-bit integer writers are owned by stlport_write_integer_backward_64.cpp,
+// stlport_write_integer_backward_int64.cpp and stlport_write_decimal_backward_u64.cpp.
+// This unit's copies are not retail's; declare their instantiations only.
+namespace _STL { template <> char * __write_integer_backward<__int64>(char *, int, __int64); }
+namespace _STL { template <> char * __write_integer_backward<unsigned __int64>(char *, int, unsigned __int64); }
+namespace _STL { template <> char * __write_decimal_backward<unsigned __int64>(char *, unsigned __int64, int, __false_type const &); }
 
 #include <cstddef>
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):

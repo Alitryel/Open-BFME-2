@@ -36,6 +36,10 @@ namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > __cop
 namespace _STL { template <> char * __write_decimal_backward<long>(char *, long, int, __true_type const &); }
 namespace _STL { template <> char * __write_integer_backward<long>(char *, int, long); }
 namespace _STL { template <> char * __write_integer_backward<unsigned long>(char *, int, unsigned long); }
+namespace _STL { template <> char * __write_integer_backward<__int64>(char *, int, __int64); }
+namespace _STL { template <> char * __write_integer_backward<unsigned __int64>(char *, int, unsigned __int64); }
+namespace _STL { template <> char * __write_decimal_backward<__int64>(char *, __int64, int, __true_type const &); }
+namespace _STL { template <> char * __write_decimal_backward<unsigned __int64>(char *, unsigned __int64, int, __false_type const &); }
 // bfme link decl-only end
 // __copy_integer_and_fill<char> is owned by stlport_narrow_copy_integer_and_fill.cpp.
 // This unit's copy is not retail's and inlined sputc into an out-of-line

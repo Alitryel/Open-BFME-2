@@ -80,6 +80,7 @@ template <> int _M_get_base_or_zero<istreambuf_iterator<wchar_t, char_traits<wch
 // bfme link decl-only begin
 namespace _STL { template <> char * __write_decimal_backward<long>(char *, long, int, __true_type const &); }
 namespace _STL { template <> char * __write_integer_backward<unsigned long>(char *, int, unsigned long); }
+namespace _STL { template <> char * __write_integer_backward<unsigned __int64>(char *, int, unsigned __int64); }
 namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::_M_insert_aux(char *, char); }
 namespace _STL { template <> bool __get_decimal_integer<char *, long double>(char *&, char *&, long double &); }
