@@ -247,10 +247,15 @@ protected:
 	static RenderStateStruct render_state;
 };
 
+struct GlowSampleVector;
+struct IDirect3DTexture8;
+
 class W3DShaderManager
 {
 public:
 	static void drawViewport(int color, bool shaded, const Vector2 *viewportSize);
+	static void performGlow(float weightScale, const GlowSampleVector *samples, int textureSize, IDirect3DTexture8 *sourceTexture,
+		IDirect3DSurface8 *tempSurface, IDirect3DTexture8 *tempTexture, IDirect3DSurface8 *destSurface);
 };
 
 // The settings block behind Rva00309E4BGet (+0x08 is the blur strength).
@@ -261,13 +266,11 @@ struct BfmeHilightSettings
 };
 int Rva00309E4BGet();
 
-// Rowless helpers called only from here: the colour read (0x000ABBEF), the
-// square quad draw (rowed 0x00075A23) and the gaussian blur pass
-// (0x00077392).
+// Helpers called from here: the colour read (0x000ABBEF) and the square
+// quad draw (rowed 0x00075A23). The blur pass is the rowed
+// W3DShaderManager::performGlow (0x00077392).
 void rva000ABBEF(float *r, float *g, float *b, int index);
 void Rva00075A23Draw(int width, int height);
-void Rva00077392(float strength, void *kernel, int size, IDirect3DBaseTexture8 *result,
-	void *surface, IDirect3DBaseTexture8 *source, IDirect3DSurface8 *target);
 
 extern bool bfmeOnlyEmissiveDraws;
 class GlobalData;
@@ -353,8 +356,9 @@ bool ScreenHilightFilter::postRender(int mode, Coord2D &scrollDelta, bool &doExt
 		Rva00075A23Draw(m_size, m_size);
 		DX8Wrapper::Set_Render_Target(0, true);
 	}
-	Rva00077392(((BfmeHilightSettings *)Rva00309E4BGet())->m_08, m_kernel, m_size, m_result,
-		m_surfaces[m_current], m_textures[m_current], m_renderTarget);
+	W3DShaderManager::performGlow(((BfmeHilightSettings *)Rva00309E4BGet())->m_08,
+		(const GlowSampleVector *)m_kernel, m_size, (IDirect3DTexture8 *)m_result,
+		(IDirect3DSurface8 *)m_surfaces[m_current], (IDirect3DTexture8 *)m_textures[m_current], m_renderTarget);
 	DX8Wrapper::Set_DX8_Texture(0, m_result);
 	DX8Wrapper::Set_DX8_Render_State(0x13, 2);
 	DX8Wrapper::Set_DX8_Render_State(0x14, 4);
