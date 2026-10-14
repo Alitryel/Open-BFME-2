@@ -1,10 +1,12 @@
 // ?chooseBestWeaponForTarget@WeaponSet@@QAE_NPBVObject@@0W4WeaponChoiceCriteria@@W4CommandSourceType@@@Z
+// partial score=0.99798 date=2026-10-14
+// ?chooseBestWeaponForTarget@WeaponSet@@QAE_NPBVObject@@0W4WeaponChoiceCriteria@@W4CommandSourceType@@@Z
 // partial score=0.99 date=2026-10-09
 // ?chooseBestWeaponForTarget@WeaponSet@@QAE_NPBVObject@@0W4WeaponChoiceCriteria@@W4CommandSourceType@@@Z
 // Resumed O2 target reconstruction; donor semantics and native layout documented below.
 // ?chooseBestWeaponForTarget@WeaponSet@@QAE_NPBVObject@@0W4WeaponChoiceCriteria@@W4CommandSourceType@@@Z
 // partial score=0.99 date=2026-10-08
-// cl: /O1 /Oy /G7 /arch:SSE /DNDEBUG /MD
+// cl: /I. /O1 /Oy /G7 /arch:SSE /DNDEBUG /MD
 //
 // WeaponSet::setWeaponLock, retail 0x002C8AAE (237 bytes).
 // Identity: Zero Hour WeaponSet.cpp setWeaponLock (false for NOT_LOCKED or an
@@ -24,10 +26,7 @@
 
 class WeaponTemplateSet;
 class ThingTemplate;
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 enum WeaponSlotType
 {
 	PRIMARY_WEAPON = 0
@@ -52,7 +51,7 @@ public:
 private:
 	unsigned int m_words[19];
 };
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 enum ObjectStatusTypes
 {
 	OBJECT_STATUS_NONE = 0
@@ -120,11 +119,7 @@ static __forceinline void setModelConditionBit(Object *object, int bit)
 		object->rva0028AE6D();
 	}
 }
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
+
 extern GameLogic *TheGameLogic;
 // Placeholder rows: 0x000B6253 fills a 0x4C-byte (19-word) model-condition mask
 // with up to five bits and returns it; 0x001E42F2 clears such a mask on an

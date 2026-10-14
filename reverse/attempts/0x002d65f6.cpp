@@ -1,8 +1,10 @@
 // ?update@AptPalantir@@QAEXXZ
+// partial score=0.9699 date=2026-10-14
+// ?update@AptPalantir@@QAEXXZ
 // partial score=0.9741 date=2026-10-14
 // ?update@AptPalantir@@QAEXXZ
 // partial score=0.97 date=2026-10-13
-// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /I. /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // The palantir's Apt implementation (WorldBuilder: Palantir.cpp,

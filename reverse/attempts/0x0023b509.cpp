@@ -1,4 +1,6 @@
 // ?xfer@GameClient@@MAEXPAVXfer@@@Z
+// partial score=0.97768 date=2026-10-14
+// ?xfer@GameClient@@MAEXPAVXfer@@@Z
 // partial score=0.975 date=2026-10-14
 // ?xfer@GameClient@@MAEXPAVXfer@@@Z
 // partial score=0.9 date=2026-10-13
@@ -7,8 +9,7 @@
 // declaration-only override getter grows frame4B and changes first loop allocation; arithmetic-only Snapshot casts omit22B.
 // ?xfer@GameClient@@MAEXPAVXfer@@@Z
 // partial score=0.9 date=2026-10-08
-// cl: /ICode/GameEngine/Source/GameClient /O1 /G7 /DNDEBUG /MD /EHs /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
-// R12 (W7-U1) compiles standalone again (duplicate DynamicAudioEventInfo class dropped; GameLogicObjectLookupView.h already declares it): 1806B, nd 34, EH bytes differ 2.
+// cl: /I. /ICode/GameEngine/Source/GameClient /O1 /G7 /DNDEBUG /MD /EHs /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // R12 (W7-U1) residue: loop counter / EH object slot swap (ebp-0x10/-0x20) plus one extra mov ecx,ebx; ms_nd 2569 singles no gain.
 // stlport
 //

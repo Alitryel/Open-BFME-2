@@ -1,8 +1,10 @@
 // ?doGuardLogic@SlavedUpdate@@QAEXPAUCoord3D@@_N@Z
+// partial score=0.97009 date=2026-10-14
+// ?doGuardLogic@SlavedUpdate@@QAEXPAUCoord3D@@_N@Z
 // partial score=0.97 date=2026-10-13
 // ?doGuardLogic@SlavedUpdate@@QAEXPAUCoord3D@@_N@Z
 // partial score=0.95 date=2026-10-07
-// cl: /DNDEBUG /MD /GX
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /GX
 //
 // SlavedUpdate methods, Zero Hour SlavedUpdate.cpp transferred: endRepair
 // (retail 0x004A1C10, 73 bytes) and setRepairModelConditionStates (retail
