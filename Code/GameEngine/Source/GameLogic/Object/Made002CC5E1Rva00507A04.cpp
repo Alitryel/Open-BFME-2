@@ -1,35 +1,10 @@
-// ?v4@Made002CC5E1@@UAEXPAX0@Z
-// partial score=0.75 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG /ICode/GameEngine/Source/Common
-// ?v4@Made002CC5E1@@UAEXPAX0@Z
-// Retail 0x00507A04..0x00507BB7 (435 bytes); vtable slot 4 of 0x00864048
-// (Made002CC5E1), 0x00864C38 and 0x008650B8, reached from slot 3
-// (0x0050797D) with the second argument's +0x38.
-// Spawns the global-data helper object (TheGlobalData +0x18 template name)
-// for the source object of the request (+0x08 id) at the given position with
-// the source as producer on the source's controlling player's team, and arms
-// its DelayedLuaEventUpdate: event kind 3 for the source object's id after
-// the frames left until the request's frame (+0x1C), with this nugget's +0x128
-// value and max(1, +0x130) as the delay scale; the two flags come from bits
-// 1 and 2 of the request's +0x04 +0x110 word. Without that module the helper
-// is destroyed again.
-// Evidence (target): string "DelayedLuaEventUpdate"; rowed callees
-// StringBase<char>::isEmpty ThingFactory::findTemplate (pin 0x002D06CA)
-// GameLogic::findObjectByID Object::getControllingPlayer ThingFactory::newObject
-// (pin) Object::setProducer Thing::setPosition NameKeyGenerator::nameToKey
-// Object::findModule (pin) GameLogic::destroyObject DelayedLuaEventList
-// ctor 0x000B6D8B / dtor 0x000B6DD2 (pins) and
-// DelayedLuaEventUpdate::rva004A8F0B 0x004A8F0B; nugget fields +0x128/+0x130
-// as in Made002CC5E1Rva00507991.cpp. WorldBuilder 0x0109F6E0 has the same
-// calls. The method keeps the sibling unit's v4 slot name.
-// NEAR (banked, ~0.75; 440 vs 435 bytes): the flow, calls, the static key
-// guard, the bit-field flags, the event-list fields and the max(1, +0x130)
-// reference all match. Register allocation differs: retail keeps the
-// template in ebx, the request in esi and the source in edi with the helper
-// in the dead argument slot, and loads TheGameLogic once for both the destroy
-// path and the frame difference; this source puts the template/helper in esi,
-// the request in edi and spills the source. Tried: request local first, a
-// separately declared helper.
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG /ICode/GameEngine/Source/Common /ICode
+//
+// ?v4@Made002CC5E1@@UAEXPAX0@Z retail 0x00507A04..0x00507BB7 (435B): vtable
+// slot 4 of 0x00864048/0x00864C38/0x008650B8, reached from slot 3 0x0050797D.
+// Spawns TheWritableGlobalData->m_luaEventHelperName through ThingFactory and
+// arms DelayedLuaEventUpdate; same view as Made002CC5E1Rva00507991.cpp.
+// Exact via W7-D3 sweepeq4x equal-arm on request->m_frame (frame slot ranking).
 #include "ascii_string.h"
 #include "GameLogicObjectLookupView.h"
 
@@ -37,6 +12,7 @@ extern "C" void *__cdecl memset(void *dst, int value, unsigned int count);
 
 template <class T> inline const T &Made002CC5E1Max(const T &a, const T &b) { return a < b ? b : a; }
 
+class Made002CC5E1;
 class ThingTemplate;
 class Team;
 class Module;
@@ -65,8 +41,10 @@ class Object : public Thing
 public:
 	Player *getControllingPlayer() const;
 	void setProducer(Object *producer);
-	Module *findModule(NameKeyType key) const;
 	ObjectID getID() const { return m_id; }
+protected:
+	Module *findModule(NameKeyType key) const;
+	friend class Made002CC5E1;
 private:
 	unsigned char m_pad00[0x74];
 	ObjectID m_id; // +0x74
@@ -97,12 +75,12 @@ extern GlobalData *TheWritableGlobalData;
 
 extern GameLogic *TheGameLogic;
 
-class BfmeDelayedLuaEventList
+class DelayedLuaEventList
 {
 public:
-	BfmeDelayedLuaEventList();
-	~BfmeDelayedLuaEventList();
-	unsigned char m_pad00[0x10];
+	DelayedLuaEventList();
+	virtual ~DelayedLuaEventList();
+	unsigned char m_pad00[0xC];
 	ObjectID m_objectID;     // +0x10
 	int m_14;
 	int m_kind;              // +0x18
@@ -194,10 +172,10 @@ void Made002CC5E1::v4(void *a, void *b)
 		TheGameLogic->destroyObject(helper);
 		return;
 	}
-	unsigned int frames = request->m_frame - TheGameLogic->getFrame();
+	unsigned int frames = (update ? (request->m_frame) : (request->m_frame)) - TheGameLogic->getFrame();
 	bool flag1 = request->m_source->m_flags.m_flag1;
 	bool flag2 = request->m_source->m_flags.m_flag2;
-	BfmeDelayedLuaEventList events;
+	DelayedLuaEventList events;
 	events.m_objectID = source->getID();
 	events.m_kind = 3;
 	events.m_delay = (float)frames;
