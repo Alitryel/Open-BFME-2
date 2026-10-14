@@ -25,6 +25,13 @@ struct OpaqueRefElement4 {
     ~OpaqueRefElement4() { if (referent) referent->Release_Ref(); }
     OpaqueRefElement4 &operator=(const OpaqueRefElement4 &);
 };
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<unsigned int,OpaqueRefElement4,allocator<OpaqueRefElement4> >::deallocate(OpaqueRefElement4* p,size_t n) {
+ __stl_alloc_rebind(static_cast<allocator<OpaqueRefElement4>&>(*this),(OpaqueRefElement4*)0).deallocate(p,n);
+}
+}
+
 
 struct FloatSource {
     char _pad[0x78];

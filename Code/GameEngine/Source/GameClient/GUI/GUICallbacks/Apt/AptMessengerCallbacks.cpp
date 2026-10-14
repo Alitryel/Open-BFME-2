@@ -191,6 +191,8 @@ public:
 // by address.
 // Call-only view of the query/send receiver now owned in ChatWindowsInGame.cpp.
 class ChatWindowsInGame { public: void rva005B000C(); bool rva005B00C8(int,unsigned int,unsigned int); bool rva005AFCB4(bool); };
+class Rva005AFC21Class {public:void rva005AFC21(GameWindow*);};
+class Rva005AFC4CClass {public:void rva005AFC4C(GameWindow*);};
 class Rva005B000C
 {
 public:
@@ -207,12 +209,12 @@ public:
 	void rva005AFC4C(GameWindow *window);
 };
 
-// The multiplayer game's chat tab (vftable 0x00C7287C); its unrowed
-// constructor 0x005AF9EF is pinned by address.
-class Rva005AFA03 : public Rva005B000C
+// The native20B constructor at 0x005AF9EF installs the same C7287C
+// vtable and receives the independently proven 0x24-byte chat-tab allocation.
+class Rva005AF9EF : public Rva005B000C
 {
 public:
-	Rva005AFA03();
+	Rva005AF9EF();
 
 private:
 	unsigned char m_pad004[0x24 - 0x4];
@@ -377,22 +379,22 @@ void AptMessenger::InitGadgets(const char *name, void *argument, GameWindow *win
 	else if (strcmp(name, "Messenger::PlayersTab_0") == 0)
 	{
 		if (m_entries[0])
-			m_entries[0]->rva005AFC4C(window);
+			((Rva005AFC4CClass*)m_entries[0])->rva005AFC4C(window);
 	}
 	else if (strcmp(name, "Messenger::PlayersTab_1") == 0)
 	{
 		if (m_entries[1])
-			m_entries[1]->rva005AFC4C(window);
+			((Rva005AFC4CClass*)m_entries[1])->rva005AFC4C(window);
 	}
 	else if (strcmp(name, "Messenger::ChatTab_0") == 0)
 	{
 		if (m_entries[0])
-			m_entries[0]->rva005AFC21(window);
+			((Rva005AFC21Class*)m_entries[0])->rva005AFC21(window);
 	}
 	else if (strcmp(name, "Messenger::ChatTab_1") == 0)
 	{
 		if (m_entries[1])
-			m_entries[1]->rva005AFC21(window);
+			((Rva005AFC21Class*)m_entries[1])->rva005AFC21(window);
 	}
 }
 
@@ -470,7 +472,7 @@ void AptMessenger::rva00511826()
 	for (int i = 0; i < 2; ++i)
 	{
 		if (i == 1 && multiplayer)
-			m_entries[1] = new Rva005AFA03;
+			m_entries[1] = new Rva005AF9EF;
 		else
 		{
 			Rva005B000C **entries = m_entries;
@@ -619,7 +621,7 @@ void AptMessenger::rva00511CE6()
 		key.format("APT:MessengerBttn_%d", i);
 		int index = *(volatile int *)&i;
 		MessengerButton *buttons = m_buttons;
-		if (((Rva002D34FE *)&buttons[index].label)->rva00401E2F())
+		if (((const StringBase<char> *)&buttons[index].label)->isEmpty())
 		{
 			((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(key, UnicodeString(L" "), false);
 			void *movie = ((AptMessenger *)AptMessenger::s_instance)->m_274;

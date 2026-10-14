@@ -19,6 +19,24 @@
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <set>
 
+namespace _STL {
+typedef _Rb_tree<int,int,_Identity<int>,less<int>,allocator<int> > TaintIntTree;
+typedef _Rb_tree_iterator<int,_Nonconst_traits<int> > TaintIntIterator;
+template <> __declspec(dllimport) __forceinline TaintIntIterator::_Rb_tree_iterator(_Rb_tree_node<int> *p) { _M_node=p; }
+template <> __declspec(dllimport) __forceinline TaintIntIterator::_Rb_tree_iterator(const TaintIntIterator &p) { _M_node=p._M_node; }
+template <> __declspec(dllimport) __forceinline pair<TaintIntIterator,bool>::pair(const TaintIntIterator &a, const bool &b):first(a),second(b) {}
+template <> __declspec(dllimport) __forceinline int &TaintIntTree::_S_value(_Rb_tree_node<int> *p) { return p->_M_value_field; }
+template <> __declspec(dllimport) __forceinline const int &TaintIntTree::_S_key(_Rb_tree_node<int> *p) { return _Identity<int>()(_S_value(p)); }
+template <> __declspec(dllimport) __forceinline const int &TaintIntTree::_S_key(_Rb_tree_node_base *p) { return _Identity<int>()(_S_value((_Rb_tree_node<int>*)p)); }
+template <> __declspec(dllimport) __forceinline _Rb_tree_node<int> *&TaintIntTree::_S_parent(_Rb_tree_node<int> *p) { return (_Rb_tree_node<int>*&)p->_M_parent; }
+template <> __declspec(dllimport) __forceinline TaintIntIterator TaintIntTree::begin() { return _M_leftmost(); }
+template <> __declspec(dllimport) __forceinline void allocator<_Rb_tree_node<int> >::deallocate(_Rb_tree_node<int> *p,size_t n)const { _STLP_ASSERT((p==0)==(n==0)) if(p) ::free((void*)p); }
+template <> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<_Rb_tree_node<int> *,_Rb_tree_node<int>,allocator<_Rb_tree_node<int> > >::deallocate(_Rb_tree_node<int>*p,size_t n) { __stl_alloc_rebind(static_cast<allocator<_Rb_tree_node<int> >&>(*this),(_Rb_tree_node<int>*)0).deallocate(p,n); }
+}
+
+
+
+
 // vector<int> fill/insert otherwise instantiates the _Construct<int,int>
 // COMDAT (one byte shape per TU flags); a file-static overload takes those
 // calls instead so this TU emits no external copy.

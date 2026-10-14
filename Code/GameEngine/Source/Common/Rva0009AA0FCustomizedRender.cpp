@@ -57,7 +57,7 @@ private:
 
 struct _D3DLIGHT8;
 
-extern unsigned number_of_DX8_calls;
+extern unsigned number_of_DX8_calls; void rva001173f0(unsigned int);
 
 class WW3D
 {
@@ -166,7 +166,7 @@ class GenericMultiListIterator
 public:
 	GenericMultiListIterator(GenericMultiListClass *list) { First(list); }
 	void First(GenericMultiListClass *list) { List = list; CurNode = List->Head.Next; }
-	void First(void) { CurNode = List->Head.Next; }
+	__declspec(dllimport) __forceinline void First(void) { CurNode = List->Head.Next; }
 	__declspec(dllimport) __forceinline void Next(void) { CurNode = CurNode->Next; }
 	bool Is_Done(void) { return (CurNode == &(List->Head)); }
 protected:
@@ -344,7 +344,7 @@ void Rva0009AA0F::Customized_Render(RenderInfoClass &rinfo)
 			robj->Render(rinfo);
 	}
 
-	WW3D::Flush(rinfo);
+	rva001173f0(reinterpret_cast<unsigned int>(&rinfo));
 	DX8Wrapper::Set_DX8_Render_State(14, 1);
 	DX8Wrapper::Set_DX8_Render_State(23, 8);
 

@@ -14,6 +14,14 @@
 // 0x0028B6D6, module interface at +4), its want-open count moves by +1/-1
 // (rowed changeWantOpenCount 0x00498831). The name is address-derived.
 #include <set>
+namespace _STL {
+typedef _Rb_tree<int,int,_Identity<int>,less<int>,allocator<int> > NativeIntTree;
+typedef _Rb_tree_iterator<int,_Nonconst_traits<int> > NativeIntIterator;
+template <> __declspec(dllimport) __forceinline NativeIntIterator::_Rb_tree_iterator(const NativeIntIterator &p) { _M_node=p._M_node; }
+template <> __declspec(dllimport) __forceinline int &NativeIntTree::_S_value(_Rb_tree_node<int> *p) { return p->_M_value_field; }
+template <> __declspec(dllimport) __forceinline const int &NativeIntTree::_S_key(_Rb_tree_node<int> *p) { return _Identity<int>()(_S_value(p)); }
+}
+
 #include "ascii_string.h"
 #include "../GameLogicObjectLookupView.h"
 

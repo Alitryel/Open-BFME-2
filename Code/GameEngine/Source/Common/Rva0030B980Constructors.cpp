@@ -8,6 +8,22 @@
 // Owner names remain address-derived; AreaPolygonBase is the existing
 // reserve provider's name, rather than a new identity claim for the ctor.
 struct BfmeE8 { int a[2]; };
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<BfmeE8>::deallocate(BfmeE8* __p, size_t __n) const {
+ _STLP_ASSERT( (__p == 0) == (__n == 0) )
+ if (__p != 0) ::free((void*)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<BfmeE8*,BfmeE8,allocator<BfmeE8> >::deallocate(BfmeE8* __p, size_t __n) {
+ __stl_alloc_rebind(static_cast<allocator<BfmeE8>&>(*this),(BfmeE8*)0).deallocate(__p,__n);
+}
+template <> __declspec(dllimport) __forceinline
+_Vector_base<BfmeE8,allocator<BfmeE8> >::~_Vector_base() {
+ if (_M_start != 0) _M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start);
+}
+}
+
 
 class AreaPolygonBase
 {

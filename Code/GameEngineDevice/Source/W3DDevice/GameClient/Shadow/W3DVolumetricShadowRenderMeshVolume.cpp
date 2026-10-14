@@ -240,10 +240,10 @@ namespace Debug_Statistics
 class DX8Wrapper
 {
 public:
-	static IDirect3DDevice8 *_Get_D3D_Device8(void) { return D3DDevice; }
+	static __declspec(dllimport) __forceinline IDirect3DDevice8 *_Get_D3D_Device8(void) { return D3DDevice; }
 	static __declspec(dllimport) __forceinline bool _Is_Triangle_Draw_Enabled(void) { return _EnableTriangleDraw; }
 	static void Set_DX8_Render_State(DWORD state, unsigned value);
-private:
+protected:
 	static IDirect3DDevice8 *D3DDevice;
 	static bool _EnableTriangleDraw;
 };
@@ -272,7 +272,7 @@ class DX8VertexBufferClass
 {
 public:
 	const FVFInfoClass &FVF_Info(void) const { return *fvf_info; }
-	IDirect3DVertexBuffer8 *Get_DX8_Vertex_Buffer(void) { return VertexBuffer; }
+	__declspec(dllimport) __forceinline IDirect3DVertexBuffer8 *Get_DX8_Vertex_Buffer(void) { return VertexBuffer; }
 private:
 	char m_pad[0x14];
 	FVFInfoClass *fvf_info;

@@ -11,6 +11,19 @@ template <typename T> struct BfmeStringData
 	T text[1];
 };
 #include "ascii_string.h"
+
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<AsciiString> >::deallocate(_List_node<AsciiString>* __p, size_t __n) const {
+ _STLP_ASSERT( (__p == 0) == (__n == 0) )
+ if (__p != 0) ::free((void*)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<AsciiString>*,_List_node<AsciiString>,allocator<_List_node<AsciiString> > >::deallocate(_List_node<AsciiString>* __p, size_t __n) {
+ __stl_alloc_rebind(static_cast<allocator<_List_node<AsciiString> >&>(*this),(_List_node<AsciiString>*)0).deallocate(__p,__n);
+}
+}
+
 class Rva002FED8D
 {
 public:

@@ -27,6 +27,14 @@
 //     erase 0x005530A8).
 // - Each set access re-evaluates m_subObjects[i], as retail does.
 #include <set>
+namespace _STL {
+typedef _Rb_tree<int,int,_Identity<int>,less<int>,allocator<int> > NativeIntTree;
+typedef _Rb_tree_iterator<int,_Nonconst_traits<int> > NativeIntIterator;
+template <> __declspec(dllimport) __forceinline NativeIntIterator::_Rb_tree_iterator(const NativeIntIterator &p) { _M_node=p._M_node; }
+template <> __declspec(dllimport) __forceinline int &NativeIntTree::_S_value(_Rb_tree_node<int> *p) { return p->_M_value_field; }
+template <> __declspec(dllimport) __forceinline const int &NativeIntTree::_S_key(_Rb_tree_node<int> *p) { return _Identity<int>()(_S_value(p)); }
+}
+
 #include <vector>
 #include "ascii_string.h"
 

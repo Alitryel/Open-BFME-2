@@ -6,6 +6,11 @@
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include <vector>
+namespace _STL {
+template <> __declspec(dllimport) __forceinline _Vector_base<Coord3D, allocator<Coord3D> >::~_Vector_base()
+{ if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
+
 namespace _STL {template <> __declspec(noinline) void vector<Coord3D>::push_back(const Coord3D&);}
 class Player;class Module;class Object;class LocomotorSet;
 enum NameKeyType {INVALID_KEY=0};
@@ -20,7 +25,7 @@ class AIUpdateInterface {public:void ignoreObstacle(const Object*);char pad[0x17
 class Rva0035149F;
 class AICommandInterface {public:void rva0036EE16(const Rva0035149F*,Object*,CommandSourceType);void aiHunt(CommandSourceType);};
 class Thing {public:void setPosition(const Coord3D*);void setOrientation(float);const Coord3D *getUnitDirectionVector2D() const;};
-class Object:public Thing {protected:friend class HordeSiegeEngineContain;Module*findModule(NameKeyType) const;public:Player*getControllingPlayer() const;bool getSingleLogicalBonePosition(const char*,Coord3D*,Matrix3D*) const;void setTransformMatrix(const Matrix3D*);void rva0028B4CE(PathfindLayerEnum);void setStatus(ObjectStatusTypes,bool);void rva0028ACDC(int);
+class Object:public Thing {protected:friend class HordeSiegeEngineContain;Module*findModule(NameKeyType) const;public:Player*getControllingPlayer() const;bool getSingleLogicalBonePosition(const char*,Coord3D*,Matrix3D*) const;void rva0028D412(const Matrix3D*);void rva0028B4CE(PathfindLayerEnum);void setStatus(ObjectStatusTypes,bool);void rva0028ACDC(int);
  void *vtable;void *type;char pad8[0x38-8];Coord3D position;float angle;char pad48[0xcc-0x48];float radius;char padd0[0x258-0xd0];AIUpdateInterface *ai;};
 class Pathfinder {public:void AddObjectToPathfindMap(Object*);bool adjustToPossibleDestination(Object*,const LocomotorSet&,Coord3D*);float GetWallHeight(PathfindLayerEnum,const Coord3D*,Coord3D*);};
 class AI {public:char pad[0x10];Pathfinder *pathfinder;};extern AI *TheAI;
@@ -62,7 +67,7 @@ void HordeSiegeEngineContain::rva0047D53A(Object *rider,ExitDoorType arg)
   if(*((unsigned char*)me->type+0x113)&0x20){
    Matrix3D transform;
    me->getSingleLogicalBonePosition("Ladder04",&position,&transform);
-   rider->setTransformMatrix(&transform);
+   rider->rva0028D412(&transform);
    rider->rva0028B4CE(LAYER17);
    AIUpdateInterface *ai=rider->ai;
    TheAI->pathfinder->AddObjectToPathfindMap(rider);

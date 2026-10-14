@@ -95,6 +95,8 @@ public:
 	}
 };
 
+void __stdcall Rva004E40A6Enable(int);
+void __stdcall Rva004E44FBSet(int,int,const UnicodeString&);
 class AptCommandMap;
 class AptExternHandler;
 
@@ -293,7 +295,11 @@ AptPlayerStatus::AptPlayerStatus(void *context)
 		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
 	}
 	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptPlayerStatus::rva004E40A6);
+		union { FunctorMethod member; struct { void (__stdcall *code)(int); int adjust; } native; } callback;
+        // Native callback code pointer and zero this-adjustment; callee ignores ECX.
+        typedef char CallbackMethodIsEightBytes[sizeof(callback.member)==8?1:-1];
+        callback.native.code = &Rva004E40A6Enable; callback.native.adjust=0;
+        FunctorMethod method = callback.member;
 		AsciiString name("AptObjectivesMenu::ReturnToGame");
 		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
 	}
@@ -303,7 +309,11 @@ AptPlayerStatus::AptPlayerStatus(void *context)
 		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
 	}
 	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptPlayerStatus::rva004E40A6);
+		union { FunctorMethod member; struct { void (__stdcall *code)(int); int adjust; } native; } callback;
+        // Native callback code pointer and zero this-adjustment; callee ignores ECX.
+        typedef char CallbackMethodIsEightBytes[sizeof(callback.member)==8?1:-1];
+        callback.native.code = &Rva004E40A6Enable; callback.native.adjust=0;
+        FunctorMethod method = callback.member;
 		AsciiString name("AptPlayerStatus::ReturnToGame");
 		m_commandMaps.AddCommandMap(name, AptRef<AptCommandMap>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
 	}
@@ -493,6 +503,10 @@ extern MultiplayerSettings *TheMultiplayerSettings;
 // unused rows). BFME 1's AptObjectivesMenu.cpp (0x0052C220) is the donor.
 void AptPlayerStatus::rva004E476C()
 {
+ union { void (AptPlayerStatus::*member)(int,int,const UnicodeString&); struct {void (__stdcall *code)(int,int,const UnicodeString&); int adjust;} native; } tableCallback;
+ // Native setter ignores ECX and pops its three stack arguments.
+ typedef char TableMethodIsEightBytes[sizeof(tableCallback.member)==8?1:-1];
+ tableCallback.native.code = &Rva004E44FBSet; tableCallback.native.adjust=0;
 	if (m_state != 1)
 		return;
 	int row = 0;
@@ -514,13 +528,13 @@ void AptPlayerStatus::rva004E476C()
 			connected = true;
 		bool alive = !g_00E03138->hasBeenDefeated(player);
 		bool observer = ((const ParticleSystem *)player)->isSaveable();
-		rva004E44FB(row, 0, slot->getName());
-		rva004E44FB(row, 1, slot->getApparentPlayerTemplateDisplayName());
+		(this->*tableCallback.member)(row, 0, slot->getName());
+		(this->*tableCallback.member)(row, 1, slot->getApparentPlayerTemplateDisplayName());
 		AsciiString team;
 		team.format("Team:%d", slot->m_teamNumber + 1);
 		if (slot->isAI() && slot->m_teamNumber == -1)
 			team = "Team:AI";
-		rva004E44FB(row, 2, TheGameText->fetch(team));
+		(this->*tableCallback.member)(row, 2, TheGameText->fetch(team));
 		team = "";
 		if (connected)
 		{
@@ -538,7 +552,7 @@ void AptPlayerStatus::rva004E476C()
 			else
 				team = "GUI:PlayerGone";
 		}
-		rva004E44FB(row, 3, TheGameText->fetch(team));
+		(this->*tableCallback.member)(row, 3, TheGameText->fetch(team));
 		m_colors.push_back((Rva004E476CColor)TheMultiplayerSettings->getColor(slot->getApparentColor())->m_color);
 		m_slot[row] = (signed char)i;
 		++row;

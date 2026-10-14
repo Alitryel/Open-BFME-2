@@ -16,7 +16,7 @@ template<class T> class RefCountPtr {
 public:
     T *p;
     RefCountPtr() : p(0) {}
-    RefCountPtr(RefCountPtr const &other) : p(other.p) { if (p) ++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(p)+4); }
+    __declspec(dllimport) __forceinline RefCountPtr(RefCountPtr const &other) : p(other.p) { if (p) ++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(p)+4); }
     ~RefCountPtr() { if (p) p->Release_Ref(); }
 };
 class TexBufferClass {

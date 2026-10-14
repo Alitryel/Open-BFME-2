@@ -1,4 +1,5 @@
 // cl: /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/bfme /G7 /arch:SSE /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/reference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+#include "../../../../../reference/shims/bfme_mesh_refcount_link/refcount.h"
 // Link view first: Vector3::Length (and Normalize/Vector3(x,y,z) in the full view) stay inline without
 // emitting /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510).
 #include "../../../../../reference/shims/bfme_vector3_lenfull_link/vector3_lenfull_link.h"
@@ -124,17 +125,17 @@ protected:
     static unsigned matrix_changes;
 public:
     static IDirect3DDevice8 *_Get_D3D_Device8();
-    static void Set_Shader(const ShaderClass&);
-    static void Set_Material(const VertexMaterialClass*);
-    static void Set_Transform(D3DTRANSFORMSTATETYPE, const Matrix3D&);
-    static unsigned Convert_Color(const Vector3&, float);
-    static unsigned Convert_Color(const Vector4&);
+    static __declspec(dllimport) __forceinline void Set_Shader(const ShaderClass&);
+    static __declspec(dllimport) __forceinline void Set_Material(const VertexMaterialClass*);
+    static __declspec(dllimport) __forceinline void Set_Transform(D3DTRANSFORMSTATETYPE, const Matrix3D&);
+    static __declspec(dllimport) __forceinline unsigned Convert_Color(const Vector3&, float);
+    static __declspec(dllimport) __forceinline unsigned Convert_Color(const Vector4&);
     static void Set_Vertex_Buffer(const DynamicVBAccessClass&);
     static void Set_Index_Buffer(const DynamicIBAccessClass&, unsigned short);
     static void Draw_Triangles(unsigned, unsigned, unsigned, unsigned);
 };
 
-WWINLINE void DX8Wrapper::Set_Shader(const ShaderClass& shader)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Shader(const ShaderClass& shader)
 {
 	if (!ShaderClass::ShaderDirty && ((unsigned&)shader==(unsigned&)render_state.shader)) {
 		return;
@@ -149,7 +150,7 @@ WWINLINE void DX8Wrapper::Set_Shader(const ShaderClass& shader)
 
 // ?Set_Material@DX8Wrapper@@SAXPBVVertexMaterialClass@@@Z present-unmatched
 // Retained for its verified inline expansion in Render; no separate body claim.
-WWINLINE void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
 {
 	REF_PTR_SET(render_state.material,const_cast<VertexMaterialClass*>(material));
 	render_state_changed|=MATERIAL_CHANGED;
@@ -158,7 +159,7 @@ WWINLINE void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
 
 // ?Set_Transform@DX8Wrapper@@SAXW4_D3DTRANSFORMSTATETYPE@@ABVMatrix3D@@@Z present-unmatched
 // Retained for its verified inline expansion in Render; no separate body claim.
-WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& m)
+__declspec(dllimport) __forceinline void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Matrix3D& m)
 {
 	Matrix4x4 m2(m);
 	switch ((int)transform) {
@@ -185,7 +186,7 @@ WWINLINE void DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE transform,const Ma
 // so retain this donor x87 sequence. Input is expected clamped to [0,1]; the
 // control word selects truncation for RGBA*255, packs AARRGGBB, then restores
 // the caller's rounding mode. The target-derived col=0 initialization remains.
-WWINLINE unsigned int DX8Wrapper::Convert_Color(const Vector3& color,float alpha)
+__declspec(dllimport) __forceinline unsigned int DX8Wrapper::Convert_Color(const Vector3& color,float alpha)
 {
 	const float scale = 255.0;
 	unsigned int col = 0;
@@ -241,7 +242,7 @@ not_changed:
 	return col;
 }
 
-WWINLINE unsigned int DX8Wrapper::Convert_Color(const Vector4& color)
+__declspec(dllimport) __forceinline unsigned int DX8Wrapper::Convert_Color(const Vector4& color)
 {
 	return Convert_Color(reinterpret_cast<const Vector3&>(color),color[3]);
 }

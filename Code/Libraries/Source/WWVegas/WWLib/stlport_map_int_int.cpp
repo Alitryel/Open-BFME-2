@@ -4,6 +4,7 @@
 #include <stl/_alloc.h>
 namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, size_t); }
 #include <map>
+namespace _STL { template<> pair<map<int,int>::iterator,bool> map<int,int>::insert(const value_type&); }
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Const_traits<pair<int const, int> > > _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::upper_bound(int const &) const; }
 namespace _STL { template <> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::_Rb_tree(_Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > > const &); }
@@ -90,3 +91,13 @@ template <> __forceinline void allocator<_Rb_tree_node<Rva0061F910Key> >::deallo
 template <> void NativeTree::_M_erase(_Rb_tree_node<Rva0061F910Key> *);
 }
 template void NativeTree::erase(NativeTree::iterator, NativeTree::iterator);
+
+
+namespace _STL {
+typedef _Rb_tree_iterator<pair<const int,int>,_Nonconst_traits<pair<const int,int> > > CBSpeedIterator;
+typedef _Rb_tree<int,pair<const int,int>,_Select1st<pair<const int,int> >,less<int>,allocator<pair<const int,int> > > CBSpeedTree;
+typedef _Rb_tree_node<pair<const int,int> > CBSpeedNode;
+template pair<CBSpeedIterator,bool>::pair(const CBSpeedIterator&,const bool&);
+template CBSpeedNode*& CBSpeedTree::_S_parent(CBSpeedNode*);
+template CBSpeedIterator& CBSpeedIterator::operator--();
+}

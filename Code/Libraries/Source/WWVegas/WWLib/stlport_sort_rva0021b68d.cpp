@@ -18,6 +18,14 @@ enum Rva0021B68DKey
 	RVA0021B68D_KEY_INVALID = -1
 };
 
+enum ObjectID { INVALID_ID = 0 };
+namespace _STL {
+template<> ObjectID* copy_backward<ObjectID*,ObjectID*>(ObjectID*,ObjectID*,ObjectID*);
+template<> __declspec(dllimport) __forceinline
+Rva0021B68DKey* copy_backward<Rva0021B68DKey*,Rva0021B68DKey*>(Rva0021B68DKey* first,Rva0021B68DKey* last,Rva0021B68DKey* result) {
+ return reinterpret_cast<Rva0021B68DKey*>(copy_backward(reinterpret_cast<ObjectID*>(first),reinterpret_cast<ObjectID*>(last),reinterpret_cast<ObjectID*>(result)));
+}
+}
 struct Rva0021B68DCmp
 {
 	bool operator()(const Rva0021B68DKey &a, const Rva0021B68DKey &b) const;

@@ -51,7 +51,7 @@ public:
 	Rva00729300Bytes m_bits;
 };
 
-bool Rva00729300BitPlane::test( int x, int y ) const
+inline __declspec(noinline) bool Rva00729300BitPlane::test( int x, int y ) const
 {
 	register const Rva00729300BitPlane *self = this;
 	if( x < 0 || y < 0 || y >= self->m_height || x >= self->m_width )
@@ -236,7 +236,7 @@ private:
 // the behavior. Its earlier bank differed in loop bounds; the donor source
 // now reproduces every byte. Original owner and directional labels remain
 // unproven; keep this separate observed prefix from the other receiver.
-bool Rva001127F2TerrainPrefix::advanceScan( ICoord2D &right, int xOffset,
+inline __declspec(noinline) bool Rva001127F2TerrainPrefix::advanceScan( ICoord2D &right, int xOffset,
 	int yOffset, int width, int height )
 {
 	Rva00729300BitPlane *map = m_map;
@@ -266,7 +266,7 @@ bool Rva001127F2TerrainPrefix::advanceScan( ICoord2D &right, int xOffset,
 // Native 11274C..1127F2 is the Y-first counterpart: both loops and RET20
 // independently reproduce all 166 bytes with this compatible observed prefix.
 // Shared offsets do not establish a shared original class or allocation size.
-bool Rva001127F2TerrainPrefix::advanceYThenX(ICoord2D &point,
+inline __declspec(noinline) bool Rva001127F2TerrainPrefix::advanceYThenX(ICoord2D &point,
     int xOffset,int yOffset,int width,int height) {
     Rva00729300BitPlane *map = m_map;
     int mapWidth = map->m_width;

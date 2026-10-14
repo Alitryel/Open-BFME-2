@@ -43,6 +43,12 @@ __forceinline BidirectionalIter __copy_backward(RandomAccessIter first,
 	return result;
 }
 
+template<> __declspec(dllimport) __forceinline
+S4SortElem8* __copy_backward<S4SortElem8*,S4SortElem8*,int>(S4SortElem8* first,S4SortElem8* last,S4SortElem8* result,const random_access_iterator_tag &,int *) {
+ for(int count=last-first;count>0;--count) *--result=*--last;
+ return result;
+}
+
 template <class RandomAccessIter, class Tp, class Compare>
 void __unguarded_linear_insert(RandomAccessIter last, Tp val, Compare comp);
 

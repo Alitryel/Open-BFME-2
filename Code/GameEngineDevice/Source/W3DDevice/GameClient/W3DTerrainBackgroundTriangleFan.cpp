@@ -78,11 +78,11 @@ __declspec(noinline) inline bool Rva00729300BitPlane::test( int x, int y ) const
 class WorldHeightMap
 {
  public:
- Int getXExtent() 
+ __declspec(dllimport) __forceinline Int getXExtent()
  {
   return m_width;
  }
- Int getYExtent() 
+ __declspec(dllimport) __forceinline Int getYExtent()
  {
   return m_height;
  }

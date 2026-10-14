@@ -148,10 +148,11 @@ private:
 	AIUpdateInterface *m_ai; // +0x258
 };
 
+struct TargetCoord { float x,y,z; TargetCoord() {} TargetCoord(float a,float b,float c):x(a),y(b),z(c){} TargetCoord(const Coord3D &p):x(p.x),y(p.y),z(p.z){} };
 class WeaponTemplate
 {
 public:
-	Coord3D *getAimPosition(Coord3D *result, const Object *source, const Object *victim, Int weaponSlot);
+	TargetCoord adjustTargetPositionOnVictim(Object *, Object *, bool);
 	Coord3D bfmeCalcScatterTargetPos(const Object *source, const Object *victim, Coord3D pos);
 private:
 	char m_pad000[0x34];
@@ -172,7 +173,7 @@ Coord3D WeaponTemplate::bfmeCalcScatterTargetPos(const Object *source, const Obj
 		if (victim->getTemplate()->testKindOf(0, 0x80))
 		{
 			Coord3D aim;
-			pos = *getAimPosition(&aim, source, victim, 1);
+			pos = (const Coord3D &)adjustTargetPositionOnVictim((Object *)source, (Object *)victim, true);
 		}
 		if (m_infantryInaccuracyDist > 0.0f && victim->getTemplate()->testKindOf(0, 0x100))
 			scatterRadius += m_infantryInaccuracyDist;

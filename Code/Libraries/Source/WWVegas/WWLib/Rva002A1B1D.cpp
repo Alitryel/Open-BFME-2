@@ -13,6 +13,19 @@ struct CameraMarker
 	CameraMarker *m_next;
 	AsciiString m_name;
 };
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<CameraMarker> >::deallocate(_List_node<CameraMarker>* __p, size_t __n) const {
+ _STLP_ASSERT( (__p == 0) == (__n == 0) )
+ if (__p != 0) ::free((void*)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<CameraMarker>*,_List_node<CameraMarker>,allocator<_List_node<CameraMarker> > >::deallocate(_List_node<CameraMarker>* __p, size_t __n) {
+ __stl_alloc_rebind(static_cast<allocator<_List_node<CameraMarker> >&>(*this),(_List_node<CameraMarker>*)0).deallocate(__p,__n);
+}
+}
+
+
 
 bool operator==(const CameraMarker &a, const CameraMarker &b);
 bool operator<(const CameraMarker &a, const CameraMarker &b);

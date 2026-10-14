@@ -26,7 +26,11 @@ template<> vector<AsciiString>::~vector();
 // C++ call linkage retains the native final EH-state transition. Limit this
 // allocator repair to this record specialization; keep shared headers intact.
 // ?allocator<Rva00601A3AElement>::deallocate present-unmatched
-template<> inline void allocator<Rva00601A3AElement>::deallocate(Rva00601A3AElement* p,unsigned int) const {if(p)::Rva00030830FreeAllocation(p);}
+template<> __declspec(dllimport) __forceinline void allocator<Rva00601A3AElement>::deallocate(Rva00601A3AElement* p,unsigned int) const {if(p)::Rva00030830FreeAllocation(p);}
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<Rva00601A3AElement*,Rva00601A3AElement,allocator<Rva00601A3AElement> >::deallocate(Rva00601A3AElement* p,size_t n) {
+ __stl_alloc_rebind(static_cast<allocator<Rva00601A3AElement>&>(*this),(Rva00601A3AElement*)0).deallocate(p,n);
+}
+
 template<> Rva00601A3AElement* vector<Rva00601A3AElement>::erase(Rva00601A3AElement*,Rva00601A3AElement*);
 template<> AsciiString* vector<AsciiString>::erase(AsciiString*,AsciiString*);
 template<> void vector<Rva00601A3AElement>::push_back(const Rva00601A3AElement&);

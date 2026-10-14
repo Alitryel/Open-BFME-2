@@ -31,5 +31,9 @@ struct BfmeAsciiScalarValue8 {
     BfmeAsciiScalarValue8(const BfmeAsciiScalarValue8 &o)
         : text(o.text), value(o.value) {}
 };
+namespace _STL {template<> vector<BfmeAsciiScalarValue8>& vector<BfmeAsciiScalarValue8>::operator=(const vector<BfmeAsciiScalarValue8>&);}
+
 template _STL::vector<BfmeAsciiScalarValue8>::vector(const _STL::vector<BfmeAsciiScalarValue8>&);
 template class _STL::vector<BfmeAsciiScalarValue8, _STL::allocator<BfmeAsciiScalarValue8> >;
+
+template BfmeAsciiScalarValue8* _STL::__copy<const BfmeAsciiScalarValue8*,BfmeAsciiScalarValue8*,int>(const BfmeAsciiScalarValue8*,const BfmeAsciiScalarValue8*,BfmeAsciiScalarValue8*,const _STL::random_access_iterator_tag&,int*);

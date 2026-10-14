@@ -499,6 +499,7 @@ class Rva002CA9CA
     Bool rva002CA9CA(Int damageType, const void *weapon);
 };
 
+struct TargetCoord { float x,y,z; TargetCoord() {} TargetCoord(float a,float b,float c):x(a),y(b),z(c){} TargetCoord(const Coord3D &p):x(p.x),y(p.y),z(p.z){} };
 class WeaponTemplate
 {
   public:
@@ -519,7 +520,7 @@ class WeaponTemplate
     void rva002CBBF5(Object *, int, int, int, Object *, int, const Coord3D *, int, bool, Weapon *,
                      int);
     float getMinimumAttackRange() const;
-    Coord3D *getAimPosition(Coord3D *, const Object *, const Object *, int);
+    TargetCoord adjustTargetPositionOnVictim(Object *, Object *, bool);
     Coord3D bfmeCalcScatterTargetPos(const Object *, const Object *, Coord3D);
     char pad00[0x3C];
     bool eachNugget3C, wall3D;
@@ -686,7 +687,7 @@ void WeaponTemplate::rva002CBBF5(Object *source, int wordC, int barrel, int word
         if (victim)
         {
             Coord3D adjusted;
-            firePosition = *getAimPosition(&adjusted, source, victim, 1);
+            firePosition = (const Coord3D &)adjustTargetPositionOnVictim((Object *)source, (Object *)victim, true);
         }
         else
         {

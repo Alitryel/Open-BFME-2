@@ -28,6 +28,8 @@ struct Rva001FD42B { Rva001FD42B *rva001FD8DF(const Rva001FD42B &); Rva001FD42B 
 struct Rva000427195 { Rva000427195 &operator=(const Rva000427195 &); char data[20]; };
 struct Rva001FD458 { Rva001FD458 *rva001FD952(const Rva001FD458 &); Rva001FD458 &operator=(const Rva001FD458 &rhs){rva001FD952(rhs);return *this;} char data[12]; };
 struct Rva0021C21BElement { char bytes[4]; };
+namespace _STL {template<> vector<Rva0021C21BElement>& vector<Rva0021C21BElement>::operator=(const vector<Rva0021C21BElement>&);}
+
 struct Rva0026F4F4Element { unsigned words[1]; bool operator<(const Rva0026F4F4Element &)const;bool operator==(const Rva0026F4F4Element &)const; };
 namespace _STL {template<>struct __type_traits<Rva0026F4F4Element> : __type_traits_aux<1> {};}
 struct OpaqueRefElement4 { OpaqueRefElement4 &operator=(const OpaqueRefElement4 &); void *data; };

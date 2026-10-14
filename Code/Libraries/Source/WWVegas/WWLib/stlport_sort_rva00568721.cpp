@@ -26,6 +26,13 @@ struct Rva00568721Cmp
 {
 	bool operator()(const void *a, const void *b) const;
 };
+namespace _STL {
+template<> void __introsort_loop<void**,void*,int,Rva00568721Cmp>(void**,void**,void**,int,Rva00568721Cmp);
+template<> __declspec(dllimport) __forceinline
+_OKToMemCpy<void*,void*> _IsOKToMemCpy<void*,void*>(void**,void**) { return _OKToMemCpy<void*,void*>(); }
+template<> __declspec(dllimport) __forceinline
+__true_type _OKToMemCpy<void*,void*>::_Ret() { return __true_type(); }
+}
 namespace _STL
 {
 // ??$__unguarded_linear_insert@PAPAXPAXURva00568721Cmp@@@_STL@@YAXPAPAXPAXURva00568721Cmp@@@Z @0x005687FF
@@ -77,3 +84,5 @@ void __partial_sort<void **, void *, Rva00568721Cmp>(void **first, void **middle
 }
 // ??$sort@PAPAXURva00568721Cmp@@@_STL@@YAXPAPAX0URva00568721Cmp@@@Z @0x0056A29B and its callees
 template void _STL::sort<void **, Rva00568721Cmp>(void **, void **, Rva00568721Cmp);
+
+template void _STL::partial_sort<void**,Rva00568721Cmp>(void**,void**,void**,Rva00568721Cmp);

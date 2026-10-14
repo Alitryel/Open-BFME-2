@@ -127,7 +127,7 @@ public:
     bool equals(const Coord3DBase &that) const;
 };
 
-static const float length_estimate_factor = 0.25f;
+
 static const float one = 1.0f;
 
 // The 12-byte block copy folded with the integer-coordinate and random-variable
@@ -343,7 +343,7 @@ float bfmeAnchorCoord3DGetLength(const Coord3D *p)
 }
 
 
-float Coord3D::GetLength2D() const
+inline __declspec(noinline) float Coord3D::GetLength2D() const
 {
     float x_value = x;
     float y_value = y;
@@ -351,12 +351,12 @@ float Coord3D::GetLength2D() const
     return (float)sqrt(x_value * x_value + y_value * y_value);
 }
 
-float Coord3D::GetLengthEstimate2D() const
+inline __declspec(noinline) float Coord3D::GetLengthEstimate2D() const
 {
     if (fabs(x) > fabs(y)) {
-        return (float)(fabs(x) + length_estimate_factor * fabs(y));
+        return (float)(fabs(x) + 0.25f * fabs(y));
     }
-    return (float)(fabs(y) + length_estimate_factor * fabs(x));
+    return (float)(fabs(y) + 0.25f * fabs(x));
 }
 
 float Coord3D::GetLengthSqrd() const
@@ -470,7 +470,7 @@ float bfmeAnchorCoord3DNormalize(Coord3D *p)
 }
 
 
-float Coord3D::Normalize2D()
+inline __declspec(noinline) float Coord3D::Normalize2D()
 {
     float len = GetLength2D();
     float scale = one / len;
@@ -713,7 +713,7 @@ typedef Coord3D &(Coord3D::*Coord3DAssign)(const Coord3D &);
 
 Coord3DAssign g_coord3dAssign = &Coord3D::operator=;
 
-// These eight are header inlines: the units that include Coord3D's header
+// These eleven are header inlines: the units that include Coord3D's header
 // emit them as select-any copies, which plain definitions here collided with.
 // The anchor keeps this unit's copies for the rows; it is not retail code.
 #pragma inline_depth(0)
@@ -726,6 +726,9 @@ void _bfmeCoord3DInlineAnchor(Coord3D *c)
     c->set(c->length(), c->lengthSqr(), 0.0f);
     c->set((const Coord3DBase *)0);
     c->normalize();
+    c->GetLength2D();
+    c->GetLengthEstimate2D();
+    c->Normalize2D();
     c->Coord3D::~Coord3D();
 }
 #pragma inline_depth()

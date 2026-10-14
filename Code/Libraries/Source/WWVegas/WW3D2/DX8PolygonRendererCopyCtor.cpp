@@ -66,6 +66,7 @@ public:
 class DX8PolygonRendererClass : public MultiListObjectClass
 {
 public:
+	virtual ~DX8PolygonRendererClass();
 	DX8PolygonRendererClass(
 		const DX8PolygonRendererClass &src,
 		MeshModelClass *mmc_);

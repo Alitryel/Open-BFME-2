@@ -154,7 +154,7 @@ public:
 class Drawable
 {
 public:
-	Object *getObject(void) { return m_object; }
+	__declspec(dllimport) __forceinline Object *getObject(void) { return m_object; }
 
 private:
 	char m_slice_pad[0xFC];					// retail this+0x00 .. +0xFB, untouched

@@ -160,7 +160,7 @@ private:int names[3];
 };
 class Rva00524349 {public:~Rva00524349();private:int names[3];};
 class AptTimerAdder : public Rva00524349 {
-public:AptTimerAdder();void AddTimer(const AsciiString&,AptRef<AptTimer>);
+public:AptTimerAdder();~AptTimerAdder();void AddTimer(const AsciiString&,AptRef<AptTimer>);
 };
 
 // Native52AD30..52AF1C492B; WB13C4EC0 proves the SpellBook Impl

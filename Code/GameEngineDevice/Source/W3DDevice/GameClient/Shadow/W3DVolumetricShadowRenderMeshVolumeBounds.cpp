@@ -250,8 +250,8 @@ extern unsigned number_of_DX8_calls;
 class DX8Wrapper
 {
 public:
-	static IDirect3DDevice8 *_Get_D3D_Device8(void) { return D3DDevice; }
-private:
+	static __declspec(dllimport) __forceinline IDirect3DDevice8 *_Get_D3D_Device8(void) { return D3DDevice; }
+protected:
 	static IDirect3DDevice8 *D3DDevice;
 };
 

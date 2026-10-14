@@ -8,13 +8,15 @@
 // empty callbacks are proven byte-and-relocation twins, not unique recovery.
 // Rva0055A246 is the existing address-owned 48B curve view. Reading the
 // contiguous four-point source as that view preserves its established copy ABI.
+#define COORD3D_VIEW_EXTERN_DTOR
+#define COORD3D_VIEW_EXTERN_CTOR
 #include <math.h>
 #include "vector3.h"
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 struct Rva003901DAPoint : Coord3D { Rva003901DAPoint(); ~Rva003901DAPoint(); };
 class Rva0055A246 {
 public:Rva0055A246(const Rva0055A246&);float rva0055A627(float)const;void rva0055A7DB(int,void*);
- Rva003901DAPoint points[4];
+ Coord3D points[4];
 };
 template<int N> class PhysicsFlightSlots: public PhysicsFlightSlots<N-1>{public:virtual void slot(char(*)[N])=0;};
 template<> class PhysicsFlightSlots<0>{};
@@ -36,7 +38,7 @@ bool PhysicsBehavior::calcFlightPath(bool recalc,float maxHeight)
  float firstPct,secondPct;
  if(!alternate)firstPct=d->percent1;else firstPct=d->percentB1;
  if(!alternate)secondPct=d->percent2;else secondPct=d->percentB2;
- Rva003901DAPoint cp[4];
+ Coord3D cp[4];
  static_cast<Coord3D&>(cp[0])=source;static_cast<Coord3D&>(cp[3])=target;
  float z=source.z-target.z;if(z<0.0f)z=0.0f;
  float scale=(maxHeight-z)/maxHeight;if(scale<0.0f)scale=0.0f;
