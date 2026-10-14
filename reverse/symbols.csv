@@ -7802,7 +7802,6 @@ name,address,notes
 ?bfmeDecVGO@@YAIPAI@Z,0x006CFDF0
 ?bfmeDelArrVGP@@YAXPAX@Z,0x0002FD80
 ?bfmeDelArrVHY@@YAXPAX@Z,0x0002FD80
-?bfmeDelVGP@@YAXPAX@Z,0x0002FD60,BFME1 BfmeConv1356 donor call site; same body as rowed scalar delete
 ?bfmeDeleteVMP@@YAXPAXI@Z,0x0065D030
 ?bfmeDestroy@Rva0078AFC0Owned@@QAEXXZ,0x0061ED10
 ?bfmeDestroyRange@@YAXPAVBfmeVecAW@@@Z,0x003ED7A2,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
@@ -7996,8 +7995,6 @@ name,address,notes
 ?bfmeFreeTYA@@YAXPAXH@Z,0x0065D030
 ?bfmeFreeUNA@@YAXPAXH@Z,0x0065D030
 ?bfmeFreeVCC@@YAXPAXH@Z,0x0065D030
-?bfmeFreeVDB@@YAXPAX@Z,0x0002FD60,BFME1 BfmeConv1350 donor call site; same body as rowed scalar delete
-?bfmeFreeVMN@@YAXPAX@Z,0x0002FD60,BFME1 BfmeConv1447 donor call site; same body as rowed scalar delete
 ?bfmeFreeVNC@Rva00800E50Owner@@QAEXPAVRva007E8810Message@@@Z,0x0066D0B0
 ?bfmeFwdOneSVA@BfmeThingSVA@@QAEXHH@Z,0x0002A300
 ?bfmeFwdSWA@BfmeThingSWA@@QAEXH@Z,0x0002A930
