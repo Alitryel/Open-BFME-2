@@ -18,6 +18,7 @@ UnicodeString Rva005ED310Get(int val);
 class Rva00222A8BTarget;
 extern Rva00222A8BTarget *TheRva00222A8BTarget;
 int __cdecl Rva0057A9B7Fire(void *a1, void *a2, const char *a3, const char *a4, int *a5, void *a6);
+int __cdecl Rva00525235Fire(void *a1, void *a2, const char *a3, const char *a4, int *a5, int *a6);
 
 struct Rva005ED445Holder
 {
@@ -28,7 +29,8 @@ struct Rva005ED445Holder
 struct Rva005ED445Slot
 {
 	UnicodeString m_name;
-	char m_pad[0x0C - 0x04];
+	int m_color;
+	char m_pad[0x0C - 0x08];
 	int m_numRegions;
 	int m_numUnits;
 };
@@ -45,6 +47,7 @@ class StrategicHUD::RegionAwardMovieClip::Impl
 {
 public:
 	void SetPlayerString(int suffixIndex, const char *suffix, const UnicodeString &text);
+	void rva005ED6B9(int index, int color);
 	void rva005ED708(int index, int num);
 	void rva005ED76A(int index, int num);
 	void SetPlayerName(int index, const UnicodeString &text);
@@ -58,6 +61,20 @@ private:
 	char m_pad48[0x50 - 0x48];
 	int m_row50;
 };
+
+// 0x005ED6B9 (79B): the cached +4 colour of the row, pushed to the movie
+// through the rowed two-int Apt call 0x00525235 as "SetPlayerColor".
+void StrategicHUD::RegionAwardMovieClip::Impl::rva005ED6B9(int index, int color)
+{
+	Rva005ED445Slot *base = m_slots;
+	Rva005ED445Slot *slot = base + index;
+	if (color != slot->m_color) {
+		int value = color;
+		const char *team = m_holder08 ? (const char *)m_holder08 + 8 : "";
+		Rva00525235Fire(TheRva00222A8BTarget, m_level04, team, "SetPlayerColor", &index, &color);
+		slot->m_color = value;
+	}
+}
 
 void StrategicHUD::RegionAwardMovieClip::Impl::rva005ED708(int index, int num)
 {
