@@ -5,10 +5,10 @@
 // Open-BFME-1 09f941a50d game/Libraries/Source/WWVegas/WWMath/Rva008D7C20.cpp
 // (BFME1 0x008D7C20, before its Multiply), same body. Target evidence: the
 // Matrix4(const Matrix3D &) widening (three rows plus 0,0,0,1) inlined, then a
-// thiscall with a hidden result pointer to 0x00715EB0, then the first three
+// thiscall with an explicit output pointer to 0x00715EB0, then the first three
 // result rows copied element by element into the out-parameter. Unlike BFME1,
 // which inlines the header's __forceinline Gauss-Jordan Inverse here, BFME2
-// calls it out of line: the 2069-byte body at 0x00715EB0 inside matrix4.cpp's
+// calls it out of line: the 2071-byte body at 0x00715EB0 inside matrix4.cpp's
 // retail range is that Inverse (pivot search with WWMath::Fabs masking, row
 // swaps, reciprocal row scale, elimination), so this TU declares Inverse in a
 // TU-scoped Matrix4 view (as Rva00715E90Cluster.cpp does) instead of taking
@@ -27,7 +27,7 @@ public:
 	{
 		Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3].Set(0.0f, 0.0f, 0.0f, 1.0f);
 	}
-	Matrix4 Inverse(void) const;
+	void Inverse(Matrix4 *out) const;
 	Vector4 &operator[](int i) { return Row[i]; }
 	const Vector4 &operator[](int i) const { return Row[i]; }
 	Vector4 Row[4];
@@ -42,7 +42,8 @@ void Rva007133F0MatrixInverse::inverse(Matrix3D &out) const
 {
 	Matrix4 mat;
 	mat.Init(*this);
-	Matrix4 result = mat.Inverse();
+	Matrix4 result;
+	mat.Inverse(&result);
 	out[0][0] = result[0][0];
 	out[0][1] = result[0][1];
 	out[0][2] = result[0][2];
