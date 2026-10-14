@@ -11,7 +11,8 @@
       "prior_wall": "319 bytes and 0x18 frame; six normalized coordinate-copy scheduling differences; 0.96679 bank",
       "new_hypothesis": "Use WB memberwise XYZ copy, three consecutive random updates and a scalar-constructed second vector; expose the actual 4BFB1C side distributor body in the same translation unit.",
       "ablation": "Complete caller matches with the visible distributor under EHs and EHsc; declaration-only distributor changes the caller to321 bytes. Coordinate-copy permutations alone did not solve it.",
-      "status": "Isolated caller exact; dependency committed first; caller pending normal ledger admission in the next commit."
+      "status": "Landed through add_match: complete319-byte body, every relocation and literal verifies in the home TU.",
+      "verification": "Normal add_match33/33 source rows; five literals plus two empty-string refs; seventeen float references; zero new pins. All original27 rows and the440-byte dependency remain exact."
     },
     "0x004BFB1C": {
       "size": 440,
@@ -52,5 +53,7 @@
     "vector<int> trials used temporary scorer-only maps for comparison: its emitted49-byte push and32-byte fill disagree with existing real int owners; never admitted or used by production verification.",
     "Custom allocator<int> variant also left the real int fill dependency unresolved; discarded in favor of fully verified long instantiations."
   ],
-  "ghidra": "Configured endpoint127.0.0.1:8000/mcp refused connection twice, more than a minute apart. Used saved WorldBuilder debug evidence, retail image bytes and normal mismatch tools."
+  "ghidra": "Configured endpoint127.0.0.1:8000/mcp refused connection twice, more than a minute apart. Used saved WorldBuilder debug evidence, retail image bytes and normal mismatch tools.",
+  "unique_recovered_bytes": 759,
+  "template_alias_unique_bytes": 0
 }

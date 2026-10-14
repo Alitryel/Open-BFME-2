@@ -731,6 +731,7 @@ public:
 class ActiveBody : public BodyModule, public BodyModuleInterface
 {
 public:
+	virtual void setInitialHealth(Real initialPercent, Bool directional);
 	virtual void attemptHealing(DamageInfo *damageInfo);
 	virtual Real estimateDamage(DamageInfoInput &damageInfo) const;
 	virtual void setDamageState(BodyDamageType newState);
@@ -1497,12 +1498,26 @@ void ActiveBody::setCorrectDamageState(Bool arg)
 	}
 }
 
-// The side-damage source point: a plain three-float copy (this unit's Coord3D
-// view carries the out-of-line constructor and destructor the bone array uses).
+// WB1252E80 copies XYZ before jittering them, then constructs a second
+// three-float vector for side damage. This unit's Coord3D view instead carries
+// the out-of-line constructor and destructor used by the bone array.
 struct ActiveBodySidePoint
 {
 	Real x, y, z;
+	ActiveBodySidePoint() {}
+	ActiveBodySidePoint(const ActiveBodySidePoint &r)
+	{ x = r.x; y = r.y; z = r.z; }
+	~ActiveBodySidePoint() {}
 };
+struct ActiveBodyDamageVector
+{
+	Real x, y, z;
+	ActiveBodyDamageVector(Real a, Real b, Real c) : x(a), y(b), z(c) {}
+};
+
+extern Real GetGameLogicRandomValueReal(Real low, Real high, char *file, Int line);
+#define GameLogicRandomValueReal(lo, hi) \
+	GetGameLogicRandomValueReal((lo), (hi), __FILE__, __LINE__)
 
 // ActiveBody, retail 0x004BFCD4 (83B): attemptDamage's directional branch
 // (damage type 4). Spread the damage over the sides facing the source's
@@ -1517,6 +1532,33 @@ void ActiveBody::rva004BFCD4(Real amount, DamageInfo *damageInfo)
 		pos.y = source->m_transform[1][3];
 		pos.z = source->m_transform[2][3];
 		rva004BFB1C(amount, (const Coord3D *)&pos);
+	}
+}
+
+// Native4C0642..4C0781, BodyModuleInterface slot21: secondary-this +0x10,
+// RET8. WB1252E80 supplies the copy/update/vector lifetimes. Keeping the
+// real side-distributor definition visible below preserves native XYZ copy
+// scheduling; a declaration alone changes this caller to 321 bytes.
+void ActiveBody::setInitialHealth(Real initialPercent, Bool directional)
+{
+	if (initialPercent > 100.0f)
+		m_maxHealth = m_maxHealth * initialPercent * 0.01f;
+	Real factor = initialPercent * 0.01f;
+	if (directional)
+	{
+		m_prevHealth = m_currentHealth;
+		m_currentHealth += m_maxHealth * (initialPercent * 0.01f) - m_currentHealth;
+		ActiveBodySidePoint pos(*(const ActiveBodySidePoint *)getObject()->getPosition());
+#line 1279 "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Body\\ActiveBody.cpp"
+		pos.x += GameLogicRandomValueReal(-1.0f, 1.0f);
+		pos.y += GameLogicRandomValueReal(-1.0f, 1.0f);
+		pos.z += GameLogicRandomValueReal(-1.0f, 1.0f);
+		ActiveBodyDamageVector jittered(pos.x, pos.y, pos.z);
+		rva004BFB1C((1.0f - initialPercent * 0.01f) * m_maxHealth, (const Coord3D *)&jittered);
+	}
+	else
+	{
+		internalChangeHealth(factor * m_initialHealth - m_currentHealth, 0);
 	}
 }
 
