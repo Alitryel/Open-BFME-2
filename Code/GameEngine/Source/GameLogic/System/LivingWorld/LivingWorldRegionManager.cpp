@@ -78,6 +78,7 @@ public:
 	Bool GetRegionCenterPoint(Rva0020E89C *region, Coord2D *out);	// 0x0020EA58
 	Bool GetRegionUiPopupPoint(Int regionID, Coord2D *out);
 	void SetRegionReinforcements(Int regionID, const AsciiString &name, Int a, Int b, Int c, Bool d, Bool e);
+	bool rva0020E813(RegionBattleView *) const;
 	void CheckForBattles();					// 0x0020FDDF
 
 private:
@@ -87,9 +88,8 @@ private:
 	unsigned char m_pad00[0x8];
 	RegionCampaignView *m_campaign08;				// +0x08
 	unsigned char m_pad0C[0x14 - 0xC];
-	LivingWorldPendingBattle **m_pendingBattlesStart;		// +0x14
-	LivingWorldPendingBattle **m_pendingBattlesFinish;		// +0x18
-	unsigned char m_pad1C[0x30 - 0x1C];
+	_STL::vector<LivingWorldPendingBattle *> m_pendingBattles; // +0x14
+	unsigned char m_pad20[0x30 - 0x20];
 	Int m_nextBattleID;							// +0x30
 };
 
@@ -99,8 +99,8 @@ private:
 // each pending battle until the visitor declines.
 void LivingWorldRegionManager::EnumeratePendingBattles(PendingBattleVisitor &visitor) const
 {
-	LivingWorldPendingBattle **end = m_pendingBattlesFinish;
-	for (LivingWorldPendingBattle **it = m_pendingBattlesStart; it != end; ++it)
+	LivingWorldPendingBattle *const *end = m_pendingBattles.end();
+	for (LivingWorldPendingBattle *const *it = m_pendingBattles.begin(); it != end; ++it)
 	{
 		LivingWorldPendingBattle *battle = *it;
 		if (!visitor.Visit(battle))
@@ -516,6 +516,10 @@ struct RegionBattleView
     int getOwner() const { return owner13C; }
     char pad140[0x24];
     _STL::vector<int> armies164;
+    char pad170[0x1A2-0x170];
+    bool enabled1A2;
+    char pad1A3;
+    bool selectable1A4;
 };
 struct RegionCampaignView { char pad00[0x2C]; _STL::vector<RegionBattleView *> regions; };
 struct RegionBattlePoint { float x,y; };
@@ -648,7 +652,7 @@ void LivingWorldRegionManager::AddBattle(RegionBattleView *region,const RegionSl
 {
  if (rva0020E57F(reinterpret_cast<unsigned int>(region))) return;
  LivingWorldBattle *battle=new LivingWorldBattle(++m_nextBattleID,reinterpret_cast<int>(region),reinterpret_cast<const _STL::vector<LivingWorldBattleArmyView *> &>(armies),reinterpret_cast<const _STL::vector<LivingWorldBattlePlayerView *> &>(players),reinterpret_cast<const LivingWorldBattleCoord &>(point));
- reinterpret_cast<RegionSlots *>(&m_pendingBattlesStart)->push_back(reinterpret_cast<const ModuleData *const &>(battle));
+ reinterpret_cast<RegionSlots *>(&m_pendingBattles)->push_back(reinterpret_cast<const ModuleData *const &>(battle));
  Rva002E2903Player *owner=reinterpret_cast<Rva002BA8F1Logic *>(TheLivingWorldLogic)->find(region->getOwner(),0);
  if (owner && battle->rva003F48EF(owner) && !battle->rva003F4FBD(owner) && reinterpret_cast<Rva003F02E4 *>(region)->rva003F02E4()) {
   LivingWorldArmy *garrison=TheLivingWorldLogic->CreateEmptyGarrisonArmy(reinterpret_cast<Rva002B6A04Player *>(owner),reinterpret_cast<LivingWorldRegion *>(region));
@@ -668,4 +672,30 @@ bool Rva0020E205::Compare(void *first,void *second)
  int leftBytes=static_cast<CompareArmy *>(first)->getSummary()->entries.size() & ~7;
  int rightBytes=static_cast<CompareArmy *>(second)->getSummary()->entries.size() & ~7;
  return leftBytes>rightBytes;
+}
+
+class LivingWorldPendingBattle {
+public:
+ char pad00[0x24];
+ RegionBattleView *region24;
+};
+
+// Complete native20E813..20E86A RET4; WB B57BD0..B57C99 has the same
+// three guards and indexed pending-battle search. The manager and battle
+// fields agree with the named EnumeratePendingBattles/AddBattle bodies.
+// Access the actual vector member directly: caching a vector reference hoists
+// the size in MSVC 7.1 and does not reproduce retail.
+// The original method name is unknown; retain its address spelling.
+bool LivingWorldRegionManager::rva0020E813(RegionBattleView *region) const
+{
+ if (!region) return false;
+ if (!region->enabled1A2) return false;
+ if (!region->selectable1A4) return false;
+ if (!m_pendingBattles.empty()) {
+  for (int i=0;i<m_pendingBattles.size();++i) {
+   if (m_pendingBattles[i]->region24 == region) return true;
+  }
+  return false;
+ }
+ return true;
 }
