@@ -1,6 +1,4 @@
-// ?rva0025D205@W3DDisplay@@QAEXXZ
-// partial score=0.6 date=2026-10-14
-// cl: /O1 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /O1 /arch:SSE /G7
 // ?rva0025D205@W3DDisplay@@QAEXXZ @0x0025D205 241B: W3DDisplay fade/countdown tick.
 // While the fade alpha (+0x120) is positive: a nonzero frame counter (+0x110) is decremented
 // and clamped to 0..45 with the alpha pinned to 1.0 and the alpha byte forced opaque;
@@ -40,7 +38,7 @@ private:
 
 void W3DDisplay::rva0025D205()
 {
-	unsigned int color = 0xffffff;
+	int color = 0xffffff;
 	if (m_120 > 0.0f)
 	{
 		if (m_110)
@@ -57,15 +55,16 @@ void W3DDisplay::rva0025D205()
 			if (m_120 <= 0.0f)
 			{
 				m_120 = 0.0f;
-				m_124.m_00 = 0;
-				m_124.m_04 = 0.0f;
-				m_124.m_08 = 0.0f;
-				m_124.m_0c = 0.0f;
-				m_124.m_10 = 0.0f;
-				m_124.m_14 = 0;
+				Rva0025C6E2Elem *elem = &m_124;
+				elem->m_00 = 0;
+				elem->m_04 = 0.0f;
+				elem->m_08 = 0.0f;
+				elem->m_0c = 0.0f;
+				elem->m_10 = 0.0f;
+				elem->m_14 = 0;
 			}
-			m_120 = (1.0f < m_120) ? 1.0f : m_120;
-			color |= (unsigned int)(int)(m_120 * 255.0f) << 24;
+			m_120 = m_120 > 1.0f ? 1.0f : m_120;
+			color = 0x00ffffff | (((int)(m_120 * 255.0f)) << 24);
 		}
 		if (color & 0xff000000)
 			m_124.rva0025C8D3(this, 1, color);
