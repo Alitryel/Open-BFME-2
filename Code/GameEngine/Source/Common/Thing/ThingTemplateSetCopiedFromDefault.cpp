@@ -8,14 +8,33 @@ struct TemplateOwnedArmorRecord { ThingTemplate *owner; char m_opaque[0x368-4]; 
 // ?setCopiedFromDefault@ThingTemplate@@QAEXXZ @0x0033B539 71B
 // Evidence: callers in ThingFactory 0x002D1B10 0x002D1BC4 0x002D1D48 (newTemplate->setCopiedFromDefault);
 // 2 bools at +0x5E9/+0x5EA plus 4 ModuleInfos at +0x2E4/+0x2F0/+0x2FC/+0x308 via rowed ModuleInfo::setCopiedFromDefault 0x0033B18A.
+// ModuleInfo::setCopiedFromDefault @0x0033B18A 67B is ZH's in-class loop over the 20-byte nugget
+// vector (copiedFromDefault at +0x10, idiv-by-20 size per iteration); this unit's four calls are
+// its only retail callers, so it is emitted here rather than by ThingTemplate.cpp.
+class ModuleData;
 class ModuleInfo
 {
 public:
-	void setCopiedFromDefault(bool copied);
+	struct Nugget
+	{
+		AsciiString first;
+		AsciiString m_moduleTag;
+		const ModuleData *second;
+		int interfaceMask;
+		bool copiedFromDefault;
+		bool inheritable;
+		bool overrideableByLikeKind;
+	};
+	unsigned int size() const { return m_end - m_begin; }
+	void setCopiedFromDefault(bool v)
+	{
+		for (int i = 0; i < size(); i++)
+			m_begin[i].copiedFromDefault = v;
+	}
 private:
-	void *m_begin;
-	void *m_end;
-	void *m_storage;
+	Nugget *m_begin;
+	Nugget *m_end;
+	Nugget *m_storage;
 };
 
 class ThingTemplate

@@ -935,14 +935,8 @@ void ThingTemplate::validateAudio()
 // BFME2 copyFrom is recovered in ThingTemplateSetCopiedFromDefault.cpp.
 
 //-------------------------------------------------------------------------------------------------
-void ThingTemplate::setCopiedFromDefault()
-{
-	m_armorCopiedFromDefault = true;
-	m_weaponsCopiedFromDefault = true;
-	m_behaviorModuleInfo.setCopiedFromDefault(true);
-	m_drawModuleInfo.setCopiedFromDefault(true);
-	m_clientUpdateModuleInfo.setCopiedFromDefault(true);
-}
+// ThingTemplate::setCopiedFromDefault is defined with its retail-matched body (four ModuleInfos)
+// in Code/GameEngine/Source/Common/Thing/ThingTemplateSetCopiedFromDefault.cpp (0x0033B539).
 
 //-------------------------------------------------------------------------------------------------
 // ?ThingTemplate::~ThingTemplate present-unmatched
