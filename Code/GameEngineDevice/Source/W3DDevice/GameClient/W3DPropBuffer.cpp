@@ -166,26 +166,6 @@ void W3DPropBuffer::clearAllProps(void)
 //=============================================================================
 /** Adds a type of prop (model & texture). */
 //=============================================================================
-// ?addPropType@W3DPropBuffer@@ present-unmatched
-Int W3DPropBuffer::addPropType(const AsciiString &modelName)
-{
-	if (m_numPropTypes>=MAX_TYPES) {
-		DEBUG_CRASH(("Too many kinds of props in map.  Reduce kinds of props, or raise prop limit. jba.")); 
-		return 0;
-	}
-
-	m_propTypes[m_numPropTypes].m_robj = WW3DAssetManager::Get_Instance()->Create_Render_Obj(modelName.str());
-	if (m_propTypes[m_numPropTypes].m_robj==NULL) {
-		DEBUG_CRASH(("Unable to find model for prop %s\n", modelName.str()));
-		return -1;
-	}
-	m_propTypes[m_numPropTypes].m_robjName = modelName;
-	
-	SphereClass bounds = m_propTypes[m_numPropTypes].m_robj->Get_Bounding_Sphere();
-	m_propTypes[m_numPropTypes].m_bounds = bounds;
-	m_numPropTypes++;
-	return m_numPropTypes-1;
-}
 
 //=============================================================================
 // W3DPropBuffer::addProp
@@ -193,50 +173,6 @@ Int W3DPropBuffer::addPropType(const AsciiString &modelName)
 /** Adds a prop.  Name is the W3D model name, supported models are
 ALPINE, DECIDUOUS and SHRUB. */
 //=============================================================================
-// ?addProp@W3DPropBuffer@@ present-unmatched
-void W3DPropBuffer::addProp(Int id, Coord3D location, Real angle,Real scale, const AsciiString &modelName)
-{
-	if (m_numProps >= MAX_PROPS) {
-		return;  
-	}
-	if (!m_initialized) {
-		return;  
-	}
-	Int propType = -1;
-	Int i;
-	for (i=0; i<m_numPropTypes; i++) {
-		if (m_propTypes[i].m_robjName.compareNoCase(modelName)==0) {
-			propType = i;
-			break;
-		}
-	}
-	if (propType<0) {
-		propType = addPropType(modelName);
-		if (propType<0) {
-			return;
-		}
-	}
-
-	Matrix3D mtx(true);
-	mtx.Rotate_Z(angle);
-	mtx.Scale(scale);
-	mtx.Set_Translation(Vector3(location.x, location.y, location.z));
-
-	m_props[m_numProps].location = location;
-	m_props[m_numProps].id = id;
-	m_props[m_numProps].ss = OBJECTSHROUD_INVALID;
-	m_props[m_numProps].m_robj = m_propTypes[propType].m_robj->Clone();
-	m_props[m_numProps].m_robj->Set_Transform(mtx);
-	m_props[m_numProps].m_robj->Set_ObjectScale(scale);
-	m_props[m_numProps].propType = propType;
-	// Translate the bounding sphere of the model.
-	m_props[m_numProps].bounds = m_propTypes[propType].m_bounds;
-	m_props[m_numProps].bounds.Center += Vector3(location.x, location.y, location.z);
-	// Initially set it invisible.  cull will update it's visiblity flag.
-	m_props[m_numProps].visible = false;
-
-	m_numProps++;
-}
 
 //=============================================================================
 // W3DPropBuffer::updatePropPosition

@@ -171,18 +171,6 @@ HTreeClass::HTreeClass(void) :
  * HISTORY:                                                                                    * 
  *   08/11/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-// ?Free@HTreeClass@@ present-unmatched
-void HTreeClass::Free(void)
-{
-	if (Pivot != NULL) {
-		delete[] Pivot;
-		Pivot = NULL;
-	}
-	NumPivots = 0;
-
-	// Also clean up other members:
-	ScaleFactor = 1.0f;
-}
 
 
 /*********************************************************************************************** 

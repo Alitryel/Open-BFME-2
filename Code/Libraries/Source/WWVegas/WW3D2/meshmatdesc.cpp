@@ -148,20 +148,7 @@ inline TexBufferClass::~TexBufferClass(void)
 	}
 }
 
-// ?Set_Element@TexBufferClass@@QAEXHPAVTextureClass@@@Z present-unmatched
-void TexBufferClass::Set_Element(int index,TextureClass * tex)
-{
-	REF_PTR_SET(Array[index],tex);
-}
 
-// ?Get_Element@TexBufferClass@@QAEPAVTextureClass@@H@Z present-unmatched
-TextureClass * TexBufferClass::Get_Element(int index)
-{
-	if (Array[index]) {
-		Array[index]->Add_Ref();
-	}
-	return Array[index];
-}
 
 // ?Peek_Element@TexBufferClass@@ present-unmatched
 TextureClass * TexBufferClass::Peek_Element(int index)
@@ -228,14 +215,6 @@ MeshMatDescClass::~MeshMatDescClass(void)
 	Reset(0,0,0);
 }
 
-// ?Get_Single_Texture@MeshMatDescClass@@QBEPAVTextureClass@@HH@Z present-unmatched
-TextureClass * MeshMatDescClass::Get_Single_Texture(int pass,int stage) const
-{
-	if (Texture[pass][stage]) {
-		Texture[pass][stage]->Add_Ref();
-	}
-	return Texture[pass][stage].Peek();
-}
 
 // MeshMatDescClass::Reset is recovered in MeshMatDescReset.cpp.
 
@@ -248,11 +227,6 @@ void MeshMatDescClass::Set_Single_Material(VertexMaterialClass * vmat,int pass)
 	REF_PTR_SET(Material[pass],vmat);
 }
 
-// ?Set_Single_Texture@MeshMatDescClass@@QAEXPAVTextureClass@@HH@Z present-unmatched
-void MeshMatDescClass::Set_Single_Texture(TextureClass * tex,int pass,int stage)
-{
-	Texture[pass][stage]=Create_Peek(tex);
-}
 
 void MeshMatDescClass::Set_Single_Shader(ShaderClass shader,int pass)
 {
@@ -271,12 +245,6 @@ void MeshMatDescClass::Set_Shader(int pidx,ShaderClass shader,int pass)
 	shaders[pidx] = shader;
 }
 
-// ?Set_Texture@MeshMatDescClass@@QAEXHPAVTextureClass@@HH@Z present-unmatched
-void MeshMatDescClass::Set_Texture(int pidx,TextureClass * tex,int pass,int stage)
-{
-	TexBufferClass * textures = Get_Texture_Array(pass,stage,true);
-	textures->Set_Element(pidx,tex);
-}
 
 // ?Get_Material@MeshMatDescClass@@QBEPAVVertexMaterialClass@@HH@Z present-unmatched
 VertexMaterialClass * MeshMatDescClass::Get_Material(int vidx,int pass) const
@@ -302,21 +270,6 @@ ShaderClass	MeshMatDescClass::Get_Shader(int pidx,int pass) const
 	return Shader[pass];
 }
 
-// ?Get_Texture@MeshMatDescClass@@QBEPAVTextureClass@@HHH@Z present-unmatched
-TextureClass * MeshMatDescClass::Get_Texture(int pidx,int pass,int stage) const
-{
-	if (TextureArray[pass][stage]) {
-
-		return TextureArray[pass][stage]->Get_Element(pidx);
-
-	} else if (Texture[pass][stage] != NULL) {
-
-		Texture[pass][stage]->Add_Ref();
-		return Texture[pass][stage].Peek();
-
-	}
-	return NULL;
-}
 
 VertexMaterialClass * MeshMatDescClass::Peek_Material(int vidx,int pass) const
 {

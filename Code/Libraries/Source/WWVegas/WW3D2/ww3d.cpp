@@ -865,29 +865,6 @@ WW3DErrorType WW3D::Begin_Render(bool clear,bool clearz,const Vector3 & color, f
  * HISTORY:                                                                                    *
  *   4/2/98    EHC : Created.                                                                  *
  *=============================================================================================*/
-// ?Render@WW3D@@ present-unmatched
-WW3DErrorType WW3D::Render(const LayerListClass &LayerList)
-{
-	if (!IsInitted) {
-		return(WW3D_ERROR_OK);
-	}
-
-	WWASSERT(IsRendering);
-
-	LayerClass *layer = LayerList.Last();
-
-	while (layer->Is_Valid()) {
-		WW3DErrorType result = Render(*layer);
-
-		if (result != WW3D_ERROR_OK) {
-			return result;
-		}
-
-		layer = layer->Prev();
-	}
-
-	return WW3D_ERROR_OK;
-}
 
 /***********************************************************************************************
  * WW3D::Render -- Render a Layer                                                              *
@@ -901,17 +878,6 @@ WW3DErrorType WW3D::Render(const LayerListClass &LayerList)
  * HISTORY:                                                                                    *
  *   4/2/98    EHC : Created.                                                                  *
  *=============================================================================================*/
-// ?Render@WW3D@@ present-unmatched
-WW3DErrorType WW3D::Render(const LayerClass &Layer)
-{
-	if (!IsInitted) {
-		return(WW3D_ERROR_OK);
-	}
-
-	WWASSERT(IsRendering);
-	return Render(Layer.Scene, Layer.Camera, Layer.Clear, Layer.ClearZ, Layer.ClearColor);
-
-}
 
 
 /***********************************************************************************************
@@ -926,58 +892,6 @@ WW3DErrorType WW3D::Render(const LayerClass &Layer)
  * HISTORY:                                                                                    *
  *   3/24/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Render@WW3D@@ present-unmatched
-WW3DErrorType WW3D::Render(SceneClass * scene,CameraClass * cam,bool clear,bool clearz,const Vector3 & color)
-{
-	if (!IsInitted) {
-		return(WW3D_ERROR_OK);
-	}
-
-	WWPROFILE("WW3D::Render");
-	WWMEMLOG(MEM_GAMEDATA);
-	WWASSERT(IsInitted);
-	WWASSERT(IsRendering);
-	WWASSERT(scene);
-	WWASSERT(cam);
-
-	cam->On_Frame_Update();
-	RenderInfoClass rinfo(*cam);
-
-	// Apply the camera and viewport (including depth range)
-	cam->Apply();
-
-	// Clear the viewport
-	if (clear || clearz) {
-		DX8Wrapper::Clear(clear, clearz, color);
-	}
-
-	// set the rendering mode
-	switch(scene->Get_Polygon_Mode()) {
-		case SceneClass::POINT:
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_FILLMODE,D3DFILL_POINT);
-			break;
-		case SceneClass::LINE:
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
-			break;
-		case SceneClass::FILL:
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_FILLMODE,D3DFILL_SOLID);
-			break;
-	}
-
-	// Set the global ambient light value here.  If the scene is using the LightEnvironment system
-	// this setting will get overriden.
-	DX8Wrapper::Set_Ambient(scene->Get_Ambient_Light());
-
-	// render the scene
-
-	TheDX8MeshRenderer.Set_Camera(&rinfo.Camera);
-
-	scene->Render(rinfo);
-
-	Flush(rinfo);
-
-	return WW3D_ERROR_OK;
-}
 
 
 /***********************************************************************************************
@@ -992,45 +906,6 @@ WW3DErrorType WW3D::Render(SceneClass * scene,CameraClass * cam,bool clear,bool 
  * HISTORY:                                                                                    *
  *   4/4/2001   gth : Created.                                                                 *
  *=============================================================================================*/
-// ?Render@WW3D@@ present-unmatched
-WW3DErrorType WW3D::Render(
-	RenderObjClass & obj,
-	RenderInfoClass & rinfo
-)
-{
-	if (!IsInitted) {
-		return(WW3D_ERROR_OK);
-	}
-
-	WWPROFILE("WW3D::Render");
-	WWASSERT(IsInitted);
-	WWASSERT(IsRendering);
-
-	{
-		WWPROFILE("On_Frame_Update");
-		rinfo.Camera.On_Frame_Update();
-	}
-
-	// Apply the camera and viewport (including depth range)
-	rinfo.Camera.Apply();
-
-	// set the rendering mode
-	DX8Wrapper::Set_DX8_Render_State(D3DRS_FILLMODE,D3DFILL_SOLID);
-
-	// Install the lighting environment if one is supplied
-	if (rinfo.light_environment != NULL) {
-		DX8Wrapper::Set_Light_Environment(rinfo.light_environment);
-	}
-
-	// Render the object
-	TheDX8MeshRenderer.Set_Camera(&rinfo.Camera);
-
-	obj.Render(rinfo);
-
-	Flush(rinfo);
-
-	return WW3D_ERROR_OK;
-}
 
 
 /***********************************************************************************************
@@ -1076,50 +951,6 @@ void WW3D::Flush(RenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   3/24/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?End_Render@WW3D@@ present-unmatched
-WW3DErrorType WW3D::End_Render(bool flip_frame)
-{
-	if (!IsInitted) {
-		return(WW3D_ERROR_OK);
-	}
-
-	WWPROFILE("WW3D::End_Render");
-
-	WWASSERT(IsRendering);
-	WWASSERT(IsInitted);
-
-	// If sorting renderer flush isn't called from within any of the render functions
-	// the sorting arrays will overflow!
-
-	SortingRendererClass::Flush();
-
-	IsRendering = false;
-
-	{
-		WWPROFILE("DX8Wrapper::End_Scene");
-		DX8Wrapper::End_Scene(flip_frame);
-	}
-
-	FrameCount++;
-
-	{
-		WWPROFILE("End_Statistics");
-		Debug_Statistics::End_Statistics();
-	}
-
-	SNAPSHOT_SAY(("==========================================\r\n"));
-	SNAPSHOT_SAY(("========== WW3D::End_Render ==============\r\n"));
-	SNAPSHOT_SAY(("==========================================\r\n\r\n"));
-
-	Activate_Snapshot(false);
-	
-	// (gth) I've found some cases where its not safe to rely on our "shadow" copy (of 
-	// matrices for example) across multiple frames.  So even though this is slightly
-	// less "optimal", lets just reset the caches each frame.
-	DX8Wrapper::Invalidate_Cached_Render_States();
-
-	return WW3D_ERROR_OK;
-}
 
 
 /***********************************************************************************************

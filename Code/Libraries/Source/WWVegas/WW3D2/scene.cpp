@@ -385,31 +385,6 @@ void SceneClass::Load(ChunkLoadClass & cload)
  *   3/24/98    GTH : Created.                                                                 *
  *   4/13/98    NH : Added non-trivial checking (sphere vs. frustum).                          *
  *=============================================================================================*/
-// ?Visibility_Check@SimpleSceneClass@@UAEXPAVCameraClass@@@Z present-unmatched
-void SimpleSceneClass::Visibility_Check(CameraClass * camera)
-{
-	RefRenderObjListIterator it(&RenderList);
-
-	// Loop over all top-level RenderObjects in this scene. If the bounding sphere is not in front
-	// of all the frustum planes, it is invisible.
-	for (it.First(); !it.Is_Done(); it.Next()) {
-
-		RenderObjClass * robj = it.Peek_Obj();
-
-		if (robj->Is_Force_Visible()) {
-			robj->Set_Visible(true);
-		} else {
-			robj->Set_Visible(!camera->Cull_Sphere(robj->Get_Bounding_Sphere()));
-		}
-
-		// Prepare visible objects for LOD:
-		if(robj->Is_Really_Visible() && !robj->Is_Ignoring_LOD_Cost()) {
-			robj->Prepare_LOD(*camera);
-		}
-	}
-
-   Visibility_Checked = true;
-}
 
 
 /***********************************************************************************************
@@ -545,12 +520,6 @@ void SimpleSceneClass::Customized_Render(RenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   3/27/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?Create_Iterator@SimpleSceneClass@@UAEPAVSceneIterator@@_N@Z present-unmatched
-SceneIterator * SimpleSceneClass::Create_Iterator(bool onlyvisible)
-{
-	SimpleSceneIterator * it = W3DNEW SimpleSceneIterator(&RenderList,onlyvisible);
-	return it;
-}
 
 
 /***********************************************************************************************

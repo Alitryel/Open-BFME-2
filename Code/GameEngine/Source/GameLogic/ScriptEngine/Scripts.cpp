@@ -299,85 +299,6 @@ void ScriptList::crc( Xfer *xfer )
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/Common/ScriptList_xferMethodThunk.cpp
-// ?xfer@ScriptList@@MAEXPAVXfer@@@Z present-unmatched
-// Counted and not started: about thirteen independent callees and offsets --
-// three Xfer vtable slots (xferVersion, xferUnsignedShort, xferSnapshot), the
-// eight intrusive-list fields BFME keeps for scripts and groups (head, begin,
-// end and node array for each), the EmptyScript global, and a plain `new
-// Script'. That is well past the point where a body is worth starting cold.
-// What the donor already establishes, for whoever does take it: BFME transfers
-// the script list as an intrusive node walk with a count check rather than the
-// reference's straight list walk, pads the count out with a shared empty Script
-// when the walk runs short, and guards the group half behind version >= 2.
-void ScriptList::xfer( Xfer *xfer )
-{
-	UnsignedShort countVerify;
-
-	// version
-	XferVersion currentVersion = 1;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	// count of scripts here
-	Script *script;
-	UnsignedShort scriptCount = 0;
-	for( script = getScript(); script; script = script->getNext() )
-		scriptCount++;
-	countVerify = scriptCount; 
-	xfer->xferUnsignedShort( &scriptCount );
-	if( countVerify != scriptCount )
-	{
-
-		DEBUG_CRASH(( "ScriptList::xfer - Script list count has changed, attempting to recover."));
-		// throw SC_INVALID_DATA; try to recover. jba.
-
-	}  // end if
-
-	// all script data here
-	for( script = getScript(); script; script = script->getNext() )	{
-		xfer->xferSnapshot( script );
-		scriptCount--;
-		if (scriptCount==0) break;
-	}
-	if (scriptCount>0) {
-		DEBUG_CRASH(("Stripping out extra scripts - Bad..."));
-		if (s_mtScript==NULL) s_mtScript = newInstance(Script);	// Yes it leaks, but this is unusual recovery only. jba.
-		while (scriptCount) {
-			xfer->xferSnapshot(s_mtScript);
-			scriptCount--;
-		}
-	}
-
-	// count of script groups
-	ScriptGroup *scriptGroup;
-	UnsignedShort scriptGroupCount = 0;
-	for( scriptGroup = getScriptGroup(); scriptGroup; scriptGroup = scriptGroup->getNext() )
-		scriptGroupCount++;
-	countVerify = scriptGroupCount;
-	xfer->xferUnsignedShort( &scriptGroupCount );
-	if( countVerify != scriptGroupCount )
-	{
-
-		DEBUG_CRASH(( "ScriptList::xfer - Script group count has changed, attempting to recover."));
-
-	}  // end if
-
-	// all script group data
-	for( scriptGroup = getScriptGroup(); scriptGroup; scriptGroup = scriptGroup->getNext() ) {
-		xfer->xferSnapshot( scriptGroup );
-		scriptGroupCount--;
-		if (scriptGroupCount==0) break;
-	}
-	if (scriptGroupCount>0) {
-		DEBUG_CRASH(("Stripping out extra groups. - Bad..."));
-		if (s_mtGroup == NULL) s_mtGroup = newInstance(ScriptGroup);	// Yes it leaks, but this is only for recovery.
-		while (scriptGroupCount) {
-			xfer->xferSnapshot(s_mtGroup);
-			scriptGroupCount--;
-		}
-	}
-
-}
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */
@@ -1340,24 +1261,6 @@ void OrCondition::deleteCondition(Condition *pCond)
 *	Input: DataChunkInput 
 *		
 */
-// ?ParseOrConditionDataChunk@OrCondition@@SA_NAAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z present-unmatched
-Bool OrCondition::ParseOrConditionDataChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
-{
-	Script *pScript = (Script *)userData;
-	OrCondition *pOrCondition = newInstance(OrCondition);
-	OrCondition *pFirst = pScript->getOrCondition();
-	while (pFirst && pFirst->getNextOrCondition()) {
-		pFirst = pFirst->getNextOrCondition();
-	}
-	if (pFirst) {
-		pFirst->setNextOrCondition(pOrCondition);
-	} else {
-		pScript->setOrCondition(pOrCondition);
-	}
-	file.registerParser( AsciiString("Condition"), info->label, Condition::ParseConditionDataChunk );
-	return file.parse(pOrCondition);
-	
-}
 
 /**
 * OrCondition::findPreviousCondition - find the condition that immediately proceeds curCond.
@@ -1498,90 +1401,6 @@ AsciiString Condition::getUiText(void)
 *	Input: DataChunkInput 
 *		
 */
-// ?ParseConditionDataChunk@Condition@@SA_NAAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z present-unmatched
-Bool Condition::ParseConditionDataChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
-{
-	Condition	*pCondition = newInstance(Condition);
-	OrCondition *pOr = (OrCondition *)userData;
-	pCondition->m_conditionType = (enum ConditionType)file.readInt();
-	const ConditionTemplate* ct = TheScriptEngine->getConditionTemplate(pCondition->m_conditionType);
-	if (info->version >= K_SCRIPT_CONDITION_VERSION_4) {
-		NameKeyType key = file.readNameKey();
-		Bool match = false;
-		if (ct && ct->m_internalNameKey == key) {
-			match = TRUE; // All good. jba. [3/20/2003]
-		}
-		if (!match) {
-			//  name and id don't match.  Find the name [3/20/2003]
-			Int i;
-			for (i=0; i<Condition::NUM_ITEMS; i++) {
-				ct = TheScriptEngine->getConditionTemplate(i);
-				if (key == ct->m_internalNameKey) {
-					match = true;
-					DEBUG_LOG(("Rematching script condition %s\n", KEYNAME(key).str()));
-					pCondition->m_conditionType = (enum ConditionType)i;
-					break;
-				}
-			}
-		}
-		if (!match) {
-			// Invalid script [3/20/2003]
-			DEBUG_CRASH(("Invalid script condition.  Making it false. jba."));
-			pCondition->m_conditionType = CONDITION_FALSE;
-			pCondition->m_numParms = 0;
-		}
-	}
-	pCondition->m_numParms =file.readInt();
-	Int i;
-	for (i=0; i<pCondition->m_numParms; i++) 
-	{
-		pCondition->m_parms[i] = Parameter::ReadParameter(file);
-	}
-	
-	if (file.getChunkVersion() < K_SCRIPT_CONDITION_VERSION_2) {
-		for (int j = 0; ParameterChangesVer2[j] != -1; ++j) {
-			if (pCondition->m_conditionType == ParameterChangesVer2[j]) {
-				pCondition->m_parms[pCondition->m_numParms] = newInstance(Parameter)(Parameter::SURFACES_ALLOWED, 3);
-				pCondition->m_numParms = 3;
-			}
-		}
-	}
-	// heal old files.
-	switch (pCondition->getConditionType()) 
-	{
-		case SKIRMISH_SPECIAL_POWER_READY:
-			if (pCondition->m_numParms == 1)
-			{
-				pCondition->m_numParms = 2;
-				pCondition->m_parms[1] = pCondition->m_parms[0];
-				pCondition->m_parms[0] = newInstance(Parameter)(Parameter::SIDE, 0);
-				pCondition->m_parms[0]->friend_setString(THIS_PLAYER);
-			}
-			break;
-	}
-#ifdef COUNT_SCRIPT_USAGE
-	const ConditionTemplate* conT = TheScriptEngine->getConditionTemplate(pCondition->m_conditionType);
-	conT->m_numTimesUsed++;
-	conT->m_firstMapUsed = TheGlobalData->m_mapName;
-#endif
-	if (ct->getNumParameters() != pCondition->getNumParameters()) {
-		// Invalid script [3/20/2003]
-		DEBUG_CRASH(("Invalid script condition.  Making it false. jba."));
-		pCondition->m_conditionType = ConditionType::CONDITION_FALSE;
-		pCondition->m_numParms = 0;
-	}
-	Condition *pLast = pOr->getFirstAndCondition();
-	while (pLast && pLast->getNext()) {
-		pLast = pLast->getNext();
-	}
-	if (pLast) {
-		pLast->setNextCondition(pCondition);
-	} else {
-		pOr->setFirstAndCondition(pCondition);
-	}
-	DEBUG_ASSERTCRASH(file.atEndOfChunk(), ("Unexpected data left over."));	
-	return true;
-}
 
 
 // The exact retail constructor is emitted by Template.cpp.
@@ -1933,46 +1752,6 @@ ScriptAction *ScriptAction::ParseAction(DataChunkInput &file, DataChunkInfo *inf
 *		
 */
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptsParseActionDataChunkThunk.cpp
-// ?ParseActionDataChunk@ScriptAction@@SA_NAAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z present-unmatched
-//
-// Blocked by row dependency, and doubly: this body is the ONLY caller of both
-// Script::getAction and Script::setAction in this TU, and the COMDAT copies MSVC
-// emits for those two inlines are themselves matched rows -- 0x00112980 (4
-// bytes) and 0x00112970 (10 bytes), both claimed from this file. The merged form
-// cannot keep the calls, because they read a DIFFERENT field: the reference
-// inlines read m_action at +0x28 and byte-match retail's standalone bodies
-// there, while retail inlines a read of +0x20 here. Same shape as
-// Object::areModulesReady in Player.cpp -- both offsets are right, they are just
-// not the same member.
-//
-// Only the difference between m_action and its m_actionFalse twin is proven
-// anyway (0x00358fe0 reads this+0x20, the twin at 0x00359030 reads this+0x24,
-// and the reference declares m_action first), so where BFME's Script loses the
-// eight bytes ahead of them is not established. The action's own link is at
-// ScriptAction+0x3c.
-Bool ScriptAction::ParseActionDataChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
-{
-	Script *pScript = (Script *)userData;
-
-	ScriptAction	*pScriptAction = ParseAction(file, info, userData);
-
-	ScriptAction *pLast = pScript->getAction();
-	while (pLast && pLast->getNext()) 
-	{
-		pLast = pLast->getNext();
-	}
-
-	if (pLast) 
-	{
-		pLast->setNextAction(pScriptAction);
-	} 
-	else 
-	{
-		pScript->setAction(pScriptAction);
-	}
-	DEBUG_ASSERTCRASH(file.atEndOfChunk(), ("Unexpected data left over."));	
-	return true;
-}
 
 
 /**
@@ -2013,25 +1792,6 @@ void ScriptAction::WriteActionFalseDataChunk(DataChunkOutput &chunkWriter, Scrip
 *		
 */
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptAction_ParseActionFalseDataChunk_Thunk.cpp
-// ?ParseActionFalseDataChunk@ScriptAction@@SA_NAAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z present-unmatched
-Bool ScriptAction::ParseActionFalseDataChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
-{
-	Script *pScript = (Script *)userData;
-
-	ScriptAction	*pScriptAction = ParseAction(file, info, userData);
-
-	ScriptAction *pLast = pScript->getFalseAction();
-	while (pLast && pLast->getNext()) {
-		pLast = pLast->getNext();
-	}
-	if (pLast) {
-		pLast->setNextAction(pScriptAction);
-	} else {
-		pScript->setFalseAction(pScriptAction);
-	}
-	DEBUG_ASSERTCRASH(file.atEndOfChunk(), ("Unexpected data left over."));	
-	return true;
-}
 
 // NOTE: Changing these or adding ot TheOBjectFlagNames requires changes to 
 // ScriptActions::changeObjectPanelFlagForSingleObject

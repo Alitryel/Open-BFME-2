@@ -78,15 +78,6 @@ MaterialInfoClass * MaterialInfoClass::Clone(void) const
 	return W3DNEW MaterialInfoClass(*this); 
 }
 
-// ?Add_Texture@MaterialInfoClass@@QAEHPAVTextureClass@@@Z present-unmatched
-int MaterialInfoClass::Add_Texture(TextureClass * tex)
-{
-	WWASSERT(tex != NULL);
-	tex->Add_Ref();
-	int index = Textures.Count();
-	Textures.Add(tex);
-	return index;
-}
 
 // ?Get_Texture_Index@MaterialInfoClass@@QAEHPBD@Z present-unmatched
 int MaterialInfoClass::Get_Texture_Index(const char * name)
@@ -172,21 +163,6 @@ MaterialRemapperClass::MaterialRemapperClass(MaterialInfoClass * src,MaterialInf
 
 // Owned by MaterialRemapperClassDtor.cpp.
 
-// ?Remap_Texture@MaterialRemapperClass@@QAEPAVTextureClass@@PAV2@@Z present-unmatched
-TextureClass * MaterialRemapperClass::Remap_Texture(TextureClass * src)
-{
-	if (src == NULL) return src;
-	if (src == LastSrcTex) return LastDestTex;
-	for (int i=0; i<TextureCount; i++) {
-		if (TextureRemaps[i].Src == src) {
-			LastSrcTex = src;
-			LastDestTex = TextureRemaps[i].Dest;
-			return TextureRemaps[i].Dest;
-		}
-	}
-	WWASSERT(0); // uh-oh didn't find the texture, what happend???
-	return NULL;
-}
 
 // MaterialRemapperClass::Remap_Vertex_Material and Remap_Mesh are owned by
 // MaterialRemapMesh.cpp, where their shared body visibility matches retail.
@@ -208,69 +184,9 @@ MaterialCollectorClass::~MaterialCollectorClass(void)
 }
 
 // byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorCollectMaterials.cpp
-// ?Collect_Materials@MaterialCollectorClass@@QAEXPAVMeshModelClass@@@Z present-unmatched
-void MaterialCollectorClass::Collect_Materials(MeshModelClass * mesh)
-{
-	for (int pass = 0;pass < mesh->Get_Pass_Count(); pass++) {
-
-		// Vertex materials (either single or per vertex)
-		if (mesh->Has_Material_Array(pass)) {
-			
-			for (int vert_index = 0;vert_index < mesh->Get_Vertex_Count(); vert_index++) {
-				VertexMaterialClass * mat = mesh->Peek_Material(vert_index,pass);
-				Add_Vertex_Material(mat);
-			}
-
-		} else {
-			VertexMaterialClass * mat = mesh->Get_Single_Material(pass);
-			Add_Vertex_Material(mat);
-			REF_PTR_RELEASE(mat);
-		}
-		
-
-		// Shaders (single or per poly...)
-		if (mesh->Has_Shader_Array(pass)) {
-			for (int poly_index=0; poly_index < mesh->Get_Polygon_Count(); poly_index++) {
-				Add_Shader(mesh->Get_Shader(poly_index,pass));
-			}
-		} else {
-			ShaderClass sh = mesh->Get_Single_Shader(pass);
-			Add_Shader(sh);
-		}
-				
-		
-		// Textures per pass, per stage (either array or single...)
-		for (int stage = 0; stage < MeshMatDescClass::MAX_TEX_STAGES; stage++) {
-
-			if (mesh->Has_Texture_Array(pass,stage)) {
-				
-				for (int poly_index = 0;poly_index < mesh->Get_Polygon_Count(); poly_index++) {
-					TextureClass * tex = mesh->Peek_Texture(poly_index,pass,stage);
-					Add_Texture(tex);
-				}
-
-			} else {
-			
-				TextureClass * tex = mesh->Peek_Single_Texture(pass,stage);
-				Add_Texture(tex);
-
-			}
-		}
-	}
-}
 
 // MaterialCollectorClass::Reset is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorDestructor.cpp (0x0016F460).
 
-// ?Add_Texture@MaterialCollectorClass@@QAEXPAVTextureClass@@@Z present-unmatched
-void MaterialCollectorClass::Add_Texture(TextureClass * tex)
-{
-	if (tex == NULL) return;
-	if (tex == LastTexture) return;
-	if (Find_Texture(tex) != -1) return;
-	Textures.Add(tex);
-	tex->Add_Ref();
-	LastTexture = tex;
-}
 
 void MaterialCollectorClass::Add_Shader(ShaderClass shader)
 {
@@ -313,11 +229,6 @@ ShaderClass MaterialCollectorClass::Peek_Shader(int i)
 	return Shaders[i];
 }
 
-// ?Peek_Texture@MaterialCollectorClass@@QAEPAVTextureClass@@H@Z present-unmatched
-TextureClass * MaterialCollectorClass::Peek_Texture(int i)
-{
-	return Textures[i];
-}
 
 VertexMaterialClass * MaterialCollectorClass::Peek_Vertex_Material(int i)
 {
@@ -335,16 +246,6 @@ int MaterialCollectorClass::Find_Shader(const ShaderClass & shader)
 	return -1;
 }
 
-// ?Find_Texture@MaterialCollectorClass@@QAEHPAVTextureClass@@@Z present-unmatched
-int MaterialCollectorClass::Find_Texture(TextureClass * tex)
-{
-	for (int ti=0; ti<Textures.Count(); ti++) {
-		if (Textures[ti] == tex) {
-			return ti;
-		}
-	}
-	return -1;
-}
 
 int MaterialCollectorClass::Find_Vertex_Material(VertexMaterialClass * mat)
 {

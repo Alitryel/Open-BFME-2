@@ -158,57 +158,9 @@ void W3DMouse::initPolygonAssets(void)
 	}
 }
 
-// ?freePolygonAssets@W3DMouse@@AAEXXZ present-unmatched
-void W3DMouse::freePolygonAssets(void)
-{
-
-	for (Int i=0; i<NUM_MOUSE_CURSORS; i++)
-	{
-		cursorImages[i]=NULL;
-	}
-}
 
 /**Load the textures required to display the selected cursor*/
 // byte-exact reconstruction: Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DMouseLoadD3DCursorTexturesThunk.cpp
-// ?loadD3DCursorTextures@W3DMouse@@ present-unmatched
-Bool W3DMouse::loadD3DCursorTextures(MouseCursor cursor)
-{
-	if (cursor == NONE || cursorTextures[cursor][0])
-		return TRUE;	//no texture for this cursor or texture already loaded
-
-	WW3DAssetManager *am=WW3DAssetManager::Get_Instance();
-	Int animFrames=m_cursorInfo[cursor].numFrames;
-
-	if (!animFrames)
-		return FALSE;	//no animation frames defined.
-	
-	const char *baseName=m_cursorInfo[cursor].textureName.str();
-	char FrameName[64];
-
-	//Clamp to reasonable number
-	if (animFrames > MAX_2D_CURSOR_ANIM_FRAMES)
-		animFrames = MAX_2D_CURSOR_ANIM_FRAMES;
-
-	m_currentFrames=0;
-
-	if (animFrames == 1)
-	{	//single animation frame without trailing numbers
-		sprintf(FrameName,"%s.tga",baseName);
-		cursorTextures[cursor][0]=	am->Get_Texture(FrameName);
-		m_currentD3DSurface[0]=cursorTextures[cursor][0]->Get_Surface_Level();
-		m_currentFrames = 1;
-	}
-	else
-	for (Int i=0; i<animFrames; i++)
-	{
-		sprintf(FrameName,"%s%04d.tga",baseName,i);
-		if ((cursorTextures[cursor][i]=am->Get_Texture(FrameName)) != NULL)
-		{	m_currentD3DSurface[m_currentFrames]=cursorTextures[cursor][i]->Get_Surface_Level();
-			m_currentFrames++;
-		}
-	}
-	return TRUE;
-}
 
 void W3DMouse::initD3DAssets(void)
 {

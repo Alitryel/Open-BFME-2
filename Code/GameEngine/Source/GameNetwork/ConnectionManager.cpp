@@ -269,70 +269,6 @@ ConnectionManager::ConnectionManager(void)
 /**
  * Reset the connection manager and any subsystems.
  */
-// ?reset@ConnectionManager@@ present-unmatched
-void ConnectionManager::reset() 
-{
-//	if (m_transport == NULL) {
-//		m_transport = new Transport;
-//	}
-//	m_transport->reset();
-	if (m_transport != NULL) {
-		delete m_transport;
-		m_transport = NULL;
-	}
-
-	for (Int i = 0; i < NUM_CONNECTIONS; ++i) {
-		if (m_connections[i] != NULL) {
-			m_connections[i]->deleteInstance();
-			m_connections[i] = NULL;
-		}
-	}
-
-	for (i=0; i<MAX_SLOTS; ++i)
-	{
-		if (m_frameData[i] != NULL) {
-			m_frameData[i]->deleteInstance();
-			m_frameData[i] = NULL;
-		}
-	}
-
-	if (m_pendingCommands == NULL) {
-		m_pendingCommands = newInstance(NetCommandList);
-		m_pendingCommands->init();
-	}
-	m_pendingCommands->reset();
-
-	if (m_relayedCommands == NULL) {
-		m_relayedCommands = newInstance(NetCommandList);
-		m_relayedCommands->init();
-	}
-	m_relayedCommands->reset();
-
-	if (m_netCommandWrapperList == NULL) {
-		m_netCommandWrapperList = newInstance(NetCommandWrapperList);
-		m_netCommandWrapperList->init();
-	}
-	m_netCommandWrapperList->reset();
-
-	m_localSlot = -1;
-#ifdef MEMORYPOOL_DEBUG
-	TheMemoryPoolFactory->debugSetInitFillerIndex(m_localSlot);
-#endif
-	m_packetRouterSlot = -1;
-
-	for (i = 0; i < TheGlobalData->m_networkFPSHistoryLength; ++i) {
-		m_fpsAverages[i] = -1;
-	}
-	for (i = 0; i < TheGlobalData->m_networkLatencyHistoryLength; ++i) {
-		m_latencyAverages[i] = 0.0;
-	}
-
-	for (i = 0; i < MAX_SLOTS; ++i) {
-		m_packetRouterFallback[i] = -1;
-	}
-
-	m_frameMetrics.reset();
-}
 
 // ?getPingFrame@ConnectionManager@@ present-unmatched
 UnsignedInt ConnectionManager::getPingFrame()
@@ -533,47 +469,6 @@ void ConnectionManager::processRunAheadMetrics(NetRunAheadMetricsCommandMsg *msg
 
 // ConnectionManager::processDisconnectChat is defined with its retail-matched body in Code/GameEngine/Source/GameNetwork/ConnectionManager_processDisconnectChat.cpp (0x004D1023).
 
-// ?processChat@ConnectionManager@@ present-unmatched
-void ConnectionManager::processChat(NetChatCommandMsg *msg) 
-{
-	UnicodeString unitext;
-	UnicodeString name;
-	UnsignedByte playerID = msg->getPlayerID();
-	//DEBUG_LOG(("processChat(): playerID = %d\n", playerID));
-	if (playerID == m_localSlot) {
-		name = m_localUser->GetName();
-		//DEBUG_LOG(("connection is NULL, using %ls\n", name.str()));
-	} else if (((m_connections[playerID] != NULL) && (m_connections[playerID]->isQuitting() == FALSE))) {
-		name = m_connections[playerID]->getUser()->GetName();
-		//DEBUG_LOG(("connection is non-NULL, using %ls\n", name.str()));
-	}
-	unitext.format(L"[%ls] %ls", name.str(), msg->getText().str());
-//	DEBUG_LOG(("ConnectionManager::processChat - got message from player %d (mask %8.8X), message is %ls\n", playerID, msg->getPlayerMask(), unitext.str()));
-	
-	AsciiString playerName;
-	playerName.format("player%d", msg->getPlayerID());
-	const Player *player = ThePlayerList->findPlayerWithNameKey( TheNameKeyGenerator->nameToKey( playerName ) );
-	if (!player)
-	{
-		TheInGameUI->message(UnicodeString(L"%ls"), unitext.str());
-		return;
-	}
-	
-	Bool fromObserver = !player->isPlayerActive();
-	Bool amIObserver = !ThePlayerList->getLocalPlayer()->isPlayerActive();
-	Bool canSeeChat = amIObserver || !fromObserver && !TheGameInfo->getConstSlot(playerID)->isMuted();
-	
-	if ( ((1<<m_localSlot) & msg->getPlayerMask() ) && canSeeChat  )
-	{
-		RGBColor rgb;
-		rgb.setFromInt(player->getPlayerColor());
-		TheInGameUI->messageColor(&rgb, UnicodeString(L"%ls"), unitext.str());
-
-		// feedback for received chat messages in-game
-		AudioEventRTS audioEvent("GUICommunicatorIncoming");
-		TheAudio->addAudioEvent(&audioEvent);
-	}
-}
 
 // ConnectionManager::processFile is defined with its retail-matched body in Code/GameEngine/Source/GameNetwork/ConnectionManager_fileTransfer.cpp (0x004D2B16).
 
@@ -749,40 +644,6 @@ void ConnectionManager::processAck(NetCommandMsg *msg) {
  *
  * If we are leaving and are also the packet router, it will return the PLAYERLEAVECODE_LOCAL return code.
  */
-// ?processPlayerLeave@ConnectionManager@@ present-unmatched
-PlayerLeaveCode ConnectionManager::processPlayerLeave(NetPlayerLeaveCommandMsg *msg) {
-	UnsignedByte playerID = msg->getLeavingPlayerID();
-	if ((playerID != m_localSlot) && (m_connections[playerID] != NULL)) {
-		DEBUG_LOG(("ConnectionManager::processPlayerLeave() - setQuitting() on player %d on frame %d\n", playerID, TheGameLogic->getFrame()));
-		m_connections[playerID]->setQuitting();
-	}
-	DEBUG_ASSERTCRASH(m_frameData[playerID]->getIsQuitting() == FALSE, ("Player %d is already quitting", playerID));
-	if ((playerID != m_localSlot) && (m_frameData[playerID] != NULL) && (m_frameData[playerID]->getIsQuitting() == FALSE)) {
-		DEBUG_LOG(("ConnectionManager::processPlayerLeave - setQuitFrame on player %d for frame %d\n", playerID, TheGameLogic->getFrame()+1));
-		m_frameData[playerID]->setQuitFrame(TheGameLogic->getFrame() + FRAMES_TO_KEEP + 1);
-	}
-
-	if (playerID == m_localSlot)
-	{
-		// we're leaving, so mark our connections and frame datas to go away.
-		for (Int i=0; i<MAX_SLOTS; ++i)
-		{
-			if (m_connections[i])
-			{
-				m_connections[i]->clearCommandsExceptFrom(m_localSlot);
-				m_connections[i]->setQuitting();
-			}
-		}
-	}
-
-	PlayerLeaveCode code = disconnectPlayer(playerID);
-	DEBUG_LOG(("ConnectionManager::processPlayerLeave() - just disconnected player %d with ret code %d\n", playerID, code));
-	if (code == PLAYERLEAVECODE_PACKETROUTER)
-		resendPendingCommands();
-
-	PopulateInGameDiplomacyPopup();
-	return code;
-}
 
 // ?getPacketRouterFallbackSlot@ConnectionManager@@ present-unmatched
 UnsignedInt ConnectionManager::getPacketRouterFallbackSlot(Int packetRouterNumber) {
@@ -1360,21 +1221,6 @@ void ConnectionManager::handleAllCommandsReady(void)
 // The BFME2 body is defined in ConnectionManagerFrameList.cpp.
 // Its target layout and resetFrame ABI differ from the ZH definition.
 
-// ?setFrameGrouping@ConnectionManager@@ present-unmatched
-void ConnectionManager::setFrameGrouping(time_t frameGrouping) {
-	// Since we are the packet router, we should send more packets per second since we
-	// may become the latency bottleneck for sending packets from one player to the next.
-	// This is probably ok since the packet router should have the fastest connection of all
-	// the players in the game.
-	if (m_localSlot == m_packetRouterSlot) {
-		frameGrouping = frameGrouping / 2;
-	}
-	for (Int i = 0; i < MAX_SLOTS; ++i) {
-		if (m_connections[i] != NULL) {
-			m_connections[i]->setFrameGrouping(frameGrouping);
-		}
-	}
-}
 
 /*
 // ?determineRouterFallbackPlan@ConnectionManager@@ present-unmatched
@@ -1723,26 +1569,6 @@ UnsignedInt ConnectionManager::getPacketArrivalCushion() {
 	return retval;
 }
 
-// ?sendChat@ConnectionManager@@ present-unmatched
-void ConnectionManager::sendChat(UnicodeString text, Int playerMask, UnsignedInt executionFrame)
-{
-	NetChatCommandMsg *msg = newInstance(NetChatCommandMsg);
-	msg->setText(text);
-	msg->setPlayerMask(playerMask);
-	msg->setPlayerID(m_localSlot);
-	msg->setID(0);
-	msg->setExecutionFrame(executionFrame);
-	if (DoesCommandRequireACommandID(msg->getNetCommandType()))
-	{
-		msg->setID(GenerateNextCommandID());
-	}
-	DEBUG_LOG(("Chat message has ID of %d, mask of %8.8X, text of %ls\n", msg->getID(), msg->getPlayerMask(), msg->getText().str()));
-
-	sendLocalCommand(msg, 0xff ^ (1 << m_localSlot));
-	processChat(msg);
-
-	msg->detach();
-}
 
 // ConnectionManager::sendDisconnectChat is defined with its retail-matched body in Code/GameEngine/Source/GameNetwork/ConnectionManager_sendChat.cpp (0x004D187B).
 
@@ -1885,20 +1711,6 @@ void ConnectionManager::updateLoadProgress( Int progress )
 
 #pragma optimize("", on)
 
-// ?loadProgressComplete@ConnectionManager@@ present-unmatched
-void ConnectionManager::loadProgressComplete()
-{
-	NetCommandMsg *msg = newInstance(NetCommandMsg);
-	msg->setPlayerID( m_localSlot );
-	if (DoesCommandRequireACommandID(msg->getNetCommandType()) == TRUE) {
-		msg->setID(GenerateNextCommandID());
-	}
-	msg->setNetCommandType(NETCOMMANDTYPE_LOADCOMPLETE);
-	processLoadComplete(msg);
-	sendLocalCommand(msg, 0xff ^ (1 << m_localSlot));
-
-	msg->detach();
-}
 
 // ?sendTimeOutGameStart@ConnectionManager@@ present-unmatched
 void ConnectionManager::sendTimeOutGameStart()

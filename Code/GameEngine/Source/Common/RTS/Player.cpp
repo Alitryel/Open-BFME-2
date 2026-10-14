@@ -594,18 +594,6 @@ void Player::setBuildList(BuildListInfo *pBuildList)
 } 
 
 //=============================================================================
-// ?addToPriorityBuildList@Player@@QAEXVAsciiString@@PAUCoord3D@@M@Z present-unmatched
-void Player::addToPriorityBuildList(AsciiString templateName, Coord3D *pos, Real angle)
-{
-	BuildListInfo *newInfo = newInstance( BuildListInfo );
-	newInfo->setTemplateName(templateName);
-	newInfo->setLocation(*pos);
-	newInfo->setAngle(angle);
-	newInfo->markPriorityBuild();
-	newInfo->setNumRebuilds(1);	 // Build once. 
-	newInfo->setNextBuildList(m_pBuildList);
-	m_pBuildList = newInfo;
-} 
 
 //=============================================================================
 // ?Player::update present-unmatched
@@ -1524,15 +1512,6 @@ void Player::onStructureUndone(Object *)
 // Player::healAllObjects is defined with its retail-matched body in Code/GameEngine/Source/Common/RTS/PlayerTeamPrototypeQueries.cpp (0x002AB06A).
 
 //=============================================================================
-// ?iterateObjects@Player@@QBEXP6AXPAVObject@@PAX@Z1@Z present-unmatched
-void Player::iterateObjects( ObjectIterateFunc func, void *userData ) const
-{
-	for (PlayerTeamList::const_iterator it = m_playerTeamPrototypes.begin(); 
-			 it != m_playerTeamPrototypes.end(); ++it)
-	{	
-		(*it)->iterateObjects( func, userData );
-	}
-}
 
 // BFME's team-prototype list sits at +0x288; the vendored header lands it at
 // +0x1a0. Both walkers below read it through this view.
@@ -1606,18 +1585,6 @@ Bool Player::hasAnyUnits(void) const
 }
 
 //=============================================================================
-// ?hasAnyObjects@Player@@QBE_NXZ present-unmatched
-Bool Player::hasAnyObjects(void) const
-{
-	for (PlayerTeamList::const_iterator it = m_playerTeamPrototypes.begin(); 
-			 it != m_playerTeamPrototypes.end(); ++it)
-	{	
-		if ((*it)->hasAnyObjects()) {
-			return true;
-		}
-	}
-	return false;
-}
 
 //=============================================================================
 // ?hasAnyBuildFacility@Player@@QBE_NXZ
@@ -1762,31 +1729,6 @@ void Player::killPlayer(void)
 }
 
 //=============================================================================
-// ?setObjectsEnabled@Player@@QAEXVAsciiString@@_N@Z present-unmatched
-void Player::setObjectsEnabled(AsciiString templateTypeToAffect, Bool enable)
-{
-	for (PlayerTeamList::iterator it = m_playerTeamPrototypes.begin(); 
-			 it != m_playerTeamPrototypes.end(); ++it) {
-		for (BfmeTeamIter iter = bfmeTeamInstances(*it); !iter.done(); iter.advance()) {
-			Team *team = iter.cur();
-			if (!team) {
-				continue;
-			}
-			
-			for (BfmePlayerIter iterObj = bfmePlayerMembers(team); !iterObj.done(); iterObj.advance()) {
-				Object *obj = iterObj.cur();
-				if (!obj) {
-					continue;
-				}
-
-				if (getRetailTemplateName(obj->getTemplate()).compare(templateTypeToAffect) == 0) 
-				{
-					obj->setScriptStatus( OBJECT_STATUS_SCRIPT_DISABLED, !enable );
-				}
-			}
-		}
-	}
-}
 
 //=============================================================================
 // ?transferAssetsFromThat@Player@@QAEXPAV1@@Z present-unmatched
@@ -2072,57 +2014,6 @@ void Player::resetSciences()
 //=============================================================================
 /// returns TRUE if sciences were gained/lost.
 // byte-exact reconstruction: Code/GameEngine/Source/Common/RTS/PlayerAddScienceThunk.cpp
-// ?addScience@Player@@AAE_NW4ScienceType@@@Z present-unmatched
-Bool Player::addScience(ScienceType science)
-{
-	if (hasScience(science))
-		return false;
-
-	//DEBUG_LOG(("Adding Science %s\n",TheScienceStore->getInternalNameForScience(science).str()));
-
-	m_sciences.push_back(science);
-
-	// 'wake up' any special powers controlled by, well, stuff
-	for (PlayerTeamList::iterator it = m_playerTeamPrototypes.begin(); 
-			 it != m_playerTeamPrototypes.end(); ++it) 
-	{
-		for (BfmeTeamIter iter = bfmeTeamInstances(*it); !iter.done(); iter.advance()) 
-		{
-			Team *team = iter.cur();
-			if (!team)
-				continue;
-			
-			for (BfmePlayerIter iterObj = bfmePlayerMembers(team); !iterObj.done(); iterObj.advance())
-			{
-				Object *obj = iterObj.cur();
-				if (!obj)
-					continue;
-
-				for (BehaviorModule** m = getRetailBehaviorModules(obj); *m; ++m)
-				{
-					SpecialPowerModuleInterface* sp = (*m)->getSpecialPower();
-					if (!sp)
-						continue;
-
-					if (sp->getRequiredScience() == science)
-					{
-						// Turn on the power, and set it to be instantly ready, because that is cool.
-						sp->onSpecialPowerCreation();
-						sp->setReadyFrame( TheGameLogic->getFrame() );
-					}
-				}
-			}
-		}
-
-		TheControlBar->markUIDirty();// Refresh the UI to show new cameos, etc
-
-	}
-
-	// notify the script engine
-	TheScriptEngine->notifyOfAcquiredScience(m_playerIndex, science);
-	
-	return true;
-}
 
 // BFME inserts 0x14 bytes ahead of the radar counters and 0xd0 ahead of the
 // science vectors, so both families are read through a view rather than through
@@ -2337,26 +2228,6 @@ Bool Player::canAffordBuild( const ThingTemplate *whatToBuild ) const
 }
 
 //=================================================================================================
-// ?deleteUpgradeList@Player@@IAEXXZ present-unmatched
-void Player::deleteUpgradeList( void )
-{
-	Upgrade *next;
-
-	// delete all of the upgrades we have
-	while( m_upgradeList )
-	{
-
-		next = m_upgradeList->friend_getNext();
-		m_upgradeList->deleteInstance();
-		m_upgradeList = next;
-
-	}  // end while
-
-	// This doesn't call removeUpgrade, so clear these ourselves.
-	m_upgradesInProgress.clear();
-	m_upgradesCompleted.clear();
-
-}  // end deleteUpgradeList
 
 //=================================================================================================
 /** Find an upgrade in our list of upgrades with matching name key */
@@ -3028,28 +2899,6 @@ void Player::applyBattlePlanBonusesForPlayerObjects( const BattlePlanBonuses *bo
 //-------------------------------------------------------------------------------------------------
 /** Create a hotkey team based on this GameMessage */
 //-------------------------------------------------------------------------------------------------
-// ?processCreateTeamGameMessage@Player@@QAEXHPAVGameMessage@@@Z present-unmatched
-void Player::processCreateTeamGameMessage(Int hotkeyNum, GameMessage *msg) {
-	// GameMessage arguments are the object ID's of the objects that are to be in this team.
-
-	if ((hotkeyNum < 0) || (hotkeyNum >= NUM_HOTKEY_SQUADS)) {
-		DEBUG_CRASH(("processCreateTeamGameMessage got an invalid hotkey number"));
-		return;
-	}
-
-	m_squads[hotkeyNum]->clearSquad();
-
-	UnsignedByte numArgs = msg->getArgumentCount();
-	for (UnsignedByte i = 0; i < numArgs; ++i) {
-		ObjectID objID = msg->getArgument(i)->objectID;
-		Object *obj = TheGameLogic->findObjectByID(objID);
-		if (obj != NULL) {
-			// first, remove it from any other hotkey squads it is in.
-			removeObjectFromHotkeySquad(obj);
-			m_squads[hotkeyNum]->addObject(obj);
-		}
-	}
-}
 
 //-------------------------------------------------------------------------------------------------
 /** Select a hotkey team based on this GameMessage */
@@ -3264,16 +3113,6 @@ static void iterator_setUnitsVisionSpied( Object *obj, void * voidData)
 }
 
 // ------------------------------------------------------------------------------------------------
-// ?setUnitsVisionSpied@Player@@QAEX_NV?$BitFlags@$0HE@@@H@Z present-unmatched
-void Player::setUnitsVisionSpied( Bool setting, KindOfMaskType whichUnits, PlayerIndex byWhom )
-{
-	VisionSpiedStruct data;
-	data.setting = setting;
-	data.whichUnits = whichUnits;
-	data.byWhom = byWhom;
-	// Being spied is now a property of the unit, not us, since we can spy only a portion of the enemy.
-	iterateObjects( iterator_setUnitsVisionSpied, &data );
-}
 
 // ------------------------------------------------------------------------------------------------
 // Retail 0x2AA223 (7B, LK5 row 58): m_observer at +0x33A, not +0x296.

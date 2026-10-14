@@ -329,71 +329,6 @@ void BridgeBehavior::onDelete( void )
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 // ?resolveFX@BridgeBehavior@@IAEXXZ
-// ?resolveFX@BridgeBehavior@@ present-unmatched
-void BridgeBehavior::resolveFX( void )
-{
-	Object *us = getObject();
-	Bridge *bridge = TheTerrainLogic->findBridgeAt( us->getPosition() );
-
-	// sanity
-	if( bridge == NULL )
-		return;
-
-	// get the bridge template name
-	AsciiString bridgeTemplateName = bridge->getBridgeTemplateName();
-
-	// find the bridge template
-	TerrainRoadType *bridgeTemplate = TheTerrainRoads->findBridge( bridgeTemplateName );
-
-	// sanity
-	if( bridgeTemplate == NULL )
-		return;
-
-	AsciiString name;	
-	for( Int bodyState = BODY_PRISTINE; bodyState < BODYDAMAGETYPE_COUNT; ++bodyState )
-	{
-
-		// initialize the fx and ocl lists
-		for( Int i = 0; i < MAX_BRIDGE_BODY_FX; ++i )
-		{
-
-			name = bridgeTemplate->getDamageToOCLString( (BodyDamageType)bodyState, i );
-			m_damageToOCL[ bodyState ][ i ] = TheObjectCreationListStore->findObjectCreationList( name.str() );
-			if( name.isEmpty() == FALSE && m_damageToOCL[ bodyState ][ i ] == NULL )
-				DEBUG_CRASH(( "OCL list '%s' not found\n", name.str() ));
-
-			name = bridgeTemplate->getDamageToFXString( (BodyDamageType)bodyState, i );
-			m_damageToFX[ bodyState ][ i ] = TheFXListStore->findFXList( name.str() );
-			if( name.isEmpty() == FALSE && m_damageToFX[ bodyState ][ i ] == NULL )
-				DEBUG_CRASH(( "FX list '%s' not found\n", name.str() ));
-
-			name = bridgeTemplate->getRepairedToOCLString( (BodyDamageType)bodyState, i );
-			m_repairToOCL[ bodyState ][ i ] = TheObjectCreationListStore->findObjectCreationList( name.str() );
-			if( name.isEmpty() == FALSE && m_repairToOCL[ bodyState ][ i ] == NULL )
-				DEBUG_CRASH(( "OCL list '%s' not found\n", name.str() ));
-
-			name = bridgeTemplate->getRepairedToFXString( (BodyDamageType)bodyState, i );
-			m_repairToFX[ bodyState ][ i ] = TheFXListStore->findFXList( name.str() );;
-			if( name.isEmpty() == FALSE && m_repairToFX[ bodyState ][ i ] == NULL )
-				DEBUG_CRASH(( "FX list '%s' not found\n", name.str() ));
-
-		}  // end for i
-
-		// audio sounds
-		name = bridgeTemplate->getDamageToSoundString( (BodyDamageType)bodyState );
-		m_damageToSound[ bodyState ].setEventName( name );
-		m_damageToSound[ bodyState ].setObjectID( us->getID() );
-
-		name = bridgeTemplate->getRepairedToSoundString( (BodyDamageType)bodyState );
-		m_repairToSound[ bodyState ].setEventName( name );
-		m_repairToSound[ bodyState ].setObjectID( us->getID() );
-
-	}  // end for, bodyState
-
-	// fx are now "resolved"
-	m_fxResolved = TRUE;
-
-}  // end resolveFX
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -443,88 +378,10 @@ ObjectID BridgeBehavior::getTowerID( BridgeTowerType towerType )
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehaviorOnHealing.cpp
-// ?onDamage@BridgeBehavior@@UAEXPAVDamageInfo@@@Z present-unmatched
-void BridgeBehavior::onDamage( DamageInfo *damageInfo )
-{
-
-	//
-	// get our body info so we now how much damage percent is being done to us ... we need this
-	// so that we can propagate the same damage percentage amont the towers and the bridge
-	//
-	BodyModuleInterface *body = getObject()->getBodyModule();
-	Real damagePercentage = damageInfo->in.m_amount / body->getMaxHealth();
-
-	//
-	// if the damage didn't come from a bridge tower, then we must propagate this damage
-	// to all our towers
-	//
-	Object *source = TheGameLogic->findObjectByID( damageInfo->in.m_sourceID );
-	if( source == NULL || source->isKindOf( KINDOF_BRIDGE_TOWER ) == FALSE )
-	{
-		Object *tower;
-
-		for( Int i = 0; i < BRIDGE_MAX_TOWERS; i++ )
-		{
-
-			tower = TheGameLogic->findObjectByID( getTowerID( (BridgeTowerType)i ) );
-			if( tower )
-			{
-				BodyModuleInterface *towerBody = tower->getBodyModule();
-				DamageInfo towerDamage;
-
-				towerDamage.in.m_amount = damagePercentage * towerBody->getMaxHealth();
-				towerDamage.in.m_sourceID = getObject()->getID();  // we're now the source
-				towerDamage.in.m_damageType = damageInfo->in.m_damageType;
-				towerDamage.in.m_deathType = damageInfo->in.m_deathType;
-				tower->attemptDamage( &towerDamage );
-
-			}  // end if
-
-		}  // end for i
-
-	}  // end if
-
-}  // end onDamage
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehaviorOnHealing.cpp
-// ?onHealing@BridgeBehavior@@UAEXPAVDamageInfo@@@Z present-unmatched
-void BridgeBehavior::onHealing( DamageInfo *damageInfo )
-{
-
-	//
-	// get our body info so we now how much healing percent is being done to us ... we need this
-	// so that we can propagate the same healing percentage amont the towers and the bridge
-	//
-	BodyModuleInterface *body = getObject()->getBodyModule();
-	Real healingPercentage = damageInfo->in.m_amount / body->getMaxHealth();
-
-	//
-	// if the healing didn't come from a bridge tower, then we must propagate this healing
-	// to all our towers
-	//
-	Object *source = TheGameLogic->findObjectByID( damageInfo->in.m_sourceID );
-	if( source == NULL || source->isKindOf( KINDOF_BRIDGE_TOWER ) == FALSE )
-	{
-		Object *tower;
-
-		for( Int i = 0; i < BRIDGE_MAX_TOWERS; i++ )
-		{
-
-			tower = TheGameLogic->findObjectByID( getTowerID( (BridgeTowerType)i ) );
-			if( tower )
-			{
-				BodyModuleInterface *towerBody = tower->getBodyModule();
-				tower->attemptHealing(healingPercentage * towerBody->getMaxHealth(), getObject());
-
-			}  // end if
-
-		}  // end for i
-
-	}  // end if
-
-}  // end onHealing
 
 // ------------------------------------------------------------------------------------------------
 /** Pick a random surface spot on the bridge surface */
@@ -534,99 +391,6 @@ void BridgeBehavior::onHealing( DamageInfo *damageInfo )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?onBodyDamageStateChange@BridgeBehavior@@UAEXPBVDamageInfo@@W4BodyDamageType@@1@Z present-unmatched
-void BridgeBehavior::onBodyDamageStateChange( const DamageInfo* damageInfo, 
-																							BodyDamageType oldState, 
-																							BodyDamageType newState )
-{
-
-	//
-	// check for coming back from the dead, if our new state is not the rubble state, we can't
-	// possibly be dead
-	//
-	if( newState != BODY_RUBBLE )
-		m_deathFrame = 0;
-
-	// first resolve any fx stuff if we need to 
-	if( m_fxResolved == FALSE )
-		resolveFX();
-
-	// sanity
-	if( m_fxResolved == FALSE )
-		return;
-
-	// sanity
-	DEBUG_ASSERTCRASH( oldState != newState, ("BridgeBehavior::onBodyDamageStateChange - oldState and newState should be different if this is getting called\n") );
-
-	Object *us = getObject();
-	Bridge *bridge = TheTerrainLogic->findBridgeAt( us->getPosition() );
-
-	// sanity
-	if( bridge == NULL )
-	{
-
-		DEBUG_CRASH(( "BridgeBehavior - Unable to find bridge\n" ));
-		return;
-
-	}  // end if
-
-	// get the bridge template name
-	AsciiString bridgeTemplateName = bridge->getBridgeTemplateName();
-
-	// find the bridge template
-	TerrainRoadType *bridgeTemplate = TheTerrainRoads->findBridge( bridgeTemplateName );
-
-	// sanity
-	DEBUG_ASSERTCRASH( bridgeTemplate, ("BridgeBehavior: Unable to find bridge template '%s' in bridge object '%s'\n",	
-																		 bridgeTemplateName,
-																		 us->getTemplate()->getName().str()) );
-
-	//
-	// given the old state and the new state, did we get worse (damaged) or did
-	// we get better (repaired)?
-	//
-	Bool gotRepaired = IS_CONDITION_WORSE( oldState, newState );
-
-	// get the effect data
-	AsciiString soundString;
-	AsciiString oclString[ MAX_BRIDGE_BODY_FX ];
-	AsciiString fxString[ MAX_BRIDGE_BODY_FX ];
-	if( gotRepaired )
-	{
-
-		// play the sound
-		TheAudio->addAudioEvent( &m_repairToSound[ newState ] );
-
-		for( Int i = 0; i < MAX_BRIDGE_BODY_FX; i++ )
-			doAreaEffects( bridgeTemplate, bridge, m_repairToOCL[ newState ][ i ], m_repairToFX[ newState ][ i ] );
-
-	}  // end if
-	else
-	{
-
-		// play the sound
-		TheAudio->addAudioEvent( &m_damageToSound[ newState ] );
-
-		for( Int i = 0; i < MAX_BRIDGE_BODY_FX; i++ )
-			doAreaEffects( bridgeTemplate, bridge, m_damageToOCL[ newState ][ i ], m_damageToFX[ newState ][ i ] );
-
-	}  // end else
-
-	// update bridge damage states
-	///@todo this should be re-written, there no need for this looping bridge examination
-	TheTerrainLogic->updateBridgeDamageStates();
-
-	//
-	// for the local player, if this bridge has switched from rubble, to usable, or from
-	// usable to rubble, we should reflect the change on the radar.  note that we
-	// request that the radar queue a refresh sometime in the future because it keeps
-	// track of how often we makes requests to do a refresh and doesn't do them too 
-	// often because it's expensive to refresh the terrain
-	//
-	if( oldState == BODY_RUBBLE || newState == BODY_RUBBLE )
-		TheRadar->queueTerrainRefresh();
-
-}  // end onBodyDamageStateChange
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -944,55 +708,6 @@ void BridgeBehavior::createScaffolding( void )
 /** Remove the bridge scaffolding.  If we don't have any then this call is ignored */
 // ------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/Object/Behavior/BridgeBehaviorOnHealing.cpp
-// ?removeScaffolding@BridgeBehavior@@UAEXXZ present-unmatched
-void BridgeBehavior::removeScaffolding( void )
-{
-
-	// if we have no scaffolding, do nothing
-	if( m_scaffoldPresent == FALSE )
-		return;
-
-	// go through each object and tell them to reverse course
-	Object *obj;
-	ObjectIDListIterator it;
-	BridgeScaffoldBehaviorInterface *scaffoldBehavior;
-	for( it = m_scaffoldObjectIDList.begin(); it != m_scaffoldObjectIDList.end(); ++it )
-	{
-
-		// get the object
-		obj = TheGameLogic->findObjectByID( (*it) );
-		if( obj == NULL )
-			continue;
-
-		// get the scaffold behavior
-		scaffoldBehavior = BridgeScaffoldBehavior::getBridgeScaffoldBehaviorInterfaceFromObject( obj );
-		DEBUG_ASSERTCRASH( scaffoldBehavior, ("Unable to find bridge scaffold behavior interface\n") );
-		
-		// reverse the motion
-		scaffoldBehavior->reverseMotion();
-
-	}  // end for, it
-
-	// clear our scaffold object list
-	m_scaffoldObjectIDList.clear();
-
-	// scaffolding is no longer present
-	m_scaffoldPresent = FALSE;
-
-	// when scaffolding is gone, a bridge can be used again if we're not in a rubble state
-	Object *us = getObject();
-	BodyModuleInterface *body = us->getBodyModule();
-
-	if( body->getDamageState() != BODY_RUBBLE )
-	{
-		Bridge *bridge = TheTerrainLogic->findBridgeAt( us->getPosition() );
-
-		if( bridge )
-			TheAI->pathfinder()->changeBridgeState( bridge->getLayer(), TRUE );
-
-	}  // end if
-
-}  // end removeScaffolding
 
 // ------------------------------------------------------------------------------------------------
 /** Is any of the scaffolding in motion */

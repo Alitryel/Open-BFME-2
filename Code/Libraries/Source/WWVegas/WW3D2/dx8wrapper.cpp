@@ -1609,26 +1609,6 @@ void DX8Wrapper::Get_Device_Resolution(int & set_w,int & set_h,int & set_bits,bo
 	return ;
 }
 
-// ?Get_Render_Target_Resolution@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Get_Render_Target_Resolution(int & set_w,int & set_h,int & set_bits,bool & set_windowed)
-{
-	WWASSERT(IsInitted);
-
-	if (CurrentRenderTarget != NULL) {
-		D3DSURFACE_DESC info;
-		CurrentRenderTarget->GetDesc (&info);
-
-		set_w				= info.Width;
-		set_h				= info.Height;
-		set_bits			= BitDepth;		// should we get the actual bit depth of the target?
-		set_windowed	= IsWindowed;	// this doesn't really make sense for render targets (shouldn't matter)...
-
-	} else {
-		Get_Device_Resolution (set_w, set_h, set_bits, set_windowed);
-	}
-
-	return ;
-}
 
 bool DX8Wrapper::Registry_Save_Render_Device( const char * sub_key )
 {
@@ -2615,21 +2595,6 @@ void DX8Wrapper::Draw(
 //
 // ----------------------------------------------------------------------------
 
-// ?Draw_Triangles@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Draw_Triangles(
-	unsigned buffer_type,
-	unsigned short start_index,
-	unsigned short polygon_count,
-	unsigned short min_vertex_index,
-	unsigned short vertex_count)
-{
-	if (buffer_type==BUFFER_TYPE_SORTING || buffer_type==BUFFER_TYPE_DYNAMIC_SORTING) {
-		SortingRendererClass::Insert_Triangles(start_index,polygon_count,min_vertex_index,vertex_count);
-	}
-	else {
-		Draw(D3DPT_TRIANGLELIST,start_index,polygon_count,min_vertex_index,vertex_count);
-	}
-}
 
 // ----------------------------------------------------------------------------
 //
@@ -2637,15 +2602,6 @@ void DX8Wrapper::Draw_Triangles(
 //
 // ----------------------------------------------------------------------------
 
-// ?Draw_Triangles@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Draw_Triangles(
-	unsigned short start_index,
-	unsigned short polygon_count,
-	unsigned short min_vertex_index,
-	unsigned short vertex_count)
-{
-	Draw(D3DPT_TRIANGLELIST,start_index,polygon_count,min_vertex_index,vertex_count);
-}
 
 // ----------------------------------------------------------------------------
 //
@@ -2653,15 +2609,6 @@ void DX8Wrapper::Draw_Triangles(
 //
 // ----------------------------------------------------------------------------
 
-// ?Draw_Strip@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Draw_Strip(
-	unsigned short start_index,
-	unsigned short polygon_count,
-	unsigned short min_vertex_index,
-	unsigned short vertex_count)
-{
-	Draw(D3DPT_TRIANGLESTRIP,start_index,polygon_count,min_vertex_index,vertex_count);
-}
 
 // ----------------------------------------------------------------------------
 //
@@ -3672,71 +3619,7 @@ IDirect3DVolumeTexture8* DX8Wrapper::_Create_DX8_Volume_Texture
 }
 
 
-// ?_Create_DX8_Surface@DX8Wrapper@@ present-unmatched
-IDirect3DSurface8 * DX8Wrapper::_Create_DX8_Surface(unsigned int width, unsigned int height, WW3DFormat format)
-{
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
 
-	IDirect3DSurface8 *surface = NULL;
-
-	// Paletted surfaces not supported!
-	WWASSERT(format!=D3DFMT_P8);
-
-	DX8CALL(CreateImageSurface(width, height, WW3DFormat_To_D3DFormat(format), &surface));
-
-	return surface;
-}
-
-// ?_Create_DX8_Surface@DX8Wrapper@@ present-unmatched
-IDirect3DSurface8 * DX8Wrapper::_Create_DX8_Surface(const char *filename_)
-{
-	DX8_THREAD_ASSERT();
-	DX8_Assert();
-
-	// Note: Since there is no "D3DXCreateSurfaceFromFile" and no "GetSurfaceInfoFromFile" (the
-	// latter is supposed to be added to D3DX in a future version), we create a texture from the
-	// file (w/o mipmaps), check that its surface is equal to the original file data (which it
-	// will not be if the file is not in a texture-supported format or size). If so, copy its
-	// surface (we might be able to just get its surface and add a ref to it but I'm not sure so
-	// I'm not going to risk it) and release the texture. If not, create a surface according to
-	// the file data and use D3DXLoadSurfaceFromFile. This is a horrible hack, but it saves us
-	// having to write file loaders. Will fix this when D3DX provides us with the right functions.
-	// Create a surface the size of the file image data
-	IDirect3DSurface8 *surface = NULL;
-
-	{
-
-		file_auto_ptr myfile(_TheFileFactory,filename_);
-		// If file not found, create a surface with missing texture in it
-
-		if (!myfile->Is_Available()) {
-			// If file not found, try the dds format
-			// else create a surface with missing texture in it
-			char compressed_name[200];
-			strncpy(compressed_name,filename_, 200);
-			char *ext = strstr(compressed_name, ".");
-			if ( (strlen(ext)==4) && 
-				  ( (ext[1] == 't') || (ext[1] == 'T') ) && 
-				  ( (ext[2] == 'g') || (ext[2] == 'G') ) && 
-				  ( (ext[3] == 'a') || (ext[3] == 'A') ) ) {
-				ext[1]='d';
-				ext[2]='d';
-				ext[3]='s';
-			}
-			file_auto_ptr myfile2(_TheFileFactory,compressed_name);
-			if (!myfile2->Is_Available())
-				return MissingTexture::_Create_Missing_Surface();
-		}
-	}
-
-	StringClass filename_string(filename_,true);
-	surface=TextureLoader::Load_Surface_Immediate(
-		filename_string,
-		WW3D_FORMAT_UNKNOWN,
-		true);
-	return surface;
-}
 
 
 /***********************************************************************************************
@@ -3956,21 +3839,6 @@ void DX8Wrapper::Set_Light_Environment(LightEnvironmentClass* light_env)
 	}
 }
 
-// ?_Get_DX8_Front_Buffer@DX8Wrapper@@ present-unmatched
-IDirect3DSurface8 * DX8Wrapper::_Get_DX8_Front_Buffer()
-{
-	DX8_THREAD_ASSERT();
-	D3DDISPLAYMODE mode;
-
-	DX8CALL(GetDisplayMode(&mode));
-
-	IDirect3DSurface8 * fb=NULL;
-
-	DX8CALL(CreateImageSurface(mode.Width,mode.Height,D3DFMT_A8R8G8B8,&fb));
-
-	DX8CALL(GetFrontBuffer(fb));
-	return fb;
-}
 
 // ?_Get_DX8_Back_Buffer@DX8Wrapper@@ present-unmatched
 SurfaceClass * DX8Wrapper::_Get_DX8_Back_Buffer(unsigned int num)

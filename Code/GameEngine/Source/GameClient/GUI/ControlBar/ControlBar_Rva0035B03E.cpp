@@ -993,58 +993,6 @@ enum { COMMAND_BUTTON_BORDER_BFME_FIFTH = 5 };
 //-------------------------------------------------------------------------------------------------
 /** Set the command data into the control */
 //-------------------------------------------------------------------------------------------------
-// ?setControlCommand@ControlBar@@ present-unmatched
-
-//-------------------------------------------------------------------------------------------------
-// ?cacheButtonImage@CommandButton@@QAEXXZ present-unmatched
-
-//-------------------------------------------------------------------------------------------------
-/** post process step, after all commands and command sets are loaded */
-//-------------------------------------------------------------------------------------------------
-// ?postProcessCommands@ControlBar@@IAEXXZ present-unmatched
-
-//-------------------------------------------------------------------------------------------------
-/** set the command for the button identified by the window name
-	* NOTE that parent may be NULL, it only helps to speed up the search for a particular
-	* window ID */
-//-------------------------------------------------------------------------------------------------
-// ?setControlCommand@ControlBar@@ present-unmatched
-
-//-------------------------------------------------------------------------------------------------
-/** show/hide the portrait window image */
-//-------------------------------------------------------------------------------------------------
-
-//-------------------------------------------------------------------------------------------------
-/** show/hide the portrait image by object.  We like to use this method as opposed to the
-	* plain image one above so that we can build more intelligence into what portrait to
-	* show for an object given its current state or object type */
-//-------------------------------------------------------------------------------------------------
-// ?setPortraitByObject@ControlBar@@IAEXPAVObject@@@Z
-// Body in ControlBar_setPortraitByObject.asm (exact 739B retail).
-
-// ControlBar::populateBeacon, retail 0x004A3830, 416 bytes.  The callback is
-// the BEACON arm of switchToContext: its three function-local name keys and
-// the reference ControlBarBeacon.cpp body identify the method.  BFME keeps
-// the local-owner test and three-window visibility order.
-// BFME's Object exposes getDrawable at vtable+0x28 (slot 10): Object's retail
-// ctor at 0x001D29A0 stores vtable 0x0109EE58, and the independently matched
-// 0x001BE440 body reads the +0x80 m_drawable field.  This callback uses the
-// same proven local virtual view used by other BFME Object call sites.
-class BfmeBeaconObjectGetDrawable
-{
-public:
-	virtual void slot00(void) = 0;
-	virtual void slot01(void) = 0;
-	virtual void slot02(void) = 0;
-	virtual void slot03(void) = 0;
-	virtual void slot04(void) = 0;
-	virtual void slot05(void) = 0;
-	virtual void slot06(void) = 0;
-	virtual void slot07(void) = 0;
-	virtual void slot08(void) = 0;
-	virtual void slot09(void) = 0;
-	virtual Drawable *getDrawable(void) const = 0;
-};
 
 // The caption callsite targets the already-real 58-byte body at 0x00416BD0.
 // Its canonical Drawable spelling is still present-unmatched, so retain the
@@ -1174,52 +1122,6 @@ public:
 // ControlBarSetControlBarSchemeByPlayerThunk.cpp.
 
 // byte-exact reconstruction: game/GameEngine/Source/GameClient/GUI/ControlBar/ControlBar_setControlBarSchemeByPlayerTemplate_Thunk.cpp
-// ?setControlBarSchemeByPlayerTemplate@ControlBar@@ present-unmatched
-
-// ?setControlBarSchemeByName@ControlBar@@QAEXABVAsciiString@@@Z
-// Body in game/masm_dumps/ControlBar_setControlBarSchemeByName.asm (exact 68B @ 0x4A0090).
-// Retail: if manager, setControlBarScheme(by-value name); if not playback, setDefaultControlBarConfig.
-// (Not switchControlBarStage — inlined recorder check. C++ blocked on AsciiString by-value shape.)
-
-
-// byte-exact reconstruction: game/GameEngine/Source/GameClient/ControlBarPreloadAssets.cpp
-// ?preloadAssets@ControlBar@@QAEXW4TimeOfDay@@@Z present-unmatched
-// preloadAssets cannot come home, and the blocker is the ledger row rather than
-// the body. Its row carries object-symbol=?bfme_preloadAssets_wrapper@ControlBar@@QAEXXZ,
-// a member name that exists only inside the donor's own private ControlBar. The
-// retail body takes NO argument -- it ends c3 and tail-jumps -- while the row is
-// named for the reference's preloadAssets(TimeOfDay). This TU compiles the real
-// ControlBar, which declares the one-argument form, so it cannot emit a
-// no-argument function and cannot satisfy that object-symbol without a header
-// change. The override is the correct mechanism here, not a wart.
-
-// ?updateBuildQueueDisabledImages@ControlBar@@ present-unmatched
-
-// ?updateBuildUpClockColor@ControlBar@@QAEXH@Z present-unmatched
-
-
-
-// ?updateCommanBarBorderColors@ControlBar@@QAEXHHHH@Z present-unmatched
-
-// ---------------------------------------------------------------------------------------
-// hides the communicator button
-
-// ---------------------------------------------------------------------------------------
-// Outside hook so when the genera's head is pushed, we can switch to the purchase science
-// context
-// ?updatePurchaseScience@ControlBar@@QAEXXZ present-unmatched
-
-// byte-exact reconstruction: game/GameEngine/Source/GameClient/GUI/ControlBar/ControlBar_showPurchaseScience.cpp
-// ?showPurchaseScience@ControlBar@@QAEXXZ present-unmatched
-
-// The BFME purchase-science path uses these singleton slots directly.  The
-// ZH declarations describe a different window and Shell layout, so the
-// retail offsets stay local to this recovered body.
-struct BfmePurchaseScienceWindowView
-{
-	char m_pad000[0x254];
-	unsigned char m_hidden;
-};
 
 extern int g_Va012F4C38;
 class Shell;

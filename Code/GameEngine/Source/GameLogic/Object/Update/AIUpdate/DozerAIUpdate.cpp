@@ -941,29 +941,6 @@ void DozerPrimaryStateMachine::loadPostProcess( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?isBuildMostImportant@DozerPrimaryStateMachine@@SA_NPAVState@@PAX@Z present-unmatched
-Bool DozerPrimaryStateMachine::isBuildMostImportant( State *thisState, void* userData )
-{
-	Object *dozer = thisState->getMachineOwner();
-	AIUpdateInterface *ai = dozer->getAIUpdateInterface();
-	if( !ai )
-	{
-		return FALSE;
-	}
-	DozerAIInterface *dozerAI = ai->getDozerAIInterface();
-	if( !dozerAI )
-	{
-		return FALSE;
-	}
-
-	if( !ai->isIdle() )
-		return FALSE;  // busy doing something else
-
-	// if the most important task is us then return true
-	DozerTask task = dozerAI->getMostRecentCommand();
-	return task == DOZER_TASK_BUILD;
-
-}  // end isBuildMostImportant
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -1034,53 +1011,9 @@ struct BfmeDozerObjectFields
 	AIUpdateInterface *m_ai;				///< retail this+0x204
 };
 
-// ?isRepairMostImportant@DozerPrimaryStateMachine@@ present-unmatched
-Bool DozerPrimaryStateMachine::isRepairMostImportant( State *thisState, void* userData )
-{
-	Object *dozer = ((BfmeDozerStateFields *)thisState)->m_machine->m_owner;
-	AIUpdateInterface *ai = ((BfmeDozerObjectFields *)dozer)->m_ai;
-	if( !ai )
-	{
-		return false;
-	}
-	DozerAIInterface *dozerAI = (DozerAIInterface *)((BfmeDozerAiVTable *)ai)->getDozerAIInterface();
-	if( !dozerAI )
-	{
-		return false;
-	}
-
-	if( !((BfmeDozerAiVTable *)ai)->isIdle() )
-		return FALSE;  // busy doing something else
-
-	// if the most important task is us then return true
-	DozerTask task = (DozerTask)((BfmeDozerTaskVTable *)dozerAI)->getMostRecentCommand();
-	return task == DOZER_TASK_REPAIR;
-}  // end isRepairMostImportant
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?isFortifyMostImportant@DozerPrimaryStateMachine@@ present-unmatched
-Bool DozerPrimaryStateMachine::isFortifyMostImportant( State *thisState, void* userData )
-{
-	Object *dozer = ((BfmeDozerStateFields *)thisState)->m_machine->m_owner;
-	AIUpdateInterface *ai = ((BfmeDozerObjectFields *)dozer)->m_ai;
-	if( !ai )
-	{
-		return false;
-	}
-	DozerAIInterface *dozerAI = (DozerAIInterface *)((BfmeDozerAiVTable *)ai)->getDozerAIInterface();
-	if( !dozerAI )
-	{
-		return false;
-	}
-
-	if( !((BfmeDozerAiVTable *)ai)->isIdle() )
-		return FALSE;  // busy doing something else
-
-	// if the most important task is us then return true
-	DozerTask task = (DozerTask)((BfmeDozerTaskVTable *)dozerAI)->getMostRecentCommand();
-	return task == DOZER_TASK_FORTIFY;
-}  // end isFortifyMostImportat
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1242,121 +1175,6 @@ UpdateSleepTime DozerAIUpdate::update( void )
 //-------------------------------------------------------------------------------------------------
 /** The entry point of a construct command to the Dozer */
 //-------------------------------------------------------------------------------------------------
-// ?construct@DozerAIUpdate@@ present-unmatched
-Object *DozerAIUpdate::construct( const ThingTemplate *what, 
-																	const Coord3D *pos, 
-																	Real angle, 
-																	Player *owningPlayer,
-																	Bool isRebuild )
-{
-
-	// !!! NOTE: If you modify this you must modify the worker too !!!
-	// !!! Graham: Please please please have inspiration for how to *not* duplicate this code
-
-	// create our machines if they don't yet exist
-	///@todo make 'construct' a real AI command and you won't need a special case
-	m_isRebuild = isRebuild;
-
-	createMachines();
-
-	// sanity
-	if( what == NULL || pos == NULL || owningPlayer == NULL )
-		return NULL;
-
-	// sanity
-	DEBUG_ASSERTCRASH( getObject()->getControllingPlayer() == owningPlayer,
-										 ("Dozer::Construct - The controlling player of the Dozer is not the owning player passed in\n") );
-	
-	// if we're not rebuilding, we have a few checks to pass first for sanity
-	if( isRebuild == FALSE )
-	{
-
-		// AI has weaker restriction on building
-		Bool dozerIsAI = owningPlayer->getPlayerType() == PLAYER_COMPUTER;
-		if( dozerIsAI )
-		{
-
-			// Just build it.  The ai will validate, or cheat.  jba.
-			
-		}  // end if
-		else
-		{
-
-			// make sure the player is capable of building this
-			if( TheBuildAssistant->canMakeUnit( getObject(), what ) != CANMAKE_OK)
-				return NULL;
-
-			// validate the the position to build at is valid
-			if( TheBuildAssistant->isLocationLegalToBuild( pos, what, angle,
-																										 BuildAssistant::TERRAIN_RESTRICTIONS |
-																										 BuildAssistant::CLEAR_PATH |
-																										 BuildAssistant::NO_OBJECT_OVERLAP |
-																										 BuildAssistant::SHROUD_REVEALED,
-																										 getObject(), NULL ) != LBC_OK )
-				return NULL;
-
-		}  // end else
-
-	}  // end if
-
-	//
-	// what will our initial status bits be, it is important to do this early
-	// before the hooks add/subtract power from a player are executed
-	//
-	ObjectStatusMaskType statusBits = MAKE_OBJECT_STATUS_MASK( OBJECT_STATUS_UNDER_CONSTRUCTION );
-	if( isRebuild )
-		statusBits.set( OBJECT_STATUS_RECONSTRUCTING );
-
-	// create an object at the destination location
-	Object *obj = TheThingFactory->newObject( what, owningPlayer->getDefaultTeam(), statusBits );
-
-	// even though we haven't actually built anything yet, this keeps things tidy
-	obj->setProducer( getObject() );
-	obj->setBuilder( getObject() );
-
-	// take the required money away from the player
-	if( isRebuild == FALSE )
-	{
-		Money *money = owningPlayer->getMoney();
-
-		money->withdraw( what->calcCostToBuild( owningPlayer ) );
-
-	}  // end if	
-
-	// initialize object
-	obj->setPosition( pos );
-	obj->setOrientation( angle );
-
-	// Flatten the terrain underneath the object, then adjust to the flattened height. jba.
-	TheTerrainLogic->flattenTerrain(obj);
-	Coord3D adjustedPos = *pos;
-	adjustedPos.z = TheTerrainLogic->getGroundHeight(pos->x, pos->y);
-	obj->setPosition(&adjustedPos);
-	
-	// Note - very important that we add to map AFTER we flatten terrain. jba.
-	TheAI->pathfinder()->addObjectToPathfindMap( obj );
-	// "callback" event for structure created (note that it's not yet "complete")
-	owningPlayer->onStructureCreated( getObject(), obj );
-
-	// set a construction percent for the new object to zero and a status for under construction
-	obj->setConstructionPercent( 0.0 );
-
-	// newly constructed objects start at one hit point
-	BodyModuleInterface *body = obj->getBodyModule();
-	body->internalChangeHealth( -body->getHealth() + 1.0f );
-
-	// set the model action state to awaiting construction
-	obj->clearAndSetModelConditionFlags(
-		MAKE_MODELCONDITION_MASK2(MODELCONDITION_PARTIALLY_CONSTRUCTED, MODELCONDITION_ACTIVELY_BEING_CONSTRUCTED), 
-		MAKE_MODELCONDITION_MASK(MODELCONDITION_AWAITING_CONSTRUCTION)
-	);
-
-	// we have a construction pending
-	newTask( DOZER_TASK_BUILD, obj );
-
-	return obj;
-				
-}  // end construct
 
 // ------------------------------------------------------------------------------------------------
 /** Given our current task and repair target, can we accept this as a new repair target */
