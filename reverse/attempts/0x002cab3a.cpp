@@ -1,41 +1,23 @@
 // ?adjustTargetPositionOnVictim@WeaponTemplate@@QAE?AUTargetCoord@@PAVObject@@0_N@Z
-// partial score=0.99 date=2026-10-13
+// partial score=0.93 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /Ireference/shims/bfme2_ascii
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 #include "ascii_string.h"
 class Matrix3D;
-
-enum ObjectStatusTypes
-{
-	TARGET_CONTACT_STATUS_55 = 0x55
-};
-
-class ThingTemplate
-{
+struct ThingKindBytes;
+enum ObjectStatusTypes { OBJECT_STATUS_PLACEHOLDER = 0 };
+typedef bool Bool;
+typedef float Real;
+class Object {
 public:
-	char m_pad00[0x108];
-	unsigned char flag108;
-	unsigned char flag109;
+ bool getSingleLogicalBonePosition(const char*,Coord3D*,Matrix3D*)const;
+ bool testStatus(ObjectStatusTypes) const;
+ bool getWorldspaceBestContactPoint(Coord3D*,const Coord3D*,const char*,int,int,bool) const;
+ char m_pad[4];
+ ThingKindBytes *m_template; // +0x04
+ char m_pad08[0x38-0x08];
+ Coord3D m_position; // +0x38
 };
-
-class Object
-{
-public:
-	bool getSingleLogicalBonePosition(const char*,Coord3D*,Matrix3D*)const;
-	bool testStatus(ObjectStatusTypes) const;
-	bool getWorldspaceBestContactPoint(Coord3D*,const Coord3D*,const char*,int,int,bool) const;
-};
-
-class Rva0073A1C0FloatField
-{
-public:
-	float get() const;
-};
-
-class GlobalData;
-extern GlobalData *TheWritableGlobalData;
-struct TargetHeightCapView { char unknown00[0x11c4]; float heightCap; };
-int GetGameLogicRandomValue(int, int, char *, int);
 class Rva002CAAFA {
 public:bool rva002CAAFA(Object *victim,Coord3D *out);
 private:char unknown00[0x90];AsciiString bone;
@@ -51,49 +33,87 @@ bool Rva002CAAFA::rva002CAAFA(Object *victim,Coord3D *out)
  }
  return false;
 }
-struct TargetCoord : Coord3D
+
+// ---- caller 0x002CAB3A: ?adjustTargetPositionOnVictim@WeaponTemplate@@QAEXPAUCoord3D@@PAVObject@@0_N@Z
+// Retail 0x2CAB3A..0x2CAC6B RET0x10; WB 0xBB2780 gives the branch order.
+// victim==0 -> out (0,0,0); else the logical-bone helper fills pos; else the
+// flagged path asks the victim for its worldspace best contact point with a
+// GetGameLogicRandomValue jitter, and the plain path copies the victim's
+// position and clamps a +0xA8 float offset by GlobalData::m_11C4 when the
+// victim template is structure-kind, the source template lacks kind byte
+// +0x109 bit 8 and neither object carries status 0x55.
+struct ThingKindBytes
 {
-	__forceinline TargetCoord() {}
-	__forceinline TargetCoord(const TargetCoord &p) { x = p.x; y = p.y; z = p.z; }
+	unsigned char m_pad[0x108];
+	unsigned char m_kindOf[0x20];	// template +0x108; [0] bit 0x80 STRUCTURE, [1] bit 0x08
 };
+
+int __cdecl GetGameLogicRandomValue(int lo, int hi, char *file, int line);
+
+class Rva0073A1C0FloatField
+{
+public:
+	float get() const;
+};
+
+class GlobalData
+{
+public:
+	char m_pad00[0x11C4];
+	float m_11C4;
+};
+
+extern GlobalData *TheWritableGlobalData;
+
+struct TargetCoord
+{
+	float x, y, z;
+	TargetCoord() {}
+	TargetCoord(float a, float b, float c) : x(a), y(b), z(c) {}
+	TargetCoord(const Coord3D &p) : x(p.x), y(p.y), z(p.z) {}
+};
+
 class WeaponTemplate
 {
 public:
-	TargetCoord adjustTargetPositionOnVictim(Object *source, Object *victim, bool randomContact);
+	TargetCoord adjustTargetPositionOnVictim(Object *source, Object *victim, Bool flag);
 };
-TargetCoord WeaponTemplate::adjustTargetPositionOnVictim(Object *source, Object *victim, bool randomContact)
+
+TargetCoord WeaponTemplate::adjustTargetPositionOnVictim(Object *source, Object *victim, Bool flag)
 {
-	TargetCoord pos;
+	Coord3D pos;
 	pos.x = 0.0f;
 	pos.y = 0.0f;
 	pos.z = 0.0f;
-	if (!victim)
+
+	if (victim == 0)
+		return TargetCoord(0.0f, 0.0f, 0.0f);
+
+	if (((Rva002CAAFA *)this)->rva002CAAFA(victim, &pos))
 		return pos;
-	if (reinterpret_cast<Rva002CAAFA *>(this)->rva002CAAFA(victim, &pos))
-		return pos;
-	if (randomContact) {
-		victim->getWorldspaceBestContactPoint(&pos, (const Coord3D *)((const char *)source + 0x38), 0, 3,
-			GetGameLogicRandomValue(0, 12345678, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Weapon.cpp", 1749), false);
+
+	if (flag)
+	{
+		int jitter = GetGameLogicRandomValue(0, 0xBC614E,
+			"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Weapon.cpp",
+			0x6D5);
+		victim->getWorldspaceBestContactPoint(&pos, &source->m_position, 0, 3, jitter, false);
 	}
-	else {
-		static_cast<Coord3D &>(pos) = *(const Coord3D *)((const char *)victim + 0x38);
-		float height = reinterpret_cast<const Rva0073A1C0FloatField *>((const char *)victim + 0xa8)->get();
-		const ThingTemplate *victimT = *(const ThingTemplate *const *)((const char *)victim + 4);
-		const ThingTemplate *sourceT = *(const ThingTemplate *const *)((const char *)source + 4);
-		if ((victimT->flag108 & 0x80) && !(sourceT->flag109 & 8) && !source->testStatus(TARGET_CONTACT_STATUS_55) && victim->testStatus(TARGET_CONTACT_STATUS_55)) {
-			const float &cap = reinterpret_cast<const TargetHeightCapView *>(TheWritableGlobalData)->heightCap;
-			if (height > cap) {
-				pos.z = cap + pos.z;
-			}
-			else {
-				float z = pos.z;
-				pos.z = z + height;
-			}
+	else
+	{
+		pos = victim->m_position;
+		Real offset = ((Rva0073A1C0FloatField *)((char *)victim + 0xa8))->get();
+		if ((victim->m_template->m_kindOf[0] & 0x80) != 0 &&
+			(source->m_template->m_kindOf[1] & 0x08) == 0 &&
+			!source->testStatus((ObjectStatusTypes)0x55) &&
+			victim->testStatus((ObjectStatusTypes)0x55))
+		{
+			Real clamp = TheWritableGlobalData->m_11C4;
+			if (offset > clamp)
+				offset = clamp;
 		}
-		else {
-			float z = pos.z;
-			pos.z = z + height;
-		}
+		pos.z = pos.z + offset;
 	}
+
 	return pos;
 }
