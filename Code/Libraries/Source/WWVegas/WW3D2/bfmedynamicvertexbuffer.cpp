@@ -91,6 +91,8 @@ public:
  void Copy(const Vector3 *,const Vector3 *,const Vector2 *,const Vector4 *,unsigned,unsigned);
  void Copy(const Vector3 *,const Vector2 *,const Vector4 *,unsigned,unsigned);
  void Copy(const Vector3 *,const Vector2 *,unsigned,unsigned);
+ void Copy(const Vector3 *,unsigned,unsigned);
+ void Copy(const Vector3 *,const Vector3 *,unsigned,unsigned);
  BfmeDynamicVertexBuffer9 *Get_DX8_Vertex_Buffer() const { return reinterpret_cast<BfmeDynamicVertexBuffer9 *>(buffer); }
 };
 class BfmeDynamicSortingVB:public BfmeDynamicVBBase {
@@ -735,6 +737,80 @@ void BfmeDynamicNativeVB::Copy(const Vector3 *loc, const Vector2 *uv, unsigned f
 			verts[v].z = (*loc++)[2];
 			verts[v].u1 = (*uv)[0];
 			verts[v].v1 = (*uv++)[1];
+		}
+	}
+}
+
+// upstream layout: dx8fvf.h VertexFormatXYZ (12 bytes).
+struct VertexFormatXYZ
+{
+	float x;
+	float y;
+	float z;
+};
+
+// upstream layout: dx8fvf.h VertexFormatXYZN (24 bytes).
+struct VertexFormatXYZN
+{
+	float x;
+	float y;
+	float z;
+	float nx;
+	float ny;
+	float nz;
+};
+
+// Zero Hour's DX8VertexBufferClass::Copy for XYZ, dx8vertexbuffer.cpp
+// (retail 0x00139BF0, between the XYZNUV1 and XYZUV1 copies as upstream
+// orders them): same lock dance, positions only.
+void BfmeDynamicNativeVB::Copy(const Vector3 *loc, unsigned first_vertex, unsigned count)
+{
+	if (first_vertex) {
+		VertexBufferClass::AppendLockClass l(reinterpret_cast<VertexBufferClass *>(this), first_vertex, count);
+		VertexFormatXYZ *verts = (VertexFormatXYZ *)l.Get_Vertex_Array();
+		for (unsigned v = 0; v < count; ++v) {
+			verts[v].x = (*loc)[0];
+			verts[v].y = (*loc)[1];
+			verts[v].z = (*loc++)[2];
+		}
+	}
+	else {
+		VertexBufferClass::WriteLockClass l(reinterpret_cast<VertexBufferClass *>(this));
+		VertexFormatXYZ *verts = (VertexFormatXYZ *)l.Get_Vertex_Array();
+		for (unsigned v = 0; v < count; ++v) {
+			verts[v].x = (*loc)[0];
+			verts[v].y = (*loc)[1];
+			verts[v].z = (*loc++)[2];
+		}
+	}
+}
+
+// Zero Hour's DX8VertexBufferClass::Copy for XYZN, dx8vertexbuffer.cpp
+// (retail 0x00139FE0, after the XYZUV1 copy): positions and normals.
+void BfmeDynamicNativeVB::Copy(const Vector3 *loc, const Vector3 *norm, unsigned first_vertex, unsigned count)
+{
+	if (first_vertex) {
+		VertexBufferClass::AppendLockClass l(reinterpret_cast<VertexBufferClass *>(this), first_vertex, count);
+		VertexFormatXYZN *verts = (VertexFormatXYZN *)l.Get_Vertex_Array();
+		for (unsigned v = 0; v < count; ++v) {
+			verts[v].x = (*loc)[0];
+			verts[v].y = (*loc)[1];
+			verts[v].z = (*loc++)[2];
+			verts[v].nx = (*norm)[0];
+			verts[v].ny = (*norm)[1];
+			verts[v].nz = (*norm++)[2];
+		}
+	}
+	else {
+		VertexBufferClass::WriteLockClass l(reinterpret_cast<VertexBufferClass *>(this));
+		VertexFormatXYZN *verts = (VertexFormatXYZN *)l.Get_Vertex_Array();
+		for (unsigned v = 0; v < count; ++v) {
+			verts[v].x = (*loc)[0];
+			verts[v].y = (*loc)[1];
+			verts[v].z = (*loc++)[2];
+			verts[v].nx = (*norm)[0];
+			verts[v].ny = (*norm)[1];
+			verts[v].nz = (*norm++)[2];
 		}
 	}
 }
