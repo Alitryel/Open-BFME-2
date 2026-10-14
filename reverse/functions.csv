@@ -88620,3 +88620,5 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ?rva006d5e90@Rva006D5E70String@@QAEHH@Z,,0x006D5E90,45,Code/Libraries/Source/EA/Apt/AptString/Rva006D5E70Cluster.cpp,matched,codepoint at index via rowed cursor 0x006D4D40 and decoder 0x006D3E40; -1 out of range
 ??0Rva006D6300Value@@QAE@H@Z,,0x006D6300,25,Code/Libraries/Source/Apt/AptValue/Rva006D6300TypedValueCtors.cpp,matched,pass-through type ctor over rowed AptValue ctor 0x006DCCC0; vtable 0x00CE8BA0
 ??0Rva006D6320Value@@QAE@H@Z,,0x006D6320,25,Code/Libraries/Source/Apt/AptValue/Rva006D6300TypedValueCtors.cpp,matched,pass-through type ctor over rowed AptValue ctor 0x006DCCC0; vtable 0x00CEA1EC
+?rva006CFFB0@Rva008951B0Owner@@QAEXABVRva008951B0Handle@@@Z,,0x006CFFB0,38,Code/Libraries/Source/Apt/AptLoadCountedOwner.cpp,matched,erase-after tail of rowed remover 0x006CFFE0; 8-byte node to chain pool E176E8
+?contains@Rva006D2850Block@@QBE_NPBX@Z,,0x006D2850,35,Code/Libraries/Source/Apt/AptLoadCountedOwner.cpp,matched,payload range test +0x0C base over +4 minus +8

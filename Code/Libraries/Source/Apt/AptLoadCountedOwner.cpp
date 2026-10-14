@@ -18,7 +18,7 @@ class Rva006D07E0Key{public:Rva006D0280*m_object;
 };
 class Rva008951B0Node{public:Rva006D0280*entry;Rva008951B0Node*next;};
 class Rva008951B0Handle{public:Rva008951B0Node*node;};
-class Rva008951B0Owner{public:Rva008951B0Node*head;void rva006CFFE0(const Rva008951B0Handle&);void rva006D25C0(Rva006D07E0Key,void*,void*,void*);};
+class Rva008951B0Owner{public:Rva008951B0Node*head;void rva006CFFB0(const Rva008951B0Handle&);void rva006CFFE0(const Rva008951B0Handle&);void rva006D25C0(Rva006D07E0Key,void*,void*,void*);};
 class Rva006D1D10{public:void update(Rva006D07E0Key,Rva006D07E0Key);};
 class AptLinker;extern AptLinker*g_bfmeAptLinkerAtE176F8;
 class Rva006E58D0{public:void rva006E58D0Body(void*,void*,void*);};
@@ -71,4 +71,28 @@ void Rva008951B0Owner::rva006D25C0(Rva006D07E0Key key,void*data,void*constant,vo
  key.m_object->setData(data,p->mainCharacter,buffer);
  if(p->mainCharacter)p->mainCharacter=(Rva006E58D0*)((char*)p->mainCharacter-(unsigned)data);
  ((void(__cdecl*)(void*))g_aptFreeConstantTableSlot)(p);
+}
+
+// Native6CFFB0..6CFFD3 RET4: erase the node after the handle's node, the same
+// unlink-and-free tail the rowed remover 0x006CFFE0 ends with (an 8-byte node
+// back to the chain-block pool, freed even when null). The receiver is not
+// read. Retail re-reads the link through the handle (mov edx,ecx then
+// [edx+4]); naming the victim for the unlink loses that copy. Address name.
+void Rva008951B0Owner::rva006CFFB0(const Rva008951B0Handle &h)
+{
+	Rva008951B0Node *victim = h.node->next;
+	if (h.node->next)
+		h.node->next = h.node->next->next;
+	g_pChainBlockAllocator->freeBlock(victim, 8);
+}
+
+// Native6D2850..6D2872 RET4, directly after the RET16 of rva006D25C0: is the
+// pointer inside the block's payload, which starts at +0x0C and spans the
+// +0x04 total minus the +0x08 field. Address name and field names.
+class Rva006D2850Block{public:int m_0;unsigned m_total;unsigned m_used;char m_data[1];bool contains(const void*)const;};
+bool Rva006D2850Block::contains(const void *p) const
+{
+	if (p >= m_data && p < m_data + (m_total - m_used))
+		return true;
+	return false;
 }
