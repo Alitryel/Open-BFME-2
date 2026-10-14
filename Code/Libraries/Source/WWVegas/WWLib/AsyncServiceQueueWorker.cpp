@@ -22,7 +22,7 @@ namespace _STL {
 // STLport4.5.3 _list.h single-node splice; keep real body visible.
 template<> __declspec(noinline) void WorkList::splice(iterator position,list&,iterator item){
  iterator next=item;++next;
- if(position==item||position==next)return;
+ if(position._M_node==item._M_node||position._M_node==next._M_node)return;
  _List_global_inst::_Transfer(position._M_node,item._M_node,next._M_node);
 }
 }
