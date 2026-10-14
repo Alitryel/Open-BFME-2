@@ -328,14 +328,18 @@ void Rva000E2F5EHeightScale(ID3DXEffect *effect, D3DXHANDLE handle)
 	effect->SetFloat(handle, 0.0390625f);
 }
 
-// ?rva000E2DFD@Rva000E2DFD@@QAEXPBD0PAVFXShaderParameterBinder@@@Z @0x000E2DFD 186B
+// ?ResolveBindings@SourceNamespace_Map@TerrainFXShaderParameterSourceNamespace@@UAEXPBD0PAVFXShaderParameterBinder@@@Z @0x000E2DFD 186B
 // Terrain FX four-name ResolveBindings dispatcher (Size, CellSize,
 // HeightScale, BorderWidth), same WaterDraw member pattern as the rowed
 // particle dispatcher Rva001F69B1 and the Rva000E236D terrain twin: base call,
 // Rva001530E9Parse split, comparator calls, selected callback wrapped for
 // AddBinding. Retail loads the comparator address once and reuses the name
 // slot for the selected callback, so the source models both explicitly.
-// Identity is address-derived: no vtable slot evidence yet.
+// Identity: slot 1 of the fifth terrain sub-binder vtable 0x00BCE4F0 (the
+// binder at TerrainFXShaderParameterSourceNamespace+0x18); WorldBuilder names
+// it TerrainFXShaderParameterSourceNamespace::SourceNamespace_Map::ResolveBindings
+// (FlatHeightMap.cpp, strings lead score 3). Virtual override (UAE), scope
+// spelling as the SourceNamespace_Shroud sibling.
 void __cdecl Rva001530E9Parse(const char *name, void *volatile path);
 
 struct Rva001530E9Path
@@ -384,10 +388,17 @@ public:
 
 typedef void (*Rva000E2DFDCallback)(ID3DXEffect *effect, D3DXHANDLE handle);
 
-class Rva000E2DFD : public FXShaderParameterSourceNamespace_Struct
+class TerrainFXShaderParameterSourceNamespace
 {
 public:
-	void rva000E2DFD(const char *name, const char *handle, FXShaderParameterBinder *registry);
+	class SourceNamespace_Map;
+};
+
+class TerrainFXShaderParameterSourceNamespace::SourceNamespace_Map : public FXShaderParameterSourceNamespace_Struct
+{
+public:
+	~SourceNamespace_Map() {}
+	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
 
 void Rva000E2EB7(ID3DXEffect *effect, const char *name);
@@ -395,7 +406,7 @@ void Rva000E2F24(ID3DXEffect *effect, const char *name);
 void Rva000E2F5EHeightScale(ID3DXEffect *effect, const char *name);
 void Rva000E2F77(ID3DXEffect *effect, const char *name);
 
-void Rva000E2DFD::rva000E2DFD(const char *name, const char *handle, FXShaderParameterBinder *registry)
+void TerrainFXShaderParameterSourceNamespace::SourceNamespace_Map::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
 {
 	FXShaderParameterSourceNamespace_Struct::ResolveBindings(name, handle, registry);
 	if (name)

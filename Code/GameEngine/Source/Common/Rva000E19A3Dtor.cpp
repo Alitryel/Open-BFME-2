@@ -188,27 +188,6 @@ public:
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
 
-// The five sub-binders (vtables 0x00BCE4D0..0x00BCE4F0, each { 0x005F45C3,
-// dispatcher }) the terrain dispatcher forwards "Shroud", "Taint", "Cloud",
-// "Weather" and "Map" paths to.
-struct Rva000E236DBinder : public FXShaderParameterSourceNamespace_Struct
-{
-	~Rva000E236DBinder() {}
-	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
-};
-
-struct Rva000E2A81Binder : public FXShaderParameterSourceNamespace_Struct
-{
-	~Rva000E2A81Binder() {}
-	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
-};
-
-struct Rva000E2DFDBinder : public FXShaderParameterSourceNamespace_Struct
-{
-	~Rva000E2DFDBinder() {}
-	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
-};
-
 // Terrain-side interface at +4 (base vtable 0x00C4EF80, four __purecall
 // slots); the singleton g_00DEBC60 points at this subobject.
 class Rva000E19A3Interface
@@ -229,6 +208,30 @@ Rva000E19A3Interface *g_00DEBC60;
 class TerrainFXShaderParameterSourceNamespace : public Base, public Rva000E19A3Interface
 {
 public:
+	// The five sub-binders (vtables 0x00BCE4D0..0x00BCE4F0, each { 0x005F45C3,
+	// dispatcher }) the terrain dispatcher forwards "Shroud", "Taint", "Cloud",
+	// "Weather" and "Map" paths to. Slot 1 of each vtable is, in order,
+	// 0x000E236D, 0x000E25DE, 0x000E2A81, 0x000E2CA7, 0x000E2DFD; WorldBuilder's
+	// FlatHeightMap.cpp names them SourceNamespace_Shroud, _Taint, _Cloud,
+	// _Weather and _Map ::ResolveBindings (string leads).
+	struct SourceNamespace_Shroud : public FXShaderParameterSourceNamespace_Struct
+	{
+		~SourceNamespace_Shroud() {}
+		virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
+	};
+
+	struct SourceNamespace_Cloud : public FXShaderParameterSourceNamespace_Struct
+	{
+		~SourceNamespace_Cloud() {}
+		virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
+	};
+
+	struct SourceNamespace_Map : public FXShaderParameterSourceNamespace_Struct
+	{
+		~SourceNamespace_Map() {}
+		virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
+	};
+
 	class SourceNamespace_Taint : public FXShaderParameterSourceNamespace_Struct
 	{
 	public:
@@ -257,11 +260,11 @@ public:
 	void Rva000E214DBaseTexture(ID3DXEffect *effect, D3DXHANDLE handle);
 	void Rva000E21BENormalTexture(ID3DXEffect *effect, D3DXHANDLE handle);
 private:
-	Rva000E236DBinder m_08;
+	SourceNamespace_Shroud m_08;
 	SourceNamespace_Taint m_0C;
-	Rva000E2A81Binder m_10;
+	SourceNamespace_Cloud m_10;
 	SourceNamespace_Weather m_14;
-	Rva000E2DFDBinder m_18;
+	SourceNamespace_Map m_18;
 	int m_1C;
 	RefCountPtr<TextureClass> m_20;
 	RefCountPtr<TextureClass> m_24;
@@ -326,7 +329,7 @@ void TerrainFXShaderParameterSourceNamespace::Rva000E21BENormalTexture(ID3DXEffe
 		effect->SetTexture(handle, Rva00132F30BlackTexture().Peek_D3D_Base_Texture());
 }
 
-void Rva000E2A81Binder::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
+void TerrainFXShaderParameterSourceNamespace::SourceNamespace_Cloud::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
 {
 	FXShaderParameterSourceNamespace_Struct::ResolveBindings(name, handle, registry);
 	if (name)
