@@ -55002,3 +55002,4 @@ CatchContinuation_0x0073F646	0x0073F646	194	no-boundary	Not a standalone functio
 ?rva00031080@Rva00030C50Heap@@QAE_NPAX00@Z	0x00031080	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE23.cpp 5B; gap leaf beside the GeneralAllocator rows; shape from retail bytes; address-derived name
 ?rva00031770@@YAII@Z	0x00031770	24	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE23.cpp 24B; gap leaf beside the GeneralAllocator rows; shape from retail bytes; address-derived name
 ?rva00030F60@Rva00030C50Heap@@QAEPAUGapChunk@@XZ	0x00030F60	165	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE23.cpp 165B; x
+?rva000320E0@GeneralAllocator@Allocator@EA@@QAEIPAXI_N1@Z	0x000320E0	128	landed	add_match verified Code/GameEngine/Source/Common/System/memory_pool.cpp 128B; locked GeneralAllocator count: the 0x32050 per-chunk count plus free-chunk bits; shape from retail bytes; address-derived name

@@ -133,6 +133,8 @@ public:
 	unsigned int rva00032A20(const void *block);		// GetUsableSize-like
 	int rva00031D00(void *block);				// callee of 0x32160 (body unrecovered, address-derived name)
 	unsigned int rva00032160(void *block);		// locked 0x31D00 count plus fencepost bit and second-list membership test
+	unsigned int rva00032050(void *chunk, unsigned int flags);	// locked per-chunk check count (banked, unrecovered; address-derived name)
+	unsigned int rva000320E0(void *chunk, unsigned int flags, bool checkPrev, bool skipPrev);	// locked 0x32050 count plus free-chunk bits
 	unsigned int rva006C1D10(const void *block);		// fast usable-size with tail call to 0x32A20 caller 0x6C36FD
 	void *rva00031B60(const void *block);
 	void *rva00031680(const void *block);	// intrusive-list search unblocking 0x31BB0 0x31D00 0x32920
@@ -471,6 +473,33 @@ unsigned int GeneralAllocator::rva00032160(void *block)
 		LeaveCriticalSection(lock);
 	}
 	return total;
+}
+
+// ?rva000320E0@GeneralAllocator@Allocator@EA@@QAEIPAXI_N1@Z @0x000320E0 128B
+// Under the +0x4E4 lock: the 0x32050 count for the chunk, plus one when the
+// following chunk's in-use bit is clear (this chunk is free), plus one more
+// when the third argument is set, the fourth clear and the chunk's own
+// prev-in-use bit is clear. Argument labels are descriptive only.
+unsigned int GeneralAllocator::rva000320E0(void *chunk, unsigned int flags, bool checkPrev, bool skipPrev)
+{
+	Lock *lock = m_4E4;
+	if (lock != 0)
+	{
+		EnterCriticalSection(lock);
+		++lock->m_count;
+	}
+
+	unsigned int *header = (unsigned int *)chunk;
+	unsigned int isFree = ((unsigned char)~*((unsigned char *)chunk + (header[1] & 0x7FFFFFF8) + 4)) & 1 && 1;
+	unsigned int result = rva00032050(chunk, flags) + isFree;
+	if (checkPrev && !skipPrev)
+		result += ((unsigned char)~*((unsigned char *)chunk + 4)) & 1 && 1;
+	if (lock != 0)
+	{
+		--lock->m_count;
+		LeaveCriticalSection(lock);
+	}
+	return result;
 }
 
 // ?rva00032A20@GeneralAllocator@Allocator@EA@@QAEIPBX@Z @0x00032A20 146B
