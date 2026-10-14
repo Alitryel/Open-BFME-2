@@ -205,3 +205,170 @@ int Rva003B9F8CParse(char *args[],int num) {
     g_Va00E02D94.set(args[2]);
     return 1;
 }
+
+// The run of unlisted parsers at 0x003B97C0..0x003B9977 (same shape as the
+// ones above): byte switches, and three atoi stores that consume the next
+// argument. Their command names are not recovered; the GlobalData offsets
+// are the stores retail makes.
+struct CommandLineSwitchView2
+{
+    char pad0000[0x2c - 0x0];
+    bool m_bfme2C;
+    char pad002D[0x9a4 - 0x2d];
+    bool m_bfme9A4;
+    char pad09A5[0x9ac - 0x9a5];
+    bool m_bfme9AC;
+    char pad09AD[0x9af - 0x9ad];
+    bool m_bfme9AF;
+    char pad09B0[0x9c2 - 0x9b0];
+    bool m_bfme9C2;
+    char pad09C3[0x9c6 - 0x9c3];
+    bool m_bfme9C6;
+    char pad09C7[0x9c8 - 0x9c7];
+    bool m_bfme9C8;
+    char pad09C9[0x9d0 - 0x9c9];
+    bool m_bfme9D0;
+    bool m_bfme9D1;
+    bool m_bfme9D2;
+    char pad09D3[0x9d8 - 0x9d3];
+    bool m_bfme9D8;
+    char pad09D9[0x9e4 - 0x9d9];
+    bool m_bfme9E4;
+    char pad09E5[0x9e8 - 0x9e5];
+    int m_bfme9E8;
+    char pad09EC[0xa44 - 0x9ec];
+    int m_bfmeA44;
+    char pad0A48[0xab5 - 0xa48];
+    bool m_bfmeAB5;
+    char pad0AB6[0xb01 - 0xab6];
+    bool m_bfmeB01;
+    char pad0B02[0xb6e - 0xb02];
+    bool m_bfmeB6E;
+    char pad0B6F[0xc30 - 0xb6f];
+    int m_bfmeC30;
+};
+
+#define TheSwitches2 ((CommandLineSwitchView2 *)TheWritableGlobalData)
+
+// Native 3B97C0..3B97E9: sets +9C2, +9C6 and +2C true.
+int Rva003B97C0Parse(char *args[],int num) {
+    if(TheWritableGlobalData) {
+        TheSwitches2->m_bfme9C2=true;
+        TheSwitches2->m_bfme9C6=true;
+        TheSwitches2->m_bfme2C=true;
+    }
+    return 1;
+}
+
+// Native 3B97E9: sets +AB5 true.
+int Rva003B97E9Parse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfmeAB5=true;
+    return 1;
+}
+
+// Native 3B97FD: sets +9AF false.
+int Rva003B97FDParse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfme9AF=false;
+    return 1;
+}
+
+// Native 3B9811: sets +9E4 true.
+int Rva003B9811Parse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfme9E4=true;
+    return 1;
+}
+
+// Native 3B9825: sets +9A4 true.
+int Rva003B9825Parse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfme9A4=true;
+    return 1;
+}
+
+// Native 3B9839: sets +9C6 true.
+int Rva003B9839Parse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfme9C6=true;
+    return 1;
+}
+
+// Native 3B984D: sets +9C8 true.
+int Rva003B984DParse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfme9C8=true;
+    return 1;
+}
+
+// Native 3B9861: sets +9D0 true.
+int Rva003B9861Parse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfme9D0=true;
+    return 1;
+}
+
+// Native 3B9875: sets +9D1 true.
+int Rva003B9875Parse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfme9D1=true;
+    return 1;
+}
+
+// Native 3B9889: sets +9D2 true.
+int Rva003B9889Parse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfme9D2=true;
+    return 1;
+}
+
+// Native 3B989D: sets +9D8 true.
+int Rva003B989DParse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfme9D8=true;
+    return 1;
+}
+
+// Native 3B98B1: atoi of the argument into +9E8.
+int Rva003B98B1Parse(char *args[],int num) {
+    if(TheWritableGlobalData && num>1)
+        TheSwitches2->m_bfme9E8=atoi(args[1]);
+    return 2;
+}
+
+// Native 3B98DF: sets +B01 true.
+int Rva003B98DFParse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfmeB01=true;
+    return 1;
+}
+
+// Native 3B98F3: atoi of the argument into +A44.
+int Rva003B98F3Parse(char *args[],int num) {
+    if(TheWritableGlobalData && num>1)
+        TheSwitches2->m_bfmeA44=atoi(args[1]);
+    return 2;
+}
+
+// Native 3B9921: sets +9AC true.
+int Rva003B9921Parse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfme9AC=true;
+    return 1;
+}
+
+// Native 3B9935: atoi of the argument into +C30.
+int Rva003B9935Parse(char *args[],int num) {
+    if(TheWritableGlobalData && num>1)
+        TheSwitches2->m_bfmeC30=atoi(args[1]);
+    return 2;
+}
+
+// Native 3B9963: sets +B6E true.
+int Rva003B9963Parse(char *args[],int num) {
+    if(TheWritableGlobalData)
+        TheSwitches2->m_bfmeB6E=true;
+    return 1;
+}
+
