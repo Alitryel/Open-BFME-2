@@ -15,7 +15,7 @@ class W3DTreeBuffer
 {
 public:
     bool rva000ECF2A(unsigned key, int mode);
-    void rva000ECA4D(int index, int mode);
+    void startMorph(int index, int mode);
     unsigned char pad00[0x5C0];
     TreeLookupRecord records[1200];
     int count;
@@ -36,7 +36,7 @@ bool W3DTreeBuffer::rva000ECF2A(unsigned key, int mode)
     {
         if (records[index].key == key && records[index].state <= 0 && records[index].guard == 0)
         {
-            rva000ECA4D(index, mode);
+            startMorph(index, mode);
             return true;
         }
     }

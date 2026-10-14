@@ -43,7 +43,7 @@ private:
 	_STL::deque<BfmeE32, _STL::allocator<BfmeE32> > records;
 
 	void processPending(bool drainAll);
-	void rva0073CCC0(int field04, int field08, void *field0c,
+	void UndoShroudReveal(int field04, int field08, void *field0c,
 		float rotation, int field1c);
 };
 
@@ -54,7 +54,7 @@ void ShroudManagerImpl::processPending(bool drainAll)
 	while (!records.empty() && records.front().timestamp < compareTime)
 	{
 		BfmeE32 &record = records.front();
-		rva0073CCC0(record.field04, record.field08, &record.field0c,
+		UndoShroudReveal(record.field04, record.field08, &record.field0c,
 			record.rotation, record.field1c);
 		records.pop_front();
 	}

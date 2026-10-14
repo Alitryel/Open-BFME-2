@@ -721,7 +721,7 @@ float Rva002FD661::rva002FD661()
 class Pathfinder
 {
 public:
-	void rva002F0F07();										// 0x002F0F07
+	void ProcessPathfindQueue();										// 0x002F0F07
 };
 
 class PlayerList;
@@ -745,7 +745,7 @@ private:
 
 void Rva002FD7DC::rva002FD7DC()
 {
-	m_10->rva002F0F07();
+	m_10->ProcessPathfindQueue();
 	((Rva002FD7DCPlayerListView *)ThePlayerList)->slot10();
 }
 

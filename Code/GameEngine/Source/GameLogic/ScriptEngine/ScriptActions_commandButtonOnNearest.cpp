@@ -141,7 +141,7 @@ public:
 	Player *getControllingPlayer() const;						// 0x0028AFA9
 	bool rva002922D9(const CommandButton *button);					// 0x002922D9
 	void rva00297000(const CommandButton *button, Object *target, int source, int flags);	// 0x00297000
-	void rva00297149(const CommandButton *button, const Coord3D *pos, int source, int flags);	// 0x00297149
+	void doCommandButtonAtPosition(const CommandButton *button, const Coord3D *pos, int source, int flags);	// 0x00297149
 	const Coord3D *getPosition() const { return &m_pos; }
 	char m_pad000[0x38];
 	Coord3D m_pos;			// +0x38
@@ -213,7 +213,7 @@ void ScriptActions::rva003BD905(const AsciiString &unitName, const AsciiString &
 					*(BfmeFixedStorage0004543D *)&mask)
 					.link(&Rva002611BFFilter(obj))));
 		if (target)
-			obj->rva00297149(button, target->getPosition(), 1, 0);
+			obj->doCommandButtonAtPosition(button, target->getPosition(), 1, 0);
 	} else {
 		Object *target = ThePartitionManager->getClosestObject(obj->getPosition(), REALLY_FAR, 0,
 			Rva00261409Filter(obj->getControllingPlayer(), true, 4)
@@ -265,7 +265,7 @@ void ScriptActions::rva003BDC65(const AsciiString &unitName, const AsciiString &
 					*(BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype)
 					.link(&Rva002611BFFilter(obj))));
 		if (target)
-			obj->rva00297149(button, target->getPosition(), 1, 0);
+			obj->doCommandButtonAtPosition(button, target->getPosition(), 1, 0);
 	} else {
 		Object *target = ThePartitionManager->getClosestObject(obj->getPosition(), REALLY_FAR, 0,
 			Rva00261409Filter(obj->getControllingPlayer(), true, 4)

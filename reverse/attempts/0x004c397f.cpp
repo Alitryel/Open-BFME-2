@@ -126,7 +126,7 @@ class TerrainLogic
 
 {
 public:
-void rva00283642(const ThingTemplate *, const Coord3D *, const Matrix3D *, float);
+void addTree(const ThingTemplate *, const Coord3D *, const Matrix3D *, float);
 void rva00280176(const ThingTemplate *, const Coord3D *, const Matrix3D *, float);
 void rva0027D3D9(const ThingTemplate *, const Coord3D *, const Matrix3D *, float);
 
@@ -196,7 +196,7 @@ _ReadWriteBarrier();
 float scale = templ->scale;
 int kind;
 if ((kind = *(volatile int *)(templ->kinds + 8)) & 0x40000000)
-TheTerrainLogic->rva00283642(templ, position, &matrix, scale);
+TheTerrainLogic->addTree(templ, position, &matrix, scale);
 else if (kind & 0x80000000)
 TheTerrainLogic->rva00280176(templ, position, &matrix, scale);
 else

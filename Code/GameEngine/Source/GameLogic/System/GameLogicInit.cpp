@@ -252,10 +252,10 @@ public:
 	virtual void bridgeSlot2D();
 	virtual void bridgeSlot2E();
 	virtual void addLandmarkBridgeToLogic(Object *bridgeObj); // +0xBC; donor name
-	void rva002817F2(const AsciiString &filename);
+	void LoadAmbientLightmap(const AsciiString &filename);
 	PathfindLayerEnum getLayerForDestination(Object *obj, const Coord3D *pos);
 	void rva0027D3D9(const ThingTemplate *tt, const Coord3D *pos, const Matrix3D *mtx, float scale);
-	void rva00283642(const ThingTemplate *tt, const Coord3D *pos, const Matrix3D *mtx, float scale);
+	void addTree(const ThingTemplate *tt, const Coord3D *pos, const Matrix3D *mtx, float scale);
 	void rva00280176(const ThingTemplate *tt, const Coord3D *pos, const Matrix3D *mtx, float scale);
 };
 
@@ -275,8 +275,8 @@ public:
 class Pathfinder
 {
 public:
-	void rva002E8DAA(void);
-	void rva002F0F07(void);
+	void NewMap(void);
+	void ProcessPathfindQueue(void);
 	void AddObjectToPathfindMap(Object *obj);
 };
 
@@ -1962,7 +1962,7 @@ void GameLogic::rva00246422(bool dontCreate)
 			pos.z = loc->z;
 			Matrix3D mtx(true);
 			if (tt->isKindOf((KindOfType)62))
-				TheTerrainLogic->rva00283642(tt, &pos, &mtx, 1.0f);
+				TheTerrainLogic->addTree(tt, &pos, &mtx, 1.0f);
 			else if (tt->isKindOf((KindOfType)63))
 				TheTerrainLogic->rva00280176(tt, &pos, &mtx, 1.0f);
 		}
@@ -3395,7 +3395,7 @@ void GameLogic::rva002469A5(bool loadingSaveGame, int *progress)
 	((Rva0023C7D2 *)this)->rva0023C7BB(0x13);
 	((Rva0020DXXX *)TheLargeGroupAudio)->rva0020D7F9();
 	((Rva0023C7D2 *)this)->rva0023C7BB(0x14);
-	TheAI->pathfinder()->rva002E8DAA();
+	TheAI->pathfinder()->NewMap();
 	TheTriggerManager->NewMap();
 	((Rva0035A2DC *)m_170)->rva0035A2DC(&extent, TheWritableGlobalData->m_d8);
 	Rva0134FAA0->slot28();
@@ -3642,7 +3642,7 @@ void GameLogic::rva0023E628(AsciiString mapName)
 
 	_imp__sprintf(fullFledgeFilename, "%s\\ambientlightmap.tga", filename);
 	if (TheFileSystem->doesFileExist(fullFledgeFilename))
-		TheTerrainLogic->rva002817F2(fullFledgeFilename);
+		TheTerrainLogic->LoadAmbientLightmap(fullFledgeFilename);
 	else
 		((Rva0062AF7 *)TheTerrainLogic)->Rva0027DA58();
 }
@@ -4690,7 +4690,7 @@ void GameLogic::update(int phase)
 		}
 	}
 
-	TheAI->pathfinder()->rva002F0F07();
+	TheAI->pathfinder()->ProcessPathfindQueue();
 	setFPMode();
 
 	if (first) {
@@ -5277,7 +5277,7 @@ void GameLogic::loadAllObjects(_STL::vector<Rva0024622FEntry> *created, const Ki
 					propScale = TheAI->getAiData()->m_treeScale;
 				}
 				if (useTrees)
-					TheTerrainLogic->rva00283642(thingTemplate, &pos, &mtx, propScale);
+					TheTerrainLogic->addTree(thingTemplate, &pos, &mtx, propScale);
 			} else if (thingTemplate->m_kindof[1] & 0x80000000) {
 				TheTerrainLogic->rva00280176(thingTemplate, &pos, &mtx, propScale);
 			} else if (unnamed) {

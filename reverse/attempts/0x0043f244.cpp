@@ -599,10 +599,10 @@ public:
 	// Unrowed per-slot refreshers called by 0x004427C5, pinned by address:
 	// 0x0043F483 (1072 bytes), 0x004424E7 (734 bytes) and 0x004406BA (792
 	// bytes).
-	void rva0043F483(int slot);
+	void PopulatePlayerCombo(int slot);
 	void rva0043F244(int slot, bool reset);
-	void rva004424E7(int slot);
-	void rva004406BA(int slot);
+	void PopulatePlayerTemplateCombo(int slot);
+	void PopulateHeroCombo(int slot);
 
 	// Unrowed 0x004422DD (522 bytes) and the per-slot 0x00441B15 (607
 	// bytes), called by 0x00442A19, pinned by address.
@@ -1046,11 +1046,11 @@ bool AptMpGameSetup::rva00442C9C()
 // Only caller 0x00442813 (0x004427FA below).
 void AptMpGameSetup::rva004427C5(int slot)
 {
-	rva0043F483(slot);
+	PopulatePlayerCombo(slot);
 	rva0043F244(slot, false);
-	rva004424E7(slot);
+	PopulatePlayerTemplateCombo(slot);
 	rva0043E253(slot);
-	rva004406BA(slot);
+	PopulateHeroCombo(slot);
 }
 
 // Retail 0x004427FA, 46 bytes. Name unknown. Runs 0x004427C5 on all eight
@@ -1447,14 +1447,14 @@ bool AptMpGameSetup::rva00442A68(int index)
 	bool result;
 	if (m_owner->setSlotState(slot, state, name))
 	{
-		rva004424E7(index);
+		PopulatePlayerTemplateCombo(index);
 		result = true;
 		m_2b9 = true;
 		bool mode1 = m_60.m_mode == 1;
 		if (mode1 && (state == 0 || oldState == 0))
 		{
 			for (int i = 1; i < 8; ++i)
-				rva0043F483(i);
+				PopulatePlayerCombo(i);
 		}
 	}
 	else
@@ -1514,7 +1514,7 @@ void AptMpGameSetup::rva0044149C(GameSlot *slot, int index, bool flag)
 			}
 		}
 	}
-	rva004406BA(index);
+	PopulateHeroCombo(index);
 	rva0043E04D(index);
 }
 
@@ -1820,11 +1820,11 @@ bool AptMpGameSetup::rva00443C6E(GameInfo *game, int value)
 	bool mode1 = m_60.m_mode == 1;
 	for (int slot = 7; slot >= 0; --slot)
 	{
-		rva0043F483(slot);
+		PopulatePlayerCombo(slot);
 		rva0044009D(slot);
-		rva004424E7(slot);
+		PopulatePlayerTemplateCombo(slot);
 		rva0043F244(slot, false);
-		rva004406BA(slot);
+		PopulateHeroCombo(slot);
 		if (game->m_8c)
 			m_player[slot]->winEnable(false);
 		else

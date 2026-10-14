@@ -119,7 +119,7 @@ void PhysicsBehavior::rva00390FAF()
 
 class GlobalData { public: char pad00[0xC4]; float gravity; };
 extern GlobalData *TheWritableGlobalData;
-class Pathfinder { public: void rva002EF2A6(Object *); };
+class Pathfinder { public: void AdjustLayer(Object *); };
 class AI { public: char pad00[0x10]; Pathfinder *pathfinder; };
 extern AI *TheAI;
 // Select-any like the PhysicsUpdate.cpp donor copy (this retail body comes
@@ -174,7 +174,7 @@ inline UpdateSleepTime PhysicsBehavior::update()
   nextPoint=&next;
  }
  obj->setNextPosition(nextPoint);
- TheAI->pathfinder->rva002EF2A6(object);
+ TheAI->pathfinder->AdjustLayer(object);
  ++index;
  return rva00390601();
 }

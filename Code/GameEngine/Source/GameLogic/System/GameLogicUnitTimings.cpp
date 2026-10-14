@@ -206,7 +206,7 @@ public:
 #undef V
 	virtual float getGroundHeight(float x, float y, Coord3D *normal = 0) const; // +0x18
 
-	void rva00283642(const ThingTemplate *tmplate, const Coord3D *pos, const Matrix3D *mtx, float scale);
+	void addTree(const ThingTemplate *tmplate, const Coord3D *pos, const Matrix3D *mtx, float scale);
 	void rva00280176(const ThingTemplate *tmplate, const Coord3D *pos, const Matrix3D *mtx, float scale);
 	void rva0027D3D9(const ThingTemplate *tmplate, const Coord3D *pos, const Matrix3D *mtx, float scale);
 };
@@ -665,7 +665,7 @@ void Rva002431CB::rva002431CB()
 						float scale;
 						mtx.Make_Identity(scale,btt->m_treeScale);
 						if (btt->m_treeFlags & 0x40000000)
-							TheTerrainLogic->rva00283642(btt, &pos, &mtx, scale);
+							TheTerrainLogic->addTree(btt, &pos, &mtx, scale);
 						else if (btt->m_treeFlags & 0x80000000)
 							TheTerrainLogic->rva00280176(btt, &pos, &mtx, scale);
 						else

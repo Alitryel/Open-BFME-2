@@ -86,7 +86,7 @@ struct Rva000ECA4DTree
 class W3DTreeBuffer
 {
 public:
-	void rva000ECA4D(Int index, Int request);
+	void startMorph(Int index, Int request);
 
 private:
 	unsigned char m_pad0000[0x5c0];
@@ -108,8 +108,8 @@ static void CopyTreeMatrix3D(Matrix3D &dst, const Matrix3D &src)
     dst[2] = src[2];
 }
 
-// ?rva000ECA4D@W3DTreeBuffer@@QAEXHH@Z
-void W3DTreeBuffer::rva000ECA4D(Int index, Int request)
+// ?startMorph@W3DTreeBuffer@@QAEXHH@Z
+void W3DTreeBuffer::startMorph(Int index, Int request)
 {
 	if (index >= m_numTrees)
 		return;

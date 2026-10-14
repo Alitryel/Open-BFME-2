@@ -45,7 +45,7 @@ class W3DShrubBuffer
 public:
 	int getPartitionBucket(FloatPair const *p);
 	bool rva000E90DB(unsigned key, int mode);
-	void rva000E8C2D(int index, int mode);
+	void startMorph(int index, int mode);
 	unsigned char m_pad0[0x1948];
 	float m_minX;
 	float m_minY;
@@ -90,7 +90,7 @@ bool W3DShrubBuffer::rva000E90DB(unsigned key, int mode)
 	{
 		if (m_records[index].key == key && m_records[index].state <= 0 && m_records[index].guard == 0)
 		{
-			rva000E8C2D(index, mode);
+			startMorph(index, mode);
 			return true;
 		}
 	}

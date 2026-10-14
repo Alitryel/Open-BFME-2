@@ -122,7 +122,7 @@ public:
 	void SetupMovieClipPlayers();
 	void OnMovieClipLoaded(int first, const AsciiString &second);
 	Rva0020E89C *GetRegion();
-	void rva005D1527();
+	void SetupMovieClipRegionBonuses();
 
 private:
 	char m_pad00[8];
@@ -210,7 +210,7 @@ void StrategicInGameUI::RegionAwardDialog::Impl::OnMovieClipLoaded(int first, co
 		Rva005D13BDStorage *child = new Rva005D13BDStorage(this, first, (int)&second);
 		((Rva00575674 *)&m_rowView)->rva00575674((Object *)child);
 		m_rowView->rva005ED976(Rva005C95ECGet(GetRegion()));
-		rva005D1527();
+		SetupMovieClipRegionBonuses();
 		SetupMovieClipPlayers();
 	}
 }
@@ -234,7 +234,7 @@ struct RegionBonusFields
 // Region field meanings are independently supported by the four native labels;
 // offsets90..A0 are read from the target. Inline scalar accessors preserve argument
 // loads before the following UnicodeString branch and match all651 bytes.
-void StrategicInGameUI::RegionAwardDialog::Impl::rva005D1527() {
+void StrategicInGameUI::RegionAwardDialog::Impl::SetupMovieClipRegionBonuses() {
  const RegionBonusFields*region=(const RegionBonusFields*)GetRegion();
  UnicodeString text;
  bool found;

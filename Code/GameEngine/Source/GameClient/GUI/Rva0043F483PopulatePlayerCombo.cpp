@@ -1,4 +1,4 @@
-// ?rva0043F483@AptMpGameSetup@@QAEXH@Z
+// ?PopulatePlayerCombo@AptMpGameSetup@@QAEXH@Z
 // retail 0x0043F483, 1072 bytes, WB AptMpGameSetup::PopulatePlayerCombo.
 // Lever (W7-MP3 r8): eq3c equal-arm on TheWritableGlobalData->modeFlags closes the
 // full-body mismatch. Kept the existing address-derived ledger spelling.
@@ -896,10 +896,10 @@ public:
 	// Unrowed per-slot refreshers called by 0x004427C5, pinned by address:
 	// 0x0043F483 (1072 bytes), 0x004424E7 (734 bytes) and 0x004406BA (792
 	// bytes).
-	void rva0043F483(int slot);
+	void PopulatePlayerCombo(int slot);
 	void rva0043F244(int slot, bool reset);
-	void rva004424E7(int slot);
-	void rva004406BA(int slot);
+	void PopulatePlayerTemplateCombo(int slot);
+	void PopulateHeroCombo(int slot);
 
 	// Unrowed 0x004422DD (522 bytes), called by 0x00442A19, pinned by
 	// address.
@@ -1008,7 +1008,7 @@ int AptLobbyRandomColorTint=-1;
 GameWindow* GadgetComboBoxGetListBox(GameWindow*);
 void GadgetComboBoxSetItemData(GameWindow*,int,void*);
 int GadgetComboBoxAddEntry(GameWindow*,UnicodeString,int);
-void AptMpGameSetup::rva0043F483(int slot)
+void AptMpGameSetup::PopulatePlayerCombo(int slot)
 {
     GameWindow** combo = &m_player[slot];
     if (!*combo) return;

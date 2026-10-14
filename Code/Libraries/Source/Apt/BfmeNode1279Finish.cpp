@@ -3,7 +3,7 @@
 //
 // Evidence: LINK BONUS caller names it bfmeFinish1279; callers 0x006F7287 0x006F8133;
 // teardown sequence matches AptCIH cluster (bfmeDrop 0x006D2580, singleton 0xE176D0+0x6C
-// slot1 Release then clear, AptCIH::rva006E2690 flag 0xE18348, queue 0xE176D0+0xA0
+// slot1 Release then clear, AptCIH::ClearCIH flag 0xE18348, queue 0xE176D0+0xA0
 // AptActionQueueC::RemoveActionFor, AptAnimationPoolData::removeFromBIL, refCount>1 assert
 // pNext/pPrev AptCIH.cpp:0xB6 via shared assert triple, bfmeUnlinkNestedBE,
 // setIsDefined(false) gated on 0xC0000, tail Release slot1).
@@ -26,7 +26,7 @@ class AptCIH
 public:
 	virtual void AddRef();
 	virtual void Release();
-	void rva006E2690(int arg);
+	void ClearCIH(int arg);
 };
 
 class AptActionQueueC
@@ -83,9 +83,9 @@ void BfmeNode1279::bfmeFinish1279()
 		g_bfmeAptPtrAtE176D0->m_6c = 0;
 	}
 	if (g_00E18348)
-		((AptCIH *)this)->rva006E2690(0);
+		((AptCIH *)this)->ClearCIH(0);
 	else
-		((AptCIH *)this)->rva006E2690(1);
+		((AptCIH *)this)->ClearCIH(1);
 	g_bfmeAptPtrAtE176D0->m_queue->RemoveActionFor(this);
 	((AptAnimationPoolData *)g_bfmeAptPtrAtE176D0)->removeFromBIL((AptCIH *)this);
 	if (getRefCount() > 1) {

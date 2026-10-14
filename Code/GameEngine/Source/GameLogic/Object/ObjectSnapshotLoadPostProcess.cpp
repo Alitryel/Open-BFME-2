@@ -56,7 +56,7 @@ virtual void*slot39(const AsciiString&);
 };
 extern TerrainLogic*TheTerrainLogic;
 class WeaponSet{public:void updateWeaponSet(const Object*);};
-class Pathfinder{public:void rva002EF2A6(Object*);void AddObjectToPathfindMap(Object*);};
+class Pathfinder{public:void AdjustLayer(Object*);void AddObjectToPathfindMap(Object*);};
 class Rva0022AEE4Subsystem{public:char pad[16];Pathfinder*pathfinder;};
 class AI;
 extern AI *TheAI;
@@ -83,7 +83,7 @@ void Rva00293EFFLoadView::LoadPostProcess(){
  _STL::list<CameraMarker>::iterator it=names.begin();while(it!=names.end()){
  int index=(int)it->index;AsciiString name=it->name;binding[index].region=TheTerrainLogic->slot39(name);it=names.erase(it);
  }
- weapons.updateWeaponSet(original());if(original()->rva0028B511()!=1)((Rva0022AEE4Subsystem *)TheAI)->pathfinder->rva002EF2A6(original());
+ weapons.updateWeaponSet(original());if(original()->rva0028B511()!=1)((Rva0022AEE4Subsystem *)TheAI)->pathfinder->AdjustLayer(original());
  if(!(original()->templ->kind10F&0x10))((Rva0022AEE4Subsystem *)TheAI)->pathfinder->AddObjectToPathfindMap(original());
  if(original()->templ->kind11F&0x40){
  LoadDelayedFlagBackup delayed;

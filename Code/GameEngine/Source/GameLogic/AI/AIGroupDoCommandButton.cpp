@@ -19,11 +19,11 @@ enum CommandSourceType
 class Object
 {
 public:
-	void rva00297149(const CommandButton *commandButton, const Coord3D *pos, int cmdSource, int bfmeArg);
+	void doCommandButtonAtPosition(const CommandButton *commandButton, const Coord3D *pos, int cmdSource, int bfmeArg);
 	void rva00297000(const CommandButton *commandButton, Object *obj, int cmdSource, int bfmeArg);
 	void doCommandButtonAtPosition(const CommandButton *commandButton, const Coord3D *pos, CommandSourceType cmdSource)
 	{
-		rva00297149(commandButton, pos, cmdSource, 0);
+		doCommandButtonAtPosition(commandButton, pos, cmdSource, 0);
 	}
 	void doCommandButtonAtObject(const CommandButton *commandButton, Object *obj, CommandSourceType cmdSource)
 	{

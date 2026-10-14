@@ -32,7 +32,7 @@ class Object
 {
 public:
 	void doCommandButton(const CommandButton *button, Int a, bool b);
-	void rva00297149(const CommandButton *button, const Coord3D *pos, Int a, Int b);
+	void doCommandButtonAtPosition(const CommandButton *button, const Coord3D *pos, Int a, Int b);
 };
 struct Rva005EE2CFPos
 {
@@ -66,7 +66,7 @@ private:
 };
 void Rva005EE2CF::rva005EE2CF(Object *obj)
 {
-	obj->rva00297149(m_08, (const Coord3D *)&m_1C, 1, 0);
+	obj->doCommandButtonAtPosition(m_08, (const Coord3D *)&m_1C, 1, 0);
 }
 
 // 0x00596BA2: the unsigned +0x38 count as a Real (the argument is unused).

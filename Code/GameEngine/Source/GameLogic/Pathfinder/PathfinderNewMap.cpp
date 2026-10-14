@@ -1,6 +1,6 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
 //
-// ?rva002E8DAA@Pathfinder@@QAEXXZ retail 0x002E8DAA..0x002E8FE5 (571B).
+// ?NewMap@Pathfinder@@QAEXXZ retail 0x002E8DAA..0x002E8FE5 (571B).
 //
 // Pathfinder::newMap. Identity: WorldBuilder twin 0xD376F0 Pathfinder::NewMap
 // (pathfinder.cpp asserts 1698..1749) and GameLogic 0x002469A5 calling it at
@@ -174,7 +174,7 @@ public:
 class Pathfinder
 {
 public:
-	void rva002E8DAA();
+	void NewMap();
 	void Rva0052F2EC();
 	void *rva001E3647Pos(int layer, const Coord3D *pos);
 	void rva00530212(Object *obj, int insert, int a2, int a3);
@@ -190,7 +190,7 @@ private:
 	PathfindZoneManager m_zoneManager;	// +0x460
 };
 
-void Pathfinder::rva002E8DAA()
+void Pathfinder::NewMap()
 {
 	Region3D terrainExtent;
 	TheTerrainLogic->getMaximumPathfindExtent(&terrainExtent);

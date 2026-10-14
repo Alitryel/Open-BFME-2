@@ -45,8 +45,8 @@ class ShroudManagerImpl
 	friend class Rva00739BE0;
  friend class Rva00739A30;
 private:
-	void rva0073CCC0(int x1, int x2, void *arr, float rotation, int mask);
- void rva0073CAF0(int x1, int x2, void *arr, float rotation, int mask);
+	void UndoShroudReveal(int x1, int x2, void *arr, float rotation, int mask);
+ void DoShroudReveal(int x1, int x2, void *arr, float rotation, int mask);
 public:
 	float m_pad00;
 	float m_originX;
@@ -73,7 +73,7 @@ void Rva00739BE0::rva00739BE0(Pair00739BE0 *p, float f, int mask)
 	arr[0] = ic;
 	int iy = fast_round(fast_floor((p->y - m_gen10->m_originY) * m_gen10->m_scale));
 	int ix = fast_round(fast_floor((p->x - m_gen10->m_originX) * m_gen10->m_scale));
-	m_gen10->rva0073CCC0(ix, iy, arr, 0.0f, mask);
+	m_gen10->UndoShroudReveal(ix, iy, arr, 0.0f, mask);
 }
 
 // Native739A30..739AE3 thiscall179B RET0C. The rowed
@@ -105,5 +105,5 @@ void Rva00739A30::rva00739A30(Pair00739BE0 *p, float f, int mask)
 	arr[0] = ic;
 	int iy = fast_round(fast_floor((p->y - m_gen10->m_originY) * m_gen10->m_scale));
 	int ix = fast_round(fast_floor((p->x - m_gen10->m_originX) * m_gen10->m_scale));
-	m_gen10->rva0073CAF0(ix, iy, arr, 0.0f, mask);
+	m_gen10->DoShroudReveal(ix, iy, arr, 0.0f, mask);
 }

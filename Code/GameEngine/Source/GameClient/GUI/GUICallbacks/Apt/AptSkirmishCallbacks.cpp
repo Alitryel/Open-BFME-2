@@ -156,7 +156,7 @@ public:
 
 	// Unrowed 0x00521CFF (358 bytes), pinned by address; 0x00522556 is
 	// defined below.
-	void rva00521CFF();
+	void StartGameAfterCDCheck();
 	void rva00522556();
 
 private:
@@ -324,7 +324,7 @@ void AptSkirmish::OnExitStatsScreen(const char *unused)
 void AptSkirmish::OnClosed(const char *unused)
 {
 	if (m_state == 11)
-		rva00521CFF();
+		StartGameAfterCDCheck();
 }
 
 // Retail 0x00521E76, 76 bytes: "AptSkirmish::OnNewProfileMenu" focuses
@@ -780,7 +780,7 @@ extern MessageStream *TheMessageStream;
 // WorldBuilder calls two distinct tag-zero word appenders; native folds the
 // second (WB 0x00EC9680) onto appendIntegerArgument at 0x0030F936. The full
 // emitted helper and its allocArg relocation are verified before binding it.
-void AptSkirmish::rva00521CFF() {
+void AptSkirmish::StartGameAfterCDCheck() {
  TheGameLogic->rva00376E92(false,false);
  TheWritableGlobalData->map=(*(GameInfo * *)&TheSkirmishGameInfo)->getMap();
  ((StartGameSetupView *)(*(GameInfo * *)&TheSkirmishGameInfo))->start(0);

@@ -49,7 +49,7 @@ class Object
 public:
 	const AsciiString *rva00290E67() const;
 	void doCommandButton(const CommandButton *button, int source, bool extra);
-	void rva00297149(const CommandButton *button, const Coord3D *pos, int source, int extra);
+	void doCommandButtonAtPosition(const CommandButton *button, const Coord3D *pos, int source, int extra);
 };
 
 class ScriptEngine
@@ -123,7 +123,7 @@ void ScriptActions::Rva003C58C9Do(Parameter *unit, const AsciiString &ability, i
 			if (!button->getName().isEmpty())
 			{
 				if (button->getName() == ability)
-					obj->rva00297149(button, (const Coord3D *)&way->m_x, 1, 0);
+					obj->doCommandButtonAtPosition(button, (const Coord3D *)&way->m_x, 1, 0);
 			}
 		}
 	}

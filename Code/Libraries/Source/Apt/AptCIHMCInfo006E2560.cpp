@@ -119,7 +119,7 @@ public:
 	virtual void clearNative(int);
 	void *rva006E1090() const;
 	void rva006E2560(int arg);
-	void rva006E2690(int arg);
+	void ClearCIH(int arg);
 	bool queueClipEvents(int,int,int);
 	AptValue *findChild(const EAStringC *,AptValue *);
 
@@ -191,7 +191,7 @@ void AptCIH::rva006E2560(int pMCInfoArg)
 // supplies the teardown guide; retail independently establishes flags5C and
 // character4C (WB has50). Sparse sets and globals use existing target owners.
 // Original member identity remains address-derived; WB name is provenance.
-void AptCIH::rva006E2690(int arg)
+void AptCIH::ClearCIH(int arg)
 {
     if ((m_code & 0xC0000)==0x40000 || ((BfmeAptValue006DCD20 *)this)->isUndefined()) return;
     g_bfmeAptPtrAtE176D0->s8.rva006E0DE0((AptValue *)this);

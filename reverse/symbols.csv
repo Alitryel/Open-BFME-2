@@ -9973,7 +9973,7 @@ name,address,notes
 ?rva00294C1A@Object@@QAEXPAV1@_NM@Z,0x00294C1A,"Object method, ret 0xC (victim Object, flag, float): returns at once unless the ExperienceTracker at +0x264 passes rva0039AE04 and the victim is not status 2; called by BloodthirstyUpdate +0x20 slot 8 0x0044E222 on the Object rva002931F5(false) resolves to with (victim, 1, module data +0x0C)"
 ?rva0029660C@Object@@QAEXPBUCoord3D@@H@Z,0x0029660C,"Object member, ret 8: (position, 0); REL32 callee of AttachUpdate::update 0x00491D2F on the AlwaysTeleport (+0x20) path, setPosition 0x0030AA80 on the other; address-named, teleport role inferred"
 ?rva00297000@Object@@QAEXPBVCommandButton@@PAV1@HH@Z,0x00297000,"Object member (ret 0x10) taking the command button, the target object, 1 and 0; REL32 in script action 0x003BDF8F where Zero Hour's team variants call groupDoCommandButtonAtObject (CMD_FROM_SCRIPT); identity not recovered"
-?rva00297149@Object@@QAEXPBVCommandButton@@PBUCoord3D@@HH@Z,0x00297149,"Object member (ret 0x10) taking the command button, a position (the found target's +0x38), 1 and 0; REL32 in script action 0x003BDD75 on the branch where the button's +0x1C bit 5 is set (the position twin of 0x00297000); identity not recovered"
+?doCommandButtonAtPosition@Object@@QAEXPBVCommandButton@@PBUCoord3D@@HH@Z,0x00297149,"Object member (ret 0x10) taking the command button, a position (the found target's +0x38), 1 and 0; REL32 in script action 0x003BDD75 on the branch where the button's +0x1C bit 5 is set (the position twin of 0x00297000); identity not recovered"
 ?rva00298979@Object@@QAEXPAV1@_N@Z,0x00298979,"Object member taking a source object and a bool (tests status 0x26 first); REL32 in DominateEnemySpecialPower 0x004CCBA6 (push 1/0 from module data +0xD4, the owner)"
 ?rva0029A12B@Object@@QAEXXZ,0x0029A12B,Address identity from RespawnBody call4C1494; unchanged owner Object after status62 test; native29A12B..29A205 RET
 ?rva002A123F@InGameUI@@QAEXPAVObject@@@Z,0x002A123F,"InGameUI member (ret 4): passes the Object, the ""HeroInitialSpawn"" literal 0x00BFD330, &+0x9D0 and the float +0x9D4 to 0x0029F954; called on TheInGameUI by AnnounceBirthAndDeathBehavior::onCreate 0x004851AD"
@@ -10062,7 +10062,7 @@ name,address,notes
 ?rva002ECC0D@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z,0x002ECC0D,"TheAI +0x10 (the pathfinder) member (owner, point) returning a bool; REL32 in AIUpdate slot 141 0x00263484; identity not recovered"
 ?rva002EDFF9@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@@Z,0x002EDFF9,"Pathfinder member (object, position; tests AL): REL32 at 0x004AB70A in WallUpgradeUpdate 0x004AB57E with ECX TheAI+0x10, the scanned object and its position copy; a true result leaves that object in place"
 ?rva002EF25B@Rva002F0DD6Tree@@QAEPAXABVRva002F0DD6Value@@@Z,0x002EF25B,"Direct call target in both allocator branches of 0x002F0DD6; caller passes the value reference and uses thiscall register setup, while target extent 34 ends ret 4 and returns the allocated node pointer; address-derived spelling and type identity remain unknown"
-?rva002EF2A6@Pathfinder@@QAEXPAVObject@@@Z,0x002EF2A6,"TheAI +0x10 (the pathfinder) member taking the owner; REL32 in AIUpdate slot 139 0x0026413B; identity not recovered"
+?AdjustLayer@Pathfinder@@QAEXPAVObject@@@Z,0x002EF2A6,"TheAI +0x10 (the pathfinder) member taking the owner; REL32 in AIUpdate slot 139 0x0026413B; identity not recovered"
 ?rva002F23A6@Rva002F23A6@@QAE_NPAVObject@@HHPAUCoord3D@@0@Z,0x002F23A6,TU-local five-arg dispatch reached via the +0x10 member of the global at 0xDFF0F8; RETAIL REL32 in 0x341C54 targets 0x2F23A6 (1215B EH body)
 ?rva002FE193@AI@@SA_NPAVObject@@0@Z,0x002FE193,opaque cdecl Bool(Object *owner, Object *nemesis) beside the AI statics (EH body); REL32 callee of AIGuardOuterState::onEnter 0x00543A8E after the owner check, a false result ends the state
 ?rva003003C5@Rva003003C5Target@@QAEXHH@Z,0x003003C5,"method a vtable-slot forwarder tail-jumps to (ret 8); opaque address name"
@@ -10390,7 +10390,7 @@ name,address,notes
 ?rva0051B09B@Rva0051BED7@@QAEXXZ,0x0051B09B,this-shaped call site in the 0x0051BED7 poll (mov ecx,esi with no stack args); rowed free fn Rva0051B09BEnable lives here; address from retail REL32
 ?rva0051DE3D@State0051E262@@QAEXXZ,0x0051DE3D,thiscall tail of 0x0051E262 score-screen init (REL32 at 0x0051E2AE); Ghidra 1061B EH body unrecovered; address name
 ?rva0051ED7E@AptTimeLine@@QAEXXZ,0x0051ED7E,unrowed 345B thiscall (Ghidra FUN_0091ed7e) on the time line screen; REL32 read at AptTimeLine::OnButtonContinue 0x0051F6D7 with ECX=this; address name
-?rva00521CFF@AptSkirmish@@QAEXXZ,0x00521CFF,unrowed 358B thiscall (Ghidra FUN_00921cff) on the skirmish screen; REL32 read at AptSkirmish::OnClosed 0x00521E6E with ECX=this; address name
+?StartGameAfterCDCheck@AptSkirmish@@QAEXXZ,0x00521CFF,unrowed 358B thiscall (Ghidra FUN_00921cff) on the skirmish screen; REL32 read at AptSkirmish::OnClosed 0x00521E6E with ECX=this; address name
 ?rva00522556@AptSkirmish@@QAEXXZ,0x00522556,unrowed 277B thiscall (Ghidra FUN_00922556) on the skirmish screen; REL32 read at AptSkirmish::OnDeleteProfileMenu 0x0052266E and OnChangeProfileMenu 0x00522684 with ECX=this; address name
 ?rva00524725@Rva00524306@@QAEXABVAsciiString@@PBVImage@@@Z,0x00524725,thiscall set (Ghidra FUN_00924725; ret 8; 66B: forwards key and image to TheRva00222A8BTarget ?rva002239E2 then push_backs the key into the AsciiString vector when find misses) callee of the eight image setters in AptImageKeySetters.cpp (?rva005C7BE1@Rva005C7BE1@@QAEXPBVImage@@@Z at retail 0x005C7C31) read from its REL32 displacement; sibling of rowed clear 0x00524306; body rowed under this name in Rva00524306.cpp
 ?rva00525A80@Rva002D37Sub@@QAEXH@Z,0x00525A80,pin for 0x2D373E tailcall thiscall void (int)
@@ -10615,7 +10615,7 @@ name,address,notes
 ?rva006E1F00@AptCIH@@QAEXH@Z,0x006E1F00,retail calls at 0x006FAA85 0x006FAAA9 0x006FAADD and 0x006FAB1A pass a state code with ECX equal to an AptCIH pointer; class view supported by the rowed 0x006E1090 getter; helper body unverified
 ?rva006E24E0@AptCIH@@QAE_NXZ,0x006E24E0,"address-derived AptCIH list predicate called by 0x006F7AC0; asserts isSpriteInstBase() from AptCIH.h line 125 then recurses into [this+0x4C]+0x24; body unrowed"
 ?rva006E2560@AptCIH@@QAEXH@Z,0x006E2560,"address-derived AptCIH child-apply called by 0x006F7AF0; asserts pMCInfo from AptCIH.cpp line 0x931 then dispatches on getType() (0xC..0x12) into counters and 0x6F7AF0 recursion; body unrowed"
-?rva006E2690@AptCIH@@QAEXH@Z,0x006E2690,address-derived name for the large AptCIH teardown helper called by the 0x006E2A70 dtor with one int arg (retail pushes 0); body unrowed; pin unblocks Rva006CBF40 dtor
+?ClearCIH@AptCIH@@QAEXH@Z,0x006E2690,address-derived name for the large AptCIH teardown helper called by the 0x006E2A70 dtor with one int arg (retail pushes 0); body unrowed; pin unblocks Rva006CBF40 dtor
 ?rva006E3530@Rva006E34D0@@QAEXHHH@Z,0x006E3530,address-derived Apt three-int input packer member of the 0x00E176D0 object; called from 0x006CC9A0; body unrowed
 ?rva006E47C0@Rva006E34D0@@QAEXXZ,0x006E47C0,address-derived Apt teardown member of the 0x00E176D0 object; called from 0x006CD330; body unrowed
 ?rva006E5050@Rva006E58D0@@QAEXPAX00@Z,0x006E5050,"Apt ctor worker called by 0x006E58D0 with three pointers after the +0x30 field is cleared; Ghidra 2118B unrowed; address-derived name"
@@ -11673,25 +11673,25 @@ rva009C7380WeightPairs,0x009B84E0
 ?rva0043DC40@AptMpGameSetup@@QAEXH@Z,0x0043DC40,unrowed 53B thiscall (ret 4) on the MpGameSetup panel picking the games list sort column (+0x3AC; same column again moves to the next value and the old one is kept at +0x3B0); called by the OnSortName/OnSortPlayers/OnSortIcons callbacks 0x0043DC77/81/8B with 0/2/4; address name
 ?rva0043DF22@AptMpGameSetup@@QAEIXZ,0x0043DF22,unrowed thiscall on the LAN lobby MpGameSetup panel counting accepted seated humans (banked near miss); the countdown 0x0044130E compares it unsigned with +0x3A8; address name
 ?rva0043F244@AptMpGameSetup@@QAEXH_N@Z,0x0043F244,unrowed 575B thiscall (Ghidra FUN_0083f244; ret 8; second argument tested as a byte) on the LAN lobby MpGameSetup panel; 0x004427D8 calls it with the slot and 0; address name
-?rva0043F483@AptMpGameSetup@@QAEXH@Z,0x0043F483,unrowed 1072B thiscall (Ghidra FUN_0083f483; reads the slot argument) on the LAN lobby MpGameSetup panel; first of the five per-slot refreshers 0x004427C5 calls; address name
+?PopulatePlayerCombo@AptMpGameSetup@@QAEXH@Z,0x0043F483,unrowed 1072B thiscall (Ghidra FUN_0083f483; reads the slot argument) on the LAN lobby MpGameSetup panel; first of the five per-slot refreshers 0x004427C5 calls; address name
 ?rva0043FA68@AptMpGameSetup@@QAEXPAVGameInfo@@@Z,0x0043FA68,unrowed 244B thiscall (Ghidra FUN_0083fa68; ret 4) on the LAN lobby MpGameSetup panel; stores its argument at +0x08 of the owner's holder 1 (0x0043F103) and tests it with 0x003FF1C2; called with 0 from 0x0043FFD1 and 0x0044000A; same address as the Rva004421E1 view pin; address name
 ?rva0044009D@AptMpGameSetup@@QAE_NH@Z,0x0044009D,unrowed 1039B thiscall (Ghidra FUN_0084009d; ret 4; the slot; returns al read by 0x00441C95) on the LAN lobby MpGameSetup panel; called per slot from the game install 0x00443D02; address name
 ?rva004404AC@AptMpGameSetup@@QAEX_NH@Z,0x004404AC,unrowed 526B thiscall (Ghidra FUN_008404ac; ret 8; first argument tested as a byte, second read as a dword) on the LAN lobby MpGameSetup panel; called from 0x0044168B with -1; address name
-?rva004406BA@AptMpGameSetup@@QAEXH@Z,0x004406BA,unrowed 792B thiscall (Ghidra FUN_008406ba; ret 4) on the LAN lobby MpGameSetup panel; per-slot refresher called from 0x004427F0; address name
+?PopulateHeroCombo@AptMpGameSetup@@QAEXH@Z,0x004406BA,unrowed 792B thiscall (Ghidra FUN_008406ba; ret 4) on the LAN lobby MpGameSetup panel; per-slot refresher called from 0x004427F0; address name
 ?rva00440BDF@AptMpGameSetup@@QAE_NH@Z,0x00440BDF,unrowed 1693B thiscall (Ghidra FUN_00840bdf; ret 4; returns al) on the LAN lobby MpGameSetup panel; the countdown 0x00441488 calls it with 0 when time runs out; address name
 ?rva004422DD@AptMpGameSetup@@QAEXXZ,0x004422DD,unrowed 522B thiscall (Ghidra FUN_008422dd; plain ret) on the LAN lobby MpGameSetup panel; called from 0x00442A2A when there is a current game; address name
-?rva004424E7@AptMpGameSetup@@QAEXH@Z,0x004424E7,unrowed 734B thiscall (Ghidra FUN_008424e7; ret 4) on the LAN lobby MpGameSetup panel; per-slot refresher called from 0x004427E0; address name
+?PopulatePlayerTemplateCombo@AptMpGameSetup@@QAEXH@Z,0x004424E7,unrowed 734B thiscall (Ghidra FUN_008424e7; ret 4) on the LAN lobby MpGameSetup panel; per-slot refresher called from 0x004427E0; address name
 ?rva00442BCC@AptMpGameSetup@@QAE_NXZ,0x00442BCC,unrowed 208B thiscall (Ghidra FUN_00842bcc; returns al) on the LAN lobby MpGameSetup panel; walks the slots through the S5 handle iterator and checks the six widget arrays at +0x2D4..+0x374; tail-jumped from 0x00442CAE; address name
 ?rva00442C9C@AptMpGameSetup@@QAE_NXZ,0x00442C9C,unrowed 23B thiscall (Ghidra FUN_00842c9c; returns al; false unless +0x7C or +0x394 is set then tail-jumps to 0x00442BCC) on the LAN lobby MpGameSetup panel; called from 0x00442FA7 and 0x004467C7; address name
 ?rva00443538@AptMpGameSetup@@QAEXH@Z,0x00443538,unrowed 1723B thiscall (Ghidra FUN_00843538; ret 4; argument tested as a flag mask e.g. 0x40) on the LAN lobby MpGameSetup panel; called from 0x00443C14 with 0x1B; address name
 ?rva0057B16D@ChecklistUIImpl@StrategicHUD@@QAEXXZ,0x0057B16D,unrowed 170B thiscall (Ghidra FUN_0097b16d) on the WOTR panel built by 0x0057B5AA; REL32 read at its _OnScrollBarLoaded 0x0057B595 with ECX=the panel; address name
 ?allowOffensiveTactic@AIDifficulty@@QAE_NPAVRva002A9BF2@@@Z,0x0058AFB3,accept test on the object 0x0058AEB6 returns; REL32 at 0x00506193 in Rva00506909::rva00506178
 ?rva00599870@AIDozerManager@@QAEPAXABUCoord3D@@H@Z,0x00599870,owner-record +0x140 object list: entry near a point; REL32 at 0x005AC079 in the StructureCreep slot 1
-?rva005D1527@Impl@RegionAwardDialog@StrategicInGameUI@@QAEXXZ,0x005D1527,address-derived thiscall helper on the same object as 0x005D17B2; Ghidra FUN_009d1527 is 651B and ends at 0x005D17B2; call at 0x005D182A passes ECX=this with no stack arguments; original identity unknown
+?SetupMovieClipRegionBonuses@Impl@RegionAwardDialog@StrategicInGameUI@@QAEXXZ,0x005D1527,address-derived thiscall helper on the same object as 0x005D17B2; Ghidra FUN_009d1527 is 651B and ends at 0x005D17B2; call at 0x005D182A passes ECX=this with no stack arguments; original identity unknown
 ?unlinkChain@CollisionManagerImpl@@QAEXPAVRva009A36F0Thing@@@Z,0x00759220,BFME1 Rva009A36F0Owner donor unlinker; sole E8 caller is apply at 0x007592E0
 ?rva005A6709@NAT@@QAE_NXZ,0x005A6709,wrapper-call spelling for the 0x5A6903 gate (thiscall 0 args al result; true callee matched as const predicate rva005A6709); target REL32 from retail call at 0x005A6931
 ?rva005A831E@NAT@@QAEXXZ,0x005A831E,wrapper-call spelling for the 0x5A8666 gate (thiscall 0 args result ignored); target REL32 from retail call at 0x005A86AE
-?rva005B6755@Manager@AptCreateAHero@@QAEXXZ,0x005B6755,wrapper-call spelling for the 0x5B6967 path helper (thiscall 0 args); target REL32 from retail call at 0x005B69B8
+?PopulateHeroList@Manager@AptCreateAHero@@QAEXXZ,0x005B6755,wrapper-call spelling for the 0x5B6967 path helper (thiscall 0 args); target REL32 from retail call at 0x005B69B8
 ?rva005B5F2E@Manager@AptCreateAHero@@QAEXXZ,0x005B5F2E,wrapper-call spelling for the 0x5B6967 path tail (thiscall 0 args); target REL32 from retail call at 0x005B69FA
 ?rva0005A3FA@GlobalVolumeData@MilesAudioManager@@QAEXPAXM@Z,0x0005A3FA,thiscall on the +0x12C 0x1C4-stride owner taking (slot, float): push [ebp+8] plus fstp plus elem-this in 0x0005CA03; REL32 read at that call site; identity unproven
 ?addAttributeModifierToPool@Object@@QAE_NABVAsciiString@@H@Z,0x0028EA91,"wb-lead 5.0000/callgraph; confirmed by PassiveAreaEffectBehavior slot 16 0x00484A08 applying each module-data AsciiString name with -1 and the Object pool-update flow"
@@ -13265,8 +13265,8 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?rva00214156@LivingWorldManager@@QAEPAVRva00402EFA@@ABVAsciiString@@@Z,0x00214156,callee of ?Rva00402E30Parse@@YAXPAVINI@@@Z
 ?adjustDamage@Armor@@QBEMPBVDamageInfoInput@@PBVObject@@_N@Z,0x001D90A1,Armor::adjustDamage (Zero Hour name; BFME 2 takes the DamageInfoInput; the Object and a flag): thiscall ret 0xC returning x87 float; called by ActiveBody::attemptHealing at 0x004BEEC1 with ecx = body +0xF8 (the cached Armor) and (&info->in; object; false); address from that REL32. Its body returns the input amount at once for damage type 7
 ?Rva0030EFD5@@YAI_N@Z,0x0030EFD5,callee of ?Rva0030F099@@YAI_N@Z
-?rva0073CAF0@ShroudManagerImpl@@AAEXHHPAXMH@Z,0x0073CAF0,callee of ?rva00739A30@Rva00739A30@@QAEXPAUPair00739BE0@@MH@Z
-?rva00283642@TerrainLogic@@QAEXPBVThingTemplate@@PBUCoord3D@@PBVMatrix3D@@M@Z,0x00283642,TheTerrainLogic (0x00DFEC50) member called by GameLogic 0x00246422 at 0x00246517 for map objects whose template has kind bit 62: args template plus copied position plus identity Matrix3D plus 1.0f; body walks the template +0x2F0 vector of 0x14-byte records
+?DoShroudReveal@ShroudManagerImpl@@AAEXHHPAXMH@Z,0x0073CAF0,callee of ?rva00739A30@Rva00739A30@@QAEXPAUPair00739BE0@@MH@Z
+?addTree@TerrainLogic@@QAEXPBVThingTemplate@@PBUCoord3D@@PBVMatrix3D@@M@Z,0x00283642,TheTerrainLogic (0x00DFEC50) member called by GameLogic 0x00246422 at 0x00246517 for map objects whose template has kind bit 62: args template plus copied position plus identity Matrix3D plus 1.0f; body walks the template +0x2F0 vector of 0x14-byte records
 ?rva00280176@TerrainLogic@@QAEXPBVThingTemplate@@PBUCoord3D@@PBVMatrix3D@@M@Z,0x00280176,TheTerrainLogic (0x00DFEC50) member called by GameLogic 0x00246422 at 0x00246537 for map objects whose template has kind bit 63 (and not 62): same four args as 0x00283642; body walks the template +0x2F0 vector of 0x14-byte records
 ?rva002D0A23@ThingFactory@@QAEPAVObject@@PBVThingTemplate@@PAVTeam@@ABUCreateMask@@W4ObjectID@@@Z,0x002D0A23,ThingFactory::newObject row viewed with its 4th argument as a preset ObjectID: GameLogic 0x00246422 passes 99999999 99999998 99999996 and 99999997 there then gives the drawable (0x00271058) the same value; the 3rd argument is a zeroed 16-byte mask temporary
 ??0Rva0023C83B@@QAE@XZ,0x0023C83B,close-button guard ctor (rowed as this-returning ?rva0023C83B@Rva0023C83B@@QAEPAV1@XZ): GetSystemMenu(ApplicationHWnd) then EnableMenuItem SC_CLOSE MF_GRAYED; GameLogic 0x00248558 builds it at [ebp+8] (call at 0x00248581)
@@ -13296,7 +13296,7 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?rva00207C02@ScriptEngine@@QAEXXZ,0x00207C02,TheScriptEngine (0x009FE16C) member (FUN_00607c02 498B; ret 0) called by GameLogic 0x002469A5 at 0x00246C90 after progress 0xD
 ?NewMap@Rva002872BA@@QAEXXZ,0x00287015,TheTriggerManager (0x009FEC68) member (FUN_00687015 399B; ret 0) called by GameLogic 0x002469A5 at 0x00246E3C
 ?rva0024622F@GameLogic@@QAEX_N@Z,0x0024622F,GameLogic bridge pass (banked partial reverse/attempts/0x0024622f.cpp; ret 4) called by 0x002469A5 at 0x00246E74 with its bool param
-?rva002817F2@TerrainLogic@@QAEXABVAsciiString@@@Z,0x002817F2,TheTerrainLogic (0x009FEC50) member (FUN_006817f2 443B; first calls the rowed clear 0x0027DA58 then opens the AsciiString argument through FileSystem::openFile with mode 0x41 and reads an 0x12-byte header: the ambient light map loader) called by GameLogic 0x0023E628 at 0x0023E77C with the folder ambientlightmap.tga path
+?LoadAmbientLightmap@TerrainLogic@@QAEXABVAsciiString@@@Z,0x002817F2,TheTerrainLogic (0x009FEC50) member (FUN_006817f2 443B; first calls the rowed clear 0x0027DA58 then opens the AsciiString argument through FileSystem::openFile with mode 0x41 and reads an 0x12-byte header: the ambient light map loader) called by GameLogic 0x0023E628 at 0x0023E77C with the folder ambientlightmap.tga path
 ?rva0032E02B@SidesList@@QAEXXZ,0x0032E02B,TheSidesList (0x00A01D58) member (FUN_0072e02b 1097B; EH frame; walks the +0x3C side count) called by GameLogic 0x0023E0C7 at 0x0023E2EA right after TeamsInfoRec::addTeam where BFME 1 startNewGame calls SidesList::validateSides
 ??0?$_Vector_base@HV?$Rva002444BEAllocator@H@@@_STL@@QAE@ABV?$Rva002444BEAllocator@H@@@Z,0x00211E58,ICF-folded empty vector base ctor; REL32s at 0x002444E1/0x0024463F/0x002446EC in populateRandomSideAndColor (side pool and its narrowed copies)
 ??0?$vector@HV?$Rva002444BEAllocator@H@@@_STL@@QAE@ABV01@@Z,0x002CFAB9,rowed scalar vector copy; REL32 in populateRandomSideAndColor copying the playable-side pool
@@ -13358,7 +13358,7 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?rva00296065@Object@@QAEXPAURva00297612Entry@@@Z,0x00296065,callee of ?rva002975AC@Object@@QAEXPAURva00297612Entry@@@Z
 ?rva000438CB@W3DDisplay@@QAEXXZ,0x000438CB,callee of ?drawCurrentDebugDisplay@W3DDisplay@@IAEXXZ
 ?rva0030B5AF@@YA_NPBURva0030B7C2Point@@PAVRva0030B719Shape@@@Z,0x0030B5AF,callee of ?rva0030B7C2@@YA_NPBURva0030B7C2Point@@PAVRva0030B719Shape@@@Z
-?rva000E8C2D@W3DShrubBuffer@@QAEXHH@Z,0x000E8C2D,callee of ?rva000E90DB@W3DShrubBuffer@@QAE_NIH@Z
+?startMorph@W3DShrubBuffer@@QAEXHH@Z,0x000E8C2D,callee of ?rva000E90DB@W3DShrubBuffer@@QAE_NIH@Z
 ??0Rva0054CFB8Target@@QAE@HABVAsciiString@@@Z,0x0054CC35,callee of ??0Rva0054D2CF@@QAE@HABVAsciiString@@@Z
 ?rva00375AF7@Rva00375AF7HeightQuery@@QAEMMM@Z,0x00375AF7,callee of ?rva00375B7A@Rva00375AF7HeightQuery@@QAEMMM@Z
 ??0Render2DSentenceClass@@QAE@XZ,0x00157E80,callee of ??0Gen0078D1C0@@QAE@XZ
@@ -13372,7 +13372,7 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?rva00504BA9@FCurve@@QAEMM@Z,0x00504BA9,callee of ?interpolate@BfmeStateDF@@QAEXPAUGen0060CBB0Pair@@00M@Z
 ?rva002F57E6@Rva002F57E6Query@@QAE_NIIEIHIIEPAURva002F70E5Coord@@MPAH@Z,0x002F57E6,callee of ?rva002F70E5@Rva002F70E5Context@@QAE_NIH@Z
 ??0NetDisconnectVoteCommandMsg@@QAE@XZ,0x004D580E,"constructed right after the 0x24-byte allocation in sendVoteCommand 0x004D3A1B; body writes BFME2 command type 27 and clears the slot byte +0x1C and frame dword +0x20, the ZH NetDisconnectVoteCommandMsg fields processDisconnectVote 0x004D3F74 reads"
-?rva000ECA4D@W3DTreeBuffer@@QAEXHH@Z,0x000ECA4D,callee of ?rva000ECF2A@W3DTreeBuffer@@QAE_NIH@Z
+?startMorph@W3DTreeBuffer@@QAEXHH@Z,0x000ECA4D,callee of ?rva000ECF2A@W3DTreeBuffer@@QAE_NIH@Z
 ?rva0037DF8D@Rva0037DCA5@@QAEXPAVRva002206F9Sink@@@Z,0x0037DF8D,callee of ?rva002206F9@Rva002206F9@@QAE_NPAVRva0037DCA5@@@Z
 ?rva003FA705@Rva003FA835@@QAEXPAXM@Z,0x003FA705,callee of ?rva003FA781@Rva003FA835@@QAEXH@Z
 ?rva003A3763@Rva00056F61@@QAEPA_NPBVAsciiString@@@Z,0x003A3763,callee of ?rva003A38E9@Team@@QAEXHH@Z

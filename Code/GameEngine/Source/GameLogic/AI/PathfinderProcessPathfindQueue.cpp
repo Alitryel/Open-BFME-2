@@ -1,5 +1,5 @@
 // cl: /ICode/Libraries/Include /ICode/GameEngine/Source/Common /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc
-// ?rva002F0F07@Pathfinder@@QAEXXZ (existing pin: callee of GameLogic::update)
+// ?ProcessPathfindQueue@Pathfinder@@QAEXXZ (existing pin: callee of GameLogic::update)
 // Retail 0x002F0F07..0x002F11A1 (666 bytes), thiscall void. WorldBuilder twin
 // 0x00D30070 is Pathfinder::ProcessPathfindQueue (pathfinder.cpp asserts
 // 341..387); ZH AIPathfind.cpp processPathfindQueue is the semantic reference.
@@ -200,7 +200,7 @@ extern GameLogic *TheGameLogic;
 extern int BfmeLogicFramesPerSecond;
 class Pathfinder {
 public:
- void rva002F0F07();
+ void ProcessPathfindQueue();
  char pad00[8];bool ready;char pad09[0x10-9];void *map;IRegion2D extent;IRegion2D logicalExtent;
  char pad34[0x3C-0x34];int cumulative,word40,word44;
  char pad48[0x60-0x48];char layers[0x400];PathfindZoneManager zones;
@@ -208,7 +208,7 @@ public:
  char pad1BEB6[0x1C1E0-0x1BEB6];Rva002EAC7CPool queue;
  Rva002EAC7CPool priorityQueue;
 };
-void Pathfinder::rva002F0F07()
+void Pathfinder::ProcessPathfindQueue()
 {
  if(!ready)return;
  if(flagA || flagB) {((Rva002E713FOwner *)this)->rva0052F294();return;}

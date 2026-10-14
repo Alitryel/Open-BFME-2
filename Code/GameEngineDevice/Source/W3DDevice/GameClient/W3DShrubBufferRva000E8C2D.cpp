@@ -1,4 +1,4 @@
-// ?rva000E8C2D@W3DShrubBuffer@@QAEXHH@Z
+// ?startMorph@W3DShrubBuffer@@QAEXHH@Z
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // W3DShrubBuffer start-morph at retail 0x000E8C2D (880 bytes, ret 8), shrub twin of the tree 0x000ECA4D:
 // gives a shrub its type's model and the model of the type at +0xD0 at the tree's position and rotation,
@@ -81,7 +81,7 @@ struct Rva000E8C2DTree
 class W3DShrubBuffer
 {
 public:
-	void rva000E8C2D(Int index, Int request);
+	void startMorph(Int index, Int request);
 
 private:
 	unsigned char m_pad0000[0x1958];
@@ -103,8 +103,8 @@ static void CopyShrubMatrix3D(Matrix3D &dst, const Matrix3D &src)
     dst[2] = src[2];
 }
 
-// ?rva000E8C2D@W3DShrubBuffer@@QAEXHH@Z
-void W3DShrubBuffer::rva000E8C2D(Int index, Int request)
+// ?startMorph@W3DShrubBuffer@@QAEXHH@Z
+void W3DShrubBuffer::startMorph(Int index, Int request)
 {
 	Int type = m_trees[index].m_treeType;
 	if (index >= m_numTrees)

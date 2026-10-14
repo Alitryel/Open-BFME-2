@@ -8,7 +8,7 @@
 // is an EAStringC whose rowed dtor 0x006D3010 runs after the body; base dtor is
 // the rowed Rva006DE350 at 0x006DE350; vtable 0x00CE8C24 (DIR32 auto-patch).
 // The +0x50/+0x54 pair are pPrev/pNext and +0x5C the 0xC0000 flag word gated on
-// 0x40000. The teardown helper 0x006E2690 is pinned ?rva006E2690@AptCIH@@QAEXH@Z
+// 0x40000. The teardown helper 0x006E2690 is pinned ?ClearCIH@AptCIH@@QAEXH@Z
 // (unrowed) and takes one int argument (retail pushes 0). nDepth check is
 // followed by bfmeUnlinkNestedBE 0x006F7090.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
@@ -48,7 +48,7 @@ private:
 class AptCIH
 {
 public:
-	void rva006E2690(int arg);
+	void ClearCIH(int arg);
 };
 
 class Rva006CBF40 : public Rva006DE350
@@ -73,7 +73,7 @@ Rva006CBF40::~Rva006CBF40()
 		g_pChainBlockAllocator->freeBlock(m_44, 0x30);
 		m_44 = 0;
 	}
-	((AptCIH *)this)->rva006E2690(0);
+	((AptCIH *)this)->ClearCIH(0);
 	if ((m_5C & 0xC0000) != 0x40000) {
 		if (m_54 != 0 || m_50 != 0) {
 			g_bfmeAptAssertAtE17734(

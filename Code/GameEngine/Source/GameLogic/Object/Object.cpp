@@ -459,7 +459,7 @@ public:
 	__declspec(noinline) void rva0028C24C();
 	bool setWeaponLock(WeaponSlotType, WeaponLockType);
 	void doSpecialPowerAtLocation(const SpecialPowerTemplate *, const Coord3D *, unsigned int, bool);
-	void rva00297149(const CommandButton *, const Coord3D *, int, int);
+	void doCommandButtonAtPosition(const CommandButton *, const Coord3D *, int, int);
 	void rva00297000(const CommandButton *, Object *, int, int);
 	void doCommandButton(const CommandButton *commandButton, int cmdSource, bool flags);
 	Object *adjustVictim(Object *source, bool useWeaponRange, int index);
@@ -839,7 +839,7 @@ void Object::rva0028C24C()
 // 2231 bytes (ret 0xC). WB 0x00CDCAD0 Object::doCommandButton (Object.cpp)
 // extends ZH's switch. The third argument gates on AutoAbilityBehavior's
 // disabled types; the rest follows the WB cases. This body shares the
-// rva0028C24C ECX knowledge with rva00297149 below.
+// rva0028C24C ECX knowledge with doCommandButtonAtPosition below.
 // Target RET 0xC and flag-byte uses establish the bool third argument.
 // The same-valued firing-tracker PHI preserves retail ESI=this / EDI=button.
 void Object::doCommandButton(const CommandButton *commandButton, int cmdSource, bool flags)
@@ -1159,7 +1159,7 @@ void Object::doCommandButton(const CommandButton *commandButton, int cmdSource, 
 // The build virtual's five arguments are pushed around the const template
 // getter (its RET0 takes no arguments). Deadline helper28C24C is visible and
 // preserves ECX; do not duplicate the original separate provider unit.
-void Object::rva00297149(const CommandButton *button, const Coord3D *position, int source, int flag)
+void Object::doCommandButtonAtPosition(const CommandButton *button, const Coord3D *position, int source, int flag)
 {
  if (m_disabled1C8.any())
   return;
@@ -1199,7 +1199,7 @@ void Object::rva00297149(const CommandButton *button, const Coord3D *position, i
 }
 
 // ?rva00297000@Object@@QAEXPBVCommandButton@@PAV1@HH@Z retail 0x00297000
-// 329 bytes. Object-target twin of rva00297149 above: the fourth byte flag
+// 329 bytes. Object-target twin of doCommandButtonAtPosition above: the fourth byte flag
 // gates an AutoAbilityBehavior disabled-mask check through the module's
 // slot-1 virtual, then dispatches 14 idle / 23 weapon-fire (the visible
 // rva0028C24C keeps ECX, as in the siblings above) / 24+38 special-power

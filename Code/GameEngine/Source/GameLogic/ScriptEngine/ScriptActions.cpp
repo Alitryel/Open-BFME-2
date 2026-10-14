@@ -309,7 +309,7 @@ class Object : public Thing
 public:
  bool rva002922D9(const CommandButton *);
  void rva00297000(const CommandButton *, Object *, int, int);
- void rva00297149(const CommandButton *, const Coord3D *, int, int);
+ void doCommandButtonAtPosition(const CommandButton *, const Coord3D *, int, int);
  bool affectedByUpgrade(const UpgradeTemplate *) const;
  bool rva00290D2B(const UpgradeTemplate *) const;
  void rva00293077(const void *);
@@ -1527,7 +1527,7 @@ static __declspec(noinline) void rva003BE11C(Object *obj, const ThingTemplate *t
 		Object *target = ThePartitionManager->getClosestObject(obj->getPosition(), REALLY_FAR, 0,
 			Rva00261750Filter(tmpl, true).link(&Rva002611BFFilter(obj)));
 		if (target)
-			obj->rva00297149(button, target->getPosition(), 1, 0);
+			obj->doCommandButtonAtPosition(button, target->getPosition(), 1, 0);
 	} else {
 		Object *target = ThePartitionManager->getClosestObject(obj->getPosition(), REALLY_FAR, 0,
 			Rva00261750Filter(tmpl, true).link(Rva002614BCFilter(obj, button, true, 1).link(&Rva002611BFFilter(obj))));
@@ -1536,7 +1536,7 @@ static __declspec(noinline) void rva003BE11C(Object *obj, const ThingTemplate *t
 				int where = reinterpret_cast<BfmeThingCME *>(TheTerrainLogic)->rva0027F108(
 					const_cast<Coord3D *>(obj->getPosition()), 10000000.0f, 1, 1);
 				if (where)
-					obj->rva00297149(button, (const Coord3D *)where, 1, 0);
+					obj->doCommandButtonAtPosition(button, (const Coord3D *)where, 1, 0);
 			}
 			return;
 		} else {

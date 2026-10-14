@@ -17,7 +17,7 @@ public:
 	void rva002A123F(Object *obj);
 	void rva002A1261(Object *obj);
 	void rva002A1283(Object *obj);
-	void rva0029F954(Object *obj, const char *eventName, const int *value, float scale);
+	void notifyOfHeroSpawnEvent(Object *obj, const char *eventName, const int *value, float scale);
 private:
 	unsigned char m_pad000[0x9D0];
 	int m_heroInitialSpawn;
@@ -30,15 +30,15 @@ private:
 
 void InGameUI::rva002A123F(Object *obj)
 {
-	rva0029F954(obj, "HeroInitialSpawn", &m_heroInitialSpawn, m_heroInitialSpawnScale);
+	notifyOfHeroSpawnEvent(obj, "HeroInitialSpawn", &m_heroInitialSpawn, m_heroInitialSpawnScale);
 }
 
 void InGameUI::rva002A1261(Object *obj)
 {
-	rva0029F954(obj, "HeroRespawn", &m_heroRespawn, m_heroRespawnScale);
+	notifyOfHeroSpawnEvent(obj, "HeroRespawn", &m_heroRespawn, m_heroRespawnScale);
 }
 
 void InGameUI::rva002A1283(Object *obj)
 {
-	rva0029F954(obj, "HeroDeath", &m_heroDeath, m_heroDeathScale);
+	notifyOfHeroSpawnEvent(obj, "HeroDeath", &m_heroDeath, m_heroDeathScale);
 }

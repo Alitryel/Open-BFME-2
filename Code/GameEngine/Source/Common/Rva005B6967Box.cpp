@@ -29,7 +29,7 @@ public:
 	char *m_8;
 	char *m_C;
 
-	void rva005B6755();
+	void PopulateHeroList();
 	void rva005B5F2E();
 	void InitGadgets(char *a, int unused, char *c);
 };
@@ -48,7 +48,7 @@ void AptCreateAHero::Manager::InitGadgets(char *a, int unused, char *c)
 		buf.z = 0x2d;
 		Rva005B6967F(c, 3, &buf.x);
 		m_8 = c;
-		rva005B6755();
+		PopulateHeroList();
 	} else {
 		if (strcmp(a, g_rva005B6967T1) != 0)
 			return;

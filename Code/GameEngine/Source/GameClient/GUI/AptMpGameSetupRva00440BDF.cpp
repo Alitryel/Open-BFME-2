@@ -888,10 +888,10 @@ public:
 	// Unrowed per-slot refreshers called by 0x004427C5, pinned by address:
 	// 0x0043F483 (1072 bytes), 0x004424E7 (734 bytes) and 0x004406BA (792
 	// bytes).
-	void rva0043F483(int slot);
+	void PopulatePlayerCombo(int slot);
 	void rva0043F244(int slot, bool reset);
-	void rva004424E7(int slot);
-	void rva004406BA(int slot);
+	void PopulatePlayerTemplateCombo(int slot);
+	void PopulateHeroCombo(int slot);
 
 	// Unrowed 0x004422DD (522 bytes), called by 0x00442A19, pinned by
 	// address.
@@ -1083,7 +1083,7 @@ bool AptMpGameSetup::rva00440BDF(bool countdown)
  text.format(TheGameText->slot44("LAN:NoMapSelected",0));rva0043E49C(text);return false;
 }
 bool Rva00441E4DFaction(void *, const AsciiString &);
-void AptMpGameSetup::rva004424E7(int index)
+void AptMpGameSetup::PopulatePlayerTemplateCombo(int index)
 {
  GameInfo *info=(GameInfo*)m_game->rva0043DA65();
  if(!info) return;
@@ -1147,7 +1147,7 @@ struct HeroPointerVectorView { CreateAHeroData **begin, **end, **capacity; };
 // Descriptive name: native .data VA DC8D4C contains the disabled tint FF808080.
 int AptLobbyDisabledHeroColor=(int)0xff808080;
 void GadgetComboDisableEntry(BfmeKeyLC *,int,unsigned char);
-void AptMpGameSetup::rva004406BA(int index)
+void AptMpGameSetup::PopulateHeroCombo(int index)
 {
  if(!TheCreateAHeroManager) return;
  GameWindow *combo=m_hero[index];

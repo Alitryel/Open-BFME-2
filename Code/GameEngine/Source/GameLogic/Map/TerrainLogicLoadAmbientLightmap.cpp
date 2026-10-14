@@ -50,12 +50,12 @@ struct AmbientTgaHeader
 class TerrainLogic
 {
 public:
- void rva002817F2(const AsciiString &name);
+ void LoadAmbientLightmap(const AsciiString &name);
  char pad[0x24];
  unsigned char *pixels;
  unsigned width,height;
 };
-void TerrainLogic::rva002817F2(const AsciiString &name)
+void TerrainLogic::LoadAmbientLightmap(const AsciiString &name)
 {
  ((Rva0062AF7 *)this)->Rva0027DA58();
  File *file=TheFileSystem->openFile(name.str(),0x41,0);

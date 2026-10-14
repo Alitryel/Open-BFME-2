@@ -16,7 +16,7 @@ public:
     __declspec(noinline) void Get_Description(SurfaceDescription &description);
     unsigned int GetSurfaceMemoryUsage() const;
     void DrawPixel(unsigned int x, unsigned int y, unsigned int color);
-    void Rva00116990(float red, float green, float blue);
+    void TintSurface(float red, float green, float blue);
     void rva00116D10(unsigned int x, unsigned int y, unsigned char alpha);
 private:
     void *surface;
@@ -264,7 +264,7 @@ void SurfaceClass::rva00116D10(unsigned int x, unsigned int y, unsigned char alp
 // Signed short/int packed stores reproduce retail's scalar SSE conversions.
 // Unsigned destinations make MSVC7.1 lower the same arithmetic to x87/ftol2;
 // signed/unsigned corresponding storage shares the observed bit representation.
-void SurfaceClass::Rva00116990(float red, float green, float blue)
+void SurfaceClass::TintSurface(float red, float green, float blue)
 {
     if (!surface) return;
     SurfaceDescription sd;

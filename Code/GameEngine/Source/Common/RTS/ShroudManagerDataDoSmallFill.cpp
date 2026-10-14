@@ -192,7 +192,7 @@ bool ShroudManager::Data::DoSmallFill(float x, float y, float radius)
 // GeometryShape is 36B with the existing GeometryInfo query and AsciiString
 // lifetime; the extra byte at+21 is initialized to one, purpose unknown.
 // Existing CDEArraySlot destructor pin proves the empty element callback.
-// Existing address-derived rva0073CAF0 declaration is the independently
+// Existing address-derived DoShroudReveal declaration is the independently
 // proven thiscall(x,y,radii[3],rotation,mask) contract from the rowed739A30
 // caller. No callee implementation or original method name is inferred here.
 // Native x87 rounding uses the existing FISTP conversion helper.
@@ -227,7 +227,7 @@ class BfmeHostEU {public:int bfmeStepsEU(const BfmeShapeEU*);};
 class ShroudManagerImpl {public:
  void QueueUndoShroudReveal(int,int,int*,float,unsigned);
 private:friend class ShroudManager::Data;
- void rva0073CAF0(int,int,void*,float,int);
+ void DoShroudReveal(int,int,void*,float,int);
 };
 
 // Calls retain the existing provider owner spellings; no alias or new pin.
@@ -270,7 +270,7 @@ void ShroudManager::Data::UpdateCellsTouched()
    ((UpdateOwner*)object)->reveal(&revealMask,&ranges[0],&ranges[1],&ranges[2]);
    rotation=((UpdateOwner*)object)->angle();
    for(i=0;i<3;++i)revealRadii[i]=ranges[i]<0?-1:updateDistance(grid,ranges[i]);
-   if(revealRadii[0]>=0)((ShroudManagerImpl*)grid)->rva0073CAF0(x,y,revealRadii,rotation,revealMask);
+   if(revealRadii[0]>=0)((ShroudManagerImpl*)grid)->DoShroudReveal(x,y,revealRadii,rotation,revealMask);
    for(i=0;i<3;++i){
     float range=((UpdateOwner*)object)->change(i,&changeAmounts[i],&changeMasks[i]);
     changeRadii[i]=range<0?-1:updateDistance(grid,range);

@@ -64,7 +64,7 @@ class InGameUI : public InGameUIPrimaryView, public InGameNotificationBox
 {
 public:
     void notifyHeroEarnedAward(CreateAHeroHero *, int);
-    void rva0029F954(Object *obj, const char *typeName, const int *label, float seconds);
+    void notifyOfHeroSpawnEvent(Object *obj, const char *typeName, const int *label, float seconds);
     virtual void rva0029B56E(const UnicodeString &text, const Rva002217EA &data, int timeoutMS);
     Rva005CB260 *rva000CF155()
     {
@@ -168,7 +168,7 @@ void InGameUI::notifyHeroEarnedAward(CreateAHeroHero *hero, int key)
 // with the object's display name goes to the +0x9CC notification movie with
 // the type's record carrying getButtonImage of the template and object.
 const Image *getButtonImage(ThingTemplate *tmpl, Object *obj);
-void InGameUI::rva0029F954(Object *obj, const char *typeName, const int *label, float seconds)
+void InGameUI::notifyOfHeroSpawnEvent(Object *obj, const char *typeName, const int *label, float seconds)
 {
  if (!obj->getTemplate()->isKindOf90() || !obj->getControllingPlayer()->isLocalPlayer())
   return;

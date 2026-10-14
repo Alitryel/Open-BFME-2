@@ -29,7 +29,7 @@ public:
 	void rva006E1C40(void *a, void *b);
 	void rva006E1540();
 	bool rva006CFCD0() const;
-	void rva006E2690(int arg);
+	void ClearCIH(int arg);
 
 	char m_pad04[0x4c - 0x4];
 	void *pData;
@@ -602,7 +602,7 @@ void AptDisplayList::clear(bool flag)
 		}
 		if (flag) {
 			cur->setGCRootCount(0);
-			((AptCIH *)cur)->rva006E2690(1);
+			((AptCIH *)cur)->ClearCIH(1);
 		}
 		AptValueVector *vec = g_releaseVectorAtE17710;
 		CullableClass *collected = ((CullSystemClass *)vec)->Get_First_Collected_Object_Internal();

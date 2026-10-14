@@ -406,7 +406,7 @@ class TerrainLogic
 public:
 	void setActiveBoundary(Int newActiveBoundary);
 	void rva00280176(const ThingTemplate *tmpl, const Coord3D *pos, const Matrix3D *mtx, Real scale);
-	void rva00283642(const ThingTemplate *tmpl, const Coord3D *pos, const Matrix3D *mtx, Real scale);
+	void addTree(const ThingTemplate *tmpl, const Coord3D *pos, const Matrix3D *mtx, Real scale);
 	Int getPartitionBucket(float *src);
 protected:
 	virtual void xfer(Xfer *xfer);
@@ -529,8 +529,8 @@ void TerrainLogic::rva00280176(const ThingTemplate *tmpl, const Coord3D *pos, co
 		&tmpl->getShadowTextureName(), &tmpl->getName());
 }
 
-// ?rva00283642@TerrainLogic@@QAEXPBVThingTemplate@@PBUCoord3D@@PBVMatrix3D@@M@Z @0x00283642
-void TerrainLogic::rva00283642(const ThingTemplate *tmpl, const Coord3D *pos, const Matrix3D *mtx, Real scale)
+// ?addTree@TerrainLogic@@QAEXPBVThingTemplate@@PBUCoord3D@@PBVMatrix3D@@M@Z @0x00283642
+void TerrainLogic::addTree(const ThingTemplate *tmpl, const Coord3D *pos, const Matrix3D *mtx, Real scale)
 {
 	m_field1910 = TheGameLogic->getFrame();
 	const ModuleInfo &mi = tmpl->getDrawModuleInfo();

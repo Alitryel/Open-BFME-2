@@ -42,10 +42,10 @@ class AptCreateAHero {public:class Manager;};
 class AptCreateAHero::Manager {public:
  char word0[4];HeroListScreenPrefix *screen;GameWindow *heroWindow,*otherWindow;
  CreateAHeroData *selectedHero;int word14;Rva005B61B3Less order;
- void rva005B6755();void rva005B6A05();void rva005B5F2E();
+ void PopulateHeroList();void rva005B6A05();void rva005B5F2E();
  void rva005B6A31(void *);void rva005B6A40(void *);void rva005B6A4F(void *);
 };
-void AptCreateAHero::Manager::rva005B6755() {
+void AptCreateAHero::Manager::PopulateHeroList() {
  if(TheCreateAHeroManager) {
   Rva0040A3F9 *list=TheCreateAHeroManager->rva0021F797();
   unsigned count=list->last-list->first;
@@ -101,22 +101,22 @@ void Rva005B5BDC::rva005B5BDC(unsigned int arg)
 // callbacks that set sort column 0/2/4 and repopulate the hero list.
 void AptCreateAHero::Manager::rva005B6A31(void *) {
  reinterpret_cast<Rva005B5BDC *>(this)->rva005B5BDC(0);
- rva005B6755();
+ PopulateHeroList();
 }
 void AptCreateAHero::Manager::rva005B6A40(void *) {
  reinterpret_cast<Rva005B5BDC *>(this)->rva005B5BDC(2);
- rva005B6755();
+ PopulateHeroList();
 }
 void AptCreateAHero::Manager::rva005B6A4F(void *) {
  reinterpret_cast<Rva005B5BDC *>(this)->rva005B5BDC(4);
- rva005B6755();
+ PopulateHeroList();
 }
 void AptCreateAHero::Manager::rva005B6A05() {
  if(selectedHero) {
   Rva0040A3F9 *list=TheCreateAHeroManager->rva0021F797();
   list->rva0040A441(selectedHero);
   selectedHero=0;
-  rva005B6755();
+  PopulateHeroList();
  }
 }
 

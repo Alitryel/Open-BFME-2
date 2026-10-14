@@ -792,7 +792,7 @@ public:
 	// The two pathfinder calls AIUpdate slot 139 (0x0026412B) makes: one
 	// taking the owner, then one taking the owner and a destination and
 	// returning the new path. Unnamed.
-	void rva002EF2A6(Object *obj);
+	void AdjustLayer(Object *obj);
 	Path *GetHordeUnitPath(Object *obj, const Coord3D *destination);
 	// Asked by AIUpdate slot 141 (0x00263404) whether a point down the path
 	// will do for the owner; unnamed.
@@ -2733,7 +2733,7 @@ void AIUpdateInterface::joinTeam()
 void AIUpdateInterface::micropathToPosition(const Coord3D *destination)
 {
 	Object *obj = getObject();
-	TheAI->pathfinder()->rva002EF2A6(obj);
+	TheAI->pathfinder()->AdjustLayer(obj);
 	destroyPath();
 	m_path = TheAI->pathfinder()->GetHordeUnitPath(obj, destination);
 	if (m_path)

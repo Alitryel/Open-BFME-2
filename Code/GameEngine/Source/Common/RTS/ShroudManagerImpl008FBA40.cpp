@@ -220,8 +220,8 @@ public:
 		Int cellRadius, UnsignedInt playerMask);
 
 private:
-	void rva0073CAF0(int,int,void*,float,int);
-	void rva0073CCC0(int,int,void*,float,int);
+	void DoShroudReveal(int,int,void*,float,int);
+	void UndoShroudReveal(int,int,void*,float,int);
 	int mode;
 	Region3D region;
 	Real defaultCellSize;
@@ -742,7 +742,7 @@ static __forceinline Rva0073BAA0Base revealUpdater(Gen_008F7CD0 *grid,unsigned m
 }
 char __cdecl Rva0073BF40Raster(int,int,int,Rva0073BAA0Base);
 char __cdecl Rva0073BFE0Raster(int*,int*,int,Rva0073BAA0Base);
-void ShroudManagerImpl::rva0073CAF0(int x,int y,void *opaque,float rotation,int mask)
+void ShroudManagerImpl::DoShroudReveal(int x,int y,void *opaque,float rotation,int mask)
 {
  int *radii=(int*)opaque;
  if(!mask || radii[0]<0)return;
@@ -766,7 +766,7 @@ void ShroudManagerImpl::rva0073CAF0(int x,int y,void *opaque,float rotation,int 
 
 char __cdecl Rva0073C3B0Raster(int,int,int,Rva0073BAA0Base);
 char __cdecl Rva0073C450Raster(int*,int*,int,Rva0073BAA0Base);
-void ShroudManagerImpl::rva0073CCC0(int x,int y,void *opaque,float rotation,int mask)
+void ShroudManagerImpl::UndoShroudReveal(int x,int y,void *opaque,float rotation,int mask)
 {
  int *radii=(int*)opaque;
  if(!mask || radii[0]<0)return;

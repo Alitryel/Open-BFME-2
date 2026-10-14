@@ -82,7 +82,7 @@ public:
 	Real GetWallHeight(PathfindLayerEnum layer, const Coord3D *pos, Coord3D *normal);
 	bool IsPointOnRamp(const Coord3D *pos);
 	PathfindLayerEnum rva002ED236(Object *obj, Rva002ED236Pos pos);
-	void rva002EF2A6(Object *obj);
+	void AdjustLayer(Object *obj);
 	void UpdateLayer(Object *obj, PathfindLayerEnum layer);
 
 private:
@@ -151,5 +151,5 @@ void Pathfinder::UpdateLayer(Object *obj, PathfindLayerEnum layer)
 			newLayer = layer;
 	}
 	obj->rva0028B4CE(newLayer);
-	rva002EF2A6(obj);
+	AdjustLayer(obj);
 }

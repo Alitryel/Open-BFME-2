@@ -26,12 +26,12 @@ public:
 	~W3DRadarResetSurface();
 };
 
-// The holder's level-fill callee is the rowed SurfaceClass::Rva00116990
+// The holder's level-fill callee is the rowed SurfaceClass::TintSurface
 // (0x00116990, SurfaceByteSize.cpp); the holder is passed as its this.
 class SurfaceClass
 {
 public:
-	void Rva00116990(float a, float b, float c);
+	void TintSurface(float a, float b, float c);
 };
 
 struct CursorTextureSlot
@@ -198,6 +198,6 @@ void CursorTextureSlot::FillLevelSurfaces(void)
 			c = 0.0f;
 			break;
 		}
-		((SurfaceClass *)&Get_Surface_Level(level))->Rva00116990(a, b, c);
+		((SurfaceClass *)&Get_Surface_Level(level))->TintSurface(a, b, c);
 	}
 }
