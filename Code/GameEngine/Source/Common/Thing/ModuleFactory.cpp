@@ -356,11 +356,15 @@ ModuleFactory::~ModuleFactory( void )
 // rows: taking every factory emitted Zero Hour inline copies proven not
 // retail's ahead of their owners in link order, which held those owners'
 // units out of the link. UpgradeModule's data factory is the one its
-// subclasses inherit. This compiler anchor is not a recovered retail function.
+// subclasses inherit. The CreateCrateDie, CrushDie and crate-collide data
+// factories also emitted this view's ModuleData constructors, proven not
+// retail's ahead of their owners; only the field parsers whose rows live here
+// are taken. This compiler anchor is not a recovered retail function.
 #define BFME_EMIT_MODULE_INSTANCE(cls) *instances++ = &cls::friend_newModuleInstance
 #define BFME_EMIT_MODULE_DATA(cls) *data++ = &cls::friend_newModuleData
 // ?bfmeEmitModuleFactoryInlines absent-from-retail
-void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *data)
+void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *data,
+	BuildMultiIniFieldProc *parsers)
 {
 	BFME_EMIT_MODULE_INSTANCE( BridgeTowerBehavior );
 	BFME_EMIT_MODULE_INSTANCE( InstantDeathBehavior );
@@ -368,9 +372,8 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 	BFME_EMIT_MODULE_DATA( SpawnBehavior );
 	BFME_EMIT_MODULE_INSTANCE( DestroyDie );
 	BFME_EMIT_MODULE_INSTANCE( CrushDie );
-	BFME_EMIT_MODULE_DATA( CrushDie );
 	BFME_EMIT_MODULE_INSTANCE( CreateCrateDie );
-	BFME_EMIT_MODULE_DATA( CreateCrateDie );
+	*parsers++ = &CreateCrateDieModuleData::buildFieldParse;
 	BFME_EMIT_MODULE_INSTANCE( CreateObjectDie );
 	BFME_EMIT_MODULE_INSTANCE( SpecialPowerCompletionDie );
 	BFME_EMIT_MODULE_INSTANCE( RebuildHoleExposeDie );
@@ -392,9 +395,8 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 	BFME_EMIT_MODULE_DATA( TransitionDamageFX );
 	BFME_EMIT_MODULE_INSTANCE( FireWeaponCollide );
 	BFME_EMIT_MODULE_INSTANCE( SquishCollide );
-	BFME_EMIT_MODULE_DATA( MoneyCrateCollide );
-	BFME_EMIT_MODULE_DATA( UnitCrateCollide );
-	BFME_EMIT_MODULE_DATA( SalvageCrateCollide );
+	*parsers++ = &UnitCrateCollideModuleData::buildFieldParse;
+	*parsers++ = &SalvageCrateCollideModuleData::buildFieldParse;
 	BFME_EMIT_MODULE_DATA( StructureBody );
 	BFME_EMIT_MODULE_INSTANCE( InactiveBody );
 	BFME_EMIT_MODULE_INSTANCE( AnimatedParticleSysBoneClientUpdate );
