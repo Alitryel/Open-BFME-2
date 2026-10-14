@@ -22904,10 +22904,6 @@ uw_0077c66a,,0x0077C66A,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;obje
 uw_0077c67c,,0x0077C67C,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L1743
 uw_0077c684,,0x0077C684,8,Code/gen_small/uw_gen_007.cpp,matched,gen-funclet;object-symbol=$L317
 uw_0077c694,,0x0077C694,8,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L3578
-uw_0077c7ac,,0x0077C7AC,14,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L3134
-uw_0077c81c,,0x0077C81C,14,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L2923
-uw_0077c82a,,0x0077C82A,14,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L2924
-uw_0077c838,,0x0077C838,14,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L2925
 uw_0077c846,,0x0077C846,14,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2317
 uw_0077c8b6,,0x0077C8B6,14,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2318
 uw_0077c8dc,,0x0077C8DC,14,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2320
@@ -62180,7 +62176,6 @@ _peerIsConnected,,0x006987C0,8,Code/GameEngine/Source/GameNetwork/GameSpy/peer/p
 ?Rva003E9029@@YG_NPBVAsciiString@@@Z,,0x003E9029,57,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditionsRva003E8FEE.cpp,matched,AsciiString plus ScriptEngine 0x208DB8 plus LivingWorld 0xB0 0x2104B6 booleanized
 ?Rva003C0E87Do@ScriptActions@@QAEXABVAsciiString@@H@Z,,0x003C0E87,130,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptGlueRva003C0E87.cpp,matched,lookup unit plus SupplyWarehouseDockUpdate module int dispatch via cached NameKey sibling of 0x3C3175; receiver repair: dispatcher3CA4BE restores ScriptActions this in ECX; RET alone did not prove stdcall; canonical header retains parameter contract
 ?rva003F1AB9@Rva003F1AB9Owner@@QAEXABV?$vector@HV?$allocator@H@_STL@@@_STL@@HHH_N1@Z,,0x003F1AB9,70,Code/GameEngine/Source/Common/Rva003F1AB9Setter.cpp,matched,vector assign at +0x158 plus three ints and two bytes straight-line thiscall ret 0x18
-?rva0077c8c4@@YAXXZ,,0x0077C8C4,24,Code/masm_dumps/EHStateCleanupRange38.asm,matched,Ghidra Unwind@00b7c8c4; 24-byte target ends at ret; target calls the rowed eh-vector-dtor iterator with frame slot [ebp-16]+0x3c4 and retail arguments stride 20 count 2 destructor VA 0x0046C94B; parent identity unknown; MASM retained for compiler-generated EH helper shape
 ?rva0077cb24@@YAXXZ,,0x0077CB24,24,Code/masm_dumps/EHStateCleanupRange38.asm,matched,Ghidra Unwind@00b7cb24; 24-byte target ends at ret; target calls the rowed eh-vector-dtor iterator with frame slot [ebp-20]+0x3c4 and retail arguments stride 20 count 2 destructor VA 0x0046C94B; parent identity unknown; MASM retained for compiler-generated EH helper shape
 ?rva0077d4f8@@YAXXZ,,0x0077D4F8,20,Code/masm_dumps/EHStateCleanupRange38.asm,matched,Ghidra Unwind@00b7d4f8; masked-add funclet add 0Ch tail-jumps to 0x0049B47C via gen-uw pin ??1Gen_uw_0049b47c; parent and local identity unproven; MASM SEH blocker
 ?rva0077d884@@YAXXZ,,0x0077D884,25,Code/masm_dumps/EHStateCleanupRange38.asm,matched,Ghidra Unwind@00b7d884; 25-byte target tests and clears bit 0 at [ebp-16] and tail-jumps to the rowed AsciiString destructor through [ebp+8]; parent identity unknown; MASM retains compiler-generated EH state helper shape
@@ -75899,7 +75894,6 @@ _Wmt_idct1,,0x001D89C0,98,Code/Libraries/Source/VP6/Idct1Wmt.cpp,matched,Clean-r
 ?rva0077831A@@YAXXZ,,0x0077831A,22,Code/masm_dumps/EHStateCleanupRange36.asm,matched,Ghidra Unwind@00b7831a; eh-vector-dtor funclet raw dtor 00695983 count 5 size 4 add 10h from ebp-20 callee ??_M 0x629110 retail-bytes-verified
 ?rva0077836F@@YAXXZ,,0x0077836F,22,Code/masm_dumps/EHStateCleanupRange36.asm,matched,Ghidra Unwind@00b7836f; eh-vector-dtor funclet raw dtor 00695983 count 5 size 4 add 10h from ebp-16 callee ??_M 0x629110 retail-bytes-verified
 ?rva0077BB8F@@YAXXZ,,0x0077BB8F,22,Code/masm_dumps/EHStateCleanupRange36.asm,matched,Ghidra Unwind@00b7bb8f; eh-vector-dtor funclet raw dtor 0072D4C0 count 20 size 96 add 40h from ebp-16 callee ??_M 0x629110 retail-bytes-verified
-?rva0077c75e@@YAXXZ,,0x0077C75E,22,Code/masm_dumps/EHStateCleanupRange38.asm,matched,Ghidra Unwind@00b7c75e; 22-byte target passes [ebp-16]+0x7c to eh-vector-dtor with size 4 count 5 and raw destructor VA 0x0088BA39; MASM retained for compiler-generated EH helper shape
 ?rva0077c9be@@YAXXZ,,0x0077C9BE,22,Code/masm_dumps/EHStateCleanupRange38.asm,matched,Ghidra Unwind@00b7c9be; 22-byte target passes [ebp-20]+0x7c to eh-vector-dtor with size 4 count 5 and raw destructor VA 0x0088BA39; MASM retained for compiler-generated EH helper shape
 ?rva0077e855@@YAXXZ,,0x0077E855,20,Code/masm_dumps/EHStateCleanupRange38.asm,matched,Ghidra Unwind@00b7e855; 20-byte masked-add funclet add 0Ch tail-jumps to EmissionVelocityInfo dtor at 0x0049B47C; MASM retained for compiler-generated EH helper shape
 ?rva00781953@@YAXXZ,,0x00781953,20,Code/masm_dumps/EHStateCleanupRange38.asm,matched,Ghidra Unwind@00b81953; 20-byte masked-add funclet with add 4 tail-jumps to dtor Rva0055B0CC; MASM retained for compiler-generated EH helper shape
@@ -88384,3 +88378,9 @@ uw_0077c774,,0x0077C774,14,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.c
 uw_0077c782,,0x0077C782,14,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L645
 uw_0077c790,,0x0077C790,14,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L646
 uw_0077c79e,,0x0077C79E,14,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L647
+uw_0077c7ac,,0x0077C7AC,14,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L648
+uw_0077c81c,,0x0077C81C,14,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L656
+uw_0077c82a,,0x0077C82A,14,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L657
+uw_0077c838,,0x0077C838,14,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L658
+?rva0077c8c4@@YAXXZ,,0x0077C8C4,24,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L668
+?rva0077c75e@@YAXXZ,,0x0077C75E,22,Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp,matched,gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L643

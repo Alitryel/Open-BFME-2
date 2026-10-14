@@ -54222,3 +54222,9 @@ uw_0077c774	0x0077C774	14	landed	add_match verified Code/GameEngine/Source/Commo
 uw_0077c782	0x0077C782	14	landed	add_match verified Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp 14B; gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L645
 uw_0077c790	0x0077C790	14	landed	add_match verified Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp 14B; gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L646
 uw_0077c79e	0x0077C79E	14	landed	add_match verified Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp 14B; gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L647
+uw_0077c7ac	0x0077C7AC	14	landed	add_match verified Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp 14B; gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L648
+uw_0077c81c	0x0077C81C	14	landed	add_match verified Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp 14B; gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L656
+uw_0077c82a	0x0077C82A	14	landed	add_match verified Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp 14B; gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L657
+uw_0077c838	0x0077C838	14	landed	add_match verified Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp 14B; gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L658
+?rva0077c8c4@@YAXXZ	0x0077C8C4	24	landed	add_match verified Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp 24B; gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L668
+?rva0077c75e@@YAXXZ	0x0077C75E	22	landed	add_match verified Code/GameEngine/Source/Common/Thing/Rva0033DDA1Dtor.cpp 22B; gen-funclet;parent=??1ThingTemplate@@UAE@XZ;object-symbol=$L643
