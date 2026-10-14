@@ -104,7 +104,6 @@ enum ObjectID
 
 void XferObjectID(Xfer *xfer, ObjectID *objectID);
 
-extern const float g_00BBB9AC;
 
 class Rva005258E2Listener
 {
@@ -191,7 +190,7 @@ void Rva00525ABF::rva00525ABF(Xfer *xfer)
 		BfmePod12 v14;
 		v14.a[0] = 0;
 		((char *)&v14.a[1])[0] = 0;
-		*(float *)&v14.a[2] = g_00BBB9AC;
+		*(float *)&v14.a[2] = -1.0f;
 		for (; n14 > 0; --n14) {
 			XferObjectID(xfer, (ObjectID *)&v14.a[0]);
 			tmp14.push_back(v14);
