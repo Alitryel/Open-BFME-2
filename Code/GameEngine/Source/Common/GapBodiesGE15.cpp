@@ -11,10 +11,13 @@ struct GapPair
 	int b;
 };
 
-// --- 0x002E7334 (26B): a word and a pair.
+// --- 0x002E7334 (26B): a word and a pair; 0x002E734E (58B): cell callback.
+struct Rva002E734ECell { int m_pad00[3]; unsigned int m_flags; };
+
 struct Rva002E7334
 {
 	Rva002E7334(int value, const GapPair &pair);
+	int rva002E734E(Rva002E734ECell *from, Rva002E734ECell *to, int x, int y);
 	int m_00;
 	int m_04;
 	int m_08;
@@ -22,6 +25,18 @@ struct Rva002E7334
 
 Rva002E7334::Rva002E7334(int value, const GapPair &pair) : m_00(value), m_04(pair.a), m_08(pair.b)
 {
+}
+
+// ?rva002E734E@Rva002E7334@@QAEHPAURva002E734ECell@@0HH@Z @0x002E734E (58B)
+// The trailing "&& 1" keeps retail's movzx between shr 16 and and 1.
+int Rva002E7334::rva002E734E(Rva002E734ECell *from, Rva002E734ECell *to, int x, int y)
+{
+	if (x == m_04 && y == m_08)
+		return 0;
+	unsigned int flags = to->m_flags;
+	if ((flags & 0xF) == 0 || (flags & 0xF) == 1)
+		return ((unsigned char)(flags >> 16) & 1) && 1;
+	return 1;
 }
 
 // --- 0x004E4E05 (37B): copy five settings from another record;
