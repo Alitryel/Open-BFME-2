@@ -1,4 +1,5 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
+// stlport
 // StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon: Select (retail
 // 0x005E70F8, 25 bytes), the ctor 0x005E7D77, its refresh 0x005E7C56 and
 // the icon-slot listener slots of its vtable 0x00877F14.
@@ -382,6 +383,7 @@ class Rva005F6B12 { public: int rva005F6B12(int) const; };
 class Rva0007DF07 {
 public:
  inline Rva0007DF07() : m_refCount(0) {}
+ void AddRef() { ++m_refCount; }
  virtual ~Rva0007DF07() {}
 private: int m_refCount;
 };
@@ -429,7 +431,7 @@ StrategicInGameUI::BuildQueueDetailsPanel::Impl::InProgressIcon::InProgressIcon(
 // vbptr4, owned 52B child8, counted virtual baseC and counter10.
 // Existing exact57B base5CC5E5 makes only field/vtable writes, no calls;
 // its nonthrowing declaration preserves retail's EH state across the call.
-// Native child421B returns this/RET16 and stores its owner at+10;
+// Native child457B (including its catch) returns this/RET16 and stores its owner at+10;
 // original outer and child names remain unknown, so retain address views.
 class Rva005CC5E5 : public virtual Rva0007DF07 {
 public:
@@ -439,11 +441,108 @@ public:
 };
 struct Rva005CE172Context;
 class Rva005E87E0;
-class Rva005E8350 {
+// Match the existing vector growth provider: no STL exception wrapper and
+// local min/max overloads, avoiding incompatible external COMDAT copies.
+namespace _STL { void __cdecl free(void *); }
+#define free _STL::free
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned &max(const unsigned &a,const unsigned &b){return a<b?b:a;}
+static inline const int &min(const int &a,const int &b){return b<a?b:a;}
+}
+#include <vector>
+#undef free
+void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
+struct Rva005E71C6Ref {
+ Rva005E7ED7 *m_object;
+ Rva005E71C6Ref(Rva005E7ED7 *p) : m_object(p) { if(p) p->AddRef(); }
+ Rva005E71C6Ref(const Rva005E71C6Ref &r) : m_object(r.m_object) { if(m_object) m_object->AddRef(); }
+ ~Rva005E71C6Ref() { if(m_object) ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)(Rva0007DF07 *)m_object); }
+};
+// Reuse the existing native range loop; the caller's local tag is part of
+// the STLport false-type dispatch ABI verified at 005E7FB0.
+struct Rva005E74AA;
+void Rva005E7BE2Destroy(Rva005E74AA *,Rva005E74AA *,void *);
+namespace _STL {
+template<> __declspec(noinline) inline void _Destroy<Rva005E71C6Ref *>(Rva005E71C6Ref *f,Rva005E71C6Ref *l) {
+ char tag;
+ Rva005E7BE2Destroy((Rva005E74AA *)f,(Rva005E74AA *)l,&tag);
+}
+}
+// Keep the game allocator's already expanded cleanup inline, avoiding
+// external copies that compete with units using the CRT declaration.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline void allocator<Rva005E71C6Ref>::deallocate(Rva005E71C6Ref *p,size_t n)const {if(p) _STL::free(p);}
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<Rva005E71C6Ref *,Rva005E71C6Ref,allocator<Rva005E71C6Ref> >::deallocate(Rva005E71C6Ref *p,size_t n){static_cast<allocator<Rva005E71C6Ref> &>(*this).deallocate(p,n);}
+}
+class Rva005F830A {
+public:
+ Rva005F830A(void *,void *,void *,void *);
+ virtual ~Rva005F830A();
+private: void *m_heap;
+};
+class Rva005E8350Observer08 {
+public:
+ virtual void slot0(void *) {}
+ virtual void slot1(void *) {}
+ virtual void slot2(void *) {}
+ ~Rva005E8350Observer08() {}
+};
+class Rva005E8350Observer0C {
+public:
+ virtual void slot0(Rva005E72B4Queue &) {}
+ virtual void slot1(Rva005E72B4Queue &,int) = 0;
+ virtual void slot2(Rva005E72B4Queue &,int) = 0;
+ ~Rva005E8350Observer0C() {}
+};
+class Rva002DF9E9 { public: UnicodeString rva002DF9E9(); };
+class Rva004E0625 { public: int rva004E0625() const; };
+struct Rva002BA8F1Listener;
+class Rva005A0B4CList { public: void append(Rva002BA8F1Listener *); };
+class CreateAHeroData;
+class Rva002B7250 { public: void rva002B7250(CreateAHeroData *); };
+class Rva005E7D72 { public: virtual ~Rva005E7D72(); };
+class Rva005E7FE2 {
+public:
+ Rva005E7D72 *m_ptr;
+ Rva005E7FE2() : m_ptr(0) {}
+ ~Rva005E7FE2() {
+  Rva005E7D72 *p=m_ptr;
+  m_ptr=0;
+  if(p) {
+   p->Rva005E7D72::~Rva005E7D72();
+   ::operator delete(p);
+  }
+ }
+ void reset(Rva005E7D72 *);
+};
+class Rva005E8095 { public: void rva005E8095(unsigned); };
+struct Rva005E8350Building { char unknown0[0x28]; Rva002DF9E9 *label; };
+// Field offsets are native evidence; this accessor name is reconstructed.
+// Keeping the pointer access inline gives the native hidden-return scheduling.
+struct Rva005CE172Context {
+ void *help;
+ Rva005E8350Building *building;
+ void *link;
+ inline Rva002DF9E9 *getLabelObject() const { return building->label; }
+};
+extern void *rva00E0672C;
+static const int MaximumQueuedIcons=7;
+inline void *rvaUnicodeAddress(const UnicodeString &s) { return (void *)&s; }
+class Rva005E8350 : public Rva005F830A, public Rva005E8350Observer08, public Rva005E8350Observer0C {
 public:
  Rva005E8350(Rva005E87E0 *,void *,void *,Rva005CE172Context *);
- virtual void slot0();
-private: char unknown04[0x30];
+ virtual ~Rva005E8350();
+ virtual void slot1(Rva005E72B4Queue &,int);
+ virtual void slot2(Rva005E72B4Queue &,int);
+private:
+ Rva005E87E0 *owner;
+ void *help;
+ Rva005E8350Building *building;
+ Rva005E72B4Queue *queue;
+ Rva005E7FE2 first;
+ _STL::vector<Rva005E71C6Ref> icons;
+ int selected;
 };
 class Rva005E87E0 : public Rva005CC5E5 {
 public:
@@ -556,4 +655,34 @@ void StrategicInGameUI::BuildQueueDetailsPanel::Impl::rva005E7AC6()
 	Icon **end = m_iconsEnd;
 	for (Icon **it = m_iconsBegin; it != end; ++it)
 		(*it)->Update();
+}
+
+// Native 005E8350..005E8519: initialize the title and both observers, create
+// at most seven queued icons, and unregister the building listener on failure.
+// The actual STLport push_back/growth bodies must remain visible to preserve
+// the eight-byte local frame and reuse the dead context argument for the title.
+// Whole body, catch and eleven-state EH graph are byte exact; see
+// reverse/attempt_evidence/0x005e8350_visibility.txt.
+Rva005E8350::Rva005E8350(Rva005E87E0 *o,void *a,void *b,Rva005CE172Context *c)
+ : Rva005F830A(a,b,rvaUnicodeAddress(c->getLabelObject()->rva002DF9E9()),rva00E0672C),
+ owner(o),help(c->help),building(c->building),queue((Rva005E72B4Queue *)((Rva004E0625 *)c->building)->rva004E0625()),selected(-1)
+{
+ ((Rva005A0B4CList *)((char *)building+8))->append((Rva002BA8F1Listener *)(Rva005E8350Observer08 *)this);
+ try {
+ const Rva005E72B4Production *production=queue->slot13();
+ int count=production->end-production->begin;
+ if(count>0) {
+  first.reset((Rva005E7D72 *)new StrategicInGameUI::BuildQueueDetailsPanel::Impl::InProgressIcon((StrategicInGameUI::BuildQueueDetailsPanel::Impl *)this,false));
+  if(count>1) {
+   int available=count-1;
+   int n=_STL::min(available,MaximumQueuedIcons);
+   ((Rva005E8095 *)&icons)->rva005E8095(n);
+   for(int i=0;i<n;++i) icons.push_back(Rva005E71C6Ref(new Rva005E7ED7((StrategicInGameUI::BuildQueueDetailsPanel::Impl *)this,i+1)));
+  }
+ }
+ ((Rva005A0B4CList *)((char *)queue+4))->append((Rva002BA8F1Listener *)(Rva005E8350Observer0C *)this);
+ } catch(...) {
+ ((Rva002B7250 *)((char *)building+8))->rva002B7250((CreateAHeroData *)(Rva005E8350Observer08 *)this);
+ throw;
+ }
 }
