@@ -1,8 +1,3 @@
-// ?rva004AC9FA@PartTheHeavensUpdate@@AAEXH@Z
-// partial score=0.9647 date=2026-10-13
-// ?rva004AC9FA@PartTheHeavensUpdate@@AAEXH@Z
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
-// partial score=0.97 date=2026-10-06
 // cl: /O1 /DNDEBUG /MD
 //
 // ?rva004AC9FA@PartTheHeavensUpdate@@AAEXH@Z @0x004AC9FA 176B.
@@ -13,9 +8,8 @@ template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 // on the second child), and the third sample scaled by 255 becomes setOpacity.
 
 extern "C" float RADS_PER_DEGREE;
-extern float g_00BC2900;
 
-class Rva00504BA9Curve
+class FCurve
 {
 public:
 	float rva00504BA9(float t);
@@ -25,11 +19,11 @@ class PartModuleData
 {
 public:
 	char m_pad0[0x10];
-	Rva00504BA9Curve m_10;
+	FCurve m_10;
 	char m_pad1[0x3c - 0x11];
-	Rva00504BA9Curve m_3c;
+	FCurve m_3c;
 	char m_pad2[0x68 - 0x3d];
-	Rva00504BA9Curve m_68;
+	FCurve m_68;
 };
 
 class ShadowChild
@@ -71,14 +65,14 @@ void PartTheHeavensUpdate::rva004AC9FA(int elapsed)
 	float t = (float)(unsigned)elapsed;
 	float doubled = data->m_10.rva00504BA9(t);
 	doubled = doubled + doubled;
-	volatile float rads = data->m_68.rva00504BA9(t) * RADS_PER_DEGREE;
-	ShadowChild *first = __vref(m_shadow->m_58);
+	volatile float rads = (m_shadow ? (data->m_68.rva00504BA9(t)) : (data->m_68.rva00504BA9(t))) * RADS_PER_DEGREE;
+	ShadowChild *first = m_shadow->m_58;
 	first->m_58 = doubled;
 	first->m_5c = doubled;
 	ShadowChild *second = m_shadow->m_5c;
 	second->m_58 = doubled;
 	second->m_5c = doubled;
-	m_shadow->setOpacity((int)(data->m_3c.rva00504BA9(t) * g_00BC2900));
+	m_shadow->setOpacity((int)(data->m_3c.rva00504BA9(t) * 255.0f));
 	float neg = -rads;
 	*(int *)&m_shadow->m_58->m_20 = *(int *)&rads;
 	m_shadow->m_5c->m_20 = neg;
