@@ -1,6 +1,6 @@
 // STLport4.5.3 reference operation. Target boundary, calls and full bytes are verified.
 // Element identity and unconstrained fields remain address-derived structural inference.
-// cl: /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: -O1 -arch:SSE -G7 -EHsc -MD -D_CRTIMP= -D_STLP_USE_STATIC_LIB -D_STLP_NO_EXCEPTIONS -Ireference/shims/bfmealloc
 // stlport
 #include <stl/_algobase.h>
 // Retain the resolved shim operations inline without redundant COMDAT copies.
@@ -63,3 +63,6 @@ void Rva0018C7E5Vector::resize(unsigned int n, unsigned short x)
  }
  else _M_fill_insert(end(), n-size(), *(const Rva0018C41EElement *)&x);
 }
+
+// STLport4.5.3 _vector.h public count-insertion adaptor; complete native tail to owned _M_fill_insert.
+template void _STL::vector<Rva0018C41EElement, _STL::allocator<Rva0018C41EElement> >::insert(Rva0018C41EElement *, unsigned int, const Rva0018C41EElement &);
