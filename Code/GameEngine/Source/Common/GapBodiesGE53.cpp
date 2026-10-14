@@ -96,7 +96,16 @@ class Rva002E071E
 public:
 	bool rva002E071E(const Rva002E071E *other) const;	// 0x002E071E
 	bool rva0020E312(const Rva002E071E *other) const;
+	int rva002E0BC0(int id);							// 0x002E0BC0
+	bool rva0020E301(int id);
 };
+
+// --- 0x0020E301 (17B): the negation of the rowed 0x002E0BC0 id test. That
+// row is spelled int but its callers read only AL, so the byte is negated.
+bool Rva002E071E::rva0020E301(int id)
+{
+	return !(unsigned char)rva002E0BC0(id);
+}
 
 bool Rva002E071E::rva0020E312(const Rva002E071E *other) const
 {
