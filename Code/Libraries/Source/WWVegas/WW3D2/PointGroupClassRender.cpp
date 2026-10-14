@@ -131,9 +131,12 @@ private:
 };
 
 // One APT compression step of 0x00917920. The buffer is a reference, so the
-// Resize call stays virtual as in retail.
+// Resize call stays virtual as in retail. Internal linkage is significant:
+// the emitted helpers at 17EF50/17EF90/17EFD0 take source in EBX, buffer in
+// ESI and count in EDI. With the real caller visible, static inline reproduces
+// that compiler-private convention while keeping the enclosing bodies exact.
 template <class T, class S>
-inline T *rva00917920_compress(VectorClass<T> &buffer, S *source, unsigned int *apt, int count)
+static inline T *rva00917920_compress(VectorClass<T> &buffer, S *source, unsigned int *apt, int count)
 {
 	if (source) {
 		if (buffer.Length() < count) {
