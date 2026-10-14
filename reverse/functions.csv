@@ -89562,3 +89562,17 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva00625870@Rva00625870@@QAEXXZ,,0x00625870,12,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,bfmeDropYQ of +4 word on object at +0
 ?rva006FBB70@Rva006FBB70@@QAE_NABVEAStringC@@@Z,,0x006FBB70,22,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,key found by rowed lookup 0x0070B380 on +08 member
 ?rva00615230@ChunkLoadClass@@QAEKPAX@Z,,0x00615230,15,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,four-byte read via rowed ChunkLoadClass Read 0x006151A0
+?rva0054FF12@Rva0054FF12@@QAEXXZ,,0x0054FF12,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed deque PingRequest pop_front on member at +0
+?rva00550C81@Rva00550C81@@QAEXXZ,,0x00550C81,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed deque BuddyRequest pop_front on member at +0
+?rva00550C86@Rva00550C86@@QAEXXZ,,0x00550C86,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed deque BfmeOpaque2148 pop_front on member at +0
+?rva00551B1E@Rva00551B1E@@QAEXABVBuddyRequest@@@Z,,0x00551B1E,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed deque BuddyRequest push_back on member at +0
+?rva00551B23@Rva00551B23@@QAEXABUBfmeOpaque2148@@@Z,,0x00551B23,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed deque BfmeOpaque2148 push_back on member at +0
+?rva00557B46@Rva00557B46@@QAEXXZ,,0x00557B46,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed deque BfmeOpaqueOwnedRecord1432 pop_front on member at +0
+?rva00557BA2@Rva00557BA2@@QAEXXZ,,0x00557BA2,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed deque BfmeOpaqueOwnedRecord1408 pop_front on member at +0
+?rva00559131@Rva00559131@@QAEXABUBfmeOpaqueOwnedRecord1432@@@Z,,0x00559131,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed deque BfmeOpaqueOwnedRecord1432 push_back on member at +0
+?rva00559136@Rva00559136@@QAEXABUBfmeOpaqueOwnedRecord1408@@@Z,,0x00559136,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed deque BfmeOpaqueOwnedRecord1408 push_back on member at +0
+?Rva0052BFCF@@YAXPAVRva004E1A04@@@Z,,0x0052BFCF,9,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,cdecl destroy via rowed dtor 0x004E1A04
+?Rva0052BFD8@@YAXPAVRva004E366E@@@Z,,0x0052BFD8,9,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,cdecl reset via rowed 0x004E366E
+?Rva00534626@@YAXPAVRva005344C0@@@Z,,0x00534626,9,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,cdecl destroy via rowed dtor 0x005344C0
+?Rva005690DE@@YAXPAVRva00568C4E@@@Z,,0x005690DE,9,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,cdecl destroy via rowed dtor 0x00568C4E
+?Rva005690E7@@YAXPAVBfmePoolRef10@@@Z,,0x005690E7,9,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,cdecl destroy via rowed dtor 0x000519AB

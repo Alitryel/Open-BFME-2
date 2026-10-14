@@ -104,6 +104,8 @@ namespace _STL
 	{
 	public:
 		~deque();
+		void pop_front();
+		void push_back(const T &value);
 	};
 	template <class A, class B> struct pair;
 	template <class P> struct _Select1st;
@@ -743,4 +745,177 @@ private:
 int Rva00600396::rva00600396()
 {
 	return m_14->rva003F468D(m_18, m_1c);
+}
+
+// Queue-style wrappers over a deque held at +0: each is a bare tail jump to
+// the rowed deque<T>::pop_front / push_back of the same instantiation. The
+// owning adaptor types are unrecovered, so each keeps an address name.
+class PingRequest;
+class BuddyRequest;
+struct BfmeOpaqueOwnedRecord1432;
+struct BfmeOpaqueOwnedRecord1408;
+
+// ?rva0054FF12@Rva0054FF12@@QAEXXZ @0x0054FF12 5B: deque<PingRequest>::pop_front.
+class Rva0054FF12
+{
+public:
+	void rva0054FF12();
+private:
+	_STL::deque<PingRequest> m_queue;
+};
+void Rva0054FF12::rva0054FF12()
+{
+	m_queue.pop_front();
+}
+
+// ?rva00550C81@Rva00550C81@@QAEXXZ @0x00550C81 5B: deque<BuddyRequest>::pop_front.
+class Rva00550C81
+{
+public:
+	void rva00550C81();
+private:
+	_STL::deque<BuddyRequest> m_queue;
+};
+void Rva00550C81::rva00550C81()
+{
+	m_queue.pop_front();
+}
+
+// ?rva00550C86@Rva00550C86@@QAEXXZ @0x00550C86 5B: deque<BfmeOpaque2148>::pop_front.
+class Rva00550C86
+{
+public:
+	void rva00550C86();
+private:
+	_STL::deque<BfmeOpaque2148> m_queue;
+};
+void Rva00550C86::rva00550C86()
+{
+	m_queue.pop_front();
+}
+
+// ?rva00551B1E@Rva00551B1E@@QAEXABVBuddyRequest@@@Z @0x00551B1E 5B: deque<BuddyRequest>::push_back.
+class Rva00551B1E
+{
+public:
+	void rva00551B1E(const BuddyRequest &value);
+private:
+	_STL::deque<BuddyRequest> m_queue;
+};
+void Rva00551B1E::rva00551B1E(const BuddyRequest &value)
+{
+	m_queue.push_back(value);
+}
+
+// ?rva00551B23@Rva00551B23@@QAEXABUBfmeOpaque2148@@@Z @0x00551B23 5B: deque<BfmeOpaque2148>::push_back.
+class Rva00551B23
+{
+public:
+	void rva00551B23(const BfmeOpaque2148 &value);
+private:
+	_STL::deque<BfmeOpaque2148> m_queue;
+};
+void Rva00551B23::rva00551B23(const BfmeOpaque2148 &value)
+{
+	m_queue.push_back(value);
+}
+
+// ?rva00557B46@Rva00557B46@@QAEXXZ @0x00557B46 5B: deque<BfmeOpaqueOwnedRecord1432>::pop_front.
+class Rva00557B46
+{
+public:
+	void rva00557B46();
+private:
+	_STL::deque<BfmeOpaqueOwnedRecord1432> m_queue;
+};
+void Rva00557B46::rva00557B46()
+{
+	m_queue.pop_front();
+}
+
+// ?rva00557BA2@Rva00557BA2@@QAEXXZ @0x00557BA2 5B: deque<BfmeOpaqueOwnedRecord1408>::pop_front.
+class Rva00557BA2
+{
+public:
+	void rva00557BA2();
+private:
+	_STL::deque<BfmeOpaqueOwnedRecord1408> m_queue;
+};
+void Rva00557BA2::rva00557BA2()
+{
+	m_queue.pop_front();
+}
+
+// ?rva00559131@Rva00559131@@QAEXABUBfmeOpaqueOwnedRecord1432@@@Z @0x00559131 5B: deque<BfmeOpaqueOwnedRecord1432>::push_back.
+class Rva00559131
+{
+public:
+	void rva00559131(const BfmeOpaqueOwnedRecord1432 &value);
+private:
+	_STL::deque<BfmeOpaqueOwnedRecord1432> m_queue;
+};
+void Rva00559131::rva00559131(const BfmeOpaqueOwnedRecord1432 &value)
+{
+	m_queue.push_back(value);
+}
+
+// ?rva00559136@Rva00559136@@QAEXABUBfmeOpaqueOwnedRecord1408@@@Z @0x00559136 5B: deque<BfmeOpaqueOwnedRecord1408>::push_back.
+class Rva00559136
+{
+public:
+	void rva00559136(const BfmeOpaqueOwnedRecord1408 &value);
+private:
+	_STL::deque<BfmeOpaqueOwnedRecord1408> m_queue;
+};
+void Rva00559136::rva00559136(const BfmeOpaqueOwnedRecord1408 &value)
+{
+	m_queue.push_back(value);
+}
+
+// cdecl destroy helpers: ecx = the argument, then a tail jump to the rowed
+// destructor (or reset member) of the pointee.
+class Rva004E1A04
+{
+public:
+	~Rva004E1A04();
+};
+class Rva004E366E
+{
+public:
+	void rva004E366E();
+};
+class Rva005344C0
+{
+public:
+	~Rva005344C0();
+};
+class Rva00568C4E
+{
+public:
+	~Rva00568C4E();
+};
+class BfmePoolRef10
+{
+public:
+	~BfmePoolRef10();
+};
+void Rva0052BFCF(Rva004E1A04 *p)
+{
+	p->~Rva004E1A04();
+}
+void Rva0052BFD8(Rva004E366E *p)
+{
+	p->rva004E366E();
+}
+void Rva00534626(Rva005344C0 *p)
+{
+	p->~Rva005344C0();
+}
+void Rva005690DE(Rva00568C4E *p)
+{
+	p->~Rva00568C4E();
+}
+void Rva005690E7(BfmePoolRef10 *p)
+{
+	p->~BfmePoolRef10();
 }
