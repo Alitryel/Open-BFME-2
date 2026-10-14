@@ -1,4 +1,6 @@
 // ??HEAStringC@@QBE?AV0@PBD@Z
+// partial score=0.9956 date=2026-10-14
+// ??HEAStringC@@QBE?AV0@PBD@Z
 // partial score=0.998 date=2026-10-13
 #include <string.h>
 #include <stdlib.h>
@@ -83,9 +85,8 @@ EAStringC EAStringC::operator+(const char *other) const
 		return *this;
 	unsigned int total = size + otherSize;
 	EAStringC result(total);
-	const char *source = (char *)m_pData + sizeof(StringDataC);
 	char *text = (char *)(result.m_pData + 1);
-	memcpy(text, source, size);
+	memcpy(text, (char *)m_pData + sizeof(StringDataC), size);
 	memcpy(text + size, other, otherSize);
 	text[size + otherSize] = 0;
 	result.SetSize(total);
