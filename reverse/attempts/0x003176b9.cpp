@@ -1,27 +1,120 @@
 // ?Rva003176B9@@YAPAXVAsciiString@@@Z
-// partial score=0.85 date=2026-10-13
-// ?Rva003176B9@@YAPAXVAsciiString@@@Z
-// partial score=0.85 date=2026-10-13
+// partial score=0.529 date=2026-10-14
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmelist /Ireference/shims/bfmealloc
 // stlport
-// FRAGMENT for Code/GameEngine/Source/GameClient/GUI/Rva0031763ACtorDtorAssign.cpp (needs its Rva0031763A view + AsciiString).
-// Retail is ONE 190B function 0x003176B9..0x00317776 (ret 4); the queue 94B Ghidra boundary splits head from tail at 0x00317717 (head jumps out, no ret).
-// Decoded: by-value AsciiString param (param dtor 0x36410 at end, ret 4); local Rva0031763A via rowed ctor; by-value temp via rowed StringBase copy 0x365F0;
-// rowed WindowLayoutInfo::load 0x31742C on reinterpreted &local (layout relation unproven); false->NULL; local+0x10 fnptr (field_10 per winCreateFromScript view):
-// null->rowed new 0x2FDA0 + rowed QM ctor 0x538C0E + rowed attach 0x538C6D, else call it; result in esi; dtor via rowed 0x3175D1.
-// WALL: frame sub 0x34 + saves ebx/esi/edi + local at [ebp-0x40] vs ours sub 0x30 + esi-only + [ebp-0x3C]; retail ebx/edi saved but never used.
-// Tried: result-var, screen-var (plain + pre-init), early returns. Next: probe extra-block-scope temps or wrapper-struct locals.
+//
+// ??1Rva0031763A@@QAE@XZ @0x003175D1 105B, ??0Rva0031763A@@QAE@XZ @0x0031763A 127B,
+// ??4Rva0031763A@@QAEAAV0@ABV0@@Z @0x00317779 115B. Honest-address ctor/dtor/copy-assign
+// trio for the same 0x2C-byte value struct used as a local in FUN_007177ec and
+// FUN_008115a9 (Apt/Window layout-block parsing): 5 dwords at +0x00..+0x10 zeroed,
+// 5 AsciiStrings at +0x14..+0x24, _STL::list<int> at +0x28.
+// - dtor destroys list via rowed _List_base dtor 0x4EC395 then 5 Strings via pinned
+//   0x36410 (both ??1AsciiString and ??1StringBase fold there), EH states 4..0 + -1.
+// - ctor mem-inits 5 ints to 0, 3 Strings from AsciiString::TheEmptyString (0x9E0878)
+//   via pinned copy 0x365F0 (AsciiString and StringBase spellings fold there), 2 Strings
+//   default-zeroed inline, list via rowed _List_base ctor 0x4EC36C, body clears list via
+//   rowed 0x23DAA5; EH states mirror the dtor and the StringBase-forwarder gives the
+//   retail lea-before-push order (probe-proven: simple AsciiString model misorders).
+// - assign copies 5 dwords then 5 Strings via pinned assign 0x366F0 then list via rowed
+//   list assign 0x2C54EE, ret 4.
+// Identity: honest Rva0031763A (ctor address); class layout proven by the assign body
+// (5x dword + 5x String assign + list assign) and by FUN_007177ec setting +0x14..+0x20
+// to "APT:None" and inserting into +0x28. Callers: ctor from 0x3176D3/0x317843/
+// 0x4116C0/0x411709, dtor from 0x317755/0x3179E6/0x4116F7/0x411746 plus Unwind funclets,
+// assign sole-called from 0x317B1D. Flags: neighbour parseDrawCallback /O1 /DNDEBUG /MD
+// /EHsc plus /D_STLP_USE_STATIC_LIB for list<int> (ProductionUpdateCtor precedent);
+// shims with /D_CRTIMP=/bfmealloc/bfmelist collapse the dtor EH to max 3 (probe-proven).
+// No BFME1 donor; non-virtual QAE (no vptr stores).
 
-// ?Rva003176B9@@YAPAXVAsciiString@@@Z @0x003176B9 190B (retail 0x003176B9..
-// 0x00317776; the queue's 94B Ghidra boundary splits the head from its tail
-// at 0x00317717). Loads the named layout into a local Rva0031763A parse
-// struct via rowed WindowLayoutInfo::load 0x0031742C (by-value AsciiString
-// temp through rowed StringBase copy 0x00365F0); the layout relationship is
-// unproven (0x44 info vs 0x2C struct) so the call goes through a
-// reinterpret_cast. load-false returns 0; otherwise the struct's +0x10 word
-// is a factory: null makes a rowed BfmeQuickMatchScreenBase (0x24 via rowed
-// operator new 0x2FDA0, rowed no-arg ctor 0x538C0E, rowed attach 0x538C6D),
-// else the factory is called with the struct. Returns the object (esi).
+#include <list>
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> _List_base<int, allocator<int> >::_List_base(const allocator<int> &);
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> list<int, allocator<int> >::_Node *list<int, allocator<int> >::_M_create_node(const int &);
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> void _List_base<int, allocator<int> >::clear();
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> _List_base<int, allocator<int> >::~_List_base();
+}
+
+// Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
+// rather than emitting its own.
+namespace _STL {
+template <> list<int, allocator<int> >::iterator list<int, allocator<int> >::erase(list<int, allocator<int> >::iterator);
+}
+
+// vector<int> fill/insert otherwise instantiates the _Construct<int,int>
+// COMDAT (one byte shape per TU flags); a file-static overload takes those
+// calls instead so this TU emits no external copy.
+#include <new>
+namespace _STL {
+static inline void _Construct(int *__p, const int &__val)
+{ new (__p) int(__val); }
+}
+
+// list<int> destruction otherwise instantiates per-TU deallocate
+// COMDATs (one byte shape per TU flags); explicit dllimport+forceinline
+// specializations take those calls inline so this TU emits no external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<int> >::deallocate(_List_node<int>* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) __sgi_alloc::deallocate((void*)__p, __n * sizeof(value_type));
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<int> *, _List_node<int>, allocator<_List_node<int> > >::deallocate(_List_node<int> *__p, size_t __n) {
+  allocator<_List_node<int> >().deallocate(__p, __n);
+}
+}
+
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+
+
+#include "ascii_string.h"
+
+
+class Rva0031763A
+{
+public:
+	Rva0031763A();
+	~Rva0031763A();
+	Rva0031763A &operator=(const Rva0031763A &that);
+private:
+	int m_unk00; // +0x00
+	int m_unk04; // +0x04
+	int m_unk08; // +0x08
+	int m_unk0C; // +0x0C
+	int m_unk10; // +0x10
+	AsciiString m_s14; // +0x14
+	AsciiString m_s18; // +0x18
+	AsciiString m_s1C; // +0x1C
+	AsciiString m_s20; // +0x20
+	AsciiString m_s24; // +0x24
+	_STL::list<int, _STL::allocator<int> > m_list28; // +0x28
+};
+
+
 class WindowLayoutInfo
 {
 public:
