@@ -1,6 +1,8 @@
 // ?Store_Thai_GDI_Glyph@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z
+// partial score=0.7563 date=2026-10-14
+// ?Store_Thai_GDI_Glyph@FontCharsClass@@AAEPBVFontCharsClassCharDataStruct@@G@Z
 // partial score=0.924901 date=2026-10-09
-// cl: /O2 /arch:SSE /G7 /DNDEBUG /MD /EHsc
+// cl: /O2 /G7 /DNDEBUG /MD /EHsc
 // stlport
 // FontCharsClass::Store_Thai_GDI_Glyph, target 00157FF0..0015851B (1323B).
 // WB 009F1BD0 supplies the named glyph-index rasterization and averaging loop.
@@ -118,7 +120,7 @@ const FontCharsClassCharDataStruct *FontCharsClass::Store_Thai_GDI_Glyph(unsigne
    RECT rect={0,0,tileWidth,tileHeight};
    int sx=tx*tileWidth,sy=ty*tileHeight;
    ::ExtTextOutW(g_fontCharsGdiState->dc,origin-sx,-sy,0x12,&rect,&glyph,1,0);
-   int maxX=tx*tileX+tileX;
+   int maxX=tx*tileX+(64/Scale);
    if(maxX>width) maxX=width;
    int maxY=ty*tileY+tileY;
    if(maxY>height) maxY=height;

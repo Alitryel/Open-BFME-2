@@ -1,4 +1,6 @@
 // ?Capture_Update@HTreeClass@@QAEHH@Z
+// partial score=0.8361 date=2026-10-14
+// ?Capture_Update@HTreeClass@@QAEHH@Z
 // partial score=0.8507274193219757 date=2026-10-14
 // ?Capture_Update@HTreeClass@@QAEHH@Z
 // partial score=0.8507 date=2026-10-13
@@ -172,7 +174,7 @@ int HTreeClass::Capture_Update(int pivot_index)
  {
   QuatTransform &t=Pivot[pivot_index].Transform;
   ROTADD_L(t.Translation,t.Rotation,bone->Translation);
-  t.Rotation.postMul(bone->Rotation);
+  (Pivot[pivot_index].Transform).Rotation.postMul(bone->Rotation);
   
  }
  ++bone;
