@@ -355,7 +355,7 @@ void Rva00437E9C(int value);
 
 // Unrowed 0x0044C0A8 (158 bytes, cdecl, takes both strings by value and a
 // pointer that defaults to 0x004B3FD0 when null), pinned by address.
-void Rva0044C0A8(UnicodeString title, UnicodeString text, void *callback);
+void MessageBoxOk(UnicodeString title, UnicodeString text, void (*callback)());
 
 struct Rva00511730State;
 class AptMessenger { public: static AptMessenger *s_instance; };
@@ -806,7 +806,7 @@ void AptLanLobby::MpOwnerPrintMessage(const UnicodeString &text, int kind)
 		break;
 	case 1:
 		if (!AptMessenger::s_instance)
-			Rva0044C0A8(UnicodeString(L""), text, 0);
+			MessageBoxOk(UnicodeString(L""), text, 0);
 		TheLAN->v40(UnicodeString(L"SYSTEM"), TheLAN->v64(text, 3));
 		break;
 	case 2:

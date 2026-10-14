@@ -674,7 +674,7 @@ void AptCreateAHero::Powers::rva005B314B(const char *path)
 // AptCreateAHeroPowersRva005B4653.cpp owns the definition (data row
 // 0x00C72CAC); a second one here would not link.
 extern const int g_00C72CAC[10];
-void Rva0044C0A8(UnicodeString,UnicodeString,void*);
+void MessageBoxOk(UnicodeString, UnicodeString, void (*)());
 void AptCreateAHero::Powers::rva005B335E()
 {
  if (m_rows[1]==0) {
@@ -697,7 +697,7 @@ void AptCreateAHero::Powers::rva005B335E()
      text.concat(full);
      if (!m_flag59) {
        m_flag59=true;
-       Rva0044C0A8(UnicodeString(L""),full,0);
+       MessageBoxOk(UnicodeString(L""),full,0);
      }
    } else if (m_numPowers!=0) {
      m_flag59=false;

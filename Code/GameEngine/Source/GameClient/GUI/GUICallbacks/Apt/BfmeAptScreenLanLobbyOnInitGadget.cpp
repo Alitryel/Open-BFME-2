@@ -277,7 +277,7 @@ public:
 void GadgetListBoxGetSelected(GameWindow *listbox, int *selected);
 
 // Unrowed 0x0044C0A8 (message box with title, text and callback), pinned.
-void Rva0044C0A8(UnicodeString title, UnicodeString text, void *callback);
+void MessageBoxOk(UnicodeString title, UnicodeString text, void (*callback)());
 
 class GameModePreferences
 {
@@ -736,7 +736,7 @@ int AptLanLobby::OnUpdateData()
 			LANGameInfo *game = TheLAN->GetMyGame();
 			if (!game || game->getLocalSlotNum() == -1)
 			{
-				Rva0044C0A8(TheGameText->fetch("GUI:GSErrorTitle"), TheGameText->fetch("GUI:GSKicked"), 0);
+				MessageBoxOk(TheGameText->fetch("GUI:GSErrorTitle"), TheGameText->fetch("GUI:GSKicked"), 0);
 				rva004443E7();
 				m_6a4 = 0;
 			}
@@ -755,7 +755,7 @@ int AptLanLobby::OnUpdateData()
 		if (m_socketError == 1)
 		{
 			m_socketError = 0;
-			Rva0044C0A8(TheGameText->fetch("GUI:NetworkError"), TheGameText->fetch("GUI:SocketError"), 0);
+			MessageBoxOk(TheGameText->fetch("GUI:NetworkError"), TheGameText->fetch("GUI:SocketError"), 0);
 			Rva00444040Enable();
 		}
 	}
