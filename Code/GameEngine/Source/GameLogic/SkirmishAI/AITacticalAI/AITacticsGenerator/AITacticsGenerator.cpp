@@ -217,7 +217,7 @@ public:
 	void UnRegister(Team *unit);
 	Rva00506909(void *owner);
 	~Rva00506909();
-	void xfer(Xfer *xfer);
+	void DoXfer(Xfer *xfer);
 	void rva005069B4();
 	bool activateTactic(Rva00506909Request *request, void *arg);
 private:
@@ -538,7 +538,7 @@ Rva00506909::~Rva00506909()
 // 0x0050652D: Version(1, 1), the four generator-pool sizes, then each item
 // list: its count, then every item's name followed by the item itself;
 // loading rebuilds each item from its name (0x00505D91).
-void Rva00506909::xfer(Xfer *xfer)
+void Rva00506909::DoXfer(Xfer *xfer)
 {
 	Xfer::Version version(1, 1);
 	*xfer == version;

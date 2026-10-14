@@ -384,7 +384,7 @@ private:
  unsigned m_10; float m_14,m_18; unsigned m_1C;
 };
 class AITargetChooser { public: void xfer(Xfer *); };
-class Rva00506909 { public: void xfer(Xfer *); };
+class Rva00506909 { public: void DoXfer(Xfer *); };
 class ModuleData;
 struct Rva002C6354Buffer
 {
@@ -492,7 +492,7 @@ void Rva002C6354::DoXfer(Xfer *x)
  bool hasChooser = m_0C != 0;
  x->v36(hasChooser);
  if (m_0C) m_0C->xfer(x);
- m_10->xfer(x);
+ m_10->DoXfer(x);
  _STL::vector<const ModuleData *> &entries =
      *reinterpret_cast<_STL::vector<const ModuleData *> *>(&m_buffer);
  unsigned count = entries.size();

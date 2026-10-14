@@ -128,7 +128,7 @@ class AITargetChooser { public: void xfer(Xfer *); void rva00505911(); Rva002C58
 class Rva00506909
 {
 public:
-    void xfer(Xfer *);
+    void DoXfer(Xfer *);
     void Register(Team *);
     void UnRegister(Team *);
     void rva005069B4();
@@ -164,7 +164,7 @@ void TacticalAI::DoXfer(Xfer *xfer)
     bool hasChooser=chooser!=0;
     *xfer==hasChooser;
     if(chooser) chooser->xfer(xfer);
-    generator->xfer(xfer);
+    generator->DoXfer(xfer);
     unsigned int count=interestZones.size();
     *xfer==count;
     if(xfer->IsStoring())
