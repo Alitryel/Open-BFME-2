@@ -2812,7 +2812,6 @@ name,address,notes
 ??0WriteLock@BfmeSortingIBAccess@@QAE@PAU1@@Z,0x00138CA0,Recovered dynamic index write-lock view; 218-byte constructor and EH member cleanup prove owner+0 data+4 device guard+8
 ??0WriteLock@BfmeSortingVBAccess@@QAE@PAU1@@Z,0x0013AA00,Recovered dynamic vertex write-lock view; 247-byte constructor and EH member cleanup prove owner+0 data+4 device guard+8
 ??0XferException@@QAA@HPBDZZ,0x0060C36E,XferException(int tag; const char *format; ...): cdecl varargs ctor that Xfer::operator==(Version&) calls on its exception object; the ledger holds the same body as _bfmeFormatText
-??0XferSave@@QAE@XZ,0x0060D1F7,BFMECRCWriter base reconciliation with rowed XferSave dtor 0x60D0B3 and native init; same constructor target already pinned as Rva009D8630BlockWriter; preserves +0x40 full and +0x44 CRC
 ??0ZigZagLinearOffsetTextureMapperClass@@QAE@ABV0@@Z,0x001831C0,address read from the REL32 displacement at a placed body; stlport 4.5.3
 ??0_Filebuf_base@_STL@@QAE@XZ,0x0001D300,harvested from retail REL32 displacement at 0x00014670
 ??0_Time_Info@_STL@@QAE@XZ,0x00007920,STLport 4.5.3 _Time_Info constructor; target body constructs the exact 14 day 24 month 2 AM-PM and 5 format strings declared by the vendored header

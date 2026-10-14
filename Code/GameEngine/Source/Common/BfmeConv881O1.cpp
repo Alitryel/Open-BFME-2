@@ -5,7 +5,7 @@
 // (donor revision 6d9434269164392c5ba62aaa7c15a86b5b020d76, donor flags plus
 // /O1). Compiled that way each body below places uniquely on unclaimed
 // game.dat .text by masked whole-.text search, and ./build.sh reproduces it
-// byte for byte: Gen_009D83D0::Gen_009D83D0 0x0060D1F7 (86B). Callee addresses
+// byte for byte: XferSave::XferSave 0x0060D1F7 (86B). Callee addresses
 // are read off retail's call sites (reverse/symbols.csv). Only the placed
 // bodies are carried; the donor's other definitions are omitted.
 
@@ -88,11 +88,14 @@ typedef _STL::hash_map<int, Gen_t_009d8120_p12cd, _STL::hash<int>,
 	_STL::equal_to<int>, _STL::allocator<BfmeHashPairB009D83D0> >
 	BfmeHashMapB009D83D0;
 
-class Gen_009D83D0 : public BfmeBaseR_009D83D0
+// XferSave: same primary vptr 0x00C7B010 as the rowed XferSave dtor 0x0060D0B3
+// and its deleting wrapper 0x0060D24D (XferSaveDeletingDtor.cpp), which
+// defines the dtor; this TU only declares it.
+class XferSave : public BfmeBaseR_009D83D0
 {
 public:
-	Gen_009D83D0(void);
-	virtual ~Gen_009D83D0(void) {}
+	XferSave(void);
+	virtual ~XferSave(void);
 
 private:
 	int m_bfmePad;
@@ -103,7 +106,7 @@ private:
 	BfmeHashMapB009D83D0 m_bfmeC;
 };
 
-Gen_009D83D0::Gen_009D83D0(void)
+XferSave::XferSave(void)
 	: m_bfmePad(0), m_bfmeFlag(false), m_bfmeVector()
 {
 }
