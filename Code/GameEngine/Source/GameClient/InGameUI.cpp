@@ -804,123 +804,23 @@ void InGameUI::freeMessageResources( void )
 	* to me a string manager label */
 //-------------------------------------------------------------------------------------------------
 // srj sez: passing as const-ref screws up varargs for some reason. dunno why. just pass by value.
-// ?InGameUI::message present-unmatched
-void InGameUI::message( AsciiString stringManagerLabel, ... )
-{
-	UnicodeString stringManagerString;
-	UnicodeString formattedMessage;
-
-	// fetch the string from the string manger
-	stringManagerString = TheGameText->fetch( stringManagerLabel.str() );
-
-	// construct the final text after formatting
-	va_list args;
-  va_start( args, stringManagerLabel );
-	WideChar buf[ UnicodeString::MAX_FORMAT_BUF_LEN ];
-  if( _vsnwprintf(buf, sizeof( buf )/sizeof( WideChar ) - 1, stringManagerString.str(), args ) < 0 )
-			throw ERROR_OUT_OF_MEMORY;
-	formattedMessage.set( buf );
-  va_end(args);
-
-	// add the text to the ui
-	addMessageText( formattedMessage );
-
-}  // end 
+// InGameUI::message (AsciiString label): defined in InGameUIMessages.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 //-------------------------------------------------------------------------------------------------
 /** Interface for display text messages to the user */
 //-------------------------------------------------------------------------------------------------
 // srj sez: passing as const-ref screws up varargs for some reason. dunno why. just pass by value.
-// ?InGameUI::message present-unmatched
-void InGameUI::message( UnicodeString format, ... )
-{
-	UnicodeString formattedMessage;
-
-	// construct the final text after formatting
-	va_list args;
-  va_start( args, format );
-	WideChar buf[ UnicodeString::MAX_FORMAT_BUF_LEN ];
-  if( _vsnwprintf(buf, sizeof( buf )/sizeof( WideChar ) - 1, format.str(), args ) < 0 )
-			throw ERROR_OUT_OF_MEMORY;
-	formattedMessage.set( buf );
-  va_end(args);
-
-	// add the text to the ui
-	addMessageText( formattedMessage );
-
-}  // end message
+// InGameUI::message (UnicodeString format): defined in InGameUIMessages.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 //-------------------------------------------------------------------------------------------------
 /** Interface for display text messages to the user */
 //-------------------------------------------------------------------------------------------------
 // srj sez: passing as const-ref screws up varargs for some reason. dunno why. just pass by value.
-// ?InGameUI::messageColor present-unmatched
-void InGameUI::messageColor( const RGBColor *rgbColor, UnicodeString format, ... )
-{
-	UnicodeString formattedMessage;
-
-	// construct the final text after formatting
-	va_list args;
-  va_start( args, format );
-	WideChar buf[ UnicodeString::MAX_FORMAT_BUF_LEN ];
-  if( _vsnwprintf(buf, sizeof( buf )/sizeof( WideChar ) - 1, format.str(), args ) < 0 )
-			throw ERROR_OUT_OF_MEMORY;
-	formattedMessage.set( buf );
-  va_end(args);
-
-	// add the text to the ui
-	addMessageText( formattedMessage, rgbColor );
-
-}  // end message
+// InGameUI::messageColor: defined in InGameUIMessages.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?InGameUI::addMessageText present-unmatched
-void InGameUI::addMessageText( const UnicodeString& formattedMessage, const RGBColor *rgbColor )
-{
-	Int i;
-	Color color1 = m_messageColor1;
-	Color color2 = m_messageColor2;
-
-	if (rgbColor)
-	{
-		color1 = rgbColor->getAsInt() | GameMakeColor( 0, 0, 0, 255 );
-		color2 = rgbColor->getAsInt() | GameMakeColor( 0, 0, 0, 255 );
-	}
-
-	// delete the message stuff at the last index
-	m_uiMessages[ MAX_UI_MESSAGES - 1 ].fullText.clear();
-	if( m_uiMessages[ MAX_UI_MESSAGES - 1 ].displayString )
-		TheDisplayStringManager->freeDisplayString( m_uiMessages[ MAX_UI_MESSAGES - 1 ].displayString );
-	m_uiMessages[ MAX_UI_MESSAGES - 1 ].displayString = NULL;
-	m_uiMessages[ MAX_UI_MESSAGES - 1 ].timestamp = 0;
-
-	// shift all the messages down one index and remove the last one
-	for( i = MAX_UI_MESSAGES - 1; i >= 1; i-- )
-		m_uiMessages[ i ] = m_uiMessages[ i - 1 ];
-
-	//
-	// set the new message in index 0, note that we need to allocate a display string, but
-	// we do not need to free the one that is already there because it has been moved
-	// "up" an index
-	//
-	m_uiMessages[ 0 ].fullText = formattedMessage;
-	m_uiMessages[ 0 ].timestamp = TheGameLogic->getFrame();
-	m_uiMessages[ 0 ].displayString = TheDisplayStringManager->newDisplayString();
-	m_uiMessages[ 0 ].displayString->setFont( TheFontLibrary->getFont( m_messageFont, 
-																						TheGlobalLanguageData->adjustFontSize(m_messagePointSize), m_messageBold ) );
-	m_uiMessages[ 0 ].displayString->setText( m_uiMessages[ 0 ].fullText );
-	
-	//
-	// assign a color for this string instance that will stay with it no matter what
-	// line it is rendered on
-	//
-	if( m_uiMessages[ 1 ].displayString == NULL || m_uiMessages[ 1 ].color == color2 )
-		m_uiMessages[ 0 ].color = color1;
-	else
-		m_uiMessages[ 0 ].color = color2;
-
-}  // end addFormattedMessage
+// InGameUI::addMessageText: defined in InGameUIMessages.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 //-------------------------------------------------------------------------------------------------
 /** Remove the message on screen at index i */
@@ -1020,285 +920,7 @@ void InGameUI::createForceAttackHint( const GameMessage *msg )
 	* in just a tooltip.  An object might get a tooltip and show its hit points.
  */
 //-------------------------------------------------------------------------------------------------
-// ?InGameUI::createMouseoverHint present-unmatched
-void InGameUI::createMouseoverHint( const GameMessage *msg )
-{
-	if (m_isScrolling || m_isSelecting)
-		return; // no mouseover for you
-
-	GameWindow *window = NULL;
-	const MouseIO *io = TheMouse->getMouseStatus();
-	Bool underWindow = false;
-	if (io && TheWindowManager)
-		window = TheWindowManager->getWindowUnderCursor(io->pos.x, io->pos.y);
-
-	while (window)
-	{
-		if (window->winGetInputFunc() == LeftHUDInput) {
-			underWindow = false;
-			break;
-		}
-		
-		// check to see if it or any of its parents are opaque.  If so, we can't select anything.
-		if (!BitTest( window->winGetStatus(), WIN_STATUS_SEE_THRU ))
-		{
-			underWindow = true;
-			break;
-		}
-
-		window = window->winGetParent();
-	}
-	if (underWindow)
-	{
-		setMouseCursor(Mouse::ARROW); // regardless of m_mouseMode
-		return;
-	}
-
-  
-
-
-
-	DrawableID oldID = m_mousedOverDrawableID;
-
-	if (msg->getType() == GameMessage::MSG_MOUSEOVER_DRAWABLE_HINT)
-	{
-		TheMouse->setCursorTooltip(UnicodeString::TheEmptyString );
-		m_mousedOverDrawableID = INVALID_DRAWABLE_ID;
-		const Drawable *draw = TheGameClient->findDrawableByID(msg->getArgument(0)->drawableID);
-		const Object *obj = draw ? draw->getObject() : NULL;
-		if( obj )
-		{
-			
- 			//Ahh, here is a wierd exception: if the moused-over drawable is a mob-member
-			//(e.g. AngryMob), Lets fool the UI into creating the hint for the NEXUS instead...
- 			if (obj->isKindOf( KINDOF_IGNORED_IN_GUI ))
- 			{
- 				static NameKeyType key_MobMemberSlavedUpdate = NAMEKEY( "MobMemberSlavedUpdate" );
- 				MobMemberSlavedUpdate *MMSUpdate = (MobMemberSlavedUpdate*)obj->findUpdateModule( key_MobMemberSlavedUpdate );
- 				if( MMSUpdate )
- 				{
- 					Object *slaver = TheGameLogic->findObjectByID(MMSUpdate->getSlaverID());
- 					if ( slaver )
- 					{
- 						Drawable *slaverDraw = slaver->getDrawable();
- 						if ( slaverDraw )
- 							m_mousedOverDrawableID = slaverDraw->getID();
- 							// if this fails, not to worry... it has already defaulted to INVALID_DRAWABLE_ID, above
- 					}
- 				}
- 			}
- 			else
- 				m_mousedOverDrawableID = draw->getID();
-
-#if defined(_DEBUG) || defined(_INTERNAL) //Extra hacky, sorry, but I need to use this in constantdebug report
-			if ( TheGlobalData->m_constantDebugUpdate == TRUE )
-				m_mousedOverDrawableID = draw->getID();
-#endif
-
-
-			const Player* player = NULL;
-			const ThingTemplate *thingTemplate = obj->getTemplate();
-
-			ContainModuleInterface* contain = obj->getContain();
-			if( contain )
-				player = contain->getApparentControllingPlayer(ThePlayerList->getLocalPlayer());
-
-			if (player == NULL)
-				player = obj->getControllingPlayer();
-
-			Bool disguised = false;
-			if( obj->isKindOf( KINDOF_DISGUISER ) )
-			{
-				//Because we have support for disguised units pretending to be units from another
-				//team, we need to intercept it here and make sure it's rendered appropriately
-				//based on which client is rendering it.
-        StealthUpdate *update = obj->getStealth();
-				if( update )
-				{
-					if( update->isDisguised() )
-					{
-						Player *clientPlayer = ThePlayerList->getLocalPlayer();
-						Player *disguisedPlayer = ThePlayerList->getNthPlayer( update->getDisguisedPlayerIndex() );
-						if( player->getRelationship( clientPlayer->getDefaultTeam() ) != ALLIES && clientPlayer->isPlayerActive() )
-						{
-							//Neutrals and enemies will see this disguised unit as the team it's disguised as.
-							player = disguisedPlayer;
-							const ThingTemplate *disguisedTemplate = update->getDisguisedTemplate();
-							if( disguisedTemplate )
-							{
-								thingTemplate = disguisedTemplate;
-								disguised = true;
-							}
-						}
-						//Otherwise, the color will show up as the team it really belongs to (already set above).
-					}
-				}
-			}
-
-
-			UnicodeString str = thingTemplate->getDisplayName();
-			UnicodeString displayName = thingTemplate->getDisplayName();
-			if( str.isEmpty() )
-			{
-				AsciiString txtTemp;
-				txtTemp.format("ThingTemplate:%s", obj->getTemplate()->getName().str());
-				str = TheGameText->fetch(txtTemp);
-				//str.format(L"ThingTemplate:'%hs'", obj->getTemplate()->getName().str());
-			}
-
-#ifdef AI_DEBUG_TOOLTIPS
-			if (TheGlobalData->m_debugAI) {
-				const Team *team = obj->getTeam();
-				AsciiString objName = obj->getName();
-				AsciiString teamName;
-				AsciiString stateName;
-				
-				AIUpdateInterface *ai = (AIUpdateInterface*)obj->getAI();
-				if (ai) {
-					if (ai->getPath()) {
-						TheAI->pathfinder()->setDebugPath(ai->getPath());
-					}
-#ifdef STATE_MACHINE_DEBUG	
-					stateName = ai->getCurrentStateName();
-					if (ai->getAttackInfo()) {
-						stateName.concat(" AttackPriority=");
-						stateName.concat(ai->getAttackInfo()->getName());
-					}
-#endif
-				}
-				if( team )
-				{
-					teamName = team->getName();
-				}
-				if (!objName.isEmpty())
-				{
-					if (!teamName.isEmpty())
-					{
-						str.format(L"%hs(%hs): %s", teamName.str(), objName.str(), str.str());
-					}
-					else
-					{
-						str.format(L"%hs: %s", objName.str(), str.str());
-					}
-				}
-				else
-				{
-					if (!teamName.isEmpty())
-					{
-						str.format(L"%hs: %s", teamName.str(), str.str());
-					}
-				}
-				str.format(L"%s - %hs", str.str(), stateName.str());
-
-			}
-#endif
-			UnicodeString warehouseFeedback;
-			// Add on dollar amount of warehouse contents so people don't freak out until the art is hooked up
-			static const NameKeyType warehouseModuleKey = TheNameKeyGenerator->nameToKey( "SupplyWarehouseDockUpdate" );
-			SupplyWarehouseDockUpdate *warehouseModule = (SupplyWarehouseDockUpdate *)obj->findUpdateModule( warehouseModuleKey );
-			if( warehouseModule != NULL )
-			{
-				Int boxes = warehouseModule->getBoxesStored();
-				Int value = boxes * TheGlobalData->m_baseValuePerSupplyBox;
-				warehouseFeedback.format(TheGameText->fetch("TOOLTIP:SupplyWarehouse"), value);
-				str.concat(warehouseFeedback);
-			}
-
-      if (player)
-			{
-				UnicodeString tooltip;
-				//if (TheRecorder->isMultiplayer() && player->getPlayerType() == PLAYER_HUMAN)
-				if (TheRecorder->isMultiplayer() && player->isPlayableSide())
-					tooltip.format(L"%s\n%s", str.str(), ((Player *)player)->getPlayerDisplayName().str());
-				else
-					tooltip = str;
-
-				Int localPlayerIndex = ThePlayerList ? ThePlayerList->getLocalPlayer()->getPlayerIndex() : 0;
-
-				Int x, y;
-				ThePartitionManager->worldToCell(obj->getPosition()->x, obj->getPosition()->y, &x, &y);
-				if( ThePartitionManager->getShroudStatusForPlayer(localPlayerIndex, x, y) == CELLSHROUD_CLEAR )
-				{
-					RGBColor rgb;
-					if( disguised )
-					{
-						rgb.setFromInt( player->getPlayerColor() );
-					}
-					else
-					{
-						rgb.setFromInt(draw->getObject()->getIndicatorColor());
-
-						// Unless this is a stealth garrisoned building, 
-						// Let's not use the contained's housecolor
-						const Object *obj = draw->getObject();
-						if ( obj )
-						{
-							ContainModuleInterface *contain = obj->getContain();
-							if ( contain && contain->isGarrisonable() )
-							{
-								const Player *play = contain->getApparentControllingPlayer( ThePlayerList->getLocalPlayer() );
-								if ( play )
-									rgb.setFromInt( play->getPlayerColor() );
-							}
-						}
-
-					}
-
-					//Object:Prop is a blank string... but we don't want to show
-					//any popup box at all if that is the case!
-					if( displayName.compare( TheGameText->fetch( "OBJECT:Prop" ) ) )
-					{
-	  				TheMouse->setCursorTooltip(tooltip, -1, &rgb );
-					}
-				}
-			}
-		}
-
-	}
-	else
-	{
-		m_mousedOverDrawableID = INVALID_DRAWABLE_ID;
-	}
-
-	if (oldID != m_mousedOverDrawableID)
-	{
-		//DEBUG_LOG(("Resetting tooltip delay\n"));
-		TheMouse->resetTooltipDelay();
-	}
-
-	if (m_mouseMode == MOUSEMODE_DEFAULT && !m_isScrolling && !m_isSelecting && !TheInGameUI->getSelectCount() && (TheRecorder->getMode() != RECORDERMODETYPE_PLAYBACK || TheLookAtTranslator->hasMouseMovedRecently()))
-	{
-		if( m_mousedOverDrawableID != INVALID_DRAWABLE_ID )
-		{
-			Drawable *draw = TheGameClient->findDrawableByID(m_mousedOverDrawableID);
-			
-			//Add basic logic to determine if we can select a unit (or hint)
-			const Object *obj = draw ? draw->getObject() : NULL;
-			Bool drawSelectable = CanSelectDrawable(draw, FALSE);
-			if( !obj )
-			{
-				drawSelectable = false;
-			}
-
-			if( drawSelectable && obj->isLocallyControlled() )
-			{
-				setMouseCursor(Mouse::SELECTING);
-			}
-			else
-			{
-				setMouseCursor(Mouse::ARROW);
-			}
-		}
-		else
-		{
-			setMouseCursor(Mouse::ARROW);
-		}
-	}
-	else if (m_mouseMode != MOUSEMODE_DEFAULT && m_mouseMode != MOUSEMODE_BUILD_PLACE )
-	{
-		setMouseCursor((Mouse::MouseCursor)m_mouseModeCursor);
-	}
-}
+// InGameUI::createMouseoverHint: defined in InGameUICreateMouseoverHint.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 //-------------------------------------------------------------------------------------------------
 /** A command would be given if a click were to happen, so give a preview hint of what it would be.
@@ -1742,42 +1364,7 @@ const ObjectID InGameUI::getPendingPlaceSourceObjectID( void )
 //-------------------------------------------------------------------------------------------------
 /** Clear "selected" status of Drawable. */
 //-------------------------------------------------------------------------------------------------
-// ?InGameUI::deselectDrawable present-unmatched
-void InGameUI::deselectDrawable( Drawable *draw )
-{
-
-	if( draw->isSelected() )
-	{
-
-		m_frameSelectionChanged = TheGameLogic->getFrame();
-		// clear the selected bit out of the drawable
-		draw->friend_clearSelected();
-
-		// find the drawable entry in our list
-		DrawableListIt findIt = std::find( m_selectedDrawables.begin(), 
-																			 m_selectedDrawables.end(), 
-																			 draw );
-
-		// sanity
-		DEBUG_ASSERTCRASH( findIt != m_selectedDrawables.end(),
-											 ("deselectDrawable: Drawable not found in the selected drawable list '%s'\n",
-											 draw->getTemplate()->getName().str()) );
-
-		// remove it from the selected drawable list		
-		m_selectedDrawables.erase( findIt );
-
-		// keep out own internal count happy
-		decrementSelectCount(); 
-
-		// evaluate whether our selection consists of exactly one angry mob
-		evaluateSoloNexus();
-
-		// the control needs to update its context sensitive display now
-		TheControlBar->onDrawableDeselected( draw );
-
-	}  // end if
-
-}  // end deselectDrawable
+// InGameUI::deselectDrawable: defined in Common/InGameUIDeselectDrawable.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 // InGameUI::deselectAllDrawables: defined in InGameUISelection.cpp (its row's unit).
 
@@ -1795,18 +1382,7 @@ const DrawableList *InGameUI::getAllSelectedDrawables( void ) const
 //-------------------------------------------------------------------------------------------------
 /** Return the list of all the currently selected Drawable pointers. */
 //-------------------------------------------------------------------------------------------------
-// ?InGameUI::getAllSelectedLocalDrawables present-unmatched
-const DrawableList *InGameUI::getAllSelectedLocalDrawables( void )
-{
-	m_selectedLocalDrawables.clear();
-	for (DrawableList::const_iterator it = m_selectedDrawables.begin(); it != m_selectedDrawables.end(); ++it)
-	{
-		Drawable *draw = (*it);
-		if (draw && draw->getObject() && draw->getObject()->isLocallyControlled())
-			m_selectedLocalDrawables.push_back( draw );
-	}
-	return &m_selectedLocalDrawables;
-}
+// InGameUI::getAllSelectedLocalDrawables: defined in InGameUIGetAllSelectedLocalDrawables.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 //-------------------------------------------------------------------------------------------------
 /** Return poiner to the first selected drawable, if any */
@@ -2418,89 +1994,21 @@ VideoBuffer* InGameUI::cameoVideoBuffer( void )
 // ------------------------------------------------------------------------------------------------
 // InGameUI::militarySubtitle
 // ------------------------------------------------------------------------------------------------
-// ?InGameUI::militarySubtitle present-unmatched
-void InGameUI::militarySubtitle( const AsciiString& label, Int duration )
-{
-	// make sure we don't already have a subtitle up there
-	removeMilitarySubtitle();
-
-	// update our history
-	UpdateDiplomacyBriefingText(label, FALSE);
-
-	UnicodeString title = TheGameText->fetch(label);
-
-	// make sure we actually will be displaying something
-	if( title.isEmpty() || duration <= 0)
-	{
-		DEBUG_CRASH(("Trying to create a military subtitle but either title is empty (%ls) or duration is <= 0 (%d)",title.str(), duration));
-		return;
-	}
-
-	// we need some frame info to set our timings
-	UnsignedInt currLogicFrame = TheGameLogic->getFrame();
-	const int messageTimeout = currLogicFrame + (Int)(((Real)LOGICFRAMES_PER_SECOND * duration)/1000.0f);
-
-	// disable tooltips until this frame, cause we don't want to collide with the military subtitles.
-	TheInGameUI->disableTooltipsUntil(messageTimeout);
-	
-	// calculate where this screen position should be since the position being passed in is based off 8x6
-	Coord2D multiplier;
-	multiplier.x = (float)TheDisplay->getWidth() / 800.0f;
-	multiplier.y = (float)TheDisplay->getHeight() / 600.0f;
-	
-	// lets bring out the data structure!
-	m_militarySubtitle = NEW MilitarySubtitleData;
-
-	m_militarySubtitle->subtitle.set(title);
-	m_militarySubtitle->blockDrawn = TRUE;
-	m_militarySubtitle->blockBeginFrame = currLogicFrame;
-	m_militarySubtitle->lifetime = messageTimeout;
-	m_militarySubtitle->blockPos.x =  m_militarySubtitle->position.x = m_militaryCaptionPosition.x * multiplier.x;
-	m_militarySubtitle->blockPos.y =  m_militarySubtitle->position.y = m_militaryCaptionPosition.y * multiplier.y;
-	m_militarySubtitle->incrementOnFrame = currLogicFrame + (Int)(((Real)LOGICFRAMES_PER_SECOND * TheGlobalLanguageData->m_militaryCaptionDelayMS)/1000.0f);
-	m_militarySubtitle->index = 0;
-	for (int i = 1; i < MAX_SUBTITLE_LINES; i ++)
-		m_militarySubtitle->displayStrings[i] = NULL;
-
-	m_militarySubtitle->currentDisplayString = 0;
-	m_militarySubtitle->displayStrings[0] = TheDisplayStringManager->newDisplayString();
-	m_militarySubtitle->displayStrings[0]->reset();
-	m_militarySubtitle->displayStrings[0]->setFont(	TheFontLibrary->getFont( m_militaryCaptionTitleFont, 
-		TheGlobalLanguageData->adjustFontSize(m_militaryCaptionTitlePointSize), m_militaryCaptionTitleBold ) );
-	m_militarySubtitle->color = GameMakeColor(m_militaryCaptionColor.red, m_militaryCaptionColor.green, m_militaryCaptionColor.blue, m_militaryCaptionColor.alpha);
-}
+// InGameUI::militarySubtitle: defined in InGameUIMessages.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 // ------------------------------------------------------------------------------------------------
 // InGameUI::removeMilitarySubtitle
 // ------------------------------------------------------------------------------------------------
-// ?InGameUI::removeMilitarySubtitle present-unmatched
-void InGameUI::removeMilitarySubtitle( void )
-{
-	// sanity (is there really such a thing in this world?)
-	if(!m_militarySubtitle)
-		return;
-
-	TheInGameUI->clearTooltipsDisabled();
-
-	// loop through and free up the display strings
-	for(Int i = 0; i <= m_militarySubtitle->currentDisplayString; i ++)
-	{
-		TheDisplayStringManager->freeDisplayString(m_militarySubtitle->displayStrings[i]);
-		m_militarySubtitle->displayStrings[i] = NULL;
-	}
-
-	//delete it man!
-	delete m_militarySubtitle;
-	m_militarySubtitle= NULL;
-
-}
+// InGameUI::removeMilitarySubtitle: defined in InGameUIMessages.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
+// InGameUI::areSelectedObjectsControllable: defined in Rva0029C752Check.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 //------------------------------------------------------------------------------
 //Resets the camera to default zoom and orientation.
 //------------------------------------------------------------------------------
+// InGameUI::resetCamera: defined in Rva0029B4F9Init.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 //------------------------------------------------------------------------------
 //Checks to see if an object can interact with an object in a non-hostile manner. This is currently used by the selection 
@@ -2599,89 +2107,7 @@ Int InGameUI::selectAllUnitsByTypeAcrossRegion( IRegion2D *region, KindOfMaskTyp
 // ------------------------------------------------------------------------------------------------
 /** Selects maching units on the screen */
 // ------------------------------------------------------------------------------------------------
-// ?InGameUI::selectMatchingAcrossRegion present-unmatched
-Int InGameUI::selectMatchingAcrossRegion( IRegion2D *region )
-{
-	const DrawableList *selected = getAllSelectedDrawables();
-
-	/* loop through all the selected drawables and create a set of all the objects,
-	   so that you only iterate once through each type of object
-	*/
-
-	const Drawable *draw;
-
-	//std::set<AsciiString> drawableList;
-	std::set<const ThingTemplate*> drawableList;
-	Bool carBomb = FALSE;
-	
-	for( DrawableListCIt it = selected->begin(); it != selected->end(); ++it )
-	{
-		// get this drawable
-		draw = *it;
-		if( draw && draw->getObject() && draw->getObject()->isLocallyControlled() )
-		{
-			// Use the Object's thing template, doing so will prevent wierdness for disguised vehicles.
-			drawableList.insert( draw->getObject()->getTemplate() );
-			if( draw->getObject()->testStatus( OBJECT_STATUS_IS_CARBOMB ) )
-			{
-				carBomb = TRUE;
-			}
-		}
-	}
-
-	if (drawableList.size() == 0)
-		return -1; // nothing useful selected to begin with - don't bother iterating
-
-	std::set<const ThingTemplate*>::iterator iter;
-	const ThingTemplate *templateName;
-
-	// now use the list to select across screen
-	MatchingUnitSelectionData data;
-	Int newSelectionCount = 0;
-
-	for( iter = drawableList.begin(); iter != drawableList.end(); ++iter )
-	{
-		// get this drawable
-		templateName = *iter;
-
-		data.templateToSelect = templateName;
-		data.isCarBomb        = carBomb;
-		if (region)
-			newSelectionCount +=TheTacticalView->iterateDrawablesInRegion(region, similarUnitSelection, (void *)&data);
-		else
-		{
-			// loop over the map
-			Drawable *temp = TheGameClient->firstDrawable();
-			while( temp )
-			{
-				newSelectionCount += similarUnitSelection( temp, (void *)&data);
-				temp = temp->getNextDrawable();
-			}
-		}
-		setDisplayedMaxWarning( FALSE );
-	}
-
-	if (newSelectionCount > 0)
-	{
-		// create selected message
-		GameMessage *teamMsg = TheMessageStream->appendMessage( GameMessage::MSG_CREATE_SELECTED_GROUP_NO_SOUND );
-		// not creating a new team so pass in false
-		teamMsg->appendBooleanArgument( FALSE );
-
-		//Loop through each drawable add append it's objectID to the event.
-		for( DrawableListCIt it = data.newlySelectedDrawables.begin(); it != data.newlySelectedDrawables.end(); ++it )
-		{
-			draw = *it;
-			if( draw && draw->getObject() )
-			{
-				teamMsg->appendObjectIDArgument( draw->getObject()->getID() );
-			}
-		}
-	}
-
-	return newSelectionCount;
-
-}
+// InGameUI::selectMatchingAcrossRegion: defined in InGameUI_selectMatchingAcrossRegion.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 // ------------------------------------------------------------------------------------------------
 // ?InGameUI::selectAllUnitsByTypeAcrossScreen present-unmatched
@@ -3168,111 +2594,20 @@ static const UnsignedInt FRAMES_BEFORE_EXPIRE_TO_FADE = LOGICFRAMES_PER_SECOND *
 
 
 
-// ?InGameUI::findIdleWorker present-unmatched
-Object *InGameUI::findIdleWorker( Object *obj)
-{
-	if(!obj)
-		return NULL;
-	
-	Int index = obj->getControllingPlayer()->getPlayerIndex();	
-	if(m_idleWorkers[index].empty())
-		return NULL;
-
-	ObjectListIt it = m_idleWorkers[index].begin();
-	while(it != m_idleWorkers[index].end())
-	{
-		Object *itObj = *it;
-		if(itObj == obj)
-		{
-			return itObj;
-			break;
-		}
-		++it;
-	}
-	return NULL;
-}
+// InGameUI::findIdleWorker: defined in InGameUIIdleWorker.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 // InGameUI::addIdleWorker: defined in InGameUIIdleWorker.cpp (its row's unit).
 
-// ?InGameUI::removeIdleWorker present-unmatched
-void InGameUI::removeIdleWorker( Object *obj, Int playerNumber )
-{
-	if(!obj)
-		return;
-	if(playerNumber < 0 || playerNumber >= MAX_PLAYER_COUNT)  // we're leaving the game, so this is all screwed
-		return;
-	
-	if(m_idleWorkers[playerNumber].empty())
-		return;
-
-	
-	ObjectListIt it = m_idleWorkers[playerNumber].begin();
-	while(it != m_idleWorkers[playerNumber].end())
-	{
-		Object *itObj = *it;
-		if(itObj == obj)
-		{
-			m_idleWorkers[playerNumber].erase(it);
-			return;
-		}
-		++it;
-	}
-	return;
-}
+// InGameUI::removeIdleWorker: defined in InGameUIRemoveIdleWorker.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 // InGameUI::selectNextIdleWorker: defined in InGameUIIdleWorker.cpp (its row's unit).
 
-// ?InGameUI::getIdleWorkerCount present-unmatched
-Int InGameUI::getIdleWorkerCount( void )
-{
-	Int index = ThePlayerList->getLocalPlayer()->getPlayerIndex();
-	return m_idleWorkers[index].size();
-}
+// InGameUI::getIdleWorkerCount: defined in InGameUIRemoveIdleWorker.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
-// ?InGameUI::showIdleWorkerLayout present-unmatched
-void InGameUI::showIdleWorkerLayout( void )
-{
-	if (!m_idleWorkerWin)
-	{
-		m_idleWorkerWin = TheWindowManager->winGetWindowFromId(NULL, TheNameKeyGenerator->nameToKey("ControlBar.wnd:ButtonIdleWorker"));
-		DEBUG_ASSERTCRASH(m_idleWorkerWin, ("InGameUI::showIdleWorkerLayout could not find IdleWorker.wnd to load "));
-		return;
-	}
+// InGameUI::showIdleWorkerLayout: defined in InGameUIIdleWorker.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
+// InGameUI::hideIdleWorkerLayout: defined in InGameUIIdleWorker.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
-	m_idleWorkerWin->winEnable(TRUE);
-
-	m_currentIdleWorkerDisplay = getIdleWorkerCount();
-	
-//	if(m_currentIdleWorkerDisplay < 1)
-//		GadgetButtonSetText(m_idleWorkerWin, UnicodeString::TheEmptyString);
-//	else
-//	{
-//		UnicodeString number;
-//		number.format(L"%d",m_currentIdleWorkerDisplay);
-//		GadgetButtonSetText(m_idleWorkerWin, number);
-//	}
-}
-// ?InGameUI::hideIdleWorkerLayout present-unmatched
-void InGameUI::hideIdleWorkerLayout( void )
-{
-	if(!m_idleWorkerWin)
-		return;
-	GadgetButtonSetText(m_idleWorkerWin, UnicodeString::TheEmptyString);
-	m_idleWorkerWin->winEnable(FALSE);
-	m_currentIdleWorkerDisplay = -1;
-}
-
-// ?InGameUI::updateIdleWorker present-unmatched
-void InGameUI::updateIdleWorker( void )
-{
-	Int idleCount = getIdleWorkerCount();
-
-	if(idleCount > 0 && m_currentIdleWorkerDisplay != idleCount && getInputEnabled())
-		showIdleWorkerLayout();
-
-	if((idleCount <= 0 && m_idleWorkerWin) || !getInputEnabled())
-		hideIdleWorkerLayout();
-}
+// InGameUI::updateIdleWorker: defined in InGameUIIdleWorker.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 // ?InGameUI::resetIdleWorker present-unmatched
 void InGameUI::resetIdleWorker( void )
@@ -3296,40 +2631,7 @@ void InGameUI::resetIdleWorker( void )
 // there under address names.
 
 
-WindowMsgHandledType IdleWorkerSystem( GameWindow *window, UnsignedInt msg, 
-																				WindowMsgData mData1, WindowMsgData mData2 )
-{
-	switch( msg ) 
-	{
-		//---------------------------------------------------------------------------------------------
-		case GWM_INPUT_FOCUS:
-		{	
-			// if we're givin the opportunity to take the keyboard focus we must say we don't want it
-			if( mData1 == TRUE )
-				*(Bool *)mData2 = FALSE;
-		}
-		//---------------------------------------------------------------------------------------------
-		case GBM_SELECTED:
-		{
-			GameWindow *control = (GameWindow *)mData1;
-			static NameKeyType buttonSelectID = NAMEKEY( "IdleWorker.wnd:ButtonSelectNextIdleWorker" );
-			if (control && control->winGetWindowId() == buttonSelectID)
-			{
-				TheInGameUI->selectNextIdleWorker( );
-			}
-			break;
-
-		}  // end button selected
-
-		//---------------------------------------------------------------------------------------------
-		default:
-			return MSG_IGNORED;
-
-	}  // end switch( msg )
-
-	return MSG_HANDLED;
-
-}
+// IdleWorkerSystem: defined in InGameUIIdleWorker.cpp (its row's unit); the unmatched Zero Hour copy here was a second, non-retail definition.
 
 
 
