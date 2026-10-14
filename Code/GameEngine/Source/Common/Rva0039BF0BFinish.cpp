@@ -112,3 +112,45 @@ int Rva0039BF50::rva0039BF50(const Rva00045411BitSet &mustBeSet, const Rva000454
 	const ObjectCountMap *self_map = &this->m_map;
 	return Rva0039BEC3Count(reinterpret_cast<const BitFlags<116>&>(mustBeSet), reinterpret_cast<const BitFlags<116>&>(mustBeClear), map ? map : self_map);
 }
+
+// ?rva0039BFFD@Rva0039BFFD@@QAEHPBVThingTemplate@@@Z @0x0039BFFD 19B and
+// ?rva0039C010@Rva0039C010@@QAEHPBVThingTemplate@@@Z @0x0039C010 19B: the
+// per-template counterparts of the mask wrappers above. Each forwards its
+// one ThingTemplate argument plus the ObjectCountMap at +0x1F0 (resp. +0x1C8)
+// to the rowed __stdcall 0x0039BFC5 (Rva0039BFC5Count, query first, map
+// second, ret 8) and returns its count; thiscall with ret 4. Same map
+// offsets as 0x0039BF0B/0x0039BF22, same lea-forcing selection recipe.
+class ThingTemplate;
+int __stdcall Rva0039BFC5Count(const ThingTemplate *tmpl, const ObjectCountMap *map);
+
+class Rva0039BFFD
+{
+public:
+	int rva0039BFFD(const ThingTemplate *tmpl);
+private:
+	char m_pad[0x1F0];
+	ObjectCountMap m_map;
+};
+
+int Rva0039BFFD::rva0039BFFD(const ThingTemplate *tmpl)
+{
+	const ObjectCountMap *map = &m_map;
+	const ObjectCountMap *self_map = &this->m_map;
+	return Rva0039BFC5Count(tmpl, map ? map : self_map);
+}
+
+class Rva0039C010
+{
+public:
+	int rva0039C010(const ThingTemplate *tmpl);
+private:
+	char m_pad[0x1C8];
+	ObjectCountMap m_map;
+};
+
+int Rva0039C010::rva0039C010(const ThingTemplate *tmpl)
+{
+	const ObjectCountMap *map = &m_map;
+	const ObjectCountMap *self_map = &this->m_map;
+	return Rva0039BFC5Count(tmpl, map ? map : self_map);
+}
