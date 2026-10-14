@@ -10,6 +10,7 @@ class Rva003ECA4BElement
 {
 public:
 	Rva003ECA4BElement *rva003ECA81(const Rva003ECA4BElement *other);
+	Rva003ECA4BElement *rva003ECAB3(float scale);
 
 private:
 	float m_values[17];
@@ -20,5 +21,22 @@ Rva003ECA4BElement *Rva003ECA4BElement::rva003ECA81(const Rva003ECA4BElement *ot
 	m_values[0] += other->m_values[0];
 	for (int i = 1; i < 17; ++i)
 		m_values[i] += other->m_values[i];
+	return this;
+}
+
+// Native 0x003ECAB3..0x003ECAE0 scales the same 17-float record and returns
+// its receiver. The adjacent add/clear/xfer bodies establish the 0x44-byte
+// record; the original class and method names remain unknown.
+// The loop reloads scale before the element. The volatile access preserves
+// that order without claiming that the original parameter was volatile.
+Rva003ECA4BElement *Rva003ECA4BElement::rva003ECAB3(float scale)
+{
+	m_values[0] *= scale;
+	int n = 16;
+	float *p = &m_values[1];
+	do {
+		*p = *reinterpret_cast<const volatile float *>(&scale) * *p;
+		++p;
+	} while (--n != 0);
 	return this;
 }
