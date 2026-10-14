@@ -17,7 +17,6 @@
 // transform BFME2 keeps in place of a Matrix3D (HLod pivots, +0x30/+0x40).
 
 #include "vector3.h"
-#include "quat.h"
 
 class Rva00168C40QuatTransform
 {
@@ -50,7 +49,10 @@ private:
 		result->Z = Rotation.W*z - w*Rotation.Z + (Rotation.X*y - Rotation.Y*x);
 	}
 
-	Quaternion Rotation;
+	// Only the target-proven rotation components are used here. Including
+	// quat.h also emits an unused, nonretail array-construction helper through
+	// its matrix headers; this storage view needs no Quaternion operations.
+	struct { float X, Y, Z, W; } Rotation;
 	Vector3 Translation;
 };
 
