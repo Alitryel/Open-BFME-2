@@ -208,7 +208,7 @@ class LivingWorldRegion {public:char pad[0x13C];int owner;int GetOwner()const{re
 class Waypoint {public:Waypoint(unsigned,AsciiString,const Coord3D*,AsciiString,AsciiString,AsciiString,bool,int,AsciiString);virtual ~Waypoint();char pad[8];Coord3D position;char rest[0xC0-0x18];};
 Waypoint *Rva00506CC3FindWaypoint(const AsciiString&);
 void ValidateLivingWorldBuildPlotWaypoints(Waypoint*,int);
-class Rva0040D280Sub {public:void method(Object*,int);};
+class ArmySummarySystem {public:void rva0040D280(Object*,int);};
 class PlayerTemplate;
 // WB 0x00CFC810 identifies this GameLogic.cpp placement pass. Retail
 // 0x0024104A..0x00241230 reads Player +0x3AC and region owner +0x13C;
@@ -255,7 +255,7 @@ static void PlaceLivingWorldObjectsForPlayer(Player *player,const PlayerTemplate
   if(!obj) continue;
   player->onStructureCreated(0,obj);
   player->onStructureConstructionComplete(0,obj,false);
-  ((Rva0040D280Sub*)((char*)TheGameLogic+0x184))->method(obj,armyId);
+  ((ArmySummarySystem*)((char*)TheGameLogic+0x184))->rva0040D280(obj,armyId);
   *(int*)((char*)obj+0x464)=building->id;
  }
 }

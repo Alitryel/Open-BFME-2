@@ -4,7 +4,7 @@
 // (donor revision 6d9434269164392c5ba62aaa7c15a86b5b020d76, donor flags plus
 // /O1). Compiled that way each body below places uniquely on unclaimed
 // game.dat .text by masked whole-.text search, and ./build.sh reproduces it
-// byte for byte: bfmeGo1038E 0x0040D025 (28B). Callee addresses are read off
+// byte for byte: 0x0040D025 (28B, first ported as bfmeGo1038E). Callee addresses are read off
 // retail's call sites (reverse/symbols.csv). Only the placed bodies are
 // carried; the donor's other definitions are omitted.
 // Open-BFME5 conversions.
@@ -120,7 +120,16 @@ public:
 	int bfmeVal1038(void);
 };
 
-BfmeY1038 * __stdcall bfmeFind1038(int a);
+// 0x0040D008..0x0040D3FF are ArmySummarySystem members: retail reaches each
+// through a GameLogic forwarder that adds 0x184 to ECX (0x0023D012..0x0023D0C8),
+// and WorldBuilder's twins of 0x0040FAFE/0x0040D3E8 call the lookup's twin
+// 0x0108E170 as __thiscall on their own this.
+class ArmySummarySystem
+{
+public:
+	void *rva0040D008(int id);
+	int rva0040D025(int id);
+};
 
 struct Rva002B488EResult
 {
@@ -134,16 +143,18 @@ public:
 	Rva002B488EResult *rva002B488E(int a);
 };
 
-// ?bfmeFind1038@@YGPAVBfmeY1038@@H@Z @0x0040D008 29B: forward int arg to rowed-adjacent Rva002BA8F1Logic::rva002B488E via g_009FEF10 then return +0x78 slot or null. Evidence: LINK BONUS 2 files 81B; pin name; callers at 0x0040D029 and 0x0040D280 set.
-BfmeY1038 * __stdcall bfmeFind1038(int a)
+// ?rva0040D008@ArmySummarySystem@@QAEPAXH@Z @0x0040D008 29B: the army lookup
+// by id (WorldBuilder twin 0x0108E170 calls LivingWorldLogic::findArmy and
+// returns its +0x78 summary or null). Never reads this.
+void *ArmySummarySystem::rva0040D008(int id)
 {
-	Rva002B488EResult *r = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->rva002B488E(a);
+	Rva002B488EResult *r = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->rva002B488E(id);
 	return r != 0 ? r->m_78 : 0;
 }
 
-int __stdcall bfmeGo1038E(int a)
+int ArmySummarySystem::rva0040D025(int id)
 {
-	BfmeY1038 *y = bfmeFind1038(a);
+	BfmeY1038 *y = (BfmeY1038 *)rva0040D008(id);
 
 	if (y == 0)
 		return -1;

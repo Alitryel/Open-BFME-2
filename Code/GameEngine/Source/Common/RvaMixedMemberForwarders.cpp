@@ -18,7 +18,8 @@
 // member at +0x38 (rowed 0x005748B2), others return null. Its caller
 // AIPlayer::startTraining 0x004F20C2 passes kind 1, a team's member list and
 // the template name, and pushes a non-null result onto that list.
-//   0x0023D0B7 GameLogic +0x184 -> 0x0040D3FF (pinned GameLogic spelling)
+//   0x0023D0B7 GameLogic +0x184 -> rowed ArmySummarySystem::GetArmyIDOfFirstWalkOnArmy
+//   0x0040D3FF (pinned GameLogic spelling)
 // Unrowed jump targets arrive as address-derived pins.
 
 typedef int Int;
@@ -135,10 +136,10 @@ void *Rva002A8AB1Record::rva004EC088(Int kind, void *list, const void *name)
 	return 0;
 }
 
-class Rva0040D3FF
+class ArmySummarySystem
 {
 public:
-	int rva0040D3FF();
+	int GetArmyIDOfFirstWalkOnArmy();
 };
 
 class GameLogic
@@ -147,10 +148,10 @@ public:
 	int rva0023D0B7();
 private:
 	char m_lead[0x184];
-	Rva0040D3FF m_member;
+	ArmySummarySystem m_member;
 };
 
 int GameLogic::rva0023D0B7()
 {
-	return m_member.rva0040D3FF();
+	return m_member.GetArmyIDOfFirstWalkOnArmy();
 }

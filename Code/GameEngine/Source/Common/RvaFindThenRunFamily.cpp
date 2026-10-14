@@ -5,9 +5,10 @@
 // 0x0035519E (AiOrdersManager +0 member Rva0035516C rowed Armor find ->
 //   opaque run; row keeps the peer pin),
 // 0x003551D3 (same finder -> opaque run at 0x00548632),
-// 0x0040D3E8 (peer-pinned stdcall bfmeFind1038 -> rowed
-//   Rva0040C985::rva0040C9F4),
-// 0x0040FAFE (peer-pinned stdcall bfmeFind1038 -> opaque run at 0x0040F7E5).
+// 0x0040D3E8 (ArmySummarySystem::GetArmyCurFramesToReinforceByID: the army
+//   lookup 0x0040D008 on its own this -> rowed Rva0040C985::rva0040C9F4;
+//   WorldBuilder's twin 0x0108DDB0 bears the name and makes the same two
+//   calls; GameLogic forwarder 0x0023D0AC adds 0x184 and tail-jumps here).
 // Finder/callee identities otherwise unproven; new names address-derived.
 // One ledger row per member.
 
@@ -24,19 +25,18 @@ public:
 	const ArmorTemplate *rva0035516C(NameKeyType key) const;
 };
 
-class BfmeY1038
-{
-public:
-	void rva0040F7E5();	// 0x0040F7E5 (rowed)
-};
-
 class Rva0040C985
 {
 public:
 	int rva0040C9F4();
 };
 
-BfmeY1038 *__stdcall bfmeFind1038(int value);
+class ArmySummarySystem
+{
+public:
+	void *rva0040D008(int id);
+	int GetArmyCurFramesToReinforceByID(int id);
+};
 
 // The order queue the finder returns for clearOrders (its clear,
 // 0x005482E9, recovered in the existing 0x14-byte queue unit).
@@ -59,18 +59,6 @@ private:
 	Rva0035516C m_finder;
 };
 
-class Rva0040D3E8Owner
-{
-public:
-	void fwd(int value);
-};
-
-class Rva0040FAFEOwner
-{
-public:
-	void fwd(int value);
-};
-
 void AiOrdersManager::rva0035519E(int value)
 {
 	const ArmorTemplate *found = m_finder.rva0035516C((NameKeyType)value);
@@ -85,19 +73,13 @@ void AiOrdersManager::rva003551D3(int value)
 		((Rva0054840A *)found)->rva00548632();
 }
 
-void Rva0040D3E8Owner::fwd(int value)
+int ArmySummarySystem::GetArmyCurFramesToReinforceByID(int id)
 {
-	Rva0040C985 *found = (Rva0040C985 *)bfmeFind1038(value);
+	Rva0040C985 *found = (Rva0040C985 *)rva0040D008(id);
+	int frames = (int)found;
 	if (found)
-		found->rva0040C9F4();
-}
-
-// ?Rva0040FAFEOwner::fwd present-unmatched
-void Rva0040FAFEOwner::fwd(int value)
-{
-	BfmeY1038 *found = bfmeFind1038(value);
-	if (found)
-		found->rva0040F7E5();
+		frames = found->rva0040C9F4();
+	return frames;
 }
 
 // AiOrdersManager::clearOrders, retail 0x00355183 (27 B, ret 8; WorldBuilder

@@ -3,72 +3,42 @@
 // callee with the adjusted this; stack args (if any) pass through to the
 // callee, which cleans them (thiscall). Spelled as explicit
 // adjust-and-forward casts so no member layout is asserted.
-// 0x0023D075 (+0x184 -> 0x0040D380, opaque pin), 0x0023D080 (+0x184 ->
-// 0x0040D396, opaque pin), 0x0023D08B (+0x184 -> 0x0040FAFE, opaque pin),
-// 0x0023D0AC (+0x184 -> 0x0040D3E8, opaque pin), 0x0023D0B7 (+0x184 ->
-// 0x0040D3FF, opaque pin; row keeps the peer GameLogic int(void) pin),
-// 0x0023D0C2 (+0x184 -> 0x0040D280, opaque thiscall-view alias pin; same
-// body as the rowed stdcall Rva0040D280Set; row keeps the peer GameLogic
-// void(Object*,int) pin), 0x0028BC4D (+0x330 -> rowed rva002C7474, no pin;
-// row keeps the peer Object pin), 0x002E2F39 (+0x1A8 -> 0x002E2D10, opaque
-// pin), 0x004EC072 (+0x90 -> 0x0059A71C, opaque thiscall-view alias pin;
-// same body as the rowed AITeamBuilder::rva).
+// 0x0023D075 (+0x184 -> ArmySummarySystem 0x0040D380), 0x0023D080 (+0x184 ->
+// CallArmyToEngageInBattleByID 0x0040D396; void like its callee), 0x0023D08B
+// (+0x184 -> CallArmyReinforcementIntoBattleByID 0x0040FAFE, still through an
+// opaque int pin: GameLogicObjectLookupView.h declares this forwarder int),
+// 0x0023D096 (+0x184 -> GetArmyEngageProgressByID 0x0040D3B6; float like its
+// callee), 0x0023D0AC (+0x184 -> GetArmyCurFramesToReinforceByID 0x0040D3E8),
+// 0x0023D0B7 (+0x184 -> 0x0040D3FF; defined in RvaMixedMemberForwarders.cpp),
+// 0x0023D0C2 (+0x184 -> ArmySummarySystem 0x0040D280; row keeps the peer
+// GameLogic void(Object*,int) pin), 0x0028BC4D (+0x330 -> rowed rva002C7474,
+// no pin; row keeps the peer Object pin), 0x002E2F39 (+0x1A8 -> 0x002E2D10,
+// opaque pin), 0x004EC072 (+0x90 -> AITeamBuilder::registerTeamPrototype
+// 0x0059A71C).
 // Wrapper arities follow the peer pins where present, else the callee body
-// evidence (all five 0x40Dxxx callees read one stack arg; 0x40D3FF and the
-// pins show the rest). New names are address-derived.
+// evidence (the 0x40Dxxx callees each read one stack arg). New names are
+// address-derived.
 // One ledger row per forwarder.
 
 class Object;
 class AsciiString;
 struct Rva0040D2FDVec;
-// The two providers 0x0040D008/0x0040D2FD are rowed as stdcall placeholders
-// (their bodies never read ECX); the forwarders below reach them as the
-// ArmySummarySystem methods they are, through thiscall pins.
+// The forwarders below reach the GameLogic +0x184 ArmySummarySystem members
+// by their row names.
 class ArmySummarySystem {public:const AsciiString *GetArmyNameByID(int);const AsciiString *GetArmyBannerByID(int);
 	void *rva0040D008(int id);
 	void rva0040D2FD(int a, int b, Rva0040D2FDVec *out);
-	void rva0040D2C3();};
-
-class Rva0040D380Sub
-{
-public:
-	int method(int value);
-};
-
-class Rva0040D396Sub
-{
-public:
-	int method(int value);
-};
+	void rva0040D2C3();
+	int rva0040D380(int id);
+	void CallArmyToEngageInBattleByID(int id);
+	float GetArmyEngageProgressByID(int id);
+	int GetArmyCurFramesToReinforceByID(int id);
+	void rva0040D280(Object *obj, int id);};
 
 class Rva0040FAFESub
 {
 public:
 	int method(int value);
-};
-
-class Rva0040D3B6Sub
-{
-public:
-	int method(int value);
-};
-
-class Rva0040D3E8Sub
-{
-public:
-	int method(int value);
-};
-
-class Rva0040D3FFSub
-{
-public:
-	int method();
-};
-
-class Rva0040D280Sub
-{
-public:
-	void method(Object *obj, int value);
 };
 
 class Rva002C7474
@@ -83,10 +53,11 @@ public:
 	int method(int value);
 };
 
-class Rva0059A71CSub
+struct Arg;
+class AITeamBuilder
 {
 public:
-	void method(void *arg);
+	void registerTeamPrototype(Arg *arg);
 };
 
 struct Rva0040E6D6Arg;
@@ -111,9 +82,9 @@ public:
 	const AsciiString *rva0023D05F(int value);
  const AsciiString *rva0023D06A(int value);
 	int rva0023D075(int value);
-	int rva0023D080(int value);
+	void rva0023D080(int value);
 	int rva0023D08B(int value);
-	int rva0023D096(int value);
+	float rva0023D096(int value);
 	int rva0023D0AC(int value);
 	int rva0023D0B7();
 	void rva0023D0C2(Object *obj, int value);
@@ -156,12 +127,12 @@ void GameLogic::rva0023D033()
 
 int GameLogic::rva0023D075(int value)
 {
-	return ((Rva0040D380Sub *)((char *)this + 0x184))->method(value);
+	return ((ArmySummarySystem *)((char *)this + 0x184))->rva0040D380(value);
 }
 
-int GameLogic::rva0023D080(int value)
+void GameLogic::rva0023D080(int value)
 {
-	return ((Rva0040D396Sub *)((char *)this + 0x184))->method(value);
+	((ArmySummarySystem *)((char *)this + 0x184))->CallArmyToEngageInBattleByID(value);
 }
 
 int GameLogic::rva0023D08B(int value)
@@ -169,27 +140,27 @@ int GameLogic::rva0023D08B(int value)
 	return ((Rva0040FAFESub *)((char *)this + 0x184))->method(value);
 }
 
-int GameLogic::rva0023D096(int value)
+float GameLogic::rva0023D096(int value)
 {
-	return ((Rva0040D3B6Sub *)((char *)this + 0x184))->method(value);
+	return ((ArmySummarySystem *)((char *)this + 0x184))->GetArmyEngageProgressByID(value);
 }
 
 int GameLogic::rva0023D0AC(int value)
 {
-	return ((Rva0040D3E8Sub *)((char *)this + 0x184))->method(value);
+	return ((ArmySummarySystem *)((char *)this + 0x184))->GetArmyCurFramesToReinforceByID(value);
 }
 
 // GameLogic::rva0023D0B7 is defined with its retail-matched body in Code/GameEngine/Source/Common/RvaMixedMemberForwarders.cpp (0x0023D0B7).
 
 void GameLogic::rva0023D0C2(Object *obj, int value)
 {
-	((Rva0040D280Sub *)((char *)this + 0x184))->method(obj, value);
+	((ArmySummarySystem *)((char *)this + 0x184))->rva0040D280(obj, value);
 }
 
 
 void Rva004EC072Owner::fwd(void *arg)
 {
-	((Rva0059A71CSub *)((char *)this + 0x90))->method(arg);
+	((AITeamBuilder *)((char *)this + 0x90))->registerTeamPrototype((Arg *)arg);
 }
 
 // WB D0B960 calls named ArmySummarySystem::GetArmyNameByID; native

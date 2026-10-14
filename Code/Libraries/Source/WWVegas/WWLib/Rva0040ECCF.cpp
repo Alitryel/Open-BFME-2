@@ -226,22 +226,32 @@ public:
 	int m_a8;
 };
 
-class BfmeY1038;
-BfmeY1038 * __stdcall bfmeFind1038(int a);
+class Object;
+class Rva003F468D;
+class UnitRevivalEntry;
+struct _Rva0040CA61Arg;
 
-// ?rva0040F10F@Rva002E2903Player@@QAEXPAVRva0037EB1D@@@Z @0x0040F10F 142B:
-// called with ECX = the player found by 0x002B51F8 (caller 0x0037EBBA) but never
-// reads it. Looks up the list by the source's +0xA8 id via bfmeFind1038, copies
-// the source into a new ArmySummaryEntry (0x0037EB1D), bumps its +0x94 and adds it.
-class Rva002E2903Player
+class ArmySummarySystem
 {
 public:
-	void rva0040F10F(Rva0037EB1D *source);
+	void Save(Object *objects);
+	void rva0040D43F(Rva003F468D *battle);
+	void *rva0040D008(int key);
+	int ComputePlayerEarnedSpellPoints(_Rva0040CA61Arg *player);
+	void AddDeadHeroEntry(UnitRevivalEntry *entry);
 };
 
-void Rva002E2903Player::rva0040F10F(Rva0037EB1D *source)
+// ?AddDeadHeroEntry@ArmySummarySystem@@QAEXPAVUnitRevivalEntry@@@Z @0x0040F10F
+// 142B: WorldBuilder names it ArmySummarySystem::AddDeadHeroEntry, the callee
+// of UnitRevivalTracker::retrieveHeroesForArmySummary on its summary argument
+// (REL32 at 0x0037EBBA, ECX = that argument). Looks up the army by the entry's
+// +0xA8 id (0x0040D008, which never reads ECX, so no ECX load precedes it),
+// copies the entry into a new ArmySummaryEntry (0x0037EB1D), bumps its +0x94
+// and adds it.
+void ArmySummarySystem::AddDeadHeroEntry(UnitRevivalEntry *entry)
 {
-	ArmySummary *list = (ArmySummary *)bfmeFind1038(source->m_a8);
+	Rva0037EB1D *source = (Rva0037EB1D *)entry;
+	ArmySummary *list = (ArmySummary *)rva0040D008(source->m_a8);
 	if (list != 0)
 	{
 		ArmySummaryEntry *army = new ArmySummaryEntry;
@@ -329,18 +339,8 @@ class Rva002E062EDwordSlot { public: void set(int value); };
 class LivingWorldPlayer { public: void rva002E14E9(const BfmeFixedStorage128 &bits); };
 class Rva002E2578 { public: void rva002E2578(const _STL::vector<ScienceType> &sciences); };
 struct Rva0040F19DLivingWorldPlayer { char pad00[0x1c8]; float m_1C8; };
+class Rva002E2903Player;
 class Rva002BA8F1Logic { public: Rva002E2903Player *find(int id, unsigned int *index); };
-
-struct _Rva0040CA61Arg;
-
-class ArmySummarySystem
-{
-public:
-	void Save(Object *objects);
-	void rva0040D43F(Rva003F468D *battle);
-	void *rva0040D008(int key);
-	int ComputePlayerEarnedSpellPoints(_Rva0040CA61Arg *player);
-};
 
 void ArmySummarySystem::Save(Object *objects)
 {

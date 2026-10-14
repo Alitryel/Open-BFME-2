@@ -7875,7 +7875,6 @@ name,address,notes
 ?bfmeFind1034@@YGPAUBfmeX1034@@HH@Z,0x0040DAA0,callee of ?bfmeGo1034A@@YGXHH@Z at retail 0x0040DAF0 read from its REL32 displacement; member walk over this+0x40 entries of 8 bytes testing element+4 via 0x004069D6; body unrowed
 ?bfmeFind1034F@BfmeTab1034@@QAEPAVBfmeN1034@@H@Z,0x0070B380
 ?bfmeFind1037F@@YGPAVBfmeG1037@@H@Z,0x00468E26,callee of ?bfmeGo1037F@@YGXHHH@Z at retail 0x00468E79 read from its REL32 displacement; ICF alias onto ?Rva00468E26Get@@YGPAVModule@@PAVObject@@@Z (matched)
-?bfmeFind1038@@YGPAVBfmeY1038@@H@Z,0x0040D008,address read from the REL32 displacement at a placed body
 ?bfmeFind1052@BfmeI1052@@QAEHPADH@Z,0x00655990
 ?bfmeFind940D@BfmeSrc940D@@QAEPAVBfmeRes940D@@XZ,0x0028BCB4
 ?bfmeFind975D@BfmeFind975D@@QAEPAXH@Z,0x002D06CA,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
@@ -10005,15 +10004,8 @@ name,address,notes
 ?measure@BfmeSlot1173@@QAEXPAVRva007F5010Player@@@Z,0x0066E5F0
 ?mergeState@AptDisplayList@@QAEXPAVAptPseudoDisplayList@@PAVAptNativeHash@@_N@Z,0x006F9410,native jumpToFrame REL32 display24 receiver and pseudo-oldHash-forward args; donor mergeState; native921B supplier unrowed
 ?method@Rva002E2D10Sub@@QAEHH@Z,0x002E2D10,REL32 callee decoded from target call bytes of same-shape wide-adjust wrapper; identity unproven
-?method@Rva0040D280Sub@@QAEXPAVObject@@H@Z,0x0040D280,opaque thiscall-view alias; same body as rowed stdcall Rva0040D280Set; identity unproven
-?method@Rva0040D380Sub@@QAEHH@Z,0x0040D380,REL32 callee decoded from target call bytes of same-shape wide-adjust wrapper; identity unproven
-?method@Rva0040D396Sub@@QAEHH@Z,0x0040D396,REL32 callee decoded from target call bytes of same-shape wide-adjust wrapper; identity unproven
-?method@Rva0040D3B6Sub@@QAEHH@Z,0x0040D3B6,tail jmp target of 11B forwarder 0x0023D096 at GameLogic+0x184 identity unproven
-?method@Rva0040D3E8Sub@@QAEHH@Z,0x0040D3E8,REL32 callee decoded from target call bytes of same-shape wide-adjust wrapper; identity unproven
-?method@Rva0040D3FFSub@@QAEHXZ,0x0040D3FF,REL32 callee decoded from target call bytes of same-shape wide-adjust wrapper; identity unproven
 ?method@Rva0040FAFESub@@QAEHH@Z,0x0040FAFE,REL32 callee decoded from target call bytes of same-shape wide-adjust wrapper; identity unproven
 ?method@Rva0054CBEFTarget@@QAEXH@Z,0x0054CBEF,REL32 callee decoded from target call bytes of wrapper 0x00437E9C; identity unproven
-?method@Rva0059A71CSub@@QAEXPAX@Z,0x0059A71C,opaque thiscall-view alias; same body as rowed Rva0059A71C::rva; identity unproven
 ?method_005C8DBF@TargetObj005C8DBF@@QAEXM@Z,0x005C8DBF,TargetObj005C8DBF float method called by HostClass005C8E0A::method_005C8E0A
 ?method_005C8F50@Rva005C847BRecord@@QAEXHH@Z,0x005C8F50,Rva005C847BRecord method called by HostClass005C815B::method_005C834A
 ?method_005C901B@Rva005C847BRecord@@QAEXXZ,0x005C901B,Rva005C847BRecord method called by HostClass005C815B::method_005C815B
@@ -11190,7 +11182,6 @@ name,address,notes
 ?rva0040A32F@Rva0040A3F9@@QAEPAVCreateAHeroData@@H@Z,0x0040A32F,unrowed 28B thiscall (Ghidra FUN_0080a32f; ret 4) on the CreateAHeroData pointer vector of Rva0040A3F9Find.cpp: the entry at an index or 0 past the end; called from 0x0043DD5D and 0x004414FF; address name
 ?rva0040C45C@Rva002B3EFAElem@@QAEXXZ,0x0040C45C,thiscall clearing +0xBC after guarded 0x2B2579/0x4E0632/virtual+0x10 chain via globals 0xDFEF10; Ghidra FUN_0080c45c 57B; void ret
 ?rva0040CBD7@Rva0040CBD7Vec@@QAEXPAPAXH@Z,0x0040CBD7,thiscall lookup-or-null on +0x78 vector via rowed 0x40CB3A find and rowed 0x4F6093 copy ctor; out replaces pointer on hit and nulls on miss; Ghidra FUN_0080cbd7 55B
-?rva0040D3FF@Rva0040D3FF@@QAEHXZ,0x0040D3FF,tail jmp target of 11B forwarder 0x0023D0B7 at GameLogic+0x184; original name unknown
 ?rva0040DF77@Rva0040DF77@@QAEXXZ,0x0040DF77,address-derived callee of matched slot 0x0040E0C5; retail REL32 targets 0x0040DF77; Ghidra FUN bounds 180 bytes; thiscall no args; ret; callee body remains unclaimed; no named identity inferred
 ?rva0040F497@@YGXHHH@Z,0x0040F497,3-zero-arg helper called by BfmeY1038::rva0040F7E5 0x0040F7E5; retail callee cleans 12 (stdcall) but the caller bytes only need the address
 ?rva00410997@Rva000427195@@QAEPAXPBX@Z,0x00410997,ICF twin of free NewNode 0x00410997 for table insert call with this; same 12B node and pair copy
@@ -15525,8 +15516,6 @@ _D3DXVec3TransformCoordArray@24,0x0062AF6E,Native 0x00107A47 REL32 reaches six-b
 ?rva001076F6@W3DVolumetricShadowManagerV2@@QAEXXZ,0x001076F6,Native107F8B..1080B4 REL32 call sites independently decoded with full target callee bodies: 107046 RET4 point bounds receiver74; 10720E RET4 two-sided stencil argument and ignored ECX supplied by manager; 1074D5 RET0 receiver74 light offset90; 1076F6 RET0 manager buffers0/4; 107D8A RET0 shadow entries78/7C also same receiver as matched107E76. Original helper names unknown and remain address-derived; not new recovered bodies.
 ?UpdateAndRender@W3DVolumetricShadowV2@@QAEXXZ,0x00107D8A,Native107F8B..1080B4 REL32 call sites independently decoded with full target callee bodies: 107046 RET4 point bounds receiver74; 10720E RET4 two-sided stencil argument and ignored ECX supplied by manager; 1074D5 RET0 receiver74 light offset90; 1076F6 RET0 manager buffers0/4; 107D8A RET0 shadow entries78/7C also same receiver as matched107E76. Original helper names unknown and remain address-derived; not new recovered bodies.
 ??1DynamicPortalLinkVectorCopy1FFD2C@@QAE@XZ,0x001FFD2C,callee of ??1Rva001FFE93@@UAE@XZ
-?rva0040D008@ArmySummarySystem@@QAEPAXH@Z,0x0040D008,callee of ?rva0023D049@Rva0023D049@@QAEPAXH@Z
-?rva0040D2FD@ArmySummarySystem@@QAEXHHPAURva0040D2FDVec@@@Z,0x0040D2FD,callee of ?rva0023D054@GameLogic@@QAEXHHPAURva0040D2FDVec@@@Z
 ??0?$hash_map@VAsciiString@@HUMeshInstancingAsciiHashView@@U?$equal_to@VAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@H@_STL@@@4@@_STL@@QAE@XZ,0x0041FCB7,Native41FCEA constructor of TheMeshInstancingManager constructs its20B AsciiString/scalar table at+10; real STLport4.5.3 default ctor31 and recursive hashtable64 initialize59 next-size48 chain; fold-proof=Code/GameEngine/Source/GameClient/System/MeshInstancingManager.cpp
 ??0Rva005FD5D4UnitSlot@@QAE@XZ,0x00286297,Two Apt unit slots zero six dwords; no independent constructor address; fold-proof=Code/GameEngine/Source/Common/Rva005FD788Apt.cpp
 ??1Rva005FD5D4UnitSlot@@QAE@XZ,0x005FD5D4,Existing Apt unit-slot destructor identity renamed away from fire materials; native ArmyUnitSwapperMovieClip Impl ctor passes this 84B destructor for two 24B slots
