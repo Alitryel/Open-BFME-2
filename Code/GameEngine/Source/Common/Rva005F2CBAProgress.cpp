@@ -70,15 +70,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 void __cdecl Rva00030830FreeAllocation(void *);
 #define free Rva00030830FreeAllocation
-#include <stl/_algobase.h>
-// Vector growth already inlines this comparison. Keep its unsigned overload
-// local so the unit does not emit a competing non-retail max template.
-namespace _STL {
-static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
-{
-	return a < b ? b : a;
-}
-}
 #include <vector>
 #undef free
 namespace _STL {template<class F>F rotate(F,F,F);}
