@@ -87,7 +87,6 @@ public:
 
 	Int getCommandType() const { return m_commandType; }
 	UnsignedInt getOptions() const { return m_options; }
-	const AsciiString &getCursorName() const { return m_cursorName; }
 };
 
 class GameWindow
@@ -279,7 +278,7 @@ WindowMsgHandledType LeftHUDInput( GameWindow *window, UnsignedInt msg,
 					&& (command->getOptions() & NEED_TARGET_POS)
 					&& (command->getCommandType() == 0x18 || command->getCommandType() == 0x20 || command->getCommandType() == 0x26) )
 				{
-					Int index = TheMouse->getCursorIndex( command->getCursorName() );
+					Int index = TheMouse->getCursorIndex( command->m_cursorName );
 
 					if( index != Mouse::INVALID_MOUSE_CURSOR )
 						TheMouse->setCursor( (Mouse::MouseCursor)index );
