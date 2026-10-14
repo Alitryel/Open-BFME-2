@@ -120,10 +120,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 
 #ifdef _UNIX
 #include "osdep/osdep.h"
+#endif
+
 // bfme link decl-only begin
 template <> ShareBufferClass<unsigned short>::~ShareBufferClass();
 // bfme link decl-only end
-#endif
 
 #define MESH_SINGLE_MATERIAL_HACK		0		// (gth) forces all multi-material meshes to use their first material only. (NOT RECOMMENDED, TESTING ONLY!)
 #define MESH_FORCE_STATIC_SORT_HACK	0		// (gth) forces all sorting meshes to use static sort level 1 instead.

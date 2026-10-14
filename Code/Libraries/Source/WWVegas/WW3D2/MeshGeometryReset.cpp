@@ -5,6 +5,21 @@
 ** BFME1 Reset_Geometry lifecycle adapted to independently verified BFME2 offsets,
 ** target buffer types, literals, and retail body at RVA 0x0016A320.
 */
+// retail keeps one `vector constructor iterator' (??_H) copy, the /O1 body at
+// 0x00001423; this unemitted anchor makes this unit's copy that same body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+#pragma auto_inline(off)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma auto_inline(on)
+#pragma optimize("", on)
+
+// Retail's out-of-line RefCountClass copies (Release_Ref, deleting dtor) are the
+// /O1 forms hlod.cpp emits; compile refcount.h for size, ahead of rendobj.h.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+
 #include "rendobj.h"
 #include <string.h>
 #include "refcount.h"

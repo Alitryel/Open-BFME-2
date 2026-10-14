@@ -14,6 +14,21 @@
 // the same compiler flags meshgeometry.cpp uses, so the COMDATs come back
 // byte-identical to the ones Reset_Geometry used to pull in.
 
+// retail keeps one `vector constructor iterator' (??_H) copy, the /O1 body at
+// 0x00001423; this unemitted anchor makes this unit's copy that same body.
+struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
+#pragma optimize("gsy", on)
+#pragma auto_inline(off)
+static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
+#pragma auto_inline(on)
+#pragma optimize("", on)
+
+// Retail's out-of-line RefCountClass deleting dtor is the /O1 form hlod.cpp
+// emits; compile refcount.h for size, ahead of rendobj.h.
+#pragma optimize("s", on)
+#include "refcount.h"
+#pragma optimize("", on)
+
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "meshgeometry.h"
 
