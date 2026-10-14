@@ -1,4 +1,6 @@
 // ?newMap@ScriptEngine@@QAEXXZ
+// partial score=0.995 date=2026-10-14
+// ?newMap@ScriptEngine@@QAEXXZ
 // partial score=0.9817 date=2026-10-13
 // ?newMap@ScriptEngine@@QAEXXZ
 // partial score=0.98169166 date=2026-10-10
@@ -41,7 +43,11 @@ for(int i=0;i<20;++i){triggered[i].clear();midway[i].clear();finished[i].clear()
 for(int i=0;i<TheSidesList->count;++i){
 currentPlayer=ThePlayerList->getNthPlayer(i);Rva002048A2 playerScope(&playerName,TheNameKeyGenerator->keyToName(currentPlayer->nameKey));
 ScriptList*list=&TheSidesList->getSideInfo(i)->scripts;
-if(list){for(int slot=list->first;slot!=-1;slot=list->entries[slot].next){const AsciiString&name=list->entries[slot].name;checkConditionsForTeamNames(list->entries[slot].payload->script(),name);}}
+if(list){for(int slot=list->first;slot!=-1;slot=list->entries[slot].next){
+int off=slot*0x14;int off2=slot*0x14;
+Script*script=(*(ScriptNodePayload**)((char*)list->entries+off2+0x10))->script();
+const AsciiString&name=*(const AsciiString*)((char*)list->entries+off+8);
+checkConditionsForTeamNames(script,name);}}
 }
 firstUpdate=true;fadeMode=4;curFrame=0;minFade=1;maxFade=0;fadeIncrease=0;fadeHold=0;fadeDecrease=0;curFade=0;
 }
