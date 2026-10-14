@@ -138,3 +138,68 @@ void rva007ACE00()
 {
     atexit(rva007B70F0);
 }
+
+// Zero Hour profile.cpp's namespace-scope initializers as BFME2 runs them from
+// the startup strip, written (like the bodies above) as explicit
+// address-named functions storing their globals:
+//
+//   static ProfileCmdInterface &cmd=*(ProfileCmdInterface *)new
+//       (ProfileAllocMemory(sizeof(ProfileCmdInterface))) ProfileCmdInterface();
+//   static bool __RegisterDebugCmdGroup_Profile=Debug::AddCommands("profile",&cmd);
+//   int profileTracerInit=atexit(ProfileShutdown);
+//
+// BFME2 keeps `cmd` as a pointer (0x00E0C1F8, defined in profile.cpp),
+// registers it through slot 0x84 of the Debug object at theDebug (0x00DE0880)
+// into the byte at 0x00E0C1FC, and keeps the atexit result at 0x00E0C208.
+// The command interface comes from internal_cmd.h (vtable, numResFunc,
+// resFunc) and theDebug from debug.h.
+inline void *operator new(unsigned int, void *where) throw() { return where; }
+
+class ProfileResultInterface;
+#include "../../../../Libraries/Source/debug/debug.h"
+#include "../../../../Libraries/Source/profile/internal_cmd.h"
+
+// Slot 0x84 of the Debug object: the command-group registration debug.h
+// leaves unnamed.
+class Rva007B66C0DebugCommands
+{
+public:
+    virtual void slot00(); virtual void slot04(); virtual void slot08(); virtual void slot0C();
+    virtual void slot10(); virtual void slot14(); virtual void slot18(); virtual void slot1C();
+    virtual void slot20(); virtual void slot24(); virtual void slot28(); virtual void slot2C();
+    virtual void slot30(); virtual void slot34(); virtual void slot38(); virtual void slot3C();
+    virtual void slot40(); virtual void slot44(); virtual void slot48(); virtual void slot4C();
+    virtual void slot50(); virtual void slot54(); virtual void slot58(); virtual void slot5C();
+    virtual void slot60(); virtual void slot64(); virtual void slot68(); virtual void slot6C();
+    virtual void slot70(); virtual void slot74(); virtual void slot78(); virtual void slot7C();
+    virtual void slot80();
+    virtual bool AddCommands(const char *cmdgroup, DebugCmdInterface *cmdif); // +0x84
+};
+
+void *ProfileAllocMemory(unsigned numBytes);
+void ProfileShutdown(void);
+extern ProfileCmdInterface *cmd;
+
+bool __RegisterDebugCmdGroup_Profile;
+int profileTracerInit;
+
+// 0x007B6690 (42B): the command interface, placement-built in profile memory.
+void rva007B6690()
+{
+    // Zero Hour's reference form; assigning the new-expression directly
+    // stores the null path from ecx instead of retail's fresh xor eax.
+    ProfileCmdInterface &ref = *(ProfileCmdInterface *)new (ProfileAllocMemory(sizeof(ProfileCmdInterface))) ProfileCmdInterface();
+    cmd = &ref;
+}
+
+// 0x007B66C0 (32B): register it as the "profile" command group.
+void rva007B66C0()
+{
+    __RegisterDebugCmdGroup_Profile = ((Rva007B66C0DebugCommands *)theDebug)->AddCommands("profile", cmd);
+}
+
+// 0x007B6700 (19B): profileTracerInit = atexit(ProfileShutdown).
+void rva007B6700()
+{
+    profileTracerInit = atexit(ProfileShutdown);
+}
