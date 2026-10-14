@@ -1,6 +1,9 @@
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include
 // ?rva00291A8C@Object@@QAEXMMMABVAsciiString@@@Z
+// Keep the float wrappers local; the matched launch body inlines them.
+#define inline static inline
 #include <math.h>
+#undef inline
 #define _STLP_NO_EXCEPTIONS 1
 #define _STLP_USE_STATIC_LIB 1
 #include <bitset>
@@ -108,8 +111,8 @@ public:
 };
 
 #include <float.h>
-#include "../../Code/Libraries/Include/Lib/Coord3D.h"
-#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../Common/GameLogicObjectLookupView.h"
 class Matrix3D;
 class Thing { public: void setTransformMatrix(const Matrix3D *); };
 class Object;
