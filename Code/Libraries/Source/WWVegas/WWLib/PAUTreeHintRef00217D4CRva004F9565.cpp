@@ -68,3 +68,7 @@ template TreeHintRef00217D4C *_STL::__rotate(TreeHintRef00217D4C *,TreeHintRef00
 // the comparator and both owning handle temporaries inline into the
 // two-element case, swap is the rowed 0x4F6542.
 template void _STL::__merge_without_buffer(TreeHintRef00217D4C *,TreeHintRef00217D4C *,TreeHintRef00217D4C *,int,int,Rva004F9185Cmp);
+
+// Native 4F792B..4F7A0F, 228B: __merge_backward (_algo.c) of the adaptive
+// merge, inlined key compare, copy_backward the 0x4F6FE1 body.
+template TreeHintRef00217D4C *_STL::__merge_backward(TreeHintRef00217D4C *,TreeHintRef00217D4C *,TreeHintRef00217D4C *,TreeHintRef00217D4C *,TreeHintRef00217D4C *,Rva004F9185Cmp);
