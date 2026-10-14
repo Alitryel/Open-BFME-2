@@ -13,6 +13,8 @@ enum ObjectID
 #endif
 
 class Xfer;
+class GameMessage;
+class BfmeThingEC;
 class Object;
 class Drawable;
 class Rva00439E0C;
@@ -90,6 +92,14 @@ private:
 	bool m_backgroundPending; // +0x1BC
 
 public:
+	void logicMessageDispatcher(GameMessage *, void *); // Native 0x00377613
+	void rva0023F8DA(); // Verified native 0x0023F8DA game-over details
+	void rva0023DA49(); // Verified native 0x0023DA49 battle-complete wrapper
+	void rva0023DA4E(); // Verified native 0x0023DA4E battle-complete gate
+	void selectObject(Object *, bool, unsigned int, bool); // Verified native 0x0023C924
+	void ProcessCRC(unsigned int, int, unsigned int, GameMessage *, bool, BfmeThingEC *); // Verified native 0x00241529
+	int rva0023D080(int); // Verified native 0x0023D080
+	void CallPlayerGiveMoney(int, int, int); // Verified native 0x0023D793
 	bool rva00085124();	// 0x00085124; verified mode 4-or-7 predicate
 	bool isInMultiplayerGame();	// 0x00042235
 	bool rva0042219();	// 0x00042219, mode gate rejecting 9, 4 and 7
