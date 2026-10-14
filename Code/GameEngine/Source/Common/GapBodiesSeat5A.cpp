@@ -280,3 +280,25 @@ SEAT5_BLOCK_GETTER(005D2F7E, char *, m_block->m_20)
 SEAT5_BLOCK_GETTER(005D2F84, char *, m_block->m_38)
 SEAT5_BLOCK_GETTER(005D2F8A, char *, m_block->m_50)
 SEAT5_BLOCK_GETTER(005D2F90, unsigned char, m_block->m_68)
+
+// --- 0x005CBACC (26B): constructor of a vtable-0x00C74DFC object copying
+// the two words of its by-reference argument to +4/+8.
+struct Rva005CBACCPair
+{
+	int m_00;
+	int m_04;
+};
+
+class Rva005CBACC
+{
+public:
+	Rva005CBACC(const Rva005CBACCPair &pair);
+	virtual void slot0();
+private:
+	int m_04;
+	int m_08;
+};
+
+Rva005CBACC::Rva005CBACC(const Rva005CBACCPair &pair) : m_04(pair.m_00), m_08(pair.m_04)
+{
+}
