@@ -74,7 +74,7 @@ class Rva005F09E7 { public: void rva005F09E7(const Image *); };
 class Rva005F09EF { public: void rva005F09EF(const Image *); };
 class Rva005F09DF { public: void rva005F09DF(bool); };
 const Image *__cdecl Rva005F01B8Get(int);
-class LivingWorldRegion { public: const Image *GetFortressPortrait(); };
+class LivingWorldRegion { public: const Image *GetFortressPortrait(); UnicodeString GetFortressDisplayName(); UnicodeString GetFortressDisplayDescription(); };
 class Rva005E2896Vector { public: void reserve(unsigned int); };
 struct PageContext { void *region, *page, *owner; };
 extern int g_rva00E066A4StructuresClipArg;
@@ -193,5 +193,40 @@ RegionDetailsStructuresPage::Impl::Impl(void *page, void *level, void *name, con
   ((Rva005F09EF *)this)->rva005F09EF(Rva005F01B8Get(1));
   ((Rva005F09DF *)this)->rva005F09DF(true);
  }
+}
+}
+
+// Page Impl vtable 0x00C77B2C slot 1, native 0x005E2644..0x005E270E (202B,
+// RET0); WorldBuilder 15F3AB0 is the debug twin. After the movie clip base's
+// empty slot-1 hook (shared RET 0x000B3FD0, the sibling slot-2 body
+// Rva005E21C2Wrap.cpp's spelling), the page builds its counted fortress help
+// once from the region's fortress display name and description, then hands
+// the counted reference (+0x28) to the observer at +0x10 through the rowed
+// 4-byte slot-0 forwarder 0x001FF3A9. The help/counted-reference views are
+// the ones StrategicInGameUIBuildQueueIconSelect.cpp uses for the same
+// pattern; the slot name is TU-local.
+class __declspec(novtable) Rva005398CDRefCounted {
+public:
+ Rva005398CDRefCounted() : m_refCount(0) {}
+ virtual ~Rva005398CDRefCounted(); int m_refCount;
+};
+class InGameSimpleHelp : public Rva005398CDRefCounted {
+public:
+ class Impl;
+ InGameSimpleHelp(const UnicodeString &,const UnicodeString &);
+ virtual ~InGameSimpleHelp();
+private: Impl *m_impl;
+};
+class Rva002BED91 { public: TargetRef00217D4C *m_ptr; void set(TargetRef00217D4C *); };
+struct TreeHintRef00217D4C;
+class Rva001FF3A9 { public: void rva001FF3A9(const TreeHintRef00217D4C &); };
+class Rva000B3FD0Empty { public: void rva000B3FD0Empty(); };
+namespace StrategicInGameUI {
+void RegionDetailsStructuresPage::Impl::slot01()
+{
+ ((Rva000B3FD0Empty *)this)->rva000B3FD0Empty();
+ if (!current.pointer)
+  ((Rva002BED91 *)&current)->set((TargetRef00217D4C *)new InGameSimpleHelp(((LivingWorldRegion *)region)->GetFortressDisplayName(), ((LivingWorldRegion *)region)->GetFortressDisplayDescription()));
+ ((Rva001FF3A9 *)observer)->rva001FF3A9(*(const TreeHintRef00217D4C *)&current);
 }
 }
