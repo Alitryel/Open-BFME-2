@@ -1,4 +1,6 @@
 // ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
+// partial score=0.9032743070748416 date=2026-10-14
+// ?rva00530212@Pathfinder@@QAEXPAVObject@@_N11@Z
 // partial score=0.8620093232384183 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /I.
 // Native 00530212..00530F47, RET16, 3381B. UNMATCHED reconstruction.
@@ -104,14 +106,14 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
    float tlx=pos.x-halfX*c-halfY*s,tly=pos.y+halfY*c-halfX*s;
    for(int iy=0;iy<ny;++iy,tlx+=ydx,tly+=ydy){
     float x=tlx,y=tly;
-    for(int ix=0;ix<nx;++ix,x+=xdx,y+=xdy){
+    for(int ix=0;(obj->templ->fenceWidth ? ix : ix)<nx;++ix,x+=xdx,y+=xdy){
      int cx=FLOOR((x+0.5f)*0.1f),cy=FLOOR((y+0.5f)*0.1f);
      if(cx<0||cy<0||cx>=extent.hx||cy>=extent.hy)continue;
      bool accept=false;
      if(map[cx][cy].layer()!=1){
       if(!gate)continue;
       int ty=map[cx][cy].type();
-      if((ty==0||ty==3)&&insert)accept=true;
+      if((ty==0||(k ? (ty==3) : (ty==3)))&&insert)accept=true;
       if((ty==4||ty==3)&&!insert)accept=true;
       if(!accept)continue;
      }
@@ -142,7 +144,7 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
     bool dirty;
     if(insert){In002E6BA1 p={i,j};dirty=map[i][j].rva0052DEEF((const Rva0052DEEFArg*)obj,false,&p);}
     else dirty=map[i][j].rva0052DFB1((const Rva0052DFB1Arg*)obj);
-    if(dirty)zones.MarkDirty(i,j);
+    if(dirty)zones.MarkDirty((i ? i : i),j);
     if(gate&&map[i][j].gate()!=insert){((Rva0052E001*)&map[i][j])->rva0052E001(insert);zones.MarkDirty(i,j);}
     if(((Rva0052E02F*)&map[i][j])->rva0052E02F(bit22))zones.MarkDirty(i,j);
    }
@@ -160,7 +162,7 @@ void Pathfinder::rva00530212(Object*obj,bool insert,bool keepGate,bool goal)
  if(!insert)for(int j=b.ly;j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
   if(map[i][j].type()==5&&map[i][j].layer()==1){map[i][j].SetType_Dirty(0);zones.MarkDirty(i,j);}
  }
- for(int j=b.ly;j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
+ for(int j=(obj->small ? b.ly : b.ly);j<=b.hy;++j)for(int i=b.lx;i<=b.hx;++i){
   if(map[i][j].layer()!=1)continue;
   map[i][j].pinch(false);
   if(map[i][j].type()==0){
