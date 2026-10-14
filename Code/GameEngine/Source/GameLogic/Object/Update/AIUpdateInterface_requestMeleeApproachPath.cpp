@@ -23,15 +23,8 @@ typedef unsigned int UnsignedInt;
 typedef float Real;
 typedef bool Bool;
 
-// class-gate: allow Coord3D the canonical data-only header cannot declare the member-wise user copy constructor; retail copy-constructs the object position and the goal with three movss pairs while assigning with movsd
-struct Coord3D
-{
-	Coord3D() {}
-	Coord3D(const Coord3D &o) { x = o.x; y = o.y; z = o.z; }
-	Real x, y, z;
-	Real length() const;
-	void normalize();
-};
+// Coord3D: retail user ctors, opt-in view (Lib/Coord3DCtorView.h); no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 #include <math.h>
 

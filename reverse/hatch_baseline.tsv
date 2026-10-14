@@ -5896,7 +5896,6 @@ class_gate_allow	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/Assault
 class_gate_allow	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp	Coord2D	1
 class_gate_allow	Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp	Coord3D	1
 class_gate_allow	Code/GameEngine/Source/GameLogic/Object/Update/BattlePlanUpdateModuleDataCtor.cpp	AsciiString	1
-class_gate_allow	Code/GameEngine/Source/GameLogic/Object/Update/FloodUpdate.cpp	Coord3D	1
 class_gate_allow	Code/GameEngine/Source/GameLogic/Object/Update/OilSpillUpdate.cpp	Coord3D	1
 class_gate_allow	Code/GameEngine/Source/GameLogic/Object/Update/Rva004AABB4BuildPos.cpp	AsciiString	1
 class_gate_allow	Code/GameEngine/Source/GameLogic/Object/Update/SlavedUpdateRepair.cpp	Coord3D	1

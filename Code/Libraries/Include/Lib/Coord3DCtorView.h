@@ -8,6 +8,8 @@
 // A unit whose bytes need the non-POD type (by-value Coord3D arguments built through the copy
 // constructor, expression temporaries with an ESP save) includes this header INSTEAD of Coord3D.h,
 // before anything else that includes it: it takes Coord3D.h's include guard.
+// `#define COORD3D_VIEW_DTOR` first adds retail's empty user destructor (0x000B3FD0), which keeps by-value
+// results and arrays on the unwind path (units whose temporaries or arrays retail registers for EH).
 #ifndef CANONICAL_COORD3D_H
 #define CANONICAL_COORD3D_H
 
@@ -17,6 +19,9 @@ struct Coord3D {
     float z;
     Coord3D() {}
     Coord3D(const Coord3D &o) : x(o.x), y(o.y), z(o.z) {}
+#ifdef COORD3D_VIEW_DTOR
+    ~Coord3D() {}
+#endif
     float length() const;
     void normalize();
     bool operator==(const Coord3D &r);

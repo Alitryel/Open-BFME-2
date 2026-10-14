@@ -30,13 +30,8 @@ enum PathfindLayerEnum
 	LAYER_GROUND = 1
 };
 
-// class-gate: allow Coord3D the canonical data-only header cannot declare BFME 2's user copy constructor; retail returns pos into the hidden result with three movss pairs and both callers (0x002CC0E6 and 0x002CC16A) copy-construct the by-value argument and record its address for unwinding; same three floats
-struct Coord3D
-{
-	Coord3D() {}
-	Coord3D(const Coord3D &o) { x = o.x; y = o.y; z = o.z; }
-	Real x, y, z;
-};
+// Coord3D: retail user ctors, opt-in view (Lib/Coord3DCtorView.h); no private copy.
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class WWMath
 {

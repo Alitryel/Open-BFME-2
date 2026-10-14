@@ -14,13 +14,8 @@
 // Called by the matched advanceApproachPosition 0x00589D3E.
 #include "../../../../Common/PartitionRangeQueryCallView.h"
 
-// class-gate: allow Coord3D retail returns and copies Coord3D member-wise (movss pairs, inlined copy ctor 0x0005BC20); the canonical aggregate block-copies
-struct Coord3D
-{
-	Coord3D() {}
-	Coord3D(const Coord3D &v) { x = v.x; y = v.y; z = v.z; }
-	float x, y, z;
-};
+// Coord3D: retail user ctors, opt-in view (Lib/Coord3DCtorView.h); no private copy.
+#include "../../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class Matrix3D;
 class Object;

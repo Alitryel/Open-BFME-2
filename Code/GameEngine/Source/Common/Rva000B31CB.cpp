@@ -9,19 +9,9 @@
 // the rowed RadiusDecalTemplate creator 0x0033121F on the template at +0x1E0 with the decal
 // at +0x1D0. Evidence: target bytes and the rowed callees; names are neutral views.
 class Object;
-// class-gate: allow Coord3D retail returns 0x0028D4E0 in place into the argument slot and keeps the slot address for its destructor
-// Private view of the canonical Coord3D: with a user copy constructor and destructor MSVC
-// returns 0x0028D4E0's by-value result directly into the by-value argument slot and records
-// that slot's address in the dead color slot, as the retail call does.
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-	Coord3D() {}
-	Coord3D(const Coord3D &o) : x(o.x), y(o.y), z(o.z) {}
-	~Coord3D() {}
-};
+// Coord3D: retail user ctors, opt-in view (Lib/Coord3DCtorView.h); no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;

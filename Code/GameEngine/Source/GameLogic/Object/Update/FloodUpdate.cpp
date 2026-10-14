@@ -40,20 +40,8 @@ class ModuleData;
 class Team;
 class ThingTemplate;
 
-// class-gate: allow Coord3D BFME 2's Coord3D copies field by field (the path-point copies in both bodies); the canonical data-only header cannot declare the copy constructor; same three floats
-struct Coord3D
-{
-	Coord3D() {}
-	Coord3D(const Coord3D &that)
-	{
-		x = that.x;
-		y = that.y;
-		z = that.z;
-	}
-	Real x;
-	Real y;
-	Real z;
-};
+// Coord3D: retail user ctors, opt-in view (Lib/Coord3DCtorView.h); no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class WWMath
 {
