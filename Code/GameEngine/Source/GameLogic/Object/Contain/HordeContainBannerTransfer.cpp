@@ -15,7 +15,7 @@ public:
 };
 class Rva003BD306Target {
 public:
- void rva0039B2C7(int count, int value);
+ void rva0039B2C7(int count, bool value);
 };
 class Object {
 public:

@@ -70,7 +70,7 @@ struct Rva0039B24FInput;
 class Rva0039B24F
 {
 public:
-	void rva0039B24F(Rva0039B24FInput *input, int a, bool b);
+	void rva0039B24F(Rva0039B24FInput *input, bool a, bool b);
 };
 
 class Rva0039B20C

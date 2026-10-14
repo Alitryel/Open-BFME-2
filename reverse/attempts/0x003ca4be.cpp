@@ -1,4 +1,6 @@
 // ?executeAction@ScriptActions@@UAEXPAVScriptAction@@@Z
+// partial score=0.9975978987568049 date=2026-10-14
+// ?executeAction@ScriptActions@@UAEXPAVScriptAction@@@Z
 // partial score=0.9571488135077614 date=2026-10-14
 // ?executeAction@ScriptActions@@UAEXPAVScriptAction@@@Z
 // partial score=0.9196112177903024 date=2026-10-13
@@ -114,12 +116,12 @@ return;
 }
 case 34:
 {
-rva003C7BBB(INLINE_TEXT(0), INLINE_TEXT(1), false);
+doCreateReinforcements(INLINE_TEXT(0), INLINE_TEXT(1), false);
 return;
 }
 case 444:
 {
-rva003C7BBB(INLINE_TEXT(0), INLINE_TEXT(1), true);
+doCreateReinforcements(INLINE_TEXT(0), INLINE_TEXT(1), true);
 return;
 }
 case 499:
@@ -461,7 +463,7 @@ return;
 }
 case 52:
 {
-rva003C8482(TEXT(0));
+doLoadAllTransports(TEXT(0));
 return;
 }
 case 53:
@@ -516,8 +518,7 @@ return;
 }
 case 208:
 {
-AsciiString temp8("");
-Rva003BF813Do(TEXT(0), TEXT(1), temp8);
+Rva003BF813Do(TEXT(0), TEXT(1), "");
 return;
 }
 case 487:
@@ -1212,7 +1213,7 @@ return;
 }
 case 156:
 {
-rva003C90DD(TEXT(0), TEXT(1));
+doTransferTeamToPlayer(TEXT(0), TEXT(1));
 return;
 }
 case 157:
@@ -1487,7 +1488,7 @@ return;
 }
 case 272:
 {
-rva003C449C(TEXT(0), TEXT(1), TEXT(2));
+doTeamUseCommandButtonOnNearestObjectType(TEXT(0), TEXT(1), TEXT(2));
 return;
 }
 case 273:

@@ -711,7 +711,7 @@ class UnitRevivalTracker { public: Object *productionSystemNewObject(unsigned in
 class Rva0039ADF3 { public: bool rva0039AE04() const; };
 class ExperienceTracker { public: void rva0039B315(float,bool,bool,bool,bool); };
 struct ProductionExperienceView { char pad[0x24]; int level; int next; };
-class Rva003BD306Target { public: void rva0039B2C7(int,int); };
+class Rva003BD306Target { public: void rva0039B2C7(int,bool); };
 class Rva004DC8E7AsciiField { public: AsciiString get() const; };
 class ScriptEngine { public:
  void rva00357F11(int,const AsciiString &,int);

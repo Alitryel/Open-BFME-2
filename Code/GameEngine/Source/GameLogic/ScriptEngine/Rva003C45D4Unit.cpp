@@ -45,7 +45,7 @@ struct Rva0039B24FInput;
 class Rva0039B24F
 {
 public:
-	void rva0039B24F(Rva0039B24FInput *input, int v, bool flag);
+	void rva0039B24F(Rva0039B24FInput *input, bool v, bool flag);
 	char m_pad[0x20];
 	unsigned char m_20alias;
 };

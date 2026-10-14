@@ -294,7 +294,7 @@ public:
 class Rva003BD306Target
 {
 public:
-	void rva0039B28F(Int value);
+	void rva0039B28F(bool value);
 };
 class Rva0039B20C
 {

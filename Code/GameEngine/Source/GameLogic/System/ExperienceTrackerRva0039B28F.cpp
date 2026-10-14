@@ -1,9 +1,9 @@
 // cl: /O1 /DNDEBUG /MD
 //
-// ?rva0039B28F@Rva003BD306Target@@QAEXH@Z, retail 0x0039B28F, 56B: an
+// ?rva0039B28F@Rva003BD306Target@@QAEX_N@Z, retail 0x0039B28F, 56B: an
 // ExperienceTracker member (this goes to FindExperienceLevelList as the
-// tracker), rowed under the host name and int spelling 3 of its 4 matched
-// callers use; retail passes the argument as the int of 0x0039B24F.
+// tracker). Native callbacks and WB F9FFB0 pass a low-byte bool onward
+// to 0x0039B24F; all providers and consumers now share that contract.
 // Target evidence: looks the tracker's level list up in
 // TheExperienceLevelSystem, takes the entry for the level at +0x0C
 // (0x002897A8) and, when both exist, applies it via 0x0039B24F(entry, v,
@@ -31,19 +31,19 @@ public:
 class Rva0039B24F
 {
 public:
-	void rva0039B24F(Rva0039B24FInput *input, int v, bool flag);	// 0x0039B24F
+	void rva0039B24F(Rva0039B24FInput *input, bool v, bool flag);	// 0x0039B24F
 };
 
 class Rva003BD306Target
 {
 public:
-	void rva0039B28F(int v);
+	void rva0039B28F(bool v);
 private:
 	unsigned char m_pad0[0xC];
 	int m_level;				// +0x0C
 };
 
-void Rva003BD306Target::rva0039B28F(int v)
+void Rva003BD306Target::rva0039B28F(bool v)
 {
 	ExperienceLevelList *list = reinterpret_cast<ExperienceLevelStore *>(TheExperienceLevelSystem)->FindExperienceLevelList((const ExperienceTracker *)this);
 	if (list)

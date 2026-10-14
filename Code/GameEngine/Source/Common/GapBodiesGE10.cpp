@@ -74,7 +74,7 @@ public:
 class Rva003BD306Target
 {
 public:
-	void rva0039B28F(int value);							// 0x0039B28F
+	void rva0039B28F(bool value);							// 0x0039B28F
 };
 
 void Rva005DB004::rva005DB033()

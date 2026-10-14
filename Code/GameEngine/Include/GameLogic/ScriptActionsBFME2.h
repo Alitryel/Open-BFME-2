@@ -23,6 +23,8 @@ enum ObjectID;
 class ScriptActions : public SubsystemInterface
 {
 public:
+    void doSetBorderShroud(bool);
+    void rva003C739D(Parameter *, Parameter *, Parameter *, Parameter *, Parameter *);
     void rva003BD34D(int);
     void rva003BD391(int);
     void Rva0042F9DAEmit();
@@ -324,6 +326,10 @@ public:
     Object * rva003C24F0(Coord3D const *, ObjectTypes *, Player *, bool);
 
 protected:
+    void doTeamUseCommandButtonOnNearestObjectType(const AsciiString &, const AsciiString &, const AsciiString &);
+    void rva003C0D6A(const AsciiString &, int, bool);
+    void rva003C0D90(const AsciiString &, int, bool);
+    void rva003C4751(Parameter *);
     void rva003C32CC(const AsciiString &, const AsciiString &, bool);
     void doCreateReinforcements(const AsciiString &team, const AsciiString &waypoint, bool useUnit);
     void doTransferTeamToPlayer(const AsciiString &teamName, const AsciiString &playerName);
@@ -390,7 +396,7 @@ protected:
     void doAffectObjectPanelFlagsUnit(Parameter *, AsciiString const &, bool);
     void doNamedCustomColor(Parameter *, int);
     void rva003BC93C(Parameter *, int);
-    void rva003BD306(Parameter *, int);
+    void rva003BD306(Parameter *, bool);
     void rva003BA943(Parameter *, bool);
     void rva003C207C(Parameter *, Parameter *, bool);
     void doEnablePlanningMode(unsigned char);

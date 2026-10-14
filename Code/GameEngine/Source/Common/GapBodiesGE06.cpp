@@ -212,7 +212,7 @@ struct Rva0039B24FInput;
 class Rva0039B24F
 {
 public:
-	void rva0039B24F(Rva0039B24FInput *level, int count, bool flag);	// 0x0039B24F
+	void rva0039B24F(Rva0039B24FInput *level, bool count, bool flag);	// 0x0039B24F
 	void rva0039B4B8(const AsciiString &name, bool flag);
 };
 

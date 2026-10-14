@@ -74,13 +74,13 @@ public:
 class Rva003BD306Target
 {
 public:
-	void rva0039B28F(int value);
+	void rva0039B28F(bool value);
 };
 struct Rva0039B24FInput;
 class Rva0039B24F
 {
 public:
-	void rva0039B24F(Rva0039B24FInput *level, int value, bool feedback);
+	void rva0039B24F(Rva0039B24FInput *level, bool value, bool feedback);
 };
 
 // Native0039B438..0039B4B8 RET8. The list lookup identifies this as an
