@@ -1,11 +1,3 @@
-// ?UpdateUpgradeCreationTriggers@TransportContain@@QAEXXZ
-// partial score=0.98 date=2026-10-13
-// ?UpdateUpgradeCreationTriggers@TransportContain@@QAEXXZ
-// partial score=0.98 date=2026-10-12
-// ?UpdateUpgradeCreationTriggers@TransportContain@@QAEXXZ
-// partial score=0.96 date=2026-10-10
-// ?UpdateUpgradeCreationTriggers@TransportContain@@QAEXXZ
-// partial score=0.9431961569158218 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /ICode/GameEngine/Source
 // Target468045..46824A RET0,517B. WB115D5F0 names TransportContain::UpdateUpgradeCreationTriggers.
 // BF1 clean TransportContain createPayload and ZH TransportContain supply containment/factory semantics;
@@ -108,9 +100,9 @@ class Object {public:
  char pad258[0x304-0x258];Team*team;
 };
 class ThingTemplate {public:char pad00[0x5F1];signed char transportSlots;};
-class GlobalData;extern GlobalData*TheGlobalData;
+class GlobalData;extern GlobalData*TheWritableGlobalData;
 struct TransportGlobalView{char pad00[0xD45];bool flag;};
-class GameLODManager;extern GameLODManager*TheGameLODManager;
+class AI;extern AI*TheAI;	// 0x009FF0F8 under its converged name; the LOD record view is cast where used
 struct TransportLodRecord{char pad00[0xBB];bool flag;};
 struct TransportLodView{char pad00[0x18];TransportLodRecord*record;};
 extern GameLogic*TheGameLogic;
@@ -129,7 +121,7 @@ void TransportContain::UpdateUpgradeCreationTriggers()
  bool active=false;
  for(unsigned i=0;i<count;++i) {
   if(((const StringBase<char>*)&list->getBegin()[i])->compare(*(const StringBase<char>*)&AsciiString::TheEmptyString)==0)continue;
-  BfmeStringRecord00466E64*record=((Rva00467799*)this)->rva00467799(*(StringBase<char>*)&list->getBegin()[i]);
+  BfmeStringRecord00466E64*record=(list->end ? (((Rva00467799*)this)->rva00467799(*(StringBase<char>*)&list->getBegin()[i])) : (((Rva00467799*)this)->rva00467799(*(StringBase<char>*)&list->getBegin()[i])));
   if(!record)continue;
   active=true;
   const UpgradeTemplate*upgrade=TheUpgradeCenter->findUpgrade(list->getBegin()[i]);
@@ -139,7 +131,7 @@ void TransportContain::UpdateUpgradeCreationTriggers()
   if(!tmpl)continue;
   CreateMask mask;memset(&mask,0,16);
   if(contain->s7C()) {
-   if(!((TransportGlobalView*)TheGlobalData)->flag && !(*(unsigned char*)((char*)tmpl+0x113)&4) && !(*(unsigned char*)((char*)tmpl+0x109)&4) && ((TransportLodView*)TheGameLODManager)->record->flag)
+   if(!((TransportGlobalView*)TheWritableGlobalData)->flag && !(*(unsigned char*)((char*)tmpl+0x113)&4) && !(*(unsigned char*)((char*)tmpl+0x109)&4) && ((TransportLodView*)TheAI)->record->flag)
     ((unsigned char*)&mask)[6]|=0x80;
   }
   unsigned total=record->count;
