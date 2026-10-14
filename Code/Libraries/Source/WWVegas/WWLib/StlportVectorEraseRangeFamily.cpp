@@ -124,6 +124,7 @@ public:
 	typedef _Tp *pointer;
 	typedef _Tp *iterator;
 	void push_back(const _Tp &);
+	void clear() { erase(_M_start, _M_finish); }
 
 	iterator erase(iterator __first, iterator __last)
 	{
@@ -402,3 +403,6 @@ void W3DHordeModelDraw::rva0007A7DD()
 	helper->bfmeAttachYS(reinterpret_cast<Gen_00755E70 *>(this));
 	reinterpret_cast<Gen_00755E70 *>(this)->bfmeFinishYS();
 }
+
+// Native 0x004149B4: STLport4.5.3 record vector clear forwarding to its owned provider.
+template void _STL::vector<BfmeAssignRecord44>::clear();
