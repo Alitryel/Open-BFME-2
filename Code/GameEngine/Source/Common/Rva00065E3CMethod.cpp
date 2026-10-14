@@ -7,8 +7,10 @@ public:
 	virtual ~MultiListObjectClass();
 	void *m_listNode04;
 };
+class Rva0065CA4;
 class GenericMultiListClass
 {
+	friend class Rva0065CA4;
 public:
 	GenericMultiListClass();
 	virtual ~GenericMultiListClass();
@@ -22,6 +24,19 @@ public:
 	void *m_headNextList0C;
 	void *m_headObject10;
 	void *m_headList14;
+};
+// The temporary dead-item list is ZH's MultiListClass<CameraShakerClass>,
+// whose destructor is rowed at 0x00065CA4 (camerashakesystem.cpp).
+class CameraShakeSystemClass
+{
+public:
+	class CameraShakerClass;
+};
+template <class ObjectType> class MultiListClass : public GenericMultiListClass
+{
+public:
+	MultiListClass() {}
+	virtual ~MultiListClass();
 };
 class Rva0065CA4 : public GenericMultiListClass
 {
@@ -47,7 +62,7 @@ public:
 };
 void Rva0065CA4::rva00065E3C(float value)
 {
-	Rva0065CA4 tmp;
+	MultiListClass<CameraShakeSystemClass::CameraShakerClass> tmp;
 	for (Rva00065E3CNode *node = (Rva00065E3CNode *)m_headNext08; node != (Rva00065E3CNode *)&m_headPrev04; node = node->m_next04) {
 		Rva00065E3CItem *item = (Rva00065E3CItem *)node->m_obj0C;
 		item->m_accum20 += value;

@@ -61,16 +61,21 @@ class Rva00043511
  
 }
 ;
-class Rva0065CA4
-
+class Rva0065CA4;
+// The list it allocates is constructed by 0x00065D40, the
+// MultiListClass<CameraShakerClass> constructor (vtable 0x7C5C78).
+class CameraShakeSystemClass
 {
  public:
- Rva0065CA4();
- virtual ~Rva0065CA4();
+ class CameraShakerClass;
+};
+template <class ObjectType> class MultiListClass
+{
+ public:
+ MultiListClass();
+ virtual ~MultiListClass();
  char data[0x14];
- 
-}
-;
+};
 struct GlobalDataView
 
 {
@@ -159,7 +164,7 @@ W3DDisplay::W3DDisplay()
  r1_vwrite((m_184 ? m_1cc : m_1cc)) = 0;
  r1_vwrite(m_278) = 0;
  m_27c = 0;
- TheRva0065CA4List = new Rva0065CA4;
+ TheRva0065CA4List = (Rva0065CA4 *)new MultiListClass<CameraShakeSystemClass::CameraShakerClass>;
  m_280.rva00043511();
  
 }
