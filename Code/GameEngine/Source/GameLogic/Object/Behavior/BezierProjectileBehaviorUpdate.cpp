@@ -35,7 +35,9 @@ class Vector3 { public:
  __forceinline void Normalize() { float len2=Length2(); if(len2!=0.0f) { float oolen=WWMath::Inv_Sqrt(len2); X*=oolen; Y*=oolen; Z*=oolen; } }
 };
 class Matrix3D { public: void buildTransformMatrix(const Vector3&,const Vector3&); float m[3][4]; };
-class GeometryInfo { public: float getMaxHeightAbovePosition() const; float getBoundingCircleRadius() const { return radius; } char pad[0x10]; float radius; };
+// This partial geometry view reads +0x10 inline in the retail update. Keep
+// its helper distinct from the generic accessor emitted by +0x18 views.
+class GeometryInfo { public: float getMaxHeightAbovePosition() const; float projectileCollisionRadius() const { return radius; } char pad[0x10]; float radius; };
 class Thing { public: void setPosition(const Coord3D*); void setTransformMatrix(const Matrix3D*); };
 struct BezierModelFlags { unsigned words[19];
  __forceinline unsigned test(int i)const{return words[i>>5]&(1u<<(i&31));}
@@ -227,7 +229,7 @@ UpdateSleepTime BezierProjectileBehavior::update()
 		{
 			BezCoord targetPos(target->pos);
 			targetPos.z += target->geometry.getMaxHeightAbovePosition() * 0.5f;
-			float radius = target->geometry.getBoundingCircleRadius();
+			float radius = target->geometry.projectileCollisionRadius();
 			if (targetPos.length() < radius + collisionRadius)
 				hit(target);
 		}
