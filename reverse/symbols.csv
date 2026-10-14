@@ -4822,7 +4822,6 @@ name,address,notes
 ??1ScriptList@@UAE@XZ,0x003B774B,retail REL32 from SidesInfo destructor 0x32D4F2; ScriptList member teardown
 ??1ScriptListBase@@QAE@XZ,0x003B4071,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??1ScriptListElementName@@QAE@XZ,0x00577998,shared 8B string tail teardown of ScriptList subrecord elements AsciiString at +8 via rowed 0x36410; called per element from the 0x3B678A and 0x3B713E destroy loops
-??1SecondaryBase@@UAE@XZ,0x004FAC80,SecondaryBase destructor called by Rva005C48E5 destructor
 ??1ShaderVector@@QAE@XZ,0x0016F960,TU-private view (MaterialCollectorClassCtor.cpp) of DynamicVectorClass<ShaderClass>: its unwind funclet destroys that member through the rowed ??1?$DynamicVectorClass@VShaderClass destructor at this address
 ??1ShellMenuScheme@@QAE@XZ,0x002006B0,callee of ?newShellMenuScheme@ShellMenuSchemeManager@@ at retail 0x002008C8 read from its REL32 displacement; walks and empties the scheme list at ecx+4; ICF-address twin of ??1Rva002006B0@@ already pinned here, which is the same body under an address-derived name; body unrowed
 ??1ShipSlowDeathBehaviorModuleData@@UAE@XZ,0x00461FED,ICF twin of rowed ??1GiantBirdSlowDeathBehaviorModuleData at same address; Ship vtable 0x842E98 slot-0 deleting dtor 0x45E98E calls it
