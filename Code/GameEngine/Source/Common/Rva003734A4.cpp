@@ -36,6 +36,12 @@ enum ScienceType
 	SCIENCE_Dummy0
 };
 
+// Retail's push_back overflow path (0x00148D00) calls the shared four-byte
+// allocate at 0x00068E15; this unit's malloc-wired copy differed from it.
+namespace _STL {
+template <> ScienceType *allocator<ScienceType>::allocate(size_t, const void *) const;
+}
+
 class MineshaftPortalBehaviour
 {
 public:
