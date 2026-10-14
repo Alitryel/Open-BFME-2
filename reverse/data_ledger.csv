@@ -17071,7 +17071,8 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009BA4F4,4,.data,global,?g_00DBA4F4@@3MA,Code/GameEngine/Source/Common/Rva0040C985Init.cpp,owned,,1,2
 0x009BA4F8,4,.data,float,__real@3e4ccccd,,literal,?g_secondsPerLogicFrame@@3MA;__real@3e4ccccd,1,17
 0x009BA4FC,4,.data,global,?g_00DBA4FC@@3MA,Code/GameEngine/Source/GameClient/Rva0005121FElapsed.cpp,owned,,1,11
-0x009BA500,8,.data,float,__real@3cf5c28f,,literal,?BfmeClientFramesPerMillisecond@@3MA;__real@3cf5c28f,1,10
+0x009BA500,4,.data,float,__real@3cf5c28f,,literal,?BfmeClientFramesPerMillisecond@@3MA;__real@3cf5c28f,1,13
+0x009BA504,4,.data,global,?BfmeClientFrameRateReal@@3MA,Code/GameEngine/Source/Common/FrameRateConfiguration.cpp,owned,,1,1
 0x009BA508,208,.data,global,?opacityLogicStepSeconds@@3MA,Code/GameEngine/Source/GameClient/Drawable_rva00275598.cpp,provisional,?g_bfmeSecondCF@@3MA;?opacityLogicStepSeconds@@3MA,1,3
 0x009BA5D8,4,.data,global,?lastFrame@?CC@??update@GameClient@@UAEXXZ@4IA,Code/GameEngine/Source/GameClient/GameClientDrawableTOC.cpp,owned,,1,2
 0x009BA5DC,4,.data,global,?firstUpdate@?4??update@GameClient@@UAEXXZ@4_NA,Code/GameEngine/Source/GameClient/GameClientDrawableTOC.cpp,owned,,1,2
