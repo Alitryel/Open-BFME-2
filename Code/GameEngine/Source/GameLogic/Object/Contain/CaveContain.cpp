@@ -113,7 +113,6 @@ class TunnelTracker : public Rva00466398
 public:
 	Bool rva004F550A(ObjectID value);
 	void removeFromContain(ObjectID value, int exposeStealthUnits);
-	Bool rva004F571B(Object *object);
 	void iterateContained(void (*callback)(Object*,void*), void *data, Bool reverse);
 	void addToContainList(Object *obj);
 	Bool rva004F5473(Object *obj, Bool checkCapacity);
@@ -125,6 +124,7 @@ class CaveSystem
 public:
 	TunnelTracker *getTunnelTrackerForCaveIndex(UnsignedInt index);
 	void registerNewCave(int index);
+	void unregisterCave(int index);	// folded into 0x0047A69C
 };
 
 // Existing target row at 0x0042755D; its address-derived spelling is kept.
@@ -134,20 +134,12 @@ public:
 	Bool rva0042755D(UnsignedInt oldIndex, UnsignedInt newIndex);
 };
 
-// Opaque call-site view of the already-pinned 3-byte ret-4 body at 0x0047A69C
-// (donor CaveSystem::unregisterCave is empty and folds there). No layout; the
-// target caller supplies CaveSystem* in ECX.
-class Gen_003bcb40
-{
-public:
-	void m(int index);
-};
-
 // Existing 31-byte target row used when adding an object to a tunnel tracker.
 class Rva004F56FC
 {
 public:
 	void rva004F56FC(Object *object);
+	Bool rva004F571B(const Object *object);
 };
 
 class DieMuxData
@@ -327,8 +319,8 @@ void CaveContain::tryToSetCaveIndex(int newIndex)
 		TunnelTracker *oldTracker =
 			TheCaveSystem->getTunnelTrackerForCaveIndex(
 				static_cast<UnsignedInt>(*caveIndex));
-		reinterpret_cast<Gen_003bcb40 *>(TheCaveSystem)->m(*caveIndex);
-		oldTracker->rva004F571B(
+		TheCaveSystem->unregisterCave(*caveIndex);
+		reinterpret_cast<Rva004F56FC *>(oldTracker)->rva004F571B(
 			*reinterpret_cast<Object **>(interfaceThis - 0xF4));
 
 		*caveIndex = newIndex;
@@ -361,8 +353,8 @@ void CaveContain::onDie(const DamageInfo *damageInfo)
 	int *caveIndex = reinterpret_cast<int *>(interfaceThis + 0xDC);
 	TunnelTracker *myTracker = TheCaveSystem->getTunnelTrackerForCaveIndex(
 		static_cast<UnsignedInt>(*caveIndex));
-	reinterpret_cast<Gen_003bcb40 *>(TheCaveSystem)->m(*caveIndex);
-	myTracker->rva004F571B(getDieObject());
+	TheCaveSystem->unregisterCave(*caveIndex);
+	reinterpret_cast<Rva004F56FC *>(myTracker)->rva004F571B(getDieObject());
 }
 
 // Native466486..4664BB full53 RET12. The CaveContain wrapper extends

@@ -98,6 +98,7 @@ public:
 	virtual ~CaveSystem();
 	TunnelTracker *getTunnelTrackerForCaveIndex(UnsignedInt index);
 	void registerNewCave(Int theIndex);
+	void unregisterCave(Int theIndex);
 	virtual void crc(Xfer *xfer) {}
 	virtual void DoXfer(Xfer *xfer);
 	virtual void loadPostProcess() {}
@@ -138,6 +139,15 @@ void CaveSystem::registerNewCave(Int theIndex)
 	}
 	if (needToCreate)
 		m_tunnelTrackerVector[theIndex] = new TunnelTracker;
+}
+
+// CaveSystem::unregisterCave: empty in Zero Hour ("Doesn't need to do
+// anything"); retail folds the 3-byte RET 4 into 0x0047A69C. CaveContain's
+// onDie 0x00466724 and tryToSetCaveIndex 0x004667D1 call it with ECX =
+// TheCaveSystem and the cave index, between getTunnelTrackerForCaveIndex and
+// the tracker's destroyed-tunnel notification, in Zero Hour's order.
+void CaveSystem::unregisterCave(Int theIndex)
+{
 }
 
 // ?DoXfer@CaveSystem@@UAEXPAVXfer@@@Z
