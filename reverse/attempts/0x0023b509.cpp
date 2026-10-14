@@ -1,4 +1,6 @@
 // ?xfer@GameClient@@MAEXPAVXfer@@@Z
+// partial score=0.975 date=2026-10-14
+// ?xfer@GameClient@@MAEXPAVXfer@@@Z
 // partial score=0.9 date=2026-10-13
 // W7-SOL6 owner-port reproduced 1805B; all three stale callee names now use current ledger providers.
 // Port into current home TU requires preserving visible recursive getFinalOverride and NULL-preserving Snapshot side casts;
@@ -6,6 +8,8 @@
 // ?xfer@GameClient@@MAEXPAVXfer@@@Z
 // partial score=0.9 date=2026-10-08
 // cl: /ICode/GameEngine/Source/GameClient /O1 /G7 /DNDEBUG /MD /EHs /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
+// R12 (W7-U1) compiles standalone again (duplicate DynamicAudioEventInfo class dropped; GameLogicObjectLookupView.h already declares it): 1806B, nd 34, EH bytes differ 2.
+// R12 (W7-U1) residue: loop counter / EH object slot swap (ebp-0x10/-0x20) plus one extra mov ecx,ebx; ms_nd 2569 singles no gain.
 // stlport
 //
 // GameClient's drawable table of contents, after ZH GameClient.cpp
@@ -350,7 +354,6 @@ struct Rva000B56F0Object
 	
 };
 
-class DynamicAudioEventInfo { public: void xferNoName(Xfer *xfer); };
 
 #define V(n) virtual void pad##n();
 class AudioManager

@@ -1,6 +1,12 @@
 // ?rva002167A3@BannerUI@@QAEXXZ
+// partial score=0.96 date=2026-10-14
+// ?rva002167A3@BannerUI@@QAEXXZ
 // partial score=0.7 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
+// R12 (W7-U1) now compiles standalone (was stale: 0.7). Levers: GameLogicFwd view for the three +0x184 forwarders; rva0023D096 returns FLOAT (retail fmul [100.0]+_ftol),
+// R12 (W7-U1) visible __declspec(noinline) inline copy of rowed Rva0021639AInvoke (by-ref args no longer pin progress to memory), title as expression temp (651B exact length).
+// R12 (W7-U1) nd 26 at 651B (nd 17 at 654B with named title). Residue = frame slots: retail shares stateString+windowName+progress at ebp-0x1c and title-temp+minutes at -0x20, 8B Rva00406BB0 last (-0x2c);
+// R12 (W7-U1) ours puts the 8B EH temp third. ms_nd singles (891) no gain. Landing also needs the ledger row ?rva0023D096@GameLogic@@QAEHH@Z renamed to a float return.
 // ?rva002167A3@BannerUI@@QAEXXZ retail 0x002167A3..0x00216A2E (651B).
 // BannerUI vtable 0x007E59E4 slot 12 (slot 1 is the rowed BannerUI::init);
 // WorldBuilder 0x00B6D7B0 is the twin (the DeleteBanner / SetBannerState /
@@ -20,6 +26,7 @@
 #include "unicode_string.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
+class GameLogicFwd { public: int rva0023D075(int); float rva0023D096(int); int rva0023D0AC(int); };
 struct BfmePod28
 {
 	unsigned int slot;
@@ -48,10 +55,16 @@ private:
 };
 }
 
-class Rva00222A8BTarget;
+class Rva00222A8BTarget { public: int invoke(void *owner, const char *name, int argc, const char *a0, void *a1, void *a2, void *a3, void *a4); };
+AsciiString __cdecl Rva0022288EGet(unsigned int value);
+AsciiString __cdecl Rva00222834Get(int value);
+static inline const char *Rva002162CFStr(const AsciiString &s) { return ((const StringBase<char> *)&s)->str(); }
 int Rva002162CFInvoke(Rva00222A8BTarget *target, void *movie, const char *name, const unsigned int &slot);
 int Rva00216332Call(void *target, void *movie, const char *name, const unsigned int *slot, void *const *value);
-int Rva0021639AInvoke(Rva00222A8BTarget *target, void *movie, const char *name, const unsigned int &slot, const int &value);
+__declspec(noinline) inline int __cdecl Rva0021639AInvoke(Rva00222A8BTarget *target, void *movie, const char *name, const unsigned int &slot, const int &value)
+{
+	return target->invoke(movie, name, 2, Rva002162CFStr(Rva0022288EGet(slot)), (void *)Rva002162CFStr(Rva00222834Get(value)), 0, 0, 0);
+}
 
 class BfmeAptWindowManager
 {
@@ -148,7 +161,7 @@ void BannerUI::rva002167A3()
 		}
 	}
 	for (BfmePod28 *banner = m_banners.begin(); banner != m_banners.end(); ++banner) {
-		int state = bannerStateFor(TheGameLogic->rva0023D075(banner->bannerID));
+		int state = bannerStateFor(((GameLogicFwd *)TheGameLogic)->rva0023D075(banner->bannerID));
 		if (state != banner->state) {
 			const char *stateString = GetStateString(state);
 			Rva00216332Call(g_bfmeAptWindowManager, m_movie, "SetBannerState", &banner->slot, (void *const *)&stateString);
@@ -159,8 +172,8 @@ void BannerUI::rva002167A3()
 		int progress;
 		int timer;
 		if (banner->state == 1) {
-			progress = (int)(TheGameLogic->rva0023D096(banner->bannerID) * 100.0f);
-			timer = TheGameLogic->rva0023D0AC(banner->bannerID) / g_Va00DBA4E4;
+			progress = (int)(((GameLogicFwd *)TheGameLogic)->rva0023D096(banner->bannerID) * 100.0f);
+			timer = ((GameLogicFwd *)TheGameLogic)->rva0023D0AC(banner->bannerID) / g_Va00DBA4E4;
 		} else {
 			progress = 0;
 			timer = -1;
@@ -186,10 +199,7 @@ void BannerUI::rva002167A3()
 		}
 	}
 	if (m_summaryIndex < m_banners.size()) {
-		{
-			UnicodeString title = TheGameText->fetch("BANNERUI:SummaryTitle", 0);
-			TheControlBar->bfmeShowDN((BfmeMsgDN *)&Rva00406BB0(title, m_banners[m_summaryIndex].bannerID));
-		}
+		TheControlBar->bfmeShowDN((BfmeMsgDN *)&Rva00406BB0(TheGameText->fetch("BANNERUI:SummaryTitle", 0), m_banners[m_summaryIndex].bannerID));
 		m_summaryIndex = (unsigned int)-1;
 	}
 }

@@ -1,4 +1,6 @@
 // ?rva0043F244@AptMpGameSetup@@QAEXH_N@Z
+// partial score=0.985 date=2026-10-14
+// ?rva0043F244@AptMpGameSetup@@QAEXH_N@Z
 // partial score=0.98 date=2026-10-13
 // ?rva0043F244@AptMpGameSetup@@QAEXH_N@Z
 // partial score=0.9803 date=2026-10-09
@@ -6,6 +8,8 @@
 // partial score=0.9803 date=2026-10-05
 // ?rva0043F244@AptMpGameSetup@@QAEXH_N@Z draft (the whole AptMpGameSetupSlots.cpp TU with it appended): 575B, every instruction right except the frame slots of the UnicodeString text (retail ebp-0x18) and the forced team (retail ebp-0x1C) are swapped; declaration order, block scoping, ?:, if-declaration all leave them swapped. Needs pin ?rva0057C71F@Rva0057E3DB@@QAEPAURva0057C71FEntry@@H@Z=0x0057C71F.
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// R12 (W7-U1) cleaned: duplicate rva0043F244 definition removed (first draft kept as a comment-free single body), game->isLocked() spelled m_8c; compiles standalone 575B nd 9 (two slot swaps text/startTeam).
+// R12 (W7-U1) ms_nd 1250 singles + decl-order/scope variants: no gain.
 // stlport
 //
 // Small AptMpGameSetup members of BFME2's LAN lobby panel (the screen's +0x288
@@ -1932,73 +1936,6 @@ bool AptMpGameSetup::rva0043E750(GameInfo *game)
 
 
 class AptMapPreview {public:void *GetStartPositionInfoForSlot(int slot);};
-// Retail 0x0043F244, 575 bytes. Name unknown. Refills a slot's team combo
-// box (+0x314): outside mode 1 a "Team:0" entry (item data -1) comes first
-// when resetting or when the scenario (0x0057C71F) forces no team, and a
-// reset selects it and stops there; then "Team:1".."Team:4" (two in mode 1,
-// only the forced team when there is one), keeping the previously selected
-// team, else the first entry (in mode 1 slot 1 takes the second). A locked
-// game (+0x8C) shows the slot's own team. Callers 0x004427D8, 0x00443D18.
-void AptMpGameSetup::rva0043F244(int slot, bool reset)
-{
-	int mode = m_60.m_mode;
-	bool mode1 = mode == 1;
-	int numTeams = (!mode1) * 2 + 2;
-	UnicodeString teamLabel;
-	int forcedTeam=-1;
-	Rva0057C71FEntry *entry = (Rva0057C71FEntry *)((AptMapPreview *)&m_60)->GetStartPositionInfoForSlot(slot);
-	if (entry)
-		forcedTeam = entry->m_team;
-
-	int previous = -1;
-	int index;
-	GadgetComboBoxGetSelectedPos(m_team[slot], &index);
-	if (index >= 0)
-		previous = (int)GadgetComboBoxGetItemData(m_team[slot], index);
-	GadgetComboBoxReset(m_team[slot]);
-	MultiplayerColorDefinition *color = TheMultiplayerSettings->getColor(-1);
-	if (!mode1 && (reset || forcedTeam < 0))
-	{
-		index = GadgetComboBoxAddEntry(m_team[slot], TheGameText->fetch("Team:0"), color->m_color);
-		GadgetComboBoxSetItemData(m_team[slot], index, (void *)-1);
-		if (reset)
-		{
-			GadgetComboBoxSetSelectedPos(m_team[slot], 0, false);
-			return;
-		}
-	}
-
-	int select = -1;
-	for (int i = 0; i < numTeams; ++i)
-	{
-		if (forcedTeam < 0 || forcedTeam == i)
-		{
-			AsciiString label;
-			label.format("Team:%d", i + 1);
-			teamLabel = TheGameText->fetch(label.str());
-			index = GadgetComboBoxAddEntry(m_team[slot], teamLabel, color->m_color);
-			GadgetComboBoxSetItemData(m_team[slot], index, (void *)i);
-			if (i == previous)
-				select = index;
-		}
-	}
-	if (select == -1)
-	{
-		select = 0;
-		if (mode1 && slot == 1 && GadgetComboBoxGetLength(m_team[1]) >= 2)
-			select = 1;
-	}
-	GadgetComboBoxSetSelectedPos(m_team[slot], select, false);
-
-	GameInfo *game = (GameInfo *)m_game->rva0043DA65();
-	if (game && game->m_8c)
-	{
-		GameSlot *gameSlot = game->getSlot(slot);
-		if (gameSlot)
-			GadgetComboBoxSetSelectedPos(m_team[slot], gameSlot->getTeamNumber(), false);
-	}
-}
-
 // ?rva0043F244@AptMpGameSetup@@QAEXH_N@Z
 // partial score=0.98 date=2026-10-12 seat=w6-mo1
 // Alternative 575B reconstruction (565 exact): int-mode + count 2+2*!mode1 +
@@ -2054,7 +1991,7 @@ void AptMpGameSetup::rva0043F244(int slot, bool reset)
 	}
 	GadgetComboBoxSetSelectedPos(m_team[slot], selectPos, false);
 	GameInfo *game = (GameInfo *)m_game->rva0043DA65();
-	if (game && game->isLocked())
+	if (game && game->m_8c)
 	{
 		GameSlot *gameSlot = game->getSlot(slot);
 		if (gameSlot)
