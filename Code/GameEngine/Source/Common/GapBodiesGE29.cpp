@@ -236,6 +236,7 @@ class W3DTreeBuffer
 public:
 	bool rva000EA48D(void *a, const Coord3D *b, float c);	// 0x000EA48D
 	bool rva000ECF2A(unsigned int a, int b);				// 0x000ECF2A
+	bool rva000EA6A7(void *a);								// 0x000EA6A7
 };
 
 class Rva000EB08C
@@ -248,6 +249,16 @@ class Rva006DF050
 {
 public:
 	void eraseKey(int key);									// 0x000D3C4B
+};
+
+// The +0x3874 object's add member is rowed under W3DBuffBuffer.
+class Drawable;
+class TBuff;
+struct BuffInfoView;
+class W3DBuffBuffer
+{
+public:
+	TBuff *addBuff(Drawable *draw, const BuffInfoView *info);	// 0x000D3B27
 };
 
 class FXParticleSystem
@@ -269,9 +280,11 @@ public:
 	void rva00067E8E();
 	void rva00067866(Xfer &xfer);
 	void rva0006830A(Xfer &xfer);
+	TBuff *rva0006819B(Drawable *draw, const BuffInfoView *info);
 	bool rva000681AF(void *a, const Coord3D *b);
 	bool rva000681D3(unsigned int a, int b);
 	bool rva000681E7(int a, bool b);
+	bool rva000681FB(void *a);
 	void rva000682E1(int key);
 private:
 	char m_pad00[0x1948];
@@ -332,6 +345,15 @@ bool Rva000664F4::rva000681AF(void *a, const Coord3D *b)
 	return false;
 }
 
+// --- 0x0006819B (20B, RET8): forward to the +0x3874 buff buffer's addBuff
+// when there is one, else NULL.
+TBuff *Rva000664F4::rva0006819B(Drawable *draw, const BuffInfoView *info)
+{
+	if (m_3874)
+		return ((W3DBuffBuffer *)m_3874)->addBuff(draw, info);
+	return 0;
+}
+
 bool Rva000664F4::rva000681D3(unsigned int a, int b)
 {
 	if (m_trees)
@@ -343,6 +365,15 @@ bool Rva000664F4::rva000681E7(int a, bool b)
 {
 	if (m_trees)
 		return ((Rva000EB08C *)m_trees)->rva000EB2AC(a, b);
+	return false;
+}
+
+// --- 0x000681FB (20B, RET4): forward to the +0x3850 tree buffer's
+// 0x000EA6A7 when there is one, else false.
+bool Rva000664F4::rva000681FB(void *a)
+{
+	if (m_trees)
+		return m_trees->rva000EA6A7(a);
 	return false;
 }
 
