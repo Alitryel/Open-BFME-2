@@ -74,6 +74,14 @@ bool RawFileClass::Is_Open(void) const
 	return(Handle != NULL_HANDLE);
 }
 
+// Retail 0x0066D450, 4 bytes: slot 1 of the RawFileClass vftable 0x0087C388
+// (between the deleting destructor and the rowed Set_Name 0x0061A4E0), which
+// BufferedFileClass's vftable 0x0087C3E0 inherits.
+char const * RawFileClass::File_Name(void) const
+{
+	return(Filename);
+}
+
 RawFileClass::RawFileClass(char const * filename) :
 	Rights(0),
 	BiasStart(0),
