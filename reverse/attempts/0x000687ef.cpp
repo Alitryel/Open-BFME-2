@@ -1,5 +1,7 @@
 // ?rva000687EF@BaseHeightMapRenderObjClass@@QAEXXZ
 // partial score=0.7429 date=2026-10-14
+
+// partial score=0.7815 date=2026-10-15
 // ?rva000687EF@BaseHeightMapRenderObjClass@@QAEXXZ
 // partial score=0.691852 date=2026-10-10
 // ?rva000687EF@BaseHeightMapRenderObjClass@@QAEXXZ
@@ -181,9 +183,9 @@ void BaseHeightMapRenderObjClass::rva000687EF(){
    for(int curTree=0;curTree<count;curTree++){
     Rva000EAFA4Coord3 loc;float radius;Rva000EAFA4Coord2 scale,offset;
     if(tree3850->rva000EAFA4(curTree,&loc,&radius,&scale,&offset)){
-     int minX=fast_float2long_round((float)floor((loc.x-radius)*0.1f)),minY=fast_float2long_round((float)floor((loc.y-radius)*0.1f));
+     int minX=fast_float2long_round(floorf((loc.x-radius)*0.1f)),minY=fast_float2long_round(floorf((loc.y-radius)*0.1f));
      if(minX<-borderSize)minX=-borderSize;if(minY<-borderSize)minY=-borderSize;
-     int maxX=fast_float2long_round((float)ceil((loc.x+radius)*0.1f)),maxY=fast_float2long_round((float)ceil((loc.y+radius)*0.1f));maxX++;maxY++;
+     int maxX=fast_float2long_round(ceilf((loc.x+radius)*0.1f)),maxY=fast_float2long_round(ceilf((loc.y+radius)*0.1f));maxX++;maxY++;
      if(maxX>(map37c0?map37c0:map37c0)->width-borderSize)maxX=(map37c0?map37c0:map37c0)->width-borderSize;
      if(maxY>(map37c0?map37c0:map37c0)->height-borderSize)maxY=(map37c0?map37c0:map37c0)->height-borderSize;
      int startVertex=vertices37b0;int i,j;
