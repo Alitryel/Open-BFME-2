@@ -21,6 +21,12 @@
 typedef bool Bool;
 typedef float Real;
 
+enum ObjectID
+{
+	INVALID_ID = 0,
+	FORCE_OBJECTID_TO_LONG_SIZE = 0x7ffffff
+};
+
 enum DrawableID
 {
 	INVALID_DRAWABLE_ID = 0,
@@ -130,16 +136,42 @@ private:
 	const ThingTemplate *m_template;	// +0x04
 };
 
-// The terrain render object's bib forwarder (rowed 0x0006840A).
+// BFME 2 Object: template +0x04, inline transform +0x08, ID +0x74 and its
+// own geometry info +0xA8 (retail 0x00092DD8 reads them directly).
+class Object
+{
+public:
+	const Matrix3D *getTransformMatrix() const { return &m_transform; }
+	ObjectID getID() const { return m_id; }
+	const ThingTemplate *getTemplate() const { return m_template; }
+	const GeometryInfo &getGeometryInfo() const { return m_geometryInfo; }
+
+private:
+	void *m_vtable;
+	const ThingTemplate *m_template;	// +0x04
+	Matrix3D m_transform;				// +0x08
+	char m_pad38[0x74 - 0x38];
+	ObjectID m_id;						// +0x74
+	char m_pad78[0xA8 - 0x78];
+	GeometryInfo m_geometryInfo;		// +0xA8
+};
+
+// The terrain render object's bib forwarders (rowed 0x0006840A, 0x000683FF).
 class Rva0006840A
 {
 public:
 	void rva0006840A(Vector3 corners[4], DrawableID id, bool highlight);
 };
+class Rva000683FF
+{
+public:
+	void rva000683FF(Vector3 corners[4], ObjectID id, bool highlight);
+};
 
 class W3DTerrainVisual
 {
 public:
+	virtual void addFactionBib(Object *factionBuilding, Bool highlight, Real extra);
 	virtual void addFactionBibDrawable(Drawable *factionBuilding, Bool highlight, Real extra);
 
 private:
@@ -179,5 +211,43 @@ void W3DTerrainVisual::addFactionBibDrawable(Drawable *factionBuilding, Bool hig
 		mtx->Transform_Vector(*mtx, corners[2], &corners[2]);
 		mtx->Transform_Vector(*mtx, corners[3], &corners[3]);
 		m_terrainRenderObject->rva0006840A(corners, factionBuilding->getID(), highlight);
+	}
+}
+
+// ?addFactionBib@W3DTerrainVisual@@UAEXPAVObject@@_NM@Z retail
+// 0x00092DD8..0x000930A5 (717 bytes) thiscall RET 0xC, the vtable slot two
+// before addFactionBibDrawable (0x007C80C8). Zero Hour's Object overload of
+// the same bib: the object's own geometry info, inline transform and ID,
+// and the render object's ObjectID forwarder 0x000683FF.
+void W3DTerrainVisual::addFactionBib(Object *factionBuilding, Bool highlight, Real extra)
+{
+	if (m_logicHeightMap)
+	{
+		const Matrix3D *mtx = factionBuilding->getTransformMatrix();
+		Vector3 corners[4];
+		Coord3DSet pos;
+		pos.set(0, 0, 0);
+		Real exitWidth = factionBuilding->getTemplate()->bfme_bib_exit_width();
+		Real extraWidth = factionBuilding->getTemplate()->bfme_bib_extra_width() + extra;
+		const GeometryInfo info = factionBuilding->getGeometryInfo();
+		Real sizeX = info.bfme_bib_major();
+		Real sizeY = info.bfme_bib_minor();
+		corners[0].Set(pos.x, pos.y, pos.z);
+		corners[0].X -= sizeX + extraWidth;
+		corners[0].Y -= sizeY + extraWidth;
+		corners[1].Set(pos.x, pos.y, pos.z);
+		corners[1].X += sizeX + exitWidth + extraWidth;
+		corners[1].Y -= sizeY + extraWidth;
+		corners[2].Set(pos.x, pos.y, pos.z);
+		corners[2].X += sizeX + exitWidth + extraWidth;
+		corners[2].Y += sizeY + extraWidth;
+		corners[3].Set(pos.x, pos.y, pos.z);
+		corners[3].X -= sizeX + extraWidth;
+		corners[3].Y += sizeY + extraWidth;
+		mtx->Transform_Vector(*mtx, corners[0], &corners[0]);
+		mtx->Transform_Vector(*mtx, corners[1], &corners[1]);
+		mtx->Transform_Vector(*mtx, corners[2], &corners[2]);
+		mtx->Transform_Vector(*mtx, corners[3], &corners[3]);
+		((Rva000683FF *)m_terrainRenderObject)->rva000683FF(corners, factionBuilding->getID(), highlight);
 	}
 }
