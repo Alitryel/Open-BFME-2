@@ -402,7 +402,8 @@ class ThingTemplate
 public:
 	bool isEquivalentTo(const ThingTemplate *other) const;
 	int rva000456AC(int bit) const;
-	__forceinline unsigned int isKindOf(int kind) const
+	// This local +0x114 mask view must not emit the generic +0x108 kind helper.
+	__forceinline unsigned int hordeKindMask(int kind) const
 	{
 		return m_kindOf[kind >> 5] & (1U << (kind & 0x1f));
 	}
@@ -528,7 +529,8 @@ public:
 	bool test110(int bit) const { return ((m_110 >> bit) & 1) != 0; }
 	const Coord3D *getPosition() const { return &m_position; }
 	bool isEquivalentTemplate(const ThingTemplate *t) const { return m_template->isEquivalentTo(t); }
-	__forceinline unsigned int isKindOf(int kind) const
+	// This local +0x114 mask view must not emit the generic +0x108 kind helper.
+	__forceinline unsigned int hordeKindMask(int kind) const
 	{
 		return m_template->m_kindOf[kind >> 5] & (1U << (kind & 0x1f));
 	}
@@ -2297,7 +2299,7 @@ bool HordeContain::rva0046A2EC(Object *target)
 					return false;
 				if (victim->getID() != target->getID())
 					return false;
-				if (target->isKindOf(13) && !target->m_250->slot58(victim))
+				if (target->hordeKindMask(13) && !target->m_250->slot58(victim))
 					return false;
 			}
 		}
@@ -2325,7 +2327,7 @@ bool HordeContain::rva0046A381(Object *target)
 				{
 					if (victim->getID() == target->getID())
 						return true;
-					if (target->isKindOf(13) && target->m_250->slot58(victim))
+					if (target->hordeKindMask(13) && target->m_250->slot58(victim))
 						return true;
 				}
 			}
@@ -2664,7 +2666,7 @@ void rva004698EE(Object *obj, void *userData)
 	if (!obj)
 		return;
 	const ThingTemplate *tmpl = obj->m_template;
-	if (!tmpl || tmpl->isKindOf(68))
+	if (!tmpl || tmpl->hordeKindMask(68))
 		return;
 	Rva004698EEData *data = (Rva004698EEData *)userData;
 	if (data->m_value == 0)
@@ -2704,7 +2706,7 @@ void rva00469689(Object *obj, void *userData)
 	if (!obj)
 		return;
 	const ThingTemplate *tmpl = obj->m_template;
-	if (!tmpl || tmpl->isKindOf(68))
+	if (!tmpl || tmpl->hordeKindMask(68))
 		return;
 	Rva00469689Data *data = (Rva00469689Data *)userData;
 	if (data->m_id != INVALID_ID && !(obj->m_264->m_10 > data->m_best))
@@ -2778,7 +2780,7 @@ Object *HordeContain::rva0046CC09()
 // own slot 38 (0x00466EDE).
 bool HordeContain::slot38(Object *obj, int a2, int a3)
 {
-	if (obj->m_template->isKindOf(13))
+	if (obj->m_template->hordeKindMask(13))
 		return false;
 	return TransportContain::slot38(obj, a2, a3);
 }
@@ -3563,7 +3565,7 @@ void HordeContain::attackTargetNow(Object *target, int select)
 	Rva0046247DPair members;
 	((Rva0046247D *)(UpdateModule *)this)->rva0046247D(members);
 	const _STL::map<int, int> *keys = &fields()->m_1B8;
-	Object *container = target->isKindOf(13) ? target : target->m_274;
+	Object *container = target->hordeKindMask(13) ? target : target->m_274;
 	Object *only = 0;
 	if (select == 1)
 		only = ((Rva0046D946 *)(UpdateModule *)this)->rva0046D946(target);
@@ -3761,7 +3763,7 @@ int HordeContain::getBannerCarrierIndexToUse(const Object *obj, const ThingTempl
 	const _STL::vector<BannerIndexEntry *> &indexVec = m_bannerIndices;
 	if (indexVec.empty())
 		return -1;
-	if (tmpl->isKindOf(13))
+	if (tmpl->hordeKindMask(13))
 	{
 		*outTemplate = indexVec[0]->m_template;
 		return indexVec[0]->m_index;
