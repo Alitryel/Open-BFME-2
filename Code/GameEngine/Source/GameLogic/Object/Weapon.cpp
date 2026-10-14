@@ -1386,14 +1386,6 @@ WeaponStore::~WeaponStore()
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?handleProjectileDetonation@WeaponStore@@ present-unmatched
-void WeaponStore::handleProjectileDetonation(const WeaponTemplate* wt, const Object *source, const Coord3D* pos, WeaponBonusConditionFlags extraBonusFlags, Bool inflictDamage )
-{
-	Weapon* w = TheWeaponStore->allocateNewWeapon(wt, PRIMARY_WEAPON);
-	w->loadAmmoNow(source);
-	w->fireProjectileDetonationWeapon( source, pos, extraBonusFlags, inflictDamage );
-	w->deleteInstance();
-}
 
 //-------------------------------------------------------------------------------------------------
 // Owned by WeaponStoreCreateAndFireTempWeapon.cpp.
@@ -1425,37 +1417,8 @@ const WeaponTemplate *WeaponStore::findWeaponTemplate( AsciiString name ) const
 // in WeaponStoreNewOverride.cpp (0x002CADBE); keep one definition for the class.
 
 //-------------------------------------------------------------------------------------------------
-// ?newWeaponTemplate@WeaponStore@@ present-unmatched
-WeaponTemplate *WeaponStore::newWeaponTemplate(AsciiString name)
-{
-
-	// sanity
-	if(name.isEmpty())
-		return NULL;
-
-	// allocate a new weapon
-	WeaponTemplate *wt = newInstance(WeaponTemplate);
-	wt->m_name = name;
-	wt->m_nameKey = TheNameKeyGenerator->nameToKey( name );
-	m_weaponTemplateVector.push_back(wt);
-
-	return wt;
-} 
 
 //-------------------------------------------------------------------------------------------------
-// ?newOverride@WeaponStore@@ present-unmatched
-WeaponTemplate *WeaponStore::newOverride(WeaponTemplate *weaponTemplate)
-{
-	if (!weaponTemplate)
-		return NULL;
-	
-	// allocate a new weapon
-	WeaponTemplate *wt = newInstance(WeaponTemplate);
-	(*wt) = (*weaponTemplate);
-	(wt)->friend_setNextTemplate(weaponTemplate);
-	
-	return wt;
-} 
 
 //-------------------------------------------------------------------------------------------------
 // ?update@WeaponStore@@ present-unmatched
@@ -1866,82 +1829,8 @@ Bool Weapon::isSourceObjectWithGoalPositionWithinAttackRange( const Object *sour
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?isWithinAttackRange@Weapon@@ present-unmatched
-Bool Weapon::isWithinAttackRange(const Object *source, const Coord3D* pos) const
-{
-	Real distSqr = ThePartitionManager->getDistanceSquared( source, pos, ATTACK_RANGE_CALC_TYPE );
-	Real attackRangeSqr = sqr(getAttackRange(source));
-	Real minAttackRangeSqr = sqr(m_template->getMinimumAttackRange());
-#ifdef RATIONALIZE_ATTACK_RANGE
-	if (distSqr < minAttackRangeSqr)
-#else
-	if (distSqr < minAttackRangeSqr-0.5f)
-#endif
-	{
-		return false;
-	}
-	return (distSqr <= attackRangeSqr);
-}
 
 //-------------------------------------------------------------------------------------------------
-// ?isWithinAttackRange@Weapon@@ present-unmatched
-Bool Weapon::isWithinAttackRange(const Object *source, const Object *target) const
-{
-	Real distSqr;
-	Real attackRangeSqr = sqr(getAttackRange(source));
-
-	if( !target->isKindOf(KINDOF_BRIDGE) )
-	{
-		distSqr = ThePartitionManager->getDistanceSquared( source, target, ATTACK_RANGE_CALC_TYPE );
-	}	
-	else 
-	{
-		// Special case - bridges have two attackable points at either end.
-		TBridgeAttackInfo info;
-		TheTerrainLogic->getBridgeAttackPoints(target, &info);
-		distSqr = ThePartitionManager->getDistanceSquared( source, &info.attackPoint1, ATTACK_RANGE_CALC_TYPE );
-		if (distSqr>attackRangeSqr) 
-		{
-			// Try the other one.
-			distSqr = ThePartitionManager->getDistanceSquared( source, &info.attackPoint2, ATTACK_RANGE_CALC_TYPE );
-		}
-	}
-	
-	Real minAttackRangeSqr = sqr(m_template->getMinimumAttackRange());
-#ifdef RATIONALIZE_ATTACK_RANGE
-	if (distSqr < minAttackRangeSqr)
-#else
-	if (distSqr < minAttackRangeSqr-0.5f)
-#endif
-	{
-		// too close. can't attack.
-		return false;
-	}
-
-	if( distSqr <= attackRangeSqr )
-	{
-		// Note - only compare contact weapons with structures.  If you do the collision check
-		// against vehicles, the attacker may get close enough to the vehicle to get crushed
-		// before it fires its weapon.  jba.
-		if( isContactWeapon() && target->isKindOf(KINDOF_STRUCTURE))
-		{
-			//We're close enough to fire off ranged weapons -- but in the case of contact weapons
-			//we want to do a more detailed check to see if we're actually colliding with the target.
-			ObjectIterator *iter = ThePartitionManager->iteratePotentialCollisions( source->getPosition(), source->getGeometryInfo(), 0.0f );
-			MemoryPoolObjectHolder hold( iter );
-			for( Object *them = iter->first(); them; them = iter->next() )
-			{
-				if( target == them )
-				{
-					return true;
-				}
-			}  
-			return false;
-		}
-		return true;
-	}
-	return false;	
-}
 
 //-------------------------------------------------------------------------------------------------
 Bool Weapon::isTooClose(const Object *source, const Object *target) const
@@ -2349,20 +2238,6 @@ Bool Weapon::privateFireWeapon(
 
 
 //-------------------------------------------------------------------------------------------------
-// ?preFireWeapon@Weapon@@ present-unmatched
-void Weapon::preFireWeapon( const Object *source, const Object *victim )
-{
-	Int delay = getPreAttackDelay( source, victim );
-	if( delay > 0 )
-	{
-		setStatus( PRE_ATTACK );
-		setPreAttackFinishedFrame( TheGameLogic->getFrame() + delay );
-		if( m_template->isLeechRangeWeapon() )
-		{
-			setLeechRangeActive( TRUE );
-		}
-	}
-}
 
 //-------------------------------------------------------------------------------------------------
 Bool Weapon::fireWeapon(const Object *source, Object *target, ObjectID* projectileID)
@@ -2380,20 +2255,8 @@ Bool Weapon::fireWeapon(const Object *source, const Coord3D* pos, ObjectID* proj
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?fireProjectileDetonationWeapon@Weapon@@ present-unmatched
-void Weapon::fireProjectileDetonationWeapon(const Object *source, Object *target, WeaponBonusConditionFlags extraBonusFlags, Bool inflictDamage )
-{
-	//CRCDEBUG_LOG(("Weapon::fireProjectileDetonationWeapon() for %sat %s\n", DescribeObject(source).str(), DescribeObject(target).str()));
-	privateFireWeapon( source, target, NULL, true, false, extraBonusFlags, NULL, inflictDamage );
-}
 
 //-------------------------------------------------------------------------------------------------
-// ?fireProjectileDetonationWeapon@Weapon@@ present-unmatched
-void Weapon::fireProjectileDetonationWeapon(const Object *source, const Coord3D* pos, WeaponBonusConditionFlags extraBonusFlags, Bool inflictDamage )
-{
-	//CRCDEBUG_LOG(("Weapon::fireProjectileDetonationWeapon() for %s\n", DescribeObject(source).str()));
-	privateFireWeapon( source, NULL, pos, true, false, extraBonusFlags, NULL, inflictDamage );
-}
 
 //-------------------------------------------------------------------------------------------------
 //Currently, this function was added to allow a script to force fire a weapon,
@@ -2448,27 +2311,6 @@ Bool Weapon::isDamageWeapon() const
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?getPreAttackDelay@Weapon@@ present-unmatched
-Int Weapon::getPreAttackDelay( const Object *source, const Object *victim ) const
-{
-	// Look for a reason to return zero and have no delay.
-	WeaponPrefireType type = m_template->getPrefireType();
-	if( type == PREFIRE_PER_CLIP )
-	{
-		if( m_template->getClipSize() > 0  &&  m_ammoInClip < m_template->getClipSize() )
-			return 0;// I only delay once a clip, and this is not the first shot
-	}
-	else if( type == PREFIRE_PER_ATTACK )
-	{
-		if( source->getNumConsecutiveShotsFiredAtTarget( victim ) > 0 )
-			return 0;// I only delay once an attack, and I have already shot this guy
-	}
-	//else it is per shot, so it always applies
-
-	WeaponBonus bonus;
-	computeBonus(source, 0, bonus);
-	return m_template->getPreAttackDelay( bonus );
-}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
