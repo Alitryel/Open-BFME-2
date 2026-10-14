@@ -23,9 +23,12 @@
 //               whose +0x04 +0x11C bit 0x10 is clear; true when the
 //               enemies outnumber the rest
 //   0x005D9E12  slot 6 of vftables 0x00C76300, 0x00C76440 and 0x00C76464:
-//               0x005D874A's scan over the +0x10 radius after slot 7 resets,
-//               keeping only objects of the +0x20 kinds that slot 8 accepts
-//               for the caster, and the lowest slot-5 value among them
+//               AISpecialPowerEnemyTypeKiller::shouldActivate (WB twin
+//               0x0159B8B0, its m_kindOfs assert at line 45 names
+//               assignKindOfs, slot 7): 0x005D874A's scan over the +0x10
+//               radius after slot 7, keeping only objects of the +0x20 kinds
+//               that slot 8 accepts for the caster, and the lowest slot-5
+//               value among them
 //   0x005DA37A  slot 6 of vftable 0x00C764EC: with a victim, true below 0.4
 //               outright; below 0.7, true when the enemies slot 7 accepts
 //               outnumber the non-enemies slot 8 accepts among the alive
@@ -434,20 +437,27 @@ public:
 	virtual void v3();
 	virtual void v4();
 	virtual void v5();
-	virtual void v6();
-	virtual void rva005D9E12Reset();				// slot 7
+	virtual bool shouldActivate(Object *source);	// slot 6
+	virtual void assignKindOfs();					// slot 7
 	virtual bool rva005D9E12Accept(Object *source, Object *obj);	// slot 8
 	void rva005EEDB5(Object *obj);		// 0x005EEDB5
 	Object *rva005EEDE6() const;		// 0x005EEDE6
 	float getRadius() const { return m_10; }
 	bool rva005D874A(Object *source);
-	bool rva005D9E12(Object *source);
-private:
+protected:
 	char m_pad04[0x0C];
 	float m_10;		// +0x10
 	char m_pad14[0x08];
 	int m_1C;		// +0x1C
-	BitFlags<69> m_20;	// +0x20
+	BitFlags<69> m_kindOfs;	// +0x20
+};
+
+// The three vftables sharing 0x005D9E12 are its subclasses' (each overrides
+// slots 7 and 8); the body is the base class's.
+class AISpecialPowerEnemyTypeKiller : public Rva005EEDB5Picker
+{
+public:
+	virtual bool shouldActivate(Object *source);
 };
 
 bool Rva005EEDB5Picker::rva005D874A(Object *source)
@@ -513,15 +523,15 @@ bool AISpecialPowerElendil::shouldActivate(Object *source)
 	return false;
 }
 
-bool Rva005EEDB5Picker::rva005D9E12(Object *source)
+bool AISpecialPowerEnemyTypeKiller::shouldActivate(Object *source)
 {
 	if (Rva0058AE1EHasVictim(source)) {
 		rva005EEDB5(0);
 		BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(source->getPosition(), getRadius(), 0,
 			Rva0026119DFilter().link(&Rva00261409Filter(source->getControllingPlayer(), true, 4)), 1);
-		rva005D9E12Reset();
+		assignKindOfs();
 		for (Object *obj = hits.next(); obj; obj = hits.next()) {
-			if (!obj->isAnyKindOf(m_20) || !rva005D9E12Accept(source, obj))
+			if (!obj->isAnyKindOf(m_kindOfs) || !rva005D9E12Accept(source, obj))
 				continue;
 			if (!rva005EEDE6()) {
 				rva005EEDB5(obj);
