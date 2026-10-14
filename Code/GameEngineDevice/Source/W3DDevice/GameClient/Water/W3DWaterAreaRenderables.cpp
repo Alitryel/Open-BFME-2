@@ -79,7 +79,13 @@ struct WaterAreaCursor
 	int m_index;
 	WaterAreaCursor(const void *set, int index) : m_set(set), m_index(index) {}
 };
-extern "C" bool __cdecl rva0007E394CursorEqual(const WaterAreaCursor &a, const WaterAreaCursor &b);
+// Existing cdecl binding at 7E394, independently verified as the 29-byte
+// two-word equality body. Its visibility preserves the outer receiver in EBX.
+extern "C" inline __declspec(noinline) bool __cdecl rva0007E394CursorEqual(
+    const WaterAreaCursor &a, const WaterAreaCursor &b)
+{
+    return a.m_set == b.m_set && a.m_index == b.m_index;
+}
 
 // The renderables vector as one STLport vector<counted handle>.
 typedef _STL::vector<TreeHintRef00217D4C> WaterAreaRenderables;
@@ -150,3 +156,19 @@ void Rva0082140::onAreaAdded(int, RiverArea *area)
 {
     m_riverRenderables.push_back(Rva00082C1DElement(new RenderableRiverArea(area)));
 }
+
+// 0x0008385F, 250 bytes, RET8: build a renderable for every standing water
+// area, subscribe to the set, then swap the new list into *out.
+void Rva0082140::rva0008385F(AreaSet<StandingWaveArea> *areas, WaterAreaRenderables *out)
+{
+	unsigned int count = areas->size();
+	WaterAreaRenderableList<Rva00082BE6Element, Rva00081BAFVector> list;
+	list.reserve(count);
+	WaterAreaCursor end(areas, areas->size());
+	for (WaterAreaCursor it(areas, 0); !rva0007E394CursorEqual(it, end); ++it.m_index)
+		list.push_back(Rva00082BE6Element(new Rva008291D(areas->m_begin[it.m_index].m_area)));
+	reinterpret_cast<Rva005A0B4CList *>(areas)->append(
+		reinterpret_cast<Rva002BA8F1Listener *>(static_cast<AreaSetObserver<StandingWaveArea> *>(this)));
+	list.swapInto(out);
+}
+
