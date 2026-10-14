@@ -20,6 +20,7 @@ class Rva006DB090 {
     int m_count;
 public:
     void rva006DB090(void *pNowFree, unsigned int nSize);
+    unsigned int roundSize(unsigned int nSize) const;
 };
 // ?rva006DB090@Rva006DB090@@QAEXPAXI@Z @0x006DB090 136B evidence DogmaAllocator.cpp via string_xrefs file plus assert pNowFree NULL Pointer plus caller 0x006DB270 freeBlock same-this
 void Rva006DB090::rva006DB090(void *pNowFree, unsigned int nSize)
@@ -64,4 +65,18 @@ void Rva006DAE80ArrayFree(void *p)
     if (g_bfmeAptBreakOnAssertAtDDC01C)
         __debugbreak();
     g_aptFreeCallback(p);
+}
+
+// Native6DB120..6DB13F RET4: the request rounding allocBlock (0x006DB160)
+// inlines: round up to four bytes, then raise to the minimum held in the low
+// nibble of the config's high byte (+0x13). Re-reading the byte in the
+// return (rather than naming it) is what gives retail's xor/mov al load into
+// the return register. Address-derived name.
+unsigned int Rva006DB090::roundSize(unsigned int nSize) const
+{
+    if (nSize & 3)
+        nSize = (nSize & ~3) + 4;
+    if (nSize < (unsigned int)(m_flagsHi & 0xf))
+        return m_flagsHi & 0xf;
+    return nSize;
 }

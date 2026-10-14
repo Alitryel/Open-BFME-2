@@ -55152,3 +55152,4 @@ CatchContinuation_0x0073F646	0x0073F646	194	no-boundary	Not a standalone functio
 ?rva007B0D55@Rva007ABB96AllocCtorInits@@SAXXZ	0x007B0D55	29	landed	add_match verified Code/GameEngine/Source/Common/Rva007ABB96AllocCtorInits.cpp 29B; list<int> allocator-ctor dynamic init of VA 0x00E0362C plus atexit rowed thunk 0x007B8590
 ?Rva006DAE50ArrayAlloc@@YAPAXI@Z	0x006DAE50	37	landed	add_match verified Code/Libraries/Source/Apt/DogmaAllocator.cpp 37B; DogmaAllocator.cpp line 0x5E arrays assert then tail call of alloc callback E17728
 ?Rva006DAE80ArrayFree@@YAXPAX@Z	0x006DAE80	37	landed	add_match verified Code/Libraries/Source/Apt/DogmaAllocator.cpp 37B; DogmaAllocator.cpp line 0x63 arrays assert then tail call of free callback E1772C
+?roundSize@Rva006DB090@@QBEII@Z	0x006DB120	32	landed	add_match verified Code/Libraries/Source/Apt/DogmaAllocator.cpp 32B; request rounding to 4 with +0x13 low-nibble minimum as inlined in rowed allocBlock 0x006DB160
