@@ -1,8 +1,9 @@
 // ?rva00364551@Path@@QAEXPAVObject@@HHPBUCoord3D@@@Z
+// partial score=0.991 date=2026-10-15
+// ?rva00364551@Path@@QAEXPAVObject@@HHPBUCoord3D@@@Z
 // partial score=0.9603 date=2026-10-11
 // cl: /I. /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc
-// Target 364551..3649B1 RET16. ZH Path::optimize node/LOS semantic guide.
-// WB F1DC10 confirms backwards/forwards scans. Retail supplies step counts,
+// seat2 2026-10-15: probe loop as for(steps<=3){if(!probe)break;...} closes the guard; volatile inv takes the native [ebp-0x14] home; residue: native loads delta.y before the inv fstp and multiplies by [inv].
 // portal exclusions, template108 flag, and optional tail-direction constraint.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -54,7 +55,7 @@ void Path::rva00364551(Object *obj,int surfaces,int blocked,const Coord3D *input
      if(anchor==last && distance>50) {
       PathAngle2D delta;delta.x=node->pos.x-anchor->pos.x;delta.y=node->pos.y-anchor->pos.y;
 _ReadWriteBarrier();
-float inv=1.0f/(float)sqrt(delta.x*delta.x+delta.y*delta.y);delta.x*=inv;delta.y*=inv;float dot=input->x*delta.x+input->y*delta.y;
+volatile float inv=1.0f/(float)sqrt(delta.x*delta.x+delta.y*delta.y);delta.y*=inv;delta.x*=inv;float dot=input->x*delta.x+input->y*delta.y;
       if(fabs(dot)<0.9f)passable=false;
      }
      if(passable && node->canOptimize) {node->nextOptimized=anchor;continue;}
@@ -83,7 +84,7 @@ float inv=1.0f/(float)sqrt(delta.x*delta.x+delta.y*delta.y);delta.x*=inv;delta.y
       if(node->portalID==0x7fffffff && portals<3)passable=true;
       if(node->portalID!=0x7fffffff)passable=true;
       PathNode *probe=node->next;
-      int steps=0;while(probe){if(probe->portalID!=0x7fffffff)passable=true;probe=probe->next;steps++;if(steps>3)break;}
+      for(int steps=0;steps<=3;steps++){if(!probe)break;if(probe->portalID!=0x7fffffff)passable=true;probe=probe->next;}
       if(!passable && (unsigned char)TheAI->pathfinder()->IsLinePassableForOptimize(obj,(void *)surfaces,(PathfindLayerEnum)layer,&anchor->pos,&node->pos,(void *)blocked))passable=true;
      }
     }
