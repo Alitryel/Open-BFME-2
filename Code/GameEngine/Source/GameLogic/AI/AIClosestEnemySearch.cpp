@@ -283,7 +283,8 @@ enum Relationship { ENEMY = 0, NEUTRAL = 1, ALLY = 2 };
 enum WeaponSlotType { PRIMARY = 0 };
 enum NameKeyType { NAMEKEY_INVALID = 0 };
 class Rva002CA9CA { public: float getProjectileNuggetRadiusIfAlliesAffected(const void *); };
-class Rva002C9400ByteField { public: unsigned char get() const; bool rva0047A699() const; };
+class Rva002C9400ByteField { public: unsigned char get() const; };
+class WeaponTemplate { public: bool isContactWeapon() const; };
 class Weapon { public: char pad0[4]; Rva002CA9CA *info; };
 class BodyModuleInterface : public QuerySlots<6> { public: virtual float getHealth() const = 0; };
 class GatePrimary : public QuerySlots<6> { public: virtual bool isOpen() const = 0; };
@@ -539,7 +540,7 @@ void *Rva002FFFCA::rva002FF07B(Object *me, const Coord3D *pos, float range, unsi
 	}
 	if (best && !bestApproachable && weapon)
 	{
-		if (((Rva002C9400ByteField *)weapon->info)->get() || ((Rva002C9400ByteField *)weapon->info)->rva0047A699())
+		if (((Rva002C9400ByteField *)weapon->info)->get() || ((WeaponTemplate *)weapon->info)->isContactWeapon())
 			best = 0;
 	}
 	return best && (qualifiers & 2) && !(qualifiers & 0x10) ? best->adjustVictim(me, 1, extra) : best;

@@ -501,11 +501,10 @@ Real WeaponTemplate::getSecondaryDamageRadius(const WeaponBonus& bonus) const
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?isContactWeapon@WeaponTemplate@@ present-unmatched
 Bool WeaponTemplate::isContactWeapon() const
 {
 	// BFME 2 retail: the call from privateAttackPosition (0x0026DC3F) lands on the shared
-	// xor al,al / ret false-predicate stub at 0x0047A699 (symbols.csv pin), so the Zero Hour
+	// xor al,al / ret false-predicate stub at 0x0047A699 (rowed here as an ICF twin), so the Zero Hour
 	// attack-range test (PATHFIND_CELL_SIZE_F cutoff) is gone.
 	return false;
 }

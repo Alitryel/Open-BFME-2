@@ -65,8 +65,13 @@ public:
 class Rva002C9400ByteField
 {
 public:
-	bool rva0047A699() const;
 	unsigned char get() const;
+};
+
+class WeaponTemplate
+{
+public:
+	bool isContactWeapon() const;
 };
 
 class Weapon
@@ -119,7 +124,7 @@ bool rva00343DD8(void *state, void *arg)
 				|| (self->m_aux274->shifted() & 1) == 0)
 				e = true;
 		}
-		if (!weapon->m_field4->rva0047A699()
+		if (!((const WeaponTemplate *)weapon->m_field4)->isContactWeapon()
 			&& weapon->m_field4->get() == 0
 			&& e
 			&& !goal->isSignificantlyAboveTerrain())
