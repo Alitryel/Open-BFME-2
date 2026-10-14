@@ -18,6 +18,11 @@
 #include "Coord3D.h"
 
 #include "Common/GameLogicObjectLookupView.h"
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 extern GameLogic *TheGameLogic;
 
 int Rva004EA2C5Get();

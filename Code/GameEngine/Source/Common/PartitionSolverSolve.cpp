@@ -11,6 +11,11 @@
 // /EHs retains the native cleanup assumption around extern-C allocation.
 #include "PreRTS.h"
 #include "Common/PartitionSolver.h"
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 // The pair containers are borrowed here. Leave their out-of-line allocator
 // and base-destruction bodies with the existing providers, whose flags differ.
 namespace _STL {

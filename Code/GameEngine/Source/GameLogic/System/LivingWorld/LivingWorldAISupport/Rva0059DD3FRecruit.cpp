@@ -10,6 +10,11 @@
 // The nested picker branches follow WB; a flattened continue changes codegen.
 #include <map>
 #include <vector>
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 class Rva00319CED;
 struct BfmeE8 {int id;Rva00319CED*unit;};
 struct Rva0059D90CSource {char pad[0x34];_STL::vector<int> first,second;};

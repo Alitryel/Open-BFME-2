@@ -12,6 +12,11 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 extern "C" int __cdecl memcmp(const void *a, const void *b, unsigned int n);
 extern "C" unsigned int __cdecl strlen(const char *s);
 extern "C" __declspec(dllimport) int __cdecl sscanf(const char *buf, const char *fmt, ...);

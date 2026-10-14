@@ -7,6 +7,11 @@
 // 0x00577CC5 (WorldBuilder names, pinned), the positions passed by value.
 #include "../../../../../Libraries/Include/Lib/Coord2D.h"
 #include <vector>
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 
 // Accessed holder payload: root +4 and StringBase<char> allocation +8.
 // Only those fields are established; node and holder extents remain unknown.

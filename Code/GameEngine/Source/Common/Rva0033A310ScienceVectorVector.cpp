@@ -15,6 +15,11 @@
 // push_back is the rowed 12-byte-element push_back 0x0033A23A and erase the
 // rowed 0x00339E80. The new current vector comes from end() - 1.
 #include <vector>
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 
 extern "C" void __cdecl free(void *);
 

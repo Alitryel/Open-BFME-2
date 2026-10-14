@@ -17,6 +17,11 @@
 // BFME 2 evidence for it is the unnamed dispatcher slot calling this body.
 #include <vector>
 #include "ascii_string.h"
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 
 extern "C" __declspec(dllimport) double __cdecl ceil(double);
 

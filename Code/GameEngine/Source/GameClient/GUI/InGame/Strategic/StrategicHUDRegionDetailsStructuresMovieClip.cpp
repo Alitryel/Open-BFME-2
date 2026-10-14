@@ -180,6 +180,11 @@ class Rva005EEF2FBase0 { public: virtual ~Rva005EEF2FBase0(); };
 class Rva005EEF2FBase4 { public: Rva005EEF2FBase4(): refs(0) {} virtual ~Rva005EEF2FBase4(); int refs; };
 
 #include "Coord2D.h"
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 
 class Rva00524265
 {

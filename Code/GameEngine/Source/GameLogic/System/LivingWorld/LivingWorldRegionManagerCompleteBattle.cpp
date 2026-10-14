@@ -9,6 +9,11 @@
 // rowed vector members carry (erase 0x001FF51F, reserve 0x002B712E,
 // push_back 0x004DFCB0).
 #include <vector>
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 
 class ModuleData;
 

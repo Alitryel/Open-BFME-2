@@ -43,6 +43,11 @@
 // slot. The folded STL names are the ledger's own.
 #include <map>
 #include <vector>
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 
 namespace _STL {
 template <class _RbVal, class _RbLeft, class _RbRight>

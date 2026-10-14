@@ -83,6 +83,11 @@ namespace _STL { template<> int *find(int *,int *,const int &); }
 
 // Native map values contain profile ID0, name4, and wide status14.
 #include <map>
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 class PlayerInfo { public:
  int unknown0; AsciiString name4; int unknown8,unknownC,unknown10;
  int profile14; int flags18; int rank1C; int unknown20,unknown24,side28;

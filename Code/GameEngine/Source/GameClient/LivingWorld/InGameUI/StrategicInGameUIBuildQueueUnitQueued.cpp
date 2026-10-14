@@ -63,7 +63,7 @@ public:
 };
 struct Rva005E71C6Ref;
 #include <stl/_algobase.h>
-namespace _STL { template <> inline const unsigned int &max<unsigned int>(const unsigned int &a,const unsigned int &b){return a<b?b:a;} }
+namespace _STL { template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &); }
 #include <vector>
 
 namespace StrategicInGameUI
