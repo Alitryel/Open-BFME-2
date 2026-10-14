@@ -142,3 +142,24 @@ void Rva0043DA9D::reset()
 {
 	m_2C3 = false;
 }
+
+// --- 0x004B96C4 (8B): the slot after onBuildComplete (0x004B96A9) in
+// InheritUpgradeCreate's +0x10 interface table (VA 0x00C596EC): forwards to
+// the pinned create work 0x004B959C on the primary this, the same call
+// onBuildComplete tail-jumps.
+class InheritUpgradeCreate
+{
+public:
+	void rva004B959C();									// 0x004B959C (pinned)
+};
+
+class Rva004B96C4
+{
+public:
+	void rva004B96C4();
+};
+
+void Rva004B96C4::rva004B96C4()
+{
+	((InheritUpgradeCreate *)((char *)this - 0x10))->rva004B959C();
+}
