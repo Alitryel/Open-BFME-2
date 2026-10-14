@@ -1,0 +1,120 @@
+// ?Rva00423FD8Parse@@YAXPAVINI@@PAX1PBX@Z
+// partial score=0.99 date=2026-10-14
+// cl: /O1 /G7 /MD /EHsc /Oi- /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/shims/iniexception
+// stlport
+//
+// Rva00423FD8Parse, retail 0x00423FD8 (429 B). INI block callback for a named "unit" definition
+// (WorldBuilder twin 0x0113CF20 carries "Unit must have a name at %s:%d" and "Unit type defined more
+// than once, 2nd definition at %s:%d"): reads the quoted name, builds a record {name key, filter
+// member, preview selector} from a fresh Rva003623E5Member (initialised from two copies of
+// KINDOFMASK_NONE) through the FieldParse table {ObjectFilter, PreviewObject}, refuses a key that is
+// already in the global map at 0x00A03168 and stores {member, selector} under it, the selector
+// defaulting to the field at +0x0C of the object behind 0x00A03160 when PreviewObject was absent.
+// Evidence: target bytes, the WorldBuilder twin and the rowed callees; the map value and the object
+// behind 0x00A03160 keep address-derived views. The function name stays address-derived.
+#include "ascii_string.h"
+#include "Common/INIException.h"
+#include <map>
+#include <vector>
+
+enum NameKeyType { NAMEKEY_INVALID = 0, FORCE_NAMEKEYTYPE_LONG = 0x7fffffff };
+
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(class INI *, void *, void *, const void *);
+	const void *userData;
+	int offset;
+};
+
+class INI
+{
+public:
+	AsciiString getNextQuotedAsciiString();
+	AsciiString getFilename() const;
+	int getLineNum() const;
+	void initFromINI(void *what, const FieldParse *parseTable);
+	static void Rva0033940F_Parse(INI *ini, void *instance, void *store, const void *userData);
+};
+void rva00421749(INI *ini, void *instance, void *store, const void *userData);
+
+class NameKeyGenerator
+{
+public:
+	NameKeyType nameToKey(const AsciiString &name);
+};
+extern NameKeyGenerator *TheNameKeyGenerator;
+
+class BfmeFixedStorage0004543D
+{
+public:
+	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other);
+private:
+	unsigned char m_bytes[28];
+};
+template <int N> class BitFlags { unsigned char m_bytes[28]; };
+extern BitFlags<116> KINDOFMASK_NONE;
+
+class Rva003623E5Member
+{
+public:
+	Rva003623E5Member();
+	void initFromStorages(BfmeFixedStorage0004543D, BfmeFixedStorage0004543D);
+private:
+	int m_handle;
+};
+
+class Rva0022AD10Subsystem
+{
+public:
+	char m_pad00[0x0C];
+	int m_0C;
+};
+extern Rva0022AD10Subsystem *TheFormationAssistant;
+
+struct BfmePod8 { int a[2]; };
+extern unsigned int g_Va00E03168;
+typedef _STL::map<int, BfmePod8> UnitFilterMap;
+// Retail shares one out-of-line int-keyed _M_find (0x00388F63) across the integer-keyed maps.
+typedef _STL::map<int, _STL::vector<int> *> UnitFilterFindMap;
+
+static __forceinline const char *GetStr00423FD8(const AsciiString &s)
+{
+	char *t = *(char **)(void *)&s;
+	return t ? t + 8 : "";
+}
+
+struct Rva00423FD8Record
+{
+	int key;
+	Rva003623E5Member *filter;
+	int selector;
+};
+
+void Rva00423FD8Parse(INI *ini, void *instance, void *store, const void *userData)
+{
+	AsciiString name = ini->getNextQuotedAsciiString();
+	if (name.isEmpty())
+		throw INIException(3, "Unit must have a name at %s:%d", GetStr00423FD8(ini->getFilename()), ini->getLineNum());
+	Rva00423FD8Record record;
+	record.key = TheNameKeyGenerator->nameToKey(name);
+	record.filter = new Rva003623E5Member;
+	record.filter->initFromStorages(*(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE, *(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE);
+	record.selector = 0;
+	FieldParse table[] =
+	{
+		{ "ObjectFilter", rva00421749, 0, 4 },
+		{ "PreviewObject", INI::Rva0033940F_Parse, 0, 8 },
+		{ 0, 0, 0, 0 }
+	};
+	ini->initFromINI(&record, table);
+	UnitFilterMap *units = (UnitFilterMap *)&g_Va00E03168;
+	UnitFilterFindMap::iterator found = ((UnitFilterFindMap *)units)->find(record.key);
+	if (found != ((UnitFilterFindMap *)units)->end())
+		throw INIException(3, "Unit type defined more than once, 2nd definition at %s:%d", GetStr00423FD8(ini->getFilename()), ini->getLineNum());
+	Rva003623E5Member *kept = record.filter;
+	int selector = record.selector ? record.selector : TheFormationAssistant->m_0C;
+	BfmePod8 &slot = (*units)[record.key];
+	slot.a[0] = (int)kept;
+	slot.a[1] = selector;
+}
