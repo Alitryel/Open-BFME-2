@@ -1,9 +1,7 @@
-// ?PopulatePlayerCombo@AptMpGameSetup@@QAEXH@Z
-// partial score=0.807 date=2026-10-13
-// ?PopulatePlayerCombo@AptMpGameSetup@@QAEXH@Z
-// partial score=0.9 date=2026-10-09
-// ?PopulatePlayerCombo@AptMpGameSetup@@QAEXH@Z
-// partial score=0.86 date=2026-10-08
+// ?rva0043F483@AptMpGameSetup@@QAEXH@Z
+// retail 0x0043F483, 1072 bytes, WB AptMpGameSetup::PopulatePlayerCombo.
+// Lever (W7-MP3 r8): eq3c equal-arm on TheWritableGlobalData->modeFlags closes the
+// full-body mismatch. Kept the existing address-derived ledger spelling.
 // cl: /O1 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 //
@@ -903,7 +901,7 @@ public:
 	// Unrowed per-slot refreshers called by 0x004427C5, pinned by address:
 	// 0x0043F483 (1072 bytes), 0x004424E7 (734 bytes) and 0x004406BA (792
 	// bytes).
-	void PopulatePlayerCombo(int slot);
+	void rva0043F483(int slot);
 	void rva0043F244(int slot, bool reset);
 	void rva004424E7(int slot);
 	void rva004406BA(int slot);
@@ -1007,7 +1005,7 @@ private:
 struct PlayerComboMapPosition { unsigned char flags[3]; char pad; int value; unsigned char names[12]; };
 class MapMetaData { public: unsigned char pad0[0x20]; int numPlayers; unsigned char pad24[0x54-0x24]; PlayerComboMapPosition positions[8]; };
 class GlobalData { public: unsigned char pad[0x9d4]; int modeFlags; };
-extern GlobalData* TheGlobalData;
+extern GlobalData* TheWritableGlobalData;
 // Native DC8D48 is a writable DWORD tint initialized FFFFFFFF, shared
 // by nine lobby entry sites. This is a descriptive name, not a claimed
 // original source spelling; there is no existing ledger data owner.
@@ -1015,7 +1013,7 @@ int AptLobbyRandomColorTint=-1;
 GameWindow* GadgetComboBoxGetListBox(GameWindow*);
 void GadgetComboBoxSetItemData(GameWindow*,int,void*);
 int GadgetComboBoxAddEntry(GameWindow*,UnicodeString,int);
-void AptMpGameSetup::PopulatePlayerCombo(int slot)
+void AptMpGameSetup::rva0043F483(int slot)
 {
     GameWindow** combo = &m_player[slot];
     if (!*combo) return;
@@ -1068,8 +1066,8 @@ void AptMpGameSetup::PopulatePlayerCombo(int slot)
         GadgetComboBoxSetItemData(*combo,index,(void*)1);
         if(previous==1) selected=index;
         if(allowAI) {
-            if(TheGlobalData->modeFlags&1) allowAI=false;
-            if(TheGlobalData->modeFlags&2) {
+            if((index ? TheWritableGlobalData->modeFlags : TheWritableGlobalData->modeFlags)&1) allowAI=false;
+            if(TheWritableGlobalData->modeFlags&2) {
                 allowAI=false;
                 index=GadgetComboBoxAddEntry(*combo,TheGameText->fetch("GUI:EasyAI"),AptLobbyRandomColorTint);
                 GadgetComboBoxSetItemData(*combo,index,(void*)2);

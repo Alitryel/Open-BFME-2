@@ -53501,3 +53501,4 @@ _DiagonalBlur	0x001c2b80	916	partial	W7-FARM improved nd 6; generators=['expand@
 ?UpdatePings@AptOnlineCustomMatch@@QAEXXZ	0x0059ED8B	244	landed	add_match verified Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatchMessageHandler.cpp 244B; refresh the host panel connection icons per slot; WB UpdatePings structure
 ?bfmeRva0011F3C0@@YAHXZ	0x0011F3C0	12	landed	add_match verified Code/Libraries/Source/WWVegas/WW3D2/BfmeDX8Callbacks.cpp 12B; optional EndEvent hook dispatcher; returns hook result or zero
 ?cacheGameLogicFrame@StatusBitsEldestFrame@@QAEPAU1@XZ	0x00485975	14	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/Upgrade/StatusBitsEldestFrameCache.cpp 14B; returns this; WB 011C1270 unnamed
+?rva0043F483@AptMpGameSetup@@QAEXH@Z	0x0043F483	1072	landed	add_match verified Code/GameEngine/Source/GameClient/GUI/Rva0043F483PopulatePlayerCombo.cpp 1072B
