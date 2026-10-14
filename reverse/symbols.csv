@@ -17020,3 +17020,6 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ??$upper_bound@PAUTreeHintRef00217D4C@@U1@URva004F9185Cmp@@@_STL@@YAPAUTreeHintRef00217D4C@@PAU1@0ABU1@URva004F9185Cmp@@@Z,0x004F6D66,callee read from retail REL32 in __merge_without_buffer 0x004F840B; upper_bound over the TreeHintRef handle with the key comparator compiles to the whole native 27B body calling the rowed __upper_bound 0x004F66F0 and folds with the AsciiString twin; fold-proof=Code/Libraries/Source/WWVegas/WWLib/PAUTreeHintRef00217D4CRva004F9565.cpp
 ?rva002D337F@RadarWindowOverrideSource@@QAEXXZ,0x002D337F,callee of ?rva002BF391@LivingWorld@@UAEX_N@Z
 ?rva0054F99E@PingThreadClass@@AAEHIH@Z,0x0054F99E,callee of ?Thread_Function@PingThreadClass@@UAEXXZ
+?rva0052B58F@Rva0052B58FRegistration@@QAEPAXABVAsciiString@@@Z,0x0052B58F,callee of ?rva0052B634@@YAXXZ
+?rva004FAC99@Rva004FAC99Registration@@QAEPAXABVAsciiString@@@Z,0x004FAC99,callee of ?rva0052B634@@YAXXZ
+?rva0052B5C6@Rva0052B5C6Registration@@QAEPAXABVAsciiString@@@Z,0x0052B5C6,callee of ?rva0052B634@@YAXXZ
