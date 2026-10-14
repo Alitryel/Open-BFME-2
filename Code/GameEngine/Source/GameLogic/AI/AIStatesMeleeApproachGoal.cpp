@@ -112,7 +112,7 @@ public:
 	bool QuickDoesPathExist(Object *obj, const Coord3D *from, const Coord3D *to, int flags);
 	int isBlockedGateObstacleCell(int pos, int layer);
 	bool adjustToPossibleDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest);
- bool adjustDestination(Object *, const LocomotorSet &, Coord3D *, const Coord3D *);
+ bool AdjustDestination(Object *, const LocomotorSet &, Coord3D *, const Coord3D *);
 };
 
 struct Rva003449C5AIData
@@ -315,7 +315,7 @@ bool AIMoveToStateSA::rva00344249(Coord3D *destination, Object *obj)
 	if (direction.GetLength() + 20.0f > distance)
 		return false;
 	TheAI->pathfinder()->adjustToPossibleDestination(obj, ai->getLocomotorSet(), reinterpret_cast<Coord3D*>(&candidate));
-	TheAI->pathfinder()->adjustDestination(obj, ai->getLocomotorSet(), reinterpret_cast<Coord3D*>(&candidate), 0);
+	TheAI->pathfinder()->AdjustDestination(obj, ai->getLocomotorSet(), reinterpret_cast<Coord3D*>(&candidate), 0);
 	*destination = *reinterpret_cast<Coord3D*>(&candidate);
 	return true;
 }

@@ -90,9 +90,15 @@ enum ObjectStatusTypes
 };
 
 // 0x0023DA79 clears the mask and sets one bit (its first argument unused).
+// 0x0023DA79 is rowed as Rva0023DA79::rva0023DA79(int, int).
+class Rva0023DA79
+{
+public:
+	Rva0023DA79 *rva0023DA79(int reserved, int bit);
+};
+
 struct ObjectStatusMask
 {
-	ObjectStatusMask *Rva0023DA79(int reserved, ObjectStatusTypes bit);	// 0x0023DA79
 	int m_bits[4];
 };
 
@@ -264,7 +270,7 @@ void DominateEnemySpecialPower::triggerAbilityEffect()
 	ObjectStatusMask bits;
 	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&m_44, data->m_C8, 0,
 		Rva00260EB1Filter(owner, 1, false).link(&Rva0026119DFilter())->link(&Rva002611BFFilter(owner))
-			->link(&Rva002FDF1C(*(BfmeObject872Header *)bits.Rva0023DA79(0, OBJECT_STATUS_RVA004CCBDF_38),
+			->link(&Rva002FDF1C(*(BfmeObject872Header *)(ObjectStatusMask *)((Rva0023DA79 *)&bits)->rva0023DA79(0, OBJECT_STATUS_RVA004CCBDF_38),
 				*(BfmeObject872Header *)&ObjectStatusMaskNone())), 1);
 	Object *other;
 	while ((other = hits.next()) != 0)

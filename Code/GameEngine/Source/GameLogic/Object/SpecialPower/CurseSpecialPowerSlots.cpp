@@ -172,11 +172,17 @@ public:
 	float m_D0;		// +0xD0
 };
 
+// 0x005F6B0B (module data +0x38) is rowed as Rva005F6B0BPtrChaseField::get.
+class Rva005F6B0BPtrChaseField
+{
+public:
+	int get() const;
+};
+
 class SpecialAbilityUpdate
 {
 public:
 	virtual void triggerAbilityEffect();	// slot 17 (0x0045108D)
-	const SpecialPowerTemplate *rva005F6B0B() const;	// 0x005F6B0B: module data +0x38
 protected:
 	const void *m_moduleData;	// +0x04
 	Object *m_object;		// +0x08
@@ -221,7 +227,7 @@ void CurseSpecialPower::triggerAbilityEffect()
 	const CurseSpecialPowerModuleData *data = getCurseSpecialPowerModuleData();
 	Object *owner = m_object;
 	if (m_40 == INVALID_ID) {
-		const SpecialPowerTemplate *power = rva005F6B0B();
+		const SpecialPowerTemplate *power = (const SpecialPowerTemplate *)((const Rva005F6B0BPtrChaseField *)this)->get();
 		if (!power)
 			return;
 		float radius = power->getRadius();
