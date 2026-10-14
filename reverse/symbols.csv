@@ -10802,7 +10802,6 @@ name,address,notes
 ?rva001B5140@SubsystemInterfaceList@@QAE_NXZ,0x001B5140,"member of the global at VA 0x00DFD940 (ledger TheSubsystemList) returning a byte; REL32 in GameEngine slot 17 0x00225B21; identity not recovered"
 ?rva001D9781@Rva001D98BD@@QAE_NXZ,0x001D9781,"Retail REL32 at 0x001D97AC targets this Ghidra start; function start/extent 88B. Candidate self-recursion pin; name/class remain address-derived structural labels"
 ?rva001DA112@Rva001DA112@@QAEXHHPAD@Z,0x001DA112,thiscall callee of the F22 ebp-frame forwarders; takes the wrapper's first two args plus (char*)&arg2+3 in a vestigial third slot; name unknown
-?rva001DBCDC@Rva001DBCDCTarget@@QAEXXZ,0x001DBCDC,"method a vtable-slot forwarder tail-jumps to (ret 0); opaque address name"
 ?rva001DC42C@GameWindowTransitionsHandler@@QAEXVAsciiString@@_N@Z,0x001DC42C,transition remove callee of reset at 0x0031E09E; honest address-derived name
 ?rva001DD670@Eva@@QAE_NHPAUCoord3D@@@Z,0x001DD670,"Eva (the global at 0x00DFDC30) member taking an event index and a Coord3D out-pointer (zeroed first, false for -1), returning a bool; REL32 in script condition 0x003EA797 after the event id lookup Eva::rva001DE78E"
 ?rva001DD8C9@Rva001DE556@@QAEPAXABU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z,0x001DD8C9,thiscall twin of rowed stdcall alloc via call-site mov ecx esi at 0x001DE556

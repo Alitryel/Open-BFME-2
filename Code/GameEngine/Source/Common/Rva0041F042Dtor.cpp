@@ -5,10 +5,10 @@
 // STLport teardown is a structural guide; the original table type is unknown.
 void __cdecl free(void *);
 
-class Rva001DBCDCTarget
+class Rva004DFC20
 {
 public:
-	void rva001DBCDC();
+	void clear();
 };
 
 struct OwnedBucketStorage
@@ -35,7 +35,7 @@ private:
 
 Rva0041E77F::~Rva0041E77F()
 {
-	((Rva001DBCDCTarget *)this)->rva001DBCDC();
+	((Rva004DFC20 *)this)->clear();
 }
 
 // Native0x0041E82D..0x0041E832 tail JMP to the sole owned destructor

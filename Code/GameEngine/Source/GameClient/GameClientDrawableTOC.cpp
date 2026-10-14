@@ -1340,7 +1340,7 @@ extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long milliseconds
 
 // The drawable hash's clear (0x001DBCDC) and resize (0x0053F1EC) are folded
 // STLport hashtable bodies; called through their pinned placeholder names.
-class Rva001DBCDCTarget { public: void rva001DBCDC(); };
+class Rva004DFC20 { public: void clear(); };
 class Rva00057D38 { public: int rva0053F1EC(unsigned int); };
 
 // ZH GameClient::GameClient. Retail 0x0023BC36: Snapshot vptr 0xBBB554 is
@@ -1685,7 +1685,7 @@ void GameClient::reset()
 {
 	Drawable *draw, *nextDraw;
 
-	((Rva001DBCDCTarget *)&m_drawableHash)->rva001DBCDC();
+	((Rva004DFC20 *)&m_drawableHash)->clear();
 	((Rva00057D38 *)&m_drawableHash)->rva0053F1EC(0x2000);
 	m_frame = 0;
 

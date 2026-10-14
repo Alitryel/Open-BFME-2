@@ -324,10 +324,10 @@ public:
 	void rva0024191A(void);
 };
 
-class Rva001DBCDCTarget
+class Rva004DFC20
 {
 public:
-	void rva001DBCDC(void);
+	void clear(void);
 };
 
 class Rva0053F1ECSub
@@ -880,7 +880,7 @@ void GameLogic::reset(void)
 
 	((Rva000427195 *)m_10)->rva003A2A41();
 	((Rva00240CAB *)m_24)->rva0024191A();
-	((Rva001DBCDCTarget *)m_b4)->rva001DBCDC();
+	((Rva004DFC20 *)m_b4)->clear();
 	((Rva0053F1ECSub *)m_b4)->note(0x2000);
 
 	m_11d = false;

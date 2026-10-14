@@ -85,10 +85,13 @@ Rva00415CAB::~Rva00415CAB()
     table->rva003A2A41();
 }
 
-class Rva001DBCDCTarget
+// The table clear is the ICF-folded hashtable clear at 0x001DBCDC. Its
+// address-named provider row there is Rva004DFC20::clear (the opaque-table
+// spelling already rowed in Rva004E013BOwnedResources.cpp); call that name.
+class Rva004DFC20
 {
 public:
-    void rva001DBCDC();
+    void clear();
 };
 
 struct Rva0041F4A7Buckets
@@ -147,5 +150,5 @@ Rva0041F94A::~Rva0041F94A()
             delete value;
         ++*reinterpret_cast<Rva0041E832PodIterator *>(&iterator);
     }
-    reinterpret_cast<Rva001DBCDCTarget *>(&m_table)->rva001DBCDC();
+    reinterpret_cast<Rva004DFC20 *>(&m_table)->clear();
 }

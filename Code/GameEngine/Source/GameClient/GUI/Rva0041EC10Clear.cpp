@@ -32,7 +32,7 @@ template <> void **vector<void*>::end();
 #include "display.h"
 
 class Rva0041E875 { public: ~Rva0041E875(); };
-class Rva001DBCDCTarget { public: void rva001DBCDC(); };
+class Rva004DFC20 { public: void clear(); };
 class Rva0041EA88 {
 public: void rva0041EA88();
 private: int m_functors; void **m_begin, **m_end, **m_capacity; unsigned m_count;
@@ -54,6 +54,6 @@ void Rva0041F042::rva0041EC10()
         Rva0041E875 *object = (Rva0041E875 *)it->second;
         delete object;
     }
-    ((Rva001DBCDCTarget *)&((Rva0041F042 *)g_00E03124)->m_map0C)->rva001DBCDC();
+    ((Rva004DFC20 *)&((Rva0041F042 *)g_00E03124)->m_map0C)->clear();
     ((Rva0041F042 *)g_00E03124)->m_map20.rva0041EA88();
 }

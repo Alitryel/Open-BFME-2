@@ -699,10 +699,10 @@ void Rva003A5896Forwarder::rva003A5896(Int a0)
 	m_member.rva003A547E(a0);
 }
 
-class Rva001DBCDCTarget
+class Rva004DFC20
 {
 public:
-	void rva001DBCDC();
+	void clear();
 };
 
 class Rva003ED1B6Forwarder
@@ -711,13 +711,13 @@ public:
 	void rva003ED1B6();
 private:
 	char m_lead[0xC];
-	Rva001DBCDCTarget m_member;
+	Rva004DFC20 m_member;
 };
 
 // vtable 0x00C36100#9
 void Rva003ED1B6Forwarder::rva003ED1B6()
 {
-	m_member.rva001DBCDC();
+	m_member.clear();
 }
 
 class Rva0020F0D3Target
