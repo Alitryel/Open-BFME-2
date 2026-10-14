@@ -32,7 +32,7 @@ class MessageStream {public:
 extern MessageStream *MessageStreamSubsystem;
 class DrawableList;
 class PickAndPlayInfo {public:PickAndPlayInfo();char pad[0x20];CommandButton *button;};
-void pickAndPlayUnitVoiceResponse(const DrawableList *,GameMessage::Type,PickAndPlayInfo *);
+bool pickAndPlayUnitVoiceResponse(const DrawableList *,GameMessage::Type,PickAndPlayInfo *);
 class InGameUI;
 extern InGameUI *TheInGameUI;
 class StanceUISelectionView {public:

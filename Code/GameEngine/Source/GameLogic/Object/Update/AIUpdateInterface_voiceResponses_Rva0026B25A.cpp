@@ -68,7 +68,7 @@ public:
 	};
 };
 
-void pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
+bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
 	PickAndPlayInfo *info);
 
 class AIUpdateInterface

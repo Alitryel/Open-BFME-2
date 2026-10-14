@@ -327,7 +327,7 @@ class GameMessage
 public:
 	enum Type { MSG_BFME2_0x7E9 = 0x7e9 };
 };
-void pickAndPlayUnitVoiceResponse(const DrawableList *, GameMessage::Type, PickAndPlayInfo *);
+bool pickAndPlayUnitVoiceResponse(const DrawableList *, GameMessage::Type, PickAndPlayInfo *);
 
 // Native44E374..44E4A9/309B, +20 interface slot0, RET8. WB1166AA0 independently
 // identifies sacrificeHorde and the victim/source ABI; native field accesses

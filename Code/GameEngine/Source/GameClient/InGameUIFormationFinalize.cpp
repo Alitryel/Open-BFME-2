@@ -10,7 +10,7 @@
 class DrawableList;
 class PickAndPlayInfo {public:PickAndPlayInfo();bool air;void *target;void *weapon;int special;unsigned unknown10;Coord3D position;int unknown20;};
 class GameMessage {public:enum Type{MSG_FORMATION=0x464};void appendLocationArgument(const Coord3D &);void appendRealArgument(float);void appendIntegerArgument(int);void appendBooleanArgument(bool);};
-void pickAndPlayUnitVoiceResponse(const DrawableList *,GameMessage::Type,PickAndPlayInfo *);
+bool pickAndPlayUnitVoiceResponse(const DrawableList *,GameMessage::Type,PickAndPlayInfo *);
 class MessageStream {public:
 virtual void slot0();
 virtual void slot1();

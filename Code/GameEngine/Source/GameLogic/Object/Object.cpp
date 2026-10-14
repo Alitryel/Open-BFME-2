@@ -319,7 +319,7 @@ extern MessageStream *TheMessageStream;
 
 class DrawableList;
 class PickAndPlayInfo;
-void pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info);
+bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info);
 class InGameUI
 {
 public:

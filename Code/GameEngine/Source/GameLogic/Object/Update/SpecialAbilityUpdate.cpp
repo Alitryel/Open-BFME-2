@@ -105,7 +105,7 @@ public:
 		MSG_BFME2_0x7DE = 0x7DE
 	};
 };
-void pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
+bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
 	PickAndPlayInfo *info);
 // The rowed setter that stamps an audio event with its owning object.
 class Rva002D9531

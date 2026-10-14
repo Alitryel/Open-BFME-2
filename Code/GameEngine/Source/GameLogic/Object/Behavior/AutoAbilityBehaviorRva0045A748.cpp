@@ -93,7 +93,7 @@ public:
     unsigned int unknown10; Coord3D position; const Rva0045A8C2Options *commandOptions;
 };
 class GameMessage { public: enum Type { Rva7E3 = 0x7E3 }; };
-void pickAndPlayUnitVoiceResponse(const DrawableList *, GameMessage::Type, PickAndPlayInfo *);
+bool pickAndPlayUnitVoiceResponse(const DrawableList *, GameMessage::Type, PickAndPlayInfo *);
 struct Rva0045A8C2Options { char pad[0x1c]; unsigned int options; };
 void AutoAbilityBehavior::rva0045A8C2(Object *source, Object *target, const Rva0045A8C2Options *options)
 {

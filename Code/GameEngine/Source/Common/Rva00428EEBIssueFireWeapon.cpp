@@ -46,7 +46,7 @@ extern class MessageStream *MessageStreamSubsystem;
 class DrawableList;
 class PickAndPlayInfo;
 
-void __cdecl pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info);
+bool __cdecl pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info);
 
 class Rva004D92FE;
 

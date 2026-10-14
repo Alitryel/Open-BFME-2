@@ -74,7 +74,7 @@ public:
 	};
 };
 
-void pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
+bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
 	PickAndPlayInfo *info);
 
 extern unsigned char g_00E03745;

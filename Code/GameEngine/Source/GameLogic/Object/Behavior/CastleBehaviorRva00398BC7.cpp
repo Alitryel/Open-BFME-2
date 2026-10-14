@@ -95,7 +95,7 @@ public:
 		MSG_BFME2_0x7DE = 0x7DE
 	};
 };
-void pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
+bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
 	PickAndPlayInfo *info);
 
 struct CastleBehaviorModuleDataView

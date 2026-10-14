@@ -43,7 +43,7 @@ extern MessageStream *TheMessageStream; // ledger alias of MessageStreamSubsyste
 class DrawableList;
 class PickAndPlayInfo;
 
-void __cdecl pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info);
+bool __cdecl pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info);
 
 class InGameUI
 {

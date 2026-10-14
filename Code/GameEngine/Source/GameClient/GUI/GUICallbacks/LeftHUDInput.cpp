@@ -71,7 +71,7 @@ public:
 	void appendLocationArgument(const Coord3D &location);
 };
 
-void pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type msgType, PickAndPlayInfo *info);
+bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type msgType, PickAndPlayInfo *info);
 
 enum NEED_TARGET_OPTION { NEED_TARGET_POS = 0x20 };
 

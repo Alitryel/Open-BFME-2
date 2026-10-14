@@ -278,7 +278,7 @@ extern InGameUI *TheInGameUI;
 
 class Rva0035AFE4;
 Object *__cdecl Rva00431012PickObject(ICoord2D *pixel, Rva0035AFE4 *mask, int pickType);
-void __cdecl pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info);
+bool __cdecl pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info);
 
 class GuardCommandButton
 {

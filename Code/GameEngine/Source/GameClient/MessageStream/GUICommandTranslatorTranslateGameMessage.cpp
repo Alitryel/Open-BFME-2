@@ -351,7 +351,7 @@ int __cdecl doGuardCommand(void *command, int guardMode, ICoord2D *mouse);
 int __cdecl doAttackMoveCommand(void *command, ICoord2D *mouse);
 int __cdecl doSetRallyPointCommand(void *command, ICoord2D *mouse);
 int __cdecl Rva004312E5Emit(void *command, ICoord2D *mouse);
-void __cdecl pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info);
+bool __cdecl pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info);
 
 static int doFireWeaponCommand(const CommandButton *command, ICoord2D *mouse)
 {

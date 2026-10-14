@@ -51,7 +51,7 @@ public:
 class DrawableList:public _STL::list<Drawable *>{public:~DrawableList()throw();};
 class GameMessage {public:enum Type{COMPLETED=0x7e2};};
 class PickAndPlayInfo;
-void pickAndPlayUnitVoiceResponse(const DrawableList *,GameMessage::Type,PickAndPlayInfo *);
+bool pickAndPlayUnitVoiceResponse(const DrawableList *,GameMessage::Type,PickAndPlayInfo *);
 class ControlBar;
 extern ControlBar *TheControlBar;
 extern GameLogic *TheGameLogic;

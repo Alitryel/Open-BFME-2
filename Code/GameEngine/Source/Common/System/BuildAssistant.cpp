@@ -1176,7 +1176,7 @@ public:
 	};
 };
 
-void pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
+bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
 	PickAndPlayInfo *info);
 
 // The rowed member every newly made object ends with (ZH's
