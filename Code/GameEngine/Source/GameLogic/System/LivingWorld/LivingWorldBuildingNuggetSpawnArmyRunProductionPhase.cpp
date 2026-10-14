@@ -183,9 +183,12 @@ public:
 	virtual void v05();
 	virtual void v06();
 	virtual bool canQueueUnit(ObjectID id);	// slot 7
+	virtual void v08();
+	virtual void removeAt(int index);	// slot 9
 
 	void rva004FA992(void (Rva004FA953Listener::*notify)(void *, int), void *arg, int value);
 	int rva004FA6B5();
+	void rva004FA686(ObjectID id);
 
 	Rva004FA953List m_list;	// +0x04
 	_STL::vector<ObjectID> m_queue;	// +0x14
@@ -283,4 +286,19 @@ int Rva004FA992::rva004FA6B5()
 		}
 	}
 	return total;
+}
+
+// ?rva004FA686@Rva004FA992@@QAEXW4ObjectID@@@Z @0x004FA686 47B. Searches the queue from the back for
+// the id and removes the matching entry through slot 9 (the first hit only). Evidence: target
+// bytes and WB debug body 0130A810 (unnamed); the slot's role as an index remover is inferred.
+void Rva004FA992::rva004FA686(ObjectID id)
+{
+	for (int i = (int)m_queue.size() - 1; i >= 0; --i)
+	{
+		if (m_queue[i] == id)
+		{
+			removeAt(i);
+			return;
+		}
+	}
 }
