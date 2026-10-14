@@ -1,4 +1,6 @@
 // ??0TeamsInfoRec@@QAE@ABV0@@Z
+// partial score=0.6 date=2026-10-15
+// ??0TeamsInfoRec@@QAE@ABV0@@Z
 // partial score=0.4366197183 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // flags: region default (reverse/retail_inventory/flag_regions.csv)

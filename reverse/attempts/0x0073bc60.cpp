@@ -1,3 +1,5 @@
+// ?rva0073BC60@Gen_008F7CD0@@QBEXHHPAUBfmeCellOut@@@Z
+// partial score=0.6 date=2026-10-15
 // ?rva0073BC60@Gen_008F7CD0@@QAEXIHPAX@Z
 // partial score=0.85 date=2026-10-14
 // ?rva0073BC60@Gen_008F7CD0@@QBEXHHPAUBfmeCellOut@@@Z

@@ -1,4 +1,6 @@
 // ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
+// partial score=0.6 date=2026-10-15
+// ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
 // partial score=0.8276 date=2026-10-14
 // ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD

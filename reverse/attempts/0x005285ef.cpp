@@ -1,4 +1,6 @@
 // ?UpdateButtonVisiblity@Impl@AptInGameSideCommandBar@@QAE_NPAVObject@@@Z
+// partial score=0.6 date=2026-10-15
+// ?UpdateButtonVisiblity@Impl@AptInGameSideCommandBar@@QAE_NPAVObject@@@Z
 // partial score=0.75 date=2026-10-10
 // ?UpdateButtonVisiblity@Impl@AptInGameSideCommandBar@@QAE_NPAVObject@@@Z
 // partial score=0.75 date=2026-10-09

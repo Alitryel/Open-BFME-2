@@ -1,3 +1,5 @@
+// ??0?$vector@UBfmeContainerRecord005FDEC7@@V?$allocator@UBfmeContainerRecord005FDEC7@@@_STL@@@_STL@@QAE@I@Z
+// partial score=0.636 date=2026-10-15
 // vector<BfmeContainerRecord005FDEC7>::vector(unsigned)
 // partial score=0.8606223479490807 date=2026-10-14
 // cl: /O1 /G7 /EHsc /Ireference/shims/bfme2_ascii /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc

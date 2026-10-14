@@ -1,4 +1,6 @@
 // ?getLinearPosition@@YAAAUCoord3D@@AAU1@ABV?$vector@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@HPBVObject@@@Z
+// partial score=0.6 date=2026-10-15
+// ?getLinearPosition@@YAAAUCoord3D@@AAU1@ABV?$vector@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@HPBVObject@@@Z
 // partial score=0.75252 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /Ireference/shims/bfmealloc /I.
 // stlport

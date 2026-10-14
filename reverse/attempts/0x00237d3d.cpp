@@ -1,4 +1,6 @@
 // ?Rva00237D3DCheck@@YAHXZ
+// partial score=0.628 date=2026-10-15
+// ?Rva00237D3DCheck@@YAHXZ
 // partial score=0.887 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // Native237D3D..237E1F,226B. Caller238646 consumes int EAX.

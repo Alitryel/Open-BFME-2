@@ -1,4 +1,6 @@
 // ??0Rva005E6D0D@@QAE@PAXPAUHeroDetailsInput@@@Z
+// partial score=0.96 date=2026-10-15
+// ??0Rva005E6D0D@@QAE@PAXPAUHeroDetailsInput@@@Z
 // partial score=0.9808 date=2026-10-13
 // ??0Rva005E6D0D@@QAE@PAXPAUHeroDetailsInput@@@Z
 // partial score=0.98 date=2026-10-11

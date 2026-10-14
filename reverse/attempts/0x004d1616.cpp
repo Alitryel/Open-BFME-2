@@ -1,4 +1,6 @@
 // ?parseUserList@ConnectionManager@@QAEXPBVGameInfo@@@Z
+// partial score=0.824 date=2026-10-15
+// ?parseUserList@ConnectionManager@@QAEXPBVGameInfo@@@Z
 // partial score=0.95 date=2026-10-13
 // W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?parseUserList@ConnectionManager@@QAEXPBVGameInfo@@@Z

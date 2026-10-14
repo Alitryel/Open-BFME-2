@@ -1,4 +1,6 @@
 // ?UnknownSlot3@BFME2Encoding0MotionChannel@@UAEXMPAMPAPAE@Z
+// partial score=0.79 date=2026-10-15
+// ?UnknownSlot3@BFME2Encoding0MotionChannel@@UAEXMPAMPAPAE@Z
 // partial score=0.9 date=2026-10-12
 // cl: /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD
 // UnknownSlot3/4/5 of BFME2Encoding0MotionChannel, retail 0x001B2FEF (362B),

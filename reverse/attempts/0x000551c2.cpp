@@ -1,4 +1,6 @@
 // ?rva000551C2@MilesAudioManager@@QAEXH@Z
+// partial score=0.6 date=2026-10-15
+// ?rva000551C2@MilesAudioManager@@QAEXH@Z
 // partial score=0.85 date=2026-10-09
 // cl: /DNDEBUG /MD /EHsc
 // ?rva000551C2@MilesAudioManager@@QAEXH@Z @0x000551C2 106B
