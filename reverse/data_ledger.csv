@@ -11958,7 +11958,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00863B50,136,.rdata,string,??_C@_0IG@INJKLPJH@C?3?2projects?2bfme2patch103?2bfme2?2@,,literal,,0,1
 0x00863BD8,16,.rdata,string,??_C@_0O@NDIJAEAC@UpgradeTroops?$AA@,,literal,,0,1
 0x00863BE8,16,.rdata,string,??_C@_0P@EAKNJJHA@StrengthenArmy?$AA@,,literal,,0,1
-0x00863BF8,4,.rdata,global,?g_Va00863BF8@@3MA,Code/GameEngine/Source/Common/Rva00503D26Bezier.cpp,owned,,1,1
+0x00863BF8,4,.rdata,global,?g_Va00863BF8@@3MA,Code/GameEngine/Source/Common/calc.cpp,owned,,1,1
 0x00863BFC,20,.rdata,global,?g_Va00863BFC@@3MA,Code/GameEngine/Source/Common/Rva00503E17BezierCall.cpp,owned,,1,1
 0x00863C10,56,.rdata,string,??_C@_0DF@IABNOJPE@ControlPoint?3?3ParseINIBlock?3?3Inv@,,literal,,0,1
 0x00863C48,96,.rdata,global,?Rva00064680FieldParseTable@@3QBUFieldParse@@B,,unowned,,0,1

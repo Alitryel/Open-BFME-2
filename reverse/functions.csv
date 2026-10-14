@@ -39898,7 +39898,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva00308765@Rva00308765@@QAEXHABVAsciiString@@@Z,,0x00308765,52,Code/GameEngine/Source/Common/Rva00308765IndexedAssign.cpp,matched,indexed asciistring assign plus78 notify slot7 callers 0x30923E 0x3292F1
 ?Rva005F0C39Destroy@@YAXPAURva005F0647@@0@Z,,0x005F0C39,27,Code/GameEngine/Source/Common/Rva005F0647Deleting.cpp,matched,unlock range destroy via rowed deleting plus loop
 ?Rva00441974Sort@@YAXPAPAX0PAXVRva0043FE9A@@@Z,,0x00441974,37,Code/GameEngine/Source/GameClient/GUI/Rva00440B64Insert.cpp,matched,reinsert sweep via unguarded insert caller 0x00441DB6
-?Rva00503D26Evaluate@@YAMMMMM@Z,,0x00503D26,40,Code/GameEngine/Source/Common/Rva00503D26Bezier.cpp,matched,unlock Bezier evaluate via callers 0x00503E0E 0x00503E46 unblocks 0x00503DEB 0x00503E17
+?Rva00503D26Evaluate@@YAMMMMM@Z,,0x00503D26,40,Code/GameEngine/Source/Common/calc.cpp,matched,unlock Bezier evaluate via callers 0x00503E0E 0x00503E46 unblocks 0x00503DEB 0x00503E17
 ??F?$_Deque_iterator@UBfmeE12@@U?$_Nonconst_traits@UBfmeE12@@@_STL@@@_STL@@QAE?AU01@H@Z,,0x004222D1,40,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_e12_postdec.cpp,matched,postfix dec via rowed _M_decrement 0x00421B47 same TU flags
 ?Rva00441DA4Sort@@YAXPAPAX0VRva0043FE9A@@@Z,,0x00441DA4,27,Code/GameEngine/Source/GameClient/GUI/Rva00440B64Insert.cpp,matched,wrapper zero to reinsert sweep caller 0x00442856
 ?Rva00441D74Sort@@YAXPAPAX0VRva0043FE9A@@@Z,,0x00441D74,48,Code/GameEngine/Source/GameClient/GUI/Rva00440B64Insert.cpp,matched,insertion sort via guarded insert callers 0x00442847 0x0044286B
@@ -39907,7 +39907,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?Rva005F01C7Get@@YAPBVImage@@H@Z,,0x005F01C7,15,Code/GameEngine/Source/Common/Rva005F0152ImageGet.cpp,matched,chain from 0x005F0185 via same global
 ??1Rva006F8460@@UAE@XZ,,0x006F8460,37,Code/GameEngine/Source/Common/Rva006F8460Dtor.cpp,matched,dtor vtable 0x008EC9CC member 0x70A840 pool free 0x14
 ?Rva003BB141Notify@ScriptActions@@QAEXABV?$StringBase@D@@@Z,,0x003BB141,34,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAAD6.cpp,matched,chain via 0x0033070E caller 0x003CAE0D globals 0xE01DB0 0xDFEA3C slot 0x68; member ABI repaired: retail dispatcher3CA4BE passes ScriptActions this in ECX; original verb remains unknown
-?rva00503DEB@Rva00503DEB@@QAEMXZ,,0x00503DEB,44,Code/GameEngine/Source/Common/Rva00503D26Bezier.cpp,matched,chain Bezier Evaluate 0x00503D26 with globals 0x7C26F0 0x863BF8 caller 0x005043D4
+?rva00503DEB@Rva00503DEB@@QAEMXZ,,0x00503DEB,44,Code/GameEngine/Source/Common/calc.cpp,matched,chain Bezier Evaluate 0x00503D26 with globals 0x7C26F0 0x863BF8 caller 0x005043D4
 ?Rva003BB61E@ScriptActions@@QAEXABVAsciiString@@@Z,,0x003BB61E,14,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAAD6.cpp,matched,free forwarder to vslot 0x15C via global 0xDFEDF0 caller 0x003CBBCE; member ABI repaired: retail dispatcher3CA4BE passes ScriptActions this in ECX; original verb remains unknown; native dispatcher member/stack-argument contract restored; full owner bytes verified; parameter type follows dispatcher reconstruction
 ?Rva003BB7E2@ScriptActions@@QAEXXZ,,0x003BB7E2,14,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAAD6.cpp,matched,free caller of 0x002D3615 with false via global 0xDFF028 caller 0x003CBD39; member ABI repaired: retail dispatcher3CA4BE passes ScriptActions this in ECX; original verb remains unknown
 ?rva002CFC7B@Rva002CFC7B@@QAEPAURva002CFA30Node@@PAU2@0@Z,,0x002CFC7B,115,Code/Libraries/Source/WWVegas/WWLib/Rva002CFC7BCopy.cpp,matched,tree copy via thiscall twin of 0x002CFA30; 115B exact; self callers and 0x002D016D
@@ -39917,7 +39917,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?Rva005A6EDADestroyRange@@YAXPAURva0052BF33Elem@@0@Z,,0x005A6EDA,24,Code/GameEngine/Source/Common/System/Rva0052BF33DestroyTagged.cpp,matched,chain destroy range via 0052BF33 callers 7
 ??_GRva006F8460@@UAEPAXI@Z,,0x006F8490,35,Code/GameEngine/Source/Common/FamilyDeletingDtors_Rva006F8460.cpp,matched,pooled deleting dtor calls rowed dtor 0x006F8460
 ?rva0059B3E9@Rva0059B3E9@@QAEHPAD@Z,,0x0059B3E9,55,Code/GameEngine/Source/Common/Rva0059B3E9Write.cpp,matched,three-part write via rowed Pair and AsciiStringRef returns total
-?rva00503E17@Rva00503E17@@QAEMXZ,,0x00503E17,56,Code/GameEngine/Source/Common/Rva00503E17BezierCall.cpp,matched,chain Bezier Evaluate with SSE t caller 0x005043DF
+?rva00503E17@Rva00503E17@@QAEMXZ,,0x00503E17,56,Code/GameEngine/Source/Common/calc.cpp,matched,chain Bezier Evaluate with SSE t caller 0x005043DF
 ??_ERva002E5791@@QAEPAXI@Z,,0x002E5E5A,75,Code/GameEngine/Source/GameClient/Rva002E5791VectorDeletingDtor.cpp,matched,chain from 0x002E5791 landing size 8 cookie
 ?Rva002CF36ECopy@@YAXPAURva002CF13B@@PBU1@@Z,,0x002CF36E,18,Code/Libraries/Source/WWVegas/WWLib/Rva002CF36ECopy.cpp,matched,null guarded placement via 0x002CF13B; 18B exact; caller 0x002CF883
 ?Rva002CF86FCreate@@YGPAXPBURva002CF13B@@@Z,,0x002CF86F,34,Code/Libraries/Source/WWVegas/WWLib/Rva002CF86FCreate.cpp,matched,node create via 0x002CF36E; 34B exact; callers 0x002CFA57 0x0033C114
@@ -39927,7 +39927,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ??0Rva004D60CA@@QAE@XZ,,0x004D60CA,25,Code/GameEngine/Source/GameNetwork/NetCommandMsgCtor.cpp,matched,NetCommandMsg family And plus type 13 sibling
 ??0Rva004D64F5@@QAE@XZ,,0x004D64F5,25,Code/GameEngine/Source/GameNetwork/NetCommandMsgCtor.cpp,matched,NetCommandMsg family vptr-first And plus type 5 sibling
 ?rva005A6709@Rva005A6709@@QBEHXZ,,0x005A6709,20,Code/GameEngine/Source/Common/Rva005A6709Predicate.cpp,matched,unlock predicate callers 9
-?Rva00503D4ECubic@@YAMMMMMM@Z,,0x00503D4E,64,Code/GameEngine/Source/Common/Rva00503D26Bezier.cpp,matched,unlock cubic Bezier via 3.0f caller 0x005043EF
+?Rva00503D4ECubic@@YAMMMMMM@Z,,0x00503D4E,64,Code/GameEngine/Source/Common/calc.cpp,matched,unlock cubic Bezier via 3.0f caller 0x005043EF
 ?Rva005F01D6Get@@YAPBVImage@@PAURva005F01D6In@@@Z,,0x005F01D6,53,Code/GameEngine/Source/Common/Rva005F0152ImageGet.cpp,matched,chain lane via AsciiString name at +4 and global 0x00DFF000
 ??0Rva00524415@@QAE@XZ,,0x00524415,33,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_e16_ctor00524415.cpp,matched,unlock dual E16 vectors via base 0x00211E58
 ?Rva003BBFA0@ScriptActions@@QAEXXZ,,0x003BBFA0,17,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsRva003BAAD6.cpp,matched,free caller of vslot 0x94 with true via global 0xDFEDF0 caller 0x003CC458; member ABI repaired: retail dispatcher3CA4BE passes ScriptActions this in ECX; original verb remains unknown
@@ -89696,3 +89696,4 @@ _chatEnumJoinedChannels,,0x006A2100,5,Code/GameEngine/Source/GameNetwork/GameSpy
 ?rva00035540@GeneralAllocator@Allocator@EA@@QAE_NP6A_NPBUBlockInfo@23@PAX@Z1HHHH@Z,,0x00035540,154,Code/GameEngine/Source/Common/System/Rva000353F0Trace.cpp,matched,GeneralAllocator report walk; callback until false; inlined report close
 ?allow@Rva00261F35Filter@@UAE_NPAVObject@@@Z,,0x00261F35,205,Code/GameEngine/Source/Common/Rva00261F35Filter.cpp,matched,Native261F35..262002 full205 RET4; vftable 0x0081A068 slot1 beside 0x00261D2E filter; WB E5D950 debug twin; castle-module radius test else temporary cylinder GeometryInfo CollidesWith
 __ehhandler$?allow@Rva00261F35Filter@@UAE_NPAVObject@@@Z,,0x00772D86,10,Code/GameEngine/Source/Common/Rva00261F35Filter.cpp,matched,gen-ehstub;Compiler-emitted C++ EH handler of rowed parent 0x00261F35; retail parent installs handler 0x00772D86 (EH prologue immediate)
+?rva005042F2@Rva005042F2@@QAE_NIPAURva005042F2Key@@@Z,,0x005042F2,415,Code/GameEngine/Source/Common/calc.cpp,matched,Native5042F2..504491 full415 RET8; WB 12CAC30 twin gives postfix-decrement neighbour walk; time-keyed Catmull-Rom curve lookup over rb-tree control points; shares unit with ease helpers 503D26/503DEB/503D4E/503E17 (EDX live across 503DEB) and 503D8E (EAX live across)
