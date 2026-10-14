@@ -7,6 +7,18 @@
 // 0x002BD379 unblocks 0x002BD36D; prev/next share /O1 family.
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
+
+// clear() and the begin()/end() it reads are expanded inline (erase is the rowed
+// call); their unreferenced copies differed from retail's or the first ones in
+// link order. Declared imported and force-inlined, they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+void vector<void *>::clear() { erase(begin(), end()); }
+}
 class Rva003193D1
 {
 public:

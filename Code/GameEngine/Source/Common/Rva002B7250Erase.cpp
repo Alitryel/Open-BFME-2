@@ -7,6 +7,18 @@ class CreateAHeroData;
 struct BfmeE12 { float x, y, z; };
 #include "../../../Libraries/Include/Lib/BfmeE16.h"
 
+// begin(), end() and empty() are only ever expanded inline here; their unreferenced
+// copies differed from retail's. Declared imported and force-inlined, they are
+// not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+bool vector<void *>::empty() const { return this->_M_start == this->_M_finish; }
+}
+
 class Rva002B7250 {
 public:
     void rva002B7250(CreateAHeroData *v);

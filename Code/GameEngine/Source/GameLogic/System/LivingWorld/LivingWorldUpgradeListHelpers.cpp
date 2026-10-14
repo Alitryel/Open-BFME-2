@@ -12,6 +12,16 @@
 //    object's +0xD4 list; called from the battle hand-over 0x0020F832.
 #include <vector>
 
+// The walkers read the vector's size() and begin() const inline; their unreferenced
+// copies here differed from retail's. Declared imported and
+// force-inlined, they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+size_t vector<void *>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_iterator vector<void *>::begin() const { return this->_M_start; }
+}
+
 class Rva002E15BC; // Opaque parameter spelling retained for the stdcall provider.
 class LivingWorldPlayer
 {

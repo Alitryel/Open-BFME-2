@@ -28,6 +28,16 @@
 #include <hash_map>
 #include <set>
 
+// The hash table reads its bucket vector's size() and begin() const inline; their
+// unreferenced copies here differed from retail's. Declared imported and
+// force-inlined, they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+size_t vector<void *>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_iterator vector<void *>::begin() const { return this->_M_start; }
+}
+
 struct CRITICAL_SECTION
 {
 	unsigned char m_data[0x18];
