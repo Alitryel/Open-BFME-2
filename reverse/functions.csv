@@ -88444,3 +88444,4 @@ $L4881,,0x007A3EBE,10,Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/Str
 ??0?$pair@VAsciiString@@UNoCaseTreeValue4@@@_STL@@QAE@ABVAsciiString@@ABUNoCaseTreeValue4@@@Z,,0x0020F0B8,27,Code/GameEngine/Source/Common/Rva002214A6Dtor.cpp,matched,ICF alias; NoCaseTreeValue4 pair ctor
 ??$make_pair@VAsciiString@@UNoCaseTreeValue4@@@_STL@@YA?AU?$pair@VAsciiString@@UNoCaseTreeValue4@@@0@ABVAsciiString@@ABUNoCaseTreeValue4@@@Z,,0x0032ACCF,27,Code/GameEngine/Source/Common/Rva002214A6Dtor.cpp,matched,ICF alias; NoCaseTreeValue4 make_pair
 ??0Rva002214A6@@QAE@ABVAsciiString@@@Z,,0x0022141E,136,Code/GameEngine/Source/Common/Rva002214A6Dtor.cpp,matched,
+?rva0035A8D7@Rva0035A8D7@@QAEXPAX00@Z,,0x0035A8D7,167,Code/GameEngine/Source/GameLogic/System/TerrainResourceManagerGridRva0035A8D7.cpp,matched,
