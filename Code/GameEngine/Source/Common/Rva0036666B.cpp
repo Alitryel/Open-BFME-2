@@ -2,10 +2,11 @@
 // ?rva0036666B@Rva0036666B@@QAE_NXZ 0x0036666B 16B via two-dword non-zero check at +0x34/+0x38
 // Evidence: retail xor/cmp/jne/cmp/je/xor/inc shape; callers test al (e.g. 0x002E71D4 test al al); neighbours in Code/GameEngine/Source/Common.
 
-class Rva00366B30
+// 0x00366B77 is rowed as PathfindLayer::ClassifyWallCells.
+class PathfindLayer
 {
 public:
-	void rva00366B77();
+	void ClassifyWallCells();
 };
 
 class Rva00366E2E
@@ -46,7 +47,7 @@ bool Rva0036666B::rva0036736E(bool b)
 	if (sel != 0) {
 		((Rva00366E2E *)this)->rva00366E2E();
 	} else {
-		((Rva00366B30 *)this)->rva00366B77();
+		((PathfindLayer *)this)->ClassifyWallCells();
 	}
 	return true;
 }

@@ -46,11 +46,13 @@ struct Mem04
 	virtual void keep4() {}
 };
 
+// 0x0057E058 is rowed as AptMapPreview::rva0057E058.
+class AptMapPreview { public: void rva0057E058(); };
+
 class Rva0057E3DB : public Rva0057E3DBBase
 {
 public:
 	virtual ~Rva0057E3DB();
-	void rva0057E058();
 	void rva0057E24B(int arg);
 private:
 	struct Mem04 m_04; // +0x04 second vptr slot
@@ -77,5 +79,5 @@ Rva0057E3DB::~Rva0057E3DB()
 void Rva0057E3DB::rva0057E24B(int arg)
 {
 	m_18.m_ptr->m_08 = arg;
-	rva0057E058();
+	((AptMapPreview *)this)->rva0057E058();
 }

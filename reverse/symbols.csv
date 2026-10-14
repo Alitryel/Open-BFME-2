@@ -11033,7 +11033,6 @@ name,address,notes
 ?rva002D9D7C@Rva002D9FD9Owner@@QAEXPAX0@Z,0x002D9D7C,pin for 0x2D9FD9 thiscall (ptr, ptr) void (same body as 0x2D9F9F pin)
 ?rva002D9FD9@BfmeAudioEventPrefix136@@QAEXPAVXfer@@@Z,0x002D9FD9,non-virtual xfer of the 0x88-byte audio event; W3DTruckDraw::xfer calls it on +0x374 and +0x3FC; also runs Rva002D9608 audio gate on the same this; other callers 0x5330F 0x5648D 0x5C9192
 ?rva002DA8AF@Rva002DAAD5Owner@@QAEXXZ,0x002DA8AF,pin for 0x2DAAD5 thiscall void ()
-?rva002DBE62Get@GameState@@QAEHXZ,0x002DBE62,Address-derived GameState thiscall view of the matched Rva002DBE62Get body: 0x00434B57 loads TheGameState into ECX before the call; target method identity unresolved
 ?rva002DD282@GameState@@QAE?AVUnicodeString@@H@Z,0x002DD282,Address-derived GameState member returning UnicodeString: 0x00434B62 passes Rva002DBE62Get's int in addition to a hidden return buffer with ECX loaded from TheGameState at VA 0x00DFF08C; Ghidra boundary 267B; method identity unresolved
 ?rva002DDE43@GameState@@QAEXABVUnicodeString@@0HH@Z,0x002DDE43,Address-derived GameState thiscall view: target 0x00435A6F loads TheGameState into ECX and passes two UnicodeString references plus integer flags 0 and 1; operation identity unresolved
 ?rva002E0A9F@Rva002E0A9FElem@@QAEHPAX@Z,0x002E0A9F,thiscall int scan over +0x1B8/+0x1BC entries with 1 stack arg; head-decoded, Ghidra FUN_006e0a9f 75B
@@ -11546,7 +11545,6 @@ name,address,notes
 ?rva00541641@Rva005418CB@@QAE_NH@Z,0x00541641,head-verified 200B sorted-key locator sibling of banked 0x00541579; callee of guarded removal 0x005418CB read from its REL32
 ?rva00542067@Rva00542225@@QAEXXZ,0x00542067,no-arg thiscall member init called at the end of ctor 0x00542225; identity unproven; address-derived owner
 ?rva00542148@Rva005422CF@@QAEXXZ,0x00542148,no-arg thiscall member init called at the end of ctor 0x005422CF; identity unproven; address-derived owner
-?rva005494A0@BfmeC986@@QAEXHH@Z,0x005494A0,two-arg step on same this in rva003724B8 at 0x37251E (REL32); return ignored; identity not recovered
 ?rva0055B863@Rva0055B863Target@@QAEXH@Z,0x0055B863,"method a vtable-slot forwarder tail-jumps to (ret 4); opaque address name"
 ?rva005657FE@Elem0052BFE1@@QAE_NHH@Z,0x005657FE,thiscall predicate for stride search 0x0052BFE1 (REL32 at 0x0052C00F); Ghidra 103B unrecovered; address name
 ?rva005659CA@Rva005659CA@@QAEXXZ,0x005659CA,shared clear for 8B virtual overflows
@@ -14433,7 +14431,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?rva0054C805@Rva0054C88AInner@@QAEXM@Z,0x0054C805,callee of ?rva0054C877@Rva0054C88A@@QAEXM@Z
 ?rva005294FC@Rva0052936C@@QAEXH@Z,0x005294FC,callee of ?rva005295D5@Rva0052936C@@QAEXH@Z
 ?rva005C3E81@Rva005C3E81@@QAEXXZ,0x005C3E81,callee of ?rva005295D5@Rva0052936C@@QAEXH@Z
-?rva00366B77@Rva00366B30@@QAEXXZ,0x00366B77,callee of ?rva0052F294@Rva002E713FOwner@@QAEXXZ
 ?rva00366E2E@Rva00366E2E@@QAEXXZ,0x00366E2E,callee of ?rva0052F294@Rva002E713FOwner@@QAEXXZ
 ?rva0052ED74@Rva002E713FOwner@@QAEXPAXH@Z,0x0052ED74,callee of ?rva0052F294@Rva002E713FOwner@@QAEXXZ
 ??1Rva0053470B@@QAE@XZ,0x0053470B,callee of ??1Rva0053476A@@QAE@XZ

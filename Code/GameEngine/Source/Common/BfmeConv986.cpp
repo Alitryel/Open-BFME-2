@@ -28,6 +28,7 @@ class AIGroup
 {
 public:
 	void rva00372571(Rva00372571Params *params, int source);
+	void createFormation(int a, int b);
 };
 
 struct Rva0028AC4EField
@@ -62,7 +63,6 @@ public:
 	char bfmeReady986C();
 	void bfmePrep986C();
 	char rva0036D3A3(int a, int b);
-	void rva005494A0(int a, int b);
 	void bfmeSend986C(int a, int b, int c, int d, int e);
 	char privateGatherAndMoveInFormationToPosition(int a, int b, int c, int, int e);
 	void groupGatherAndMoveInFormationToPosition(int a, int b, int c, int d);
@@ -103,7 +103,7 @@ char BfmeC986::privateGatherAndMoveInFormationToPosition(int a, int b, int c, in
 		bfmePrep986C();
 		if (!rva0036D3A3(a, b))
 			return 0;
-		rva005494A0(b, c);
+		((AIGroup *)this)->createFormation(b, c);
 		bfmeSend986C(a, b, c, e, 0);
 	}
 	return 1;

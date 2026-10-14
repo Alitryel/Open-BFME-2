@@ -24,10 +24,11 @@ public:
 	bool rva0036666B();
 };
 
-class Rva00366B30
+// 0x00366B77 is rowed as PathfindLayer::ClassifyWallCells.
+class PathfindLayer
 {
 public:
-	void rva00366B77();
+	void ClassifyWallCells();
 };
 
 class Rva00366E2E
@@ -78,7 +79,7 @@ void Rva002E713FOwner::rva0052F294()
 		if (slot->rva0036666B())
 		{
 			if (*(int *)((char *)slot + 0x38) != 0)
-				((Rva00366B30 *)slot)->rva00366B77();
+				((PathfindLayer *)slot)->ClassifyWallCells();
 			else
 				((Rva00366E2E *)slot)->rva00366E2E();
 		}

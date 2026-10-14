@@ -52,7 +52,7 @@ extern InGameUI *TheInGameUI;
 class GameState
 {
 public:
-	int rva002DBE62Get();
+	int determineCurrentGameSaveFileMode();
 	void *rva002DBC97Get(int mode);
 	void rva002DDE43(const UnicodeString &name, const UnicodeString &text,
 		int save, int confirm);
@@ -156,7 +156,7 @@ void AptSaveLoad::rva00435819()
 		if (!unicodeIsEmpty(name))
 		{
 			name += (const unsigned short *)TheGameState->rva002DBC97Get(
-				TheGameState->rva002DBE62Get());
+				TheGameState->determineCurrentGameSaveFileMode());
 		}
 		TheGameState->rva002DDE43(name, text, 0, 1);
 		Rva00437EAC(0,

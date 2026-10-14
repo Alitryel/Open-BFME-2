@@ -225,11 +225,14 @@ extern LinearCampaignManager *TheLinearCampaignManager;
 
 // WorldBuilder's ArmySummary (address-derived spelling as in
 // ScriptConditions_delayedCarryover.cpp).
+class ObjectTypes;
+// 0x0040E589 is rowed as ArmySummary::SpawnOneDelayedCarryoverUnit.
+class ArmySummary { public: ObjectID SpawnOneDelayedCarryoverUnit(ObjectTypes *types); };
+
 class Rva0040D701ArmySummary
 {
 public:
 	bool SpawnOneDelayedCarryoverUnitIntoUnitRevivalTracker(ObjectTypes *types);
-	ObjectID SpawnOneDelayedCarryoverUnit(ObjectTypes *types);
 };
 
 struct Coord3D;
@@ -735,7 +738,7 @@ void ScriptActions::doCreateDelayedCarryoverUnitAtWaypoint(const AsciiString &ob
 			_STL::vector<Rva0040D701ArmySummary *>::iterator it = armies.begin();
 			_STL::vector<Rva0040D701ArmySummary *>::iterator end = armies.end();
 			for (; result == INVALID_OBJECT_ID && it != end; ++it)
-				result = (*it)->SpawnOneDelayedCarryoverUnit(types);
+				result = ((ArmySummary *)*it)->SpawnOneDelayedCarryoverUnit(types);
 		}
 	}
 	if (result == INVALID_OBJECT_ID)

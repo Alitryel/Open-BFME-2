@@ -427,7 +427,6 @@ public:
 	void rva0057C7BA(int mode);
 	// Unrowed 0x0057E058 (499 bytes) and 0x0057DFFB (65 bytes; switches on
 	// the mode at +0x1C), pinned by address.
-	void rva0057E058();
 	void rva0057DFFB(int value);
 	// Unrowed 0x0057C621 (40 bytes; a value read through its +0x68 member
 	// when +0x50 is set), pinned by address.
@@ -663,6 +662,7 @@ public:
 class AptMapPreview
 {
 public:
+	void rva0057E058();
 	void rva0057C597(bool enable);
 	// Rowed 0x0057C57B: the start position a button window shows, or -1.
 	int rva0057C57B(int window);
@@ -1952,7 +1952,7 @@ bool AptMpGameSetup::OnUpdate()
 		if (m_2bd)
 		{
 			m_2bd = false;
-			m_60.rva0057E058();
+			((AptMapPreview *)&m_60)->rva0057E058();
 			changed = true;
 		}
 		if (m_2be && haveLocal)
@@ -1969,7 +1969,7 @@ bool AptMpGameSetup::OnUpdate()
 	{
 		m_2b8 = false;
 		m_d0.rva0057EA0F();
-		m_60.rva0057E058();
+		((AptMapPreview *)&m_60)->rva0057E058();
 	}
 	m_244.rva0057FDB0(false);
 	return false;
@@ -2611,7 +2611,7 @@ void AptMpGameSetup::UpdateSlot(int slot)
 void AptMpGameSetup::rva0043FA68(GameInfo *game)
 {
 	((Rva0043DA65 *)((Rva0043F103 *)m_owner)->rva0043F103(1))->m_current = game;
-	m_60.rva0057E058();
+	((AptMapPreview *)&m_60)->rva0057E058();
 	m_d0.rva0057EA0F();
 	if (game && ((const Rva003FF1C2 *)game)->rva003FF1C2())
 	{

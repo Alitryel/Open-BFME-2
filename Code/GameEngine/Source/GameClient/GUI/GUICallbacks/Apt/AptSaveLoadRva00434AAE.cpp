@@ -22,7 +22,7 @@ UnicodeString __cdecl Rva0037D55EGet();
 class GameState
 {
 public:
-	int rva002DBE62Get();
+	int determineCurrentGameSaveFileMode();
 	UnicodeString rva002DD282(int mode);
 };
 extern GameState *TheGameState;
@@ -60,5 +60,5 @@ void AptSaveLoad::SetDefaultFileName()
 		GadgetTextEntrySetText(m_fileName, Rva0037D55EGet());
 	else
 		GadgetTextEntrySetText(m_fileName,
-			TheGameState->rva002DD282(TheGameState->rva002DBE62Get()));
+			TheGameState->rva002DD282(TheGameState->determineCurrentGameSaveFileMode()));
 }
