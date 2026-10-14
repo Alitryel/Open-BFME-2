@@ -1,9 +1,3 @@
-// ?rva0045108D@StoreObjectsSpecialPower@@UAEXXZ
-// partial score=0.9688 date=2026-10-13
-// ?rva0045108D@StoreObjectsSpecialPower@@UAEXXZ
-// partial score=0.9688265931372548 date=2026-10-10
-// ?rva0045108D@StoreObjectsSpecialPower@@UAEXXZ
-// partial score=0.9645 date=2026-10-05
 // cl: /O1 /DNDEBUG /MD /EHsc /arch:SSE /I.
 #include <string.h>
 
@@ -231,4 +225,11 @@ void StoreObjectsSpecialPower::rva0045108D()
 			continue;
 		m_88.push_back(other->getID());
 	}
+
+	// Layout lever, not recovered source (content of the real code is unknown): retail shares
+	// stack homes between sibling blocks, which MSVC 7.1 only does in a function with EH objects
+	// when dead EH-style code (a never-taken throw) follows them; tables and size unchanged.
+	// W7-G1 r7 measurement.
+	if (0)
+		throw 1;
 }
