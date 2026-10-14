@@ -32,3 +32,19 @@ AudioCacheCursor Rva00206D91::rva00206D91()
 {
 	return m_table.rva00427195();
 }
+
+// ?rva001F87BF@Rva001F87BF@@QAE?AUAudioCacheCursor@@XZ, retail 0x001F87BF
+// (22B): the same forwarder over a hash container at +0x88.
+class Rva001F87BF
+{
+public:
+	AudioCacheCursor rva001F87BF();
+private:
+	char m_pad00[0x88];
+	Rva000427195 m_table;
+};
+
+AudioCacheCursor Rva001F87BF::rva001F87BF()
+{
+	return m_table.rva00427195();
+}

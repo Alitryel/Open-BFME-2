@@ -199,3 +199,11 @@ private:
 };
 // ??0Rva0025559B@@QAE@XZ
 Rva0025559B::Rva0025559B() {}
+
+// Native 0x002223E8 (22B, cdecl): formats "/_level%d" with the integer
+// argument into the string argument through the rowed AsciiString::format
+// 0x00038150 (an Apt level-path builder; caller and owner unresolved).
+void Rva002223E8LevelPath(AsciiString &path, int level)
+{
+	path.format("/_level%d", level);
+}

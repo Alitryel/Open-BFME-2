@@ -17,15 +17,27 @@ struct BfmeObject476;
 struct TreeHintRef00217D4C;
 struct BfmeStringHeadRecord184;
 struct BfmeOpaqueRecord156;
+struct BfmeAssignRecord172;
+struct Rva001EBEABElement;
 
 namespace _STL {
 template <> BfmeObject476 *vector<BfmeObject476>::erase(BfmeObject476 *, BfmeObject476 *);
 template <> TreeHintRef00217D4C *vector<TreeHintRef00217D4C>::erase(TreeHintRef00217D4C *, TreeHintRef00217D4C *);
 template <> BfmeStringHeadRecord184 *vector<BfmeStringHeadRecord184>::erase(BfmeStringHeadRecord184 *, BfmeStringHeadRecord184 *);
 template <> BfmeOpaqueRecord156 *vector<BfmeOpaqueRecord156>::erase(BfmeOpaqueRecord156 *, BfmeOpaqueRecord156 *);
+template <> BfmeAssignRecord172 *vector<BfmeAssignRecord172>::erase(BfmeAssignRecord172 *, BfmeAssignRecord172 *);
+template <> void vector<Rva001EBEABElement>::_M_fill_insert(Rva001EBEABElement *, unsigned int, const Rva001EBEABElement &);
 }
 
 template void _STL::vector<BfmeObject476>::clear();
 template void _STL::vector<TreeHintRef00217D4C>::clear();
 template void _STL::vector<BfmeStringHeadRecord184>::clear();
 template void _STL::vector<BfmeOpaqueRecord156>::clear();
+
+// 0x001EC090 (11B) -> erase 0x001EBDFA (stlport_vector_bfmeassignrecord172_erase.cpp)
+template void _STL::vector<BfmeAssignRecord172>::clear();
+
+// 0x001EC09B (5B): directly after it, vector::insert(pos, n, value) as a
+// bare tail jump to the rowed _M_fill_insert 0x001EBEAB of the 172-byte
+// element vector (StlSweepW4Rva001EBEAB.cpp stand-in).
+template void _STL::vector<Rva001EBEABElement>::insert(Rva001EBEABElement *, unsigned int, const Rva001EBEABElement &);
