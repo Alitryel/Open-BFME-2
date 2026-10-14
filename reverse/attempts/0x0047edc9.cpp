@@ -1,4 +1,6 @@
 // ?update@AnimalAIUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.12 date=2026-10-14
+// ?update@AnimalAIUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.1025 date=2026-10-09
 // BFME2 target identity: native47EDC9..47F92D (2916B), update secondary receiver +0x10,
 // ctor47ECA8 and WB011B2240 AnimalAIUpdate.cpp assertions154..245.
@@ -14,6 +16,8 @@
 // ?update@AnimalAIUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.3344272076372315 date=2026-09-26
 // cl: /O1 /G6 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "coord3d.h"
 #include "string_base.h"
 template<>inline const char*StringBase<char>::str()const{static const char TheNullChr=0;return m_data?m_data->data:&TheNullChr;}
@@ -111,9 +115,9 @@ public:
 extern TerrainLogic *TheTerrainLogic;
 extern GameLogic *TheGameLogic;
 extern PartitionManager *ThePartitionManager;
-extern "C" unsigned char bfmeRetailCritterDesyncFlag;extern bool g_012F0239;
+extern bool g_bfmeCritterDesyncLog;
 class CRCParameterCheck; extern "C" int __cdecl fprintf(CRCParameterCheck*,const char*,...);
-extern CRCParameterCheck *bfmeRetailCritterDesyncSink;
+extern void *g_00DFEFF0;
 extern int __cdecl GetGameLogicRandomValue(int low, int high, char *file, int line);
 extern float __cdecl Sin(float radians);
 extern float __cdecl Cos(float radians);
@@ -179,15 +183,16 @@ static __forceinline unsigned char &returning(AnimalAIUpdate *self)
 
 static __forceinline void animalLog(const char *text)
 {
-	if (bfmeRetailCritterDesyncFlag && bfmeRetailCritterDesyncSink)
-		fprintf(bfmeRetailCritterDesyncSink, text);
+	if (g_bfmeCritterDesyncLog && g_00DFEFF0)
+		fprintf((CRCParameterCheck*)g_00DFEFF0, text);
 }
 
 UpdateSleepTime AnimalAIUpdate::update()
 {
 	AnimalAIUpdate *self = this;
+	_ReadWriteBarrier();
 	CRCParameterCheck*log;
-	const AnimalAIUpdateModuleDataView *data = animalData(self);
+	const AnimalAIUpdateModuleDataView * volatile data = animalData(self);
 	Object *animal = animalObject(self);
 	char *machine = *(char **)((char *)self + 0x20);
 	char *state = *(char **)(machine + 4);
@@ -198,7 +203,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 	if (!processedOne(self))
 	{
 		*originalPosition(self) = *animalPosition(animal);
-		if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+		if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 			fprintf(log,
 				"CritterDesync:  m_processedOne false - setting m_originalPos to %g,%g,%g",
 				originalPosition(self)->x, originalPosition(self)->y,
@@ -209,7 +214,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 	Coord3D *position = animalPosition(animal);
 	if (!((AnimalAIUpdateDestinationLayer*)((char*)self-0x10))->isReachableLayer(position))
 	{
-		if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+		if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 			fprintf(log,
 				"CritterDesync:  animal %s is in a bad area, return to origin %g,%g,%g.",
 				animalDebugName(animal), originalPosition(self)->x, originalPosition(self)->y,
@@ -223,7 +228,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 
 	if (returning(self))
 	{
-		if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+		if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 			fprintf(log,
 				"CritterDesync:  m_returning is true - animal %s is checking if we are near origin %g,%g,%g to stop.",
 				animalDebugName(animal), originalPosition(self)->x, originalPosition(self)->y,
@@ -232,7 +237,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 		Coord3D delta=*originalPosition(self);delta.x-=position->x;delta.y-=position->y;delta.z-=position->z;
 		if(delta.GetLengthEstimate2D() < 10.0f)
 		{
-			if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+			if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 				fprintf(log,
 					"CritterDesync:  animal %s is finished returning to origin.",
 					animalDebugName(animal));
@@ -240,7 +245,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 		}
 		else
 		{
-			if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+			if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 				fprintf(log,
 					"CritterDesync:  animal %s is NOT finished returning to origin.",
 					animalDebugName(animal));
@@ -250,7 +255,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 
 	if (TheGameLogic->m_frame % data->m_updateTimer == 0)
 	{
-		if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+		if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 			fprintf(log,
 				"CritterDesync:  animal %s is doing periodic search for enemies.",
 				animalDebugName(animal));
@@ -260,6 +265,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 			PartitionFilterRelationship enemyFilter(animal,3,false);
 			enemy = ThePartitionManager->getClosestObject(animalPosition(animal),
 				(float)data->m_fleeRange, 0, enemyFilter.link(PartitionFilterAlive().link(&kindFilter)));
+				_ReadWriteBarrier();
 		}
 		if (enemy)
 		{
@@ -268,13 +274,13 @@ UpdateSleepTime AnimalAIUpdate::update()
 				(((const AIUpdateInterface*)((char*)self-0x10))->getCurrentStateID() == 20 || ((const AIUpdateInterface*)((char*)self-0x10))->getCurrentStateID() == 19);
             if(same)
 			{
-				if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+				if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 					fprintf(log,
 						"CritterDesync:  animal %s(%d) sees SAME enemy %s(%d) to be scared of.",
 						animalDebugName(animal), animalID(animal), animalDebugName(enemy), enemyID);
 				}
             else {
-			if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+			if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 				fprintf(log,
 					"CritterDesync:  animal %s(%d) found NEW enemy %s(%d) to be scared of RUNAWAYPANIC.",
 					animalDebugName(animal), animalID(animal), animalDebugName(enemy), enemyID);
@@ -282,7 +288,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 			animalCommands(self)->aiBfmeCommand2E(TheGameLogic->findObjectByID(animalID(enemy)), (CommandSourceType)1);
 			scaringObjectID(self) = animalID(enemy);
             }
-			if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+			if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 				fprintf(log,
 					"CritterDesync:  animal %s(%d) blah-1",
 					animalDebugName(animal), animalID(animal));
@@ -293,7 +299,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 
 		if (stateID != 0)
 		{
-			if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+			if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 				fprintf(log,
 					"CritterDesync:  animal %s(%d) is not idle, sleep.",
 					animalDebugName(animal), animalID(animal));
@@ -303,7 +309,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 		if (GetGameLogicRandomValue(0, 100, (char *)kAnimalSource, 0x9a)
 			< data->m_wanderPercentage)
 		{
-			if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+			if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 				fprintf(log,
 					"CritterDesync:  animal %s(%d) dice roll suceeded for wanderpercentage",
 					animalDebugName(animal), animalID(animal));
@@ -313,14 +319,14 @@ UpdateSleepTime AnimalAIUpdate::update()
 			animalPrimary(self)->rva1fc(0);
 			if (emitter)
 			{
-				if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+				if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 					fprintf(log,
 						"CritterDesync:  animal %s(%d) EMITTER CASE",
 						animalDebugName(animal), animalID(animal));
 				int radius = data->m_maxWanderRadius;
 				if (animal->rva002615E3(animalPosition(emitter)) > (float)(radius * radius))
 				{
-					if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+					if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 						fprintf(log,
 							"CritterDesync:  animal %s(%d) moving to emitter at %g,%g,%g",
 							animalDebugName(animal), animalID(animal),
@@ -330,7 +336,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 				}
 				else
 				{
-					if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+					if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 						fprintf(log,
 							"CritterDesync:  animal %s(%d) wander to random location",
 							animalDebugName(animal), animalID(animal));
@@ -344,16 +350,16 @@ UpdateSleepTime AnimalAIUpdate::update()
 					destination.x += position->x;destination.y += position->y;
 					if (((AnimalAIUpdateDestinationLayer *)((char *)self - 0x10))->isReachableLayer(&destination))
 					{
-						if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+						if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 							fprintf(log,
 								"CritterDesync:  animal %s(%d) wandering to dest %g,%g,%g",
 								animalDebugName(animal), animalID(animal),
 								destination.x, destination.y, destination.z);
-						g_012F0239=true;animalCommands(self)->aiMoveToPosition(&destination, CMD_FROM_AI);g_012F0239=false;
+						animalCommands(self)->aiMoveToPosition(&destination, CMD_FROM_AI);
 					}
 					else
 					{
-						if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+						if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 							fprintf(log,
 								"CritterDesync:  animal %s(%d) CANNOT wander to dest %g,%g,%g",
 								animalDebugName(animal), animalID(animal),
@@ -363,14 +369,14 @@ UpdateSleepTime AnimalAIUpdate::update()
 			}
 			else
 			{
-				if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+				if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 					fprintf(log,
 						"CritterDesync:  animal %s(%d) NO EMITTER CASE",
 						animalDebugName(animal), animalID(animal));
 				Coord3D delta=*originalPosition(self);delta.x-=position->x;delta.y-=position->y;delta.z-=position->z;
 				if(delta.GetLengthEstimate() > (float)data->m_maxWanderRadius)
 				{
-					if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+					if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 						fprintf(log,
 							"CritterDesync:  animal %s(%d) returning to m_originalPos %g,%g,%g",
 							animalDebugName(animal), animalID(animal),
@@ -380,7 +386,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 				}
 				else
 				{
-					if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+					if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 						fprintf(log,
 							"CritterDesync:  animal %s(%d) wandering to random spot",
 							animalDebugName(animal), animalID(animal));
@@ -394,7 +400,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 					destination.x += position->x;destination.y += position->y;
 					if (((AnimalAIUpdateDestinationLayer *)((char *)self - 0x10))->isReachableLayer(&destination))
 					{
-						if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+						if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 							fprintf(log,
 								"CritterDesync:  animal %s(%d) wandering to %g,%g,%g",
 								animalDebugName(animal), animalID(animal),
@@ -403,7 +409,7 @@ UpdateSleepTime AnimalAIUpdate::update()
 					}
 					else
 					{
-						if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+						if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 							fprintf(log,
 								"CritterDesync:  animal %s(%d) CANNOT wander to %g,%g,%g",
 								animalDebugName(animal), animalID(animal),
@@ -414,13 +420,13 @@ UpdateSleepTime AnimalAIUpdate::update()
 		}
 		else
 		{
-			if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+			if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 				fprintf(log,
 					"CritterDesync:  animal %s(%d) dice roll failed.",
 					animalDebugName(animal), animalID(animal));
 		}
 
-	if (bfmeRetailCritterDesyncFlag && (log=bfmeRetailCritterDesyncSink))
+	if (g_bfmeCritterDesyncLog && (log=(CRCParameterCheck*)g_00DFEFF0))
 		fprintf(log,
 			"CritterDesync:  animal %s(%d) finished update.", animalDebugName(animal), animalID(animal));
 
