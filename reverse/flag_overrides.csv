@@ -627,6 +627,7 @@ Code/Libraries/Source/WWVegas/WW3D2/Rva0092CC40BoxOutsideFrustum.cpp,-arch:SSE -
 Code/Libraries/Source/WWVegas/WW3D2/StreakLineGetTexture.cpp,-O2 -G7 -arch:SSE,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/StreakLineSetPoints.cpp,-arch:SSE -G7,2,2,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/StreakRendererInit.cpp,-arch:SSE -G7,1,1,region default loses rows
+Code/Libraries/Source/WWVegas/WW3D2/SurfaceLockGuard.cpp,-O1 -G7 -arch:SSE,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/TextureBaseReleaseRefThunk.cpp,-O2,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/TextureClassReleaseRef.cpp,-O2,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/TextureStatisticsVector.cpp,,10,1,region default loses rows
