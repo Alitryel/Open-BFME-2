@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata /Ireference/shims/bfme_stlport_int_dealloc_link
 // stlport
 //
 // ??1Rva004FB130@@UAE@XZ
@@ -22,6 +22,7 @@
 // The sibling Rva005C48E5Dtor.cpp shows the same notify-then-destroy shape.
 
 #include <vector>
+#include "int_dealloc.h"
 #include "Common/Snapshot.h"
 
 struct Rva004FAFF2;

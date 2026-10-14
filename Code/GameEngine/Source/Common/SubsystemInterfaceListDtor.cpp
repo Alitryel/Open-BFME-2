@@ -1,4 +1,4 @@
-// cl: /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /DNDEBUG
+// cl: /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /DNDEBUG /Ireference/shims/bfme_stlport_int_dealloc_link
 // stlport
 //
 // ??1SubsystemInterfaceList@@QAE@XZ, retail 0x001B5207, 95 bytes (EH).
@@ -17,6 +17,7 @@
 // ('prev = it + step; it = prev; *prev = cleared') which keeps retail's
 // 'add esi,-8' instead of 'sub esi,8'.
 #include <vector>
+#include "int_dealloc.h"
 
 // The registered entries: the subsystem and the owned object that is
 // destroyed through its slot 0 (flag 0) and operator delete.

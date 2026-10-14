@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme_stlport_int_dealloc_link
 // stlport
 // ??0Rva004FD0DA@@QAE@XZ, retail 0x004FD0DA..0x004FD1BC (226 bytes, EH,
 // ret 0): the constructor of the 0xB0-byte scenario object Scenario::ParseINI
@@ -11,6 +11,7 @@
 // Element and field identities are not established.
 #include <map>
 #include <vector>
+#include "int_dealloc.h"
 #include "ascii_string.h"
 
 struct Rva00501875Count

@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/moduledata /Ireference/shims/bfme_stlport_int_dealloc_link
 // stlport
 //
 // ??1CostModifierUpgradeModuleData@@UAE@XZ, retail 0x004B5C80, 105 bytes.
@@ -10,6 +10,7 @@
 // Snapshot base stores 0x00BBB554. No derived vptr store (novtable).
 // Element type of the +0x11C vector is unrecovered (trivial, 4 bytes here).
 #include <vector>
+#include "int_dealloc.h"
 #include "Common/Snapshot.h"
 
 #include "ascii_string.h"

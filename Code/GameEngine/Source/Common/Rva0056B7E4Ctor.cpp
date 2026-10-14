@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /MD /EHs /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /MD /EHs /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme_stlport_int_dealloc_link
 // stlport
 //
 // ??0Rva0056B7E4@@QAE@ABVAsciiString@@@Z, retail 0x0056B7E4, 166 bytes.
@@ -24,6 +24,7 @@
 
 #include "ascii_string.h"
 #include <vector>
+#include "int_dealloc.h"
 
 class Rva0056B7E4
 {

@@ -1,4 +1,4 @@
-// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme_stlport_int_dealloc_link
 // stlport
 //
 // The 0x34-byte helper BFME 2 added to INI at +0x838 (INI_ctor.cpp):
@@ -15,6 +15,7 @@
 // names stay address-derived; the callees are pinned.
 
 #include <vector>
+#include "int_dealloc.h"
 
 void Rva006016C9Init() throw();
 
