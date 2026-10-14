@@ -55558,3 +55558,4 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?rva007B6670@@YAXXZ	0x007B6670	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B9BE0
 ?rva007B6680@@YAXXZ	0x007B6680	12	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 12B; atexit-only global initializer registering rowed cleanup rva007B9C00
 ?rva007ACF00@@YAXXZ	0x007ACF00	26	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 26B; PointGroupClass transformed_loc initializer VectorClass Vector3 ctor 0 0 then atexit 0x007B73C0
+??0Rva00073320Method@@QAE@PAVW3DShroud@@@Z	0x00072B55	29	landed	add_match verified Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DShroudMethodCtor.cpp 29B; out-of-line ctor of W3DShroud's counted method object (vtable 0x00BC6568; count 1 at +4; owner at +0xC); unreferenced
