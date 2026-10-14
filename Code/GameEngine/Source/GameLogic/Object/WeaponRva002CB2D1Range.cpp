@@ -1,13 +1,15 @@
 // cl: /O1 /arch:SSE /DNDEBUG /MD /EHs-c-
 //
-// ?rva002CB2D1@Rva002C9B80Owner@@QAE_NPAVObject@@PBUCoord3D@@PBX1@Z
-// @0x002CB2D1 139B: weapon range test. Retail takes the squared distance from
+// ?isSourceObjectWithGoalPositionWithinAttackRange@Weapon@@QBE_NPBVObject@@PBUCoord3D@@01@Z
+// @0x002CB2D1 139B: weapon range test from a goal position. WorldBuilder names
+// it Weapon::isSourceObjectWithGoalPositionWithinAttackRange (Weapon.cpp
+// 2680..2681, targetPos/goalPos asserts, same victim-or-position branches);
+// the const signature is Zero Hour's (donor), not target evidence. Retail takes the squared distance from
 // the rowed Object helpers 0x002636F6 (victim Object, its +0x38 position) or
 // 0x002C97E8 (bare position), the weapon's float range from the rowed
 // 0x002C9B80 with the height difference, and the template's (+0x04) rowed
 // getMinimumAttackRange 0x002C92FA: false inside the minimum range, else
-// whether the squared range reaches the distance. Owner and member names are
-// address-derived, as in the 0x002C9B80 row. Writing the minimum test as
+// whether the squared range reaches the distance. Writing the minimum test as
 // `!(min*min > d)` returning the range test gives retail's shared false tail.
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
@@ -103,7 +105,6 @@ class Rva002C9B80Owner
 {
 public:
 	float rva002C9B80(void *a, float b);
-	bool rva002CB2D1(Object *o, const Coord3D *a, const void *other, const Coord3D *b2);
 private:
 	void *m_00;
 	WeaponTemplate *m_04;		// +0x04
@@ -114,6 +115,8 @@ private:
 class Weapon
 {
 public:
+	bool isSourceObjectWithGoalPositionWithinAttackRange(const Object *source, const Coord3D *goalPos,
+		const Object *target, const Coord3D *targetPos) const;
 	bool isWithinAttackRange(Object *source, const Coord3D *pos, Object *victim,
 		const Coord3D *victimPos, float bonus, bool checkMinimum);
 private:
@@ -121,23 +124,24 @@ private:
 	WeaponTemplate *m_04;		// +0x04
 };
 
-bool Rva002C9B80Owner::rva002CB2D1(Object *o, const Coord3D *a, const void *other, const Coord3D *b2)
+bool Weapon::isSourceObjectWithGoalPositionWithinAttackRange(const Object *source, const Coord3D *goalPos,
+	const Object *target, const Coord3D *targetPos) const
 {
 	float distSq;
-	const Coord3D *b;
-	if (other)
+	const Coord3D *pos;
+	if (target)
 	{
-		b = (const Coord3D *)((const char *)other + 0x38);
-		distSq = o->rva002636F6(a, other, b);
+		pos = (const Coord3D *)((const char *)target + 0x38);
+		distSq = source->rva002636F6(goalPos, target, pos);
 	}
 	else
 	{
-		if (!b2)
+		if (!targetPos)
 			return false;
-		b = b2;
-		distSq = o->rva002C97E8(a, b);
+		pos = targetPos;
+		distSq = source->rva002C97E8(goalPos, pos);
 	}
-	float range = rva002C9B80(o, b->z - a->z);
+	float range = ((Rva002C9B80Owner *)this)->rva002C9B80((void *)source, pos->z - goalPos->z);
 	float minRange = m_04->getMinimumAttackRange();
 	if (!(minRange * minRange > distSq))
 		return range * range >= distSq;

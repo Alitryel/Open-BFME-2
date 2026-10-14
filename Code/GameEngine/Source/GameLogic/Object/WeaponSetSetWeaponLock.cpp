@@ -299,6 +299,7 @@ class Weapon { public:
  void rva002CE226(const Object *,const SavedWeaponState *);
  bool isWithinAttackRange(const Object *,const Object *,float,int) const;
  char isWithinAttackRange(Object *,void *,float,int) const;
+ bool isSourceObjectWithGoalPositionWithinAttackRange(const Object *,const Coord3D *,const Object *,const Coord3D *) const; // 0x002CB2D1
  bool rva002CCED3(const Object *,const Object *);
  WeaponTemplate *m_template; unsigned m_ownerID;
  char padC[0x4c-0xc]; bool m_pitch;
@@ -472,11 +473,6 @@ public:
 	virtual CanAttackResult getCanAnySlavesUseWeaponAgainstTarget(AbleToAttackType attackType,
 		const Object *victim, const Coord3D *pos, CommandSourceType commandSource);
 };
-class Rva002C9B80Owner
-{
-public:
-	bool rva002CB2D1(Object *source, const Coord3D *goalPos, const void *victim, const Coord3D *targetPos);
-};
 class Thing
 {
 public:
@@ -550,7 +546,7 @@ CanAttackResult WeaponSet::getAbleToUseWeaponAgainstTarget(AbleToAttackType atta
 				Coord3D goalPos;
 				if (!(source->m_template->m_kindOf[3] & 0x2000)
 					&& contain->calcBestGarrisonPosition(&goalPos, &targetPos))
-					withinAttackRange = ((Rva002C9B80Owner *)weapon)->rva002CB2D1((Object *)source, &goalPos, victim, &targetPos);
+					withinAttackRange = weapon->isSourceObjectWithGoalPositionWithinAttackRange(source, &goalPos, victim, &targetPos);
 				else if (victim)
 					withinAttackRange = weapon->isWithinAttackRange(source, victim, 0.0f, 1);
 			}
