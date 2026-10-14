@@ -1,5 +1,5 @@
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
-// partial score=0.95 date=2026-10-14
+// partial score=0.98 date=2026-10-14
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
 // partial score=0.781467 date=2026-10-14
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
@@ -43,12 +43,6 @@ public:
 
 struct Coord3D { float x, y, z; };
 
-struct Rva0029FD1BNode
-{
-	char m_pad00[8];
-	RadiusDecalTemplate *m_template; // +0x08
-};
-
 class TextureClass;
 class MaterialPassClass
 {
@@ -65,7 +59,16 @@ class RadiusDecalTemplate
 {
 public:
 	void createRadiusDecal(const Coord3D &pos, float radius, const Player *player, RadiusDecal &decal) const;
+private:
+	char m_pad[0x10];
 };
+
+struct Rva0029FD1BNode
+{
+	char m_pad00[8];
+	RadiusDecalTemplate m_template; // +0x08 (embedded: retail passes node+8)
+};
+
 
 class InGameUI
 {
@@ -100,6 +103,26 @@ private:
 	int m_89C; // +0x89C
 };
 
+namespace _STL
+{
+template <class T1, class T2> struct pair {};
+template <class T> struct hash {};
+template <class T> struct equal_to {};
+template <class P> struct _Select1st {};
+template <class T> class allocator {};
+template <class V> struct _Hashtable_node {};
+template <class V, class K, class HF, class Ex, class Eq, class A>
+struct hashtable
+{
+private:
+	template <class K2> _Hashtable_node<V> *_M_find(const K2 &key) const;
+	friend class InGameUI;
+};
+}
+
+typedef _STL::hashtable<_STL::pair<const unsigned, void *>, unsigned, _STL::hash<unsigned>,
+	_STL::_Select1st<_STL::pair<const unsigned, void *> >, _STL::equal_to<unsigned>,
+	_STL::allocator<_STL::pair<const unsigned, void *> > > Rva0029FD1BHashtable;
 void *rva002888D4(void *table, int *key);
 
 
@@ -108,7 +131,7 @@ void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int a
 	if (m_888 != (id ? id : id))
 	{
 		v81();
-		Rva0029FD1BNode *node = (Rva0029FD1BNode *)rva002888D4(m_hashtable, &id);
+		Rva0029FD1BNode *node = (Rva0029FD1BNode *)((Rva0029FD1BHashtable *)m_hashtable)->_M_find<unsigned>(*(const unsigned *)&id);
 		if (!node)
 			return;
 
@@ -118,15 +141,13 @@ void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int a
 			int t = *(int *)((char *)m_238 + 0x14);
 			if (t == 0x20)
 			{
-				Player *p = ThePlayerList ? ThePlayerList->m_localPlayer : 0;
-				if (p)
-					obj = p->findNaturalCommandCenter();
+				if (ThePlayerList && ThePlayerList->m_localPlayer)
+					obj = ThePlayerList->m_localPlayer->findNaturalCommandCenter();
 			}
 			else if (t == 0x26)
 			{
-				Player *p = ThePlayerList ? ThePlayerList->m_localPlayer : 0;
-				if (p)
-					obj = p->rva002AC629();
+				if (ThePlayerList && ThePlayerList->m_localPlayer)
+					obj = ThePlayerList->m_localPlayer->rva002AC629();
 			}
 		}
 		if (!obj)
@@ -171,13 +192,13 @@ void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int a
 		pos.x = 0.0f;
 		pos.y = 0.0f;
 		pos.z = 0.0f;
-		node->m_template->createRadiusDecal(pos, radius, pl, m_curRadiusCursor);
+		node->m_template.createRadiusDecal(pos, radius, pl, m_curRadiusCursor);
 		}
 		m_888 = id;
 		this->handleRadiusCursor();
 	}
 
-	int color = arg3 ? -1 : (int)0xFFFF1414;
+	int color = (unsigned char)arg3 ? -1 : (int)0xFFFF1414;
 	if (m_890)
 		m_890->rva00330995(color);
 }
