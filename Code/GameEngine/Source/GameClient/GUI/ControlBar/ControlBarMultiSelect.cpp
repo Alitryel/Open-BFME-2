@@ -34,7 +34,6 @@ class ExperienceLevelSystem;
 extern ExperienceLevelSystem *TheExperienceLevelSystem;
 class Image;
 class Rva0053DB02 { public: void rva0053DB02(); };
-class Gen_003bcb40 { public: void m(int); };
 class RadarWindowOverrideSource;
 extern RadarWindowOverrideSource *theRadarWindowOverrideSource;
 class Rva002D363EOwner { public: void rva002D363E(int); };
@@ -256,6 +255,7 @@ protected:
     void populateMultiSelect();
 public:
     void rva0053D355(Object *, bool);
+    void setPortraitByObject(Object *obj);
 protected:
     void updateContextCommand();
 public:
@@ -544,7 +544,7 @@ void ControlBar::populateMultiSelect()
             }
         }
     }
-    ((Gen_003bcb40 *)this)->m((int)portraitObject);
+    setPortraitByObject(portraitObject);
     if (theRadarWindowOverrideSource)
         ((Rva002D363EOwner *)theRadarWindowOverrideSource)->rva002D363E(0);
     overlaySink->rva0053EF2E();

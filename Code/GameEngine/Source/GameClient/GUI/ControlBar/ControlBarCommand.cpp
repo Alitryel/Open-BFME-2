@@ -203,7 +203,6 @@ class BfmeMemberRV { public: bool bfmeAskRV(); };
 class PlayerList;
 extern PlayerList *ThePlayerList;
 struct CommandPlayerListView { char unknown00[0x10]; BfmeMemberRV *localPlayer; };
-class Gen_003bcb40 { public: void m(int); };
 class CommandButton {
 public:
     const ThingTemplate *rva0035B570() const;
@@ -238,6 +237,7 @@ public:
     void rva0053BB16(Object *,CommandSet *);
     void setControlCommand(GameWindow *,const CommandButton *);
     void rva0031D230();
+    void setPortraitByObject(Object *obj);
     CommandAvailability getCommandAvailability(const CommandButton *, GameWindow *, Object *, float *, bool) const;
 private:
     char unknown00[0x50]; GameWindow *queueParent;
@@ -258,7 +258,7 @@ void ControlBar::updateContextCommand()
     }
     CommandProductionView *production = obj ? (CommandProductionView *)obj->rva0028BC58(0) : 0;
     if (queueParent->winIsHidden() == false) {
-        ((Gen_003bcb40 *)this)->m(0);
+        setPortraitByObject(0);
         if (production) {
             const CommandProductionEntry *entry = production->firstProduction();
             if (entry) {

@@ -280,7 +280,7 @@ static void noPatchBeforeOnlineCallback( void )
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-static Bool hasWriteAccess()
+Bool hasWriteAccess()
 {
 	const char* filename = "PatchAccessTest.txt";	
 
@@ -794,17 +794,4 @@ static void reallyStartPatchCheck( void )
 
 	// check the users online
 	CheckNumPlayersOnline();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////
-
-// Emission anchor: hasWriteAccess is static and its callers are not carried here.
-// MSVC gives a static whose address is never taken a register calling
-// convention, so it is kept alive by direct calls. Build scaffolding; it
-// claims no retail bytes.
-// ?hasWriteAccessAnchor absent-from-retail
-Bool hasWriteAccessAnchor()
-{
-	hasWriteAccess();
-	return hasWriteAccess();
 }

@@ -7,8 +7,8 @@
 // shape, but stamps the flag byte at +0x34 and only (re)installs the user
 // data on the factory path. There is no null-window guard (retail enters
 // straight into winGetUserData). Adjacent bodies (0x32857F+0x2B = 0x3285AA),
-// identical prologue rhythm, no direct callers yet; kept servable under its
-// address until a caller names it.
+// identical prologue rhythm. External, so the control bar units that call it
+// resolve to this row.
 //
 // BFME2 facts (all retail-measured):
 // - null window returns immediately (cmp [esp+4],0 shape).
@@ -37,7 +37,7 @@ struct Rva003285AAData
 };
 
 // ?GadgetButtonSetDisallowed@@YAXPAVGameWindow@@H@Z
-static void GadgetButtonSetDisallowed(GameWindow *window, int value)
+void GadgetButtonSetDisallowed(GameWindow *window, int value)
 {
 	Rva003285AAData *data;
 
@@ -49,5 +49,3 @@ static void GadgetButtonSetDisallowed(GameWindow *window, int value)
 	}
 	data->m_flag = (unsigned char)value;
 }
-
-static const void *s_Rva003285AAAnchor = (const void *)GadgetButtonSetDisallowed;

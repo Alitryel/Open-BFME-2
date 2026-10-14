@@ -104,7 +104,6 @@ class WindowList;
 class Rva0053ED1A { public: void rva0053EFC7(WindowList &); };
 // Native portrait dispatch calls the shared empty RET4 at47A69C. This
 // pre-existing opaque ABI binding does not identify ControlBar as its owner.
-class Gen_003bcb40 { public: void m(int); };
 struct ConstructionTemplateView { char unknown00[0x122]; unsigned char flags; };
 struct ConstructionObjectView { char unknown00[4]; ConstructionTemplateView *objectTemplate; };
 class ControlBar;
@@ -184,6 +183,7 @@ class ControlBar
 {
 public:
 	void updateConstructionTextDisplay(Object *obj);
+	void setPortraitByObject(Object *obj);
 protected:
     void populateUnderConstruction(Object *);
 public:
@@ -604,7 +604,7 @@ void ControlBar::populateUnderConstruction(Object *objectUnderConstruction)
         }
     }
     updateConstructionTextDisplay(objectUnderConstruction);
-    ((Gen_003bcb40 *)this)->m((int)objectUnderConstruction);
+    setPortraitByObject(objectUnderConstruction);
     ExitInterface *exit=objectUnderConstruction->getObjectExitInterface();
     if (exit) showRallyPoint(((ConstructionExitView *)exit)->getRallyPoint());
     if (theRadarWindowOverrideSource)
