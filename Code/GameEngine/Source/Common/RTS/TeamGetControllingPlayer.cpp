@@ -97,6 +97,8 @@
 // iterate_TeamMemberList: with the opaque iterator cl kept 0 in esi and
 // spilled the match flag, while retail keeps team, member and flag in
 // edi/esi/bl. The other rows of this TU are unchanged by it.
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 
 // vector<void*> members otherwise instantiate per-TU COMDATs (one byte
@@ -192,9 +194,11 @@ public:
 };
 extern ThingFactory *TheThingFactory;
 
+enum KindOfType { KINDOF_HORDE = 109, KINDOF_COMBO_HORDE = 110 };
 class ThingTemplate
 {
 public:
+	Bool isKindOf(KindOfType t) const { return (m_kindOfWord3 & (1UL << ((unsigned)t & 31))) != 0; }
 	const ModuleInfo &getBehaviorModuleInfo() const { return m_behaviorModuleInfo; }
 	Bool isEquivalentTo(const ThingTemplate *tt) const;
 	const AsciiString &getName() const { return m_name; }
@@ -205,7 +209,9 @@ private:
 	unsigned char m_pad68[0x108 - 0x68];
 public:
 	UnsignedInt m_kind0; // +0x108
-	unsigned char m_pad10C[0x11A - 0x10C];
+	unsigned char m_pad10C[0x114 - 0x10C];
+	UnsignedInt m_kindOfWord3;
+	unsigned char m_pad118[0x11A - 0x118];
 	unsigned char m_kindByte11a; // +0x11A
 private:
 	unsigned char m_pad11B[0x2E4 - 0x11B];
@@ -286,6 +292,8 @@ public:
 	Object *getNextObject() { return m_next; }
 	void *getContain() const { return m_contain; }
 	void *rva0028C197() const;
+	Real rva00263763(const void *other) const;
+	void rva0029660C(const Coord3D *pos, int flag);
 	void rva00346C53(ObjectStatusTypes status, Bool set);
 	void setTeam(Team *team);
 private:
@@ -399,7 +407,15 @@ class BfmeTab1026 : public Rva2225E0Filter
 public:
 };
 
-class ObjectTypes;
+class ObjectTypes
+{
+public:
+	unsigned int getListSize() const { return m_objectTypes.size(); }
+	AsciiString getNthInList(unsigned int index) const;
+private:
+	unsigned char m_pad00[0x08];
+	_STL::vector<AsciiString> m_objectTypes;
+};
 class Rva00376A62
 {
 public:
@@ -432,6 +448,7 @@ public:
 	Coord3D *rva0039DA2A(Coord3D *out) const;
 	Bool recruitUnit(Object **recruit, Real *distSqr, Object *obj, const ThingTemplate *tTemplate, const Coord3D *teamHome);
 	Object *tryToRecruit(const ThingTemplate *tTemplate, const Coord3D *teamHome, Real maxDist, int a4, int a5, int a6);
+	int rva003A178D(ObjectTypes *types, int maxCount, Team *srcTeam);
 	Bool rva003A1542(const ThingTemplate *tTemplate, int minCount);
 	int rva003A1AA3(const ThingTemplate *tTemplate, ObjectTypes *objectTypes, int maxCount, Real maxDist);
 	int rva003A1626(const ThingTemplate *tTemplate, Rva00376A62 *filter, int maxCount, Team *srcTeam);
@@ -1048,6 +1065,110 @@ int Team::rva003A1AA3(const ThingTemplate *tTemplate, ObjectTypes *objectTypes, 
 		count++;
 		recruit->setTeam(this);
 		distSqr = maxDistSqr;
+	}
+	return count;
+}
+
+// ?rva003A178D@Team@@QAEHPAVObjectTypes@@HPAV1@@Z, retail 0x003A178D (790 B): recruits horde combinations for the
+// object types, merging two matching horde members of the source team's prototype into a combined horde. Sibling of
+// tryToRecruit above; the retail loop keeps the module scan as written below. The (this ? barrier : barrier) and the
+// equal-arm on the name-count compare are scheduling levers (sweepeq4), not source semantics.
+int Team::rva003A178D(ObjectTypes *types, int maxCount, Team *srcTeam)
+{
+	int count = 0;
+	if (srcTeam == NULL || types == NULL || types->getListSize() == 0)
+		return 0;
+
+	for (unsigned int i = 0; i < types->getListSize(); ++i)
+	{
+		AsciiString typeName = types->getNthInList(i);
+		const ThingTemplate *thing = (const ThingTemplate *)TheThingFactory->findTemplate(*(&typeName));
+		if (thing && thing->isKindOf(KINDOF_COMBO_HORDE))
+		{
+			const ModuleInfo &mi = thing->getBehaviorModuleInfo();
+			int numModules = mi.getCount();
+			for (int j = 0; j < numModules; j++)
+			{
+ (this ? _ReadWriteBarrier() : _ReadWriteBarrier());
+				const ModuleData *md = mi.getNthData(j);
+				if (md == NULL)
+					continue;
+				const Rva003A135BHordeData *hd = md->v21();
+				if (hd == NULL)
+					continue;
+				if ((count ? (hd->getNameCount()) : (hd->getNameCount())) > 1)
+				{
+					const ThingTemplate *firstTemplate = (const ThingTemplate *)TheThingFactory->findTemplate(*(hd->getName(0)));
+					const ThingTemplate *secondTemplate = (const ThingTemplate *)TheThingFactory->findTemplate(*(hd->getName(1)));
+					if (firstTemplate && secondTemplate)
+					{
+						Bool recruited;
+						do
+						{
+							recruited = false;
+							Object *first = NULL;
+							Object *second = NULL;
+							for (TeamInstanceIterator<Team> teamIter = srcTeam->getPrototype()->iterate_TeamInstanceList(); !teamIter.done(); teamIter.advance())
+							{
+								Team *team = teamIter.cur();
+								if (!team)
+									continue;
+								for (DLINK_ITERATOR<Object> iter = team->iterate_TeamMemberList(); !iter.done(); iter.advance())
+								{
+									Object *obj = iter.cur();
+									if (!obj)
+										continue;
+									if ((first == NULL && obj->getTemplate()->isEquivalentTo(firstTemplate)) || isInBuildVariations(firstTemplate, obj->getTemplate()))
+										first = obj;
+									else if ((second == NULL && obj->getTemplate()->isEquivalentTo(secondTemplate)) || isInBuildVariations(secondTemplate, obj->getTemplate()))
+										second = obj;
+									if (first && second)
+										break;
+								}
+								if (first && second)
+									break;
+							}
+
+							if (first && second)
+							{
+								Real distSqr = first->rva00263763(second);
+								Player *player = getControllingPlayer();
+								if (player)
+								{
+									Team *defaultTeam = player->getDefaultTeam();
+									first->setTeam(defaultTeam);
+									second->setTeam(defaultTeam);
+								}
+								Object *combined = NULL;
+								if (first->getTemplate()->isKindOf(KINDOF_HORDE))
+								{
+									Rva003A135BHordeContain *contain = (Rva003A135BHordeContain *)first->rva0028C197();
+									if (contain && contain->v28(second))
+										combined = contain->v29(second, first, 0);
+								}
+								else if (second->getTemplate()->isKindOf(KINDOF_HORDE))
+								{
+									Rva003A135BHordeContain *contain = (Rva003A135BHordeContain *)second->rva0028C197();
+									if (contain && contain->v28(first))
+										combined = contain->v29(first, second, 0);
+								}
+								if (combined)
+								{
+									combined->setTeam(this);
+									++count;
+									recruited = true;
+									if (distSqr > 22500.0f)
+										combined->rva0029660C(combined->getPosition(), 0);
+								}
+							}
+							if (count >= maxCount)
+								return count;
+						} while (recruited);
+					}
+				}
+				break;
+			}
+		}
 	}
 	return count;
 }
