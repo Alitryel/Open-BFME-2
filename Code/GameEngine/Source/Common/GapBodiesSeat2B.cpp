@@ -157,3 +157,99 @@ public:
 Rva000A87E1::Rva000A87E1(void *source) : Rva0073F4F3(source)
 {
 }
+
+// --- 0x000EF26A (8B): cdecl, its argument with bit 15 set.
+int Rva000EF26ASetBit15(int value)
+{
+	return value | 0x8000;
+}
+
+// --- 0x000E0197 (12B): XOR of the two dwords of the record it is given
+// (the receiver is not read).
+struct Rva000E0197Pair
+{
+	unsigned int m_00;
+	unsigned int m_04;
+};
+
+class Rva000E0197
+{
+public:
+	unsigned int rva000E0197(const Rva000E0197Pair *pair);
+};
+
+unsigned int Rva000E0197::rva000E0197(const Rva000E0197Pair *pair)
+{
+	return pair->m_04 ^ pair->m_00;
+}
+
+// --- 0x000E4422 (12B): clears the dword at +0x2C and sets the flag at +0x9C.
+class Rva000E4422
+{
+public:
+	void rva000E4422();
+private:
+	unsigned char m_pad00[0x2C];
+	int m_2C;
+	unsigned char m_pad30[0x9C - 0x30];
+	bool m_9C;
+};
+
+void Rva000E4422::rva000E4422()
+{
+	m_2C = 0;
+	m_9C = true;
+}
+
+// --- 0x0010E4C6 (14B): runs the rowed ?rva0010E482@Rva0010E482@@QAEHH@Z
+// (0x0010E482) with 0 on the object at +0x94 and returns its result.
+class Rva0010E482
+{
+public:
+	int rva0010E482(int index);
+};
+
+class Rva0010E4C6
+{
+public:
+	int rva0010E4C6();
+private:
+	unsigned char m_pad00[0x94];
+	Rva0010E482 *m_94;
+};
+
+int Rva0010E4C6::rva0010E4C6()
+{
+	return m_94->rva0010E482(0);
+}
+
+// --- 0x001338A0 (7B): the float at +8 minus the float at +0.
+class Rva001338A0
+{
+public:
+	float rva001338A0() const;
+private:
+	float m_00;
+	float m_04;
+	float m_08;
+};
+
+float Rva001338A0::rva001338A0() const
+{
+	return m_08 - m_00;
+}
+
+// --- 0x000FA927 (8B) / 0x000FA92F (6B): clear and read the shared dirty
+// flag g_bfmeDirtyCU (0x00DFF48C) the screen-filter preRenders test, in the
+// screen-filter run ahead of ScreenHilightFilter::init 0x000FA935.
+extern bool g_bfmeDirtyCU;
+
+void Rva000FA927ClearDirty()
+{
+	g_bfmeDirtyCU = false;
+}
+
+bool Rva000FA92FIsDirty()
+{
+	return g_bfmeDirtyCU;
+}

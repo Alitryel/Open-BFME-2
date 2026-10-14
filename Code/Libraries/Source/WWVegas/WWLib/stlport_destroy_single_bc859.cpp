@@ -25,6 +25,20 @@ struct Rva00079554Record
 	~Rva00079554Record();
 };
 
+// 0x000C251D / 0x000C2526 (9B each): the same for BfmeVectorRecord000BDF17
+// (dtor 0x000BE201) and Rva000BEDF0Record (dtor 0x000BEDF0).
+struct BfmeVectorRecord000BDF17
+{
+	~BfmeVectorRecord000BDF17();
+};
+
+struct Rva000BEDF0Record
+{
+	~Rva000BEDF0Record();
+};
+
 template void _STL::_Destroy<Rva000B9AAA>(Rva000B9AAA *);
+template void _STL::_Destroy<BfmeVectorRecord000BDF17>(BfmeVectorRecord000BDF17 *);
+template void _STL::_Destroy<Rva000BEDF0Record>(Rva000BEDF0Record *);
 template void _STL::_Destroy<Rva00B9AC2>(Rva00B9AC2 *);
 template void _STL::_Destroy<Rva00079554Record>(Rva00079554Record *);

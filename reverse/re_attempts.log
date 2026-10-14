@@ -55689,3 +55689,12 @@ __Locale_ctype_default	0x00021980	5	landed	add_match verified Code/Libraries/Sou
 ??0Rva000A87E1@@QAE@PAX@Z	0x000A87E1	18	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp 18B; ctor running only the rowed ??0Rva0073F4F3@@QAE@PAX@Z 0x0073F468 base with its argument; no direct caller
 ?Rva00117C10Get@@YAXPAH@Z	0x00117C10	13	landed	add_match verified Code/GameEngine/Source/Common/GlobalGetterSingles.cpp 13B; copies the dword at 0x00DB5FA4 to the caller slot; no direct caller
 ?Rva00117C20Get@@YAXPAH@Z	0x00117C20	13	landed	add_match verified Code/GameEngine/Source/Common/GlobalGetterSingles.cpp 13B; copies the dword at 0x00DB5FA8 to the caller slot; no direct caller
+?Rva000EF26ASetBit15@@YAHH@Z	0x000EF26A	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp 8B; cdecl argument with bit 15 set; no direct caller
+?rva000E0197@Rva000E0197@@QAEIPBURva000E0197Pair@@@Z	0x000E0197	12	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp 12B; XOR of the two dwords of the given record (receiver unread); no direct caller
+?rva000E4422@Rva000E4422@@QAEXXZ	0x000E4422	12	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp 12B; clears +0x2C and sets the +0x9C flag; no direct caller
+?rva0010E4C6@Rva0010E4C6@@QAEHXZ	0x0010E4C6	14	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp 14B; rowed rva0010E482 0x0010E482 with 0 on the +0x94 object; no direct caller
+?rva001338A0@Rva001338A0@@QBEMXZ	0x001338A0	6	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp 6B; float +8 minus float +0 (x87); no direct caller
+?Rva000FA927ClearDirty@@YAXXZ	0x000FA927	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp 8B; clears g_bfmeDirtyCU 0x00DFF48C; no direct caller
+?Rva000FA92FIsDirty@@YA_NXZ	0x000FA92F	6	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp 6B; reads g_bfmeDirtyCU 0x00DFF48C; no direct caller
+??$_Destroy@UBfmeVectorRecord000BDF17@@@_STL@@YAXPAUBfmeVectorRecord000BDF17@@@Z	0x000C251D	9	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/stlport_destroy_single_bc859.cpp 9B; STLport single-object _Destroy: tail jump to rowed dtor 0x000BE201; no direct caller
+??$_Destroy@URva000BEDF0Record@@@_STL@@YAXPAURva000BEDF0Record@@@Z	0x000C2526	9	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/stlport_destroy_single_bc859.cpp 9B; STLport single-object _Destroy: tail jump to rowed dtor 0x000BEDF0; no direct caller
