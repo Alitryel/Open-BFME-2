@@ -506,6 +506,7 @@ void *rva002EBC7F(void *,void *,Rva002EBC7FPair *,int);
 class Rva001E46E1 { public: float rva001E46E1(Object *); };
 class AIUpdateInterface {
 public:
+    bool findNearestLabeledContactPointOnTarget(Object *,Coord3D *,const Coord3D *,bool);
     bool isAircraftThatAdjustsDestination() const;
     int rva0026417F(bool);
     Object *getCurrentVictim() const;
@@ -4135,7 +4136,7 @@ bool Pathfinder::adjustToPossibleDestination(Object *object,const LocomotorSet &
  if((parent == 0)) return false;
  int maxLayer=object->m_template->priority;
  unsigned char aircraftFlag=object->m_template->flag;
- 
+
  Rva002E99F9Sub460 *zones=reinterpret_cast<Rva002E99F9Sub460 *>((char *)this+0x460);
  Rva002E8BCF profile(reinterpret_cast<const Rva002E8BCFSrc *>(&set),aircraftFlag==0,maxLayer-1,object->rva0028AFBB());
  zone=zones->rva0053241F(&profile,parent->quickZone());
@@ -4168,4 +4169,55 @@ bool Pathfinder::adjustToPossibleDestination(Object *object,const LocomotorSet &
  return false;
 }
 
+// WB D36700 names AdjustMeleeOffset. Native 002E8C6E..002E8D74 RET12.
+// MathCoord3D has a memberwise copy constructor and empty destructor; this
+// local view preserves those lifetimes with the canonical 12-byte layout.
+struct PathMeleeCoord : Coord3D
+{
+    PathMeleeCoord(const Coord3D &p) { x=p.x; y=p.y; z=p.z; }
+    ~PathMeleeCoord() {}
+    PathMeleeCoord &Scale(float scale)
+    {
+        x*=scale; y*=scale; z*=scale;
+        return *this;
+    }
+    void Add(const Coord3D &p) { x+=p.x; y+=p.y; z+=p.z; }
+};
 
+static __forceinline void scaleMeleeOffset(Coord3D &p,float scale)
+{
+    p.x*=scale; p.y*=scale; p.z*=scale;
+}
+
+void Pathfinder::AdjustMeleeOffset(Object *object,Object *target,Coord3D *offset)
+{
+    int layer=target->rva0028B511();
+    if (object->getAI() && object->getAI()->findNearestLabeledContactPointOnTarget(
+            target,offset,(const Coord3D *)object->position,false))
+        return;
+
+    bool found=false;
+    Coord3D center;
+    target->rva0028C2DD(&center);
+    // WB initializes the index here, after the center query. Its lifetime
+    // also determines the destructive final SSE multiply in retail.
+    int i;
+    for (i=0;i<20;++i) {
+        PathMeleeCoord point(*offset);
+        point.Scale((float)i);
+        point.Add(center);
+        PathfindCell *cell=(PathfindCell *)rva001E3647Pos(layer,&point);
+        if (!cell)
+            break;
+        if (target->m_template->kinds[7]&0x10) {
+            if ((unsigned char)Rva002E6E8AGet((cell->m_info>>4)&0x3f))
+                continue;
+        } else if ((cell->m_info&0xf)==4) {
+            continue;
+        }
+        found=true;
+        break;
+    }
+    if (found)
+        scaleMeleeOffset(*offset,(float)i);
+}
