@@ -1241,19 +1241,24 @@ public:
 	virtual ~BfmeDfe6e8Owner();
 };
 
+// Native 0x1C2E..0x1C72 retains a null guard and one common return.
+// The real WinMain caller gives this static helper its ESI input convention.
 static inline char *trimArgument(char *buffer)
 {
-	char *source = buffer;
-	while (*source != 0 && (unsigned char)*source <= ' ')
-		source++;
-	if (source != buffer)
-		_mbscpy(buffer, source);
-	for (int index = strlen(buffer) - 1; index >= 0; index--)
+	if (buffer)
 	{
-		if (*source != 0 && (unsigned char)buffer[index] <= ' ')
-			buffer[index] = 0;
-		else
-			break;
+		char *source = buffer;
+		while (*source != 0 && (unsigned char)*source <= ' ')
+			source++;
+		if (source != buffer)
+			_mbscpy(buffer, source);
+		for (int index = strlen(buffer) - 1; index >= 0; index--)
+		{
+			if (*source != 0 && (unsigned char)buffer[index] <= ' ')
+				buffer[index] = 0;
+			else
+				break;
+		}
 	}
 	return buffer;
 }
