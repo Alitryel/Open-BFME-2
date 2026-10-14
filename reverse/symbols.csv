@@ -9822,7 +9822,6 @@ name,address,notes
 ?isFloat@AptValue@@QBE_NXZ,0x006DC210,Native ToNumber703730 calls existing predicate78B and consumes AL; both AptValue source headers supply const bool signature; alias binds provider
 ?isFreeToExit@QueueProductionExitUpdate@@IBE_NXZ,0x004A002A,address read from the REL32 displacement at a placed body
 ?isInList0C@BfmeNode_00161220@@QBE_NPAPAU1@@Z,0x004EF342,second name for the body rowed as ?dlink_isInList_TeamReadyQueue@TeamInQueue@@QBE_NPBQAV1@@Z; Rva004F040F::rva004EF383 calls it at that address
-?isInSet@ObjectTypes@@QBE_NABVAsciiString@@@Z,0x00376A62,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?isInteger@AptValue@@QBE_NXZ,0x006DC170,Native Add/Subtract/Multiply direct calls match later source role and header signature; alias existing rowed provider ?isInteger@BfmeAptValue006DCD20@@QBEHXZ; bool predicate consumed through AL; GetInt reads native payload+8
 ?isKindOfMulti@Thing@@QBE_NABV?$BitFlags@$0HE@@@0@Z,0x0030AD7D,allow@PartitionFilterRejectByKindOf 0x26115D +0xC E8 decodes here; KindOf multi-bit test; Thing.cpp
 ?isLocalPlayer@LANGameSlot@@QBE_NXZ,0x0044770F,REL32 callee of LANGameInfo::getLocalSlotNum 0x004477AE on each LAN slot; body opens with GameSlot::isHuman as Zero Hour's isLocalPlayer
@@ -11145,7 +11144,6 @@ name,address,notes
 ?rva00373D23@Rva00373EC6@@QAEXXZ,0x00373D23,callee of ?rva004A33EE@BroadcastStealthUpdate@@QAEXXZ
 ?rva00373D28@Rva00373EC6@@QAEPAV1@PAVObject@@@Z,0x00373D28,"member spelling of the matched stealth helper switch (ret 4, ECX set by the caller); REL32 in BroadcastStealthUpdate::update 0x004A3706 with the object"
 ?rva0037446E@Rva00373EC6@@QAEXHHHH@Z,0x0037446E,callee of ?rva00464EE7@OpenContain@@UAE_NPAVObject@@@Z
-?rva00376A62Contains@Rva00376B1EObjectTypesView@@QAE_NABV?$StringBase@D@@@Z,0x00376A62,Native ObjectTypes prefix contains ABI alias; 376B25 directcall reaches existing34B contains row; same thiscall bool with const4B StringBase char reference; linker alias resolves real provider; address-view owner not original method identity
 ?rva00376D49@GameLogic@@QAEXXZ,0x00376D49,thiscall void() on TheGameLogic; 329B Ghidra body; head callee of dump-range-18 0x003BD598
 ?rva0037D0EF@Rva0037BBED@@QAE_NVUnicodeString@@@Z,0x0037D0EF,address-derived member check called from AptSaveLoad 0x0043448C; receives UnicodeString by value per caller copy and callee cleanup
 ?rva0037E915@Rva0037E915@@QAEPAXH@Z,0x0037E915,callee of ?rva0049CCF0@Rva0049CCF0@@QAEXH@Z
@@ -13067,7 +13065,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?rva00208E99@ScriptEngine@@QAEPAHVAsciiString@@@Z,0x00208E99,ScriptEngine by-value name lookup returning a reference variable's int storage (an army id); REL32 at 0x003C3977 and 0x003C39ED; WB 0x00B37A60 unnamed
 ?rva002C5CF7@AITarget@@QAEXPBUCoord3D@@MH@Z,0x002C5CF7,"choice setter taking (position, radius, object id): REL32 at 0x005734C4 in heuristic slot 1 0x0057327E with the chosen waypoint position, the AI data +0x884 and 0; 0x002C5D8B forwards an object's +0x38 position and +0x74 id to it"
 ?setTarget@AITarget@@QAEXPAVObject@@M@Z,0x002C5D8B,"thiscall (object, float) forwarding the object's +0x38 position, the float and its +0x74 id to 0x002C5CF7 (ret 8): REL32 at 0x005739CE in AITargetHeuristicBaseDefense slot 1 0x005737D6 with 200.0 and the picked object"
-?rva00376A62Contains@ObjectTypes@@QAE_NABV?$StringBase@D@@@Z,0x00376A62,Native ObjectTypes prefix contains ABI alias; 376B25 directcall reaches existing34B contains row; same thiscall bool with const4B StringBase char reference; linker alias resolves real provider; address-view owner not original method identity
 ?clear@AptDisplayList@@QAEX_N@Z,0x006F80C0,"BfmeWrapper1279 chain clear called by ctor/dtor paths 0x006F8190 and 0x006F84F0; walks m_query->m_root->next freeing each node; body unrowed"
 ?rva00208CF0@ScriptEngine@@QAEPAHVAsciiString@@@Z,0x00208CF0,ScriptEngine by-value name lookup returning an int reference variable; REL32 at 0x003C6294; WB 0x00B375E0 unnamed
 ?rva002949AE@Object@@QAEXHHM@Z,0x002949AE,Object member (flag index frames float); REL32 at 0x003C59EA after a ModelConditionNames lookup; WB 0x00CC6920 calls BitFlags<591>::SetBit

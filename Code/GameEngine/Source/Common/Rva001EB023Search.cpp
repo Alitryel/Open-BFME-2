@@ -5,6 +5,11 @@
 template <typename T> class StringBase {
 	void *m_data;
 };
+class AsciiString;
+class ObjectTypes {
+public:
+	bool isInSet(const AsciiString &name) const;
+};
 class Rva00376A62 {
 	unsigned char m_pad[8];
 	StringBase<char> *m_begin;
@@ -12,7 +17,6 @@ class Rva00376A62 {
 	void *m_end_of_storage;
 	StringBase<char> m_14;
 public:
-	bool rva00376A62(const StringBase<char> &val);
 };
 
 struct Rva001EB023Elem {
@@ -36,7 +40,7 @@ struct Rva001EB023Elem *Rva001EB023::rva001EB023(Rva00376A62 &val)
 	struct Rva001EB023Elem *last = m_end;
 	struct Rva001EB023Elem *first = m_begin;
 	for (; first != last; ++first) {
-		if (val.rva00376A62(first->m_str))
+		if (((const ObjectTypes *)&val)->isInSet(*(const AsciiString *)&first->m_str))
 			return first;
 	}
 	return last;

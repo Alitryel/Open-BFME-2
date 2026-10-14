@@ -37,8 +37,7 @@ class Rva0040CB11Entry {public:int key;Rva004F6093Holder value;};
 class Rva0040D8D6List {public:~Rva0040D8D6List();void*begin,*end,*limit;unsigned index;};
 struct ArmySummaryEntryRef{Rva004F6093Holder holder;ArmySummaryEntryRef(){}ArmySummaryEntryRef(const Rva004F6093Holder&h):holder(h){}};
 class Rva0040CB3AIndexedField{public:int find(int)const;};
-class ObjectTypes{public:char pad[8];_STL::vector<AsciiString>types;};
-class Rva00376A62{public:bool rva00376A62(const StringBase<char>&);};
+class ObjectTypes{public:bool isInSet(const AsciiString&)const;char pad[8];_STL::vector<AsciiString>types;};
 namespace _STL{template<>vector<ObjectID>::iterator vector<ObjectID>::erase(iterator);}
 struct UnitRevivalEntry { UnitRevivalEntry(); ~UnitRevivalEntry(); unsigned char opaque[0xD8]; };
 struct Rva002E2D10Record { unsigned char opaque[0xD8]; };
@@ -68,7 +67,7 @@ bool ArmySummary::SpawnOneDelayedCarryoverUnitIntoUnitRevivalTracker(ObjectTypes
  for(_STL::vector<ObjectID>::iterator i=pending.begin();i!=last;){
   ArmySummaryEntryRef ref=GetEntry((int)*i);
   ArmySummaryEntry*target=ref.holder.value;
-  if(target && reinterpret_cast<Rva00376A62*>(types)->rva00376A62(*(StringBase<char>*)&target->templateName)){
+  if(target && types->isInSet(target->templateName)){
    pending.erase(i);
    Player*player=Rva0040C94ALookup(armyID);
    bool result;

@@ -674,10 +674,10 @@ public:
 	bool isEquivalentTo(const ThingTemplate *tmpl) const;	// 0x0033BB04
 };
 
-class Rva00376A62
+class ObjectTypes
 {
 public:
-	bool rva00376A62(const StringBase<char> &val);			// 0x00376A62
+	bool isInSet(const AsciiString &name) const;			// 0x00376A62
 };
 
 struct Rva00261750Template
@@ -724,7 +724,7 @@ public:
 
 bool Rva0026176EFilter::allow(Object *obj)
 {
-	return ((Rva00376A62 *)m_08)->rva00376A62(*(const StringBase<char> *)&((const Rva00261750Template *)((const Rva00261750Arg *)obj)->m_04)->m_name) == m_0C;
+	return ((const ObjectTypes *)m_08)->isInSet(((const Rva00261750Template *)((const Rva00261750Arg *)obj)->m_04)->m_name) == m_0C;
 }
 
 // --- 0x002619AE (19B): the argument's rowed BitFlags<69>::test of this

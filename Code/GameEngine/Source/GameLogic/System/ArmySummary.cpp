@@ -125,14 +125,14 @@ struct ArmySummaryObjectTypesRange {
  _STL::vector<AsciiString> types;
  bool empty()const{return types.size()==0;}
 };
-class Rva00376A62 { public: bool rva00376A62(const StringBase<char>&); };
+class ObjectTypes { public: bool isInSet(const AsciiString&) const; };
 bool ArmySummary::HasDelayedCarryoverUnitOfTypes(ObjectTypes *types)
 {
  if(reinterpret_cast<const ArmySummaryObjectTypesRange*>(types)->empty())return false;
  const int *end=words4C.last;
  for(const int *cur=words4C.first;cur!=end;++cur) {
   int entry=reinterpret_cast<const Rva0040CB3AIndexedField*>(this)->get(*cur);
-  if(entry && reinterpret_cast<Rva00376A62*>(types)->rva00376A62(*reinterpret_cast<const StringBase<char>*>(entry+4)))return true;
+  if(entry && types->isInSet(*reinterpret_cast<const AsciiString*>(entry+4)))return true;
  }
  return false;
 }

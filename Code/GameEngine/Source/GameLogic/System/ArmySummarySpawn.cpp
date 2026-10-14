@@ -72,8 +72,7 @@ struct Rva0040E534Input {ArmySummaryEntry*value;};
 class Rva0040D8D6List {public:~Rva0040D8D6List();void*begin,*end,*limit;unsigned index;};
 struct ArmySummaryEntryRef{Rva004F6093Holder holder;ArmySummaryEntryRef(){}ArmySummaryEntryRef(const Rva004F6093Holder&h):holder(h){}};
 class Rva0040CB3AIndexedField{public:int find(int)const;};
-class ObjectTypes{public:char pad[8];_STL::vector<AsciiString>types;};
-class Rva00376A62{public:bool rva00376A62(const StringBase<char>&);};
+class ObjectTypes{public:bool isInSet(const AsciiString&)const;char pad[8];_STL::vector<AsciiString>types;};
 namespace _STL{template<>vector<ObjectID>::iterator vector<ObjectID>::erase(iterator);}
 class ArmySummary : public Snapshot, public Rva0040D8D6List {
 public:ArmySummaryEntryRef GetEntry(int);
@@ -105,7 +104,7 @@ ObjectID ArmySummary::SpawnOneDelayedCarryoverUnit(ObjectTypes*filter)
  for(_STL::vector<ObjectID>::iterator i=pending.begin();i!=last;){
   ArmySummaryEntryRef value=GetEntry((int)*i);
   ArmySummaryEntry*held=value.holder.value;
-  if(held && reinterpret_cast<Rva00376A62*>(filter)->rva00376A62(*(StringBase<char>*)&held->templateName)){
+  if(held && filter->isInSet(held->templateName)){
    pending.erase(i);
    LoadedObjectList spawned;
    const int count=held->count; ObjectID result=INVALID_OBJECT_ID;
