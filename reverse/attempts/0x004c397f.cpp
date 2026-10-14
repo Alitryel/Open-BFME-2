@@ -1,4 +1,6 @@
 // ?addObject@ElvenWoodSpecialPower@@QAEPAVObject@@PBUCoord3D@@PBVAsciiString@@@Z
+// partial score=0.9909 date=2026-10-14
+// ?addObject@ElvenWoodSpecialPower@@QAEPAVObject@@PBUCoord3D@@PBVAsciiString@@@Z
 // partial score=0.999 date=2026-10-14
 // ?addObject@ElvenWoodSpecialPower@@QAEPAVObject@@PBUCoord3D@@PBVAsciiString@@@Z
 // partial score=0.995 date=2026-10-14
@@ -170,6 +172,7 @@ Object *ElvenWoodSpecialPower::addObject(const Coord3D *position, const AsciiStr
 
 {
 const ThingTemplate *templ = TheThingFactory->findTemplate(*name);
+{unsigned irB=(unsigned)(m_object); unsigned irS=0; irS+=(irB!=(unsigned)(m_object)); }
 if (templ) 
 
 {

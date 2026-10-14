@@ -1,4 +1,6 @@
 // ?rva002CBBF5@WeaponTemplate@@QAEXPAVObject@@HHH0HPBUCoord3D@@H_NPAVWeapon@@H@Z
+// partial score=0.999 date=2026-10-14
+// ?rva002CBBF5@WeaponTemplate@@QAEXPAVObject@@HHH0HPBUCoord3D@@H_NPAVWeapon@@H@Z
 // partial score=0.9974 date=2026-10-14
 // ?rva002CBBF5@WeaponTemplate@@QAEXPAVObject@@HHH0HPBUCoord3D@@H_NPAVWeapon@@H@Z
 // partial score=0.9973962532548357 date=2026-10-13
@@ -643,6 +645,7 @@ void WeaponTemplate::rva002CBBF5(Object *source, int wordC, int barrel, int word
 {
     if (!source || (!victim && !position)) return;
     const Coord3D *sourcePos=&source->pos;
+    {unsigned irB=(unsigned)(source->m_ai); unsigned irS=0; irS+=(irB!=(unsigned)(source->m_ai)); }
  float distance;
     Coord3D shifted;
     TBridgeAttackInfo bridge;
