@@ -1,4 +1,6 @@
 // ?DoXfer@Player@@QAEXPAVXfer@@@Z
+// partial score=0.9918 date=2026-10-14
+// ?DoXfer@Player@@QAEXPAVXfer@@@Z
 // partial score=0.995 date=2026-10-12
 // ?DoXfer@Player@@QAEXPAVXfer@@@Z
 // 2026-10-12 (claude-opus-5-5): permute v3 found `char full` (not bool) for
@@ -227,8 +229,8 @@ void Player::DoXfer(Xfer *raw)
    }
   }
   xfer->integer(&m_radarCount); xfer->boolean(&m_isPlayerDead);
-  xfer->integer(&m_disableProofRadarCount); xfer->boolean(&m_radarDisabled);
   rva003064CB(raw,reinterpret_cast<Rva00291440*>(&m_upgradesInProgress));
+  xfer->integer(&m_disableProofRadarCount); xfer->boolean(&m_radarDisabled);
   rva003064CB(raw,reinterpret_cast<Rva00291440*>(&m_upgradesCompleted));
   xfer->snapshot(&m_energy); if(version.value>=9)xfer->boolean(&m_field33F);
   PlayerListView&prototypes=listView(m_playerTeamPrototypes);
