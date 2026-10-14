@@ -89118,3 +89118,5 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ?advance@Rva0073B670Stepper@@QAEHXZ,,0x0073B6B0,26,Code/GameEngine/Source/Common/RTS/Rva0073B670Stepper.cpp,matched,stepper advance: value += step then --steps > 0
 ?Rva0073B6D0NextIndex@@YAHHH@Z,,0x0073B6D0,20,Code/GameEngine/Source/Common/RTS/Rva0073B670Stepper.cpp,matched,cyclic successor index wrap to 0 at count
 ?Rva0073B6F0PrevIndex@@YAHHH@Z,,0x0073B6F0,14,Code/GameEngine/Source/Common/RTS/Rva0073B670Stepper.cpp,matched,cyclic predecessor index wrap from 0 to count-1
+?state@Rva0073A130Table@@QBEHH@Z,,0x0073A130,36,Code/GameEngine/Source/Common/Rva0073A130Leaves.cpp,matched,8-byte entry word +4: 2 for 0xFFFF else word==0
+?set@Rva0073A160Field@@QAE_NH@Z,,0x0073A160,28,Code/GameEngine/Source/Common/Rva0073A130Leaves.cpp,matched,store at +0xA4 returning whether it changed
