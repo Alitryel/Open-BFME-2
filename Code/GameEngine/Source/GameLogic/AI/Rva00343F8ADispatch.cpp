@@ -5,8 +5,9 @@
 // Goal-test dispatcher (cdecl): fetches the machine goal via rowed
 // getGoalObject 0x004D7726 on the +0x18 StateMachine and routes the
 // (state, opaque) pair to 0x00343DD8 when a goal exists, else to
-// 0x0033FD98. The latter is rowed as a bool predicate in
-// Rva0033FD98OutOfRange.cpp; this dispatcher discards its result.
+// 0x0033FD98. Both are rowed bool predicates (0x00343DD8 in
+// Rva00343DD8GoalTest.cpp, 0x0033FD98 in Rva0033FD98OutOfRange.cpp); this
+// dispatcher discards their results.
 // The state class mirrors only the proven +0x18 machine slot.
 class Object;
 class Weapon;
