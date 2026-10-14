@@ -222,7 +222,6 @@ float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
 // gate (retail __FILE__ AITargetHeuristicExpansionBase.cpp, line 63): the
 // player-list check and enough frames since it last passed, then 3000 money,
 // a record count of at least 1 and a coin flip; each step logs.
-// ?rva00573122@AITargetHeuristicExpansionBase@@QAE_NPAVPlayer@@@Z present-unmatched
 bool AITargetHeuristicExpansionBase::rva00573122(Player *player)
 {
 	if (g_00DFEFF0)
