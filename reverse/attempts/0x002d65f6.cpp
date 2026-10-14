@@ -1,9 +1,5 @@
 // ?update@AptPalantir@@QAEXXZ
-// partial score=0.9699 date=2026-10-14
-// ?update@AptPalantir@@QAEXXZ
-// partial score=0.9741 date=2026-10-14
-// ?update@AptPalantir@@QAEXXZ
-// partial score=0.97 date=2026-10-13
+// partial score=0.9727782021899669 date=2026-10-14
 // cl: /I. /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
@@ -190,6 +186,7 @@ class __declspec(novtable) Rva005248D0
 public:
 	__forceinline Rva005248D0() { ((Rva002D2C34 *)this)->rva002D2C34(); }
 	virtual ~Rva005248D0();
+ int rva002D2C21() const;
 
 	AptCommandMapAdder m_commandMaps;		// +0x04
 	AptExternHandlerAdder m_externHandlers;		// +0x10
@@ -852,7 +849,6 @@ public:
 #undef V
 	virtual void stop();			// +0x24
 	virtual void advance();			// +0x28
-	bool rva002D2C21() const;
 	float rva00524A84();
 
 	unsigned char m_pad004[0x24 - 4];
@@ -992,7 +988,7 @@ void AptPalantir::update()
 	Rva00524A4C *playback = reinterpret_cast<Rva00524A4C *>(m_moviePlayback);
 	if (playback->m_b0)
 	{
-		if (playback->rva002D2C21())
+		if (static_cast<unsigned char>(reinterpret_cast<Rva005248D0 *>(playback)->rva002D2C21()))
 		{
 			playback->stop();
 		}

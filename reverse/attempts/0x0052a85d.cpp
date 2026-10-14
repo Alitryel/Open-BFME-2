@@ -1,10 +1,9 @@
 // ?Update@Impl@AptInGameSpellBookInterface@@QAEXXZ
-// partial score=0.8109 date=2026-10-14
-// ?Update@Impl@AptInGameSpellBookInterface@@QAEXXZ
-// partial score=0.85 date=2026-10-10
-// ?Update@Impl@AptInGameSpellBookInterface@@QAEXXZ
-// partial score=0.85 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
+// partial score=0.9976331727247403 date=2026-10-14
+// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
+// CommandButton inline accessors match the ZH ControlBar.h API at committed
+// BF1 a7c38d3b; offsets 0x1c and 0xf8 are retail evidence, not donor offsets.
+// Remaining two bytes are the final temporary string home (-0x1c vs -0x2c).
 // WorldBuilder retains AptInGameSpellBookInterface.cpp and helper identities.
 // Twenty-four20B button caches start50. WB and retail agree on level4/string8.
 #include "ascii_string.h"
@@ -44,6 +43,9 @@ class Rva0031D5F8 {public:void *rva0031D5F8(const AsciiString *);};
 class Image;
 class CommandButton {
 public:
+ unsigned getOptions() const {return options;}
+ int getFlashCount() const {return flashTicks;}
+ void setFlashCount(int value) const {flashTicks=value;}
  const Image *rva0035B19E() const;
  char unknown0[0x1c];unsigned options;char unknown20[0xd8];mutable int flashTicks;
 };
@@ -60,7 +62,8 @@ public:
  virtual void s28();virtual void s29();virtual void s30();virtual unsigned getFrame();
 };
 class Display;extern Display *TheDisplay;
-class ControlBar {public:int rva0053BD66(const CommandButton *,GameWindow *,Object *,float *,bool) const;};
+enum CommandAvailability {COMMAND_AVAILABLE=1};
+class ControlBar {public:CommandAvailability getCommandAvailability(const CommandButton *,GameWindow *,Object *,float *,bool) const;};
 struct SpellPlayerListView {char unknown0[0x10];BfmeMemberRV *localPlayer;};
 struct SpellControlBarColorView {char unknown0[0x208];unsigned color;};
 class Rva00223A94 {public:int rva00223A94(const AsciiString *);};
@@ -163,7 +166,7 @@ void AptInGameSpellBookInterface::Impl::Update() {
   const CommandButton *button=m_commandSet->getCommandButton(i);
   if(!button)continue;
   float progress;
-  int availability=TheControlBar->rva0053BD66(button,0,0,&progress,false);
+  int availability=TheControlBar->getCommandAvailability(button,0,0,&progress,false);
   if(availability==3)continue;
   if(availability!=5)progress=1.0f;
   bool disabled=false;
@@ -174,7 +177,7 @@ void AptInGameSpellBookInterface::Impl::Update() {
   int state;
   switch(availability) {
    case 0:case 4:case 6:case 7:state=1;break;
-   case 1:case 2:state=(button->options & 0x10000000)?3:5;break;
+   case 1:case 2:state=(button->getOptions() & 0x10000000)?3:5;break;
    case 5:state=4;break;
    default:state=1;break;
   }
@@ -195,8 +198,8 @@ void AptInGameSpellBookInterface::Impl::Update() {
    int index=slotNum+1;
    Rva0052519DFire(g_bfmeAptWindowManager,m_level,m_clipName.str(),"FlashButton",&index);
   }
-  if(button->flashTicks>0 && ((SpellFrameClock *)TheDisplay)->getFrame()%10==0)--button->flashTicks;
-  bool flashing=button->flashTicks>0;
+  if(button->getFlashCount()>0 && ((SpellFrameClock *)TheDisplay)->getFrame()%10==0)button->setFlashCount(button->getFlashCount()-1);
+  bool flashing=button->getFlashCount()>0;
   if(flashing!=slot.flashing) {
    const char *stateText=flashing?"_show":"_hide";
    int index=slotNum+1;
