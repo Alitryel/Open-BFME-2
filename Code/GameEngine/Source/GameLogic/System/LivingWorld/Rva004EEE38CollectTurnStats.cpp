@@ -1,7 +1,7 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/moduledata /DBFME_SNAPSHOT_NAME_SLOT
 // stlport
 //
-// ?rva004EEE38@Rva004EF2FAPrimary@@QAEXH@Z retail 0x004EEE38..0x004EF039
+// ?collectEndOfTurnStats@Rva004EF2FAPrimary@@QAEXH@Z retail 0x004EEE38..0x004EF039
 // (513 bytes EH RET 4). The end-of-turn statistics collection of the
 // living-world score keeper (WorldBuilder twin 0x010F1230
 // LivingWorldScoreKeeper::collectEndOfTurnStats in LivingWorldScoreKeeper.cpp
@@ -142,7 +142,7 @@ class Rva004EF2FAPrimary
 {
 public:
 	virtual void primarySlot();
-	void rva004EEE38(int turn);
+	void collectEndOfTurnStats(int turn);
 
 private:
 	char m_pad004[0x28 - 0x04];
@@ -157,7 +157,7 @@ private:
 	int m_ownerID;                                  // +0xF4
 };
 
-void Rva004EF2FAPrimary::rva004EEE38(int turn)
+void Rva004EF2FAPrimary::collectEndOfTurnStats(int turn)
 {
 	if (m_lastTurn == turn)
 		return;

@@ -337,7 +337,7 @@ class Rva004EF2FAPrimary
 {
 public:
 	virtual void primarySlot();
-	void rva004EEE38(Int a);
+	void collectEndOfTurnStats(Int a);
 };
 class Rva004EF2FAIface
 {

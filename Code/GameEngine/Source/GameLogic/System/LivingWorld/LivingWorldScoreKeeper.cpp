@@ -128,8 +128,8 @@ LivingWorldScoreKeeper::LivingWorldScoreKeeper(int playerIndex, LivingWorldPlaye
 	((Rva005A0B4CList *)m_player)->append((Rva002BA8F1Listener *)(LivingWorldPlayerObserver *)this);
 }
 
-class Rva004EF2FAPrimary { public:void rva004EEE38(int); };
-void LivingWorldScoreKeeper::event0_1(int phase,int ignored) { ((Rva004EF2FAPrimary*)this)->rva004EEE38(phase); }
+class Rva004EF2FAPrimary { public:void collectEndOfTurnStats(int); };
+void LivingWorldScoreKeeper::event0_1(int phase,int ignored) { ((Rva004EF2FAPrimary*)this)->collectEndOfTurnStats(phase); }
 
 class Rva004EE5D2 {public:void rva004EE78A();void rva004EE5D2();};
 LivingWorldScoreKeeper::~LivingWorldScoreKeeper(){((Rva004EE5D2*)this)->rva004EE78A();}
@@ -165,10 +165,10 @@ void LivingWorldScoreKeeper::loadPostProcess() {
 void LivingWorldScoreKeeper::event5_0(Rva004EF2ABArg*arg) {
  if(arg->m_14==m_playerIndex){if(m_startTime!=0){m_6C+=time(0)-m_startTime;m_startTime=0;}
  int turn=(int)TheLivingWorldLogic->m_FC;m_78=turn;
- ((Rva004EF2FAPrimary*)this)->rva004EEE38(turn);((Rva004EE5D2*)this)->rva004EE78A();}
+ ((Rva004EF2FAPrimary*)this)->collectEndOfTurnStats(turn);((Rva004EE5D2*)this)->rva004EE78A();}
 }
 void LivingWorldScoreKeeper::event6_1(LivingWorldLogic*logic) {
- ((Rva004EF2FAPrimary*)this)->rva004EEE38((int)logic->m_FC);
+ ((Rva004EF2FAPrimary*)this)->collectEndOfTurnStats((int)logic->m_FC);
  if(m_startTime!=0){m_6C+=time(0)-m_startTime;m_startTime=0;}
 }
 struct Rva004EE260Base

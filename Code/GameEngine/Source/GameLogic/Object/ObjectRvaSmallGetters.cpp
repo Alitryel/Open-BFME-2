@@ -34,7 +34,7 @@ public:
 	void rva004DE24B(int arg);
 	void rva004DE4E2(int arg);
 	void rva004DE511(int arg, int arg2);
-	void rva004DE109(int arg, float value, int arg2);
+	void SetGoal(int arg, float value, int arg2);
 	void rva004DDD80();
 	void rva004DDD6E();
 	bool rva004DD80A(Coord3D *out);
@@ -190,7 +190,7 @@ void Object::rva0028ACEE(int arg, int arg2)
 void Object::rva0028AD00(int arg, float value, int arg2)
 {
 	if (m_sub)
-		m_sub->rva004DE109(arg, value, arg2);
+		m_sub->SetGoal(arg, value, arg2);
 }
 
 void Object::rva0028AD22()
@@ -339,7 +339,7 @@ void Object::rva0028CDB6()
 	if (sub != 0) {
 		int *p = &m_38;
 		int v = rva0028B511();
-		sub->rva004DE109((int)p, m_44, v);
+		sub->SetGoal((int)p, m_44, v);
 		m_sub->rva004DE24B((int)p);
 	}
 }

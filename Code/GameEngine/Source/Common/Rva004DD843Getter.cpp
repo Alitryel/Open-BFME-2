@@ -44,7 +44,7 @@ class Rva004DD843
 {
 public:
 	float rva004DD843();
-	void rva004DE109(int first, float value, int last);
+	void SetGoal(int first, float value, int last);
 	void rva004DE511(int first, int last);
 	void rva004DE4E2(int arg);
 private:
@@ -60,11 +60,11 @@ float Rva004DD843::rva004DD843()
 
 void Rva004DD843::rva004DE511(int first, int last)
 {
-	rva004DE109(first, Rva004DD722Get(m_x24), last);
+	SetGoal(first, Rva004DD722Get(m_x24), last);
 }
 
 void Rva004DD843::rva004DE4E2(int arg)
 {
 	PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(m_object, (const Coord3D *)arg);
-	rva004DE109(arg, Rva004DD722Get(m_x24), layer);
+	SetGoal(arg, Rva004DD722Get(m_x24), layer);
 }

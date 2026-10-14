@@ -62,7 +62,7 @@ extern AI *TheAI;
 class Rva004DD843 {
 public:
     void rva004DD8FA(Rva004DD843Slot *slot);
-    void rva004DE109(int position, float angle, int layer);
+    void SetGoal(int position, float angle, int layer);
     void rva004DDF51(Rva004DD843Slot *slot);
     Object *m_object;
     Rva004DD843Slot m_position;
@@ -200,7 +200,7 @@ class Object { public:
 };
 
 ICoord2D *__cdecl Rva002EBC14Cell(ICoord2D *,void *,const Coord3D *);
-void Rva004DD843::rva004DE109(int position,float angle,int layer)
+void Rva004DD843::SetGoal(int position,float angle,int layer)
 {
  int bin;
  if (!(m_object->m_template->kind11C & 0x4000000)) bin=0; else bin=Rva004DD6CFGet(angle);
