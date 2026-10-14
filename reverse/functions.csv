@@ -88582,3 +88582,6 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ??4?$map@EHU?$less@E@_STL@@V?$allocator@U?$pair@$$CBEH@_STL@@@2@@_STL@@QAEAAV01@ABV01@@Z,,0x00389A3A,18,Code/Libraries/Source/WWVegas/WWLib/stlport_set_map_assign_00389A28.cpp,matched,stlport 4.5.3 map operator= calling rowed uchar/int tree assignment 0x003876A4
 ?rva003A10C0@Team@@QBE_NH@Z,,0x003A10C0,31,Code/GameEngine/Source/Common/RTS/TeamRelationOverrideQueries.cpp,matched,team relation map +0x118 holds id via shared hash_map<int Relationship> _M_find 0x002888D4
 ?rva003A10DF@Team@@QBE_NH@Z,,0x003A10DF,31,Code/GameEngine/Source/Common/RTS/TeamRelationOverrideQueries.cpp,matched,player relation map +0x11C holds id via shared hash_map<int Relationship> _M_find 0x002888D4
+?rva003BA7D9@Rva004266A1@@QAEXH@Z,,0x003BA7D9,14,Code/GameEngine/Source/Common/Rva003BA7D9Forwarders.cpp,matched,same-object forwarder to pinned Rva004266A1 setter 0x0042682B with index and 0
+?rva003BA7E7@Rva004266A1@@QAEXH@Z,,0x003BA7E7,14,Code/GameEngine/Source/Common/Rva003BA7D9Forwarders.cpp,matched,same-object forwarder to pinned Rva004266A1 setter 0x00426914 with index and 0
+?set@Rva003BA7F5@@QAEXE@Z,,0x003BA7F5,10,Code/GameEngine/Source/Common/Rva003BA7D9Forwarders.cpp,matched,byte setter at +0x2D
