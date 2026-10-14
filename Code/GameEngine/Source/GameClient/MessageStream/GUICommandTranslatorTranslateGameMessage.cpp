@@ -209,10 +209,10 @@ public:
 class DrawableList;
 class PickAndPlayInfo;
 
-class Rva004D92FE
+class PickAndPlayInfo
 {
 public:
-	Rva004D92FE();
+	PickAndPlayInfo();
 	bool m_00;
 	Drawable *m_04;
 	int m_08;
@@ -512,7 +512,7 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 	case 0x17:
 	{
 		status = doFireWeaponCommand(command, &mouse);
-		Rva004D92FE info;
+		PickAndPlayInfo info;
 		int slot = command->m_weaponSlot;
 		info.m_weaponSlot = &slot;
 		pickAndPlayUnitVoiceResponse(TheInGameUI->getAllSelectedDrawables(), GameMessage::TYPE_40E, (PickAndPlayInfo *)&info);
@@ -529,7 +529,7 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 			TheTacticalView->screenToTerrain(&mouse, &world, false);
 			GameMessage *m = TheMessageStream->createMessage(0x455);
 			m->appendLocationArgument(world);
-			Rva004D92FE info;
+			PickAndPlayInfo info;
 			info.m_14 = world;
 			pickAndPlayUnitVoiceResponse(TheInGameUI->getAllSelectedDrawables(), GameMessage::TYPE_455, (PickAndPlayInfo *)&info);
 			status = 1;
@@ -542,7 +542,7 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 			TheTacticalView->screenToTerrain(&mouse, &world, false);
 			GameMessage *m = TheMessageStream->createMessage(0x41E);
 			m->appendLocationArgument(world);
-			Rva004D92FE info;
+			PickAndPlayInfo info;
 			info.m_14 = world;
 			pickAndPlayUnitVoiceResponse(TheInGameUI->getAllSelectedDrawables(), GameMessage::TYPE_41E, (PickAndPlayInfo *)&info);
 			status = 1;
@@ -555,7 +555,7 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 			TheTacticalView->screenToTerrain(&mouse, &world, false);
 			GameMessage *m = TheMessageStream->createMessage(0x41F);
 			m->appendLocationArgument(world);
-			Rva004D92FE info;
+			PickAndPlayInfo info;
 			info.m_14 = world;
 			pickAndPlayUnitVoiceResponse(TheInGameUI->getAllSelectedDrawables(), GameMessage::TYPE_41F, (PickAndPlayInfo *)&info);
 			status = 1;
@@ -581,7 +581,7 @@ GameMessageDisposition GUICommandTranslator::translateGameMessage(const GameMess
 		break;
 	case 0x35:
 	{
-		Rva004D92FE info;
+		PickAndPlayInfo info;
 		pickAndPlayUnitVoiceResponse(TheInGameUI->getAllSelectedDrawables(), GameMessage::TYPE_41A, (PickAndPlayInfo *)&info);
 		break;
 	}

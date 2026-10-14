@@ -17,6 +17,11 @@
 //                     record in EDI
 //   0x004DAAFD 5284 B (5078 code +206 switch data) pickAndPlayUnitVoiceResponse (WB 0x1293980, asserts
 //                     1270..1808), the only caller of the statics above.
+// PickAndPlayInfo's constructor (0x004D92FE, 61 B) opens the same run and is
+// defined here as well: pickAndPlayUnitVoiceResponse keeps EDX live across its
+// calls to it, and with the constructor declared only, the caller moves that
+// value to ESI instead.
+#include <float.h>
 #include <new>
 #include <list>
 #include "ascii_string.h"
@@ -983,9 +988,18 @@ public:
 	Rva004D97B0 *record() { return (Rva004D97B0 *)this; }
 };
 
-struct Coord3DBase;
-extern Coord3DBase g_bfmeCoordDefault;
+// The "no position" default, VA 0x00DCFC18 (.data): FLT_MAX, -FLT_MAX,
+// FLT_MAX. The constructor copies it into m_pos and the voice routing tests a
+// position against it through Coord3D::equals.
+struct Coord3DBase
+{
+	float x;
+	float y;
+	float z;
+};
+Coord3DBase g_bfmeCoordDefault = { FLT_MAX, -FLT_MAX, FLT_MAX };
 
+// ??0PickAndPlayInfo@@QAE@XZ @0x004D92FE 61B
 __declspec(noinline) PickAndPlayInfo::PickAndPlayInfo()
 {
  m_air=false; m_drawTarget=0; m_source=0; m_weaponSlot=0; m_specialPowerTemplate=0;

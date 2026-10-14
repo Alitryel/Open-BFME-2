@@ -180,10 +180,10 @@ public:
 class DrawableList;
 class PickAndPlayInfo;
 
-class Rva004D92FE
+class PickAndPlayInfo
 {
 public:
-	Rva004D92FE();
+	PickAndPlayInfo();
 	bool m_00;
 	Drawable *m_drawTarget;
 	int m_08;
@@ -304,7 +304,7 @@ int __cdecl doGuardCommand(void *command, int guardMode, ICoord2D *mouse)
 			msg = TheMessageStream->createMessage(0x434);
 			msg->appendObjectIDArgument(target->m_id);
 			msg->appendIntegerArgument(guardMode);
-			Rva004D92FE info;
+			PickAndPlayInfo info;
 			info.m_drawTarget = target->getDrawable();
 			pickAndPlayUnitVoiceResponse(TheInGameUI->getAllSelectedDrawables(), GameMessage::TYPE_434, (PickAndPlayInfo *)&info);
 		}
@@ -327,7 +327,7 @@ int __cdecl doGuardCommand(void *command, int guardMode, ICoord2D *mouse)
 		msg = TheMessageStream->createMessage(0x433);
 		msg->appendLocationArgument(world);
 		msg->appendIntegerArgument(guardMode);
-		Rva004D92FE info;
+		PickAndPlayInfo info;
 		info.m_14 = world;
 		pickAndPlayUnitVoiceResponse(TheInGameUI->getAllSelectedDrawables(), GameMessage::TYPE_433, (PickAndPlayInfo *)&info);
 	}

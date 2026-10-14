@@ -1,6 +1,6 @@
 // cl: /MD
 // ?doAttackMoveCommand@@YAHPAXPAUICoord2D@@@Z @0x004311A7 154B: free Emit building GameMessage 0x430 via InGameUI slot75 TacticalView screenToTerrain MessageStream createMessage plus voice response.
-// Evidence: unlock lane; globals TheInGameUI TheTacticalView TheMessageStream; rowed appendLocationArgument 0x0030F9BB ctor Rva004D92FE 0x004D92FE and pinned pickAndPlayUnitVoiceResponse 0x004DAAFD; caller 0x004317AF.
+// Evidence: unlock lane; globals TheInGameUI TheTacticalView TheMessageStream; rowed appendLocationArgument 0x0030F9BB ctor PickAndPlayInfo 0x004D92FE and pinned pickAndPlayUnitVoiceResponse 0x004DAAFD; caller 0x004317AF.
 #include "../../../Libraries/Include/Lib/ICoord2D.h"
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
@@ -112,10 +112,10 @@ struct Coord3DBase
 	float z;
 };
 
-class Rva004D92FE
+class PickAndPlayInfo
 {
 public:
-	Rva004D92FE();
+	PickAndPlayInfo();
 	bool m_00;
 	int m_04;
 	int m_08;
@@ -138,7 +138,7 @@ int __cdecl doAttackMoveCommand(void *a, ICoord2D *b)
 	TheTacticalView->screenToTerrain(b, &pos, false);
 	GameMessage *msg = TheMessageStream->createMessage(0x430);
 	msg->appendLocationArgument(pos);
-	Rva004D92FE info;
+	PickAndPlayInfo info;
 	info.m_14 = pos;
 	pickAndPlayUnitVoiceResponse(TheInGameUI->slot73(), (GameMessage::Type)0x430, (PickAndPlayInfo *)&info);
 	return 1;

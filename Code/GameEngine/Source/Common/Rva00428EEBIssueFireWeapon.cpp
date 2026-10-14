@@ -48,7 +48,7 @@ class PickAndPlayInfo;
 
 bool __cdecl pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type type, PickAndPlayInfo *info);
 
-class Rva004D92FE;
+class PickAndPlayInfo;
 
 class InGameUI
 {
@@ -138,10 +138,10 @@ public:
 	bool isValidObjectTarget(const Drawable *source, const Drawable *target) const;
 };
 
-class Rva004D92FE
+class PickAndPlayInfo
 {
 public:
-	Rva004D92FE();
+	PickAndPlayInfo();
 	bool m_00;
 	char m_pad01[3];
 	Drawable *m_04;
@@ -183,7 +183,7 @@ int CommandTranslator::rva00428EEB(const CommandButton *command, int commandType
 				msg->appendObjectIDArgument(target->m_object ? target->m_object->m_id : OBJECTID_NONE);
 				msg->appendIntegerArgument(0);
 
-				Rva004D92FE info;
+				PickAndPlayInfo info;
 				info.m_04 = target;
 				pickAndPlayUnitVoiceResponse(TheInGameUI->slot73(), (GameMessage::Type)msgType, (PickAndPlayInfo *)&info);
 			}
@@ -201,7 +201,7 @@ int CommandTranslator::rva00428EEB(const CommandButton *command, int commandType
 			msg->appendLocationArgument(*pos);
 			msg->appendIntegerArgument(0);
 
-			Rva004D92FE info;
+			PickAndPlayInfo info;
 			info.m_14 = *pos;
 			pickAndPlayUnitVoiceResponse(TheInGameUI->slot73(), (GameMessage::Type)msgType, (PickAndPlayInfo *)&info);
 		}
@@ -233,7 +233,7 @@ int CommandTranslator::issueCombatDropCommand(const CommandButton *command, int 
 				GameMessage *msg = MessageStreamSubsystem->createMessage(msgType);
 				msg->appendObjectIDArgument(target->m_object ? target->m_object->m_id : OBJECTID_NONE);
 
-				Rva004D92FE info;
+				PickAndPlayInfo info;
 				info.m_04 = target;
 				pickAndPlayUnitVoiceResponse(TheInGameUI->slot73(), (GameMessage::Type)msgType, (PickAndPlayInfo *)&info);
 			}
@@ -250,7 +250,7 @@ int CommandTranslator::issueCombatDropCommand(const CommandButton *command, int 
 			GameMessage *msg = MessageStreamSubsystem->createMessage(msgType);
 			msg->appendLocationArgument(*pos);
 
-			Rva004D92FE info;
+			PickAndPlayInfo info;
 			info.m_14 = *pos;
 			pickAndPlayUnitVoiceResponse(TheInGameUI->slot73(), (GameMessage::Type)msgType, (PickAndPlayInfo *)&info);
 		}
@@ -303,7 +303,7 @@ int CommandTranslator::issueMoveToLocationCommand(const Coord3D *pos, Drawable *
     }
     if (commandType == 0)
     {
-        Rva004D92FE info;
+        PickAndPlayInfo info;
         info.m_04 = drawableInWay;
         info.m_14 = msgType == 0x425 ? obj->m_position : *pos;
         pickAndPlayUnitVoiceResponse(TheInGameUI->slot73(), (GameMessage::Type)0x42F, (PickAndPlayInfo *)&info);
@@ -376,7 +376,7 @@ int CommandTranslator::issueAttackCommand(Drawable* target,const Coord3D* pos,in
   }
  }
  if(commandType==0) {
-  Rva004D92FE info;
+  PickAndPlayInfo info;
   info.m_00=targetObj->isUsingAirborneLocomotor();
   info.m_04=target;
   if(pos)info.m_14=*pos;else info.m_14=*target->getPosition();
@@ -440,7 +440,7 @@ int CommandTranslator::issueSpecialPowerCommand(const CommandButton* command,int
    target->rva0027541E(0,8,0,0);
    BfmeAudioEventPrefix136 ev(TheAudio->slot138()->special,0);
    TheAudio->addAudioEvent(&ev);
-   Rva004D92FE info;
+   PickAndPlayInfo info;
    info.m_04=target;
    info.m_10=(int)command->special;
    info.m_14=*pos;
@@ -469,7 +469,7 @@ int CommandTranslator::issueSpecialPowerCommand(const CommandButton* command,int
      }
     }
    }
-   Rva004D92FE info;
+   PickAndPlayInfo info;
    info.m_04=target;
    info.m_10=(int)command->special;
    info.m_14=*pos;
@@ -483,7 +483,7 @@ int CommandTranslator::issueSpecialPowerCommand(const CommandButton* command,int
    msg->appendIntegerArgument(command->m_options);
    msg->appendObjectIDArgument(specificSource);
    msg->appendObjectIDArgument(OBJECTID_NONE);
-   Rva004D92FE info;
+   PickAndPlayInfo info;
    info.m_04=target;
    info.m_10=(int)command->special;
    pickAndPlayUnitVoiceResponse(TheInGameUI->slot73(),(GameMessage::Type)msgType,(PickAndPlayInfo*)&info);

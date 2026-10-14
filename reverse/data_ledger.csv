@@ -17444,7 +17444,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009CD7FC,8172,.data,global,?g_00DCD7FC@@3PAPBDA,,unowned,,0,1
 0x009CF7E8,588,.data,global,?g_00DCF7E8@@3PAPBDA,,unowned,,0,1
 0x009CFA34,484,.data,global,?g_bfmeDisconnectPingResult@@3HA,,unowned,,0,2
-0x009CFC18,12,.data,global,?g_bfmeCoordDefault@@3UCoord3DBase@@A,Code/GameEngine/Source/Common/Rva004D92FECtor.cpp,owned,,1,3
+0x009CFC18,12,.data,global,?g_bfmeCoordDefault@@3UCoord3DBase@@A,Code/GameEngine/Source/GameClient/Drawable/PickAndPlayUnitVoiceResponse.cpp,owned,,1,5
 0x009CFC24,1156,.data,global,?g_00DCFC24@@3PAPBDA,Code/GameEngine/Source/Common/INI/INIAsciiIndexParse.cpp,owned,,1,2
 0x009D00A8,4,.data,global,?g_00DD00A8@@3HA,Code/GameEngine/Source/Common/Bfme/Rva004E57E6Method.cpp,provisional,?g_00DD00A8@@3HA;?g_00DD00A8@@3MA,1,2
 0x009D00AC,476,.data,global,?g_00DD00AC@@3HA,Code/GameEngine/Source/Common/Bfme/Rva004E57E6Method.cpp,provisional,?g_00DD00AC@@3HA;?g_00DD00AC@@3MA,1,2

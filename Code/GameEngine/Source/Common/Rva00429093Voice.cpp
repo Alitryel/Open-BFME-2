@@ -1,6 +1,6 @@
 // cl: /MD
 // ?rva00429093@Rva00429093@@QAEHPAUArg@@H@Z @0x00429093 127B
-// Evidence: caller 0x0042A398 plus TheInGameUI slot73 plus Rva004D92FE ctor 0x004D92FE plus pickAndPlayUnitVoiceResponse pin plus MessageStreamSubsystem slot 0x48 with 0x420 plus appendObjectIDArgument 0x0030F979
+// Evidence: caller 0x0042A398 plus TheInGameUI slot73 plus PickAndPlayInfo ctor 0x004D92FE plus pickAndPlayUnitVoiceResponse pin plus MessageStreamSubsystem slot 0x48 with 0x420 plus appendObjectIDArgument 0x0030F979
 #include "../../../Libraries/Include/Lib/ICoord2D.h"
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
@@ -76,10 +76,10 @@ public:
 };
 extern InGameUI *TheInGameUI;
 
-class Rva004D92FE
+class PickAndPlayInfo
 {
 public:
-	Rva004D92FE();
+	PickAndPlayInfo();
 	bool m_00;
 	int m_04;
 	int m_08;
@@ -121,7 +121,7 @@ int Rva00429093::rva00429093(Arg *a, int b)
 	{
 		if (m_flag08 != 0)
 		{
-			Rva004D92FE info;
+			PickAndPlayInfo info;
 			info.m_04 = (int)a;
 			pickAndPlayUnitVoiceResponse(TheInGameUI->slot73(), type, (PickAndPlayInfo *)&info);
 			GameMessage *msg = TheMessageStream->createMessage((int)type);

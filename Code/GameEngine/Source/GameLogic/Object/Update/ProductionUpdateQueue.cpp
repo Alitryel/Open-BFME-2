@@ -776,7 +776,7 @@ namespace _STL {
 }
 class DrawableList: public _STL::list<Drawable *> {public: ~DrawableList() throw();};
 class PickAndPlayInfo;
-class Rva004D92FE { public: Rva004D92FE(); char pad[8]; Drawable *drawTarget; char tail[24]; };
+class PickAndPlayInfo { public: PickAndPlayInfo(); char pad[8]; Drawable *drawTarget; char tail[24]; };
 class GameMessage { public: enum Type { MSG_NONE=0 }; };
 bool pickAndPlayUnitVoiceResponse(const DrawableList *,GameMessage::Type,PickAndPlayInfo *);
 // WB1207EF0 and native caller prove this member ABI; provider corrected and byte-verified.
@@ -1988,7 +1988,7 @@ UpdateSleepTime ProductionUpdate::update()
     us->getControllingPlayer()->onUnitCreated(us,newObj);
     ((Rva0028CBFD *)newObj)->rva0028CBFD();
     if(production->m_productionQuantityTotal==production->m_productionQuantityTotal-production->m_productionQuantityProduced) {
-     DrawableList list; list.push_back(drawable); Rva004D92FE info; info.drawTarget=((Thing *)us)->getDrawable();
+     DrawableList list; list.push_back(drawable); PickAndPlayInfo info; info.drawTarget=((Thing *)us)->getDrawable();
      pickAndPlayUnitVoiceResponse(&list,(GameMessage::Type)0x7da,(PickAndPlayInfo *)&info);
     }
     rva0049DF81((Rva0049DF81Input *)production,newObj);
@@ -2043,7 +2043,7 @@ UpdateSleepTime ProductionUpdate::update()
     if(containerInterface) {
      ProductionAIUpdateView *hordeAI=containerInterface->getAI();
      if(hordeAI) { DrawableList list; Drawable *draw=((Thing *)container)->getDrawable(); list.push_back(draw);
-      Rva004D92FE info; info.drawTarget=((Thing *)us)->getDrawable(); pickAndPlayUnitVoiceResponse(&list,(GameMessage::Type)0x7e2,(PickAndPlayInfo *)&info);
+      PickAndPlayInfo info; info.drawTarget=((Thing *)us)->getDrawable(); pickAndPlayUnitVoiceResponse(&list,(GameMessage::Type)0x7e2,(PickAndPlayInfo *)&info);
       hordeAI->s234(us); }
     } }
    }

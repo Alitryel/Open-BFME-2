@@ -2185,7 +2185,6 @@ name,address,notes
 ??0PeerResponse@@QAE@XZ,0x00389F77,Native enum response callback38B5DB constructs local840B response at this boundary; target owning layout independently recovered as BfmeOpaqueOwnedRecord840; explicit linker alias uses that verified body
 ??0PhysicsBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,0x003907A6
 ??0PhysicsBehaviorModuleData@@QAE@XZ,0x00390119,factory 0x0024E774 is registered as PhysicsBehavior and pushes parser 0x003901C9
-??0PickAndPlayInfo@@QAE@XZ,0x004D92FE,address read from the REL32 displacement at the byte-verified AIUpdateInterface voice-response bodies 0x0026B25A-0x0026B403; rowed under another name (shared pointer-list helper or opaque ctor)
 ??0PickupStuffUpdateModuleData@@QAE@XZ,0x00491E37,Sole raw caller is factory 0x24D95B; poolkey 0x491E1C cluster plus rowed proc 0x491E87; 0.97 ctor partial banked
 ??0Pinger@@QAE@XZ,0x00558EC1,callee of ?createNewPingerInterface@PingerInterface@@SAPAV1@XZ at retail 0x005590FC read from its REL32 displacement; ICF alias onto ??0BFMENetwork@@QAE@XZ (matched)
 ??0Pivot24@@QAE@ABU0@@Z,0x00427F75,"Pivot24 is the 0x18-byte version-record value type for Rva00428372AdjustHeap; its out-of-line copy constructor is the 24-byte record copy at this address (rowed as BfmeNarrowRecord00427F75 in NarrowStringRecordCopyBFME2.cpp)"

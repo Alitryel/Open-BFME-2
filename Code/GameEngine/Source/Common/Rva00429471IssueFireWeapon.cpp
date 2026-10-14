@@ -110,10 +110,10 @@ public:
 	bool isValidObjectTarget(const Drawable *source, const Drawable *target) const;
 };
 
-class Rva004D92FE
+class PickAndPlayInfo
 {
 public:
-	Rva004D92FE();
+	PickAndPlayInfo();
 	bool m_00;
 	char m_pad01[3];
 	Drawable *m_04;
@@ -164,7 +164,7 @@ int CommandTranslator::issueFireWeaponCommand(const CommandButton *command, int 
 				ObjectID targetID = (target && target->m_object) ? target->m_object->m_id : OBJECTID_NONE;
 				msg->appendObjectIDArgument(targetID);
 
-				Rva004D92FE info;
+				PickAndPlayInfo info;
 				info.m_14 = *pos;
 				info.m_04 = target;
 				int slot = command->m_weapon80;
@@ -183,7 +183,7 @@ int CommandTranslator::issueFireWeaponCommand(const CommandButton *command, int 
 				msg->appendObjectIDArgument(targetID);
 				msg->appendIntegerArgument(command->m_maxShotsA0);
 
-				Rva004D92FE info;
+				PickAndPlayInfo info;
 				info.m_04 = target;
 				int slot = command->m_weapon80;
 				info.m_0C = &slot;
@@ -203,7 +203,7 @@ int CommandTranslator::issueFireWeaponCommand(const CommandButton *command, int 
 			ObjectID targetID = (target && target->m_object) ? target->m_object->m_id : OBJECTID_NONE;
 			msg->appendObjectIDArgument(targetID);
 
-			Rva004D92FE info;
+			PickAndPlayInfo info;
 			info.m_14 = *pos;
 			info.m_04 = target;
 			int slot = command->m_weapon80;
@@ -220,7 +220,7 @@ int CommandTranslator::issueFireWeaponCommand(const CommandButton *command, int 
 			const Overridable *finalOverride = command->m_over44->friend_getFinalOverride();
 			msg->appendIntegerArgument(finalOverride->m_id14);
 
-			Rva004D92FE info;
+			PickAndPlayInfo info;
 			info.m_04 = target;
 			if (pos)
 				info.m_14 = *pos;
