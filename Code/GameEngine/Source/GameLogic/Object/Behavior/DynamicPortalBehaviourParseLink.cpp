@@ -1,11 +1,11 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_CRTIMP=
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
 #include "ascii_string.h"
 #include <cstdlib>
-void Rva00030830GameFree(void*);
-#define free Rva00030830GameFree
+// Retail's free (0x00030830) may throw: this unit compiles /EHs so the header's
+// C free keeps that, spelled as the first copies of the vector<long> helpers in
+// link order spell it.
 #include <vector>
-#undef free
 class INI {public: const char *getNextToken(const char *delimiters=0); const char *getNextSubToken(const char*); int scanInt(const char*);};
 // Retail 0x004616B1 (252 B, cdecl): the Link line parser of DynamicPortalBehaviour's
 // module data. The target vector is read from the argument before the link is built

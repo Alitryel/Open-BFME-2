@@ -1,9 +1,12 @@
-// cl: /O1 /MD /EHsc /DNDEBUG
+// cl: /O1 /MD /EHs /DNDEBUG
 // Native 0041E77F..0041E7B8: clear the chains through the shared rowed
 // 001DBCDC implementation, then destroy the +4 bucket vector. The 20-byte
 // table occupies +0C..+1F in the subsystem destructor at 0041F042.
 // STLport teardown is a structural guide; the original table type is unknown.
-void __cdecl free(void *);
+// Retail's free (0x00030830) may throw, so this unit compiles /EHs and calls it
+// through its C name, as the first OwnedBucketStorage destructor in link order
+// (OwnedBucketTableDtorsO1.cpp) does.
+extern "C" void __cdecl free(void *);
 
 class Rva004DFC20
 {
