@@ -624,8 +624,10 @@ public:
     void rva001EEA6D(UnicodeString, int, const RGBColor *, float);
 };
 extern Mouse *TheMouse;
-extern unsigned int g_Va00E05FCC;
-extern unsigned int g_Va00E06000;
+// Existing 52-byte rank-table globals defined by Rva005B8116Stats.cpp.
+class Rva00559D0CRankWeights;
+extern Rva00559D0CRankWeights g_00E05FCC;
+extern Rva00559D0CRankWeights g_00E06000;
 extern const char *g_rva0033A3F4Table[7];
 UnicodeString Rva00559CE5(int side, int rank);
 
@@ -670,7 +672,7 @@ void AptOnlineCustomMatch::MpOwnerUpdatePlayerTooltip(GameSlot *slot)
             favoriteSide = TheGameText->fetch(sideKey);
         }
         bool firstMode = m_70.m_7c == 1;
-        const int *thresholds = firstMode ? (const int *)&g_Va00E05FCC : (const int *)&g_Va00E06000;
+        const int *thresholds = firstMode ? (const int *)&g_00E05FCC : (const int *)&g_00E06000;
         int rankSide = info->m_side;
         int points = info->m_rankPoints;
         int rank;
