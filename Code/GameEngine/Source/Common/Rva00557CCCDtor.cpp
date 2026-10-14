@@ -1,7 +1,7 @@
-// ??1Rva00557CCC@@QAE@XZ
+// ??1Rva00557CCC@@UAE@XZ
 // cl: /O1 /arch:SSE /G7 /EHsc- /D_STLP_NO_EXCEPTIONS /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ??1Rva00557CCC@@QAE@XZ @0x00557CCC 204B
+// ??1Rva00557CCC@@UAE@XZ @0x00557CCC 204B
 // The address-derived class identity comes from its vtable/deleting-destructor
 // anchor. Member order and offsets below follow the retail cleanup calls;
 // unnamed storage and owned-pointer meanings remain structural inferences.
@@ -10,7 +10,28 @@
 namespace _STL { }
 
 struct MutexClass { unsigned int unknown[2]; ~MutexClass(); struct LockClass { ~LockClass(); }; };
-struct Rva00553222 { virtual void virtualSlot(); void rva00553222(); ~Rva00553222() {} };
+struct Rva00553222 { void rva00553222(); };
+// Retail's base cleanup at 0x00552C08 restores the vtable at 0x0086B090.
+// Its provider establishes the virtual destructor and fifteen pure slots.
+class Rva00552C0FBase {
+public:
+	virtual ~Rva00552C0FBase() {}
+	virtual void pure1() = 0;
+	virtual void pure2() = 0;
+	virtual void pure3() = 0;
+	virtual void pure4() = 0;
+	virtual void pure5() = 0;
+	virtual void pure6() = 0;
+	virtual void pure7() = 0;
+	virtual void pure8() = 0;
+	virtual void pure9() = 0;
+	virtual void pure10() = 0;
+	virtual void pure11() = 0;
+	virtual void pure12() = 0;
+	virtual void pure13() = 0;
+	virtual void pure14() = 0;
+	virtual void pure15() = 0;
+};
 struct Rva005562DD { unsigned int unknown[3]; ~Rva005562DD(); };
 void __cdecl operator delete(void *);
 // Existing neutral lock-owner pin at9990D: this unit emits its whole26B
@@ -34,13 +55,21 @@ struct BfmeOpaqueOwnedRecord1408 {
 	unsigned char bytes[1400];
 	BfmeOpaqueOwnedRecord1408();
 	BfmeOpaqueOwnedRecord1408(const BfmeOpaqueOwnedRecord1408 &);
+	~BfmeOpaqueOwnedRecord1408();
 };
 struct BfmeOpaqueOwnedRecord1432 {
-	unsigned int words[358];
-	unsigned int tail;
+	union { unsigned int alignmentWitness; unsigned char bytes[1432]; };
 	BfmeOpaqueOwnedRecord1432();
 	BfmeOpaqueOwnedRecord1432(const BfmeOpaqueOwnedRecord1432 &);
+	~BfmeOpaqueOwnedRecord1432();
 };
+
+// Retail's normal path calls the external owning deque destructors.
+// Declare their specializations so this view emits no competing inline copy.
+namespace _STL {
+template <> deque<BfmeOpaqueOwnedRecord1432, allocator<BfmeOpaqueOwnedRecord1432> >::~deque();
+template <> deque<BfmeOpaqueOwnedRecord1408, allocator<BfmeOpaqueOwnedRecord1408> >::~deque();
+}
 
 extern "C" void free(void *);
 
@@ -55,7 +84,7 @@ struct Rva00142D70 {
 	~Rva00142D70() { if (value) free(value); }
 };
 
-class Rva00557CCC : public Rva00553222 {
+class Rva00557CCC : public Rva00552C0FBase {
 public:
 	~Rva00557CCC();
 private:
@@ -74,5 +103,5 @@ private:
 
 Rva00557CCC::~Rva00557CCC()
 {
-	Rva00553222::rva00553222();
+	reinterpret_cast<Rva00553222 *>(this)->rva00553222();
 }
