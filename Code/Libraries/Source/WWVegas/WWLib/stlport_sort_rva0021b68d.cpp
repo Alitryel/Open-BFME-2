@@ -1,4 +1,4 @@
-// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 // STLport sort<Rva0021B68DKey*, Rva0021B68DCmp> family, 0x0021B8F2-0x0021F13C.
 // Shape twin of the rowed stlport_sort_rva004ebe74.cpp family with two
@@ -11,6 +11,10 @@
 // type traits -- an enum, as ObjectID is. Key and functor keep address-derived
 // names. The 3 members ICF-folded with the rowed Rva00204BB8 int sort
 // (__pop_heap_aux, pop_heap, sort_heap) are pinned, not rowed.
+// Link: stock vendor/stlport, not reference/shims/bfmealloc. Retail's
+// copy_backward (0x005E42D3) calls __copy_backward_ptrs with its __false_type
+// tag by reference (lea eax,[ebp-1]; push eax); under the shim's by-value
+// tags the copy inlined that call and lost to retail truth at link time.
 #include <algorithm>
 
 enum Rva0021B68DKey
