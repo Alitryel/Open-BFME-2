@@ -16,3 +16,11 @@ void Rva000C32C7(Rva000C19C3 *owner, void *object, const bool *flag)
 {
 	owner->rva000C19C3(object, flag);
 }
+
+// ?Rva000CA152@@YAXPAVRva000C19C3@@PAXPB_N@Z, retail 0x000CA152 (5B): the
+// callback address the code at 0x000653A3 and its siblings push; it passes
+// its three arguments straight on to the forwarder above (a tail jump).
+void Rva000CA152(Rva000C19C3 *owner, void *object, const bool *flag)
+{
+	Rva000C32C7(owner, object, flag);
+}
