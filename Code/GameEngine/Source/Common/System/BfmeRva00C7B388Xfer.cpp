@@ -112,7 +112,7 @@ class Xfer
 public:
     class Version;
 
-    Xfer();
+    Xfer() {}
     virtual ~Xfer() {}
 
     void Version1();
@@ -187,6 +187,7 @@ class XferSaveAsText : public Xfer
 public:
     static void __cdecl Print(XferSaveAsText *self, const char *format, ...);
 
+    XferSaveAsText();
     virtual ~XferSaveAsText();
 
     virtual Xfer &operator==(bool &value);
@@ -572,6 +573,26 @@ public:
 	~vector();
 	void push_back(const T &x);
 };
+}
+
+// 0x0060DEB1 (36B): no label pending, no stream, and the +0x0C block stack
+// built empty through the shared out-of-line vector-base constructor
+// 0x00211E58 (ICF-folded; called here under its int spelling). It cannot
+// throw (it only zeroes three words), which keeps retail's frame free of EH.
+namespace _STL
+{
+template <class T, class A> class _Vector_base
+{
+public:
+	_Vector_base(const A &a) throw();
+};
+}
+typedef _STL::_Vector_base<int, _STL::allocator<int> > BfmeRva00C7B388BlockBase;
+
+XferSaveAsText::XferSaveAsText() : m_bfme04(false), m_bfme08(0)
+{
+	BfmeRva00C7B388BlockBase &blocks = *(BfmeRva00C7B388BlockBase *)&m_bfme0C;
+	blocks.BfmeRva00C7B388BlockBase::_Vector_base(_STL::allocator<int>());
 }
 
 XferSaveAsText::~XferSaveAsText()
