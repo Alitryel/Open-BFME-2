@@ -1,4 +1,6 @@
 // ?render@Rva000E0856@@QAEXPAVRenderContext@@@Z
+// partial score=0.9741952894126807 date=2026-10-14
+// ?render@Rva000E0856@@QAEXPAVRenderContext@@@Z
 // partial score=0.9742 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport

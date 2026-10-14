@@ -1,4 +1,6 @@
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
+// partial score=0.9578922598050313 date=2026-10-14
+// ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.9588 date=2026-10-13
 // W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z

@@ -1,6 +1,8 @@
 // ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
 // partial score=0.9758102899985258 date=2026-10-14
 // ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
+// partial score=0.9758102899985258 date=2026-10-14
+// ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
 // partial score=0.93 date=2026-10-13
 // ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
 // partial score=0.93 date=2026-10-13

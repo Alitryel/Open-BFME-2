@@ -1,4 +1,6 @@
 // ?rva002F07F5@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
+// partial score=0.8036602675258138 date=2026-10-14
+// ?rva002F07F5@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.45 date=2026-10-14
 // ?rva002F07F5@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.787203 date=2026-10-09

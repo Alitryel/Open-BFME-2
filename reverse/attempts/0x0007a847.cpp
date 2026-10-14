@@ -1,4 +1,6 @@
-// W3DHordeModelDraw::setModelState
+// ?setModelState@W3DHordeModelDraw@@QAE_NPAUHordeModelState@@_NPAURva000C3886Obj@@@Z
+// partial score=0.9986485784534405 date=2026-10-14
+// ?setModelState@W3DHordeModelDraw@@QAE_NPAUHordeModelState@@_NPAURva000C3886Obj@@@Z
 // partial score=0.9986485784534405 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport

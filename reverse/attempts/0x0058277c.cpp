@@ -1,4 +1,6 @@
 // ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
+// partial score=0.9793776763737313 date=2026-10-14
+// ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
 // partial score=0.95 date=2026-10-14
 // ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
 // partial score=0.99 date=2026-10-13

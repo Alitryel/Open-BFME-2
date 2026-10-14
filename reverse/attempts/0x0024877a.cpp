@@ -1,4 +1,6 @@
 // ?rva0024877A@GameLogic@@QAE_NXZ
+// partial score=0.9875309176581113 date=2026-10-14
+// ?rva0024877A@GameLogic@@QAE_NXZ
 // partial score=0.97 date=2026-10-13
 // ?rva0024877A@GameLogic@@QAE_NXZ
 // partial score=0.97 date=2026-10-13

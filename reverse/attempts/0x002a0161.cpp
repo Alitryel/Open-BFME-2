@@ -1,8 +1,10 @@
 // ?postDraw@InGameUI@@UAEXXZ
+// partial score=0.9195329738745678 date=2026-10-14
+// ?postDraw@InGameUI@@UAEXXZ
 // partial score=0.99 date=2026-10-13
 // ?postDraw@InGameUI@@UAEXXZ
 // partial score=0.99 date=2026-10-13
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
+// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
 //
 // ?postDraw@InGameUI@@UAEXXZ
@@ -31,8 +33,8 @@ namespace _STL { void __cdecl free(void *block); }
 #undef free
 #include "ascii_string.h"
 #include "unicode_string.h"
-#include "../Common/GameLogicObjectLookupView.h"
-#include "../../../Libraries/Include/Lib/ICoord2D.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "Code/Libraries/Include/Lib/ICoord2D.h"
 
 typedef int Int;
 typedef unsigned int UnsignedInt;

@@ -1,4 +1,6 @@
 // ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
+// partial score=0.8721671640448934 date=2026-10-14
+// ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.872167 date=2026-10-14
 // ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.866656 date=2026-10-09

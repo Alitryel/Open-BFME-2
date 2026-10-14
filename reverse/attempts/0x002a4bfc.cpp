@@ -1,6 +1,8 @@
 // ?rva002A4BFC@Rva002A3DD3@@QAEXPAVObject@@PAVThingTemplate@@PBUICoord2D@@URGBColor@@@Z
 // partial score=0.8273216979099332 date=2026-10-14
 // ?rva002A4BFC@Rva002A3DD3@@QAEXPAVObject@@PAVThingTemplate@@PBUICoord2D@@URGBColor@@@Z
+// partial score=0.8273216979099332 date=2026-10-14
+// ?rva002A4BFC@Rva002A3DD3@@QAEXPAVObject@@PAVThingTemplate@@PBUICoord2D@@URGBColor@@@Z
 // partial score=0.85 date=2026-10-10
 // cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/Libraries/Include /O1 /arch:SSE /G7 /Oy-
 // stlport

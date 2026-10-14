@@ -1,4 +1,6 @@
 // ?FindAttackPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@_NPA_N@Z
+// partial score=0.9796863056641045 date=2026-10-14
+// ?FindAttackPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@_NPA_N@Z
 // partial score=0.97969 date=2026-10-14
 // cl: /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include /ICode/GameEngine/Source
 // stlport

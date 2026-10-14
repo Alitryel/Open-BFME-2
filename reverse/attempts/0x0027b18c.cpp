@@ -1,4 +1,6 @@
 // ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
+// partial score=0.9544510602102193 date=2026-10-14
+// ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
 // partial score=0.9563570083237135 date=2026-10-14
 // ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
 // partial score=0.9045927228090382 date=2026-10-09

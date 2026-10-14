@@ -1,4 +1,6 @@
 // ?rva000EAFA4@W3DTreeBuffer@@QAE_NHPAURva000EAFA4Coord3@@PAMPAURva000EAFA4Coord2@@2@Z
+// partial score=0.7250077471335605 date=2026-10-14
+// ?rva000EAFA4@W3DTreeBuffer@@QAE_NHPAURva000EAFA4Coord3@@PAMPAURva000EAFA4Coord2@@2@Z
 // partial score=0.93 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // W3DTreeBuffer method at retail 0x000EAFA4 (232 bytes, ret 0x14). Open-BFME-1 twin: W3DTreeBufferRva00733E30.cpp

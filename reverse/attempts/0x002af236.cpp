@@ -1,4 +1,6 @@
 // ?rva002AF236@Player@@QAEXPAVXfer@@PAVRva001FDE3F@@@Z
+// partial score=0.9760474601408973 date=2026-10-14
+// ?rva002AF236@Player@@QAEXPAVXfer@@PAVRva001FDE3F@@@Z
 // partial score=0.8959090347299469 date=2026-10-10
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
@@ -29,7 +31,7 @@ typedef _STL::hashtable<ExistingNamePair, AsciiString, rts::hash<AsciiString>,
  _STL::allocator<ExistingNamePair> > ExistingNameTable;
 namespace _STL {
  template<> ExistingNameTable::iterator ExistingNameTable::begin();
- template<> ExistingNameTable::iterator &ExistingNameTable::iterator::operator++();
+
 }
 class Xfer;
 class NameMapXferView {
@@ -50,19 +52,19 @@ class Player { public: void rva002AF236(Xfer *, Rva001FDE3F *); };
 
 void Player::rva002AF236(Xfer *raw, Rva001FDE3F *table)
 {
- (this?_ReadWriteBarrier():_ReadWriteBarrier());
+
  NameMapXferView *xfer = reinterpret_cast<NameMapXferView *>(raw);
  if (xfer->saving()) {
-  unsigned int count = reinterpret_cast<NameFloatTablePrefix *>(table)->count;
-  xfer->word(&count);
+  struct SaveValues {float value;unsigned int count;} values; values.count=reinterpret_cast<NameFloatTablePrefix *>(table)->count;
+  xfer->word(&values.count);
   ExistingNameTable *view = reinterpret_cast<ExistingNameTable *>(table);
   ExistingNameTable::iterator it;
-  it = view->begin();
+  ExistingNameTable::iterator initial=view->begin(); it=initial;
   for (; it != view->end(); ++it) {
    AsciiString name(it->first);
-   float value = *reinterpret_cast<const float *>(&it->second);
+   values.value = *reinterpret_cast<const float *>(&it->second);
    xfer->ascii(&name);
-   xfer->real(&value);
+   xfer->real(&values.value);
   }
  } else {
   unsigned int count = 0;

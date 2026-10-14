@@ -1,4 +1,6 @@
 // ?updateMeleeAttack@HordeMeleeFormation@@UAEXPAVObject@@@Z
+// partial score=0.8691800758152037 date=2026-10-14
+// ?updateMeleeAttack@HordeMeleeFormation@@UAEXPAVObject@@@Z
 // partial score=0.9694 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /GX- /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common
 // stlport
@@ -181,9 +183,7 @@ void HordeMeleeFormation::updateMeleeAttack(Object *victim)
    for(;it!=attacks[follows].path.rend();++it) {
     BfmeE12 *point=(BfmeE12 *)((Rva00585257Iter *)&it)->rva00585257();
     Coord3D delta;
-    float x=point->x,y=point->y,z=point->z;
-    x-=attacks[follows].previousPosition.x; y-=attacks[follows].previousPosition.y; z-=attacks[follows].previousPosition.z;
-    delta.x=x; delta.y=y; delta.z=z;
+    const Coord3D &previous=attacks[follows].previousPosition;delta.x=point->x-previous.x;delta.y=point->y-previous.y;delta.z=point->z-previous.z;
     if(delta.GetLengthEstimate2D()>=distance) break;
    }
    if(it!=attacks[follows].path.rend()) {

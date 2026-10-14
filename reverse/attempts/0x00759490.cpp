@@ -1,4 +1,6 @@
 // ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
+// partial score=0.8286501377410468 date=2026-10-14
+// ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
 // partial score=0.8332 date=2026-10-14
 // ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
 // partial score=0.79669 date=2026-10-14

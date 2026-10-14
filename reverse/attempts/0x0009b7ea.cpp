@@ -1,4 +1,6 @@
 // ?rva0009B7EA@Rva0009C134Host@@QAEXPAUCoord3D@@@Z
+// partial score=0.9769963871932229 date=2026-10-14
+// ?rva0009B7EA@Rva0009C134Host@@QAEXPAUCoord3D@@@Z
 // partial score=0.9731624517254267 date=2026-10-14
 // ?rva0009B7EA@Rva0009C134Host@@QAEXPAUCoord3D@@@Z
 // partial score=0.9731624517254267 date=2026-10-14
@@ -54,13 +56,13 @@ Vector2 lo,hi;
 cam->Get_View_Plane(lo,hi);
 Matrix3D tm=camera->Get_Transform();
 int i=0;
-float width=hi.X-lo.X;float height=hi.Y-lo.Y;
+Vector2 extent(hi.X-lo.X,hi.Y-lo.Y);
 Vector3 forward=tm.Get_Z_Vector()*-1.0f;
 for(;i<4;++i){
 int x,y;
 switch(i){case 0:x=0;y=1;break;case 1:x=1;y=1;break;case 2:x=0;y=0;break;case 3:x=1;y=0;break;default:x=0;y=0;break;}
-float dx=(x-0.5-cam->offsetX())*width;
-float dy=(y-0.5-cam->offsetY())*height;
+float dx=(x-0.5-cam->offsetX())*extent.X;
+float dy=(y-0.5-cam->offsetY())*extent.Y;
 Vector3 dir(tm[0][0]*dx+tm[0][1]*dy+forward.X,tm[1][0]*dx+tm[1][1]*dy+forward.Y,tm[2][0]*dx+tm[2][1]*dy+forward.Z);
 dir.Normalize();
 Vector3 p=camera->Get_Position()+dir;

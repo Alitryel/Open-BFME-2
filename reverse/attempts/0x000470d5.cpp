@@ -1,4 +1,6 @@
 // ?Rva000470D5GetTexture@@YA?AVBFME2ParticleTextureHandle@@PBURva000470D5Source@@@Z
+// partial score=0.9062378167641326 date=2026-10-14
+// ?Rva000470D5GetTexture@@YA?AVBFME2ParticleTextureHandle@@PBURva000470D5Source@@@Z
 // partial score=0.9062 date=2026-10-13
 // ?Rva000470D5GetTexture@@YA?AVBFME2ParticleTextureHandle@@PBURva000470D5Source@@@Z
 // partial score=0.92 date=2026-10-09
@@ -31,7 +33,7 @@ public:
 			Ptr->Release_Ref();
 	}
 };
-BFME2ParticleTextureHandle BFME2LoadParticleTexture(const char *name, int a, int b);
+
 class ShroudFilter
 {
 public:
@@ -49,7 +51,8 @@ public:
 class TextureAsset
 {
 public:
-	void rva00132FE9(bool flag);
+	static BFME2ParticleTextureHandle Get(const char*,int,int);
+ void rva00132FE9(bool flag);
 };
 struct Rva000470D5Source
 {
@@ -69,7 +72,7 @@ BFME2ParticleTextureHandle Rva000470D5GetTexture(const Rva000470D5Source *src)
 		((ShroudTexture *)&tex)->getFilter()->m_0C = 1;
 		return tex;
 	}
-	BFME2ParticleTextureHandle tex = BFME2LoadParticleTexture(src->m_name08.str(), 1, 0);
+	BFME2ParticleTextureHandle tex = TextureAsset::Get(src->m_name08.str(), 1, 0);
 	((ShroudTexture *)&tex)->getFilter()->m_10 = 1;
 	((ShroudTexture *)&tex)->getFilter()->m_0C = 1;
 	((TextureAsset *)&tex)->rva00132FE9(true);
