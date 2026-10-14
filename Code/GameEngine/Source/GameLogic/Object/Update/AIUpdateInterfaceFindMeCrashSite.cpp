@@ -1,6 +1,15 @@
-// ?findMeACrashSite@AIUpdateInterface@@QAE_NMPBUCoord3D@@PAU2@VBfmeFixedStorage0004543D@@@Z
-// partial score=0.995 date=2026-10-12
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /ICode/GameEngine/Source /ICode/Libraries/Include
+//
+// ?findMeACrashSite@AIUpdateInterface@@QAE_NMPBUCoord3D@@PAU2@VBfmeFixedStorage0004543D@@@Z
+// retail 0x0026B088 (466B). Names/semantics: WorldBuilder AIUpdateInterface::findMeACrashSite
+// (ring search around startPos for a spot clear of other objects, spacing = max(10, radius)).
+// Evidence classes: native algorithm and layouts are target-derived; the helper and
+// view names (Rva0004584D filter, HitRange payload) are descriptive views, not original names.
+//
+// Codegen: the spacing helper reads its second reference parameter into a named
+// temporary and returns the parameter itself on the false arm ('float t=b; return
+// a>t?a:b'). cl then keeps the radius in XMM1 (one load, register compare
+// 'comiss xmm0,xmm1; ja') like retail instead of folding the load into the compare.
 #include "Common/PartitionRangeQueryCallView.h"
 #include "Lib/Coord3D.h"
 float Sin(float);
@@ -14,7 +23,7 @@ class Object {public: char pad[0x38];Coord3D position;char beforeRadius[0xbc-0x4
  __forceinline float Get2DCenterDistanceSquared(const Coord3D *pos) const {float dx=position.x-pos->x,dy=position.y-pos->y;return dx*dx+dy*dy;}
 };
 struct HitRange {void *begin,*end;char opaque[4];void *cursor;};
-static __forceinline float crashSpacing(const float &a,const float &b) { return a<b?b:a; }
+static __forceinline float crashSpacing(const float &a,const float &b) { float t=b; return a>t?a:b; }
 class AIUpdateInterface { char pad[8];Object *object; public: bool findMeACrashSite(float,const Coord3D*,Coord3D*,BfmeFixedStorage0004543D); };
 bool AIUpdateInterface::findMeACrashSite(float maxRange,const Coord3D *startPos,Coord3D *output,BfmeFixedStorage0004543D mask) {
  Object *self=object;if(!self)return false;
