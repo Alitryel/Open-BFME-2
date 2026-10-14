@@ -26,7 +26,7 @@ struct RadialClockResult
 class Rva00223BF6
 {
 public:
-    void rva00223BF6(RadialClockResult *out, const char *path, const char *parameters);
+    RadialClockResult *rva00223BF6(RadialClockResult *out, const char *path, const char *parameters);
 };
 
 class ImageCollection
