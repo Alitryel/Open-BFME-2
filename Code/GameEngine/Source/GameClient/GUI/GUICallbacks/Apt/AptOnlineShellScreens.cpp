@@ -113,7 +113,8 @@ private:
 	unsigned char m_pad[0x68];
 };
 
-extern void *g_Va00E06480;
+// Opaque singleton state owned by ColdGlobalDwordGetters.cpp; used only as a zero test.
+extern int g_Va00E06480;
 
 class Rva005BA1FD
 {
@@ -142,7 +143,7 @@ private:
 	unsigned char m_pad[0xA0];
 };
 
-extern void *g_Va00E06550;
+extern int g_Va00E06550;
 
 class GameSpyInfoInterface
 {
