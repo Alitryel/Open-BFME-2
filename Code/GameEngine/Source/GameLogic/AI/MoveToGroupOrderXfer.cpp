@@ -175,6 +175,7 @@ public:
 	char pad48[0x258-0x48];AIUpdateInterface *ai;
 	char pad25C[0x274-0x25C];void *physics;
 	char pad278[0x31C-0x278];
+	bool rva002931BA();
 	float GetRelativeAngle(const Coord3D*)const;
 	void rva0028AD00(int,float,int);
 	void rva0028ACEE(const Coord3D*,int);
@@ -411,6 +412,7 @@ public:
 	bool rva00547188(Object *obj, int dummy);
 	void rva0054764C(Object *obj, AIUpdateInterface *aiUpdate, Coord3D *pos);
 	Coord3D *rva005476C8(ObjectID);
+	virtual void rva005478B5(ObjectID);
 
 private:
 	Coord3D m_destination;             // +0x18
@@ -524,4 +526,43 @@ Coord3D *MoveToGroupOrder::rva005476C8(ObjectID id)
 	}
 	return &m_positions.insert(*(ObjectCoord3DPair *)Rva00547297Init(
 		(Rva00547223 *)&pair, (int *)&id, (int *)&m_destination)).first->second;
+}
+
+class Rva00352F9D
+{
+public:
+	void rva0035300B(const void *object, const Coord3D &position, CommandSourceType source);
+};
+
+namespace _STL {
+typedef pair<const ObjectID, Coord3D> MoveToPositionPair;
+template __declspec(noinline) _Hashtable_node<MoveToPositionPair> *
+    hashtable<MoveToPositionPair, ObjectID, rts::hash<ObjectID>,
+              _Select1st<MoveToPositionPair>, equal_to<ObjectID>,
+              allocator<MoveToPositionPair> >::_M_find<ObjectID>(const ObjectID &) const;
+}
+
+// Native5478B5..547944,143B; vftable C6A478 slot4, following xfer slot3.
+// The target probes the +28 ObjectID/coordinate map, copies its result, then
+// dispatches through Object AI+258 and physics+274. Keep the two coordinate
+// copies in their branches: merging the source pointer changes register saves.
+void MoveToGroupOrder::rva005478B5(ObjectID id)
+{
+	Coord3D local;
+	ObjectCoord3DMap *map = &m_positions;
+	ObjectCoord3DMap::const_iterator it = map->find(id);
+	if (it == map->end())
+		local = *rva005476C8(id);
+	else
+		local = it->second;
+	Object *object = TheGameLogic->findObjectByID(id);
+	if (object && !object->rva002931BA()) {
+		AIUpdateInterface *ai = object->ai;
+		if (ai) {
+			if (object->physics)
+				((Rva00352F9D *)&ai->m_commands)->rva0035300B(object->physics, local, CMD_FROM_PLAYER);
+			else
+				rva0054764C(object, ai, &local);
+		}
+	}
 }
