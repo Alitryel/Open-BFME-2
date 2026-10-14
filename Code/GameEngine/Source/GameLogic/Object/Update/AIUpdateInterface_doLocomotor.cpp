@@ -232,13 +232,19 @@ public:
 	void rva001E702E(Thing *obj, Int pos, Int arg3);
 };
 
+// Locomotor::getMaxSpeed (0x001E46E1), named by WorldBuilder.
+class Locomotor
+{
+public:
+	Real getMaxSpeed(Object *obj) const;
+};
+
 // The current locomotor (Zero Hour's Locomotor); ledger class name.
 class Rva001E46E1
 {
 public:
 	const Rva001E46E1Template *getTemplate() const { return m_template; }
 	Int getAirborneTargetingHeight() const { return m_template->m_airborneTargetingHeight; }
-	Real rva001E46E1(Object *obj); // getMaxSpeedForCondition
 	void rva001E53D8(Real speed, Object *obj);
 	Bool rva001E543F(Object *obj);
 	Bool rva001E84E5(Object *obj); // locoUpdate_maintainCurrentPosition
@@ -454,7 +460,7 @@ UpdateSleepTime AIUpdateInterface::doLocomotor()
 				case POSITION_EXPLICIT_HORDE:
 				{
 					Real speed = m_desiredSpeed;
-					Real myMaxSpeed = m_curLocomotor->rva001E46E1(obj);
+					Real myMaxSpeed = ((Locomotor *)m_curLocomotor)->getMaxSpeed(obj);
 					if (speed == FAST_AS_POSSIBLE || speed > myMaxSpeed)
 						speed = myMaxSpeed;
 					Coord3D oldPos;
@@ -543,7 +549,7 @@ UpdateSleepTime AIUpdateInterface::doLocomotor()
 					m_onPathSegment = segment != NULL;
 
 					Real speed = m_desiredSpeed;
-					Real myMaxSpeed = m_curLocomotor->rva001E46E1(obj);
+					Real myMaxSpeed = ((Locomotor *)m_curLocomotor)->getMaxSpeed(obj);
 					if (speed == fastSentinel || speed > myMaxSpeed)
 						speed = myMaxSpeed;
 					if (blocked && speed > m_curMaxBlockedSpeed)

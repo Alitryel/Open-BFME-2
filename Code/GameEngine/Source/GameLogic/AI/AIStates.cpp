@@ -134,6 +134,7 @@ extern AI *TheAI;
 class Locomotor
 {
 public:
+	Real getMaxSpeed(Object *obj) const;
 	enum LocoFlag
 	{
 		IS_BRAKING = 0,
@@ -158,13 +159,6 @@ private:
 };
 
 struct LocomotorTemplateView { char prefix[0x10B]; Bool m_10b; };
-// Locomotor speed for an object (0x001E46E1), rowed under this name.
-class Rva001E46E1
-{
-public:
-	Real rva001E46E1(Object *obj);
-};
-
 // Locomotor min speed (0x001E3F08), rowed under this name.
 struct Rva001E3F08Arg;
 class Rva001E3F08
@@ -962,7 +956,7 @@ StateReturnType AIAttackMeleeEngageState::updateInternal()
 
 		Real maxSpeed = 999999.0f;
 		if (source->rva0028AC4E())
-			maxSpeed = ((Rva001E46E1 *)source->rva0028AC4E())->rva001E46E1(source);
+			maxSpeed = ((Locomotor *)source->rva0028AC4E())->getMaxSpeed(source);
 		ai->setDesiredSpeed(gap);
 		Bool closing = gap < maxSpeed;
 		source->setStatus(OBJECT_STATUS_4B, closing);

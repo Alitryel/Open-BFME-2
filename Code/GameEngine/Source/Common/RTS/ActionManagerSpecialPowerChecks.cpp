@@ -1202,10 +1202,10 @@ public:
 	Weapon *getWeaponInWeaponSlot(WeaponSlotType slot) const;	// 0x002C7469
 };
 
-class Rva001E46E1
+class Locomotor
 {
 public:
-	float rva001E46E1(Object *obj);
+	float getMaxSpeed(Object *obj) const;
 };
 
 // ZH/BFME1 ba7ddda7 ActionManager::canFireWeaponAtLocation keeps only the
@@ -1224,7 +1224,7 @@ bool ActionManager::canFireWeaponAtLocation(const Object *obj, const Coord3D *lo
 		return false;
 
 	const Rva0028AC4EEntry *entry = obj->rva0028AC4E();
-	if (entry && ((Rva001E46E1 *)entry)->rva001E46E1(const_cast<Object *>(obj)) != 0.0f)
+	if (entry && ((Locomotor *)entry)->getMaxSpeed(const_cast<Object *>(obj)) != 0.0f)
 		return true;
 
 	if (!weapon->isWithinAttackRange(const_cast<Object *>(obj), (void *)loc, 0.0f, 1))

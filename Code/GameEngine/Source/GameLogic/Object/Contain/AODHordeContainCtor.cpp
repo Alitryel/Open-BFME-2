@@ -244,10 +244,14 @@ enum KindOfType { KINDOF_RVA_0 = 0 };
 
 class Object;
 struct Rva0028AC4EEntry;
+class Locomotor
+{
+public:
+    float getMaxSpeed(Object *object) const;
+};
 class Rva001E46E1
 {
 public:
-    float rva001E46E1(Object *object);
     float rva001E4845(Object *object);
 };
 class Object
@@ -275,7 +279,7 @@ void AODHordeContain::rva0047A77E()
         const_cast<Rva0028AC4EEntry *>(object->rva0028AC4E()));
     if (ai)
     {
-        movementSpeed = ai->rva001E46E1(object);
+        movementSpeed = ((Locomotor *)ai)->getMaxSpeed(object);
         movementStep = ai->rva001E4845(object);
     }
     const Float3 *current = reinterpret_cast<const Float3 *>(

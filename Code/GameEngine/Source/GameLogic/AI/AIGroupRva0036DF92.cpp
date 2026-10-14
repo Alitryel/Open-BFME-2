@@ -28,10 +28,10 @@ struct Rva0028AC4EEntry
 	float m_40;
 };
 
-class Rva001E46E1
+class Locomotor
 {
 public:
-	float rva001E46E1(Object *obj);
+	float getMaxSpeed(Object *obj) const;
 };
 
 class Object
@@ -76,7 +76,7 @@ void AIGroup::cohereMoveSpeed()
 			float m = ((const Rva0008BB38FloatField *)entry)->get();
 			if (m > 0.0f) {
 				((Rva0028AC4EEntry *)entry)->m_2C = g_00BBB9AC;
-				float v = ((Rva001E46E1 *)entry)->rva001E46E1(obj);
+				float v = ((Locomotor *)entry)->getMaxSpeed(obj);
 				if (v > 0.0f) {
 					if (best > v || best == g_00BBB9AC)
 						best = v;

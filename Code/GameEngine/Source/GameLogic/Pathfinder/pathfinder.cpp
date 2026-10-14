@@ -234,6 +234,7 @@ struct LocomotorTemplate
 class Locomotor
 {
 public:
+	float getMaxSpeed(Object *obj) const;
 	__declspec(dllimport) __forceinline LocomotorSurfaceTypeMask getLegalSurfaces() const { return m_template->m_surfaces; }
 
 private:
@@ -508,7 +509,6 @@ public:
 struct Rva002EBC7FPair { int x,y; };
 void *rva002EBC7F(void *,void *,Rva002EBC7FPair *,int);
 #include <math.h>
-class Rva001E46E1 { public: float rva001E46E1(Object *); };
 class AIUpdateInterface {
 public:
     bool findNearestLabeledContactPointOnTarget(Object *,Coord3D *,const Coord3D *,bool);
@@ -516,7 +516,7 @@ public:
     int rva0026417F(bool);
     Object *getCurrentVictim() const;
     char gap[0x1f0];
-    Rva001E46E1 *locomotor;
+    Locomotor *locomotor;
 };
 // Native 0x002EC0A2 reads Object nodes at cell-info +0x14, +0x20 and +0x24.
 // The list-role labels below describe the three observed conflict passes;
@@ -1135,15 +1135,15 @@ int Pathfinder::CalcCollisionFreeExtraCosts(Object *object,PathfindCell *parent,
                     if (ourArrival<0.0f) {
                         float dx=object->position[0]-target.x;
                         float dy=object->position[1]-target.y;
-                        Rva001E46E1 *locomotor=object->getAI()->locomotor;
+                        Locomotor *locomotor=object->getAI()->locomotor;
                         float distance=static_cast<float>(sqrt(dy*dy+dx*dx));
-                        ourArrival=distance/locomotor->rva001E46E1(object);
+                        ourArrival=distance/locomotor->getMaxSpeed(object);
                     }
                     float dx=other->position[0]-target.x;
                     float dy=other->position[1]-target.y;
-                    Rva001E46E1 *locomotor=other->getAI()->locomotor;
+                    Locomotor *locomotor=other->getAI()->locomotor;
                     float distance=static_cast<float>(sqrt(dy*dy+dx*dx));
-                    float otherArrival=distance/locomotor->rva001E46E1(other);
+                    float otherArrival=distance/locomotor->getMaxSpeed(other);
                     if (otherArrival<ourArrival) cost+=4;
                 } else cost+=8;
             }
@@ -1212,15 +1212,15 @@ int Pathfinder::CalcExtraCosts(Object *object,PathfindCell *oldCell,Rva002EBC7FP
                     if (ourArrival<0.0f) {
                         float dx=object->position[0]-target.x;
                         float dy=object->position[1]-target.y;
-                        Rva001E46E1 *locomotor=object->getAI()->locomotor;
+                        Locomotor *locomotor=object->getAI()->locomotor;
                         float distance=static_cast<float>(sqrt(dy*dy+dx*dx));
-                        ourArrival=distance/locomotor->rva001E46E1(object);
+                        ourArrival=distance/locomotor->getMaxSpeed(object);
                     }
                     float dx=other->position[0]-target.x;
                     float dy=other->position[1]-target.y;
-                    Rva001E46E1 *locomotor=other->getAI()->locomotor;
+                    Locomotor *locomotor=other->getAI()->locomotor;
                     float distance=static_cast<float>(sqrt(dy*dy+dx*dx));
-                    float otherArrival=distance/locomotor->rva001E46E1(other);
+                    float otherArrival=distance/locomotor->getMaxSpeed(other);
                     if (!(otherArrival<ourArrival)) continue;
                     amount=4;
                 }

@@ -234,7 +234,6 @@ struct LocomotorTemplate
 class Rva001E46E1
 {
 public:
-	float rva001E46E1(Object *obj);
 	float rva001E4845(Object *obj);
 	float rva001E488A(Object *obj);
 };
@@ -256,7 +255,7 @@ public:
 	Real getMaxTurnRate(Object *object) const;
 	void rva001E41FA(float angle);
 	Bool rva001E9A00(Object *obj, Real goalSpeed, Real *pathDistance, Rva00375A73Context *path);
-	Real getMaxSpeed(Object *obj) { return ((Rva001E46E1 *)this)->rva001E46E1(obj); }
+	Real getMaxSpeed(Object *obj) const;
 	Real getAcceleration(Object *obj) { return ((Rva001E46E1 *)this)->rva001E4845(obj); }
 	Real getBraking(Object *obj) { return ((Rva001E46E1 *)this)->rva001E488A(obj); }
 	Real getMinSpeed(Object *obj) { return ((Rva001E3F08 *)this)->rva001E3F08((Rva001E3F08Arg *)obj); }

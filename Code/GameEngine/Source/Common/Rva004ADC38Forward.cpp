@@ -14,10 +14,10 @@ class Object;
 
 struct Rva0028AC4EEntry;
 
-class Rva001E46E1
+class Locomotor
 {
 public:
-	float rva001E46E1(Object *obj);
+	float getMaxSpeed(Object *obj) const;
 };
 
 class Object
@@ -51,7 +51,7 @@ void Rva004ADC38::rva004ADC38(int a, int b, int c, int d, int e)
 {
 	Object *owner = *(Object **)((char *)this - 0x18);
 	const Rva0028AC4EEntry *entry = owner->rva0028AC4E();
-	if (entry == 0 || ((Rva001E46E1 *)entry)->rva001E46E1(owner) != 0.0f)
+	if (entry == 0 || ((Locomotor *)entry)->getMaxSpeed(owner) != 0.0f)
 	{
 		((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::initiateIntentToDoSpecialPower((const SpecialPowerTemplate *)a, (const Object *)b, (const Coord3D *)c, d, (const Waypoint *)e);
 		owner->setStatus((ObjectStatusTypes)0x4A, true);

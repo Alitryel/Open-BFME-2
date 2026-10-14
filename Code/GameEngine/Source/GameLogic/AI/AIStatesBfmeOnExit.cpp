@@ -292,6 +292,7 @@ private:
 class Locomotor
 {
 public:
+	Real getMaxSpeed(Object *obj) const;
 	enum LocoFlag
 	{
 		IS_BRAKING = 0,
@@ -608,11 +609,6 @@ public:
 	BfmeShapeE15 *bfmeAtE15(int index);
 };
 struct Rva0028AC4EEntry;
-class Rva001E46E1
-{
-public:
-	Real rva001E46E1(Object *obj);
-};
 class Thing
 {
 public:
@@ -1567,7 +1563,7 @@ StateReturnType AIAttackMeleeHordeApproachTargetState::update()
 
 		Real speed = FAST_AS_POSSIBLE;
 		if (source->rva0028AC4E())
-			speed = ((Rva001E46E1 *)source->rva0028AC4E())->rva001E46E1(source);
+			speed = ((Locomotor *)source->rva0028AC4E())->getMaxSpeed(source);
 		ai->setDesiredSpeed(range);
 		Bool closeEnough = (range < speed) ? true : false;
 		source->rva00346C53(OBJECT_STATUS_BFME_4B, closeEnough);

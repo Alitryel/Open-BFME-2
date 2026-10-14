@@ -1,6 +1,6 @@
 // cl: /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /O1 /G7 /arch:SSE /ICode/Libraries/Include /DNDEBUG /MD /Oi-
-// Float getters of one object-module class whose shared worker is the
-// unrowed 356-byte 0x001E46E1 (pinned by address from these call sites; it
+// Float getters of Locomotor whose shared worker is Locomotor::getMaxSpeed, the
+// 356-byte 0x001E46E1 (first pinned by address from these call sites; it
 // reads the Object's +0x254 and +0x258 and calls the rowed check at
 // 0x001E468F). Layout facts from the bodies: module data at +4 holding
 // unsigned counts at +0x44 and +0x50; floats at +0x30, +0x34, +0x40 and a
@@ -13,7 +13,7 @@
 //   0x001E53D8  step +0x40 toward a limit by the +0x30-capped ratio, then
 //               clamp it to [0, worker]
 // Retail compares with fcompi, which MSVC 7.1 emits only under /arch:SSE.
-// Class and member names are unknown, hence address-derived.
+// The other member names are unknown, hence address-derived.
 // LINK: hide math.h's inline atan2f (the MouseCursorDirection recipe): under
 // /Oi- this unit emitted an _atan2f copy that loses to the retail one
 // (Rva000422A0's adapter shape); the bodies call _atan2f out of line, so the
@@ -69,7 +69,6 @@ struct Rva001E46E1Data
 class Rva001E46E1
 {
 public:
-	float rva001E46E1(Object *obj);
     bool rva001E5F1D(Object*,const Coord3D*,float*);
 	void rva001E546B(Object *obj);
     void rva001E56DC(Object*,const Coord3D*,float,float*);
@@ -100,6 +99,15 @@ public:
     unsigned char m_98,m_99; char m_pad9A[6];
 	float m_A0,m_A4;
     int m_A8;
+};
+// WorldBuilder 0xADE520 Locomotor::getMaxSpeed (Locomotor.cpp, call graph) is
+// the 0x001E46E1 worker the getters above share, so this class is Locomotor;
+// the other methods keep their address-derived base until they are named.
+// const by analogy with getMaxTurnRate (0x001E3E9F); the bytes cannot tell.
+class Locomotor : public Rva001E46E1
+{
+public:
+	float getMaxSpeed(Object *obj) const;
 };
 class Obj254V
 {
@@ -332,14 +340,14 @@ public:
 };
 float Rva001E46E1::rva001E4845(Object *obj)
 {
-	float value = rva001E46E1(obj) / (float)m_data->m_44;
+	float value = ((const Locomotor *)this)->getMaxSpeed(obj) / (float)m_data->m_44;
 	if (value > m_30)
 		value = m_30;
 	return value;
 }
 float Rva001E46E1::rva001E488A(Object *obj)
 {
-	float value = rva001E46E1(obj) / (float)m_data->m_50;
+	float value = ((const Locomotor *)this)->getMaxSpeed(obj) / (float)m_data->m_50;
 	if (value > m_34)
 		value = m_34;
 	return value;
@@ -347,12 +355,12 @@ float Rva001E46E1::rva001E488A(Object *obj)
 bool Rva001E46E1::rva001E543F(Object *obj)
 {
 	float current = m_40;
-	return current > rva001E46E1(obj) * 0.25f;
+	return current > ((const Locomotor *)this)->getMaxSpeed(obj) * 0.25f;
 }
 float Rva001E46E1::rva001E48CF(Object *obj)
 {
 	if (m_60 < ((const Rva001E46E1FrameView *)TheGameLogic)->m_frame)
-		return rva001E46E1(obj);
+		return ((const Locomotor *)this)->getMaxSpeed(obj);
 	return m_5C;
 }
 
@@ -374,10 +382,10 @@ void Rva001E46E1::rva001E53D8(float limit, Object *obj)
 	} else {
 		m_40 = limit;
 	}
-	float cap = rva001E46E1(obj);
+	float cap = ((const Locomotor *)this)->getMaxSpeed(obj);
 	m_40 = bfmeClamp(m_40, 0.0f, cap);
 }
-float Rva001E46E1::rva001E46E1(Object *obj)
+float Locomotor::getMaxSpeed(Object *obj) const
 {
 	int cmpVal = obj->m_254->s08();
 	float scale = obj->m_258->m_1F8;
@@ -586,7 +594,7 @@ void Rva001E46E1::rva001E56DC(Object *obj,const Coord3D *goal,float maxTurnRate,
         float c=cosf(amount),s=sinf(amount);preRotateZ(m_matrix68,s,c);
     }
     float speed=m_40;
-    value.speed=rva001E46E1(obj);bool animate=true;float half=reinterpret_cast<const volatile float&>(value.speed)*0.5f;
+    value.speed=((const Locomotor *)this)->getMaxSpeed(obj);bool animate=true;float half=reinterpret_cast<const volatile float&>(value.speed)*0.5f;
     if(speed>half && !m_data->m_10A)animate=false;
     if(slow)animate=false;
     if(!m_99) {

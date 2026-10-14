@@ -242,13 +242,13 @@ class Locomotor {
   public:
     bool rva001E4194(Object *);
     float getMaxTurnRate(Object *) const;
+    float getMaxSpeed(Object *) const;
     char pad[4];
     const LocoTemplate *data;
 };
 class Rva001E46E1 {
   public:
     float rva001E4845(Object *);
-    float rva001E46E1(Object *);
 };
 class Drawable {
   public:
@@ -711,7 +711,7 @@ void HordeContain::_updatePosition(Object *obj, const Coord3D *destination, floa
         extra -= ((Rva0008BB38FloatField *)leaderLoco)->get();
     }
     float tolerance = ((Rva001E46E1 *)unitLoco)->rva001E4845(obj);
-    float speed = ((Rva001E46E1 *)unitLoco)->rva001E46E1(obj);
+    float speed = ((Locomotor *)unitLoco)->getMaxSpeed(obj);
     if (tolerance > speed * 0.2f)
         tolerance = speed * 0.2f;
     if (distance < 100.0f && TheAI->getPathfinder()->CountOverlapHordeGoalUnits(obj, &goal) > 2) {

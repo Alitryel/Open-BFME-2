@@ -102,6 +102,7 @@ extern AI *TheAI;
 class Locomotor
 {
 public:
+	Real getMaxSpeed(Object *obj) const;
 	enum LocoFlag
 	{
 		IS_BRAKING = 0,
@@ -119,13 +120,6 @@ public:
 private:
 	unsigned char m_pad00[0x44];
 	unsigned int m_flags; // +0x44
-};
-
-// Locomotor speed for an object (0x001E46E1), rowed under this name.
-class Rva001E46E1
-{
-public:
-	Real rva001E46E1(Object *obj);
 };
 
 // AI current-locomotor speed (0x002627E8), rowed under this name.
@@ -540,7 +534,7 @@ StateReturnType AIAttackApproachTargetState::onEnter()
 	Bool mobile = true;
 	if (!source->isMobile())
 		mobile = false;
-	if (((Rva001E46E1 *)ai->getCurLocomotor())->rva001E46E1(source) < 0.1f)
+	if (((Locomotor *)ai->getCurLocomotor())->getMaxSpeed(source) < 0.1f)
 		mobile = false;
 	if (!mobile)
 	{

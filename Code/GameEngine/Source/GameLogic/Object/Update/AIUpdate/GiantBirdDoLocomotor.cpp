@@ -10,8 +10,8 @@
 #include "Lib/Coord3D.h"
 class Object;
 class Rva00375A73Context {public:unsigned char prefix[0x54];Coord3D goal;};
-class Locomotor {public:void locoUpdate_moveTowardsAngle(Object*,float);bool rva001E9A00(Object*,float,float*,Rva00375A73Context*);};
-class Rva001E46E1 {public:float rva001E46E1(Object*);void rva001E546B(Object*);};
+class Locomotor {public:float getMaxSpeed(Object*)const;void locoUpdate_moveTowardsAngle(Object*,float);bool rva001E9A00(Object*,float,float*,Rva00375A73Context*);};
+class Rva001E46E1 {public:void rva001E546B(Object*);};
 class Rva002618A2 {public:Rva002618A2*rva002618A2(int,int,int,int);unsigned words[7];};
 class BfmeFixedStorage0004543D {public:unsigned char data[28];};
 class Rva000421C8 {public:Rva000421C8():m_next(0){}virtual~Rva000421C8(){}virtual bool allow(Object*)=0;virtual int getPlayerMask(){return -1;}Rva000421C8*m_next;};
@@ -210,7 +210,7 @@ int GiantBirdAIUpdate::rva0036B567(){
      ((AICommandInterface*)((char*)ai+0x20))->aiIdle((CommandSourceType)ai->rvaSlot143());return 1;
     }break;
    case 1:
-    {float speed=((Rva001E46E1*)locomotor)->rva001E46E1(object08); Object*obj=object08;reached534=locomotor->rva001E9A00(obj,speed,&distance530,&context4C8);}break;
+    {float speed=locomotor->getMaxSpeed(object08); Object*obj=object08;reached534=locomotor->rva001E9A00(obj,speed,&distance530,&context4C8);}break;
   }
   int desired=*(int*)((char*)*(void**)((char*)locomotor+4)+0xC0);
   if(((Thing*)object08)->getHeightAboveTerrain()>(float)desired)object08->setStatus((ObjectStatusTypes)6,true);else object08->setStatus((ObjectStatusTypes)6,false);

@@ -68,10 +68,15 @@ public:
 	AIUpdateInterface *m_ai; // +0x258
 };
 
+class Locomotor
+{
+public:
+	Real getMaxSpeed(Object *obj) const;
+};
+
 class Rva001E46E1
 {
 public:
-	Real rva001E46E1(Object *obj);
 	Real rva001E4845(Object *obj);
 };
 
@@ -120,7 +125,7 @@ void Rva001E8C1B::rva001E8C1B(int objArg, int goalArg, Real onPathDistToGoal, Re
 	Object *obj = (Object *)objArg;
 	const Coord3D *goalPos = (const Coord3D *)goalArg;
 
-	Real maxSpeed = reinterpret_cast<Rva001E46E1 *>(this)->rva001E46E1(obj);
+	Real maxSpeed = reinterpret_cast<Locomotor *>(this)->getMaxSpeed(obj);
 	if (desiredSpeed > maxSpeed)
 		desiredSpeed = maxSpeed;
 

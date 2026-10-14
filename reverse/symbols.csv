@@ -10670,7 +10670,7 @@ name,address,notes
 ?rva001E42F2@Object@@QAEXABVRva00265254@@@Z,0x001E42F2,"Object member taking a 0x4C-byte bit set; REL32 callee of SymbioticStructuresBody slot 40 0x004C123C at 0x004C128D with an Rva00265254 temporary (0x43 0x44 0x45); same body as the int-pointer pin of this address"
 ?rva001E42F2@Object@@QAEXPBH@Z,0x001E42F2,pinned for ObjectConditionAndPassengerWeaponSet
 ?rva001E431E@Object@@QAEXPBH@Z,0x001E431E,pinned for ObjectConditionAndPassengerWeaponSet
-?rva001E46E1@Rva001E46E1@@QAEMPAVObject@@@Z,0x001E46E1,REL32 at the placed bodies 0x001E4845/0x001E488A/0x001E48CF/0x001E543F; unrowed 356-byte float getter over an Object (+0x254/+0x258)
+?getMaxSpeed@Locomotor@@QBEMPAVObject@@@Z,0x001E46E1,REL32 at the placed bodies 0x001E4845/0x001E488A/0x001E48CF/0x001E543F; unrowed 356-byte float getter over an Object (+0x254/+0x258)
 ?rva001E685F@Rva001E685F@@QAEXHHH@Z,0x001E685F,thiscall (int;int;int); forwarder target of 0x1E702E; true types unproven (address-derived)
 ?rva001EA2CF@Rva001EA2CFLocomotorDefinition@@QAEXPAVINI@@PAVThingTemplate@@@Z,0x001EA2CF,"call target of retail 0x001EA3EA in matched wrapper ?rva001EA3AE@Rva001EA2CFLocomotorDefinition@@QAEXPAVINI@@PAVThingTemplate@@@Z; rel32 e0feffff read from game.dat resolves to this address; Ghidra bounds the callee 0x001EA2CF-0x001EA3AE (223 bytes) ret 8 and its own banked partial shares this receiver; callee body itself remains a separate banked partial and is NOT claimed matched by this pin"
 ?rva001EB3D1@Rva001EB3D1NullTarget@@QAEXXZ,0x001EB3D1,"method a null-checked vtable-slot forwarder tail-jumps to (ret 0); opaque address name"

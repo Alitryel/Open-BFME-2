@@ -115,6 +115,7 @@ public:
 class Locomotor
 {
 public:
+	Real getMaxSpeed(class Object *obj) const;
 	enum LocoFlag
 	{
 		MOVING_BACKWARDS = 7,
@@ -315,11 +316,6 @@ class Rva00352F2FOpaque
 {
 public:
 	void invoke(const Waypoint *way, int maxShots, CommandSourceType cmdSource);
-};
-class Rva001E46E1
-{
-public:
-	Real rva001E46E1(Object *obj);
 };
 class AIUpdateInterface : public AIDeadStateAISlots<131>
 {
@@ -765,7 +761,7 @@ StateReturnType AIInternalMoveToState::update()
 					obj->clearModelConditionState(MODELCONDITION_RAPPELLING);
 				}
 			}
-			if (curLoco && ((Rva001E46E1 *)curLoco)->rva001E46E1(obj) == 0.0f)
+			if (curLoco && ((Locomotor *)curLoco)->getMaxSpeed(obj) == 0.0f)
 				obj->clearModelConditionState(MODELCONDITION_MOVING);
 			else
 				obj->setModelConditionState(MODELCONDITION_MOVING);
