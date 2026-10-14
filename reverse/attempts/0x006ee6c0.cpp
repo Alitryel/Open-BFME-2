@@ -1,5 +1,5 @@
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
-// partial score=0.9691125282811139 date=2026-10-14
+// partial score=0.9881152477314004 date=2026-10-14
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
@@ -557,7 +557,6 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
 
 {
  float number;
- _ReadWriteBarrier();
  if(!context->isCIH(false))aptAssert("pContext->isCIH()",CHARACTER_FILE,0x669);
  AptCIH *cih=context->c_cih(false);
  if(isText(cih)) 
@@ -638,8 +637,8 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
      
     }
     case 13:text->textColor=((BfmeAptValue006DCD20*)(value?value:value))->toInteger()|0xFF000000;
-    text->dirty=(text->dirty&~1u)|0x400;
     _ReadWriteBarrier();
+    text->dirty=(text->dirty&~1u)|0x400;
     return true;
     case 17:
     {
@@ -707,7 +706,7 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
   if(word)
   {
    cih=context->c_cih(false);
-   switch(word->id)
+   switch((word->id ? word->id : word->id))
    {
     case 1:if((value?value:value)->isUndefined())return false;
     number=(value?value:value)->toFloat();
@@ -719,7 +718,7 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
     return true;
     case 11:
     {
-     number=(value?value:value)->toFloat();
+     number=((cih ? (value?value:value) : (value?value:value)))->toFloat();
      if(number>180.0f)number-=360.0f;
      cih->factorySetProperty(6,number,true);
      return true;
