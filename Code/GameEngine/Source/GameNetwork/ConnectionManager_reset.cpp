@@ -46,7 +46,6 @@ class NetCommandList
 {
 public:
 	NetCommandList();
-	void init();
 	void reset();
 
 private:
@@ -124,13 +123,13 @@ void ConnectionManager::reset()
 
 	if (m_pendingCommands == 0) {
 		m_pendingCommands = new NetCommandList;
-		m_pendingCommands->init();
+		m_pendingCommands->reset();
 	}
 	m_pendingCommands->reset();
 
 	if (m_relayedCommands == 0) {
 		m_relayedCommands = new NetCommandList;
-		m_relayedCommands->init();
+		m_relayedCommands->reset();
 	}
 	m_relayedCommands->reset();
 

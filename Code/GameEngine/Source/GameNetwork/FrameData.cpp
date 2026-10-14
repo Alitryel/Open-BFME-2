@@ -44,7 +44,7 @@ void FrameData::init()
 	if (m_commandList == NULL) {
 		// Plain new, not ZH's newInstance: BFME de-pooled the Net* classes.
 		m_commandList = new NetCommandList;
-		m_commandList->init();
+		m_commandList->reset();
 	}
 	m_commandList->reset();
 
