@@ -24,9 +24,6 @@ unsigned int g_Va00E02DCC;
 extern unsigned int g_Va00E02DD4;
 // g_Va00E02DD4: matched references place it at VA 0xe02dd4 (zero-filled .bss).
 unsigned int g_Va00E02DD4;
-extern unsigned int g_Va00E02DDC;
-// g_Va00E02DDC: matched references place it at VA 0xe02ddc (zero-filled .bss).
-unsigned int g_Va00E02DDC;
 extern unsigned int g_Va00E02DE4;
 // g_Va00E02DE4: matched references place it at VA 0xe02de4 (zero-filled .bss).
 unsigned int g_Va00E02DE4;
@@ -59,10 +56,8 @@ unsigned int Rva00782D87ClearFlag(void)
 	return g_Va00E02DD4 &= 0xFFFFFFFEu;
 }
 
-unsigned int Rva00782D9EClearFlag(void)
-{
-	return g_Va00E02DDC &= 0xFFFFFFFEu;
-}
+// 00782D9E is the compiler cleanup of ScriptActions::rva003C32CC.
+// Its verified parent now owns the function-local static guard.
 
 unsigned int Rva00782DEFClearFlag(void)
 {

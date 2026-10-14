@@ -33728,7 +33728,7 @@ _WinMain@16,,0x00002C39,1382,Code/GameEngine/Source/Main/WinMain.cpp,matched,BFM
 ?Rva00782D59ClearFlag@@YAIXZ,,0x00782D59,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E02Dxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva00782D70ClearFlag@@YAIXZ,,0x00782D70,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E02Dxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva00782D87ClearFlag@@YAIXZ,,0x00782D87,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E02Dxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
-?Rva00782D9EClearFlag@@YAIXZ,,0x00782D9E,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E02Dxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
+$L6967,,0x00782D9E,13,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActionsAutoAbility.cpp,matched,gen-funclet;parent=?rva003C32CC@ScriptActions@@IAEXABVAsciiString@@0_N@Z; exact native parent EH graph binds static guard reset; replaces standalone address-global placeholder; no new retail bytes
 ?Rva00782DEFClearFlag@@YAIXZ,,0x00782DEF,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E02Dxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva007832F6ClearFlag@@YAIXZ,,0x007832F6,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E02Exx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva0078330DClearFlag@@YAIXZ,,0x0078330D,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E02Exx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
