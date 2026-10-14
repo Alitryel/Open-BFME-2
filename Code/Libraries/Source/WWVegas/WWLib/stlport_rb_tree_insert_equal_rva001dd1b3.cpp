@@ -17,3 +17,20 @@ typedef _STL::_Rb_tree<Rva001DD1B3, Rva001DD1B3, _STL::_Identity<Rva001DD1B3>, _
 template <> URva001DD1B3SetTree::iterator URva001DD1B3SetTree::_M_insert(_STL::_Rb_tree_node_base *, _STL::_Rb_tree_node_base *, const Rva001DD1B3 &, _STL::_Rb_tree_node_base *);
 
 template URva001DD1B3SetTree::iterator URva001DD1B3SetTree::insert_equal(const Rva001DD1B3 &);
+
+// 0x001DDBDF (20B, RET8): an owner whose tree sits at +0 forwards an insert
+// to insert_equal above, passing its hidden iterator return straight
+// through. multiset::insert is not it (its const-iterator return copies
+// through a temporary); owner and name are address-derived. No retail caller.
+class Rva001DDBDF
+{
+public:
+	URva001DD1B3SetTree::iterator rva001DDBDF(const Rva001DD1B3 &value);
+private:
+	URva001DD1B3SetTree m_tree;
+};
+
+URva001DD1B3SetTree::iterator Rva001DDBDF::rva001DDBDF(const Rva001DD1B3 &value)
+{
+	return m_tree.insert_equal(value);
+}
