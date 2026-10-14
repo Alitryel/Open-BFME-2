@@ -1,7 +1,3 @@
-// ?rva00047BC0@W3DDisplay@@AAEXPADIIPBD@Z
-// partial score=0.8 date=2026-10-14
-// ?rva00047BC0@W3DDisplay@@AAEXPADIIPBD@Z
-// partial score=0.8 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 //
 // W3DDisplay screenshot saver pair (retail 0x00047BC0 + 0x00045127).
@@ -39,7 +35,7 @@ public:
 	virtual bool open(const char *filename, int access);
 	virtual void close();
 	virtual int slot03();
-	virtual unsigned int write(const void *buffer, int bytes);
+	virtual int write(const void *buffer, int bytes);
 };
 
 class FileSystem
@@ -86,6 +82,9 @@ struct BfmeBitmapInfoHeader
 	unsigned int biClrImportant;
 };
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?CreateBMPFile@@YAXPBDPADHH@Z present-unmatched
 static __declspec(noinline) void CreateBMPFile(const char *file, char *image, int width, int height)
 {
 	BfmeBitmapInfoHeader *info = (BfmeBitmapInfoHeader *)LocalAlloc(0x40, sizeof(BfmeBitmapInfoHeader));
@@ -95,20 +94,19 @@ static __declspec(noinline) void CreateBMPFile(const char *file, char *image, in
 	info->biPlanes = 1;
 	info->biBitCount = 24;
 	info->biCompression = 0;
-	info->biSizeImage = (info->biWidth + 7) / 8 * info->biHeight * 24;
+	info->biSizeImage = (info->biWidth + 7) / 8 * height * 24;
 	info->biClrImportant = 0;
 
 	File *out = TheFileSystem->openFile(file, 0x4A, 0);
 	if (out != NULL) {
 		BfmeBitmapFileHeader hdr;
-		hdr.bfType = 0x4D42;
-		hdr.bfSize = sizeof(BfmeBitmapFileHeader) + info->biSize + info->biClrUsed * 4 + info->biSizeImage;
+		hdr.bfType = 0x4D42; _ReadWriteBarrier();
+		hdr.bfSize = sizeof(BfmeBitmapFileHeader) + info->biSize + info->biClrUsed * 4 + info->biSizeImage; _ReadWriteBarrier();
 		hdr.bfReserved1 = 0;
 		hdr.bfReserved2 = 0;
 		hdr.bfOffBits = sizeof(BfmeBitmapFileHeader) + info->biSize + info->biClrUsed * 4;
 		if (out->write(&hdr, sizeof(BfmeBitmapFileHeader)) >= sizeof(BfmeBitmapFileHeader)) {
-			unsigned int infoBytes = sizeof(BfmeBitmapInfoHeader) + info->biClrUsed * 4;
-			if (out->write(info, infoBytes) >= infoBytes) {
+			if (out->write(info, sizeof(BfmeBitmapInfoHeader) + info->biClrUsed * 4) >= sizeof(BfmeBitmapInfoHeader) + info->biClrUsed * 4) {
 				int imageBytes = info->biSizeImage;
 				if (out->write(image, imageBytes) >= imageBytes) {
 					out->close();
