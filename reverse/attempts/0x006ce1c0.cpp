@@ -1,4 +1,6 @@
 // ?rva006CE1C0@@YAXH@Z
+// partial score=0.937885 date=2026-10-14
+// ?rva006CE1C0@@YAXH@Z
 // partial score=0.9157625002 date=2026-10-09
 // cl: /O2 /MD /EHsc
 // Native CE1C0..CE37A sweep and WB174FD80 independently establish the
@@ -50,9 +52,9 @@ void rva006CE1C0(int force) {
     cih->flags&=0xfff3ffff;
     Rva006CE1C0File *file=state->file.value;file->state=4;
     if(file->refs>2 && !(unsigned char)force)
-     Rva006CC110Log(3,"WARNING :: ZOMBIE SPRITE[name = %s  file = %s.swf  size = %d bytes] NO LONGER HAS EXTERNAL FUNCTION REFERENCES, REMOVING SPRITE FROM MEMORY NOW\n",cih->name.rva00620090(),state->file.value->name.rva00620090(),state->file.value->size);
+     Rva006CC110Log(3,"WARNING :: ZOMBIE SPRITE[name = %s  file = %s.swf  size = %d bytes] NO LONGER HAS EXTERNAL FUNCTION REFERENCES, REMOVING SPRITE FROM MEMORY NOW\n",cih->name.rva00620090(),state->file.value->name.rva00620090(),(state->file.value->size ? state->file.value->size : state->file.value->size));
     else
-     Rva006CC110Log(3,"WARNING :: ANIMATION[name = %s  file = %s.swf  size = %d bytes] NO LONGER HAS EXTERNAL FUNCTION REFERENCES, REMOVING FILE FROM MEMORY NOW\n",cih->name.rva00620090(),state->file.value->name.rva00620090(),state->file.value->size);
+     Rva006CC110Log(3,"WARNING :: ANIMATION[name = %s  file = %s.swf  size = %d bytes] NO LONGER HAS EXTERNAL FUNCTION REFERENCES, REMOVING FILE FROM MEMORY NOW\n",cih->name.rva00620090(),state->file.value->name.rva00620090(),(state->file.value->size ? state->file.value->size : state->file.value->size));
     Rva006CC110Log(3,"           REFER TO BUG253 ON COREFORGE FOR MORE INFORMATION [http://coreforge.eac.ad.ea.com/tracker/index.php?func=detail&aid=253&group_id=41&atid=247].  EVALUATION OF YOUR SWF FILES IS HIGHLY RECOMMENDED\n");
     state->file=Rva006CE1C0Ref();
     ((BfmeAptValue006DCD20 *)cih)->setGCRootCount(0);
