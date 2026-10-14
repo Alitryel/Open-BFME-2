@@ -7,9 +7,7 @@
 // constructor, independently verified before using it for the +24 list.
 // Six bindings establish callbacks. WB1323070 names OnInitialized,
 // WB1323380 names ExternMessageWidth and WB13235C0 names RenderMessage.
-// RenderMessage144 is banked: four local-stack offsets still differ. Its
-// independently named native entry remains a declaration and a link
-// blocker. Constructor DIR32 binding needs no new pin. The two float-pair argument types follow retail accesses;
+// Constructor DIR32 binding needs no new pin. The two float-pair argument types follow retail accesses;
 // pointer types for its two unused words remain structural views.
 // No applicable clean BFME1/ZH donor body at the pinned f98983a7d revision.
 #include "ascii_string.h"
@@ -170,6 +168,15 @@ void InGameNotificationBoxMovieClip::OnInitialized(unsigned){if(state==0)state=1
 void InGameNotificationBoxMovieClip::ExternMessageWidth(int,const char*text,bool){width=(float)atof(text);}
 unsigned char InGameNotificationBoxMovieClip::rva00578522()const{return flag50;}
 void InGameNotificationBoxMovieClip::rva004E6B7D(bool value){if(value!=flag50){if(!value)CloseImmediately();flag50=value;}}
+// Centers the message string in the render rectangle. Native 4E6898 (144B) after 4E6882;
+// WB13235C0 names RenderMessage. The equal-arm on the string argument keeps the
+// retail order of the two parameter loads (an arg-level (C ? E : E) schedule lever).
+void InGameNotificationBoxMovieClip::RenderMessage(const Coord2D*position,const Coord2D*size,void*,void*) {
+ if(active.m_ptr){int w,h;((NoticeStringView*)string)->getSize(&w,&h);
+ int x=WWMath::Float_To_Long((string ? ((float)floor(position->x+(size->x-w+1.0f)*0.5f)) : ((float)floor(position->x+(size->x-w+1.0f)*0.5f))));
+ int y=WWMath::Float_To_Long((float)floor(position->y+(size->y-h+1.0f)*0.5f));
+ ((NoticeStringView*)string)->draw(x,y);}
+}
 typedef char NotificationFieldsHave84Bytes[sizeof(InGameNotificationBoxMovieClip)==84 ? 1 : -1];
 
 // Vtable862440 slot2 and WB1322EB0 forward three args to Open1322140;
