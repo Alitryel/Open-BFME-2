@@ -55645,3 +55645,8 @@ __Locale_ctype_default	0x00021980	5	landed	add_match verified Code/Libraries/Sou
 ?size@?$deque@PAXV?$allocator@PAX@_STL@@@_STL@@QBEIXZ	0x000554E6	10	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/stlport_deque_ptr_o1.cpp 10B; STLport 4.5.3 deque<void*> size: finish minus start through rowed iterator _M_subtract 0x00051A98; unreferenced
 ?rva000554F5@Rva000554F5@@QAEXXZ	0x000554F5	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 5B; unreferenced tail-jump forwarder
 ?rva000907BC@@YAXXZ	0x000907BC	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 5B; unreferenced tail-jump forwarder
+??1Rva0002CD71@@QAE@XZ	0x0002CD71	5	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva0002CD71.cpp 5B; holder dtor tail-jumping into rowed hashtable dtor 0x0002CCC3; unreferenced
+??1Rva000581F0@@QAE@XZ	0x000581F0	5	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/StlportDequeHolderForwarders.cpp 5B; unreferenced deque-holder tail-jump forwarder
+?rva000554F0@Rva000554F0@@QAEAAURva003B5603Element@@XZ	0x000554F0	5	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/StlportDequeHolderForwarders.cpp 5B; unreferenced deque-holder tail-jump forwarder
+?rva00056B34@Rva00056B34@@QAEXXZ	0x00056B34	5	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/StlportDequeHolderForwarders.cpp 5B; unreferenced deque-holder pop tail-jumping into rowed pop_back 0x0005555F
+?rva00055463@Rva00055463@@QAEIABQAURva00051107AudioRequest@@@Z	0x00055463	5	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/StlportHashSetHolderErase.cpp 5B; unreferenced hash-set-holder erase(key) tail-jumping into rowed hashtable erase 0x00054C93
