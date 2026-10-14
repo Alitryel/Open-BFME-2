@@ -1,10 +1,4 @@
-// ?rva005A52FE@AptOnlineCustomMatch@@UAEHPAVGameWindow@@III@Z
-// partial score=0.973 date=2026-10-14
-// ?rva005A52FE@AptOnlineCustomMatch@@UAEHPAVGameWindow@@III@Z
-// partial score=0.96 date=2026-10-14
-// ?rva005A52FE@AptOnlineCustomMatch@@UAEHPAVGameWindow@@III@Z
-// partial score=0.98 date=2026-10-11
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // BFME2's online custom match screen Apt callbacks, 0x0059EC65 onward,
@@ -612,6 +606,7 @@ private:
 	unsigned char m_pad04[0x0C - 0x04];
 };
 
+template <class T> static inline volatile T &__vref(T &x){return (volatile T &)x;}
 class AptOnlineCustomMatch : public CustomMatchScreen, public MpOwner
 {
 public:
@@ -1583,6 +1578,7 @@ static inline bool Rva005A52FEIsEmptyB(const UnicodeString &text)
 	const Rva005A52FEWideData *data = *(const Rva005A52FEWideData *const *)&text;
 	return data == 0 || data->m_length == 0;
 }
+static inline int EmpI(const UnicodeString &text){const Rva005A52FEWideData *data = *(const Rva005A52FEWideData *const *)&text; return data == 0 || data->m_length == 0;}
 static inline int Rva005A52FELength(const UnicodeString &text)
 {
 	const Rva005A52FEWideData *data = *(const Rva005A52FEWideData *const *)&text;
@@ -1602,6 +1598,7 @@ static inline bool Rva005A52FEIsEmptyC(const UnicodeString &text)
 // enables joining while the room's slots 8 and 9 differ and asks for its
 // extended info at most once a second per room (Zero Hour's
 // WOLLobbyMenuSystem GLM_SELECTED throttle, by timeGetTime).
+static inline void *Rva5A52FEAddr(const AsciiString &s) { return (void *)&s; }
 int AptOnlineCustomMatch::rva005A52FE(GameWindow *window, unsigned int msg, unsigned int mData1, unsigned int mData2)
 {
 	int result = ((AptMpGameSetup *)&m_70)->rva00442CB3(msg, mData1, mData2);
@@ -1617,8 +1614,7 @@ int AptOnlineCustomMatch::rva005A52FE(GameWindow *window, unsigned int msg, unsi
 		if (mData1 && (GameWindow *)mData1 == m_textentryGameName)
 		{
 			UnicodeString text = GadgetTextEntryGetText(m_textentryGameName);
-			bool empty = Rva005A52FEIsEmptyB(text);
-			bool enable = !empty;
+			int empty = EmpI(text); bool enable = !(char)empty;
 			if (m_4c2 != enable)
 			{
 				m_4c2 = enable;
@@ -1635,10 +1631,8 @@ int AptOnlineCustomMatch::rva005A52FE(GameWindow *window, unsigned int msg, unsi
 			GadgetComboBoxGetSelectedPos((GameWindow *)m_490, &pos);
 			if (pos >= 0)
 			{
-				int u_m_490 = m_490;
-				void *ladder = GadgetComboBoxGetItemData((GameWindow *)u_m_490, pos);
-				AsciiString password("");
-				((Rva005A5B38Box *)this)->DoRefresh((int)ladder, &password);
+				void *ladder = GadgetComboBoxGetItemData((GameWindow *)m_490, pos);
+				((Rva005A5B38Box *)this)->DoRefresh((int)ladder, Rva5A52FEAddr(AsciiString("")));
 			}
 		}
 		break;

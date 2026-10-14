@@ -88150,3 +88150,4 @@ $L17825,,0x0077F708,24,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Persist
 ?rva002CC4DD@Weapon@@QAEXXZ,,0x002CC4DD,155,Code/GameEngine/Source/GameLogic/Object/WeaponRva002CC4DDSpawn.cpp,matched,
 ?rva0051759E@Rva00517345@@UAEHIEI@Z,,0x0051759E,390,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineKeyHandler.cpp,matched,screen key handler: Esc logoff confirmation YesNo prompt via pair-holder ctor 0x44BF40; Enter GameSpy login; handler vector at +0x280
 ?upgradeImplementation@RemoveUpgradeUpgrade@@MAEXXZ,,0x004B8095,528,Code/GameEngine/Source/GameLogic/Object/Upgrade/RemoveUpgradeUpgradeImplementation.cpp,matched,
+?rva005A52FE@AptOnlineCustomMatch@@UAEHPAVGameWindow@@III@Z,,0x005A52FE,820,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatchMessageHandler.cpp,matched,custom match window-message handler; ZH WOLLobbyMenuSystem GLM_SELECTED throttle donor
