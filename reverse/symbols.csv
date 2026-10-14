@@ -14985,7 +14985,6 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ?SetTabsState@Impl@RegionDetailsMovieClip@StrategicHUD@@QAEXH@Z,0x005E314B,WorldBuilder name (callgraph from Impl::SetCurrentPage 0x005E31AA; whose REL32 calls these in this order); thiscall; one int page
 ?ShowPage@Impl@RegionDetailsMovieClip@StrategicHUD@@QAEXH@Z,0x005E2E91,WorldBuilder name (callgraph from Impl::SetCurrentPage 0x005E31AA; whose REL32 calls these in this order); thiscall; one int page
 ?OnEndPhase@ManualPhaseEnder@StrategicInGameUI@@QAEXXZ,0x005CD8A5,callee of ?Translate@ManualPhaseEnder@StrategicInGameUI@@QAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
-?translateGameMessage@UserInputTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z,0x005CBC95,callee of ?translateGameMessage@Impl@PlanRetreatsPhaseBehavior@StrategicInGameUI@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
 ?Translate@Rva005C9BE3@@QAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z,0x005C9BE3,callee of ?translateGameMessage@Impl@CommonBehavior@StrategicInGameUI@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
 ??0AutoResolve@Data@StrategicVeterancy@@QAE@PAX00@Z,0x005ECE81,callee of ?Rva005ED15DCreateAutoResolve@@YAPAVData@StrategicVeterancy@@PAX00@Z
 ?AddItem@Impl@Checklist@StrategicInGameUI@@QAEXABUChecklistItemRef@3@PAV1ChecklistItem@3@@Z,0x005CD049,callee of ?AddItem@Checklist@StrategicInGameUI@@QAEXABUChecklistItemRef@2@@Z

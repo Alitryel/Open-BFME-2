@@ -587,10 +587,17 @@ class Rva005C9BE3Call
 public:
 	int rva005C9BE3(void *arg);
 };
-class Rva005CBC95Call
+enum GameMessageDisposition
+{
+	KEEP_MESSAGE,
+	DESTROY_MESSAGE
+};
+
+// The base translator's slot 0 (0x005CBC95), called non-virtually.
+class UserInputTranslator
 {
 public:
-	int rva005CBC95(void *arg);
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
 };
 class Rva00574910
 {
@@ -611,7 +618,7 @@ int Rva00574910::rva00574910(void *arg)
 		return 1;
 	if (((Rva005C9BE3Call *)((char *)this + 0x28))->rva005C9BE3(arg) == 1)
 		return 1;
-	return ((Rva005CBC95Call *)this)->rva005CBC95(arg);
+	return ((UserInputTranslator *)this)->UserInputTranslator::translateGameMessage((const GameMessage *)arg);
 }
 
 
@@ -643,6 +650,6 @@ int Rva005772BF::rva005771F4(GameMessage *message)
 	if ((!dispatcher || dispatcher->rva005D1FD3(message) != 1)
 		&& ((Rva005CD8F7Call *)((char *)this + 0x18))->rva005CD8F7(message) != 1
 		&& ((Rva005CD690Call *)((char *)this + 0x28))->rva005CD690(message) != 1)
-		return ((Rva005CBC95Call *)this)->rva005CBC95(message);
+		return ((UserInputTranslator *)this)->UserInputTranslator::translateGameMessage(message);
 	return 1;
 }

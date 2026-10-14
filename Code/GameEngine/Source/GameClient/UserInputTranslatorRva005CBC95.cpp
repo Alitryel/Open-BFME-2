@@ -1,16 +1,14 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //
-// ?rva005CBC95@Rva005CBC95Call@@QAEHPAX@Z
+// ?translateGameMessage@UserInputTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
 // retail 0x005CBC95..0x005CC1A0 (1291 bytes) thiscall RET 4; jump table
 // 0x005CC1A0 (26 cases) follows the body.
 //
 // The base input translator's message dispatch. WorldBuilder twin
 // 0x015AEA20 UserInputTranslator::translateGameMessage
 // (UserInputTranslator.cpp; wb-name-unverified) has the same switch and
-// argument shapes. The spelling is the existing pin used by the rowed caller
-// 0x00574910; the same address also carries the pin
-// ?translateGameMessage@UserInputTranslator@@... used by the rowed overrides
-// 0x005771F4 0x00575C15 0x0057667D (vtable slot 0 of the translator).
+// argument shapes. Slot 0 of the translator vtable: the rowed overrides
+// 0x00574910 0x005771F4 0x00575C15 0x0057667D defer to it by this name.
 // Target evidence: switches on the message type at msg+0x10 (types 3..28;
 // 7 and 20 and the rest return 0) and calls this object's own vtable slots
 // +0x08..+0x64 with arguments fetched by the rowed GameMessage::getArgument
@@ -52,41 +50,45 @@ struct Rva005CBC95Pixel
 	Rva005CBC95Pixel(const ICoord2D &p) : x(p.x), y(p.y) {}
 };
 
-class Rva005CBC95Call
+enum GameMessageDisposition
 {
-public:
-	virtual int slot00(void *msg);
-	virtual void slot04();
-	virtual int slot08(const Rva005CBC95Pixel &pos, int a);
-	virtual int slot0C(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot10(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot14(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot18(const Rva005CBC95Pixel &pos, const Rva005CBC95Pixel &anchor, int a);
-	virtual int slot1C(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot20(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot24(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot28(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot2C(const Rva005CBC95Pixel &pos, const Rva005CBC95Pixel &anchor, int a);
-	virtual int slot30(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot34(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot38(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot3C(const Rva005CBC95Pixel &pos, const Rva005CBC95Pixel &anchor, int a);
-	virtual int slot40(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot44(const Rva005CBC95Pixel &pos, int a, int b);
-	virtual int slot48(const IRegion2D &region, int a);
-	virtual int slot4C(const IRegion2D &region, int a);
-	virtual int slot50(const IRegion2D &region, int a);
-	virtual int slot54(const IRegion2D &region, int a);
-	virtual int slot58(const IRegion2D &region, int a);
-	virtual int slot5C(const IRegion2D &region, int a);
-	virtual int slot60(int a, int b);
-	virtual int slot64(int a, int b);
-	int rva005CBC95(void *msg);
+	KEEP_MESSAGE,
+	DESTROY_MESSAGE
 };
 
-int Rva005CBC95Call::rva005CBC95(void *message)
+class UserInputTranslator
 {
-	const GameMessage *msg = (const GameMessage *)message;
+public:
+	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
+	virtual ~UserInputTranslator();
+	virtual GameMessageDisposition slot08(const Rva005CBC95Pixel &pos, int a);
+	virtual GameMessageDisposition slot0C(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot10(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot14(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot18(const Rva005CBC95Pixel &pos, const Rva005CBC95Pixel &anchor, int a);
+	virtual GameMessageDisposition slot1C(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot20(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot24(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot28(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot2C(const Rva005CBC95Pixel &pos, const Rva005CBC95Pixel &anchor, int a);
+	virtual GameMessageDisposition slot30(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot34(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot38(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot3C(const Rva005CBC95Pixel &pos, const Rva005CBC95Pixel &anchor, int a);
+	virtual GameMessageDisposition slot40(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot44(const Rva005CBC95Pixel &pos, int a, int b);
+	virtual GameMessageDisposition slot48(const IRegion2D &region, int a);
+	virtual GameMessageDisposition slot4C(const IRegion2D &region, int a);
+	virtual GameMessageDisposition slot50(const IRegion2D &region, int a);
+	virtual GameMessageDisposition slot54(const IRegion2D &region, int a);
+	virtual GameMessageDisposition slot58(const IRegion2D &region, int a);
+	virtual GameMessageDisposition slot5C(const IRegion2D &region, int a);
+	virtual GameMessageDisposition slot60(int a, int b);
+	virtual GameMessageDisposition slot64(int a, int b);
+};
+
+GameMessageDisposition UserInputTranslator::translateGameMessage(const GameMessage *msg)
+{
 	switch (msg->getType())
 	{
 	case 3:
@@ -138,5 +140,5 @@ int Rva005CBC95Call::rva005CBC95(void *message)
 	case 22:
 		return slot64(msg->getArgument(0)->integer, msg->getArgument(1)->integer);
 	}
-	return 0;
+	return KEEP_MESSAGE;
 }
