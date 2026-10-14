@@ -44,3 +44,40 @@ AptOnlineOpenPlay::AptOnlineOpenPlay(int arg)
 	if (g_rva005BA1FDInst == 0)
 		g_rva005BA1FDInst = this;
 }
+
+// ??0Rva005BA28E@@QAE@H@Z @0x005BA28E 55B: sibling composing constructor,
+// same skeleton as AptOnlineOpenPlay above. Builds the shared base with
+// (arg, 1), installs its three tables (C73DCC/C73D70/C73D60, DIR32 copied
+// from retail) and publishes this to the 0xE06548 screen-instance global
+// that the rowed destructor 0x005BA2CB clears. Original class name unknown.
+extern int g_Va00E06548;
+#define g_rva005BA28EInst (*(Rva005BA28E * *)&g_Va00E06548)
+
+struct Rva005BA28EM60
+{
+	virtual void M60Virt();
+	char pad[8];
+};
+
+struct Rva005BA28EM6C
+{
+	virtual void M6CVirt();
+};
+
+class Rva005BA28E : public Rva005BA1FDBase
+{
+	char pad[0x60 - 4];
+	Rva005BA28EM60 m_60;
+	Rva005BA28EM6C m_6c;
+
+public:
+	Rva005BA28E(int arg);
+	virtual void BoxVirt();
+};
+
+Rva005BA28E::Rva005BA28E(int arg)
+	: Rva005BA1FDBase(arg, 1)
+{
+	if (g_rva005BA28EInst == 0)
+		g_rva005BA28EInst = this;
+}
