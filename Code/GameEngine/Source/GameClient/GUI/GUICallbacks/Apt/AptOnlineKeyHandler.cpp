@@ -67,9 +67,8 @@ public:
 };
 extern GameSpyInfoInterface *TheGameSpyInfo;
 
-extern int g_Va00E046B8;
 void Rva00511730(int a);
-class AptMessenger { public: static void OpenScreen(); };
+class AptMessenger { public: static void OpenScreen(); static AptMessenger *s_instance; };
 
 // Reference-counted callback handles (address-derived views; the callee
 // releases its by-value handles).
@@ -149,7 +148,7 @@ Int Rva00517345::rva0051759E(UnsignedInt msg, UnsignedByte key, UnsignedInt stat
 		{
 			if (state & 1)
 			{
-				if (g_Va00E046B8)
+				if (AptMessenger::s_instance)
 				{
 					Rva00511730(0);
 					return 1;
@@ -161,7 +160,7 @@ Int Rva00517345::rva0051759E(UnsignedInt msg, UnsignedByte key, UnsignedInt stat
 		{
 			if (state & 1)
 			{
-				if (g_Va00E046B8)
+				if (AptMessenger::s_instance)
 					Rva00511730(0);
 				else
 					AptMessenger::OpenScreen();
