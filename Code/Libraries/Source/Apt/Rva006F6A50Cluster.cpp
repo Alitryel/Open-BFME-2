@@ -118,6 +118,7 @@ class Rva006D2A60
 {
 public:
 	void *allocBlock(int size);
+	void freeBlock(void *block, int size);
 };
 
 extern Rva006DB270 *g_pChainBlockAllocator;   // VA 0x00E176E8
@@ -131,7 +132,8 @@ class Rva006CBDE0 : public AptValue
 {
 public:
 	Rva006CBDE0(int type, void *p1, AptValue *p2);
-	static void operator delete(void*p,unsigned n){Rva006F12F0Free(p,n);}
+	// Native failed-construction cleanup uses the same F4 pool as allocation.
+	static void operator delete(void*p,unsigned n){g_pChainBlockAllocatorF4->freeBlock(p,(int)n);}
 
 	static void *operator new(unsigned int size)
 	{
