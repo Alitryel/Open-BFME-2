@@ -1,13 +1,3 @@
-// ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z
-// partial score=0.99 date=2026-10-14
-// ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z
-// partial score=0.995629 date=2026-10-14
-// ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z
-// partial score=0.94 date=2026-10-13
-// ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z
-// partial score=0.9113924798525276 date=2026-10-10
-// ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z
-// partial score=0.95 date=2026-10-10
 // cl: /O1 /Ob2 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /ICode/GameEngine/Source/Common
 // stlport
 // ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z retail 0x004808E8..0x00480DF4 (1292 bytes).
@@ -52,7 +42,9 @@ class Object{public:Player *getControllingPlayer()const;bool rva0028C15E(int,flo
 template<int N>class SlaughterAddSlots:public SlaughterAddSlots<N-1>{public:virtual void gap(char(*)[N]);};template<>class SlaughterAddSlots<0>{};
 class GameTextInterface:public SlaughterAddSlots<17>{public:virtual const UnicodeString *text(const char*,bool*);};extern GameTextInterface *TheGameText;
 class InGameUI:public SlaughterAddSlots<104>{public:virtual void floating(const UnicodeString*,const Coord3D*,unsigned int);};extern InGameUI *TheInGameUI;
-struct BfmeDelayedLuaEventList{BfmeDelayedLuaEventList();~BfmeDelayedLuaEventList();char data[0x4c];};
+struct BfmeDelayedLuaEventList;
+struct BfmeDispatchDelayedLuaEvent{void *m_vtable;float m_number;unsigned char m_boolean;unsigned m_objectID;AsciiString m_string;unsigned m_type;};
+struct DelayedLuaEventList{DelayedLuaEventList();virtual ~DelayedLuaEventList();BfmeDispatchDelayedLuaEvent m_events[3];};
 class BfmeObjectEventDispatch{public:void rva003360D2(int,void*,BfmeDelayedLuaEventList*);};
 class LuaScriptEngine;extern LuaScriptEngine *TheLuaScriptEngine;extern GameLogic *TheGameLogic;
 float GetGameClientRandomValueReal(float,float,char*,int);
@@ -81,7 +73,7 @@ __forceinline long fast_float2long_round(float f)
  return i;
 }
 __forceinline float fast_float_ceil(float f){return (float)ceil((double)f);}
-#define REAL_TO_INT_CEIL(x) (fast_float2long_round(fast_float_ceil(x)))
+#define REAL_TO_INT_CEIL(x) (fast_float2long_round((float)ceil(x)))
 void SlaughterHordeContain::AddHordeMember(Object *member)
 {
  if(!member)return;Player *player=member->getControllingPlayer();if(!player)return;
@@ -119,8 +111,8 @@ rva004804DD(member);bool changed=false;
    ((HordeGarrisonContain*)this)->HordeGarrisonContain::rva00479ADA(member);
    if(consumeMember)player->score.addObjectLost(member);
  }else if(consumeMember){
-   BfmeDelayedLuaEventList list;*(ObjectID*)(list.data+0x10)=me->id;*(int*)(list.data+0x18)=3;
-   ((BfmeObjectEventDispatch*)TheLuaScriptEngine)->rva003360D2(14,member,&list);
+   DelayedLuaEventList list;list.m_events[0].m_objectID=me->id;list.m_events[0].m_type=3;
+   ((BfmeObjectEventDispatch*)TheLuaScriptEngine)->rva003360D2(14,member,(BfmeDelayedLuaEventList*)&list);
    member->kill((DamageType)8,(DeathType)23);TheGameLogic->destroyObject(member);player->score.addObjectLost(member);
  }else{
    ((HordeGarrisonContain*)this)->HordeGarrisonContain::rva00479B7F(member);remove(member);
