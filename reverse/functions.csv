@@ -88148,3 +88148,4 @@ $L17825,,0x0077F708,24,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Persist
 ?upgradeImplementation@GeometryUpgrade@@UAEXXZ,,0x004B6C8A,600,Code/GameEngine/Source/GameLogic/Object/Upgrade/GeometryUpgrade.cpp,matched,geometry upgrade apply: clear-mask overlap checks in Object+284 and Player+13C then module-data strings on draw modules and geometry records; unsigned size tests keep sar
 ?rva003A178D@Team@@QAEHPAVObjectTypes@@HPAV1@@Z,,0x003A178D,790,Code/GameEngine/Source/Common/RTS/TeamGetControllingPlayer.cpp,matched,
 ?rva002CC4DD@Weapon@@QAEXXZ,,0x002CC4DD,155,Code/GameEngine/Source/GameLogic/Object/WeaponRva002CC4DDSpawn.cpp,matched,
+?rva0051759E@Rva00517345@@UAEHIEI@Z,,0x0051759E,390,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineKeyHandler.cpp,matched,screen key handler: Esc logoff confirmation YesNo prompt via pair-holder ctor 0x44BF40; Enter GameSpy login; handler vector at +0x280

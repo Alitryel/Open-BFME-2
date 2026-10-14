@@ -1,4 +1,6 @@
 // ?rva005A52FE@AptOnlineCustomMatch@@UAEHPAVGameWindow@@III@Z
+// partial score=0.973 date=2026-10-14
+// ?rva005A52FE@AptOnlineCustomMatch@@UAEHPAVGameWindow@@III@Z
 // partial score=0.96 date=2026-10-14
 // ?rva005A52FE@AptOnlineCustomMatch@@UAEHPAVGameWindow@@III@Z
 // partial score=0.98 date=2026-10-11
@@ -1647,22 +1649,23 @@ int AptOnlineCustomMatch::rva005A52FE(GameWindow *window, unsigned int msg, unsi
 	case 0x4014:
 		if ((int)mData1 == m_48c && !m_70.m_ladder)
 		{
-			GameSpyStagingRoom *room = 0;
+			struct Locals { int id; GameSpyStagingRoom *room; } L;
+			L.room = 0;
 			if ((int)mData2 >= 0)
 			{
 				std::map<int, GameSpyStagingRoom *> *rooms = TheGameSpyInfo->v41();
-				int id = (int)GadgetListBoxGetItemData((GameWindow *)mData1, mData2, 3);
-				std::map<int, GameSpyStagingRoom *>::iterator it = rooms->find(id);
+				L.id = (int)GadgetListBoxGetItemData((GameWindow *)mData1, mData2, 3);
+				std::map<int, GameSpyStagingRoom *>::iterator it = rooms->find(L.id);
 				if (it != rooms->end())
 				{
-					room = it->second;
-					((AptMpGameSetup *)&m_70)->rva0043FA68(room);
+					L.room = it->second;
+					((AptMpGameSetup *)&m_70)->rva0043FA68(L.room);
 				}
 				else
 				{
 					((AptMpGameSetup *)&m_70)->rva0043FA68(0);
 				}
-				if (room && room->v08() != room->v09())
+				if (L.room && L.room->v08() != L.room->v09())
 				{
 					if (!m_joinEnabled)
 					{
