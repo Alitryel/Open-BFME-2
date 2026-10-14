@@ -13,6 +13,10 @@ template <> void deque<int>::_M_push_front_aux_v(const int &);
 template <> void _Deque_base<int, allocator<int> >::_M_initialize_map(size_t);
 // Retail uses the shared four-byte allocator at 0x00068E15.
 template <> int *allocator<int>::allocate(size_t, const void *) const;
+// Retail has no copy of allocator<int>::deallocate (every use is inline). This /O2
+// unit's 18B copy is first in link order and differs from the /O1 units' 20B one.
+template <> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int *__p, size_t) const { if (__p != 0) ::free((void *)__p); }
 }
 
 template class _STL::deque<int, _STL::allocator<int> >;
