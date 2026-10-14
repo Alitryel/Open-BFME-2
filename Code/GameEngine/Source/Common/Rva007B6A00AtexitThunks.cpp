@@ -28,10 +28,10 @@ public:
 	virtual ~BfmeStringTailRecord144();
 };
 
-class Rva000E19A3
+class TerrainFXShaderParameterSourceNamespace
 {
 public:
-	virtual ~Rva000E19A3();
+	virtual ~TerrainFXShaderParameterSourceNamespace();
 };
 
 class Rva00049C38ADwordImmSetter
@@ -266,11 +266,11 @@ void __cdecl rva007B6B05()
 	p->BfmeStringTailRecord144::~BfmeStringTailRecord144();
 }
 
-// ?rva007B6DFA@@YAXXZ @ 0x007B6DFA (10B): ecx=&g_Va00DEBC64, tail-jump to rowed ??1Rva000E19A3@@UAE@XZ (0x000E19A3)
+// ?rva007B6DFA@@YAXXZ @ 0x007B6DFA (10B): ecx=&g_Va00DEBC64, tail-jump to rowed ??1TerrainFXShaderParameterSourceNamespace@@UAE@XZ (0x000E19A3)
 void __cdecl rva007B6DFA()
 {
-	Rva000E19A3 *p = (Rva000E19A3 *)&g_Va00DEBC64;
-	p->Rva000E19A3::~Rva000E19A3();
+	TerrainFXShaderParameterSourceNamespace *p = (TerrainFXShaderParameterSourceNamespace *)&g_Va00DEBC64;
+	p->TerrainFXShaderParameterSourceNamespace::~TerrainFXShaderParameterSourceNamespace();
 }
 
 // ?rva007B6E36@@YAXXZ @ 0x007B6E36 (10B): ecx=&g_Va00DEBCA0, tail-jump to rowed ?apply@Rva00049C38ADwordImmSetter@@QAEXXZ (0x0049C38A)

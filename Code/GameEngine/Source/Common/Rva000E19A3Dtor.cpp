@@ -1,6 +1,6 @@
 // cl: /MD /EHsc
-// Terrain FX parameter binder registered as "Terrain" (address-derived name
-// Rva000E19A3). Target facts: ctor 0x000E188F (called from 0x007AB7D2) stores
+// Terrain FX parameter binder registered as "Terrain"
+// (TerrainFXShaderParameterSourceNamespace, formerly Rva000E19A3). Target facts: ctor 0x000E188F (called from 0x007AB7D2) stores
 // vptrs 0x00BCE51C { ??_G 0x000E1A1D, dispatcher 0x000E1F42 } at +0 and
 // 0x00BCE50C at +4 (over base vtables 0x00BC6F24 { ??_G, __purecall } and
 // 0x00C4EF80 { four __purecall }), five sub-binders at +0x08..+0x18 with
@@ -197,34 +197,9 @@ struct Rva000E236DBinder : public FXShaderParameterSourceNamespace_Struct
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
 
-// Scope-only containing type; this view makes no storage claim for it.
-class TerrainFXShaderParameterSourceNamespace
-{
-public:
-	class SourceNamespace_Taint;
-	class SourceNamespace_Weather;
-};
-
-class TerrainFXShaderParameterSourceNamespace::SourceNamespace_Taint : public FXShaderParameterSourceNamespace_Struct
-{
-public:
-	~SourceNamespace_Taint() {}
-	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
-};
-
 struct Rva000E2A81Binder : public FXShaderParameterSourceNamespace_Struct
 {
 	~Rva000E2A81Binder() {}
-	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
-};
-
-// ?ResolveBindings@SourceNamespace_Weather@TerrainFXShaderParameterSourceNamespace@@UAEXPBD0PAVFXShaderParameterBinder@@@Z @0x000E2CA7 127B:
-// renamed from placeholder Rva000E2CA7Binder — the WorldBuilder twin asserts
-// SourceNamespace_Weather::ResolveBindings at EA's own FlatHeightMap.cpp.
-// Scope spelling follows the landed SourceNamespace_Shroud/Taint siblings.
-struct TerrainFXShaderParameterSourceNamespace::SourceNamespace_Weather : public FXShaderParameterSourceNamespace_Struct
-{
-	~SourceNamespace_Weather() {}
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
 
@@ -248,11 +223,31 @@ public:
 // g_00DEBC60: matched references place it at VA 0xdebc60 (zero-filled .bss).
 Rva000E19A3Interface *g_00DEBC60;
 
-class Rva000E19A3 : public Base, public Rva000E19A3Interface
+// WorldBuilder: TerrainFXShaderParameterSourceNamespace (FlatHeightMap.cpp;
+// ResolveBindings 0x000E1F42 is WB VA 0x007C0630, strings lead score 9.25).
+// Its five sub-binders are the SourceNamespace_* members below.
+class TerrainFXShaderParameterSourceNamespace : public Base, public Rva000E19A3Interface
 {
 public:
-	Rva000E19A3();
-	virtual ~Rva000E19A3();
+	class SourceNamespace_Taint : public FXShaderParameterSourceNamespace_Struct
+	{
+	public:
+		~SourceNamespace_Taint() {}
+		virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
+	};
+
+	// ?ResolveBindings@SourceNamespace_Weather@TerrainFXShaderParameterSourceNamespace@@UAEXPBD0PAVFXShaderParameterBinder@@@Z @0x000E2CA7 127B:
+	// renamed from placeholder Rva000E2CA7Binder — the WorldBuilder twin asserts
+	// SourceNamespace_Weather::ResolveBindings at EA's own FlatHeightMap.cpp.
+	// Scope spelling follows the landed SourceNamespace_Shroud/Taint siblings.
+	struct SourceNamespace_Weather : public FXShaderParameterSourceNamespace_Struct
+	{
+		~SourceNamespace_Weather() {}
+		virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
+	};
+
+	TerrainFXShaderParameterSourceNamespace();
+	virtual ~TerrainFXShaderParameterSourceNamespace();
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 	virtual void setRenderingMode(int mode);
 	virtual void setBaseTexture(RefCountPtr<TextureClass> texture);
@@ -263,40 +258,40 @@ public:
 	void Rva000E21BENormalTexture(ID3DXEffect *effect, D3DXHANDLE handle);
 private:
 	Rva000E236DBinder m_08;
-	TerrainFXShaderParameterSourceNamespace::SourceNamespace_Taint m_0C;
+	SourceNamespace_Taint m_0C;
 	Rva000E2A81Binder m_10;
-	TerrainFXShaderParameterSourceNamespace::SourceNamespace_Weather m_14;
+	SourceNamespace_Weather m_14;
 	Rva000E2DFDBinder m_18;
 	int m_1C;
 	RefCountPtr<TextureClass> m_20;
 	RefCountPtr<TextureClass> m_24;
 };
 
-Rva000E19A3::Rva000E19A3() : m_1C(0)
+TerrainFXShaderParameterSourceNamespace::TerrainFXShaderParameterSourceNamespace() : m_1C(0)
 {
 	Rva00153565Register("Terrain", this);
 	g_00DEBC60 = this;
 }
 
-Rva000E19A3::~Rva000E19A3()
+TerrainFXShaderParameterSourceNamespace::~TerrainFXShaderParameterSourceNamespace()
 {
 	g_00DEBC60 = 0;
 	Rva001532E1Erase("Terrain");
 }
 
-void Rva000E19A3::clearTextures()
+void TerrainFXShaderParameterSourceNamespace::clearTextures()
 {
 	m_20.Clear();
 	m_24.Clear();
 }
 
-void Rva000E19A3::setBaseTexture(RefCountPtr<TextureClass> texture)
+void TerrainFXShaderParameterSourceNamespace::setBaseTexture(RefCountPtr<TextureClass> texture)
 {
 	RefCountPtr<TextureClass> &dst = m_20;
 	dst = texture;
 }
 
-void Rva000E19A3::setNormalTexture(RefCountPtr<TextureClass> texture)
+void TerrainFXShaderParameterSourceNamespace::setNormalTexture(RefCountPtr<TextureClass> texture)
 {
 	RefCountPtr<TextureClass> &dst = m_24;
 	dst = texture;
@@ -307,7 +302,7 @@ void Rva000E19A3::setNormalTexture(RefCountPtr<TextureClass> texture)
 // for "BaseTexture" and 0x004E21BE for "NormalTexture" as functor methods).
 // Rendering modes past 4 fall back to 0; missing textures fall back to the
 // black 1x1 texture 0x00132F30.
-void Rva000E19A3::Rva000E2110RenderingMode(ID3DXEffect *effect, D3DXHANDLE handle)
+void TerrainFXShaderParameterSourceNamespace::Rva000E2110RenderingMode(ID3DXEffect *effect, D3DXHANDLE handle)
 {
 	if (m_1C < 5)
 		effect->SetInt(handle, m_1C);
@@ -315,7 +310,7 @@ void Rva000E19A3::Rva000E2110RenderingMode(ID3DXEffect *effect, D3DXHANDLE handl
 		effect->SetInt(handle, 0);
 }
 
-void Rva000E19A3::Rva000E214DBaseTexture(ID3DXEffect *effect, D3DXHANDLE handle)
+void TerrainFXShaderParameterSourceNamespace::Rva000E214DBaseTexture(ID3DXEffect *effect, D3DXHANDLE handle)
 {
 	if (m_20.isValid())
 		effect->SetTexture(handle, m_20.Peek_D3D_Base_Texture());
@@ -323,7 +318,7 @@ void Rva000E19A3::Rva000E214DBaseTexture(ID3DXEffect *effect, D3DXHANDLE handle)
 		effect->SetTexture(handle, Rva00132F30BlackTexture().Peek_D3D_Base_Texture());
 }
 
-void Rva000E19A3::Rva000E21BENormalTexture(ID3DXEffect *effect, D3DXHANDLE handle)
+void TerrainFXShaderParameterSourceNamespace::Rva000E21BENormalTexture(ID3DXEffect *effect, D3DXHANDLE handle)
 {
 	if (m_24.isValid())
 		effect->SetTexture(handle, m_24.Peek_D3D_Base_Texture());
@@ -385,7 +380,7 @@ void Rva000E227FMacroTexture(ID3DXEffect *,const char *);
 void Rva000E20DFIsMacroTextureStrechedToMapSize(ID3DXEffect *,const char *);
 void Rva000E222FResourceTexture(ID3DXEffect *,const char *);
 void Rva000E213CIsResourceTextureEnabled(ID3DXEffect *,const char *);
-void Rva000E19A3::ResolveBindings(const char *name,const char *handle,FXShaderParameterBinder *registry)
+void TerrainFXShaderParameterSourceNamespace::ResolveBindings(const char *name,const char *handle,FXShaderParameterBinder *registry)
 {
  Rva001530E9Path path;
  Rva001530E9Parse(name,&path);
@@ -395,11 +390,11 @@ void Rva000E19A3::ResolveBindings(const char *name,const char *handle,FXShaderPa
  else if(compare(path.m_name,"Cloud")==0) m_10.ResolveBindings(path.m_rest,handle,registry);
  else if(compare(path.m_name,"Weather")==0) m_14.ResolveBindings(path.m_rest,handle,registry);
  else if(compare(path.m_name,"Map")==0) m_18.ResolveBindings(path.m_rest,handle,registry);
- else if(compare(path.m_name,"BaseTexture")==0) (registry->*reinterpret_cast<void(FXShaderParameterBinder::*)(MemberTreeHintRef00217D4C,const char*)>(&FXShaderParameterBinder::AddBinding))(FunctorBinding(reinterpret_cast<FunctorMethod>(&Rva000E19A3::Rva000E214DBaseTexture),reinterpret_cast<FunctorTarget *>(this)),handle);
- else if(compare(path.m_name,"NormalTexture")==0) (registry->*reinterpret_cast<void(FXShaderParameterBinder::*)(MemberTreeHintRef00217D4C,const char*)>(&FXShaderParameterBinder::AddBinding))(FunctorBinding(reinterpret_cast<FunctorMethod>(&Rva000E19A3::Rva000E21BENormalTexture),reinterpret_cast<FunctorTarget *>(this)),handle);
+ else if(compare(path.m_name,"BaseTexture")==0) (registry->*reinterpret_cast<void(FXShaderParameterBinder::*)(MemberTreeHintRef00217D4C,const char*)>(&FXShaderParameterBinder::AddBinding))(FunctorBinding(reinterpret_cast<FunctorMethod>(&TerrainFXShaderParameterSourceNamespace::Rva000E214DBaseTexture),reinterpret_cast<FunctorTarget *>(this)),handle);
+ else if(compare(path.m_name,"NormalTexture")==0) (registry->*reinterpret_cast<void(FXShaderParameterBinder::*)(MemberTreeHintRef00217D4C,const char*)>(&FXShaderParameterBinder::AddBinding))(FunctorBinding(reinterpret_cast<FunctorMethod>(&TerrainFXShaderParameterSourceNamespace::Rva000E21BENormalTexture),reinterpret_cast<FunctorTarget *>(this)),handle);
  else if(compare(path.m_name,"MacroTexture")==0) registry->AddBinding(Rva000E227FMacroTexture,handle);
  else if(compare(path.m_name,"IsMacroTextureStrechedToMapSize")==0) registry->AddBinding(Rva000E20DFIsMacroTextureStrechedToMapSize,handle);
- else if(compare(path.m_name,"RenderingMode")==0) (registry->*reinterpret_cast<void(FXShaderParameterBinder::*)(MemberTreeHintRef00217D4C,const char*)>(&FXShaderParameterBinder::AddBinding))(FunctorBinding(reinterpret_cast<FunctorMethod>(&Rva000E19A3::Rva000E2110RenderingMode),reinterpret_cast<FunctorTarget *>(this)),handle);
+ else if(compare(path.m_name,"RenderingMode")==0) (registry->*reinterpret_cast<void(FXShaderParameterBinder::*)(MemberTreeHintRef00217D4C,const char*)>(&FXShaderParameterBinder::AddBinding))(FunctorBinding(reinterpret_cast<FunctorMethod>(&TerrainFXShaderParameterSourceNamespace::Rva000E2110RenderingMode),reinterpret_cast<FunctorTarget *>(this)),handle);
  else if(compare(path.m_name,"ResourceTexture")==0) registry->AddBinding(Rva000E222FResourceTexture,handle);
  else if(compare(path.m_name,"IsResourceTextureEnabled")==0) registry->AddBinding(Rva000E213CIsResourceTextureEnabled,handle);
 }
