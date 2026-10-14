@@ -24,6 +24,13 @@ public:
 };
 }
 
+// Element types: clear 0x002827F3 deletes each +0x10 element through rowed dtor
+// 0x00281A06; the +0x4 element type is unknown. Neither is void*: retail's unwind
+// actions for both members (ehhandler 0x00773BA2) jump to the 14-byte fold
+// 0x0007FAB3, not to the ledger's ~vector<void*> at 0x00027370.
+struct Rva00281A06;
+struct Rva00283081Entry4;
+
 class Rva002827F3
 {
 public:
@@ -35,8 +42,8 @@ class Rva00283081
 public:
 	virtual ~Rva00283081();
 private:
-	_STL::vector<void *, _STL::allocator<void *> > m_vec4;
-	_STL::vector<void *, _STL::allocator<void *> > m_vec10;
+	_STL::vector<Rva00283081Entry4 *, _STL::allocator<Rva00283081Entry4 *> > m_vec4;
+	_STL::vector<Rva00281A06 *, _STL::allocator<Rva00281A06 *> > m_vec10;
 };
 
 Rva00283081::~Rva00283081()
