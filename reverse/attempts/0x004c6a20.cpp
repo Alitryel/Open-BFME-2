@@ -1,282 +1,183 @@
 // ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.6 date=2026-10-14
-// ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.760806916426513 date=2026-10-12
-// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /ICode/Libraries/Include
-// stlport
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-#include <math.h>
+// partial score=0.92 date=2026-10-15
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+//
+// ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ, retail 0x004C6A20,
+// 347 bytes (WB 0x01266AA0 debug twin). The UpdateModuleInterface slot,
+// compiled with the +0x10 subobject this. Before the wound is armed (+0x88)
+// it runs slot 17 (triggerAbilityEffect) and sleeps one frame; it also waits
+// while the owner's AI (Object+0x258) is not idle (AI slot 110). Then it
+// disarms, looks the +0x40 target up through GameLogic::findObjectByID and,
+// for a target with an AI, moves that AI (locomotor set 4, slot 142) to the
+// point the module data's +0xC8 distance beyond the target along the
+// owner->target direction (CMD_FROM_AI) and raises the target's model
+// condition bit 77. The owner then releases its weapon lock 2, drops model
+// condition bit 207 and the SpecialAbilityUpdate exit helper 0x004502CE runs.
+extern "C" double __cdecl sqrt(double);
+#include "../../../Common/GameLogicObjectLookupView.h"
+extern GameLogic *TheGameLogic;
 
-#include "Code/Libraries/Include/Lib/Coord3D.h"
-#define BFME_HAVE_COORD3D
-class WoundArrowConditionBits0026E1F0
+struct Coord3D
+{
+	float x, y, z;
+};
+
+class WoundArrowConditionBits
 {
 public:
-    unsigned test(int bit) const { return m_words[bit>>5] & (1U<<(bit&31)); }
-    void set(int bit) { m_words[bit>>5] |= (1U<<(bit&31)); }
-    void reset(int bit) { m_words[bit>>5] &= ~(1U<<(bit&31)); }
+	unsigned int test(int bit) const { return m_words[bit >> 5] & (1U << (bit & 0x1f)); }
+	void set(int bit) { m_words[bit >> 5] |= 1U << (bit & 0x1f); }
+	void clear(int bit) { m_words[bit >> 5] &= ~(1U << (bit & 0x1f)); }
 private:
-    unsigned m_words[19];
-};
-typedef WoundArrowConditionBits0026E1F0 ModelConditionFlags;
-#define BFME_HAVE_MODELCONDITIONFLAGS
-enum CommandSourceType { CMD_FROM_AI=2 };
-enum WeaponLockType { WOUND_LOCK=2 };
-class AIUpdateInterface;
-class Object { public:
- void rva0028AE6D(); void releaseWeaponLock(WeaponLockType);
- char pad00[0x38];Coord3D m_cachedPos;
- char pad44[0x10C-0x44];ModelConditionFlags m_modelConditionFlags;
- char pad158[0x258-0x158];AIUpdateInterface *m_ai;
+	unsigned int m_words[19];
 };
 
-enum LocomotorSetType { LOCOMOTORSET_0026E1F0 = 4 };
-class AIUpdateInterface { public:
-virtual void slot0();
-virtual void slot1();
-virtual void slot2();
-virtual void slot3();
-virtual void slot4();
-virtual void slot5();
-virtual void slot6();
-virtual void slot7();
-virtual void slot8();
-virtual void slot9();
-virtual void slot10();
-virtual void slot11();
-virtual void slot12();
-virtual void slot13();
-virtual void slot14();
-virtual void slot15();
-virtual void slot16();
-virtual void slot17();
-virtual void slot18();
-virtual void slot19();
-virtual void slot20();
-virtual void slot21();
-virtual void slot22();
-virtual void slot23();
-virtual void slot24();
-virtual void slot25();
-virtual void slot26();
-virtual void slot27();
-virtual void slot28();
-virtual void slot29();
-virtual void slot30();
-virtual void slot31();
-virtual void slot32();
-virtual void slot33();
-virtual void slot34();
-virtual void slot35();
-virtual void slot36();
-virtual void slot37();
-virtual void slot38();
-virtual void slot39();
-virtual void slot40();
-virtual void slot41();
-virtual void slot42();
-virtual void slot43();
-virtual void slot44();
-virtual void slot45();
-virtual void slot46();
-virtual void slot47();
-virtual void slot48();
-virtual void slot49();
-virtual void slot50();
-virtual void slot51();
-virtual void slot52();
-virtual void slot53();
-virtual void slot54();
-virtual void slot55();
-virtual void slot56();
-virtual void slot57();
-virtual void slot58();
-virtual void slot59();
-virtual void slot60();
-virtual void slot61();
-virtual void slot62();
-virtual void slot63();
-virtual void slot64();
-virtual void slot65();
-virtual void slot66();
-virtual void slot67();
-virtual void slot68();
-virtual void slot69();
-virtual void slot70();
-virtual void slot71();
-virtual void slot72();
-virtual void slot73();
-virtual void slot74();
-virtual void slot75();
-virtual void slot76();
-virtual void slot77();
-virtual void slot78();
-virtual void slot79();
-virtual void slot80();
-virtual void slot81();
-virtual void slot82();
-virtual void slot83();
-virtual void slot84();
-virtual void slot85();
-virtual void slot86();
-virtual void slot87();
-virtual void slot88();
-virtual void slot89();
-virtual void slot90();
-virtual void slot91();
-virtual void slot92();
-virtual void slot93();
-virtual void slot94();
-virtual void slot95();
-virtual void slot96();
-virtual void slot97();
-virtual void slot98();
-virtual void slot99();
-virtual void slot100();
-virtual void slot101();
-virtual void slot102();
-virtual void slot103();
-virtual void slot104();
-virtual void slot105();
-virtual void slot106();
-virtual void slot107();
-virtual void slot108();
-virtual void slot109();
-virtual bool isIdle() const;
-virtual void slot111();
-virtual void slot112();
-virtual void slot113();
-virtual void slot114();
-virtual void slot115();
-virtual void slot116();
-virtual void slot117();
-virtual void slot118();
-virtual void slot119();
-virtual void slot120();
-virtual void slot121();
-virtual void slot122();
-virtual void slot123();
-virtual void slot124();
-virtual void slot125();
-virtual void slot126();
-virtual void slot127();
-virtual void slot128();
-virtual void slot129();
-virtual void slot130();
-virtual void slot131();
-virtual void slot132();
-virtual void slot133();
-virtual void slot134();
-virtual void slot135();
-virtual void slot136();
-virtual void slot137();
-virtual void slot138();
-virtual void slot139();
-virtual void slot140();
-virtual void slot141();
-virtual bool chooseLocomotorSet(LocomotorSetType);
+enum CommandSourceType { CMD_FROM_AI = 2 };
+enum WeaponLockType { LOCKED_TEMPORARILY = 2 };
+enum LocomotorSetType { LOCOMOTORSET_WOUNDED = 4 };
+
+class AIUpdateInterface;
+
+class Object
+{
+public:
+	void rva0028AE6D();
+	void releaseWeaponLock(WeaponLockType type);
+
+	unsigned char m_pad000[0x38];
+	Coord3D m_pos;	// +0x38
+	unsigned char m_pad044[0x10C - 0x44];
+	WoundArrowConditionBits m_conditionBits;	// +0x10C
+	unsigned char m_pad158[0x258 - 0x158];
+	AIUpdateInterface *m_ai;	// +0x258
 };
+
+#define WAU_SLOTS10(p) virtual void p##0(); virtual void p##1(); virtual void p##2(); virtual void p##3(); virtual void p##4(); \
+	virtual void p##5(); virtual void p##6(); virtual void p##7(); virtual void p##8(); virtual void p##9();
+
 class AICommandInterface
 {
 public:
-    void aiMoveToPosition(const Coord3D *, CommandSourceType);
+	void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource);
 };
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
-extern GameLogic *TheGameLogic;
-class BfmeThing916D { public: void bfmeGo916D(void *); };
-class WoundArrowUpdate;
+
+class AIUpdateInterfaceHead
+{
+public:
+	WAU_SLOTS10(s0) WAU_SLOTS10(s1) WAU_SLOTS10(s2) WAU_SLOTS10(s3) WAU_SLOTS10(s4)
+	WAU_SLOTS10(s5) WAU_SLOTS10(s6) WAU_SLOTS10(s7) WAU_SLOTS10(s8) WAU_SLOTS10(s9)
+	WAU_SLOTS10(s10)
+	virtual bool isIdle() const;	// slot 110
+	WAU_SLOTS10(s11) WAU_SLOTS10(s12) WAU_SLOTS10(s13)
+	virtual void s141();
+	virtual bool chooseLocomotorSet(LocomotorSetType set);	// slot 142
+private:
+	unsigned char m_pad04[0x20 - 4];
+};
+
+class AIUpdateInterface : public AIUpdateInterfaceHead, public AICommandInterface
+{
+};
+
+static __forceinline void setModelConditionBit(Object *object, int bit)
+{
+	if (object->m_conditionBits.test(bit) == 0)
+	{
+		object->m_conditionBits.set(bit);
+		object->rva0028AE6D();
+	}
+}
+
+static __forceinline void clearModelConditionBit(Object *object, int bit)
+{
+	if (object->m_conditionBits.test(bit) != 0)
+	{
+		object->m_conditionBits.clear(bit);
+		object->rva0028AE6D();
+	}
+}
+
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1, UPDATE_SLEEP_FOREVER = 0x3fffffff };
+
+struct WoundArrowUpdateModuleData
+{
+	unsigned char m_pad000[0xC8];
+	float m_distance;	// +0xC8
+};
+
 class SpecialAbilityUpdate
 {
 public:
-    virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3();
-    virtual void slot4(); virtual void slot5(); virtual void slot6(); virtual void slot7();
-    virtual void slot8(); virtual void slot9(); virtual void slot10();
+	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
+	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
+	virtual void s08(); virtual void s09(); virtual void s10(); virtual void s11();
+	virtual void s12(); virtual void s13(); virtual void s14(); virtual void s15();
+	virtual void s16();
+	virtual void triggerAbilityEffect();	// slot 17
 private:
-    void onExit(bool, bool);
-public:
-    virtual void slot11();
-public:
-    virtual void slot12(); virtual void slot13(); virtual void slot14();
-    virtual void slot15(); virtual void slot16();
-    virtual void triggerAbilityEffect();
-    friend class WoundArrowUpdate;
+	friend class WoundArrowUpdate;
+	void onExit(bool a, bool b);	// 0x004502CE
+protected:
+	const WoundArrowUpdateModuleData *m_moduleData;	// +0x04
+	Object *m_object;	// +0x08
+	int m_0C;
 };
-class WoundArrowUpdateModuleData
-{
-public:
-    unsigned char m_pad000[0xC8];
-    float m_rangeC8;
-};
-enum UpdateSleepTime { UPDATE_SLEEP_1 = 1, UPDATE_SLEEP_FOREVER = 0x3fffffff };
-class WoundArrowUpdate
-{
-public:
-    virtual UpdateSleepTime update();
-    Object *getObject() const { return *(Object **)((const char *)this - 8); }
-    const WoundArrowUpdateModuleData *getWoundArrowUpdateModuleData() const
-    { return *(const WoundArrowUpdateModuleData **)((const char *)this - 0xc); }
-private:
-    unsigned char m_pad004[0x30 - 4];
-    ObjectID m_targetID;
-    unsigned char m_pad34[0x78 - 0x34];
-    bool m_hasAppliedWound;
-};
-static __forceinline void setCondition0026E1F0(Object *object, int bit)
-{
-    if (!object->m_modelConditionFlags.test(bit)) {
-        object->m_modelConditionFlags.set(bit);
-        object->rva0028AE6D();
-    }
-}
-static __forceinline void clearCondition0026E1F0(Object *object, int bit)
-{
-    if (object->m_modelConditionFlags.test(bit)) {
-        object->m_modelConditionFlags.reset(bit);
-        object->rva0028AE6D();
-    }
-}
 
-// ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
+class UpdateModuleInterface
+{
+public:
+	virtual UpdateSleepTime update() = 0;
+};
+
+class WoundArrowUpdate : public SpecialAbilityUpdate, public UpdateModuleInterface
+{
+public:
+	virtual UpdateSleepTime update();
+private:
+	unsigned char m_pad14[0x40 - 0x14];
+	ObjectID m_targetID;	// +0x40
+	unsigned char m_pad44[0x88 - 0x44];
+	bool m_woundArmed;	// +0x88
+};
+
 UpdateSleepTime WoundArrowUpdate::update()
 {
-	float dy = 0;
-    if (!m_hasAppliedWound) {
-        ((SpecialAbilityUpdate *)((char *)this - 0x10))->triggerAbilityEffect();
-        return UPDATE_SLEEP_1;
-    }
-    ObjectID targetID = m_targetID;
-    _ReadWriteBarrier();
-    if (!getObject()->m_ai->isIdle())
-        return UPDATE_SLEEP_1;
-    Object *owner = getObject();
-    m_hasAppliedWound = false;
-    Object *target = TheGameLogic->findObjectByID(targetID);
-    if (target) {
-        AIUpdateInterface *ai = (m_targetID ? target->m_ai : target->m_ai);
-        if (!ai)
-            return UPDATE_SLEEP_FOREVER;
-        const WoundArrowUpdateModuleData *data = getWoundArrowUpdateModuleData();
-        float dx = target->m_cachedPos.x - owner->m_cachedPos.x;
-        dy = target->m_cachedPos.y - owner->m_cachedPos.y;
-        _ReadWriteBarrier();
-        float inverse = 1.0f / (ai ? ((float)sqrt(dx * dx + dy * dy)) : ((float)sqrt(dx * dx + dy * dy)));
-        float unitX = dx * inverse;
-        float unitY = dy * inverse;
-        {
-        Coord3D position;
-        position.x = unitX * data->m_rangeC8;
-        position.y = unitY * data->m_rangeC8;
-        position.x += target->m_cachedPos.x;
-        position.y += __vref(target->m_cachedPos.y);
-        ai->chooseLocomotorSet(LOCOMOTORSET_0026E1F0);
-        ((AICommandInterface *)((char *)ai + 0x20))->aiMoveToPosition(&position, CMD_FROM_AI);
-        }
-        setCondition0026E1F0(target, 77);
-    }
-    owner->releaseWeaponLock(WOUND_LOCK);
-    clearCondition0026E1F0(owner, 207);
-    ((SpecialAbilityUpdate *)((char *)this - 0x10))->SpecialAbilityUpdate::onExit(false, false);
-    return UPDATE_SLEEP_FOREVER;
+	if (!m_woundArmed)
+	{
+		triggerAbilityEffect();
+	}
+	else
+	{
+		if (m_object->m_ai->isIdle())
+		{
+			Object *owner = m_object;
+			m_woundArmed = false;
+			Object *target = TheGameLogic->findObjectByID(m_targetID);
+			if (target)
+			{
+				AIUpdateInterface *ai = target->m_ai;
+				if (!ai)
+					return UPDATE_SLEEP_FOREVER;
+				Coord3D dir;
+				dir.x = target->m_pos.x - owner->m_pos.x;
+				dir.y = target->m_pos.y - owner->m_pos.y;
+				const WoundArrowUpdateModuleData *data = m_moduleData;
+				float length = sqrt(dir.y * dir.y + dir.x * dir.x);
+				float nx = dir.x / length;
+				float ny = dir.y / length;
+				dir.x = nx * data->m_distance;
+				dir.y = ny * data->m_distance;
+				dir.x += target->m_pos.x;
+				dir.y += target->m_pos.y;
+				ai->chooseLocomotorSet(LOCOMOTORSET_WOUNDED);
+				ai->aiMoveToPosition(&dir, CMD_FROM_AI);
+				setModelConditionBit(target, 77);
+			}
+			owner->releaseWeaponLock(LOCKED_TEMPORARILY);
+			clearModelConditionBit(owner, 207);
+			onExit(false, false);
+			return UPDATE_SLEEP_FOREVER;
+		}
+	}
+	return UPDATE_SLEEP_NONE;
 }
