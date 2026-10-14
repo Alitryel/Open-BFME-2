@@ -8197,7 +8197,6 @@ name,address,notes
 ?bfmeNormUSC@@YAHPAX@Z,0x001C4F80
 ?bfmeNoteVJI@BfmeSubVJI@@QAEXPBD@Z,0x00674B40,BFME1 BfmeConv1386 donor call site; same body as rowed bfmeGoBLF
 ?bfmeNotify1_574@@YAXPAX0@Z,0x00333BCA,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-?bfmeNotify2_574@@YAHPAX0@Z,0x00333CD1,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeNotifyVIM@BfmeThingVIM@@QAEXXZ,0x0001BC50
 ?bfmeNotifyVLL@BfmeCtlVLL@@QAEXXZ,0x0001BC50
 ?bfmeNotifyVLN@BfmeCtlVLN@@QAEXXZ,0x0001BC50

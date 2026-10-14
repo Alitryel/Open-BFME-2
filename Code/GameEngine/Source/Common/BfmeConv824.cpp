@@ -10,7 +10,10 @@ extern void *g_activeObj12F0610;
 extern const char bfmeString10CF748[];
 void __cdecl bfmeLogMsg574(const char *msg);
 void __cdecl bfmeNotify1_574(void *obj, void *param);
-int __cdecl bfmeNotify2_574(void *obj, void *param);
+// The console hook is rowed as Rva00333CD1Console(void *, LuaAr *)
+// (ScriptEngine/Rva00333CD1Console.cpp).
+struct LuaAr;
+int __cdecl Rva00333CD1Console(void *L, LuaAr *ar);
 
 void __cdecl bfmeHandleDeactivation574(void *obj, void *param)
 {
@@ -18,7 +21,7 @@ void __cdecl bfmeHandleDeactivation574(void *obj, void *param)
 		g_activeObj12F0610 = 0;
 		bfmeLogMsg574(bfmeString10CF748);
 		bfmeNotify1_574(obj, param);
-		bfmeNotify2_574(obj, param);
+		Rva00333CD1Console(obj, (LuaAr *)param);
 	}
 }
 

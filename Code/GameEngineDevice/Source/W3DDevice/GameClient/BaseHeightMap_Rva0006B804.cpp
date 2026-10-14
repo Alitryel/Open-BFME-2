@@ -6,7 +6,8 @@
 #include "ascii_string.h"
 
 class Rva000E6594 { public: void rva000E6594(); };
-class Rva00073BFE { public: virtual ~Rva00073BFE(); };
+// The destructor at 0x00073BFE is rowed as ??1W3DTaint@@QAE@XZ (W3DTaintDtor.cpp).
+class W3DTaint { public: ~W3DTaint(); };
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 
@@ -21,7 +22,7 @@ class BaseHeightMapRenderObjClass {
     Rva000E6594 *surface0;
     Rva000E6594 *surface1;
     char pad3858[0x387C - 0x3858];
-    Rva00073BFE *resource;
+    W3DTaint *resource;
 public:
     void rva0006B804();
     void rva0006ACBD(AsciiString);
@@ -33,9 +34,9 @@ void BaseHeightMapRenderObjClass::rva0006B804()
     if (surface0) surface0->rva000E6594();
     if (surface1) surface0->rva000E6594();
     reinterpret_cast<unsigned char *>(TheWritableGlobalData)[0xC6A] = 0;
-    Rva00073BFE *oldResource = resource;
+    W3DTaint *oldResource = resource;
     if (oldResource) {
-        oldResource->Rva00073BFE::~Rva00073BFE();
+        oldResource->W3DTaint::~W3DTaint();
         operator delete(oldResource);
         resource = 0;
     }

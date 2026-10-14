@@ -10,11 +10,14 @@
 struct lua_State;
 
 extern void __cdecl bfmeLogMsg574(const char *message);
-extern int __cdecl bfmeNotify2_574(void *state, void *parameter);
+// The console hook is rowed as Rva00333CD1Console(void *, LuaAr *)
+// (ScriptEngine/Rva00333CD1Console.cpp).
+struct LuaAr;
+extern int __cdecl Rva00333CD1Console(void *L, LuaAr *ar);
 
 extern "C" int __cdecl io_debug(lua_State *state)
 {
 	bfmeLogMsg574(
 		"\nEntering LUA debug mode.  Type ? for help, 'cont' to exit debug mode\n");
-	return bfmeNotify2_574(state, 0);
+	return Rva00333CD1Console(state, 0);
 }
