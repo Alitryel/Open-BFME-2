@@ -1162,6 +1162,7 @@ public:
 	virtual void rva004690A9(const Coord3D *pos);
 	virtual bool rva0046F8CD();
 	virtual bool rva00468C37();
+	virtual float rva00468B5B(float value);
 	virtual void rva00468C60(const Coord3D *pos);
 	virtual bool rva00468C7B(Coord3D *pos);
 	virtual float rva0046F8DA();
@@ -1618,6 +1619,25 @@ bool HordeContain::rva0046F8CD()
 bool HordeContain::rva00468C37()
 {
 	return m_object->m_ai->m_1F0->m_4->m_150 && m_2F0;
+}
+
+// ?rva00468B5B@HordeContain@@UAEMM@Z @0x00468B5B: slot 144 (iface +0x1D0),
+// scales the passed value by the module's remaining growth (1 - m_2EC*0.01)
+// and decays m_2EC by 0.9. Two ordered early-outs (0 > d, then an equal-arm
+// carrier for 0 >= d) reproduce retail's comiss/ja + comiss/jae pair; without
+// the carrier the second compare folds into a jbe.
+float HordeContain::rva00468B5B(float value)
+{
+	float b8 = m_object->m_B8;
+	if (0.0f > m_2EC - b8)
+		return value;
+	if ((m_object ? (0.0f >= m_2EC - b8) : (0.0f >= m_2EC - b8)))
+		return value;
+	value = (1.0f - m_2EC * 0.01f) * value;
+	m_2EC = m_2EC * 0.9f;
+	if (value > 6.0f)
+		value = 6.0f;
+	return value;
 }
 
 // ?rva00468C60@HordeContain@@UAEXPBUCoord3D@@@Z @0x00468C60: slot 145, stores the
