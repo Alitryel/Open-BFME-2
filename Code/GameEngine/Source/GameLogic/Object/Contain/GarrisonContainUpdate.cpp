@@ -53,7 +53,7 @@ struct GameLogicFrameView
 	unsigned char m_pad00[0x40];
 	unsigned int m_frame; // +0x40
 };
-extern int g_Va00DBA4E4;	// logic frames per second
+extern int BfmeLogicFramesPerSecond;	// logic frames per second
 
 struct GarrisonContainModuleData
 {
@@ -159,7 +159,7 @@ UpdateSleepTime GarrisonContain::update()
 			// set the safe occlusion frame to way way way in the future so we never see it during death
 			unsigned int frame = ((GameLogicFrameView *)TheGameLogic)->m_frame;
 			_ReadWriteBarrier();
-			contained->setSafeOcclusionFrame(frame + g_Va00DBA4E4 * 1000);
+			contained->setSafeOcclusionFrame(frame + BfmeLogicFramesPerSecond * 1000);
 		}
 	}
 
