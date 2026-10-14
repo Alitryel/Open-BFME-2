@@ -7,16 +7,16 @@
 // and Thing's world transform converter, independently supporting identity.
 // Retail reads Drawable +0x84 and AI +0x258 before the guard (existing Object
 // views agree); matrix/vector arithmetic and all four direct callbacks agree.
-// The launch-offset callback retains its owned address-derived declaration:
-// its semantic name comes from the donor and has no new symbol pin here.
+// The launch-offset callback uses its byte-verified typed Drawable owner.
+// Native and WB independently establish its six-argument pointer/enum ABI.
 // A const-reference Vector3 temporary preserves native Y/Z register allocation;
 // constructing the output Coord3D within its guard preserves target copy order.
 
 #include "Lib/Coord3D.h"
 #include "matrix3d.h"
 enum WhichTurretType {TURRET_PRIMARY=0};
-class Drawable {public:int getPristineBonePositions(const char*,int,Coord3D*,Matrix3D*,int,int)const;};
-class Rva00275376 {public:bool rva00275376(int,int,int,int,int,int);};
+enum WeaponSlotType {PRIMARY_WEAPON=0};
+class Drawable {public:bool getProjectileLaunchOffset(WeaponSlotType,int,Matrix3D*,WhichTurretType,Coord3D*,Coord3D*)const;int getPristineBonePositions(const char*,int,Coord3D*,Matrix3D*,int,int)const;};
 class Thing {public:void convertBonePosToWorldPos(const Coord3D*,const Matrix3D*,Coord3D*,Matrix3D*)const;};
 class AIUpdateInterface {public:bool getTurretRotAndPitch(WhichTurretType,float*,float*)const;};
 class Object {public:
@@ -27,7 +27,7 @@ bool Object::getSingleLogicalBonePositionOnTurret(WhichTurretType which,const ch
  Coord3D turretPosition,bonePosition;
  AIUpdateInterface *aiLocal=ai;Drawable *drawable=draw;
  if(!drawable || !aiLocal)return false;
- ((Rva00275376*)drawable)->rva00275376(0,1,0,(int)which,(int)&turretPosition,0);
+ drawable->getProjectileLaunchOffset(PRIMARY_WEAPON,1,0,which,&turretPosition,0);
  if(drawable->getPristineBonePositions(name,0,&bonePosition,0,1,0)!=1)return false;
  float rotation;
  aiLocal->getTurretRotAndPitch(which,&rotation,0);
