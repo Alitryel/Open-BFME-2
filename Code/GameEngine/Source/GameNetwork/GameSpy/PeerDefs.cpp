@@ -1696,3 +1696,21 @@ void GameSpyInfo::rva003871F6(Int id)
  Rva00385CBATree *map=(Rva00385CBATree*)(buddy?TheGameSpyInfo->getBuddyMap():TheGameSpyInfo->getBuddyRequestMap());
  map->erase((const Rva00385CBAElement&)id);
 }
+
+// Rva003839D9::rva003839D9 (address-named view)
+// @0x003839D9 20B: the container-level lower_bound over the player-info map,
+// returning the iterator built from the rowed _M_lower_bound 0x00382AB7
+// through the hidden result slot. Skeleton twin of the STLport find wrapper
+// 0x004D7546. Its owner is not recovered (no direct caller), so the view is
+// address-named.
+class Rva003839D9
+{
+public:
+	PlayerInfoMap::iterator rva003839D9(const AsciiString &key);
+private:
+	PlayerInfoMap m_map;
+};
+PlayerInfoMap::iterator Rva003839D9::rva003839D9(const AsciiString &key)
+{
+	return m_map.lower_bound(key);
+}

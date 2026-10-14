@@ -28,3 +28,21 @@ TestTree::_Link_type TestTree::_M_create_node(const TestTree::value_type &value)
 }
 template TestTree::_Link_type TestTree::_M_create_node(const TestTree::value_type &);
 template _STL::pair<TestTree::iterator, bool> TestTree::insert_unique(const TestTree::value_type &);
+
+// Rva003EDA2F::rva003EDA2F (address-named view)
+// @ 0x003EDA2F (20B): the container-level insert(value) over this tree,
+// returning insert_unique's pair through the same hidden slot (no
+// set-style const-iterator rebuild, which would copy through a local). The
+// owning container is not recovered; its name is address-derived. Skeleton
+// twin of map<int,int>::equal_range 0x002B8120.
+class Rva003EDA2F
+{
+public:
+    _STL::pair<TestTree::iterator, bool> rva003EDA2F(const BfmeStringRecord004071F7 &value);
+private:
+    TestTree m_tree;
+};
+_STL::pair<TestTree::iterator, bool> Rva003EDA2F::rva003EDA2F(const BfmeStringRecord004071F7 &value)
+{
+    return m_tree.insert_unique(value);
+}

@@ -46,3 +46,21 @@ template TreePayload0038D58C &MapInsert0038d58c::operator[](const _STL::basic_st
 
 // Retail0x389291 uses the independently matched narrow-string comparator388F39 twice.
 template Tree0038D58C::iterator Tree0038D58C::find(const _STL::basic_string<char> &);
+
+// Rva003893B9::rva003893B9 @0x003893B9 20B: the container-level
+// lower_bound over this map, returning the iterator built from the rowed
+// _M_lower_bound 0x0038922C through the hidden result slot. Skeleton twin of
+// the STLport find wrapper 0x004D7546. Owner not recovered (no direct
+// caller); the view is address-named.
+typedef _STL::map<_STL::basic_string<char>, TreePayload0038D58C> Map0038D58C;
+class Rva003893B9
+{
+public:
+    Map0038D58C::iterator rva003893B9(const _STL::basic_string<char> &key);
+private:
+    Map0038D58C m_map;
+};
+Map0038D58C::iterator Rva003893B9::rva003893B9(const _STL::basic_string<char> &key)
+{
+    return m_map.lower_bound(key);
+}
