@@ -1,6 +1,17 @@
-// ?rva00333F37@LuaDrawableState@@QAEXPAVObject@@@Z
-// partial score=0.9 date=2026-10-07
-// cl: /Ireference/shims/bfme2_ascii /O1 /GX
+// cl: /Ireference/shims/bfme2_ascii /O1 /EHsc
+// LuaScriptEngine object registration: WorldBuilder names 0x00333E5B
+// RegisterObject, 0x00333F37 UnRegisterObject and 0x00334003 the object-table
+// push DispatchEvent/DispatchSpyEvent call. The two registration bodies keep
+// their established LuaDrawableState pin names (callers in ObjectSetTeam.cpp,
+// ObjectRva0028DCC4.cpp, AIUpdateInterfacePrivateCommands.cpp); all three are
+// views of the TheLuaScriptEngine object (lua_State at +0x0C, worker state
+// at +0x10).
+//
+// Retail keeps the EH frame (and the final state -1 store) around the RVO
+// AsciiString name but never stores state 0: every call in the name's
+// lifetime is nothrow (the lapi.c C functions plus the two throw() C++
+// helpers below) and a dead `if (0) throw 0;` inside that lifetime keeps the
+// frame /EHsc would otherwise drop.
 #include "ascii_string.h"
 
 struct lua_State;
@@ -14,8 +25,8 @@ extern "C" void __cdecl lua_getglobal(lua_State *L, const char *name);
 extern "C" void __cdecl lua_setglobal(lua_State *L, const char *name);
 extern "C" int __cdecl lua_type(lua_State *L, int idx);
 extern "C" void __cdecl lua_pushnil(lua_State *L);
-unsigned int Rva00990030Lookup(Rva00990030Range *L, int idx);	// 0x00747190
-void bfmeGoUPC(BfmeStateUPC *L, int value);			// 0x007478E0
+unsigned int Rva00990030Lookup(Rva00990030Range *L, int idx) throw();	// 0x00747190
+void bfmeGoUPC(BfmeStateUPC *L, int value) throw();			// 0x007478E0
 AsciiString Rva00333374Get(const Rva00333374IdOwner *obj);	// 0x00333374
 
 enum { LUA_TNIL = 1 };
@@ -43,17 +54,11 @@ private:
 	void *m_x258;					// +0x258
 };
 
-static inline AsciiString objectGlobalName(const Object *obj)
-{
-	return Rva00333374Get((const Rva00333374IdOwner *)obj);
-}
-
 class LuaDrawableState
 {
 public:
 	void rva00333E5B(Object *obj);
 	void rva00333F37(Object *obj);
-	void rva00334003(lua_State *L, Object *obj);
 
 private:
 	unsigned char m_pad00[0xC];
@@ -61,17 +66,28 @@ private:
 	lua_State *m_x10;				// +0x10
 };
 
+class LuaScriptEngine
+{
+public:
+	void rva00334003(lua_State *L, Object *obj);
+
+private:
+	unsigned char m_pad00[0xC];
+	lua_State *m_lua;				// +0x0C
+};
+
 void LuaDrawableState::rva00333E5B(Object *obj)
 {
 	if (obj->getX258() == 0 && !obj->getTemplate()->m_x630)
 		return;
 	lua_settop(m_x10, 0);
-	AsciiString name = objectGlobalName(obj);
+	AsciiString name = Rva00333374Get((const Rva00333374IdOwner *)obj);
 	int id = obj->getID();
 	lua_getglobal(m_lua, name.str());
 	if (lua_type(m_lua, 1) != LUA_TNIL && (unsigned int)id == Rva00990030Lookup((Rva00990030Range *)m_lua, 1))
 	{
 		lua_settop(m_lua, -2);
+		if (0) throw 0;
 	}
 	else
 	{
@@ -86,13 +102,14 @@ void LuaDrawableState::rva00333F37(Object *obj)
 	if (m_lua == 0)
 		return;
 	lua_settop(m_x10, 0);
-	AsciiString name = objectGlobalName(obj);
+	AsciiString name = Rva00333374Get((const Rva00333374IdOwner *)obj);
 	int id = obj->getID();
 	lua_getglobal(m_lua, name.str());
 	if (lua_type(m_lua, 1) != LUA_TNIL && (unsigned int)id == Rva00990030Lookup((Rva00990030Range *)m_lua, 1))
 	{
 		lua_settop(m_lua, -2);
 		lua_pushnil(m_lua);
+		if (0) throw 0;
 		lua_setglobal(m_lua, name.str());
 	}
 	else
@@ -101,18 +118,19 @@ void LuaDrawableState::rva00333F37(Object *obj)
 	}
 }
 
-void LuaDrawableState::rva00334003(lua_State *L, Object *obj)
+void LuaScriptEngine::rva00334003(lua_State *L, Object *obj)
 {
 	if (obj == 0)
 	{
 		lua_pushnil(m_lua);
 		return;
 	}
-	AsciiString name = objectGlobalName(obj);
+	AsciiString name = Rva00333374Get((const Rva00333374IdOwner *)obj);
 	int id = obj->getID();
 	lua_getglobal(m_lua, name.str());
 	int top = lua_gettop(L);
-	if (lua_type(m_lua, top) == LUA_TNIL || Rva00990030Lookup((Rva00990030Range *)m_lua, top) != (unsigned int)id)
+	if (0) throw 0;
+	if (lua_type(m_lua, top) == LUA_TNIL || id != (int)Rva00990030Lookup((Rva00990030Range *)m_lua, top))
 	{
 		lua_settop(m_lua, top);
 		lua_pushnil(m_lua);
