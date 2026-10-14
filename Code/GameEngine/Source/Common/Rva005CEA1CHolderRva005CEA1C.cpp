@@ -4,14 +4,9 @@
 // the body is the banked one up to statement/operand order and local types.
 // +0x04 through its dtor, then tail-dispatch virtual slot 1 of the object at +0x1C
 // when it is set.
-// class-gate: allow Coord2D the body only calls the destructor through a held pointer; the banked view is byte-exact
-class Coord2D
-{
-public:
-	~Coord2D();
-	float m_x;
-	float m_y;
-};
+#define COORD2D_VIEW_EXTERN_CTOR
+#define COORD2D_VIEW_EXTERN_DTOR
+#include "../../../Libraries/Include/Lib/Coord2DCtorView.h"
 
 class Rva005CEA1CTarget
 {

@@ -17,16 +17,8 @@
 #include "Common/Snapshot.h"
 #include "BFME2ParticleTextureHandles.h"
 
-// class-gate: allow Coord2D the element ctor 0x0047A6A9 and dtor 0x000B3FD0 run through the eh vector constructor iterator; BFME 2's Coord2D exports both (rowed ??0Coord2D@@QAE@XZ / ??1Coord2D@@QAE@XZ) and the canonical data-only header declares neither
-class Coord2D
-{
-public:
-	Coord2D();
-	~Coord2D();
-
-	float x;
-	float y;
-};
+#define COORD2D_VIEW_DTOR
+#include "../../../../Libraries/Include/Lib/Coord2DCtorView.h"
 
 class Image
 {

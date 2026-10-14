@@ -8,16 +8,8 @@
 // the scheme draw drawBackground calls. The scheme draws are rowed under
 // address names (0x0031F89E and 0x0031F96F); their ZH names are pinned.
 //
-// class-gate: allow Coord2D retail copies the by-value multiplier into an esp temp and parks its address in the dead offset slot (mov [ebp+0xc],esp under an ebp frame) - the shape of an argument with a user copy ctor and dtor; the canonical plain Coord2D copies with two pushes
-class Coord2D
-{
-public:
-	Coord2D() {}
-	Coord2D(const Coord2D &o) : x(o.x), y(o.y) {}
-	~Coord2D() {}
-	float x;
-	float y;
-};
+#define COORD2D_VIEW_DTOR
+#include "../../../../../Libraries/Include/Lib/Coord2DCtorView.h"
 
 typedef int Int;
 

@@ -22,16 +22,8 @@
 // Names are address-derived.
 #include "Common/Snapshot.h"
 
-// class-gate: allow Coord2D the element dtor 0x000B3FD0 runs through the eh vector destructor iterator; BFME 2's Coord2D exports it (rowed ??1Coord2D@@QAE@XZ) and the canonical data-only header declares none
-class Coord2D
-{
-public:
-	Coord2D();
-	~Coord2D();
-
-	float x;
-	float y;
-};
+#define COORD2D_VIEW_DTOR
+#include "../../../../Libraries/Include/Lib/Coord2DCtorView.h"
 
 class TextureClass
 {

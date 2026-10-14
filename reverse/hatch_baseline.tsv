@@ -5846,7 +5846,6 @@ class_gate_allow	Code/GameEngine/Source/Common/Rva007ABBB3CtorInits.cpp	AsciiStr
 class_gate_allow	Code/GameEngine/Source/Common/RvaHelperThenMemberForwarders.cpp	StringBase	1
 class_gate_allow	Code/GameEngine/Source/Common/System/MessageStreamCommandName.cpp	AsciiString	1
 class_gate_allow	Code/GameEngine/Source/Common/VectorDeletingDtorsV07.cpp	Snapshot	1
-class_gate_allow	Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarScheme_drawLayers.cpp	Coord2D	1
 class_gate_allow	Code/GameEngine/Source/GameClient/GUI/LoadScreenUpdates.cpp	UnicodeString	1
 class_gate_allow	Code/GameEngine/Source/GameClient/MapUtil_ParseObjectsDataChunk_Thunk_Rva00302b06.cpp	AsciiString	1
 class_gate_allow	Code/GameEngine/Source/GameClient/System/FXParticleSystem/ModuleInfoVectorDeletingDtors.cpp	Snapshot	1
