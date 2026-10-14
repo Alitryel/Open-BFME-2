@@ -1,4 +1,6 @@
 // ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
+// partial score=0.9824 date=2026-10-14
+// ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
 // partial score=0.9736 date=2026-10-14
 // ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
 // partial score=0.907135 date=2026-10-14
@@ -53,7 +55,7 @@ private:
 
 void Rva004147CF::rva0041458A(Rva0041458AInterface *iface)
 {
-	struct Flags { bool a; bool b; };
+	struct Flags { bool a; bool b; char pad[4]; };
 	{
 	Flags flags;
 	flags.a = true;
