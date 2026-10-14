@@ -1,5 +1,22 @@
 // ?rva002F23A6@Rva002F23A6@@QAE_NPAVObject@@HHPAUCoord3D@@0@Z
-// partial score=0.92732 date=2026-10-13
+// partial score=1.0 date=2026-10-13
+// ?rva002F23A6@Rva002F23A6@@QAE_NPAVObject@@HHPAUCoord3D@@0@Z
+// Diagnostic parent byte-exact at1215 and frameD8 with one explicit research
+// binding for unrowed ring dependency2EEA8A. This is NOT a landed match.
+// Native2F23A6..2F2865 RET20; WB D369A0; Object*,weapon,loco,Coord3D*,Object*.
+// Chain visibility MUST include all three actual providers: WorldToCell2E7875,
+// clamp2E7917, lookup2E8BF8. Any one missing leaves1209 and wrong XMM allocation.
+// A scoped template pointer after victim->rva0028C2DD fixes EBX ownership;
+// explicit originLayer statement before lookup fixes native argument ordering.
+// Ring2EEA8A partial visibility is still needed for frameD8. Its body below is
+// not exact and has no pin. Do not copy an unverified provider into Code or
+// mistake the diagnostic symbol-map binding for identity/full verification.
+// Parent must be integrated in an allowed unit and pass full gates after the
+// ring provider is recovered or another legitimate exact implementation works.
+// Full pathfinder.cpp context perturbs register allocation; this isolated
+// source compiles exact. Existing providers should be shared/reconciled when
+// integrating, not landed as competing global copies. Reuse existing floor
+// compiler blocker, not a new lifted body.
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/Libraries/Include/Lib/ICoord2D.h"
@@ -37,7 +54,13 @@ class Gen_003D5670 {public:
  unsigned char storage[0x3c];
 };
 class Rva002E99F9Sub460 {public:unsigned short rva0053241F(void *,unsigned short);unsigned short rva00531FD4(void *,unsigned short);};
+extern "C" __declspec(dllimport) double __cdecl floor(double);
+ICoord2D *__cdecl Rva002E7875WorldToCell(ICoord2D*,bool,const Coord3D*);
+struct PathfinderCellIndex:ICoord2D {PathfinderCellIndex(){}PathfinderCellIndex(const PathfinderCellIndex &p){x=p.x;y=p.y;}};
+static const float PATHFINDER_CELL_INV=0.1f;
 class Pathfinder {public:
+PathfinderCellIndex Rva002E7917(bool,const Coord3D*);
+char clampPad[0x14];ICoord2D m_clampLo,m_clampHi;
  bool rva002ED313(Object *);
  void AdjustMeleeOffset(Object *,Object *,Coord3D *);
  PathfindCell *getCell(PathfindLayerEnum,int,int);
@@ -169,6 +192,52 @@ bool Pathfinder::rva002EEA8A(const ICoord2D *searchCenterCell, int maxCells,
 	return found;
 }
 
+static __forceinline int realToIntFloor(float f)
+{
+	float floored = (float)floor((double)f);
+	long i;
+	__asm {
+		fld [floored]
+		fistp [i]
+	}
+	return i;
+}
+__declspec(noinline) ICoord2D* __cdecl Rva002E7875WorldToCell(ICoord2D* out, bool center, const Coord3D* pos)
+{
+	int ix;
+	int iy;
+	if (center) {
+		ix = realToIntFloor(pos->x * PATHFINDER_CELL_INV);
+		iy = realToIntFloor(pos->y * PATHFINDER_CELL_INV);
+	} else {
+		ix = realToIntFloor(pos->x * PATHFINDER_CELL_INV + 0.5f);
+		iy = realToIntFloor(pos->y * PATHFINDER_CELL_INV + 0.5f);
+	}
+	out->x = ix;
+	out->y = iy;
+	return out;
+}
+PathfindCell *Pathfinder::rva002E8BF8(PathfindLayerEnum layer, const Coord3D *pos)
+{
+	PathfinderCellIndex cell = Rva002E7917(true, pos);
+	return getCell(layer, cell.x, cell.y);
+}
+
+PathfinderCellIndex Pathfinder::Rva002E7917(bool center, const Coord3D *pos)
+{
+	PathfinderCellIndex tmp;
+	Rva002E7875WorldToCell(&tmp, center, pos);
+	if (tmp.x < m_clampLo.x)
+		tmp.x = m_clampLo.x;
+	if (tmp.y < m_clampLo.y)
+		tmp.y = m_clampLo.y;
+	if (tmp.x > m_clampHi.x)
+		tmp.x = m_clampHi.x;
+	if (tmp.y > m_clampHi.y)
+		tmp.y = m_clampHi.y;
+	return tmp;
+}
+
 bool Rva002F23A6::rva002F23A6(Object *unit,int weapon,int locomotor,Coord3D *dest,Object *victim)
 {
  Pathfinder *path=(Pathfinder *)this;
@@ -190,7 +259,7 @@ bool Rva002F23A6::rva002F23A6(Object *unit,int weapon,int locomotor,Coord3D *des
  Rva002EBCA7Split(unit,&radius,(unsigned char*)&centered);
  for(int attempt=0;attempt<2;++attempt) {
    victim->rva0028C2DD(dest);
-   if(victim->definition->has(150))delta.zero();
+   {const ThingTemplateView *vtemplate=victim->definition;if(vtemplate->has(150))delta.zero();}
    dest->x+=delta.x;dest->y+=delta.y;dest->z+=delta.z;
    if(!centered){dest->x+=5.0f;dest->y+=5.0f;}
    ICoord2D cell;
@@ -198,7 +267,8 @@ bool Rva002F23A6::rva002F23A6(Object *unit,int weapon,int locomotor,Coord3D *des
    if(cell.x<0)return false;
    PathfindLayerEnum layer=TheTerrainLogic->getLayerForDestination(unit,dest);
    PathfindCell *destinationCell=path->getCell(layer,cell.x,cell.y);
-   PathfindCell *originCell=path->rva002E8BF8((PathfindLayerEnum)unit->rva0028B511(),&start);
+   PathfindLayerEnum originLayer=(PathfindLayerEnum)unit->rva0028B511();
+PathfindCell *originCell=path->rva002E8BF8(originLayer,&start);
    if(!originCell)return false;
    if(victim->definition->has(60)&&!victim->definition->has(150))layer=LAYER_GROUND;
    int diameter=unit->definition->diameter;

@@ -1,0 +1,22 @@
+{
+  "rva": "0x002F23A6",
+  "bytes": 1215,
+  "status": "diagnostic-exact-not-landed",
+  "frame": "0xD8",
+  "bank": "reverse/attempts/0x002f23a6.cpp",
+  "compiler": "/O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc",
+  "private_research_binding": {
+    "?rva002EEA8A@Pathfinder@@QAE_NPBUICoord2D@@HPAU2@PAXH@Z": "0x002EEA8A"
+  },
+  "remaining": "Ring dependency body still partial. No new pin or Code mutation made. Must recover/verify dependency before applying patch and running all home gates.",
+  "causes": [
+    "All three visible bodies2E7875->2E7917->2E8BF8 required to reproduce native SSE arithmetic; all7ablationmasks tested",
+    "Scoped victim-template pointer after rva28C2DD preserves EBX",
+    "Evaluate object layer in its own statement before passing &start",
+    "In home context use observed 16-bit zone and unsigned raw cell flags; quickZone/getType views change register allocation. Diagnostic home patch exact with raw loads."
+  ],
+  "home_base": "c1bf9419d4",
+  "home_patch": "reverse/attempt_support/crack-m-2f23a6-home.patch",
+  "verification_scope": "Private compile and byte comparison1215/1215 with whole extent checked. Not add_match; map includes one explicitly researched unrowed callee.",
+  "source_fact": "WB D369A0 unnamed2411B; retail2F23A6..2F2865 RET20; parent owner inferred Pathfinder from same-this calls; callable name remains neutral."
+}
