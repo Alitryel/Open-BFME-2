@@ -282,6 +282,22 @@ void Rva00808C60Owner::rva00808C60( void *message )
 	Rva007F93E0( message, (void *)"->L", m_routeOwner );
 }
 
+// Retail 0x0066CC40 (25B, after the connect-reply handler 0x0066CB90): the
+// same forwarder shape with the "->D" route literal (VA 0x00CE3AE0).
+class Rva0066CC40Owner
+{
+public:
+	void rva0066CC40( void *message );
+	char m_pad00[ 0x10 ];
+	void *m_routeOwner;
+};
+
+// ?rva0066CC40@Rva0066CC40Owner@@QAEXPAX@Z
+void Rva0066CC40Owner::rva0066CC40( void *message )
+{
+	Rva007F93E0( message, (void *)"->D", m_routeOwner );
+}
+
 // Retail's call sites in this unit's matched rows land on bodies rowed under
 // other spellings at the same addresses (same ABI). Bind the spellings used here.
 #pragma comment(linker, "/alternatename:?ji_009f70ba@@YAPADPADPBDI@Z=?ji_0062983e@@YAXXZ")
