@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // AIStateMachine::AIStateMachine, retail 0x00351C48 (3805 bytes; pinned by
@@ -48,6 +48,14 @@ static __forceinline void zeroCoord3D(Coord3D &c)
 // Coord3D erase also has a distinct retail owner at 0x81A24; clear the
 // same three-pointer vector representation through the required POD twin.
 struct Gen_p12pod { int a[3]; };
+// Retail frees the goal path's storage through free (0x00030830): the
+// constructor's cleanup reaches the shared 14-byte destructor at 0x0007FAB3,
+// not STLport's node allocator.
+namespace _STL {
+template <> inline
+void allocator<Gen_p12pod>::deallocate(Gen_p12pod *__p, size_t) const
+{ if (__p != 0) ::free((void *)__p); }
+}
 
 class AIStateMachine : public StateMachine
 {
