@@ -1,9 +1,3 @@
-// ?rva00525ABF@Rva00525ABF@@QAEXPAVXfer@@@Z
-// partial score=0.87 date=2026-10-14
-// ?rva00525ABF@Rva00525ABF@@QAEXPAVXfer@@@Z
-// partial score=0.9 date=2026-10-14
-// ?rva00525ABF@Rva00525ABF@@QAEXPAVXfer@@@Z
-// partial score=0.94 date=2026-10-05
 // cl: /Ireference/shims/bfmelist /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE
 // stlport
 //
@@ -11,12 +5,10 @@
 // Unlock lane: missing callee of 1 free function; landing makes 0x00525E00 ready.
 // Storing (IsStoring via Xfer slot 0x08) counts two lists and xfers counts plus
 // ObjectID/int/int per node plus int at +0x18; loading Version(1,3) via slot
-// 0x28 rebuilds both lists via temp list<BfmePod12> insert (rowed 0x004E7B49)
-// then swaps into +0x10/+0x14, version-gated second list (>=2) and +0x18 (>=3),
+// 0x28 rebuilds both lists in temp list<BfmePod12>s with push_back
+// (element zeroed once before each loop) then swaps into +0x10/+0x14, version-gated second list (>=2) and +0x18 (>=3),
 // then forEach listener 0x005CC208. Layout: Rva005258E2List base 0x10 plus two
 // 4-byte STL lists plus int, same as Rva00526275 ctor precedent.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 #include <list>
 
 class AsciiString;
@@ -156,7 +148,6 @@ private:
 	int m_18;
 };
 
-// ?rva00525ABF@Rva00525ABF@@QAEXPAVXfer@@@Z present-unmatched
 void Rva00525ABF::rva00525ABF(Xfer *xfer)
 {
 	Xfer::Version version(1, 3);
@@ -183,32 +174,30 @@ void Rva00525ABF::rva00525ABF(Xfer *xfer)
 	*xfer == n10;
 	_STL::list<BfmePod12> tmp10;
 	BfmePod12 v10;
+	v10.a[0] = 0;
+	v10.a[1] = 0;
+	v10.a[2] = 0;
 	for (; n10 > 0; --n10) {
-		v10.a[0] = v10.a[1] = 0;
-
-		v10.a[2] = 0;
-		_ReadWriteBarrier();
 		XferObjectID(xfer, (ObjectID *)&v10.a[0]);
-		*xfer == v10.a[2];
 		*xfer == v10.a[1];
-		tmp10.insert(tmp10.end(), v10);
+		*xfer == v10.a[2];
+		tmp10.push_back(v10);
 	}
-	tmp10.swap(m_list10);
+	m_list10.swap(tmp10);
 	_STL::list<BfmePod12> tmp14;
 	if (version.m_minimum >= 2) {
 		int n14;
 		*xfer == n14;
 		BfmePod12 v14;
+		v14.a[0] = 0;
+		((char *)&v14.a[1])[0] = 0;
+		*(float *)&v14.a[2] = g_00BBB9AC;
 		for (; n14 > 0; --n14) {
-			v14.a[0] = 0;
-			((char *)&v14.a[1])[0] = 0;
-			*(float *)&v14.a[2] = g_00BBB9AC;
-			_ReadWriteBarrier();
 			XferObjectID(xfer, (ObjectID *)&v14.a[0]);
-			tmp14.insert(tmp14.end(), v14);
+			tmp14.push_back(v14);
 		}
 	}
-	tmp14.swap(m_list14);
+	m_list14.swap(tmp14);
 	if (version.m_minimum >= 3) {
 		*xfer == m_18;
 	} else {
