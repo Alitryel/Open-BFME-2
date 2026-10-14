@@ -8,6 +8,9 @@
 #include <deque>
 #include <string.h>
 struct BfmeE32 {int a[8];};
+// Retail's map reallocator is owned by stlport_deque_e32_initmap.cpp; this
+// unit's header copy calls bfmealloc's out-of-line copies, not retail's memmove.
+namespace _STL { template <> void deque<BfmeE32, allocator<BfmeE32> >::_M_reallocate_map(size_t, bool); }
 class ShroudManagerImpl {
  int value00;char opaque04[0x34];int value38;_STL::deque<BfmeE32> pending;
 public:void QueueUndoShroudReveal(int x,int y,int *radii,float angle,unsigned mask);
