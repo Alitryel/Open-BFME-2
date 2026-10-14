@@ -21,7 +21,9 @@ public:
 void *__cdecl operator new(unsigned int size);
 struct ImplRef0044BC76 { virtual ~ImplRef0044BC76() {} int m_ref; ImplRef0044BC76() : m_ref(0) {} };
 struct Impl0044BC76 : ImplRef0044BC76 { int m_value; Impl0044BC76(const int &v) : m_value(v) {} };
-Rva0044BC76::Rva0044BC76(const int *arg)
+// ??0Rva0044BC76@@QAE@PBH@Z: retail 0x0044BC76 (53B), homed here. Select-any
+// like the copy in AptOnlineKeyHandler.cpp: strong copies duplicated at link.
+__declspec(noinline) inline Rva0044BC76::Rva0044BC76(const int *arg)
 {
     Impl0044BC76 *p = new Impl0044BC76(*arg);
     m_ptr = (TargetRef00217D4C *)p;

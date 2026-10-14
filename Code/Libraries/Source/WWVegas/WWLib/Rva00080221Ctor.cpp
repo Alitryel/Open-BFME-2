@@ -50,6 +50,8 @@ Rva00080221::Rva00080221(const int *arg)
 // 0x002D45FE (VA 0xc02afc), 0x004106FA (VA 0xc39634), 0x0044BC76 (VA 0xc3ed7c), 0x005773DB (VA 0xc6e970).
 // Each impl is a class over the same ref-counted base. Owners keep their
 // addresses.
+// 0x0044BC76 and 0x005773DB live in their consumer units (MessageBox.cpp,
+// Rva005E62F1Constructor.cpp), which need the bodies visible.
 
 // ??0Rva00211E75@@QAE@PBH@Z @0x00211E75 53B, impl vtable VA 0xbe5128
 struct Impl00211E75 : Rva00080221RefImpl
@@ -173,28 +175,4 @@ __declspec(noinline) inline Rva004106FA::Rva004106FA(const int *arg)
 void *bfmeAnchorRva004106FA(void *where, const int *arg)
 {
 	return new (where) Rva004106FA(arg);
-}
-
-
-// ??0Rva0044BC76@@QAE@PBH@Z @0x0044BC76 53B, impl vtable VA 0xc3ed7c
-struct Impl0044BC76 : Rva00080221RefImpl
-{
-	int m_value;
-	Impl0044BC76(const int &value) : m_value(value) {}
-};
-
-class Rva0044BC76
-{
-public:
-	Rva0044BC76(const int *arg);
-private:
-	Impl0044BC76 *m_impl;
-};
-
-Rva0044BC76::Rva0044BC76(const int *arg)
-{
-	Impl0044BC76 *p = new Impl0044BC76(*arg);
-	m_impl = p;
-	if (p != 0)
-		++p->m_ref;
 }
