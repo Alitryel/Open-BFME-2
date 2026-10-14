@@ -70,11 +70,20 @@ public:
 	virtual float getC8(); // +0xC8
 };
 
+struct Rva00290EABElem;
+
+class Object
+{
+public:
+	const Rva00290EABElem *rva00290EAB(int idx) const;
+};
+
 class Rva00270FEE
 {
 public:
 	char *rva00270FEE();
 	float rva00271008();
+	const Rva00290EABElem *rva0027103F(int idx);
 private:
 	unsigned char m_pad0[4];
 	char *m_04;
@@ -99,4 +108,14 @@ float Rva00270FEE::rva00271008()
 	if (arr && *arr)
 		return base + (*arr)->getC8();
 	return base;
+}
+
+// ?rva0027103F@Rva00270FEE@@QAEPBURva00290EABElem@@H@Z @0x0027103F 25B: with
+// the +0xFC object set, its entry idx (rowed Object::rva00290EAB 0x00290EAB,
+// tail-jumped); otherwise the default record rva00270FEE gives.
+const Rva00290EABElem *Rva00270FEE::rva0027103F(int idx)
+{
+	if (m_fc)
+		return ((const Object *)m_fc)->rva00290EAB(idx);
+	return (const Rva00290EABElem *)rva00270FEE();
 }
