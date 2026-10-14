@@ -146,16 +146,6 @@ public:
 	int m_playerIndex;
 };
 
-class Rva004F040F
-{
-public:
-	void rva004EF383(void *arg);
-private:
-	char m_pad00[4];
-	void *m_04;
-	void *m_08;
-};
-
 class Rva00160A00
 {
 	char m_pad[8];
@@ -168,6 +158,7 @@ class AIPlayer
 {
 public:
 	void prependTo_TeamBuildQueue(TeamInQueue *o);
+	void prependTo_TeamReadyQueue(TeamInQueue *o);
 	void reverse_TeamBuildQueue();
 protected:
 	virtual void xfer(Xfer *xfer);
@@ -263,7 +254,7 @@ void AIPlayer::xfer(Xfer *xfer)
 			throw XferException(5, 0);
 		for (UnsignedShort i = 0; i < teamReadyQueueCount; ++i) {
 			void *p = new Rva00161220;
-			((Rva004F040F *)this)->rva004EF383(p);
+			prependTo_TeamReadyQueue((TeamInQueue *)p);
 			*xfer == *(Snapshot *)p;
 		}
 		((Rva00160A00 *)this)->flip();

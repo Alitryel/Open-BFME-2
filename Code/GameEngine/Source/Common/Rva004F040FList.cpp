@@ -27,15 +27,19 @@ public:
 	void set(Rva00160530 **p);
 };
 
-class Rva004F040F
+// 0x004EF383 is AIPlayer::prependTo_TeamReadyQueue: WorldBuilder's AIPlayer.h inline (score 4)
+// and Zero Hour's checkQueuedTeams call it with the entry right after removeFrom_TeamBuildQueue.
+class TeamInQueue;
+
+class AIPlayer
 {
 public:
-	void rva004EF383(void *arg);
+	void prependTo_TeamReadyQueue(TeamInQueue *team);
 
 private:
 	char m_pad00[4];
-	void *m_04;
-	void *m_08;
+	void *m_teamBuildQueue;
+	void *m_teamReadyQueue;
 };
 
 
@@ -60,9 +64,9 @@ public:
 	void set(Rva00160620 **head);
 };
 
-void Rva004F040F::rva004EF383(void *arg)
+void AIPlayer::prependTo_TeamReadyQueue(TeamInQueue *team)
 {
-    void **head = &m_08;
-    if (!((const TeamInQueue *)arg)->dlink_isInList_TeamReadyQueue((TeamInQueue *const *)head))
-        ((Rva00160620 *)arg)->set((Rva00160620 **)head);
+    void **head = &m_teamReadyQueue;
+    if (!team->dlink_isInList_TeamReadyQueue((TeamInQueue *const *)head))
+        ((Rva00160620 *)team)->set((Rva00160620 **)head);
 }
