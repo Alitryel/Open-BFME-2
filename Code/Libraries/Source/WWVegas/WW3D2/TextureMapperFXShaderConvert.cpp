@@ -59,7 +59,7 @@ struct FXOwnedParameter
 {
 	BfmeAssignRecord36 record;
 	FXOwnedParameter(const char *name, int type) : record(name, type) {}
-	~FXOwnedParameter() { reinterpret_cast<Rva0007BB16Record *>(&record)->~Rva0007BB16Record(); }
+	~FXOwnedParameter() { reinterpret_cast<Rva0007BB16Record *>(&record)->Rva0007BB16Record::~Rva0007BB16Record(); }
 	const Rva00082EB8Rec &rec() const { return *reinterpret_cast<const Rva00082EB8Rec *>(this); }
 };
 class Rva00082EB8 { public: void rva00082EB8(const Rva00082EB8Rec &); };
