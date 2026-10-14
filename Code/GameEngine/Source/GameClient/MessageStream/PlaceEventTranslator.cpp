@@ -197,7 +197,7 @@ public:
 	V(17) V(18) V(19) V(20) V(21) V(22)
 	virtual bool isBuildPort(const ThingTemplate *build, Object *builderObject); // 0x5C
 	virtual int canMakeUnit(Object *builder, const ThingTemplate *build, int count); // 0x60
-	void getPortTransform(const Coord3D *worldPos, const ThingTemplate *build, float angle,
+	bool getPortTransform(const Coord3D *worldPos, const ThingTemplate *build, float angle,
 		float *newAngle, Coord3D *newPos);
 };
 extern BuildAssistant *TheBuildAssistant;
