@@ -25,3 +25,8 @@ int Rva003B9516(char *args[],int num) {
     BfmeFormationPreviewUseDecals=false;
     return 1;
 }
+
+// 3B9400 (10B): the setter of the same BfmeFormationPreviewUseDecals byte.
+void Rva003B9400Set(bool enabled) {
+    BfmeFormationPreviewUseDecals=enabled;
+}

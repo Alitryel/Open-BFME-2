@@ -339,3 +339,11 @@ GlobalA046B4 * g_Va00A046B4 = 0;
 #pragma comment(linker, "/alternatename:?g_Va009FE4CC@@3PAVRva00222479ByteOneSetter@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")
 // ?g_Va009FEEE8@@3PAURva0043C933Outer@@A: the global at VA 0xdfeee8 is ?ThePlayerList@@3PAVPlayerList@@A.
 // ?g_Va009FE78C@@3PAUGlobal9FE78C@@A: the global at VA 0xdfe78c is ?TheGameLogic@@3PAVGameLogic@@A.
+
+// ?Rva004E4321Get@@YAEXZ @0x004E4321 9B.
+// Flag-byte getter on the 0x004E4179 singleton block: returns the byte at
+// +4, the twin of Rva0043CCD1Get above on the other singleton.
+unsigned char Rva004E4321Get(void)
+{
+	return *((unsigned char *)Rva004E4179Get() + 4);
+}
