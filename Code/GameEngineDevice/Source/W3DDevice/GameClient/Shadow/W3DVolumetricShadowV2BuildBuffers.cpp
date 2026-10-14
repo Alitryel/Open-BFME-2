@@ -24,10 +24,11 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "wwmath.h"
-class Vector3 {public:float X,Y,Z;__forceinline Vector3(){} __forceinline Vector3(const Vector3&v){X=v.X;Y=v.Y;Z=v.Z;} __forceinline Vector3&operator=(const Vector3&v){X=v.X;Y=v.Y;Z=v.Z;return *this;} __forceinline void Normalize(){float len2=X*X+Y*Y+Z*Z;if(len2!=0.0f){float oolen=WWMath::Inv_Sqrt(len2);X*=oolen;Y*=oolen;Z*=oolen;}}};
+class Vector3 {public:float X,Y,Z;__forceinline Vector3(){} __forceinline Vector3(float x,float y,float z){X=x;Y=y;Z=z;} __forceinline Vector3(const Vector3&v){X=v.X;Y=v.Y;Z=v.Z;} __forceinline Vector3&operator=(const Vector3&v){X=v.X;Y=v.Y;Z=v.Z;return *this;} __forceinline void Normalize(){float len2=X*X+Y*Y+Z*Z;if(len2!=0.0f){float oolen=WWMath::Inv_Sqrt(len2);X*=oolen;Y*=oolen;Z*=oolen;}}};
 // LINK: file-static helpers replace operator*= and operator+ (identical inlined
 // bytes); the TU no longer emits their loser COMDAT copies. No flags touched.
 static __forceinline void bfmeScaleV3(Vector3&v,float k){v.X*=k;v.Y*=k;v.Z*=k;}
+static __forceinline Vector3 bfmeSumV3(const Vector3&a,const Vector3&b){return Vector3(a.X+b.X,a.Y+b.Y,a.Z+b.Z);}
 static __forceinline Vector3 bfmeAddV3(const Vector3&a,const Vector3&b){Vector3 r;r.X=a.X+b.X;r.Y=a.Y+b.Y;r.Z=a.Z+b.Z;return r;}
 
 
@@ -68,10 +69,8 @@ public:
 
 struct BfmeShadowEdge
 {
-	unsigned short m_vertex0;
-	unsigned short m_pad02;
-	unsigned short m_vertex1;
-	unsigned short m_pad06;
+	int m_vertex0;
+	int m_vertex1;
 };
 
 struct Rva00107E76Elem
@@ -80,11 +79,12 @@ struct Rva00107E76Elem
 	Vector3 *m_allocation0;
 	unsigned char *m_allocation1;
 	BfmeShadowEdge *m_allocation2;
-	unsigned int m_reserved10;
+	int m_reserved10;
 	unsigned char m_reserved14;
 
 	void rva00107B41(Vector3 *vertex, short vertexBase, unsigned short *index,
 		const Vector3 &offset);
+	int rva00106D56(int vertexBuf, short vertexBase, int indexBuf, void *block);
 };
 
 // Same thiscall ABI (four dwords, ret 0x10) as the erased declaration in
@@ -131,4 +131,61 @@ void Rva00107E76Elem::rva00107B41(Vector3 *vertex, short vertexBase,
 			index[2] = (unsigned short)(tri->K + count) + vertexBase;
 		}
 	}
+}
+
+// Native106D56..106F71 complete539 RET16; the sole caller UpdateAndRender
+// 0x00107D8A passes the vertex/index cursors as integers (the pinned
+// spelling). WB 0x008DE7E0 (vector3.h operator+ asserts) gives the loop
+// shapes: either two vertex rings plus six indices per edge, or four
+// vertices per edge with packed index pairs, whichever needs fewer vertices.
+int Rva00107E76Elem::rva00106D56(int vertexBuf, short vertexBase, int indexBuf,
+	void *block)
+{
+	Vector3 *&vertex = reinterpret_cast<Vector3 *&>(vertexBuf);
+	unsigned short *&index = reinterpret_cast<unsigned short *&>(indexBuf);
+	const Vector3 &offset = *(const Vector3 *)block;
+	int count = m_mesh->m_model->m_vertexCount;
+	if (count * 2 < m_reserved10 * 4)
+	{
+		int i, j;
+		for (i = 0; i < count; ++i)
+			*vertex++ = m_allocation0[i];
+		for (j = 0; j < count; ++j)
+			*vertex++ = bfmeAddV3(offset, m_allocation0[j]);
+
+		BfmeShadowEdge *edge = m_allocation2;
+		for (int e = m_reserved10; e > 0; --e, ++edge, index += 6)
+		{
+			index[0] = vertexBase + edge->m_vertex0 + count;
+			index[1] = vertexBase + edge->m_vertex1;
+			index[2] = vertexBase + edge->m_vertex0;
+			index[3] = vertexBase + edge->m_vertex1;
+			index[4] = vertexBase + edge->m_vertex0 + count;
+			index[5] = vertexBase + edge->m_vertex1 + count;
+		}
+		return count * 2;
+	}
+
+	BfmeShadowEdge *edge = m_allocation2;
+	for (int e = m_reserved10; e > 0; --e, ++edge, vertex += 4)
+	{
+		vertex[0] = m_allocation0[edge->m_vertex0];
+		vertex[1] = m_allocation0[edge->m_vertex1];
+		vertex[2] = bfmeAddV3(m_allocation0[edge->m_vertex0], offset);
+		// Re-reading the extrusion through the block pointer is what gives
+		// retail's offset-first X add for the last vertex.
+		const Vector3 &far1 = m_allocation0[edge->m_vertex1];
+		vertex[3] = bfmeAddV3(*(const Vector3 *)block, far1);
+	}
+
+	edge = m_allocation2;
+	unsigned int *pair = (unsigned int *)index;
+	unsigned int base = ((unsigned short)vertexBase << 16) | (unsigned short)vertexBase;
+	for (int q = m_reserved10; q > 0; --q, ++edge, pair += 3, base += 0x40004)
+	{
+		pair[0] = base + 0x10002;
+		pair[1] = base + 0x10000;
+		pair[2] = base + 0x30002;
+	}
+	return m_reserved10 * 4;
 }
