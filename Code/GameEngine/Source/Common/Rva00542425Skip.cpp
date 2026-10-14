@@ -29,9 +29,28 @@ static char *Rva00542425Skip(char *p)
 	return s;
 }
 
+// ?Rva00542449Find@@YAPADPADD@Z @0x00542449 16B
+// Character find: advances until NUL or the stack-passed character, returning
+// the stop pointer. Same EAX-pointer private convention as Rva00542425Skip
+// directly before it (retail bytes: live-in eax, char at [esp+4], plain ret).
+static char *Rva00542449Find(char *p, char c)
+{
+	char *s = p;
+	for (;;) {
+		char ch = *s;
+		if (ch == 0)
+			break;
+		if (ch == c)
+			break;
+		s++;
+	}
+	return s;
+}
+
 // ?Rva00542425Caller@@YAPADPAD@Z present-unmatched
 char *Rva00542425Caller(char *p)
 {
 	char *q = Rva00542425Skip(p);
+	q = Rva00542449Find(q, ',');
 	return Rva00542425Skip(q);
 }
