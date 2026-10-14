@@ -8,31 +8,34 @@
 // MSVC reproduce retail's pivot-search and elimination unrolling naturally.
 #include "vector4.h"
 
-class Matrix4
-{
-public:
-    __forceinline Matrix4(const Matrix4 &m)
-    {
-        Row[0] = m.Row[0]; Row[1] = m.Row[1];
-        Row[2] = m.Row[2]; Row[3] = m.Row[3];
-    }
-    __forceinline explicit Matrix4(bool identity)
-    {
-        if (identity) {
-            Row[0].Set(1, 0, 0, 0); Row[1].Set(0, 1, 0, 0);
-            Row[2].Set(0, 0, 1, 0); Row[3].Set(0, 0, 0, 1);
-        }
-    }
-    __forceinline Vector4 &operator[](int i) { return Row[i]; }
-    __forceinline const Vector4 &operator[](int i) const { return Row[i]; }
-    void Inverse(Matrix4 *out) const;
-    Vector4 Row[4];
-};
+class Matrix4 { public: void Inverse(Matrix4 *out) const; Vector4 Row[4]; };
 
 void Matrix4::Inverse(Matrix4 *out) const
 {
+    // Keep the elimination workspace local: its copy/access helpers are not
+    // additional definitions of Matrix4 public members elsewhere in the tree.
+    struct Matrix4InverseWork
+    {
+    public:
+        __forceinline Matrix4InverseWork(const Matrix4 &m)
+        {
+            Row[0] = m.Row[0]; Row[1] = m.Row[1];
+            Row[2] = m.Row[2]; Row[3] = m.Row[3];
+        }
+        __forceinline explicit Matrix4InverseWork(bool identity)
+        {
+            if (identity) {
+                Row[0].Set(1, 0, 0, 0); Row[1].Set(0, 1, 0, 0);
+                Row[2].Set(0, 0, 1, 0); Row[3].Set(0, 0, 0, 1);
+            }
+        }
+        __forceinline Vector4 &operator[](int i) { return Row[i]; }
+        __forceinline const Vector4 &operator[](int i) const { return Row[i]; }
+        Vector4 Row[4];
+    };
+    
     Matrix4 &b = *out;
-    Matrix4 a(*this);
+    Matrix4InverseWork a(*this);
     b.Row[0].Set(1, 0, 0, 0); b.Row[1].Set(0, 1, 0, 0);
     b.Row[2].Set(0, 0, 1, 0); b.Row[3].Set(0, 0, 0, 1);
     int i, j, i1;
