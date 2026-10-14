@@ -61,10 +61,24 @@ struct CodecState;
 extern "C" int __cdecl VP6_StopDecoder(CodecState **p);
 void Rva00090714Free(void **p);
 
+class BfmeB996
+{
+public:
+	char movePair(int *output, int *first, unsigned int *second, unsigned int limit);
+};
+
+void __cdecl Rva009A5800Forward(int s, int data, int size);
+typedef void (__cdecl *Vp6ForwardFn)(int, int, int, int, int);
+
+class Rva007E3C20Vp6Stream;
+extern Rva007E3C20Vp6Stream *g_vp6ActiveStream;
+extern int g_vp6PairCounter;
+
 class Rva007E3C20Vp6Stream : public Gen_uwm_0068a110
 {
 public:
 	virtual ~Rva007E3C20Vp6Stream();
+	void rva000908F6();
 
 private:
 	void *m_at14;
@@ -108,4 +122,38 @@ Rva007E3C20Vp6Stream::~Rva007E3C20Vp6Stream()
 		TheAudio->release(m_at5c);
 	if (m_at60 != 1)
 		TheAudio->release(m_at60);
+}
+
+void Rva007E3C20Vp6Stream::rva000908F6()
+{
+	int tag;
+	int size;
+	if (m_at38)
+	{
+		g_vp6ActiveStream = this;
+		do
+		{
+			if (!reinterpret_cast<BfmeB996 *>(&m_parser)->movePair((int *)m_at54, &tag, (unsigned int *)&size, m_at58))
+			{
+				m_at48 = m_at3c - 1;
+				return;
+			}
+		} while (tag != 0x4b305641 && tag != 0x46305641);
+		((Vp6ForwardFn)Rva009A5800Forward)((int)m_at18, (int)m_at54 + 8, size, m_at30, m_at34);
+	}
+	else
+		g_vp6ActiveStream = this;
+	char ok;
+	do
+	{
+		ok = reinterpret_cast<BfmeB996 *>(&m_parser)->movePair((int *)m_at54, &tag, (unsigned int *)&size, m_at58);
+		++g_vp6PairCounter;
+		if (!ok)
+		{
+			m_at48 = m_at3c - 1;
+			return;
+		}
+	} while (tag != 0x4b30564d && tag != 0x4630564d);
+	((Vp6ForwardFn)Rva009A5800Forward)((int)m_at14, (int)m_at54 + 8, size, m_at30, m_at34);
+	++m_at48;
 }
