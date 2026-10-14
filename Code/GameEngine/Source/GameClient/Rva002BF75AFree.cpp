@@ -59,3 +59,12 @@ void Rva002BF75A::rva002BF7BE()
 	}
 	m_numElements = 0;
 }
+
+// ?Rva002BF388Destroy@@YAXPAU?$pair@$$CBVAsciiString@@UTreeHintRef002BF0D6@@@_STL@@@Z
+// @0x002BF388 9B: mov ecx [esp+4] then tail jmp to the rowed pair dtor
+// 0x002BF0D6; _Destroy-shaped (same shape as the rowed 0x0022D27E thunks).
+// The STLport identity is inferred from the shape; the name stays address-derived.
+void Rva002BF388Destroy(_STL::pair<const AsciiString, TreeHintRef002BF0D6> *p)
+{
+	p->~pair();
+}
