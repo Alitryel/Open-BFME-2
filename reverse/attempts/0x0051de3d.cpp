@@ -1,3 +1,5 @@
+// ?rva0051DE3D@AptScoreScreen@@QAEXXZ
+// partial score=0.9675 date=2026-10-14
 // ?Rva0051DE3D@@YAHPAVGameWindow@@IABVAsciiString@@@Z
 // partial score=0.9592 date=2026-10-13
 // ?rva0051DE3D@AptScoreScreen@@QAEXXZ
@@ -889,17 +891,18 @@ bool AptScoreScreen::PopulatePersistentUnitsListbox()
 // templates' order, set the veterancy icons and the upgrade flags; in the
 // living world the region names the map, lists its bonuses, shows its
 // image, and in state 1 the persistent units list follows.
+struct Rva51DE3DBits { unsigned *sp; unsigned so; unsigned *fp; unsigned fo; };
 void AptScoreScreen::rva0051DE3D()
 
 {
- if (!__vref(m_objectives))
+ if (!m_objectives)
  return;
  for (int i = 0; i < m_objectives->m_count; ++i)
  
  {
   AsciiString key;
-  g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch(m_objectives->m_labels[i].str()), false);
   key.format("APT:objective%d", i);
+  g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch(m_objectives->m_labels[i].str()), false);
   
  }
  if (!TheGameLogic || !TheThingFactory)
@@ -938,7 +941,9 @@ void AptScoreScreen::rva0051DE3D()
  
  {
   AsciiString key;
-  key.format("SubMenus/HeroVeterancy/HeroSelection/HeroSelection%d/icon/Image", m_heroUpgrades.size() + 1);
+  Rva51DE3DBits *pb = (Rva51DE3DBits *)&m_heroUpgrades;
+  unsigned * volatile bp = pb->sp; unsigned bo = pb->so; unsigned eo = pb->fo; unsigned *ep = pb->fp;
+  key.format("SubMenus/HeroVeterancy/HeroSelection/HeroSelection%d/icon/Image", 32 * (ep - bp) - bo + eo + 1);
   TheRva00222A8BTarget->rva002239E2(key, heroes[k].image);
   m_heroUpgrades.push_back(heroes[k].upgraded);
   

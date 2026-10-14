@@ -1,4 +1,6 @@
 // ?rva005476C8@MoveToGroupOrder@@QAEPAUCoord3D@@W4ObjectID@@@Z
+// partial score=1.0 date=2026-10-14
+// ?rva005476C8@MoveToGroupOrder@@QAEPAUCoord3D@@W4ObjectID@@@Z
 // partial score=0.9 date=2026-10-12
 // cl: /MD /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
 // stlport
@@ -503,7 +505,6 @@ Coord3D *MoveToGroupOrder::rva005476C8(ObjectID id)
 {
  Object *obj=TheGameLogic->findObjectByID(id);
  Coord3D result;
- const Coord3D *position;
  if(obj) {
   AIUpdateInterface *ai=(AIUpdateInterface *)obj->ai;
   if((ai && reinterpret_cast<MoveAIUpdateView*>(ai)->slot137()) || obj->physics) {
@@ -511,13 +512,10 @@ Coord3D *MoveToGroupOrder::rva005476C8(ObjectID id)
    result.z=TheTerrainLogic->slot7(m_destination.x,m_destination.y,layer,0,true);
    result.x=m_destination.x;result.y=m_destination.y;
    if(!TheAI->pathfinder()->AdjustDestination(obj,*reinterpret_cast<LocomotorSet*>(reinterpret_cast<char*>(ai)+0x1CC),&result,&m_destination))result=m_destination;
-   if(obj->theTemplate->kindHigh & 0x04000000) {float angle=obj->angle; obj->rva0028AD00((int)&result,obj->GetRelativeAngle(&result)+angle,layer);}
+   if(obj->theTemplate->kindHigh & 0x04000000) {float angle=obj->angle; float rel=obj->GetRelativeAngle(&result)+angle; obj->rva0028AD00((int)&result,rel,layer);}
    else obj->rva0028ACEE(&result,layer);
-   position=&result;
-   goto insert;
+   return &m_positions.insert(_STL::make_pair(id,result)).first->second;
   }
  }
- position=&m_destination;
-insert:
- return &m_positions.insert(_STL::make_pair(id,*position)).first->second;
+ return &m_positions.insert(_STL::make_pair(id,m_destination)).first->second;
 }

@@ -15,15 +15,6 @@
 
 #include <map>
 
-// map/set<int> internals otherwise instantiate the less<int>::operator()
-// COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
-// specialization takes those calls inline so this TU emits no external copy.
-namespace _STL {
-template <> __declspec(dllimport) __forceinline
-bool less<int>::operator()(const int &a, const int &b) const
-{ return a < b; }
-}
-
 typedef int Int;
 
 template <typename T> struct BfmeStringData
@@ -57,7 +48,35 @@ struct BfmeFontSizeTable
 	_STL::map<int, int> m_records;
 };
 
-class GameFont;
+extern "C" __declspec(dllimport) double __cdecl floor(double);
+
+class GameFont
+{
+public:
+	virtual ~GameFont();
+
+	GameFont *next;          // +0x04
+	AsciiString nameString;  // +0x08
+	float pointSize;         // +0x0C
+	int m_pad10;             // +0x10
+	void *fontData;          // +0x14
+	bool bold;               // +0x18
+	int style;               // +0x1C
+};
+
+// The existing matched 0x002173E3 helper prepends a node through +0x04 and
+// updates the FontLibrary list head/count at +0x0C/+0x10.
+struct Rva002173E3Node
+{
+	int m_pad;
+	Rva002173E3Node *m_next;
+};
+
+class Rva002173E3
+{
+public:
+	void rva002173E3(Rva002173E3Node *node);
+};
 
 struct BfmeFontRecord
 {
@@ -71,8 +90,17 @@ public:
 	void *rva002186A6(const AsciiString *name, float size);
 	GameFont *getFont(const AsciiString *name, float size, bool bold);
 	GameFont *rva0021857E(const AsciiString *name, float size, bool bold, int style);
+	void rva00218468(const AsciiString *name, float *size, bool *bold);
+
+	virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
+	virtual void slot04(); virtual void slot05(); virtual void slot06(); virtual void slot07();
+	virtual void slot08(); virtual void slot09(); virtual void slot10(); virtual void slot11();
+	virtual void slot12(); virtual void slot13();
+	virtual bool loadFontData(GameFont *font); // +0x38
 private:
-	char m_pad[0x14];
+	char m_pad04[0x0C - 4];
+	GameFont *m_fontList; // +0x0C
+	int m_fontCount; // +0x10, updated by the matched list-prepend helper
 	_STL::map<AsciiString, AsciiString> m_tables;
 };
 
@@ -100,4 +128,47 @@ GameFont *FontLibrary::getFont(const AsciiString *name, float size, bool bold)
 	if (record)
 		flag = record->m_flag08;
 	return rva0021857E(name, size, bold, flag ? 4 : 1);
+}
+
+// ?rva0021857E@FontLibrary@@QAEPAVGameFont@@PBVAsciiString@@M_NH@Z, retail
+// 0x0021857E (296B). Zero Hour's FontLibrary::getFont (find in the font list,
+// else create, load the device data and link it) with BFME 2's style: the
+// point size is snapped to a 1/style grid first, the name/size/bold triple is
+// normalised by 0x00218468 (pinned), and fonts also match on style (+0x1C).
+GameFont *FontLibrary::rva0021857E(const AsciiString *namePtr, float size, bool bold, int style)
+{
+	const float fstyle = (float)style;
+	size = fstyle * size + 0.5f;
+	size = (float)(floor(size) / fstyle);
+	AsciiString name(*namePtr);
+	rva00218468(&name, &size, &bold);
+
+	GameFont *font;
+	for (font = m_fontList; font; font = font->next)
+	{
+		if (font->pointSize == size && font->bold == *(volatile bool *)&bold && font->style == style &&
+			font->nameString == name)
+			return font;
+	}
+
+	font = new GameFont;
+	if (0 == font)
+		return 0;
+
+	font->nameString = name;
+	const bool newBold = bold;
+	const float newSize = size;
+	font->fontData = 0;
+	font->pointSize = newSize;
+	font->bold = newBold;
+	font->style = style;
+
+	if (loadFontData(font) == false)
+	{
+		::delete font;
+		return 0;
+	}
+
+	((Rva002173E3 *)this)->rva002173E3((Rva002173E3Node *)font);
+	return font;
 }
