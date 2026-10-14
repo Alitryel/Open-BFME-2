@@ -224,6 +224,7 @@ BFME_DISP8_CMP_ZERO_BOOL_GETTER(Rva002622D6CmpBoolField, 0x16C, >)
 BFME_DISP8_CMP_ZERO_BOOL_GETTER(Rva002C71F0CmpBoolField, 0x128, ==)
 BFME_DISP8_CMP_ZERO_BOOL_GETTER(Rva005E5A82CmpBoolField, 0x30, !=)
 BFME_DISP8_CMP_IMM_BOOL_GETTER(Rva004E05DFCmpBoolField, 0x20, -1, ==)
+BFME_DISP8_CMP_IMM_BOOL_GETTER(Rva001FF347CmpBoolField, 0x110, 2, ==)
 // Backward-chase ternary: the method runs on a subobject BACK bytes into its
 // container, so the pointer member is read at a negative displacement from
 // `this` and the inner byte is tested through it (probe-proven; a direct
@@ -377,4 +378,20 @@ unsigned int Rva0040A63BWordsEqual(const unsigned int *word, unsigned int value)
 unsigned int Rva0040A64BWordsEqual(unsigned int value, const unsigned int *word)
 {
     return *word == value;
+}
+
+// 0x0023C4F8 (14B): both flag bytes at +0x15 and +0x16 set (the
+// xor/cmp-je/cmp-je/inc shape of HordeUpdate::isTrueHordeMember 0x0049001F).
+// Owner unresolved; address-derived name.
+class Rva0023C4F8BothFlags
+{
+public:
+	bool get() const;
+	char m_lead[0x15];
+	bool m_first;
+	bool m_second;
+};
+bool Rva0023C4F8BothFlags::get() const
+{
+	return m_first && m_second;
 }
