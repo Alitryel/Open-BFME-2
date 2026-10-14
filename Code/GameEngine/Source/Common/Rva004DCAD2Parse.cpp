@@ -15,7 +15,6 @@ public:
  static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
  static void parseDurationUnsignedInt(INI *ini, void *instance, void *store, const void *userData);
  static void parseFXList(INI *ini, void *instance, void *store, const void *userData);
- static void Rva004DC702_ParseEmotionType(INI *ini, void *instance, void *store, const void *userData);
  static void Rva004DC64F_ParseThreatAbove(INI *ini, void *instance, void *store, const void *userData);
  static void Rva004DC625_ParseThreatBelow(INI *ini, void *instance, void *store, const void *userData);
  static void Rva004DC745_ParseAIState(INI *ini, void *instance, void *store, const void *userData);
@@ -44,11 +43,19 @@ struct FieldParse
 // exit pair at 0x138/0xA0 is Rva000B9468Parse's. `extern` on the definition
 // keeps the table external, which a plain const array at namespace scope would
 // not be. Every parse target is a rowed body, so all 29 names resolve.
+// 0x004DC702 is rowed as WB EmotionNuggetTemplate::IniParseEmotionType.
+class EmotionNuggetTemplate
+{
+public:
+	static void IniParseEmotionType(INI *ini, void *instance, void *store, const void *userData);
+	static void friend_parseEmotionNugget(INI *);
+};
+
 extern const FieldParse g_00C61310[];
 const FieldParse g_00C61310[] =
 {
 	{ "CopyFrom", &parseEmotionNuggetCopyFrom, 0, 0x00 },
-	{ "Type", &INI::Rva004DC702_ParseEmotionType, 0, 0x04 },
+	{ "Type", &EmotionNuggetTemplate::IniParseEmotionType, 0, 0x04 },
 	{ "IgnoreIfUnitIdle", &INI::parseBool, 0, 0x08 },
 	{ "IgnoreIfUnitBusy", &INI::parseBool, 0, 0x09 },
 	{ "Duration", &INI::parseDurationUnsignedInt, 0, 0x0C },
@@ -112,7 +119,6 @@ public:
 };
 class Rva00426612 {public: void rva00426612(CreateAHeroData *);};
 extern EmotionSystem *TheEmotionSystem;
-class EmotionNuggetTemplate {public: static void friend_parseEmotionNugget(INI *);};
 // BFME1 0bef414b52a39a3ab1ec98dca60d8a214de4260e INI_Emotion.cpp guides
 // creation and registry insertion. WB 0x010E9920 independently names this
 // parser; native 0x004DCAE4..0x004DCC39 adds replacement for load type 5

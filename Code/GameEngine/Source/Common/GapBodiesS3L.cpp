@@ -198,7 +198,12 @@ public:
 	void add(const FieldParse *table, unsigned int offset);	// 0x0002BC6E
 };
 
-void rva004E3BD8(INI *ini, void *instance, void *store, const void *userData);	// 0x004E3BD8
+// 0x004E3BD8 is rowed with its own (INI *, int, vector<BfmePod88> *) signature
+// (LivingWorldCampaignObjects.cpp); the table stores it as a parse callback.
+struct BfmePod88;
+namespace _STL { template <class T> class allocator; template <class T, class A> class vector; }
+void rva004E3BD8(INI *ini, int instance, _STL::vector<BfmePod88, _STL::allocator<BfmePod88> > *store);
+typedef void (*Rva004E3BD8Parse)(INI *, void *, void *, const void *);
 
 class Rva004FA5B8 : public FXParticleSystem::EmissionVelocityInfo
 {
@@ -211,7 +216,7 @@ private:
 const FieldParse Rva004FA5B8::s_dataFieldParse[] =
 {
 	{ "QueueSize", INI::parseInt, 0, 0x14 },
-	{ "ArmyToSpawn", rva004E3BD8, 0, 0x08 },
+	{ "ArmyToSpawn", (Rva004E3BD8Parse)rva004E3BD8, 0, 0x08 },
 	{ 0, 0, 0, 0 }
 };
 
