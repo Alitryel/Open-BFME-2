@@ -1,9 +1,14 @@
-// ?ParseObjectDataChunk@@YA_NAAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z
-// partial score=0.7 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /D_STLP_USE_STATIC_LIB /D_CRTIMP=
+// ?ParseObjectDataChunk@@YA_NAAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z, retail 0x00302907, 511B.
+// MapUtil ParseObjectDataChunk (ZH MapUtil.cpp:ParseObjectDataChunk; registered by ParseObjectsDataChunk 0x00302B06):
+// reads loc/angle/flags/name/Dict, builds the MapObject (0x0030DBD5) with Coord3D passed BY VALUE, files waypoint
+// (_m_waypoints) or supply (_m_supplyPositions) positions.
+// Target evidence: the by-value Coord3D argument is three scalar movss stores plus an ESP save; that needs the
+// non-POD Coord3D (Lib/Coord3DCtorView.h: retail's user ctors, exports 0x0047A6A9/0x004216D3). The canonical POD
+// Coord3D.h gives movsd and a different frame (nd 88).
 // stlport
 #include "ascii_string.h"
-#include "Lib/Coord3D.h"
+#include "Lib/Coord3DCtorView.h"
 #include <map>
 #include <list>
 struct DataChunkInfo { char unknown0[8]; unsigned short version; };
@@ -14,8 +19,9 @@ class Dict { public:
  private:void releaseData();void *data;
 };
 class DataChunkInput {public:float readReal();int readInt();AsciiString readAsciiString();Dict readDict();};
-class Rva002D06CA {public: bool rva002D06AA(const AsciiString*); void *rva002D06CA(const AsciiString*);};
-class ThingFactory;extern ThingFactory *TheThingFactory;
+class ThingTemplate;
+class ThingFactory {public: bool rva002D06AA(const AsciiString &); const ThingTemplate *findTemplate(const AsciiString &);};
+extern ThingFactory *TheThingFactory;
 class Rva0030D748 { public: AsciiString rva0030D748(); };
 struct BfmeSlotJA { char unknown[0x111]; unsigned char flags; };
 class BfmeThing932A {public:BfmeSlotJA *bfmeGo932A();};
@@ -42,7 +48,7 @@ bool ParseObjectDataChunk(DataChunkInput &file,DataChunkInfo *info,void *) {
  AsciiString name=file.readAsciiString();Dict d;
  if(readDict)d=file.readDict();
  Rva0030DBD5 *object;
- if(reinterpret_cast<Rva002D06CA *>(TheThingFactory)->rva002D06AA(&name))object=new Rva0030DBD5(loc,name,angle,flags,&d,reinterpret_cast<Rva002D06CA *>(TheThingFactory)->rva002D06CA(&name));
+ if(TheThingFactory->rva002D06AA(name))object=new Rva0030DBD5(loc,name,angle,flags,&d,const_cast<ThingTemplate *>(TheThingFactory->findTemplate(name)));
  else object=new Rva0030DBD5(loc,name,angle,flags,&d,0);
  if(object->dict.getType(g_00DBDC74.get())==Dict::INT) {
   object->flags|=4;
