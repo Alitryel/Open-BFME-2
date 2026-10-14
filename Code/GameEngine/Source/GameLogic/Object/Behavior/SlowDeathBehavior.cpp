@@ -291,128 +291,13 @@ static void calcRandomForce(Real minMag, Real maxMag, Real minPitch, Real maxPit
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?SlowDeathBehavior::beginSlowDeath present-unmatched
-void SlowDeathBehavior::beginSlowDeath(const DamageInfo *damageInfo)
-{
-	if (!isSlowDeathActivated())
-	{
-		const SlowDeathBehaviorModuleData* d = getSlowDeathBehaviorModuleData();
-		Object* obj = getObject();
-
-		if (d->m_sinkRate && obj->isKindOf(KINDOF_INFANTRY))
-		{
-
-			Drawable *draw = getObject()->getDrawable();
-			if ( draw )
-			{
-				// this object sinks slowly after it dies so don't draw a
-				// floating shadow decal on the ground above it.
-				obj->getDrawable()->setShadowsEnabled(false);
-				draw->setTerrainDecalFadeTarget( 0.0f, -0.2f );
-			}
-
-
-
-		}
-
-		
-		// Ask game detail manager if we need to speedup all deaths to improve performance
-		Real timeScale = TheGameLODManager->getSlowDeathScale();
-		m_acceleratedTimeScale = 1.0f;	// assume normal death speed.
-
-		if (timeScale == 0.0f && !d->hasNonLodEffects())
-		{	
-			// Deaths happen instantly so just delete the object and return
-			TheGameLogic->destroyObject(obj);
-			return;
-		}
-		else
-		{	
-			// timescale is some non-zero value so we may need to speed up death
-			if( getObject()->isKindOf( KINDOF_HULK ) && TheGameLogic->getHulkMaxLifetimeOverride() != -1 )
-			{
-				//Scripts don't want hulks around, so start sinking immediately!
-				m_sinkFrame = 1;
-				m_midpointFrame = (LOGICFRAMES_PER_SECOND/2) + 1;
-				m_destructionFrame = LOGICFRAMES_PER_SECOND + 1;
-				m_acceleratedTimeScale = 1.0f;
-			}
-			else
-			{
-				m_sinkFrame = timeScale * (d->m_sinkDelay + GameLogicRandomValue(0, d->m_sinkDelayVariance));
-				m_destructionFrame = timeScale * (d->m_destructionDelay + GameLogicRandomValue(0, d->m_destructionDelayVariance));
-				m_midpointFrame = GameLogicRandomValue( BEGIN_MIDPOINT_RATIO * m_destructionFrame, END_MIDPOINT_RATIO * m_destructionFrame );
-				m_acceleratedTimeScale = timeScale;
-			}
-		}
-
-		UnsignedInt now = TheGameLogic->getFrame();
-
-		if (d->m_flingForce > 0)
-		{
-
-			
-			//Just in case this is a stingersoldier or other HELD object, lets set them free so they will fly
-			// with their own physics during slow death
-			if( obj->isDisabledByType( DISABLED_HELD ) )
-			{
-				static NameKeyType key_SlavedUpdate = NAMEKEY( "SlavedUpdate" );
-				SlavedUpdate* slave = (SlavedUpdate*)obj->findUpdateModule( key_SlavedUpdate );
-				if( slave )
-				{
-					slave->onSlaverDie( NULL );
-				}
-			}				
-
-			PhysicsBehavior* physics = obj->getPhysics();
-			if (physics)
-			{
-				// make sure we are at least a bit above the ground
-				const Real MIN_ALTITUDE = 1.0f;
-				Real altitude = obj->getHeightAboveTerrain();
-				if (altitude < MIN_ALTITUDE)
-				{
-					Coord3D pos = *obj->getPosition();
-					pos.z += MIN_ALTITUDE;
-					obj->setPosition(&pos);
-				}
-
-				Coord3D force;
-				calcRandomForce(d->m_flingForce, d->m_flingForce + d->m_flingForceVariance, 
-												d->m_flingPitch, d->m_flingPitch + d->m_flingPitchVariance, force);
-				physics->setAllowToFall(true);
-				physics->applyForce(&force);
-				physics->setExtraBounciness(-1.0);					// we don't want this guy to bounce at all
-				physics->setExtraFriction(-3 * SECONDS_PER_LOGICFRAME_REAL);							// reduce his ground friction a bit
-				physics->setAllowBouncing(true);
-				Real orientation = atan2(force.y, force.x);
-				physics->setAngles(orientation, 0, 0);
-				obj->getDrawable()->setModelConditionState(MODELCONDITION_EXPLODED_FLAILING);
-				m_flags |= (1<<FLUNG_INTO_AIR);
-			}
-			setWakeFrame(obj, UPDATE_SLEEP_NONE);
-		}
-		else
-		{
-			// we don't need to wake up immediately, but only when the first of these
-			// counters wants to trigger....
-			Int whenToWakeTime = m_sinkFrame;
-			if (whenToWakeTime > m_destructionFrame) 
-				whenToWakeTime = m_destructionFrame;
-			if (whenToWakeTime > m_midpointFrame) 
-				whenToWakeTime = m_midpointFrame;
-			setWakeFrame(obj, UPDATE_SLEEP(whenToWakeTime));
-		}
-		m_sinkFrame += now;
-		m_destructionFrame += now;
-		m_midpointFrame += now;
-
-		m_flags |= (1<<SLOW_DEATH_ACTIVATED);
-
-		doPhaseStuff(SDPHASE_INITIAL);
-
-	}
-}
+// SlowDeathBehavior::beginSlowDeath is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Behavior/SlowDeathBehaviorUpdate.cpp (0x0045DE65);
+// ZH's version here was the strong copy the link kept. Retail has no direct callers of the
+// out-of-line PhysicsBehavior setters and atan2(float, float) rowed to this unit, which ZH's
+// beginSlowDeath alone emitted; the anchors below keep their copies.
+static void (PhysicsBehavior::*const _bfmeInlineAnchor_SlowDeathBehavior_0)(Real) = &PhysicsBehavior::setExtraBounciness;
+static void (PhysicsBehavior::*const _bfmeInlineAnchor_SlowDeathBehavior_1)(Real) = &PhysicsBehavior::setExtraFriction;
+static float (__cdecl *const _bfmeInlineAnchor_SlowDeathBehavior_2)(float, float) = &atan2;
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
