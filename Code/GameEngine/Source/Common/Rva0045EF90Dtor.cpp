@@ -64,7 +64,7 @@ extern GameWindowManager *TheWindowManager;
 class Rva0045EF90Base
 {
 public:
-// ??1Rva0045EF90Base@@UAE@XZ present-unmatched
+// Native 0x004102A4: the complete 7-byte virtual base destructor.
 	virtual ~Rva0045EF90Base() {}
 private:
 	unsigned m_value;

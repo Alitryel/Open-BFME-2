@@ -10619,7 +10619,7 @@ _open_func,,0x00754080,87,Code/Libraries/Source/Lua/lparser.c,matched,BFME1 byte
 ?apply@Rva003F3F7CDwordImmSetter@@QAEXXZ,,0x003F3F7C,7,Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp,matched,Disp0 dword imm-setter
 ?apply@Rva003F7BC5DwordImmSetter@@QAEXXZ,,0x003F7BC5,7,Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp,matched,Disp0 dword imm-setter
 ?get@Rva002A9836LeaGetter@@QBEPAXXZ,,0x002A9836,7,Code/GameEngine/Source/Common/DispDwordLeaFieldGetters.cpp,matched,Disp32 LEA getter
-?apply@Rva004102A4DwordImmSetter@@QAEXXZ,,0x004102A4,7,Code/GameEngine/Source/Common/Disp0DwordImmSetters.cpp,matched,Disp0 dword imm-setter
+??1Rva0045EF90Base@@UAE@XZ,,0x004102A4,7,Code/GameEngine/Source/Common/Rva0045EF90Dtor.cpp,matched,Real empty virtual destructor emits the complete7B vptr store; known base vtableC3962C has one slot scalar deleting dtor4102AB; independently rowed ctor410297 and existing derived lifetime source establish the base identity; replaces generic immediate-setter spelling with actual existing class owner; no new bytes
 ?get@Rva002A9916LeaGetter@@QBEPAXXZ,,0x002A9916,7,Code/GameEngine/Source/Common/DispDwordLeaFieldGetters.cpp,matched,Disp32 LEA getter
 ?apply@Rva00468A3FDwordImmSetter@@QAEXXZ,,0x00468A3F,7,Code/GameEngine/Source/Common/Disp0DwordImmSettersAddr.cpp,matched,Disp0 dword imm-setter
 ?get@Rva002B2375LeaGetter@@QBEPAXXZ,,0x002B2375,7,Code/GameEngine/Source/Common/DispDwordLeaFieldGetters.cpp,matched,Disp32 LEA getter
