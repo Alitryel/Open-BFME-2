@@ -27,4 +27,10 @@ struct BfmeRecord0040B61A
 	int m_0C;
 };
 
-template class _STL::vector<BfmeRecord0040B61A, _STL::allocator<BfmeRecord0040B61A> >;
+// Only the rowed members and _M_clear, whose copy here is retail's and first
+// in link order: a whole-class instantiation also emitted this TU's
+// operator=, which differs from retail and was kept over the retail copy.
+typedef _STL::vector<BfmeRecord0040B61A, _STL::allocator<BfmeRecord0040B61A> > BfmeRecord0040B61AVector;
+template BfmeRecord0040B61AVector::vector(const BfmeRecord0040B61AVector &);
+template BfmeRecord0040B61A *BfmeRecord0040B61AVector::_M_allocate_and_copy<const BfmeRecord0040B61A *>(unsigned int, const BfmeRecord0040B61A *, const BfmeRecord0040B61A *);
+template void BfmeRecord0040B61AVector::_M_clear();

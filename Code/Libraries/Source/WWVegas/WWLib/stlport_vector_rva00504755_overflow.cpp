@@ -14,5 +14,16 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 
 #include <vector>
-struct Rva00504755Record { float x, y, z, w; };
-template class _STL::vector<Rva00504755Record, _STL::allocator<Rva00504755Record> >;
+// Same view as StlHelperRva00504755.cpp: retail copies the first float, then
+// the other three words as an aggregate.
+struct Rva00504755Record {
+    float x;
+    struct Tail { float y, z, w; } tail;
+    Rva00504755Record() {}
+    Rva00504755Record(const Rva00504755Record& v): x(v.x), tail(v.tail) {}
+};
+// Retail's placement copy 0x0041360E, which StlHelperRva00504755.cpp calls.
+template void _STL::_Construct<Rva00504755Record, Rva00504755Record>(Rva00504755Record *, const Rva00504755Record &);
+// Only the rowed member: a whole-class instantiation also emitted this TU's
+// insert(pos, x), which differs from retail's.
+template void _STL::vector<Rva00504755Record, _STL::allocator<Rva00504755Record> >::_M_insert_overflow(Rva00504755Record *, const Rva00504755Record &, const _STL::__false_type &, unsigned int, bool);
