@@ -30846,8 +30846,6 @@ uw_007a2910,,0x007A2910,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;obje
 uw_007a2918,,0x007A2918,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1323
 uw_007a2967,,0x007A2967,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1386
 uw_007a296f,,0x007A296F,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1341
-uw_007a2a1d,,0x007A2A1D,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1386
-uw_007a2a25,,0x007A2A25,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1341
 uw_007a2a53,,0x007A2A53,8,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L4009
 uw_007a2a5b,,0x007A2A5B,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2495
 uw_007a2a70,,0x007A2A70,8,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L3999
@@ -88384,3 +88382,5 @@ uw_007a2a03,,0x007A2A03,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialP
 ?rva00526F0B@Rva005258B2@@QAEXXZ,,0x00526F0B,7,Code/GameEngine/Source/Common/Rva00526F0BForward.cpp,matched,7B forwarder: tail call to the rowed hero-select interface update on the implementation held at +0; caller AptPalantir update 0x002D65F6
 ?rva00083959@Rva0082140@@QAEXPAV?$AreaSet@VRiverArea@@@@PAV?$vector@UTreeHintRef00217D4C@@V?$allocator@UTreeHintRef00217D4C@@@_STL@@@_STL@@@Z,,0x00083959,247,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterAreaRenderables.cpp,matched,Native river-list builder RET8; real visible vector and cursor helpers restore receiver and temporary homes; same established owner and counted lifecycle as 8385F
 ?rva00083A7A@Rva0082140@@QAEXPAV?$AreaSet@VStandingWaveArea@@@@PAV?$AreaSet@VRiverArea@@@@PAV?$AreaSet@VWaterWaveArea@@@@@Z,,0x00083A7A,257,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterAreaRenderables.cpp,matched,Native three-area subscription replacement RET12; existing observers C8 CC D0 and vectors108 118; rebuild through verified8385F and83959 then retain each standing renderable while invoking existing308C31 binding
+uw_007a2a1d,,0x007A2A1D,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerSelfBuff@@UAE_NPAVObject@@@Z;object-symbol=$L1674
+uw_007a2a25,,0x007A2A25,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerSelfBuff@@UAE_NPAVObject@@@Z;object-symbol=$L1675
