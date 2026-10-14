@@ -1,45 +1,19 @@
 // ?getNextMoodTarget@AIUpdateInterface@@QAEPAVObject@@_N0@Z
-// partial score=0.974 date=2026-10-12
-// ?getNextMoodTarget@AIUpdateInterface@@QAEPAVObject@@_N0@Z
-// partial score=0.97428 date=2026-10-10
-// ?getNextMoodTarget@AIUpdateInterface@@QAEPAVObject@@_N0@Z
-// partial score=0.9742788468129749 date=2026-10-10 seat=w5-g5
-// E2: 'if (!target) return 0' after isAbleToAttack is really 'if (target) { bit-test + closing } return target'
-//   so the null check jumps to the return-target epilogue (mov eax,edi) not return-0; verified je-target flip.
-// OPEN: (a) 0x2000 horde mask: retail holds it in EBX (mov ebx,0x2000 once per region, live across calls
-//   into the closing tests; NULL-target path reloads it); plain UnsignedInt local does not take EBX.
-//   The adjust-path 'jmp gate' + NULL-path 'mov ebx' + 2B size delta all follow from the mask fix.
-//   (b) stack packing swap: {statusbuf16@-0x3c,filter8@-0x38} + delta12@-0x2c (retail, reuses pos@-0x2c slot)
-//   vs {@-0x30,@-0x2c} + delta@-0x3c (ours). Hoisting pos to fn scope blows frame 0x30->0x3c (refuted).
-//   comiss-vs-0xBBAEAC is a masked reloc site (shared 0.0 literal), not a wall.
-// ?getNextMoodTarget@AIUpdateInterface@@QAEPAVObject@@_N0@Z
-// partial score=0.9739277643085864 date=2026-10-10
-// ?getNextMoodTarget@AIUpdateInterface@@QAEPAVObject@@_N0@Z
-// partial score=0.9675795433295147 date=2026-10-09
-// ?getNextMoodTarget@AIUpdateInterface@@QAEPAVObject@@_N0@Z
-// partial score=0.97 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /I.
-//
-// Status-mask correction: matched TransportContainOnContaining slot44 returns four
-// uint32 words; native getNextMoodTarget tests word0 through hidden return buffer.
-// R6: protected Object::findModule spelling uses its existing43-byte owner;
-// real inline getAttackInfo getter closes native late priority scheduling.
-// This fixes frame30; remaining buffer/filter/delta stack packing and late
-// attack-priority load/EBX horde mask still differ. No Code edit retained.
-// BANK for ?getNextMoodTarget@AIUpdateInterface@@QAEPAVObject@@_N0@Z, retail
-// 0x00268EB8 (1710 bytes). Intended home: a new
-// Code/GameEngine/Source/GameLogic/Object/Update/AIUpdateInterface_getNextMoodTarget.cpp
-// (includes below are written for that directory). Compiles to 1708 bytes; all
-// control flow, calls and the early-exit / epilogue layout match. Left: the
-// frame is 0x2C instead of 0x30 (retail keeps the slot-44 status temporary in
-// its own slot [ebp-0x3C] and puts the partition filter below the shared
-// position/delta Coord3D), m_attackInfo is loaded into ECX before the
-// player-type select, and retail holds the 0x2000 kind mask in EBX for the
-// closing tests.
-
+// Retail 0x00268EB8..0x00269566; identity and scopes from WB E55E40.
+// ZH AIUpdate.cpp is the semantic guide; BFME2's forced-target, stance,
+// retaliation, horde and range rules are reconstructed from native/WB.
+// The slot-44 status result is 16 bytes (TransportContainOnContaining).
+// Keep acquisition in nested target-null scopes and the search filter in
+// the outer search scope: these reproduce EBX's mask lifetime and the
+// shared coordinate stack home. Coord3D::length remains visible as in
+// the reference even though the call is emitted out of line.
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 
+
+#include <math.h>
+inline float Coord3D::length() const { return (float)sqrt(x*x+y*y+z*z); }
 typedef bool Bool;
 typedef float Real;
 typedef int Int;
@@ -371,7 +345,7 @@ public:
 	Int m_34; // +0x34
 	unsigned char m_pad038[0x70 - 0x38];
 	const AttackPriorityInfo *getAttackInfo() const { return m_attackInfo; }
- const AttackPriorityInfo *m_attackInfo; // +0x70
+	const AttackPriorityInfo *m_attackInfo; // +0x70
 	unsigned char m_pad074[0x1A4 - 0x74];
 	ObjectID m_1a4; // +0x1A4 (a target ID taken first)
 	unsigned char m_pad1A8[0x21C - 0x1A8];
@@ -534,13 +508,12 @@ Object *AIUpdateInterface::getNextMoodTarget(Bool calledByAI, Bool calledDuringI
 				}
 				if (weapon->isWithinAttackRange(obj, attacker, 0.0f, 1))
 					target = attacker;
-				if (target)
-					goto found;
 			}
 		}
 		}
 	}
 
+	if (!target)
 	{
 		Object *nemesis = TheGameLogic->findObjectByID((ObjectID)obj->rva0028AF97());
 		target = nemesis ? nemesis->adjustVictim(obj, true, 0) : 0;
@@ -548,11 +521,11 @@ Object *AIUpdateInterface::getNextMoodTarget(Bool calledByAI, Bool calledDuringI
 		{
 			if (target->rva002615E3(obj->getPosition()) > rangeToFindWithin * rangeToFindWithin)
 				target = 0;
-			if (target)
-				goto found;
 		}
 	}
 
+	if (!target)
+	{
 	if (TheWritableGlobalData->m_debugAI_E9C)
 	{
 		Coord3D pos;
@@ -562,13 +535,11 @@ Object *AIUpdateInterface::getNextMoodTarget(Bool calledByAI, Bool calledDuringI
 		pos.z = TheTerrainLogic->getGroundHeight(pos.x, pos.y);
 		TheTacticalView->drawCircle(&pos, rangeToFindWithin, 0xFF00FF00);
 	}
-	{
-		Rva00263077Filter filter(obj);
-		target=TheAI->findClosestEnemy(obj,rangeToFindWithin,flags,getAttackInfo(),obj->getControllingPlayer()->getPlayerType()==0?(PartitionFilter*)&filter:0,0);
+	Rva00263077Filter filter(obj);
+	target=TheAI->findClosestEnemy(obj,rangeToFindWithin,flags,getAttackInfo(),obj->getControllingPlayer()->getPlayerType()==0?(PartitionFilter*)&filter:0,0);
 	}
 	if (target)
 	{
-found:
 		if (!(obj->getTemplate()->m_kind114 & 0x2000) && (target->getTemplate()->m_kind114 & 0x2000))
 			target = target->adjustVictim(obj, false, 0);
 	}
