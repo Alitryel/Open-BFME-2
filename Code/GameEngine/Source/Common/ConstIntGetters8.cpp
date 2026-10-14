@@ -6,13 +6,6 @@
 // constant. Kept in a fresh TU to avoid contending with hot getter files.
 // No // cl: line (defaults match the frameless 6-byte shape).
 
-// ?Rva000310ACGet@@YAHXZ @ 0x000310ac (6B): returns 0x00000001.
-// Branch target (loopne / cmp al,6 / jne +6). Opaque address-derived name.
-int Rva000310ACGet(void)
-{
-	return 0x00000001;
-}
-
 // ?Rva0011F519Get@@YAHXZ @ 0x0011f519 (6B): returns 0x00000001.
 // Follows a ret (xor eax,eax / ret). Opaque address-derived name.
 int Rva0011F519Get(void)

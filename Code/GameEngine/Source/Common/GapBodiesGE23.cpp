@@ -384,6 +384,27 @@ int rva00030C30(int bin)
 	return bin >> 5;
 }
 
+// --- 0x00031090 (94B): does a chunk pass a block-type filter? Unless bit 4
+// is set, a chunk with size bit 2 never passes; bits 1 and 2 together pass
+// anything; otherwise the chunk is in use when the next chunk's size word
+// has bit 0 set and its own size word is non-negative, and bit 1 asks for
+// in-use chunks, bit 2 for free ones. Any other filter passes nothing.
+int rva00031090(const GapChunk *chunk, unsigned int flags)
+{
+	if (!(flags & 0x10) && (chunk->m_size & 4))
+		return 0;
+	if ((flags & 6) == 6)
+		return 1;
+	unsigned int size = chunk->m_size;
+	const GapChunk *next = (const GapChunk *)((const char *)chunk + (size & 0x7FFFFFF8));
+	int inUse = ((next->m_size & 1) && !(size & 0x80000000)) ? 1 : 0;
+	if (flags & 2)
+		return inUse;
+	if (flags & 4)
+		return inUse == 0;
+	return 0;
+}
+
 // --- 0x00031080 (5B): an always-true three-argument check.
 bool Rva00030C50Heap::rva00031080(void *a, void *b, void *c)
 {
