@@ -92,6 +92,14 @@ void ProfileShutdown(void)
 	cmd->RunResultFunctions();
 }
 
+// ?ClearTotals@Profile@@SAXXZ (0x006C5410, right after ProfileShutdown):
+// Zero Hour's Profile::ClearTotals without the _PROFILE function-level
+// tracer, so only the inline ProfileId::ClearTotals walk remains.
+void Profile::ClearTotals(void)
+{
+	ProfileId::ClearTotals();
+}
+
 // ?ProfileAllocMemory@@YAPAXI@Z
 void *ProfileAllocMemory(unsigned numBytes)
 {
