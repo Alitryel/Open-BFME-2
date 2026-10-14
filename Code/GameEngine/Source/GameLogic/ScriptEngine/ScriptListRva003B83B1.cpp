@@ -29,6 +29,12 @@ public:
  Rva003BRefRecord *records;
  char unknown10[16];
 };
+// The rowed int*-payload add 0x003B80B8 (ScriptListSubrecordAddRva003B80B8.cpp)
+// on the same 32-byte subrecord, under that row's class spelling.
+class Rva003B573E {
+public:
+ int rva003B80B8(const StringBase<char> &key, int *value);
+};
 class Rva003BScriptReference {
 public:
  Rva003BScriptReference() {next=0;index=-1;references=0;}
@@ -39,12 +45,26 @@ class ScriptList {
 public:
  Rva003BScriptReference *rva003B8337(const StringBase<char> &key);
  Rva003BScriptReference *rva003B83B1(const StringBase<char> &key);
+ Rva003BScriptReference *rva003B83FD(const StringBase<char> &key, int *value);
 private:
  char unknown00[12];
  Rva003BRefSubrecord first,second;
 };
 Rva003BScriptReference *ScriptList::rva003B83B1(const StringBase<char> &key) {
  int index=second.rva003B8141(key);
+ if(index!=-1) {
+  Rva003BScriptReference *result=new Rva003BScriptReference;
+  result->index=index;
+  result->references=(short)second.records[index].references;
+  return result;
+ }
+ return 0;
+}
+// Native 0x003B83FD..0x003B844D, 80 bytes, RET 8: the int*-payload twin of
+// rva003B83B1 above, adding through the rowed 0x003B80B8 on the +0x2C
+// subrecord before building the same 12-byte reference.
+Rva003BScriptReference *ScriptList::rva003B83FD(const StringBase<char> &key, int *value) {
+ int index=((Rva003B573E *)&second)->rva003B80B8(key,value);
  if(index!=-1) {
   Rva003BScriptReference *result=new Rva003BScriptReference;
   result->index=index;
