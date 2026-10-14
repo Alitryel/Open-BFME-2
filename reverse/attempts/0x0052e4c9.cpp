@@ -1,4 +1,6 @@
 // ?rva0052E4C9@Pathfinder@@QAEXPAVObject@@_N@Z
+// partial score=0.9279 date=2026-10-15
+// ?rva0052E4C9@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.9 date=2026-10-14
 // ?rva0052E4C9@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.8926492984108162 date=2026-10-10
@@ -12,8 +14,7 @@ typedef bool Bool;
 
 float Cos(float);
 float Sin(float);
-extern "C" __declspec(dllimport) double floor(double x);
-extern "C" __declspec(dllimport) double ceil(double x);
+#include <math.h>
 
 #include "Coord3D.h"
 
@@ -86,7 +87,7 @@ private:
 
 static __forceinline int RealToIntFloor(float v)
 {
-	float t = (float)floor((double)v);
+	float t = floorf(v);
 	int i;
 	__asm fld t
 	__asm fistp i
@@ -95,7 +96,7 @@ static __forceinline int RealToIntFloor(float v)
 
 static __forceinline int RealToIntCeil(float v)
 {
-	float t = (float)ceil((double)v);
+	float t = ceilf(v);
 	int i;
 	__asm fld t
 	__asm fistp i
@@ -141,14 +142,14 @@ void Pathfinder::rva0052E4C9(Object *fenceObject, Bool insertFence)
 
 	for (Int iy = numStepsY;0 < iy; --iy, tl_x += ydx, tl_y += ydy)
 	{
-		volatile Real x = tl_x;
+		Real x = tl_x;
 		Real y = tl_y;
-		for (Int ix = numStepsX; (c ? ix : ix) > 0; --ix, x += xdx, y += xdy)
+		for (Int ix = numStepsX; ix > 0; --ix, x += xdx, y += xdy)
 		{
 			Int cx = RealToIntFloor((x + 0.5f) / PATHFIND_CELL_SIZE_F);
 			Int cy = RealToIntFloor((y + 0.5f) / PATHFIND_CELL_SIZE_F);
 
-			if (cx >= 0 && cy >= 0 && cx < m_extent.hiX && cy < (cy ? m_extent.hiY : m_extent.hiY))
+			if (cx >= 0 && cy >= 0 && cx < m_extent.hiX && cy < m_extent.hiY)
 			{
 				Bool changed;
 				if (insertFence) {

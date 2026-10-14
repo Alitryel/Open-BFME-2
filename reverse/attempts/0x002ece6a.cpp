@@ -1,4 +1,6 @@
 // ?cellCallback@Rva002ECE6AInfo@@QAEHPAVPathfindCell@@0HH@Z
+// partial score=0.9587 date=2026-10-15
+// ?cellCallback@Rva002ECE6AInfo@@QAEHPAVPathfindCell@@0HH@Z
 // partial score=0.9537 date=2026-10-13
 // ?cellCallback@Rva002ECE6AInfo@@QAEHPAVPathfindCell@@0HH@Z
 // partial score=0.9536999396 date=2026-10-09
@@ -37,7 +39,17 @@ struct Rva002ECE6AInfo {
 };
 
 #include "Lib/Coord3D.h"
-extern "C" __declspec(dllimport) double __cdecl floor(double);
+#include <math.h>
+__forceinline long fast_float2long_round(float f)
+{
+ long i;
+ __asm {
+  fld [f]
+  fistp [i]
+ }
+ return i;
+}
+#define REAL_TO_INT_FLOOR(x) (fast_float2long_round(floorf(x)))
 struct LineOccupant {LineOccupant *next;void *word4;Object *object;};
 struct LineCellInfo {char pad0[0x14];LineOccupant *occupants;};
 class PathfindCell {public:LineCellInfo *info;void *word4;Int word8;unsigned flags;
@@ -46,18 +58,8 @@ class PathfindCell {public:LineCellInfo *info;void *word4;Int word8;unsigned fla
 };
 struct LineFireCell {char pad0[6];unsigned short count;char pad8[0x14-8];};
 class Rva002872BA {public:
- // Existing PathfinderRva002F4491CellCallback numeric shim. C++ casts use
- // truncation; target FISTP obeys the current x87 control word after floor.
- static __forceinline Int realToIntFloor(float f) {
-  float rounded=(float)floor((double)f);Int result;
-  __asm {
-   fld [rounded]
-   fistp [result]
-  }
-  return result;
- }
  __forceinline Bool isBurning(const Coord3D &pos)const {
-  Int x=realToIntFloor((pos.x+0.5f)*0.1f);Int y=realToIntFloor((pos.y+0.5f)*0.1f);
+  Int x=REAL_TO_INT_FLOOR((pos.x+0.5f)*0.1f);Int y=REAL_TO_INT_FLOOR((pos.y+0.5f)*0.1f);
   if(x>=0 && x<width && y>=0 && y<height)return cells[x][y].count>0;
   return false;
  }
