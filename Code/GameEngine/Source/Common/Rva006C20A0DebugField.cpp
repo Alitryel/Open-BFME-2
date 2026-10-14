@@ -101,3 +101,51 @@ int GeneralAllocatorDebug::rva006C1770(short option)
 		return 0;
 	return *(int *)((char *)this + 0x67C);
 }
+
+// 0x006C1730 (17B): an address bucket, the pointer's 8-byte granule modulo
+// the +8 bucket count. 0x006C1750 (19B, ecx unused; an unsigned non-zero test): the 4-byte-offset body
+// of a non-null block, else null. 0x006C1A80 (26B): store the given owner at
+// +0x678, or this object itself when none is given. Owners unrecovered; the
+// spellings are address-derived.
+class Rva006C1730
+{
+public:
+	unsigned int rva006C1730(unsigned int address) const;
+private:
+	int m_00;
+	int m_04;
+	unsigned int m_bucketCount;
+};
+
+unsigned int Rva006C1730::rva006C1730(unsigned int address) const
+{
+	return (address >> 3) % m_bucketCount;
+}
+
+class Rva006C1750
+{
+public:
+	void *rva006C1750(void *block);
+};
+
+void *Rva006C1750::rva006C1750(void *block)
+{
+	return (unsigned int)block > 0 ? (char *)block + 4 : 0;
+}
+
+class Rva006C1A80
+{
+public:
+	void rva006C1A80(void *owner);
+private:
+	char m_pad000[0x678];
+	void *m_owner;
+};
+
+void Rva006C1A80::rva006C1A80(void *owner)
+{
+	if (owner)
+		m_owner = owner;
+	else
+		m_owner = this;
+}
