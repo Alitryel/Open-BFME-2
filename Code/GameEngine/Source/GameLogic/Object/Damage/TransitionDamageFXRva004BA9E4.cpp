@@ -1,8 +1,11 @@
+// 0x004BA9E4 (321B): TransitionDamageFX update step over the neighbour list. /Oa (assume no aliasing)
+// is what gives retail's EBX/EDI roles for the module data and the iterator receiver; the region
+// default supplies /O1 /arch:SSE /G7.
 // ?rva004BA9E4@TransitionDamageFX@@UAEXH@Z
 // partial score=0.9582139148494289 date=2026-10-13
 // ?rva004BA9E4@TransitionDamageFX@@UAEXH@Z
 // partial score=0.9582139148494289 date=2026-10-10
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /ICode/GameEngine/Source
+// cl: /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /ICode/GameEngine/Source /Oa
 // NEW native4BA9E4..4BAB25 RET4. Owned ctor4BA3EA installs Behavior interface+0C
 // table whose slot39 corresponds to this rubble-neighbor initialization callback.
 // Original method name unproven; neutral address retained. BF1 clean donor
