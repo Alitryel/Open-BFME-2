@@ -75,7 +75,6 @@ const Real PATHFIND_CELL_SIZE_F = 10.0f;
 #include "../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
 
 
-// class-gate: allow Coord2D the canonical data-only header cannot declare BFME 2's out-of-line normalize (rowed 0x0000378A) that the constructor calls; same two floats
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
 
 struct Region2D

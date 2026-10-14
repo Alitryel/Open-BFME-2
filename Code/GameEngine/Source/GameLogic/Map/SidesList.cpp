@@ -45,6 +45,8 @@
 //
 //-----------------------------------------------------------------------------
 
+#define setNextBuildList setNextBuildList_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
+#define getNext getNext_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 
 #include "Common/DataChunk.h"

@@ -97,10 +97,8 @@ Real GetGameLogicRandomValueReal(Real lo, Real hi, char *file, Int line);
 
 Real normalizeAngle(Real angle);
 
-// class-gate: allow Coord3D the canonical data-only header cannot declare BFME 2's out-of-line length (rowed 0x00003571) that applyCrushingDamage calls; same three floats
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
-// class-gate: allow Coord2D the canonical data-only header cannot declare BFME 2's out-of-line toAngle (rowed 0x00005923) that applyCrushingDamage calls; same two floats
 #include "../../../../../Libraries/Include/Lib/Coord2D.h"
 
 enum NameKeyType

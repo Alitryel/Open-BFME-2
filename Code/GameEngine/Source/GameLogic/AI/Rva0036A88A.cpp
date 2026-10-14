@@ -31,8 +31,6 @@ enum ObjectID
 	INVALID_OBJECT_ID = 0
 };
 
-// class-gate: allow Coord3D canonical header is data-only; this byte-verified
-// call uses the existing Coord3D::GetLengthEstimate thiscall at 0x00003ACE.
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 class Object

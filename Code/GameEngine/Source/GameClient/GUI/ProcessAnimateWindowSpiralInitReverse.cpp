@@ -16,6 +16,8 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 #pragma optimize("y", on)
+#define setVel setVel_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
+#define setStartTime setStartTime_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
 #include "PreRTS.h"
 #include "GameClient/ProcessAnimateWindow.h"
 #include "GameClient/AnimateWindowManager.h"

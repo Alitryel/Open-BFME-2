@@ -54,7 +54,6 @@ enum PathfindLayerEnum
 	LAYER_INVALID = 0
 };
 
-// class-gate: allow Coord2D the canonical data-only header cannot declare BFME 2's out-of-line toAngle (rowed 0x00005923) and normalize (rowed 0x0000378A) that the constructor calls; same two floats
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
 
 struct Region2D

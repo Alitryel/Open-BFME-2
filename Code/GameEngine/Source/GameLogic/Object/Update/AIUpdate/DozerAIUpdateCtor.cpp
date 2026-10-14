@@ -174,7 +174,6 @@ extern bool g_bfmeDockingTraceActive;
 // Logic random log switch (data ledger 0x00A03745).
 extern unsigned char g_00E03745;
 
-// class-gate: allow Coord2D the canonical data-only header cannot declare BFME 2's out-of-line toAngle (rowed 0x00005923) that the pick state calls; same two floats
 #include "../../../../../../Libraries/Include/Lib/Coord2D.h"
 
 enum ObjectID

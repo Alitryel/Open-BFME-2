@@ -8,6 +8,11 @@
 // result pointer and returns with ret 4; caller/callee bytes support the
 // Coord2D return ABI. The volatile clamp-home store reproduces retail's write
 // to the getVel result slot when the speed floor is reached.
+#define getCurPos getCurPos_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
+#define getEndPos getEndPos_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
+#define setCurPos setCurPos_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
+#define setVel setVel_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
+#define setFinished setFinished_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
 #include "PreRTS.h"
 #include "GameClient/ProcessAnimateWindow.h"
 #pragma optimize("y", off)

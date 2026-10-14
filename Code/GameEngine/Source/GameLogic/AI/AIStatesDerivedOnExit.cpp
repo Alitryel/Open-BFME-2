@@ -148,7 +148,6 @@ template <> class AIDeadStateAISlots<0>
 typedef float Real;
 typedef int Int;
 typedef unsigned int UnsignedInt;
-// class-gate: allow Coord3D the canonical data-only header cannot declare BFME 2's out-of-line length (rowed 0x00003571) and GetLengthEstimate (rowed 0x00003ACE) that the updates below call; same three floats
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../Libraries/Include/Lib/Region3D.h"
 // TheTerrainLogic's getGroundHeight is virtual slot 6 (+0x18) and

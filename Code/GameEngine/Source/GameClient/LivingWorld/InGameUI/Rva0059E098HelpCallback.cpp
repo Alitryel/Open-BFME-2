@@ -11,7 +11,7 @@ struct RvaF6Ret {
     RvaF6Ret(TargetRef00217D4C *p) : m_ptr(p) {
         if (m_ptr) ++m_ptr->m_refCount;
     }
-    ~RvaF6Ret() {
+    __declspec(dllimport) __forceinline ~RvaF6Ret() {
         if (m_ptr) ReleaseTreeHintRef00217D4C(m_ptr);
     }
     TargetRef00217D4C *m_ptr;

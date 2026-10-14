@@ -7,6 +7,11 @@
 // and setVel/setCurPos inline to stores.
 // The matched trig operations inline; keep the CRT float overloads local.
 #define inline static inline
+#define getCurPos getCurPos_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
+#define getEndPos getEndPos_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
+#define setCurPos setCurPos_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
+#define setVel setVel_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
+#define setFinished setFinished_RV // bfme link: inlined everywhere, keep the COMDAT out of the link
 #include <math.h>
 #undef inline
 #include "PreRTS.h"
