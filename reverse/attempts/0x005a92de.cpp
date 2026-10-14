@@ -1,5 +1,5 @@
 // ?rva005A92DE@Rva005A9562@@QAEMPAX@Z
-// partial score=0.9407 date=2026-10-14
+// partial score=0.9587 date=2026-10-14
 // ?rva005A92DE@Rva005A9562@@QAEMPAX@Z
 // partial score=0.861 date=2026-10-13
 // ?rva005A92DE@Rva005A9562@@QAEMPAX@Z
@@ -22,12 +22,8 @@ extern Rva002A8F24 *g_00DFEEF8;
 class Rva004EBF4B {public:Coord3D rva004EBF4B();};
 Coord3D __cdecl Rva00506CF5(void *,Coord3D *);
 
-struct Rva005A92DEPosition {
- float x,y,z;
- __forceinline Rva005A92DEPosition(const Coord3D &p):x(p.x),y(p.y),z(p.z){}
- __forceinline Rva005A92DEPosition(const Rva005A92DEPosition &p):x(p.x),y(p.y),z(p.z){}
-};
-static __forceinline float positionDistance(const Coord3D &p,const Rva005A92DEPosition &saved)
+static __forceinline void copyCoord(Coord3D &d,const Coord3D &s){d.x=s.x;d.y=s.y;d.z=s.z;}
+static __forceinline float positionDistance(const Coord3D &p,const Coord3D &saved)
 {
  float x=p.x-saved.x,y=p.y-saved.y,z=p.z-saved.z;
  return WWMath::Sqrt(z*z+y*y+x*x);
@@ -37,13 +33,11 @@ float Rva005A9562::rva005A92DE(void *other)
  Rva004EBF4B *mine=(Rva004EBF4B *)g_00DFEEF8->rva002A8AB1(m_ptr);
  Rva004EBF4B *enemy=(Rva004EBF4B *)g_00DFEEF8->rva002A8AB1(other);
  if(enemy){
-  Rva005A92DEPosition position(mine->rva004EBF4B());
+  Coord3D position;copyCoord(position,mine->rva004EBF4B());
   return positionDistance(enemy->rva004EBF4B(),position);
  }else{
   Coord3D position=Rva00506CF5(other,0);
-  Coord3D zero;zero.x=0;zero.y=0;zero.z=0;
-  if(position==zero)return 0;
-  Rva005A92DEPosition saved(position);
-  return positionDistance(mine->rva004EBF4B(),saved);
+  if(position==Coord3D(0,0,0))return 0;
+  return positionDistance(mine->rva004EBF4B(),Coord3D(position));
  }
 }

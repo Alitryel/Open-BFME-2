@@ -19,6 +19,7 @@ struct Coord3D {
     float z;
     Coord3D() {}
     Coord3D(const Coord3D &o) : x(o.x), y(o.y), z(o.z) {}
+    Coord3D(float ax, float ay, float az) : x(ax), y(ay), z(az) {}
 #ifdef COORD3D_VIEW_DTOR
     ~Coord3D() {}
 #endif
