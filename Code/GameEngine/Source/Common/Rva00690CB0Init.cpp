@@ -41,7 +41,7 @@ struct Rva00690CB0Vtbl
 	long (__stdcall *release)(Rva00690CB0Unk *self);
 	void *v3, *v4, *v5, *v6, *v7;
 	long (__stdcall *callA)(Rva00690CB0Unk *self, void *arg);   // put_Name / Add, +0x20
-	void *v9;
+	long (__stdcall *removeApp)(Rva00690CB0Unk *self, void *arg); // +0x24
 	long (__stdcall *callB)(Rva00690CB0Unk *self, void *arg);   // put_ProcessImageFileName, +0x28
 	void *v11, *v12, *v13, *v14, *v15, *v16, *v17, *v18, *v19;
 	long (__stdcall *create)(Rva00690CB0Unk *self, Rva00690CB0Unk **out); // get_AuthorizedApplications, +0x50
@@ -142,5 +142,42 @@ bool Rva00690CB0Owner::init()
 	if (outB) outB->vtable->release(outB);
 	if (outA) outA->vtable->release(outA);
 	m_flag = 1;
+	return true;
+}
+
+extern "C" __declspec(dllimport) int __cdecl printf(const char *format, ...);
+
+class Rva005B723ABox
+{
+public:
+	bool Run();
+
+private:
+	int m_00;
+	const unsigned short *m_04;
+	char m_pad08;
+	char m_flag;
+	char m_pad0A[6];
+	Rva00690CB0Unk *m_unknown;
+};
+
+bool Rva005B723ABox::Run()
+{
+	Rva00690CB0Unk *out = 0;
+	long hr = m_unknown->vtable->create(m_unknown, &out);
+	if (hr < 0)
+	{
+		if (out) out->vtable->release(out);
+		return false;
+	}
+	printf("Removing %S\n", m_04);
+	hr = out->vtable->removeApp(out, (void *)m_04);
+	if (hr < 0)
+	{
+		if (out) out->vtable->release(out);
+		return false;
+	}
+	if (out) out->vtable->release(out);
+	m_flag = 0;
 	return true;
 }
