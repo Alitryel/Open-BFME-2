@@ -18,7 +18,9 @@ template<class T>class allocator{public:allocator(){}};
 typedef _STL::allocator<BfmeE16> Alloc; typedef _STL::_Vector_base<BfmeE16,Alloc> Header;
 struct Rva0052CB26:Header{__forceinline Rva0052CB26()throw():Header(Alloc()){} ~Rva0052CB26();};
 struct Rva0052CA6C:Header{__forceinline Rva0052CA6C()throw():Header(Alloc()){} ~Rva0052CA6C();};
-struct Rva004FABE2:Header{__forceinline Rva004FABE2()throw():Header(Alloc()){} ~Rva004FABE2();};
+// LivingWorldAIBuildingTypes views the same address-named header over 88-byte
+// elements and emits its copy first: dllimport keeps this ctor inline-only.
+struct Rva004FABE2:Header{__declspec(dllimport) __forceinline Rva004FABE2()throw():Header(Alloc()){} ~Rva004FABE2();};
 struct Rva0052CC25:Header{__forceinline Rva0052CC25()throw():Header(Alloc()){} ~Rva0052CC25();};
 struct Rva0052CCC4:Header{__forceinline Rva0052CCC4()throw():Header(Alloc()){} ~Rva0052CCC4();};
 struct Rva0052CD03:Header{__forceinline Rva0052CD03()throw():Header(Alloc()){} ~Rva0052CD03();};
