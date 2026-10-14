@@ -63,3 +63,8 @@ template TreeHintRef00217D4C *_STL::__upper_bound(TreeHintRef00217D4C *,TreeHint
 // reached from the 0x4F7A28 dispatcher; copy ctor inline, assignment the
 // out-of-line 0x2174A4 worker, swap_ranges the 0x4F6FFC body.
 template TreeHintRef00217D4C *_STL::__rotate(TreeHintRef00217D4C *,TreeHintRef00217D4C *,TreeHintRef00217D4C *,int *,TreeHintRef00217D4C *);
+
+// Native 4F840B..4F853A, 303B: stable_sort's buffer-less merge (_algo.c);
+// the comparator and both owning handle temporaries inline into the
+// two-element case, swap is the rowed 0x4F6542.
+template void _STL::__merge_without_buffer(TreeHintRef00217D4C *,TreeHintRef00217D4C *,TreeHintRef00217D4C *,int,int,Rva004F9185Cmp);
