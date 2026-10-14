@@ -12,7 +12,8 @@ class Rva002DC74A
 public:
 	UnicodeString rva002DC74A(const UnicodeString &fileName) const;
 };
-extern Rva002DC74A *TheGameState;
+class GameState;
+extern GameState *TheGameState;
 
 class GameWindow;
 class AptSaveLoad
@@ -41,7 +42,7 @@ void AptSaveLoad::rva00434B8A()
 			if (m_mode == 4)
 				path = *file;
 			else
-				path = TheGameState->rva002DC74A(*file);
+				path = ((Rva002DC74A *)TheGameState)->rva002DC74A(*file);
 			DeleteFileW(path.str());
 		}
 		m_state = 2;
