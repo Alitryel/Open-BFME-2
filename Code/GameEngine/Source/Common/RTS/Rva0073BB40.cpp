@@ -25,6 +25,7 @@ public:
 class Rva0073BAA0Base
 {
 public:
+	Rva0073BAA0Base(Gen_008F7CD0 *grid, unsigned int mask);
 	virtual char testFunc(int x, int y);
 	char rva0073BB40(int x1, int x2, int y);
 private:
@@ -70,3 +71,11 @@ char Rva0073BAA0Base::rva0073BB40(int x1, int x2, int y)
 // Native inverse circle constructs CF139C, the same12-byte base view
 // used by reveal. Rectangle CE30 instead passes CF13A4 with extra4.
 // The base predicate remains owned once at188170; original types unknown.
+
+// ??0Rva0073BAA0Base@@QAE@PAVGen_008F7CD0@@I@Z @0x0073B470 25B (RET 8): the
+// out-of-line constructor of this 12-byte updater base: vtable 0x00CF139C,
+// grid at +4, mask at +8 -- the same stores the reveal and rectangle callers
+// make inline. Address-derived class name kept.
+Rva0073BAA0Base::Rva0073BAA0Base(Gen_008F7CD0 *grid, unsigned int mask) : m_grid(grid), m_mask(mask)
+{
+}
