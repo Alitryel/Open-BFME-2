@@ -1,5 +1,5 @@
 // ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
-// partial score=0.96725 date=2026-10-14
+// partial score=0.97636 date=2026-10-14
 // ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
 // partial score=0.79513 date=2026-10-14
 // ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
@@ -1799,7 +1799,7 @@ iterateCellsAlongLine(start,&end,layer,(Rva002F5925Info *)&Rva002EAB6F((Int)this
 Int cellCount=0;
 TCheckMovementInfo info;((Rva002E6FDF *)&info)->rva002E6FDF();
 info.layer=(PathfindLayerEnum)parentCell->getLayer();info.centerInCell=centerInCell;info.radius=radius;
-info.options=12;if(!obj->m_template->hasKind(90))info.options|=16;
+info.options=obj->m_template->hasKind(90)?12:28;
 info.ignore=obj->getAI()?((Rva0006E009DwordField *)obj->getAI())->get():0;
 Int priority=obj->m_template->priority;Bool flag=obj->m_template->flag;info.considerTransient=true;
 info.movement=Rva002E8BCF((const Rva002E8BCFSrc *)&locomotorSet,!flag,priority-1,obj->rva0028AFBB());
