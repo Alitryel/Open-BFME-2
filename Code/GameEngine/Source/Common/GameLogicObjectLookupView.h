@@ -103,7 +103,7 @@ public:
 	void rva0023DA4E(); // Verified native 0x0023DA4E battle-complete gate
 	void selectObject(Object *, bool, unsigned int, bool); // Verified native 0x0023C924
 	void ProcessCRC(unsigned int, int, unsigned int, GameMessage *, bool, BfmeThingEC *); // Verified native 0x00241529
-	int rva0023D080(int); // Verified native 0x0023D080
+	void rva0023D080(int); // Verified native 0x0023D080, forwards to the void ArmySummarySystem::CallArmyToEngageInBattleByID
 	void CallPlayerGiveMoney(int, int, int); // Verified native 0x0023D793
 	bool rva00085124();	// 0x00085124; verified mode 4-or-7 predicate
 	bool isInMultiplayerGame();	// 0x00042235
