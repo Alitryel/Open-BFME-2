@@ -43,6 +43,11 @@ struct S4SortElem8B
 template void _STL::sort<S4SortElem8 *>(S4SortElem8 *, S4SortElem8 *);
 template void _STL::sort<S4SortElem8B *>(S4SortElem8B *, S4SortElem8B *);
 
+// less<S4SortElem8>::operator(), retail 0x005EC5AD (16B): x < y through the
+// pinned member operator< 0x005EC52E, kept out of line (the B twin's copy
+// is identical code).
+template bool _STL::less<S4SortElem8>::operator()(const S4SortElem8 &, const S4SortElem8 &) const;
+
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include <vector>
