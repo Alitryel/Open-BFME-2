@@ -17,9 +17,8 @@ struct AptGeometryCopyPoint
         : x(other.x), y(other.y) {}
 };
 
-class Rva000AB3E2Element
+struct Rva000AB3E2Element
 {
-public:
     AptGeometryCopyPoint points[3];
 };
 
@@ -36,9 +35,8 @@ void *AptGeometryTriangleCopyEmissionAnchor(void *storage,
 // The rowed A9E0A guarded construction calls the two-point sibling at
 // A987D..A98A9. Its uninitialized-copy caller advances by 16 bytes, and
 // the geometry parser reads four %f coordinates for the line segment.
-class Rva000AB419Element
+struct Rva000AB419Element
 {
-public:
     AptGeometryCopyPoint points[2];
 };
 
