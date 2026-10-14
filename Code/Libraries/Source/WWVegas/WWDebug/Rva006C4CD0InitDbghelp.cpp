@@ -32,6 +32,7 @@ extern "C" __declspec(dllimport) char *__cdecl strncpy(char *dst, const char *sr
 class Rva006C4CD0Helper
 {
 public:
+	Rva006C4CD0Helper();
 	void initDbghelp(void);
 	void uninitDbghelp(void);
 	bool getSymbolName(unsigned long addr, char *buf, unsigned long maxlen);
@@ -47,6 +48,15 @@ public:
 	void *m_symGetSymFromAddr;	// +0x1C
 	void *m_symGetLineFromAddr;	// +0x20
 };
+
+// ??0Rva006C4CD0Helper@@QAE@XZ, retail 0x006C4CB0 (31B), just before
+// initDbghelp: no library, flag clear, every entry point null.
+Rva006C4CD0Helper::Rva006C4CD0Helper()
+	: m_hLib(NULL), m_flag(0), m_symInitialize(NULL), m_symCleanup(NULL), m_stackWalk(NULL),
+	  m_symFunctionTableAccess(NULL), m_symGetModuleBase(NULL), m_symGetSymFromAddr(NULL),
+	  m_symGetLineFromAddr(NULL)
+{
+}
 
 // IMAGEHLP_SYMBOL prefix: only the header fields plus enough name bytes to
 // make the 0x218 total the retail frame proves (4 displacement + 0x218).
