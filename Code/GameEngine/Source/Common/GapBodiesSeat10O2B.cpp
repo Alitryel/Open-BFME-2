@@ -353,3 +353,47 @@ int Rva006CFEF0::rva006CFEF0(const Rva006CFEF0 &other) const
 {
 	return m_cur - other.m_cur;
 }
+
+// ?rva006FE960@Rva006FE960@@QAEXH@Z @0x006FE960 5B: rowed
+// AptBasePtrStack::rva006E3AA0 0x006E3AA0 on the stack at +0.
+class AptBasePtrStack
+{
+public:
+	void rva006E3AA0(int value);
+};
+class Rva006FE960
+{
+public:
+	void rva006FE960(int value);
+private:
+	AptBasePtrStack m_stack;
+};
+void Rva006FE960::rva006FE960(int value)
+{
+	m_stack.rva006E3AA0(value);
+}
+
+// ?rva006BF9F0@Rva006BF9F0@@QAEXPAURva0087FDC0Element@@IABU2@@Z @0x006BF9F0
+// 5B: fill-insert into the vector at +0 through the rowed _M_fill_insert 0x006BF800.
+namespace _STL
+{
+	template <class T> class allocator;
+	template <class T, class A = allocator<T> >
+	class vector
+	{
+	public:
+		void _M_fill_insert(T *position, unsigned int count, const T &value);
+	};
+}
+struct Rva0087FDC0Element;
+class Rva006BF9F0
+{
+public:
+	void rva006BF9F0(Rva0087FDC0Element *position, unsigned int count, const Rva0087FDC0Element &value);
+private:
+	_STL::vector<Rva0087FDC0Element> m_vector;
+};
+void Rva006BF9F0::rva006BF9F0(Rva0087FDC0Element *position, unsigned int count, const Rva0087FDC0Element &value)
+{
+	m_vector._M_fill_insert(position, count, value);
+}

@@ -126,3 +126,55 @@ int Rva00674A20::rva00674A20()
 {
 	return m_00++;
 }
+
+// Tail jumps to a rowed member of the object at +0.
+// ??1Rva00661860@@QAE@XZ @0x00661860 5B: BfmeMsg member dtor 0x00655780.
+class Rva00661860
+{
+public:
+	~Rva00661860();
+private:
+	BfmeMsg m_msg;
+};
+Rva00661860::~Rva00661860()
+{
+}
+class Rva00801570 { public: void clear(); };
+class Rva00801600 { public: void clear(); };
+class Rva00802A10 { public: void clear(); };
+// ?rva0066DF00@Rva0066DF00@@QAEXXZ @0x0066DF00 5B: rowed Rva00801570::clear 0x0066D890.
+class Rva0066DF00
+{
+public:
+	void rva0066DF00();
+private:
+	Rva00801570 m_00;
+};
+void Rva0066DF00::rva0066DF00()
+{
+	m_00.clear();
+}
+// ?rva0066E260@Rva0066E260@@QAEXXZ @0x0066E260 5B: rowed Rva00801600::clear 0x0066D900.
+class Rva0066E260
+{
+public:
+	void rva0066E260();
+private:
+	Rva00801600 m_00;
+};
+void Rva0066E260::rva0066E260()
+{
+	m_00.clear();
+}
+// ?rva0066EDA0@Rva0066EDA0@@QAEXXZ @0x0066EDA0 5B: rowed Rva00802A10::clear 0x0066EB40.
+class Rva0066EDA0
+{
+public:
+	void rva0066EDA0();
+private:
+	Rva00802A10 m_00;
+};
+void Rva0066EDA0::rva0066EDA0()
+{
+	m_00.clear();
+}

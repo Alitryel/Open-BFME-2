@@ -1234,3 +1234,63 @@ void Rva005EFD8A::rva005EFD8A(Rva005EFD53Element *position, unsigned int count, 
 {
 	m_vector._M_fill_insert(position, count, value);
 }
+
+// Tail jumps to a rowed member of the tree / array at +0.
+struct Rva0027EA49;
+class Rva009F68C6PointerArray
+{
+public:
+	void RemoveAll();
+};
+typedef _STL::_Rb_tree<Rva0027EA49, Rva0027EA49, _STL::_Identity<Rva0027EA49>, _STL::less<Rva0027EA49>, _STL::allocator<Rva0027EA49> > Rva005C6BF0Tree;
+typedef _STL::_Rb_tree<int, Rva005E4920Pair, _STL::_Select1st<Rva005E4920Pair>, _STL::less<int>, _STL::allocator<Rva005E4920Pair> > Rva005E466BTree;
+
+// ?rva005C6BF0@Rva005C6BF0@@QAEXXZ @0x005C6BF0 5B: rowed tree clear 0x005C6B83.
+// ??1Rva005C6C76@@QAE@XZ @0x005C6C76 5B: member-only dtor, rowed tree dtor 0x005C6BF5.
+class Rva005C6BF0
+{
+public:
+	void rva005C6BF0();
+private:
+	Rva005C6BF0Tree m_tree;
+};
+void Rva005C6BF0::rva005C6BF0()
+{
+	m_tree.clear();
+}
+class Rva005C6C76
+{
+public:
+	~Rva005C6C76();
+private:
+	Rva005C6BF0Tree m_tree;
+};
+Rva005C6C76::~Rva005C6C76()
+{
+}
+
+// ?rva005E466B@Rva005E466B@@QAEXXZ @0x005E466B 5B: rowed int->SBServer tree clear 0x005E43A8.
+class Rva005E466B
+{
+public:
+	void rva005E466B();
+private:
+	Rva005E466BTree m_tree;
+};
+void Rva005E466B::rva005E466B()
+{
+	m_tree.clear();
+}
+
+// ?rva00628C69@Rva00628C69@@QAEXXZ @0x00628C69 5B: rowed RemoveAll 0x00628C25.
+class Rva00628C69
+{
+public:
+	void rva00628C69();
+private:
+	Rva009F68C6PointerArray m_array;
+};
+void Rva00628C69::rva00628C69()
+{
+	m_array.RemoveAll();
+}

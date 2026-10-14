@@ -89605,3 +89605,13 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ??0Rva0065E890@@QAE@XZ,,0x0065E890,13,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,default ctor zeroing two words and a byte
 ?rva006C5EB0@Rva006C5EB0@@QBENXZ,,0x006C5EB0,4,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,double at +20
 ?rva006CFEF0@Rva006CFEF0@@QBEHABV1@@Z,,0x006CFEF0,14,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,word-pointer distance between iterators
+?rva005C6BF0@Rva005C6BF0@@QAEXXZ,,0x005C6BF0,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed tree clear 0x005C6B83 on member at +0
+??1Rva005C6C76@@QAE@XZ,,0x005C6C76,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,member-only dtor tail jump to rowed tree dtor 0x005C6BF5
+?rva005E466B@Rva005E466B@@QAEXXZ,,0x005E466B,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed int SBServer tree clear 0x005E43A8
+?rva00628C69@Rva00628C69@@QAEXXZ,,0x00628C69,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed RemoveAll 0x00628C25 on member at +0
+??1Rva00661860@@QAE@XZ,,0x00661860,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp,matched,member-only dtor tail jump to rowed BfmeMsg dtor 0x00655780
+?rva0066DF00@Rva0066DF00@@QAEXXZ,,0x0066DF00,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp,matched,tail jump to rowed clear 0x0066D890
+?rva0066E260@Rva0066E260@@QAEXXZ,,0x0066E260,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp,matched,tail jump to rowed clear 0x0066D900
+?rva0066EDA0@Rva0066EDA0@@QAEXXZ,,0x0066EDA0,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp,matched,tail jump to rowed clear 0x0066EB40
+?rva006FE960@Rva006FE960@@QAEXH@Z,,0x006FE960,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,tail jump to rowed AptBasePtrStack rva006E3AA0
+?rva006BF9F0@Rva006BF9F0@@QAEXPAURva0087FDC0Element@@IABU2@@Z,,0x006BF9F0,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,tail jump to rowed vector _M_fill_insert 0x006BF800
