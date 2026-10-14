@@ -23,6 +23,9 @@ struct BfmeStringRecord000B9534 {
     unsigned char flag;
     unsigned int word0, word1, word2, word3;
     BfmeStringRecord000B9534();
+    // The allocation/copy unit already owns the shared cleanup COMDAT.
+    // Keep calls to it without emitting a different AsciiString forwarding copy.
+    ~BfmeStringRecord000B9534();
     BfmeStringRecord000B9534(const BfmeStringRecord000B9534 &o)
       : text(o.text), flag(o.flag), word0(o.word0), word1(o.word1), word2(o.word2), word3(o.word3) {}
 };
