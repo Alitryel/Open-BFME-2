@@ -166,3 +166,36 @@ Rva004E156B::Rva004E156B() {}
 Rva00217537::Rva00217537() {}
 // ??0Rva0030714F@@QAE@XZ
 Rva0030714F::Rva0030714F() {}
+
+// Natives 0x0025558E (13B) and 0x0025559B (17B): constructors that store a
+// module-data vtable and empty one or two strings, leaving +4 untouched. The
+// stored vtables are the ones the ledger's FadeAndDieOrnamentUpdateModuleData
+// (0x00BF3740, deleting dtor 0x002561A3) and SpawnUnitBehaviorModuleData
+// (0x00BF36C0, deleting dtor 0x0025629F) constructors install, but both of
+// those constructors are rowed elsewhere (0x002555AC, 0x0025598C), so these
+// are ICF-shared tables of same-layout classes whose names are not
+// recovered; address-owned like Rva004E156B above.
+class Rva0025558E
+{
+public:
+	Rva0025558E();
+	virtual ~Rva0025558E();
+private:
+	char m_pad04[4];
+	AsciiString m_member08;
+};
+// ??0Rva0025558E@@QAE@XZ
+Rva0025558E::Rva0025558E() {}
+
+class Rva0025559B
+{
+public:
+	Rva0025559B();
+	virtual ~Rva0025559B();
+private:
+	char m_pad04[4];
+	AsciiString m_member08;
+	AsciiString m_member0C;
+};
+// ??0Rva0025559B@@QAE@XZ
+Rva0025559B::Rva0025559B() {}
