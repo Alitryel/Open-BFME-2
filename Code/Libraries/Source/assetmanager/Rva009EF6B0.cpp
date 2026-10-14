@@ -105,3 +105,19 @@ Rva00622190Output Rva0061F540() {
     if (TheQ1Receiver == 0) return Rva00622190Output();
     return reinterpret_cast<Rva00622190Owner *>(TheQ1Receiver)->Rva00622210();
 }
+// The third wrapper at 0x0061F5A0 has the same shape around the rowed
+// 0x00622290 key collector, whose result has this unit's 20-byte layout.
+struct Rva00622290SetGroup {
+    __forceinline Rva00622290SetGroup() { memset(&m_count, 0, sizeof(m_count)); m_active = true; }
+    IntSetTree m_tree;
+    unsigned m_count;
+    bool m_active;
+};
+class Rva00622290 {
+public:
+    Rva00622290SetGroup collectKeys();
+};
+Rva00622290SetGroup Rva0061F5A0() {
+    if (TheQ1Receiver == 0) return Rva00622290SetGroup();
+    return reinterpret_cast<Rva00622290 *>(TheQ1Receiver)->collectKeys();
+}
