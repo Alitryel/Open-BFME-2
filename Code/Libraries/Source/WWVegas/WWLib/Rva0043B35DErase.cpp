@@ -15,6 +15,22 @@ namespace _STL {
 template <> __declspec(dllimport) __forceinline
 bool less<int>::operator()(const int &a, const int &b) const
 { return a < b; }
+
+// Keep the vendor bodies inline without emitting additional int/int tree
+// COMDAT copies. The matched callers already inline these two helpers.
+typedef pair<const int, int> EraseIntPair;
+typedef _Rb_tree_iterator<EraseIntPair, _Nonconst_traits<EraseIntPair> > EraseIntIterator;
+typedef _Rb_tree<int, EraseIntPair, _Select1st<EraseIntPair>, less<int>, allocator<EraseIntPair> > EraseIntTree;
+
+// ?_STL::EraseIntIterator::_Rb_tree_iterator present-unmatched
+template <> __declspec(dllimport) __forceinline
+EraseIntIterator::_Rb_tree_iterator(const EraseIntIterator &it)
+{ _M_node = it._M_node; }
+
+// ?_STL::EraseIntTree::upper_bound present-unmatched
+template <> __declspec(dllimport) __forceinline
+EraseIntTree::iterator EraseIntTree::upper_bound(const int &key)
+{ return iterator(_M_upper_bound(key)); }
 }
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
