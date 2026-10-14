@@ -64,3 +64,16 @@ void rva000ABBEF(float *x, float *y, float *z, int index)
 	*y = GlobalLightingChunkVectors[index].components.y;
 	*z = GlobalLightingChunkVectors[index].components.z;
 }
+
+// ?rva000ABBB3@@YAXMMMH@Z, retail 0x000ABBB3, 60 bytes.
+// Setter twin of rva000ABBEF directly ahead of it: stores a triple into the
+// same indexed 16-byte lighting-vector slot, index -1 again selecting the
+// current pass at VA 0x00DFF490. No caller reaches it directly in retail.
+void rva000ABBB3(float x, float y, float z, int index)
+{
+	if (index == -1)
+		index = g_00DFF490;
+	GlobalLightingChunkVectors[index].components.x = x;
+	GlobalLightingChunkVectors[index].components.y = y;
+	GlobalLightingChunkVectors[index].components.z = z;
+}
