@@ -1212,6 +1212,7 @@ public:
 	Object *getNextMoodTarget(Bool calledByAI, Bool calledDuringIdle);	///< pinned 0x00268EB8 (ZH name)
 	void friend_setGoalObject(Object *obj);			///< pinned 0x00262B0F (ZH name)
 	void rva00262989(UnsignedInt frame);			///< matched 0x00262989
+	Int rva00262552(const Coord3D *destination);	///< matched 0x00262552
 protected:
 
 	// Zero Hour's ObjectModule accessor. privateMoveToObject reads the owner
@@ -1260,7 +1261,9 @@ protected:
 	float m_pathFloat1A0;						// +0x1A0, the path orders' float argument
 	unsigned char m_unmodelled_1A4[0x1DC - 0x1A4];
 	Int m_validLocomotorSurfaces;				// +0x1DC (Zero Hour's m_locomotorSet.getValidSurfaces())
-	unsigned char m_unmodelled_1E0[0x1F0 - 0x1E0];
+	unsigned char m_unmodelled_1E0[1];
+	Bool m_bfmeByte1E1;						// +0x1E1, read by the layer-transition query 0x00262552
+	unsigned char m_unmodelled_1E2[0x1F0 - 0x1E2];
 	Rva001E4147 *m_curLocomotor;				// +0x1F0 (BFME2; BFME1 +0x1CC)
 	Int m_curLocomotorSet;						// +0x1F4 (Zero Hour's name; chooseLocomotorSet)
 	// A float chooseLocomotorSet takes from the template for the new set and
@@ -2926,4 +2929,36 @@ Bool AIUpdateInterface::rva002697FC()
 			return false;
 		}
 	}
+}
+
+// WB E38EF0 and native 0x00262552..0x002625C8 (118B, RET4): classify the
+// layer transition from the object's current layer (0x0028B511) to the
+// destination's (TheTerrainLogic, no object). 5 when nothing changes or the
+// pair is not handled, 3 into layer 16, 4 out of it, and the +0x1E1 flag
+// decides layers 1 and 17 and up. The debug twin's redundant destination
+// tests are kept.
+Int AIUpdateInterface::rva00262552(const Coord3D *destination)
+{
+	Int sourceLayer = m_object->rva0028B511();
+	Int destinationLayer = TheTerrainLogic->getLayerForDestination(0, destination);
+	Bool flag = m_bfmeByte1E1;
+	if (sourceLayer == destinationLayer)
+		return 5;
+	if (destinationLayer == 16)
+		return 3;
+	if (sourceLayer == 1) {
+		if (destinationLayer != 16)
+			return flag ? 1 : 0;
+	} else if (sourceLayer >= 2 && sourceLayer <= 15) {
+		if (destinationLayer == 1)
+			return 0;
+	} else if (sourceLayer == 16) {
+		return 4;
+	} else if (sourceLayer >= 17) {
+		if (destinationLayer != 16)
+			return flag ? 2 : 0;
+	} else {
+		return 0;
+	}
+	return 5;
 }
