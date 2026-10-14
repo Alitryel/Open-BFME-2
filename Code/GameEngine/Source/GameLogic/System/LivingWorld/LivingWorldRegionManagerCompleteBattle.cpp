@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // LivingWorldRegionManager::rva0020FB8B, retail 0x0020FB8B (132 B; WB
 // 0x00B56900, unnamed; called from LivingWorldLogic::OnBattleComplete
