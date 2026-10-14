@@ -1,4 +1,6 @@
 // ?rva001EFD9C@Rva001EFD9C@@QAE_NVUnicodeString@@_NPBUSelPair@@@Z
+// partial score=0.55 date=2026-10-14
+// ?rva001EFD9C@Rva001EFD9C@@QAE_NVUnicodeString@@_NPBUSelPair@@@Z
 // partial score=0.204 date=2026-10-13
 // cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP= /DNDEBUG
 // stlport
@@ -122,14 +124,14 @@ bool Rva001EFD9C::rva001EFD9C(UnicodeString message, bool isAction, const SelPai
 	getCurrentGroupRoom();
 	message.trim();
 	const void *bits = *reinterpret_cast<const void * const *>(&message);
-	if (bits == 0
+	if (0 == bits
 		|| *reinterpret_cast<const unsigned short *>(reinterpret_cast<const char *>(bits) + 4) == 0)
 		ok = false;
 	else {
 		PeerRequest rec;
 		rec.unknown_10 = message.str();
 		if (sels == 0
-			|| (((reinterpret_cast<const char *>(sels->end) - reinterpret_cast<const char *>(sels->begin)) & ~3) == 0))
+			|| (((reinterpret_cast<const char *>((ok ? sels->end : sels->end)) - reinterpret_cast<const char *>(sels->begin)) & ~3) == 0))
 		{
 			rec.msgAction.action = isAction;
 			rec.unknown_00 = 3;

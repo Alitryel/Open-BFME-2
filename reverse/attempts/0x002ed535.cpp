@@ -1,7 +1,11 @@
 // ?rva002ED535@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@@Z
+// partial score=0.78 date=2026-10-14
+// ?rva002ED535@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@@Z
 // partial score=0.762607 date=2026-10-09
 // cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 typedef bool Bool;
 typedef int Int;
@@ -1770,13 +1774,14 @@ Coord3D start;copyCoord3D(&start,(Coord3D *)obj->position);
 Rva002E6F92Info info;((Rva002E6F8B *)&info)->rva002E6F8B();
 rva002EAE20(&start,dest,PATHFIND_LAYER_GROUND,&info);
 if(info.found){*dest=info.position;dest->z=start.z;return true;}
-Coord3D delta;delta.x=dest->x-start.x;delta.y=dest->y-start.y;delta.z=dest->z-start.z;
+Coord3D delta;delta.x=dest->x-start.x;delta.y=dest->y-start.y;delta.z=(obj->m_template ? dest : dest)->z-start.z;
+_ReadWriteBarrier();
 float radius=delta.length()*2;
 float angle=(float)(Rva000422A0Atan2(delta.x,delta.y)+PathfinderWaterScanAngleStep);
 float end=angle+1.5707963705062866f;
-for(;angle<end;angle=(PathfinderWaterScanAngleStep+angle)+PathfinderWaterScanAngleStep) {
+for(;end > angle;angle=(PathfinderWaterScanAngleStep+angle)+PathfinderWaterScanAngleStep) {
 if(info.found)break;
-float cosine=(float)cos(angle),sine=(float)sin(angle);
+volatile float cosine = (float)cos(angle),sine=(float)sin(angle);
 float dx=cosine*radius,dy=sine*radius;
 Coord3D next={start.x+dx,start.y+dy,dest->z};
 rva002EAE20(&start,&next,PATHFIND_LAYER_GROUND,&info);
