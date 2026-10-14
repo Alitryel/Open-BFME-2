@@ -134,7 +134,8 @@ private:
 class MeshClass
 {
 public:
-	MeshModelClass *Peek_Model() { return m_model; }
+	// Native bridge loads use +C4; the shared Peek_Model owner reads +94.
+	MeshModelClass *bridgeModel() { return m_model; }
 private:
 	char m_pad00[0xC4];
 	MeshModelClass *m_model;
@@ -184,7 +185,8 @@ RenderObjClass *Create_Render_Obj(const char *name);
 class WW3DAssetManager
 {
 public:
-	static WW3DAssetManager *Get_Instance() { return TheInstance; }
+	// The unused donor getter stays inline without emitting an unsupported owner.
+	static __declspec(dllimport) __forceinline WW3DAssetManager *Get_Instance() { return TheInstance; }
 	static WW3DAssetManager *TheInstance;
 };
 
@@ -398,8 +400,8 @@ bool W3DBridge::load(BodyDamageType curDamageState)
 		m_bridgeType = FIXED_BRIDGE;
 	}
 
-	int numVertex = ((MeshClass *)m_leftMesh)->Peek_Model()->Get_Vertex_Count();
-	Vector3 *pVert = ((MeshClass *)m_leftMesh)->Peek_Model()->Get_Vertex_Array();
+	int numVertex = ((MeshClass *)m_leftMesh)->bridgeModel()->Get_Vertex_Count();
+	Vector3 *pVert = ((MeshClass *)m_leftMesh)->bridgeModel()->Get_Vertex_Array();
 	m_leftMinX = FLT_MAX;
 	m_leftMaxX = -FLT_MAX;
 	m_minY = FLT_MAX;
@@ -415,8 +417,8 @@ bool W3DBridge::load(BodyDamageType curDamageState)
 	}
 	if (m_bridgeType == SECTIONAL_BRIDGE)
 	{
-		numVertex = ((MeshClass *)m_sectionMesh)->Peek_Model()->Get_Vertex_Count();
-		pVert = ((MeshClass *)m_sectionMesh)->Peek_Model()->Get_Vertex_Array();
+		numVertex = ((MeshClass *)m_sectionMesh)->bridgeModel()->Get_Vertex_Count();
+		pVert = ((MeshClass *)m_sectionMesh)->bridgeModel()->Get_Vertex_Array();
 		m_sectionMinX = FLT_MAX;
 		m_sectionMaxX = -FLT_MAX;
 		for (i = 0; i < numVertex; i++)
@@ -427,8 +429,8 @@ bool W3DBridge::load(BodyDamageType curDamageState)
 			if (vert.X > m_sectionMaxX) m_sectionMaxX = vert.X;
 		}
 
-		numVertex = ((MeshClass *)m_rightMesh)->Peek_Model()->Get_Vertex_Count();
-		pVert = ((MeshClass *)m_rightMesh)->Peek_Model()->Get_Vertex_Array();
+		numVertex = ((MeshClass *)m_rightMesh)->bridgeModel()->Get_Vertex_Count();
+		pVert = ((MeshClass *)m_rightMesh)->bridgeModel()->Get_Vertex_Array();
 		m_rightMinX = FLT_MAX;
 		m_rightMaxX = -FLT_MAX;
 		for (i = 0; i < numVertex; i++)

@@ -169,7 +169,8 @@ private:
 class MeshClass
 {
 public:
-	__forceinline MeshModelClass *Peek_Model() { return Model; }
+	// Native bridge loads use +C4; the shared Peek_Model owner reads +94.
+	__forceinline MeshModelClass *bridgeModel() { return Model; }
 private:
 	char m_pad00[0xC4];
 	MeshModelClass *Model;			// +0xC4
@@ -213,7 +214,7 @@ Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int curVer
 		return(0);
 
 	Int i;
-	MeshModelClass *model = pMesh->Peek_Model();
+	MeshModelClass *model = pMesh->bridgeModel();
 	Int numVertex = model->Get_Vertex_Count();
 	Vector3 *pVert = model->Get_Vertex_Array();
 	const Vector3 *pNormal = model->Get_Vertex_Normal_Array(false);
@@ -233,7 +234,7 @@ Int W3DBridge::getModelVertices(VertexFormatXYZNDUV1 *destination_vb, Int curVer
 		lightRay[lightIndex].Normalize();
 	}
 
-	const Vector2 *uvs = pMesh->Peek_Model()->Get_UV_Array_By_Index(0);
+	const Vector2 *uvs = pMesh->bridgeModel()->Get_UV_Array_By_Index(0);
 	VertexFormatXYZNDUV1 *curVb = destination_vb + curVertex;
 
 	for (i = 0; i < numVertex; i++) {
