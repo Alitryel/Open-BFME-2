@@ -94,6 +94,7 @@ public:
 	public:
 		bool parseWaterAreasChunkImpl(DataChunkInput &, const DataChunkInfo *);
 		bool parsePolygonTriggersChunkImpl(DataChunkInput &, const DataChunkInfo *);
+		Rva00282135 *standingWaterAreas() const { return m_standingWaterAreas; }
 	private:
 		char m_pad00[0x1c];
 		Rva003294D6Trigger **m_triggerList;
@@ -343,5 +344,103 @@ bool OldPolygonTriggerDataChunkParserBase::Impl::parsePolygonTriggersChunkImpl(
 				Rva00328DE4Add(&data, &list);
 		}
 	}
+	return true;
+}
+
+// Native 0x00329663..0x003297B3 (336 B, EH, RET 8), slot 0 of the vtable at
+// 0x00C0D8F0 whose member +4 is the Impl above. ZH's
+// PolygonTrigger::ParsePolygonTriggersDataChunk ends with the version 1
+// fallback ("before water areas existed, so create a default one"): BFME2
+// parses the chunk through the Impl, then adds a 4-point standing water area
+// over the whole map at height 7 -- (-300, -300), (300 + water extent X, -300),
+// (300 + extent X, 300 + extent Y), (-300, 300 + extent Y); the extents are
+// TheGlobalData +0x78 / +0x7C -- through the area's boundary, and registers it
+// with the Impl's standing water area set (rowed 0x003291F4). It then raises
+// the next polygon trigger id to one past the highest id in the trigger list.
+// The class and area names are unknown (address names); the boundary calls are
+// the rowed PolygonalArea ones (0x005CB260 add point, slot 0x18 elevation).
+struct BfmeE8
+{
+	float x, y;
+};
+class PolygonalArea
+{
+public:
+	virtual void slot0();
+	virtual void slot1(const BfmeE8 &point);
+	virtual void slot2();
+	virtual void slot3();
+	virtual void slot4();
+	virtual void slot5();
+	virtual void setBoundaryElevationSlot(int z);
+	void rva005CB260(const BfmeE8 &point);
+};
+class Rva003291F4
+{
+public:
+	int rva003291F4(AreaRefValueView area);
+};
+class GlobalData
+{
+public:
+	char m_pad00[0x78];
+	float m_waterExtentX;
+	float m_waterExtentY;
+};
+extern GlobalData *TheWritableGlobalData;
+struct Rva00329663Trigger
+{
+	char m_pad00[0x3C];
+	Rva00329663Trigger *m_next;
+	int m_pad40;
+	int m_id;
+};
+struct Rva002E373CHolder
+{
+	Rva00329663Trigger *m_head;
+};
+extern Rva002E373CHolder *g_Va00DBD0F4;
+extern int g_Va00DBD0F0;
+
+class Rva00329663
+{
+public:
+	virtual bool parse(DataChunkInput &file, DataChunkInfo *info);
+private:
+	OldPolygonTriggerDataChunkParserBase::Impl *m_impl;
+};
+
+bool Rva00329663::parse(DataChunkInput &file, DataChunkInfo *info)
+{
+	unsigned char nc_416 = m_impl->parsePolygonTriggersChunkImpl(file, info);
+	if (!nc_416)
+		return false;
+
+	if (info->m_version == 1)
+	{
+		StandingWaterRef water(new Rva00308E63(4, true));
+		PolygonalArea *boundary = reinterpret_cast<PolygonalArea *>(&water.m_ptr->m_boundary);
+		void (PolygonalArea::*setElevation)(int) = &PolygonalArea::setBoundaryElevationSlot;
+		(boundary->*setElevation)(7);
+		BfmeE8 point;
+		point.x = -300.0f;
+		point.y = -300.0f;
+		boundary->rva005CB260(point);
+		point.x = TheWritableGlobalData->m_waterExtentX + 300.0f;
+		boundary->rva005CB260(point);
+		point.y = TheWritableGlobalData->m_waterExtentY + 300.0f;
+		boundary->rva005CB260(point);
+		point.x = -300.0f;
+		boundary->rva005CB260(point);
+		reinterpret_cast<Rva003291F4 *>(m_impl->standingWaterAreas())->rva003291F4(
+			reinterpret_cast<const AreaRefValueView &>(water));
+	}
+
+	int maxId = 0;
+	for (Rva00329663Trigger *trigger = g_Va00DBD0F4->m_head; trigger; trigger = trigger->m_next)
+		if (trigger->m_id > maxId)
+			maxId = trigger->m_id;
+	if (maxId + 1 > g_Va00DBD0F0)
+		g_Va00DBD0F0 = maxId + 1;
 	return true;
 }

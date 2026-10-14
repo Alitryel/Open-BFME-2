@@ -53377,3 +53377,4 @@ ActionManager::canDoSpecialPowerAtLocation	0x41D60B	3709	blocked	23 fresh tempor
 ?rva00032160@GeneralAllocator@Allocator@EA@@QAEIPAX@Z	0x00032160	137	landed	add_match verified Code/GameEngine/Source/Common/System/memory_pool.cpp 137B
 ?PopulatePlayerTemplateComboBox@@YAXHQAPAVGameWindow@@PAVGameInfo@@_N@Z	0x004474C7	537	landed	add_match verified Code/GameEngine/Source/GameNetwork/GUIUtil.cpp 537B
 ?update@AIGuardRetaliateAttackAggressorState@@UAE?AW4StateReturnType@@XZ	0x00545A46	265	landed	add_match verified Code/GameEngine/Source/GameLogic/AI/AIGuardRetaliateStates.cpp 265B
+?parse@Rva00329663@@UAE_NAAVDataChunkInput@@PAUDataChunkInfo@@@Z	0x00329663	336	landed	add_match verified Code/GameEngine/Source/GameLogic/Map/OldPolygonTrigger.cpp 336B; BFME2 data-chunk parse via Impl then version-1 default standing water area then next trigger id; named-local compare keeps new temp in EAX
