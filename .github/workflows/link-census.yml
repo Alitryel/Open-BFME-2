@@ -20,7 +20,18 @@ jobs:
     steps:
       - name: Verify, measure, and publish from the dedicated checkout
         shell: bash
-        run: bash /home/levy/bfme-census-runner-state/actions/run-census.sh
+        run: |
+          set -o pipefail
+          mkdir -p "$RUNNER_TEMP/bfme-census-bootstrap"
+          bash /home/levy/bfme-census-runner-state/actions/run-census.sh 2>&1 | tee "$RUNNER_TEMP/bfme-census-bootstrap/bootstrap.log"
+      - name: Preserve runner bootstrap log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-census-bootstrap-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: ${{ runner.temp }}/bfme-census-bootstrap/bootstrap.log
       - name: Preserve census logs
         if: always() && env.BFME_CENSUS_RUN_LOG != ''
         uses: actions/upload-artifact@v4
