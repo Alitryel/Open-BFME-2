@@ -21,10 +21,11 @@ public:
 };
 
 
-class Rva00343042
+// Rowed 0x00343042 as AIChargeTargetState::AIChargeTargetState (AIStateRva0034005DCtor.cpp).
+class AIChargeTargetState
 {
 public:
-	Rva00343042(StateMachine *machine);
+	AIChargeTargetState(StateMachine *machine);
 private:
 	void *m_vtbl;
 	char m_pad[0x58 - 4];
@@ -43,7 +44,7 @@ Rva00343838::Rva00343838(Object *owner, int u, unsigned int name, bool flag)
 {
 	(void)u;
 	*(const void **)this = __identifier("??_7Rva0033FB95@@6B@");
-	Rva00343042 *s0 = new Rva00343042((StateMachine *)this);
+	AIChargeTargetState *s0 = new AIChargeTargetState((StateMachine *)this);
 	((StateMachine *)this)->defineState(0, (State *)s0, 0x270E, 0x270F, (const StateConditionInfo *)0);
 }
 

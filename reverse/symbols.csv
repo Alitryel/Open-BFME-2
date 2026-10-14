@@ -2379,8 +2379,6 @@ name,address,notes
 ??0Rva00342AD6@@QAE@PAVStateMachine@@@Z,0x00342AD6,unrowed 0x68 AI-state ctor called from 0x34316A; RETAIL REL32 at 0x003431E5
 ??0Rva00342B1A@@QAE@PAVStateMachine@@H@Z,0x00342B1A,unrowed 0x78 AI-state ctor taking the branchless int selector called from 0x34316A; RETAIL REL32 at 0x0034322E
 ??0Rva00342BAE@@QAE@PAVStateMachine@@_N@Z,0x00342BAE,AIInternalMoveToState-derived ctor (machine flag) with float/int/bool members; true size 70 (ghidra 33B extent is short); base for leaf ctors 0x00342C47 0x00342D19
-??0Rva0034301B@@QAE@PAVStateMachine@@@Z,0x0034301B,unrowed 0x58 AI-state ctor called from 0x3444CE; RETAIL REL32 at 0x00344518
-??0Rva00343042@@QAE@PAVStateMachine@@@Z,0x00343042,unrowed 0x58 AI-state ctor called from 0x343838; RETAIL REL32 at 0x00343877
 ??0Rva003529B0@@QAE@PBV0@@Z,0x003B410E,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Rva00355D66@@QAE@XZ,0x00355D4E,ICF twin of Rva00490470 ctor for Rva00355F3E base at retail 0x00355EFF read from its REL32 displacement; body unrowed
 ??0Rva00360BB8Store@@QAE@XZ,0x00360BB8,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
@@ -14645,7 +14643,6 @@ _Rva001117E3Downsample,0x001117E3,callee of ?updateMips@TileData@@QAEXXZ
 ?rva003FA781@Rva003FA835@@QAEXH@Z,0x003FA781,Called by fresh 0x00210E5B with ECX from rowed Rva002BFDAE result and its second stack argument; target consumes the low byte as a zero/nonzero state; address-derived method; exact semantics and parameter type remain unknown
 ?rva003FCD71@Rva003FCD71@@QAEXXZ,0x003FCD71,Direct method targets on vector elements in unclaimed 0x00212761/0x002110DF; address-derived receiver class and operation remain unresolved; 0x003FCD71 body stays blocked in re_attempts.log
 ?rva003FCDD5@Rva003FCD71@@QAEXH@Z,0x003FCDD5,Direct method targets on vector elements in unclaimed 0x00212761/0x002110DF; address-derived receiver class and operation remain unresolved; 0x003FCD71 body stays blocked in re_attempts.log
-?rva0059DFFB@Rva0059DFFB@@QAEXXZ,0x0059DFFB,callee of ?rva004FC470@Rva004FC470@@QAEX_N@Z
 ?rva001e6007@Rva001E6007@@QAEXIIMM@Z,0x001E6007,"Ghidra boundary FUN_005e6007 is 1295 bytes; exact direct-call target at 0x001E707D receives the four forwarded dwords in ECX with ret 16; semantic identity unknown"
 ?rva001e7053@Rva001E7053@@QAEXIIMM@Z,0x001E7053,"address-derived call target; Ghidra boundary FUN_005e7053 is 52 bytes; exact REL32 caller 0x001E7C2B; semantic identity unknown"
 ??$_M_find@VAsciiString@@@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@3@U?$less@VAsciiString@@@3@V?$Rva0024485CAllocator@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UCoord3D@@@_STL@@@1@ABVAsciiString@@@Z,0x001F8437,ICF fold of the WaypointMap map<AsciiString;Coord3D> _M_find onto the rowed AsciiString find worker at this address (same 78B key-only body); called twice by populateRandomStartPosition at 0x00244927 and 0x00244934

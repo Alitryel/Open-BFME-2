@@ -24,10 +24,11 @@ public:
 };
 
 
-class Rva0034301B
+// Rowed 0x0034301B as AIBackAwayState::AIBackAwayState (AIStateRva0034005DCtor.cpp).
+class AIBackAwayState
 {
 public:
-	Rva0034301B(StateMachine *machine);
+	AIBackAwayState(StateMachine *machine);
 private:
 	void *m_vtbl;
 	char m_pad[0x58 - 4];
@@ -55,7 +56,7 @@ Rva003444CE::Rva003444CE(Object *owner, Object *arg, unsigned int nameKey)
 {
 	*(const void **)this = __identifier("??_7Rva003402D0@@6B@");
 	((StateMachine *)this)->rva004D750F(arg);
-	Rva0034301B *s0 = new Rva0034301B((StateMachine *)this);
+	AIBackAwayState *s0 = new AIBackAwayState((StateMachine *)this);
 	((StateMachine *)this)->defineState(0, (State *)s0, 1, 0x270F, (const StateConditionInfo *)0);
 	Rva0033F7C8 *s1 = new Rva0033F7C8((StateMachine *)this);
 	((StateMachine *)this)->defineState(1, (State *)s1, 0x270E, 0x270F, (const StateConditionInfo *)0);

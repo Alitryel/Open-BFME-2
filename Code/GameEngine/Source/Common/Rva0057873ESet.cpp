@@ -1,10 +1,12 @@
 // cl: /MD
 // ?rva0057873E@Rva0057873E@@QAEXPAVRva005D3C2B@@@Z @0x0057873E 35B: setter with same-pointer early-out then explicit dtor plus global operator delete on old.
-// Evidence: callees pinned 0x005D3C2B ??1Rva005D3C2B@@QAE@XZ and rowed 0x0002FD60 ??3@YAXPAX@Z; caller 0x00578941; same 35B shape as Rva0057866DSet precedent.
+// Evidence: callees pinned 0x005D3C2B ??1Rva005D3C2B@@UAE@XZ (virtual, called directly) and rowed 0x0002FD60 ??3@YAXPAX@Z; caller 0x00578941; same 35B shape as Rva0057866DSet precedent.
 class Rva005D3C2B
 {
 public:
-	~Rva005D3C2B();
+	// Rowed virtual (??1Rva005D3C2B@@UAE@XZ, Rva005D3C2BDtor.cpp); the
+	// qualified call below stays the direct call retail makes.
+	virtual ~Rva005D3C2B();
 };
 
 void __cdecl operator delete(void *p);

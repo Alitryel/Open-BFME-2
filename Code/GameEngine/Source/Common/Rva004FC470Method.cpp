@@ -58,7 +58,16 @@ public:
 	virtual void slot6();
 	virtual void slot7();
 	virtual void slot8(bool result, int value);
-	void rva0059DFFB();
+};
+
+// 0x0059DFFB is rowed as the virtual Rva0059E242::rva0059DFFB
+// (Rva0059DFFBUpdate.cpp); retail calls it directly, so the call is qualified.
+class Rva0059E242
+{
+public:
+	virtual ~Rva0059E242();
+	virtual void rva0059DF60();
+	virtual void rva0059DFFB();
 };
 
 class Rva004FC470
@@ -91,7 +100,7 @@ void Rva004FC470::rva004FC470(bool flag)
 	{
 		m_member24->slot8(result, 1);
 		if (!result)
-			m_member24->rva0059DFFB();
+			((Rva0059E242 *)m_member24)->Rva0059E242::rva0059DFFB();
 	}
 
 	m_list.forEach((void (Rva004FC320Listener::*)(void *))&Rva001FF3A9::rva001FF3A9, this);
