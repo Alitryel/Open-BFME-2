@@ -56319,3 +56319,5 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ?Rva00388C98Field@@YAPAHPAURva00388C98Record@@@Z	0x00388C98	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesS9A.cpp 8B; cdecl member address +0xC (no caller reference; address-named view)
 ?Rva00388CA0Field@@YAPAHPAURva00388C98Record@@@Z	0x00388CA0	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesS9A.cpp 8B; cdecl member address +0x10 (no caller reference; address-named view)
 ?invert@Rva00419CAF@@QAEXXZ	0x00419CAF	3	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesS9A.cpp 3B; not of the word at +0 (no caller reference; address-named view)
+??0Rva0040C92D@@QAE@H@Z	0x0040C92D	15	landed	add_match verified Code/GameEngine/Source/Common/Rva0040C92DVtableCtors.cpp 15B; vtable VA 0xBC6F20 ctor clearing +4 (ret 4 unused arg); twin of the 0x0059B7CB family
+??0Rva004BB391@@QAE@_N@Z	0x004BB391	22	landed	add_match verified Code/GameEngine/Source/Common/Rva0040C92DVtableCtors.cpp 22B; vtable VA 0xC59EA8 ctor clearing +4 and storing the byte arg at +8; twin of the 0x0059B7CB family
