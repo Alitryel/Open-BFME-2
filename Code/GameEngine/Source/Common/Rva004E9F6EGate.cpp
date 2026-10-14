@@ -61,3 +61,11 @@ void Rva004E9F6E::postInit()
 		reinterpret_cast<AIWallBuilder *>(this)->loadWallLibrary();
 	}
 }
+
+// ?Rva004E98ACClear@@YAXXZ @0x004E98AC 8B: clear the 0x00E044A0 counter the
+// gate above resets, as a standalone and-0 store (no caller reference);
+// skeleton twin of Rva0018C0F1Clear 0x0018C0F1.
+void Rva004E98ACClear()
+{
+	g_00E044A0 = 0;
+}

@@ -9,3 +9,9 @@ int parsePreferLocalFiles(char *args[],int num) {
     BFME2PreferLocalFiles=true;
     return 1;
 }
+
+// 3B942B (8B): a void setter raising the same BFME2PreferLocalFiles byte
+// (no table or caller reference; the other handlers of the global return 1).
+void Rva003B942BSetPreferLocalFiles() {
+    BFME2PreferLocalFiles=true;
+}
