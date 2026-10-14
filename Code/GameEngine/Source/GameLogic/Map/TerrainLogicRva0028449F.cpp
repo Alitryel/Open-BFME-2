@@ -34,7 +34,7 @@ public:
 	virtual ~GeometryInfo();
 	bool CollidesWith(const Coord3D &pos, Real angle, const GeometryInfo &other,
 		const Coord3D &otherPos, Real otherAngle) const;
-	bool getIsSmall() const { return m_isSmall; }
+	bool terrainShapeIsSmall() const { return m_isSmall; }
 
 private:
 	bool m_isSmall;
@@ -213,7 +213,7 @@ __forceinline const BfmeStrF9 &flagName(const AsciiString &name)
 void TerrainLogic::flattenTerrain(Object *obj)
 {
 	Rva0028458FObjectView *view = reinterpret_cast<Rva0028458FObjectView *>(obj);
-	if (view->geometry.getIsSmall())
+	if (view->geometry.terrainShapeIsSmall())
 		return;
 	Coord3D pos;
 	pos.x = view->pos.x;
