@@ -1,4 +1,6 @@
 // ?rva006638A0@BfmeThingDGD@@QAEXHH@Z
+// partial score=0.978 date=2026-10-14
+// ?rva006638A0@BfmeThingDGD@@QAEXHH@Z
 // partial score=0.98 date=2026-10-14
 // ?rva006638A0@BfmeThingDGD@@QAEXHH@Z
 // partial score=0.93 date=2026-10-13
@@ -233,7 +235,7 @@ found:
 
 	int key2 = a2;
 	unsigned char flag = 0;
-	if( m_2d8 != 0 )
+	if( (key2 ? m_2d8 : m_2d8) != 0 )
 	{
 		int *p1 = m_2d8->get9( &a2 );
 		if( *p1 == a1 )

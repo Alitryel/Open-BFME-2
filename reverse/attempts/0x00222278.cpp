@@ -1,4 +1,6 @@
 // ?Rva00222278Parse@@YAXPAVINI@@PAX@Z
+// partial score=0.94 date=2026-10-14
+// ?Rva00222278Parse@@YAXPAVINI@@PAX@Z
 // partial score=0.9028 date=2026-10-13
 // ?Rva00222278Parse@@YAXPAVINI@@PAX@Z
 // partial score=0.96 date=2026-10-04
@@ -28,7 +30,7 @@ void __cdecl Rva00222278Parse(INI *ini, void *ownerPtr)
 {
 	AsciiString key(ini->getNextToken((const char *)0));
 	Owner00222278 *owner = (Owner00222278 *)ownerPtr;
-	Rva00221C15 *obj = new Rva00221C15(key, ((Owner00222278 *)ownerPtr)->m_0C, ini);
+	Rva00221C15 *obj = new Rva00221C15(key, owner->m_0C, ini);
 	ownerPtr = obj;
 	if (obj) ++obj->m_refs;
 	if (((AsciiMap &)owner->m_28).find(key) == ((AsciiMap &)owner->m_28).end()) ((TreeHintRef00217D4C &)owner->m_28[key]) = (const TreeHintRef00217D4C &)ownerPtr;
