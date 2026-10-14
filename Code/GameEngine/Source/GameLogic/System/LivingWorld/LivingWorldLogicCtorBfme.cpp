@@ -37,7 +37,7 @@ void*inner;int word0C,word10;_STL::vector<BfmeE16>vec14,vec20;int word2C,word30;
 };
 
 class Rva002130CF {public:void rva002130CF(struct Rva002130CFOwner*);};class LivingWorldManager;extern LivingWorldManager*TheLivingWorldManager;
-class Rva005A0B4CList {public:void append(struct Rva002BA8F1Listener*);};class Rva002B7250;extern Rva002B7250 g_00E04424,g_00E02E88;
+class Rva005A0B4CList {public:void append(struct Rva002BA8F1Listener*);};class Rva002B7250;extern Rva002B7250 g_00E04424,g_registryAtE02E88;
 template<int Tag>class CtorObservableView:public Rva00330757Member {};
 struct TargetRef00217D4C;struct Rva005F8F96{Rva005F8F96():m_00(0){}~Rva005F8F96();TargetRef00217D4C*m_00;};
 class Rva002B9099{public:void clear();void*pointer;};struct CtorOwnedChild:public Rva002B9099{CtorOwnedChild(){pointer=0;}~CtorOwnedChild(){clear();}};
@@ -69,7 +69,7 @@ Rva002B964F::Rva002B964F():localPlayer(0),word9C(0),wordA0(0),wordA4(0),wordA8(0
  wordF8=-1;wordF4=0;wordFC=0;
  ((Rva002130CF*)TheLivingWorldManager)->rva002130CF((Rva002130CFOwner*)this);
  ((Rva005A0B4CList*)&g_00E04424)->append((Rva002BA8F1Listener*)(LivingWorldBuildingObserver*)this);
- ((Rva005A0B4CList*)&g_00E02E88)->append((Rva002BA8F1Listener*)(LivingWorldRegionObserver*)this);
+ ((Rva005A0B4CList*)&g_registryAtE02E88)->append((Rva002BA8F1Listener*)(LivingWorldRegionObserver*)this);
 }
 
 Rva00210B38::Rva00210B38(Rva002B964F*logic):inner(0),word0C(0),word10(0),word2C(0),word30(0){

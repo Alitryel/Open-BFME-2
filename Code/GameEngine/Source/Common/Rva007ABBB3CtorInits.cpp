@@ -174,7 +174,8 @@ extern unsigned g_Va00E01E40;
 extern unsigned g_Va00E02310;
 extern unsigned g_Va00E02D90;
 extern unsigned g_Va00E02D94;
-extern unsigned g_Va00E02E88;
+class Rva002B7250;
+extern Rva002B7250 g_registryAtE02E88; // 0x00E02E88, Rva003EF14ADtor.cpp
 extern unsigned g_Va00E03020;
 extern unsigned g_Va00E032E8;
 extern unsigned g_Va00E04424;
@@ -334,7 +335,7 @@ void Rva007ABBB3CtorInits::rva007AF849()
 // 0x007AFC26 (22B): ??0Rva003818F4@@QAE@XZ on VA 0x00E02E88, atexit(0x007B8155)
 void Rva007ABBB3CtorInits::rva007AFC26()
 {
-	( (Rva003818F4 *)&g_Va00E02E88 )->Rva003818F4::Rva003818F4();
+	( (Rva003818F4 *)&g_registryAtE02E88 )->Rva003818F4::Rva003818F4();
 	atexit( rva007B8155 );
 }
 

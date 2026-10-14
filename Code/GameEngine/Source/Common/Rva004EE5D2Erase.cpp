@@ -22,7 +22,7 @@ public:
 class Rva002BA8F1Logic;
 
 Rva002B7250 g_00E04424;
-extern Rva002B7250 g_00E02E88;
+extern Rva002B7250 g_registryAtE02E88;
 Rva002B7250 g_00E044F0;
 
 class BfmeSelectionState
@@ -63,7 +63,7 @@ void Rva004EE5D2::rva004EE5D2()
 	((Rva002B7250 *)((char *)(*(Rva002BA8F1Logic **)&TheLivingWorldLogic) + 0x3c))->rva002B7250(this ? &m_10 : (CreateAHeroData *)0);
 	((Rva002B7250 *)((char *)(*(Rva002BA8F1Logic **)&TheLivingWorldLogic) + 0x4c))->rva002B7250(this ? &m_1c : (CreateAHeroData *)0);
 	g_00E04424.rva002B7250(this ? &m_8 : (CreateAHeroData *)0);
-	g_00E02E88.rva002B7250(this ? &m_14 : (CreateAHeroData *)0);
+	g_registryAtE02E88.rva002B7250(this ? &m_14 : (CreateAHeroData *)0);
 	g_00E044F0.rva002B7250(this ? &m_20 : (CreateAHeroData *)0);
 	m_24->rva002B7250(this ? &m_18 : (CreateAHeroData *)0);
 }
@@ -77,7 +77,3 @@ void Rva004EE5D2::rva004EE78A()
 	m_f8 = 1;
 	return rva004EE5D2();
 }
-
-// The global(s) below are defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_00E02E88@@3VRva002B7250@@A=?g_registryAtE02E88@@3VRva002B7250@@A")

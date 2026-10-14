@@ -49,7 +49,7 @@ public:
 	unsigned char m_pad[0x10];
 };
 extern Rva002B7250 g_00E04424;
-extern Rva002B7250 g_00E02E88;
+extern Rva002B7250 g_registryAtE02E88;
 
 class Rva002B7C74 { public: void rva002B7C74(); };
 class Rva002B4CED { public: void rva002B753B(); };
@@ -238,7 +238,7 @@ public:
 Rva002B964F::~Rva002B964F()
 {
 	g_00E04424.rva002B7250((CreateAHeroData *)(LivingWorldBuildingObserver *)this);
-	g_00E02E88.rva002B7250((CreateAHeroData *)(Rva0056B126B2 *)this);
+	g_registryAtE02E88.rva002B7250((CreateAHeroData *)(Rva0056B126B2 *)this);
 	((Rva002B7C74 *)this)->rva002B7C74();
 	((Rva002B4CED *)this)->rva002B753B();
 	((LivingWorldLogic *)this)->processArmyDestroyList();

@@ -19,7 +19,9 @@ private:
 	unsigned int m_index;
 };
 
-extern unsigned int g_Va00E02E88;
+// 0x00E02E88, defined in Rva003EF14ADtor.cpp.
+class Rva002B7250;
+extern Rva002B7250 g_registryAtE02E88;
 
 struct Rva003F1A25
 {
@@ -31,5 +33,5 @@ struct Rva003F1A25
 void Rva003F1A25::rva003F1A25(void (Rva003F11C7Listener::*notify)(void *, int), void *arg, int value)
 {
 	m_04.forEach(notify, arg, value);
-	reinterpret_cast<Rva003F11C7List &>(g_Va00E02E88).forEach(notify, arg, value);
+	reinterpret_cast<Rva003F11C7List &>(g_registryAtE02E88).forEach(notify, arg, value);
 }

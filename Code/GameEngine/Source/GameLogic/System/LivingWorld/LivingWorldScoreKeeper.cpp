@@ -47,7 +47,7 @@ class LivingWorldBuildingNuggetSpawnArmyObserver {public: ~LivingWorldBuildingNu
 struct Rva002BA8F1Listener;
 class Rva005A0B4CList { public: void append(Rva002BA8F1Listener *); };
 class Rva002B7250;
-extern Rva002B7250 g_00E04424, g_00E02E88, g_00E044F0;
+extern Rva002B7250 g_00E04424, g_registryAtE02E88, g_00E044F0;
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 class LivingWorldPlayer;
@@ -123,7 +123,7 @@ LivingWorldScoreKeeper::LivingWorldScoreKeeper(int playerIndex, LivingWorldPlaye
 	LW_OBSERVERS(0x3C)->append((Rva002BA8F1Listener *)(LivingWorldRTSEventObserver *)this);
 	LW_OBSERVERS(0x4C)->append((Rva002BA8F1Listener *)(LivingWorldLogicObserver *)this);
 	((Rva005A0B4CList *)&g_00E04424)->append((Rva002BA8F1Listener *)(LivingWorldBuildingObserver *)this);
-	((Rva005A0B4CList *)&g_00E02E88)->append((Rva002BA8F1Listener *)(LivingWorldRegionObserver *)this);
+	((Rva005A0B4CList *)&g_registryAtE02E88)->append((Rva002BA8F1Listener *)(LivingWorldRegionObserver *)this);
 	((Rva005A0B4CList *)&g_00E044F0)->append((Rva002BA8F1Listener *)(LivingWorldBuildingNuggetSpawnArmyObserver *)this);
 	((Rva005A0B4CList *)m_player)->append((Rva002BA8F1Listener *)(LivingWorldPlayerObserver *)this);
 }
