@@ -9,6 +9,7 @@ class Gen_00528EC0
 {
 public:
 	void rva003F2968(short v);
+	Gen_00528EC0 *rva003F3110(const short &value);
 private:
 	char m_head[4];
 	unsigned int m_value; // +0x04
@@ -17,4 +18,13 @@ private:
 void Gen_00528EC0::rva003F2968(short v)
 {
 	m_value = (unsigned int)Rva003F1DD5Hook(v, v);
+}
+
+// ?rva003F3110@Gen_00528EC0@@QAEPAV1@ABF@Z, retail 0x003F3110 22B: the
+// this-returning forwarder of a referenced value to the setter above;
+// skeleton twin of Rva0056FCDB::rva00570405 (GapBodiesGE02.cpp).
+Gen_00528EC0 *Gen_00528EC0::rva003F3110(const short &value)
+{
+	rva003F2968(value);
+	return this;
 }
