@@ -1,4 +1,6 @@
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
+// partial score=0.9889924218835513 date=2026-10-14
+// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
 // partial score=0.9881152477314004 date=2026-10-14
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -724,14 +726,14 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
      return true;
      
     }
+    case 7:number=(value?value:value)->toFloat();
+    cih->factorySetProperty(7,number,true);
+    return true;
     case 3:number=(value?value:value)->toFloat();
     cih->factorySetProperty(2,number,true);
     return true;
     case 4:number=(value?value:value)->toFloat();
     cih->factorySetProperty(3,number,true);
-    return true;
-    case 7:number=(value?value:value)->toFloat();
-    cih->factorySetProperty(7,number,true);
     return true;
     case 8:number=(value?value:value)->toFloat();
     cih->factorySetProperty(11,number,false);
