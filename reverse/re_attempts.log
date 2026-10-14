@@ -56269,3 +56269,7 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ?Rva003B9A20@@YAHQAPADH@Z	0x003B9A20	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE14.cpp 9B; command-line handler raising ShaderOverbrightEnabled and returning 1; twin of parsePreferLocalFiles 0x003B9455
 ?Rva003B9A9C@@YAHQAPADH@Z	0x003B9A9C	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE14.cpp 9B; command-line handler raising g_00E02D7B and returning 1; twin of parsePreferLocalFiles 0x003B9455
 ?Rva003B9D6F@@YAHQAPADH@Z	0x003B9D6F	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE14.cpp 9B; command-line handler raising g_natTransportContextEnabled and returning 1; twin of parsePreferLocalFiles 0x003B9455
+?rva0042665E@Rva0042665E@@QAEXXZ	0x0042665E	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesS9A.cpp 9B; byte +5 raise +6 clear twin of GameInfo::endGame 0x003FF296
+?zero@Rva004F5FCF@@QAEXXZ	0x004F5FCF	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesS9A.cpp 9B; zero float +0xC twin of 0x00094BA0
+?set@Rva003BA655@@QAEX_N@Z	0x003BA655	10	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesS9A.cpp 10B; bool setter +0x4A twin of setDockCrippled 0x00589661
+?get@Rva0044E5CDCmpBoolField@@QBE_NXZ	0x0044E5CD	9	landed	add_match verified Code/GameEngine/Source/Common/Disp8CmpBoolGetters.cpp 9B; dword +0x3C == 0 getter twin of 0x0057B957
