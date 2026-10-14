@@ -270,7 +270,7 @@ extern TerrainLogic *TheTerrainLogic;
 class Pathfinder
 {
 public:
-	Bool validMovementTerrain(PathfindLayerEnum layer, const Locomotor *locomotor, const Coord3D *pos);
+	Bool IsValidMovementTerrain(PathfindLayerEnum layer, const Locomotor *locomotor, const Coord3D *pos);
 	Bool getClosestPointOnLand(const Coord3D *pos, Object *obj, Coord3D *result);
 };
 
@@ -424,7 +424,7 @@ Bool TransportContain::isSpecificRiderFreeToExit(Object *specificObject)
 			return FALSE;
 	}
 	// He can't get to this spot naturally, so I can't force him there.  (amphib transport)
-	else if (!TheAI->pathfinder()->validMovementTerrain((PathfindLayerEnum)me->rva0028B511(), hisLocomotor, &myPosition))
+	else if (!TheAI->pathfinder()->IsValidMovementTerrain((PathfindLayerEnum)me->rva0028B511(), hisLocomotor, &myPosition))
 		return FALSE;
 
 	return TRUE;
