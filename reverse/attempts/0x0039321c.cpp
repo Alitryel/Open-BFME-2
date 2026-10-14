@@ -1,4 +1,6 @@
 // ?rva0039321C@BuildAssistant@@QAE_NPAX000H@Z
+// partial score=0.6 date=2026-10-14
+// ?rva0039321C@BuildAssistant@@QAE_NPAX000H@Z
 // partial score=0.55 date=2026-10-14
 // ?rva0039321C@BuildAssistant@@QAE_NPAX000H@Z
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii
@@ -158,7 +160,7 @@ bool BuildAssistant::rva0039321C(void *a0, void *a1, void *a2, void *a3, int a4)
 	pos.z = p1->m_z;
 
 	dir.normalize();
-	float reach = found->getRange();
+	volatile float reach = found->getRange();
 	pos.x += dir.x * reach;
 	pos.y += dir.y * reach;
 
@@ -171,7 +173,7 @@ bool BuildAssistant::rva0039321C(void *a0, void *a1, void *a2, void *a3, int a4)
 	int i = 0;
 	for (;;)
 	{
-		if (!(reach > dist))
+		if (!(!(reach <= dist)))
 			return true;
 		if (i >= (int)TheWritableGlobalData->m_count - 1)
 			return true;

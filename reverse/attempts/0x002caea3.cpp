@@ -1,7 +1,11 @@
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
+// partial score=0.9 date=2026-10-14
+// ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
 // partial score=0.86 date=2026-10-14
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 
 float Cos(float);
@@ -105,6 +109,7 @@ bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 		float sx = srcPos->x;
 		float sy = srcPos->y;
 		float sz = srcPos->z;
+		_ReadWriteBarrier();
 		dir.x = sx - targetPos->x;
 		dir.y = sy - targetPos->y;
 		dir.z = sz - targetPos->z;
@@ -140,7 +145,7 @@ bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 				attackRange += *(const float *)((const char *)target + 0xbc);
 			attackRange += *(const float *)((const char *)source + 0xbc);
 			float newRange = ((Rva002C9B80Owner *)this)->rva002C9B80((void *)source, -attackRange * dir.z);
-			if (attackRange <= newRange)
+			if (!(attackRange > newRange))
 				break;
 			attackRange = newRange;
 		}
@@ -175,9 +180,10 @@ bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 		for (int i = 0; i < 10; ++i)
 		{
 			float newRange = ((Rva002C9B80Owner *)this)->rva002C9B80((void *)source, -attackRange * dir.z);
-			if (attackRange <= newRange)
+			if (!(attackRange > newRange))
 				break;
 			attackRange = newRange * 0.9f;
+			_ReadWriteBarrier();
 		}
 	}
 
