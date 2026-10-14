@@ -75,6 +75,28 @@ static BodyModuleInterface *getRetailBodyModule( const Object *obj ) { return *(
 // m_flightPath.clear() uses the shared instantiation instead of emitting one.
 template <> Coord3D *std::vector<Coord3D>::erase( Coord3D *first, Coord3D *last );
 
+// This unit imports free (no /D_CRTIMP=), so its out-of-line vector<Coord3D>
+// deallocation helpers call __imp__free where every other unit's call _free.
+// Nothing here calls them out of line, but as the first copies in link order
+// they displaced the rest. Declared imported and force-inlined (bodies
+// verbatim from the headers), they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<Coord3D>::deallocate(Coord3D *__p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) ::free((void*)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<Coord3D*, Coord3D, allocator<Coord3D> >::deallocate(Coord3D *__p, size_t __n) {
+    __stl_alloc_rebind(__STATIC_CAST(_Base&, *this),(Coord3D*)0).deallocate(__p, __n);
+}
+template <> __declspec(dllimport) __forceinline
+_Vector_base<Coord3D, allocator<Coord3D> >::~_Vector_base() {
+    if (_M_start !=0)
+    _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start);
+}
+}
+
 #ifdef _INTERNAL
 // for occasional debugging...
 //#pragma optimize("", off)
