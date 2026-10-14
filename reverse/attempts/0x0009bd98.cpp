@@ -1,7 +1,10 @@
 // ?rva0009BD98@Rva0009D55BProduct@@UAEXPBVVector2@@M@Z
+// partial score=0.95 date=2026-10-15
+// ?rva0009BD98@Rva0009D55BProduct@@UAEXPBVVector2@@M@Z
 // partial score=0.93 date=2026-10-13
 // ?rva0009BD98@Rva0009D55BProduct@@UAEXPBVVector2@@M@Z
 // partial score=0.93 date=2026-10-11
+// seat2 2026-10-15: WWMath Vector2::Rotate(-angle) (sin then cos, prologue/fchs/param-home reuse exact), a separate point local for the LivingWorld call (step no longer address-taken: no dead rotate stores), pos.Y update first gives 411B size-exact with no volatile; residue: native evaluates the rotated Y (cY+sX) before X and keeps it in xmm2 across the scale.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 // stlport
 // ??0Rva0009D55BProduct@@QAE@XZ retail 0x0009D55B..0x0009D6E8 (397 bytes EH).
@@ -442,6 +445,8 @@ class Vector2
 public:
 	Vector2() {}
 	Vector2(float x, float y) : X(x), Y(y) {}
+	__forceinline void Rotate(float theta);
+	__forceinline void Rotate(float s, float c) { float new_x = X * c + Y * -s; float new_y = X * s + Y * c; X = new_x; Y = new_y; }
 	float X;
 	float Y;
 };
@@ -455,6 +460,9 @@ class Rva00213A85 { public: void rva00213B88(void *point); };
 extern float g_Va00DB4AB0;
 static inline void Rva0009BD98SinCos(float angle, float &s, float &c) { s = (float)sin(angle); c = (float)cos(angle); }
 extern float g_Va00DB4AAC;
+static inline float WWSin(float v){return (float)sin(v);} static inline float WWCos(float v){return (float)cos(v);}
+__forceinline void Vector2::Rotate(float theta) { Rotate(WWSin(theta), WWCos(theta)); }
+
 
 void Rva0009D55BProduct::rva0009BD98(const Vector2 *pan, float rotation)
 {
@@ -467,21 +475,15 @@ void Rva0009D55BProduct::rva0009BD98(const Vector2 *pan, float rotation)
 		pos.X = m_F8.x;
 		pos.Y = m_F8.y;
 		pos.Z = m_F8.z;
-		float angle = -m_11C;
-		float s;
-		float c;
-		Rva0009BD98SinCos(angle, s, c);
-		volatile float dy = c * step.Y + s * step.X;
+		step.Rotate(-m_11C);
 		float scale = (m_134 * 4.0f + 1.0f) * 0.25f;
-		float dx = c * step.X - s * step.Y;
-		pos.X = dx * scale + pos.X;
-		pos.Y = pos.Y - dy * scale;
+		pos.Y = pos.Y - step.Y * scale;
+		pos.X = step.X * scale + pos.X;
 		((Rva0009BD98Slots *)this)->rva0009B023(&pos);
 		if (TheLivingWorldManager)
 		{
-			step.X = pos.X;
-			step.Y = pos.Y;
-			((Rva00213A85 *)TheLivingWorldManager)->rva00213B88(&step);
+			Vector2 point(pos.X, pos.Y);
+			((Rva00213A85 *)TheLivingWorldManager)->rva00213B88(&point);
 		}
 	}
 	m_11C = g_Va00DB4AB0 * rotation + m_11C;
