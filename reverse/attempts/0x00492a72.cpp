@@ -1,4 +1,6 @@
 // ?rva0045108D@WeaponFireSpecialAbilityUpdate@@UAEXXZ
+// partial score=0.9495870263742425 date=2026-10-14
+// ?rva0045108D@WeaponFireSpecialAbilityUpdate@@UAEXXZ
 // partial score=0.9474650104591231 date=2026-10-13
 // ?rva0045108D@WeaponFireSpecialAbilityUpdate@@UAEXXZ
 // partial score=0.98 date=2026-10-05
@@ -335,9 +337,9 @@ void WeaponFireSpecialAbilityUpdate::rva0045108D()
    
    {
     Coord3D zero;
-    zero.x = 0.0f;
     zero.y = 0.0f;
     zero.z = 0.0f;
+    zero.x = 0.0f;
     const Coord3D *pos = &m_targetPos;
     if (m_targetPos.equals(zero) || data->m_D8)
     pos = &obj->m_38;
