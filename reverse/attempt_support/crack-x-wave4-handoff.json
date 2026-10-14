@@ -53,5 +53,15 @@
   "link_limit": "No census index; full link prediction unavailable. No verification runner started. Three visible provider copies verified as selectable COMDATs with exact whole bodies.",
   "elapsed_note": "Earlier t=78/83/99 parent progress entries were estimates; re_attempts.log contains the actual-clock correction. Do not interpret them as separate trial durations.",
   "normal_validation": "add_match and explicit build passed 1/1 bodies; 1 string literal, 3 float literals and 1 named import verified. find_declared_unmatched passed; place_bodies found no new bodies or pins.",
-  "remaining_lane": "Final precommit claim check: 0x002FAD13 and 0x002A21E1 still held crack-n-20261013; 0x00498FAA still held yasinschroeder-claude with verified-locally note. All three remain absent from this checkout ledger."
+  "remaining_lane": "Final precommit claim check: 0x002FAD13 and 0x002A21E1 still held crack-n-20261013; 0x00498FAA still held yasinschroeder-claude with verified-locally note. All three remain absent from this checkout ledger.",
+  "guard_repair": {
+    "rva": "0x00778DA9",
+    "bytes": 13,
+    "exact_eh_mapping": {
+      "$L2027": "0x00778DA9"
+    },
+    "guard": "0x009FF0DC",
+    "reason": "Compiler-produced static-key initialization rollback was mis-owned by standalone Rva00778DA9ClearFlag and separate g_Va00DFF0DC. Remove synthetic definition and datum; follow with parent-bound gen-funclet row.",
+    "precedent": "reverse/deleted_rows.csv Rva007A40C3ClearFlag"
+  }
 }
