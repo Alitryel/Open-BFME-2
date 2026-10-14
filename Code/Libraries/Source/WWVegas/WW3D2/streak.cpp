@@ -253,11 +253,6 @@ void StreakLineClass::Delete_Point(unsigned int point_idx)
 }
 
 
-// ?Get_Texture@StreakLineClass@@ present-unmatched
-TextureClass * StreakLineClass::Get_Texture(void)
-{
-	return LineRenderer.Get_Texture();
-}
 
 ShaderClass StreakLineClass::Get_Shader(void)
 {

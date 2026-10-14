@@ -163,16 +163,5 @@ void Watchdog::resumeTimeouts(void)
 	}
 }
 
-// ?start@Watchdog@@QAEXXZ present-unmatched
-void Watchdog::start(void)
-{
-	MutexClass::LockClass *lock = new MutexClass::LockClass(m_mutex, -1);
-	if (lock != m_ownedLock)
-	{
-		delete m_ownedLock;
-		m_ownedLock = lock;
-	}
-	ThreadClass::Execute();
-}
 
 // Watchdog::stop: defined in WatchdogThreadFunction.cpp (its row's unit).

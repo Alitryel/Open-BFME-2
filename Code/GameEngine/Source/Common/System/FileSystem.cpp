@@ -209,24 +209,6 @@ void		FileSystem::reset( void )
 //============================================================================
 
 // byte-exact reconstruction: Code/GameEngine/Source/Common/System/FileSystem_openFile.cpp
-// ?openFile@FileSystem@@ present-unmatched
-File*		FileSystem::openFile( const Char *filename, Int access ) 
-{
-	USE_PERF_TIMER(FileSystem)
-	File *file = NULL;
-
-	if ( TheLocalFileSystem != NULL )
-	{
-		file = TheLocalFileSystem->openFile( filename, access );
-	}
-
-	if ( (TheArchiveFileSystem != NULL) && (file == NULL) )
-	{
-		file = TheArchiveFileSystem->openFile( filename );
-	}
-
-	return file;
-}
 
 //============================================================================
 // FileSystem::doesFileExist — matched body in FileSystem_doesFileExist.cpp

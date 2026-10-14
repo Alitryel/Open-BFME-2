@@ -37635,7 +37635,6 @@ present_unmatched	Code/GameEngine/Source/Common/System/FileSystem.cpp	getFileInf
 present_unmatched	Code/GameEngine/Source/Common/System/FileSystem.cpp	getFileListInDirectory@FileSystem@@	1
 present_unmatched	Code/GameEngine/Source/Common/System/FileSystem.cpp	init@FileSystem@@	1
 present_unmatched	Code/GameEngine/Source/Common/System/FileSystem.cpp	loadMusicFilesFromCD@FileSystem@@	1
-present_unmatched	Code/GameEngine/Source/Common/System/FileSystem.cpp	openFile@FileSystem@@	1
 present_unmatched	Code/GameEngine/Source/Common/System/FileSystem.cpp	reset@FileSystem@@	1
 present_unmatched	Code/GameEngine/Source/Common/System/FileSystem.cpp	unloadMusicFilesFromCD@FileSystem@@	1
 present_unmatched	Code/GameEngine/Source/Common/System/FileSystem.cpp	update@FileSystem@@	1
@@ -40197,7 +40196,6 @@ present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3D
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DRopeDraw.cpp	loadPostProcess@W3DRopeDraw@@MAEXXZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/Gadget/W3DVerticalSlider.cpp	W3DGadgetVerticalSliderDraw	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryLoadFontData.cpp	the	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DGameFont.cpp	loadFontData@W3DFontLibrary@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/HeightMap.cpp	0HeightMapRenderObjClass@@QAE@XZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/HeightMap.cpp	1HeightMapRenderObjClass@@UAE@XZ	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/HeightMap.cpp	Draw_Triangles@DX8Wrapper@@	2
@@ -40491,7 +40489,6 @@ present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightM
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap.cpp	getRawTileData@WorldHeightMap@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap.cpp	getSeismicUpdateFlag@WorldHeightMap@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap.cpp	getSeismicZVelocity@WorldHeightMap@@	1
-present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap.cpp	getTerrainColorAt@WorldHeightMap@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap.cpp	getTerrainNameAt@WorldHeightMap@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap.cpp	getTerrainTexture@WorldHeightMap@@	1
 present_unmatched	Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMap.cpp	getTextureClass@WorldHeightMap@@	1
@@ -40664,7 +40661,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/Rva00177860Dtor.cpp	Rva001
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/Rva0073B700VectorDeletingDtor.cpp	1Rva0073B700@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/Rva943E10CompressedAnimFree.cpp	Rva943E10CompressedAnim::free	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/ShareBufferClassBaseCtor.cpp	1ShareBufferClassBase@@UAE@XZ	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	Insert_Triangles@SortingRendererClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/SortingRendererBFME1.cpp	swap@std@@	2
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/StreakRendererSetTextureBFME1.cpp	Get_Texture@StreakRendererClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/StreakRendererSetTextureBFME1.cpp	Transform@VectorProcessorClass@@	1
@@ -41653,7 +41649,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	Get_Noise_Ampli
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	Get_Num_Points@StreakLineClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	Get_Obj_Space_Bounding_Sphere@StreakLineClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	Get_Subdivision_Levels@StreakLineClass@@	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	Get_Texture@StreakLineClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	Get_Texture_Tile_Factor@StreakLineClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	Get_Width@StreakLineClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/streak.cpp	Set_Merge_Abort_Factor@StreakLineClass@@	1

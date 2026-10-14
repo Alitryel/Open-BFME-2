@@ -784,17 +784,6 @@ public:
 	void *rva002115D0(void *a1, void *a2);
 };
 
-// ?rva002115D0@Rva002115D0@@QAEPAXPAX0@Z present-unmatched
-void *Rva002115D0::rva002115D0(void *a1, void *a2)
-{
-	// Retail reserves and zeroes a slot it never reads; a plain = 0 store
-	// is dead and MSVC elides the whole frame, so this models the observed
-	// read-modify-write which survives as the and-slot.
-	int unused;
-	unused &= 0;
-	::new (a1) AsciiString(g_bfmeEmptyF9);
-	return a1;
-}
 
 // Dump-range-7 0x0021BE2x free-lookup batch (each 31-32B, __stdcall).
 // Each resolves its second handle through the rowed-pending free 0x00219B9E

@@ -2190,34 +2190,6 @@ TXTextureClass WorldHeightMap::getTextureFromIndex( Int textureIndex )
 	return m_textureClasses[textureIndex];
 }
 
-// ?getTerrainColorAt@WorldHeightMap@@ present-unmatched
-void WorldHeightMap::getTerrainColorAt(Real x, Real y, RGBColor *pColor)
-{
-	Int xIndex = REAL_TO_INT_FLOOR(x/MAP_XY_FACTOR);
-	Int yIndex = REAL_TO_INT_FLOOR(y/MAP_XY_FACTOR);
-	xIndex += m_borderSize;
-	yIndex += m_borderSize;
-	pColor->red = pColor->green = pColor->blue = 0;
-	if (xIndex<0) xIndex = 0;
-	if (yIndex<0) yIndex = 0;
-	if (xIndex >= m_width) xIndex = m_width-1;
-	if (yIndex >= m_height) yIndex = m_height-1;
-	Int ndx = (yIndex*m_width)+xIndex;
-	if (ndx<0 || ndx >= this->m_dataSize) return;
-	Int tileNdx = m_tileNdxes[ndx];
-	tileNdx = tileNdx>>2;	 // We pack 4 grids into a tile.
-
-	TileData *pTile = getSourceTile(tileNdx);
-	if (pTile) {
-		// pTile contains the bitmap data for 4 squares.
-		// Get the data mipped down to one pixel for the tile.
-		UnsignedByte *pData = pTile->getRGBDataForWidth(1);
-		// Data is in microsoft bgra format.
-		pColor->red = pData[2]/255.0;
-		pColor->green = pData[1]/255.0;
-		pColor->blue = pData[0]/255.0;
-	}
-}	
 
 // WorldHeightMap::getTerrainNameAt (0x000AEC4E) is rowed in WorldHeightMapGetTerrainNameAt.cpp; a second definition here would not link.	
 
