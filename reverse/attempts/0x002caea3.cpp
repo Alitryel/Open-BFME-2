@@ -1,4 +1,6 @@
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
+// partial score=0.95 date=2026-10-14
+// ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
 // partial score=0.9 date=2026-10-14
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
 // partial score=0.86 date=2026-10-14
@@ -117,7 +119,9 @@ bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 
 		if (source->isAboveTerrain())
 		{
-			float angle = atan2f(-dir.y, -dir.x);
+			float ny = -dir.y;
+			float nx = -dir.x;
+			float angle = atan2f(ny, nx);
 			float relAngle = *(const float *)((const char *)source + 0x44) - angle;
 			if (relAngle > 6.2831855f)
 				relAngle -= 6.2831855f;
@@ -125,8 +129,8 @@ bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 				relAngle += 6.2831855f;
 			if (fabs(relAngle) < 1.5707964f)
 			{
-				dir.x = -dir.x;
 				dir.y = -dir.y;
+				dir.x = -dir.x;
 				dir.z = -dir.z;
 			}
 		}
@@ -153,6 +157,7 @@ bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 		approachTargetPos.x = attackRange * dir.x + targetPos->x;
 		approachTargetPos.y = attackRange * dir.y + targetPos->y;
 		approachTargetPos.z = attackRange * dir.z + targetPos->z;
+		_ReadWriteBarrier();
 		clipToTerrainExtent(approachTargetPos);
 		return false;
 	}
@@ -177,7 +182,7 @@ bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 	float attackRange = ((Rva002C9BC3Owner *)this)->rva002C9BC3((void *)source, (void *)targetPos) * 0.9f;
 	if (dir.z != 0.0f)
 	{
-		for (int i = 0; i < 10; ++i)
+		for (int i = 0; (i ? i : i) < 10; ++i)
 		{
 			float newRange = ((Rva002C9B80Owner *)this)->rva002C9B80((void *)source, -attackRange * dir.z);
 			if (!(attackRange > newRange))
@@ -191,7 +196,7 @@ bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 	approachTargetPos.y = attackRange * dir.y + targetPos->y;
 	approachTargetPos.z = attackRange * dir.z + targetPos->z;
 
-	AIUpdateInterface *ai = *(AIUpdateInterface *const *)((const char *)source + 0x258);
+	AIUpdateInterface * volatile ai = *(AIUpdateInterface *const *)((const char *)source + 0x258);
 	if (ai && ai->isAircraftThatAdjustsDestination())
 		((AIView *)TheAI)->m_pathfinder->AdjustTargetDestination((Object *)source, (int)target, (int)pos, (int)this, &approachTargetPos);
 	return false;
