@@ -3948,7 +3948,7 @@ name,address,notes
 ??1Rva000E3B41@@UAE@XZ,0x000E3B41,opaque dtor; call target of retail scalar-deleting-dtor at 0xE3CC5 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva000E5033@@UAE@XZ,0x000E5033,opaque dtor; call target of retail scalar-deleting-dtor at 0xE583E (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva000E59D3@@UAE@XZ,0x000E59D3,opaque dtor; call target of retail scalar-deleting-dtor at 0xE5A2B (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
-??1Rva000E6387@@UAE@XZ,0x000E6387,opaque dtor; call target of retail scalar-deleting-dtor at 0xE63C0 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
+??1VegetationFXShaderParameterSourceNamespace@@UAE@XZ,0x000E6387,opaque dtor; call target of retail scalar-deleting-dtor at 0xE63C0 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva000E6C6F@@UAE@XZ,0x000E6C6F,opaque dtor; call target of retail scalar-deleting-dtor at 0xE6D78 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva000E9BAC@@UAE@XZ,0x000E9BAC,opaque dtor; call target of retail scalar-deleting-dtor at 0xE9CDF (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
 ??1Rva000EDA94@@UAE@XZ,0x000EDA94,opaque dtor; call target of retail scalar-deleting-dtor at 0xEDF07 (28B flag-test shape); Ghidra function start; identity unproven; address-derived name

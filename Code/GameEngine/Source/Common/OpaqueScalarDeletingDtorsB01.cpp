@@ -69,11 +69,11 @@ void Rva000E585A::rva000E585A(Rva000E488F *arg)
 }
 
 
-// ??_GRva000E6387@@UAEPAXI@Z @0x000E63C0 28B; calls pinned ??1 at 0x000E6387
-class Rva000E6387 { public: __declspec(noinline) virtual ~Rva000E6387(); };
-// ??1Rva000E6387@@UAE@XZ present-unmatched
-Rva000E6387::~Rva000E6387() {}
-void Rva000E6387_Delete(Rva000E6387 *p) { delete p; }
+// ??_GVegetationFXShaderParameterSourceNamespace@@UAEPAXI@Z @0x000E63C0 28B; calls pinned ??1 at 0x000E6387
+class VegetationFXShaderParameterSourceNamespace { public: __declspec(noinline) virtual ~VegetationFXShaderParameterSourceNamespace(); };
+// ??1VegetationFXShaderParameterSourceNamespace@@UAE@XZ present-unmatched
+VegetationFXShaderParameterSourceNamespace::~VegetationFXShaderParameterSourceNamespace() {}
+void Rva000E6387_Delete(VegetationFXShaderParameterSourceNamespace *p) { delete p; }
 
 // ??_GRva000E6C6F@@UAEPAXI@Z @0x000E6D78 28B; calls pinned ??1 at 0x000E6C6F
 class Rva000E6C6F { public: __declspec(noinline) virtual ~Rva000E6C6F(); };

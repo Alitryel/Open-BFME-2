@@ -1,7 +1,9 @@
 // cl: /MD /EHsc
-// ??1Rva000E6387@@UAE@XZ @0x000E6387 57B: destructor of the FX parameter
-// binder registered as "Vegetation" (address-derived name Rva000E6387, as
-// pinned). Target facts: vtable 0x00BCEA04 = { ??_G 0x000E63C0 (rowed),
+// ??1VegetationFXShaderParameterSourceNamespace@@UAE@XZ @0x000E6387 57B: destructor of the FX parameter
+// binder registered as "Vegetation" (WorldBuilder W3DVegetationBufferBase.cpp
+// VegetationFXShaderParameterSourceNamespace: ResolveBindings 0x000E67E3 is WB
+// VA 0x008C3C70, strings lead score 2.25 with the same three arm strings and
+// "SwayOffsets" assert; formerly VegetationFXShaderParameterSourceNamespace). Target facts: vtable 0x00BCEA04 = { ??_G 0x000E63C0 (rowed),
 // dispatcher 0x000E67E3 }; base vtable 0x00BC6F24 = { deleting dtor,
 // __purecall }, the binder base modelled in the rowed Rva000E19A3Dtor.cpp
 // ("Terrain"). The dtor erases its "Vegetation" registration through the
@@ -10,7 +12,7 @@
 // covers the base subobject. Callers: rowed ??_G 0x000E63C0 and the gap
 // thunk 0x007B6E18 on the singleton g_Va00DEBC98.
 //
-// ?ResolveBindings@Rva000E6387@@... @0x000E67E3 149B: vtable slot 1. Splits
+// ?ResolveBindings@VegetationFXShaderParameterSourceNamespace@@... @0x000E67E3 149B: vtable slot 1. Splits
 // the parameter name through the rowed Rva001530E9Parse 0x001530E9 and binds
 // "BaseTexture" (0x00BCE5A0), "IsAlphaBlendEnabled" (0x00BCEAA0) and
 // "SwayOffsets" (0x00BCEA94, element 0 or unbracketed only) through the
@@ -176,19 +178,19 @@ public:
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry) = 0;
 };
 
-class Rva000E6387 : public Base
+class VegetationFXShaderParameterSourceNamespace : public Base
 {
 public:
-	virtual ~Rva000E6387();
+	virtual ~VegetationFXShaderParameterSourceNamespace();
 	virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry);
 };
 
-Rva000E6387::~Rva000E6387()
+VegetationFXShaderParameterSourceNamespace::~VegetationFXShaderParameterSourceNamespace()
 {
 	Rva001532E1Erase("Vegetation");
 }
 
-void Rva000E6387::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
+void VegetationFXShaderParameterSourceNamespace::ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry)
 {
 	Rva001530E9Path path;
 	Rva001530E9Parse(name, &path);
