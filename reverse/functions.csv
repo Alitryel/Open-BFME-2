@@ -89527,3 +89527,10 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva00522AFC@Rva00522AFC@@QAEAAV1@ABV1@@Z,,0x00522AFC,18,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,assignment through rowed AsciiString tree operator= 0x0052274D
 ?Rva0051C3AB@@YAXAAUBfmeE12@@0@Z,,0x0051C3AB,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed swap BfmeE12 0x004219CD
 ?rva005206FE@Rva005206FE@@QAEXPAURva005205DAElement@@IABU2@@Z,,0x005206FE,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005205DA
+?rva00531C54@Rva00531C54@@QAEXXZ,,0x00531C54,6,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,clear 16-bit field at +2
+?Rva00531EF6@@YAHG@Z,,0x00531EF6,6,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,cdecl zero-extension of 16-bit argument
+?rva0053B8F1@Rva0053B8F1@@QBE_NXZ,,0x0053B8F1,7,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,flag byte at +106
+?rva0056864A@Rva0056864A@@QBEEXZ,,0x0056864A,7,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,high nibble of byte at +47
+?rva005778D1@Rva005778D1@@QBEHXZ,,0x005778D1,9,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,+4 word of first-word pointee of object at +40
+?rva005778DA@Rva005778D1@@QAEPAXXZ,,0x005778DA,9,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,+8 address of first-word pointee of object at +40
+?rva00564B12@Rva00564B12@@QAEAAVRva005045DBTree@@ABV2@@Z,,0x00564B12,8,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,assign +0C tree via rowed 0x005045DB

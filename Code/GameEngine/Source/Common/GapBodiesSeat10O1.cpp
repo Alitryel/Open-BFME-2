@@ -374,3 +374,104 @@ void Rva005206FE::rva005206FE(Rva005205DAElement *position, unsigned int count, 
 {
 	m_vector._M_fill_insert(position, count, value);
 }
+
+// ?rva00531C54@Rva00531C54@@QAEXXZ @0x00531C54 6B: clear the 16-bit field at +2.
+class Rva00531C54
+{
+public:
+	void rva00531C54();
+private:
+	unsigned short m_00;
+	unsigned short m_02;
+};
+void Rva00531C54::rva00531C54()
+{
+	m_02 = 0;
+}
+
+// ?Rva00531EF6@@YAHG@Z @0x00531EF6 6B: cdecl zero-extension of a 16-bit argument.
+int Rva00531EF6(unsigned short value)
+{
+	return value;
+}
+
+// ?rva0053B8F1@Rva0053B8F1@@QBE_NXZ @0x0053B8F1 7B: the flag byte at +0x106.
+class Rva0053B8F1
+{
+public:
+	bool rva0053B8F1() const;
+private:
+	char m_pad[0x106];
+	bool m_106;
+};
+bool Rva0053B8F1::rva0053B8F1() const
+{
+	return m_106;
+}
+
+// ?rva0056864A@Rva0056864A@@QBEEXZ @0x0056864A 7B: high nibble of the byte at +0x47.
+class Rva0056864A
+{
+public:
+	unsigned char rva0056864A() const;
+private:
+	char m_pad[0x47];
+	unsigned char m_lo : 4;
+	unsigned char m_hi : 4;
+};
+unsigned char Rva0056864A::rva0056864A() const
+{
+	return m_hi;
+}
+
+// ?rva005778D1@Rva005778D1@@QBEHXZ @0x005778D1 9B and
+// ?rva005778DA@Rva005778D1@@QAEPAXXZ @0x005778DA 9B: through the object held
+// at +0x40 to its first-word pointee, read its +4 word / take its +8 address.
+struct Rva005778D1Record
+{
+	int m_00;
+	int m_04;
+	char m_08[4];
+};
+struct Rva005778D1Holder
+{
+	Rva005778D1Record *m_00;
+};
+class Rva005778D1
+{
+public:
+	int rva005778D1() const;
+	void *rva005778DA();
+private:
+	char m_pad[0x40];
+	Rva005778D1Holder *m_40;
+};
+int Rva005778D1::rva005778D1() const
+{
+	return m_40->m_00->m_04;
+}
+void *Rva005778D1::rva005778DA()
+{
+	return m_40->m_00->m_08;
+}
+
+// ?rva00564B12@Rva00564B12@@QAEAAVRva005045DBTree@@ABV2@@Z @0x00564B12 8B:
+// assign the +0x0C tree through the rowed Rva005045DBTree::assign 0x005045DB.
+class Rva005045DBTree
+{
+public:
+	Rva005045DBTree &assign(const Rva005045DBTree &other);
+	int storage[3];
+};
+class Rva00564B12
+{
+public:
+	Rva005045DBTree &rva00564B12(const Rva005045DBTree &other);
+private:
+	char m_pad[0x0c];
+	Rva005045DBTree m_0c;
+};
+Rva005045DBTree &Rva00564B12::rva00564B12(const Rva005045DBTree &other)
+{
+	return m_0c.assign(other);
+}
