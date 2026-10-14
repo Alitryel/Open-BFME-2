@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?Rva005832D0Set@@YGXABVAsciiString@@@Z @0x005832D0 137B
-// Free file-transfer loading map-name setter: filename after last backslash
+// ?rva005832D0@AptFileTransferPopup@@QAEXABVAsciiString@@@Z @0x005832D0 137B
+// File-transfer popup map-name member: filename after last backslash
 // via rowed reverseFind 0x00035930, fallback to inlined str() with empty at
 // 0x00BBAC1C, then rowed BfmeAptWindowManager::rva00225375 0x00225375 with key
 // "APT:FileTransferLoadingMapName" and globals 0x009FE4CC. Evidence: caller
@@ -26,7 +26,16 @@ public:
 // The retail bytes there are zero, so the pointer starts null.
 BfmeAptWindowManager *g_bfmeAptWindowManager = 0;
 
-void __stdcall Rva005832D0Set(const AsciiString &path)
+// WB 0x156BA00 saves ECX as this; native doFileTransfer passes the
+// popup receiver for this one-argument member (RET4). The body does not
+// access instance fields, which hid the former free-function ABI error.
+class AptFileTransferPopup
+{
+public:
+	void rva005832D0(const AsciiString &path);
+};
+
+void AptFileTransferPopup::rva005832D0(const AsciiString &path)
 {
 	const char *slash = ((const StringBase<char> &)path).reverseFind('\\');
 	const char *fname;

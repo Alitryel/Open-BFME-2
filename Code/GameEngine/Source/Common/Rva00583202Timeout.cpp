@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
-// ?Rva00583202Set@@YGXH@Z @0x00583202 206B
+// ?rva00583202@AptFileTransferPopup@@QAEXH@Z @0x00583202 206B
 // File-transfer loading time setter: clamps a seconds count at zero, splits
 // minutes/seconds, formats via TheGameText "MapTransfer:Timeout" fetch into a
 // stack buffer, then bfmeSetText with key "APT:FileTransferLoadingTime".
@@ -51,7 +51,16 @@ extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 extern "C" __declspec(dllimport) int __cdecl swprintf(wchar_t *buffer, const wchar_t *format, ...);
 
-void __stdcall Rva00583202Set(int totalSeconds)
+// WB 0x0156BCA0 saves ECX as this; native doFileTransfer passes the
+// popup receiver for this one-argument member (RET4). No instance fields
+// are accessed here, which hid the former free-function ABI error.
+class AptFileTransferPopup
+{
+public:
+    void rva00583202(int totalSeconds);
+};
+
+void AptFileTransferPopup::rva00583202(int totalSeconds)
 {
 	if (totalSeconds < 0)
 		totalSeconds = 0;
