@@ -312,7 +312,7 @@ public:
 	static void Clear(bool clear_color, bool clear_z_stencil, bool clear_stencil, const Vector3 &color, float dest_alpha, float z, unsigned int stencil);
 };
 bool Rva00118660Call(void *scene, void *camera);
-extern bool g_Va00DB5F84;
+extern bool ShaderOverbrightEnabled;
 extern float g_Va00DE5E2C[3];
 extern float g_Va00DE5E38[3];
 extern float g_Va00DB4AB4;
@@ -323,7 +323,7 @@ void Rva0009D55BProduct::rva0009BC17()
 {
 	if (m_C4 == 0 || m_C0 == 0 || !((Rva0009DB5ALivingWorldView *)this)->m_active)
 		return;
-	g_Va00DB5F84 = true;
+	ShaderOverbrightEnabled = true;
 	Vector3 black = { 0.0f, 0.0f, 0.0f };
 	DX8Wrapper::Clear(true, true, true, black, 0.0f, 1.0f, 0);
 	int row = 0;
@@ -472,7 +472,7 @@ void Rva0009D55BProduct::rva0009C4FC(int x, int y, int width, int height)
 		((CameraClass *)m_C0)->Set_Viewport(vmin, vmax);
 	}
 	((CameraClass *)m_C0)->Set_Aspect_Ratio(w / h);
-	g_Va00DB5F84 = true;
+	ShaderOverbrightEnabled = true;
 	{
 		Vector3 black = { 0.0f, 0.0f, 0.0f };
 		DX8Wrapper::Clear(false, true, true, black, 0.0f, 1.0f, 0);
