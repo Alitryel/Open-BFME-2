@@ -1,23 +1,16 @@
-// ?rva002CC4DD@Weapon@@QAEXXZ
-// partial score=0.95 date=2026-10-13
-// ?rva002CC4DD@Weapon@@QAEXXZ
-// partial score=0.95 date=2026-10-13
-// ?rva002CC4DD@Weapon@@QAEXXZ
-// partial score=0.94 date=2026-10-13
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /I.
+// Weapon::rva002CC4DD (retail 0x002CC4DD, 155 B): spawns the weapon template's named object for the owner's
+// player when none is alive (name at WeaponTemplate+0x178, owner id +0x08, spawned id +0x5C). Private
+// Weapon view (offsets are target facts); the equal-arms on the template name test and the stale-id lookup
+// barrier are scheduling levers found by sweepeq4/chain.py.
 // stlport
-// ?rva002CC4DD@Weapon@@QAEXXZ @0x002CC4DD 155B trial r3: declaration-order
-// variant (logic first) to force EDI-cached GameLogic + homed tmplName/owner.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #pragma function(memset)
 extern "C" void *memset(void *dst, int value, unsigned int size);
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
 
 class ThingTemplate;
 class Team;
@@ -27,7 +20,6 @@ struct CreateMask
 };
 class Object;
 class Player;
-class GameLogic;
 
 class WeaponTemplate
 {
@@ -63,11 +55,6 @@ public:
 	Team *m_team2EC;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
 extern GameLogic *TheGameLogic;
 
 class ThingFactory
@@ -76,12 +63,12 @@ public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
 	Object *newObject(const ThingTemplate *tmpl, Team *team, const CreateMask *mask, bool flag);
 };
-extern ThingFactory *g_009FF000;
+extern ThingFactory *TheThingFactory;
 
 void Weapon::rva002CC4DD()
 {
 	const AsciiString &tmplName = (m_template ? m_template : m_template)->m_name178;
-	if (((const StringBase<char> *)&tmplName)->isEmpty())
+	if ((m_template ? (((const StringBase<char> *)&tmplName)->isEmpty()) : (((const StringBase<char> *)&tmplName)->isEmpty())))
 		return;
 	Object *owner;
 	GameLogic *logic = TheGameLogic;
@@ -96,12 +83,12 @@ void Weapon::rva002CC4DD()
 	if (spawned)
 		return;
 	m_spawned5C = INVALID_OBJECT_ID;
-	void *tmpl = (void *)g_009FF000->findTemplate(tmplName);
+	void *tmpl = (void *)TheThingFactory->findTemplate(tmplName);
 	CreateMask mask;
 	memset(&mask, 0, 0x10);
 	Player *player = owner->getControllingPlayer();
 	Team *team = player->m_team2EC;
-	Object *created = ((ThingFactory *)g_009FF000)->newObject((const ThingTemplate *)tmpl, team, &mask, false);
+	Object *created = TheThingFactory->newObject((const ThingTemplate *)tmpl, team, &mask, false);
 	if (!created)
 		return;
 	m_spawned5C = created->m_id74;

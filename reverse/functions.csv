@@ -88147,3 +88147,4 @@ $L17825,,0x0077F708,24,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Persist
 ?rva003F42BD@Rva003F42BD@@QAEXPAVRva003F42BDCallback@@@Z,,0x003F42BD,58,Code/GameEngine/Source/Common/Rva003F42BDVisit.cpp,matched,pointer-vector visitor: stop at first element the callback slot 0 rejects; guarded do-loop with sar entry test and volatile begin re-read
 ?upgradeImplementation@GeometryUpgrade@@UAEXXZ,,0x004B6C8A,600,Code/GameEngine/Source/GameLogic/Object/Upgrade/GeometryUpgrade.cpp,matched,geometry upgrade apply: clear-mask overlap checks in Object+284 and Player+13C then module-data strings on draw modules and geometry records; unsigned size tests keep sar
 ?rva003A178D@Team@@QAEHPAVObjectTypes@@HPAV1@@Z,,0x003A178D,790,Code/GameEngine/Source/Common/RTS/TeamGetControllingPlayer.cpp,matched,
+?rva002CC4DD@Weapon@@QAEXXZ,,0x002CC4DD,155,Code/GameEngine/Source/GameLogic/Object/WeaponRva002CC4DDSpawn.cpp,matched,
