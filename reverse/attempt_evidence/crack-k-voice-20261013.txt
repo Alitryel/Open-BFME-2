@@ -83,3 +83,20 @@ Additional 2026-10-14 tail audit and broad search:
   a const unsigned int reference bound to a temporary: rejected.
 - crack-k-voice-late-ref.patch converts the tracked bank into the alternative
   5079-byte code seed, preserving that seed outside ignored build artifacts.
+
+Crack confirmed 2026-10-14, before ledger landing:
+- The typed Rva004D97B0::getObject() accessor in the footer makes the Boolean
+  snapshot stay in BL and restores frame0x364. Combining that with a selected
+  sound reference declared after the precheck removes the cached-zero EDI.
+- accessor-sound-late-m_obj.cpp now has strict score1.0 for all5078 code bytes;
+  emitted extent5284 including206 table bytes. Four genuine-context helpers
+  remain completely exact. No widened Boolean snapshot is needed.
+- All31 strings,2 floats and12 global relocations pass. Parent and helper EH
+  layouts pass, and all external cleanup identities still match their targets.
+  Stable private object SHA256 a4ce6c592b5a6f2e8f39d782cdb582b7a7f5bf736f9cb142f04edfdb5705ef36.
+- New Code TU is the genuine caller and its real helper bodies, already proven
+  in private checks; temporary present-unmatched labels record the bodies that
+  will receive their separate ledger commits. No synthetic caller is retained.
+- Normal add_match/build verified climb528 first. The remaining source rows
+  follow in dependency order; the parent still requires normal full-extent
+  verification through that ledger before it is asserted matched.
