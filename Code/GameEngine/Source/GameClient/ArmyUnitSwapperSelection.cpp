@@ -128,13 +128,19 @@ class Rva005F5E83 {public:void rva005F5E83();char prefix[0x18];LivingWorldArmy *
 void Rva005F5E83::rva005F5E83(){if(Rva005F5D41(selection,army))Rva005F5DEE(army,selection);}
 
 // Native 5F5968..5F5BF2: upgrade/cancel selection checks and dispatchers.
-// WB names the two private workers CanUpgradeAny and SendUpgradeMessages;
+// WB (StrategicInGameUIUpgradeUnitButton.cpp) names the private workers
+// StrategicInGameUI::CanUpgradeAny, CanCancelAnyUpgrades and SendUpgradeMessages;
 // BC, count budget, and message6BF are target facts. Cached end iterators
 // and same-TU callers permit the native EBX/EDI/EAX private entries.
 class Rva00318C32Ret;
 class Rva00318C79Owner {public:Rva00318C32Ret *rva00318C32();};
 class Rva002B2B66 {public:int rva002B2B66();};
-static bool Rva005F5968(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
+namespace StrategicInGameUI {
+static bool CanUpgradeAny(LivingWorldArmy *army,Rva005F56B0Selection *selection);
+static bool CanCancelAnyUpgrades(LivingWorldArmy *army,Rva005F56B0Selection *selection);
+static void SendUpgradeMessages(LivingWorldArmy *army,Rva005F56B0Selection *selection);
+}
+bool StrategicInGameUI::CanUpgradeAny(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
  Rva003F287F *region=reinterpret_cast<Rva003F287F*>(reinterpret_cast<Rva00318C79Owner*>(army)->rva00318C32());
  int countA,countB;
  TheLivingWorldLogic->GetNumUpgradeableTroopsInRegionForPlayer(region,reinterpret_cast<Rva002B2B66*>(TheLivingWorldLogic)->rva002B2B66(),&countA,&countB);
@@ -147,7 +153,7 @@ static bool Rva005F5968(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
  }
  return false;
 }
-static bool Rva005F59F6(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
+bool StrategicInGameUI::CanCancelAnyUpgrades(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
  Rva0040CB3AIndexedField *summary=army->summary;
  _STL::_Rb_tree_node_base *header=*reinterpret_cast<_STL::_Rb_tree_node_base**>(&selection->members);
  for(_STL::_Rb_tree_node_base *node=header->_M_left;node!=header;node=_STL::_Rb_global<bool>::_M_increment(node)) {
@@ -155,7 +161,7 @@ static bool Rva005F59F6(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
  }
  return false;
 }
-static void Rva005F5A5A(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
+void StrategicInGameUI::SendUpgradeMessages(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
  Rva003F287F *region=reinterpret_cast<Rva003F287F*>(reinterpret_cast<Rva00318C79Owner*>(army)->rva00318C32());
  int countA,countB;
  TheLivingWorldLogic->GetNumUpgradeableTroopsInRegionForPlayer(region,reinterpret_cast<Rva002B2B66*>(TheLivingWorldLogic)->rva002B2B66(),&countA,&countB);
@@ -182,7 +188,7 @@ static void Rva005F5A5A(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
 class Rva005F5B77 {
 public:void rva005F5B77();
  char prefix[0x20];LivingWorldArmy *army;Rva005F56B0Selection *selection;
- __forceinline int enabled(){LivingWorldArmy*a=army;Rva005F56B0Selection*b=selection;return (Rva005F59F6(a,b)||Rva005F5968(a,b))?1:0;}
+ __forceinline int enabled(){LivingWorldArmy*a=army;Rva005F56B0Selection*b=selection;return (StrategicInGameUI::CanCancelAnyUpgrades(a,b)||StrategicInGameUI::CanUpgradeAny(a,b))?1:0;}
 };
 void Rva005F5B77::rva005F5B77(){
  int word=enabled();bool flag;memcpy(&flag,&word,sizeof flag);
@@ -192,4 +198,4 @@ void Rva005F5B77::rva005F5B77(){
 struct Rva005F5B0FA;struct Rva005F5B0FB;
 void Rva005F5B0FNotify(Rva005F5B0FA*,Rva005F5B0FB*);
 class Rva005F5BAE {public:void rva005F5BAE();char prefix[0x18];LivingWorldArmy *army;Rva005F56B0Selection *selection;};
-void Rva005F5BAE::rva005F5BAE(){if(Rva005F5968(army,selection))Rva005F5A5A(army,selection);else if(Rva005F59F6(army,selection))Rva005F5B0FNotify(reinterpret_cast<Rva005F5B0FA*>(army),reinterpret_cast<Rva005F5B0FB*>(selection));}
+void Rva005F5BAE::rva005F5BAE(){if(StrategicInGameUI::CanUpgradeAny(army,selection))StrategicInGameUI::SendUpgradeMessages(army,selection);else if(StrategicInGameUI::CanCancelAnyUpgrades(army,selection))Rva005F5B0FNotify(reinterpret_cast<Rva005F5B0FA*>(army),reinterpret_cast<Rva005F5B0FB*>(selection));}
