@@ -4,15 +4,9 @@
 // 10 of the class's +0x10 special-power interface vftable 0x00C5D2A0 (slots
 // 11/12 there are the SpecialPowerModule bases), so `this` is that subobject
 // (module data at -0x0C, Object at -0x08). Stores the module data's +0x7C
-// float into the controlling Player's +0x314 (0x002A9E25, pinned for Player
-// by address on this call site), runs the SpecialPowerModule base
-// doSpecialPower 0x0049490F, then raises the byte at +0x34.
-// The setter is the rowed Rva002A9E25FloatField::set.
-class Rva002A9E25FloatField
-{
-public:
-	void set(float value);
-};
+// float into the controlling Player's +0x314 (Player::rva002A9E25,
+// 0x002A9E25), runs the SpecialPowerModule base doSpecialPower 0x0049490F,
+// then raises the byte at +0x34.
 
 class Player
 {
@@ -89,7 +83,7 @@ void ScavengerSpecialPower::doSpecialPower(unsigned int options)
 {
 	const ScavengerSpecialPowerModuleData *data = getData();
 	Object *object = m_object;
-	((Rva002A9E25FloatField *)object->getControllingPlayer())->set(data->m_7C);
+	object->getControllingPlayer()->rva002A9E25(data->m_7C);
 	SpecialPowerModule::doSpecialPower(options);
 	m_34 = true;
 }

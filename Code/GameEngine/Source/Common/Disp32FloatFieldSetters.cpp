@@ -23,8 +23,23 @@ BFME_DISP32_FLOAT_SETTER(Rva00167F15FloatField, 0xFC)
 BFME_DISP32_FLOAT_SETTER(Rva00167F37FloatField, 0x100)
 BFME_DISP32_FLOAT_SETTER(Rva001D972BFloatField, 0x94)
 BFME_DISP32_FLOAT_SETTER(Rva0029A767FloatField, 0x764)
-BFME_DISP32_FLOAT_SETTER(Rva002A9E25FloatField, 0x314)
 BFME_DISP32_FLOAT_SETTER(Rva002AA0CDFloatField, 0x6F8)
+
+// 0x002A9E25 is a Player member: ScavengerSpecialPower::doSpecialPower
+// 0x004C4401, 0x004C4430 and the linear campaign carryover call it on
+// Object::getControllingPlayer() results and Player pointers. The field
+// purpose at +0x314 is unresolved.
+class Player
+{
+public:
+	void rva002A9E25(float newValue);
+	char m_leadingPadding[0x314];
+	float m_floatValue;
+};
+void Player::rva002A9E25(float newValue)
+{
+	m_floatValue = newValue;
+}
 
 // Native30F2BA..30F2C7 is a complete float-argument store at ECX+0,
 // between independently bounded RET4 at30F2B7 and known getter30F2C7.

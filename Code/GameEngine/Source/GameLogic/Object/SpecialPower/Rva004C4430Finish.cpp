@@ -6,22 +6,20 @@
 // ?rva004C4430@Rva004C4430@@QAEX_N@Z @0x004C4430 77B: chain from 0x00492FC2
 // Evidence: thiscall bool (cmp byte [ebp+8] ret 4); +0x24 gate then float from [this-0xC]+0x7C
 // zeroed when arg!=0 via movss/xorps; Object at [this-8] -> getControllingPlayer (row 0x0028AFA9)
-// -> Rva002A9E25FloatField::set(float) (row 0x002A9E25) with early push/fstp reuse; tail
+// -> Player::rva002A9E25(float) (row 0x002A9E25) with early push/fstp reuse; tail
 // mov ecx,esi -> Rva00492FC2::rva00492FC2(bool) (row 0x00492FC2). Negative offsets via explicit
 // byte casts (same bytes as MI second-base); ScavengerSpecialPower neighbours give TU/flags.
 
-class Player;
+class Player
+{
+public:
+	void rva002A9E25(float value);
+};
 
 class Object
 {
 public:
 	Player *getControllingPlayer() const;
-};
-
-class Rva002A9E25FloatField
-{
-public:
-	void set(float value);
 };
 
 struct FloatHolder004C4430
@@ -53,7 +51,7 @@ void Rva004C4430::rva004C4430(bool flag)
 		if (flag != 0)
 			f = 0.0f;
 		Object *obj = *(Object **)((char *)this - 8);
-		((Rva002A9E25FloatField *)obj->getControllingPlayer())->set(f);
+		obj->getControllingPlayer()->rva002A9E25(f);
 	}
 	((Rva00492FC2 *)this)->rva00492FC2(flag);
 }

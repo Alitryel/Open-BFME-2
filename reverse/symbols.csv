@@ -10876,7 +10876,6 @@ name,address,notes
 ?rva002A99FA@Player@@QAEXXZ,0x002A99FA,"Player member PlayerList slot 16 calls on each of the twenty players; REL32 at 0x002A7AD8; identity not recovered"
 ?rva002A9CB8@Player@@QAE_NXZ,0x002A9CB8,REL32 read at 0x003E4B11 in the byte-verified ScriptConditions::rva003E4AE4 (bool per player of the mask); native body is the 18-byte Player forwarder that answers false without the +0x2DC AI player and otherwise tail-jumps to 0x004F1138; identity unknown
 ?rva002A9DEC@Rva002A9BF2@@QAEXH@Z,0x002A9DEC,address read from the REL32 displacement at a placed body
-?rva002A9E25@Player@@QAEXM@Z,0x002A9E25,"Player float setter (+0x314; rowed under the opaque holder Rva002A9E25FloatField): ScavengerSpecialPower::doSpecialPower 0x004C4401 calls it on getControllingPlayer() with module data +0x7C"
 ?rva002A9F35@Rva002A9BF2@@QAEXH@Z,0x002A9F35,address read from the REL32 displacement at a placed body
 ?rva002AB44A@Rva002AB5C7Player@@QAEXXZ,0x002AB44A,address read from the REL32 displacement at a placed body
 ?rva002AB5C7@Rva002AB5C7Player@@QAEXXZ,0x002AB5C7,address read from the REL32 displacement at a placed body
