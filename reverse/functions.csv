@@ -88500,3 +88500,4 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ?rva00030C30@@YAHH@Z,,0x00030C30,8,Code/GameEngine/Source/Common/GapBodiesGE23.cpp,matched,gap leaf beside the GeneralAllocator rows; shape from retail bytes; address-derived name
 ?rva00031080@Rva00030C50Heap@@QAE_NPAX00@Z,,0x00031080,5,Code/GameEngine/Source/Common/GapBodiesGE23.cpp,matched,gap leaf beside the GeneralAllocator rows; shape from retail bytes; address-derived name
 ?rva00031770@@YAII@Z,,0x00031770,24,Code/GameEngine/Source/Common/GapBodiesGE23.cpp,matched,gap leaf beside the GeneralAllocator rows; shape from retail bytes; address-derived name
+?rva00030F60@Rva00030C50Heap@@QAEPAUGapChunk@@XZ,,0x00030F60,165,Code/GameEngine/Source/Common/GapBodiesGE23.cpp,matched,gap body beside the GeneralAllocator rows: picks the largest free chunk as the new top (+0x440) and returns it; shape from retail bytes; address-derived name

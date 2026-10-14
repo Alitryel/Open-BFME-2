@@ -154,12 +154,15 @@ public:
 	int rva00031750(void *p, unsigned int size);
 	GapChunk *rva00030BF0(int bin);
 	bool rva00031080(void *a, void *b, void *c);
+	GapChunk *rva00030F60();
 private:
 	int m_00;
 	unsigned int m_04;
 	char m_pad08[0x30 - 0x08];
 	GapChunk *m_bins[256];									// +0x30
-	unsigned int m_binBits[6];								// +0x430
+	unsigned int m_binBits[4];								// +0x430
+	GapChunk *m_top;										// +0x440
+	unsigned int m_444;
 	GapCore m_cores;										// +0x448
 	char *m_468;
 	char m_pad46C[0x474 - 0x46C];
@@ -407,4 +410,63 @@ unsigned int rva00031770(unsigned int size)
 	if (size < 0x200)
 		return size >> 3;
 	return EA::Allocator::GeneralAllocator::GetLargeBinIndexFromChunkSize(size);
+}
+
+// --- 0x00030F60 (165B): choose and return a new top chunk. Walk every core's chunks
+// (through the +0x18 link, from the sentinel's) for the largest free one,
+// taking the first free chunk over 0x2000 bytes or the one ending at the
+// core's last sixteen bytes outright; unlink the choice into a ring of its
+// own. With none found the top stays the bin-1 head.
+inline unsigned int gapChunkSize(const GapChunk *chunk)
+{
+	return chunk->m_size & 0x7FFFFFF8;
+}
+
+inline GapChunk *gapNextChunk(GapChunk *chunk)
+{
+	return GAP_CHUNK_AT(chunk, gapChunkSize(chunk));
+}
+
+inline int gapPrevInUse(const GapChunk *chunk)
+{
+	return chunk->m_size & 1;
+}
+
+GapChunk *Rva00030C50Heap::rva00030F60()
+{
+	GapChunk *best = (GapChunk *)((char *)&m_bins[2] - 8);
+	unsigned int bestSize = 0;
+	for (GapCore *core = m_cores.m_prev; core != &m_cores; core = core->m_prev)
+	{
+		GapChunk *end = (GapChunk *)((char *)core + core->m_size - 0x10);
+		for (GapChunk *chunk = (GapChunk *)core->m_base; chunk < end;)
+		{
+			GapChunk *next = gapNextChunk(chunk);
+			if (!gapPrevInUse(gapNextChunk(chunk)))
+			{
+				unsigned int size = gapChunkSize(chunk);
+				if (size > 0x2000 || next == end)
+				{
+					best = chunk;
+					goto found;
+				}
+				if (size > bestSize)
+				{
+					best = chunk;
+					bestSize = size;
+				}
+			}
+			chunk = next;
+		}
+	}
+found:
+	if (best != (GapChunk *)((char *)&m_bins[2] - 8))
+	{
+		best->m_fd->m_bk = best->m_bk;
+		best->m_bk->m_fd = best->m_fd;
+		best->m_bk = best;
+		best->m_fd = best;
+	}
+	m_top = best;
+	return best;
 }
