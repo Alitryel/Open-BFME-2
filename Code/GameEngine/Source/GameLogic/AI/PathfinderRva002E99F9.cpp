@@ -49,7 +49,7 @@ private:
 	unsigned short *m_pC;
 	unsigned short *m_p10;
 };
-int __cdecl rva0053123A(void *item);
+struct PathfindZoneParams;
 class Rva00531720
 {
 public:
@@ -58,6 +58,7 @@ public:
 // WB12D2AB0/12D2C50 and native531757/5317D7 establish predicate owners.
 class PathfindZoneManager {
 public:
+ static int GetCollapseIndex(const PathfindZoneParams &params);	// rowed 0x0053123A
  bool CouldBeInEquivSet(unsigned equivalent, unsigned zone);
  bool InEquivSet(unsigned equivalent, unsigned first, unsigned second);
 };
@@ -140,7 +141,7 @@ unsigned short Rva002E99F9Sub460::rva00531FE6(bool force, void *item, unsigned s
 	int count = ((Rva005310E3 *)item)->rva005310E3();
 	if (force)
 		++count;
-	int index = rva0053123A(item);
+	int index = PathfindZoneManager::GetCollapseIndex(*(const PathfindZoneParams *)item);
 	if (index < 0)
 		return index == -1;
 
@@ -173,7 +174,7 @@ bool Rva002E99F9Sub460::rva005318DB(void *item, void *first, void *second)
 		return true;
 
 	unsigned int count = ((Rva005310E3 *)item)->rva005310E3();
-	int index = rva0053123A(item);
+	int index = PathfindZoneManager::GetCollapseIndex(*(const PathfindZoneParams *)item);
 	if (index < 0)
 		return index == -1;
 
