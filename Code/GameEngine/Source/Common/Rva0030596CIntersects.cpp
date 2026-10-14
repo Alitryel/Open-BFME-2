@@ -1,7 +1,7 @@
 // cl: /MD /EHs-c-
-// ?Rva0030596CIntersects@@YA_NPAXUCoord3D@@M@Z @0x0030596C 137B via GhostObjectManager GhostProvider CollidesWith
+// ?Rva0030596CIntersects@@YA_NPAXUPlaceCoord@@M@Z @0x0030596C 137B via GhostObjectManager GhostProvider CollidesWith
 // Retail walks GhostObject list from TheGhostObjectManager slot 0x20 and tests GeometryInfo::CollidesWith.
-#include "../../../Libraries/Include/Lib/Coord3D.h"
+#include "PlacementPositionValue.h"
 class GeometryInfo
 {
 public:
@@ -39,7 +39,7 @@ public:
 	virtual GhostObject *getFirst();
 };
 extern GhostObjectManager *TheGhostObjectManager;
-bool __cdecl Rva0030596CIntersects(void *self, Coord3D coord, float radius)
+bool __cdecl Rva0030596CIntersects(void *self, PlaceCoord coord, float radius)
 {
 	GhostObject *ghost = TheGhostObjectManager->getFirst();
 	if (ghost != 0)

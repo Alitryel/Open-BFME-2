@@ -57,17 +57,7 @@ public:
 // BFME 2's Coord3D shape for locals and by-value arguments: empty default
 // constructor and destructor, member-wise copy constructor (the WWMath owner
 // view in coord3d.cpp).
-struct PlaceCoord : Coord3D
-{
-	PlaceCoord() {}
-	PlaceCoord(const PlaceCoord &that)
-	{
-		x = that.x;
-		y = that.y;
-		z = that.z;
-	}
-	~PlaceCoord() {}
-};
+#include "../../Common/PlacementPositionValue.h"
 
 class PickAndPlayInfo
 {
@@ -93,6 +83,8 @@ public:
 class Object
 {
 public:
+	ObjectID getID() const { return m_id; }
+	const Coord3D *getPosition() const { return &m_position; }
 	Player *getControllingPlayer() const;
 	Drawable *getDrawable() const;
 	char m_pad[0x38];
@@ -104,6 +96,8 @@ public:
 class ThingTemplate
 {
 public:
+	unsigned short getTemplateID() const { return m_templateID; }
+	bool isPort() const { return (m_kindOfByte23 & 0x10) != 0; }
 	char m_pad[0x11F];
 	unsigned char m_kindOfByte23; // KindOf bits 184..191; 0x10 is bit 188
 	char m_pad120[0x5D8 - 0x120];
@@ -137,11 +131,10 @@ public:
 
 void pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type msgType, PickAndPlayInfo *info);
 
-// The rowed ghost-object overlap test (0x0030596C) takes the position by
-// value; its owner unit declares a plain Coord3D, retail's call site builds
-// the argument with BFME 2's member-wise copy constructor.
-bool Rva0030596CIntersects(void *thing, Coord3D pos, float angle);
-typedef bool (__cdecl *PlacementIntersects)(void *thing, PlaceCoord pos, float angle);
+// The rowed ghost-object overlap test (0x0030596C) takes BFME 2's
+// nontrivial position value. The shared view preserves its component copy
+// constructor and empty destructor at both caller and owning definition.
+bool Rva0030596CIntersects(void *thing, PlaceCoord pos, float angle);
 
 #define V(n) virtual void slot##n();
 #define V10(n) V(n##0) V(n##1) V(n##2) V(n##3) V(n##4) V(n##5) V(n##6) V(n##7) V(n##8) V(n##9)
@@ -205,6 +198,7 @@ extern BuildAssistant *TheBuildAssistant;
 class GhostObjectManager
 {
 public:
+	int getLocalPlayerIndex() const { return m_localPlayerIndex; }
 	char m_pad[4];
 	int m_localPlayerIndex;
 };
@@ -380,10 +374,10 @@ GameMessageDisposition PlaceEventTranslator::translateGameMessage(const GameMess
 			// the local player may not build over a ghost object it remembers
 			if (builderObj)
 			{
-				int localIndex = TheGhostObjectManager->m_localPlayerIndex;
+				int localIndex = TheGhostObjectManager->getLocalPlayerIndex();
 				if (localIndex == builderObj->getControllingPlayer()->getPlayerIndex())
 				{
-					if (((PlacementIntersects)Rva0030596CIntersects)((void *)pendingBuild, world, angle))
+					if (Rva0030596CIntersects((void *)pendingBuild, world, angle))
 						lbc = 8;
 				}
 			}
@@ -397,7 +391,7 @@ GameMessageDisposition PlaceEventTranslator::translateGameMessage(const GameMess
 
 			if (lbc == 0 && !portBlocked)
 			{
-				if (pendingBuild->m_kindOfByte23 & 0x10)
+				if (pendingBuild->isPort())
 				{
 					PlaceCoord newWorld;
 					float newAngle;
@@ -411,8 +405,8 @@ GameMessageDisposition PlaceEventTranslator::translateGameMessage(const GameMess
 					if (TheInGameUI->canPlacePort())
 					{
 						placeMsg = TheMessageStream->appendMessage(GameMessage::MSG_PORT_CONSTRUCT);
-						placeMsg->appendIntegerArgument(pendingBuild->m_templateID);
-						placeMsg->appendLocationArgument(builderObj->m_position);
+						placeMsg->appendIntegerArgument(pendingBuild->getTemplateID());
+						placeMsg->appendLocationArgument(*builderObj->getPosition());
 						placeMsg->appendLocationArgument(world);
 						TheInGameUI->clearPlacementPort(false);
 						TheInGameUI->resetPlacementPort();
@@ -421,13 +415,13 @@ GameMessageDisposition PlaceEventTranslator::translateGameMessage(const GameMess
 						if (options)
 							value = options->m_value;
 						placeMsg->appendIntegerArgument(value);
-						placeMsg->appendObjectIDArgument(builderObj->m_id);
+						placeMsg->appendObjectIDArgument(builderObj->getID());
 					}
 				}
 				else
 				{
 					placeMsg = TheMessageStream->appendMessage(GameMessage::MSG_DOZER_CONSTRUCT);
-					placeMsg->appendIntegerArgument(pendingBuild->m_templateID);
+					placeMsg->appendIntegerArgument(pendingBuild->getTemplateID());
 					placeMsg->appendLocationArgument(world);
 					placeMsg->appendRealArgument(angle);
 					pickAndPlayUnitVoiceResponse(TheInGameUI->getAllSelectedDrawables(), placeMsg->getType(), 0);
