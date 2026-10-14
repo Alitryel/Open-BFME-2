@@ -83,7 +83,9 @@ protected:
 };
 
 
-class Xfer::Version { public: Version(unsigned char n):m_version(n),m_max(n) {} unsigned char m_version,m_max; };
+// DoXfer inlines the version ctor; dllimport keeps this unit from also
+// emitting an out-of-line copy (retail has none for this one-byte spelling).
+class Xfer::Version { public: __declspec(dllimport) Version(unsigned char n):m_version(n),m_max(n) {} unsigned char m_version,m_max; };
 enum ObjectID { INVALID_OBJECT_ID=0 };
 void XferObjectID(Xfer*,ObjectID*);
 
