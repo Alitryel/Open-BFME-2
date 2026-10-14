@@ -6,7 +6,9 @@
 // b506f0e79adc60663a0dbef7192efa0936566c0d5bcf67637807df70541b9fe3).
 // The narrow external wrapper is native 0x1A600 / WB 0x6F1AB0; its jump
 // targets the char auxiliary instantiation at 0x1A4A0 / WB 0x6F1950.
-// The complete auxiliary body and wrapper are independently byte verified.
+// The wide wrapper is native 0x1A610 / WB 0x6F1AC0, targeting the wide
+// instantiation at 0x1A540 / WB 0x6F19F0. Each whole implementation and
+// wrapper is independently byte verified.
 // No original identity is inferred from instruction shape alone: the donor
 // supplies the wrapper/template distinction and retail proves that split.
 /*
@@ -72,37 +74,7 @@ int __cdecl __insert_grouping(
 	wchar_t *first, wchar_t *last, const string &grouping,
 	wchar_t separator, wchar_t Plus, wchar_t Minus, int basechars)
 {
-	typedef string::size_type str_size;
-
-	if (first == last)
-		return 0;
-
-	int sign = 0;
-
-	if (*first == Plus || *first == Minus) {
-		sign = 1;
-		++first;
-	}
-
-	first += basechars;
-	str_size n = 0;
-	wchar_t *cur_group = last;
-	int groupsize = 0;
-
-	while (true) {
-		groupsize = n < grouping.size() ? grouping[n] : groupsize;
-		++n;
-
-		if (groupsize <= 0 || groupsize >= cur_group - first)
-			break;
-
-		cur_group -= groupsize;
-		++last;
-		copy_backward(cur_group, last, last + 1);
-		*cur_group = separator;
-	}
-
-	return (last - first) + sign + basechars;
+	return __insert_grouping_aux(first, last, grouping, separator, Plus, Minus, basechars);
 }
 
 _STLP_END_NAMESPACE
