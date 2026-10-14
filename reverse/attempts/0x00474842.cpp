@@ -1,10 +1,6 @@
 // ?rva00474842@Rva00474842@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
-// partial score=0.9196679438058749 date=2026-10-14
-// ?rva00474842@Rva00474842@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
-// partial score=0.95 date=2026-10-14
-// ?rva00474842@Rva00474842@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
-// partial score=0.9 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /MD /ICode/Libraries/Include
+// partial score=0.9217273307790549 date=2026-10-14
+// cl: /O1 /G7 /arch:SSE /MD /ICode/Libraries/Include /I.
 // Semantic guide: Open-BFME-1 f98983a7d3bb405f1a4ba94bb6a2a168062a819d,
 // game/GameEngine/Source/GameLogic/Object/Contain/HordeContain/MemberTurnAndGoal0024E310.cpp.
 // Native474842..474B51 RET16 and WB10B8C80 identify HordeContain member-position
@@ -257,9 +253,9 @@ class Rva001E42F2
  
 }
 ;
-class Rva0030A92C 
+class Thing
 {
- public: void rva0030A92C(float);
+ public: void setPositionZ(float);
  
 }
 ;
@@ -518,7 +514,7 @@ void Rva00474842::rva00474842(Object *obj,const Coord3D *position,float orientat
    if(obj->isKindOf(Rva474842Kind443)) 
    {
     ((Rva001E42F2*)obj)->rva001E42F2((const int*)&Rva00265254(0,103,105,443));
-    ((Rva0030A92C*)obj)->rva0030A92C(TheTerrainLogic->height(obj->position.x,obj->position.y,obj->rva0028B511(),0,true));
+    ((Thing*)obj)->setPositionZ(TheTerrainLogic->height(obj->position.x,obj->position.y,obj->rva0028B511(),0,true));
     
    }
    return;

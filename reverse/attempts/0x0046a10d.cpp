@@ -1,12 +1,6 @@
 // ?rva0046A10D@HordeContain@@QAEXXZ
 // partial score=0.8889198606271776 date=2026-10-14
-// ?rva0046A10D@HordeContain@@QAEXXZ
-// partial score=0.95 date=2026-10-14
-// ?rva0046A10D@HordeContain@@QAEXXZ
-// partial score=0.95 date=2026-10-13
-// ?rva0046A10D@HordeContain@@QAEXXZ
-// partial score=0.94 date=2026-10-08
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /I.
 //
 // Target evidence: the existing ModuleFactory callback pin and its registry
 // dispatch establish this as a three-argument cdecl callback. At 0x00469B9F it
@@ -199,7 +193,7 @@ public:
     const Coord3D *getPosition() const { return &m_position; }
     void rva0028AD32();
     int rva0028B511() const;
-    void rva0028ACEE(const Coord3D *position, int layer);
+    void rva0028ACEE(int position, int layer);
 };
 class Thing
 {
@@ -311,7 +305,7 @@ void HordeContain::rva0046A10D()
         Object *member = it->object;
         float angle = 0.0f;
         Coord3D position = iface->slot7(member, &angle);
-        member->rva0028ACEE(&position, owner->rva0028B511());
+        member->rva0028ACEE((int)&position, owner->rva0028B511());
     }
 }
 

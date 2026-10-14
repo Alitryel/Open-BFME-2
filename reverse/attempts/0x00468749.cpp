@@ -1,8 +1,6 @@
 // ?update@TransportContain@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.995 date=2026-10-09
-// ?update@TransportContain@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.995 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
+// partial score=0.9923155416012559 date=2026-10-14
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /I.
 //
 // ?update@TransportContain@@UAE?AW4UpdateSleepTime@@XZ, retail 0x00468749,
 // 392 bytes: the update slot of TransportContain's +0x10 UpdateModuleInterface
@@ -31,11 +29,12 @@ enum UpdateSleepTime { UPDATE_SLEEP_NONE = 1 };
 
 class Object;
 
+class Rva00263895Member;
 class BodyModuleInterface
 {
 public:
 	virtual void s00();
-	virtual void s01();
+	virtual void attemptHealing(Rva00263895Member *);
 	virtual void s02();
 	virtual void s03();
 	virtual float getHealth();
@@ -83,21 +82,19 @@ struct TransportContainModelFlags
 class Object
 {
 public:
-	void attemptHealing(float amount, const Object *source);
+	__declspec(noinline) void attemptHealing(float amount, const Object *source);
+	int getID() const {return m_id;}
 	void rva0028AE6D();
-	unsigned char m_pad00[0x10C];
+	unsigned char m_pad00[0x74];
+	int m_id;
+	unsigned char m_pad78[0x10C-0x78];
 	TransportContainModelFlags m_modelFlags;
 	unsigned char m_pad158[0x250 - 0x158];
 	ContainModuleInterface *m_contain;
 	BodyModuleInterface *m_body;
 };
 
-class GameLogic
-{
-public:
-	unsigned char m_pad00[0x40];
-	unsigned int m_frame;
-};
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 extern float g_secondsPerLogicFrame;
 
@@ -150,10 +147,38 @@ private:
 	bool m_hiddenState;					// +0x10C
 };
 
+class Rva00263895Member
+{
+public:
+	Rva00263895Member();
+
+	char m_pad00[0x08];
+	int m_sourceID; // +0x08
+	char m_pad0C[0x04]; // +0x0C
+	int m_damageType; // +0x10
+	char m_pad14[0x08]; // +0x14..0x1B
+	int m_deathType; // +0x1C
+	float m_amount; // +0x20
+	char m_pad24[0x7C - 0x24];
+};
+
+void Object::attemptHealing(float amount, const Object *source)
+{
+	BodyModuleInterface *body = m_body;
+	if (body) {
+		Rva00263895Member damageInfo;
+		damageInfo.m_damageType = 7;
+		damageInfo.m_deathType = 1;
+		damageInfo.m_sourceID = source ? source->getID() : 0;
+		damageInfo.m_amount = amount;
+		body->attemptHealing(&damageInfo);
+	}
+}
+
 UpdateSleepTime TransportContain::update()
 {
 	const TransportContainModuleDataView *md = (const TransportContainModuleDataView *)m_moduleData;
-	if (md->m_createsPayload && TheGameLogic->m_frame >= m_payloadFrame)
+	if (md->m_createsPayload && TheGameLogic->getFrame() >= m_payloadFrame)
 		createPayload();
 
 	if (md->m_healthRegen != 0.0f)

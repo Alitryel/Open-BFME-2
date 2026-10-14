@@ -1,10 +1,5 @@
 // ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
-// partial score=0.8663 date=2026-10-13
-// W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
-// ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
-// partial score=0.8 date=2026-10-13
-// ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
-// partial score=0.80 date=2026-10-13
+// partial score=0.817718347601175 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /I.
 // NEAR draft (bank): register allocation swaps ESI/EDI against retail; move to
 // Code/GameEngine/Source/GameLogic/AI/ and restore the ../../Common include paths.
@@ -68,8 +63,8 @@ enum ObjectStatusTypes
 ;
 class Object;
 class Player;
-extern "C" float __cdecl fabs(double);
-// CRT fabs (the /O1 call); x87 result compared as float
+extern "C" double __cdecl fabs(double);
+// CRT fabs returns double; retail keeps its result on the x87 stack.
 Real normalizeAngle(Real angle);
 extern GameLogic *TheGameLogic;
 template <int N> class AIAimAISlots : public AIAimAISlots<N - 1>
@@ -428,9 +423,10 @@ StateReturnType AIAttackAimAtTargetState::updateInternal(Bool stopBeforeAim)
   (weapon->getTemplate()->isContactWeapon() || ((const Rva002C9400ByteField *)weapon->getTemplate())->get());
   if (gotContact)
   gotContact = victim->getWorldspaceBestContactPoint(&goalPos, source->getPosition(), "Ram", 0, 0x2A, false);
-  if (!victim->getTemplate()->isKindOf96() && !gotContact)
-  vp = victim->getPosition();
-  goalPos = *vp;
+  if (!victim->getTemplate()->isKindOf96() && !gotContact) {
+   vp = victim->getPosition();
+   goalPos = *vp;
+  }
   
  }
  Real relAngle = source->GetRelativeAngle(&goalPos);
