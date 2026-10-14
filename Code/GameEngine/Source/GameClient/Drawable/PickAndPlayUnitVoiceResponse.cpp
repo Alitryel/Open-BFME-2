@@ -1300,7 +1300,6 @@ static void doPickAndPlayForMoveCommand(int command, Rva004DA57ATarget *target, 
 // plays for a command: every selected object (and the contents of selected
 // containers) is scored, the best-ranked voice record wins and its sounds are
 // played. Returns whether a voice was played.
-// ?pickAndPlayUnitVoiceResponse@@YA_NPBVDrawableList@@W4Type@GameMessage@@PAVPickAndPlayInfo@@@Z present-unmatched
 bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type msgType, PickAndPlayInfo *info)
 {
 	Rva00395561 guard;

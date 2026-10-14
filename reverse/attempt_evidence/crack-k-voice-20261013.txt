@@ -100,3 +100,11 @@ Crack confirmed 2026-10-14, before ledger landing:
 - Normal add_match/build verified climb528 first. The remaining source rows
   follow in dependency order; the parent still requires normal full-extent
   verification through that ledger before it is asserted matched.
+
+Normal ledger landing completed for the caller:
+- add_match verified the full5284-byte parent extent in the Code TU with all
+  four real helper rows available. Switch data is included, ending at4DBFA1.
+- The copied existing comparison/predicate bodies also independently match:
+  Less78, NotEqual45, Equal21, isFilled28, sound-by-index196, sound-by-name154.
+  The last two are COMDAT ANY copies; the first four are exclusive definitions
+  and will be rehomed to prevent newly introduced duplicate link definitions.
