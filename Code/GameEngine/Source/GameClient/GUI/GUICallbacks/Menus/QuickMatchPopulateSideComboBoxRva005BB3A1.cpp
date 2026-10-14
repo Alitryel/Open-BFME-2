@@ -114,14 +114,22 @@ public:
 	unsigned char m_pad152[0x1dc - 0x152];
 };
 
+// This local range view uses STLport's existing protected pointers so the
+// count stays inline without emitting the conflicting vector::size copy.
+class QuickMatchPlayerTemplateRange : public _STL::vector<PlayerTemplate>
+{
+public:
+	unsigned int count() const { return (unsigned int)(this->_M_finish - this->_M_start); }
+};
+
 class PlayerTemplateStore
 {
 public:
-	Int getPlayerTemplateCount() const { return m_playerTemplates.size(); }
+	Int getPlayerTemplateCount() const { return m_playerTemplates.count(); }
 	const PlayerTemplate *getNthPlayerTemplate(Int index) const;
 
 	unsigned char m_pad00[0x0c];
-	_STL::vector<PlayerTemplate> m_playerTemplates;	// +0x0C
+	QuickMatchPlayerTemplateRange m_playerTemplates;	// +0x0C
 };
 extern PlayerTemplateStore *ThePlayerTemplateStore;
 
