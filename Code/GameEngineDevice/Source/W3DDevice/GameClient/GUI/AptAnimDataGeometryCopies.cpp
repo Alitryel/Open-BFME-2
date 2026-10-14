@@ -33,3 +33,20 @@ void *AptGeometryTriangleCopyEmissionAnchor(void *storage,
 {
     return new (storage) Rva000AB3E2Element(source);
 }
+// The rowed A9E0A guarded construction calls the two-point sibling at
+// A987D..A98A9. Its uninitialized-copy caller advances by 16 bytes, and
+// the geometry parser reads four %f coordinates for the line segment.
+class Rva000AB419Element
+{
+public:
+    AptGeometryCopyPoint points[2];
+};
+
+typedef char AptSegmentExtent[(sizeof(Rva000AB419Element) == 16) ? 1 : -1];
+
+// ?AptGeometrySegmentCopyEmissionAnchor absent-from-retail
+void *AptGeometrySegmentCopyEmissionAnchor(void *storage,
+    const Rva000AB419Element &source)
+{
+    return new (storage) Rva000AB419Element(source);
+}
