@@ -89055,3 +89055,4 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ?Rva003B94FCParse@@YAHQAPADH@Z,,0x003B94FC,9,Code/GameEngine/Source/Common/CommandLineUnlistedSwitches.cpp,matched,unlisted command-line parser calling the shared empty body 0x000B3FD0 then 1; twin of rowed Rva003B9D23
 ?rva0052B83B@Rva0052B7F8Owner@@QAEHHH@Z,,0x0052B83B,20,Code/GameEngine/Source/Common/Rva0052B83BForward.cpp,matched,hidden-result forwarder to rowed Rva0052B7F8Owner::fwd 0x0052B7F8 returning the result slot; twin of rowed equal_range 0x002B8120
 ?Rva004E7B40@@YAXPAVRva004E7A76@@@Z,,0x004E7B40,9,Code/GameEngine/Source/Common/Rva004E7B40Forward.cpp,matched,cdecl pointer forward tail-jumping to rowed Rva004E7A76::rva004E7A76 0x004E7A76; _Destroy-shaped twin of 0x005BC6F5
+?Rva0050C44EGet@@YAHH@Z,,0x0050C44E,12,Code/GameEngine/Source/Common/GlobalArrayIndexGetters.cpp,matched,indexed dword read over the table at VA 0x00DBEC90; twin of rowed Rva00115DE8Get

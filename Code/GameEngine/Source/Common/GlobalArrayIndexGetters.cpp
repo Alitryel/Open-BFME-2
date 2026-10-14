@@ -22,3 +22,12 @@ int Rva00115DE8Get(int index)
 {
 	return (int)g_00DB5F30[index];
 }
+
+// ?Rva0050C44EGet@@YAHH@Z @ 0x0050C44E (12B): the same indexed dword read
+// over the table at VA 0x00DBEC90 (owner unknown). Opaque address-derived
+// name.
+extern unsigned g_00DBEC90[];
+int Rva0050C44EGet(int index)
+{
+	return (int)g_00DBEC90[index];
+}
