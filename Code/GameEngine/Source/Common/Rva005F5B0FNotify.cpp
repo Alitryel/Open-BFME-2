@@ -1,5 +1,5 @@
 // cl: /GX- /MD /DNDEBUG
-// ?Rva005F5B0FNotify@@YAXPAURva005F5B0FA@@PAURva005F5B0FB@@@Z @0x005F5B0F 104B
+// ?SendCancelUpgradeMessages@StrategicInGameUI@@YAXPAURva005F5B0FA@@PAURva005F5B0FB@@@Z @0x005F5B0F 104B
 // Iterates RB-tree map at second arg +0x10 keyed at node +0x10 via rowed _M_increment.
 // Looks up each key with rowed IndexedField get at first arg +0x78 and checks result +0xBC.
 // On hit builds GameMessage type 0x6C0 via MessageStreamSubsystem slot 0x48 and appends first arg +0x20 and key.
@@ -66,7 +66,9 @@ struct Rva005F5B0FB
 	char _pad0[0x10];
 	_STL::_Rb_tree_node_base *m_tree;
 };
-void __cdecl Rva005F5B0FNotify(Rva005F5B0FA *a, Rva005F5B0FB *b)
+// WorldBuilder StrategicInGameUI::SendCancelUpgradeMessages, WB VA 0x0162A780 (callgraph lead, score 2.0).
+namespace StrategicInGameUI {
+void __cdecl SendCancelUpgradeMessages(Rva005F5B0FA *a, Rva005F5B0FB *b)
 {
 	Rva0040CB3AIndexedField *field = a->m_78;
 	_STL::_Rb_tree_node_base *header = b->m_tree;
@@ -80,4 +82,5 @@ void __cdecl Rva005F5B0FNotify(Rva005F5B0FA *a, Rva005F5B0FB *b)
 			msg->appendIntegerArgument(*(int *)((char *)node + 16));
 		}
 	}
+}
 }

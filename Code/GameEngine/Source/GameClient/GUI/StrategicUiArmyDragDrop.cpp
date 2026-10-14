@@ -81,13 +81,16 @@ enum ScienceType { SCIENCE_NONE=0 };
 namespace _STL {template<>class vector<ScienceType,allocator<ScienceType> > {public:void reserve(unsigned);};}
 class LivingWorldLogic;extern LivingWorldLogic*TheLivingWorldLogic;
 class Rva002B6C9F {public:bool rva002B6C9F(int,int,int);};
-static __declspec(noinline) bool Rva005F50E9CanMoveArmyMembers(const Rva005FSelectionView*first,Rva005FArmyView*source,Rva005FArmyView*target){
+// WorldBuilder StrategicInGameUI::CanMoveArmyMembers, WB VA 0x01628580 (callgraph lead, score 1.0).
+namespace StrategicInGameUI {
+static __declspec(noinline) bool CanMoveArmyMembers(const Rva005FSelectionView*first,Rva005FArmyView*source,Rva005FArmyView*target){
  if(first->count==0)return false;
  _STL::forward_iterator_tag marker;
  _STL::vector<int> ids((const _STL::allocator<int>&)marker);((_STL::vector<ScienceType>*)&ids)->reserve(first->count);
  Rva005E59FCKeyIterator begin={first->root->left},end={first->root};
  ids._M_assign_aux(begin,end,(const _STL::forward_iterator_tag&)marker);
  return ((Rva002B6C9F*)TheLivingWorldLogic)->rva002B6C9F((int)source,(int)&ids,(int)target);
+}
 }
 struct Rva005FEntryView {char prefix[16];Rva005FArmyView*army;Rva005FSelectionView selection;};
 struct Rva005FContextView {char prefix[12];Rva005FEntryView*source;Rva005FEntryView*target;};
@@ -97,7 +100,7 @@ class Rva005F52C0 {public:void rva005F52C0();void rva005F5331();char unknown[8];
 void Rva005F52C0::rva005F52C0(){
  Rva005FArmyView*source=context->source->army;Rva005FContextView*owner=context;Rva005FEntryView*entry=owner->source;Rva005FArmyView*target=owner->target->army;
  Rva005FSelectionView&first=entry->selection;
- if(Rva005F50E9CanMoveArmyMembers(&first,source,target)){
+ if(StrategicInGameUI::CanMoveArmyMembers(&first,source,target)){
   StrategicInGameUI::SendSwapArmyMembersMessage(source->getID(),&first,target->getID(),*(const Rva005FSelectionView*)&Rva005F2381());
  }
 }
@@ -105,7 +108,7 @@ void Rva005F52C0::rva005F52C0(){
 void Rva005F52C0::rva005F5331(){
  Rva005FArmyView*source=context->target->army;Rva005FContextView*owner=context;Rva005FEntryView*entry=owner->target;Rva005FArmyView*target=owner->source->army;
  Rva005FSelectionView&first=entry->selection;
- if(Rva005F50E9CanMoveArmyMembers(&first,source,target)){
+ if(StrategicInGameUI::CanMoveArmyMembers(&first,source,target)){
   StrategicInGameUI::SendSwapArmyMembersMessage(source->getID(),&first,target->getID(),*(const Rva005FSelectionView*)&Rva005F2381());
  }
 }

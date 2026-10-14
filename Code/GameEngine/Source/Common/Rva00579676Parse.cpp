@@ -1,5 +1,5 @@
 // cl: /MD /EHsc
-// ?Rva00579676Parse@@YA_NPBDPAH@Z @0x00579676 (32B): atoi range check 0<=v<6
+// ?ParseRowNum@StrategicHUD@@YA_NPBDPAH@Z @0x00579676 (32B): atoi range check 0<=v<6
 // (unlock lane, missing callee of 0x00579B81/0x00579C00 delegate methods).
 // Parses int via IAT atoi, rejects <0 or >=6, stores to *out and returns true.
 // Evidence: callers at 0x00579B95 and 0x00579C0D (push value then address,
@@ -8,13 +8,16 @@
 // honest Rva name with Parse verb.
 extern "C" __declspec(dllimport) int __cdecl atoi(const char *s);
 
-bool __cdecl Rva00579676Parse(const char *s, int *out)
+// WorldBuilder StrategicHUD::ParseRowNum, WB VA 0x014C10A0 (callgraph lead, score 1.0).
+namespace StrategicHUD {
+bool __cdecl ParseRowNum(const char *s, int *out)
 {
     int v = atoi(s);
     if (v < 0 || v >= 6)
         return false;
     *out = v;
     return true;
+}
 }
 
 // ?OnStatRollOver@StatsDisplayImpl@StrategicHUD@@QAEXPBD@Z, retail 0x00579B81
@@ -79,7 +82,7 @@ void StrategicHUD::StatsDisplayImpl::OnStatRollOver(const char *param)
 	int stat;
 	{
 		int parsed;
-		if (!Rva00579676Parse(param, &parsed))
+		if (!StrategicHUD::ParseRowNum(param, &parsed))
 			return;
 		stat = parsed;
 	}

@@ -208,6 +208,6 @@ void Rva005F5B77::rva005F5B77(){
 }
 
 struct Rva005F5B0FA;struct Rva005F5B0FB;
-void Rva005F5B0FNotify(Rva005F5B0FA*,Rva005F5B0FB*);
+namespace StrategicInGameUI { void SendCancelUpgradeMessages(Rva005F5B0FA*,Rva005F5B0FB*); }
 class Rva005F5BAE {public:void rva005F5BAE();char prefix[0x18];LivingWorldArmy *army;Rva005F56B0Selection *selection;};
-void Rva005F5BAE::rva005F5BAE(){if(StrategicInGameUI::CanUpgradeAny(army,selection))StrategicInGameUI::SendUpgradeMessages(army,selection);else if(StrategicInGameUI::CanCancelAnyUpgrades(army,selection))Rva005F5B0FNotify(reinterpret_cast<Rva005F5B0FA*>(army),reinterpret_cast<Rva005F5B0FB*>(selection));}
+void Rva005F5BAE::rva005F5BAE(){if(StrategicInGameUI::CanUpgradeAny(army,selection))StrategicInGameUI::SendUpgradeMessages(army,selection);else if(StrategicInGameUI::CanCancelAnyUpgrades(army,selection))StrategicInGameUI::SendCancelUpgradeMessages(reinterpret_cast<Rva005F5B0FA*>(army),reinterpret_cast<Rva005F5B0FB*>(selection));}

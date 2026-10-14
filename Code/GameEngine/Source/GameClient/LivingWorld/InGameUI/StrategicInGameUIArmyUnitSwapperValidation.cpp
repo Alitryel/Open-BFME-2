@@ -66,13 +66,16 @@ static __declspec(noinline) bool CanSwapArmyMembers(Rva005FArmyView*source,const
 
 } // namespace StrategicInGameUI
 
-static __declspec(noinline) bool Rva005F50E9CanMoveArmyMembers(const Rva005FSelectionView*first,Rva005FArmyView*source,Rva005FArmyView*target){
+// WorldBuilder StrategicInGameUI::CanMoveArmyMembers, WB VA 0x01628580 (callgraph lead, score 1.0).
+namespace StrategicInGameUI {
+static __declspec(noinline) bool CanMoveArmyMembers(const Rva005FSelectionView*first,Rva005FArmyView*source,Rva005FArmyView*target){
  if(first->members.empty())return false;
  _STL::forward_iterator_tag marker;
  _STL::vector<int> ids((const _STL::allocator<int>&)marker);((_STL::vector<ScienceType>*)&ids)->reserve(first->members.size());
  Rva005E59FCKeyIterator begin={first->members.begin()._M_node},end={first->members.end()._M_node};
  ids._M_assign_aux(begin,end,(const _STL::forward_iterator_tag&)marker);
  return ((Rva002B6C9F*)TheLivingWorldLogic)->rva002B6C9F((int)source,(int)&ids,(int)target);
+}
 }
 
 struct Rva005FEntryView {char prefix[16];Rva005FArmyView*army;Rva005FSelectionView selection;};
@@ -91,8 +94,8 @@ void Rva005F5537::rva005F5537(){
    Rva005FSelectionView &first=source->selection;
    Rva005FArmyView *army2=target->army;
    Rva005FSelectionView &second=target->selection;
-   ((Rva005FD8A9*)getClip())->rva005FD8A9(Rva005F50E9CanMoveArmyMembers(&first,army1,army2));
-   ((Rva005FD8B1*)getClip())->rva005FD8B1(Rva005F50E9CanMoveArmyMembers(&second,army2,army1));
+   ((Rva005FD8A9*)getClip())->rva005FD8A9(StrategicInGameUI::CanMoveArmyMembers(&first,army1,army2));
+   ((Rva005FD8B1*)getClip())->rva005FD8B1(StrategicInGameUI::CanMoveArmyMembers(&second,army2,army1));
    ((Rva005FD8B9*)getClip())->rva005FD8B9(StrategicInGameUI::CanSwapArmyMembers(army1,&first,army2,&second));
    dirty=false;
   }

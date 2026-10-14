@@ -174,7 +174,7 @@ public:
 	void clear();
 };
 
-bool __cdecl Rva00579676Parse(const char *s, int *out);
+namespace StrategicHUD { bool __cdecl ParseRowNum(const char *s, int *out); }
 
 class Rva005CB265
 {
@@ -244,7 +244,7 @@ StrategicHUD::StatsDisplayImpl::~StatsDisplayImpl()
 void StrategicHUD::StatsDisplayImpl::OnStatRollOut(const char *path)
 {
 	int stat;
-	if (Rva00579676Parse(path, &stat) && stat == m_20)
+	if (StrategicHUD::ParseRowNum(path, &stat) && stat == m_20)
 	{
 		if (m_18 != 0)
 		{
