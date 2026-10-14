@@ -29,6 +29,7 @@ class ThingFactory
 public:
 	const ThingTemplate *findTemplate(const AsciiString &name);
 	bool rva002D06AA(const AsciiString &name);
+	const ThingTemplate *rva000CEB48(const AsciiString &name);
 private:
 	char m_pad[0x14];
 	Rva00056F61 m_table;
@@ -44,4 +45,12 @@ bool ThingFactory::rva002D06AA(const AsciiString &name)
 {
 	Rva0041534BIter it = m_table.rva0041534B(&name);
 	return it.m_node != 0;
+}
+
+// ?rva000CEB48@ThingFactory@@QAEPBVThingTemplate@@ABVAsciiString@@@Z,
+// retail 0x000CEB48 (5B): a forwarder to the lookup above with the same
+// name (a tail jump); no direct caller reaches it in retail.
+const ThingTemplate *ThingFactory::rva000CEB48(const AsciiString &name)
+{
+	return findTemplate(name);
 }
