@@ -57,7 +57,7 @@ public:
 };
 void HideControlBar(bool);
 class GameWindow;
-GameWindow *MessageBoxOk(UnicodeString title,UnicodeString text,void (*callback)());
+void MessageBoxOk(UnicodeString title,UnicodeString text,void (*callback)());
 class GameState {
 public:
  int rva002DE3C1(TreeHintOpaque0043671B);

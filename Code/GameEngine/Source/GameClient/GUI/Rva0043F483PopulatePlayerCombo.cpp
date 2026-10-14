@@ -574,7 +574,7 @@ static inline bool unicodeIsEmpty(const UnicodeString &text)
 	return data == 0 || *(const unsigned short *)(data + 4) == 0;
 }
 
-GameWindow *MessageBoxOk(UnicodeString title, UnicodeString body, void (*okCallback)());
+void MessageBoxOk(UnicodeString title, UnicodeString body, void (*okCallback)());
 
 // Unrowed 0x0055A04C (59 bytes; a rule's display name, fetched from a
 // table of ten labels), pinned by address.

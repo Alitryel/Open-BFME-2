@@ -121,7 +121,7 @@ extern Rva00222A8BTarget *TheRva00222A8BTarget;
 void Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
 
 class GameWindow;
-GameWindow *MessageBoxOk(UnicodeString title, UnicodeString body, void (*okCallback)());
+void MessageBoxOk(UnicodeString title, UnicodeString body, void (*okCallback)());
 
 struct SYSTEMTIME
 {

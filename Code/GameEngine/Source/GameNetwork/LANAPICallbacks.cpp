@@ -603,7 +603,7 @@ extern "C" __declspec(dllimport) Int __cdecl atoi( const char *text );
 
 Bool Rva0044C3D4( void );
 class GameWindow;
-GameWindow *MessageBoxOk( UnicodeString titleString, UnicodeString bodyString, void (*okCallback)( void ) );
+void MessageBoxOk( UnicodeString titleString, UnicodeString bodyString, void (*okCallback)( void ) );
 Bool DoAnyMapTransfers( GameInfo *game );
 void InitGameLogicRandom( UnsignedInt seed );
 

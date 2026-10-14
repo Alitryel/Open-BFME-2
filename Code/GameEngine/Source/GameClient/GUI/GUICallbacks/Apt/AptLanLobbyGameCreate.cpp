@@ -254,7 +254,7 @@ public:
 extern GameTextInterface *TheGameText;
 
 class GameWindow;
-GameWindow *MessageBoxOk(UnicodeString titleString, UnicodeString bodyString, void (*okCallback)(void));
+void MessageBoxOk(UnicodeString titleString, UnicodeString bodyString, void (*okCallback)(void));
 
 void AptLanLobby::rva00444EC8()
 {

@@ -123,7 +123,7 @@ public:
 extern InGameUI *TheInGameUI;
 
 class GameWindow;
-GameWindow *MessageBoxOk(UnicodeString titleString, UnicodeString bodyString, void (*okCallback)(void));
+void MessageBoxOk(UnicodeString titleString, UnicodeString bodyString, void (*okCallback)(void));
 
 class CreateAHeroData
 {

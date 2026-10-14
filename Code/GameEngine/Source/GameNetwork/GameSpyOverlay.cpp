@@ -85,7 +85,7 @@ struct BfmeAudioEventPrefix136
 // The two native helpers finish with string teardown and do not preserve a
 // GameWindow return value. Keep their BFME 2 void ABI; MessageBoxOk retains
 // its existing provider declaration until that separate body is recovered.
-GameWindow *MessageBoxOk(UnicodeString, UnicodeString, GameWinMsgBoxFunc);
+void MessageBoxOk(UnicodeString, UnicodeString, GameWinMsgBoxFunc);
 void MessageBoxOkCancel(UnicodeString, UnicodeString, GameWinMsgBoxFunc, GameWinMsgBoxFunc);
 void MessageBoxYesNo(UnicodeString, UnicodeString, GameWinMsgBoxFunc, GameWinMsgBoxFunc);
 

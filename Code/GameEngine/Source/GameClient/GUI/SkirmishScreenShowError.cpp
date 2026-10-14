@@ -8,7 +8,7 @@
 
 
 class GameWindow;
-GameWindow *MessageBoxOk(UnicodeString title, UnicodeString body,
+void MessageBoxOk(UnicodeString title, UnicodeString body,
 	void (*callback)(void));
 
 class BfmeAptScreenSkirmish
