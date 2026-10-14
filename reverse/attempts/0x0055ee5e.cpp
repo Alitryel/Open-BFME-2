@@ -1,74 +1,118 @@
 // ??0DefaultPhysicsModuleInfo@FXParticleSystem@@QAE@XZ
-// partial score=0.99 date=2026-10-12
-// ??0DefaultPhysicsModuleInfo@FXParticleSystem@@QAE@XZ
-// partial score=0.99 date=2026-09-29
-// ??0DefaultPhysicsModuleInfo@FXParticleSystem@@QAE@XZ
-// partial score=0.99 date=2026-09-29
-// cl: /DNDEBUG /MD /EHsc /O1 /Ob2 /arch:SSE
+// partial score=0.995 date=2026-10-14
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
+// Open-BFME5: clean-C++ DefaultModuleTemplate (ledger $02 / N=3) default constructor.
 
-// ??0DefaultPhysicsModuleInfo@FXParticleSystem@@QAE@XZ @0x0055EE5E 109B
-// Retail stores info vtable 0x0081BCB0, inline-zeroes floats at +4/+8/+C/+10
-// and the random variable at +0x14, runs setRange(0, 0) via rowed 0x002341E7,
-// then zeroes flags at +0x20/+0x21. BFME1 donor fx_particle_system.h gives
-// floats+int+var layout; BFME2 adds 2 bools; int stored as float (movss).
-// Single EH state from the virtual base. Caller 0x003A9852
-// (DefaultModuleTemplate@$02 default) calls here at the site its BFME1 donor
-// calls the physics info default.
-// HEAD START from 0.98 stash: body field order 3,0,1,2 fixes 4 mem diffs;
-// remains vtable+and-var early vs pushes-first + var movss split.
-
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 class GameClientRandomVariable
 {
 public:
-	enum DistributionType
-	{
-		CONSTANT, UNIFORM, GAUSSIAN, TRIANGULAR, LOW_BIAS, HIGH_BIAS
-	};
+    enum DistributionType
+    {
+        CONSTANT, UNIFORM, GAUSSIAN, TRIANGULAR, LOW_BIAS, HIGH_BIAS
+    };
 
-	GameClientRandomVariable() : m_type(CONSTANT), m_low(0.0f), m_high(0.0f) {}
-	void setRange(float low, float high, DistributionType type = UNIFORM);
+    GameClientRandomVariable() : m_type(CONSTANT), m_low(0.0f), m_high(0.0f) {}
+    void setRange(float low, float high, DistributionType type);
 
-private:
-	DistributionType m_type;
-	float m_low;
-	float m_high;
+    DistributionType m_type;
+    float m_low, m_high;
 };
 
 namespace FXParticleSystem
 {
 
-class DefaultPhysicsModuleInfoBase
+// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/ModuleFactory.h
+class ModuleTemplate
 {
 public:
-	virtual ~DefaultPhysicsModuleInfoBase();
+    ModuleTemplate() {}
+    virtual ~ModuleTemplate() {}
 };
 
-class DefaultPhysicsModuleInfo : public DefaultPhysicsModuleInfoBase
+template <int Category>
+class CategoryModuleInfo
 {
 public:
-	DefaultPhysicsModuleInfo();
-	virtual ~DefaultPhysicsModuleInfo();
+    CategoryModuleInfo() {}
+    virtual void unusedVirtual();
+
+protected:
+    ~CategoryModuleInfo() {}
+};
+
+template <int Category>
+class CategoryModuleTemplateBase : public ModuleTemplate,
+    public CategoryModuleInfo<Category>
+{
+public:
+    __declspec(dllimport) __forceinline CategoryModuleTemplateBase() {}
+    __declspec(dllimport) __forceinline virtual ~CategoryModuleTemplateBase() {}
+};
+
+template <int Category>
+class CategoryModuleTemplate : public CategoryModuleTemplateBase<Category>
+{
+public:
+    __declspec(dllimport) __forceinline CategoryModuleTemplate() {}
+    virtual ~CategoryModuleTemplate() {}
+};
+
+class Snapshot
+{
+public:
+    virtual ~Snapshot() {}
+};
+
+class DefaultPhysicsModuleInfo : public Snapshot
+{
+public:
+    DefaultPhysicsModuleInfo();
+    virtual ~DefaultPhysicsModuleInfo();
 
 private:
-	float m_field0;
-	float m_field1;
-	float m_field2;
-	float m_field3;
-	GameClientRandomVariable m_var1;
-	bool m_flag20;
-	bool m_flag21;
+    float m_float04;
+    float m_float08;
+    float m_float0C;
+    float m_float10;
+    GameClientRandomVariable m_var14;
+    bool m_flag20;
+    bool m_flag21;
 };
 
-// ??0DefaultPhysicsModuleInfo@FXParticleSystem@@QAE@XZ present-unmatched
-DefaultPhysicsModuleInfo::DefaultPhysicsModuleInfo()
+template <int Category>
+class DefaultModuleTemplate : public CategoryModuleTemplate<Category>,
+    public DefaultPhysicsModuleInfo
 {
-	m_field3 = 0.0f;
-	m_field0 = 0.0f;
-	m_field1 = 0.0f;
-	m_field2 = 0.0f;
-	m_var1.setRange(0.0f, 0.0f);
-	m_flag20 = false;
-	m_flag21 = false;
+public:
+    DefaultModuleTemplate();
+};
+
+// MSVC mangles DefaultModuleTemplate<3> as @$02
+// ??0?$DefaultModuleTemplate@$02@FXParticleSystem@@QAE@XZ
+template <int Category>
+DefaultModuleTemplate<Category>::DefaultModuleTemplate()
+    : CategoryModuleTemplate<Category>(), DefaultPhysicsModuleInfo()
+{
+}
+
+template DefaultModuleTemplate<3>::DefaultModuleTemplate();
+
+// ??0DefaultPhysicsModuleInfo@FXParticleSystem@@QAE@XZ @0x0055EE5E 109B: the
+// retail body has an EH prolog (base with virtual dtor + setRange call), so it
+// is compiled here where the TU carries /EHsc; the owner file is /GX-. The
+// dtor row 0x49B47C stores the Snapshot vtable 0xBBB554, which is the base.
+__declspec(noinline) DefaultPhysicsModuleInfo::DefaultPhysicsModuleInfo()
+{
+    m_float10 = 0.0f;
+    m_float04 = 0.0f;
+    m_float08 = 0.0f;
+    m_float0C = 0.0f;
+    _ReadWriteBarrier();
+    m_var14.setRange(0.0f, 0.0f, GameClientRandomVariable::UNIFORM);
+    m_flag20 = false;
+    m_flag21 = false;
 }
 
 }
