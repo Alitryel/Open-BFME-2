@@ -115,7 +115,9 @@ public:
 		return __tmp;
 	}
 
-	bool equal(const istreambuf_iterator<CharT, Traits> &other) const
+	// Imported: it inlines as before but emits no copy ahead of retail's 0x0000FA00
+	// owner (stlport_narrow_istreambuf_iterator_equal.cpp), which inlines _M_getc.
+	__declspec(dllimport) __forceinline bool equal(const istreambuf_iterator<CharT, Traits> &other) const
 	{
 		if (_M_buf != 0)
 			_M_getc();

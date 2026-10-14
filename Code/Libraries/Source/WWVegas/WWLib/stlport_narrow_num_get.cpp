@@ -5,6 +5,20 @@
 // Canonical default construction is supplied by retail7850.
 namespace _STL { template <> basic_string<char>::basic_string(); }
 #include <locale>
+// istreambuf_iterator<char>::equal is retail's 126-byte body at 0x0000FA00, owned by
+// stlport_narrow_istreambuf_iterator_equal.cpp. This unit's copy (with _M_getc out of
+// line) is not retail's and came before it in link order; the body still inlines
+// here, imported, so the unit emits no copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool istreambuf_iterator<char, char_traits<char> >::equal(const istreambuf_iterator<char, char_traits<char> >& __i) const {
+  if (this->_M_buf)
+    this->_M_getc();
+  if (__i._M_buf)
+    __i._M_getc();
+  return this->_M_eof == __i._M_eof;
+}
+}
 // The complete native float scanners are owned by the read_float units
 // (F850 narrow;10420 wide). Keep this unit's generic copies out of the link.
 namespace _STL {

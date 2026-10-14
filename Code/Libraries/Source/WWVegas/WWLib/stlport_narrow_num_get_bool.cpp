@@ -105,6 +105,18 @@ template<> class basic_streambuf<char,char_traits<char> > { public: typedef char
 template<> __declspec(noinline) void istreambuf_iterator<char,char_traits<char> >::_M_getc() const {
  if (_M_have_c) return; int_type c=_M_buf->sgetc(); _M_c=traits_type::to_char_type(c); _M_eof=traits_type::eq_int_type(c,traits_type::eof()); _M_have_c=true;
 }
+// istreambuf_iterator<char>::equal is retail's 126-byte body at 0x0000FA00, owned by
+// stlport_narrow_istreambuf_iterator_equal.cpp. This unit's copy (with _M_getc out of
+// line) is not retail's and came before it in link order; the body still inlines
+// here, imported, so the unit emits no copy.
+template <> __declspec(dllimport) __forceinline
+bool istreambuf_iterator<char, char_traits<char> >::equal(const istreambuf_iterator<char, char_traits<char> >& __i) const {
+  if (this->_M_buf)
+    this->_M_getc();
+  if (__i._M_buf)
+    __i._M_getc();
+  return this->_M_eof == __i._M_eof;
+}
 typedef istreambuf_iterator<char,char_traits<char> > _BoolIn;
 template <>
 inline _BoolIn
