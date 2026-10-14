@@ -88990,3 +88990,4 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ?rva002BF687@Rva002BF6A7@@QAEXH@Z,,0x002BF687,16,Code/GameEngine/Source/Common/Rva002BF6A7Forward.cpp,matched,twin of 0x002BF6A7: passes an argument sub-object to member 0x002BF61B on the same object
 ?rva002BF697@Rva002BF6A7@@QAEXH@Z,,0x002BF697,16,Code/GameEngine/Source/Common/Rva002BF6A7Forward.cpp,matched,twin of 0x002BF6A7: passes an argument sub-object to member 0x002BF61B on the same object
 ?rva002B8DDE@LivingWorldLogic@@QAEXH@Z,,0x002B8DDE,30,Code/GameEngine/Source/GameLogic/LivingWorld/LivingWorldLogicRva002B8DDE.cpp,matched,remove the player with this id: id lookup 0x002B51F8 then RemovePlayer 0x002B7DE6; method name address-derived
+??0Rva002C00E0Obj@@QAE@PBH@Z,,0x002BEF29,26,Code/GameEngine/Source/Common/Rva002C00E0ObjCtor.cpp,matched,out-of-line ctor of the 12-byte vtable-0x00BFE4F4 object inlined in Rva005CBB0AWrap.cpp rva002C00E0; names address-derived
