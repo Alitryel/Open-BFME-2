@@ -55680,3 +55680,4 @@ __Locale_ctype_default	0x00021980	5	landed	add_match verified Code/Libraries/Sou
 ?rva000CF0FF@Rva000CF0FF@@QBEHXZ	0x000CF0FF	12	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp 12B; element count of the 0x4C-byte record range at +0/+4; no direct caller
 ?Rva000B2B7CScale@@YAMM@Z	0x000B2B7C	11	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp 11B; argument times 0.001f (VA 0x00BC28F8); no direct caller
 ?get@Rva000B2380CmpBoolField@@QBE_NXZ	0x000B2380	11	landed	add_match verified Code/GameEngine/Source/Common/Disp8CmpBoolGetters.cpp 11B; byte flag +0x43C ternary bool getter; no direct caller
+?Rva000C32C7@@YAXPAVRva000C19C3@@PAXPB_N@Z	0x000C32C7	18	landed	add_match verified Code/GameEngine/Source/Common/Rva000C32C7Callback.cpp 18B; cdecl callback forwarding args 2 and 3 to the thiscall member 0x000C19C3 of arg 1 (shape of the GameState post-process callbacks); no direct caller
