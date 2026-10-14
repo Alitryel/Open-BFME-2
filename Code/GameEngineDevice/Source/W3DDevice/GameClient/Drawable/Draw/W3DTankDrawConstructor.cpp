@@ -19,23 +19,15 @@ class RenderObjClass;
 class RvaSmartPtr12 { public: void rva0004CBC0(); };
 struct BfmeParticleSystemHandle
 {
-	~BfmeParticleSystemHandle();
+	BfmeParticleSystemHandle() : m_system(0), m_previous(0), m_next(0) {}
+	~BfmeParticleSystemHandle()
+	{
+		if (m_system != 0)
+			reinterpret_cast<RvaSmartPtr12 *>(this)->rva0004CBC0();
+	}
 	void *m_system;
 	void *m_previous;
 	void *m_next;
-};
-
-struct W3DTankDrawDebrisHandle
-{
-	W3DTankDrawDebrisHandle() : m_ptr0(0), m_ptr1(0), m_ptr2(0) {}
-	~W3DTankDrawDebrisHandle()
-	{
-		if (m_ptr0 != 0)
-			reinterpret_cast<RvaSmartPtr12 *>(this)->rva0004CBC0();
-	}
-	void *m_ptr0;
-	void *m_ptr1;
-	void *m_ptr2;
 };
 
 class DrawModuleBase
@@ -77,8 +69,8 @@ public:
 	virtual void a();
 	virtual void b();
 protected:
-	W3DTankDrawDebrisHandle m_treadDebrisLeft;
-	W3DTankDrawDebrisHandle m_treadDebrisRight;
+	BfmeParticleSystemHandle m_treadDebrisLeft;
+	BfmeParticleSystemHandle m_treadDebrisRight;
 	RenderObjClass *m_prevRenderObj;
 	enum { MAX_TREADS_PER_TANK = 4 };
 	struct TreadObjectInfo

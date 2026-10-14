@@ -4,8 +4,8 @@
 // W3DTankDraw dtor: reinstalls vtables 0xBCCBE8/+0xC 0xBCC588/+0x10 0xBCA08C,
 // releases 4 treads at +0x304 (each 0x14, REF_PTR_RELEASE via inline
 // Release_Ref dec at +4 then slot-0 Delete_This), conditionally destroys the
-// two 12-byte intrusive handles at +0x2F4/+0x2E8 through the rowed
-// ??1BfmeParticleSystemHandle@@QAE@XZ at 0x4CBC0 when m_system!=0, then calls
+// two 12-byte intrusive handles at +0x2F4/+0x2E8 through
+// the intrusive unlink at 0x0004CBC0 when m_system!=0, then calls
 // the pinned MI base dtor at 0xC79C9. Layout: opaque MI base (12B) plus shared
 // MiBase1 plus per-class B2 gives +0/+0xC/+0x10; pad to 0x2E8 covers the true
 // W3DScriptedModelDraw members (ctor at 0xC0DD8 proves 0x2E8); handles and
@@ -49,16 +49,16 @@ struct TreadObjectInfo
 // handle dtor is the inline null test around it (0x002115C5), spelled out below.
 class RvaSmartPtr12 { public: void rva0004CBC0() throw(); };
 
-struct W3DTankDrawDebrisHandle
+struct BfmeParticleSystemHandle
 {
-	~W3DTankDrawDebrisHandle()
+	~BfmeParticleSystemHandle()
 	{
-		if (m_ptr0 != 0)
+		if (m_system != 0)
 			reinterpret_cast<RvaSmartPtr12 *>(this)->rva0004CBC0();
 	}
-	void *m_ptr0;
-	void *m_ptr1;
-	void *m_ptr2;
+	void *m_system;
+	void *m_previous;
+	void *m_next;
 };
 
 class Rva000C79C9
@@ -89,8 +89,8 @@ public:
 
 private:
 	unsigned char m_pad14[0x2E8 - 0x14];
-	W3DTankDrawDebrisHandle m_treadDebrisLeft;
-	W3DTankDrawDebrisHandle m_treadDebrisRight;
+	BfmeParticleSystemHandle m_treadDebrisLeft;
+	BfmeParticleSystemHandle m_treadDebrisRight;
 	void *m_prevRenderObj;
 	TreadObjectInfo m_treads[4];
 };
