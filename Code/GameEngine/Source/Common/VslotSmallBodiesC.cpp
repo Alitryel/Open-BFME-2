@@ -41,7 +41,14 @@ public:
 	virtual void slot8();
 	virtual Int slot9();
 };
-class Rva00072A08
+// WorldBuilder FXShader::RenderingMethodDelegate (slot bodies Begin_Pass..End_Rendering, vtable leads).
+class FXShader
+{
+public:
+	class RenderingMethodDelegate;
+};
+
+class FXShader::RenderingMethodDelegate
 {
 public:
 	Bool rva00072A08(Int a0, Int a1);
@@ -54,18 +61,18 @@ private:
 	char m_pad00[0x08];
 	Rva00072A08Inner *m_08;
 };
-Bool Rva00072A08::rva00072A08(Int a0, Int a1)
+Bool FXShader::RenderingMethodDelegate::rva00072A08(Int a0, Int a1)
 {
 	Rva00072A08Inner *inner = m_08;
 	if (!inner)
 		return false;
 	return inner->slot2(a0, a1);
 }
-void Rva00072A08::Begin_Pass(Int a0) { Rva00072A08Inner *inner = m_08; if (inner) inner->slot3(a0); }
-void Rva00072A08::UpdateDynamicParameterSet(Int a0) { Rva00072A08Inner *inner = m_08; if (inner) inner->slot4(a0); }
-void Rva00072A08::End_Pass() { Rva00072A08Inner *inner = m_08; if (inner) inner->slot5(); }
-void Rva00072A08::End_Rendering() { Rva00072A08Inner *inner = m_08; if (inner) inner->slot6(); }
-Int Rva00072A08::rva00072ADE()
+void FXShader::RenderingMethodDelegate::Begin_Pass(Int a0) { Rva00072A08Inner *inner = m_08; if (inner) inner->slot3(a0); }
+void FXShader::RenderingMethodDelegate::UpdateDynamicParameterSet(Int a0) { Rva00072A08Inner *inner = m_08; if (inner) inner->slot4(a0); }
+void FXShader::RenderingMethodDelegate::End_Pass() { Rva00072A08Inner *inner = m_08; if (inner) inner->slot5(); }
+void FXShader::RenderingMethodDelegate::End_Rendering() { Rva00072A08Inner *inner = m_08; if (inner) inner->slot6(); }
+Int FXShader::RenderingMethodDelegate::rva00072ADE()
 {
 	Rva00072A08Inner *inner = m_08;
 	if (inner)

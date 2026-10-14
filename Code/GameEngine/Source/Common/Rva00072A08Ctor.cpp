@@ -2,7 +2,7 @@
 //
 // Retail 0x000729F4, 20 bytes: default constructor of the reference-counted
 // rendering-method forwarder whose vtable 0x00BC6540 holds the matched
-// Rva00072A08 slot bodies (VslotSmallBodiesC.cpp; slots #2-#6 and #9 forward
+// RenderingMethodDelegate slot bodies (VslotSmallBodiesC.cpp; slots #2-#6 and #9 forward
 // to the object at +8). Ghidra-unlisted, no caller (the body sits between
 // W3DShroudMaterialPassClass::UnInstall_Materials 0x000729EB and slot #2).
 //
@@ -35,20 +35,27 @@ private:
 	Rva00072A08Inner *m_target;
 };
 
-class Rva00072A08 : public RefCountClass
+// WorldBuilder FXShader::RenderingMethodDelegate (slot bodies Begin_Pass..End_Rendering, vtable leads).
+class FXShader
 {
 public:
-	Rva00072A08();
+	class RenderingMethodDelegate;
+};
+
+class FXShader::RenderingMethodDelegate : public RefCountClass
+{
+public:
+	RenderingMethodDelegate();
 
 	virtual bool rva00072A08(int a0, int a1);
 
 protected:
-	virtual ~Rva00072A08();
+	virtual ~RenderingMethodDelegate();
 
 private:
 	Rva00072A08Target m_08;
 };
 
-Rva00072A08::Rva00072A08()
+FXShader::RenderingMethodDelegate::RenderingMethodDelegate()
 {
 }
