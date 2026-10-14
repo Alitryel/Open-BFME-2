@@ -56,7 +56,10 @@ protected:
 	int GrowthStep;
 };
 
-struct TextureStatisticsStructWide
+// This local geometry record owns a COM surface. The append provider keeps
+// its existing opaque element spelling, also used by a texture-owning view
+// elsewhere; that view's destructor is not this record's cleanup operation.
+struct RenderSentenceGeometryView
 {
 	W3DRadarResetSurface tex;
 	float f04;
@@ -105,7 +108,7 @@ void Render2DSentenceClass::rva00156540(Rva00156540Param const *param)
 	if (0 >= width)
 		return;
 	float charHeight = (float)param->field2c;
-	TextureStatisticsStructWide chunk;
+	RenderSentenceGeometryView chunk;
 	SurfaceClass *tmpCur = m_curSurface;
 	if (tmpCur != 0)
 		tmpCur->ops->add_ref(tmpCur);
@@ -120,5 +123,5 @@ void Render2DSentenceClass::rva00156540(Rva00156540Param const *param)
 	chunk.f18 = (float)m_textureOffset.Y;
 	chunk.f1c = (float)m_textureOffset.X;
 	chunk.f20 = (float)m_textureOffset.Y + charHeight;
-	m_sentenceData.Add(chunk);
+	m_sentenceData.Add(reinterpret_cast<const TextureStatisticsStructWide &>(chunk));
 }
