@@ -56604,3 +56604,4 @@ CatchContinuation_0x0022D53D	0x0022D53D	703	no-boundary	Not a standalone functio
 ?rva0042CC7B@Rva0042CBB6@@QAEHPAVGameMessage@@@Z	0x0042CC7B	1005	landed	add_match verified Code/GameEngine/Source/Common/Rva0042CB81.cpp 1005B
 ?rva0028FCD9@Object@@QAEXHH@Z	0x0028FCD9	380	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/ObjectRva0028FCD9.cpp 380B
 ?addFactionBib@W3DTerrainVisual@@UAEXPAVObject@@_NM@Z	0x00092DD8	717	landed	add_match verified Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainVisualAddFactionBibDrawable.cpp 717B
+?updateBounds@W3DShadowTexture@@QAEXAAVVector3@@PAVRenderObjClass@@@Z	0x00109648	1443	landed	add_match verified Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowTextureUpdateBounds.cpp 1443B
