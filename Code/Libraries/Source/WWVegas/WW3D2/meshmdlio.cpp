@@ -1858,16 +1858,7 @@ void MeshModelClass::modify_for_overbright(void)
  * HISTORY:                                                                                    *
  *   12/10/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-inline MeshLoadContextClass::MeshLoadContextClass(void)
-{
-	memset(&Header,0,sizeof(Header));
-	memset(&MatInfo,0,sizeof(MatInfo));
-	PrelitChunkID = 0xffffffff;
-	CurPass = 0;
-	CurTexStage = 0;
-	TexCoords = NULL;
-	LoadedDIG = false;
-}
+// MeshLoadContextClass constructor: use the verified body in MeshLoadContextCtor.cpp.
 
 
 /***********************************************************************************************
@@ -1882,24 +1873,7 @@ inline MeshLoadContextClass::MeshLoadContextClass(void)
  * HISTORY:                                                                                    *
  *   12/10/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-inline MeshLoadContextClass::~MeshLoadContextClass(void)
-{
-	int i;
-
-	if (TexCoords != NULL) {
-		delete TexCoords;
-		TexCoords = NULL;
-	}
-	for (i=0; i<Textures.Count(); i++) {
-		Textures[i]->Release_Ref();
-	}
-	for (i=0; i<VertexMaterials.Count(); i++) {
-		VertexMaterials[i]->Release_Ref();
-	}
-	for (i=0; i<LegacyMaterials.Count(); i++) {
-		delete LegacyMaterials[i];
-	}
-}
+// MeshLoadContextClass destructor: use the verified body in MeshLoadContextCtor.cpp.
 
 
 /***********************************************************************************************
