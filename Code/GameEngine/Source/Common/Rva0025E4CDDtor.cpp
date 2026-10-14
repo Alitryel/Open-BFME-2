@@ -33,7 +33,7 @@ public:
 };
 
 extern GameLogic *TheGameLogic;
-extern unsigned int g_00DFEA2C;
+extern unsigned long g_00DFEA2C;
 
 struct LARGE_INTEGER
 {
