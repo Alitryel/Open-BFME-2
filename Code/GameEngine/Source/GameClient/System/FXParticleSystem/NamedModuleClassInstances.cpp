@@ -105,3 +105,22 @@ Rva005635C1SingletonTouch *Rva005635C1SingletonTouch::touch()
     FXParticleSystem::ConcreteModuleClass<FXParticleSystem::RenderObjectDrawModuleTag>::getInstance();
     return this;
 }
+
+// Native5613A6 and563D22 do the same for the butterfly and GPU draw singletons.
+struct Rva005613A6
+{
+    void *rva005613A6();
+};
+void *Rva005613A6::rva005613A6()
+{
+    FXParticleSystem::ConcreteModuleClass<FXParticleSystem::ButterflyDrawModuleTag>::getInstance();
+    return this;
+}
+struct Rva00563D22SingletonTouch {
+    Rva00563D22SingletonTouch *touch();
+};
+Rva00563D22SingletonTouch *Rva00563D22SingletonTouch::touch()
+{
+    FXParticleSystem::ConcreteModuleClass<FXParticleSystem::GpuDrawModuleTag>::getInstance();
+    return this;
+}
