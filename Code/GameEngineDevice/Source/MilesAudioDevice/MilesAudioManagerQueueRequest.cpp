@@ -14,22 +14,29 @@
 // calls instead so this TU emits no external copy.
 #include <new>
 #include <cstddef>
-// Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
+// vector<void*> accessors otherwise instantiate per-TU COMDATs, and the
+// hashtable<unsigned, int> helpers this TU emits then call them out of line;
+// explicit dllimport+forceinline specializations take those calls inline so
+// the helpers compile to the retail-proven copies of the Rva00057378 unit.
 namespace _STL {
-template <> void *&_STL::vector<void*>::operator[](size_t);
-}
-// Suppress this TU's non-retail const-begin copy (row 47 family2-LK3): the
-// /Od retail copy in stlport_vector_voidptr.cpp serves the link instead.
-namespace _STL {
-template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
-}
-// Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL {
-template <> size_t vector<void*>::size() const;
-template <> void **vector<void*>::begin();
-template <> void **vector<void*>::end();
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin()
+{ return _M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end()
+{ return _M_finish; }
+template <> __declspec(dllimport) __forceinline
+void *const *vector<void*>::begin() const
+{ return _M_start; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const
+{ return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void*>::operator[](size_t __n)
+{ return *(begin() + __n); }
+template <> __declspec(dllimport) __forceinline
+void *const &vector<void*>::operator[](size_t __n) const
+{ return *(begin() + __n); }
 }
 namespace _STL {
 static inline void _Construct(int *__p, const int &__val)
