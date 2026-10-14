@@ -258,7 +258,9 @@ extern ThingFactory *TheThingFactory;
 struct Rva005E7322MidRet { char pad[4]; AsciiString text; };
 class Rva005E7322R { public: Rva005E7322MidRet *mid(int); };
 struct Rva005E76AEContext { char pad[0x18]; int m_id; };
-__declspec(noinline) static void *rva005E7322Get(Rva005E72B4Queue *queue,int id)
+// WorldBuilder StrategicInGameUI::GetThingTemplate, WB VA 0x016025A0 (callgraph lead, score 1.0).
+namespace StrategicInGameUI {
+__declspec(noinline) static void *GetThingTemplate(Rva005E72B4Queue *queue,int id)
 {
  void *r=rva005E72B4Get(queue,id);
  if(!r) return 0;
@@ -266,7 +268,10 @@ __declspec(noinline) static void *rva005E7322Get(Rva005E72B4Queue *queue,int id)
  if(name->isEmpty()) return 0;
  return (void *)TheThingFactory->findTemplate(*name);
 }
-__declspec(noinline) static int rva005E7582Get(Rva005E72B4Queue *queue,int index)
+}
+// WorldBuilder StrategicInGameUI::GetBuildTimeAtIndex, WB VA 0x01603E70 (callgraph lead, score 3.0).
+namespace StrategicInGameUI {
+__declspec(noinline) static int GetBuildTimeAtIndex(Rva005E72B4Queue *queue,int index)
 {
  int id=queue->slot13()->begin[index];
  SpawnArmy army(0);
@@ -275,15 +280,22 @@ __declspec(noinline) static int rva005E7582Get(Rva005E72B4Queue *queue,int index
  if(index==0) time-=queue->slot12();
  return time;
 }
-__declspec(noinline) static UnicodeString rva005E76AEGet(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int id)
+}
+// WorldBuilder StrategicInGameUI::GetDisplayName, WB VA 0x01603430 (callgraph lead, score 2.0).
+namespace StrategicInGameUI {
+__declspec(noinline) static UnicodeString GetDisplayName(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int id)
 {
  SpawnArmy army(0);
  if(queue->slot4(id,&army)) return ((Rva00319CED *)&army)->rva004E25AF(context->m_id);
  return UnicodeString::TheEmptyString;
 }
-__declspec(noinline) static UnicodeString rva005E7721Get(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int index)
+}
+// WorldBuilder StrategicInGameUI::GetDisplayNameAtIndex, WB VA 0x01603350 (callgraph lead, score 1.0).
+namespace StrategicInGameUI {
+__declspec(noinline) static UnicodeString GetDisplayNameAtIndex(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int index)
 {
- return rva005E76AEGet(context,queue,queue->slot13()->begin[index]);
+ return StrategicInGameUI::GetDisplayName(context,queue,queue->slot13()->begin[index]);
+}
 }
 class Rva005F772E { public: void rva005F772E(const UnicodeString &); void rva005F7470(); };
 class Rva005F7478 { public: void rva005F7478(int); };
@@ -294,10 +306,10 @@ struct Rva005EThing { char pad[0x618]; int m_commandPoints; };
 void StrategicInGameUI::BuildQueueDetailsPanel::Impl::ShowUnitStats(int index)
 {
  if(index>=0) {
-  ((Rva005F772E *)this)->rva005F772E(rva005E7721Get(m_context,m_queue,index));
-  ((Rva005F7478 *)this)->rva005F7478(rva005E7582Get(m_queue,index));
+  ((Rva005F772E *)this)->rva005F772E(StrategicInGameUI::GetDisplayNameAtIndex(m_context,m_queue,index));
+  ((Rva005F7478 *)this)->rva005F7478(StrategicInGameUI::GetBuildTimeAtIndex(m_queue,index));
   Rva005E72B4Queue *nugget=m_queue;
-  Rva005EThing *thing=(Rva005EThing *)rva005E7322Get(nugget,nugget->slot13()->begin[index]);
+  Rva005EThing *thing=(Rva005EThing *)StrategicInGameUI::GetThingTemplate(nugget,nugget->slot13()->begin[index]);
   ((Rva005F7488 *)this)->rva005F7488(thing ? thing->m_commandPoints : 0);
  } else {
   ((Rva005F772E *)this)->rva005F7470();
@@ -310,15 +322,21 @@ void StrategicInGameUI::BuildQueueDetailsPanel::Impl::ShowUnitStats(int index)
 // through the retail by-value return call. Icon owns a counted 12B help object
 // at+1C; the matched help constructor and holder setter establish its layout.
 // Preserve both temporary UnicodeString lifetimes across constructor and set.
-__declspec(noinline) static UnicodeString rva005E774FGet(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int id)
+// WorldBuilder StrategicInGameUI::GetDisplayDescription, WB VA 0x01603640 (callgraph lead, score 2.0).
+namespace StrategicInGameUI {
+__declspec(noinline) static UnicodeString GetDisplayDescription(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int id)
 {
  SpawnArmy army(0);
  if(queue->slot4(id,&army)) return ((Rva00319CED *)&army)->rva004E265F(context->m_id);
  return UnicodeString::TheEmptyString;
 }
-__declspec(noinline) static UnicodeString rva005E77C2Get(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int index)
+}
+// WorldBuilder StrategicInGameUI::GetDisplayDescriptionAtIndex, WB VA 0x01603560 (callgraph lead, score 1.0).
+namespace StrategicInGameUI {
+__declspec(noinline) static UnicodeString GetDisplayDescriptionAtIndex(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int index)
 {
- return rva005E774FGet(context,queue,queue->slot13()->begin[index]);
+ return StrategicInGameUI::GetDisplayDescription(context,queue,queue->slot13()->begin[index]);
+}
 }
 class __declspec(novtable) Rva005398CDRefCounted {
 public:
@@ -339,7 +357,7 @@ class Rva001FF3A9 { public: void rva001FF3A9(const TreeHintRef00217D4C &); };
 void StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon::rva005E789A()
 {
  if(!m_1c.m_value)
-  ((Rva002BED91 *)&m_1c)->set((TargetRef00217D4C *)new InGameSimpleHelp(rva005E7721Get(m_owner->m_context,m_owner->m_queue,m_queueIndex),rva005E77C2Get(m_owner->m_context,m_owner->m_queue,m_queueIndex)));
+  ((Rva002BED91 *)&m_1c)->set((TargetRef00217D4C *)new InGameSimpleHelp(StrategicInGameUI::GetDisplayNameAtIndex(m_owner->m_context,m_owner->m_queue,m_queueIndex),StrategicInGameUI::GetDisplayDescriptionAtIndex(m_owner->m_context,m_owner->m_queue,m_queueIndex)));
  ((Rva001FF3A9 *)m_owner->m_help)->rva001FF3A9(*(const TreeHintRef00217D4C *)&m_1c);
 }
 
@@ -352,21 +370,27 @@ void StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon::rva005E789A()
 // The base vtable points to rowed deleting destructor7E5EE; this view emits
 // that same29B body. The derived deleting destructor28 and adjustor8 reproduce
 // native5E7EBB/5E7EB3, with the compiler's weak vector-to-scalar fallback.
-__declspec(noinline) static const Image *rva005E704EGet(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int id)
+// WorldBuilder StrategicInGameUI::GetPortraitImage, WB VA 0x01604120 (callgraph lead, score 3.0).
+namespace StrategicInGameUI {
+__declspec(noinline) static const Image *GetPortraitImage(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int id)
 {
  SpawnArmy army(0);
  if(queue->slot4(id,&army)) return ((Rva00319CED *)&army)->rva004E24DC(context->m_id);
  return 0;
 }
-__declspec(noinline) static const Image *rva005E7607Get(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int index)
+}
+// WorldBuilder StrategicInGameUI::GetPortraitImageAtIndex, WB VA 0x01604060 (align lead, score 2.0).
+namespace StrategicInGameUI {
+__declspec(noinline) static const Image *GetPortraitImageAtIndex(Rva005E76AEContext *context,Rva005E72B4Queue *queue,int index)
 {
- return rva005E704EGet(context,queue,queue->slot13()->begin[index]);
+ return StrategicInGameUI::GetPortraitImage(context,queue,queue->slot13()->begin[index]);
+}
 }
 const Image *Rva005F01C7Get(int);
 struct Rva005E7625Template { char pad[0x5c4]; int imageID; };
 __declspec(noinline) static const Image *rva005E7625Get(Rva005E72B4Queue *queue,int index)
 {
- Rva005E7625Template *thing=(Rva005E7625Template *)rva005E7322Get(queue,queue->slot13()->begin[index]);
+ Rva005E7625Template *thing=(Rva005E7625Template *)StrategicInGameUI::GetThingTemplate(queue,queue->slot13()->begin[index]);
  if(!thing) return 0;
  return Rva005F01C7Get(thing->imageID);
 }
@@ -403,11 +427,11 @@ public:
 };
 Rva005E7ED7::Rva005E7ED7(Owner *owner,int index)
  : Icon(owner,index,(StrategicHUD::BuildQueueIconSlot *)((Rva005F6B12 *)owner)->rva005F6B12(index-1),
-        (void *)rva005E7607Get(owner->m_context,owner->m_queue,index),
+        (void *)StrategicInGameUI::GetPortraitImageAtIndex(owner->m_context,owner->m_queue,index),
         (int)rva005E7625Get(owner->m_queue,index),rva005E77F0Get(owner->m_queue,index)),
  slot((StrategicHUD::BuildQueueIconSlot *)((Rva005F6B12 *)owner)->rva005F6B12(index-1))
 {
- int time=rva005E7582Get(owner->m_queue,index);
+ int time=StrategicInGameUI::GetBuildTimeAtIndex(owner->m_queue,index);
  ((Rva005E7E05QueuedSlot *)slot)->SetNumTurns(time);
 }
 
@@ -561,7 +585,7 @@ void Rva005E7ED7::MoveTo(int index)
   ((Rva005E7E05QueuedSlot *)slot)->SetNumTurns(0);
   slot=(StrategicHUD::BuildQueueIconSlot *)((Rva005F6B12 *)m_owner)->rva005F6B12(index-1);
   ((Rva005E7DD6 *)this)->setRva005E7DD6((int)slot);
-  int time=rva005E7582Get(m_owner->m_queue,index);
+  int time=StrategicInGameUI::GetBuildTimeAtIndex(m_owner->m_queue,index);
   ((Rva005E7E05QueuedSlot *)slot)->SetNumTurns(time);
  }
 }
@@ -574,18 +598,21 @@ void Rva005E7ED7::MoveTo(int index)
 namespace StrategicInGameUI { UnicodeString __cdecl GetTooltipText(int); }
 __declspec(noinline) static UnicodeString rva005E764FGet(Rva005E72B4Queue *queue,int id)
 {
- Rva005E7625Template *thing=(Rva005E7625Template *)rva005E7322Get(queue,id);
+ Rva005E7625Template *thing=(Rva005E7625Template *)StrategicInGameUI::GetThingTemplate(queue,id);
  if(!thing) return UnicodeString::TheEmptyString;
  return StrategicInGameUI::GetTooltipText(thing->imageID);
 }
-__declspec(noinline) static UnicodeString rva005E7684Get(Rva005E72B4Queue *queue,int index)
+// WorldBuilder StrategicInGameUI::GetTooltipTextAtIndex, WB VA 0x01602450 (callgraph lead, score 1.0).
+namespace StrategicInGameUI {
+__declspec(noinline) static UnicodeString GetTooltipTextAtIndex(Rva005E72B4Queue *queue,int index)
 { return rva005E764FGet(queue,queue->slot13()->begin[index]); }
+}
 struct RGBColor;
 class Mouse { public: void rva001EEA6D(UnicodeString,int,const RGBColor *,float); };
 extern Mouse *TheMouse;
 // ?StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon::Update present-unmatched
 void StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon::Update()
-{ if(m_21) TheMouse->rva001EEA6D(rva005E7684Get(m_owner->m_queue,m_queueIndex),-1,0,1.0f); }
+{ if(m_21) TheMouse->rva001EEA6D(StrategicInGameUI::GetTooltipTextAtIndex(m_owner->m_queue,m_queueIndex),-1,0,1.0f); }
 
 // Init at 0x005E797F is 327B through RET4 at 0x005E7AC3. WorldBuilder
 // names InProgressIcon::Init(bool); retail independently fixes the owner+4,

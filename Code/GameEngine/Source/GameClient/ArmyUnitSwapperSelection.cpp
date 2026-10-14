@@ -52,7 +52,9 @@ V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7) V(8) V(9) V(10) V(11) V(12) V(13) V(14) 
 virtual GameMessage *appendMessage(GameMessage::Type);
 };
 extern MessageStream *TheMessageStream;
-static bool Rva005F56B0(Rva005F56B0Selection *selection,LivingWorldArmy *army) {
+// WorldBuilder StrategicInGameUI::CanCancelMove, WB VA 0x0162A1C0 (callgraph lead, score 2.0).
+namespace StrategicInGameUI {
+static bool CanCancelMove(Rva005F56B0Selection *selection,LivingWorldArmy *army) {
  if(!TheLivingWorldLogic || TheLivingWorldLogic->flagF4 || !reinterpret_cast<Rva002B280C*>(TheLivingWorldLogic)->rva002B280C(reinterpret_cast<Arg54*>(army)))return false;
  if(selection->members.size()) {
   Rva0040CB3AIndexedField *summary=army->summary;
@@ -68,7 +70,10 @@ static bool Rva005F56B0(Rva005F56B0Selection *selection,LivingWorldArmy *army) {
  }
  return reinterpret_cast<Rva00318F42*>(army)->rva00318F42();
 }
-static void Rva005F5749(Rva005F56B0Selection *selection,LivingWorldArmy *army) {
+}
+// WorldBuilder StrategicInGameUI::CancelMove, WB VA 0x0162A3F0 (callgraph lead, score 2.0).
+namespace StrategicInGameUI {
+static void CancelMove(Rva005F56B0Selection *selection,LivingWorldArmy *army) {
  if(selection->members.size()) {
   Rva0040CB3AIndexedField *summary=army->summary;
   SelectedMemberSet::iterator end=selection->members.end();
@@ -85,16 +90,19 @@ static void Rva005F5749(Rva005F56B0Selection *selection,LivingWorldArmy *army) {
   message->appendIntegerArgument(army->id);
  }
 }
+}
 class Rva005F57D8 {public: void rva005F57D8(); char prefix[0x20]; LivingWorldArmy *army; Rva005F56B0Selection *selection;};
-void Rva005F57D8::rva005F57D8(){reinterpret_cast<Rva005E1160Flag*>(reinterpret_cast<char*>(this)+8)->rva005E1160(Rva005F56B0(selection,army));}
+void Rva005F57D8::rva005F57D8(){reinterpret_cast<Rva005E1160Flag*>(reinterpret_cast<char*>(this)+8)->rva005E1160(StrategicInGameUI::CanCancelMove(selection,army));}
 class Rva005F57F2 {public: void rva005F57F2(); char prefix[0x18]; LivingWorldArmy *army; Rva005F56B0Selection *selection;};
-void Rva005F57F2::rva005F57F2(){reinterpret_cast<Rva005E0D94*>(this)->rva005E0D94();if(Rva005F56B0(selection,army))Rva005F5749(selection,army);}
+void Rva005F57F2::rva005F57F2(){reinterpret_cast<Rva005E0D94*>(this)->rva005E0D94();if(StrategicInGameUI::CanCancelMove(selection,army))StrategicInGameUI::CancelMove(selection,army);}
 
 // Native 5F5D41..5F5EA6: selection-wide disband-state check and messages.
 // The C4 state bit and first-element state check are target facts;
 // CanDisbandArmyMember identity is the existing verified WB-led provider.
 bool CanDisbandArmyMember(LivingWorldArmy*,int);
-static bool Rva005F5D41(Rva005F56B0Selection *selection,LivingWorldArmy *army) {
+// WorldBuilder StrategicInGameUI::ShouldEnableButton, WB VA 0x0162B7B0 (callgraph lead, score 3.0).
+namespace StrategicInGameUI {
+static bool ShouldEnableButton(Rva005F56B0Selection *selection,LivingWorldArmy *army) {
  if(!TheLivingWorldLogic || TheLivingWorldLogic->flagF4 || !selection->members.size())return false;
  Rva0040CB3AIndexedField *summary=army->summary;
  SelectedMemberSet::iterator it=selection->members.begin();
@@ -108,7 +116,10 @@ static bool Rva005F5D41(Rva005F56B0Selection *selection,LivingWorldArmy *army) {
  }
  return true;
 }
-static void Rva005F5DEE(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
+}
+// WorldBuilder StrategicInGameUI::DisbandArmyMembers, WB VA 0x0162BA80 (callgraph lead, score 2.0).
+namespace StrategicInGameUI {
+static void DisbandArmyMembers(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
  Rva0040CB3AIndexedField *summary=army->summary;
  SelectedMemberSet::iterator end=selection->members.end();
  for(SelectedMemberSet::iterator it=selection->members.begin();it!=end;++it) {
@@ -122,10 +133,11 @@ static void Rva005F5DEE(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
   message->appendIntegerArgument(*it);
  }
 }
+}
 class Rva005F5E69 {public:void rva005F5E69(); char prefix[0x20];LivingWorldArmy *army;Rva005F56B0Selection *selection;};
-void Rva005F5E69::rva005F5E69(){reinterpret_cast<Rva005E1160Flag*>(reinterpret_cast<char*>(this)+8)->rva005E1160(Rva005F5D41(selection,army));}
+void Rva005F5E69::rva005F5E69(){reinterpret_cast<Rva005E1160Flag*>(reinterpret_cast<char*>(this)+8)->rva005E1160(StrategicInGameUI::ShouldEnableButton(selection,army));}
 class Rva005F5E83 {public:void rva005F5E83();char prefix[0x18];LivingWorldArmy *army;Rva005F56B0Selection *selection;};
-void Rva005F5E83::rva005F5E83(){if(Rva005F5D41(selection,army))Rva005F5DEE(army,selection);}
+void Rva005F5E83::rva005F5E83(){if(StrategicInGameUI::ShouldEnableButton(selection,army))StrategicInGameUI::DisbandArmyMembers(army,selection);}
 
 // Native 5F5968..5F5BF2: upgrade/cancel selection checks and dispatchers.
 // WB (StrategicInGameUIUpgradeUnitButton.cpp) names the private workers

@@ -263,7 +263,9 @@ static __declspec(noinline) bool RetrieveTextWidth(const AsciiString &path,int l
  return result;
 }
 }
-static __declspec(noinline) bool Rva005D4287(const AsciiString &path,int level,float *output) {
+// WorldBuilder StrategicHUD::RetrieveHeight, WB VA 0x015A7B30 (strings lead, score 2.0).
+namespace StrategicHUD {
+static __declspec(noinline) bool RetrieveHeight(const AsciiString &path,int level,float *output) {
  AsciiString value; bool ready=false;
  {
   AsciiString name; name.format("_level%u.%s_Height",level,path.str());
@@ -277,13 +279,14 @@ static __declspec(noinline) bool Rva005D4287(const AsciiString &path,int level,f
  }
  return result;
 }
+}
 int __cdecl Rva00527925Fire(void *,void *,const char *,const char *,const float *);
 void Rva005D40A6::UpdateHeight() {
  struct { int width; float value; int height; } local;
  m_24->getSize(&local.width,&local.height);
  local.value=local.height*g_bfmeAptWindowManager->getInverseScale().y;
  Rva00527925Fire(g_bfmeAptWindowManager,reinterpret_cast<void *>(m_04),m_08.str(),"SetHeight",&local.value);
- if(Rva005D4287(m_08,m_04,&local.value)) {
+ if(StrategicHUD::RetrieveHeight(m_08,m_04,&local.value)) {
   flag5=true;
   if(local.value!=m_float30) { float old=m_float30; m_float30=local.value; rva0047A69C(old); }
  }
