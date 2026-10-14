@@ -21,28 +21,26 @@ public:
 	void destroy();
 };
 
-struct BfmeParticleSystemHandle
+// The handle findParticleSystemByID returns: the BfmeParticleSystemHandle
+// class of ParticleSystemManagerFindByID.cpp. Its release is the rowed
+// RvaSmartPtr12::rva0004CBC0, reached only when the handle holds a system.
+class RvaSmartPtr12
 {
-	~BfmeParticleSystemHandle() throw();
-	void *m_system;
-	void *m_prev;
-	void *m_next;
+public:
+	void rva0004CBC0() throw(); // 0x0004CBC0
 };
 
-struct RvaSmartPtr12
+class BfmeParticleSystemHandle
 {
-	void rva0004CBC0() throw(); // 0x0004CBC0, the unlink the inline dtor null test calls
-
-	~RvaSmartPtr12() throw()
+public:
+	~BfmeParticleSystemHandle() throw()
 	{
-		BfmeParticleSystemHandle *p = (BfmeParticleSystemHandle *)this;
-		if (p->m_system != 0)
-			reinterpret_cast<RvaSmartPtr12 *>(p)->rva0004CBC0();
+		if (m_system != 0)
+			reinterpret_cast<RvaSmartPtr12 *>(this)->rva0004CBC0();
 	}
-	ParticleSystem *get() const { return (ParticleSystem *)m_ptr; }
-	void *m_ptr;
-	int m_pad04;
-	int m_pad08;
+	void *m_system;
+	void *m_previous;
+	void *m_next;
 };
 
 class ParticleSystemManager
@@ -50,13 +48,14 @@ class ParticleSystemManager
 public:
 	void destroyParticleSystemByID(ParticleSystemID id);
 private:
-	RvaSmartPtr12 findParticleSystemByID(ParticleSystemID id);
+	BfmeParticleSystemHandle findParticleSystemByID(ParticleSystemID id);
 };
 
 // ------------------------------------------------------------------------------------------------
 void ParticleSystemManager::destroyParticleSystemByID(ParticleSystemID id)
 {
-	RvaSmartPtr12 sys = findParticleSystemByID(id);
-	if (sys.get())
-		sys.get()->destroy();
+	BfmeParticleSystemHandle sys = findParticleSystemByID(id);
+	ParticleSystem *system = (ParticleSystem *)sys.m_system;
+	if (system)
+		system->destroy();
 }
