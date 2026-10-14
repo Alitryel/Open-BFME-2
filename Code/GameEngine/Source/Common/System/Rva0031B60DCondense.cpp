@@ -2,10 +2,16 @@
 // Reconstruction of the 52B condenser at 0x0031B60D: when the +0x2A8
 // pair is empty run the pinned filler on out, else copy the last 8B
 // before +0x2AC into out; returns out. All names address-derived.
+// 0x0035AEC2 is matched as the constructor ??0Rva0035AEC2@@QAE@XZ.
+class Rva0035AEC2
+{
+public:
+	Rva0035AEC2();
+};
+
 class Rva0031B60DOut
 {
 public:
-	void rva0035AEC2();
 	int m_00;
 	int m_04;
 };
@@ -25,7 +31,7 @@ Rva0031B60DOut *Rva0031B60DOwner::rva0031B60D(Rva0031B60DOut *out)
 	void **pp = &m_2a8;
 	if (pp[0] == pp[1])
 	{
-		out->rva0035AEC2();
+		((Rva0035AEC2 *)out)->Rva0035AEC2::Rva0035AEC2();
 		return out;
 	}
 	void *end = m_2ac;
