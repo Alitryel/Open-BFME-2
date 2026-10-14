@@ -9,6 +9,8 @@
 // each acquired reference (Delete_This in slot 0 at zero). The shared
 // rendobj.h does not declare the slot yet, so this storage view spells the
 // table by position; it defines no constructor and emits no vtable.
+class DecalGeneratorClass;
+
 class HLodChildView
 {
 public:
@@ -136,7 +138,7 @@ public:
 	virtual void s121();
 	virtual void s122();
 	virtual void s123();
-	virtual void s124();
+	virtual void Create_Decal(DecalGeneratorClass *generator, int flag);	// +0x1F0
 	virtual void s125();
 	virtual void rva0019BA70(int a, int b);	// +0x1F8
 	void Release_Ref(void) { NumRefs--; if (NumRefs == 0) Delete_This(); }
@@ -147,6 +149,7 @@ private:
 class HLodClass : public HLodChildView
 {
 public:
+	virtual void Create_Decal(DecalGeneratorClass *generator, int flag);
 	virtual void rva0019BA70(int a, int b);
 };
 
@@ -156,6 +159,21 @@ void HLodClass::rva0019BA70(int a, int b)
 	for (int i = 0; i < count; ++i) {
 		HLodChildView *object = Get_Sub_Object(i);
 		object->rva0019BA70(a, b);
+		object->Release_Ref();
+	}
+}
+
+// ?Create_Decal@HLodClass@@UAEXPAVDecalGeneratorClass@@H@Z, retail 0x0019B9C0
+// (87 bytes, RET 8): slot +0x1F0 of the same table (the BFME1 donor's
+// Create_Decal slot, two arguments in BFME 2), the identical forward-and-
+// release walk. The second argument is a full int: spelled bool, cl caches
+// the generator instead of it and reorders the two pushes.
+void HLodClass::Create_Decal(DecalGeneratorClass *generator, int flag)
+{
+	const int count = Get_Num_Sub_Objects();
+	for (int i = 0; i < count; ++i) {
+		HLodChildView *object = Get_Sub_Object(i);
+		object->Create_Decal(generator, flag);
 		object->Release_Ref();
 	}
 }
