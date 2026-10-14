@@ -82,3 +82,20 @@ void Rva003EE980::rva003EE980(Int a)
 	((Rva004E35FF *)&m_owner)->rva004E35FF(g_Rva00E02E84, (Int)p, (Int)&tmp[0]);
 	((Rva004E35AF *)&m_owner)->rva004E35AF(g_Rva00E02E84, 1);
 }
+
+// ?rva003EE9D7@Rva003EE9D7@@QAEXH@Z @0x003EE9D7 26B. Clearing twin of the
+// forward above, and skeleton twin of Rva003EE900 (Rva003EE900Forward.cpp):
+// one rowed 0x004E35D5 call on the owner map at this+8 with string
+// g_Rva00E02E84 and (arg+0x44, 0).
+class Rva003EE9D7
+{
+public:
+	void rva003EE9D7(Int arg);
+private:
+	char m_pad[8];
+	Rva004E35D5 m_owner;
+};
+void Rva003EE9D7::rva003EE9D7(Int arg)
+{
+	m_owner.rva004E35D5(g_Rva00E02E84, (Int)((char *)arg + 0x44), 0);
+}

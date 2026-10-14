@@ -129,3 +129,11 @@ unsigned long Rva003EC9CD(const char *s, int len, volatile unsigned long crc)
   crc = ~crc;
   return crc;
 }
+
+// ?Rva003ECA2FGet@@YAKABVAsciiString@@@Z, retail 0x003ECA2F (28B). The
+// case-insensitive twin of Rva003ECA13Get directly above it: the same inlined
+// AsciiString::str() feeding the rowed CRC_Stringi at 0x003EC953 instead.
+unsigned long Rva003ECA2FGet(const AsciiString &s)
+{
+  return CRC_Stringi((char *)s.str());
+}
