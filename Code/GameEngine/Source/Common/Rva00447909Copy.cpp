@@ -1,5 +1,5 @@
 // cl: /MD /Oi-
-// ?Rva00447909Copy@@YAPADPADPAXI0@Z, retail 0x00447909, 54 bytes.
+// ?NetworkBufferReadRaw@@YAPADPADPAXI0@Z, retail 0x00447909, 54 bytes.
 // Checked memcpy: copies size bytes from src to dst and returns src+size,
 // or returns src unchanged when the copy would pass limit (null limit always
 // copies). Evidence: unlock lane; callees rowed/pinned (memcpy via _memcpy pin
@@ -8,7 +8,8 @@
 extern "C" void *__cdecl memcpy(void *dest, const void *src, unsigned int count);
 extern "C" __declspec(dllimport) unsigned long __stdcall htonl(unsigned long v);
 extern "C" __declspec(dllimport) unsigned short __stdcall htons(unsigned short v);
-char *__cdecl Rva00447909Copy(char *src, void *dst, unsigned int size, char *limit)
+// WorldBuilder NetworkBufferReadRaw, WB VA 0x014A8760 (callsite lead, score 1.0).
+char *__cdecl NetworkBufferReadRaw(char *src, void *dst, unsigned int size, char *limit)
 {
 	if (limit != 0) {
 		if (src > limit)
@@ -20,29 +21,29 @@ char *__cdecl Rva00447909Copy(char *src, void *dst, unsigned int size, char *lim
 	return src + size;
 }
 // ?Rva0044799ACopy1@@YAPADPADPAX0@Z, retail 0x0044799A, 23 bytes.
-// Fixed-size-1 checked copy: forwards to Rva00447909Copy. Evidence: chain lane
+// Fixed-size-1 checked copy: forwards to NetworkBufferReadRaw. Evidence: chain lane
 // calls 0x00447909 which this session landed; callers in 0x00448423.
 char *__cdecl Rva0044799ACopy1(char *src, void *dst, char *limit)
 {
-	return Rva00447909Copy(src, dst, 1, limit);
+	return NetworkBufferReadRaw(src, dst, 1, limit);
 }
 // ?Rva0044793FReadU32@@YAPADPADPAI0@Z, retail 0x0044793F, 45 bytes.
-// Checked 4-byte read with htonl: copies via Rva00447909Copy into the src slot
+// Checked 4-byte read with htonl: copies via NetworkBufferReadRaw into the src slot
 // then byte-swaps to *out. Evidence: chain lane calls 0x00447909; IAT htonl;
 // callers in 0x00448423.
 char *__cdecl Rva0044793FReadU32(char *src, unsigned int *out, char *limit)
 {
-	char *next = Rva00447909Copy(src, &src, 4, limit);
+	char *next = NetworkBufferReadRaw(src, &src, 4, limit);
 	*out = htonl(*(unsigned int *)&src);
 	return next;
 }
 // ?Rva0044796CReadU16@@YAPADPADPAG0@Z, retail 0x0044796C, 46 bytes.
-// Checked 2-byte read with htons: copies via Rva00447909Copy into the src slot
+// Checked 2-byte read with htons: copies via NetworkBufferReadRaw into the src slot
 // then byte-swaps to *out. Evidence: chain lane calls 0x00447909; IAT htons;
 // callers at 0x004484BE 0x004486CB.
 char *__cdecl Rva0044796CReadU16(char *src, unsigned short *out, char *limit)
 {
-	char *next = Rva00447909Copy(src, &src, 2, limit);
+	char *next = NetworkBufferReadRaw(src, &src, 2, limit);
 	*out = htons(*(unsigned short *)&src);
 	return next;
 }

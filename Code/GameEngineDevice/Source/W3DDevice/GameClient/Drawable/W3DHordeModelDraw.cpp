@@ -28,7 +28,8 @@ struct Rva00DFE144Globals
 
 extern class GameLODManager *TheGameLODManager;
 
-__declspec(noinline) int Rva0007912DGet(void)
+// WorldBuilder GetLODIndex, WB VA 0x00919CB0 (callgraph lead, score 1.0).
+__declspec(noinline) int GetLODIndex(void)
 {
 	int v = (*(Rva00DFE144Globals **)&TheGameLODManager)->m_1788 - 1;
 	if (v < 0)
@@ -61,25 +62,25 @@ public:
 
 __declspec(noinline) bool W3DHordeModelDrawModuleData::rva00079147()
 {
-	int idx = Rva0007912DGet();
+	int idx = GetLODIndex();
 	return m_lods[idx].m_allow;
 }
 
 __declspec(noinline) int W3DHordeModelDrawModuleData::rva00079157()
 {
-	int idx = Rva0007912DGet();
+	int idx = GetLODIndex();
 	return m_lods[idx].m_maxTex;
 }
 
 __declspec(noinline) int W3DHordeModelDrawModuleData::rva00079167()
 {
-	int idx = Rva0007912DGet();
+	int idx = GetLODIndex();
 	return m_lods[idx].m_maxAnim;
 }
 
 __declspec(noinline) float W3DHordeModelDrawModuleData::rva00079176()
 {
-	int idx = Rva0007912DGet();
+	int idx = GetLODIndex();
 	return m_lods[idx].m_delta;
 }
 

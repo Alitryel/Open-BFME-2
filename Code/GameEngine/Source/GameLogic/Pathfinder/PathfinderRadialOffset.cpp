@@ -39,7 +39,8 @@ class Object
 		return radius;
 	}
 };
-static void Rva002E7A62Offset(const Coord3D &from, Coord3D &insert, const Coord3D &to, Object *obj, Real radius) throw()
+// WorldBuilder ComputeNormalRadialOffset, WB VA 0x00D4E940 (callgraph lead, score 3.0).
+static void ComputeNormalRadialOffset(const Coord3D &from, Coord3D &insert, const Coord3D &to, Object *obj, Real radius) throw()
 {
 	Real dx = to.x - from.x;
 	Real dy = to.y - from.y;
@@ -112,7 +113,7 @@ bool Pathfinder::rva002E9BE5(const Coord3D *from, const Coord3D *to, float circl
 	if (tallBuilding)
 	{
 		float radius = tallBuilding->getRadius() + 20.0f;
-		Rva002E7A62Offset(*from, *adjustTo, *to, tallBuilding, circleRadius + radius);
+		ComputeNormalRadialOffset(*from, *adjustTo, *to, tallBuilding, circleRadius + radius);
 		Object *otherTallBuilding = ThePartitionManager->getClosestObject(
 			adjustTo, circleRadius, 1,
 			&Rva0004584D(*(BfmeFixedStorage0004543D *)&Rva00045411BitSet(0, 66),
@@ -121,7 +122,7 @@ bool Pathfinder::rva002E9BE5(const Coord3D *from, const Coord3D *to, float circl
 		{
 			radius = otherTallBuilding->getRadius() + 20.0f;
 			Rva002E7A62Position tmpTo(*adjustTo);
-			Rva002E7A62Offset(*from, *adjustTo, tmpTo, otherTallBuilding, circleRadius + radius);
+			ComputeNormalRadialOffset(*from, *adjustTo, tmpTo, otherTallBuilding, circleRadius + radius);
 		}
 		return true;
 	}

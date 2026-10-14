@@ -281,7 +281,8 @@ struct NetworkObjectPrefix {char pad[0x88];AsciiString name;char pad8C[0xB8-0x8C
 class Rva00395A60 {public:float rva00395A60();};
 class CastleBehavior {public:static NameKeyType rva0003955DA();};
 class Rva002A9BF2 {public:void rva002A9D02(int,Object*,int);};
-void rva00241C75(int slotNum,const GameSlot *slot,Player *player,const PlayerTemplate *pt) {
+// WorldBuilder placeNetworkBuildingsForPlayer, WB VA 0x00CFABB0 (strings lead, score 2.0).
+void placeNetworkBuildingsForPlayer(int slotNum,const GameSlot *slot,Player *player,const PlayerTemplate *pt) {
  int startPos=slot->startPos;
  AsciiString waypointName;waypointName.format("Player_%d_Start",startPos+1);
  AsciiString rallyName;rallyName.format("Player_%d_Rally",startPos+1);

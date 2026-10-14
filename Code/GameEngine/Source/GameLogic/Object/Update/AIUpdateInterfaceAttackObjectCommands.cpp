@@ -112,7 +112,8 @@ class AttackAIGate {public:char pad0[0x34];int word34;};
 class Object {public:bool testStatus(ObjectStatusTypes) const;bool chooseBestWeaponForTarget(const Object*,WeaponChoiceCriteria,CommandSourceType);const Weapon *getCurrentWeapon(WeaponSlotType*) const;SpawnBehaviorInterface *getSpawnBehaviorInterface()const;
 char pad0[4];AttackTemplate *thing;char pad8[0x74-8];ObjectID id,linkedID;char pad7C[0x250-0x7C];AttackContainView *contain;void*body;AttackAIGate *ai;char pad25C[0x274-0x25C];Object *holder;char pad278[0x438-0x278];unsigned flags438;char pad43C[0x488-0x43C];ObjectID victim;
 };
-static __declspec(noinline) Object *Rva00268BD5(Object *target,Object *owner,bool *horde){
+// WorldBuilder ModifyVictimForHorde, WB VA 0x00E51FC0 (callgraph lead, score 2.0).
+static __declspec(noinline) Object *ModifyVictimForHorde(Object *target,Object *owner,bool *horde){
  if(!owner->testStatus(STATUS38)){
  Object *container=target->holder;
  if(container && (container->thing->flags114 & 0x2000))target=container;
@@ -140,7 +141,7 @@ void AIUpdateInterface::privateAttackObject(Object *target,int shots,volatile Co
  obj->victim=INVALID_OBJECT_ID;
  if(command==0 && target->testStatus(STATUS38) && weapon && !weapon->data->get())obj->victim=target->id;
  if(obj->ai && obj->ai->word34)return;
- bool horde=false;target=Rva00268BD5(target,obj,&horde);if(!target)return;
+ bool horde=false;target=ModifyVictimForHorde(target,obj,&horde);if(!target)return;
  machine->clear();
  if(horde){Squad *squad=new Squad;squad->rva004D6DF3(target,true);machine->setGoalSquad(squad);source=command;machine->setState(23);::operator delete(squad?squad->slot0(0):0);}
  else{machine->setGoalObject(target);source=command;machine->setState(10);}
@@ -151,7 +152,7 @@ void AIUpdateInterface::privateAttackObject(Object *target,int shots,volatile Co
 void AIUpdateInterface::privateForceAttackObject(Object *target,int shots,CommandSourceType command){
  if(!target)return;
  if(((const Rva0028B7AELeaGetter*)owner)->testBit8())return;
- machine->clear();Object *obj=owner;bool horde=false;target=Rva00268BD5(target,obj,&horde);if(!target)return;
+ machine->clear();Object *obj=owner;bool horde=false;target=ModifyVictimForHorde(target,obj,&horde);if(!target)return;
  if(horde){Squad *squad=new Squad;squad->rva004D6DF3(target,true);machine->setGoalSquad(squad);source=command;machine->setState(23);::operator delete(squad?squad->slot0(0):0);}
  else{machine->setGoalObject(target);source=command;machine->setState(11);}
  Weapon *weapon=const_cast<Weapon*>(owner->getCurrentWeapon(0));if(weapon){weapon->maximum=shots;weapon->shots=0;}

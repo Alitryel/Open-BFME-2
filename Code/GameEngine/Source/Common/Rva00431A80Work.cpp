@@ -7,8 +7,8 @@ public:
 	void rva00575674(Object *o);
 };
 
-// 0x004318A8 is matched as int Rva004318A8Get(); retail tests only AL.
-int __cdecl Rva004318A8Get();
+// 0x004318A8 is matched as int AreBothButtonsUp(); retail tests only AL.
+int __cdecl AreBothButtonsUp();
 
 extern "C" const void *const __identifier("??_7Rva0043190E@@6B@")[];
 extern "C" const void *const __identifier("??_7Rva004318FC@@6B@")[];
@@ -32,7 +32,7 @@ private:
 
 void Rva00431A80::work()
 {
-	if (!(char)Rva004318A8Get())
+	if (!(char)AreBothButtonsUp())
 		return;
 	void *mem = operator new(8);
 	Rva00431A80Helper *h;
@@ -59,7 +59,7 @@ private:
 
 void Rva00431AB6::work()
 {
-	if ((char)Rva004318A8Get())
+	if ((char)AreBothButtonsUp())
 		return;
 	void *mem = operator new(8);
 	Rva00431A80Helper *h;
@@ -86,7 +86,7 @@ private:
 
 void Rva00431ED6::work()
 {
-	if (!(char)Rva004318A8Get())
+	if (!(char)AreBothButtonsUp())
 		return;
 	void *mem = operator new(8);
 	Rva00431A80Helper *h;

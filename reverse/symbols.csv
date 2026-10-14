@@ -14397,7 +14397,7 @@ rva009C7380WeightPairs,0x009B84E0
 ?rva004D3FCB@DisconnectManager@@QAEXPAVNetCommandMsg@@PAVConnectionManager@@@Z,0x004D3FCB,callee of ?rva004D46AF@DisconnectManager@@QAEXPAXPAVConnectionManager@@@Z
 ?rva00112AD1@Rva00112AD1@@QAE_NHHHM@Z,0x00112AD1,retail REL32 at 0x00113191 targets 0x00112AD1; caller supplies 0; 0; this+0x58; float arg2 and callee ret 0x10 confirms four stack slots; address-derived dependency only; body unrecovered
 ?rva0010F70A@Rva0010F70A@@QAEXPAX@Z,0x0010F70A,retail REL32 at 0x00116517 targets 0x0010F70A; caller ECX is [this+8] and passes this as one stack argument; 86-byte Ghidra body returns with ret 4. Address-derived dependency only; body not recovered here.
-?Rva0012C889@@YA_NPBG@Z,0x0012C889,Retail REL32 calls at 0x0012CB1C and 0x0012CB52 target 0x0012C889; both callers pop one wide-string argument and accumulate AL as a boolean; 126-byte Ghidra interval. Address-derived dependency only; body identity remains unproven and unrecovered.
+?ExecuteAssetCacheBuilder@@YA_NPBG@Z,0x0012C889,Retail REL32 calls at 0x0012CB1C and 0x0012CB52 target 0x0012C889; both callers pop one wide-string argument and accumulate AL as a boolean; 126-byte Ghidra interval. Address-derived dependency only; body identity remains unproven and unrecovered.
 ??0Rva00132C28Prototype@@QAE@PAX00@Z,0x0013213B,Caller 0x00132C28 allocates 0x54 bytes sets ECX then pushes three dword args right-to-left and calls here; callee ret 0xC confirms thiscall ABI; arg meanings remain unknown
 ?Rva0010F011Get@@YAPAXXZ,0x0010F011,Retail REL32 from 0x0010F719 calls here; the body initializes a static critical section at VA 0x00DEC390 and returns its address used by ScopedCriticalSection; address-derived getter and owning class unresolved
 ?rva000A8127@Gen0002857EOwner@@QAEXPAX@Z,0x000A8127,Retail call at 0x0010ED1F loads ECX from [this+4] and passes this as one stack pointer; target FUN_004A8127 is a 151-byte body; address-derived owner operation and meaning remain unproven
@@ -14734,7 +14734,7 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?rva0031D64F@ControlBar@@QAEXXZ,0x0031D64F,TheControlBar (0x00A01CFC) member called with no arguments by GameLogic 0x00248278 at 0x002482A5 before the 0x0031AD48(false) call
 ?rva003A262C@TeamFactory@@QAEXXZ,0x003A262C,TheTeamFactory (0x00A028BC) member called with no arguments by GameLogic 0x00248278 at 0x0024843C (plain ret at 0x003A2658)
 ?rva0043D467@@YAXXZ,0x0043D467,free function called with no arguments by GameLogic 0x00248278 at 0x002482B8 between the ControlBar calls and the 0x009FF080 slot 0x14 call
-?rva00241C75@@YAXHPBVGameSlot@@PAVPlayer@@PBVPlayerTemplate@@@Z,0x00241C75,static player-slot placer (BFME1 placeNetworkBuildingsForPlayer analogue; cdecl slot number + slot + player + template) called from 0x002423A8 in the network-slot pass 0x002421F5; identity unproven so it keeps the address token
+?placeNetworkBuildingsForPlayer@@YAXHPBVGameSlot@@PAVPlayer@@PBVPlayerTemplate@@@Z,0x00241C75,static player-slot placer (BFME1 placeNetworkBuildingsForPlayer analogue; cdecl slot number + slot + player + template) called from 0x002423A8 in the network-slot pass 0x002421F5; identity unproven so it keeps the address token
 ?rva0023D494@Rva0023D494@@QAEXXZ,0x0023D494,thiscall on the 408-byte global at 0x009FE7A8 (first byte tested as a flag before the call) from the shell/replay tail 0x0023F52C at 0x0023F704; identity unproven so it keeps the address token
 ?rva002D55EF@RadarWindowOverrideSource@@QAEXXZ,0x002D55EF,thiscall on theRadarWindowOverrideSource 0x009FF028 from 0x0023F77B in the new-game tail 0x0023F52C (new games only); method identity unproven
 ?rva0031BAC3@ControlBar@@QAEXPAVPlayer@@@Z,0x0031BAC3,TheControlBar member taking the local player from 0x0023F76B in 0x0023F52C (BFME1 initSpecialPowershortcutBar position); address name
@@ -16474,7 +16474,7 @@ _D3DXCreateTextureFromFileInMemoryEx@60,0x0062AF7A,Named d3dx9_27.dll PE import 
 ?Rva006DDCE0@@YAPAVAptValue@@PAV1@H@Z,0x006DDCE0,native AptValue callback registered by _constructBuiltInObjects 0x006DE8E0 (only used as a function pointer)
 ?queueClipEvents@AptCIH@@QAE_NHHH@Z,0x006E2010,AptCIH::queueClipEvents (WB AptInput.cpp name; returns bool: xor al al path and the caller 0x006FB120 stores al); respells the placeholder dispatch pin
 ?rva006E24D0@AptCIH@@QAEHXZ,0x006E24D0,int spelling of the rowed AptCIH forward 0x006E24D0: the caller 0x006FB120 tests eax after the call
-?rva00319EF9@LivingWorldArmy@@QAEXPAV1@H@Z,0x00319EF9,callee of ?rva002B3DE4@@YAXPAVLivingWorldArmy@@H0@Z
+?rva00319EF9@LivingWorldArmy@@QAEXPAV1@H@Z,0x00319EF9,callee of ?MoveArmyMember@@YAXPAVLivingWorldArmy@@H0@Z
 ?rva00110FBF@Rva00110FBF@@QAEXXZ,0x00110FBF,callee of ?Rva000A8F98@@YAXXZ
 ?rva00240866@Rva00240866SavegameCall@@QAEXPAXH@Z,0x00240866,callee of ?rva0025E5F4@Rva0025E4CD@@QAEXXZ
 ??0Rva005FB14E@@QAE@IIPAX@Z,0x005FB14E,callee of ?rva005E9761@Rva005E9761@@QAE?AURvaF1Handle@@II@Z

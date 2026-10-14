@@ -182,7 +182,8 @@ private:
 };
 
 // Native 0x00529023 (34B): the first selected drawable the GUI does not ignore.
-static __declspec(noinline) DrawableListCIt rva00529023(const DrawableList &list)
+// WorldBuilder FindFirstNonIgnored, WB VA 0x013C97D0 (callsite lead, score 1.0).
+static __declspec(noinline) DrawableListCIt FindFirstNonIgnored(const DrawableList &list)
 {
 	DrawableListCIt it = list.begin();
 	for (; it != list.end(); ++it)
@@ -215,7 +216,7 @@ const Image *PalantirCommandInterface::Impl::GetCurrentPortraitImage(Object *obj
 	else
 	{
 		const DrawableList *list = TheInGameUI->getAllSelectedDrawables();
-		DrawableListCIt it = rva00529023(*list);
+		DrawableListCIt it = FindFirstNonIgnored(*list);
 		if (it != list->end())
 		{
 			image = (*it)->getObject()->getObjectSelectedPortraitImage();

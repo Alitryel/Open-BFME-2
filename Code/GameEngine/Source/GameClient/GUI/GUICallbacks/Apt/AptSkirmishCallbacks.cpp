@@ -558,7 +558,7 @@ extern CreateAHeroManager *TheCreateAHeroManager;
 // WB leaves it unnamed and its operation is unresolved. The existing
 // UseSub spellings are caller aliases only. The manager pointer is expressed
 // through its canonical data-ledger name above.
-void rva0044C2C6();
+void SelectRandomHero();
 class Rva005B5B0CMgr
 {
 public:
@@ -670,7 +670,7 @@ void AptSkirmish::InitCreateAHeroOnStartGame()
 	if (gameInfo == 0)
 		return;
 
-	rva0044C2C6();
+	SelectRandomHero();
 	CreateAHeroManager *heroManager = (CreateAHeroManager *)TheCreateAHeroManager;
 	if (heroManager == 0)
 		return;

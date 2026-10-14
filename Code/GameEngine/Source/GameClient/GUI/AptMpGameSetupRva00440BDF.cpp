@@ -1164,7 +1164,7 @@ struct SavedHeroSlotView {
 struct HeroPointerVectorView { CreateAHeroData **begin, **end, **capacity; };
 // Descriptive name: native .data VA DC8D4C contains the disabled tint FF808080.
 int AptLobbyDisabledHeroColor=(int)0xff808080;
-void Rva00322714(BfmeKeyLC *,int,unsigned char);
+void GadgetComboDisableEntry(BfmeKeyLC *,int,unsigned char);
 void AptMpGameSetup::rva004406BA(int index)
 {
  if(!TheCreateAHeroManager) return;
@@ -1210,7 +1210,7 @@ void AptMpGameSetup::rva004406BA(int index)
    row=GadgetComboBoxAddEntry(combo,name,tint);
    GadgetComboBoxSetItemData(combo,row,(void*)i);
    if(enabled) { if(selectedHero==i) selectPos=row; }
-   else Rva00322714((BfmeKeyLC*)combo,row,1);
+   else GadgetComboDisableEntry((BfmeKeyLC*)combo,row,1);
   }
   if(!slot->isAI() && !local) selectPos=0;
  }

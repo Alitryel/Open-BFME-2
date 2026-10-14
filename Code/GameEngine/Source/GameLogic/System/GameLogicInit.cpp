@@ -2649,7 +2649,7 @@ private:
 
 extern PlayerTemplateStore *ThePlayerTemplateStore;
 
-void rva00241C75(int slotNum, const GameSlot *slot, Player *player, const PlayerTemplate *pt);
+void placeNetworkBuildingsForPlayer(int slotNum, const GameSlot *slot, Player *player, const PlayerTemplate *pt);
 
 static inline void zeroCoord(Coord3D *c)
 {
@@ -2702,7 +2702,7 @@ void GameLogic::startNewGame_PlaceMPBuildings(bool loadingSaveGame, int *progres
 						}
 					}
 				} else {
-					rva00241C75(i, slot, player, ThePlayerTemplateStore->getNthPlayerTemplate(slot->getPlayerTemplate()));
+					placeNetworkBuildingsForPlayer(i, slot, player, ThePlayerTemplateStore->getNthPlayerTemplate(slot->getPlayerTemplate()));
 				}
 			}
 			((Rva0023C7D2 *)this)->rva0023C7BB((*progress)++);

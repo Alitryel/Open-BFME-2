@@ -15,7 +15,7 @@ public:
 	unsigned char m_flag0D;
 };
 
-File *__cdecl Rva000787BAOpen(const char *filename);
+File *__cdecl GetGameFile(const char *filename);
 
 class Rva00131259
 {
@@ -35,17 +35,17 @@ void Rva00131259::rva00131259(const char *name)
 	char *dot = strrchr(buf, '.');
 	if (dot != 0) {
 		_mbscpy(dot, ".dds");
-		m_file10 = Rva000787BAOpen(buf);
+		m_file10 = GetGameFile(buf);
 		if (m_file10 == 0) {
 			_mbscpy(dot, ".tga");
-			m_file10 = Rva000787BAOpen(buf);
+			m_file10 = GetGameFile(buf);
 			if (m_file10 == 0) {
 				_mbscpy(dot, ".jpg");
-				m_file10 = Rva000787BAOpen(buf);
+				m_file10 = GetGameFile(buf);
 				if (m_file10 == 0)
 					goto check;
 				_mbscpy(dot, ".png");
-				m_file1C = Rva000787BAOpen(buf);
+				m_file1C = GetGameFile(buf);
 				goto check;
 			}
 			goto check;

@@ -216,7 +216,8 @@ struct Rva004B9C4DLoc {
     bool field08;
     Rva004B9C4DPoint field0C;
 };
-static __declspec(noinline) Rva004B9C4DPoint rva004B9C4D(
+// WorldBuilder getLocalEffectPos, WB VA 0x012472F0 (callgraph lead, score 2.0).
+static __declspec(noinline) Rva004B9C4DPoint getLocalEffectPos(
     const Rva004B9C4DLoc *loc, Drawable *draw)
 {
     if (loc->field00==0 && draw) {
@@ -518,7 +519,7 @@ void TransitionDamageFX::onBodyDamageStateChange(const DamageInfo *damageInfo, B
 				if (lastDamageInfo == 0 ||
 						getDamageTypeFlag(modData->m_damageFXTypes, lastDamageInfo->m_damageType))
 				{
-					pos = rva004B9C4D((const Rva004B9C4DLoc *)&modData->m_fxList[newState][i].locInfo, draw);
+					pos = getLocalEffectPos((const Rva004B9C4DLoc *)&modData->m_fxList[newState][i].locInfo, draw);
 					getObject()->convertBonePosToWorldPos(&pos, 0, &pos, 0);
 					FXList::doFXPos((const FXList *)modData->m_fxList[newState][i].fx, &pos);
 				}
@@ -529,7 +530,7 @@ void TransitionDamageFX::onBodyDamageStateChange(const DamageInfo *damageInfo, B
 				if (lastDamageInfo == 0 ||
 						getDamageTypeFlag(modData->m_damageOCLTypes, lastDamageInfo->m_damageType))
 				{
-					pos = rva004B9C4D((const Rva004B9C4DLoc *)&modData->m_OCL[newState][i].locInfo, draw);
+					pos = getLocalEffectPos((const Rva004B9C4DLoc *)&modData->m_OCL[newState][i].locInfo, draw);
 					getObject()->convertBonePosToWorldPos(&pos, 0, &pos, 0);
 					ObjectCreationList::create((const ObjectCreationList *)modData->m_OCL[newState][i].ocl,
 						getObject(), &pos, damageSource->getPosition());
@@ -546,7 +547,7 @@ void TransitionDamageFX::onBodyDamageStateChange(const DamageInfo *damageInfo, B
 					BfmeParticleSystemHandle pSystem = TheParticleSystemManager->createParticleSystem(pSystemT, true);
 					if (pSystem)
 					{
-						pos = rva004B9C4D((const Rva004B9C4DLoc *)&modData->m_particleSystem[newState][i].locInfo, draw);
+						pos = getLocalEffectPos((const Rva004B9C4DLoc *)&modData->m_particleSystem[newState][i].locInfo, draw);
 						pSystem->setPosition(&pos);
 						pSystem->attachToObject(getObject());
 						m_particleSystemID[newState][i] = pSystem->getSystemID();

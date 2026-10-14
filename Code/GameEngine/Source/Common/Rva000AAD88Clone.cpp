@@ -1,6 +1,6 @@
 // cl: /MD /EHsc /DNDEBUG
 //
-// ?rva000AAD88@@YAPAXPAURva000AAD88Arg@@@Z @0x000AAD88 57B: optional clone.
+// ?w3dAllocateString@@YAPAXPAURva000AAD88Arg@@@Z @0x000AAD88 57B: optional clone.
 // Null yields null. When bit 0x406 of the +0x58 word is clear, runs the
 // rowed 0x000A97A9 writer on the +0x5C member and returns it. Otherwise
 // allocates 0x30 bytes through the rowed operator new and returns the
@@ -30,8 +30,9 @@ struct Rva000AAD88Arg
 	Rva000A97A9 *m_5C;
 };
 
-// ?rva000AAD88@@YAPAXPAURva000AAD88Arg@@@Z
-void *rva000AAD88(Rva000AAD88Arg *u)
+// ?w3dAllocateString@@YAPAXPAURva000AAD88Arg@@@Z
+// WorldBuilder w3dAllocateString, WB VA 0x008A67E0 (callgraph lead, score 1.0).
+void *w3dAllocateString(Rva000AAD88Arg *u)
 {
 	if (!u)
 		return 0;

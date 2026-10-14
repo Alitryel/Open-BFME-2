@@ -31,7 +31,8 @@ extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(voi
 extern "C" __declspec(dllimport) int __stdcall CloseHandle(void *handle);
 
 
-bool __cdecl Rva0012C889(const unsigned short *currentDirectory)
+// WorldBuilder ExecuteAssetCacheBuilder, WB VA 0x009D6AA0 (imports,strings lead, score 1.1).
+bool __cdecl ExecuteAssetCacheBuilder(const unsigned short *currentDirectory)
 {
  STARTUPINFOW startup;
  unsigned short command[260];

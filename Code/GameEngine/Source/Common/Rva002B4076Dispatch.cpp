@@ -20,7 +20,8 @@ public:
  void rva00319EF9(LivingWorldArmy *source,int key);
  char pad00[0x20]; int owner20; char pad24[0x78-0x24]; ArmySummary *summary78;
 };
-static __declspec(noinline) void rva002B3DE4(LivingWorldArmy *source,int key,LivingWorldArmy *target) {
+// WorldBuilder MoveArmyMember, WB VA 0x00D90830 (callgraph lead, score 2.0).
+static __declspec(noinline) void MoveArmyMember(LivingWorldArmy *source,int key,LivingWorldArmy *target) {
  ArmySummaryEntryRef entry=source->summary78->GetEntry(key);
  if(entry.holder.entry) {
   if(entry.holder.entry->targetB8) {
@@ -34,13 +35,13 @@ class Rva002B4076 { public:
  void rva002B4076(void *,int,void *);
 };
 void Rva002B4076::rva002B4076(LivingWorldArmy *source,int key,LivingWorldArmy *target) {
- rva002B3DE4(source,key,target);
+ MoveArmyMember(source,key,target);
 }
 
 struct Rva002B3E50Range { int *first,*finish,*limit; };
 static __declspec(noinline) void rva002B3E50(Rva002B3E50Range *range,LivingWorldArmy *source,LivingWorldArmy *target) {
  int *end=range->finish;
- for(int *i=range->first;i!=end;++i)rva002B3DE4(source,*i,target);
+ for(int *i=range->first;i!=end;++i)MoveArmyMember(source,*i,target);
 }
 class Rva002B2FCBElem { public: virtual void notify(int,int,int,int); };
 class Rva002B6194List {
@@ -63,5 +64,5 @@ void Rva002B6D85::rva002B6D85(void *source,Rva002B3E50Range *first,void *target,
 // Neutral pointer ABI bridge for callers whose established army spelling is
 // struct LivingWorldArmy. Both pointers retain the native source/target roles.
 void Rva002B4076::rva002B4076(void *source,int key,void *target) {
- rva002B3DE4((LivingWorldArmy*)source,key,(LivingWorldArmy*)target);
+ MoveArmyMember((LivingWorldArmy*)source,key,(LivingWorldArmy*)target);
 }

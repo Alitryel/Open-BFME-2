@@ -22,7 +22,7 @@ extern bool AssetInitRunShaderBuilder;  // native VA DB61EA
 extern const char *AssetInitArchiveMagicF; // native DB61EC points BD22F0 BIGF
 extern const char *AssetInitArchiveMagic4; // native DB61F0 points BD22E8 BIG4
 void Create_Rva00972880_Prototype();
-bool Rva0012CAC3Run(); bool Rva0012C99DRun(); bool Rva0012CB15Run();
+bool Rva0012CAC3Run(); bool RunShaderAssetBuilder(); bool Rva0012CB15Run();
 bool Rva0012CB67(FILE *,bool);
 void forwardRegistrySettingRva0061F1A0(unsigned,int);
 void Rva0012CA49Run();
@@ -32,7 +32,7 @@ bool InitializeAssetManager(AsciiString directory,AsciiString archive,bool skipT
  Create_Rva00972880_Prototype();
  if(!skipTextures) {
   if(AssetInitRunModelBuilder) Rva0012CAC3Run();
-  if(AssetInitRunShaderBuilder) Rva0012C99DRun();
+  if(AssetInitRunShaderBuilder) RunShaderAssetBuilder();
  }
  if(AssetInitRunTextureBuilder) Rva0012CB15Run();
  if(!archive.isEmpty()) {

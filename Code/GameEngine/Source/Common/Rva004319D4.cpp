@@ -22,7 +22,8 @@ int Rva004319D4Get()
 // TheMouse and these same two pointer fields are independently used by
 // the rowed FormationTranslator first-button check at 431955.
 // Native code does not consume ECX or arguments and returns integer 0/1.
-int Rva004318A8Get()
+// WorldBuilder AreBothButtonsUp, WB VA 0x012C6D10 (callsite lead, score 1.0).
+int AreBothButtonsUp()
 {
  if (TheMouse->m_4F24 == 0 && TheMouse->m_4F30 == 0)
   return 1;

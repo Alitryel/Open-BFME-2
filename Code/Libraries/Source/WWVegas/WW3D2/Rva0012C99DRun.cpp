@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ?Rva0012C99DRun@@YA_NXZ, retail 0x0012C99D, 148 bytes.
+// ?RunShaderAssetBuilder@@YA_NXZ, retail 0x0012C99D, 148 bytes.
 // Launch the wide command line at VA 0x00BD2354 with CREATE_NO_WINDOW,
 // wait for it and succeed when its exit code is 0. Evidence: retail pushes
 // 0x44/STARTUPINFOW size, wcscpy from 0x00BD2354, CreateProcessW with
@@ -37,7 +37,8 @@ extern "C" __declspec(dllimport) int __stdcall GetExitCodeProcess(void *process,
 extern "C" __declspec(dllimport) int __stdcall CloseHandle(void *handle);
 
 
-bool __cdecl Rva0012C99DRun()
+// WorldBuilder RunShaderAssetBuilder, WB VA 0x009D6E10 (imports,strings lead, score 1.2).
+bool __cdecl RunShaderAssetBuilder()
 {
 	STARTUPINFOW startup;
 	unsigned short command[260];
@@ -59,7 +60,8 @@ bool __cdecl Rva0012C99DRun()
 	return false;
 }
 
-bool __cdecl Rva0012C907Run(const unsigned short *currentDirectory)
+// WorldBuilder ExecuteTextureAssetBuilder, WB VA 0x009D6BA0 (imports,strings lead, score 1.2).
+bool __cdecl ExecuteTextureAssetBuilder(const unsigned short *currentDirectory)
 {
 	STARTUPINFOW startup;
 	unsigned short command[260];

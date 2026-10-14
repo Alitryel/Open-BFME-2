@@ -1,5 +1,5 @@
 // cl: /MD
-// ?Rva003B242CGet@@YAEXZ 0x003B242C 59B
+// ?isCorrectMapType@@YAEXZ 0x003B242C 59B
 // Evidence: NameKey cache at 0x00DBDF1C via rowed get 0x00148F5E,
 // Dict at 0x00E00944 via rowed getBool 0x00313198, host bool at
 // 0x00DFE16C via rowed rva00203688 0x00203688; returns dict-flag equality;
@@ -46,7 +46,8 @@ public:
 
 #define TheRva00203688Host (*(Rva00203688Host **)&TheScriptEngine)
 
-unsigned char Rva003B242CGet()
+// WorldBuilder isCorrectMapType, WB VA 0x00AA6A20 (callsite lead, score 1.0).
+unsigned char isCorrectMapType()
 {
 	bool flag;
 	bool dictVal = TheDict.getBool(TheRva00148F5ECache.get(), &flag);

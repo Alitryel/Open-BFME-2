@@ -102,7 +102,7 @@ AsciiString GenerateGameOptionsString( void )
 // packet byte sequence, offsets, branch letters and helper calls are native.
 // Original existing entry symbol retained pending independent name admission.
 AsciiString Rva00400783Get(const AsciiString&,bool);
-char *Rva004478A9Copy(char*,const char*,char*);
+char *NetworkBufferAppend(char*,const char*,char*);
 char *Rva0044780FCopy(char*,void*,unsigned int,char*) throw();
 char *Rva00447845WriteU16(char*,unsigned short,char*);
 char *Rva0044786BWriteU32(char*,unsigned int,char*);
@@ -124,7 +124,7 @@ void Rva00447CA9(LANGameInfo *game,char *data,int size)
     char *limit=data+size;
     AsciiString map;
     map=Rva00400783Get(game->getMap(),true);
-    cursor=Rva004478A9Copy(cursor,map.str(),limit);
+    cursor=NetworkBufferAppend(cursor,map.str(),limit);
     cursor=Rva00447845WriteU16(cursor,game->get_mapMask(),limit);
     cursor=Rva0044786BWriteU32(cursor,game->get_mapCRC(),limit);
     cursor=Rva0044786BWriteU32(cursor,game->get_mapSize(),limit);

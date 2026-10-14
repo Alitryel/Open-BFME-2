@@ -1,6 +1,6 @@
 // cl: /O1 /DNDEBUG /MD
 //
-// ?Rva00322714@@YAXPAVBfmeKeyLC@@HE@Z, retail 0x00322714, 39 bytes.
+// ?GadgetComboDisableEntry@@YAXPAVBfmeKeyLC@@HE@Z, retail 0x00322714, 39 bytes.
 // Gadget item-data helper: if arg1 null return; bfmeGo925A(arg1) null return;
 // else GadgetListBoxDisableEntry(bfmeGo result, arg2, arg3). Callees all rowed per packet
 // (bfmeGo925A 0x002C0315, Rva0032431FSet 0x0032431F). Evidence: caller
@@ -12,7 +12,8 @@ class GameWindow;
 void * __cdecl bfmeGo925A(BfmeKeyLC *key);
 void __cdecl GadgetListBoxDisableEntry(GameWindow *window, int a, unsigned char b);
 
-void __cdecl Rva00322714(BfmeKeyLC *a, int b, unsigned char c)
+// WorldBuilder GadgetComboDisableEntry, WB VA 0x013AD4E0 (align lead, score 1.0).
+void __cdecl GadgetComboDisableEntry(BfmeKeyLC *a, int b, unsigned char c)
 {
 	if (!a)
 		return;

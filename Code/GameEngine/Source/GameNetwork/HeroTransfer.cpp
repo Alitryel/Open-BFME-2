@@ -39,7 +39,8 @@ class PlayerTemplateStore {public:const PlayerTemplate *getNthPlayerTemplate(int
 extern PlayerTemplateStore *ThePlayerTemplateStore;
 int GetGameClientRandomValue(int,int,char *,int);
 
-void rva0044C2C6() {
+// WorldBuilder SelectRandomHero, WB VA 0x014B7FD0 (callgraph lead, score 2.0).
+void SelectRandomHero() {
  if(!TheGameInfo)return;
  for(int i=0;i<8;++i) {
   GameSlot *slot=TheGameInfo->getSlot(i);

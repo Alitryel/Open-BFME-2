@@ -1,6 +1,6 @@
 // cl: /EHsc /MD
 //
-// ?Rva00447FD5Append@@YAPADPADPAV?$StringBase@D@@0@Z @0x00447FD5 88B.
+// ?NetworkBufferRead@@YAPADPADPAV?$StringBase@D@@0@Z @0x00447FD5 88B.
 // Checked string append: dst->set(static at 0x00BBAC1C), then append src chars
 // via concat until null with limit checks, return past null (src/limit on
 // early-out). Evidence: unlock lane; callees set 0x000055F5 concat 0x000369A0
@@ -14,7 +14,8 @@ private:
 	T *m_data;
 };
 
-char *__cdecl Rva00447FD5Append(char *src, StringBase<char> *dst, char *limit)
+// WorldBuilder NetworkBufferRead, WB VA 0x014A89F0 (align lead, score 1.5).
+char *__cdecl NetworkBufferRead(char *src, StringBase<char> *dst, char *limit)
 {
 	dst->set("");
 	if (limit != 0) {

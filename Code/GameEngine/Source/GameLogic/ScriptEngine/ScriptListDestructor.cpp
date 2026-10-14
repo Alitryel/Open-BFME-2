@@ -91,7 +91,7 @@ class ScriptEngine;
 extern ScriptEngine *TheScriptEngine;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
-unsigned char Rva003B242CGet();
+unsigned char isCorrectMapType();
 struct DataChunkInfo { AsciiString label; };
 class DataChunkInput;
 bool Rva003B7836(DataChunkInput &, DataChunkInfo *, void *);
@@ -113,7 +113,7 @@ public:
 bool Rva003B793A::read(DataChunkInput &file, DataChunkInfo *info)
 {
  if (TheScriptEngine && reinterpret_cast<unsigned char *>(TheScriptEngine)[0x1a4da]
-     && !Rva003B242CGet() && !reinterpret_cast<unsigned char *>(TheWritableGlobalData)[0xd2f])
+     && !isCorrectMapType() && !reinterpret_cast<unsigned char *>(TheWritableGlobalData)[0xd2f])
   return false;
  file.registerParser(AsciiString("ScriptList"), info->label, Rva003B7836, 0);
  Rva003B793AReadInfo readInfo;

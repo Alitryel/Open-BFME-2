@@ -60,7 +60,7 @@ bool Rva004095D5(AsciiString &path, const AsciiString &exeName)
  return false;
 }
 
-bool Rva00407AF9Run(const AsciiString &exePath, const AsciiString &arguments);
+bool ExecuteCommand(const AsciiString &exePath, const AsciiString &arguments);
 
 bool Rva004096E6(const AsciiString &fileName)
 {
@@ -71,12 +71,12 @@ bool Rva004096E6(const AsciiString &fileName)
 
 	if (!Rva004095D5(exePath, exeName))
 		return false;
-	if (!Rva00407AF9Run(exePath, arguments))
+	if (!ExecuteCommand(exePath, arguments))
 		return false;
 
 	arguments = "add ";
 	arguments += fileName;
-	if (!Rva00407AF9Run(exePath, arguments))
+	if (!ExecuteCommand(exePath, arguments))
 		return false;
 
 	return true;
