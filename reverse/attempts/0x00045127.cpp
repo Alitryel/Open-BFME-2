@@ -1,4 +1,6 @@
 // ?CreateBMPFile@@YAXPBDPADHH@Z
+// partial score=0.982972014189988 date=2026-10-15
+// ?CreateBMPFile@@YAXPBDPADHH@Z
 // partial score=0.98 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
 //
@@ -21,147 +23,175 @@
 // the original, initialised to 1). Donor (structure only): Zero Hour
 // W3DDisplay.cpp CreateBMPFile / saveScreenShot as carried in BFME 1.
 #include "ascii_string.h"
-
 #define NULL 0
-
 extern "C" char *__cdecl _mbscpy(char *dest, const char *src);
 extern "C" char *__cdecl _mbscat(char *dest, const char *src);
 extern "C" __declspec(dllimport) int __cdecl sprintf(char *buffer, const char *format, ...);
 extern "C" __declspec(dllimport) void *__stdcall LocalAlloc(unsigned int flags, unsigned int bytes);
 extern "C" __declspec(dllimport) void *__stdcall LocalFree(void *memory);
-
 class File
-{
-public:
-	virtual ~File();
-	virtual bool open(const char *filename, int access);
-	virtual void close();
-	virtual int slot03();
-	virtual int write(const void *buffer, int bytes);
-};
 
+{
+ public:
+ virtual ~File();
+ virtual bool open(const char *filename, int access);
+ virtual void close();
+ virtual int slot03();
+ virtual int write(const void *buffer, int bytes);
+ 
+}
+;
 class FileSystem
+
 {
-public:
-	File *openFile(const char *filename, int access = 0, int bufferSize = 0);
-	bool doesFileExist(const char *filename) const;
-};
+ public:
+ File *openFile(const char *filename, int access = 0, int bufferSize = 0);
+ bool doesFileExist(const char *filename) const;
+ 
+}
+;
 extern FileSystem *TheFileSystem;
-
 class GlobalData
-{
-public:
-	AsciiString getPicturePath() const;
-};
-extern GlobalData *TheWritableGlobalData;
 
+{
+ public:
+ AsciiString getPicturePath() const;
+ 
+}
+;
+extern GlobalData *TheWritableGlobalData;
 // Function-local static of the original (initialised to 1), at VA 0x00DB3BFC.
 extern int g_Va00DB3BFC;
-
 #pragma pack(push, 2)
 struct BfmeBitmapFileHeader
+
 {
-	unsigned short bfType;
-	unsigned int bfSize;
-	unsigned short bfReserved1;
-	unsigned short bfReserved2;
-	unsigned int bfOffBits;
-};
+ unsigned short bfType;
+ unsigned int bfSize;
+ unsigned short bfReserved1;
+ unsigned short bfReserved2;
+ unsigned int bfOffBits;
+ 
+}
+;
 #pragma pack(pop)
-
 struct BfmeBitmapInfoHeader
-{
-	unsigned int biSize;
-	int biWidth;
-	int biHeight;
-	unsigned short biPlanes;
-	unsigned short biBitCount;
-	unsigned int biCompression;
-	unsigned int biSizeImage;
-	int biXPelsPerMeter;
-	int biYPelsPerMeter;
-	unsigned int biClrUsed;
-	unsigned int biClrImportant;
-};
 
+{
+ unsigned int biSize;
+ int biWidth;
+ int biHeight;
+ unsigned short biPlanes;
+ unsigned short biBitCount;
+ unsigned int biCompression;
+ unsigned int biSizeImage;
+ int biXPelsPerMeter;
+ int biYPelsPerMeter;
+ unsigned int biClrUsed;
+ unsigned int biClrImportant;
+ 
+}
+;
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 // ?CreateBMPFile@@YAXPBDPADHH@Z present-unmatched
 static __declspec(noinline) void CreateBMPFile(const char *file, char *image, int width, int height)
-{
-	BfmeBitmapInfoHeader *info = (BfmeBitmapInfoHeader *)LocalAlloc(0x40, sizeof(BfmeBitmapInfoHeader));
-	info->biSize = sizeof(BfmeBitmapInfoHeader);
-	info->biWidth = width;
-	info->biHeight = height;
-	info->biPlanes = 1;
-	info->biBitCount = 24;
-	info->biCompression = 0;
-	info->biSizeImage = (info->biWidth + 7) / 8 * height * 24;
-	info->biClrImportant = 0;
 
-	File *out = TheFileSystem->openFile(file, 0x4A, 0);
-	if (out != NULL) {
-		BfmeBitmapFileHeader hdr;
-		hdr.bfType = 0x4D42; _ReadWriteBarrier();
-		hdr.bfSize = sizeof(BfmeBitmapFileHeader) + info->biSize + info->biClrUsed * 4 + info->biSizeImage; _ReadWriteBarrier();
-		hdr.bfReserved1 = 0;
-		hdr.bfReserved2 = 0;
-		hdr.bfOffBits = sizeof(BfmeBitmapFileHeader) + info->biSize + info->biClrUsed * 4;
-		if (out->write(&hdr, sizeof(BfmeBitmapFileHeader)) >= sizeof(BfmeBitmapFileHeader)) {
-			if (out->write(info, sizeof(BfmeBitmapInfoHeader) + info->biClrUsed * 4) >= sizeof(BfmeBitmapInfoHeader) + info->biClrUsed * 4) {
-				int imageBytes = info->biSizeImage;
-				if (out->write(image, imageBytes) >= imageBytes) {
-					out->close();
-					LocalFree(info);
-				}
-			}
-		}
-	}
+{
+ BfmeBitmapInfoHeader *info = (BfmeBitmapInfoHeader *)LocalAlloc(0x40, sizeof(BfmeBitmapInfoHeader));
+ info->biSize = sizeof(BfmeBitmapInfoHeader);
+ info->biWidth = width;
+ info->biHeight = height;
+ info->biPlanes = 1;
+ info->biBitCount = 24;
+ info->biCompression = 0;
+ info->biSizeImage = (info->biWidth + 7) / 8 * height * 24;
+ info->biClrImportant = 0;
+ File *out = TheFileSystem->openFile(file, 0x4A, 0);
+ if (out != NULL) 
+ {
+  BfmeBitmapFileHeader hdr;
+  hdr.bfType = 0x4D42;
+  _ReadWriteBarrier();
+  _ReadWriteBarrier();
+  hdr.bfSize = sizeof(BfmeBitmapFileHeader) + info->biSize + (info->biSizeImage ? info->biClrUsed : info->biClrUsed) * 4 + info->biSizeImage;
+  hdr.bfReserved1 = 0;
+  hdr.bfReserved2 = 0;
+  _ReadWriteBarrier();
+  hdr.bfOffBits = sizeof(BfmeBitmapFileHeader) + info->biSize + info->biClrUsed * 4;
+  if (out->write(&hdr, sizeof(BfmeBitmapFileHeader)) >= sizeof(BfmeBitmapFileHeader)) 
+  {
+   if (out->write(info, sizeof(BfmeBitmapInfoHeader) + info->biClrUsed * 4) >= sizeof(BfmeBitmapInfoHeader) + info->biClrUsed * 4) 
+   {
+    int imageBytes = info->biSizeImage;
+    if (out->write(image, imageBytes) >= imageBytes) 
+    {
+     out->close();
+     LocalFree(info);
+     
+    }
+    
+   }
+   
+  }
+  
+ }
+ 
 }
-
 class W3DDisplay
-{
-private:
-	void rva00047BC0(char *image, unsigned int width, unsigned int height, const char *filename);
-};
 
+{
+ private:
+ void rva00047BC0(char *image, unsigned int width, unsigned int height, const char *filename);
+ 
+}
+;
 void W3DDisplay::rva00047BC0(char *image, unsigned int width, unsigned int height, const char *filename)
+
 {
-	char leafname[256];
-	char pathname[1024];
-
-	bool done = false;
-	do {
-		if (filename != NULL) {
-			_mbscpy(leafname, filename);
-			done = true;
-		} else {
-			sprintf(leafname, "sshot%.4d", g_Va00DB3BFC++);
-		}
-		_mbscat(leafname, ".bmp");
-		_mbscpy(pathname, TheWritableGlobalData->getPicturePath().str());
-		_mbscat(pathname, leafname);
-		if (!TheFileSystem->doesFileExist(pathname))
-			done = true;
-	} while (!done);
-
-	char *ptr, *ptr1;
-	char v, v1;
-
-	for (unsigned int y = 0; y < (height >> 1); y++) {
-		ptr = image + ((width * y) * 3);
-		ptr1 = image + ((width * (height - 1)) * 3);
-		ptr1 -= ((width * y) * 3);
-
-		for (unsigned int x = 0; x < (width * 3); x++) {
-			v = *ptr;
-			v1 = *ptr1;
-			*ptr = v1;
-			*ptr1 = v;
-			ptr++;
-			ptr1++;
-		}
-	}
-
-	CreateBMPFile(pathname, image, width, height);
+ char leafname[256];
+ char pathname[1024];
+ bool done = false;
+ do 
+ {
+  if (filename != NULL) 
+  {
+   _mbscpy(leafname, filename);
+   done = true;
+   
+  }
+  else 
+  {
+   sprintf(leafname, "sshot%.4d", g_Va00DB3BFC++);
+   
+  }
+  _mbscat(leafname, ".bmp");
+  _mbscpy(pathname, TheWritableGlobalData->getPicturePath().str());
+  _mbscat(pathname, leafname);
+  if (!TheFileSystem->doesFileExist(pathname))
+  done = true;
+  
+ }
+ while (!done);
+ char *ptr, *ptr1;
+ char v, v1;
+ for (unsigned int y = 0; y < (height >> 1); y++) 
+ {
+  ptr = image + ((width * y) * 3);
+  ptr1 = image + ((width * (height - 1)) * 3);
+  ptr1 -= ((width * y) * 3);
+  for (unsigned int x = 0; x < (width * 3); x++) 
+  {
+   v = *ptr;
+   v1 = *ptr1;
+   *ptr = v1;
+   *ptr1 = v;
+   ptr++;
+   ptr1++;
+   
+  }
+  
+ }
+ CreateBMPFile(pathname, image, width, height);
+ 
 }

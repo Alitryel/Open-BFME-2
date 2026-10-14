@@ -1,4 +1,6 @@
 // ?rva007F97B0@Rva007FA2C0@@QAEXPAVRva007E8810Message@@PAURva007FA170Slot@@@Z
+// partial score=0.981707151119276 date=2026-10-15
+// ?rva007F97B0@Rva007FA2C0@@QAEXPAVRva007E8810Message@@PAURva007FA170Slot@@@Z
 // partial score=0.9812648839899298 date=2026-10-15
 // ?rva007F97B0@Rva007FA2C0@@QAEXPAVRva007E8810Message@@PAURva007FA170Slot@@@Z
 // partial score=0.9802987004150506 date=2026-10-14
@@ -218,7 +220,11 @@ void Rva007FA2C0::rva007F97B0( Rva007E8810Message *message, Rva007FA170Slot *slo
  if( length & 3 )
  Rva007EB810Get()->fail( "(len & 0x3) == 0",
 "\\views\\feslbuild_main\\jabba\\fesl\\source\\transactor.cpp", 0x13b );
- if (0) { Rva00808CB0LanGameEntry t1_dead; }
+ if (0) 
+ {
+  Rva00808CB0LanGameEntry t1_dead;
+  
+ }
  unsigned decoded = length / 4 * 3;
  if( !rva007FF250Decode( length, text, record->m_buffer + __vref(record->m_received) ) )
  Rva007EB810Get()->fail( "result",
@@ -231,8 +237,8 @@ void Rva007FA2C0::rva007F97B0( Rva007E8810Message *message, Rva007FA170Slot *slo
   Rva00800E50Header header;
   header.m_type = message->m_1C;
   header.m_flags = message->m_20 & ~0x20000000;
-  _ReadWriteBarrier();
   header.m_text = (const char *)record->m_buffer;
+  _ReadWriteBarrier();
   _ReadWriteBarrier();
   header.m_textLength = record->m_total;
   header.m_entry.m_field04 = message->m_04;
