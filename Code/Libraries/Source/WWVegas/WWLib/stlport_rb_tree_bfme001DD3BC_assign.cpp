@@ -10,3 +10,10 @@ struct BfmeRecord001DD3BC {
 bool operator<(const BfmeRecord001DD3BC &a, const BfmeRecord001DD3BC &b);
 typedef _STL::_Rb_tree<BfmeRecord001DD3BC, BfmeRecord001DD3BC, _STL::_Identity<BfmeRecord001DD3BC>, _STL::less<BfmeRecord001DD3BC>, _STL::allocator<BfmeRecord001DD3BC> > BfmeRecord001DD3BCSetTree;
 template BfmeRecord001DD3BCSetTree &BfmeRecord001DD3BCSetTree::operator=(const BfmeRecord001DD3BCSetTree &);
+
+// 0x001DE3D1 (18B, RET4): the set's inline operator= forwarding to the tree
+// assignment above and returning *this. No retail caller; set vs multiset
+// compile to the same bytes, so the set spelling is an ICF guess.
+#include <set>
+typedef _STL::set<BfmeRecord001DD3BC, _STL::less<BfmeRecord001DD3BC>, _STL::allocator<BfmeRecord001DD3BC> > BfmeRecord001DD3BCSet;
+template BfmeRecord001DD3BCSet &BfmeRecord001DD3BCSet::operator=(const BfmeRecord001DD3BCSet &);
