@@ -110,7 +110,7 @@ class Object
 {
 public:
 	int rva0028D481() const;
-	bool rva0028D4C4() const;
+	int rva0028D4C4() const;
 	char m_pad000[0x250];
 	Rva00261246SubobjectView *m_250;
 	char m_pad254[4];
@@ -201,7 +201,7 @@ public:
 bool Rva00261246Filter::allow(Object *obj)
 {
 	if ((unsigned char)obj->rva0028D481() != 0) {
-		if (!obj->rva0028D4C4())
+		if ((unsigned char)obj->rva0028D4C4() == 0)
 			goto ret_true;
 		if (m_b)
 			goto ret_true;
