@@ -11,6 +11,8 @@ struct Rva001E3F08MidA
 {
 	int m_pad00[10]; // +0x00..+0x27
 	float m_val28; // +0x28
+	int m_pad2C[10]; // +0x2C..+0x53
+	float m_val54; // +0x54
 };
 
 struct Rva001E3F08MidB
@@ -29,6 +31,7 @@ class Rva001E3F08
 {
 public:
 	float rva001E3F08(Rva001E3F08Arg *p);
+	float rva001E3F2E(Rva001E3F08Arg *p);
 private:
 	int m_pad00; // +0x00
 	Rva001E3F08MidA *m_p04; // +0x04
@@ -37,4 +40,12 @@ private:
 float Rva001E3F08::rva001E3F08(Rva001E3F08Arg *p)
 {
 	return p->m_p258->m_val1F8 * m_p04->m_val28 * g_secondsPerLogicFrame;
+}
+
+// ?rva001E3F2E@Rva001E3F08@@QAEMPAURva001E3F08Arg@@@Z, retail 0x001E3F2E,
+// 31 bytes: the same product over the [this+4]->+0x54 field (sibling after
+// the 0x001E3F27 getter). Owner identity unproven.
+float Rva001E3F08::rva001E3F2E(Rva001E3F08Arg *p)
+{
+	return p->m_p258->m_val1F8 * m_p04->m_val54 * g_secondsPerLogicFrame;
 }
