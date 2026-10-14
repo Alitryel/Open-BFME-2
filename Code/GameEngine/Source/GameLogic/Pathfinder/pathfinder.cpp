@@ -65,13 +65,21 @@ struct PathfinderTemplateView {
 };
 enum Relationship { ENEMIES=0, NEUTRAL=1, ALLIES=2 };
 enum ObjectStatusTypes { QuickStatus49=49 };
+enum NameKeyType { NAMEKEY_INVALID=0 };
+class Module;
+struct Coord3D;
 class Object
 {
+friend class Rva002F23A6;
 public:
 	Player *getControllingPlayer() const;
  Bool testStatus(ObjectStatusTypes) const;
 	Relationship getRelationship(const Object *) const;
     int rva0028B511() const;
+void rva0028C2DD(Coord3D*)const;
+const Coord3D *getPosition()const{return (const Coord3D*)position;}
+protected:Module *findModule(NameKeyType)const;
+public:
     bool rva002E6B89();
 	bool IsAtGoalPosition() const;
 	Bool canCrushOrSquishNoAlly(Object *other, Int test);
@@ -94,6 +102,7 @@ class Thing
 {
 public:
 	const Coord3D *getUnitDirectionVector2D() const;
+void getUnitDirectionVector2D(Coord3D&)const;
 };
 struct Rva002E7ED6Info;
 class Pathfinder;
@@ -411,6 +420,7 @@ public:
 class Rva002C9B80Owner
 {
 public:
+bool isWithinAttackRange(Object*,const Coord3D*,Object*,const Coord3D*,float,bool);
 	float rva002C9B80(void *a, float b);
 	void *m_00;
 	Rva002C9400ByteField *m_04;				// +0x04
@@ -587,7 +597,9 @@ class HierarchicalPath;
 class Pathfinder
 {
 public:
- Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
+bool rva002ED313(Object*);
+void AdjustMeleeOffset(Object*,Object*,Coord3D*);
+Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
  Bool adjustToMeleeDestination(Object*,const LocomotorSet&,Coord3D*);
  Bool CheckForAdjust(Object *,const LocomotorSet &,Bool,Int,Int,PathfindLayerEnum,Int,Bool,Coord3D *,const Coord3D *,float,Int *,Int);
  Bool QuickDoesPathExist(Object *,const Coord3D *,const Coord3D *,Int);
@@ -3877,7 +3889,12 @@ bool Pathfinder::adjustToMeleeDestination(Object*obj,const LocomotorSet&set,Coor
  }
  return false;
 }
-
+class BfmeTripleRC;
+class Gen_003D5670 {public:Gen_003D5670(int,int,int,int,int,int,unsigned char,unsigned char,int,int,BfmeTripleRC*,unsigned char);unsigned char storage[0x3c];};
+class NameKeyGenerator {public:NameKeyType nameToKey(const char*);};
+extern NameKeyGenerator *TheNameKeyGenerator;
+class DynamicPortalBehaviour {public:static Module *rva004608E0(Object*);};
+class Rva004C5772CmpBoolField {public:bool get()const;};
 // Native 0x002EEA8A..0x002EED41, RET 20; WB 0x00D69640 and its
 // IterateCircular3 diagnostic prove this expanding-ring search. The callback
 // first validates a cell, then ranks successful cells by squared distance.
@@ -3912,6 +3929,16 @@ inline float Rva002E8D74::rva002E8D74(int a, int b)
 }
 
 
+struct MeleeSearchLimit {char pad[0x11ec];int searchLimit;};
+struct SearchCoordinate:Coord3D {
+ SearchCoordinate(const Coord3D &p){x=p.x;y=p.y;z=p.z;}
+ SearchCoordinate(const SearchCoordinate &p){x=p.x;y=p.y;z=p.z;}
+ void zero(){x=0;y=0;z=0;}
+ void scale(float f){x*=f;y*=f;z*=f;}
+ void add(const Coord3D &p){x+=p.x;y+=p.y;z+=p.z;}
+};
+class Rva002F23A6 {public:bool rva002F23A6(Object *,int,int,Coord3D *,Object *);};
+typedef unsigned char (Pathfinder::*ProbeCall)(Object*,int,int,PathfindLayerEnum,int,bool);
 // ?rva002EEA8A@Pathfinder@@QAE_NPBUICoord2D@@HPAU2@PAXH@Z
 Bool Pathfinder::rva002EEA8A(const ICoord2D *searchCenterCell, Int maxCells,
 	ICoord2D *foundCell, void *callbackData, Int iterationsAfterHit)
@@ -4004,4 +4031,77 @@ Bool Pathfinder::rva002EEA8A(const ICoord2D *searchCenterCell, Int maxCells,
 	}
 
 	return found;
+}
+
+
+// Native 0x002F23A6..0x002F2865, RET 20; WB 0x00D369A0 supplies
+// the target-range, melee-offset and circular-cell search flow. The callable
+// name is still unknown. Native Object/template fields and cell zone/flags
+// below are observed offsets; the callback constructor is the rowed 0x3D5670.
+// Keep the WorldToCell -> clamp -> lookup chain and ring helper visible to
+// preserve the native frame and direction-vector arithmetic scheduling.
+// ?rva002F23A6@Rva002F23A6@@QAE_NPAVObject@@HHPAUCoord3D@@0@Z
+bool Rva002F23A6::rva002F23A6(Object *unit,int weapon,int locomotor,Coord3D *dest,Object *victim)
+{
+ Pathfinder *path=(Pathfinder *)this;
+ Rva002C9B80Owner *range=(Rva002C9B80Owner *)weapon;
+ if(range->isWithinAttackRange(unit,unit->getPosition(),victim,victim->getPosition(),0.0f,true) && path->rva002ED313(unit)) {
+   *dest=*unit->getPosition();return true;
+ }
+ SearchCoordinate start(*unit->getPosition());
+ Coord3D direction;
+ ((const Thing*)unit)->getUnitDirectionVector2D(direction);
+ direction.x*=10.0f;direction.y*=10.0f;
+ start.add(direction);
+ SearchCoordinate delta(start);
+ delta.x-=dest->x;delta.y-=dest->y;delta.z=0;
+ delta.normalize();delta.scale(10.0f);
+ if((victim->m_template->hasKind(7)||victim->m_template->hasKind(60))&&!victim->m_template->hasKind(150))
+   path->AdjustMeleeOffset(unit,victim,&delta);
+ int radius;bool centered;
+ Rva002EBCA7Split(unit,&radius,(unsigned char*)&centered);
+ for(int attempt=0;attempt<2;++attempt) {
+   victim->rva0028C2DD(dest);
+   {const PathfinderTemplateView *vtemplate=victim->m_template;if(vtemplate->hasKind(150))delta.zero();}
+   dest->x+=delta.x;dest->y+=delta.y;dest->z+=delta.z;
+   if(!centered){dest->x+=5.0f;dest->y+=5.0f;}
+   ICoord2D cell;
+   ((Rva002E7964 *)this)->rva002E7964(&cell,1,dest);
+   if(cell.x<0)return false;
+   PathfindLayerEnum layer=TheTerrainLogic->getLayerForDestination(unit,dest);
+   PathfindCell *destinationCell=path->getCell(layer,cell.x,cell.y);
+   PathfindLayerEnum originLayer=(PathfindLayerEnum)unit->rva0028B511();
+   PathfindCell *originCell=path->rva002E8BF8(originLayer,&start);
+   if(!originCell)return false;
+   if(victim->m_template->hasKind(60)&&!victim->m_template->hasKind(150))layer=PATHFIND_LAYER_GROUND;
+   int diameter=unit->m_template->priority;
+   unsigned char special=unit->m_template->flag;
+   Rva002E8BCF query((const Rva002E8BCFSrc *)locomotor,!special,diameter-1,unit->rva0028AFBB());
+   Rva002E99F9Sub460 *zones=(Rva002E99F9Sub460 *)((char*)this+0x460);
+   unsigned originZone=zones->rva0053241F(&query,*(const unsigned short*)((const char*)originCell+8));
+   bool bridge=false;
+   if((*(const unsigned*)((const char*)originCell+12)&15)==4) {
+      bridge=true;
+      originZone=zones->rva00531FD4(&query,(unsigned short)originZone);
+      originZone=zones->rva0053241F(&query,(unsigned short)originZone);
+   }
+   unsigned destinationZone=zones->rva0053241F(&query,*(const unsigned short*)((const char*)destinationCell+8));
+   if(originZone==destinationZone && (path->*reinterpret_cast<ProbeCall>(&Pathfinder::bfmeWrapE6E90))(unit,cell.x,cell.y,layer,radius,centered) && range->isWithinAttackRange(unit,unit->getPosition(),victim,dest,0.0f,true))return true;
+   bool deployed=false;
+   if(victim->m_template->hasKind(93)) {
+      Module *portal=DynamicPortalBehaviour::rva004608E0(victim);
+      static NameKeyType deployKey=TheNameKeyGenerator->nameToKey("SiegeDeploySpecialPower");
+      Module *power=victim->findModule(deployKey);
+      if(portal && power && ((Rva004C5772CmpBoolField *)power)->get())deployed=true;
+   }
+   ICoord2D output;
+   if(path->rva002EEA8A(&cell,((const MeleeSearchLimit*)TheWritableGlobalData)->searchLimit,&output,
+      &Gen_003D5670((int)this,(int)&query,(int)unit,(int)victim,weapon,radius,centered,bridge,originZone,layer,(BfmeTripleRC *)dest,deployed),1))return true;
+   if(victim->m_template->hasKind(150)&&layer!=PATHFIND_LAYER_GROUND) {
+      if(path->rva002EEA8A(&cell,((const MeleeSearchLimit*)TheWritableGlobalData)->searchLimit*2,&output,
+         &Gen_003D5670((int)this,(int)&query,(int)unit,(int)victim,weapon,radius,centered,bridge,originZone,PATHFIND_LAYER_GROUND,(BfmeTripleRC *)dest,deployed),1))return true;
+   }
+   if(delta.x*delta.x+delta.y*delta.y>1.0f)delta.zero();else break;
+ }
+ return false;
 }
