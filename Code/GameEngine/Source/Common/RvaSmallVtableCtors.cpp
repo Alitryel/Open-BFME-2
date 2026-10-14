@@ -1742,8 +1742,16 @@ public:
 	virtual ~Rva0040CFFF() {}
 };
 
-Rva0040CFFF::Rva0040CFFF()
+// Select-any like Rva0040D43FRun.cpp's identical copy (a strong definition
+// would duplicate it at link time); the anchor keeps the noinline body emitted.
+__declspec(noinline) inline Rva0040CFFF::Rva0040CFFF()
 {
+}
+
+// ?bfmeAnchorRva0040CFFF absent-from-retail
+void *bfmeAnchorRva0040CFFF(void *where)
+{
+	return ::new (where) Rva0040CFFF();
 }
 
 // ??0Rva0045954A@@QAE@XZ @0x0045954A 9B, vtable VA 0x00be2b78
