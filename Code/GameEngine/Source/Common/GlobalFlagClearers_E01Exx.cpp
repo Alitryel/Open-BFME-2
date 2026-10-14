@@ -1,5 +1,7 @@
-// Ten B2-native flag-word clearers on eight scattered .data flag words
-// (0x0077CDAD-0x0077EBDC):
+// Nine B2-native flag-word clearers on seven scattered .data flag words
+// (0x0077CDC4-0x0077EBDC):
+// The former77CDAD is the proven compiler cleanup of AI helper3449C5;
+// that parent now owns the cleanup and its initialization guard.
 //
 //     mov eax,[<address>] / and al,<mask8> / mov [<address>],eax / ret
 //
@@ -9,9 +11,6 @@
 // following GlobalFlagClearers_08.cpp.
 // cl: /G7 /MD /EHsc /DNDEBUG
 
-extern unsigned int g_Va00E01DEC;
-// g_Va00E01DEC: matched references place it at VA 0xe01dec (zero-filled .bss).
-unsigned int g_Va00E01DEC;
 extern unsigned int g_Va00E01DF4;
 // g_Va00E01DF4: matched references place it at VA 0xe01df4 (zero-filled .bss).
 unsigned int g_Va00E01DF4;
@@ -33,11 +32,6 @@ unsigned int g_Va00E02150;
 extern unsigned int g_Va00E02280;
 // g_Va00E02280: matched references place it at VA 0xe02280 (zero-filled .bss).
 unsigned int g_Va00E02280;
-
-unsigned int Rva0077CDADClearFlag(void)
-{
-	return g_Va00E01DEC &= 0xFFFFFFFEu;
-}
 
 unsigned int Rva0077CDC4ClearFlag(void)
 {

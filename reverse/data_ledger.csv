@@ -19163,7 +19163,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A01DDC,4,.data,global,?TheProjectileStreamUpdatePoolKey@?1??rva0033EE84@ProjectileStreamUpdate@@SA?AW4NameKeyType@@XZ@4W43@A,Code/GameEngine/Source/GameLogic/Object/Update/ProjectileStreamUpdatePoolKey.cpp,owned,,1,2
 0x00A01DE0,4,.data,global,?g_Va00E01DE0@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E0102xx.cpp,provisional,?$S1@?1??rva0033EE84@ProjectileStreamUpdate@@SA?AW4NameKeyType@@XZ@4IA@Code/GameEngine/Source/GameLogic/Object/Update/ProjectileStreamUpdatePoolKey.cpp;?g_Va00E01DE0@@3IA,2,4
 0x00A01DE4,8,.data,global,_s_rva007AEB70,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
-0x00A01DEC,4,.data,global,?g_Va00E01DEC@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E01Exx.cpp,owned,,1,2
+0x00A01DEC,4,.data,global,?$S1@?9??rva003449C5@@YA_NPAUCoord3D@@PAVObject@@1@Z@4IA,Code/GameEngine/Source/GameLogic/AI/AIStatesMeleeApproachGoal.cpp,owned,,1,4
 0x00A01DF0,4,.data,global,?siegeKey@?N@??update@AIAttackMeleeHordeWaitPathState@@UAE?AW4StateReturnType@@XZ@4W4NameKeyType@@A,Code/GameEngine/Source/GameLogic/AI/AIAttackApproachTargetStateOnEnter.cpp,owned,,1,2
 0x00A01DF4,8,.data,global,?g_Va00E01DF4@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E01Exx.cpp,provisional,?$S1@?N@??update@AIAttackMeleeHordeWaitPathState@@UAE?AW4StateReturnType@@XZ@4IA@Code/GameEngine/Source/GameLogic/AI/AIAttackApproachTargetStateOnEnter.cpp;?g_Va00E01DF4@@3IA,2,4
 0x00A01DFC,4,.data,global,?g_Va00E01DFC@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E01Exx.cpp,owned,,1,2
