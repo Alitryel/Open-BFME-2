@@ -9,7 +9,9 @@ class ModuleData;
 class AsciiString;
 namespace _STL {template<>void vector<AsciiString>::swap(vector<AsciiString>&);}
 void __cdecl Rva00030830GameFree(void*);
-namespace _STL {template<>inline _Vector_base<const ModuleData*,allocator<const ModuleData*> >::~_Vector_base() {if(_M_start)Rva00030830GameFree(_M_start);}}
+// Keep the target's direct GameFree cleanup inlined without emitting a
+// competing out-of-line STL base destructor.
+namespace _STL {template<>__declspec(dllimport) __forceinline _Vector_base<const ModuleData*,allocator<const ModuleData*> >::~_Vector_base() {if(_M_start)Rva00030830GameFree(_M_start);}}
 namespace _STL {
 template<>void vector<const ModuleData*>::reserve(unsigned);
 template<>void vector<const ModuleData*>::push_back(const ModuleData*const&);
