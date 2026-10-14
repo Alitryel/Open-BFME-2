@@ -1,30 +1,11 @@
-// ?rva006D77B0@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z
-// partial score=0.96 date=2026-10-14
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-// ?rva006D77B0@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z
-// partial score=0.9 date=2026-10-14
-// ?rva006D77B0@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z
-// partial score=0.8 date=2026-10-09
 // cl: /O2 /MD /EHsc /ICode/Libraries/Source/Apt/AptValue /ICode
-// ?rva006D77B0@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z
-// Retail 0x006D77B0..0x006D7A5D (685 bytes). BANKED ROUGH DRAFT (~0.8):
-// logic and calls mapped; /O2 register roles differ (retail keeps the new
-// array in [esp+8] with EDI as the zero/index register and saves EBX/EBP
-// only on the argc >= 1 path; this build keeps the array in EDI and zeroes
-// through EBP from the prologue). 681 vs 685 bytes.
-//
-// The Apt String.prototype.split native (registered by the String object
-// setup at 0x006D815B with this address): with no argument the result array
-// holds the string itself; otherwise the delimiter (stack 0, toString) and an
-// optional limit (stack 1, default 999999) split the string (checkedString
-// +8): an empty delimiter yields one AptString per decoded character (rowed
-// decoder 0x006D4280, EAStringC character assign 0x006D61E0, SetString),
-// else the pieces between EAStringC::Find hits, the last piece running to
-// the end. Callees rowed / pinned: AptArray ctor + set, the 0x00E176F4 chain
-// block pool, EAStringC ctor/copy/length/c_str/Find/Append/=/dtor,
-// AptBasePtrStack::At on g_aptDateInterpreter, AptString::Create.
-// Sibling: Code/Libraries/Source/Apt/AptStringCodepointCallback.cpp (0x006D75A0).
+// Native 006D77B0..006D7A5D: 685-byte String split callback, registered by
+// the String setup at 006D815B. WB0177F430 corroborates delimiter conversion,
+// default limit 999999, decoded-character mode and Find-based substring mode.
+// Preserve the explicit argument temporary before initializing the limit,
+// and increment the segment index before the part string leaves scope.
+// EAStringC, array and allocator layouts follow the already matched providers;
+// the callback retains its established address-derived name.
 
 class AptValue
 {
@@ -98,11 +79,9 @@ AptValue *rva006D77B0(BfmeAptValue006DCD20 *self, int argc)
 	if (argc >= 1)
 	{
 		EAStringC delimiter;
-		_ReadWriteBarrier();
-		int limit = 999999;
-		_ReadWriteBarrier();
-		_ReadWriteBarrier();
-		((const AptValue *)g_aptDateInterpreter.stack.At(0))->toString(delimiter);
+		const AptValue * arg0=(const AptValue *)g_aptDateInterpreter.stack.At(0);
+		int limit=999999;
+		arg0->toString(delimiter);
 		if (argc >= 2)
 			limit = g_aptDateInterpreter.stack.At(1)->toInteger();
 		EAStringC source(self->checkedString()->m_text);
@@ -127,13 +106,13 @@ AptValue *rva006D77B0(BfmeAptValue006DCD20 *self, int argc)
 		{
 			int position = 0;
 			const char *text = source.rva00620090();
-			for (int i = 0; i < limit; ++i)
+			for (int i = 0; i < limit;)
 			{
-				int found = (i ? (source.Find(delimiter.rva00620090(), position)) : (source.Find(delimiter.rva00620090(), position)));
-				_ReadWriteBarrier();
-				AptString *piece = (i ? (AptString::Create()) : (AptString::Create()));
+				int found = source.Find(delimiter.rva00620090(), position);
+
 				if (found == -1)
 				{
+					AptString *piece=AptString::Create();
 					EAStringC rest;
 					if (position != -1)
 						rest.Append(source.rva00620090() + position, -1 - position);
@@ -141,10 +120,12 @@ AptValue *rva006D77B0(BfmeAptValue006DCD20 *self, int argc)
 					result->set(i, (AptValue *)piece);
 					break;
 				}
+				AptString *piece=AptString::Create();
 				EAStringC part;
 				part.Append(text + position, found - position);
 				piece->m_text = part;
 				result->set(i, (AptValue *)piece);
+				++i;
 				position = found + delimiterLength;
 			}
 		}
