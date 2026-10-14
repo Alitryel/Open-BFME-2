@@ -89466,3 +89466,9 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ??$_Destroy@URva0040AFF3@@@_STL@@YAXPAURva0040AFF3@@@Z,,0x0040B3D5,9,Code/GameEngine/Source/Common/DestroyInstances.cpp,matched,STLport single-object _Destroy tail-jumping the rowed dtor 0x0040AFF3; twin of 0x005BC6F5
 ??$_Destroy@ULightSubPoint@@@_STL@@YAXPAULightSubPoint@@@Z,,0x00424DCC,9,Code/GameEngine/Source/Common/DestroyInstances.cpp,matched,STLport single-object _Destroy tail-jumping the rowed dtor 0x004247E3; twin of 0x005BC6F5
 ??$_Destroy@UTreeHintOpaque0043671B@@@_STL@@YAXPAUTreeHintOpaque0043671B@@@Z,,0x00434A26,9,Code/GameEngine/Source/Common/DestroyInstances.cpp,matched,STLport single-object _Destroy tail-jumping the rowed dtor 0x00229840; twin of 0x005BC6F5
+?get@Rva003FDD25@@QBEMXZ,,0x003FDD25,4,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,float getter +0x5C (no caller reference; address-named view)
+?get@Rva0041F27F@@QBEMXZ,,0x0041F27F,7,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,float getter +0x170 (no caller reference; address-named view)
+?get@Rva00403129@@QBE_NXZ,,0x00403129,7,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,byte flag getter +0xD2 (no caller reference; address-named view)
+?get@Rva0042CAE4@@QBE_NXZ,,0x0042CAE4,7,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,byte flag getter +0x8C4 (no caller reference; address-named view)
+?get@Rva0040FB36@@QAEPAXXZ,,0x0040FB36,7,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,member address getter +0x270 (no caller reference; address-named view)
+?next@Rva0036CB70@@QAEHXZ,,0x0036CB70,7,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,pre-increment counter +0x1C (no caller reference; address-named view)

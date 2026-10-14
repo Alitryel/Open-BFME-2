@@ -93,3 +93,93 @@ void Rva00481BABInvert(unsigned int *value)
 {
 	*value = ~*value;
 }
+
+// --- 0x003FDD25: return the float at +0x5C.
+class Rva003FDD25
+{
+public:
+	float get() const;
+private:
+	char m_pad00[0x5C];
+	float m_5C;
+};
+
+float Rva003FDD25::get() const
+{
+	return m_5C;
+}
+
+// --- 0x0041F27F: return the float at +0x170.
+class Rva0041F27F
+{
+public:
+	float get() const;
+private:
+	char m_pad00[0x170];
+	float m_170;
+};
+
+float Rva0041F27F::get() const
+{
+	return m_170;
+}
+
+// --- 0x00403129: return the flag byte at +0xD2.
+class Rva00403129
+{
+public:
+	bool get() const;
+private:
+	char m_pad00[0xD2];
+	bool m_D2;
+};
+
+bool Rva00403129::get() const
+{
+	return m_D2;
+}
+
+// --- 0x0042CAE4: return the flag byte at +0x8C4.
+class Rva0042CAE4
+{
+public:
+	bool get() const;
+private:
+	char m_pad00[0x8C4];
+	bool m_8C4;
+};
+
+bool Rva0042CAE4::get() const
+{
+	return m_8C4;
+}
+
+// --- 0x0040FB36 (7B): the address of the member at +0x270.
+class Rva0040FB36
+{
+public:
+	void *get();
+private:
+	char m_pad00[0x270];
+	int m_270;
+};
+
+void *Rva0040FB36::get()
+{
+	return &m_270;
+}
+
+// --- 0x0036CB70 (7B): pre-increment the counter at +0x1C and return it.
+class Rva0036CB70
+{
+public:
+	int next();
+private:
+	char m_pad00[0x1C];
+	int m_1C;
+};
+
+int Rva0036CB70::next()
+{
+	return ++m_1C;
+}
