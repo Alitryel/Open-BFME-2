@@ -6,10 +6,10 @@
 // class and resolves in this unit. The classes are not recovered, so each keeps
 // its address; the bases are the rowed destructors' address-named classes.
 
-class Rva005C7CBB
+class Rva005C802B
 {
 public:
-	virtual ~Rva005C7CBB();
+	virtual ~Rva005C802B();
 };
 
 class AsciiString;
@@ -31,8 +31,8 @@ public:
 	virtual ~Rva006003FC();
 };
 
-// ??1Rva005C33D2@@UAE@XZ @0x005C33D2 11B: vtable VA 0xc74434, then ~Rva005C7CBB
-class Rva005C33D2 : public Rva005C7CBB
+// ??1Rva005C33D2@@UAE@XZ @0x005C33D2 11B: vtable VA 0xc74434, then ~Rva005C802B
+class Rva005C33D2 : public Rva005C802B
 {
 public:
 	virtual ~Rva005C33D2();

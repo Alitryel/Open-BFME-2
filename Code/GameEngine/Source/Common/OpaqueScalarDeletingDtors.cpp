@@ -524,25 +524,27 @@ private:
 	int m_pad04;
 };
 
-class Rva005C7CBB
+// Ctor 0x005C802B installs the same vtable 0x00C74ACC as this dtor, so the
+// dtor and its deleting wrapper carry the ctor's class name.
+class Rva005C802B
 {
 public:
-	virtual ~Rva005C7CBB();
+	virtual ~Rva005C802B();
 
 private:
 	Rva005C7CA1 m_member04;
 };
 
-Rva005C7CBB::~Rva005C7CBB()
+Rva005C802B::~Rva005C802B()
 {
 	m_member04.clear();
 }
 
 // Anchor: forces out-of-line emission of the in-class destructor COMDAT,
 // including the scalar deleting destructor.
-void Rva005C7CBB_Anchor(Rva005C7CBB *p)
+void Rva005C802B_Anchor(Rva005C802B *p)
 {
-	p->Rva005C7CBB::~Rva005C7CBB();
+	p->Rva005C802B::~Rva005C802B();
 }
 
 class Rva005CD14D
