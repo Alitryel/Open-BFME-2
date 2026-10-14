@@ -43,7 +43,9 @@ public:
 	{
 		Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2];
 	}
-	__forceinline explicit Matrix3(bool identity)
+	// Preserve the inlined initialization without emitting its unused
+	// standalone constructor copy in this unit.
+	__declspec(dllimport) __forceinline explicit Matrix3(bool identity)
 	{
 		if (identity)
 		{
@@ -111,7 +113,7 @@ protected:
 	Rva003F962FVector3 Row[3];
 };
 
-__forceinline Matrix3 Create_Z_Rotation_Matrix3(float s, float c)
+__declspec(dllimport) __forceinline Matrix3 Create_Z_Rotation_Matrix3(float s, float c)
 {
 	Matrix3 mat;
 
@@ -130,7 +132,7 @@ __forceinline Matrix3 Create_Z_Rotation_Matrix3(float s, float c)
 	return mat;
 }
 
-__forceinline Matrix3 Create_Z_Rotation_Matrix3(float rad)
+__declspec(dllimport) __forceinline Matrix3 Create_Z_Rotation_Matrix3(float rad)
 {
 	return Create_Z_Rotation_Matrix3(sinf(rad), cosf(rad));
 }
