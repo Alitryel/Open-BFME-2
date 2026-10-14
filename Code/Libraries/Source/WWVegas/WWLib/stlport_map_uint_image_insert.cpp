@@ -18,6 +18,13 @@
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
 
+// The unsigned compares are inlined (retail compares in place); an
+// inline-only specialization keeps them so and emits no less<unsigned>
+// copy in a shape retail's 0x00758C50 lacks.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const { return a < b; }
+}
+
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit
 // dllimport+forceinline specializations take those calls inline so this
@@ -40,6 +47,18 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 }
 
 class Image;
+// _M_insert calls the 34-byte node factory retail folds at 0x00382B7F and
+// the map's destructor runs the rowed tree destructor
+// (stlport_string_pair_cleanup.cpp); declaring both specializations keeps
+// this unit from emitting its own differing copies. The node allocator's
+// allocate is declared too: the tree's own constructors call it, and the
+// shared copy is the bfmealloc one other units of this map emit.
+typedef _STL::_Rb_tree<unsigned, _STL::pair<const unsigned, Image *>, _STL::_Select1st<_STL::pair<const unsigned, Image *> >, _STL::less<unsigned>, _STL::allocator<_STL::pair<const unsigned, Image *> > > TreeImage;
+namespace _STL {
+template <> _Rb_tree_node<pair<const unsigned, Image *> > *TreeImage::_M_create_node(const TreeImage::value_type &);
+template <> TreeImage::~_Rb_tree();
+template <> _Rb_tree_node<pair<const unsigned, Image *> > *allocator<_Rb_tree_node<pair<const unsigned, Image *> > >::allocate(size_t, const void *) const;
+}
 
 template class _STL::map<unsigned, Image *, _STL::less<unsigned>, _STL::allocator<_STL::pair<const unsigned, Image *> > >;
 
