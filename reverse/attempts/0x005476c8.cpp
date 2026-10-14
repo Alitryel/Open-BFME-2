@@ -1,5 +1,5 @@
 // ?rva005476C8@MoveToGroupOrder@@QAEPAUCoord3D@@W4ObjectID@@@Z
-// partial score=1.0 date=2026-10-14
+// partial score=0.9845 date=2026-10-14
 // ?rva005476C8@MoveToGroupOrder@@QAEPAUCoord3D@@W4ObjectID@@@Z
 // partial score=0.9 date=2026-10-12
 // cl: /MD /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
@@ -501,10 +501,33 @@ void MoveToGroupOrder::rva0054764C(Object *obj, AIUpdateInterface *aiUpdate, Coo
 	}
 }
 
+
+// Retail inserts through the ICF-folded 0x5474C3 body, which the ledger carries under
+// the Armor hashtable's instantiation; the view below reaches it by that rowed name.
+enum NameKeyType { NAMEKEY_INVALID_PLACEHOLDER = 0 };
+class ArmorTemplate { public: float m_damageCoefficient[38]; };
+namespace rts {
+template <> struct hash<NameKeyType> { unsigned int operator()(const NameKeyType &key) const { return 0; } };
+}
+typedef std::hash_map<NameKeyType, ArmorTemplate, rts::hash<NameKeyType>, std::equal_to<NameKeyType> > ArmorInsertView;
+namespace _STL {
+template <> pair<ArmorInsertView::iterator, bool> ArmorInsertView::_Ht::insert_unique(const ArmorInsertView::value_type &);
+}
+class Rva00547223 { public: int m_d[4]; Rva00547223 *rva00547223(int *a, int *b); };
+Rva00547223 *__cdecl Rva00547297Init(Rva00547223 *obj, int *a, int *b);
+struct Region2D { Region2D(const Region2D &that); int m_d[4]; };
+static __forceinline Coord3D *Rva005476C8Insert(ObjectCoord3DMap *map, ObjectID *idp, const Coord3D *pos)
+{
+	Rva00547223 pair;
+	Region2D value(*(Region2D *)Rva00547297Init(&pair, (int *)idp, (int *)pos));
+	ArmorInsertView *view = (ArmorInsertView *)map;
+	return (Coord3D *)(*(char **)&view->insert(*(const ArmorInsertView::value_type *)&value).first + 8);
+}
 Coord3D *MoveToGroupOrder::rva005476C8(ObjectID id)
 {
  Object *obj=TheGameLogic->findObjectByID(id);
  Coord3D result;
+ const Coord3D *position;
  if(obj) {
   AIUpdateInterface *ai=(AIUpdateInterface *)obj->ai;
   if((ai && reinterpret_cast<MoveAIUpdateView*>(ai)->slot137()) || obj->physics) {
@@ -514,8 +537,11 @@ Coord3D *MoveToGroupOrder::rva005476C8(ObjectID id)
    if(!TheAI->pathfinder()->AdjustDestination(obj,*reinterpret_cast<LocomotorSet*>(reinterpret_cast<char*>(ai)+0x1CC),&result,&m_destination))result=m_destination;
    if(obj->theTemplate->kindHigh & 0x04000000) {float angle=obj->angle; float rel=obj->GetRelativeAngle(&result)+angle; obj->rva0028AD00((int)&result,rel,layer);}
    else obj->rva0028ACEE(&result,layer);
-   return &m_positions.insert(_STL::make_pair(id,result)).first->second;
+   position=&result;
+   goto insert;
   }
  }
- return &m_positions.insert(_STL::make_pair(id,m_destination)).first->second;
+ position=&m_destination;
+insert:
+ return Rva005476C8Insert(&m_positions,&id,position);
 }

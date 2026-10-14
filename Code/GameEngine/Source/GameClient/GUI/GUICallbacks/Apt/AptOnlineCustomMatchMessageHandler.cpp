@@ -646,7 +646,7 @@ public:
 	bool RequestJoinGame(const char *password);
 	void OpenConnectionScreen(bool open);
 	// FillBuddyInviteGameInfo 0x0059FB4F is banked: reverse/attempts/0x0059fb4f.cpp.
-	// UpdatePings 0x0059ED8B is banked: reverse/attempts/0x0059ed8b.cpp.
+	// UpdatePings 0x0059ED8B is defined below.
 
 	// Rowed 0x005A0DC2 (339 bytes; ret 4), named by WorldBuilder.
 	void FillGameNameTextEntry(bool flag);
@@ -656,7 +656,7 @@ public:
 
 	virtual void rva005A61C6();
 	virtual int rva005A52FE(GameWindow *window, unsigned int msg, unsigned int mData1, unsigned int mData2);
-	void UpdatePings();					 // banked 0x0059ED8B, pinned
+	void UpdatePings();					 // 0x0059ED8B
 	void rva005A2899();					 // unrowed 0x005A2899 (990 bytes), pinned
 	bool rva005A1EEE();					 // rowed 0x005A1EEE
 	void UpdateHostStartGameButton();	   // rowed 0x0059EEE2
@@ -1697,4 +1697,68 @@ int AptOnlineCustomMatch::rva005A52FE(GameWindow *window, unsigned int msg, unsi
 		return result;
 	}
 	return 1;
+}
+
+// Retail 0x0059ED8B, 244 bytes: refreshes the connection icons of the host
+// panel for each of the room's eight slots (the local ping, or the NAT's
+// negotiation state with each human peer).
+void AptOnlineCustomMatch::UpdatePings()
+{
+	if (!TheGameSpyInfo)
+		return;
+	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
+	if (!room)
+		return;
+
+	unsigned short localSlot = room->getLocalSlotNum();
+	PortNegotiationSchema *schema = &((Rva005A6D47 *)TheNAT)->m_schema;
+	for (int i = 0; i < 8; ++i)
+	{
+		GameSlot *slot = room->getSlot(i);
+		if (!slot)
+			continue;
+		GameSpySlotView *gsSlot = slot->gameSpySlot();
+		int value = 0;
+		int kind = 0;
+		if (i == localSlot)
+		{
+			kind = 4;
+			value = Rva005DB335Get(gsSlot->m_ping);
+		}
+		else if (slot->isHuman())
+		{
+			Elem005DB98E *ping = 0;
+			if (TheNAT)
+			{
+				switch (schema->GetConnectionState(localSlot, i))
+				{
+				case 1:
+					kind = 2;
+					break;
+				case 2:
+					kind = 3;
+					break;
+				case 3:
+					ping = (Elem005DB98E *)schema->peekPing(localSlot, i);
+					if (ping)
+					{
+						kind = 4;
+						value = AptConnectionScreen::GetPingImageEnum(ping);
+					}
+					else
+						kind = 0;
+					break;
+				case 4:
+					kind = 1;
+					break;
+				default:
+					kind = 0;
+					break;
+				}
+			}
+			else
+				kind = 0;
+		}
+		((AptMpGameSetup *)&m_70)->rva0043E5C1(i, kind, value);
+	}
 }
