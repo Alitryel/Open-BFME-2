@@ -136,3 +136,13 @@ template <> void _STL::_Construct<Rva00170999, Rva00170999>(Rva00170999 *p, cons
 	}
 	p->Rva00170999::Rva00170999(v);
 }
+// Retail 0x00170A7C..0x00170A85: STLport _Destroy for the same record, a tail
+// jump into the rowed out-of-line destructor 0x00151DAB.
+namespace _STL
+{
+template <class _T1> void _Destroy(_T1 *__pointer);
+}
+template <> void _STL::_Destroy<Rva00151DAB>(Rva00151DAB *p)
+{
+	p->~Rva00151DAB();
+}
