@@ -5,7 +5,7 @@
 // module data at receiver-20 and the three angles at receiver+2C/+30/+34.
 // The old no-boundary verdict confused instruction addresses; the native
 // body starts with 55 8B EC and ends with 5F 5E 5D C2 04 00.
-#include "matrix3d.h"
+#include "../../../../../../reference/shims/bfme_matrix3d_copy_link/matrix3d_copy_link.h"
 enum UpdateSleepTime { FOREVER=0x3fffffff };
 class Thing {public:void setTransformMatrix(const Matrix3D*);const Matrix3D*getTransformMatrix()const{return(const Matrix3D*)((const char*)this+8);}};
 class DamageInfo;
