@@ -4,6 +4,15 @@
 // 0x3F6D35 row under its own /EHsc /MD flags; this body needs /O1 /G7.
 // R1 template visibility: dropping the three explicit vector/find
 // specialization declarations restores retail's base-load order. Exact 168B.
+// Keep vector growth's unsigned comparison local. Its standalone template
+// copy differs from retail; all uses in this unit are already inlined.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+ return a < b ? b : a;
+}
+}
 #include <vector>
 #include <algorithm>
 class ModuleData;
