@@ -1,4 +1,5 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /arch:SSE
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// stlport
 // WorldBuilder StrategicInGameUIRegionDetailsStructuresPage.cpp:261..285 names
 // Icon::Update and supplies the construction-progress/hover-tooltip purpose.
 // Retail 0x005E22A0..0x005E2338 supplies the complete 152-byte RET0 body,
@@ -10,7 +11,9 @@
 // primary vtable at 0x00C77B28 contains only the scalar deleting destructor. The rowed +10/+14 movie-clip forwarder,
 // countdown query and Mouse tooltip consumer retain their existing spellings.
 // No compatible clean reference implementation was available at BFME1 9cbfb551.
+#include "ascii_string.h"
 #include "unicode_string.h"
+#include <vector>
 struct RGBColor;
 class Image;
 class LivingWorldBuildPlot;
@@ -43,7 +46,7 @@ UnicodeString __cdecl GetTooltipText(LivingWorldBuildingType);
 struct StructureTemplate { char pad00[0x28]; int totalBuildTime; LivingWorldBuildingType type; __forceinline LivingWorldBuildingType getType() const { return type; } };
 struct Structure { char pad00[0x28]; StructureTemplate *definition; };
 struct BuildPlot { char pad00[0x20]; Structure *building; char pad24[0x34-0x24]; bool constructing; };
-struct Region { char pad00[0x170]; BuildPlot **plots; };
+struct Region { char pad00[0x170]; _STL::vector<BuildPlot *> plots; };
 class StructureIconSlot {
 public:
  virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
@@ -51,17 +54,62 @@ public:
  virtual void ShowProgress(int total, int remaining);
  virtual void HideProgress();
 };
+}
+// Retail 0x005F16F9 constructs this movie clip base (vtable 0x00C78EFC: the
+// deleting destructor and four empty virtuals the page Impl overrides).
+namespace StrategicHUD {
+class RegionDetailsStructuresMovieClip {
+public:
+ RegionDetailsStructuresMovieClip(int level, const AsciiString &name, int iconSlotCount, int arg);
+ virtual ~RegionDetailsStructuresMovieClip();
+ virtual void slot01(); virtual void slot02(); virtual void slot03(); virtual void slot04();
+private:
+ void *m_impl;
+};
+}
+// Movie-clip accessors rowed under address-derived classes: the clip's icon
+// slot count and the portrait image/flag setters.
+class Rva005ED291 { public: int rva005F05D7() const; };
+class Rva005F09E7 { public: void rva005F09E7(const Image *); };
+class Rva005F09EF { public: void rva005F09EF(const Image *); };
+class Rva005F09DF { public: void rva005F09DF(bool); };
+const Image *__cdecl Rva005F01B8Get(int);
+class LivingWorldRegion { public: const Image *GetFortressPortrait(); };
+class Rva005E2896Vector { public: void reserve(unsigned int); };
+struct PageContext { void *region, *page, *owner; };
+extern int g_rva00E066A4StructuresClipArg;
+namespace StrategicInGameUI {
+struct TargetRef00217D4CIcon;
 class RegionDetailsStructuresPage { public: class Impl; };
-class RegionDetailsStructuresPage::Impl {
+}
+struct TargetRef00217D4C;
+void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
+// The page's counted icon reference (vector element, push_back 0x005E2B0E).
+struct Rva005E2B0EElement {
+ Rva005E2B0EElement(void *icon) : pointer((int *)icon) { if (pointer) ++pointer[1]; }
+ Rva005E2B0EElement(const Rva005E2B0EElement &o) : pointer(o.pointer) { if (pointer) ++pointer[1]; }
+ ~Rva005E2B0EElement() { ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)pointer); }
+ int *pointer;
+};
+namespace StrategicInGameUI {
+class RegionDetailsStructuresPage::Impl : public StrategicHUD::RegionDetailsStructuresMovieClip {
 public:
  class Icon;
- char pad00[0x0c]; Region *region; char pad10[0x20-0x10]; int selected;
+ Impl(void *page, void *level, void *name, const PageContext &context);
+ virtual ~Impl();
+ virtual void slot01(); virtual void slot02(); virtual void slot03(); virtual void slot04();
+ void *page; Region *region; void *observer;
+ _STL::vector<Rva005E2B0EElement> icons;
+ int selected; int pendingSelection;
+ struct Ref { Ref() : pointer(0) {} ~Ref() { if (pointer) ReleaseTreeHintRef00217D4C(pointer); } TargetRef00217D4C *pointer; } current;
+ bool flag;
 };
 class RegionDetailsStructuresPage::Impl::Icon : public IconCountedBase, public IconMouseObserver, public LivingWorldBuildPlotObserver {
 public:
- void Update();
+ Icon(Impl &, int); void Update();
  virtual void OnBuildPlotBuildingChanged(LivingWorldBuildPlot &);
 private:
+ friend class Impl;
  Impl *owner; int index; char pad18[4]; bool hovered;
  BuildPlot *getBuildPlot() { return owner->region->plots[index]; }
 };
@@ -111,5 +159,39 @@ void RegionDetailsStructuresPage::Impl::Icon::OnBuildPlotBuildingChanged(LivingW
     clip=(StructureIconSlot *)((Rva005E2138 *)this)->rva005E2138();
     clip->SetBuildingTypeImage(typeImage);
     if(owner->selected==index) ((Rva005E261C *)owner)->rva005E261C();
+}
+}
+
+// Page Impl constructor, native 0x005E2B45..0x005E2C9D (344B, RET10), called
+// by the page ctor 0x005E2C9D with this, two pointer words and the context
+// (pin spelling). Target facts: base movie clip built with min(plot count, the
+// .rdata 4 at 0x00BC6C20) and the .data word 0x00E066A4; vtable 0x00C77B2C;
+// fields +8 page, +C region, +10 observer, +14 counted-icon vector (empty base
+// ctor 0x00211E58), +20/+24 = -1, +28 counted ref (EH state), +2C flag. Icons
+// are built per clip slot (0x005F05D7) after reserve 0x005E2896; the slot whose
+// plot equals context.page becomes +24. A non-empty fortress portrait sets the
+// clip's portrait images and flag. WorldBuilder 15F3100 is the debug twin
+// (same order, std::min over a global const). Field names are TU-local roles.
+namespace StrategicInGameUI {
+static const int kMaxStructureIconSlots = 4;
+RegionDetailsStructuresPage::Impl::Impl(void *page, void *level, void *name, const PageContext &context)
+ : StrategicHUD::RegionDetailsStructuresMovieClip((int)level, *(const AsciiString *)name,
+     _STL::min((int)((Region *)context.region)->plots.size(), kMaxStructureIconSlots), g_rva00E066A4StructuresClipArg),
+   page(page), region((Region *)context.region), observer(context.owner), selected(-1), pendingSelection(-1), flag(false)
+{
+ int count = ((const Rva005ED291 *)this)->rva005F05D7();
+ ((Rva005E2896Vector *)&icons)->reserve(count);
+ for (int i = 0; i < count; ++i) {
+  Rva005E2B0EElement icon(new Icon(*this, i));
+  icons.push_back(icon);
+  if (((Icon *)icon.pointer)->getBuildPlot() == context.page)
+   pendingSelection = i;
+ }
+ const Image *portrait = ((LivingWorldRegion *)region)->GetFortressPortrait();
+ if (portrait) {
+  ((Rva005F09E7 *)this)->rva005F09E7(portrait);
+  ((Rva005F09EF *)this)->rva005F09EF(Rva005F01B8Get(1));
+  ((Rva005F09DF *)this)->rva005F09DF(true);
+ }
 }
 }
