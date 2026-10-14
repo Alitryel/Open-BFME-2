@@ -56602,3 +56602,4 @@ CatchContinuation_0x0022D53D	0x0022D53D	703	no-boundary	Not a standalone functio
 ?erase@?$vector@PAVRva00281A76@@V?$allocator@PAVRva00281A76@@@_STL@@@_STL@@QAEPAPAVRva00281A76@@PAPAV3@@Z	0x001FF51F	40	landed	add_match verified Code/GameEngine/Source/Common/Rva00283114GroupMerge.cpp 40B; gen-alias; group-pointer vector of the group merge 0x00283114; complete body and every owner relocation equal existing owner; zero unique retail bytes
 ?rva00283114@Rva00283114@@QAEXPAX@Z	0x00283114	306	landed	add_match verified Code/GameEngine/Source/Common/Rva00283114GroupMerge.cpp 306B
 ?rva0042CC7B@Rva0042CBB6@@QAEHPAVGameMessage@@@Z	0x0042CC7B	1005	landed	add_match verified Code/GameEngine/Source/Common/Rva0042CB81.cpp 1005B
+?rva0028FCD9@Object@@QAEXHH@Z	0x0028FCD9	380	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/ObjectRva0028FCD9.cpp 380B
