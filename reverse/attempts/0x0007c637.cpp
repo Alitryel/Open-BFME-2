@@ -1,13 +1,5 @@
 // ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
-// partial score=0.8251485037755197 date=2026-10-14
-// ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
-// partial score=0.72 date=2026-10-14
-// ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
-// partial score=0.72 date=2026-10-14
-// ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
-// partial score=0.67059 date=2026-10-14
-// ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
-// partial score=0.88 date=2026-10-09
+// partial score=0.8488948403842022 date=2026-10-14
 // cl: /O1 /Og /Oi /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_CRTIMP= /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
 // Native shadow map helper 0007C637..0007C8AE. WorldBuilder7EF110 embeds
@@ -83,7 +75,7 @@ bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float ep
    }
    if(j==count) break;
   }
-  if((i ? (std::find(hull.begin(),hull.end(),(const int &)i)) : (std::find(hull.begin(),hull.end(),(const int &)i)))!=hull.end()) break;
+  if(std::find(hull.begin(),hull.end(),i)!=hull.end()) break;
   PushIndex(hull,(const int &)i);
  }
  ClearPoints(output);
