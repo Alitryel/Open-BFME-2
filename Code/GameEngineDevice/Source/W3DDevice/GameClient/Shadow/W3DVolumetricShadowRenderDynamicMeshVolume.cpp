@@ -229,7 +229,9 @@ protected:
 class Matrix4
 {
 public:
-	__forceinline explicit Matrix4(const Matrix3D &m) { Init(m); }
+	// Keep the widening inline without publishing another constructor COMDAT;
+	// Matrix4FromMatrix3DO1.cpp owns retail's out-of-line copy.
+	__declspec(dllimport) __forceinline explicit Matrix4(const Matrix3D &m) { Init(m); }
 	__forceinline Matrix4(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3) { Init(r0, r1, r2, r3); }
 	__forceinline void Init(const Matrix3D &m)
 	{
