@@ -1,8 +1,12 @@
 // ?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z
+// partial score=0.9 date=2026-10-14
+// ?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.88 date=2026-10-13
 // ?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.88 date=2026-10-12
 // cl: /Ireference/shims/bfmerendobj /Ireference/shims/bfmemapper /arch:SSE /DNDEBUG /MD /EHsc /G7 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "mapper.h"
 #include "ini.h"
@@ -51,9 +55,10 @@ void ScreenMapperClass::Calculate_Texture_Matrix(Matrix4 &tex_matrix)
  tex_matrix[1].W=ky*tex_matrix[1].W;
 	Vector4 last(tex_matrix[3]); // this gets the w
 	last *= offset_u; // multiply by w because the projected flag will divide by w
-	tex_matrix[0].X = last.X + tex_matrix[0].X;
 	tex_matrix[0].Y = last.Y + tex_matrix[0].Y;
+	tex_matrix[0].X = last.X + tex_matrix[0].X;
 	tex_matrix[0].Z = last.Z + tex_matrix[0].Z;
+	_ReadWriteBarrier();
 	tex_matrix[0].W = last.W + tex_matrix[0].W;
 	tex_matrix[1].X = tex_matrix[3].X * offset_v + tex_matrix[1].X;
 	tex_matrix[1].Y = tex_matrix[3].Y * offset_v + tex_matrix[1].Y;

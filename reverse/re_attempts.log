@@ -53773,3 +53773,13 @@ FXShaderGeometry::Init	0x0018C84E	2333	blocked	Cold 2333B with 5421B WB; 69 call
 ?HostValidateColors@AptMpGameSetup@@QAEXXZ	0x004422dd	522	partial	multisite beam nd 36->33: (bar@90, ltype@90:c:char) score=0.9 stash=reverse/attempts/0x004422dd.cpp
 ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z	0x005601d9	2114	partial	multisite beam nd 162->136: (vref@70:rotation.Row[0], vref@74:v.Z) score=0.9 stash=reverse/attempts/0x005601d9.cpp
 ??0Rva005C4B56@@QAE@ABUHelper005C4D4B@@_NPBH@Z	0x005c4de0	415	partial	multisite beam nd 33->17: score=0.9 stash=reverse/attempts/0x005c4de0.cpp
+?Rva0008103AAdjust@@YAXPAM@Z	0x0008103a	520	partial	multisite compose nd 27->25 score=0.9 stash=reverse/attempts/0x0008103a.cpp
+?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z	0x00186380	823	partial	multisite compose nd 36->34 score=0.9 stash=reverse/attempts/0x00186380.cpp
+?iniParsePredefinedEvaEvent@Eva@@SAXPAVINI@@@Z	0x001dea96	243	partial	multisite compose nd 28->27 score=0.9 stash=reverse/attempts/0x001dea96.cpp
+?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z	0x0038190f	440	partial	multisite compose nd 40->39 score=0.9 stash=reverse/attempts/0x0038190f.cpp
+?rva003B7C47@Rva003B573E@@QAEHABV?$StringBase@D@@@Z	0x003b7c47	329	partial	multisite compose nd 17->15 score=0.9 stash=reverse/attempts/0x003b7c47.cpp
+?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z	0x005601d9	2114	partial	multisite compose nd 136->124 score=0.9 stash=reverse/attempts/0x005601d9.cpp
+?Register@AIUpgradeScienceBuilder@@QAEXPAVObject@@PAX@Z	0x00597c58	472	partial	multisite compose nd 18->16 score=0.9 stash=reverse/attempts/0x00597c58.cpp
+??0Rva005C4B56@@QAE@ABUHelper005C4D4B@@_NPBH@Z	0x005c4de0	415	partial	multisite compose nd 17->8 score=0.9 stash=reverse/attempts/0x005c4de0.cpp
+??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z	0x0060ce41	281	partial	multisite compose nd 33->28 score=0.9 stash=reverse/attempts/0x0060ce41.cpp
+?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z	0x00759490	363	partial	multisite compose nd 58->57 score=0.9 stash=reverse/attempts/0x00759490.cpp

@@ -85,8 +85,8 @@ Rva005C4B56::Rva005C4B56(const Helper005C4D4B &h,bool enabled,const int *colour)
  : Rva003FD14DBase(reinterpret_cast<int>(&h.m_str)),
  m_ac(h.m_00),m_b0(h.m_08),m_b4(h.m_00->value1C),m_b8(0)
 {
- const_cast<Helper005C4D4B &>(h).m_0C=true;
  _ReadWriteBarrier();
+ const_cast<Helper005C4D4B &>(h).m_0C=true;
  reinterpret_cast<LivingWorldVisual *>(this)->createRenderObject(
   m_ac->name04,m_ac->names08,(primary08 ? m_ac->shadow28 : m_ac->shadow28),
   (primary08 ? m_ac->colour54 : m_ac->colour54) ? colour : 0);
@@ -95,7 +95,8 @@ Rva005C4B56::Rva005C4B56(const Helper005C4D4B &h,bool enabled,const int *colour)
  reinterpret_cast<LivingWorldVisual *>(this)->rva003FC291(m_ac->scale20);
  AsciiString animation=Rva005F17C6Build(m_ac->name04+".",reinterpret_cast<int>(&m_ac->name04));
  reinterpret_cast<Rva003FB65C *>(this)->rva003FC780(&animation,m_ac->animation2C);
- g_00DFEF18->insert(primary08);
+ void * t1_arg_expr_95_0 = primary08;
+ g_00DFEF18->insert(t1_arg_expr_95_0);
  if (!enabled)
   ((reinterpret_cast<LivingWorldVisual *>(this))->*reinterpret_cast<void (LivingWorldVisual::*)(unsigned char)>(&LivingWorldVisual::rva003FCCC9))(
    reinterpret_cast<Rva005C41C9 *>(this)->rva005C4B26());

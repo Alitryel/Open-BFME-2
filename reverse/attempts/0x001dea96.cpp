@@ -1,4 +1,6 @@
 // ?iniParsePredefinedEvaEvent@Eva@@SAXPAVINI@@@Z
+// partial score=0.9 date=2026-10-14
+// ?iniParsePredefinedEvaEvent@Eva@@SAXPAVINI@@@Z
 // partial score=0.9 date=2026-10-08
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /EHsc /DNDEBUG /MD /arch:SSE /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
@@ -89,13 +91,13 @@ extern Eva *TheEva;
 
 void Eva::iniParsePredefinedEvaEvent(INI *ini) {
  AsciiString name(ini->getNextToken(0));
- void *node=reinterpret_cast<Rva00056F61*>(TheEva->table48)->rva00056F61(&name);
+ void *node=reinterpret_cast<Rva00056F61*>((TheEva->table48 ? TheEva->table48 : TheEva->table48))->rva00056F61(&name);
  if(!node) throw INIException(3,"'%s' is not a predefined Eva event name",name.str());
  int index=*reinterpret_cast<int*>(reinterpret_cast<char*>(node)+8);
  if(index<0 || index>=22) throw INIException(3,"'%s' is not a predefined Eva event name",name.str());
  Rva001DF3F1Element *destination;
  if(ini->loadType==2) {
-  if(index==0) throw INIException(3,"You cannot redefine the default Eva event in a map.ini");
+  if((ini ? (index==0) : (index==0))) throw INIException(3,"You cannot redefine the default Eva event in a map.ini");
   destination=TheEva->current.begin()+index;
  } else destination=TheEva->defaults.begin()+index;
  if(index!=0) *reinterpret_cast<Rva001DE727*>(destination)=*reinterpret_cast<const Rva001DE727*>(TheEva->defaults.begin());

@@ -1,4 +1,6 @@
 // ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
+// partial score=0.9 date=2026-10-14
+// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
 // partial score=0.88435 date=2026-10-14
 // ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
 // partial score=0.95 date=2026-10-13
@@ -15,6 +17,8 @@
 // Evidence: chain from 0x002AA231 bfmeAskRV; strings APT:ObserverChat APT:GlobalChat APT:PrivateChat;
 // callees rowed vector copy 0x2CFAB9 push_back 0x4DFCB0 getSlot 0x3FF29F isHuman 0x3FF0F1
 // nameToKey 0x9FA65 findPlayer 0x2A7A41 format 0x6CB660 StringBase copy 0x37050 release 0x36E70 free 0x30830.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 
 typedef int Int;
@@ -207,6 +211,7 @@ bool Rva0038190FSendChat(const UnicodeString &msg, const _STL::vector<unsigned i
 		return false;
 	_STL::vector<unsigned int> list(selected);
 	bool notRV = !local->bfmeAskRV();
+	_ReadWriteBarrier();
 	unsigned int mask = 0;
 	if (list.begin() == list.end())
 	{
@@ -222,7 +227,7 @@ bool Rva0038190FSendChat(const UnicodeString &msg, const _STL::vector<unsigned i
 	}
 	for (_STL::vector<unsigned int>::iterator it = list.begin(); (it ? it : it) != list.end(); ++it)
 	{
-		unsigned short idx = *it;
+		short idx = *it;
 		GameSlot *slot = TheGameInfo->getSlot(idx);
 		if (slot == 0)
 			continue;

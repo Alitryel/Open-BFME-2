@@ -1,4 +1,8 @@
 // ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z
+// partial score=0.9 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z
 // partial score=0.85 date=2026-10-11
 // cl: /DNDEBUG /MD
 // Save-side stream transfer and block finalization recovered under their
@@ -165,9 +169,10 @@ Xfer &XferSave::operator==(PooledString &str)
 	if (!m_flag || str.m_text == 0 || *str.m_text == 0)
 		return *(Xfer *)this;
 	{
-		int marker = 0x44534352;
+		char marker = 0x44534352;
 		if (m_stream->write(&marker, 4) != 4)
 			throw XferException(1, 0);
+			_ReadWriteBarrier();
 	}
 	const char *key = str.m_text;
 	Rva0060CB2BNode *found = m_table.rva0060CB2B(key);

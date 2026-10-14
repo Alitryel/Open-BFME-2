@@ -49,12 +49,12 @@ int Rva003B573E::rva003B7C47(const StringBase<char>&key)
  unsigned int position=rva003B573E(key);
  int index;
  int offset;
- if(position < m_sorted.size() &&0 == ((const StringBase<char>&)m_records[(int)m_sorted[position]].text).compare(key)) {
+ if(position < m_sorted.size() &&((const StringBase<char>&)m_records[(int)m_sorted[position]].text).compare(key) == 0) {
   index=(int)m_sorted[position];
   _ReadWriteBarrier();
   offset=index*20;
   BfmeStringRecord003B3F78 *rec=(BfmeStringRecord003B3F78*)((char*)&m_records[0]+offset);
-  if(!(index ? rec->flag : rec->flag)) return -1;
+  if(!rec->flag) return -1;
  } else {
   unsigned int wanted=m_sorted.size()+1;
   if(wanted>m_sorted.capacity()) m_sorted.reserve(wanted+(wanted>>1)+8);

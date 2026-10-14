@@ -1,4 +1,7 @@
 // ?Rva0008103AAdjust@@YAXPAM@Z
+// partial score=0.9 date=2026-10-14
+// ?Rva0008103AAdjust@@YAXPAM@Z
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 // partial score=0.93 date=2026-10-13
 // ?Rva0008103AAdjust@@YAXPAM@Z
 // partial score=0.93 date=2026-10-13
@@ -109,7 +112,7 @@ void __cdecl Rva0008103AAdjust(float *v)
 	{
 		Rva000806F3Vector4 q = bases->rva00308509(time, 1);
 		float k = g_Va007C26F0;
-		float v2 = v[2] - (q.x + q.y + q.z + q.w) * k;
+		float v2 = v[2] - (__vref(q.x) + q.y + q.z + q.w) * k;
 		float sc = g_00BC7078;
 		_ReadWriteBarrier();
 		v[2] = v2;
@@ -117,8 +120,8 @@ void __cdecl Rva0008103AAdjust(float *v)
 		float v0 = (v[0] - k) * sc;
 		v[0] = v0;
 		_ReadWriteBarrier();
-		v2 = (v2 - k) * sc;
 		v[2] = v2;
+		v2 = (v2 - k) * sc;
 		float v1 = (v[1] - k) * sc;
 		v[1] = v1;
 		v[3] = v[3] * sc;

@@ -1,4 +1,6 @@
 // ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
+// partial score=0.9 date=2026-10-14
+// ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
 // partial score=0.79669 date=2026-10-14
 // ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
 // partial score=0.6238 date=2026-10-05
@@ -124,13 +126,13 @@ void Rva009A3540PairOwner::rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540Opa
 
     unsigned int count = node->counter + 1;
     node->counter = count;
-    if (count != *(unsigned int *)((char *)this + 0xc068))
+    if (*(unsigned int *)((char *)this + 0xc068) != count)
         return;
 
     *(Rva009A3540OpaqueOwner **)buf = a;
     *(Rva009A3540OpaqueOwner **)(buf + 4) = b;
     *(unsigned int *)(buf + 8) = aId;
-    *(unsigned int *)(buf + 0xc) = bId;
     *(unsigned int *)(buf + 0x10) = 0;
+    *(unsigned int *)(buf + 0xc) = bId;
     ((Rva009A3770HashTable *)((char *)this + 0xae10))->insert((Rva009A3770Node *)buf);
 }
