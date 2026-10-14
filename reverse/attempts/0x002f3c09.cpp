@@ -1,4 +1,8 @@
 // ?MoveAllies@Pathfinder@@QAE_NPAVObject@@PAVPath@@_N@Z
+// partial score=0.94 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?MoveAllies@Pathfinder@@QAE_NPAVObject@@PAVPath@@_N@Z
 // partial score=0.8918 date=2026-10-13
 // ?MoveAllies@Pathfinder@@QAE_NPAVObject@@PAVPath@@_N@Z
 // partial score=0.8918205238299699 date=2026-10-10
@@ -150,6 +154,7 @@ Bool Pathfinder::MoveAllies(Object *obj,Path *path,Bool force)
  if(!initialTemplate->hasKind(0xe) && !initialTemplate->hasKind(0x10) && !harvester && !path->blockedByAlly)return false;
  if(initialTemplate->hasKind(0xbb))return false;
  Int &depth=moveAlliesDepth;LatchRestore<Int> recursiveDepth(depth,depth+1);
+ _ReadWriteBarrier();
  if(moveAlliesDepth>1)return false;
  Int radius,numCellsAbove;Rva002EBCD6Split(obj,&radius,&numCellsAbove);
  ObjectID ignoreId=INVALID_ID;
@@ -167,7 +172,7 @@ path->lock();Coord3D initialPosition;initialPosition.x=path->last->position.x;in
      if(cell&&cell->info){
       for(CellNode *unitNode=cell->info->objects;unitNode;unitNode=unitNode->next){
        Object *other=unitNode->object;
-       if(other==*objectSlot || other->id==ignoreId)continue;
+       if(*objectSlot == other || other->id==ignoreId)continue;
        if((*objectSlot)->m_template->wordKind(0x74)&&other->m_template->wordKind(0x74))continue;
        if(other->m_template->hasKind(0xb6))continue;
        if(other->m_template->wordKind(0x6d)&&other->id==(*objectSlot)->relatedID)continue;

@@ -53998,3 +53998,4 @@ __ehhandler$?friend_xferSubAudioEventRTS@MilesAudioManager@@QAEXPAVXfer@@PAVBfme
 ?rva0046C7A4@HordeContain@@UAEPAVObject@@_NPBUCoord3D@@MPAV2@H@Z	0x46C7A4	904	partial	W7-D3 r2 compose nd-first: eq3@178 pos->z + inl@269 obj then bar@225 + swap@147:> (138->73 clen905 vs 904) score=0.9 stash=reverse/attempts/0x0046c7a4.cpp
 ?rva006C4730@GeneralAllocatorDebug@@QAEPAXPAXIH@Z	0x6C4730	798	partial	W7-D3 r2 compose nd-first: eq3@94:result + eq4@108:(unsigned*)rva006C25 (77->66 size-exact) score=0.94 stash=reverse/attempts/0x006c4730.cpp
 ?InitTheGame@AptSkirmish@@QAE_NXZ	0x521EDA	868	partial	W7-D3 r2 compose nd-first: eq4@721 SkirmishGameView* + flag-/EHsc (131->15 size-exact) score=0.99 stash=reverse/attempts/0x00521eda.cpp
+?MoveAllies@Pathfinder@@QAE_NPAVObject@@PAVPath@@_N@Z	0x2F3C09	884	partial	W7-D3 r2 compose nd-first: bar@151 + swap@169:== (nd->64 size-exact) score=0.94 stash=reverse/attempts/0x002f3c09.cpp
