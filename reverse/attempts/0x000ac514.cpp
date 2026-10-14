@@ -1,4 +1,6 @@
 // ?getTerrainColorAt@WorldHeightMap@@QAEXMMPAURGBColor@@@Z
+// partial score=0.99 date=2026-10-14
+// ?getTerrainColorAt@WorldHeightMap@@QAEXMMPAURGBColor@@@Z
 // partial score=0.987 date=2026-10-12
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Oy-
 // ?getTerrainColorAt@WorldHeightMap@@QAEXMMPAURGBColor@@@Z: ZH x/MAP_XY_FACTOR through an inline WWMath::Floor wrapper; second floor now exact, only the first call keeps fstp ahead of the first cleanup pop ecx (4 bytes). The RGB555 unpack is still inline asm from the earlier bank (not admissible as is).
@@ -11,7 +13,7 @@ class Rva000ABD00 { public: int rva000ABD00(unsigned int); };
 struct Tile { char pad[0x2ab0]; unsigned short pixel; };
 class WorldHeightMap { public: void getTerrainColorAt(float,float,RGBColor*); private: char pad[8]; int width,height,border; char pad14[0x20-0x14]; int dataSize; char pad24[0x98-0x24]; short *tileNdxes; };
 void WorldHeightMap::getTerrainColorAt(float x,float y,RGBColor* out) {
- int ix=round_float(WWMath::Floor(x/10.0f));
+ int ix=round_float((height ? (WWMath::Floor(x/10.0f)) : (WWMath::Floor(x/10.0f))));
  int iy=round_float(WWMath::Floor(y/10.0f));
  ix+=border; iy+=border;
  out->red=out->green=out->blue=0;

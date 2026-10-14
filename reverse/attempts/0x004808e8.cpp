@@ -1,4 +1,6 @@
 // ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z
+// partial score=0.99 date=2026-10-14
+// ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z
 // partial score=0.995629 date=2026-10-14
 // ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z
 // partial score=0.94 date=2026-10-13
@@ -110,7 +112,7 @@ void SlaughterHordeContain::AddHordeMember(Object *member)
  if(transfer){
 rva004804DD(member);bool changed=false;
    if(((Rva004783F4*)this)->rva004783F4()!=member->getTeam()){me->rva0028DA28();changed=true;((SlaughterAddTeam*)((char*)this+0x20))->change(member->getTeam());}
-   if(!((Rva002AA292*)&(me?me:me)->upgrades)->rva002AA292((const int*)&member->upgrades)){me->upgrades._M_do_or(member->upgrades);changed=true;}
+   if(!((object ? ((Rva002AA292*)&(me?me:me)->upgrades) : ((Rva002AA292*)&(me?me:me)->upgrades)))->rva002AA292((const int*)&member->upgrades)){me->upgrades._M_do_or(member->upgrades);changed=true;}
    if(changed)me->updateUpgradeModules();
  }
  if(member->testStatus((ObjectStatusTypes)38)){
