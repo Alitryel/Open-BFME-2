@@ -344,3 +344,34 @@ void Rva005E0CEB::rva005E0CEB(const char *)
 			m_owner->v04();
 	}
 }
+
+// --- 0x005E0D3B (47B): the +0x3C value paired, by value, with a
+// function-static colour built on first use (0x80FFFFFF: white at half
+// alpha, GameMakeColor's packing).
+typedef int Color;
+inline Color GameMakeColor(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha)
+{
+	return (alpha << 24) | (red << 16) | (green << 8) | blue;
+}
+
+struct Rva005E0D3BValue
+{
+	Rva005E0D3BValue(float value, Color color) : m_value(value), m_color(color) {}
+	float m_value;
+	Color m_color;
+};
+
+class Rva005E0D3B
+{
+public:
+	Rva005E0D3BValue rva005E0D3B() const;
+private:
+	char m_pad00[0x3C];
+	float m_3C;
+};
+
+Rva005E0D3BValue Rva005E0D3B::rva005E0D3B() const
+{
+	static const Color s_color = GameMakeColor(255, 255, 255, 128);
+	return Rva005E0D3BValue(m_3C, s_color);
+}
