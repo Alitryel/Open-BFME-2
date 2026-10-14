@@ -1,7 +1,3 @@
-// ?rva0027F1DD@BfmeThingCME@@QAEXPAUCoord3D@@M@Z
-// partial score=0.9899 date=2026-10-14
-// ?rva0027F1DD@BfmeThingCME@@QAEXPAUCoord3D@@M@Z
-// partial score=0.96 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /Oy- /DNDEBUG /MD
 //
 // ?rva0027F1DD@BfmeThingCME@@QAEXPAUCoord3D@@M@Z, retail 0x0027F1DD, 177 bytes, ret 8.
@@ -11,7 +7,9 @@
 // is reset through rowed 0x0027D098, the id is passed to slot 22 (+0x58) of the object at
 // VA 0x00DFF080 and the game-logic frame (+0x40) is stored at +0x1910. Evidence: target
 // bytes and the rowed callees (GetLength2D 0x0040599F included); names are neutral views.
-#include "Code/Libraries/Include/Lib/Coord3D.h"
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
 class Rva002872BA;
 extern Rva002872BA *TheTriggerManager;
@@ -93,6 +91,7 @@ void BfmeThingCME::rva0027F1DD(Coord3D *position, float radius)
 		float dx = px - (*it)->m_position.x;
 		float dy = py - (*it)->m_position.y;
 		float dz = pz - (*it)->m_position.z;
+		_ReadWriteBarrier();
 		Coord3D delta;
 		delta.x = dx;
 		delta.y = dy;
