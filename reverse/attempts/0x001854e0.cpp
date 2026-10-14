@@ -1,4 +1,6 @@
 // ?Calculate_Texture_Matrix@WSEnvMapperClass@@UAEXAAVMatrix4@@@Z
+// partial score=0.8893 date=2026-10-14
+// ?Calculate_Texture_Matrix@WSEnvMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.9248 date=2026-10-06
 // ?Calculate_Texture_Matrix@WSEnvMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.9228 date=2026-10-06
@@ -14,6 +16,8 @@
 // /G7 and /arch:SSE are supported by the nearby verified Apply bodies.
 
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include "mapper.h"
 #include "ini.h"
@@ -55,6 +59,7 @@ void WSEnvMapperClass::Calculate_Texture_Matrix(Matrix4x4 &tex_matrix)
 	tex_matrix[0].Y = 0.0f;
 	tex_matrix[1].X = 0.0f;
 	tex_matrix[1].Z = 0.5f;
+	_ReadWriteBarrier();
 	tex_matrix[1].W = 0.5f;
 	tex_matrix[1].Y = 0.0f;
 	tex_matrix[2].Y = 0.0f;

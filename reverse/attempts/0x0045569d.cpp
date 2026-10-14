@@ -1,4 +1,6 @@
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
+// partial score=0.8696 date=2026-10-14
+// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.637 date=2026-10-14
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.85 date=2026-10-08
@@ -479,14 +481,15 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 		obj->m_constructionPercent = 0.0f;
 		obj->setStatus(OBJECT_STATUS_UNDER_CONSTRUCTION, TRUE);
 		Rva001E4912 clearBits;
-		BodyModuleInterface *body = obj->getBodyModule();
 		obj->rva0028CFB2((const int *)&Rva0028F59A(0, 67), (const int *)clearBits.rva001E4912(0, 68, 69));
+		BodyModuleInterface *body = obj->getBodyModule();
 		body->setHealthDelta(1.0f - body->getHealth(0));
 	}
 
+	Int t_m_mode = md->m_mode;
 	if (md->m_mode)
 	{
-		switch (md->m_mode)
+		switch (t_m_mode)
 		{
 		case 1:
 			obj->setModelConditionState(340);
@@ -506,10 +509,10 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 		((Rva000B3FD0 *)draw)->rva000B3FD0();
 	obj->rva0028DCC4();
 
-	if (md->m_mode)
+	if (t_m_mode)
 	{
 		BfmeDelayedLuaEventList list;
-		list.m_events[0].m_number = (Real)md->m_mode;
+		list.m_events[0].m_number = (Real)t_m_mode;
 		list.m_events[0].m_type = 1;
 		reinterpret_cast<BfmeObjectEventDispatch *>(TheLuaScriptEngine)->rva003360D2(16, obj, &list);
 	}

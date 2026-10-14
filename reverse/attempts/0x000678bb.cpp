@@ -1,4 +1,6 @@
 // ?updateScorches@BaseHeightMapRenderObjClass@@QAEXXZ
+// partial score=0.9491 date=2026-10-14
+// ?updateScorches@BaseHeightMapRenderObjClass@@QAEXXZ
 // partial score=0.9559 date=2026-10-13
 // ?updateScorches@BaseHeightMapRenderObjClass@@QAEXXZ
 // partial score=0.8 date=2026-10-10
@@ -283,18 +285,8 @@ void BaseHeightMapRenderObjClass::updateScorches()
   maxX++;
   Int maxY = WWMath::Float_To_Long(bfmeCeilD((loc.Y + radius) * (1.0f / BFME_MAP_XY_FACTOR)));
   maxY++;
-  Int xExtent = m_map->m_xExtent;
-  if (maxX > xExtent - borderSize) 
-  {
-   maxX = xExtent - borderSize;
-   
-  }
-  Int yExtent = m_map->m_yExtent;
-  if (maxY > yExtent - borderSize) 
-  {
-   maxY = yExtent - borderSize;
-   
-  }
+  if (maxX > m_map->m_xExtent - borderSize) { Int e = m_map->m_xExtent; maxX = e - borderSize; }
+  if (maxY > m_map->m_yExtent - borderSize) { Int e = m_map->m_yExtent; maxY = e - borderSize; }
   Int startVertex = m_curNumScorchVertices;
   Int yOffset = maxX - minX;
   Real width = (yOffset - 1) * BFME_MAP_XY_FACTOR;
@@ -313,8 +305,8 @@ void BaseHeightMapRenderObjClass::updateScorches()
      return;
      
     }
-    curVb->diffuse = diffuse;
     Real X = i * BFME_MAP_XY_FACTOR;
+    curVb->diffuse = diffuse;
     curVb->u1 = (X - left) / width * (1.0f / (SCORCH_PER_ROW)) + uOffset;
     curVb->v1 = (Y - top) / height * (1.0f / (SCORCH_PER_ROW)) + vOffset;
     curVb->x = X;
@@ -340,8 +332,8 @@ void BaseHeightMapRenderObjClass::updateScorches()
      *curIb++ = startVertex + j * yOffset + i + yOffset;
      *curIb++ = startVertex + j * yOffset + i;
      *curIb++ = startVertex + j * yOffset + i + 1;
-     *curIb++ = startVertex + j * yOffset + i + 1 + yOffset;
      *curIb++ = startVertex + j * yOffset + i + yOffset;
+     *curIb++ = startVertex + j * yOffset + i + 1 + yOffset;
      
     }
     else 

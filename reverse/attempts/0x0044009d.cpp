@@ -1,4 +1,6 @@
 // ?PopulateColorCombo@AptMpGameSetup@@QAE_NH@Z
+// partial score=0.863 date=2026-10-14
+// ?PopulateColorCombo@AptMpGameSetup@@QAE_NH@Z
 // partial score=0.879286 date=2026-10-14
 // ?PopulateColorCombo@AptMpGameSetup@@QAE_NH@Z
 // partial score=0.87 date=2026-10-08
@@ -87,8 +89,8 @@ bool AptMpGameSetup::PopulateColorCombo(int index) {
   if(entries==count){
    _STL::vector<bool>listed(available.size(),false);
    for(int row=0;row<(info ? entries : entries);++row){
-    int c=Rva003253BEGet(list,row,0);
     _ReadWriteBarrier();
+    volatile int c = Rva003253BEGet(list,row,0);
     if(c<0)continue;
     if(c>=listed.size())break;
     listed[c]=true;
@@ -107,6 +109,7 @@ bool AptMpGameSetup::PopulateColorCombo(int index) {
  }
  for(int c=0;(c ? c : c)<numColors;++c){
   def=TheMultiplayerSettings->getColor(c);
+  _ReadWriteBarrier();
   if(!def||(index ? (!available[c]) : (!available[c])))continue;
   static const Image*colorImage=TheMappedImageCollection->findImageByName(AsciiString("AptWhiteBox"));
   int entry=((Rva003235B8*)&combo)->rva003235B8(colorImage,20,20,def->color);

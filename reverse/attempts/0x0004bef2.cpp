@@ -1,4 +1,6 @@
 // ?draw@W3DDisplay@@UAEXXZ
+// partial score=0.9237 date=2026-10-14
+// ?draw@W3DDisplay@@UAEXXZ
 // partial score=0.92 date=2026-10-13
 // ?draw@W3DDisplay@@UAEXXZ
 // partial score=0.9213 date=2026-10-10
@@ -10,6 +12,7 @@
 #include "GameLogicObjectLookupView.h"
 #include <windows.h>
 #include <mmsystem.h>
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 struct POINT2 { int x,y; }; struct RECT2 { int left,top,right,bottom; };
 class W3DView {public:bool updateCameraMovements();};
 class FrameClient {public:
@@ -241,7 +244,7 @@ void W3DDisplay::draw(){
    int width=rect.right-rect.left,height=rect.bottom-rect.top;int i=0;char*image=0;
    if(!TheGlobalData->panoramaIndividual)image=new char[TheGlobalData->panoramaCount*height*width*3];
    for(;i<TheGlobalData->panoramaCount;++i){
-    TheGlobalData->panoramaAngle=i*-6.28318530717958647692f/TheGlobalData->panoramaCount;
+    TheGlobalData->panoramaAngle=i*-6.28318530717958647692f/__vref(TheGlobalData->panoramaCount);
     TheGlobalData->panoramaLast=(i==TheGlobalData->panoramaCount-1);
     if(!rva0004A462(now))freezeTime=false;
     if(TheGlobalData->panoramaIndividual){AsciiString name;name.format("sshot_panorama_%.2d_%.4d",i,captureIndex);takeScreenShot(name.str());}
