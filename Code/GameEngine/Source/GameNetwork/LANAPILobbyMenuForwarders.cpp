@@ -28,9 +28,15 @@ class LANGameInfo;
 
 struct Rva004469D1Receiver
 {
+	void rva0044446D(Bool value);
+};
+
+// Rows 0x00444EC8 and 0x00445E3E are AptLanLobby members.
+class AptLanLobby
+{
+public:
 	void rva00445E3E(LANGameInfo *gameList);
 	void rva00444EC8();
-	void rva0044446D(Bool value);
 };
 extern Rva004469D1Receiver *g_Va00E03354;
 
@@ -77,14 +83,14 @@ void LANAPI::OnHostLeave()
 	}
 	else
 	{
-		g_Va00E03354->rva00444EC8();
+		((AptLanLobby *)g_Va00E03354)->rva00444EC8();
 	}
 }
 
 void LANAPI::OnGameList(LANGameInfo *gameList)
 {
 	if (m_inLobby && g_Va00E03354)
-		g_Va00E03354->rva00445E3E(gameList);
+		((AptLanLobby *)g_Va00E03354)->rva00445E3E(gameList);
 }
 
 void LANAPI::rva00248E87()

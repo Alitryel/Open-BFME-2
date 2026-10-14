@@ -8,10 +8,12 @@
 //
 // ?rva003EDDD4@Rva003EDDD4@@QAEXH@Z @0x003EDDD4: callee 0x0056A4AA (pinned).
 // ?rva003EDDF5@Rva003EDDF5@@QAEXH@Z @0x003EDDF5: callee 0x00569373 (pinned).
-class Rva0056A4AA
+class Rva0056A4AA;
+// Row 0x0056A4AA is LargeGroupAudioSoundKeyPair::update(bool *).
+class LargeGroupAudioSoundKeyPair
 {
 public:
-	void rva0056A4AA(int arg);
+	void update(bool *arg);
 };
 
 class Rva003EDDD4
@@ -27,13 +29,13 @@ private:
 void Rva003EDDD4::rva003EDDD4(int arg)
 {
 	for (Rva0056A4AA **pp = m_first1C; pp != m_end20; ++pp)
-		(*pp)->rva0056A4AA(arg);
+		((LargeGroupAudioSoundKeyPair *)*pp)->update((bool *)arg);
 }
 
 class Rva00569373
 {
 public:
-	void rva00569373(int arg);
+	void rva00569373(void *arg);
 };
 
 class Rva003EDDF5
@@ -49,5 +51,5 @@ private:
 void Rva003EDDF5::rva003EDDF5(int arg)
 {
 	for (Rva00569373 **pp = m_first1C; pp != m_end20; ++pp)
-		(*pp)->rva00569373(arg);
+		(*pp)->rva00569373((void *)arg);
 }

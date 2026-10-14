@@ -16,10 +16,20 @@
 // names are opaque address-derived labels; their symbols.csv pins carry
 // the retail REL32 evidence and prove no identity. The mask call routes
 // through an opaque Rva0036276F view so the CLOSED lane keeps one name.
-class Rva002763E6Aux
+class Rva002763E6Aux;
+// Row 0x002763E6 is Drawable::getPosition; row 0x003626EA is
+// Rva003626CE::rva003626EA taking a Block3.
+struct Coord3D;
+class Drawable
 {
 public:
-	int auxValue();
+	const Coord3D *getPosition() const;
+};
+struct Block3;
+class Rva003626CE
+{
+public:
+	void rva003626EA(const Block3 &block);
 };
 
 class Rva003627B8Entry
@@ -42,13 +52,12 @@ class Rva00362862Item
 	Rva003627B8Entry m_entries[9];
 public:
 	void rva00362862(int a, int b);
-	void rva002676EA(int v);
 };
 
 void Rva00362862Item::rva00362862(int a, int b)
 {
 	if (m_04 != 0)
-		rva002676EA(m_04->auxValue());
+		((Rva003626CE *)this)->rva003626EA(*(const Block3 *)((Drawable *)m_04)->getPosition());
 	if ((char)b) {
 		Rva003627B8Entry *e = m_entries;
 		int n = 9;

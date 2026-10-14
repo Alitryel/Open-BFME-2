@@ -16,14 +16,24 @@ class Rva00318C79Owner
 {
 public:
 	Rva00318C32Ret *rva00318C32();
-	void rva0031A591(float *pair, void *key, void *extra);
 };
 
-class Rva002B2757B0
+// Row 0x0031A591 is LivingWorldArmy::initiateMove; row 0x0020FAEA is
+// Rva0020EE29::rva0020FAEA.
+class Coord2D;
+class LivingWorldArmy
 {
 public:
-	void *rva0020FAEA(float *buf, int mode);
+	void initiateMove(const Coord2D &pos, Rva00318C32Ret *target, int flags);
 };
+
+class Rva0020EE29
+{
+public:
+	void *rva0020FAEA(float *buf, void *hint);
+};
+
+class Rva002B2757B0;
 
 class Rva002B2757
 {
@@ -43,7 +53,7 @@ void Rva002B2757::rva002B2757(Rva00318C79Owner *owner, float *pos, void *extra)
 	buf[0] = pos[0];
 	buf[1] = pos[1];
 	buf[2] = 0.0f;
-	void *r = m_b0->rva0020FAEA(buf, 0);
+	void *r = ((Rva0020EE29 *)m_b0)->rva0020FAEA(buf, 0);
 	if (owner->rva00318C32() != (Rva00318C32Ret *)r)
-		owner->rva0031A591(pos, r, extra);
+		((LivingWorldArmy *)owner)->initiateMove(*(const Coord2D *)pos, (Rva00318C32Ret *)r, (int)extra);
 }

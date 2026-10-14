@@ -50,7 +50,6 @@ public:
 	// 0x6276E0/0x627E40/0x627810); identities unproven, signatures read
 	// from the thunk call sites (region address / int / address).
 	void Rva006276E0(const Region3D *region);
-	void Rva00627E40(int value);
 	void Rva00627810(void *ptr);
 	// Retail 0x00739820: mov ecx,[ecx+0x10]; jmp 0x0073E5A0 (WB ShroudManagerImpl::GetNearestGroupWithValue lead, unproven;
 	// the forwarded signature is read from the call site in doSkirmishAttackNearestGroupWithValue).
@@ -68,6 +67,7 @@ class PartitionManagerImpl
 {
 public:
  void *GetClosestObject(int, float, int, int, int);
+	void SetTreeDepth(unsigned int depth);	// 0x00627E40
 };
 
 class ShroudManagerImpl
@@ -76,7 +76,7 @@ public:
 	void setEnabled_Rva0073B460(bool value);
 	void rva008F8C70(CDEProvider *first, CDEProvider *second);
 	void RevealMapForPlayer(int value);
-	void rva0073E5A0(const Coord3D *sourceLocation, int playerMask, int unknown, int valueRequired, Coord3D *outLocation);
+	bool GetNearestGroupWithValue(const Coord3D *sourceLocation, unsigned int playerMask, int unknown, unsigned int valueRequired, Coord3D *outLocation);	// 0x0073E5A0
 	void notify();
 	int GetLookerCount(int playerIndex, const Coord3D *pos) const;
 	ObjectShroudStatus GetPropShroudStatusForPlayer(int playerIndex, const Coord3D *pos) const;
@@ -139,7 +139,7 @@ void PartitionManager::rva00625300(const Region3D *region)
 // ?rva00625310@PartitionManager@@QAEXH@Z
 void PartitionManager::rva00625310(int value)
 {
-	m_shroudManager->Rva00627E40(value);
+	((PartitionManagerImpl *)m_shroudManager)->SetTreeDepth(value);
 }
 
 // ?rva00625320@PartitionManager@@QAEXPAX@Z
@@ -395,5 +395,5 @@ void Rva007397C0::rva007397C0(int playerIndex)
 // location, player mask, two ints and the out location.
 void ShroudManager::rva00739820(const Coord3D *sourceLocation, int playerMask, int unknown, int valueRequired, Coord3D *outLocation)
 {
-	m_impl->rva0073E5A0(sourceLocation, playerMask, unknown, valueRequired, outLocation);
+	m_impl->GetNearestGroupWithValue(sourceLocation, playerMask, unknown, valueRequired, outLocation);
 }

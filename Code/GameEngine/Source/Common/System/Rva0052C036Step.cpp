@@ -17,10 +17,17 @@ public:
 // 0x009FE1C8 under its data-ledger primary name (defined in Rva003FD7CEParse.cpp).
 extern LivingWorldManager *TheLivingWorldManager;
 
-class Rva003F812CObject
+class Rva003F812C
 {
 public:
 	void rva003F812C();
+};
+
+// 0x0052C45E, rowed as WB LivingWorldCampaign::CreatePlayers.
+class LivingWorldCampaign
+{
+public:
+	void CreatePlayers();
 };
 
 class Rva0059E647World
@@ -44,7 +51,6 @@ public:
 	bool rva0052C036();
 	bool rva0052C9F9();
 	void rva0052C161();
-	void rva0052C45E();
 private:
 	char m_pad0[8];
 	int m_8;
@@ -74,11 +80,11 @@ bool Rva0052C036::rva0052C036()
 bool Rva0052C036::rva0052C9F9()
 {
 	if (m_20 != 0) {
-		((Rva003F812CObject *)m_20)->rva003F812C();
+		((Rva003F812C *)m_20)->rva003F812C();
 	}
 	m_8 |= -1;
 	rva0052C161();
-	rva0052C45E();
+	((LivingWorldCampaign *)this)->CreatePlayers();
 	(*(Rva0059E647World **)&TheLivingWorldLogic)->rva002B77AD();
 	return rva0052C036();
 }

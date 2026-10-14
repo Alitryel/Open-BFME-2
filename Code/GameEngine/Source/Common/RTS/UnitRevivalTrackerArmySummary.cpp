@@ -46,11 +46,21 @@ private:
 	char m_bytes[0xD8];
 };
 
+class Rva0037EB1D;
 class Rva002E2903Player
 {
 public:
 	bool rva002E1CA7(UnitRevivalEntry *entry);
-	void rva002E2F39(UnitRevivalEntry *entry);
+	void rva0040F10F(Rva0037EB1D *source);
+};
+
+// Rows 0x0040F10F (Rva002E2903Player::rva0040F10F, Rva0040ECCF.cpp) and
+// 0x002E2F39 (Rva002E2F39::rva002E2F39), called by their row names.
+struct Rva002E2D10Record;
+class Rva002E2F39
+{
+public:
+	void rva002E2F39(const Rva002E2D10Record &record);
 };
 
 class Rva002BA8F1Logic
@@ -59,11 +69,7 @@ public:
 	Rva002E2903Player *find(int id, unsigned int *index);
 };
 
-class ArmySummarySystem
-{
-public:
-	void AddDeadHeroEntry(UnitRevivalEntry *entry);
-};
+class ArmySummarySystem;
 
 class Player
 {
@@ -101,9 +107,9 @@ void UnitRevivalTracker::retrieveHeroesForArmySummary(ArmySummarySystem *summary
 		if (tmpl && tmpl->isKindOf(KINDOF_90) && tmpl->isKindOf(KINDOF_128))
 		{
 			if (lwPlayer->rva002E1CA7(entry))
-				summary->AddDeadHeroEntry(entry);
+				((Rva002E2903Player *)summary)->rva0040F10F((Rva0037EB1D *)entry);
 			else
-				lwPlayer->rva002E2F39(entry);
+				((Rva002E2F39 *)lwPlayer)->rva002E2F39(*(const Rva002E2D10Record *)entry);
 		}
 	}
 }

@@ -14,10 +14,13 @@ enum Rva005B5B39Const
 	Rva005B5B39_K = 0xDE0000 + 0x878
 };
 
-struct Rva005B5B39Sub
+class CommandButton;
+class Rva00406ED7
 {
-	void *M(int v);
+public:
+	const CommandButton *GetButtonForLevel(int level);	// 0x00406ED7
 };
+class AsciiString;
 
 class AptCreateAHero
 {
@@ -35,9 +38,7 @@ struct AptCreateAHero::Manager
 	void OnMyPowerRollOver(char *s);
 };
 
-void Rva005B23D7Wrap(int a, int b, int c);
-
-void Rva005B23D7Wrap(int a, int b, int c);
+void Rva005B23D7HeroPowersDescription(void *button, const AsciiString &a, const AsciiString &b);	// 0x005B23D7
 
 void AptCreateAHero::Manager::OnMyPowerRollOver(char *s)
 {
@@ -48,7 +49,7 @@ void AptCreateAHero::Manager::OnMyPowerRollOver(char *s)
 	int v = atoi(s) - 1;
 	if (v < 0 || v >= 10 || v == m_24)
 		return;
-	void *p = ((Rva005B5B39Sub *)((char *)m_4 + 0x27c))->M(v);
-	Rva005B23D7Wrap((int)p, Rva005B5B39_K, Rva005B5B39_K);
+	const CommandButton *p = ((Rva00406ED7 *)((char *)m_4 + 0x27c))->GetButtonForLevel(v);
+	Rva005B23D7HeroPowersDescription((void *)p, *(const AsciiString *)Rva005B5B39_K, *(const AsciiString *)Rva005B5B39_K);
 	m_24 = v;
 }
