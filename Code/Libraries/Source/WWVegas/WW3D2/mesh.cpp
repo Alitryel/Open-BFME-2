@@ -512,6 +512,7 @@ void MeshClass::Scale(float scalex, float scaley, float scalez)
  * HISTORY:                                                                                    *
  *   3/4/2001   gth : Created.                                                                 *
  *=============================================================================================*/
+// MeshClass::Get_Deformed_Vertices(Vector3 *, Vector3 *) is defined with its retail-matched body in Rva001499D0Cluster.cpp (0x001499D0).
 
 
 /***********************************************************************************************
@@ -526,6 +527,7 @@ void MeshClass::Scale(float scalex, float scaley, float scalez)
  * HISTORY:                                                                                    *
  *   3/4/2001   gth : Created.                                                                 *
  *=============================================================================================*/
+// MeshClass::Get_Deformed_Vertices(Vector3 *) is defined with its retail-matched body in Rva001499D0Cluster.cpp (0x00149A10).
 
 /***********************************************************************************************
  * MeshClass::Create_Decal -- creates a decal on this mesh                                     *
