@@ -13,17 +13,19 @@
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 bool operator<(const AsciiString &, const AsciiString &);
 // The 4-byte mapped field's copy at 0x2A1383 is the matched STLport
-// list<int> copy constructor. Keep the address-derived tree type spelling,
-// but let its implicit copy delegate to that verified list operation.
-// Declaration-only receiver view of the existing four-byte integer list.
-// Its native provider is emitted by stlport_list_int_o1.cpp under its own flags.
+// list<SuperweaponInfo *> copy constructor (ZH InGameUI.h: SuperweaponMap is
+// map<AsciiString, SuperweaponList>; element name donor-carried). Keep the
+// address-derived tree type spelling, but let its implicit copy delegate to
+// that verified list operation. Declaration-only receiver view; its native
+// provider is emitted by stlport_list_superweaponinfo_copy.cpp under its own flags.
+class SuperweaponInfo;
 namespace _STL {
 template<class T,class A=allocator<T> > class list { public: list(const list &); };
 }
 struct TreeHintOpaque002A484A {
     void *node;
     __forceinline TreeHintOpaque002A484A(const TreeHintOpaque002A484A &v) {
-        reinterpret_cast<_STL::list<int> *>(this)->_STL::list<int>::list(*reinterpret_cast<const _STL::list<int> *>(&v));
+        reinterpret_cast<_STL::list<SuperweaponInfo *> *>(this)->_STL::list<SuperweaponInfo *>::list(*reinterpret_cast<const _STL::list<SuperweaponInfo *> *>(&v));
     }
     ~TreeHintOpaque002A484A();
 };
@@ -51,7 +53,7 @@ template TreeHint002A484A::iterator TreeHint002A484A::insert_unique(TreeHint002A
 typedef _STL::map<AsciiString,TreeHintOpaque002A484A,_STL::less<AsciiString >,_STL::allocator<TreeHintPair002A484A> > MapInsert002a5895;
 template MapInsert002a5895::iterator MapInsert002a5895::insert(MapInsert002a5895::iterator, const TreeHintPair002A484A &);
 
-// Native 0x002A1CC9: construct the key and copy the proven integer list.
+// Native 0x002A1CC9: construct the key and copy the superweapon list.
 // Delegate to the declared-only list copy: retail calls its complete 88B provider
 // at 0x2A1383 rather than a new five-byte derived-class forwarding body.
 template TreeHintPair002A484A::pair(const AsciiString &,const TreeHintOpaque002A484A &);
