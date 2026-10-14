@@ -1,5 +1,7 @@
 // ?rva000575CE@MilesAudioManager@@QAE_NPAVAudioEventRTS@@@Z
-// partial score=0.98 date=2026-10-09
+// partial score=0.873 date=2026-10-14
+// ?rva000575CE@MilesAudioManager@@QAE_NPAVAudioEventRTS@@@Z
+// partial score=0.87 date=2026-10-14
 // cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 #include <vector>
@@ -385,17 +387,14 @@ bool MilesAudioManager::rva000575CE(AudioEventRTS*event)
   }
  }
 
- bool denied;
- if(total>=limit && event->m_loopRestart)denied=true;
- else if((event->m_info->m_control&8) && pending<limit) {
-  if(total>=limit)return false;
-  denied=false;
- }else {
-  if(total<limit){reinterpret_cast<GameSlot*>(event)->setTeamNumber(0);return false;}
-  return true;
+ if(total>=limit && event->m_loopRestart){reinterpret_cast<GameSlot*>(event)->setTeamNumber(0);return true;}
+ if((event->m_info->m_control&8) && pending<limit) {
+  int diff=total-pending;
+  if(pending+diff<limit){reinterpret_cast<GameSlot*>(event)->setTeamNumber(0);return false;}
+  return false;
  }
- reinterpret_cast<GameSlot*>(event)->setTeamNumber(0);
- return denied;
+ if(total<limit){reinterpret_cast<GameSlot*>(event)->setTeamNumber(0);return false;}
+ return true;
  }
  return false;
 }

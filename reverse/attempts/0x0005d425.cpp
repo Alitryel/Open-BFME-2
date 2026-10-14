@@ -1,5 +1,7 @@
 // ?helper@Rva0005E13CHost@@QAE_NPBURva0005E13CInner1@@@Z
-// partial score=0.97 date=2026-10-09
+// partial score=0.995 date=2026-10-14
+// ?helper@Rva0005E13CHost@@QAE_NPBURva0005E13CInner1@@@Z
+// partial score=0.99 date=2026-10-14
 // cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 #include <vector>
@@ -395,6 +397,7 @@ bool Rva0005E13CHost::helper(const Rva0005E13CInner1*input)
 {
  MilesAudioManager *manager=reinterpret_cast<MilesAudioManager*>(this);
  AudioEventRTS*event=reinterpret_cast<AudioEventRTS*>(const_cast<Rva0005E13CInner1*>(input));
+ bool result=false;
  if(event->isPositionalAudio() && !(unsigned char)manager->rva00052F1E(event)) {
   bool valid;
   BfmeEventPositionView position=reinterpret_cast<BfmeAudioEventPrefix136*>(event)->rva002DA1CC(valid);
@@ -407,18 +410,24 @@ bool Rva0005E13CHost::helper(const Rva0005E13CInner1*input)
   if(distance.x*distance.x+distance.y*distance.y+distance.z*distance.z>=range*range)return false;
   if(manager->slot108(event)){event->m_startFlag=true;return false;}
  }
- if(manager->rva000570C8(event))return (static_cast<unsigned char>(event->m_info->m_control>>3)&1)!=0;
- if(manager->rva000575CE(event))return false;
- if(!(event->m_info->m_control&8) && event->m_info->m_audioType==2) {
-  if(event->isPositionalAudio()) {
-   if(manager->sampleCount3D<manager->sampleLimit3D)return true;
-  }else {
-   if(manager->sampleCount2D<manager->sampleLimit2D)return true;
-  }
-  if(!manager->isPlayingLowerPriority(event)) {
-   if(event->m_info->m_control&8)return manager->rva00054839(event)?true:false;
-   return false;
-  }
+ if(manager->rva000570C8(event)) {
+  result=(event->m_info->m_control&8)!=0;
+  if(result)return true;
+  return false;
  }
- return true;
+ if(manager->rva000575CE(event))return false;
+ if((event->m_info->m_control&8)!=0)return true;
+ if(event->m_info->m_audioType!=2)return true;
+ if(event->isPositionalAudio()) {
+  if(manager->sampleCount3D<manager->sampleLimit3D)return true;
+ }else {
+  if(manager->sampleCount2D<manager->sampleLimit2D)return true;
+ }
+ if(manager->isPlayingLowerPriority(event))return true;
+ if((event->m_info->m_control&8)!=0) {
+  result=manager->rva00054839(event);
+  if(result)return true;
+  return false;
+ }
+ return false;
 }
