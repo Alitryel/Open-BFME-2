@@ -842,6 +842,24 @@ private:
     bool m_locked;
 };
 
+// Native bucket erasure inlines this allocator/deletion chain. Keep the
+// bfmealloc/STLport definitions visible without emitting redundant COMDATs
+// that would replace other units' differently compiled out-of-line copies.
+typedef MilesKeyAliases::iterator::_Node MilesAliasNode;
+typedef MilesKeyAliases::iterator::_Hashtable MilesAliasTable;
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+void allocator<MilesAliasNode>::deallocate(MilesAliasNode *p, size_t n) const
+{ if (p != 0) ::free((void *)p); }
+template<> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<unsigned int, MilesAliasNode, allocator<MilesAliasNode> >::deallocate(MilesAliasNode *p, size_t n)
+{ static_cast<allocator<MilesAliasNode>&>(*this).deallocate(p, n); }
+// ?MilesAliasTable::_M_delete_node present-unmatched
+template<> __declspec(dllimport) __forceinline
+void MilesAliasTable::_M_delete_node(MilesAliasNode *p)
+{ _Destroy(&p->_M_val); _M_num_elements.deallocate(p, 1); }
+}
+
 // Miles handle -> PlayingAudio maps at +0xB98/+0xBAC/+0xBC0. The mapped
 // value is the raw PlayingAudio pointer (node +8); it is viewed as void *
 // so the lookup binds the pinned folded _M_find at 0x002888D4.
@@ -1284,7 +1302,9 @@ private:
     unsigned int allocateNewHandle(void) { return m_nextHandle++; }
     char atD4[0xE0 - 0xD4];
     QueuedAudioEvents m_queuedEvents[3];  // +0xE0, per view type (0x60123)
-    char at104[0x12C - 0x104];
+    // Native handle-map operations establish these two 20-byte tables.
+    MilesKeyAliases m_handleAliases;       // +0x104
+    MilesPhysicalHandles m_physicalHandles; // +0x118
     // Per-view GlobalVolumeData records, 0x1C4 apart in retail (0x61C87).
     char m_volumeData[3][0x1C4];         // +0x12C
     int m_at678;                         // +0x678, compared with event view types
@@ -6465,4 +6485,36 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
     }
     for (; count < 2; ++count)
         found[count] = list.end();
+}
+
+// Native 593CD..5952D, RET8; WorldBuilder 785D00 names this method.
+// The matched alias operations independently establish the tables at +104/+118.
+// Keep the real insert/erase template chains visible: the returned iterators
+// and key pairs can then share their native stack homes across insert calls.
+void MilesAudioManager::mapLogicalHandleToPhysicalHandle(unsigned int logical, unsigned int physical)
+{
+    if (physical < 5)
+        return;
+    MilesKeyAliases::iterator it = m_handleAliases.find(physical);
+    if (it != m_handleAliases.end()) {
+        MilesKeyAliases::iterator first = it;
+        _STL::list<int> children;
+        do {
+            children.push_back(it->second);
+            ++it;
+        } while (it != m_handleAliases.end() && it->first == physical);
+        m_handleAliases.erase(first, it);
+        for (_STL::list<int>::iterator child = children.begin(); child != children.end(); ++child) {
+            unsigned key = *child;
+            m_handleAliases.insert(MilesKeyAliases::value_type(logical, key));
+            MilesPhysicalHandles::iterator p = m_physicalHandles.find(key);
+            if (p == m_physicalHandles.end())
+                m_physicalHandles.insert(MilesPhysicalHandles::value_type(key, logical));
+            else
+                p->second = logical;
+        }
+    } else {
+        m_handleAliases.insert(MilesKeyAliases::value_type(logical, physical));
+        m_physicalHandles.insert(MilesPhysicalHandles::value_type(physical, logical));
+    }
 }
