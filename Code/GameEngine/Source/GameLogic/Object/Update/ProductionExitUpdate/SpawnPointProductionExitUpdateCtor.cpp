@@ -74,16 +74,9 @@ public:
 	virtual void spawnAnchor4() {}
 };
 
-class Coord3D
-{
-public:
-	Coord3D();
-	~Coord3D();
-
-	float m_x;
-	float m_y;
-	float m_z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class SpawnPointProductionExitUpdate : public UpdateModule, public SpawnB4
 {
@@ -110,7 +103,7 @@ SpawnPointProductionExitUpdate::SpawnPointProductionExitUpdate(Thing *thing, con
 {
 	float fzero = 0.0f;
 	int *pointCount = &m_pointInts[0];
-	float *pointZ = &m_spawnPoints[0].m_z;
+	float *pointZ = &m_spawnPoints[0].z;
 	for (int n = 10; n != 0; ++pointCount, pointZ += 3, --n)
 	{
 		pointZ[-2] = fzero;

@@ -18,14 +18,9 @@
 #include "ascii_string.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-class Coord3D
-{
-public:
-	~Coord3D();						// ILT 0x0001364C
-
-private:
-	float m_bfmeX, m_bfmeY, m_bfmeZ;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameLogic/Module/FlightDeckBehavior.h
 class FlightDeckBehavior

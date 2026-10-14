@@ -92,12 +92,8 @@ private:
 	int m_timeoutMs;
 };
 
-struct Coord3D
-{
-	float m_x;
-	float m_y;
-	float m_z;
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 static int s_vtable;
 
@@ -137,9 +133,9 @@ DynamicPortalBehaviourModuleData::DynamicPortalBehaviourModuleData() :
 	m_bonePrefix.clear();
 	m_wayPoint.clear();
 	Coord3D *topAttackPos = &m_topAttackPos;
-	topAttackPos->m_x = 0.0f;
-	topAttackPos->m_y = 0.0f;
-	topAttackPos->m_z = 0.0f;
+	topAttackPos->x = 0.0f;
+	topAttackPos->y = 0.0f;
+	topAttackPos->z = 0.0f;
 	m_destroyedDamageTimeout.applyFilter(
 		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
 }

@@ -55,15 +55,9 @@ public:
 	virtual void spawnAnchor4() {}
 };
 
-class Coord3D
-{
-public:
-	~Coord3D();
-
-	float m_x;
-	float m_y;
-	float m_z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_DTOR
+#include "../../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class SpawnPointProductionExitUpdate : public UpdateModule, public SpawnB4
 {

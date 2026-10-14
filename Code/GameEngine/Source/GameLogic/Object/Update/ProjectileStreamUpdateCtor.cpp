@@ -67,13 +67,8 @@ enum
 	MAX_PROJECTILE_STREAM = 20
 };
 
-struct Coord3D
-{
-	void zero() { m_x = 0.0f; m_y = 0.0f; m_z = 0.0f; }
-	float m_x;
-	float m_y;
-	float m_z;
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 extern "C" void *memset(void *, int, unsigned int);
 

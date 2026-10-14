@@ -24,12 +24,8 @@ public:
 #include "ascii_string.h"
 
 
-struct Coord3D
-{
-	Real coordX;
-	Real coordY;
-	Real coordZ;
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 class DataChunkOutput
 {
@@ -61,9 +57,9 @@ void Parameter::WriteParameter(DataChunkOutput &chunkWriter)
 		stringValue.set(KindOfMaskType::getNameFromSingleBit(intValue));
 	}
 	if (paramType == COORD3D) {
-		chunkWriter.writeReal(coordValue.coordX);
-		chunkWriter.writeReal(coordValue.coordY);
-		chunkWriter.writeReal(coordValue.coordZ);
+		chunkWriter.writeReal(coordValue.x);
+		chunkWriter.writeReal(coordValue.y);
+		chunkWriter.writeReal(coordValue.z);
 	} else {
 		chunkWriter.writeInt(intValue);
 		chunkWriter.writeReal(realValue);
