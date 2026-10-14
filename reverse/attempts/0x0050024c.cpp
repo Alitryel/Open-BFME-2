@@ -1,4 +1,6 @@
 // ?rva0050024C@Rva004FF8DA@@QAEPAXHH@Z
+// partial score=0.9082 date=2026-10-14
+// ?rva0050024C@Rva004FF8DA@@QAEPAXHH@Z
 // partial score=0.901963 date=2026-10-14
 // ?rva0050024C@Rva004FF8DA@@QAEPAXHH@Z
 // partial score=0.8966 date=2026-10-14
@@ -148,7 +150,7 @@ bool Rva004FF8DA::rva0050010D(int idx,int key) {
 
 // ?rva0050024C@Rva004FF8DA@@QAEPAXHH@Z
 void *Rva004FF8DA::rva0050024C(int type,int key) {
- _STL::_Rb_tree_node<IntIntPair> *outer=tree._M_find(key);
+ _STL::_Rb_tree_node<IntIntPair> * volatile outer = tree._M_find(key);
  UnitArray *fallback=*(UnitArray**)((char*)outer+0x14);
  if(type<8) {
   PointerVector keys;
@@ -172,8 +174,8 @@ void *Rva004FF8DA::rva0050024C(int type,int key) {
    unsigned cnt=((IntPtrTree*)&inner)->count(*selected);
    if(cnt>0) {
     _STL::pair<_STL::_Rb_tree_iterator<IntPtrPair,_STL::_Const_traits<IntPtrPair> >,_STL::_Rb_tree_iterator<IntPtrPair,_STL::_Const_traits<IntPtrPair> > > range=((IntPtrTree*)&inner)->equal_range(*selected);
-    _STL::_Rb_tree_node_base *found=range.first._M_node;
     _ReadWriteBarrier();
+    _STL::_Rb_tree_node_base *found=range.first._M_node;
     int steps=GetGameLogicRandomValue(0,cnt-1,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\System\\LivingWorld\\LivingWorldAISupport\\LivingWorldAIInformation.cpp",0x12a);
     for(int i=0;i<steps;++i) found=_STL::_Rb_global<bool>::_M_increment(found);
     return (char*)found+0x14;

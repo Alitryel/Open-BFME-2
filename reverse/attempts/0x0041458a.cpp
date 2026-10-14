@@ -1,4 +1,6 @@
 // ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
+// partial score=0.9736 date=2026-10-14
+// ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
 // partial score=0.907135 date=2026-10-14
 // ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
 // partial score=0.871 date=2026-10-14
@@ -69,7 +71,8 @@ void Rva004147CF::rva0041458A(Rva0041458AInterface *iface)
 			AsciiString name;
 			iface->vslot27(&name);
 			Rva004147CFElem *found = 0;
-			for (Rva004147CFElem *p = m_begin; p != m_end; p = (Rva004147CFElem *)((char *)p + 0x30))
+			Rva004147CFElem *end = m_end;
+			for (Rva004147CFElem *p = m_begin; p != end; p = (Rva004147CFElem *)((char *)p + 0x30))
 			{
 				if (found)
 					break;
@@ -90,7 +93,9 @@ void Rva004147CF::rva0041458A(Rva0041458AInterface *iface)
 	}
 	else
 	{
-		for (Rva004147CFElem *p = m_begin; p != m_end; p = (Rva004147CFElem *)((char *)p + 0x30))
+		Rva004147CFElem *p = m_begin;
+		Rva004147CFElem *end = m_end;
+		for (; p != end; p = (Rva004147CFElem *)((char *)p + 0x30))
 		{
 			AsciiString tmp(p->m_name);
 			iface->vslot27(&tmp);
