@@ -56104,3 +56104,23 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ?rva002714B4@Rva002714B4@@QAEXXZ	0x002714B4	22	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 22B; Native22 2714B4..2714CA TheAudio DFE6E8 slot52 with the +0x144 handle
 ?rva00313923@Rva00313923@@QAEXH@Z	0x00313923	23	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 23B; Native23 313923..31393A RET4 TheWindowManager DFEF1C slot60 with this and the argument
 ?Rva002223E8LevelPath@@YAXAAVAsciiString@@H@Z	0x002223E8	22	landed	add_match verified Code/GameEngine/Source/Common/AsciiStringFoldDeleters.cpp 22B; Native22 2223E8..2223FE cdecl format of /_level%d into the string argument via rowed AsciiString format 38150
+?get@Rva001F3536Float@@QBEMXZ	0x001F3536	7	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 7B; Native7 gap leaf 1F3536: float at +0xAC; owner unresolved
+?rva002026CE@Rva002026CE@@QAEPAHXZ	0x002026CE	6	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 6B; Native6 gap leaf 2026CE: address of +0x10 in the object at +0; owner unresolved
+?rva00215E99@Rva00215E99@@QAEXH@Z	0x00215E99	11	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 11B; Native11 gap leaf 215E99: RET4 copies +4 into +0x38 of the object at +0; owner unresolved
+?rva00219134@Rva00219134Host@@QAEEXZ	0x00219134	6	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 6B; Native6 gap leaf 219134: global flag byte DFE34C; owner unresolved
+?rva00219140@Rva00219140@@QAEPAHXZ	0x00219140	13	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 13B; Native13 gap leaf 219140: address of +0x64 when byte +0x60 set else null; owner unresolved
+?rva00234361@Rva00234361@@QBEHXZ	0x00234361	11	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 11B; Native11 gap leaf 234361: +0x10 plus +4 plus one; owner unresolved
+?rva0023C41C@Rva0023C41C@@QAEPAHXZ	0x0023C41C	4	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 4B; Native4 gap leaf 23C41C: address of +0x64; owner unresolved
+?Rva0023C4DBSet@@YAXXZ	0x0023C4DB	8	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 8B; Native8 gap leaf 23C4DB: cdecl sets global byte DFF004; owner unresolved
+?Rva0023C4E3Clear@@YAXXZ	0x0023C4E3	8	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 8B; Native8 gap leaf 23C4E3: cdecl clears global byte DFF004; owner unresolved
+??0Rva0023DAE8@@QAE@H@Z	0x0023DAE8	15	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 15B; Native15 gap leaf 23DAE8: RET4 ctor with unused word: vtable BEDAA0 and zero count at +4; owner unresolved
+?rva0027C218@Rva0027C218Host@@QAEPAXXZ	0x0027C218	8	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 8B; Native8 gap leaf 27C218: first word of the holder global DBD0F4; owner unresolved
+?rva0028A86B@Rva0028A86B@@QBEHXZ	0x0028A86B	8	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 8B; Native8 gap leaf 28A86B: word of the +8 array indexed by +0x20; owner unresolved
+?rva0029B251@Rva0029B251@@QAEPAHXZ	0x0029B251	6	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 6B; Native6 gap leaf 29B251: address of +4 in the object at +0; owner unresolved
+?rva002B226E@Rva002B226E@@QAEHXZ	0x002B226E	7	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 7B; Native7 gap leaf 2B226E: pre-increments +0x2C; owner unresolved
+??0Rva002DB99F@@QAE@XZ	0x002DB99F	13	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 13B; Native13 gap leaf 2DB99F: ctor setting TheGameLogic byte +0x6F; owner unresolved
+?rva002E6B3D@Rva002E6B3D@@QBEIXZ	0x002E6B3D	9	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 9B; Native9 gap leaf 2E6B3D: bit0 of +0x2C of the object at +0; owner unresolved
+?Rva002E6B82Bump@@YAXXZ	0x002E6B82	7	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 7B; Native7 gap leaf 2E6B82: cdecl increments global DFECD0; owner unresolved
+?rva002E6C72@Rva002E6C72@@QBEIXZ	0x002E6C72	7	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 7B; Native7 gap leaf 2E6C72: bit0 of byte +0xE; owner unresolved
+?rva0033A430@Rva0033A430@@QAEPAHH@Z	0x0033A430	6	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 6B; Native6 gap leaf 33A430: RET4 address of +4 with unused argument; owner unresolved
+??0Rva0033A501@@QAE@XZ	0x0033A501	6	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 6B; Native6 gap leaf 33A501: ctor setting +0 to -1; owner unresolved

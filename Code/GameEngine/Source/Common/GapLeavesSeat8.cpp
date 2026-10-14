@@ -9,6 +9,13 @@
 class LivingWorldManager;
 extern LivingWorldManager *TheLivingWorldManager;
 extern unsigned char g_00E01EA8;
+extern unsigned char g_rva005B5C02Flag;
+extern unsigned char g_00DFF004;
+extern int g_Va00DFECD0;
+struct Rva002E373CHolder;
+extern Rva002E373CHolder *g_Va00DBD0F4;
+class GameLogic;
+extern GameLogic *TheGameLogic;
 
 // --- 0x0024C80D (12B): complement seven consecutive 32-bit words in place
 // (twin: Rva00332E83BitWords::flip, four words).
@@ -141,4 +148,288 @@ private:
 int Rva0023D37FFlags::rva0023D37F() const
 {
 	return m_flags & 1;
+}
+
+// ---- second batch (no calls) -----------------------------------------
+
+// --- 0x001F3536 (7B): the float at +0xAC.
+class Rva001F3536Float
+{
+public:
+	float get() const;
+	char m_pad00[0xAC];
+	float m_AC;
+};
+float Rva001F3536Float::get() const
+{
+	return m_AC;
+}
+
+// --- 0x002026CE (6B): the address of +0x10 inside the object at +0.
+struct Rva002026CEInner
+{
+	char m_pad00[0x10];
+	int m_10;
+};
+class Rva002026CE
+{
+public:
+	int *rva002026CE();
+private:
+	Rva002026CEInner *m_inner;
+};
+int *Rva002026CE::rva002026CE()
+{
+	return &m_inner->m_10;
+}
+
+// --- 0x00215E99 (11B, RET4): copies the word at +4 into +0x38 of the
+// object at +0; the stack argument is unused.
+struct Rva00215E99Target
+{
+	char m_pad00[0x38];
+	int m_38;
+};
+class Rva00215E99
+{
+public:
+	void rva00215E99(int unused);
+private:
+	Rva00215E99Target *m_target;
+	int m_value;
+};
+void Rva00215E99::rva00215E99(int)
+{
+	m_target->m_38 = m_value;
+}
+
+// --- 0x00219134 (6B): the global flag byte at VA 0x00DFE34C, ignoring the
+// receiver.
+class Rva00219134Host
+{
+public:
+	unsigned char rva00219134();
+};
+unsigned char Rva00219134Host::rva00219134()
+{
+	return g_rva005B5C02Flag;
+}
+
+// --- 0x00219140 (13B): the address of +0x64 when the flag byte at +0x60 is
+// set, else null.
+class Rva00219140
+{
+public:
+	int *rva00219140();
+private:
+	char m_pad00[0x60];
+	bool m_60;
+	char m_pad61[3];
+	int m_64;
+};
+int *Rva00219140::rva00219140()
+{
+	return m_60 ? &m_64 : 0;
+}
+
+// --- 0x00234361 (11B): +0x10 plus +4 plus one.
+class Rva00234361
+{
+public:
+	int rva00234361() const;
+private:
+	int m_00;
+	int m_04;
+	int m_08;
+	int m_0C;
+	int m_10;
+};
+int Rva00234361::rva00234361() const
+{
+	return m_10 + m_04 + 1;
+}
+
+// --- 0x0023C41C (4B): the address of +0x64.
+class Rva0023C41C
+{
+public:
+	int *rva0023C41C();
+private:
+	char m_pad00[0x64];
+	int m_64;
+};
+int *Rva0023C41C::rva0023C41C()
+{
+	return &m_64;
+}
+
+// --- 0x0023C4DB / 0x0023C4E3 (8B each, cdecl): set and clear the global
+// flag byte at VA 0x00DFF004.
+void Rva0023C4DBSet()
+{
+	g_00DFF004 = 1;
+}
+void Rva0023C4E3Clear()
+{
+	g_00DFF004 = 0;
+}
+
+// --- 0x0023DAE8 (15B, RET4): a constructor taking an unused word that
+// installs vtable 0x00BEDAA0 (the refcounted node table Bfme5NodeMakers.cpp
+// stores by address) and zeroes the count at +4.
+class Rva0023DAE8
+{
+public:
+	Rva0023DAE8(int unused);
+	virtual void slot00();
+private:
+	int m_count;
+};
+Rva0023DAE8::Rva0023DAE8(int)
+	: m_count(0)
+{
+}
+
+// --- 0x0027C218 (8B): the first word of the holder at VA 0x00DBD0F4.
+struct Rva0027C218HolderView
+{
+	void *m_first;
+};
+class Rva0027C218Host
+{
+public:
+	void *rva0027C218();
+};
+void *Rva0027C218Host::rva0027C218()
+{
+	return ((Rva0027C218HolderView *)g_Va00DBD0F4)->m_first;
+}
+
+// --- 0x0028A86B (8B): the word of the +8 array indexed by +0x20.
+class Rva0028A86B
+{
+public:
+	int rva0028A86B() const;
+private:
+	char m_pad00[8];
+	int m_values[6];
+	int m_index;
+};
+int Rva0028A86B::rva0028A86B() const
+{
+	return m_values[m_index];
+}
+
+// --- 0x0029B251 (6B): the address of +4 inside the object at +0.
+struct Rva0029B251Inner
+{
+	int m_00;
+	int m_04;
+};
+class Rva0029B251
+{
+public:
+	int *rva0029B251();
+private:
+	Rva0029B251Inner *m_inner;
+};
+int *Rva0029B251::rva0029B251()
+{
+	return &m_inner->m_04;
+}
+
+// --- 0x002B226E (7B): pre-increments the counter at +0x2C.
+class Rva002B226E
+{
+public:
+	int rva002B226E();
+private:
+	char m_pad00[0x2C];
+	int m_2C;
+};
+int Rva002B226E::rva002B226E()
+{
+	return ++m_2C;
+}
+
+// --- 0x002DB99F (13B): a constructor whose only work is setting the byte at
+// +0x6F of TheGameLogic (VA 0x00DFE78C); the receiver is returned untouched.
+struct Rva002DB99FLogicView
+{
+	char m_pad00[0x6F];
+	bool m_6F;
+};
+class Rva002DB99F
+{
+public:
+	Rva002DB99F();
+};
+Rva002DB99F::Rva002DB99F()
+{
+	((Rva002DB99FLogicView *)TheGameLogic)->m_6F = true;
+}
+
+// --- 0x002E6B3D (9B): bit 0 of +0x2C of the object at +0.
+struct Rva002E6B3DInner
+{
+	char m_pad00[0x2C];
+	unsigned int m_flags;
+};
+class Rva002E6B3D
+{
+public:
+	unsigned int rva002E6B3D() const;
+private:
+	Rva002E6B3DInner *m_inner;
+};
+unsigned int Rva002E6B3D::rva002E6B3D() const
+{
+	return m_inner->m_flags & 1;
+}
+
+// --- 0x002E6B82 (7B, cdecl): increments the global counter at VA 0x00DFECD0.
+void Rva002E6B82Bump()
+{
+	++g_Va00DFECD0;
+}
+
+// --- 0x002E6C72 (7B): bit 0 of the byte at +0xE.
+class Rva002E6C72
+{
+public:
+	unsigned int rva002E6C72() const;
+private:
+	char m_pad00[0xE];
+	unsigned char m_0E;
+};
+unsigned int Rva002E6C72::rva002E6C72() const
+{
+	return m_0E & 1;
+}
+
+// --- 0x0033A430 (6B, RET4): the address of +4; the argument is unused.
+class Rva0033A430
+{
+public:
+	int *rva0033A430(int unused);
+private:
+	int m_00;
+	int m_04;
+};
+int *Rva0033A430::rva0033A430(int)
+{
+	return &m_04;
+}
+
+// --- 0x0033A501 (6B): a constructor setting the word at +0 to -1.
+class Rva0033A501
+{
+public:
+	Rva0033A501();
+private:
+	int m_00;
+};
+Rva0033A501::Rva0033A501()
+	: m_00(-1)
+{
 }
