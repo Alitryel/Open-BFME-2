@@ -1,8 +1,12 @@
-// ?getBridgeInfo@W3DBridge@@QAEXPAVRva0027C36A@@@Z
-// partial score=0.36 date=2026-10-14
-// ?getBridgeInfo@W3DBridge@@QAEXPAVRva0027C36A@@@Z
-// partial score=0.36 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
+// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD
+// ?getBridgeInfo@W3DBridge@@QAEXPAVRva0027C36A@@@Z, retail 0x000DDB94, 639 bytes.
+// Zero Hour's W3DBridge::getBridgeInfo (W3DBridgeBuffer.cpp): endpoints by
+// struct copy, width (maxY-minY)*scale, the normalized XY normal of end-start
+// and the four corner points. BFME 2 additions read off retail: the corner
+// products are spelled maxY*scale*N and scale*N*minY (target operand order),
+// a deck quad at +0x6C filled through an inline Coord3D set helper (fromLeft,
+// fromRight, toRight, toLeft) and two triangles of corner indices at +0x9C.
+// BridgeInfo keeps the ledger's view name Rva0027C36A (pinned spelling).
 //
 // W3DBridge::getBridgeInfo, Zero Hour's body. BFME 2's BridgeInfo (the
 // ledger's Rva0027C36A) also carries the deck quad at +0x6C (fromLeft,
@@ -38,12 +42,16 @@ public:
 	float Z;
 };
 
-struct Coord3D
+#include "Code/Libraries/Include/Lib/Coord3D.h"
+
+// Zero Hour's inline Coord3D::set shape; the canonical header only declares
+// the out-of-line member, so the deck copies use this TU-local helper.
+static __forceinline void setCoord3D(Coord3D &c, float ax, float ay, float az)
 {
-	float x;
-	float y;
-	float z;
-};
+	c.x = ax;
+	c.y = ay;
+	c.z = az;
+}
 
 struct BridgeTriangle
 {
@@ -80,7 +88,6 @@ private:
 	float m_maxY; // +0x70
 };
 
-// ?getBridgeInfo@W3DBridge@@QAEXPAVRva0027C36A@@@Z @0x000DDB94
 void W3DBridge::getBridgeInfo(Rva0027C36A *pInfo)
 {
 	*(Vector3 *)&pInfo->from = m_start;
@@ -107,18 +114,10 @@ void W3DBridge::getBridgeInfo(Rva0027C36A *pInfo)
 	pInfo->toRight.y = m_scale * vecNormal.Y * m_minY + m_end.Y;
 	pInfo->toRight.z = m_scale * vecNormal.Z * m_minY + m_end.Z;
 
-	pInfo->deck[0].x = pInfo->fromLeft.x;
-	pInfo->deck[0].y = pInfo->fromLeft.y;
-	pInfo->deck[0].z = pInfo->fromLeft.z;
-	pInfo->deck[1].x = pInfo->fromRight.x;
-	pInfo->deck[1].y = pInfo->fromRight.y;
-	pInfo->deck[1].z = pInfo->fromRight.z;
-	pInfo->deck[2].x = pInfo->toRight.x;
-	pInfo->deck[2].y = pInfo->toRight.y;
-	pInfo->deck[2].z = pInfo->toRight.z;
-	pInfo->deck[3].x = pInfo->toLeft.x;
-	pInfo->deck[3].y = pInfo->toLeft.y;
-	pInfo->deck[3].z = pInfo->toLeft.z;
+	setCoord3D(pInfo->deck[0], pInfo->fromLeft.x, pInfo->fromLeft.y, pInfo->fromLeft.z);
+	setCoord3D(pInfo->deck[1], pInfo->fromRight.x, pInfo->fromRight.y, pInfo->fromRight.z);
+	setCoord3D(pInfo->deck[2], pInfo->toRight.x, pInfo->toRight.y, pInfo->toRight.z);
+	setCoord3D(pInfo->deck[3], pInfo->toLeft.x, pInfo->toLeft.y, pInfo->toLeft.z);
 	pInfo->triangle[0].corner[0] = 0;
 	pInfo->triangle[0].corner[1] = 1;
 	pInfo->triangle[0].corner[2] = 2;
