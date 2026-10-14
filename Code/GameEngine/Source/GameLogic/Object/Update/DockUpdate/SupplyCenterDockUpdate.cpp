@@ -159,7 +159,8 @@ public:
  virtual void s16();
  virtual const UnicodeString *fetch(const char *, bool = false);
 };
-extern GameText *TheGameText;
+class GameTextInterface;
+extern GameTextInterface *TheGameText;
 class TerrainLogic {
 public:
  virtual void s0();
@@ -347,7 +348,7 @@ bool SupplyCenterDockUpdate::action(Object *docker, Object *drone)
 	}
 
 	UnicodeString moneys;
-	moneys.format(TheGameText->fetch("GUI:AddCash"), finalValue);
+	moneys.format(((GameText *)TheGameText)->fetch("GUI:AddCash"), finalValue);
 
 	Coord3D pos;
 	const Coord3D *dockerPos = docker->getPosition();
