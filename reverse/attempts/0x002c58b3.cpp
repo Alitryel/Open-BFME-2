@@ -1,4 +1,6 @@
 // ?rva002C58B3@Rva002C589B@@QAEXXZ
+// partial score=0.9728 date=2026-10-14
+// ?rva002C58B3@Rva002C589B@@QAEXXZ
 // partial score=0.984 date=2026-10-13
 // ?rva002C58B3@Rva002C589B@@QAEXXZ
 // partial score=0.984 date=2026-10-13
@@ -11,6 +13,25 @@
 // churn wider. Pure save-hoist heuristic. t=25 model=muse-spark
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
+
+#include "Code/Libraries/Include/Lib/Coord3D.h"
+enum ObjectID { INVALID_ID = 0 };
+class Rva003ECDB7Object;
+class Rva002C589B
+{
+public:
+	void rva002C58B3();
+private:
+	char m_pad0[8];
+	int m_frame;         // +0x08
+	Coord3D m_position;  // +0x0C
+	bool m_18, m_19;     // +0x18, +0x19
+	int m_unknown1C;     // +0x1C
+	char m_pad20[0x24 - 0x20];
+	Rva003ECDB7Object *m_ptr; // +0x24
+	char m_pad28[0x34 - 0x28];
+	ObjectID m_34;       // +0x34
+};
 
 // Pointee-side view for the reset below: 12 zero bytes at +0x554 plus the
 // rowed disp32 dword clearer at +0x564 (0x003ECB0B). The cast from the

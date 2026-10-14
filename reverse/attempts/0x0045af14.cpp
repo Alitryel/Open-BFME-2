@@ -1,4 +1,6 @@
 // ?update@DualWeaponBehavior@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.8249 date=2026-10-14
+// ?update@DualWeaponBehavior@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.9 date=2026-10-11
 // cl: /O1 /Ob2 /G7 /DNDEBUG /MD /EHsc /arch:SSE
 // Native 0045AF14..0045B123, 527B; WB 0117D920, UpdateModule interface at +10.
@@ -7,7 +9,7 @@
 // confirms the 20-byte UpdateModule and eight-byte derived state; no clean
 // update donor was found. Control flow, offsets and calls below are target evidence.
 #include <math.h>
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 enum UpdateSleepTime { UPDATE_SLEEP_FOREVER = 0x3fffffff };
 enum WeaponSetType { WEAPONSET_CLOSE = 7 };

@@ -1,4 +1,6 @@
 // ?update@AptPalantir@@QAEXXZ
+// partial score=0.9741 date=2026-10-14
+// ?update@AptPalantir@@QAEXXZ
 // partial score=0.97 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
@@ -56,8 +58,8 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 }
 
 #include "ascii_string.h"
-#include "Lib/Coord2D.h"
-#include "../GameWindowManagerRecordView.h"
+#include "Code/Libraries/Include/Lib/Coord2D.h"
+#include "Code/GameEngine/Source/GameClient/GUI/GameWindowManagerRecordView.h"
 
 class __multiple_inheritance FunctorTarget;
 typedef void (FunctorTarget::*FunctorMethod)(void);
@@ -725,8 +727,7 @@ void AptPalantir::init()
 		m_moviePlayback->start();
 	}
 }
-
-#include "../../../Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class BfmeSelectionState
 {

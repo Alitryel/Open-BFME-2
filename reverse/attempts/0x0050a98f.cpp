@@ -1,4 +1,6 @@
 // ?rva0050A98F@Made002CC907@@QAE_NPBURva0050A9F2Context@@PAVObject@@@Z
+// partial score=0.8903 date=2026-10-14
+// ?rva0050A98F@Made002CC907@@QAE_NPBURva0050A9F2Context@@PAVObject@@@Z
 // partial score=0.89 date=2026-10-10
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD
 //
@@ -12,7 +14,7 @@
 // at50A98F and50AA97 respectively, both RET8. Reference Damage.h supplies
 // shock-wave purpose, while BFME2 offsets and conditionals come from retail.
 #include <math.h>
-#include "../../Code/Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 class DamageInfo;
 class Player
 {
@@ -105,7 +107,7 @@ private:
 
 class Rva00508925 {public:unsigned char rva005075D6(int,int);};
 struct Rva0050A9F2Context {char pad[8];unsigned int sourceId;};
-#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Made002CC907 : public Rva00507823

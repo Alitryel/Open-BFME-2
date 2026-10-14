@@ -1,4 +1,6 @@
 // ?Update@Impl@AptInGameSpellBookInterface@@QAEXXZ
+// partial score=0.8109 date=2026-10-14
+// ?Update@Impl@AptInGameSpellBookInterface@@QAEXXZ
 // partial score=0.85 date=2026-10-10
 // ?Update@Impl@AptInGameSpellBookInterface@@QAEXXZ
 // partial score=0.85 date=2026-10-09
@@ -26,7 +28,7 @@ public:
 private:T *ptr;
 };
 class AptPlayer {public:void AddOverButtonHandler(const AsciiString &,AptRef<AptOverButtonHandler>);};
-#include "../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class LivingWorldLogic;extern LivingWorldLogic *TheLivingWorldLogic;
 class BfmeSelectionState {public:bool isSelectionLocked() const;};

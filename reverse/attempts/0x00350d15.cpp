@@ -1,4 +1,6 @@
 // ?chooseVictim@AIAttackSquadState@@QAEPAVObject@@XZ
+// partial score=0.8014 date=2026-10-14
+// ?chooseVictim@AIAttackSquadState@@QAEPAVObject@@XZ
 // partial score=0.85 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
@@ -90,10 +92,9 @@
 // odd-frame wait (+0x24) replayed by update, and the attack state at +0x20
 // (slot 2 isWeaponSlotOkToFire, slot 0 notifyFired); update's three early
 // failures are separate statements in retail.
-
-#include "../../Common/GameLogicObjectLookupView.h"
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
-#include "../../../../Libraries/Include/Lib/Coord2D.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord2D.h"
 
 typedef bool Bool;
 typedef float Real;

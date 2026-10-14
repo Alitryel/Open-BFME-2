@@ -1,4 +1,6 @@
 // ?xfer@AptPalantir@@QAEXPAVXfer@@@Z
+// partial score=0.9572 date=2026-10-14
+// ?xfer@AptPalantir@@QAEXPAVXfer@@@Z
 // partial score=0.96 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
@@ -14,8 +16,8 @@
 #include <list>
 
 #include "ascii_string.h"
-#include "Lib/Coord2D.h"
-#include "../GameWindowManagerRecordView.h"
+#include "Code/Libraries/Include/Lib/Coord2D.h"
+#include "Code/GameEngine/Source/GameClient/GUI/GameWindowManagerRecordView.h"
 
 class Xfer;
 class __multiple_inheritance FunctorTarget;

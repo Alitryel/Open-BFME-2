@@ -1,4 +1,6 @@
 // ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
+// partial score=0.901 date=2026-10-14
+// ?rva0052E914@Pathfinder@@QAEXHHPAVPathfindCell@@PAVBridge@@_N0M@Z
 // partial score=0.98 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include
 // Native 0052ED74..0052F294, 1312B, RET8. Neutral shared receiver and
@@ -13,7 +15,7 @@
 // scheduling without changing the mathematical operation.
 // Full neighbor arrays are read independently from retail DD1A3C/DD1A5C;
 // original identifiers are unknown. Data rows verify all 32 bytes of each.
-#include "Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 static __forceinline float bridgeDelta(float a,float b){return (float)(a-b);}
 extern "C" double __cdecl fabs(double);
 extern "C" __declspec(dllimport) double __cdecl floor(double);
@@ -28,7 +30,7 @@ class Bridge {public:virtual ~Bridge();Bridge *next;int word8;Rva0027C36A info;B
 struct CellOwnerInfo{char pad[0x28];int owner;};
 class Rva0052DFB1Arg;
 class PathfindCell {public:int getOwner()const{return info?info->owner:0;}int getType()const{return type;}int getLayer()const{return layer;}int getObstacleID()const{return info?info->owner:0;}void setPinched(bool p){pinched=p?1:0;}bool rva0052DFB1(const void *arg);bool SetType_Dirty(int);CellOwnerInfo *info;char pad[8];unsigned int type:4,layer:6,unused:6,pinched:1,rest:15;};
-#include "../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "Code/Libraries/Include/Lib/ICoord2D.h"
 ICoord2D *Rva002E7875WorldToCell(ICoord2D *,bool,const Coord3D *);
 bool Rva001E3679(int);
 class PathfindLayer {public:PathfindCell *getCell(int,int);void AddWallConnectCell(const ICoord2D *);char pad[0x3C];int height;};
