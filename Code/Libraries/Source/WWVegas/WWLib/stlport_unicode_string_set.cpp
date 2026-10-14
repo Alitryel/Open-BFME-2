@@ -28,6 +28,9 @@ namespace rts {
     template <class T> struct less_than_nocase {
         bool operator()(const T &a, const T &b) const { return a.compareNoCase(b) < 0; }
     };
+    // Use the byte-verified comparator at 0x00037B40; /O1's local copy differs.
+    template <> bool less_than_nocase<UnicodeString>::operator()(
+        const UnicodeString &a, const UnicodeString &b) const;
 }
 // Preserve the tree helpers' calls to the retail comparator at 0x00037B40;
 // this instantiation must not emit its own non-retail standalone copy.
