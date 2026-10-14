@@ -39,12 +39,14 @@ class W3DPropBuffer
 {
 public:
 	void addProp( Int id, Coord3D location, Real angle, Real scale, const AsciiString &modelName, Bool bfmeFlag );
+	Bool updatePropPosition( Int id, const Coord3D &location, Real angle, Real scale );
 };
 
 class BaseHeightMapRenderObjClass
 {
 public:
 	void addProp( Int id, Coord3D location, Real angle, Real scale, const AsciiString &modelName, Bool bfmeFlag );
+	Bool rva000683AC( Int id, Coord3D location, Real angle, Real scale );
 private:
 	char m_unrecovered0000[ 0x3858 ];
 	W3DPropBuffer *m_propBuffer;																							///< 0x3858
@@ -60,4 +62,16 @@ void BaseHeightMapRenderObjClass::addProp(Int id, Coord3D location, Real angle, 
 	if (m_propBuffer) {
 		m_propBuffer->addProp(id, location, angle, scale, modelName, bfmeFlag);
 	}
+}
+
+// 0x000683AC (48B), unreferenced in retail: the same null-checked forward
+// for the rowed W3DPropBuffer::updatePropPosition (0x000EE203), with the
+// location taken by value like addProp's and false without a buffer. The
+// member name is address-derived (no caller names it).
+Bool BaseHeightMapRenderObjClass::rva000683AC(Int id, Coord3D location, Real angle, Real scale)
+{
+	if (m_propBuffer) {
+		return m_propBuffer->updatePropPosition(id, location, angle, scale);
+	}
+	return false;
 }
