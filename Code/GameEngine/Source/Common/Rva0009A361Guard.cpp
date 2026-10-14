@@ -6,10 +6,14 @@
 // byte at +0x0 is set, then clears the flag. Honest address-derived
 // names; boundary verified (push esi at 0x9A361, pop esi + ret 4 at end).
 
-class Rva000F4AB7
+// 0x000F4AB7 is rowed as W3DVolumetricShadowManager::renderShadows
+// (W3DVolumetricShadowRenderShadows.cpp); the forwarded word is its
+// RenderInfoClass reference.
+class RenderInfoClass;
+class W3DVolumetricShadowManager
 {
 public:
-	void rva000F4AB7(int v);
+	void renderShadows(RenderInfoClass &rinfo);
 };
 
 class Rva0009A361
@@ -21,13 +25,13 @@ private:
 	bool m_0;
 };
 
-extern class W3DVolumetricShadowManager *TheW3DVolumetricShadowManager;
+extern W3DVolumetricShadowManager *TheW3DVolumetricShadowManager;
 
 // ?rva0009A361@Rva0009A361@@QAEXH@Z
 void Rva0009A361::rva0009A361(int v)
 {
-	if ((*(Rva000F4AB7 **)&TheW3DVolumetricShadowManager) != 0 && m_0)
-		(*(Rva000F4AB7 **)&TheW3DVolumetricShadowManager)->rva000F4AB7(v);
+	if (TheW3DVolumetricShadowManager != 0 && m_0)
+		TheW3DVolumetricShadowManager->renderShadows(*(RenderInfoClass *)v);
 	m_0 = 0;
 }
 
