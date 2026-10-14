@@ -1,4 +1,6 @@
 // ?rva0039380F@BuildAssistant@@UAE_NPAVRva0039205C@@PAVObject@@PBUCoord3D@@2I@Z
+// partial score=0.840903 date=2026-10-14
+// ?rva0039380F@BuildAssistant@@UAE_NPAVRva0039205C@@PAVObject@@PBUCoord3D@@2I@Z
 // partial score=0.885 date=2026-10-12
 // ?rva0039380F@BuildAssistant@@UAE_NPAVRva0039205C@@PAVObject@@PBUCoord3D@@2I@Z
 // partial score=0.8828 date=2026-10-09
@@ -1604,7 +1606,7 @@ Bool BuildAssistant::rva0039380F(Rva0039205C *out, Object *builder, const Coord3
   out->rva0039215F(index,segment->getName());
   out->rva00392196(index,code);
   if (code==6 || code==5) {
-   const ThingTemplate *terrainPiece=module->getTerrainPiece();
+   const ThingTemplate *terrainPiece=(index ? (module->getTerrainPiece()) : (module->getTerrainPiece()));
    if (terrainPiece) out->rva0039215F(index,terrainPiece->getName());
    out->rva00392196(index,0);
    current.z=prevZ;

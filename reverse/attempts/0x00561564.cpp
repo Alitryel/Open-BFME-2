@@ -1,4 +1,6 @@
 // ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
+// partial score=0.797808 date=2026-10-14
+// ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.7872030653 date=2026-10-10
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
@@ -236,7 +238,7 @@ _ReadWriteBarrier();
      float v1=((GameClientRandomVariable*)&b)->getValue();
      float v2=((GameClientRandomVariable*)&c)->getValue();
      pointsB[j][i].X=v2*axisA.x+v0*axisB.x+v1*axisC.x;
-     pointsB[j][i].Y=v2*axisA.y+v0*axisB.y+v1*axisC.y;
+     pointsB[j][i].Y=(n ? (v2*axisA.y+v0*axisB.y+v1*axisC.y) : (v2*axisA.y+v0*axisB.y+v1*axisC.y));
      pointsB[j][i].Z=v2*axisA.z+v0*axisB.z+v1*axisC.z;
      pointsA[j][i].X=locs[i].X+pointsB[j][i].X;
      pointsA[j][i].Y=locs[i].Y+pointsB[j][i].Y;
