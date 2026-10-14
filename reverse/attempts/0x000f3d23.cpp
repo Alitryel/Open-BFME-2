@@ -1,9 +1,11 @@
 // ?updateVolumes@W3DVolumetricShadow@@IAEXM@Z
+// partial score=0.87235 date=2026-10-14
+// ?updateVolumes@W3DVolumetricShadow@@IAEXM@Z
 // partial score=0.87 date=2026-10-13
 // ?updateVolumes@W3DVolumetricShadow@@IAEXM@Z
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 // partial score=0.8676421876421876 date=2026-10-10
-// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
+// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /Oy-
 class Vector3 {public: Vector3(){} Vector3(float x,float y,float z):X(x),Y(y),Z(z){} Vector3(const Vector3&v):X(v.X),Y(v.Y),Z(v.Z){} float X,Y,Z; Vector3&operator=(const Vector3&v){X=v.X;Y=v.Y;Z=v.Z;return *this;} Vector3& operator+=(const Vector3 &v){X+=v.X;Y+=v.Y;Z+=v.Z;return *this;}};
 class Matrix3D {public: float m[3][4]; Vector3 Get_Translation()const{return Vector3(m[0][3],m[1][3],m[2][3]);}};
 inline void *operator new(unsigned int,void*p)throw(){return p;}
@@ -195,7 +197,7 @@ if(volume(currentIndex)->state==8){if(parentVis)volume(currentIndex)->state=2;el
 sphere=volume(currentIndex)->sphere;float tx=__vref(meshXform->m[0])[3],ty=meshXform->m[1][3],tz=meshXform->m[2][3];sphere.Center.X=tx+sphere.Center.X;sphere.Center.Y=ty+sphere.Center.Y;sphere.Center.Z=tz+sphere.Center.Z;CollisionMath::OverlapType result=CollisionMath::Overlap_Test(g_Va00DEBD00,sphere);
 if(result==8){new (&aaBox) Region3D(*(const Region3D*)&volume(currentIndex)->box);float tx=meshXform->m[0][3],ty=meshXform->m[1][3],tz=meshXform->m[2][3];aaBox.Center.X=tx+aaBox.Center.X;aaBox.Center.Y=ty+aaBox.Center.Y;aaBox.Center.Z=tz+aaBox.Center.Z;if(CollisionMath::Overlap_Test(g_Va00DEBD00,aaBox)!=1)volume(currentIndex)->state=2;else volume(currentIndex)->state=1;}else volume(currentIndex)->state=result;
 }}
-if(volume(currentIndex)->state==2){int taskIndex=*(volatile int*)&j;VBSlot*vbSlot=vb(taskIndex);if(vbSlot){W3DRenderTask*old=vbSlot->vb->head;vbSlot->vb->head=&task(taskIndex);vbSlot->vb->head->next=old;}else TheW3DVolumetricShadowManager->addDynamicShadowTask(&task(taskIndex));}
+if(volume(currentIndex)->state==2){int taskIndex=*(int*)&j;VBSlot*vbSlot=vb(taskIndex);if(vbSlot){W3DRenderTask*old=vbSlot->vb->head;vbSlot->vb->head=&task(taskIndex);vbSlot->vb->head->next=old;}else TheW3DVolumetricShadowManager->addDynamicShadowTask(&task(taskIndex));}
 }
 }}
 }

@@ -1,4 +1,6 @@
 // ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
+// partial score=0.79669 date=2026-10-14
+// ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
 // partial score=0.6238 date=2026-10-05
 // cl: /O2 /DNDEBUG /MD /EHsc
 //
@@ -77,7 +79,7 @@ void Rva009A3540PairOwner::rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540Opa
     unsigned char buf[44];
     *(unsigned int *)(buf + 8) = aId;
     *(unsigned int *)(buf + 0xc) = bId;
-    Rva009A3540PairNode *node = ((Rva009A3540PairNode **)((char *)this + 0x18))[bucket];
+    Rva009A3540PairNode *node = ((Rva009A3540PairNode **)((char *)this + 0x18))[(bucket ? bucket : bucket)];
     while (node != 0 && (node->key0 != aId || node->key1 != bId))
         node = *(Rva009A3540PairNode **)((char *)node + 0x30);
     if (node == 0)
@@ -93,7 +95,7 @@ void Rva009A3540PairOwner::rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540Opa
         *(unsigned int *)(buf + 0x10) = 1;
         memcpy(fresh, buf, 0x2c);
 
-        Rva009A3540PairNode **slot = &((Rva009A3540PairNode **)((char *)this + 0x18))[bucket];
+        Rva009A3540PairNode **slot = &((Rva009A3540PairNode **)((char *)this + 0x18))[(bucket ? bucket : bucket)];
         *(Rva009A3540PairNode ***)((char *)fresh + 0x2c) = slot;
         Rva009A3540PairNode *old = *slot;
         fresh->next = old;

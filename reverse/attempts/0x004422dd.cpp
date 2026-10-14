@@ -1,4 +1,6 @@
 // ?HostValidateColors@AptMpGameSetup@@QAEXXZ
+// partial score=0.91839 date=2026-10-14
+// ?HostValidateColors@AptMpGameSetup@@QAEXXZ
 // partial score=0.75 date=2026-10-13
 // cl: /O1 /G7 /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /arch:SSE /Op
 // stlport
@@ -81,12 +83,12 @@ void AptMpGameSetup::HostValidateColors() {
    GameSlot *slot=info->getSlot(i);
    if((0 == slot)) continue;
    ImageSubscriptMap *map=(ImageSubscriptMap*)&reserved;
-   int color=slot->color;
+   int color=(i ? slot->color : slot->color);
    if(color<0 && (special || slot->isObserver() || slot->state==1)) continue;
     if((GameSlot*)(*map)[(unsigned)color]==slot) continue;
    if(special) owner->SetColor(slot,-1);
    else {
-    unsigned c=0;
+    unsigned char c = 0;
     while(c<allowed.size()) {
      RespawnPtrMap *lookup=(RespawnPtrMap*)&reserved;
      if(allowed[c] && lookup->find(c)==lookup->end()) goto colorFound;

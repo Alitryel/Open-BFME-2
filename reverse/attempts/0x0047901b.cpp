@@ -1,4 +1,6 @@
 // ?loadGarrisonPoints@GarrisonContain@@IAEXXZ
+// partial score=0.9725 date=2026-10-14
+// ?loadGarrisonPoints@GarrisonContain@@IAEXXZ
 // partial score=0.95 date=2026-10-09
 // ?loadGarrisonPoints@GarrisonContain@@IAEXXZ
 // partial score=0.9 date=2026-10-09
@@ -22,6 +24,7 @@
 #include <string.h>
 #include "ascii_string.h"
 #include "Coord3D.h"
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 
 typedef int Int;
 typedef bool Bool;
@@ -127,8 +130,8 @@ void GarrisonContain::loadGarrisonPoints( void )
 		// pristine
 		memset(masks.clear,0,sizeof(masks.clear));
 		memset(masks.set,0,sizeof(masks.set));
-		masks.clear[4 >> 5] |= 1u << (4 & 31);
-		masks.clear[5 >> 5] |= 1u << (5 & 31);
+		__vref(masks.clear[4 >> 5]) |= 1u << (4 & 31);
+		__vref(masks.clear[5 >> 5]) |= 1u << (5 & 31);
 		masks.clear[6 >> 5] |= 1u << (6 & 31);
 		masks.clear[3 >> 5] |= 1u << (3 & 31);
 		masks.set[10 >> 5] |= 1u << (10 & 31);

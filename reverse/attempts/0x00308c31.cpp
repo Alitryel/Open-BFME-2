@@ -1,4 +1,6 @@
 // ?loadFXShaderSetup@StandingWaterArea@@QAEXXZ
+// partial score=0.98466 date=2026-10-14
+// ?loadFXShaderSetup@StandingWaterArea@@QAEXXZ
 // partial score=0.962 date=2026-10-13
 // ?loadFXShaderSetup@StandingWaterArea@@QAEXXZ
 // partial score=0.962 date=2026-10-12
@@ -60,8 +62,10 @@ void StandingWaterArea::loadFXShaderSetup() {
   }
   RenderObjClass *obj=createWaterModel(base+suffix);
   if(obj && obj->classID()==0) {
+ if (0) { AsciiString t1_dead; }
    MeshClass *mesh=obj->peekLOD();
    if(mesh) {
+ if (0) { AsciiString t1_dead; }
     MeshModelClass *model=mesh->Get_Model();
     if(model) {
      shader=model->material->rva003080AA(0);

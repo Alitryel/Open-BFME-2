@@ -1,4 +1,6 @@
 // ?exitObjectViaDoor@SiegeEngineContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
+// partial score=0.91114 date=2026-10-14
+// ?exitObjectViaDoor@SiegeEngineContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.85 date=2026-10-09
 // cl: /O1 /Ob2 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/Libraries/Include /ICode/GameEngine/Source/Common
 // stlport
@@ -9,6 +11,7 @@
 #include <vector>
 #include "Lib/Coord3D.h"
 #include "GameLogicObjectLookupView.h"
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 enum ExitDoorType { DOOR_1=0 };
 enum CommandSourceType { CMD_FROM_AI=2 };
 enum PathfindLayerEnum { LAYER_WALL=17 };
@@ -84,14 +87,14 @@ void SiegeEngineContain::exitObjectViaDoor(Object *exitObj,ExitDoorType door)
    remove(exitObj);Object *me=object();Coord3D pos;
    if(me->tmplate->kinds[4]&0x800){Matrix3D transform;
      me->getSingleLogicalBonePosition("Ladder04",&pos,&transform);
-     if(exitObj->flag118&1){exitObj->flag118&=~1;exitObj->rva0028AE6D();}
+     if(__vref(exitObj->flag118)&1){exitObj->flag118&=~1;exitObj->rva0028AE6D();}
      exitObj->rva0028D412(&transform);exitObj->rva0028B4CE(LAYER_WALL);
      AIUpdateInterface *ai=exitObj->ai;TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
      if(ai){if(exitObj->getControllingPlayer()->type==1){ai->ignoreObstacle(0);ai->commands()->aiHunt(CMD_FROM_AI);}else ai->commands()->aiIdle(CMD_FROM_AI);}
    }else{
      Coord3D dest;{pos=me->position;Coord3D direction;const Coord3D *dir=me->getUnitDirectionVector2D();direction.x=dir->x;direction.y=dir->y;
      const float &radius=me->radius;pos.x+=direction.x*radius;pos.y+=direction.y*radius;
-     pos.z=TheAI->pathfinder->GetWallHeight(LAYER_WALL,&pos,0);
+     pos.z=(TheAI->pathfinder ? TheAI->pathfinder : TheAI->pathfinder)->GetWallHeight(LAYER_WALL,&pos,0);
      dest=pos;pos.x+=direction.x*20.0f;pos.y+=direction.y*20.0f;
      dest.x+=direction.x*40.0f;dest.y+=direction.y*40.0f;}
      exitObj->teleportTo(&pos,false);exitObj->setOrientation(me->orientation);exitObj->rva0028B4CE(LAYER_WALL);

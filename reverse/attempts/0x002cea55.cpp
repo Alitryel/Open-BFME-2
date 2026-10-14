@@ -1,4 +1,6 @@
 // ?writeReportIfMismatched@BFMEDesyncCheck@@QAEXXZ
+// partial score=0.75727 date=2026-10-14
+// ?writeReportIfMismatched@BFMEDesyncCheck@@QAEXXZ
 // partial score=0.696 date=2026-10-13
 // ?writeReportIfMismatched@BFMEDesyncCheck@@QAEXXZ
 // partial score=0.696 date=2026-10-13
@@ -175,10 +177,10 @@ void BFMEDesyncCheck::writeReportIfMismatched()
     if (reinterpret_cast<GameLogicBFMERetailLayout *>(TheGameLogic)->m_gameMode == 8 ||
         reinterpret_cast<GameLogicBFMERetailLayout *>(TheGameLogic)->m_gameMode == 4)
         return;
-    UnsignedInt crc = theGameLogicShim()->getCRC(0);
+
     if ((reinterpret_cast<GameLogicBFMERetailLayout *>(TheGameLogic)->m_gameMode == 1 ||
          reinterpret_cast<GameLogicBFMERetailLayout *>(TheGameLogic)->m_gameMode == 5) &&
-        m_crcBeforeClientUpdate != crc)
+        m_crcBeforeClientUpdate != (theGameLogicShim()->getCRC(0)))
     {
         if (TheInGameUI)
             ((DesyncInGameUI *)TheInGameUI)->message(L"GameLogic changed outside of GameLogic::update()!");
@@ -191,7 +193,7 @@ void BFMEDesyncCheck::writeReportIfMismatched()
         GetLocalTime(&time);
         report.format("Desync detected on frame %d on %u-%u-%u %u:%u:%u\n\n",
             theGameLogicShim()->getFrame(),
-            time.month, time.day, time.year, time.hour, time.minute, time.second);
+            (time.month ? time.month : time.month), time.day, time.year, time.hour, time.minute, time.second);
         fwrite(report.str(), 1, report.getLength(), file);
         fclose(file);
     }

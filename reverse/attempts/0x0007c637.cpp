@@ -1,4 +1,6 @@
 // ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
+// partial score=0.67059 date=2026-10-14
+// ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
 // partial score=0.88 date=2026-10-09
 // cl: /O1 /Og /Oi /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
@@ -44,8 +46,8 @@ bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float ep
 {
  ClearPoints(output);
  std::vector<BfmeE8> points;
- unsigned i;
- for(i=0;i<input.size();++i) {
+ int i;
+ for(i=0;(i ? i : i)<input.size();++i) {
   unsigned j, size=points.size();
   for(j=0;j<size;++j)
    if(PointDistance(points[j],input[i])<epsilon) break;

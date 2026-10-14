@@ -1,4 +1,6 @@
 // ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
+// partial score=0.88435 date=2026-10-14
+// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
 // partial score=0.95 date=2026-10-13
 // ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
 // partial score=0.95 date=2026-10-13
@@ -218,9 +220,9 @@ bool Rva0038190FSendChat(const UnicodeString &msg, const _STL::vector<unsigned i
 			((_STL::vector<const ModuleData *> *)&list)->push_back(*(const ModuleData *const *)&i);
 		}
 	}
-	for (_STL::vector<unsigned int>::iterator it = list.begin(); it != list.end(); ++it)
+	for (_STL::vector<unsigned int>::iterator it = list.begin(); (it ? it : it) != list.end(); ++it)
 	{
-		unsigned int idx = *it;
+		unsigned short idx = *it;
 		GameSlot *slot = TheGameInfo->getSlot(idx);
 		if (slot == 0)
 			continue;

@@ -1,4 +1,6 @@
 // ?updateInterestZones@TacticalAI@@QAEXXZ
+// partial score=0.90125 date=2026-10-14
+// ?updateInterestZones@TacticalAI@@QAEXXZ
 // partial score=0.91 date=2026-10-13
 // ?updateInterestZones@TacticalAI@@QAEXXZ
 // partial score=0.9 date=2026-10-09
@@ -276,10 +278,10 @@ void TacticalAI::updateInterestZones() {
  _ReadWriteBarrier();
  PrototypeList::iterator end=prototypes.end();
  for(;p!=end;++p) {
-  for(DLINK_ITERATOR<Team> teams=(*p)->iterate_TeamInstanceList();!teams.done();teams.advance()) {
+  for(DLINK_ITERATOR<Team> teams=((*p ? *p : *p))->iterate_TeamInstanceList();!teams.done();teams.advance()) {
    Team *team=teams.cur();
    if(team==((Rva002C6607PlayerView*)player)->excluded) continue;
-   bool found=false;
+   volatile bool found = false;
    DLINK_ITERATOR<Object> objects=team->iterate_TeamMemberList();
    for(;!objects.done() && !found;objects.advance()) {
     Rva002C6607ObjectView *obj=(Rva002C6607ObjectView*)objects.cur();
