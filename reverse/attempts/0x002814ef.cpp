@@ -1,4 +1,6 @@
 // ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
+// partial score=0.9912 date=2026-10-14
+// ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
 // partial score=0.9 date=2026-10-14
 // ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
 // partial score=0.93 date=2026-10-10
@@ -149,7 +151,7 @@ Bool TerrainLogic::rva002814EF(const Coord3D *p0, const Coord3D *p1, Coord3D *ou
 		Real t = 0.0f;
 		if (plane.Compute_Intersection(Vector3(p0->x, p0->y, p0->z), Vector3(p1->x, p1->y, p1->z), &t))
 		{
-			*out = *p1;
+			*out = (out->z ? (*p1) : (*p1));
 			out->x -= p0->x;
 			out->y -= p0->y;
 			out->z -= p0->z;
@@ -159,7 +161,7 @@ Bool TerrainLogic::rva002814EF(const Coord3D *p0, const Coord3D *p1, Coord3D *ou
 			out->x += p0->x;
 			out->y += p0->y;
 			out->z += p0->z;
-			if (isUnderwater((out->y ? out : out)->x, out->y, &out->z, 0, 0))
+			if (isUnderwater(out->x, out->y, &out->z, 0, 0))
 			{
 				Rva0030D111Shape *shape = area->shape();
 				Coord2D at;

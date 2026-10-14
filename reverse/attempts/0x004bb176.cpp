@@ -1,5 +1,5 @@
 // ?rva004BB176@HordeTransportContainDamage@@UAEXPAVDamageInfo@@@Z
-// partial score=0.9 date=2026-10-14
+// partial score=0.9687 date=2026-10-14
 // ?rva004BB176@HordeTransportContainDamage@@UAEXPAVDamageInfo@@@Z
 // partial score=0.892833252218575 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /I.
@@ -361,11 +361,11 @@ void HordeTransportContainDamage::rva004BB176(DamageInfo *damage) {
   if(!obj||!(((DamageObjectView*)obj)->what->flag115&0x20))continue;
   DamageContainView **cv=&((DamageObjectView*)obj)->contain;
   if(!*cv||!(*cv)->s31())continue;
-  HordeCountView *horde=(*cv)->s31()->s134();HordeCountView *volatile saved=horde;if(!horde)continue;
+  HordeCountView *horde=(*cv)->s31()->s134();HordeCountView *saved=horde;if(!horde)continue;
   unsigned present=horde->counts.s96(false);if(present<=1)continue;
   unsigned limit=horde->counts.s95();if(!limit)continue;
   float ratio=1.0f/(maximum/(float)limit);
-  unsigned oldCount=(unsigned)(int)(before*ratio)+1;if(oldCount>=limit)oldCount=limit;
+  unsigned oldCount=(horde ? ((unsigned)(int)(before*ratio)) : ((unsigned)(int)(before*ratio)))+1;if(oldCount>=limit)oldCount=limit;
   unsigned newCount=(unsigned)(int)(current*ratio)+1;if(newCount>=limit)newCount=limit;
   if(present<=newCount)continue;
   unsigned remove=oldCount-newCount;if(present-remove<newCount)remove=present-newCount;

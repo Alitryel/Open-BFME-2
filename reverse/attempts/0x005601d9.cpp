@@ -1,5 +1,5 @@
 // ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.9 date=2026-10-14
+// partial score=0.873 date=2026-10-14
 // ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.8689438653277539 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
@@ -71,11 +71,11 @@ int QuadDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*particleCo
   else if(axis==5){Vector3 axisv(p->axis.X,0.0f-p->axis.Y,p->axis.Z);D3DXMatrixRotationAxis((D3DXMATRIX*)&rotation,&axisv,angle);}
   else rotation.identity();
   for(int i=0;i<4;++i){Vector4&v=vertices[i];
-   float z=rotation.Row[2].X*v.X+rotation.Row[2].Y*v.Y+rotation.Row[2].Z*v.Z+rotation.Row[2].W*v.W;float y=rotation.Row[1].X*v.X+rotation.Row[1].Y*v.Y+rotation.Row[1].Z*v.Z+rotation.Row[1].W*v.W;float w=rotation.Row[3].X*v.X+rotation.Row[3].Y*v.Y+rotation.Row[3].Z*v.Z+rotation.Row[3].W*v.W;float x=rotation.Row[0].X*v.X+rotation.Row[0].Y*v.Y+rotation.Row[0].Z*v.Z+__vref(rotation.Row[0]).W*v.W;v.Set(x,y,z,w);
+   float z=rotation.Row[2].X*__vref(v.X)+rotation.Row[2].Y*v.Y+rotation.Row[2].Z*v.Z+rotation.Row[2].W*v.W;float y=rotation.Row[1].X*v.X+rotation.Row[1].Y*v.Y+rotation.Row[1].Z*v.Z+rotation.Row[1].W*v.W;float w=rotation.Row[3].X*v.X+rotation.Row[3].Y*v.Y+rotation.Row[3].Z*v.Z+rotation.Row[3].W*v.W;float x=__vref(rotation.Row[0]).X*v.X+rotation.Row[0].Y*v.Y+rotation.Row[0].Z*v.Z+__vref(rotation.Row[0]).W*v.W;v.Set(x,y,z,w);
   }
   Vector3 translation(pos->X,pos->Y,pos->Z);int start=count*4;
   for(int j=0;j<4;++j){Vector4&v=vertices[j];v.X+=translation.X;v.Y+=translation.Y;v.Z+=translation.Z;
-   float z=view.Row[3].X*v.X+view.Row[3].Y*v.Y+view.Row[3].Z*v.Z+view.Row[3].W*v.W;float zz=view.Row[2].X*v.X+view.Row[2].Y*v.Y+view.Row[2].Z*v.Z+view.Row[2].W*v.W;float y=view.Row[1].X*v.X+view.Row[1].Y*v.Y+view.Row[1].Z*v.Z+view.Row[1].W*v.W;float x=view.Row[0].X*v.X+view.Row[0].Y*v.Y+view.Row[0].Z*__vref(v.Z)+view.Row[0].W*v.W;positions[start+j].X=x;positions[start+j].Y=y;positions[start+j].Z=zz;
+   float z=view.Row[3].X*v.X+view.Row[3].Y*v.Y+view.Row[3].Z*__vref(v.Z)+view.Row[3].W*v.W;float zz=view.Row[2].X*v.X+view.Row[2].Y*v.Y+view.Row[2].Z*v.Z+view.Row[2].W*v.W;float y=view.Row[1].X*v.X+view.Row[1].Y*v.Y+view.Row[1].Z*v.Z+view.Row[1].W*v.W;float x=view.Row[0].X*v.X+view.Row[0].Y*__vref(v.Y)+view.Row[0].Z*__vref((v.Z ? v.Z : v.Z))+view.Row[0].W*v.W;positions[start+j].X=x;positions[start+j].Y=y;positions[start+j].Z=zz;
   }
   const RGBColor*color=((Rva001F4E1BSlot*)p)->get();float alpha=((Rva001F4DF9*)p)->rva001F4DF9();
   if(color){for(int k=0;k<4;++k){colors[start+k].X=color->red;colors[start+k].Y=color->green;colors[start+k].Z=color->blue;colors[start+k].W=alpha;}}else{for(int k=0;k<4;++k)colors[start+k].Set(0,0,0,alpha);}

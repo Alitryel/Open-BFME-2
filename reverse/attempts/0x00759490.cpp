@@ -1,5 +1,5 @@
 // ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
-// partial score=0.9 date=2026-10-14
+// partial score=0.8332 date=2026-10-14
 // ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
 // partial score=0.79669 date=2026-10-14
 // ?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z
@@ -99,13 +99,13 @@ void Rva009A3540PairOwner::rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540Opa
 
         Rva009A3540PairNode **slot = &((Rva009A3540PairNode **)((char *)this + 0x18))[(bucket ? bucket : bucket)];
         *(Rva009A3540PairNode ***)((char *)fresh + 0x2c) = slot;
-        Rva009A3540PairNode *old = *slot;
-        fresh->next = old;
-        if (old != 0)
-            *(Rva009A3540PairNode ***)((char *)old + 0x2c) = &fresh->next;
+
+        fresh->next = (*slot);
+        if ((*slot) != 0)
+            *(Rva009A3540PairNode ***)((char *)(*slot) + 0x2c) = &fresh->next;
         *slot = fresh;
 
-        Rva009A3540PairNode::Link **headA = (Rva009A3540PairNode::Link **)((char *)a + 0x20);
+        Rva009A3540PairNode::Link **headA = (bucket ? ((Rva009A3540PairNode::Link **)((char *)a + 0x20)) : ((Rva009A3540PairNode::Link **)((char *)a + 0x20)));
         fresh->link14.backlink = headA;
         fresh->link14.next = *headA;
         if (*headA != 0)

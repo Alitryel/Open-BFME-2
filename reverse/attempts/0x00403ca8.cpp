@@ -1,5 +1,5 @@
 // ?update@AttributeModifierPoolUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.9 date=2026-10-14
+// partial score=0.9559 date=2026-10-14
 // ?update@AttributeModifierPoolUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.8 date=2026-10-12
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
@@ -73,9 +73,9 @@ UpdateSleepTime AttributeModifierPoolUpdate::update()
      TheAttributeModifierStore->rva00214801(&clear,entry->index);
      ((Rva001E42F2*)getObject())->rva001E42F2(clear.words);
      if(__vref(upgrade)<=frame) {
-       const FXList *fx=(const FXList*)TheAttributeModifierStore->getEndFX(entry->index,getObject());
+       const FXList *fx=(const FXList*)TheAttributeModifierStore->getEndFX(entry->index,(frame ? (getObject()) : (getObject())));
        if(fx)FXList::doFXObj(fx,getObject(),0);
-       CategoryView *category=(CategoryView*)TheAttributeModifierStore->GetCategoryContainer(entry->index);
+       CategoryView *category=(CategoryView*)TheAttributeModifierStore->GetCategoryContainer((entry->expiration ? (entry->index) : (entry->index)));
        if(category)--counts[category->category];
        it=modifiers.erase(it);
      } else {

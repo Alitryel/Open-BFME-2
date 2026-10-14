@@ -1,5 +1,5 @@
 // ?rva007092F0@AptActionInterpreter@@AAEXPAVAptCIH@@PAVAptValue@@11H1@Z
-// partial score=0.9 date=2026-10-14
+// partial score=0.9081 date=2026-10-14
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 // ?rva007092F0@AptActionInterpreter@@AAEXPAVAptCIH@@PAVAptValue@@11H1@Z
@@ -118,9 +118,9 @@ void AptActionInterpreter::rva007092F0(AptCIH *context,AptValue *with,AptValue *
             float morphFloat=static_cast<unsigned char>(((BfmeAptValue006DCD20*)child)->rva006E0350()) ? *(float*)((char*)child->rva006E1020()+0x18) : 0.0f; int morph=*(int*)&morphFloat;
             int actions=child->IsSpriteInstBase() ? (int)child->GetSpriteInstBase()->clipActions : 0;
             AptSpriteInstBase *definition=child->SpriteBaseInline();
-            AptCIH *parent=child->mpDisplayListParent;
-            AptSpriteInstBase *parentDefinition=parent->SpriteBaseInline();
-            ((BfmeSubmitter1283*)&parentDefinition->displayList)->bfmeSubmit1283(0,depth,(int)definition->character,(int)&name,(int)parent,1,-1,(float*)child->matrixToParent,(int)((char*)child+0xc),actions,morph,(int)init);
+
+            AptSpriteInstBase *parentDefinition=(child->mpDisplayListParent)->SpriteBaseInline();
+            ((BfmeSubmitter1283*)&parentDefinition->displayList)->bfmeSubmit1283(0,depth,(int)definition->character,(int)&name,(int)(child->mpDisplayListParent),1,-1,(float*)child->matrixToParent,(int)((char*)child+0xc),actions,morph,(int)init);
             if((definition ? (((Rva007092F0Character*)child->SpriteBaseInline())->flag2c) : (((Rva007092F0Character*)child->SpriteBaseInline())->flag2c))==1) {
                 AptCIH *prev=0,*clone=0;
                 ((BfmeQuery1279*)&child->mpDisplayListParent->GetSpriteInstBase()->displayList)->bfmeQuery1279(depth,(int)&name,(void**)&prev,(void**)&clone);

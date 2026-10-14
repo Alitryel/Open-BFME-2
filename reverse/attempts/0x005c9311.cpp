@@ -1,5 +1,5 @@
 // ?method_005C9311@Rva005C847BRecord@@QAEXHHM@Z
-// partial score=0.9 date=2026-10-14
+// partial score=0.9424 date=2026-10-14
 // ?method_005C9311@Rva005C847BRecord@@QAEXHHM@Z
 // partial score=0.9327098321342925 date=2026-10-10
 // stlport
@@ -29,7 +29,7 @@ void Rva005C847BRecord::method_005C9311(int a,int b,float weight){
     float py=(float)j*spacing;
     float offsetX=px;bool boundary=false;
     if(offsetX>width){offsetX=width;boundary=true;}
-    if(py>width){py=(width ? width : width);boundary=true;}
+    if(!(py <= width)){py=(width ? width : width);boundary=true;}
     FloatPair point;point.x=corner.x+offsetX;point.y=corner.y+py;
     TargetObj005C8DBF*cell=(TargetObj005C8DBF*)grid->rva005C8176(point);
     if(cell){

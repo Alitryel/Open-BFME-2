@@ -1,4 +1,6 @@
 // ?rva0050B98F@Made002CCC2D@@QAEXPBUFadeInputPrefix@@H@Z
+// partial score=0.9169 date=2026-10-14
+// ?rva0050B98F@Made002CCC2D@@QAEXPBUFadeInputPrefix@@H@Z
 // partial score=0.9 date=2026-10-14
 // ?rva0050B98F@Made002CCC2D@@QAEXPBUFadeInputPrefix@@H@Z
 // partial score=0.8766027866500022 date=2026-10-10
@@ -42,11 +44,12 @@ void Made002CCC2D::rva0050B98F(const FadeInputPrefix *input,int unused) {
   float angle=((FadeObjectPrefix*)source)->angle;
   struct TrigPair {float c,s;} trig;
   trig.s=(float)sin((double)angle);
-  trig.c=(float)cos((double)angle);
+  __vref(trig.c)=(type ? ((float)cos((double)angle)) : ((float)cos((double)angle)));
   float x=offset.x,y=offset.y;
   float dx=x*trig.c-y*trig.s;
   float dy=x*trig.s+y*trig.c;
   offset.x=dx;offset.y=dy;
+  _ReadWriteBarrier();
   position.x+=offset.x;position.y+=offset.y;
   position.z=((FadeTerrainPrefix*)TheTerrainLogic)->height(position.x,position.y,source->rva0028B511(),0,true);
   ((Thing*)made)->setPosition(&position);
