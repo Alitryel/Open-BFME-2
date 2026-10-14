@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /Ireference/shims/iniexception
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /Ireference/shims/iniexception
 // stlport
 // ?getProjectileLaunchOffset@W3DScriptedModelDraw@@UBE_NABVModelConditionFlags@@W4WeaponSlotType@@HPAVMatrix3D@@W4WhichTurretType@@PAUCoord3D@@4@Z
 // retail 0x000C3DDA..0x000C4069 (655 bytes).

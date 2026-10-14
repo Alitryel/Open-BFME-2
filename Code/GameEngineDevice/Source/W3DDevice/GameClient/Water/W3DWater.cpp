@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
 // RenderableStandingWaterArea::createTexture: native 0x0007EDBC..0x0007EEB0,
 // 244 bytes, RET4. WB 0x0073EFF0 identifies the method and W3DWater.cpp.
