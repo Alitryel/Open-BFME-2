@@ -8,6 +8,7 @@
 class WeaponTemplateSetHead
 {
 public:
+	void rva000B3EC7();
 	void rva000B3ED3(const WeaponTemplateSetHead &other);
 private:
 	unsigned int m_data[19];
@@ -16,4 +17,13 @@ void WeaponTemplateSetHead::rva000B3ED3(const WeaponTemplateSetHead &other)
 {
 	for (int i = 0; i < 19; ++i)
 		m_data[i] &= other.m_data[i];
+}
+
+// ?rva000B3EC7@WeaponTemplateSetHead@@QAEXXZ retail 0x000B3EC7 12B: the
+// sibling complement directly ahead, this[i] = ~this[i] over the same 19
+// dwords (unsigned count, jb). No direct caller reaches it in retail.
+void WeaponTemplateSetHead::rva000B3EC7()
+{
+	for (unsigned int i = 0; i < 19; ++i)
+		m_data[i] = ~m_data[i];
 }
