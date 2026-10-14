@@ -56619,3 +56619,4 @@ CatchContinuation_0x0022D53D	0x0022D53D	703	no-boundary	Not a standalone functio
 ?rva003AFF06@Rva003AFF06@@UAEXPAX0@Z	0x003AFF06	28	landed	add_match verified Code/GameEngine/Source/Common/VslotSmallBodiesAD.cpp 28B
 ?rva002E734E@Rva002E7334@@QAEHPAURva002E734ECell@@0HH@Z	0x002E734E	58	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE15.cpp 58B
 ?rva005CB432@@YIXPAVRegionUI@@PAURva005CB432Owner@@@Z	0x005CB432	56	landed	add_match verified Code/GameEngine/Source/Common/Rva005CB432PageCounts.cpp 56B
+??0LargeGroupBonusUpdateModuleData@@QAE@XZ	0x004901BD	104	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupBonusUpdateModuleDataCtor.cpp 104B
