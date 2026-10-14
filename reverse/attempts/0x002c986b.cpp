@@ -1,4 +1,6 @@
 // ?Get2DBorderVectorTo@Object@@QBEXPAUCoord3D@@PBU2@@Z
+// partial score=0.8617464377055171 date=2026-10-14
+// ?Get2DBorderVectorTo@Object@@QBEXPAUCoord3D@@PBU2@@Z
 // partial score=0.86 date=2026-10-13
 // ?Get2DBorderVectorTo@Object@@QBEXPAUCoord3D@@PBU2@@Z
 // partial score=0.8 date=2026-10-13

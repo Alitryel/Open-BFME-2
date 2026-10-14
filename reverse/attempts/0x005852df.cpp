@@ -1,4 +1,8 @@
 // ?findMeleeAttackPosition@HordeMeleeFormation@@QAE_NPAVObject@@PAUCoord3D@@0PBU3@_NPAH3@Z
+// partial score=0.8956530214424951 date=2026-10-14
+// ?findMeleeAttackPosition@HordeMeleeFormation@@QAE_NPAVObject@@PAUCoord3D@@0PBU3@_NPAH3@Z
+// partial score=0.8956530214424951 date=2026-10-14
+// ?findMeleeAttackPosition@HordeMeleeFormation@@QAE_NPAVObject@@PAUCoord3D@@0PBU3@_NPAH3@Z
 // partial score=0.8957 date=2026-10-13
 // W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?findMeleeAttackPosition@HordeMeleeFormation@@QAE_NPAVObject@@PAUCoord3D@@0PBU3@_NPAH3@Z

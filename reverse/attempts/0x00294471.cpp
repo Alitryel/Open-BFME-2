@@ -1,4 +1,6 @@
 // ?rva00294471@Object@@QAE_NPAXH@Z
+// partial score=0.8888972431077695 date=2026-10-14
+// ?rva00294471@Object@@QAE_NPAXH@Z
 // partial score=0.889067405355494 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // Native294471..2946AB RET8; owned Object callers and neutral existing pin

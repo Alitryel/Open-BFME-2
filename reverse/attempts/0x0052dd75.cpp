@@ -1,4 +1,6 @@
 // ?rva0052DD75@PathfindCell@@QAEMMHM@Z
+// partial score=0.9325556449450255 date=2026-10-14
+// ?rva0052DD75@PathfindCell@@QAEMMHM@Z
 // partial score=0.93256 date=2026-10-14
 // ?rva0052DD75@PathfindCell@@QAEMMHM@Z
 // cl: /ICode/Libraries/Include /O1 /G7 /DNDEBUG /MD /EHsc /arch:SSE

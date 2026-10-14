@@ -1,4 +1,6 @@
 // ?rva00031F90@GeneralAllocator@Allocator@EA@@QAEIPAX@Z
+// partial score=0.9095376892559306 date=2026-10-14
+// ?rva00031F90@GeneralAllocator@Allocator@EA@@QAEIPAX@Z
 // partial score=0.92 date=2026-10-13
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -28,8 +30,7 @@ unsigned int GeneralAllocator::rva00031F90(void *block) {
    result+=(unsigned int*)((char*)prev+(prev[1]&0x7ffffff8))!=chunk;
   }
   void *t2=top; if(next==t2 && top==t2) {
-   result+=(next[1]&0x7ffffff8)<0x10;
-   result+=((unsigned char)~(*(unsigned char*)(next+1)))&1&&1;
+   unsigned char flag=*(const volatile unsigned char*)(next+1);unsigned tag=next[1];result+=(tag&0x7ffffff8)<0x10;result+=((unsigned char)~flag)&1&&1;
   }
  }
  if(held) {--held->count;LeaveCriticalSection(held);}

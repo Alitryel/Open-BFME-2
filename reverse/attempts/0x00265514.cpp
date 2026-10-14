@@ -1,4 +1,6 @@
 // ?rva00265514@Object@@QBEPAUCoord3D@@PAU2@PBV1@@Z
+// partial score=0.8771628371628372 date=2026-10-14
+// ?rva00265514@Object@@QBEPAUCoord3D@@PAU2@PBV1@@Z
 // partial score=0.9027016814660873 date=2026-10-13
 // ?rva00265514@Object@@QBEPAUCoord3D@@PAU2@PBV1@@Z
 // partial score=0.8771628371628372 date=2026-10-09
@@ -43,8 +45,8 @@ Coord3D *Object::rva00265514(Coord3D *out,const Object *that)const
  if(radiusSum>=dist)
  
  {
-  r1_vwrite(((&(x)) ? (x) : (x))) = 0.0f;
-  r1_vwrite(y) = 0.0f;
+  x = 0.0f;
+  y = 0.0f;
   z=0.0f;
   
  }
