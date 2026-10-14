@@ -186,3 +186,77 @@ int Rva0073B640::rva0073B640(int row, int column) const
 {
 	return m_table[row][column];
 }
+
+// ?rva007584F0@Rva007584F0@@QAEXXZ @0x007584F0 12B and
+// ?rva00625870@Rva00625870@@QAEXXZ @0x00625870 12B: hand the +4 word to a
+// rowed member of the object held at +0 (CollisionManagerImpl::UnRegisterObject
+// 0x007592E0 / Gen009F5040::bfmeDropYQ 0x006278A0).
+class Rva009A36F0Param;
+class CollisionManagerImpl
+{
+public:
+	void UnRegisterObject(Rva009A36F0Param *param);
+};
+class Rva007584F0
+{
+public:
+	void rva007584F0();
+private:
+	CollisionManagerImpl *m_00;
+	Rva009A36F0Param *m_04;
+};
+void Rva007584F0::rva007584F0()
+{
+	m_00->UnRegisterObject(m_04);
+}
+class BfmeThingYQ;
+class Gen009F5040
+{
+public:
+	void bfmeDropYQ(BfmeThingYQ *thing);
+};
+class Rva00625870
+{
+public:
+	void rva00625870();
+private:
+	Gen009F5040 *m_00;
+	BfmeThingYQ *m_04;
+};
+void Rva00625870::rva00625870()
+{
+	m_00->bfmeDropYQ(m_04);
+}
+
+// ?rva006FBB70@Rva006FBB70@@QAE_NABVEAStringC@@@Z @0x006FBB70 22B: whether the
+// rowed lookup 0x0070B380 on the +0x08 member finds the key.
+class Rva0070B380
+{
+public:
+	void *lookup(const EAStringC &key);
+};
+class Rva006FBB70
+{
+public:
+	bool rva006FBB70(const EAStringC &key);
+private:
+	char m_pad[0x08];
+	Rva0070B380 m_08;
+};
+bool Rva006FBB70::rva006FBB70(const EAStringC &key)
+{
+	return m_08.lookup(key) != 0;
+}
+
+// ?rva00615230@ChunkLoadClass@@QAEKPAX@Z @0x00615230 15B: a four-byte read
+// through the rowed ChunkLoadClass::Read(void *, unsigned long) 0x006151A0.
+class ChunkLoadClass
+{
+public:
+	unsigned long Read(void *buffer, unsigned long nbytes);
+	unsigned long rva00615230(void *buffer);
+};
+unsigned long ChunkLoadClass::rva00615230(void *buffer)
+{
+	return Read(buffer, 4);
+}

@@ -722,3 +722,25 @@ struct Rva00565865Element;
 template void _STL::vector<Rva0054107FRecord>::clear();
 template void _STL::vector<Rva0054103E>::clear();
 template void _STL::vector<Rva00565865Element>::clear();
+
+// ?rva00600396@Rva00600396@@QAEHXZ @0x00600396 15B: the rowed 0x003F468D on
+// the object held at +0x14 with the +0x18 and +0x1C words.
+class Rva003F468D
+{
+public:
+	int rva003F468D(int a, int b);
+};
+class Rva00600396
+{
+public:
+	int rva00600396();
+private:
+	char m_pad[0x14];
+	Rva003F468D *m_14;
+	int m_18;
+	int m_1c;
+};
+int Rva00600396::rva00600396()
+{
+	return m_14->rva003F468D(m_18, m_1c);
+}

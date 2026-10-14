@@ -56402,3 +56402,8 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ?clear@?$vector@URva0054107FRecord@@V?$allocator@URva0054107FRecord@@@_STL@@@_STL@@QAEXXZ	0x00541BC9	11	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 11B; STLport vector clear as erase begin end via rowed erase 0x0054152D
 ?clear@?$vector@VRva0054103E@@V?$allocator@VRva0054103E@@@_STL@@@_STL@@QAEXXZ	0x00541BD4	11	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 11B; STLport vector clear as erase begin end via rowed erase 0x00541553
 ?clear@?$vector@URva00565865Element@@V?$allocator@URva00565865Element@@@_STL@@@_STL@@QAEXXZ	0x00565A7E	11	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 11B; STLport vector clear as erase begin end via rowed erase 0x00565865
+?rva00600396@Rva00600396@@QAEHXZ	0x00600396	15	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 15B; rowed 0x003F468D on object at +14 with +18 +1C words
+?rva007584F0@Rva007584F0@@QAEXXZ	0x007584F0	12	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 12B; UnRegisterObject of +4 word on object at +0
+?rva00625870@Rva00625870@@QAEXXZ	0x00625870	12	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 12B; bfmeDropYQ of +4 word on object at +0
+?rva006FBB70@Rva006FBB70@@QAE_NABVEAStringC@@@Z	0x006FBB70	22	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 22B; key found by rowed lookup 0x0070B380 on +08 member
+?rva00615230@ChunkLoadClass@@QAEKPAX@Z	0x00615230	15	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 15B; four-byte read via rowed ChunkLoadClass Read 0x006151A0
