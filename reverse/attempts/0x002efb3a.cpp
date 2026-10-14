@@ -1,4 +1,6 @@
 // ?rva002EFB3A@Pathfinder@@QAEXXZ
+// partial score=0.94 date=2026-10-14
+// ?rva002EFB3A@Pathfinder@@QAEXXZ
 // partial score=0.933969 date=2026-10-14
 // ?rva002EFB3A@Pathfinder@@QAEXXZ
 // partial score=0.917077 date=2026-10-13
@@ -35,6 +37,7 @@ public:
     unsigned int getType() const { return word&15; }
     Int getLayer() const { return (word>>4)&63; }
     unsigned int getRawWord() const { return word; }
+    Bool bit(int n) const { return ((word>>n)&1)!=0; }
     __forceinline Bool hasOccupants() const { Bool result=false; if(info) result=info->occupants!=0; return result; }
     __forceinline Bool hasGoals() const { Bool result=info!=0; if(result) result=info->goals!=0; return result; }
     __forceinline Bool hasReservations() const { Bool result=info!=0; if(result) result=info->reservations!=0; return result; }
@@ -176,7 +179,7 @@ void Pathfinder::rva002EFB3A()
                         case 1: color.blue=1; color.green=0.3f; color.red=0.3f; empty=false; break;
                         case 7:
                             color.blue=0.8f; empty=false;
-                            if ((cell->getRawWord()>>23)&1) color.green=0.2f;
+                            if (cell->bit(23)) color.green=0.2f;
                             break;
                         case 8:
                             color.blue=Rva002E7BB8Get(); color.red=Rva002E7BB8Get(); color.green=Rva002E7BB8Get(); empty=false;
