@@ -67,6 +67,32 @@ public:
 
 };
 
+class PreferenceMap;
+
+namespace _STL
+{
+template <class _T1, class _T2> struct pair;
+template <class _Pair> struct _Select1st;
+template <class _Tp> struct less;
+template <class _Tp> class allocator;
+template <class _Value> struct _Rb_tree_node;
+
+// The tree under the map: only its private key-search worker, the shared
+// AsciiString-keyed _M_find rowed at 0x001F8437, is named here.
+template <class _Key, class _Value, class _KeyOfValue, class _Compare, class _Alloc>
+class _Rb_tree
+{
+	friend class ::PreferenceMap;
+
+private:
+	template <class _KT> _Rb_tree_node<_Value> *_M_find(const _KT &) const throw();
+};
+}
+
+typedef _STL::pair<const AsciiString, AsciiString> PreferencePair;
+typedef _STL::_Rb_tree<AsciiString, PreferencePair, _STL::_Select1st<PreferencePair>,
+	_STL::less<AsciiString>, _STL::allocator<PreferencePair> > PreferenceTree;
+
 struct PreferenceNode
 {
 	unsigned char m_unreconstructed_00[0x14];
@@ -76,7 +102,10 @@ struct PreferenceNode
 class PreferenceMap
 {
 public:
-	PreferenceNode *find(const AsciiString &) const throw();
+	PreferenceNode *find(const AsciiString &key) const
+	{
+		return (PreferenceNode *)((const PreferenceTree *)this)->_M_find(key);
+	}
 	PreferenceNode *end(void) const { return m_end; }
 
 	PreferenceNode *m_end;
