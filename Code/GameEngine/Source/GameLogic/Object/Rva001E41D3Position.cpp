@@ -26,6 +26,12 @@ struct Rva001E41D3Matrix
         result.z = m[2][3];
         return result;
     }
+    __forceinline void set(const Rva001E41D3Result &v)
+    {
+        m[0][3] = v.x;
+        m[1][3] = v.y;
+        m[2][3] = v.z;
+    }
 };
 class Rva001E41D3
 {
@@ -33,8 +39,18 @@ class Rva001E41D3
     Rva001E41D3Matrix matrix;
 public:
     Rva001E41D3Result rva001E41D3();
+    void rva001E41AC(const Rva001E41D3Result &position);
 };
 Rva001E41D3Result Rva001E41D3::rva001E41D3()
 {
     return matrix.get();
+}
+
+// Native1E41AC..1E41D3 (39B), just ahead of the getter: the setter twin. All
+// three incoming floats load before the matrix stores, so the argument is
+// copied into a local first.
+void Rva001E41D3::rva001E41AC(const Rva001E41D3Result &position)
+{
+    Rva001E41D3Result copy(position);
+    matrix.set(copy);
 }
