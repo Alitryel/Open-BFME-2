@@ -1,4 +1,6 @@
 // ?rva0014D5B0@SourceNamespace_AmbientLight@FXShaderParameterSourceNamespaceSAS@@QAEXPAUID3DXEffect@@PBD@Z
+// partial score=0.96 date=2026-10-14
+// ?rva0014D5B0@SourceNamespace_AmbientLight@FXShaderParameterSourceNamespaceSAS@@QAEXPAUID3DXEffect@@PBD@Z
 // partial score=0.95 date=2026-10-14
 // ?rva0014D5B0@SourceNamespace_AmbientLight@FXShaderParameterSourceNamespaceSAS@@QAEXPAUID3DXEffect@@PBD@Z
 // partial score=0.92 date=2026-10-13
@@ -954,7 +956,7 @@ void FXShaderParameterSourceNamespaceSAS::SourceNamespace_AmbientLight::rva0014D
 {
 	float color[4];
 	Rva0013F6F0LightEnv *env = (Rva0013F6F0LightEnv *)DX8Wrapper::Get_Light_Environment();
-	if (env != 0 && m_index == 0)
+	if ((m_index ? env : env) != 0 && m_index == 0)
 	{
 		const Rva0013F6F0LightEnv::Vector3 &ambient = env->Get_Equivalent_Ambient();
 		float ax = ambient.X;
