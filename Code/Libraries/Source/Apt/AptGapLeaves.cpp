@@ -282,3 +282,21 @@ int Rva006E3210Field::isValue(int value) const
 {
 	return value == m_8;
 }
+
+// ??_GRva006E00B0Triple@@QAEPAXI@Z @ 0x006E00B0 (40B): scalar deleting
+// destructor of a 0x1C-byte chain-pool object whose destructor clears its
+// first three words.
+class Rva006DB270 {public:void freeBlock(void *, int);};
+extern Rva006DB270 *g_pChainBlockAllocator;
+class Rva006E00B0Triple
+{
+public:
+	~Rva006E00B0Triple() { m_0 = 0; m_4 = 0; m_8 = 0; }
+	static void operator delete(void *p, unsigned int n) { g_pChainBlockAllocator->freeBlock(p, n); }
+private:
+	int m_0, m_4, m_8;
+	char m_pad[0x1C - 12];
+};
+// The delete helper only makes the compiler emit the deleting destructor.
+// ?deleteRva006E00B0Triple absent-from-retail
+void deleteRva006E00B0Triple(Rva006E00B0Triple *p) { delete p; }

@@ -55158,3 +55158,4 @@ CatchContinuation_0x0073F646	0x0073F646	194	no-boundary	Not a standalone functio
 ?test@Rva006E0060Flags@@QBEII@Z	0x006E0090	10	landed	add_match verified Code/Libraries/Source/Apt/AptGapLeaves.cpp 10B; and mask against +0x10 flag word
 ?release@Rva006E3200Owner@@QAEXXZ	0x006E3200	10	landed	add_match verified Code/Libraries/Source/Apt/AptGapLeaves.cpp 10B; +0 block to rowed Rva006CD460Free
 ?isValue@Rva006E3210Field@@QBEHH@Z	0x006E3210	19	landed	add_match verified Code/Libraries/Source/Apt/AptGapLeaves.cpp 19B; arg equals +8 word
+??_GRva006E00B0Triple@@QAEPAXI@Z	0x006E00B0	40	landed	add_match verified Code/Libraries/Source/Apt/AptGapLeaves.cpp 40B; scalar deleting dtor: clear three words then sized 0x1C free to chain pool E176E8

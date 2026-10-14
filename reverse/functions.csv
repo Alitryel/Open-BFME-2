@@ -88634,3 +88634,4 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ?test@Rva006E0060Flags@@QBEII@Z,,0x006E0090,10,Code/Libraries/Source/Apt/AptGapLeaves.cpp,matched,and mask against +0x10 flag word
 ?release@Rva006E3200Owner@@QAEXXZ,,0x006E3200,10,Code/Libraries/Source/Apt/AptGapLeaves.cpp,matched,+0 block to rowed Rva006CD460Free
 ?isValue@Rva006E3210Field@@QBEHH@Z,,0x006E3210,19,Code/Libraries/Source/Apt/AptGapLeaves.cpp,matched,arg equals +8 word
+??_GRva006E00B0Triple@@QAEPAXI@Z,,0x006E00B0,40,Code/Libraries/Source/Apt/AptGapLeaves.cpp,matched,scalar deleting dtor: clear three words then sized 0x1C free to chain pool E176E8
