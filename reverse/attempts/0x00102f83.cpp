@@ -1,4 +1,6 @@
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
+// partial score=0.8044951179662893 date=2026-10-14
+// ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.7862699169745524 date=2026-10-14
 // ?rva00102F83@W3DCamTransform@@QAEXPAUCameraTransformInput@@@Z
 // partial score=0.7682677643035726 date=2026-10-14
@@ -454,17 +456,17 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     float factor=1.0-(v->groundLevel/sourcePos.Z);
     Matrix3D angleTransform(Vector3(0,0,1),v->angle);
     Matrix3D pitchTransform(Vector3(1,0,0),v->pitch);
+    sourcePos.X+=v->pos.x;sourcePos.Y+=v->pos.y;
     pitchTransform.mulVector3(sourcePos); angleTransform.mulVector3(sourcePos);
     sourcePos.X*=factor;sourcePos.Y*=factor;sourcePos.Z*=factor;
-    sourcePos.X+=v->pos.x;sourcePos.Y+=v->pos.y;
     targetPos.X+=v->pos.x;targetPos.Y+=v->pos.y;
     Object *object=v->liveCamera?TheGameLogic->findObjectByID(v->lock):0;
     if(v->liveCamera && (!object || (object->cameraKindFlags()&0x10))) {
         Matrix3D angleTransform2(Vector3(0,0,1),v->angle);
         Matrix3D pitchTransform2(Vector3(1,0,0),v->pitch);
         pitchTransform2.mulVector3(sourcePos);angleTransform2.mulVector3(sourcePos);
-        sourcePos.X+=v->pos.x;sourcePos.Y+=v->pos.y;sourcePos.Z+=v->pos.z;
         targetPos.X+=v->pos.x;targetPos.Y+=v->pos.y;targetPos.Z+=v->pos.z+v->targetZAdjustment;
+        sourcePos.X+=v->pos.x;sourcePos.Y+=v->pos.y;sourcePos.Z+=v->pos.z;
     } else {
         sourcePos.Z+=v->groundLevel;
         targetPos.Z+=v->groundLevel+v->targetZAdjustment;
@@ -500,13 +502,14 @@ void W3DCamTransform::rva00102F83(CameraTransformInput *v)
     }
     if(v->positionHold) {
         Vector3 delta(v->source.X-sourcePos.X,v->source.Y-sourcePos.Y,v->source.Z-sourcePos.Z);
+        targetPos.X+=delta.X;targetPos.Y+=delta.Y;targetPos.Z+=__vref(delta.Z);
         sourcePos=v->source;
-        targetPos.X+=delta.X;targetPos.Y+=delta.Y;targetPos.Z+=delta.Z;
         v->pos=v->previousPos;v->pos.x+=delta.X;v->pos.y+=delta.Y;v->previousPos=v->pos;
         if(!v->retainHold)v->positionHold=false;
     }
     v->source=sourcePos;v->target=targetPos;
     float dx=v->source.X-v->target.X,dy=v->source.Y-v->target.Y,dz=v->source.Z-v->target.Z;
+    _ReadWriteBarrier();
     v->distance=WWMath::Sqrt(dx*dx+dz*dz+dy*dy);
     if(!v->special) transitionLiveMode(&sourcePos,&targetPos,(View*)v);
     if(v->explicitTarget.lengthSqr()>0)targetPos.Set(v->explicitTarget.x,v->explicitTarget.y,v->explicitTarget.z);
