@@ -21,7 +21,6 @@ public:
 	virtual ~WeaponTemplate();
 
 	void reset( void ) { }
-	void deleteInstance( void ) { delete this; }
 
 	WeaponTemplate *friend_clearNextTemplate( void ) { WeaponTemplate *ret = m_nextTemplate; m_nextTemplate = 0; return ret; }
 	bool isOverride( void ) { return m_nextTemplate != 0; }
@@ -52,7 +51,6 @@ private:
 	WeaponTemplateVector m_weaponTemplateVector;			///< this+0x0C
 };
 
-// ?reset@WeaponStore@@UAEXXZ present-unmatched
 void WeaponStore::reset()
 {
 	// clean up any overriddes.
@@ -63,7 +61,8 @@ void WeaponStore::reset()
 		{
 			WeaponTemplate *override = wt;
 			wt = wt->friend_clearNextTemplate();
-			override->deleteInstance();
+			// Native dispatch uses destructor flag 0 then global delete.
+			::delete override;
 			*it = wt;
 		}
 	}
