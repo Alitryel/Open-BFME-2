@@ -363,7 +363,8 @@ public:
 // TheRecorder (0x00A02290).
 enum RecorderModeType
 {
-	RECORDERMODETYPE_RECORD
+	RECORDERMODETYPE_RECORD,
+	RECORDERMODETYPE_PLAYBACK
 };
 
 class RecorderClass
@@ -404,6 +405,7 @@ class Rva002BA8F1Logic
 {
 public:
 	void rva002B36F3();
+	int rva002B5256(bool flag);
 };
 
 void InitRandom(unsigned int seed);
@@ -992,5 +994,116 @@ AptQuitMenu::AptQuitMenu(void *context) : _bfme_AptGameWindow(context)
 	{
 		AsciiString key("APT:Pause");
 		g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch("GUI:Menu"), false);
+	}
+}
+
+
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+
+// The Apt window manager's invoke surface (same view as AptOnlineLogin.cpp).
+class Rva00222A8BTarget
+{
+public:
+	int invoke(void *,const char *,int,const char *,void *,void *,void *,void *);
+};
+
+// The rowed 0x00222547 window helper, whose integer result the Apt layer
+// passes through as the movie pointer.
+class AptPlayer
+{
+public:
+	static int GetLevelIndex(GameWindow *window);
+};
+
+// The living world's rowed 0x002B254F, whose int callers read only its low byte.
+class Rva002B254F
+{
+public:
+	int rva002B254F();
+};
+
+// The 0x00DFEF18 singleton (address-named view) and its +0x14 dword.
+class Rva002D3627Host
+{
+public:
+	unsigned char m_pad000[0x14];
+	int m_14; // +0x14
+};
+
+extern Rva002D3627Host *g_00DFEF18;
+
+// Greys out the named button of a screen's Apt movie.
+static __forceinline void DisableButton(GameWindow *window, const char *button)
+{
+	((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex(window)), "disableButton", 1, button, 0, 0, 0, 0);
+}
+
+// Retail 0x0051B5B5, 821 bytes: "AptQuitMenu::OnInitialized". Disables
+// what the current game cannot do -- in a multiplayer game or a replay
+// restart (or, in a war of the ring game, exit), save unless a saveable war
+// of the ring game still has players to lose, and load; in a war of the
+// ring game restart and the save buttons by the living world's state --
+// then labels the restart button Restart, Forfeit or Surrender.
+// Ported from U1 r6 bank (ws/u1/build/W7-U1/wins/pc_0x0051b5b5.cpp, exact
+// nd0 via chain.py barrier after the else-branch livingWorld local).
+void AptQuitMenu::OnInitialized(const char *unused_in)
+{
+	const char * unused = unused_in;
+	if ((TheGameLogic && TheGameLogic->isInMultiplayerGame())
+		|| (TheRecorder && TheRecorder->getMode() == RECORDERMODETYPE_PLAYBACK))
+	{
+		if (TheGameLogic->m_114 != 3)
+		{
+			if ((*(BfmeSelectionState **)&TheLivingWorldLogic) && (*(BfmeSelectionState **)&TheLivingWorldLogic)->isSelectionLocked())
+				DisableButton(this, "ExitMission");
+		}
+		else
+			DisableButton(this, "Restart");
+		if (!((Rva00210C66CmpBoolField *)TheGameLogic)->get() || !(*(BfmeSelectionState **)&TheLivingWorldLogic) || !(*(BfmeSelectionState **)&TheLivingWorldLogic)->isSelectionLocked())
+			DisableButton(this, "Save");
+		if (((Rva00210C66CmpBoolField *)TheGameLogic)->get() && (*(BfmeSelectionState **)&TheLivingWorldLogic))
+		{
+			if (((Rva002BA8F1Logic *)(*(BfmeSelectionState **)&TheLivingWorldLogic))->rva002B5256(false) < ((Rva002BA8F1Logic *)(*(BfmeSelectionState **)&TheLivingWorldLogic))->rva002B5256(true))
+				DisableButton(this, "Save");
+		}
+		DisableButton(this, "Load");
+	}
+	else
+	{
+		BfmeSelectionState *livingWorld = (*(BfmeSelectionState **)&TheLivingWorldLogic);
+		_ReadWriteBarrier();
+		if (livingWorld && livingWorld->isSelectionLocked())
+		{
+			if (!TheGameLogic || TheGameLogic->m_114 == 3
+				|| (unsigned char)((Rva002B254F *)livingWorld)->rva002B254F() != 0)
+				DisableButton(this, "Restart");
+			int count = g_00DFEF18->m_14;
+			if (count == 0)
+			{
+				DisableButton(this, "Save");
+				DisableButton(this, "Load");
+			}
+			if ((unsigned char)((Rva002B254F *)(*(BfmeSelectionState **)&TheLivingWorldLogic))->rva002B254F() != 0)
+				DisableButton(this, "Save");
+		}
+	}
+	if (TheGameLogic && TheGameLogic->m_114 != 3)
+	{
+		if ((*(BfmeSelectionState **)&TheLivingWorldLogic) && (*(BfmeSelectionState **)&TheLivingWorldLogic)->isSelectionLocked())
+		{
+			AsciiString key("APT:RestartOrSurrender");
+			g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch("APT:Surrender"), false);
+		}
+		else
+		{
+			AsciiString key("APT:RestartOrSurrender");
+			g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch("APT:Forfeit"), false);
+		}
+	}
+	else
+	{
+		AsciiString key("APT:RestartOrSurrender");
+		g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch("APT:Restart"), false);
 	}
 }
