@@ -56461,3 +56461,5 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ?rva0066EDA0@Rva0066EDA0@@QAEXXZ	0x0066EDA0	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2A.cpp 5B; tail jump to rowed clear 0x0066EB40
 ?rva006FE960@Rva006FE960@@QAEXH@Z	0x006FE960	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 5B; tail jump to rowed AptBasePtrStack rva006E3AA0
 ?rva006BF9F0@Rva006BF9F0@@QAEXPAURva0087FDC0Element@@IABU2@@Z	0x006BF9F0	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 5B; tail jump to rowed vector _M_fill_insert 0x006BF800
+?Rva005EA966@@YAPAMPAMHABH@Z	0x005EA966	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; tail jump to rowed Rva005EA1B1Fill with same arguments
+?Rva005EA5CE@@YAPAMPAMHABHABURva005EA5CETag@@@Z	0x005EA5CE	21	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 21B; tagged four-argument fill dispatch to rowed Rva005EA1B1Fill

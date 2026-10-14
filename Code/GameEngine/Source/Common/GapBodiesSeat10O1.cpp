@@ -1294,3 +1294,21 @@ void Rva00628C69::rva00628C69()
 {
 	m_array.RemoveAll();
 }
+
+// Fill wrappers over the rowed cdecl Rva005EA1B1Fill 0x005EA1B1:
+// ?Rva005EA966@@YAPAMPAMHABH@Z @0x005EA966 5B forwards the same three
+// arguments (a tail jump); ?Rva005EA5CE@@YAPAMPAMHABHABURva005EA5CETag@@@Z
+// @0x005EA5CE 21B takes an extra empty tag argument, so it re-pushes the
+// three and calls (the shape of STLport's __uninitialized_fill_n dispatch).
+float *Rva005EA1B1Fill(float *dest, int count, const int &value);
+struct Rva005EA5CETag
+{
+};
+float *Rva005EA966(float *dest, int count, const int &value)
+{
+	return Rva005EA1B1Fill(dest, count, value);
+}
+float *Rva005EA5CE(float *dest, int count, const int &value, const Rva005EA5CETag &)
+{
+	return Rva005EA1B1Fill(dest, count, value);
+}
