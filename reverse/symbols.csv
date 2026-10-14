@@ -4835,7 +4835,6 @@ name,address,notes
 ??1Rva00F2ECB@@UAE@XZ,0x00F2ECB,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0x9A21C; identity unproven, address-derived name
 ??1Rva00FF4D6@@UAE@XZ,0x00FF4D6,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0x7E10A; identity unproven, address-derived name
 ??1Rva2D6B80Middle@@UAE@XZ,0x0024A797,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-??1RvaPair00207E26@@QAE@XZ,0x0048BA39,8-byte AsciiString-plus-int RvaPair element dtor folds to 5B AsciiString cleanup at 0x48BA39; retail range Destroy at 0x32C0CA calls same address via key dtor; stride-identical ICF twin of rowed AsciiString dtor; honest address name for link alias
 ??1RvaVec002B80CE@@QAE@XZ,0x002B80CE,legacy address view of recovered tree destructor; calls clear 0x2B70B3 then frees header; native definition and link alias in stlport_int_ascii_tree_dtor.cpp
 ??1RvaVecAnimSet@@QAE@XZ,0x001F0D04,opaque 12B vector-member dtor (range-destroy via AnimSet _Destroy 0x1F0801); serves GenericObjectCreationNugget member +0x14; true element type unproven (AnimSet per destroyee)
 ??1RvaVecAscii@@QAE@XZ,0x0002CC70,opaque 12B vector-member dtor (range-destroy via AsciiString _Destroy 0x2CB64); serves GenericObjectCreationNugget members +0x04/+0x114/+0x120; true element type unproven (AsciiString per destroyee)
@@ -14049,7 +14048,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?_M_advance@?$_Deque_iterator_base@URva0054A230Element@@@_STL@@QAEXH@Z,0x00549CD4,
 ?_M_insert_overflow@?$vector@URva002E01C6Element@@V?$allocator@URva002E01C6Element@@@_STL@@@_STL@@IAEXPAURva002E01C6Element@@ABU3@ABU__false_type@2@I_N@Z,0x00148D00,
 ?_M_insert_overflow@?$vector@URva004DFCB0Element@@V?$allocator@URva004DFCB0Element@@@_STL@@@_STL@@IAEXPAURva004DFCB0Element@@ABU3@ABU__false_type@2@I_N@Z,0x002DFCF6,
-??1Rva00239D49Element@@QAE@XZ,0x0048BA39,
 ??1Rva0042438DElement@@QAE@XZ,0x0007FAB3,
 ??4Rva00254D65Element@@QAEAAU0@ABU0@@Z,0x001D9990,
 ??4Rva00215696Element@@QAEAAU0@ABU0@@Z,0x00215530,
@@ -14075,7 +14073,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?_M_lower_bound@?$_Rb_tree@URva002F1C89Element@@U?$pair@$$CBURva002F1C89Element@@H@_STL@@U?$_Select1st@U?$pair@$$CBURva002F1C89Element@@H@_STL@@@3@U?$less@URva002F1C89Element@@@3@V?$allocator@U?$pair@$$CBURva002F1C89Element@@H@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBURva002F1C89Element@@H@_STL@@@2@ABURva002F1C89Element@@@Z,0x00382A92,
 ?_M_upper_bound@?$_Rb_tree@URva004FCD6DElement@@U?$pair@$$CBURva004FCD6DElement@@H@_STL@@U?$_Select1st@U?$pair@$$CBURva004FCD6DElement@@H@_STL@@@3@U?$less@URva004FCD6DElement@@@3@V?$allocator@U?$pair@$$CBURva004FCD6DElement@@H@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBURva004FCD6DElement@@H@_STL@@@2@ABURva004FCD6DElement@@@Z,0x004FF471,
 ?_M_lower_bound@?$_Rb_tree@URva004FCD6DElement@@U?$pair@$$CBURva004FCD6DElement@@H@_STL@@U?$_Select1st@U?$pair@$$CBURva004FCD6DElement@@H@_STL@@@3@U?$less@URva004FCD6DElement@@@3@V?$allocator@U?$pair@$$CBURva004FCD6DElement@@H@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBURva004FCD6DElement@@H@_STL@@@2@ABURva004FCD6DElement@@@Z,0x00382A92,
-??1Rva000BC67AElement@@QAE@XZ,0x0048BA39,
 ?_M_erase@?$_Rb_tree@URva0021A917Element@@U?$pair@$$CBURva0021A917Element@@H@_STL@@U?$_Select1st@U?$pair@$$CBURva0021A917Element@@H@_STL@@@3@U?$less@URva0021A917Element@@@3@V?$allocator@U?$pair@$$CBURva0021A917Element@@H@_STL@@@3@@_STL@@AAEXPAU?$_Rb_tree_node@U?$pair@$$CBURva0021A917Element@@H@_STL@@@2@@Z,0x00219880,
 ?_M_erase@?$_Rb_tree@URva00286656Element@@U?$pair@$$CBURva00286656Element@@H@_STL@@U?$_Select1st@U?$pair@$$CBURva00286656Element@@H@_STL@@@3@U?$less@URva00286656Element@@@3@V?$allocator@U?$pair@$$CBURva00286656Element@@H@_STL@@@3@@_STL@@AAEXPAU?$_Rb_tree_node@U?$pair@$$CBURva00286656Element@@H@_STL@@@2@@Z,0x00286183,
 ?_M_erase@?$_Rb_tree@URva002A1B9DElement@@U?$pair@$$CBURva002A1B9DElement@@H@_STL@@U?$_Select1st@U?$pair@$$CBURva002A1B9DElement@@H@_STL@@@3@U?$less@URva002A1B9DElement@@@3@V?$allocator@U?$pair@$$CBURva002A1B9DElement@@H@_STL@@@3@@_STL@@AAEXPAU?$_Rb_tree_node@U?$pair@$$CBURva002A1B9DElement@@H@_STL@@@2@@Z,0x002A13DB,
