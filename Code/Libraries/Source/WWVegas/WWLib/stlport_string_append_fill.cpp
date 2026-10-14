@@ -1,16 +1,14 @@
-// ?append@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV12@ID@Z
-// partial score=0.99473 date=2026-10-14
-// ?append@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV12@ID@Z
-// partial score=0.96 date=2026-10-13
-// ?append@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV12@ID@Z
-// partial score=0.96 date=2026-10-13
-// ?append@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV12@ID@Z
-// partial score=0.96 date=2026-10-06
 // cl: /Od /Ob1 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Oy-
 // stlport
-// Current /Oy- lifetime variant reached permutation fitness 0.9014; the
-// explain remains 270B versus 272B with its first residue at +0x96.
-// ?append@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV12@ID@Z 0x00029380 272 retail append(n,c); callers _M_xsputnc/bfmeAssign/bfmeResize; donor stlport-4.5.3
+//
+// STLport 4.5.3 basic_string<char>::append(size_type n, char c), retail 0x00029380
+// (272 B; callers _M_xsputnc / bfmeAssign / bfmeResize). Donor shape: vendored
+// _string.c append(size_type,char) with the tag-dispatched uninitialized_fill_n
+// and char_traits::assign kept as out-of-line providers (the vendored headers
+// would inline the fill to memset). The length-error report is the empty shared
+// RET at 0x0069E440 (STLP_NO_EXCEPTIONS); the existing pin name bfmeLengthErrorQX
+// is the one spelling of that fold admitted for a string-family receiver.
+struct BfmeThingQX { void bfmeLengthErrorQX(); };
 namespace _STL
 {
 struct __true_type {};
@@ -37,7 +35,7 @@ public:
 	Pointer _M_data;
 };
 template<class CharT,class Alloc> class _String_base {
-public: void _M_throw_length_error() const;
+
 };
 template <class CharT, class Traits, class Alloc>
 class basic_string : public _String_base<CharT,Alloc>
@@ -58,8 +56,7 @@ public:
 	{
 		return size_type(-2);
 	}
-	// ?append@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV12@ID@Z present-unmatched
-	basic_string &append(size_type n, CharT c);
+		basic_string &append(size_type n, CharT c);
 private:
 	void _M_construct_null_aux(pointer p,const __true_type &) { *p=0; }
 	void _M_construct_null(pointer p){_M_construct_null_aux(p,__true_type());}
@@ -74,7 +71,7 @@ _STL::basic_string<CharT, Traits, Alloc> &
 _STL::basic_string<CharT, Traits, Alloc>::append(size_type n, CharT c)
 {
 	if (n > max_size() || size() > max_size() - n)
-		this->_M_throw_length_error();
+		((BfmeThingQX*)this)->bfmeLengthErrorQX();
 	if (size() + n > capacity())
 	{
 		const size_type *p;

@@ -711,6 +711,7 @@ Code/Libraries/Source/WWVegas/WWLib/stlport_set_int_tree_copy_ctor.cpp,-O2,2,1,r
 Code/Libraries/Source/WWVegas/WWLib/stlport_sort_s4sortelem8.cpp,,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_sort_s4sortelem8_desc.cpp,,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_stdexcept_dtors_od.cpp,-Od,10,10,region default loses rows
+Code/Libraries/Source/WWVegas/WWLib/stlport_string_append_fill.cpp,-Od,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bool.cpp,,5,1,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_vector_bool_assignment.cpp,-G7,3,1,region default loses rows
 Code/Libraries/Source/WWVegas/WWLib/stlport_vector_geometryshape_base.cpp,-O1 -G7,2,1,region default loses rows
