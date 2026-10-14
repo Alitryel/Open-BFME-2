@@ -18,6 +18,9 @@
 
 #include "ascii_string.h"
 
+// The matched destructor unit provides retail's module-data vtable.
+extern "C" const void *__identifier("??_7RampageBehaviorModuleData@@6B@")[];
+
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
 namespace _STL {
@@ -65,7 +68,7 @@ private:
 
 // ??0RampageBehaviorModuleData@@QAE@XZ @0x458C0F
 RampageBehaviorModuleData::RampageBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C40EF8))
+	: m_vtable(reinterpret_cast<const void *>(__identifier("??_7RampageBehaviorModuleData@@6B@")))
 	, m_healthThreshold(TheWritableGlobalData->m_value)
 	, m_lifeTimer(0)
 	, m_angryLifeTimer(0)
