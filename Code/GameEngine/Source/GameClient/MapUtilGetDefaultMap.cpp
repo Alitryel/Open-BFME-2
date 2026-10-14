@@ -1,7 +1,7 @@
 // ?getDefaultMap@@YA?AVAsciiString@@_N@Z @ 0x0030582D 204B
 // Retail sorts filtered metadata pointers and returns the selected filename.
 // The 0x00302459 collector is recovered in this translation unit.
-// cl: /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 #define free bfmeUnusedCRTFree
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
@@ -27,11 +27,15 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 }
 #include <algorithm>
 #include "ascii_string.h"
+#include "unicode_string.h"
 
 class MapMetaData
 {
 public:
-	char unknown00[0x50];
+	char unknown00[0x24];
+	bool official;
+	char unknown25[0x50 - 0x25];
+	UnicodeString rva00300D0E();
 	AsciiString m_fileName;
 	char unknown54[0x100 - 0x54];
 };
@@ -101,3 +105,143 @@ AsciiString getDefaultMap(bool isMultiplayer)
 	return AsciiString::TheEmptyString;
 }
 #pragma optimize("", on)
+
+// Retail 0x00304744..0x00304BA9 (1125B), the BFME2 map-list population
+// counterpart of ZH/BFME1 populateMapListboxNoReset. The BFME1 source at
+// 23b143233b5a8664a3bdf8572df6d905c310a5a1 supplies the semantic guide;
+// BFME2 uses a flags argument and profile-specific RealTimeStatsPreferences.
+// Native accesses establish MapMetaData's official byte +0x24, filename
+// +0x50 and 0x100-byte stride. The RVA name retains identity uncertainty.
+// Keep the real collector above this caller: its visibility separates the
+// selection-count constant from the scrolling minimum and reproduces retail.
+class GameWindow;
+class Image
+{
+public:
+	char gap[0x24];
+	int width;
+	int getImageWidth() const { return width; }
+};
+class ImageCollection
+{
+public:
+	const Image *findImageByName(const AsciiString &);
+};
+extern ImageCollection *TheMappedImageCollection;
+
+class UserPreferences
+{
+public:
+	virtual ~UserPreferences();
+	int rva00537190(AsciiString, int);
+	char storage[16];
+};
+class SkirmishPreferences : public UserPreferences
+{
+public:
+	SkirmishPreferences(int);
+	virtual ~SkirmishPreferences();
+	UnicodeString Rva0043B9F5();
+private:
+	int profileIndex;
+	void *names;
+	AsciiString currentName;
+};
+class RealTimeStatsPreferences : public UserPreferences
+{
+public:
+	RealTimeStatsPreferences(const UnicodeString &);
+	virtual ~RealTimeStatsPreferences();
+};
+int GadgetListBoxGetNumColumns(GameWindow*);
+int GadgetListBoxGetColumnWidth(GameWindow*,int);
+void GadgetListBoxSetListLength(GameWindow*,int);
+void GadgetListBoxReset(GameWindow*);
+int GadgetListBoxAddEntryImage(GameWindow*,const Image*,int,int,int,int,bool,int);
+int GadgetListBoxAddEntryText(GameWindow*,UnicodeString,int,int,int,bool);
+void GadgetListBoxSetItemData(GameWindow*,void*,int,int);
+void GadgetListBoxSetSelected(GameWindow*,const int*,int);
+int GadgetListBoxGetTopVisibleEntry(GameWindow*);
+int Rva00324807(GameWindow*);
+void GadgetListBoxSetTopVisibleEntry(GameWindow*,int);
+void rva00302459(unsigned,_STL::vector<MapMetaData*>*);
+struct Rva003014D6Cmp { bool operator()(MapMetaData*,MapMetaData*)const; };
+template<class T>inline const T &minValue(const T&a,const T&b){return a<b?a:b;}
+template<class T>inline const T &maxValue(const T&a,const T&b){return a>b?a:b;}
+
+int Rva00304744Populate(GameWindow *listbox, unsigned flags, const AsciiString &mapToSelect)
+{
+	if (!TheMapCache) return -1;
+	if (!listbox) return -1;
+	GadgetListBoxSetListLength(listbox, 1000);
+	const Image *easy = 0, *medium = 0, *brutal = 0, *maximum = 0;
+	RealTimeStatsPreferences *honors = 0;
+	int w = 10, h = 10;
+	int numColumns = GadgetListBoxGetNumColumns(listbox);
+	if (numColumns > 1) {
+		SkirmishPreferences preferences(0);
+		honors = ::new RealTimeStatsPreferences(preferences.Rva0043B9F5());
+		easy = TheMappedImageCollection->findImageByName("Star-Bronze");
+		medium = TheMappedImageCollection->findImageByName("Star-Silver");
+		brutal = TheMappedImageCollection->findImageByName("Star-Gold");
+		maximum = TheMappedImageCollection->findImageByName("Star-Gold");
+		w = maximum ? maximum->getImageWidth() : 10;
+		int columnWidth = GadgetListBoxGetColumnWidth(listbox, 0);
+		w = minValue(columnWidth, w);
+		h = w;
+	}
+	if (!(flags & 0x40)) GadgetListBoxReset(listbox);
+	_STL::vector<MapMetaData *> maps;
+	rva00302459(flags, &maps);
+	_STL::vector<MapMetaData *>::iterator first = maps.begin();
+	_STL::sort(first, maps.end(), Rva003014D6Cmp());
+	int selectionIndex = -1;
+	_STL::vector<MapMetaData *>::iterator it = first;
+	if (it != maps.end()) {
+		do {
+			MapMetaData *md = *it;
+			int index = -1;
+			const int defaultIndex = index;
+			int imageData = defaultIndex;
+			if (numColumns > 1 && md->official) {
+				int numEasy = honors->rva00537190(AsciiString(md->m_fileName.str()), 2);
+				int numMedium = honors->rva00537190(AsciiString(md->m_fileName.str()), 3);
+				int numBrutal = honors->rva00537190(AsciiString(md->m_fileName.str()), 4);
+				int numMaximum = honors->rva00537190(AsciiString(md->m_fileName.str()), 5);
+				if (numMaximum) {
+					imageData = 3;
+					index = GadgetListBoxAddEntryImage(listbox, maximum, -1, 0, w, h, true, -1);
+				} else if (numBrutal) {
+					imageData = 2;
+					index = GadgetListBoxAddEntryImage(listbox, brutal, -1, 0, w, h, true, -1);
+				} else if (numMedium) {
+					imageData = 2;
+					index = GadgetListBoxAddEntryImage(listbox, medium, -1, 0, w, h, true, -1);
+				} else if (numEasy) {
+					imageData = 1;
+					index = GadgetListBoxAddEntryImage(listbox, easy, -1, 0, w, h, true, -1);
+				} else {
+					imageData = 0;
+					index = GadgetListBoxAddEntryImage(listbox, 0, -1, 0, w, h, true, -1);
+				}
+			}
+			index = GadgetListBoxAddEntryText(listbox, md->rva00300D0E(), -1, index, numColumns - 1, true);
+			if (((const StringBase<char> *)&md->m_fileName)->compare(*(const StringBase<char> *)&mapToSelect) == 0)
+				selectionIndex = index;
+			GadgetListBoxSetItemData(listbox, (void *)md->m_fileName.str(), index, 0);
+			if (numColumns > 1) GadgetListBoxSetItemData(listbox, (void *)imageData, index, 1);
+			++it;
+		} while (it != maps.end());
+	}
+	GadgetListBoxSetSelected(listbox, &selectionIndex, 1);
+	if (selectionIndex >= 0) {
+		int top = GadgetListBoxGetTopVisibleEntry(listbox), bottom = Rva00324807(listbox);
+		int rows = bottom - top;
+		if (selectionIndex >= bottom) {
+			int newTop = maxValue(0, selectionIndex - maxValue(1, rows / 2));
+			GadgetListBoxSetTopVisibleEntry(listbox, newTop);
+		}
+	}
+	if (honors) ::delete honors;
+	return selectionIndex;
+}
