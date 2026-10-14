@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /DNDEBUG /MD /EHsc
 //
 // StrategicInGameUIQueueUnitButton.cpp -- StrategicInGameUI::QueueUnitButton
 // members at their WorldBuilder home (reverse/wb_name_leads.csv); retail
@@ -64,9 +64,9 @@ class QueueUnitButtonRegion
 {
 public:
 	virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
-	virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
+	virtual void v04(); virtual void v05(); virtual void v06(); virtual bool canQueue(int);
 	virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
-	virtual void v12();
+	virtual int getBuildProgress();
 	virtual const QueueUnitButtonIds *getBuildQueue();
 };
 
@@ -217,4 +217,54 @@ void StrategicInGameUI::QueueUnitButton::OnRightClicked()
 TreeHintRef00217D4C StrategicInGameUI::QueueUnitButton::CreateHelp()
 {
 	return TreeHintRef00217D4C((TargetRef00217D4C *)new InGameSimpleHelp(m_helpTitle, m_helpText));
+}
+
+// Native 5F8986..5F89A4 counts queued IDs; 5F89A4..5F89CA finds the
+// first index. WB 16341E0 and 16342B0 independently prove their loops.
+// Progress 5F8A0C..5F8A7E is WB 1634230; update 5F8A7E..5F8B1C
+// is WB 1634080. The visible static float helper lets MSVC select
+// the native XMM0 return without an artificial vector return type.
+// The update's original class name is unproven; it holds region/unit/build
+// time at 20/28/2C and updates its button subobject at +8.
+class Rva005E1160Flag {public:void rva005E1160(bool);};
+class Rva005E1168 {public:void rva005E1168(int);};
+class Rva005E1178 {public:void rva005E1178(float);};
+class Rva005F8A7ESub;
+void __fastcall rva005E1170(Rva005F8A7ESub*);
+void __fastcall rva005E118B(Rva005F8A7ESub*);
+// ?CountQueuedUnits present-unmatched
+static inline int CountQueuedUnits(const QueueUnitButtonIds*queue,int id) {
+ int count=0;
+ int*end=queue->m_finish;
+ for(int*p=queue->m_start;p!=end;++p)if(*p==id)++count;
+ return count;
+}
+// ?FindQueuedUnit present-unmatched
+static inline int FindQueuedUnit(const QueueUnitButtonIds*queue,int id) {
+ int size=queue->m_finish-queue->m_start;
+ for(int i=0;i<size;++i)if(queue->m_start[i]==id)return i;
+ return -1;
+}
+static float GetQueuedUnitProgress(int regionID,int unitID,int buildTime) {
+ QueueUnitButtonRegion*region=(QueueUnitButtonRegion*)Rva005F88F4Get(regionID);
+ if(region) {
+  int index=FindQueuedUnit(region->getBuildQueue(),unitID);
+  if(index==0) {
+   if(buildTime>0)return (float)region->getBuildProgress()/(float)buildTime;
+   return 0.0f;
+  }
+  if(index>0)return 0.0f;
+ }
+ return 1.0f;
+}
+class Rva005F8A7E {public:void rva005F8A7E();char prefix[0x20];int regionID;int unknown24;int unitID;int buildTime;};
+// ?Rva005F8A7E::rva005F8A7E present-unmatched
+void Rva005F8A7E::rva005F8A7E() {
+ QueueUnitButtonRegion*region=(QueueUnitButtonRegion*)Rva005F88F4Get(regionID);
+ ((Rva005E1160Flag*)((char*)this+8))->rva005E1160(region&&region->canQueue(unitID));
+ int count=region?CountQueuedUnits(region->getBuildQueue(),unitID):0;
+ if(count>0)((Rva005E1168*)((char*)this+8))->rva005E1168(count);
+ else rva005E1170((Rva005F8A7ESub*)((char*)this+8));
+ if(count>0)((Rva005E1178*)((char*)this+8))->rva005E1178(GetQueuedUnitProgress(regionID,unitID,buildTime));
+ else rva005E118B((Rva005F8A7ESub*)((char*)this+8));
 }
