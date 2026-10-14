@@ -921,8 +921,7 @@ Int Pathfinder::ExamineNeighboringCellsForSidewaysAttack(PathfindCell *parentCel
 	return count;
 }
 
-Path *Pathfinder::FindAttackPathSideways(Object *obj, const LocomotorSet &locos, const Coord3D *from,
-	Object *victim, const Coord3D *victimPos, Rva002C9B80Owner *weapon)
+Path *Pathfinder::FindAttackPathSideways(Object *obj, const LocomotorSet &locos, const Coord3D *from, Object *victim, const Coord3D *victimPos, Rva002C9B80Owner *weapon)
 {
 	if (!m_isMapReady)
 		return 0;

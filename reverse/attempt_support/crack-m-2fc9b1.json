@@ -27,7 +27,7 @@
   "remaining": [
     "1570B versus1566B: count/global zero-store order and facing bool argument spilled via AL and a stack home instead of native CL/PUSH ECX; shifted branches and truncated diagnostic tail are consequences",
     "Partial2F83F5 visibility remains necessary to parent98 frame; provider itself is not exact and cannot be landed as an incidental body",
-    "Movement dependency2EA658 still held by w7-mp6 during laptop pass; no provider edit attempted"
+    "Movement dependency2EA658 remains unrowed at origin/master9e1f047bd8; its old external claim expired. Crack-M claimed it temporarily, confirmed1002/1001 with the last BA bit-test width wall, then released it."
   ],
   "not_progress": [
     "No Code, functions.csv, or new symbol pins for this target",
@@ -43,7 +43,16 @@
       "BuildActualPath and PutOnClosedList visibility unchanged",
       "manual vector swap, field reference accessor, scalar dot permutations weaker than STLport swap",
       "global type/definition and zero-expression variations unchanged",
-      "direct BuildActualPath produces native CL flag but moves state-toggle stores too early and grows1570 to1580"
+      "direct BuildActualPath produces native CL flag but moves state-toggle stores too early and grows1570 to1580",
+      "30 inline/noinline masks for BuildActualPath, PutOnClosedList, Examine2F8B00 and partial2F83F5:1570 unchanged",
+      "6 wrapper placement/inline forms, 8 count/flag type forms, 11 wrapper ABI/volatile-mode/reference forms: no improvement",
+      "Further 2F83F5 visibility of rowed line walk2F6B22, callback2F5925 and complete banked movement2EA658, with typed constructor records and named/temporary query variants: native90 frame remains unrecovered (A4 with original floor); no production edit",
+      "2EA658 real STLport bitset, scalar/nested bit-test forms and24 constant-reference word/mask/scope combinations preserve1002/1001 or worsen; last native DWORD TEST with ECX still narrows to BYTE immediate",
+      "Six natural movement-info constructor/query lifetime variants and twelve unified query constructor/callback plus pointer/bool parameter variants leave dependency2F83F5 frameA4/native90.",
+      "Sixteen unused native movement-record construction/lifetime forms preserve wrapper1570/.98711 or direct1580/.97801.",
+      "Correctly focused full-header search completed at least 828 trials; raw-byte-and-relocation-identical reduced context ran3000 alternate-seed trials without a gain. Earlier505-trial search omitted the multiline target and is not evidence against it.",
+      "Unfiltered corrected-search apparent gain .991479 was an implicit-int const local shadowing m_isTunneling, discarding the real member store; rejected."
     ]
-  }
+  },
+  "bank_format": "Definition signature joined onto one line for target recognition by permute; full STLport header and actual bank helpers retained."
 }
