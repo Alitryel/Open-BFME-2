@@ -127,7 +127,6 @@ struct DoDrawUpdateView
 class Object
 {
 public:
-	Real getOrientation() const { return m_orientation; }
 	char m_pad00[0x1C0];
 	Real m_orientation;
 	char m_pad1C4[0x274 - 0x1C4];
@@ -437,7 +436,7 @@ void W3DModelDraw::doDrawModule(const Matrix3D *transformMtx)
 				if (TheInGameUI)
 					angle = TheInGameUI->rva0029B3C1(obj);
 				else
-					angle = obj->getOrientation();
+					angle = obj->m_orientation;
 				mtx.Rotate_Z(angle);
 			}
 		}

@@ -8,10 +8,27 @@ extern "C" void __cdecl free(void *);
 // its existing throwing C++ view. C-linkage CRT free would select the import
 // thunk and elide the final unwind-state reset in the registration routine.
 void Rva00030830FreeAllocation(void *);
+// Keep the rowed allocator<int>::allocate out of line while its proxy stays
+// inline. The primary body is copied from bfmealloc; the native initialization
+// helper calls this allocator directly. Imported inline deallocation preserves
+// the throwing wrapper above without emitting competing external COMDATs.
 namespace _STL {
-template<> inline void allocator<int>::deallocate(int *p,size_t) const {
+template<> __declspec(noinline)
+int* allocator<int>::allocate(size_t n, const void*) const {
+ return n != 0 ? reinterpret_cast<int*>(allocator<char>::allocate(n*sizeof(value_type),0)) : 0;
+}
+template<> __declspec(dllimport) __forceinline
+int* _STLP_alloc_proxy<int*, int, allocator<int> >::allocate(size_t n) {
+ return __stl_alloc_rebind(static_cast<allocator<int>&>(*this),(int*)0).allocate(n,0);
+}
+template<> __declspec(dllimport) __forceinline void allocator<int>::deallocate(int *p,size_t) const {
  if(p) Rva00030830FreeAllocation(p);
 }
+template<> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int* p, size_t n) {
+ __stl_alloc_rebind(static_cast<allocator<int>&>(*this),(int*)0).deallocate(p,n);
+}
+
 }
 // AptTimeLineStats::SetPlayerFocus is named by WB 0x155C540, AptTimeLineStats.cpp
 // asserts 537/543/547. Retail 0x5BE2D2..0x5BE344 proves offsets and RET 4.

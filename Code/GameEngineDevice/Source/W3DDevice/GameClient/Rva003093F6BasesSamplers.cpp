@@ -16,7 +16,28 @@
 // what orders retail's loads and registers. The derived return struct carries
 // forceinline constructors so the by-value return builds in place (a plain
 // struct, or out-of-line copies, adds a copy or a call).
-#include "vector4.h"
+// BFME1 a7c38d3b WWMath Vector4 assignments/component arithmetic; target
+// layout and inline ABI are verified by the four sampler retail bodies.
+// Scoped Vector4 donor view: the needed inline assignments and arithmetic
+// are unchanged from bfme_vp_math/vector4.h. Import-inline suppresses copies
+// owned by the native WWMath units; all sampler uses inline without imports.
+class Vector4
+{
+public:
+    float X, Y, Z, W;
+    __forceinline Vector4() {}
+    __declspec(dllimport) __forceinline Vector4(const Vector4 &v) { X=v.X; Y=v.Y; Z=v.Z; W=v.W; }
+    __declspec(dllimport) __forceinline Vector4(float x,float y,float z,float w) { X=x; Y=y; Z=z; W=w; }
+    __declspec(dllimport) __forceinline const float &operator[](int i) const { return (&X)[i]; }
+};
+__declspec(dllimport) __forceinline Vector4 operator*(const Vector4 &a,float k)
+{
+    return Vector4(a.X*k,a.Y*k,a.Z*k,a.W*k);
+}
+__declspec(dllimport) __forceinline Vector4 operator+(const Vector4 &a,const Vector4 &b)
+{
+    return Vector4(a[0]+b[0],a[1]+b[1],a[2]+b[2],a[3]+b[3]);
+}
 
 struct Rva000806F3Vector4 : public Vector4
 {

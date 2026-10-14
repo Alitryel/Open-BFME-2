@@ -63,6 +63,16 @@ public:
 class Rva0004CCFF {public:void *destroyDelete(unsigned int);};
 namespace _STL {template<> __forceinline void _Destroy(RvaSmartPtr12 *p){((Rva0004CCFF *)p)->destroyDelete(0);}}
 #include <list>
+// Compare typed nodes locally; retail inlines these comparisons.
+namespace _STL {
+template <class T, class L, class R>
+static inline bool operator!=(const _Rb_tree_iterator<T, L>& a, const _Rb_tree_iterator<T, R>& b)
+{ return a._M_node != b._M_node; }
+template <class T, class L, class R>
+static inline bool operator!=(const _List_iterator<T, L>& a, const _List_iterator<T, R>& b)
+{ return a._M_node != b._M_node; }
+}
+
 template<> _STL::list<RvaSmartPtr12>::list(const _STL::list<RvaSmartPtr12>&);
 class Rva001F81EC {public:void rva001F81EC();};
 typedef _STL::list<RvaSmartPtr12> ParticleDebugList;

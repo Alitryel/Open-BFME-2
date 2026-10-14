@@ -24,6 +24,18 @@ void *__malloc_alloc<0>::allocate(size_t __n)
 template <> __declspec(dllimport) __forceinline
 void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
+// Preserve the primary inline bodies but suppress their external copies.
+// This unit owns no allocator/proxy implementation; its storage destructor
+// remains the existing provider declared below.
+template<> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int* p, size_t n) const {
+ _STLP_ASSERT( (p == 0) == (n == 0) )
+ if(p != 0) __sgi_alloc::deallocate((void*)p,n*sizeof(value_type));
+}
+template<> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int* p, size_t n) {
+ __stl_alloc_rebind(static_cast<allocator<int>&>(*this),(int*)0).deallocate(p,n);
+}
 }
 #define _OPERATOR_NEW_DEFINED_
 #include "matrix3d.h"
