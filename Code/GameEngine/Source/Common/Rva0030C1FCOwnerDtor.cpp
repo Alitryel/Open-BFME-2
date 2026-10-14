@@ -18,7 +18,8 @@ void __cdecl Rva00030830GameFree(void *);
 class VBase00C6EE28
 {
 public:
-	virtual void s0();
+	virtual void s0() = 0;
+	~VBase00C6EE28() {}
 };
 
 class Rva00538133Root

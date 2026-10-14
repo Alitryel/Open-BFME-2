@@ -2,8 +2,8 @@
 //
 // ??0Rva0053805DBase@@QAE@XZ, retail 0x005380A8 (139 bytes, EH, RET 4: the
 // hidden most-derived flag): the constructor of the listener-broadcasting
-// base whose broadcasts 0x0053805D/0x0053806C, scalar deleting destructor
-// 0x005381B9 and destructor 0x00538133 are already rowed or pinned. Its
+// base whose broadcasts 0x0053805D/0x0053806C are already rowed (destructor
+// 0x00538133 and its deleting destructor: Rva0053805DBaseDtor.cpp). Its
 // derived water-area constructors 0x00308E63, 0x0030C4DE and 0x0030CC3B call
 // it. Target evidence: primary table 0x00C691EC, vbtable 0x00C69208 at +0x18
 // and the all-__purecall interface 0x00C6EE28 as the shared virtual base at
@@ -20,7 +20,7 @@ class VBase00C6EE28
 {
 public:
 	virtual void s0() = 0;
-	~VBase00C6EE28();
+	~VBase00C6EE28() {}
 };
 
 class Rva00330757Member

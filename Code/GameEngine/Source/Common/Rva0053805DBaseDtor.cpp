@@ -1,0 +1,102 @@
+// cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /EHsc
+//
+// ??1Rva0053805DBase@@UAE@XZ, retail 0x00538133..0x005381B9 (134 bytes, EH),
+// and the scalar deleting destructor ??_GRva0053805DBase@@UAEPAXI@Z,
+// 0x005381B9 (35 bytes, slot 0 of the primary table 0x00C691EC), of the
+// listener-broadcasting base whose constructor Rva0053805DBaseCtor.cpp rows.
+// Target facts: the dtor restores 0x00C691EC and the shared virtual base's
+// table 0x00C6EE28 through the vbtable at +0x18, tells every listener of the
+// +8 list through slot 0 (generic vcall thunk 0x001FF3A9, forEach 0x00537F56),
+// then destroys the +0x24 and +0x20 strings (releaseBuffer 0x00036410), the
+// +0x1C list (_List_base dtor 0x004EC395), the +8 list's storage (GameFree;
+// out-of-line copy 0x0007FAB3) and the counted root (table 0x00BC6F20; copy
+// 0x004E84A4). Five EH states, one per subobject. The deleting dtor resets
+// the virtual base at +0x30 to 0x00C6EE28 after ??1 (inlined ??_D).
+//
+// A separate unit from the constructor: retail's constructor never stores the
+// root's table, which that unit models with a novtable root; novtable also
+// drops the root destructor's table store this body needs. The +8 list goes
+// by two ledger names: its constructor 0x00330757 is Rva00330757Member, its
+// broadcast 0x00537F56 Rva00537F56List; the cast bridges them. Names are
+// address-derived; the fields' meanings are not established.
+#include "ascii_string.h"
+
+void __cdecl Rva00030830GameFree(void *);
+
+class VBase00C6EE28
+{
+public:
+	virtual void s0() = 0;
+	~VBase00C6EE28() {}
+};
+
+class Rva0053805DBase;
+
+class Rva0053805DListener
+{
+public:
+	virtual void notify00(Rva0053805DBase *owner);
+};
+
+class Rva00537F56List
+{
+public:
+	void forEach(void (Rva0053805DListener::*notify)(Rva0053805DBase *), Rva0053805DBase *owner);
+};
+
+class Rva00330757Member
+{
+public:
+	~Rva00330757Member() { if (m_begin) Rva00030830GameFree(m_begin); }
+private:
+	void *m_begin;
+	void *m_end;
+	void *m_capacity;
+	unsigned int m_index;
+};
+
+struct Rva004FA1FObserver;
+namespace _STL
+{
+template <class T> class allocator
+{
+public:
+	allocator() {}
+};
+template <class T, class A> class _List_base
+{
+public:
+	~_List_base();
+private:
+	void *m_node;
+};
+}
+
+class Rva0007DF07
+{
+public:
+	virtual ~Rva0007DF07() {}
+private:
+	unsigned int count;		// +0x04
+};
+
+class Rva0053805DBase : public Rva0007DF07, public Rva00330757Member,
+	public virtual VBase00C6EE28
+{
+public:
+	virtual ~Rva0053805DBase();
+	virtual bool slot1() const;
+	virtual void rva0053805D();
+	virtual void rva0053806C();
+private:
+	_STL::_List_base<Rva004FA1FObserver *, _STL::allocator<Rva004FA1FObserver *> > m_observers;	// +0x1C
+	AsciiString m_20;
+	AsciiString m_24;
+	float m_28;
+	bool m_2C;
+};
+
+Rva0053805DBase::~Rva0053805DBase()
+{
+	((Rva00537F56List *)(Rva00330757Member *)this)->forEach(&Rva0053805DListener::notify00, this);
+}
