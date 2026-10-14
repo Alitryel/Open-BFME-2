@@ -103,3 +103,38 @@ void rva007ACF90()
 {
     atexit(rva007B74C0);
 }
+
+// The 24-byte-node pool at VA 0x00DB424C (built at static-init time by
+// Rva007ABEF3ArgCtorInits::rva007ABEF3 through 0x0006EFC8(0, -1)) gets the
+// same cleanup/registration pair: 0x007B70F0 (51B) pops every block off the
+// pool's allocated-block list (+4) and hands each to the pool's free
+// callback (+0x10, context +0x14) -- the six-word layout Rva002E8548Pool.h
+// documents for the sibling pools at DB9440 / DBD4C8 -- and the 12B body at
+// 0x007ACE00 registers it. Address names.
+struct Rva007B70F0Pool
+{
+    int m_count;
+    void *m_blocks;
+    void *m_head;
+    void *(__cdecl *m_alloc)(int size, int context);
+    void (__cdecl *m_free)(void *block, int context);
+    int m_context;
+};
+
+extern unsigned g_Va00DB424C;
+
+void rva007B70F0()
+{
+    Rva007B70F0Pool *pool = (Rva007B70F0Pool *)&g_Va00DB424C;
+    void *block = pool->m_blocks;
+    while (block != 0) {
+        pool->m_blocks = *(void **)block;
+        pool->m_free(block, pool->m_context);
+        block = pool->m_blocks;
+    }
+}
+
+void rva007ACE00()
+{
+    atexit(rva007B70F0);
+}

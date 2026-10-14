@@ -89122,3 +89122,5 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ?set@Rva0073A160Field@@QAE_NH@Z,,0x0073A160,28,Code/GameEngine/Source/Common/Rva0073A130Leaves.cpp,matched,store at +0xA4 returning whether it changed
 ?resume@Rva0073F778@@QAEHXZ,,0x0073F7F9,38,Code/GameEngine/Source/Common/Rva0073F778Thread.cpp,matched,ResumeThread on +4 handle folded to 0/1/2/3
 ?suspend@Rva0073F778@@QAE_NXZ,,0x0073F81F,20,Code/GameEngine/Source/Common/Rva0073F778Thread.cpp,matched,SuspendThread on +4 handle != -1
+?rva007B70F0@@YAXXZ,,0x007B70F0,51,Code/GameEngine/Source/Common/System/GlobalChainCleanup.cpp,matched,atexit cleanup of the DB424C 24-byte pool: pop block list +4 through free callback +10 with context +14
+?rva007ACE00@@YAXXZ,,0x007ACE00,12,Code/GameEngine/Source/Common/System/GlobalChainCleanup.cpp,matched,12B atexit registration of the DB424C pool cleanup 0x007B70F0
