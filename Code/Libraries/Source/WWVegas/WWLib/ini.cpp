@@ -1,4 +1,12 @@
 // cl: /FIbfme_wwstring_teardown.h /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/local /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /D_WINDOWS /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// Match the plain compiler vector-constructor iterator to its canonical retail
+// /O1 provider. The unused anchor selects helper codegen before /O2 consumers.
+struct BfmeIniVciAnchorElem { BfmeIniVciAnchorElem(); };
+#pragma auto_inline(off)
+#pragma optimize("gsy", on)
+static void bfmeIniVciAnchor() { BfmeIniVciAnchorElem anchor[2]; (void)anchor; }
+#pragma optimize("", on)
+#pragma auto_inline(on)
 // WWLib INIClass, from the Generals Zero Hour reference
 // (Libraries/Source/WWVegas/WWLib/ini.cpp). BFME links this WWLib INI handler
 // (distinct from its GameEngine INI system): the retail exe references
