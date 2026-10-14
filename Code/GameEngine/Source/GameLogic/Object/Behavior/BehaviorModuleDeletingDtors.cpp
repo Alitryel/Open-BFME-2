@@ -15,6 +15,8 @@
 // TerrainResourceClientBehavior's verified deleting wrapper now comes from
 // TerrainResourceClientBehaviorSlots.cpp, alongside its real destructor.
 // Removing the empty scaffold also removes its conflicting vtable copy.
+// InstantDeathBehaviorModuleData's wrapper likewise comes from its ctor unit,
+// which emits the class's vtable.
 
 // ??_GCastleBehavior@@UAEPAXI@Z @0x00399354 28B: slot 0 of vtable 0x00C1A780; calls ??1 at 0x0039857D.
 // Owner evidence (audited 2026-09-26): retail slot 4 -> RVA 0x00398538 uses class-name string "CastleBehavior".
@@ -22,13 +24,6 @@ class CastleBehavior { public: __declspec(noinline) virtual ~CastleBehavior(); }
 // ??1CastleBehavior@@UAE@XZ present-unmatched
 CastleBehavior::~CastleBehavior() {}
 void CastleBehavior_Delete(CastleBehavior *p) { delete p; }
-
-// ??_GInstantDeathBehaviorModuleData@@UAEPAXI@Z @0x0045D271 28B: slot 0 of vtable 0x00C41F28; calls ??1 at 0x0045D28D.
-// Owner evidence (audited 2026-09-26): retail registration InstantDeathBehavior -> data factory RVA 0x0024B213 -> ctor RVA 0x0045D176; primary vptr store RVA 0x0045D189.
-class InstantDeathBehaviorModuleData { public: __declspec(noinline) virtual ~InstantDeathBehaviorModuleData(); };
-// ??1InstantDeathBehaviorModuleData@@UAE@XZ present-unmatched
-InstantDeathBehaviorModuleData::~InstantDeathBehaviorModuleData() {}
-void InstantDeathBehaviorModuleData_Delete(InstantDeathBehaviorModuleData *p) { delete p; }
 
 // ??_GStancesBehavior@@UAEPAXI@Z @0x0045F068 28B: slot 0 of vtable 0x00C424DC; calls ??1 at 0x0045F001.
 // Owner evidence (audited 2026-09-26): retail slot 4 -> RVA 0x0045EFBC uses class-name string "StancesBehavior".

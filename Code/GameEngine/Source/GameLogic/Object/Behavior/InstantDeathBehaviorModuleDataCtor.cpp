@@ -3,7 +3,8 @@
 //
 // ??0InstantDeathBehaviorModuleData@@QAE@XZ, retail 0x0045D176 (71 bytes).
 // Frameless derived ctor over the pinned DestroyDieModuleData intermediate base
-// (0x00253510, size 0x38): the base holds the vptr (a placeholder virtual;
+// (0x00253510, size 0x38): the base holds the vptr (vtable slot 0 is the
+// deleting destructor 0x0045D271, so both declare virtual destructors;
 // the +0x38 member offset proves it, identity unknown) so the derived
 // shares it without shifting, the compiler installs vtable 0x00C41F28
 // before the four vector members construct through the ICF-folded
@@ -39,7 +40,7 @@ class DestroyDieModuleData
 {
 public:
 	DestroyDieModuleData();
-	virtual void DestroyDieModuleData_virt00();
+	virtual ~DestroyDieModuleData();
 
 private:
 	unsigned char m_opaque[0x38 - 4];
@@ -49,6 +50,7 @@ class InstantDeathBehaviorModuleData : public DestroyDieModuleData
 {
 public:
 	InstantDeathBehaviorModuleData();
+	virtual ~InstantDeathBehaviorModuleData();
 
 private:
 	_STL::vector<int> m_vec38;	// +0x38, element stand-in
@@ -62,7 +64,8 @@ InstantDeathBehaviorModuleData::InstantDeathBehaviorModuleData()
 {
 }
 
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?DestroyDieModuleData_virt00@DestroyDieModuleData@@UAEXXZ=??_GInstantDeathBehaviorModuleData@@UAEPAXI@Z")
+// ??_GInstantDeathBehaviorModuleData@@UAEPAXI@Z @0x0045D271 (28 B): slot 0 of
+// vtable 0x00C41F28, compiler-emitted here with the vtable; calls the dtor at
+// 0x0045D28D. Owner evidence (audited 2026-09-26): retail registration
+// InstantDeathBehavior -> data factory 0x0024B213 -> ctor 0x0045D176, primary
+// vptr store 0x0045D189.

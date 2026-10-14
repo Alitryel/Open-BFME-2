@@ -3662,7 +3662,6 @@ alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/HitReactionBehavi
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/InstantDeathBehaviorCtor.cpp	_vtbl_00C41E44	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/InstantDeathBehaviorCtor.cpp	_vtbl_00C41E48	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/InstantDeathBehaviorCtor.cpp	_vtbl_00C4A650	1
-alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/InstantDeathBehaviorModuleDataCtor.cpp	?DestroyDieModuleData_virt00@DestroyDieModuleData@@UAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/MineshaftPortalBehaviourCtor.cpp	?unused@BehaviorModuleOther@@EAEXXZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/MineshaftPortalBehaviourModuleDataCtor.cpp	??0FakePathfindPortalBehaviourModuleData@@QAE@XZ	1
 alternatename	Code/GameEngine/Source/GameLogic/Object/Behavior/MineshaftPortalBehaviourModuleDataCtor.cpp	_vtbl_00BF2558	1
@@ -38364,7 +38363,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/AutoHealBehav
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/AutoHealBehavior.cpp	update@AutoHealBehavior@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/AutoHealBehaviorFriendNew.cpp	bfmeEmitAutoHealBehaviorFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BehaviorModuleDeletingDtors.cpp	1CastleBehavior@@UAE@XZ	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BehaviorModuleDeletingDtors.cpp	1InstantDeathBehaviorModuleData@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BehaviorModuleDeletingDtors.cpp	1PropagandaTowerBehaviorModuleData@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BehaviorModuleDeletingDtors.cpp	1SlaveWatcherBehaviorModuleData@@UAE@XZ	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Behavior/BehaviorModuleDeletingDtors.cpp	1StancesBehavior@@UAE@XZ	1
