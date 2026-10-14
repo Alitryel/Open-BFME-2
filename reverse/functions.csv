@@ -88692,3 +88692,16 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ??_GRva005E3AE1@@UAEPAXI@Z,,0x005E3E60,42,Code/GameEngine/Source/Common/Rva005E3AE1.cpp,matched,Native42B scalar deleting destructor in vftable C77C70 slot0 which rowed dtor 5F4AA3 restores; vbase bias8 entry calls 5F4AA3 then inline vbase dtor; twin of 5CC90C
 ?rva006D0410@Rva006D0410Table@@QAE_NXZ,,0x006D0410,44,Code/Libraries/Source/Apt/AptGapLeaves.cpp,matched,all entry kinds 3 or 2 scan via checked iterator range twin of Rva006CEB10Playback ready 0x006CE7A0
 ??0Rva005BA28E@@QAE@H@Z,,0x005BA28E,55,Code/GameEngine/Source/Common/Rva005BA1FDCtor.cpp,matched,composing ctor base (arg 1) three tables publishes E06548 instance cleared by rowed dtor 5BA2CB; twin of AptOnlineOpenPlay ctor 5BA1FD
+?rva007AC6DD@@YAXXZ,,0x007AC6DD,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x000E188F cb 007B6DFA atexit
+?rva007AC747@@YAXXZ,,0x007AC747,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x000E6350 cb 007B6E18 atexit
+?rva007AC910@@YAXXZ,,0x007AC910,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer init 0x000FA83B cb 007B6ED6 atexit
+?rva007AD50B@@YAXXZ,,0x007AD50B,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x001F4A40 cb 007B7588 atexit
+?rva007AE097@@YAXXZ,,0x007AE097,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x004E5610 cb 007B789C atexit
+?rva007AEC8E@@YAXXZ,,0x007AEC8E,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x0000F740 cb 007B7C72 atexit
+?rva007B1CDC@@YAXXZ,,0x007B1CDC,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x004ABDC3 cb 007B89C1 atexit
+?rva007B342C@@YAXXZ,,0x007B342C,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x00502EC6 cb 007B9049 atexit
+?rva007B4FDA@@YAXXZ,,0x007B4FDA,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x005E2237 cb 007B993D atexit
+?rva007B5000@@YAXXZ,,0x007B5000,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x005E3D95 cb 007B9947 atexit
+?rva007B51EB@@YAXXZ,,0x007B51EB,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x005F005B cb 007B99B5 atexit
+?rva007B53D4@@YAXXZ,,0x007B53D4,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x003B6831 cb 007B9A37 atexit
+?rva007B67A0@@YAXXZ,,0x007B67A0,22,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,global initializer ctor 0x006FE980 cb 007B9C50 atexit
