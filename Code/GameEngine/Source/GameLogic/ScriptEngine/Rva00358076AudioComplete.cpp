@@ -1,6 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/GameEngine/Include
 // stlport
-// ?rva00358076@ScriptEngine@@QAE_NABVAsciiString@@_N@Z @0x00358076 280B
+// ?rva00358076@ScriptEngine@@QAE_NABVAsciiString@@_N@Z @0x00358076 280B and its
+// twin ?rva00357F5E@ScriptEngine@@QAE_NABVAsciiString@@_N@Z @0x00357F5E 280B
 // Dedicated TU: no existing owner file carried this body. The R1 member
 // visibility lever needs the visible __declspec(noinline)
 // Rva00357DF8::rva00357DF8 definition here; the rowed 0x357DF8 body in
@@ -63,9 +64,11 @@ extern AudioManager *TheAudio;
 class ScriptEngine
 {
 public:
+	bool rva00357F5E(const AsciiString &s, bool remove);
 	bool rva00358076(const AsciiString &s, bool remove);
 private:
-	char m_pad[0x1A25C];
+	char m_pad[0x1A258];
+	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> > m_list1A258;
 	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> > m_list1A25C;
 };
 
@@ -73,6 +76,43 @@ bool ScriptEngine::rva00358076(const AsciiString &s, bool remove)
 {
 	unsigned long crc = Rva003ECA13Get(s);
 	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> > &lst = m_list1A25C;
+	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> >::iterator it;
+	for (it = lst.begin(); it != lst.end(); ++it) {
+		if (it->m_templateID == crc)
+			break;
+	}
+	if (it == lst.end()) {
+		BfmeSpecialPowerTimer8 timer;
+		timer.m_templateID = 0;
+		timer.m_readyFrame = 0;
+		AudioRef ref = ((AudioManagerView *)TheAudio)->getAudioRef(s);
+		if (ref.referent == 0)
+			return true;
+		{
+			BfmeAudioEventPrefix136 ev(*(const OpaqueRefElement4 *)&ref, 0);
+			float len = ((AudioManagerView *)TheAudio)->getLength(&ev);
+			int frames = (int)(len / g_00DBA4F0);
+			timer.m_readyFrame = TheGameLogic->getFrame() + frames;
+			timer.m_templateID = crc;
+			((Rva00357DF8 *)&lst)->rva00357DF8(timer);
+			it = lst.begin();
+		}
+	}
+	if (TheGameLogic->getFrame() >= it->m_readyFrame) {
+		if (remove) {
+			((_STL::list<int, _STL::allocator<int> > *)&lst)->erase((_STL::list<int, _STL::allocator<int> >::iterator &)it);
+		}
+		return true;
+	}
+	return false;
+}
+
+// Twin of the function above on the neighbouring timer list (+0x1A258): the
+// retail bytes differ only in that member offset (WorldBuilder names neither).
+bool ScriptEngine::rva00357F5E(const AsciiString &s, bool remove)
+{
+	unsigned long crc = Rva003ECA13Get(s);
+	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> > &lst = m_list1A258;
 	_STL::list<BfmeSpecialPowerTimer8, _STL::allocator<BfmeSpecialPowerTimer8> >::iterator it;
 	for (it = lst.begin(); it != lst.end(); ++it) {
 		if (it->m_templateID == crc)

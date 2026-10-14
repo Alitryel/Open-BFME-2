@@ -53542,3 +53542,4 @@ _DiagonalBlur	0x001c2b80	916	partial	W7-FARM improved nd 6; generators=['expand@
 ?moveDozerAway@AIStructureCreepTactic@@QAEXXZ	0x5ac40c	317	partial	sizespell+volatile local z: nd39->30, 317 B size-exact t=20 model=sonnet-5.5 score=0.8692 stash=reverse/attempts/0x005ac40c.cpp
 ?rva002E7414@Rva002E7414@@QAEHHH@Z	0x002E7414	44	landed	add_match verified Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp 44B; Layer-1 cell flag test via rowed Pathfinder getCell; rehomed beside the 002EAE5F search
 ?AdjustToNearestGroundCell@Pathfinder@@QAE_NPAUCoord3D@@@Z	0x002EDCF7	178	landed	add_match verified Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp 178B; twin of AdjustToNearestValidCell; scan 002EAE5F ctx 002E7414 budget +1204
+?rva00357F5E@ScriptEngine@@QAE_NABVAsciiString@@_N@Z	0x00357F5E	280	landed	add_match verified Code/GameEngine/Source/GameLogic/ScriptEngine/Rva00358076AudioComplete.cpp 280B; twin of 0x358076 on the +0x1A258 timer list
