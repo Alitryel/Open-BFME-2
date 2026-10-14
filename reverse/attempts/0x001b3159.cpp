@@ -1,4 +1,6 @@
 // ?UnknownSlot4@BFME2Encoding0MotionChannel@@UAEXMPAVVector3@@PAPAE@Z
+// partial score=0.78 date=2026-10-14
+// ?UnknownSlot4@BFME2Encoding0MotionChannel@@UAEXMPAVVector3@@PAPAE@Z
 // partial score=0.8 date=2026-10-13
 // ?UnknownSlot4@BFME2Encoding0MotionChannel@@UAEXMPAVVector3@@PAPAE@Z
 // partial score=0.8 date=2026-10-13
@@ -66,12 +68,12 @@ static __forceinline float lerpMotion(float a, float b, float t) { return (b - a
 void BFME2Encoding0MotionChannel::UnknownSlot4(float frame, Vector3 *value, unsigned char **cursor)
 {
  int index = FindIndex((unsigned int)frame, reinterpret_cast<int **>(cursor));
- if (index == Count - 1 || (TimeCodes[index + 1] & 0x8000)) {
+ if (Count - 1 == index || (TimeCodes[index + 1] & 0x8000)) {
   float *samples = Samples + index * Components;
   value->X = samples[0]; value->Y = samples[1]; value->Z = samples[2]; return;
  }
- float t0 = float(TimeCodes[index] & ~0x8000), t1 = float(TimeCodes[index + 1] & ~0x8000);
- float ratio = (frame - t0) / (t1 - t0);
+ float t0 = float(TimeCodes[(index ? index : index)] & ~0x8000), t1 = float(TimeCodes[index + 1] & ~0x8000);
+ float ratio = (frame - t0) / (cursor ? ((t1 - t0)) : ((t1 - t0)));
  float *samples = Samples + index * Components;
  value->X = lerpMotion(samples[0], samples[Components], ratio);
  value->Y = lerpMotion(samples[1], samples[Components + 1], ratio);

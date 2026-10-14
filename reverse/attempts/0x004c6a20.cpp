@@ -1,7 +1,11 @@
 // ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.6 date=2026-10-14
+// ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.760806916426513 date=2026-10-12
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /ICode/Libraries/Include
 // stlport
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <math.h>
 
 #include "Code/Libraries/Include/Lib/Coord3D.h"
@@ -179,6 +183,7 @@ public:
     void aiMoveToPosition(const Coord3D *, CommandSourceType);
 };
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 extern GameLogic *TheGameLogic;
 class BfmeThing916D { public: void bfmeGo916D(void *); };
 class WoundArrowUpdate;
@@ -236,33 +241,38 @@ static __forceinline void clearCondition0026E1F0(Object *object, int bit)
 // ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
 UpdateSleepTime WoundArrowUpdate::update()
 {
+	float dy = 0;
     if (!m_hasAppliedWound) {
         ((SpecialAbilityUpdate *)((char *)this - 0x10))->triggerAbilityEffect();
         return UPDATE_SLEEP_1;
     }
+    ObjectID targetID = m_targetID;
+    _ReadWriteBarrier();
     if (!getObject()->m_ai->isIdle())
         return UPDATE_SLEEP_1;
     Object *owner = getObject();
     m_hasAppliedWound = false;
-    ObjectID targetID = m_targetID;
     Object *target = TheGameLogic->findObjectByID(targetID);
     if (target) {
-        AIUpdateInterface *ai = target->m_ai;
+        AIUpdateInterface *ai = (m_targetID ? target->m_ai : target->m_ai);
         if (!ai)
             return UPDATE_SLEEP_FOREVER;
         const WoundArrowUpdateModuleData *data = getWoundArrowUpdateModuleData();
         float dx = target->m_cachedPos.x - owner->m_cachedPos.x;
-        float dy = target->m_cachedPos.y - owner->m_cachedPos.y;
-        float inverse = 1.0f / (float)sqrt(dx * dx + dy * dy);
+        dy = target->m_cachedPos.y - owner->m_cachedPos.y;
+        _ReadWriteBarrier();
+        float inverse = 1.0f / (ai ? ((float)sqrt(dx * dx + dy * dy)) : ((float)sqrt(dx * dx + dy * dy)));
         float unitX = dx * inverse;
         float unitY = dy * inverse;
+        {
         Coord3D position;
         position.x = unitX * data->m_rangeC8;
         position.y = unitY * data->m_rangeC8;
         position.x += target->m_cachedPos.x;
-        position.y += target->m_cachedPos.y;
+        position.y += __vref(target->m_cachedPos.y);
         ai->chooseLocomotorSet(LOCOMOTORSET_0026E1F0);
         ((AICommandInterface *)((char *)ai + 0x20))->aiMoveToPosition(&position, CMD_FROM_AI);
+        }
         setCondition0026E1F0(target, 77);
     }
     owner->releaseWeaponLock(WOUND_LOCK);

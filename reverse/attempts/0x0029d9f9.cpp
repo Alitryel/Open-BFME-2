@@ -1,4 +1,6 @@
 // ?rva0029D9F9@InGameUI@@QAE?AVCoord2D@@XZ
+// partial score=0.6 date=2026-10-14
+// ?rva0029D9F9@InGameUI@@QAE?AVCoord2D@@XZ
 // partial score=0.7691467002942413 date=2026-10-14
 // ?rva0029D9F9@InGameUI@@QAE?AVCoord2D@@XZ
 // partial score=0.7306874546218809 date=2026-10-10
@@ -163,14 +165,14 @@ extern InGameUI *TheInGameUI;
 Coord2D InGameUI::rva0029D9F9() {
  Coord2D d;float threshold=TheFormationAssistant->threshold;
  d.x=end.x-position.x;d.y=end.y-position.y;
- if(threshold*threshold>d.x*d.x+d.y*d.y){
+ if(((threshold*threshold>d.x*d.x+d.y*d.y) ? (threshold*threshold>d.x*d.x+d.y*d.y) : (threshold*threshold>(cached ? (d.x*d.x+d.y*d.y) : (d.x*d.x+d.y*d.y))))){
   if(cached)return direction;
   d.x=0.0f;d.y=0.0f;
   const DrawableList*list=getAllSelectedDrawables();
-  for(FormationDrawNode*n=list->head->next;n!=list->head;n=n->next){
+  for(FormationDrawNode*n=list->head->next;!(n == list->head);n=n->next){
    Object*obj=n->value->object;if(obj){Coord2D delta; delta.x=position.x-obj->position.x;delta.y=position.y-obj->position.y;d.x+=delta.x;d.y+=delta.y;}
   }
-  float inv=1.0f/(float)sqrt(d.x*d.x+d.y*d.y);
+  volatile float inv = 1.0f/(float)sqrt(d.x*d.x+d.y*d.y);
   float scale=TheFormationAssistant->threshold*0.5f;
   d.x*=inv;d.y*=inv;d.x*=scale;d.y*=scale;
  }else cached=true;

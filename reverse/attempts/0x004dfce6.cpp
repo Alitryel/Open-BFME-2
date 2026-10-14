@@ -1,4 +1,6 @@
 // ?rva004DFCE6@Rva004DFCE6@@QAEXPAVObject@@PAX@Z
+// partial score=0.5 date=2026-10-14
+// ?rva004DFCE6@Rva004DFCE6@@QAEXPAVObject@@PAX@Z
 // partial score=0.75 date=2026-10-09
 // cl: /O1 /arch:SSE /G7 /MD /EHsc /D_STLP_NO_EXCEPTIONS /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /ICode/Libraries/Include/Lib
 // stlport
@@ -27,6 +29,7 @@ void Rva004DFCE6::rva004DFCE6(Object *object,void *callback)
  } else if(!reinterpret_cast<Rva004DFA43*>(this)->rva004DFA43(object,callback)) {
   SpherePointValue old(center08);
   SpherePointValue position(*reinterpret_cast<const Coord3D*(__cdecl *)(Object*)>(callback)(object));
+  {
   Coord3D direction;
   direction.x=old.x-position.x;
   direction.y=old.y-position.y;
@@ -40,9 +43,10 @@ void Rva004DFCE6::rva004DFCE6(Object *object,void *callback)
   Coord3D adjustment={opposite.x*radius,opposite.y*radius,opposite.z*radius};
   direction.x=edge.x+adjustment.x;
   direction.y=edge.y+adjustment.y;
+  center08=direction;
   direction.z=edge.z+adjustment.z;
   radius04=radius;
-  center08=direction;
+  }
  }
  objects->push_back(object);
 }

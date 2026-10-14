@@ -1,4 +1,7 @@
 // ?translateKey@Keyboard@@QAEGG@Z
+// partial score=0.65 date=2026-10-14
+// ?translateKey@Keyboard@@QAEGG@Z
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 // partial score=0.9 date=2026-10-13
 // ?translateKey@Keyboard@@QAEGG@Z
 // partial score=0.9 date=2026-10-13
@@ -151,7 +154,7 @@ WideChar Keyboard::translateKey(WideChar keyCode)
 		case KEY_CAPS:
 			if (getKeyStatusData(KEY_CAPS) == KeyboardStatus_UNUSED)
 			{
-				if (getKeyStateBit(KEY_CAPS))
+				if ((m_shift2Key ? (getKeyStateBit(KEY_CAPS)) : (getKeyStateBit(KEY_CAPS))))
 				{
 					if (m_modifiers & KEY_STATE_CAPSLOCK)
 						m_modifiers &= ~KEY_STATE_CAPSLOCK;
@@ -163,7 +166,7 @@ WideChar Keyboard::translateKey(WideChar keyCode)
 			return 0;
 
 		case KEY_LSHIFT:
-			if (getKeyStateBit(KEY_LSHIFT))
+			if ((m_shift2Key ? (getKeyStateBit(KEY_LSHIFT)) : (getKeyStateBit(KEY_LSHIFT))))
 				m_modifiers |= KEY_STATE_LSHIFT;
 			else
 				m_modifiers &= ~KEY_STATE_LSHIFT;
@@ -184,14 +187,14 @@ WideChar Keyboard::translateKey(WideChar keyCode)
 			return 0;
 
 		case KEY_RCTRL:
-			if (getKeyStateBit(KEY_RCTRL))
+			if ((ubKeyCode ? (getKeyStateBit(KEY_RCTRL)) : (getKeyStateBit(KEY_RCTRL))))
 				m_modifiers |= KEY_STATE_RCONTROL;
 			else
 				m_modifiers &= ~KEY_STATE_RCONTROL;
 			return 0;
 
 		case KEY_LALT:
-			if (getKeyStateBit(KEY_LALT))
+			if ((m_shift2Key ? (getKeyStateBit(KEY_LALT)) : (getKeyStateBit(KEY_LALT))))
 				m_modifiers |= KEY_STATE_LALT;
 			else
 				m_modifiers &= ~KEY_STATE_LALT;
@@ -207,7 +210,7 @@ WideChar Keyboard::translateKey(WideChar keyCode)
 		default:
 			if (ubKeyCode == m_shift2Key)
 			{
-				if (getKeyStateBit(m_shift2Key))
+				if (getKeyStateBit(__vref(m_shift2Key)))
 					m_modifiers |= KEY_STATE_SHIFT2;
 				else
 					m_modifiers &= ~KEY_STATE_SHIFT2;

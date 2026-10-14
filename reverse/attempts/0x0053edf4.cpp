@@ -1,6 +1,10 @@
 // ?rva0053EDF4@Rva0053ED1A@@QAE?AUICoord2D@@XZ
+// partial score=0.75 date=2026-10-14
+// ?rva0053EDF4@Rva0053ED1A@@QAE?AUICoord2D@@XZ
 // partial score=0.85 date=2026-10-10
 // cl: /O1 /Op /MD /EHsc /arch:SSE /ICode/Libraries/Include
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Lib/Coord3D.h"
 struct ICoord2D{int x,y;};
 class Drawable {public:const Coord3D* getPosition() const;};
@@ -108,14 +112,15 @@ ICoord2D Rva0053ED1A::rva0053EDF4()
   Drawable* draw=obj->getDrawable();
   const Coord3D* position;
   if(draw) position=draw->getPosition();else position=&reinterpret_cast<Rva0053EDF4Object*>(obj)->position;
+  _ReadWriteBarrier();
   Coord3D world=*position;
   Coord3D contact={0,0,0};
   if(obj->getWorldspaceBestContactPoint(&contact,&contact,"Menu",0,0,false))
   {
     contact.x-=reinterpret_cast<Rva0053EDF4Object*>(obj)->position.x;
     contact.y-=reinterpret_cast<Rva0053EDF4Object*>(obj)->position.y;
-    contact.z-=reinterpret_cast<Rva0053EDF4Object*>(obj)->position.z;
     world.x+=contact.x;world.y+=contact.y;world.z+=contact.z;
+    contact.z-=reinterpret_cast<Rva0053EDF4Object*>(obj)->position.z;
   }
   else world.z+=reinterpret_cast<Rva0053EDF4Object*>(obj)->geometry.getMaxHeightAbovePosition()*0.5f;
   if(TheTacticalView->worldToScreenTriReturn(&world,&screen)==0)return screen;

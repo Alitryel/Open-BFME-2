@@ -1,8 +1,10 @@
 // ?findProductionTarget@AIFarmKillSquad@@QAEPAVObject@@PAX@Z
+// partial score=0.45 date=2026-10-14
+// ?findProductionTarget@AIFarmKillSquad@@QAEPAVObject@@PAX@Z
 // partial score=0.75 date=2026-10-09
 // ?findProductionTarget@AIFarmKillSquad@@QAEPAVObject@@PAX@Z
 // partial score=0.75 date=2026-10-04
-// cl: /O1 /G7 /MD /GX /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE /Ireference/shims/bfme2_ascii
+// cl: /O1 /G7 /MD /GX /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE /Ireference/shims/bfme2_ascii /EHsc
 // stlport
 //
 // The "FarmKillSquad" skirmish-AI tactic (vtable 0x00872474; ctor 0x005ACF38
@@ -386,8 +388,8 @@ Object *AIFarmKillSquad::findEnemyFortress(Player *player)
 
 Object *AIFarmKillSquad::findProductionTarget(void *player)
 {
-	AIFarmKillSquadHolder *holder = (AIFarmKillSquadHolder *)g_00DFEEF8->rva002A8F24(static_cast<Player *>(player));
 	Coord3D center;
+	AIFarmKillSquadHolder *holder = (AIFarmKillSquadHolder *)g_00DFEEF8->rva002A8F24(static_cast<Player *>(player));
 	center.x = 0.0f;
 	center.y = 0.0f;
 	center.z = 0.0f;
@@ -402,16 +404,14 @@ Object *AIFarmKillSquad::findProductionTarget(void *player)
 		Object *farm = getFarmFinder();
 		_STL::map<float, Object *> byDistance;
 		for (ObjectID *it = ids.begin(); it != ids.end(); ++it) {
-			Object *obj = TheGameLogic->findObjectByID(*it);
+			Object *obj = TheGameLogic->findObjectByID((g_00DFEEF8 ? *it : *it));
 			if (obj && !(obj->m_04->m_10E & 4) && building != obj
 				&& TheAI->pathfinder()->QuickDoesPathExistToStructure(farm, &farm->m_pos, obj, 0)) {
 				float distance = rva005ACE15(&obj->m_pos, &center, &base);
 				byDistance.insert(_STL::pair<const float, Object *>(distance, obj));
 			}
 		}
-		if (byDistance.size() != 0)
-			return (--byDistance.end())->second;
-		return 0;
+		return (0 != byDistance.size()) ? (((holder->m_08 ? (--byDistance.end()) : (--byDistance.end())))->second) : (0);
 	}
 	if (ids.empty())
 		return 0;
