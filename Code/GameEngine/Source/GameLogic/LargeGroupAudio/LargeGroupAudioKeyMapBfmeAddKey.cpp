@@ -1,3 +1,7 @@
+// ?rva002862C9@Rva002862C9@@QAEPAVLargeGroupAudioKeyMap@@XZ
+// partial score=0.98 date=2026-10-14
+// ?rva002862C9@Rva002862C9@@QAEPAVLargeGroupAudioKeyMap@@XZ
+// partial score=0.98 date=2026-10-14
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/inputs/reference/shims/asciistring_downloadmanager /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
 // stlport
 // ?bfmeAddKey@LargeGroupAudioKeyMap@@QAEXABVAsciiString@@@Z retail 0x003EDA43, 168 bytes.
@@ -86,4 +90,60 @@ void LargeGroupAudioKeyMap::bfmeAddKey(const AsciiString &name)
 	if (word >= size())
 		resize(word + 1, 0);
 	((unsigned int *)begin())[word] |= mask;
+}
+
+// ?rva002862C9@Rva002862C9@@QAEPAVLargeGroupAudioKeyMap@@XZ
+// Retail 0x002862C9 (136B), WB 0x00C36490. Function-local static 12-byte
+// LargeGroupAudioKeyMap (vector holder at 0x00DFEC74, guard bit 0x00DFEC80)
+// built through the 0x001F81BF vector-base fold; its destructor is the
+// compiler-local atexit callback 0x007B7810 (tail-jmp to the rowed 0x003ED94F
+// dtor). A separate byte flag at 0x00DFEC70 guards one bfmeAddKey(
+// "BurningCell"). Retail ends with eax = &static, so the address pin is
+// renamed void -> LargeGroupAudioKeyMap*. The class name is the existing
+// 0x003ED94F dtor owner; its nonthrowing default ctor is the 0x001F81BF fold
+// proved by the gap-filler pattern, using the rowed _Vector_base ctor pin.
+namespace _STL
+{
+template <class T, class Alloc>
+class _Vector_base
+{
+public:
+	_Vector_base(const Alloc &alloc);
+};
+}
+
+class Rva003ED94FDtor : private _STL::_Vector_base<int, _STL::allocator<int> >
+{
+public:
+	__declspec(noinline) Rva003ED94FDtor();
+	~Rva003ED94FDtor();
+};
+
+Rva003ED94FDtor::Rva003ED94FDtor()
+	: _STL::_Vector_base<int, _STL::allocator<int> >(_STL::allocator<int>())
+{
+}
+
+extern unsigned int g_Va00DFEC74;
+
+class Rva002862C9
+{
+public:
+	LargeGroupAudioKeyMap *rva002862C9();
+};
+
+LargeGroupAudioKeyMap *Rva002862C9::rva002862C9()
+{
+	static Rva003ED94FDtor map;
+	static bool keysAdded;
+	if (!keysAdded)
+	{
+		{
+			AsciiString name("BurningCell");
+			LargeGroupAudioKeyMap *keyMap = (LargeGroupAudioKeyMap *)&map;
+			keyMap->bfmeAddKey(name);
+		}
+		keysAdded = true;
+	}
+	return (LargeGroupAudioKeyMap *)&g_Va00DFEC74;
 }

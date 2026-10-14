@@ -1326,10 +1326,11 @@ void Rva0004E3A1::rva0004E3A1()
 	rva002D7DD5();
 }
 
+class LargeGroupAudioKeyMap;
 class Rva002862C9
 {
 public:
-	void rva002862C9();
+	LargeGroupAudioKeyMap *rva002862C9();
 };
 class Rva00286351 : public Rva002862C9
 {
@@ -1361,17 +1362,9 @@ public:
 	Rva003ED658 rva00286356();
 };
 
-union Rva002862C9ResultCall
-{
-	void (Rva002862C9::*voidCall)();
-	Rva003ED658 const *(Rva002862C9::*resultCall)();
-};
-
 Rva003ED658 Rva00286356::rva00286356()
 {
-	Rva002862C9ResultCall call;
-	call.voidCall = &Rva002862C9::rva002862C9;
-	return *(this->*call.resultCall)();
+	return *reinterpret_cast<Rva003ED658 const *>(rva002862C9());
 }
 
 class Rva00286CC4

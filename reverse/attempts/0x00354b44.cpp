@@ -1,4 +1,6 @@
 // ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
+// partial score=0.972 date=2026-10-14
+// ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.9723 date=2026-10-14
 // ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.97 date=2026-10-14
