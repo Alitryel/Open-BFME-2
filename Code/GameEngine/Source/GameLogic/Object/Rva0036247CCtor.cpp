@@ -26,3 +26,48 @@ Rva0036247C::Rva0036247C()
 	  m_10(0)
 {
 }
+
+// ??0Rva00362D6C@@QAE@XZ, retail 0x00362D25, 65 bytes: the constructor of
+// the class whose virtual destructor 0x00362D6C (Rva00362D6CDtor.cpp) is
+// rowed, installing the same vtable 0x00C17068. It clears the byte at +4,
+// the dwords +8..+1C and the float at +0x2C, constructs the +0x30 member
+// through Rva0036247C's constructor above, then zeroes the three floats at
+// +0x20 (the body's zero after the member, as a Coord3D-style zero()). Retail
+// keeps edx and xmm0 live across that call, which needs the callee defined
+// in this unit. Field meanings are not established.
+struct Rva00362D25Coord
+{
+	float x, y, z;
+	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
+};
+
+class Rva00362D6C
+{
+public:
+	Rva00362D6C();
+	virtual ~Rva00362D6C();
+private:
+	bool m_04;
+	unsigned int m_08;
+	unsigned int m_0C;
+	unsigned int m_10;
+	unsigned int m_14;
+	unsigned int m_18;
+	unsigned int m_1C;
+	Rva00362D25Coord m_20;
+	float m_2C;
+	Rva0036247C m_30;
+};
+
+Rva00362D6C::Rva00362D6C()
+	: m_04(false),
+	  m_08(0),
+	  m_0C(0),
+	  m_10(0),
+	  m_14(0),
+	  m_18(0),
+	  m_1C(0),
+	  m_2C(0.0f)
+{
+	m_20.zero();
+}
