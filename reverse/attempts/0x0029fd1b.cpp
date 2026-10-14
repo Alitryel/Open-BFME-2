@@ -1,4 +1,6 @@
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
+// partial score=0.95 date=2026-10-14
+// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
 // partial score=0.781467 date=2026-10-14
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
 // partial score=0.752 date=2026-10-14
@@ -79,14 +81,14 @@ public:
 	BFME_V8(48,49,50,51,52,53,54,55) BFME_V8(56,57,58,59,60,61,62,63)
 	virtual void v64(); virtual void v65(); virtual void v66(); virtual void v67();
 	virtual void v68(); virtual void v69();
-	virtual bool v70();
+	virtual void *v70();
 	virtual void v71(); virtual void v72(); virtual void v73(); virtual void v74();
 	virtual void *v75();
 	virtual void v76(); virtual void v77(); virtual void v78(); virtual void v79(); virtual void v80();
 	virtual void v81();
 #undef BFME_V8
 private:
-	char m_pad000[0x238];
+	char m_pad000[0x234];
 	void *m_238; // +0x238
 	char m_pad23C[0x874 - 0x23C];
 	char m_hashtable[0x888 - 0x874]; // +0x874
@@ -146,11 +148,11 @@ void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int a
 		float radius;
 		if (id == m_89C)
 		{
-			TextureClass *tex = mp->Peek_Texture(arg3);
+			TextureClass *tex = ((MaterialPassClass *)((char *)obj + 0x330))->Peek_Texture((int)ov);
 			if (tex)
 			{
 				float *f = *(float **)((char *)tex + 4);
-				radius = f[0x34 / 4] + (obj ? f[0x38 / 4] : f[0x38 / 4]);
+				radius = f[0x38 / 4] + f[0x34 / 4];
 			}
 			else
 				radius = 0.0f;

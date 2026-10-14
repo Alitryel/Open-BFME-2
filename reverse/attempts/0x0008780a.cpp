@@ -1,4 +1,6 @@
 // ?rva0008780A@W3DView@@QAEXH@Z
+// partial score=0.995 date=2026-10-14
+// ?rva0008780A@W3DView@@QAEXH@Z
 // partial score=0.904235 date=2026-10-14
 // ?rva0008780A@W3DView@@QAEXH@Z
 // partial score=0.86676 date=2026-10-14
@@ -300,9 +302,10 @@ void W3DView::rva0008780A(int unused)
   m_pos = BfmeFollowSavedPosition;
   m_70 = 1.0f;
   m_angle = BfmeFollowSavedAngle;
-  m_50 = BfmeFollowSavedPitch;
-  m_40 = BfmeFollowSavedPitch;
+  Real pitch = BfmeFollowSavedPitch;
   m_following = false;
+  m_40 = pitch;
+  m_50 = pitch;
   setFollowedID(0);
   
  }
