@@ -8009,7 +8009,6 @@ name,address,notes
 ?bfmeFreeUNA@@YAXPAXH@Z,0x0065D030
 ?bfmeFreeVCC@@YAXPAXH@Z,0x0065D030
 ?bfmeFreeVDB@@YAXPAX@Z,0x0002FD60,BFME1 BfmeConv1350 donor call site; same body as rowed scalar delete
-?bfmeFreeVE@@YAXPAX@Z,0x0002FD60,callee read from the retail REL32 in placed BFME1-donor body ?bfmeKillVE@BfmeThingVE@@QAEPAXH@Z (0x000AD930)
 ?bfmeFreeVMN@@YAXPAX@Z,0x0002FD60,BFME1 BfmeConv1447 donor call site; same body as rowed scalar delete
 ?bfmeFreeVNC@Rva00800E50Owner@@QAEXPAVRva007E8810Message@@@Z,0x0066D0B0
 ?bfmeFwdOneSVA@BfmeThingSVA@@QAEXHH@Z,0x0002A300

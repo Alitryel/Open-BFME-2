@@ -11,7 +11,6 @@
 // exactly, so the store below references the defining name.
 extern "C" unsigned char __identifier("??_7BfmeParserBindingBaseVE@@6B@")[];
 
-void bfmeFreeVE(void *what);
 
 class BfmeSubVE
 {
@@ -35,6 +34,6 @@ void *BfmeThingVE::bfmeKillVE(int flags)
 	m_bfmeVft = __identifier("??_7BfmeParserBindingBaseVE@@6B@");
 	sub->bfmeDropVE(what);
 	if ((flags & 1) != 0)
-		bfmeFreeVE(this);
+		::operator delete(this);
 	return this;
 }
