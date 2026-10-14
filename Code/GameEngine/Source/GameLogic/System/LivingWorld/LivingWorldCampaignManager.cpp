@@ -29,6 +29,10 @@ public:
 
 extern GlobalData *TheWritableGlobalData;
 
+template<class T> class StringBase;
+struct Rva005657FEElement;
+struct Rva005657FEHolder;
+
 class Rva0052C036
 {
 public:
@@ -41,7 +45,7 @@ class Rva0052BFE1 : public Rva0052C036
 public:
 	Rva00564DF2NameView *rva0052C119();
     Rva00564DF2NameView *rva0052C7A2(const AsciiString &name);
-	void *rva0052BFE1(Int a, Int b);				// 0x0052BFE1
+	Rva005657FEElement *rva0052BFE1(const StringBase<char> &key, const Rva005657FEHolder *holder);	// 0x0052BFE1
 	unsigned char opaque_00[4];
 	AsciiString m_name04;
 	unsigned char opaque_08[0x4D - 0x08];
@@ -106,6 +110,7 @@ class LivingWorldLogic
 public:
 	unsigned char m_pad00[0xB0];
 	LivingWorldRegionManager *m_regionManager;	// +0xB0
+	void rva0047A69C(const AsciiString &name);
 };
 
 extern LivingWorldLogic *TheLivingWorldLogic;
@@ -221,7 +226,7 @@ void *LivingWorldCampaignManager::UseGenericSpawnArmyForPlayer(Int a, Int b)
 	if (m_campaignIndex >= 0 && (UnsignedInt)m_campaignIndex < m_campaignVector.size())
 	{
 		Rva0052BFE1 *campaign = m_campaignVector[m_campaignIndex];
-		return campaign->rva0052BFE1(a, b);
+		return campaign->rva0052BFE1(*(const StringBase<char> *)a, (const Rva005657FEHolder *)b);
 	}
 	return 0;
 }
@@ -318,31 +323,22 @@ class LivingWorldRegionEffectsManager
 public:
     void rva003EF2FF();
 };
-class Gen_003bcb40
-{
-public:
-    void m(int);
-};
 class Glo012F1024Item
 {
 public:
     void bfmeEnter();
 };
-inline int addressForEmptyCallback(const AsciiString &name)
-{
-    return (int)&name;
-}
-
 // WB10323B0 names CallActSubroutine and asserts the named act at line428.
 // Native calls the established 27-byte +4 getter, the shared RET4 callback,
 // the complete entry dispatcher and manager+268 effects reset. The callback
-// argument is one pointer-sized word; its original purpose remains unknown.
+// argument is the getter's AsciiString temporary, passed by reference (WB's
+// debug callee 0x00D834C0 formats it into "Calling Act Subroutine'%s'").
 void LivingWorldCampaignManager::CallActSubroutine(const AsciiString &name)
 {
     Rva00564DF2NameView *entry = rva003B8D4D(name);
     if (!entry)
         return;
-    ((Gen_003bcb40 *)TheLivingWorldLogic)->m(addressForEmptyCallback(entry->rva00564DF2()));
+    TheLivingWorldLogic->rva0047A69C(entry->rva00564DF2());
     ((Glo012F1024Item *)entry)->bfmeEnter();
     TheLivingWorldManager->m_regionEffects->rva003EF2FF();
 }

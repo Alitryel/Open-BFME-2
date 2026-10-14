@@ -652,6 +652,7 @@ class LivingWorldLogic : public Rva002BA82BBase00, public Rva002BA82BObserver10,
 {
 public:
 void logicMessageDispatcher(GameMessage*,void*);
+	void rva0047A69C(const AsciiString &name);	// folded into 0x0047A69C
 	virtual void OnRegionChangedOwnership(LivingWorldRegion *region, Int oldOwnerID, Int newOwnerID);
 
 	// 0x002B6DC4: the upgrades the region's armory offers the entry.
@@ -3891,3 +3892,12 @@ class Rva002B54BB { public: Rva002B4349 rva002B54BB(); };
 // Update (WB LivingWorldLogic::AutoBattleResolver::Update). Evidence: WB
 // 0xD7B800 branch structure + retail 623B; holder members via get() exactly
 // where the trial read its unit/sim members.
+
+// LivingWorldCampaignManager::CallActSubroutine (0x003B8D71) calls this
+// member on TheLivingWorldLogic with the act name. WB's debug build
+// (0x00D834C0) only logs "Calling Act Subroutine'%s'"; the retail body is
+// empty and folds into the shared 3-byte RET 4 at 0x0047A69C. Name
+// address-derived: the original member name is not established.
+void LivingWorldLogic::rva0047A69C(const AsciiString &name)
+{
+}
