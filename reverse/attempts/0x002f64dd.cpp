@@ -1,4 +1,8 @@
 // ?FindCollisionFreeQuickPath@Pathfinder@@UAEPAVPath@@PAVObject@@PBUCoord3D@@PAUPathNode@@@Z
+// partial score=0.69 date=2026-10-14
+// ?FindCollisionFreeQuickPath@Pathfinder@@UAEPAVPath@@PBUObject@@PBUCoord3D@@PAUPathNode@@@Z
+// partial score=0.69 date=2026-10-14
+// ?FindCollisionFreeQuickPath@Pathfinder@@UAEPAVPath@@PAVObject@@PBUCoord3D@@PAUPathNode@@@Z
 // partial score=0.69 date=2026-10-09
 // cl: /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /Ireference/shims/bfme2_ascii
 //
@@ -28,7 +32,7 @@ enum PathfindLayerEnum
 	PATHFIND_LAYER_GROUND = 1
 };
 
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../Code/Libraries/Include/Lib/Coord3D.h"
 
 struct ICoord2DBase
 {
