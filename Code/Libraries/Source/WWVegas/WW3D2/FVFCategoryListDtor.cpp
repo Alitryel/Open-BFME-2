@@ -40,6 +40,7 @@ public:
 	virtual ~GenericMultiListClass();
 
 protected:
+	bool Internal_Remove(MultiListObjectClass *obj);
 	MultiListObjectClass *Internal_Remove_List_Head();
 };
 
@@ -48,6 +49,8 @@ class FVFCategoryList : public GenericMultiListClass
 public:
 	FVFCategoryList(void);
 	virtual ~FVFCategoryList();
+	bool rva00143E40(MultiListObjectClass *obj);
+	MultiListObjectClass *rva00143E50();
 };
 
 // ??1FVFCategoryList@@UAE@XZ
@@ -63,4 +66,21 @@ FVFCategoryList::~FVFCategoryList()
 // head) before the vtable store. No direct caller remains in retail.
 FVFCategoryList::FVFCategoryList(void)
 {
+}
+
+// Retail 0x00143E40 and 0x00143E50 (5-byte tail jumps): the
+// typed remove and remove-head forwards of a category list (ZH
+// MultiListClass<T>::Remove / Remove_Head shape) into the matched
+// GenericMultiListClass::Internal_Remove 0x00610930 and
+// Internal_Remove_List_Head 0x006109A0, placed after the FVFCategoryList
+// constructor. Which BFME 2 list class owns these ICF-shared copies is not
+// established, so the names are address-derived.
+bool FVFCategoryList::rva00143E40(MultiListObjectClass *obj)
+{
+	return Internal_Remove(obj);
+}
+
+MultiListObjectClass *FVFCategoryList::rva00143E50()
+{
+	return Internal_Remove_List_Head();
 }
