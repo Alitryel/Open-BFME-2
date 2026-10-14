@@ -62,6 +62,7 @@ public:
  int getCurNumUnits(Team *);
  int doesTeamMeetThreat(Team *);
  bool rva0059A01C(Object*,const AITeamRequirementView*,const AITargetView*);
+ void checkIdleTeams();
  char prefix00[0x14]; Player* owner14;
 };
 class Rva0059AC4D {
@@ -118,7 +119,7 @@ void Rva0059AC4D::update()
   if (!TheGameLogic->findObjectByID((ObjectID)*it)) busy.erase(it++);
   else ++it;
  }
- checkIdleTeams();
+ ((AITeamBuilder *)this)->checkIdleTeams();
 }
 
 // Native599F74..599FAA54B; WB1529260 getTeamForAIPrototype asserts157..166.

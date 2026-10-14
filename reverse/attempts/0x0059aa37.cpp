@@ -1,4 +1,6 @@
-// ?checkIdleTeams@Rva0059AC4D@@QAEXXZ
+// ?checkIdleTeams@AITeamBuilder@@QAEXXZ
+// partial score=0.9 date=2026-10-14
+// ?checkIdleTeams@AITeamBuilder@@QAEXXZ
 // partial score=0.9 date=2026-10-13
 // ?checkIdleTeams@AITeamBuilder@@QAEXXZ
 // partial score=0.92 date=2026-10-08
