@@ -375,3 +375,37 @@ Rva005E0D3BValue Rva005E0D3B::rva005E0D3B() const
 	static const Color s_color = GameMakeColor(255, 255, 255, 128);
 	return Rva005E0D3BValue(m_3C, s_color);
 }
+
+// --- 0x005FFB65 and 0x005FFB73 (14B each): the first and second byte of
+// the indexed two-byte entry in the +0x4C table of the +4 object.
+struct Rva005FFB65Entry
+{
+	unsigned char m_first;
+	unsigned char m_second;
+};
+
+struct Rva005FFB65Table
+{
+	char m_pad00[0x4C];
+	Rva005FFB65Entry m_entries[1];
+};
+
+class Rva005FFB65
+{
+public:
+	unsigned char rva005FFB65(int index) const;
+	unsigned char rva005FFB73(int index) const;
+private:
+	void *m_00;
+	Rva005FFB65Table *m_table;
+};
+
+unsigned char Rva005FFB65::rva005FFB65(int index) const
+{
+	return m_table->m_entries[index].m_first;
+}
+
+unsigned char Rva005FFB65::rva005FFB73(int index) const
+{
+	return m_table->m_entries[index].m_second;
+}

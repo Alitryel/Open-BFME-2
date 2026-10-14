@@ -57,3 +57,18 @@ void __cdecl StrategicHUD::SetLocalPlayerNameString(int level, Rva005FDF1COuter 
 	key.format("APT:_level%u.%s_LocalPlayerName", level, mid);
 	g_bfmeAptWindowManager->bfmeSetText(key, text, true);
 }
+
+// 0x005FDFEA (34B, after the two name setters): a record of two words and a
+// copied UnicodeString (the rowed StringBase<unsigned short> copy 0x00037050).
+struct Rva005FDFEARecord
+{
+	Rva005FDFEARecord(int first, int second, const UnicodeString &text);
+	int m_first;
+	int m_second;
+	UnicodeString m_text;
+};
+
+Rva005FDFEARecord::Rva005FDFEARecord(int first, int second, const UnicodeString &text)
+	: m_first(first), m_second(second), m_text(text)
+{
+}
