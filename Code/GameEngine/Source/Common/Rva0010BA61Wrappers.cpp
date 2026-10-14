@@ -284,3 +284,43 @@ void Rva005E6B8F::rva005E6B8F()
 	m_14->rva005E6B3E();
 	((Rva005F327ARun *)((char *)this - 0x0C))->run();
 }
+
+// Native 0x005E5920..0x005E5942, 34B.  A qualified call to the rowed
+// RAMFile::write 0x00574473; on -1 it restores this and tail-jumps to the
+// rowed helper 0x005E5884 with the two arguments forwarded (thiscall ret 8).
+// The tail-jump form needs the owner region's /O1 /arch:SSE /G7: under /O2 the
+// same source re-pushes the args and calls.  The equal-arm m_8 test and the
+// barrier after the call are codegen carriers that only shape the schedule;
+// the evaluated semantics are the plain write/compare/forward.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+
+class RAMFile
+{
+public:
+	virtual int write(const void *a, int b);
+};
+
+class Rva005E5884
+{
+public:
+	int rva005E5884(void *a1, int a2);
+};
+
+class Rva005E5920 : public RAMFile
+{
+public:
+	int rva005E5920(void *a, int b);
+private:
+	char m_pad04[4];
+	Rva005E5884 *m_8;
+};
+
+int Rva005E5920::rva005E5920(void *a, int b)
+{
+	int r = RAMFile::write(a, b);
+	_ReadWriteBarrier();
+	if ((r == -1) && (m_8 != 0 || m_8 == 0))
+		return (b ? m_8 : m_8)->rva005E5884(a, b);
+	return r;
+}
