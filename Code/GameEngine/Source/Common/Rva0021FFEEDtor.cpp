@@ -26,8 +26,29 @@ private:
 	char m_storage04[0x13c];
 };
 
-class Rva0021F876;
+struct BfmePod216 { int a[54]; };
+class Rva0021F876
+{
+public:
+	Rva0021F876(const Rva0021F876 &);
+	~Rva0021F876();
+	AsciiString m_strings[5];
+	_STL::vector<BfmePod216> m_subclasses;
+};
 template <> _STL::vector<Rva0021F876>::~vector();
+template <> void _STL::vector<Rva0021F876>::push_back(const Rva0021F876 &);
+
+// The named, independently rowed 00219C1F accessor views the same 32B class
+// record and its 216B subclass range. Keep the existing container spelling.
+class CreateAHeroManager
+{
+public:
+	class CreateAHeroClass
+	{
+	public:
+		int GetAwardCount(unsigned int subClassIndex);
+	};
+};
 
 struct Rva0021DA18
 {
@@ -53,6 +74,7 @@ class Rva0021FFEE : public SubsystemInterface
 {
 public:
 	virtual ~Rva0021FFEE();
+	Rva0021F876 *rva0022020C(Rva0021F876 &entry);
 private:
 	CreateAHeroData m_hero0C;
 	_STL::vector<Rva0021F876> m_vector14C;
@@ -64,7 +86,9 @@ private:
 	AsciiString m_text188, m_text18C, m_text190;
 	char m_pad194[0x30];
 	AsciiString m_text1C4, m_text1C8, m_text1CC;
-	char m_pad1D0[0xC];
+	int m_1D0;
+	unsigned int m_maxAwards1D4;
+	int m_1D8;
 	AsciiString m_text1DC;
 	int m_state1E0;
 	int m_1E4;
@@ -75,4 +99,24 @@ Rva0021FFEE::~Rva0021FFEE()
 {
 	m_state1E0 = 0;
 	m_tree174.clear();
+}
+
+// Native 0022020C..002202BF (179B): reuse an existing entry by its fifth
+// string, or append a copy and update the maximum subclass award count.
+// Binding the name to a reference first is what lets retail's index share
+// the dead argument slot (and its strength-reduced offset take [ebp-4]).
+Rva0021F876 *Rva0021FFEE::rva0022020C(Rva0021F876 &entry)
+{
+	const AsciiString &name = entry.m_strings[4];
+	for (int i = 0; i < m_vector14C.size(); ++i)
+		if (name.compareNoCase(m_vector14C[i].m_strings[4]) == 0)
+			return &m_vector14C[i];
+	m_vector14C.push_back(entry);
+	for (int i = 0; i < entry.m_subclasses.size(); ++i)
+	{
+		unsigned int count = reinterpret_cast<CreateAHeroManager::CreateAHeroClass *>(&entry)->GetAwardCount(i);
+		if (m_maxAwards1D4 < count)
+			m_maxAwards1D4 = count;
+	}
+	return m_vector14C.end() - 1;
 }
