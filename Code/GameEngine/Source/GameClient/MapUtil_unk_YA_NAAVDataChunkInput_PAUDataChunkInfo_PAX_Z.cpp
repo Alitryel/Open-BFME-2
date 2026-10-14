@@ -117,6 +117,17 @@ public:
 #include "GameLogic/FPUControl.h"
 #include "GameNetwork/GameInfo.h"
 #include "GameNetwork/NetworkDefs.h"
+// Retail inlines list<Coord3D>'s node deallocate everywhere and has no
+// out-of-line copy; another unit's copy is first in link order, so dllimport
+// keeps this unit's inline-only.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<Coord3D> >::deallocate(_List_node<Coord3D> *__p, size_t) const
+{ if (__p != 0) ::free((void *)__p); }
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<Coord3D> *, _List_node<Coord3D>, allocator<_List_node<Coord3D> > >::deallocate(_List_node<Coord3D> *__p, size_t __n)
+{ allocator<_List_node<Coord3D> >::deallocate(__p, __n); }
+}
 
 #ifdef _INTERNAL
 // for occasional debugging...

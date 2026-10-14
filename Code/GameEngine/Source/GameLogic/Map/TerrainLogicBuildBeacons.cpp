@@ -27,6 +27,17 @@ typedef int Int;
 // bfme link decl-only begin
 namespace _STL { template <> _List_node<Coord3D> * list<Coord3D, allocator<Coord3D> >::_M_create_node(Coord3D const &); }
 // bfme link decl-only end
+// Retail inlines list<Coord3D>'s node deallocate everywhere and has no
+// out-of-line copy; another unit's copy is first in link order, so dllimport
+// keeps this unit's inline-only.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<Coord3D> >::deallocate(_List_node<Coord3D> *__p, size_t) const
+{ if (__p != 0) _STL::free((void *)__p); }
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<Coord3D> *, _List_node<Coord3D>, allocator<_List_node<Coord3D> > >::deallocate(_List_node<Coord3D> *__p, size_t __n)
+{ allocator<_List_node<Coord3D> >::deallocate(__p, __n); }
+}
 
 typedef _STL::list<Coord3D> Coord3DList;
 
