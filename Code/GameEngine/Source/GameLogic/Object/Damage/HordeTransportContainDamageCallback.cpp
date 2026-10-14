@@ -1,8 +1,4 @@
-// ?rva004BB176@HordeTransportContainDamage@@UAEXPAVDamageInfo@@@Z
-// partial score=0.9736 date=2026-10-14
-// ?rva004BB176@HordeTransportContainDamage@@UAEXPAVDamageInfo@@@Z
-// partial score=0.892833252218575 date=2026-10-10
-// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /I.
+// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /ICode
 // stlport
 // Complete native4BB176..4BB391 RET4 (539B). Address-derived damage callback.
 // Target identity: named factory250E9C allocates20B and calls ctor4BB130;
@@ -13,16 +9,15 @@
 // target horde damage redistribution is a BFME-specific extension. No donor
 // name, inherited layout, or success enum is inferred from matching bytes.
 #include <list>
+#include "GameEngine/Source/Common/GameLogicObjectLookupView.h"
+// Keep the vendor inline bodies visible; existing units own emitted copies.
 namespace _STL {
-template<> __declspec(noinline) list<int>::_Node *list<int>::_M_create_node(const int &x) {
- _Node *p=this->_M_node.allocate(1);_Construct(&p->_M_data,x);return p;
+template<> __declspec(dllimport) __forceinline _List_iterator<Object*,_Nonconst_traits<Object*> >::_List_iterator(_List_node<Object*> *node):_List_iterator_base(node) {}
+template<> __declspec(dllimport) __forceinline list<Object*>::iterator list<Object*>::begin() {return iterator((_Node*)(this->_M_node._M_data->_M_next));}
+template<> __declspec(dllimport) __forceinline list<Object*>::iterator list<Object*>::end() {return this->_M_node._M_data;}
 }
-template<> __declspec(noinline) list<int>::iterator list<int>::insert(list<int>::iterator pos,const int &x) {
- _Node *tmp=_M_create_node(x);_List_node_base *n=pos._M_node,*p=n->_M_prev;
- tmp->_M_next=n;tmp->_M_prev=p;p->_M_next=tmp;n->_M_prev=tmp;return tmp;
-}
-}
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+extern template class _STL::list<Object*>;
+extern template struct _STL::_List_iterator<Object*,_STL::_Nonconst_traits<Object*> >;
 extern GameLogic *TheGameLogic;
 enum DamageType { NATIVE_DAMAGE8=8 };enum DeathType { NATIVE_DEATH0=0 };
 class Object {public:void kill(DamageType,DeathType);};
@@ -364,14 +359,16 @@ void HordeTransportContainDamage::rva004BB176(DamageInfo *damage) {
   HordeCountView *horde=(*cv)->s31()->s134();HordeCountView *saved=horde;if(!horde)continue;
   unsigned present=horde->counts.s96(false);if(present<=1)continue;
   unsigned limit=horde->counts.s95();if(!limit)continue;
-  float ratio=1.0f/(maximum/(float)limit);
+  // The native x87 sequence retains the quotient in extended precision.
+ double quotient=maximum/(float)limit;
+ float ratio=1.0/quotient;
   unsigned oldCount=(horde ? ((unsigned)(int)(before*ratio)) : ((unsigned)(int)(before*ratio)))+1;if(oldCount>=limit)oldCount=limit;
   unsigned newCount=(unsigned)(int)(current*ratio)+1;if(newCount>=limit)newCount=limit;
   if(present<=newCount)continue;
   unsigned remove=oldCount-newCount;if(present-remove<newCount)remove=present-newCount;
   DamageListOutput inner;saved->contain.s70(&inner);
   std::list<Object*>::iterator victim=inner.list->begin();
-  for(unsigned i=0;(remove ? remove : remove) > i &&victim._M_node!=inner.list->end()._M_node;++i) {
+  for(unsigned i=0;i<remove &&victim._M_node!=inner.list->end()._M_node;++i) {
    Object *obj=*victim++;
    if(obj) {int id=((DamageObjectView*)obj)->id;dead.push_back(id);}
   }
