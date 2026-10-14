@@ -841,3 +841,43 @@ const LocomotorTemplate *Rva0006F313::rva0006F313() const
 {
 	return m_00.operator->();
 }
+
+// 0x0004208C / 0x00042100 (5B each), unreferenced: destructors of holders
+// whose only member with a destructor is a polymorphic object at +0, which
+// they destroy directly: tail jumps into the rowed ??1Rva00243BA0
+// (0x00243BA0) and ??1Rva00256E96 (0x00256E96).
+class Rva00243BA0
+{
+public:
+	virtual ~Rva00243BA0();
+};
+
+class Rva00256E96
+{
+public:
+	virtual ~Rva00256E96();
+};
+
+class Rva0004208C
+{
+public:
+	~Rva0004208C();
+private:
+	Rva00243BA0 m_00;
+};
+
+Rva0004208C::~Rva0004208C()
+{
+}
+
+class Rva00042100
+{
+public:
+	~Rva00042100();
+private:
+	Rva00256E96 m_00;
+};
+
+Rva00042100::~Rva00042100()
+{
+}
