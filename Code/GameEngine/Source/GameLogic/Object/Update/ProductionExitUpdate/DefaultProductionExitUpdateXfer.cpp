@@ -264,7 +264,9 @@ private:
 class AIUpdateInterface : public AIUpdateInterfaceBase, public AICommandInterface
 {
 public:
-	const LocomotorSet &getLocomotorSet() const { return m_locomotorSet; }
+	// Retail inlines these and has no out-of-line copies; other units' views
+	// emit them first in link order, so dllimport keeps these inline-only.
+	__declspec(dllimport) const LocomotorSet &getLocomotorSet() const { return m_locomotorSet; }
 private:
 	char m_unrecovered24[0x1CC - 0x24];
 	LocomotorSet m_locomotorSet;																							///< 0x1CC
@@ -275,7 +277,7 @@ class Object : public Thing
 public:
 	__declspec(dllimport) __forceinline PathfindLayerEnum getLayer() const { return (PathfindLayerEnum)rva0028B511(); }
 	void setLayer(PathfindLayerEnum layer) { rva0028B4CE(layer); }
-	AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
+	__declspec(dllimport) AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 
 	Int rva0028B511() const;
 	void rva0028B4CE(PathfindLayerEnum layer);

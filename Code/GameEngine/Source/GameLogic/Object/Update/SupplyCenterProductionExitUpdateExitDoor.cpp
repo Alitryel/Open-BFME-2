@@ -151,7 +151,9 @@ class AIUpdateInterface : public AIUpdateInterfaceBase, public AICommandInterfac
 class Object : public Thing
 {
 public:
-	AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
+	// Retail inlines this and has no out-of-line copy; other units' views
+	// emit it first in link order, so dllimport keeps this one inline-only.
+	__declspec(dllimport) AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 
 private:
 	char m_unrecovered48[0x258 - 0x48];

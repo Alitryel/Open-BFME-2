@@ -93,7 +93,9 @@ public:
 class Object
 {
 public:
-	AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
+	// Retail inlines this and has no out-of-line copy; other units' views
+	// emit it first in link order, so dllimport keeps this one inline-only.
+	__declspec(dllimport) AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 	const Coord3D *getPosition() const { return &m_pos; }
 	char m_pad000[0x38];
 	Coord3D m_pos;			// +0x38

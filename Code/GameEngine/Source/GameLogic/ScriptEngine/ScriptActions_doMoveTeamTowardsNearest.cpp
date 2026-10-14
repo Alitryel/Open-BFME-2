@@ -133,7 +133,9 @@ class Object : public BfmeObjectVtbl, public BfmeObjectDlinkBase,
 	public BfmeObjectDlinkPad, public BfmeObjectVbptrCarrier
 {
 public:
-	AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
+	// Retail inlines this and has no out-of-line copy; other units' views
+	// emit it first in link order, so dllimport keeps this one inline-only.
+	__declspec(dllimport) AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 	const Coord3D *getPosition() const { return &m_pos; }
 private:
 	unsigned char m_pad070[0x258 - 0x70];
