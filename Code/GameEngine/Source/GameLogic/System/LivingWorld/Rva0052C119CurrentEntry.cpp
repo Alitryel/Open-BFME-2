@@ -69,3 +69,11 @@ bool Rva0052BFE1::rva0052C72B(const AsciiString &key)
     }
     return false;
 }
+
+// 0x00564DF2 (27B): the by-value getter of the record's +0x04 AsciiString,
+// the body retail folds Image::getName and the other +4 name getters into.
+// Out of line so the scans above keep their call.
+__declspec(noinline) AsciiString Rva00564DF2NameView::rva00564DF2() const
+{
+    return *(const AsciiString *)(unknown + 4);
+}
