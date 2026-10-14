@@ -16,6 +16,15 @@
 // STLport typed range erase emits the same complete 34 bytes and copy-trivial
 // relocation as the existing void-pointer owner at 0x0031BD55; no new bytes.
 
+// Keep vector growth's unsigned comparison local. Its standalone template
+// copy differs from retail; all uses in this unit are already inlined.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+	return a < b ? b : a;
+}
+}
 #include <vector>
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
