@@ -2588,27 +2588,9 @@ Bool parseLayoutBlock( File *inFile, char *buffer, UnsignedInt version, WindowLa
 /** Load window(s) from a .wnd definition file and wrap within a
 	* new window layout */
 //=============================================================================
-// ?winCreateLayout@GameWindowManager@@ present-unmatched
-WindowLayout *GameWindowManager::winCreateLayout( AsciiString filename )
-{
-	WindowLayout *layout;
+// Native layout factory is defined with its44B info lifetimes in
+// Rva0031763ACtorDtorAssign.cpp.
 
-	// allocate a new window layout
-	layout = newInstance(WindowLayout);
-
-	// load windows into layout
-	if( layout->load( filename ) == FALSE )
-	{
-
-		layout->deleteInstance();
-		return NULL;
-
-	}  // end if
-	
-	// return loaded layout
-	return layout;
-
-}  // end winCreateLayout
 
 /** Free up the memory used by static strings.  Normally this memory
 is freed by the string destructor but we do it here to make the

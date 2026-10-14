@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmelist /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmelist /Ireference/shims/bfmealloc
 // stlport
 //
 // ??1Rva0031763A@@QAE@XZ @0x003175D1 105B, ??0Rva0031763A@@QAE@XZ @0x0031763A 127B,
@@ -92,18 +92,23 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "ascii_string.h"
 
 
+class GameWindowManager;
+class WindowLayout;
+class Rva0031763A;
+typedef WindowLayout *(__stdcall *NativeLayoutFactory)(Rva0031763A *);
 class Rva0031763A
 {
 public:
 	Rva0031763A();
 	~Rva0031763A();
 	Rva0031763A &operator=(const Rva0031763A &that);
+ friend class GameWindowManager;
 private:
 	int m_unk00; // +0x00
 	int m_unk04; // +0x04
 	int m_unk08; // +0x08
 	int m_unk0C; // +0x0C
-	int m_unk10; // +0x10
+	NativeLayoutFactory m_unk10; // +0x10
 	AsciiString m_s14; // +0x14
 	AsciiString m_s18; // +0x18
 	AsciiString m_s1C; // +0x1C
@@ -144,4 +149,48 @@ Rva0031763A &Rva0031763A::operator=(const Rva0031763A &that)
 	m_s24 = that.m_s24;
 	m_list28 = that.m_list28;
 	return *this;
+}
+
+class WindowLayoutInfo {public:bool load(AsciiString);};
+class BfmeQuickMatchScreenBase {
+public:
+ BfmeQuickMatchScreenBase();
+ virtual void bfmeSlot0();
+ virtual void bfmeSlot1();
+ virtual void bfmeSlot2();
+ virtual void bfmeSlot3();
+ virtual void rva00538AB0(bool);
+ virtual void slot5();
+ virtual void add(void*);
+private:
+ unsigned char native04[0x20];
+ void bfmeAttach(void *);
+ friend class GameWindowManager;
+};
+class GameWindowManager {public:virtual WindowLayout *winCreateLayout(AsciiString);};
+// Native3176B9..317779/192B; WB13A7060..13A71DE and the native
+// manager vtable slot32 establish winCreateLayout. The existing44B info
+// supplies a stdcall factory at10; its load and the36B layout constructor
+// and private attach method are independently rowed. Catch(...) returns0.
+// EH thunk77A69D -> FuncInfo9231CC -> try9231B8 -> catch entry9231A8
+// identifies317717 as this parent's catch body; it is not an integer getter.
+// ZH/BFME1 GameWindowManagerScript supplies the layout-loading semantic
+// family; native and WB establish the BFME2 callback/exception extension.
+WindowLayout *GameWindowManager::winCreateLayout(AsciiString filename)
+{
+    WindowLayout *layout;
+    Rva0031763A info;
+    if (!reinterpret_cast<WindowLayoutInfo *>(&info)->load(filename))
+        return 0;
+    if (info.m_unk10) {
+        try {
+            layout = info.m_unk10(&info);
+        } catch (...) {
+            return 0;
+        }
+    } else {
+        layout = reinterpret_cast<WindowLayout *>(new BfmeQuickMatchScreenBase);
+        reinterpret_cast<BfmeQuickMatchScreenBase *>(layout)->bfmeAttach(&info);
+    }
+    return layout;
 }
