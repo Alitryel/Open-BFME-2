@@ -130,3 +130,10 @@ AptValue *Rva006CBA40CreateArray(int count, BfmeAptValue006DCD20 **pAptValue)
 	}
 	return (AptValue *)new Rva006DA4D0(count, pAptValue);
 }
+
+// 0x006CB9B0 (17B, just before 0x006CB9D0): a raw block of the given size
+// from the same value allocator (rowed allocBlock 0x006D29E0).
+void *Rva006CB9B0Alloc(int size)
+{
+	return g_pChainBlockAllocatorF4->allocBlock(size);
+}
