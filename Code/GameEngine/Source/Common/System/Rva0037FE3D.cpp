@@ -12,15 +12,16 @@
 struct Rva0037FE3DNode { Rva0037FE3DNode* next; };
 struct Rva0037FE3DList { Rva0037FE3DNode* head; };
 #include "../../GameLogic/System/ArmyPlacerWaypoints.h"
+class Player;
 class Rva0037FE3D {
 public:
     void rva0037FE3D(const Rva0037FE3DList&,int);
-    void rva0037FAC6(const Rva0037FE3DList&,const Coord3D*,const Coord3D*,int,int);
+    void rva0037FAC6(const Rva0037FE3DList&,const Coord3D*,const Coord3D*,Player*,bool);
 };
 void Rva0037FE3D::rva0037FE3D(const Rva0037FE3DList& list,int value) {
     if(list.head->next==list.head) return;
     Coord3D first={0.0f,0.0f,0.0f};
     Coord3D second={1.0f,0.0f,0.0f};
     reinterpret_cast<ArmyPlacer*>(this)->GetStartPosWaypointLocations(0,&first,&second);
-    rva0037FAC6(list,&first,&second,value,0);
+    rva0037FAC6(list,&first,&second,reinterpret_cast<Player*>(value),false);
 }
