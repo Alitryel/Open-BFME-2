@@ -36,6 +36,7 @@ template<> Coord3D *__copy_backward(Coord3D *first,Coord3D *last,Coord3D *result
 class Rva00082719Vector : public _STL::vector<Coord3D> {
 public:
  void fillInsert(Coord3D*,unsigned int,const Coord3D&);
+ void rva00082C62(Coord3D*,unsigned int,const Coord3D&);
 };
 void Rva00082719Vector::fillInsert(
 	Coord3D *position, unsigned int count, const Coord3D &value)
@@ -76,4 +77,13 @@ void Rva00082719Vector::fillInsert(
 		else
 			this->_M_insert_overflow(position, value, _IsPODType(), count);
 	}
+}
+
+// 0x00082C62 (5B), unreferenced in retail: the counted insert of the same
+// vector view, a tail jump into fillInsert above (the shape of STLport's
+// insert(pos, n, x) over _M_fill_insert). Name address-derived.
+void Rva00082719Vector::rva00082C62(
+	Coord3D *position, unsigned int count, const Coord3D &value)
+{
+	fillInsert(position, count, value);
 }
