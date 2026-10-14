@@ -36,11 +36,14 @@ struct IDirect3DDevice8
 class W3DShaderManager
 {
 public:
+	W3DShaderManager();
 	static void startRenderToTexture();
 	static IDirect3DTexture8 *endRenderToTexture();
 	static IDirect3DTexture8 *getRenderTexture();
 
 protected:
+	static int m_currentShader;
+	static int m_currentFilter;
 	static bool m_renderingToTexture;
 	static unsigned long m_dwGlowPixelShader;
 	static unsigned long m_dwGlowVertexShader;
@@ -400,6 +403,50 @@ unsigned long W3DShaderManager::m_dwGlowVertexShader;
 // and 9 (0x000FDCD7).
 class W3DFilterInterface;
 W3DFilterInterface *W3DFilters[10];
+
+// W3DShaderManager::W3DShaderManager, retail 0x00075480 (94B, returns this):
+// Zero Hour's constructor (W3DShaderManager.cpp) on BFME 2's statics. No
+// current shader (-1, VA 0x00DE1F54) or filter, the render-to-texture
+// surfaces (0x00DE1F64..0x00DE1F70) cleared, the flag dropped, then the four
+// BFME 2 additions (glow shader handles, the quad vertex buffer and index,
+// 0x00DE1F74..0x00DE1F80), and the pass-count (0x00DE1F1C), shader
+// (0x00DE1F24) and filter (0x00DE1F2C) tables zeroed. The two Zero Hour
+// stores to m_currentShader collapse into the first. Data names are the
+// ledger's: the two unnamed surface slots keep their address-derived
+// spellings; the shader and pass-count tables take Zero Hour's names (the
+// rowed init 0x000F5B43 sets W3DShaders[1] and W3DShadersPassCount[1]).
+class ShaderInterface;
+class ShaderComResourceRef;
+class VertexBufferClass;
+extern unsigned int g_Va009E1F6C;
+extern ShaderComResourceRef *rva012F9D10;
+extern VertexBufferClass *g_vb;
+extern int g_quadIndex;
+extern ShaderInterface *W3DShaders[2];
+extern int W3DShadersPassCount[2];
+
+W3DShaderManager::W3DShaderManager()
+{
+	m_currentShader = 0;
+	m_currentFilter = 0;
+	m_oldRenderSurface = 0;
+	m_renderTexture = 0;
+	g_Va009E1F6C = 0;
+	rva012F9D10 = 0;
+	m_renderingToTexture = false;
+	m_dwGlowPixelShader = 0;
+	m_dwGlowVertexShader = 0;
+	g_vb = 0;
+	g_quadIndex = 0;
+	int i;
+	for (i = 0; i < 2; i++)
+		W3DShadersPassCount[i] = 0;
+	for (i = 0; i < 2; i++)
+		W3DShaders[i] = 0;
+	for (i = 0; i < 10; i++)
+		W3DFilters[i] = 0;
+	m_currentShader = -1;
+}
 
 // Clean BF1 donor and native texture callers establish the static pointer ABI.
 IDirect3DTexture8 *W3DShaderManager::getRenderTexture()
