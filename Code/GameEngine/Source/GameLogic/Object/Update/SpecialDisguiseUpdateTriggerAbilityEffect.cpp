@@ -193,7 +193,7 @@ class Player;
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	Player *disguiseLocalPlayer() { return m_local; }
 private:
 	unsigned char m_pad00[0x10];
 	Player *m_local; // +0x10
@@ -351,7 +351,7 @@ void SpecialDisguiseUpdate::triggerAbilityEffect()
 
 	obj->setModelConditionState(300);
 
-	Player *localPlayer = ThePlayerList->getLocalPlayer();
+	Player *localPlayer = ThePlayerList->disguiseLocalPlayer();
 	bool isLocal = true;
 	if (obj->getControllingPlayer() != localPlayer)
 		isLocal = false;

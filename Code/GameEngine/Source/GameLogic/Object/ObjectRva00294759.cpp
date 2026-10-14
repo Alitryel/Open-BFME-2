@@ -56,7 +56,7 @@ public:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	Player *portraitLocalPlayer() { return m_local; }
 
 	char m_pad[0x10];
 	Player *m_local;
@@ -128,7 +128,7 @@ const Image *Object::getObjectSelectedPortraitImage()
 	{
 		Rva00373EC6 *module = rva0028F4BC();
 		if (module && module->m_3C != 0 && !((Rva002A7DD0 *)ThePlayerList)->rva002A7DD0()
-			&& ThePlayerList->getLocalPlayer()->getRelationship(getTeam()) == ENEMIES)
+			&& ThePlayerList->portraitLocalPlayer()->getRelationship(getTeam()) == ENEMIES)
 		{
 			ThingTemplate *tmpl = module->m_3C;
 			if (tmpl)

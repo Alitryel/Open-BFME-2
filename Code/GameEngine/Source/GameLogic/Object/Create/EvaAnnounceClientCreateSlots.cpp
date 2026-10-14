@@ -35,7 +35,7 @@ public:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	Player *announceLocalPlayer() { return m_local; }
 private:
 	unsigned char m_pad00[0x10];
 	Player *m_local; // +0x10
@@ -153,11 +153,11 @@ void EvaAnnounceClientCreate::rva004C9A82()
 		draw->m_114 |= 0x80;
 	int event;
 	Player *ctl = obj->getControllingPlayer();
-	if (ctl == ThePlayerList->getLocalPlayer())
+	if (ctl == ThePlayerList->announceLocalPlayer())
 		event = d->m_10;
 	else
 	{
-		switch (ThePlayerList->getLocalPlayer()->getRelationship(obj))
+		switch (ThePlayerList->announceLocalPlayer()->getRelationship(obj))
 		{
 		case ENEMIES:
 		case NEUTRAL:

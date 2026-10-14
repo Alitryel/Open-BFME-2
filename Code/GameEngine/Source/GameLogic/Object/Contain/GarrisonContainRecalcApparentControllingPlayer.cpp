@@ -77,7 +77,7 @@ private:
 class PlayerList
 {
 public:
-    Player *getLocalPlayer() { return m_local; }
+    Player *garrisonLocalPlayer() { return m_local; }
 private:
     unsigned char m_pad00[0x10];
     Player *m_local; // +0x10
@@ -271,12 +271,12 @@ void GarrisonContain::recalcApparentControllingPlayer()
             if (it != list->end() && occupant)
             {
                 bool detected = (unsigned char)occupant->rva002933CD() || occupant->testStatus((ObjectStatusTypes)0x11);
-                if (detected || getApparentControllingPlayer(ThePlayerList->getLocalPlayer()) == getObject()->getControllingPlayer())
+                if (detected || getApparentControllingPlayer(ThePlayerList->garrisonLocalPlayer()) == getObject()->getControllingPlayer())
                     setCondition(getObject(), 10);
             }
         }
 
-        const Player *controller = getApparentControllingPlayer(ThePlayerList->getLocalPlayer());
+        const Player *controller = getApparentControllingPlayer(ThePlayerList->garrisonLocalPlayer());
         if (controller)
         {
             if (TheGlobalData->m_timeOfDay == 4)
