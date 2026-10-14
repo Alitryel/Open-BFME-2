@@ -15,7 +15,6 @@ Code/GameEngine/Source/Common/Bfme/Rva0094D8B0Reset.cpp	?reset@Rva0094D8B0@@QAE_
 Code/GameEngine/Source/Common/Bfme/T_009F4FB0.cpp	?m@T_009f4fb0@@QAEXPAURva009F5970StateInit@@@Z	?cleanup@Gen_dtor_009f2600@@QAEXXZ	0x00627600	unowned
 Code/GameEngine/Source/Common/Bfme5FindAndErase.cpp	?bfmeRemove@Gen_0039BE00@@QAEXH@Z	?bfmeErase@BfmeVecAG@@QAEXPAH@Z	0x001FF51F	wrong
 Code/GameEngine/Source/Common/Bfme5MakeFromArgument.cpp	?bfmeMake_009CB5F0@@YAPAVBfmeMade_009CB5F0@@PAX@Z	??0BfmeMade_009CB5F0@@QAE@PAX@Z	0x00602316	unowned
-Code/GameEngine/Source/Common/Bfme5SeventySix.cpp	?bfmeDescribe@Gen_006C0A20@@QAEXPAVBfmeFlagTarget@@@Z	?bfmeAccept@BfmeSinkC@@QAEXPAVBfmeFlagTarget@@@Z	0x006C0F50	unowned
 Code/GameEngine/Source/Common/BfmeApplierBHRva003C4070.cpp	?rva003C4070@BfmeApplierBH@@QAEXABVAsciiString@@0@Z	?bfmeApplyBH@BfmeApplierBH@@QAE_NPAX0PAVBfmeSubBH@@@Z	0x003C069B	unowned
 Code/GameEngine/Source/Common/BfmeApplierBHRva003C4145.cpp	?rva003C4145@BfmeApplierBH@@QAEXPAXABVAsciiString@@1@Z	?bfmeApplyBH@BfmeApplierBH@@QAEXPAX0PAVBfmeSubBH@@@Z	0x003C069B	unowned
 Code/GameEngine/Source/Common/BfmeApplierBHRva003C4145.cpp	?rva003C4145@BfmeApplierBH@@QAEXPAXABVAsciiString@@1@Z	?rva0039E5B9@Team@@QAEXPAUCoord3D@@@Z	0x0039E5B9	unowned

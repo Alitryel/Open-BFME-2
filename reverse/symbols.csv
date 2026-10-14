@@ -7589,7 +7589,6 @@ name,address,notes
 ?bfme5MakeObj70@@YAPAUBfme5Obj70@@H@Z,0x006612C0
 ?bfmeAccept@BfmeSinkA@@QAEXPAVBfmeFlagTarget@@@Z,0x00758CF0
 ?bfmeAccept@BfmeSinkB@@QAEXPAVBfmeFlagTarget@@@Z,0x0073D8B0
-?bfmeAccept@BfmeSinkC@@QAEXPAVBfmeFlagTarget@@@Z,0x006C0F50
 ?bfmeAccept@BfmeSubAccept_00029DAC@@QAEXPAVBfmeSeedTarget@@@Z,0x004CE6E4,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeAccept@Gen_00250A80@@AAEXPAVBfmeSeedTarget@@@Z,0x004CE56D,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeActiveYU@BfmeObserverYU@@QAE_NXZ,0x00042235,callee of ?bfmeApplyYU@@YGXH@Z at retail 0x002D4F42 read from its REL32 displacement; donor predicate view of the rowed 23B ?isInMultiplayerGame@GameLogic@@QAE_NXZ body at this address

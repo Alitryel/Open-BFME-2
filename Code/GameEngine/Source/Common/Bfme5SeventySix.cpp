@@ -1,4 +1,4 @@
-// cl: /GX
+// cl: /GX /ICode/Libraries/Include
 
 // ?bfmeResetGrid@BfmeTaintManager@@UAEXXZ
 //
@@ -41,9 +41,17 @@ struct BfmePointFC
 	Real y;
 };
 
-// upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
-// Coord3D: shared header/view; no private copy.
-#include "../../../Libraries/Include/Lib/Coord3DInline.h"
+#include "Lib/Coord3D.h"
+
+// Zero Hour's inline Coord3D::zero, expanded in place as in retail. A unit-local
+// inline member emitted a /GX COMDAT for ?zero@Coord3D@@QAEXXZ that is not
+// retail's coord3d.cpp owner at 0x0000366B.
+__forceinline void bfmeZeroCoord3D(Coord3D &c)
+{
+	c.x = 0.0f;
+	c.y = 0.0f;
+	c.z = 0.0f;
+}
 
 // upstream layout: reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include/Lib/BaseType.h
 struct Region3D
@@ -92,6 +100,8 @@ typedef void (__cdecl *BfmeCellVisitorFC)(int x, int y,
 // (rowed, mem_ops.cpp).
 void operator delete[]( void *block );
 
+class GridXferView;
+
 class Gen_008812D0
 {
 public:
@@ -101,6 +111,7 @@ public:
 	void bfmeApplyCircle(int x, int y, int radius, int amount, bool absolute, int mode);
 	int rva006C0E40(const BfmePointFC *point, int *extra);
 	int rva006C0E70(int x, int y);
+	void rva006C0F50(GridXferView *xfer);
 	~Gen_008812D0();
 
 	friend class BfmeTaintManager;
@@ -134,8 +145,8 @@ void BfmeTaintManager::bfmeResetGrid()
 	m_bfmeGrid->bfmeReset();
 
 	Region3D region;
-	region.lo.zero();
-	region.hi.zero();
+	bfmeZeroCoord3D(region.lo);
+	bfmeZeroCoord3D(region.hi);
 	m_bfmeGrid->bfmeSetRegion(&region, 0.0f);
 }
 
@@ -213,11 +224,8 @@ public:
 	virtual void bfmeDescribe(BfmeFlagPair *flags);
 };
 
-class BfmeSinkC
-{
-public:
-	void bfmeAccept(BfmeFlagTarget *target);
-};
+// The sink is the grid: its transfer 0x006C0F50 (rowed in
+// BfmeGridRasterCircle.cpp) takes the target as its Xfer view.
 
 class Gen_006C0A20
 {
@@ -226,7 +234,7 @@ public:
 
 private:
 	char m_bfmeHead[4];
-	BfmeSinkC *m_bfmeSink;
+	Gen_008812D0 *m_bfmeSink;
 };
 
 void Gen_006C0A20::bfmeDescribe(BfmeFlagTarget *target)
@@ -238,6 +246,6 @@ void Gen_006C0A20::bfmeDescribe(BfmeFlagTarget *target)
 
 	target->bfmeDescribe(&flags);
 
-	m_bfmeSink->bfmeAccept(target);
+	m_bfmeSink->rva006C0F50((GridXferView *)target);
 }
 
