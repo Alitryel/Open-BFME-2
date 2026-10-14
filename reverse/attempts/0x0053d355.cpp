@@ -1,4 +1,6 @@
 // ?rva0053D355@ControlBar@@QAEXPAVObject@@_N@Z
+// partial score=0.905 date=2026-10-14
+// ?rva0053D355@ControlBar@@QAEXPAVObject@@_N@Z
 // partial score=0.9006 date=2026-10-14
 // ?rva0053D355@ControlBar@@QAEXPAVObject@@_N@Z
 // partial score=0.9 date=2026-10-11
@@ -470,7 +472,7 @@ void ControlBar::rva0053D355(Object *obj,bool refresh)
         }
         if((button->options()&0x80)&&*(void **)(b+0x44)){
             _STL::vector<ScienceType> sciences=((Rva0029FCB4 *)*(void **)(b+0x44))->rva0029FCB4();
-            if(!sciences.empty()){
+            if((unsigned)sciences.size() > 0u){
                 if(!player->hasAnyRequiredSciences(sciences)){if(windows[i])windows[i]->winHide(true);}
                 else{
                     int best=-1;
