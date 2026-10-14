@@ -57,3 +57,22 @@ bool Rva0021BFD8::rva0021BFD8(const StringBase<char> &arg)
 yes:
 	return true;
 }
+
+// Retail 0x0021C12F, 236 bytes: the create-a-hero file list's name stripper,
+// the same shape as the nearby file-name formatter in reverse. WorldBuilder
+// 0x00B7ED10 gives the structure: take the name without its trailing ".cah"
+// (substring view built by 0x000B6AA9), then without its leading "MyHero_"
+// (0x000B6AF5), each view converted and assigned back, and return the copy.
+extern const char *g_CreateAHeroFilenamePrefix;
+extern const char *g_CreateAHeroFilenameExtension;
+extern "C" unsigned int __cdecl strlen(const char *);
+Rva000B6AA9Rec *__cdecl Rva000B6AA9Build(Rva000B6AA9Rec *dest, void **srcpp, int val);
+
+AsciiString __cdecl Rva0021C12FStripName(const AsciiString &name)
+{
+	AsciiString stripped;
+	Rva000B6AA9Rec rec;
+	stripped = *Rva000B6AA9Build(&rec, (void **)&name, name.getLength() - strlen(g_CreateAHeroFilenameExtension));
+	stripped = *Rva000B6AF5Build((Rva000B6AF5Rec *)&rec, (void **)&stripped, stripped.getLength() - strlen(g_CreateAHeroFilenamePrefix));
+	return stripped;
+}
