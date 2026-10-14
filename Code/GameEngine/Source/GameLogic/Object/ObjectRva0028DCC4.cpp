@@ -28,8 +28,8 @@ extern CollisionManager *TheCollisionManager;
 extern FireLogicSystem *TheFireLogic;
 class LuaScriptEngine;
 extern LuaScriptEngine *TheLuaScriptEngine;
-class SkirmishAIManager;
-extern SkirmishAIManager *TheSkirmishAIManager;
+// Sole data-ledger owner of the registry pointer at VA 0x00DFEEF8.
+extern Rva002A8F24 *g_00DFEEF8;
 extern unsigned g_Va00DFE7A8;
 class AIData {public:char pad[0xb9];bool enabled;};
 class AI {public:char pad[0x18];AIData *data;};
@@ -56,7 +56,7 @@ void Object::rva0028DCC4(){
   if((type->kind[3] & (1u<<13)) && !TheAI->data->enabled)eligible=false;
   if(eligible && TheCollisionManager)((Rva00758230*)TheCollisionManager)->rva00758230((Rva009A29A0Window*)collision);
   if(TheLuaScriptEngine)((LuaDrawableState*)TheLuaScriptEngine)->rva00333E5B(this);
-  ((Rva002A8F24*)TheSkirmishAIManager)->rva002A9365(this);
+  g_00DFEEF8->rva002A9365(this);
   flag454=true;
  }
 }
