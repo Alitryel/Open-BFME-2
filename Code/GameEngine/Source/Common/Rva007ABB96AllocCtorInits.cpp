@@ -47,6 +47,7 @@ namespace _STL
 typedef _STL::vector<BfmeE16> E16Vector;
 typedef _STL::deque<BfmeE12> E12Deque;
 typedef _STL::list<BfmePod28> Pod28List;
+typedef _STL::list<int> IntList;
 
 void __cdecl rva007B6A64();
 void __cdecl rva007B70C9();
@@ -62,6 +63,10 @@ void __cdecl rva007B91E4();
 void __cdecl rva007B96BC();
 void __cdecl rva007B982F();
 void __cdecl rva007B9843();
+void __cdecl rva007B6CE1();
+void __cdecl rva007B7CAF();
+void __cdecl rva007B839B();
+void __cdecl rva007B8590();
 
 extern unsigned g_Va00DDF580;
 extern unsigned g_Va00DF29A8;
@@ -76,6 +81,10 @@ extern unsigned g_Va00E04920;
 extern unsigned g_Va00E0657C;
 extern unsigned g_Va00E06654;
 extern unsigned g_Va00E06670;
+extern unsigned g_Va00DE6194;
+extern unsigned g_Va00E01E68;
+extern unsigned g_Va00E032DC;
+extern unsigned g_Va00E0362C;
 
 struct Rva007ABB96AllocCtorInits
 {
@@ -93,6 +102,10 @@ struct Rva007ABB96AllocCtorInits
 	static void rva007B4788();
 	static void rva007B4C9E();
 	static void rva007B4D03();
+	static void rva007AC2FA();
+	static void rva007AED2A();
+	static void rva007B05DE();
+	static void rva007B0D55();
 };
 
 // 0x007ABB96 (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00DDF580, atexit(0x007B6A64 -> 0x0007FAB3)
@@ -191,4 +204,32 @@ void Rva007ABB96AllocCtorInits::rva007B4D03()
 {
 	( (E16Vector *)&g_Va00E06670 )->E16Vector::vector();
 	atexit( rva007B9843 );
+}
+
+// 0x007AC2FA (29B): list<int> allocator ctor 0x002C5309 on VA 0x00DE6194, atexit(0x007B6CE1 -> 0x00200667)
+void Rva007ABB96AllocCtorInits::rva007AC2FA()
+{
+	( (IntList *)&g_Va00DE6194 )->IntList::list();
+	atexit( rva007B6CE1 );
+}
+
+// 0x007AED2A (29B): vector<BfmeE16> allocator ctor 0x004F710A on VA 0x00E01E68, atexit(0x007B7CAF -> 0x003615E5)
+void Rva007ABB96AllocCtorInits::rva007AED2A()
+{
+	( (E16Vector *)&g_Va00E01E68 )->E16Vector::vector();
+	atexit( rva007B7CAF );
+}
+
+// 0x007B05DE (29B): list<int> allocator ctor 0x002C5309 on VA 0x00E032DC, atexit(0x007B839B -> 0x002B905D)
+void Rva007ABB96AllocCtorInits::rva007B05DE()
+{
+	( (IntList *)&g_Va00E032DC )->IntList::list();
+	atexit( rva007B839B );
+}
+
+// 0x007B0D55 (29B): list<int> allocator ctor 0x002C5309 on VA 0x00E0362C, atexit(0x007B8590 -> 0x00200667)
+void Rva007ABB96AllocCtorInits::rva007B0D55()
+{
+	( (IntList *)&g_Va00E0362C )->IntList::list();
+	atexit( rva007B8590 );
 }

@@ -88622,3 +88622,7 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ??0Rva006D6320Value@@QAE@H@Z,,0x006D6320,25,Code/Libraries/Source/Apt/AptValue/Rva006D6300TypedValueCtors.cpp,matched,pass-through type ctor over rowed AptValue ctor 0x006DCCC0; vtable 0x00CEA1EC
 ?rva006CFFB0@Rva008951B0Owner@@QAEXABVRva008951B0Handle@@@Z,,0x006CFFB0,38,Code/Libraries/Source/Apt/AptLoadCountedOwner.cpp,matched,erase-after tail of rowed remover 0x006CFFE0; 8-byte node to chain pool E176E8
 ?contains@Rva006D2850Block@@QBE_NPBX@Z,,0x006D2850,35,Code/Libraries/Source/Apt/AptLoadCountedOwner.cpp,matched,payload range test +0x0C base over +4 minus +8
+?rva007AC2FA@Rva007ABB96AllocCtorInits@@SAXXZ,,0x007AC2FA,29,Code/GameEngine/Source/Common/Rva007ABB96AllocCtorInits.cpp,matched,list<int> allocator-ctor dynamic init of VA 0x00DE6194 plus atexit rowed thunk 0x007B6CE1
+?rva007AED2A@Rva007ABB96AllocCtorInits@@SAXXZ,,0x007AED2A,29,Code/GameEngine/Source/Common/Rva007ABB96AllocCtorInits.cpp,matched,vector allocator-ctor dynamic init of VA 0x00E01E68 plus atexit rowed thunk 0x007B7CAF
+?rva007B05DE@Rva007ABB96AllocCtorInits@@SAXXZ,,0x007B05DE,29,Code/GameEngine/Source/Common/Rva007ABB96AllocCtorInits.cpp,matched,list<int> allocator-ctor dynamic init of VA 0x00E032DC plus atexit rowed thunk 0x007B839B
+?rva007B0D55@Rva007ABB96AllocCtorInits@@SAXXZ,,0x007B0D55,29,Code/GameEngine/Source/Common/Rva007ABB96AllocCtorInits.cpp,matched,list<int> allocator-ctor dynamic init of VA 0x00E0362C plus atexit rowed thunk 0x007B8590
