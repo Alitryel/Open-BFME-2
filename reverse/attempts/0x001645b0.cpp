@@ -1,4 +1,6 @@
 // ?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z
+// partial score=0.5930984846148111 date=2026-10-14
+// ?Blend_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M1MM@Z
 // partial score=0.5856347628183083 date=2026-10-13
 // Provenance: ZH HTreeClass::Blend_Update and BFME1 htree.cpp at
 // cee35b7d8ca077d7255f1c39cb69e9fd9627aa85 provide animation blend semantics.
@@ -303,7 +305,7 @@ motion1->Get_Translation(trans1,piv_idx,frame1);
 
     Vector3 &trans=local.Translation;
 
-    trans=Vector3((trans1.X-trans0.X)*percentage+trans0.X,(trans1.Y-trans0.Y)*percentage+trans0.Y,(trans1.Z-trans0.Z)*percentage+trans0.Z);
+    trans=Vector3((__vref(trans1.X)-trans0.X)*percentage+trans0.X,(trans1.Y-trans0.Y)*percentage+trans0.Y,(trans1.Z-trans0.Z)*percentage+trans0.Z);
 
     if(ScaleFactor!=1.0f){
 trans.X*=ScaleFactor;
@@ -332,7 +334,7 @@ else{
 
       BFME2_Nlerp(local.Rotation,q0,q1,percentage);
 
-      pivot->Transform.Translation=Rotate_Vector(local.Translation,pivot->Transform.Rotation)+pivot->Transform.Translation;
+      (pivot ? pivot : pivot)->Transform.Translation=Rotate_Vector(local.Translation,pivot->Transform.Rotation)+pivot->Transform.Translation;
 
       pivot->Transform.Rotation=pivot->Transform.Rotation*local.Rotation;
 

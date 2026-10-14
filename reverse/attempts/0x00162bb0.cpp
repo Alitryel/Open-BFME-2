@@ -1,4 +1,8 @@
 // ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z
+// partial score=0.564596189995357 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z
 // partial score=0.5535265037759391 date=2026-10-14
 // cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
@@ -139,11 +143,12 @@ void HTreeClass::Anim_Update(const Matrix3D &root,HAnimClass *motion,float frame
   initial.Translation.X=root.Row[0][3];initial.Translation.Y=root.Row[1][3];initial.Translation.Z=root.Row[2][3];
   Pivot[0].IsVisible=true;Pivot[0].m_bfme54=1.0f;
   unsigned char *cache=ChannelCache;
-  int count=motion->Get_Num_Pivots();
   int captured=CapturedBegin==CapturedEnd?-1:CapturedBegin->Index;
+  int count=motion->Get_Num_Pivots();
   BlendNodeMotion *node=nodes+1;
   for(int piv_idx=1;piv_idx<NumPivots;++piv_idx,++node) {
    PivotClass *pivot=&Pivot[piv_idx];
+   _ReadWriteBarrier();
    const PivotTransform &parent=pivot->Parent->Transform;
    pivot->Transform.Translation=parent.Translation+Rotate_Vector(pivot->BaseTransform.Translation,parent.Rotation);
    pivot->Transform.Rotation=parent.Rotation*pivot->BaseTransform.Rotation;
