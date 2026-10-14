@@ -409,3 +409,62 @@ unsigned char Rva005FFB65::rva005FFB73(int index) const
 {
 	return m_table->m_entries[index].m_second;
 }
+
+// --- 0x0057CB06 (119B): through the +0x18 holder's rowed 0x0043DA65 game
+// info: its virtual slot 13 value unless slot 12 holds and the slot that
+// value names exists with +0x18 == -2, in which case the first AI slot
+// (rowed GameInfo::getConstSlot / GameSlot::isAI, 8 slots) wins.
+class GameSlot
+{
+public:
+	bool isAI() const;										// 0x003FF127
+	char m_pad00[0x18];
+	int m_18;
+};
+
+class GameInfo
+{
+public:
+	virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
+	virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
+	virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
+	virtual bool v12();
+	virtual int v13();
+	const GameSlot *getConstSlot(int index) const;			// 0x003FF2BE
+};
+
+class Rva0043DA65
+{
+public:
+	int rva0043DA65();										// 0x0043DA65
+};
+
+class Rva0057CB06
+{
+public:
+	int rva0057CB06();
+private:
+	char m_pad00[0x18];
+	Rva0043DA65 *m_18;
+};
+
+int Rva0057CB06::rva0057CB06()
+{
+	GameInfo *game = (GameInfo *)m_18->rva0043DA65();
+	if (!game)
+		return 0;
+	if (!game->v12())
+		return game->v13();
+	const GameSlot *slot = game->getConstSlot(game->v13());
+	if (!slot)
+		return game->v13();
+	if (slot->m_18 != -2)
+		return game->v13();
+	for (int i = 0; i < 8; ++i)
+	{
+		const GameSlot *candidate = game->getConstSlot(i);
+		if (candidate && candidate->isAI())
+			return i;
+	}
+	return game->v13();
+}
