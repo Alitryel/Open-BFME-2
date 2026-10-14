@@ -31,6 +31,7 @@ struct Rva0021C21BElement { char bytes[4]; };
 namespace _STL {template<> vector<Rva0021C21BElement>& vector<Rva0021C21BElement>::operator=(const vector<Rva0021C21BElement>&);}
 
 struct Rva0026F4F4Element { unsigned words[1]; bool operator<(const Rva0026F4F4Element &)const;bool operator==(const Rva0026F4F4Element &)const; };
+namespace _STL { template <> vector<Rva0021C21BElement, allocator<Rva0021C21BElement> > &vector<Rva0021C21BElement, allocator<Rva0021C21BElement> >::operator=(const vector<Rva0021C21BElement, allocator<Rva0021C21BElement> >&); }
 namespace _STL {template<>struct __type_traits<Rva0026F4F4Element> : __type_traits_aux<1> {};}
 struct OpaqueRefElement4 { OpaqueRefElement4 &operator=(const OpaqueRefElement4 &); void *data; };
 struct Rva001FD404 { Rva001FD404 *rva001FD404(const Rva001FD404 &); Rva001FD404 &operator=(const Rva001FD404 &rhs){rva001FD404(rhs);return *this;} AsciiString text; int words[3]; };
