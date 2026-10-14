@@ -99,6 +99,21 @@ T * ObjectPoolClass<T,BLOCK_SIZE>::Allocate_Object_Memory(void)
 
 template MatPassTaskClass * ObjectPoolClass<MatPassTaskClass,256>::Allocate_Object_Memory(void);
 
+// The independently identified PolyRender task has the same three-pointer
+// allocation size. Its constructor 0x00143890 and destructor 0x001438B0
+// establish the renderer/mesh/next layout, and its AutoPool new/delete use
+// the distinct allocator at VA 0x00DF367C. Retail folds only the allocation
+// algorithm with MatPassTaskClass; the allocator objects remain distinct.
+class DX8PolygonRendererClass;
+class MeshClass;
+class PolyRenderTaskClass {
+    DX8PolygonRendererClass *Renderer;
+    MeshClass *Mesh;
+    PolyRenderTaskClass *NextVisible;
+};
+typedef char PolyRenderTaskSizeMustBe12[sizeof(PolyRenderTaskClass) == 12 ? 1 : -1];
+template PolyRenderTaskClass * ObjectPoolClass<PolyRenderTaskClass,256>::Allocate_Object_Memory(void);
+
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?Allocate_Object_Memory@MatPassTaskPoolClass@@QAEPAUMatPassTaskClass@@XZ=?Allocate_Object_Memory@?$ObjectPoolClass@VMatPassTaskClass@@$0BAA@@@QAEPAVMatPassTaskClass@@XZ")

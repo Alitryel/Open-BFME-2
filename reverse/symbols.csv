@@ -5241,7 +5241,6 @@ name,address,notes
 ?Allocate_Object_Memory@?$ObjectPoolClass@VGridLinkClass@@$0BAA@@@QAEPAVGridLinkClass@@XZ,0x0071AED0,address read from the REL32 displacement at a placed body; stlport 4.5.3
 ?Allocate_Object_Memory@?$ObjectPoolClass@VHAnimComboDataClass@@$0BAA@@@QAEPAVHAnimComboDataClass@@XZ,0x001963A0,address read from the verified REL32 in HAnimComboClass(int) at 0x00196B80
 ?Allocate_Object_Memory@?$ObjectPoolClass@VMultiListNodeClass@@$0BAA@@@QAEPAVMultiListNodeClass@@XZ,0x00610680,address read from the REL32 displacement at a placed body; stlport 4.5.3
-?Allocate_Object_Memory@?$ObjectPoolClass@VPolyRenderTaskClass@@$0BAA@@@QAEPAVPolyRenderTaskClass@@XZ,0x001440C0,address read from the REL32 displacement at a placed body
 ?Allocate_Object_Memory@MatPassTaskPoolClass@@QAEPAUMatPassTaskClass@@XZ,0x001440C0,address read from the retail REL32 in DX8RigidFVFCategoryContainer Add_Delayed_Visible_Material_Pass at 0x00144CB0
 ?Allocate_Sorting_Dynamic_Buffer@DynamicIBAccessClass@@QAEXXZ,0x00138F50,address read from the REL32 displacement at a placed body; stlport 4.5.3
 ?Anim_Update@HTreeClass@@QAEXABVMatrix3D@@PAVHAnimClass@@M@Z,0x00162BB0,"REL32 at +0x5E of the byte-true Animatable3DObjClass::Anim_Update at 0x001A4820 in the generic arm (HTree->Anim_Update(root motion frame)); Open-BFME-1 counterpart 0x00981E10 calls the HAnimClass overload 0x00953AD0 at the same site; 3785B unrowed"
