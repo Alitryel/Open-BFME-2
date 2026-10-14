@@ -11,6 +11,7 @@ class Rva003ECA4BElement
 public:
 	Rva003ECA4BElement *rva003ECA81(const Rva003ECA4BElement *other);
 	Rva003ECA4BElement *rva003ECAB3(float scale);
+	Rva003ECA4BElement *rva003ECBD6(float divisor);
 
 private:
 	float m_values[17];
@@ -38,5 +39,14 @@ Rva003ECA4BElement *Rva003ECA4BElement::rva003ECAB3(float scale)
 		*p = *reinterpret_cast<const volatile float *>(&scale) * *p;
 		++p;
 	} while (--n != 0);
+	return this;
+}
+
+// ?rva003ECBD6@Rva003ECA4BElement@@QAEPAV1@M@Z, retail 0x003ECBD6 (34 bytes):
+// divide the record by scaling it with 1/divisor through the rowed
+// rva003ECAB3 above; returns this.
+Rva003ECA4BElement *Rva003ECA4BElement::rva003ECBD6(float divisor)
+{
+	rva003ECAB3(1.0f / divisor);
 	return this;
 }
