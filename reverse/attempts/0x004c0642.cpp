@@ -1,8 +1,15 @@
 // ?setInitialHealth@ActiveBody@@UAEXM_N@Z
-// partial score=0.9 date=2026-10-07
-// Banked near miss for ActiveBody::setInitialHealth 0x004C0642 (319B), ActiveBody.cpp views as of this commit.
-// Only diff: retail copies the Object position's z through xmm0 (movss, evicting the factor to [ebp+0xc]); this source copies z through eax.
-// Every other byte (factor spill slot, x in-place then copied after call 2, y/z straight into the passed point, #line 1279 file string) matches.
+// partial score=0.96679 date=2026-10-14
+// ?setInitialHealth@ActiveBody@@UAEXM_N@Z
+// ActiveBody.cpp fragment; retail 0x004C0642, 319 bytes. NOT BYTE-EXACT.
+// Base context: commit 60369488a7, Code/GameEngine/Source/GameLogic/Object/Body/ActiveBody.cpp.
+// Declare virtual void setInitialHealth(Real initialPercent, Bool directional)
+// in ActiveBody public scope. Replace its existing ActiveBodySidePoint/helper
+// block immediately before the Native ctor4BF6A1 note with this fragment.
+// This version emits 319 bytes, frame 0x18, and 95 instructions. The Z copy
+// and factor spill match; X/Y load/store scheduling still differs. The old
+// 315-byte version and every new controlled trial are described in
+// reverse/attempt_support/crack-w-004c0642.json. All 27 existing home rows pass.
 struct ActiveBodySidePoint
 {
 	ActiveBodySidePoint() {}
@@ -41,14 +48,14 @@ void ActiveBody::setInitialHealth(Real initialPercent, Bool directional)
 	Real factor = initialPercent * 0.01f;
 	if (directional)
 	{
-		m_prevHealth = m_currentHealth;
-		m_currentHealth += m_maxHealth * (initialPercent * 0.01f) - m_currentHealth;
-		const Coord3D *objPos = getObject()->getPosition();
-		ActiveBodySidePoint pos;
-		pos.x = objPos->x;
-		pos.y = objPos->y;
-		pos.z = objPos->z;
-		ActiveBodySidePoint jittered;
+ActiveBodySidePoint pos;
+ActiveBodySidePoint jittered;
+m_prevHealth = m_currentHealth;
+m_currentHealth += m_maxHealth * (initialPercent * 0.01f) - m_currentHealth;
+const Coord3D *objPos=getObject()->getPosition();
+pos.y=objPos->y;
+pos.z=objPos->z;
+pos.x=objPos->x;
 #line 1279 "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Body\\ActiveBody.cpp"
 		pos.x += GameLogicRandomValueReal(-1.0f, 1.0f);
 		jittered.y = pos.y + GameLogicRandomValueReal(-1.0f, 1.0f); jittered.x = pos.x;
@@ -60,3 +67,4 @@ void ActiveBody::setInitialHealth(Real initialPercent, Bool directional)
 		internalChangeHealth(factor * m_initialHealth - m_currentHealth, 0);
 	}
 }
+
