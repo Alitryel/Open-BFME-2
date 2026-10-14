@@ -1,4 +1,6 @@
 // ?tossEmitters@W3DTankDraw@@QAEXXZ
+// partial score=0.8994 date=2026-10-14
+// ?tossEmitters@W3DTankDraw@@QAEXXZ
 // partial score=0.901398 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /MD
 // Twin guide: verified W3DTankDraw::tossEmitters CB5C3; target
@@ -37,7 +39,7 @@ struct BfmeParticleSystemHandle {
     }
 };
 class W3DTankDraw {
-protected:
+public:
     void tossEmitters();
     void createEmitters();
     void enableEmitters(bool enable);

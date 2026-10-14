@@ -1,3 +1,5 @@
+// ??0RetailCollisionManagerData@@QAE@XZ
+// partial score=0.8851 date=2026-10-14
 // ?RetailCollisionManagerData@@QAE@XZ
 // partial score=0.88 date=2026-10-05
 // ?RetailCollisionManagerData@@QAE@XZ
