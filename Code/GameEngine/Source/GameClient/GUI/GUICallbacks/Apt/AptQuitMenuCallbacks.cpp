@@ -12,7 +12,9 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 
 // restartMissionMenu's replay test expands isNotEmpty in place (test the
 // buffer, then cmp word [eax+4]); the shared header keeps it out of line.
-template <> inline bool StringBase<unsigned short>::isNotEmpty() const { return m_data && m_data->length != 0; }
+// Suppress the standalone local copy; string_base_inline.cpp owns retail's
+// out-of-line predicate. The replay test retains this inline expression.
+template <> __declspec(dllimport) __forceinline bool StringBase<unsigned short>::isNotEmpty() const { return m_data && m_data->length != 0; }
 
 extern "C" char *__cdecl strcpy(char *destination, const char *source);
 
@@ -532,11 +534,14 @@ public:
 	void bfmeSetText(const AsciiString &key, const UnicodeString &text, bool usePlaceholder);
 };
 
-class WindowManager
+// Existing target-owned background dispatchers; their address names preserve
+// the unresolved original class/method identity carried by the donor aliases.
+class Rva00222A8BTarget
 {
 public:
-	void bfme_showBackground(int kind);
-	void bfme_hideBackground(bool flag);
+	void rva002233A6(int kind);
+	void rva00222F55(bool flag);
+	int invoke(void *,const char *,int,const char *,void *,void *,void *,void *);
 };
 
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
@@ -762,10 +767,10 @@ AptQuitMenu::~AptQuitMenu()
 		else
 			logic->rva0023D0E3(true);
 		if (g_bfmeAptWindowManager)
-			((WindowManager *)g_bfmeAptWindowManager)->bfme_showBackground(1);
+			((Rva00222A8BTarget *)g_bfmeAptWindowManager)->rva002233A6(1);
 	}
 	else if (!m_27d && g_bfmeAptWindowManager)
-		((WindowManager *)g_bfmeAptWindowManager)->bfme_hideBackground(false);
+		((Rva00222A8BTarget *)g_bfmeAptWindowManager)->rva00222F55(false);
 	AsciiString key("APT:Pause");
 	g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetch("APT:Pause"), false);
 }
@@ -989,7 +994,7 @@ AptQuitMenu::AptQuitMenu(void *context) : _bfme_AptGameWindow(context)
 			m_externHandlers.AddExternHandler(name, query, AptRef<AptExternHandler>(binding));
 		}
 	}
-	((WindowManager *)g_bfmeAptWindowManager)->bfme_showBackground(2);
+	((Rva00222A8BTarget *)g_bfmeAptWindowManager)->rva002233A6(2);
 	if (TheGameLogic && TheGameLogic->isInMultiplayerGame())
 	{
 		AsciiString key("APT:Pause");
@@ -1000,13 +1005,6 @@ AptQuitMenu::AptQuitMenu(void *context) : _bfme_AptGameWindow(context)
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
-
-// The Apt window manager's invoke surface (same view as AptOnlineLogin.cpp).
-class Rva00222A8BTarget
-{
-public:
-	int invoke(void *,const char *,int,const char *,void *,void *,void *,void *);
-};
 
 // The rowed 0x00222547 window helper, whose integer result the Apt layer
 // passes through as the movie pointer.
