@@ -69,16 +69,18 @@ Rva004FCD49::~Rva004FCD49()
 		free(m_ptr04);
 }
 
-class Rva00578C0E
+// The class whose constructor 0x00578C2E stores the vtable this destructor
+// restores; rowed under that constructor's name.
+class Rva00578C2E
 {
 public:
-	virtual ~Rva00578C0E();
+	virtual ~Rva00578C2E();
 
 private:
 	void *m_ptr04;
 };
 
-Rva00578C0E::~Rva00578C0E()
+Rva00578C2E::~Rva00578C2E()
 {
 	if (m_ptr04)
 		free(m_ptr04);

@@ -49,22 +49,24 @@ public:
 };
 extern TerrainLogic *TheTerrainLogic;
 
-class Rva002871A4
+// 0x002871A4 is rowed as FireLogicSystem::ChangeBurnRateInArea (FireLogicSystemObjects.cpp).
+struct Coord3D;
+class FireLogicSystem
 {
 public:
-	void rva002871A4(void *p, float f, int a, int b);
+	void ChangeBurnRateInArea(const Coord3D *pos, float radius, int rate, bool flag);
 };
 // TheRva002871A4Host is only an alias of the owned global TheTriggerManager (ledger names column); this unit reads the owner through its own view type.
 extern class Rva002872BA *TheTriggerManager;
-#define TheRva002871A4Host (*(Rva002871A4 * *)&TheTriggerManager)
+#define TheRva002871A4Host (*(FireLogicSystem * *)&TheTriggerManager)
 
 void ScriptActions::rva003BD3CB(void *p, float f, int c)
 {
 	void *r = TheTerrainLogic->t34(p);
 	if (r == 0)
 		return;
-	Rva002871A4 *h = TheRva002871A4Host;
+	FireLogicSystem *h = TheRva002871A4Host;
 	if (h == 0)
 		return;
-	h->rva002871A4((char *)r + 0x0C, f, c, 0);
+	h->ChangeBurnRateInArea((const Coord3D *)((char *)r + 0x0C), f, c, false);
 }

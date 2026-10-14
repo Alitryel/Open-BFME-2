@@ -61,10 +61,13 @@ public:
 
 typedef char Rva00360243SizeMatchesRetail[(sizeof(Rva00360243) == 0x38) ? 1 : -1];
 
-class Rva00360298Holder
+class Rva00360298Holder;
+
+// The holder's store at 0x005F69CE is rowed as Gen_00489270::m(int).
+class Gen_00489270
 {
 public:
-	void set(Rva00360243 *obj);
+	void m(int val);
 };
 
 void __cdecl Rva00360298Parse(INI *ini, Rva00360298Holder *holder)
@@ -72,5 +75,5 @@ void __cdecl Rva00360298Parse(INI *ini, Rva00360298Holder *holder)
 	Rva00360243 *obj = new Rva00360243;
 	ini->initFromINI(obj, g_00C167B8);
 	obj->m_frameLength = obj->m_endFrame;
-	holder->set(obj);
+	reinterpret_cast<Gen_00489270 *>(holder)->m((int)obj);
 }

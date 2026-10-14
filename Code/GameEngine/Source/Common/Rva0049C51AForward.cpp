@@ -20,10 +20,14 @@ public:
 
 extern GameLogic *TheGameLogic;
 
-class Rva004500A3
+// 0x004500A3 is rowed as SpecialAbilityUpdate::initiateIntentToDoSpecialPower.
+class SpecialPowerTemplate;
+struct Coord3D;
+class Waypoint;
+class SpecialAbilityUpdate
 {
 public:
-	void rva004500A3(int a, int b, int c, int d, int e);
+	virtual void initiateIntentToDoSpecialPower(const SpecialPowerTemplate *specialPowerTemplate, const Object *targetObj, const Coord3D *targetPos, unsigned int commandOptions, const Waypoint *way);
 };
 
 class Rva0049C51A
@@ -42,5 +46,5 @@ void Rva0049C51A::rva0049C51A(int a, int b, int c, int d, int e)
 {
 	Object *found = TheGameLogic->findObjectByID(m_id);
 	if (found == 0 || m_flag69 == 0)
-		((Rva004500A3 *)this)->rva004500A3(a, b, c, d, e);
+		((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::initiateIntentToDoSpecialPower((const SpecialPowerTemplate *)a, (const Object *)b, (const Coord3D *)c, (unsigned int)d, (const Waypoint *)e);
 }

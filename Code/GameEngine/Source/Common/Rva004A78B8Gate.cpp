@@ -15,12 +15,18 @@ public:
 	void setStatus(ObjectStatusTypes status, bool set);
 };
 
+// The thiscall at 0x0045CD6E is rowed as BezierProjectileBehavior::rva0045CD6E.
+class BezierProjectileBehavior
+{
+public:
+	virtual bool rva0045CD6E(Object *other);
+};
+
 class Rva004A78B8
 {
 public:
 	virtual void slot0();
 	virtual bool slot1();
-	bool rva0045CD6E(int arg);
 	bool rva004A78B8(int arg);
 };
 
@@ -28,7 +34,7 @@ bool Rva004A78B8::rva004A78B8(int arg)
 {
 	if (slot1())
 	{
-		rva0045CD6E(arg);
+		((BezierProjectileBehavior *)this)->BezierProjectileBehavior::rva0045CD6E((Object *)arg);
 		(*(Object **)((char *)this - 0x18))->setStatus((ObjectStatusTypes)4, true);
 	}
 	return true;

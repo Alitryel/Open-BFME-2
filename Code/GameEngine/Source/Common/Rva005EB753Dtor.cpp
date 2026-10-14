@@ -7,10 +7,15 @@
 // 0x48 bytes, and calls 0x005EB481 with this plus its three pointer-sized args.
 // Its extent is 77B; the vtable xrefs and inner constructor boundary are target
 // evidence. The inner type name remains address-derived.
-class Rva005EB481Inner
+// The inner constructor 0x005EB481 is rowed as StrategicInGameUI::DynamicAutoResolveDialog::Impl.
+class Rva0057C394;
+class Rva003F468D;
+struct DynamicAutoResolveBattlePlayers;
+namespace StrategicInGameUI { class DynamicAutoResolveDialog { public: class Impl; }; }
+class StrategicInGameUI::DynamicAutoResolveDialog::Impl
 {
 public:
-	Rva005EB481Inner(void *owner, void *a, void *b, void *c);
+	Impl(void *owner, Rva0057C394 *frame, Rva003F468D *battle, DynamicAutoResolveBattlePlayers *players);
 	char m_opaque[0x48];
 };
 
@@ -33,7 +38,7 @@ private:
 
 Rva005EB753::Rva005EB753(void *a, void *b, void *c)
 {
-	m_member04.m_ptr = new Rva005EB481Inner(this, a, b, c);
+	m_member04.m_ptr = new StrategicInGameUI::DynamicAutoResolveDialog::Impl(this, (Rva0057C394 *)a, (Rva003F468D *)b, (DynamicAutoResolveBattlePlayers *)c);
 }
 
 Rva005EB753::~Rva005EB753()

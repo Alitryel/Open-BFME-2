@@ -7,13 +7,16 @@
 class Rva005E9F3F;
 class Rva0057C394;
 class LivingWorldBattle;
-class Rva005E98A0
+// The 0x005E98A0 implementation is rowed as StrategicInGameUI::BattlePromptDialog::Impl.
+namespace StrategicInGameUI { class BattlePromptDialog { public: class Impl; }; }
+class StrategicInGameUI::BattlePromptDialog::Impl
 {
 public:
-	Rva005E98A0(Rva005E9F3F *owner, Rva0057C394 *provider, LivingWorldBattle *battle, void *input0C, void *input10, void *input14);
+	Impl(void *owner, Rva0057C394 *provider, LivingWorldBattle *battle, void *input0C, void *input10, void *input14);
 private:
 	char m_unknown[0x20];
 };
+typedef StrategicInGameUI::BattlePromptDialog::Impl Rva005E98A0;
 
 class Rva005E9E27
 {

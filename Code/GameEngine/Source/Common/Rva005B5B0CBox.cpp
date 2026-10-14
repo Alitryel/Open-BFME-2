@@ -4,12 +4,14 @@
 // global, sets +0x16 and the +0x54 byte of the 0xE01E48 global, then runs
 // the pinned arg-free callee. The int parameter is unused. Targets from
 // retail REL32/DIR32; globals carried as named externs (no pins needed).
-struct Rva005B5B0CMgr
+class CreateAHeroData;
+class CreateAHeroManager
 {
-	void UseSub(void *s);
+public:
+	void rva0021A428(const CreateAHeroData &data);
 };
 
-extern class CreateAHeroManager *TheCreateAHeroManager;
+extern CreateAHeroManager *TheCreateAHeroManager;
 extern class Shell *TheShell;
 void Rva00513866();
 
@@ -25,7 +27,7 @@ struct Rva005B5B0CBox
 
 void Rva005B5B0CBox::Run(int unused)
 {
-	(*(Rva005B5B0CMgr **)&TheCreateAHeroManager)->UseSub((char *)m_4 + 0x27c);
+	TheCreateAHeroManager->rva0021A428(*(const CreateAHeroData *)((char *)m_4 + 0x27c));
 	m_16 = 1;
 	*(unsigned char *)((char *)(*(void **)&TheShell) + 0x54) = 1;
 	Rva00513866();

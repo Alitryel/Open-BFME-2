@@ -42,10 +42,10 @@ struct Rva00577634Owner
 	Rva0057702E m_holder14;
 };
 
-class Rva005774E3
+class Rva00576F48
 {
 public:
-	Rva005774E3(Rva00577634Owner *owner, int id);
+	Rva00576F48(Rva00577634Owner *owner, int id);
 private:
 	unsigned char m_pad00[0x1C];
 };
@@ -68,5 +68,5 @@ void Rva005765D1::rva00577634(int id)
 		return;
 	}
 	holder->rva0057702E();
-	reinterpret_cast<Rva0057704C *>(&m_18->m_holder14)->rva0057704C((Rva0057702EBase *)new Rva005774E3(m_18, id));
+	reinterpret_cast<Rva0057704C *>(&m_18->m_holder14)->rva0057704C((Rva0057702EBase *)new Rva00576F48(m_18, id));
 }
