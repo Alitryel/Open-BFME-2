@@ -56327,3 +56327,12 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ?rva007B0290@@YAXXZ	0x007B0290	22	landed	add_match verified Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp 22B; STLport container global initializer map ctor 0024613C then atexit cleanup 007B82D3
 ?rva007B3945@@YAXXZ	0x007B3945	22	landed	add_match verified Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp 22B; STLport container global initializer hash_map ctor 00524ED5 then atexit cleanup 007B91F8
 ?rva007AE6E6@@YAXXZ	0x007AE6E6	22	landed	add_match verified Code/GameEngine/Source/Common/Rva007ACDE1StlGlobalInits.cpp 22B; STLport container global initializer hash_map ctor 0030A101 then atexit cleanup 007B7AE1
+?rva00531041@Rva00531041@@QAEXXZ	0x00531041	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 9B; clear +10 then +0C
+?rva0054C836@Rva0054C836@@QBE_NXZ	0x0054C836	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 9B; pointer at +14 non-null
+?rva005FC6EE@Rva005FC6EE@@QBE_NXZ	0x005FC6EE	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 9B; bit0 of byte +34 of object at +18 twin of 0x005F273B
+?rva005CCBA8@Rva005CCBA8@@QAEXXZ	0x005CCBA8	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 8B; clear byte +20 of object at +08
+?rva00584A75@Rva00584A75@@UAEXI@Z	0x00584A75	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 8B; vftable slot grow of +08 vector via rowed 0x00584A3D
+?rva0058704F@Rva0058704F@@UAEXI@Z	0x0058704F	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 8B; vftable slot grow of +08 vector via rowed 0x0058702C
+?rva00588A95@Rva00588A95@@UAEXI@Z	0x00588A95	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 8B; vftable slot resize of +08 vector via rowed 0x00588A72
+?rva005CFACB@Rva005CFACB@@UAEXXZ	0x005CFACB	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 8B; vftable slot forward to rowed 0x005EA91A on +0C member
+?rva00574AB3@Rva00574AB3@@UAE_NXZ	0x00574AB3	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 8B; vftable slot qualified call of rowed 0x005743C0 on object at +04
