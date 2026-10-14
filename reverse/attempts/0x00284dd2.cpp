@@ -1,6 +1,8 @@
 // ?iterateTreesNearAPoint@TerrainLogic@@QAEXPBUCoord3D@@MPAVGeometryInfo@@PAVBfmeT1035@@_NH@Z
 // partial score=0.784926204755221 date=2026-10-14
 // ?iterateTreesNearAPoint@TerrainLogic@@QAEXPBUCoord3D@@MPAVGeometryInfo@@PAVBfmeT1035@@_NH@Z
+// partial score=0.784926204755221 date=2026-10-14
+// ?iterateTreesNearAPoint@TerrainLogic@@QAEXPBUCoord3D@@MPAVGeometryInfo@@PAVBfmeT1035@@_NH@Z
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include/Lib
 // BFME1 a7c38d3b TerrainRecordScan001AEFF0.cpp, adapted to pointer records.
 // WB C52910 names TerrainLogic::iterateTreesNearAPoint. Native 284DD2..285177.
