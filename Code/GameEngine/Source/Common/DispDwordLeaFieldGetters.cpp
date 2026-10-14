@@ -167,3 +167,11 @@ BFME_DISP32_LEA_GETTER(Rva004CEF06LeaGetter, 0x1E4)
 // Retail establishes the displacement; the original owner and pointee
 // type remain unknown. The neighbouring LEA leaves are already rowed.
 BFME_DISP32_LEA_GETTER(Rva001F496ELeaGetter, 0x1B4)
+
+// Retail299C91 is an eight-byte receiver-adjustment stub ending with an
+// unconditional jump to this independent299C99..299CA0 LEA/RET body.
+// Object's virtual-base table BFC27C references the stub; the owned Object
+// destructor establishes that base and its preceding adjustment word.
+// The adjusted receiver addresses a member 0x42C bytes before itself.
+// The original member name and pointee type are not established.
+BFME_DISP32_LEA_BEFORE_GETTER(Rva00299C99LeaGetter, 0x42C)

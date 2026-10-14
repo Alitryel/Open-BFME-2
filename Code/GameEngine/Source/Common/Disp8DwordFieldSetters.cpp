@@ -30,6 +30,31 @@ BFME_DISP8_DWORD_SETTER(Rva00050CB7DwordSlot, 0x7C)
 BFME_DISP8_DWORD_SETTER(Rva0050E7E1DwordSlot, 0x58)
 BFME_DISP8_DWORD_SETTER(Rva0065ECC0DwordSlot, 0x50)
 
+// Object virtual-base table BFC27C references adjustment stubs299CA0 and
+// 299CB2. Each ends with an unconditional jump to a separate leaf below:
+// 299CA8..299CB2 stores one stack word at receiver-16 and returns RET4;
+// 299CBA..299CBE reads the same word and returns RET0. The following LEA
+// getter starts299CBE and is already independently owned. The Object
+// destructor proves the virtual base and its adjustment word; field purpose
+// and historical method names remain unknown. A shared view keeps the
+// independently demonstrated getter/setter pairing in one source.
+class Rva00299CA8DwordSlot
+{
+public:
+    void set(int value);
+    int get() const;
+};
+
+void Rva00299CA8DwordSlot::set(int value)
+{
+    ((int *)this)[-4] = value;
+}
+
+int Rva00299CA8DwordSlot::get() const
+{
+    return ((const int *)this)[-4];
+}
+
 // BF1 9cb WWDownload/CDownloadDownloadFile.cpp RestartFrom supplies the
 // store-and-zero-return expression only. Complete native6C9630..6C963C
 // lies between INT3 padding: raw32 argument to receiver2C then EAX0 RET4.
