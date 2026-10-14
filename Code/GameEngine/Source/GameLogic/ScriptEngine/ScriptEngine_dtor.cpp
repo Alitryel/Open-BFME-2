@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /EHs
+// cl: /Ireference/shims/bfme2_ascii /EHs /Ow
 //
 // ScriptEngine::~ScriptEngine, retail 0x0020A2B0 (726 bytes). Its scalar
 // deleting destructor (0x0020C0C7) is slot 0 of the vtable at 0x007E3D70.
@@ -243,6 +243,8 @@ public:
 	BfmeDualVtableReleaseDtor() : m_target(0) {}
 	virtual ~BfmeDualVtableReleaseDtor(void);
 
+	BfmeReleaseTarget *target() const { return m_target; }
+
 	void swap(BfmeDualVtableReleaseDtor &that)
 	{
 		swapValues(m_module, that.m_module);
@@ -262,7 +264,7 @@ public:
 	virtual void holderSlot0();
 	void release();
 
-private:
+protected:
 	void *m_handle; // +0x04
 	bool m_active;  // +0x08
 };
@@ -270,10 +272,30 @@ private:
 class Rva0020453CHolder : public Rva0020453CHolderBase
 {
 public:
+	Rva0020453CHolder() { m_handle = 0; m_active = false; }
 	virtual void holderSlot0();
 };
 
 static Rva0020453CHolder *TheDebugWindowHolder;
+
+// Particle-editor host held at TheFXParticleEditor+8: slot 2 takes the
+// particle-system manager's +0x50 value, slot 3 the debug-window holder.
+class BfmeReleaseTarget
+{
+public:
+	virtual void hostSlot0();
+	virtual void hostSlot1();
+	virtual void hostSlot2(int value);
+	virtual void hostSlot3(Rva0020453CHolder *holder);
+	virtual void hostSlot4();
+};
+
+struct Rva009FDD04ManagerView
+{
+	char m_pad[0x50];
+	int m_value; // +0x50
+};
+extern Rva009FDD04ManagerView *TheParticleSystemManager;
 class ScriptEngine;
 extern ScriptEngine *TheScriptEngine;
 
@@ -285,6 +307,9 @@ public:
 	virtual ~ScriptEngine();
 	virtual void crc();
 	virtual void reset();
+
+protected:
+	void particleEditorUpdate();
 
 private:
 	FreeVector m_sequentialScripts;               // +0x10
@@ -343,3 +368,16 @@ ScriptEngine::~ScriptEngine()
 	reset();
 }
 // ?TheDebugWindowInterface@@3PAXA: the global at VA 0xdfe16c is ?TheScriptEngine@@3PAVScriptEngine@@A.
+
+void ScriptEngine::particleEditorUpdate()
+{
+	if (!TheFXParticleEditor.target())
+		return;
+	if (!TheDebugWindowHolder) {
+		Rva0020453CHolder *holder = new Rva0020453CHolder;
+		TheDebugWindowHolder = holder;
+		TheFXParticleEditor.target()->hostSlot3(holder);
+	}
+	TheFXParticleEditor.target()->hostSlot2(TheParticleSystemManager->m_value);
+	return TheFXParticleEditor.target()->hostSlot4();
+}

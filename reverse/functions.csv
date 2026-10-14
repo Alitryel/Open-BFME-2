@@ -89729,3 +89729,4 @@ __ehhandler$?rva006ff980@@YAXPAVAptValue@@AAVEAStringC@@H@Z,,0x007AA438,10,Code/
 ?rva0052AC0F@Rva0052AF1C@@QAEXXZ,,0x0052AC0F,7,Code/GameEngine/Source/GameClient/GUI/Palantir/Rva0052AC0FSpellBookForward.cpp,matched,7B forwarder: tail call to the rowed in-game spell book interface Update on the implementation held at +0; caller AptPalantir update 0x002D65F6
 ?update@AptPalantir@@QAEXXZ,,0x002D65F6,1260,Code/GameEngine/Source/GameClient/GUI/Palantir/AptPalantirUpdate.cpp,matched,AptPalantir per-frame Apt update; WB Palantir::Impl twin F43EC0; Flag4 padded objective flags; one barrier before the faction block
 ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z,,0x0041458A,344,Code/GameEngine/Source/Common/RTS/Rva0041458AScoredKillSave.cpp,matched,
+?particleEditorUpdate@ScriptEngine@@IAEXXZ,,0x00204032,98,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngine_dtor.cpp,matched,
