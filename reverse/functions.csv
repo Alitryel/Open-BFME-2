@@ -88686,3 +88686,4 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ?Rva00542449Find@@YAPADPADD@Z,,0x00542449,16,Code/GameEngine/Source/Common/Rva00542425Skip.cpp,matched,char find NUL or stack char static EAX handoff sibling of Rva00542425Skip
 ?rva006026C0@Rva006026C0@@QAEHXZ,,0x006026C0,19,Code/GameEngine/Source/Common/Rva00602810.cpp,matched,pointer pair difference or 0 when [p]==0 twin of 0x00602810
 ?rva00602850@Rva00602850@@QAEHXZ,,0x00602850,19,Code/GameEngine/Source/Common/Rva00602810.cpp,matched,pointer pair difference or 0 when [p]==0 twin of 0x00602810
+?rva007B6830@@YAXXZ,,0x007B6830,22,Code/GameEngine/Source/Common/Rva007B6830SegLineInit.cpp,matched,SegLineRendererClass global initializer ctor on VA E1F4E8 then atexit 0x007B9CC0

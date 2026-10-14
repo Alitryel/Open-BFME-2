@@ -55212,3 +55212,4 @@ CatchContinuation_0x0073F646	0x0073F646	194	no-boundary	Not a standalone functio
 ?Rva00542449Find@@YAPADPADD@Z	0x00542449	16	landed	add_match verified Code/GameEngine/Source/Common/Rva00542425Skip.cpp 16B; char find NUL or stack char static EAX handoff sibling of Rva00542425Skip
 ?rva006026C0@Rva006026C0@@QAEHXZ	0x006026C0	19	landed	add_match verified Code/GameEngine/Source/Common/Rva00602810.cpp 19B; pointer pair difference or 0 when [p]==0 twin of 0x00602810
 ?rva00602850@Rva00602850@@QAEHXZ	0x00602850	19	landed	add_match verified Code/GameEngine/Source/Common/Rva00602810.cpp 19B; pointer pair difference or 0 when [p]==0 twin of 0x00602810
+?rva007B6830@@YAXXZ	0x007B6830	22	landed	add_match verified Code/GameEngine/Source/Common/Rva007B6830SegLineInit.cpp 22B; SegLineRendererClass global initializer ctor on VA E1F4E8 then atexit 0x007B9CC0
