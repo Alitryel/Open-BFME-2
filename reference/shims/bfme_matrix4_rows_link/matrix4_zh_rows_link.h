@@ -90,7 +90,7 @@ public:
 	Matrix4x4(const Matrix4x4 & m);
 
 	WWINLINE explicit Matrix4x4(bool identity);
-	BFME_MATRIX4_M3D_INLINE explicit Matrix4x4(const Matrix3D & m);
+	__declspec(dllimport) __forceinline explicit Matrix4x4(const Matrix3D & m);
 	WWINLINE explicit Matrix4x4(const Matrix3x3 & m);
 	__declspec(dllimport) __forceinline explicit Matrix4x4(const Vector4 & v0, const Vector4 & v1, const Vector4 & v2, const Vector4 & v3);
 	WWINLINE explicit Matrix4x4(	float m11,float m12,float m13,float m14,
@@ -251,7 +251,7 @@ WWINLINE Matrix4x4::Matrix4x4(const Matrix4x4 & m)
  * HISTORY:                                                                                    * 
  *   06/02/1997 GH  : Created.                                                                 * 
  *=============================================================================================*/
-BFME_MATRIX4_M3D_INLINE Matrix4x4::Matrix4x4(const Matrix3D & m)
+__declspec(dllimport) __forceinline Matrix4x4::Matrix4x4(const Matrix3D & m)
 {
 	Init(m);
 }

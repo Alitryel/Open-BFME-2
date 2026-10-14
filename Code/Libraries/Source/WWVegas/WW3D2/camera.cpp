@@ -30,11 +30,14 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 #define Matrix3x3 Matrix3
 #define Matrix4x4 Matrix4  // BFME renamed it
-// Link view: Matrix4(Vector4 x4) and Transpose stay inline without emitting
-// copies that, first in link order, displace retail's /O1 owners (0x0006A34E, 0x0006A3D1).
-// Matrix4(Matrix3D) stays an ordinary inline: its copy is what emits the Init(Matrix3D) row this unit owns.
+// Link view: Matrix4(Vector4 x4), Matrix4(Matrix3D) and Transpose stay inline without emitting
+// copies that, first in link order, displace retail's /O1 owners (0x0006A34E, 0x0006A2CD, 0x0006A3D1).
+// Init(Matrix3D) stays an ordinary inline: this unit owns its row (0x00068FEF), and the anchor
+// below (not retail code) emits it now that no Matrix4(Matrix3D) copy calls it.
 #define BFME_MATRIX4_M3D_INLINE WWINLINE
 #include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_zh_rows_link.h"
+// ?_bfmeMatrix4InitAnchor@@YAXAAVMatrix4@@ABVMatrix3D@@@Z absent-from-retail
+void _bfmeMatrix4InitAnchor(Matrix4x4 &m, const Matrix3D &t) { m.Init(t); }
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
