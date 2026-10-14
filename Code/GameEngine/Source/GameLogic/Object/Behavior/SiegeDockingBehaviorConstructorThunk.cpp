@@ -84,10 +84,12 @@ private:
 	unsigned int m_updateState;
 };
 
+// Retail installs this base's vtable 0x00C4EF80 first (ctor store at +0x20);
+// every slot there is __purecall (0x0003B810), so the slot is pure.
 class SiegeDockingBehaviorSecondaryBase
 {
 public:
-	virtual void slot();
+	virtual void slot() = 0;
 };
 
 class SiegeDockingBehavior : public UpdateModule, public SiegeDockingBehaviorSecondaryBase
