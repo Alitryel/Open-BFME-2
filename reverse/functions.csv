@@ -89576,3 +89576,17 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?Rva00534626@@YAXPAVRva005344C0@@@Z,,0x00534626,9,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,cdecl destroy via rowed dtor 0x005344C0
 ?Rva005690DE@@YAXPAVRva00568C4E@@@Z,,0x005690DE,9,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,cdecl destroy via rowed dtor 0x00568C4E
 ?Rva005690E7@@YAXPAVBfmePoolRef10@@@Z,,0x005690E7,9,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,cdecl destroy via rowed dtor 0x000519AB
+?rva0055381C@Rva0055381C@@QAEXXZ,,0x0055381C,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed Rva0038201D rva003828B6 on member at +0
+?rva00553821@Rva00553821@@QAEXXZ,,0x00553821,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed Rva0038204A rva003828DF on member at +0
+?rva00553826@Rva00553826@@QAEXXZ,,0x00553826,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed Rva00382077 rva00382908 on member at +0
+?rva0055382B@Rva0055382B@@QAEXXZ,,0x0055382B,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed Rva005532D6 rva005532D6 on member at +0
+?rva0056FCC7@Rva0056FCC7@@QBE_NABVGen_0054EC50@@@Z,,0x0056FCC7,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed Gen_0054EC50 bfmeDiffers on member at +0
+?rva0056FCCC@Rva0056FCCC@@QBE_NABVGen_0054EC80@@@Z,,0x0056FCCC,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed Gen_0054EC80 bfmeDiffers on member at +0
+?rva0056FCD1@Rva0056FCD1@@QBE_NABVRva0056FA50@@@Z,,0x0056FCD1,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed Rva0056FA50 rva0056FA50 on member at +0
+?rva0056FCD6@Rva0056FCD6@@QBE_NABVRva0056FA72@@@Z,,0x0056FCD6,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed Rva0056FA72 rva0056FA72 on member at +0
+?rva005709CC@Rva005709CC@@QAE_NXZ,,0x005709CC,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed AptOnlineLogin rva005706D4 on member at +0
+?rva005693CF@Rva005693CF@@QAEXXZ,,0x005693CF,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed tree clear 0x0056926C on member at +0
+??1Rva00534765@@QAE@XZ,,0x00534765,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,member-only dtor tail jump to rowed 0x0053470B
+?rva00531EB8@Rva00531EB8@@QAEXXZ,,0x00531EB8,4,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,advance +0 word pointer
+?rva00586FBB@Rva00586FBB@@QAEXPAVRva00585B16@@IABV2@@Z,,0x00586FBB,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x00586EB9
+?rva005880B8@Rva005880B8@@QAEXPAURva00587375@@IABU2@@Z,,0x005880B8,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x00587DCD

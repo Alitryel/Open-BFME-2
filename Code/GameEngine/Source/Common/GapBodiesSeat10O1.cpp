@@ -94,6 +94,7 @@ namespace _STL
 		void resize(unsigned int count);
 		T *erase(T *first, T *last);
 		void clear();
+		void _M_fill_insert(T *position, unsigned int count, const T &value);
 	private:
 		T *_M_start;
 		T *_M_finish;
@@ -115,7 +116,9 @@ namespace _STL
 	{
 	public:
 		~_Rb_tree();
+		void clear();
 	};
+	template <class T> struct _Identity;
 }
 
 // ?rva00584A75@Rva00584A75@@UAEXI@Z @0x00584A75 8B (vftable slot at VA
@@ -918,4 +921,208 @@ void Rva005690DE(Rva00568C4E *p)
 void Rva005690E7(BfmePoolRef10 *p)
 {
 	p->~BfmePoolRef10();
+}
+
+// Bare tail jumps to a rowed member of the object at +0.
+class Rva0038201D { public: void rva003828B6(); };
+class Rva0038204A { public: void rva003828DF(); };
+class Rva00382077 { public: void rva00382908(); };
+class Rva005532D6 { public: void rva005532D6(); };
+
+// ?rva0055381C@Rva0055381C@@QAEXXZ @0x0055381C 5B: Rva0038201D::rva003828B6 on the member at +0.
+class Rva0055381C
+{
+public:
+	void rva0055381C();
+private:
+	Rva0038201D m_00;
+};
+void Rva0055381C::rva0055381C()
+{
+	m_00.rva003828B6();
+}
+
+// ?rva00553821@Rva00553821@@QAEXXZ @0x00553821 5B: Rva0038204A::rva003828DF on the member at +0.
+class Rva00553821
+{
+public:
+	void rva00553821();
+private:
+	Rva0038204A m_00;
+};
+void Rva00553821::rva00553821()
+{
+	m_00.rva003828DF();
+}
+
+// ?rva00553826@Rva00553826@@QAEXXZ @0x00553826 5B: Rva00382077::rva00382908 on the member at +0.
+class Rva00553826
+{
+public:
+	void rva00553826();
+private:
+	Rva00382077 m_00;
+};
+void Rva00553826::rva00553826()
+{
+	m_00.rva00382908();
+}
+
+// ?rva0055382B@Rva0055382B@@QAEXXZ @0x0055382B 5B: Rva005532D6::rva005532D6 on the member at +0.
+class Rva0055382B
+{
+public:
+	void rva0055382B();
+private:
+	Rva005532D6 m_00;
+};
+void Rva0055382B::rva0055382B()
+{
+	m_00.rva005532D6();
+}
+
+class Gen_0054EC50 { public: bool bfmeDiffers(const Gen_0054EC50 &other) const; };
+class Gen_0054EC80 { public: bool bfmeDiffers(const Gen_0054EC80 &other) const; };
+class Rva0056FA50 { public: bool rva0056FA50(const Rva0056FA50 &other) const; };
+class Rva0056FA72 { public: bool rva0056FA72(const Rva0056FA72 &other) const; };
+
+// ?rva0056FCC7@Rva0056FCC7@@QBE_NABVGen_0054EC50@@@Z @0x0056FCC7 5B: Gen_0054EC50::bfmeDiffers on the member at +0.
+class Rva0056FCC7
+{
+public:
+	bool rva0056FCC7(const Gen_0054EC50 &other) const;
+private:
+	Gen_0054EC50 m_00;
+};
+bool Rva0056FCC7::rva0056FCC7(const Gen_0054EC50 &other) const
+{
+	return m_00.bfmeDiffers(other);
+}
+
+// ?rva0056FCCC@Rva0056FCCC@@QBE_NABVGen_0054EC80@@@Z @0x0056FCCC 5B: Gen_0054EC80::bfmeDiffers on the member at +0.
+class Rva0056FCCC
+{
+public:
+	bool rva0056FCCC(const Gen_0054EC80 &other) const;
+private:
+	Gen_0054EC80 m_00;
+};
+bool Rva0056FCCC::rva0056FCCC(const Gen_0054EC80 &other) const
+{
+	return m_00.bfmeDiffers(other);
+}
+
+// ?rva0056FCD1@Rva0056FCD1@@QBE_NABVRva0056FA50@@@Z @0x0056FCD1 5B: Rva0056FA50::rva0056FA50 on the member at +0.
+class Rva0056FCD1
+{
+public:
+	bool rva0056FCD1(const Rva0056FA50 &other) const;
+private:
+	Rva0056FA50 m_00;
+};
+bool Rva0056FCD1::rva0056FCD1(const Rva0056FA50 &other) const
+{
+	return m_00.rva0056FA50(other);
+}
+
+// ?rva0056FCD6@Rva0056FCD6@@QBE_NABVRva0056FA72@@@Z @0x0056FCD6 5B: Rva0056FA72::rva0056FA72 on the member at +0.
+class Rva0056FCD6
+{
+public:
+	bool rva0056FCD6(const Rva0056FA72 &other) const;
+private:
+	Rva0056FA72 m_00;
+};
+bool Rva0056FCD6::rva0056FCD6(const Rva0056FA72 &other) const
+{
+	return m_00.rva0056FA72(other);
+}
+
+// ?rva005709CC@Rva005709CC@@QAE_NXZ @0x005709CC 5B: the rowed
+// AptOnlineLogin::rva005706D4 0x005706D4 on the member at +0.
+class AptOnlineLogin { public: bool rva005706D4(); };
+class Rva005709CC
+{
+public:
+	bool rva005709CC();
+private:
+	AptOnlineLogin m_00;
+};
+bool Rva005709CC::rva005709CC()
+{
+	return m_00.rva005706D4();
+}
+
+// ?rva005693CF@Rva005693CF@@QAEXXZ @0x005693CF 5B: clear the key tree at +0
+// through the rowed _Rb_tree::clear 0x0056926C.
+struct Rva00568FE4Key;
+struct Rva00568FE4Less;
+class Rva005693CF
+{
+public:
+	void rva005693CF();
+private:
+	_STL::_Rb_tree<Rva00568FE4Key, Rva00568FE4Key, _STL::_Identity<Rva00568FE4Key>, Rva00568FE4Less, _STL::allocator<Rva00568FE4Key> > m_tree;
+};
+void Rva005693CF::rva005693CF()
+{
+	m_tree.clear();
+}
+
+// ??1Rva00534765@@QAE@XZ @0x00534765 5B: member-only dtor, rowed 0x0053470B.
+class Rva00534641
+{
+public:
+	~Rva00534641();
+};
+class Rva00534765
+{
+public:
+	~Rva00534765();
+private:
+	Rva00534641 m_00;
+};
+Rva00534765::~Rva00534765()
+{
+}
+
+// ?rva00531EB8@Rva00531EB8@@QAEXXZ @0x00531EB8 4B: advance the +0 pointer by one word.
+class Rva00531EB8
+{
+public:
+	void rva00531EB8();
+private:
+	int *m_cur;
+};
+void Rva00531EB8::rva00531EB8()
+{
+	++m_cur;
+}
+
+// ?rva00586FBB@Rva00586FBB@@QAEXPAVRva00585B16@@IABV2@@Z @0x00586FBB 5B and
+// ?rva005880B8@Rva005880B8@@QAEXPAURva00587375@@IABU2@@Z @0x005880B8 5B:
+// fill-insert into the vector at +0 through the rowed _M_fill_insert.
+class Rva00585B16;
+struct Rva00587375;
+class Rva00586FBB
+{
+public:
+	void rva00586FBB(Rva00585B16 *position, unsigned int count, const Rva00585B16 &value);
+private:
+	_STL::vector<Rva00585B16> m_vector;
+};
+void Rva00586FBB::rva00586FBB(Rva00585B16 *position, unsigned int count, const Rva00585B16 &value)
+{
+	m_vector._M_fill_insert(position, count, value);
+}
+class Rva005880B8
+{
+public:
+	void rva005880B8(Rva00587375 *position, unsigned int count, const Rva00587375 &value);
+private:
+	_STL::vector<Rva00587375> m_vector;
+};
+void Rva005880B8::rva005880B8(Rva00587375 *position, unsigned int count, const Rva00587375 &value)
+{
+	m_vector._M_fill_insert(position, count, value);
 }
