@@ -25,3 +25,8 @@ bool BaseHeightMapRenderObjClass::rva0006C6A3(int x,int y) const {
  if(x<0 || y<0 || y>=map->height || x>=width)return false;
  return cliffBits[x+y*width];
 }
+bool BaseHeightMapRenderObjClass::rva0006C6E2(int x,int y) const {
+ int width=map->width;
+ if(x<0 || y<0 || y>=map->height || x>=width)return false;
+ return impassableBits[x+y*width];
+}
