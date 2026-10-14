@@ -9,7 +9,8 @@
 class Rva001E7053
 {
 public:
-	void rva001E7053(int a, int b, float c, float d);
+	// Rowed as ?rva001e7053@Rva001E7053@@QAEXIIMM@Z (Rva001E7C2BForwarders.cpp).
+	void rva001e7053(unsigned int a, unsigned int b, float c, float d);
 };
 class Rva001E8C1B
 {
@@ -30,7 +31,7 @@ public:
 // ?rva001E7C2B@Rva001E7C2B@@QAEXHHMM@Z
 void Rva001E7C2B::rva001E7C2B(int a, int b, float c, float d)
 {
-	((Rva001E7053 *)this)->rva001E7053(a, b, c, d);
+	((Rva001E7053 *)this)->rva001e7053(a, b, c, d);
 }
 
 // ?rva001E9045@Rva001E9045@@QAEXHHMM@Z
@@ -109,7 +110,7 @@ class Rva001E7C4C {public:void rva001E7C4C(Object*,unsigned,float,float);private
 // 0x0028AE6D. The bit view's set/clear helpers give retail's direct memory
 // test and the shared notifier tail; the flag read is the bool shift test.
 void Rva001E7C4C::rva001E7C4C(Object *obj,unsigned goal,float onPath,float speed){
- ((Rva001E7053*)this)->rva001E7053((int)obj,goal,onPath,speed);
+ ((Rva001E7053*)this)->rva001e7053((unsigned int)obj,goal,onPath,speed);
  float x = obj->x, y = obj->y;
  if (TheTerrainLogic->isUnderwater(x, y, 0, 0, 0))
  {

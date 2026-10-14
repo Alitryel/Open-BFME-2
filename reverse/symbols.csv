@@ -14632,7 +14632,6 @@ _Rva001117E3Downsample,0x001117E3,callee of ?updateMips@TileData@@QAEXXZ
 ?rva002235F3@Rva002235F3@@QAEPAXPBX@Z,0x002235F3,REL32 destination observed at 0x002239B2 and 0x002239E2; thiscall with one pointer argument and writable pointer result inferred from both callers; body is not claimed
 ?rva00211505@Rva00211505@@QAEXXZ,0x00211505,REL32 call and tail jump observed in target 0x00211570; address-derived names only
 ?rva003F92DA@Rva003F92DA@@QAEXXZ,0x003F92DA,REL32 call and tail jump observed in target 0x00211570; address-derived names only
-?rva001E7053@Rva001E7053@@QAEXHHMM@Z,0x001E7053,x87 twin forward targets of 0x1E7C2B/0x1E9045; thiscall (int;int;float;float) caller-side fiction; true types unproven (address-derived)
 ?rva00298AAD@Object@@QAEXI@Z,0x00298AAD,callee of ?rva004CC795@Rva004CC829@@QAEXPAVObject@@I@Z
 ??0Object@@QAE@PBVThingTemplate@@PBUCreateMask@@PAVTeam@@_N3@Z,0x00298EA9,Target call from 0x0023CAE7 passes ECX as a fresh 0x4D8-byte allocation and arguments (template; mask; team; flag; true); matched Object interface bodies and their vtable evidence place subobjects at +0x64/+0x70. Constructor identity and the final flag meaning are structural inferences; the address and argument order come from the target call.
 ?rva0005230D@Rva0005230D@@QAEXMMMMM@Z,0x0005230D,callee of ?rva000537F4@MilesAudioManager@@QAEXMMMMMH@Z
