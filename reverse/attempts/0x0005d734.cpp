@@ -1,4 +1,6 @@
 // ?addOrResumeAudioEvent@MilesAudioManager@@QAEIPAVAudioEventRTS@@HHHH@Z
+// partial score=0.9907451353 date=2026-10-14
+// ?addOrResumeAudioEvent@MilesAudioManager@@QAEIPAVAudioEventRTS@@HHHH@Z
 // partial score=0.97 date=2026-10-14
 // ?addOrResumeAudioEvent@MilesAudioManager@@QAEIPAVAudioEventRTS@@HHHH@Z
 // partial score=0.993 date=2026-10-12
@@ -209,7 +211,7 @@ class Rva001D9A00
 ;
 class Rva001D98BD 
 {
- public:int rva001D9781();
+ public:bool rva001D9781();
  
 }
 ;
