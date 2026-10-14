@@ -1,6 +1,8 @@
 // ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z
 // partial score=0.958 date=2026-10-14
 // ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z
+// partial score=0.958 date=2026-10-14
+// ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z
 // partial score=0.88779 date=2026-10-12
 // cl: /I. /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include
 // Regional O1/SSE/G7 preserved; /MD imports the native _isnan dependency.
