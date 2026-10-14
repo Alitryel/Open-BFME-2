@@ -1,21 +1,33 @@
 // ?MessageBoxOk@@YAXVUnicodeString@@0P6AXXZ@Z
+// partial score=0.99 date=2026-10-14
+// ?MessageBoxOk@@YAXVUnicodeString@@0P6AXXZ@Z
 // partial score=0.95 date=2026-10-13
 // ?MessageBoxOk@@YAXVUnicodeString@@0P6AXXZ@Z
 // partial score=0.88 date=2026-10-09
-// cl: /O1 /arch:SSE /G7 /EHsc /MD /Ireference/shims/bfme2_ascii
+// cl: /O1 /arch:SSE /G7 /EHsc /MD /Gy /Ireference/shims/bfme2_ascii
 #include "unicode_string.h"
 struct TargetRef00217D4C { void *m_vtbl; int references; };
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 class Rva0044BC76 {
 public:
     Rva0044BC76(const int *);
+    __forceinline Rva0044BC76(const Rva0044BC76 &o) : m_ptr(o.m_ptr) {}
+    __forceinline Rva0044BC76(int, int) : m_ptr(0) {}
     TargetRef00217D4C *m_ptr;
 };
-struct Rva004F6986Member {
-    TargetRef00217D4C *m_ptr;
-    __forceinline Rva004F6986Member() : m_ptr(0) {}
-    __forceinline Rva004F6986Member(const int *fn) : m_ptr(Rva0044BC76(fn).m_ptr) {}
-    __forceinline Rva004F6986Member(const Rva004F6986Member &other) : m_ptr(other.m_ptr) {
+void *__cdecl operator new(unsigned int size);
+struct ImplRef0044BC76 { virtual ~ImplRef0044BC76() {} int m_ref; ImplRef0044BC76() : m_ref(0) {} };
+struct Impl0044BC76 : ImplRef0044BC76 { int m_value; Impl0044BC76(const int &v) : m_value(v) {} };
+Rva0044BC76::Rva0044BC76(const int *arg)
+{
+    Impl0044BC76 *p = new Impl0044BC76(*arg);
+    m_ptr = (TargetRef00217D4C *)p;
+    if (p != 0) ++p->m_ref;
+}
+struct Rva004F6986Member : public Rva0044BC76 {
+    __forceinline Rva004F6986Member() : Rva0044BC76(0, 0) {}
+    __forceinline Rva004F6986Member(const int *fn) : Rva0044BC76(fn) {}
+    __forceinline Rva004F6986Member(const Rva004F6986Member &other) : Rva0044BC76(*(const Rva0044BC76*)&other) {
         if (m_ptr) ++m_ptr->references;
     }
     __forceinline ~Rva004F6986Member() { if (m_ptr) ReleaseTreeHintRef00217D4C(m_ptr); }
@@ -73,16 +85,14 @@ void MessageBoxYesNo(UnicodeString title,UnicodeString message,GameWinMsgBoxFunc
     Rva00437F61(2,title,message,Rva0023E8D8(pair,2));
 }
 void MessageBoxOkCancel(UnicodeString title,UnicodeString message,GameWinMsgBoxFunc ok,GameWinMsgBoxFunc cancel) {
-    if(!ok)ok=MessageBoxNullCallback;
+    GameWinMsgBoxFunc cb=ok?ok:MessageBoxNullCallback;
+    ok=cb;
     if(!cancel)cancel=MessageBoxNullCallback;
     Rva0044BA4E pair((const int*)&ok,(const int*)&cancel);
     Rva00437F61(1,title,message,Rva0023E8D8(pair,1));
 }
 void MessageBoxOk(UnicodeString title,UnicodeString message,GameWinMsgBoxFunc ok) {
-    if(!ok)ok=MessageBoxNullCallback;
-    {
-        Rva004F6986Member member((const int*)&ok);
-        Rva0051732A single(member);
-        Rva00437F61(0,title,message,Rva0023E8D8(single));
-    }
+    GameWinMsgBoxFunc cb=ok?ok:MessageBoxNullCallback;
+    ok=cb;
+    Rva00437F61(0,title,message,Rva0023E8D8(Rva0051732A(Rva004F6986Member((const int*)&ok))));
 }

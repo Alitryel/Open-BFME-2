@@ -300,7 +300,7 @@ void Rva00624130::rva00624130()
 				}
 				m_deques78[entry->m_queue].push_back(*(int *)&entry);
 				if (q == 2 && m_deques78[0].empty() && m_deques78[1].empty() &&
-					m_deques78[2].empty())
+					(entry ? m_deques78[2] : m_deques78[2]).empty())
 				{
 					changed = true;
 				}
