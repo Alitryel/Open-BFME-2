@@ -18,7 +18,7 @@
 struct FieldParse;
 class LivingWorldRegionEffectsManager {
 public:
-    static const FieldParse s_parseTable[];
+    static FieldParse s_parseTable[];
 };
 class RingEffect {
 public:

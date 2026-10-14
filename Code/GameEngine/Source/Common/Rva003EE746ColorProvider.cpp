@@ -37,7 +37,7 @@ class S3RegionObserverBase {public:
 struct S3ColorGroup {S3ColorGroup(float a,float b,float c):x(a),y(b),z(c){}float x,y,z;};
 class INI; struct FieldParse;
 class LivingWorldRegionEffectsManager:public S3RegionObserverBase {public:
- LivingWorldRegionEffectsManager(const AsciiString&); static const FieldParse s_parseTable[];
+ LivingWorldRegionEffectsManager(const AsciiString&); static FieldParse s_parseTable[];
  virtual void rva003EF13E(int,int,int); void SyncRegion(int);
  int u4;Rva004E2E58 map8;int u14;AsciiString name18;AsciiString regionObject1c;
  S3ColorGroup group20,group2c,group38;
@@ -66,7 +66,13 @@ class INIException {
 public:char*message;int code;
  INIException(int,const char*,...);INIException(const INIException&);~INIException();
 };
-const FieldParse LivingWorldRegionEffectsManager::s_parseTable[] = {
+// Retail startup body7AF9D6 fills nine dynamic effect-key entries after the
+// five constant entries. Each uses the same AsciiString for token/user data.
+extern unsigned g_Va00E02E70,g_Va00E02E74;
+extern AsciiString g_Rva00E02E68,g_Rva00E02E6C,g_Rva00E02E64,g_Rva00E02E78,g_Rva00E02E7C,g_Rva00E02E80,g_Rva00E02E84;
+void SplineEffectParseINIBlock(INI*,void*,void*,const char*);
+typedef void (__cdecl *S3FieldParser)(INI*,void*,void*,const void*);
+FieldParse LivingWorldRegionEffectsManager::s_parseTable[15] = {
  {"RegionObject",INI::Rva003EEABF_ParseAsciiString,0,0x1c},
  {"NeutralRegionColor",INI::parseRGBColor,0,0x20},
  {"RegionBorderColor",INI::parseRGBColor,0,0x2c},
@@ -74,6 +80,33 @@ const FieldParse LivingWorldRegionEffectsManager::s_parseTable[] = {
  {"ShouldShowRegionBorders",INI::parseBool,0,0x54},
  {0,0,0,0}
 };
+
+// ?initializeRegionEffectField absent-from-retail
+static __forceinline void initializeRegionEffectField(FieldParse &entry,const AsciiString &key) {
+ const char *buffer=*reinterpret_cast<char *const *>(&key);
+ if(buffer) entry.token=buffer+8; else entry.token="";
+ entry.parse=(S3FieldParser)SplineEffectParseINIBlock;
+ if(buffer) entry.userData=buffer+8; else entry.userData="";
+ entry.offset=0;
+}
+// CRT initializer pointer at native9A4E24 independently names7AF9D6.
+// Its stores fill the nine runtime entries and the final terminator; retain
+// the existing five constant entries and the same240-byte table storage.
+void Rva007AF9D6InitializeRegionEffectFields() {
+ initializeRegionEffectField(LivingWorldRegionEffectsManager::s_parseTable[5],*(AsciiString*)&g_Va00E02E70);
+ initializeRegionEffectField(LivingWorldRegionEffectsManager::s_parseTable[6],*(AsciiString*)&g_Va00E02E74);
+ initializeRegionEffectField(LivingWorldRegionEffectsManager::s_parseTable[7],g_Rva00E02E68);
+ initializeRegionEffectField(LivingWorldRegionEffectsManager::s_parseTable[8],g_Rva00E02E6C);
+ initializeRegionEffectField(LivingWorldRegionEffectsManager::s_parseTable[9],g_Rva00E02E64);
+ initializeRegionEffectField(LivingWorldRegionEffectsManager::s_parseTable[10],g_Rva00E02E78);
+ initializeRegionEffectField(LivingWorldRegionEffectsManager::s_parseTable[11],g_Rva00E02E7C);
+ initializeRegionEffectField(LivingWorldRegionEffectsManager::s_parseTable[12],g_Rva00E02E80);
+ initializeRegionEffectField(LivingWorldRegionEffectsManager::s_parseTable[13],g_Rva00E02E84);
+ LivingWorldRegionEffectsManager::s_parseTable[14].token=0;
+ LivingWorldRegionEffectsManager::s_parseTable[14].parse=0;
+ LivingWorldRegionEffectsManager::s_parseTable[14].userData=0;
+ LivingWorldRegionEffectsManager::s_parseTable[14].offset=0;
+}
 class Rva003EF34AOwner {public:int fwd(int result,int value);};
 struct S3RegionEntry;struct S3RegionInsertResult;
 class Rva003EF328 {public:void insert(S3RegionInsertResult &,const S3RegionEntry &);char pad[12];Rva003EF34AOwner table;};

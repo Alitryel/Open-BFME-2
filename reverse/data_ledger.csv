@@ -17361,7 +17361,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009C1180,4,.data,global,?g_value12A6FB0@@3HA,,unowned,,0,1
 0x009C1184,820,.data,global,?g_value12A6FB4@@3HA,,unowned,,0,1
 0x009C14B8,16,.data,global,?theLivingWorldRegionEffectsBlockParse@@3UBlockParse@@A,,unowned,,0,2
-0x009C14C8,276,.data,global,?s_parseTable@LivingWorldRegionEffectsManager@@2QBUFieldParse@@B,Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp,owned,,1,1
+0x009C14C8,276,.data,global,?s_parseTable@LivingWorldRegionEffectsManager@@2PAUFieldParse@@A,Code/GameEngine/Source/Common/Rva003EE746ColorProvider.cpp,owned,,1,60
 0x009C15DC,16,.data,global,?g_Va00DC15DC@@3PAHA,Code/GameEngine/Source/Common/System/Rva003F10D0Pick.cpp,owned,,1,1
 0x009C15EC,16,.data,global,?g_Va00DC15EC@@3PAHA,Code/GameEngine/Source/Common/System/Rva003F10D0Pick.cpp,owned,,1,1
 0x009C15FC,16,.data,global,?g_Va00DC15FC@@3PAHA,Code/GameEngine/Source/Common/System/Rva003F10D0Pick.cpp,owned,,1,1
