@@ -89521,3 +89521,5 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva007B6800@@YAXXZ,,0x007B6800,15,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,Vector3Randomizer Randomizer initializer Random3Class 0 0 via pinned 0x006200B0
 ?rva007B3E9E@@YAXXZ,,0x007B3E9E,11,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,second-unit DefaultModuleKey 6 VALUE initializer
 ?rva007B3EA9@@YAXXZ,,0x007B3EA9,11,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,second-unit DefaultModuleName 6 VALUE initializer
+?rva00525AAC@Rva00525916@@QAEAAV1@UDelegateDesc@@@Z,,0x00525AAC,19,Code/GameEngine/Source/Common/GapBodiesGE03.cpp,matched,by-value DelegateDesc wrapper over rowed binder 0x00525916 twin of 0x0052AC16
+??0Rva00518756@@QAE@UFunctorBinding@@@Z,,0x00518756,19,Code/GameEngine/Source/Common/GapBodiesGE03.cpp,matched,by-value 16B functor binding ctor over rowed holder base ctor 0x0057BC63

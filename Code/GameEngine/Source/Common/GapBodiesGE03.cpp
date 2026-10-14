@@ -294,3 +294,45 @@ bool Overridable::rva0028864F(const Overridable *other) const
 		return mine->m_18 > theirs->m_18;
 	return false;
 }
+
+// --- 0x00525AAC (19B): by-value DelegateDesc wrapper over the rowed binder
+// 0x00525916 on the same object (shape of rva0052AC16 above).
+class Rva00525916
+{
+public:
+	Rva00525916 &rva00525916(const DelegateDesc *desc);	// 0x00525916
+	Rva00525916 &rva00525AAC(DelegateDesc desc);
+};
+
+Rva00525916 &Rva00525916::rva00525AAC(DelegateDesc desc)
+{
+	rva00525916(&desc);
+	return *this;
+}
+
+// --- 0x00518756 (19B): constructor taking a 16-byte functor binding by value
+// and handing its address to the rowed holder base constructor 0x0057BC63.
+struct FunctorBinding
+{
+	void *m_target;
+	unsigned int m_pad;
+	void *m_method;
+	unsigned int m_adjust;
+};
+
+class Rva0057BC63FunctorHolder
+{
+public:
+	Rva0057BC63FunctorHolder(const FunctorBinding &binding);	// 0x0057BC63
+	void *m_ptr;
+};
+
+class Rva00518756 : public Rva0057BC63FunctorHolder
+{
+public:
+	Rva00518756(FunctorBinding binding);
+};
+
+Rva00518756::Rva00518756(FunctorBinding binding) : Rva0057BC63FunctorHolder(binding)
+{
+}
