@@ -10,10 +10,33 @@
 class Thing;
 class ModuleData;
 class BfmeStrF9 { void *data; };
+class Rva00406F9C
+{
+public:
+    bool rva00406F9C(const void *other);
+private:
+    unsigned words[32];
+};
+class Rva001EAE6FHelper { public: Rva001EAE6FHelper *clear80(); };
+class GeometryUpgradeMask : public Rva00406F9C
+{
+public:
+    GeometryUpgradeMask() { ((Rva001EAE6FHelper *)this)->clear80(); }
+};
+struct BfmeShapeE15
+{
+    char pad[0x1C];
+    AsciiString name;
+    bool active;
+    char tail[3];
+};
+class BfmeObjE15 { public: BfmeShapeE15 *bfmeAtE15(int index); };
 class BfmeObjF9
 {
 public:
     void setFlag(const BfmeStrF9 &name, char flag);
+    char pad[0x2C];
+    BfmeShapeE15 *begin, *end;
 };
 template <int N> class GeometrySlots : public GeometrySlots<N - 1>
 {
@@ -38,12 +61,21 @@ class Thing
 public:
     Drawable *getDrawable() const;
 };
+class Player
+{
+public:
+    char pad[0x13C];
+    Rva00406F9C upgrades;
+};
 class Object
 {
 public:
+    Player *getControllingPlayer() const;
     void rva0028AB75(bool flag);
     char pad[0xA8];
     BfmeObjF9 geometry;
+    char padDC[0x284 - 0xDC];
+    Rva00406F9C upgrades;
 };
 class Pathfinder
 {
@@ -61,6 +93,7 @@ extern AI *TheAI;
 struct GeometryNameVector
 {
     BfmeStrF9 *begin, *end, *endStorage;
+    int size() const { return end - begin; }
 };
 struct GeometryUpgradeModuleData
 {
@@ -73,6 +106,7 @@ class BehaviorModule
 public:
     virtual ~BehaviorModule();
 protected:
+    Object *getObject() const { return m_object; }
     const ModuleData *m_moduleData;
     Object *m_object;
 };
@@ -86,7 +120,8 @@ public:
     virtual void f7() = 0;
     virtual void rva004B6B29() = 0;
     virtual void setExecuted(bool flag) = 0;
-    virtual void rva004B6C8A() = 0;
+    virtual void upgradeImplementation() = 0;
+    virtual void masks(GeometryUpgradeMask &set, GeometryUpgradeMask &clear) = 0;
     int state;
 };
 struct UpgradeTail { virtual void iface(); };
@@ -100,7 +135,8 @@ class GeometryUpgrade : public UpgradeModule
 {
 public:
     virtual void rva004B6B29();
-    // The apply override is reconstructed separately after removal verifies.
+    virtual void upgradeImplementation();
+    const GeometryUpgradeModuleData *getData() const { return (const GeometryUpgradeModuleData *)m_moduleData; }
     void rva004B6B04(BfmeObjF9 *, void *vector, char flag);
 private:
     AsciiString m_upgradeName;
@@ -127,4 +163,69 @@ void GeometryUpgrade::rva004B6B29()
     TheAI->pathfinder->AddObjectToPathfindMap(object);
     object->rva0028AB75(false);
     setExecuted(false);
+}
+
+class Module;
+class WallUpgradeUpdate
+{
+public:
+    static Module *rva004AB1F5(Object *);
+    void rva004AB57E();
+};
+// Retail 4B6C8A..4B6EE2. Target applies the mux's two 128-byte masks only
+// after rejecting clear-mask overlaps in Object+284 and Player+13C. Three
+// optional module-data strings address draw-module slots D4/D8; geometry
+// records36 at Object+A8 begin2C/end30 contribute an active name at+1C.
+// Donor removal establishes the inverse operation; the extended mask checks,
+// three strings, geometry records and WallUpgradeUpdate route are target facts.
+void GeometryUpgrade::upgradeImplementation()
+{
+    GeometryUpgradeMask setMask;
+    GeometryUpgradeMask clearMask;
+    masks(setMask, clearMask);
+    Object *object = getObject();
+    if (object->upgrades.rva00406F9C(&clearMask))
+        return;
+    Player *player = object->getControllingPlayer();
+    if (player->upgrades.rva00406F9C(&clearMask))
+        return;
+    rva004CE4A0();
+    const GeometryUpgradeModuleData *data = getData();
+    struct PredicateBytes { char unused; bool wall, name, ramp; } predicates;
+    predicates.wall = data->wall.getLength() > 0;
+    predicates.ramp = data->ramp.getLength() > 0;
+    predicates.name = data->name.getLength() > 0;
+    if (predicates.wall || predicates.ramp || predicates.name)
+    {
+        const char *wall = predicates.wall ? data->wall.str() : 0;
+        const char *ramp = predicates.ramp ? data->ramp.str() : 0;
+        const char *name = predicates.name ? data->name.str() : 0;
+        GeometryDrawModule **modules = (GeometryDrawModule **)((const Thing *)object)->getDrawable()->getDrawModules();
+        for (; modules[0]; ++modules)
+        {
+            if (wall)
+                modules[0]->reset(wall);
+            if (ramp)
+                modules[0]->mesh(ramp, false);
+            if (name)
+                modules[0]->mesh(name, true);
+        }
+    }
+    if (predicates.wall || predicates.ramp || predicates.name || (unsigned)data->hide.size() > 0u || (unsigned)data->show.size() > 0u)
+    {
+        BfmeObjF9 *geometry = &object->geometry;
+        int count = geometry->end - geometry->begin;
+        for (int i = 0; i < count; ++i)
+        {
+            BfmeShapeE15 *shape = ((BfmeObjE15 *)geometry)->bfmeAtE15(i);
+            if (shape->active)
+                m_upgradeName = shape->name;
+        }
+        rva004B6B04(geometry, (void *)&data->hide, 0);
+        rva004B6B04(geometry, (void *)&data->show, 1);
+        object->rva0028AB75(true);
+        WallUpgradeUpdate *wallUpgrade = (WallUpgradeUpdate *)WallUpgradeUpdate::rva004AB1F5(object);
+        if (wallUpgrade)
+            wallUpgrade->rva004AB57E();
+    }
 }
