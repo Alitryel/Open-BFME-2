@@ -24,6 +24,13 @@ template void _STL::_Destroy<Rva00200667>(Rva00200667 *);
 template void _STL::_Destroy<Rva0032C2F7>(Rva0032C2F7 *);
 template void _STL::_Destroy<Rva0032E83A>(Rva0032E83A *);
 
+//   0x0021792B -> ??1GeometryRecord 0x0004F82B (GeometryInfoDtor.cpp)
+//   0x002CFAB0 -> ??1Nugget@ModuleInfo 0x002CF51B (ThingTemplate.cpp)
+struct GeometryRecord { ~GeometryRecord(); };
+class ModuleInfo { public: struct Nugget { ~Nugget(); }; };
+template void _STL::_Destroy<GeometryRecord>(GeometryRecord *);
+template void _STL::_Destroy<ModuleInfo::Nugget>(ModuleInfo::Nugget *);
+
 // --- 0x001F4A37 (9B, cdecl): whether the string argument is empty, a tail
 // jump to the rowed StringBase<char>::isEmpty 0x00001E2F.
 template <typename T> class StringBase
