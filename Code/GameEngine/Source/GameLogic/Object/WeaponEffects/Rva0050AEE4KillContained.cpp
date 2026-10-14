@@ -38,7 +38,7 @@ class Module;
 class Thing {public:bool isKindOfMulti(const BitFlags<116>&,const BitFlags<116>&)const;};
 class Object:public Thing {protected:Module*findModule(NameKeyType)const;friend class Rva0050AEE4Nugget;public:void kill(DamageType,DeathType);char pad[4];TargetTemplate*data;char pad8[0x250-8];Contain*contain;char pad254[0x438-0x254];unsigned char deadBits;};
 struct SourceRecord {char pad[8];ObjectID source;};
-class Rva0050AEE4Nugget {public:void rva0050AEE4(SourceRecord*,Object*);char prefix[0x128];int limit;BitFlags<116> mask;BitFlags<116> forbidden;DeathType death;};
+class Rva0050AEE4Nugget {public:void rva0050AEE4(SourceRecord*,Object*);bool rva0050ADEE(SourceRecord*,Object*);char prefix[0x128];int limit;BitFlags<116> mask;BitFlags<116> forbidden;DeathType death;};
 void Rva0050AEE4Nugget::rva0050AEE4(SourceRecord*record,Object*target){
  if(!target||!record)return;
  Object*source=TheGameLogic->findObjectByID(record->source);
@@ -64,4 +64,23 @@ void Rva0050AEE4Nugget::rva0050AEE4(SourceRecord*record,Object*target){
    }
   }else{((Rva00294D61*)source)->report(child,1);child->kill(UNRESISTABLE,death);++processed;}
  }
+}
+
+// WB0x10A8110 and native0x50ADEE: predicate paired with the containment
+// execution above. Source-id +8, Object containment +250/dead bit +438 and
+// seven-word masks +12C/+148 agree with that independently matched consumer.
+// The original method name is not present in WB; retain its address label.
+class Rva00507823 {public:unsigned char rva005075D6(const void*,Object*);};
+bool Rva0050AEE4Nugget::rva0050ADEE(SourceRecord *record,Object *target) {
+ if(((Rva00507823 *)this)->rva005075D6(record,target) && target && TheGameLogic->findObjectByID(record->source)) {
+  Contain *contain=target->contain;
+  if(contain && contain->getCount(false)>0 && contain->slot4() && !contain->slot7()) {
+   Rva0036AE51ListView view=contain->getList();
+   for(ContainmentList::iterator i=view.b->begin();i!=view.b->end();) {
+    Object *child=(Object *)containmentFirstWord(*i++);
+    if(!(child->deadBits&1) && child->isKindOfMulti(mask,forbidden)) return true;
+   }
+  }
+ }
+ return false;
 }
