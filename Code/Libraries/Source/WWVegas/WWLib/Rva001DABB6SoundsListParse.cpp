@@ -1,8 +1,5 @@
-// ?Rva001DABB6Parse@@YAXPAVINI@@PAXPAH1@Z
-// partial score=0.97 date=2026-10-05
 // cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ?Rva001DABB6Parse@@YAXPAVINI@@PAXPAH1@Z @0x001DABB6 391B. INI sounds-list parse
 // adapted from BFME1 AudioEventRTSParseSoundsList.cpp: file[:weight] tokens
 // default weight 1000 appended as owning string/int entry with optional total
 // accumulation; both INIException messages are retail literals. Evidence: rowed
@@ -46,7 +43,6 @@ template <class T> class allocator
 }
 typedef _STL::vector<Rva001DAAF2Element, _STL::allocator<Rva001DAAF2Element> > Rva001DAAF2Vec;
 extern const char g_Rva0107301CEmptyString[];
-// ?Rva001DABB6Parse@@YAXPAVINI@@PAXPAH1@Z present-unmatched
 void __cdecl Rva001DABB6Parse(INI *ini, void *store, int *totalWeight, void *instance)
 {
 	const char *token = ini->getNextTokenOrNull(0);
@@ -62,7 +58,7 @@ void __cdecl Rva001DABB6Parse(INI *ini, void *store, int *totalWeight, void *ins
 				weight = atoi(++end);
 				if (weight < 1)
 					throw INIException(3, "Weight of sound files must be >= 1. Sound '%s' for audio event '%s'", token, *(const char **)instance ? *(const char **)instance + 8 : g_Rva0107301CEmptyString);
-				name = AsciiString(token, end - token - 1);
+				name = AsciiString(token, (store ? (end - token - 1) : (end - token - 1)));
 			} else {
 				weight = 1000;
 				name = AsciiString(token, tokenLength);
