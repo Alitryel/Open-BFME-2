@@ -10,6 +10,15 @@
 // rate 0.255f, dirty flag +0x48, dirty set +0x4C.
 // Same-TU lever: the visible STLport push_back body proves it does not keep the
 // address of `index`, so retail holds the cell index in EBX across the appends.
+// Keep the inlined vector-growth comparison local: the standalone unsigned
+// max template emitted with these flags differs from retail's provider.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+ return a < b ? b : a;
+}
+}
 #include <set>
 #include <vector>
 typedef float Real;
