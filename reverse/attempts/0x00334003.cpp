@@ -1,4 +1,6 @@
 // ?rva00334003@Rva00334003@@QAEXPAUlua_State@@PBURva00333374IdOwner@@@Z
+// partial score=0.976 date=2026-10-14
+// ?rva00334003@Rva00334003@@QAEXPAUlua_State@@PBURva00333374IdOwner@@@Z
 // partial score=0.95 date=2026-10-03
 // cl: /Ireference/shims/bfme2_ascii /O1 /EHsc
 //
@@ -53,14 +55,8 @@ void Rva00334003::rva00334003(lua_State *L, const Rva00333374IdOwner *p)
 	const char *s = t ? t + 8 : g_Rva0107301CEmptyString;
 	lua_getglobal(m_lua, s);
 	int top = lua_gettop(L);
-	if (lua_type(m_lua, top) == 1) {
+	if (lua_type(m_lua, top) == 1 || id != (int)Rva00990030Lookup((Rva00990030Range *)m_lua, top)) {
 		lua_settop(m_lua, top);
 		lua_pushnil(m_lua);
-	} else {
-		unsigned int v = Rva00990030Lookup((Rva00990030Range *)m_lua, top);
-		if (id != (int)v) {
-			lua_settop(m_lua, top);
-			lua_pushnil(m_lua);
-		}
 	}
 }
