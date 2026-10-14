@@ -99,9 +99,8 @@ private:
 class Script
 {
 public:
-	OrCondition *getOrCondition() const { return m_condition; }
-
-private:
+	// evaluateConditions reads this target field inline. A getOrCondition
+	// body here would compete with Scripts.cpp's different +0x24 view.
 	char m_unknown[0x30];
 	OrCondition *m_condition;		// +0x30
 };
@@ -343,7 +342,7 @@ bool ScriptEngine::evaluateConditions(Script *pScript, Team *thisTeam, Player *p
 	if (thisTeam) player = thisTeam->getControllingPlayer();
 	if (player==0) player=m_currentPlayer;
 	LatchRestore<Player*> latch2(m_currentPlayer, player);
-	OrCondition *pConditionHead = pScript->getOrCondition();
+	OrCondition *pConditionHead = pScript->m_condition;
 	bool testValue = false;
 
 	OrCondition *pCurCondition;
