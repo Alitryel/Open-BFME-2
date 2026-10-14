@@ -31,4 +31,17 @@ struct Rva0021B68DCmp
 	bool operator()(const Rva0021B68DKey &a, const Rva0021B68DKey &b) const;
 };
 
+// Retail's copy_backward (0x005E42D3, ICF-folded with copy_backward<ObjectID*>)
+// calls __copy_backward_ptrs out of line (0x00583709 for ObjectID), as the
+// vendored header leaves it; bfmealloc forceinlines it, which made this unit's
+// copy_backward not retail's and first in link order.
+namespace _STL {
+template <> inline Rva0021B68DKey *__copy_backward_ptrs(Rva0021B68DKey *__first,
+	Rva0021B68DKey *__last, Rva0021B68DKey *__result, const __false_type &)
+{
+	return __copy_backward(__first, __last, __result,
+		random_access_iterator_tag(), (ptrdiff_t *)0);
+}
+}
+
 template void _STL::sort<Rva0021B68DKey *, Rva0021B68DCmp>(Rva0021B68DKey *, Rva0021B68DKey *, Rva0021B68DCmp);
