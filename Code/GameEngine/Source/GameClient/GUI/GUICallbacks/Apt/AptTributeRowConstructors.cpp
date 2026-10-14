@@ -102,6 +102,115 @@ private:
 };
 
 
-class Rva0050FAEC:public Rva005248D0 {public:Rva0050FAEC(int level,const AsciiString&name);virtual ~Rva0050FAEC();void color(int,char*,bool);private:int m_color;};
+class Rva0050FAEC:public Rva005248D0 {public:Rva0050FAEC(int level,const AsciiString&name);virtual ~Rva0050FAEC();void color(int,char*,bool);protected:int m_color;};
 #pragma pointers_to_members(full_generality, multiple_inheritance)
 Rva0050FAEC::Rva0050FAEC(int level,const AsciiString&name):m_color(0){AsciiString key;key.format("_level%u.%s_color",level,name.str());FunctorMethod method=reinterpret_cast<FunctorMethod>(&Rva0050FAEC::color);m_externHandlers.AddExternHandler(key,0,AptRef<AptExternHandler>(MakeBinding(method,reinterpret_cast<FunctorTarget*>(this))));}
+
+#include "unicode_string.h"
+class GameSlot {public:bool isAI()const;UnicodeString getApparentPlayerTemplateDisplayName()const;int getApparentColor()const;char pad[0x1C];int team;char pad2[0x30-0x20];UnicodeString playerName;};
+class GameInfo {public:const GameSlot*getConstSlot(int)const;};extern GameInfo*TheGameInfo;
+struct UnknownE03138 {public:
+virtual void slot0();
+virtual void slot1();
+virtual void slot2();
+virtual void slot3();
+virtual void slot4();
+virtual void slot5();
+virtual void slot6();
+virtual void slot7();
+virtual void slot8();
+virtual void slot9();
+virtual void slot10();
+virtual void slot11();
+virtual void slot12();
+virtual void slot13();
+virtual void slot14();
+virtual void slot15();
+virtual bool isDefeated(void*);};extern UnknownE03138*g_00E03138;
+class NetworkInterface {public:
+virtual void slot0();
+virtual void slot1();
+virtual void slot2();
+virtual void slot3();
+virtual void slot4();
+virtual void slot5();
+virtual void slot6();
+virtual void slot7();
+virtual void slot8();
+virtual void slot9();
+virtual void slot10();
+virtual void slot11();
+virtual void slot12();
+virtual void slot13();
+virtual void slot14();
+virtual void slot15();
+virtual void slot16();
+virtual void slot17();
+virtual void slot18();
+virtual void slot19();
+virtual void slot20();
+virtual void slot21();
+virtual void slot22();
+virtual void slot23();
+virtual void slot24();
+virtual void slot25();
+virtual void slot26();
+virtual void slot27();
+virtual void slot28();
+virtual void slot29();
+virtual void slot30();
+virtual void slot31();
+virtual void slot32();
+virtual void slot33();
+virtual void slot34();
+virtual void slot35();
+virtual void slot36();
+virtual void slot37();
+virtual void slot38();
+virtual void slot39();
+virtual void slot40();
+virtual void slot41();
+virtual void slot42();
+virtual void slot43();
+virtual void slot44();
+virtual void slot45();
+virtual void slot46();
+virtual void slot47();
+virtual void slot48();
+virtual void slot49();
+virtual void slot50();
+virtual bool connected(int);};extern NetworkInterface*TheNetwork;
+class GameTextInterface {public:
+virtual void slot0();
+virtual void slot1();
+virtual void slot2();
+virtual void slot3();
+virtual void slot4();
+virtual void slot5();
+virtual void slot6();
+virtual void slot7();
+virtual void slot8();
+virtual void slot9();
+virtual void slot10();
+virtual void slot11();
+virtual void slot12();
+virtual void slot13();
+virtual UnicodeString fetch(const char*,bool*exists=0);virtual UnicodeString fetch(const AsciiString&,bool*exists=0);};extern GameTextInterface*TheGameText;
+class MultiplayerColorDefinition {public:char pad[0x10];int color;};class MultiplayerSettings {public:MultiplayerColorDefinition*getColor(int);};extern MultiplayerSettings*TheMultiplayerSettings;
+class Player {public:bool isPlayerObserver()const;};
+void Rva0050EE72Set(int,const AsciiString&,int,const UnicodeString&);
+class Rva0050F909:public Rva0050FAEC {public:Rva0050F909(int,const AsciiString&,int,int);virtual~Rva0050F909(){}};
+Rva0050F909::Rva0050F909(int level,const AsciiString&path,int slotIndex,int stateWord):Rva0050FAEC(level,path){
+ const GameSlot*slot=TheGameInfo->getConstSlot(slotIndex);bool alive=!g_00E03138->isDefeated((void*)stateWord);bool observer=((const Player*)stateWord)->isPlayerObserver();
+ Rva0050EE72Set(level,path,0,slot->playerName);Rva0050EE72Set(level,path,1,slot->getApparentPlayerTemplateDisplayName());
+ AsciiString text;text.format("Team:%d",slot->team+1);if(slot->isAI()&&slot->team==-1)text="Team:AI";
+ Rva0050EE72Set(level,path,2,TheGameText->fetch(text,0));text.clear();
+ bool ok;
+ if(slot->isAI())ok=true;else if(!TheNetwork)ok=true;else ok=TheNetwork->connected(slotIndex);
+ if(ok){
+  if(alive)text="GUI:PlayerAlive";else if(observer)text="GUI:PlayerObserver";else text="GUI:PlayerDead";
+ }else{
+  if(observer)text="GUI:PlayerObserverGone";else text="GUI:PlayerGone";
+ }
+ Rva0050EE72Set(level,path,3,TheGameText->fetch(text,0));m_color=TheMultiplayerSettings->getColor(slot->getApparentColor())->color;
+}
