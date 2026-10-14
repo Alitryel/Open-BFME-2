@@ -393,7 +393,7 @@ public:
 extern PlayerTemplateStore *ThePlayerTemplateStore;
 extern CreateAHeroManager *TheCreateAHeroManager;
 
-void Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
+int Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
 int Rva0043F1A4(Rva00222A8BTarget *target, void *owner, const char *name, const int &value, const char *const &text);
 AsciiString Rva00222834Get(int value);
 

@@ -2,7 +2,7 @@
 // ?rva004E6846@Rva004E6846@@QAEXXZ @ 0x004E6846 (60B): timeout check via timeGetTime firing Rva0043DB23 with "Close". Callers: jmp at 0x004E7294 in 0x004E7277. Callee row Rva0043DB23 in MpGameSetupSlots.cpp, global TheRva00222A8BTarget, IAT timeGetTime.
 class Rva00222A8BTarget;
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
-void __cdecl Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
+int __cdecl Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 struct Rva004E6846Timer
 {

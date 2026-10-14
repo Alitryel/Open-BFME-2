@@ -84,7 +84,7 @@ class Rva00222A8BTarget;
 extern class Rva00222A8BTarget *TheRva00222A8BTarget;
 
 // MpGameSetupSlots.cpp's 0x0043DB23 runs an Apt function on a movie.
-void Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
+int Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
 
 class Rva00222479ByteOneSetter
 {

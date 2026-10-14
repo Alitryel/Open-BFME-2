@@ -645,7 +645,7 @@ extern GameTextInterface *TheGameText;
 // Native writable seven-entry label table DD3A9C: zero followed by the six
 // availability/error labels. Its original name is unknown.
 const char *g_00DD3A9C[]={0,"TOOLTIP:CAH_IS_AVAILABLE","TOOLTIP:CAH_NEEDS_PREREQ","TOOLTIP:CAH_LEVEL_TOO_LOW","TOOLTIP:CAH_IS_SELECTED","TOOLTIP:CAH_PALANTIR_FULL","TOOLTIP:CAH_POWER_BOOK_FULL"};
-void Rva0043DB23(Rva00222A8BTarget*,void*,const char*);
+int Rva0043DB23(Rva00222A8BTarget*,void*,const char*);
 // Native250B constructor-registered OnPowerSelect callback; WB1574C40
 // supplies the method lead. Keep the established address spelling.
 void AptCreateAHero::Powers::rva005B314B(const char *path)

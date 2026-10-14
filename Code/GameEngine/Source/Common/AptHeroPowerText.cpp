@@ -357,7 +357,7 @@ void Rva00513497::rva00513497(int slot, UnicodeString name)
 // ResetClanErrorMessage callback on the owner (virtual slot 2) through the
 // rowed Rva0043DB23, keeps the message at +0xB0, and sets CLAN:Error to it
 // (L" " when empty).
-void Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
+int Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
 
 class Rva0057F538
 {

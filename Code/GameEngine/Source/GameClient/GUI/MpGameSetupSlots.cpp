@@ -403,7 +403,7 @@ public:
 extern PlayerTemplateStore *ThePlayerTemplateStore;
 extern CreateAHeroManager *TheCreateAHeroManager;
 
-void Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
+int Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
 int Rva0043F1A4(Rva00222A8BTarget *target, void *owner, const char *name, const int &value, const char *const &text);
 AsciiString Rva00222834Get(int value);
 
@@ -1070,10 +1070,11 @@ int Rva0043DDF8(int count)
 	return rva0043DDF8Max(8 - count, 4);
 }
 
-// Retail 0x0043DB23, 26 bytes: invoke an Apt callback with no arguments.
-void Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name)
+// Retail 0x0043DB23, 26 bytes: invoke an Apt callback with no arguments and return its result
+// (0x005FEC0C tests the returned string; most callers ignore it).
+int Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name)
 {
-	target->invoke(owner, name, 0, 0, 0, 0, 0, 0);
+	return target->invoke(owner, name, 0, 0, 0, 0, 0, 0);
 }
 
 // Retail 0x0043F1A4, 104 bytes: invoke an Apt callback with two

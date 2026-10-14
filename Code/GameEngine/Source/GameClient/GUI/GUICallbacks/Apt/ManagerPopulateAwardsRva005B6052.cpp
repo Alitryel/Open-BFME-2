@@ -15,7 +15,7 @@ class Rva00222A8BTarget
 public:
     void rva002239FA(const AsciiString &, const AsciiString &);
 };
-void Rva0043DB23(Rva00222A8BTarget *, void *, const char *);
+int Rva0043DB23(Rva00222A8BTarget *, void *, const char *);
 extern Rva00222A8BTarget *TheRva00222A8BTarget;
 
 typedef bool Bool;

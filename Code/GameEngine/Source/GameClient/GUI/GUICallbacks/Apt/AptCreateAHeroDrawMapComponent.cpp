@@ -118,7 +118,7 @@ extern GameTextInterface *TheGameText;
 
 class Rva00222A8BTarget;
 extern Rva00222A8BTarget *TheRva00222A8BTarget;
-void Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
+int Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
 
 class GameWindow;
 void MessageBoxOk(UnicodeString title, UnicodeString body, void (*okCallback)());

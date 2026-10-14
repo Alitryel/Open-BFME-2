@@ -32,7 +32,7 @@ struct BlingBinder {int key;AsciiString label;int pad08;unsigned int slot;int ca
 struct BlingBinderList {unsigned int size() const {return last-first;}BlingBinder *first,*last,*capacity;};
 class Rva00222A8BTarget;
 extern Rva00222A8BTarget *TheRva00222A8BTarget;
-void __cdecl Rva0043DB23(Rva00222A8BTarget *,void *,const char *);
+int __cdecl Rva0043DB23(Rva00222A8BTarget *,void *,const char *);
 class AptPlayer {public: const Image *FindRenderImage(const char *,const char *);};
 class Rva002239B2 {public: void rva002239E2(const AsciiString &,const Image *);};
 // AptMyHero's base: vtable 0x00C38D88's five slots, the rowed assignment

@@ -264,7 +264,7 @@ void Rva00525783::rva00525783()
 // ?DoClose@InGameNotificationBoxMovieClip@@UAEXXZ  @0x004E6B9B 55B (first clears the owned
 //   pointer at +0x40 through the rowed Rva004E6A1D::clear; a virtual: slot 3
 //   of vtable 0x00C62440, as in WorldBuilder's twin table 0x01F1C804)
-void Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
+int Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
 
 class Rva004E6A1D
 {
