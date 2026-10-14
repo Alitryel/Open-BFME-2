@@ -5,10 +5,17 @@
 // places uniquely on unclaimed game.dat .text by masked whole-.text search:
 //   ?bfmeGoBQA@BfmeThingBQA@@QAEHXZ 0x0045A199 (29B)
 // Callee addresses are read off retail call sites (reverse/symbols.csv).
+// 0x00459E05 is rowed as the private SiegeDockingBehavior::rva00459E05
+// (SiegeDockingBehaviorInitializeBones.cpp), reached on the same this.
+class SiegeDockingBehavior
+{
+	friend class BfmeThingBQA;
+	void rva00459E05();
+};
+
 class BfmeThingBQA
 {
 public:
-	void bfmeStepBQA();
 	int bfmeGoBQA();
 	unsigned char m_bfmeHead[0x24];
 	int *m_bfmeBegin;
@@ -21,7 +28,7 @@ int BfmeThingBQA::bfmeGoBQA()
 {
 	if (!m_bfmeReady)
 	{
-		bfmeStepBQA();
+		((SiegeDockingBehavior *)this)->rva00459E05();
 		m_bfmeReady = true;
 	}
 	return m_bfmeEnd - m_bfmeBegin;

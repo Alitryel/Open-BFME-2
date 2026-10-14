@@ -7732,7 +7732,6 @@ name,address,notes
 ?bfmeBigFreeVLX@@YAXPAX@Z,0x000237A0
 ?bfmeBigVLV@@YAPAXI@Z,0x00023790
 ?bfmeBigVLW@@YAPAXI@Z,0x00023790
-?bfmeBlocked985C@BfmeArg985@@QAEDH@Z,0x00290D2B,callee of ?bfmeGo985C@BfmeC985@@QAEDPAVBfmeArg985@@@Z at retail 0x00261130 read from its REL32 displacement; ICF alias onto ?rva00290D2B@Object@@QBE_NPBVUpgradeTemplate@@@Z (matched)
 ?bfmeBumpURB@BfmeThingURB@@QAEXXZ,0x0061EEC0
 ?bfmeBytes@Gen_00977870@@QBEHXZ,0x00195BC0
 ?bfmeCalc919G@BfmeCalc919G@@QAEHXZ,0x0027628E,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
@@ -8346,7 +8345,6 @@ name,address,notes
 ?bfmeShowDN@ControlBar@@QAEXPAUBfmeMsgDN@@@Z,0x00405C04,callee of ?rva004C1B60@ControlBar@@QAEXPAVGameWindow@@PAX@Z at retail 0x00405DBC read from its REL32 displacement; body unrowed
 ?bfmeShowDisconnectScreen@@YAXXZ,0x00512DE1,address read from the REL32 displacement at a placed body
 ?bfmeShowEAC@BfmeUiEAC@@QAEXPAXPBDH0HHHH@Z,0x00222A8B,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-?bfmeShutdownYX@BfmeOwnerYX@@QAEXXZ,0x001767D0
 ?bfmeSinVNB@@YAMM@Z,0x0002FBB0
 ?bfmeSkipPrefixed@Gen009D8C30@@QAEXXZ,0x0060C59D,callee of beginBlock (0x0060C629) at the site its BFME1 donor calls it; may be an ICF alias
 ?bfmeSlots@Gen_009779A0@@QBEHXZ,0x00195CC0
@@ -8362,7 +8360,6 @@ name,address,notes
 ?bfmeStep2_250@@YAXPAX@Z,0x006A41C0,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeStep3_250@@YAXPAX@Z,0x006A3710,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeStep4_250@@YAXPAX@Z,0x006A5150,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-?bfmeStepBQA@BfmeThingBQA@@QAEXXZ,0x00459E05,callee read from the retail REL32 in placed BFME1-donor body ?bfmeGoBQA@BfmeThingBQA@@QAEHXZ (0x0045A199)
 ?bfmeStepBQC@BfmeSubBQC@@QAEXXZ,0x002934A8,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeStepBVA@BfmeThingBVA@@QAEXPAV1@@Z,0x002CF742
 ?bfmeStepCN@BfmeTargetCN@@QAEDH@Z,0x00307AC0,callee of ?bfmeGuardedCN@BfmeOwnCN@@QAEDPAVBfmeTargetCN@@PAX@Z at retail 0x0030D946 read from its REL32 displacement; donor-reconstruction name; body unrowed
@@ -8385,7 +8382,6 @@ name,address,notes
 ?bfmeTailBFG@BfmeThingBFG@@QAEXXZ,0x0025EF23
 ?bfmeTailDDA@BfmeSubDDA@@QAEHXZ,0x00271898,tail-jump target of the placed ?bfmeGoDDA 0x00272C74; REL32 read off retail at 0x00272C81
 ?bfmeTailDDB@BfmeSubDDB@@QAEHXZ,0x00271898,callee of ?bfmeGoDDB@BfmeThingDDB@@QAEHXZ at retail 0x00272C89 read from its REL32 displacement; body unrowed
-?bfmeTailDTK@BfmeThingDTK@@QAEXXZ,0x004F46A9
 ?bfmeTailDXC@BfmeThingDXC@@QAEXXZ,0x0050C4E8,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeTailFHG@@YGXPAX0HH@Z,0x001E19E8,callee of ?bfmeGoFHG@@YGXPAX000@Z at retail 0x001E19CE read from its REL32 displacement; donor-carried name; body unrowed
 ?bfmeTailSE@BfmeThingSE@@QAEXXZ,0x001DBAC3
@@ -9980,7 +9976,6 @@ name,address,notes
 ?j_0003afd0@@YAXXZ,0x000B934D
 ?j_0003c281@@YAXXZ,0x00325635,callee of ?dispatch@Rva00791F70CallbackHost@@QAEXHHH@Z at retail 0x000A2688 read from its REL32 displacement; ICF alias onto ?GadgetListBoxInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z (pinned)
 ?j_0003ed33@@YAXXZ,0x00337EAA,callee of ?rva002EC770ParseToken@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z at retail 0x0033822B read from its REL32 displacement; BFME1 donor ILT 0x0003ED33 placeholder name for the EventList handler body; body unrowed
-?j_0003eebe@@YAXXZ,0x00290B24,callee of ?bfmeGoFCD@@YAXPAVBfmeObjFCD@@PAUBfmePairFCD@@@Z at retail 0x0046258C read from its REL32 displacement; donor-carried name for the member-function thunk it targets; body unrowed
 ?j_00041eca@@YAXXZ,0x00396E4A,callee read from the retail REL32 in placed BFME1-donor body ?Rva00372BA0ConditionalDispatcher@@YAXPAX0_N@Z (0x00397CEB)
 ?j_00042dc0@@YAXXZ,0x0069E440
 ?j_00043135@@YAXXZ,0x0028FCD9,callee of ?bfmeGoFCB@BfmeThingFCB@@QAEXPAX@Z at retail 0x004C121B read from its REL32 displacement; ICF alias onto ?bfmeCallFCB@BfmeSubFCB@@QAEXPAXH@Z

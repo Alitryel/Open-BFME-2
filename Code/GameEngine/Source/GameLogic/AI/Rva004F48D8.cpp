@@ -5,10 +5,13 @@
 
 extern int BfmeLogicFramesPerSecond;
 
-class BfmeThingDTK
+// 0x004F46A9 is rowed as the protected AIPlayer::queueUnits
+// (AIPlayerTeamBuild.cpp); this unit's carrier reaches it on the same this.
+class AIPlayer
 {
-public:
-	void bfmeTailDTK();
+	friend class Rva004F07E6;
+protected:
+	void queueUnits();
 };
 
 struct Rva004F48D8Sub
@@ -79,7 +82,7 @@ void Rva004F07E6::rva004F48D8()
 	--m_24;
 	if (m_24 >= 1)
 		return;
-	((BfmeThingDTK *)this)->bfmeTailDTK();
+	((AIPlayer *)this)->queueUnits();
 	if (m_10 != 0)
 		((VCall26 *)this)->v26();
 	m_24 = BfmeLogicFramesPerSecond * 5;

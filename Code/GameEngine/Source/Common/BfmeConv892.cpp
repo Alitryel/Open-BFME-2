@@ -13,29 +13,22 @@ struct BfmePairFCD
 	char m_bfmeFlag;
 };
 
-class BfmeObjFCD
+class BfmeObjFCD;
+
+// Retail 0x00290B24, the callee this body invokes on o, is rowed as
+// Object::setWeaponLock(WeaponSlotType, WeaponLockType)
+// (ObjectWeaponSetFlags.cpp); the pair's two words are its arguments.
+enum WeaponSlotType { WEAPON_SLOT_INVALID = -1 };
+enum WeaponLockType { WEAPON_LOCK_INVALID = -1 };
+class Object
 {
 public:
-	typedef char (BfmeObjFCD::*BfmeCallFCDMember)(void *, void *);
-	union BfmeCallFCDTarget
-	{
-		void (*asFunction)();
-		BfmeCallFCDMember asMember;
-	};
+	bool setWeaponLock(WeaponSlotType weaponSlot, WeaponLockType lockType);
 };
-
-// Retail 0x00290B24: the member-function thunk this body invokes. A ghidra
-// function start (FUN_00690b24, 79 bytes) with no ledger row and no pin, so
-// the donor's own name is pinned for it; the address is read off retail's
-// REL32 at 0x0046259B, next-instruction 0x004625A0 less displacement
-// 0xFFFFE585 giving 0x004625A0 - 0x1A7B. Carried from the donor source; the
-// body at the address remains unrecovered.
-extern void j_0003eebe();
 
 void bfmeGoFCD(BfmeObjFCD *o, BfmePairFCD *p)
 {
-	BfmeObjFCD::BfmeCallFCDTarget callFCD;
-	callFCD.asFunction = j_0003eebe;
-	char r = ((o->*callFCD.asMember)(p->m_bfmeA, p->m_bfmeB) == 0);
+	char r = (((Object *)o)->setWeaponLock((WeaponSlotType)(int)p->m_bfmeA,
+		(WeaponLockType)(int)p->m_bfmeB) == 0);
 	p->m_bfmeFlag |= r;
 }

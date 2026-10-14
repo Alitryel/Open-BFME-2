@@ -1,3 +1,12 @@
+// 0x004F46A9 is rowed as the protected AIPlayer::queueUnits
+// (AIPlayerTeamBuild.cpp); this unit's carrier reaches it on the same this.
+class AIPlayer
+{
+	friend class BfmeThingDTK;
+protected:
+	void queueUnits();
+};
+
 class BfmeThingDTK
 {
 public:
@@ -25,7 +34,6 @@ public:
 	virtual void bfmeV21();
 	virtual bool bfmeAskDTK();
 	void bfmeGoDTK();
-	void bfmeTailDTK();
 	// NOTE: BFME1 donor also defines bfmeGoDTL/bfmeTailDTL, but game.dat holds
 	// a single 22B body at 0x4EF4A1 (both twins ICF-fold to it, as in BFME1).
 	// One body per address: only bfmeGoDTK is claimed here.
@@ -34,5 +42,5 @@ public:
 void BfmeThingDTK::bfmeGoDTK()
 {
 	if (bfmeAskDTK())
-		bfmeTailDTK();
+		((AIPlayer *)this)->queueUnits();
 }
