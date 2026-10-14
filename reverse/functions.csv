@@ -89151,3 +89151,7 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva007B6690@@YAXXZ,,0x007B6690,42,Code/GameEngine/Source/Common/System/GlobalChainCleanup.cpp,matched,ZH profile.cpp cmd initializer: placement ProfileCmdInterface (vtable CE7CB0) in rowed ProfileAllocMemory 12 bytes into E0C1F8
 ?rva007B66C0@@YAXXZ,,0x007B66C0,32,Code/GameEngine/Source/Common/System/GlobalChainCleanup.cpp,matched,ZH __RegisterDebugCmdGroup_Profile: theDebug slot 0x84 with profile literal and cmd into byte E0C1FC
 ?rva007B6700@@YAXXZ,,0x007B6700,19,Code/GameEngine/Source/Common/System/GlobalChainCleanup.cpp,matched,ZH profileTracerInit = atexit(rowed ProfileShutdown 0x006C5400) into E0C208
+?Rva007AE6FCRingEffectInit@@YAXXZ,,0x007AE6FC,30,Code/GameEngine/Source/GameClient/Drawable_Rva00309ffd.cpp,matched,dynamic remainder of s_ringEffectSaved (VA DBD800) init: m_unknown28[1] copied to [2] and [0]
+?Rva007AE71ARingEffectInit@@YAXXZ,,0x007AE71A,30,Code/GameEngine/Source/GameClient/Drawable_Rva00309ffd.cpp,matched,dynamic remainder of s_ringEffectActive (VA DBD860) init: m_unknown28[1] copied to [2] and [0]
+?Rva007AE738FireEffectInit@@YAXXZ,,0x007AE738,30,Code/GameEngine/Source/GameClient/Drawable_Rva0030a040.cpp,matched,dynamic remainder of s_fireEffectSaved (VA DBD8C0) init: m_unknown28[1] copied to [2] and [0]
+?Rva007AE756FireEffectInit@@YAXXZ,,0x007AE756,30,Code/GameEngine/Source/GameClient/Drawable_Rva0030a040.cpp,matched,dynamic remainder of s_fireEffectActive (VA DBD918) init: m_unknown28[1] copied to [2] and [0]

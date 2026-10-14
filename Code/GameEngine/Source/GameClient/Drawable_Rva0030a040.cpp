@@ -242,3 +242,21 @@ void parseFireEffect( INI *ini )
 	if( loadType != INI_LOAD_CREATE_OVERRIDES && loadType != INI_LOAD_BFME_TYPE_4 )
 		s_fireEffectSaved = s_fireEffectActive;
 }
+
+// Retail 0x007AE738 and 0x007AE756 (30B each): what remains of the static
+// initialization of s_fireEffectSaved and s_fireEffectActive once their constant fields are
+// folded into .data -- the two copies of m_unknown28[1] into [2] and [0]
+// that rva00309E85-style defaults also make. Each is one object's
+// compiler-generated initializer, written as an explicit address-named
+// function over the file's static (its constructor name is not known).
+void Rva007AE738FireEffectInit()
+{
+	s_fireEffectSaved.m_unknown28[2] = s_fireEffectSaved.m_unknown28[1];
+	s_fireEffectSaved.m_unknown28[0] = s_fireEffectSaved.m_unknown28[1];
+}
+
+void Rva007AE756FireEffectInit()
+{
+	s_fireEffectActive.m_unknown28[2] = s_fireEffectActive.m_unknown28[1];
+	s_fireEffectActive.m_unknown28[0] = s_fireEffectActive.m_unknown28[1];
+}

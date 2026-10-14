@@ -254,3 +254,21 @@ void parseRingEffect( INI *ini )
 	if( loadType != INI_LOAD_CREATE_OVERRIDES && loadType != INI_LOAD_BFME_TYPE_4 )
 		s_ringEffectSaved = s_ringEffectActive;
 }
+
+// Retail 0x007AE6FC and 0x007AE71A (30B each): what remains of the static
+// initialization of s_ringEffectSaved and s_ringEffectActive once their constant fields are
+// folded into .data -- the two copies of m_unknown28[1] into [2] and [0]
+// that rva00309E85-style defaults also make. Each is one object's
+// compiler-generated initializer, written as an explicit address-named
+// function over the file's static (its constructor name is not known).
+void Rva007AE6FCRingEffectInit()
+{
+	s_ringEffectSaved.m_unknown28[2] = s_ringEffectSaved.m_unknown28[1];
+	s_ringEffectSaved.m_unknown28[0] = s_ringEffectSaved.m_unknown28[1];
+}
+
+void Rva007AE71ARingEffectInit()
+{
+	s_ringEffectActive.m_unknown28[2] = s_ringEffectActive.m_unknown28[1];
+	s_ringEffectActive.m_unknown28[0] = s_ringEffectActive.m_unknown28[1];
+}
