@@ -1,7 +1,9 @@
 // Decal-scoped PlaneClass header from Open-BFME-1 34f59164f6d1efd413c5fd37f4894ec834c3c0fe,
 // inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath/plane.h.
 // Declare only Compute_Intersection: this O2 TU emitted166B, disproved by
-// the native165B owner at69168 in PlaneO1Inlines.cpp. Other source definitions remain.
+// the native165B owner at69168 in PlaneO1Inlines.cpp. In_Front(const Vector3 &)
+// likewise: this TU's /G7 copy (ja/mov eax,1) lost to the /O1 owner there
+// (xor eax/inc eax). Other source definitions remain.
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
@@ -155,12 +157,6 @@ inline void PlaneClass::Set(const Vector3 & point1, const Vector3 & point2, cons
 		N = Vector3(0.0f, 0.0f, 1.0f);
 		D = 0.0f;
 	}
-}
-
-inline bool PlaneClass::In_Front(const Vector3 & point) const
-{
-	float dist = Vector3::Dot_Product(point,N);
-	return (dist > D);
 }
 
 // This function returns true if the sphere is in front of the plane.
