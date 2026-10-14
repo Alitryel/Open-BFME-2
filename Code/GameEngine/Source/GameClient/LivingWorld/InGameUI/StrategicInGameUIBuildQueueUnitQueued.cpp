@@ -219,3 +219,54 @@ void StrategicInGameUI::BuildQueueDetailsPanel::Impl::onLivingWorldBuildingNugge
   if(index==m_selectedQueueIndex) icon->Select();
  }
 }
+
+class Rva005E7FC8 { public: void clear(); };					// m_inProgressIcon release (0x005E7FC8)
+// The icon vector's erase(first, last) at 0x005E8044, reached through its
+// inline clear(): the vector pointer is formed once and both bounds read from it.
+class Rva005E8044
+{
+public:
+	void *rva005E8044(void *first, void *last);
+	void clear() { rva005E8044(m_start, m_finish); }
+private:
+	void *m_start;
+	void *m_finish;
+};
+class Rva005E7D39 { public: void *rva005E7D39(void *); };		// icon vector erase(position)
+
+// WorldBuilder StrategicInGameUIBuildQueueDetailsPanel.cpp:943-957: an empty
+// production queue drops every icon; otherwise the dequeued icon goes, the
+// later ones move up and the list refills to at most seven queued icons
+// (_STL::min against the 7 at 0x00C77E78).
+static const int s_maxQueuedIcons = 7;
+void StrategicInGameUI::BuildQueueDetailsPanel::Impl::onLivingWorldBuildingNuggetSpawnArmyUnitDequeued(Rva005E72B4Queue &nugget,int index)
+{
+ const Rva005E72B4Production *production=m_queue->slot13();
+ if(production->begin==production->end) {
+  ((Rva005E7FC8 *)&m_first)->clear();
+  ((Rva005E8044 *)&m_icons)->clear();
+  ShowUnitStats(-1);
+  return;
+ }
+ if(index>7) return;
+ if(index==m_selectedQueueIndex) ShowUnitStats(-1);
+ else if(index<m_selectedQueueIndex) --m_selectedQueueIndex;
+ if(index==0) {
+  m_first->Init(m_selectedQueueIndex==0);
+  index=1;
+ }
+ if((unsigned)(index-1)<m_icons.size()) {
+  ((Rva005E7D39 *)&m_icons)->rva005E7D39(m_icons.begin()+index-1);
+  int size=m_icons.size();
+  int i;
+  for(i=index-1;i<size;++i) m_icons[i]->MoveTo(i+1);
+  production=m_queue->slot13();
+  unsigned queued=production->end-production->begin;
+  int available=queued-1;
+  int count=_STL::min(available,s_maxQueuedIcons);
+  for(;i<count;++i) {
+   Rva005E71C6Ref icon(new Rva005E7ED7(this,i+1));
+   m_icons.push_back(icon);
+  }
+ }
+}
