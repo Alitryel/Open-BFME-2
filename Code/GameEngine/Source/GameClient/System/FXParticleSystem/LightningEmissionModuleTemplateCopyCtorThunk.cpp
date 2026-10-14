@@ -12,11 +12,11 @@ public:
 	void construct_from(const void *src);
 };
 
-class LightningEmissionModuleTemplateSubCopyShim
+// The +8 sub copy is the matched copy constructor ??0LightningEmissionInfo@FXParticleSystem@@QAE@ABV01@@Z.
+class LightningEmissionInfo
 {
 public:
-	void construct_from(const void *src_sub_or_null);
-	virtual void dummy();
+	LightningEmissionInfo(const LightningEmissionInfo &that);
 };
 
 // LightningEmissionModuleTemplate_cvtbl0: matched references place it at VA 0xc1bbb0 (retail .rdata value 17).
@@ -43,9 +43,8 @@ LightningEmissionModuleTemplate::LightningEmissionModuleTemplate(
 	const void *src = &that;
 	((LightningEmissionModuleTemplateBaseCopyShim *)this)->construct_from(src);
 	const void *sub_src = src ? (const char *)src + 8 : 0;
-	LightningEmissionModuleTemplateSubCopyShim *sub =
-		(LightningEmissionModuleTemplateSubCopyShim *)((char *)this + 8);
-	sub->construct_from(sub_src);
+	LightningEmissionInfo *sub = (LightningEmissionInfo *)((char *)this + 8);
+	sub->LightningEmissionInfo::LightningEmissionInfo(*(const LightningEmissionInfo *)sub_src);
 	// Sub vtbl then outer dual vtbls (retail store order).
 	*(void **)sub = &LightningEmissionModuleTemplate_csub_vtbl;
 	m_v0 = &LightningEmissionModuleTemplate_cvtbl0;
