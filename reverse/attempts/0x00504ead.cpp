@@ -22,6 +22,7 @@ struct Rva00504EADKey
 	Rva00504EADKey(float t,const Rva00504EADKeyTail&v):m_time(t),m_tail(v){}
 	float m_time;
 	Rva00504EADKeyTail m_tail;
+	char m_pad[8];
 };
 
 struct Rva00504E6DResult
