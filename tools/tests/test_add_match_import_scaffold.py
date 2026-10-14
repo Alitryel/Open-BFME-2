@@ -8,8 +8,19 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import add_match
+import add_match_batch
 import build
 from test_pe_imports import fixture_pe, scaffold_row, scaffold_source, thunk
+
+
+@pytest.fixture(params=["single", "batch"])
+def admission(landing, request, tmp_path, monkeypatch):
+    if request.param == "single":
+        return add_match.main
+    manifest = tmp_path / "rows.csv"
+    manifest.write_text("_D3DXMatrixMultiply@12,0x00001000,6,Code/masm_dumps/Import.asm,,0x00001000\n")
+    monkeypatch.setattr(sys, "argv", ["add_match_batch.py", str(manifest), "--root", str(tmp_path)])
+    return add_match_batch.main
 
 
 @pytest.fixture
@@ -44,9 +55,9 @@ def landing(tmp_path, monkeypatch):
     return row, source, ledger, write_row, calls
 
 
-def test_verified_import_replacement_still_runs_normal_build(landing):
+def test_verified_import_replacement_still_runs_normal_build(landing, admission):
     row, _, ledger, _, calls = landing
-    add_match.main()
+    admission()
     assert len(calls) == 1
     command, opts = calls[0]
     assert "Code/masm_dumps/Import.asm" == command[-1]
@@ -55,18 +66,18 @@ def test_verified_import_replacement_still_runs_normal_build(landing):
     assert row["name"] not in ledger.read_text()
 
 
-def test_failed_normal_build_restores_import_row(landing, monkeypatch):
+def test_failed_normal_build_restores_import_row(landing, admission, monkeypatch):
     _, _, ledger, _, _ = landing
     before = ledger.read_bytes()
     monkeypatch.setattr(add_match.subprocess, "run", lambda *a, **k: SimpleNamespace(returncode=1))
     with pytest.raises(SystemExit) as error:
-        add_match.main()
+        admission()
     assert error.value.code == 1
     assert ledger.read_bytes() == before
 
 
 @pytest.mark.parametrize("forge", ["name", "source-body", "export", "missing-source", "size"])
-def test_unproven_import_never_reaches_build_or_changes_ledger(landing, forge):
+def test_unproven_import_never_reaches_build_or_changes_ledger(landing, admission, forge):
     row, source, ledger, write_row, calls = landing
     if forge == "name":
         row["name"] = "?realBody@@YAXXZ"
@@ -82,7 +93,29 @@ def test_unproven_import_never_reaches_build_or_changes_ledger(landing, forge):
     write_row(row)
     before = ledger.read_bytes()
     with pytest.raises(SystemExit) as error:
-        add_match.main()
+        admission()
     assert error.value.code == 1
+    assert ledger.read_bytes() == before
+    assert not calls
+
+
+def test_alias_replacement_still_runs_normal_build(landing, admission):
+    row, _, ledger, write_row, calls = landing
+    row["name"] = "?dup_00001000@@YAXXZ"
+    row["notes"] = "gen-alias;object-symbol=?existing@@YAXXZ"
+    write_row(row)
+    admission()
+    assert len(calls) == 1
+    assert row["name"] not in ledger.read_text()
+
+
+def test_real_claim_cannot_be_replaced(landing, admission):
+    row, _, ledger, write_row, calls = landing
+    row["name"] = "?existing@@YAXXZ"
+    row["notes"] = "recovered C++ body"
+    write_row(row)
+    before = ledger.read_bytes()
+    with pytest.raises(SystemExit):
+        admission()
     assert ledger.read_bytes() == before
     assert not calls

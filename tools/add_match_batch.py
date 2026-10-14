@@ -23,7 +23,8 @@ SAFETY IS NOT RELAXED ANYWHERE. Specifically:
     concurrent agent cannot interleave;
   * every validation add_match performs -- name already claimed, address
     already claimed, range overlapping a matched row, --replace-rva naming
-    exactly one gen-dump scaffold, ICF-owner agreement -- applied to each row;
+    exactly one anonymous scaffold (including proven imports), ICF-owner
+    agreement -- applied to each row;
   * PLUS a check add_match structurally cannot make: rows in the same batch are
     validated AGAINST EACH OTHER. A batch can collide with itself (two claims
     at one address, or two overlapping ranges), and an earlier run recorded
@@ -159,10 +160,10 @@ def main():
             if len(at) != 1:
                 add_match.fail(f"line {c['line']}: replace_rva 0x{old:08X} matches "
                                f"{len(at)} live rows; it retires exactly one")
-            if not at[0]["notes"].lstrip().startswith("gen-dump"):
+            if not add_match.replacement_scaffold(at[0], root):
                 add_match.fail(
                     f"line {c['line']}: replace_rva 0x{old:08X} is {at[0]['name']} "
-                    f"({at[0]['source']}), not a gen-dump scaffold row",
+                    f"({at[0]['source']}), not an anonymous scaffold row",
                     "only scaffolding may be taken over by name")
             retire[(at[0]["name"], at[0]["rva"])] = at[0]
         if by_name.get(name):
