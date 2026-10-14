@@ -6,8 +6,22 @@ class Rva002BF6A7
 {
 public:
 	void rva002BF61B(int sub);
+	void rva002BF687(int owner);
+	void rva002BF697(int owner);
 	void rva002BF6A7(int owner);
 };
+
+// Retail 0x002BF687 / 0x002BF697, 16B each: the same pass for the +0x48 and
+// +0x28 sub-objects.
+void Rva002BF6A7::rva002BF687(int owner)
+{
+	rva002BF61B(owner + 0x48);
+}
+
+void Rva002BF6A7::rva002BF697(int owner)
+{
+	rva002BF61B(owner + 0x28);
+}
 
 void Rva002BF6A7::rva002BF6A7(int owner)
 {
