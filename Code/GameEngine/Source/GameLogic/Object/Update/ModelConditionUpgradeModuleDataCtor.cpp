@@ -22,9 +22,15 @@ protected:
 	unsigned char m_pad[0x118];
 };
 
+// 0x00042526 is matched as the constructor ??0Rva0042526Member@@QAE@XZ.
+class Rva0042526Member
+{
+public:
+	Rva0042526Member();
+};
+
 struct CondStore
 {
-	void init();
 
 	unsigned char m_data[0x4C];
 };
@@ -45,9 +51,9 @@ ModelConditionUpgradeModuleData::ModelConditionUpgradeModuleData()
 {
 	CondStore *stor118 = &m_118;
 	*(unsigned int *)this = ((unsigned int)vtbl_00BF2558);
-	stor118->init();
+	((Rva0042526Member *)stor118)->Rva0042526Member::Rva0042526Member();
 	CondStore *stor164 = &m_164;
-	stor164->init();
+	((Rva0042526Member *)stor164)->Rva0042526Member::Rva0042526Member();
 	memset(stor118, 0, 0x4C);
 	memset(stor164, 0, 0x4C);
 	m_1B0 |= -1;
