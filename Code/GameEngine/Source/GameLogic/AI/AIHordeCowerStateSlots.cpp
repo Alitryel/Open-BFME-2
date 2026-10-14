@@ -339,7 +339,8 @@ public:
 	virtual void setGoalObject(const Object *obj);
 	Object *getOwner() const { return m_owner; }
 	Object *getGoalObject();
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	// This local +0x24 view must not emit the shared +0x28 getter.
+	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 	void setGoalPosition(const Coord3D *pos);
 	void lock() { m_locked = true; }
 	__declspec(dllimport) __forceinline void unlock() { m_locked = false; }
@@ -462,7 +463,7 @@ private:
 StateReturnType AIHarvestState::onEnter()
 {
 	m_harvestMachine = new Rva00544C51(getMachineOwner());
-	m_harvestMachine->setGoalPosition(getMachine()->getGoalPosition());
+	m_harvestMachine->setGoalPosition(getMachine()->locomotorGoalPosition());
 	return m_harvestMachine->initDefaultState();
 }
 
@@ -479,7 +480,7 @@ StateReturnType AIMoveOntoWallState::onEnter()
 {
 	m_wallMachine = new Rva0033FC0A(getMachineOwner(), 0xCD5F1CAA);
 	m_wallMachine->setGoalObject(getMachine()->getGoalObject());
-	m_wallMachine->setGoalPosition(getMachine()->getGoalPosition());
+	m_wallMachine->setGoalPosition(getMachine()->locomotorGoalPosition());
 	m_wallMachine->initDefaultState();
 	return STATE_CONTINUE;
 }

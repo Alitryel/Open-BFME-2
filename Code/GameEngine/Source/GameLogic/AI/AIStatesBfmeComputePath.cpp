@@ -335,7 +335,8 @@ class StateMachine
 public:
 	Object *getOwner() const { return m_owner; }
 	Object *getGoalObject();
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	// This local +0x24 view must not emit the shared +0x28 getter.
+	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 private:
 	unsigned char m_pad00[0x14];
 	Object *m_owner; // +0x14
@@ -673,7 +674,7 @@ StateReturnType AIMoveToStateSA::onEnter()
 	if (getMachine()->getGoalObject())
 		m_goalPosition = *getMachine()->getGoalObject()->getPosition();
 	else
-		m_goalPosition = *getMachine()->getGoalPosition();
+		m_goalPosition = *getMachine()->locomotorGoalPosition();
 
 	StateReturnType ret = AIInternalMoveToState::onEnter();
 	if (m_bfmeFlag50 && ai && ai->isMoving())
@@ -910,7 +911,7 @@ Bool AIMoveToStateSA::computePath()
 		goal->rva0028C2DD(&m_goalPosition);
 	}
 	else
-		m_goalPosition = *getMachine()->getGoalPosition();
+		m_goalPosition = *getMachine()->locomotorGoalPosition();
 
 	Object *owner = getMachineOwner();
 	if (!TheAI->pathfinder()->CanApproachToTarget(owner, &m_goalPosition, 0, false))

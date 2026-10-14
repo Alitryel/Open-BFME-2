@@ -307,7 +307,8 @@ public:
 	virtual void setGoalObject(const Object *obj);
 	Object *getOwner() const { return m_owner; }
 	Object *getGoalObject();
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	// This local +0x24 view must not emit the shared +0x28 getter.
+	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 private:
 	unsigned char m_pad04[0x14 - 0x04];
 	Object *m_owner; // +0x14
@@ -347,7 +348,7 @@ protected:
 	StateMachine *getMachine() const { return m_machine; }
 	Object *getMachineOwner() const { return m_machine->getOwner(); }
 	Object *getMachineGoalObject() const { return m_machine->getGoalObject(); }
-	const Coord3D *getMachineGoalPosition() const { return m_machine->getGoalPosition(); }
+	const Coord3D *getMachineGoalPosition() const { return m_machine->locomotorGoalPosition(); }
 	unsigned char m_pad04[0x18 - 0x04];
 	StateMachine *m_machine; // +0x18
 };

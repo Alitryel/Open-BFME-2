@@ -315,7 +315,8 @@ class StateMachine
 {
 public:
 	Object *getGoalObject();
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	// This local +0x24 view must not emit the shared +0x28 getter.
+	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 
 	char m_pad00[0x24];
 	Coord3D m_goalPosition;         // +0x24
@@ -658,9 +659,9 @@ void Object::xfer(Xfer *xfer)
 			XferObjectID(xfer, &goalID);
 
 			Coord3D goalPos;
-			if (ai->getStateMachine()->getGoalPosition())
+			if (ai->getStateMachine()->locomotorGoalPosition())
 			{
-				const Coord3D *gp = ai->getStateMachine()->getGoalPosition();
+				const Coord3D *gp = ai->getStateMachine()->locomotorGoalPosition();
 				goalPos.x = gp->x;
 				goalPos.y = gp->y;
 				goalPos.z = gp->z;

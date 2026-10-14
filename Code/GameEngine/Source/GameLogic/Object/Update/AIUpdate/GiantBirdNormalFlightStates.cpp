@@ -218,7 +218,8 @@ public:
 		return m_currentState ? m_currentState->isIdle() : true;
 	}
 	Object *getOwner() const { return m_owner; }
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	// This local +0x24 view must not emit the shared +0x28 getter.
+	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 private:
 	State *m_currentState; // +0x04
 	unsigned char m_pad08[0x14 - 0x08];
@@ -266,7 +267,7 @@ StateReturnType GiantBirdNormalFlightState::onEnter()
 			return STATE_FAILURE;
 		ai->m_pathHeight = locomotor->getBfme48();
 
-		const Coord3D *source = m_machine->getGoalPosition();
+		const Coord3D *source = m_machine->locomotorGoalPosition();
 		Coord3D goal;
 		goal.x = source->x;
 		goal.y = source->y;

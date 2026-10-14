@@ -706,7 +706,8 @@ public:
 	void setGoalPosition(const Coord3D *pos, float range);	///< matched 0x004D745C
 	StateID getCurrentStateID() const { return m_currentState ? m_currentState->m_ID : INVALID_STATE_ID; }
 	StateID getTemporaryState() const { return m_temporaryState ? m_temporaryState->m_ID : INVALID_STATE_ID; }
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	// This local +0x24 view must not emit the shared +0x28 getter.
+	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 
 	// Zero Hour's m_currentState and m_goalPosition, at the offsets
 	// privateAttackPosition reads (+0x04, the state's id at +0x04; +0x24).
@@ -1224,7 +1225,7 @@ protected:
 	Object *getObject() const { return m_object; }
 	StateMachine *getStateMachine() const { return m_stateMachine; }
 	Object *getGoalObject() { return getStateMachine()->getGoalObject(); }
-	const Coord3D *getGoalPosition() const { return getStateMachine()->getGoalPosition(); }
+	const Coord3D *getGoalPosition() const { return getStateMachine()->locomotorGoalPosition(); }
 
 	void playMoveVoiceResponse(const Coord3D *position);		///< 0x0026B403 (voice message 0x7E7)
 	// 0x0026B37F posts voice message 0x7E8 for a position, the voice the
@@ -2322,7 +2323,7 @@ void AIUpdateInterface::privateAttackPosition(const Coord3D *pos, Int maxShotsTo
 	StateMachine *sm = m_stateMachine;
 	if (sm->getCurrentStateID() == BFME_AI_ATTACK_POSITION)
 	{
-		const Coord3D *goal = sm->getGoalPosition();
+		const Coord3D *goal = sm->locomotorGoalPosition();
 		float dx = goal->x - localPos.x;
 		if (dx < 0.0001f && dx > -0.0001f)
 		{
@@ -2466,7 +2467,7 @@ void AIUpdateInterface::privateMoveAwayFromUnit(Object *unit, const Coord3D *pos
 		const Coord3D *pathStart = sm->m_goalPath.begin();
 		Int n = sm->m_goalPath.end() - pathStart;
 		Coord3D goal;
-		goal.set(sm->getGoalPosition());
+		goal.set(sm->locomotorGoalPosition());
 		if (n > 0)
 			goal = pathStart[n - 1];
 

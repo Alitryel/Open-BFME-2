@@ -524,7 +524,8 @@ public:
 	virtual void setGoalObject(Object *object);
 	Object *getOwner() const { return m_owner; }
 	Object *getGoalObject();
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	// This local +0x24 view must not emit the shared +0x28 getter.
+	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 	void setGoalPosition(const Coord3D *pos);
 	Bool isInIdleState() const;
 private:
@@ -1016,7 +1017,7 @@ StateReturnType AIAttackMoveToState::update()
 		}
 	}
 
-	const Coord3D *machinePos = getMachine()->getGoalPosition();
+	const Coord3D *machinePos = getMachine()->locomotorGoalPosition();
 	Coord3D machineGoal;
 	machineGoal.x = machinePos->x;
 	machineGoal.y = machinePos->y;
@@ -1121,7 +1122,7 @@ StateReturnType AIMoveToState::update()
 	{
 		if (obj->isKindOf(KINDOF_PROJECTILE))
 		{
-			m_goalPosition = *getMachine()->getGoalPosition();
+			m_goalPosition = *getMachine()->locomotorGoalPosition();
 			Real zDelta = m_goalPosition.z - obj->getPosition()->z;
 			if (zDelta > 0)
 				m_goalPosition.z += zDelta;

@@ -744,7 +744,8 @@ public:
 	virtual void setGoalObject(const Object *obj);
 	Object *getOwner() const { return m_owner; }
 	Object *getGoalObject();
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	// This local +0x24 view must not emit the shared +0x28 getter.
+	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 	void rva0034BF11ClearByte3A() { m_bfmeFlag3A = false; }
 private:
 	unsigned char m_pad04[0x14 - 0x04];
@@ -1513,7 +1514,7 @@ StateReturnType AIRotateFiringarc::update()
 		return (StateReturnType)STATE_FAILURE;
 	getMachineOwner()->setBfmeAngle1C0(getMachineOwner()->getOrientation());
 	Real orientation = getMachineOwner()->getOrientation();
-	Real goalAngle = getMachine()->getGoalPosition()->x;
+	Real goalAngle = getMachine()->locomotorGoalPosition()->x;
 	Real delta = normalizeAngle(orientation - goalAngle);
 	if (fabs(delta) < 0.01f)
 		return (StateReturnType)STATE_SUCCESS;

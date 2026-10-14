@@ -43,7 +43,8 @@ class StateMachine
 public:
 	Object *getOwner() const { return m_owner; }
 	Object *getGoalObject();
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	// This local +0x24 view must not emit the shared +0x28 getter.
+	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 	void setGoalPosition(const Coord3D *pos);
 	void lock(const char *msg) { m_locked = true; }
 	__declspec(dllimport) __forceinline void unlock() { m_locked = false; }
@@ -126,7 +127,7 @@ StateReturnType AIMoveAndEvacuateState::onEnter()
 	if (getMachine()->getGoalObject())
 		m_goalPosition = *getMachine()->getGoalObject()->getPosition();
 	else
-		m_goalPosition = *getMachine()->getGoalPosition();
+		m_goalPosition = *getMachine()->locomotorGoalPosition();
 	return AIInternalMoveToState::onEnter();
 }
 

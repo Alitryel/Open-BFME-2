@@ -394,7 +394,8 @@ public:
 class StateMachine
 {
 public:
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	// This local +0x24 view must not emit the shared +0x28 getter.
+	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 
 	unsigned char m_pad00[0x24];
 	Coord3D m_goalPosition;			// +0x24
@@ -408,7 +409,7 @@ public:
 	const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)((const char *)this + 0x1CC); }
 	Bool isMoving() const;
 	StateMachine *getStateMachine() const { return m_stateMachine; }
-	const Coord3D *getGoalPosition() const { return getStateMachine()->getGoalPosition(); }
+	const Coord3D *getGoalPosition() const { return getStateMachine()->locomotorGoalPosition(); }
 
 	virtual void slot000();
 	virtual void slot004();

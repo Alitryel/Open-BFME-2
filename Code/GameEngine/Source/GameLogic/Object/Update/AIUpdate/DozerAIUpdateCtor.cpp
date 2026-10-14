@@ -268,7 +268,8 @@ public:
 	void defineState(StateID id, struct State *state, StateID successID, StateID failureID, const StateConditionInfo *conditions = 0);
 	Object *getOwner() const { return m_owner; }
 	Object *getGoalObject();
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	// This local +0x24 view must not emit the shared +0x28 getter.
+	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 	void setGoalPosition(const Coord3D *pos, Real range);
 protected:
 	unsigned char m_pad04[0x14 - 0x04];
@@ -1401,7 +1402,7 @@ StateReturnType DozerActionMoveToActionPosState::update()
 	}
 
 	// if distance between us and our goal position is close enough
-	const Coord3D *goalPos = getMachine()->getGoalPosition();
+	const Coord3D *goalPos = getMachine()->locomotorGoalPosition();
 	Real distSqr = dozer->rva002C97E8(dozer->getPosition(), goalPos);
 	const Real SLOP = 15.0f;
 	Real allowableDistanceSqr = sqr(bfmeMax(MIN_ACTION_TOLERANCE, dozer->getGeometryInfo().getBoundingSphereRadius() + SLOP));
