@@ -1,4 +1,6 @@
 // ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
+// partial score=0.896 date=2026-10-14
+// ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
 // partial score=0.8652393 date=2026-10-13
 // ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
 // partial score=0.874 date=2026-10-10
@@ -6,7 +8,7 @@
 // partial score=0.848677 date=2026-10-09
 // ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
 // partial score=0.6 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /GX /DNDEBUG /MD /I. /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /O1 /G7 /arch:SSE /GX /DNDEBUG /MD /I. /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Oy- /Op
 // stlport
 // SpecialAbilityUpdate.cpp: bodies retail links from this TU (tu_map approved),
 // folded from three split units with these exact flags. The two
@@ -694,10 +696,10 @@ public:
 // issues the module's completion command button (or idles), then onExit.
 void SpecialAbilityUpdate::finishAbility()
 {
-	SpecialAbilityUpdateModuleData *data = (SpecialAbilityUpdateModuleData *)m_moduleData;
 	m_withinStartAbilityRange = false;
+	SpecialAbilityUpdateModuleData *data = (SpecialAbilityUpdateModuleData *)m_moduleData;
 	m_packingState = 0;
-	bool validTarget = m_targetPos.x || m_targetPos.y || m_targetPos.z || m_targetID != 0;
+	const bool validTarget = m_targetPos.x || m_targetPos.y || m_targetPos.z || 0 != m_targetID;
 	if (data->m_fleeRangeAfterCompletion && validTarget)
 	{
 		Coord3D pos = { m_object->m_position.x, m_object->m_position.y, m_object->m_position.z };
@@ -710,17 +712,17 @@ void SpecialAbilityUpdate::finishAbility()
 				dir.normalize();
 				float range = data->m_fleeRangeAfterCompletion;
 				float y=dir.y,z=dir.z,x=dir.x;dir.x=x*range;dir.y=y*range;dir.z=z*range;
-				if (data->m_flipObjectAfterUnpacking || data->m_flipObjectAfterPacking)
+				if (!(!(data->m_flipObjectAfterUnpacking || data->m_flipObjectAfterPacking)))
 				{
-					pos.x += dir.x;
-					pos.y += dir.y;
+					pos.x = pos.x + (dir.x);
+					pos.y = pos.y + (dir.y);
 					pos.z += dir.z;
 				}
 				else
 				{
-					pos.x -= dir.x;
-					pos.y -= dir.y;
-					pos.z -= dir.z;
+					pos.z = pos.z - (dir.z);
+					pos.y = pos.y - (dir.y);
+					pos.x = pos.x - (dir.x);
 				}
 			}
 			Object *obj = m_object;
@@ -738,15 +740,15 @@ void SpecialAbilityUpdate::finishAbility()
 						dir.y = pos.y - mine->m_position.y;
 						dir.z = 0.0f;
 						dir.normalize();
-						float range = (data->m_fleeRangeAfterCompletion?data->m_fleeRangeAfterCompletion:data->m_fleeRangeAfterCompletion);
+						const float range = (data->m_fleeRangeAfterCompletion?data->m_fleeRangeAfterCompletion:data->m_fleeRangeAfterCompletion);
 						pos = mine->m_position;
 						pos.x += dir.x * range;
-						pos.y += dir.y * range;
 						pos.z += dir.z * range;
+						pos.y += dir.y * range;
 					}
 				}
 			}
-			Object *target = TheGameLogic->findObjectByID(m_targetID);
+			const Object *target = TheGameLogic->findObjectByID(m_targetID);
 			if (target)
 				ai->ignoreObstacle(target);
 			ai->m_commands.aiMoveToPosition(&pos, CMD_FROM_AI);
@@ -759,7 +761,7 @@ void SpecialAbilityUpdate::finishAbility()
 		{
 			if (button->m_options & 0x227)
 			{
-				Object *obj = m_object;
+				const Object *obj = m_object;
 				if (obj)
 				{
 					Player *player = obj->getControllingPlayer();
@@ -780,4 +782,6 @@ void SpecialAbilityUpdate::finishAbility()
 			((AICommandInterface *)(ai + 0x20))->aiIdle(CMD_FROM_AI);
 	}
 	onExit(false, false);
+
+ if (0) throw 1;
 }

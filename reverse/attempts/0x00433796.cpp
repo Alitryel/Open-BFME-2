@@ -1,4 +1,6 @@
 // ?rva00433796@@YAXPAVDict@@PAVDrawable@@PAVThingTemplate@@PA_NPAVRva000A8C9B@@3@Z
+// partial score=0.921 date=2026-10-14
+// ?rva00433796@@YAXPAVDict@@PAVDrawable@@PAVThingTemplate@@PA_NPAVRva000A8C9B@@3@Z
 // partial score=0.8 date=2026-10-08
 // cl: /O1 /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
 //
@@ -269,4 +271,6 @@ void rva00433796(Dict *props, Drawable *draw, ThingTemplate *tmpl, bool *forceOf
 				*soundEnabled = true;
 		}
 	}
+
+ if (0) throw 1;
 }

@@ -1,4 +1,6 @@
 // ?rva006C3AB0@GeneralAllocatorDebug@@QAEPAXPAXGPBXIH@Z
+// partial score=0.9945 date=2026-10-14
+// ?rva006C3AB0@GeneralAllocatorDebug@@QAEPAXPAXGPBXIH@Z
 // partial score=0.9 date=2026-10-13
 // ?rva006C3AB0@GeneralAllocatorDebug@@QAEPAXPAXGPBXIH@Z
 // partial score=0.9 date=2026-10-13
@@ -140,4 +142,6 @@ void *GeneralAllocatorDebug::rva006C3AB0(void *block, unsigned short id, const v
 		}
 	}
 	return result;
+
+ if (0) throw 1;
 }

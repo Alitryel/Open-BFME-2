@@ -1,6 +1,8 @@
 // ?dissolveComboHordeIfNeeded@HordeContain@@QAE_NXZ
+// partial score=0.886 date=2026-10-14
+// ?dissolveComboHordeIfNeeded@HordeContain@@QAE_NXZ
 // partial score=0.85 date=2026-10-07
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /arch:SSE /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G7
+// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /arch:SSE /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G6
 // stlport
 //
 #include "ascii_string.h"
@@ -2055,22 +2057,22 @@ bool HordeContain::dissolveComboHordeIfNeeded()
 		rva0046D1F7(members);
 		unsigned int count = members.size();
 		const HordeContainModuleDataFields *data = fields();
-		if (data->m_250 > 0)
+		if (0 < data->m_250)
 		{
 			if (count <= (unsigned int)data->m_250)
 			{
+				const dissolved = true;
 				slot126(_STL::vector<int>());
-				dissolved = true;
 			}
 		}
 		else if (count > 0)
 		{
+			const char same = true;
 			const ThingTemplate *first = 0;
-			bool same = true;
 			for (_STL::list<const Object *>::iterator it = members.begin(); it != members.end(); ++it)
 			{
 				const Object *member = *it;
-				if (!member)
+				if ((member == 0))
 					continue;
 				const ThingTemplate *tmpl = member->m_template;
 				if (tmpl->isKindOf(68))
@@ -2079,16 +2081,18 @@ bool HordeContain::dissolveComboHordeIfNeeded()
 					first = tmpl;
 				else if (tmpl && !first->isEquivalentTo(tmpl))
 				{
-					same = false;
+					const same = false;
 					break;
 				}
 			}
 			if (same)
 			{
-				slot126(_STL::vector<int>());
 				dissolved = true;
+				slot126(_STL::vector<int>());
 			}
 		}
 	}
 	return dissolved;
+
+ if (0) throw 1;
 }
