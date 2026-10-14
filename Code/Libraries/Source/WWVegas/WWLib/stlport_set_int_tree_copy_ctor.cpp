@@ -17,6 +17,10 @@ typedef _STL::_Rb_tree<int, int, _STL::_Identity<int>, _STL::less<int>, _STL::al
 
 template IntSetTree::_Rb_tree(const IntSetTree &);
 
+// set<int>'s own copy constructor, retail 0x00621020 (19B): _M_t(__x._M_t)
+// through the tree copy above, kept out of line.
+template _STL::set<int, _STL::less<int>, _STL::allocator<int> >::set(const _STL::set<int, _STL::less<int>, _STL::allocator<int> > &);
+
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:??0Q1ReceiverTreeStorage@@QAE@ABV?$set@UGen_t_009ee8e0_k4@@U?$less@UGen_t_009ee8e0_k4@@@_STL@@V?$allocator@UGen_t_009ee8e0_k4@@@3@@_STL@@@Z=??0?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@QAE@ABV01@@Z")
