@@ -108,33 +108,17 @@ template<> __declspec(noinline) TargetListAt0073EEE0::iterator TargetListAt0073E
 }
 }
 
-// ?rva0073F061@Rva0073F061@@QAEXXZ, retail 0x0073F061 49B. Clears the
-// heap-sentinel node list of Rva0073EEE0ListValue: destroys each value via
-// the rowed ??1Rva0073EEE0ListValue (0x0073EF44), frees the node via the
-// rowed _free (0x00030830), then resets the sentinel links. Caller
-// 0x0073F368 frees the sentinel afterwards. Node layout reuses
-// ListNode0073EFFC (value at +8, same as retail lea ecx,[ebx+8]).
-struct Rva0073F061 { ListNode0073EFFC *m_head; void rva0073F061(); void rva0073F368(); };
-void Rva0073F061::rva0073F061() {
-    ListNode0073EFFC *cur = m_head->m_next;
-    if (cur != m_head) {
-        ListNode0073EFFC *b;
-        do {
-            b = cur;
-            cur = cur->m_next;
-            b->m_value.~Rva0073EEE0ListValue();
-            free(b);
-        } while (cur != m_head);
-    }
-    m_head->m_next = m_head;
-    m_head->m_prev = m_head;
+// Native queue12B list owns the STLport base clear49B and destructor23B.
+// Replace the former hand-written Rva0073F061 view with the real emitted providers.
+template class _STL::_List_base<Rva0073EEE0ListValue, _STL::allocator<Rva0073EEE0ListValue> >;
+// Payload-independent splice and12B-node constructor fold with existing owners.
+namespace _STL {
+// STLport single-node splice; expand iterator equality to its pointer predicate.
+template<> __declspec(noinline) void TargetListAt0073EEE0::splice(iterator position,list&,iterator item) {
+ iterator next=item;++next;
+ if(position._M_node==item._M_node || position._M_node==next._M_node)return;
+ _List_global_inst::_Transfer(position._M_node,item._M_node,next._M_node);
 }
-void Rva0073F061::rva0073F368()
-{
-    rva0073F061();
-    ListNode0073EFFC *sentinel = m_head;
-    if (sentinel)
-        free(sentinel);
 }
 
 // WB AsyncServiceQueue::enqueue and native73F37F..73F451 establish this
