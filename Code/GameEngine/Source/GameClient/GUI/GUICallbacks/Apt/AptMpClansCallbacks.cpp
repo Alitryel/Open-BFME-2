@@ -184,7 +184,7 @@ public:
 	// Clan name refill 0x0057F7AC (372 bytes; recovered below) and the
 	// player list refill 0x0057F5ED, pinned by address.
 	void PopulateMyClans(const UnicodeString &name);
-	void rva0057F5ED();
+	void OnGameInfoChange();
 
 	void rva0057FAB0();
 
@@ -229,7 +229,7 @@ void AptMpClans::InitGadgets(const char *name, void *argument, GameWindow *windo
 	{
 		m_clanName = window;
 		PopulateMyClans(UnicodeString::TheEmptyString);
-		rva0057F5ED();
+		OnGameInfoChange();
 	}
 }
 
@@ -357,7 +357,8 @@ public:
 };
 int GadgetListBoxAddEntryText(GameWindow *, UnicodeString, int, int, int, bool);
 void GadgetListBoxReset(GameWindow *);
-void AptMpClans::rva0057F5ED()
+// WorldBuilder AptMpClans::OnGameInfoChange, WB VA 0x015A0AB0 (callgraph lead, score 4.2).
+void AptMpClans::OnGameInfoChange()
 {
     if (!m_clanPlayers)
         return;

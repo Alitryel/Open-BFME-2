@@ -117,7 +117,7 @@ public:
 	};
 	enum { LAYER_GROUND = 1 };
 
-	void rva0052DAE9(Bool open);
+	void SetOpen(Bool open);
 	void SetParentCell(int *);
 	Int getXIndex() const { return m_pathInfo->x; }
 	Int getYIndex() const { return m_pathInfo->y; }

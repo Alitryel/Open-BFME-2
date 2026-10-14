@@ -1,5 +1,5 @@
 // cl: /O1 /Ob2 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G7 /ICode/GameEngine/Include/GameLogic /ICode/GameEngine/Source/Common
-// ?rva004C5BE3@SiegeDeploySpecialPower@@AAEXH@Z
+// ?setPhase@SiegeDeploySpecialPower@@AAEXH@Z
 // stlport
 // WB1264270 is the semantic guide for SiegeDeploySpecialPower::setPhase.
 // Retail4C5BE3 proves primary this, phase38/frame3C/target40 and Object condition offsets.
@@ -34,11 +34,12 @@ struct SiegePhaseData {unsigned char pad[0x18];unsigned delay,disabledDuration;b
 extern GameLogic *TheGameLogic;
 class SiegeDeploySpecialPower {
 public:void rva004C573C();
-private:void rva004C5BE3(int);
+private:void setPhase(int);
 public:
  unsigned vptr;const SiegePhaseData *data;Object *object;unsigned char padC[0x38-0xc];int phase;unsigned frame,target;
 };
-void SiegeDeploySpecialPower::rva004C5BE3(int next)
+// WorldBuilder SiegeDeploySpecialPower::setPhase, WB VA 0x01264270 (callgraph lead, score 1).
+void SiegeDeploySpecialPower::setPhase(int next)
 {
  if(next==phase)return;
  Object *obj=object;

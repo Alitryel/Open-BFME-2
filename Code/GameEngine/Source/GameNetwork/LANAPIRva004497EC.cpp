@@ -68,7 +68,7 @@ template <> class VSlots<0>
 class LANAPI : public VSlots<26>
 {
 public:
-	virtual void rva004497EC( Bool unused, BfmeNetAddress *destination );
+	virtual void RequestGameOptionsPacked( Bool unused, BfmeNetAddress *destination );
 	virtual void slot27( void ) = 0;
 	virtual void slot28( void ) = 0;
 	virtual void slot29( void ) = 0;
@@ -115,7 +115,8 @@ protected:
 	LANGameInfo *m_currentGame;
 };
 
-void LANAPI::rva004497EC( Bool unused, BfmeNetAddress *destination )
+// WorldBuilder LANAPI::RequestGameOptionsPacked, WB VA 0x014B6290 (callgraph lead, score 1).
+void LANAPI::RequestGameOptionsPacked( Bool unused, BfmeNetAddress *destination )
 {
 	if( !m_currentGame )
 		return;

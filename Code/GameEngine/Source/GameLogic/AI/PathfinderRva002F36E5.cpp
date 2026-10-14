@@ -7,7 +7,7 @@
 class PathfindCell
 {
 public:
-	void rva0052DAE9(bool flag);
+	void SetOpen(bool flag);
 };
 
 class Rva002F301F
@@ -50,7 +50,7 @@ PathfindCell *Pathfinder::rva002F36E5()
 	if (base != q->m_end)
 	{
 		front = *base;
-		front->rva0052DAE9(false);
+		front->SetOpen(false);
 		((Rva002F301F *)q)->rva002F301F();
 	}
 	return front;
@@ -63,7 +63,7 @@ int Pathfinder::rva002F370D()
 	while (!q->empty())
 	{
 		PathfindCell *front = q->front();
-		front->rva0052DAE9(false);
+		front->SetOpen(false);
 		((Rva002F301F *)q)->rva002F301F();
 		++count;
 	}

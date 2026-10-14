@@ -489,7 +489,7 @@ public:
 	BFME_VSLOT(17) BFME_VSLOT(18) BFME_VSLOT(19)
 	BFME_VSLOT(20) BFME_VSLOT(21) BFME_VSLOT(22) virtual void RequestGameStart(Bool); virtual void RequestGameStartTimer(Int);
  virtual void RequestGameOptions(AsciiString,Bool,BfmeNetAddress*);
-	virtual void rva004497EC( Bool isPublic, BfmeNetAddress *ip );	// slot 26
+	virtual void RequestGameOptionsPacked( Bool isPublic, BfmeNetAddress *ip );	// slot 26
 	BFME_VSLOT(27) virtual void RequestGameAnnounce(); virtual void RequestSetName(UnicodeString);
  virtual void RequestLobbyLeave(Bool); virtual void ResetGameStartTimer();
 	virtual void OnGameList( LANGameInfo *gameList );	// slot 32
@@ -635,7 +635,7 @@ void LANAPI::update() {
   m_lastResendTime=resendNow;
   if(m_inLobby)RequestSetName(m_name);
   else if(m_currentGame && !m_currentGame->isGameInProgress()) {
-   if(AmIHost()) {rva004497EC(true,BfmeNetAddress(0,0).self());RequestGameAnnounce();}
+   if(AmIHost()) {RequestGameOptionsPacked(true,BfmeNetAddress(0,0).self());RequestGameAnnounce();}
    else {
     AsciiString text;text.format("User=%s",m_userName.str());
     RequestGameOptions(text,true,BfmeNetAddress(0,0).self());

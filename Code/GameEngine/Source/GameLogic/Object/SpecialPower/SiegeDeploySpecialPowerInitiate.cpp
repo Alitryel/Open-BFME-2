@@ -188,7 +188,7 @@ public:
 	Rva004598F2Point computeApproachPoint(Object *target, Rva004598F2Point *dockPosition, bool *docked) throw();	// 0x004C5877
 	void rva004C5E62();
 private:
-	void rva004C5BE3(int state);
+	void setPhase(int state);
 	const SiegeDeployModuleDataView *data() const { return (const SiegeDeployModuleDataView *)m_moduleData; }
 
 	unsigned char m_pad28[0x40 - 0x28];
@@ -246,7 +246,7 @@ void SiegeDeploySpecialPower::initiateIntentToDoSpecialPower(const SpecialPowerT
 			ai->aiIdle(CMD_FROM_AI);
 			ai->aiMoveToPosition((const Coord3D *)&m_approachPoint, CMD_FROM_AI);
 			m_docked = true;
-			rva004C5BE3(1);
+			setPhase(1);
 			m_dockID = dockObject->m_id;
 		}
 		else

@@ -16,7 +16,7 @@
 // player, goes to primary virtual slot 13 (0x00493EA7) with that frame and the
 // mask. Field offsets are target evidence; field meanings are inferred.
 //
-// ?rva00493EA7@SpecialPowerModule@@UAEXPAVObject@@HPBV?$BitFlags@$0L@@@@Z
+// ?ApplyPowerToObject@SpecialPowerModule@@UAEXPAVObject@@HPBV?$BitFlags@$0L@@@@Z
 // @0x00493EA7 388B, that slot-13 virtual. Original name unknown; callers are
 // 0x0049402B above and the slot-13 entries of the special-power vtables. Retail
 // shape: the target's ExperienceTracker (+0x264) gains up to data+0x58 levels
@@ -192,7 +192,7 @@ public:
 	virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
 	virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
 	virtual void v12();
-	virtual void rva00493EA7(Object *obj, int frame, const BitFlags<11> *mask);
+	virtual void ApplyPowerToObject(Object *obj, int frame, const BitFlags<11> *mask);
 	void rva0049402B(BfmeWideResult *iter);
 protected:
 	const ModuleData *m_moduleData;
@@ -240,11 +240,12 @@ void SpecialPowerModule::rva0049402B(BfmeWideResult *iter)
 			continue;
 		if (!modData->m_anyPlayer && obj->getControllingPlayer() != source->getControllingPlayer())
 			continue;
-		rva00493EA7(obj, frame, &modData->m_mask);
+		ApplyPowerToObject(obj, frame, &modData->m_mask);
 	}
 }
 
-void SpecialPowerModule::rva00493EA7(Object *obj, int frame, const BitFlags<11> *mask)
+// WorldBuilder SpecialPowerModule::ApplyPowerToObject, WB VA 0x011E88A0 (callgraph lead, score 3).
+void SpecialPowerModule::ApplyPowerToObject(Object *obj, int frame, const BitFlags<11> *mask)
 {
 	const SpecialPowerModuleData *modData = (const SpecialPowerModuleData *)m_moduleData;
 	ExperienceTracker *tracker = obj->getExperienceTracker();

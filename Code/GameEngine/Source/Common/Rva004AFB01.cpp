@@ -8,7 +8,7 @@ class RespawnUpdateModuleData
 {
 public:
 	int calcCostToBuild(int value);
-	int rva004AF5AC(unsigned int value);
+	int calcTimeToBuild(unsigned int value);
 };
 
 struct Rva004AFB01Record
@@ -41,10 +41,10 @@ int Rva004AFB01::rva004AFB01()
 // Native 0x004AFB16..0x004AFB2B, 21B, is the time twin of the cost
 // helper above. WB 0x0122E450 passes the same experience level to its
 // RespawnUpdateModuleData::calcTimeToBuild; the target-specific helper
-// is already verified as RespawnUpdateModuleData::rva004AF5AC. Native callers include
+// is already verified as RespawnUpdateModuleData::calcTimeToBuild. Native callers include
 // the UnitRevivalEntry constructor at 0x0037EA88. Reuse the established
 // receiver, context and level layout rather than add another class view.
 int Rva004AFB01::rva004AFB16()
 {
-	return m_helper->rva004AF5AC(m_context->m_record->m_value);
+	return m_helper->calcTimeToBuild(m_context->m_record->m_value);
 }

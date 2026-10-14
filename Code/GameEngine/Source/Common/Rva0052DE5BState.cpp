@@ -86,7 +86,7 @@ public:
 	PathfindCell();
 	bool rva0052DFB1(const Rva0052DFB1Arg *arg);
 	bool rva0052DEEF(const Rva0052DEEFArg *a, bool b, In002E6BA1 *c);
-	void rva0052DAE9(bool flag);
+	void SetOpen(bool flag);
 	void PutOnClosedList(MixFileInfoBuffer **head);
 	void RemoveFromClosedList();
 
@@ -155,7 +155,8 @@ bool PathfindCell::rva0052DFB1(const Rva0052DFB1Arg *arg)
 	return result;
 }
 
-void PathfindCell::rva0052DAE9(bool flag)
+// WorldBuilder PathfindCell::SetOpen, WB VA 0x012D7A40 (align lead, score 1).
+void PathfindCell::SetOpen(bool flag)
 {
 	if (flag)
 		m_node->m_nodeFlags |= 8u;

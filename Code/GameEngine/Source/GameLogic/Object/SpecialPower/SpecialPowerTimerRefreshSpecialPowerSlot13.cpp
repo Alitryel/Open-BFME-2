@@ -35,7 +35,7 @@ public:
 	virtual void s10();
 	virtual void s11();
 	virtual void s12();
-	virtual void rva00493EA7(Object *obj, int value, const BitFlags<11> *disabled);
+	virtual void ApplyPowerToObject(Object *obj, int value, const BitFlags<11> *disabled);
 protected:
 	const ModuleData *m_moduleData;	// +0x04
 	Object *m_object;		// +0x08
@@ -43,10 +43,10 @@ protected:
 class SpecialPowerTimerRefreshSpecialPower : public SpecialPowerModule
 {
 public:
-	virtual void rva00493EA7(Object *obj, int value, const BitFlags<11> *disabled);
+	virtual void ApplyPowerToObject(Object *obj, int value, const BitFlags<11> *disabled);
 };
-void SpecialPowerTimerRefreshSpecialPower::rva00493EA7(Object *obj, int value, const BitFlags<11> *disabled)
+void SpecialPowerTimerRefreshSpecialPower::ApplyPowerToObject(Object *obj, int value, const BitFlags<11> *disabled)
 {
-	SpecialPowerModule::rva00493EA7(obj, value, disabled);
+	SpecialPowerModule::ApplyPowerToObject(obj, value, disabled);
 	obj->rva0028B72A();
 }

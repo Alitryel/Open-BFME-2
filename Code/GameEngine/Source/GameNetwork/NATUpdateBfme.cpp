@@ -53,7 +53,7 @@ struct Rva00A063B0Obj;extern Rva00A063B0Obj *g_a063b0;
 bool g_natTransportContextEnabled=false;unsigned g_natStatsWaitStartTick=0;
 struct Rva005A7A96Pair{void *opaque00;unsigned short first,second;};
 struct Rva005A7172:public _STL::vector<int>{~Rva005A7172();};
-class PortNegotiationSchema{public:void negotiationStarted(unsigned short,unsigned short,int,bool);char pad00[0x18];int state[81];char pad15c[0x738-0x15c];unsigned timeout[8][8];unsigned short tries[8][8];bool rva005DBA9C(bool);bool rva005DBA60(unsigned short);bool rva005DC586(_STL::vector<Rva005A7A96Pair>*);};
+class PortNegotiationSchema{public:void negotiationStarted(unsigned short,unsigned short,int,bool);char pad00[0x18];int state[81];char pad15c[0x738-0x15c];unsigned timeout[8][8];unsigned short tries[8][8];bool rva005DBA9C(bool);bool IsConflictingWithProceedingNegotiation(unsigned short);bool rva005DC586(_STL::vector<Rva005A7A96Pair>*);};
 class NAT{public:void findMyMangledPort();void rva005A89C2(int,int);bool rva005A6709();void notifyNATHostSlot();void rva005A6CA5();void sendPings();void processUDPPacket();int rva005A879B();void processManglerResponse(unsigned short);bool SetUDPSocketForSlot(unsigned short,unsigned short,void*);void notifyConnectionToTargetFailed();void notifyConnectionFromTargetDone();void notifyHostMyNATCreated(int);void rva005A6C90(int);void rva005A831E();void rva005A7974(unsigned short,void*);static unsigned s_probeRetryInterval;static int s_manglerMaxRetryCount;bool rva005A6732()const;void rva005A7A96(const _STL::vector<Rva005A7A96Pair>*);};
 class Rva005A6D47 {public:void *vptr;Transport *transport;GameSpyGameSlot **slots;int host,state,local;char pad18[0x10];PortNegotiationSchema schema;int rva005A8F57();};
 int Rva005A6D47::rva005A8F57(){
@@ -83,7 +83,7 @@ bool PortNegotiationSchema::rva005DC586(_STL::vector<Rva005A7A96Pair>*pairs){
  unsigned now=timeGetTime();
  for(unsigned short first=0;first<8;++first){for(unsigned short second=first+1;second<8;++second){
   if((state[first*8+second]==1&&state[second*8+first]==1)||((state[first*8+second]==4||state[second*8+first]==4)&&tries[first][second]<5&&tries[second][first]<5&&(state[first*8+second]!=2||timeout[first][second]<now)&&(state[second*8+first]!=2||timeout[first][second]<now))){
-   if(!rva005DBA60(first)&&!rva005DBA60(second)){
+   if(!IsConflictingWithProceedingNegotiation(first)&&!IsConflictingWithProceedingNegotiation(second)){
     _STL::vector<Rva005A7A96Pair>::iterator it=pairs->begin();for(;it!=pairs->end();++it){if(it->first==first||it->second==first||it->first==second||it->second==second)goto skipPair;}
     {Rva005DBCD1 pair(first,second);((_STL::vector<Elem003AF7A0>*)pairs)->push_back(*(const Elem003AF7A0*)&pair);}
    }
@@ -93,7 +93,8 @@ bool PortNegotiationSchema::rva005DC586(_STL::vector<Rva005A7A96Pair>*pairs){
  return pairs->size()>0;
 }
 
-__declspec(noinline) bool PortNegotiationSchema::rva005DBA60(unsigned short x){if(x<8){for(int i=0;i<8;++i){if(i!=x&&state[i+x*8]==2)return true;if(state[x+i*8]==2)return true;}}return false;}
+// WorldBuilder PortNegotiationSchema::IsConflictingWithProceedingNegotiation, WB VA 0x015C7940 (callsite lead, score 1).
+__declspec(noinline) bool PortNegotiationSchema::IsConflictingWithProceedingNegotiation(unsigned short x){if(x<8){for(int i=0;i<8;++i){if(i!=x&&state[i+x*8]==2)return true;if(state[x+i*8]==2)return true;}}return false;}
 
 struct Rva005A684FWord{unsigned m_00;unsigned short m_04;};class Rva005A684F{public:unsigned get(unsigned)const;char pad[0x90c];Rva005A684FWord *m_slots[8];};
 class Rva00594E07{public:unsigned short rva00594E07(unsigned short,int);};class Rva0059534A{public:void rva0059534A(unsigned short);};class Rva0059517F{public:bool rva0059517F(unsigned long,unsigned short,unsigned short,unsigned short,bool);};class FirewallHelperClass{public:static void getManglerName(int,char*);void flagNeedToRefresh(bool);};

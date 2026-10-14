@@ -30,7 +30,7 @@ class PortNegotiationSchema
 public:
 	void* peekPing(unsigned short x, unsigned short y);
 	int GetConnectionState(unsigned short x, unsigned short y);
-	bool rva005DBA60(unsigned short x);
+	bool IsConflictingWithProceedingNegotiation(unsigned short x);
 	bool rva005DBA9C(bool flag);
 };
 

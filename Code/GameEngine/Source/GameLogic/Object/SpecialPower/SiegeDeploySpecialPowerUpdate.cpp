@@ -170,7 +170,7 @@ public:
 	void rva004C5E62();
 	Rva004598F2Point computeApproachPoint(Object *target, Rva004598F2Point *direction, bool *docked);
 private:
-	void rva004C5BE3(int phase);
+	void setPhase(int phase);
 	unsigned char m_pad14[0x38 - 0x14];
 	int m_phase;				// +0x38
 	unsigned m_frame;			// +0x3C
@@ -194,7 +194,7 @@ UpdateSleepTime SiegeDeploySpecialPower::update()
 		goto inactive;
 	if (m_stop)
 	{
-		rva004C5BE3(4);
+		setPhase(4);
 		m_stop = false;
 		return UPDATE_SLEEP_NONE;
 	}
@@ -221,11 +221,11 @@ UpdateSleepTime SiegeDeploySpecialPower::update()
 			targetObject = 0;
 			m_targetID = 0;
 			if (m_phase == 3)
-				rva004C5BE3(4);
+				setPhase(4);
 		}
 	}
 	if (!targetObject)
-		rva004C5BE3(4);
+		setPhase(4);
 	switch (m_phase)
 	{
 	case 0:
@@ -259,7 +259,7 @@ UpdateSleepTime SiegeDeploySpecialPower::update()
 		{
 			view->slot136();
 			ai->rva0045003E(0, CMD_FROM_AI);
-			rva004C5BE3(2);
+			setPhase(2);
 			break;
 		}
 		if (view->slot110())
@@ -291,10 +291,10 @@ UpdateSleepTime SiegeDeploySpecialPower::update()
 	}
 	case 2:
 		if (++m_frame >= m_moduleData->m_delay)
-			rva004C5BE3(3);
+			setPhase(3);
 		break;
 	case 4:
-		rva004C5BE3(0);
+		setPhase(0);
 		break;
 	}
 	return UPDATE_SLEEP_NONE;

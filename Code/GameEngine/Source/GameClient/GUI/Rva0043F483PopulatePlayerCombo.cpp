@@ -466,7 +466,7 @@ public:
 	UnicodeString rva0057F3A9();
 	// Unrowed 0x0057F5ED (447 bytes; refills its +0xA4 window), pinned by
 	// address.
-	void rva0057F5ED();
+	void OnGameInfoChange();
 	// Unrowed 0x0057FC75 (234 bytes; ret 0xC, its window messages), pinned
 	// by address.
 	bool rva0057FC75(unsigned int msg, unsigned int data1, unsigned int data2);

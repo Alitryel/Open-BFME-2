@@ -45,7 +45,7 @@ public:
 	virtual void s10();
 	virtual void s11();
 	virtual void s12();
-	virtual void rva00493EA7(Object *obj, int value, const BitFlags<11> *disabled);
+	virtual void ApplyPowerToObject(Object *obj, int value, const BitFlags<11> *disabled);
 protected:
 	const ModuleData *m_moduleData;	// +0x04
 	Object *m_object;		// +0x08
@@ -53,13 +53,13 @@ protected:
 class UntamedAllegianceSpecialPower : public SpecialPowerModule
 {
 public:
-	virtual void rva00493EA7(Object *obj, int value, const BitFlags<11> *disabled);
+	virtual void ApplyPowerToObject(Object *obj, int value, const BitFlags<11> *disabled);
 };
-void UntamedAllegianceSpecialPower::rva00493EA7(Object *obj, int value, const BitFlags<11> *disabled)
+void UntamedAllegianceSpecialPower::ApplyPowerToObject(Object *obj, int value, const BitFlags<11> *disabled)
 {
 	if (obj->testStatus(OBJECT_STATUS_39))
 		return;
-	SpecialPowerModule::rva00493EA7(obj, value, disabled);
+	SpecialPowerModule::ApplyPowerToObject(obj, value, disabled);
 	Object *self = m_object;
 	obj->rva00298979(self, false);
 	obj->rva002930A9(0);

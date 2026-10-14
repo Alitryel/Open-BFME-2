@@ -94,7 +94,7 @@ public:
 	virtual void stopSpecialPower();
 	void rva004C5E62();
 private:
-	void rva004C5BE3(int state);
+	void setPhase(int state);
 	int m_38; // +0x38
 	unsigned char m_pad3C[0x40 - 0x3C];
 	int m_40; // +0x40
@@ -121,7 +121,7 @@ void SiegeDeploySpecialPower::stopSpecialPower()
 	{
 	case 0:
 	case 1:
-		rva004C5BE3(0);
+		setPhase(0);
 		break;
 	case 2:
 	case 3:
@@ -134,6 +134,6 @@ void SiegeDeploySpecialPower::stopSpecialPower()
 void SiegeDeploySpecialPower::rva004C5E62()
 {
 	m_object->setStatus((ObjectStatusTypes)0x40, false);
-	rva004C5BE3(0);
+	setPhase(0);
 	m_40 &= 0;
 }

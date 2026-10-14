@@ -12,7 +12,7 @@
 // Native2E3442..2E34A9 RET12 proves the caller and its three input words.
 // A normal128-byte aggregate assignment gives retail's inline repMOVSD, while
 // a memcpy call adds a call boundary. No hand-built private calling convention.
-class RespawnUpdateModuleData {public: int calcCostToBuild(int); int rva004AF5AC(unsigned);};
+class RespawnUpdateModuleData {public: int calcCostToBuild(int); int calcTimeToBuild(unsigned);};
 class ModuleData {
 public:
 #define SLOT(n) virtual void slot##n();
@@ -103,7 +103,7 @@ static __declspec(noinline) UnitRevivalEntry CreateRevivalEntry(LivingWorldPlaye
    }
    *reinterpret_cast<const Image**>(entry.unknown00)=image;
    entry.cost=const_cast<RespawnUpdateModuleData*>(rules)->calcCostToBuild(entry.rank);
-   entry.time=const_cast<RespawnUpdateModuleData*>(rules)->rva004AF5AC(entry.rank);
+   entry.time=const_cast<RespawnUpdateModuleData*>(rules)->calcTimeToBuild(entry.rank);
   }
  }
  return entry;

@@ -73,7 +73,7 @@ class RespawnUpdateModuleData
 {
 public:
 	int calcCostToBuild(int key);
- int rva004AF5AC(unsigned level);
+ int calcTimeToBuild(unsigned level);
 	char m_pad[0x10C];
 	Rva004AF531TreeHeader m_map;
 	const Rva004AF531Tree &tree() const { return *reinterpret_cast<const Rva004AF531Tree *>(&m_map); }
@@ -100,7 +100,8 @@ int RespawnUpdateModuleData::calcCostToBuild(int key)
 // duration scale DBA4EC=0.005 and literal C556F0=30000 supply the miss.
 // Receiver original identity remains unknown; respawn-family relation
 // follows the shared tree at10C, rule layout and adjacent death handler.
-int RespawnUpdateModuleData::rva004AF5AC(unsigned level)
+// WorldBuilder RespawnUpdateModuleData::calcTimeToBuild, WB VA 0x0122C660 (callsite lead, score 2).
+int RespawnUpdateModuleData::calcTimeToBuild(unsigned level)
 {
  RespawnRule rule(level);
  RespawnRuleNode *found=(RespawnRuleNode *)tree()._M_find<unsigned int>(rule.level);

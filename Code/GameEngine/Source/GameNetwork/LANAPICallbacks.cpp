@@ -621,7 +621,7 @@ public:
 	BFME_VSLOT(20) BFME_VSLOT(21) BFME_VSLOT(22) BFME_VSLOT(23) BFME_VSLOT(24)
 	virtual void RequestGameOptions( AsciiString gameOptions, Bool isPublic,
 		const BfmeNetAddress &ip = NoAddress() ) = 0;
-	virtual void rva004497EC( Bool isPublic, BfmeNetAddress *ip ) = 0;
+	virtual void RequestGameOptionsPacked( Bool isPublic, BfmeNetAddress *ip ) = 0;
 	BFME_VSLOT(27) BFME_VSLOT(28) BFME_VSLOT(29)
 	BFME_VSLOT(30) BFME_VSLOT(31) BFME_VSLOT(32) BFME_VSLOT(33)
 	virtual void OnGameJoin( LANAPIInterface::ReturnType ret, LANGameInfo *theGame, LANMessage *msg );
@@ -746,7 +746,7 @@ void LANAPI::OnPlayerLeave( UnicodeString player )
 			BfmeNetAddress noAddress;
 			noAddress.m_ip = 0;
 			noAddress.m_port = 0;
-			rva004497EC( true, &noAddress );
+			RequestGameOptionsPacked( true, &noAddress );
 		}
 	}
 }
@@ -1266,7 +1266,7 @@ void LANAPI::rva0024A348( const BfmeNetAddress &sender, Int playerSlot, AsciiStr
 			BfmeNetAddress noAddress;
 			noAddress.m_ip = 0;
 			noAddress.m_port = 0;
-			rva004497EC( true, &noAddress );
+			RequestGameOptionsPacked( true, &noAddress );
 			Rva00248D84Enable();
 		}
 	}

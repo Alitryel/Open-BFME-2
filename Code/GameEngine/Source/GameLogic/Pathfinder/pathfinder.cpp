@@ -204,7 +204,7 @@ public:
   if(!m_pathInfo) { if(!TheMixFileInfoPool)Rva0052DBCDInit();m_pathInfo=(PathfinderGroundInfo *)Rva002E8B7AInit((MixFileInfoBuffer **)&TheMixFileInfoPool,(Int)this,pos); }
   else m_pathInfo->parentWaypoint=0;
  }
-	void rva0052DAE9(Bool open);
+	void SetOpen(Bool open);
 	unsigned short quickZone()const {return (unsigned short)word8;}
  Int getXIndex() const { return m_pathInfo->position.x; }
 	Int getYIndex() const { return m_pathInfo->position.y; }
@@ -799,7 +799,7 @@ Bool Pathfinder::IsGroundLineOnly(const Coord3D *startWorld,
 // receiver is Pathfinder+0x1D1F0 in the target body.
 void Pathfinder::AddToOpenList(PathfindCell *cell)
 {
-	((PathfindCell *)cell)->rva0052DAE9(true);
+	((PathfindCell *)cell)->SetOpen(true);
 	((Rva002F3738 *)((char *)this + 0x1d1f0))->rva002F3738((void **)&cell);
 }
 

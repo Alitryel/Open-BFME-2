@@ -11,7 +11,7 @@
 // independently corroborate the record layout. Campaign index10/array14 and
 // cost/time scalars44/48 are native facts; named scalar temporaries preserve
 // retail x87 conversions, and a named array fixes its pointer-load order.
-class RespawnUpdateModuleData {public: int calcCostToBuild(int); int rva004AF5AC(unsigned);};
+class RespawnUpdateModuleData {public: int calcCostToBuild(int); int calcTimeToBuild(unsigned);};
 class ModuleData {
 public:
 #define SLOT(n) virtual void slot##n();
@@ -49,7 +49,7 @@ static __declspec(noinline) void CalcRevivalCostsForEntry(UnitRevivalEntry &entr
   if(data->isRevival()) {
    const RespawnUpdateModuleData *rules=data->getRespawnData();
    entry.cost=const_cast<RespawnUpdateModuleData*>(rules)->calcCostToBuild(entry.rank);
-   entry.time=const_cast<RespawnUpdateModuleData*>(rules)->rva004AF5AC(entry.rank);
+   entry.time=const_cast<RespawnUpdateModuleData*>(rules)->calcTimeToBuild(entry.rank);
    break;
   }
  }

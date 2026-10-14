@@ -470,7 +470,7 @@ public:
 	BFME_VSLOT(17) BFME_VSLOT(18) BFME_VSLOT(19)
 	BFME_VSLOT(20) BFME_VSLOT(21) BFME_VSLOT(22) BFME_VSLOT(23) BFME_VSLOT(24)
 	BFME_VSLOT(25)
-	virtual void rva004497EC( Bool isPublic, BfmeNetAddress *ip );	// slot 26
+	virtual void RequestGameOptionsPacked( Bool isPublic, BfmeNetAddress *ip );	// slot 26
 	BFME_VSLOT(27) BFME_VSLOT(28) BFME_VSLOT(29)
 	BFME_VSLOT(30) BFME_VSLOT(31)
 	virtual void OnGameList( LANGameInfo *gameList );	// slot 32
@@ -661,7 +661,7 @@ void LANAPI::handleInActive( LANMessage *msg, const BfmeNetAddress *sender )
 	BfmeNetAddress noAddress;
 	noAddress.m_ip = 0;
 	noAddress.m_port = 0;
-	rva004497EC( true, &noAddress );
+	RequestGameOptionsPacked( true, &noAddress );
 	Rva00446A77Enable();
 }
 
@@ -849,7 +849,7 @@ void LANAPI::handleRequestGameLeave( LANMessage *msg, const BfmeNetAddress *send
 					OnPlayerLeave( UnicodeString( msg->name ) );
 					((GameSlot *)m_currentGame->rva00447773( player ))->setState( SLOT_OPEN, UnicodeString::TheEmptyString, NoConnectInfo().self() );
 					m_currentGame->resetAccepted();
-					rva004497EC( false, (BfmeNetAddress *)sender );
+					RequestGameOptionsPacked( false, (BfmeNetAddress *)sender );
 				}
 				break;
 			}
