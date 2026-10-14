@@ -16,14 +16,14 @@ public:
 
 // ?g_00DFF078@@3PAVImageCollection@@A: the global at this VA is ?TheMappedImageCollection@@3PAVImageCollection@@A; this name is an alias for it.
 extern class ImageCollection *TheMappedImageCollection;
-extern const char *g_00DBE9B0[];
+extern const char *g_rva0033A3F4Table[];
 
 const Image *__cdecl Rva00559B64GetImage(int side, int rank)
 {
 	char imageNameBuffer[256];
 	const Image *image;
 
-	sprintf(imageNameBuffer, "AptRankIcon%s%d", g_00DBE9B0[side], rank);
+	sprintf(imageNameBuffer, "AptRankIcon%s%d", g_rva0033A3F4Table[side], rank);
 	{
 		AsciiString imageName(imageNameBuffer);
 		image = TheMappedImageCollection->findImageByName(imageName);
@@ -35,7 +35,3 @@ const Image *__cdecl Rva00559B64GetImage(int side, int rank)
 	}
 	return image;
 }
-
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?g_00DBE9B0@@3PAPBDA=?g_rva0033A3F4Table@@3PAPBDA")

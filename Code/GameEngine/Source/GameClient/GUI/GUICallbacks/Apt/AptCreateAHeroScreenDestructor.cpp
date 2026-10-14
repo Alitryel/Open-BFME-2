@@ -92,7 +92,7 @@ public:
 	bool m_184;
 };
 extern CreateAHeroManager *TheCreateAHeroManager;
-extern unsigned char g_Va00DFD944;
+extern bool skipCinematicSubsystemExclusions; // VA 0x00DFD944
 
 class AptCreateAHero;
 
@@ -133,7 +133,7 @@ AptCreateAHero::~AptCreateAHero()
 		TheGlobalDataView->m_9A5 = true;
 		TheGlobalDataView->m_9BD = m_42c;
 		TheGlobalDataView->m_D45 = m_42d;
-		g_Va00DFD944 = m_42d;
+		skipCinematicSubsystemExclusions = m_42d;
 		TheCreateAHeroManager->rva0021F5F8();
 		TheCreateAHeroManager->m_184 = false;
 		s_instance = 0;

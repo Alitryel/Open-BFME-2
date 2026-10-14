@@ -65,12 +65,12 @@ extern GameWindowManager *TheWindowManager;
 
 extern __int64 g_bfmeVM0Quotient;
 extern double g_bfmeVM0Scale;
-extern __int64 g_00DFE9E8;
-extern __int64 g_00DFE9F0;
-extern __int64 g_00DFEA00;
-extern double g_00DFEA08;
-extern Int g_00DFEA18;
-extern Bool g_00DFE9D4;
+extern __int64 MovieFramePrevious;
+extern __int64 MovieFrameCurrent;
+extern __int64 MovieFrameElapsed;
+extern double MovieFrameSum;
+extern Int MovieFrameCount;
+extern Bool MovieFrameTrace;
 
 class VideoStreamInterface
 {
@@ -154,10 +154,10 @@ UnsignedInt Display::rva0025CF2A(Int force)
 			Sleep(10);
 			return 0;
 		}
-		g_00DFEA00 = g_00DFE9F0 - g_00DFE9E8;
-		if (g_00DFEA00 > g_bfmeVM0Quotient)
+		MovieFrameElapsed = MovieFrameCurrent - MovieFramePrevious;
+		if (MovieFrameElapsed > g_bfmeVM0Quotient)
 			sprintf(text, "%d", m_videoStream->frameIndex());
-		g_00DFE9E8 = g_00DFE9F0;
+		MovieFramePrevious = MovieFrameCurrent;
 		if (m_videoStream->isFrameReady(m_movieFlags))
 		{
 			if (!rva0025CC7A(false))
@@ -179,15 +179,15 @@ UnsignedInt Display::rva0025CF2A(Int force)
 					render(false);
 					BFME_DX8_Thread_Assert();
 					setFPMode();
-					if (g_00DFE9D4)
+					if (MovieFrameTrace)
 					{
-						g_00DFEA08 += (double)(g_00DFE9F0 - g_00DFE9E8);
-						if (g_00DFEA18++ > 30)
+						MovieFrameSum += (double)(MovieFrameCurrent - MovieFramePrevious);
+						if (MovieFrameCount++ > 30)
 						{
-							sprintf(trace, "Avg frame time %4.4f\n", g_bfmeVM0Scale * g_00DFEA08);
+							sprintf(trace, "Avg frame time %4.4f\n", g_bfmeVM0Scale * MovieFrameSum);
 							OutputDebugStringA(trace);
-							g_00DFEA08 = 0.0;
-							g_00DFEA18 = 0;
+							MovieFrameSum = 0.0;
+							MovieFrameCount = 0;
 						}
 					}
 				}
