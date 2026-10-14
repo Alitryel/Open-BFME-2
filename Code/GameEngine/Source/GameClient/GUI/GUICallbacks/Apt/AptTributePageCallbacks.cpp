@@ -99,10 +99,12 @@ struct TreeHintRef0051030C
 			++m_ptr->references;
 	}
 	TreeHintRef0051030C &operator=(const TreeHintRef0051030C &other);
+	// The second read is kept apart from the null test (retail: cmp [page],0
+	// then a reload for the release call).
 	__forceinline ~TreeHintRef0051030C()
 	{
 		if (m_ptr)
-			ReleaseTreeHintRef00217D4C(m_ptr);
+			ReleaseTreeHintRef00217D4C(*(TargetRef00217D4C *volatile *)&m_ptr);
 	}
 };
 
@@ -272,12 +274,12 @@ namespace AptUtils { const char *__cdecl SkipLevelN(const char *path); }
 bool __cdecl Rva004128F0GetParam(const char *params, const char *key, AsciiString &value);
 namespace AptUtils { int __cdecl LevelIndexFromTarget(const char *path); }
 
-class RvaMapView
+// map::operator[] stays the out-of-line instance retail calls (rowed 0x00511087):
+// a declaration-only explicit specialization suppresses this unit's inline copy.
+namespace _STL
 {
-public:
-	TreeHintRef0051030C &operator[](const AsciiString &key);
-};
-#pragma comment(linker, "/alternatename:??ARvaMapView@@QAEAAUTreeHintRef0051030C@@ABVAsciiString@@@Z=??A?$map@VAsciiString@@UTreeHintRef0051030C@@U?$less@VAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@UTreeHintRef0051030C@@@_STL@@@4@@_STL@@QAEAAUTreeHintRef0051030C@@ABVAsciiString@@@Z")
+template <> Rva00510D0C::PageMap::mapped_type &Rva00510D0C::PageMap::operator[](const AsciiString &key);
+}
 
 static TreeHintRef0051030C Rva00510D98CreatePage(const AsciiString &type, int level, const AsciiString &name)
 {
@@ -288,7 +290,18 @@ static TreeHintRef0051030C Rva00510D98CreatePage(const AsciiString &type, int le
 	return TreeHintRef0051030C();
 }
 
-// ?OnPageLoaded@Rva00510D0C@@QAEXPBD@Z present-unmatched
+// The page references' assignment is the ICF-folded 43-byte counted-pointer
+// assignment 0x002174A4, rowed under the Apt handle templates; the call is
+// spelled through that rowed twin (no new name for the address).
+class AptCommandMap;
+template <class T> class AptRef
+{
+public:
+	AptRef &operator=(const AptRef &other);
+	void *m_ptr;
+};
+typedef AptRef<AptCommandMap> TreeHintRefAssignTwin;
+
 void Rva00510D0C::OnPageLoaded(const char *params)
 {
 	AsciiString name;
@@ -302,7 +315,7 @@ void Rva00510D0C::OnPageLoaded(const char *params)
 		{
 			TreeHintRef0051030C page = Rva00510D98CreatePage(type, level, name);
 			if (page.m_ptr)
-				(*(RvaMapView *)&m_pages)[name] = page;
+				reinterpret_cast<TreeHintRefAssignTwin &>(m_pages[name]) = reinterpret_cast<const TreeHintRefAssignTwin &>(page);
 		}
 	}
 }
