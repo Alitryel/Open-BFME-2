@@ -441,3 +441,17 @@ unsigned char *Rva002226DAStore(unsigned char *target, unsigned char value)
 	*target = value;
 	return target;
 }
+
+// --- 0x0023527F (15B): sets the six floats at +0 to 1.0 (a rep stosd fill).
+class Rva0023527FScales
+{
+public:
+	void rva0023527F();
+private:
+	float m_values[6];
+};
+void Rva0023527FScales::rva0023527F()
+{
+	for (int i = 0; i < 6; ++i)
+		m_values[i] = 1.0f;
+}

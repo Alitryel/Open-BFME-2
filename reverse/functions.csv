@@ -89290,3 +89290,4 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva0033A430@Rva0033A430@@QAEPAHH@Z,,0x0033A430,6,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Native6 gap leaf 33A430: RET4 address of +4 with unused argument; owner unresolved
 ??0Rva0033A501@@QAE@XZ,,0x0033A501,6,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Native6 gap leaf 33A501: ctor setting +0 to -1; owner unresolved
 ?Rva002226DAStore@@YAPAEPAEE@Z,,0x002226DA,11,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Native11 2226DA..2226E5 cdecl stores the byte argument through the pointer argument and leaves the pointer in EAX; owner unresolved
+?rva0023527F@Rva0023527FScales@@QAEXXZ,,0x0023527F,15,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Native15 23527F..23528E sets six floats at +0 to 1.0 via rep stosd; owner unresolved
