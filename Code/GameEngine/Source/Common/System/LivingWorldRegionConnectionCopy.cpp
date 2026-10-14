@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /Ireference/shims/moduledata /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /Ireference/shims/moduledata /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 //
 // LivingWorldRegionConnection copy ctor.
@@ -10,6 +10,10 @@
 // helper. Two EH states (string, then vector) exactly as retail. Serves
 // the vector push/grow path (0x003F309A/0x003F2B0B) which builds new
 // elements through the 0x003F2980 construct helper below.
+//
+// The vector<BfmeE8> helpers this unit emits use retail's raw allocator
+// (bfmealloc: deallocate is a direct _free at 0x00030830), as every other
+// BfmeE8 unit's copies and the rowed copy constructor at 0x004334D7 do.
 
 #include <vector>
 
