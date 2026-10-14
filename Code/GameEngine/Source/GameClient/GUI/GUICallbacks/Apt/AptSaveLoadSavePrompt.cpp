@@ -49,7 +49,7 @@ extern GameTextInterface *TheGameText;
 class __multiple_inheritance FunctorTarget;
 typedef void (FunctorTarget::*FunctorMethod)();
 class AptSaveLoad {public:
-	static AptSaveLoad *s_instance;void rva00433D71(int);void rva00435224();};
+	static AptSaveLoad *s_instance;void rva00433D71(int);void rva00435224();int rva00437053();void rva00434432();void rva00436FF6();void rva00435819();};
 class Rva00434337 {public:void rva00434337(int);};
 struct FunctorBinding { FunctorBinding(){}
  template<class T> FunctorBinding(T*t,void(T::*f)(int)):m_target(reinterpret_cast<FunctorTarget*>(t)),m_method(reinterpret_cast<FunctorMethod>(f)){}
@@ -219,4 +219,89 @@ void AptSaveLoad::rva00435224()
 		}
 	}
 	((AptSaveLoadPromptScreen *)this)->m_state = 4;
+}
+
+// Retail 0x00437053 (813 B), the save/load screen's per-frame state step: states
+// 1 and 2 run their handlers and reset, 14..17 disable the three lists and show
+// the Load/Save/Delete/ReplayVersionMismatch box, 3 closes, 4 and 5 open the
+// "saving" prompt with the confirmation callback 0x00434337, 7 and 13 run theirs.
+class GameWindow { public: int winEnable(bool enable); };
+class Rva00222A8BTarget { public: int invoke(void *owner, const char *function, int argc, const char *a0, void *a1, void *a2, void *a3, void *a4); };
+extern Rva00222A8BTarget *TheRva00222A8BTarget;
+class AptPlayer { public: static int GetLevelIndex(GameWindow *window); };
+struct AptSaveLoadWindowsView
+{
+	unsigned char m_pad000[0x27C];
+	int m_state;
+	unsigned char m_pad280[0x288 - 0x280];
+	GameWindow *m_gameList;
+	GameWindow *m_autoSaveList;
+	GameWindow *m_fileName;
+};
+int AptSaveLoad::rva00437053()
+{
+	AptSaveLoadWindowsView *v = (AptSaveLoadWindowsView *)this;
+	if (v->m_state == 1)
+	{
+		rva00434432();
+		v->m_state = 0;
+	}
+	else if (v->m_state == 2)
+	{
+		rva00436FF6();
+		v->m_state = 0;
+	}
+	else if (v->m_state == 14 || v->m_state == 15 || v->m_state == 16 || v->m_state == 17)
+	{
+		if (v->m_fileName)
+			v->m_fileName->winEnable(0);
+		if (v->m_gameList)
+			v->m_gameList->winEnable(0);
+		if (v->m_autoSaveList)
+			v->m_autoSaveList->winEnable(0);
+		if (v->m_state == 14)
+		{
+			TheRva00222A8BTarget->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Load", 0, 0, 0, 0);
+			v->m_state = 18;
+		}
+		else if (v->m_state == 15)
+		{
+			TheRva00222A8BTarget->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Save", 0, 0, 0, 0);
+			v->m_state = 19;
+		}
+		else if (v->m_state == 16)
+		{
+			TheRva00222A8BTarget->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Delete", 0, 0, 0, 0);
+			v->m_state = 20;
+		}
+		else if (v->m_state == 17)
+		{
+			TheRva00222A8BTarget->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "ReplayVersionMismatch", 0, 0, 0, 0);
+			v->m_state = 21;
+		}
+	}
+	else if (v->m_state == 3)
+	{
+		TheRva00222A8BTarget->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "closeDelayed", 1, "OnClosed", 0, 0, 0, 0);
+		v->m_state = 6;
+	}
+	else if (v->m_state == 4)
+	{
+		Rva00437FB3(4, TheGameText->fetch("APT:SaveGameProgress", 0), TheGameText->fetch("APT:SavingWait", 0),
+			ScopedFunctor(),
+			ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(this), reinterpret_cast<FunctorMethod>(&Rva00434337::rva00434337))));
+		v->m_state = 8;
+	}
+	else if (v->m_state == 7)
+		rva00435819();
+	else if (v->m_state == 5)
+	{
+		Rva00437FB3(4, TheGameText->fetch("APT:SaveGameProgress", 0), TheGameText->fetch("APT:SavingWaitOnMultiplayer", 0),
+			ScopedFunctor(),
+			ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(this), reinterpret_cast<FunctorMethod>(&Rva00434337::rva00434337))));
+		v->m_state = 11;
+	}
+	else if (v->m_state == 13)
+		Rva00434EFA();
+	return 1;
 }
