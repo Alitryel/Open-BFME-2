@@ -12,8 +12,9 @@
 // Layout (target evidence): the ctor installs vtable 0x00BF4228, whose slot 0
 // is the deleting dtor 0x00257C6C chaining into the dtor 0x00257C88 (vector at
 // +0x08 through vector<BfmeStringHeadRecord160> dtor 0x00257583, Snapshot base
-// vtable 0x00BBB554). That dtor pair is currently rowed under the
-// StructureToppleUpdateModuleData name.
+// vtable 0x00BBB554). The dtor pair is rowed here under this class (it was
+// rowed as StructureToppleUpdateModuleData); the deleting dtor 0x00257C6C is
+// emitted by this unit's vtable.
 // Shape: identical skeleton to ModelConditionAudioLoopClientBehaviorModuleData
 // (0x004CC20A): Snapshot-rooted class, untouched dword at +4, vector default
 // constructed through the folded Vector_base 0x00211E58 (allocator temporary

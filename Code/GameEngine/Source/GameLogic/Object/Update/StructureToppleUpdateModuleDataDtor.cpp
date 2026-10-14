@@ -1,26 +1,77 @@
-// cl: /GX /DNDEBUG /MD /D_STLP_USE_MALLOC
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
-// ??1StructureToppleUpdateModuleData@@UAE@XZ @0x00257C88 48B
-// ModuleData dtor: tears down the vector at +0x08 through the rowed
-// vector<BfmeStringHeadRecord160> dtor at 0x00257583, then restores the
-// Snapshot base vtable 0x00BBB554. Empty derived body with EH state 0
-// (EH prolog 0xB71C4A, no base call since Snapshot dtor is inline).
-// Evidence: unlock lane; caller is slot-0 ??_G at 0x00257C6C;
-// layout via prev friend_new (same class) plus member via 0x00257583.
+//
+// ??1StructureToppleUpdateModuleData@@UAE@XZ, retail 0x00257B7A, 109 bytes.
+// StructureTopple data dtor: slot-0 deleting dtor 0x00257B5E of vtable
+// 0x00BF43A8 (installed by the rowed ctor 0x00257A5E, 0xBC bytes, news in the
+// rowed data factory 0x00257BE7) calls it. It was pinned as
+// StructureCollapseUpdateModuleData (and 0x00257B5E rowed as its ??_G), but the
+// Collapse dtor is 0x00256B94 (vtable 0xBF3E30); the Topple ctor's layout is
+// exactly what this dtor tears down.
+//
+// Layout (from the ctor TU StructureToppleUpdateModuleDataCtor.cpp): DieMux
+// +0x08, AsciiString +0x64, three 12-byte vectors +0x70 through the eh vector
+// destructor iterator 0x00629110 (element dtor 0x0047FAB3), vector<FXBoneInfo>
+// +0xA0 through the rowed vector dtor 0x00257544, and vector<AngleFXInfo>
+// +0xAC whose POD range-destroy is empty so only the buffer free (0x00030830)
+// remains. Empty body: the four member destroys in reverse order (EH states
+// 3..0) and the Snapshot base restore (0x00BBB554) are compiler-generated.
+//
+// /EHs (not /EHsc) is what keeps the buffer free a throwing call, which gives
+// the angle vector its own unwind state (3); under /EHsc its state merges
+// with the next one and the first store is 2.
 #include <vector>
-struct BfmeStringHeadRecord160 { public: ~BfmeStringHeadRecord160(); };
-class Xfer;
-#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+#include "ascii_string.h"
+#include "Common/Snapshot.h"
+
+class ObjectCreationList;
+
+// The 8-byte bone element; the vector dtor row 0x00257544 is spelled by this
+// element name (see StlportVectorDtorFamily.cpp).
+struct RvaPair00257544
+{
+	AsciiString m_boneName;
+	const void *m_particleSystemTemplate;
+};
+
+struct AngleFXInfo
+{
+	float m_angle;
+	const void *m_fxList;
+};
+
+struct DieMuxData
+{
+	unsigned char m_data[0x30];
+};
+
+namespace _STL
+{
+// Declared-only so the call stays external to the rowed body.
+template <>
+vector<RvaPair00257544, allocator<RvaPair00257544> >::~vector();
+}
+
 class __declspec(novtable) StructureToppleUpdateModuleData : public Snapshot
 {
 public:
 	virtual ~StructureToppleUpdateModuleData();
+
 private:
-	int m_unused04;
-	_STL::vector<BfmeStringHeadRecord160, _STL::allocator<BfmeStringHeadRecord160> > m_vec08;
+	int m_unused04; // +4
+	DieMuxData m_dieMuxData; // +0x08
+	int m_scalars[11]; // +0x38..+0x63
+	AsciiString m_crushingWeaponName; // +0x64
+	int m_burstDelays[2]; // +0x68
+	_STL::vector<const ObjectCreationList *> m_ocls[3]; // +0x70
+	int m_oclCount[3]; // +0x94
+	_STL::vector<RvaPair00257544> m_fxbones; // +0xA0
+	_STL::vector<AngleFXInfo> m_angleFX; // +0xAC
+	float m_unkB8; // +0xB8
 };
-// Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
-// the anchor keeps the noinline body emitted.
+
+// Select-any like every other TU's copy of the class; the anchor keeps this
+// unit's out-of-line body.
 __declspec(noinline) inline StructureToppleUpdateModuleData::~StructureToppleUpdateModuleData()
 {
 }
