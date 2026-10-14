@@ -291,7 +291,7 @@ struct AIBuilderOrderNode
     AIBuilderOrder *order;
 };
 class AIBuilder {
-public: ~AIBuilder(); void DoXfer(Xfer*); void moneySaverUpdate(); void rva004ECA01();
+public: ~AIBuilder(); void DoXfer(Xfer*); void moneySaverUpdate(); void checkForNewUpgrades();
     _STL::vector<unsigned>rva004EC66A(float);
     void rva004EC700();
     void unRegisterProducedObject(Object *);
@@ -432,7 +432,7 @@ void AIBuilder::rva004EC51F()
 // template bit 0x4, object byte +0x94 bit 0, and flags +0x438 bit 0 before the
 // two rowed manager calls. The helper name and the meaning of object byte +0x94
 // remain unresolved.
-void AIBuilder::rva004ECA01()
+void AIBuilder::checkForNewUpgrades()
 {
     bool enabled = owner00->rva002AB87D(
         TheUpgradeCenter->findUpgrade(AsciiString("Upgrade_RingHero")));

@@ -397,8 +397,8 @@ case ((GameMessage::Type)1041):
             Object *inWay=TheGameLogic->findObjectByID(msg->getArgument(2)->objectID);
             unsigned options=msg->getArgument(3)->integer;
             Object *source=TheGameLogic->findObjectByID(msg->getArgument(4)->objectID);
-            if(source) { AIGroup *group=TheAI->createGroup();group->add(source);group->rva0036DA02(id,&target,inWay,options,2);TheAI->destroyGroup(group); }
-            else if(currentlySelectedGroup) { TheAiOrdersManager->rva00355358(3,currentlySelectedGroup);currentlySelectedGroup->rva0036DA02(id,&target,inWay,options,0); }
+            if(source) { AIGroup *group=TheAI->createGroup();group->add(source);group->groupDoSpecialPowerAtLocation(id,&target,inWay,options,2);TheAI->destroyGroup(group); }
+            else if(currentlySelectedGroup) { TheAiOrdersManager->rva00355358(3,currentlySelectedGroup);currentlySelectedGroup->groupDoSpecialPowerAtLocation(id,&target,inWay,options,0); }
             break;
         }
 
@@ -414,12 +414,12 @@ case ((GameMessage::Type)1041):
             if((int)target->getID()>=0x5f5e0fc && (int)target->getID()<=0x5f5e0ff) {{const Coord3D *coordSource21=&msg->getArgument(4)->location; pos.x=coordSource21->x; pos.y=coordSource21->y; pos.z=coordSource21->z;}usePos=true;}
             if(source) {
                 AIGroup *group=TheAI->createGroup();group->add(source);
-                if(usePos) group->rva0036DA02(id,&pos,target,options,0);
+                if(usePos) group->groupDoSpecialPowerAtLocation(id,&pos,target,options,0);
                 else group->groupDoSpecialPowerAtObject(id,target,options,(CommandSourceType)0);
                 TheAI->destroyGroup(group);
             } else if(currentlySelectedGroup) {
                 TheAiOrdersManager->rva00355358(3,currentlySelectedGroup);
-                if(usePos) currentlySelectedGroup->rva0036DA02(id,&pos,target,options,0);
+                if(usePos) currentlySelectedGroup->groupDoSpecialPowerAtLocation(id,&pos,target,options,0);
                 else currentlySelectedGroup->groupDoSpecialPowerAtObject(id,target,options,(CommandSourceType)0);
             }
             break;

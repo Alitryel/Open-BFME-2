@@ -670,7 +670,7 @@ void logicMessageDispatcher(GameMessage*,void*);
 	UnsignedInt rva002B77F7();
 	Int rva002B783C(LivingWorldArmy *army, Rva003F287F *from, Rva003F287F *to, Coord2D *direction);
 	void rva002B5AF7();
- void rva002BD9B4();
+ void update();
  void rva002B768F();
  Bool rva002B3484(Parent0057605D*);
  Bool rva002B3416(Parent00575EEA*);
@@ -2957,7 +2957,7 @@ void LivingWorldLogic::rva002B676D(){
  }
 }
 
-void LivingWorldLogic::rva002BD9B4(){
+void LivingWorldLogic::update(){
  if(!m_padB4[0])return;
  if(TheShell)((LWUpdateShellDispatch*)TheShell)->f28();
  if(TheGameLogic->isGamePaused())return;

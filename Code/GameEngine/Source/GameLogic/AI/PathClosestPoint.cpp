@@ -11,8 +11,8 @@ class Pathfinder {public:void SetDebugPathPosition(const Coord3D*);};
 class AI;extern AI *TheAI;
 struct PathAIView {char unknown[0x10];Pathfinder *pathfinder;};
 class PathNode {public:PathNode *next,*previous,*nextOptimized;Coord3D position;int layer;bool canOptimize;int waypointID;};
-class Path {public:bool rva00363930(const Coord3D*,bool);private:void *unknown;PathNode *path,*tail;bool optimized;char pad[3];PathNode *selected;float fraction;};
-bool Path::rva00363930(const Coord3D *position,bool useOptimized) {
+class Path {public:bool DoAdvanceAlongPath(const Coord3D*,bool);private:void *unknown;PathNode *path,*tail;bool optimized;char pad[3];PathNode *selected;float fraction;};
+bool Path::DoAdvanceAlongPath(const Coord3D *position,bool useOptimized) {
  if(!path)return false;
  PathNode *bestNode=0;
  if(!selected)selected=path;

@@ -149,7 +149,7 @@ class Path
  Rva003642DFResult rva00364521(const Rva0008BB38FloatField *arg);
  void AdvancePastPortal(ScienceType st, _STL::vector<ScienceType, _STL::allocator<ScienceType> > *vec);
  Rva003642DFResult rva003642DF(Real dist);
- bool rva00363930(Coord3D *pos, bool flag);
+ bool DoAdvanceAlongPath(Coord3D *pos, bool flag);
  int GetNextPortalID();
  
 }
@@ -839,7 +839,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
       return;
       result = path->rva003642DF(((Rva001E46E1 *)this)->rva001E46E1(obj) * 3.0f);
       m_transform.setTranslation(&result.m_pos);
-      path->rva00363930(&result.m_pos, true);
+      path->DoAdvanceAlongPath(&result.m_pos, true);
       m_9A = 1;
       hordeContain->slot117(&goal, lastID);
       return;

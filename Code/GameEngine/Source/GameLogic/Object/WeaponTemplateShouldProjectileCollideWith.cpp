@@ -246,11 +246,11 @@ class Rva002C9B80Owner
 {
   public:
     float rva002C9B80(void *, float);
-    bool isWithinAttackRange(Object *, const Coord3D *, Object *, const Coord3D *, float, bool);
 };
 class Weapon
 {
   public:
+    bool isWithinAttackRange(Object *, const Coord3D *, Object *, const Coord3D *, float, bool); // 0x002CB35C
     char pad[0x30];
     unsigned fxUntil;
     char pad34[0x50 - 0x34];
@@ -674,8 +674,7 @@ void WeaponTemplate::rva002CBBF5(Object *source, int wordC, int barrel, int word
         float range =
             ((Rva002C9B80Owner *)weapon)->rva002C9B80(source, position->z - source->pos.z);
         if (distance > range * range &&
-            !((Rva002C9B80Owner *)weapon)
-                 ->isWithinAttackRange(source, sourcePos, victim, position, 0.f, true))
+            !weapon->isWithinAttackRange(source, sourcePos, victim, position, 0.f, true))
             return;
         float minimum = getMinimumAttackRange();
         if (distance < minimum * minimum)

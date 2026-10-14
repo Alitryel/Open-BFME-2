@@ -77,7 +77,7 @@ protected:
 	bool read_textures(ChunkLoadClass &cload, MeshLoadContextClass *context);
 	bool read_material_pass(ChunkLoadClass &cload, MeshLoadContextClass *context);
 	bool read_prelit_material(ChunkLoadClass &cload, MeshLoadContextClass *context);
-	bool read_Rva0018AF70(ChunkLoadClass &cload, MeshLoadContextClass *context);
+	bool read_fx_shaders(ChunkLoadClass &cload, MeshLoadContextClass *context);
 
 private:
 	char m_pad0[0x94 - 4];
@@ -141,7 +141,7 @@ bool MeshModelClass::read_chunks(ChunkLoadClass &cload, MeshLoadContextClass *co
 			error = read_vertex_materials(cload, context);
 			break;
 		case 0x50:
-			error = read_Rva0018AF70(cload, context);
+			error = read_fx_shaders(cload, context);
 			break;
 		case 0x30:
 			error = read_textures(cload, context);

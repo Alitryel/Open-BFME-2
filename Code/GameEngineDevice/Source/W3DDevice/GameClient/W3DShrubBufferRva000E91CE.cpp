@@ -97,7 +97,7 @@ class W3DShrubBuffer
 public:
 	int addTreeType(const AsciiString &, const AsciiString &, const void *, int, const AsciiString &, const AsciiString &);
 	int rva000E8F9D(const AsciiString &, int, const AsciiString &);
-	void rva000E91CE(unsigned int id, Coord3D location, float scale, const Matrix3D *transform, float randomScaleAmount,
+	void addShrub(unsigned int id, Coord3D location, float scale, const Matrix3D *transform, float randomScaleAmount,
 		const Rva000E91CEData *data, int shadowKind, const AsciiString &textureName, const AsciiString &nameD);
 	int getPartitionBucket(const FloatPair *location);
 
@@ -120,8 +120,8 @@ private:
 	int numTypes;
 };
 
-// ?rva000E91CE@W3DShrubBuffer@@QAEXIUCoord3D@@MPBVMatrix3D@@MPBURva000E91CEData@@HABVAsciiString@@3@Z
-void W3DShrubBuffer::rva000E91CE(unsigned int id, Coord3D location, float scale, const Matrix3D *transform,
+// ?addShrub@W3DShrubBuffer@@QAEXIUCoord3D@@MPBVMatrix3D@@MPBURva000E91CEData@@HABVAsciiString@@3@Z
+void W3DShrubBuffer::addShrub(unsigned int id, Coord3D location, float scale, const Matrix3D *transform,
 	float randomScaleAmount, const Rva000E91CEData *data, int shadowKind, const AsciiString &textureName,
 	const AsciiString &nameD)
 {

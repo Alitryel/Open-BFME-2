@@ -653,7 +653,7 @@ class Rva0046BB38Iface6 : public Rva0046BB38Slots<0>
 {
 public:
 	virtual void rva00472329(const Coord3D *pos, int unused) = 0;
-	virtual void gap1() = 0; virtual void rva00472235() = 0; virtual void rva0046E253() = 0; virtual void rva00472790(int a1) = 0; virtual void gap5() = 0;
+	virtual void gap1() = 0; virtual void rva00472235() = 0; virtual void rva0046E253() = 0; virtual void returnToFormation(int a1) = 0; virtual void gap5() = 0;
 	virtual bool rva0046BB38(Object *other) = 0;
 	virtual Coord3D slot7(Object *obj, float *angle) = 0;
 	virtual void rva0046F7C9(Object *obj) = 0;

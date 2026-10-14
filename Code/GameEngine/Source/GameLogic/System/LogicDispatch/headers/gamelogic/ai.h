@@ -769,7 +769,7 @@ bool rva0036CFE5(const Player *);
 void groupOneRing();
 void rva00370554(Object *,CommandSourceType); void rva00372571(struct Rva00372571Params *,int);
 bool rva0036D869(unsigned int,unsigned int,int);
-bool rva0036DA02(unsigned int,const Coord3D *,const Object *,unsigned int,int);
+bool groupDoSpecialPowerAtLocation(unsigned int,const Coord3D *,const Object *,unsigned int,int);
 void rva0036DBBA(int,int,unsigned int);
 void rva0036D805(int); void rva0036D837(int); void groupHarvest(const Coord3D *,CommandSourceType);
 void rva0036DC6F(int,int);

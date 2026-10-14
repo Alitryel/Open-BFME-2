@@ -168,7 +168,7 @@ public:
     Script();
     Script(const Script &other);
     Script *duplicate() const;
-    bool Rva003B79F1(DataChunkInput &file, unsigned short version);
+    bool parse(DataChunkInput &file, unsigned short version);
 protected:
     virtual ~Script();
     virtual void loadPostProcess();
@@ -188,7 +188,7 @@ private:
     float m_conditionTime, m_currentTime;
     int m_conditionExecutedCount;
 };
-bool Script::Rva003B79F1(DataChunkInput &file, unsigned short version)
+bool Script::parse(DataChunkInput &file, unsigned short version)
 {
     m_text0 = file.readAsciiString();
     m_text1 = file.readAsciiString();

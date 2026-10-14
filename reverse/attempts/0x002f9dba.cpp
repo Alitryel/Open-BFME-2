@@ -568,7 +568,7 @@ public:
     int GetOverlapGoalUnits(Object *,const Coord3D *,int *);
     int CountOverlapHordeGoalUnits(Object *,const Coord3D *);
     int _GetAdjacentUnits(Object *,const Coord3D *,int *);
-    Bool rva002E9BE5(const Coord3D *,const Coord3D *,float,unsigned,Coord3D *);
+    Bool CircleClipsTallBuilding(const Coord3D *,const Coord3D *,float,unsigned,Coord3D *);
     Bool rva002F3392(PathNode *,PathNode *,unsigned,Coord3D *,Coord3D *,Coord3D *);
     void SetDebugPath(Rva002EDEABArg *);
 	Bool rva002EAE5F(const ICoord2D *,Int,ICoord2D *,void *);

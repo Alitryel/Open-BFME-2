@@ -26,7 +26,7 @@ class Path
 {
 public:
 	~Path();
-	bool rva00363930(const Coord3D *position, bool stopAtPortal);
+	bool DoAdvanceAlongPath(const Coord3D *position, bool stopAtPortal);
 	void SpliceAndPrepend(Rva00263404Product *product);
 private:
 	void *m_unknown00;
@@ -49,7 +49,7 @@ void Path::SpliceAndPrepend(Rva00263404Product *product)
 		delete other;
 		return;
 	}
-	if (!rva00363930(&otherTail->m_position, false)) {
+	if (!DoAdvanceAlongPath(&otherTail->m_position, false)) {
 		delete other;
 		return;
 	}

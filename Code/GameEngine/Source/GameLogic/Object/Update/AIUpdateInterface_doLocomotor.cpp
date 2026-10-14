@@ -292,7 +292,7 @@ class Path
 public:
 	~Path();
 	Rva003642DFResult rva00364521(const Rva0008BB38FloatField *locomotor);
-	Bool rva00363930(Coord3D *pos, Bool arg2);
+	Bool DoAdvanceAlongPath(const Coord3D *pos, Bool arg2);
 	Int GetNextPortalID();
 	void AdvancePastPortal(ScienceType id, _STL::vector<ScienceType> *portals);
 };
@@ -496,7 +496,7 @@ UpdateSleepTime AIUpdateInterface::doLocomotor()
 						Rva003642DFResult info = m_path->rva00364521((const Rva0008BB38FloatField *)m_curLocomotor);
 						m_curLocomotor->rva001E9083(obj, &info.m_pos,
 							getPathExtraDistance() + ((Rva00363D20 *)&info)->rva00363D20(), speed);
-						m_path->rva00363930(obj->getPositionForUpdate(), true);
+						m_path->DoAdvanceAlongPath(obj->getPositionForUpdate(), true);
 					}
 					obj->rva0028B525(TheTerrainLogic->getLayerForDestination(obj, obj->getPosition()));
 					m_doFinalPosition = false;
@@ -681,7 +681,7 @@ UpdateSleepTime AIUpdateInterface::doLocomotor()
 								break;
 						}
 						obj->rva0028B525(((Rva001E34FA *)&next)->rva001E34FA());
-						m_path->rva00363930(obj->getPositionForUpdate(), true);
+						m_path->DoAdvanceAlongPath(obj->getPositionForUpdate(), true);
 					}
 					else
 					{

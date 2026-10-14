@@ -252,7 +252,7 @@ StrategicInGameUI::PlanningPhaseBuildingSelection::PlanningPhaseBuildingSelectio
 }
 
 // ---------------------------------------------------------------------------
-// ControlBar::rva0053D355 (retail 0x0053D355, 1790 B; WB 1117000 ControlBar::populateCommand).
+// ControlBar::populateCommand (retail 0x0053D355, 1790 B; WB 1117000 ControlBar::populateCommand).
 // Hosted here because it builds its range payload with the rowed ICoord2D(int,int)
 // ctor (0x0007E523), and this unit already carries the one ICoord2D view that
 // declares it (class_gate refuses a second private ICoord2D body in a new unit).
@@ -544,7 +544,7 @@ extern ControlBar *TheControlBar;
 class ControlBar {
 public:
     protected: void updateContextCommand(); public:
-    void rva0053D355(Object *,bool);
+    void populateCommand(Object *,bool);
     void rva0053BB16(Object *,CommandSet *);
     void setControlCommand(GameWindow *,const CommandButton *);
     const CommandButton *findCommandButton(const AsciiString &);
@@ -563,7 +563,7 @@ private:
 // Complete named WB1117000/ControlBarCommand.cpp391..579 and clean BFME1
 // ba7ddda7 populateCommand guide the workflow. Native53D355..53DA531790
 // independently establishes the target ranges, two revival passes and offsets.
-void ControlBar::rva0053D355(Object *obj,bool refresh)
+void ControlBar::populateCommand(Object *obj,bool refresh)
 {
     Player *player=obj->getControllingPlayer();
     ((Rva0053B914 *)this)->rva0053B914();

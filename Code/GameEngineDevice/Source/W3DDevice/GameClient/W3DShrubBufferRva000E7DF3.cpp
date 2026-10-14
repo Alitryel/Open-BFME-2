@@ -1,7 +1,7 @@
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
-// ?rva000E7DF3@W3DShrubBuffer@@QAEXXZ
-// W3DShrubBuffer::rva000E7DF3, retail 0x000E7DF3 (1394 bytes): Zero Hour's
+// ?loadShrubsInVertexAndIndexBuffers@W3DShrubBuffer@@QAEXXZ
+// W3DShrubBuffer::loadShrubsInVertexAndIndexBuffers, retail 0x000E7DF3 (1394 bytes): Zero Hour's
 // loadTreesInVertexAndIndexBuffers shape for shrubs (WorldBuilder name
 // loadShrubsInVertexAndIndexBuffers). Per buffer it locks the index and vertex
 // buffers and appends the vertices and triangles of every upright visible
@@ -198,7 +198,7 @@ struct ShrubAssertSink { ShrubAssertSink(); ~ShrubAssertSink(); void Crash(); };
 class W3DShrubBuffer
 {
 public:
-	void rva000E7DF3(void);
+	void loadShrubsInVertexAndIndexBuffers(void);
 
 private:
 	void *m_vtable;
@@ -218,8 +218,8 @@ private:
 	int m_treeIndexStep;
 };
 
-// ?rva000E7DF3@W3DShrubBuffer@@QAEXXZ
-void W3DShrubBuffer::rva000E7DF3(void)
+// ?loadShrubsInVertexAndIndexBuffers@W3DShrubBuffer@@QAEXXZ
+void W3DShrubBuffer::loadShrubsInVertexAndIndexBuffers(void)
 {
 	if (!m_initialized || !m_indexTree[0] || !m_vertexTree[0])
 		return;

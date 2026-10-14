@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
-// W3DShrubBuffer::rva000E89BD, retail 0x000E89BD (624 bytes, ret 4): the shrub
+// W3DShrubBuffer::drawShrubs, retail 0x000E89BD (624 bytes, ret 4): the shrub
 // buffer's per-frame update before drawing, the Zero Hour drawTrees body
 // reduced to its update half. It runs the sway update unless time is frozen
 // or the game is paused, handles the deferred texture update, advances 30
@@ -73,8 +73,8 @@ public:
 class W3DShrubBuffer
 {
 public:
-	void rva000E89BD(int arg);
-	void rva000E7DF3(void);
+	void drawShrubs(int arg);
+	void loadShrubsInVertexAndIndexBuffers(void);
 	void rva000E8365(void);
 
 protected:
@@ -106,8 +106,8 @@ private:
 	int m_nextKey;
 };
 
-// ?rva000E89BD@W3DShrubBuffer@@QAEXH@Z
-void W3DShrubBuffer::rva000E89BD(int arg)
+// ?drawShrubs@W3DShrubBuffer@@QAEXH@Z
+void W3DShrubBuffer::drawShrubs(int arg)
 {
 	if (!m_field34)
 		return;
@@ -174,7 +174,7 @@ void W3DShrubBuffer::rva000E89BD(int arg)
 
 	m_prevChanged = m_anythingChanged;
 	if (m_anythingChanged) {
-		rva000E7DF3();
+		loadShrubsInVertexAndIndexBuffers();
 		m_anythingChanged = false;
 	} else if (m_anyPushChanged) {
 		m_anyPushChanged = false;

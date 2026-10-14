@@ -191,7 +191,7 @@ public:
     virtual void rva005B486D();
     virtual void rva005B2B6D(const char *);
     void rva000D1407(const char *, void *, GameWindow *);
-    void rva005B314B(const char *);
+    void OnPowerSelect(const char *);
     void UpdateAvailablePowerIcons();
     void rva005B335E();
     void rva005B2703(const char *);
@@ -509,7 +509,7 @@ AptCreateAHero::Powers::Powers(Rva005B3676Owner *holder)
  memset(m_cells,0,sizeof(m_cells));
  {AsciiString name("CahPowers::InitGadgets");_bfme_setAptScreenRef(name,AptRef<AptScreenInitGadgets>(MakeDelegate(this,&Powers::rva000D1407)));}
 
-{AsciiString name("AptCreateAHero::OnPowerSelect");((AptCommandMapAdder*)((char*)holder+0x21c))->AddCommandMap(name,AptRef<AptCommandMap>(MakeDelegate(this,&Powers::rva005B314B)));}
+{AsciiString name("AptCreateAHero::OnPowerSelect");((AptCommandMapAdder*)((char*)holder+0x21c))->AddCommandMap(name,AptRef<AptCommandMap>(MakeDelegate(this,&Powers::OnPowerSelect)));}
 {AsciiString name("AptCreateAHero::OnMyPowerSelect");((AptCommandMapAdder*)((char*)holder+0x21c))->AddCommandMap(name,AptRef<AptCommandMap>(MakeDelegate(this,&Powers::rva005B2703)));}
 {AsciiString name("AptCreateAHero::PowersIconsUpdate");((AptCommandMapAdder*)((char*)holder+0x21c))->AddCommandMap(name,AptRef<AptCommandMap>(MakeDelegate(this,&Powers::rva005B271E)));}
 {AsciiString name("AptCreateAHero::OnPowerSelectionComplete");((AptCommandMapAdder*)((char*)holder+0x21c))->AddCommandMap(name,AptRef<AptCommandMap>(MakeDelegate((Rva005B2725*)this,&Rva005B2725::Run)));}
@@ -648,7 +648,7 @@ const char *g_00DD3A9C[]={0,"TOOLTIP:CAH_IS_AVAILABLE","TOOLTIP:CAH_NEEDS_PREREQ
 int Rva0043DB23(Rva00222A8BTarget*,void*,const char*);
 // Native250B constructor-registered OnPowerSelect callback; WB1574C40
 // supplies the method lead. Keep the established address spelling.
-void AptCreateAHero::Powers::rva005B314B(const char *path)
+void AptCreateAHero::Powers::OnPowerSelect(const char *path)
 {
  int row,column;
  if (sscanf(path,"%d,%d",&row,&column)!=2) return;

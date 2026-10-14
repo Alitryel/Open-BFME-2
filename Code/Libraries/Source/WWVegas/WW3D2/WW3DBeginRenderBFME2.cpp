@@ -86,7 +86,7 @@ class WW3D
 public:
 	static void Get_Render_Target_Resolution(int &, int &, int &, bool &);
 	static void Update_Movie_Capture(void);
-	static bool rva00118170(bool, bool, const Vector3 &, float);
+	static bool Begin_Render(bool, bool, const Vector3 &, float);
 
 private:
 	// ww3d.cpp defines these private (?IsInitted@WW3D@@0_NA, ...).
@@ -98,7 +98,7 @@ private:
 };
 
 
-bool WW3D::rva00118170(bool clear, bool clearz, const Vector3 &color,
+bool WW3D::Begin_Render(bool clear, bool clearz, const Vector3 &color,
 	float dest_alpha)
 {
 	if (!IsInitted)

@@ -148,7 +148,7 @@ public:
  void DoXfer(Xfer *);
 	int addTreeType(const AsciiString &, const AsciiString &, const void *, int, const AsciiString &, const AsciiString &);
 	int rva000E8F9D(const AsciiString &, int, const AsciiString &);
-	void rva000E91CE(unsigned int id, Coord3D location, float scale, const Matrix3D *transform, float randomScaleAmount,
+	void addShrub(unsigned int id, Coord3D location, float scale, const Matrix3D *transform, float randomScaleAmount,
 		const Rva000E91CEData *data, int shadowKind, const AsciiString &textureName, const AsciiString &nameD);
 	int getPartitionBucket(const FloatPair *location);
 
@@ -230,7 +230,7 @@ void W3DShrubBuffer::DoXfer(Xfer *xfer)
   if(xfer->IsLoading()&&treeType>=0&&treeType<numTypes){
    Coord3D pos;pos.x=tree.location.X;pos.y=tree.location.Y;pos.z=tree.location.Z;
    AsciiString nameD("");
-   rva000E91CE(tree.drawableID,pos,tree.scale,&tree.transform,0,types[treeType].data,shadow?1:0,textureName,nameD);
+   addShrub(tree.drawableID,pos,tree.scale,&tree.transform,0,types[treeType].data,shadow?1:0,textureName,nameD);
   }
  }
 }

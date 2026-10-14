@@ -639,7 +639,7 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
     int GetOverlapGoalUnits(Object *,const Coord3D *,int *);
     int CountOverlapHordeGoalUnits(Object *,const Coord3D *);
     int _GetAdjacentUnits(Object *,const Coord3D *,int *);
-    Bool rva002E9BE5(const Coord3D *,const Coord3D *,float,unsigned,Coord3D *);
+    Bool CircleClipsTallBuilding(const Coord3D *,const Coord3D *,float,unsigned,Coord3D *);
     Bool rva002F3392(PathNode *,PathNode *,unsigned,Coord3D *,Coord3D *,Coord3D *);
     void SetDebugPath(Rva002EDEABArg *);
 	Bool rva002EAE5F(const ICoord2D *,Int,ICoord2D *,void *);
@@ -2487,7 +2487,7 @@ Path *Pathfinder::GetAircraftPath(const Object *object,const Coord3D *to)
  // Local scratch only: retain the target-proven relative homes, not a retail class layout.
  struct { Coord3D p1,p2; union { Coord3D start; Coord3D p3; } stage; Coord3D adjusted; } scratch;
  scratch.adjusted.x=to->x; scratch.adjusted.y=to->y; scratch.adjusted.z=to->z;
- if(clips) rva002E9BE5(reinterpret_cast<const Coord3D *>(object->position),to,100.0f,avoid,&scratch.adjusted);
+ if(clips) CircleClipsTallBuilding(reinterpret_cast<const Coord3D *>(object->position),to,100.0f,avoid,&scratch.adjusted);
  path->rva00265596(&scratch.adjusted,PATHFIND_LAYER_GROUND,0x7fffffff);
  // Native start-coordinate storage is later reused for the third detour output.
  scratch.stage.start.x=object->position[0]; scratch.stage.start.y=object->position[1]; scratch.stage.start.z=to->z;

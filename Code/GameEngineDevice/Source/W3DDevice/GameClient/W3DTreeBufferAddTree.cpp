@@ -50,12 +50,12 @@ class W3DTreeBuffer {
 public:
  int addTreeType(const AsciiString&, const AsciiString&, const void*,int,const AsciiString&,const AsciiString&);
  int rva000ECDF5(const AsciiString&, int,const AsciiString&);
- void rva000ECF79(unsigned int,Rva000ECF79Coord,float,const Matrix3D*,float,const Rva000ECF79Data*,int,const AsciiString&,const AsciiString&);
+ void addTree(unsigned int,Rva000ECF79Coord,float,const Matrix3D*,float,const Rva000ECF79Data*,int,const AsciiString&,const AsciiString&);
  unsigned char prefix[0x5c0]; Rva000ECF79Tree trees[1200];
  int numTrees; unsigned char gap4[2]; bool changed; unsigned char gap7[0xd]; bool initialized; unsigned char gap15[1];
  bool needUpdate; unsigned char gap17[1]; Rva000ECF79Type types[64]; int numTypes;
 };
-void W3DTreeBuffer::rva000ECF79(unsigned int id,Rva000ECF79Coord location,float scale,
+void W3DTreeBuffer::addTree(unsigned int id,Rva000ECF79Coord location,float scale,
  const Matrix3D *transform,float randomScaleAmount,const Rva000ECF79Data *data,
  int shadowKind,const AsciiString &textureName,const AsciiString &nameD)
 {

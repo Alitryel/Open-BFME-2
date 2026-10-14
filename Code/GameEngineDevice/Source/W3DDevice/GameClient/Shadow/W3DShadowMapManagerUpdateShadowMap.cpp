@@ -132,7 +132,7 @@ public:
 class WW3D
 {
 public:
-	static bool rva00118170(bool clear_target, bool clear_zbuffer, const Vector3 &color, float dest_alpha);
+	static bool Begin_Render(bool clear_target, bool clear_zbuffer, const Vector3 &color, float dest_alpha);
 	static bool End_Render(bool flip_frame);
 	static void Set_Rendering_Shadow_Map(bool on) { IsCurrentlyRenderingShadowMap = on; }
 
@@ -312,7 +312,7 @@ void W3DShadowMapManager::UpdateShadowMap(RTS3DScene *scene)
 	rinfo.Push_Rendering_Method(method);
 	WW3D::Set_Rendering_Shadow_Map(true);
 	DX8Wrapper::Set_Render_Target(m_renderTarget.Get_Surface_Level().Peek(), m_depthBuffer);
-	if (WW3D::rva00118170(true, true, Vector3(1.0f, 1.0f, 1.0f), 0.0f))
+	if (WW3D::Begin_Render(true, true, Vector3(1.0f, 1.0f, 1.0f), 0.0f))
 	{
 		Rva001182A0(scene, rinfo);
 		if (!g_009E1FFC || m_postTarget.Ptr == 0)
@@ -322,7 +322,7 @@ void W3DShadowMapManager::UpdateShadowMap(RTS3DScene *scene)
 	if (g_009E1FFC && m_postTarget.Ptr != 0)
 	{
 		DX8Wrapper::Set_Render_Target(m_postTarget.Get_Surface_Level().Peek(), m_depthBuffer);
-		if (WW3D::rva00118170(false, false, Vector3(0.0f, 0.0f, 0.0f), 0.0f))
+		if (WW3D::Begin_Render(false, false, Vector3(0.0f, 0.0f, 0.0f), 0.0f))
 		{
 			RenderPostProcess();
 			RenderBorder();

@@ -63,7 +63,12 @@
 #include "GameLogic/VictoryConditions.h"
 #include "GameLogic/Weapon.h"
 
+// ZH declares pickAndPlayUnitVoiceResponse void; the retail body at 0x004DAAFD returns bool
+// (its row ?pickAndPlayUnitVoiceResponse@@YA_N...), so bind the call to that one name.
+#define pickAndPlayUnitVoiceResponse pickAndPlayUnitVoiceResponse_zhVoidDecl
 #include "GameClient/CommandXlat.h"
+#undef pickAndPlayUnitVoiceResponse
+extern bool pickAndPlayUnitVoiceResponse( const DrawableList *list, GameMessage::Type msgType, PickAndPlayInfo *info = NULL );
 #include "GameClient/ControlBar.h"
 #include "GameClient/Drawable.h"
 #include "GameClient/Eva.h"

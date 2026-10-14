@@ -158,7 +158,7 @@ class MineshaftPortalBehaviour
 {
 public:
 	Waypoint *rva00372DFA(const Coord3D *pos);
-    virtual void rva00373A0F(Xfer *xfer);
+    virtual void DoXfer(Xfer *xfer);
 
 private:
 	const MineshaftPortalBehaviourModuleData *m_moduleData;	// +0x04
@@ -234,7 +234,7 @@ void MineshaftPortalNetworkManager::addWaypoint(Waypoint *waypoint, Player *play
 // version1/1; resolve and register the loaded waypoint or save its id;
 // transfer bytes38/39 and pending ObjectIDs at28. Original access and
 // virtual declaration are not asserted by this neutral method label.
-void MineshaftPortalBehaviour::rva00373A0F(Xfer *xfer)
+void MineshaftPortalBehaviour::DoXfer(Xfer *xfer)
 {
     ((UpdateModule *)this)->xfer(xfer);
     if (xfer->IsLightCRC())

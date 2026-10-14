@@ -101,9 +101,9 @@ extern PartitionManager *ThePartitionManager;
 class Pathfinder
 {
   public:
-	bool rva002E9BE5(const Coord3D *, const Coord3D *, float, unsigned int, Coord3D *);
+	bool CircleClipsTallBuilding(const Coord3D *, const Coord3D *, float, unsigned int, Coord3D *);
 };
-bool Pathfinder::rva002E9BE5(const Coord3D *from, const Coord3D *to, float circleRadius, unsigned int ignoreBuilding,
+bool Pathfinder::CircleClipsTallBuilding(const Coord3D *from, const Coord3D *to, float circleRadius, unsigned int ignoreBuilding,
 							 Coord3D *adjustTo)
 {
 	Object *tallBuilding =

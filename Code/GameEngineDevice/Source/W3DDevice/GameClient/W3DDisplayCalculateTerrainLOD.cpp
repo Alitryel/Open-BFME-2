@@ -9,7 +9,7 @@
 //   * each sample frame runs under the DX8 device lock (rowed
 //     BFME_DX8_Thread_Lock 0x0011F520 after updateViews and the rowed
 //     BFME_DX8_Thread_Assert 0x00120F50 at the end of the sample, EH state 0);
-//   * Begin_Render is the rowed WW3D::rva00118170 0x00118170 returning bool,
+//   * Begin_Render is the rowed WW3D::Begin_Render 0x00118170 returning bool,
 //     compared with true; End_Render(true) 0x00117410;
 //   * the LOD walk is AUTOMATIC 8 -> MAX 7 -> NO_WATER 6 -> HALF_CLOUDS 3 ->
 //     disable, the target time is the int at TheGlobalData +0x58 and the LOD
@@ -52,7 +52,7 @@ public:
 class WW3D
 {
 public:
-	static bool rva00118170(bool clear, bool clearz, const Vector3 &color, float destAlpha);
+	static bool Begin_Render(bool clear, bool clearz, const Vector3 &color, float destAlpha);
 	static bool End_Render(bool flipFrame);
 };
 
@@ -159,7 +159,7 @@ void W3DDisplay::calculateTerrainLOD(void)
 			Int64 startTime64 = Rva0004300DGet();
 			updateViews();
 			BFMEDX8DeviceLock lock;
-			if (WW3D::rva00118170(true, true, Vector3(0.0f, 0.0f, 0.0f), 0.0f) == true)
+			if (WW3D::Begin_Render(true, true, Vector3(0.0f, 0.0f, 0.0f), 0.0f) == true)
 			{
 				drawViews();
 				WW3D::End_Render(true);

@@ -81,7 +81,7 @@ public:
  float word04;ObjectID producer08;AsciiString name0C;char gap10[0x28-0x10];bool flag28;
 };
 class AIBuilder{
-public:void update();void rva004ECA01();void rva004EC700();void moneySaverUpdate();
+public:void update();void checkForNewUpgrades();void rva004EC700();void moneySaverUpdate();
  Player*owner00;char gap04[0x130-4];_STL::vector<void*>entries130;_STL::list<int>orders13C;AIDozerManager dozer140;
 };
 void AIBuilder::update(){
@@ -89,7 +89,7 @@ void AIBuilder::update(){
  while(order!=orders13C.end()){
   if(((Rva004E9378*)*order)->rva004E9378())order=orders13C.erase(order);else ++order;
  }
- rva004ECA01();
+ checkForNewUpgrades();
  ((Rva00506B1B*)((char*)this+4))->rva00506B2F();
  ((Rva00506B1B*)((char*)this+0xE4))->rva00506B2F();
  ((Rva00506B1B*)((char*)this+0x38))->rva00506B2F();

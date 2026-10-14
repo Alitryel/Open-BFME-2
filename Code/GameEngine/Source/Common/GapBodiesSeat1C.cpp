@@ -1414,13 +1414,13 @@ void Rva00566B81Vector::rva00566BEB()
 class Path
 {
 public:
-	bool rva00363930(const Coord3D *pos, bool flag);		// 0x00363930
+	bool DoAdvanceAlongPath(const Coord3D *pos, bool flag);		// 0x00363930
 	bool rva001E3549(const Coord3D *pos);
 };
 
 bool Path::rva001E3549(const Coord3D *pos)
 {
-	return rva00363930(pos, true);
+	return DoAdvanceAlongPath(pos, true);
 }
 
 // --- 0x001E35BD (13B): the +0 record's +0x28 word or 0; 0x001EAEDC (15B):

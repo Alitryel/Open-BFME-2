@@ -535,7 +535,7 @@ struct Rva003642DFResult { Rva003642DFNode *m_node; Coord3D m_pos; };
 class Rva0008BB38FloatField;
 class Path { public:
     Rva003642DFResult rva00364521(const Rva0008BB38FloatField*);
-    bool rva00363930(Coord3D*,bool);
+    bool DoAdvanceAlongPath(Coord3D*,bool);
     unsigned m_count;
 };
 struct Rva001E3FFDOuter;
@@ -582,7 +582,7 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
   Rva003642DFResult result;
   result=path->rva00364521((const Rva0008BB38FloatField*)this);
   pos=result.m_pos;
-  path->rva00363930(&pos,true);
+  path->DoAdvanceAlongPath(&pos,true);
   result=path->rva00364521((const Rva0008BB38FloatField*)this);
   if(path->m_count)--path->m_count;
   newGoal.x=result.m_pos.x;newGoal.y=result.m_pos.y;newGoal.z=result.m_pos.z;

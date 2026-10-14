@@ -25,7 +25,7 @@ public:
  virtual void setInt(const AsciiString&,int);virtual void setAsciiString(const AsciiString&,const AsciiString&);
 };
 class SkirmishPreferences:public UserPreferences {
-public:AsciiString buildProfileKey(const char*);bool rva0043BC0A();
+public:AsciiString buildProfileKey(const char*);bool getGameInfo();
 };
 class GameSlot;
 class GameInfo {public:GameSlot *getSlot(int);};
@@ -36,7 +36,7 @@ struct SkirmishStringDataView{char header[8];char text[1];};
 __forceinline const char *skirmishText(const AsciiString&s){
  const SkirmishStringDataView *data=*(const SkirmishStringDataView *const*)&s;return data?data->text:"";
 }
-bool SkirmishPreferences::rva0043BC0A(){
+bool SkirmishPreferences::getGameInfo(){
  if(!(*(GameInfo * *)&TheSkirmishGameInfo))return false;
  AsciiString value=getAsciiString(buildProfileKey("HeroIndexes"),AsciiString::TheEmptyString);
  const char *p=skirmishText(value);

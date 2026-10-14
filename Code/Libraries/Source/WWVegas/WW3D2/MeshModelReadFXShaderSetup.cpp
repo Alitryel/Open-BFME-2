@@ -1,6 +1,6 @@
 // cl: /O2 /arch:SSE /G7 /DNDEBUG /MD /EHsc
-// ?read_Rva0018AF70@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z @0x0018AF70 272B
-// MeshModelClass::read_Rva0018AF70, retail 0x0018AF70 (272 bytes):
+// ?read_fx_shaders@MeshModelClass@@IAE_NAAVChunkLoadClass@@PAVMeshLoadContextClass@@@Z @0x0018AF70 272B
+// MeshModelClass::read_fx_shaders, retail 0x0018AF70 (272 bytes):
 // Chunk 0x50 reader in read_chunks (MeshModelReadChunks.cpp:144) beside
 // read_textures 0x0018AE50 and read_texture_stage 0x0018B080. Creates an
 // FXShaderSetup (new 0x34, ctor 0x001525FB), Load_W3D 0x00152E4D, Add_Ref at
@@ -117,10 +117,10 @@ public:
 class MeshModelClass
 {
 protected:
-	bool read_Rva0018AF70(ChunkLoadClass &cload, MeshLoadContextClass *context);
+	bool read_fx_shaders(ChunkLoadClass &cload, MeshLoadContextClass *context);
 };
 
-bool MeshModelClass::read_Rva0018AF70(ChunkLoadClass &cload, MeshLoadContextClass * volatile context)
+bool MeshModelClass::read_fx_shaders(ChunkLoadClass &cload, MeshLoadContextClass * volatile context)
 {
 	if (!cload.Open_Chunk())
 		return true;

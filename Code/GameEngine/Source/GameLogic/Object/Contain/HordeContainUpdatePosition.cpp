@@ -372,7 +372,7 @@ class Pathfinder {
   public:
     bool rva002EE49B(Object *, Rva002EE49BPosition, Rva002EE49BPosition);
     int CountOverlapHordeGoalUnits(Object *, const Coord3D *);
-    bool rva002EE64A(Object *, const Coord3D *, const Coord3D *);
+    bool IsValidObjectMovement(Object *, const Coord3D *, const Coord3D *);
     bool IsValidMovementPositionForObject(const Coord3D *, int, int, const Object *);
     void *rva001E4461(int, int);
 };
@@ -750,7 +750,7 @@ void HordeContain::_updatePosition(Object *obj, const Coord3D *destination, floa
                     cost += float(count * 10) * 0.25f;
                     if (cost > bestDistance)
                         continue;
-                    if (!TheAI->getPathfinder()->rva002EE64A(obj, &candidate, &test))
+                    if (!TheAI->getPathfinder()->IsValidObjectMovement(obj, &candidate, &test))
                         continue;
                     bestDistance = cost;
                     best = test;

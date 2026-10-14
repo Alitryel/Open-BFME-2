@@ -2,7 +2,7 @@ template<class T> static __forceinline T p4Operand(const T &v) { return *(const 
 // cl: /O1 /G7 /DNDEBUG /MD /EHs /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /I.
 // stlport
 //
-// ?rva00240866@GameLogic@@QAEXPAVRva0023E928@@_N@Z @0x00240866 961B.
+// ?ProcessSaveGameCommand@GameLogic@@QAEXPAVRva0023E928@@_N@Z @0x00240866 961B.
 // Multiplayer save-request handler (message 0x1E, called by 0x0025E661); the
 // per-kind behaviour is documented at the definition below.
 // Codegen finding (retail order "mov [ebp+8],esp" BEFORE "mov ecx,esp" for the
@@ -191,14 +191,14 @@ static __forceinline unsigned char callRva0023D32D(GameLogic *self)
 	return (self->*call.member)();
 }
 
-// ?rva00240866@GameLogic@@QAEXPAVRva0023E928@@_N@Z @0x00240866 961B (Ghidra
+// ?ProcessSaveGameCommand@GameLogic@@QAEXPAVRva0023E928@@_N@Z @0x00240866 961B (Ghidra
 // FUN_00640866). The multiplayer save request handler 0x0025E661 calls for
 // message 0x1E. Kind 1 asks to save: a remote request is refused (2, 3)
 // unless 0x0023D32D allows it, then the local player confirms through the
 // "APT:SaveGameMultiplayerConfirmationTitle" prompt answered by 0x004341D8,
 // or refuses (2, 1) with "APT:SaveFileDiskFullMultiplayer"; kind 2 is a
 // refusal the save screen reports; kind 5 saves through TheGameState.
-void GameLogic::rva00240866(Rva0023E928 *msg, bool frozen)
+void GameLogic::ProcessSaveGameCommand(Rva0023E928 *msg, bool frozen)
 {
 	if (!TheGameInfo || !msg || !TheNetwork || !TheGameState)
 		return;

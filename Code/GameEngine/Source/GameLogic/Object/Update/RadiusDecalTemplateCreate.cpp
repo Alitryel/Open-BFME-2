@@ -29,14 +29,14 @@ class PlayerList { public: __forceinline Player *getLocalPlayer() const {return 
 extern PlayerList *ThePlayerList;
 static __forceinline void setCoordinates(Coord3D *to,float x,float y,float z) {to->x=x;to->y=y;to->z=z;}
 class RadiusDecalTemplate { public:
- void rva0033132D(const Coord3D *,float,const unsigned *,RadiusDecal *);
+ void createDeathDecal(const Coord3D *,float,const unsigned *,RadiusDecal *);
  void createRadiusDecal(const Coord3D &,float,const Player *,RadiusDecal &) const;
- void rva0033121F(Coord3D,unsigned,int,RadiusDecal *,float);
+ void createSelectionRadiusDecal(Coord3D,unsigned,int,RadiusDecal *,float);
  float rva00330D3E(unsigned);
  AsciiString first,second;int style;float minOpacity,maxOpacity,throbTime;unsigned color;bool onlyOwner;
  char pad1D[3];float sizeX,sizeY;unsigned at28;float rotationSpeed,shrinkRate;
 };
-void RadiusDecalTemplate::rva0033132D(const Coord3D *pos,float angle,const unsigned *color,RadiusDecal *out) {
+void RadiusDecalTemplate::createDeathDecal(const Coord3D *pos,float angle,const unsigned *color,RadiusDecal *out) {
  if(first.isEmpty()==true) return;
  if(!pos) return;
  if(sizeX==0.0f) return;
@@ -81,7 +81,7 @@ void RadiusDecalTemplate::createRadiusDecal(const Coord3D &pos,float radius,cons
 // WB names this createSelectionRadiusDecal; original float3 vs Coord3D
 // by-value source prototype remains donor-carried. Native ABI is12B coords
 // followed by selected count, packed color, output pointer and extra scalar.
-void RadiusDecalTemplate::rva0033121F(Coord3D pos,unsigned selected,int color,RadiusDecal *out,float scale) {
+void RadiusDecalTemplate::createSelectionRadiusDecal(Coord3D pos,unsigned selected,int color,RadiusDecal *out,float scale) {
  if(first.isEmpty()==true) return;
  if(selected==0) return;
  if(sizeX==0.0f) return;

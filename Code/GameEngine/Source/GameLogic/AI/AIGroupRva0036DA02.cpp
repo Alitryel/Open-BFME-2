@@ -1,7 +1,7 @@
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfmelist /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ?rva0036DA02@AIGroup@@QAE_NIPBUCoord3D@@PBVObject@@IH@Z @ 0x0036DA02 440B
+// ?groupDoSpecialPowerAtLocation@AIGroup@@QAE_NIPBUCoord3D@@PBVObject@@IH@Z @ 0x0036DA02 440B
 // AIGroup veteran special-power dispatch: pick highest-rank member whose
 // template carries 0x04000000 (byte 0x113 bit2) via ExperienceTracker handle
 // rank with lower ObjectID74 tie-break, else walk all members; for the chosen
@@ -126,14 +126,14 @@ class AIGroup
 {
 public:
 	bool rva0036D869(UnsignedInt id, UnsignedInt commandOptions, Int unk);
-	bool rva0036DA02(UnsignedInt id, const Coord3D *loc, const Object *objectInWay, UnsignedInt commandOptions, Int unk);
+	bool groupDoSpecialPowerAtLocation(UnsignedInt id, const Coord3D *loc, const Object *objectInWay, UnsignedInt commandOptions, Int unk);
 
 private:
 	unsigned char m_pad00[4];
 	_STL::list<Object *> m_memberList;
 };
 
-bool AIGroup::rva0036DA02(UnsignedInt id, const Coord3D *loc, const Object *objectInWay, UnsignedInt commandOptions, Int unk)
+bool AIGroup::groupDoSpecialPowerAtLocation(UnsignedInt id, const Coord3D *loc, const Object *objectInWay, UnsignedInt commandOptions, Int unk)
 {
 	const SpecialPowerTemplate *spTemplate = TheSpecialPowerStore->findSpecialPowerTemplateByID(id);
 	Object *best = 0;

@@ -212,7 +212,7 @@ bool Rva003B3485::read(DataChunkInput &file, DataChunkInfo *info)
 class Script
 {
 public:
-    bool Rva003B79F1(DataChunkInput &file, unsigned short version);
+    bool parse(DataChunkInput &file, unsigned short version);
 };
 class Rva003B40B6Holder
 {
@@ -227,7 +227,7 @@ bool Rva003B37C8::read(DataChunkInput &file, DataChunkInfo *info)
     AsciiString name = file.readAsciiString();
     fixupScriptName((ScriptList *)a, name);
     Rva003BScriptReference *node = ((ScriptList *)a)->rva003B83B1(*(const StringBase<char> *)&name);
-    ((Script *)((Rva003B40B6Holder *)a)->captureGroup(node))->Rva003B79F1(file, info->version);
+    ((Script *)((Rva003B40B6Holder *)a)->captureGroup(node))->parse(file, info->version);
     BfmeHeadXZ *head = (BfmeHeadXZ *)b;
     BfmeNodeXZ *last = head->m_second;
     if (last)

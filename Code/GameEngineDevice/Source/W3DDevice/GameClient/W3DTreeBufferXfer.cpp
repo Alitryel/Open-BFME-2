@@ -221,7 +221,7 @@ struct W3DTreeType {
 
 class W3DTreeBuffer {
 public:
-	void rva000ECF79(unsigned int id, Rva000ECF79Coord location, float scale, const Matrix3D *transform,
+	void addTree(unsigned int id, Rva000ECF79Coord location, float scale, const Matrix3D *transform,
 		float randomScaleAmount, const Rva000ECF79Data *data, int shadowKind, const AsciiString &textureName,
 		const AsciiString &templateName);
 protected:
@@ -361,7 +361,7 @@ void W3DTreeBuffer::xfer(Xfer *xfer)
 			pos.x = tree.location.X;
 			pos.y = tree.location.Y;
 			pos.z = tree.location.Z;
-			rva000ECF79(tree.drawableID, pos, tree.scale, &tree.transform, 0, m_treeTypes[treeType].m_data,
+			addTree(tree.drawableID, pos, tree.scale, &tree.transform, 0, m_treeTypes[treeType].m_data,
 				doShadow ? 1 : 0, textureName, m_treeTypes[treeType].m_templateName);
 			if (m_numTrees) {
 				Rva000EB08C *curTree = &m_trees[m_numTrees - 1];

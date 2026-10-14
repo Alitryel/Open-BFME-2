@@ -31,14 +31,14 @@ struct Rva000E91CEData;
 class W3DTreeBuffer
 {
 public:
-	void rva000ECF79( unsigned int id, Rva000ECF79Coord location, Real scale, const Matrix3D *transform, Real randomScaleAmount,
+	void addTree( unsigned int id, Rva000ECF79Coord location, Real scale, const Matrix3D *transform, Real randomScaleAmount,
 		const Rva000ECF79Data *data, int shadowKind, const AsciiString &textureName, const AsciiString &nameD );
 };
 
 class W3DShrubBuffer
 {
 public:
-	void rva000E91CE( unsigned int id, Coord3D location, Real scale, const Matrix3D *transform, Real randomScaleAmount,
+	void addShrub( unsigned int id, Coord3D location, Real scale, const Matrix3D *transform, Real randomScaleAmount,
 		const Rva000E91CEData *data, int shadowKind, const AsciiString &textureName, const AsciiString &nameD );
 };
 
@@ -60,7 +60,7 @@ void BaseHeightMapRenderObjClass::addTree( unsigned int id, Rva000ECF79Coord loc
 	const AsciiString &nameD )
 {
 	if (m_treeBuffer) {
-		m_treeBuffer->rva000ECF79(id, location, scale, transform, randomScaleAmount, data, shadowKind, textureName, nameD);
+		m_treeBuffer->addTree(id, location, scale, transform, randomScaleAmount, data, shadowKind, textureName, nameD);
 	}
 }
 
@@ -69,6 +69,6 @@ void BaseHeightMapRenderObjClass::rva00068223( unsigned int id, Coord3D location
 	const AsciiString &nameD )
 {
 	if (m_shrubBuffer) {
-		m_shrubBuffer->rva000E91CE(id, location, scale, transform, randomScaleAmount, data, shadowKind, textureName, nameD);
+		m_shrubBuffer->addShrub(id, location, scale, transform, randomScaleAmount, data, shadowKind, textureName, nameD);
 	}
 }

@@ -254,7 +254,7 @@ protected:
 	void updateContextMultiSelect();
     void populateMultiSelect();
 public:
-    void rva0053D355(Object *, bool);
+    void populateCommand(Object *, bool);
     void setPortraitByObject(Object *obj);
 protected:
     void updateContextCommand();
@@ -516,7 +516,7 @@ void ControlBar::populateMultiSelect()
     }
     if (best) {
         m_currentSelectedDrawable = best;
-        rva0053D355(best->getObject(), false);
+        populateCommand(best->getObject(), false);
         return;
     }
     bool firstDrawable = true;

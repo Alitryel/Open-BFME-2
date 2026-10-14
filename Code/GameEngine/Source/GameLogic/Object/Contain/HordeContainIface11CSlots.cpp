@@ -904,7 +904,7 @@ class Rva0046BB38Iface6 : public Rva0046BB38Slots<0>
 {
 public:
 	virtual void rva00472329(const Coord3D *pos, int unused) = 0;
-	virtual void attackTargetNow(Object *target, int select) = 0; virtual void rva00472235() = 0; virtual void rva0046E253() = 0; virtual void rva00472790(bool reposition) = 0; virtual void rva004726DD(Object *target) = 0;
+	virtual void attackTargetNow(Object *target, int select) = 0; virtual void rva00472235() = 0; virtual void rva0046E253() = 0; virtual void returnToFormation(bool reposition) = 0; virtual void rva004726DD(Object *target) = 0;
 	virtual bool rva0046BB38(Object *other) = 0;
 	virtual Coord3D slot7(Object *obj, float *angle) = 0;
 	virtual void rva0046F7C9(Object *obj) = 0;
@@ -1222,7 +1222,7 @@ public:
 	virtual float rva0046B850();
 	virtual void rva0046D1F7(_STL::list<const Object *> &out);
 	virtual void rva0046E253();
-	virtual void rva00472790(bool reposition);
+	virtual void returnToFormation(bool reposition);
 	void rva0046AA85();
 	virtual bool rva0046CDC9();
 	virtual bool rva0046CCEF(const ThingTemplate *tmpl);
@@ -2820,7 +2820,7 @@ void HordeContain::rva00473799(const _STL::list<Object *> &items)
 	m_object->m_264->rva0039B3D1(best, true);
 	((Rva0046E740 *)(UpdateModule *)this)->rva0046E740(0);
 	rva0046981C();
-	rva00472790(0);
+	returnToFormation(0);
 }
 
 // The callback slot 48 hands the +0x20 contain interface's slot 68: hands the
@@ -3053,7 +3053,7 @@ void HordeContain::rva0046E253()
 		const_cast<Object *>(*it)->rva0028B95F();
 }
 
-// ?rva00472790@HordeContain@@UAEX_N@Z @0x00472790: slot 4. Unless our Object
+// ?returnToFormation@HordeContain@@UAEX_N@Z @0x00472790: slot 4. Unless our Object
 // lacks an AI, gathers back up to 100 of the +0x170 Objects (an ID with no live
 // Object is erased through the STLport set<int> erase at 0x0046EDEF), each
 // through primary slot 38; with our
@@ -3064,7 +3064,7 @@ void HordeContain::rva0046E253()
 // it answers false, performReform and 0x0046AA85; with the flag still set, slot
 // 51, then a pathfinder-adjusted position between 10 and 150 away is applied.
 // +0x120 and +0x121 record whether anything was gathered.
-void HordeContain::rva00472790(bool reposition)
+void HordeContain::returnToFormation(bool reposition)
 {
 	if (getObject()->rva0028B511() != 1 && reposition)
 		reposition = false;
@@ -3560,7 +3560,7 @@ void HordeContain::attackTargetNow(Object *target, int select)
 	if (usingMeleeAttack())
 		return;
 	if (m_170.size() != 0)
-		rva00472790(false);
+		returnToFormation(false);
 	Rva0046247DPair members;
 	((Rva0046247D *)(UpdateModule *)this)->rva0046247D(members);
 	const _STL::map<int, int> *keys = &fields()->m_1B8;
@@ -3625,7 +3625,7 @@ void HordeContain::rva00472235()
 	if (usingMeleeAttack())
 		return;
 	if (m_170.size() != 0)
-		rva00472790(0);
+		returnToFormation(0);
 	const _STL::list<Object *> *items = containedItems();
 	const _STL::map<int, int> *keys = &fields()->m_1B8;
 	for (_STL::list<Object *>::const_iterator it = items->begin(); it != items->end(); ++it)
@@ -3994,7 +3994,7 @@ void HordeContain::performReform()
 // Public method name remains address-derived; all offsets come from retail.
 void HordeContain::rva004726DD(Object *target)
 {
-    if(!m_170.empty()) rva00472790(false);
+    if(!m_170.empty()) returnToFormation(false);
     if(m_2A0) rva00468FDC();
     Rva0046247DPair descriptor;
     ContainmentList members=((Rva0036AE51ListView*)((Rva0046247D*)(UpdateModule*)this)->rva0046247D(descriptor))->rva0036AE51();
@@ -4087,7 +4087,7 @@ bool HordeContain::rva004723F2(Object *obj, const AsciiString &name)
  return false;
 }
 
-// ?rva00472790@HorseHordeContain@@UAEX_N@Z @0x004766C3 5B: slot 4 of
+// ?returnToFormation@HorseHordeContain@@UAEX_N@Z @0x004766C3 5B: slot 4 of
 // HorseHordeContain's +0x11C interface table 0x00C45838 (slot 2 is the other
 // override there, the shared empty body 0x000B3FD0): it only extends
 // HordeContain's (0x00472790 above), so a tail jump with the same +0x11C
@@ -4095,12 +4095,12 @@ bool HordeContain::rva004723F2(Object *obj, const AsciiString &name)
 class HorseHordeContain : public HordeContain
 {
 public:
-	virtual void rva00472790(bool reposition);
+	virtual void returnToFormation(bool reposition);
 };
 
-void HorseHordeContain::rva00472790(bool reposition)
+void HorseHordeContain::returnToFormation(bool reposition)
 {
-	HordeContain::rva00472790(reposition);
+	HordeContain::returnToFormation(reposition);
 }
 
 // ?attemptBestFirePointPosition@HordeContain@@UAE_NPAVObject@@PAVWeapon@@0@Z @0x00468D47 54B:

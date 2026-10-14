@@ -118,7 +118,7 @@ void Rva0025E4CD::rva0025E5F4() {
    ((Rva0023D201StatusView*)TheGameLogic)->rva0023D201(player,1);break;
   }
   case 11:((NetworkInterface*)this)->rva0025E539((NetWrapperCommandMsg*)command);break;
-  case 30:TheGameLogic->rva00240866((Rva0023E928*)command,true);break;
+  case 30:TheGameLogic->ProcessSaveGameCommand((Rva0023E928*)command,true);break;
   }
  }
  void *allocation=list->destroy(0);operator delete(allocation);

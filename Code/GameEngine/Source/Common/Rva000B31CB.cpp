@@ -40,7 +40,7 @@ public:
 class RadiusDecalTemplate
 {
 public:
-	void rva0033121F(Coord3D pos, unsigned selected, int color, RadiusDecal *out, float scale);
+	void createSelectionRadiusDecal(Coord3D pos, unsigned selected, int color, RadiusDecal *out, float scale);
 };
 
 class Object
@@ -141,5 +141,5 @@ void Rva000B31CB::rva000B31CB(unsigned int selected, int color)
 		if (source)
 			scale = source->m_scale20;
 	}
-	m_template.rva0033121F(object->Object::rva0028D4E0(0), selected, color, &m_decal, scale);
+	m_template.createSelectionRadiusDecal(object->Object::rva0028D4E0(0), selected, color, &m_decal, scale);
 }

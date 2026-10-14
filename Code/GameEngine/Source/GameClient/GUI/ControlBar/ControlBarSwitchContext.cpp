@@ -216,7 +216,7 @@ class ControlBar {
 public:
     void switchToContext(int,void *);
     void showRallyPoint(const Coord3D *);
-    void rva0053D355(Object *,bool);
+    void populateCommand(Object *,bool);
 protected:
     void populateStructureInventory(Object *,bool);
 public:
@@ -275,7 +275,7 @@ void ControlBar::switchToContext(int context,void *draw)
         break;
     case 1:
         HIDE_PARENTS(false,false,true,true,true,true,true,true);
-        rva0053D355(((ContextDrawableView *)incomingDraw)->getObject(),changed);
+        populateCommand(((ContextDrawableView *)incomingDraw)->getObject(),changed);
         break;
     case 2:
         HIDE_PARENTS(false,false,true,true,true,true,true,true);

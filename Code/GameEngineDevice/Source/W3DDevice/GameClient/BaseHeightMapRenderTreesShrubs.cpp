@@ -157,7 +157,7 @@ extern GlobalData *TheWritableGlobalData;
 
 class RenderInfoClass;
 class Rva000EC9C6 { public: void rva000EC9C6(int); };
-class W3DShrubBuffer { public: void rva000E89BD(int); };
+class W3DShrubBuffer { public: void drawShrubs(int); };
 class W3DBuffBuffer { public: void rva000D28FA(int, int); };
 
 class BaseHeightMapRenderObjClass
@@ -289,7 +289,7 @@ void BaseHeightMapRenderObjClass::rva0006B895(RenderInfoClass &rinfo)
 		world.row[11] = m_transform.row[11];
 		Rva00726290SetWorld(world);
 		BFME_SET_RS(0x34, 0);
-		m_shrubBuffer->rva000E89BD((Int)&rinfo);
+		m_shrubBuffer->drawShrubs((Int)&rinfo);
 	}
 }
 

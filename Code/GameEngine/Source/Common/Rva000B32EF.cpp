@@ -66,7 +66,7 @@ public:
 class RadiusDecalTemplate
 {
 public:
-	void rva0033132D(const Coord3D *pos, Real radius, const unsigned int *color, RadiusDecal *result);
+	void createDeathDecal(const Coord3D *pos, Real radius, const unsigned int *color, RadiusDecal *result);
 };
 
 struct Rva000B330COwner
@@ -132,5 +132,5 @@ void Rva000B32EF::rva000B3198(const Coord3D &a, const Coord3D &b)
 void Rva000B32EF::rva000B330C(const Coord3D *pos, Real radius, const unsigned int *color)
 {
 	if (m_08->m_FC)
-		m_template228.rva0033132D(pos, radius, color, &m_decal218);
+		m_template228.createDeathDecal(pos, radius, color, &m_decal218);
 }
