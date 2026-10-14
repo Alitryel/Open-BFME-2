@@ -147,13 +147,27 @@ struct Gen007F47E0 : BfmeDirtyBase
 // ??0Gen007F47E0@@QAE@XZ present-unmatched   emitted only to force the vtable, and with it ??_G
 Gen007F47E0::Gen007F47E0() {}
 
-struct Gen007F4D00
+// Gen007F4D00 has a second polymorphic base at +4 (vtable 0x00CE2C10, the
+// FESL ariesudp datagram listener whose slot 2 is 0x00661650): its slot 0 is
+// the adjustor thunk 0x00661640 (sub ecx,4) into this ??_G, which the
+// two-base declaration below makes MSVC emit next to it.
+struct Gen007F4D00Owner
+{
+	virtual ~Gen007F4D00Owner();		// retail 0x00666BA0
+};
+
+struct Gen007F4D00Listener
+{
+	virtual ~Gen007F4D00Listener();
+};
+
+struct Gen007F4D00 : Gen007F4D00Owner, Gen007F4D00Listener
 {
 	Gen007F4D00();
 	virtual ~Gen007F4D00();		// retail 0x007F4D20
 	void operator delete( void *p, unsigned int n );
 
-	char m_bfmePad[ 0x18 - 4 ];
+	char m_bfmePad[ 0x18 - 8 ];
 };
 
 // ??0Gen007F4D00@@QAE@XZ present-unmatched   emitted only to force the vtable, and with it ??_G
