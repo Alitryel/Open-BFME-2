@@ -49,20 +49,9 @@ class ThingTemplate;
 class Matrix3D;
 class FXList;
 
-// class-gate: allow Coord3D the canonical data-only header cannot declare the out-of-line GetLength2D (rowed 0x0000599F) or the copy constructor push_back instantiates with; same three floats
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-
-	Coord3D() {}
-	Coord3D(Real ax, Real ay, Real az) : x(ax), y(ay), z(az) {}
-	Coord3D(const Coord3D &that) throw();
-	Real GetLength2D() const;
-	void set(const Coord3D *a) { x = a->x; y = a->y; z = a->z; }
-	void set(Real ax, Real ay, Real az) { x = ax; y = ay; z = az; }
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 inline Coord3D operator-(const Coord3D &a, const Coord3D &b)
 {

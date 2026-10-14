@@ -28,23 +28,9 @@ typedef bool Bool;
 #define FALSE 0
 #endif
 
-struct Coord3D
-{
-	// Retail Coord3D has an empty default ctor and a nontrivial copy ctor;
-	// this keeps resize fill values in place.
-	Coord3D() {}
-	Coord3D(const Coord3D &);
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "../../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 enum ObjectID
 {

@@ -40,20 +40,10 @@ public:
 	~UpdateModule();
 };
 
-struct Coord3D
-{
-	Coord3D();
-	~Coord3D();
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#define COORD3D_VIEW_DTOR
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 enum ParticleSystemID
 {

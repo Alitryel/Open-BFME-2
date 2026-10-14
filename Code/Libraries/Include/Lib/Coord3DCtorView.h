@@ -8,6 +8,7 @@
 // A unit whose bytes need the non-POD type (by-value Coord3D arguments built through the copy
 // constructor, expression temporaries with an ESP save) includes this header INSTEAD of Coord3D.h,
 // before anything else that includes it: it takes Coord3D.h's include guard.
+// `#define COORD3D_VIEW_INLINE` first makes zero/set/add/sub/scale header-inline as in Zero Hour.
 // `#define COORD3D_VIEW_DTOR` first adds retail's empty user destructor (0x000B3FD0), which keeps by-value
 // results and arrays on the unwind path (units whose temporaries or arrays retail registers for EH).
 #ifndef CANONICAL_COORD3D_H
@@ -32,10 +33,20 @@ struct Coord3D {
     float GetLength2D() const;
     float Normalize();
     float operator*(const struct Coord3DBase &r) const;
+#ifdef COORD3D_VIEW_INLINE
+    // Zero Hour's header-inline mutators (as Lib/Coord3DInline.h).
+    void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
+    void set(float ax, float ay, float az) { x = ax; y = ay; z = az; }
+    void set(const Coord3D *p) { x = p->x; y = p->y; z = p->z; }
+    void add(const Coord3D *p) { x += p->x; y += p->y; z += p->z; }
+    void sub(const Coord3D *p) { x -= p->x; y -= p->y; z -= p->z; }
+    void scale(float s) { x *= s; y *= s; z *= s; }
+#else
     void zero();
     void set(float x, float y, float z);
-    void set(const struct Coord3DBase *p);
     void scale(float s);
+#endif
+    void set(const struct Coord3DBase *p);
     bool equals(const struct Coord3DBase &that) const;
     float GetLengthEstimate() const;
 };

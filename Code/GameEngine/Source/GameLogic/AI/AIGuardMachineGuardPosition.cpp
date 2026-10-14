@@ -69,14 +69,9 @@ __forceinline long fast_float2long_round(Real f)
 }
 #define REAL_TO_INT_FLOOR(x) (fast_float2long_round(bfme_fast_float_floor_6c1d2(x)))
 
-struct Coord3D
-{
-	Coord3D() {}
-	Coord3D(const Coord3D &that) : x(that.x), y(that.y), z(that.z) {}
-
-	Real x, y, z;
-	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 // struct, as Lib/ICoord3D.h and PolygonTrigger::pointInTrigger's owner spell it.
 struct ICoord3D

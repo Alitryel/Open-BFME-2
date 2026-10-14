@@ -115,29 +115,9 @@ struct Region2D
 	Real height() const { return hi.y - lo.y; }
 };
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-	// Retail copies positions member by member (getPlayerStructureBounds
-	// loads pos.x and pos.y but never pos.z), as BFME 1's view does.
-	Coord3D() {}
-	Coord3D(const Coord3D &that) : x(that.x), y(that.y), z(that.z) {}
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-	void set(float ax, float ay, float az)
-	{
-		x = ax;
-		y = ay;
-		z = az;
-	}
-	void normalize();	// 0x000035B6
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 enum ObjectID
 {

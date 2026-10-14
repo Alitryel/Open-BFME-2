@@ -114,28 +114,10 @@ public:
 // vftable slots (0x0036CC7A); bind the declaration to that row.
 #pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
-struct Coord3D
-{
-	Coord3D() {}
-	Coord3D(float ax, float ay, float az) : x(ax), y(ay), z(az) {}
-	~Coord3D() {}
-	void normalize();	// 0x000035B6
-	void scale(float s)
-	{
-		x *= s;
-		y *= s;
-		z *= s;
-	}
-	void add(const Coord3D *a)
-	{
-		x += a->x;
-		y += a->y;
-		z += a->z;
-	}
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#define COORD3D_VIEW_DTOR
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 // A KindOfMaskType view: 224 bits, zeroed then set bit by bit.
 struct Rva005D75BEMask

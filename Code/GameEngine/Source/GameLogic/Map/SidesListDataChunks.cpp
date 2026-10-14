@@ -240,25 +240,9 @@ public:
 	void writeDict(const Dict &d);		// 0x00307D85
 };
 
-// class-gate: allow Coord3D the canonical data-only header cannot declare BFME 2's user copy constructor that keeps setLocation's by-value argument a stack temporary of its own (retail ebp-0x38; WB twin inlines it); same three floats
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-
-	Coord3D() {}
-	Coord3D(const Coord3D &other)
-	{
-		x = other.x;
-		y = other.y;
-		z = other.z;
-	}
-
-	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
-	void add(const Coord3D *a) { x += a->x; y += a->y; z += a->z; }
-	void sub(const Coord3D *a) { x -= a->x; y -= a->y; z -= a->z; }
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 // The kind-of mask at +0x108 and the name at +0x64 of the template a map
 // object resolves to through its override chain.
