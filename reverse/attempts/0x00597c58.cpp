@@ -1,4 +1,6 @@
 // ?Register@AIUpgradeScienceBuilder@@QAEXPAVObject@@PAX@Z
+// partial score=0.97 date=2026-10-14
+// ?Register@AIUpgradeScienceBuilder@@QAEXPAVObject@@PAX@Z
 // partial score=0.9 date=2026-10-14
 // ?Register@AIUpgradeScienceBuilder@@QAEXPAVObject@@PAX@Z
 // partial score=0.9 date=2026-10-09
@@ -173,13 +175,12 @@ void AIUpgradeScienceBuilder::Register(Object *object,void *)
    {
     unsigned cost=upgrade->rva0026EF50(owner,object);
     Rva005970ED *record=new Rva005970ED;
-    item=record;
     record->cost=cost;
     record->id=object->id;
     record->command=button;
     (i ? record->name : record->name).set(upgrade->name);
     record->rva0059717F(upgrade->heuristic);
-    upgrades.push_back((AIUpgrade *const &)item);
+    upgrades.push_back((AIUpgrade *const &)record);
     
    }
    else if (button->command==1 && button->rva0035B570() &&
@@ -187,7 +188,6 @@ void AIUpgradeScienceBuilder::Register(Object *object,void *)
    !(((ScienceBuildTemplateView *)button->rva0035B570())->bit116 & 0x40)) 
    {
     Rva005DAAB6 *record=new Rva005DAAB6;
-    item=record;
     record->command=button;
     record->name.set(((ScienceBuildTemplateView *)button->rva0035B570())->name);
     record->delay=-1.0f;
@@ -195,7 +195,7 @@ void AIUpgradeScienceBuilder::Register(Object *object,void *)
     memcpy(&record->angle,&object->angle,sizeof(float));
     record->id=object->id;
     record->registered=true;
-    ((&(buildings)) ? (buildings) : (buildings)).push_back(item);
+    ((&(buildings)) ? (buildings) : (buildings)).push_back(record);
     
    }
    
