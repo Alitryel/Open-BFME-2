@@ -184,3 +184,24 @@ int Rva003B9A62Parse(char *args[],int num) {
     }
     return 1;
 }
+
+// Native 3B9F83..3B9F8C: runs the rowed mod-cinematics setup
+// Rva003B9E0FInit 0x003B9E0F (CommandLineRva003B9E0F.cpp) and consumes one.
+void Rva003B9E0FInit();
+int Rva003B9F83Parse(char *args[],int num) {
+    Rva003B9E0FInit();
+    return 1;
+}
+
+// Native 3B9F8C..3B9FB7: raises the byte at VA 0x00E02D8B and copies the
+// next two arguments, unguarded, into the file-scope strings at VA
+// 0x00E02D90 and 0x00E02D94 (no other users are named; address-derived).
+extern bool g_00E02D8B;
+extern StringBase<char> g_Va00E02D90;
+extern StringBase<char> g_Va00E02D94;
+int Rva003B9F8CParse(char *args[],int num) {
+    g_00E02D8B=true;
+    g_Va00E02D90.set(args[1]);
+    g_Va00E02D94.set(args[2]);
+    return 1;
+}
