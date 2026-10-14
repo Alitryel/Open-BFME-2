@@ -115,8 +115,10 @@ public:
 // empty throw() dtor. The copy marks the type non-trivial so the by-value
 // temporary is built directly in the argument slot (no copy); the empty
 // dtor emits no destruction call and no EH registration. The full
-// interface (copy/compare/dtor bodies) lives in the WWLib sort TUs. This
-// TU emits no Record methods of its own, so the views cannot collide.
+// interface (copy/compare/dtor bodies) lives in the WWLib sort TUs.
+// Suppress the out-of-line empty destructor: sort-family EH cleanups use
+// the owning destructor, which frees the vector at +4. This caller's
+// empty temporary teardown must stay inline and emit no import reference.
 class Rva000795C1Record
 {
 public:
