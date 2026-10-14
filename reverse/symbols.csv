@@ -10612,7 +10612,6 @@ name,address,notes
 ?rva000A7976@Rva000427195@@QAEPAXPBU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z,0x000A7976,ICF twin of free Rva000A7976Create for table insert call with this at 0x000A7A63; same 12B node and pair copy
 ?rva000A8AC0@MilesStreamRef@@QAEXXZ,0x000A8AC0,Address-derived stream-holder method; 12B null guard then tail-call 0x10FB64; called by stopAudio
 ?rva000A8ACC@Rva000A8AEE@@QAEXXZ,0x000A8ACC,thiscall no-arg on the +0xC sink subobject (lea ecx,[edi+0xC]): same object as rowed rva000A8AEE float sink in 0x0005C16E; REL32 read at that call site; identity unproven
-?rva000A8B4B@MilesStreamRef@@QAEXI@Z,0x000A8B4B,Address-derived stream-holder method; 14B null guard then tail-call 0x10FEF3 preserving one dword argument
 ?rva000A8C9B@Rva000A8C9BHost@@QAEXXZ,0x000A8C9B,thiscall no args on esi+10C from 0x279354
 ?rva000A98BA@Rva00062908Host@@QAEXXZ,0x000A98BA,"member vtable slot 0x00062908 calls first; opaque address name"
 ?rva000AA966@Rva000AA966@@QAEPAXPAX@Z,0x000AA966,837B method on a freshly newed 0x30-byte object taking the 0x000AAD88 argument; returns pointer; original name unknown

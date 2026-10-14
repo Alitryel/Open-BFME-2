@@ -23931,7 +23931,6 @@ pin	reverse/symbols.csv	0x000A8A37	2
 pin	reverse/symbols.csv	0x000A8AC0	1
 pin	reverse/symbols.csv	0x000A8ACC	1
 pin	reverse/symbols.csv	0x000A8B04	1
-pin	reverse/symbols.csv	0x000A8B4B	1
 pin	reverse/symbols.csv	0x000A8C2B	1
 pin	reverse/symbols.csv	0x000A8C7C	2
 pin	reverse/symbols.csv	0x000A8C9B	2
@@ -35359,8 +35358,6 @@ pragma_optimize	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerA
 pragma_optimize	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerRva006A8DC0_Rva00584C9B.cpp	"",on	1
 pragma_optimize	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerRva006A8DC0_Rva00584C9B.cpp	"s",off	1
 pragma_optimize	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerRva006A8DC0_Rva00584C9B.cpp	"t",on	1
-pragma_optimize	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerStopAudio.cpp	"y",off	1
-pragma_optimize	Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManagerStopAudio.cpp	"y",on	1
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapGetMaximumVisibleBox.cpp	"",on	1
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapGetMaximumVisibleBox.cpp	"ty",on	1
 pragma_optimize	Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMap_Rva00069F4F.cpp	"",on	1

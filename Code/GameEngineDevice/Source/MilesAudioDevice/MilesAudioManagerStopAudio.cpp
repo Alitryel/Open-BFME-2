@@ -1,4 +1,4 @@
-// cl: /Oy- /Oi- /Ob1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /Oi- /Ob1 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 // Donor: reference/open-bfme-1/Code/GameEngineDevice/Source/MilesAudioDevice/
 // MilesAudioManagerStopAudio.cpp supplies stopAudio identity and three-list structure.
@@ -77,10 +77,17 @@ private:
 	long m_refCount;
 };
 
+// The guarded stream forwarders are rowed under these owners in
+// PinnedForwarders1830.cpp; MilesAudioManager.cpp casts to the same views.
+class Rva000A8B4B
+{
+public:
+	void rva000A8B4B(int value);
+};
+
 class MilesStreamRef
 {
 public:
-	void rva000A8B4B(unsigned int value);
 	void rva000A8AC0();
 private:
 	void *m_object;
@@ -98,7 +105,6 @@ public:
 };
 
 
-#pragma optimize("y", on)
 class PlayingAudioRef
 {
 public:
@@ -159,7 +165,6 @@ private:
 };
 
 
-#pragma optimize("y", off)
 void MilesAudioManager::stopAudio(AudioAffect which)
 {
 	MilesMutexGuard guard(&m_mutex, 0);
@@ -213,7 +218,7 @@ void MilesAudioManager::stopAudio(AudioAffect which)
 		playing = *it;
 		if (playing && (which & playing->m_audioEventRTS->getSoundClass()))
 		{
-			playing->m_stream.rva000A8B4B(0);
+			((Rva000A8B4B *)&playing->m_stream)->rva000A8B4B(0);
 			playing->m_stream.rva000A8AC0();
 			playing->m_status = PS_Stopped;
 		}
