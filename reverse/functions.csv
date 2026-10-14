@@ -89630,3 +89630,4 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?Rva005BE344@@YAPAHPAHHPBH@Z,,0x005BE344,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,cdecl tail jump to rowed rva499ed0 0x005BE225
 ?Rva006CE3C0@@YAPAVAptValueNameEntry@@PAV1@HH@Z,,0x006CE3C0,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,cdecl tail jump to rowed resizer 0x006CDBF0
 ?Rva006CE620@@YAPAVRva004A9DF3Element@@PAV1@HH@Z,,0x006CE620,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,cdecl tail jump to rowed resizer 0x006CE3D0
+_chatEnumJoinedChannels,,0x006A2100,5,Code/GameEngine/Source/GameNetwork/GameSpy/chat/chatMain.c,matched,vendored GameSpy chatEnumJoinedChannels: tail jump to rowed ciEnumJoinedChannels 0x006B1E80
