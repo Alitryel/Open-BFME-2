@@ -208,7 +208,8 @@ public:
 
 extern InGameUI *TheInGameUI;
 extern View *TheTacticalView;
-extern ClientFrameSubsystem *TheGameClient;
+class GameClient;
+extern GameClient *TheGameClient;
 extern const void *const g_00C3C9A0[];
 
 class Rva0029AA3F
@@ -249,7 +250,7 @@ int FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D(GameMe
 	}
 	else if (draw != 0)
 	{
-		if (TheGameClient->c18(draw, draw->getPosition(), 2) != 0x42F)
+		if (((ClientFrameSubsystem *)TheGameClient)->c18(draw, draw->getPosition(), 2) != 0x42F)
 			phase3 = false;
 	}
 	if (!phase3 && draw != 0)
