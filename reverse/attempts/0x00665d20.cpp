@@ -1,4 +1,6 @@
 // ?rva007F97B0@Rva007FA2C0@@QAEXPAVRva007E8810Message@@PAURva007FA170Slot@@@Z
+// partial score=0.9812648839899298 date=2026-10-15
+// ?rva007F97B0@Rva007FA2C0@@QAEXPAVRva007E8810Message@@PAURva007FA170Slot@@@Z
 // partial score=0.9802987004150506 date=2026-10-14
 // ?rva007F97B0@Rva007FA2C0@@QAEXPAVRva007E8810Message@@PAURva007FA170Slot@@@Z
 // partial score=0.9802987004150506 date=2026-10-14
@@ -128,7 +130,7 @@ class Rva00808CB0LanGameEntry : public Rva007E86B0Base
  __forceinline Rva00808CB0LanGameEntry()
  
  {
-  *(volatile int *)&m_field08 = 0;
+  *(int *)&m_field08 = 0;
   *(volatile int *)&m_field0c = 0;
   *(int *)&m_field04 = 0;
   
@@ -216,6 +218,7 @@ void Rva007FA2C0::rva007F97B0( Rva007E8810Message *message, Rva007FA170Slot *slo
  if( length & 3 )
  Rva007EB810Get()->fail( "(len & 0x3) == 0",
 "\\views\\feslbuild_main\\jabba\\fesl\\source\\transactor.cpp", 0x13b );
+ if (0) { Rva00808CB0LanGameEntry t1_dead; }
  unsigned decoded = length / 4 * 3;
  if( !rva007FF250Decode( length, text, record->m_buffer + __vref(record->m_received) ) )
  Rva007EB810Get()->fail( "result",
