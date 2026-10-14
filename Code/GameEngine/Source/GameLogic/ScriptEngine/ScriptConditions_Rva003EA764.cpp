@@ -56,11 +56,14 @@ public:
 
 class Parameter;
 
+enum EvaEventID { EVA_EVENT_ID_FIRST = 0 };
+struct Vec001DCDAF;
+
 class Eva
 {
 public:
 	int rva001DE78E(const AsciiString *key);		// 0x001DE78E
-	bool rva001DD670(int index, Coord3D *pos);		// 0x001DD670
+	bool rva001DD670(EvaEventID index, Vec001DCDAF *pos) const;		// 0x001DD670
 };
 extern Eva *TheEva;
 
@@ -112,7 +115,7 @@ bool ScriptConditions::evaluateIsNumOfUnitsBelongingToPlayerNearEvaEventLastPlay
 	int mask;
 	if (index == -1)
 		count = 0;
-	else if (!TheEva->rva001DD670(index, &pos))
+	else if (!TheEva->rva001DD670((EvaEventID)index, (Vec001DCDAF *)&pos))
 		count = 0;
 	else if ((mask = TheScriptEngine->rva00357B82(playerParm)) == 0)
 		count = 0;

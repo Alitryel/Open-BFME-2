@@ -126,7 +126,8 @@ struct ArmySummaryView {
     int size() const { return entries40.size(); }
     int nativeSize() const { const ArmySummaryEntryRefView *last=entries40.end(); return last-entries40.begin(); }
 };
-class Rva00318C32Owner { public: int rva00318C32(); };
+class Rva00318C32Ret;
+class Rva00318C79Owner { public: Rva00318C32Ret *rva00318C32(); };
 class Rva003193EC { public: void rva003198B8(Rva003193EC *); void rva003190E7(bool); void rva003191B1(); };
 class ArmySummaryEntry { public: void CancelUpgrades(); };
 class Rva004F6093Holder { public: ArmySummaryEntry *entry; };
@@ -406,7 +407,7 @@ void LivingWorldArmy::UseArmySummary(Rva00319CED *source)
 void LivingWorldArmy::TakeUnitFromArmy_Internal(LivingWorldArmy *source, const Rva004F6093Holder &entry)
 {
     reinterpret_cast<ArmySummary *>(summary78.m_summary)->AddArmyEntry(entry);
-    if (reinterpret_cast<Rva00318C32Owner *>(this)->rva00318C32() != reinterpret_cast<Rva00318C32Owner *>(source)->rva00318C32())
+    if (reinterpret_cast<Rva00318C79Owner *>(this)->rva00318C32() != reinterpret_cast<Rva00318C79Owner *>(source)->rva00318C32())
         entry.entry->CancelUpgrades();
     reinterpret_cast<Rva003193EC *>(this)->rva003198B8(reinterpret_cast<Rva003193EC *>(source));
 }
@@ -555,7 +556,7 @@ void LivingWorldArmy::initiateMove(const Coord2D &position,Rva00318C32Ret *targe
     Rva00538E43Result destination(position,region);
     RegionMoveView *current;
     if (!(reinterpret_cast<const QueueCollectionView *>(queue)->entries.size()>0))
-        current=reinterpret_cast<RegionMoveView *>(reinterpret_cast<Rva00318C32Owner *>(this)->rva00318C32());
+        current=reinterpret_cast<RegionMoveView *>(reinterpret_cast<Rva00318C79Owner *>(this)->rva00318C32());
     else
         current=reinterpret_cast<RegionMoveView *>(const_cast<Rva00538CEF *>(reinterpret_cast<const Rva00538CEF *>(queue))->rva00538CEF());
     _STL::vector<BfmeVectorRecord00319C84> moves;

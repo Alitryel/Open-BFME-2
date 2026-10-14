@@ -85,7 +85,13 @@ class TerrainLogic
 public:
 	void rva00282CFB(const Coord3D *pos, float f, unsigned int x);
 	void rva00283262(const Coord3D *a, float b);
-	void rva0027F1DD(const Coord3D *pos, float radius);
+};
+
+// 0x0027F1DD, rowed as BfmeThingCME::rva0027F1DD (Rva0027F1DDRetire.cpp).
+class BfmeThingCME
+{
+public:
+	void rva0027F1DD(Coord3D *position, float radius);
 };
 
 void TerrainLogic::rva00283262(const Coord3D *a, float b)
@@ -144,7 +150,7 @@ void TerrainLogic::rva00282CFB(const Coord3D *pos, float radius, unsigned int mo
 			g_defaultStorage009FEFA4), 1);
 	for (Object *other = hits.next(); other != 0; other = hits.next())
 		TheGameLogic->destroyObject(other);
-	rva0027F1DD(pos, radius);
+	((BfmeThingCME *)this)->rva0027F1DD((Coord3D *)pos, radius);
 	if (g_00DFF080)
 		g_00DFF080->rva00282CFBNotify(TerrainPoint00282CFB(pos->x, pos->y, pos->z), radius);
 }

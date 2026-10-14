@@ -89,16 +89,18 @@ public:
 	__declspec(noinline) ~Rva005F50B9();
 };
 
-class Rva00575674Sub
+class Object;
+class Rva00575674
 {
 public:
-	void rva00575674(void *value);
+	void rva00575674(Object *value);
 };
 
+struct Rva005F4EE8Source;
 class Rva005F4EE8
 {
 public:
-	Rva005F4EE8(Rva005F54DA *owner, void *inputA, void *inputB);
+	Rva005F4EE8(Rva005F4EE8Source *owner, int inputA, const AsciiString &inputB);
 	virtual ~Rva005F4EE8();
 private:
 	void *m_impl;
@@ -151,7 +153,7 @@ void Rva005F54DA::rva005F4EED(void *inputA, void *inputB)
 {
 	if (m_b14.empty())
 	{
-		((Rva00575674Sub *)&m_b14)->rva00575674(new Rva005F4EE8(this, inputA, inputB));
+		((Rva00575674 *)&m_b14)->rva00575674((Object *)new Rva005F4EE8((Rva005F4EE8Source *)this, (int)inputA, *(const AsciiString *)inputB));
 		rva005F4BB4(m_a0c.m_ptr);
 		rva005F4BB4(m_a10.m_ptr);
 	}

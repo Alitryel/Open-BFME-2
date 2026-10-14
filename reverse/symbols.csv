@@ -10718,7 +10718,6 @@ name,address,notes
 ?rva001D9781@Rva001D98BD@@QAE_NXZ,0x001D9781,"Retail REL32 at 0x001D97AC targets this Ghidra start; function start/extent 88B. Candidate self-recursion pin; name/class remain address-derived structural labels"
 ?rva001DA112@Rva001DA112@@QAEXHHPAD@Z,0x001DA112,thiscall callee of the F22 ebp-frame forwarders; takes the wrapper's first two args plus (char*)&arg2+3 in a vestigial third slot; name unknown
 ?rva001DC42C@GameWindowTransitionsHandler@@QAEXVAsciiString@@_N@Z,0x001DC42C,transition remove callee of reset at 0x0031E09E; honest address-derived name
-?rva001DD670@Eva@@QAE_NHPAUCoord3D@@@Z,0x001DD670,"Eva (the global at 0x00DFDC30) member taking an event index and a Coord3D out-pointer (zeroed first, false for -1), returning a bool; REL32 in script condition 0x003EA797 after the event id lookup Eva::rva001DE78E"
 ?rva001DD8C9@Rva001DE556@@QAEPAXABU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z,0x001DD8C9,thiscall twin of rowed stdcall alloc via call-site mov ecx esi at 0x001DE556
 ?rva001DDAE1@Rva001DDAE1@@QAEXPAUCoord3D@@@Z,0x001DDAE1,Coord3D call on the 0x00DFDC30 global; REL32 callee of dump-range-18 0x003C00CE; identity unproven
 ?rva001DDCC5@Rva001DDCC5@@QAEXPAX@Z,0x001DDCC5,thiscall (ptr); copy helper called from 0x1DE3E3
@@ -10902,8 +10901,6 @@ name,address,notes
 ?rva002930A9@Object@@QAEXH@Z,0x002930A9,"Object member (ret 4) that starts by looking up the Object's producer (+0x78) through TheGameLogic; UntamedAllegianceSpecialPower slot 13 0x004C7BB0 calls it with 0 on the Object it takes over"
 ?rva002943B2@Object@@QAE_NPBVPlayer@@@Z,0x002943B2,thiscall Object query in place of Zero Hour's stealthed/detected/disguised status tests: Team::getTeamTargetObject 0x003A105B passes the team's controlling player (0x003A1087) and TunnelTracker::getCurNemesis 0x004F5684 passes null (0x004F56BE); ret 4; al tested; body checks contain modules and status 0x11/0xF; meaning not established
 ?rva00294815@Object@@QAEDXZ,0x00294815,"Object member returning a char level (plain ret on the fast path); PorcupineFormationBodyModule slot 38 0x004C2127 compares it with its module data's +0x6C level"
-?rva0029493F@Rva0029493F@@QAEXHH@Z,0x0029493F,address-derived callee of matched slot 0x0026156C; retail REL32 targets 0x0029493F; Ghidra FUN bounds 111 bytes; thiscall two args; ret 8; callee body remains unclaimed; no named identity inferred
-?rva0029493F@Rva0029493F@@QAE_NHH@Z,0x0029493F,bool-returning twin pin at the void-pinned address (body ends xor-al/mov-al-1, so it returns bool): thiscall bool (int,int); retail E8 at 0x002E9E70 in 0x002E9D09 tests al; existing void pin retained for its own caller
 ?rva00294C1A@Object@@QAEXPAV1@_NM@Z,0x00294C1A,"Object method, ret 0xC (victim Object, flag, float): returns at once unless the ExperienceTracker at +0x264 passes rva0039AE04 and the victim is not status 2; called by BloodthirstyUpdate +0x20 slot 8 0x0044E222 on the Object rva002931F5(false) resolves to with (victim, 1, module data +0x0C)"
 ?rva0029660C@Object@@QAEXPBUCoord3D@@H@Z,0x0029660C,"Object member, ret 8: (position, 0); REL32 callee of AttachUpdate::update 0x00491D2F on the AlwaysTeleport (+0x20) path, setPosition 0x0030AA80 on the other; address-named, teleport role inferred"
 ?rva00297000@Object@@QAEXPBVCommandButton@@PAV1@HH@Z,0x00297000,"Object member (ret 0x10) taking the command button, the target object, 1 and 0; REL32 in script action 0x003BDF8F where Zero Hour's team variants call groupDoCommandButtonAtObject (CMD_FROM_SCRIPT); identity not recovered"
@@ -11057,7 +11054,6 @@ name,address,notes
 ?rva0030D377@SlaveWatcherBehavior@@QBE?AW4ObjectID@@XZ,0x0030D377,"the +0x20 ObjectID getter run on the module UnleashSpecialPower finds by the SlaveWatcherBehavior key (slot 17 0x004CE18A at 0x004CE1E8, slot 8 0x004CE0D9); ICF alias onto the matched ?getDataLength@NetWrapperCommandMsg@@QAEIXZ (mov eax,[ecx+0x20])"
 ?rva0030F2C7@Rva002C589B@@QBEHXZ,0x0030F2C7,entry count getter (folded disp8 dword getter); REL32s at 0x005053BE and 0x005053EC
 ?rva0030F36B@Rva0030F36B@@QAEXXZ,0x0030F36B,callee of ?rva00086BC5@Rva00086BC5@@QAEXH@Z
-?rva00318C32@Rva00318C32@@QAEHXZ,0x00318C32,pin for 0x005E58ED first; address-derived
 ?rva00318C32@Rva00318C79Owner@@QAEPAVRva00318C32Ret@@XZ,0x00318C32,callee of wrapper 0x00318C79 read from its REL32 displacement; w3-g26
 ?rva00318F42@Rva00318F42@@QAEHXZ,0x00318F42,this-only int getter for 0x005D20C1 twin; address-derived pin
 ?rva0031912E@Rva0031912E@@QAEHXZ,0x0031912E,thiscall with 0 stack args seen at 0x2B4C35 site; return ignored there; banked 0.93 partial kept
@@ -14704,7 +14700,6 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ??0Rva003FE412Fresh@@QAE@PAXPAVRva0031934BOwner@@@Z,0x003FE412,unrowed ctor on the fresh 96B helper taking payload and owner (placement-new target); callee of gate 0x0031934B read from its REL32 displacement; address name
 ?rva00318EC0@Rva0031934BOwner@@QAEXXZ,0x00318EC0,sibling refresh ending gate 0x0031934B; callee read from its REL32 displacement; address name
 ?rva00318FA1@Rva00318FA1MainOwner@@QAEHXZ,0x00318FA1,banked wheel resolver reused by gate 0x003195C9; address from its REL32 displacement
-?rva00318C32@Rva00318C32Owner@@QAEHXZ,0x00318C32,banked float handoff reused by gate 0x003195C9; address from its REL32 displacement
 ?rva00318B83Free@@YGPBUTWheelInfo@@PAX@Z,0x00318B83,callee-cleanup free-form entry to the 17B getter taking the pushed arg without this (stale ecx at gate 0x00319831); same address as rowed getWheelInfo
 ?rva00538ED1@Rva00538ED1@@QAEXXZ,0x00538ED1,unrowed dense-wheel worker reading owner from stale stack slot in gate 0x00319831 (declared taking only this); callee read from its REL32 displacement; address name
 ?rva003197B7@Rva003195C9Owner@@QAEXXZ,0x003197B7,banked dense-wheel copier reused by handoff 0x00319AA0; address from its REL32 displacement
@@ -15303,7 +15298,6 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ??0Rva005F54DA@@QAE@PAVRva005F566A@@PAVRva0057C394@@PAX2222@Z,0x005F53E6,Native ctor 5F53E6 stores owner0 provider4 callback8; WB pair independently names ArmyUnitSwapperDialog Impl; seven forwarded machine-word inputs at 5F5614; rowed owner reset5F55FA destroys this through dtor5F54DA; remaining inputs opaque
 ??0Rva005F501E@@QAE@PAVRva005F54DA@@HPAX1@Z,0x005F523F,Native5F53E6 allocates34-byte handler at C/10; 129B handler523F stores owner8 sideC and opaque input10 then observes input; reset5F50B9 owns rowed dtor501E. Callback4EED is native108B EH entry through RET8 at4F56 and is the object-method descriptor installed by53E6; original callback arguments remain opaque
 ?rva005F4EED@Rva005F54DA@@QAEXPAX0@Z,0x005F4EED,Native5F53E6 allocates34-byte handler at C/10; 129B handler523F stores owner8 sideC and opaque input10 then observes input; reset5F50B9 owns rowed dtor501E. Callback4EED is native108B EH entry through RET8 at4F56 and is the object-method descriptor installed by53E6; original callback arguments remain opaque
-??0Rva005F4EE8@@QAE@PAVRva005F54DA@@PAX1@Z,0x005F4E48,Native108B callback5F4EED allocates C bytes calls132B ctor4E48 with Impl and its two opaque callback arguments then invokes158B member4BB4 separately with handlers C and10; frame vtable C794E4 shares existing virtual dtor4EE8 and ctor stores Impl8. These native call relationships establish address-derived identities; unresolved input types remain void pointers.
 ?rva005F4BB4@Rva005F54DA@@QAEXPAVRva005F501E@@@Z,0x005F4BB4,Native108B callback5F4EED allocates C bytes calls132B ctor4E48 with Impl and its two opaque callback arguments then invokes158B member4BB4 separately with handlers C and10; frame vtable C794E4 shares existing virtual dtor4EE8 and ctor stores Impl8. These native call relationships establish address-derived identities; unresolved input types remain void pointers.
 ??0ControlBar@@QAE@XZ,0x0031E94C,callee of ?init@InGameUI@@UAEXXZ
 ??0BannerUI@@QAE@XZ,0x00217211,callee of ?init@InGameUI@@UAEXXZ
@@ -15419,7 +15413,6 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ?rva001B5018@SubsystemInterfaceList@@QAEXPAX@Z,0x001B5018,callee of ?init@LargeGroupAudio@@UAEXXZ
 ?rva00282135@Rva0028279F@@QAEXXZ,0x00282135,callee of ??1Rva0028279F@@QAE@XZ
 ??_9Rva00281A15Listener@@$BA@AE,0x001FF3A9,callee of ??1Rva0028279F@@QAE@XZ
-?rva0027F1DD@TerrainLogic@@QAEXPBUCoord3D@@M@Z,0x0027F1DD,callee of ?rva00282CFB@TerrainLogic@@QAEXPBUCoord3D@@MI@Z
 ?rva00599F74@Rva0059AC4D@@QAEPAVTeam@@PAVTeamPrototype@@@Z,0x00599F74,callee of ?rva0059ABC9@Rva0059AC4D@@QAEXPAX@Z
 ?rva0059A499@Rva0059AC4D@@QAEXPAVTeam@@PAHPAVTeamPrototype@@@Z,0x0059A499,callee of ?rva0059ABC9@Rva0059AC4D@@QAEXPAX@Z
 ?rva0059A8D7@Rva0059AC4D@@QAEXPAVTeam@@PAH@Z,0x0059A8D7,callee of ?rva0059ABC9@Rva0059AC4D@@QAEXPAX@Z

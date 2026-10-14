@@ -72,16 +72,11 @@ public:
 	Bool isAttackViewBlockedByObstacle(const Object *a, const Coord3D &b, const Object *c, const Coord3D &d);
 };
 
-class Rva002CB35CObj
+// 0x002CB35C, rowed as Rva002C9B80Owner::isWithinAttackRange (WB Weapon).
+class Rva002C9B80Owner
 {
 public:
-	Bool rva002CB35C(int a, void *b, void *c, void *d, Real e, int f);
-};
-
-class Rva0029493F
-{
-public:
-	Bool rva0029493F(int a, int b);
+	Bool isWithinAttackRange(Object *source, const Coord3D *sourcePos, Object *target, const Coord3D *targetPos, Real extra, Bool flag);
 };
 
 class Weapon
@@ -99,6 +94,7 @@ public:
 	const Weapon *getCurrentWeapon(WeaponSlotType *slot) const;
 	Bool isSignificantlyAboveTerrain() const;
 	Real rva0028AC7D() const;
+	Bool rva0029493F(Object *other, int kind);
 	unsigned char m_pad00[0x38];
 	Coord3D m_position;
 	unsigned char m_pad44[0x258 - 0x44];
@@ -243,9 +239,9 @@ StateReturnType AIAttackPursueTargetState::updateInternal()
 			ai->setTurretTargetObject(tur, victim, m_isForceAttacking);
 			m_isInitialApproach = false;
 			Real victimSpeed = victim->rva0028AC7D();
-			if (((Rva002CB35CObj *)weapon)->rva002CB35C((int)source, (void *)&source->m_position, (void *)victim, (void *)&victim->m_position, 0.0f, 1))
+			if (((Rva002C9B80Owner *)weapon)->isWithinAttackRange(source, &source->m_position, victim, &victim->m_position, 0.0f, true))
 				victimSpeed *= 0.95f;
-			if (((Rva0029493F *)source)->rva0029493F((int)victim, 2))
+			if (source->rva0029493F(victim, 2))
 				victimSpeed = 999999.0f;
 			ai->setDesiredSpeed(victimSpeed);
 			Locomotor *locomotor = ai->m_curLocomotor;

@@ -66,10 +66,11 @@ public:
 	void rva00319B0A();
 };
 
-class Rva00318C32
+class Rva00318C32Ret;
+class Rva00318C79Owner
 {
 public:
-	int rva00318C32();
+	Rva00318C32Ret *rva00318C32();
 };
 
 class Image;
@@ -147,5 +148,5 @@ Rva00576F48::Rva00576F48(Rva00577634Owner *owner, int id)
 		target->slot8();
 	}
 	Rva005CB84A *field = (Rva005CB84A *)static_cast<const Rva00574AACAddDwordField *>(m_owner14->m_inner0C->m_field04)->get();
-	field->rva005CB84A(((Rva00318C32 *)m_id18)->rva00318C32());
+	field->rva005CB84A((int)((Rva00318C79Owner *)m_id18)->rva00318C32());
 }
