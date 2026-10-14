@@ -1,4 +1,6 @@
 // ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
+// partial score=0.8014 date=2026-10-14
+// ?rva0052F63F@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.6198830409 date=2026-10-13
 // W7-SOL6 WB-first owner port:3017/3027B, frame10C/native114, callback52E6E6 missing.
 // Corrected search/merge inside loop, scalar raster bounds, cached current layer per WB12DB220.
@@ -355,6 +357,7 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
   for(int j=loY;j<=hiY;++j)for(int i=loX;i<=hiX;++i){
    if(m_map[i][j].layer==layer){
     PathfindCell*c=&m_map[i][j];bool dirty=c->SetType_Dirty(0);dirty|=((Rva0052E001*)c)->rva0052E001(false);dirty|=((Rva00366500*)c)->rva00366500(true);dirty|=((Rva00366500*)c)->rva0036652D(false);
+    _ReadWriteBarrier();
     if(dirty)zones.MarkDirty(i,j);c->pinched=false;
    }
   }
@@ -363,7 +366,7 @@ void Pathfinder::rva0052F63F(Object*obj,bool insert)
    Drawable*d=other->getDrawable();if(!d)continue;float z;PolygonTrigger*q=(PolygonTrigger*)d->rva002725B1((int)&z);if(!q)continue;
    IRegion2D qb;q->getBounds((int*)&qb);
    int lx=FLOOR(qb.lo.x/10)-2,ly=FLOOR(qb.lo.y/10)-2,hx=CEIL(qb.hi.x/10)+2,hy=CEIL(qb.hi.y/10)+2;
-   if(lx<=hiX&&hx>=loX&&ly<=hiY&&hy>=loY){rva0052F63F(other,true);deletePoly(q);}
+   if((layer ? (lx<=hiX&&hx>=loX&&ly<=hiY&&hy>=loY) : (lx<=hiX&&hx>=loX&&ly<=hiY&&hy>=loY))){rva0052F63F(other,true);deletePoly(q);}
   }
  }
  deletePoly(area);
