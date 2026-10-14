@@ -18,6 +18,7 @@ public:
 struct Rva000A8C9B
 {
 	OpaqueRefCounted *m_ptr;
+	Rva000A8C9B() : m_ptr(0) {}
 	void clear();
 	~Rva000A8C9B()
 	{
@@ -28,6 +29,7 @@ struct Rva000A8C9B
 class Rva003FD3EF : public Snapshot
 {
 public:
+	Rva003FD3EF();
 	virtual ~Rva003FD3EF();
 private:
 	char m_pad04[8];
@@ -37,4 +39,12 @@ private:
 Rva003FD3EF::~Rva003FD3EF()
 {
 	m_0c.clear();
+}
+
+// ??0Rva003FD3EF@@QAE@XZ @0x002B309B 13B: installs vtable 0x00BFE024 (slot 0
+// the rowed ??_G 0x002B30AE, slot 2 the "DelayedAudioEventModule" name
+// getter 0x002B30A8 directly after it) and nulls the holder at +0x0C; +4/+8
+// are left untouched. Twin skeleton of ??0RadarMarkerClientUpdateModuleData.
+Rva003FD3EF::Rva003FD3EF()
+{
 }

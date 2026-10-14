@@ -10,6 +10,7 @@
 template <typename T> class StringBase
 {
 public:
+	StringBase() : m_data(0) {}
 	~StringBase() { releaseBuffer(); }
 	void clear() { releaseBuffer(); }
 private:
@@ -26,6 +27,7 @@ template <> StringBase<char>::~StringBase();
 class Rva003FD4DA : public Snapshot
 {
 public:
+	Rva003FD4DA();
 	virtual ~Rva003FD4DA();
 private:
 	char m_pad04[8];
@@ -35,4 +37,12 @@ private:
 Rva003FD4DA::~Rva003FD4DA()
 {
 	m_0c.clear();
+}
+
+// ??0Rva003FD4DA@@QAE@XZ @0x002B595F 13B: installs vtable 0x00BFE1B0 (slot 0
+// the rowed ??_G 0x002B5972, slot 2 the "DelayedWorldTextEventModule" name
+// getter 0x002B596C directly after it) and empties the string at +0x0C;
+// +4/+8 are left untouched. Twin skeleton of ??0RadarMarkerClientUpdateModuleData.
+Rva003FD4DA::Rva003FD4DA()
+{
 }
