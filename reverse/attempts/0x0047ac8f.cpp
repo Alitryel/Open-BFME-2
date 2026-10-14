@@ -1,3 +1,5 @@
+// ?rva0047AC8F@AODHordeContain@@UAEPAUCoord3D@@PAU2@PAVObject@@H@Z
+// partial score=0.865 date=2026-10-14
 // ?rva0047AC8F@AODHordeContain@@QAEXXZ
 // partial score=0.8684 date=2026-10-13
 // ?rva0047AC8F@AODHordeContain@@UAEPAUCoord3D@@PAU2@PAVObject@@H@Z
@@ -7,6 +9,8 @@
 // WB1161040 names getUnitsIntendedPosition; original hidden-result shape is
 // represented explicitly to use canonical Coord3D without a private class.
 // Banked semantic reconstruction retained; physical fields are target accesses.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Lib/Coord3D.h"
 #include "Lib/Coord2D.h"
 #include <math.h>
@@ -420,14 +424,15 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
  AODWave *wave = &m_wavesBegin[index];
  AODSway sway;
  sway.y = (float)sin(wave->m_00 + wave->m_08 * ((float)TheGameLogic->getFrame() * md->m_274)) * wave->m_04;
+ _ReadWriteBarrier();
  sway.y = speedFactor * md->m_27C * sway.y;
  sway.x = 0.0f;
  Rva00468E98Point dir=((Rva00468E98 *)this)->rotate(reinterpret_cast<const Rva00468E98Point &>(sway));
  float len = sway.length();
  angle = sway.toAngle() + angle;
  dir.x = Cos(angle);
- dir.y = Sin(angle);
  dir.x *= len;
+ dir.y = Sin(angle);
  dir.y *= len;
  t = md->m_298;
  if (t < 0.0f)
@@ -446,8 +451,8 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
   Coord2D spread = *rva0046A5B1(&temporary, index);
   spread.normalize();
   float s = md->m_2B4 * m_218;
-  s = (float)(index % 5) * md->m_2B8 * m_218 * 0.25f + s;
   spread.x *= s;
+  s = (float)(index % 5) * md->m_2B8 * m_218 * 0.25f + s;
   spread.y *= s;
   dir.x += spread.x;
   dir.y += spread.y;
