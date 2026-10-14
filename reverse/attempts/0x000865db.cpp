@@ -1,4 +1,6 @@
 // ?cameraModFinalZoom@W3DView@@UAEXMMM@Z
+// partial score=0.99 date=2026-10-14
+// ?cameraModFinalZoom@W3DView@@UAEXMMM@Z
 // partial score=0.98 date=2026-10-13
 // ?cameraModFinalZoom@W3DView@@UAEXMMM@Z
 // partial score=0.98 date=2026-10-10
