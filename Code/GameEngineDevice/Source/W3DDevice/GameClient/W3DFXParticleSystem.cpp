@@ -27,6 +27,7 @@ typedef bool Bool;
 class RenderInfoClass;
 class FrustumClass;
 class ParticleSystem;
+ParticleSystem *Make001FCBD7();
 
 class AABoxClass
 {
@@ -70,8 +71,8 @@ public:
 	RvaSmartPtr12(const RvaSmartPtr12 &that);	// 0x0004CC19
 	~RvaSmartPtr12() { if (m_ptr) rva0004CBC0(); }
 	void rva0004CBC0();				// 0x0004CBC0
-	ParticleSystem *get() const { return m_ptr; }
-	ParticleSystem *operator->() const { return m_ptr; }
+	operator bool() const { return m_ptr != 0; }
+	ParticleSystem *operator->() const { return m_ptr ? m_ptr : Make001FCBD7(); }
 
 private:
 	ParticleSystem *m_ptr;
@@ -161,7 +162,7 @@ void Rva0004CA4C::rva0004D47D(RenderInfoClass &rinfo)
 	for (_STL::list<RvaSmartPtr12>::iterator it = particleSysList.begin(); it != particleSysList.end(); ++it)
 	{
 		RvaSmartPtr12 sys(*it);
-		if (!sys.get())
+		if (!sys)
 			continue;
 		if (sys->m_0C != 6)
 			continue;
@@ -188,10 +189,9 @@ void Rva0004CA4C::rva0004D47D(RenderInfoClass &rinfo)
 			for (Int j = list.size() - 1; j >= 0; j--)
 			{
 				RvaSmartPtr12 sys(list[j]);
-				ParticleSystem *raw = sys.get();
-				if (!raw)
+				if (!sys)
 					continue;
-				ParticleDrawModule *drawModule = raw->m_drawModule;
+				ParticleDrawModule *drawModule = sys->m_drawModule;
 				if (drawModule)
 					m_onScreenParticleCount += drawModule->doParticles(rinfo, &bbox, &m_54);
 			}
