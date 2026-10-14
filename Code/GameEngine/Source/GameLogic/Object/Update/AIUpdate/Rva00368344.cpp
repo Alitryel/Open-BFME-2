@@ -4,7 +4,8 @@
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
 class Object { public: bool isMobile() const; };
 class Waypoint;
-class AIStateMachine { public: void setGoalWaypoint(const Waypoint *p); };
+class Team;
+class AIStateMachine { public: void setGoalWaypoint(const Waypoint *p); void setGoalTeam(const Team *team); };
 class StateMachine {
 public:
 	virtual void s0(); virtual void s1(); virtual void s2(); virtual void s3(); virtual void s4();
@@ -20,6 +21,7 @@ public:
 	void rva00368397(const Coord3D *pos, int flag);
 	void rva00368433(const Coord3D *pos, int flag);
 	void rva00368486(const Coord3D *pos, const Waypoint *wp, bool extra);
+	void rva003684E4(const Team *team, const Waypoint *wp, bool extra);
 private:
 	char m_pad00[8];
 	Object *m_gate08; // +0x08
@@ -91,6 +93,24 @@ void Rva00368344::rva00368486(const Coord3D *pos, const Waypoint *wp, bool extra
 	((AIStateMachine *)this)->setGoalWaypoint(wp);
 	m_machine->s5();
 	m_machine->s14(pos);
+	if (extra)
+		m_machine->s8(0x3F3);
+	else
+		m_machine->s8(0x3F2);
+	m_done = 1;
+}
+// Native 0x003684E4..0x00368542, 94B, RET12: the team twin of
+// rva00368486 above, handing the machine its goal team through the rowed
+// AIStateMachine::setGoalTeam 0x0035042D instead of slot 14's position.
+void Rva00368344::rva003684E4(const Team *team, const Waypoint *wp, bool extra)
+{
+	if (team == 0)
+		return;
+	if (!m_gate08->isMobile())
+		return;
+	((AIStateMachine *)this)->setGoalWaypoint(wp);
+	m_machine->s5();
+	((AIStateMachine *)m_machine)->setGoalTeam(team);
 	if (extra)
 		m_machine->s8(0x3F3);
 	else
