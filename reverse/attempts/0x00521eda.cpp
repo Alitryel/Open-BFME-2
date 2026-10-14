@@ -1,4 +1,6 @@
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
+// partial score=0.97 date=2026-10-14
+// ?InitTheGame@AptSkirmish@@QAE_NXZ
 // partial score=0.93 date=2026-10-13
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
 // partial score=0.93 date=2026-10-08
@@ -12,6 +14,8 @@
 // its profile name entry, +0x698 its SkirmishPreferences (whose user name
 // list the profile callbacks walk; STLport and /EHsc are for them).
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "unicode_string.h"
 #include "ascii_string.h"
 
@@ -698,8 +702,9 @@ bool AptSkirmish::InitTheGame() {
   Rva0040A3F9 *heroes=((CreateAHeroManager *)TheHeroManager)->rva0021F797();
   { GameSlotConnectInfo info;player->setState(SLOT_PLAYER,prefs->Rva0043B9F5(),&info); }
   { GameSlotConnectInfo info;enemy->setState(SLOT_CLOSED,UnicodeString::TheEmptyString,&info); }
-  int side=(*(int *)((char *)this+0x304)!=1)+1;
+  volatile int side = (*(int *)((char *)this+0x304)!=1)+1;
   int index=0;
+  _ReadWriteBarrier();
   if(!ThePlayerTemplateStore->rva001FD367(side,&index)) index=-1;
   player->setPlayerTemplate(index);
   int hero=heroes->findIndex(((CreateAHeroManager *)TheHeroManager)->GetDefaultHero(side));
