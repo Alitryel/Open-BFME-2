@@ -149,6 +149,7 @@ public:
 	const FieldParse *getFieldParse() const { return m_gameWindowTransitionsFieldParseTable; }
 	void setGroup( AsciiString groupName, Bool immidiate );
 	void reverse( AsciiString groupName );
+	void remove( AsciiString groupName, Bool skipPending = false );
 	int rva001DC1FD( AsciiString groupName );
 	static void parseWindow(INI *ini, void *instance, void *store, const void *userData);	// rowed 0x001DCB2F
 	TransitionGroup *getNewGroup( AsciiString name );
@@ -255,6 +256,33 @@ void GameWindowTransitionsHandler::setGroup(AsciiString groupName, Bool immidiat
 	m_currentGroup = findGroup(groupName);
 	if(m_currentGroup)
 		m_currentGroup->init();
+}
+
+// GameWindowTransitionsHandler::remove (0x001DC42C, 166B): drops a group under
+// the critical section; the nested equal-arm on the lookup keeps retail's
+// EH-slot placement for the by-value name.
+void GameWindowTransitionsHandler::remove( AsciiString groupName,  Bool skipPending )
+{
+	BfmeTransitionsLock lock(m_lock);
+	TransitionGroup *g = (skipPending ? (findGroup(groupName)) : ((m_lock ? (findGroup(groupName)) : (findGroup(groupName)))));
+	if(!g)
+		return; // BFME 2 (target evidence): an unknown group changes nothing
+	if(m_pendingGroup == g)
+	{
+		if(skipPending)
+			m_pendingGroup->skip();
+		m_pendingGroup->bfmeAfterSkip();
+
+		m_pendingGroup = NULL;
+	}
+	if(m_currentGroup == g)
+	{
+		m_currentGroup->skip();
+		m_currentGroup->bfmeAfterSkip();
+		m_currentGroup = NULL;
+		if(m_pendingGroup)
+			m_currentGroup = m_pendingGroup;
+	}
 }
 
 void GameWindowTransitionsHandler::reverse( AsciiString groupName )

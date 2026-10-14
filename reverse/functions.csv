@@ -88218,3 +88218,4 @@ __ehhandler$?rva003449C5@@YA_NPAUCoord3D@@PAVObject@@1@Z,,0x0077CDBA,10,Code/Gam
 ?isContactWeapon@WeaponTemplate@@QBE_NXZ,,0x0047A699,3,Code/GameEngine/Source/GameLogic/Object/Weapon.cpp,matched,WeaponTemplate::isContactWeapon (ZH Weapon.cpp); BFME2 retail folds it into the shared xor al al / ret stub; REL32 at 0x0026DC3F in privateAttackPosition and 0x00343E72 in 0x00343DD8 with ECX = Weapon+0x04
 ?Rva001DABB6Parse@@YAXPAVINI@@PAXPAH1@Z,,0x001DABB6,391,Code/Libraries/Source/WWVegas/WWLib/Rva001DABB6SoundsListParse.cpp,matched,INI sounds-list parse; equal-arm on the end-of-token store flag
 ?Rva0030EFD5@@YAI_N@Z,,0x0030EFD5,117,Code/GameEngine/Source/GameClient/Rva0030EFD5Flags.cpp,matched,small body (wide scan)
+?remove@GameWindowTransitionsHandler@@QAEXVAsciiString@@_N@Z,,0x001DC42C,166,Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsHandlerGroups.cpp,matched,group removal under the critical section
