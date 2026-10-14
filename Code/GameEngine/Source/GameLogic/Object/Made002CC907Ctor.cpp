@@ -97,6 +97,7 @@ class Rva00507823
 public:
 	Rva00507823();
 	virtual ~Rva00507823();
+	unsigned char rva005075D6(const void *,Object *);
 private:
 	char m_pad[0x128 - 4];
 };
@@ -111,6 +112,7 @@ public:
 	Made002CC907();
 void rva0050A832(Object *,Object *);
 void rva0050A9F2(const Rva0050A9F2Context *,Object *);
+bool rva0050A98F(const Rva0050A9F2Context *,Object *);
 private:
 	bool m_containOnEffect;
 	bool m_impactOnEffect;
@@ -158,4 +160,13 @@ void Made002CC907::rva0050A9F2(const Rva0050A9F2Context *context,Object *target)
   if(m_removeFromOtherContain) {Object *previous=target->containedBy;if(previous)previous->contain->remove(target,false);}
   contain->add(target);
  } else if(m_impactOnEffect)rva0050A832(source,target);
+}
+
+bool Made002CC907::rva0050A98F(const Rva0050A9F2Context *context,Object *target) {
+ Object *source=TheGameLogic->findObjectByID(static_cast<ObjectID>(context->sourceId));
+ if(source && target && rva005075D6((const void *)context,target)) {
+  GrabContainView *contain=source->contain;
+  return contain && contain->accept(target,true,0)==true;
+ }
+ return false;
 }
