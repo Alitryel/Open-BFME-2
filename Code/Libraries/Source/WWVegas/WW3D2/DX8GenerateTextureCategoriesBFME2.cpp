@@ -86,7 +86,7 @@ class IndexBufferClass { public: virtual ~IndexBufferClass(); char pad[20]; };
 class SortingIndexBufferClass:public IndexBufferClass {public: SortingIndexBufferClass(unsigned short);};
 class DX8IndexBufferClass:public IndexBufferClass {public: enum UsageType {USAGE_DEFAULT=0,USAGE_NPATCHES=4}; DX8IndexBufferClass(unsigned,UsageType);};
 class DX8Caps {public: char pad[0x13b]; bool npatches; bool Support_NPatches() const {return npatches;}};
-class DX8Wrapper {private:static DX8Caps *CurrentCaps; public:static DX8Caps *Get_Current_Caps() {return CurrentCaps;}};
+class DX8Wrapper {protected:static DX8Caps *CurrentCaps; public:static DX8Caps *Get_Current_Caps() {return CurrentCaps;}};
 class WW3D {private:static unsigned NPatchesLevel; public:static unsigned Get_NPatches_Level(){return NPatchesLevel;}};
 class BfmeHandleCX;
 struct Textures_Material_And_Shader_Booking_Struct {

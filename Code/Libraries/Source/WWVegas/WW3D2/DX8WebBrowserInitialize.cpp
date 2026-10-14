@@ -42,7 +42,7 @@ typedef _com_ptr_t<_com_IIID<IFEBrowserEngine2,&__uuidof(IFEBrowserEngine2)> > I
 extern IFEBrowserEngine2Ptr Rva0134B280Browser;
 class WW3D { public: static void *Get_Window(); };
 struct IDirect3DDevice8;
-class DX8Wrapper { private: static IDirect3DDevice8 *D3DDevice; public: static IDirect3DDevice8 *_Get_D3D_Device8(){return D3DDevice;} };
+class DX8Wrapper { protected: static IDirect3DDevice8 *D3DDevice; public: static IDirect3DDevice8 *_Get_D3D_Device8(){return D3DDevice;} };
 class DX8WebBrowser {
 public:
     static HWND hWnd;

@@ -27,7 +27,7 @@ class W3DRadarResetSurface
 public:
 	__declspec(dllimport) __forceinline W3DRadarResetSurface() : m_surface(0) {}
 	~W3DRadarResetSurface();
-	W3DRadarResetSurface &operator=(const W3DRadarResetSurface &other)
+	__declspec(dllimport) __forceinline W3DRadarResetSurface &operator=(const W3DRadarResetSurface &other)
 	{
 		if (other.m_surface)
 			other.m_surface->addRef();
@@ -64,7 +64,7 @@ public:
 	static void Set_Render_Target(IDirect3DSurface8 *renderTarget, IDirect3DSurface8 *depthBuffer);
 	static void Set_Render_Target(IDirect3DSurface8 *renderTarget, bool useDefaultDepthBuffer);
 
-private:
+protected:
 	static bool IsRenderToTexture;
 };
 

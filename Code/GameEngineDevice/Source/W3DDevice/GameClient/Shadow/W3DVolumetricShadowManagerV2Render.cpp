@@ -26,6 +26,7 @@ extern GlobalData *TheWritableGlobalData;
 struct ShadowGlobalDataView {char pad[0x60];bool volumes;};
 class DX8Caps {public:char pad[0x90];unsigned caps;};
 class DX8Wrapper {
+protected:
  static DX8Caps *CurrentCaps;
 public:
  static void __cdecl Set_DX8_Render_State(unsigned long,unsigned int);

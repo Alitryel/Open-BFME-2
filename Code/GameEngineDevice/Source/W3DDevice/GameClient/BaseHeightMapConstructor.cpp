@@ -53,7 +53,7 @@ class Rva00DFF488Setting:public Rva001E35DFView {public:char unknown0C[12];int f
 template<class T>class OVERRIDE {public:__forceinline operator const T*()const{if(!pointer)return 0;return(const T*)pointer->getFinalOverride();}__forceinline const T*operator->()const{if(!pointer)return 0;return(const T*)pointer->getFinalOverride();}const T*pointer;};
 class WaterTransparency;
 extern OVERRIDE<WaterTransparency>TheWaterTransparency;
-class BaseHeightMapRenderObjClass;extern BaseHeightMapRenderObjClass*TheTerrainRenderObject;class DX8Wrapper {public:static void SetCleanupHook(DX8_CleanupHook*h){Cleanup_Hook=h;}private:static DX8_CleanupHook*Cleanup_Hook;};
+class BaseHeightMapRenderObjClass;extern BaseHeightMapRenderObjClass*TheTerrainRenderObject;class DX8Wrapper {public:static void SetCleanupHook(DX8_CleanupHook*h){m_pCleanupHook=h;}protected:static DX8_CleanupHook*m_pCleanupHook;};
 double Rva006C5BE0(double,int);
 class BaseHeightMapRenderObjClass:public RenderObjClass,public DX8_CleanupHook,public Snapshot {public:
 BaseHeightMapRenderObjClass();virtual~BaseHeightMapRenderObjClass();
