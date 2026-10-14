@@ -52,6 +52,13 @@ enum LocomotorSetType
 
 typedef _STL::vector<const LocomotorTemplate *> BfmeLocomotorTemplateVector;
 
+// Keep the iterator comparison inline without a competing vector::empty
+// COMDAT; AIUpdate.cpp owns the verified retail out-of-line body.
+static __forceinline bool locomotorTemplatesEmpty(const BfmeLocomotorTemplateVector &values)
+{
+	return values.begin() == values.end();
+}
+
 typedef _STL::map<LocomotorSetType, BfmeLocomotorTemplateVector, _STL::less<LocomotorSetType>, _STL::allocator<_STL::pair<const LocomotorSetType, BfmeLocomotorTemplateVector> > > BfmeLocomotorSetMap;
 
 // Reuse the verified retail container providers. Native callers use the
@@ -157,7 +164,7 @@ void AIUpdateModuleData::parseLocomotorSet(INI *ini, void *instance, void *, con
 	}
 
 	LocomotorSetType set = (LocomotorSetType)ini->scanIndexList(ini->getNextToken(0), TheLocomotorSetNames);
-	if (!self->m_locomotorTemplates[set].empty())
+	if (!locomotorTemplatesEmpty(self->m_locomotorTemplates[set]))
 	{
 		if (ini->getLoadType() != INI_LOAD_CREATE_OVERRIDES && ini->getLoadType() != INI_LOAD_UNKNOWN_4)
 		{

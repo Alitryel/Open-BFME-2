@@ -33,6 +33,13 @@ enum LocomotorSetType
 
 typedef _STL::vector<const LocomotorTemplate *> BfmeLocomotorTemplateVector;
 
+// Compare the iterators here without emitting an /O1 copy of vector::empty;
+// AIUpdate.cpp owns the independently verified retail out-of-line body.
+static __forceinline bool locomotorTemplatesEmpty(const BfmeLocomotorTemplateVector &values)
+{
+ return values.begin() == values.end();
+}
+
 typedef _STL::map<LocomotorSetType, BfmeLocomotorTemplateVector, _STL::less<LocomotorSetType>, _STL::allocator<_STL::pair<const LocomotorSetType, BfmeLocomotorTemplateVector> > > BfmeLocomotorSetMap;
 
 
@@ -78,7 +85,7 @@ void LocomotorSet::setLocomotorAndBaseSpeed(INI *ini, ThingTemplate *instance) {
  else {
   LocomotorSetType set=(LocomotorSetType)ini->scanIndexList(setName.str(),TheLocomotorSetNames);
   const LocomotorTemplate *loco=TheLocomotorStore->findLocomotorTemplate(name);
-  if (!self->templates[set].empty() && ini->getLoadType()!=2 && ini->getLoadType()!=4)
+  if (!locomotorTemplatesEmpty(self->templates[set]) && ini->getLoadType()!=2 && ini->getLoadType()!=4)
    throw INIException(3,"re-specifying a LocomotorSet\tis no longer allowed");
   instance->rva0033E17D(set,loco);
   instance->Rva0033D396StoreFloat((int)set,speed);
