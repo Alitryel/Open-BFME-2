@@ -89648,3 +89648,4 @@ _chatEnumJoinedChannels,,0x006A2100,5,Code/GameEngine/Source/GameNetwork/GameSpy
 ??_EGen007F4D00@@W3AEPAXI@Z,,0x00661640,8,Code/Libraries/Source/DirtySock/Y2ScalarDeleters.cpp,matched,adjustor thunk (this-4) in slot 0 of the secondary vftable 0x00CE2C10 (ariesudp listener base at +4; slot 2 is 0x00661650); jumps to rowed ??_GGen007F4D00
 ?friend_checkForSleepTransitions@State@@QAE?AW4StateReturnType@@W42@@Z,,0x004D722A,115,Code/GameEngine/Source/Common/StateMachineSleepTransitions.cpp,matched,
 ?friend_checkForTransitions@State@@QAE?AW4StateReturnType@@W42@@Z,,0x004D7148,226,Code/GameEngine/Source/Common/StateMachineTransitions.cpp,matched,
+?Rva0047A673@@YAMM@Z,,0x0047A673,38,Code/GameEngine/Source/GameLogic/Object/Contain/AODHordeContainSmoothSqrt.cpp,matched,
