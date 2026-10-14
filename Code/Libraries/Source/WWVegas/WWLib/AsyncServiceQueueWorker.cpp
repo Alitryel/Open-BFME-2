@@ -61,3 +61,6 @@ unsigned Rva0073F708::run(){
   if(!owner->active){MilesMutexGuard lock(owner->mutexC,0);--owner->count;}
  }
 }
+
+// Actual unsigned stdcall thread callback passed by matched constructor73F708.
+unsigned __stdcall Rva0073F6FCCb(void* arg) {return static_cast<Rva0073F708*>(arg)->run();}
