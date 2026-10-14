@@ -88158,3 +88158,4 @@ $L17825,,0x0077F708,24,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Persist
 ?onDamage@ReflectDamage@@UAEXPAVDamageInfo@@@Z,,0x004BABFA,137,Code/GameEngine/Source/GameLogic/Object/Damage/ReflectDamageOnDamage.cpp,matched,
 ??0Rva0050F909@@QAE@HABVAsciiString@@HH@Z,,0x0050F909,483,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptTributeRowConstructors.cpp,matched,AptPlayerTribute row ctor: status text by connected/alive/observer; WB AptPlayerTribute.cpp 243..292
 ?rva0053D355@ControlBar@@QAEXPAVObject@@_N@Z,,0x0053D355,1790,Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIPlanningPhaseBuildingSelectionCtor.cpp,matched,ControlBar populate command (WB 1117000) U1 r8 per-loop scopes and getScienceVec twice; hosted with the ICoord2D(int;int) view
+?rva0017438B@Rva0017438B@@QAEXHH@Z,,0x0017438B,819,Code/Libraries/Source/WWVegas/WW3D2/Rva0017438BPerformRendering.cpp,matched,
