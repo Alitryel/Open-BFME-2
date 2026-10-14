@@ -59,6 +59,15 @@ public:
 // STLport rotate, rowed as its int* instantiation, and the icon slot list's
 // erase, rowed as vector<void*>'s (pointer elements fold with both).
 #include <cstdlib>
+// Vector growth already inlines this comparison. Keep its helper local so
+// the unit does not emit a competing max<unsigned int> template body.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+	return a < b ? b : a;
+}
+}
 void __cdecl Rva00030830FreeAllocation(void *);
 #define free Rva00030830FreeAllocation
 #include <vector>
