@@ -1,4 +1,7 @@
-// ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HABUICoord2D@@PAVObject@@H@Z
+// ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
+// partial score=0.78053 date=2026-10-14
+// Crack-O: query temporary and endpoint copies follow WB D5BBE0; still partial.
+// ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
 // partial score=0.773791 date=2026-10-09
 // cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
@@ -471,7 +474,7 @@ class Rva002F336AOwner { public: Bool rva002F336A(Int,Int); };
 class Pathfinder
 {
 public:
-Int rva002F83F5(PathfindCell *,PathfindCell *,const LocomotorSet &,Bool,Bool,Int,const ICoord2D &,Object *,Int);
+Int rva002F83F5(PathfindCell *,PathfindCell *,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
 Bool rva002EA658(Object *,TCheckMovementInfo &,const ICoord2D *);
 
 Bool rva002EAE5F(const ICoord2D *,Int,ICoord2D *,void *);
@@ -1776,17 +1779,16 @@ AddToOpenList(neighbor);
 m_isTunneling=false;rva002F40E7();goal->ReleaseInfo();return MAX_COST;
 }
 
-Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,const ICoord2D &startCellNdx,Object *obj,Int attackMode)
+Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
 {
 if(obj->m_template->hasKind(109)||obj->m_template->hasKind(191)){radius=1;centerInCell=true;}
 Bool canPathThroughUnits=false;
 if(obj->getAI())canPathThroughUnits=*(Bool *)((char *)obj->getAI()+0x3ba);
 if(!m_isTunneling && !locomotorSet.isDownhillOnly() && goalCell && !(parentCell->getXIndex()&3) && !(parentCell->getYIndex()&3)) {
 ICoord2D end;const ICoord2D *endPtr;
-if(m_1C1CC.empty()){endPtr=(ICoord2D *)goalCell->m_pathInfo;}
-else {endPtr=(ICoord2D *)&m_1C1CC.back().m_position;}
-end=*endPtr;PathfindLayerEnum layer=(PathfindLayerEnum)parentCell->getLayer();Rva002EAB6F query((Int)this,(const Rva002E8BCFSrc *)&locomotorSet,centerInCell,radius,obj,isHuman,(Int)goalCell,m_1C1CC.empty()?attackMode:0);
-iterateCellsAlongLine((const ICoord2D *)parentCell->m_pathInfo,&end,layer,(Rva002F5925Info *)&query);
+if(m_1C1CC.empty()){end=*(ICoord2D *)goalCell->m_pathInfo;}
+else {end=*(ICoord2D *)&m_1C1CC.back().m_position;}PathfindLayerEnum layer=(PathfindLayerEnum)parentCell->getLayer();
+iterateCellsAlongLine((const ICoord2D *)parentCell->m_pathInfo,&end,layer,(Rva002F5925Info *)&Rva002EAB6F((Int)this,(const Rva002E8BCFSrc *)&locomotorSet,centerInCell,radius,obj,isHuman,(Int)goalCell,m_1C1CC.empty()?attackMode:0));
 }
 Int cellCount=0;
 TCheckMovementInfo info;((Rva002E6FDF *)&info)->rva002E6FDF();
