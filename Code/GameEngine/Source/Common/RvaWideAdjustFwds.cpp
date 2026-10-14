@@ -26,7 +26,8 @@ struct Rva0040D2FDVec;
 // ArmySummarySystem methods they are, through thiscall pins.
 class ArmySummarySystem {public:const AsciiString *GetArmyNameByID(int);const AsciiString *GetArmyBannerByID(int);
 	void *rva0040D008(int id);
-	void rva0040D2FD(int a, int b, Rva0040D2FDVec *out);};
+	void rva0040D2FD(int a, int b, Rva0040D2FDVec *out);
+	void rva0040D2C3();};
 
 class Rva0040D380Sub
 {
@@ -105,6 +106,7 @@ class GameLogic
 {
 public:
 	void rva0023D033();
+	void rva0023D03E();
 	void rva0023D054(int a, int b, Rva0040D2FDVec *out);
 	const AsciiString *rva0023D05F(int value);
  const AsciiString *rva0023D06A(int value);
@@ -226,4 +228,12 @@ void *Rva0023D049::rva0023D049(int value)
 void GameLogic::rva0023D054(int a, int b, Rva0040D2FDVec *out)
 {
 	((ArmySummarySystem *)((char *)this + 0x184))->rva0040D2FD(a, b, out);
+}
+
+// ?rva0023D03E@GameLogic@@QAEXXZ, native 0x0023D03E..0x0023D049 (11B): the
+// GameLogic+0x184 ArmySummarySystem adjustment and a tail jump to its rowed
+// argument-less 0x0040D2C3 member. Outer method name unknown.
+void GameLogic::rva0023D03E()
+{
+	((ArmySummarySystem *)((char *)this + 0x184))->rva0040D2C3();
 }
