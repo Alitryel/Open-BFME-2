@@ -55614,3 +55614,4 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?Rva000052D2WideLengthOrZero@@YAIPBG@Z	0x000052D2	15	landed	add_match verified Code/GameEngine/Source/Common/System/WideLengthOrZero.cpp 15B; null-safe wide length tail-jumping through the wcslen import; unreferenced twin of 0x000052C4
 ?rva0002BF21@Rva0002BF21@@QAEHPAD@Z	0x0002BF21	14	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE19.cpp 14B; byte at +0 copied out through the pointer argument; returns 1; unreferenced
 ?rva00051888@Rva00051888@@QAEHXZ	0x00051888	14	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 14B; post-increment of the counter at +0xD0; unreferenced
+?rva00030A30@@YAII@Z	0x00030A30	22	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE23.cpp 22B; GeneralAllocator request-to-chunk size (+0xB rounded to 8 min 16); replaces the false interior 6-byte row at 0x00030A40

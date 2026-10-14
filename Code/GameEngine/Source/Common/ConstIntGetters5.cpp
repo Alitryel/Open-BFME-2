@@ -60,14 +60,6 @@ int Rva00019B50Get(void)
 	return 0x7ffffffe;
 }
 
-// ?Rva00030A40Get@@YAHXZ @ 0x00030a40 (6B): returns 16.
-// Follows a ret tail, int3-padded after. No direct callers.
-// Opaque address-derived name.
-int Rva00030A40Get(void)
-{
-	return 16;
-}
-
 // ?Rva000454EDGet@@YAHXZ @ 0x000454ed (6B): returns 0x0000024f.
 // Follows an idiv helper tail. No direct callers. Opaque address-derived
 // name.

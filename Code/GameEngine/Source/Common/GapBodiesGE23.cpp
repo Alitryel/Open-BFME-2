@@ -327,6 +327,16 @@ int Rva00030C50Heap::rva00031750(void *p, unsigned int size)
 	return VirtualFree(p, 0, 0x8000);
 }
 
+// --- 0x00030A30 (22B): a request's chunk size: the request plus eleven
+// bytes of overhead rounded down to eight, never below the 16-byte minimum.
+unsigned int rva00030A30(unsigned int size)
+{
+	unsigned int chunk = size + 0xB;
+	if (chunk > 0x10)
+		return chunk & ~7u;
+	return 0x10;
+}
+
 // --- 0x00030A50 (15B): a request plus 0x1F bytes of overhead, rounded up to
 // whole 4 KB pages.
 unsigned int rva00030A50(unsigned int size)

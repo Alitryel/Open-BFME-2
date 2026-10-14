@@ -35089,7 +35089,6 @@ _piChannelKickedA,,0x006AADF0,100,Code/GameEngine/Source/GameNetwork/GameSpy/pee
 ?Rva00018610Get@@YAHXZ,,0x00018610,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva00019B50Get@@YAHXZ,,0x00019B50,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva0002BBC3Get@@YAHXZ,,0x0002BBC3,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
-?Rva00030A40Get@@YAHXZ,,0x00030A40,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?getNthData@ModuleInfo@@QBEPBVModuleData@@H@Z,,0x0033ACE8,43,Code/GameEngine/Source/Common/Thing/ModuleInfoGetNthData.cpp,matched,ModuleInfo indexed data access via locomotor parser call sites plus ZH donor shape
 ?Rva000454CEGet@@YAHXZ,,0x000454CE,6,Code/GameEngine/Source/Common/ConstIntGetters5.cpp,matched,B8-6 const-int returner
 ?Rva0011C460Get@@YAHXZ,,0x0011C460,6,Code/GameEngine/Source/Common/ConstIntGetters5Addr.cpp,matched,B8-6 const-int returner
@@ -88861,3 +88860,4 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?Rva000052D2WideLengthOrZero@@YAIPBG@Z,,0x000052D2,15,Code/GameEngine/Source/Common/System/WideLengthOrZero.cpp,matched,null-safe wide length tail-jumping through the wcslen import; unreferenced twin of 0x000052C4
 ?rva0002BF21@Rva0002BF21@@QAEHPAD@Z,,0x0002BF21,14,Code/GameEngine/Source/Common/GapBodiesGE19.cpp,matched,byte at +0 copied out through the pointer argument; returns 1; unreferenced
 ?rva00051888@Rva00051888@@QAEHXZ,,0x00051888,14,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,post-increment of the counter at +0xD0; unreferenced
+?rva00030A30@@YAII@Z,,0x00030A30,22,Code/GameEngine/Source/Common/GapBodiesGE23.cpp,matched,GeneralAllocator request-to-chunk size (+0xB rounded to 8 min 16); replaces the false interior 6-byte row at 0x00030A40
