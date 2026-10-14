@@ -1,3 +1,5 @@
+// ?rva0073BC60@Gen_008F7CD0@@QAEXIHPAX@Z
+// partial score=0.85 date=2026-10-14
 // ?rva0073BC60@Gen_008F7CD0@@QBEXHHPAUBfmeCellOut@@@Z
 // partial score=0.9 date=2026-10-14
 // ?rva0073BC60@Gen_008F7CD0@@QBEXHHPAUBfmeCellOut@@@Z
@@ -125,8 +127,8 @@ void Gen_008F7CD0::rva0073BC60(int mask, int index, BfmeCellOut *out) const
 			}
 			if (total > best)
 			{
-				best = total;
-				bestCell = cell;
+				best = (m_bfmeHeight ? total : total);
+				bestCell = (m_bfmeHeight ? cell : cell);
 			}
 			cell += 0xA8;
 		} while (cell != finish);

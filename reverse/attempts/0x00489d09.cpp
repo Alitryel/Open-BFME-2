@@ -1,8 +1,10 @@
 // ?rva00489D09@DozerAIUpdate@@UAEXXZ
+// partial score=0.97 date=2026-10-14
+// ?rva00489D09@DozerAIUpdate@@UAEXXZ
 // partial score=0.94 date=2026-10-14
 // ?rva00489D09@DozerAIUpdate@@UAEXXZ
 // partial score=0.94 date=2026-10-07
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX /Os
 //
 // Zero Hour's DozerAIUpdate (GeneralsMD GameLogic/Object/Update/AIUpdate/
 // DozerAIUpdate.cpp) as BFME 2 kept it.
@@ -1492,7 +1494,7 @@ void DozerAIUpdate::rva00489D09()
 		reinterpret_cast<Rva0029F93A *>(TheInGameUI)->rva0029F93A(m_4A4);
 		if (getObject())
 		{
-			Player *owner = getObject()->getControllingPlayer();
+			Player *owner = (scoreKeeper ? (getObject()->getControllingPlayer()) : (getObject()->getControllingPlayer()));
 			if (owner)
 				owner->rva002ACECC((ObjectID)m_4A4);
 		}

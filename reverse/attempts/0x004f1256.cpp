@@ -1,4 +1,6 @@
 // ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z
+// partial score=0.86 date=2026-10-14
+// ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z
 // partial score=0.8 date=2026-10-14
 // ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z
 // partial score=0.8 date=2026-10-08
@@ -72,6 +74,8 @@ enum GameDifficulty
 	DIFFICULTY_HARD
 };
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 
 
@@ -573,8 +577,9 @@ Int AIPlayer::getPlayerSuperweaponValue(Coord3D *searchCenter, Int playerIndex, 
 	Real cash = 0;
 	Real radSqr = searchRadius * searchRadius;
 
-	Player *pPlayer = ThePlayerList->getNthPlayer(playerIndex);
-	if (pPlayer == 0)
+	Player * t1_live_pPlayer_575 = ThePlayerList->getNthPlayer(playerIndex);
+	Player * volatile pPlayer = t1_live_pPlayer_575;
+	if (t1_live_pPlayer_575 == 0)
 		return 0;
 	for (it = pPlayer->getPlayerTeams()->begin(); it != pPlayer->getPlayerTeams()->end(); ++it)
 	{
@@ -587,6 +592,7 @@ Int AIPlayer::getPlayerSuperweaponValue(Coord3D *searchCenter, Int playerIndex, 
 			for (DLINK_ITERATOR<Object> members = team->iterate_TeamMemberList(); !members.done(); members.advance())
 			{
 				Object *pObj = members.cur();
+				_ReadWriteBarrier();
 				if ((pObj->getTemplate()->m_kindOf[1] & 0x10) != 0)	// KindOf bit 12
 				{
 					if (pObj->isSignificantlyAboveTerrain())

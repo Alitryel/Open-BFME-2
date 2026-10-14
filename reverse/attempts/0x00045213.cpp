@@ -1,4 +1,6 @@
 // ?rva00045213@W3DDisplay@@AAEXPADI@Z
+// partial score=0.85 date=2026-10-14
+// ?rva00045213@W3DDisplay@@AAEXPADI@Z
 // partial score=0.8 date=2026-10-14
 // ?rva00045213@W3DDisplay@@AAEXPADI@Z
 // partial score=0.8 date=2026-10-13
@@ -128,15 +130,15 @@ void W3DDisplay::rva00045213(char *image, unsigned int rowBytes)
 
 	BfmeLockedRect locked;
 	long result = front->LockRect(&locked, &bounds, 0x10);
-	if (result != 0)
+	if (0 != result)
 		Log_DX8_ErrorCode(result);
 
 	unsigned int width = bounds.right - bounds.left;
 	unsigned int height = bounds.bottom - bounds.top;
 	for (unsigned int y = 0; y < height; ++y) {
-		int row = bounds.top + y;
+
 		const char *src = (const char *)locked.bits + y * locked.pitch;
-		if (row < 0 || (unsigned int)row >= desc.height) {
+		if ((bounds.top + y) < 0 || (unsigned int)(bounds.top + y) >= desc.height) {
 			memset(image, 0, width * 3);
 		} else {
 			char *dest = image;
