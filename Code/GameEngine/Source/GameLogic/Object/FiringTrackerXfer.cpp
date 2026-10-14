@@ -370,14 +370,18 @@ private:
 
 extern GameLogic *TheGameLogic;
 
+// Retail inlines the dllimport getters everywhere and has no out-of-line
+// copy; other units' private views emit them with other layouts
+// (FiringTracker.cpp's ZH port is first in link order), so dllimport keeps
+// this unit's copies inline-only.
 class WeaponTemplate
 {
 public:
-	Int getContinuousFireOneShotsNeeded() const { return m_continuousFireOneShotsNeeded; }
-	Int getContinuousFireTwoShotsNeeded() const { return m_continuousFireTwoShotsNeeded; }
-	UnsignedInt getContinuousFireCoastFrames() const { return m_continuousFireCoastFrames; }
-	UnsignedInt getAutoReloadWhenIdleFrames() const { return m_autoReloadWhenIdleFrames; }
-	UnsignedInt getFireSoundLoopTime() const { return m_fireSoundLoopTime; }
+	__declspec(dllimport) Int getContinuousFireOneShotsNeeded() const { return m_continuousFireOneShotsNeeded; }
+	__declspec(dllimport) Int getContinuousFireTwoShotsNeeded() const { return m_continuousFireTwoShotsNeeded; }
+	__declspec(dllimport) UnsignedInt getContinuousFireCoastFrames() const { return m_continuousFireCoastFrames; }
+	__declspec(dllimport) UnsignedInt getAutoReloadWhenIdleFrames() const { return m_autoReloadWhenIdleFrames; }
+	__declspec(dllimport) UnsignedInt getFireSoundLoopTime() const { return m_fireSoundLoopTime; }
 	const OpaqueRefElement4 &getFireSound() const { return m_fireSound; }
 
 private:
@@ -397,11 +401,11 @@ public:
 	const WeaponTemplate *getTemplate() const { return m_template; }
 	UnsignedInt getPossibleNextShotFrame() const { return m_whenWeCanFireAgain; }
 
-	Int getContinuousFireOneShotsNeeded() const { return m_template->getContinuousFireOneShotsNeeded(); }
-	Int getContinuousFireTwoShotsNeeded() const { return m_template->getContinuousFireTwoShotsNeeded(); }
-	UnsignedInt getContinuousFireCoastFrames() const { return m_template->getContinuousFireCoastFrames(); }
-	UnsignedInt getAutoReloadWhenIdleFrames() const { return m_template->getAutoReloadWhenIdleFrames(); }
-	UnsignedInt getFireSoundLoopTime() const { return m_template->getFireSoundLoopTime(); }
+	__declspec(dllimport) Int getContinuousFireOneShotsNeeded() const { return m_template->getContinuousFireOneShotsNeeded(); }
+	__declspec(dllimport) Int getContinuousFireTwoShotsNeeded() const { return m_template->getContinuousFireTwoShotsNeeded(); }
+	__declspec(dllimport) UnsignedInt getContinuousFireCoastFrames() const { return m_template->getContinuousFireCoastFrames(); }
+	__declspec(dllimport) UnsignedInt getAutoReloadWhenIdleFrames() const { return m_template->getAutoReloadWhenIdleFrames(); }
+	__declspec(dllimport) UnsignedInt getFireSoundLoopTime() const { return m_template->getFireSoundLoopTime(); }
 	const OpaqueRefElement4 &getFireSound() const { return m_template->getFireSound(); }
 
 private:
