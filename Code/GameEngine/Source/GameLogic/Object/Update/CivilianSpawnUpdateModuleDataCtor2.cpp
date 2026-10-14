@@ -43,17 +43,23 @@ public:
 
 extern int BfmeLogicFramesPerSecond;	// retail 0xDBA4E4, value 5 (DIR32-masked)
 
-class CivilianSpawnBase
+// ModuleData: vtable 0x00C48530 slots 1-3 are the shared ModuleData base
+// bodies (0x004B3FD0, 0x00465212, 0x0047A69C), and the ctor's unwind action
+// 0x0078B8A3 calls the base dtor at the Snapshot-dtor fold 0x0049B47C.
+// novtable and an in-place ctor as in Common/BfmeModuleData.h: retail never
+// installs ModuleData's own table, so no unit emits ??_7 or ??0ModuleData.
+class __declspec(novtable) ModuleData
 {
 public:
-	virtual ~CivilianSpawnBase();
+	__declspec(dllimport) __forceinline ModuleData() {}
+	virtual ~ModuleData();
 
 protected:
 	void *m_unsourced04;	// +0x04, retail never stores it
 	int m_int08;	// +0x08, global store by the derived ctor
 };
 
-class CivilianSpawnUpdateModuleData : public CivilianSpawnBase
+class CivilianSpawnUpdateModuleData : public ModuleData
 {
 public:
 	CivilianSpawnUpdateModuleData();
