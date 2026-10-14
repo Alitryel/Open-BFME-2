@@ -57,6 +57,26 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 #include "ascii_string.h"
 #include <vector>
 #include <algorithm>
+// vector<int> teardown otherwise instantiates per-TU allocator deallocate
+// COMDATs (one byte shape per TU flags); explicit dllimport+forceinline
+// specializations take those calls inline so this TU emits no external
+// copies. Bodies are verbatim primary.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int* __p, size_t __n) const {
+  _STLP_ASSERT( (__p == 0) == (__n == 0) )
+    if (__p != 0) ::free((void*)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int* __p, size_t __n) {
+    __stl_alloc_rebind(__STATIC_CAST(allocator<int>&, *this),(int*)0).deallocate(__p, __n);
+}
+template <> __declspec(dllimport) __forceinline
+_Vector_base<int, allocator<int> >::~_Vector_base() {
+    if (_M_start !=0)
+    _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start);
+}
+}
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class Rva0020E89C;
@@ -81,10 +101,12 @@ public:
 	Rva0020E89C *rva0020EAF6(int index);
 };
 
-class LivingWorldRegionFilterView
+// The region predicate is rowed as Rva003F02E4::rva003F036E (int); retail's
+// caller tests al.
+class Rva003F02E4
 {
 public:
-	bool rva003F036E();
+	int rva003F036E();
 };
 
 struct LivingWorldRegionView
@@ -165,11 +187,13 @@ public:
 class ExperienceLevelSystem;
 extern ExperienceLevelSystem *TheExperienceLevelSystem;
 
-// The 0xD8-byte revival record (WB UnitRevivalEntry) built from a template.
-struct Rva002E2D10Record
+// The 0xD8-byte revival record built from a template (the rowed
+// UnitRevivalEntry constructor 0x0037E289 and destructor 0x001EB63C).
+struct Rva002E2D10Record;
+struct UnitRevivalEntry
 {
-	Rva002E2D10Record(const ThingTemplate *thingTemplate);
-	~Rva002E2D10Record();
+	UnitRevivalEntry(const ThingTemplate *thingTemplate);
+	~UnitRevivalEntry();
 
 	unsigned char m_pad00[0x08];
 	float m_requiredExperience;	// +0x08
@@ -203,7 +227,6 @@ public:
 	ObjectTypes();
 	virtual ~ObjectTypes();
 	int getListSize() const { return m_objectTypes.size(); }
-	void addObjectType(const AsciiString &objectType);
 
 private:
 	AsciiString m_listName;
@@ -214,14 +237,30 @@ class LinearCampaignManager
 {
 public:
 	bool hasCampaign() const { return m_campaign != 0; }
-	bool rva001EC9AC(ObjectTypes *types, UnitRevivalTracker *tracker, Player *player);
-	ObjectID rva001EC99B(ObjectTypes *types, Player *player);
 
 private:
 	unsigned char m_pad00[0x10];
 	void *m_campaign;
 };
 extern LinearCampaignManager *TheLinearCampaignManager;
+
+// The list append and the campaign forwarders are rowed under their address
+// classes (Rva00376A62Contains.cpp, VslotNullCheckedForwarders3.cpp).
+class Rva00376A62
+{
+public:
+	void rva00376B50(const AsciiString &objectType);
+};
+class Rva001EC9AC
+{
+public:
+	bool rva001EC9AC(int types, int tracker, int player);
+};
+class Rva001EC99B
+{
+public:
+	void *rva001EC99B(int types, int player);
+};
 
 // WorldBuilder's ArmySummary (address-derived spelling as in
 // ScriptConditions_delayedCarryover.cpp).
@@ -288,9 +327,10 @@ public:
 	bool didUnitExist(const AsciiString &name);
 	void rva00357960(const AsciiString &name, Object *obj); // ZH transferObjectName
 	void addObjectToCache(Object *obj, const AsciiString &name);
-	AsciiString *rva00208DB8(AsciiString name);
-	int *rva00208E99(AsciiString name);
-	int *rva00208CF0(AsciiString name);
+	// Rowed in ScriptEngineRva0020881A.cpp with void * results.
+	void *rva00208DB8(AsciiString name);
+	void *rva00208E99(AsciiString name);
+	void *rva00208CF0(AsciiString name);
 };
 
 struct Rva002B488EResult;
@@ -325,7 +365,8 @@ enum ObjectStatusTypes { OBJECT_STATUS_INVALID = -1 };
 class Parameter
 {
 public:
-    int getInt() const { return m_int; }
+    // Every call inlines; dllimport stops the TU emitting an unreferenced copy.
+    __declspec(dllimport) __forceinline int getInt() const { return m_int; }
     float getReal() const { return m_real; }
     const AsciiString &getString() const { return m_string; }
     void getCoord3D(Coord3D *) const;
@@ -515,8 +556,8 @@ class Rva003C1FDE { public: void rva003C1FDE(class AsciiString const &, bool); }
 void ScriptActions::doLivingWorldSetRegionRefToAdjacentRegion(const AsciiString &destRefName,
 	const AsciiString &srcRefName, bool skipMatching13C, bool skipFiltered)
 {
-	AsciiString *destRef = TheScriptEngine->rva00208DB8(destRefName);
-	AsciiString *srcRef = TheScriptEngine->rva00208DB8(srcRefName);
+	AsciiString *destRef = (AsciiString *)TheScriptEngine->rva00208DB8(destRefName);
+	AsciiString *srcRef = (AsciiString *)TheScriptEngine->rva00208DB8(srcRefName);
 	LivingWorldRegionView *srcRegion = (LivingWorldRegionView *)
 		((Rva002104B6 *)(*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->getRegionManager())->rva002104B6(srcRef);
 	destRef->clear();
@@ -536,7 +577,7 @@ void ScriptActions::doLivingWorldSetRegionRefToAdjacentRegion(const AsciiString 
 				bool ok = true;
 				if (skipMatching13C && region->m_13C == srcRegion->m_13C)
 					ok = false;
-				if (ok && skipFiltered && ((LivingWorldRegionFilterView *)region)->rva003F036E())
+				if (ok && skipFiltered && (char)((Rva003F02E4 *)region)->rva003F036E())
 					ok = false;
 				if (ok)
 					found = region;
@@ -549,8 +590,8 @@ void ScriptActions::doLivingWorldSetRegionRefToAdjacentRegion(const AsciiString 
 
 void ScriptActions::rva003C3943(const AsciiString &regionRefName, const AsciiString &armyRefName)
 {
-	AsciiString *regionRef = TheScriptEngine->rva00208DB8(regionRefName);
-	int *armyRef = TheScriptEngine->rva00208E99(armyRefName);
+	AsciiString *regionRef = (AsciiString *)TheScriptEngine->rva00208DB8(regionRefName);
+	int *armyRef = (int *)TheScriptEngine->rva00208E99(armyRefName);
 	Rva002B488EResult *army = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->rva002B488E(*armyRef);
 	if (!army) {
 		regionRef->clear();
@@ -563,8 +604,8 @@ void ScriptActions::rva003C3943(const AsciiString &regionRefName, const AsciiStr
 
 void ScriptActions::rva003C39B8(const AsciiString &armyRefName, const AsciiString &regionRefName)
 {
-	AsciiString *regionRef = TheScriptEngine->rva00208DB8(regionRefName);
-	int armyID = *TheScriptEngine->rva00208E99(armyRefName);
+	AsciiString *regionRef = (AsciiString *)TheScriptEngine->rva00208DB8(regionRefName);
+	int armyID = *(int *)TheScriptEngine->rva00208E99(armyRefName);
 	if (armyID == 0 || ((Rva00329EE9StringValue *)regionRef)->isEmpty())
 		return;
 	Rva002B488EResult *army = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->rva002B488E(armyID);
@@ -601,7 +642,7 @@ public:
 
 void ScriptActions::rva003C6279(const AsciiString &refName, const AsciiString &playerName)
 {
-	int *ref = TheScriptEngine->rva00208CF0(refName);
+	int *ref = (int *)TheScriptEngine->rva00208CF0(refName);
 	int count = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->getPlayerCount();
 	for (int i = 0; i < count; ++i) {
 		Rva002E2903Player *player = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->rva002B52A8(i);
@@ -615,9 +656,9 @@ void ScriptActions::rva003C6279(const AsciiString &refName, const AsciiString &p
 
 void ScriptActions::rva003CA418(const AsciiString &armyRefName, int n, const AsciiString &playerRefName)
 {
-	int *armyRef = TheScriptEngine->rva00208E99(armyRefName);
+	int *armyRef = (int *)TheScriptEngine->rva00208E99(armyRefName);
 	*armyRef = 0;
-	int *playerRef = TheScriptEngine->rva00208CF0(playerRefName);
+	int *playerRef = (int *)TheScriptEngine->rva00208CF0(playerRefName);
 	Rva002E2903Player *player = (*(Rva002BA8F1Logic **)&TheLivingWorldLogic)->find(*playerRef, 0);
 	if (!player)
 		return;
@@ -647,7 +688,7 @@ void ScriptActions::doCreateUnitRevivalEntry(const AsciiString &objectTypeName, 
 	UnitRevivalTracker *tracker = player->getUnitRevivalTracker();
 	if (!tracker)
 		return;
-	Rva002E2D10Record entry(objectType);
+	UnitRevivalEntry entry(objectType);
 	if (level == -1) {
 		entry.m_rank = objectType->rva0033B479();
 	} else {
@@ -660,7 +701,7 @@ void ScriptActions::doCreateUnitRevivalEntry(const AsciiString &objectTypeName, 
 			entry.m_rank = objectType->rva0033B479();
 		}
 	}
-	tracker->addRevivableUnit(entry, player);
+	tracker->addRevivableUnit(*(const Rva002E2D10Record *)&entry, player);
 }
 
 void ScriptActions::doCreateUnitRevivalEntryFromDelayedCarryoverHero(const AsciiString &objectTypeName,
@@ -669,7 +710,7 @@ void ScriptActions::doCreateUnitRevivalEntryFromDelayedCarryoverHero(const Ascii
 	ObjectTypes tempTypes;
 	ObjectTypes *types = TheScriptEngine->getObjectTypes(objectTypeName);
 	if (!types || types->getListSize() == 0) {
-		tempTypes.addObjectType(objectTypeName);
+		((Rva00376A62 *)&tempTypes)->rva00376B50(objectTypeName);
 		types = &tempTypes;
 	}
 	int mask = TheScriptEngine->rva00357475(playerName, 0);
@@ -678,7 +719,7 @@ void ScriptActions::doCreateUnitRevivalEntryFromDelayedCarryoverHero(const Ascii
 		if (player) {
 			UnitRevivalTracker *tracker = player->getUnitRevivalTracker();
 			if (tracker)
-				TheLinearCampaignManager->rva001EC9AC(types, tracker, player);
+				((Rva001EC9AC *)TheLinearCampaignManager)->rva001EC9AC((int)types, (int)tracker, (int)player);
 		}
 	} else if (TheLivingWorldLogic) {
 		while (mask) {
@@ -706,7 +747,7 @@ void ScriptActions::doCreateDelayedCarryoverUnitAtWaypoint(const AsciiString &ob
 	ObjectTypes tempTypes;
 	ObjectTypes *types = TheScriptEngine->getObjectTypes(objectTypeName);
 	if (!types || types->getListSize() == 0) {
-		tempTypes.addObjectType(objectTypeName);
+		((Rva00376A62 *)&tempTypes)->rva00376B50(objectTypeName);
 		types = &tempTypes;
 	}
 	Waypoint *way = TheTerrainLogic->getWaypointByName(waypointName);
@@ -718,7 +759,7 @@ void ScriptActions::doCreateDelayedCarryoverUnitAtWaypoint(const AsciiString &ob
 		Player *player = ThePlayerList->getEachPlayerFromMask(mask);
 		if (!player)
 			return;
-		result = TheLinearCampaignManager->rva001EC99B(types, player);
+		result = (ObjectID)(int)((Rva001EC99B *)TheLinearCampaignManager)->rva001EC99B((int)types, (int)player);
 	} else {
 		if (!TheLivingWorldLogic)
 			return;
