@@ -43,3 +43,15 @@ void Rva00268AFFCleanupForward::cleanup()
 {
     reinterpret_cast<PoolMember*>(this)->Rva00268902();
 }
+
+// Native0x00265466..0x0026547D (24B): stdcall (node, size) deallocator for the
+// same 0xDA60F0 free list: a non-null node is pushed back as the new head and
+// the size is ignored (ret 8). Skeleton twin of the 0x00DBD4B8 pool's
+// Rva002EAD84 (GapBodiesGE04.cpp); allocator type unidentified.
+void __stdcall Rva00265466(void *node, unsigned int)
+{
+	if (node) {
+		*(void **)node = g_freeList;
+		g_freeList = node;
+	}
+}
