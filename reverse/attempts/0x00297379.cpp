@@ -1,5 +1,5 @@
 // ?setOrRestoreTeam@Object@@AAEXPAVTeam@@_N@Z
-// partial score=0.85 date=2026-10-14
+// partial score=0.99 date=2026-10-14
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
 //
 // ?setTemporaryTeam@Object@@QAEXPAVTeam@@@Z  0x00298480, 14B
@@ -48,6 +48,7 @@ public:
 	Player *getControllingPlayer() const;	// 0x0039D7CF
 	void prependTo_TeamMemberList(Object *obj);	// 0x0028A75F
 	void removeFrom_TeamMemberList(Object *obj);	// 0x0028A77F
+	inline Bool isInList_TeamMemberList(Object *obj) const;
 	char m_pad0[0x30];
 	TeamPrototype *m_proto;		// +0x30
 	char m_pad34[4];
@@ -162,7 +163,7 @@ extern Rva002A8F24 *g_00DFEEF8;
 class BfmeStringPresenceValue
 {
 public:
-	bool isEmpty() const;
+	bool isEmpty() const throw();
 };
 
 // RVO getter 0x00291775 over the prototype's attack-priority name (+0x318).
@@ -207,6 +208,11 @@ private:
 	Rva009A2350 *m_x4CC;			// +0x4CC
 };
 
+inline Bool Team::isInList_TeamMemberList(Object *obj) const
+{
+	return obj->dlink_isInList_TeamMemberList(&m_members);
+}
+
 // Team's prototype strings (+0x10, +0x14), or the empty string with no prototype.
 // ?teamProtoName absent-from-retail
 static inline const AsciiString &teamProtoName(const Team *team)
@@ -228,16 +234,18 @@ void Object::setOrRestoreTeam(Team *team, Bool restoring)
 
 	Team *oldTeam = m_team;
 
-	if (m_team)
+	if (oldTeam)
 	{
-		if (dlink_isInList_TeamMemberList(&m_team->m_members))
+		if (oldTeam->isInList_TeamMemberList(this))
 		{
-			m_team->removeFrom_TeamMemberList(this);
+			oldTeam->removeFrom_TeamMemberList(this);
 			m_team->getControllingPlayer()->becomingTeamMember(this, false);
 		}
 	}
 
-	Bool playerChanged = m_team && team && m_team->getControllingPlayer() != team->getControllingPlayer();
+	Team *prevTeam = m_team;
+	Player *newPlayer;
+	Bool playerChanged = prevTeam && team && prevTeam->getControllingPlayer() != (newPlayer = team->getControllingPlayer());
 	if (playerChanged)
 		g_00DFEEF8->rva002A8F56(this);
 
@@ -246,11 +254,12 @@ void Object::setOrRestoreTeam(Team *team, Bool restoring)
 	if (playerChanged)
 		g_00DFEEF8->rva002A9365(this);
 
-	if (m_team)
+	Team *newTeam = m_team;
+	if (newTeam)
 	{
-		if (!dlink_isInList_TeamMemberList(&m_team->m_members))
+		if (!newTeam->isInList_TeamMemberList(this))
 		{
-			m_team->prependTo_TeamMemberList(this);
+			newTeam->prependTo_TeamMemberList(this);
 			m_team->getControllingPlayer()->becomingTeamMember(this, true);
 		}
 
