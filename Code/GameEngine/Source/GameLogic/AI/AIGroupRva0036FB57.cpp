@@ -42,25 +42,19 @@ public:
 	AIUpdateInterface *m_ai;
 };
 
-class BfmeC986
-{
-public:
-	char bfmeReady986C();
-};
-
 class AIGroup
 {
 public:
 	void rva0036FB57(const Waypoint *waypoint, CommandSourceType cmdSource, int mode);
 	void createFormation(int a, int b);
+	bool rva0036E357();	// 0x0036E357
 private:
 	std::list<Object *> m_memberList;
 };
 
 void AIGroup::rva0036FB57(const Waypoint *waypoint, CommandSourceType cmdSource, int mode)
 {
-	BfmeC986 *bfme = reinterpret_cast<BfmeC986 *>(this);
-	if (!bfme->bfmeReady986C())
+	if (!rva0036E357())
 		return;
 	createFormation(cmdSource, mode);
 	for (std::list<Object *>::iterator i = m_memberList.begin(); i != m_memberList.end(); ++i)
