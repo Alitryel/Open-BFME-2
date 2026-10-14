@@ -26,6 +26,14 @@ struct Rva003558A0Elem
 	int m_10;
 };
 
+// Rows 0x003B483D (check) and 0x003B4826 are const Rva003B483DHolder members.
+class Rva003B483DHolder
+{
+public:
+	bool check(const void *key) const;
+	int rva003B4826(const void *key) const;
+};
+
 class Rva003558C0Arr
 {
 public:
@@ -84,9 +92,9 @@ void ScriptEngine::walkChild(Rva003558C0Arr *arr, Rva003412E0Node *node)
 		return;
 	do
 	{
-		if (arr->matches((const Rva003558C0Key *)cur))
+		if (((Rva003B483DHolder *)arr)->check((const Rva003558C0Key *)cur))
 		{
-			int obj = ((Rva003558A0Arr *)arr)->get((const Rva00355640Key *)cur);
+			int obj = ((Rva003B483DHolder *)arr)->rva003B4826((const Rva00355640Key *)cur);
 			unsigned char *p = (unsigned char *)obj;
 			if (p[0x0C] && !p[0x0D])
 			{

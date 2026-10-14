@@ -128,8 +128,14 @@ extern PartitionManager *ThePartitionManager;
 class TerrainLogic
 {
 public:
-	void *rva0027F108(const Coord3D *pos, Real radius, Bool flag, Int unused);
-	Object *rva00283D70(void *found);
+	Object *rva00283D70(const Coord3D *pos);	// 0x00283D70
+};
+
+// 0x0027F108, rowed as BfmeThingCME::rva0027F108 (BfmeConv624.cpp).
+class BfmeThingCME
+{
+public:
+	int rva0027F108(void *pos, Real radius, int flag, int unused);
 };
 extern TerrainLogic *TheTerrainLogic;
 
@@ -194,11 +200,13 @@ protected:
 	int m_bfmeReserved;
 };
 
+// 0x0048B7D9 (calcNextSpreadDelay), rowed as Rva0048B7D9::rva0048B7D9.
+class Rva0048B7D9 { public: UnsignedInt rva0048B7D9(); };
+
 class FireSpreadUpdate : public UpdateModule
 {
 public:
 	virtual UpdateSleepTime update();
-	UnsignedInt rva0048B7D9(); // calcNextSpreadDelay
 
 protected:
 	const FireSpreadUpdateModuleData *getFireSpreadUpdateModuleData() const
@@ -228,9 +236,9 @@ UpdateSleepTime FireSpreadUpdate::update( void )
 			}
 			if( objectToLight == NULL && TheAI->getAiData()->m_bfmeBC )
 			{
-				void *found = TheTerrainLogic->rva0027F108( me->getPosition(), d->m_spreadTryRange, true, 0 );
+				void *found = (void *)((BfmeThingCME *)TheTerrainLogic)->rva0027F108( (void *)me->getPosition(), d->m_spreadTryRange, 1, 0 );
 				if( found )
-					objectToLight = TheTerrainLogic->rva00283D70( found );
+					objectToLight = TheTerrainLogic->rva00283D70( (const Coord3D *)found );
 			}
 			if( objectToLight )
 			{
@@ -241,6 +249,6 @@ UpdateSleepTime FireSpreadUpdate::update( void )
 			}
 		}
 
-		return UPDATE_SLEEP(rva0048B7D9());
+		return UPDATE_SLEEP(((Rva0048B7D9 *)this)->rva0048B7D9());
 	}
 }

@@ -23,28 +23,29 @@ public:
 };
 
 
-class Rva00342A96
+// Ctors 0x00342A96, 0x00342AD6 and 0x00342B1A are rowed under these class names.
+class AIAttackMeleeApproachState
 {
 public:
-	Rva00342A96(StateMachine *machine);
+	AIAttackMeleeApproachState(StateMachine *machine);
 private:
 	void *m_vtbl;
 	char m_pad[0x64 - 4];
 };
 
-class Rva00342AD6
+class AIAttackMeleeSquishState
 {
 public:
-	Rva00342AD6(StateMachine *machine);
+	AIAttackMeleeSquishState(StateMachine *machine);
 private:
 	void *m_vtbl;
 	char m_pad[0x68 - 4];
 };
 
-class Rva00342B1A
+class Rva00340BDC
 {
 public:
-	Rva00342B1A(StateMachine *machine, int val);
+	Rva00340BDC(StateMachine *machine, int val);
 private:
 	void *m_vtbl;
 	char m_pad[0x78 - 4];
@@ -98,11 +99,11 @@ Rva0034316A::Rva0034316A(Object *owner, int x, unsigned int name)
 	: StateMachine(owner, name, false)
 {
 	*(const void **)this = __identifier("??_7Rva0033FAFA@@6B@");
-	Rva00342A96 *s0 = new Rva00342A96((StateMachine *)this);
+	AIAttackMeleeApproachState *s0 = new AIAttackMeleeApproachState((StateMachine *)this);
 	((StateMachine *)this)->defineState(0xE1, (State *)s0, 0xE2, 0x270F, (const StateConditionInfo *)0);
-	Rva00342AD6 *s1 = new Rva00342AD6((StateMachine *)this);
+	AIAttackMeleeSquishState *s1 = new AIAttackMeleeSquishState((StateMachine *)this);
 	((StateMachine *)this)->defineState(0xE9, (State *)s1, 0xE2, 0x270F, (const StateConditionInfo *)0);
-	Rva00342B1A *s2 = new Rva00342B1A((StateMachine *)this, x != 0 ? x + 0x20 : 0);
+	Rva00340BDC *s2 = new Rva00340BDC((StateMachine *)this, x != 0 ? x + 0x20 : 0);
 	((StateMachine *)this)->defineState(0xE2, (State *)s2, 0xE6, 0xE5, (const StateConditionInfo *)0);
 	Rva0033F627 *s3 = new Rva0033F627((StateMachine *)this);
 	((StateMachine *)this)->defineState(0xE5, (State *)s3, 0xE1, 0x270F, (const StateConditionInfo *)0);
