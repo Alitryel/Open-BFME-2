@@ -210,7 +210,7 @@ public:
 	UnsignedInt getID() const { return m_id; }
 	const Coord3D *getLocation() const { return &m_location; }
 	__declspec(dllimport) __forceinline Int getNumLinks() const { return m_numLinks; }
-	Waypoint *getLink(Int ndx) const { return m_links[ndx]; }
+	__declspec(dllimport) __forceinline Waypoint *getLink(Int ndx) const { return m_links[ndx]; }
 private:
 	unsigned char m_pad00[4];
 	UnsignedInt m_id; // +0x04

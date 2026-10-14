@@ -387,7 +387,7 @@ class Waypoint
 {
 public:
 	const Coord3D *getLocation() const { return &m_location; }
-	Waypoint *getLink(Int i) const { return m_links[i]; }
+	__declspec(dllimport) __forceinline Waypoint *getLink(Int i) const { return m_links[i]; }
 
 private:
 	unsigned char m_unmodelled_00[0x0C];
