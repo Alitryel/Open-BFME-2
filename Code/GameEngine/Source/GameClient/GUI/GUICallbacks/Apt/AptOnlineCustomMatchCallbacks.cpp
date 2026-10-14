@@ -134,7 +134,10 @@ class GameInfo
 public:
 	virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
 	virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
-	virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
+	virtual void v08(); virtual void v09(); virtual void v10();
+	// Slot 11 (+0x2C): slot 18 of the owner interface calls it with 0 after
+	// copying a room into TheGameSpyGame.
+	virtual void v11(int value);
 	// Slot 12 (+0x30): StartPosition asks the room this where the other
 	// owner menus ask TheGameSpyInfo's amIHost.
 	virtual bool amIHost();
@@ -185,7 +188,11 @@ public:
 	// RequestJoinGame copies this WORD between complete staging-room objects.
 	unsigned char m_pad88[0xFED - 0x88];
 	bool m_fed; // +0xFED, set when the host creates the room
-	unsigned char m_padfee[0x1008 - 0xFEE];
+	unsigned char m_padfee[0xFF4 - 0xFEE];
+	bool m_ff4; // +0xFF4
+	unsigned char m_padff5[0xFF8 - 0xFF5];
+	int m_ff8; // +0xFF8
+	unsigned char m_padffc[0x1008 - 0xFFC];
 	unsigned short m_1008; // purpose remains unknown
 };
 
@@ -305,6 +312,7 @@ struct PeerRequest
 	{
 		bool isStagingRoom;
 		int gameID;
+		int payloadWord; // request 0xF sets the word to -1
 		// Type 9, staging-room creation (Zero Hour's stagingRoomCreation
 		// plus BFME fields; names after the donor where it has them).
 		struct
@@ -562,6 +570,24 @@ protected:
 	unsigned char m_pad05c[0x60 - 0x5C];
 };
 
+// Slot 18's helpers: the rowed SendStatsToOtherPlayers 0x00387288 takes the
+// room, and the staging room assignment 0x00382E73 copies it into TheGameSpyGame.
+void SendStatsToOtherPlayers(GameInfo *game);
+
+class Rva00382E73
+{
+public:
+	Rva00382E73 &operator=(const Rva00382E73 &o);
+};
+
+// The +0x70 panel viewed by its first two virtual slots.
+class Rva005A1B4FPanel
+{
+public:
+	virtual void v00();
+	virtual void v01();
+};
+
 // The multiplayer owner interface at +0x60. Target facts: vftable
 // 0x008713B8 (slot 0 is a sub-ecx-0x60 deleting thunk; the same bodies fill
 // 0x00873CD8 and 0x00873D70), and its bodies reach the screen at this-0x60.
@@ -587,7 +613,7 @@ public:
 	virtual void rva005A1D32() = 0;										   // 15
 	virtual void rva005A1C87(bool open) = 0;								  // 16
 	virtual void MpOwnerPrintMessage(const UnicodeString &text, int kind) = 0; // 17
-	virtual void v18() = 0;												   // 18
+	virtual void rva005A1B4F(bool accepted, int unused) = 0;			  // 18
 	virtual void MpOwnerUpdatePlayerTooltip() = 0;							// 19
 	virtual void *v20() = 0;												  // 20
 	virtual int v21() = 0;													// 21
@@ -623,6 +649,7 @@ public:
 	virtual bool MpOwnerSetClanID(GameSlot *slot, const UnicodeString &clanID);
 	virtual void rva005A1D32();
 	virtual void MpOwnerPrintMessage(const UnicodeString &text, int kind);
+	virtual void rva005A1B4F(bool accepted, int unused);
 
 	virtual void rva005A1C87(bool open);
 	virtual void rva0059EBFE();
@@ -1624,4 +1651,47 @@ bool AptOnlineCustomMatch::FillBuddyInviteGameInfo(Rva0059EF62 *info)
 		filled = true;
 	}
 	return filled;
+}
+
+// Retail 0x005A1B4F, 312 bytes, vftable 0x008713B8 slot 18 (unnamed in
+// WorldBuilder): moves to state 14; when accepted, sets the room's +0xFF4 /
+// +0xFF8 from its rule word +0x64, refreshes the panel and screen, posts
+// request 0xF and adopts the room as TheGameSpyGame; otherwise posts
+// request 0xE "HWS/" with options "true".
+void AptOnlineCustomMatch::rva005A1B4F(bool accepted, int unused)
+{
+	m_state = 14;
+	GameSpyStagingRoom *room = TheGameSpyInfo->getCurrentStagingRoom();
+	if (accepted)
+	{
+		if (((room->m_rules[1]) ? (room->m_rules[1]) : (room->m_rules[1])))
+		{
+			room->m_ff4 = true;
+			room->m_ff8 = 3;
+		}
+		else
+		{
+			room->m_ff4 = false;
+			room->m_ff8 = 0;
+		}
+		((Rva005A1B4FPanel *)&m_70)->v01();
+		RefreshScreen();
+
+		PeerRequest req;
+		req.peerRequestType = 0xF;
+		req.payloadWord = -1;
+		TheGameSpyPeerMessageQueue->addRequest(req);
+		SendStatsToOtherPlayers(room);
+		*(Rva00382E73 *)TheGameSpyGame = *(Rva00382E73 *)room;
+		TheGameSpyGame->v11(0);
+	}
+	else
+	{
+		PeerRequest req;
+		req.peerRequestType = 0xE;
+		req.isStagingRoom = true;
+		req.id = "HWS/";
+		req.options = "true";
+		TheGameSpyPeerMessageQueue->addRequest(req);
+	}
 }
