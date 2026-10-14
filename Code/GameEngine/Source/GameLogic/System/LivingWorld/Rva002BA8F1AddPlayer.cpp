@@ -61,10 +61,15 @@ class Rva002BA8F1Logic : public Rva002BA8F1Primary, public Rva002BA8F1Listener {
 public:
     Rva002E2903Player *find(const AsciiString &, unsigned int *);
     void setLocal(Rva002E2903Player *);
-    void addPlayer(Rva002BA8F1Input *, bool, int, Rva002BA8F1Slot *);
     char gap[0x8c-0x1c]; Rva002BA8F1PlayerList players;
 };
-void Rva002BA8F1Logic::addPlayer(Rva002BA8F1Input *input, bool local, int kind, Rva002BA8F1Slot *slot)
+// Name: WorldBuilder twin 0x00D8BB70 is LivingWorldLogic::AddPlayer (LivingWorldLogic.cpp,
+// asserts 6210..6266), matched by call graph; it agrees with the bfme12x-dll lead above.
+class LivingWorldLogic : public Rva002BA8F1Logic {
+public:
+    void AddPlayer(Rva002BA8F1Input *, bool, int, Rva002BA8F1Slot *);
+};
+void LivingWorldLogic::AddPlayer(Rva002BA8F1Input *input, bool local, int kind, Rva002BA8F1Slot *slot)
 {
     if (find(input->at08, 0)) return;
     void *first = Va00DFF0B0Lookup->find(input->at0C);

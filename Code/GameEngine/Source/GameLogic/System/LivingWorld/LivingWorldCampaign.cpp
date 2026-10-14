@@ -88,14 +88,13 @@ struct Rva002BA8F1Input;
 struct Rva002BA8F1Slot;
 class Rva002E2903Player;
 class Rva002BA8F1Logic {public:
- void addPlayer(Rva002BA8F1Input *,bool,int,Rva002BA8F1Slot *);
  Rva002E2903Player *rva002B52A8(int);
 };
 class Rva002E067DDwordSlot {public: void set(int);};
 class Rva0020E89C {public:char pad[0x14]; AsciiString name;};
 class Rva0020EAF6View {public: Rva0020E89C *rva0020EAF6(int);};
 class LivingWorldLogic {public:
- void ValidatePlayers(); char pad[0xb0]; Rva0020EAF6View *regions;
+ void ValidatePlayers(); void AddPlayer(Rva002BA8F1Input *,bool,int,Rva002BA8F1Slot *); char pad[0xb0]; Rva0020EAF6View *regions;
 };
 extern LivingWorldLogic *TheLivingWorldLogic;
 struct Rva002E1904Entry;
@@ -207,7 +206,7 @@ void LivingWorldCampaign::CreatePlayers()
      player.m_18=slot->color;
      player.m_1C=slot->team;
      player.m_20=-slot->at20;
-     ((Rva002BA8F1Logic *)TheLivingWorldLogic)->addPlayer((Rva002BA8F1Input *)&player,isLocal,!human,(Rva002BA8F1Slot *)slot);
+     TheLivingWorldLogic->AddPlayer((Rva002BA8F1Input *)&player,isLocal,!human,(Rva002BA8F1Slot *)slot);
      Rva002E2903Player *created=((Rva002BA8F1Logic *)TheLivingWorldLogic)->rva002B52A8(playerCount);
      ((Rva002E067DDwordSlot *)created)->set(slot->state);
      ++playerCount;
@@ -218,7 +217,7 @@ void LivingWorldCampaign::CreatePlayers()
  } else {
   for(unsigned int i=0;i<players.size();++i) {
    bool local=players[i].narrow(8)==localName;
-   ((Rva002BA8F1Logic *)TheLivingWorldLogic)->addPlayer((Rva002BA8F1Input *)&players[i],local,!local,0);
+   TheLivingWorldLogic->AddPlayer((Rva002BA8F1Input *)&players[i],local,!local,0);
   }
  }
  TheLivingWorldLogic->ValidatePlayers();

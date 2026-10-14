@@ -54,7 +54,6 @@ public:
     Rva002E2903Player *rva002B52A8(int);
     int rva002B5256(bool flag);
     void setLocal(Rva002E2903Player *);
-    void addPlayer(Rva002BA8F1Input *, bool, int, Rva002BA8F1Slot *);
     char gap[0x8c-0x1c]; Rva002BA8F1PlayerList players;
 };
 
