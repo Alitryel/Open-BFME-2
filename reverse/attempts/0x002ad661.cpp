@@ -1,4 +1,6 @@
 // ?addScience@Player@@AAE_NW4ScienceType@@@Z
+// partial score=0.96 date=2026-10-14
+// ?addScience@Player@@AAE_NW4ScienceType@@@Z
 // partial score=0.9389 date=2026-10-13
 // ?addScience@Player@@AAE_NW4ScienceType@@@Z
 // partial score=0.95 date=2026-10-13
@@ -48,7 +50,7 @@ class DLINK_ITERATOR
 {
 private:
 	OBJCLASS *m_cur;
-	unsigned char m_targetAbiState[20];
+	unsigned char m_targetAbiState[24];
 public:
 	void advance();
 	bool done() const { return m_cur == 0; }

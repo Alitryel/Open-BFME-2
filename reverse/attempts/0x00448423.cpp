@@ -1,4 +1,6 @@
 // ?Rva00448423@@YA_NPAVLANGameInfo@@PADH@Z
+// partial score=0.978 date=2026-10-14
+// ?Rva00448423@@YA_NPAVLANGameInfo@@PADH@Z
 // partial score=0.9701098901 date=2026-10-13
 // W7-SOL6 current GenerateGameOptionsString.cpp owner port reproduces2275B/718 instructions/68 stack-home deltas.
 // WB14A8BF0 full33386B read. Constructor-wrapped counter/field5c are packing-neutral; team wrapper grows2284B.
@@ -243,6 +245,7 @@ extern PlayerTemplateStore *ThePlayerTemplateStore;
 bool Rva00448423(LANGameInfo *game,char *data,int size)
 {
     if(!game || !data) return false;
+    unsigned int i;
     char *cursor=data; char *next=0; char *limit=data+size;
     AsciiString map;
     LAN_READ(Rva00447FD5Append(cursor,reinterpret_cast<StringBase<char>*>(&map),limit));
@@ -254,7 +257,7 @@ bool Rva00448423(LANGameInfo *game,char *data,int size)
     LAN_READ(Rva0044793FReadU32(cursor,&mapSize,limit));
     LAN_READ(Rva0044793FReadU32(cursor,&seed,limit));
     int rules[10]={-1};
-    for(int i=0;i<10;++i) {
+    for(i=0;i<10;++i) {
         LAN_READ(Rva0044793FReadU32(cursor,reinterpret_cast<unsigned int*>(&rules[i]),limit));
     }
     unsigned int field88=0;
@@ -264,7 +267,7 @@ bool Rva00448423(LANGameInfo *game,char *data,int size)
     char field58=-1;
     LAN_READ(Rva0044799ACopy1(cursor,&field58,limit));
     GameSlot slots[8];
-    for(unsigned int i=0;i<8;++i) {
+    for(i=0;i<8;++i) {
         GameSlot *slot=&slots[i];
         char state;
         LAN_READ(Rva0044799ACopy1(cursor,&state,limit));
@@ -341,7 +344,7 @@ bool Rva00448423(LANGameInfo *game,char *data,int size)
         else if(state=='C') {GameSlotConnectInfo connect; slot->setState(SLOT_CLOSED,UnicodeString::TheEmptyString,&connect);}
         else return false;
     }
-    for(unsigned int i=0;i<8;++i) game->setSlot(i,slots[i]);
+    for(i=0;i<8;++i) game->setSlot(i,slots[i]);
     game->setMap(map);
     game->setMapCRC(crc); game->setMapSize(mapSize);
     game->rva0033F898(mask);
