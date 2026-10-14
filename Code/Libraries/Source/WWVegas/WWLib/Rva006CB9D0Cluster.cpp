@@ -59,3 +59,35 @@ void *Rva006CBAD0Format(const char *szFormat, ...)
 	((EAStringC *)((char *)value + 8))->rva006D53F0(szFormat, (char *)(&szFormat + 1));
 	return value;
 }
+
+// 0x006CBA10 / 0x006CBA20 / 0x006CBA30 (5B each, between the two above):
+// the same factory's integer, float and boolean creators, each a tail jump
+// into the rowed pooled factory (AptInteger::Create 0x006D8520, the float
+// factory 0x006D8700, AptBoolean::Create 0x006D88C0). Address-derived names.
+class AptValue;
+class AptInteger
+{
+public:
+	static AptValue *Create(int value);
+};
+class AptBoolean
+{
+public:
+	static AptValue *Create(bool value);
+};
+AptValue *Rva008A4EA0MakeFloat(float value);
+
+AptValue *Rva006CBA10CreateInteger(int value)
+{
+	return AptInteger::Create(value);
+}
+
+AptValue *Rva006CBA20CreateFloat(float value)
+{
+	return Rva008A4EA0MakeFloat(value);
+}
+
+AptValue *Rva006CBA30CreateBoolean(bool value)
+{
+	return AptBoolean::Create(value);
+}
