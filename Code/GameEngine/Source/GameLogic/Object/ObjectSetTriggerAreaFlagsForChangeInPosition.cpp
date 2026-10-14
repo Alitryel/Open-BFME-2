@@ -120,14 +120,13 @@ private:
 	char m_triggerName[4];	// +0x40
 };
 
-class Rva002E373CHolder
+struct ObjectTriggerListView
 {
-public:
 	PolygonTrigger *m_head;
 };
-// g_Va00DBD0F4 is only an alias of the owned global g_Va00DBD0F4 (ledger names column); this unit reads the owner through its own view type.
-extern struct Rva002E373CHolder *g_Va00DBD0F4;
-#define g_Va00DBD0F4 (*(Rva002E373CHolder * *)&g_Va00DBD0F4)
+// The clear-list unit owns a struct pointer; keep this consumer's view local.
+struct Rva002E373CHolder;
+extern Rva002E373CHolder *g_Va00DBD0F4;
 
 class Team
 {
@@ -272,7 +271,7 @@ void Object::setTriggerAreaFlagsForChangeInPosition()
 
 	m_iPos = iPos;
 
-	for (PolygonTrigger *pTrig = g_Va00DBD0F4->m_head; pTrig; pTrig = pTrig->getNext())
+	for (PolygonTrigger *pTrig = ((ObjectTriggerListView *)g_Va00DBD0F4)->m_head; pTrig; pTrig = pTrig->getNext())
 	{
 		Bool skip = false;
 		for (i = 0; i < m_numTriggerAreasActive; i++)
