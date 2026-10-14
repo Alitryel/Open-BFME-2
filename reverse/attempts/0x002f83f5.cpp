@@ -1,4 +1,6 @@
 // ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
+// partial score=0.79513 date=2026-10-14
+// ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
 // partial score=0.78053 date=2026-10-14
 // Crack-O: query temporary and endpoint copies follow WB D5BBE0; still partial.
 // ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
@@ -162,13 +164,13 @@ const LocomotorTemplate *m_template;	// +0x04
 
 extern unsigned int g_00DBD33C[16];
 
-extern "C" __declspec(dllimport) double __cdecl floor(double);
+#include <math.h>
 float Sin(float x);
 float Cos(float x);
 
 static __forceinline Int realToIntFloor(float f)
 {
-float floored = (float)floor((double)f);
+float floored = floor(f);
 long i;
 __asm {
 fld [floored]
@@ -1779,6 +1781,7 @@ AddToOpenList(neighbor);
 m_isTunneling=false;rva002F40E7();goal->ReleaseInfo();return MAX_COST;
 }
 
+static __forceinline Bool nativeBurning(BurningGrid *grid,const Coord3D &point){Int fireX=realToIntFloor((point.x+0.5f)*0.1f);Int fireY=realToIntFloor((point.y+0.5f)*0.1f);if(fireX>=0 && fireX<grid->width && fireY>=0 && fireY<grid->height)return grid->cells[fireX][fireY].count>0;return false;}
 Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
 {
 if(obj->m_template->hasKind(109)||obj->m_template->hasKind(191)){radius=1;centerInCell=true;}
@@ -1790,6 +1793,7 @@ if(m_1C1CC.empty()){end=*(ICoord2D *)goalCell->m_pathInfo;}
 else {end=*(ICoord2D *)&m_1C1CC.back().m_position;}PathfindLayerEnum layer=(PathfindLayerEnum)parentCell->getLayer();
 iterateCellsAlongLine((const ICoord2D *)parentCell->m_pathInfo,&end,layer,(Rva002F5925Info *)&Rva002EAB6F((Int)this,(const Rva002E8BCFSrc *)&locomotorSet,centerInCell,radius,obj,isHuman,(Int)goalCell,m_1C1CC.empty()?attackMode:0));
 }
+{
 Int cellCount=0;
 TCheckMovementInfo info;((Rva002E6FDF *)&info)->rva002E6FDF();
 info.layer=(PathfindLayerEnum)parentCell->getLayer();info.radius=radius;info.centerInCell=centerInCell;
@@ -1844,11 +1848,7 @@ if(m_isTunneling && !((Rva002E6DC4 *)this)->rva002E6DC4(&info.movement,newCell))
 if((unsigned char)(newCell->m_info>>21)&1)newCostSoFar>>=1;
 newCostSoFar+=newCell->CalcCostSoFar((const Rva002E6C79 *)parentCell);
 newCostSoFar+=CalcExtraCosts(obj,parentCell,(Rva002EBC7FPair *)&coords,info.radius,info.radius+(info.centerInCell?1:0),true);
-Int fireX=realToIntFloor(((float)(x*10)+0.5f)*0.1f);
-Int fireY=realToIntFloor(((float)(y*10)+0.5f)*0.1f);
-BurningGrid *grid=(BurningGrid *)TheTriggerManager;
-Bool burning=false;
-if(fireX>=0 && fireX<grid->width && fireY>=0 && fireY<grid->height)burning=grid->cells[fireX][fireY].count>0;
+Coord3D point;point.x=(float)(x*10);point.y=(float)(y*10);Bool burning=nativeBurning((BurningGrid*)TheTriggerManager,point);
 if(burning)newCostSoFar+=10;
 newCell->m_pathInfo->costSoFar=(unsigned short)newCostSoFar;
 newCell->SetParentCell((Int *)parentCell);
@@ -1857,4 +1857,5 @@ newCell->m_pathInfo->totalCost=(unsigned short)(newCell->m_pathInfo->costSoFar+r
 AddToOpenList(newCell);
 }
 return cellCount;
+}
 }
