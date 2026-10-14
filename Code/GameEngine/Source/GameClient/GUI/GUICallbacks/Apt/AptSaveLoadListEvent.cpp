@@ -5,7 +5,7 @@
 class GameWindow
 {
 };
-class Rva005126F5
+class _bfme_AptGameWindow
 {
 public:
 	int rva0051274F(int message, unsigned int source, unsigned int value);
@@ -34,7 +34,7 @@ private:
 int AptSaveLoad::rva00435BB3(int message, GameWindow *source, int value)
 {
 	if (m_state >= 0x12 && m_state <= 0x17)
-		return ((Rva005126F5 *)this)->rva0051274F(message, (unsigned int)source, (unsigned int)value);
+		return ((_bfme_AptGameWindow *)this)->rva0051274F(message, (unsigned int)source, (unsigned int)value);
 
 	switch (message)
 	{
@@ -75,6 +75,6 @@ int AptSaveLoad::rva00435BB3(int message, GameWindow *source, int value)
 			rva00434A2F();
 		return 1;
 	default:
-		return ((Rva005126F5 *)this)->rva0051274F(message, (unsigned int)source, (unsigned int)value);
+		return ((_bfme_AptGameWindow *)this)->rva0051274F(message, (unsigned int)source, (unsigned int)value);
 	}
 }
