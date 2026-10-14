@@ -1,23 +1,30 @@
-// ?Rva00423FD8Parse@@YAXPAVINI@@PAX1PBX@Z
-// partial score=0.99 date=2026-10-14
 // cl: /O1 /G7 /MD /EHsc /Oi- /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/shims/iniexception
 // stlport
 //
-// Rva00423FD8Parse, retail 0x00423FD8 (429 B). INI block callback for a named "unit" definition
-// (WorldBuilder twin 0x0113CF20 carries "Unit must have a name at %s:%d" and "Unit type defined more
-// than once, 2nd definition at %s:%d"): reads the quoted name, builds a record {name key, filter
-// member, preview selector} from a fresh Rva003623E5Member (initialised from two copies of
-// KINDOFMASK_NONE) through the FieldParse table {ObjectFilter, PreviewObject}, refuses a key that is
-// already in the global map at 0x00A03168 and stores {member, selector} under it, the selector
-// defaulting to the field at +0x0C of the object behind 0x00A03160 when PreviewObject was absent.
-// Evidence: target bytes, the WorldBuilder twin and the rowed callees; the map value and the object
-// behind 0x00A03160 keep address-derived views. The function name stays address-derived.
+// rva00423FD8, retail 0x00423FD8 (429 B). INI block callback for a named "unit"
+// definition (WorldBuilder twin 0x0113CF20 carries "Unit must have a name at
+// %s:%d" and "Unit type defined more than once, 2nd definition at %s:%d"): reads
+// the quoted name, builds a record {name key, filter member, preview selector}
+// from a fresh Rva003623E5Member (initialised from two copies of
+// KINDOFMASK_NONE) through the FieldParse table {ObjectFilter, PreviewObject},
+// refuses a key that is already in the global map at 0x00A03168 and stores
+// {member, selector} under it, the selector defaulting to the field at +0x0C of
+// the object behind 0x00A03160 when PreviewObject was absent. Evidence: target
+// bytes, the WorldBuilder twin and the rowed callees; the map value and the
+// object behind 0x00A03160 keep address-derived views. The function name stays
+// address-derived.
 #include "ascii_string.h"
 #include "Common/INIException.h"
 #include <map>
 #include <vector>
 
-enum NameKeyType { NAMEKEY_INVALID = 0, FORCE_NAMEKEYTYPE_LONG = 0x7fffffff };
+template <class T> __forceinline volatile T &r1_vwrite(T &value) { return *(volatile T *)&value; }
+
+enum NameKeyType
+{
+	NAMEKEY_INVALID = 0,
+	FORCE_NAMEKEYTYPE_LONG = 0x7fffffff
+};
 
 struct FieldParse
 {
@@ -36,6 +43,7 @@ public:
 	void initFromINI(void *what, const FieldParse *parseTable);
 	static void Rva0033940F_Parse(INI *ini, void *instance, void *store, const void *userData);
 };
+
 void rva00421749(INI *ini, void *instance, void *store, const void *userData);
 
 class NameKeyGenerator
@@ -91,7 +99,7 @@ struct Rva00423FD8Record
 	int selector;
 };
 
-void Rva00423FD8Parse(INI *ini, void *instance, void *store, const void *userData)
+void rva00423FD8(INI *ini, void *instance, void *store, const void *userData)
 {
 	AsciiString name = ini->getNextQuotedAsciiString();
 	if (name.isEmpty())
@@ -115,6 +123,6 @@ void Rva00423FD8Parse(INI *ini, void *instance, void *store, const void *userDat
 	Rva003623E5Member *kept = record.filter;
 	int selector = record.selector ? record.selector : TheFormationAssistant->m_0C;
 	BfmePod8 &slot = (*units)[record.key];
-	slot.a[0] = (int)kept;
-	slot.a[1] = selector;
+	r1_vwrite(slot.a[0]) = (int)kept;
+	r1_vwrite(slot.a[1]) = selector;
 }
