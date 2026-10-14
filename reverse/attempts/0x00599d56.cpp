@@ -1,4 +1,6 @@
 // ?preEmptivelyBuildDozers@AIDozerManager@@QAEXXZ
+// partial score=0.9442 date=2026-10-14
+// ?preEmptivelyBuildDozers@AIDozerManager@@QAEXXZ
 // partial score=0.93 date=2026-10-13
 // ?preEmptivelyBuildDozers@AIDozerManager@@QAEXXZ 0x00599D56 (390 B)
 // Identity: WB twin 0x01530980 (AIDozerManager.cpp asserts 247/273); siblings
@@ -24,7 +26,7 @@
 #include <cstdlib>
 #undef free
 void free(void *);
-#include "../../Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 #include <list>
 #include <vector>

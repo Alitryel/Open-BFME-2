@@ -1,4 +1,6 @@
 // ?getPosition@SphereEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@@MMMM@Z
+// partial score=0.8989 date=2026-10-14
+// ?getPosition@SphereEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@@MMMM@Z
 // partial score=0.93 date=2026-10-13
 // ?getPosition@SphereEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@@MMMM@Z
 // partial score=0.66 date=2026-10-08
@@ -9,7 +11,7 @@
 // The donor supplies the named module and inheritance model; target bytes
 // prove hollow +0x20, radius +0x24, RET 0x14, the full source literal at
 // line 86, and calls to the existing random and unit-vector providers.
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 float __cdecl GetGameClientRandomValueReal(float low, float high, char *file, int line);
 Coord3D *__cdecl Rva003AFA64FillUnitVector(Coord3D *out);

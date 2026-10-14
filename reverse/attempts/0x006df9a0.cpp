@@ -1,4 +1,6 @@
 // ?findChild@AptValue@@QAEPAV1@PBVEAStringC@@PAV1@@Z
+// partial score=0.9269 date=2026-10-14
+// ?findChild@AptValue@@QAEPAV1@PBVEAStringC@@PAV1@@Z
 // partial score=0.99 date=2026-10-13
 // ?findChild@AptValue@@QAEPAV1@PBVEAStringC@@PAV1@@Z
 // Native6DF9A0 lookup: owned gperf vocabulary proves the built-in cases;
@@ -10,7 +12,7 @@
 // keeps prototype in esi ("mov esi,[eax+8]; pop edi; mov eax,esi") with its own
 // epilogue while !h, !isObject, !(flags&0x200) jump to case 3 root-return 0x189.
 // Joins (if(h) prototype=...; return prototype) keep esi but send !h to the join.
-#include "AptObject/AptScriptFunction.h"
+#include "Code/Libraries/Source/Apt/AptObject/AptScriptFunction.h"
 #include <stdlib.h>
 class EAStringC { void *mpData; public: unsigned int rva006D3750() const; const char *rva00620090() const; };
 struct R4Word { const char *name; int value; };
