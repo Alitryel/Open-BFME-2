@@ -138,6 +138,7 @@ struct GapBlockReport
 class Rva00030C50Heap
 {
 public:
+	void rva00030C50(int bin);
 	unsigned int rva00030C80(int bin);
 	void rva00030CC0(bool on);
 	bool rva00030CE0() const;
@@ -183,6 +184,14 @@ private:
 	int m_4C0;
 	int m_4C4;
 };
+
+// --- 0x00030C50 (33B): set a bin bitmap bit.
+void Rva00030C50Heap::rva00030C50(int bin)
+{
+	Rva00030C50Heap *self = this;
+	int word = bin >> 5;
+	self->m_binBits[word] |= 1 << (bin & 31);
+}
 
 // --- 0x00030C80 (35B): test a bin bitmap bit.
 unsigned int Rva00030C50Heap::rva00030C80(int bin)
