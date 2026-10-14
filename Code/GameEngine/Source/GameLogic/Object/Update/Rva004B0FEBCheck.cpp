@@ -1,4 +1,6 @@
-// ?rva004B0FEB@Rva004B0FEB@@QAE_NPAVObject@@@Z @0x004B0FEB 367B.
+// ?Allow@TauntPointFilter@EmotionTrackerUpdate@@UAE_NPAVObject@@@Z @0x004B0FEB 367B.
+// Name: WorldBuilder twin 0x01230A20 EmotionTrackerUpdate::TauntPointFilter::Allow
+// (EmotionTrackerUpdate.cpp:243, call graph).
 // Target gate. The object at +0xC must be present and, when status 0x0F is
 // set, status 0x11 must be set too. A cached object with the same non-zero
 // +0x274 id is an immediate hit. Otherwise the argument's template flags,
@@ -93,12 +95,18 @@ struct Rva004B0FEBData
 class AI {public:char pad[0x10];Pathfinder *pathfinder;};
 extern AI *TheAI;
 
-class Rva000421C8 {public:virtual ~Rva000421C8();virtual bool allow(Object*)=0;virtual int getPlayerMask();Rva000421C8 *next;};
+class Rva000421C8 {public:virtual ~Rva000421C8();virtual bool Allow(Object*)=0;virtual int getPlayerMask();Rva000421C8 *next;};
 
-class Rva004B0FEB:public Rva000421C8
+class EmotionTrackerUpdate
 {
 public:
-	virtual bool allow(Object *other);
+	class TauntPointFilter;
+};
+
+class EmotionTrackerUpdate::TauntPointFilter:public Rva000421C8
+{
+public:
+	virtual bool Allow(Object *other);
 	virtual int getPlayerMask();
 
 private:
@@ -111,7 +119,7 @@ private:
 	volatile unsigned char m_20;
 };
 
-bool Rva004B0FEB::allow(Object *other)
+bool EmotionTrackerUpdate::TauntPointFilter::Allow(Object *other)
 {
 	Object *objA = m_c;
 	if (!objA)

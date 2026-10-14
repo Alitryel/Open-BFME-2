@@ -7,16 +7,18 @@
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 class Player {public:__forceinline int getPlayerIndex()const{return index;}char pad[0x54];int index;};
 class Object {public:Player *getControllingPlayer()const;char pad[0x38];Coord3D pos;};
-class EmotionTrackerUpdate {public:char pad[8];Object *object;};
+class EmotionTrackerUpdate {public:class TauntPointFilter;char pad[8];Object *object;};
 class PlayerList {public:int getPlayersWithRelationship(int,unsigned,bool);};extern PlayerList *ThePlayerList;
 struct BfmePointFD;
 class Rva00739830 {public:int rva00739830(const BfmePointFD *,int,unsigned)const;};// Global type follows the existing FXListDoFXPos provider.
 class PartitionManager;extern PartitionManager *TheShroudManager;
-class Rva000421C8 {public:Rva000421C8():next(0){}virtual ~Rva000421C8();virtual bool allow(Object*)=0;virtual int getPlayerMask();Rva000421C8 *next;};
-class Rva004B0FEB:public Rva000421C8 {public:Rva004B0FEB(EmotionTrackerUpdate*);virtual bool allow(Object*);virtual int getPlayerMask();
+class Rva000421C8 {public:Rva000421C8():next(0){}virtual ~Rva000421C8();virtual bool Allow(Object*)=0;virtual int getPlayerMask();Rva000421C8 *next;};
+// Name: WorldBuilder twin 0x01230A20 EmotionTrackerUpdate::TauntPointFilter::Allow (call graph)
+// names slot 1 and this nested class; the slot-2 and constructor names follow from it.
+class EmotionTrackerUpdate::TauntPointFilter:public Rva000421C8 {public:TauntPointFilter(EmotionTrackerUpdate*);virtual bool Allow(Object*);virtual int getPlayerMask();
  EmotionTrackerUpdate *module;Object *object;Player *player;int enemyCount,allyCount;Object *cached;bool tested;
 };
-Rva004B0FEB::Rva004B0FEB(EmotionTrackerUpdate *m):module(m),cached(0),tested(false) {
+EmotionTrackerUpdate::TauntPointFilter::TauntPointFilter(EmotionTrackerUpdate *m):module(m),cached(0),tested(false) {
  object=m->object;enemyCount=0;allyCount=0;player=object?object->getControllingPlayer():0;
  if(player){unsigned allies=ThePlayerList->getPlayersWithRelationship(player->getPlayerIndex(),3,false);
  unsigned enemies=ThePlayerList->getPlayersWithRelationship(player->getPlayerIndex(),4,false);
@@ -25,4 +27,4 @@ Rva004B0FEB::Rva004B0FEB(EmotionTrackerUpdate *m):module(m),cached(0),tested(fal
 }
 
 inline Rva000421C8::~Rva000421C8() {}
-int Rva004B0FEB::getPlayerMask(){if(object && player)return ThePlayerList->getPlayersWithRelationship(player->getPlayerIndex(),4,false);return 0;}
+int EmotionTrackerUpdate::TauntPointFilter::getPlayerMask(){if(object && player)return ThePlayerList->getPlayersWithRelationship(player->getPlayerIndex(),4,false);return 0;}
