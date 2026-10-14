@@ -1,4 +1,6 @@
 // ?rva005093C6@Made002CC774@@QAEXPAUInput005093C6@@PBUCoord3D@@@Z
+// partial score=0.9999 date=2026-10-14
+// ?rva005093C6@Made002CC774@@QAEXPAUInput005093C6@@PBUCoord3D@@@Z
 // partial score=0.9893649709798567 date=2026-10-14
 // ?rva005093C6@Made002CC774@@QAEXPAUInput005093C6@@PBUCoord3D@@@Z
 // partial score=0.9894 date=2026-10-13
@@ -15,22 +17,28 @@ class Module;
 class WeaponTemplate;
 class ThingTemplate;
 struct CreateMask 
+
 {
  unsigned int words[4];
  
 }
 ;
 enum ObjectID 
+
 {
  INVALID_ID = 0 
+ 
 }
 ;
 enum NameKeyType 
+
 {
  NAMEKEY_INVALID = 0 
+ 
 }
 ;
 class Thing 
+
 {
  public: void setPosition(const Coord3D *);
  
@@ -69,6 +77,7 @@ class GameLogic
 ;
 extern GameLogic *TheGameLogic;
 class NameKeyGenerator 
+
 {
  public: NameKeyType nameToKey(const char *);
  
@@ -78,6 +87,7 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 struct GlobalDataView 
+
 {
  char m_pad000[0x14];
  AsciiString m_name014;
@@ -85,6 +95,7 @@ struct GlobalDataView
 }
 ;
 struct PlayerView 
+
 {
  char m_pad000[0x2EC];
  Team *m_team;
@@ -92,18 +103,21 @@ struct PlayerView
 }
 ;
 class Rva0048B9D0 
+
 {
  public: void rva0048B9D0(const WeaponTemplate *);
  
 }
 ;
 class DeletionUpdate 
+
 {
  public: void setLifetimeRange(unsigned int, unsigned int);
  
 }
 ;
 struct Input005093C6 
+
 {
  char m_pad000[8];
  ObjectID m_objectID;
@@ -139,13 +153,13 @@ void Made002CC774::rva005093C6(Input005093C6 *input, const Coord3D *position)
  if (tmpl && m_weapon)
  
  {
-  Object *producer = TheGameLogic->findObjectByID(input->m_objectID);
+  Object *producer = ((TheGameLogic) ? (TheGameLogic) : (TheGameLogic))->findObjectByID(input->m_objectID);
   if (producer)
   
   {
    CreateMask mask;
    memset(&mask, 0, sizeof(mask));
-   Team *team = ((PlayerView *)producer->getControllingPlayer())->m_team;
+   Team *team = ((producer ? ((PlayerView *)producer->getControllingPlayer()) : ((PlayerView *)producer->getControllingPlayer())))->m_team;
    Object *obj = TheThingFactory->newObject(tmpl, team, &mask, false);
    obj->setProducer(producer);
    obj->setPosition(position);
