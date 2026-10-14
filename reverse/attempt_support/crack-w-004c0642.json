@@ -10513,5 +10513,5 @@
     "Volatile memory-category trials were diagnostic controls only; none improved the bank, and no such control is retained."
   ],
   "best_normalized_diff": "--- retail\n\n+++ phyzx_firstcopy_pos_first\n\n@@ -27,8 +27,6 @@\n\n add eax, 0x38\n mov dword ptr [esi + 0xc], ecx\n-mov ecx, dword ptr [eax]\n+mov ecx, dword ptr [eax + 4]\n push 0x4ff\n-mov dword ptr [ebp - 0xc], ecx\n-mov ecx, dword ptr [eax + 4]\n mov edi, IMM\n push edi\n@@ -39,7 +37,9 @@\n\n movss xmm0, dword ptr [eax + 8]\n fld dword ptr [ADDR]\n+mov eax, dword ptr [eax]\n fstp dword ptr [esp]\n mov dword ptr [ebp - 8], ecx\n movss dword ptr [ebp - 4], xmm0\n+mov dword ptr [ebp - 0xc], eax\n call TARGET\n fadd dword ptr [ebp - 0xc]",
-  "bank_sha256": "182a6ae4ce029e2797e70ee4db8f78a5b29102d2d16b6b49211a18b6e84c93d4"
+  "bank_sha256": "752904fe045fdf293295e877ee8387d9b721a5fa6c53404372ebef6c58b16a65"
 }

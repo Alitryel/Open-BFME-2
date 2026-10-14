@@ -67,4 +67,3 @@ pos.x=objPos->x;
 		internalChangeHealth(factor * m_initialHealth - m_currentHealth, 0);
 	}
 }
-
