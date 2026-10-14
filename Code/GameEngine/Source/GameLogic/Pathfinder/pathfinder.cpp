@@ -619,6 +619,7 @@ void AdjustMeleeOffset(Object*,Object*,Coord3D*);
 Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
  Bool adjustToMeleeDestination(Object*,const LocomotorSet&,Coord3D*);
  Bool adjustToPossibleDestination(Object*,const LocomotorSet&,Coord3D*);
+ void SnapClosestGoalPosition(Object *,Coord3D *);
  Bool CheckForAdjust(Object *,const LocomotorSet &,Bool,Int,Int,PathfindLayerEnum,Int,Bool,Coord3D *,const Coord3D *,float,Int *,Int);
  Bool QuickDoesPathExist(Object *,const Coord3D *,const Coord3D *,Int);
  Bool IsValidMovementPositionForObject(const Coord3D *,Int,Int,const Object *);
@@ -4192,6 +4193,70 @@ bool Pathfinder::adjustToPossibleDestination(Object *object,const LocomotorSet &
   ++delta;
  }
  return false;
+}
+
+// ZH AIPathfind.cpp snapClosestGoalPosition semantic guide; retail strings
+// name Pathfinder::SnapClosestGoalPosition. Native 002F2B88..002F2FA4 RET8.
+class Rva0052DB73 { public: bool rva0052DB73(int); };
+class Rva0052DB11 { public: bool rva0052DB11(int); };
+static __forceinline bool snapDestination(Pathfinder *p,Object *obj,int x,int y,int layer,int radius,bool center) {
+ typedef unsigned char (Pathfinder::*Call)(Object *,int,int,int,int,bool);
+ Call typed=reinterpret_cast<Call>(&Pathfinder::bfmeWrapE6E90);
+ return (p->*typed)(obj,x,y,layer,radius,center)!=0;
+}
+void Pathfinder::SnapClosestGoalPosition(Object *obj,Coord3D *pos)
+{
+ if(g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"CritterDesync: Pathfinder::SnapClosestGoalPosition() called with pos=%g,%g,%g",pos->x,pos->y,pos->z);
+ Int iRadius;
+ bool center;
+ Rva002EBCA7Split(obj,&iRadius,reinterpret_cast<unsigned char *>(&center));
+ if(g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"CritterDesync: Pathfinder::SnapClosestGoalPosition() iRadius=%d, center=%s",iRadius,center?"TRUE":"FALSE");
+ ICoord2D cell;
+ Rva002E7875WorldToCell(&cell,center,pos);
+ PathfindLayerEnum layer=TheTerrainLogic->getLayerForDestination(obj,pos);
+ {
+  PathfinderCellPoint adjusted;
+  *pos=*(Coord3D *)Rva002E8C4DCall((int)&adjusted,center,(Rva002E8C23Pair *)&cell,1);
+ }
+ if(g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"CritterDesync: Pathfinder::SnapClosestGoalPosition() CheckDestination about to get called with cell=%d,%d, layer=%d, iRadius=%d, center=%s, pos=%g%g%g",cell.x,cell.y,layer,iRadius,center?"TRUE":"FALSE",pos->x,pos->y,pos->z);
+ if(snapDestination(this,obj,cell.x,cell.y,layer,iRadius,center)) {
+  if(g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"CritterDesync: Pathfinder::SnapClosestGoalPosition() CheckDestination succeeds, returning...");
+  return;
+ }
+ if(g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"CritterDesync: Pathfinder::SnapClosestGoalPosition() CheckDestination fails, continuing...");
+ Int i,j;
+ for(i=cell.x-1;i<cell.x+2;i++) {
+  for(j=cell.y-1;j<cell.y+2;j++) {
+   if(snapDestination(this,obj,i,j,layer,iRadius,center)) {
+    *pos=rva002E79A8(center,i,j,layer);
+    if(g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"CritterDesync: Pathfinder::SnapClosestGoalPosition() CheckDestination2 succeeds with cell=%d,%d, layer=%d, iRadius=%d, center=%s, pos=%g%g%g",cell.x,cell.y,layer,iRadius,center?"TRUE":"FALSE",pos->x,pos->y,pos->z);
+    return;
+   }
+  }
+ }
+ if(iRadius==0) {
+  for(i=cell.x-1;i<cell.x+2;i++) {
+   for(j=cell.y-1;j<cell.y+2;j++) {
+    PathfindCell *newCell=getCell(layer,i,j);
+    if(newCell && ((Rva0052DB73 *)newCell)->rva0052DB73(obj->getID())) {
+     *pos=rva002E79A8(center,i,j,layer);
+     if(g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"CritterDesync: Pathfinder::SnapClosestGoalPosition() CheckDestination3 succeeds with cell=%d,%d, layer=%d, iRadius=%d, center=%s, pos=%g%g%g",cell.x,cell.y,layer,0,center?"TRUE":"FALSE",pos->x,pos->y,pos->z);
+     return;
+    }
+   }
+  }
+  for(i=cell.x-1;i<cell.x+2;i++) {
+   for(j=cell.y-1;j<cell.y+2;j++) {
+    PathfindCell *newCell=getCell(layer,i,j);
+    if(newCell && !((Rva0052DB11 *)newCell)->rva0052DB11(obj->getID())) {
+     *pos=rva002E79A8(center,i,j,layer);
+     if(g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"CritterDesync: Pathfinder::SnapClosestGoalPosition() CheckDestination4 succeeds with cell=%d,%d, layer=%d, iRadius=%d, center=%s, pos=%g%g%g",cell.x,cell.y,layer,0,center?"TRUE":"FALSE",pos->x,pos->y,pos->z);
+     return;
+    }
+   }
+  }
+ }
+ if(g_00E03745 && g_00DFEFF0) fprintf((PathfinderLogFile *)g_00DFEFF0,"CritterDesync: Pathfinder::SnapClosestGoalPosition() iRadius=%d>0 do nothing case, pos=%g%g%g",iRadius,pos->x,pos->y,pos->z);
 }
 
 // WB D36700 names AdjustMeleeOffset. Native 002E8C6E..002E8D74 RET12.
