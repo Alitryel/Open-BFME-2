@@ -16,6 +16,13 @@ struct SBServer {
  ~SBServer(){if(handle)ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)((char *)handle+((int **)handle)[0][1]));}
  SBServer &operator=(const SBServer &);
 };
+// Keep the already-inlined unsigned growth comparison local; its external
+// template copy differs from the retail provider.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{ return a < b ? b : a; }
+}
 #include <map>
 #include <vector>
 #include "ascii_string.h"
