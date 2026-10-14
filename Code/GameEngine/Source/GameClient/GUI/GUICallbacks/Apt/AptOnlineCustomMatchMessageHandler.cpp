@@ -214,12 +214,19 @@ class GameSpyInfoInterface
 {
 public:
 #define V(n) virtual void gs##n() = 0;
-	V(0) V(1) V(2) V(3) V(4) V(5) V(6) V(7) V(8) V(9)
-	V(10) V(11) V(12) V(13) V(14) V(15) V(16) V(17) V(18) V(19)
+	V(0) V(1) V(2) V(3) V(4) V(5)
+	virtual void gs6(int itemData) = 0;		// +0x18
+	virtual void gs7() = 0;					// +0x1C
+	V(8) V(9)
+	V(10) V(11)
+	virtual int gs12() = 0;					// +0x30
+	virtual void setRoomName(AsciiString name) = 0; // +0x34
+	virtual AsciiString gs14() = 0;			// +0x38
+	V(15) V(16) V(17) V(18) V(19)
 	V(20) V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28)
 	virtual AsciiString getLocalName() = 0; // slot 29 (+0x74)
 	V(30) V(31) V(32) V(33) V(34) V(35) V(36) V(37) V(38) V(39)
-	V(40)
+	virtual void leaveRoom() = 0;			// +0xA0
 	// Slot 41 (+0xA4): the staging rooms by ID (Zero Hour's getStagingRoomList).
 	virtual std::map<int, GameSpyStagingRoom *> *v41() = 0;
 	V(42) V(43) V(44) V(45) V(46) V(47) V(48)
@@ -418,6 +425,12 @@ class Rva0043DFE0
 {
 public:
 	bool rva0043DBCA();
+};
+
+class Rva005A0D61
+{
+public:
+	void rva005A061B();
 };
 
 class Rva005A5B38Box
@@ -1760,5 +1773,37 @@ void AptOnlineCustomMatch::UpdatePings()
 				kind = 0;
 		}
 		((AptMpGameSetup *)&m_70)->rva0043E5C1(i, kind, value);
+	}
+}
+
+// Retail 0x005A51B9, 325 bytes: the custom match screen's room refresh for a
+// ladder/group room id and name. When the room differs from TheGameSpyInfo's
+// (vslot 12) or its name (vslot 14) differs, the info leaves its room
+// (vslots 7, 6 and, once TheGameSpyConfig allows it, 40), the games list
+// repopulates (rowed 0x005A061B) and a type-7 peer request carrying the name
+// is queued before the info is handed the name again (vslot 13).
+void Rva005A5B38Box::DoRefresh(int ladder, void *password)
+{
+	AsciiString &name = *(AsciiString *)password;
+	bool differs;
+	if (ladder && (ladder != TheGameSpyInfo->gs12() || name.compare(TheGameSpyInfo->gs14()) != 0))
+		differs = true;
+	else
+		differs = false;
+	if (differs)
+	{
+		TheGameSpyInfo->gs7();
+		TheGameSpyInfo->gs6(ladder);
+		if (TheGameSpyConfig->v13())
+		{
+			TheGameSpyInfo->leaveRoom();
+			((Rva005A0D61 *)this)->rva005A061B();
+			PeerRequest req;
+			req.peerRequestType = 7;
+			req.isStagingRoom = true;
+			req.unknown_f8 = name.str();
+			TheGameSpyPeerMessageQueue->addRequest(req);
+			TheGameSpyInfo->setRoomName(AsciiString(name.str()));
+		}
 	}
 }
