@@ -1,0 +1,88 @@
+// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
+// Small GameEngine bodies from .text gaps no ledger row covered (seat-5
+// batch A). Retail bytes establish every shape; owning classes are not
+// recovered, so each keeps an address-derived name and a view of only the
+// members it touches. Callees and globals use the ledger's existing spellings.
+
+class LivingWorldLogic;
+extern LivingWorldLogic *TheLivingWorldLogic;
+
+// --- 0x005742CD (80B): the object the rowed 0x0042D71A getter yields, when
+// it and TheLivingWorldLogic exist, gets virtual +4 with the logic's +0xFC
+// count plus one, then virtual +0x14 with the rowed 0x002B3DD0 value when the
+// rowed 0x002B2BAA guard holds, else a tail call of virtual +0x18.
+class Rva005742CDTarget
+{
+public:
+	virtual void v00();
+	virtual void v04(int value);
+	virtual void v08();
+	virtual void v0C();
+	virtual void v10();
+	virtual void v14(int value);
+	virtual void v18();
+};
+
+class Rva002B4650
+{
+public:
+	bool rva002B2BAA();										// 0x002B2BAA
+	int rva002B3DD0();										// 0x002B3DD0
+};
+
+struct Rva005742CDLogicView
+{
+	char m_pad00[0xFC];
+	int m_FC;
+};
+
+class Rva0042D71A
+{
+public:
+	int get() const;										// 0x0042D71A
+	void rva005742CD();
+};
+
+void Rva0042D71A::rva005742CD()
+{
+	Rva005742CDTarget *target = (Rva005742CDTarget *)get();
+	if (target && TheLivingWorldLogic)
+	{
+		target->v04(((Rva005742CDLogicView *)TheLivingWorldLogic)->m_FC + 1);
+		if (((Rva002B4650 *)TheLivingWorldLogic)->rva002B2BAA())
+		{
+			int value = ((Rva002B4650 *)TheLivingWorldLogic)->rva002B3DD0();
+			target->v14(value);
+		}
+		else
+			target->v18();
+	}
+}
+
+// --- 0x0057431D (27B): derived constructor over the rowed 0x005CB8AC base
+// (vtable 0x00874DA8); stores its argument at +8 under vtable 0x00C6E39C.
+// The CommonBehavior::Impl constructor (0x005752F0) calls it for its +0x48
+// member.
+class Rva005CB4E6Elem;
+class Rva005CB8D4
+{
+public:
+	Rva005CB8D4();											// 0x005CB8AC
+	virtual ~Rva005CB8D4();									// 0x005CB8D4
+private:
+	Rva005CB4E6Elem *m_elem;
+};
+
+class Rva0057431D : public Rva005CB8D4
+{
+public:
+	Rva0057431D(void *owner);
+	virtual ~Rva0057431D();
+private:
+	void *m_owner;
+};
+
+Rva0057431D::Rva0057431D(void *owner)
+{
+	m_owner = owner;
+}
