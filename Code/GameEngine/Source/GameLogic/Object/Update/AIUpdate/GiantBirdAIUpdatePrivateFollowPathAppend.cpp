@@ -19,6 +19,22 @@
 #include <vector>
 #include "Lib/Coord3D.h"
 
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<Coord3D>::deallocate(Coord3D* __p, size_t __n) const {
+ _STLP_ASSERT( (__p == 0) == (__n == 0) )
+ if (__p != 0) ::free((void*)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<Coord3D*,Coord3D,allocator<Coord3D> >::deallocate(Coord3D* __p, size_t __n) {
+ __stl_alloc_rebind(static_cast<allocator<Coord3D>&>(*this),(Coord3D*)0).deallocate(__p,__n);
+}
+template <> __declspec(dllimport) __forceinline
+_Vector_base<Coord3D,allocator<Coord3D> >::~_Vector_base() {
+ if (_M_start != 0) _M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start);
+}
+}
+
 class Object;
 class Rva0035149F;
 

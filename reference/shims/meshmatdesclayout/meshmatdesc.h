@@ -366,6 +366,7 @@ inline int MeshMatDescClass::Get_UV_Array_Count(void)
 	return count;
 }
 
+#ifndef BFME_MESHMATDESC_UV_ARRAY_EXTERNAL
 inline Vector2 * MeshMatDescClass::Get_UV_Array_By_Index(int index, bool create)
 {
 	WWASSERT((index >= 0)&&(index < MAX_UV_ARRAYS));
@@ -378,6 +379,8 @@ inline Vector2 * MeshMatDescClass::Get_UV_Array_By_Index(int index, bool create)
 	}
 	return NULL;
 }
+
+#endif
 
 inline unsigned* MeshMatDescClass::Get_DCG_Array(int pass)
 {
@@ -457,6 +460,7 @@ inline VertexMaterialClass::ColorSourceType MeshMatDescClass::Get_DIG_Source(int
 	return DIGSource[pass];
 }
 
+#ifndef BFME_MESHMATDESC_COLOR_ARRAY_EXTERNAL
 inline unsigned * MeshMatDescClass::Get_Color_Array(int index,bool create)
 {
 	if (create && !ColorArray[index]) {
@@ -467,6 +471,8 @@ inline unsigned * MeshMatDescClass::Get_Color_Array(int index,bool create)
 	}
 	return NULL;
 }
+
+#endif
 
 inline VertexMaterialClass * MeshMatDescClass::Get_Single_Material(int pass) const
 {

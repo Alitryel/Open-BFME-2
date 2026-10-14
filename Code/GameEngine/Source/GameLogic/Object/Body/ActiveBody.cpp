@@ -14,6 +14,8 @@
 // stlport
 #include <vector>
 #include <algorithm>
+// Preserve inline max semantics while the native 17-byte owner supplies external calls.
+namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &a, const unsigned int &b) { return a < b ? b : a; } }
 #include <string.h>
 #include "ascii_string.h"
 #include "Common/BfmeAudioEventPrefix136.h"
@@ -240,7 +242,7 @@ extern Int GetGameClientRandomValue(Int lo, Int hi, char *file, Int line);
 class Rva004BDA0C
 {
 public:
-	virtual ~Rva004BDA0C();
+	__declspec(dllimport) __forceinline virtual ~Rva004BDA0C() {}
 
 	ParticleSystemID m_particleSystemID;	// +0x04
 	Rva004BDA0C *m_next;			// +0x08

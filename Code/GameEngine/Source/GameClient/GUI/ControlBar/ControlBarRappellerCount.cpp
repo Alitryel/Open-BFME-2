@@ -47,6 +47,12 @@ enum CommandAvailability
 	COMMAND_DONE = 8
 };
 
+// Preserve native inline cleanup without a competing vector-base destructor.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline _Vector_base<ScienceType, allocator<ScienceType> >::~_Vector_base()
+{ if (_M_start != 0) _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start); }
+}
+
 typedef _STL::vector<ScienceType> ScienceVec;
 
 class Module { public: virtual void moduleSlot0(); };

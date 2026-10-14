@@ -229,7 +229,7 @@ class AIUpdateInterface{public:
  char pad170[8];unsigned ignoreUntil;char pad17c[0x1f0-0x17c];Rva0008BB38FloatField*loco;
  char pad1f4[0x3b1-0x1f4];bool waiting;char pad3b2[6];bool blocked;char pad3b9[4];bool dead;
  char pad3be[0x3dc-0x3be];int responseID;
- const LocomotorSet&getLocomotorSet()const{return *reinterpret_cast<const LocomotorSet*>(reinterpret_cast<const char*>(this)+0x1cc);}
+ const LocomotorSet&collisionLocomotorSet()const{return *reinterpret_cast<const LocomotorSet*>(reinterpret_cast<const char*>(this)+0x1cc);}
 };
 inline bool Coord3D::operator==(const Coord3D&r){return x==r.x&&y==r.y&&z==r.z;}
 bool AIUpdateInterface::rva0026CF11(Object*other)
@@ -253,7 +253,7 @@ bool AIUpdateInterface::rva0026CF11(Object*other)
   if(obj->testStatus((ObjectStatusTypes)0x46))return false;if(obj->flags438&8)return false;if(obj->templ->kindOf(0xba))return false;
   if(!isIdle())return false;
   Coord3D safe,old;safe.x=obj->position.x;safe.y=obj->position.y;safe.z=obj->position.z;old.x=safe.x;old.y=safe.y;old.z=safe.z;
-  TheAI->pathfinder->adjustToPossibleDestination(obj,getLocomotorSet(),&safe);
+  TheAI->pathfinder->adjustToPossibleDestination(obj,collisionLocomotorSet(),&safe);
   if(!(safe==old))command.aiMoveToPosition(&safe,CMD_FROM_AI);
   return false;
  }

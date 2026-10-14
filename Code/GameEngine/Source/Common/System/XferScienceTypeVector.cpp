@@ -18,6 +18,12 @@ enum ScienceType
 {
 	SCIENCE_0 = 0
 };
+// Preserve inline cleanup while emitting no competing out-of-line STL copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void vector<ScienceType, allocator<ScienceType> >::_M_clear()
+{ _Destroy(this->_M_start, this->_M_finish); this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); }
+}
+
 // The same ScienceType vector's native overflow is rowed at 0x148D00.
 namespace _STL {
 template <> void vector<ScienceType, allocator<ScienceType> >::_M_insert_overflow(

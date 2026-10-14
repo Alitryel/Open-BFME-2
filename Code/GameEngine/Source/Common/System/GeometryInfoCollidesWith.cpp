@@ -33,10 +33,11 @@ struct Rva006BEB80Offset:Coord3D{Rva006BEB80Offset(){} Rva006BEB80Offset(const R
 struct GeometryShape {
  int type; float height,major,minor; Rva006BEB80Offset offset; AsciiString name;
  bool enabled,flag;
+ __declspec(dllimport) __forceinline GeometryShape(const GeometryShape &r):type(r.type),height(r.height),major(r.major),minor(r.minor),offset(r.offset),name(r.name),enabled(r.enabled),flag(r.flag) {}
 };
 struct GeometryContact {
  GeometryShape shape; Rva006BEB80Point position; float angle;
- GeometryContact(const GeometryShape &s,const Rva0087E900Coord &p,float a):shape(s),position(p),angle(a){}
+ __declspec(dllimport) __forceinline GeometryContact(const GeometryShape &s,const Rva0087E900Coord &p,float a):shape(s),position(p),angle(a){}
 };
 class GeometryInfo {
 public:

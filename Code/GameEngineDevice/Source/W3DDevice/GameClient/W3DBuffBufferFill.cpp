@@ -502,7 +502,7 @@ void W3DBuffBuffer::rva000D2301(MeshClass *mesh, RenderObjClass *target, int typ
 	int startVertex;
 	Vector3 meshPos;
 	bool transformed;
-	for (; *it != buffs.end(); ++*it)
+	for (; it->_M_node != buffs.end()._M_node; ++*it)
 	{
 		TBuff *buff = **it;
 		if (!buff)

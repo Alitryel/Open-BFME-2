@@ -10,6 +10,15 @@ class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 #include <list>
 
+class Drawable;
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+_List_iterator<Drawable *, _Nonconst_traits<Drawable *> >&
+_List_iterator<Drawable *, _Nonconst_traits<Drawable *> >::operator++()
+{ this->_M_incr(); return *this; }
+}
+
+
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {
 template <class T, class Traits>

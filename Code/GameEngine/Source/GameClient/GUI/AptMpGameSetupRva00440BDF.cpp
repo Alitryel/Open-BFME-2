@@ -188,12 +188,7 @@ TreeHintOpaque0043671B *Rva004361B3(const unsigned char *digest);
 extern "C" void MD5Print(unsigned char digest[16], char output[33]);
 TreeHintOpaque0043671B *Rva004360B3(AsciiString key);
 
-TreeHintOpaque0043671B *Rva004361B3(const unsigned char *digest)
-{
-	char printedDigest[33];
-	MD5Print(const_cast<unsigned char *>(digest), printedDigest);
-	return Rva004360B3(AsciiString(printedDigest));
-}
+// The rowed MpGameSetupSlots.cpp definition owns this exact helper.
 
 // The validated current game at +0x5C (rowed under its address name); the
 // game itself is at +0x08.
@@ -551,23 +546,10 @@ extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 // Rva00511730Save.cpp's text entry helper.
 void Rva00511730(int value);
 
-// StringBase<char>::isEmpty (0x00001E2F) called out of line and nothrow:
-// OnReadyPress keeps no unwind state around it while the slot's tag
-// temporary is alive. The shared shim declares neither, so the call goes
-// through this one-pointer view (pinned to that body, like
-// Rva002DC681DiskSpaceFinish.cpp's nothrow view).
-class MpGameSetupTagView
-{
-public:
-	bool isEmpty() const throw();
-
-private:
-	void *m_data;
-};
-
+// Call the canonical nothrow StringBase<char>::isEmpty at 0x00001E2F.
 static inline bool tagIsEmpty(const AsciiString &tag)
 {
-	return ((const MpGameSetupTagView *)&tag)->isEmpty();
+	return ((const StringBase<char> *)&tag)->isEmpty();
 }
 
 // Retail expands UnicodeString::isEmpty inline as the header test
@@ -1139,7 +1121,7 @@ void AptMpGameSetup::rva004424E7(int index)
  }
  int selectPos=0;
  const _STL::set<int> &indices=ThePlayerTemplateStore->indices;
- for(_STL::set<int>::const_iterator it=indices.begin();it!=indices.end();++it) {
+ for(_STL::set<int>::const_iterator it=indices.begin();it._M_node != indices.end()._M_node;++it) {
   int c=*it;
   const PlayerTemplate *fac=ThePlayerTemplateStore->getNthPlayerTemplate(c);
   if(!fac || !fac->playable || fac->observer) continue;

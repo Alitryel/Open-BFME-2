@@ -206,14 +206,14 @@ int Rva005EF5CA::write(char *dst)
 }
 
 // ?write@Rva000B3F84Pair@@QAEHPAD@Z @0xB44F0
-int Rva000B3F84Pair::write(char *dst)
+inline __declspec(noinline) int Rva000B3F84Pair::write(char *dst)
 {
 	memcpy(dst, m_ptr, m_len);
 	return m_len;
 }
 
 // ?write@AsciiStringRef@@QAEHPAD@Z @0x2C5B1
-int AsciiStringRef::write(char *dst)
+inline __declspec(noinline) int AsciiStringRef::write(char *dst)
 {
 	int len = m_string->getLength();
 	memcpy(dst, m_string->str(), len);
@@ -221,7 +221,7 @@ int AsciiStringRef::write(char *dst)
 }
 
 // ?write@AsciiStringRefWithChar@@QAEHPAD@Z @0x2C7A7
-int AsciiStringRefWithChar::write(char *dst)
+inline __declspec(noinline) int AsciiStringRefWithChar::write(char *dst)
 {
 	int n = AsciiStringRef::write(dst);
 	dst[n] = m_char;
@@ -281,13 +281,13 @@ AsciiStringCharPlusText::operator AsciiString()
 }
 
 // ?length@AsciiStringPlusString@@QBEHXZ @0x2198C8 36B: both header lengths summed.
-int AsciiStringPlusString::length() const
+inline __declspec(noinline) int AsciiStringPlusString::length() const
 {
 	return m_string->getLength() + m_second.m_string->getLength();
 }
 
 // ?write@AsciiStringPlusString@@QAEHPAD@Z @0xBBD1C
-int AsciiStringPlusString::write(char *dst)
+inline __declspec(noinline) int AsciiStringPlusString::write(char *dst)
 {
 	int n = AsciiStringRef::write(dst);
 	return n + m_second.write(dst + n);
@@ -310,7 +310,7 @@ int AsciiStringPlusStringChar::write(char *dst)
 }
 
 // ?write@AsciiStringPlusStringText@@QAEHPAD@Z @0x50F219
-int AsciiStringPlusStringText::write(char *dst)
+inline __declspec(noinline) int AsciiStringPlusStringText::write(char *dst)
 {
 	int n = AsciiStringPlusString::write(dst);
 	return n + m_text.write(dst + n);
@@ -423,7 +423,7 @@ Rva0050F23E::operator AsciiString()
 }
 
 // ??BAsciiStringPlusStringText@@QAE?AVAsciiString@@XZ @0x0050F74B 105B narrow concat node to AsciiString: sized getBufferForRead then write; length is base PlusString fold 0x002198C8 plus trailing text len; callers include 0x00510443.
-AsciiStringPlusStringText::operator AsciiString()
+inline __declspec(noinline) AsciiStringPlusStringText::operator AsciiString()
 {
 	AsciiString tmp;
 	int extra = m_text.m_len;
@@ -889,7 +889,7 @@ Rva005F9877::~Rva005F9877() {}
 // existing writer2C7A7 and copy/release workers prove the conversion ABI.
 // WB5E1760 independently sizes the left string plus one and returns a copy.
 // Semantic source: this unit's verified string-expression materializers.
-AsciiStringRefWithChar::operator AsciiString()
+inline __declspec(noinline) AsciiStringRefWithChar::operator AsciiString()
 {
  AsciiString tmp;
  write(tmp.getBufferForRead(m_string->getLength() + 1));

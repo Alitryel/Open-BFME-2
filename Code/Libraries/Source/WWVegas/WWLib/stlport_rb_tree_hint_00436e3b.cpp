@@ -35,7 +35,7 @@ struct TreeHintOpaque0043671B {
     TreeHintOpaque0043671B(const TreeHintOpaque0043671B &);
     ~TreeHintOpaque0043671B();
 };
-TreeHintOpaque0043671B::TreeHintOpaque0043671B(const TreeHintOpaque0043671B &other)
+inline TreeHintOpaque0043671B::TreeHintOpaque0043671B(const TreeHintOpaque0043671B &other)
     : m_text(other.m_text), m_subobject(other.m_subobject),
       m_wordDEC(other.m_wordDEC), m_wordDF0(other.m_wordDF0) {}
 

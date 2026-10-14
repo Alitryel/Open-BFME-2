@@ -6,6 +6,15 @@
 
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include <map>
+
+// Inline unsigned comparison belongs to the caller; the retail owner supplies
+// the external less<unsigned> body without a competing local COMDAT.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+bool less<unsigned int>::operator()(const unsigned int& a, const unsigned int& b) const
+{ return a < b; }
+}
+
 // bfme link decl-only begin
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<unsigned int const, void *>, _Nonconst_traits<pair<unsigned int const, void *> > >, bool> _Rb_tree<unsigned int, pair<unsigned int const, void *>, _Select1st<pair<unsigned int const, void *> >, less<unsigned int>, allocator<pair<unsigned int const, void *> > >::insert_unique(pair<unsigned int const, void *> const &); }
 // bfme link decl-only end

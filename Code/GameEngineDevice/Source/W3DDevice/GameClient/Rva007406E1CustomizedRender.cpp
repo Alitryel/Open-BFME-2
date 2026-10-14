@@ -152,7 +152,7 @@ class GenericMultiListIterator
 public:
 	GenericMultiListIterator(GenericMultiListClass *list) { First(list); }
 	void First(GenericMultiListClass *list) { List = list; CurNode = List->Head.Next; }
-	void First(void) { CurNode = List->Head.Next; }
+	__declspec(dllimport) __forceinline void First(void) { CurNode = List->Head.Next; }
 	__declspec(dllimport) __forceinline void Next(void) { CurNode = CurNode->Next; }
 	bool Is_Done(void) { return (CurNode == &(List->Head)); }
 protected:

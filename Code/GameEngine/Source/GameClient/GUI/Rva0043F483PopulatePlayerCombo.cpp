@@ -189,12 +189,7 @@ TreeHintOpaque0043671B *Rva004361B3(const unsigned char *digest);
 extern "C" void MD5Print(unsigned char digest[16], char output[33]);
 TreeHintOpaque0043671B *Rva004360B3(AsciiString key);
 
-TreeHintOpaque0043671B *Rva004361B3(const unsigned char *digest)
-{
-	char printedDigest[33];
-	MD5Print(const_cast<unsigned char *>(digest), printedDigest);
-	return Rva004360B3(AsciiString(printedDigest));
-}
+// The rowed MpGameSetupSlots.cpp definition owns this exact helper.
 
 // The validated current game at +0x5C (rowed under its address name); the
 // game itself is at +0x08.

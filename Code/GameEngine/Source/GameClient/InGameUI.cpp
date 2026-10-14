@@ -2497,37 +2497,10 @@ void InGameUI::removeMilitarySubtitle( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?InGameUI::areSelectedObjectsControllable present-unmatched
-Bool InGameUI::areSelectedObjectsControllable() const
-{
-	const DrawableList *selected = TheInGameUI->getAllSelectedDrawables();
-
-	// loop through all the selected drawables
-	const Drawable *draw;
-	for( DrawableListCIt it = selected->begin(); it != selected->end(); ++it )
-	{
-		// get this drawable
-		draw = *it;
-
-		// All selected objects will have the same local controller, so 
-		// simply return the first one.
-		return draw->getObject()->isLocallyControlled();
-	}
-
-	// Nothing selected...
-	return FALSE;
-}
 
 //------------------------------------------------------------------------------
 //Resets the camera to default zoom and orientation.
 //------------------------------------------------------------------------------
-// ?InGameUI::resetCamera present-unmatched
-void InGameUI::resetCamera()
-{
-	ViewLocation currentView;
-	TheTacticalView->getLocation( &currentView ); 
-	TheTacticalView->resetCamera( &currentView.getPosition(), 1, 0.0f, 0.0f );
-}
 
 //------------------------------------------------------------------------------
 //Checks to see if an object can interact with an object in a non-hostile manner. This is currently used by the selection 

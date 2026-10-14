@@ -33,6 +33,18 @@ struct LoadTemplate{char pad[0x10f];unsigned char kind10F;char pad110[15];unsign
 class Object{public:bool testStatus(ObjectStatusTypes)const;void tempRemoveObjectFromWorld();int rva0028B511()const;char pad[4];LoadTemplate*templ;};
 class Rva004DD843{public:void LoadPostProcess();};
 struct CameraMarker{~CameraMarker();CameraMarker*index;AsciiString name;};
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<CameraMarker> >::deallocate(_List_node<CameraMarker>* __p, size_t __n) const {
+ _STLP_ASSERT( (__p == 0) == (__n == 0) )
+ if (__p != 0) ::free((void*)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<CameraMarker>*,_List_node<CameraMarker>,allocator<_List_node<CameraMarker> > >::deallocate(_List_node<CameraMarker>* __p, size_t __n) {
+ __stl_alloc_rebind(static_cast<allocator<_List_node<CameraMarker> >&>(*this),(_List_node<CameraMarker>*)0).deallocate(__p,__n);
+}
+}
+
 namespace _STL {template<> __declspec(noinline) void _Base_bitset<32>::_M_do_or(const _Base_bitset<32>&);}
 class TerrainLogic{public:
 virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3(); virtual void slot4(); virtual void slot5(); virtual void slot6(); virtual void slot7();

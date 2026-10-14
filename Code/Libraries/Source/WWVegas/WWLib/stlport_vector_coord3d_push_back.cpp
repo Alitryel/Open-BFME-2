@@ -15,6 +15,18 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 #include "../../../Include/Lib/Coord3D.h"
+
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<Coord3D>::deallocate(Coord3D* __p, size_t __n) const {
+ _STLP_ASSERT( (__p == 0) == (__n == 0) )
+ if (__p != 0) ::free((void*)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<Coord3D*,Coord3D,allocator<Coord3D> >::deallocate(Coord3D* __p, size_t __n) {
+ __stl_alloc_rebind(static_cast<allocator<Coord3D>&>(*this),(Coord3D*)0).deallocate(__p,__n);
+}
+}
 namespace _STL {
 template <> void _Construct<Coord3D, Coord3D>(Coord3D *, const Coord3D &);
 }

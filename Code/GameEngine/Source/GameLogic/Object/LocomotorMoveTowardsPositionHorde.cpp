@@ -52,6 +52,22 @@ enum ScienceType
 {
 	SCIENCE_INVALID = -1
 };
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<ScienceType>::deallocate(ScienceType* __p, size_t __n) const {
+ _STLP_ASSERT( (__p == 0) == (__n == 0) )
+ if (__p != 0) ::free((void*)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<ScienceType*,ScienceType,allocator<ScienceType> >::deallocate(ScienceType* __p, size_t __n) {
+ __stl_alloc_rebind(static_cast<allocator<ScienceType>&>(*this),(ScienceType*)0).deallocate(__p,__n);
+}
+template <> __declspec(dllimport) __forceinline
+_Vector_base<ScienceType,allocator<ScienceType> >::~_Vector_base() {
+ if (_M_start != 0) _M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start);
+}
+}
+
 
 // The float triple 0x001E34B2 returns by value (see Rva001E34B2.cpp).
 struct Rva001E34B2Point

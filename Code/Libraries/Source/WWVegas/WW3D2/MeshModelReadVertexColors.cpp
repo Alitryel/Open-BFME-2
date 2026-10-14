@@ -64,24 +64,24 @@ public:
 	float Z;
 	float W;
 
-	WWINLINE Vector4(void) {};
-	WWINLINE Vector4(const Vector4 & v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
-	WWINLINE Vector4 & operator = (const Vector4 & v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
-	WWINLINE void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
-	WWINLINE float & operator [](int i) { return (&X)[i]; }
-	WWINLINE const float & operator [](int i) const { return (&X)[i]; }
+	__declspec(dllimport) __forceinline Vector4(void) {};
+	__declspec(dllimport) __forceinline Vector4(const Vector4 & v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
+	__declspec(dllimport) __forceinline Vector4 & operator = (const Vector4 & v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
+	__declspec(dllimport) __forceinline void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
+	__declspec(dllimport) __forceinline float & operator [](int i) { return (&X)[i]; }
+	__declspec(dllimport) __forceinline const float & operator [](int i) const { return (&X)[i]; }
 };
 
 class DX8Wrapper
 {
 public:
-	static Vector4 Convert_Color(unsigned color);
-	static unsigned int Convert_Color(const Vector3 &color, const float alpha);
-	static unsigned int Convert_Color(const Vector4 &color);
+	__declspec(dllimport) static Vector4 Convert_Color(unsigned color);
+	__declspec(dllimport) static unsigned int Convert_Color(const Vector3 &color, const float alpha);
+	__declspec(dllimport) static unsigned int Convert_Color(const Vector4 &color);
 };
 
 // ?DX8Wrapper::Convert_Color present-unmatched
-WWINLINE Vector4 DX8Wrapper::Convert_Color(unsigned color)
+__declspec(dllimport) __forceinline Vector4 DX8Wrapper::Convert_Color(unsigned color)
 {
 	Vector4 col;
 	col[3] = ((color & 0xff000000) >> 24) / 255.0f;
@@ -92,7 +92,7 @@ WWINLINE Vector4 DX8Wrapper::Convert_Color(unsigned color)
 }
 
 // ?DX8Wrapper::Convert_Color present-unmatched
-WWINLINE unsigned int DX8Wrapper::Convert_Color(const Vector3 &color, const float alpha)
+__declspec(dllimport) __forceinline unsigned int DX8Wrapper::Convert_Color(const Vector3 &color, const float alpha)
 {
 	const float scale = 255.0f;
 	unsigned int col = 0;
@@ -155,7 +155,7 @@ not_changed:
 }
 
 // ?DX8Wrapper::Convert_Color present-unmatched
-WWINLINE unsigned int DX8Wrapper::Convert_Color(const Vector4 &color)
+__declspec(dllimport) __forceinline unsigned int DX8Wrapper::Convert_Color(const Vector4 &color)
 {
 	return Convert_Color(reinterpret_cast<const Vector3 &>(color), color[3]);
 }

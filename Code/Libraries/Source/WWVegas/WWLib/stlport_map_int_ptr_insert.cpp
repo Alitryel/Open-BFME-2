@@ -9,6 +9,15 @@
 // Flags copy the sibling map<unsigned void*> TU stlport_map_int_ptr_lower.cpp plus the retail layout macro.
 #include <map>
 
+// Inline unsigned comparison belongs to the caller; the retail owner supplies
+// the external less<unsigned> body without a competing local COMDAT.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+bool less<unsigned int>::operator()(const unsigned int& a, const unsigned int& b) const
+{ return a < b; }
+}
+
+
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit
 // dllimport+forceinline specializations take those calls inline so this

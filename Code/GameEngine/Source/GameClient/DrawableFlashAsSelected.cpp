@@ -30,6 +30,18 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 { return a._M_node != b._M_node; }
 }
 class Object;
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<Object *> >::deallocate(_List_node<Object *>* __p, size_t __n) const {
+ _STLP_ASSERT( (__p == 0) == (__n == 0) )
+ if (__p != 0) ::free((void*)__p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<Object *>*,_List_node<Object *>,allocator<_List_node<Object *> > >::deallocate(_List_node<Object *>* __p, size_t __n) {
+ __stl_alloc_rebind(static_cast<allocator<_List_node<Object *> >&>(*this),(_List_node<Object *>*)0).deallocate(__p,__n);
+}
+}
+
 class Drawable;
 class Thing { public: Drawable *getDrawable() const; };
 #include "../../../Libraries/Include/Lib/RGBColor.h"

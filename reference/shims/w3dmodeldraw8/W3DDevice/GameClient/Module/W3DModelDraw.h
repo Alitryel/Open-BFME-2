@@ -180,6 +180,9 @@ struct ModelConditionInfo
 		AsciiString			m_muzzleFlashBoneName;
 #endif
 
+#ifdef BFME_WEAPON_BARREL_INLINE_ONLY
+		__declspec(dllimport) __forceinline
+#endif
 		WeaponBarrelInfo()
 		{
 			clear();
