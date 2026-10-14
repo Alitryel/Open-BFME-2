@@ -1,5 +1,6 @@
 // cl: /EHsc /MD
-// ?Script_objectTypesFromParam@@YAXPAUArg00566E6C@@PAVObjectTypes@@@Z at 0x00566E6C (113B). INI token to ObjectTypes.
+// ?Script_objectTypesFromParam@@YAXPAVParameter@@PAVObjectTypes@@@Z at 0x00566E6C (113B). INI token to ObjectTypes.
+// Zero Hour's Script_objectTypesFromParam takes the script Parameter; its string sits at +0x10.
 // Evidence: temp copy via 0x365F0 plus inlined empty check; global ScriptEngine 0x00DFE16C via getObjectTypes 0x357651;
 // ObjectTypes assign 0x376A9C when found else check-add 0x376B50; release 0x36410; chain via 0x376B50.
 template <typename T> struct BfmeStringData;
@@ -37,14 +38,15 @@ public:
 	void rva00376B50(const AsciiString &val);
 };
 
-struct Arg00566E6C {
+class Parameter {
+public:
 	unsigned char m_pad[0x10];
 	StringBase<char> m_10;
 };
 
-void Script_objectTypesFromParam(struct Arg00566E6C *src, class ObjectTypes *dst);
+void Script_objectTypesFromParam(Parameter *src, ObjectTypes *dst);
 
-void Script_objectTypesFromParam(struct Arg00566E6C *src, class ObjectTypes *dst)
+void Script_objectTypesFromParam(Parameter *src, ObjectTypes *dst)
 {
 	if (!dst)
 		return;

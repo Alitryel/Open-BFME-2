@@ -13067,7 +13067,6 @@ rva009C7380WeightPairs,0x009B84E0
 ??1HordeMeleeSwarm@@UAE@XZ,0x00584502,twin of dup row for deleting dtor 0x005844E6 vtable 0x0086FC80 slot0
 ?rva002D76C6@Radar@@QAE_NPAURva002D76C6Owner@@PAPAURva002D76C6Node@@@Z,0x002D76C6,ICF twin of rowed free Remove via thiscall call site 0x002D7714 exact
 ?rva0037EE4C@Rva0037EE4C@@QAEHPBVThingTemplate@@HH@Z,0x0037EE4C,unrowed per-player production quantity query on Player +0x738 (template plus -1 plus 0); retail REL32s in AIBuildableUnit::build 0x005DAE3F and canMake 0x005DAEBE
-?Script_objectTypesFromParam@@YAXPAVParameter@@PAVObjectTypes@@@Z,0x00566E6C,"cdecl (script parameter, ObjectTypes*): the matched Rva00566E6CParse body (its Arg00566E6C is a Parameter, string at +0x10); REL32 at 0x003EA419 in ScriptConditions::rva003EA3AB with an ObjectTypesTemp's types"
 ??0AIBasePenetrationTroopsTactic@@QAE@XZ,0x005A9988,AIBasePenetrationTroopsTactic tactic ctor (base ctor with that name); REL32 in its slot-9 create 0x005A9A57
 ??0AISiegeGatesTactic@@QAE@XZ,0x005A9C1E,SiegeGates tactic ctor (base ctor with that name); REL32 in its slot-9 create 0x005A9C71
 ??0AISimpleSiegeTactic@@QAE@XZ,0x005A9D33,SimpleSiege tactic ctor (base ctor with that name); REL32 in its slot-9 create 0x005A9DA2
