@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
 // Listener-list walks around 0x0038153B.  Each list's forEach packs a vcall
 // member-function pointer and its arguments into a stack call record and
@@ -57,6 +57,7 @@ class Rva0038188BList
 public:
 	void forEach(void (Rva0038188BListener::*notify)(void *, int), void *arg, int value);
 	void apply(const Rva0038153BCall &call);
+	void rva003818CE(void *arg, int value);
 
 private:
 	Rva0038188BListener **m_begin;		// +0x00
@@ -157,4 +158,11 @@ Rva003818B0List g_00E02310;
 void Rva00381900(int arg)
 {
 	g_00E02310.rva003818E3((void *)arg);
+}
+
+// Native3818CE..3818E3 invokes the established two-argument listener walk
+// with slot0's compiler-generated virtual-member call thunk (RVA1FF3A9).
+void Rva0038188BList::rva003818CE(void *arg, int value)
+{
+    forEach(&Rva0038188BListener::notify, arg, value);
 }
