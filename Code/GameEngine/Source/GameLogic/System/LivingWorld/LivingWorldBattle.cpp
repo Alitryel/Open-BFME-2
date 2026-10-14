@@ -398,7 +398,8 @@ struct RetreatSlots {Rva002B2508 *first;RetreatSlots(Rva002B2508 *p):first(p){}~
 struct PlayerStorage;
 class LivingWorldAutoResolveBattle {public:LivingWorldAutoResolveBattle(const PlayerStorage&);void applyResults();};
 class Rva004FA2E2 {public:
- __forceinline Rva004FA2E2(const _STL::vector<Rva002BBB96Element>&p){((LivingWorldAutoResolveBattle*)this)->LivingWorldAutoResolveBattle::LivingWorldAutoResolveBattle(*(const PlayerStorage*)&p);}
+ // Keep the forwarding view inline: its external copy is not the retail ctor.
+ __declspec(dllimport) __forceinline Rva004FA2E2(const _STL::vector<Rva002BBB96Element>&p){((LivingWorldAutoResolveBattle*)this)->LivingWorldAutoResolveBattle::LivingWorldAutoResolveBattle(*(const PlayerStorage*)&p);}
  ~Rva004FA2E2();char opaque00[0x80];};
 class Rva004FA10FOwner {public:void rva004FA10F();};
 class Rva002B8644 {public:void rva002B8644(int);};
