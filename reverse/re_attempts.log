@@ -56348,3 +56348,5 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ??0Rva0073EF3A@@QAE@XZ	0x0073EF3A	10	landed	add_match verified Code/GameEngine/Source/Common/OpaqueScalarDeletingDtorsB18.cpp 10B; default ctor zeroing +0 and +8
 ?rva007AE7FB@@YAXXZ	0x007AE7FB	11	landed	add_match verified Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp 11B; initializer storing WorldMapObjects+4 into map-object list holder E00940
 ?rva0061EE80@Rva0061EE80@@QAEHXZ	0x0061EE80	8	landed	add_match verified Code/GameEngine/Source/Common/RvaSmallLeafTransfers.cpp 8B; pre-increment +30 counter returning new value twin of Rva00665A30 increment
+?rva007AFC6B@@YAXXZ	0x007AFC6B	73	landed	add_match verified Code/GameEngine/Source/Common/Rva007AFC6BRegionInit.cpp 73B; Region2D g_00E02EAC dynamic initializer -MAX..+MAX via rowed 0x00004C06 then atexit 0x007B816A
+?rva007B816A@@YAXXZ	0x007B816A	1	landed	add_match verified Code/GameEngine/Source/Common/Rva007AFC6BRegionInit.cpp 1B; empty atexit cleanup registered by 0x007AFC6B
