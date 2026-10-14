@@ -1,4 +1,8 @@
 // ?rva00480E9A@Rva00480E9A@@QAEXPAVObject@@@Z
+// partial score=0.7212 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva00480E9A@Rva00480E9A@@QAEXPAVObject@@@Z
 // partial score=0.588 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // ?rva00480E9A@Rva00480E9A@@QAEXPAVObject@@@Z @0x00480E9A 328B, retail-guided
@@ -83,7 +87,7 @@ extern float g_00DC9EB4;
 
 void Rva00480E9A::rva00480E9A(Object *obj)
 {
-	void *m8 = m_8;
+	void *m8 = (obj ? m_8 : m_8);
 	AIUpdateInterface *ai = (AIUpdateInterface *)obj->m_258;
 	int v = ai->v143();
 	rva001E8A38(ai, v);
@@ -101,6 +105,7 @@ void Rva00480E9A::rva00480E9A(Object *obj)
 	query.m_08 = (char *)m4 + 0xFC;
 	query.m_0C = p;
 	query.m_10 = 1;
+	_ReadWriteBarrier();
 	float radius = g_00DC9EB4;
 	Object *closest = rva00625360(ThePartitionManager, (char *)m8 + 0x38, radius, 3, &query);
 	if (closest)
@@ -111,8 +116,8 @@ void Rva00480E9A::rva00480E9A(Object *obj)
 		UpgradeTemplate *up = rva0026F26D(TheUpgradeCenter, *it);
 		if (((UpgradeTemplateView *)up)->m_4 == 0)
 		{
-			Player *p2 = obj->getControllingPlayer();
-			p2->rva002AE329(up, 2, 0);
+
+			(obj->getControllingPlayer())->rva002AE329(up, 2, 0);
 		}
 		else
 		{
