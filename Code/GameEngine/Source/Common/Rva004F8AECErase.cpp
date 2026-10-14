@@ -106,6 +106,7 @@ class Rva004FA168Map
  unsigned unknown8;
 public:
 	void rva004F88BB(Rva004F88BBIterator pos);
+	void rva004F8D81(Rva004F88BBIterator pos);
 };
 
 void Rva004FA168Map::rva004F88BB(Rva004F88BBIterator pos)
@@ -116,4 +117,13 @@ void Rva004FA168Map::rva004F88BB(Rva004F88BBIterator pos)
 	if (toDelete)
 		free(toDelete);
 	--m_count;
+}
+
+// ?rva004F8D81@Rva004FA168Map@@QAEXURva004F88BBIterator@@@Z retail 0x004F8D81
+// 17B: the map-level erase(iterator) over the erase-one above (its caller at
+// 0x004F8D8A), copying the by-value iterator into the argument slot.
+// Skeleton twin of map<int, void *>::erase(iterator) 0x001DD80B.
+void Rva004FA168Map::rva004F8D81(Rva004F88BBIterator pos)
+{
+	rva004F88BB(pos);
 }
