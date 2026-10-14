@@ -145,15 +145,11 @@ static Bool s_dynamic = false;
 //=============================================================================
 /** Nulls index & vertex data. */
 //=============================================================================
-// ??0RoadType@@QAE@XZ present-unmatched
-RoadType::RoadType(void):
-m_roadTexture(NULL),
-m_vertexRoad(NULL),
-m_indexRoad(NULL),
-m_stackingOrder(0),
-m_uniqueID(-1)
-{
-}
+// RoadType::RoadType (retail 0x000D4F2F) is BFME 2's own layout: it lives
+// with the destructor as a TU-local replica in W3DRoadBufferRoadTypeDtor.cpp,
+// where the two texture handles are member objects (that is what orders their
+// stores ahead of m_uniqueID's -1). allocateRoadBuffers passes it to the
+// vector constructor iterator.
 
 //=============================================================================
 // RoadType destructor
