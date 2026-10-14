@@ -42,6 +42,36 @@ void Rva00167E77::rva00167F26(int value)
 	m_104 = value != 0;
 }
 
+// --- 0x00167E86 (29B): copy the three-float +0xF0 value out through a
+// reference.
+struct GapFloat3
+{
+	GapFloat3 &operator=(const GapFloat3 &that)
+	{
+		x = that.x;
+		y = that.y;
+		z = that.z;
+		return *this;
+	}
+	float x;
+	float y;
+	float z;
+};
+
+class Rva00167E86
+{
+public:
+	void rva00167E86(GapFloat3 &out) const;
+private:
+	char m_pad00[0xF0];
+	GapFloat3 m_F0;
+};
+
+void Rva00167E86::rva00167E86(GapFloat3 &out) const
+{
+	out = m_F0;
+}
+
 // --- 0x001B49B3 (17B): count the nodes of the ring whose sentinel is at
 // +0x0C.
 struct GapRingLink
