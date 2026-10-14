@@ -11,6 +11,13 @@
 // They compare +0x24 or +0x34; the latter two reject zero keys, and the last
 // searches the completed collection at +0x20. Key meanings remain unproven.
 // Preserve address-derived method names until naming evidence exists.
+// What 0x0020E53D reaches through the battle's +0x24 word: an int at +0x12C.
+struct Rva0020E53DTarget
+{
+    unsigned char m_pad00[0x12C];
+    int m_key12C;
+};
+
 class LivingWorldPendingBattle
 {
 public:
@@ -25,6 +32,7 @@ class LivingWorldRegionManager
 {
 public:
     LivingWorldPendingBattle *rva0020E501(int key);
+    LivingWorldPendingBattle *rva0020E53D(int key);
     LivingWorldPendingBattle *rva0020E57F(unsigned int key);
     LivingWorldPendingBattle *rva0020E5BB(int key);
     LivingWorldPendingBattle *rva0020E5FD(int key);
@@ -41,6 +49,18 @@ LivingWorldPendingBattle *LivingWorldRegionManager::rva0020E501(int key)
     for (unsigned int i = 0; i < m_pendingBattles.size(); ++i)
     {
         if (m_pendingBattles[i]->m_key30 == key)
+            return m_pendingBattles[i];
+    }
+    return 0;
+}
+
+// Native0x0020E53D..0x0020E57F (66B): the same pending search, keyed one
+// level deeper: the +0x12C int of the object the battle's +0x24 word points to.
+LivingWorldPendingBattle *LivingWorldRegionManager::rva0020E53D(int key)
+{
+    for (unsigned int i = 0; i < m_pendingBattles.size(); ++i)
+    {
+        if (reinterpret_cast<Rva0020E53DTarget *>(m_pendingBattles[i]->m_key24)->m_key12C == key)
             return m_pendingBattles[i];
     }
     return 0;
