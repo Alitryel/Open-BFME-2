@@ -79,3 +79,20 @@ int Rva00418A8EHost::outer(int outputAddress, int recordAddress)
         *reinterpret_cast<const Rva0041890FRecord *>(recordAddress));
     return outputAddress;
 }
+
+// ?rva00418AB2@Rva00418AB2Host@@QAEHHH@Z @0x00418AB2 20B: the table-level
+// insert over outer() above, forwarding the hidden result slot and the
+// record and handing the slot back. Skeleton twin of map<int,int>::
+// equal_range 0x002B8120. A unit-local view, so the shared header's host
+// class stays untouched; the receiver is the same table.
+class Rva00418AB2Host
+{
+public:
+    int rva00418AB2(int outputAddress, int recordAddress);
+};
+
+int Rva00418AB2Host::rva00418AB2(int outputAddress, int recordAddress)
+{
+    reinterpret_cast<Rva00418A8EHost *>(this)->outer(outputAddress, recordAddress);
+    return outputAddress;
+}

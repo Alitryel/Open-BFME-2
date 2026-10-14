@@ -126,10 +126,16 @@ struct Rva003F751ANode
     int minCount;
     float weapon, armor, experience;
 };
+struct Rva003F75D8Iterator
+{
+    Rva003F751ANode *node;
+    Rva003F75D8Iterator(Rva003F751ANode *n) : node(n) {}
+};
 class Rva003F751A
 {
 public:
     Rva003F751ANode *rva003F751A(const int *key);
+    Rva003F75D8Iterator rva003F75D8(const int *key);
     Rva003F751ANode *header;
 };
 struct BonusHashNodeView
@@ -192,4 +198,13 @@ inline __declspec(noinline) Rva003F751ANode *Rva003F751A::rva003F751A(const int 
             cur = (Rva003F751ANode *)cur->opaque0C;
     } while (cur);
     return res;
+}
+
+// ?rva003F75D8@Rva003F751A@@QAE?AURva003F75D8Iterator@@PBH@Z @0x003F75D8
+// (20B): the map-level wrapper over the walk above, returning its node as
+// an iterator through the hidden result pointer. Skeleton twin of the
+// STLport find wrapper 0x004D7546 (stlport_map_int_ptr_o1.cpp).
+Rva003F75D8Iterator Rva003F751A::rva003F75D8(const int *key)
+{
+    return Rva003F75D8Iterator(rva003F751A(key));
 }

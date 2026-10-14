@@ -12,6 +12,7 @@ public:
 	void rva00212858(unsigned int n);
 	void *rva003F78A9(void *out, const AsciiString *key);
 	void *rva003F797C(void *out, const AsciiString *key);
+	void *rva003F7B0E(void *out, const AsciiString *key);
 	void *m_unused00;
 	void **m_beginBuckets;
 	void **m_endBuckets;
@@ -23,5 +24,15 @@ void *Rva000427195::rva003F797C(void *out, const AsciiString *key)
 {
 	rva00212858((unsigned int)(m_size + 1));
 	rva003F78A9(out, key);
+	return out;
+}
+
+// ?rva003F7B0E@Rva000427195@@QAEPAXPAXPBVAsciiString@@@Z @0x003F7B0E 20B:
+// the table-level wrapper over the ensure above (its call at 0x003F7B16),
+// forwarding the hidden result slot and the key and handing the slot back.
+// Skeleton twin of map<int,int>::equal_range 0x002B8120.
+void *Rva000427195::rva003F7B0E(void *out, const AsciiString *key)
+{
+	rva003F797C(out, key);
 	return out;
 }

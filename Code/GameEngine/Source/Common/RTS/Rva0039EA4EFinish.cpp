@@ -25,10 +25,17 @@ struct Rva0039EA4ENode
     Rva0039D8FBKey m_key10;
 };
 
+struct Rva0039F5C8Iterator
+{
+    Rva0039EA4ENode *m_node;
+    Rva0039F5C8Iterator(Rva0039EA4ENode *node) : m_node(node) {}
+};
+
 class Rva0039EA4E
 {
 public:
     Rva0039EA4ENode *rva0039EA4E(const Rva0039D8FBKey &key);
+    Rva0039F5C8Iterator rva0039F5C8(const Rva0039D8FBKey &key);
 
 private:
     Rva0039EA4ENode *m_header00;
@@ -49,4 +56,14 @@ Rva0039EA4ENode *Rva0039EA4E::rva0039EA4E(const Rva0039D8FBKey &key)
     if (j == header || (unsigned char)Rva0039D8FBLess(key, j->m_key10))
         j = header;
     return j;
+}
+
+// ?rva0039F5C8@Rva0039EA4E@@QAE?AURva0039F5C8Iterator@@ABURva0039D8FBKey@@@Z
+// @0x0039F5C8 (20B): the map-level lower_bound over the walker above,
+// returning its node wrapped in an iterator through the hidden result
+// pointer. Skeleton twin of the STLport find wrapper 0x004D7546
+// (stlport_map_int_ptr_o1.cpp).
+Rva0039F5C8Iterator Rva0039EA4E::rva0039F5C8(const Rva0039D8FBKey &key)
+{
+    return Rva0039F5C8Iterator(rva0039EA4E(key));
 }

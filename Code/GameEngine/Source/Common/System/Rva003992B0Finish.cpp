@@ -55,6 +55,7 @@ struct Rva0039834C {
 	unsigned m_count;
 	void rva0039834C(RvaNode0039834C *&out, RvaNode0039834C *a, RvaNode0039834C *b, const Rva0039627D *v, RvaNode0039834C *c);
 	RvaInsertOut *rva003992B0(RvaInsertOut *out, const Rva0039627D *v);
+	RvaInsertOut *rva003997B9(RvaInsertOut *out, const Rva0039627D *v);
 };
 typedef Rva0039834CIter (Rva0039834C::*Rva0039834CIterFn)(RvaNode0039834C *, RvaNode0039834C *, const Rva0039627D *, RvaNode0039834C *);
 
@@ -88,5 +89,15 @@ RvaInsertOut *Rva0039834C::rva003992B0(RvaInsertOut *out, const Rva0039627D *v)
 	}
 	out->node = j;
 	out->inserted = false;
+	return out;
+}
+
+// ?rva003997B9@Rva0039834C@@QAEPAURvaInsertOut@@PAU2@PBURva0039627D@@@Z
+// @0x003997B9 20B: the container-level insert(value) over the worker above,
+// forwarding the hidden pair<iterator,bool> slot and the value and handing
+// the slot back. Skeleton twin of map<int,int>::equal_range 0x002B8120.
+RvaInsertOut *Rva0039834C::rva003997B9(RvaInsertOut *out, const Rva0039627D *v)
+{
+	rva003992B0(out, v);
 	return out;
 }

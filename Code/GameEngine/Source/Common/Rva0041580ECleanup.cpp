@@ -56,6 +56,7 @@ struct Rva0041580E
 	void rva0041580E(Rva0041580ENode *node);
 	void rva00415886();
 	Rva00415A55Result rva00415A55(const Rva0041579E &value);
+	Rva00415A55Result rva00415B40(const Rva0041579E &value);
 	Rva004158AFSlot rva004158AFReturnView(Rva0041580ENode *x,Rva0041580ENode *parent,const Rva0041579E &value,Rva0041580ENode *w);
 	char *rva00415843CallView(const Rva0041579E &source);
 	void rva004158AF(Rva0041580ENode *&out,Rva0041580ENode *x,Rva0041580ENode *parent,const Rva0041579E &value,Rva0041580ENode *w);
@@ -260,3 +261,12 @@ Rva00415A55Result Rva0041580E::rva00415A55(const Rva0041579E &value)
 }
 
 #pragma comment(linker, "/alternatename:?rva004158AFReturnView@Rva0041580E@@QAE?AURva004158AFSlot@@PAURva0041580ENode@@0ABVRva0041579E@@0@Z=?rva004158AF@Rva0041580E@@QAEXAAPAURva0041580ENode@@PAU2@1ABVRva0041579E@@1@Z")
+
+// ?rva00415B40@Rva0041580E@@QAE?AURva00415A55Result@@ABVRva0041579E@@@Z
+// @0x00415B40 20B: the container-level insert(value) over the rowed
+// insert_unique 0x00415A55 above, returning its pair through the same hidden
+// slot. Skeleton twin of map<int,int>::equal_range 0x002B8120.
+Rva00415A55Result Rva0041580E::rva00415B40(const Rva0041579E &value)
+{
+    return rva00415A55(value);
+}

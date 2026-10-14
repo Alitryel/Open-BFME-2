@@ -23,10 +23,17 @@ struct Rva0039EA4ENode
 	Rva0039D8FBKey m_key10;
 };
 
+struct Rva0039F5C8Iterator
+{
+	Rva0039EA4ENode *m_node;
+	Rva0039F5C8Iterator(Rva0039EA4ENode *node) : m_node(node) {}
+};
+
 class Rva0039EA4E
 {
 public:
 	Rva0039EA4ENode *rva0039F597(const Rva0039D8FBKey &key);
+	Rva0039F5C8Iterator rva0039FB73(const Rva0039D8FBKey &key);
 private:
 	Rva0039EA4ENode *m_header00;
 };
@@ -43,4 +50,13 @@ Rva0039EA4ENode *Rva0039EA4E::rva0039F597(const Rva0039D8FBKey &key)
 			x = x->m_right0C;
 	}
 	return j;
+}
+
+// ?rva0039FB73@Rva0039EA4E@@QAE?AURva0039F5C8Iterator@@ABURva0039D8FBKey@@@Z
+// @0x0039FB73 (20B): the map-level wrapper over the walk above, returning
+// its node as an iterator through the hidden result pointer; the same shape
+// as 0x0039F5C8 over 0x0039EA4E (Rva0039EA4EFinish.cpp).
+Rva0039F5C8Iterator Rva0039EA4E::rva0039FB73(const Rva0039D8FBKey &key)
+{
+	return Rva0039F5C8Iterator(rva0039F597(key));
 }
