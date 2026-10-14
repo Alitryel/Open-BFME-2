@@ -1,4 +1,6 @@
 // ?rva0057FC75@Rva0057F2DE@@QAE_NIII@Z
+// partial score=0.9082 date=2026-10-14
+// ?rva0057FC75@Rva0057F2DE@@QAE_NIII@Z
 // partial score=0.93 date=2026-10-06
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
 // ?rva0057FC75@Rva0057F2DE@@QAE_NIII@Z @0x0057FC75 234B: MpGameSetup +0x190 clan panel message handler dispatching 0x4015 list selection and 0x4026 combo text via rowed Gadget helpers plus just-landed AptMpClans 0x0057FA1C.
@@ -32,27 +34,13 @@ private:
 	AsciiString m_clan;
 };
 
-// ?rva0057FC75@Rva0057F2DE@@QAE_NIII@Z present-unmatched
 bool Rva0057F2DE::rva0057FC75(unsigned int msg, unsigned int data1, unsigned int data2)
 {
-	GameWindow *window = (GameWindow *)data1;
-	(void)data2;
-	if (!(window ? m_flagA8 : m_flagA8))
+	if (!m_flagA8)
 		return false;
-	switch ((m_clanPlayers ? msg : msg))
+	GameWindow *window = (GameWindow *)data1;
+	switch (msg)
 	{
-	case 0x4015:
-		if (window == m_clanPlayers)
-		{
-			int sel = 0;
-			GadgetListBoxGetSelected(window, &sel);
-			if (sel < 0)
-				return true;
-			UnicodeString item = GadgetListBoxGetText(window, sel, 1);
-			((AptMpClans *)this)->rva0057FA1C(item);
-			return true;
-		}
-		break;
 	case 0x4026:
 		if (window == m_clanName)
 		{
@@ -60,7 +48,20 @@ bool Rva0057F2DE::rva0057FC75(unsigned int msg, unsigned int data1, unsigned int
 			((AptMpClans *)this)->rva0057FA1C(combo);
 			return true;
 		}
-		return window == m_clanPlayers;
+		break;
+	case 0x4015:
+		if (window == m_clanPlayers)
+		{
+			int sel = 0;
+			GadgetListBoxGetSelected(window, &sel);
+			if (sel >= 0)
+			{
+				UnicodeString item = GadgetListBoxGetText(window, sel, 1);
+				((AptMpClans *)this)->rva0057FA1C(item);
+			}
+			return true;
+		}
+		break;
 	}
 	if (window == m_clanName)
 		return true;
