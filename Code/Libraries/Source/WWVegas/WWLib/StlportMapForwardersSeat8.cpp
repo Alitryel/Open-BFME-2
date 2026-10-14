@@ -50,3 +50,27 @@ template void MapF::swap(MapF &);
 template void VecG::insert(VecG::iterator, VecG::size_type, const VecG::value_type &);
 template void VecH::insert(VecH::iterator, VecH::size_type, const VecH::value_type &);
 template void VecI::insert(VecI::iterator, VecI::size_type, const VecI::value_type &);
+
+// holder destructors (5B each), tail jumps to the rowed _Rb_tree destructors:
+//   0x002F1C55 -> 0x002F0B8A, 0x002F1C5A -> 0x002F0BB5, 0x0032C62D -> 0x0032C36B
+struct Rva002F0B8AElement;
+struct Rva002F0BB5Element;
+typedef _STL::map<int, Rva002F0B8AElement> MapJ;
+typedef _STL::map<int, Rva002F0BB5Element> MapK;
+typedef _STL::pair<const int, Rva002F0B8AElement> ValJ;
+typedef _STL::pair<const int, Rva002F0BB5Element> ValK;
+typedef _STL::pair<AsciiString, AsciiString> KeyD;
+typedef _STL::pair<const KeyD, int> ValD;
+namespace _STL {
+template <> _Rb_tree<int, ValJ, _Select1st<ValJ>, less<int>, allocator<ValJ> >::~_Rb_tree();
+template <> _Rb_tree<int, ValK, _Select1st<ValK>, less<int>, allocator<ValK> >::~_Rb_tree();
+template <> _Rb_tree<KeyD, ValD, _Select1st<ValD>, less<KeyD>, allocator<ValD> >::~_Rb_tree();
+}
+// The owners holding each map as their only member are not recovered, so
+// the destructors are spelled on address-named holders.
+class Rva002F1C55 { public: ~Rva002F1C55(); private: MapJ m_map; };
+Rva002F1C55::~Rva002F1C55() {}
+class Rva002F1C5A { public: ~Rva002F1C5A(); private: MapK m_map; };
+Rva002F1C5A::~Rva002F1C5A() {}
+class Rva0032C62D { public: ~Rva0032C62D(); private: MapD m_map; };
+Rva0032C62D::~Rva0032C62D() {}
