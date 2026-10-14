@@ -1,14 +1,16 @@
 // ?rva0060D2E9@XferSave@@QAEXPBD@Z
-// partial score=0.8 date=2026-10-09
+// partial score=0.95 date=2026-10-15
 // cl: /O1 /G6 /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_CSTD_FUNCTION_IMPORTS
 // stlport
-// ZH XferSave block/string transfers and BFME1 xfer_save.cpp supply the
+#define _STLP_NO_EXCEPTIONS 1
+// BFME1 XferBlockWriter_rva009D86E0.cpp donor9cbfb551 supplies the
 // semantic lead. Native60D2E9..60D434 and60D435..60D4C9 establish the
 // stream4 flag8 position-vectorC and compressed-name table18. These
 // BFME2 helpers retain address names; the writer's original names unknown.
 namespace _STL { void __cdecl free(void *); }
 #include <string>
 #include <vector>
+#include <hash_map>
 class ModuleData;
 namespace _STL { template<> void vector<const ModuleData *>::push_back(const ModuleData *const&); }
 class XferException {
@@ -20,7 +22,10 @@ public: virtual void slot0(); virtual void slot1(); virtual void slot2(); virtua
  virtual int write(const void*,int); virtual int skip(int,int);
 };
 struct Rva0060CAEANode { void *next; _STL::string key; unsigned int value; };
-class Rva0060CAEA { public: Rva0060CAEANode *rva0060CAEA(const _STL::string&)const throw(); };
+struct Rva0060CAEAIterator { Rva0060CAEANode *cur; const void *table;
+ Rva0060CAEAIterator(Rva0060CAEANode *c,const void *t):cur(c),table(t) {}
+};
+class Rva0060CAEA { public: Rva0060CAEAIterator rva0060CB61(const _STL::string&); Rva0060CAEANode *rva0060CAEA(const _STL::string&)const throw(); };
 class Rva0060D269 { public: unsigned int &rva0060D269(const _STL::string&); };
 class XferSave {
 public:
@@ -34,27 +39,33 @@ private:
  char names[20]; char secondNames[16];
  unsigned int previousNames;
 };
+
 void XferSave::rva0060D2E9(const char *name) {
- if(name && *name) {
-  Rva0060CAEANode *node=((Rva0060CAEA*)names)->rva0060CAEA(_STL::string(name));
-  if(node) {
-   unsigned char marker=255;
-   if(stream->write(&marker,1)!=1) goto failed;
-   if(stream->write(&node->value,4)!=4) goto failed;
-  } else {
-   unsigned int length=strlen(name);
-   if(length>254) length=254;
-   if(stream->write(&length,1)!=1) goto failed;
-   if(stream->write(name,length)!=(int)length) goto failed;
-   ((Rva0060D269*)names)->rva0060D269(_STL::string(name))=*(unsigned int*)(names+16)+previousNames;
-  }
- } else {
+ if(name==0 || *name==0) {
   unsigned char marker=0;
-  if(stream->write(&marker,1)!=1) goto failed;
+  if(stream->write(&marker,1)!=1) throw XferException(1,0);
+ } else {
+  Rva0060CAEANode *found;
+  unsigned int length;
+  {
+   const _STL::string key(name);
+   found=((Rva0060CAEA*)names)->rva0060CAEA(key);
+  }
+  if(found) {
+   unsigned char marker=0xff;
+   if(stream->write(&marker,1)!=1) throw XferException(1,0);
+   if(stream->write(&found->value,4)!=4) throw XferException(1,0);
+  } else {
+   length=strlen(name);
+   if(length>0xfe) length=0xfe;
+   if(stream->write(&length,1)!=1) throw XferException(1,0);
+   if(stream->write(name,length)!=(int)length) throw XferException(1,0);
+   const _STL::string key(name);
+   const unsigned int auxCount=previousNames;
+   const unsigned int nameCount=*(unsigned int*)(names+16);
+   ((Rva0060D269*)names)->rva0060D269(key)=nameCount+auxCount;
+  }
  }
- return;
-failed:
- throw XferException(1,0);
 }
 
 int XferSave::rva0060D435(const char *name) {
@@ -70,3 +81,4 @@ int XferSave::rva0060D435(const char *name) {
  if(stream->write(&placeholder,4)!=4) throw XferException(1,0);
  return 0;
 }
+
