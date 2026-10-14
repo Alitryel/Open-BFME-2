@@ -127,3 +127,6 @@ void Rva001E6FE5::rva001E6FE5()
 	((Rva001E6731 *)this)->~Rva001E6731();
 }
 
+
+// Native 0x004FFE91: STLport4.5.3 multimap count forwarding to its owned provider.
+template unsigned int _STL::multimap<int,int,_STL::less<int>,_STL::allocator<_STL::pair<const int,int> > >::count(const int &) const;
