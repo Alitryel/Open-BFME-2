@@ -89472,3 +89472,7 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?get@Rva0042CAE4@@QBE_NXZ,,0x0042CAE4,7,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,byte flag getter +0x8C4 (no caller reference; address-named view)
 ?get@Rva0040FB36@@QAEPAXXZ,,0x0040FB36,7,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,member address getter +0x270 (no caller reference; address-named view)
 ?next@Rva0036CB70@@QAEHXZ,,0x0036CB70,7,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,pre-increment counter +0x1C (no caller reference; address-named view)
+?get@Rva00355138@@QBEHXZ,,0x00355138,9,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,pointer chase +4 then +0 then +8 (no caller reference; address-named view)
+?Rva00388C98Field@@YAPAHPAURva00388C98Record@@@Z,,0x00388C98,8,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,cdecl member address +0xC (no caller reference; address-named view)
+?Rva00388CA0Field@@YAPAHPAURva00388C98Record@@@Z,,0x00388CA0,8,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,cdecl member address +0x10 (no caller reference; address-named view)
+?invert@Rva00419CAF@@QAEXXZ,,0x00419CAF,3,Code/GameEngine/Source/Common/GapBodiesS9A.cpp,matched,not of the word at +0 (no caller reference; address-named view)

@@ -183,3 +183,48 @@ int Rva0036CB70::next()
 {
 	return ++m_1C;
 }
+
+// --- 0x00355138 (9B): follow +4, then +0, and return the word at +8.
+struct Rva00355138Inner { char m_pad00[8]; int m_08; };
+struct Rva00355138Mid { Rva00355138Inner *m_00; };
+class Rva00355138
+{
+public:
+	int get() const;
+private:
+	int m_00;
+	Rva00355138Mid *m_04;
+};
+
+int Rva00355138::get() const
+{
+	return m_04->m_00->m_08;
+}
+
+// --- 0x00388C98 / 0x00388CA0 (8B each): the address of the argument's
+// +0xC / +0x10 member (cdecl).
+struct Rva00388C98Record { char m_pad00[0xC]; int m_0C; int m_10; };
+
+int *Rva00388C98Field(Rva00388C98Record *record)
+{
+	return &record->m_0C;
+}
+
+int *Rva00388CA0Field(Rva00388C98Record *record)
+{
+	return &record->m_10;
+}
+
+// --- 0x00419CAF (3B): invert the word at +0.
+class Rva00419CAF
+{
+public:
+	void invert();
+private:
+	unsigned int m_00;
+};
+
+void Rva00419CAF::invert()
+{
+	m_00 = ~m_00;
+}
