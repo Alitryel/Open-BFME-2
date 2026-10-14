@@ -77,11 +77,11 @@ class ThingTemplate
 {
 public:
  const GeometryInfo &getGeometryInfo() const { return *reinterpret_cast<const GeometryInfo *>(m_pad000 + 0xA0); }
- unsigned int constructionWord118() const { return m_kindOf[1]; }
+ unsigned int constructionWord118() const { return m_kindOf[4]; }
  __declspec(dllimport) __forceinline float getBoundingCircleRadius() const { return getGeometryInfo().m_radius; }
- __forceinline bool constructionKind(unsigned int bit) const { return (m_pad000[0x108 + (bit >> 3)] & (1U << (bit & 7))) != 0; }
-	unsigned char m_pad000[0x114];
-	unsigned int m_kindOf[4]; // +0x114
+ __forceinline bool constructionKind(unsigned int bit) const { return (reinterpret_cast<const unsigned char *>(m_kindOf)[bit >> 3] & (1U << (bit & 7))) != 0; }
+	unsigned char m_pad000[0x108];
+	unsigned int m_kindOf[5]; // +0x108, the KindOf mask every other Object::isKindOf copy reads
 };
 
 enum ObjectStatusTypes
@@ -357,7 +357,7 @@ void FoundationAIUpdate::rva0045527A(ObjectID id)
 	if (id != INVALID_ID)
 	{
 		Drawable *draw = m_object->getDrawable();
-		if (m_object->foundationKindMask(54) == 0)
+		if (m_object->foundationKindMask(150) == 0)
 		{
 			m_object->setStatus(OBJECT_STATUS_3, true);
 			if (draw)
@@ -376,11 +376,11 @@ void FoundationAIUpdate::rva0045527A(ObjectID id)
 			}
 		}
 	}
-	else if (m_object->foundationKindMask(54) == 0)
+	else if (m_object->foundationKindMask(150) == 0)
 	{
 		m_object->setStatus(OBJECT_STATUS_3, false);
 		Drawable *draw = m_object->getDrawable();
-		if (draw && m_object->foundationKindMask(54) == 0)
+		if (draw && m_object->foundationKindMask(150) == 0)
 		{
 			draw->setSelectable(true);
 			draw->fadeIn(30);
