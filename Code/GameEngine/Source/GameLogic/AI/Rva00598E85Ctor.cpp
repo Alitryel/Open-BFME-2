@@ -25,6 +25,14 @@ struct Rva00501875Count
 	int m_count;
 };
 
+// Bind EH cleanup to the byte-verified count-tree destructor in
+// Rva00501875KeyPresence.cpp instead of emitting this TU's competing copy.
+namespace _STL {
+template <> _Rb_tree<int, pair<const int, Rva00501875Count>,
+    _Select1st<pair<const int, Rva00501875Count> >, less<int>,
+    allocator<pair<const int, Rva00501875Count> > >::~_Rb_tree();
+}
+
 struct Rva004FA1FObserver;
 
 struct Rva00598E66Element
