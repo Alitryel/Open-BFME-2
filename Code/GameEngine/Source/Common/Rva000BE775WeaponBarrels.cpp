@@ -1,5 +1,3 @@
-// ?rva000BE775@Rva000C3886Obj@@QAEXPAVRva000C3886@@@Z
-// partial score=0.95 date=2026-10-09
 // cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 //
@@ -27,6 +25,8 @@
 // Debug::Format 0x000386E0) when the model name (rowed 0x000B4A9F and the
 // out-of-line StringBase isEmpty 0x00001E2F) is set but the slot stays empty.
 // Finally sets bit 8 at +0xF4. WeaponBarrelInfo ctor 0x000B493B is rowed.
+// plbBoneIndex lives in an inner block: cl 7.1 then packs it into the spill
+// slot of prevFxBone, retail's shared [ebp-0x14] (frame 0x39C).
 #include "ascii_string.h"
 #include <vector>
 #include <stdio.h>
@@ -253,6 +253,7 @@ void Rva000C3886Obj::rva000BE775(Rva000C3886 *src)
 						info.m_fxBone = prevFxBone;
 				}
 
+				{
 				Int plbBoneIndex = 0;
 				if (!plbName.isEmpty())
 				{
@@ -271,6 +272,7 @@ void Rva000C3886Obj::rva000BE775(Rva000C3886 *src)
 				else
 				{
 					break;
+				}
 				}
 				prevFxBone = info.m_fxBone;
 			}
