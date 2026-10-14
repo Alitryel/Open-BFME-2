@@ -8,9 +8,9 @@
 // int result (retail movzx eax,al at 0x002E0BE0). Owner reuses Rva002E071E
 // so the rowed call resolves. NOTE the return type is a one-way street: the
 // three retail callers (0x0056B7A0, 0x005003DF, 0x0009C814) each test only
-// AL after the call, so their TUs declared this byte-sized while this TU
-// declared it int. One spelling cannot serve both, which is why the
-// Rva002E0BC0Helper views in those units stay unresolved.
+// AL after the call. A caller keeps that byte test by calling this int
+// spelling and casting the result to unsigned char (Rva005003DF.cpp does);
+// a byte-returning view of its own does not resolve.
 
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
