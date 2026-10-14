@@ -63,8 +63,8 @@ or authenticated file transport for the other fleet was supplied.
 
 The recorded banking false reject is still present in the current tools:
 re_log.STASH_LIMIT and check_csv.ATTEMPT_LIMIT are both64*1024, less than
-the recorded69163-byte function source. The previous attempt explicitly
-forbids minification/splitting as a workaround. No repeated failing pin,
+the recorded69163-byte function source. AGENTS.md forbids working around a
+false rejection; no minification/splitting was attempted. No repeated failing pin,
 stash or header-placement trial was run, and no tool/baseline was changed.
 Restoring the exact archive and resolving its recorded banking refusal is
 the handoff prerequisite for continuing its remaining source-shape trials.
