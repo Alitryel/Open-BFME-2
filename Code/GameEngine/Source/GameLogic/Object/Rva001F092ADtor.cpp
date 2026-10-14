@@ -1,13 +1,11 @@
-// ??1Rva001F092A@@UAE@XZ
-// partial score=0.897249567448243 date=2026-10-13
-// ??1Rva001F092A@@UAE@XZ
-// partial score=0.897249567448243 date=2026-10-12
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /Ireference/shims/bfme2_ascii /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
-// ??1Rva001F092A@@UAE@XZ
-// partial score=0.8 date=2026-10-06
-// oldcl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-//
+// Register roles (W7-U1 r7, found with the U1 weight model): retail this=EBX,
+// iterator=ESI, member-vector address=EDI. (1) `(unsigned)size() > 0u` keeps
+// the pointer-difference sar (a signed `!= 0` folds to test eax,0xfffffffc);
+// (2) the second erase goes through begin()/end() of an aliased `v18` reference
+// (retail loads both iterators into registers before pushing them) which also
+// moves the `this`-reference weight so this lands in EBX.
 // ??1Rva001F092A@@UAE@XZ @0x001F0996 302B.
 // Complete-object destructor of Rva001F092A (its scalar deleting dtor at
 // 0x001F0BEF calls here; vtable 0x00BE100C re-stated at entry like the
@@ -130,7 +128,7 @@ if(i != finish){do{
 	}
 	self->m_list0C.rva001F050B();
 	unsigned int idx = 0;
-	if ((((_STL::vector<void *> *)&self->m_vec18)->size()) != 0)
+	if ((unsigned)(((_STL::vector<void *> *)&self->m_vec18)->size()) > 0u)
 	{
 		do
 		{
@@ -140,5 +138,6 @@ if(i != finish){do{
 			++idx;
 		} while (idx < (unsigned int)(((_STL::vector<void *> *)&self->m_vec18)->size()));
 	}
-	((_STL::vector<void *> *)&self->m_vec18)->erase(self->m_vec18.m_begin, self->m_vec18.m_end);
+	Rva001F092AVec &v18 = self->m_vec18;
+	((_STL::vector<void *> *)&v18)->erase(((_STL::vector<void *> *)&v18)->begin(), ((_STL::vector<void *> *)&v18)->end());
 }
