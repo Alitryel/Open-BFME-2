@@ -541,3 +541,20 @@ void *Rva005F9422Release(Rva005F8FCC *object)
 {
 	return object->rva005F8FCC(0);
 }
+
+// --- 0x0059AEE9 (22B): constructor of a vtable-0x00C70E5C object with +4
+// cleared and the argument at +8 (the GapBodiesGE03.cpp vtable/arg shape).
+class Rva0059AEE9
+{
+public:
+	Rva0059AEE9(int value);
+	virtual ~Rva0059AEE9() {}
+private:
+	int m_04;
+	int m_08;
+};
+
+Rva0059AEE9::Rva0059AEE9(int value) : m_04(0), m_08(value)
+{
+}
+
