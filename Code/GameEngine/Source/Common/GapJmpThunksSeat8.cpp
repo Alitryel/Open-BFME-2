@@ -5,6 +5,11 @@
 // to its rowed base destructor). Each callee keeps its ledger spelling; the
 // forwarding owners are not recovered and are address-named.
 
+class AsciiString;
+class Object;
+enum NameKeyType { };
+class WeaponTemplate;
+
 class Rva001F050B
 {
 public:
@@ -111,6 +116,7 @@ public:
 class Rva00223591
 {
 public:
+	int rva00223736(const AsciiString *);
 	void rva0022380B();
 };
 
@@ -250,6 +256,8 @@ public:
 class Rva000427195
 {
 public:
+	int bucketIndex(const AsciiString *);
+	int rva00223429(const AsciiString *);
 	void rva00212858(unsigned int);
 	void rva003A2A41();
 };
@@ -843,3 +851,66 @@ void Rva0033D005::rva0033D005()
 {
 	((Rva002D02FD *)this)->rva002D02FD();
 }
+
+// ---- thunks over typed callees ----------------------------------------
+
+class Rva001E6516 { public: void rva001E6516(Object *); };
+class Rva00077710Value { public: bool operator!=(const Rva00077710Value &) const; };
+struct Rva0039B24FInput;
+class Rva0039B24F { public: void rva0039B24F(Rva0039B24FInput *, bool, bool); };
+class Rva003BD306Target { public: void rva0039B28F(bool); };
+class Overridable { public: const Overridable *friend_getFinalOverride() const; };
+class WeaponStore
+{
+	friend class Rva002C724E;
+protected:
+	WeaponTemplate *findWeaponTemplatePrivate(NameKeyType key) const;
+};
+class FunctionLexicon
+{
+	friend class Rva00314D11;
+public:
+	enum TableIndex { };
+protected:
+	void *findFunction(NameKeyType key, TableIndex index);
+};
+
+// 0x001E679E (5B) -> Rva001E6516::rva001E6516 0x001E6516.
+class Rva001E679E { public: void rva001E679E(Object *object); };
+void Rva001E679E::rva001E679E(Object *object) { ((Rva001E6516 *)this)->rva001E6516(object); }
+
+// 0x00223FE7 (5B) -> Rva00223591::rva00223736 0x00223736.
+class Rva00223FE7 { public: int rva00223FE7(const AsciiString *name); };
+int Rva00223FE7::rva00223FE7(const AsciiString *name) { return ((Rva00223591 *)this)->rva00223736(name); }
+
+// 0x002CFF1E (5B) -> Rva000427195::rva00223429 0x00223429.
+class Rva002CFF1E { public: int rva002CFF1E(const AsciiString *name); };
+int Rva002CFF1E::rva002CFF1E(const AsciiString *name) { return ((Rva000427195 *)this)->rva00223429(name); }
+
+// 0x0031BF16 (5B) -> Rva000427195::bucketIndex 0x00223149.
+class Rva0031BF16 { public: int rva0031BF16(const AsciiString *name); };
+int Rva0031BF16::rva0031BF16(const AsciiString *name) { return ((Rva000427195 *)this)->bucketIndex(name); }
+
+// 0x0022D15B (5B) -> Rva00077710Value::operator!= 0x0022CF4C.
+class Rva0022D15B { public: bool rva0022D15B(const Rva00077710Value &other) const; };
+bool Rva0022D15B::rva0022D15B(const Rva00077710Value &other) const { return *(const Rva00077710Value *)this != other; }
+
+// 0x00288604 (5B) -> Rva0039B24F::rva0039B24F 0x0039B24F.
+class Rva00288604 { public: void rva00288604(Rva0039B24FInput *input, bool a, bool b); };
+void Rva00288604::rva00288604(Rva0039B24FInput *input, bool a, bool b) { ((Rva0039B24F *)this)->rva0039B24F(input, a, b); }
+
+// 0x002885FF (5B) -> Rva003BD306Target::rva0039B28F 0x0039B28F.
+class Rva002885FF { public: void rva002885FF(bool value); };
+void Rva002885FF::rva002885FF(bool value) { ((Rva003BD306Target *)this)->rva0039B28F(value); }
+
+// 0x0028C8C8 (5B) -> Overridable::friend_getFinalOverride 0x00288609.
+class Rva0028C8C8 { public: const Overridable *rva0028C8C8() const; };
+const Overridable *Rva0028C8C8::rva0028C8C8() const { return ((const Overridable *)this)->friend_getFinalOverride(); }
+
+// 0x002C724E (5B) -> WeaponStore::findWeaponTemplatePrivate 0x002CADBE.
+class Rva002C724E { public: WeaponTemplate *rva002C724E(NameKeyType key) const; };
+WeaponTemplate *Rva002C724E::rva002C724E(NameKeyType key) const { return ((const WeaponStore *)this)->findWeaponTemplatePrivate(key); }
+
+// 0x00314D11 (5B) -> FunctionLexicon::findFunction 0x002D225F.
+class Rva00314D11 { public: void *rva00314D11(NameKeyType key, FunctionLexicon::TableIndex index); };
+void *Rva00314D11::rva00314D11(NameKeyType key, FunctionLexicon::TableIndex index) { return ((FunctionLexicon *)this)->findFunction(key, index); }

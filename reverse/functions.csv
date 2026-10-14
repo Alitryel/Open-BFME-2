@@ -89351,3 +89351,13 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva0033BE6B@Rva0033BE6B@@QAEXXZ,,0x0033BE6B,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 33BE6B jmp to rowed ?rva002CF7B5@Rva002CF7B5@@QAEXXZ 2CF7B5 same receiver; owner unresolved
 ?rva0033BECC@Rva0033BECC@@QAEXXZ,,0x0033BECC,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 33BECC jmp to rowed ?rva002CF7DE@Rva002CF7DE@@QAEXXZ 2CF7DE same receiver; owner unresolved
 ?rva0033D005@Rva0033D005@@QAEXXZ,,0x0033D005,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 33D005 jmp to rowed ?rva002D02FD@Rva002D02FD@@QAEXXZ 2D02FD same receiver; owner unresolved
+?rva001E679E@Rva001E679E@@QAEXPAVObject@@@Z,,0x001E679E,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 1E679E jmp to rowed 1E6516 same receiver
+?rva00223FE7@Rva00223FE7@@QAEHPBVAsciiString@@@Z,,0x00223FE7,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 223FE7 jmp to rowed 223736 same receiver
+?rva002CFF1E@Rva002CFF1E@@QAEHPBVAsciiString@@@Z,,0x002CFF1E,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2CFF1E jmp to rowed 223429 same receiver
+?rva0031BF16@Rva0031BF16@@QAEHPBVAsciiString@@@Z,,0x0031BF16,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 31BF16 jmp to rowed bucketIndex 223149 same receiver
+?rva0022D15B@Rva0022D15B@@QBE_NABVRva00077710Value@@@Z,,0x0022D15B,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 22D15B jmp to rowed operator!= 22CF4C same receiver
+?rva00288604@Rva00288604@@QAEXPAURva0039B24FInput@@_N1@Z,,0x00288604,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 288604 jmp to rowed 39B24F same receiver
+?rva002885FF@Rva002885FF@@QAEX_N@Z,,0x002885FF,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2885FF jmp to rowed 39B28F same receiver
+?rva0028C8C8@Rva0028C8C8@@QBEPBVOverridable@@XZ,,0x0028C8C8,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 28C8C8 jmp to rowed Overridable friend_getFinalOverride 288609
+?rva002C724E@Rva002C724E@@QBEPAVWeaponTemplate@@W4NameKeyType@@@Z,,0x002C724E,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2C724E jmp to rowed WeaponStore findWeaponTemplatePrivate 2CADBE
+?rva00314D11@Rva00314D11@@QAEPAXW4NameKeyType@@W4TableIndex@FunctionLexicon@@@Z,,0x00314D11,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 314D11 jmp to rowed FunctionLexicon findFunction 2D225F
