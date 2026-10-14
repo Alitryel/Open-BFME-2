@@ -21,7 +21,10 @@ struct BfmeE12Cmp0042299E
 struct Rva00422544Elem { Rva00422544Elem *m_next; int m_unk04; int m_key; };
 struct Rva00422544List { Rva00422544Elem *m_head; };
 extern unsigned char g_00DC84F5;
-extern _STL::deque<BfmeE12> g_00E031A8;
+// The ledger owns VA 0x00A031A8 as the deque's leading start iterator; the
+// deque is viewed through that global.
+extern _STL::_Deque_iterator<BfmeE12, _STL::_Nonconst_traits<BfmeE12> > g_00E031A8;
+#define g_00E031A8Deque (*(_STL::deque<BfmeE12> *)&g_00E031A8)
 int __stdcall Rva00422544Find(Rva00422544List *list);
 class Rva004233F5
 {
@@ -37,5 +40,5 @@ int Rva004233F5::rva004233F5(Rva00422544List *list, float val)
 	if (m_thresh > val)
 		return Rva00422544Find(list);
 	_STL::deque<BfmeE12>::iterator it;
-	return (it = _STL::lower_bound(g_00E031A8.begin(), g_00E031A8.end(), val, BfmeE12Cmp0042299E())) == g_00E031A8.end() ? g_00E031A8.back().m_id : (*it).m_id;
+	return (it = _STL::lower_bound(g_00E031A8Deque.begin(), g_00E031A8Deque.end(), val, BfmeE12Cmp0042299E())) == g_00E031A8Deque.end() ? g_00E031A8Deque.back().m_id : (*it).m_id;
 }

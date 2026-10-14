@@ -29,7 +29,9 @@ private:
 };
 
 extern Rva00148F5ECache g_00DBDE24;
-extern Rva00148F5ECache TheKey_teamName;	// VA 0x00DBD9F4
+// VA 0x00DBD9F4 is the ledger global StaticNameKey TheKey_teamName.
+class StaticNameKey;
+extern const StaticNameKey TheKey_teamName;
 
 class Dict
 {
@@ -112,7 +114,7 @@ SidesInfo *SidesList::findSkirmishSideInfo(AsciiString name, int *index)
 // EH state at retail's 0.
 bool SidesList::isPlayerDefaultTeam(TeamsInfo *t)
 {
-	AsciiString tname = t->getDict()->getAsciiString(TheKey_teamName.get());
+	AsciiString tname = t->getDict()->getAsciiString(((Rva00148F5ECache &)TheKey_teamName).get());
 	if (tname.startsWith("team"))
 	{
 		const char * volatile rest = tname.str() + 4;
