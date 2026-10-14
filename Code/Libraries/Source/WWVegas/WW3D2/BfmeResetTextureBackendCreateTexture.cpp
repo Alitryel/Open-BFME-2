@@ -51,11 +51,11 @@ void BFME_DX8_Thread_Lock();
 bool BFME_DX8_Thread_Assert();
 void *Rva00120720CreateTexture(int a1, int a2, int a3, int a4, int a5, int a6);
 
-class BfmeDX8DeviceLockGuard
+class BFMEDX8DeviceLock
 {
 public:
-	BfmeDX8DeviceLockGuard() { BFME_DX8_Thread_Lock(); }
-	~BfmeDX8DeviceLockGuard() { BFME_DX8_Thread_Assert(); }
+	BFMEDX8DeviceLock() { BFME_DX8_Thread_Lock(); }
+	~BFMEDX8DeviceLock() { BFME_DX8_Thread_Assert(); }
 };
 
 // ?CreateTexture@BfmeResetTextureBackend@@QAEXHHHHHHH@Z @0x001310E3
@@ -98,7 +98,7 @@ void BfmeResetTextureBackend::CreateTexture(int width, int height, int createArg
 		sanitizedUsage = 0;
 		break;
 	}
-	BfmeDX8DeviceLockGuard deviceLock;
+	BFMEDX8DeviceLock deviceLock;
 	com = (IDirect3DBaseTexture8 *)Rva00120720CreateTexture(width, height, createArg4C, createArg44, pool, sanitizedUsage);
 	this->width = width;
 	this->height = height;
