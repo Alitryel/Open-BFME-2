@@ -1,4 +1,6 @@
 // ??0AnimationSoundClientBehavior@@QAE@ABV0@@Z
+// partial score=0.933 date=2026-10-14
+// ??0AnimationSoundClientBehavior@@QAE@ABV0@@Z
 // partial score=0.96 date=2026-10-07
 // cl: /DNDEBUG /MD /EHsc
 // ??0AnimationSoundClientBehavior@@QAE@ABV0@@Z, retail 0x004CA1C1, 98 bytes.
@@ -68,8 +70,8 @@ AnimationSoundClientBehavior::AnimationSoundClientBehavior(
 	int *sec0C = (int *)&m_secondary0C;
 	*sec0C = (int)((unsigned int)vtbl_00C5EE74);
 	m_next14 = (Rva00432F23Node *)zero;
-	m_prev18 = (Rva00432F23Node *)zero;
 	m_float10 = other.m_float10;
+	m_prev18 = (Rva00432F23Node *)zero;
 	if (g_004C9DC9Container)
 		g_004C9DC9Container->rva00432F7D((Rva00432F23Node *)this);
 }

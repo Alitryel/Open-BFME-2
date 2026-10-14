@@ -1,4 +1,6 @@
 // ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
+// partial score=0.766 date=2026-10-14
+// ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
 // partial score=0.9398 date=2026-10-13
 // ?Rva009B5530Prepare@@YAXPAURva009B5830State@@PAXH@Z
 // partial score=0.9398 date=2026-10-13
@@ -98,7 +100,7 @@ void __cdecl Rva009B5530Prepare(Rva009B5830State *pbi, void *output, int block)
 		VP6_PredictFiltered(pbi, source + pbi->reconIndex,
 			pbi->vectors[block].x, pbi->vectors[block].y);
 		mvx = pbi->vectors[block].x;
-		mvy = pbi->vectors[block].y;
+		mvy = (pbi->loopFilteredBlock ? (pbi->vectors[block].y) : (pbi->vectors[block].y));
 		y = mvy;
 		x = mvx;
 		xPhase = x & pbi->vectorMask;

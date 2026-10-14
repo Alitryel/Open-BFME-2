@@ -1,4 +1,6 @@
 // ?rva000B75FF@Rva000B75FF@@QAE_N_N@Z
+// partial score=0.614 date=2026-10-14
+// ?rva000B75FF@Rva000B75FF@@QAE_N_N@Z
 // partial score=0.935 date=2026-10-12
 // Retail B75FF..B77B2 is complete435B RET4; returnAL=1 and byte arg guard.
 // W3DModelDraw client particle update family from adjacent matched calls and
@@ -124,7 +126,7 @@ bool Rva000B75FF::rva000B75FF(bool ignoreInactive){
       ((Rva001F3C13ByteSlot*)sys.operator->())->set(1);
      }
     }else if(bone) {
-     if(render->Is_Bone_Captured(bone))((Rva001F384AByteZeroSetter*)sys.operator->())->disable();
+     if((state ? (render->Is_Bone_Captured(bone)) : (render->Is_Bone_Captured(bone))))((Rva001F384AByteZeroSetter*)sys.operator->())->disable();
      else ((Rva001F3852ByteOneSetter*)sys.operator->())->enable();
      const ParticleMatrixView transform=render->Get_Bone_Transform(bone);
      ((Rva001F38C1Slot*)sys.operator->())->set(*(const Rva001F38C1Arg*)&transform);

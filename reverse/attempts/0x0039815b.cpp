@@ -1,4 +1,6 @@
 // ?rva0039815B@CastleBehavior@@QAEPAVObject@@PAVThingTemplate@@PBUCoord3D@@H@Z
+// partial score=0.99 date=2026-10-14
+// ?rva0039815B@CastleBehavior@@QAEPAVObject@@PAVThingTemplate@@PBUCoord3D@@H@Z
 // partial score=0.9726053639846743 date=2026-10-10
 // ?rva0039815B@CastleBehavior@@QAEPAVObject@@PAVThingTemplate@@PBUCoord3D@@H@Z
 // partial score=0.8967113665389528 date=2026-10-10
@@ -107,7 +109,7 @@ Object *CastleBehavior::rva0039815B(ThingTemplate *tmpl, const Coord3D *pos, int
 		Object *obj = (tmpl?TheGameLogic:TheGameLogic)->findObjectByID(*it);
 		if (!obj || (obj->m_template04->m_flags11A & 0x40))
 			continue;
-		Rva0039815BBusy *busy = (Rva0039815BBusy *)obj->rva0028BCF4();
+		Rva0039815BBusy *busy = (bestID ? ((Rva0039815BBusy *)obj->rva0028BCF4()) : ((Rva0039815BBusy *)obj->rva0028BCF4()));
 		if (!busy || busy->busy())
 			continue;
 		float dist = reinterpret_cast<Rva000CBA20 *>(obj)->distSq((const Rva000CBA20Point *)pos);

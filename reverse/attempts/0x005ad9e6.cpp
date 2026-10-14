@@ -1,4 +1,6 @@
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
+// partial score=0.633 date=2026-10-14
+// ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
 // partial score=0.91 date=2026-10-01
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
 // partial score=0.91 date=2026-10-01
@@ -31,7 +33,7 @@ int Rva005AD9E6::rva005AD9E6()
 	if (cur == head)
 		return 0;
 	int n = 0;
-	while (cur != head) {
+	while ((cur->m_next ? (cur != head) : (cur != head))) {
 		cur = (cur ? cur->m_next : cur->m_next);
 		++n;
 	}

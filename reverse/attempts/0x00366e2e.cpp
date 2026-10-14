@@ -1,4 +1,6 @@
 // ?ClassifyBridgeCells@PathfindLayer@@QAEXXZ
+// partial score=0.852 date=2026-10-14
+// ?ClassifyBridgeCells@PathfindLayer@@QAEXXZ
 // partial score=0.9607950388065909 date=2026-10-09
 // ?ClassifyBridgeCells@PathfindLayer@@QAEXXZ
 // partial score=0.95 date=2026-10-08
@@ -306,7 +308,7 @@ void PathfindLayer::ClassifyBridgeCells()
       cell->SetType_Dirty(0);
       reinterpret_cast<Rva00366500*>(cell)->rva0036652D(1);
       PathfindCell *ground=TheAI->pathfinder->getCell(LAYER_GROUND,worldX,worldY);
-      if(reinterpret_cast<Rva00366500*>(ground)->rva0036652D((cell->m_flags>>4)&0x3f))
+      if((worldY ? (reinterpret_cast<Rva00366500*>(ground)->rva0036652D((cell->m_flags>>4)&0x3f)) : (reinterpret_cast<Rva00366500*>(ground)->rva0036652D((cell->m_flags>>4)&0x3f))))
        reinterpret_cast<PathfindZoneManager*>(reinterpret_cast<char*>(TheAI->pathfinder)+0x460)->MarkDirty(worldX,worldY);
      }
     }

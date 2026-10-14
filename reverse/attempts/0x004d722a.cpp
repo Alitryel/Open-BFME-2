@@ -1,4 +1,6 @@
 // ?friend_checkForSleepTransitions@State@@QAE?AW4StateReturnType@@W42@@Z
+// partial score=0.667 date=2026-10-14
+// ?friend_checkForSleepTransitions@State@@QAE?AW4StateReturnType@@W42@@Z
 // partial score=0.52 date=2026-10-13
 // ?friend_checkForSleepTransitions@State@@QAE?AW4StateReturnType@@W42@@Z
 // partial score=0.52 date=2026-10-12
@@ -90,7 +92,7 @@ StateReturnType State::friend_checkForSleepTransitions(StateReturnType status)
 			else if (it->toStateID == EXIT_MACHINE_WITH_FAILURE)
 				result = STATE_FAILURE;
 			else
-				result = machine->internalSetState(it->toStateID);
+				result = (remaining ? (machine->internalSetState(it->toStateID)) : (machine->internalSetState(it->toStateID)));
 			break;
 		}
 	}

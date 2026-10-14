@@ -124,6 +124,6 @@ void __cdecl Rva0008103AAdjust(float *v)
 		v2 = (v2 - k) * sc;
 		float v1 = (v[1] - k) * sc;
 		v[1] = v1;
-		v[3] = v[3] * sc;
+		v[3] = (v2 ? (v[3] * sc) : (v[3] * sc));
 	}
 }

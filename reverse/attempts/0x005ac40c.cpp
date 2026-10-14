@@ -1,4 +1,6 @@
 // ?moveDozerAway@AIStructureCreepTactic@@QAEXXZ
+// partial score=0.508 date=2026-10-14
+// ?moveDozerAway@AIStructureCreepTactic@@QAEXXZ
 // partial score=0.8692 date=2026-10-14
 // ?moveDozerAway@AIStructureCreepTactic@@QAEXXZ
 // partial score=0.82 date=2026-10-13
@@ -816,5 +818,5 @@ void AIStructureCreepTactic::moveDozerAway()
 	dir.X *= 500.0f;
 	dir.Y *= 500.0f;
 	dir.Z *= 500.0f;
-	dozer->m_ai->m_commands.aiMoveToPosition(&Coord3D(dozer->m_pos[0] + dir.X, (dozer ? (dozer->m_pos[1] + dir.Y) : (dozer->m_pos[1] + dir.Y)), dozer->m_pos[2] + dir.Z), CMD_FROM_PLAYER);
+	dozer->m_ai->m_commands.aiMoveToPosition(&Coord3D((m_owner ? (dozer->m_pos[0] + dir.X) : (dozer->m_pos[0] + dir.X)), (dozer ? (dozer->m_pos[1] + dir.Y) : (dozer->m_pos[1] + dir.Y)), (m_58 ? (dozer->m_pos[2] + dir.Z) : (dozer->m_pos[2] + dir.Z))), CMD_FROM_PLAYER);
 }
