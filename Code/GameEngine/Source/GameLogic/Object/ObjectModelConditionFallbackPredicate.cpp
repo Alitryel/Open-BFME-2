@@ -1,15 +1,15 @@
 // ?rva002957FC@Object@@QAEEXZ
-// partial score=0.97 date=2026-10-12
-// ?rva002957FC@Object@@QAEEXZ
-// partial score=0.97 date=2026-10-10
-// ?rva002957FC@Object@@QAEEXZ
-// partial score=0.9706 date=2026-10-10
-// ?rva002957FC@Object@@QAEEXZ
-// partial score=0.95 date=2026-10-09
 // cl: /O1 /MD /G7 /arch:SSE
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
-class Interface142 {public:
+// Native 0x002957FC..0x00295844, full 72 bytes, RET0; WB CDA8A0.
+// Template+0x11F bit0 gates an owned related-object lookup at 0x0029439D.
+// A found interface forwards slot142 (+0x238); otherwise Object+0x118
+// bits7/9 (model-condition indexes103/105) determine the result.
+// Callers, including native 0x002EC715, consume AL. The byte return and
+// address-derived method name are observed ABI views, not an original name.
+// The unsigned shift uses the zero accumulator before it becomes the common
+// truth mask. This preserves native SHR ECX,7 / INC EAX scheduling without
+// compiler barriers or assembly; every complete body byte is verified.
+class RelatedObjectPredicateInterface {public:
 virtual void v0();
 virtual void v1();
 virtual void v2();
@@ -153,21 +153,28 @@ virtual void v139();
 virtual void v140();
 virtual void v141();
 virtual bool predicate();};
-struct TemplateView {char pad[0x11F];unsigned char bits;};
+struct ObjectPredicateTemplateView {char pad[0x11F];unsigned char bits;};
 class Object {
- char pad0[4];TemplateView *m_template;char pad8[0x110];unsigned m_bits;
+ char pad0[4];ObjectPredicateTemplateView *m_template;char pad8[0x110];unsigned m_bits;
  public:void *rva0029439D();unsigned char rva002957FC();
 };
-static __forceinline bool rva002957FCTestBit(unsigned int word, int bit)
+unsigned char Object::rva002957FC()
 {
- return ((word >> bit) & 1) != 0;
-}
+    if (!(m_template->bits & 1))
+        return false;
+    RelatedObjectPredicateInterface *module =
+        (RelatedObjectPredicateInterface *)rva0029439D();
+    if (module)
+        return module->predicate();
 
-unsigned char Object::rva002957FC(){
- if(!(m_template->bits&1)) return false;
- Interface142 *module=(Interface142*)rva0029439D();
- if(module)return module->predicate();
- int result=1;
- if(!rva002957FCTestBit(m_bits, 7) && !rva002957FCTestBit(m_bits, 9)) result=0;
- return result;
+    unsigned flags = m_bits;
+    int result = 0;
+    // Keep the first shift before materializing the shared mask/true value.
+    // result is zero here, so the two tests select bits 7 and 9 of word 0x118.
+    unsigned low = flags >> (7 + result);
+    ++result;
+    if (!((unsigned char)low & (unsigned char)result) &&
+        !((unsigned char)(flags >> 9) & (unsigned char)result))
+        result = 0;
+    return result;
 }

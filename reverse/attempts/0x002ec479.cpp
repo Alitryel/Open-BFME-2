@@ -1,4 +1,6 @@
 // ?rva002EC479@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@0@Z
+// partial score=0.9881014669989732 date=2026-10-14
+// ?rva002EC479@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@0@Z
 // partial score=0.76381 date=2026-10-13
 // ?rva002EC479@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@0@Z
 // cl: /I. /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD /ICode/Libraries/Include/Lib /I.
@@ -18,7 +20,7 @@
 // Native Object/template/cell offsets below are target observations.
 #include "Coord3D.h"
 extern "C" __declspec(dllimport) double __cdecl floor(double);
-extern "C" double __cdecl fabs(double);
+#include <math.h>
 #include "Code/Libraries/Include/Lib/ICoord2D.h"
 enum PathfindLayerEnum {OBSERVED_LAYER_1=1};
 enum WeaponSlotType {OBSERVED_SLOT_0=0};
@@ -36,7 +38,7 @@ public:
  int rva0028B511()const;
  unsigned char rva002957FC();
  float rva00263763(const void*)const;
- float rva0028EFB8(const Coord3D*,Object*,const Coord3D*);
+ float rva0028EFB8(const Coord3D*,const Object*,const Coord3D*)const;
  void *vptr;AttackQueryTemplate *definition;char pad8[0x38-8];Coord3D position;
  char pad44[0x74-0x44];int id;char pad78[0xB8-0x78];float observedSize;
 protected:
@@ -50,6 +52,7 @@ template<>class QueryTerrainSlots<0>{};
 class TerrainLogic:public QueryTerrainSlots<44>{public:virtual bool querySurface(Object*,int)=0;};
 extern TerrainLogic *TheTerrainLogic;
 struct QueryCellInfo {char pad[0x28];int structure;};
+enum CellType {CELL_IMPASSABLE=5};
 class PathfindCell {public:QueryCellInfo *info;char pad4[8];unsigned flags;int layer()const{return(flags>>4)&63;}unsigned char type()const{return(unsigned char)(flags&15);}};
 ICoord2D *Rva002EBC14Cell(ICoord2D*,void*,const Coord3D*);
 int Rva002E9B31Get(void*);
@@ -85,11 +88,12 @@ __declspec(noinline) ICoord2D *__cdecl Rva002EBC14Cell(ICoord2D *out,void *p,con
 }
 struct FootprintCell:ICoord2D {FootprintCell(){} FootprintCell(const FootprintCell &p){x=p.x;y=p.y;} };
 static __forceinline FootprintCell footprintCell(void *object,const Coord3D *position){FootprintCell cell;Rva002EBC14Cell(&cell,object,position);return cell;}
+static __forceinline void moveBy(ICoord2D &p,int amount){p.x+=amount;p.y+=amount;}
 bool Pathfinder::rva002EC479(Object *attacker,const Coord3D *from,Object *target)
 {
  const Weapon *weapon=attacker->getCurrentWeapon(0);
  if(!weapon || !weapon->definition->get())return false;
- FootprintCell base=footprintCell(attacker,from);
+ ICoord2D base;Rva002EBC14Cell(&base,attacker,from);
  int diameter=Rva002E9B31Get(attacker);
  int half=diameter/-2;base.x+=half;base.y+=half;
  float cellRange=weapon->getAttackRange(target)/10.0f;
@@ -101,17 +105,17 @@ bool Pathfinder::rva002EC479(Object *attacker,const Coord3D *from,Object *target
   while(radius-->=0){
    for(int j=diameter;j>=0;--j){
     for(int side=0;side<4;++side){
-     ICoord2D p;
+     int px,py;
      switch(side){
-      case 0:p.x=base.x+j;p.y=base.y-1;break;
-      case 1:p.x=base.x+diameter;p.y=base.y+j;break;
-      case 2:p.x=base.x+diameter-j-1;p.y=base.y+diameter;break;
-      case 3:p.x=base.x-1;p.y=base.y+diameter-j-1;break;
+      case 0:px=base.x+j;py=base.y-1;break;
+      case 1:px=base.x+diameter;py=base.y+j;break;
+      case 2:px=base.x+diameter-j-1;py=base.y+diameter;break;
+      case 3:px=base.x-1;py=base.y+diameter-j-1;break;
      }
      for(int l=0;l<count;++l){
-      PathfindCell *cell=getCell((PathfindLayerEnum)layers[l],p.x,p.y);
+      PathfindCell *cell=getCell((PathfindLayerEnum)layers[l],px,py);
       if(cell){
-       if(cell->layer()!=layers[0] && (unsigned char)Rva002E6E8AGet(cell->layer()) && cell->type()==5)foundWall=true;
+       unsigned flags=cell->flags;int cellLayer=(flags>>4)&63;if(cellLayer!=layers[0] && (unsigned char)Rva002E6E8AGet(cellLayer)){unsigned type=(unsigned)(flags&15);if(type==5)foundWall=true;}
        int structure=cell->info?cell->info->structure:0;
        if(structure==target->id)return true;
       }
@@ -129,13 +133,13 @@ if(target->definition->kindOf(0x96))size=0.0f;
   return false;
  }
  if(target->definition->kindOf(0xB8) && target->rva002957FC())return attacker->rva00263763(target)<5.0;
- FootprintCell targetBase=footprintCell(target,&target->position);
+ ICoord2D targetBase;Rva002EBC14Cell(&targetBase,target,&target->position);
  int targetDiameter=Rva002E9B31Get(target);
  int targetHalf=targetDiameter/-2;targetBase.x+=targetHalf;targetBase.y+=targetHalf;
- int targetHiX=targetBase.x+targetDiameter,targetHiY=targetBase.y+targetDiameter;
- int hiX=base.x+diameter+radius,hiY=base.y+diameter+radius;
- base.x-=radius;int loY=base.y-radius;
- if(base.x<=targetHiX && targetBase.x<=hiX && loY<=targetHiY && targetBase.y<=hiY)return true;
+ ICoord2D targetHi=targetBase;moveBy(targetHi,targetDiameter);
+ ICoord2D hi=base;moveBy(hi,diameter+radius);
+ moveBy(base,-radius);
+ if(base.x<=targetHi.x && targetBase.x<=hi.x && base.y<=targetHi.y && targetBase.y<=hi.y)return true;
  if(target->definition->kindOf(0x5D)){
   Module *portal=DynamicPortalBehaviour::rva004608E0(target);
   static NameKeyType key=TheNameKeyGenerator->nameToKey("SiegeDeploySpecialPower");
