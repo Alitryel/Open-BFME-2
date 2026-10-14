@@ -102,3 +102,52 @@ void Rva005F5537::rva005F5537(){
   ((Rva005FD4F7*)getClip())->rva005FD4F7();
  }
 }
+
+class GameMessage {public:void appendIntegerArgument(int);};
+class MessageStream {public:
+virtual void slot00();
+virtual void slot01();
+virtual void slot02();
+virtual void slot03();
+virtual void slot04();
+virtual void slot05();
+virtual void slot06();
+virtual void slot07();
+virtual void slot08();
+virtual void slot09();
+virtual void slot0a();
+virtual void slot0b();
+virtual void slot0c();
+virtual void slot0d();
+virtual void slot0e();
+virtual void slot0f();
+virtual void slot10();
+virtual void slot11();
+virtual GameMessage*appendMessage(int);};
+extern MessageStream*TheMessageStream;
+static __declspec(noinline) void Rva005E5DF5SendSwapArmyMembers(int army1,const Rva005FSelectionView*first,int army2,const Rva005FSelectionView&second) {
+ GameMessage*message=TheMessageStream->appendMessage(0x6af);
+ message->appendIntegerArgument(army1);
+ message->appendIntegerArgument(first->members.size());
+ _STL::_Rb_tree_node_base*firstEnd=first->members.end()._M_node;
+ for(_STL::_Rb_tree_node_base*n=firstEnd->_M_left;n!=firstEnd;n=_STL::_Rb_global<bool>::_M_increment(n))message->appendIntegerArgument(*(int*)((char*)n+16));
+ message->appendIntegerArgument(army2);
+ message->appendIntegerArgument(second.members.size());
+ _STL::_Rb_tree_node_base*secondEnd=second.members.end()._M_node;
+ for(_STL::_Rb_tree_node_base*n=secondEnd->_M_left;n!=secondEnd;n=_STL::_Rb_global<bool>::_M_increment(n))message->appendIntegerArgument(*(int*)((char*)n+16));
+}
+
+// WB 1628960 calls strict-pointer operator-> (16295C0) four times,
+// in source-army / source-selection / target-army / target-selection order.
+struct Rva005FEntryPtr {Rva005FEntryView*value;Rva005FEntryView*operator->()const{return value;}};
+struct Rva005F53A2Context {char prefix[12];Rva005FEntryPtr source,target;};
+class Rva005F53A2 {public:void rva005F53A2();char prefix[8];Rva005F53A2Context*context;Rva005F53A2Context*getContext(){return context;}};
+void Rva005F53A2::rva005F53A2(){
+ Rva005F53A2Context*owner=getContext();
+ Rva005FArmyView*source=owner->source->army;
+ Rva005FSelectionView&first=getContext()->source->selection;
+ Rva005FArmyView*target=getContext()->target->army;
+ Rva005FSelectionView&second=owner->target->selection;
+ if(StrategicInGameUI::CanSwapArmyMembers(source,&first,target,&second))
+  Rva005E5DF5SendSwapArmyMembers(source->getID(),&first,target->getID(),second);
+}
