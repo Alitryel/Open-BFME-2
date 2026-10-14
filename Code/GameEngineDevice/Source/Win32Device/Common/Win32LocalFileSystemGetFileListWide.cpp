@@ -47,6 +47,13 @@ namespace rts {
 		bool operator()(const T &a, const T &b) const { return a.compareNoCase(b) < 0; }
 	};
 }
+// /O1 emits a non-retail standalone comparator. Preserve _M_find's calls
+// and use the byte-verified external provider at 0x00037B40 instead of
+// defining another compiler-shaped copy in this unit.
+namespace rts {
+	template <>
+	bool less_than_nocase<UnicodeString>::operator()(const UnicodeString &a, const UnicodeString &b) const;
+}
 typedef std::set<UnicodeString, rts::less_than_nocase<UnicodeString> > FilenameList;
 
 // set::insert (0x00604E11) is rowed in stlport_unicode_string_set.cpp;

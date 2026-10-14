@@ -29,6 +29,12 @@ namespace rts {
         bool operator()(const T &a, const T &b) const { return a.compareNoCase(b) < 0; }
     };
 }
+// Preserve the tree helpers' calls to the retail comparator at 0x00037B40;
+// this instantiation must not emit its own non-retail standalone copy.
+namespace rts {
+    template <>
+    bool less_than_nocase<UnicodeString>::operator()(const UnicodeString &a, const UnicodeString &b) const;
+}
 typedef std::set<UnicodeString, rts::less_than_nocase<UnicodeString> > UnicodeNameSet;
 
 std::pair<UnicodeNameSet::iterator, bool> Force_UnicodeStringSet_insert(UnicodeNameSet &s, const UnicodeString &v)
