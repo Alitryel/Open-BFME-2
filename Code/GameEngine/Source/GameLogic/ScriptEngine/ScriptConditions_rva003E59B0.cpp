@@ -1,8 +1,10 @@
+// cl: /G7 /O1 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /I. /ICode/GameEngine/Source/GameLogic/ScriptEngine /ICode
+//
 // ?rva003E59B0@ScriptConditions@@QAE_NPBVAsciiString@@0PAVParameter@@_N@Z
-// partial score=0.80174 date=2026-10-13
-// ?rva003E59B0@ScriptConditions@@QAE_NPBVAsciiString@@0PAVParameter@@_N@Z
-// partial score=0.97 date=2026-10-12
-// cl: /G7 /O1 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /I.
+// retail 0x003E59B0 (313B, RET 0x10): unit form of the castle area test.
+// Exact via W7-D3: the didEnter/didExit equal-arm must be spelled as a nested
+// if/else, not a ternary, or cl emits cmp al,bl instead of test al,al.
+// cl: /G7 /O1 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /I. /ICode/GameEngine/Source/GameLogic/ScriptEngine /ICode
 // ?rva003E59B0@ScriptConditions@@QAE_NPBVAsciiString@@0PAVParameter@@_N@Z, retail 0x003E59B0
 // (313 bytes, RET 0x10): the unit form of the castle area test in ScriptConditions_Rva003E6ED0.cpp
 // -- the named unit against the named castle or, with no castle name and a player parameter naming
@@ -134,7 +136,7 @@ bool ScriptConditions::rva003E59B0(const AsciiString *unitName, const AsciiStrin
 		return false;
 	Object *castle;
 	if (castleName) {
-		castle = TheScriptEngine->getUnitNamed(*castleName);
+		castle = (entered ? (TheScriptEngine->getUnitNamed(*castleName)) : (TheScriptEngine->getUnitNamed(*castleName)));
 	} else {
 		if (!playerParm)
 			return false;
@@ -156,8 +158,16 @@ bool ScriptConditions::rva003E59B0(const AsciiString *unitName, const AsciiStrin
 		PolygonTrigger *area = behavior->rva00395E53(i);
 		if (!area)
 			return false;
-		if (entered ? obj->didEnter(area) : obj->didExit(area))
-			return true;
+		if (entered)
+		{
+			if (obj->didEnter(area))
+				return true;
+		}
+		else
+		{
+			if (obj->didExit(area))
+				return true;
+		}
 	} while (i < 7);
 	return false;
 }

@@ -88278,3 +88278,4 @@ __ehhandler$??0Rva005E8350@@QAE@PAVRva005E87E0@@PAX1PAURva005CE172Context@@@Z,,0
 ?Rva006ECCB0LocalToGlobal@@YAPAVAptValue@@PAV1@H@Z,,0x006ECCB0,381,Code/Libraries/Source/Apt/AptCharacterByteCounts.cpp,matched,Apt localToGlobal native; barrier before the c_cih walk
 ?UpdateUpgradeCreationTriggers@TransportContain@@QAEXXZ,,0x00468045,517,Code/GameEngine/Source/GameLogic/Object/Contain/TransportContainUpdateUpgradeCreationTriggers.cpp,matched,WB 115D5F0; equal-arm on the record lookup
 ?v4@Made002CC5E1@@UAEXPAX0@Z,,0x00507A04,435,Code/GameEngine/Source/GameLogic/Object/Made002CC5E1Rva00507A04.cpp,matched,
+?rva003E59B0@ScriptConditions@@QAE_NPBVAsciiString@@0PAVParameter@@_N@Z,,0x003E59B0,313,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions_rva003E59B0.cpp,matched,
