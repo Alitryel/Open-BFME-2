@@ -559,8 +559,9 @@ public:
  Rva000421C8* m_next;
 };
 class Rva0026119DFilter:public Rva000421C8 { public: virtual bool allow(Object*); };
+struct Rva00045411BitSet { unsigned m_bits[7]; Rva00045411BitSet(int,int); };
 class BfmeFixedStorage0004543D {
-public: BfmeFixedStorage0004543D(int,int); BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D&) throw();
+public: BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D&) throw();
 private: unsigned char bytes[28];
 };
 class Rva0004584D:public Rva000421C8 {
@@ -655,7 +656,7 @@ void CastleBehavior::teleportStragglersFromWallToGround(bool filter) {
   const Coord3D* pos=&field<Coord3D>(wall,0x38);
   Coord3D out; out.x=pos->x;out.y=pos->y;out.z=pos->z;
   BfmeWideResult result=ThePartitionManager->iterateObjectsInRange(pos,wall->getBoundingCircleRadius(),1,
-   Rva0004584D(*(const BfmeFixedStorage0004543D*)&KINDOFMASK_NONE,BfmeFixedStorage0004543D(0,2)).link(&Rva0026119DFilter()),0);
+   Rva0004584D(*(const BfmeFixedStorage0004543D*)&KINDOFMASK_NONE,(const BfmeFixedStorage0004543D&)Rva00045411BitSet(0,2)).link(&Rva0026119DFilter()),0);
   options.startAngle=field<Object*>(this,8)->GetRelativeAngle(pos);
   Object* object;
   while((object=result.next())!=0) {

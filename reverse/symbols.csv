@@ -1811,8 +1811,6 @@ name,address,notes
 ??0BfmeErr1042@@QAE@XZ,0x002035E2,callee of ?bfmeGo1042D@BfmeA1042N@@QAEXXZ at retail 0x0044BD79 read from its REL32 displacement; builds the 0xC-byte error object at ebp-0xC; ICF alias onto ??0FunctorNotSet@@QAE@XZ (matched)
 ??0BfmeErr1043@@QAE@XZ,0x002035E2,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0BfmeErr2_1043@@QAE@XZ,0x00203EA8,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-??0BfmeFixedStorage0004543D@@QAE@HH@Z,0x00045411,"224-bit KindOf mask (unused, bit) constructor (the matched Rva00045411BitSet body): REL32 at 0x00481E17 in PropagandaTowerBehavior::doScan 0x00481DA4 building MAKE_KINDOF_MASK(7) for the reject mask of the 0x0004584D filter"
-??0BfmeFixedStorage0004543D@@QAE@HHH@Z,0x0006EE7A,"224-bit KindOf mask (unused, bit, bit) constructor (the matched Rva0006EE7A two-bit body): REL32 at 0x003E5742 in ScriptConditions::rva003E56C5 building the reject mask of bits 89 and 134 for the 0x0004584D filter"
 ??0BfmeFloat4Record00469C61@@QAE@ABU0@@Z,0x0004254E,Neutral four-float copy; producer538A0B passes four float fields via push473F13 and Construct469C61; full31B copy verified; existing folded Region2D range
 ??0BfmeHandleCX@@QAE@ABV0@@Z,0x000424BB,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0BfmeHelperYS@@QAE@XZ,0x0007A498,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1

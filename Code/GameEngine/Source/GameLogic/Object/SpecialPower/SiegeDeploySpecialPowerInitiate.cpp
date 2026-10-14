@@ -56,7 +56,6 @@ public:
 class BfmeFixedStorage0004543D
 {
 public:
-	BfmeFixedStorage0004543D(int reserved, int bit) throw();
 	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other) throw();
 private:
 	unsigned char m_bytes[28];

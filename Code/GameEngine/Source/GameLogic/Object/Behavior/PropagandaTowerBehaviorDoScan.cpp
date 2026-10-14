@@ -57,10 +57,15 @@ public:
 };
 
 // The 224-bit KindOf mask; the (unused, bit) constructor is 0x00045411.
+struct Rva00045411BitSet
+{
+	unsigned m_bits[7];
+	Rva00045411BitSet(int unused, int bit);	// 0x00045411
+};
+
 class BfmeFixedStorage0004543D
 {
 public:
-	BfmeFixedStorage0004543D(int unused, int bit);	// 0x00045411
 	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other) throw();
 private:
 	unsigned char m_bytes[28];
@@ -219,7 +224,7 @@ void PropagandaTowerBehavior::doScan()
 	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(us->getPosition(), modData->m_scanRadius, 0,
 		Rva00260EB1Filter(us, 4, false).link(Rva0026119DFilter().link(Rva002611BFFilter(us).link(
 			&Rva0004584D(*(const BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype,
-				BfmeFixedStorage0004543D(0, 7))))), 0);
+				(const BfmeFixedStorage0004543D &)Rva00045411BitSet(0, 7))))), 0);
 	Object *obj;
 	while ((obj = hits.next()) != 0) {
 		if (obj == us)

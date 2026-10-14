@@ -206,7 +206,8 @@ public:
 // KindOf masks: the accept / reject filters take two 28-byte masks.
 template<int N> class BitFlags { public: unsigned int bits[7]; };
 extern BitFlags<116> KINDOFMASK_NONE;
-class BfmeFixedStorage0004543D { public: BfmeFixedStorage0004543D(int, int, int) throw(); char bits[28]; };
+class BfmeFixedStorage0004543D { public: char bits[28]; };
+struct Rva0006EE7A { Rva0006EE7A(int, int, int) throw(); char bits[28]; };
 struct Rva00045411BitSet { Rva00045411BitSet(int, int) throw(); char bits[28]; };
 class Rva0004584D : public Rva000421C8
 {
@@ -383,8 +384,8 @@ void *Rva002FFFCA::rva002FF07B(Object *me, const Coord3D *pos, float range, unsi
 	Rva00260FD0Filter filterAttack(me, 2, 0);
 	Rva00261246Filter filterInsignificant(true, false);
 	Rva00261353Filter filterFogged(me->getControllingPlayer()->index);
-	Rva0004584D filterAccept((const BfmeFixedStorage0004543D &)KINDOFMASK_NONE, BfmeFixedStorage0004543D(0, 130, 136));
-	Rva002FDF47 filterReject(BfmeFixedStorage0004543D(0, 130, 136), (const BfmeFixedStorage0004543D &)Rva00045411BitSet(0, 38));
+	Rva0004584D filterAccept((const BfmeFixedStorage0004543D &)KINDOFMASK_NONE, (const BfmeFixedStorage0004543D &)Rva0006EE7A(0, 130, 136));
+	Rva002FDF47 filterReject((const BfmeFixedStorage0004543D &)Rva0006EE7A(0, 130, 136), (const BfmeFixedStorage0004543D &)Rva00045411BitSet(0, 38));
 	Rva00261513Filter filterDistance(me, true, range);
 	PartitionFilterSkirmishAI filterSkirmish(me, (SkirmishAI *)g_00DFEEF8->rva002A8AB1(me->getControllingPlayer()));
 

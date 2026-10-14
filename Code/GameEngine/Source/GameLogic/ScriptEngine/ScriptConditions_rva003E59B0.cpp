@@ -38,10 +38,15 @@ public:
 };
 
 // The 224-bit KindOf mask; the (unused, bit) constructor is 0x00045411.
+struct Rva00045411BitSet
+{
+	unsigned m_bits[7];
+	Rva00045411BitSet(int unused, int bit) throw();	// 0x00045411
+};
+
 class BfmeFixedStorage0004543D
 {
 public:
-	BfmeFixedStorage0004543D(int unused, int bit) throw();	// 0x00045411
 	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other) throw();
 private:
 	unsigned char m_bytes[28];
@@ -144,7 +149,7 @@ bool ScriptConditions::rva003E59B0(const AsciiString *unitName, const AsciiStrin
 		if (player)
 			return false;
 		castle = ThePartitionManager->getClosestObject(obj->getPosition(), REALLY_FAR, 0,
-			Rva0004584D(BfmeFixedStorage0004543D(0, 0x78), *(const BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype)
+			Rva0004584D((const BfmeFixedStorage0004543D &)Rva00045411BitSet(0, 0x78), *(const BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype)
 				.link(&Rva0026137EFilter(player, true)));
 	}
 	if (!castle)

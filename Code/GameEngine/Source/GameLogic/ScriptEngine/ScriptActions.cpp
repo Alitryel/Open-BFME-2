@@ -1248,10 +1248,15 @@ class Rva0026119DFilter : public Rva000421C8
 public:
 	virtual bool allow(Object *obj);
 };
+struct Rva00045411BitSet
+{
+	unsigned m_bits[7];
+	Rva00045411BitSet(int unused, int bit) throw();	// 0x00045411
+};
+
 class BfmeFixedStorage0004543D
 {
 public:
-	BfmeFixedStorage0004543D(int unused, int bit) throw();	// 0x00045411
 	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other) throw();
 private:
 	unsigned char m_bytes[28];
@@ -1316,7 +1321,7 @@ void ScriptActions::rva003C739D(Parameter *castleName, Parameter *upgradeParm, P
 	}
 	Object *obj = 0;
 	BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(center->getPosition(), 1000.0f, 0,
-		Rva0004584D(BfmeFixedStorage0004543D(0, 7), *(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE)
+		Rva0004584D((const BfmeFixedStorage0004543D &)Rva00045411BitSet(0, 7), *(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE)
 			.link(&Rva0026119DFilter()), 1);
 	while ((obj = hits.next()) != 0) {
 		if (!obj->affectedByUpgrade(upgrade))

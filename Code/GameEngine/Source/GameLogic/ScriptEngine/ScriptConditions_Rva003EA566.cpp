@@ -52,10 +52,15 @@ public:
 };
 
 // The 224-bit KindOf mask; the (unused, bit) constructor is 0x00045411.
+struct Rva00045411BitSet
+{
+	unsigned m_bits[7];
+	Rva00045411BitSet(int unused, int bit) throw();	// 0x00045411
+};
+
 class BfmeFixedStorage0004543D
 {
 public:
-	BfmeFixedStorage0004543D(int unused, int bit) throw();	// 0x00045411
 	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other) throw();
 private:
 	unsigned char m_bytes[28];
@@ -187,7 +192,7 @@ bool ScriptConditions::rva003EA566(Parameter *playerParm, Parameter *radiusParm,
 		float value = valueParm->m_real;
 		float best = 0.0f;
 		BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&center, radius, 0,
-			Rva0004584D(BfmeFixedStorage0004543D(0, 7), *(const BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype)
+			Rva0004584D((const BfmeFixedStorage0004543D &)Rva00045411BitSet(0, 7), *(const BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype)
 				.link(Rva00261409Filter(player, true, 8).link(&Rva002611DDFilter())), 0);
 		Object *obj;
 		while ((obj = hits.next()) != 0) {

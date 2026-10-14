@@ -94,10 +94,15 @@ public:
 };
 
 // The 224-bit KindOf mask; the (unused, bit, bit) constructor is 0x0006EE7A.
+struct Rva0006EE7A
+{
+	unsigned m_bits[7];
+	Rva0006EE7A(int unused, int b1, int b2) throw();	// 0x0006EE7A
+};
+
 class BfmeFixedStorage0004543D
 {
 public:
-	BfmeFixedStorage0004543D(int unused, int bit1, int bit2) throw();	// 0x0006EE7A
 	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other) throw();
 private:
 	unsigned char m_bytes[28];
@@ -204,7 +209,7 @@ bool ScriptConditions::rva003E6835(Parameter *teamParm, Parameter *allianceParm,
 							Rva0026119DFilter().link(Rva00261058(obj, false).link(Rva002611BFFilter(obj).link(
 								Rva00261513Filter(obj, true, -1.0f).link(
 									&Rva0004584D(*(const BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype,
-										BfmeFixedStorage0004543D(0, 0x59, 0x86))))))))) != 0)
+										(const BfmeFixedStorage0004543D &)Rva0006EE7A(0, 0x59, 0x86))))))))) != 0)
 					return true;
 			}
 			iter.advance();

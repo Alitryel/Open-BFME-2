@@ -156,7 +156,6 @@ private:
 class BfmeFixedStorage0004543D			// KindOfMaskType
 {
 public:
-	BfmeFixedStorage0004543D(Int init, Int bit1, Int bit2);
 private:
 	unsigned int m_bits[7];
 };
