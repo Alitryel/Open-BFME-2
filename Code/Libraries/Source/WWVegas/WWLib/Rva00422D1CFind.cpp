@@ -1,7 +1,10 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 //
-// ?Rva00422D1CGet@@YGHH@Z retail 0x00422D1C 34B.
+// ?rva00422D1C@FormationAssistant@@QAEHH@Z retail 0x00422D1C 34B.
+// Native caller 0037FAC6 loads TheFormationAssistant into ECX before this
+// RET4 call. The receiver is unused by the global-map body, but the function
+// is a member; the former free stdcall spelling lost that caller ABI.
 // Global map<int,int> lookup: find key via rowed _M_find 0x00388F63,
 // return mapped value at node+0x14 or -1 when iterator equals end.
 // Evidence: retail lea eax [esp+4] push eax mov ecx <global> call _M_find,
@@ -10,7 +13,7 @@
 // emitted find/end/operator!=/less COMDATs that lost (first copy is the
 // speed-built stlport_map_int_int.obj). Direct _M_find plus header compare
 // reproduces retail's inlined find (!= end) shape (Rva005D62E8 precedent).
-int __stdcall Rva00422D1CGet(int key);
+class FormationAssistant {public:int rva00422D1C(int key);};
 namespace _STL {
 template <class T1, class T2> struct pair
 {
@@ -29,7 +32,7 @@ template <class T> class allocator
 template <class V> struct _Rb_tree_node;
 template <class K, class V, class KOV, class Cmp, class Alloc> class _Rb_tree
 {
-	friend int __stdcall ::Rva00422D1CGet(int);
+	friend int ::FormationAssistant::rva00422D1C(int);
 	typedef _Rb_tree_node<V> *_Link_type;
 private:
 	template <class KT> _Link_type _M_find(const KT &) const;
@@ -41,7 +44,7 @@ typedef _STL::_Rb_tree<int, IntIntPair, _STL::_Select1st<IntIntPair>, _STL::less
 
 extern _STL::map<int, int> g_00E0319C;
 
-int __stdcall Rva00422D1CGet(int key)
+int FormationAssistant::rva00422D1C(int key)
 {
 	MapIntIntTree *t = (MapIntIntTree *)&g_00E0319C;
 	_STL::_Rb_tree_node<IntIntPair> *node = t->_M_find(key);

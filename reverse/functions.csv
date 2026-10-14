@@ -39966,7 +39966,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?Rva00308663Fill@@YAPAVRva004733E0@@PAV1@IPBV1@@Z,,0x00308663,37,Code/GameEngine/Source/Common/Rva00308663Fill.cpp,matched,fill n slots via rowed Set caller 0x2828DB
 ?Rva00440AB0Median@@YAPAPAXPAPAX00VRva0043FE9A@@@Z,,0x00440AB0,107,Code/GameEngine/Source/GameClient/GUI/Rva00440AB0Median.cpp,matched,median of three with Rva0043FE9A comp caller 0x004434A6
 ?Rva0044192FGuarded@@YAXPAPAX0PAXVRva0043FE9A@@@Z,,0x0044192F,69,Code/GameEngine/Source/GameClient/GUI/Rva00440B64Insert.cpp,matched,guarded insert with Rva0043FE9A comp caller 0x00441D90
-?Rva00422D1CGet@@YGHH@Z,,0x00422D1C,34,Code/Libraries/Source/WWVegas/WWLib/Rva00422D1CFind.cpp,matched,global map lookup via rowed _M_find 0x00388F63 returns second or -1
+?rva00422D1C@FormationAssistant@@QAEHH@Z,,0x00422D1C,34,Code/Libraries/Source/WWVegas/WWLib/Rva00422D1CFind.cpp,matched,global map lookup via rowed _M_find 0x00388F63 returns second or -1; receiver ABI repaired from native37FB6F TheFormationAssistant load and RET4 call; same entire34B global lookup body
 ??1Rva002E5791@@QAE@XZ,,0x002E5791,53,Code/GameEngine/Source/GameClient/Rva002E5791Dtor.cpp,matched,EH dtor wide at +4 then narrow at +0 via releaseBuffers
 ?rva0052B53C@XferMD5CRC@@QAEXXZ,,0x0052B53C,29,Code/GameEngine/Source/Common/Rva0052B53CLazy.cpp,matched,unlock lazy MD5Final callers 2
 ?GetCRC@XferMD5CRC@@QAEPAEXZ,,0x0052B559,19,Code/GameEngine/Source/Common/Rva0052B53CLazy.cpp,matched,chain lazy getter via 0052B53C caller 1
