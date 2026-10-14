@@ -1,4 +1,6 @@
 // ?rva0040AAF8@Rva0040BAD0@@QAEHH@Z
+// partial score=0.99 date=2026-10-14
+// ?rva0040AAF8@Rva0040BAD0@@QAEHH@Z
 // partial score=0.93 date=2026-10-14
 // cl: /O1 /MD /Ireference/shims/bfme2_ascii
 //
@@ -43,6 +45,8 @@ template <class _Tp, class _Alloc> class vector
 public:
 	void push_back(const _Tp &x);
 	unsigned int size() const { return _M_finish - _M_start; }
+	_Tp &operator[](unsigned int n) { return *(_M_start + n); }
+	const _Tp &at2(unsigned int n) const { return _M_start[n]; }
 	_Tp *_M_start;
 	_Tp *_M_finish;
 };
@@ -73,6 +77,10 @@ private:
 	};
 };
 
+struct InParamSlot {};
+inline void *operator new(size_t, void *p, InParamSlot) { return p; }
+static __forceinline const AsciiString &nameOfI(const int &k) { return TheNameKeyGenerator->keyToName((NameKeyType)k); }
+inline const AsciiString &nameOfInl(const int &k) { return TheNameKeyGenerator->keyToName((NameKeyType)k); }
 //<<V
 
 int Rva0040BAD0::rva0040AAF8(int key)
@@ -83,9 +91,16 @@ int Rva0040BAD0::rva0040AAF8(int key)
 	if (found != end)
 		return (int)found;
 	AsciiString name = TheNameKeyGenerator->keyToName((NameKeyType)key);
-	for (unsigned int i = 0; i < m_vec18.size(); ++i)
+	if (0 < m_vec18.size())
 	{
-		AsciiString other = TheNameKeyGenerator->keyToName((NameKeyType)m_begin[i].a[0]);
+	unsigned int off = 0;
+	unsigned int i = 0;
+	do
+	{
+		new ((void *)&key, InParamSlot()) AsciiString(nameOfI(*(const int *)((const char *)m_begin + off)));
+		__asm nop
+		((AsciiString *)&key)->~AsciiString();
+	} while (off += sizeof(BfmePod104), ++i < m_vec18.size());
 	}
 	return 0;
 }
