@@ -1970,7 +1970,6 @@ name,address,notes
 ??0DynamicPortalBehaviourModuleData@@QAE@XZ,0x0046142A,ctor call in the byte-true DynamicPortalBehaviour data factory (ModuleFactory registers it under "DynamicPortalBehaviour")
 ??0EAStringC@@QAE@II@Z,0x006D4640,Native AsciiToChar702160 temporary constructor; f1d902ecb424f19d EAString.h declares uint32 character and length; callee allocates length then repeats low character byte and terminates or shares empty singleton
 ??0EAStringC@@QAE@XZ,0x006D2F90,"ICF-folded default-ctor view of the EAStringC empty re-root (row ?clear@EAStringC@@QAEAAV1@XZ at the same address); used where a local EAStringC is constructed out of line"
-??0Elem003AF7A0@@QAE@ABU0@@Z,0x005DBCD1,address read from the REL32 displacement at a placed body; the body there is held under another instantiation name and the two folded
 ??0Elem003AF8C0@@QAE@ABU0@@Z,0x004EE1A9,address read from the REL32 displacement at a placed body; the body there is held under another instantiation name and the two folded
 ??0Elem003AF9E0@@QAE@ABU0@@Z,0x0052BB9A,address read from the REL32 displacement at a placed body; the body there is held under another instantiation name and the two folded
 ??0Elem36@@QAE@ABU0@@Z,0x00161050,alias pin: same 77B copy-ctor body already rowed as ??0Rva00161050@@QAE@ABU0@@Z; RETAIL REL32 at 0x0016661E in vector insert 0x001665B0 targets 0x00161050 and the caller here mangles for the Elem36 element name; binding the two names is the /alternatename idiom used at stlport_construct_pod80_rva.cpp
