@@ -88930,3 +88930,5 @@ __Locale_ctype_default,,0x00021980,5,Code/Libraries/Source/WWVegas/WWLib/stlport
 ?rva000E0F0E@Rva000E0F0E@@QAEXXZ,,0x000E0F0E,8,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,matched,sets the byte flag at +0x44555; no direct caller
 ?Rva0009DBF4Log10@@YANM@Z,,0x0009DBF4,17,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,matched,log10 of a float via the msvcr71 import thunk 0x0062997C; no direct caller
 ??0Rva000A87E1@@QAE@PAX@Z,,0x000A87E1,18,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,matched,ctor running only the rowed ??0Rva0073F4F3@@QAE@PAX@Z 0x0073F468 base with its argument; no direct caller
+?Rva00117C10Get@@YAXPAH@Z,,0x00117C10,13,Code/GameEngine/Source/Common/GlobalGetterSingles.cpp,matched,copies the dword at 0x00DB5FA4 to the caller slot; no direct caller
+?Rva00117C20Get@@YAXPAH@Z,,0x00117C20,13,Code/GameEngine/Source/Common/GlobalGetterSingles.cpp,matched,copies the dword at 0x00DB5FA8 to the caller slot; no direct caller

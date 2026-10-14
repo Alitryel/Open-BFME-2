@@ -60,6 +60,29 @@ int Rva0006E16FGet(void)
 	return LODTextureReduction;
 }
 
+// ?Rva00117C10Get@@YAXPAH@Z @ 0x00117C10 (13B) and ?Rva00117C20Get@@YAXPAH@Z
+// @ 0x00117C20 (13B): copy the dwords at 0x00DB5FA4 / 0x00DB5FA8, the two
+// words after LODTextureReduction (retail .data 0x0010581B and 0x0011401B),
+// to the caller's slot. They sit in the int3-padded ww3d.cpp run before
+// Rva00117C30Get; no direct caller reaches them. Address-derived names.
+
+extern int g_Va00DB5FA4;
+// g_Va00DB5FA4: matched references place it at VA 0xdb5fa4 (retail .data initial value 1071131).
+int g_Va00DB5FA4 = 0x0010581B;
+extern int g_Va00DB5FA8;
+// g_Va00DB5FA8: matched references place it at VA 0xdb5fa8 (retail .data initial value 1130523).
+int g_Va00DB5FA8 = 0x0011401B;
+
+void Rva00117C10Get(int *out)
+{
+	*out = g_Va00DB5FA4;
+}
+
+void Rva00117C20Get(int *out)
+{
+	*out = g_Va00DB5FA8;
+}
+
 // ?Rva000A8F36Get@@YAHXZ @ 0x000A8F36 (6B) over 0x00DB5FC8.
 
 extern int g_Va00DB5FC8;
