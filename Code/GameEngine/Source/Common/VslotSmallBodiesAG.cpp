@@ -544,7 +544,7 @@ public:
 	char m_pad00[0x14];
 	Object *m_owner;
 };
-class State
+struct State
 {
 public:
 	char m_pad00[0x18];

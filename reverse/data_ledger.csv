@@ -6052,7 +6052,9 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x008130F0,24,.rdata,string,??_C@_0BE@JPCKDIDA@AIChargeTargetState?$AA@,,literal,,0,1
 0x00813108,72,.rdata,vtable,??_7AIMoveForBoarding@@6B@,,literal,,0,1
 0x00813150,20,.rdata,string,??_C@_0BC@PPBLJBHB@AIMoveForBoarding?$AA@,,literal,,0,1
-0x00813164,84,.rdata,global,?g_00C13164@@3QBUStateConditionInfo@@B,,unowned,,0,2
+0x00813164,36,.rdata,global,?conditions@?1???0AttackContesterStateMachine@@QAE@PAVObject@@HI@Z@4QBUStateConditionInfo@@B,Code/GameEngine/Source/Common/Rva00343756Ctor.cpp,owned,,1,2
+0x00813188,24,.rdata,global,?portableConditions@?1???0AttackPositionStateMachine@@QAE@PAVObject@@PAVRva003438C7Host@@I@Z@4QBUStateConditionInfo@@B,Code/GameEngine/Source/GameLogic/AI/Rva003438C7AttackStateMachine.cpp,owned,,1,1
+0x008131A0,24,.rdata,global,?g_condC131A0@?1???0AttackPositionStateMachine@@QAE@PAVObject@@PAVRva003438C7Host@@I@Z@4QBUStateConditionInfo@@B,Code/GameEngine/Source/GameLogic/AI/Rva003438C7AttackStateMachine.cpp,owned,,1,1
 0x008131B8,72,.rdata,string,??_C@_0ED@EJACOCCI@CritterDesync?3?5getAdjustsDestina@,,literal,,0,1
 0x00813200,96,.rdata,string,??_C@_0FN@JDDJKGKK@CritterDesync?3?5getAdjustsDestina@,,literal,,0,1
 0x00813260,72,.rdata,string,??_C@_0EF@BDJGBPAP@CritterDesync?3?5getAdjustsDestina@,,literal,,0,1

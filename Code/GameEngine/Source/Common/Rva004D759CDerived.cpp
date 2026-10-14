@@ -19,7 +19,8 @@
 // 0x00811A68 / 0x00346D17), AttackMeleeStateMachine (0x0033FAFA /
 // 0x00811AC0 / 0x0034316A), AttackFireWhileChargingMachine (0x0033FB95 /
 // 0x00811C30 / 0x00343838), BackAwayAndCowerStateMachine (0x003402D0 /
-// 0x00811FE8 / 0x003444CE) and AIAttackMoveStateMachine (0x0034004C /
+// 0x00811FE8 / 0x003444CE), AttackContesterStateMachine (0x0033FB84 /
+// 0x00811BD0 / 0x00343756) and AIAttackMoveStateMachine (0x0034004C /
 // 0x00811E58 / 0x0034C6EF; the getter 0x00340057 spells it
 // "AIAttackMOveStateMachine"). The other owners stay address
 // named. Every class declares only its destructor, like the views in the
@@ -63,13 +64,13 @@ Rva0033FB73::~Rva0033FB73()
 {
 }
 
-class Rva0033FB84 : public StateMachine
+class AttackContesterStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva0033FB84();
+	virtual ~AttackContesterStateMachine();
 };
 
-Rva0033FB84::~Rva0033FB84()
+AttackContesterStateMachine::~AttackContesterStateMachine()
 {
 }
 

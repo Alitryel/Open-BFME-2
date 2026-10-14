@@ -26,10 +26,10 @@ public:
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
-class Rva00343756
+class AttackContesterStateMachine
 {
 public:
-    Rva00343756(Object*,int,unsigned);
+    AttackContesterStateMachine(Object*,int,unsigned);
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
@@ -100,7 +100,7 @@ void AIAttackState::createAttackMachine(Object *owner)
     else if (kind == 6)
         machine = new AttackHordeStateMachine(owner, reinterpret_cast<Rva00343367Attack*>(this), 0xeeba4547, follow, attackingObject, forceAttacking);
     else if (kind == 5)
-        machine = new Rva00343756(owner, reinterpret_cast<int>(this), 0x30c4498f);
+        machine = new AttackContesterStateMachine(owner, reinterpret_cast<int>(this), 0x30c4498f);
     else if (kind == 8)
         machine = new AttackFireWhileChargingMachine(owner, reinterpret_cast<int>(this), 0x8b6172cb, true);
     else if (kind == 0)
