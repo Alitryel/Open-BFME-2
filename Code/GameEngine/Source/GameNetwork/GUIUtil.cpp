@@ -5,9 +5,9 @@
 // WND lobby screens, retail 0x00446A95..0x004476E0 after the rowed
 // EnableSlotListUpdates pair (0x00446A67/0x00446A71). BFME2 returns early from
 // each helper while the game-mode object at VA 0x00E0333C exists.
-// PopulateTeamComboBox 0x00446C18 remains banked for its initial base/index
-// register tie; PopulatePlayerTemplateComboBox 0x004474C7 closed with an
-// equal-arm on the SIDE: format argument.
+// PopulateTeamComboBox 0x00446C18 and PopulatePlayerTemplateComboBox
+// 0x004474C7 both closed with equal-arm expressions (the base/index load
+// order of the hoisted &comboArray[comboBox] follows the identifiers' use counts).
 // UpdateSlotList is reconstructed from ZH GUIUtil.cpp at the pinned BFME1
 // donor575ba2b04; WB1496390 names it and native44712F..4474C7 proves its
 // complete920B body, field reads, slots and BFME2 combo refresh additions.
@@ -507,6 +507,41 @@ private:
 	PlayerTemplate *m_end;		// +0x10
 };
 extern PlayerTemplateStore *ThePlayerTemplateStore;
+
+// Retail 0x00446C18, 322B. The numTeams equal-arm on the
+// first entry's AddEntry call flips the comboArray/comboBox load order of the
+// hoisted &comboArray[comboBox] (any identifier works as the condition,
+// including ones used once; the stale-bank site was the color lookup).
+void PopulateTeamComboBox(Int comboBox, GameWindow *comboArray[], GameInfo *myGame, Bool isObserver)
+{
+	if (g_Va00E0333C)
+		return;
+
+	Int numTeams = MAX_SLOTS/2;
+	UnicodeString teamName;
+
+	GadgetComboBoxReset(comboArray[comboBox]);
+
+	MultiplayerColorDefinition *def = (isObserver ? (TheMultiplayerSettings->getColor(PLAYERTEMPLATE_RANDOM)) : (TheMultiplayerSettings->getColor(PLAYERTEMPLATE_RANDOM)));
+	Int newIndex = (numTeams ? (GadgetComboBoxAddEntry(comboArray[comboBox], TheGameText->fetch("Team:0"), def->getColor())) : (GadgetComboBoxAddEntry(comboArray[comboBox], TheGameText->fetch("Team:0"), def->getColor())));
+	GadgetComboBoxSetItemData(comboArray[comboBox], newIndex, (void *)-1);
+
+	if (isObserver)
+	{
+		GadgetComboBoxSetSelectedPos(comboArray[comboBox], 0);
+		return;
+	}
+
+	for (Int c=0; c<numTeams; ++c)
+	{
+		AsciiString teamStr;
+		teamStr.format("Team:%d", c + 1);
+		teamName = TheGameText->fetch(teamStr.str());
+		newIndex = GadgetComboBoxAddEntry(comboArray[comboBox], teamName, def->getColor());
+		GadgetComboBoxSetItemData(comboArray[comboBox], newIndex, (void *)c);
+	}
+	GadgetComboBoxSetSelectedPos(comboArray[comboBox], 0);
+}
 
 void PopulatePlayerTemplateComboBox(Int comboBox, GameWindow *comboArray[], GameInfo *myGame, Bool allowObservers)
 {
