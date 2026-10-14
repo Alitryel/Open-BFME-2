@@ -162,7 +162,8 @@ class BfmeB991;
 extern BfmeB991 *g_bfmeB991;
 BfmeB991 *g_bfmeB991;
 
-extern unsigned int g_Va00DFE7A8;
+// The timing-log enable byte is owned by Rva003B9EC4.cpp at VA 0x00DFE7A8.
+extern unsigned char g_00DFE7A8;
 
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
@@ -217,6 +218,6 @@ void W3DTerrainVisual::init()
 	g_bfmeB991 = (BfmeB991 *)smudge;
 	smudge->init();
 
-	if (!*(unsigned char *)&g_Va00DFE7A8 && ((Rva00091AEAGlobalView *)TheWritableGlobalData)->m_waterType != 1 && m_waterRenderObject)
+	if (!g_00DFE7A8 && ((Rva00091AEAGlobalView *)TheWritableGlobalData)->m_waterType != 1 && m_waterRenderObject)
 		((Rva00091AEAScene *)W3DDisplay::m_3DScene)->Add_Render_Object(&m_waterRenderObject->m_renderObj);
 }
