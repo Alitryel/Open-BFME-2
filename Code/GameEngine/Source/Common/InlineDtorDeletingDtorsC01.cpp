@@ -327,6 +327,7 @@ class Rva00215E42
 public:
 	Rva00215E42(EmitVtableTag *);
 	Rva00215E42();
+	Rva00215E42(const Rva00215E42 &);
 	virtual ~Rva00215E42();
 };
 // ??0Rva00215E42@@QAE@XZ @0x0029A287 9B: the default constructor, storing the
@@ -337,6 +338,13 @@ Rva00215E42::Rva00215E42()
 
 // ?<Rva00215E42::Rva00215E42> absent-from-retail
 Rva00215E42::Rva00215E42(EmitVtableTag *)
+{
+}
+
+// ??0Rva00215E42@@QAE@ABV0@@Z @0x004059B3 11B: the copy constructor, which
+// copies nothing and stores the class's own vtable (ret 4); skeleton twin of
+// Snapshot's copy constructor 0x00001745.
+Rva00215E42::Rva00215E42(const Rva00215E42 &)
 {
 }
 
@@ -558,3 +566,25 @@ void *bfmeAnchorC01Rva003EE711(void *where)
     return where;
 }
 
+
+// The class whose vtable is VA 0x00C38B8C: its deleting dtor 0x00406B1D calls
+// the empty Rva00215E42 dtor 0x004059AC (the two empty dtors fold), and its
+// default constructor 0x00406B14 (9B) and copy constructor 0x00406B5F (11B,
+// ret 4) only store its own vtable - the same shapes as Rva00215E42's
+// 0x0029A287 and 0x004059B3 above. Modelled as its own vptr-only view; the
+// destructor stays declared (its row is the folded provider).
+class Rva00406B14
+{
+public:
+	Rva00406B14();
+	Rva00406B14(const Rva00406B14 &);
+	virtual ~Rva00406B14();
+};
+
+Rva00406B14::Rva00406B14()
+{
+}
+
+Rva00406B14::Rva00406B14(const Rva00406B14 &)
+{
+}
