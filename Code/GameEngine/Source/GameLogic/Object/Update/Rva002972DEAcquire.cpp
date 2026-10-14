@@ -1,10 +1,13 @@
-// cl: /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // ?AddCreateAHeroSpecialPowerUpgrade@Object@@QAEXPAVRva004B555F@@@Z retail 0x002972DE 130B
 // Chain from 0x004B555F; unused name copy plus Science dedup at this+0x4A4 via rowed push_back.
 // Evidence: callers plus rowed 0x004B555F 0x000365F0 0x00036410 0x002E01C6 plus prev 0x00295A0F next 0x00297360.
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
+// _STLP_NO_EXCEPTIONS: push_back's out-of-line overflow path is retail's one copy
+// (ThingTemplate.cpp's 179-byte row at 0x00148D00), which has no unwind guard; with
+// the guard this TU emitted a 240-byte copy that loses to it at link time.
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)

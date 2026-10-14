@@ -1,10 +1,13 @@
-// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // ?rva003F5BDB@LivingWorldBattle@@QAEXPAXPAV?$vector@W4ScienceType@@V?$allocator@W4ScienceType@@@_STL@@@_STL@@@Z @0x003F5BDB 116B: LivingWorldBattle filter via rva003F4DEE and pred 0x003F3F83 into ScienceType vector; callers at 0x00217116; erase and push_back rowed; size via sar 2 and unsigned jb loop
 // Retail keeps one unsigned max, RVA 0x00013740 (the vendored STLport row). This unit's
 // flags (/G7) compile a different copy, and retail kept another unit's. This unit-local
 // overload keeps the inlined code and offers the link no second copy.
+// _STLP_NO_EXCEPTIONS: push_back's out-of-line overflow path is retail's one copy
+// (ThingTemplate.cpp's 179-byte row at 0x00148D00), which has no unwind guard; with
+// the guard this TU emitted a differing copy that loses to it at link time.
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
@@ -19,6 +22,12 @@ enum ScienceType
 {
 	SCIENCE_0 = 0
 };
+
+// The range erase is retail's rowed 38-byte copy at 0x00532803
+// (ProductionPrerequisiteCtor.cpp); this unit's own instantiation differed from it.
+namespace _STL {
+template <> ScienceType *vector<ScienceType, allocator<ScienceType> >::erase(ScienceType *, ScienceType *);
+}
 
 struct Rva003F3F83
 {
