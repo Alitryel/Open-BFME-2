@@ -1,9 +1,11 @@
 // cl: /DNDEBUG /MD /EHsc
-// ??0Rva00343838@@QAE@PAVObject@@HIH@Z @0x00343838 115B.
+// ??0AttackFireWhileChargingMachine@@QAE@PAVObject@@HI_N@Z @0x00343838 115B.
 // Name is a scalar hash: factory 34B1E9 pushes an immediate key, with no
 // string construction or destruction. Keep the established host-word view.
 // StateMachine-family ctor (thiscall, four params): base-constructs the rowed
-// StateMachine base from (owner, name, flag), stores vtable g_00C11C30, then one
+// StateMachine base from (owner, name, flag), installs its vftable 0x00811C30
+// (shared with the destructor 0x0033FB95, whose unit names the class from
+// the slot 2 getter 0x0033FBA0), then one
 // new-expression state block into the dead name slot with post-call eax
 // feeding rowed defineState directly (B952-family shape). Too few constants
 // to keep ebx, so the zeros ride as immediates and the dead state reset
@@ -31,22 +33,17 @@ private:
 	char m_pad[0x58 - 4];
 };
 
-extern "C" const void *const __identifier("??_7Rva0033FB95@@6B@")[];
-
-class Rva00343838 : public StateMachine
+class AttackFireWhileChargingMachine : public StateMachine
 {
 public:
-	Rva00343838(Object *owner, int u, unsigned int name, bool flag);
+	AttackFireWhileChargingMachine(Object *owner, int u, unsigned int name, bool flag);
+	virtual ~AttackFireWhileChargingMachine();
 };
 
-Rva00343838::Rva00343838(Object *owner, int u, unsigned int name, bool flag)
+AttackFireWhileChargingMachine::AttackFireWhileChargingMachine(Object *owner, int u, unsigned int name, bool flag)
 	: StateMachine(owner, name, flag)
 {
 	(void)u;
-	*(const void **)this = __identifier("??_7Rva0033FB95@@6B@");
 	AIChargeTargetState *s0 = new AIChargeTargetState((StateMachine *)this);
 	((StateMachine *)this)->defineState(0, (State *)s0, 0x270E, 0x270F, (const StateConditionInfo *)0);
 }
-
-// The global below is defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.

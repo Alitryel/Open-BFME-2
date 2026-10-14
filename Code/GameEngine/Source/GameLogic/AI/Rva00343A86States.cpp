@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ??0Rva00343A86@@QAE@PAVObject@@HI@Z @0x00343A86 295B.
+// ??0AttackPositionHordeStateMachine@@QAE@PAVObject@@HI@Z @0x00343A86 295B.
 // Name is a scalar hash: factory 34B1E9 pushes an immediate key, with no
 // string construction or destruction. Keep the established host-word view.
 // StateMachine-family ctor (thiscall): base-constructs the rowed

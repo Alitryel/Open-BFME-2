@@ -19,10 +19,10 @@ public:
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
-class Rva0034316A
+class AttackMeleeStateMachine
 {
 public:
-    Rva0034316A(Object*,int,unsigned);
+    AttackMeleeStateMachine(Object*,int,unsigned);
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
@@ -40,10 +40,10 @@ public:
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
-class Rva00343838
+class AttackFireWhileChargingMachine
 {
 public:
-    Rva00343838(Object*,int,unsigned,bool);
+    AttackFireWhileChargingMachine(Object*,int,unsigned,bool);
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
@@ -96,13 +96,13 @@ void AIAttackState::createAttackMachine(Object *owner)
     if (kind == 1)
         machine = new Rva003435FB(owner, reinterpret_cast<int>(this), 0x3d3b7898);
     else if (kind == 2)
-        machine = new Rva0034316A(owner, reinterpret_cast<int>(this), 0xbaaacfcb);
+        machine = new AttackMeleeStateMachine(owner, reinterpret_cast<int>(this), 0xbaaacfcb);
     else if (kind == 6)
         machine = new AttackHordeStateMachine(owner, reinterpret_cast<Rva00343367Attack*>(this), 0xeeba4547, follow, attackingObject, forceAttacking);
     else if (kind == 5)
         machine = new Rva00343756(owner, reinterpret_cast<int>(this), 0x30c4498f);
     else if (kind == 8)
-        machine = new Rva00343838(owner, reinterpret_cast<int>(this), 0x8b6172cb, true);
+        machine = new AttackFireWhileChargingMachine(owner, reinterpret_cast<int>(this), 0x8b6172cb, true);
     else if (kind == 0)
         machine = reinterpret_cast<AttackOwnerPrefixView*>(owner)->ai->getAttackMachine();
     else if (kind == 4)

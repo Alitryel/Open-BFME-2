@@ -3578,10 +3578,7 @@ alternatename	Code/GameEngine/Source/GameLogic/AI/GroupOrderHolderCtor.cpp	_vtbl
 alternatename	Code/GameEngine/Source/GameLogic/AI/MoveToGroupOrderXfer.cpp	?_CxxThrowException@@YGXPAX0@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva00265254Ctor.cpp	?ji_006291ae@@YAPAXPAXHI@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva002EDEAB.cpp	?g_00E02EEC@@3PAVRva00E02EECObj@@A	1
-alternatename	Code/GameEngine/Source/GameLogic/AI/Rva0034316AStates.cpp	?g_00C11AC0@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva003435FBStates.cpp	?g_00C11B70@@3QBQBXB	1
-alternatename	Code/GameEngine/Source/GameLogic/AI/Rva00343838States.cpp	?g_00C11C30@@3QBQBXB	1
-alternatename	Code/GameEngine/Source/GameLogic/AI/Rva003444CEStates.cpp	?g_00C11FE8@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva0034B952Ctor.cpp	?g_00C122A0@@3QBQBXB	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva0035149F.cpp	??$__copy_ptrs@PBUBfmeE12@@PAU1@@_STL@@YAPAUBfmeE12@@PBU1@0PAU1@ABU__false_type@0@@Z	1
 alternatename	Code/GameEngine/Source/GameLogic/AI/Rva004389AENearbyCheck.cpp	?getPlayerMask@Rva000421C8@@UAEHXZ	1

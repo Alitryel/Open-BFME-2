@@ -269,12 +269,12 @@ private:
 	unsigned char m_pad1C[0x20 - 0x1C];
 	StateMachine *m_huntMachine; // +0x20
 };
-// The back-away sub-machine (rowed constructor 0x003444CE: owner, goal object,
-// machine name key).
-class Rva003444CE : public StateMachine
+// The back-away sub-machine BackAwayAndCowerStateMachine (rowed constructor
+// 0x003444CE: owner, goal object, machine name key).
+class BackAwayAndCowerStateMachine : public StateMachine
 {
 public:
-	Rva003444CE(Object *owner, Object *arg, unsigned int nameKey);
+	BackAwayAndCowerStateMachine(Object *owner, Object *arg, unsigned int nameKey);
 };
 class AIBackAwayAndCowerState : public State
 {
@@ -394,7 +394,7 @@ StateReturnType AIBackAwayAndCowerState::onEnter()
 {
 	if (m_backAwayMachine)
 		return STATE_FAILURE;
-	m_backAwayMachine = new Rva003444CE(getMachineOwner(), getMachine()->getGoalObject(), 0xD944B508);
+	m_backAwayMachine = new BackAwayAndCowerStateMachine(getMachineOwner(), getMachine()->getGoalObject(), 0xD944B508);
 	if (m_backAwayMachine == NULL)
 		return STATE_FAILURE;
 	return m_backAwayMachine->initDefaultState();

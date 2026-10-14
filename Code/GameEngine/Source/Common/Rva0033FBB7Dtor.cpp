@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD /EHsc
 //
-// ??1Rva0033FBB7@@UAE@XZ, retail 0x0033FBB7, 77 bytes.
+// ??1AttackPositionHordeStateMachine@@UAE@XZ, retail 0x0033FBB7, 77 bytes.
 // Dtor restoring vtable 0x00811CF0, calling Object::rva0028C197 0x0028C197
 // on member +0x14 when present then virtual slot 0x250 on its result when
 // present, then calling the pinned base 0x004D759C. Caller is the deleting

@@ -15,8 +15,11 @@
 // AIGuardRetaliateMachine (0x00545211 / 0x00869E78 / 0x0054551F),
 // AITNGuardMachine (0x00545B84 / 0x0086A090 / 0x00546001), TurretStateMachine
 // (0x004D7E61 / 0x008609C8 / 0x004D7CE6), SupplyTruckStateMachine
-// (0x004A6C59 / 0x008532A8 / 0x004A7010) and AttackStateMachine (0x0033FAE9 /
-// 0x00811A68 / 0x00346D17). The other owners stay address
+// (0x004A6C59 / 0x008532A8 / 0x004A7010), AttackStateMachine (0x0033FAE9 /
+// 0x00811A68 / 0x00346D17), AttackMeleeStateMachine (0x0033FAFA /
+// 0x00811AC0 / 0x0034316A), AttackFireWhileChargingMachine (0x0033FB95 /
+// 0x00811C30 / 0x00343838) and BackAwayAndCowerStateMachine (0x003402D0 /
+// 0x00811FE8 / 0x003444CE). The other owners stay address
 // named. Every class declares only its destructor, like the views in the
 // constructor units, so the vtable and deleting destructor copies agree.
 // AttackPositionStateMachine (0x0033FBA6) and AIAttackSwoopThenIdleStateMachine
@@ -38,13 +41,13 @@ AttackStateMachine::~AttackStateMachine()
 {
 }
 
-class Rva0033FAFA : public StateMachine
+class AttackMeleeStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva0033FAFA();
+	virtual ~AttackMeleeStateMachine();
 };
 
-Rva0033FAFA::~Rva0033FAFA()
+AttackMeleeStateMachine::~AttackMeleeStateMachine()
 {
 }
 
@@ -68,13 +71,13 @@ Rva0033FB84::~Rva0033FB84()
 {
 }
 
-class Rva0033FB95 : public StateMachine
+class AttackFireWhileChargingMachine : public StateMachine
 {
 public:
-	virtual ~Rva0033FB95();
+	virtual ~AttackFireWhileChargingMachine();
 };
 
-Rva0033FB95::~Rva0033FB95()
+AttackFireWhileChargingMachine::~AttackFireWhileChargingMachine()
 {
 }
 
@@ -98,13 +101,13 @@ Rva0034004C::~Rva0034004C()
 {
 }
 
-class Rva003402D0 : public StateMachine
+class BackAwayAndCowerStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva003402D0();
+	virtual ~BackAwayAndCowerStateMachine();
 };
 
-Rva003402D0::~Rva003402D0()
+BackAwayAndCowerStateMachine::~BackAwayAndCowerStateMachine()
 {
 }
 

@@ -1,9 +1,11 @@
 // cl: /DNDEBUG /MD /EHsc
-// ??0Rva0034316A@@QAE@PAVObject@@HI@Z @0x0034316A 481B.
+// ??0AttackMeleeStateMachine@@QAE@PAVObject@@HI@Z @0x0034316A 481B.
 // Name is a scalar hash: factory 34B1E9 pushes an immediate key, with no
 // string construction or destruction. Keep the established host-word view.
 // StateMachine-family ctor (thiscall): base-constructs the rowed
-// StateMachine base from (owner, name, false), stores vtable g_00C11AC0, then
+// StateMachine base from (owner, name, false), installs its vftable
+// 0x00811AC0 (shared with the destructor 0x0033FAFA, whose unit names the
+// class from the slot 2 getter 0x0033FB05), then
 // defines seven states via the rowed StateMachine::defineState. Each state
 // is a new-expression into a dead param slot ([ebp+0x10], then [ebp+0xC]
 // after the int param dies), null-checked once, with the post-call eax
@@ -87,18 +89,16 @@ private:
 	char m_pad[0x20 - 4];
 };
 
-extern "C" const void *const __identifier("??_7Rva0033FAFA@@6B@")[];
-
-class Rva0034316A : public StateMachine
+class AttackMeleeStateMachine : public StateMachine
 {
 public:
-	Rva0034316A(Object *owner, int x, unsigned int name);
+	AttackMeleeStateMachine(Object *owner, int x, unsigned int name);
+	virtual ~AttackMeleeStateMachine();
 };
 
-Rva0034316A::Rva0034316A(Object *owner, int x, unsigned int name)
+AttackMeleeStateMachine::AttackMeleeStateMachine(Object *owner, int x, unsigned int name)
 	: StateMachine(owner, name, false)
 {
-	*(const void **)this = __identifier("??_7Rva0033FAFA@@6B@");
 	AIAttackMeleeApproachState *s0 = new AIAttackMeleeApproachState((StateMachine *)this);
 	((StateMachine *)this)->defineState(0xE1, (State *)s0, 0xE2, 0x270F, (const StateConditionInfo *)0);
 	AIAttackMeleeSquishState *s1 = new AIAttackMeleeSquishState((StateMachine *)this);
@@ -114,6 +114,3 @@ Rva0034316A::Rva0034316A(Object *owner, int x, unsigned int name)
 	Rva0033F43D *s6 = new Rva0033F43D((StateMachine *)this);
 	((StateMachine *)this)->defineState(0xE8, (State *)s6, 0xE1, 0xE1, (const StateConditionInfo *)0);
 }
-
-// The global below is defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.

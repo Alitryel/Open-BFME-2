@@ -1,7 +1,9 @@
 // cl: /DNDEBUG /MD /EHsc
-// ??0Rva003444CE@@QAE@PAVObject@@0I@Z @0x003444CE 174B.
+// ??0BackAwayAndCowerStateMachine@@QAE@PAVObject@@0I@Z @0x003444CE 174B.
 // StateMachine-family ctor (thiscall): base-constructs the rowed
-// StateMachine base from (owner, name, 0), stores vtable g_00C11FE8, runs the rowed
+// StateMachine base from (owner, name, 0), installs its vftable 0x00811FE8
+// (shared with the destructor 0x003402D0, whose unit names the class from
+// the slot 2 getter 0x003402DB), runs the rowed
 // StateMachine::rva004D750F hook on the second object param, then two
 // new-expression state blocks into the dead name slot with post-call eax
 // feeding rowed defineState directly (B952-family shape). Zero CSEs into
@@ -43,24 +45,19 @@ private:
 	char m_pad[0x20 - 4];
 };
 
-extern "C" const void *const __identifier("??_7Rva003402D0@@6B@")[];
-
-class Rva003444CE : public StateMachine
+class BackAwayAndCowerStateMachine : public StateMachine
 {
 public:
-	Rva003444CE(Object *owner, Object *arg, unsigned int nameKey);
+	BackAwayAndCowerStateMachine(Object *owner, Object *arg, unsigned int nameKey);
+	virtual ~BackAwayAndCowerStateMachine();
 };
 
-Rva003444CE::Rva003444CE(Object *owner, Object *arg, unsigned int nameKey)
+BackAwayAndCowerStateMachine::BackAwayAndCowerStateMachine(Object *owner, Object *arg, unsigned int nameKey)
 	: StateMachine(owner, nameKey, false)
 {
-	*(const void **)this = __identifier("??_7Rva003402D0@@6B@");
 	((StateMachine *)this)->rva004D750F(arg);
 	AIBackAwayState *s0 = new AIBackAwayState((StateMachine *)this);
 	((StateMachine *)this)->defineState(0, (State *)s0, 1, 0x270F, (const StateConditionInfo *)0);
 	Rva0033F7C8 *s1 = new Rva0033F7C8((StateMachine *)this);
 	((StateMachine *)this)->defineState(1, (State *)s1, 0x270E, 0x270F, (const StateConditionInfo *)0);
 }
-
-// The global below is defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
