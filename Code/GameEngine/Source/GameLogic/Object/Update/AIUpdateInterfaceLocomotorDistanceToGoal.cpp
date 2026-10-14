@@ -30,7 +30,8 @@ struct Rva003642DFResult { Rva003642DFResult();Rva003642DFNode*node;Coord3D posi
 class Rva00363D20 {public:double rva00363D20();};
 class Rva0008BB38FloatField;
 class Path {public:float computeFlightDistToGoal(const Coord3D*,Coord3D&);Rva003642DFResult rva00364521(const Rva0008BB38FloatField*);char pad[8];PathNode*tail;};
-class StateMachine {public:char pad[0x24];Coord3D goal;const Coord3D*getGoalPosition()const{return &goal;} };
+// Keep this local +0x24 view distinct from the +0x28 getGoalPosition COMDAT.
+class StateMachine {public:char pad[0x24];Coord3D goal;const Coord3D*locomotorGoalPosition()const{return &goal;} };
 class AIUpdateInterface {public:
 #define SLOT(n) virtual void slot##n();
 #define TEN(n) SLOT(n##0) SLOT(n##1) SLOT(n##2) SLOT(n##3) SLOT(n##4) SLOT(n##5) SLOT(n##6) SLOT(n##7) SLOT(n##8) SLOT(n##9)
@@ -55,7 +56,7 @@ float AIUpdateInterface::getLocomotorDistanceToGoal(){
   if(!path)return 100.0f;
   if(!loco)break;
   if(loco->isCloseEnoughDist3D()||(owner->templ->kinds&2)){
-   const Object *obj=owner;PathNode *last=path->tail;const Coord3D *p=machine->getGoalPosition();
+   const Object *obj=owner;PathNode *last=path->tail;const Coord3D *p=machine->locomotorGoalPosition();
    goalPos.x=p->x;goalPos.y=p->y;goalPos.z=p->z;
    if(last)goalPos=last->position;
    return (float)sqrt(((const Gen_000E5A50*)obj)->bfmeDistanceSquared((const BfmeVec3EJ*)&goalPos));
