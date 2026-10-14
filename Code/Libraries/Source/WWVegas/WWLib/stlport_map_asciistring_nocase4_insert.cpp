@@ -26,3 +26,9 @@ template <> NoCaseTree::_Link_type NoCaseTree::_M_create_node(const NoCaseValue 
 
 template NoCaseTree::iterator NoCaseTree::_M_insert(_STL::_Rb_tree_node_base *, _STL::_Rb_tree_node_base *, const NoCaseValue &, _STL::_Rb_tree_node_base *);
 template _STL::pair<NoCaseTree::iterator, bool> NoCaseTree::insert_unique(const NoCaseTree::value_type &);
+
+// map::insert(const value_type &) at retail 0x002213C5 (20B): the inline
+// forwarder to insert_unique above, its only callee there; the hidden pair
+// result pointer and the value are passed straight through.
+typedef _STL::map<AsciiString, NoCaseTreeValue4> NoCaseMap;
+template _STL::pair<NoCaseMap::iterator, bool> NoCaseMap::insert(const NoCaseMap::value_type &);

@@ -172,6 +172,8 @@ template _STL::multimap<int, Rva00501E3FElement>::iterator _STL::multimap<int, R
 // map::insert(hint) @0x004F9ED6 and multimap::insert(hint) @0x0050364E (29B each).
 template _STL::map<int, Rva004F90FFMapped>::iterator _STL::map<int, Rva004F90FFMapped>::insert(_STL::map<int, Rva004F90FFMapped>::iterator, const _STL::map<int, Rva004F90FFMapped>::value_type &);
 template _STL::multimap<int, Rva00501656>::iterator _STL::multimap<int, Rva00501656>::insert(_STL::multimap<int, Rva00501656>::iterator, const _STL::multimap<int, Rva00501656>::value_type &);
+// multimap::insert(value) @0x002F3052 (20B): forwards straight to the 0x002F1DA1 insert_equal row above.
+template _STL::multimap<int, Rva002F1DA1Mapped>::iterator _STL::multimap<int, Rva002F1DA1Mapped>::insert(const _STL::multimap<int, Rva002F1DA1Mapped>::value_type &);
 
 typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva00501776>,
 

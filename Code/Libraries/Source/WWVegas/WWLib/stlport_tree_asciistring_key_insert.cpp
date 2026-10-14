@@ -37,3 +37,21 @@ template _STL::pair<TreeN::iterator, bool> TreeN::insert_unique(const TreeN::val
 // insert_unique(value) for the record set (retail 0x0033D1F3, 151B) is the
 // unowned caller of its _M_insert above.
 template _STL::pair<TreeR::iterator, bool> TreeR::insert_unique(const TreeR::value_type &);
+
+// Retail 0x0033D52B (20B): a container member that returns this record tree's
+// insert_unique result straight through the hidden pair pointer (the only
+// callee is the insert_unique row above). STLport's set::insert rebuilds the
+// pair (frame plus copy), so this is not set::insert; the owning class is
+// unresolved and the view is address-named.
+class Rva0033D52BRecords
+{
+public:
+	_STL::pair<TreeR::iterator, bool> insert(const TreeR::value_type &v);
+private:
+	TreeR m_tree;
+};
+
+_STL::pair<TreeR::iterator, bool> Rva0033D52BRecords::insert(const TreeR::value_type &v)
+{
+	return m_tree.insert_unique(v);
+}
