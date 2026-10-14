@@ -528,3 +528,16 @@ void Rva00601A3AVectorView::rva00601972()
 {
 	eraseRange(m_start, m_finish);
 }
+
+// --- 0x005F9422 (12B): the rowed 0x005F8FCC (release, no delete flag) on
+// the object passed in.
+class Rva005F8FCC
+{
+public:
+	void *rva005F8FCC(unsigned int flags);					// 0x005F8FCC
+};
+
+void *Rva005F9422Release(Rva005F8FCC *object)
+{
+	return object->rva005F8FCC(0);
+}
