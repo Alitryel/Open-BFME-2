@@ -1,10 +1,15 @@
 // ?Rva0044C3D4@@YA_NXZ
+// partial score=0.95 date=2026-10-14
+// ?Rva0044C3D4@@YA_NXZ
 // partial score=0.91 date=2026-10-13
 // ?Rva0044C3D4@@YA_NXZ
 // partial score=0.91 date=2026-10-11
 // ?Rva0044C3D4@@YA_NXZ
 // partial score=0.9 date=2026-10-11
 // cl: /O1 /G6 /arch:SSE /MD /DNDEBUG /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// R12 (W7-U1): middle loop declares its own counter (for(int i=0;...)) instead of the function-top i: retail keeps the ONE hoisted zero in EBP (ebx is the first loop counter, xor ebx,ebx later) -> nd 58 -> 34.
+// Residue (15 B): retail keeps `send` (bool) with a memory home [esp+0x12] (store at each def, reload `cmp byte [esp+0x12],0` in case 2) and does NOT jump-thread the else path of the
+// case1/3 test (remote=true falls into test bl,bl;je) -> send behaves address-exposed. Tried: function-scope decl, &send mentions, refs, struct/array holders: all inert.
 // stlport
 #include <vector>
 void Rva00030830GameFree(void *);
@@ -113,7 +118,7 @@ bool Rva0044C3D4() {
  if(TheNetwork)((HeroTransferNetworkCalls*)TheNetwork)->beginHeroTransfer();
  Rva0040A3F9 *heroes=TheCreateAHeroManager->rva0021F797();
  bool remote=false;
- for(;i<8;++i) {
+ for(int i=0;i<8;++i) {
   GameSlot *slot=TheGameInfo->getSlot(i);
   if(!slot || !slot->isOccupied())continue;
   bool send=false;
