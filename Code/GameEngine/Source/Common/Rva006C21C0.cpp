@@ -111,6 +111,7 @@ class GeneralAllocatorDebug : public Rva00033B90Allocator
 {
 public:
 	GeneralAllocatorDebug(void *a, unsigned int size, bool b, void *c, void *d, void *e);
+	unsigned __int64 rva006C1B50() const;
 	static void *__cdecl rva006C3D20(unsigned int size, void *context);
 	static void __cdecl rva006C2240(void *p, void *context);
 private:
@@ -123,8 +124,7 @@ private:
 	unsigned int m_544; // +0x544
 	GeneralAllocatorDebugList m_list; // +0x548
 	unsigned int m_564;
-	unsigned int m_568; // +0x568
-	unsigned int m_56C; // +0x56C
+	unsigned __int64 m_sequence; // +0x568, returned in EDX:EAX by6C1B50
 	unsigned int m_debugBlock[0x40]; // +0x570
 	unsigned int m_670; // +0x670
 	unsigned int m_674; // +0x674
@@ -164,8 +164,7 @@ GeneralAllocatorDebug::GeneralAllocatorDebug(void *a, unsigned int size, bool b,
 	m_list.m_10 = 0;
 	m_list.m_14 = 0;
 	m_list.m_18 = false;
-	m_568 = 0;
-	m_56C = 0;
+	m_sequence = 0;
 	m_self = this;
 	m_67C = 0;
 	m_680 = false;
@@ -198,4 +197,12 @@ void __cdecl GeneralAllocatorDebug::rva006C2240(void *p, void *context)
     }
     else
         ((EA::Allocator::GeneralAllocator *)allocator->m_self)->rva000338F0(p);
+}
+
+// Native6C1B50..6C1B5D,13B, between CC alignment regions. Returns the
+// debug sequence pair568/56C in EDX:EAX; the constructor initializes both,
+// and record writer6C3D30 uses this pair for debug field9. API name unresolved.
+unsigned __int64 GeneralAllocatorDebug::rva006C1B50() const
+{
+    return m_sequence;
 }
