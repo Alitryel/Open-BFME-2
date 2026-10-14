@@ -125,6 +125,8 @@ public:
 	virtual ~Cftp();
 	HRESULT RecvReply(const char *reply, int size, int *replyCode);
 	HRESULT DisconnectFromServer();
+	int SendData(char *pData, int iSize);
+	int RecvData(char *pData, int iSize);
 	int SendNewPort(void);
 	HRESULT GetNextFileBlock(LPCSTR, int *);
 	HRESULT LoginToServer(LPCSTR szUserName, LPCSTR szPassword);
@@ -777,6 +779,18 @@ HRESULT Cftp::DisconnectFromServer()
 {
 	closesocket(m_iCommandSocket);
 	return FTP_SUCCEEDED;
+}
+
+// Cftp::SendData / Cftp::RecvData, retail 0x006CA4A0 / 0x006CA4C0 (24B each),
+// Zero Hour verbatim: the data socket (+8) through the send / recv thunks.
+int Cftp::SendData(char *pData, int iSize)
+{
+	return (send(m_iDataSocket, pData, iSize, 0));
+}
+
+int Cftp::RecvData(char *pData, int iSize)
+{
+	return (recv(m_iDataSocket, pData, iSize, 0));
 }
 
 // WWDownload FTP.CPP Cftp::LogoffFromServer, retail 0x006CAA70, 183 bytes.
