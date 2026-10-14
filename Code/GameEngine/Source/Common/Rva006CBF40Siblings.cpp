@@ -1,4 +1,8 @@
 // cl: /O1 /MD
+// Each destructor rowed in another unit is only declared here: the inline
+// constructor references the vtable, which brings the compiler's deleting
+// destructor into this unit without a second definition of the destructor;
+// its int tag keeps it from spelling a real default constructor.
 //
 // 15 scalar deleting destructors sharing the Rva006FB9B0DeletingDtor.cpp
 // shape (35 bytes each): call the class complete destructor, then a sized
@@ -47,6 +51,7 @@ Rva006D2A60 *g_pChainBlockAllocatorF4 = 0;
 class Rva006CBF40 : public Rva006DE350
 {
 public:
+	explicit Rva006CBF40(int) {}
 	virtual ~Rva006CBF40();
 	static void operator delete(void *p, unsigned int size)
 	{
@@ -56,9 +61,7 @@ public:
 };
 
 // ?Rva006CBF40::~Rva006CBF40 present-unmatched
-Rva006CBF40::~Rva006CBF40()
-{
-}
+Rva006CBF40 *famgenNew_Rva006CBF40() { return new Rva006CBF40(0); }
 
 void deleteRva006CBF40(Rva006CBF40 *p)
 {
@@ -163,6 +166,7 @@ void deleteRva006D71E0(Rva006D71E0 *p)
 class Rva006DA560 : public Rva006DE350
 {
 public:
+	explicit Rva006DA560(int) {}
 	virtual ~Rva006DA560();
 	static void operator delete(void *p, unsigned int size)
 	{
@@ -172,9 +176,7 @@ public:
 };
 
 // ?Rva006DA560::~Rva006DA560 present-unmatched
-Rva006DA560::~Rva006DA560()
-{
-}
+Rva006DA560 *famgenNew_Rva006DA560() { return new Rva006DA560(0); }
 
 void deleteRva006DA560(Rva006DA560 *p)
 {
@@ -226,6 +228,7 @@ void deleteRva006EC170(Rva006EC170 *p)
 class Rva006F7DC0 : public Rva006DE350
 {
 public:
+	explicit Rva006F7DC0(int) {}
 	virtual ~Rva006F7DC0();
 	static void operator delete(void *p, unsigned int size)
 	{
@@ -235,9 +238,7 @@ public:
 };
 
 // ?Rva006F7DC0::~Rva006F7DC0 present-unmatched
-Rva006F7DC0::~Rva006F7DC0()
-{
-}
+Rva006F7DC0 *famgenNew_Rva006F7DC0() { return new Rva006F7DC0(0); }
 
 void deleteRva006F7DC0(Rva006F7DC0 *p)
 {
@@ -247,6 +248,7 @@ void deleteRva006F7DC0(Rva006F7DC0 *p)
 class Rva006F8D70 : public Rva006DE350
 {
 public:
+	explicit Rva006F8D70(int) {}
 	virtual ~Rva006F8D70();
 	static void operator delete(void *p, unsigned int size)
 	{
@@ -256,9 +258,7 @@ public:
 };
 
 // ?Rva006F8D70::~Rva006F8D70 present-unmatched
-Rva006F8D70::~Rva006F8D70()
-{
-}
+Rva006F8D70 *famgenNew_Rva006F8D70() { return new Rva006F8D70(0); }
 
 void deleteRva006F8D70(Rva006F8D70 *p)
 {

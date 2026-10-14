@@ -1,4 +1,8 @@
 // cl: /MD
+// Each destructor rowed in another unit is only declared here: the inline
+// constructor references the vtable, which brings the compiler's deleting
+// destructor into this unit without a second definition of the destructor;
+// its int tag keeps it from spelling a real default constructor.
 
 // ??_GLivingWorldRegionConnection@@UAEPAXI@Z, the scalar deleting
 // destructor in vtable 0x00C36E48 slot 0 (retail 0x003F2A70, 28 bytes).
@@ -9,15 +13,13 @@
 class LivingWorldRegionConnection
 {
 public:
-	__declspec(noinline) virtual ~LivingWorldRegionConnection();
+	explicit LivingWorldRegionConnection(int) {}
+	virtual ~LivingWorldRegionConnection();
 private:
 	int m_famgen;
 };
 
-LivingWorldRegionConnection::~LivingWorldRegionConnection()
-{
-	m_famgen = 0;
-}
+LivingWorldRegionConnection *famgenNew_LivingWorldRegionConnection() { return new LivingWorldRegionConnection(0); }
 
 void famgenDelete(LivingWorldRegionConnection *p)
 {
