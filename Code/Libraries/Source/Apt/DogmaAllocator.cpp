@@ -42,3 +42,26 @@ void Rva006DB090::rva006DB090(void *pNowFree, unsigned int nSize)
         ((void **)pNowFree)[m_prevIdx] = 0;
     }
 }
+
+// Native6DAE50..6DAE74 and 6DAE80..6DAEA4: the array allocation pair of
+// this file (DogmaAllocator.cpp lines 0x5E / 0x63, retail text): each fires
+// the unconditional "never created in Arrays" assert, then forwards to the
+// Apt allocation callbacks E17728 (gAptFuncs.pfnMemAlloc) and E1772C
+// (gAptFuncs.pfnMemFree). Which class owns these operators is not
+// established; the names are address-derived.
+extern void *(__cdecl *g_bfmeAptAllocAtE17728)(unsigned int);
+extern void (__cdecl *g_aptFreeCallback)(void *);
+void *Rva006DAE50ArrayAlloc(unsigned int nSize)
+{
+    g_bfmeAptAssertAtE17734("false && \"Garbage collected Objects should never be created in Arrays!!!\"", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\DogmaAllocator.cpp", 0x5e);
+    if (g_bfmeAptBreakOnAssertAtDDC01C)
+        __debugbreak();
+    return g_bfmeAptAllocAtE17728(nSize);
+}
+void Rva006DAE80ArrayFree(void *p)
+{
+    g_bfmeAptAssertAtE17734("false && \"Garbage collected Objects should never be created in Arrays!!!\"", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\DogmaAllocator.cpp", 0x63);
+    if (g_bfmeAptBreakOnAssertAtDDC01C)
+        __debugbreak();
+    g_aptFreeCallback(p);
+}

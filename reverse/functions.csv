@@ -88626,3 +88626,5 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ?rva007AED2A@Rva007ABB96AllocCtorInits@@SAXXZ,,0x007AED2A,29,Code/GameEngine/Source/Common/Rva007ABB96AllocCtorInits.cpp,matched,vector allocator-ctor dynamic init of VA 0x00E01E68 plus atexit rowed thunk 0x007B7CAF
 ?rva007B05DE@Rva007ABB96AllocCtorInits@@SAXXZ,,0x007B05DE,29,Code/GameEngine/Source/Common/Rva007ABB96AllocCtorInits.cpp,matched,list<int> allocator-ctor dynamic init of VA 0x00E032DC plus atexit rowed thunk 0x007B839B
 ?rva007B0D55@Rva007ABB96AllocCtorInits@@SAXXZ,,0x007B0D55,29,Code/GameEngine/Source/Common/Rva007ABB96AllocCtorInits.cpp,matched,list<int> allocator-ctor dynamic init of VA 0x00E0362C plus atexit rowed thunk 0x007B8590
+?Rva006DAE50ArrayAlloc@@YAPAXI@Z,,0x006DAE50,37,Code/Libraries/Source/Apt/DogmaAllocator.cpp,matched,DogmaAllocator.cpp line 0x5E arrays assert then tail call of alloc callback E17728
+?Rva006DAE80ArrayFree@@YAXPAX@Z,,0x006DAE80,37,Code/Libraries/Source/Apt/DogmaAllocator.cpp,matched,DogmaAllocator.cpp line 0x63 arrays assert then tail call of free callback E1772C
