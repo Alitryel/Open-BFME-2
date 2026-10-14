@@ -7305,7 +7305,7 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ??1AttackPositionStateMachine@@UAE@XZ,,0x0033FBA6,11,Code/GameEngine/Source/GameLogic/AI/Rva003438C7AttackStateMachine.cpp,matched,dtor of the 0x003438C7 machine: restores the vtable 0x00811C90 its constructor installs and tail-calls StateMachine 0x004D759C
 ??1AttackFireWhileChargingMachine@@UAE@XZ,,0x0033FB95,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1Rva0033FC0A@@UAE@XZ,,0x0033FC0A,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
-??1Rva0034004C@@UAE@XZ,,0x0034004C,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
+??1AIAttackMoveStateMachine@@UAE@XZ,,0x0034004C,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1BackAwayAndCowerStateMachine@@UAE@XZ,,0x003402D0,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1Rva0034144B@@UAE@XZ,,0x0034144B,11,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,opaque derived dtor
 ??1AIAttackSwoopThenIdleStateMachine@@UAE@XZ,,0x003677B3,11,Code/GameEngine/Source/GameLogic/AI/Rva003676A2MachineCtor.cpp,matched,dtor of the 0x003676A2 machine: restores the vtable 0x008174E0 its constructor installs and tail-calls StateMachine 0x004D759C
@@ -11020,7 +11020,7 @@ _luaU_undump,,0x00756D10,133,Code/Libraries/Source/Lua/lundump.c,matched,object-
 ?name@Rva001E70BCNamed@@QBEPBDXZ,,0x001E70BC,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning LocomotorSet; vtable ref in .rdata; address-derived placeholder name
 ?get@Rva0040CAC5SubDwordField@@QBEHXZ,,0x0040CAC5,7,Code/GameEngine/Source/Common/Disp8SubDwordFieldGetters.cpp,matched,disp8 sub dword getter; opaque holder
 ?name@Rva001EAE63Named@@QBEPBDXZ,,0x001EAE63,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning LinearCampaign; vtable ref in .rdata; address-derived placeholder name
-??_GRva0034004C@@UAEPAXI@Z,,0x0034422D,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
+??_GAIAttackMoveStateMachine@@UAEPAXI@Z,,0x0034422D,28,Code/GameEngine/Source/Common/Rva004D759CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 _luaB_next,,0x0074BCB0,61,Code/Libraries/Source/Lua/lbaselib.c,matched,object-symbol=_luaB_next; emitted by lbaselib.c object; vendored=lua-4.0.1
 _luaB_foreachi,,0x0074C0C0,161,Code/Libraries/Source/Lua/lbaselib.c,matched,object-symbol=_luaB_foreachi; emitted by lbaselib.c object; vendored=lua-4.0.1
 _luaB_foreach,,0x0074C170,132,Code/Libraries/Source/Lua/lbaselib.c,matched,object-symbol=_luaB_foreach; emitted by lbaselib.c object; vendored=lua-4.0.1
