@@ -16990,3 +16990,4 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?_M_reallocate_map@?$deque@UBfmeWordValue4@@V?$allocator@UBfmeWordValue4@@@_STL@@@_STL@@IAEXI_N@Z,0x003B57E5,Native deferred-key deque dependency; complete body and every owner relocation verified; original scalar type unknown; fold-proof=Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierPoolUpdateTick.cpp
 ?rva00032050@GeneralAllocator@Allocator@EA@@QAEIPAXI@Z,0x00032050,callee of ?rva000320E0@GeneralAllocator@Allocator@EA@@QAEIPAXI_N1@Z
 ??1Rva0000234DElem@@QAE@XZ,0x00001DAC,callee of ??_ERva0000234DElem@@QAEPAXI@Z
+?tossEmitters@W3DTankDraw@@IAEXXZ,0x000CE7B4,callee of ?loadPostProcess@W3DTankDraw@@MAEXXZ
