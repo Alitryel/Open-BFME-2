@@ -1071,3 +1071,29 @@ void Rva001174D0(int value)
 {
 	Rva00174F20Set(value);
 }
+
+// ??1W3DSailModelDraw@@UAE@XZ @0x000D08BE (5B): the sail draw module's
+// destructor, called by the rowed ??_GW3DSailModelDraw 0x000D08A2 directly
+// ahead; it adds nothing to its base and tail-jumps to the rowed
+// ??1W3DScriptedModelDraw@@UAE@XZ (0x000C79C9). Layout as in
+// W3DSailModelDrawCtor.cpp (base 0x2E8 bytes, float and flag after it).
+class W3DScriptedModelDraw
+{
+public:
+	virtual ~W3DScriptedModelDraw();
+private:
+	unsigned char m_pad04[0x2E8 - 4];
+};
+
+class __declspec(novtable) W3DSailModelDraw : public W3DScriptedModelDraw
+{
+public:
+	virtual ~W3DSailModelDraw();
+private:
+	float m_2E8;
+	bool m_flag2EC;
+};
+
+W3DSailModelDraw::~W3DSailModelDraw()
+{
+}
