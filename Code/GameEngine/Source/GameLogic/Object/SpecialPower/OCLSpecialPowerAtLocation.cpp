@@ -1,20 +1,27 @@
-// ?doSpecialPowerAtLocation@OCLSpecialPower@@UAEXPBUCoord3D@@I@Z
-// partial score=0.85 date=2026-10-13
-// ?doSpecialPowerAtLocation@OCLSpecialPower@@UAEXPBUCoord3D@@I@Z
-// partial score=0.85 date=2026-10-13
-// ?doSpecialPowerAtLocation@OCLSpecialPower@@UAEXPBUCoord3D@@I@Z
-// partial score=0.798152 date=2026-10-10
-// ?doSpecialPowerAtLocation@OCLSpecialPower@@UAEXPBUCoord3D@@I@Z
-// partial score=0.7981522575551262 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include /ICode/GameEngine/Source
 // stlport
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// OCLSpecialPower::doSpecialPowerAtLocation, native RVA 004C3365.
+// The code is 1051 bytes through 004C3780; the nine-entry switch table
+// extends the complete emitted body to 004C37A4 (1087 bytes).
+// WorldBuilder 0125D230 supplies the name, module offsets and nine modes.
+// Zero Hour OCLSpecialPower.cpp at BFME1 cee35b7d8ca077d7255f1c39cb69e9fd9627aa85
+// supplies the semantic guide and farthest-edge case ordering. Retail decides
+// the no-angle ABI, creation arguments, adjustment and upgrade behavior.
+// Keeping the real length helper visible lets cl reuse the distance local's
+// storage for the object filter, restoring the 8C frame without barriers.
 #include <vector>
 #include <float.h>
+#include <math.h>
 #include "ascii_string.h"
 #include "Lib/Coord3D.h"
 #include "Common/PartitionRangeQueryCallView.h"
+struct OCLDiffCoord:Coord3D {
+ OCLDiffCoord() {}
+};
+inline __declspec(noinline) float Coord3D::GetLengthEstimate2D() const {
+ if(fabs(x)>fabs(y)) return (float)(fabs(x)+0.25f*fabs(y));
+ return (float)(fabs(y)+0.25f*fabs(x));
+}
 class Player;
 class Upgrade;
 enum UpgradeStatusType { UPGRADE_COMPLETE=2 };
@@ -34,7 +41,7 @@ virtual bool allow(Object *); const void *what; Player *player; bool match;
 };
 extern PartitionManager *ThePartitionManager;
 class Pathfinder { public: bool AdjustToNearestValidCell(Coord3D *); };
-class AI { public: char pad[0x10]; Pathfinder *pathfinder; };
+class AI { public: char pad[0x10]; Pathfinder *pathfinder; Pathfinder *getPathfinder() { return pathfinder; } };
 extern AI *TheAI;
 struct Waypoint { char pad[0xC]; Coord3D pos; };
 class TerrainLogic {
@@ -52,7 +59,7 @@ class ObjectCreationList {public:void create(void*,void*,void*,int);void create(
 };
 struct OCLData { char pad[0x8C]; int location; _STL::vector<AsciiString> upgrades; ObjectFilter filter; };
 class Module {public:virtual ~Module(); protected:const OCLData *data;};
-class ObjectModule:public Module {protected:Object *object;};
+class ObjectModule:public Module {protected:Object *object; Object *getObject() const {return object;}};
 class BehaviorModuleInterface { public:virtual void behaviorSlot0();};
 class BehaviorModule:public ObjectModule,public BehaviorModuleInterface {};
 class SpecialPowerModuleInterface {public:virtual void doSpecialPower(unsigned)=0; virtual void doSpecialPowerAtObject(Object*,unsigned)=0; virtual void doSpecialPowerAtLocation(const Coord3D*,unsigned)=0;};
@@ -68,20 +75,24 @@ void OCLSpecialPower::doSpecialPowerAtLocation(const Coord3D *location,unsigned 
  Coord3D creation;
  switch(modData->location) {
  case 0:
-  creation=TheTerrainLogic->findClosestEdgePoint(&object->pos);
-  _ReadWriteBarrier();
-  TheAI->pathfinder->AdjustToNearestValidCell(&creation);
+  creation=TheTerrainLogic->findClosestEdgePoint(&getObject()->pos);
+  TheAI->getPathfinder()->AdjustToNearestValidCell(&creation);
   ObjectCreationList::create(ocl,object,&creation,location,0);
   break;
  case 1:
   creation=TheTerrainLogic->findClosestEdgePoint(location);
-  _ReadWriteBarrier();
-  TheAI->pathfinder->AdjustToNearestValidCell(&creation);
+  TheAI->getPathfinder()->AdjustToNearestValidCell(&creation);
   ObjectCreationList::create(ocl,object,&creation,0,0);
   break;
  case 2:
   creation=TheTerrainLogic->findClosestEdgePoint(location);
-  TheAI->pathfinder->AdjustToNearestValidCell(&creation);
+  TheAI->getPathfinder()->AdjustToNearestValidCell(&creation);
+  ObjectCreationList::create(ocl,object,&creation,location,0);
+  break;
+ case 6:
+  creation=TheTerrainLogic->findFarthestEdgePoint(location);
+  creation.z+=300.0f;
+  TheAI->getPathfinder()->AdjustToNearestValidCell(&creation);
   ObjectCreationList::create(ocl,object,&creation,location,0);
   break;
  case 3:
@@ -96,11 +107,6 @@ void OCLSpecialPower::doSpecialPowerAtLocation(const Coord3D *location,unsigned 
   creation=*location;creation.z+=300.0f;
   ObjectCreationList::create(ocl,object,&creation,0,0);
   break;
- case 6:
-  TheAI->pathfinder->AdjustToNearestValidCell(&creation);
-  creation=TheTerrainLogic->findFarthestEdgePoint(location);creation.z+=300.0f;
-  ObjectCreationList::create(ocl,object,&creation,location,0);
-  break;
  case 7: {
   Waypoint *points[4];
   points[0]=TheTerrainLogic->getWaypoint(AsciiString("TopArmySpawnPoint"));
@@ -109,9 +115,8 @@ void OCLSpecialPower::doSpecialPowerAtLocation(const Coord3D *location,unsigned 
   points[3]=TheTerrainLogic->getWaypoint(AsciiString("RightArmySpawnPoint"));
   int nearest=-1;float distance=99999.0f;
   for(int i=0;i<4;++i){Waypoint *point=points[i];if(point) {
-    Coord3D diff;diff.x=point->pos.x-location->x;diff.y=point->pos.y-location->y;diff.z=point->pos.z-location->z;
-    _ReadWriteBarrier();
-    float d=diff.GetLengthEstimate2D();if(d<distance){distance=d;nearest=i;}}
+    OCLDiffCoord diff; diff.x=point->pos.x;diff.y=point->pos.y;diff.z=point->pos.z;diff.x-=location->x;diff.y-=location->y;diff.z-=location->z;
+      float d=diff.GetLengthEstimate2D();if(d<distance){distance=d;nearest=i;}}
   }
   if(nearest>=0){creation=points[nearest]->pos;creation.z+=300.0f;ObjectCreationList::create(ocl,object,&creation,location,0);}
   break;}
