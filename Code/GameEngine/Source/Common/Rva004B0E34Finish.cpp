@@ -17,3 +17,17 @@ bool __stdcall Rva004B0E34Get(unsigned int x)
 	}
 	return false;
 }
+
+// ?Rva004B0E68Get@@YG_NI@Z, retail 0x004B0E68, 52 bytes with its tables: the next 12-way
+// switch of the same shape (byte table 0x008B0E90, jump table 0x008B0E88),
+// true for {1,2,8,11}, false otherwise.
+bool __stdcall Rva004B0E68Get(unsigned int x)
+{
+	switch (x) {
+	case 0: case 3: case 4: case 5: case 6: case 7: case 9: case 10:
+		return false;
+	case 1: case 2: case 8: case 11:
+		return true;
+	}
+	return false;
+}
