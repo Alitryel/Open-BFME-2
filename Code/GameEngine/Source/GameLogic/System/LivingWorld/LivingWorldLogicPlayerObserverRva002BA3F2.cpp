@@ -36,6 +36,7 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "Coord3D.h"
+#include "Coord2D.h"
 
 typedef float Real;
 
@@ -133,8 +134,28 @@ public:
 	void *rva002104B6(void *key);
 };
 
-class Rva0020E89C;
-class Coord2D;
+// The region (+0x3C word, +0x48 map position) and army views of slot 1;
+// both names come from rowed UnicodeString getters.
+class Rva0020E89C
+{
+public:
+	UnicodeString rva0020E89C();
+	unsigned char m_pad00[0x3c];
+	void *m_3c;				// +0x3C
+	unsigned char m_pad40[0x48 - 0x40];
+	Coord2D m_position;			// +0x48
+};
+class Rva003F1241
+{
+public:
+	UnicodeString rva003F1241();
+};
+class Vector3;
+class Rva002BF4F3
+{
+public:
+	bool rva002BF5B0(const Vector3 *input, Vector3 *output);
+};
 class LivingWorldRegionManager
 {
 public:
@@ -149,8 +170,20 @@ public:
 	virtual ~Rva004FBCBE();
  virtual void slot04();
  virtual void slot08();
+ void rva004FBC02(const Coord3D *position);	// 0x004FBC02: position +0x18, flag +0x24
  int m_refCount;				// +0x04
-	unsigned char m_pad08[0x28 - 0x08];
+	unsigned char m_pad08[0x14 - 0x08];
+	void *m_14;				// +0x14
+	unsigned char m_pad18[0x28 - 0x18];
+};
+// The 0x48-byte region message (vtable 0x00C63B34): ctor 0x004FF28E builds
+// the 0x28-byte base from the two strings, then keeps the region at +0x28
+// and copies the army word at +0x2C.
+class Rva004FF2C0 : public Rva004FBCBE
+{
+public:
+	Rva004FF2C0(Rva0020E89C *region, Rva003F1241 *army, const UnicodeString &title, const UnicodeString &text, int arg);
+	unsigned char m_pad28[0x48 - 0x28];
 };
 
 struct TargetRef00217D4C;
@@ -175,6 +208,7 @@ struct Rva002B9062Element
 		if (m_object)
 			ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)m_object);
 	}
+	Rva004FBCBE *operator->() const { return m_object; }
 };
 
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
@@ -222,6 +256,7 @@ class Rva002BA3F2PlayerObserver
 {
 public:
 	virtual void rva002BA3F2(const Rva002E0687 *player) = 0;
+	virtual void rva002BA654(const Rva002E0687 *player, Rva0020E89C *region, Rva003F1241 *army) = 0;
 };
 
 class LivingWorldLogic : public Rva002BA3F2Base00, public Rva002BA3F2Base10,
@@ -229,6 +264,7 @@ class LivingWorldLogic : public Rva002BA3F2Base00, public Rva002BA3F2Base10,
 {
 public:
 	virtual void rva002BA3F2(const Rva002E0687 *player);
+	virtual void rva002BA654(const Rva002E0687 *player, Rva0020E89C *region, Rva003F1241 *army);
 
 	Rva002104B6 *getRegions() { return m_regions; }
 	void addMessage(const Rva002B9062Element &message)
@@ -240,7 +276,11 @@ public:
 	Rva002E071E *m_localPlayer;		// +0x98
 	unsigned char m_pad9C[0xb0 - 0x9c];
 	Rva002104B6 *m_regions;			// +0xB0
-	unsigned char m_padB4[0x154 - 0xb4];
+	unsigned char m_padB4[0xf4 - 0xb4];
+	int m_fieldF4;				// +0xF4
+	unsigned char m_padF8[0xfc - 0xf8];
+	int m_fieldFC;				// +0xFC
+	unsigned char m_pad100[0x154 - 0x100];
 	_STL::vector<Rva002B9062Element> m_messages;	// +0x154
 	unsigned char m_pad160[0x175 - 0x160];
 	bool m_field175;			// +0x175
@@ -292,5 +332,39 @@ void LivingWorldLogic::rva002BA3F2(const Rva002E0687 *player)
 		text.format(&text, player->m_name.str());
 	}
 	Rva002B9062Element message(new Rva004FBCBE(title, text, 0));
+	addMessage(message);
+}
+
+// Slot 1 of the same observer vtable (0x00BFE2A8): native 0x002BA654..
+// 0x002BA829 (471B, RET 0xC), WorldBuilder twin 0xD88320 (unnamed; the two
+// LW:UnifiedRegion* labels give the statement order). Unless both the +0xFC
+// word and the +0xF4 count are clear, a player the rowed 0x002E0687 test
+// accepts gets a unified-region message: the title is formatted with the
+// region name, the text with the region name and the army string, and the
+// new 0x48-byte message (ctor 0x004FF28E) takes the region's +0x3C word and
+// its +0x48 map position through the tactical transform 0x002BF5B0 before it
+// is queued on the +0x154 vector. The method name is not recovered.
+void LivingWorldLogic::rva002BA654(const Rva002E0687 *player, Rva0020E89C *region, Rva003F1241 *army)
+{
+	if (m_fieldFC == 0 && m_fieldF4 <= 0)
+		return;
+	if (!player->rva002E0687())
+		return;
+	UnicodeString title = TheGameText->fetch("LW:UnifiedRegionTitle");
+	title.format(&title, region->rva0020E89C().str());
+	UnicodeString text = TheGameText->fetch("LW:UnifiedRegionText");
+	text.format(&text, region->rva0020E89C().str(), army->rva003F1241().str());
+	Rva002B9062Element message(new Rva004FF2C0(region, army, title, text, 0));
+	Coord2D xy;
+	xy.x = region->m_position.x;
+	xy.y = region->m_position.y;
+	Coord3D position;
+	position.x = xy.x;
+	position.y = xy.y;
+	position.z = 0.0f;
+	((Rva002BF4F3 *)TheLivingWorld)->rva002BF5B0((const Vector3 *)&xy, (Vector3 *)&position);
+	void *word = region->m_3c;
+	message->m_14 = word;
+	message->rva004FBC02(&position);
 	addMessage(message);
 }
