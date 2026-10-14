@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /ICode/Libraries/Include /ICode/GameEngine/Source /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 // ?rva00459CC0@SiegeDockingBehavior@@UAEHW4ObjectID@@@Z
 // Retail 0x00459CC0, 234B: a SiegeDockingBehavior member entered through the
@@ -13,9 +13,10 @@
 // The entry position goes through a memberwise-copy local so the three
 // coordinate loads issue x,y,z (a direct subtraction compiles y,z,x).
 #define _STLP_NO_EXCEPTIONS 1
+#include <math.h>
 #include <vector>
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
-#include "../../../Common/GameLogicObjectLookupView.h"
+#include "Lib/Coord3D.h"
+#include "Common/GameLogicObjectLookupView.h"
 
 typedef float Real;
 typedef int Int;
@@ -68,12 +69,14 @@ class SiegeDockingInterface
 {
 public:
 	virtual Int rva00459CC0( ObjectID id ) = 0;
+ virtual bool rva00459A2A(ObjectID,Coord3D*)=0;
 };
 
 class SiegeDockingBehavior : public SiegeDockingPrimary, public SiegeDockingInterface
 {
 public:
 	virtual Int rva00459CC0( ObjectID id );
+ virtual bool rva00459A2A(ObjectID,Coord3D*);
 private:
 	void rva00459B68() const;
 	_STL::vector<Rva00459E05Entry *> m_entries;
@@ -119,3 +122,71 @@ Int SiegeDockingBehavior::rva00459CC0( ObjectID id )
 
 	return bestIndex;
 }
+
+// Native459A2A..459B68,318B RET8, the +20 interface approach-point query.
+// Entry constructor459E05 proves the position/direction/ID layout. This query
+// visits free compatible entries, offsets by direction*30, and copies the
+// nearest approach point. Original method name is unresolved.
+// Visible Coord3D::length and ordinary field reads remove the bank's volatile
+// workaround; the exact shared length provider is still called out of line.
+bool SiegeDockingBehavior::rva00459A2A( ObjectID id, Coord3D *out )
+{
+	Object *obj = TheGameLogic->findObjectByID( id );
+	if( obj == 0 )
+		return false;
+
+	UnsignedInt count = m_entries.size();
+	if( count == 0 )
+		return false;
+
+	Int bestIndex = -1;
+	Real bestDist = 99999.0f;
+	{
+		for( UnsignedInt i = 0; i < count; ++i )
+		{
+			Rva00459E05Entry *entry = m_entries[ i ];
+			if( entry->m_objectID != 0 )
+				continue;
+			if( ( obj->m_template->m_kindOf119 & 8 ) == 0 && entry->m_type != 0 )
+				continue;
+
+			Real scale = 30.0f;
+			Real px = entry->m_position.x;
+			Real py = entry->m_position.y;
+			Real pz = entry->m_position.z;
+			Real dx = entry->m_direction.x;
+			Real dy = entry->m_direction.y;
+			Real dz = entry->m_direction.z;
+			dx *= scale;
+			dy *= scale;
+			dz *= scale;
+			// The equivalent conditional preserves MSVC 7.1 SSE scheduling.
+			// Both arms select the same scaled component; no runtime fallback.
+			px -= (scale ? dx : dx);
+			py -= dy;
+			pz -= dz;
+			Coord3D approach;
+			approach.x = px;
+			approach.y = py;
+			approach.z = pz;
+			Coord3D delta;
+			delta.x = approach.x - obj->getPosition()->x;
+			delta.y = approach.y - obj->getPosition()->y;
+			delta.z = approach.z - obj->getPosition()->z;
+			Real dist = delta.length();
+			if( dist < bestDist )
+			{
+				*out = approach;
+				bestIndex = i;
+				bestDist = dist;
+			}
+		}
+	}
+
+	if( bestIndex >= 0 )
+		return true;
+
+	return false;
+}
+
+inline float Coord3D::length() const { return (float)sqrt(x * x + y * y + z * z); }
