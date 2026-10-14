@@ -104,3 +104,21 @@ _Rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::rva00418500(const _Rb_tree &x)
 template IntIntTree &IntIntTree::rva00418500(const IntIntTree &);
 
 }
+
+// ?rva004186E0@Rva004186E0Map@@QAEAAV1@ABV1@@Z 0x004186E0 18B: the map-level operator=
+// over the tree assignment above (its call at 0x004186E7): assigns the trees and
+// returns *this. Skeleton twin of AsciiString::operator= 0x00001733. The
+// map spelling is address-derived; only its +0 tree is modelled.
+class Rva004186E0Map
+{
+public:
+	Rva004186E0Map &rva004186E0(const Rva004186E0Map &other);
+private:
+	_STL::IntIntTree m_tree;
+};
+
+Rva004186E0Map &Rva004186E0Map::rva004186E0(const Rva004186E0Map &other)
+{
+	m_tree.rva00418500(other.m_tree);
+	return *this;
+}
