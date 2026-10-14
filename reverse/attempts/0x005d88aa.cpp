@@ -1,8 +1,12 @@
 // ?Rva005D88AA@Rva005D8883@@UAE_NPAVObject@@@Z
+// partial score=0.9515410574 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?Rva005D88AA@Rva005D8883@@UAE_NPAVObject@@@Z
 // partial score=0.91 date=2026-09-26
 // ?Rva005D88AA@Rva005D8883@@UAE_NPAVObject@@@Z
 // partial score=0.91 date=2026-09-26
-// cl: /O1 /MD /arch:SSE
+// cl: /ICode/Libraries/Include /O1 /MD /arch:SSE
 class Object;
 class ThingTemplate
 {
@@ -15,12 +19,7 @@ class AIUpdateInterface
 public:
 	Object* getCurrentVictim() const;
 };
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
+#include "Lib/Coord3D.h"
 class Object
 {
 public:
@@ -51,9 +50,16 @@ bool Rva005D8883::Rva005D88AA(Object* obj)
 		return false;
 	const Coord3D* a = &obj->m_position;
 	const Coord3D* b = &victim->m_position;
-	float dx = b->x - a->x;
-	float dy = b->y - a->y;
-	float dz = b->z - a->z;
+	float ax = a->x;
+float ay = a->y;
+float az = a->z;
+float bx = b->x;
+float by = b->y;
+float bz = b->z;
+_ReadWriteBarrier();
+float dx = bx - ax;
+	float dy = by - ay;
+	float dz = bz - az;
 	float distSq = dz * dz + dy * dy + dx * dx;
 	return distSq <= 22500.0f;
 }
