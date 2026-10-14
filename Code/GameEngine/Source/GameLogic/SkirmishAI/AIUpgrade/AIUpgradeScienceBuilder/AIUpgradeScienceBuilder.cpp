@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX
 //
 // AIUpgradeScienceBuilder.cpp (the unit its random-value asserts name; the
 // builder class itself is not established, hence the address name).
@@ -10,7 +10,15 @@
 //               owner's relationship flag 4 accepts is alive within 400 of
 //               the entry's slot-13 position (BFME2's partition filter
 //               chain, the view AIStructureCreepTactic.cpp documents)
+//   0x00597C58  Register (WB 01532AD0, asserts at lines 73..104): an object
+//               whose +0x280 is negative contributes, per command button of
+//               its command set, an upgrade record (cost, ID, button, name,
+//               heuristic) or, for a science-build button whose template
+//               lacks flags 0x11B&0x10 and 0x116&0x40, a building record
+//               (button, name, position, angle, ID); any other object only
+//               its ID. The second argument is one unused stack word.
 #include <string.h>
+#include "ascii_string.h"
 
 class Object;
 class Player;
@@ -145,19 +153,197 @@ public:
 	bool m_2C;		// +0x2C
 };
 
+// Register's views. Offsets come from native 00597C58..00597E30 and the rowed
+// record constructors 0x005970ED and 0x005DAA71; the record class names are
+// address names, their original types unresolved.
+class Object
+{
+public:
+	const AsciiString *rva00290E67() const;	// 0x00290E67
+	char m_pad00[0x38];
+	Coord3D m_position;	// +0x38
+	float m_angle;		// +0x44
+	char m_pad48[0x74 - 0x48];
+	unsigned m_id;		// +0x74
+	char m_pad78[0x280 - 0x78];
+	float m_280;		// +0x280
+	float get280() const { return m_280; }
+};
+
+class UpgradeTemplate
+{
+public:
+	unsigned rva0026EF50(Player *owner, Object *object) const;	// 0x0026EF50 the cost
+	char m_pad00[8];
+	AsciiString m_name;	// +0x08
+	char m_pad0C[0x98 - 0x0C];
+	int m_heuristic;	// +0x98
+};
+
+class ThingTemplate;
+class CommandButton
+{
+public:
+	const ThingTemplate *rva0035B570() const;	// 0x0035B570
+	char m_pad00[0x14];
+	int m_command;		// +0x14
+	char m_pad18[0x24 - 0x18];
+	UpgradeTemplate *m_upgrade;	// +0x24
+};
+
+class CommandSet
+{
+public:
+	const CommandButton *getCommandButton(int i) const;
+};
+
+class Rva0031D5F8
+{
+public:
+	void *rva0031D5F8(const AsciiString *name);	// 0x0031D5F8 the command set
+};
+class ControlBar;
+extern ControlBar *TheControlBar;
+
+// The ThingTemplate fields Register reads.
+struct ScienceBuildTemplateView
+{
+	char m_pad00[0x64];
+	AsciiString m_name;	// +0x64
+	char m_pad68[0x116 - 0x68];
+	unsigned char m_116;	// +0x116
+	char m_pad117[0x11B - 0x117];
+	unsigned char m_11B;	// +0x11B
+};
+
+class Rva0055B0CC
+{
+public:
+	virtual ~Rva0055B0CC();
+	float m_delay;		// +0x04
+	unsigned m_id;		// +0x08
+	AsciiString m_name;	// +0x0C
+	char m_pad10[0x21 - 0x10];
+	bool m_registered;	// +0x21
+	char m_pad22[0x2C - 0x22];
+};
+
+class AIUpgrade : public Rva0055B0CC
+{
+public:
+	unsigned m_cost;			// +0x2C
+	const CommandButton *m_command;	// +0x30
+};
+
+class Rva005970ED : public AIUpgrade
+{
+public:
+	Rva005970ED();				// 0x005970ED
+	void rva0059717F(int heuristic);	// 0x0059717F
+	char m_pad34[0x44 - 0x34];
+};
+
+class Rva005DAAB6 : public Rva0055B0CC
+{
+public:
+	Rva005DAAB6();				// 0x005DAA71
+	bool m_used;				// +0x2C
+	Coord3D m_position;			// +0x30
+	float m_angle;				// +0x3C
+	const CommandButton *m_command;	// +0x40
+};
+
+// ScienceType preserves the existing generic 4-byte vector provider ABI only;
+// this vector stores the object identifier field and does not establish
+// ScienceType semantics. The record vectors call the folded 4-byte append
+// (0x004DFCB0) through two of its existing storage views, ModuleData pointers
+// and longs: retail's two calls name distinct instantiations (one view would
+// let the compiler merge the calls), and no record is a ModuleData or long.
+enum ScienceType
+{
+	SCIENCE_DUMMY = 0
+};
+class ModuleData;
+namespace _STL
+{
+	template<class T> class allocator
+	{
+	};
+	template<class T, class A = allocator<T> > class vector
+	{
+	public:
+		void push_back(const T &value);
+		T *m_begin, *m_end, *m_limit;
+	};
+}
+
 class AIUpgradeScienceBuilder
 {
 public:
+	void Register(Object *object, void *);
+	bool rva0059764A(Object *object);	// 0x0059764A
 	void buildExpansionUpgrades();
 private:
 	char m_pad00[0x14];
 	Player *m_14;			// +0x14 the owner
-	char m_pad18[0x30 - 0x18];
+	_STL::vector<ScienceType> m_objects;	// +0x18
+	_STL::vector<const ModuleData *> m_upgrades;	// +0x24
 	Rva00597E30Entry **m_30;	// +0x30 the entries
 	Rva00597E30Entry **m_34;	// +0x34 their end
 	char m_pad38[0x3C - 0x38];
 	unsigned m_3C;			// +0x3C the last frame
 };
+
+void AIUpgradeScienceBuilder::Register(Object *object, void *)
+{
+	if (rva0059764A(object))
+		return;
+	CommandSet *commands = (CommandSet *)((Rva0031D5F8 *)TheControlBar)->rva0031D5F8(object->rva00290E67());
+	if (object->get280() < 0.0f) {
+		if (commands) for (int i = 0; i < 32; ++i) {
+			const CommandButton *button = commands->getCommandButton(i);
+			if (!button)
+				continue;
+			UpgradeTemplate *upgrade = button->m_upgrade;
+			if (upgrade) {
+				unsigned cost = upgrade->rva0026EF50(m_14, object);
+				Rva005970ED *record = new Rva005970ED;
+				// Opening the item's scope before the cost store puts it in
+				// the new-expression's frame slot, as retail does.
+				{
+					AIUpgrade *item = record;
+					record->m_cost = cost;
+					record->m_id = object->m_id;
+					record->m_command = button;
+					// The folded conditional reproduces retail's register
+					// assignment and argument order.
+					record->m_name.set(i ? upgrade->m_name : upgrade->m_name);
+					record->rva0059717F(upgrade->m_heuristic);
+					m_upgrades.push_back(reinterpret_cast<const ModuleData *const &>(item));
+				}
+			} else if (button->m_command == 1 && button->rva0035B570() &&
+				!(((const ScienceBuildTemplateView *)button->rva0035B570())->m_11B & 0x10) &&
+				!(((const ScienceBuildTemplateView *)button->rva0035B570())->m_116 & 0x40)) {
+				Rva005DAAB6 *record = new Rva005DAAB6;
+				{
+					Rva0055B0CC *item = record;
+					record->m_command = button;
+					record->m_name.set(((const ScienceBuildTemplateView *)button->rva0035B570())->m_name);
+					record->m_delay = -1.0f;
+					record->m_position = object->m_position;
+					*(unsigned *)&record->m_angle = *(const unsigned *)&object->m_angle;
+					record->m_id = object->m_id;
+					record->m_registered = true;
+					reinterpret_cast<_STL::vector<long> *>(&m_30)->push_back(
+						reinterpret_cast<const long &>(item));
+				}
+			}
+		}
+	} else {
+		unsigned id = object->m_id;
+		m_objects.push_back((const ScienceType &)id);
+	}
+}
 
 void AIUpgradeScienceBuilder::buildExpansionUpgrades()
 {
