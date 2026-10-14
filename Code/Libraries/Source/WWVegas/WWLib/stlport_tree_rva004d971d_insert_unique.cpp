@@ -31,3 +31,20 @@ struct Rva004DA0B7OrderKey
 };
 typedef _STL::_Rb_tree<unsigned, Rva004D971D, Rva004DA0B7OrderKey, _STL::less<unsigned>, _STL::allocator<Rva004D971D> > Rva004DA0B7Tree;
 template _STL::pair<Rva004DA0B7Tree::iterator, bool> Rva004DA0B7Tree::insert_unique(const Rva004D971D &);
+
+// Retail 0x004DA342 (20B, RET 8): an insert over the same tree held at +0
+// that forwards the hidden return pair and the value straight to the
+// insert_unique above. The owner's identity is not established; its name is
+// address-derived.
+class Rva004DA342Map
+{
+public:
+	_STL::pair<Rva004DA0B7Tree::iterator, bool> insert(const Rva004D971D &value);
+private:
+	Rva004DA0B7Tree m_tree;
+};
+
+_STL::pair<Rva004DA0B7Tree::iterator, bool> Rva004DA342Map::insert(const Rva004D971D &value)
+{
+	return m_tree.insert_unique(value);
+}

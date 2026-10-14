@@ -233,3 +233,22 @@ Rva00058A6D::rva00058A6D(const NameKeyGenerator::KeyToBucketMap::value_type &val
 {
 	return m_ht.rva00057C5C(value);
 }
+
+// Retail 0x004DA356 (20B, RET 8), directly after the sibling tree forwarder
+// 0x004DA342: forward the hidden result and the value to the
+// KeyToBucketMap::insert above on the map held at +0. The owner's identity
+// is not established; its name is address-derived.
+class Rva004DA356Map
+{
+public:
+	NameKeyGenerator::KeyToBucketMap::insert_result insert(
+		const NameKeyGenerator::KeyToBucketMap::value_type &value);
+private:
+	NameKeyGenerator::KeyToBucketMap m_map;
+};
+
+NameKeyGenerator::KeyToBucketMap::insert_result Rva004DA356Map::insert(
+	const NameKeyGenerator::KeyToBucketMap::value_type &value)
+{
+	return m_map.insert(value);
+}
