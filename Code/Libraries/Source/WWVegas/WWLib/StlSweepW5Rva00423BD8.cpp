@@ -14,3 +14,7 @@ struct Rva00423BD8Element { int word0; bool operator<(const Rva00423BD8Element&)
 
 // Instantiate the recovered operation and its required template dependencies.
 template void _STL::deque<Rva00423BD8Element, _STL::allocator<Rva00423BD8Element> >::push_back(Rva00423BD8Element const &);
+
+// Native 0x003B7C42: STLport4.5.3 queue push forwarding to its owned provider.
+#include <queue>
+template void _STL::queue<Rva00423BD8Element, _STL::deque<Rva00423BD8Element,_STL::allocator<Rva00423BD8Element> > >::push(const Rva00423BD8Element &);
