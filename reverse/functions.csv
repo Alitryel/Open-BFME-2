@@ -18156,7 +18156,6 @@ uw_007624ad,,0x007624AD,14,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;obj
 uw_007624bb,,0x007624BB,14,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L653
 uw_007624c9,,0x007624C9,14,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L654
 uw_007624d7,,0x007624D7,14,Code/gen_small/uw_gen_012.cpp,matched,gen-funclet;object-symbol=$L655
-uw_007624ef,,0x007624EF,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2908
 uw_00762521,,0x00762521,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4028
 uw_00762529,,0x00762529,14,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L7140
 uw_00762537,,0x00762537,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4028
@@ -88378,3 +88377,4 @@ __ehhandler$?rva0024622F@GameLogic@@QAEX_N@Z,,0x007716D0,10,Code/GameEngine/Sour
 ?onAreaAdded@Rva0082140@@UAEXHPAVRiverArea@@@Z,,0x000837F1,110,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterAreaRenderables.cpp,matched,Native BC70E0 slot1 river-area observer; rowed constructor83547 and push_back82C1D; real STLport visibility restores counted-handle argument-slot reuse; full110B
 ?rva0008385F@Rva0082140@@QAEXPAV?$AreaSet@VStandingWaveArea@@@@PAV?$vector@UTreeHintRef00217D4C@@V?$allocator@UTreeHintRef00217D4C@@@_STL@@@_STL@@@Z,,0x0008385F,250,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterAreaRenderables.cpp,matched,Standing-water renderable list rebuild; real vector and visible target29B cursor equality preserve EDI handle and EBX receiver; canonical ctor82F6A and all calls resolve; native8385F..83959 RET8; potential1236 dependent bytes
 uw_00762505,,0x00762505,14,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawCtor.cpp,matched,gen-funclet;parent=??0W3DTruckDraw@@QAE@PAVThing@@PBVModuleData@@@Z;object-symbol=$L488
+uw_007624ef,,0x007624EF,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawCtor.cpp,matched,gen-funclet;parent=??0W3DTruckDraw@@QAE@PAVThing@@PBVModuleData@@@Z;object-symbol=$L486
