@@ -88482,3 +88482,4 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ??0LivingWorldBuilding@@QAE@PAVLivingWorldRegion@@ABVCoord2D@@PBURva003F1BD3TemplateView@@H@Z,,0x004E119C,288,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldBuildingCtor.cpp,matched,
 ?rva0039BFFD@Rva0039BFFD@@QAEHPBVThingTemplate@@@Z,,0x0039BFFD,19,Code/GameEngine/Source/Common/Rva0039BF0BFinish.cpp,matched,ScoreKeeper per-template count wrapper over 0x0039BFC5 map +0x1F0; lea via self-map selection
 ?rva0039C010@Rva0039C010@@QAEHPBVThingTemplate@@@Z,,0x0039C010,19,Code/GameEngine/Source/Common/Rva0039BF0BFinish.cpp,matched,ScoreKeeper per-template count wrapper over 0x0039BFC5 map +0x1C8; lea via self-map selection
+?findBlockParse@@YAP6AXPAVINI@@@ZPBD@Z,,0x0002BBFC,43,Code/GameEngine/Source/Common/INI/INIFindBlockParse.cpp,matched,out-of-line findBlockParse over theBlockParseList 0x00DDF578; ZH INI.cpp name and BFME1 linked-list donor form
