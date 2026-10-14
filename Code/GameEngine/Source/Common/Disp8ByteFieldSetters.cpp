@@ -113,3 +113,8 @@ BFME_DISP8_BYTE_SETTER(Rva00534B18ByteSlot, 0x02)
 // low byte, writes receiver+5, and ends RET4; no incoming direct/address
 // references were found. Preserve only those raw width/offset/ABI facts.
 BFME_DISP8_BYTE_SETTER(Rva000788AFByteSlot, 0x05)
+
+// Native6CFDC0..6CFDC9 RET4: stores the stack byte at receiver+0x0C, the
+// setter twin of the rowed Disp8 getter Rva006CFDB0ByteField (+0x0C) that
+// directly precedes it. Address name.
+BFME_DISP8_BYTE_SETTER(Rva006CFDC0ByteSlot, 0x0C)

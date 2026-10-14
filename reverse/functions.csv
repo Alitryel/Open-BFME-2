@@ -88615,3 +88615,8 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ?Rva006CD080ClearDisplayList@@YAXXZ,,0x006CD080,18,Code/Libraries/Source/Apt/Apt.cpp,matched,null-guarded tail call of rowed AptDisplayList walk 0x006F76B0 on Apt root E176D0 +0x30
 ?Rva006CD0A0SetXmlImpl@@YAXPAVAptXmlImpl@@@Z,,0x006CD0A0,14,Code/Libraries/Source/Apt/Apt.cpp,matched,stores non-null arg into gpAptXmlImpl E17720 (AptXml.cpp assert name)
 ?Rva006CD3C0FormatField@@YAPBDPBVRva006DBB30SarDwordField@@@Z,,0x006CD3C0,34,Code/Libraries/Source/Apt/Apt.cpp,matched,sprintf 0x%X of rowed 0x006DBB30 field into E177D8 buffer and return it
+?set@Rva006CFDC0ByteSlot@@QAEXE@Z,,0x006CFDC0,10,Code/GameEngine/Source/Common/Disp8ByteFieldSetters.cpp,matched,disp8 byte setter +0x0C twin of rowed getter 0x006CFDB0
+?Rva006CFDD0StoreSecond@@YAXPAURva006CFDD0Pair@@H@Z,,0x006CFDD0,12,Code/GameEngine/Source/Common/Rva006CFDD0StoreSecond.cpp,matched,cdecl store of arg2 into arg1+4
+?rva006d5e90@Rva006D5E70String@@QAEHH@Z,,0x006D5E90,45,Code/Libraries/Source/EA/Apt/AptString/Rva006D5E70Cluster.cpp,matched,codepoint at index via rowed cursor 0x006D4D40 and decoder 0x006D3E40; -1 out of range
+??0Rva006D6300Value@@QAE@H@Z,,0x006D6300,25,Code/Libraries/Source/Apt/AptValue/Rva006D6300TypedValueCtors.cpp,matched,pass-through type ctor over rowed AptValue ctor 0x006DCCC0; vtable 0x00CE8BA0
+??0Rva006D6320Value@@QAE@H@Z,,0x006D6320,25,Code/Libraries/Source/Apt/AptValue/Rva006D6300TypedValueCtors.cpp,matched,pass-through type ctor over rowed AptValue ctor 0x006DCCC0; vtable 0x00CEA1EC
