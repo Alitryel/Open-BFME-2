@@ -168,6 +168,8 @@ public:
     void rva0055499A(MapFloatHolder *, XferStub *);
     void rva00554A4A(MapIntHolder *, XferStub *);
 };
+class Rva00553E47StatsCore;
+static void debugDumpStatsCore(const Rva00553E47StatsCore &);
 class Rva00553E47StatsCore {
 public:
     Rva00553E47StatsCore(const Rva00553E47StatsCore &);
@@ -177,6 +179,7 @@ public:
     virtual void rva00555109(XferStub *);
     virtual void rva00554AF2(const Rva00553E47StatsCore *);
     friend class Rva00559D0CRankWeights;
+    friend void debugDumpStatsCore(const Rva00553E47StatsCore &);
 private:
     StatsShortMap m_maps04_0;
     StatsShortMap m_maps04_1;
@@ -2732,4 +2735,76 @@ void HandlePersistentStorageResponses()
 			}
 		}
 	}
+}
+
+// BF1 a7c38d3b PersistentStorageThread.cpp and its ZH donor preserve the
+// debug-dump map loops even with DEBUG_LOG disabled. Native5533F5,553595,
+// 553727 and5537B5 use the same family split as these already verified
+// core/strategic/open-play/tournament records. Field names remain structural.
+// The BF1 donor uses an explicitly non-retail emitter to retain its static
+// debug helper; the anchor below has the same compilation-only purpose.
+#define WALK_STATS_MAP(Type,Map) \
+    for (Type::const_iterator it=(Map).begin(); it!=(Map).end(); ++it) {}
+static void debugDumpStatsCore(const Rva00553E47StatsCore &stats)
+{
+    WALK_STATS_MAP(StatsShortMap,stats.m_maps04_0);
+    WALK_STATS_MAP(StatsShortMap,stats.m_maps04_1);
+    WALK_STATS_MAP(StatsShortMap,stats.m_maps04_2);
+    WALK_STATS_MAP(StatsShortMap,stats.m_maps04_3);
+    WALK_STATS_MAP(StatsShortMap,stats.m_maps04_4);
+    WALK_STATS_MAP(StatsShortMap,stats.m_maps04_5);
+    for(int i=0;i<6;++i) { WALK_STATS_MAP(StatsShortMap,stats.m_maps4c[i]); }
+    for(int i=0;i<6;++i) { WALK_STATS_MAP(StatsShortMap,stats.m_maps94[i]); }
+    WALK_STATS_MAP(StatsFloatMap,stats.m_mapsdc_0);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_mapsdc_1);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_mapsdc_2);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_mapsdc_3);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_mapsdc_4);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_mapsdc_5);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_mapsdc_6);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_mapsdc_7);
+}
+static void debugDumpStrategicStats(const Rva0038454E &stats)
+{
+    debugDumpStatsCore(stats);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map154);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map160);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map16c);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map178);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map184);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map190);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map19c);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map1a8);
+    WALK_STATS_MAP(StatsShortMap,stats.m_map1b4);
+    WALK_STATS_MAP(StatsShortMap,stats.m_map1c0);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map1cc);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map1d8);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map1e4);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map1f0);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map1fc);
+}
+static void debugDumpOpenPlayStats(const Rva003844D7 &stats)
+{
+    debugDumpStatsCore(stats);
+    WALK_STATS_MAP(StatsIntMap,stats.m_map154);
+    WALK_STATS_MAP(StatsShortMap,stats.m_map160);
+    WALK_STATS_MAP(StatsShortMap,stats.m_map16c);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map178);
+    WALK_STATS_MAP(StatsFloatMap,stats.m_map184);
+}
+static void debugDumpTournamentStats(const Rva00385333 &stats)
+{
+    debugDumpOpenPlayStats(stats);
+}
+#undef WALK_STATS_MAP
+
+// ?BfmeStatsDebugEmissionAnchor absent-from-retail
+void BfmeStatsDebugEmissionAnchor(const Rva00553E47StatsCore &core,
+    const Rva0038454E &strategic,const Rva003844D7 &openPlay,
+    const Rva00385333 &tournament)
+{
+    debugDumpStatsCore(core);
+    debugDumpStrategicStats(strategic);
+    debugDumpOpenPlayStats(openPlay);
+    debugDumpTournamentStats(tournament);
 }
