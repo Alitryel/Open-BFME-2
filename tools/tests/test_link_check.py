@@ -93,6 +93,33 @@ def test_refresh_replaces_a_passed_objects_census_definitions(monkeypatch):
     assert not C.duplicate("f", 0, True, 0, ix)
 
 
+def test_refresh_stale_replaces_objects_rebuilt_since_the_census(monkeypatch, tmp_path):
+    """An object another build rebuilt after the census is not stale, but its
+    census definitions are old: --refresh must replace them all the same."""
+    import calendar
+    import os
+    import time
+    import pytest
+    import build
+    import link_census
+    ix = index(strong={"f": [0, 1]})
+    ix["meta"]["date"] = "2026-10-14 07:27"
+    census = calendar.timegm(time.strptime("2026-10-14 07:27", "%Y-%m-%d %H:%M"))
+    sources = {name: tmp_path / name.replace(".obj", ".cpp") for name in ("a.obj", "b.obj", "c.obj")}
+    for name, stamp in (("a.obj", census - 60), ("b.obj", census + 3600)):
+        obj = tmp_path / name
+        obj.write_bytes(b"")
+        os.utime(obj, (stamp, stamp))
+    monkeypatch.setattr(link_census, "ledger", lambda: [{"source": str(s)} for s in sources.values()])
+    monkeypatch.setattr(build, "obj_path", lambda s: tmp_path / s.name.replace(".cpp", ".obj"))
+    monkeypatch.setattr(build, "stale_sources", lambda *a: [])
+    monkeypatch.setattr(build, "compile_rows", lambda *a: pytest.fail("nothing is stale"))
+    passed = []
+    monkeypatch.setattr(C, "refresh", lambda index_, objects, truth: passed.extend(o.name for o in objects))
+    C.refresh_stale(ix, None)
+    assert passed == ["b.obj"]
+
+
 def _preview(monkeypatch, tmp_path, names):
     import link_census
     ix = index(blockers={"a.cpp": {"object": "a.obj", "linked": False, "unresolved": [], "duplicates": [],

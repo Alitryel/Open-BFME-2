@@ -60,6 +60,7 @@ mode until its false-refusal rate is measured on live traffic
   printf '%s\\0' NEW... | python3 tools/link_check.py --new-variants --staged-peers --shadow --paths-from -
 """
 import argparse
+import calendar
 import collections
 import csv
 import io
@@ -774,11 +775,27 @@ def refresh_stale(index, truth):
     rows = link_census.ledger()
     sources = [s for s in dict.fromkeys(ROOT / r["source"] for r in rows) if s.suffix.lower() != build.LIB_SUFFIX]
     stale = build.stale_sources(sources, {s: build.obj_path(s) for s in sources}, build._pool_size())
-    if not stale:
-        return
-    outputs = build.compile_rows(rows, stale)
-    refresh(index, [outputs[s] for s in stale if s in outputs], truth)
-    print(f"link_check: recompiled {len(stale):,} stale ledger object(s) and replaced their census definitions")
+    outputs = build.compile_rows(rows, stale) if stale else {}
+    # An object another build already rebuilt after the census is current, so
+    # stale_sources skips it, but the census still holds its old definitions:
+    # a duplicate or wrong COMDAT copy that commit removed kept charging the
+    # files checked against it.
+    rebuilt = [obj for s, obj in ((s, build.obj_path(s)) for s in sources if s not in outputs)
+               if built_since(obj, index)]
+    refresh(index, [outputs[s] for s in stale if s in outputs] + rebuilt, truth)
+    if stale:
+        print(f"link_check: recompiled {len(stale):,} stale ledger object(s) and replaced their census definitions")
+    if rebuilt:
+        print(f"link_check: replaced the census definitions of {len(rebuilt):,} object(s) rebuilt since the census")
+
+
+def built_since(obj, index):
+    """Was `obj` written in or after the census's minute (meta date, UTC)?"""
+    try:
+        census = calendar.timegm(time.strptime(index["meta"]["date"], "%Y-%m-%d %H:%M"))
+        return obj.stat().st_mtime >= census
+    except (KeyError, ValueError, OSError):
+        return False
 
 
 def preview_state(present, rows):
