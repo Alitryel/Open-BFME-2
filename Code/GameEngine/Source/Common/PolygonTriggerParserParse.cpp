@@ -1,6 +1,4 @@
 // ?parse@PolygonTriggerDataChunkParserBase@@QAE_NAAVDataChunkInput@@PBUDataChunkInfo@@@Z
-// partial score=0.9999 date=2026-10-14
-// ?parse@PolygonTriggerDataChunkParserBase@@QAE_NAAVDataChunkInput@@PBUDataChunkInfo@@@Z
 // partial score=0.999 date=2026-10-14
 // U1 r6: EXACT in the Lab2 scorer (nd 0, 273 B, unresolved ctor 0x2E3FAB bound by address). Levers: (1) visible noinline bodies of the rowed
 // Rva000AD6F4::rva002E3E2A and ::clear (their address escape kept the owner out of the dead param slot [ebp+8]); (2) `if(n<2) continue;` early-continue
