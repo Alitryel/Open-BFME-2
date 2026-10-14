@@ -5,37 +5,17 @@
 #include "Coord3D.h"
 #include <list>
 #include <map>
-//
-// Two EH-guarded member factories in the 0x4E063F shape: 0x4E6745 news a
-// 0x20-byte Rva004E669A with (this plus three ints) and 0x4E7F43 news a
-// 0x28-byte Rva004E7D72 with (this), each stored to m_00 with this
-// returned. Retail 0x004E6745 70B, 0x004E7F43 59B. Both ctors are pinned
-// as honest address-derived candidates (new-expression targets); the
-// 0x4E7D72 body itself is an in-range target for later recovery.
+#include "Bfme/PlaceTerrainResourceClaimantFeedbackView.h"
 
-class Rva004E669A
+// Native 4E6745..4E678B RET12 allocates its 32-byte Impl, passing this,
+// the UI's feedback settings, its preview drawable and the resource module.
+// The real new-expression caller is InGameUI::handleBuildPlacements at
+// 2A2392..2A23A4; WB names the outer and nested constructors.
+PlaceTerrainResourceClaimantFeedback::PlaceTerrainResourceClaimantFeedback(
+    FeedbackParams *params, Drawable *drawable,
+    const TerrainResourceBehaviorModuleData *data)
 {
-public:
-	Rva004E669A(void *parent, int a, int b, int c);
-
-private:
-	char m_pad[0x20];
-};
-
-class Rva004E6745
-{
-public:
-	Rva004E6745 *rva004E6745(int a, int b, int c);
-
-private:
-	Rva004E669A *m_00;
-};
-
-// ?rva004E6745@Rva004E6745@@QAEPAURva004E6745@@HHH@Z @0x004E6745 70B.
-Rva004E6745 *Rva004E6745::rva004E6745(int a, int b, int c)
-{
-	m_00 = new Rva004E669A(this, a, b, c);
-	return this;
+    m_impl = new Impl(this, params, drawable, data);
 }
 
 class Rva004E5610

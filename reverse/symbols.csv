@@ -2486,7 +2486,6 @@ name,address,notes
 ??0Rva004E3E5AElement@@QAE@ABU0@@Z,0x004E2C66,copy constructor read from retail REL32 in _Construct<Rva004E3E5AElement> 0x004E2F27 (byte-exact modulo relocs in StlportConstructFamily.cpp); element identity unproven; address-derived name
 ??0Rva004E4A45@@QAE@PAX@Z,0x004E4A45,constructor called by the factory entry 0x002D1FEB (byte-exact modulo relocs in Rva002D1E55Factories.cpp) on a 0x2B4-byte allocation; identity unproven; address-derived name
 ??0Rva004E5610@@QAE@XZ,0x004E5610,
-??0Rva004E669A@@QAE@PAXHHH@Z,0x004E669A,EH-guarded ctor callee of 0x004E6745 read from its REL32 displacement (new 0x20 with 4 args); body unrowed
 ??0Rva004E7D72@@QAE@PAX@Z,0x004E7D72,EH-guarded ctor callee of 0x004E7F43 read from its REL32 displacement (new 0x28 with 1 arg); in-range target, body unrowed
 ??0Rva004E8B38@@QAE@PAX@Z,0x004E8B38,constructor called by the factory entry 0x002D1F3D (byte-exact modulo relocs in Rva002D1E55Factories.cpp) on a 0x288-byte allocation; identity unproven; address-derived name
 ??0Rva004ECECD@@QAE@ABVAsciiString@@H@Z,0x004ED3D1,AITactic base ctor (name, flags): SEH ctor installing vtable 0x00C629E4; retail REL32 at the tactic base ctors 0x005DC730 and 0x005DCB1B targets this address
