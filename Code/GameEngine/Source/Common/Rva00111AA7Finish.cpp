@@ -16,6 +16,7 @@ extern "C" void _ReadWriteBarrier(void);
 class Rva00111AA7
 {
 public:
+	Rva00111AA7();
 	Rva00111AA7(const char *s, int x);
 private:
 	AsciiString m_str; // +0
@@ -29,6 +30,18 @@ Rva00111AA7::Rva00111AA7(const char *s, int x)
 	: m_str(s)
 {
 	m_04 = x;
+	_ReadWriteBarrier();
+	m_18 = 0;
+	memset(m_08, 0, sizeof(m_08));
+}
+
+// ??0Rva00111AA7@@QAE@XZ @0x00111A8B (28B): the default constructor directly
+// ahead of the one above, same layout: empty string at +0, 2 at +4, the
+// 16 zero bytes at +8 and zero at +0x18; returns this with a plain ret. No
+// direct caller reaches it in retail.
+Rva00111AA7::Rva00111AA7()
+{
+	m_04 = 2;
 	_ReadWriteBarrier();
 	m_18 = 0;
 	memset(m_08, 0, sizeof(m_08));
