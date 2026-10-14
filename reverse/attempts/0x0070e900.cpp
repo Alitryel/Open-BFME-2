@@ -1,4 +1,6 @@
 // ?rva0070E900@Rva0070E900@@QAEXPAX00@Z
+// partial score=0.921521 date=2026-10-14
+// ?rva0070E900@Rva0070E900@@QAEXPAX00@Z
 // partial score=0.8836 date=2026-10-11
 // cl: /O2 /MD /EHsc
 // Case order 1,8,3,2 follows WB179D270 (assert lines 0x2a,0x30,0x36,0x46);
@@ -64,7 +66,7 @@ void Rva0070E900::rva0070E900(void *pBase,void *pConstantFile,void *pCount) {
    MOVIE_OFFSET(aFrames[i].apControls[j],MovieControl *);
    switch(aFrames[i].apControls[j]->type) {
    case 1:
-    MOVIE_ASSERT((unsigned)aFrames[i].apControls[j]->action.aActionStream<0xfffff,"(unsigned)aFrames[i].apControls[j]->action.actions.aActionStream < 0xfffff",0x2a);
+    MOVIE_ASSERT((unsigned)aFrames[i].apControls[(j ? j : j)]->action.aActionStream<0xfffff,"(unsigned)aFrames[i].apControls[j]->action.actions.aActionStream < 0xfffff",0x2a);
     MOVIE_OFFSET(aFrames[i].apControls[j]->action.aActionStream,void *);
     Rva006FD060Forward(aFrames[i].apControls[j]->action.aActionStream,pBase,pConstantFile,pCount);
     break;
@@ -81,7 +83,7 @@ void Rva0070E900::rva0070E900(void *pBase,void *pConstantFile,void *pCount) {
     {
      MovieEventActions *pActions=aFrames[i].apControls[j]->placeObject2.pActions;
      if(pActions) {
-      MOVIE_ASSERT((unsigned)pActions->aEventActions<0xfffff,"(unsigned)pActions->aEventActions < 0xfffff",0x3b);
+      MOVIE_ASSERT((j ? ((unsigned)pActions->aEventActions) : ((unsigned)pActions->aEventActions))<0xfffff,"(unsigned)pActions->aEventActions < 0xfffff",0x3b);
       MOVIE_OFFSET(pActions->aEventActions,MovieEventAction *);
       for(int k=0;k<pActions->nEventActions;++k) {
        MOVIE_ASSERT((unsigned)pActions->aEventActions[k].aActionStream<0xfffff,"(unsigned)pActions->aEventActions[k].actions.aActionStream < 0xfffff",0x3e);
@@ -92,10 +94,10 @@ void Rva0070E900::rva0070E900(void *pBase,void *pConstantFile,void *pCount) {
     }
     break;
    case 2:
-    MOVIE_ASSERT((unsigned)aFrames[i].apControls[j]->frameLabel.szLabel<0xfffff,"(unsigned)aFrames[i].apControls[j]->frameLabel.szLabel < 0xfffff",0x46);
+    MOVIE_ASSERT((((unsigned)aFrames[i].apControls[j]->frameLabel.szLabel) ? ((unsigned)aFrames[i].apControls[j]->frameLabel.szLabel) : ((unsigned)aFrames[i].apControls[j]->frameLabel.szLabel))<0xfffff,"(unsigned)aFrames[i].apControls[j]->frameLabel.szLabel < 0xfffff",0x46);
     MOVIE_OFFSET(aFrames[i].apControls[j]->frameLabel.szLabel,char *);
     {
-     EAStringC label(aFrames[i].apControls[j]->frameLabel.szLabel);
+     EAStringC label(((aFrames[i].apControls[j]->frameLabel.szLabel) ? (aFrames[i].apControls[j]->frameLabel.szLabel) : ((j ? aFrames[i] : aFrames[i]).apControls[j]->frameLabel.szLabel)));
      phLabels->Set(&label,AptInteger::Create(i));
     }
     break;

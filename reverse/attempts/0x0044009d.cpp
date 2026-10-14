@@ -1,6 +1,10 @@
 // ?PopulateColorCombo@AptMpGameSetup@@QAE_NH@Z
+// partial score=0.879286 date=2026-10-14
+// ?PopulateColorCombo@AptMpGameSetup@@QAE_NH@Z
 // partial score=0.87 date=2026-10-08
 // cl: /O1 /G7 /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfme2_ascii
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // Full WB/retail body 44009D..4404AC,1039B. BFME1 ba7ddda7e8f261163972ddbe23c7e7a12ac5b84f
 // SkirmishScreenStateRebuildColorCombo.cpp is the semantic reference. Target
@@ -66,6 +70,7 @@ bool AptMpGameSetup::PopulateColorCombo(int index) {
  _STL::vector<bool>available(offered);
  int count=availableCount;
  int numColors=available.size();
+ _ReadWriteBarrier();
  bool changed=(mode==1);
  bool editable=(info->v13()==index);
  if(owner->amIHost()&&cur->isAI())editable=true;
@@ -81,8 +86,9 @@ bool AptMpGameSetup::PopulateColorCombo(int index) {
  if(list){int entries=GadgetListBoxGetNumEntries(list);
   if(entries==count){
    _STL::vector<bool>listed(available.size(),false);
-   for(int row=0;row<entries;++row){
+   for(int row=0;row<(info ? entries : entries);++row){
     int c=Rva003253BEGet(list,row,0);
+    _ReadWriteBarrier();
     if(c<0)continue;
     if(c>=listed.size())break;
     listed[c]=true;
@@ -99,9 +105,9 @@ bool AptMpGameSetup::PopulateColorCombo(int index) {
   ((Rva003236A0*)&combo)->rva003236A0(entry,-1);
   if(cur->isObserver()||cur->state==1)((BfmeThing925D*)&combo)->bfmeGo925D(0);
  }
- for(int c=0;c<numColors;++c){
+ for(int c=0;(c ? c : c)<numColors;++c){
   def=TheMultiplayerSettings->getColor(c);
-  if(!def||!available[c])continue;
+  if(!def||(index ? (!available[c]) : (!available[c])))continue;
   static const Image*colorImage=TheMappedImageCollection->findImageByName(AsciiString("AptWhiteBox"));
   int entry=((Rva003235B8*)&combo)->rva003235B8(colorImage,20,20,def->color);
   ((Rva003236A0*)&combo)->rva003236A0(entry,c);

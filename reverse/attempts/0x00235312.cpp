@@ -1,4 +1,6 @@
 // ?rva00235312@GlobalData@@QAE_NW4TimeOfDay@@0M@Z
+// partial score=0.868558 date=2026-10-14
+// ?rva00235312@GlobalData@@QAE_NW4TimeOfDay@@0M@Z
 // partial score=0.8 date=2026-10-13
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
@@ -128,7 +130,7 @@ Bool GlobalData::rva00235312(TimeOfDay from, TimeOfDay to, Real t)
 	for (i = 0; i < MAX_GLOBAL_LIGHTS; i++)
 	{
 		m_terrainAmbient[i] = m_terrainLighting[TIME_OF_DAY_INTERPOLATE][i].ambient;
-		m_terrainDiffuse[i] = m_terrainLighting[TIME_OF_DAY_INTERPOLATE][i].diffuse;
+		m_terrainDiffuse[i] = (i ? (m_terrainLighting[TIME_OF_DAY_INTERPOLATE][i].diffuse) : (m_terrainLighting[TIME_OF_DAY_INTERPOLATE][i].diffuse));
 		m_terrainLightPos[i] = m_terrainLighting[TIME_OF_DAY_INTERPOLATE][i].lightPos;
 	}
 	return true;

@@ -1,4 +1,6 @@
 // ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
+// partial score=0.994893 date=2026-10-14
+// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
 // partial score=0.87 date=2026-10-13
 // ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
 // partial score=0.86 date=2026-10-09
@@ -81,7 +83,7 @@ Object* CastleBehavior::buildCastleStructure(BuildListInfo* record,bool instant)
  if(field<unsigned char>((void*)type,0x114)&0x10) return 0;
  if(field<unsigned char>((void*)type,0x10f)&0x10) field<bool>(this,0x44)=true;
  Player* player=getOwner()->getControllingPlayer();
- if(!((Rva2225E0Filter*)((char*)data+0x30))->rva003618B9(type,0,0)) player=field<Player*>(ThePlayerList,0x18);
+ if(!((record ? ((Rva2225E0Filter*)((char*)data+0x30)) : ((Rva2225E0Filter*)((char*)data+0x30))))->rva003618B9(type,0,0)) player=field<Player*>(ThePlayerList,0x18);
  if(!player) return 0;
  Object* owner=getOwner();
  Vector3 p(field<float>(record,0xc),field<float>(record,0x10),field<float>(record,0x14));
@@ -89,7 +91,7 @@ Object* CastleBehavior::buildCastleStructure(BuildListInfo* record,bool instant)
  Coord3D pos;
  pos.x=p.X; pos.y=p.Y; pos.z=p.Z;
  float angle=owner->orientation(); angle+=record->angle();
- angle=normalizeAngle(angle);
+ angle=(record ? (normalizeAngle(angle)) : (normalizeAngle(angle)));
  if(!(type->kind10A()) && ((Rva003955AFData*)getData())->query((int)&pos,(int)type,angle,5,(int)getOwner())) return 0;
  created=((CastleFactoryView*)((char*)this+0x20))->create(getOwner(),type,&pos,angle,player,instant);
  if(created) {

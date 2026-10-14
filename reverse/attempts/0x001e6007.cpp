@@ -1,8 +1,12 @@
 // ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
+// partial score=0.872167 date=2026-10-14
+// ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.866656 date=2026-10-09
 // ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.75 date=2026-10-09
 // cl: /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /O1 /G7 /arch:SSE /ICode/Libraries/Include /DNDEBUG /MD /Oi-
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // Float getters of one object-module class whose shared worker is the
 // unrowed 356-byte 0x001E46E1 (pinned by address from these call sites; it
 // reads the Object's +0x254 and +0x258 and calls the rowed check at
@@ -557,7 +561,7 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
  float braking=rva001E488A(obj);
  float minSpeed=m_data->m_28;
  float slowDownDist=rva6007SlowDown(actualSpeed,minSpeed,braking);
- if(distance>slowDownDist*3.0f)m_flags44&=~1u;
+ if(((distance>slowDownDist*3.0f) ? (distance>slowDownDist*3.0f) : (distance>slowDownDist*3.0f)))m_flags44&=~1u;
  float next=m_40-braking;
  if(next>desiredSpeed){goalSpeed=next;if(goalSpeed<braking)goalSpeed=braking;}
  if(slowDownDist>distance && !getFlag(4)){
@@ -584,6 +588,7 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
  } else {
   newGoal.x-=obj->m_pos38.x;newGoal.y-=obj->m_pos38.y;newGoal.z=0.0f;
   pos=*obj->getPosition();
+  _ReadWriteBarrier();
   float len=newGoal.length();
   float minMove=10.0f/g_Va00DBA4E4;
   if(speed<minMove)speed=minMove;
