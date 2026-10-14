@@ -89057,3 +89057,4 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ?Rva004E7B40@@YAXPAVRva004E7A76@@@Z,,0x004E7B40,9,Code/GameEngine/Source/Common/Rva004E7B40Forward.cpp,matched,cdecl pointer forward tail-jumping to rowed Rva004E7A76::rva004E7A76 0x004E7A76; _Destroy-shaped twin of 0x005BC6F5
 ?Rva0050C44EGet@@YAHH@Z,,0x0050C44E,12,Code/GameEngine/Source/Common/GlobalArrayIndexGetters.cpp,matched,indexed dword read over the table at VA 0x00DBEC90; twin of rowed Rva00115DE8Get
 ?ReOpenPlayerInfo@@YAXXZ,,0x00548C51,8,Code/GameEngine/Source/GameNetwork/GameSpyOverlay.cpp,matched,ZH GameSpyOverlay.cpp ReOpenPlayerInfo: raises reOpenPlayerInfoFlag VA 0x00E05F84 read by rowed CheckReOpenPlayerInfo 0x00548F93
+?invoke@Rva0041E6EB@@QAEXXZ,,0x0041E6EB,8,Code/GameEngine/Source/Common/Rva0041E6EBDelegateCall.cpp,matched,bound member pointer +0x10 on object +0x0C tail call; no-arg twin of rowed delegate invoke 0x005B4C73
