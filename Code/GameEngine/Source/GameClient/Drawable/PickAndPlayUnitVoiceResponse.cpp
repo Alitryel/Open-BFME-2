@@ -1037,7 +1037,6 @@ struct AttackVoiceIds
 };
 
 // 0x004D9CF3: attack-command voices (WB twin 0x1298380).
-// ?doPickAndPlayForAttackCommand@@YAXW4Type@GameMessage@@PAVPickAndPlayInfo@@_NPAVRva004D97B0@@@Z present-unmatched
 static void doPickAndPlayForAttackCommand(GameMessage::Type type, PickAndPlayInfo *info, bool forced, Rva004D97B0 *record)
 {
 	AttackVoiceIds ids;
