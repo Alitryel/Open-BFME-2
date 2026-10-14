@@ -1,5 +1,5 @@
 // ??0Rva003FE58A@@QAE@PAX0@Z
-// partial score=0.8 date=2026-10-14
+// partial score=0.82 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
 //
@@ -39,6 +39,7 @@ class Rva00538E22
 {
 public:
 	Rva00538E22(Int tag);
+	~Rva00538E22();
 	char m_data[0x10];
 };
 
@@ -93,7 +94,6 @@ Rva003FE58A::Rva003FE58A(void *elements, void *owner)
 	, m_queue((Int)this)
 {
 	m_4C = 0;
-	_ReadWriteBarrier();
 	m_50 = 0.0f;
 	m_54 = 0.0f;
 	m_58 = 5.0f;
