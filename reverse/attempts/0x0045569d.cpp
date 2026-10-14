@@ -1,4 +1,6 @@
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
+// partial score=0.637 date=2026-10-14
+// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.85 date=2026-10-08
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /GX
 //
@@ -40,6 +42,8 @@ typedef float Real;
 #define TRUE true
 #define FALSE false
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 enum NameKeyType
@@ -455,6 +459,7 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 					Coord3D delta;
 					delta.x = foundation->getPosition()->x;
 					delta.y = foundation->getPosition()->y;
+					_ReadWriteBarrier();
 					delta.x -= keep->getPosition()->x;
 					delta.y -= keep->getPosition()->y;
 					orientation = normalizeAngle((Real)Rva000422A0Atan2(delta.y, delta.x));
@@ -465,8 +470,8 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 	}
 	else if (obj->getTemplate()->isKindOf(KINDOF_69))
 	{
-		orientation = obj->getTemplate()->getPlacementAngle();
 		orientation = foundation->getTransformMatrix()->Get_Z_Rotation() + orientation;
+		orientation = obj->getTemplate()->getPlacementAngle();
 	}
 
 	if (!isRebuild && obj->getTemplate()->isKindOf(KINDOF_69) && !obj->getTemplate()->isKindOf(KINDOF_68))
@@ -474,8 +479,8 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 		obj->m_constructionPercent = 0.0f;
 		obj->setStatus(OBJECT_STATUS_UNDER_CONSTRUCTION, TRUE);
 		Rva001E4912 clearBits;
-		obj->rva0028CFB2((const int *)&Rva0028F59A(0, 67), (const int *)clearBits.rva001E4912(0, 68, 69));
 		BodyModuleInterface *body = obj->getBodyModule();
+		obj->rva0028CFB2((const int *)&Rva0028F59A(0, 67), (const int *)clearBits.rva001E4912(0, 68, 69));
 		body->setHealthDelta(1.0f - body->getHealth(0));
 	}
 

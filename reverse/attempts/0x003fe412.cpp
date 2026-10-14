@@ -1,4 +1,6 @@
 // ??0Rva003FE58A@@QAE@PAX0@Z
+// partial score=0.684 date=2026-10-14
+// ??0Rva003FE58A@@QAE@PAX0@Z
 // partial score=0.82 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
@@ -94,12 +96,13 @@ Rva003FE58A::Rva003FE58A(void *elements, void *owner)
 	, m_queue((Int)this)
 {
 	m_4C = 0;
+	_ReadWriteBarrier();
 	m_50 = 0.0f;
 	m_54 = 0.0f;
 	m_58 = 5.0f;
 	m_5C = false;
-	Int color = 0;
 	bool haveColor = false;
+	Int color = 0;
 	Int playerIndex = *(Int *)((char *)owner + 0x54);
 	Rva002E2903Player *found = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->find(playerIndex, 0);
 	if (found) {
@@ -115,7 +118,7 @@ Rva003FE58A::Rva003FE58A(void *elements, void *owner)
 	if (m_owner) {
 		m_58 = *(float *)((char *)m_owner + 0x5C);
 		unsigned char r = ((Rva003FDD29 *)this)->rva003FDD29();
-		((Rva00539281 *)this)->rva00539281((Int)r, 1);
+		if (it) { ((Rva00539281 *)this)->rva00539281((Int)r, 1); } else { ((Rva00539281 *)this)->rva00539281((Int)r, 1); }
 	}
 	((Rva003FE05E *)this)->rva003FE05E();
 }

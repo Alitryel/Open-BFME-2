@@ -1,4 +1,6 @@
 // ?projectRangesRva00108FBD@@YAXABVRva00108E7AVector@@0MMMMAAVRva00108E33Pair@@1@Z
+// partial score=0.5 date=2026-10-14
+// ?projectRangesRva00108FBD@@YAXABVRva00108E7AVector@@0MMMMAAVRva00108E33Pair@@1@Z
 // partial score=0.75314807219032 date=2026-10-14
 // ?projectRangesRva00108FBD@@YAXABVRva00108E7AVector@@0MMMMAAVRva00108E33Pair@@1@Z
 // partial score=0.75314807219032 date=2026-10-10
@@ -17,6 +19,8 @@
 // A compiler-visible caller preserves both private conventions, as MSVC 7.1
 // derives them from same-unit calls. It is an emission pattern, not a retail
 // caller recovery. All body bytes and compiler float literals are verified.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "wwmath.h"
 
 // Scoped storage views use the evidenced 12B vector, 8B pair, and 3x4 matrix
@@ -104,12 +108,13 @@ static void projectRangesRva00108FBD(const Rva00108E7AVector &axisA, const Rva00
 	Rva00108E7AVector a1 = (0.5f - offA) * sizeA * axisA;
 	Rva00108E7AVector b0 = -((offB + 0.5f) * sizeB) * axisB;
 	Rva00108E7AVector b1 = (0.5f - offB) * sizeB * axisB;
+	_ReadWriteBarrier();
 	Rva00108E7AVector c0 = b0 + a0;
-	Rva00108E7AVector c1 = b0 + a1;
-	Rva00108E7AVector c2 = b1 + a1;
+
+	volatile Rva00108E7AVector c2 = b1 + a1;
 	Rva00108E7AVector c3 = b1 + a0;
-	xr = minMax4Rva00108E33(c0.X, c1.X, c2.X, c3.X);
-	yr = minMax4Rva00108E33(c0.Y, c1.Y, c2.Y, c3.Y);
+	xr = minMax4Rva00108E33(c0.X, (b0 + a1).X, c2.X, c3.X);
+	yr = minMax4Rva00108E33(c0.Y, (b0 + a1).Y, c2.Y, c3.Y);
 }
 
 void trialRanges(const Rva00108E7AMatrix&m,Rva00108E7AVector&a,Rva00108E7AVector&b,float s0,float s1,float s2,float s3,Rva00108E33Pair*out){

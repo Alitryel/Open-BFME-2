@@ -1,4 +1,6 @@
 // ?rva000FC04C@Rva000FBA4ASecondary@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z
+// partial score=0.821 date=2026-10-14
+// ?rva000FC04C@Rva000FBA4ASecondary@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z
 // partial score=0.82 date=2026-10-08
 // cl: /O1 /Oy /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/bfmestages /Ireference/shims/sweep /ICode/Libraries/Include /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // Retail 0x000FBA57, vtable slot 3 of the object installed by 0x000FBA4A.
@@ -278,10 +280,10 @@ bool Rva000FBA4ASecondary::rva000FC04C(FilterModes mode,
 	int height;
 	struct TransLitTexVertex
 	{
-		D3DXVECTOR4 position;
 		unsigned long color;
-		float u;
+		D3DXVECTOR4 position;
 		float v;
+		float u;
 	} vertices[4];
 	TheTacticalView->getOrigin(&x, &y);
 	width = TheTacticalView->getWidth();

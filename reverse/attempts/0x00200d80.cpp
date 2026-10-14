@@ -1,4 +1,6 @@
 // ??0WaterTransparencySetting@@QAE@XZ
+// partial score=0.663 date=2026-10-14
+// ??0WaterTransparencySetting@@QAE@XZ
 // partial score=0.9 date=2026-10-13
 // ??0WaterTransparencySetting@@QAE@XZ
 // partial score=0.9 date=2026-09-29
@@ -64,9 +66,9 @@ class WaterTransparencySetting : public EmptyBase
 public:
 	WaterTransparencySetting();
 private:
-	const void *m_vtable;
-	void *m_nextOverride;
-	unsigned char m_isOverride;
+	const void *volatile m_vtable;
+	void *volatile m_nextOverride;
+	volatile unsigned char m_isOverride;
 	char m_pad09[3];
 	int m_unk0C;
 	Rva00200D38 m_rva10;

@@ -1,4 +1,6 @@
 // ?calcCostToBuild@UpgradeTemplate@@QBEIPAVPlayer@@I@Z
+// partial score=0.619 date=2026-10-14
+// ?calcCostToBuild@UpgradeTemplate@@QBEIPAVPlayer@@I@Z
 // partial score=0.91168 date=2026-10-13
 // ?calcCostToBuild@UpgradeTemplate@@QBEIPAVPlayer@@I@Z
 // partial score=0.9013 date=2026-10-13
@@ -121,7 +123,7 @@ unsigned int UpgradeTemplate::calcCostToBuild(Player *player, unsigned int reque
 		return cost;
 
 	Object *object = (Object *)requester;
-	if (m_prerequisitesBegin != __vref(m_prerequisitesEnd))
+	if (m_prerequisitesBegin != (object ? (__vref(m_prerequisitesEnd)) : (__vref(m_prerequisitesEnd))))
 	{
 		cost = 0;
 		for (UpgradeTemplate **it = m_prerequisitesBegin; it != m_prerequisitesEnd; ++it)

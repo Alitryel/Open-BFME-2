@@ -1,4 +1,6 @@
 // ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
+// partial score=0.711 date=2026-10-14
+// ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
 // partial score=0.96 date=2026-10-13
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -169,7 +171,7 @@ NetCommandRef *NetCommandList::addMessage(NetCommandMsg *cmdMsg)
 	NetCommandRef *tempmsg = m_first;
 	while ((tempmsg != 0) &&
 		((cmdMsg->getTimestamp() > m_first->getCommand()->getTimestamp()) ||
-		 (cmdMsg->getNetCommandType() > tempmsg->getCommand()->getNetCommandType()) ||
+		 ((incomingSort ? (cmdMsg->getNetCommandType()) : (cmdMsg->getNetCommandType())) > tempmsg->getCommand()->getNetCommandType()) ||
 		 (cmdMsg->getPlayerID() > tempmsg->getCommand()->getPlayerID()) ||
 		 ((queuedForSort = tempmsg->getCommand(), incomingSort = cmdMsg->getSortNumber(), incomingSort > queuedForSort->getSortNumber())))) {
 		tempmsg = tempmsg->getNext();

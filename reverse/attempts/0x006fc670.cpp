@@ -1,4 +1,6 @@
 // _BfmeAux006FC670
+// partial score=0.5 date=2026-10-14
+// _BfmeAux006FC670
 // partial score=0.91 date=2026-10-13
 // cl: /O2 /G6 /arch:SSE /DNDEBUG /MD /EHs
 // Target evidence: the 762-byte Ghidra body calls the matched AptValue
@@ -383,7 +385,7 @@ extern "C" void BfmeAux006FC670(const unsigned char *incomingActionStream, int p
 			{
 				RUNTIME_ASSERT((unsigned)pData->szUrl < 0xfffff, 0x238, "(unsigned)pData->szUrl < 0xfffff");
 				RELOCATE(pData->szUrl);
-				RUNTIME_ASSERT((unsigned)pData->szWin < 0xfffff, 0x239, "(unsigned)pData->szWin < 0xfffff");
+				RUNTIME_ASSERT((eAction ? ((unsigned)pData->szWin < 0xfffff) : ((unsigned)pData->szWin < 0xfffff)), 0x239, "(unsigned)pData->szWin < 0xfffff");
 				RELOCATE(pData->szWin);
 			}
 			break;

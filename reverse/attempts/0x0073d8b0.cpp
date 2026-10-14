@@ -1,4 +1,6 @@
 // ?rva0073D8B0@ShroudManagerImpl@@QAEXPAVXfer@@@Z
+// partial score=0.619 date=2026-10-14
+// ?rva0073D8B0@ShroudManagerImpl@@QAEXPAVXfer@@@Z
 // partial score=0.91754 date=2026-10-09
 // cl: /O2 /arch:SSE /G6 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /DBFME_STLP_NODE_ALLOC /D_STLP_NO_EXCEPTIONS /Ireference/shims/stlp_nodealloc
 // stlport
@@ -845,6 +847,7 @@ void ShroudManagerImpl::rva0073D8B0(Xfer *target)
   }
  } else {
   ShroudManagerImpl008FBA40Element *element=elements;
+  _ReadWriteBarrier();
   unsigned scratch=0;
   for(unsigned y=0;y<height;++y) {
    for(unsigned x=0;x<width;++x,++element) {

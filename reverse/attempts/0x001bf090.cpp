@@ -1,4 +1,6 @@
 // _DeblockNonFilteredBandNewFilter_C
+// partial score=0.621 date=2026-10-14
+// _DeblockNonFilteredBandNewFilter_C
 // partial score=0.9056 date=2026-10-13
 // cl: /O2 /G6 /DNDEBUG /MD
 // Clean room: reverse/vp6_cleanroom/specs/001bf090.md plus retail only.
@@ -56,7 +58,7 @@ extern "C" void __cdecl DeblockNonFilteredBandNewFilter_C(Vp6DeblockBandNewInsta
 			}
 			ctx->m_variance[index] += upper > 255 ? 255 : upper;
 			ctx->m_variance[index + count] += lower > 255 ? 255 : lower;
-			limit = (qStep * 3) >> 2;
+			limit = (sum ? ((qStep * 3) >> 2) : ((qStep * 3) >> 2));
 			if (upper < limit && lower < limit && x[5] - x[4] < qStep && x[4] - x[5] < qStep) {
 				sum = x[4] + 3 * x[0] + x[3] + x[2] + 4 + x[1];
 				rowOutput[-p4] = (unsigned char)((sum + x[1]) >> 3);

@@ -1,4 +1,6 @@
 // ?rva00916CD0@PointGroupClass@@QAEXPAEHH@Z
+// partial score=0.913 date=2026-10-14
+// ?rva00916CD0@PointGroupClass@@QAEXPAEHH@Z
 // partial score=0.9 date=2026-10-14
 // ?rva00916CD0@PointGroupClass@@QAEXPAEHH@Z
 // partial score=0.9645930348717475 date=2026-10-10
@@ -85,8 +87,9 @@ void PointGroupClass::rva00916CD0(unsigned char *point_frame, int active_points,
     }
   } else {
     if (PointMode != QUADS) {
-      Vector2 *vertex_uv = &VertexUV[0];
       Vector2 *uv_ptr = _TriVertexUVFrameTable[FrameRowColumnCountLog2] + ((DefaultPointFrame & frame_mask) * 3);
+      Vector2 *vertex_uv = &VertexUV[0];
+      _ReadWriteBarrier();
       if (bounds_address) {
         const float *bounds = (const float *)bounds_address;
         float u0 = bounds[0], v0 = bounds[1], du = bounds[2] - u0,
@@ -103,8 +106,8 @@ void PointGroupClass::rva00916CD0(unsigned char *point_frame, int active_points,
         vertex_uv += 3;
       }
     } else {
-      Vector2 *uv_ptr = _QuadVertexUVFrameTable[FrameRowColumnCountLog2] + ((DefaultPointFrame & frame_mask) * 4); _ReadWriteBarrier();
       Vector2 *vertex_uv = &VertexUV[0];
+      Vector2 *uv_ptr = _QuadVertexUVFrameTable[FrameRowColumnCountLog2] + ((DefaultPointFrame & frame_mask) * 4); _ReadWriteBarrier();
       _ReadWriteBarrier();
       if (bounds_address) {
         const float *bounds = (const float *)bounds_address;

@@ -1,4 +1,6 @@
 // ?rva002DD91A@GameState@@QAEHUTreeHintOpaque0043671B@@@Z
+// partial score=0.5 date=2026-10-14
+// ?rva002DD91A@GameState@@QAEHUTreeHintOpaque0043671B@@@Z
 // partial score=0.7632370244750121 date=2026-10-10
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7   /arch:SSE /DNDEBUG /MD /EHsc
 // Native 2DE3C1..2DE4E6 is the load-game scope wrapper. WorldBuilder's
@@ -15,6 +17,7 @@
 // asserts the call ABI; it does not claim a recovered implementation.
 #include "unicode_string.h"
 #include "../../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 extern GameLogic *TheGameLogic;
 struct BfmeSubobject0022CE19 {
  virtual ~BfmeSubobject0022CE19();
@@ -215,7 +218,7 @@ int GameState::rva002DD91A(TreeHintOpaque0043671B info)
    result=3;goto done;
   }
   if(m_saveType==4 || m_saveType==6) {
-   InitRandom(0);m_saveType=0;
+   InitRandom(0);__vref(m_saveType)=0;
    ((GameLoadLogicFlags*)TheGameLogic)->suspended=true;
   }
   ((GameLoadAudioView*)TheAudio)->slot17(0x3F,7,0);
@@ -225,8 +228,8 @@ int GameState::rva002DD91A(TreeHintOpaque0043671B info)
  ((GameLoadDisplayView*)TheDisplay)->flag=true;
  ((GameLoadVideoView*)TheVideoPlayer)->slot28();
  TheGameLogic->rva00376E92(false,true);
- ((GameLoadDisplayView*)TheDisplay)->flag=true;
  ((GameLoadVideoView*)TheVideoPlayer)->slot28();
+ ((GameLoadDisplayView*)TheDisplay)->flag=true;
  result=3;
  }
 done:

@@ -1,4 +1,6 @@
 // ?rva00375DFF@AerialPathfinder@@QAE_NPAVObject@@PAVRva00375A73Context@@MM@Z
+// partial score=0.5 date=2026-10-14
+// ?rva00375DFF@AerialPathfinder@@QAE_NPAVObject@@PAVRva00375A73Context@@MM@Z
 // partial score=0.97 date=2026-10-13
 // ?rva00375DFF@AerialPathfinder@@QAE_NPAVObject@@PAVRva00375A73Context@@MM@Z
 // partial score=0.97 date=2026-10-13
@@ -118,7 +120,7 @@ bool AerialPathfinder::rva00375DFF(Object *obj, Rva00375A73Context *context, flo
             where.z = 0.0f;
             if (TheAerialPathfinder->rva00375C28(obj, &pos, &t, &where))
                 hit = true;
-            if ((t ? (above != true) : (above != true)))
+            if ((t ? ((above ? (above != true) : (above != true))) : (above != true)))
                 return false;
             if (hit != true)
                 return false;

@@ -1,4 +1,6 @@
 // ?rva0049C93F@Rva0049C93F@@QAEHXZ
+// partial score=0.5 date=2026-10-14
+// ?rva0049C93F@Rva0049C93F@@QAEHXZ
 // partial score=0.9 date=2026-10-07
 // ?rva0049C93F@Rva0049C93F@@QAEHXZ @0x0049C93F 240B.
 // Slot 0 of the vtable stored at GiveUpgradeUpdate+0x10 (VA 0x00C51214).
@@ -128,7 +130,7 @@ int Rva0049C93F::rva0049C93F()
 	if (state != 2)
 	{
 		m_flag89 = false;
-		((Rva0044E6AE *)parentOf(this))->rva0044E6AE();
+		((m_value ? ((Rva0044E6AE *)parentOf(this)) : ((Rva0044E6AE *)parentOf(this))))->rva0044E6AE();
 		return code;
 	}
 

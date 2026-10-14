@@ -1,4 +1,6 @@
 // ?rawTile@Rva000ADDCEWorldHeightMapView@@QAE_NFHPAEHH@Z
+// partial score=0.5 date=2026-10-14
+// ?rawTile@Rva000ADDCEWorldHeightMapView@@QAE_NFHPAEHH@Z
 // partial score=0.6 date=2026-10-08
 // cl: /O1 /Oy- /G7 /arch:SSE /MD /EHsc
 // Native AC88E..AC9DA (332B): existing neutral WorldHeightMap call owner.
@@ -37,7 +39,7 @@ bool Rva000ADDCEWorldHeightMapView::rawTile(short tile,int width,
   source=tiles[tile/4];
   if(mode==1) {
    if(!source) return false;
-   source=reinterpret_cast<TileData *>(reinterpret_cast<const Rva00111784DwordField *>(source)->get());
+   source=(width ? (reinterpret_cast<TileData *>(reinterpret_cast<const Rva00111784DwordField *>(source)->get())) : (reinterpret_cast<TileData *>(reinterpret_cast<const Rva00111784DwordField *>(source)->get())));
    if(!source) return false;
   }
  }
