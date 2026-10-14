@@ -1,4 +1,6 @@
 // ?rva005A52FE@AptOnlineCustomMatch@@UAEHPAVGameWindow@@III@Z
+// partial score=0.96 date=2026-10-14
+// ?rva005A52FE@AptOnlineCustomMatch@@UAEHPAVGameWindow@@III@Z
 // partial score=0.98 date=2026-10-11
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
@@ -1631,7 +1633,8 @@ int AptOnlineCustomMatch::rva005A52FE(GameWindow *window, unsigned int msg, unsi
 			GadgetComboBoxGetSelectedPos((GameWindow *)m_490, &pos);
 			if (pos >= 0)
 			{
-				void *ladder = GadgetComboBoxGetItemData((GameWindow *)m_490, pos);
+				int u_m_490 = m_490;
+				void *ladder = GadgetComboBoxGetItemData((GameWindow *)u_m_490, pos);
 				AsciiString password("");
 				((Rva005A5B38Box *)this)->DoRefresh((int)ladder, &password);
 			}
