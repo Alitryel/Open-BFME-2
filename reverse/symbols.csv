@@ -11568,7 +11568,6 @@ name,address,notes
 ?rva005C8F50@Rva005C8F50Elem@@QAEXHH@Z,0x005C8F50,pinned per-element method called by the F34 range-apply wrapper 0x005C834A with the wrapper args; name unknown
 ?rva005C90F1@Rva005C90F1Elem@@QAEXHH@Z,0x005C90F1,pinned per-element method called by the F34 range-apply wrapper 0x005C839B with the wrapper args; name unknown
 ?rva005CB260@Rva005CB260@@QAEHH@Z,0x005CB260,int-return twin of rowed void forwarder same 5B slot1 ICF return used as int at 0x005279DD
-?rva005CB260@Rva005CB260@@QAEXH@Z,0x005CB260,twin of rowed void forwarder same 5B slot1 ICF first call at 0x005E0B0F pushes 0
 ?rva005CB260@Rva005CB260@@QAEXXZ,0x005CB260,method twin of free pin via ecx-this call sites 0x005FFB32
 ?rva005CB265@Rva005CB265@@QAEXPBUCoord3D@@@Z,0x005CB265,one-pointer use of the folded forwarder (mov eax [ecx]; jmp [eax+0xC]) by RadarMarkerClientUpdate::clientUpdate 0x004C9CF7 (push of Drawable position then call); the forwarder passes its arguments through to the referent slot 3
 ?rva005CB265@Rva005CB265@@UAEHXZ,0x005CB265,no-arg int getter proven by call site 0x005796CE with no push and cmp eax edi

@@ -11,11 +11,27 @@ public:
 	virtual void rva005CB260_slot0();
 	virtual void rva005CB260_slot1();
 	void rva005CB260();
+	void rva005CB260(int value);
 };
 
 void Rva005CB260::rva005CB260()
 {
 	rva005CB260_slot1();
+}
+
+// ?rva005CB260@Rva005CB260@@QAEXH@Z: the same fold's one-argument spelling.
+// Its callers push one int before calling 0x005CB260 (0x005E0B0F pushes 0),
+// which the forwarder passes on to slot 1 untouched.
+class Rva005CB260IntSlots
+{
+public:
+	virtual void slot0();
+	virtual void slot1(int value);
+};
+
+void Rva005CB260::rva005CB260(int value)
+{
+	((Rva005CB260IntSlots *)this)->slot1(value);
 }
 
 // ?rva005CB265@Rva005CB265@@UAEHXZ @0x005CB265 5B: the slot-3 twin,
