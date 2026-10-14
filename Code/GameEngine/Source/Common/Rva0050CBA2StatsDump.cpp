@@ -1,3 +1,9 @@
+// ?rva0050CBA2@Rva0050CBA2@@QAE_NPAX@Z retail 0x0050CBA2, 752 bytes.
+// WB 0x00ED8100 is the same diagnostician body. Landed by W7-MP3 r9 from the
+// U1-lab multisite beam; the exact edit was eq3c on the `anim` read in the
+// transition loop (equal-arm keeps the Load_Anim_Tree call grouped).
+// Donor views: BFME1 vector.h surface, INIStatsRecord per BfmeConv1191.cpp,
+// rva0050C91D/rva0050C9EF resolve to their rowed TUs at link.
 // ?rva0050CBA2@Rva0050CBA2@@QAE_NPAX@Z
 // partial score=0.9497 date=2026-10-13
 // ?rva0050CBA2@Rva0050CBA2@@QAE_NPAX@Z
@@ -256,8 +262,8 @@ struct Rva0050CBA2Anim : Rva0050CBA2RefCounted
 };
 class RenderObjClass;
 RenderObjClass *Create_Render_Obj(const char *name);
-class HTreeClass;
-HTreeClass *Rva0014CF5F_GetAnimTree(const char *name);
+class HAnimClass;
+class AnimationAsset { public: static HAnimClass *GetAnim(const char *name); };
 
 bool Rva0050CBA2::rva0050CBA2(void *filename)
 {
@@ -304,11 +310,11 @@ bool Rva0050CBA2::rva0050CBA2(void *filename)
             {
                 for (Rva000B4926 *anim = transition->m_animStart; anim != transition->m_animFinish; ++anim)
                 {
-                    if (anim->rva000B4926() == previous)
+                    if ((transition->m_animFinish ? anim : anim)->rva000B4926() == previous)
                         continue;
                     record.m_20 = anim->rva000B4926();
                     previous = anim->rva000B4926();
-                    Rva0050CBA2Anim *hanim = (Rva0050CBA2Anim *)Rva0014CF5F_GetAnimTree(anim->rva000B4926().str());
+                    Rva0050CBA2Anim *hanim = (Rva0050CBA2Anim *)AnimationAsset::GetAnim(anim->rva000B4926().str());
                     if (hanim)
                     {
                         record.m_24 = hanim->Get_Num_Frames();

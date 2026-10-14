@@ -88280,3 +88280,4 @@ __ehhandler$??0Rva005E8350@@QAE@PAVRva005E87E0@@PAX1PAURva005CE172Context@@@Z,,0
 ?v4@Made002CC5E1@@UAEXPAX0@Z,,0x00507A04,435,Code/GameEngine/Source/GameLogic/Object/Made002CC5E1Rva00507A04.cpp,matched,
 ?rva003E59B0@ScriptConditions@@QAE_NPBVAsciiString@@0PAVParameter@@_N@Z,,0x003E59B0,313,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions_rva003E59B0.cpp,matched,
 ?rva002D937E@Image@@QAEXXZ,,0x002D937E,217,Code/GameEngine/Source/GameClient/System/ImageRva002D937E.cpp,matched,
+?rva0050CBA2@Rva0050CBA2@@QAE_NPAX@Z,,0x0050CBA2,752,Code/GameEngine/Source/Common/Rva0050CBA2StatsDump.cpp,matched,
