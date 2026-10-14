@@ -1,3 +1,5 @@
+// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
+// partial score=0.7892620310435328 date=2026-10-14
 // ?Rva006EFBC0ObjectMemberLookup@@YAPAVAptValue@@PAV1@PBVEAStringC@@@Z
 // partial score=0.7730629595203664 date=2026-10-13
 extern "C" void _ReadWriteBarrier();
@@ -234,7 +236,7 @@ return AptInteger::Create(text->maxScroll);
    case 10:return AptBoolean::Create((text->definition->multiline&0xFFFFFF)!=0);
 
    case 11:refreshText(context,text);
-return AptInteger::Create(text->scroll);
+return AptInteger::Create((text->scroll ? text->scroll : text->scroll));
 
    case 12:((Rva006EBFF0*)text)->rva006EBFF0((AptValue*)context->c_cih(false));
 return makeLookupString(text->text);
@@ -383,6 +385,7 @@ for(AptCIH *p=cih;
 p;
 p=p->parent)bfmeMul1208(&m,(BfmeM1208*)p->matrix,&m);
 number=((float)((LookupMouse*)g_bfmeAptPtrAtE176D0)->y-m.f)*m.d+((float)((LookupMouse*)g_bfmeAptPtrAtE176D0)->x-m.e)*m.c;
+_ReadWriteBarrier();
 break;
 }
 
