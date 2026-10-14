@@ -253,16 +253,12 @@ struct ThingTemplate
 	const char *getNameText() const { return m_nameData ? m_nameData + 8 : ""; }
 };
 
-class Rva002B224BDwordField
-{
-public:
-	Int get() const;
-};
-
 class Drawable
 {
 public:
-	DrawModule **getDrawModules() { return (DrawModule **)((const Rva002B224BDwordField *)this)->get(); }
+	// Call the retail +0x14C getter; a forwarding definition emits a
+	// competing COMDAT instead of the getter's verified body.
+	DrawModule **getDrawModules();
 	void *m_vtable;
 	ThingTemplate *m_template;	// +0x04
 	char m_unreconstructed_008[0xFC - 8];
