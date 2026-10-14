@@ -1,10 +1,9 @@
-// ?addScience@Player@@AAE_NW4ScienceType@@@Z
-// partial score=0.96 date=2026-10-14
-// ?addScience@Player@@AAE_NW4ScienceType@@@Z
-// partial score=0.9389 date=2026-10-13
-// ?addScience@Player@@AAE_NW4ScienceType@@@Z
-// partial score=0.95 date=2026-10-13
 // cl: /O1 /EHsc /MD /DNDEBUG /D_STLP_NO_EXCEPTIONS /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/moduledata /I. /Ireference/shims/bfmealloc
+// W7-G1 r6: exact. Frame levers: BFME2's DLINK_ITERATOR is {m_cur; 4 unused bytes; member pointer} = 16 B for
+// Team (24 B for Object), driven by the ZH iterate_TeamInstanceList()/done()/cur()/advance() loop shape as in the
+// matched sibling rva002AD93A (PlayerRva002AD93A.cpp); with that iterator the retail frame (this -10, vector -1C,
+// iterator -2C, member iterator -44) follows from cl's size-ascending slot ranking. Register roles: an equal-arm on
+// the prototype receiver ((science ? p : p)->iterate...) moves proto to EBX and the contained pointer to EDI.
 // stlport
 //
 // ?addScience@Player@@AAE_NW4ScienceType@@@Z, retail 0x002AD661, 392 bytes.
@@ -48,13 +47,33 @@ class Team;
 template <class OBJCLASS>
 class DLINK_ITERATOR
 {
+public:
+	typedef OBJCLASS* (OBJCLASS::*GetNextFunc)() const;
 private:
 	OBJCLASS *m_cur;
-	unsigned char m_targetAbiState[24];
+	void *m_unusedAbi; // BFME 2: 4 bytes between the cursor and the member pointer (iterator 16 B for Team, 24 B for Object)
+	GetNextFunc m_getNextFunc;
+public:
+	DLINK_ITERATOR(OBJCLASS *cur, GetNextFunc getNextFunc) : m_cur(cur), m_getNextFunc(getNextFunc) {}
+	void advance()
+	{
+		if (m_cur)
+			m_cur = ((*m_cur).*(m_getNextFunc))();
+	}
+	bool done() const { return m_cur == 0; }
+	OBJCLASS *cur() const { return m_cur; }
+};
+
+template <>
+class DLINK_ITERATOR<Object>
+{
+private:
+	Object *m_cur;
+	unsigned char m_targetAbiState[20];
 public:
 	void advance();
 	bool done() const { return m_cur == 0; }
-	OBJCLASS *cur() const { return m_cur; }
+	Object *cur() const { return m_cur; }
 };
 
 class Team : public MemoryPoolObject, public Snapshot
@@ -67,6 +86,11 @@ public:
 class TeamPrototype
 {
 public:
+	DLINK_ITERATOR<Team> iterate_TeamInstanceList() const
+	{
+		return DLINK_ITERATOR<Team>(m_head334, &Team::dlink_next_TeamInstanceList);
+	}
+private:
 	unsigned char m_pad[0x334];
 	Team *m_head334; // +0x334
 };
@@ -178,13 +202,11 @@ bool Player::addScience(ScienceType science)
 	m_sciences2F0.push_back(science);
 	for (PlayerTeamNode *proto = m_teamProtos32C->m_next; proto != m_teamProtos32C; proto = proto->m_next)
 	{
-		Team *team = proto->m_value->m_head334;
-		Team *(Team::*getNext)() const;
-		getNext = &Team::dlink_next_TeamInstanceList;
-		while (team != 0)
+		for (DLINK_ITERATOR<Team> iter = (science ? proto->m_value : proto->m_value)->iterate_TeamInstanceList(); !iter.done(); iter.advance())
 		{
+			Team *team = iter.cur();
 			if (team == 0)
-				break;
+				continue;
 			for (DLINK_ITERATOR<Object> it = team->iterate_TeamMemberList(); !it.done(); it.advance())
 			{
 				Object **pp = it.cur()->m_contained244;
@@ -215,7 +237,6 @@ bool Player::addScience(ScienceType science)
 					} while (obj != 0);
 				}
 			}
-			team = (team->*getNext)();
 		}
 		((Rva002AD661ControlBarView *)TheControlBar)->m_flag28 = 1;
 	}
