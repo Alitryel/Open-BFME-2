@@ -1,4 +1,6 @@
 // ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
+// partial score=0.9972188802775525 date=2026-10-14
+// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
 // partial score=0.994893 date=2026-10-14
 // ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
 // partial score=0.87 date=2026-10-13
@@ -120,7 +122,7 @@ Object* CastleBehavior::buildCastleStructure(BuildListInfo* record,bool instant)
   }
   TheScriptEngine->addObjectToCache(created,AsciiString(""));
   if(!instant) {
-   float duration=field<float>(field<void*>(this,4),0x1c);
+   float duration=field<float>(getData(),0x1c);
    unsigned frames=(unsigned)(int)(duration*g_009BA4E8);
    created->getDrawable()->fadeIn(frames);
    created->setSpecialModelConditionState(CONDITION218,frames);
