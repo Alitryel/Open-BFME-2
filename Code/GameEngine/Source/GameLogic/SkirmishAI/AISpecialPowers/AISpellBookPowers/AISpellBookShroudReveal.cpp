@@ -148,13 +148,20 @@ class Rva005EE816
 public:
 	bool rva005EE8DD(const Coord3D *pos, Object *source);	// 0x005EE8DD
 	void rva005EE317(Coord3D *dir);				// 0x005EE317
-	bool rva005D7FA6(Object *source);
+};
+
+// Slot 6 of vftable 0x00C75ED0, the shouldActivate slot of the sibling
+// AISpellBook powers; its asserts name this unit (lines 57 and 73).
+class AISpellBookShroudReveal
+{
+public:
+	virtual bool shouldActivate(Object *source);
 private:
-	char m_pad00[0x28];
+	char m_pad04[0x28 - 0x04];
 	Rva005D7FA6Waypoints m_waypoints;	// +0x28
 };
 
-bool Rva005EE816::rva005D7FA6(Object *source)
+bool AISpellBookShroudReveal::shouldActivate(Object *source)
 {
 	if (TheGameLogic->getFrame() > g_00E06648) {
 		int index = GetGameLogicRandomValue(0, m_waypoints.m_count - 1, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AISpecialPowers\\AISpellBookPowers\\AISpellBookShroudReveal.cpp", 57);
@@ -166,10 +173,10 @@ bool Rva005EE816::rva005D7FA6(Object *source)
 				Coord3D target;
 				target.set(wp->getLocation());
 				Coord3D dir;
-				rva005EE317(&dir);
+				((Rva005EE816 *)this)->rva005EE317(&dir);
 				dir.scaleInlined(GetGameLogicRandomValueReal(30.0f, 180.0f, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AISpecialPowers\\AISpellBookPowers\\AISpellBookShroudReveal.cpp", 73));
 				target.add(&dir);
-				return rva005EE8DD(&target, source);
+				return ((Rva005EE816 *)this)->rva005EE8DD(&target, source);
 			}
 		}
 	}
