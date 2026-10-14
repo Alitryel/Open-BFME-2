@@ -1,6 +1,4 @@
-// ?IsValidHordeMemberRegularMovement@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@11@Z
-// partial score=0.9958248520710059 date=2026-10-14
-// cl: /I. /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc
+// cl: /O1 /I. /DNDEBUG /MD /EHsc
 // Native 002F06A3..002F07F5, 338B RET16; WB D60E80 names this method.
 // Canonical by-value ABI provider: PathfinderSameCellRva002EE49B.cpp.
 #include "Code/GameEngine/Source/GameLogic/AI/PathfinderPositionValue.h"
@@ -40,6 +38,7 @@ Bool Pathfinder::IsValidHordeMemberRegularMovement(Object *obj, const Coord3D *f
 	char *ai = (char *)obj->getAI();
 	Rva002E8BCF locomotors((const Rva002E8BCFSrc *)(ai + 0x1CC),
 		flag == 0, count - 1, obj->rva0028AFBB());
+	{
 	PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(obj, to);
 	ICoord2D cell;
 	Rva002EBC14Cell(&cell, obj, to);
@@ -66,6 +65,7 @@ Bool Pathfinder::IsValidHordeMemberRegularMovement(Object *obj, const Coord3D *f
 			goto success;
 	}
 if (layer != 16) goto failure;
+	}
  }
  success: return true;
  failure: return false;

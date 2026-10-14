@@ -1,9 +1,5 @@
-// ?rva00365B8A@Path@@QAEXPAVObject@@PAVPathNode@@1PBUCoord3D@@M@Z
-// partial score=0.9126 date=2026-10-14
-// ?rva00365B8A@Path@@QAEXPAVObject@@PAVPathNode@@1PBUCoord3D@@M@Z
-// partial score=0.901357220412595 date=2026-10-09
-// cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc
-// Native365B8A..365DF0; WB F21F60 vector arithmetic; ZH Vector3 copy,
+// cl: /Os /arch:SSE /ICode/Libraries/Include /DNDEBUG /MD /EHsc
+// Path::rva00365B8A, native 365B8A..365DF0 (614B); WB F21F60 vector arithmetic; ZH Vector3 copy,
 // constructors and operations guide inline shape. This 3-float local
 // adapter uses retail's rowed Coord3D::normalize ABI, preserving its layout.
 #include "Lib/Coord3D.h"
