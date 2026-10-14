@@ -537,6 +537,7 @@ public:
 	AIGuardRetaliateAttackAggressorState(StateMachine *machine);
 	Object *rva0054582A();
  virtual StateReturnType onEnter();
+ virtual StateReturnType update();
 private:
 	AIGuardRetaliateMachine *getGuardMachine() { return (AIGuardRetaliateMachine *)getMachine(); }
 	unsigned char m_pad1C[0x20 - 0x1C];
@@ -652,4 +653,64 @@ StateReturnType AIGuardRetaliateAttackAggressorState::onEnter()
  StateReturnType returnVal = m_attackState->onEnter();
  if (returnVal == STATE_CONTINUE) return STATE_CONTINUE;
  return STATE_SUCCESS;
+}
+
+//--------------------------------------------------------------------------------------
+// ?update@AIGuardRetaliateAttackAggressorState@@UAE?AW4StateReturnType@@XZ, retail 0x00545A46 (265 B), slot 6 of
+// vtable 0x00C69FA0. Zero Hour only runs the attack sub-state; BFME 2 first drops a flagged (+0x438 bit 0)
+// nemesis or machine goal, and with no goal takes the nemesis or else the 0x0054582A pick as the AI's goal
+// object, the machine's nemesis and goal; it succeeds once its exit conditions hold or there is no attack
+// sub-state; while the owner has status 0x1C, or its +0x250 module's controller (vslot 31) reports the nemesis
+// through vslots 88 or 138, it extends the give-up frame (+0x38) to four seconds out; then the attack sub-state's
+// update. The equal-arm on the controller lookup keeps the retail load order (expression-level schedule lever).
+StateReturnType AIGuardRetaliateAttackAggressorState::update( void )
+{
+	AIGuardRetaliateMachine *machine = getGuardMachine();
+	Object *nemesis = TheGameLogic->findObjectByID(machine->getNemesisID());
+	if (nemesis && nemesis->testBfme438Bit0())
+		nemesis = NULL;
+	Object *goal = machine->getGoalObject();
+	if (goal && goal->testBfme438Bit0())
+		goal = NULL;
+	Object *owner = getMachineOwner();
+	if (goal == NULL)
+	{
+		if (nemesis == NULL)
+		{
+			nemesis = rva0054582A();
+			if (nemesis == NULL)
+				return STATE_SUCCESS;
+		}
+		owner->getAI()->friend_setGoalObject(nemesis);
+		getGuardMachine()->setNemesisID(nemesis->getID());
+		getMachine()->setGoalObject(nemesis);
+	}
+	AttackExitConditionsInterface *conditions = &m_exitConditions;
+	if (conditions->shouldExit(getMachine()))
+		return STATE_SUCCESS;
+	if (m_attackState == NULL)
+		return STATE_SUCCESS;
+
+	Bool extend = owner->testStatus(OBJECT_STATUS_BFME_1C);
+	Rva00545355Module *module = owner->getBfme250();
+	if (module)
+	{
+		Rva00545355Target *controller = (nemesis ? (module->bfmeTarget()) : (module->bfmeTarget()));
+		if (controller && nemesis)
+		{
+			if (controller->bfmeIsTarget(nemesis))
+				extend = true;
+
+			int reportedID = controller->bfmeTargetID((nemesis->getID()));
+			if (reportedID == (nemesis->getID()))
+				extend = true;
+		}
+	}
+	if (extend)
+	{
+		UnsignedInt giveUp = TheGameLogic->getFrame() + 4*LOGICFRAMES_PER_SECOND;
+		if (m_exitConditions.m_attackGiveUpFrame < giveUp)
+			m_exitConditions.m_attackGiveUpFrame = giveUp;
+	}
+	return m_attackState->update();
 }
