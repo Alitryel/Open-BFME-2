@@ -1,12 +1,4 @@
-// ?onDamage@ReflectDamage@@UAEXPAVDamageInfo@@@Z
-// partial score=0.985 date=2026-10-14
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-// ?onDamage@ReflectDamage@@UAEXPAVDamageInfo@@@Z
-// partial score=0.98 date=2026-10-05
-// ?onDamage@ReflectDamage@@UAEXPAVDamageInfo@@@Z
-// partial score=0.97 date=2026-10-04
-// cl: /O1 /arch:SSE /DNDEBUG /MD
+// cl: /O1 /arch:SSE /DNDEBUG /MD /I.
 //
 // ReflectDamage::onDamage, retail 0x004BABFA, 137 bytes: slot 0 of the
 // class's +0x10 damage-module interface vftable 0x00C59CB0, so `this` is that
@@ -29,10 +21,7 @@ enum DeathType
 {
 	DEATH_02 = 2
 };
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 // The DamageInfo: input fields as the target body and Object::kill read and
 // write them; constructed by the pinned 0x00263895.
@@ -65,11 +54,6 @@ public:
 private:
 	unsigned char m_pad00[0x74];
 	ObjectID m_id; // +0x74
-};
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
 };
 extern GameLogic *TheGameLogic;
 
@@ -116,7 +100,6 @@ public:
 
 void ReflectDamage::onDamage(DamageInfo *damageInfo)
 {
-	_ReadWriteBarrier();
 	const ReflectDamageModuleData *data = getReflectDamageModuleData();
 	if (damageInfo->m_damageType == DAMAGE_REFLECTED)
 		return;
@@ -127,7 +110,7 @@ void ReflectDamage::onDamage(DamageInfo *damageInfo)
 		return;
 
 	DamageInfo reflected;
-	float amount = damageInfo->m_amount * data->m_reflectDamagePercentage;
+	float amount = (damageInfo->m_damageType ? (damageInfo->m_amount * data->m_reflectDamagePercentage) : (damageInfo->m_amount * data->m_reflectDamagePercentage));
 	if (amount > data->m_reflectDamageMinimum)
 	{
 		reflected.m_deathType = DEATH_02;
