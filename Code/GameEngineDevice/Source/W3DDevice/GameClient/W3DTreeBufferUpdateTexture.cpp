@@ -77,15 +77,17 @@ public:
 	virtual void slot64(); virtual void slot68();
 	virtual TextureReport *getReport(int, int, int);
 };
-extern TextureDebug *theDebug;
+// Bind the singleton's Debug owner; TextureDebug is only the local call view.
+class Debug;
+extern Debug *theDebug;
 bool bfmeRva000387C0();
 void _bfme_debugRecordCallsite(int kind);
 
 #define TREE_TEXTURE_REPORT(message) do { \
 	if (bfmeRva000387C0()) { \
 		_bfme_debugRecordCallsite(1); \
-		theDebug->beginReport(); \
-		theDebug->getReport(0, 0, 0)->setText(message)->show(2); \
+		((TextureDebug *)theDebug)->beginReport(); \
+		((TextureDebug *)theDebug)->getReport(0, 0, 0)->setText(message)->show(2); \
 	} \
 } while (0)
 
