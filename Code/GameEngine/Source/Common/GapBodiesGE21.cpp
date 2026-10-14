@@ -138,3 +138,46 @@ void rva0002F980()
 		LoadRegistryValues();
 	}
 }
+
+// Unreferenced leaves from the /O2 regions (twins.tsv leads): the full
+// dword store and the load-then-test byte read are /O2 forms.
+// 0x000657B3 (9B): constructor zeroing the word at +0.
+class Rva000657B3
+{
+public:
+	Rva000657B3();
+private:
+	int m_00;
+};
+
+Rva000657B3::Rva000657B3() : m_00(0)
+{
+}
+
+// 0x0001D1D0 (11B): whether the byte at +0x0E is set.
+class Rva0001D1D0
+{
+public:
+	bool rva0001D1D0() const;
+private:
+	char m_pad[0x0E];
+	unsigned char m_0E;
+};
+
+bool Rva0001D1D0::rva0001D1D0() const
+{
+	return m_0E != 0;
+}
+
+// 0x00030E10 (8B): the word at +0x18 of a record passed by pointer (the
+// shape of STLport's _FILE_I_begin over a stdio FILE).
+struct Rva00030E10Record
+{
+	char m_pad[0x18];
+	int m_18;
+};
+
+int rva00030E10(const Rva00030E10Record *record)
+{
+	return record->m_18;
+}

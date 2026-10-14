@@ -109,3 +109,9 @@ bool rva000383C0()
 	g_debugAssertDialogAnswered = false;
 	return answered;
 }
+
+// ?rva000016FA@@YAXXZ @0x000016FA: theDebug slot 29 (unreferenced)
+void rva000016FA()
+{
+	theDebug->slot29();
+}

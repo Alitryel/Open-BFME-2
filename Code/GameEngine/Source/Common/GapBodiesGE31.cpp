@@ -438,3 +438,150 @@ Rva0008564A &Rva0008564A::rva0008564A(const Rva0008564ASource &source)
 	m_10 = source.m_04;
 	return *this;
 }
+
+// ---------------------------------------------------------------------------
+// Unreferenced leaves whose skeletons match rowed twins (twins.tsv leads);
+// each is verified on its own bytes. Owners are address-derived views.
+
+class AsciiString;
+class RenderObjClass;
+
+// 0x0005CE73 (11B): forward a key to the rowed Rva00056CF8::rva0005B633
+// (0x0005B633) of the member at +0x1B8, a tail jump.
+class Rva00056CF8
+{
+public:
+	unsigned int rva0005B633(const AsciiString &key);
+};
+
+class Rva0005CE73
+{
+public:
+	unsigned int rva0005CE73(const AsciiString &key);
+private:
+	char m_pad[0x1B8];
+	Rva00056CF8 m_1B8;
+};
+
+unsigned int Rva0005CE73::rva0005CE73(const AsciiString &key)
+{
+	return m_1B8.rva0005B633(key);
+}
+
+// 0x0006F23F (11B): remove a render object from the RefMultiListClass at
+// +0x114 (rowed Remove 0x0006EF4E), a tail jump.
+template <class T> class RefMultiListClass
+{
+public:
+	bool Remove(T *obj);
+};
+
+class Rva0006F23F
+{
+public:
+	bool rva0006F23F(RenderObjClass *obj);
+private:
+	char m_pad[0x114];
+	RefMultiListClass<RenderObjClass> m_114;
+};
+
+bool Rva0006F23F::rva0006F23F(RenderObjClass *obj)
+{
+	return m_114.Remove(obj);
+}
+
+// 0x0007E0CE / 0x0007E0F8 (11B each): addresses of dword slots in the
+// arrays at +0x50 and +0x44; 0x0007E0E2 (8B): the rowed
+// RiverArea::getTextureName (0x0030BBA9) of the pointer at +0x40, a tail
+// jump.
+class RiverArea
+{
+public:
+	void *getTextureName(int index);
+};
+
+class Rva0007E0CE
+{
+public:
+	void *rva0007E0CE(int index);
+	void *rva0007E0E2(int index);
+	void *rva0007E0F8(int index);
+private:
+	char m_pad[0x40];
+	RiverArea *m_40;
+	int m_44[3];
+	int m_50[4];
+};
+
+void *Rva0007E0CE::rva0007E0CE(int index)
+{
+	return &m_50[index];
+}
+
+void *Rva0007E0CE::rva0007E0E2(int index)
+{
+	return m_40->getTextureName(index);
+}
+
+void *Rva0007E0CE::rva0007E0F8(int index)
+{
+	return &m_44[index];
+}
+
+// 0x0004CAA7 (10B) / 0x0007DEBE (10B): static setters of the byte at
+// VA 0x00DB5F7D and of bfmeCameraProjectionOverride (VA 0x00DEDA05).
+extern unsigned char g_Va00DB5F7D;
+extern bool bfmeCameraProjectionOverride;
+
+void rva0004CAA7(unsigned char value)
+{
+	g_Va00DB5F7D = value;
+}
+
+void rva0007DEBE(bool value)
+{
+	bfmeCameraProjectionOverride = value;
+}
+
+// 0x00063343 (10B): set the flag at +9.
+class Rva00063343
+{
+public:
+	void rva00063343(bool value);
+private:
+	char m_pad[9];
+	bool m_09;
+};
+
+void Rva00063343::rva00063343(bool value)
+{
+	m_09 = value;
+}
+
+// 0x0007FAAA (9B): address of a character at an offset from the buffer
+// pointer at +0.
+class Rva0007FAAA
+{
+public:
+	const char *rva0007FAAA(unsigned int offset) const;
+private:
+	const char *m_00;
+};
+
+const char *Rva0007FAAA::rva0007FAAA(unsigned int offset) const
+{
+	return m_00 + offset;
+}
+
+// 0x00054F32 (9B): run the rowed Rva0005333FHolder::rva0005333F
+// (0x0005333F) on an element in place, a tail jump (_Destroy's shape).
+class Rva0005333FHolder
+{
+public:
+	void rva0005333F();
+};
+
+void rva00054F32(Rva0005333FHolder *p)
+{
+	p->rva0005333F();
+}

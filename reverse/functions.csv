@@ -88833,3 +88833,20 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?rva0007EBE1@Rva0007EBE1Indexed@@QAEPAURva000EFD0ERecord12@@H@Z,,0x0007EBE1,13,Code/GameEngine/Source/Common/Rva000EFD0EIndexedWords.cpp,matched,12-byte stride element address over base pointer at +0x14; unreferenced
 ?rva000454D4@Rva000454D4Indexed@@QAEPAURva000454D4Record16@@H@Z,,0x000454D4,13,Code/GameEngine/Source/Common/Rva000EFD0EIndexedWords.cpp,matched,16-byte stride element address over base pointer at +4; unreferenced
 ?rva0007E952@Rva0007E952Indexed@@QAEPAURva0007E952Record8@@I@Z,,0x0007E952,12,Code/GameEngine/Source/Common/Rva000EFD0EIndexedWords.cpp,matched,8-byte stride element address over base pointer at +0; unreferenced
+?clear@?$vector@URegion2D@@V?$allocator@URegion2D@@@_STL@@@_STL@@QAEXXZ,,0x0007C500,11,Code/Libraries/Source/WWVegas/WWLib/StlportVectorClearNoDestroyFamily.cpp,matched,STLport 4.5.3 vector clear over rowed erase 0x0007C2F0; unreferenced
+?clear@?$vector@UBfmeStringRecord000B9534@@V?$allocator@UBfmeStringRecord000B9534@@@_STL@@@_STL@@QAEXXZ,,0x0008B4F8,11,Code/Libraries/Source/WWVegas/WWLib/StlportVectorClearNoDestroyFamily.cpp,matched,STLport 4.5.3 vector clear over rowed erase 0x0008B4D2; unreferenced
+?rva0005CE73@Rva0005CE73@@QAEIABVAsciiString@@@Z,,0x0005CE73,11,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,member +0x1B8 forward to rowed rva0005B633 tail jump; unreferenced
+?rva0006F23F@Rva0006F23F@@QAE_NPAVRenderObjClass@@@Z,,0x0006F23F,11,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,RefMultiListClass at +0x114 Remove tail jump to rowed 0x0006EF4E; unreferenced
+?rva0007E0CE@Rva0007E0CE@@QAEPAXH@Z,,0x0007E0CE,11,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,dword slot address in array at +0x50; unreferenced
+?rva0007E0E2@Rva0007E0CE@@QAEPAXH@Z,,0x0007E0E2,8,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,RiverArea pointer at +0x40 getTextureName tail jump to rowed 0x0030BBA9; unreferenced
+?rva0007E0F8@Rva0007E0CE@@QAEPAXH@Z,,0x0007E0F8,11,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,dword slot address in array at +0x44; unreferenced
+?rva0004CAA7@@YAXE@Z,,0x0004CAA7,10,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,static setter of byte VA 0x00DB5F7D; unreferenced
+?rva0007DEBE@@YAX_N@Z,,0x0007DEBE,10,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,static setter of bfmeCameraProjectionOverride VA 0x00DEDA05; unreferenced
+?rva00063343@Rva00063343@@QAEX_N@Z,,0x00063343,10,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,flag setter at +9; unreferenced
+?rva0007FAAA@Rva0007FAAA@@QBEPBDI@Z,,0x0007FAAA,9,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,buffer pointer at +0 plus offset; unreferenced
+?rva00054F32@@YAXPAVRva0005333FHolder@@@Z,,0x00054F32,9,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,in-place run of rowed rva0005333F tail jump; unreferenced
+??0Rva000657B3@@QAE@XZ,,0x000657B3,9,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,unreferenced twin-shape leaf in the O2 gap unit
+?rva0001D1D0@Rva0001D1D0@@QBE_NXZ,,0x0001D1D0,11,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,unreferenced twin-shape leaf in the O2 gap unit
+?rva00030E10@@YAHPBURva00030E10Record@@@Z,,0x00030E10,8,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,word at +0x18 of a record passed by pointer; unreferenced
+?rva000016FA@@YAXXZ,,0x000016FA,11,Code/Libraries/Source/WWVegas/WWDebug/DebugSingletonForwarders.cpp,matched,theDebug slot 29 forwarder; unreferenced
+??1Rva00006856@@QAE@XZ,,0x00006856,8,Code/Libraries/Source/ATL/Rva00006856Dtor.cpp,matched,dtor of a holder of CSimpleArray<WCHAR> at +0x20 tail-jumping into rowed RemoveAll 0x000055B0; unreferenced
