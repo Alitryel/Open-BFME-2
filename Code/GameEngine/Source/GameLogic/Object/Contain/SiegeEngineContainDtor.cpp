@@ -94,6 +94,7 @@ public:
 	virtual void f20();
 	virtual void f30();
 	virtual void f34();
+	void rva0047C2F2();
 
 private:
 	_STL::list<int> m_list11C;
@@ -123,3 +124,29 @@ SiegeEngineContain::~SiegeEngineContain()
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?f2C@Iface2C@@UAEXXZ=?DoXfer@EmissionVelocityInfo@FXParticleSystem@@UAEXAAVXfer@@@Z")
+
+#include "../../../../Include/GameLogic/ContainmentListView.h"
+
+// The shared rider-list worker (rowed at 0x00463A4D under its HordeTransportContain
+// spelling) and OpenContain's slot-18 body, which this override reaches non-virtually.
+class HordeTransportContain
+{
+public:
+	void rva00463A4D(ContainmentList riders, int arg);	// 0x00463A4D
+};
+class OpenContain
+{
+public:
+	virtual void rva00464286();				// 0x00464286
+};
+
+// Retail 0x0047C2F2..0x0047C322 (48B): the SiegeEngineContain twin of
+// HordeSiegeEngineContain 0x0047D33A with the members 0x0C lower: the rider
+// list at +0x11C is copied by value through 0x0036ADF9 into 0x00463A4D with
+// the address at +0x128, then OpenContain's 0x00464286 runs (tail jump).
+// Method name is address-derived.
+void SiegeEngineContain::rva0047C2F2()
+{
+	reinterpret_cast<HordeTransportContain *>(this)->rva00463A4D(*reinterpret_cast<ContainmentList *>(&m_list11C), (int)&m_map128);
+	reinterpret_cast<OpenContain *>(this)->OpenContain::rva00464286();
+}
