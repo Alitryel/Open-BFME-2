@@ -89215,3 +89215,4 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?get@Rva001FF347CmpBoolField@@QBE_NXZ,,0x001FF347,13,Code/GameEngine/Source/Common/Disp8CmpBoolGetters.cpp,matched,Native13 1FF347..1FF354 xor eax; cmp dword +0x110 with 2; sete al; owner unresolved
 ?get@Rva0023C4F8BothFlags@@QBE_NXZ,,0x0023C4F8,14,Code/GameEngine/Source/Common/Disp8CmpBoolGetters.cpp,matched,Native14 23C4F8..23C506 both bytes +0x15 and +0x16 nonzero; isTrueHordeMember twin shape; owner unresolved
 ?rva0022D98D@Rva00077710Value@@QAEHXZ,,0x0022D98D,13,Code/GameEngine/Source/Common/GapBodiesSeat1A.cpp,matched,Native13 22D98D..22D99A reads +4 word through rowed hook 22CC0E applied twice; getter beside the rowed 22D979 setter; twin 435D70
+??0Rva00235A00WordPair@@QAE@I@Z,,0x00235A00,14,Code/GameEngine/Source/Common/GapBodiesSeat1A.cpp,matched,Native14 235A00..235A0E RET4 copies the word argument into +0 and +4 and returns this; twin 6CD500; owner unknown

@@ -2447,3 +2447,20 @@ void Rva004EA03E::rva004EA03E()
  ++word6C;
  byte64=0;
 }
+
+// --- 0x00235A00 (14B, RET4): a constructor copying its one word argument
+// into both +0 and +4 and returning this (twin skeleton of
+// Rva006CD500WordPair 0x006CD500). It follows the MultiPlayMults getters; the
+// owner and the word's meaning are unknown.
+class Rva00235A00WordPair
+{
+public:
+	Rva00235A00WordPair(unsigned int word);
+	unsigned int m_word0;
+	unsigned int m_word4;
+};
+
+Rva00235A00WordPair::Rva00235A00WordPair(unsigned int word)
+	: m_word0(word), m_word4(word)
+{
+}
