@@ -18,18 +18,40 @@ public:
     int references;
 };
 
-struct MatPassTaskClass;
-
-class MatPassTaskPoolClass
+// BFME2 pool view: MatPassTaskClass derives AutoPoolClass<...,256> and uses
+// the Allocator instance at VA 0x00DF3690 (the 0x00144CB0 body loads it for its
+// `new`), matching the reference shims/bfmepool/mempool.h layout. The pool is
+// 0x14 bytes: free-list head +0, block-list head +4, free count +8, total
+// count +0xC, lock word +0x10 (the rowed 0x001440C0 owner proves the layout).
+template<class T, int BLOCK_SIZE = 64>
+class ObjectPoolClass
 {
 public:
-    MatPassTaskClass *Allocate_Object_Memory();
+    T *Allocate_Object_Memory(void);
+    void Free_Object_Memory(T *obj);
+
+private:
+    T *m_freeListHead;
+    unsigned int *m_blockListHead;
+    int m_freeObjectCount;
+    int m_totalObjectCount;
+    unsigned int m_poolLock;
 };
 
-extern MatPassTaskPoolClass MatPassTaskPool;
-
-struct MatPassTaskClass
+template<class T, int BLOCK_SIZE = 64>
+class AutoPoolClass
 {
+public:
+    static void *operator new(size_t) { return Allocator.Allocate_Object_Memory(); }
+    static void operator delete(void *memory) { Allocator.Free_Object_Memory((T *)memory); }
+
+private:
+    static ObjectPoolClass<T, BLOCK_SIZE> Allocator;
+};
+
+class MatPassTaskClass : public AutoPoolClass<MatPassTaskClass, 256>
+{
+public:
     MaterialPassClass *pass;
     MeshClass *mesh;
     MatPassTaskClass *next;
@@ -39,11 +61,6 @@ struct MatPassTaskClass
     {
         ++pass->references;
         ++mesh->references;
-    }
-
-    static void *operator new(size_t)
-    {
-        return MatPassTaskPool.Allocate_Object_Memory();
     }
 };
 
@@ -80,5 +97,8 @@ void DX8FVFCategoryContainer::Add_Visible_Material_Pass(MaterialPassClass *pass,
     visible_matpass_tail = new_mpr;
     AnythingToRender = true;
 }
-// ?MatPassTaskPool@@3VMatPassTaskPoolClass@@A: the global at VA 0xdf3690 is ?Allocator@?$AutoPoolClass@VMatPassTaskClass@@$0BAA@@@0V?$ObjectPoolClass@VMatPassTaskClass@@$0BAA@@@A.
-#pragma comment(linker, "/alternatename:?MatPassTaskPool@@3VMatPassTaskPoolClass@@A=?Allocator@?$AutoPoolClass@VMatPassTaskClass@@$0BAA@@@0V?$ObjectPoolClass@VMatPassTaskClass@@$0BAA@@@A")
+// The Allocator pool instance at VA 0x00DF3690 is defined by dx8renderer.cpp's
+// DEFINE_AUTO_POOL(MatPassTaskClass, 256) and owned by the data ledger (RVA
+// 0x009F3690, 0x14 bytes, zero-filled). The old /alternatename binding of the
+// BFME1 MatPassTaskPool view is gone: `new MatPassTaskClass` here uses the
+// Allocator, exactly as the retail 0x00144CB0 bytes show.

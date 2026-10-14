@@ -89708,3 +89708,4 @@ __ehhandler$?allow@Rva00261F35Filter@@UAE_NPAVObject@@@Z,,0x00772D86,10,Code/Gam
 ?rva005D5F86@Rva005D5F86@@QAEXABVAsciiString@@@Z,,0x005D5F86,866,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/Rva005D5F86ChatPlayerTooltip.cpp,matched,chat player tooltip; literals TOOLTIP:ChatPlayerInfo/BuddyPlayer/GenericPlayer; staging sibling 0x005A00E6 views
 ?Rva00506BADDistSqr@@YAMPBURva00506BADCoord@@0@Z,,0x00506BAD,47,Code/GameEngine/Source/Common/Rva00506BADDistSqr.cpp,matched,
 ?Shutdown@ProfileFuncLevelTracer@@SAXXZ,,0x006C8360,31,Code/Libraries/Source/profile/profile_funclevel.cpp,matched,
+??2?$AutoPoolClass@VMatPassTaskClass@@$0BAA@@@SAPAXI@Z,,0x001449D0,10,Code/Libraries/Source/WWVegas/WW3D2/DX8RigidDelayedMaterialPass.cpp,matched,
