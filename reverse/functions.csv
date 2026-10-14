@@ -37622,7 +37622,7 @@ _vp6_drawc,,0x001BB580,109,Code/Libraries/Source/VP6/debug.cpp,matched,Target CR
 ?getRelationship@Player@@QBE?AW4Relationship@@PBV1@@Z,,0x002AC3E0,69,Code/GameEngine/Source/Common/RTS/PlayerGetRelationship.cpp,matched,Player Player overload via BFME1 Team donor plus 13 callers plus ALLIES cmp
 ?rva000309B0@Rva000309B0@@QAEXXZ,,0x000309B0,21,Code/GameEngine/Source/Common/Rva000309B0TlsSet.cpp,matched,TLS index 0xDB35A4 TlsSetValue IAT callers 0x62265B 0x62214F
 ?rva002A9BF2@Rva002A9BF2@@QAEPAXXZ,,0x002A9BF2,27,Code/GameEngine/Source/Common/RTS/Rva002A9BF2Get.cpp,matched,unlock difficulty getter via window userdata else scriptengine
-?Rva002A9DACGet@@YAHXZ,,0x002A9DAC,12,Code/GameEngine/Source/Common/Rva002A9DACGet.cpp,matched,unlock global indirect dword getter via DFE758 plus A5C
+?getSupplyBoxValue@Player@@QAEHXZ,,0x002A9DAC,12,Code/GameEngine/Source/Common/Rva002A9DACGet.cpp,matched,unlock global indirect dword getter via DFE758 plus A5C
 ?rva002A9CCA@Rva002A9BF2@@QAEXH@Z,,0x002A9CCA,20,Code/GameEngine/Source/Common/RTS/Rva002A9BF2Get.cpp,matched,sibling window-field setter via same 2DC window
 ?rva002A9EFB@Rva002A9EFB@@QAEXH@Z,,0x002A9EFB,20,Code/GameEngine/Source/Common/Rva002A9EFBSub.cpp,matched,unlock saturated subtract with zero clamp
 ??0Rva0033F33D@@QAE@PAVStateMachine@@@Z,,0x0033F33D,33,Code/GameEngine/Source/Common/Rva0033F33DCtor.cpp,matched,State hash 0x6D9C1CB9 vtable 0x810EE0 zero 0x20

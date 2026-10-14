@@ -9411,7 +9411,6 @@ name,address,notes
 ?getStdGuardRange@AITNGuardMachine@@SAMPBVObject@@@Z,0x00542C2A,"REL32 callee of TunnelNetworkScan 0x00545DEE (cdecl, the owner; its x87 result is the range argument of getClosestObject as in Zero Hour AITNGuard.cpp); the body is the matched AIGuardMachine::getStdGuardRange row, identical in Zero Hour (ICF fold)"
 ?getStr@Rva00803620Getter@@QAEDPAXPADH@Z,0x00655B10
 ?getString@Rva007E8810Message@@QAE_NPBDPADH@Z,0x00655B10
-?getSupplyBoxValue@Player@@QAEHXZ,0x002A9DAC,"the matched Rva002A9DACGet body (TheGlobalData +0xA5C, this unused): REL32 at 0x003EA6E5 in ScriptConditions::rva003EA566 with ECX the player, multiplied by a SupplyWarehouseDockUpdate box count; Zero Hour Player::getSupplyBoxValue returns the global base value per box"
 ?getSurfaceLevel@W3DRadarResetTexture@@QAE?AVW3DRadarResetSurface@@XZ,0x00132D70,zero-level surface fetch read from the REL32 at 0x4E3C7 in W3DRadar::clearShroud; same body as ?Get_Surface_Level@CursorTextureSlot
 ?getTailEAN@BfmeLexEAN@@QAEPADXZ,0x0030F2C7,callee of ?rva002EC770ParseTokenEvents@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z at retail 0x003371F4 read from its REL32 displacement; donor ABI view of the rowed 4B ?getData@NetWrapperCommandMsg@@QAEPAEXZ ICF group at this address
 ?getTeamAsAIGroup@Team@@QAEXPAVAIGroup@@@Z,0x003A0F62,BFME2 TEAM_SET_ATTITUDE body at 0x3BEE5E passes its team as this and new AIGroup as argument; BFME1 updateTeamSetAttitude donor identifies Team::getTeamAsAIGroup
@@ -16027,7 +16026,6 @@ _D3DXLoadVolumeFromFileInMemory@36,0x0062AF8C,Native1318F0 in-image JMP IAT veri
 ?rva0027F108@Rva004C82E5Terrain@@QAEPAVBfmeX1035@@PBUCoord3D@@MHH@Z,0x0027F108,thiscall spelling (Devastate view) of the rowed terrain query 0x0027F108 called by DevastateSpecialPower 0x004C8432
 ?rva0028447F@Rva004C82E5Terrain@@QAEXPAVBfmeX1035@@PBUCoord3D@@@Z,0x0028447F,thiscall spelling of the stdcall-rowed 0x0028447F: DevastateSpecialPower 0x004C8365 loads TheTerrainLogic into ECX first
 ?rva0027D378@Rva004C82E5Terrain@@QAEHPAVBfmeX1035@@H@Z,0x0027D378,Devastate-view spelling of the rowed terrain value getter 0x0027D378 (called 0x004C8394)
-?rva002A9DAC@Player@@QAEHXZ,0x002A9DAC,thiscall spelling of the cdecl-rowed player supply getter 0x002A9DAC: DevastateSpecialPower 0x004C839D loads the player into ECX first
 ?rva0045B9FB@BezierProjectileBehavior@@QAEXPAVObject@@@Z,0x0045B9FB,callee of 0x0045CD6E (thiscall Object arg)
 ?rva0045CC72@BezierProjectileBehavior@@QAEXH@Z,0x0045CC72,callee of 0x0045CD6E (thiscall push 0)
 ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z,0x0045C975,callee of 0x0045CD6E (thiscall push 0)

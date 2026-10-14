@@ -1,8 +1,10 @@
-// ?Rva002A9DACGet@@YAHXZ @ 0x002A9DAC (12B). Unlock lane global-indirect
+// ?getSupplyBoxValue@Player@@QAEHXZ @ 0x002A9DAC (12B). Global-indirect
 // dword getter. Evidence: mov eax,[0x009FE758]; mov eax,[eax+0xA5C]; ret.
-// Callers at 0x003EA6E5 0x004A0F09 0x004C839D use eax as dword. Global is the
-// 0x00DFE758 holder (GlobalData/GameLogic family); offset 0xA5C is opaque.
-// Opaque address-derived name; DIR32 global is gate-filled reloc.
+// Callers at 0x003EA6E5 0x004A0F09 0x004C839D load ECX first (the player),
+// so this is a member that ignores this; 0x003EA6E5 multiplies the result
+// by a SupplyWarehouseDockUpdate box count, as Zero Hour's
+// Player::getSupplyBoxValue (TheGlobalData->m_baseValuePerSupplyBox) is
+// used. The int return is the consumers' spelling; offset 0xA5C is opaque.
 
 extern class GlobalData *TheWritableGlobalData;
 
@@ -14,7 +16,13 @@ struct Rva002A9DACHolder
 
 #define TheRva002A9DAC (*(Rva002A9DACHolder **)&TheWritableGlobalData)
 
-int Rva002A9DACGet(void)
+class Player
+{
+public:
+	int getSupplyBoxValue();
+};
+
+int Player::getSupplyBoxValue()
 {
 	return TheRva002A9DAC->m_value;
 }

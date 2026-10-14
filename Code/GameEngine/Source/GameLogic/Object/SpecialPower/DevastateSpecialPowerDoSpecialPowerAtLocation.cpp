@@ -87,7 +87,7 @@ class Player
 {
 public:
 	int ScaleMoney( int amount );
-	Int rva002A9DAC();
+	Int getSupplyBoxValue();
 	char m_pad000[0x90];
 	Rva003B0D7C m_money;
 	char m_pad09C[0x3BC - 0x9C];
@@ -236,7 +236,7 @@ void DevastateSpecialPower::doSpecialPowerAtLocation( const Coord3D *target, Uns
 			FXList::doFXPos( data->m_fx, (const Coord3D *)thing );
 
 		UnsignedInt amount = (UnsignedInt)reinterpret_cast<Rva004C82E5Terrain *>(TheTerrainLogic)->rva0027D378( thing, 99999 );
-		UnsignedInt scale = (UnsignedInt)player->rva002A9DAC();
+		UnsignedInt scale = (UnsignedInt)player->getSupplyBoxValue();
 		Real reward = (Real)( amount * scale );
 
 		if( reward > 0.0f )
