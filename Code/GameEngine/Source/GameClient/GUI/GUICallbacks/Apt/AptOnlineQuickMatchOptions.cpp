@@ -5,7 +5,9 @@
 // Start-request5BBF15..5BC474: ZH WOLQuickMatchMenu buttonStart is the
 // semantic guide; BFME2 WB and native bytes fix the request fields, rank
 // range (one eighth), class offsets, calls, and omitted random-side retry.
-// Address names preserve unknown native class/method identity.
+// WB places every member in AptOnlineQuickMatch.cpp and names 0x5BAF35
+// AptOnlineQuickMatch::OnMatched (callgraph lead score 6); the other method
+// names stay address-derived.
 #include <cstdlib>
 #include <list>
 #include <algorithm>
@@ -121,9 +123,9 @@ class Rva0023E8D8 : public Rva0057BC63FunctorHolder {public:__forceinline Rva002
 extern "C" void __cdecl Rva00437F61(int,const UnicodeString &,const UnicodeString &,Rva0023E8D8);
 static __forceinline FunctorBinding bind(FunctorMethod m,FunctorTarget*t){FunctorBinding r(m,t);return r;}
 struct BfmeOpaqueOwnedRecord492;
-struct Rva005BB5F6 {char prefix[0x60];int state;char at64[0x16];bool matched;char at7b[0x21];int mode;void rva005BB5F6();void rva005BBDAC(BfmeOpaqueOwnedRecord492 &);void rva005BBF15();void rva005BA39F(int);void rva005BAF35(PeerResponse &);};
+struct AptOnlineQuickMatch {char prefix[0x60];int state;char at64[0x16];bool matched;char at7b[0x21];int mode;void rva005BB5F6();void rva005BBDAC(BfmeOpaqueOwnedRecord492 &);void rva005BBF15();void rva005BA39F(int);void OnMatched(PeerResponse &);};
 #undef V
-void Rva005BB5F6::rva005BB5F6(){
+void AptOnlineQuickMatch::rva005BB5F6(){
  HandleBuddyResponses();HandlePersistentStorageResponses();
  if(TheGameSpyGame&&TheGameSpyGame->inProgress){
   if(TheGameSpyInfo->isDisconnectedAfterGameStart(0))return;
@@ -142,7 +144,7 @@ void Rva005BB5F6::rva005BB5F6(){
   if(((Rva005BA3AD *)TheNAT)->rva005BA3AD()){TheGameSpyGame->startGame(0);TheGameSpyGame->launchGame();return;}
   else if((unsigned char)((Rva005BA31F *)TheNAT)->rva005BA31F()){
    void *memory=TheNAT?((Rva005A6D47 *)TheNAT)->destroy(0):0;operator delete(memory);TheNAT=0;state=3;
-   Rva00437F61(0,TheGameText->fetch("GUI:Error"),TheGameText->fetch("GUI:NATNegotiationFailed"),Rva0023E8D8(bind(reinterpret_cast<FunctorMethod>(&Rva005BB5F6::rva005BA39F),(FunctorTarget *)this)));
+   Rva00437F61(0,TheGameText->fetch("GUI:Error"),TheGameText->fetch("GUI:NATNegotiationFailed"),Rva0023E8D8(bind(reinterpret_cast<FunctorMethod>(&AptOnlineQuickMatch::rva005BA39F),(FunctorTarget *)this)));
    ((Rva00222A8BTarget*)g_bfmeAptWindowManager)->invoke(movieLevel(),"CallChild",1,"CloseFoundAndReset",0,0,0,0);return;
   }
  }
@@ -172,14 +174,14 @@ void Rva005BB5F6::rva005BB5F6(){
   case 17:{important=true;switch(r.payload_8a.first){
    case 4:{UnicodeString s;s.format(TheGameText->fetchFormat("QM:WORKING"),r.payload_8a.second);}break;
    case 5:{UnicodeString s;s.format(TheGameText->fetchFormat("QM:POOLSIZE"),r.payload_8a.second);}break;
-   case 7:((Rva00222A8BTarget*)g_bfmeAptWindowManager)->invoke(movieLevel(),"CallChild",1,"DoOpenFound",0,0,0,0);rva005BAF35(r);break;
+   case 7:((Rva00222A8BTarget*)g_bfmeAptWindowManager)->invoke(movieLevel(),"CallChild",1,"DoOpenFound",0,0,0,0);OnMatched(r);break;
   }}break;
   }
  }
 }
 
 // Native5BA39F..5BA3AD RET4: prompt result clears quick-match state only for zero.
-void Rva005BB5F6::rva005BA39F(int result){if(!result)state=0;}
+void AptOnlineQuickMatch::rva005BA39F(int result){if(!result)state=0;}
 
 typedef char PeerResponseSize[sizeof(PeerResponse)==0x348?1:-1];
 typedef char StatsSize[sizeof(PSPlayerAllStats)==0x548?1:-1];
@@ -362,7 +364,7 @@ struct NativeQuickMatchRequest {
   unsigned exeCRC, iniCRC;
 };
 void *GadgetComboBoxGetItemData(GameWindow *, int);
-void Rva005BB5F6::rva005BBF15() {
+void AptOnlineQuickMatch::rva005BBF15() {
   BfmeOpaqueOwnedRecord492 request;
   request.unknown_00 = 16;
   rva005BBDAC(request);
@@ -517,7 +519,7 @@ class MapMetaData {public:char pad[0x20];int players;};class MapCache{public:con
 class Rva003821E2 {public:void assign(UnicodeString);};class Rva004FDD36AsciiField{public:void rva004FDD36(AsciiString);};
 class MpGameRules { public: static void GetDefaults(int,void*); };void SendStatsToOtherPlayers(GameInfo*);
 class Rva005A734B{public:char storage[0x974];Rva005A734B();};struct NAT{public:void attachSlotList(GameInfo*,int,unsigned,unsigned,bool);};
-void Rva005BB5F6::rva005BAF35(PeerResponse &resp){
+void AptOnlineQuickMatch::OnMatched(PeerResponse &resp){
  TheGameSpyGame->clear();TheGameSpyGame->enterGame();TheGameSpyGame->setSeed(resp.payload_572.words[3]);
  {GameSpyStagingRoom *game=TheGameSpyGame;int m=mode;*(bool*)((char*)game+0xff4)=true;*(int*)((char*)game+0xff8)=m;}
  int rules[10];memset(rules,0xff,sizeof(rules));MpGameRules::GetDefaults(0,rules);rules[0]=0;rules[2]=0;memcpy((char*)TheGameSpyGame+0x60,rules,sizeof(rules));
@@ -584,7 +586,7 @@ public:
 	unsigned int m_mask;
 };
 
-void Rva005BB5F6::rva005BBDAC(BfmeOpaqueOwnedRecord492 &request){
+void AptOnlineQuickMatch::rva005BBDAC(BfmeOpaqueOwnedRecord492 &request){
  _STL::vector<bool> &result=request.unknown_104;result.clear();
  _STL::list<AsciiString> maps;int players=0;
  Rva0054D8D8 *ladder=((Rva005BA36D*)this)->rva005BA36D();
