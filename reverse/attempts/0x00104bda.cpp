@@ -1,4 +1,18 @@
 // ?rva00104BDA@Rva001041D8@@UAEXXZ
+// partial score=0.992 date=2026-10-14
+// r6 W7-D1 update: 405B/88diff -> 409B, Lab2 nd2 (only real diff is the
+// position of lea ecx,[ebp-0x60] for the by-ref Set_Transform argument:
+// retail emits it before the 12 matrix stores, ours after them; every other
+// instruction matches). Fixes applied:
+//   (1) drop the `scene` local and use self->m_scene directly (frees a
+//       callee-saved register -> this=ESI, literal=EDI as retail)
+//   (2) CameraClass gets its real 0x3FC-byte extent (new pushed 1 vs 0x3FC)
+//   (3) camera uses self->m_camera directly
+//   (4) _ReadWriteBarrier() between the matrix init and Set_Transform keeps
+//       the vtable load after the stores (without it the call setup hoists)
+// Exhausted on the lea: ptr/reference init, double barrier, ctor temporary,
+// by-value arg, const/volatile arg, ms_nd 334 evals, chain 4 rounds.
+// ?rva00104BDA@Rva001041D8@@UAEXXZ
 // partial score=0.83 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
@@ -18,6 +32,8 @@
 // pinned pointer-set family. The Palantir identity is the dtor file's
 // donor/structural lead; names stay address-derived.
 #include <set>
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 
 class Rva009EB960;
 // Owned by W3DDisplayDtor.cpp: the asset registry the W3DDisplay dtor deletes.
@@ -112,6 +128,8 @@ public:
 	void Set_Clip_Planes(float nearz, float farz);
 	void Set_View_Plane(float horizontal, float vertical);
 	void Set_Aspect_Ratio(float ratio);
+private:
+	char m_pad[0x3FC];
 };
 
 class Rva002D55CAForwarder
@@ -150,21 +168,20 @@ void Rva001041D8::rva00104BDA()
 		Matrix3D transform = { 1.0f, 0.0f, 0.0f, 0.0f,
 		                       0.0f, 1.0f, 0.0f, 0.0f,
 		                       0.0f, 0.0f, 1.0f, 0.0f };
+		_ReadWriteBarrier();
 		model->Set_Transform(transform);
 	}
 
-	Rva001040D5 *scene = new Rva001040D5;
-	self->m_scene = scene;
+	self->m_scene = new Rva001040D5;
 	Vector3 ambient = { 0.0f, 0.0f, 0.0f };
-	scene->Set_Ambient_Light(ambient);
+	self->m_scene->Set_Ambient_Light(ambient);
 	if (self->m_model != 0)
-		scene->Add_Render_Object(self->m_model);
+		self->m_scene->Add_Render_Object(self->m_model);
 
-	CameraClass *camera = new CameraClass;
-	self->m_camera = camera;
-	camera->Set_Clip_Planes(0.1f, 5000.0f);
-	camera->Set_View_Plane(0.87266463f, -1.0f);
-	camera->Set_Aspect_Ratio(1.0f);
+	self->m_camera = new CameraClass;
+	self->m_camera->Set_Clip_Planes(0.1f, 5000.0f);
+	self->m_camera->Set_View_Plane(0.87266463f, -1.0f);
+	self->m_camera->Set_Aspect_Ratio(1.0f);
 
 	((Rva002D55CAForwarder *)self)->rva002D55CA();
 }
