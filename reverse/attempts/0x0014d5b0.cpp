@@ -1,4 +1,6 @@
 // ?rva0014D5B0@SourceNamespace_AmbientLight@FXShaderParameterSourceNamespaceSAS@@QAEXPAUID3DXEffect@@PBD@Z
+// partial score=0.95 date=2026-10-14
+// ?rva0014D5B0@SourceNamespace_AmbientLight@FXShaderParameterSourceNamespaceSAS@@QAEXPAUID3DXEffect@@PBD@Z
 // partial score=0.92 date=2026-10-13
 // cl: /O1 /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
@@ -957,7 +959,7 @@ void FXShaderParameterSourceNamespaceSAS::SourceNamespace_AmbientLight::rva0014D
 		const Rva0013F6F0LightEnv::Vector3 &ambient = env->Get_Equivalent_Ambient();
 		float ax = ambient.X;
 		float ay = ambient.Y;
-		float az = ambient.Z;
+		float az = (parameter ? ambient.Z : ambient.Z);
 		color[0] = ax;
 		color[1] = ay;
 		color[2] = az;
