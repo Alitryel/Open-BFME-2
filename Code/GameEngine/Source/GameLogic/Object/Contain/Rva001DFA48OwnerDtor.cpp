@@ -1,5 +1,5 @@
 // cl: /Ob2 /DNDEBUG /MD /EHsc
-// ??1Rva001DFA48Owner@@UAE@XZ @0x1DFA48 (60B): virtual destructor.
+// ??1Rva001DFEAABase@@UAE@XZ @0x1DFA48 (60B): virtual destructor.
 // Formerly spelled ~TransportContainModuleData; that identity belongs to
 // 0x004684F1 (slot 0 of TransportContainModuleData vtable 0x00C442F8, installed
 // by ctor 0x00468301, calls it via ??_G 0x004684D5). This body installs a
@@ -23,10 +23,12 @@ private:
 	unsigned m_unknown;
 };
 
-class Rva001DFA48Owner
+// The FXNugget base: its ctor 0x001DFEAA installs the same vtable 0x00BDC940
+// as this dtor, so the dtor carries the ctor's class name.
+class Rva001DFEAABase
 {
 public:
-	virtual ~Rva001DFA48Owner();
+	virtual ~Rva001DFEAABase();
 
 private:
 	unsigned m_04;				// +0x04 (unrecovered; pads the members to retail offsets)
@@ -34,7 +36,7 @@ private:
 	Rva00360D26Member m_0C;			// +0x0C
 };
 
-// ??1Rva001DFA48Owner@@UAE@XZ
-Rva001DFA48Owner::~Rva001DFA48Owner()
+// ??1Rva001DFEAABase@@UAE@XZ
+Rva001DFEAABase::~Rva001DFEAABase()
 {
 }

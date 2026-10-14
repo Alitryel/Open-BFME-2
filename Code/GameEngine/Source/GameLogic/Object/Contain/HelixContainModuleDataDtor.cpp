@@ -19,10 +19,10 @@ public:
     ~BfmeOwnedString4() {}
 };
 
-class Rva001DFA48Owner
+class Rva001DFEAABase
 {
 public:
-    virtual ~Rva001DFA48Owner();
+    virtual ~Rva001DFEAABase();
 
 private:
     unsigned char unknownBaseTail[0x144];
@@ -30,7 +30,7 @@ private:
 
 // The target dtor has no derived-vptr store. novtable keeps this view's dtor
 // body aligned with that fact; no constructor is emitted from this file.
-class __declspec(novtable) HelixContainModuleData : public Rva001DFA48Owner
+class __declspec(novtable) HelixContainModuleData : public Rva001DFEAABase
 {
 public:
     virtual ~HelixContainModuleData();
@@ -40,7 +40,7 @@ private:
     unsigned char unknownByte14C;
 };
 
-typedef char BaseExtent[sizeof(Rva001DFA48Owner) == 0x148 ? 1 : -1];
+typedef char BaseExtent[sizeof(Rva001DFEAABase) == 0x148 ? 1 : -1];
 typedef char OwnedFieldExtent[sizeof(BfmeOwnedString4) == 4 ? 1 : -1];
 
 inline HelixContainModuleData::~HelixContainModuleData() {}

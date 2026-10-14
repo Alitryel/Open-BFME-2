@@ -4,7 +4,7 @@
 // Target evidence: the audited scalar deleting dtor 0x001E0DEB (vtable
 // 0x00BDD768 slot 0) calls this body. It releases the ref-counted pointer at
 // +0x148 (inline null check, Release_Ref 0x00050ED3), then calls the nugget
-// base dtor 0x001DFA48 (Rva001DFA48Owner; base extent 0x148 as in the
+// base dtor 0x001DFA48 (Rva001DFEAABase; base extent 0x148 as in the
 // BuffNugget/ParticleSystem siblings). No derived vptr store (novtable).
 // SoundFXNugget spelling is donor-carried per the audited pin.
 
@@ -14,16 +14,16 @@ public:
 	void Release_Ref();
 };
 
-class Rva001DFA48Owner
+class Rva001DFEAABase
 {
 public:
-	virtual ~Rva001DFA48Owner();
+	virtual ~Rva001DFEAABase();
 
 private:
 	unsigned char m_tail[0x148 - 4];
 };
 
-class __declspec(novtable) SoundFXNugget : public Rva001DFA48Owner
+class __declspec(novtable) SoundFXNugget : public Rva001DFEAABase
 {
 public:
 	virtual ~SoundFXNugget();

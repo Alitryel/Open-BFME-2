@@ -109,10 +109,10 @@ void EvaEventFXNugget::doFXObj(const Object *primary, const Object *) const
 	}
 }
 
-class Rva001DFA48Owner
+class Rva001DFEAABase
 {
 public:
-	virtual ~Rva001DFA48Owner();
+	virtual ~Rva001DFEAABase();
 };
 
 class Rva001E009E
@@ -123,6 +123,6 @@ public:
 
 void Rva001E009E::rva001E009E()
 {
-	((Rva001DFA48Owner *)this)->Rva001DFA48Owner::~Rva001DFA48Owner();
+	((Rva001DFEAABase *)this)->Rva001DFEAABase::~Rva001DFEAABase();
 }
 
