@@ -9,12 +9,6 @@
 #include <cstddef>
 #include "_alloc.h"
 #include <vector>
-// Keep this inlined unsigned max overload local; retail has one external owner.
-#pragma optimize("t", on)
-namespace _STL {
-static inline const unsigned int& max(const unsigned int& a, const unsigned int& b) { return a < b ? b : a; }
-}
-#pragma optimize("", on)
 #include "ascii_string.h"
 #include <new>
 #include "../../../Include/Lib/Coord3D.h"
@@ -25,11 +19,8 @@ struct Rva00311FE2Words {
         struct {unsigned int word00,word04,word08;};
         struct {float zero00,zero04,zero08;};
     };
-    // ?Rva00311FE2Words::rva003118DFZero absent-from-retail
     void rva003118DFZero() {zero00=0.0f;zero04=0.0f;zero08=0.0f;}
-    // ?Rva00311FE2Words::Rva00311FE2Words absent-from-retail
     Rva00311FE2Words() {}
-    // ?Rva00311FE2Words::Rva00311FE2Words present-unmatched
     Rva00311FE2Words(const Rva00311FE2Words& s) {word00=s.word00;word04=s.word04;word08=s.word08;}
 };
 struct Rva00311602Element {
@@ -41,4 +32,4 @@ struct Rva00311602Element {
     unsigned int wordB4;
 };
 // Emit the compiler-generated memberwise assignment.
-Rva00311602Element& (Rva00311602Element::*emitRva00311602Assign)(const Rva00311602Element&)=&Rva00311602Element::operator=;
+Rva00311602Element& (Rva00311602Element::*emitSweepElementAssign)(const Rva00311602Element&)=&Rva00311602Element::operator=;
