@@ -20,6 +20,13 @@
 // The kind-of tests share one template load in retail (edi holds the
 // kind-of mask across both calls), hence the hoisted template local.
 #include <map>
+// The verified callers inline unsigned comparison; keep the incidental
+// /O1 less copy out of this unit so the retail provider owns its external name.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool less<unsigned int>::operator()(const unsigned int &a, const unsigned int &b) const
+{ return a < b; }
+}
 #include "GameLogicObjectLookupView.h"
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
