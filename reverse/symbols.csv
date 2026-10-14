@@ -5588,7 +5588,6 @@ name,address,notes
 ?DebugReAllocMemory@@YAPAXPAXI@Z,0x0003E4B0,retail REL32 from Debug::AddOutput grow path; DebugReAllocMemory wrapper body (GlobalReAlloc) rather than raw realloc
 ?Delete@?$DynamicVectorClass@PAX@@QAE_NH@Z,0x00196520,address read from the REL32 displacement at a placed body; the body there is held under another instantiation name and the two folded
 ?Delete@?$List@PAUINISection@@@@QAEXXZ,0x00615CB0,address read from the retail REL32 in INIClass::Clear at 0x00616C60
-?Delete@Rva00423FBDThis@@QAEXPAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@Z,0x00423FBD,"thiscall shim twin of the matched free delete at this address: body ignores ECX, and retail range delete 0x003F2BEB passes the flag address in ECX with the element on the stack, so only the thiscall convention reproduces the lea ecx,[ebp+0x10] before the call"
 ?DeleteButtonFlash@@YAXPBVGenString@@@Z,0x003FED32,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?DeleteModelGapFiller@Rva00DF6F94GapFillerContext@@QAEXPAVMeshModelClass@@@Z,0x001732E2,GapFiller delete helper taking the model; deletes the +0xBC slot via dtor 0x18C57C plus operator delete and NULLs it; 5 MeshModel-internal callers; thiscall shape proven by the caller mov ecx global pattern; class name opaque
 ?DescribeObject@@YA?AVAsciiString@@PBVObject@@@Z,0x0028F982,address read from the REL32 displacement at a placed body

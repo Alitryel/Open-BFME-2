@@ -39652,7 +39652,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva00382983@Rva003820D1@@QAEXXZ,,0x00382983,41,Code/GameEngine/Source/Common/Rva0038201DFree.cpp,matched,fifth twin clear
 ?Rva004F8373Destroy@@YAXPAURva004F6986@@0@Z,,0x004F8373,25,Code/GameEngine/Source/Common/Rva004F8373Destroy.cpp,matched,chain destroy loop stride 8 via rowed dtor
 ?rva004F89DB@Rva004F89DB@@QAEXXZ,,0x004F89DB,30,Code/GameEngine/Source/Common/Rva004F89DBClear.cpp,matched,chain holder clear via rowed destroy plus free
-?Rva00423FBDDelete@@YGXPAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@Z,,0x00423FBD,27,Code/Libraries/Source/WWVegas/WWLib/stlport_string_delete_00423FBD.cpp,matched,free scalar delete of narrow string via rowed dtor
+?Delete@Rva00423FBDThis@@QAEXPAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@Z,,0x00423FBD,27,Code/Libraries/Source/WWVegas/WWLib/stlport_string_delete_00423FBD.cpp,matched,free scalar delete of narrow string via rowed dtor
 ?write@WinMainTitlePair@@QAEHPAD@Z,,0x00109D3A,37,Code/GameEngine/Source/Main/WinMainPairUnicode.cpp,matched,narrow concat base plus second pair callers 0x10BAD1 0x2D4692
 ?rva00423A68@Rva00423A68@@QAEXPBVModuleData@@@Z,,0x00423A68,13,Code/Libraries/Source/WWVegas/WWLib/stlport_moduledatavector_push.cpp,matched,thin vector const ModuleData push forward
 ?rva00382234@Rva00382234@@QAEXVAsciiString@@@Z,,0x00382234,55,Code/GameEngine/Source/GameNetwork/GameSpy/Rva00382234Set.cpp,matched,AsciiString at FE8 via temp dst-src
