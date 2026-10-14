@@ -190,7 +190,9 @@ struct Rva005D9F97Info
 template <int NUMBITS>
 class BitFlags
 {
-	unsigned int m_bits[(NUMBITS + 31) / 32];
+	// KindOf masks passed to Thing::isAnyKindOf occupy seven native dwords,
+	// as verified by the existing BitFlags<69> callers and helper bodies.
+	unsigned int m_bits[7];
 };
 
 enum KindOfType
@@ -201,7 +203,7 @@ enum KindOfType
 class Thing
 {
 public:
-	bool isAnyKindOf(const BitFlags<116> &mask) const;	// 0x0030ADC7
+	bool isAnyKindOf(const BitFlags<69> &mask) const;	// 0x0030ADC7
 };
 
 class Object : public Thing
@@ -463,7 +465,7 @@ private:
 	float m_10;		// +0x10
 	char m_pad14[0x08];
 	int m_1C;		// +0x1C
-	BitFlags<116> m_20;	// +0x20
+	BitFlags<69> m_20;	// +0x20
 };
 
 bool Rva005EEDB5Picker::rva005D874A(Object *source)
