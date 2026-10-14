@@ -1,24 +1,59 @@
 // ?rva0029B3C1@InGameUI@@QBEMPBVObject@@@Z
-// partial score=0.93 date=2026-10-14
-// ?rva0029B3C1@InGameUI@@QBEMPBVObject@@@Z
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
-// partial score=0.75 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /MD /ICode/Libraries/Include/Lib
-// Scratch-only canonical12B layout; header is missing owned Normalize2D declaration.
-struct Coord3D {float x,y,z;float Normalize2D();};
-class Object { char pad[0x38];public:Coord3D position;char pad44[0x1C0-0x44];float orientation;};
+// partial score=0.909 date=2026-10-15
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
+//
+// InGameUI's heading query, native 0x0029B3C1..0x0029B45C (155B, RET4);
+// WorldBuilder DB5240 is the debug twin. Without the override flag (+0x9B4)
+// it is the object's own orientation (+0x1C0); with it, the heading from the
+// object's position (+0x38) toward the override point (+0x9B8) in the XY
+// plane -- the orientation again when that point is within 1 of it --
+// recovered from the normalized direction's x by ACos, negated for a
+// negative y. W3DModelDraw::reactToTransformChange (0x0029B3C1 callers)
+// rotates the model by it. The method name is address-derived.
+
+#include "../../../Libraries/Include/Lib/Coord3DInline.h"
+
 float ACos(float);
-class InGameUI {char pad[0x9B4];public:bool overrideHeading;char pad9B5[3];Coord3D target;
-float rva0029B3C1(const Object*)const;
-};
-float InGameUI::rva0029B3C1(const Object *obj)const
+
+static inline float lengthSqr2D(const Coord3D &c)
 {
- if(!overrideHeading)return obj->orientation;
- Coord3D delta;
- __vref(delta.x)=target.x-obj->position.x;
- delta.y=target.y-obj->position.y;
- delta.z=(overrideHeading ? target.z : target.z)-obj->position.z;
- if(delta.x*delta.x+delta.y*delta.y<1.0f)return obj->orientation;
- delta.Normalize2D();
- if (delta.y<0.0f) return -ACos(delta.x); else return ACos(delta.x);
+	return c.x * c.x + c.y * c.y;
+}
+
+class Object
+{
+public:
+	const Coord3D *getPosition() const { return &m_position; }
+	float getOrientation() const { return m_orientation; }
+private:
+	char m_pad000[0x38];
+	Coord3D m_position;			// +0x38
+	char m_pad044[0x1C0 - 0x44];
+	float m_orientation;		// +0x1C0
+};
+
+class InGameUI
+{
+public:
+	float rva0029B3C1(const Object *obj) const;
+private:
+	char m_pad000[0x9B4];
+	bool m_overrideHeading;		// +0x9B4
+	char m_pad9B5[3];
+	Coord3D m_headingTarget;	// +0x9B8
+};
+
+float InGameUI::rva0029B3C1(const Object *obj) const
+{
+	if (!m_overrideHeading)
+		return obj->getOrientation();
+	Coord3D dir;
+	dir.set(&m_headingTarget);
+	dir.sub(obj->getPosition());
+	if (lengthSqr2D(dir) < 1.0f)
+		return obj->getOrientation();
+	dir.Normalize2D();
+	if (dir.y < 0.0f)
+		return -ACos(dir.x);
+	return ACos(dir.x);
 }
