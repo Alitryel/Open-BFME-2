@@ -23,12 +23,7 @@ private:
     int m_18;
 };
 
-bool Rva004D9596::rva004D9596()
-{
-    if (m_00 != -1 || (m_04 != 0 && (m_18 == 0 || m_0c != 0)))
-        return true;
-    return false;
-}
+// The 28-byte rva004D9596 owner now lives in the genuine voice unit.
 
 int Rva004D9596::rva004D9586()
 {

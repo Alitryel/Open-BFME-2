@@ -108,3 +108,17 @@ Normal ledger landing completed for the caller:
   Less78, NotEqual45, Equal21, isFilled28, sound-by-index196, sound-by-name154.
   The last two are COMDAT ANY copies; the first four are exclusive definitions
   and will be rehomed to prevent newly introduced duplicate link definitions.
+
+Helper ownership cleanup:
+- Rehomed existing Less78 / NotEqual45 / Equal21 / isFilled28 rows into the
+  genuine voice unit and removed their old exclusive definitions. No coverage
+  gain is counted for these172 bytes. Rva004D9596Check retains its16-byte sibling.
+- Existing bfmeEitherQP at4D93B5 independently passes the normal byte gate with
+  the same Less callees. add_match --replace-existing --icf-owner handles that
+  pre-existing same-address row while repointing NotEqual; no alias was added.
+- The196-byte and154-byte sound setters emitted by the real caller are COMDAT
+  ANY copies and independently match the owning rows including relocations/EH.
+- PickAndPlayInfo's61-byte constructor independently matches4D92FE, including
+  three Coord-default relocations to9CFC18 with addends0/4/8. The shadow binding
+  warning compares its existing pin with the opaque Rva004D92FE owner name;
+  this finding is naming-related, not a byte or relocation mismatch.
