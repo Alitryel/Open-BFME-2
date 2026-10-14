@@ -88121,3 +88121,4 @@ $L17825,,0x0077F708,24,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Persist
 ?PopulatePlayerTemplateComboBox@@YAXHQAPAVGameWindow@@PAVGameInfo@@_N@Z,,0x004474C7,537,Code/GameEngine/Source/GameNetwork/GUIUtil.cpp,matched,
 ?update@AIGuardRetaliateAttackAggressorState@@UAE?AW4StateReturnType@@XZ,,0x00545A46,265,Code/GameEngine/Source/GameLogic/AI/AIGuardRetaliateStates.cpp,matched,
 ?parse@Rva00329663@@UAE_NAAVDataChunkInput@@PAUDataChunkInfo@@@Z,,0x00329663,336,Code/GameEngine/Source/GameLogic/Map/OldPolygonTrigger.cpp,matched,BFME2 data-chunk parse via Impl then version-1 default standing water area then next trigger id; named-local compare keeps new temp in EAX
+?rva003F8509@Rva003F8090@@QAEXXZ,,0x003F8509,45,Code/GameEngine/Source/Common/Rva003F8509.cpp,matched,Water render object index advance: negative index resets when array nonempty else increments then fetch and tail to 7F4B; unsigned compare keeps the pointer-difference sar

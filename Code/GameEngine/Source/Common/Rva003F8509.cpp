@@ -1,6 +1,6 @@
 // cl: /O1 /MD
 //
-// ?rva003F8509@Rva003F8090@@QAEPAXXZ @0x003F8509 45B.
+// ?rva003F8509@Rva003F8090@@QAEXXZ @0x003F8509 45B.
 // Normalize the +0x18 index (negative with nonempty array resets to 0,
 // else increment), fetch via rva003F80C3, tail-jump to 0x003F7F4B (pinned).
 // Evidence: retail idx=[ecx+0x18] / jge else / count=([ecx+0x10]-[ecx+0xC])>>2 /
@@ -23,7 +23,6 @@ class Rva003F7F4B
 public:
 	void rva003F7F4B();
 };
-typedef void *(Rva003F7F4B::*Rva003F7F4BResultShape)();
 
 class Rva003F8052
 {
@@ -34,7 +33,7 @@ public:
 class Rva003F8090
 {
 public:
-	void *rva003F8509();
+	void rva003F8509();
 	unsigned char rva003F8536();
 	void *rva003F80C3();
 private:
@@ -45,22 +44,21 @@ private:
 	int m_18;
 };
 
-// ?rva003F8509@Rva003F8090@@QAEPAXXZ present-unmatched
-void *Rva003F8090::rva003F8509()
+void Rva003F8090::rva003F8509()
 {
 	int idx = m_18;
 	if (idx < 0)
 	{
-		int count = m_10 - m_0c;
-		if (count != 0)
-			m_18 = 0;
+		// unsigned > 0u keeps the pointer-difference sar (a signed != 0 folds
+		// to test eax,0xfffffffc, 2 bytes longer).
+		if ((unsigned)(m_10 - m_0c) > 0u)
+			m_18 &= 0;
 	}
 	else
 		m_18 = idx + 1;
 	void *it = rva003F80C3();
-	if (it == 0)
-		return 0;
-	return (((Rva003F7F4B *)it)->*reinterpret_cast<Rva003F7F4BResultShape>(&Rva003F7F4B::rva003F7F4B))();
+	if (it != 0)
+		((Rva003F7F4B *)it)->rva003F7F4B();
 }
 
 unsigned char Rva003F8090::rva003F8536()
