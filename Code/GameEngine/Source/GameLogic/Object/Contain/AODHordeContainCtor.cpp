@@ -255,7 +255,6 @@ class Object
 public:
     const Rva0028AC4EEntry *rva0028AC4E() const;
     bool isKindOf(KindOfType kind) const;
-    __forceinline bool rva0006F039(int kind) const { return isKindOf((KindOfType)kind); }
 };
 class Rva0055A627Difference
 {
@@ -295,7 +294,7 @@ void AODHordeContain::rva0047A77E()
         rva0047A729(&position);
     rva0047A413();
     const float &speed = movementSpeed;
-    if (object->rva0006F039(215))
+    if (object->isKindOf((KindOfType)215))
     {
         float &tail = m_334;
         tail = tail + speed;

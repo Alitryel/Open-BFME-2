@@ -226,7 +226,6 @@ class Object
 {
 public:
 	bool isKindOf(KindOfType bit) const; // tests a word-run bit at +0x10C
-	__forceinline bool rva0006F039(int bit) const { return isKindOf((KindOfType)bit); }
 	void rva0028AE6D();
 	void *getTemplate() const { return m_template; }
 	void setWeaponSetFlag(WeaponSetType type);
@@ -335,7 +334,7 @@ void SpecialDisguiseUpdate::triggerAbilityEffect()
 	if (!obj->m_ai->isIdle() || m_state != 1)
 		return;
 
-	if (obj->rva0006F039(300))
+	if (obj->isKindOf((KindOfType)300))
 	{
 		obj->clearModelConditionState(300);
 		rva004B04B2(true);
@@ -373,7 +372,7 @@ void SpecialDisguiseUpdate::rva004B04B2(bool value)
 	Drawable *draw = obj->getDrawable();
 	bool wasSelected = draw->m_43C != 0;
 	const SpecialDisguiseUpdateModuleData *data = (const SpecialDisguiseUpdateModuleData *)m_moduleData;
-	if (data->m_DC && obj->rva0006F039(300))
+	if (data->m_DC && obj->isKindOf((KindOfType)300))
 	{
 		obj->setModelConditionState(214);
 		obj->m_ai->rva004B04B2Slot142(7);

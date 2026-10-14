@@ -188,10 +188,9 @@ public:
 	void rva001E42F2(const int *clear);
 	void rva0028AE6D();
 	Bool isKindOf(KindOfType bit) const;
-	__forceinline Bool rva0006F039(Int bit) const { return isKindOf((KindOfType)bit); }
 	void teleportTo(const Coord3D *pos, Bool preserve);
 
-	Bool testModelConditionFlag(ModelConditionFlagType mc) const { return rva0006F039(mc); }
+	Bool testModelConditionFlag(ModelConditionFlagType mc) const { return isKindOf((KindOfType)mc); }
 	__declspec(dllimport) __forceinline Real getConstructionPercent() const { return m_constructionPercent; }
 
 	__forceinline void setModelConditionState(ModelConditionFlagType mc)
