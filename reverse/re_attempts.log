@@ -53765,3 +53765,11 @@ FXShaderGeometry::Init	0x0018C84E	2333	blocked	Cold 2333B with 5421B WB; 69 call
 ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ	0x354B44	295	partial	T1 search 784 trials/300s: volatile-member-pair m_bfmeRealB8,m_ai nd8->6 (clen 291); retail EH state reset or [ebp-4],-1 still elided and tail mov esi,[esi+0x258]/lea vs ours mov ecx/add; gen_eh_if0 38 variants and 20 carriers inert score=0.9723 stash=reverse/attempts/0x00354b44.cpp
 ?rva005973D8@AIUpgrade@@QAEHXZ	0x5973D8	78	blocked	T1 search 1040 trials/240s with all current generators (carriers, member-pair, eh_if0, visible, eq3/4): base nd2 unchanged, no improvement -> load-order tie is real, corroborates the DIR32 refutation
 ?Rva00204032Update@@YAXXZ	0x204032	98	blocked	T1 search 977 trials/240s with all current generators: base nd2 unchanged, no improvement -> store-order tie is real, corroborates the DIR32 refutation
+?Render@Render2DClass@@QAEXXZ	0x00118f50	2821	partial	multisite beam nd 152->126: (bar@111, eq3@122:indices.Count) score=0.9 stash=reverse/attempts/0x00118f50.cpp
+?rva00916CD0@PointGroupClass@@QAEXPAEHH@Z	0x0017d770	1583	partial	multisite beam nd 41->31: (bar@104, member-carrier@114:FrameRowColumnCountLog2:and2) score=0.9 stash=reverse/attempts/0x0017d770.cpp
+?addNewAIForPlayer@Rva002A8F24@@QAEPAXPAVPlayer@@@Z	0x002a9476	323	partial	multisite beam nd 59->14: score=0.9 stash=reverse/attempts/0x002a9476.cpp
+?rva003B7C47@Rva003B573E@@QAEHABV?$StringBase@D@@@Z	0x003b7c47	329	partial	multisite beam nd 18->14: (bar@48, swap@47:==) score=0.9 stash=reverse/attempts/0x003b7c47.cpp
+??0AptSaveLoad@@QAE@PAX@Z	0x00436259	1192	partial	multisite beam nd 11->7: (eq4@293:(&AptSaveLoad::InitG, swap@262:!=) score=0.9 stash=reverse/attempts/0x00436259.cpp
+?HostValidateColors@AptMpGameSetup@@QAEXXZ	0x004422dd	522	partial	multisite beam nd 36->33: (bar@90, ltype@90:c:char) score=0.9 stash=reverse/attempts/0x004422dd.cpp
+?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z	0x005601d9	2114	partial	multisite beam nd 162->136: (vref@70:rotation.Row[0], vref@74:v.Z) score=0.9 stash=reverse/attempts/0x005601d9.cpp
+??0Rva005C4B56@@QAE@ABUHelper005C4D4B@@_NPBH@Z	0x005c4de0	415	partial	multisite beam nd 33->17: score=0.9 stash=reverse/attempts/0x005c4de0.cpp

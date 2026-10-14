@@ -1,4 +1,6 @@
 // ?Render@Render2DClass@@QAEXXZ
+// partial score=0.9 date=2026-10-14
+// ?Render@Render2DClass@@QAEXXZ
 // partial score=0.88542 date=2026-10-14
 // ?Render@Render2DClass@@QAEXXZ
 // partial score=0.96 date=2026-10-09
@@ -10,6 +12,8 @@
 // save/restore view and projection matrices and bind single owning texture.
 // WB9C07A0 establishes Render2DClass::Render identity but contains newer batch
 // loops absent from this target. Only target-native control flow is claimed.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <string.h>
 #include "vector4.h"
 #include "matrix4.h"
@@ -110,6 +114,7 @@ private:
 void Render2DClass::Render() {
     if(vertices.Count) {
     Matrix4 view,proj;
+    _ReadWriteBarrier();
     DX8Wrapper::GetView(view);DX8Wrapper::GetProjection(proj);
     _D3DVIEWPORT8 vp={0,0,renderDeviceWidth,renderDeviceHeight,0.0f,1.0f};
     DX8Wrapper::Set_Viewport(&vp);
@@ -120,7 +125,7 @@ void Render2DClass::Render() {
     typedef long(__stdcall *SetTransform)(NativeDevice9*,unsigned,const Matrix4*);
     ((SetTransform)DX8Wrapper::D3DDevice->vtable[0xB0/4])(DX8Wrapper::D3DDevice,3,&DX8Wrapper::DeviceProjectionMatrix);++DX8Wrapper::matrix_changes;
     DynamicVBAccessClass vb(2,5,(vertices.Count ? vertices.Count : vertices.Count),0);
-    DynamicIBAccessClass ib(2,indices.Count);
+    DynamicIBAccessClass ib(2,(indices.Count ? indices.Count : indices.Count));
     {
         DynamicVBAccessClass::WriteLock vblock(&vb);
         memcpy(vblock.data,vertices.Data,vertices.Count*44);

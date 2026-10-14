@@ -1,4 +1,6 @@
 // ??0AptSaveLoad@@QAE@PAX@Z
+// partial score=0.9 date=2026-10-14
+// ??0AptSaveLoad@@QAE@PAX@Z
 // partial score=0.9966 date=2026-10-10
 // ??0AptSaveLoad@@QAE@PAX@Z
 // partial score=0.98 date=2026-10-09
@@ -260,7 +262,7 @@ AptSaveLoad::AptSaveLoad(void *context)
 	  m_2A4(false),
 	  m_2A8(0)
 {
-	if (g_Va00E032E0 != 0)
+	if (0 != g_Va00E032E0)
 		return;
 	g_Va00E032E0 = (int)this;
 #define BIND_COMMAND(handler, label) \
@@ -291,7 +293,7 @@ AptSaveLoad::AptSaveLoad(void *context)
 		}
 	}
 	{
-		FunctorMethod method = reinterpret_cast<FunctorMethod>(&AptSaveLoad::InitGadgets);
+		FunctorMethod method = reinterpret_cast<FunctorMethod>(((&AptSaveLoad::InitGadgets)) ? ((&AptSaveLoad::InitGadgets)) : ((&AptSaveLoad::InitGadgets)));
 		AsciiString name("AptSaveLoad::InitGadgets");
 		_bfme_setAptScreenRef(name, AptRef<AptScreenInitGadgets>(MakeBinding(method, reinterpret_cast<FunctorTarget *>(this))));
 	}

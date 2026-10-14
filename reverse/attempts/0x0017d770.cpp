@@ -1,4 +1,6 @@
 // ?rva00916CD0@PointGroupClass@@QAEXPAEHH@Z
+// partial score=0.9 date=2026-10-14
+// ?rva00916CD0@PointGroupClass@@QAEXPAEHH@Z
 // partial score=0.9645930348717475 date=2026-10-10
 // ?rva00916CD0@PointGroupClass@@QAEXPAEHH@Z
 // partial score=0.957461887 date=2026-10-09
@@ -103,6 +105,7 @@ void PointGroupClass::rva00916CD0(unsigned char *point_frame, int active_points,
     } else {
       Vector2 *uv_ptr = _QuadVertexUVFrameTable[FrameRowColumnCountLog2] + ((DefaultPointFrame & frame_mask) * 4); _ReadWriteBarrier();
       Vector2 *vertex_uv = &VertexUV[0];
+      _ReadWriteBarrier();
       if (bounds_address) {
         const float *bounds = (const float *)bounds_address;
         float u0 = bounds[0], v0 = bounds[1], du = bounds[2] - u0,
@@ -112,7 +115,7 @@ void PointGroupClass::rva00916CD0(unsigned char *point_frame, int active_points,
           uv_ptr[j].Y = v0 + uv_ptr[j].Y * dv;
         }
       }
-      for (int i = 0; i < active_points; i++) {
+      for (int i = 0;( i < active_points) && FrameRowColumnCountLog2 == FrameRowColumnCountLog2 && FrameRowColumnCountLog2 == FrameRowColumnCountLog2; i++) {
         vertex_uv[0] = uv_ptr[0];
         vertex_uv[1] = uv_ptr[1];
         vertex_uv[2] = uv_ptr[2];

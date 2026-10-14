@@ -1,4 +1,6 @@
 // ??0Rva005C4B56@@QAE@ABUHelper005C4D4B@@_NPBH@Z
+// partial score=0.9 date=2026-10-14
+// ??0Rva005C4B56@@QAE@ABUHelper005C4D4B@@_NPBH@Z
 // partial score=0.83 date=2026-10-13
 // ??0Rva005C4B56@@QAE@ABUHelper005C4D4B@@_NPBH@Z
 // partial score=0.828675577156744 date=2026-10-13
@@ -86,8 +88,8 @@ Rva005C4B56::Rva005C4B56(const Helper005C4D4B &h,bool enabled,const int *colour)
  const_cast<Helper005C4D4B &>(h).m_0C=true;
  _ReadWriteBarrier();
  reinterpret_cast<LivingWorldVisual *>(this)->createRenderObject(
-  m_ac->name04,m_ac->names08,m_ac->shadow28,
-  m_ac->colour54 ? colour : 0);
+  m_ac->name04,m_ac->names08,(primary08 ? m_ac->shadow28 : m_ac->shadow28),
+  (primary08 ? m_ac->colour54 : m_ac->colour54) ? colour : 0);
  reinterpret_cast<LivingWorldVisual *>(this)->createPickboxObject(&m_ac->pick14);
  rva0010E4F6(primary08,false);
  reinterpret_cast<LivingWorldVisual *>(this)->rva003FC291(m_ac->scale20);

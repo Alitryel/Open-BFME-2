@@ -1,4 +1,6 @@
 // ?rva003B7C47@Rva003B573E@@QAEHABV?$StringBase@D@@@Z
+// partial score=0.9 date=2026-10-14
+// ?rva003B7C47@Rva003B573E@@QAEHABV?$StringBase@D@@@Z
 // partial score=0.94223 date=2026-10-14
 // ?rva003B7C47@Rva003B573E@@QAEHABV?$StringBase@D@@@Z
 // partial score=0.87 date=2026-10-13
@@ -14,6 +16,8 @@
 // Still 338B: register scheduling, spill placement and final return differ. This is evidence only.
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 #include "ascii_string.h"
 class ModuleData;
@@ -45,8 +49,9 @@ int Rva003B573E::rva003B7C47(const StringBase<char>&key)
  unsigned int position=rva003B573E(key);
  int index;
  int offset;
- if(position < m_sorted.size() && ((const StringBase<char>&)m_records[(int)m_sorted[position]].text).compare(key)==0) {
+ if(position < m_sorted.size() &&0 == ((const StringBase<char>&)m_records[(int)m_sorted[position]].text).compare(key)) {
   index=(int)m_sorted[position];
+  _ReadWriteBarrier();
   offset=index*20;
   BfmeStringRecord003B3F78 *rec=(BfmeStringRecord003B3F78*)((char*)&m_records[0]+offset);
   if(!(index ? rec->flag : rec->flag)) return -1;

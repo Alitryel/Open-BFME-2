@@ -1,4 +1,6 @@
 // ?addNewAIForPlayer@Rva002A8F24@@QAEPAXPAVPlayer@@@Z
+// partial score=0.9 date=2026-10-14
+// ?addNewAIForPlayer@Rva002A8F24@@QAEPAXPAVPlayer@@@Z
 // partial score=0.8 date=2026-10-09
 // cl: /O1 /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
@@ -141,7 +143,7 @@ class Rva004EC1CE { public: void rva004EC1CE(const AsciiString &); };
 void *Rva002A8F24::addNewAIForPlayer(Player *player) {
     void *ai=0;
     const ModuleData **it=teams914.begin(), **end=teams914.end();
-    for (; it!=end; ++it) {
+    for (; it!=(end ? end : end); ++it) {
         if (((Rva004E94CA *)*it)->rva004E94CA(player)) {
             ((Rva004E9823 *)*it)->rva004E9823((const ModuleData *)player);
             ai=((Rva004E9600 *)*it)->rva004E95D4(player);
@@ -157,7 +159,7 @@ void *Rva002A8F24::addNewAIForPlayer(Player *player) {
     const AsciiString &name=*(const AsciiString *)((char *)player+0x58);
     if (g_00E0312C->rva0041F474(name)) {
         int key=TheNameKeyGenerator->nameToKey(name);
-        if (builders920.find((const unsigned &)key)!=builders920.end())
+        if (builders920.end() != builders920.find((const unsigned &)key))
             ((Rva004EC1CE *)ai)->rva004EC1CE(((Rva002A9140 *)&builders920)->rva002A9140(key));
     } else {
         *(bool *)((char *)ai+0x168)=true;

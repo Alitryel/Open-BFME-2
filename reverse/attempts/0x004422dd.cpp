@@ -1,4 +1,6 @@
 // ?HostValidateColors@AptMpGameSetup@@QAEXXZ
+// partial score=0.9 date=2026-10-14
+// ?HostValidateColors@AptMpGameSetup@@QAEXXZ
 // partial score=0.91839 date=2026-10-14
 // ?HostValidateColors@AptMpGameSetup@@QAEXXZ
 // partial score=0.75 date=2026-10-13
@@ -22,6 +24,8 @@
 // saved-pointer/key homes and success-block placement still differ from522B.
 // No matched source, global owner, pin or compiler escape hatch was changed.
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <map>
 #include <vector>
 #include <new>
@@ -88,7 +92,8 @@ void AptMpGameSetup::HostValidateColors() {
     if((GameSlot*)(*map)[(unsigned)color]==slot) continue;
    if(special) owner->SetColor(slot,-1);
    else {
-    unsigned char c = 0;
+    char c = 0;
+    _ReadWriteBarrier();
     while(c<allowed.size()) {
      RespawnPtrMap *lookup=(RespawnPtrMap*)&reserved;
      if(allowed[c] && lookup->find(c)==lookup->end()) goto colorFound;
