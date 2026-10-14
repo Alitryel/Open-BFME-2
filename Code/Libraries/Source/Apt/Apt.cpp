@@ -111,7 +111,7 @@ public:
  static void *operator new(unsigned size) {return g_bfmeAptAllocAtE17728(size);}
  static void operator delete(void *ptr,unsigned size) {rva006CBC50(ptr,size);}
 };
-class Rva006DB270;class Rva006D2A60 {public:void *allocBlock(int);};
+class Rva006DB270;class Rva006D2A60 {public:void *allocBlock(int);void freeBlock(void*,int);};
 extern Rva006DB270 *g_pChainBlockAllocator;
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
 void Rva006CC380Initialize(unsigned valueSize,int valueCount,unsigned chainSize,int chainCount) {
@@ -568,9 +568,8 @@ void Rva006CC600(const char *path,char *suffix)
 // Original one-int ABI is independently named by retail callers and the pin.
 // Throwing-new cleanup7A8080 calls the native value-pool free twin6F12F0:
 // both normal allocation and exceptional release use the existingF4 owner.
-// Reuse the same sized-delete forwarder spelling as Rva006F6A50Cluster,
-// so every emitted Rva006CBDE0 delete copy has one behavior and body.
-void Rva006F12F0Free(void*,int);
+// Native allocation-failure cleanup frees directly through the F4 pool.
+// Keep its complete22B implementation consistent with Rva006F6A50Cluster.
 class Rva006CBDE0 {
 public:
  void *vptr;unsigned flags;EAStringC name;
@@ -578,7 +577,7 @@ public:
  Rva006CBDE0 *prev,*next;unsigned level,extra;
  Rva006CBDE0(int,void*,AptValue*);
  static void *operator new(unsigned n){return g_pChainBlockAllocatorF4->allocBlock(n);}
- static void operator delete(void *p,unsigned n){Rva006F12F0Free(p,n);}
+ static void operator delete(void *p,unsigned n){g_pChainBlockAllocatorF4->freeBlock(p,(int)n);}
 };
 class BfmeQuery1279 {public:Rva006CBDE0 *root;void rva006F6FB0(int,AptCIH*);};
 AptCIH *_AptGetAnimationAtLevel(int key) {
