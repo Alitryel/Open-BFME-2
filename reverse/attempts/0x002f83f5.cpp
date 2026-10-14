@@ -1,15 +1,14 @@
 // ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
-// partial score=0.9763574724889548 date=2026-10-14
+// partial score=0.99144 date=2026-10-14
 // ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
-// partial score=0.97636 date=2026-10-14
+// partial score=0.98754 date=2026-10-14
 // ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
-// partial score=0.79513 date=2026-10-14
-// ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
-// partial score=0.78053 date=2026-10-14
-// Crack-O: query temporary and endpoint copies follow WB D5BBE0; still partial.
-// ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HPAUICoord2D@@PAVObject@@H@Z
-// partial score=0.773791 date=2026-10-09
 // cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
+// Diagnostic bank derived from crack-T at 0d68e6544d; crack-Z provider interaction.
+// Native002F83F5..002F8B00 RET36, full1803/frame90. Still partial.
+// Exact59B clearer and168B predicate plus partial002EA658 must all be visible.
+// Six unrelated ring-scan definitions omitted; their declarations remain.
+// See reverse/attempt_support/crack-z-neighbor-visibility.py and provider proof.
 // stlport
 #include <vector>
 typedef bool Bool;
@@ -49,6 +48,7 @@ char *nameBuffer;
 char pad68[0x108-0x68];
 unsigned char kinds[24];
 char pad120[0x56c-0x120];Int priority;char pad570[0x634-0x570];Bool flag;
+__forceinline unsigned testKindWord(unsigned bit)const{return ((const unsigned*)kinds)[bit>>5]&(1U<<(bit&31));}
 __forceinline bool hasKind(int bit) const { return (kinds[bit/8] & (1<<(bit%8)))!=0; }
 __forceinline const char *name() const { return nameBuffer ? nameBuffer+8 : ""; }
 };
@@ -60,6 +60,7 @@ Player *getControllingPlayer() const;
 Relationship getRelationship(const Object *) const;
 bool IsAtGoalPosition() const;
 bool rva0028AFBB() const;
+Bool canCrushOrSquishNoAlly(Object *,Int);
 float GetGoalAngle() const;
 __forceinline int getID() const { return *(const int *)((const char *)this+0x74); }
 AIUpdateInterface *getAI() const { return reinterpret_cast<AIUpdateInterface *>(m_258); }
@@ -117,12 +118,19 @@ class Rva002E6B06 { public: Int rva002E6B06(); };
 class Rva002E6C79;
 struct Rva002E8BCFSrc;
 class Rva002E8BCF { public: Rva002E8BCF(){} Rva002E8BCF(const Rva002E8BCFSrc *,Bool,Int,Bool); Int surfaces;Bool field4,field5;Int maxLayer;Bool fieldC; };
-class Rva002E6DC4 { public: Bool rva002E6DC4(void *,void *); };
+class Rva002E6DC4
+{
+public:
+	bool rva002E6DC4(void *a_raw, void *b_raw);
+private:
+	char m_pad[0x48];
+	void *m_48;
+};
 
 void ji_00629952();
 class PathfindCell
 {
-friend class Pathfinder;
+friend class Pathfinder;friend struct Rva002F5925Info;
 public:
 enum CellType
 {
@@ -384,6 +392,7 @@ bool rva0036666B();
 class PathfindLayer
 {
 public:
+PathfindCell *getCell(Int,Int);
 bool setDestroyed(bool destroyed);
 __declspec(noinline) void rva000B3FD0();
 private:
@@ -405,6 +414,7 @@ void *rva002EBC7F(void *,void *,Rva002EBC7FPair *,int);
 class Rva001E46E1 { public: float rva001E46E1(Object *); };
 class AIUpdateInterface {
 public:
+Object *getCurrentVictim() const;
 bool isAircraftThatAdjustsDestination() const;
 int rva0026417F(bool);
 char gap[0x1f0];
@@ -465,8 +475,35 @@ extern void *g_00DFEFF0;
 
 struct ICoord2D { Int x,y; };
 struct TCheckMovementInfo { ICoord2D cell;PathfindLayerEnum layer;Int radius;Bool centerInCell,considerTransient;char pad12[2];Int options,ignore;Rva002E8BCF movement;Int allyFixedCount;Bool flag30,flag31,allyGoal;char pad33;Int blockedCells; };
-class Rva002E6FDF { public:Rva002E6FDF *rva002E6FDF(); };
-class Rva002EAB6F {public:Rva002EAB6F(Int,const Rva002E8BCFSrc *,unsigned char,Int,Object *,unsigned char,Int,Int);char fields[0x34];};
+class Rva002E6FDF
+{
+public:
+	Rva002E6FDF *rva002E6FDF();
+private:
+	int m_00;
+	int m_04;
+	int m_08;
+	int m_0C;
+	unsigned char m_10;
+	unsigned char m_11;
+	char m_pad12[2];
+	int m_14;
+	int m_18;
+	int m_1C;
+	unsigned char m_20;
+	unsigned char m_21;
+	char m_pad22[2];
+	int m_24;
+	unsigned char m_28;
+	char m_pad29[3];
+	int m_2C;
+	unsigned char m_30;
+	unsigned char m_31;
+	unsigned char m_32;
+	char m_pad33[1];
+	int m_34;
+};
+class Rva002EAB6F {public:Rva002EAB6F(Int,const Rva002E8BCFSrc *,unsigned char,Int,Object *,unsigned char,Int,Int);int m0;Rva002E8BCF m4;unsigned char m14,m15;int m18;Object*m1C;int m20,m24;char pad28[8];int m30;};
 struct Rva002F5925Info;
 struct BurningCell {char pad[6];unsigned short count;char pad8[12];};
 struct BurningGrid {char pad[0x70];BurningCell **cells;char word74[4];Int width,height;};
@@ -479,6 +516,7 @@ class Rva002E7414 { public: Int rva002E7414(Int,Int); };
 class Rva002F336AOwner { public: Bool rva002F336A(Int,Int); };
 class Pathfinder
 {
+friend struct Rva002F5925Info;
 public:
 Int rva002F83F5(PathfindCell *,PathfindCell *,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
 Bool rva002EA658(Object *,TCheckMovementInfo &,const ICoord2D *);
@@ -546,7 +584,7 @@ private:
 Int iterateCellsAlongLine(const ICoord2D *,const ICoord2D *,PathfindLayerEnum,Rva002F5925Info *);
 char m_pad000[8];Bool m_isMapReady;char m_pad009[7];
 int m_unknown10;
-char m_pad014[0x10];
+Int m_mapLowX,m_mapLowY,m_mapHighX,m_mapHighY;
 Int m_extentLowX,m_extentLowY,m_extentHighX,m_extentHighY;
 MixFileInfoBuffer *m_closedList;Bool m_isTunneling;char m_pad039[0x48-0x39];Int m_ignoreObstacleID;char pad4c[0x5c-0x4c];
 Bridge *m_bridges;
@@ -1117,611 +1155,23 @@ return 14 * dy + cost + 10 * (dx - dy);
 return 14 * dx + cost + 10 * (dy - dx);
 }
 
-Bool Pathfinder::rva002F92BC(const ICoord2D *scanCenterCell, Int remainingCellBudget, ICoord2D *foundCell, void *adjustTargetInfoData)
-{
-if (g_00E03745 && g_00DFEFF0)
-{
-fprintf((PathfinderLogFile *)g_00DFEFF0,
-"\t\tIterateCircular1 called with center=%d,%d, maxCells=%d",
-scanCenterCell->x, scanCenterCell->y, remainingCellBudget);
-}
-
-Rva002F70E5Context *targetSearch = (Rva002F70E5Context *)adjustTargetInfoData;
-if (targetSearch->rva002F70E5(scanCenterCell->x, scanCenterCell->y))
-{
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tfunc succeeded found=%d,%d", scanCenterCell->x, scanCenterCell->y);
-foundCell->x=scanCenterCell->x;
-foundCell->y=scanCenterCell->y;
-return true;
-}
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tfunc failed");
-
-Int bestOffsetDistanceSquared = 0;
-Int ringExtent = 1;
-Int cellOffsetX = 0;
-Int cellOffsetY = 0;
-
-while (remainingCellBudget > 0)
-{
-remainingCellBudget -= 4 * ringExtent + 2;
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F70E5(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F70E5(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F70E5(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F70E5(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-if (bestOffsetDistanceSquared == 0)
-{
-ringExtent += 2;
-}
-else
-{
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tbest return true. found=%d,%d", foundCell->x, foundCell->y);
-return true;
-}
-}
-
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\ttotal failure. found");
-return false;
-}
-
-
-Bool Pathfinder::rva002F8E2D(const ICoord2D *scanCenterCell, Int remainingCellBudget, ICoord2D *foundCell, void *adjustTargetInfoData)
-{
-if (g_00E03745 && g_00DFEFF0)
-{
-fprintf((PathfinderLogFile *)g_00DFEFF0,
-"\t\tIterateCircular1 called with center=%d,%d, maxCells=%d",
-scanCenterCell->x, scanCenterCell->y, remainingCellBudget);
-}
-
-Rva002F6F90Context *targetSearch = (Rva002F6F90Context *)adjustTargetInfoData;
-if (targetSearch->rva002F6F90(scanCenterCell->x, scanCenterCell->y))
-{
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tfunc succeeded found=%d,%d", scanCenterCell->x, scanCenterCell->y);
-foundCell->x=scanCenterCell->x;
-foundCell->y=scanCenterCell->y;
-return true;
-}
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tfunc failed");
-
-Int bestOffsetDistanceSquared = 0;
-Int ringExtent = 1;
-Int cellOffsetX = 0;
-Int cellOffsetY = 0;
-
-while (remainingCellBudget > 0)
-{
-remainingCellBudget -= 4 * ringExtent + 2;
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F6F90(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F6F90(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F6F90(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F6F90(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-if (bestOffsetDistanceSquared == 0)
-{
-ringExtent += 2;
-}
-else
-{
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tbest return true. found=%d,%d", foundCell->x, foundCell->y);
-return true;
-}
-}
-
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\ttotal failure. found");
-return false;
-}
-
-
-Bool Pathfinder::rva002F90E9(ICoord2D *scanCenterCell, Int remainingCellBudget, void *adjustTargetInfoData)
-{
-if (g_00E03745 && g_00DFEFF0)
-{
-fprintf((PathfinderLogFile *)g_00DFEFF0,
-"\t\tIterateCircular2 called with center=%d,%d, maxCells=%d",
-scanCenterCell->x, scanCenterCell->y, remainingCellBudget);
-}
-
-Rva002F6F90Context *targetSearch = (Rva002F6F90Context *)adjustTargetInfoData;
-if (targetSearch->rva002F6F90(scanCenterCell->x, scanCenterCell->y))
-{
-return true;
-}
-
-Int bestOffsetDistanceSquared = 0;
-Int ringExtent = 1;
-Int cellOffsetX = 0;
-Int cellOffsetY = 0;
-
-while (remainingCellBudget > 0)
-{
-remainingCellBudget -= 4 * ringExtent + 2;
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F6F90(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F6F90(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F6F90(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F6F90(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-}
-}
-}
-
-if (bestOffsetDistanceSquared == 0)
-{
-ringExtent += 2;
-}
-else
-{
-return true;
-}
-}
-
-return false;
-}
-
-Bool Pathfinder::rva002EAE5F(const ICoord2D *scanCenterCell, Int remainingCellBudget, ICoord2D *foundCell, void *adjustTargetInfoData)
-{
-if (g_00E03745 && g_00DFEFF0)
-{
-fprintf((PathfinderLogFile *)g_00DFEFF0,
-"\t\tIterateCircular1 called with center=%d,%d, maxCells=%d",
-scanCenterCell->x, scanCenterCell->y, remainingCellBudget);
-}
-
-Rva002E7414 *targetSearch = (Rva002E7414 *)adjustTargetInfoData;
-if ((unsigned char)targetSearch->rva002E7414(scanCenterCell->x, scanCenterCell->y))
-{
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tfunc succeeded found=%d,%d", scanCenterCell->x, scanCenterCell->y);
-foundCell->x=scanCenterCell->x;
-foundCell->y=scanCenterCell->y;
-return true;
-}
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tfunc failed");
-
-Int bestOffsetDistanceSquared = 0;
-Int ringExtent = 1;
-Int cellOffsetX = 0;
-Int cellOffsetY = 0;
-
-while (remainingCellBudget > 0)
-{
-remainingCellBudget -= 4 * ringExtent + 2;
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if ((unsigned char)targetSearch->rva002E7414(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if ((unsigned char)targetSearch->rva002E7414(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if ((unsigned char)targetSearch->rva002E7414(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if ((unsigned char)targetSearch->rva002E7414(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-if (bestOffsetDistanceSquared == 0)
-{
-ringExtent += 2;
-}
-else
-{
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tbest return true. found=%d,%d", foundCell->x, foundCell->y);
-return true;
-}
-}
-
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\ttotal failure. found");
-return false;
-}
 
 
 
-Bool Pathfinder::rva002EB11B(const ICoord2D *scanCenterCell, Int remainingCellBudget, ICoord2D *foundCell, void *adjustTargetInfoData)
-{
-if (g_00E03745 && g_00DFEFF0)
-{
-fprintf((PathfinderLogFile *)g_00DFEFF0,
-"\t\tIterateCircular1 called with center=%d,%d, maxCells=%d",
-scanCenterCell->x, scanCenterCell->y, remainingCellBudget);
-}
-
-Rva002E7440 *targetSearch = (Rva002E7440 *)adjustTargetInfoData;
-if (targetSearch->rva002E7440(scanCenterCell->x, scanCenterCell->y))
-{
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tfunc succeeded found=%d,%d", scanCenterCell->x, scanCenterCell->y);
-foundCell->x=scanCenterCell->x;
-foundCell->y=scanCenterCell->y;
-return true;
-}
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tfunc failed");
-
-Int bestOffsetDistanceSquared = 0;
-Int ringExtent = 1;
-Int cellOffsetX = 0;
-Int cellOffsetY = 0;
-
-while (remainingCellBudget > 0)
-{
-remainingCellBudget -= 4 * ringExtent + 2;
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002E7440(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002E7440(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002E7440(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002E7440(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-foundCell->x=scanCenterCell->x+cellOffsetX;
-foundCell->y=scanCenterCell->y+cellOffsetY;
-}
-}
-}
-
-if (bestOffsetDistanceSquared == 0)
-{
-ringExtent += 2;
-}
-else
-{
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\tbest return true. found=%d,%d", foundCell->x, foundCell->y);
-return true;
-}
-}
-
-if (g_00E03745 && g_00DFEFF0)
-fprintf((PathfinderLogFile *)g_00DFEFF0, "\t\ttotal failure. found");
-return false;
-}
 
 
 
-Bool Pathfinder::rva002F379E(ICoord2D *scanCenterCell, Int remainingCellBudget, void *adjustTargetInfoData)
-{
-if (g_00E03745 && g_00DFEFF0)
-{
-fprintf((PathfinderLogFile *)g_00DFEFF0,
-"\t\tIterateCircular2 called with center=%d,%d, maxCells=%d",
-scanCenterCell->x, scanCenterCell->y, remainingCellBudget);
-}
 
-Rva002F336AOwner *targetSearch = (Rva002F336AOwner *)adjustTargetInfoData;
-if (targetSearch->rva002F336A(scanCenterCell->x, scanCenterCell->y))
-{
-return true;
-}
 
-Int bestOffsetDistanceSquared = 0;
-Int ringExtent = 1;
-Int cellOffsetX = 0;
-Int cellOffsetY = 0;
 
-while (remainingCellBudget > 0)
-{
-remainingCellBudget -= 4 * ringExtent + 2;
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F336A(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-}
-}
-}
 
-for (Int stepsRemaining = ringExtent; stepsRemaining > 0; --stepsRemaining)
-{
-++cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F336A(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-}
-}
-}
 
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetX;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F336A(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-}
-}
-}
 
-for (Int stepsRemaining = 0; stepsRemaining <= ringExtent; ++stepsRemaining)
-{
---cellOffsetY;
-if (bestOffsetDistanceSquared == 0
-|| cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY < bestOffsetDistanceSquared)
-{
-if (targetSearch->rva002F336A(scanCenterCell->x + cellOffsetX, scanCenterCell->y + cellOffsetY))
-{
-bestOffsetDistanceSquared = cellOffsetX * cellOffsetX + cellOffsetY * cellOffsetY;
-}
-}
-}
 
-if (bestOffsetDistanceSquared == 0)
-{
-ringExtent += 2;
-}
-else
-{
-return true;
-}
-}
 
-return false;
-}
+
+
+
 
 
 
@@ -1785,7 +1235,458 @@ AddToOpenList(neighbor);
 m_isTunneling=false;rva002F40E7();goal->ReleaseInfo();return MAX_COST;
 }
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+Rva002E6FDF *Rva002E6FDF::rva002E6FDF()
+{
+	m_00 = 0;
+	m_04 = 0;
+	m_08 = 0;
+	m_0C = 0;
+	m_10 = 0;
+	m_11 = 0;
+	m_14 = 0;
+	m_18 = 0;
+	_ReadWriteBarrier();
+	m_24 = -1;
+	m_1C = 0;
+	m_20 = 0;
+	m_21 = 0;
+	m_28 = 0;
+	m_2C = 0;
+	m_31 = 0;
+	m_32 = 0;
+	m_30 = 0;
+	m_34 = 0;
+	return this;
+}
+
+
+struct Rva002E6DC4_P1
+{
+	unsigned int m_0;
+	unsigned char m_4;
+	unsigned char m_5;
+	char m_pad6[2];
+	int m_8;
+	unsigned char m_C;
+};
+struct Rva002E6DC4_P2Inner
+{
+	char m_pad[0x28];
+	void *m_28;
+};
+struct Rva002E6DC4_P2
+{
+	Rva002E6DC4_P2Inner *m_0;
+	char m_pad4[8];
+	unsigned int m_C;
+};
+bool Rva002E6DC4::rva002E6DC4(void *a_raw, void *b_raw)
+{
+	Rva002E6DC4_P1 *a = (Rva002E6DC4_P1 *)a_raw;
+	Rva002E6DC4_P2 *b = (Rva002E6DC4_P2 *)b_raw;
+	if (!b)
+		return false;
+	unsigned int flags = b->m_C;
+	unsigned char b18 = (unsigned char)(flags >> 18);
+	if ((b18 & 1) != 0 && a->m_5 != 0)
+		return false;
+	unsigned int low = flags & 0xF;
+	switch (low) {
+	case 3:
+		if ((flags & 0x3F0) != 0x10)
+			return false;
+		break;
+	case 4: {
+		void *chase = b->m_0 ? b->m_0->m_28 : 0;
+		if (chase == m_48)
+			return true;
+		break;
+	}
+	default:
+		break;
+	}
+	if ((a->m_0 & g_00DBD33C[low]) == 0)
+		return false;
+	unsigned char b17 = (unsigned char)(flags >> 17);
+	if (a->m_4 != 0 && (b17 & 1) != 0)
+		return false;
+	if (a->m_C != 0) {
+		unsigned char b22 = (unsigned char)(flags >> 22);
+		if (((b22 & 1) == 0) && low == 4)
+			return false;
+	}
+	int v = a->m_8;
+	if (v < 0 || (int)((flags >> 19) & 3) <= v)
+		return true;
+	return false;
+}
+
 static __forceinline Bool nativeBurning(BurningGrid *grid,const Coord3D &point){Int fireX=realToIntFloor((point.x+0.5f)*0.1f);Int fireY=realToIntFloor((point.y+0.5f)*0.1f);if(fireX>=0 && fireX<grid->width && fireY>=0 && fireY<grid->height)return grid->cells[fireX][fireY].count>0;return false;}
+class StateMachine
+{
+public:
+	Object *getGoalObject();
+};
+struct CheckMovementAIView
+{
+	unsigned char m_pad00[0x30];
+	StateMachine *m_stateMachine;	// +0x30
+};
+struct CheckMovementObjectNode
+{
+	CheckMovementObjectNode *m_next;
+	int m_04;
+	Object *m_object;	// +0x08
+};
+struct CheckMovementCellInfo
+{
+	unsigned char m_pad00[0x14];
+	int m_14;
+	unsigned char m_pad18[0x20 - 0x18];
+	CheckMovementObjectNode *m_objects;	// +0x20
+};
+struct CheckMovementCell
+{
+	Int getType() const { return m_flags & 0xf; }
+	Int getLayer() const { return (m_flags >> 4) & 0x3f; }
+	Bool rvaBit18() const { return (Bool)((m_flags >> 18) & 1); }
+	Bool rvaInfo14() const { return m_info ? m_info->m_14 != 0 : false; }
+	Bool hasObjects() const { return m_info ? m_info->m_objects != 0 : false; }
+	CheckMovementObjectNode *getObjects() const { return m_info ? m_info->m_objects : 0; }
+
+	CheckMovementCellInfo *m_info;
+	unsigned char m_pad04[0x0C - 0x04];
+	unsigned int m_flags;	// +0x0C
+};
+static __forceinline void checkCellFlags(Pathfinder *pf, Object *obj, CheckMovementCell *cell, TCheckMovementInfo &info)
+{
+	if (cell->getType() == 5)
+		info.blockedCells++;
+	if (cell->rvaBit18() && obj->rva0028AFBB())
+		info.blockedCells++;
+	if (info.options & 8)
+	{
+		Int layer = cell->getLayer();
+		if (info.layer != layer)
+		{
+			if (info.layer == 1 && layer != 0x10)
+				info.blockedCells++;
+			else if ((unsigned char)Rva002E6E8AGet(info.layer) && layer != 0x10)
+				info.blockedCells++;
+		}
+	}
+	if ((info.options & 4) && !((Rva002E6DC4 *)pf)->rva002E6DC4(&info.movement, cell))
+		info.blockedCells++;
+}
+
+static __forceinline Bool checkPairCellUnits(Object *&obj, CheckMovementCell *cell, TCheckMovementInfo &info, Int *lastID)
+	{
+		if (cell->rvaInfo14())
+			info.allyGoal = true;
+
+		for (CheckMovementObjectNode *node = cell->getObjects(); node; node = node->m_next)
+		{
+			Object *unit = node->m_object;
+			if (unit == obj || unit->getID() == info.ignore || unit->getID() == *lastID) continue;
+			*lastID = (Int)unit->getID();
+
+			Bool check = false;
+			Bool isAlly;
+			unsigned occupied=cell->hasObjects();
+			Object *owner=obj;
+			if (occupied)
+			{
+				isAlly = owner->getRelationship(unit) == ALLIES;
+				if (isAlly)
+					info.flag31 = true;
+				if (info.considerTransient)
+					check = true;
+				if (!isAlly && (info.options & 0x10))
+					check = true;
+			}
+			if (unit->IsAtGoalPosition())
+			{
+				isAlly = owner->getRelationship(unit) == ALLIES;
+				check = true;
+			}
+			if (!check)
+				continue;
+
+			if (isAlly && owner->m_template->testKindWord(0x74) && unit->m_template->testKindWord(0x74))
+				continue;
+			if (owner->m_template->testKindWord(0x7D) && unit->m_template->testKindWord(8))
+				continue;
+			if (isAlly && owner->m_template->testKindWord(0xBA) && !unit->m_template->testKindWord(0xBA))
+			{
+				info.allyGoal = false;
+				continue;
+			}
+			if (owner->m_template->testKindWord(0xBB))
+			{
+				info.allyGoal = false;
+				continue;
+			}
+
+			if (isAlly)
+			{
+				if (!unit->getAI())
+					return false;
+				if (info.options & 2)
+					return false;
+				info.allyFixedCount = 1;
+				if (unit->m_template->testKindWord(0xBA) && !owner->m_template->testKindWord(0xBA))
+					return false;
+				continue;
+			}
+
+			if (owner->canCrushOrSquishNoAlly(unit, 2))
+				continue;
+			if (!(info.options & 0x11))
+				continue;
+			AIUpdateInterface *ai = obj->getAI();
+			if (!ai)
+				return false;
+			Object *goal = ((CheckMovementAIView*)ai)->m_stateMachine->getGoalObject();
+			if (goal)
+			{
+				if (unit == goal || unit->container == goal)
+					continue;
+				goal = goal->container;
+				if (goal && (unit == goal || unit->container == goal))
+					continue;
+			}
+			Object *victim = ai->getCurrentVictim();
+			if (!victim)
+				return false;
+			if (unit == victim || unit->container == victim)
+				continue;
+			victim = victim->container;
+			if (!victim)
+				return false;
+			if (unit == victim || unit->container == victim)
+				continue;
+			return false;
+		}
+		return true;
+	}
+Bool Pathfinder::rva002EA658(Object *obj, TCheckMovementInfo &info, const ICoord2D *otherCell)
+{
+	info.allyFixedCount = 0;
+	info.flag31 = false;
+	info.allyGoal = false;
+	info.flag30 = false;
+	info.blockedCells = 0;
+
+	Int numCellsAbove = info.radius;
+	if (info.centerInCell)
+		numCellsAbove++;
+
+	Int lastID = (Int)0;
+	for (Int i = info.cell.x - info.radius; i < info.cell.x + numCellsAbove; i++)
+	{
+		Bool inOtherX = i >= otherCell->x - info.radius && i < otherCell->x + numCellsAbove;
+		for (Int j = info.cell.y - info.radius; j < info.cell.y + numCellsAbove; j++)
+		{
+			CheckMovementCell *cell = (CheckMovementCell*)getCell(info.layer, i, j);
+			if (!cell)
+				return false;
+			if (inOtherX && j >= otherCell->y - info.radius && j < otherCell->y + numCellsAbove)
+			{
+				checkCellFlags(this,obj, cell, info);
+			}
+			else
+			{
+				checkCellFlags(this,obj,cell,info);
+				if (!checkPairCellUnits(obj, cell, info, &lastID))
+					return false;
+			}
+		}
+	}
+	return true;
+}
+
+extern "C" void *__cdecl memset(void *, int, unsigned int);
+#pragma intrinsic(memset)
+extern int TheMixFileInfoCount;
+
+// Rehomed 0x002E6BA1 (65 B), original Rva002E6BA1Init.cpp: initializer
+// copying the cell position plus the owner at +0x30, zeroing +0x08/+0x0C,
+// the cost words and +0x14 x5, masking +0x2C, zeroing +0x28, counting.
+class Rva002E6BA1
+{
+public:
+	void rva002E6BA1(int a, In002E6BA1 *b);
+
+private:
+	int m_00;
+	int m_04;
+	int m_08;
+	int m_0C;
+	unsigned short m_10;
+	unsigned short m_12;
+	int m_14[5];
+	int m_28;
+	int m_2C;
+	int m_30;
+};
+
+
+class MixFileInfoBuffer
+{
+private:
+	void bfmeUnlink();
+	friend class Rva002E6BA1;
+public:
+	friend MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in);
+};
+
+// Rehomed 0x002E8B7A (33 B), original Rva002E8B7AInit.cpp: takes the pool
+// head, unlinks it (0x002E6BE2) and initializes it for the cell (0x002E6BA1).
+void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
+{
+	m_30 = a;
+	m_00 = b->x;
+	m_04 = b->y;
+	m_08 = 0;
+	m_0C = 0;
+	m_10 = 0;
+	m_12 = 0;
+	memset(m_14, 0, 20);
+	m_2C &= 0xffffffe0;
+	m_28 = 0;
+	++TheMixFileInfoCount;
+}
+MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in)
+{
+	MixFileInfoBuffer *node = *pp;
+	node->bfmeUnlink();
+	((Rva002E6BA1 *)node)->rva002E6BA1(a, in);
+	return node;
+}
+
+PathfindCell *Pathfinder::getCell(PathfindLayerEnum layer,Int x,Int y){
+if(x>=m_mapLowX && x<=m_mapHighX && y>=m_mapLowY && y<=m_mapHighY){
+if(layer>1 && layer<=15){PathfindCell*c=m_layers[layer].getCell(x,y);if(c)return c;}
+return &((PathfindCell**)m_unknown10)[x][y];}return 0;}
+
+struct Rva002E8BCFSrc{char pad[0x10];int m10;char m14;bool m15;};
+struct Rva002F5925Info {Pathfinder *pathfinder;char data4[16];bool center,human;char pad16[2];int radius;Object*object;PathfindCell*goal;int ignoreID;ICoord2D previous;int range;int cellCallback(PathfindCell*,PathfindCell*,int,int);};
+extern unsigned PathfinderSearchCellsVisited;
+Rva002E8BCF::Rva002E8BCF(const Rva002E8BCFSrc*src,Bool a,Int b,Bool c){surfaces=src->m10;field4=a;field5=c;maxLayer=b;fieldC=src->m15;}
+Rva002EAB6F::Rva002EAB6F(Int a1,const Rva002E8BCFSrc*src,unsigned char a3,Int a4,Object*obj,unsigned char a6,Int a7,Int a8):m0(a1),m4(src,obj->m_template->flag==0,obj->m_template->priority-1,obj->rva0028AFBB()){
+m14=a3;m15=a6;m18=a4;m20=a7;m1C=obj;m30=a8;m24=obj->getAI()?((Rva0006E009DwordField*)obj->getAI())->get():0;}
+Int Pathfinder::iterateCellsAlongLine( const ICoord2D *startCell, 
+	const ICoord2D *destinationCell, PathfindLayerEnum layer, 
+	Rva002F5925Info *callbackInfo ) 
+{ 
+	Int delta_x = abs( destinationCell->x - startCell->x ); 
+	Int delta_y = abs( destinationCell->y - startCell->y ); 
+ 
+	Int xinc2, yinc1, xinc1, numpixels, numadd, den; 
+	Int yinc2, num; 
+	if (delta_x >= delta_y) 
+	{ 
+		numpixels = delta_x + 1; 
+		num = 2 * delta_y - delta_x; 
+		numadd = delta_y << 1; 
+		den = 2 * (delta_y - delta_x); 
+		xinc2 = 1; 
+		yinc2 = 0; 
+		yinc1 = 1; 
+		xinc1 = 1; 
+	} 
+	else 
+	{ 
+		numpixels = delta_y + 1; 
+		num = 2 * delta_x - delta_y; 
+		numadd = delta_x << 1; 
+		den = 2 * (delta_x - delta_y); 
+		yinc2 = 1; 
+		xinc2 = 0; 
+		yinc1 = 1; 
+		xinc1 = 1; 
+	} 
+ 
+	if (startCell->x > destinationCell->x) 
+	{ 
+		xinc2 = -xinc2; 
+		xinc1 = -1; 
+	} 
+	if (startCell->y > destinationCell->y) 
+	{ 
+		yinc2 = -yinc2; 
+		yinc1 = -1; 
+	} 
+ 
+	Int x = startCell->x; 
+	Int y = startCell->y; 
+	PathfindCell *previousCell = 0; 
+	for (Int curpixel = 0; curpixel < numpixels; curpixel++) 
+	{ 
+		PathfindCell *currentCell = getCell( layer, x, y ); 
+		if (currentCell == 0) 
+			return 0; 
+ 
+		Int ret = callbackInfo->cellCallback( previousCell, currentCell, x, y ); 
+		if (ret != 0) 
+			return ret; 
+		previousCell = currentCell; 
+ 
+		if (num < 0) 
+		{ 
+			num += numadd; 
+			x += xinc2; 
+			y += yinc2; 
+		} 
+		else 
+		{ 
+			num += den; 
+			x += xinc1; 
+			y += yinc1; 
+		} 
+	} 
+	return 0; 
+}
+
+int Rva002F5925Info::cellCallback(PathfindCell *from,PathfindCell *to,int x,int y)
+{
+ if(PathfinderSearchCellsVisited>(*(const unsigned*)((const char*)TheWritableGlobalData+0x121c)))return 1;
+ ++PathfinderSearchCellsVisited;
+ if(range>0){int dx=x-goal->m_pathInfo->position.x;int dy=y-goal->m_pathInfo->position.y;if((dx*dx+dy*dy)*100<range*range)return 1;}
+ Coord3D point;point.x=(float)(x*10);point.y=(float)(y*10);
+ if(nativeBurning((BurningGrid*)TheTriggerManager,point))return 1;
+ Pathfinder *localPathfinder=pathfinder;
+ if(localPathfinder->m_isTunneling)return 1;
+ if(from){
+  if(((unsigned char)((const Rva002E6AF3*)to)->get()!=0) || ((unsigned char)((Rva002E6B06*)to)->rva002E6B06()!=0))return 1;
+  if(!((Rva002E6DC4*)localPathfinder)->rva002E6DC4(data4,to))return 1;
+  if((unsigned char)Rva002E6E6CGet(to->getLayer()) && !localPathfinder->m_zoneManager.IsPassable(x,y))return 1;
+  if(from->getLayer()!=to->getLayer())return 1;
+  if(((to->m_info>>16)&1))return 1;
+  if(((to->m_info>>23)&1)){
+   if(goal->getType()!=0 || !(*(void**)((char*)object+0x250)) || !object->m_template->testKindWord(0xBF))return 1;
+  }
+  if(to->getType()==2)return 1;
+  if(human){if(x<pathfinder->m_extentLowX || y<pathfinder->m_extentLowY || x>pathfinder->m_extentHighX || y>pathfinder->m_extentHighY)return 1;}
+  TCheckMovementInfo info;((Rva002E6FDF*)&info)->rva002E6FDF();
+  info.cell.y=y;info.layer=(PathfindLayerEnum)from->getLayer();info.centerInCell=center;info.radius=radius;
+  info.options=(object->m_template->testKindWord(0x5A)?1:16)|2;info.ignore=ignoreID;
+  info.cell.x=x;
+  info.considerTransient=false;
+  if(!pathfinder->rva002EA658(object,info,&previous) || info.blockedCells)return 1;
+  In002E6BA1 coord;coord.x=x;coord.y=y;
+  unsigned newCost=from->m_pathInfo->costSoFar+(((to->m_info>>21)&1)?2.5f:5.0f);
+  newCost+=pathfinder->CalcExtraCosts(object,from,(Rva002EBC7FPair*)&coord,info.radius,info.radius+(info.centerInCell?1:0),true);
+  to->allocateInfo(&coord);to->m_pathInfo->flags&=~1U;
+  int remaining=pathfinder->rva002F0A72(to,goal);
+  to->m_pathInfo->costSoFar=(unsigned short)newCost;to->SetParentCell((int*)from);
+  to->m_pathInfo->totalCost=(unsigned short)(to->m_pathInfo->costSoFar+remaining);pathfinder->AddToOpenList(to);
+ }
+ previous.x=x;previous.y=y;return 0;
+}
+
 struct NeighborWorldPoint:Coord3D {NeighborWorldPoint(){} ~NeighborWorldPoint(){}};
 Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
 {
@@ -1794,19 +1695,19 @@ Bool canPathThroughUnits=false;
 if(obj->getAI())canPathThroughUnits=*(Bool *)((char *)obj->getAI()+0x3ba);
 if(!m_isTunneling && !locomotorSet.isDownhillOnly() && goalCell && !(parentCell->getXIndex()&3) && !(parentCell->getYIndex()&3)) {
 const ICoord2D *start=(const ICoord2D *)parentCell->m_pathInfo;
-Int endX,endY; if(m_1C1CC.empty()){endX=goalCell->m_pathInfo->position.x;endY=goalCell->m_pathInfo->position.y;}else{endX=m_1C1CC.back().m_position.x;endY=m_1C1CC.back().m_position.y;} ICoord2D end={endX,endY};PathfindLayerEnum layer=(PathfindLayerEnum)parentCell->getLayer();
+ICoord2D end; if(m_1C1CC.empty()){end=*(const ICoord2D*)goalCell->m_pathInfo;}else{end=*(const ICoord2D*)&m_1C1CC.back().m_position;}PathfindLayerEnum layer=(PathfindLayerEnum)parentCell->getLayer();
 iterateCellsAlongLine(start,&end,layer,(Rva002F5925Info *)&Rva002EAB6F((Int)this,(const Rva002E8BCFSrc *)&locomotorSet,centerInCell,radius,obj,isHuman,(Int)goalCell,m_1C1CC.empty()?attackMode:0));
 }
 {
 Int cellCount=0;
 TCheckMovementInfo info;((Rva002E6FDF *)&info)->rva002E6FDF();
 info.layer=(PathfindLayerEnum)parentCell->getLayer();info.centerInCell=centerInCell;info.radius=radius;
-info.options=obj->m_template->hasKind(90)?12:28;
+info.options=12;if(!obj->m_template->hasKind(90))info.options|=16;
 info.ignore=obj->getAI()?((Rva0006E009DwordField *)obj->getAI())->get():0;
-Int priority=obj->m_template->priority;Bool flag=obj->m_template->flag;info.considerTransient=true;
+info.considerTransient=true;Int priority=obj->m_template->priority;Bool flag=obj->m_template->flag;
 info.movement=Rva002E8BCF((const Rva002E8BCFSrc *)&locomotorSet,!flag,priority-1,obj->rva0028AFBB());
 static Int deltaX[]={1,0,-1,0,1,-1,-1,1};static Int deltaY[]={0,1,0,-1,1,1,-1,-1};
-Bool neighborFlags[8];
+Bool storage[8];Bool (&neighborFlags)[8]=storage;
 for(Int i=0;i<8;++i) {
 neighborFlags[i]=false;
 Int x=parentCell->getXIndex()+deltaX[i],y=parentCell->getYIndex()+deltaY[i];ICoord2D coords={x,y};
