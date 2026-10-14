@@ -860,86 +860,8 @@ BfmeOpaqueOwnedRecord1432 &BfmeOpaqueOwnedRecord1432::operator=(const BfmeOpaque
 	return *this;
 }
 
-// Native queue methods555BD5/555C76 lock mutex04 and query the int-key map90.
-// BFME1 findPlayerStatsByID is the semantic guide; receiver name is unproved.
 typedef _STL::map<int, PSPlayerAllStats> PlayerAllStatsMap;
 template <> PSPlayerAllStats &PlayerAllStatsMap::operator[](const int &);
-
-class Rva00555BD5StatsQueue {
-public:
-    void rva005593AE(PSPlayerAllStats stats);
-    Rva003844D7 rva00555BD5(int id);
-    Rva0038454E rva00555C76(int id);
-    Rva00385333 rva00556730(int id);
-    PSPlayerAllStats rva00556674(int id);
-private:
-    unsigned m_00;
-    MutexClass m_mutex04;
-    unsigned char m_pad0c[0x90-0x0c];
-    _STL::map<int, PSPlayerAllStats> m_playerStats;
-};
-Rva003844D7 Rva00555BD5StatsQueue::rva00555BD5(int id) {
-    MutexClass::LockClass lock(m_mutex04);
-    _STL::map<int, PSPlayerAllStats>::iterator it=m_playerStats.find(id);
-    if (it._M_node != m_playerStats.end()._M_node)
-        return it->second.rva00389DF1();
-    Rva003844D7 empty(0);
-    return empty;
-}
-Rva0038454E Rva00555BD5StatsQueue::rva00555C76(int id) {
-    MutexClass::LockClass lock(m_mutex04);
-    _STL::map<int, PSPlayerAllStats>::iterator it=m_playerStats.find(id);
-    if (it._M_node != m_playerStats.end()._M_node)
-        return it->second.rva00389E0F();
-    Rva0038454E empty(0);
-    return empty;
-}
-Rva00385333 Rva00555BD5StatsQueue::rva00556730(int id) {
-    MutexClass::LockClass lock(m_mutex04);
-    _STL::map<int, PSPlayerAllStats>::iterator it=m_playerStats.find(id);
-    if (it._M_node != m_playerStats.end()._M_node)
-        return it->second.rva00556508();
-    Rva00385333 empty(0);
-    return empty;
-}
-
-// Native [556674,556730),188B is vtable slot 12 beside the three block
-// getters: ZH's findPlayerStatsByID shape, returning the whole record and an
-// id-0 record on a miss.
-PSPlayerAllStats Rva00555BD5StatsQueue::rva00556674(int id) {
-    MutexClass::LockClass lock(m_mutex04);
-    _STL::map<int, PSPlayerAllStats>::iterator it=m_playerStats.find(id);
-    if (it._M_node != m_playerStats.end()._M_node)
-        return it->second;
-    PSPlayerAllStats empty(0);
-    empty.setID(0);
-    return empty;
-}
-
-// Native [5593AE,559480): merges a posted stats record into the id map
-// under the lock, incorporating it into an existing entry (0x00552CF9).
-void Rva00555BD5StatsQueue::rva005593AE(PSPlayerAllStats stats) {
-    // Retail's unwind map (FuncInfo 0x0094DD70) numbers three action-less
-    // states 1..3 under the by-value stats (state 0) before the lock's 4:
-    // three sibling temporaries of code the compiler discarded, the dead-block
-    // pattern of CreateAHeroSubClassParse.cpp. Each temporary handed to a
-    // call is the shape that keeps such a state; the code itself is unknown.
-    if (0) {
-        stats = PSPlayerAllStats(0);
-        stats = PSPlayerAllStats(0);
-        stats = PSPlayerAllStats(0);
-    }
-    MutexClass::LockClass lock(m_mutex04);
-    PSPlayerAllStats newStats(0);
-    PlayerAllStatsMap::iterator it = m_playerStats.find(stats.getID());
-    if (it._M_node != m_playerStats.end()._M_node) {
-        newStats = it->second;
-        newStats.incorporate(&stats);
-        m_playerStats[stats.getID()] = newStats;
-    } else {
-        m_playerStats[stats.getID()] = stats;
-    }
-}
 
 // The 0x580-byte response record the stats thread posts through the queue's
 // addResponse (E05FC8 slot6). Its implicit destructor 0x00555ADF destroys only
@@ -1733,16 +1655,97 @@ void Rva00557996::rva00557A33(int profileID)
 // inline GameSpyPSMessageQueue::getLocalPlayerID). Its email, nick and
 // password getters are rowed out of line under their own unit names and copy
 // the strings at +0x6c, +0x78 and +0x84.
+//
+// Vftable 0x00C6B318 slots 8..15 are 0x5593AE, 0x559480, 0x55954E, 0x55961C,
+// 0x556674, 0x556730, 0x555BD5, 0x555C76. WB names slots 9..11
+// trackPlayer{Tournament,OpenPlay,Strategic}Stats (rowed in
+// PersistentStorageTrackPlayerStats.cpp) and slot 8 trackPlayerStats; slot 12
+// is the interface's findPlayerStatsByID. The out-of-line members lock the
+// mutex at +0x04 and query the int-key stats map at +0x90.
 class GameSpyPSMessageQueue : public GameSpyPSMessageQueueInterface
 {
 public:
 	Int getLocalPlayerID() const { return m_localPlayerID; }
 	void setLocalPlayerID(Int id) { m_localPlayerID = id; }
+	virtual void trackPlayerStats(PSPlayerAllStats stats);
+	virtual PSPlayerAllStats findPlayerStatsByID(Int id);
+	virtual Rva00385333 rva00556730(int id);
+	virtual Rva003844D7 rva00555BD5(int id);
+	virtual Rva0038454E rva00555C76(int id);
 private:
-	unsigned char m_pad04[0x64];
+	MutexClass m_mutex04;
+	unsigned char m_pad0c[0x68-0x0c];
 	Int m_localPlayerID;
+	unsigned char m_pad6c[0x90-0x6c];
+	_STL::map<int, PSPlayerAllStats> m_playerStats;
 };
 #define MESSAGE_QUEUE ((GameSpyPSMessageQueue *)TheGameSpyPSMessageQueue)
+
+// Native queue methods555BD5/555C76 lock mutex04 and query the int-key map90.
+// BFME1 findPlayerStatsByID is the semantic guide.
+Rva003844D7 GameSpyPSMessageQueue::rva00555BD5(int id) {
+    MutexClass::LockClass lock(m_mutex04);
+    _STL::map<int, PSPlayerAllStats>::iterator it=m_playerStats.find(id);
+    if (it._M_node != m_playerStats.end()._M_node)
+        return it->second.rva00389DF1();
+    Rva003844D7 empty(0);
+    return empty;
+}
+Rva0038454E GameSpyPSMessageQueue::rva00555C76(int id) {
+    MutexClass::LockClass lock(m_mutex04);
+    _STL::map<int, PSPlayerAllStats>::iterator it=m_playerStats.find(id);
+    if (it._M_node != m_playerStats.end()._M_node)
+        return it->second.rva00389E0F();
+    Rva0038454E empty(0);
+    return empty;
+}
+Rva00385333 GameSpyPSMessageQueue::rva00556730(int id) {
+    MutexClass::LockClass lock(m_mutex04);
+    _STL::map<int, PSPlayerAllStats>::iterator it=m_playerStats.find(id);
+    if (it._M_node != m_playerStats.end()._M_node)
+        return it->second.rva00556508();
+    Rva00385333 empty(0);
+    return empty;
+}
+
+// Native [556674,556730),188B is vtable slot 12 beside the three block
+// getters: ZH's findPlayerStatsByID shape, returning the whole record and an
+// id-0 record on a miss.
+PSPlayerAllStats GameSpyPSMessageQueue::findPlayerStatsByID(int id) {
+    MutexClass::LockClass lock(m_mutex04);
+    _STL::map<int, PSPlayerAllStats>::iterator it=m_playerStats.find(id);
+    if (it._M_node != m_playerStats.end()._M_node)
+        return it->second;
+    PSPlayerAllStats empty(0);
+    empty.setID(0);
+    return empty;
+}
+
+// Native [5593AE,559480): merges a posted stats record into the id map
+// under the lock, incorporating it into an existing entry (0x00552CF9).
+void GameSpyPSMessageQueue::trackPlayerStats(PSPlayerAllStats stats) {
+    // Retail's unwind map (FuncInfo 0x0094DD70) numbers three action-less
+    // states 1..3 under the by-value stats (state 0) before the lock's 4:
+    // three sibling temporaries of code the compiler discarded, the dead-block
+    // pattern of CreateAHeroSubClassParse.cpp. Each temporary handed to a
+    // call is the shape that keeps such a state; the code itself is unknown.
+    if (0) {
+        stats = PSPlayerAllStats(0);
+        stats = PSPlayerAllStats(0);
+        stats = PSPlayerAllStats(0);
+    }
+    MutexClass::LockClass lock(m_mutex04);
+    PSPlayerAllStats newStats(0);
+    PlayerAllStatsMap::iterator it = m_playerStats.find(stats.getID());
+    if (it._M_node != m_playerStats.end()._M_node) {
+        newStats = it->second;
+        newStats.incorporate(&stats);
+        m_playerStats[stats.getID()] = newStats;
+    } else {
+        m_playerStats[stats.getID()] = stats;
+    }
+}
+
 
 class Rva00555A8BNarrowField
 {
