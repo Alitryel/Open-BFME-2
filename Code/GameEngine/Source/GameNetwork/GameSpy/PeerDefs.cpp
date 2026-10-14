@@ -603,7 +603,7 @@ public:
 	virtual void setPingString(const AsciiString &ping);
 	virtual void slot71(void);
 	virtual void slot72(void);
-	virtual void slot73(void);
+	virtual void addToBuddyList(Int id);
 	virtual void rva003871F6(Int id);
 	virtual void addToSavedIgnoreList(Int profileID, AsciiString nick);
 	virtual void removeFromSavedIgnoreList(Int profileID);
@@ -808,6 +808,20 @@ AsciiString GameSpyInfo::getLocalBaseName(void)
 void GameSpyInfo::readAdditionalDisconnects(void)
 {
 	m_additionalDisconnects = GetAdditionalDisconnectsFromUserFile(m_localProfileID);
+}
+
+// ?addToBuddyList@GameSpyInfo@@UAEXH@Z @0x00382767 24B
+// WorldBuilder F85340 (PeerDefs.cpp:1031) asserts "Use RequestBuddyAdd!" and
+// returns: the old body moved to RequestBuddyAdd. Its UnicodeString locals
+// (ZH WOLBuddyOverlay RequestBuddyAdd: buddyAddstr, the fetched temporary
+// assigned to it, then s) stay behind the return; they leave only the EH
+// frame (FuncInfo 0xD29D3C, two nested null-action states).
+void GameSpyInfo::addToBuddyList(Int id)
+{
+	return;
+	UnicodeString buddyAddstr;
+	buddyAddstr = UnicodeString();
+	UnicodeString s;
 }
 
 // ?isBuddy@GameSpyInfo@@UAE_NH@Z @0x003835D7 29B
