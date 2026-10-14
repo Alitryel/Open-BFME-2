@@ -34,6 +34,7 @@ template<> void _Construct(Coord3D*,const Coord3D&);
 class Rva000CA1EEVector : public _STL::vector<Coord3D> {
 public:
  void fillInsert(Coord3D*,unsigned int,const Coord3D&);
+ void insertFill(Coord3D*,unsigned int,const Coord3D&);
 };
 void Rva000CA1EEVector::fillInsert(
 	Coord3D *position, unsigned int count, const Coord3D &value)
@@ -79,4 +80,12 @@ void Rva000CA1EEVector::fillInsert(
 		else
 			this->_M_insert_overflow(position, value, _IsPODType(), count);
 	}
+}
+
+// 0x000CA2EE (5B): vector::insert(pos, n, x), which only forwards to the
+// fill-insert above (a tail jump); no direct caller reaches it in retail.
+void Rva000CA1EEVector::insertFill(
+	Coord3D *position, unsigned int count, const Coord3D &value)
+{
+	fillInsert(position, count, value);
 }
