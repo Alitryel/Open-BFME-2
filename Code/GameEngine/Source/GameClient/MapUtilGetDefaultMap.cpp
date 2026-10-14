@@ -258,3 +258,24 @@ int Rva00304744Populate(GameWindow *listbox, unsigned flags, const AsciiString &
 	if (honors) ::delete honors;
 	return selectionIndex;
 }
+
+// Native23B flag helper, moved from Rva003000F6Get.cpp so the genuine
+// callee remains visible to the34B bool-argument map-list wrapper below.
+// WB C5E9B0/C5EA40 and both native call displacements establish this pair.
+int Rva003000F6Get(bool a,bool b)
+{
+ int v=(a==0);
+ ++v;
+ if(b) v|=8; else v|=4;
+ return v;
+}
+// WB does not preserve the outer wrapper name; retain the RVA-qualified
+// identity. BF1 MapUtil's populateMapListbox is a semantic lead, but differs
+// in reset work and string passing. Retail passes a const reference here.
+// Keeping the real helper visible reproduces ADD ESP,8 after its call;
+// a declaration-only helper instead compiles two POP ECX instructions.
+int Rva00304BCDPopulate(GameWindow *listbox,bool systemMaps,bool multiplayer,
+                       const AsciiString &mapToSelect)
+{
+ return Rva00304744Populate(listbox,Rva003000F6Get(systemMaps,multiplayer),mapToSelect);
+}
