@@ -1,5 +1,5 @@
 // ?handleBuildPlacements@InGameUI@@IAEXXZ
-// partial score=0.92583 date=2026-10-14
+// partial score=0.92766 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_OPERATOR_NEW_DEFINED_ /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib /ICode/GameEngine/Include /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
 // Private reconstruction: WB DAD2E0 + native2A21E1..2A3255. Not a recovery claim.
@@ -530,7 +530,7 @@ void InGameUI::handleBuildPlacements(){
   if(isPort){
    if(!canPlacePort()){setCanPlacePort(true);((Rva0029A94F*)this)->rva0029A94F();}
    else{
-    int last=TheWritableGlobalData->maxLineBuildObjects-1;
+    unsigned int last=TheWritableGlobalData->maxLineBuildObjects-1;
     if(feedbackState==1){feedbackState=0;SpecialPowerModule *module=(SpecialPowerModule*)((Rva00293330*)builder)->rva00293330(getPendingCommand()?getPendingCommand()->command:0xfffffe);
      if(module){_STL::vector<Coord3D> positions;float radius=0;
       if(module->getRadius(&radius)){Player *player=builder->getControllingPlayer();if(player){int color=player->color;player->rva002AF614(&positions);
