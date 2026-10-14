@@ -614,3 +614,87 @@ void Rva005EB8D1::rva005EB8D1()
 {
 	m_00.rva0022999F();
 }
+
+// By-value iterator/pair wrappers over a rowed lookup on the member at +0:
+// the hidden return slot is passed straight through (or filled from eax)
+// and returned.
+
+// ?rva005538BA@Rva005538BA@@QAE?AURva005538BAIterator@@PBX@Z @0x005538BA 20B:
+// wrap the node pointer from the rowed 0x005533BC lookup.
+class Rva005533BC
+{
+public:
+	void *rva005533BC(const void *key);
+};
+struct Rva005538BAIterator
+{
+	Rva005538BAIterator(void *node) : m_node(node) {}
+	void *m_node;
+};
+class Rva005538BA
+{
+public:
+	Rva005538BAIterator rva005538BA(const void *key);
+private:
+	Rva005533BC m_00;
+};
+Rva005538BAIterator Rva005538BA::rva005538BA(const void *key)
+{
+	return Rva005538BAIterator(m_00.rva005533BC(key));
+}
+
+// ?rva00601457@Rva00601457@@QAE?AURva006013B7Pair@@ABURva00600F9CElement@@@Z
+// @0x00601457 20B: forward to the rowed 0x006013B7.
+struct Rva00600F9CElement;
+struct Rva006013B7Pair
+{
+	Rva006013B7Pair(const Rva006013B7Pair &other);
+	void *m_first;
+	bool m_second;
+};
+class Rva0060126D
+{
+public:
+	Rva006013B7Pair rva006013B7(const Rva00600F9CElement &element);
+};
+class Rva00601457
+{
+public:
+	Rva006013B7Pair rva00601457(const Rva00600F9CElement &element);
+private:
+	Rva0060126D m_00;
+};
+Rva006013B7Pair Rva00601457::rva00601457(const Rva00600F9CElement &element)
+{
+	return m_00.rva006013B7(element);
+}
+
+// ?rva0060CC71@Rva0060CC71@@QAE?AURva0060CAEAIterator@@ABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@Z
+// @0x0060CC71 20B: forward to the rowed 0x0060CB61.
+namespace _STL
+{
+	template <class C> class char_traits;
+	template <class C, class T, class A> class basic_string;
+}
+typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> > Rva0060CC71String;
+struct Rva0060CAEAIterator
+{
+	Rva0060CAEAIterator(const Rva0060CAEAIterator &other);
+	void *m_node;
+};
+class Rva0060CAEA
+{
+public:
+	Rva0060CAEAIterator rva0060CB61(const Rva0060CC71String &key);
+};
+class Rva0060CC71
+{
+public:
+	Rva0060CAEAIterator rva0060CC71(const Rva0060CC71String &key);
+private:
+	Rva0060CAEA m_00;
+};
+Rva0060CAEAIterator Rva0060CC71::rva0060CC71(const Rva0060CC71String &key)
+{
+	return m_00.rva0060CB61(key);
+}
