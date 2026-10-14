@@ -1196,6 +1196,7 @@ public:
 	int getColor() const { return m_c; }
 	void setColor(int color) { m_c = color; }
 	void setPlayerTemplate(int playerTemplate);
+	void setTeamNumber(int teamNumber);
 	bool isHuman() const;
 	const unsigned short *getNameStr() const { return m_name.str(); }
 	const GameSlotHeroInfo *getHero() const { return m_hasHero ? &m_hero : 0; }
@@ -1801,15 +1802,15 @@ struct CreateMask
 class Team;
 
 // The +0x08 member of Player: 0x003805BB takes a point value and a flag
-// (Player::addSkillPointsForKill passes true), 0x002E6A93 stores its +0x18.
+// (Player::addSkillPointsForKill passes true); the 10-byte store of its +0x18
+// at 0x002E6A93 is ICF-folded with GameSlot::setTeamNumber and called by that
+// row name.
 // 0x003805BB is rowed as Rva00380200::rva003805BB (Rva00380200Getter.cpp).
 class Rva00380200 { public: bool rva003805BB(float value, bool flag); };
 
 class Rva003805BB
 {
 public:
-	void rva002E6A93(int value);
-
 	char m_pad00[0x14];
 	int m_14;
 	int m_18;
@@ -2564,7 +2565,7 @@ void GameLogic::rva00248278(bool loadingSaveGame)
 			Player *player = ThePlayerList->getNthPlayer(i);
 			if (player && player->getPlayerType() == PLAYER_HUMAN) {
 				((Rva00380200 *)&player->m_skillPoints)->rva003805BB((float)m_94, false);
-				player->m_skillPoints.rva002E6A93(player->m_skillPoints.m_14);
+				((GameSlot *)&player->m_skillPoints)->setTeamNumber(player->m_skillPoints.m_14);
 			}
 		}
 	}

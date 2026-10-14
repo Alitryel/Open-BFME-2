@@ -91,7 +91,13 @@ public:
 	virtual void slot2();
 	virtual void slot3();
 	__forceinline bool rva003805BB(float value, bool flag) { return ((Rva00380200 *)this)->rva003805BB(value, flag); }
-	void rva002E6A93(int value);
+};
+
+// 0x002E6A93 (store +0x18) is ICF-folded with GameSlot::setTeamNumber.
+class GameSlot
+{
+public:
+	void setTeamNumber(int teamNumber);
 };
 
 enum ScienceType { SCIENCE_INVALID = -1 };
@@ -194,7 +200,7 @@ void LinearCampaign::addCarryoverStuffToMap()
 				player->m_08.slot3();
 				player->rva002AE252();
 				player->m_08.rva003805BB(m_10, false);
-				player->m_08.rva002E6A93(player->m_1C);
+				((GameSlot *)&player->m_08)->setTeamNumber(player->m_1C);
 
 				ScienceType *end = m_sciencesEnd;
 				for (ScienceType *it = m_sciencesBegin; it != end; ++it)

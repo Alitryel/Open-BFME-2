@@ -51,7 +51,13 @@ public:
 	virtual void slot2();
 	virtual void slot3();
 	__forceinline bool rva003805BB(float value, bool flag) { return ((Rva00380200 *)this)->rva003805BB(value, flag); }
-	void rva002E6A93(int value);
+};
+
+// 0x002E6A93 (store +0x18) is ICF-folded with GameSlot::setTeamNumber.
+class GameSlot
+{
+public:
+	void setTeamNumber(int teamNumber);
 };
 
 class UpgradeTemplate { public: char pad00[0x38]; unsigned int m_bit; };
@@ -171,7 +177,7 @@ void ArmySummarySystem::rva0040F87E()
 		player->m_08.slot3();
 		player->rva002AE252();
 		player->m_08.rva003805BB(lwPlayer->m_1C8, false);
-		player->m_08.rva002E6A93(player->m_1C);
+		((GameSlot *)&player->m_08)->setTeamNumber(player->m_1C);
 		int points = ComputePlayerEarnedSpellPoints(reinterpret_cast<_Rva0040CA61Arg *>(player));
 		player->m_24 = reinterpret_cast<Rva004E05E9DwordField *>(lwPlayer)->get() + points;
 		player->rva002AC425(*reinterpret_cast<const _STL::vector<int, _STL::allocator<int> > *>(lwPlayer->m_1CC));
