@@ -1,9 +1,13 @@
 // ?findBestTarget@AITargetHeuristicEnemyStructure@@QAEXPAVAITarget@@PAVPlayer@@1@Z
+// partial score=0.9124 date=2026-10-14
+// ?findBestTarget@AITargetHeuristicEnemyStructure@@QAEXPAVAITarget@@PAVPlayer@@1@Z
 // partial score=0.8944722505958461 date=2026-10-13
 // ?findBestTarget@AITargetHeuristicEnemyStructure@@QAEXPAVAITarget@@PAVPlayer@@1@Z
 // partial score=0.8944722505958461 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /ICode/GameEngine/Source/Common /ICode/Libraries/Include
 // stlport
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "GameLogicObjectLookupView.h"
 #include "Lib/Coord3D.h"
 #include <map>
@@ -40,7 +44,8 @@ void AITargetHeuristicEnemyStructure::findBestTarget(AITarget *target,Player *at
   if(best){_STL::map<int,int>::iterator i=counts.find(best);if(i!=counts.end())++i->second;else counts[best]=1;}
  }
  int maximum=0;
- if(!counts.empty()){
+ _ReadWriteBarrier();
+ if(!(counts.begin()==counts.end())){
   int best=0;
   for(_STL::map<int,int>::iterator i=counts.begin();i!=counts.end();++i){if(i->second>maximum){best=i->first;maximum=i->second;}}
   target->setTarget(TheGameLogic->findObjectByID((ObjectID)best),g_tacticalAIRegistry->fallbackWeight);

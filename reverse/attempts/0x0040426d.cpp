@@ -1,4 +1,6 @@
 // ?xfer@AttributeModifierPoolUpdate@@MAEXPAVXfer@@@Z
+// partial score=0.8586 date=2026-10-14
+// ?xfer@AttributeModifierPoolUpdate@@MAEXPAVXfer@@@Z
 // partial score=0.93 date=2026-10-04
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
 // stlport
@@ -210,9 +212,9 @@ void AttributeModifierPoolUpdate::xfer(Xfer *xfer)
 	xfer->xferVersion(&version);
 	if (xfer->IsLoading()) {
 		Rva002983DAVector *vec = reinterpret_cast<Rva002983DAVector *>(&m_modifiers);
-		Rva00297360Element *first = vec->m_start;
+
 		Rva00297360Element *last = vec->m_finish;
-		vec->EraseRange(first, last);
+		vec->EraseRange((vec->m_start), last);
 		int count = 0;
 		xfer->xferInt(count);
 		for (int i = 0; (count ? i : i) < count; ++i) {
@@ -222,8 +224,10 @@ void AttributeModifierPoolUpdate::xfer(Xfer *xfer)
 			m_modifiers.push_back(*reinterpret_cast<Rva00297360Element *>(&tmp));
 		}
 	} else {
-		int count = (int)m_modifiers.size();
+		{
+		int count = (int)(m_modifiers.end()-m_modifiers.begin());
 		xfer->xferInt(count);
+		}
 		Rva002983DAVector *vec = reinterpret_cast<Rva002983DAVector *>(&m_modifiers);
 		Rva00297360Element *cur = vec->m_start;
 		Rva00297360Element *end = vec->m_finish;

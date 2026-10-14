@@ -1,4 +1,6 @@
 // ?ConstructHeroBlingList@CreateAHeroHero@@QAEXXZ
+// partial score=0.7957 date=2026-10-14
+// ?ConstructHeroBlingList@CreateAHeroHero@@QAEXXZ
 // partial score=0.74 date=2026-10-09
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /EHsc /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
@@ -55,6 +57,7 @@ class CreateAHeroHero;
 #include <vector>
 #include <map>
 #include <algorithm>
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 class Rva0021937DTarget { public: void rva00407E94(); };
 class Rva00406E7D { public: int rva00406E7D(); };
 class Rva00406E8F { public: int rva00406E8F(unsigned int); };
@@ -414,7 +417,7 @@ namespace _STL { template<> vector<unsigned int> &map<int, vector<unsigned int> 
 void CreateAHeroHero::ConstructHeroBlingList()
 {
     CreateAHeroManager::CreateAHeroSubClass *subClass = const_cast<CreateAHeroManager::CreateAHeroSubClass *>(TheCreateAHeroManager->rva0021A1B6(m_classIndex, m_subClassIndex));
-    m_state38 &= ~0x80;
+    __vref(m_state38) &= ~0x80;
     if (subClass)
     {
         m_bling74.clear();
@@ -433,7 +436,8 @@ void CreateAHeroHero::ConstructHeroBlingList()
             if (!award || !static_cast<unsigned char>(reinterpret_cast<Rva0040AA27 *>(award)->rva0040AA27(reinterpret_cast<int>(this))))
                 continue;
             HeroAwardBlingView *awardView = reinterpret_cast<HeroAwardBlingView *>(award);
-            for (unsigned int upgradeIndex = 0; upgradeIndex < awardView->upgradeKeys.size(); ++upgradeIndex)
+            _STL::vector<int> t_upgradeKeys = awardView->upgradeKeys;
+            for (unsigned int upgradeIndex = 0; upgradeIndex < (awardView->upgradeKeys.end()-t_upgradeKeys.begin()); ++upgradeIndex)
             {
                 AsciiString upgradeName(TheNameKeyGenerator->keyToName(static_cast<NameKeyType>(reinterpret_cast<Rva0040A7F1 *>(award)->rva0040A7F1(upgradeIndex))));
                 unsigned int blingId = 0;

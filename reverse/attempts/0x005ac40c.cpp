@@ -1,4 +1,6 @@
 // ?moveDozerAway@AIStructureCreepTactic@@QAEXXZ
+// partial score=0.8692 date=2026-10-14
+// ?moveDozerAway@AIStructureCreepTactic@@QAEXXZ
 // partial score=0.82 date=2026-10-13
 // ?moveDozerAway@AIStructureCreepTactic@@QAEXXZ
 // partial score=0.82 date=2026-10-13
@@ -218,7 +220,7 @@ struct Coord3DBase
 {
 	float x;
 	float y;
-	float z;
+	volatile float z;
 };
 
 struct Coord3D : public Coord3DBase
@@ -602,7 +604,7 @@ void AIStructureCreepTactic::xfer(Xfer *xfer)
 bool AIStructureCreepTactic::isOffensiveBuilding(Object *obj)
 {
 	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
-	for (unsigned int i = 0; i < record->m_160->m_names.size(); ++i) {
+	for (unsigned int i = 0; i < ((unsigned)record->m_160->m_names.size()); ++i) {
 		const AsciiString &name = obj->m_04->m_name;
 		if (record->m_160->m_names[i].compare(name) == 0)
 			return true;
