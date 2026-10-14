@@ -41,6 +41,11 @@ public:
 };
 }
 
+// Retail's copy ctor 0x00301EF6 calls the shared header ctor 0x00382A6E (rowed in
+// stlport_asciistring_set_base.cpp, byte allocator, 20-byte node). This unit's
+// own copy took the node allocator and lost to retail's; call the rowed one.
+namespace _STL { template <> _Rb_tree_base<AsciiString, allocator<AsciiString> >::_Rb_tree_base(const allocator<AsciiString> &); }
+
 // Existing helper alias distinguishes the StringBase flavor from the Buffer flavor.
 void AsciiStringCopyConstructAtRva0002C485(AsciiString *, const AsciiString &);
 
