@@ -49,6 +49,8 @@ struct Coord3D {
     void add(const Coord3D *p) { x += p->x; y += p->y; z += p->z; }
     void sub(const Coord3D *p) { x -= p->x; y -= p->y; z -= p->z; }
     void scale(float s) { x *= s; y *= s; z *= s; }
+    void scaleInlined(float s) { x *= s; y *= s; z *= s; }
+    void add(Coord3D a) { x += a.x; y += a.y; z += a.z; }
     Coord3D &operator-=(const Coord3D &o) { x -= o.x; y -= o.y; z -= o.z; return *this; }
     Coord3D &operator+=(const Coord3D &o) { x += o.x; y += o.y; z += o.z; return *this; }
     Coord3D &operator*=(float s) { x *= s; y *= s; z *= s; return *this; }

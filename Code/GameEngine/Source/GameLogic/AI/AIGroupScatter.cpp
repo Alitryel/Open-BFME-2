@@ -6,16 +6,8 @@
 // The real move wrapper and Coord2D normalization are visible so MSVC
 // can prove that their coordinate addresses do not escape and reuse slots.
 #include <list>
-// class-gate: allow Coord3D visible planar helpers need this TU-scoped method view;
-// adding Normalize2D to the canonical declaration changes TeamTemplateInfo's
-// verified restore order. Native 00005AB2 is the existing Normalize2D owner.
-// Layout remains the canonical three floats; no shared header or ABI changes.
-struct Coord3D
-{
-    float x, y, z;
-    float GetLength2D() const;
-    float Normalize2D();
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../Libraries/Include/Lib/Coord3DInline.h"
 #include "Coord2D.h"
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 

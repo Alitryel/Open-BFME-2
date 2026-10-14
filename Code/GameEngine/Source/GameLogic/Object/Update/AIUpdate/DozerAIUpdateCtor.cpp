@@ -147,42 +147,9 @@
 #include "unicode_string.h"
 template<> inline bool StringBase<unsigned short>::isEmpty() const { return !m_data || m_data->length == 0; }
 
-// class-gate: allow Coord3D the canonical data-only header cannot declare BFME 2's out-of-line normalize (rowed 0x000035B6) that newTask calls; same three floats
-struct Coord3D
-{
-	Coord3D() {}
-	// member-wise, as BFME 2's own (coord3d.cpp)
-	Coord3D(const Coord3D &that)
-	{
-		x = that.x;
-		y = that.y;
-		z = that.z;
-	}
-	void normalize();
-	void sub(const Coord3D *a)
-	{
-		x -= a->x;
-		y -= a->y;
-		z -= a->z;
-	}
-	// by value: retail reads all three of the addend before summing
-	void add(Coord3D a)
-	{
-		x += a.x;
-		y += a.y;
-		z += a.z;
-	}
-	void scale(float scale)
-	{
-		x *= scale;
-		y *= scale;
-		z *= scale;
-	}
-
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "../../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 typedef bool Bool;
 typedef int Int;

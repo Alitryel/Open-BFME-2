@@ -22,31 +22,10 @@
 // unit (the PBUCoord3D/PAUCoord3D names), but keeps the inline empty ctor and
 // dtor and inline scale/add the corner array needs (retail hands the ctor and
 // dtor to the eh vector iterators), so it stays a TU view of that layout.
-struct Coord3D
-{
-	Coord3D() {}
-	Coord3D(float ax, float ay, float az) : x(ax), y(ay), z(az) {}
-	~Coord3D() {}
-	void normalize();	// 0x000035B6
-	// Retail inlines Coord3D::scale at every site here; its one out-of-line body
-	// (0x000036D1, region.cpp) has another unit's codegen, so this TU's inline
-	// copy carries its own name and never offers the link a second scale.
-	void scaleInlined(float s)
-	{
-		x *= s;
-		y *= s;
-		z *= s;
-	}
-	void add(const Coord3D *a)
-	{
-		x += a->x;
-		y += a->y;
-		z += a->z;
-	}
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#define COORD3D_VIEW_DTOR
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 float __cdecl GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
 

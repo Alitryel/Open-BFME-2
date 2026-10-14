@@ -52,18 +52,8 @@ public:
 
 #pragma comment(linker, "/alternatename:?getPlayerMask@Rva000421C8@@UAEHXZ=?Get_File_Handle@FileClass@@UAEPAXXZ")
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-	void set(const Coord3D *a) { x = a->x; y = a->y; z = a->z; }
-	// Retail inlines Coord3D::scale here; its one out-of-line body (0x000036D1,
-	// region.cpp) has another unit's codegen, so this TU's inline copy carries
-	// its own name and never offers the link a second scale.
-	void scaleInlined(float s) { x *= s; y *= s; z *= s; }
-	void add(const Coord3D *a) { x += a->x; y += a->y; z += a->z; }
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 class Player
 {
