@@ -244,6 +244,31 @@ struct Rva004F69C3
 {
 	~Rva004F69C3();
 };
+struct Rva004F6986
+{
+	~Rva004F6986();
+};
+struct Rva004F691E
+{
+	~Rva004F691E();
+};
+struct Rva004FFE39
+{
+	~Rva004FFE39();
+};
+struct Rva004FFE89
+{
+	~Rva004FFE89();
+};
+class Rva0050174A
+{
+public:
+	~Rva0050174A();
+};
+struct Rva005017AC
+{
+	~Rva005017AC();
+};
 class Rva00495C43PoolRecord
 {
 public:
@@ -324,3 +349,9 @@ template void _STL::_Destroy<Rva002A12E1Pair>(Rva002A12E1Pair *);
 template void _STL::_Destroy<Rva004F69C3>(Rva004F69C3 *);				// 0x0040D47E
 template void _STL::_Destroy<Rva00495C43PoolRecord>(Rva00495C43PoolRecord *);	// 0x00495DF8
 template void _STL::_Destroy<ProductionPrerequisite::PrereqUnitRec>(ProductionPrerequisite::PrereqUnitRec *);	// 0x0045710A
+template void _STL::_Destroy<Rva004F6986>(Rva004F6986 *);				// 0x004F73E1
+template void _STL::_Destroy<Rva004F691E>(Rva004F691E *);				// 0x004F73EA
+template void _STL::_Destroy<Rva004FFE39>(Rva004FFE39 *);				// 0x0050051D
+template void _STL::_Destroy<Rva004FFE89>(Rva004FFE89 *);				// 0x00500526
+template void _STL::_Destroy<Rva0050174A>(Rva0050174A *);				// 0x00502070
+template void _STL::_Destroy<Rva005017AC>(Rva005017AC *);				// 0x00502079
