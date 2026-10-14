@@ -97,7 +97,13 @@ class CastleBehavior
 {
 public:
 	static NameKeyType rva0003955DA();	// 0x003955DA
-	PolygonTrigger *rva00395E53(int index);	// 0x00395E53
+};
+
+// 0x00395E53, the castle area trigger for an index (row Rva00395E53Get.cpp).
+class Rva00395E53
+{
+public:
+	void *rva00395E53(unsigned int index);
 };
 
 class Object
@@ -179,7 +185,7 @@ bool ScriptConditions::rva003E6ED0(Parameter *teamParm, const AsciiString *unitN
 	int i = 0;
 	do {
 		++i;
-		PolygonTrigger *area = behavior->rva00395E53(i);
+		PolygonTrigger *area = (PolygonTrigger *)((Rva00395E53 *)behavior)->rva00395E53(i);
 		if (!area)
 			return false;
 		if (entered) {

@@ -47,7 +47,7 @@ class Image;
 class ImageCollection {public:const Image *findImageByName(const AsciiString&);};
 extern ImageCollection *TheMappedImageCollection;
 class Rva005FB83E {public:void rva005FB83E(const Image*);};
-class Rva005FBB9E {public:void rva005FBB96(int,int);};
+class Rva005FBB96 {public:void rva005FBB96(int,const Image*);};
 class BannerUI {public:const AsciiString&GetBannerIconImageName(const AsciiString&);};
 extern BannerUI *g_00DFE32C;
 #include "../../../../../Libraries/Include/Lib/RGBColor.h"
@@ -77,7 +77,7 @@ DynamicAutoResolveDialog::Impl::PlayerPanelMovieClip::PlayerPanelMovieClip(Impl 
  for(_STL::map<int,int>::iterator it=entry->values.lower_bound(1);count<2 && it!=end;++it) {
   const AsciiString &bannerName=*(const AsciiString*)(it->second+0x20);
   banners[count]=TheMappedImageCollection->findImageByName(g_00DFE32C->GetBannerIconImageName(bannerName));
-  ((Rva005FBB9E*)static_cast<Rva005FBBEE*>(this))->rva005FBB96(count,(int)banners[count]);
+  ((Rva005FBB96*)static_cast<Rva005FBBEE*>(this))->rva005FBB96(count,banners[count]);
   ++count;
  }
 }

@@ -221,11 +221,15 @@ public:
 };
 
 // The dialog's +0x34 object: its rowed 0x005FC19E flag setter and the
-// unrowed forwarder 0x005FC1A6 (pinned).
+// rowed forwarder 0x005FC1A6 (Rva005FC1A6.cpp), called by its row name.
 class Rva005FC19E
 {
 public:
 	void rva005FC19E(int value);
+};
+class Rva005FC1A6
+{
+public:
 	void rva005FC1A6();
 };
 
@@ -439,12 +443,17 @@ void StrategicInGameUI::DynamicAutoResolveDialog::Impl::MovieClip::OnSkipButtonC
 }
 
 // The banner clip slots (+0x08 of the player panel): set slot i's banner
-// (0x005FBB96, pinned) and the visible count (0x005FBB9E, rowed); both
-// address-named.
+// (0x005FBB96, rowed as Rva005FBB96 taking the banner image) and the
+// visible count (0x005FBB9E, rowed); both address-named.
+class Image;
+class Rva005FBB96
+{
+public:
+	void rva005FBB96(int slot, const Image *image);
+};
 class Rva005FBB9E
 {
 public:
-	void rva005FBB96(int slot, int banner);
 	void rva005FBB9E(int count);
 };
 
@@ -472,7 +481,7 @@ void StrategicInGameUI::DynamicAutoResolveDialog::Impl::PlayerPanelMovieClip::De
 	for (int i = 0; i < m_numBanners; ++i)
 	{
 		m_banners[i] = m_banners[i + 1];
-		m_slots.rva005FBB96(i, m_banners[i]);
+		((Rva005FBB96 *)&m_slots)->rva005FBB96(i, (const Image *)m_banners[i]);
 	}
 	m_slots.rva005FBB9E(m_numBanners);
 }
@@ -533,7 +542,7 @@ void StrategicInGameUI::DynamicAutoResolveDialog::Impl::ClosingStateHandler::Sta
 		}
 	}
 	m_owner->m_34->rva005FC19E(m_owner->m_44 == 0);
-	m_owner->m_34->rva005FC1A6();
+	((Rva005FC1A6 *)m_owner->m_34)->rva005FC1A6();
 }
 
 // WB15E6610 names this callback, lines1270..1278. Native5EB0CB..5EB159

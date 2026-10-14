@@ -102,15 +102,27 @@ struct ObjectStatusMask
 {
 	ObjectStatusMask() {}
 	bool test(int bit) const { return (m_bits[bit >> 5] >> (bit & 31)) & 1; }
-	ObjectStatusMask *Rva0023DA79(int reserved, ObjectStatusTypes bit) throw();	// 0x0023DA79
 	unsigned m_bits[4];
+};
+
+// The same 16-byte mask under its rowed names: 0x0023DA79 is rowed on
+// Rva0023DA79 and the filter ctor 0x003685CF takes BfmeObject872Header.
+class BfmeObject872Header
+{
+	unsigned int m_words[4];
+};
+
+class Rva0023DA79 : public BfmeObject872Header
+{
+public:
+	Rva0023DA79 *rva0023DA79(int base, int bit) throw();	// 0x0023DA79
 };
 
 // vftable 0x00C17968; the out-of-line ctor 0x003685CF: status must / must not.
 class Rva003685CF : public Rva000421C8
 {
 public:
-	Rva003685CF(const ObjectStatusMask &must, const ObjectStatusMask &mustNot) throw();	// 0x003685CF
+	Rva003685CF(const BfmeObject872Header &must, const BfmeObject872Header &mustNot) throw();	// 0x003685CF
 	virtual bool allow(Object *obj);
 	ObjectStatusMask m_must;
 	ObjectStatusMask m_mustNot;
@@ -308,7 +320,7 @@ UpdateSleepTime ReplenishUnitsBehavior::update()
 					&Rva00261058(obj, false))))) == 0) {
 			Object *target = ThePartitionManager->getClosestObject(obj->getPosition(), data->m_118, 0,
 				Rva00260E2AFilter(obj->getControllingPlayer()).link(
-					Rva003685CF(data->m_124, *ObjectStatusMask().Rva0023DA79(0, OBJECT_STATUS_RVA0048438A_50)).link(
+					Rva003685CF(*(const BfmeObject872Header *)&data->m_124, *Rva0023DA79().rva0023DA79(0, OBJECT_STATUS_RVA0048438A_50)).link(
 						Rva0026119DFilter().link(Rva002611BFFilter(obj).link(&Rva00260F77Filter(subject, true))))));
 			if (target)
 				self->rva004842DD(target);
