@@ -3,6 +3,20 @@
 // ??1Rva0042643D@@UAE@XZ @0x0042643D 183B evidence: vtable 0x0083C350 plus base GameEngineDeletingBase 0x001B4E74 plus Entry dtor 0x004DC9ED plus loops over +0x0C +0x18 plus frees +0x24 +0x18 +0x0C
 #include <vector>
 
+// Retain the bfmealloc primary bodies inline without competing external copies.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int* p, size_t n) const {
+ _STLP_ASSERT( (p == 0) == (n == 0) )
+ if(p != 0) ::free((void*)p);
+}
+template<> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int* p, size_t n) {
+ __stl_alloc_rebind(static_cast<allocator<int>&>(*this),(int*)0).deallocate(p,n);
+}
+}
+
+
 class Rva004DC9EDEntry
 {
 public:

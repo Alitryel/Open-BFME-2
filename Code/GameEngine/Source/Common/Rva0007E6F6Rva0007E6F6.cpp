@@ -4,7 +4,20 @@
 // the body is the banked one up to statement/operand order and local types.
 // Native7E6F6..7E7DD231B, RET0. WB73D880 reproduces lazy min/max box.
 // BFME1 575ba2b04 Vector3 operators supply clean math; target proves footprint.
-#include "vector3.h"
+// Scoped donor math below keeps assignments/arithmetic inline and suppresses
+// competing COMDAT copies. The complete target body/relocations are unchanged;
+// the compiled unit has no imported math/helper references.
+class Vector3 {
+public:
+ float X,Y,Z;
+ __forceinline Vector3() {}
+ __declspec(dllimport) __forceinline Vector3(float x,float y,float z) {X=x;Y=y;Z=z;}
+ __declspec(dllimport) __forceinline Vector3 &operator=(const Vector3 &v) {X=v.X;Y=v.Y;Z=v.Z;return *this;}
+};
+__declspec(dllimport) __forceinline Vector3 operator+(const Vector3&a,const Vector3&b) {return Vector3(a.X+b.X,a.Y+b.Y,a.Z+b.Z);}
+__declspec(dllimport) __forceinline Vector3 operator-(const Vector3&a,const Vector3&b) {return Vector3(a.X-b.X,a.Y-b.Y,a.Z-b.Z);}
+__declspec(dllimport) __forceinline Vector3 operator*(float k,const Vector3&a) {return Vector3(a.X*k,a.Y*k,a.Z*k);}
+
 class Rva0007E02A { public: void *rva0007E02A(void*); };
 class WaterAreaHeightView { public: virtual void f0();virtual void f1();virtual int height(); };
 struct WaterRenderBox {Vector3 center,extent;};

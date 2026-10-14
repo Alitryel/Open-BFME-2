@@ -73,7 +73,7 @@ public:
 class Rva0004CCFF {public:void *destroyDelete(unsigned int);};
 // Native list clear1F65AF destroys the12B value through4CCFF(flags0).
 // Keep this observed cleanup ABI without claiming a virtual pointer layout.
-namespace _STL {template<> __forceinline void _Destroy(RvaSmartPtr12 *p){((Rva0004CCFF *)p)->destroyDelete(0);}}
+namespace _STL {static __forceinline void _Destroy(RvaSmartPtr12 *p){((Rva0004CCFF *)p)->destroyDelete(0);}}
 #include <list>
 template<> _STL::list<RvaSmartPtr12>::list(const _STL::list<RvaSmartPtr12>&);
 class Rva001F81EC {public:void rva001F81EC();};

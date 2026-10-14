@@ -61,7 +61,7 @@ public:
  ParticleSystem *get() const{return particle?particle:Make001FCBD7();}
 };
 class Rva0004CCFF {public:void *destroyDelete(unsigned int);};
-namespace _STL {template<> __forceinline void _Destroy(RvaSmartPtr12 *p){((Rva0004CCFF *)p)->destroyDelete(0);}}
+namespace _STL {static __forceinline void _Destroy(RvaSmartPtr12 *p){((Rva0004CCFF *)p)->destroyDelete(0);}}
 #include <list>
 // Compare typed nodes locally; retail inlines these comparisons.
 namespace _STL {

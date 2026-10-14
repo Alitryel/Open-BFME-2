@@ -50,6 +50,20 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 
 #include <vector>
 
+// Retain the bfmealloc primary bodies inline without competing external copies.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int* p, size_t n) const {
+ _STLP_ASSERT( (p == 0) == (n == 0) )
+ if(p != 0) ::free((void*)p);
+}
+template<> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<int*, int, allocator<int> >::deallocate(int* p, size_t n) {
+ __stl_alloc_rebind(static_cast<allocator<int>&>(*this),(int*)0).deallocate(p,n);
+}
+}
+
+
 class Thing;
 class ModuleData;
 class Object;

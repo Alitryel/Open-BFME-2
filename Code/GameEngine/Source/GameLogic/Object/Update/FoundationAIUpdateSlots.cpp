@@ -110,7 +110,7 @@ public:
  Object *container() const { return *reinterpret_cast<Object *const *>(reinterpret_cast<const char *>(this)+0x274); }
  Team *getTeam() const { return *reinterpret_cast<Team *const *>(reinterpret_cast<const char *>(this)+0x304); }
  AIUpdateInterface *getAIUpdateInterface() const { return *reinterpret_cast<AIUpdateInterface *const *>(reinterpret_cast<const char *>(this)+0x258); }
-	__forceinline unsigned int isKindOf(int kind) const
+	__forceinline unsigned int foundationKindMask(int kind) const
 	{
 		return m_template->m_kindOf[kind >> 5] & (1U << (kind & 0x1f));
 	}
@@ -357,7 +357,7 @@ void FoundationAIUpdate::rva0045527A(ObjectID id)
 	if (id != INVALID_ID)
 	{
 		Drawable *draw = m_object->getDrawable();
-		if (m_object->isKindOf(54) == 0)
+		if (m_object->foundationKindMask(54) == 0)
 		{
 			m_object->setStatus(OBJECT_STATUS_3, true);
 			if (draw)
@@ -376,11 +376,11 @@ void FoundationAIUpdate::rva0045527A(ObjectID id)
 			}
 		}
 	}
-	else if (m_object->isKindOf(54) == 0)
+	else if (m_object->foundationKindMask(54) == 0)
 	{
 		m_object->setStatus(OBJECT_STATUS_3, false);
 		Drawable *draw = m_object->getDrawable();
-		if (draw && m_object->isKindOf(54) == 0)
+		if (draw && m_object->foundationKindMask(54) == 0)
 		{
 			draw->setSelectable(true);
 			draw->fadeIn(30);

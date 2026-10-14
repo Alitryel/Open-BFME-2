@@ -1,4 +1,4 @@
-// cl: /FIbfme_wwstring_teardown.h /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/local /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /D_WINDOWS /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /DBFME_BUFFER_DTOR_OUT_OF_LINE /FIbfme_wwstring_teardown.h /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/local /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /D_WINDOWS /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // Match the plain compiler vector-constructor iterator to its canonical retail
 // /O1 provider. The unused anchor selects helper codegen before /O2 consumers.
 struct BfmeIniVciAnchorElem { BfmeIniVciAnchorElem(); };
@@ -113,6 +113,11 @@ static void bfmeIniVciAnchor() { BfmeIniVciAnchorElem anchor[2]; (void)anchor; }
 // spelling ourselves.
 #define strdup __bfme_strdup_dllimport
 
+// Keep the canonical 33-byte constructor while its callers retain inline stores.
+#include "point.h"
+#pragma optimize("", off)
+template<> __forceinline TPoint2D<int>::TPoint2D(int x,int y):X(x),Y(y) {}
+#pragma optimize("", on)
 #include "rendobj.h"	// the bfmerendobj shim has to win the include guard
 #include	"always.h"
 
@@ -151,6 +156,10 @@ static inline void __cdecl operator delete[](void * p) { ::operator delete(p); }
 #include	"pipe.h"
 #include	"wwstring.h"
 #include "nstrdup.h"
+
+// Compiler emission anchor; retail has no separate anchor body.
+// ?bfmeIniIndexDeleteAnchor absent-from-retail
+void bfmeIniIndexDeleteAnchor(IndexClass<int, INISection *> *p) { delete p; }
 
 // Every header that declares strdup has now had its declaration renamed aside;
 // this is the spelling the unit actually calls.
@@ -204,16 +213,6 @@ void INIClass::Initialize(void)
 	SectionList = W3DNEW List<INISection *> ();
 	SectionIndex = W3DNEW IndexClass<int, INISection *> ();
 	Filename = nstrdup("<unknown>");
-}
-
-// ?Shutdown@INIClass@@ present-unmatched
-// LINK-DUP: inline copy (owner INIClassShutdown.cpp holds the row); noinline
-// preserves the tail-jump in ??1INIClass, inline makes this copy select-any.
-inline __declspec(noinline) void INIClass::Shutdown(void)
-{
-	delete SectionList;
-	delete SectionIndex;
-	delete Filename;
 }
 
 /***********************************************************************************************
@@ -1678,7 +1677,7 @@ bool INIClass::Put_String(char const * section, char const * entry, char const *
  * HISTORY:                                                                                    *
  *   07/02/1996 JLB : Created.                                                                 *
  *=============================================================================================*/
-int INIClass::Get_String(char const * section, char const * entry, char const * defvalue, char * buffer, int size) const
+inline int INIClass::Get_String(char const * section, char const * entry, char const * defvalue, char * buffer, int size) const
 {
 	/*
 	**	Verify that the parameters are nominally legal.

@@ -6,8 +6,22 @@
 // Target vslots74/64 establish output-point/scalar ABIs. Original names unknown.
 // BF1 WWMath vector3.h/Sqrt/Clamp supply the arithmetic implementation.
 #include "Coord3D.h"
-#include "wwmath.h"
-#include "vector3.h"
+
+// Scoped donor math below keeps assignments/arithmetic inline and suppresses
+// competing COMDAT copies. The complete target body/relocations are unchanged;
+// the compiled unit has no imported math/helper references.
+class Vector3 {
+public:
+ float X,Y,Z;
+ __declspec(dllimport) __forceinline Vector3(float x,float y,float z) {X=x;Y=y;Z=z;}
+ __declspec(dllimport) __forceinline Vector3 &operator-=(const Vector3 &v) {X-=v.X;Y-=v.Y;Z-=v.Z;return *this;}
+};
+class WWMath {
+public:
+ __declspec(dllimport) static __forceinline float Clamp(float val,float min,float max) {if(val<min)return min;if(val>max)return max;return val;}
+ __declspec(dllimport) static __forceinline float Sqrt(float val) {float retval; __asm {fld [val]} __asm {fsqrt} __asm {fstp [retval]} return retval;}
+};
+
 #include <math.h>
 extern int BfmeClientFramesPerSecond;
 extern float opacityLogicStepSeconds;

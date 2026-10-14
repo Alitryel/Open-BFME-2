@@ -36526,8 +36526,9 @@ pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/gcd_lcm.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/gcd_lcm.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/hash.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/hash.cpp	"gsy",on	1
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/ini.cpp	"",on	1	allow=507aa6983670f0f0cc89e29ad6869c8b2aeccf63
-pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/ini.cpp	"gsy",on	1	allow=507aa6983670f0f0cc89e29ad6869c8b2aeccf63
+pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/ini.cpp	"",off	1	allow=fa406e5f156b63a7baa238eb79eec5616a73f31f
+pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/ini.cpp	"",on	2	allow=fa406e5f156b63a7baa238eb79eec5616a73f31f
+pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/ini.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/ini_PutPKey.cpp	"",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/ini_PutPKey.cpp	"gsy",on	1
 pragma_optimize	Code/Libraries/Source/WWVegas/WWLib/mpmath.cpp	"",on	1
@@ -42021,7 +42022,6 @@ present_unmatched	Code/Libraries/Source/WWVegas/WWLib/crc.cpp	CRCEngine::operato
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/ffactory.cpp	Return_File@SimpleFileFactoryClass@@UAEXPAVFileClass@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/ini.cpp	Get_Filename@INIClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/ini.cpp	Section_Count@INIClass@@	1
-present_unmatched	Code/Libraries/Source/WWVegas/WWLib/ini.cpp	Shutdown@INIClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	bfmeEmitMemOps@@YAXPAXI@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/mixfile.cpp	0MixFileCreator@@QAE@PBD@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WWLib/mixfile.cpp	0MixFileFactoryClass@@QAE@PBDPAVFileFactoryClass@@@Z	1
