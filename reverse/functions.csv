@@ -18816,7 +18816,6 @@ uw_007678c0,,0x007678C0,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;obje
 uw_007678c8,,0x007678C8,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6507
 uw_007678d0,,0x007678D0,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6525
 uw_007678d8,,0x007678D8,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6497
-uw_0076791b,,0x0076791B,17,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L5249
 uw_00767a40,,0x00767A40,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6534
 uw_00767a48,,0x00767A48,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6497
 uw_00767a7d,,0x00767A7D,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2235
@@ -25988,7 +25987,6 @@ uw_0078b53d,,0x0078B53D,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;obje
 uw_0078b578,,0x0078B578,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L1694
 uw_0078b580,,0x0078B580,14,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2315
 uw_0078b5c7,,0x0078B5C7,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L329
-uw_0078b5d9,,0x0078B5D9,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L1644
 uw_0078b62c,,0x0078B62C,8,Code/gen_small/uw_gen_011.cpp,matched,gen-funclet;object-symbol=$L1644
 uw_0078b667,,0x0078B667,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4665
 uw_0078b66f,,0x0078B66F,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4665
@@ -28624,7 +28622,6 @@ uw_00799258,,0x00799258,11,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;obj
 uw_0079926d,,0x0079926D,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_0079927f,,0x0079927F,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4565
 uw_00799291,,0x00799291,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2235
-uw_007992bb,,0x007992BB,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L4585
 uw_00799347,,0x00799347,11,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2420
 uw_00799352,,0x00799352,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L5167
 uw_0079935d,,0x0079935D,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L2475
@@ -88384,3 +88381,6 @@ uw_0076253f,,0x0076253F,14,Code/GameEngineDevice/Source/W3DDevice/GameClient/Dra
 uw_0076256e,,0x0076256E,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawDtor.cpp,matched,gen-funclet;parent=??1W3DTruckDraw@@UAE@XZ;object-symbol=$L2908
 uw_007625a0,,0x007625A0,14,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawDtor.cpp,matched,gen-funclet;parent=??1W3DTruckDraw@@UAE@XZ;object-symbol=$L7140
 uw_007625ae,,0x007625AE,14,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawDtor.cpp,matched,gen-funclet;parent=??1W3DTruckDraw@@UAE@XZ;object-symbol=$L7141
+uw_0078b5d9,,0x0078B5D9,8,Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainDtor.cpp,matched,gen-funclet;parent=??1SiegeEngineContain@@UAE@XZ;object-symbol=$L5067
+uw_0076791b,,0x0076791B,17,Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorDestructor.cpp,matched,gen-funclet;parent=?Resize@?$VectorClass@VBfmeHandleCX@@@@UAE_NHPBVBfmeHandleCX@@@Z;object-symbol=$L3502
+uw_007992bb,,0x007992BB,8,Code/GameEngine/Source/Common/Rva00557CCCDtor.cpp,matched,gen-funclet;parent=??1Rva00557CCC@@UAE@XZ;object-symbol=$L4815

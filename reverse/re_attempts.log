@@ -54235,3 +54235,6 @@ uw_0076253f	0x0076253F	14	landed	add_match verified Code/GameEngineDevice/Source
 uw_0076256e	0x0076256E	8	landed	add_match verified Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawDtor.cpp 8B; gen-funclet;parent=??1W3DTruckDraw@@UAE@XZ;object-symbol=$L2908
 uw_007625a0	0x007625A0	14	landed	add_match verified Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawDtor.cpp 14B; gen-funclet;parent=??1W3DTruckDraw@@UAE@XZ;object-symbol=$L7140
 uw_007625ae	0x007625AE	14	landed	add_match verified Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawDtor.cpp 14B; gen-funclet;parent=??1W3DTruckDraw@@UAE@XZ;object-symbol=$L7141
+uw_0078b5d9	0x0078B5D9	8	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/Contain/SiegeEngineContainDtor.cpp 8B; gen-funclet;parent=??1SiegeEngineContain@@UAE@XZ;object-symbol=$L5067
+uw_0076791b	0x0076791B	17	landed	add_match verified Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorDestructor.cpp 17B; gen-funclet;parent=?Resize@?$VectorClass@VBfmeHandleCX@@@@UAE_NHPBVBfmeHandleCX@@@Z;object-symbol=$L3502
+uw_007992bb	0x007992BB	8	landed	add_match verified Code/GameEngine/Source/Common/Rva00557CCCDtor.cpp 8B; gen-funclet;parent=??1Rva00557CCC@@UAE@XZ;object-symbol=$L4815
