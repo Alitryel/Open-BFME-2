@@ -139,7 +139,7 @@ inline EAStringC::~EAStringC()
 // ??0EAStringC@@QAE@ABV0@@Z, retail 0x006D2FC0 (70B). Copy constructor:
 // shares the source data after validating its refcount, then takes its
 // own reference. The empty singleton skips validation but still AddRefs.
-EAStringC::EAStringC(const EAStringC &other)
+__declspec(noinline) inline EAStringC::EAStringC(const EAStringC &other)
 {
 	StringDataC *otherData = other.m_pData;
 	m_pData = otherData;
@@ -190,7 +190,7 @@ EAStringC &EAStringC::clear()
 // global pool. Both bound checks are unsigned (ja/jb). The re-read of
 // m_pData before the max-size store is load-bearing: without it the
 // compiler forwards the freshly stored pointer and the tail rotates.
-void EAStringC::Reserve(int size)
+__declspec(noinline) inline void EAStringC::Reserve(int size)
 {
 	EAStringC *self = this;
 	if (!((unsigned)size > 0u)) {
@@ -213,7 +213,7 @@ void EAStringC::Reserve(int size)
 // roots a null data pointer, then delegates the whole build to Assign
 // (rowed separately; pinned here until that row lands). Returning this
 // in eax is the standard ctor epilogue.
-EAStringC::EAStringC(const char *text)
+inline EAStringC::EAStringC(const char *text)
 {
 	m_pData = 0;
 	Assign(text);
@@ -227,7 +227,7 @@ EAStringC::EAStringC(const char *text)
 // allocate path through rowed Reserve 0x006D3760 and SetSize 0x006D3BC0.
 // Callers at 0x006D4744/0x006D48F7/0x006D4FFA/0x006D51F8/0x006D75C5;
 // neighbours rva006D4190 and ChangeBuffer share /O2 /DNDEBUG /MD.
-EAStringC::EAStringC(unsigned int nSize)
+__declspec(noinline) inline EAStringC::EAStringC(unsigned int nSize)
 {
 	m_pData = 0;
 	if (nSize) {
