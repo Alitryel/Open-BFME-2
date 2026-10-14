@@ -1,4 +1,6 @@
 // ?rva000911F6@Rva007E3C20Vp6Stream@@UAEHH@Z
+// partial score=0.9 date=2026-10-14
+// ?rva000911F6@Rva007E3C20Vp6Stream@@UAEHH@Z
 // partial score=0.94 date=2026-10-04
 // cl: /O1 /MD
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
@@ -36,9 +38,7 @@ int Rva007E3C20Vp6Stream::rva000911F6( int arg )
 	if ( g_00DE4498 != 0 || edi != 0 || ( arg & 0x40 ) != 0 ) {
 		int m44 = m_at44; int m40 = m_at40;
 		unsigned int now = timeGetTime();
-		__int64 mult = ( (__int64)( m44 * 1000 ) * trans );
-		__int64 div1 = mult / (edi ? m40 : m40);
-		int diff = (int)now - (int)div1;
+		int diff = (int)now - (int)( ( (__int64)( m44 * 1000 ) * trans ) / (edi ? m40 : m40) );
 		int q1 = m40 / m44;
 		int q2 = 1000 / q1;
 		if ( diff - m_at50 > q2 )

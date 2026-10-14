@@ -1,4 +1,6 @@
 // ?createGadget@@YAPAVGameWindow@@PADPAXPAVGadgetCreateView@@PAV1@@Z
+// partial score=0.87 date=2026-10-14
+// ?createGadget@@YAPAVGameWindow@@PADPAXPAVGadgetCreateView@@PAV1@@Z
 // partial score=0.865124057 date=2026-10-10
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
@@ -231,8 +233,8 @@ GameWindow *createGadget(char *type, void *data, GadgetCreateView *record, GameW
 				copyGadgetDrawData_Rva003157BE(thumb, srcThumb, hiliteSliderThumbDrawData, disabledSliderThumbDrawData, enabledSliderThumbDrawData);
 				if (thumb->m_field6C)
 				{
-					Rva0032857F(thumb, 1);
 					bfmeGoENK((BfmeObjENK *)window, 1);
+					Rva0032857F(thumb, 1);
 				}
 			}
 		}
@@ -267,7 +269,8 @@ _ReadWriteBarrier();
 		GameWindow *listBox = ((GameWindow*)bfmeGo925A((BfmeKeyLC*)window));
 		if (listBox)
 		{
-			GameWindow *sourceList = source ? ((GameWindow*)bfmeGo925A((BfmeKeyLC*)source)) : 0;
+			GameWindow * volatile sourceList = source ? ((GameWindow*)bfmeGo925A((BfmeKeyLC*)source)) : 0;
+			_ReadWriteBarrier();
 			copyGadgetDrawData_Rva003157BE(listBox, sourceList, hiliteSliderDrawData, disabledSliderDrawData, enabledSliderDrawData);
 			GameWindow *upButton = GadgetListBoxGetDownButton(listBox);
 			copyGadgetDrawData_Rva003157BE(upButton, source ? GadgetListBoxGetDownButton(source) : 0, hiliteUpButtonDrawData, disabledUpButtonDrawData, enabledUpButtonDrawData);
@@ -278,6 +281,7 @@ _ReadWriteBarrier();
 			{
 				GameWindow *sourceSlider = sourceList ? GadgetComboBoxGetEditBox(sourceList) : 0;
 				copyGadgetDrawData_Rva003157BE(slider, sourceSlider, hiliteSliderDrawData, disabledSliderDrawData, enabledSliderDrawData);
+				_ReadWriteBarrier();
 				GameWindow *thumb = slider->winGetChild();
 				if (thumb)
 				{

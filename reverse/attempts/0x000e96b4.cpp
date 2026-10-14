@@ -1,4 +1,6 @@
 // ?DoXfer@W3DShrubBuffer@@QAEXPAVXfer@@@Z
+// partial score=0.9 date=2026-10-14
+// ?DoXfer@W3DShrubBuffer@@QAEXPAVXfer@@@Z
 // partial score=0.7940174605388512 date=2026-10-10
 // ?DoXfer@W3DShrubBuffer@@QAEXPAVXfer@@@Z
 // partial score=0.8 date=2026-10-09
@@ -11,6 +13,8 @@
 // typed offset views. Copy301 and its31B Region2D callee only load/store,
 // so the scratch copy-constructor view is declared nonthrowing. Its original
 // construction-versus-assignment identity remains a repair concern.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include "vector3.h"
 #include "matrix3d.h"
@@ -191,8 +195,8 @@ void W3DShrubBuffer::DoXfer(Xfer *xfer)
    xfer->String(&t.textureName);xfer->String(&t.modelName);xfer->String(&t.nameC);xfer->Int(&t.field58);xfer->String(&t.templateName);
    if(xfer->IsLoading()){
     t.data=0;
-    void *tmpl=(void*)TheThingFactory->findTemplate(t.templateName);
-    if(tmpl){const ModuleData *module=reinterpret_cast<ModuleInfo *>(static_cast<char *>(tmpl)+0x2F0)->getNthData(0);if(module)t.data=module->TreeDrawData();}
+
+    if(((void*)TheThingFactory->findTemplate(t.templateName))){const ModuleData *module=reinterpret_cast<ModuleInfo *>(static_cast<char *>(((void*)TheThingFactory->findTemplate(t.templateName)))+0x2F0)->getNthData(0);if(module)t.data=module->TreeDrawData();}
     if(!t.data)throw XferException(4,0);
     if(t.mesh){reinterpret_cast<RenderObjClass *>(t.mesh)->Release_Ref();t.mesh=0;}
     RenderObjClass *render=Create_Render_Obj(t.modelName.str());
@@ -212,6 +216,7 @@ void W3DShrubBuffer::DoXfer(Xfer *xfer)
   if(xfer->IsStoring()){
    new(&buffer) Rva000E73FC(*reinterpret_cast<const Rva000E73FC *>(&(count?trees:trees)[i]));
    treeType=tree.treeType;
+   _ReadWriteBarrier();
    if(treeType!=-2){modelName=types[treeType].data->modelName;modelTexture=types[treeType].data->nameC;}
   }
   xfer->String(&modelName);xfer->String(&modelTexture);
@@ -223,8 +228,8 @@ void W3DShrubBuffer::DoXfer(Xfer *xfer)
   xfer->Real(&tree.location.X);xfer->Real(&tree.location.Y);xfer->Real(&tree.location.Z);xfer->Real(&tree.scale);
   Rva003062FEXfer(xfer,reinterpret_cast<float *>(&tree.transform));
   XferDrawableID(xfer,reinterpret_cast<int *>(&tree.drawableID));
-  AsciiString textureName;
   bool shadow=false;
+  AsciiString textureName;
   if(!xfer->IsLoading()&&treeType>=0&&treeType<numTypes){shadow=types[treeType].shadowKind;textureName=types[treeType].textureName;}
   xfer->Bool(&shadow);xfer->String(&textureName);xfer->Bounds(bounds1948);
   if(xfer->IsLoading()&&treeType>=0&&treeType<numTypes){
