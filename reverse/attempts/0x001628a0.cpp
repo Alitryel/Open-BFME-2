@@ -1,4 +1,6 @@
 // ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
+// partial score=0.86647 date=2026-10-14
+// ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
 // partial score=0.8 date=2026-09-23
 // cl: /G7 /arch:SSE /DNDEBUG /MD /EHsc
 
@@ -7,7 +9,8 @@ class Vector3
 public:
 	Vector3() {}
 	Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
-	float X, Y, Z;
+	Vector3 &operator=(const Vector3 &v){X=v.X;Y=v.Y;Z=v.Z;return *this;}
+ float X, Y, Z;
 };
 
 inline Vector3 operator + (const Vector3 &a, const Vector3 &b)
@@ -27,21 +30,22 @@ public:
 	Quaternion() {}
 	Quaternion(float x, float y, float z, float w) : X(x), Y(y), Z(z), W(w) {}
 
-	float X, Y, Z, W;
+	Quaternion &operator=(const Quaternion &q){X=q.X;Y=q.Y;Z=q.Z;W=q.W;return *this;}
+ float X, Y, Z, W;
 };
 
 inline Vector3 Rotate_Vector(const Vector3 &v, const Quaternion &q)
 {
-	float x = (v.Z*q.Y - q.Z*v.Y) + q.W*v.X;
-	float y = q.W*v.Y - (v.Z*q.X - q.Z*v.X);
-	float z = (q.X*v.Y - v.X*q.Y) + v.Z*q.W;
-	float w = -(v.Y*q.Y + v.Z*q.Z + q.X*v.X);
+	float x = q.W*v.X + (q.Y*v.Z - v.Y*q.Z);
+	float y = q.W*v.Y - (q.X*v.Z - v.X*q.Z);
+	float z = q.W*v.Z + (q.X*v.Y - v.X*q.Y);
+	float w = -(q.X*v.X + q.Y*v.Y + q.Z*v.Z);
 
 	return Vector3
 	(
-		(z*q.Y - q.Z*y) + (q.W*x - q.X*w),
-		(q.W*y - w*q.Y) - (q.X*z - q.Z*x),
-		(q.X*y - x*q.Y) + (q.W*z - q.Z*w)
+		q.W*x - w*q.X + (q.Y*z - y*q.Z),
+		q.W*y - w*q.Y - (q.X*z - x*q.Z),
+		q.W*z - w*q.Z + (q.X*y - q.Y*x)
 	);
 }
 
