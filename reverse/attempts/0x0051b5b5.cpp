@@ -1,4 +1,8 @@
 // ?OnInitialized@AptQuitMenu@@QAEXPBD@Z
+// partial score=0.999 date=2026-10-14
+// U1 r6: EXACT in Lab2 (nd 0, 821 B) via chain.py barrier after the else-branch `livingWorld` local (previously unscorable bank: relative include). Landing in
+// AptQuitMenuCallbacks.cpp needs g_00DFEF18 (address-named global, hatch) for `g_00DFEF18->m_14`; port with Rva002B254F/rva002B5256/DisableButton decls from this bank.
+// ?OnInitialized@AptQuitMenu@@QAEXPBD@Z
 // partial score=0.96 date=2026-10-07
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //
@@ -7,6 +11,8 @@
 // screen's registration; that binding is their only reference. The class
 // is named for the strings' prefix.
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include "unicode_string.h"
 
@@ -960,6 +966,7 @@ void AptQuitMenu::OnInitialized(const char *unused)
 	else
 	{
 		BfmeSelectionState *livingWorld = g_009FEF10;
+		_ReadWriteBarrier();
 		if (livingWorld && livingWorld->isSelectionLocked())
 		{
 			if (!TheGameLogic || TheGameLogic->m_114 == 3

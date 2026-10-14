@@ -1,4 +1,9 @@
 // ?parse@PolygonTriggerDataChunkParserBase@@QAE_NAAVDataChunkInput@@PBUDataChunkInfo@@@Z
+// partial score=0.999 date=2026-10-14
+// U1 r6: EXACT in the Lab2 scorer (nd 0, 273 B, unresolved ctor 0x2E3FAB bound by address). Levers: (1) visible noinline bodies of the rowed
+// Rva000AD6F4::rva002E3E2A and ::clear (their address escape kept the owner out of the dead param slot [ebp+8]); (2) `if(n<2) continue;` early-continue
+// instead of the wrapping if (retail's skip path jumps into the middle of the shared owner-dtor tail). Landing needs the ctor 0x2E3FAB (claimed by w7-mp3).
+// ?parse@PolygonTriggerDataChunkParserBase@@QAE_NAAVDataChunkInput@@PBUDataChunkInfo@@@Z
 // partial score=0.93 date=2026-10-12
 // ?parse@PolygonTriggerDataChunkParserBase@@QAE_NAAVDataChunkInput@@PBUDataChunkInfo@@@Z
 // partial score=0.92674 date=2026-10-08
@@ -126,6 +131,21 @@ public:
  Rva002E3E2AOut rva002E3E2A();
  Rva002E3E2AObject *pointer;
 };
+inline __declspec(noinline) Rva002E3E2AOut Rva000AD6F4::rva002E3E2A()
+{
+ Rva002E3E2AOut temporary(pointer);
+ pointer=0;
+ return temporary;
+}
+struct Rva000AD6F4Base { virtual void *virt0(unsigned int); };
+inline __declspec(noinline) void Rva000AD6F4::clear()
+{
+ Rva000AD6F4Base *p = (Rva000AD6F4Base *)pointer;
+ pointer = 0;
+ void *q;
+ if (p) q = p->virt0(0); else q = 0;
+ ::operator delete(q);
+}
 // cl: /O1 /arch:SSE /G7 /MD
 // 0x002E37CB / 26 bytes. The pointer update and +0x3C field displacement
 // are direct retail evidence; the class owner remains an address-based name.
@@ -162,10 +182,9 @@ bool PolygonTriggerDataChunkParserBase::parse(DataChunkInput& file,const DataChu
   trigger->layer=layerName;
   ElevatedAreaPolygon &polygon=*reinterpret_cast<ElevatedAreaPolygon*>(reinterpret_cast<char*>(trigger)+8);
   polygon.parse(file,1);
-  if(polygon.last-polygon.first>=2)
-  {
-   reinterpret_cast<Rva002E37CB*>(this)->rva002E37CB(owner.rva002E3E2A().release());
-  }
+  if(polygon.last-polygon.first<2)
+   continue;
+  reinterpret_cast<Rva002E37CB*>(this)->rva002E37CB(owner.rva002E3E2A().release());
  }
  return true;
 }
