@@ -148,6 +148,7 @@ public:
     void DoXfer(Xfer *);
     Bool IsOwnedByTeam(Int teamID) const;
 	Bool CanSpawnUnitWithinCPLimit(Rva00319CED *unit) const;
+	Bool rva003F0201(Rva00319CED *unit) const;
 	LivingWorldBuilding *GetBuildingByIndex(Int index) const;
 	Int rva003F05CE();
 	void *rva003F0588();
@@ -211,6 +212,19 @@ LivingWorldBuilding *LivingWorldRegion::GetBuildingByIndex(Int index) const
 		}
 	}
 	return 0;
+}
+
+// Retail 0x003F0201 (88 bytes), just before CanSpawnUnitWithinCPLimit: the
+// same command-point check without its owner-id comparison, so the unit's
+// cost always counts. Its original name is not established.
+Bool LivingWorldRegion::rva003F0201(Rva00319CED *unit) const
+{
+	if (m_ownerPlayerID == -1)
+		return true;
+	Rva002E2903Player *owner = reinterpret_cast<Rva002BA8F1Logic *>(TheLivingWorldLogic)->find(m_ownerPlayerID, 0);
+	if (owner == 0)
+		return false;
+	return rva003EFDB3(owner) + unit->rva004E1755() <= rva003EFD6F(owner);
 }
 
 // LivingWorldRegion::CanSpawnUnitWithinCPLimit, retail 0x003F0259: an
