@@ -172,3 +172,17 @@ void Rva0082140::rva0008385F(AreaSet<StandingWaveArea> *areas, WaterAreaRenderab
 	list.swapInto(out);
 }
 
+
+// 0x00083959, 247 bytes, RET8: the same for the river areas.
+void Rva0082140::rva00083959(AreaSet<RiverArea> *areas, WaterAreaRenderables *out)
+{
+	unsigned int count = areas->size();
+	WaterAreaRenderableList<Rva00082C1DElement, Rva00081C17Vector> list;
+	list.reserve(count);
+	WaterAreaCursor end(areas, areas->size());
+	for (WaterAreaCursor it(areas, 0); !rva0007E394CursorEqual(it, end); ++it.m_index)
+		list.push_back(Rva00082C1DElement(new RenderableRiverArea(areas->m_begin[it.m_index].m_area)));
+	reinterpret_cast<Rva005A0B4CList *>(areas)->append(
+		reinterpret_cast<Rva002BA8F1Listener *>(static_cast<AreaSetObserver<RiverArea> *>(this)));
+	list.swapInto(out);
+}
