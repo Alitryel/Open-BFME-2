@@ -120,11 +120,13 @@ void clipCursorToClient();
 void BFME_DX8_Thread_Lock(void);
 bool BFME_DX8_Thread_Assert(void);
 
-class DX8ThreadLock
+// Native normal and unwind paths use the existing DX8 device guard.
+// Its complete destructor at 0x00042F8C tail-calls BFME_DX8_Thread_Assert.
+class BFMEDX8DeviceLock
 {
 public:
-	DX8ThreadLock() { BFME_DX8_Thread_Lock(); }
-	~DX8ThreadLock() { BFME_DX8_Thread_Assert(); }
+	BFMEDX8DeviceLock() { BFME_DX8_Thread_Lock(); }
+	~BFMEDX8DeviceLock() { BFME_DX8_Thread_Assert(); }
 };
 
 class SortingRendererClass
@@ -347,7 +349,7 @@ void W3DDisplay::init()
 	setBitDepth(32);
 
 	{
-		DX8ThreadLock lock;
+		BFMEDX8DeviceLock lock;
 		if (!WW3D::Set_Render_Device(0, getWidth(), getHeight(), getBitDepth(), getWindowed(), true, false, true))
 		{
 			TheGlobalData->m_xResolution = 800;
@@ -378,7 +380,7 @@ void W3DDisplay::init()
 		setGamma(TheGlobalData->m_gamma, 0.0f, 1.0f, false);
 
 	{
-		DX8ThreadLock lock;
+		BFMEDX8DeviceLock lock;
 		W3DShaderManager::init();
 	}
 
