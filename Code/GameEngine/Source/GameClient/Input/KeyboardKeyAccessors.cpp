@@ -39,6 +39,7 @@ public:
 
 	WideChar getPrintableKey(UnsignedByte key, Int state);
 	bool rva00232643(UnsignedByte key);
+	UnsignedByte getKeyStatusData(UnsignedByte key);
 
 private:
 	char m_unmodelled00[0x1C];
@@ -67,4 +68,12 @@ WideChar Keyboard::getPrintableKey(UnsignedByte key, Int state)
 bool Keyboard::rva00232643(UnsignedByte key)
 {
 	return (((unsigned char)m_keyStatus[key].state) >> 1) & 1;
+}
+
+// 0x00232620 (12B, RET4): Zero Hour's Keyboard::getKeyStatusData, the status
+// byte (+1) of m_keyStatus[key] at +0x1C -- the movzx/mov al,[ecx+eax*8+1Dh]
+// shape of BFME1's Rva005A3190 indexed-byte getter.
+UnsignedByte Keyboard::getKeyStatusData(UnsignedByte key)
+{
+	return m_keyStatus[key].status;
 }
