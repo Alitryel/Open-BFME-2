@@ -7,7 +7,7 @@
 // partial score=0.993 date=2026-10-13 (W7-S4: whole normal path wrapped in a block)
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.98 date=2026-10-10
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include
+// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include
 // stlport
 //
 // NEAR DRAFT (not landable as is): replacement for
@@ -59,7 +59,7 @@
 // address-named because their real types are unproven.
 #include <vector>
 #include "Lib/Coord3D.h"
-#include "../../Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 typedef float Real;
 enum PathfindLayerEnum
 
