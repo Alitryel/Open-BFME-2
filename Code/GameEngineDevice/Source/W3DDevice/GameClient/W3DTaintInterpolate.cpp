@@ -20,6 +20,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <set>
 #include <vector>
+// Compare typed tree iterators locally; the incidental base comparison
+// COMDAT differs from the selected provider under this unit's flags.
+namespace _STL {
+template <class _RbVal, class _RbLeft, class _RbRight>
+static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
+                              const _Rb_tree_iterator<_RbVal, _RbRight> &b)
+{ return a._M_node != b._M_node; }
+}
 typedef float Real;
 typedef bool Bool;
 struct tagRECT; typedef tagRECT RECT;

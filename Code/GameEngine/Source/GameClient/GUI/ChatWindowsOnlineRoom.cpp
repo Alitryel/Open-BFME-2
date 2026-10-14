@@ -83,6 +83,14 @@ namespace _STL { template<> int *find(int *,int *,const int &); }
 
 // Native map values contain profile ID0, name4, and wide status14.
 #include <map>
+// Compare typed tree iterators locally; the incidental base comparison
+// COMDAT differs from the selected provider under this unit's flags.
+namespace _STL {
+template <class _RbVal, class _RbLeft, class _RbRight>
+static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
+                              const _Rb_tree_iterator<_RbVal, _RbRight> &b)
+{ return a._M_node != b._M_node; }
+}
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {
