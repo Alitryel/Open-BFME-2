@@ -1,15 +1,21 @@
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
+// partial score=0.9400584298469198 date=2026-10-14
+// ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
 // partial score=0.95 date=2026-10-14
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
 // partial score=0.9 date=2026-10-14
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
 // partial score=0.86 date=2026-10-14
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG
+// cl: /I. /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 
+
+#include <math.h>
+__declspec(noinline) inline float Coord3D::length() const {return (float)sqrt(x*x+y*y+z*z);}
+__declspec(noinline) inline void Coord3D::normalize() {float len=length(); if(len!=0.0f){float inv=1.0f/len; x*=inv; y*=inv; z*=inv;}}
 float Cos(float);
 float Sin(float);
 extern "C" float atan2f(float, float);

@@ -1,8 +1,10 @@
 // ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
+// partial score=0.9284842080544793 date=2026-10-14
+// ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
 // partial score=0.93 date=2026-10-13
 // ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
 // partial score=0.85 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
+// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
 // ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ retail
 // 0x0026A05D..0x0026A3A0 (835B).
 // The pinned AIUpdateInterface::update 0x0026E267 calls this body (at
@@ -23,6 +25,7 @@
 // +0x3E0 flag brackets the machine update; vslot 113 short-circuits; KindOf
 // 109 skips 0x0028ACEE. Dead bit Object+0x438 bit 0 as in Rva00265AAB.
 #include "Coord3D.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 enum UpdateSleepTime
 {
@@ -33,10 +36,7 @@ enum ObjectStatusTypes
 {
 	OBJECT_STATUS_NONE = 0
 };
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+
 
 class BitWords
 {
@@ -106,14 +106,7 @@ public:
 	unsigned char m_438;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	unsigned int getFrame() const { return m_frame; }
-	char m_pad00[0x40];
-	unsigned int m_frame;
-};
+
 extern GameLogic *TheGameLogic;
 
 class Pathfinder

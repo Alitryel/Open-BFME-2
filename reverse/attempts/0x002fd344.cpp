@@ -1,4 +1,6 @@
 // ?FindPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@2PA_N@Z
+// partial score=0.9976936209330576 date=2026-10-14
+// ?FindPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@2PA_N@Z
 // partial score=0.99 date=2026-10-13
 // ?FindPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@2PA_N@Z
 // partial score=0.99 date=2026-10-13

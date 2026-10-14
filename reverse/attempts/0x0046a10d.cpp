@@ -1,10 +1,12 @@
 // ?rva0046A10D@HordeContain@@QAEXXZ
+// partial score=0.8889198606271776 date=2026-10-14
+// ?rva0046A10D@HordeContain@@QAEXXZ
 // partial score=0.95 date=2026-10-14
 // ?rva0046A10D@HordeContain@@QAEXXZ
 // partial score=0.95 date=2026-10-13
 // ?rva0046A10D@HordeContain@@QAEXXZ
 // partial score=0.94 date=2026-10-08
-// cl: /DNDEBUG /MD
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //
 // Target evidence: the existing ModuleFactory callback pin and its registry
 // dispatch establish this as a three-argument cdecl callback. At 0x00469B9F it
@@ -148,7 +150,7 @@ void __cdecl ModuleFactoryHookAt00469B9F(void *owner, int value, void *context)
 	}
 }
 
-// cl: /DNDEBUG /MD
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 // The target's +0x08 owner, +0x120 flags, +0x290 frame, and +0x11C slot-7
 // access establish a HordeContain method. Its specific name remains the RVA.
 struct Coord3D
@@ -228,7 +230,7 @@ struct Rva0046247DPair
 class Rva0046247D
 {
 public:
-    void *rva0046247D(Rva0046247DPair &pair);
+    void rva0046247D(Rva0046247DPair &pair);
 };
 class TransportContain
 {
