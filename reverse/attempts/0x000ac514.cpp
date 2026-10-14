@@ -1,4 +1,6 @@
 // ?getTerrainColorAt@WorldHeightMap@@QAEXMMPAURGBColor@@@Z
+// partial score=1.0 date=2026-10-14
+// ?getTerrainColorAt@WorldHeightMap@@QAEXMMPAURGBColor@@@Z
 // partial score=0.99 date=2026-10-14
 // ?getTerrainColorAt@WorldHeightMap@@QAEXMMPAURGBColor@@@Z
 // partial score=0.987 date=2026-10-12
