@@ -29,19 +29,9 @@ public:
  ~AptBasePtrStack();
  int elements,capacity;void **storage;
 };
-class AptOwnedValueSlots12 {
-public:
- int count,capacity;void *storage;
- ~AptOwnedValueSlots12() {
-  if(storage) {
-   if(!g_bfmeAptFreeSizeAtE17730) {
-    g_bfmeAptAssertAtE17734("gAptFuncs.pfnMemFreeSize","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\_AptValuePtrStack.h",82);
-    if(g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
-   }
-   g_pChainBlockAllocator->freeBlock(storage,capacity*4);
-  }
- }
-};
+// The middle stack pointee remains unnamed; the native assertion establishes
+// the same AptValuePtrStack family without assuming AptValue element identity.
+struct Rva006FE9C0SetTargetElement;
 class AptValue;
 template<class T> class AptValuePtrStack {
 public:
@@ -67,7 +57,7 @@ public:
  ~AptActionInterpreter();
  AptBasePtrStack stack;
  AptValuePtrStack<AptValue> withStack;
- AptOwnedValueSlots12 setTargetStack;
+ AptValuePtrStack<Rva006FE9C0SetTargetElement> setTargetStack;
  AptValuePtrStack<AptValue> thisStack;
  void *currentFunction;
  AptDebugStack<DebugCallStackInfo_t> debug34;
