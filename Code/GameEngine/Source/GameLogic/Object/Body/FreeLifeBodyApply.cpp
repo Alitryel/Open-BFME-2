@@ -32,7 +32,7 @@ struct Rva004C19DCData {
     unsigned char before84[4];
     const UpgradeTemplate *upgrade;
 };
-struct Rva004C1395Owner { void apply(float, DamageInfo *); };
+class RespawnBody { public: virtual void internalChangeHealth(float, DamageInfo *); };
 #define V(N) virtual void slot##N()
 struct Rva004C19DCOwner {
     V(00); V(01); V(02); V(03); virtual float health();
@@ -76,5 +76,5 @@ void Rva004C19DCOwner::apply(float amount, DamageInfo *info)
         return;
     }
 base:
-    ((Rva004C1395Owner *)this)->apply(amount, info);
+    ((RespawnBody *)this)->RespawnBody::internalChangeHealth(amount, info);
 }

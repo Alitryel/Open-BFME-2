@@ -1,5 +1,6 @@
 // cl: /MD /GX
-// RespawnBody secondary-interface health-change entry, RVA 0x004C1395.
+// RespawnBody::internalChangeHealth, RVA 0x004C1395 (WorldBuilder 0x1258C40,
+// RespawnBody.cpp, call graph; the RespawnUpdate lookup agrees).
 // Target ctor 0x4C12EB installs VA 0xC5B8F0 at +0x10; slot +0x80 is
 // this 330-byte RET8 body. The DelayedDeathBody entry at 0x4C167E calls
 // it with the same receiver, float amount and DamageInfo pointer.
@@ -26,7 +27,7 @@ public:
     void onDie(DamageInfo *);
 protected:
     Module *findModule(NameKeyType) const;
-    friend struct Rva004C1395Owner;
+    friend class RespawnBody;
 };
 struct Rva2225E0Filter { void *storage; bool accepts(Object *, Player *); };
 struct Rva004C1395Data {
@@ -42,15 +43,16 @@ public:
     void triggerDeathBeforeRespawn();
 };
 class ActiveBody { public: virtual void internalChangeHealth(float, DamageInfo *); };
-struct Rva004C1395Owner {
+class RespawnBody {
+public:
     // Only the health slot is used; other signatures carry no identity claim.
     virtual void slot00(); virtual void slot04();
     virtual void slot08(); virtual void slot0C();
     virtual float health();
-    void apply(float, DamageInfo *);
+    virtual void internalChangeHealth(float, DamageInfo *);
 };
 
-void Rva004C1395Owner::apply(float amount, DamageInfo *info)
+void RespawnBody::internalChangeHealth(float amount, DamageInfo *info)
 {
     if (amount != 0.0f) {
         Object *obj = *(Object **)((char *)this - 8);

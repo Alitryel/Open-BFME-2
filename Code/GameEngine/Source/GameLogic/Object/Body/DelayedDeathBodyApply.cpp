@@ -28,7 +28,7 @@ struct Rva004C167EData {
  unsigned char gap71[3]; const FXList *fx74; bool flag78;
  unsigned char gap79[3]; const UpgradeTemplate *upgrade7C;
 };
-struct Rva004C1395Owner { void apply(float,DamageInfo*); };
+class RespawnBody { public: virtual void internalChangeHealth(float,DamageInfo*); };
 class DelayedDeathBody
 {
 public:
@@ -66,7 +66,7 @@ void DelayedDeathBody::internalChangeHealth(float amount,DamageInfo *info)
 finish:
  if((checked || started) && (data()->flag70 || transitioned)) amount=0;
  if(started==1 && info && info->flag24==1) amount=-health();
- ((Rva004C1395Owner*)this)->apply(amount,info);
+ ((RespawnBody*)this)->RespawnBody::internalChangeHealth(amount,info);
 }
 
 // Provenance: semantic donor Open-BFME-1 1281192f, retained unchanged at
