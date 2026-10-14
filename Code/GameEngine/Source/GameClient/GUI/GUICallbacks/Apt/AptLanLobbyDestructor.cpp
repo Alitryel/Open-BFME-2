@@ -150,10 +150,6 @@ class Member004443E7
 public:
 	virtual void s0();
 	virtual void s1();
-
-	// Unrowed 0x0044303D (1040 bytes; registers the panel's Apt callbacks),
-	// pinned by address.
-	void rva0044303D();
 };
 
 class Global004443E7958View

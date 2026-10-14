@@ -26,10 +26,15 @@ class Member004443E7
 public:
 	virtual void s0();
 	virtual void s1();
+};
 
-	// Unrowed 0x0044303D (1040 bytes; registers the panel's Apt callbacks),
-	// pinned by address.
+// The +0x288 panel's rowed bodies: 0x0044303D (1040 bytes; registers the
+// panel's Apt callbacks) and 0x0043DC0F.
+class AptMpGameSetup
+{
+public:
 	void rva0044303D();
+	void rva0043DC0F();
 };
 
 class Global004443E7958View
@@ -227,7 +232,7 @@ void AptLanLobby::OnGameJoin()
 // (the rowed rva002233A6, as Rva00444525Init does after pushing the screen).
 void AptLanLobby::rva004442DB()
 {
-	m_mem288.rva0044303D();
+	((AptMpGameSetup *)&m_mem288)->rva0044303D();
 	if (TheInvoke00444E8ATarget->m_31C != 1)
 		TheInvoke00444E8ATarget->rva002233A6(1);
 }
@@ -236,11 +241,6 @@ void AptLanLobby::rva004442DB()
 // panel's 0x0043DC0F step, the same reset as 0x00444E8A, then the
 // "GUI:HostLeftTitle" / "GUI:HostLeft" message box (Zero Hour's LAN
 // host-left notice). Method name unrecovered.
-class AptMpGameSetup
-{
-public:
-	void rva0043DC0F();
-};
 
 class GameTextInterface
 {
