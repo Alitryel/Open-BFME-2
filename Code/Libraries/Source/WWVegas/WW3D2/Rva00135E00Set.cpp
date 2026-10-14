@@ -6,6 +6,7 @@
 class Rva00135E00
 {
 public:
+	void rva00135DE0(unsigned int a, unsigned int b);
 	void rva00135E00(unsigned int a, unsigned int b, unsigned int c);
 private:
 	unsigned int m_0;
@@ -13,6 +14,21 @@ private:
 	unsigned int m_8;
 	unsigned int m_c;
 };
+// ?rva00135DE0@Rva00135E00@@QAEXII@Z @0x00135DE0 32B: the two-argument
+// sibling directly ahead: clears +0xC, forces the low two bits of +0 to 2
+// keeping bit 31, then stores the two args at +4 and +8 (ret 8). No direct
+// caller reaches it in retail.
+void Rva00135E00::rva00135DE0(unsigned int a, unsigned int b)
+{
+	unsigned int v = m_0;
+	m_c = 0;
+	v &= 0x80000002;
+	v |= 2;
+	m_0 = v;
+	m_4 = a;
+	m_8 = b;
+}
+
 void Rva00135E00::rva00135E00(unsigned int a, unsigned int b, unsigned int c)
 {
 	unsigned int v = m_0;
