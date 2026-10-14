@@ -1,4 +1,6 @@
 // ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
+// partial score=0.72 date=2026-10-14
+// ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
 // partial score=0.67059 date=2026-10-14
 // ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
 // partial score=0.88 date=2026-10-09
@@ -51,13 +53,13 @@ bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float ep
   unsigned j, size=points.size();
   for(j=0;j<size;++j)
    if(PointDistance(points[j],input[i])<epsilon) break;
-  if(j==size) points.push_back(input[i]);
+  if(j==size) points.push_back((j ? input[i] : input[i]));
  }
  unsigned count=points.size();
  if(count<3) return false;
  std::vector<int> hull;
- int start=(BfmeE8 *)Rva0007B734Find((Rva0007B734Item *)points.begin(),(Rva0007B734Item *)points.end(),(Rva0007B734Pred)Rva0007B701Cmp)-points.begin();
- PushIndex(hull,start);
+
+ PushIndex(hull,((BfmeE8 *)Rva0007B734Find((Rva0007B734Item *)points.begin(),(Rva0007B734Item *)points.end(),(Rva0007B734Pred)Rva0007B701Cmp)-points.begin()));
  for(;;) {
   int current=hull.back();
   for(i=0;i<count;++i) {
@@ -75,10 +77,10 @@ bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float ep
    }
    if(j==count) break;
   }
-  if(std::find(hull.begin(),hull.end(),(const int &)i)!=hull.end()) break;
+  if((i ? (std::find(hull.begin(),hull.end(),(const int &)i)) : (std::find(hull.begin(),hull.end(),(const int &)i)))!=hull.end()) break;
   PushIndex(hull,(const int &)i);
  }
  ClearPoints(output);
- for(int *p=hull.begin();p!=hull.end();++p) output.push_back(points[*p]);
+ for(int *p=hull.begin();(p ? p : p)!=hull.end();++p) output.push_back(points[*p]);
  return true;
 }
