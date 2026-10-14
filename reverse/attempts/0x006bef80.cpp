@@ -1,8 +1,13 @@
 // ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
-// partial score=0.585187 date=2026-10-10
+// partial score=0.45 date=2026-10-14
 // cl: /O2 /G6 /MD /GX- /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib
+// ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z @0x006BEF80, 1079B.
+// WB 0x6F91B0 identifies GeometryInfo::getBestContactPoint (Geometry.cpp:275).
+// Pin at this address spells the body void with six ints; retail returns Bool
+// (al clear/set on the false/true paths) and the landed 0x002904DC caller reads
+// the result. Repair of the r9 bank; donor shape from BFME1 575ba2b04 attempt
+// plus the target's own WB body and native offsets/shape stride 0x24.
 // Target 006BEF80..006BF3B7 RET24; WB 006F91B0 names GeometryInfo::getBestContactPoint.
-// ZH Geometry.cpp guides the geometry subsystem; this contact algorithm is BFME2-specific.
 #include "ascii_string.h"
 #include "Coord3D.h"
 #include <float.h>
@@ -15,7 +20,7 @@ class GeometryInfo {
 public:
  bool getBestContactPoint(Coord3D*,const Coord3D*,const char*,int,int,bool) const;
  float getMaxHeightAbovePosition()const;
- bool bfmeIntersects(const Coord3D&,float,const GeometryInfo&,const Coord3D&,float)const;
+ bool CollidesWith(const Coord3D&,float,const GeometryInfo&,const Coord3D&,float)const;
 private:
  char prefix[0x2c];GeometryShape *shapesBegin,*shapesEnd,*shapesCapacity;
  GeometryContactRecord *contactsBegin,*contactsEnd,*contactsCapacity;
@@ -43,14 +48,14 @@ bool GeometryInfo::getBestContactPoint(Coord3D*out,const Coord3D*caller,const ch
   }
   float height=getMaxHeightAbovePosition();
   if(out->z>height)out->z=height;
-  if(!ignoreCollision&&!bfmeIntersects(GeometryContactOrigin,0.0f,GeometryContactProbe,*out,0.0f)){
+  if(!ignoreCollision&&!CollidesWith(GeometryContactOrigin,0.0f,GeometryContactProbe,*out,0.0f)){
    for(GeometryShape*shape=shapesBegin;shape!=shapesEnd;++shape){
     if(!shape->enabled)continue;
     out->x=shape->offset.x;out->y=shape->offset.y;out->z=shape->height*0.5f+shape->offset.z;break;
    }
   }
-  if(out->z>height)out->z=height;
-  else if(out->z<height*0.1f)out->z=height*0.1f;
+  if(out->z>height){out->z=height;return true;}
+  if(out->z<height*0.1f)out->z=height*0.1f;
   return true;
  }
  case 1:
@@ -65,15 +70,15 @@ bool GeometryInfo::getBestContactPoint(Coord3D*out,const Coord3D*caller,const ch
    if(contactsBegin[i].label.compare(label?label:"")!=0)continue;
    Coord3D pos=contactsBegin[i].position;
    if(pos.z>getMaxHeightAbovePosition())pos.z=getMaxHeightAbovePosition();
-   if(!ignoreCollision&&!bfmeIntersects(GeometryContactOrigin,0.0f,GeometryContactProbe,pos,0.0f))continue;
+   if(!ignoreCollision&&!CollidesWith(GeometryContactOrigin,0.0f,GeometryContactProbe,pos,0.0f))continue;
    float dx=pos.x-caller->x,dy=pos.y-caller->y,dz=pos.z-caller->z;
    float d=dx*dx+dy*dy+dz*dz;
    if(d<bestDistance){bestDistance=d;best=i;}
   }
   if(best==count)return false;
   contactCopy(*out,contactsBegin[best].position);
-  if(out->z>getMaxHeightAbovePosition())out->z=getMaxHeightAbovePosition();
-  else if(out->z<getMaxHeightAbovePosition()*0.1f)out->z=getMaxHeightAbovePosition()*0.1f;
+  if(out->z>getMaxHeightAbovePosition()){out->z=getMaxHeightAbovePosition();return true;}
+  if(out->z<getMaxHeightAbovePosition()*0.1f)out->z=getMaxHeightAbovePosition()*0.1f;
   return true;
  }
  default:return false;
