@@ -1,4 +1,6 @@
 // ?rva002F07F5@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
+// partial score=0.45 date=2026-10-14
+// ?rva002F07F5@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.787203 date=2026-10-09
 // ?rva002F07F5@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.787203 date=2026-10-09
@@ -67,7 +69,7 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
   Int lastX=cell.x+above;
   for(Int x=cell.x-below;x<lastX;++x) {
    Int firstY=cell.y-below,lastY=cell.y+above;
-   for(Int y=firstY;y<lastY;++y)
+   for(Int y=firstY;lastY > y;++y)
     for(Int l=0;l<layerCount;++l) {
      PathfindCell *c=getCell((PathfindLayerEnum)layers[l],x,y);
      if(c && c->info)for(Rva002F07F5Node *n=c->info->items;n;n=n->next)if(n->obj!=obj)++oldCount;
@@ -87,7 +89,7 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
     if(c->flags & 0x10000) {
      static Int deltaX[]={-1,1,0,0};static Int deltaY[]={0,0,-1,1};
      for(Int i=0;i<4;++i) {
-      PathfindCell *neighbor=getCell((PathfindLayerEnum)layer,x+deltaX[i],y+deltaY[i]);
+      PathfindCell *neighbor=getCell((PathfindLayerEnum)layer,x+deltaX[i],(found->y ? (y+deltaY[i]) : (y+deltaY[i])));
       if(neighbor && neighbor->getLayer()!=layer)return false;
      }
     }

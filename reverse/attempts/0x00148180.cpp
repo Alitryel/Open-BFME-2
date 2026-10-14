@@ -1,4 +1,6 @@
 // ?Add_Mesh@DX8RigidFVFCategoryContainer@@UAEXPAVMeshModelClass@@@Z
+// partial score=0.4 date=2026-10-14
+// ?Add_Mesh@DX8RigidFVFCategoryContainer@@UAEXPAVMeshModelClass@@@Z
 // partial score=0.8 date=2026-10-12
 // cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // Semantic donor ZH dx8renderer.cpp Add_Mesh, BFME1 revision9cbfb551fe20.
@@ -12,6 +14,8 @@
 // split_table.mmc in ebp across new/VB ctors/AppendLock/normals (this in esi,
 // zero CSE in edi, i homed at 0x3c below split_table); MSVC here reloads the
 // field after every call (const member, visible ctor, /Oa /Ow tried: no).
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <new>
 class Vector2 {public:float X,Y;};
 class Vector3 {public:float X,Y,Z;Vector3&operator=(const Vector3&v){X=v.X;Y=v.Y;Z=v.Z;return *this;}};
@@ -95,13 +99,14 @@ void DX8RigidFVFCategoryContainer::Add_Mesh(MeshModelClass* mmc_) {
   else vertex_buffer=new BfmeDynamicNativeVB(FVF,vb_size,(DX8Wrapper::Get_Current_Caps()->Support_NPatches() && WW3D::Get_NPatches_Level()>1)?4:0,0);
  }
  VertexBufferClass::AppendLockClass l((VertexBufferClass*)vertex_buffer,used_vertices,split_table.Get_Vertex_Count(),0);
- const S2FVFInfo fi=vertex_buffer->FVF_Info();
+ _ReadWriteBarrier();
+ const S2FVFInfo fi=(vertex_buffer ? vertex_buffer : vertex_buffer)->FVF_Info();
  unsigned char *vb=(unsigned char*)l.Get_Vertex_Array();
  unsigned int i;
- const Vector3 *locs=split_table.Get_Vertex_Array();
+ const unsigned *specular=split_table.Get_Color_Array(1);
  const Vector3 *norms=split_table.Get_Vertex_Normal_Array();
  const unsigned *diffuse=split_table.Get_Color_Array(0);
- const unsigned *specular=split_table.Get_Color_Array(1);
+ const Vector3 *locs=split_table.Get_Vertex_Array();
  for(i=0;i<split_table.Get_Vertex_Count();++i){
   *(Vector3*)(vb+fi.Get_Location_Offset())=locs[i];
   if((FVF&0x10)==0x10 && norms)*(Vector3*)(vb+fi.Get_Normal_Offset())=norms[i];
@@ -113,7 +118,7 @@ void DX8RigidFVFCategoryContainer::Add_Mesh(MeshModelClass* mmc_) {
  for(int j=0;j<uvcount;++j){
   unsigned char *vb=(unsigned char*)l.Get_Vertex_Array();
   const Vector2 *uvs=split_table.Get_UV_Array(j);
-  if(uvs)for(i=0;i<split_table.Get_Vertex_Count();++i){*(Vector2*)(vb+fi.Get_Tex_Offset(j))=uvs[i];vb+=fi.Get_FVF_Size();}
+  if(uvs)for(i=0;i<split_table.Get_Vertex_Count();++i){*(Vector2*)(vb+fi.Get_Tex_Offset(j))=uvs[(i ? i : i)];vb+=fi.Get_FVF_Size();}
  }
  Generate_Texture_Categories(split_table,used_vertices);
  used_vertices+=needed_vertices;

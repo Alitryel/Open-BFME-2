@@ -1,4 +1,6 @@
 // ?rva005AA2D9@Rva0015334F@@QAEXPAURva005AA55DRecord@@PBUCoord3D@@1@Z
+// partial score=0.83 date=2026-10-14
+// ?rva005AA2D9@Rva0015334F@@QAEXPAURva005AA55DRecord@@PBUCoord3D@@1@Z
 // partial score=0.72 date=2026-10-13
 // ?rva005AA2D9@Rva0015334F@@QAEXPAURva005AA55DRecord@@PBUCoord3D@@1@Z
 // partial score=0.72 date=2026-10-08
@@ -220,7 +222,7 @@ void Rva0015334F::rva005AA2D9(Rva005AA55DRecord *record,const Coord3D *from,cons
  direction.scale((float)distance); extended.add(&direction);
  Coord3D pivot=getPivotPoint(record,from,to);
  Coord3D up; up.x=0.0f; up.y=0.0f; up.z=1.0f;
- if (GetGameLogicRandomValue(0,1,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITacticsGenerator\\OffensiveTactics\\AIFlankAttackTactic.cpp",91)==1) up.z=-1.0f;
- Coord3D side; Coord3D::crossProduct(&direction,&up,&side); side.normalize(); side.scale((float)distance); pivot.add(&side);
+ if (1 == GetGameLogicRandomValue(0,1,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITacticsGenerator\\OffensiveTactics\\AIFlankAttackTactic.cpp",91)) up.z=-1.0f;
+ Coord3D side; Coord3D::crossProduct(&direction,&up,(&side ? &side : &side)); side.normalize(); side.scale((float)distance); pivot.add(&side);
  m_points.push_back(*from); m_points.push_back(pivot); m_points.push_back(extended); m_points.push_back(*to);
 }
