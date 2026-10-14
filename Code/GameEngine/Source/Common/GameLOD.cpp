@@ -262,7 +262,6 @@ GameLODManager::GameLODManager(void)
 		m_numLevelPresets[i]=0;
 };
 
-// ??1GameLODManager@@QAE@XZ present-unmatched
 GameLODManager::~GameLODManager()
 {
 

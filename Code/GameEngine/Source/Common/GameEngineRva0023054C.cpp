@@ -20,7 +20,6 @@ struct BfmePoolDestroyable
 
 class BfmeDfe6e4;
 class BfmeDfe6ec;
-class GameLODManager;
 class NetworkInterface;
 class CommandList;
 class Rva00A00958Obj;
@@ -59,12 +58,12 @@ public:
 
 class AttributeModifierStore;
 
-// 0x000B3FD0 is the one-byte empty body the toolchain folds many empties
-// (GameLODManager's destructor among them) into.
-class Rva000B3FD0
+// GameLODManager's empty destructor folds into the one-byte body at
+// 0x000B3FD0.
+class GameLODManager
 {
 public:
-	~Rva000B3FD0();											// 0x000B3FD0
+	~GameLODManager();										// 0x000B3FD0
 };
 
 extern BfmeDfe6e4 *theBfmeDfe6e4;
@@ -112,7 +111,7 @@ void GameEngine::rva0023054C()
 	delete TheSubsystemList;
 	TheSubsystemList = 0;
 
-	delete (Rva000B3FD0 *)TheGameLODManager;
+	delete TheGameLODManager;
 	TheGameLODManager = 0;
 
 	BFME_DELETE_INSTANCE(TheNetwork);
