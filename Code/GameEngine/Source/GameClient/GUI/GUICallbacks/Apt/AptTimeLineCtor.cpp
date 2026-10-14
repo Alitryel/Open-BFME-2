@@ -127,6 +127,10 @@ private:
 	Rva0051C0E7 m_2C4;
 };
 
+// s_instance: the singleton the constructor sets and AptTimeLineCallbacks reads;
+// retail .data VA 0x00E0491C, zero-filled.
+Rva005202C8 *Rva005202C8::s_instance;
+
 Rva005202C8::Rva005202C8(void *context)
 	: _bfme_AptGameWindow(context)
 	, m_27C(0)
