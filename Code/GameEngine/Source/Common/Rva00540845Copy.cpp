@@ -1,4 +1,4 @@
-// cl: /EHsc /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD
 //
 // ??0Rva00540845@@QAE@ABV0@@Z @0x00540845 67B: copy constructor (sibling of
 // the rowed Rva00541F1F copy 0x00541F1F). It copies the rowed polymorphic
@@ -6,14 +6,27 @@
 // member-plus-vector holder at +0x24 (rowed Rva00540517 copy 0x00540517).
 // Identities are address-derived.
 
-class Rva0053FADE
+#include "ascii_string.h"
+
+struct Rva00330757Member
+{
+	Rva00330757Member();
+	~Rva00330757Member();
+
+	char m_pad[0x10];
+};
+
+class Rva0053FADE : public Rva00330757Member
 {
 public:
 	Rva0053FADE(const Rva0053FADE &other);
-	virtual ~Rva0053FADE();
+	virtual ~Rva0053FADE() {}
 
 private:
-	char m_pad[0x20];
+	int m_14;
+	AsciiString m_18;
+	int m_1C;
+	int m_20;
 };
 
 class Rva00540517

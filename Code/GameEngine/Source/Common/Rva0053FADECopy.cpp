@@ -22,7 +22,7 @@ class Rva0053FADE : public Rva00330757Member
 {
 public:
 	Rva0053FADE(const Rva0053FADE &other);
-	virtual ~Rva0053FADE();
+	virtual ~Rva0053FADE() {}
 
 private:
 	int m_14;
