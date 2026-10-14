@@ -100,7 +100,7 @@ void Rva00492179::rva00492329()
 		object->addAttributeModifierToPool(tmp, -1);
 	}
 	int kind = 0xBA;
-	if (!data->m_D0)
+	if (!(kind ? data->m_D0 : data->m_D0))
 		kind += 0x22;
 	if (!object->isKindOf((KindOfType)kind))
 		object->setSpecialModelConditionState((ModelConditionFlagType)kind, (unsigned int)data->m_CC);

@@ -29,7 +29,7 @@ void Object::rva0028E8FD(Coord3D*out){
  else if(flag1A4 && lastFrame()<TheGameLogic->getFrame()){
   MotionCoord translation;((const Rva0028E8D4*)this)->rva0028E8D4(&translation.x);
   _ReadWriteBarrier();
-  unsigned elapsed=TheGameLogic->getFrame()-lastFrame();translation.scale(-1.0f);MotionCoord delta(translation);delta.add(position);
+  unsigned elapsed=TheGameLogic->getFrame()-lastFrame();translation.scale(-1.0f);MotionCoord delta((out ? translation : translation));delta.add(position);
   *((MotionCoord*)out)=delta;((MotionCoord*)out)->divide((float)elapsed);
  }else if(flag1A5 && lastFrame()<=TheGameLogic->getFrame()){
   unsigned elapsed=TheGameLogic->getFrame()-lastFrame()+1;MotionCoord delta(position);delta.sub(previous);*((MotionCoord*)out)=delta;((MotionCoord*)out)->divide((float)elapsed);
