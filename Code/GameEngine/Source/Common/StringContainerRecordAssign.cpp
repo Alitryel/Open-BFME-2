@@ -21,6 +21,7 @@ public:
 	void *m_00;
 	BfmeContainerRecord00048139 *m_04;
 	BfmeContainerRecord00048139 *rva0004B1D2(BfmeContainerRecord00048139 *a1, const char *a2);
+	void rva0004B223();
 };
 
 BfmeContainerRecord00048139 *Rva0004B1D2::rva0004B1D2(BfmeContainerRecord00048139 *a1, const char *a2)
@@ -29,4 +30,12 @@ BfmeContainerRecord00048139 *Rva0004B1D2::rva0004B1D2(BfmeContainerRecord0004813
 	_STL::_Destroy(newEnd, m_04);
 	m_04 = newEnd;
 	return a1;
+}
+
+// ?rva0004B223@Rva0004B1D2@@QAEXXZ @0x0004B223 11B, unreferenced: the clear
+// over the same storage, the range erase above (call site 0x0004B228) from
+// the start pointer at +0 to the end at +4.
+void Rva0004B1D2::rva0004B223()
+{
+	rva0004B1D2((BfmeContainerRecord00048139 *)m_00, (const char *)m_04);
 }

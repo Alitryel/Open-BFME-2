@@ -88850,3 +88850,5 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?rva00030E10@@YAHPBURva00030E10Record@@@Z,,0x00030E10,8,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,word at +0x18 of a record passed by pointer; unreferenced
 ?rva000016FA@@YAXXZ,,0x000016FA,11,Code/Libraries/Source/WWVegas/WWDebug/DebugSingletonForwarders.cpp,matched,theDebug slot 29 forwarder; unreferenced
 ??1Rva00006856@@QAE@XZ,,0x00006856,8,Code/Libraries/Source/ATL/Rva00006856Dtor.cpp,matched,dtor of a holder of CSimpleArray<WCHAR> at +0x20 tail-jumping into rowed RemoveAll 0x000055B0; unreferenced
+?rva0002BA98@Rva0002BA98@@QBEIXZ,,0x0002BA98,8,Code/Libraries/Source/WWVegas/WWLib/stlport_vector_e12_holder_size.cpp,matched,count of the 12-byte-element vector at +4 tail-jumping into rowed vector size 0x005D5847; unreferenced
+?rva0004B223@Rva0004B1D2@@QAEXXZ,,0x0004B223,11,Code/GameEngine/Source/Common/StringContainerRecordAssign.cpp,matched,clear over rowed range erase rva0004B1D2 0x0004B1D2 from +0 to +4; unreferenced
