@@ -354,7 +354,7 @@ public:
 	void OnButtonRenameAccept(int unused);
 	void objectiveChecked(int index, char *result, bool skip);
 	void heroVetUpgrade(int index, char *result, bool skip);
-	// Unrowed 0x0051CE72: the Apt queries "ShowSaveReplay" ...
+	// Rowed 0x0051CE72 in AptScoreScreenExterns.cpp: the Apt queries "ShowSaveReplay" ...
 	// "NumberFormatter" by index.
 	void Externs(int query, char *value, bool set);
 	// Retail 0x0051DA24: fills the persistent-unit list box.
