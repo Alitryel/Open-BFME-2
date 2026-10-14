@@ -425,7 +425,7 @@ private:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	Player *bannerLocalPlayer() { return m_local; }
 private:
 	unsigned char m_pad00[0x10];
 	Player *m_local;	// +0x10
@@ -447,7 +447,7 @@ void BannerUI::OnAptMovieInitialized(const char *path)
 		LivingWorldBattle *battle = logic->getRegionManager()->rva0020E6B7();
 		if (battle)
 		{
-			Player *player = ThePlayerList->getLocalPlayer();
+			Player *player = ThePlayerList->bannerLocalPlayer();
 			Rva002E2903Player *army = player ? ((Rva002BA8F1Logic *)TheLivingWorldLogic)->find(player->getArmyID(), 0) : 0;
 			if (army)
 			{

@@ -67,7 +67,7 @@ public:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	Player *projectileLocalPlayer() { return m_local; }
 	unsigned char m_pad00[0x10];
 	Player *m_local;		// +0x10
 };
@@ -288,7 +288,7 @@ void BezierProjectileBehavior::projectileFireAtObjectOrPosition(Object *victim, 
 	Drawable *draw = obj->getDrawable();
 	if (draw && !obj->isKindOf(0x5A) && !obj->isKindOf(0x0A))
 	{
-		Int player = ThePlayerList ? ThePlayerList->getLocalPlayer()->m_playerIndex : 0;
+		Int player = ThePlayerList ? ThePlayerList->projectileLocalPlayer()->m_playerIndex : 0;
 
 		Object *producer = TheGameLogic->findObjectByID(obj->m_producerID);
 		Bool producerShrouded = false;
@@ -297,7 +297,7 @@ void BezierProjectileBehavior::projectileFireAtObjectOrPosition(Object *victim, 
 			Bool spotted = false;
 			if (producer->rva0028F4EF() == 1)
 			{
-				Player *local = ThePlayerList->getLocalPlayer();
+				Player *local = ThePlayerList->projectileLocalPlayer();
 				Relationship rel = producer->m_team ? producer->m_team->getRelationship(local->m_defaultTeam) : NEUTRAL;
 				spotted = (rel == ENEMIES && local->isPlayerActive());
 			}

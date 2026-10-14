@@ -88,7 +88,7 @@ public:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	Player *evaLocalPlayer() { return m_local; }
 private:
 	unsigned char m_pad00[0x10];
 	Player *m_local;				// +0x10
@@ -211,7 +211,7 @@ void Eva::rva001DDF04()
 			else
 			{
 				inLivingWorld = 0;
-				localPlayerRTS = ThePlayerList->getLocalPlayer();
+				localPlayerRTS = ThePlayerList->evaLocalPlayer();
 				if (localPlayerRTS == 0)
 					return;
 				side = localPlayerRTS->m_side;

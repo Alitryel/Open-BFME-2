@@ -100,7 +100,7 @@ public:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	Player *symbioticLocalPlayer() { return m_local; }
 private:
 	unsigned char m_pad00[0x10];
 	Player *m_local; // +0x10
@@ -325,7 +325,7 @@ void SymbioticStructuresBody::rva004C0C52()
 	Object *obj = m_object;
 	if (!obj)
 		return;
-	Player *local = ThePlayerList->getLocalPlayer();
+	Player *local = ThePlayerList->symbioticLocalPlayer();
 	Player *owner = obj->getControllingPlayer();
 	if (!local || !owner)
 		return;

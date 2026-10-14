@@ -227,7 +227,7 @@ public:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	Player *spellStoreLocalPlayer() { return m_local; }
 
 private:
 	unsigned char m_pad000[0x10];
@@ -508,7 +508,7 @@ void AptSpellStore::rva0043C9FD()
 {
 	if (m_2a2)
 		return;
-	Player *player = ThePlayerList->getLocalPlayer();
+	Player *player = ThePlayerList->spellStoreLocalPlayer();
 	if (!player)
 		return;
 	const CommandSet *set = (const CommandSet *)((Rva0031D5F8 *)TheControlBar)->rva0031DF89(player);
@@ -785,7 +785,7 @@ void AptSpellStore::rva0043CD3C()
 		m_2a4 = mode;
 		return;
 	}
-	Player *player = ThePlayerList->getLocalPlayer();
+	Player *player = ThePlayerList->spellStoreLocalPlayer();
 	bool selected = m_hovered >= 0;
 	if (selected != m_358)
 	{

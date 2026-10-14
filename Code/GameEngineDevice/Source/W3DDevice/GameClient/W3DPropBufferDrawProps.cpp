@@ -195,7 +195,7 @@ enum ObjectShroudStatus
 };
 
 class Player { public: Int getPlayerIndex(void) const { return m_playerIndex; } private: char m_pad[0x54]; Int m_playerIndex; };
-class PlayerList { public: Player *getLocalPlayer(void) { return m_local; } private: char m_pad[0x10]; Player *m_local; };
+class PlayerList { public: Player *propLocalPlayer(void) { return m_local; } private: char m_pad[0x10]; Player *m_local; };
 extern PlayerList *ThePlayerList;
 
 class PartitionManager;
@@ -309,7 +309,7 @@ void W3DPropBuffer::drawProps(RenderInfoClass &rinfo)
 			m_props[i].ss = OBJECTSHROUD_CLEAR;
 		}
 		if (m_props[i].ss == OBJECTSHROUD_INVALID) {
-			Int localPlayerIndex = ThePlayerList ? ThePlayerList->getLocalPlayer()->getPlayerIndex() : 0;
+			Int localPlayerIndex = ThePlayerList ? ThePlayerList->propLocalPlayer()->getPlayerIndex() : 0;
 			m_props[i].ss = reinterpret_cast<Rva00739800 *>(TheShroudManager)->rva00739800(localPlayerIndex, &m_props[i].location);
 		}
 		if (m_props[i].ss >= OBJECTSHROUD_SHROUDED) {

@@ -187,7 +187,7 @@ public:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	Player *stencilLocalPlayer() { return m_local; }
 	char m_pad00[0x10];
 	Player *m_local;
 };
@@ -348,7 +348,7 @@ void RTS3DScene::flushOccludedObjectsIntoStencil(RenderInfoClass &rinfo)
 
 	TheW3DShadowManager->setStencilShadowMask(0);
 
-	Int localPlayerIndex = ThePlayerList ? ThePlayerList->getLocalPlayer()->getPlayerIndex() : 0;
+	Int localPlayerIndex = ThePlayerList ? ThePlayerList->stencilLocalPlayer()->getPlayerIndex() : 0;
 
 	for (Int k = 0; k < m_numPotentialOccludees; k++)
 	{

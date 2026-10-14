@@ -350,7 +350,7 @@ private:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	Player *buffLocalPlayer() { return m_local; }
 
 private:
 	char m_pad00[0x10];
@@ -493,7 +493,7 @@ void W3DBuffBuffer::rva000D2301(MeshClass *mesh, RenderObjClass *target, int typ
 		m_indexBuffer->Get_DX8_Index_Buffer()->Lock(m_indexOffset * indexSize, numBuffIndices * indexSize, &indexData, 0x1000);
 	}
 
-	int localPlayer = ThePlayerList ? ThePlayerList->getLocalPlayer()->getPlayerIndex() : 0;
+	int localPlayer = ThePlayerList ? ThePlayerList->buffLocalPlayer()->getPlayerIndex() : 0;
 	unsigned short *ib = (unsigned short *)indexData;
 	VertexFormatXYZDUV1 *vb = (VertexFormatXYZDUV1 *)vertexData;
 
