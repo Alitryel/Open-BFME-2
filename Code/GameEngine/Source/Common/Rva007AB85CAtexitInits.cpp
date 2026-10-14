@@ -6,7 +6,9 @@
 // AsciiString from its literal through the out-of-line AsciiString(const
 // char *) at 0x0000654A. Each is the compiler-generated initializer of one
 // translation unit's file-scope object; the owning TUs are unrecovered, so
-// each keeps an honest address name and its global an address-named extern.
+// each keeps an honest address name and its global an address name. The
+// globals no other name covers are defined here, as the unit that constructs
+// them: zero-filled 4-byte .bss slots in retail (the AsciiString's pointer).
 
 #include "ascii_string.h"
 
@@ -39,14 +41,14 @@ void __cdecl rva007B9680();
 void __cdecl rva007B968A();
 void __cdecl rva007B9B40();
 
-extern unsigned g_Va00DEC290;
+unsigned g_Va00DEC290;
 extern unsigned g_Va00DEC3B8;
-extern unsigned g_Va00DFF030;
-extern unsigned g_Va00E022E8;
-extern unsigned g_Va00E028C4;
-extern unsigned g_Va00E02D68;
-extern unsigned g_Va00E02E70;
-extern unsigned g_Va00E02E74;
+unsigned g_Va00DFF030;
+unsigned g_Va00E022E8;
+unsigned g_Va00E028C4;
+unsigned g_Va00E02D68;
+unsigned g_Va00E02E70;
+unsigned g_Va00E02E74;
 extern unsigned g_Va00E04490;
 extern unsigned g_Va00E063D4;
 extern unsigned g_Va00E06444;
