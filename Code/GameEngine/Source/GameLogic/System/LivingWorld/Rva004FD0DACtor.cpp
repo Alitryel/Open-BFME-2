@@ -18,6 +18,13 @@ struct Rva00501875Count
 	int m_count;
 };
 
+// Use the verified provider in Rva00501875KeyPresence.cpp for EH cleanup.
+namespace _STL {
+template <> _Rb_tree<int, pair<const int, Rva00501875Count>,
+    _Select1st<pair<const int, Rva00501875Count> >, less<int>,
+    allocator<pair<const int, Rva00501875Count> > >::~_Rb_tree();
+}
+
 class Rva004FD0DA
 {
 public:
