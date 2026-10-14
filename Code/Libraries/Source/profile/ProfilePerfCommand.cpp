@@ -11,8 +11,10 @@
 #include <string.h>
 extern "C" __declspec(dllimport) UINT __stdcall GetSystemDirectoryA(char*,UINT);
 
-// Retail .bss VA 0x00E0C764 is initially null.
-static HMODULE profilePerfLibrary;
+// Retail .bss VA 0x00E0C764 is initially null. External (data_rows owns the
+// byte run) so ProfileFuncLevelTracer::Shutdown can read it too; the name is
+// descriptive, the original EA identifier is not recovered.
+void *g_bfmeProfilePerfLibrary;
 
 void rva006C83B0(Debug &dbg,unsigned argc,const char *const *argv)
 {
@@ -55,15 +57,15 @@ void rva006C83B0(Debug &dbg,unsigned argc,const char *const *argv)
  }
  if(WaitForSingleObject(process.hProcess,30000)==258){dbg << "Timed out waiting for profiler process to end.\n";return;}
  if(start){
-  if(!profilePerfLibrary){
-   profilePerfLibrary=LoadLibraryA("VSPerf80.dll");
-   if(!profilePerfLibrary){dbg << "Could not load profiler API dll\n";return;}
-   ProfileFuncLevelTracer::frameStartHook=(void (__stdcall *)(int,int))GetProcAddress(profilePerfLibrary,"StartProfile");
-   ProfileFuncLevelTracer::frameEndHook=(void (__stdcall *)(int,int))GetProcAddress(profilePerfLibrary,"StopProfile");
+  if(!g_bfmeProfilePerfLibrary){
+   g_bfmeProfilePerfLibrary=LoadLibraryA("VSPerf80.dll");
+   if(!g_bfmeProfilePerfLibrary){dbg << "Could not load profiler API dll\n";return;}
+   ProfileFuncLevelTracer::frameStartHook=(void (__stdcall *)(int,int))GetProcAddress((HMODULE)g_bfmeProfilePerfLibrary,"StartProfile");
+   ProfileFuncLevelTracer::frameEndHook=(void (__stdcall *)(int,int))GetProcAddress((HMODULE)g_bfmeProfilePerfLibrary,"StopProfile");
   }
  }else{
   ProfileFuncLevelTracer::frameStartHook=0;
   ProfileFuncLevelTracer::frameEndHook=0;
-  if(profilePerfLibrary)FreeLibrary(profilePerfLibrary);
+  if(g_bfmeProfilePerfLibrary)FreeLibrary((HMODULE)g_bfmeProfilePerfLibrary);
  }
 }

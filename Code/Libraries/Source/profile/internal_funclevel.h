@@ -10,6 +10,7 @@ typedef void (__stdcall *ProfileFuncLevelHook)(int first, int second);
 class ProfileFuncLevelTracer
 {
 public:
+	static void Shutdown(void);
 	static int FrameStart(void);
 	static void FrameEnd(int which, int mixIndex);
 

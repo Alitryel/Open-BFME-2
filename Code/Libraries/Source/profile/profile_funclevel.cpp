@@ -16,6 +16,20 @@
 ProfileFuncLevelHook ProfileFuncLevelTracer::frameStartHook;
 ProfileFuncLevelHook ProfileFuncLevelTracer::frameEndHook;
 
+// .bss 0x00E0C764; the VSPerf80 module loaded by rva006C83B0, external so this
+// TU can release it. Descriptive name; the EA identifier is not recovered.
+extern void *g_bfmeProfilePerfLibrary;
+
+// ?Shutdown@ProfileFuncLevelTracer@@SAXXZ (0x006C8360)
+void ProfileFuncLevelTracer::Shutdown(void)
+{
+	void *library = g_bfmeProfilePerfLibrary;
+	frameStartHook = 0;
+	frameEndHook = 0;
+	if (library)
+		FreeLibrary((HMODULE)library);
+}
+
 // ?FrameStart@ProfileFuncLevelTracer@@SAHXZ (0x006C8380)
 int ProfileFuncLevelTracer::FrameStart(void)
 {
