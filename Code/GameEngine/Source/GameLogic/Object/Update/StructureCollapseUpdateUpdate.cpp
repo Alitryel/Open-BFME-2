@@ -128,7 +128,7 @@ private:
 class Drawable
 {
 public:
-	const Matrix3D *getInstanceMatrix() const { return &m_instance; }
+	__declspec(dllimport) __forceinline const Matrix3D *getInstanceMatrix() const { return &m_instance; }
 	void setInstanceMatrix(const Matrix3D *instance, Bool preservePrevious);
 
 private:
