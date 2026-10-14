@@ -11,15 +11,9 @@
 // fallback is the POD-shaped local so no trivial-local destructor call is
 // emitted; the guard itself is the only zeroed 4-byte frame slot.
 
-struct Coord3D
-{
-	Coord3D() {}
-	Coord3D(const Coord3D &other) { x = other.x; y = other.y; z = other.z; }
-	~Coord3D();
-	float x;
-	float y;
-	float z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_EXTERN_DTOR
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class PathNode
 {

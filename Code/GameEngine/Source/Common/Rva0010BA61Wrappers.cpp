@@ -76,11 +76,9 @@ void Rva005962E7::rva005962E7()
 	Rva00596269Forwarder::tail00596269();
 }
 
-class Coord3D
-{
-public:
-	~Coord3D();
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_EXTERN_DTOR
+#include "../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class Rva005D13C2Forwarder
 {

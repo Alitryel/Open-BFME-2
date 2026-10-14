@@ -8,6 +8,8 @@
 // A unit whose bytes need the non-POD type (by-value Coord3D arguments built through the copy
 // constructor, expression temporaries with an ESP save) includes this header INSTEAD of Coord3D.h,
 // before anything else that includes it: it takes Coord3D.h's include guard.
+// `#define COORD3D_VIEW_EXTERN_CTOR` / `COORD3D_VIEW_EXTERN_DTOR` declare the default constructor (0x0047A6A9) / destructor
+// (0x000B3FD0) out of line for units whose bytes call the retail rows instead of inlining them.
 // `#define COORD3D_VIEW_INLINE` first makes zero/set/add/sub/scale header-inline as in Zero Hour.
 // `#define COORD3D_VIEW_DTOR` first adds retail's empty user destructor (0x000B3FD0), which keeps by-value
 // results and arrays on the unwind path (units whose temporaries or arrays retail registers for EH).
@@ -18,10 +20,16 @@ struct Coord3D {
     float x;
     float y;
     float z;
+#ifdef COORD3D_VIEW_EXTERN_CTOR
+    Coord3D();
+#else
     Coord3D() {}
+#endif
     Coord3D(const Coord3D &o) : x(o.x), y(o.y), z(o.z) {}
     Coord3D(float ax, float ay, float az) : x(ax), y(ay), z(az) {}
-#ifdef COORD3D_VIEW_DTOR
+#if defined(COORD3D_VIEW_EXTERN_DTOR)
+    ~Coord3D();
+#elif defined(COORD3D_VIEW_DTOR)
     ~Coord3D() {}
 #endif
     float length() const;
