@@ -492,7 +492,12 @@ StringClass::StringClass (int initial_len, bool hint_temporary)
 	:	m_Buffer (m_EmptyString)
 {
 	Get_String (initial_len, hint_temporary);
-#ifdef BFME_WWSTRING_CTOR_BUFFER_RELOAD
+#if defined(BFME_WWSTRING_CTOR_NAMED_TERMINATOR)
+	// Render2D's inlined snapshot setup reads the terminator before the
+	// buffer store. A named value preserves that evaluation shape.
+	TCHAR null_char = m_NullChar;
+	m_Buffer[0] = null_char;
+#elif defined(BFME_WWSTRING_CTOR_BUFFER_RELOAD)
 	// PointGroup submit reloads the buffer after Get_String and loads the
 	// terminator into CL first (retail RVA 0x0017A025). Preserve that single
 	// pointer read without changing the StringClass layout or stored value.
