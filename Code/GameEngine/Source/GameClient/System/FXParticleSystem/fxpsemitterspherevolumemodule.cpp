@@ -1,17 +1,11 @@
-// ?getPosition@SphereEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@@MMMM@Z
-// partial score=0.8989 date=2026-10-14
-// ?getPosition@SphereEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@@MMMM@Z
-// partial score=0.93 date=2026-10-13
-// ?getPosition@SphereEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@@MMMM@Z
-// partial score=0.66 date=2026-10-08
-// cl: /O1 /arch:SSE /G7
+// cl: /ICode/Libraries/Include /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // Sphere position callback at BFME2 RVA 0x0055D48C (129 bytes).
 // Donor: Open-BFME-1 34f59164f6d1efd413c5fd37f4894ec834c3c0fe,
 // game/GameEngine/Source/GameClient/System/FXParticleSystem/SphereEmissionVolumeModuleGetPosition.cpp.
 // The donor supplies the named module and inheritance model; target bytes
 // prove hollow +0x20, radius +0x24, RET 0x14, the full source literal at
 // line 86, and calls to the existing random and unit-vector providers.
-#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "Lib/Coord3DCtorView.h"
 
 float __cdecl GetGameClientRandomValueReal(float low, float high, char *file, int line);
 Coord3D *__cdecl Rva003AFA64FillUnitVector(Coord3D *out);
@@ -83,13 +77,10 @@ Coord3D SphereEmissionVolumeModule::getPosition(float, float, float, float)
 	float radius = m_is_hollow ? m_radius :
 		GetGameClientRandomValueReal(0.0f, m_radius, source, 86);
 	Coord3D randomPoint;
-	Coord3D unit = *Rva003AFA64FillUnitVector(&randomPoint);
-	volatile Coord3D &vu = unit;
-	float ux = vu.x, uy = vu.y, uz = vu.z;
+	Coord3D unit;
+	unit = *Rva003AFA64FillUnitVector(&randomPoint);
 	Coord3D result;
-	result.x = ux * radius;
-	result.y = uy * radius;
-	result.z = uz * radius;
+	result.x = unit.x * radius; result.y = unit.y * radius; result.z = unit.z * radius;
 	return result;
 }
 
