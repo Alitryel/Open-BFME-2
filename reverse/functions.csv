@@ -88422,3 +88422,4 @@ __ehhandler$??1Rva002AE4C5@@QAE@XZ,,0x00775A0D,10,Code/GameEngine/Source/Common/
 ?rva000B0F82@WorldHeightMap@@QAE_NAAVDataChunkInput@@PAUDataChunkInfo@@@Z,,0x000B0F82,497,Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMapRva000B0DA8.cpp,matched,
 ?rva000B071D@Rva000B071DHost@@QAE_NAAVDataChunkInput@@PAUDataChunkInfo@@@Z,,0x000B071D,314,Code/GameEngine/Source/Common/Rva0010225FMethod.cpp,matched,
 ?duplicate@Rva0030DBD5@@QAEPAV1@XZ,,0x0030E2FE,130,Code/GameEngine/Source/GameClient/Rva0030E2FEDuplicate.cpp,matched,ZH MapObject::duplicate plus bfmeRunEYE; by-value Coord3D arg needs retail non-POD Coord3D via opt-in Lib/Coord3DCtorView.h
+?rva005CB748@Rva005CB748@@QAEXXZ,,0x005CB748,258,Code/GameEngine/Source/Common/VslotSmallBodiesW5SN4.cpp,matched,

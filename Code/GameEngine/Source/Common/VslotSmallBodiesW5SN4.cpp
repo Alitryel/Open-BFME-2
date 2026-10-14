@@ -37,9 +37,9 @@ public:
 	virtual void SetRegionImage(const Image *);
 	virtual void v2();
 	virtual void SetText(const UnicodeString &);
-	virtual void v4();
-	virtual void v5();
-	virtual void v6();
+	virtual void SetPageCounts(Int enabled, Int total);
+	virtual void SetUpgradeCounts(Int available, Int total);
+	virtual void SetRegionValues(Int a, Int b);
 	virtual void v7();
 	virtual void v8();
 	virtual void v9();
@@ -78,11 +78,99 @@ void Rva005CB723::rva005CB723(void *item)
 	}
 }
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+class Rva002E2903Player;
+class Rva003F287F;
+class LivingWorldRegion
+{
+public:
+	int rva003F0189(Rva002E2903Player *player) const;
+private:
+	int rva003EFD6F(Rva002E2903Player *player) const;
+	friend class Rva005CB748;
+};
+class LivingWorldLogic
+{
+public:
+	void GetNumUpgradeableTroopsInRegionForPlayer(Rva003F287F *region, Int playerId, Int *available, Int *total);
+};
+class Rva002B2B66 { public: Int rva002B2B66(); };
+extern LivingWorldLogic *TheLivingWorldLogic;
+
+struct Rva005CB748Slot { char m_pad00[0x20]; Int m_20; };
+struct Rva005CB748Vec { Rva005CB748Slot **m_begin; Rva005CB748Slot **m_end; };
+struct Rva005CB748Region { char m_pad00[0x170]; Rva005CB748Vec m_vec; };
+
+class Rva005CB748Source
+{
+public:
+	virtual void s0();
+	virtual void *getHelpBox();
+	virtual RegionUI *getUI();
+};
+
+class Rva005CB4E6Elem { public: void CreateHotSpotHelp(); };
+
 class Rva005CB748
 {
 public:
 	void rva005CB748();
+private:
+	Rva005CB748Source *m_source;
+	Rva005CB748Region *m_region;
+	RegionUI *m_ui;
+	void *m_helpBox;
 };
+// 0x005CB748 (258 B): the region display state's lazy refresh (reached through the slot forwarder
+// rva005CB852 below). Fetches the movie-clip RegionUI (source slot 2) and the help box (slot 1) once
+// they exist, builds the hot-spot help when both are there, fills the RegionUI from the region (page
+// count, upgradeable troops from TheLivingWorldLogic's player, two LivingWorldRegion values).
+// Identity from target bytes and rowed callees (CreateHotSpotHelp 0x5CB52B, updater 0x5CB46A,
+// GetNumUpgradeableTroopsInRegionForPlayer 0x2B6E8A); field and slot names are inferred. The
+// WorldBuilder twin 0x015B0430 (ShowArmoryStats) is a different, smaller body and is not this one.
+void Rva005CB748::rva005CB748()
+{
+	if (m_ui == 0) {
+		m_ui = m_source->getUI();
+		if (m_ui == 0) return;
+		if (m_helpBox) ((Rva005CB4E6Elem *)this)->CreateHotSpotHelp();
+		rva005CB46A(m_ui, m_region);
+	}
+	if (m_helpBox == 0) {
+		m_helpBox = m_source->getHelpBox();
+		if (m_helpBox && m_ui) ((Rva005CB4E6Elem *)this)->CreateHotSpotHelp();
+	}
+	Rva005CB748Region *region = m_region;
+	if (region == 0) return;
+	RegionUI *ui = m_ui;
+	Rva005CB748Vec &vec = region->m_vec;
+	Int enabled = 0;
+	Int count = vec.m_end - vec.m_begin;
+	_ReadWriteBarrier();
+	if (count > 0) {
+		Rva005CB748Slot **p = vec.m_begin;
+		for (Int n = count; n > 0; --n, ++p) {
+			if ((*p)->m_20) ++enabled;
+		}
+	}
+	ui->SetPageCounts(enabled, count);
+	{
+		Rva002B2B66 *logic = (Rva002B2B66 *)TheLivingWorldLogic;
+		Int total, available;
+		Rva003F287F *r = (Rva003F287F *)m_region;
+		RegionUI *ui2 = m_ui;
+		Int playerId = logic->rva002B2B66();
+		TheLivingWorldLogic->GetNumUpgradeableTroopsInRegionForPlayer(r, playerId, &available, &total);
+		ui2->SetUpgradeCounts(total - available, total);
+	}
+	LivingWorldRegion *lwr = (LivingWorldRegion *)m_region;
+	Rva002E2903Player *player = *(Rva002E2903Player **)((char *)TheLivingWorldLogic + 0x98);
+	RegionUI *ui3 = m_ui;
+	Int a = lwr->rva003EFD6F(player);
+	Int b = lwr->rva003F0189(player);
+	ui3->SetRegionValues(b, a);
+}
 class Rva005CB852
 {
 public:
