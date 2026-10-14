@@ -76,8 +76,9 @@ void NetworkDebugDisplay(DebugDisplayInterface *, void *, FILE *fp)
 // Retail 0x4A3C4..0x4A462 proves receiver fields +0x2C/+0x30/+0x34 and
 // DebugDisplayInterface::reset at virtual +0x28 (Zero Hour interface order).
 // Native tail REL32 at 0x4A3F9 -> 0x4A1B8 and 0x4A42F -> 0x438CB;
-// both callees consume ECX as their receiver and return with RET0. Their
-// original method names remain unknown; keep address-derived declarations.
+// both callees consume ECX as their receiver and return with RET0. 0x4A1B8 is
+// drawSkirmishAIStats (the placeholder message and WorldBuilder name it); the
+// other original method names remain unknown and keep address-derived names.
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 #define TheGlobalData TheWritableGlobalData
@@ -89,7 +90,7 @@ public:
     void rva0004387E();
     void rva000438CB();
     void rva00043BF9();
-    void rva0004A1B8();
+    void drawSkirmishAIStats();
 protected:
     void drawCurrentDebugDisplay();
 private:
@@ -110,7 +111,7 @@ void W3DDisplay::drawCurrentDebugDisplay()
     if (m_debugDisplayCallback == SkirmishAIDebugDisplay)
     {
         reinterpret_cast<unsigned char *>(TheGlobalData)[0xbb4] = 0;
-        rva0004A1B8();
+        drawSkirmishAIStats();
         return;
     }
     if (m_debugDisplayCallback == AnimDebugDisplay)
