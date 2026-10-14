@@ -63,12 +63,6 @@ extern "C" void _ReadWriteBarrier();
 #include "matrix3d.h"
 #include <algorithm>
 
-struct Coord3DBase
-{
-	float x;
-	float y;
-	float z;
-};
 
 struct Rva005AE26AOwner
 {
@@ -76,10 +70,10 @@ struct Rva005AE26AOwner
 	AsciiString m_58;	// +0x58
 };
 
-struct Coord3D : public Coord3DBase
-{
-	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
-};
+// Coord3D: shared derived view (Coord3DBase base); no private copy.
+#define COORD3D_DV_ZERO
+#include "../../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
+
 
 class Rva005AD9C0Hit;
 

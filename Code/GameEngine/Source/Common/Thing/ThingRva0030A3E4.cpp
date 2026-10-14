@@ -5,17 +5,11 @@
 #include "PreRTS.h"	// This must go first in EVERY cpp file int the GameEngine
 #undef Coord3D
 
-struct Coord3DBase
-{
-	float x;
-	float y;
-	float z;
-};
 
-struct Coord3D : public Coord3DBase
-{
-	bool equals(const Coord3DBase &that) const;
-};
+// Coord3D: shared derived view (Coord3DBase base); no private copy.
+#define COORD3D_DV_EQUALS
+#include "../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
+
 
 class BFMERetailVTable
 {

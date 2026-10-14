@@ -38,24 +38,13 @@ typedef bool Bool;
 #define FALSE 0
 #endif
 
-struct Coord3DBase
-{
-	float x;
-	float y;
-	float z;
-};
 
-struct Coord3D : public Coord3DBase
-{
-	Coord3D() {}
-	Coord3D(const Coord3D &);
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-};
+// Coord3D: shared derived view (Coord3DBase base); no private copy.
+#define COORD3D_DV_CTOR_INLINE
+#define COORD3D_DV_COPY_EXTERN
+#define COORD3D_DV_ZERO
+#include "../../../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
+
 
 enum ObjectID
 {

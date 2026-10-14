@@ -66,21 +66,14 @@ enum BridgeTowerType
 const Real PI = 3.14159265359f;
 const Real PATHFIND_CELL_SIZE_F = 10.0f;
 
-struct Coord3DBase
-{
-	Real x;
-	Real y;
-	Real z;
-	void set(Real ax, Real ay, Real az) { x = ax; y = ay; z = az; }
-};
 
-// class-gate: allow Coord3D the tower array is built and torn down through BFME 2's out-of-line Coord3D constructor and destructor (the eh vector iterators push 0x0047A6A9 and 0x000B3FD0); the canonical data-only header cannot declare them; the three floats live in Coord3DBase as in coord3d.cpp
-struct Coord3D : public Coord3DBase
-{
-	Coord3D();
-	Coord3D(const Coord3D &that) { x = that.x; y = that.y; z = that.z; }
-	~Coord3D() {}
-};
+// Coord3D: shared derived view (Coord3DBase base); no private copy.
+#define COORD3D_DV_BASE_SET
+#define COORD3D_DV_CTOR_EXTERN
+#define COORD3D_DV_COPY_INLINE
+#define COORD3D_DV_DTOR_INLINE
+#include "../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
+
 
 // class-gate: allow Coord2D the canonical data-only header cannot declare BFME 2's out-of-line normalize (rowed 0x0000378A) that the constructor calls; same two floats
 #include "../../../../Libraries/Include/Lib/Coord2D.h"

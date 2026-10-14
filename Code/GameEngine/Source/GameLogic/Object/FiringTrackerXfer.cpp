@@ -142,12 +142,6 @@ public:
 	unsigned char m_minimum;
 };
 
-struct Coord3DBase
-{
-	float x;
-	float y;
-	float z;
-};
 
 typedef unsigned int AudioHandle;
 
@@ -270,13 +264,11 @@ enum
 // Logic frame rate (5), read where Zero Hour uses LOGICFRAMES_PER_SECOND.
 extern int BfmeLogicFramesPerSecond;
 
-// class-gate: allow Coord3D the canonical header has no Coord3DBase base, which this unit's Xfer view takes; same three floats, class-key struct, and the exact equality (rowed 0x00003702) shotFired calls
-struct Coord3D : public Coord3DBase
-{
-public:
-	Bool equals(const Coord3DBase &that) const;
-	void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
-};
+// Coord3D: shared derived view (Coord3DBase base); no private copy.
+#define COORD3D_DV_ZERO
+#define COORD3D_DV_EQUALS
+#include "../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
+
 
 enum ModelConditionFlagType
 {

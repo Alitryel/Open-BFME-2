@@ -14,22 +14,12 @@
 // bitset bytes +0x10A bit 6 and +0x10B bit 0 (ZH KINDOF_BRIDGE and
 // KINDOF_BRIDGE_TOWER); the BFME bit names are not recovered here.
 
-struct Coord3DBase
-{
-	float x;
-	float y;
-	float z;
-};
 
-// class-gate: allow Coord3D the bridge polygon is built and torn down through BFME 2's out-of-line empty Coord3D constructor and destructor (the eh vector iterators push 0x0047A6A9 and 0x000B3FD0); the canonical data-only header cannot declare them; same three floats
-// The polygon array is built by the EH vector constructor with the shared
-// out-of-line Coord3D ctor (0x0047A6A9) and dtor (0x000B3FD0); BridgeInfo's
-// own points carry neither, since its constructor opens no unwind state.
-struct Coord3D : public Coord3DBase
-{
-	Coord3D();
-	~Coord3D();
-};
+// Coord3D: shared derived view (Coord3DBase base); no private copy.
+#define COORD3D_DV_CTOR_EXTERN
+#define COORD3D_DV_DTOR_EXTERN
+#include "../../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
+
 
 #include "../../../../../Libraries/Include/Lib/Coord2D.h"
 

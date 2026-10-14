@@ -210,17 +210,12 @@ public:
 };
 extern GameLogic *TheGameLogic;
 
-struct Coord3DBase
-{
-	float x;
-	float y;
-	float z;
-};
 
-struct Coord3D : public Coord3DBase
-{
-	~Coord3D() {}
-};
+// Coord3D: shared derived view (Coord3DBase base); no private copy.
+#define COORD3D_DV_CTOR_INLINE
+#define COORD3D_DV_DTOR_INLINE
+#include "../../../../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
+
 
 class Rva004EBF4B
 {
