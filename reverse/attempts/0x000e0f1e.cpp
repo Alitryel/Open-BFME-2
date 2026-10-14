@@ -1,4 +1,6 @@
 // ?doPartialUpdate@FlatHeightMapRenderObjClass@@QAEXABUIRegion2D@@PAVWorldHeightMap@@PAVRefRenderObjListIterator@@@Z
+// partial score=0.97 date=2026-10-14
+// ?doPartialUpdate@FlatHeightMapRenderObjClass@@QAEXABUIRegion2D@@PAVWorldHeightMap@@PAVRefRenderObjListIterator@@@Z
 // partial score=0.8352941176470589 date=2026-10-10
 // BFME1 575ba2b0 FlatHeightMap.cpp:277 and pinned ZH same-name donor
 // supply the refcount/tile traversal guide. Named WB7B78B0 is polluted
@@ -36,10 +38,10 @@ private:
  char pad3898[0x3930-0x3898];bool m_needUpdate;
 };
 void FlatHeightMapRenderObjClass::doPartialUpdate(const IRegion2D &range,WorldHeightMap *map,RefRenderObjListIterator *) {
- if(map){++map->refs; WorldHeightMap *old=m_map; if(old && --old->refs==0)old->Delete_This();m_map=map;}
+ if(map){++map->refs; WorldHeightMap *old=m_map; if(old &&0 == --old->refs)old->Delete_This();m_map=map;}
  int minX=fast_float2long_round((float)floor(range.minX/16.0f));
  int minY=fast_float2long_round((float)floor(range.minY/16.0f));
- int maxX=fast_float2long_round((float)ceil(range.maxX/16.0f));
+ volatile int maxX = fast_float2long_round((float)ceil(range.maxX/16.0f));
  int maxY=fast_float2long_round((float)ceil(range.maxY/16.0f));
  if(minX<0)minX=0;
  if(minY<0)minY=0;

@@ -1,4 +1,8 @@
 // ?rva006D77B0@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z
+// partial score=0.96 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva006D77B0@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z
 // partial score=0.9 date=2026-10-14
 // ?rva006D77B0@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z
 // partial score=0.8 date=2026-10-09
@@ -94,8 +98,11 @@ AptValue *rva006D77B0(BfmeAptValue006DCD20 *self, int argc)
 	if (argc >= 1)
 	{
 		EAStringC delimiter;
-		((const AptValue *)g_aptDateInterpreter.stack.At(0))->toString(delimiter);
+		_ReadWriteBarrier();
 		int limit = 999999;
+		_ReadWriteBarrier();
+		_ReadWriteBarrier();
+		((const AptValue *)g_aptDateInterpreter.stack.At(0))->toString(delimiter);
 		if (argc >= 2)
 			limit = g_aptDateInterpreter.stack.At(1)->toInteger();
 		EAStringC source(self->checkedString()->m_text);
@@ -123,7 +130,8 @@ AptValue *rva006D77B0(BfmeAptValue006DCD20 *self, int argc)
 			for (int i = 0; i < limit; ++i)
 			{
 				int found = (i ? (source.Find(delimiter.rva00620090(), position)) : (source.Find(delimiter.rva00620090(), position)));
-				AptString *piece = AptString::Create();
+				_ReadWriteBarrier();
+				AptString *piece = (i ? (AptString::Create()) : (AptString::Create()));
 				if (found == -1)
 				{
 					EAStringC rest;

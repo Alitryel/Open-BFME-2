@@ -1,4 +1,8 @@
 // ?rva006C39F0@Rva006C39F0Owner@@QAE_NIIIPAX@Z
+// partial score=0.85 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva006C39F0@Rva006C39F0Owner@@QAE_NIIIPAX@Z
 // partial score=0.98 date=2026-10-05
 // ?rva006C39F0@Rva006C39F0Owner@@QAE_NIIIPAX@Z
 // cl: /O2 /DNDEBUG /MD
@@ -80,6 +84,7 @@ bool Rva006C39F0Owner::rva006C39F0(unsigned int key, unsigned int runLen,
 	if (m_tracking)
 	{
 		Rva006C17B0 *table = &m_table;
+		_ReadWriteBarrier();
 		if (table->m_array)
 		{
 			unsigned int k = key;
@@ -102,7 +107,7 @@ bool Rva006C39F0Owner::rva006C39F0(unsigned int key, unsigned int runLen,
 			{
 				if (!runLen)
 					return false;
-				run = rva006C3940Alloc(runLen);
+				run = (table->m_array ? (rva006C3940Alloc(runLen)) : (rva006C3940Alloc(runLen)));
 				if (!run)
 					return false;
 				*(unsigned short *)run = (unsigned short)runLen;

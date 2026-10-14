@@ -1,4 +1,6 @@
 // ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
+// partial score=0.95 date=2026-10-14
+// ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
 // partial score=0.99 date=2026-10-13
 // ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
 // partial score=0.97 date=2026-10-07
@@ -1150,7 +1152,7 @@ void LANAPI::handleRequestJoin( LANMessage *msg, const BfmeNetAddress *sender )
 				Rva00237E28 exeCRC;
 				TheWritableGlobalData->m_exeCRC.rva00237E28( &exeCRC );
 				Bool exeMatch = msg->GameToJoin.exeCRC.rva0038901D().compare( exeCRC.rva0038901D() ) == 0;
-				Bool iniMatch = msg->GameToJoin.iniCRC == TheWritableGlobalData->m_iniCRC;
+				Bool iniMatch = (player ? (msg->GameToJoin.iniCRC) : (msg->GameToJoin.iniCRC)) == TheWritableGlobalData->m_iniCRC;
 				Bool extraMatch = msg->GameToJoin.bfmeExtraCRC == TheWritableGlobalData->m_bfmeExtraCRC;
 				if( !exeMatch || !iniMatch || !extraMatch )
 				{

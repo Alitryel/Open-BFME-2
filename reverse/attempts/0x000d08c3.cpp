@@ -1,4 +1,6 @@
 // ?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z
+// partial score=0.97 date=2026-10-14
+// ?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z
 // partial score=0.9 date=2026-10-14
 // ?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z
 // partial score=0.9 date=2026-10-09
@@ -66,7 +68,7 @@ public:
 		Row[2][1] = (float)(-s * tmp1 + c * tmp2);
 	}
 
-	float Row[3][4];
+	volatile float Row[3][4];
 };
 
 struct Rva000D08C3Data
@@ -97,7 +99,7 @@ void Rva000D08C3::rva000D08C3(Matrix3D *mat)
 	Real cosAngle = axis.dot(Coord3D(mat->Row[0][0], mat->Row[1][0], mat->Row[2][0]));
 	Real sinAngle = axis.dot(Coord3D(mat->Row[0][1], mat->Row[1][1], (m_data ? (mat->Row[2][1]) : (mat->Row[2][1]))));
 	const Rva000D08C3Data *data = m_data;
-	if (cosAngle < -1.0f)
+	if (-1.0f > cosAngle)
 		cosAngle = -1.0f;
 	else if (cosAngle > 1.0f)
 		cosAngle = 1.0f;

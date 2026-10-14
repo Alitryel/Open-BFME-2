@@ -1,4 +1,7 @@
 // ?rva0029B3C1@InGameUI@@QBEMPBVObject@@@Z
+// partial score=0.93 date=2026-10-14
+// ?rva0029B3C1@InGameUI@@QBEMPBVObject@@@Z
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 // partial score=0.75 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /MD /ICode/Libraries/Include/Lib
 // Scratch-only canonical12B layout; header is missing owned Normalize2D declaration.
@@ -12,10 +15,10 @@ float InGameUI::rva0029B3C1(const Object *obj)const
 {
  if(!overrideHeading)return obj->orientation;
  Coord3D delta;
- delta.x=target.x-obj->position.x;
+ __vref(delta.x)=target.x-obj->position.x;
  delta.y=target.y-obj->position.y;
- delta.z=target.z-obj->position.z;
+ delta.z=(overrideHeading ? target.z : target.z)-obj->position.z;
  if(delta.x*delta.x+delta.y*delta.y<1.0f)return obj->orientation;
  delta.Normalize2D();
- return delta.y<0.0f?-ACos(delta.x):ACos(delta.x);
+ if (delta.y<0.0f) return -ACos(delta.x); else return ACos(delta.x);
 }

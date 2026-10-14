@@ -1,4 +1,6 @@
 // _LoopDeringBlock
+// partial score=0.94 date=2026-10-14
+// _LoopDeringBlock
 // partial score=0.9 date=2026-10-14
 // _LoopDeringBlock
 // partial score=0.867 date=2026-10-13
@@ -28,6 +30,8 @@
 // alignment instructions; equal extent is not verification. No tracked Code,
 // header, pin, alias or gate exception was added. Revisit with a new compiler
 // lifetime/aliasing explanation, rather than repeating the same expressions.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <stdlib.h>
 #include <string.h>
 struct Vp6LoopFilterInstance {
@@ -53,19 +57,21 @@ extern "C" void LoopDeringBlock(Vp6LoopFilterInstance *context,unsigned char *bu
         }
         scan+=stride-width;
     }
-    high=(threshold ? (context->deringThreshold[maximum]) : (context->deringThreshold[maximum]));
     level=context->deringThreshold[255-minimum];
+    high=(threshold ? (context->deringThreshold[maximum]) : (context->deringThreshold[maximum]));
     if(level<=high)level=high;
     threshold=(int)level+((maximum-minimum)>>5);
+    _ReadWriteBarrier();
     row=buffer;
     for (y=0;y<height;++y) {
         unsigned char *current=row;
+        _ReadWriteBarrier();
         for (x=0;x<width;++x) {
             int diffRight=abs(current[0]-current[1]);
             int diffLeft=abs(current[0]-current[-1]);
-            int sum=2*current[0];
+            unsigned int sum=2*current[0];
             if(diffLeft<=threshold)sum+=current[-1]; else sum+=current[0];
-            if(diffRight<=threshold)sum+=current[1]; else sum+=current[0];
+            if(diffRight<=threshold)sum+=(temp ? current[1] : current[1]); else sum+=current[0];
             temp[x]=(unsigned char)((sum+2)>>2);
             ++current;
         }
