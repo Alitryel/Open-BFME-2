@@ -1,4 +1,6 @@
 // ?rva00472620@Rva00468E98@@QAE?AURva00472620Position@@PAURva00472620Object@@PAM@Z
+// partial score=1.0 date=2026-10-14
+// ?rva00472620@Rva00468E98@@QAE?AURva00472620Position@@PAURva00472620Object@@PAM@Z
 // partial score=0.95 date=2026-10-09
 // ?rva00472620@Rva00468E98@@QAE?AURva00472620Position@@PAURva00472620Object@@PAM@Z
 // partial score=0.9 date=2026-10-07
@@ -76,7 +78,7 @@ Rva00472620Position Rva00468E98::rva00472620(Rva00472620Object *object, float *a
     if (index >= 0 && static_cast<unsigned int>(index) < offsets.size())
     {
         Vector2 storage;
-        const Vector2 &rotated = rva00468E98(storage, offsets[index].offset);
+        const Vector2 rotated = rva00468E98(storage, offsets[index].offset);
         result.x = base->x + rotated.X;
         result.y = base->y + rotated.Y;
         result.z = base->z;
