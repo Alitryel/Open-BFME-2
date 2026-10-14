@@ -1,4 +1,6 @@
 // ?doSpecialSlaveAIUpdate@SkirmishAI@@QAEXXZ
+// partial score=0.99 date=2026-10-14
+// ?doSpecialSlaveAIUpdate@SkirmishAI@@QAEXXZ
 // partial score=0.9876 date=2026-10-13
 // ?doSpecialSlaveAIUpdate@SkirmishAI@@QAEXXZ
 // partial score=0.995 date=2026-10-13
@@ -178,7 +180,7 @@ struct ListNode
 // +0x2EC is the destination team (TeamDidPartialEnter 0x0039E9FD precedent);
 // +0x32C is the prototype list head (list object with sentinel); the byte
 // getter above proves +0x734.
-class Rva003805BB
+class Rva00380200
 {
 public:
 	virtual void slot0();
@@ -199,13 +201,13 @@ class Player : public Rva002AA22AByteField
 	friend class SkirmishAI;
 public:
 	void rva002AE2ED(Player *other);			// 0x002AE2ED
-	Rva003805BB &getField08() { return m_field08; }
+	Rva00380200 &getField08() { return m_field08; }
 	Int getField24() const { return m_field24; }
 	void setField24(Int value) { m_field24 = value; }
 
 private:
 	unsigned char m_pad00[8];
-	Rva003805BB m_field08;
+	Rva00380200 m_field08;
 	unsigned char m_pad18[0x24-0x18];
 	Int m_field24;						// +0x24
 	unsigned char m_pad28[0x2EC - 0x28];
