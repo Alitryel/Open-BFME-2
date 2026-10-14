@@ -10,7 +10,23 @@
 // Both end in a global-scope delete: the virtual destructor with flags 0,
 // then ::operator delete on the pointer it returns (deleteCondition
 // 0x003B26A1 in Scripts.cpp has the same tail).
+//  - Script::updateFrom @0x003B3668 (197B): Zero Hour's copy-and-gut of an
+//    edited script on the same layout. The three strings at +4/+8/+0xC copy
+//    through StringBase<char>::set, the 16-byte record at +0x10 through its
+//    rowed copy 0x003B2498, and the scalars in retail's order; field names
+//    beyond the clause heads are not established.
+#include "ascii_string.h"
+
 typedef int Int;
+
+class Rva003B2498
+{
+public:
+	Rva003B2498 &rva003B2498(const Rva003B2498 &other);
+	Rva003B2498 &operator=(const Rva003B2498 &other) { return rva003B2498(other); }
+private:
+	char m_bytes[0x10];
+};
 
 class OrCondition
 {
@@ -38,10 +54,26 @@ class Script
 public:
 	void deleteOrCondition(OrCondition *pCond);
 	void rva003B25CD(Int which, ScriptAction *pAct);
+	void updateFrom(Script *pSrc);
 private:
-	char m_pad00[0x30];
+	void *m_vtable;
+	AsciiString m_04;
+	AsciiString m_08;
+	AsciiString m_0C;
+	Rva003B2498 m_10;
+	int m_20;
+	int m_24;
+	unsigned char m_28;
+	unsigned char m_29;
+	unsigned char m_2A;
+	unsigned char m_2B;
+	unsigned char m_2C;
+	unsigned char m_2D;
+	char m_pad2E[2];
 	OrCondition *m_condition;	// +0x30
 	ScriptAction *m_actions[2];	// +0x34 true, +0x38 false
+	char m_pad3C[4];
+	unsigned char m_40;
 };
 
 void Script::deleteOrCondition(OrCondition *pCond)
@@ -79,4 +111,29 @@ void Script::rva003B25CD(Int which, ScriptAction *pAct)
 	}
 	pCur->setNextAction(0);
 	::delete pCur;
+}
+
+void Script::updateFrom(Script *pSrc)
+{
+	m_04 = pSrc->m_04;
+	m_08 = pSrc->m_08;
+	m_0C = pSrc->m_0C;
+	m_40 = pSrc->m_40;
+	m_28 = pSrc->m_28;
+	m_2A = pSrc->m_2A;
+	m_20 = pSrc->m_20;
+	m_10 = pSrc->m_10;
+	m_24 = pSrc->m_24;
+	m_29 = pSrc->m_29;
+	m_2B = pSrc->m_2B;
+	m_2C = pSrc->m_2C;
+	m_2D = pSrc->m_2D;
+	::delete m_condition;
+	m_condition = pSrc->m_condition;
+	pSrc->m_condition = 0;
+	for (Int i = 0; i < 2; ++i) {
+		::delete m_actions[i];
+		m_actions[i] = pSrc->m_actions[i];
+		pSrc->m_actions[i] = 0;
+	}
 }

@@ -1033,36 +1033,8 @@ Script *Script::duplicateAndQualify(const AsciiString& qualifier,
 	and actions.  Intended for use in an edit dialog, where pSrc is a copy edited, and if cancelled
 	discarded, and if not cancelled, updated into the real script, then discarded.
 */
-// ?updateFrom@Script@@QAEXPAV1@@Z present-unmatched
-void Script::updateFrom(Script *pSrc) 
-{
-	this->m_scriptName = pSrc->m_scriptName;
-	this->m_comment = pSrc->m_comment;
-	this->m_conditionComment = pSrc->m_conditionComment;
-	this->m_actionComment = pSrc->m_actionComment;
-	this->m_isActive = pSrc->m_isActive;
-	this->m_isSubroutine = pSrc->m_isSubroutine;
-	this->m_delayEvaluationSeconds = pSrc->m_delayEvaluationSeconds;
-	this->m_isOneShot = pSrc->m_isOneShot;
-	this->m_easy = pSrc->m_easy;
-	this->m_normal = pSrc->m_normal;
-	this->m_hard = pSrc->m_hard;
-	if (this->m_condition) {
-		this->m_condition->deleteInstance();
-	}
-	this->m_condition = pSrc->m_condition;
-	pSrc->m_condition = NULL;
-	if (this->m_action) {
-		this->m_action->deleteInstance();
-	}
-	this->m_action = pSrc->m_action;
-	pSrc->m_action = NULL;
-	if (this->m_actionFalse) {
-		this->m_actionFalse->deleteInstance();
-	}
-	this->m_actionFalse = pSrc->m_actionFalse;
-	pSrc->m_actionFalse = NULL;
-}
+// Script::updateFrom: byte-exact reconstruction on BFME 2's Script layout in
+// Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptDeleteClauses.cpp.
 
 /**
   Script::deleteOrCondition - delete pCond from the or condition list.
