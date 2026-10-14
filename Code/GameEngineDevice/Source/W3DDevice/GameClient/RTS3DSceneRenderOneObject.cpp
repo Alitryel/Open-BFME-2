@@ -341,7 +341,7 @@ public:
 	const Vector3 *getSelectionColor(void) { return (const Vector3 *)reinterpret_cast<BfmeThingDDB *>(this)->bfmeGoDDB(); }
 	const Vector3 *getLightColor(void) { return (const Vector3 *)reinterpret_cast<Rva0027070C *>(this)->rva0027070C(); }
 	const Vector3 *getBaseColor(void) { return &m_baseColor; }
-	Object *getObject(void) { return m_object; }
+	__declspec(dllimport) __forceinline Object *getObject(void) { return m_object; }
 	UnsignedInt getShroudClearFrame(void) { return m_shroudClearFrame; }
 	void setShroudClearFrame(UnsignedInt frame) { m_shroudClearFrame = frame; }
 	Int getStealthLook(void) { return m_stealthLook; }

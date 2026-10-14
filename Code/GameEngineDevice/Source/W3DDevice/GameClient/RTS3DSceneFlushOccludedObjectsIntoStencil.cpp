@@ -210,7 +210,7 @@ class Drawable
 {
 public:
 	const ThingTemplate *getTemplate() const { return m_template; }
-	Object *getObject() { return m_object; }
+	__declspec(dllimport) __forceinline Object *getObject() { return m_object; }
 	void *m_vtbl;
 	const ThingTemplate *m_template;
 	char m_pad008[0xFC - 8];

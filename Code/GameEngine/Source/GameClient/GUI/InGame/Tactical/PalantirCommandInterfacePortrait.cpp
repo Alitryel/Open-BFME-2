@@ -86,7 +86,7 @@ class Drawable
 {
 public:
 	__forceinline Bool isKindOf(KindOfType t) const { return m_template->isKindOf(t); }
-	Object *getObject() { return m_object; }
+	__declspec(dllimport) __forceinline Object *getObject() { return m_object; }
 
 	void *m_vtable;
 	const ThingTemplate *m_template;

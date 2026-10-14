@@ -147,7 +147,7 @@ class Drawable {
 public:
 	char m_pad[0xFC];
 	Object *m_object;
-	Object *getObject() { return m_object; }
+	__declspec(dllimport) __forceinline Object *getObject() { return m_object; }
 	void rva0023998E(int layer);
 };
 void drawablePostDraw(Drawable *draw, void *userData);
