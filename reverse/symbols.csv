@@ -17111,3 +17111,4 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?rva002EF3EE@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@0_N@Z,0x002EF3EE,Native 2EF3EE..2EF663 RET16; Pathfinder receiver from TheAI+10; writes Coord3D second arg; Object third arg supplies position38/3C and Object::rva0028B511 receiver; reconciled both callers 46E6EA and 476D77
 ?rva00031D00@GeneralAllocator@Allocator@EA@@QAEHPAX@Z,0x00031D00,callee of ?rva00032160@GeneralAllocator@Allocator@EA@@QAEIPAX@Z
 ??0PolygonTrigger@@QAE@HH@Z,0x002E3FAB,in-image code RVA; the PolygonTrigger ctor the 0x2E40DB PolygonTriggerDataChunkParserBase::parse reconstruction calls at its new-expression (0x2E4161); bank 0x2e3fab nd2; needed to resolve the REL32 so the parse row can be byte-verified
+?rva00083CD7@Rva00083CD7Owner@@QAEXPAVRva00083CB2@@@Z,0x00083CD7,thiscall-arg caller shape in W3DScriptedModelDraw dtor 0x000C79C9 (ecx=g_TerrainTracks; push chunk)
