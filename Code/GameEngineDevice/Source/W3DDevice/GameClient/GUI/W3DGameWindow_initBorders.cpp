@@ -7,7 +7,6 @@
 // byte-identical to retail once relocations are masked (unique hit on
 // unclaimed .text). The initializer and border drawing method share their
 // native static table here; unrelated donor definitions are omitted.
-// class-gate: allow AsciiString the donor's own view; the placed body is byte-exact under it
 // Open-BFME5: W3DGameWindow::~W3DGameWindow, retail 0x004655F0,
 // zh_sweep packet 004655f0.
 

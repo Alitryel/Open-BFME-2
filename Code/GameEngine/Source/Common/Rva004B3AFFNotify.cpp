@@ -5,9 +5,6 @@
 // the object at this-0xC onto the Object at this-8, tell the skirmish
 // manager about that object twice, and mark TheControlBar +0x28.
 
-// class-gate: allow AsciiString address-only view. This body only pushes the
-// member address and never constructs or destroys a string; the empty class
-// matches the 67B retail body.
 #include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 class Object

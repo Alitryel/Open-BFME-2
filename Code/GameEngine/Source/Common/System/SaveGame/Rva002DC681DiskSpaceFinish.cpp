@@ -28,10 +28,6 @@
 // the isEmpty guard that only calls set() when the string has data, and the
 // ok-is-true-on-API-failure arm.
 
-// class-gate: allow UnicodeString the shared header's view is not a codegen match here: its
-// ctor/dtor emit a different call sequence, its TheNullChr is a different address and it
-// drops the __SEH_prolog this body carries, so the 201B retail body only reproduces with
-// the retail-private view of str()/releaseBuffer(). Established by compiling both.
 typedef int Int;
 typedef unsigned short WideChar;
 #define NULL 0

@@ -6,7 +6,6 @@
 // _ReadWriteBarrier after setNextBuildList keeps retail's and-then-vtable-load
 // order inside the loop. Layout: vptr +0, AsciiStrings +4/+8/+0x30,
 // m_nextBuildList +0x2C, padding +0xC..+0x2B.
-// class-gate: allow AsciiString TU-local 4-byte view matches the proven +4/+8/+0x30 StringBase dtor sites.
 // class-gate: allow Snapshot private view puts deleteInstance(0) at slot 0 and restores vptr 0xBBB554.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)

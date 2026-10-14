@@ -7,8 +7,6 @@
 // byte-identical to retail once relocations are masked (unique hit on
 // unclaimed .text). Only the placed body is defined here; the donor's
 // other definitions are omitted.
-// class-gate: allow AsciiString the donor's own view; the placed body is byte-exact under it
-// class-gate: allow UnicodeString the donor's own view; the placed body is byte-exact under it
 // stlport
 
 #include <stl/_config.h>

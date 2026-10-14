@@ -1,7 +1,4 @@
 // cl: -D_STLP_USE_STATIC_LIB -Ireference/open-bfme-1/game/GameEngine/Source/Common /D_STLP_USE_MALLOC
-// class-gate: allow AsciiString TU-local 4-byte view; retail 0x0006C950 is the
-// compiler-synthesised copy-assign over this struct's members and touches no
-// string, so the donor's own view is kept verbatim to hold the layout.
 // Address-derived asset walker at retail RVA 0x00208F90.
 // The owner identity is unresolved; its offsets and helper ABIs are decoded.
 

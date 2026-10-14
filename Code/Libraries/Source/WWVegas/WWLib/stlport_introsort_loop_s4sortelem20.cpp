@@ -25,7 +25,6 @@
 // keeps the 20-byte record layout, while cleanup resolves the distinct QAE
 // AsciiString destructor (RVA 0x005EE90 / ILT 0x0000D828), not the private
 // StringBase<char> destructor.
-// class-gate: allow AsciiString the donor's own view; the placed bodies are byte-exact under it
 
 struct BfmeSortTailElement12;
 

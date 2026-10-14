@@ -1,6 +1,5 @@
 // cl: /Ireference/shims/bfmelist /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// class-gate: allow AsciiString the shared header's compareNoCase may throw, which adds an EH state store retail's 98-byte findGroup lacks (measured 101B); this view declares it non-throwing
 //
 // GameWindowTransitionsHandler::findGroup (0x001DC01C, 98B), getNewGroup
 // (0x001DC4D2, 170B), setGroup (0x001DC252, 243B) and reverse (0x001DC345,

@@ -18,7 +18,6 @@ template <> __declspec(dllimport) __forceinline
 void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
-// class-gate: allow AsciiString Retail tree erase at 0x00056CC3 calls the dtor thunk at 0x0048BA39.
 // LINK: BFME_ASCII_DTOR_DECL keeps ~AsciiString decl-only so this TU's
 // ??_GAsciiString calls the rowed out-of-line copy 0x0048BA39 (retail's
 // deleting-dtor shape) instead of expanding releaseBuffer inline; the

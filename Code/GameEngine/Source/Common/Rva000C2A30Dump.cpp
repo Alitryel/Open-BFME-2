@@ -17,7 +17,6 @@ extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA( void *text )
 extern "C" __declspec(dllimport) int __cdecl sprintf( char *, const char *, ... );
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
-// class-gate: allow AsciiString the donor's own view; the placed bodies are byte-exact under it
 #include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 class Rva000C2A30Owner

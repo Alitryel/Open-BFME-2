@@ -8,7 +8,6 @@
 // unproven (any 4-byte POD produces these bytes); the Rva pair name claims
 // only the address plus the 8-byte stride the retail add proves.
 
-// class-gate: allow AsciiString Retail relocation 0x0032C0D4 reaches the dtor thunk at 0x0048BA39.
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 struct RvaPair0032C0CA

@@ -9,7 +9,6 @@
 // Retail calls the rowed AsciiString dtor at 0x0048BA39 from this erase
 // body. Keep its one-pointer layout but leave the dtor out of line here so
 // this TU binds to that row instead of emitting the header's inline copy.
-// class-gate: allow AsciiString TU-local 4-byte view binds the proven rowed destructor at 0x0048BA39.
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 extern "C" void __cdecl free(void *block);

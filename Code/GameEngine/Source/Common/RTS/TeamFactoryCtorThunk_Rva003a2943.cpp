@@ -70,7 +70,6 @@ private:
 // defined right here (inline) so the compiler folds the call away, exactly
 // as retail's bytes show -- only the resulting vptr store reaches the
 // target function.
-// class-gate: allow Snapshot the canonical header's crc/xfer/loadPostProcess are protected pure virtuals and TeamFactory overrides them privately in this view, which changes their slot accessibility; the donor places its five TeamFactory bodies byte-identically with these pure virtuals and only the header-inline constructor and destructor take part in codegen for the map thunk this TU claims
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/Snapshot.h
 class Xfer;
 
@@ -86,7 +85,6 @@ class Xfer;
 // way - only a body that uses the key can tell them apart.
 // Enough of AsciiString to reproduce str(): retail inlines it as
 // `p ? p + 8 : ""` at 0x000F3DAA and 0x000F3DCA.
-// class-gate: allow AsciiString this view is deliberately the minimum that fixes the layout retail inlines str() against; the shared header's many inline members are unused by all five TeamFactory bodies, and the donor places them byte-identically with this one-pointer view rather than the shared header's
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/AsciiString.h
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 

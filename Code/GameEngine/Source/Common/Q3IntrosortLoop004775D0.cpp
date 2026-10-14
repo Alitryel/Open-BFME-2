@@ -25,7 +25,6 @@
 
 // The real inline AsciiString forwarding layer is needed by the retail
 // by-value copy schedule; its implicit destructor runs StringBase cleanup.
-// class-gate: allow AsciiString the donor's own view; the placed bodies are byte-exact under it
 
 struct Q3SortElem16
 {

@@ -14,8 +14,6 @@ enum ModuleType
 {
 	MODULE_TYPE_INVALID = 0
 };
-// class-gate: allow AsciiString reference-cast parameter only; no AsciiString
-// member is constructed, assigned or destroyed here, so this view emits no
 // COMDAT and cannot differ from the shared header at link.
 class ModuleFactory
 {

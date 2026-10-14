@@ -1,6 +1,5 @@
 // cl: /O1 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
 // stlport
-// class-gate: allow AsciiString the shared shim inlines isEmpty and compare; retail calls out-of-line 0x1E2F and 0x69D6
 // ?rva002E1CA7@Rva002E2903Player@@QAE_NPAVUnitRevivalEntry@@@Z @0x002E1CA7 123B
 // Living-world player test on a revival entry: true when TheGameLogic reports
 // the 0x0023C6A4 mode, otherwise walks the player's element vector and returns

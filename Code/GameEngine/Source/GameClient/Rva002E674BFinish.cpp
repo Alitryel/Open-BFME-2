@@ -1,5 +1,4 @@
 // cl: /DBFME_ASCII_DTOR_DECL /DNDEBUG /DWIN32 /MD /D_STLP_USE_STATIC_LIB /EHsc /D_STLP_NO_EXCEPTIONS /D_WINDOWS
-// class-gate: allow AsciiString one-pointer codegen view whose inline str() is the retail LUT-label chase
 // stlport
 //
 // Mangled symbol: ?rva002E674B@Rva002E674B@@QAEXAAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@ABVAsciiString@@@Z

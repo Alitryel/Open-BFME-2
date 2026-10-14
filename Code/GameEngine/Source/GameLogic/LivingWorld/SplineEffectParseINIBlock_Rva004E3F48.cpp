@@ -17,8 +17,6 @@
 // the instance's add routine (thunk 0x0001FD4D), and releases the local
 // name's buffer.  The record is never freed here: ownership passes to the
 // instance.  Address-derived names.
-// class-gate: allow AsciiString donor TU-local 4-byte single-pointer view emits the retail
-// parser at 0x004E3F48 through the out-of-line StringBase ctor 0x004E3C8F and releaseBuffer
 // 0x00036410; the shared ascii_string.h header gives a different ctor/dtor codegen shape.
 
 typedef int Int;

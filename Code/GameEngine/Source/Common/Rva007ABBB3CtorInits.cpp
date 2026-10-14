@@ -63,7 +63,6 @@ public:
 	AsciiString();
 };
 
-// class-gate: allow UnicodeString retail calls the out-of-line folded default ctor at 0x00326BE6; the shared header's inline empty ctor emits no call
 #include "../../../../reference/shims/bfme2_ascii/unicode_string.h"
 
 class TextureClass;

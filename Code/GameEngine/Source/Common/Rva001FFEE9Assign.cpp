@@ -1,5 +1,4 @@
 // cl: /O1 /Ob1 /EHsc /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB
-// class-gate: allow UnicodeString 4B members at plus14-18 prove 4B view vs shared larger (retail plus14-18 4B apart with set calls)
 // ??4Rva001FFEE9@@QAEAAV0@ABV0@@Z @0x001FFEE9 81B
 // Copy-assign with 0x10 pad then int plus two UnicodeString via rowed set plus custom plus1C via pinned 0x1FFD6B plus tail ints/byte; base 5B ICF via pinned placeholder 0x1FD28E; 8B pad20 unproven gap; UnicodeString 4B for plus18.
 class Rva001FD28E

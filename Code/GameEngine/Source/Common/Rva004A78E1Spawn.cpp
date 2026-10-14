@@ -4,7 +4,6 @@
 // Play the holder FX, and when the name at +0x11C is set, spawn the
 // particle system onto +0xC8. Then store the frame at +0x98 and set state 3.
 
-// class-gate: allow AsciiString address-only view for isEmpty and findTemplate.
 #include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
 class Object;
