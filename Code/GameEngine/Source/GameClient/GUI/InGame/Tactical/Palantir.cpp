@@ -7,6 +7,14 @@
 #include <algorithm>
 namespace _STL {
 template <> bool *find(bool *, bool *, const bool &);
+// Retail inlines the bool* copy helpers and has no out-of-line copies; another
+// unit's copies are first in link order, so dllimport keeps these inline-only.
+template <> __declspec(dllimport) __forceinline
+bool *__copy_ptrs(bool *__first, bool *__last, bool *__result, const __true_type &)
+{ return (bool *)__copy_trivial(__first, __last, __result); }
+template <> __declspec(dllimport) __forceinline
+bool *__copy_aux(bool *__first, bool *__last, bool *__result, const __true_type &)
+{ return __copy_ptrs(__first, __last, __result, _IsOKToMemCpy((bool *)0, (bool *)0)._Ret()); }
 }
 
 class Player;

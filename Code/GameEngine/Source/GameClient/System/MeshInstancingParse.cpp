@@ -15,6 +15,9 @@ class Rva000427195 { public: InsertRet0041FA92 rva0041FC77(const void*); __force
 class Rva0041FB13;extern Rva0041FB13 *TheMeshInstancingManager;
 struct Rva0041FD3DManagerView {char prefix[16];Rva000427195 table;};
 struct NoCaseTreeValue4 {char body[4];};
+// Retail inlines the pair default ctor and has no out-of-line copy; another
+// unit's copy is first in link order, so dllimport keeps this one inline-only.
+namespace _STL { template <> __declspec(dllimport) __forceinline pair<const AsciiString,NoCaseTreeValue4>::pair() : first(AsciiString()), second(NoCaseTreeValue4()) {} }
 void Rva0041FD3DParse(INI *ini)
 {
  if(TheMeshInstancingManager) {

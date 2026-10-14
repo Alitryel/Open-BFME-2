@@ -12,6 +12,14 @@
 
 class CreateAHeroData;
 
+// Retail inlines the pointer copy helper and has no out-of-line copy; another
+// unit's copy is first in link order, so dllimport keeps this one inline-only.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+CreateAHeroData **__copy_ptrs(CreateAHeroData **__first, CreateAHeroData **__last, CreateAHeroData **__result, const __true_type &)
+{ return (CreateAHeroData **)__copy_trivial(__first, __last, __result); }
+}
+
 class Rva00219251
 {
 public:

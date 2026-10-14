@@ -27,6 +27,9 @@ private:
 
 namespace _STL {
 template <> void _Construct<Rva0036CA00Str, Rva0036CA00Str>(Rva0036CA00Str *, const Rva0036CA00Str &);
+// Retail inlines _Destroy and has no out-of-line copy; another unit's copy is
+// first in link order, so dllimport keeps this one inline-only.
+template <> __declspec(dllimport) __forceinline void _Destroy(Rva0036CA00Str *__pointer) { __pointer; __pointer->~Rva0036CA00Str(); }
 }
 
 template void _STL::vector<Rva0036CA00Str, _STL::allocator<Rva0036CA00Str> >::push_back(const Rva0036CA00Str &);

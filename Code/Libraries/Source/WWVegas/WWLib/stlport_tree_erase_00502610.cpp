@@ -17,6 +17,9 @@ struct Rva00501776
 };
 
 typedef _STL::pair<const int, Rva00501776> Erase00502610Value;
+// Retail inlines _Destroy into _M_erase and has no out-of-line copy; another
+// unit's copy is first in link order, so dllimport keeps this one inline-only.
+namespace _STL { template <> __declspec(dllimport) __forceinline void _Destroy(Erase00502610Value *__pointer) { __pointer; __pointer->~Erase00502610Value(); } }
 typedef _STL::_Rb_tree<int, Erase00502610Value, _STL::_Select1st<Erase00502610Value>, _STL::less<int>, _STL::allocator<Erase00502610Value> > Erase00502610Tree;
 
 template void Erase00502610Tree::_M_erase(Erase00502610Tree::_Link_type);
