@@ -13,6 +13,14 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
                               const _List_iterator<_IterTp, _RightTraits> &b)
 { return a._M_node != b._M_node; }
 }
+// Retail inlines vector<unsigned>'s accessors everywhere and has no
+// out-of-line copies; another unit's copies are first in link order, so
+// dllimport keeps this unit's inline-only.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline unsigned *vector<unsigned>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline unsigned *vector<unsigned>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline unsigned &vector<unsigned>::front() { return *begin(); }
+}
 bool Rva00354EB9(const Coord3D *,const Coord3D *);
 enum NameKeyType { NK_NONE=0 };
 class ArmorTemplate; // opaque return identity inherited from existing providers

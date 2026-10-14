@@ -24,6 +24,15 @@ struct Rva003F498AOuter {
     bool rva003F4342(Rva003F498ACallback *cb);
 };
 
+// Retail inlines these subscripts and has no out-of-line copies; other units'
+// views are first in link order, so dllimport keeps this unit's inline-only.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+Rva003F498AInner &vector<Rva003F498AInner>::operator[](size_t __n) { return *(begin() + __n); }
+template <> __declspec(dllimport) __forceinline
+Rva003F498AOuter &vector<Rva003F498AOuter>::operator[](size_t __n) { return *(begin() + __n); }
+}
+
 struct Rva003F4D09Region { char pad[0x13c]; int id; };
 class LivingWorldBattle {
     char m_pad0[0x18];

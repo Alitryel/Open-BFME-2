@@ -35,6 +35,16 @@ static inline bool operator==(const _Rb_tree_iterator<T, LeftTraits>& a,
 
 #include "ascii_string.h"
 
+// Retail inlines the AsciiString tree-iterator conversions and has no
+// out-of-line copies; another unit's copies are first in link order, so
+// dllimport keeps this unit's inline-only.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<AsciiString, _Const_traits<AsciiString> >::_Rb_tree_iterator(const _Rb_tree_iterator<AsciiString, _Nonconst_traits<AsciiString> > &__it) { _M_node = __it._M_node; }
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<AsciiString, _Nonconst_traits<AsciiString> >::_Rb_tree_iterator(const _Rb_tree_iterator<AsciiString, _Nonconst_traits<AsciiString> > &__it) { _M_node = __it._M_node; }
+}
+
 // Declaration-only: the rowed set<AsciiString> tree members are bound,
 // this TU emits no per-flag copy of them or of their allocator leaves.
 namespace _STL {

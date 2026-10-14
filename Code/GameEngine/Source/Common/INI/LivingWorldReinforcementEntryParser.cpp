@@ -9,6 +9,9 @@
 // The temporary pair and named insertion result reproduce retail stack reuse;
 // ordinary INIException throws carry real copy/destructor metadata.
 #include <map>
+// Retail inlines the pair ctor everywhere and has no out-of-line copy; another
+// unit's copy is first in link order, so dllimport keeps this one inline-only.
+namespace _STL { template <> __declspec(dllimport) __forceinline pair<const int,int>::pair(const int &__a,const int &__b):first(__a),second(__b) {} }
 #include <stdio.h>
 #include <string.h>
 template<class T> struct StringInlineData { int m_refCount,m_length;T m_text[1]; };

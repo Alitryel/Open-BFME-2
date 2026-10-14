@@ -25,6 +25,10 @@ void **vector<void*>::begin()
 template <> __declspec(dllimport) __forceinline
 void **vector<void*>::end()
 { return _M_finish; }
+// Retail has no out-of-line clear either; another unit's copy is first.
+template <> __declspec(dllimport) __forceinline
+void vector<void*>::clear()
+{ erase(begin(), end()); }
 }
 
 typedef int Int;

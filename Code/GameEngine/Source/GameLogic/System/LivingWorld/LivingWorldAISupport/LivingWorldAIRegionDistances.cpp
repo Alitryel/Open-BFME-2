@@ -28,7 +28,8 @@ template <class T> struct _Nonconst_traits;
 template <class T1, class T2>
 struct pair
 {
-	__forceinline pair(const T1 &a, const T2 &b) : first(a), second(b) {}
+	// Retail has no out-of-line copy; dllimport keeps this one inline-only.
+	__declspec(dllimport) __forceinline pair(const T1 &a, const T2 &b) : first(a), second(b) {}
 	T1 first;
 	T2 second;
 };
@@ -193,7 +194,7 @@ extern unsigned int g_Va00E04544;
 
 class LivingWorldSearchCallback;
 struct Rva003F71D4Point {char prefix[16];float x,y;};
-class __declspec(novtable) Rva003F71D4Metric {public:virtual float v00(const Rva003F71D4Point*,const Rva003F71D4Point*);virtual float v01(const Rva003F71D4Point*,const Rva003F71D4Point*);virtual void v02(const Rva003F71D4Point*);virtual bool v03(int,int);};
+class __declspec(novtable) Rva003F71D4Metric {public:__declspec(dllimport) Rva003F71D4Metric() {} virtual float v00(const Rva003F71D4Point*,const Rva003F71D4Point*);virtual float v01(const Rva003F71D4Point*,const Rva003F71D4Point*);virtual void v02(const Rva003F71D4Point*);virtual bool v03(int,int);};
 class Rva004FF33DCallback:public Rva003F71D4Metric {public:virtual float v00(const Rva003F71D4Point*,const Rva003F71D4Point*);virtual float v01(const Rva003F71D4Point*,const Rva003F71D4Point*);};
 class Rva003EF8E1
 {
