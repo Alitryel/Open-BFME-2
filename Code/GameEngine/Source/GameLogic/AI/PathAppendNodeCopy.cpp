@@ -16,20 +16,9 @@ enum PathfindLayerEnum
 	LAYER_GROUND = 1
 };
 
-struct Coord3D
-{
-	Coord3D &operator=(const Coord3D &other)
-	{
-		x = other.x;
-		y = other.y;
-		z = other.z;
-		return *this;
-	}
-
-	Real x;
-	Real y;
-	Real z;
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_INLINE_ASSIGN
+#include "../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 class PathNode
 {

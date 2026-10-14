@@ -5,7 +5,8 @@
 // out of line (their owner rows live in coord3d.cpp) and its dependents match against that, so a
 // unit whose bytes show the inline stores includes this header INSTEAD of Coord3D.h, before
 // anything else that includes it: it takes Coord3D.h's include guard. The type stays a POD triple;
-// only the bodies below differ from the canonical declaration set. Inline members that a unit
+// only the bodies below differ from the canonical declaration set. `#define COORD3D_INLINE_ASSIGN` first
+// adds the member-wise operator= (retail copies through three scalar moves instead of a block move). Inline members that a unit
 // never calls are not emitted.
 #ifndef CANONICAL_COORD3D_H
 #define CANONICAL_COORD3D_H
@@ -31,6 +32,9 @@ struct Coord3D {
     void add(const Coord3D *p) { x += p->x; y += p->y; z += p->z; }
     void sub(const Coord3D *p) { x -= p->x; y -= p->y; z -= p->z; }
     void scale(float s) { x *= s; y *= s; z *= s; }
+#ifdef COORD3D_INLINE_ASSIGN
+    Coord3D &operator=(const Coord3D &o) { x = o.x; y = o.y; z = o.z; return *this; }
+#endif
     void scaleInlined(float s) { x *= s; y *= s; z *= s; }
     void add(Coord3D a) { x += a.x; y += a.y; z += a.z; }
     Coord3D &operator-=(const Coord3D &o) { x -= o.x; y -= o.y; z -= o.z; return *this; }
