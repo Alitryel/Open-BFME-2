@@ -1,5 +1,11 @@
-// LocomotorTemplate::LocomotorTemplate
-// partial score=1.0 date=2026-10-14
+// ??0Rva001E4DB0@@QAE@XZ @0x001E4ABE 754B
+// LocomotorTemplate defaults (the class the rowed dtor 0x001E4DB0 and copy
+// ctor 0x001E4DEB belong to); WB 0xADBAE0 plus the BFME1 a7c38d3b donor
+// Locomotor.cpp constructor give the semantic lead, retail/WB establish every
+// field. The existing native Locomotor ctor 0x1E449A consumes template
+// +58/+60/+C4/+C8; m_2C/m_44/m_50 are integer frame counts from 0x00DBA4E4,
+// not floats. The class keeps the dtor family's address-derived spelling
+// pending the LocomotorTemplate home reconciliation.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/shims/bfme2_ascii
 // Locomotor-template defaults: WB0xADBae0 and native0x1E4ABE.
 // BFME1 donor a7c38d3b2597121f178ab5190b3062478823257d:
@@ -211,3 +217,4 @@ Rva001E4DB0::Rva001E4DB0()
     m_144 = 0.0f;
     m_148 = 0.5f;
 }
+
