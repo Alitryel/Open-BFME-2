@@ -8,6 +8,22 @@
 // stlport
 #include <map>
 #include <vector>
+// map<int,int> step, less<int> and the tree-iterator != inline into the row;
+// this /O1 unit otherwise leaves unreferenced COMDAT copies of each (the
+// first two not retail's bodies, != unaddressed) that lose at link time.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool less<int>::operator()(const int &__x, const int &__y) const
+{ return __x < __y; }
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator++()
+{ _M_node = _Rb_global_inst::_M_increment(_M_node); return *this; }
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 typedef _STL::map<int,int> CountMap;
 struct TallyRecord20 {int field00;CountMap counts;int field10;};
 struct TallyPlayer {char pad[0x14];_STL::vector<TallyRecord20> first,second;};
