@@ -27,6 +27,7 @@ public:
 	void rva002B230F(int impl);
 	void rva0042CAFB();
 	void rva0042D068();
+	int rva0042CC7B(class GameMessage *message);
 private:
 	const void *m_vtable;
 	int m_04;
@@ -257,4 +258,167 @@ void Rva0042CBB6::rva0042D068()
   else if(m_40) reinterpret_cast<CameraMotion42 *>(((Rva002D3627Host *)TheLivingWorld))->s21(1);
   else if(m_41) reinterpret_cast<CameraMotion42 *>(((Rva002D3627Host *)TheLivingWorld))->s21(-1);
  }
+}
+
+// Complete native 82CC7B..82D068, 1005B, RET4: the receiver's message
+// handler. Slot 0 of the +4 listener may consume the message first. A
+// GameLogic counter guard (pinned ctor 0x0004224C, inline decrement) spans
+// the dispatch; the sparse message and key cases drive the same home's
+// scroll flags and anchors. Message and key meanings are inferences.
+// The guard's ctor body is visible (as in LivingWorldLogic.cpp): cl then
+// keeps the empty object in the dead message home. Case order decides
+// which identical disposition tails cl keeps; separate checks keep the
+// early-exit unwind beside them, as in retail.
+class Rva0023C748 { public: char rva0023C748(); };
+class Rva002B34E5 { public: void rva002B34E5(bool); };
+class Rva000421FD { public: void rva000421FD(); };
+class Rva0004224C {
+public:
+ Rva0004224C() { if(TheGameLogic) reinterpret_cast<Rva000421FD *>(TheGameLogic)->rva000421FD(); }
+ ~Rva0004224C() { if(TheGameLogic) --*reinterpret_cast<int *>(reinterpret_cast<char *>(TheGameLogic)+0x1B4); }
+};
+union GameMessageArgumentType {
+ int integer; float real; unsigned char boolean;
+ struct Pix { int x,y; } pixel;
+};
+class GameMessage {
+public:
+ const GameMessageArgumentType *getArgument(int) const;
+ char pad[0x10]; int type;
+};
+class MessageForward42 { public: virtual int translate(GameMessage *); };
+class MessageUI42 {
+public:
+ virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
+ virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
+ virtual void s08(); virtual void s09(); virtual void s10(); virtual void s11();
+ virtual void s12(); virtual void s13(); virtual void s14(); virtual void s15();
+ virtual void s16(); virtual void s17(); virtual void s18(); virtual void s19();
+ virtual void s20(); virtual void s21(); virtual void s22();
+ virtual void s23(int,GameMessageArgumentType::Pix *);
+};
+class LivingWorldManager; extern LivingWorldManager *TheLivingWorldManager;
+class Shell; extern Shell *TheShell;
+#define BYTE_AT42(p,o) (*(reinterpret_cast<unsigned char *>(p)+(o)))
+int Rva0042CBB6::rva0042CC7B(GameMessage *message)
+{
+ if(m_04) {
+  int forwarded=reinterpret_cast<MessageForward42 *>(m_04)->translate(message);
+  if(forwarded==1) return forwarded;
+ }
+ int disposition=0;
+ if(reinterpret_cast<Rva0023C748 *>(TheGameLogic)->rva0023C748()) return 0;
+ Rva0004224C guard;
+ if(!TheLivingWorld) return 0;
+ int type=message->type;
+ if(!BYTE_AT42(TheLivingWorld,0x18)) return 0;
+ if(TheGameLogic->isGamePaused()) return 0;
+ switch(type) {
+ case 14:
+  if(TheLivingWorld && !BYTE_AT42(TheLivingWorldManager,0x2C0)) {
+   const GameMessageArgumentType *arg=message->getArgument(0);
+   m_10=arg->pixel.x; m_14=arg->pixel.y;
+   arg=message->getArgument(0);
+   m_18=arg->pixel.x; m_1C=arg->pixel.y;
+   if(TheMouse->m_4FA4) { rva0042CB57(1); m_30=0; m_34=0; }
+  }
+  disposition=1;
+  break;
+ case 11:
+  rva0042CAFB();
+  break;
+ case 16:
+  {
+   int limit=*reinterpret_cast<int *>(reinterpret_cast<char *>(TheLivingWorldManager)+0x1E0);
+   int within=0;
+   if(m_30<limit && m_34<limit) within=1;
+   m_38=within;
+   rva0042CB81(1);
+   disposition=1;
+  }
+  break;
+ case 19:
+  if(!reinterpret_cast<Rva002BE8D4 *>(((Rva002D3627Host *)TheLivingWorld))->rva002BE8D4()) {
+   GameMessageArgumentType::Pix point=message->getArgument(0)->pixel;
+   int value=message->getArgument(1)->integer;
+   reinterpret_cast<MessageUI42 *>(((Rva002D3627Host *)TheLivingWorld))->s23(value,&point);
+   disposition=1;
+  }
+  break;
+ case 153:
+  reinterpret_cast<Rva002B34E5 *>(TheLivingWorldLogic)->rva002B34E5(!BYTE_AT42(TheLivingWorldLogic,0x10B));
+  break;
+ case 23:
+  disposition=1;
+  break;
+ case 1104:
+  disposition=1;
+  break;
+ case 10:
+  if(!BYTE_AT42(TheLivingWorldManager,0x2C0)) {
+   const GameMessageArgumentType *arg=message->getArgument(0);
+   m_20=arg->pixel.x; m_24=arg->pixel.y;
+   arg=message->getArgument(0);
+   m_28=arg->pixel.x; m_2C=arg->pixel.y;
+   if(TheMouse->m_4FA4) rva0042CB57(2);
+  }
+  disposition=1;
+  break;
+ case 21:
+ case 22:
+  {
+   unsigned char key=message->getArgument(0)->boolean;
+   unsigned char down=~message->getArgument(1)->boolean&1;
+   if(TheShell && BYTE_AT42(TheShell,0x5C))
+    break;
+   switch(key) {
+   case 72: m_40=down; break;
+   case 75: m_3E=down; break;
+   case 76: rva0042CAFB(); break;
+   case 77: m_3F=down; break;
+   case 80: m_41=down; break;
+   case 200: m_3A[0]=down; break;
+   case 203: m_3A[2]=down; break;
+   case 205: m_3A[3]=down; break;
+   case 208: m_3A[1]=down; break;
+   }
+   int pressed=0;
+   for(int i=0;i<4;++i)
+    if(m_3A[i]) ++pressed;
+   if(pressed) rva0042CB57(4);
+   else rva0042CB81(4);
+   disposition=1;
+  }
+  break;
+ case 12:
+  rva0042CB81(2);
+  disposition=1;
+  break;
+ case 3:
+  if(!BYTE_AT42(TheLivingWorld,0x18)) {
+   rva0042CB81(0);
+   break;
+  }
+  m_42=1;
+  {
+   const GameMessageArgumentType *arg=message->getArgument(0);
+   m_18=arg->pixel.x; m_1C=arg->pixel.y;
+   arg=message->getArgument(0);
+   m_28=arg->pixel.x; m_2C=arg->pixel.y;
+   unsigned height=reinterpret_cast<CameraDisplay42 *>(TheDisplay)->height();
+   unsigned width=reinterpret_cast<CameraDisplay42 *>(TheDisplay)->width();
+   if(!BYTE_AT42(TheWritableGlobalData,0x2C)) {
+    if(m_08 & 8) {
+     if(m_08==8 && m_18>=3 && m_1C>=3 && (unsigned)m_1C<height-3 && (unsigned)m_18<width-3)
+      rva0042CB81(8);
+    } else if(!BYTE_AT42(TheLivingWorldManager,0x2C0)) {
+     if(m_18<3 || m_1C<3 || (unsigned)m_1C>=height-3 || (unsigned)m_18>=width-3)
+      rva0042CB57(8);
+    }
+   }
+  }
+  disposition=1;
+  break;
+ }
+ return disposition;
 }
