@@ -1,6 +1,6 @@
 extern "C" unsigned char bfmeVftUB[];
 
-void bfmeFreeUB(void *what);
+void __cdecl operator delete[](void *block);
 
 class BfmeThingUB
 {
@@ -15,7 +15,7 @@ public:
 void BfmeThingUB::bfmeResetUB()
 {
 	m_bfmeVft = bfmeVftUB;
-	bfmeFreeUB(m_bfmeWhat);
+	::operator delete[](m_bfmeWhat);
 }
 
 // Callers elsewhere reach bodies in this unit through other spellings; retail's

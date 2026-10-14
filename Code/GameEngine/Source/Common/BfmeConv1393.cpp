@@ -1,4 +1,4 @@
-void __cdecl bfmeDelArrVJS(void *place);
+void __cdecl operator delete[](void *block);
 
 extern int g_bfmeVftAVJS[];
 extern int g_bfmeVftBVJS[];
@@ -23,13 +23,13 @@ void BfmeThingVJS::bfmeClearVJS()
 	m_bfme08 = 0;
 	if (m_bfme0c)
 	{
-		bfmeDelArrVJS(m_bfme0c);
+		::operator delete[](m_bfme0c);
 		m_bfme0c = 0;
 	}
 	m_bfme10 = 0;
 	if (m_bfme14)
 	{
-		bfmeDelArrVJS(m_bfme14);
+		::operator delete[](m_bfme14);
 		m_bfme14 = 0;
 	}
 	m_bfmeVfptr = g_bfmeVftBVJS;

@@ -12,8 +12,6 @@ void bfmeTwoRB(int k, int f);
 
 void bfmeGoRB(void);
 
-void bfmeFreeRC(void *p);
-
 class BfmeThingRC
 {
 public:

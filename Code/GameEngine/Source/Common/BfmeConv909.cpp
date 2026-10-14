@@ -11,7 +11,7 @@ public:
 };
 
 extern char g_bfmeVftTA[];
-void bfmeFreeTA(void *p);
+void __cdecl operator delete[](void *block);
 
 class BfmeThingTA
 {
@@ -27,7 +27,7 @@ void BfmeThingTA::bfmeGoTA()
 {
 	m_bfmeVft = g_bfmeVftTA;
 	if (m_bfmeFlag)
-		bfmeFreeTA(m_bfmeP);
+		::operator delete[](m_bfmeP);
 	((Gen_00832090 *)this)->m();
 }
 

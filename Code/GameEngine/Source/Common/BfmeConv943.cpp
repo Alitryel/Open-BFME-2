@@ -1,6 +1,6 @@
 // Open-BFME5 conversions.
 
-void bfmeFreeRC(void *p);
+void __cdecl operator delete[](void *block);
 
 extern char g_bfme943VftE1[];
 extern char g_bfme943VftE2[];
@@ -19,13 +19,13 @@ void BfmeThing943E::bfmeGo943E()
 	void *p = m_bfmeP;
 	m_bfmeVft = g_bfme943VftE1;
 	if (p) {
-		bfmeFreeRC(p);
+		::operator delete[](p);
 		m_bfmeP = 0;
 	}
 	void *q = m_bfmeP;
 	m_bfmeVft = g_bfme943VftE2;
 	if (q) {
-		bfmeFreeRC(q);
+		::operator delete[](q);
 		m_bfmeP = 0;
 		m_bfmeQ = 0;
 	}
@@ -49,13 +49,13 @@ void BfmeThing943F::bfmeGo943F()
 	void *p = m_bfmeP;
 	m_bfmeVft = g_bfme943VftF1;
 	if (p) {
-		bfmeFreeRC(p);
+		::operator delete[](p);
 		m_bfmeP = 0;
 	}
 	void *q = m_bfmeP;
 	m_bfmeVft = g_bfme943VftF2;
 	if (q) {
-		bfmeFreeRC(q);
+		::operator delete[](q);
 		m_bfmeP = 0;
 		m_bfmeQ = 0;
 	}
@@ -79,13 +79,13 @@ void BfmeThing943G::bfmeGo943G()
 	void *p = m_bfmeP;
 	m_bfmeVft = g_bfme943VftG1;
 	if (p) {
-		bfmeFreeRC(p);
+		::operator delete[](p);
 		m_bfmeP = 0;
 	}
 	void *q = m_bfmeP;
 	m_bfmeVft = g_bfme943VftG2;
 	if (q) {
-		bfmeFreeRC(q);
+		::operator delete[](q);
 		m_bfmeP = 0;
 		m_bfmeQ = 0;
 	}

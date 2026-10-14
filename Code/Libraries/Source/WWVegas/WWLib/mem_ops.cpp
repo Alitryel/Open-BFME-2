@@ -47,12 +47,3 @@ void bfmeEmitMemOps(void *p, unsigned int s)
 	operator new[](s);
 }
 #pragma inline_depth()
-
-// Callers elsewhere reach bodies in this unit through other spellings; retail's
-// call sites in their matched rows land on these addresses (same ABI). Bind them.
-#pragma comment(linker, "/alternatename:?bfmeFreeArrayTXA@@YAXPAX@Z=??_V@YAXPAX@Z")
-#pragma comment(linker, "/alternatename:?bfmeFreeTXA@@YAXPAX@Z=??3@YAXPAX@Z")
-#pragma comment(linker, "/alternatename:?bfmeDelArrVJS@@YAXPAX@Z=??_V@YAXPAX@Z")
-#pragma comment(linker, "/alternatename:?bfmeFreeRC@@YAXPAX@Z=??_V@YAXPAX@Z")
-#pragma comment(linker, "/alternatename:?bfmeFreeTA@@YAXPAX@Z=??_V@YAXPAX@Z")
-#pragma comment(linker, "/alternatename:?bfmeFreeUB@@YAXPAX@Z=??_V@YAXPAX@Z")
