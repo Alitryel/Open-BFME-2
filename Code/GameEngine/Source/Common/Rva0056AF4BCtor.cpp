@@ -7,10 +7,12 @@
 // landed Rva0056AF94/Rva0056ADF1 recipe (standalone address-derived class,
 // base via cast, vtbls via externs). Honest address-derived name.
 
-class Rva0056AD80
+// 0x0056AD80 is matched as the constructor Rva0056AC26(Rva0056AC26Owner *).
+class Rva0056AC26Owner;
+class Rva0056AC26
 {
 public:
-	void rva0056AD80(void *arg);
+	Rva0056AC26(Rva0056AC26Owner *owner);
 };
 
 extern "C" const void *const __identifier("??_7Rva0056ACDF@@6BRva0056AC26@@@")[];
@@ -24,7 +26,7 @@ public:
 
 Rva0056AF4B::Rva0056AF4B(void *arg1, int arg2, int arg3)
 {
-	((Rva0056AD80 *)this)->rva0056AD80(arg1);
+	((Rva0056AC26 *)this)->Rva0056AC26::Rva0056AC26((Rva0056AC26Owner *)arg1);
 	*(int *)((char *)this + 0x14) = arg2;
 	*(int *)((char *)this + 0x18) = arg3;
 	*(unsigned int *)this = ((unsigned int)__identifier("??_7Rva0056ACDF@@6BRva0056AC26@@@"));
