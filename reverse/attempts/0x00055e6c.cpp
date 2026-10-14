@@ -1,4 +1,6 @@
 // ?rva00055E6C@MilesAudioManager@@QAE_NABVAsciiString@@HHH@Z
+// partial score=0.9678 date=2026-10-14
+// ?rva00055E6C@MilesAudioManager@@QAE_NABVAsciiString@@HHH@Z
 // partial score=0.9517 date=2026-10-14
 // cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /DNDEBUG /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
@@ -1089,7 +1091,7 @@ bool MilesAudioManager::rva00055E6C(const AsciiString &name, int streamArg, int 
         playing = *reinterpret_cast<const PlayingAudioRef *>(&*music);
         if (playing.get() && playing->m_event->m_info->m_atB0 == 0 && playing->m_event->m_viewType == viewType
             && rva00055E6CNameMatches(playing->m_event.get(), name)
-            && reinterpret_cast<Rva000A8B59 *>(&playing->m_at0C)->rva000A8B59(streamArg))
+            && reinterpret_cast<Rva000A8B59 *>((playing->m_event->m_musicSystem ? &playing->m_at0C : &playing->m_at0C))->rva000A8B59(streamArg))
             return true;
     }
     return false;

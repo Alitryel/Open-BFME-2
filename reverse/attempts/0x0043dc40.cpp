@@ -1,4 +1,6 @@
 // ?rva0043DC40@AptMpGameSetup@@QAEXH@Z
+// partial score=0.8336 date=2026-10-14
+// ?rva0043DC40@AptMpGameSetup@@QAEXH@Z
 // partial score=0.6656 date=2026-10-14
 // cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
@@ -1034,7 +1036,7 @@ private:
 void AptMpGameSetup::rva0043DC40(int column)
 {
 	int c = column;
-	int old = m_sortColumn;
+	int old = (m_2bc ? m_sortColumn : m_sortColumn);
 	int next = c + 1;
 	if (old == c)
 		m_sortColumn = next;

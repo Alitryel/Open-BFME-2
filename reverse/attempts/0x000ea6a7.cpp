@@ -1,4 +1,6 @@
 // ?rva000EA6A7@W3DTreeBuffer@@QAE_NPAX@Z
+// partial score=0.8932 date=2026-10-14
+// ?rva000EA6A7@W3DTreeBuffer@@QAE_NPAX@Z
 // partial score=0.7961 date=2026-10-14
 // ?rva000EA6A7@W3DTreeBuffer@@QAE_NPAX@Z
 // partial score=0.796 date=2026-10-13
@@ -204,7 +206,7 @@ Bool W3DTreeBuffer::rva000EA6A7(void *key)
             break;
         }
     }
-    if (!record || record->type < 0 || record->type >= numTypes || record->guardc8)
+    if ((record ? (!record || record->type < 0 || record->type >= numTypes || record->guardc8) : (!record || record->type < 0 || record->type >= numTypes || record->guardc8)))
         return false;
     record->framesc0 = (Int)((Real)types[record->type].data->frames40 * frameScale5bc);
     record->startedc4 = true;

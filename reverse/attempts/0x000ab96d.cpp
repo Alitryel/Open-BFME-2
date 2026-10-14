@@ -1,4 +1,6 @@
 // ?Rva000AB96DLoadAnimation@@YAXPBDVBfmeRefVGO@@@Z
+// partial score=0.8828 date=2026-10-14
+// ?Rva000AB96DLoadAnimation@@YAXPBDVBfmeRefVGO@@@Z
 // partial score=0.8541 date=2026-10-14
 // ?Rva000AB96DLoadAnimation@@YAXPBDVBfmeRefVGO@@@Z
 // partial score=0.84 date=2026-10-11
@@ -136,5 +138,5 @@ void Rva000AB96DLoadAnimation(const char *name,BfmeRefVGO value) {
  char *constants=file ? file->readEntireAndClose():0;
  g_aptConstResetState0=-1;g_aptConstResetState1=-1;
  typedef void (__cdecl *Dispatch)(BfmeRefVGO,void*,void*,void*);
- reinterpret_cast<Dispatch>(&Rva00893030)(value,owner->data,constants,owner);
+ reinterpret_cast<Dispatch>(&Rva00893030)(value,(owner->data ? owner->data : owner->data),constants,owner);
 }

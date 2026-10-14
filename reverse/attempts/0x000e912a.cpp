@@ -1,4 +1,6 @@
 // ?rva000E912A@W3DShrubBuffer@@QAEXPBUCoord3D@@MH@Z
+// partial score=0.9413 date=2026-10-14
+// ?rva000E912A@W3DShrubBuffer@@QAEXPBUCoord3D@@MH@Z
 // partial score=0.8035 date=2026-10-14
 // ?rva000E912A@W3DShrubBuffer@@QAEXPBUCoord3D@@MH@Z
 // partial score=0.85 date=2026-10-10
@@ -149,7 +151,7 @@ void W3DShrubBuffer::rva000E912A(const Coord3D *center,float radius,Int mode)
   if(m_trees[i].m_treeType>=0) {
    ShrubRadiusDelta delta(m_trees[i].m_position.x,m_trees[i].m_position.y,m_trees[i].m_position.z);
    delta.sub(center);
-   if(radius*radius>delta.lengthSqr()) rva000E90DB(m_trees[i].m_key,mode);
+   if(delta.lengthSqr() < radius*radius) rva000E90DB(m_trees[i].m_key,mode);
   }
  }
 }
