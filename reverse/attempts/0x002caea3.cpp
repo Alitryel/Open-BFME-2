@@ -1,5 +1,5 @@
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
-// partial score=0.85 date=2026-10-14
+// partial score=0.86 date=2026-10-14
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG
 #include "Code/Libraries/Include/Lib/Coord3D.h"
@@ -76,15 +76,15 @@ bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 	{
 		targetPos = (const Coord3D *)((const char *)target + 0x38);
 		Coord3D raw;
-		target->rva00265514(&raw, source);
-		dir = raw;
+		Coord3D *dirp = target->rva00265514(&raw, source);
+		dir = *dirp;
 	}
 	else if (pos)
 	{
 		targetPos = pos;
 		Coord3D raw;
-		source->rva002C986B(&raw, pos);
-		dir = raw;
+		Coord3D *dirp = source->rva002C986B(&raw, pos);
+		dir = *dirp;
 		dir.x = -dir.x;
 		dir.y = -dir.y;
 		dir.z = -dir.z;
@@ -102,9 +102,12 @@ bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 	if (minAttackRange > 10.0f && dist < minAttackRange)
 	{
 		const Coord3D *srcPos = (const Coord3D *)((const char *)source + 0x38);
-		dir.x = srcPos->x - targetPos->x;
-		dir.y = srcPos->y - targetPos->y;
-		dir.z = srcPos->z - targetPos->z;
+		float sx = srcPos->x;
+		float sy = srcPos->y;
+		float sz = srcPos->z;
+		dir.x = sx - targetPos->x;
+		dir.y = sy - targetPos->y;
+		dir.z = sz - targetPos->z;
 		dir.normalize();
 
 		if (source->isAboveTerrain())
