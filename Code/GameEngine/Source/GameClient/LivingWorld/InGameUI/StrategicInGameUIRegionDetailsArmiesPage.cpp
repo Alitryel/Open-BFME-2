@@ -8,6 +8,15 @@
 // Prior false-boundary refusal used a VA interpretation; direct native call
 // 9E1BA3 targets9E1B4E and this RVA begins push ECX.
 
+// Keep vector growth's unsigned comparison local. Its standalone template
+// copy differs from retail; all uses in this unit are already inlined.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+ return a < b ? b : a;
+}
+}
 #include "unicode_string.h"
 #include <vector>
 struct Rva005E1BD5Owner;

@@ -13,6 +13,15 @@
 // Native compiler lifetimes require the filename temporary in the throw expression.
 
 #include "ascii_string.h"
+// Keep deque growth's unsigned comparison local. Its standalone template
+// copy differs from retail; all uses in this unit are already inlined.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+ return a < b ? b : a;
+}
+}
 #include <deque>
 struct BfmeWordValue4 {unsigned int bits;BfmeWordValue4(){}~BfmeWordValue4(){}};
 typedef _STL::deque<BfmeWordValue4> InnerDeque;
