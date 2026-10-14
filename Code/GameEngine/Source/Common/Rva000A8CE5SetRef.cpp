@@ -30,10 +30,13 @@ private:
 	char unknown00[0x28];
 };
 
+class AsciiString;
+
+// 0x0010F962 is matched as rva0010F962(const AsciiString &, const void *).
 class Rva0010F962
 {
 public:
-	void rva0010F962(int a, int b);
+	void rva0010F962(const AsciiString &a, const void *b);
 };
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile *value);
@@ -56,5 +59,5 @@ void Rva000A8C9B::rva000A8CE5(OpaqueRefCounted *value)
 void Rva000A8C9B::rva000A8D0B(int a, int b, int c)
 {
 	rva000A8CE5(reinterpret_cast<OpaqueRefCounted *>(new Rva0010F058(a)));
-	reinterpret_cast<Rva0010F962 *>(m_ptr)->rva0010F962(b, c);
+	reinterpret_cast<Rva0010F962 *>(m_ptr)->rva0010F962(*reinterpret_cast<const AsciiString *>(b), reinterpret_cast<const void *>(c));
 }
