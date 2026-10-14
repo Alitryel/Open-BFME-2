@@ -13,6 +13,15 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <map>
 
+// Compare typed nodes locally; retail inlines this comparison in the caller.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+
+
 class AsciiString;
 
 // --- 0x002B3080..0x002B309A: a pointer-vector count and a vtable store.

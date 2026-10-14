@@ -19,6 +19,15 @@
 // handler only when this routine declines to show the add-friend prompt.
 // stlport
 #include <map>
+
+// Compare typed nodes locally; retail inlines this comparison in the caller.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+
 #include "unicode_string.h"
 
 class GameTextInterface

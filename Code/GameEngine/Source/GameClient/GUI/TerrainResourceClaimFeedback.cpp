@@ -11,6 +11,15 @@
 // stlport
 #include <list>
 #include <map>
+
+// Compare typed nodes locally; retail inlines this comparison in the caller.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+
 #include "ascii_string.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 typedef int Int;
@@ -89,7 +98,8 @@ public:
 class PlayerList
 {
 public:
-	Player *getLocalPlayer() { return m_local; }
+	// Native claimant update inlines this local +0x10 player-list view.
+	Player *claimantLocalPlayer() { return m_local; }
 	char m_pad[0x10];
 	Player *m_local;
 };
@@ -134,7 +144,7 @@ inline bool Coord3D::operator==(const Coord3D &r)
 void TerrainResourceClaimFeedback::Impl::updateClaimedDecalForClaimant(ClaimedDecalList *pending, ObjectID id, Real radius)
 {
 	Object *obj = TheGameLogic->findObjectByID(id);
-	Player *local = ThePlayerList->getLocalPlayer();
+	Player *local = ThePlayerList->claimantLocalPlayer();
 	if (obj->getShroudStatusForPlayer(local ? local->m_index : 0) > CELLSHROUD_SHROUDED)
 		obj = 0;
 	ClaimedDecalMap::iterator it = m_claimedDecalMap.find(id);
