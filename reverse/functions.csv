@@ -30846,12 +30846,6 @@ uw_007a2910,,0x007A2910,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;obje
 uw_007a2918,,0x007A2918,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1323
 uw_007a2967,,0x007A2967,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1386
 uw_007a296f,,0x007A296F,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1341
-uw_007a29cd,,0x007A29CD,11,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L1526
-uw_007a29d8,,0x007A29D8,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1485
-uw_007a29e0,,0x007A29E0,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1350
-uw_007a29f0,,0x007A29F0,11,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;object-symbol=$L1391
-uw_007a29fb,,0x007A29FB,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1530
-uw_007a2a03,,0x007A2A03,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1332
 uw_007a2a1d,,0x007A2A1D,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1386
 uw_007a2a25,,0x007A2A25,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1341
 uw_007a2a53,,0x007A2A53,8,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L4009
@@ -88380,3 +88374,9 @@ uw_007a2989,,0x007A2989,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialP
 uw_007a2991,,0x007A2991,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?rva005D9E12@Rva005EEDB5Picker@@QAE_NPAVObject@@@Z;object-symbol=$L1611
 uw_007a29ab,,0x007A29AB,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerElendil@@UAE_NPAVObject@@@Z;object-symbol=$L1554
 uw_007a29b3,,0x007A29B3,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerElendil@@UAE_NPAVObject@@@Z;object-symbol=$L1555
+uw_007a29cd,,0x007A29CD,11,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerCaptureBuilding@@UAE_NPAVObject@@@Z;object-symbol=$L1836
+uw_007a29d8,,0x007A29D8,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerCaptureBuilding@@UAE_NPAVObject@@@Z;object-symbol=$L1837
+uw_007a29e0,,0x007A29E0,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerCaptureBuilding@@UAE_NPAVObject@@@Z;object-symbol=$L1838
+uw_007a29f0,,0x007A29F0,11,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerCaptureBuilding@@UAE_NPAVObject@@@Z;object-symbol=$L1840
+uw_007a29fb,,0x007A29FB,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerCaptureBuilding@@UAE_NPAVObject@@@Z;object-symbol=$L1841
+uw_007a2a03,,0x007A2A03,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?shouldActivate@AISpecialPowerCaptureBuilding@@UAE_NPAVObject@@@Z;object-symbol=$L1842
