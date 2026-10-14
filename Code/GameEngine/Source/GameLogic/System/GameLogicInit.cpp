@@ -1636,10 +1636,12 @@ class Team;
 
 // The +0x08 member of Player: 0x003805BB takes a point value and a flag
 // (Player::addSkillPointsForKill passes true), 0x002E6A93 stores its +0x18.
+// 0x003805BB is rowed as Rva00380200::rva003805BB (Rva00380200Getter.cpp).
+class Rva00380200 { public: bool rva003805BB(float value, bool flag); };
+
 class Rva003805BB
 {
 public:
-	bool rva003805BB(float value, bool flag);
 	void rva002E6A93(int value);
 
 	char m_pad00[0x14];
@@ -2395,7 +2397,7 @@ void GameLogic::rva00248278(bool loadingSaveGame)
 		for (int i = 0; i < 20; ++i) {
 			Player *player = ThePlayerList->getNthPlayer(i);
 			if (player && player->getPlayerType() == PLAYER_HUMAN) {
-				player->m_skillPoints.rva003805BB((float)m_94, false);
+				((Rva00380200 *)&player->m_skillPoints)->rva003805BB((float)m_94, false);
 				player->m_skillPoints.rva002E6A93(player->m_skillPoints.m_14);
 			}
 		}

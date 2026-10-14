@@ -80,6 +80,9 @@ public:
 typedef _STL::list<Object*,Rva001EB984PoolAllocator<Object*> > CarryoverObjectList;
 
 
+// 0x003805BB is rowed as Rva00380200::rva003805BB (Rva00380200Getter.cpp).
+class Rva00380200 { public: bool rva003805BB(float value, bool flag); };
+
 class Rva003805BB
 {
 public:
@@ -87,7 +90,7 @@ public:
 	virtual void slot1();
 	virtual void slot2();
 	virtual void slot3();
-	bool rva003805BB(float value, bool flag);
+	__forceinline bool rva003805BB(float value, bool flag) { return ((Rva00380200 *)this)->rva003805BB(value, flag); }
 	void rva002E6A93(int value);
 };
 

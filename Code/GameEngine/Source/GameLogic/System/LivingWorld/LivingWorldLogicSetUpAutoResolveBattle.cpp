@@ -58,9 +58,12 @@ struct SetupRecord52 {
 };
 typedef _STL::vector<SetupRecord52> OutputVector;
 class Rva002BC8C9Vector {public:void resize(unsigned);SetupRecord52*begin,*end,*capacity;};
+// 0x003805BB is rowed as Rva00380200::rva003805BB (Rva00380200Getter.cpp).
+class Rva00380200 { public: bool rva003805BB(float value, bool flag); };
+
 class Rva003805BB {public:
  virtual void slot0();virtual void slot1();virtual void update(int);
- bool rva003805BB(float,bool);void rva002E6A93(int);
+void rva002E6A93(int);
 };
 struct SetupSimulation44 {Rva003805BB object;const void*templateValues;char gap08[0x14-8];int team;char gap18[0x2C-0x18];};
 struct SimulationHeader {SetupSimulation44 *begin,*end,*capacity;};
@@ -107,7 +110,7 @@ void LivingWorldLogic::SetUpAutoResolveBattle(const _STL::vector<SetupPlayer*>*p
    int faction=player->faction;SetupRecord52 *records=out->begin();records[i].science=((Rva00413E27*)TheLivingWorldAutoResolveSciencePurchasePointBonusScheduleStore)->rva00413E27(faction);
    const PlayerTemplate*pt=ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey(*(AsciiString*)((char*)player->faction+4)));
    if(pt){SetupSimulation44 *sim=((SimulationHeader*)simulation)->begin+i;sim->templateValues=(const void*)((char*)pt+0x154);}
-   ((SimulationHeader*)simulation)->begin[i].object.rva003805BB(player->skillPoints,false);
+   ((Rva00380200*)&((SimulationHeader*)simulation)->begin[i].object)->rva003805BB(player->skillPoints,false);
    simulation->begin()[i].object.rva002E6A93(((SimulationHeader*)simulation)->begin[i].team);
    simulation->begin()[i].object.update(((Rva004E05E9DwordField*)player)->get());
    out->begin()[i].simulation=((SimulationHeader*)simulation)->begin+i;
