@@ -195,6 +195,7 @@ static inline const int &min(const int &a, const int &b)
 }
 #include <bitset>
 #include <algorithm>
+class Rva0040C598 { public: void rva0040C598(const int *); void rva0040C5B1(const int *); };
 class Rva0037DCA5 { public: void *rva0037DC52(); };
 class Rva002AA292 { public: bool rva002AA292(const int *) const; };
 class Rva00406F9C { public: bool rva00406F9C(const void *); };
@@ -279,6 +280,70 @@ void ArmySummaryEntry::ApplyWorldMapUpgrades() {
   }
  }
  m_bc=0;
+}
+
+// ?check@Rva0040C804Target@@QAE_NXZ @0x0040C804 279B (pin name kept: the sole caller 0x005C4A91
+// reaches it through that pin). Whether the carried unit's upgrade set covers the template's
+// upgrades: true when the template has none or the carried set already contains all of them,
+// otherwise the template upgrades the unit lacks (~carried & template) minus every
+// world-map upgrade module's required set that the template satisfies, whose excluded set the
+// template misses and whose level limit the unit has reached; true when nothing is left.
+// Evidence: target bytes and WB debug body 01091CC0 (unnamed) structure; same views as
+// ApplyWorldMapUpgrades above (carried set +0x10, level +0xC, template set +0x404, modules +0x2E4,
+// module slots 0x30/0x68, data required +0x08 excluded +0x88 max level +0x11C); the 128-byte
+// copy is the rowed BfmeFixedStorage128 copy constructor 0x0004548B, the AND/AND-NOT loops
+// are rowed Rva0040C598 0x0040C598/0x0040C5B1. The purpose and class name are inferred.
+struct BfmeFixedStorage128
+{
+	BfmeFixedStorage128(const BfmeFixedStorage128 &other);
+	int m_bits[32];
+};
+class Rva0040C804Target
+{
+public:
+	bool check();
+};
+static inline bool anyBitSet(const BfmeFixedStorage128 &bits)
+{
+	for (unsigned i = 0; i < 32; ++i)
+		if (bits.m_bits[i])
+			return true;
+	return false;
+}
+bool Rva0040C804Target::check()
+{
+	const ThingTemplate *thing = (const ThingTemplate *)((Rva0037DCA5 *)this)->rva0037DC52();
+	if (thing)
+	{
+		ArmyUpgradeCarryoverView *carry = (ArmyUpgradeCarryoverView *)this;
+		const ArmyUpgradeTemplateView *view = (const ArmyUpgradeTemplateView *)thing;
+		if (!((const Rva002AA292 *)&carry->upgrades)->rva002AA292((const int *)&view->upgrades))
+		{
+			BfmeFixedStorage128 missing(*(const BfmeFixedStorage128 *)&carry->upgrades);
+			for (unsigned i = 0; i < 32; ++i)
+				missing.m_bits[i] = ~missing.m_bits[i];
+			((Rva0040C598 *)&missing)->rva0040C598((const int *)&view->upgrades);
+			const ModuleInfo *modules = &view->modules;
+			for (int i = 0; i < modules->count(); ++i)
+			{
+				const WorldMapModuleDataView *data = (const WorldMapModuleDataView *)modules->getNthData(i);
+				if (!data || !data->isWorldMapUpgrade())
+					continue;
+				const WorldMapUpgradeDataView *upgrade = data->worldMapUpgradeData();
+				if (!upgrade)
+					continue;
+				if (!((const Rva002AA292 *)&view->upgrades)->rva002AA292(upgrade->required))
+					continue;
+				if (((Rva00406F9C *)&view->upgrades)->rva00406F9C(upgrade->excluded))
+					continue;
+				if (carry->level < upgrade->maxLevel)
+					continue;
+				((Rva0040C598 *)&missing)->rva0040C5B1(upgrade->required);
+			}
+			return !anyBitSet(missing);
+		}
+	}
+	return true;
 }
 
 // Retail 0x0040C495 (54 bytes; WB twin 0x010920D0, callgraph), called once per
