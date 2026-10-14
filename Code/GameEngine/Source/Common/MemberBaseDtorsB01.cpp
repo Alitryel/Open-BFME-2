@@ -207,17 +207,19 @@ Rva00413A24::~Rva00413A24()
 {
 }
 
-class Rva00414166 : public SubsystemInterface
+// The class whose constructor is 0x0022DE6B (Rva0022DE6BCtor.cpp): its
+// scalar deleting dtor 0x0022DE8C calls this protected destructor.
+class Rva0022DE6B : public SubsystemInterface
 {
-public:
-	virtual ~Rva00414166();
+protected:
+	virtual ~Rva0022DE6B();
 
 private:
 	char m_unmodelled_04[0x8];
 	Rva0022DCDA m_member;	// +0xC
 };
 
-Rva00414166::~Rva00414166()
+Rva0022DE6B::~Rva0022DE6B()
 {
 }
 
