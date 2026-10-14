@@ -3089,7 +3089,6 @@ name,address,notes
 ??1CastleBehavior@@UAE@XZ,0x0039857D,"dtor called by audited wrapper RVA 0x00399354; retail slot 4 -> RVA 0x00398538 uses class-name string ""CastleBehavior"""
 ??1CastleMemberBehaviorModuleData@@UAE@XZ,0x00395B2C,dtor called by audited wrapper RVA 0x00396007; retail registration CastleMemberBehavior -> data factory RVA 0x0024AB26 -> ctor RVA 0x00395B03; primary vptr store RVA 0x00395B07
 ??1CaveContainModuleData@@UAE@XZ,0x0025770F,dtor called by audited wrapper RVA 0x002576F3; retail registration CaveContain -> data factory RVA 0x00257714 -> ctor RVA 0x00466D37; primary vptr store RVA 0x00466D46; constructor also used by HealContain (no exclusive owner claim)
-??1Cftp@@UAE@XZ,0x006CA600,twin of rowed d_00885af0 dtor for Cftp deleting dtor call; vtable 0xCE8A38 same as ctor 0x6CA5E0; BFME1 donor virtual ~Cftp
 ??1CitadelSlaughterHordeContain@@UAE@XZ,0x00480718,"dtor called by audited wrapper RVA 0x004806FC; retail slot 4 -> RVA 0x00480600 uses class-name string ""CitadelSlaughterHordeContain"""
 ??1CitadelSlaughterHordeContainModuleData@@UAE@XZ,0x004811E6,dtor called by audited wrapper RVA 0x004811CA; retail registration CitadelSlaughterHordeContain -> data factory RVA 0x0024C100 -> ctor RVA 0x0048112F; primary vptr store RVA 0x00481155
 ??1ClearanceTestingSlowDeathBehaviorModuleDataMember@@QAE@XZ,0x00050B2A,callee of 1GhostObject (0x00305B5E) at the site its BFME1 donor calls it; may be an ICF alias

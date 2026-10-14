@@ -9608,7 +9608,7 @@ _ScaleOrCenter,,0x001BB330,126,Code/Libraries/Source/VP6/ScaleOrCenter.cpp,match
 ?bfmeAssignV14@BfmeStrV14@@QAEPAV1@PAD0ID@Z,,0x000297D0,119,Code/GameEngine/Source/Common/BfmeConv1453.cpp,matched,BFME1 byte-identical donor; b1 0x00830030
 ?d_00889d70@Rva00889D70Class@@QAE_NPAX0@Z,,0x00038E40,85,Code/GameEngine/Source/Common/Bfme/Rva00889D70.cpp,matched,BFME1 donor; alloc callee is matched DebugAllocMemory (no pin); b1 0x00889D70
 ?bfmeFindQW@BfmeThingQW@@QAEHEI@Z,,0x00027830,107,Code/GameEngine/Source/Common/BfmeThreeHundredFive.cpp,matched,BFME1 byte-identical donor; b1 0x0082E2E0
-?d_00885af0@Rva00885AF0Class@@QAEXXZ,,0x006CA600,81,Code/GameEngine/Source/Common/Bfme/Rva00885AF0.cpp,matched,BFME1 donor; vtable imm 0xCE8A38; closesocket via existing true pin (sweep ji pin stale); b1 0x00885AF0
+??1Cftp@@UAE@XZ,,0x006CA600,81,Code/GameEngine/Source/Common/Bfme/Rva00885AF0.cpp,matched,BFME1 donor; vtable imm 0xCE8A38; closesocket via existing true pin (sweep ji pin stale); b1 0x00885AF0
 ?d_00889d20@Rva00889D20Class@@QAE_NPAX00@Z,,0x00038DF0,78,Code/GameEngine/Source/Common/Bfme/Rva00889D20.cpp,matched,BFME1 donor; alloc callee is matched DebugAllocMemory; unserved d_00889d70 twin def dropped (landed at 0x38E40); b1 0x00889D20
 ??A?$hash_map@U?$pair@HH@_STL@@HURva00928590Hash@@URva00928590Eq@@V?$allocator@U?$pair@$$CBU?$pair@HH@_STL@@H@_STL@@@2@@_STL@@QAEAAHABU?$pair@HH@1@@Z,,0x0016E2C0,76,Code/Libraries/Source/WWVegas/WWLib/RvaHashIndex00928620.cpp,matched,BFME1 byte-identical donor; b1 0x00928620
 ?Rva007F72D0@BfmeThingZI@@QAEXPAVRva007E8810Message@@@Z,,0x006639C0,123,Code/GameEngine/Source/GameNetwork/Rva007F72D0GameBrowserEntryReply.cpp,matched,BFME1 byte-identical donor; b1 0x007F72D0; 2 DIR32 string literal(s) agree
