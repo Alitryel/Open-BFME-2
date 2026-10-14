@@ -1607,6 +1607,8 @@ class Rva0029A48A
 {
 public:
 	void rva0029A48A(float lo);
+	float rva0029A4A8() const;
+	float rva0029A4B9() const;
 private:
 	Rva0029A48ARecord *m_record;
 };
@@ -1617,6 +1619,22 @@ void Rva0029A48A::rva0029A48A(float lo)
 	{
 		m_record->m_range.set(lo, m_record->m_range.hi);
 	}
+}
+
+// --- 0x0029A4A8 / 0x0029A4B9 (17B each): the high / low end of that range,
+// or zero without a record.
+float Rva0029A48A::rva0029A4A8() const
+{
+	if (m_record)
+		return m_record->m_range.hi;
+	return 0.0f;
+}
+
+float Rva0029A48A::rva0029A4B9() const
+{
+	if (m_record)
+		return m_record->m_range.lo;
+	return 0.0f;
 }
 
 // --- 0x0029B5CD (11B): forwards to the rowed body on the +0x9BC object.
