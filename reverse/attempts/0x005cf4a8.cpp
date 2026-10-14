@@ -1,6 +1,11 @@
 // ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
-// partial score=0.97 date=2026-10-13
-// W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
+// partial score=0.8 date=2026-10-14
+// ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
+// partial score=0.8 date=2026-10-14
+// W7-MP6 r10: first-line symbol corrected AND the factory call now uses the rowed by-value
+// ?Rva005CEC8FCreate@@YA?AVRva005CEC8F@@PBUPayload@Rva005CEAE6@@@Z (0x5CEC8F); the old
+// pointer-returning spelling had no pin, so the bank could never verify. Direct compile is
+// size-exact 525B with nd106 (the old 0.97 was Lab2 alias-binding, not a direct compile).
 // ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
 // partial score=0.9443093203093204 date=2026-10-13
 // ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
@@ -198,8 +203,7 @@ class Rva005CEAE6 {public:struct Payload{int v[3];};};
 class Rva005CEC8F {public:TargetRef00217D4C *pointer;
  ~Rva005CEC8F(){if(pointer)ReleaseTreeHintRef00217D4C(pointer);}
 };
-Rva005CEC8F *__cdecl Rva005CEC8FCreate(Rva005CEC8F*,const Rva005CEAE6::Payload*);
-typedef Rva005CEC8F (__cdecl *SelectionFactory)(const Rva005CEAE6::Payload*);
+Rva005CEC8F __cdecl Rva005CEC8FCreate(const Rva005CEAE6::Payload*);
 class Rva005E8F50;
 struct Rva005E8FECOwner;
 struct Rva005E8FECSource;
@@ -252,7 +256,7 @@ Rva005CEF2F::Rva005CEF2F(Rva005CF22CBig*b,int value):Rva005CE8F5(b),selection(va
    for(_STL::vector<ScienceType>::iterator it=keys.begin();it!=end;++it){
     ArmorTemplate *building=((Rva002B6498*)TheLivingWorldBuildingTemplateStore)->rva002B6498((NameKeyType)*it);
     if(building){
-     commands->createButton(slot,(const RvaCloneResult<Rva005CEA74>&)((SelectionFactory)Rva005CEC8FCreate)((const Rva005CEAE6::Payload*)&ICoord3D(button,selection,(int)building)));
+     commands->createButton(slot,(const RvaCloneResult<Rva005CEA74>&)Rva005CEC8FCreate((const Rva005CEAE6::Payload*)&ICoord3D(button,selection,(int)building)));
      if(++slot>=6)break;
     }
    }
