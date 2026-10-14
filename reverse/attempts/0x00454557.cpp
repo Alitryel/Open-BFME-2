@@ -1,4 +1,6 @@
 // ?xfer@GettingBuiltBehavior@@MAEXPAVXfer@@@Z
+// partial score=0.98 date=2026-10-14
+// ?xfer@GettingBuiltBehavior@@MAEXPAVXfer@@@Z
 // partial score=0.9564 date=2026-10-13
 // ?xfer@GettingBuiltBehavior@@MAEXPAVXfer@@@Z
 // partial score=0.9564 date=2026-10-12
@@ -7,7 +9,7 @@
 // ?xfer@GettingBuiltBehavior@@MAEXPAVXfer@@@Z
 // partial score=0.95 date=2026-10-09
 // stlport
-// cl: /D_STLP_NO_EXCEPTIONS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
+// cl: /D_STLP_NO_EXCEPTIONS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /Gy
 // Retail 0x00454557, 551B: GettingBuiltBehavior::xfer.
 // Version (1, 9) through Xfer slot 0x28, the UpdateModule base xfer
 // (0x0044DF9F), then the members in retail order: bool +0x30, float +0x28,
@@ -229,7 +231,6 @@ public:
 
 #include <list>
 namespace _STL {
-template <> _List_base<int, allocator<int> >::_List_base(const allocator<int> &);
 template <> _List_base<int, allocator<int> >::~_List_base();
 template <> void list<Rva004530ED, allocator<Rva004530ED> >::push_back(const Rva004530ED &);
 }
@@ -286,6 +287,7 @@ private:
 	GettingBuiltWorkList m_workList;
 };
 
+template _STL::_List_base<int, _STL::allocator<int> >::_List_base(const _STL::allocator<int> &);
 void GettingBuiltBehavior::xfer( Xfer *xfer )
 {
 	Xfer::Version version( 1, 9 );

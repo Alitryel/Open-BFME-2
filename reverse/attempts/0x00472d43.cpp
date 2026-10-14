@@ -1,5 +1,5 @@
 // ?changeToFormation@HordeContain@@UAEXPBVThingTemplate@@@Z
-// partial score=0.97 date=2026-10-14
+// partial score=0.98 date=2026-10-14
 // ?changeToFormation@HordeContain@@UAEXPBVThingTemplate@@@Z
 // partial score=0.9 date=2026-10-13
 // ?changeToFormation@HordeContain@@UAEXPBVThingTemplate@@@Z
@@ -20,8 +20,6 @@
 // template, moves the horde over (leader/member lists, AI orders, lifetime),
 // then tears the old one down. /EHs for the LatchRestore guard, the static
 // LifetimeUpdate key and the nothrow list disposal.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 #include <string.h>
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
@@ -84,7 +82,12 @@ public:
 	~_List_base() { ((Rva001EB769 *)this)->rva001EB769(); }
 	_List_node_base *_M_node;
 };
-template <class InputIter, class T> InputIter find(InputIter first, InputIter last, const T &val);
+template <class InputIter, class T> __declspec(noinline) InputIter find(InputIter first, InputIter last, const T &val)
+{
+	while (first != last && !(*first == val))
+		++first;
+	return first;
+}
 template <class InputIter> inline Int __distance(const InputIter &first, const InputIter &last)
 {
 	Int n = 0;
@@ -350,7 +353,6 @@ void HordeContain::changeToFormation(const ThingTemplate *newTemplate)
 		return;
 	}
 	HordeContain *newHorde = contain->getHordeContain();
-	_ReadWriteBarrier();
 	slot122();
 	_STL::list<Object *> members;
 	getMembers(&members);
@@ -391,7 +393,7 @@ void HordeContain::changeToFormation(const ThingTemplate *newTemplate)
 		{
 			static NameKeyType s_lifetimeKey = TheNameKeyGenerator->nameToKey("LifetimeUpdate");
 			LifetimeUpdate * volatile newLife = (LifetimeUpdate *)newLeader->findModule(s_lifetimeKey);
-			LifetimeUpdate * volatile oldLife = (LifetimeUpdate *)leader->findModule(s_lifetimeKey);
+			LifetimeUpdate *oldLife = (LifetimeUpdate *)leader->findModule(s_lifetimeKey);
 			if (newLife != 0 && oldLife != 0)
 			{
 				UnsignedInt dieFrame = oldLife->m_dieFrame;

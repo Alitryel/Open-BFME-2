@@ -1,4 +1,6 @@
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
+// partial score=0.9 date=2026-10-14
+// ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.844802 date=2026-10-10
 // cl: /O1 /G7 /Ob1 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include
 // stlport
@@ -6,7 +8,7 @@
 #include "ascii_string.h"
 #include "Lib/Coord3D.h"
 class Object;
-namespace _STL {template<> inline __declspec(noinline) _STLP_alloc_proxy<Object**,Object*,allocator<Object*> >::_STLP_alloc_proxy(const allocator<Object*>&a,Object**p):allocator<Object*>(a),_M_data(p){} }
+namespace _STL {template<> _STLP_alloc_proxy<Object**,Object*,allocator<Object*> >::_STLP_alloc_proxy(const allocator<Object*>&a,Object**p);}
 namespace _STL {template<> __forceinline _Vector_base<Object*,allocator<Object*> >::_Vector_base(const allocator<Object*>&a):_M_start(0),_M_finish(0),_M_end_of_storage(a,(Object**)0){} }
 namespace _STL {template<> __forceinline vector<Object*>::vector(const allocator<Object*>&a):_Vector_base<Object*,allocator<Object*> >(a){} template<>void vector<Object*>::push_back(Object*const&);template<>vector<Object*>::~vector();}
 class TerrainLogic {

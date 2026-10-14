@@ -1,18 +1,4 @@
-// ?rva00574EE9@Rva00574EA2@@QAEXXZ
-// partial score=0.985 date=2026-10-10
-// ?rva00574EE9@Rva00574EA2@@QAEXXZ
-// partial score=0.98 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/GameEngine/Source/Common
-// NEAR (helper draft for Code/GameEngine/Source/Common/Rva00574EE9Method.cpp):
-// every instruction matches except the frame: retail packs the 8-byte payload
-// at [ebp-0x18] over the byte temp cl uses to push the show(flag) argument
-// ([ebp-0x14]) so the frame is sub esp,0xc; this compiles the payload at
-// [ebp-0x1c] (sub esp,0x10). Tried: named/temporary payload and result,
-// function-scope payload, inline wrappers (by value and const bool&), int
-// param probe (frame then matches), /O2 /G6 /GX variants - none pack it.
-// Also needs the pin ?rva002B256E@Rva002B254F@@QAEPAXXZ=0x002B256E: retail
-// loads ecx=TheLivingWorldLogic before calling the 11-byte thunk that the
-// ledger rows as the free function ?Rva002B256EGet@@YAPAXXZ.
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // ?rva00574EE9@Rva00574EA2@@QAEXXZ retail 0x00574EE9..0x00575038 (335 bytes).
 // Third step of the per-frame method 0x00575038 (which calls the rowed
 // 0x00574EA2 and then this on the same object): lazily caches the panel
@@ -91,6 +77,11 @@ public:
 	int m_ref;
 	Payload m_data;
 };
+
+// Visible-callee lever (U1 r6): cl 13.10 only shares the byte temp of show(flag) with the 8-byte payload
+// (frame 0xc instead of 0x10) when the factory it calls is call-free apart from operator new, so the rowed
+// constructor 0x00574ABB (vptr install, zero count, copy of the payload words) is defined here as well.
+inline Rva00574ABB::Rva00574ABB(const Payload *src) throw() : m_ref(0), m_data(*src) {}
 
 inline __declspec(noinline) RvaCloneResult<Rva00574ABB> Rva00574BA5Create(const Rva00574ABB::Payload *src)
 {
