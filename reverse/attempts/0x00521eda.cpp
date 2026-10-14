@@ -1,10 +1,12 @@
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
+// partial score=0.99 date=2026-10-14
+// ?InitTheGame@AptSkirmish@@QAE_NXZ
 // partial score=0.97 date=2026-10-14
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
 // partial score=0.93 date=2026-10-13
 // ?InitTheGame@AptSkirmish@@QAE_NXZ
 // partial score=0.93 date=2026-10-08
-// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // BFME2's skirmish screen Apt callbacks, 0x00521741 onward, bound by these
@@ -719,7 +721,7 @@ bool AptSkirmish::InitTheGame() {
    _STL::vector<long> scenarios;g_00E02D6C->rva003B930D(&scenarios);
    if(!scenarios.empty()) {
     ((SkirmishGameView *)TheSkirmishGameInfo)->scenario=scenarios[0];
-    ((SkirmishScenarioView *)((char *)this+0x27c))->select(((SkirmishGameView *)TheSkirmishGameInfo)->scenario);
+    ((SkirmishScenarioView *)((char *)this+0x27c))->select((enemy ? (((SkirmishGameView *)TheSkirmishGameInfo)->scenario) : (((SkirmishGameView *)TheSkirmishGameInfo)->scenario)));
    }
   }
   char rules[0x28];Rva00559FAC(*(int *)((char *)this+0x304),rules);

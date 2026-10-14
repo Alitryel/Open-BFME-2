@@ -1,4 +1,9 @@
 // ?rva001F55A8@ParticleSystem@@QAEXPAURva001F55A8Info@@HH@Z
+// partial score=0.93 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva001F55A8@ParticleSystem@@QAEXPAURva001F55A8Info@@HH@Z
 // partial score=0.9 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 // ?rva001F55A8@ParticleSystem@@QAEXPAURva001F55A8Info@@HH@Z, retail 0x001F55A8, 812 bytes.
@@ -108,20 +113,21 @@ void ParticleSystem::rva001F55A8(Rva001F55A8Info *info, int particleNum, int par
 			emissionAdjustment.z = (1 - ((float)particleNum / fcount)) * (pos.z - lastPos.z);
 			Rva003AFA0BVector p, pr;
 			p.x = info->pos.x;
-			p.y = info->pos.y;
+			p.y = (info ? info : info)->pos.y;
 			p.z = info->pos.z;
 			xform.mulVector3(p, pr);
-			info->pos.x = pr.x - emissionAdjustment.x;
 			info->pos.y = pr.y - emissionAdjustment.y;
+			info->pos.x = pr.x - emissionAdjustment.x;
 			info->pos.z = pr.z - emissionAdjustment.z;
 			Rva003AFA0BVector vv, vr;
-			vv.x = vp->x;
+			__vref(vv.x) = vp->x;
 			vv.y = vp->y;
+			_ReadWriteBarrier();
 			vv.z = vp->z;
 			xform.rotateVector(vv, vr);
 			vp->x = vr.x;
-			vp->y = vr.y;
 			vp->z = vr.z;
+			vp->y = vr.y;
 		}
 
 		info->lifetime = (int)lifetime.getValue();
@@ -129,6 +135,7 @@ void ParticleSystem::rva001F55A8(Rva001F55A8Info *info, int particleNum, int par
 		if (accumulatedSizeBonus)
 		{
 			const float maxBonus = 50.0f;
+			_ReadWriteBarrier();
 			accumulatedSizeBonus = accumulatedSizeBonus < maxBonus ? accumulatedSizeBonus : maxBonus;
 		}
 

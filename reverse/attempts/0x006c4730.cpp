@@ -1,4 +1,6 @@
 // ?rva006C4730@GeneralAllocatorDebug@@QAEPAXPAXIH@Z
+// partial score=0.94 date=2026-10-14
+// ?rva006C4730@GeneralAllocatorDebug@@QAEPAXPAXIH@Z
 // partial score=0.8739254351 date=2026-10-10
 // cl: /O2 /G6 /MD /EHsc /DNDEBUG
 // Native 6C4730..6C4A4E is a complete RET12 debug-allocator reallocation.
@@ -92,7 +94,7 @@ void *GeneralAllocatorDebug::rva006C4730(void *data,unsigned size,int flags)
  }
  if(data) {
   void *chunk=(char*)result-8;
-  unsigned capacity=chunkCapacity(result);
+  unsigned capacity=chunkCapacity((result ? result : result));
   if(backup)memcpy((char*)chunk+capacity-backupLength,backup,backupLength);
   else *(unsigned short*)((char*)chunk+capacity-2)=0;
   if(tracking) {
@@ -106,7 +108,7 @@ void *GeneralAllocatorDebug::rva006C4730(void *data,unsigned size,int flags)
    }
   }
   if(result) {
-   unsigned *stored=(unsigned*)rva006C25F0Run6(result,2,0,0,0,2);
+   unsigned *stored=(lock ? ((unsigned*)rva006C25F0Run6(result,2,0,0,0,2)) : ((unsigned*)rva006C25F0Run6(result,2,0,0,0,2)));
    if(stored)*stored=size;
    rva006C26F0((char*)result-8,1);
   }

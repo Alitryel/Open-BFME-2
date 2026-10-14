@@ -1,4 +1,6 @@
 // ?rva00474842@Rva00474842@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
+// partial score=0.95 date=2026-10-14
+// ?rva00474842@Rva00474842@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
 // partial score=0.9 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /MD /ICode/Libraries/Include
 // Semantic guide: Open-BFME-1 f98983a7d3bb405f1a4ba94bb6a2a168062a819d,
@@ -8,19 +10,53 @@
 // owner2A0 target, definition240/244, formation flags120/121. Donor provides
 // moving/turning/goal relationship; retail differs in terrain and flags paths.
 #include "Lib/Coord3D.h"
-struct Rva474842Coordinate : Coord3D {
- // ?Rva474842Coordinate::Rva474842Coordinate present-unmatched
- __forceinline Rva474842Coordinate() {}
- // ?Rva474842Coordinate::~Rva474842Coordinate present-unmatched
- __forceinline ~Rva474842Coordinate() {}
-};
-enum ObjectStatusTypes { Rva474842Status75=75 };
-enum KindOfType { Rva474842Kind443=443 };
-enum CommandSourceType { Rva474842AI=2 };
-class AICommandInterface { public: void rva0045003E(int,CommandSourceType); char opaque[4]; };
-class Rva001E3591 { public: bool rva001E3591(); };
-class AIUpdateInterface {
-public:
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
+struct Rva474842Coordinate : Coord3D 
+{
+// ?Rva474842Coordinate::Rva474842Coordinate present-unmatched
+ __forceinline Rva474842Coordinate() 
+ {
+  
+ }
+// ?Rva474842Coordinate::~Rva474842Coordinate present-unmatched
+ __forceinline ~Rva474842Coordinate() 
+ {
+  
+ }
+ 
+}
+;
+enum ObjectStatusTypes 
+{
+ Rva474842Status75=75 
+}
+;
+enum KindOfType 
+{
+ Rva474842Kind443=443 
+}
+;
+enum CommandSourceType 
+{
+ Rva474842AI=2 
+}
+;
+class AICommandInterface 
+{
+ public: void rva0045003E(int,CommandSourceType);
+ char opaque[4];
+ 
+}
+;
+class Rva001E3591 
+{
+ public: bool rva001E3591();
+ 
+}
+;
+class AIUpdateInterface 
+{
+ public:
  bool isMoving() const;
  void rva00262AEA();
  virtual void reserved0();
@@ -160,32 +196,74 @@ public:
  virtual void reserved134();
  virtual void reserved135();
  virtual void slot136();
- char opaque04[0x20-4]; AICommandInterface command;
- char opaque24[0x140-0x24]; Rva001E3591 *path;
- char opaque144[0x1fc-0x144]; int goal;
-};
-class Rva00474842MemberSub { public: char opaque[0x5c]; bool paused; };
-class Object {
-public:
+ char opaque04[0x20-4];
+ AICommandInterface command;
+ char opaque24[0x140-0x24];
+ Rva001E3591 *path;
+ char opaque144[0x1fc-0x144];
+ int goal;
+ 
+}
+;
+class Rva00474842MemberSub 
+{
+ public: char opaque[0x5c];
+ bool paused;
+ 
+}
+;
+class Object 
+{
+ public:
  bool testStatus(ObjectStatusTypes) const;
  bool isKindOf(KindOfType) const;
  float rva00263763(const void *) const;
  void rva0028AE6D();
  int rva0028B511() const;
- char opaque000[0x38]; Coord3D position;
- char opaque044[0x110-0x44]; unsigned modelFlags[19];
- char opaque15c[0x258-0x15c]; AIUpdateInterface *ai;
+ char opaque000[0x38];
+ Coord3D position;
+ char opaque044[0x110-0x44];
+ unsigned modelFlags[19];
+ char opaque15c[0x258-0x15c];
+ AIUpdateInterface *ai;
  Rva00474842MemberSub *sub;
- char opaque260[0x438-0x260]; unsigned char status438;
- __forceinline void clearMoving() {
-  if (modelFlags[0] & 0x20000000) { modelFlags[0] &= ~0x20000000; rva0028AE6D(); }
+ char opaque260[0x438-0x260];
+ unsigned char status438;
+ __forceinline void clearMoving() 
+ {
+  if (modelFlags[0] & 0x20000000) 
+  {
+   modelFlags[0] &= ~0x20000000;
+   rva0028AE6D();
+   
+  }
+  
  }
-};
-class Rva00265254 { public: Rva00265254(unsigned,unsigned,unsigned,unsigned); unsigned words[19]; };
-class Rva001E42F2 { public: void rva001E42F2(const int *); };
-class Rva0030A92C { public: void rva0030A92C(float); };
-class TerrainLogic {
-public:
+ 
+}
+;
+class Rva00265254 
+{
+ public: Rva00265254(unsigned,unsigned,unsigned,unsigned);
+ unsigned words[19];
+ 
+}
+;
+class Rva001E42F2 
+{
+ public: void rva001E42F2(const int *);
+ 
+}
+;
+class Rva0030A92C 
+{
+ public: void rva0030A92C(float);
+ 
+}
+;
+class TerrainLogic 
+{
+ public:
  virtual void unused0();
  virtual void unused1();
  virtual void unused2();
@@ -194,15 +272,38 @@ public:
  virtual void unused5();
  virtual void unused6();
  virtual float height(float,float,int,bool*,bool);
-};
+ 
+}
+;
 extern TerrainLogic *TheTerrainLogic;
-class Rva00469012 { public: bool rva00469012(Object*,const Coord3D*); };
-class Rva0046AFDEReceiver { public: bool rva0046AFDE(Object*); };
-struct Rva0046E6EACoord { float x,y,z; };
+class Rva00469012 
+{
+ public: bool rva00469012(Object*,const Coord3D*);
+ 
+}
+;
+class Rva0046AFDEReceiver 
+{
+ public: bool rva0046AFDE(Object*);
+ 
+}
+;
+struct Rva0046E6EACoord 
+{
+ float x,y,z;
+ 
+}
+;
 struct Rva0046E6EAObject;
-class Rva0046E6EA { public: bool rva0046E6EA(Rva0046E6EAObject*,const Rva0046E6EACoord*,Rva0046E6EACoord*,bool); };
-class Rva00474842Iface {
-public:
+class Rva0046E6EA 
+{
+ public: bool rva0046E6EA(Rva0046E6EAObject*,const Rva0046E6EACoord*,Rva0046E6EACoord*,bool);
+ 
+}
+;
+class Rva00474842Iface 
+{
+ public:
  virtual void unused0();
  virtual void unused1();
  virtual void unused2();
@@ -346,30 +447,52 @@ public:
  virtual void unused140();
  virtual void unused141();
  virtual bool ready();
-};
-struct Rva00474842Definition {
- char opaque000[0x240]; bool allow;
- char opaque241[3]; float distance;
-};
-class Rva00474842 {
-public:
+ 
+}
+;
+struct Rva00474842Definition 
+{
+ char opaque000[0x240];
+ volatile bool allow;
+ char opaque241[3];
+ volatile float distance;
+ 
+}
+;
+class Rva00474842 
+{
+ public:
  void rva00474842(Object*,const Coord3D*,float,bool);
  void rva00471464(Object*,const Coord3D*,float);
- void *vptr; Rva00474842Definition *definition; Object *owner;
- char opaque00c[0x11c-12]; Rva00474842Iface interface;
- bool flag120,flag121;
- char opaque122[0x1a4-0x122]; int field1a4;
- char opaque1a8[0x2a0-0x1a8]; int target;
-};
-static __forceinline const float &rva474842Min(const float &a,const float &b) {return a<b?a:b;}
+ void *vptr;
+ Rva00474842Definition *definition;
+ Object *owner;
+ char opaque00c[0x11c-12];
+ Rva00474842Iface interface;
+ bool flag120;
+ bool flag121;
+ char opaque122[0x1a4-0x122];
+ int field1a4;
+ char opaque1a8[0x2a0-0x1a8];
+ int target;
+ 
+}
+;
+static __forceinline const float &rva474842Min(const float &a,const float &b) 
+{
+ return a<b?a:b;
+ 
+}
 void Rva00474842::rva00474842(Object *obj,const Coord3D *position,float orientation,bool flag)
+
 {
  AIUpdateInterface *ai=obj->ai;
  Object *self=owner;
  AIUpdateInterface *selfAI=self->ai;
- Rva00474842Definition *data=definition;
+ Rva00474842Definition *data=(definition ? definition : definition);
  if ((obj->sub && obj->sub->paused) || (obj->status438&1) || !selfAI || !ai) return;
- if(selfAI->isMoving() && !target) {
+ if(selfAI->isMoving() && !target) 
+ {
   float distance=self->rva00263763(obj);
   Rva474842Coordinate delta;
   delta.x=obj->position.x-position->x;
@@ -377,37 +500,69 @@ void Rva00474842::rva00474842(Object *obj,const Coord3D *position,float orientat
   delta.z=0;
   float length=(delta.x*delta.x)+(delta.y*delta.y);
   distance=rva474842Min(distance,length);
-  if(distance>data->distance*data->distance && !ai->slot113())
-   ai->command.rva0045003E(0,Rva474842AI);
+  if(distance>data->distance*__vref(data->distance) && !ai->slot113())
+  ai->command.rva0045003E(0,Rva474842AI);
+  
  }
- if(ai->slot111()) {
+ if((obj ? (ai->slot111()) : (ai->slot111()))) 
+ {
   bool held=obj->testStatus(Rva474842Status75);
-  if(!selfAI->isMoving() || !held) {
+  if(!selfAI->isMoving() || !held) 
+  {
    if(ai->isMoving()) ai->rva00262AEA();
    obj->clearMoving();
    ai->slot136();
-   if(obj->isKindOf(Rva474842Kind443)) {
+   if(obj->isKindOf(Rva474842Kind443)) 
+   {
     ((Rva001E42F2*)obj)->rva001E42F2((const int*)&Rva00265254(0,103,105,443));
     ((Rva0030A92C*)obj)->rva0030A92C(TheTerrainLogic->height(obj->position.x,obj->position.y,obj->rva0028B511(),0,true));
+    
    }
    return;
+   
   }
+  
  }
  data=definition;
- if(target) {
-  if(ai->goal==4 && ai->path && ai->path->rva001E3591()) {flag120=true;return;}
+ if(target) 
+ {
+  if(ai->goal==4 && ai->path && ai->path->rva001E3591()) 
+  {
+   flag120=true;
+   return;
+   
+  }
   rva00471464(obj,position,orientation);
   return;
+  
  }
- if(ai->goal==4 && ai->path) {flag120=true;return;}
- if(interface.ready()) {flag121=true;flag120=true;}
+ if(ai->goal==4 && ai->path) 
+ {
+  flag120=true;
+  return;
+  
+ }
+ if(interface.ready()) 
+ {
+  flag121=true;
+  flag120=true;
+  
+ }
  if(!flag && !flag121 && ((Rva00469012*)this)->rva00469012(obj,position)==1 && !field1a4 && data->allow==true &&
-  (selfAI->isMoving() || ((Rva0046AFDEReceiver*)this)->rva0046AFDE(obj))) {
+ (selfAI->isMoving() || ((Rva0046AFDEReceiver*)this)->rva0046AFDE(obj))) 
+ {
   if(ai->isMoving()) ai->rva00262AEA();
-  obj->clearMoving();ai->slot136();flag120=true;return;
+  obj->clearMoving();
+  ai->slot136();
+  flag120=true;
+  return;
+  
  }
  Rva474842Coordinate dest;
- dest.x=position->x; dest.y=position->y; dest.z=position->z;
+ dest.x=position->x;
+ dest.y=position->y;
+ dest.z=position->z;
  ((Rva0046E6EA*)this)->rva0046E6EA((Rva0046E6EAObject*)obj,(const Rva0046E6EACoord*)&dest,(Rva0046E6EACoord*)self,!flag);
  rva00471464(obj,&dest,orientation);
+ 
 }

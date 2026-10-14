@@ -1,4 +1,6 @@
 // ?rva0046C7A4@HordeContain@@UAEPAVObject@@_NPBUCoord3D@@MPAV2@H@Z
+// partial score=0.9 date=2026-10-14
+// ?rva0046C7A4@HordeContain@@UAEPAVObject@@_NPBUCoord3D@@MPAV2@H@Z
 // partial score=0.85 date=2026-10-09
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /D_CRTIMP= /arch:SSE /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G7 /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common
 // stlport
@@ -33,6 +35,8 @@
 // without effect: limit/weapon order, ternaries, pos copies, /O2 and
 // /Oy- variants. The scoped diff block is what gives retail's grouped
 // load/sub/store difference.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <list>
 #include <set>
 #include "Coord3D.h"
@@ -145,7 +149,7 @@ Object *HordeContain::rva0046C7A4(bool skipStatus, const Coord3D *pos, float max
 	rva0046D27ASlot70(p);
 
 	float limit = 99999.0f;
-	if (maxDistance > 0.0f)
+	if (0.0f < maxDistance)
 		limit = maxDistance;
 
 	Weapon *weapon = 0;
@@ -176,7 +180,7 @@ Object *HordeContain::rva0046C7A4(bool skipStatus, const Coord3D *pos, float max
 					Coord3D diff;
 					diff.x = pos->x;
 					diff.y = pos->y;
-					diff.z = pos->z;
+					diff.z = (pos->z ? pos->z : pos->z);
 					diff.x -= obj->getPosition()->x;
 					diff.y -= obj->getPosition()->y;
 					diff.z -= obj->getPosition()->z;
@@ -224,6 +228,7 @@ Object *HordeContain::rva0046C7A4(bool skipStatus, const Coord3D *pos, float max
 		for (_STL::list<Object *>::const_iterator it = p.m04->begin(); it != p.m04->end(); it++)
 		{
 			Object *obj = *it;
+			_ReadWriteBarrier();
 			if (!obj)
 				continue;
 			if (obj->testStatus(OBJECT_STATUS_HORDE_3F) && skipStatus)
@@ -267,9 +272,9 @@ Object *HordeContain::rva0046C7A4(bool skipStatus, const Coord3D *pos, float max
 	{
 		for (_STL::list<Object *>::const_iterator it = p.m04->begin(); it != p.m04->end(); it++)
 		{
-			Object *obj = *it;
-			if (obj && !obj->testStatus(OBJECT_STATUS_HORDE_3F))
-				return obj;
+
+			if ((*it) && !(*it)->testStatus(OBJECT_STATUS_HORDE_3F))
+				return (*it);
 		}
 	}
 	return p.m04->front();
