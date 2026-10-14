@@ -72,8 +72,14 @@ private:
 	unsigned char m_padding100[0x11C - 0x100];
 };
 
+#include "../../../../../Include/GameLogic/ContainmentListView.h"
+
 class HordeTransportContain : public TransportContain
 {
+public:
+	void rva00463A4D(ContainmentList riders, int arg);	// 0x00463A4D
+	void rva00477513();					// 0x00477513
+
 private:
 	unsigned char m_padding11C[0x128 - 0x11C];
 };
@@ -83,10 +89,12 @@ class HordeSiegeEngineContain : public HordeTransportContain
 public:
 	virtual void onDelete();
 	virtual void LoadPostProcess();
+	void rva0047D33A();
 
 private:
 	_STL::list<int> m_riderObjects;
-	unsigned char m_pad12C[0x140 - 0x12C];
+	unsigned char m_pad12C[0x134 - 0x12C];
+	unsigned char m_riderMap134[0x140 - 0x134];
 	_STL::list<int> m_restoreIDs140;
 };
 
@@ -219,4 +227,15 @@ void HordeSiegeEngineContain::LoadPostProcess()
         rider->m_containedBy274 = owner;
     }
     m_restoreIDs140.clear();
+}
+
+// Retail 0x0047D33A..0x0047D36A (48B), HordeSiegeEngineContain vtable entry
+// 112 (0x008474E8). WB 0x011AE860 shows the same three calls: the rider list
+// is copied by value through the containment-list copier 0x0036ADF9 into the
+// 0x00463A4D worker together with the address at +0x134, then 0x00477513
+// runs on the container. Method names are address-derived.
+void HordeSiegeEngineContain::rva0047D33A()
+{
+	rva00463A4D(*reinterpret_cast<ContainmentList *>(&m_riderObjects), (int)m_riderMap134);
+	rva00477513();
 }
