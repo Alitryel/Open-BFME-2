@@ -67,7 +67,8 @@ void Thing::setPosition( const Coord3D *pos )
 
 		//DEBUG_ASSERTCRASH(!(_isnan(pos->x) || _isnan(pos->y) || _isnan(pos->z)), ("Drawable/Object position NAN! '%s'\n", m_template->getName().str() ));
 		m_transform.Set_X_Translation( pos->x );
-		m_transform.Set_Y_Translation( pos->y );
+		// The inline setter also emits a surplus nonretail COMDAT in this TU.
+		m_transform[1].W = pos->y;
 		m_transform.Set_Z_Translation( pos->z );
 		m_cachedPos = *pos;
 		m_cacheFlags &= ~(VALID_ALTITUDE_TERRAIN | VALID_ALTITUDE_SEALEVEL);	// but don't clear the dir flags.
