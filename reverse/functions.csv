@@ -88420,3 +88420,4 @@ __ehhandler$??1Rva002AE4C5@@QAE@XZ,,0x00775A0D,10,Code/GameEngine/Source/Common/
 ?ParseObjectDataChunk@@YA_NAAVDataChunkInput@@PAUDataChunkInfo@@PAX@Z,,0x00302907,511,Code/GameEngine/Source/GameClient/MapUtilParseObjectDataChunk.cpp,matched,MapUtil ParseObjectDataChunk; by-value Coord3D arg needs retail non-POD Coord3D via opt-in Lib/Coord3DCtorView.h (library exports 0x0047A6A9 and 0x004216D3)
 ?rva000B0DA8@WorldHeightMap@@QAE_NAAVDataChunkInput@@PAUDataChunkInfo@@@Z,,0x000B0DA8,474,Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMapRva000B0DA8.cpp,matched,
 ?rva000B0F82@WorldHeightMap@@QAE_NAAVDataChunkInput@@PAUDataChunkInfo@@@Z,,0x000B0F82,497,Code/GameEngineDevice/Source/W3DDevice/GameClient/WorldHeightMapRva000B0DA8.cpp,matched,
+?rva000B071D@Rva000B071DHost@@QAE_NAAVDataChunkInput@@PAUDataChunkInfo@@@Z,,0x000B071D,314,Code/GameEngine/Source/Common/Rva0010225FMethod.cpp,matched,

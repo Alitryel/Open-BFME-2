@@ -145,3 +145,45 @@ void Rva0010225F::rva0010231F() {
   }
  }
 }
+
+
+// ---- 0x000B071D (314 B): chunk callback "post effect" holder update from a map chunk (version >= 1) ----
+class DataChunkInput { public: unsigned char readByte(); float readReal(); AsciiString readAsciiString(); };
+struct DataChunkInfo { AsciiString label, parent; unsigned short version; };
+class Rva001021F7;
+Rva001021F7 *Rva00102215Get();
+class Rva0010223B { public: void rva0010223B(); };
+class Rva001022F5 { public: unsigned char rva001022F5(const AsciiString &name); };
+
+class Rva000B071DHost { public: bool rva000B071D(DataChunkInput &file, DataChunkInfo *info); };
+
+bool Rva000B071DHost::rva000B071D(DataChunkInput &file, DataChunkInfo *info)
+{
+	if (info->version >= 1)
+	{
+		Rva001021F7 *holder = Rva00102215Get();
+		((Rva0010223B *)holder)->rva0010223B();
+		bool present = file.readByte() != 0;
+		if (present)
+		{
+			AsciiString name = file.readAsciiString();
+			((Rva001022F5 *)holder)->rva001022F5(name);
+			if (name.compare(g_00DEC3B8) == 0)
+			{
+				_STL::vector<EvaMessageInfo> args;
+				{
+					Rva00111AA7 blend("BlendFactor", 0);
+					blend.value08 = file.readReal();
+					reinterpret_cast<_STL::vector<BfmeAssignRecord28> *>(&args)->push_back(reinterpret_cast<const BfmeAssignRecord28 &>(blend));
+				}
+				{
+					Rva00111AA7 lookup("LookupTexture", 1);
+					*reinterpret_cast<AsciiString *>(&lookup.word18) = file.readAsciiString();
+					reinterpret_cast<_STL::vector<BfmeAssignRecord28> *>(&args)->push_back(reinterpret_cast<const BfmeAssignRecord28 &>(lookup));
+				}
+				((Rva0010225F *)holder)->rva0010225F(args);
+			}
+		}
+	}
+	return true;
+}
