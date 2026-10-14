@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Ireference/shims/moduledata
 // Identity: ModuleFactory registers this data class under "CivilianSpawnCollide" (addModule
 // pairs the name with its factory); formerly misnamed AnimationSteeringUpdate/AnimationSteeringUpdateModuleData.
 //
@@ -24,11 +24,16 @@ public:
 	char m_data[16];
 };
 
+// Retail's state-0 unwind funclet jumps to 0x0049B47C, the ModuleData-family
+// dtor fold that restores the Snapshot vptr 0x00BBB554; the base dtor is
+// that reset (WallHubBehaviorModuleDataCtor precedent).
+#include "Common/Snapshot.h"
+
 class ModuleDataBase
 {
 public:
 	__declspec(dllimport) __forceinline ModuleDataBase() {}
-	~ModuleDataBase();
+	~ModuleDataBase() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 class CivilianSpawnCollideModuleData : public ModuleDataBase

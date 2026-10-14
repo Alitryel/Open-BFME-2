@@ -1,4 +1,4 @@
-// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/shims/moduledata
 //
 // ??0MissileUpdateModuleData@@QAE@XZ, retail 0x004A77B8, 149 bytes.
 // ModuleData ctor over table 0xC53470 (FuelLifetime through DetonateOnNoFuel
@@ -16,11 +16,19 @@
 // retail order, and calls set last (AsciiString spelling resolves through the
 // alias pin at 0x55F5).
 
+extern "C" const void *const vtbl_00C53668[];  // ??_7MissileUpdateModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C53668=??_7MissileUpdateModuleData@@6B@")
+
+// Retail's state-0 unwind funclet jumps to 0x0049B47C, the ModuleData-family
+// dtor fold that restores the Snapshot vptr 0x00BBB554; the base dtor is
+// that reset (WallHubBehaviorModuleDataCtor precedent).
+#include "Common/Snapshot.h"
+
 class BezierProjectileBehaviorModuleData
 {
 public:
 	BezierProjectileBehaviorModuleData();
-	~BezierProjectileBehaviorModuleData();
+	~BezierProjectileBehaviorModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 class Rva0024C7B3Member
@@ -64,7 +72,7 @@ private:
 
 // ??0MissileUpdateModuleData@@QAE@XZ @0x4A77B8
 MissileUpdateModuleData::MissileUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C53668))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C53668)))
 	, m_exhaust(0)
 {
 	m_unkC4 = 0;

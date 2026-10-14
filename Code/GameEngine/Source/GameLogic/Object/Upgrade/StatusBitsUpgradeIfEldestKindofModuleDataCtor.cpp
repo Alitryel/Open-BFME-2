@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /GX
+// cl: /DNDEBUG /MD /GX /Ireference/shims/moduledata
 //
 // ??0StatusBitsUpgradeIfEldestKindofModuleData@@QAE@XZ, retail 0x002547D1,
 // 58 bytes. StatusBits-eldest data over the rowed StatusBitsUpgrade-
@@ -9,11 +9,19 @@
 // vtable assigned from the body; the filter member stays stateless here
 // so the single EH state needs no advance). Row supersedes the ctor pin.
 
+extern "C" const void *const vtbl_00BF25D8[];  // ??_7StatusBitsUpgradeIfEldestKindofModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF25D8=??_7StatusBitsUpgradeIfEldestKindofModuleData@@6B@")
+
+// Retail's state-0 unwind funclet jumps to 0x0049B47C, the ModuleData-family
+// dtor fold that restores the Snapshot vptr 0x00BBB554; the base dtor is
+// that reset (WallHubBehaviorModuleDataCtor precedent).
+#include "Common/Snapshot.h"
+
 class StatusBitsUpgradeModuleData
 {
 public:
 	StatusBitsUpgradeModuleData();
-	~StatusBitsUpgradeModuleData();
+	~StatusBitsUpgradeModuleData() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 
 protected:
 	const void *m_vtable; // +0
@@ -42,5 +50,5 @@ private:
 StatusBitsUpgradeIfEldestKindofModuleData::StatusBitsUpgradeIfEldestKindofModuleData()
 	: StatusBitsUpgradeModuleData()
 {
-	m_vtable = reinterpret_cast<const void *>(0x00BF25D8);
+	m_vtable = reinterpret_cast<const void *>(((unsigned int)vtbl_00BF25D8));
 }

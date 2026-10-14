@@ -1,4 +1,4 @@
-// cl: /GX /MD /DNDEBUG
+// cl: /GX /MD /DNDEBUG /Ireference/shims/moduledata
 //
 // ??0FloodUpdateModuleData@@QAE@XZ, retail 0x0048DF7A, 55 bytes. Framed
 // single-state EH ctor: folded vtable 0x00C4C8C0 plus one std::list
@@ -44,10 +44,15 @@ private:
 
 }
 
+// Retail's state-0 unwind funclet jumps to 0x0049B47C, the ModuleData-family
+// dtor fold that restores the Snapshot vptr 0x00BBB554; the base dtor is
+// that reset (WallHubBehaviorModuleDataCtor precedent).
+#include "Common/Snapshot.h"
+
 class FloodUpdateModuleDataBase
 {
 public:
-	~FloodUpdateModuleDataBase();
+	~FloodUpdateModuleDataBase() { reinterpret_cast<Snapshot *>(this)->Snapshot::~Snapshot(); }
 };
 
 class FloodUpdateModuleData : public FloodUpdateModuleDataBase
