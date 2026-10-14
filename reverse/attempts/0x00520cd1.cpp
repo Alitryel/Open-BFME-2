@@ -1,4 +1,6 @@
 // ?rva00520CD1@AptTimeLine@@QAEXXZ
+// partial score=0.816 date=2026-10-14
+// ?rva00520CD1@AptTimeLine@@QAEXXZ
 // partial score=0.94614 date=2026-10-13
 // ?rva00520CD1@AptTimeLine@@QAEXXZ
 // partial score=0.94614 date=2026-10-13
@@ -63,7 +65,7 @@ void AptTimeLine::rva00520CD1()
     for(int j=0;j<8;++j) {
      if(game->getSlot(j)->m_template==player->m_template) {slot=game->getSlot(j);break;}
     }
-    if(g_rva0059EB6FFlag && reinterpret_cast<Rva002E0687*>(player)->rva002E0687() && m_mode==7) {
+    if(g_rva0059EB6FFlag && (j ? (reinterpret_cast<Rva002E0687*>(player)->rva002E0687()) : (reinterpret_cast<Rva002E0687*>(player)->rva002E0687())) && m_mode==7) {
      AsciiString name=slot->m_name;
      Player *tactical=(m_mode ? (ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(name))) : (ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(name))));
      if(tactical && !tactical->rva002AA223())StatsReporter::ProcessOnlineGameResults(tactical);

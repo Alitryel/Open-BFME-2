@@ -1,4 +1,6 @@
 // ?rva00483F19@Rva00483C35@@UAE_NXZ
+// partial score=0.676 date=2026-10-14
+// ?rva00483F19@Rva00483C35@@UAE_NXZ
 // partial score=0.96 date=2026-10-14
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /ICode/Libraries/Include /Ireference/shims/moduledata /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 //
@@ -157,7 +159,7 @@ bool Rva00483C35::rva00483F19()
 {
 	Rva00483C35ClearanceData *md = m_moduleData;
 	Object *obj = m_object;
-	if (obj == 0)
+	if (0 == obj)
 		return false;
 	Coord3D center;
 	obj->transformPoint(&md->m_1EC, &center);
@@ -182,7 +184,7 @@ bool Rva00483C35::rva00483F19()
 					TheTerrainLogic->getHighestLayerForDestination(&Rva00483F19Probe(pt.x, pt.y, z), false), 0, true);
 				if (z + md->m_1F8 < h)
 					++high;
-				else if (z + md->m_200 > h)
+				else if ((total ? (z + md->m_200 > h) : (z + md->m_200 > h)))
 					++low;
 			}
 			if (total != 0)
