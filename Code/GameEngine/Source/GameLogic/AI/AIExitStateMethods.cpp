@@ -89,7 +89,7 @@ class Object
 {
 public:
 	const ThingTemplate *getTemplate() const { return m_template; }
-	ObjectID getID() const { return m_id; }
+	__declspec(dllimport) __forceinline ObjectID getID() const { return m_id; }
 	ContainModuleInterface *getContain() const { return m_contain; }
 	AIUpdateInterface *getAI() { return m_ai; }
 private:
@@ -109,7 +109,7 @@ public:
 	virtual void setGoalObject(const Object *obj) = 0;
 	Object *getOwner() const { return m_owner; }
 	Object *getGoalObject();
-	inline StateID getCurrentStateID() const;
+	__declspec(dllimport) inline StateID getCurrentStateID() const;
 private:
 	State *m_currentState; // +0x04
 	unsigned char m_pad08[0x14 - 0x08];
@@ -125,7 +125,7 @@ public:
 	virtual StateReturnType onEnter();
 	virtual void onExit(StateExitType status);
 	virtual StateReturnType update();
-	StateID getID() const { return m_ID; }
+	__declspec(dllimport) __forceinline StateID getID() const { return m_ID; }
 protected:
 	StateMachine *getMachine() const { return m_machine; }
 	Object *getMachineOwner() const { return m_machine->getOwner(); }
@@ -141,7 +141,7 @@ public:
 // Retail carries the direct-load shape (mov [ecx+4] / test / mov [eax+4] /
 // mov 999999) once at 0x00260DDC; the getID call is inlined there, so this
 // TU spells the direct form.
-inline StateID StateMachine::getCurrentStateID() const
+__declspec(dllimport) __forceinline StateID StateMachine::getCurrentStateID() const
 {
 	return m_currentState ? m_currentState->m_ID : INVALID_STATE_ID;
 }

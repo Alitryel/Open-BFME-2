@@ -79,7 +79,7 @@ public:
 class Locomotor
 {
 public:
-	void setAllowInvalidPosition(Bool allow)
+	__declspec(dllimport) __forceinline void setAllowInvalidPosition(Bool allow)
 	{
 		if (allow)
 			m_flags |= 2;
@@ -215,7 +215,7 @@ class AIInternalMoveToState : public State
 public:
 	virtual StateReturnType onEnter();
 protected:
-	__forceinline void setAdjustsDestination(Bool b)
+	__declspec(dllimport) __forceinline void setAdjustsDestination(Bool b)
 	{
 		critterDesyncLog("CritterDesync: setAdjustDestination(FALSE) 57");
 		m_adjustsDestination = b;
