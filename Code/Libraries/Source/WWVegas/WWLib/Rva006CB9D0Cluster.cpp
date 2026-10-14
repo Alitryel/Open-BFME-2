@@ -91,3 +91,42 @@ AptValue *Rva006CBA30CreateBoolean(bool value)
 {
 	return AptBoolean::Create(value);
 }
+
+// 0x006CBA40 (140B): the factory's array creator: asserts its value list
+// (retail "pAptValue != NULL", line 0xAC), then builds the rowed array-family
+// object 0x006DA4D0 in a 0x2C-byte block of the value allocator at VA
+// 0x00E176F4 (rowed allocBlock 0x006D29E0; freeBlock 0x006D2A60 on unwind).
+class BfmeAptValue006DCD20;
+class Rva006D2A60
+{
+public:
+	void *allocBlock(int size);
+	void freeBlock(void *block, int size);
+};
+extern Rva006D2A60 *g_pChainBlockAllocatorF4;
+class Rva006DA4D0
+{
+public:
+	Rva006DA4D0(int count, BfmeAptValue006DCD20 **pValues);
+	static void *operator new(unsigned int size)
+	{
+		return g_pChainBlockAllocatorF4->allocBlock((int)size);
+	}
+	static void operator delete(void *block, unsigned int size)
+	{
+		g_pChainBlockAllocatorF4->freeBlock(block, (int)size);
+	}
+private:
+	char m_storage[0x2C];
+};
+
+AptValue *Rva006CBA40CreateArray(int count, BfmeAptValue006DCD20 **pAptValue)
+{
+	if (pAptValue == 0) {
+		g_bfmeAptAssertAtE17734("pAptValue != NULL",
+			"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptValueFactory.cpp", 0xAC);
+		if (g_bfmeAptBreakOnAssertAtDDC01C)
+			__debugbreak();
+	}
+	return (AptValue *)new Rva006DA4D0(count, pAptValue);
+}
