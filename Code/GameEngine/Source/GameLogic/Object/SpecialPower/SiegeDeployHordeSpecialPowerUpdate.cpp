@@ -34,16 +34,14 @@ struct Coord3D;
 extern int BfmeLogicFramesPerSecond;	// logic frames per second
 extern GameLogic *TheGameLogic;
 
+class Object;
+
 class AICommandInterface
 {
 public:
 	void aiIdle(CommandSourceType cmdSource);
 	void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource);
-};
-class Rva00352ECA
-{
-public:
-	void rva00352ECA(void *target, CommandSourceType cmdSource);
+	void aiMoveToObject(Object *target, CommandSourceType cmdSource);
 };
 
 class SiegeDeployHordeAIView
@@ -259,7 +257,7 @@ UpdateSleepTime SiegeDeployHordeSpecialPower::update()
 			}
 			else
 			{
-				((Rva00352ECA *)&ai->m_command)->rva00352ECA(target, CMD_FROM_AI);
+				((AICommandInterface *)&ai->m_command)->aiMoveToObject((Object *)target, CMD_FROM_AI);
 				return UPDATE_SLEEP_NONE;
 			}
 		}

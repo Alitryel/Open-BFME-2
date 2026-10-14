@@ -1,5 +1,7 @@
 // cl: /EHs /MD
-// ?rva00352ECA@Rva00352ECA@@QAEXPAXW4CommandSourceType@@@Z @0x00352ECA 101B
+// ?aiMoveToObject@AICommandInterface@@QAEXPAVObject@@W4CommandSourceType@@@Z @0x00352ECA 101B
+// AICommandInterface::aiMoveToObject: command 0x01 is Zero Hour's AICMD_MOVE_TO_OBJECT,
+// and ScriptActions::doMoveUnitTowardsNearest calls here where Zero Hour calls aiMoveToObject.
 // Stack AICommandParms 0xC0 via rowed ctor 0x00351BD0 with 0x01 and src,
 // m_obj from param1, virtual slot 0 call, then inlined vector-free via rowed free 0x00030830.
 // Evidence: immediates 0x01 0x00351BD0 0x00030830; callers 0x003539E7 0x003C94F9 0x003C979D;
@@ -13,7 +15,7 @@ typedef float Real;
 
 enum AICommandType
 {
-	AICMD_DUMMY_1 = 1
+	AICMD_MOVE_TO_OBJECT = 1
 };
 
 enum CommandSourceType
@@ -50,16 +52,18 @@ struct AICommandParms
 	char m_tail[0xC0 - 0x2C];
 };
 
-class Rva00352ECA
+class Object;
+
+class AICommandInterface
 {
 public:
 	virtual void rvaVirtual(AICommandParms *parms) = 0;
-	void rva00352ECA(void *obj, CommandSourceType src);
+	void aiMoveToObject(Object *obj, CommandSourceType src);
 };
 
-void Rva00352ECA::rva00352ECA(void *obj, CommandSourceType src)
+void AICommandInterface::aiMoveToObject(Object *obj, CommandSourceType src)
 {
-	AICommandParms parms((AICommandType)0x01, src);
+	AICommandParms parms(AICMD_MOVE_TO_OBJECT, src);
 	parms.m_obj = obj;
 	rvaVirtual(&parms);
 }

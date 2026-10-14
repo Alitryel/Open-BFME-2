@@ -9,10 +9,12 @@ enum CommandSourceType
 	CMD_FROM_PLAYER2 = 2
 };
 
-class Rva00352ECA
+class Object;
+
+class AICommandInterface
 {
 public:
-	void rva00352ECA(void *obj, CommandSourceType src);
+	void aiMoveToObject(Object *obj, CommandSourceType src);
 };
 
 class AIUpdateInterface
@@ -22,7 +24,7 @@ public:
 private:
 	char m_pad[0x20];
 public:
-	Rva00352ECA m_cmd;
+	AICommandInterface m_cmd;
 };
 
 class Thing
@@ -43,5 +45,5 @@ public:
 void Rva00492089::rva00492089(void *arg)
 {
 	m_thing->m_ai->BeginTemporaryStateMachine();
-	m_thing->m_ai->m_cmd.rva00352ECA(arg, CMD_FROM_PLAYER2);
+	m_thing->m_ai->m_cmd.aiMoveToObject((Object *)arg, CMD_FROM_PLAYER2);
 }
