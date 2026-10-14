@@ -1,4 +1,8 @@
 // ?report@Rva00294D61@@QAEXPAVObject@@H@Z
+// partial score=0.782028 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?report@Rva00294D61@@QAEXPAVObject@@H@Z
 // partial score=0.754 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // ?report@Rva00294D61@@QAEXPAVObject@@H@Z @0x00294D61 509B.
@@ -154,12 +158,13 @@ void Rva00294D61::report(Object *victimObj, int arg1)
 		{
 			Player *kp = killer->getControllingPlayer();
 			Player *vp = victimObj->getControllingPlayer();
+			_ReadWriteBarrier();
 			void *sc = g_00E032F8;
 			if (sc != 0 && ThePlayerList != 0 && ThePlayerList->m_localPlayer == kp)
 			{
 				if (kp != 0 && vp != 0 && kp->getRelationship(vp->m_2EC) == 0)
 					*(int *)((char *)sc + 0x2C) += 1;
-				else if (kp != 0 && vp != 0 && kp->getRelationship(vp->m_2EC) == 2)
+				else if (kp != 0 && vp != 0 && kp->getRelationship((vp->m_2EC ? vp->m_2EC : vp->m_2EC)) == 2)
 					*(int *)((char *)sc + 0x24) += 1;
 				else
 					*(int *)((char *)sc + 0x28) += 1;

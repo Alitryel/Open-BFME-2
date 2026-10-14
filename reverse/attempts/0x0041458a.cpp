@@ -1,5 +1,5 @@
 // ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
-// partial score=0.904138 date=2026-10-14
+// partial score=0.907135 date=2026-10-14
 // ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
 // partial score=0.871 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
@@ -21,8 +21,9 @@ class Rva0041458AInterface
 {
 public:
 #define BFME_V(N) virtual void vslot##N();
-	BFME_V(00) BFME_V(01) BFME_V(02) BFME_V(03)
-	virtual bool vslot04();
+	BFME_V(00)
+	virtual bool vslot01();
+	BFME_V(02) BFME_V(03) BFME_V(04)
 	virtual void vslot05(const char *);
 	virtual void vslot06();
 	virtual void vslot07(const char *);
@@ -61,7 +62,7 @@ void Rva004147CF::rva0041458A(Rva0041458AInterface *iface)
 	int count = (int)((char *)m_end - (char *)m_begin) / 0x30;
 	iface->vslot31(&count);
 
-	if (iface->vslot04())
+	if (iface->vslot01())
 	{
 		for (int i = 0; i < count; ++i)
 		{
