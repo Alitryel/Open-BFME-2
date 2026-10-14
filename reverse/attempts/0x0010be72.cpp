@@ -1,5 +1,5 @@
 // ?rva0010BE72@Rva0010C785@@UAEXXZ
-// partial score=0.99 date=2026-10-15
+// partial score=0.992 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 //
@@ -116,17 +116,15 @@ void Rva0010C785::rva0010BE72(void)
 						shadow->setOpacity(0);
 					else if (frame < value44)
 					{
-						double opacity = value40;
-						opacity += (Real)(frame - value38) / (Real)(value44 - value38) * (value48 - opacity);
-						shadow->setOpacity(fast_float2long_round(ceil(opacity)));
+						double from = value40;
+						shadow->setOpacity(fast_float2long_round(ceil(from + (Real)(frame - value38) / (Real)(value44 - value38) * (value48 - from))));
 					}
 					else if (frame < value4C)
 						shadow->setOpacity(value48);
 					else if (frame < value50)
 					{
-						double opacity = value48;
-						opacity += (Real)(frame - value4C) / (Real)(value50 - value4C) * (value54 - opacity);
-						shadow->setOpacity(fast_float2long_round(ceil(opacity)));
+						double from = value48;
+						shadow->setOpacity(fast_float2long_round(ceil(from + (Real)(frame - value4C) / (Real)(value50 - value4C) * (value54 - from))));
 					}
 					else
 						shadow->setOpacity(value54);
