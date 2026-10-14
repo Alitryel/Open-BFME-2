@@ -1,4 +1,6 @@
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
+// partial score=0.781467 date=2026-10-14
+// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
 // partial score=0.752 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
@@ -101,7 +103,7 @@ void *rva002888D4(void *table, int *key);
 
 void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int arg3)
 {
-	if (m_888 != id)
+	if (m_888 != (id ? id : id))
 	{
 		v81();
 		Rva0029FD1BNode *node = (Rva0029FD1BNode *)rva002888D4(m_hashtable, &id);
@@ -136,6 +138,7 @@ void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int a
 			if (!obj)
 				return;
 		}
+		{
 		Player *pl = obj->getControllingPlayer();
 		if (!pl)
 			return;
@@ -147,7 +150,7 @@ void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int a
 			if (tex)
 			{
 				float *f = *(float **)((char *)tex + 4);
-				radius = f[0x34 / 4] + f[0x38 / 4];
+				radius = f[0x34 / 4] + (obj ? f[0x38 / 4] : f[0x38 / 4]);
 			}
 			else
 				radius = 0.0f;
@@ -167,6 +170,7 @@ void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int a
 		pos.y = 0.0f;
 		pos.z = 0.0f;
 		node->m_template->createRadiusDecal(pos, radius, pl, m_curRadiusCursor);
+		}
 		m_888 = id;
 		this->handleRadiusCursor();
 	}
