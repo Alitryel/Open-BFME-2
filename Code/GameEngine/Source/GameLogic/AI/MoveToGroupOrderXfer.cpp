@@ -1,4 +1,4 @@
-// cl: /MD /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS
+// cl: /O1 /G7 /arch:SSE /MD /GX /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /D_STLP_NO_EXCEPTIONS
 // stlport
 //
 // Xfer of the two MoveTo group orders (vftable slot 3 of 0x00C6A478 /
@@ -26,22 +26,20 @@
 
 #include <hash_map>
 #include <cstddef>
-// Suppress this TU's non-retail vector<void*> operator[] copy (family2-LK3 row 25):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
+// Inline-only STLport bodies preserve mod/ref visibility without emitting
+// non-retail copies of the shared vector accessors. No import is called.
 namespace _STL {
-template <> void *&_STL::vector<void*>::operator[](size_t);
+template<> __declspec(dllimport) inline void **vector<void*>::begin(){return this->_M_start;}
+template<> __declspec(dllimport) inline void *const *vector<void*>::begin()const{return this->_M_start;}
+template<> __declspec(dllimport) inline void **vector<void*>::end(){return this->_M_finish;}
+template<> __declspec(dllimport) inline size_t vector<void*>::size()const{return this->_M_finish-this->_M_start;}
+template<> __declspec(dllimport) inline void *&vector<void*>::operator[](size_t n){return *(begin()+n);}
+template<> __declspec(dllimport) inline void *const &vector<void*>::operator[](size_t n)const{return *(begin()+n);}
 }
-// Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL {
-template <> size_t vector<void*>::size() const;
-}
-// Suppress this TU's non-retail vector<void*> begin/end copies (family2-LK3 rows 6/9):
-// the retail copies serve the link. Plain declaration-only form (no __imp_).
-namespace _STL {
-template <> void **vector<void*>::begin();
-template <> void **vector<void*>::end();
-}
+
+
+
+
 
 // map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()
 // COMDAT (one byte shape per TU flags); a declaration-only specialization
@@ -50,11 +48,7 @@ template <> void **vector<void*>::end();
 namespace _STL {
 template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const;
 }
-// Suppress the TU's non-retail const-begin copy (row 47 family2-LK3): the
-// /Od retail copy in stlport_vector_voidptr.cpp serves the link instead.
-namespace _STL {
-template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
-}
+
 
 typedef unsigned char UnsignedByte;
 typedef unsigned int UnsignedInt;
@@ -62,11 +56,7 @@ typedef bool Bool;
 typedef float Real;
 typedef int Int;
 
-enum ObjectID
-{
-	INVALID_ID = 0,
-	FORCE_OBJECTID_LONG = 0x7fffffff
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 namespace rts
 {
@@ -175,13 +165,23 @@ enum CommandSourceType
 	CMD_FROM_PLAYER = 0
 };
 
+class ThingTemplate;
+class AIUpdateInterface;
 class Object
 {
 public:
-	char m_pad0[0x31C];
+	char pad0[4]; ThingTemplate *theTemplate;
+	char pad08[0x38-8]; Coord3D position;float angle;
+	char pad48[0x258-0x48];AIUpdateInterface *ai;
+	char pad25C[0x274-0x25C];void *physics;
+	char pad278[0x31C-0x278];
+	float GetRelativeAngle(const Coord3D*)const;
+	void rva0028AD00(int,float,int);
+	void rva0028ACEE(const Coord3D*,int);
 	int m_31C; // +0x31C float bits
 	int m_320; // +0x320 float bits
 };
+struct ThingTemplate { char pad[0x11C]; unsigned kindHigh; };
 
 class Rva00295A0FCommands
 {
@@ -202,6 +202,159 @@ public:
 	char m_pad0[0x20];
 	AICommandInterface m_commands; // +0x20
 };
+class MoveAIUpdateView {public:
+ virtual void slot0();
+ virtual void slot1();
+ virtual void slot2();
+ virtual void slot3();
+ virtual void slot4();
+ virtual void slot5();
+ virtual void slot6();
+ virtual void slot7();
+ virtual void slot8();
+ virtual void slot9();
+ virtual void slot10();
+ virtual void slot11();
+ virtual void slot12();
+ virtual void slot13();
+ virtual void slot14();
+ virtual void slot15();
+ virtual void slot16();
+ virtual void slot17();
+ virtual void slot18();
+ virtual void slot19();
+ virtual void slot20();
+ virtual void slot21();
+ virtual void slot22();
+ virtual void slot23();
+ virtual void slot24();
+ virtual void slot25();
+ virtual void slot26();
+ virtual void slot27();
+ virtual void slot28();
+ virtual void slot29();
+ virtual void slot30();
+ virtual void slot31();
+ virtual void slot32();
+ virtual void slot33();
+ virtual void slot34();
+ virtual void slot35();
+ virtual void slot36();
+ virtual void slot37();
+ virtual void slot38();
+ virtual void slot39();
+ virtual void slot40();
+ virtual void slot41();
+ virtual void slot42();
+ virtual void slot43();
+ virtual void slot44();
+ virtual void slot45();
+ virtual void slot46();
+ virtual void slot47();
+ virtual void slot48();
+ virtual void slot49();
+ virtual void slot50();
+ virtual void slot51();
+ virtual void slot52();
+ virtual void slot53();
+ virtual void slot54();
+ virtual void slot55();
+ virtual void slot56();
+ virtual void slot57();
+ virtual void slot58();
+ virtual void slot59();
+ virtual void slot60();
+ virtual void slot61();
+ virtual void slot62();
+ virtual void slot63();
+ virtual void slot64();
+ virtual void slot65();
+ virtual void slot66();
+ virtual void slot67();
+ virtual void slot68();
+ virtual void slot69();
+ virtual void slot70();
+ virtual void slot71();
+ virtual void slot72();
+ virtual void slot73();
+ virtual void slot74();
+ virtual void slot75();
+ virtual void slot76();
+ virtual void slot77();
+ virtual void slot78();
+ virtual void slot79();
+ virtual void slot80();
+ virtual void slot81();
+ virtual void slot82();
+ virtual void slot83();
+ virtual void slot84();
+ virtual void slot85();
+ virtual void slot86();
+ virtual void slot87();
+ virtual void slot88();
+ virtual void slot89();
+ virtual void slot90();
+ virtual void slot91();
+ virtual void slot92();
+ virtual void slot93();
+ virtual void slot94();
+ virtual void slot95();
+ virtual void slot96();
+ virtual void slot97();
+ virtual void slot98();
+ virtual void slot99();
+ virtual void slot100();
+ virtual void slot101();
+ virtual void slot102();
+ virtual void slot103();
+ virtual void slot104();
+ virtual void slot105();
+ virtual void slot106();
+ virtual void slot107();
+ virtual void slot108();
+ virtual void slot109();
+ virtual void slot110();
+ virtual void slot111();
+ virtual void slot112();
+ virtual void slot113();
+ virtual void slot114();
+ virtual void slot115();
+ virtual void slot116();
+ virtual void slot117();
+ virtual void slot118();
+ virtual void slot119();
+ virtual void slot120();
+ virtual void slot121();
+ virtual void slot122();
+ virtual void slot123();
+ virtual void slot124();
+ virtual void slot125();
+ virtual void slot126();
+ virtual void slot127();
+ virtual void slot128();
+ virtual void slot129();
+ virtual void slot130();
+ virtual void slot131();
+ virtual void slot132();
+ virtual void slot133();
+ virtual void slot134();
+ virtual void slot135();
+ virtual void slot136();
+
+ virtual bool slot137();
+};
+enum PathfindLayerEnum {LAYER_GROUND=1};
+class TerrainLogic {public:
+ virtual void slot00();virtual void slot01();virtual void slot02();virtual void slot03();virtual void slot04();virtual void slot05();virtual void slot06();
+ virtual float slot7(float,float,PathfindLayerEnum,Coord3D*,bool);
+ PathfindLayerEnum getLayerForDestination(Object*,const Coord3D*);
+};
+extern TerrainLogic *TheTerrainLogic;
+class LocomotorSet;
+class Pathfinder {public: Bool AdjustDestination(Object*,const LocomotorSet&,Coord3D*,const Coord3D*);};
+class AI {public: Pathfinder *pathfinder() { return m_pathfinder; } private: unsigned char m_pad00[0x10]; Pathfinder *m_pathfinder;};
+extern AI *TheAI;
+extern GameLogic *TheGameLogic;
 
 void Rva00547245Xfer(Xfer *xfer, ObjectCoord3DPair *pair)
 {
@@ -257,6 +410,7 @@ public:
 	virtual void xfer(Xfer *xfer);
 	bool rva00547188(Object *obj, int dummy);
 	void rva0054764C(Object *obj, AIUpdateInterface *aiUpdate, Coord3D *pos);
+	Coord3D *rva005476C8(ObjectID);
 
 private:
 	Coord3D m_destination;             // +0x18
@@ -331,4 +485,43 @@ void MoveToGroupOrder::rva0054764C(Object *obj, AIUpdateInterface *aiUpdate, Coo
 		else
 			aiUpdate->m_commands.aiMoveToPosition(pos, (CommandSourceType)0);
 	}
+}
+
+class Rva00547223;
+Rva00547223 *Rva00547297Init(Rva00547223 *,int *,int *);
+
+// Native5476C8..547805,317B. WB control flow keeps separate insertion
+// returns; target proves the cached ObjectID/coordinate map at +28 and
+// terrain/pathfinder adjustment. The original method name is unresolved.
+// The shared four-word temporary is the existing pair factory's output
+// storage; its key/three coordinate words are all written before use.
+Coord3D *MoveToGroupOrder::rva005476C8(ObjectID id)
+{
+	Object *obj = TheGameLogic->findObjectByID(id);
+	Coord3D result;
+	struct PairStorage { int key; float x, y, z; } pair;
+	if (obj) {
+		AIUpdateInterface *ai = (AIUpdateInterface *)obj->ai;
+		if ((ai && reinterpret_cast<MoveAIUpdateView *>(ai)->slot137()) || obj->physics) {
+			PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(obj, &m_destination);
+			result.z = TheTerrainLogic->slot7(m_destination.x, m_destination.y, layer, 0, true);
+			result.x = m_destination.x;
+			result.y = m_destination.y;
+			if (!TheAI->pathfinder()->AdjustDestination(obj,
+				*reinterpret_cast<LocomotorSet *>(reinterpret_cast<char *>(ai) + 0x1CC),
+				&result, &m_destination))
+				result = m_destination;
+			if (obj->theTemplate->kindHigh & 0x04000000) {
+				float angle = obj->angle;
+				float rel = obj->GetRelativeAngle(&result) + angle;
+				obj->rva0028AD00((int)&result, rel, layer);
+			} else {
+				obj->rva0028ACEE(&result, layer);
+			}
+			return &m_positions.insert(*(ObjectCoord3DPair *)Rva00547297Init(
+				(Rva00547223 *)&pair, (int *)&id, (int *)&result)).first->second;
+		}
+	}
+	return &m_positions.insert(*(ObjectCoord3DPair *)Rva00547297Init(
+		(Rva00547223 *)&pair, (int *)&id, (int *)&m_destination)).first->second;
 }
