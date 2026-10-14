@@ -208,3 +208,6 @@ void FXShaderParameterSourceNamespaceWW3D::ResolveBindings(const char *name,cons
  else if(_strcmpi(path.m_name,"Fog")==0)
   m_fog.ResolveBindings(path.m_rest,handle,registry);
 }
+
+// Native fog-start accessor; established by the paired fog setter.
+float Rva0018BD7BGet() { return g_Va00DEDA28; }
