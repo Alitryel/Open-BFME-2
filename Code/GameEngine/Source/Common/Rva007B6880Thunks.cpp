@@ -7602,3 +7602,29 @@ void *rva004DD886()
 	return p->rva004DD73B();
 }
 
+// Rva0046ACF6 view for the thunk below. The method is declared only and
+// resolves to the rowed ?rva0046ACF6@Rva0046ACF6@@QAEHH@Z (0x0046ACF6, 34B map
+// lookup in HordeContainIface11CSlots.cpp); declared here (not defined) so
+// the tailcall is preserved.
+class Rva0046ACF6
+{
+public:
+	int rva0046ACF6(int key);
+};
+
+// ?rva00583D4C@Rva00583D4C@@QAEHH@Z @0x00583D4C 8B member forwarder to rowed
+// ?rva0046ACF6@Rva0046ACF6@@QAEHH@Z (0x0046ACF6; int arg passes through the
+// shared stack slot). No callers. Honest address name.
+class Rva00583D4C
+{
+public:
+	int rva00583D4C(int key);
+private:
+	char m_pad[4];
+	Rva0046ACF6 *m_member;
+};
+int Rva00583D4C::rva00583D4C(int key)
+{
+	return m_member->rva0046ACF6(key);
+}
+

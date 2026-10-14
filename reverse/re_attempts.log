@@ -53857,3 +53857,4 @@ $L2261	0x007A0CEF	11	blocked	Native EH graph binds cleanup7A0CEF but direct byte
 ?rva0052E4C9@Pathfinder@@QAEXPAVObject@@_N@Z	0x0052e4c9	541	partial	multisite compose nd 34->32 score=0.9 stash=reverse/attempts/0x0052e4c9.cpp
 ?method_005C9311@Rva005C847BRecord@@QAEXHHM@Z	0x005c9311	439	partial	multisite compose nd 22->17 score=0.9 stash=reverse/attempts/0x005c9311.cpp
 ?rva007092F0@AptActionInterpreter@@AAEXPAVAptCIH@@PAVAptValue@@11H1@Z	0x007092f0	491	partial	multisite compose nd 49->48 score=0.9 stash=reverse/attempts/0x007092f0.cpp
+?rva00583D4C@Rva00583D4C@@QAEHH@Z	0x00583D4C	8	landed	add_match verified Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp 8B; Member forwarder to rowed map lookup 0x0046ACF6 int passthrough; honest address name
