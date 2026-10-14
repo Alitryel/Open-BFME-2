@@ -97,3 +97,33 @@ void VictorySystemGridUpdateView::rva00405094()
   break;
  }
 }
+
+// Native 405258..405315 RET0 (BFME1 VictorySystemApplyCells.cpp semantics):
+// when the root cell has data, pick the grid with the most occupied cells
+// (0x0056C16D) and, for each occupied cell, apply every set player bit at
+// that cell's position (0x0056C0F0) through 0x004051BC. The best-grid slot is
+// re-read through its address after each call and its cell words indexed.
+void VictorySystemGridUpdateView::rva00405258() {
+ if (!root.rva00404CF5(false)) return;
+ unsigned int invalid=0x7fffffff;
+ unsigned int best=invalid;
+ unsigned counts[2];
+ CellGrid **grid;
+ unsigned i;
+ for (i=0,grid=grids;i<2;++i,++grid) {
+  counts[i]=(*grid)->rva0056C16D();
+  if (counts[i] && (best==invalid || counts[i]>counts[best])) best=i;
+ }
+ if (best==invalid) return;
+ CellGrid **bestGrid=&grids[best];
+ unsigned *values=(*bestGrid)->values;
+ for (unsigned cell=0;cell<(*bestGrid)->count;++cell) {
+  if (values[cell]) {
+   Vec3 position;
+   ((Rva0056C0F0*)*bestGrid)->rva0056C0F0(cell,&position);
+   for (unsigned player=0;player<20;++player) {
+    if (values[cell] & (1U<<player)) ((Rva004051BC*)this)->rva004051BC(player,(const Coord3D*)&position);
+   }
+  }
+ }
+}
