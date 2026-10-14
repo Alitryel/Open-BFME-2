@@ -55,28 +55,6 @@ struct Rva00141F90Bounds
 	float m_14;
 };
 
-struct Rva00943FF0List
-{
-	Gen_00943CF0_Node *head;
-
-	~Rva00943FF0List()
-	{
-		// Retail inlines the 8-byte free-list push at VA 0xDB4254 (no CALL).
-		// Typed pool base VA 0xDB424C (.data RVA 0x9B424C, 24B: 80/0/0/42FFC0/42FFE0/0)
-		// via g_BfmeSceneNodePool.m_head (+8 == 0xDB4254); phony
-		// g_SceneNodeFreeList00DB4254 removed (was undefined, no symbols.csv row,
-		// no defining TU; Gemini-r4 CRITICAL_LINK_HAZARD). Manual push keeps byte
-		// shape; _M_deallocate would emit push-8+CALL and fail.
-		Gen_00943CF0_Node *current = head;
-		while (current != 0) {
-			Gen_00943CF0_Node *old = current;
-			current = current->m_next;
-			old->m_next = (Gen_00943CF0_Node *)g_BfmeSceneNodePool.m_head;
-			g_BfmeSceneNodePool.m_head = old;
-		}
-	}
-};
-
 // Retail divisor VA 0xBBB8D8 is .rdata (RVA 0x7BB8D8, float=1, 1684 refs),
 // NOT .data: AudioManagerFocusVolume.cpp `float g_Va00BBB8D8 = 1.0f;`
 // is section-wrong (.data VA 0xDAxxxx, cannot be at 0xBBB8D8) and
@@ -132,18 +110,6 @@ public:
 typedef char BfmeSceneRescaleSizeMatchesCanonical[(sizeof(BfmeSceneVector) == 0x28) ? 1 : -1];
 typedef char BfmeSceneRescaleMatchesIndex[(sizeof(BfmeSceneVector) == sizeof(BFME2SceneSpatialIndex)) ? 1 : -1];
 
-void BfmeSceneVector::rva00141F90(const Rva00141F90Bounds &newBounds)
-{
-	Rva00943FF0List objects = {0};
-	rva00141EF0((Gen_00943CF0_Node **)&objects);
-	bounds = newBounds;
-	float dx = bounds.m_0C - bounds.m_00;
-	float dy = bounds.m_10 - bounds.m_04;
-	float greater = dx > dy ? dx : dy;
-	scale = 1.0f / greater;
-	((Gen_00943CF0 *)this)->process(&objects.head);
-}
-
 // BFME1 ba7ddda7e8f261163972ddbe23c7e7a12ac5b84f scene.cpp Set_Level
 // supplies the control-flow lead; its name is a donor inference. Target
 // [142060,142166) proves the limit, mask at +24, count at +1C, array at +18,
@@ -195,31 +161,40 @@ void *bfmeAnchorBfmeSceneVectorCtor(void *where)
 // the head address and a null end; no payload method is called. STLport gives
 // the reference structure; int is the existing provider's ABI carrier, not
 // evidence for the original scene-node payload type or list spelling.
+// The pool erase body is visible for rescale inlining. Its retail /O1 /Ob0
+// provider and the outlined list destructor live in SceneNodeListProviders.cpp.
+// The identical inline specialization below permits normal COMDAT selection.
 namespace _STL {
-// Native 6FABF..6FAEC (45 bytes): relinks the nodes after `head` up to `stop` onto
-// the scene pool free list (pool at 0xDB424C, list head at +8). Retail reloads the
-// head from memory on every node, which the volatile pool access reproduces; the
-// qualifier is a codegen hypothesis only, not a claim about the original source.
-template <> __declspec(noinline) _Slist_node_base *
+template <> _Slist_node_base *
+_Slist_base<int,allocator<int> >::_M_erase_after(_Slist_node_base*,_Slist_node_base*);
+}
+
+namespace _STL {
+template <> inline _Slist_node_base *
 _Slist_base<int,allocator<int> >::_M_erase_after(_Slist_node_base* head,_Slist_node_base* stop)
 {
  _Slist_node_base* current=head->_M_next;
  while(current!=stop) {
   _Slist_node_base* old=current;
   current=current->_M_next;
-  _Slist_node_base* freeHead=*(_Slist_node_base* volatile*)&g_BfmeSceneNodePool.m_head;
+  _Slist_node_base* freeHead=(_Slist_node_base*)g_BfmeSceneNodePool.m_head;
   old->_M_next=freeHead;
-  *(_Slist_node_base* volatile*)&g_BfmeSceneNodePool.m_head=old;
+  g_BfmeSceneNodePool.m_head=old;
  }
  return head->_M_next=stop;
 }
 }
-// Access-only view; no new storage, constructed object or class identity.
-struct Rva0006FB50EraseAccess : _STL::_Slist_base<int,_STL::allocator<int> > {
- using _STL::_Slist_base<int,_STL::allocator<int> >::_M_erase_after;
-};
-typedef char SceneClearHeadSize4[sizeof(Rva0006FB50EraseAccess)==4?1:-1];
-__declspec(noinline) Rva0006FB50List::~Rva0006FB50List() throw()
+
+void BfmeSceneVector::rva00141F90(const Rva00141F90Bounds &newBounds)
 {
- ((Rva0006FB50EraseAccess*)this)->_M_erase_after((_STL::_Slist_node_base*)this,0);
+	typedef _STL::_Slist_base<int,_STL::allocator<int> > NodeList;
+	NodeList objects((_STL::allocator<int>()));
+	typedef char OneWordList[(sizeof(NodeList)==4)?1:-1];
+	rva00141EF0((Gen_00943CF0_Node **)&objects);
+	bounds = newBounds;
+	float dx = bounds.m_0C - bounds.m_00;
+	float dy = bounds.m_10 - bounds.m_04;
+	float greater = dx > dy ? dx : dy;
+	scale = 1.0f / greater;
+	((Gen_00943CF0 *)this)->process((Gen_00943CF0_Node **)&objects);
 }
