@@ -4,7 +4,9 @@
 // ?didPartialExit@Team@@QAE_NPAVPolygonTrigger@@I@Z @0x0039E288 (123B).
 // ?someInsideSomeOutside@Team@@QAE_NPAVPolygonTrigger@@I@Z @0x0039E50D (172B).
 // ?allInside@Team@@QAE_NPAVPolygonTrigger@@I@Z @0x0039E3C8 (172B).
-// ?rva0039E7F2@Team@@QAEXMMM@Z @0x0039E7F2 (35B).
+// ?moveTeamTo@Team@@QAEXUCoord3D@@@Z @0x0039E7F2 (35B): Zero Hour Team::moveTeamTo
+// (Team.cpp), whose loop body is empty; the Coord3D argument is passed by
+// value, three dwords, as the earlier three-float view had it.
 // ?noneInside@Team@@QAE_NPAVPolygonTrigger@@I@Z @0x0039E474 (153B).
 // Team::didPartialEnter(): returns true when a considered member has entered
 // the trigger. Retail guard is the byte at Team+0x5c; the member walk uses the
@@ -135,7 +137,7 @@ public:
 	bool allInside(PolygonTrigger *pTrigger, UnsignedInt whichToConsider);
 	bool noneInside(PolygonTrigger *pTrigger, UnsignedInt whichToConsider);
 	void rva0039E5B9(Coord3D *center);
-	void rva0039E7F2(float a, float b, float c);
+	void moveTeamTo(Coord3D destination);
 	void transferUnitsTo(Team *newTeam);
 	void transferKindOfUnitsTo(Team *newTeam, const BitFlags<69> &kinds);
 	Player *getControllingPlayer() const;
@@ -322,7 +324,7 @@ void Team::rva0039E5B9(Coord3D *center)
 	*center = sum;
 }
 
-void Team::rva0039E7F2(float a, float b, float c)
+void Team::moveTeamTo(Coord3D destination)
 {
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {
 	}

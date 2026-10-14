@@ -38700,7 +38700,7 @@ _atan2f,,0x000422CD,25,Code/GameEngine/Source/Common/Rva000422A0.cpp,matched,cha
 ??_GRva00151DAB@@QAEPAXI@Z,,0x00151EB1,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-b4f6.cpp,matched,deleting dtor for Rva00151DAB rowed 0x151DAB
 ?someInsideSomeOutside@Team@@QAE_NPAVPolygonTrigger@@I@Z,,0x0039E50D,172,Code/GameEngine/Source/Common/RTS/TeamDidPartialEnter.cpp,matched,BFME1 TeamTriggerAreaTests donor plus BFME2 layout Team 0x5c Object 0x258 AI 0x1dc dead 0x438 kind 0x113 0x118
 ?allInside@Team@@QAE_NPAVPolygonTrigger@@I@Z,,0x0039E3C8,172,Code/GameEngine/Source/Common/RTS/TeamDidPartialEnter.cpp,matched,BFME1 TeamTriggerAreaTests donor plus BFME2 layout Team 0x5c Object 0x258 AI 0x1dc dead 0x438 kind 0x113 0x118
-?rva0039E7F2@Team@@QAEXMMM@Z,,0x0039E7F2,35,Code/GameEngine/Source/Common/RTS/TeamDidPartialEnter.cpp,matched,Team walk via iterate plus advance unlocks 0x39F03A
+?moveTeamTo@Team@@QAEXUCoord3D@@@Z,,0x0039E7F2,35,Code/GameEngine/Source/Common/RTS/TeamDidPartialEnter.cpp,matched,Team walk via iterate plus advance unlocks 0x39F03A
 ?noneInside@Team@@QAE_NPAVPolygonTrigger@@I@Z,,0x0039E474,153,Code/GameEngine/Source/Common/RTS/TeamDidPartialEnter.cpp,matched,BFME1 TeamTriggerAreaTests donor plus BFME2 layout Team 0x5c Object 0x258 AI 0x1dc dead 0x438 kind 0x113 0x118
 ?rva0037E421@Rva0037E421@@QAEPAXH@Z,,0x0037E421,48,Code/GameEngine/Source/Common/Rva0037E421Accessor.cpp,matched,unlock 14 callers 216B vector plus4 plus8 signed idiv
 ?rva0037E7BC@Rva0037E421@@QAEEH@Z,,0x0037E7BC,30,Code/GameEngine/Source/Common/Rva0037E421Accessor.cpp,matched,chain of 37E421 element 98 equals minus1 uchar
