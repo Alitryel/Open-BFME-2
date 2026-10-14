@@ -1,4 +1,6 @@
 // ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
+// partial score=0.998 date=2026-10-14
+// ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
 // partial score=0.9972188802775525 date=2026-10-14
 // ?buildCastleStructure@CastleBehavior@@QAEPAVObject@@PAVBuildListInfo@@_N@Z
 // partial score=0.9972188802775525 date=2026-10-14
@@ -22,14 +24,14 @@
 #include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath/matrix3d.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 template<class T> inline T& field(void* p,int n) { return *(T*)((char*)p+n); }
-class BuildListInfo { public: float angle() const { return *(const float*)((const char*)this+0x20); } AsciiString rva000AF1DD() const; };
+class BuildListInfo { public: float angle() const { return *(const float*)((const char*)this+0x20); } AsciiString getTemplateName() const; };
 class ThingTemplate { public: bool kind10A() const { return *((const unsigned char*)this+0x10a)&2; } };
 class ThingFactory { public: const ThingTemplate* findTemplate(const AsciiString&); };
 extern ThingFactory* TheThingFactory;
 class Player;
 class PlayerList;
 extern PlayerList* ThePlayerList;
-class Rva2225E0Filter { public: bool rva003618B9(const ThingTemplate*,Player*,Player*); };
+class ObjectFilter { public: bool testTemplate(const ThingTemplate*,const Player*,const Player*); };
 enum ObjectStatusTypes { STATUS5=5 };
 enum ModelConditionFlagType { CONDITION218=218 };
 class Drawable { public: void fadeIn(unsigned); void rva00274176(bool); };
@@ -80,14 +82,14 @@ extern "C" void _ReadWriteBarrier();
 Object* CastleBehavior::buildCastleStructure(BuildListInfo* record,bool instant) {
  Object* created=0;
  void* data=field<void*>(this,4);
- AsciiString name=record->rva000AF1DD();
+ AsciiString name=record->getTemplateName();
  if(name.isEmpty()) return created;
  const ThingTemplate* type=TheThingFactory->findTemplate(name);
  if(!type) return 0;
  if(field<unsigned char>((void*)type,0x114)&0x10) return 0;
  if(field<unsigned char>((void*)type,0x10f)&0x10) field<bool>(this,0x44)=true;
  Player* player=getOwner()->getControllingPlayer();
- if(!((record ? ((Rva2225E0Filter*)((char*)data+0x30)) : ((Rva2225E0Filter*)((char*)data+0x30))))->rva003618B9(type,0,0)) player=field<Player*>(ThePlayerList,0x18);
+ if(!((record ? ((ObjectFilter*)((char*)data+0x30)) : ((ObjectFilter*)((char*)data+0x30))))->testTemplate(type,0,0)) player=field<Player*>(ThePlayerList,0x18);
  if(!player) return 0;
  Object* owner=getOwner();
  Vector3 p(field<float>(record,0xc),field<float>(record,0x10),field<float>(record,0x14));
