@@ -88983,3 +88983,4 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ?rva0029A4A8@Rva0029A48A@@QBEMXZ,,0x0029A4A8,17,Code/GameEngine/Source/Common/GapBodiesSeat1A.cpp,matched,high end of the +0x58 range of the +0 record or zero; sibling of 0x0029A48A
 ?rva0029A4B9@Rva0029A48A@@QBEMXZ,,0x0029A4B9,17,Code/GameEngine/Source/Common/GapBodiesSeat1A.cpp,matched,low end of the +0x58 range of the +0 record or zero; sibling of 0x0029A48A
 ?rva002B2955@Rva002B2955@@QAEXHHHHHHH@Z,,0x002B2955,15,Code/GameEngine/Source/Common/EbpParamForwarders.cpp,matched,ebp-frame tail forward of seven args to SetRegionReinforcements 0x0020EEC8 on the +0xB0 region manager; receiver not established
+?rva002B39CF@Rva002BA8F1Logic@@QAEXXZ,,0x002B39CF,121,Code/GameEngine/Source/Common/Rva002B39CFCycleLocal.cpp,matched,hands the local role to the player after the current +0x98 one in the +0x8C list via setLocal 0x002B38F7; names address-derived
