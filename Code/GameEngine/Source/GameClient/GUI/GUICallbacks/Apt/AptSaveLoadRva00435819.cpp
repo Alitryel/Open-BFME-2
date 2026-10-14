@@ -59,11 +59,13 @@ public:
 };
 extern GameState *TheGameState;
 
-struct Bfme939Helper
+// Rowed at 0x0037D6E8 (RecorderCopyCurrentRecording.cpp).
+class RecorderClass
 {
-	bool rva0037D6E8(const UnicodeString &name, const UnicodeString &text);
+public:
+	bool copyCurrentRecordingToFile(UnicodeString *name, UnicodeString *title);
 };
-class RecorderClass; extern RecorderClass *TheRecorder;
+extern RecorderClass *TheRecorder;
 
 struct BFME2WideConcatPair
 {
@@ -127,7 +129,7 @@ void AptSaveLoad::rva00435819()
 
 		if (m_29c)
 		{
-			bool complete = ((Bfme939Helper *)TheRecorder)->rva0037D6E8(name, text);
+			bool complete = TheRecorder->copyCurrentRecordingToFile(&name, &text);
 			Rva00437E9C(0);
 			UnicodeString message;
 			if (complete)

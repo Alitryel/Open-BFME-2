@@ -11148,7 +11148,6 @@ name,address,notes
 ?rva00376A62Contains@Rva00376B1EObjectTypesView@@QAE_NABV?$StringBase@D@@@Z,0x00376A62,Native ObjectTypes prefix contains ABI alias; 376B25 directcall reaches existing34B contains row; same thiscall bool with const4B StringBase char reference; linker alias resolves real provider; address-view owner not original method identity
 ?rva00376D49@GameLogic@@QAEXXZ,0x00376D49,thiscall void() on TheGameLogic; 329B Ghidra body; head callee of dump-range-18 0x003BD598
 ?rva0037D0EF@Rva0037BBED@@QAE_NVUnicodeString@@@Z,0x0037D0EF,address-derived member check called from AptSaveLoad 0x0043448C; receives UnicodeString by value per caller copy and callee cleanup
-?rva0037D6E8@Bfme939Helper@@QAE_NABVUnicodeString@@0@Z,0x0037D6E8,Address-derived member on g_bfme939Helper at 0x00E02290: caller 0x004358C8 passes trimmed and raw filename strings; AL selects replay-save outcome
 ?rva0037E915@Rva0037E915@@QAEPAXH@Z,0x0037E915,callee of ?rva0049CCF0@Rva0049CCF0@@QAEXH@Z
 ?removeBuildUnit@UnitRevivalTracker@@QAEXPBVThingTemplate@@@Z,0x0037EEB9,"member (ret 4) of the object at Player +0x738 taking a ThingTemplate, the removal twin of rva0037F32F: BuildableHeroListUpgrade::upgradeRemovalImplementation 0x004B8484 feeds it each listed hero template"
 ?addInitialBuildUnit@UnitRevivalTracker@@QAEXPBVThingTemplate@@PAVPlayer@@@Z,0x0037F32F,"member (EH, ret 8) of the object at Player +0x738 taking a ThingTemplate and the Player; BuildableHeroListUpgrade::upgradeImplementation 0x004B837F feeds it each listed hero template"
