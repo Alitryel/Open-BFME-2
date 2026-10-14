@@ -62,6 +62,19 @@ public:
 };
 
 #pragma optimize("s", on)
+
+// Retail expands these cleanup operations in both callers. Keep their real
+// STLport semantics inline-only, as in AIWall, so this unit does not emit
+// unused cleanup COMDATs that conflict with other template instantiations.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline void allocator<MapMetaData *>::deallocate(MapMetaData **p,size_t n)const {if(p) ::free(p);}
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<MapMetaData **,MapMetaData *,allocator<MapMetaData *> >::deallocate(MapMetaData **p,size_t n){static_cast<allocator<MapMetaData *> &>(*this).deallocate(p,n);}
+template<> __declspec(dllimport) __forceinline void vector<MapMetaData *,allocator<MapMetaData *> >::_M_clear(){_Destroy(_M_start,_M_finish);_M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start);}
+}
+
+namespace _STL {
+template<> __declspec(dllimport) __forceinline _Vector_base<MapMetaData *,allocator<MapMetaData *> >::~_Vector_base(){if(_M_start != 0) _M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start);}
+}
 void rva00302459(unsigned int flags, _STL::vector<MapMetaData *> *out)
 {
 	if (!(flags & 0x40))

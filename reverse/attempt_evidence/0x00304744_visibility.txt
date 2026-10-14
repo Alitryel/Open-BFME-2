@@ -50,3 +50,23 @@ Integration:
 
 Scratch reproducibility: build/big/maplist_visibility.py, maplist_chain.py,
 maplist_stl.py, maplist_home.py, maplist_proof.py; outputs maplist-visible/.
+
+Template audit follow-up before publication:
+- Commit6f23a4e80's shadow identity audit reported six divergent template names.
+  Before/after isolated objects prove three14B cleanup copies unchanged; the
+  other three change under the caller's flags. No blanket pre-existing claim.
+- The current growth body is140B, versus170B under the previous unit flags,
+  and exactly equals existing owner2DFCF6. Its complete allocator68E15/28B
+  and fill7E48F/32B were also verified with all recursive relocations. Added
+  those three genuine typed ICF aliases to the ledger, zero coverage credit.
+- Four unused cleanup COMDATs are suppressed using the existing inline-only
+  specialization pattern, preserving their actual STLport/game-free semantics.
+  Every one of the seven recovery/existing rows remains exact after this repair.
+- Final unit gate10/10 including aliases; EH2/2 EXACT. Identity audit has one
+  remaining divergent vector destructor, independently confirmed whole bytes
+  and relocations unchanged from before the recovery. The other five reported
+  findings are removed or resolved by the exact growth binding.
+- Suppressing the vector destructor too introduces an imported EH call and is
+  invalid even though parent code bytes still match; the normal hook caught it.
+  Keep that destructor ordinary. The corrected link preview is checked before
+  publication; no compiler-import workaround was retained for the destructor.
