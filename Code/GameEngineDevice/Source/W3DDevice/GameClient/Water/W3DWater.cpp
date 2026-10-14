@@ -12,8 +12,14 @@ class Rva0030812E { public: void *rva0030812E(int index); };
 enum WW3DFormat { WW3D_FORMAT_UNKNOWN = 0 };
 class W3DRadarFormatCaps { public: bool supportTextureFormat(WW3DFormat format); };
 class DX8Caps;
+class TextureClass;
+class ZTextureClass;
+struct IDirect3DSurface8;
 class DX8Wrapper {
  friend class RenderableStandingWaterArea;
+public:
+ static void Set_Render_Target_With_Z(TextureClass *texture, ZTextureClass *ztexture);
+ static void Set_Render_Target(IDirect3DSurface8 *renderTarget, bool useDefaultDepthBuffer);
 protected:
  static DX8Caps *CurrentCaps;
 };
@@ -132,6 +138,7 @@ private: char unmodelled[0x3FC-0xC4];
 class Rva0082140 : public Snapshot,public RenderObjClass,
  public WaterAreaObserver<0>,public WaterAreaObserver<1>,public WaterAreaObserver<2> {
 public: Rva0082140(); virtual ~Rva0082140();
+ void rva0007F87C(void *scene, CameraClass *camera);
 private:
  int fieldD4;
  unsigned fieldD8;
@@ -184,4 +191,37 @@ Rva0082140::~Rva0082140() {
  TheWaterTransparency.ptr=0;
  reinterpret_cast<Rva0007E12F*>(this)->rva0007E12F();
  if(tracks100)delete tracks100;
+}
+
+// Native 0x0007F87C..0x0007F92A, 174B, RET8: the reflection pass. After the
+// mirror camera setup 0x0007F0FB, a live mirror camera (+0xFC) renders the
+// scene into the reflection texture (+0xF8): the render target is set with
+// an empty z texture holder, the frame begins cleared to black (WW3D
+// 0x00118170) and, when it begins, the scene is drawn through 0x00118660
+// and the frame ended; the camera projection override byte is cleared and
+// the default render target restored. WB 0x007492F0 (unnamed) has the same
+// call chain. The method name stays address-derived.
+class Vector3 {public: Vector3(float x,float y,float z):X(x),Y(y),Z(z){} float X,Y,Z;};
+class WW3D {
+public:
+ static bool rva00118170(bool clear, bool clearZ, const Vector3 &color, float alpha);
+ static bool End_Render(bool flip);
+};
+bool Rva00118660Call(void *scene, void *camera);
+extern bool bfmeCameraProjectionOverride;
+class Rva0007F0FBOwner {public: void rva0007F0FB(CameraClass *camera, bool flag);};
+void Rva0082140::rva0007F87C(void *scene, CameraClass *camera) {
+ reinterpret_cast<Rva0007F0FBOwner*>(this)->rva0007F0FB(camera,false);
+ if(refFC.ptr) {
+  {
+   WaterTextureHandle zbuffer;
+   DX8Wrapper::Set_Render_Target_With_Z((TextureClass*)&textureF8,(ZTextureClass*)&zbuffer);
+  }
+  if(WW3D::rva00118170(true,true,Vector3(0.0f,0.0f,0.0f),0.0f)) {
+   Rva00118660Call(scene,refFC.ptr);
+   WW3D::End_Render(false);
+  }
+  bfmeCameraProjectionOverride=false;
+  DX8Wrapper::Set_Render_Target(0,false);
+ }
 }
