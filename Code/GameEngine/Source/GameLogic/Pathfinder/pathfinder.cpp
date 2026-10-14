@@ -593,7 +593,13 @@ public:
 private:
     Pathfinder *pf;
 };
-class Rva002E7414 { public: Int rva002E7414(Int,Int); };
+class Rva002E7414 {
+public:
+    Rva002E7414(Pathfinder *owner) : pf(owner) {}
+    Int rva002E7414(Int,Int);
+private:
+    Pathfinder *pf;
+};
 class Rva002F336AOwner { public: Bool rva002F336A(Int,Int); };
 struct PathfinderOpenQueue {PathfindCell **first,**last;Bool empty()const{return first==last;}PathfindCell *front()const{return *first;}};
 struct ICoord2D;
@@ -605,6 +611,7 @@ class Pathfinder
 {
 public:
  Bool AdjustToNearestValidCell(Coord3D *);
+ Bool AdjustToNearestGroundCell(Coord3D *);
 bool rva002ED313(Object*);
 void AdjustMeleeOffset(Object*,Object*,Coord3D*);
 Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
@@ -4247,6 +4254,20 @@ __declspec(noinline) inline Bool Rva002E7440::rva002E7440(Int x,Int y)
     return true;
 }
 
+// Rehomed 0x002E7414/44 from Object/Rva002E7414.cpp for the same reason as
+// the 002E7440 callback above: the ground-cell circular search 002EAE5F calls
+// it, and a visible body lets cl delay the context store in the 178-byte
+// AdjustToNearestGroundCell caller.
+__declspec(noinline) inline Int Rva002E7414::rva002E7414(Int x,Int y)
+{
+    PathfindCell *cell=pf->getCell(PATHFIND_LAYER_GROUND,x,y);
+    if (cell) {
+        if ((*(unsigned int *)((char *)cell+12)&0x3f0)==0x10)
+            return 1;
+    }
+    return 0;
+}
+
 // WB D465D0; native 002EDDA9..002EDE5B RET4. The search budget is +1208
 // in the existing GlobalData owner, and the final height query is slot 1C.
 Bool Pathfinder::AdjustToNearestValidCell(Coord3D *position)
@@ -4261,6 +4282,29 @@ Bool Pathfinder::AdjustToNearestValidCell(Coord3D *position)
         found.y=0;
         Rva002E7440 context(this);
         if (!rva002EB11B(&cell,*(Int *)((char *)TheWritableGlobalData+0x1208),&found,&context))
+            return false;
+    }
+    position->x=found.x*10+1.0f;
+    position->y=found.y*10+1.0f;
+    position->z=TheTerrainLogic->getLayerHeight(position->x,position->y,PATHFIND_LAYER_GROUND,0,true);
+    return true;
+}
+
+// Twin of AdjustToNearestValidCell: native 002EDCF7..002EDDA9 RET4, same body
+// with the ground-cell scan 002EAE5F (its callback context is the 002E7414
+// class, not 002E7440) and the +1204 search budget.
+Bool Pathfinder::AdjustToNearestGroundCell(Coord3D *position)
+{
+    ICoord2D found;
+    {
+        ICoord2D cell;
+        ((Rva002E7964 *)this)->rva002E7964(&cell,1,position);
+        if (cell.x<0)
+            return false;
+        found.x=0;
+        found.y=0;
+        Rva002E7414 context(this);
+        if (!rva002EAE5F(&cell,*(Int *)((char *)TheWritableGlobalData+0x1204),&found,&context))
             return false;
     }
     position->x=found.x*10+1.0f;
