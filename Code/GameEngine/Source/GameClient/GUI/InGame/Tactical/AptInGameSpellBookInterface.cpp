@@ -54,7 +54,8 @@ class PlayerList;extern PlayerList *ThePlayerList;
 class Object {public:const AsciiString *rva00290E67() const;};
 class Player {public:Object *rva002AC629();};
 class CommandButton;
-class ControlBar { public: int rva00539A65(void *,int,int); };
+enum CBCommandStatus { CBC_COMMAND_NOT_USED };
+class ControlBar { public: CBCommandStatus processCommandUI(const CommandButton *,bool,bool); };
 extern ControlBar *TheControlBar;
 extern "C" __declspec(dllimport) int __cdecl atoi(const char *);
 struct SpellAptModeView {char prefix00[0x318];int mode318;};
@@ -90,16 +91,14 @@ void AptInGameSpellBookInterface::Impl::OnClipUnloaded(const char *) {
 }
 // Native52A3AA..52A3F1 is complete71B RET4; WB13C5400 names this
 // callback and independently proves atoi, the24-slot bounds and mode318.
-// Keep the established ControlBar callee spelling. Its pointer/bool/bool
-// call view preserves the two observed Boolean arguments and RET12 ABI.
+// Calls the rowed ControlBar::processCommandUI (0x00539A65): button, the
+// mode-318 flag and false (pointer, bool, bool; RET12).
 void AptInGameSpellBookInterface::Impl::OnButtonPressed(const char *param) {
  int index=atoi(param);
  if(index<0 || index>=24)return;
  const CommandButton *button=(const CommandButton *)m_slots[index].unknown0;
  if(button) {
-  typedef int (ControlBar::*ProcessCommand)(const CommandButton *,bool,bool);
-  (TheControlBar->*reinterpret_cast<ProcessCommand>(&ControlBar::rva00539A65))
-    (button,((SpellAptModeView *)g_bfmeAptWindowManager)->mode318!=2,false);
+  TheControlBar->processCommandUI(button,((SpellAptModeView *)g_bfmeAptWindowManager)->mode318!=2,false);
  }
 }
 // WB013C4DD0 and native92B52A414..52A470: cdecl hidden AsciiString return.

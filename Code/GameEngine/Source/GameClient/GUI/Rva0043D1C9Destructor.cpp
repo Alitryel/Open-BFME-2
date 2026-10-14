@@ -67,7 +67,7 @@ class Rva00222A8BTarget {public:void rva00222F55(bool);};
 extern Rva00222A8BTarget* TheRva00222A8BTarget;
 class Shell {public:void hide(bool);};extern Shell* TheShell;
 class GameLogic {public:bool isInMultiplayerGame();void rva0023CD9E(bool,int,bool);char unknown[0x110];int mode;};extern GameLogic* TheGameLogic;
-class ControlBar {public:int rva00539A65(void*,int,int);};extern ControlBar* TheControlBar;
+class CommandButton;enum CBCommandStatus{CBC_COMMAND_NOT_USED};class ControlBar {public:CBCommandStatus processCommandUI(const CommandButton*,bool,bool);};extern ControlBar* TheControlBar;
 class InGameUI;extern InGameUI* TheInGameUI;
 class Rva0043D1C9UI {
 public:
@@ -195,7 +195,7 @@ Rva0043D1C9::~Rva0043D1C9() {
  if(logic && !logic->isInMultiplayerGame() && logic->mode!=6)logic->rva0023CD9E(false,0,true);
  if(TheControlBar && !entries27C.empty()) {
   int count=entries27C.size();
-  for(int i=0;i<count;++i){void*entry=entries27C[i];if(entry)TheControlBar->rva00539A65(entry,1,0);}
+  for(int i=0;i<count;++i){void*entry=entries27C[i];if(entry)TheControlBar->processCommandUI((const CommandButton*)entry,true,false);}
   entries27C.clear();
  }
  g_Va00E03314=0;

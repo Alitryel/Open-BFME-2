@@ -11613,7 +11613,6 @@ name,address,notes
 ?rva00538099@Rva0053805DBase@@QAEXXZ,0x00538099,"base broadcast (list at +8, ??_9@$BM@AE) that slots 0x0030C29E and 0x0030C2B6 both run first"
 ?rva005392EC@Rva003FE402Host@@QAEXXZ,0x005392EC,"member vtable slot 0x003FE402 tail-jumps to; opaque address name"
 ?rva0053973F@Rva0053973F@@QAEXH@Z,0x0053973F,address-derived callee of matched slot 0x005397D3; retail jmp rel32 targets 0x0053973F; Ghidra FUN bounds 148 bytes; thiscall on the +0x08 object 1 arg(s) ret 4; callee body remains unclaimed; no named identity inferred
-?rva00539A65@ControlBar@@QAEHPAXHH@Z,0x00539A65,Native REL32 at43D2EF in390B screen destructor calls5774B Ghidra539A65 body; ECX is established TheControlBar global; pointer and literal1/0 stack words with ret12 and EAX scalar witnessed; address-derived ABI view original method and pointer payload unknown
 ?rva0053EF2E@Rva0053ED1A@@QAEXXZ,0x0053EF2E,address-derived member scaffolding for Rva0053ED1A 0x0053EF7B tail dispatch; range-27 target, used only as a call target
 ?rva0053F1EC@Rva00057D38@@QAEHI@Z,0x0053F1EC,reserve-like grower: REL32 read at the count+1 call site in 0x00057D38; owner identity unproven
 ?rva005404CF@Rva0054034A@@QAEXH@Z,0x005404CF,address-derived guarded-removal member scaffolding for Rva0054034A 0x00540A26 trim loop; banked partial at this address, used only as a call target
