@@ -56126,3 +56126,4 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ??0Rva0033A501@@QAE@XZ	0x0033A501	6	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 6B; Native6 gap leaf 33A501: ctor setting +0 to -1; owner unresolved
 ?Rva002226DAStore@@YAPAEPAEE@Z	0x002226DA	11	landed	add_match_batch verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 11B; cdecl byte store through the pointer argument returning it (EAX); t=3 model=claude-opus-5-5
 ?rva0023527F@Rva0023527FScales@@QAEXXZ	0x0023527F	15	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 15B; Native15 23527F..23528E sets six floats at +0 to 1.0 via rep stosd; owner unresolved
+?rva0029A255@Rva0029A255Float@@QBEMXZ	0x0029A255	8	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 8B; Native8 29A255..29A25D x87 square of the float at +0x2C; owner unresolved

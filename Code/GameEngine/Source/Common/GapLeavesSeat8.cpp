@@ -455,3 +455,17 @@ void Rva0023527FScales::rva0023527F()
 	for (int i = 0; i < 6; ++i)
 		m_values[i] = 1.0f;
 }
+
+// --- 0x0029A255 (8B): the square of the float at +0x2C (x87).
+class Rva0029A255Float
+{
+public:
+	float rva0029A255() const;
+private:
+	char m_pad00[0x2C];
+	float m_2C;
+};
+float Rva0029A255Float::rva0029A255() const
+{
+	return m_2C * m_2C;
+}
