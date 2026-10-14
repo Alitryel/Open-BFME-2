@@ -48,3 +48,7 @@ UnicodeNameSet::iterator Force_UnicodeStringSet_find(UnicodeNameSet &s, const Un
 {
     return s.find(v);
 }
+
+// Native604DFD (20B, after the unique insert): set::find, the hidden-return
+// iterator around the rowed _M_find 0x00604D0E.
+template UnicodeNameSet::iterator UnicodeNameSet::find<UnicodeString>(const UnicodeString &) const;
