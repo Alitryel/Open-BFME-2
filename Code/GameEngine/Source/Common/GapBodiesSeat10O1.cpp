@@ -1458,3 +1458,11 @@ unsigned int Rva00603912::rva0060391B() const
 {
 	return Rva009CC290Swap(m_04);
 }
+
+// ?Rva006D3850@@YA_NH@Z @0x006D3850 12B: code point within the Unicode range.
+bool Rva006D3850(int codePoint)
+{
+	if (codePoint > 0x10ffff)
+		return false;
+	return true;
+}

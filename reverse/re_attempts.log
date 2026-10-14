@@ -56480,3 +56480,4 @@ _chatEnumJoinedChannels	0x006A2100	5	landed	add_match verified Code/GameEngine/S
 ?Rva006C53F0@@YAXP6APAVProfileResultInterface@@HPBQBD@ZPBD2@Z	0x006C53F0	5	blocked	cdecl tail jump to rowed ProfileCmdInterface::AddResultFunction 0x006C67F0; byte-exact with a private class view, but ProfileCmdInterface is canonical (internal_cmd.h needs DebugCmdInterface context), so land it in a TU that already includes the profile headers t=3 model=claude-opus-5-5
 ?rva00603912@Rva00603912@@QBEIXZ	0x00603912	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 9B; byte-swap +0 word via rowed Rva009CC290Swap 0x006038EF
 ?rva0060391B@Rva00603912@@QBEIXZ	0x0060391B	10	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 10B; byte-swap +4 word via rowed Rva009CC290Swap 0x006038EF
+?Rva006D3850@@YA_NH@Z	0x006D3850	12	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 12B; code point within Unicode range
