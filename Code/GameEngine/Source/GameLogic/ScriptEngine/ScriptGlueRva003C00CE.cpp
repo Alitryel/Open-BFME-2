@@ -26,10 +26,12 @@ public:
 };
 extern ScriptEngine *TheScriptEngine;
 
-class Rva002D88A4
+// Rowed 0x002D88A4: Radar::createEvent (Radar_createEvent.cpp).
+enum RadarEventType { RADAR_EVENT_INVALID };
+class Radar
 {
 public:
-	void rva002D88A4(Coord3D *pos, void *extra, float scale);
+	void createEvent(const Coord3D *world, RadarEventType type, float secondsToLive);
 };
 extern class Radar *TheRadar;
 
@@ -49,6 +51,6 @@ void ScriptActions::Rva003C00CEDo(const AsciiString *teamName, void *extra)
 		return;
 	Coord3D pos;
 	team->rva0039E5B9(&pos);
-	(*(Rva002D88A4 **)&TheRadar)->rva002D88A4(&pos, extra, 4.0f);
+	TheRadar->createEvent(&pos, (RadarEventType)(int)extra, 4.0f);
 	(*(Rva001DDAE1 **)&TheEva)->rva001DDAE1(&pos);
 }

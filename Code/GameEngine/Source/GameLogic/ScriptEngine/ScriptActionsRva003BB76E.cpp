@@ -7,10 +7,12 @@
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 class Radar;
 extern Radar *TheRadar;
-class Rva002D88A4
+// Rowed 0x002D88A4: Radar::createEvent (Radar_createEvent.cpp).
+enum RadarEventType { RADAR_EVENT_INVALID };
+class Radar
 {
 public:
-	void rva002D88A4(Coord3D *pos, void *extra, float scale);
+	void createEvent(const Coord3D *world, RadarEventType type, float secondsToLive);
 };
 class Rva001DDAE1
 {
@@ -21,6 +23,6 @@ extern class Eva *TheEva;
 // g_00BC2918 was the retail address alias (RVA 0x007C2918) of the constant 4.0f; the literal is the source.
 void ScriptActions::Rva003BB76EDo(Coord3D *pos, void *extra)
 {
-	((Rva002D88A4 *)TheRadar)->rva002D88A4(pos, extra, 4.0f);
+	TheRadar->createEvent(pos, (RadarEventType)(int)extra, 4.0f);
 	(*(Rva001DDAE1 **)&TheEva)->rva001DDAE1(pos);
 }

@@ -11100,7 +11100,6 @@ name,address,notes
 ?rva002D7BFD@@YAHH@Z,0x002D7BFD,pin for 0x2D7FAE cdecl query (int) returns int
 ?rva002D7DD5@Rva002D7DD5@@QAEXXZ,0x002D7DD5,address-derived callee of matched slot 0x0004E3A1; retail jmp rel32 targets 0x002D7DD5; Ghidra FUN bounds 147 bytes; thiscall no args ret; callee body remains unclaimed; no named identity inferred
 ?rva002D7E68@Rva0004E3A6@@QAEXH@Z,0x002D7E68,callee of ?rva0004E3A6@Rva0004E3A6@@QAEXH@Z at retail 0x0004E3AD read from its REL32 displacement; argument count from the callee ret
-?rva002D88A4@Rva002D88A4@@QAEXPAUCoord3D@@PAXM@Z,0x002D88A4,float-4.0 Coord3D call on the 0x00DFF070 global; REL32 callee of dump-range-18 0x003C00CE; identity unproven
 ?rva002D96D3@BfmeAudioEventPrefix136@@QAEXABUOpaqueRefElement4@@@Z,0x002D96D3,Native136-byte view alias of rowed common-prefix initializer259; ctor2D97D6 calls it and radar2AA9C2 reserves0x88; wrapper90 stride is separately proven; linker alias binds existing provider
 ?rva002D9ADC@Rva002DAAD5Owner@@QAEXXZ,0x002D9ADC,pin for 0x2DAAD5 thiscall void ()
 ?rva002D9D7C@Rva002D9F9FOwner@@QAEXPAX0@Z,0x002D9D7C,pin for 0x2D9F9F thiscall (ptr, ptr) void
