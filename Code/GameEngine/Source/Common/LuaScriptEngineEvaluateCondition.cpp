@@ -113,7 +113,9 @@ public:
 };
 
 extern ScriptEngine *TheScriptEngine;
-extern ScriptConditionsInterface *TheScriptConditions;
+// Use ScriptEngine_init's global type; the interface class is a local call view.
+class ScriptConditions;
+extern ScriptConditions *TheScriptConditions;
 
 // The target Condition view and the matched ScriptAction view share the
 // vptr/action-type/count/parameter-array prefix; both parameter getters fold to
@@ -168,7 +170,7 @@ int EvaluateCondition(lua_State *state)
 		}
 	}
 
-	bool result = TheScriptConditions->evaluateCondition(action);
+	bool result = ((ScriptConditionsInterface *)TheScriptConditions)->evaluateCondition(action);
 	::delete action;
 	bfmeGo1039E((BfmeQ1039 *)state, result ? 1 : 0);
 	return 1;

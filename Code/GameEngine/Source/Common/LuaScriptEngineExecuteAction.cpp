@@ -110,7 +110,9 @@ public:
 };
 
 extern ScriptEngine *TheScriptEngine;
-extern ScriptActionsInterface *TheScriptActions;
+// Use ScriptEngine_init's global type; the interface class is a local call view.
+class ScriptActions;
+extern ScriptActions *TheScriptActions;
 
 // ?ExecuteAction@@YAHPAUlua_State@@@Z
 int ExecuteAction(lua_State *state)
@@ -166,7 +168,7 @@ int ExecuteAction(lua_State *state)
 		}
 	}
 
-	TheScriptActions->executeAction(action);
+	((ScriptActionsInterface *)TheScriptActions)->executeAction(action);
 	::delete action;
 	bfmeGo1039E((BfmeQ1039 *)state, 1);
 	return 1;
