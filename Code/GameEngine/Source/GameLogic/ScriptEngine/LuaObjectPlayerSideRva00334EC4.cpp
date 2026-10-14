@@ -73,13 +73,22 @@ private:
 	unsigned char m_pad00[ 0x58 ]; // +0x00..0x58
 
 public:
+	bool rva002AA245() const;
 	BfmeSideHolder m_side58; // +0x58 target fact, AsciiString-compatible 4B
 };
 
 class Team
 {
+    unsigned char pad00[0x34];
 public:
+    Player *controllingPlayer;
 	Player *getControllingPlayer() const; // row 13658 @0x39D7CF
+};
+
+class LuaAllegianceAI {
+    unsigned char pad00[0x240];
+public:
+    Player *allegiance;
 };
 
 class Object
@@ -95,7 +104,11 @@ private:
 public:
     ObjectID m_capturingID;
 private:
-    unsigned char m_pad84[0x304 - 0x84]; // +0x08..0x304
+    unsigned char m_pad84[0x258 - 0x84];
+public:
+    LuaAllegianceAI *ai;
+private:
+    unsigned char m_pad25C[0x304 - 0x25C]; // +0x08..0x304
 
 public:
 	Team *m_team304; // +0x304 target fact (Team* for player-side path)
@@ -194,4 +207,19 @@ int Rva00334F2E(lua_State *state) {
     }
 fail:
     lua_pushnil(state); return 1;
+}
+
+// Native334C9F..334D16,119B. Registration33875F / C0E4B8 names
+// ObjectChangeAllegianceFromNonPlayablePlayer. Lookup IDs 1/2, reject a
+// playable controller, then set AI+240 to the second object's team+34 player.
+int Rva00334C9F(lua_State *state) {
+    unsigned firstID=Rva00990030Lookup((Rva00990030Range*)state,1);
+    unsigned secondID=Rva00990030Lookup((Rva00990030Range*)state,2);
+    if(secondID && firstID) {
+        Object *first=TheGameLogic->findObjectByID((ObjectID)firstID);
+        Object *second=TheGameLogic->findObjectByID((ObjectID)secondID);
+        if(first && second && !first->getControllingPlayer()->rva002AA245())
+            first->ai->allegiance=second->m_team304->controllingPlayer;
+    }
+    return 0;
 }
