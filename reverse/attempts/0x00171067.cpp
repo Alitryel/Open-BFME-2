@@ -1,4 +1,6 @@
 // ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
+// partial score=0.97 date=2026-10-14
+// ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
 // partial score=0.96 date=2026-10-06
 // cl: /O1 /EHs /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
@@ -102,8 +104,7 @@ void Rva00171067::rva00171067(const AssetReference &ref)
 	typedef _STL::map<unsigned, void *> MapIntPtr;
 	const unsigned &key = *(const unsigned *)&ref;
 	MapIntPtr &m = *(MapIntPtr *)&m_bff;
-	MapIntPtr::iterator it = m.find(key);
-	if (it != m.end()) {
+	if (m.find(key) != m.end()) {
 		return;
 	}
 	{
