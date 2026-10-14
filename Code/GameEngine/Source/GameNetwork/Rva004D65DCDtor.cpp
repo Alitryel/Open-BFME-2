@@ -16,12 +16,22 @@ private:
 template <> StringBase<char>::~StringBase();
 #pragma comment(linker, "/alternatename:??1?$StringBase@D@@QAE@XZ=?releaseBuffer@?$StringBase@D@@AAEXXZ")
 
+typedef int Int;
+typedef bool Bool;
+class AsciiString;
+
+// Retail base vtable 0x860130: deleting dtor, getSortNumber, a bool slot,
+// getContentsAsAsciiString; matches NetCommandMsgCtor.cpp's view.
 class NetCommandMsg
 {
 public:
 	NetCommandMsg();
 protected:
 	virtual ~NetCommandMsg();
+public:
+	virtual Int getSortNumber();
+	virtual Bool vslot08() { return false; }
+	virtual AsciiString getContentsAsAsciiString();
 private:
 	char m_pad04[0x1c - 0x04];
 };

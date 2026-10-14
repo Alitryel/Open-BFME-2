@@ -12,12 +12,22 @@ private:
 	T *m_data;
 };
 
+typedef int Int;
+typedef bool Bool;
+class AsciiString;
+
+// Retail base vtable 0x860130: deleting dtor, getSortNumber, a bool slot,
+// getContentsAsAsciiString; matches NetCommandMsgCtor.cpp's view.
 class NetCommandMsg
 {
 public:
 	NetCommandMsg();
 protected:
-	virtual inline ~NetCommandMsg() {}
+	virtual ~NetCommandMsg() {}
+public:
+	virtual Int getSortNumber();
+	virtual Bool vslot08() { return false; }
+	virtual AsciiString getContentsAsAsciiString();
 private:
 	char m_pad04[0x1c - 0x04];
 };

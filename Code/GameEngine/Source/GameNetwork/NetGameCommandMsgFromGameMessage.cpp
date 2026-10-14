@@ -4,6 +4,8 @@
 typedef unsigned int UnsignedInt;
 typedef unsigned short UnsignedShort;
 typedef int Int;
+typedef bool Bool;
+class AsciiString;
 
 enum NetCommandType
 {
@@ -43,6 +45,10 @@ public:
 	NetCommandMsg();
 protected:
 	virtual ~NetCommandMsg();
+public:
+	virtual Int getSortNumber();
+	virtual Bool vslot08() { return false; }
+	virtual AsciiString getContentsAsAsciiString();
 protected:
 	UnsignedInt m_timestamp;
 	UnsignedInt m_executionFrame;
@@ -59,6 +65,7 @@ class NetGameCommandMsg : public NetCommandMsg
 public:
 	NetGameCommandMsg(GameMessage *msg);
 	virtual ~NetGameCommandMsg();
+	virtual Bool vslot08();
 	void addArgument(GameMessageArgumentDataType type, GameMessageArgumentType arg);
 private:
 	Int m_numArgs;

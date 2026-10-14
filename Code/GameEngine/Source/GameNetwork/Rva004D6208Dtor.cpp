@@ -1,4 +1,4 @@
-// cl: /Oy- /MD /EHsc
+// cl: /MD /EHsc
 // ??1Rva004D6208@@MAE@XZ retail 0x004D6208 72B.
 // Dtor: vptr 0x860484 then array delete at +0x20 with null assign then Ascii releaseBuffer at +0x1c then vptr 0x860130.
 // Evidence: vtable 0x860484 plus caller 0x004D6ABC plus neighbour setters.
@@ -17,12 +17,22 @@ private:
 template <> StringBase<char>::~StringBase();
 #pragma comment(linker, "/alternatename:??1?$StringBase@D@@QAE@XZ=?releaseBuffer@?$StringBase@D@@AAEXXZ")
 
+typedef int Int;
+typedef bool Bool;
+class AsciiString;
+
+// Retail base vtable 0x860130: deleting dtor, getSortNumber, a bool slot,
+// getContentsAsAsciiString; matches NetCommandMsgCtor.cpp's view.
 class NetCommandMsg
 {
 public:
 	NetCommandMsg();
 protected:
-	virtual inline ~NetCommandMsg() {}
+	virtual ~NetCommandMsg() {}
+public:
+	virtual Int getSortNumber();
+	virtual Bool vslot08() { return false; }
+	virtual AsciiString getContentsAsAsciiString();
 private:
 	char m_pad04[0x1c - 0x04];
 };

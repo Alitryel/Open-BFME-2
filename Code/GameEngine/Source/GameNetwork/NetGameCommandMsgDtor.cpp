@@ -20,19 +20,30 @@ __forceinline void deleteInstance(NetGameCommandMsgArg *arg)
 	::delete arg;
 }
 
-class NetGameCommandMsgBase
+typedef int Int;
+typedef bool Bool;
+class AsciiString;
+
+// Retail base vtable 0x860130: deleting dtor, getSortNumber, a bool slot,
+// getContentsAsAsciiString; matches NetCommandMsgCtor.cpp's view.
+class NetCommandMsg
 {
+protected:
+	virtual ~NetCommandMsg() {}
 public:
-	virtual ~NetGameCommandMsgBase() {}
+	virtual Int getSortNumber();
+	virtual Bool vslot08() { return false; }
+	virtual AsciiString getContentsAsAsciiString();
 
 private:
 	unsigned char m_pad04[0x28 - 4];
 };
 
-class NetGameCommandMsg : public NetGameCommandMsgBase
+class NetGameCommandMsg : public NetCommandMsg
 {
 public:
 	virtual ~NetGameCommandMsg();
+	virtual Bool vslot08();
 
 private:
 	NetGameCommandMsgArg *m_argList; // +0x28

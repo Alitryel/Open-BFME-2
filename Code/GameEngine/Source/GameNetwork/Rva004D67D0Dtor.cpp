@@ -9,12 +9,23 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 
+typedef int Int;
+typedef bool Bool;
+class AsciiString;
+
+// Retail base vtable 0x860130: deleting dtor, getSortNumber, a bool slot,
+// getContentsAsAsciiString; matches NetCommandMsgCtor.cpp's view.
 class NetCommandMsg
 {
 public:
 	NetCommandMsg();
 protected:
 	virtual ~NetCommandMsg();
+public:
+	virtual Int getSortNumber();
+	virtual Bool vslot08() { return false; }
+	virtual AsciiString getContentsAsAsciiString();
+protected:
 	char m_pad04[0x14 - 0x04];
 	int m_commandType;
 	int m_referenceCount;

@@ -324,6 +324,8 @@ class Rva004D60CA : public NetCommandMsg
 {
 public:
 	Rva004D60CA();
+protected:
+	virtual ~Rva004D60CA(); // 0x004D60E3, Rva004D60CADtor.cpp
 private:
 	unsigned int m_1c;
 };
@@ -398,6 +400,8 @@ class Rva004D65DC : public NetCommandMsg
 {
 public:
 	Rva004D65DC();
+protected:
+	virtual ~Rva004D65DC(); // 0x004D6708, Rva004D65DCDtor.cpp
 private:
 	unsigned int m_1c;
 	unsigned int m_20;

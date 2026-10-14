@@ -9,10 +9,19 @@ enum NetCommandType
 {
 	NETCOMMANDTYPE_UNKNOWN = -1
 };
+class AsciiString;
+typedef bool Bool;
+
+// Retail base vtable 0x860130: deleting dtor, getSortNumber, a bool slot,
+// getContentsAsAsciiString; matches NetCommandMsgCtor.cpp's view.
 class NetCommandMsg
 {
-public:
+protected:
 	virtual ~NetCommandMsg() {}
+public:
+	virtual Int getSortNumber();
+	virtual Bool vslot08() { return false; }
+	virtual AsciiString getContentsAsAsciiString();
 protected:
 	UnsignedInt m_timestamp; // +4
 	UnsignedInt m_executionFrame; // +8

@@ -5,6 +5,8 @@
 typedef unsigned int UnsignedInt;
 typedef unsigned short UnsignedShort;
 typedef int Int;
+typedef bool Bool;
+class AsciiString;
 enum NetCommandType
 {
 	NETCOMMANDTYPE_UNKNOWN = -1
@@ -14,7 +16,11 @@ class NetCommandMsg
 public:
 	NetCommandMsg();
 protected:
-	inline virtual ~NetCommandMsg() {}
+	virtual ~NetCommandMsg() {}
+public:
+	virtual Int getSortNumber();
+	virtual Bool vslot08() { return false; }
+	virtual AsciiString getContentsAsAsciiString();
 protected:
 	UnsignedInt m_timestamp;
 	UnsignedInt m_executionFrame;
@@ -28,6 +34,8 @@ class Rva004D6208 : public NetCommandMsg
 {
 public:
 	Rva004D6208();
+protected:
+	virtual ~Rva004D6208();
 private:
 	AsciiString m_str1c;
 	unsigned char *m_data20;
