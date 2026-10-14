@@ -72,17 +72,11 @@ public:
 	Bool isAttackViewBlockedByObstacle(const Object *a, const Coord3D &b, const Object *c, const Coord3D &d);
 };
 
-// 0x002CB35C, rowed as Rva002C9B80Owner::isWithinAttackRange (WB Weapon).
-class Rva002C9B80Owner
-{
-public:
-	Bool isWithinAttackRange(Object *source, const Coord3D *sourcePos, Object *target, const Coord3D *targetPos, Real extra, Bool flag);
-};
-
 class Weapon
 {
 public:
 	Bool isWithinAttackRange(const Object *source, const Object *target, Real extra, int flag) const;
+	Bool isWithinAttackRange(Object *source, const Coord3D *sourcePos, Object *target, const Coord3D *targetPos, Real extra, Bool flag);	// 0x002CB35C
 };
 
 class Object
@@ -239,7 +233,7 @@ StateReturnType AIAttackPursueTargetState::updateInternal()
 			ai->setTurretTargetObject(tur, victim, m_isForceAttacking);
 			m_isInitialApproach = false;
 			Real victimSpeed = victim->rva0028AC7D();
-			if (((Rva002C9B80Owner *)weapon)->isWithinAttackRange(source, &source->m_position, victim, &victim->m_position, 0.0f, true))
+			if (((Weapon *)weapon)->isWithinAttackRange(source, &source->m_position, victim, &victim->m_position, 0.0f, true))
 				victimSpeed *= 0.95f;
 			if (source->rva0029493F(victim, 2))
 				victimSpeed = 999999.0f;
