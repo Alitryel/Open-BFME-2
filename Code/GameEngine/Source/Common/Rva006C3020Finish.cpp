@@ -97,6 +97,7 @@ public:
 
 	bool VerifyGuardFill(void *block, int alsoBeyond, unsigned char mode);
 	bool VerifyDelayedFreeFill(void *block);
+	int rva006C3160(void *block);
 
 	unsigned char m_unaccessed[0x509];
 	unsigned char m_fillByte;        // +0x509
@@ -268,4 +269,14 @@ haveLength:
 	}
 
 	return true;
+}
+// 0x006C3160 (28B, right after VerifyDelayedFreeFill): its failure as an
+// error count, 1 when the delayed-free fill is damaged and 0 otherwise.
+// Unnamed body; the spelling is address-derived.
+int GeneralAllocatorDebug::rva006C3160(void *block)
+{
+	int errors = 0;
+	if (!VerifyDelayedFreeFill(block))
+		errors = 1;
+	return errors;
 }
