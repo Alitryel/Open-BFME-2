@@ -816,3 +816,28 @@ void rva000907BC()
 {
 	DX8_Assert();
 }
+
+// 0x0006F313 (5B), unreferenced: the template the OVERRIDE<LocomotorTemplate>
+// at +0 points at, a tail jump into its rowed operator-> (0x0035C95F).
+class LocomotorTemplate;
+
+template <class T> class OVERRIDE
+{
+public:
+	const T *operator->() const;
+private:
+	const T *m_ptr;
+};
+
+class Rva0006F313
+{
+public:
+	const LocomotorTemplate *rva0006F313() const;
+private:
+	OVERRIDE<LocomotorTemplate> m_00;
+};
+
+const LocomotorTemplate *Rva0006F313::rva0006F313() const
+{
+	return m_00.operator->();
+}

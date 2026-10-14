@@ -88904,3 +88904,4 @@ __Locale_ctype_default,,0x00021980,5,Code/Libraries/Source/WWVegas/WWLib/stlport
 ?rva00035790@Rva00035790Slots@@QAEXXZ,,0x00035790,4,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,virtual-slot tail-jump forwarder; unreferenced
 ?rva000357F0@Rva000357F0Slots@@QAEXXZ,,0x000357F0,5,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,virtual-slot tail-jump forwarder; unreferenced
 ?rva00021280@@YAHHHHHH@Z,,0x00021280,5,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,returns its fifth argument; unreferenced
+?rva0006F313@Rva0006F313@@QBEPBVLocomotorTemplate@@XZ,,0x0006F313,5,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,OVERRIDE<LocomotorTemplate> holder forwarder tail-jumping into rowed operator-> 0x0035C95F; unreferenced
