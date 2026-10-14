@@ -1,4 +1,8 @@
 // ?iterateCellsAlongLine@Pathfinder@@AAEHPBUICoord2D@@0W4PathfindLayerEnum@@PAURva002E85ADInfo@@@Z
+// partial score=0.979366 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?iterateCellsAlongLine@Pathfinder@@AAEHPBUICoord2D@@0W4PathfindLayerEnum@@PAURva002E85ADInfo@@@Z
 // partial score=0.9541 date=2026-10-13
 // W7-MP6 r10: first-line symbol corrected to the emitted body (old 5-param name rets 20; retail rets 16)
 // ?iterateCellsAlongLine@Pathfinder@@AAEHPBUICoord2D@@0W4PathfindLayerEnum@@PAURva002E85ADInfo@@@Z
@@ -141,6 +145,7 @@ Int Pathfinder::iterateCellsAlongLine( const ICoord2D *startCell,
 	Int curpixel = 0;
 	Int x = startCell->x;
 	Int y = startCell->y;
+	_ReadWriteBarrier();
 	Int wy = y * 10;
 	Int wx = x * 10;
 	Int yinc1w = yinc1 * 10;
