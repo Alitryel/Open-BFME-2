@@ -896,8 +896,11 @@ ChinookAIStateMachine::~ChinookAIStateMachine()
 //-------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------
+// Nothing here constructs the data. Defined out of line, it emitted ZH's
+// SupplyTruckAIUpdateModuleData constructor (80 B), proven not retail's 68 B
+// body at 0x0024EE77, ahead of that body's owner in link order.
 // ??0ChinookAIUpdateModuleData@@ present-unmatched
-ChinookAIUpdateModuleData::ChinookAIUpdateModuleData()
+inline ChinookAIUpdateModuleData::ChinookAIUpdateModuleData()
 {
 	m_numRopes = 4;
 	m_ropeWidth = 0.5f;
