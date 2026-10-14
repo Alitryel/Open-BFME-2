@@ -2,6 +2,7 @@
 // stlport
 #include <vector>
 #include <set>
+#include <list>
 #include "ascii_string.h"
 #include "unicode_string.h"
 
@@ -102,6 +103,7 @@ public:
 	static void parsePlayerTemplateDefinition(INI *);
     const PlayerTemplate *findPlayerTemplate(NameKeyType namekey) const;
 	const PlayerTemplate *getNthPlayerTemplate(int index) const;
+	void getAllSideStrings(_STL::list<AsciiString> *outStringList);
 
 private:
 	public:
@@ -146,6 +148,33 @@ const PlayerTemplate *PlayerTemplateStore::getNthPlayerTemplate(int index) const
 		return result;
 	}
 	return 0;
+}
+
+// ?getAllSideStrings@PlayerTemplateStore@@QAEXPAV?$list@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@@Z
+// @0x001FDD7D 194B. Zero Hour PlayerTemplateStore::getAllSideStrings: the unique sides of every
+// player template (null entries skipped) collected in a local list, then spliced onto the end of
+// the caller's list. Evidence: target bytes and WB debug body 00A788C0 (unnamed): same
+// loop/find/push_back/splice flow; the list helpers are the rowed AsciiString push_back 0x1FD868,
+// find 0x1FD9C5 and _List_base dtor 0x2FECBC, while retail's splice is the list<int> body
+// 0x1FD613 (same layout), reached through a list<int> view of both lists. The
+// list templates stay visible (no out-of-line specialization declarations):
+// that is what lets cl keep the local list's header node in ESI across the loop.
+void PlayerTemplateStore::getAllSideStrings(_STL::list<AsciiString> *outStringList)
+{
+	if (!outStringList)
+		return;
+	_STL::list<AsciiString> tmpList;
+	int numTemplates = static_cast<int>(m_playerTemplates.size());
+	for (int i = 0; i < numTemplates; ++i)
+	{
+		const PlayerTemplate *pt = getNthPlayerTemplate(i);
+		if (!pt)
+			continue;
+		if (_STL::find(tmpList.begin(), tmpList.end(), pt->side) == tmpList.end())
+			tmpList.push_back(pt->side);
+	}
+	_STL::list<int> *out = reinterpret_cast<_STL::list<int> *>(outStringList);
+	out->splice(out->end(), *reinterpret_cast<_STL::list<int> *>(&tmpList));
 }
 
 class INI { public: const char *getNextToken(const char *); static void parseInt(INI *ini, void *instance, void *store, const void *userData); char prefix[8]; int mode; };
