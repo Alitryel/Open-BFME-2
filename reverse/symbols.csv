@@ -17004,3 +17004,4 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ??0Rva004FF2C0@@QAE@PAVRva0020E89C@@PAVRva003F1241@@ABVUnicodeString@@2H@Z,0x004FF28E,callee of ?rva002BA654@LivingWorldLogic@@UAEXPBVRva002E0687@@PAVRva0020E89C@@PAVRva003F1241@@@Z
 ?rva004FBC02@Rva004FBCBE@@QAEXPBUCoord3D@@@Z,0x004FBC02,callee of ?rva002BA654@LivingWorldLogic@@UAEXPBVRva002E0687@@PAVRva0020E89C@@PAVRva003F1241@@@Z
 ??3Rva00672460@@SAXPAXI@Z,0x0065D030,callee of ??_GRva00672460@@UAEPAXI@Z
+?updateInternal@AIAttackAimAtTargetState@@QAE?AW4StateReturnType@@_N@Z,0x003508C5,callee of ?update@AIAttackAimAtTargetState@@UAE?AW4StateReturnType@@XZ
