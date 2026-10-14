@@ -133,6 +133,11 @@ public:
 		return __first;
 	}
 
+	void clear()
+	{
+		erase(_M_start, _M_finish);
+	}
+
 protected:
 	_Tp *_M_start;
 	_Tp *_M_finish;
@@ -275,6 +280,16 @@ template Rva005658FEElement *_STL::vector<Rva005658FEElement >::erase(Rva005658F
 template Rva00565931Element *_STL::vector<Rva00565931Element >::erase(Rva00565931Element *, Rva00565931Element *);
 template Rva00565964Element *_STL::vector<Rva00565964Element >::erase(Rva00565964Element *, Rva00565964Element *);
 template Rva00565997Element *_STL::vector<Rva00565997Element >::erase(Rva00565997Element *, Rva00565997Element *);
+// vector<T>::clear() (STLport: erase(begin(), end())), 11 bytes each, emitted
+// out of line right after the same element types' range erases above:
+// 0x00565A94 (0x005658CB), 0x00565A9F (0x005658FE), 0x00565AAA (0x00565931),
+// 0x00565AB5 (0x00565964), 0x00565AC0 (0x00565997).  The retail REL32 of each
+// names its erase; the clear identity is a structural inference from that.
+template void _STL::vector<Rva005658CBElement >::clear();
+template void _STL::vector<Rva005658FEElement >::clear();
+template void _STL::vector<Rva00565931Element >::clear();
+template void _STL::vector<Rva00565964Element >::clear();
+template void _STL::vector<Rva00565997Element >::clear();
 template Rva00566A42Element *_STL::vector<Rva00566A42Element >::erase(Rva00566A42Element *, Rva00566A42Element *);
 template Rva00586E86Element *_STL::vector<Rva00586E86Element >::erase(Rva00586E86Element *, Rva00586E86Element *);
 template Rva005DC408Element *_STL::vector<Rva005DC408Element >::erase(Rva005DC408Element *, Rva005DC408Element *);
