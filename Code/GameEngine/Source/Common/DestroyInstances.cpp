@@ -285,3 +285,21 @@ template void _STL::_Destroy<Rva004F7DD4>(Rva004F7DD4 *);
 template void _STL::_Destroy<Rva005C8FBD>(Rva005C8FBD *);
 template void _STL::_Destroy<BfmeVectorRecord002AF478>(BfmeVectorRecord002AF478 *);
 template void _STL::_Destroy<Rva001D28F0Element>(Rva001D28F0Element *);
+
+// 0x00288FE5 -> ??1?$pair@$$CBHV?$list@UBfmePod264@@...@@ 0x00288B89 and
+// 0x002A1D94 -> ??1?$pair@VAsciiString@@VAudioEventRTS@@ 0x002A12E1 (ICF-shared
+// with another AsciiString-keyed pair). Each pair destructor is the rowed
+// body, declared here so the instance tail-jumps to it.
+#include <list>
+struct BfmePod264 { int a[66]; };
+typedef _STL::pair<const int, _STL::list<BfmePod264> > Rva00288B89Pair;
+template <> Rva00288B89Pair::~pair();
+class AudioEventRTS
+{
+public:
+	~AudioEventRTS();
+};
+typedef _STL::pair<AsciiString, AudioEventRTS> Rva002A12E1Pair;
+template <> Rva002A12E1Pair::~pair();
+template void _STL::_Destroy<Rva00288B89Pair>(Rva00288B89Pair *);
+template void _STL::_Destroy<Rva002A12E1Pair>(Rva002A12E1Pair *);
