@@ -1,4 +1,6 @@
 // ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
+// partial score=0.9543031778078934 date=2026-10-14
+// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
 // partial score=0.9543031778078934 date=2026-10-13
 // W7-ASTRA next lead: starting from this size-exact body, hoisting the two
 // argument values fixes independent native spill/load sites: declare bool

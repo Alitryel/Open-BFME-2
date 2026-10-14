@@ -1,6 +1,8 @@
 // ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
 // partial score=0.9652564743478931 date=2026-10-14
 // ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
+// partial score=0.9652564743478931 date=2026-10-14
+// ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
 // partial score=0.9556259426847662 date=2026-10-10
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 extern "C" void _ReadWriteBarrier(void);

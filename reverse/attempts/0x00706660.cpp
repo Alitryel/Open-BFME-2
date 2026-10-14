@@ -1,4 +1,6 @@
 // ?callFunction@AptActionInterpreter@@QAEXPAVAptValue@@0H@Z
+// partial score=0.9631519927573506 date=2026-10-14
+// ?callFunction@AptActionInterpreter@@QAEXPAVAptValue@@0H@Z
 // partial score=0.955 date=2026-10-14
 // ?callFunction@AptActionInterpreter@@QAEXPAVAptValue@@0H@Z
 // partial score=0.9549 date=2026-10-13
@@ -44,7 +46,7 @@ void AptActionInterpreter::callFunction(AptValue *context,AptValue *function,int
    stack.rva006E3AA0(nParams);stack.rva006FDF30((BfmeAptValue006DCD20*)gpUndefinedValue);mpCurrentFunction->mpCIH=(AptCIH *)gpUndefinedValue;
   } else {
    thisStack.push(context); _AptScriptFunctionState state;mpCurrentFunction->AddRef();mpCurrentFunction->SetupBeforeExecution(&state,context);
-   int expected=mpCurrentFunction->GetNumArguments();int count=expected;if(nParams<count)count=nParams;int i;
+   int expected=mpCurrentFunction->GetNumArguments();int count;if(expected<nParams){count=expected;_ReadWriteBarrier();}else count=nParams;int i;
    for(i=0;i<count;++i){AptValue *param=(AptValue*)stack.At(i);(i ? mpCurrentFunction : mpCurrentFunction)->SetArgument(param,i);}
    for(;i<expected;++i)mpCurrentFunction->SetArgument(gpUndefinedValue,i);
    stack.rva006E3AA0(nParams);
