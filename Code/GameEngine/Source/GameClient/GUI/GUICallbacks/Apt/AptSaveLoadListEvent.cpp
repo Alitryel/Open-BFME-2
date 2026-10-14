@@ -1,6 +1,6 @@
-// ?rva00435BB3@AptSaveLoad@@QAEHHPAVGameWindow@@H@Z
-// partial score=0.82 date=2026-10-06
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /MD /EHsc
+// Retail 0x00435BB3, 281 bytes: the save/load screen's list/text-entry event handler (WorldBuilder: switch on
+// the message with 0x4014 list selection, 0x4015 double click, 0x4031 text-entry commit, 0x4032 text change).
 // Partial reconstruction of the AptSaveLoad event handler at 0x00435BB3.
 class GameWindow
 {
@@ -16,9 +16,9 @@ class AptSaveLoad
 public:
 	int rva00435BB3(int message, GameWindow *source, int value);
 	void rva00434432();
-	void rva00434AAE();
+	void SetDefaultFileName();
 	void rva00434A2F();
-	void rva0043566A(const char *unused);
+	void OnButtonSave(const char *unused);
 	int rva00433F7F();
 	void Load(const char *unused);
 private:
@@ -33,13 +33,12 @@ private:
 
 int AptSaveLoad::rva00435BB3(int message, GameWindow *source, int value)
 {
-	if ((m_state >= 0x12 && m_state <= 0x17) ||
-		(message != 0x4014 && message != 0x4015 && message != 0x4031))
-		return ((Rva005126F5 *)this)->rva0051274F(
-			message, (unsigned int)source, (unsigned int)value);
+	if (m_state >= 0x12 && m_state <= 0x17)
+		return ((Rva005126F5 *)this)->rva0051274F(message, (unsigned int)source, (unsigned int)value);
 
-	if (message == 0x4014)
+	switch (message)
 	{
+	case 0x4014:
 		if (value >= 0)
 		{
 			if (source == m_gameList)
@@ -49,24 +48,33 @@ int AptSaveLoad::rva00435BB3(int message, GameWindow *source, int value)
 		}
 		rva00434432();
 		if (m_294 != 2)
-			rva00434AAE();
+			SetDefaultFileName();
 		rva00434A2F();
-	}
-	else if (message == 0x4015)
-	{
+		return 1;
+	case 0x4015:
 		if (source == m_gameList || source == m_autoSaveList)
 		{
 			if (rva00433F7F())
 			{
 				if (m_294 == 3)
-					rva0043566A(0);
+					OnButtonSave(0);
 				else if (m_294 == 2)
 					Load(0);
 			}
 		}
+		return 1;
+	case 0x4031:
+		{
+			bool changed = value != 0;
+			if (source == m_fileName && !changed && m_294 == 3)
+				OnButtonSave(0);
+		}
+		return 1;
+	case 0x4032:
+		if (source == m_fileName)
+			rva00434A2F();
+		return 1;
+	default:
+		return ((Rva005126F5 *)this)->rva0051274F(message, (unsigned int)source, (unsigned int)value);
 	}
-	else if (source == m_fileName && value == 0 && m_294 == 3)
-		rva0043566A(0);
-
-	return 1;
 }
