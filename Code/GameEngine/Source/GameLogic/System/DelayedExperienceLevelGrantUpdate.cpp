@@ -26,7 +26,7 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class Overridable;
 class Rva0028951F { public: const Overridable *rva0028951F(int); };
 class ExperienceLevelSystem;
-ExperienceLevelSystem *TheExperienceLevelSystem = 0;
+extern ExperienceLevelSystem *TheExperienceLevelSystem;
 #include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class Xfer;
