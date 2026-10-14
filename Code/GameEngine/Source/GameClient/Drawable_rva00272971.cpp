@@ -39,9 +39,9 @@ public:
 class Drawable
 {
 public:
-	void rva00272971(int a, float b, int c);
+	void createDeathDecal(int a, float b, int c);
 	void rva0027299A(int value);
-	void rva002729B5(int value);
+	void setDeathDecalPosition(int value);
 	void rva002729CB(float value);
 	void rva002729E9(int value);
 
@@ -50,7 +50,8 @@ private:
 	DrawModuleForRva272971 **m_drawModules;	// +0x14C
 };
 
-void Drawable::rva00272971(int a, float b, int c)
+// WorldBuilder Drawable::createDeathDecal, WB VA 0x00CA3230 (vtable lead, score 2; ret 0xC).
+void Drawable::createDeathDecal(int a, float b, int c)
 {
 	DrawModuleForRva272971 **dms = m_drawModules;
 	if (*dms)
@@ -67,7 +68,8 @@ void Drawable::rva0027299A(int value)
 	}
 }
 
-void Drawable::rva002729B5(int value)
+// WorldBuilder Drawable::setDeathDecalPosition, WB VA 0x00CA33A0 (vtable lead, score 2; ret 4).
+void Drawable::setDeathDecalPosition(int value)
 {
 	DrawModuleForRva272971 **dms = m_drawModules;
 	if (*dms)

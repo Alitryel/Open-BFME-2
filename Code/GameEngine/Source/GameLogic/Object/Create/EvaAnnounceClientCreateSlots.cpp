@@ -101,7 +101,7 @@ public:
 	virtual void slot1(); virtual void slot2(); virtual void slot3(); virtual void slot4();
 	virtual void slot5(); virtual void slot6(); virtual void slot7(); virtual void slot8();
 	virtual void slot9(); virtual void slot10(); virtual void slot11();
-	virtual void rva004C9A82() = 0;
+	virtual void clientUpdate() = 0;
 protected:
 	const EvaAnnounceClientCreateModuleData *m_moduleData; // +0x04
 	Drawable *m_drawable; // +0x08
@@ -118,7 +118,7 @@ class EvaAnnounceClientCreate : public ClientCreateModule, public CreateModuleIn
 {
 public:
 	virtual void rva004C9A51();
-	virtual void rva004C9A82();
+	virtual void clientUpdate();
 private:
 	UnsignedInt m_10; // +0x10
 	bool m_14; // +0x14
@@ -137,7 +137,8 @@ void EvaAnnounceClientCreate::rva004C9A51()
 		m_10 = 7;
 }
 
-void EvaAnnounceClientCreate::rva004C9A82()
+// WorldBuilder EvaAnnounceClientCreate::clientUpdate, WB VA 0x0126E7D0 (lead score 3; no args, ret).
+void EvaAnnounceClientCreate::clientUpdate()
 {
 	if (m_10 == 0 || m_10 > TheGameLogic->getFrame())
 		return;

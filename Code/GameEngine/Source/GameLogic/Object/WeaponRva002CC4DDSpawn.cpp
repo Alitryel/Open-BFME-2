@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /I.
-// Weapon::rva002CC4DD (retail 0x002CC4DD, 155 B): spawns the weapon template's named object for the owner's
+// Weapon::prepareProjectileStreamForFiring (retail 0x002CC4DD, 155 B): spawns the weapon template's named object for the owner's
 // player when none is alive (name at WeaponTemplate+0x178, owner id +0x08, spawned id +0x5C). Private
 // Weapon view (offsets are target facts); the equal-arms on the template name test and the stale-id lookup
 // barrier are scheduling levers found by sweepeq4/chain.py.
@@ -31,7 +31,7 @@ public:
 class Weapon
 {
 public:
-	void rva002CC4DD();
+	void prepareProjectileStreamForFiring();
 private:
 	char m_pad00[4];
 	WeaponTemplate *m_template;
@@ -65,7 +65,8 @@ public:
 };
 extern ThingFactory *TheThingFactory;
 
-void Weapon::rva002CC4DD()
+// WorldBuilder Weapon::prepareProjectileStreamForFiring, WB VA 0x00BBA3B0 (callgraph lead, score 2; no args).
+void Weapon::prepareProjectileStreamForFiring()
 {
 	const AsciiString &tmplName = (m_template ? m_template : m_template)->m_name178;
 	if ((m_template ? (((const StringBase<char> *)&tmplName)->isEmpty()) : (((const StringBase<char> *)&tmplName)->isEmpty())))

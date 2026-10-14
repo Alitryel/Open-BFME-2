@@ -129,13 +129,14 @@ class Object {public:char prefix[0x258];FormationCompletionAI*ai;char gap[0x438-
 bool Rva00547B17Check(void*,void*);
 class MoveToFormationGroupOrder {public:
 char prefix[0x30];ObjectCoord3DMap m_positions;bool m_flag44;
-bool rva00547BCF(ObjectID);
+bool memberUpdate(ObjectID);
 };
 namespace _STL {
 typedef pair<const ObjectID,Coord3D> P;
 template __declspec(noinline) _Hashtable_node<P>* hashtable<P,ObjectID,rts::hash<ObjectID>,_Select1st<P>,equal_to<ObjectID>,allocator<P> >::_M_find<ObjectID>(const ObjectID&) const;
 }
-bool MoveToFormationGroupOrder::rva00547BCF(ObjectID id)
+// WorldBuilder MoveToFormationGroupOrder::memberUpdate, WB VA 0x01343430 (lead score 3; ret 4).
+bool MoveToFormationGroupOrder::memberUpdate(ObjectID id)
 {
 if(m_flag44) return true;
 Object*object=TheGameLogic->findObjectByID(id);

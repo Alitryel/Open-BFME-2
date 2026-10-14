@@ -241,7 +241,7 @@ class W3DScriptedModelDraw
 public:
 	bool rva000B57A7(int,int,const FXList*,float,const Coord3D*);
 	void rva000C15F1(int i,float *first,float *second);
-	AsciiString rva000C146D(int i);
+	AsciiString getPlayingAnimationName(int i);
 	void rva000B8F5A(char *a, AsciiString b);
 	void rva000BFD77();
 	void rva000BFD9F();
@@ -354,12 +354,13 @@ void *W3DScriptedModelDraw::getPlayingAnimationNameKey(int i)
 	return ((Rva000C14BDTarget *)ve->m_ptr00)->v03();
 }
 
-// ?rva000C146D@W3DScriptedModelDraw@@QAE?AVAsciiString@@H@Z @0x000C146D 80B
+// ?getPlayingAnimationName@W3DScriptedModelDraw@@QAE?AVAsciiString@@H@Z @0x000C146D 80B
 // Returns a string by value: runs the outer 0xC0386 probe; when the index hits
 // a live +0x104 entry, builds it from the entry target's slot-2 text (0x37BA0),
 // otherwise returns an empty string. The return-object flag at [ebp-4] is the
 // by-value return; indexing the entry twice keeps retail's test-then-reload.
-AsciiString W3DScriptedModelDraw::rva000C146D(int i)
+// WorldBuilder W3DScriptedModelDraw::getPlayingAnimationName, WB VA 0x00930240 (align lead, score 2; ret 8 with the hidden result).
+AsciiString W3DScriptedModelDraw::getPlayingAnimationName(int i)
 {
 	((Rva000B8F5AOuter *)((char *)this - 12))->rva000C0386();
 	if (i >= 0 && (unsigned)i < 3)

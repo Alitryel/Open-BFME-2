@@ -174,7 +174,7 @@ public:
 	virtual void sacrificeHorde(Object *victim, CommandSourceType source) = 0;
 	virtual void cancelSacrifice() = 0;
 	virtual bool rva0044E12F(Object *obj) = 0;
-	virtual bool rva0044E1B9(Object *obj);
+	virtual bool isValidSacrifice(Object *obj);
 	virtual void s04();
 	virtual void s05(int arg);
 	virtual void s06();
@@ -186,7 +186,7 @@ class BloodthirstyUpdate : public B00, public B0C, public B10, public Iface20
 public:
 	virtual void sacrificeHorde(Object *victim, CommandSourceType source);
 	virtual bool rva0044E12F(Object *obj);
-	virtual bool rva0044E1B9(Object *obj);
+	virtual bool isValidSacrifice(Object *obj);
 	virtual void addSacrifice(Object *victim);
 	virtual void cancelSacrifice();
 	virtual UpdateSleepTime update();
@@ -227,7 +227,8 @@ bool BloodthirstyUpdate::rva0044E12F(Object *obj)
 
 // 0x0044E1B9: the candidate's sacrificer is this module's object and the candidate is the
 // best target (rva0044E12F's twin without the idle-state test).
-bool BloodthirstyUpdate::rva0044E1B9(Object *obj)
+// WorldBuilder BloodthirstyUpdate::isValidSacrifice, WB VA 0x01166860 (vtable lead, score 3; ret 4).
+bool BloodthirstyUpdate::isValidSacrifice(Object *obj)
 {
 	Object *candidate = obj->rva002931F5(false);
 	BloodthirstyUpdateModuleData *data = m_moduleData;
@@ -255,7 +256,7 @@ void BloodthirstyUpdate::addSacrifice(Object *victim)
 	Object *resolved = victim->rva002931F5(false);
 	if (resolved == 0)
 		return;
-	if (!rva0044E1B9(victim))
+	if (!isValidSacrifice(victim))
 		return;
 	++m_kills;
 	if (m_kills == 1)
@@ -275,7 +276,7 @@ void BloodthirstyUpdate::cancelSacrifice()
 	Rva0028C1A9Interface *iface = (Rva0028C1A9Interface *)target->rva0028C1A9();
 	if (iface == 0)
 		return;
-	if (!rva0044E1B9(target))
+	if (!isValidSacrifice(target))
 		return;
 	iface->release(0);
 	m_bestTargetID = INVALID_ID;
