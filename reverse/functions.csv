@@ -89631,3 +89631,5 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?Rva006CE3C0@@YAPAVAptValueNameEntry@@PAV1@HH@Z,,0x006CE3C0,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,cdecl tail jump to rowed resizer 0x006CDBF0
 ?Rva006CE620@@YAPAVRva004A9DF3Element@@PAV1@HH@Z,,0x006CE620,5,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,cdecl tail jump to rowed resizer 0x006CE3D0
 _chatEnumJoinedChannels,,0x006A2100,5,Code/GameEngine/Source/GameNetwork/GameSpy/chat/chatMain.c,matched,vendored GameSpy chatEnumJoinedChannels: tail jump to rowed ciEnumJoinedChannels 0x006B1E80
+?rva00603912@Rva00603912@@QBEIXZ,,0x00603912,9,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,byte-swap +0 word via rowed Rva009CC290Swap 0x006038EF
+?rva0060391B@Rva00603912@@QBEIXZ,,0x0060391B,10,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,byte-swap +4 word via rowed Rva009CC290Swap 0x006038EF

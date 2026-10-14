@@ -1436,3 +1436,25 @@ int *Rva005BE344(int *dest, int count, const int *value)
 {
 	return rva499ed0(dest, count, value);
 }
+
+// ?rva00603912@Rva00603912@@QBEIXZ @0x00603912 9B and
+// ?rva0060391B@Rva00603912@@QBEIXZ @0x0060391B 10B: byte-swap the +0 / +4 word
+// through the rowed cdecl Rva009CC290Swap 0x006038EF.
+unsigned int Rva009CC290Swap(unsigned int value);
+class Rva00603912
+{
+public:
+	unsigned int rva00603912() const;
+	unsigned int rva0060391B() const;
+private:
+	unsigned int m_00;
+	unsigned int m_04;
+};
+unsigned int Rva00603912::rva00603912() const
+{
+	return Rva009CC290Swap(m_00);
+}
+unsigned int Rva00603912::rva0060391B() const
+{
+	return Rva009CC290Swap(m_04);
+}
