@@ -1637,10 +1637,11 @@ ObjectCreationListStore::~ObjectCreationListStore()
 }
 
 //-------------------------------------------------------------------------------------------------
+// Native IAT 0x00BBA518 is msvcr71.dll's _strcmpi import.
+extern "C" int (__cdecl *_imp___strcmpi)(const char *, const char *);
 const ObjectCreationList *ObjectCreationListStore::findObjectCreationList(const char* name) const
 {
-	typedef int (__cdecl *CaseInsensitiveCompare)(const char *, const char *);
-	if ((*reinterpret_cast<CaseInsensitiveCompare *>(0x00BBA518))(name, "None") == 0)
+	if (_imp___strcmpi(name, "None") == 0)
 		return NULL;
 
 	NameKeyType key = NAMEKEY(name);

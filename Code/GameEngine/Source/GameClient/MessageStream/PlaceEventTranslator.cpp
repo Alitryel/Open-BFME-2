@@ -128,7 +128,7 @@ public:
 	Type m_type;
 };
 
-void pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type msgType, PickAndPlayInfo *info);
+bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type msgType, PickAndPlayInfo *info);
 
 // The rowed ghost-object overlap test (0x0030596C) takes BFME 2's
 // nontrivial position value. The shared view preserves its component copy
