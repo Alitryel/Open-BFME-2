@@ -3666,6 +3666,23 @@ static __declspec(noinline) bool rva002B2E31(GameMessage *message, int *out, int
 	return value >= 0 && value < ((Rva003F4DCA *)battle)->rva003F4DCA(side, player);
 }
 
+// WB D952E0 validates the side index against the native 28-byte side vector
+// at battle+18. WB D95230 supplies the caller and its output/message/index/
+// battle argument order. Keeping both helpers visible retains their private
+// register conventions in the separately emitted retail copies.
+static inline bool validateBattleSideIndex(int sideIndex, const LivingWorldBattle &battle)
+{
+    return sideIndex >= 0 && sideIndex < battle.sides();
+}
+
+static inline bool getBattleSideIndexFromMessage(int *sideIndex, const GameMessage *msg, int argIndex, const LivingWorldBattle &battle)
+{
+    if (!validateMessageArgumentIndex(msg, argIndex))
+        return false;
+    *sideIndex = msg->getArgument(argIndex)->integer;
+    return validateBattleSideIndex(*sideIndex, battle);
+}
+
 // HandleSwapArmiesInBattleMessage, retail 0x002B4141 (179 bytes): WB's file-static
 // in LivingWorldLogic.cpp; argument 0 is battle, argument 1 is side, argument 2
 // is player, arguments 3 and 4 are army indices to swap.
@@ -3674,13 +3691,8 @@ static __declspec(noinline) void HandleSwapArmiesInBattleMessage(GameMessage *ms
 	Rva003F468D *battle;
 	if (!getBattleFromMessage(msg, (void **)&battle, 0))
 		return;
-	if (msg->getArgumentCount() <= 1)
-		return;
-	int side = msg->getArgument(1)->integer;
-	if (side < 0)
-		return;
-	int numSides = (int)(((LivingWorldBattle*)battle)->m_sidesEnd - ((LivingWorldBattle*)battle)->m_sides);
-	if (side >= numSides)
+	int side;
+	if (!getBattleSideIndexFromMessage(&side, msg, 1, *(LivingWorldBattle *)battle))
 		return;
 	if (msg->getArgumentCount() <= 2)
 		return;
