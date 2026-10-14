@@ -799,3 +799,31 @@ void Rva006CDA40ReportZombies() {
   Rva006CC110Log(4,"      REFER TO BUG253 ON COREFORGE FOR MORE INFORMATION [http://coreforge.eac.ad.ea.com/tracker/index.php?func=detail&aid=253&group_id=41&atid=247].  EVALUATION OF YOUR SWF FILES IS HIGHLY RECOMMENDED\n");
  }
 }
+
+// Native6CD080..6CD091: when the Apt root object at E176D0 exists, tail-call
+// the rowed AptDisplayList walk 0x006F76B0 on its +0x30 display-list
+// sub-object (the same +0x30 slot the tick above hands to Rva006F7A30).
+// Callers unrecovered; address name.
+class AptDisplayList {public:void rva006F76B0();};
+void Rva006CD080ClearDisplayList() {
+ if(g_bfmeAptPtrAtE176D0)((AptDisplayList *)&g_bfmeAptPtrAtE176D0->nodes)->rva006F76B0();
+}
+
+// Native6CD0A0..6CD0AD: install a non-null AptXml implementation into
+// gpAptXmlImpl (E17720, named by the AptXml.cpp assert that reads it);
+// a null argument leaves the current one. Address name.
+class AptXmlImpl;
+extern AptXmlImpl *gpAptXmlImpl;
+void Rva006CD0A0SetXmlImpl(AptXmlImpl *impl) {
+ if(impl)gpAptXmlImpl=impl;
+}
+
+// Native6CD3C0..6CD3E1: format the value's rowed sar-dword field 0x006DBB30
+// as "0x%X" into the static text buffer at E177D8 and return the buffer.
+// Address name; the buffer (E177D8, eight bytes below the E177E0 flags) is
+// only declared here.
+extern char g_aptFormattedFieldText[];
+const char *Rva006CD3C0FormatField(const Rva006DBB30SarDwordField *value) {
+ sprintf(g_aptFormattedFieldText,"0x%X",value->get());
+ return g_aptFormattedFieldText;
+}

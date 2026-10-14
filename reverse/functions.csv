@@ -88612,3 +88612,6 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ??0Rva005CBACC@@QAE@ABURva005CBACCPair@@@Z,,0x005CBACC,26,Code/GameEngine/Source/Common/GapBodiesSeat5A.cpp,matched,gap ctor: vtable 0x00C74DFC then the argument's two words at +4/+8; no direct xref; address-derived identity
 ?rva005E0CEB@Rva005E0CEB@@QAEXPBD@Z,,0x005E0CEB,60,Code/GameEngine/Source/Common/GapBodiesSeat5A.cpp,matched,Apt callback: window manager +0x318 mode 0 picks owner slot 1 or 2 and mode 2 slot 3 or 4 by the +0x41 flag; no direct xref; address-derived identity
 ?rva005E0D3B@Rva005E0D3B@@QBE?AURva005E0D3BValue@@XZ,,0x005E0D3B,47,Code/GameEngine/Source/Common/GapBodiesSeat5A.cpp,matched,gap body: +0x3C float returned by value with a guarded function-static colour 0x80FFFFFF; no direct xref; address-derived identity
+?Rva006CD080ClearDisplayList@@YAXXZ,,0x006CD080,18,Code/Libraries/Source/Apt/Apt.cpp,matched,null-guarded tail call of rowed AptDisplayList walk 0x006F76B0 on Apt root E176D0 +0x30
+?Rva006CD0A0SetXmlImpl@@YAXPAVAptXmlImpl@@@Z,,0x006CD0A0,14,Code/Libraries/Source/Apt/Apt.cpp,matched,stores non-null arg into gpAptXmlImpl E17720 (AptXml.cpp assert name)
+?Rva006CD3C0FormatField@@YAPBDPBVRva006DBB30SarDwordField@@@Z,,0x006CD3C0,34,Code/Libraries/Source/Apt/Apt.cpp,matched,sprintf 0x%X of rowed 0x006DBB30 field into E177D8 buffer and return it
