@@ -389,3 +389,45 @@ Gen0080ACD0::~Gen0080ACD0()
 #pragma comment(linker, "/alternatename:?slot1@Gen0080ACD0@@UAEXXZ=?DX8_Assert@@YAXXZ")
 #pragma comment(linker, "/alternatename:?slot2@Gen0080ACD0@@UAEXXZ=?imbue@?$basic_streambuf@GV?$char_traits@G@_STL@@@_STL@@MAEXABVlocale@2@@Z")
 #pragma comment(linker, "/alternatename:?slot3@Gen0080ACD0@@UAEXXZ=?rva0080A680@BfmeThingUNC@@UAEXPAURva0080A680Input@@@Z")
+
+// Two more scalar deleting destructors, of classes derived from bases whose
+// destructors are empty and inline in this unit, so each body keeps only the
+// base's vptr restore before the flag-bit-0 free (owner identities unproven;
+// classes are named for their ??_G address, the padding carries the size):
+//   0x00666E10 (31B): slot 0 of vtable VA 0x00CE33D4; base vtable VA
+//                     0x00CE2BD8 (Rva00666BA0); global operator delete.
+//   0x00672460 (33B): slot 0 of vtable VA 0x00CE3F40; base vtable VA
+//                     0x00CE3F2C (Rva00672490); member delete of 0x48 bytes
+//                     through the shared pool free 0x0065D030.
+struct Rva00666BA0View
+{
+	Rva00666BA0View();
+	virtual ~Rva00666BA0View() {}
+};
+
+struct Rva00666E10 : Rva00666BA0View
+{
+	Rva00666E10();
+	virtual ~Rva00666E10() {}
+};
+
+// ??0Rva00666E10@@QAE@XZ present-unmatched   emitted only to force the vtable, and with it ??_G
+Rva00666E10::Rva00666E10() {}
+
+struct Rva00672490View
+{
+	Rva00672490View();
+	virtual ~Rva00672490View() {}
+};
+
+struct Rva00672460 : Rva00672490View
+{
+	Rva00672460();
+	virtual ~Rva00672460() {}
+	void operator delete( void *p, unsigned int n );
+
+	char m_bfmePad[ 0x48 - 4 ];
+};
+
+// ??0Rva00672460@@QAE@XZ present-unmatched   emitted only to force the vtable, and with it ??_G
+Rva00672460::Rva00672460() {}
