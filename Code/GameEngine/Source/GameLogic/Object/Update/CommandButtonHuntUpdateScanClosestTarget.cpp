@@ -163,10 +163,15 @@ public:
 	Player *m_player;
 };
 
+struct Rva00045411BitSet
+{
+	unsigned m_bits[7];
+	Rva00045411BitSet(int unused, int bit) throw();	// 0x00045411
+};
+
 class BfmeFixedStorage0004543D
 {
 public:
-	BfmeFixedStorage0004543D(int unused, int bit) throw();	// 0x00045411
 	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other) throw();
 private:
 	unsigned char m_bytes[28];
@@ -296,7 +301,7 @@ Object *CommandButtonHuntUpdate::scanClosestTarget()
 					{
 						Rva00260E2AFilter filterPlayer(me->getControllingPlayer());
 						mine = ThePartitionManager->getClosestObject(other->getPosition(), range, 1,
-							Rva0004584D(BfmeFixedStorage0004543D(0, KINDOF_MINE),
+							Rva0004584D((const BfmeFixedStorage0004543D &)Rva00045411BitSet(0, KINDOF_MINE),
 								*(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE).link(&filterPlayer));
 					}
 					if (mine)

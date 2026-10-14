@@ -194,6 +194,9 @@ public:
 };
 extern ScriptEngine *TheScriptEngine;
 
+class AsciiStringBH;
+class BfmeTargetBH;
+
 class ScriptActions
 {
 public:
@@ -203,7 +206,7 @@ public:
 	void rva003C2662(const AsciiString &teamName, const AsciiString &objectType);
 	void rva003C276A(const AsciiString &teamName, const AsciiString &objectType, Parameter *playerParm);
 	void rva003C4625(const AsciiString &objectType, Parameter *teamParm, const AsciiString &unitName);
-	void rva003C420A(void *what, const AsciiString &name, Object *obj);	// 0x003C420A
+	void bfmeAddBH(const AsciiString &playerName, const AsciiStringBH &name, BfmeTargetBH *target);	// 0x003C420A
 	void rva003C56D6(void *what, const AsciiString &name, const AsciiString &objectType,
 		const AsciiString &teamName);
 	void rva003C55A6(void *what, const AsciiString &name, const AsciiString &objectType,
@@ -296,7 +299,7 @@ void ScriptActions::rva003C55A6(void *what, const AsciiString &name, const Ascii
 				Rva00261750Filter(templ, true).link(&Rva0026137EFilter(player, true)));
 		}
 		if (obj) {
-			rva003C420A(what, name, obj);
+			bfmeAddBH(*(const AsciiString *)what, (const AsciiStringBH &)name, (BfmeTargetBH *)obj);
 			return;
 		}
 	} while (mask);
@@ -321,7 +324,7 @@ void ScriptActions::rva003C56D6(void *what, const AsciiString &name, const Ascii
 		obj = ThePartitionManager->getClosestObject(&pos, REALLY_FAR, 0, &Rva00261750Filter(templ, true));
 	}
 	if (obj)
-		rva003C420A(what, name, obj);
+		bfmeAddBH(*(const AsciiString *)what, (const AsciiStringBH &)name, (BfmeTargetBH *)obj);
 }
 
 void ScriptActions::rva003C33C9(Parameter *typeParm, Parameter *playerParm, Parameter *teamParm,
