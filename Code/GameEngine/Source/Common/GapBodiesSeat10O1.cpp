@@ -117,6 +117,7 @@ namespace _STL
 	public:
 		~_Rb_tree();
 		void clear();
+		unsigned int erase(const K &key);
 	};
 	template <class T> struct _Identity;
 }
@@ -1311,4 +1312,91 @@ float *Rva005EA966(float *dest, int count, const int &value)
 float *Rva005EA5CE(float *dest, int count, const int &value, const Rva005EA5CETag &)
 {
 	return Rva005EA1B1Fill(dest, count, value);
+}
+
+// ?rva005C6D48@Rva005C6D48@@QAEIABURva0027EA49@@@Z @0x005C6D48 5B and
+// ?rva005CABBB@Rva005CABBB@@QAEIABVAsciiString@@@Z @0x005CABBB 5B: erase a key
+// from the set tree at +0 through its rowed _Rb_tree::erase(const key &).
+typedef _STL::_Rb_tree<AsciiString, AsciiString, _STL::_Identity<AsciiString>, _STL::less<AsciiString>, _STL::allocator<AsciiString> > Rva005CABBBTree;
+class Rva005C6D48
+{
+public:
+	unsigned int rva005C6D48(const Rva0027EA49 &key);
+private:
+	Rva005C6BF0Tree m_tree;
+};
+unsigned int Rva005C6D48::rva005C6D48(const Rva0027EA49 &key)
+{
+	return m_tree.erase(key);
+}
+class Rva005CABBB
+{
+public:
+	unsigned int rva005CABBB(const AsciiString &key);
+private:
+	Rva005CABBBTree m_tree;
+};
+unsigned int Rva005CABBB::rva005CABBB(const AsciiString &key)
+{
+	return m_tree.erase(key);
+}
+
+// ?rva00549420@Rva00549420@@QBEHABV1@@Z @0x00549420 5B and
+// ?rva00584D50@Rva00584D50@@QBEHABV1@@Z @0x00584D50 5B: deque iterator
+// difference through the rowed _Deque_iterator_base::_M_subtract.
+struct BfmeE8;
+namespace _STL
+{
+	template <class T>
+	struct _Deque_iterator_base
+	{
+		int _M_subtract(const _Deque_iterator_base &other) const;
+		T *_M_cur;
+		T *_M_first;
+		T *_M_last;
+		T **_M_node;
+	};
+}
+class Rva00549420 : public _STL::_Deque_iterator_base<BfmeE8>
+{
+public:
+	int rva00549420(const Rva00549420 &other) const;
+};
+int Rva00549420::rva00549420(const Rva00549420 &other) const
+{
+	return _M_subtract(other);
+}
+class Rva00584D50 : public _STL::_Deque_iterator_base<BfmeE12>
+{
+public:
+	int rva00584D50(const Rva00584D50 &other) const;
+};
+int Rva00584D50::rva00584D50(const Rva00584D50 &other) const
+{
+	return _M_subtract(other);
+}
+
+// ?rva005D7357@Rva005D7357@@QBEIXZ @0x005D7357 5B: bucket count of the
+// int->int hash_map at +0 through its rowed bucket_count.
+namespace _STL
+{
+	template <class T> struct hash;
+	template <class T> struct equal_to;
+	template <class K, class V, class H, class E, class A>
+	class hash_map
+	{
+	public:
+		unsigned int bucket_count() const;
+	};
+}
+class Rva005D7357
+{
+public:
+	unsigned int rva005D7357() const;
+private:
+	_STL::hash_map<int, int, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, int> > > m_map;
+};
+unsigned int Rva005D7357::rva005D7357() const
+{
+	return m_map.bucket_count();
 }
