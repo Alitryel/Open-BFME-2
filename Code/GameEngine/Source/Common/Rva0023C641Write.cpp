@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD
+// cl: /DNDEBUG /MD /Ireference/shims/bfme2_ascii
 //
 // The unit-timing log object (the 408-byte global at VA 0x00DFE7A8). Zero
 // Hour runs this setup inline in GameLogic::startNewGame under its unit
@@ -17,6 +17,7 @@
 // Rva0023C6A4Check.cpp (/O1 /DNDEBUG /MD).
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
+#include "ascii_string.h"
 
 struct FILE;
 
@@ -98,20 +99,25 @@ void HideControlBar(bool immediate);
 class Rva0023C641
 {
 public:
+	Rva0023C641();
 	void rva0023C641(const char *str);
 	void rva0023D494();
 
 private:
-	unsigned char m_pad00[0x0C];
+	bool m_enabled;
+	AsciiString m_name04, m_name08;
 	bool m_gotUnit; // +0x0C
 	void *m_curThing; // +0x10
 	bool m_startTiming; // +0x14
 	FILE *m_file18; // +0x18
-	unsigned char m_pad1C[0x24 - 0x1C];
+	unsigned int m_1C, m_20;
 	int m_24; // +0x24
 	bool m_28; // +0x28
-	unsigned char m_pad29[0x4C - 0x29];
+	unsigned int m_2C; // not written by the constructor
+	unsigned int m_30, m_34, m_38, m_3C, m_40, m_44, m_48;
 	int m_4C; // +0x4C
+	double m_50, m_58, m_60, m_68, m_70, m_78, m_80;
+	float m_88, m_8C, m_90, m_94;
 };
 
 void Rva0023C641::rva0023C641(const char *str)
@@ -178,4 +184,17 @@ void Rva0023C641::rva0023D494()
 	m_24 = 0;
 	m_4C = 0;
 	m_28 = true;
+}
+
+// Native23DBF9..23DC7F,134B; CRT initializer7ADCAE constructs the
+// global atDFE7A8 then registers cleanup7B7786 -> dtor23DBC3. The latter
+// proves the two string members at4/8. BF1 a7c38d3b TimingLog003851E0
+// supplies subsystem context; each field offset is from this native body.
+Rva0023C641::Rva0023C641() : m_enabled(false)
+{
+    m_gotUnit=false; m_curThing=0; m_startTiming=false;
+    m_file18=0; m_1C=0; m_20=0; m_24=0; m_28=false;
+    m_30=0; m_34=0; m_38=0; m_3C=0; m_40=0; m_44=0; m_48=0; m_4C=0;
+    m_50=0.0; m_58=0.0; m_60=0.0; m_68=0.0; m_70=0.0; m_78=0.0; m_80=0.0;
+    m_88=0.0f; m_8C=0.0f; m_90=0.0f; m_94=0.0f;
 }
