@@ -1,26 +1,42 @@
 // ?getPortTransform@BuildAssistant@@QAE_NPBUCoord3D@@PBVThingTemplate@@MPAMPAU2@@Z
-// partial score=0.97 date=2026-10-13
+// partial score=0.988 date=2026-10-14
 // ?getPortTransform@BuildAssistant@@QAE_NPBUCoord3D@@PBVThingTemplate@@MPAMPAU2@@Z
-// partial score=0.97 date=2026-10-12
+// partial score=0.988 date=2026-10-14 r6 W7-D1
 // ?getPortTransform@BuildAssistant@@QAE_NPBUCoord3D@@PBVThingTemplate@@MPAMPAU2@@Z @0x00392802 (725B)
 // FRAGMENT for Code/GameEngine/Source/Common/System/BuildAssistant.cpp (production TU, /O1 /EHs /MD /arch:SSE).
-// Compiles to 730B; first diff +0xA3 (jne disp 27 vs 2c, pure +5 shift). Everything before matches.
-// RESIDUE (0x392a8a..): retail does `mov eax,[ecx]` BEFORE the getGroundHeight arg pushes and does NOT
-// spill xmm3 (dir.z*10) across the call; ours pushes first, spills xmm1+xmm2+xmm3, then loads eax.
-// So retail's compiler sees dir.z dead after the z-sub while ours keeps it live. Tried and FAILED:
-// explicit x/y/z *= + -= (same 730B), TerrainLogic* local for the call (same), _ReadWriteBarrier
-// before the call (716B, much worse, reorders everything). The sub/mul cluster 392a24..392a84 matches
-// exactly incl. dead spills to arg homes; the atan2 tail matches modulo shift (args ARE (dir.y,dir.x)
-// Homes [ebp-0xc]/[ebp-8] hold scaled dir.x/dir.y on both paths; scale is fold-invariant in atan2).
-// NEXT IDEAS: find what source shape kills z across a virtual call with 2 other live xmm (sibling
-// addCoord3D loop keeps z live across isUnderwater and MATCHES - values home-resident there vs
-// reg-resident here); try return-value temp for getGroundHeight; try z-sub-first ordering and check
-// whether the allocator reorders subs back.
-// WB identity: BuildAssistant::getPortTransform (BuildAssistant.cpp:2124). No ZH analogue (BFME2-new
-// naval port placement). s_portAngleOffset=PI/2 static in .data like retail 0xdc0854.
-
-// -- class BuildAssistant addition:
-// 	Bool getPortTransform(const Coord3D *worldPos, const ThingTemplate *build, Real angle, Real *outAngle, Coord3D *outPos);
+//
+// r6 recipe (from the WB 0xF9B980 debug body): the original normalization is the
+// inlined MathCoord3D.h Coord3D::operator/=(Real) (WB sub_41FA20:
+// inv=1.0f/d; x*=inv; y*=inv; z*=inv) applied to the averaged sample sums, and
+// the two Coord3D accessors used later (length 0x3571 =69B, normalize 0x35B6 =86B)
+// must be visible out of line in the TU, or cl spills dir.z across the
+// isUnderwater call and the body is 730B/+0xA3:
+//     inline __declspec(noinline) float Coord3D::length() const {...}
+//     inline __declspec(noinline) void  Coord3D::normalize()     {...}
+//     static Real s_portAngleOffset = PI / 2;   // retail 0x00DC0854 = 0x3FC90FDB
+//     double __cdecl Rva000422A0Atan2( float y, float x );
+// The volatile casts on the sum components reproduce retail's memory homes.
+//
+// Current state: 725B size-exact, nd9. Residue is the WATER normalization's
+// list schedule only (0x3928D0..0x3928FE): retail loads [ebp-0x30] and
+// [ebp-0x2C] before `movaps xmm1,xmm0 / divss xmm1,xmm3` and [ebp-0x34] after;
+// ours divides first and then loads all three. Everything else (guards, land
+// normalization, dir sub/mul cluster, length/normalize calls, ground-height
+// block and atan2 tail) already matches.
+// Exhausted without moving it: volatile pattern 8x8 over both blocks (best
+// land=xyz water=yz = current), statement order 6x6 both blocks, named locals
+// (nd34), _ReadWriteBarrier at every boundary (>=147), IR-load-count dead
+// re-reads (nd9), natural operator/=-style helpers with no volatile (711B/nd149),
+// block swap (nd154), pointer/volatile-pointer reads and *= forms (worse).
+// Next ideas: flag-level /Ob1 or scheduler knobs, or an IR-order change that
+// makes the divide depend on the first two loads (e.g. a spelling cl cannot
+// sink), not more local/barrier permutations.
+//
+// WB identity: BuildAssistant::getPortTransform (BuildAssistant.cpp:2124);
+// retail assert line 2124. No ZH analogue (BFME2-new naval port placement).
+// The statics are file-static (COFF storage STATIC), so data_rows cannot own
+// 0x00DC0854 directly; the ledger anchors _s_maxWaterLandSampleRatio 0x9C0858
+// and derives _s_portAngleOffset 0x9C0854 from the same section run.
 
 // -- TU additions (after addCoord3D):
 inline void subCoord3D( Coord3D *diff, const Coord3D *a )
@@ -37,13 +53,29 @@ inline void scaleCoord3D( Coord3D *c, Real scale )
 	c->z *= scale;
 }
 
+inline __declspec(noinline) float Coord3D::length() const
+{
+	return (float)sqrt(x * x + y * y + z * z);
+}
+
+inline __declspec(noinline) void Coord3D::normalize()
+{
+	float len = length();
+	if (len != 0.0f) {
+		float scale = 1.0f / len;
+		x *= scale;
+		y *= scale;
+		z *= scale;
+	}
+}
+
 // -- statics (after s_maxWaterLandSampleRatio):
 // static Real s_portAngleOffset = PI / 2;
 // double __cdecl Rva000422A0Atan2( float y, float x );
 
 // -- body (append after reset):
 Bool BuildAssistant::getPortTransform( const Coord3D *worldPos, const ThingTemplate *build,
-																 Real angle, Real *outAngle, Coord3D *outPos )
+					 Real angle, Real *outAngle, Coord3D *outPos )
 {
 	Region3D terrainExtent;
 	TheTerrainLogic->getExtent( &terrainExtent );
