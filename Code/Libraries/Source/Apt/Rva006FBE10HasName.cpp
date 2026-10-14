@@ -20,6 +20,7 @@ class Rva006FBE10Scope : public AptScriptFunctionBase
 {
 public:
 	bool hasName(const EAStringC *name);
+	void setName(const EAStringC *name, AptValue *value);
 };
 
 typedef char Rva006FBE10CreatorScopeAt28[(sizeof(AptObject) + 8 == 0x28) ? 1 : -1];
@@ -33,4 +34,15 @@ bool Rva006FBE10Scope::hasName(const EAStringC *name)
 		return false;
 	}
 	return ((Rva006FBE10HashOwner *)spFrameStack)->m_hash.Lookup(name) != 0;
+}
+
+// Retail 0x006FE360 (28 B, RET 8 through the tail jump): the store partner of
+// hasName. Builds the frame root through the pinned rva006FBED0 when no
+// script frame is active, then tail-calls AptNativeHash::Set (0x0070B410) on
+// the frame's native hash (+8). Method name address-derived.
+void Rva006FBE10Scope::setName(const EAStringC *name, AptValue *value)
+{
+	if (!spFrameStack)
+		rva006FBED0();
+	((Rva006FBE10HashOwner *)spFrameStack)->m_hash.Set(name, value);
 }

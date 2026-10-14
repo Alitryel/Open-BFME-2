@@ -88635,3 +88635,6 @@ Unwind@00ba9e2b,,0x007A9E2B,15,Code/Libraries/Source/Apt/AptDateLookup.cpp,match
 ?release@Rva006E3200Owner@@QAEXXZ,,0x006E3200,10,Code/Libraries/Source/Apt/AptGapLeaves.cpp,matched,+0 block to rowed Rva006CD460Free
 ?isValue@Rva006E3210Field@@QBEHH@Z,,0x006E3210,19,Code/Libraries/Source/Apt/AptGapLeaves.cpp,matched,arg equals +8 word
 ??_GRva006E00B0Triple@@QAEPAXI@Z,,0x006E00B0,40,Code/Libraries/Source/Apt/AptGapLeaves.cpp,matched,scalar deleting dtor: clear three words then sized 0x1C free to chain pool E176E8
+?isHeld@Rva006FBDF0@@QBE_NXZ,,0x006FBDC0,11,Code/Libraries/Source/WWVegas/WWLib/Rva006FBDF0Release.cpp,matched,+0x60 member non-null test beside rowed Release 0x006FBDF0
+?Hold@Rva006FBDF0@@QAEXPAVRva006FBDF0Iface@@@Z,,0x006FBDD0,22,Code/Libraries/Source/WWVegas/WWLib/Rva006FBDF0Release.cpp,matched,vslot0 on arg then store at +0x60; partner of rowed Release 0x006FBDF0
+?setName@Rva006FBE10Scope@@QAEXPBVEAStringC@@PAVAptValue@@@Z,,0x006FE360,28,Code/Libraries/Source/Apt/Rva006FBE10HasName.cpp,matched,pinned rva006FBED0 when spFrameStack E1835C null then tail AptNativeHash::Set on frame+8

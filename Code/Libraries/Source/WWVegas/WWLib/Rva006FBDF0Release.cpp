@@ -19,6 +19,8 @@ public:
 class Rva006FBDF0
 {
 public:
+	bool isHeld() const;
+	void Hold(Rva006FBDF0Iface *owned);
 	void Release();
 private:
 	char m_pad[0x60];
@@ -29,4 +31,19 @@ void Rva006FBDF0::Release()
 {
 	m_owned->second();
 	m_owned = 0;
+}
+
+// ?isHeld@Rva006FBDF0@@QBE_NXZ, retail 0x006FBDC0 (11 B), and
+// ?Hold@Rva006FBDF0@@QAEXPAVRva006FBDF0Iface@@@Z, retail 0x006FBDD0 (20 B):
+// the two leaves just before Release on the same +0x60 member: whether one is
+// held, and take one (its first vtable slot, then the store). Address names.
+bool Rva006FBDF0::isHeld() const
+{
+	return m_owned != 0;
+}
+
+void Rva006FBDF0::Hold(Rva006FBDF0Iface *owned)
+{
+	owned->first();
+	m_owned = owned;
 }
