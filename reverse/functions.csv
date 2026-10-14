@@ -89590,3 +89590,11 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva00531EB8@Rva00531EB8@@QAEXXZ,,0x00531EB8,4,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,advance +0 word pointer
 ?rva00586FBB@Rva00586FBB@@QAEXPAVRva00585B16@@IABV2@@Z,,0x00586FBB,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x00586EB9
 ?rva005880B8@Rva005880B8@@QAEXPAURva00587375@@IABU2@@Z,,0x005880B8,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x00587DCD
+?rva005F600D@Rva005F600D@@QAEXH@Z,,0x005F600D,7,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,clear +35 flag byte unused argument
+?rva005F6014@Rva005F600D@@QAEXH@Z,,0x005F6014,7,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,set +35 flag byte unused argument
+?rva005F8F80@Rva005F8F80@@QAEXH@Z,,0x005F8F80,11,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,clear owned handle +2C via rowed 0x000AD6F4 unused argument
+?rva005F8F8B@Rva005F8F80@@QAEXH@Z,,0x005F8F8B,11,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,clear owned handle +3C via rowed 0x000AD6F4 unused argument
+?rva005B1903@Rva005B1903@@QAEXPAUBfmePod8@@IABU2@@Z,,0x005B1903,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x000B02B6
+?rva005B1908@Rva005B1908@@QAEXPAUBfmePod20@@IABU2@@Z,,0x005B1908,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005B1748
+?rva005EE00F@Rva005EE00F@@QAEXPAUBfmeStringRecord005ED5F3@@IABU2@@Z,,0x005EE00F,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005EDEF3
+?rva005EFD8A@Rva005EFD8A@@QAEXPAURva005EFD53Element@@IABU2@@Z,,0x005EFD8A,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005EFC30

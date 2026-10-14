@@ -1126,3 +1126,111 @@ void Rva005880B8::rva005880B8(Rva00587375 *position, unsigned int count, const R
 {
 	m_vector._M_fill_insert(position, count, value);
 }
+
+// ?rva005F600D@Rva005F600D@@QAEXH@Z @0x005F600D 7B and
+// ?rva005F6014@Rva005F600D@@QAEXH@Z @0x005F6014 7B: clear / set the +0x35
+// flag byte; the word argument is unused.
+class Rva005F600D
+{
+public:
+	void rva005F600D(int unused);
+	void rva005F6014(int unused);
+private:
+	char m_pad[0x35];
+	bool m_35;
+};
+void Rva005F600D::rva005F600D(int)
+{
+	m_35 = false;
+}
+void Rva005F600D::rva005F6014(int)
+{
+	m_35 = true;
+}
+
+// ?rva005F8F80@Rva005F8F80@@QAEXH@Z @0x005F8F80 12B and
+// ?rva005F8F8B@Rva005F8F80@@QAEXH@Z @0x005F8F8B 11B: clear the owned handle at
+// +0x2C / +0x3C through the rowed Rva000AD6F4::clear 0x000AD6F4; the word
+// argument is unused.
+class Rva000AD6F4
+{
+public:
+	void clear();
+private:
+	void *m_pointer;
+};
+class Rva005F8F80
+{
+public:
+	void rva005F8F80(int unused);
+	void rva005F8F8B(int unused);
+private:
+	char m_pad[0x2c];
+	Rva000AD6F4 m_2c;
+	char m_pad30[0x3c - 0x30];
+	Rva000AD6F4 m_3c;
+};
+void Rva005F8F80::rva005F8F80(int)
+{
+	m_2c.clear();
+}
+void Rva005F8F80::rva005F8F8B(int)
+{
+	m_3c.clear();
+}
+
+// ?rva005B1903@Rva005B1903@@QAEXPAUBfmePod8@@IABU2@@Z @0x005B1903 5B: fill-insert into the vector at +0 through the rowed _M_fill_insert 0x000B02B6.
+struct BfmePod8;
+class Rva005B1903
+{
+public:
+	void rva005B1903(BfmePod8 *position, unsigned int count, const BfmePod8 &value);
+private:
+	_STL::vector<BfmePod8> m_vector;
+};
+void Rva005B1903::rva005B1903(BfmePod8 *position, unsigned int count, const BfmePod8 &value)
+{
+	m_vector._M_fill_insert(position, count, value);
+}
+
+// ?rva005B1908@Rva005B1908@@QAEXPAUBfmePod20@@IABU2@@Z @0x005B1908 5B: fill-insert into the vector at +0 through the rowed _M_fill_insert 0x005B1748.
+struct BfmePod20;
+class Rva005B1908
+{
+public:
+	void rva005B1908(BfmePod20 *position, unsigned int count, const BfmePod20 &value);
+private:
+	_STL::vector<BfmePod20> m_vector;
+};
+void Rva005B1908::rva005B1908(BfmePod20 *position, unsigned int count, const BfmePod20 &value)
+{
+	m_vector._M_fill_insert(position, count, value);
+}
+
+// ?rva005EE00F@Rva005EE00F@@QAEXPAUBfmeStringRecord005ED5F3@@IABU2@@Z @0x005EE00F 5B: fill-insert into the vector at +0 through the rowed _M_fill_insert 0x005EDEF3.
+struct BfmeStringRecord005ED5F3;
+class Rva005EE00F
+{
+public:
+	void rva005EE00F(BfmeStringRecord005ED5F3 *position, unsigned int count, const BfmeStringRecord005ED5F3 &value);
+private:
+	_STL::vector<BfmeStringRecord005ED5F3> m_vector;
+};
+void Rva005EE00F::rva005EE00F(BfmeStringRecord005ED5F3 *position, unsigned int count, const BfmeStringRecord005ED5F3 &value)
+{
+	m_vector._M_fill_insert(position, count, value);
+}
+
+// ?rva005EFD8A@Rva005EFD8A@@QAEXPAURva005EFD53Element@@IABU2@@Z @0x005EFD8A 5B: fill-insert into the vector at +0 through the rowed _M_fill_insert 0x005EFC30.
+struct Rva005EFD53Element;
+class Rva005EFD8A
+{
+public:
+	void rva005EFD8A(Rva005EFD53Element *position, unsigned int count, const Rva005EFD53Element &value);
+private:
+	_STL::vector<Rva005EFD53Element> m_vector;
+};
+void Rva005EFD8A::rva005EFD8A(Rva005EFD53Element *position, unsigned int count, const Rva005EFD53Element &value)
+{
+	m_vector._M_fill_insert(position, count, value);
+}
