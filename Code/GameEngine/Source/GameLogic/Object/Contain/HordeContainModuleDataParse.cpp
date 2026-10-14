@@ -58,6 +58,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 #include <stdlib.h>
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 
 extern "C" int __cdecl strcmp(const char *, const char *);
 

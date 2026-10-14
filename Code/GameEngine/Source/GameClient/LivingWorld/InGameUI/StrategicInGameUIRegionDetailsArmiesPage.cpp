@@ -19,6 +19,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include "unicode_string.h"
 #include <vector>
+// Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
+// shape); this TU's flags would emit a private copy.
+namespace _STL {
+template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
+}
 struct Rva005E1BD5Owner;
 class Rva005E1BD5 {public:Rva005E1BD5(Rva005E1BD5Owner*,void*);virtual ~Rva005E1BD5();private:char storage[0x20];};
 struct TargetRef00217D4C {void *vtable;int refs;};
