@@ -1,7 +1,11 @@
 // ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
+// partial score=0.8093740773907643 date=2026-10-14
+// ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
 // partial score=0.7925762250054933 date=2026-10-13
 // cl: /I. /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "reverse/attempt_evidence/pathfinder_hierarchy/owner_context.inc"
 
 // Native2F71A6..2F83A3 RET32,4605B; WB D4FAE0, pathfinder.cpp7421..7827.
@@ -113,6 +117,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
     ICoord2D ndx=bridge->start,toNdx=bridge->end;
     if(ndx.x/16!=blockX || ndx.y/16!=blockY) {toNdx=bridge->start;ndx=bridge->end;}
     if(ndx.x<0 || ndx.y<0)continue;
+    _ReadWriteBarrier();
     if(toNdx.x<0 || toNdx.y<0)continue;
     if(ndx.x/16==blockX && ndx.y/16==blockY) {
      Int bridgeZone=zones->rva00532041((Int)&options,ndx.x,ndx.y,(Rva00532041Record **)m_unknown10);
@@ -125,7 +130,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
      }
      if(bridge->zone==goalBlockZone) {reachedGoal=true;break;}
      PathfindCell *end=getCell(PATHFIND_LAYER_GROUND,toNdx.x,toNdx.y);
-     if(!end || hierarchyClosed(end) || hierarchyOpen(end))continue;
+     if(!end || hierarchyClosed(end) || (parentCell->m_pathInfo->obstacleID ? (hierarchyOpen(end)) : (hierarchyOpen(end))))continue;
      PathfindCell *start=getCell(PATHFIND_LAYER_GROUND,ndx.x,ndx.y);
      if(!start || start==end)continue;
      if(start!=parentCell) {
@@ -167,8 +172,9 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
      ICoord2D toNdx;Rva002E7875WorldToCell(&toNdx,true,&link->location);
      HierarchyLayerView *bridge=(HierarchyLayerView *)&m_layers[i];
      if(ndx.x/16!=blockX || ndx.y/16!=blockY) {toNdx=bridge->start;ndx=bridge->end;}
-     if(ndx.x<0 || ndx.y<0)continue;
+     if(ndx.x<0 || (parentCell->m_info ? (ndx.y<0) : (ndx.y<0)))continue;
      if(toNdx.x<0 || toNdx.y<0)continue;
+     _ReadWriteBarrier();
      if(ndx.x/16==blockX && ndx.y/16==blockY) {
       unsigned short bridgeZone=zones->rva00532041((Int)&options,ndx.x,ndx.y,(Rva00532041Record **)m_unknown10);
       if(bridgeZone!=parentZone)continue;
