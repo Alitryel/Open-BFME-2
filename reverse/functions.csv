@@ -5427,7 +5427,6 @@ _DeletePostProcInstance,,0x001B68D0,36,Code/Libraries/Source/VP6/PostProcInstanc
 _powf,,0x00116DC0,14,Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp,matched,
 ?Get_Free_Texture_RAM@DX8Wrapper@@SAIXZ,,0x0011E630,19,Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp,matched,
 ??BBfmeResetTextureRef@@QBE_NXZ,,0x00615580,8,Code/Libraries/Source/WWVegas/WW3D2/dx8wrapper.cpp,matched,
-??4?$SimpleVecClass@VVector3@@@@QAEAAV0@ABV0@@Z,,0x0015E0F0,21,Code/Libraries/Source/WWVegas/WW3D2/streak.cpp,matched,
 ?Set_Opacity@SegLineRendererClass@@QAEXM@Z,,0x007416E0,14,Code/Libraries/Source/WWVegas/WW3D2/streak.cpp,matched,
 ?Get_Shader@StreakLineClass@@QAE?AVShaderClass@@XZ,,0x00741780,15,Code/Libraries/Source/WWVegas/WW3D2/streak.cpp,matched,
 ?Get_Texture_Mapping_Mode@StreakLineClass@@QAE?AW4TextureMapMode@SegLineRendererClass@@XZ,,0x007417F0,8,Code/Libraries/Source/WWVegas/WW3D2/streak.cpp,matched,
@@ -89913,3 +89912,4 @@ $L499,,0x00773B1B,25,Code/GameEngine/Source/Common/Rva002833A3C5.cpp,matched,
 ?rva0047A69C@Rva0059BB50@@QAEXH@Z,,0x0047A69C,3,Code/GameEngine/Source/GameLogic/System/LivingWorld/Rva0059BB50GarrisonMoves.cpp,matched,address-derived name; the attach 0x004FB222 calls the shared RET 4 on its +0x120 Rva0059BB50 subobject with the int it hands the +0x8C/+0xEC/+0xFC subobjects
 ?rva005CB260@Rva005CB260@@QAEXH@Z,,0x005CB260,5,Code/GameEngine/Source/Common/Rva005CB260Forwarder.cpp,matched,gen-alias; one-int spelling of the slot1 forwarder fold (mov eax [ecx]; jmp [eax+4]): callers push one int (0x005E0B0F pushes 0) and call 0x005CB260; no-relocation whole 5B forwarding twin of the rowed QAEXXZ owner; address-derived receiver identity
 ?DoXfer@Drawable@@UAEXPAVXfer@@@Z,,0x0027A219,3955,Code/GameEngine/Source/GameClient/DrawableDoXfer.cpp,matched,
+??4?$SimpleVecClass@VVector3@@@@QAEAAV0@ABV0@@Z,,0x0015E0F0,21,Code/Libraries/Source/WWVegas/WW3D2/segline.cpp,matched,

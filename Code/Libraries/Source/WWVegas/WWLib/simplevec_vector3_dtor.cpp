@@ -22,7 +22,15 @@ public:
 	float Z;
 };
 
-template class SimpleVecClass<Vector3>;
+// Resize and Uninitialised_Grow are owned by SimpleVecVector3ResizeO1.cpp and
+// SimpleVecVector3O1.cpp: retail builds the array through the EH vector
+// constructor iterator, which this unit's bare Vector3 cannot reproduce, so
+// its copies would differ from retail's (and, first in link order, displace
+// them). Only the bodies this unit owns are instantiated here.
+template <> bool SimpleVecClass<Vector3>::Resize(int newsize);
+template <> bool SimpleVecClass<Vector3>::Uninitialised_Grow(int newsize);
+template SimpleVecClass<Vector3>::SimpleVecClass(int size);
+template SimpleVecClass<Vector3>::~SimpleVecClass();
 
 // ??1?$SimpleDynVecClass@VVector3@@@@UAE@XZ, retail 0x0007E2D7, 35 bytes:
 // stores 0x00BC6F50 (SimpleDynVecClass<Vector3> per the matched segline and
