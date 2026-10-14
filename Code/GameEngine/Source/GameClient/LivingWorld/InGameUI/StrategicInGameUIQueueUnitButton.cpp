@@ -232,7 +232,6 @@ class Rva005E1178 {public:void rva005E1178(float);};
 class Rva005F8A7ESub;
 void __fastcall rva005E1170(Rva005F8A7ESub*);
 void __fastcall rva005E118B(Rva005F8A7ESub*);
-// ?CountQueuedUnits present-unmatched
 static inline int CountQueuedUnits(const QueueUnitButtonIds*queue,int id) {
  int count=0;
  int*end=queue->m_finish;
