@@ -88,7 +88,9 @@ private:
 	unsigned char m_pad[0x90];
 };
 
-extern void *g_Va00E06478;
+// The matched Stats destructor owns this singleton; only its nullness is used here.
+class Rva005B7FA4;
+extern Rva005B7FA4 *g_00E06478;
 
 class AptOnlineLogin
 {
@@ -268,7 +270,7 @@ void AptOnline::rva00517207(int query, char *value, bool set)
 // Retail 0x00516D09, 68 bytes: the shell table's factory for a new "Stats" sub-screen unless one is up (0x00E06478).
 AptOnlineSubScreen *__cdecl Rva00516D09(AptOnline *shell)
 {
-	if (g_Va00E06478)
+	if (g_00E06478)
 		return 0;
 	return (AptOnlineSubScreen *)new Rva005B8F69(shell);
 }
