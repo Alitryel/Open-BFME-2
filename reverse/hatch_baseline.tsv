@@ -34732,9 +34732,6 @@ pragma_optimize	Code/GameEngine/Source/Common/Rva001DBBAD.cpp	"t",on	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva0020DFFBRegister.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva0020DFFBRegister.cpp	"s",off	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva0020DFFBRegister.cpp	"t",on	1
-pragma_optimize	Code/GameEngine/Source/Common/Rva00213E3BOverflow.cpp	"",on	1
-pragma_optimize	Code/GameEngine/Source/Common/Rva00213E3BOverflow.cpp	"s",off	1
-pragma_optimize	Code/GameEngine/Source/Common/Rva00213E3BOverflow.cpp	"t",on	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva00239FE4Dedup.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva00239FE4Dedup.cpp	"s",off	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva00239FE4Dedup.cpp	"t",on	1
