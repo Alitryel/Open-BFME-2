@@ -220,23 +220,103 @@ FLAG_SWAPS = [("/O1", "/O2"), ("/O2", "/O1"), ("/O2", "/Ox"), ("/Ox", "/O2"), ("
 FLAG_TOGGLES = ["/Op", "/Oy-"]
 
 
-def body_lines(lines, focus=None):
-    """Indexes of lines inside function bodies (between a definition's braces);
-    with `focus` (a regex for the target's name), only the target's body, so
-    mutations never spend trials on the unit's other functions. Falls back to
-    every body when the target's definition cannot be found."""
-    out, depth, inside, keep = [], 0, False, True
-    for i, line in enumerate(lines):
+_NOT_DEFINITION = re.compile(r"\b(?:class|struct|union|enum|namespace|typedef)\b")
+_STATEMENT_HEAD = ("return", "if", "while", "for", "switch", "else", "do", "sizeof", "delete", "throw")
+
+
+def _code_of(line):
+    return line.split("//")[0]
+
+
+def _definitions(lines):
+    """(header, brace, end) line indexes of every function definition: `header`
+    is where the name is, `brace` the line with the opening brace (the same
+    line for a one-line definition, further down after a constructor
+    initializer list or a split signature), `end` the line closing it. Found by
+    counting braces, so indentation, one-line bodies, initializer lists and
+    several functions per file do not matter."""
+    found, i = [], 0
+    while i < len(lines):
+        line = _code_of(lines[i])
         stripped = line.strip()
-        if not inside and BODY_START.match(line) and "class " not in line and "struct " not in line:
-            inside, depth = True, 0
-            keep = focus is None or bool(re.search(focus, line))
-        if inside:
-            depth += line.count("{") - line.count("}")
-            if keep and depth > 0 and stripped and not stripped.startswith(("//", "#", "{", "}")):
-                out.append(i)
-            if depth <= 0 and "}" in line:
-                inside = False
+        if stripped.startswith("#") or lines[i].rstrip().endswith("\\"):
+            while lines[i].rstrip().endswith("\\") and i + 1 < len(lines):
+                i += 1  # a macro definition, continuation lines included
+            i += 1
+            continue
+        if (not stripped or stripped.startswith(("#", "{", "}", "/*", "*")) or "(" not in line
+                or _NOT_DEFINITION.search(line)):
+            i += 1
+            continue
+        head = line.split("(")[0]
+        if ("=" in head or "." in head or "->" in head
+                or re.match(rf"(?:{'|'.join(_STATEMENT_HEAD)})\b", head.strip())):
+            i += 1
+            continue
+        brace = i
+        while brace < len(lines) and "{" not in _code_of(lines[brace]) and brace < i + 25:
+            if _code_of(lines[brace]).rstrip().endswith(";"):
+                brace = len(lines)  # a declaration or call, not a definition
+            else:
+                brace += 1
+        if brace >= len(lines) or "{" not in _code_of(lines[brace]):
+            i += 1
+            continue
+        depth, end = 0, None
+        for k in range(i, len(lines)):
+            for ch in _code_of(lines[k]):
+                if ch == "{":
+                    depth += 1
+                elif ch == "}":
+                    depth -= 1
+            if k >= brace and depth <= 0:
+                end = k
+                break
+        if end is None:
+            i += 1
+            continue
+        found.append((i, brace, end))
+        i = end + 1
+    return found
+
+
+def _initializer_start(lines, header, brace):
+    """Line where a constructor initializer list (`) : m_a(a), ...`) starts
+    before the opening brace, or None: a split signature's tail is not code
+    worth mutating."""
+    depth, seen = 0, False
+    for k in range(header, brace + 1):
+        code = _code_of(lines[k])
+        for pos, ch in enumerate(code):
+            if ch == "(":
+                depth, seen = depth + 1, True
+            elif ch == ")":
+                depth -= 1
+            elif ch == "{" and seen and depth == 0:
+                return None
+            elif ch == ":" and seen and depth == 0 and code[pos - 1:pos + 1] != "::" and code[pos:pos + 2] != "::":
+                return k
+    return None
+
+
+def body_lines(lines, focus=None):
+    """Indexes of lines inside function bodies (between a definition's braces,
+    constructor initializer lists included); with `focus` (a regex for the
+    target's name), only the target's body, so mutations never spend trials on
+    the unit's other functions. Falls back to every body when the target's
+    definition cannot be found."""
+    out = []
+    for header, brace, end in _definitions(lines):
+        if focus is not None and not re.search(focus, "\n".join(_code_of(l) for l in lines[header:brace + 1])):
+            continue
+        first = _initializer_start(lines, header, brace)
+        if first is not None:
+            out.extend(k for k in range(max(first, header + 1), brace) if lines[k].strip())
+        for k in range(brace, end + 1):
+            stripped = lines[k].strip()
+            if stripped and not stripped.startswith(("//", "#", "}")) and stripped != "{":
+                out.append(k)  # `{ stmt; }` on one line is a statement
+    out = sorted(set(out))
     if focus is not None and not out:
         return body_lines(lines)
     return out
@@ -244,9 +324,13 @@ def body_lines(lines, focus=None):
 
 def focus_of(symbol):
     """Regex for the definition line of the function a mangled name denotes."""
+    ctor = re.match(r"\?\?([01])(\w+)@", symbol or "")
+    if ctor:
+        name = re.escape(ctor.group(2))
+        return rf"\b{name}\s*::\s*{'~' if ctor.group(1) == '1' else ''}{name}\s*\("
     found = re.match(r"\?(\w+)@(?:(\w+)@@)?", symbol or "")
     if not found or symbol.startswith("??"):
-        return None  # constructors, destructors, operators: keep every body
+        return None  # operators: keep every body
     name = rf"\b{found.group(2)}\s*::\s*{found.group(1)}\s*\(" if found.group(2) else rf"\b{found.group(1)}\s*\("
     return name
 
