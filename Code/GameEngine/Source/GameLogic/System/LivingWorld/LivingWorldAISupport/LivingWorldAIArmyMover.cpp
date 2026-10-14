@@ -10,6 +10,15 @@
 // The inline region lookup wrapper controls the returned iterator lifetime;
 // it retains retail's owner load after RNG/push and closes register allocation.
 // Every call resolves through existing ledger providers; no new pins.
+// Keep vector growth's unsigned comparison local. Its standalone template
+// copy differs from retail; all uses in this unit are already inlined.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+	return a < b ? b : a;
+}
+}
 #include <vector>
 #include <map>
 class ModuleData;

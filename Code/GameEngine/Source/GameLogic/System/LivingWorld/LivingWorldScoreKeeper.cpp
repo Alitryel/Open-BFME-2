@@ -18,6 +18,15 @@
 // use the established template-key/integer-count view. The storage view does
 // not assert the original template spelling. Vector roles are localized too.
 // Scratch raw objects, table-slot proof and EH checks: build/astra-high-d/.
+// Keep vector growth's unsigned comparison local. Its standalone template
+// copy differs from retail; all uses in this unit are already inlined.
+#include <stl/_algobase.h>
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+	return a < b ? b : a;
+}
+}
 #include <vector>
 #include <map>
 #define BFME_SNAPSHOT_NAME_SLOT
