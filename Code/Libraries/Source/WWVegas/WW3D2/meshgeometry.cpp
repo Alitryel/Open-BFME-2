@@ -2159,3 +2159,10 @@ void MeshGeometryClass::get_deformed_screenspace_vertices(Vector4 *dst_vert,cons
 	VectorProcessorClass::Transform(dst_vert, src_vert, prj, vertex_count);
 }
 }
+
+// Retain the reference header's public accessor. Retail 0x0018C30E pushes
+// create=true into the already verified get_bone_links at 0x0016A0C0.
+// Donor: Open-BFME-1 a7c38d3b2597121f178ab5190b3062478823257d,
+// meshgeometry.h; GeneralsMD carries the same Get_Vertex_Bone_Links wrapper.
+const uint16 *(MeshGeometryClass::*bfmeVertexBoneLinksAccessor)() =
+    &MeshGeometryClass::Get_Vertex_Bone_Links;
