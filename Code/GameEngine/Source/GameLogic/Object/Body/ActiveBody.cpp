@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /arch:SSE /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include
+// cl: /O1 /EHs /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include
 // ActiveBody.cpp -- ActiveBody members recovered from WorldBuilder leads
 // (reverse/wb_name_leads.csv): WB's debug build names the function (vtable
 // pairing); retail supplies the bytes. Zero Hour's setDamageState
@@ -11,6 +11,9 @@
 // +0x24/+0x28. The health change is interface slot 32 (+0x80); the final
 // call is slot 21 (+0x54) of the primary vtable with a zero argument.
 
+// stlport
+#include <vector>
+#include <algorithm>
 #include <string.h>
 #include "ascii_string.h"
 #include "Common/BfmeAudioEventPrefix136.h"
@@ -1535,3 +1538,107 @@ BfmeBodyDataPair8 ActiveBody::rva004BDC56() { return getActiveBodyModuleData()->
 // armor flags. The existing two-base class supplies that adjustment naturally.
 void ActiveBody::setArmorSetFlag(ArmorSetType ast) { m_curArmorSetFlags.set((unsigned)ast); }
 void ActiveBody::clearArmorSetFlag(ArmorSetType ast) { m_curArmorSetFlags.reset((unsigned)ast); }
+
+// Math helpers expanded in WB12531D0, with the three-row transform copied
+// before computing its axes. The memberwise copy definitions are the EA
+// Zero Hour WWMath Matrix3D/Vector4/Vector3 source at the pinned BFME1
+// reference revision 23b143233b5a8664a3bdf8572df6d905c310a5a1.
+// Retail independently proves the 48-byte matrix and three-float vectors.
+// Keeping both row assignment and matrix copy inline reproduces the native
+// direction spills; omitting either changes the body even with equal math.
+class Vector3
+{
+public:
+	float X, Y, Z;
+	Vector3() {}
+	Vector3(const Vector3 &r) { X = r.X; Y = r.Y; Z = r.Z; }
+	Vector3(float x, float y, float z) { X = x; Y = y; Z = z; }
+	Vector3 &operator=(const Vector3 &r)
+	{ X = r.X; Y = r.Y; Z = r.Z; return *this; }
+	Vector3 operator-() const { return Vector3(-X, -Y, -Z); }
+	static float Dot_Product(const Vector3 &a, const Vector3 &b)
+	{ return a.X * b.X + a.Y * b.Y + a.Z * b.Z; }
+};
+inline Vector3 operator-(const Vector3 &a, const Vector3 &b)
+{ return Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z); }
+
+class Vector4
+{
+public:
+	float X, Y, Z, W;
+	Vector4() {}
+	Vector4(const Vector4 &r) { X = r.X; Y = r.Y; Z = r.Z; W = r.W; }
+	__forceinline Vector4 &operator=(const Vector4 &r)
+	{ X = r.X; Y = r.Y; Z = r.Z; W = r.W; return *this; }
+	float &operator[](int i) { return (&X)[i]; }
+	const float &operator[](int i) const { return (&X)[i]; }
+};
+
+class Matrix3D
+{
+public:
+	Vector4 Row[3];
+	__forceinline Matrix3D(const Matrix3D &m)
+	{ Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; }
+	Vector3 Get_X_Vector() const
+	{ return Vector3(Row[0][0], Row[1][0], Row[2][0]); }
+	Vector3 Get_Y_Vector() const
+	{ return Vector3(Row[0][1], Row[1][1], Row[2][1]); }
+	Vector3 Get_Translation() const
+	{ return Vector3(Row[0][3], Row[1][3], Row[2][3]); }
+};
+
+// Native4BFB1C..4BFCD4, primary-this and RET8. WB12531D0 and callers
+// 4BFCD4/4C0642 establish side damage from a source position, descending
+// side selection, and the per-side cap. The original method name is unknown.
+// Native indices are signed four-byte values; long represents that storage,
+// without claiming the original typedef. Its emitted STLport4.5.3 allocator,
+// fill, growth and insert bodies are complete relocation-identical folds of
+// retail's existing owners, including the game's allocator and free calls.
+void ActiveBody::rva004BFB1C(Real amount, const Coord3D *pos)
+{
+	const Matrix3D matrix = *(const Matrix3D *)getObject()->m_transform;
+	Vector3 forward = matrix.Get_X_Vector();
+	Vector3 dir(matrix.Row[0][3] - pos->x,
+		matrix.Row[1][3] - pos->y, matrix.Row[2][3] - pos->z);
+	Real sides[4];
+	sides[0] = Vector3::Dot_Product(-forward, dir);
+	sides[1] = Vector3::Dot_Product(matrix.Get_Y_Vector(), dir);
+	sides[2] = -sides[0];
+	sides[3] = -sides[1];
+
+	_STL::vector<long> order;
+	for (long i = 0; i < 4; ++i)
+	{
+		Bool inserted = false;
+		for (_STL::vector<long>::iterator it = order.begin(); it != order.end(); ++it)
+		{
+			Int other = *it;
+			if (sides[i] > sides[other])
+			{
+				order.insert(it, i);
+				inserted = true;
+				break;
+			}
+		}
+		if (!inserted)
+			order.push_back(i);
+	}
+
+	Real maxPerSide = getMaxHealth() * 0.25f;
+	maxPerSide *= 0.75f;
+	Real remaining = amount;
+	for (Int k = 0; remaining > 0.0f; ++k)
+	{
+		if (k >= 4)
+			break;
+		Real &health = m_damageStateValues[order[k]];
+		Real room = maxPerSide - health;
+		Real take = _STL::min(remaining, room);
+		if (take > 0.0f)
+		{
+			health = health + take;
+			remaining -= take;
+		}
+	}
+}
