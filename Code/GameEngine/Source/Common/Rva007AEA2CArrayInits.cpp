@@ -14,8 +14,9 @@
 //   0x007AF10C / 0x007B7DD1  2 x 12-byte chat-history vectors g_00E022F8
 //                            (LANChatHistory.cpp; ctor closure 0x00256646,
 //                            dtor 0x00381AE0)
-//   0x007B6C84               cleanup of the cursorTextures table at VA 0x00DE4B40
-//                            (0x498 4-byte texture handles, dtor 0x0017098D)
+//   0x007AC207 / 0x007B6C84  the cursorTextures table at VA 0x00DE4B40
+//                            (0x498 4-byte texture handles; ctor 0x00326BE6,
+//                            dtor 0x0017098D)
 //   0x007B6BB9               cleanup of 8 4-byte texture handles at VA 0x00DE1F8C
 //                            (dtor 0x0017098D)
 
@@ -68,6 +69,7 @@ struct Rva007AEA2CArrayInits
 {
 	static void rva007AEA2C();
 	static void rva007AF10C();
+	static void rva007AC207();
 };
 
 void Rva007AEA2CArrayInits::rva007AEA2C()
@@ -80,4 +82,10 @@ void Rva007AEA2CArrayInits::rva007AF10C()
 {
 	rva00906340VecCtor(g_00E022F8, 0xC, 2, Rva00256646VectorCtorClosure, Rva00381AE0VectorDtor);
 	atexit(rva007B7DD1);
+}
+
+void Rva007AEA2CArrayInits::rva007AC207()
+{
+	rva00906340VecCtor(cursorTextures, 4, 0x498, Rva00326BE6NullFirstWordCtor, Rva0017098DTextureHandleDtor);
+	atexit(rva007B6C84);
 }

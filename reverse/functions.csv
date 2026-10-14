@@ -89168,3 +89168,4 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva007AEA2C@Rva007AEA2CArrayInits@@SAXXZ,,0x007AEA2C,36,Code/GameEngine/Source/Common/Rva007AEA2CArrayInits.cpp,matched,static init: eh vector constructor iterator over 20 slots at E01D60 then atexit 0x007B7BBE
 ?rva007AF10C@Rva007AEA2CArrayInits@@SAXXZ,,0x007AF10C,36,Code/GameEngine/Source/Common/Rva007AEA2CArrayInits.cpp,matched,static init: eh vector constructor iterator over g_00E022F8 then atexit 0x007B7DD1
 ?rva007B77EC@@YAXXZ,,0x007B77EC,16,Code/GameEngine/Source/Common/System/GlobalChainCleanup.cpp,matched,atexit cleanup: release the ref-counted pointer at DFEBE4 through rowed OpaqueRefCounted::Release_Ref 0x00050ED3
+?rva007AC207@Rva007AEA2CArrayInits@@SAXXZ,,0x007AC207,39,Code/GameEngine/Source/Common/Rva007AEA2CArrayInits.cpp,matched,static init: eh vector constructor iterator over cursorTextures 0x498 handles then atexit 0x007B6C84
