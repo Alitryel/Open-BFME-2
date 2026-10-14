@@ -16,7 +16,11 @@
 // reusing the freed pointer argument slot. Volatile forces retail's float
 // rounding; the compiler barrier preserves the observed reload order after
 // FSQRT/FSTP. Near-distance is evaluated before span to preserve SSE roles.
+// The matched square root inlines; keep MSVC float overloads local.
+#pragma push_macro("inline")
+#define inline static inline
 #include <math.h>
+#pragma pop_macro("inline")
 
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
