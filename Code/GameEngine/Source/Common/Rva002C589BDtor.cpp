@@ -13,6 +13,18 @@
 // before later members, preserving retail's constructor scheduling.
 #include "ascii_string.h"
 #include "../../../Libraries/Include/Lib/Coord3D.h"
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+template<class T> __forceinline volatile T &r1_vwrite(T &value) { return *(volatile T *)&value; }
+// The +0x24 pointee's reset below reads 12 zero bytes at +0x554 and calls the
+// rowed disp32 dword clearer at +0x564 (0x003ECB0B), as the bank established.
+class Rva003ECB0BDwordClearer
+{
+public:
+	void clear();
+	char m_pad[0x554];
+	Coord3D m_vec;
+};
 struct AITargetPosition : public Coord3D
 {
     __forceinline AITargetPosition() { x=0; y=0; z=0; }
@@ -54,6 +66,7 @@ public:
 	Rva002C589B(int kind, int limit, void *owner);
 	~Rva002C589B();
 	void rva002C5843(bool v);
+	void rva002C58B3();
 	Object *rva002C5DA6();
 
 private:
@@ -81,6 +94,28 @@ void Rva002C589B::rva002C5843(bool v)
 		if (v)
 			m_19 = 1;
 	}
+}
+
+// ?rva002C58B3@Rva002C589B@@QAEXXZ @0x002C58B3 92B: reset. int at +8 to -1,
+// floats of the canonical position to 0, bytes at +0x18/+0x19 and int at
+// +0x1C to 0, 12 zero bytes at m_ptr+0x554 via a Coord3D temp copy, the rowed
+// clear 0x003ECB0B on m_ptr, ObjectID at +0x34 to INVALID_ID. The volatile
+// wrapper on the m_19/m_position.x stores is what keeps retail's byte stores
+// before the callee-saved push edi (T1 volatile-store-pair lever).
+void Rva002C589B::rva002C58B3()
+{
+	m_frame = -1;
+	m_unknown1C = 0;
+	r1_vwrite(m_19) = false;
+	r1_vwrite(m_18) = false;
+	r1_vwrite(m_position.x) = 0.0f;
+	m_position.y = 0.0f;
+	m_position.z = 0.0f;
+	_ReadWriteBarrier();
+	Coord3D tmp = { 0.0f, 0.0f, 0.0f };
+	((Rva003ECB0BDwordClearer *)m_ptr)->m_vec = tmp;
+	((Rva003ECB0BDwordClearer *)m_ptr)->clear();
+	m_34 = INVALID_ID;
 }
 
 Object *Rva002C589B::rva002C5DA6()
