@@ -10,7 +10,8 @@
 // cl: /O1 /G7 /MD /EHs
 extern void BFME_DX8_Thread_Lock();
 extern bool BFME_DX8_Thread_Assert();
-struct TextureDeviceLock {TextureDeviceLock(){BFME_DX8_Thread_Lock();}~TextureDeviceLock(){BFME_DX8_Thread_Assert();}};
+// Native normal and unwind paths share the existing device guard at 0x00042F8C.
+struct BFMEDX8DeviceLock {BFMEDX8DeviceLock(){BFME_DX8_Thread_Lock();}~BFMEDX8DeviceLock(){BFME_DX8_Thread_Assert();}};
 struct IDirect3DDevice8;
 class DX8Wrapper {friend class Rva0013107A;protected:static IDirect3DDevice8 *D3DDevice;};
 struct TextureGUID {unsigned long a;unsigned short b,c;unsigned char d[8];};
@@ -38,12 +39,12 @@ private:
  char head[8];TextureCOM9*m_resource;int m_type;char gap[4];char*m_source;unsigned m_size;char gap1[4];char*m_alpha;unsigned m_alphaSize;unsigned m_width,m_height,m_depth,m_sliceWidth,m_sliceHeight,m_originalDepth;int m_imageMode;unsigned m_mipLevels;int m_preference;int m_format;int m_ready,m_loading;
 };
 void Rva0013107A::loadVolume() {
- TextureDeviceLock lock;TextureCOM9 *texture=0;
+ BFMEDX8DeviceLock lock;TextureCOM9 *texture=0;
  if(D3DXCreateVolumeTextureFromFileInMemoryEx(DX8Wrapper::D3DDevice,m_source,m_size,m_width,m_height,m_depth,m_mipLevels,0,m_format,1,-1,-1,0,0,0,&texture)<0)texture=0;
  if(texture){TextureVolumeDesc desc;texture->GetLevelDesc(0,&desc);m_format=desc.format;texture->QueryInterface(TextureBaseInterfaceID,reinterpret_cast<void **>(&m_resource));texture->Release();texture=0;}
 }
 void Rva0013107A::loadCube() {
- TextureDeviceLock lock;TextureCOM9 *texture=0;
+ BFMEDX8DeviceLock lock;TextureCOM9 *texture=0;
  if(D3DXCreateCubeTextureFromFileInMemoryEx(DX8Wrapper::D3DDevice,m_source,m_size,m_width,m_mipLevels,0,m_format,1,-1,-1,0,0,0,&texture)<0)texture=0;
  if(texture){TextureSurfaceDesc desc;texture->GetLevelDesc(0,&desc);m_format=desc.format;texture->QueryInterface(TextureBaseInterfaceID,reinterpret_cast<void **>(&m_resource));texture->Release();texture=0;}
 }
@@ -53,7 +54,7 @@ extern "C" long __stdcall D3DXLoadVolumeFromFileInMemory(VolumeCOM9*,void*,const
 extern "C" long __stdcall D3DXFilterTexture(TextureCOM9*,void*,unsigned,unsigned);
 struct TextureVolumeResources {VolumeCOM9 *volume;TextureCOM9 *texture;};
 void Rva0013107A::loadVolumeSlices() {
- TextureDeviceLock lock;TextureVolumeResources handles;handles.texture=0;
+ BFMEDX8DeviceLock lock;TextureVolumeResources handles;handles.texture=0;
  TextureVolumeDesc desc;TextureBox dest,src;
  if(D3DXCreateVolumeTexture(DX8Wrapper::D3DDevice,m_width,m_height,m_depth,m_mipLevels,0,m_format,1,&handles.texture)<0)return;
  handles.volume=0;
@@ -139,9 +140,9 @@ void Rva0013107A::PostLoad(const char*name) {
   }
   m_ready=1;m_loading=0;::operator delete[](m_source);m_source=0;
   if(m_alpha){::operator delete[](m_alpha);m_alpha=0;}
-  if(m_resource){TextureDeviceLock lock;m_mipLevels=m_resource->GetLevelCount();return;}
+  if(m_resource){BFMEDX8DeviceLock lock;m_mipLevels=m_resource->GetLevelCount();return;}
  }
- TextureDeviceLock lock;
+ BFMEDX8DeviceLock lock;
  reinterpret_cast<BfmeResetTextureBackend*>(this)->CreateTexture(1,1,21,1,1,0,0);
  if(m_resource) {
   SurfaceResource *surface=0;
@@ -168,7 +169,7 @@ struct TextureLockedRect {int pitch;unsigned char *bits;};
 struct TextureTgaHeader {unsigned char id,colorMap,type;char rest[9];short width,height;unsigned char bits,flags;};
 #pragma pack(pop)
 void Rva0013107A::loadImage() {
- TextureDeviceLock lock;TextureCOM9 *texture=0;bool loaded=false;
+ BFMEDX8DeviceLock lock;TextureCOM9 *texture=0;bool loaded=false;
  if(m_alpha){loadAuxImage();}
  else {
   const TextureTgaHeader *header=(const TextureTgaHeader*)m_source;
