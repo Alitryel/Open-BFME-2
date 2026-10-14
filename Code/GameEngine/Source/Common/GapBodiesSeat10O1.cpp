@@ -296,3 +296,81 @@ void Rva00525E00::rva00525E00(Xfer *xfer)
 {
 	m_00->rva00525ABF(xfer);
 }
+
+// ?rva0050EE1C@Rva0050EE1C@@QBEHXZ @0x0050EE1C 7B: the rowed
+// AsciiStringPlusString::length 0x002198C8 of this object plus one.
+struct AsciiStringPlusString
+{
+	int length() const;
+};
+struct Rva0050EE1C : AsciiStringPlusString
+{
+	int rva0050EE1C() const;
+};
+int Rva0050EE1C::rva0050EE1C() const
+{
+	return length() + 1;
+}
+
+// ?rva00522AFC@Rva00522AFC@@QAEAAV1@ABV1@@Z @0x00522AFC 18B: assignment of an
+// object whose only member is an AsciiString->AsciiString tree, through the
+// rowed tree operator= 0x0052274D, returning this.
+typedef _STL::pair<const AsciiString, AsciiString> Rva00522AFCPair;
+namespace _STL
+{
+	template <>
+	class _Rb_tree<AsciiString, Rva00522AFCPair, _Select1st<Rva00522AFCPair>, less<AsciiString>, allocator<Rva00522AFCPair> >
+	{
+	public:
+		_Rb_tree &operator=(const _Rb_tree &other);
+	};
+}
+class Rva00522AFC
+{
+public:
+	Rva00522AFC &rva00522AFC(const Rva00522AFC &other);
+private:
+	_STL::_Rb_tree<AsciiString, Rva00522AFCPair, _STL::_Select1st<Rva00522AFCPair>, _STL::less<AsciiString>, _STL::allocator<Rva00522AFCPair> > m_tree;
+};
+Rva00522AFC &Rva00522AFC::rva00522AFC(const Rva00522AFC &other)
+{
+	m_tree = other.m_tree;
+	return *this;
+}
+
+// ?Rva0051C3AB@@YAXAAUBfmeE12@@0@Z @0x0051C3AB 5B: swap two 12-byte records
+// through the rowed _STL::swap<BfmeE12> 0x004219CD (a tail jump).
+struct BfmeE12;
+namespace _STL
+{
+	template <class T> void swap(T &a, T &b);
+}
+void Rva0051C3AB(BfmeE12 &a, BfmeE12 &b)
+{
+	_STL::swap(a, b);
+}
+
+// ?rva005206FE@Rva005206FE@@QAEXPAURva005205DAElement@@IABU2@@Z @0x005206FE
+// 5B: fill-insert into the vector at +0 through the rowed _M_fill_insert
+// 0x005205DA (a tail jump with the arguments forwarded).
+struct Rva005205DAElement;
+namespace _STL
+{
+	template <>
+	class vector<Rva005205DAElement, allocator<Rva005205DAElement> >
+	{
+	public:
+		void _M_fill_insert(Rva005205DAElement *position, unsigned int count, const Rva005205DAElement &value);
+	};
+}
+class Rva005206FE
+{
+public:
+	void rva005206FE(Rva005205DAElement *position, unsigned int count, const Rva005205DAElement &value);
+private:
+	_STL::vector<Rva005205DAElement> m_vector;
+};
+void Rva005206FE::rva005206FE(Rva005205DAElement *position, unsigned int count, const Rva005205DAElement &value)
+{
+	m_vector._M_fill_insert(position, count, value);
+}

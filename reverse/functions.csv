@@ -89523,3 +89523,7 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva007B3EA9@@YAXXZ,,0x007B3EA9,11,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,second-unit DefaultModuleName 6 VALUE initializer
 ?rva00525AAC@Rva00525916@@QAEAAV1@UDelegateDesc@@@Z,,0x00525AAC,19,Code/GameEngine/Source/Common/GapBodiesGE03.cpp,matched,by-value DelegateDesc wrapper over rowed binder 0x00525916 twin of 0x0052AC16
 ??0Rva00518756@@QAE@UFunctorBinding@@@Z,,0x00518756,19,Code/GameEngine/Source/Common/GapBodiesGE03.cpp,matched,by-value 16B functor binding ctor over rowed holder base ctor 0x0057BC63
+?rva0050EE1C@Rva0050EE1C@@QBEHXZ,,0x0050EE1C,7,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,rowed AsciiStringPlusString length plus one
+?rva00522AFC@Rva00522AFC@@QAEAAV1@ABV1@@Z,,0x00522AFC,18,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,assignment through rowed AsciiString tree operator= 0x0052274D
+?Rva0051C3AB@@YAXAAUBfmeE12@@0@Z,,0x0051C3AB,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed swap BfmeE12 0x004219CD
+?rva005206FE@Rva005206FE@@QAEXPAURva005205DAElement@@IABU2@@Z,,0x005206FE,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005205DA
