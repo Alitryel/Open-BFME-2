@@ -20,7 +20,10 @@
 class Matrix4
 {
 public:
-	explicit Matrix4(const Matrix3D &m)
+	Matrix4(void) {}
+	// Widen after default construction so this /O2 unit does not publish the
+	// competing Matrix3D constructor. camera.cpp owns the out-of-line Init.
+	__declspec(dllimport) __forceinline void Init(const Matrix3D &m)
 	{
 		Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3].Set(0.0f, 0.0f, 0.0f, 1.0f);
 	}
@@ -37,7 +40,8 @@ public:
 
 void Rva007133F0MatrixInverse::inverse(Matrix3D &out) const
 {
-	Matrix4 mat(*this);
+	Matrix4 mat;
+	mat.Init(*this);
 	Matrix4 result = mat.Inverse();
 	out[0][0] = result[0][0];
 	out[0][1] = result[0][1];
