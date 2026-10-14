@@ -42,13 +42,33 @@ public:
 	Bool updatePropPosition( Int id, const Coord3D &location, Real angle, Real scale );
 };
 
+class DataChunkOutput
+{
+public:
+	void openDataChunk( char *name, unsigned short version );
+	void closeDataChunk( void );
+	void writeReal( Real r );
+	void writeByte( unsigned char b );
+	void writeAsciiString( const AsciiString &string );
+};
+
 class BaseHeightMapRenderObjClass
 {
 public:
 	void addProp( Int id, Coord3D location, Real angle, Real scale, const AsciiString &modelName, Bool bfmeFlag );
 	Bool rva000683AC( Int id, Coord3D location, Real angle, Real scale );
+	void rva00068494( DataChunkOutput *chunk );
 private:
-	char m_unrecovered0000[ 0x3858 ];
+	char m_unrecovered0000[ 0x37e4 ];
+	Real m_37e4;																							///< 0x37e4
+	Real m_37e8;																							///< 0x37e8
+	char m_unrecovered37ec[ 0x3820 - 0x37ec ];
+	AsciiString m_3820;																						///< 0x3820
+	char m_unrecovered3824[ 0x382c - 0x3824 ];
+	AsciiString m_382c;																						///< 0x382c
+	char m_unrecovered3830[ 0x3834 - 0x3830 ];
+	Bool m_3834;																							///< 0x3834
+	char m_unrecovered3835[ 0x3858 - 0x3835 ];
 	W3DPropBuffer *m_propBuffer;																							///< 0x3858
 };
 
@@ -74,4 +94,19 @@ Bool BaseHeightMapRenderObjClass::rva000683AC(Int id, Coord3D location, Real ang
 		return m_propBuffer->updatePropPosition(id, location, angle, scale);
 	}
 	return false;
+}
+
+// 0x00068494 (114B), unreferenced in retail: writes an "EnvironmentData"
+// chunk (version 3) through the rowed DataChunkOutput writers: the two reals
+// at +0x37E4 and +0x37E8, the flag at +0x3834, then the strings at +0x382C
+// and +0x3820. Field meanings and the member name are not recovered.
+void BaseHeightMapRenderObjClass::rva00068494(DataChunkOutput *chunk)
+{
+	chunk->openDataChunk("EnvironmentData", 3);
+	chunk->writeReal(m_37e4);
+	chunk->writeReal(m_37e8);
+	chunk->writeByte(m_3834 != 0);
+	chunk->writeAsciiString(m_382c);
+	chunk->writeAsciiString(m_3820);
+	chunk->closeDataChunk();
 }
