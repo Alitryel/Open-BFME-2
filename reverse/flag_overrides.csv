@@ -507,6 +507,7 @@ Code/Libraries/Source/Apt/AptActionInterpreterConstantHandlers.cpp,-O2,129,15,re
 Code/Libraries/Source/Apt/AptAnimation.cpp,-O2,1,1,region default loses rows
 Code/Libraries/Source/Apt/AptCIHLevel006E0B80.cpp,-O2,10,1,region default loses rows
 Code/Libraries/Source/Apt/AptCIHRender.cpp,-O2 -G6,1,1,region default loses rows
+Code/Libraries/Source/Apt/AptCharacterApplyTextFormat.cpp,-O2,1,1,region default loses rows
 Code/Libraries/Source/Apt/AptCharacterByteCounts.cpp,-O2,2,2,region default loses rows
 Code/Libraries/Source/Apt/AptDateConstructor.cpp,-O2 -G6,1,1,region default loses rows
 Code/Libraries/Source/Apt/AptInputSuffixAdvance.cpp,-O2 -G6,4,2,region default loses rows
