@@ -53,3 +53,10 @@ are independently full-byte-and-relocation twins as documented above.
 The broad link preview cannot measure this new unit until the next census;
 no full link or link-cycle success is claimed. Placement scan: zero bodies
 and zero pins.
+
+EH follow-up: exact parent graph and independent Ghidra boundaries verify
+cleanup7A0CE4 (11B) and native handler7A0D58 (10B). Direct byte gate3/3.
+Cleanup7A0CEF remains blocked on the hover-adder destructor binding.
+Compiler-local labels at7A0CFA and7A0D05 hit cross-TU name collisions in
+add_match; false-reject evidence recorded without changing the verifier.
+No source changes or extra pins; 21 additional unique verified bytes.
