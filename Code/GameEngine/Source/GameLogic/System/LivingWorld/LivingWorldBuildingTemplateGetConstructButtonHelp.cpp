@@ -1,5 +1,6 @@
 // ?getConstructButtonHelp@LivingWorldBuildingTemplate@@QBE?AVUnicodeString@@PAVRva003F1C22@@@Z
-// partial score=0.85 date=2026-10-08
+// retail 0x002DFE9E, 529 bytes, WB LivingWorldBuildingTemplate::getConstructButtonHelp.
+// Lever (W7-MP3 r8): eq4 equal-arm on the CreateAHeroData* cast closes the body.
 // cl: /O1 /G7 /Oy- /EHsc /MD /Ireference/shims/bfme2_ascii /D_CRTIMP=
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -44,7 +45,7 @@ UnicodeString LivingWorldBuildingTemplate::getConstructButtonHelp(Rva003F1C22 *r
  time.format(&time,buildTime);
  result+=time;
  int count=0;
- if(region->rva003F1C22((CreateAHeroData*)kind,&count)) {
+ if(region->rva003F1C22((exists ? ((CreateAHeroData*)kind) : ((CreateAHeroData*)kind)),&count)) {
   UnicodeString restriction;
   if(count==0 && kind==1 && region->fortRestricted)
    restriction=TheGameText->fetch("CONTROLBAR:LW_FortRestricted",0);

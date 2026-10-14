@@ -88194,3 +88194,4 @@ __ehhandler$??0Rva008291D@@QAE@PAX@Z,,0x0075F91E,10,Code/GameEngine/Source/GameL
 ?rva005093C6@Made002CC774@@QAEXPAUInput005093C6@@PBUCoord3D@@@Z,,0x005093C6,348,Code/GameEngine/Source/GameLogic/Object/Made002CC774Rva005093C6.cpp,matched,
 ?rva00511CE6@AptMessenger@@QAEXXZ,,0x00511CE6,310,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptMessengerCallbacks.cpp,matched,AptMessenger messenger button refresh; WB 135fe30 structure; i read through volatile index (eax before esi)
 ?PopulateTeamComboBox@@YAXHQAPAVGameWindow@@PAVGameInfo@@_N@Z,,0x00446C18,322,Code/GameEngine/Source/GameNetwork/GUIUtil.cpp,matched,equal-arm on numTeams at the first AddEntry
+?getConstructButtonHelp@LivingWorldBuildingTemplate@@QBE?AVUnicodeString@@PAVRva003F1C22@@@Z,,0x002DFE9E,529,Code/GameEngine/Source/GameLogic/System/LivingWorld/LivingWorldBuildingTemplateGetConstructButtonHelp.cpp,matched,
