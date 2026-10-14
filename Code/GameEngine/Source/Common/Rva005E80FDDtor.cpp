@@ -41,10 +41,10 @@ public:
 private:
 	void *m_ptr;
 };
-class Rva005F7750
+class Rva005F830A
 {
 public:
-	virtual ~Rva005F7750();
+	virtual ~Rva005F830A();
 private:
 	char m_pad04[4];
 };
@@ -64,7 +64,7 @@ public:
 Base0C_80FD::Base0C_80FD()
 {
 }
-class Rva005E80FD : public Rva005F7750, public Base08_80FD, public Base0C_80FD
+class Rva005E80FD : public Rva005F830A, public Base08_80FD, public Base0C_80FD
 {
 public:
 	virtual ~Rva005E80FD();

@@ -11698,7 +11698,7 @@ _getbinopr,,0x007542C0,414,Code/Libraries/Source/Lua/lparser.c,matched,BFME1 byt
 ?Rva007F3F40@@YGXPAVRva007E8810Message@@_J@Z,,0x00660A10,66,Code/GameEngine/Source/GameNetwork/V2FeslTxnRequests.cpp,matched,BFME1 donor ambiguous by bytes; resolved by the BFME1->BFME2 address map; b1 0x007F3F40; 2 candidate placements; prediction error 0B
 _duck_calloc,,0x001B6460,49,Code/Libraries/Source/VP6/MemShim.cpp,matched,Clean-room spec 001b6460; duck_calloc: cdecl EA shim allocating count times size through the duck_malloc core and zeroing it; same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001b6460.md and retail only
 ?bfmeGo1053A@BfmeA1053@@QAEPAV1@XZ,,0x00666BC0,40,Code/GameEngine/Source/Common/BfmeGo1053A.cpp,matched,BFME1 byte-identical donor; b1 0x007FA680
-??1Rva005F7750@@UAE@XZ,,0x005F7750,14,Code/GameEngine/Source/Common/Rva005F7750Dtor.cpp,matched,opaque dtor explicit clear call on member at plus 4 (Rva000AD6F4Members family pattern)
+??1Rva005F830A@@UAE@XZ,,0x005F7750,14,Code/GameEngine/Source/Common/Rva005F7750Dtor.cpp,matched,opaque dtor explicit clear call on member at plus 4 (Rva000AD6F4Members family pattern)
 ??1Rva005FA393@@UAE@XZ,,0x005FA393,14,Code/GameEngine/Source/Common/Rva005FA393Dtor.cpp,matched,opaque dtor explicit clear call on member at plus 4 (Rva000AD6F4Members family pattern)
 ?Rva001820A0Get@@YAHXZ,,0x001820A0,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 const-int returner ret 8; CC-island with 4 mapper-family vtable refs; opaque address-derived name
 ?Rva00182D20Get@@YAHXZ,,0x00182D20,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 const-int returner ret 12; CC-island with 5 mapper-family vtable refs 13 slots after 0x1820A0; opaque address-derived name
@@ -11716,7 +11716,7 @@ _duck_malloc,,0x001B63C0,62,Code/Libraries/Source/VP6/DuckMemAlloc.cpp,matched,C
 ?Rva0000C124CGet@@YAHXZ,,0x000C124C,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 0x186A0; follows sibling B8-6 with 6 rdata refs; opaque name
 ?Rva00336E72Get@@YAHXZ,,0x00336E72,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0x736E78; byte-identical dead twin before has 0 refs; 6 rdata refs here; opaque name
 ?Rva0013C6C0Get@@YAHXZ,,0x0013C6C0,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 14; CC-island in same family table as 0x13C650; 1 rdata ref; opaque name
-??_GRva005F7750@@UAEPAXI@Z,,0x005F835A,28,Code/GameEngine/Source/Common/Rva005F7750Dtor.cpp,matched,home-TU emission beside rowed dtor 0x5F7750; resolves E8 to the row
+??_GRva005F830A@@UAEPAXI@Z,,0x005F835A,28,Code/GameEngine/Source/Common/Rva005F7750Dtor.cpp,matched,home-TU emission beside rowed dtor 0x5F7750; resolves E8 to the row
 ?getTag@Rva0014CDB5FourCC@@QBEHXZ,,0x0014CDB5,6,Code/GameEngine/Source/Common/FourCCGetters.cpp,matched,FOURCC int getter returning MINA 0x414E494D; vtable ref in .rdata; address-derived placeholder name
 ?Rva001820B0Get@@YAHXZ,,0x001820B0,6,Code/GameEngine/Source/Common/ConstIntGetters.cpp,matched,B8-6 returner ret 9; CC-island neighbor of 0x1820A0 with 2 rdata refs; opaque name
 ?Rva0056DD52Get@@YAHXZ,,0x0056DD52,6,Code/GameEngine/Source/Common/ConstIntGettersAddr.cpp,matched,B8-6 returner ret 0xDC2884; opens contiguous triple; 2 E8 callers and Ghidra-6; opaque name
