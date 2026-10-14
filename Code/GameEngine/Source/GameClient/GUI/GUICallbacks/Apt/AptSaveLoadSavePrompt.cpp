@@ -226,7 +226,9 @@ void AptSaveLoad::rva00435224()
 // "saving" prompt with the confirmation callback 0x00434337, 7 and 13 run theirs.
 class GameWindow { public: int winEnable(bool enable); };
 class Rva00222A8BTarget { public: int invoke(void *owner, const char *function, int argc, const char *a0, void *a1, void *a2, void *a3, void *a4); };
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+// One native manager datum at VA DFE4CC; cast to this unit's receiver view.
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 class AptPlayer { public: static int GetLevelIndex(GameWindow *window); };
 struct AptSaveLoadWindowsView
 {
@@ -260,28 +262,28 @@ int AptSaveLoad::rva00437053()
 			v->m_autoSaveList->winEnable(0);
 		if (v->m_state == 14)
 		{
-			TheRva00222A8BTarget->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Load", 0, 0, 0, 0);
+			reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Load", 0, 0, 0, 0);
 			v->m_state = 18;
 		}
 		else if (v->m_state == 15)
 		{
-			TheRva00222A8BTarget->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Save", 0, 0, 0, 0);
+			reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Save", 0, 0, 0, 0);
 			v->m_state = 19;
 		}
 		else if (v->m_state == 16)
 		{
-			TheRva00222A8BTarget->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Delete", 0, 0, 0, 0);
+			reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "Delete", 0, 0, 0, 0);
 			v->m_state = 20;
 		}
 		else if (v->m_state == 17)
 		{
-			TheRva00222A8BTarget->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "ReplayVersionMismatch", 0, 0, 0, 0);
+			reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "showMessageBox", 1, "ReplayVersionMismatch", 0, 0, 0, 0);
 			v->m_state = 21;
 		}
 	}
 	else if (v->m_state == 3)
 	{
-		TheRva00222A8BTarget->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "closeDelayed", 1, "OnClosed", 0, 0, 0, 0);
+		reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "closeDelayed", 1, "OnClosed", 0, 0, 0, 0);
 		v->m_state = 6;
 	}
 	else if (v->m_state == 4)
