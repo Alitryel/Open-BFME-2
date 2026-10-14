@@ -26,12 +26,14 @@ class BfmeAptValue006DCD20
 {
 public:
 	bool isUndefined() const;
+	bool isCIH(bool bUndefinedOK) const;
 };
 
 class EAStringC
 {
 public:
 	bool IsEqualTo(const EAStringC *other) const;
+	bool IsEmpty() const;
 };
 
 struct BfmeQueryNode1279
@@ -241,4 +243,127 @@ BfmeNestedBE *BfmeQuery1279::rva006F7D50(int nDepth)
 	void *pItem;
 	bfmeQuery1279(nDepth, 0, &pPrev, &pItem);
 	return bfmeUnlinkNestedBE((BfmeNestedBE *)pItem);
+}
+
+// ?rva006F8220@Rva006F8220List@@QAEXPAURva006F8220CIH@@@Z, retail 0x006F8220
+// (346 bytes, RET 4): recursive walk over a display list's items (from the
+// query root's +0x54 link) under their parent instance. Each item must name
+// that parent (assert "0", line 0x761); a named, defined item under a parent
+// is searched for in the parent sprite instance's native hash (+0x4C ->
+// +0x10) by value or by name, after the line 0x767 isSpriteInstBase assert;
+// a sprite item (AptCIH.h's inline isSpriteInstBase: defined and type 0xD or
+// 0x12, its 0x7D assert re-testing it) recurses into its own display list
+// (+0x4C instance +0x24). Target facts: offsets, strings, call order. Class
+// and member names are address-derived.
+class Rva006DBB30SarDwordField
+{
+public:
+	int get() const;
+};
+
+class Rva006CFCD0
+{
+public:
+	bool isSpriteInstBase() const;
+};
+
+class AsciiString;
+class AptNativeHash
+{
+public:
+	struct Entry
+	{
+		EAStringC *keyView() { return (EAStringC *)this; }
+		void *m_key;
+		BfmeAptValue006DCD20 *m_value;
+	};
+	AsciiString *rva0070AA40();
+	Entry *rva0070AAA0(Entry *entry);
+};
+
+struct Rva006F8220CIH;
+class Rva006F8220List;
+
+struct Rva006F8220Inst
+{
+	char m_pad00[0x10];
+	AptNativeHash *m_hash;
+	char m_pad14[0x24 - 0x14];
+	void *m_displayList;
+};
+
+struct Rva006F8220Root
+{
+	char m_pad00[0x54];
+	Rva006F8220CIH *m_next;
+};
+
+struct Rva006F8220Query
+{
+	Rva006F8220Root *m_root;
+};
+
+struct Rva006F8220CIH
+{
+	char m_pad00[8];
+	void *m_name;
+	char m_pad0C[0x48 - 0x0C];
+	Rva006F8220CIH *m_parent;
+	Rva006F8220Inst *m_inst;
+	char m_pad50[4];
+	Rva006F8220CIH *m_next;
+
+	const BfmeAptValue006DCD20 *value() const { return (const BfmeAptValue006DCD20 *)this; }
+	EAStringC *name() { return (EAStringC *)&m_name; }
+	bool isSpriteInstBase() const
+	{
+		return !value()->isUndefined() &&
+			(((const Rva006DBB30SarDwordField *)this)->get() == 0xD ||
+			 ((const Rva006DBB30SarDwordField *)this)->get() == 0x12);
+	}
+	Rva006F8220List *displayList()
+	{
+		if (!isSpriteInstBase()) {
+			g_bfmeAptAssertAtE17734("isSpriteInstBase()", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h", 0x7D);
+			if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+		}
+		return (Rva006F8220List *)&m_inst->m_displayList;
+	}
+};
+
+class Rva006F8220List
+{
+public:
+	void rva006F8220(Rva006F8220CIH *pParent);
+
+private:
+	Rva006F8220Query *m_query;
+};
+
+void Rva006F8220List::rva006F8220(Rva006F8220CIH *pParent)
+{
+	for (Rva006F8220CIH *cih = m_query->m_root->m_next; cih; cih = cih->m_next) {
+		if (cih->m_parent != pParent) {
+			g_bfmeAptAssertAtE17734("0", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp", 0x761);
+			if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+		}
+		if (pParent && !cih->name()->IsEmpty() && !cih->value()->isUndefined()) {
+			Rva006F8220CIH *pParentInst = cih->m_parent;
+			if (!((const Rva006CFCD0 *)pParentInst)->isSpriteInstBase()) {
+				g_bfmeAptAssertAtE17734("pParentInst->isSpriteInstBase()", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp", 0x767);
+				if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+			}
+			for (AptNativeHash::Entry *e = (AptNativeHash::Entry *)pParentInst->m_inst->m_hash->rva0070AA40(); e; e = pParentInst->m_inst->m_hash->rva0070AAA0(e)) {
+				BfmeAptValue006DCD20 *v = e->m_value;
+				if (v->isCIH(false)) {
+					if (v == cih->value())
+						break;
+					if (e->keyView()->IsEqualTo(cih->name()))
+						break;
+				}
+			}
+		}
+		if (cih->isSpriteInstBase())
+			cih->displayList()->rva006F8220(cih);
+	}
 }
