@@ -203,3 +203,19 @@ void rva007B6700()
 {
     profileTracerInit = atexit(ProfileShutdown);
 }
+
+// 0x007B77EC (16B): atexit cleanup of the reference-counted pointer at
+// VA 0x00DFEBE4 -- the inline RefCountPtr release, tail-calling the rowed
+// OpaqueRefCounted::Release_Ref (0x00050ED3) when it is set. Address names.
+class OpaqueRefCounted
+{
+public:
+    void Release_Ref();
+};
+extern OpaqueRefCounted *g_Va00DFEBE4;
+
+void rva007B77EC()
+{
+    if (g_Va00DFEBE4)
+        g_Va00DFEBE4->Release_Ref();
+}
