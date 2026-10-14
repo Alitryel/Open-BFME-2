@@ -79,3 +79,34 @@ char Rva0073BAA0Base::rva0073BB40(int x1, int x2, int y)
 Rva0073BAA0Base::Rva0073BAA0Base(Gen_008F7CD0 *grid, unsigned int mask) : m_grid(grid), m_mask(mask)
 {
 }
+
+// ??0Rva0073BAA0@@QAE@PAVGen_008F7CD0@@IH@Z @0x0073B4E0 32B and
+// ??0Rva0073BB40@@QAE@PAVGen_008F7CD0@@IH@Z @0x0073B500 32B (RET 0xC): the
+// out-of-line constructors of the two derived updaters (vtables 0x00CF13A0
+// and 0x00CF13A4) over the base above, each adding its extra word at +0xC.
+// Class names follow Rva0073CE30.cpp, which builds the same two inline.
+class Rva0073BAA0 : public Rva0073BAA0Base
+{
+public:
+	Rva0073BAA0(Gen_008F7CD0 *grid, unsigned int mask, int extra);
+	virtual char testFunc(int x, int y);
+private:
+	int m_extra;
+};
+
+Rva0073BAA0::Rva0073BAA0(Gen_008F7CD0 *grid, unsigned int mask, int extra) : Rva0073BAA0Base(grid, mask), m_extra(extra)
+{
+}
+
+class Rva0073BB40 : public Rva0073BAA0Base
+{
+public:
+	Rva0073BB40(Gen_008F7CD0 *grid, unsigned int mask, int extra);
+	virtual char testFunc(int x, int y);
+private:
+	int m_extra;
+};
+
+Rva0073BB40::Rva0073BB40(Gen_008F7CD0 *grid, unsigned int mask, int extra) : Rva0073BAA0Base(grid, mask), m_extra(extra)
+{
+}
