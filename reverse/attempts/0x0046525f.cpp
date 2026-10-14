@@ -1,162 +1,198 @@
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.859268 date=2026-10-14
+// partial score=0.95 date=2026-10-14
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.8 date=2026-10-10
-// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.80 date=2026-10-10 G5-r2: shapes match retail exactly (x87 fld/fsub/fstp
-// delta interleave, inline mulss/addss 50.0, component-wise inits, no dx50 locals, ai in
-// reg+home like retail); remaining is a UNIFORM one-DWORD home shift (frame 0x54 vs 0x50)
-// across all 12B locals + vector#2 at -0x24 not overlaid on end/delta@-0x38. Tried: theAI
-// removal, position/targetSource struct-copy (kept: -12 diffs), hoist ai/angle (worse 0x5C,
-// reverted), scope flatten (worse 0x78/272, reverted). Retail home map from full disasm:
-// vec/elsestart -0x44, end/delta/vec2 -0x38, target -0x2c, saved -0x50, ifstart/displ -0x5c,
-// angle -0x18, ai -0x1c. Next: find the extra DWORD (all op totals match 86/86) or force
-// vec2 overlay.
-// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@PAVCoord3D@@@Z
-// partial score=0.858652976664883 date=2026-10-10
-// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.83 date=2026-10-08
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/GameEngine/Include /ICode/GameEngine/Source/Common /ICode/Libraries/Include
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// partial score=0.95 date=2026-10-14 (self-contained BFME2-layout TU, same head as
+// OpenContainExitObjectInAHurry.cpp; difflib ratio 0.959 vs retail, if-branch exact
+// modulo the frame). Levers found: AI *theAI local before the startPosition copy
+// (retail loads TheAI first); delta.normalize() then in-place delta.z/x/y*=50 and
+// target+=delta (retail products held in xmm1..3); savedGoal x/y/z before delta.
+// Remaining: (1) uniform one-DWORD frame shift (sub esp 0x54 vs 0x50): vector#2
+// lands at -0x24 overlapping ai's dead home instead of delta's -0x38 slot; declaration
+// order, function-level ai and scope moves do not change it; (2) x/y products load
+// delta into regs before the movsd copy (retail: movaps 50 + mulss mem after it);
+// (3) delta.x fld before/after the goalView load scheduling at the atan2 setup.
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /I.
 // stlport
 #include <vector>
-#include <stdlib.h>
-#include "Lib/Coord3D.h"
 #include "ascii_string.h"
-#include "GameLogicObjectLookupView.h"
-enum ExitDoorType { DOOR_1=0 };
-enum CommandSourceType { CMD_FROM_AI=2 };
-enum PathfindLayerEnum { LAYER_INVALID=0 };
-class LocomotorSet;
-class Object;
-class Matrix3D;
+#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+namespace _STL {template <> __declspec(noinline) void vector<Coord3D>::push_back(const Coord3D&);}
+// /D_CRTIMP= keeps free a direct call; itoa stays an import-slot call.
+extern "C" char *(__cdecl *_imp___itoa)(int,char*,int);
+enum PathfindLayerEnum {LAYER_GROUND=0};
+enum ExitDoorType {DOOR_1=0};
+enum CommandSourceType {CMD_FROM_AI=2};
 double Rva000422A0Atan2(float,float);
+extern bool g_00E03624;
 class Rva0035149F;
-class AICommandInterface { public: void rva0036EE16(const Rva0035149F *,Object *,CommandSourceType); void rva0036EF09(const Rva0035149F *,Object *,float,CommandSourceType); };
-class AIUpdateInterface {
+class Matrix3D;
+class LocomotorSet;
+class ConditionBits {
 public:
-    void ignoreObstacle(const Object *);
-    const LocomotorSet &locomotors() const { return *reinterpret_cast<const LocomotorSet *>(reinterpret_cast<const char *>(this)+0x1CC); }
-    void ignoreTime(unsigned frame) { *reinterpret_cast<unsigned *>(reinterpret_cast<char *>(this)+0x178)=frame; }
-    AICommandInterface *commands() { return reinterpret_cast<AICommandInterface *>(reinterpret_cast<char *>(this)+0x20); }
-    const Coord3D &goal() const { return *reinterpret_cast<const Coord3D *>(reinterpret_cast<const char *>(*reinterpret_cast<void *const *>(reinterpret_cast<const char *>(this)+0x30))+0x24); }
-    __forceinline float goalX() const { return *reinterpret_cast<const float *>(reinterpret_cast<const char *>(*reinterpret_cast<void *const *>(reinterpret_cast<const char *>(this)+0x30))+0x24); }
-    __forceinline float goalY() const { return *reinterpret_cast<const float *>(reinterpret_cast<const char *>(*reinterpret_cast<void *const *>(reinterpret_cast<const char *>(this)+0x30))+0x28); }
-    __forceinline float goalZ() const { return *reinterpret_cast<const float *>(reinterpret_cast<const char *>(*reinterpret_cast<void *const *>(reinterpret_cast<const char *>(this)+0x30))+0x2C); }
-    const Coord3D &position148() const { return *reinterpret_cast<const Coord3D *>(reinterpret_cast<const char *>(this)+0x148); }
+ unsigned int test(int bit) const{return words[bit>>5]&(1U<<(bit&0x1f));}
+ void set(int bit){words[bit>>5]|=1U<<(bit&0x1f);}
+ void clear(int bit){words[bit>>5]&=~(1U<<(bit&0x1f));}
+ unsigned int words[4];
 };
-class Thing { public: void setPosition(const Coord3D *); void setOrientation(float); };
+class Thing {public:void setPosition(const Coord3D*);void setOrientation(float);};
+class AIUpdateInterface;
 class Object:public Thing {
 public:
-    bool getSingleLogicalBonePosition(const char *,Coord3D *,Matrix3D *) const;
-    int rva0028B511() const; void rva0028B4CE(PathfindLayerEnum);
-    void rva0028AE6D(); bool rva002931BA(); void rva0028ACDC(const Coord3D *);
-    const Coord3D *position() const { return reinterpret_cast<const Coord3D *>(reinterpret_cast<const char *>(this)+0x38); }
-    float orientation() const { return *reinterpret_cast<const float *>(reinterpret_cast<const char *>(this)+0x44); }
-    AIUpdateInterface *ai() const { return *reinterpret_cast<AIUpdateInterface *const *>(reinterpret_cast<const char *>(this)+0x258); }
-    bool landKind() const { return (*reinterpret_cast<const unsigned char *>(reinterpret_cast<const char *>(*reinterpret_cast<void *const *>(reinterpret_cast<const char *>(this)+4))+0x11F)&0x80)!=0; }
-    __forceinline void doorFlags() {
-        union ModelWord{unsigned word;unsigned char bytes[4];};
-        ModelWord *word=reinterpret_cast<ModelWord*>(reinterpret_cast<char*>(this)+0x10C);
-        unsigned flags=word->word;
-        if((flags&(1U<<22)) || !(flags&(1U<<21))){word->bytes[2] &= 0xBF;word->word|=1U<<21;rva0028AE6D();}
-    }
+ void rva0028AE6D();
+ bool getSingleLogicalBonePosition(const char*,Coord3D*,Matrix3D*) const;
+ int rva0028B511() const;
+ void rva0028B4CE(PathfindLayerEnum);
+ void rva0028AD7C();
+ void rva0028ACDC(const Coord3D*);
+ bool rva002931BA();
+ const Coord3D *getPosition() const{return &position;}
+ void *vtable;unsigned char *thingTemplate;char pad8[0x38-8];Coord3D position;float orientation;
+ char pad48[0x10c-0x48];ConditionBits conditionBits;char pad11c[0x258-0x11c];AIUpdateInterface *ai;
 };
-class Pathfinder { public: void AddObjectToPathfindMap(Object *); bool adjustToPossibleDestination(Object *,const LocomotorSet &,Coord3D *); bool getClosestPointOnLand(const Coord3D *,Object *,Coord3D *); };
-class AI { public: char unknown00[0x10]; Pathfinder *pathfinder; };
-extern AI *TheAI;
-extern GameLogic *TheGameLogic;
-extern bool g_00E03624;
-extern unsigned g_00DBA4E4;
-template<int N> class Rva0046525FSlots:public Rva0046525FSlots<N-1> { public: virtual void gap(char (*)[N]); };
-template<> class Rva0046525FSlots<0> {};
-class Rva0046525FContain:public Rva0046525FSlots<41> { public: virtual void remove(Object *,bool); };
-struct Rva0046525FData { char unknown00[0x74]; int exits; unsigned doorTime; };
-class OpenContain {
+template<class Tag,int N>class Slots:public Slots<Tag,N-1>{public:virtual void gap(Tag*,char(*)[N]);};template<class Tag>class Slots<Tag,1>{public:virtual void gap(Tag*,char(*)[1]);};
+class AICommandInterface {public:void rva0036EE16(const Rva0035149F*,Object*,CommandSourceType);void rva0036EF09(const Rva0035149F*,Object*,float,CommandSourceType);};
+struct AIGoalView {char pad[0x24];Coord3D goal;};
+class AIUpdateInterface:public Slots<AIUpdateInterface,1>{
 public:
-    virtual void exitObjectViaDoor(Object *,ExitDoorType);
-    Object *object() const { return *reinterpret_cast<Object *const *>(reinterpret_cast<const char *>(this)-0x28); }
-    Rva0046525FData *data() const { return *reinterpret_cast<Rva0046525FData *const *>(reinterpret_cast<const char *>(this)-0x2C); }
-    int &which() { return *reinterpret_cast<int *>(reinterpret_cast<char *>(this)+0x3C); }
-    unsigned &countdown() { return *reinterpret_cast<unsigned *>(reinterpret_cast<char *>(this)+0x40); }
-    bool rallyExists() const { return *reinterpret_cast<const bool *>(reinterpret_cast<const char *>(this)+0xAC); }
-    const Coord3D &rally() const { return *reinterpret_cast<const Coord3D *>(reinterpret_cast<const char *>(this)+0xA0); }
+ void ignoreObstacle(const Object*);
+ char pad4[0x20-4];AICommandInterface commands;char pad21[0x30-0x21];AIGoalView *goalView;char pad34[0x148-0x34];Coord3D position148;char pad154[0x178-0x154];unsigned int ignoreCollisionUntil;char pad17c[0x1cc-0x17c];
+ LocomotorSet &locomotorSet(){return *(LocomotorSet*)((char*)this+0x1cc);}
 };
-namespace _STL { template<> void vector<Coord3D>::push_back(const Coord3D &); }
-void __cdecl Rva00030830FreeAllocation(void*);
-namespace _STL { template<> __forceinline void allocator<Coord3D>::deallocate(Coord3D *p, unsigned) const { if (p) Rva00030830FreeAllocation(p); } }
-template<> __forceinline void StringBase<char>::concat(char c) { concat(&c,1); }
-void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType)
+class Pathfinder {public:void AddObjectToPathfindMap(Object*);bool adjustToPossibleDestination(Object*,const LocomotorSet&,Coord3D*);bool getClosestPointOnLand(const Coord3D*,Object*,Coord3D*);};
+class AI {public:char pad[0x10];Pathfinder *pathfinder;};extern AI *TheAI;
+extern GameLogic *TheGameLogic;
+extern int BfmeLogicFramesPerSecond;
+struct OpenContainModuleData {char pad[0x74];int numberOfExitPaths;unsigned int doorOpenTime;};
+class OpenContainModule:public Slots<OpenContainModule,1>{public:OpenContainModuleData *moduleData;Object *owner;Object *getObject() const{return owner;}const OpenContainModuleData *getOpenContainModuleData() const{return moduleData;}char padC[0x20-0xc];};
+class ContainModuleInterface:public Slots<ContainModuleInterface,41>{public:virtual void removeFromContain(Object*,bool);char pad4[0x10-4];};
+class ExitInterface:public Slots<ExitInterface,1>{public:virtual void exitObjectViaDoor(Object*,ExitDoorType);};
+class OpenContain:public OpenContainModule,public ContainModuleInterface,public ExitInterface{
+public:
+ virtual void removeFromContain(Object*,bool);
+ virtual void exitObjectViaDoor(Object*,ExitDoorType);
+ char pad34[0x6c-0x34];int whichExitPath;unsigned int doorCloseCountdown;
+ char pad74[0xd0-0x74];Coord3D rallyPoint;bool rallyPointExists;
+};
+static __forceinline void concatChar(AsciiString &s,char c)
 {
-    reinterpret_cast<Rva0046525FContain *>(reinterpret_cast<char *>(this)-0x10)->remove(exitObj,false);
-    Object *me=object();
-    countdown()=data()->doorTime;
-    if (countdown()) me->doorFlags();
-    int number=data()->exits;
-    if (number>0) {
-        AsciiString startBone("ExitStart"),endBone("ExitEnd");
-        Coord3D end;AIUpdateInterface *ai;
-        {Coord3D start;
-        if (number>1) {
-            char suffix[8]; itoa(which(),suffix,10);
-            if (which()<10) { startBone.concat('0'); endBone.concat('0'); }
-            which()=which()%number+1;
-            startBone.concat(suffix); endBone.concat(suffix);
-        }
-        me->getSingleLogicalBonePosition(startBone.str(),&start,0);
-        me->getSingleLogicalBonePosition(endBone.str(),&end,0);
-        float angle=(exitObj ? (me->orientation()) : (me->orientation()));
-        _ReadWriteBarrier();
-        exitObj->setPosition(&start); exitObj->setOrientation(angle);
-        exitObj->rva0028B4CE((PathfindLayerEnum)me->rva0028B511());
-        ai=exitObj->ai();
-        TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
-        if (ai) {
-            ai->ignoreObstacle(exitObj);
-            ai->ignoreTime(TheGameLogic->getFrame()+g_00DBA4E4);
-            (exitObj ? TheAI->pathfinder : TheAI->pathfinder)->adjustToPossibleDestination(exitObj,ai->locomotors(),&end);
-        }
-        }
-        _STL::vector<Coord3D> path;
-        path.push_back(end); path.push_back(end);
-        if (rallyExists()) path.push_back(rally());
-        if (ai) { ai->commands()->rva0036EE16(reinterpret_cast<const Rva0035149F *>(&path),me,CMD_FROM_AI); exitObj->rva0028ACDC(&end); }
-    } else {
-        if (me->landKind()) {
-            AIUpdateInterface *ai;Coord3D saved,target;float angle;
-            {Coord3D start; start.x=me->position()->x; start.y=me->position()->y; start.z=me->position()->z;
-            if (!(TheAI->pathfinder ? TheAI->pathfinder : TheAI->pathfinder)->getClosestPointOnLand(me->position(),me,&start))goto afterLand;
-                ai=exitObj->ai();
-                if (!ai)goto afterLand;
-                    {Coord3D delta,displacement;
-                    delta.x=start.x-me->position()->x;
-                    saved.x=ai->goalX(); saved.y=ai->goalY();
-                    _ReadWriteBarrier();
-                    delta.y=start.y-me->position()->y;
-                    saved.z=ai->goalZ();
-                    delta.z=start.z-me->position()->z;
-                    angle=(ai ? ((float)Rva000422A0Atan2(delta.y,delta.x)) : ((float)Rva000422A0Atan2(delta.y,delta.x)));
-                    target.x=me->ai()->position148().x; displacement.x=target.x-me->position()->x;
-                    target.y=me->ai()->position148().y; displacement.y=target.y-me->position()->y;
-                    target.z=me->ai()->position148().z; displacement.z=target.z-me->position()->z;
-                    if (displacement.length()<50.0f) {
-                        delta.normalize(); target=start;
-                        target.x+=50.0f*delta.x; target.y+=50.0f*delta.y; target.z+=50.0f*delta.z;
-                    }
-                    }
-                    exitObj->setPosition(&start); exitObj->setOrientation(angle);
-            }
-                    if (!exitObj->rva002931BA()) {
-                        _STL::vector<Coord3D> path;
-                        path.push_back(target); path.push_back(target); path.push_back(saved);
-                        if (g_00E03624) ai->commands()->rva0036EF09(reinterpret_cast<const Rva0035149F *>(&path),me,angle,CMD_FROM_AI);
-                        else ai->commands()->rva0036EE16(reinterpret_cast<const Rva0035149F *>(&path),me,CMD_FROM_AI);
-                        target=saved;
-                    }
-                    exitObj->rva0028ACDC(&target);
-            afterLand:;
-        }
-        TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
-    }
+ ((StringBase<char>*)&s)->concat(&c,1);
+}
+void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
+{
+ removeFromContain(exitObj,false);
+ Object *me=getObject();
+ doorCloseCountdown=getOpenContainModuleData()->doorOpenTime;
+ if(doorCloseCountdown){
+  if(me->conditionBits.test(22)||!me->conditionBits.test(21)){
+   me->conditionBits.clear(22);
+   me->conditionBits.set(21);
+   me->rva0028AE6D();
+  }
+ }
+ int numberExits=getOpenContainModuleData()->numberOfExitPaths;
+ if(numberExits>0){
+  AsciiString startBone("ExitStart");
+  AsciiString endBone("ExitEnd");
+  Coord3D endPosition;
+  AIUpdateInterface *ai;
+  {
+  Coord3D startPosition;
+  if(numberExits>1){
+   char suffix[8];
+   _imp___itoa(whichExitPath,suffix,10);
+   if(whichExitPath<10){
+    concatChar(startBone,'0');
+    concatChar(endBone,'0');
+   }
+   whichExitPath=whichExitPath%numberExits+1;
+   startBone.concat(suffix);
+   endBone.concat(suffix);
+  }
+  me->getSingleLogicalBonePosition(((StringBase<char>*)&startBone)->str(),&startPosition,0);
+  me->getSingleLogicalBonePosition(((StringBase<char>*)&endBone)->str(),&endPosition,0);
+  float exitAngle=me->orientation;
+  exitObj->setPosition(&startPosition);
+  exitObj->setOrientation(exitAngle);
+  exitObj->rva0028B4CE((PathfindLayerEnum)me->rva0028B511());
+  ai=exitObj->ai;
+  TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
+  if(ai){
+   ai->ignoreObstacle(exitObj);
+   ai->ignoreCollisionUntil=TheGameLogic->getFrame()+BfmeLogicFramesPerSecond;
+   Pathfinder *pathfinder=TheAI->pathfinder;
+   pathfinder->adjustToPossibleDestination(exitObj,ai->locomotorSet(),&endPosition);
+  }
+  }
+  _STL::vector<Coord3D> exitPath;
+  exitPath.push_back(endPosition);
+  exitPath.push_back(endPosition);
+  if(rallyPointExists)
+   exitPath.push_back(rallyPoint);
+  if(ai){
+   ai->commands.rva0036EE16((const Rva0035149F*)&exitPath,me,CMD_FROM_AI);
+   exitObj->rva0028ACDC(&endPosition);
+  }
+ }else{
+  if(me->thingTemplate[0x11f]&0x80){
+   AIUpdateInterface *ai;
+   Coord3D savedGoal,target;
+   float exitAngle;
+   {
+   Coord3D startPosition;
+   const Coord3D *pos=&me->position;
+   AI *theAI=TheAI;
+   startPosition.x=pos->x;
+   startPosition.y=pos->y;
+   startPosition.z=pos->z;
+   if(!theAI->pathfinder->getClosestPointOnLand(pos,me,&startPosition))goto done;
+   ai=exitObj->ai;
+   if(!ai)goto done;
+   {
+     Coord3D delta,displacement;
+     AIGoalView *goalView=ai->goalView;
+     savedGoal.x=goalView->goal.x;
+     savedGoal.y=goalView->goal.y;
+     savedGoal.z=goalView->goal.z;
+     delta.x=startPosition.x-pos->x;
+     delta.y=startPosition.y-pos->y;
+     delta.z=startPosition.z-pos->z;
+     exitAngle=(float)Rva000422A0Atan2(delta.y,delta.x);
+     const Coord3D *dest=&me->ai->position148;
+     target.x=dest->x;
+     target.y=dest->y;
+     target.z=dest->z;
+     displacement.x=target.x-pos->x;
+     displacement.y=target.y-pos->y;
+     displacement.z=target.z-pos->z;
+     if(displacement.length()<50.0f){
+      delta.normalize();
+      delta.z*=50.0f;
+      delta.x*=50.0f;
+      delta.y*=50.0f;
+      target=startPosition;
+      target.x+=delta.x;
+      target.y+=delta.y;
+      target.z+=delta.z;
+     }
+   }
+     exitObj->setPosition(&startPosition);
+     exitObj->setOrientation(exitAngle);
+   }
+     if(!exitObj->rva002931BA()){
+      _STL::vector<Coord3D> exitPath;
+      exitPath.push_back(target);
+      exitPath.push_back(target);
+      exitPath.push_back(savedGoal);
+      if(g_00E03624)
+       ai->commands.rva0036EF09((const Rva0035149F*)&exitPath,me,exitAngle,CMD_FROM_AI);
+      else
+       ai->commands.rva0036EE16((const Rva0035149F*)&exitPath,me,CMD_FROM_AI);
+      target=savedGoal;
+     }
+     exitObj->rva0028ACDC(&target);
+  }
+done:
+  TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
+ }
 }
