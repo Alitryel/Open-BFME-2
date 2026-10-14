@@ -20,8 +20,10 @@ namespace _STL
 
 typedef unsigned int size_t;
 
+// Growth callers already inline max; keep this local helper from competing
+// with the separately verified retail unsigned-max provider.
 template <class T>
-inline const T &(max)(const T &a, const T &b)
+static inline const T &(max)(const T &a, const T &b)
 {
 	return a < b ? b : a;
 }
