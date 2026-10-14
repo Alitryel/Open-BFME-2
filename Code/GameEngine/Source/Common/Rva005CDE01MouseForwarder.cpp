@@ -16,3 +16,34 @@ int Rva005CDE01::rva005CDE01(GameMessage*msg){
  if(state && !state->get())return((Rva005CDA3D*)this)->rva005E5BF7(msg);
  return((Rva005D1F45*)((char*)this+0xc))->rva005D1FD3(msg);
 }
+
+// Native5CDE31..5CDE69 is the two-argument sibling of 5CDE01: same state20
+// test and same fallback receiver+C, but the true path calls the rowed
+// RAMFile-write wrapper 0x5E5920 on this and the fallback is the rowed
+// 0x5D1F14.  The 5E5920/5D1F14 call slots are 8-byte (ret 8).
+class RAMFile { public: virtual int write(const void *, int); };
+class Rva005E5884 { public: int rva005E5884(void *, int); };
+class Rva005E5920 : public RAMFile
+{
+public:
+	int rva005E5920(void *, int);
+private:
+	char m_pad04[4];
+	Rva005E5884 *m_8;
+};
+class Rva005D1F14 { public: int rva005D1F14(int, int); };
+class Rva005CDE31
+{
+public:
+	virtual void rva005CDE31(void *a, int b);
+private:
+	char prefix[0x1c];
+	Rva005E687F *state;
+};
+void Rva005CDE31::rva005CDE31(void *a, int b)
+{
+	if (state && !state->get())
+		((Rva005E5920 *)this)->rva005E5920(a, b);
+	else
+		((Rva005D1F14 *)((char *)this + 0xc))->rva005D1F14((int)a, b);
+}
