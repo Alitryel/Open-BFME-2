@@ -1,125 +1,169 @@
 // ?requestFile@AudioFileCache@@QAE?AVRva00690FF0Handle@@ABVAsciiString@@H@Z
-// partial score=0.6 date=2026-10-14
-// ?requestFile@AudioFileCache@@QAE?AVRva00690FF0Handle@@ABVAsciiString@@H@Z
-// partial score=0.6 date=2026-10-14
+// partial score=0.99 date=2026-10-14
 // cl: /O1 /arch:SSE /G7 /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
-// ?requestFile@AudioFileCache@@QAE?AVRva00690FF0Handle@@ABVAsciiString@@H@Z @0x000A7EFA 430B.
-// By-name overload of the Miles file cache request (the event overload at 0x000A8241 forwards
-// here). Under the cache mutex: an empty name yields the cache's empty handle; a name already
-// in the cache gets its entry moved to the requested priority list (and out of the unused list
-// when its count is zero) and a handle to it; a name in the failed set yields the empty
-// handle; otherwise a new 0x54-byte entry is created, registered under its name, queued at
-// the clamped priority and handed out through a temporary handle copy.
-// Layout views follow AudioFileCacheLoader.cpp / AudioFileCacheRequestEvent.cpp.
-#include <list>
 #include <set>
+#include <list>
 #include "ascii_string.h"
-
-namespace _STL {
-template <> list<int, allocator<int> >::iterator list<int, allocator<int> >::erase(list<int, allocator<int> >::iterator);
-template <class _IterTp, class _LeftTraits, class _RightTraits>
-static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
-                              const _List_iterator<_IterTp, _RightTraits> &b)
-{ return a._M_node != b._M_node; }
-}
-
+class File {
+public:
+ virtual void slot00(); virtual void slot04(); virtual void slot08();
+ virtual void slot0C(); virtual void slot10(); virtual void slot14();
+ virtual void slot18(); virtual void slot1C(); virtual void slot20();
+ virtual void slot24(); virtual void slot28();
+ virtual int size(); virtual void slot30(); virtual char *readEntireAndClose();
+};
+class FileSystem { public: File *openFile(const char *,int,int); };
+extern FileSystem *TheFileSystem;
 class MilesMutexGuard {
 public:
  MilesMutexGuard(void *,int); ~MilesMutexGuard();
+ bool rva00041037(int); bool rva00041055();
 private: void *m_mutex; bool m_flag;
 };
-class Rva00691110Handle {
-public: Rva00691110Handle(const Rva00691110Handle&);
-private: void *target;
+class Rva0010ECB5 {public: bool rva0010ECB5();};
+class OpenAudioFile {
+public:
+ AsciiString m_name;
+ void setFileReady(int,int *,int,bool);
 };
+struct Rva000A7E9EInput;
+class Rva000A7E9E {public: void freeUnusedSamples(); void rva000A7E9E(const Rva000A7E9EInput &);};
+struct Rva000A89E3Ready { virtual bool check(int); };
+class Gen0002857E {
+public:
+ Gen0002857E(Rva000A7E9E *,const AsciiString &);
+ char pad00[0x34];
+ int m_count;
+ char pad38[4];
+ int m_priority;
+ char pad40[4];
+ Rva000A89E3Ready m_ready;
+ char pad48[0xC];
+};
+class Rva0010ED3D {public: void rva0010ED3D(int);};
+class Rva00691110Handle {public: Rva00691110Handle(const Rva00691110Handle &); private: void *target;};
+class AudioFileContainer {public: AudioFileContainer(Gen0002857E *); private: Gen0002857E *m_target;};
 class Rva00690FF0Handle {
 public:
- Rva00690FF0Handle(const Rva00690FF0Handle& other) {
-  ((Rva00691110Handle*)this)->Rva00691110Handle::Rva00691110Handle(*(const Rva00691110Handle*)&other);
+ Rva00690FF0Handle(Gen0002857E *target) { ((AudioFileContainer *)this)->AudioFileContainer::AudioFileContainer(target); }
+ Rva00690FF0Handle(const Rva00690FF0Handle &other) {
+  ((Rva00691110Handle *)this)->Rva00691110Handle::Rva00691110Handle(*(const Rva00691110Handle *)&other);
  }
  ~Rva00690FF0Handle();
 private: void *target;
 };
-class Gen0002857E;
-class AudioFileContainer : public Rva00690FF0Handle {
-public: AudioFileContainer(Gen0002857E *);
+struct AudioCacheFileNode { AudioCacheFileNode *m_next; AsciiString m_name; Gen0002857E *m_file; };
+class Rva00056F61;
+struct Rva0041534BIter {
+ AudioCacheFileNode *m_node;
+ Rva00056F61 *m_table;
+ Rva0041534BIter(AudioCacheFileNode *n,Rva00056F61 *t) : m_node(n), m_table(t) {}
+ Rva0041534BIter() {}
 };
-struct Rva000A7E9EInput;
-class Rva000A7E9E {public: void freeUnusedSamples(); void rva000A7E9E(const Rva000A7E9EInput &);};
-class Rva0010ED3D { public: void rva0010ED3D(int priority); };
-class Rva000427195 { public: void *rva000A7B3C(const AsciiString *name); };
-struct Rva0041534BNode { char pad[8]; Gen0002857E *file; };
-struct Rva0041534BIter { Rva0041534BNode *node; int extra; };
-class Rva00056F61 { public: Rva0041534BIter rva0041534B(const AsciiString *name); };
-class FileActivity { public: virtual bool busy(int flags); };
-class Gen0002857E {
+class Rva00056F61 {public: __declspec(nothrow) Rva0041534BIter rva0041534B(const AsciiString *);};
+class Rva000427195 {public: void *rva000A7B3C(const AsciiString *);};
+class AudioFileCacheMap {
 public:
- Gen0002857E(Rva000A7E9E *owner, const AsciiString &name);
- char pad00[0x34];
- volatile int m_count;
- int pad38;
- int m_priority;
- int pad40;
- FileActivity m_activity;
- char pad48[0x0C];
+ Rva0041534BIter find(const AsciiString &key) { return ((Rva00056F61 *)this)->rva0041534B(&key); }
 };
+extern "C" __declspec(dllimport) int __stdcall AIL_WAV_info(const void *,int *);
+extern "C" __declspec(dllimport) int __stdcall AIL_decompress_ADPCM(const int *,void **,unsigned int *);
+typedef _STL::list<int,_STL::allocator<int> > AudioFileCacheList;
 class AudioFileCache {
 public:
- Rva00690FF0Handle requestFile(const AsciiString &name, int priority);
+ Rva00690FF0Handle requestFile(const AsciiString &filename,int priority);
+ void readAudioFile(OpenAudioFile *entry);
 private:
  char pad00[0x14];
- _STL::list<int,_STL::allocator<int> > m_pending[3];
- char unusedTree20[12];
+ AudioFileCacheList m_lists[3];
+ char pad20[0xC];
  _STL::set<AsciiString,_STL::less<AsciiString>,_STL::allocator<AsciiString> > m_failed;
- char pad38[0x0C];
+ unsigned int m_activeBytes, m_unusedBytes, m_budget;
  Rva00690FF0Handle m_emptyFile;
- char pad48[8];
+ void *m_thread;
+ bool m_quit;
  void *m_mutex;
 };
-
-Rva00690FF0Handle AudioFileCache::requestFile(const AsciiString &name, int request)
+// ?requestFile@AudioFileCache@@QAE?AVRva00690FF0Handle@@ABVAsciiString@@H@Z 0x000A7EFA 430B
+Rva00690FF0Handle AudioFileCache::requestFile(const AsciiString &filename,int priority)
 {
-	int priority = request;
-	if (priority < 0)
-		priority = 0;
-	else if (priority >= 3)
-		priority = 2;
-	MilesMutexGuard guard(m_mutex, 0);
-	if (name.isEmpty())
-		return m_emptyFile;
-	Rva0041534BIter found = ((Rva00056F61 *)this)->rva0041534B(&name);
-	if (found.node)
-	{
-		Gen0002857E *file = found.node->file;
-		if (file->m_count == 0)
-			((Rva000A7E9E *)this)->rva000A7E9E(*(const Rva000A7E9EInput *)file);
-		if (!file->m_activity.busy(0) && file->m_priority < priority)
-		{
-			_STL::list<int,_STL::allocator<int> > &from = m_pending[file->m_priority];
-			_STL::list<int,_STL::allocator<int> >::iterator it = from.begin();
-			for (; it != from.end(); ++it)
-			{
-				if (*it == (int)file)
-				{
-					from.erase(it);
-					int value = (int)file;
-					m_pending[priority].push_back(value);
-					file = (Gen0002857E *)value;
-					break;
-				}
-			}
-		}
-		((Rva0010ED3D *)file)->rva0010ED3D(priority);
-		return AudioFileContainer(file);
-	}
-	if (m_failed.find(name) != m_failed.end())
-		return m_emptyFile;
-	Gen0002857E *created = new Gen0002857E((Rva000A7E9E *)this, name);
-	AudioFileContainer container(created);
-	*(Gen0002857E **)((Rva000427195 *)this)->rva000A7B3C(&name) = created;
-	int value = (int)created;
-	m_pending[priority].push_back(value);
-	((Rva0010ED3D *)created)->rva0010ED3D(priority);
-	return container;
+ if (priority < 0) priority = 0;
+ else if (priority >= 3) priority = 2;
+ MilesMutexGuard guard(m_mutex,0);
+ if (((const StringBase<char> *)&filename)->isEmpty()) return m_emptyFile;
+ Rva0041534BIter it; it = ((AudioFileCacheMap *)this)->find(filename);
+ if (it.m_node) {
+  Gen0002857E *file = it.m_node->m_file;
+  if (file->m_count == 0) ((Rva000A7E9E *)this)->rva000A7E9E(*(const Rva000A7E9EInput *)file);
+  if (!file->m_ready.check(0) && file->m_priority < priority) {
+   AudioFileCacheList &list = m_lists[file->m_priority];
+   AudioFileCacheList::iterator i = list.begin();
+   bool done = false;
+   while (!done && i != list.end()) {
+    if ((Gen0002857E *)*i == file) {
+     i = list.erase(i);
+     m_lists[priority].push_back(*(int *)&file);
+     done = true;
+    } else ++i;
+   }
+  }
+  ((Rva0010ED3D *)file)->rva0010ED3D(priority);
+  return Rva00690FF0Handle(file);
+ }
+ if (m_failed.find(filename) != m_failed.end()) return m_emptyFile;
+ Gen0002857E *file = new Gen0002857E((Rva000A7E9E *)this,filename);
+ Rva00690FF0Handle handle(file);
+ *(Gen0002857E **)((Rva000427195 *)this)->rva000A7B3C(&filename) = file;
+ m_lists[priority].push_back(*(int *)&file);
+ ((Rva0010ED3D *)file)->rva0010ED3D(priority);
+ return handle;
+}
+// Retail 0x000A82CA,365B; WorldBuilder names AudioFileCache::readAudioFile.
+// Native filename field0, File size/readEntireAndClose slots2C/34,
+// cache fields38/40/4C/50 and failed-name set2C establish the accessed ABI.
+// Miles calls are imported APIs; info is the nine-word native WAV record.
+// setFileReady and the whole131B eviction loop are separately byte-verified.
+// ?readAudioFile@AudioFileCache@@QAEXPAVOpenAudioFile@@@Z 0x000A82CA 365B
+void AudioFileCache::readAudioFile(OpenAudioFile *entry)
+{
+ File *file = TheFileSystem->openFile(entry->m_name.str(),0x41,0);
+ bool failed;
+ unsigned int size;
+ char *data;
+ if (!file) { failed = true; }
+ else { size = file->size(); data = file->readEntireAndClose(); failed = false; }
+ MilesMutexGuard guard(m_mutex,1);
+ for (;;) {
+  if (m_quit) return;
+  if (!guard.rva00041037(500)) continue;
+  if (failed) {
+   ((Rva0010ECB5 *)entry)->rva0010ECB5();
+   m_failed.insert(entry->m_name);
+   guard.rva00041055();
+   break;
+  }
+  int info[9];
+  bool allocated;
+  AIL_WAV_info(data,info);
+  if (info[0]==17) {
+   unsigned int decompressedSize; void *decompressed;
+   AIL_decompress_ADPCM(info,&decompressed,&decompressedSize);
+   size=decompressedSize; allocated=true;
+   delete[] data;
+   data=(char *)decompressed;
+   AIL_WAV_info(data,info);
+  } else if (info[0]==1) { allocated=false; }
+  else {
+   ((Rva0010ECB5 *)entry)->rva0010ECB5();
+   m_failed.insert(entry->m_name);
+   guard.rva00041055();
+   delete[] data;
+   break;
+  }
+  entry->setFileReady((int)data,info,size,allocated);
+  m_activeBytes += size;
+  if (m_activeBytes > m_budget) ((Rva000A7E9E *)this)->freeUnusedSamples();
+  break;
+ }
 }
