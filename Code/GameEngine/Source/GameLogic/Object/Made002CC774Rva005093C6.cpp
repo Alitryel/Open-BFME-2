@@ -1,15 +1,16 @@
 // ?rva005093C6@Made002CC774@@QAEXPAUInput005093C6@@PBUCoord3D@@@Z
-// partial score=0.9999 date=2026-10-14
-// ?rva005093C6@Made002CC774@@QAEXPAUInput005093C6@@PBUCoord3D@@@Z
-// partial score=0.9893649709798567 date=2026-10-14
-// ?rva005093C6@Made002CC774@@QAEXPAUInput005093C6@@PBUCoord3D@@@Z
-// partial score=0.9894 date=2026-10-13
-// ?rva005093C6@Made002CC774@@QAEXPAUInput005093C6@@PBUCoord3D@@@Z
-// partial score=0.995 date=2026-10-13
+// retail 0x005093C6 (348B) RET8: damage-field nugget spawn helper in the
+// Made002CC774 parser unit. Landed from the T1 farm exact scratch body
+// (search/0x005093c6/best.cpp, 348/348 nd 0 in Lab2). Owner-unit neighbours
+// are Made002CC774Parse.cpp (q4Notify002CC774 0x00509379) and the
+// pathfinder/spawn providers the body calls; the farm split this function
+// into the file-unit's second TU because the parser file's views cannot
+// carry it without a rebuild.
 // cl: /O1 /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /G7
 // ?rva005093C6@Made002CC774@@QAEXPAUInput005093C6@@PBUCoord3D@@@Z, retail 0x005093C6 (348B).
 #include <string.h>
 #include "ascii_string.h"
+#include "../../Common/GameLogicObjectLookupView.h"
 struct Coord3D;
 class Player;
 class Team;
@@ -20,13 +21,6 @@ struct CreateMask
 
 {
  unsigned int words[4];
- 
-}
-;
-enum ObjectID 
-
-{
- INVALID_ID = 0 
  
 }
 ;
@@ -66,15 +60,6 @@ class ThingFactory
 }
 ;
 extern ThingFactory *TheThingFactory;
-class GameLogic
-
-{
- public:
- Object *findObjectByID(ObjectID);
- void destroyObject(Object *);
- 
-}
-;
 extern GameLogic *TheGameLogic;
 class NameKeyGenerator 
 
