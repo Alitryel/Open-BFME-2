@@ -35,12 +35,20 @@ recompiles every stale ledger object and replaces its census definitions).
   python3 tools/link_check.py --refresh SOURCE          # recompile stale objects first
   python3 tools/link_check.py --refresh --current-ledger SOURCE  # include newer matched units
   python3 tools/link_check.py --prepare-current SOURCE [...]   # explicit safe provider witnesses
-  python3 tools/link_check.py --fetch-index             # download the last published census's index
-  python3 tools/link_check.py --publish-index           # a census runner: upload the index it just wrote
+  python3 tools/link_check.py --fetch-index             # download the published index and compiled objects
+  python3 tools/link_check.py --update-index            # bring the index to HEAD without a link
+  python3 tools/link_check.py --publish-index           # upload the index and this tree's objects
 
 The index is never tracked, and building one is a whole census (every unit
 compiled, then linked: hours on a slow host). Whoever runs a census publishes
-its index as the `census-index` release asset; everyone else fetches it.
+its index as the `census-index` release asset; everyone else fetches it. Its
+objects go with it (build.export_objects): --fetch-index adds them to the
+object store, so a build restores what another host already compiled instead
+of compiling it again. --update-index compiles what changed since the index,
+replaces those objects' definitions (refresh) and drops units the ledger no
+longer has: a follower of master keeps the published index current between
+censuses. Units added since the census stay unpreviewable, and each file's
+recorded blockers (link_rank.py) stay the census's, until the next census.
 
 The pre-commit hook runs the admission form on the units a commit adds, with
 their list on stdin (Windows caps a command line at 32,767 characters). It
@@ -73,6 +81,8 @@ INDEX = link_census.OUT / "link_index.pkl"
 INDEX_REPO = "Open-BFME/Open-BFME-2"
 INDEX_TAG = "census-index"
 INDEX_URL = f"https://github.com/{INDEX_REPO}/releases/download/{INDEX_TAG}/{INDEX.name}"
+OBJECTS = link_census.OUT / "objects.tar.gz"
+OBJECTS_URL = f"https://github.com/{INDEX_REPO}/releases/download/{INDEX_TAG}/{OBJECTS.name}"
 COMMON_SCHEMA = 1
 PREPARE_LIMIT = 32
 # On2 is a vendor token or a camel-case component, not the suffix of
@@ -112,7 +122,7 @@ def write_index(present, facts, blockers, excuses, meta, selection):
     `selection` holds link_census.selection_verdicts' results, holder
     exceptions and ledger owners."""
     index = {"meta": meta, **index_tables(present, facts, selection), "blockers": blockers, "excuses": excuses,
-             "bytes": source_bytes(set(blockers))}
+             "bytes": source_bytes(set(blockers)), "digests": {obj.name: object_digest(obj) for obj in present}}
     link_census.OUT.mkdir(parents=True, exist_ok=True)
     temp = INDEX.with_suffix(".tmp")
     with temp.open("wb") as handle:
@@ -174,6 +184,10 @@ def load_index():
         return pickle.load(handle)
 
 
+def object_digest(obj):
+    return hashlib.sha256(Path(obj).read_bytes()).hexdigest()
+
+
 def index_meta(path):
     """The census date and commit a saved index records (meta), or None when
     the file is not an index."""
@@ -198,17 +212,10 @@ def fetch_index(url=INDEX_URL):
     one is the same census or a later one. Only the repository's writers can
     replace the release asset, and they can already change these tools.
     An index of a commit this checkout lacks would show providers it does
-    not have as linking, so it replaces nothing: pull first."""
-    import tempfile
-    import urllib.request
-    link_census.OUT.mkdir(parents=True, exist_ok=True)
-    handle = tempfile.NamedTemporaryFile(dir=link_census.OUT, prefix="link_index.", suffix=".download",
-                                         delete=False)
-    temp = Path(handle.name)
+    not have as linking, so it replaces nothing: pull first. The published
+    objects go to the object store either way (fetch_objects)."""
+    temp = download(url, "link_index.")
     try:
-        with handle, urllib.request.urlopen(url, timeout=60) as response:
-            while chunk := response.read(1 << 20):
-                handle.write(chunk)
         meta = index_meta(temp)
         if meta is None:
             raise SystemExit(f"link_check: {url} is not a census index; nothing replaced")
@@ -217,16 +224,53 @@ def fetch_index(url=INDEX_URL):
                              "replaced: git pull --rebase origin master, then fetch again")
         local = index_meta(INDEX) if INDEX.exists() else None
         if local and local["date"] >= meta["date"]:
-            print(f"link_check: keeping the local index (census {local['date']} at {local['commit']}); "
-                  f"the published one is census {meta['date']} at {meta['commit']}")
-            return 0
-        temp.replace(INDEX)
-    except OSError as exc:
-        raise SystemExit(f"link_check: could not download {url}: {exc}")
+            print(f"link_check: keeping the local index ({local['date']} at {local['commit']}); "
+                  f"the published one is {meta['date']} at {meta['commit']}")
+        else:
+            temp.replace(INDEX)
+            print(f"link_check: index {meta['date']} at {meta['commit']} -> {INDEX.relative_to(ROOT).as_posix()}")
     finally:
         temp.unlink(missing_ok=True)
-    print(f"link_check: index of census {meta['date']} at {meta['commit']} -> {INDEX.relative_to(ROOT).as_posix()}")
+    fetch_objects()
     return 0
+
+
+def download(url, prefix):
+    """`url` into a new temporary file beside the index (concurrent fetches
+    never share one); the caller removes it."""
+    import tempfile
+    import urllib.request
+    link_census.OUT.mkdir(parents=True, exist_ok=True)
+    handle = tempfile.NamedTemporaryFile(dir=link_census.OUT, prefix=prefix, suffix=".download", delete=False)
+    temp = Path(handle.name)
+    try:
+        with handle, urllib.request.urlopen(url, timeout=60) as response:
+            while chunk := response.read(1 << 20):
+                handle.write(chunk)
+    except OSError as exc:
+        temp.unlink(missing_ok=True)
+        raise SystemExit(f"link_check: could not download {url}: {exc}")
+    return temp
+
+
+def fetch_objects(url=OBJECTS_URL):
+    """The published objects into the object store (build.import_objects).
+    They only spare compiles, so a failure here leaves the index fetched."""
+    import tarfile
+    try:
+        temp = download(url, "objects.")
+    except SystemExit as exc:
+        print(f"{exc}; objects not imported", file=sys.stderr)
+        return 0
+    try:
+        count = build.import_objects(temp)
+    except (OSError, EOFError, tarfile.TarError) as exc:
+        print(f"link_check: {url} is not an object bundle ({exc}); objects not imported", file=sys.stderr)
+        return 0
+    finally:
+        temp.unlink(missing_ok=True)
+    print(f"link_check: {count:,} compiled object(s) added to the object store (used when they match this tree)")
+    return count
 
 
 def publish_index():
@@ -243,17 +287,116 @@ def publish_index():
     _git("fetch", "--quiet", "origin", "master", check=True)
     if not contains(meta["commit"], "origin/master"):
         raise SystemExit(f"link_check: census commit {meta['commit']} is not on origin/master; not published")
-    notes = (f"Census {meta['date']} UTC at {meta['commit']}. Download with "
-             "`python3 tools/link_check.py --fetch-index`; every published census replaces it.")
+    census = (f"census {meta['census_date']} UTC at {meta['census_commit']}, updated to {meta['commit']} at "
+              f"{meta['date']} UTC" if meta.get("census_date") else f"census {meta['date']} UTC at {meta['commit']}")
+    notes = (f"Link index of the {census}, and the objects of that tree. Download both with "
+             "`python3 tools/link_check.py --fetch-index`; every publication replaces them.")
     repo = ["--repo", INDEX_REPO]
     if subprocess.run(["gh", "release", "view", INDEX_TAG, *repo], cwd=ROOT, capture_output=True).returncode:
         if subprocess.run(["gh", "release", "create", INDEX_TAG, *repo, "--prerelease", "--target", "master",
                            "--title", "Link census index", "--notes", notes], cwd=ROOT).returncode:
             raise SystemExit("link_check: gh release create failed (see above)")
-    for step in (["upload", INDEX_TAG, str(INDEX), "--clobber"], ["edit", INDEX_TAG, "--notes", notes]):
+    count = build.export_objects(link_census.compile_sources(link_census.ledger()), OBJECTS)
+    print(f"link_check: {count:,} current object(s) bundled")
+    for step in (["upload", INDEX_TAG, str(INDEX), str(OBJECTS), "--clobber"],
+                 ["edit", INDEX_TAG, "--notes", notes]):
         if subprocess.run(["gh", "release", *step, *repo], cwd=ROOT).returncode:
             raise SystemExit(f"link_check: gh release {step[0]} failed (see above)")
     print(f"link_check: published the index of census {meta['date']} at {meta['commit']}")
+    return 0
+
+
+def in_census(index, name):
+    """The object has a census place: index["objects"] holds it and
+    --update-index has not dropped it (forget)."""
+    return name in index["objects"] and name not in index.get("forgotten", ())
+
+
+def forget(index, names):
+    """Drop every definition the objects `names` held, and their files'
+    blockers: units the ledger no longer has define nothing. Their names
+    keep their place in index["objects"], so other positions stay valid, and
+    are recorded in index["forgotten"]: a leftover .obj of one is never
+    previewed (in_census)."""
+    gone = set(names)
+    index.setdefault("forgotten", set()).update(gone)
+    positions = {position for position, name in enumerate(index["objects"]) if name in gone}
+    if not positions:
+        return
+    for table, at in (("strong", lambda entry: entry), ("comdat", lambda entry: entry[0]),
+                      ("common", lambda entry: entry[0]), ("alternates", lambda entry: entry[0])):
+        for name in list(index[table]):
+            kept = [entry for entry in index[table][name] if at(entry) not in positions]
+            if kept:
+                index[table][name] = kept
+            else:
+                del index[table][name]
+    for source in [s for s, entry in index["blockers"].items() if entry.get("object") in gone]:
+        del index["blockers"][source]
+    for name in gone:
+        index.get("digests", {}).pop(name, None)
+
+
+def census_tree_clean():
+    return not subprocess.run(["git", "status", "--porcelain", "-uno", "--", *link_census.CENSUS_INPUTS],
+                              cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
+
+
+def update_index():
+    """--update-index: the index brought to HEAD without a link. Compiles every
+    stale ledger unit (refusing to write anything while one fails), replaces
+    the definitions of every object that differs from the one the index last
+    read (by digest; an index without digests rereads them all), drops units
+    the ledger no longer has, and records the census it started from.
+    clean_tree holds only when no census input was uncommitted and HEAD did not
+    move during the run."""
+    index = load_index()
+    require_common_index(index)
+    head, clean = link_census.head(), census_tree_clean()
+    rows = link_census.ledger()
+    sources = [s for s in link_census.compile_sources(rows) if s.suffix.lower() != build.LIB_SUFFIX]
+    outputs = {s: build.obj_path(s) for s in sources}
+    stale = build.stale_sources(sources, outputs, build._pool_size())
+    if stale:
+        build.compile_rows(rows, stale)
+        stale = build.stale_sources(stale, outputs, build._pool_size())
+    if stale:
+        raise SystemExit(f"link_check: {len(stale):,} ledger unit(s) do not compile, e.g. "
+                         f"{stale[0].relative_to(ROOT).as_posix()}; index unchanged")
+    present, missing = link_census.objects(rows)
+    if missing:
+        raise SystemExit(f"link_check: {len(missing):,} ledger object(s) missing, e.g. {missing[0].name}; "
+                         "index unchanged")
+    truth = link_census.RetailTruth(rows)
+    digests = index.setdefault("digests", {})
+    current = {obj.name: obj for obj in present}
+    known = set(index["objects"])
+    index.setdefault("forgotten", set()).difference_update(current)  # back in the ledger: reread below
+    now = {name: object_digest(obj) for name, obj in current.items() if name in known}
+    changed = [current[name] for name, digest in now.items() if digests.get(name) != digest]
+    gone = [name for name in index["objects"] if name not in current]
+    refresh(index, changed, truth)
+    forget(index, gone)
+    # Nothing may move while definitions are read: an object rewritten
+    # between its digest and its reading would pair one body's digest with
+    # another's definitions, and later updates would trust the pair.
+    if ({name: object_digest(obj) for name, obj in current.items() if name in known} != now
+            or link_census.head() != head or census_tree_clean() != clean):
+        raise SystemExit("link_check: objects, HEAD or census inputs moved during --update-index; index unchanged")
+    digests.update(now)
+    meta = index["meta"]
+    census = {"census_date": meta.get("census_date", meta["date"]),
+              "census_commit": meta.get("census_commit", meta["commit"])}
+    index["meta"] = {"date": time.strftime("%Y-%m-%d %H:%M", time.gmtime()), "commit": head,
+                     "clean_tree": clean, **census}
+    temp = INDEX.with_suffix(f".{os.getpid()}.tmp")
+    with temp.open("wb") as handle:
+        pickle.dump(index, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    temp.replace(INDEX)
+    added = sum(1 for name in current if name not in known)
+    print(f"link_check: index at {head} (census {census['census_date']} at {census['census_commit']}): "
+          f"{len(changed):,} object(s) reread, {len(gone):,} dropped, {added:,} new unit(s) unpreviewable "
+          "until the next census")
     return 0
 
 
@@ -291,7 +434,7 @@ def refresh(index, objects, truth):
     seen when checking the others. Blockers of files not passed stay as the
     census saw them."""
     require_common_index(index)
-    positions = {index["objects"].index(obj.name): obj for obj in objects if obj.name in index["objects"]}
+    positions = {index["objects"].index(obj.name): obj for obj in objects if in_census(index, obj.name)}
     if not positions:
         return
     # Read every replacement before mutating any table. A failed read must
@@ -1014,12 +1157,16 @@ def main(argv=None):
     ap.add_argument("--fetch-index", action="store_true",
                     help="download the last published census's index instead of building one")
     ap.add_argument("--publish-index", action="store_true",
-                    help="upload the index this checkout's last census wrote (census runners)")
+                    help="upload the index this checkout's last census wrote and its objects (census runners)")
+    ap.add_argument("--update-index", action="store_true",
+                    help="bring the index to HEAD: compile what changed and reread those objects, no link")
     args = ap.parse_args(argv)
     if args.fetch_index:
         return fetch_index()
     if args.publish_index:
         return publish_index()
+    if args.update_index:
+        return update_index()
     if args.prepare_current and (args.refresh or args.current_ledger or args.census_only or args.new_variants
                                  or args.shadow or args.staged_peers):
         ap.error("--prepare-current cannot combine with preview/admission modes")
@@ -1059,7 +1206,7 @@ def main(argv=None):
                     held.setdefault(name, set()).add(digest)
         given = {obj for _, obj in resolved}
         others = [resolve(path, index) for path in staged() if path not in paths] if args.staged_peers else []
-        known = [obj for obj in given | {obj for _, obj in others} if obj.name in index["objects"]]
+        known = [obj for obj in given | {obj for _, obj in others} if in_census(index, obj.name)]
         if known and index.get("common_schema") == COMMON_SCHEMA and isinstance(index.get("alternates"), dict):
             refresh(index, known, truth)
         tag = "shadow" if args.shadow else "refused"
@@ -1083,12 +1230,13 @@ def main(argv=None):
         refresh_stale(index, truth)
     resolved = list({obj.resolve(): (source, obj) for source, obj in
                      (resolve(path, index) for path in paths)}.values())  # a file named twice counts once
-    outside = sorted(source or obj.name for source, obj in resolved if obj.name not in index["objects"])
+    outside = sorted(source or obj.name for source, obj in resolved if not in_census(index, obj.name))
     if outside:
         # Its link position is unknown, so neither its own duplicates nor what
         # it provides to others can be judged: two new objects defining one
         # exclusive symbol both looked clean while link.exe fails LNK2005.
-        raise SystemExit(f"link_check: not in census {index['meta'].get('commit', '?')}, so not previewable "
+        raise SystemExit(f"link_check: not in census "
+                         f"{index['meta'].get('census_commit', index['meta'].get('commit', '?'))}, so not previewable "
                          f"(the next census measures it): {', '.join(outside)}")
     if not args.census_only:
         refresh(index, [obj for _, obj in resolved], truth)

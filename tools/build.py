@@ -4,6 +4,7 @@ import concurrent.futures
 import csv
 import functools
 import hashlib
+import io
 import json
 import os
 import re
@@ -1903,6 +1904,135 @@ def _store_object(source, output, fingerprint):
             old.unlink(missing_ok=True)
     except OSError:
         pass  # the store is an accelerator; a failure only costs a recompile
+
+
+# Objects shared between hosts (link_check.py --publish-index / --fetch-index):
+# a bundle of objects with host-neutral receipts. Importing one only adds entries
+# to the object store above, under this host's own fingerprint, so a bundled
+# object is used exactly when a compile here would restore a store entry: after
+# compile_is_current re-hashes its source and every recorded header. The host
+# shows in the object only as the output path in .debug$S (as it already does
+# between worktrees sharing the store); the code, data and relocations of one
+# command and one set of inputs are the same under Wine and on Windows.
+BUNDLE_VERSION = 1
+
+
+def _neutral_fingerprint(command, env):
+    """_cmd_fingerprint without the host: no Wine launcher in front of cl.exe
+    and one path separator, so a Wine and a Windows compile of one command
+    agree. Anything else that differs (another toolchain, flag or include
+    directory) still differs."""
+    command = list(command)
+    if len(command) > 1 and Path(command[0]).name.lower() in ("wine", "wine64"):
+        command = command[1:]
+    payload = [[_portable(part).replace("\\", "/") for part in command],
+               _portable(env.get("INCLUDE", "")).replace("\\", "/")]
+    return hashlib.md5(json.dumps(payload).encode()).hexdigest()
+
+
+def export_objects(sources, path):
+    """Write the current object (compile_is_current) of each source, with a
+    host-neutral receipt, to the tar.gz `path`; return how many. A receipt
+    naming a header outside the checkout is not portable and is left out."""
+    import tarfile
+    sources = [s for s in sources if s.suffix.lower() != LIB_SUFFIX]
+    outputs = {s: obj_path(s) for s in sources}
+    stale = set(stale_sources(sources, outputs, _pool_size()))
+    count = 0
+    temp = Path(f"{path}.{os.getpid()}.tmp")
+    with tarfile.open(temp, "w:gz", compresslevel=6) as tar:
+        for source in sources:
+            output = outputs[source]
+            if source in stale:
+                continue
+            sidecar = _deps_sidecar(output)
+            try:
+                before = (os.stat(sidecar), os.stat(output))
+                meta = json.loads(sidecar.read_text())
+                data = output.read_bytes()
+                after = (os.stat(sidecar), os.stat(output))
+            except (OSError, ValueError):
+                continue
+            # Receipt and object must be one compile's pair: neither moved while
+            # read, the receipt was written after the object (a compile and a
+            # store restore both write the object first), and the object hashes
+            # as the receipt records where it records one (older receipts do not).
+            stamps = [(st.st_size, st.st_mtime_ns, st.st_ino) for st in before + after]
+            digest = hashlib.md5(data).hexdigest()
+            deps = meta.get("deps", {}) if isinstance(meta, dict) else None
+            if (stamps[:2] != stamps[2:] or before[1].st_mtime_ns > before[0].st_mtime_ns
+                    or meta.get("object", digest) != digest or not isinstance(deps, dict)
+                    or any(os.path.isabs(dep) for dep in deps) or not source.resolve().is_relative_to(ROOT)):
+                continue
+            command, env = compiler_command(source, output)
+            receipt = json.dumps({"version": BUNDLE_VERSION, "path": _root_key(source), "source": meta["source"],
+                                  "object": digest,
+                                  "neutral": _neutral_fingerprint(command, env),
+                                  "deps": {dep.replace("\\", "/"): digest for dep, digest in deps.items()}}).encode()
+            for suffix, payload in ((".json", receipt), (".obj", data)):
+                info = tarfile.TarInfo(f"{count:06d}{suffix}")
+                info.size = len(payload)
+                tar.addfile(info, io.BytesIO(payload))
+            count += 1
+    os.replace(temp, path)
+    return count
+
+
+def import_objects(path):
+    """Add a bundle's objects to this repository's object store (never to
+    build/match); return how many. An entry is taken only when its source
+    here hashes as recorded and this host's compile command for it matches
+    the recorded neutral one; a compile then restores it only after
+    compile_is_current accepts every recorded header."""
+    import tarfile
+    if _objstore_root() is None:
+        return 0
+    sep = "\\" if os.name == "nt" else "/"
+    count = 0
+    with tarfile.open(path, "r:gz") as tar:
+        members = {member.name: member for member in tar.getmembers() if member.isfile()}
+        for name, member in members.items():
+            if not name.endswith(".json") or name[:-5] + ".obj" not in members:
+                continue
+            try:
+                receipt = json.loads(tar.extractfile(member).read())
+            except ValueError:
+                continue
+            rel = receipt.get("path") if isinstance(receipt, dict) else None
+            deps = receipt.get("deps") if isinstance(receipt, dict) else None
+            if receipt.get("version") != BUNDLE_VERSION or not isinstance(rel, str) or not isinstance(deps, dict):
+                continue
+            source = (ROOT / rel).resolve()
+            if (Path(rel).is_absolute() or not source.is_relative_to(ROOT) or not source.is_file()
+                    or any(not isinstance(dep, str) or Path(dep).is_absolute() or ".." in Path(dep).parts
+                           for dep in deps)):
+                continue
+            if _hash_file(str(source)) != receipt.get("source"):
+                continue
+            output = obj_path(source)
+            command, env = compiler_command(source, output)
+            if _neutral_fingerprint(command, env) != receipt.get("neutral"):
+                continue
+            data = tar.extractfile(members[name[:-5] + ".obj"]).read()
+            if hashlib.md5(data).hexdigest() != receipt.get("object"):
+                continue
+            fingerprint = _cmd_fingerprint(command, env)
+            sidecar = json.dumps({"cmd": fingerprint, "source": receipt["source"],
+                                  "deps": {dep.replace("/", sep): digest for dep, digest in deps.items()},
+                                  "path": rel, "object": hashlib.md5(data).hexdigest()})
+            entry_dir = _objstore_dir(source, fingerprint)
+            try:
+                entry_dir.mkdir(parents=True, exist_ok=True)
+                stem = hashlib.sha256(sidecar.encode()).hexdigest()[:16]
+                for target, payload in ((entry_dir / f"{stem}.obj", data),
+                                        (entry_dir / f"{stem}.deps.json", sidecar.encode())):
+                    tmp = target.with_name(target.name + f".{os.getpid()}.tmp")
+                    tmp.write_bytes(payload)
+                    os.replace(tmp, target)
+            except OSError:
+                continue
+            count += 1
+    return count
 
 
 def _sidecar_version(output):

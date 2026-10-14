@@ -256,9 +256,11 @@ counts only objects proven current by census receipts and records nothing if
 objects, inputs or tools move during the run. Each `link_census_history.csv` row
 names its `rules`; a rule change is recorded once, by `tools/census_rebaseline.py`,
 never by hand. The census index is `build/link_census/link_index.pkl`: download the last
-published census's with `python3 tools/link_check.py --fetch-index` rather than running a
-census for it. Whoever records a `--history` census publishes its index with
-`python3 tools/link_check.py --publish-index` after pushing the census commit:
+published one with `python3 tools/link_check.py --fetch-index` rather than running a
+census for it. It also brings the published tree's compiled objects, which builds reuse
+when source and headers match, so run it after pulling instead of recompiling what others
+changed. A census or a follower of master (`--update-index`) publishes with
+`python3 tools/link_check.py --publish-index` after its commit is on master:
 
 - `python3 tools/link_rank.py` ranks blockers by the matched bytes they hold out
   (`--file SOURCE` for one unit, `--near` for units close to linking). Prefer work
