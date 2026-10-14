@@ -1,4 +1,6 @@
 // ?rva000835D0@RenderableRiverArea@@QAEXXZ
+// partial score=0.883 date=2026-10-14
+// ?rva000835D0@RenderableRiverArea@@QAEXXZ
 // partial score=0.856 date=2026-10-14
 // ?rva000835D0@RenderableRiverArea@@QAEXXZ
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
@@ -37,11 +39,22 @@ public:
 	char m_pad21[3];
 };
 
+class Rva00072A94Obj { public: virtual void release(); };
+
 class Rva00072A94
 {
 public:
 	void *m_ptr;
 	Rva00072A94 &operator=(const Rva00072A94 &rhs);
+	~Rva00072A94()
+	{
+		if (m_ptr != 0)
+		{
+			int *refs = (int *)((char *)m_ptr + 4);
+			if (--*refs == 0)
+				((Rva00072A94Obj *)m_ptr)->release();
+		}
+	}
 };
 
 class FXShaderSetup
@@ -110,8 +123,7 @@ void RenderableRiverArea::rva000835D0()
 	{
 		Rva0007BB16Record rec("Opacity", 5);
 		rec.m_vals[0] = 0.0f;
-		rec.m_vals[1] = 0.0f;
-		rec.m_vals[2] = 0.0f;
+		rec.m_vals[1] = rec.m_vals[2] = 0.0f;
 		rec.m_vals[3] = m_owner->m_5c;
 		records.push_back(rec);
 	}
