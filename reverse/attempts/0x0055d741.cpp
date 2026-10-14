@@ -1,4 +1,6 @@
 // ?getPosition@CylinderEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@2@MMMM@Z
+// partial score=0.9883899371069182 date=2026-10-14
+// ?getPosition@CylinderEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@2@MMMM@Z
 // partial score=0.98 date=2026-10-13
 // ?getPosition@CylinderEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@2@MMMM@Z
 // partial score=0.98 date=2026-10-11
@@ -16,61 +18,71 @@
 // GetGameClientRandomValueReal (0x00234111) with BFME 2's own source path
 // literal and lines 105, 111 and 117; cos and sin are the CRT imports. The
 // donor's names are carried, not independently re-derived.
-
 #include <math.h>
-
 extern float GetGameClientRandomValueReal( float low, float high,
-	char *file, int line );
-
+char *file, int line );
 namespace FXParticleSystem
+
 {
-
-struct Coord3D
-{
-	Coord3D( float x_, float y_, float z_ ) : x( x_ ), y( y_ ), z( z_ ) {}
-
-	float x;
-	float y;
-	float z;
-};
-
-class CylinderEmissionVolumeModule
-{
-public:
-	virtual void slot00();
-	virtual void slot01();
-	virtual void slot02();
-	virtual void slot03();
-	virtual void slot04();
-	virtual void slot05();
-	virtual void slot06();
-	virtual Coord3D getPosition( float, float, float, float );
-
-private:
-	char m_base[0x20 - 4];
-	bool m_hollow;			///< +0x20
-	char m_pad[3];
-	float m_radius;			///< +0x24
-	float m_real28;			///< +0x28
-	float m_length;			///< +0x2C
-	float m_centerX;		///< +0x30
-	float m_centerY;		///< +0x34
-	float m_centerZ;		///< +0x38
-};
-
-Coord3D CylinderEmissionVolumeModule::getPosition( float, float, float, float )
-{
-	char *source = "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameClient\\System\\FXParticleSystem\\fxpsemittercylindervolumemodule.cpp";
-	float angle = GetGameClientRandomValueReal( 0.0f, 6.28318530717958647692f, source, 105 );
-	float radius = m_hollow ? m_radius : GetGameClientRandomValueReal( 0.0f, m_radius, source, 111 );
-
-	Coord3D result( 0.0f, 0.0f, 0.0f );
-	result.x = radius * (float)cos( angle ) + m_centerX;
-	result.y = radius * (float)sin( angle ) + m_centerY;
-
-	float halfLength = m_length * 0.5f;
-	float z = GetGameClientRandomValueReal( -halfLength, halfLength, source, 117 ) + m_centerZ;
-	return Coord3D( result.x, result.y, z );
-}
-
+ struct Coord3D
+ 
+ {
+  Coord3D( float x_, float y_, float z_ ) : x( x_ ), y( y_ ), z( z_ ) 
+  
+  {
+   
+  }
+  float x;
+  float y;
+  float z;
+  
+ }
+ ;
+ class CylinderEmissionVolumeModule
+ 
+ {
+  public:
+  virtual void slot00();
+  virtual void slot01();
+  virtual void slot02();
+  virtual void slot03();
+  virtual void slot04();
+  virtual void slot05();
+  virtual void slot06();
+  virtual Coord3D getPosition( float, float, float, float );
+  private:
+  char m_base[0x20 - 4];
+  volatile bool m_hollow;
+///< +0x20
+  char m_pad[3];
+  float m_radius;
+///< +0x24
+  volatile float m_real28;
+///< +0x28
+  float m_length;
+///< +0x2C
+  float m_centerX;
+///< +0x30
+  float m_centerY;
+///< +0x34
+  float m_centerZ;
+///< +0x38
+  
+ }
+ ;
+ Coord3D CylinderEmissionVolumeModule::getPosition( float, float, float, float )
+ 
+ {
+  char *source = "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameClient\\System\\FXParticleSystem\\fxpsemittercylindervolumemodule.cpp";
+  float angle = GetGameClientRandomValueReal( 0.0f, 6.28318530717958647692f, source, 105 );
+  float radius = m_hollow ? m_radius : GetGameClientRandomValueReal( 0.0f, m_radius, source, 111 );
+  Coord3D result( 0.0f, 0.0f, 0.0f );
+  result.x = radius * (float)cos( angle ) + m_centerX;
+  result.y = (source ? (radius * (float)sin( angle ) + m_centerY) : (radius * (float)sin( angle ) + m_centerY));
+  float halfLength = m_length * 0.5f;
+  float z = GetGameClientRandomValueReal( -halfLength, halfLength, source, 117 ) + m_centerZ;
+  return Coord3D( result.x, result.y, z );
+  
+ }
+ 
 }
