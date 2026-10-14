@@ -10,15 +10,18 @@ public:
 	bool rva00294471(void *player, int flag);
 	bool rva0028C1CC() const;
 };
-class Rva00261058Base
+// Partition filter base 0x00BC26E0 (rowed ~Rva000421C8 0x0049C38A, getPlayerMask 0x0036CC7A);
+// retail vtable 0x007F8FE4 is [deleting dtor 0x00395A19, allow, getPlayerMask].
+class Rva000421C8
 {
 public:
-	Rva00261058Base() : m_base4(0) {}
-	~Rva00261058Base();
-private:
-	int m_base4;
+	Rva000421C8() : m_next(0) {}
+	virtual ~Rva000421C8() {}
+	virtual bool allow(Object *obj) = 0;
+	virtual int getPlayerMask();
+	Rva000421C8 *m_next;
 };
-class Rva00261058 : public Rva00261058Base
+class Rva00261058 : public Rva000421C8
 {
 public:
 	Rva00261058(Object *obj, bool flag);
@@ -27,7 +30,7 @@ private:
 	Player *m_player;
 	bool m_flag;
 };
-Rva00261058::Rva00261058(Object *obj, bool flag) : Rva00261058Base()
+Rva00261058::Rva00261058(Object *obj, bool flag) : Rva000421C8()
 {
 	if (obj == 0)
 		m_player = 0;
