@@ -1,4 +1,6 @@
-// PlaneAddNoise_C
+// _PlaneAddNoise_C
+// partial score=0.8 date=2026-10-14
+// _PlaneAddNoise_C
 // partial score=0.8 date=2026-10-13
 // cl: /O2 /G6 /DNDEBUG /MD
 #include <stdlib.h>

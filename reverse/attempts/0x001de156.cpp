@@ -81,7 +81,7 @@ namespace _STL {
 template<class T> struct _EvaResizeArgument { typedef const T& type; };
 template<> struct _EvaResizeArgument<BfmePod52> { typedef BfmePod52 type; };
 }
-#include "../../../../reference/shims/eva_vector/EvaVectorABI.h"
+#include "reference/shims/eva_vector/EvaVectorABI.h"
 #include <hash_map>
 #include <list>
 

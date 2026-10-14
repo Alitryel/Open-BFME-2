@@ -1,4 +1,6 @@
-// ??1Rva00136794@@UAE@XZ
+// ?Rva00136B5E@@YAXPBD0@Z
+// partial score=0.9 date=2026-10-14
+// ?Rva00136B5E@@YAXPBD0@Z
 // partial score=0.9 date=2026-10-13
 // ?rva00136B5E@@YAXPBD0@Z
 // partial score=0.850662 date=2026-10-10
@@ -15,7 +17,7 @@ class Rva009EBCE0AssetReference {public:TextureClass*ptr;~Rva009EBCE0AssetRefere
 Rva009EBCE0AssetReference Rva009EBCE0_GetPrototype(const char*);
 class Rva00136A21 {public:AsciiString&rva00136A21(const unsigned&);};
 extern Rva00136A21 g_00DF29B4;
-void rva00136B5E(const char*name,const char*value){
+void Rva00136B5E(const char*name,const char*value){
  if(name&&value){
   Rva00131DCBTextureRef tex((const BfmeResetAnyRef&)Rva009EBCE0_GetPrototype(name));
   unsigned id=tex.Ptr?*(unsigned*)((char*)tex.Ptr+8):~0u;

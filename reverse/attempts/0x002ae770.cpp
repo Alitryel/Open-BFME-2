@@ -25,13 +25,13 @@ class GameLogic;extern GameLogic*TheGameLogic; struct FrameView { char lead[0x40
 class GlobalData;extern GlobalData*TheGlobalData; struct ClientView { char lead[0x11BC]; bool retaliation; };
 class MessageStream;extern MessageStream*TheMessageStream;
 extern const int g_009BA4E4;
-class Rva002AE770PlayerView {
+class Player {
 public:
  char lead0[0x54];int index;char lead1[0x294-0x58];Rva001FDE3FMap mapA;char gapA[0x2A8-0x295];Rva001FDE3FMap mapB;char gapB[0x2BC-0x2A9];Rva000427195 counters;char gapC[0x2DC-0x2BD];UpdateAI*ai;char gapD[0x32C-0x2E0];void*teams;char gapE[0x33E-0x330];bool retaliation;char gapF[0x3BC-0x33F];char tail;
  void update();void tailUpdate();
 };
 class TailView { public: void update(unsigned); };
-void Rva002AE770PlayerView::update()
+void Player::update()
 {
  if(ai)ai->update();
  Rva000411084 it; counters.first(&it);

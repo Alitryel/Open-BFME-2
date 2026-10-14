@@ -20,7 +20,7 @@ struct Rva0041F369Elem
 	float m_0C;
 };
 
-class Rva0041F760
+class ArmyDefinition
 {
 public:
 	void rva0041F369();
@@ -30,8 +30,8 @@ private:
 	Rva0041F369Elem **m_end08;
 };
 
-// ?rva0041F369@Rva0041F760@@QAEXXZ present-unmatched
-void Rva0041F760::rva0041F369()
+// ?rva0041F369@ArmyDefinition@@QAEXXZ present-unmatched
+void ArmyDefinition::rva0041F369()
 {
 	float sum04 = 0.0f;
 	float sum08 = 0.0f;
