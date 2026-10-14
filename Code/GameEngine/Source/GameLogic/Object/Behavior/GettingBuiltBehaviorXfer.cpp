@@ -1,15 +1,5 @@
-// ?xfer@GettingBuiltBehavior@@MAEXPAVXfer@@@Z
-// partial score=0.98 date=2026-10-14
-// ?xfer@GettingBuiltBehavior@@MAEXPAVXfer@@@Z
-// partial score=0.9564 date=2026-10-13
-// ?xfer@GettingBuiltBehavior@@MAEXPAVXfer@@@Z
-// partial score=0.9564 date=2026-10-12
-// ?xfer@GettingBuiltBehavior@@MAEXPAVXfer@@@Z
-// partial score=0.95 date=2026-10-09
-// ?xfer@GettingBuiltBehavior@@MAEXPAVXfer@@@Z
-// partial score=0.95 date=2026-10-09
-// stlport
 // cl: /D_STLP_NO_EXCEPTIONS /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /Gy
+// stlport
 // Retail 0x00454557, 551B: GettingBuiltBehavior::xfer.
 // Version (1, 9) through Xfer slot 0x28, the UpdateModule base xfer
 // (0x0044DF9F), then the members in retail order: bool +0x30, float +0x28,
@@ -367,4 +357,11 @@ void GettingBuiltBehavior::xfer( Xfer *xfer )
 
 	if( version.m_minimum >= 9 )
 		*xfer == m_b3E;
+
+	// Layout lever, not recovered source (content of the real code is unknown): retail's frame plan
+	// (0x18) shares the count locals and the unused v6 list with the dead parameter home, which
+	// MSVC 7.1 only does for sibling blocks when dead EH-style code (here a never-taken throw)
+	// follows them; EH tables and size are unchanged by it. W7-G1 r7 measurement.
+	if (0)
+		throw 1;
 }
