@@ -56378,3 +56378,11 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ?rva005778D1@Rva005778D1@@QBEHXZ	0x005778D1	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 9B; +4 word of first-word pointee of object at +40
 ?rva005778DA@Rva005778D1@@QAEPAXXZ	0x005778DA	9	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 9B; +8 address of first-word pointee of object at +40
 ?rva00564B12@Rva00564B12@@QAEAAVRva005045DBTree@@ABV2@@Z	0x00564B12	8	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 8B; assign +0C tree via rowed 0x005045DB
+?rva005CCB54@Rva005CCB54@@QBEEXZ	0x005CCB54	7	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 7B; byte +23 of object at +08
+?rva005CDD20@Rva005CDD20@@QAEXXZ	0x005CDD20	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; clear +24 word
+?rva005E2D46@Rva005E2D46@@QBEHXZ	0x005E2D46	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; +08 word plus one
+?rva005FF1F8@Rva005FF1F8@@QBEHXZ	0x005FF1F8	15	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 15B; 8-byte vector count at +30 of object at +04 twin of 0x005F8408
+?rva005E88E4@Rva005E88E4@@QAEXXZ	0x005E88E4	10	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 10B; rowed 0x005F884D on +04 member of object at +0
+?rva005E358A@Rva005E358A@@QAEXXZ	0x005E358A	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; tail jump to rowed 0x005F1B51 on member at +0
+?rva005EB8D1@Rva005EB8D1@@QAEXXZ	0x005EB8D1	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp 5B; tail jump to rowed 0x0022999F on member at +0
+?rva005AA0CA@Rva005AA0CA@@QAEPAURva005AA0CAEntry@@XZ	0x005AA0CA	14	blocked	next 12-byte slot take (count +0 storage +4): retail stores the bumped count before reading storage +4; post-increment index, explicit index/store and byte-offset spellings all hoist the +4 load above the store t=5 model=claude-opus-5-5

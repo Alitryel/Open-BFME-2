@@ -475,3 +475,142 @@ Rva005045DBTree &Rva00564B12::rva00564B12(const Rva005045DBTree &other)
 {
 	return m_0c.assign(other);
 }
+
+// ?rva005CCB54@Rva005CCB54@@QBEEXZ @0x005CCB54 7B: the byte at +0x23 of the
+// object held at +0x08.
+struct Rva005CCB54Pointee
+{
+	char m_pad[0x23];
+	unsigned char m_23;
+};
+class Rva005CCB54
+{
+public:
+	unsigned char rva005CCB54() const;
+private:
+	char m_pad[0x08];
+	Rva005CCB54Pointee *m_08;
+};
+unsigned char Rva005CCB54::rva005CCB54() const
+{
+	return m_08->m_23;
+}
+
+// ?rva005CDD20@Rva005CDD20@@QAEXXZ @0x005CDD20 5B: clear the +0x24 word.
+class Rva005CDD20
+{
+public:
+	void rva005CDD20();
+private:
+	char m_pad[0x24];
+	int m_24;
+};
+void Rva005CDD20::rva005CDD20()
+{
+	m_24 = 0;
+}
+
+// ?rva005E2D46@Rva005E2D46@@QBEHXZ @0x005E2D46 5B: the +0x08 word plus one.
+class Rva005E2D46
+{
+public:
+	int rva005E2D46() const;
+private:
+	char m_pad[0x08];
+	int m_08;
+};
+int Rva005E2D46::rva005E2D46() const
+{
+	return m_08 + 1;
+}
+
+// ?rva005FF1F8@Rva005FF1F8@@QBEHXZ @0x005FF1F8 15B: element count of the
+// 8-byte-element vector at +0x30 of the object held at +0x04 (same shape as
+// the rowed Rva005F8427::rva005F8408).
+struct Rva005FF1F8Element
+{
+	int m_words[2];
+};
+struct Rva005FF1F8Vector
+{
+	Rva005FF1F8Element *m_begin;
+	Rva005FF1F8Element *m_end;
+	int size() const { return m_end - m_begin; }
+};
+struct Rva005FF1F8Owner
+{
+	char m_pad[0x30];
+	Rva005FF1F8Vector m_vec;
+};
+class Rva005FF1F8
+{
+public:
+	int rva005FF1F8() const;
+private:
+	char m_pad[4];
+	Rva005FF1F8Owner *m_04;
+};
+int Rva005FF1F8::rva005FF1F8() const
+{
+	return m_04->m_vec.size();
+}
+
+// ?rva005E88E4@Rva005E88E4@@QAEXXZ @0x005E88E4 10B: the rowed 0x005F884D on
+// the +0x04 member of the object held at +0.
+class Rva005F884D
+{
+public:
+	void rva005F884D();
+};
+struct Rva005E88E4Pointee
+{
+	int m_00;
+	Rva005F884D m_04;
+};
+class Rva005E88E4
+{
+public:
+	void rva005E88E4();
+private:
+	Rva005E88E4Pointee *m_00;
+};
+void Rva005E88E4::rva005E88E4()
+{
+	m_00->m_04.rva005F884D();
+}
+
+// ?rva005E358A@Rva005E358A@@QAEXXZ @0x005E358A 5B and
+// ?rva005EB8D1@Rva005EB8D1@@QAEXXZ @0x005EB8D1 5B: tail jumps to the rowed
+// 0x005F1B51 / 0x0022999F on the member at +0.
+class Rva005F1B51
+{
+public:
+	void rva005F1B51();
+};
+class Rva00226883
+{
+public:
+	void rva0022999F();
+};
+class Rva005E358A
+{
+public:
+	void rva005E358A();
+private:
+	Rva005F1B51 m_00;
+};
+void Rva005E358A::rva005E358A()
+{
+	m_00.rva005F1B51();
+}
+class Rva005EB8D1
+{
+public:
+	void rva005EB8D1();
+private:
+	Rva00226883 m_00;
+};
+void Rva005EB8D1::rva005EB8D1()
+{
+	m_00.rva0022999F();
+}
