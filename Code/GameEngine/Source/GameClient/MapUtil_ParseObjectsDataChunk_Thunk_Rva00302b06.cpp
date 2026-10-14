@@ -12,6 +12,7 @@
 class DataChunkInput;
 struct DataChunkInfo;
 class AsciiString;
+class UserParser;
 
 #include "string_base.h"
 
@@ -30,7 +31,7 @@ typedef bool (*DataChunkParser)(DataChunkInput &file, DataChunkInfo *info, void 
 class DataChunkInput
 {
 public:
-	void registerParser(const AsciiString &name, DataChunkInfo *info, DataChunkParser parser, int flags);
+	UserParser *registerParser(const AsciiString &name, const AsciiString &parentLabel, DataChunkParser parser, void *userData);	// 0x00307779
 	bool parse(void *userData);
 
 	unsigned char m_unreconstructed_00[0x20];
@@ -43,7 +44,7 @@ bool ParseObjectDataChunk(DataChunkInput &file, DataChunkInfo *info, void *userD
 bool ParseObjectsDataChunk(DataChunkInput &file, DataChunkInfo *info, void *userData)
 {
 	file.m_currentObject = 0;
-	file.registerParser(AsciiString("Object"), info, ParseObjectDataChunk, 0);
+	file.registerParser(AsciiString("Object"), *(const AsciiString *)info, ParseObjectDataChunk, 0);
 
 	return file.parse(userData);
 }
