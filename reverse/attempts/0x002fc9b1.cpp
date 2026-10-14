@@ -1,8 +1,10 @@
 // ?FindAttackPathSideways@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@@Z
+// partial score=0.99 date=2026-10-15
+// ?FindAttackPathSideways@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@@Z
 // partial score=0.98711 date=2026-10-14
 // ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HABUICoord2D@@PAVObject@@H@Z
 // partial score=0.773791 date=2026-10-09
-// cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
+// cl: /ICode/Libraries/Include /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /Ow
 // stlport
 #include <vector>
 typedef bool Bool;

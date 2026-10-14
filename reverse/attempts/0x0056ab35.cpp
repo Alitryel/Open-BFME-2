@@ -1,6 +1,8 @@
 // ?rva0056AB35@Rva0056ACC5@@QAEXH@Z
+// partial score=0.97 date=2026-10-15
+// ?rva0056AB35@Rva0056ACC5@@QAEXH@Z
 // partial score=0.93 date=2026-10-01
-// cl: /O1 /MD /arch:SSE
+// cl: /MD /O1 /arch:SSE /G7 /Oa
 // ?rva0056AB35@Rva0056ACC5@@QAEXH@Z @0x0056AB35 83B vslot slot 2 of 0x0086D0FC (class of ??1Rva0056ACC5@@UAE@XZ).
 // Evidence: vtable slot 2; callee 0x0029B187 rowed; TheInGameUI 0x009FEDF0; floats g_00C6D010/14/18.
 struct Rva004E57E6Pair {
@@ -40,7 +42,9 @@ void Rva0056ACC5::rva0056AB35(int arg)
 	if (m_14 != arg)
 		return;
 	m_10->m_20 = 0;
+	{
 	Rva004E57E6Pair tmp = { g_00C6D014, g_00C6D010 };
 	((Rva0029B187 *)TheInGameUI)->rva0029B187(&tmp, g_00C6D018);
+	}
 	m_18 = 1;
 }

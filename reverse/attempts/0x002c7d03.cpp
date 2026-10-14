@@ -1,4 +1,6 @@
 // ?chooseBestWeaponForTarget@WeaponSet@@QAE_NPBVObject@@0W4WeaponChoiceCriteria@@W4CommandSourceType@@@Z
+// partial score=0.998 date=2026-10-15
+// ?chooseBestWeaponForTarget@WeaponSet@@QAE_NPBVObject@@0W4WeaponChoiceCriteria@@W4CommandSourceType@@@Z
 // partial score=0.99798 date=2026-10-14
 // ?chooseBestWeaponForTarget@WeaponSet@@QAE_NPBVObject@@0W4WeaponChoiceCriteria@@W4CommandSourceType@@@Z
 // partial score=0.99 date=2026-10-09
@@ -6,7 +8,7 @@
 // Resumed O2 target reconstruction; donor semantics and native layout documented below.
 // ?chooseBestWeaponForTarget@WeaponSet@@QAE_NPBVObject@@0W4WeaponChoiceCriteria@@W4CommandSourceType@@@Z
 // partial score=0.99 date=2026-10-08
-// cl: /I. /O1 /Oy /G7 /arch:SSE /DNDEBUG /MD
+// cl: /I. /DNDEBUG /MD /O1 /arch:SSE /G7 /Op
 //
 // WeaponSet::setWeaponLock, retail 0x002C8AAE (237 bytes).
 // Identity: Zero Hour WeaponSet.cpp setWeaponLock (false for NOT_LOCKED or an
