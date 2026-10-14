@@ -1356,17 +1356,17 @@ Condition *OrCondition::removeCondition(Condition *pCond)
 	return pCur;
 }
 
-// ?deleteCondition@OrCondition@@QAEXPAVCondition@@@Z present-unmatched
 void OrCondition::deleteCondition(Condition *pCond)
 {
-	// Retail: removeCondition then vtable[0] scalar-deleting dtor (flags=1),
-	// not deleteInstance. Condition dtor is protected — PublicDtor cast lets
-	// MSVC emit the same virtual call through the real vtable.
+	// Retail 0x003B26A1: removeCondition, then a global-scope delete: the
+	// virtual destructor through vtable[0] with flags 0, whose returned
+	// complete-object pointer goes to ::operator delete. Condition's
+	// destructor is protected; the PublicDtor cast reaches the same call.
 	Condition *pCur = removeCondition(pCond);
 	if (pCur == NULL)
 		return;
 	struct PublicDtor { virtual ~PublicDtor() {} };
-	delete (PublicDtor *)pCur;
+	::delete (PublicDtor *)pCur;
 }
 
 
