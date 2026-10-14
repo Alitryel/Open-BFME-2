@@ -3276,8 +3276,11 @@ void Player::setUnitsVisionSpied( Bool setting, KindOfMaskType whichUnits, Playe
 }
 
 // ------------------------------------------------------------------------------------------------
-// ?Player::isPlayerObserver present-unmatched
 // Retail 0x2AA223 (7B, LK5 row 58): m_observer at +0x33A, not +0x296.
+// The dispatcher beacon case calls this getter on the local Player at
+// 0x77A32B. WB C20420 reads the debug-layout observer byte at +0x33E.
+// ICF shares the retail body with ParticleSystem::isSaveable; this is the
+// independent Player definition, not a cast to that unrelated owner.
 Bool Player::isPlayerObserver(void) const
 {
 	return *reinterpret_cast<const Bool *>(reinterpret_cast<const char *>(this) + 0x33A);
