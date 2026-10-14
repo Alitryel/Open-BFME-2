@@ -191,6 +191,24 @@ Rva004444EBBase *Rva004444EB::rva004444EB()
 	return new Rva004444EBObject;
 }
 
+// slot at 0x0059F35E (tables VA 0x00871408/0x00873D28/0x00873DC0): the same
+// 0x0C-byte object under table VA 0x00C7122C, whose deleting destructor
+// 0x005FAA31 also ends in the shared 0x004E84A4.
+class Rva0059F35EObject : public Rva004444EBBase
+{
+public:
+	Rva0059F35EObject() {}
+};
+class Rva0059F35E
+{
+public:
+	Rva004444EBBase *rva0059F35E();
+};
+Rva004444EBBase *Rva0059F35E::rva0059F35E()
+{
+	return new Rva0059F35EObject;
+}
+
 // slots at 0x00072F49 and 0x00072F64: state 2 on the +0x0C object then
 // virtual slot 2 of the +0x08 object (false without one); resp. virtual slot
 // 6 of the +0x08 object then state 0.

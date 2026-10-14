@@ -159,3 +159,39 @@ Rva##RVA##Registration::Rva##RVA##Registration(const AsciiString &name) \
 SEAT5_REGISTRATION_CTOR(005C43CF)
 SEAT5_REGISTRATION_CTOR(005C459E)
 SEAT5_REGISTRATION_CTOR(005C47F0)
+
+// --- 0x005F5FD9 (24B): Apt callback shape of the rowed
+// ArmyMemberIconMovieClip::Impl::OnClicked (0x005FC6B7): unless the Apt
+// window manager's +0x318 mode is set, forward to virtual slot 3 of the +0
+// owner.
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
+
+struct Rva005F5FD9AptMode
+{
+	unsigned char m_pad000[0x318];
+	int m_mode;
+};
+
+class Rva005F5FD9Owner
+{
+public:
+	virtual void v00();
+	virtual void v01();
+	virtual void v02();
+	virtual void v03();
+};
+
+class Rva005F5FD9
+{
+public:
+	void rva005F5FD9(const char *path);
+private:
+	Rva005F5FD9Owner *m_owner;
+};
+
+void Rva005F5FD9::rva005F5FD9(const char *)
+{
+	if (((Rva005F5FD9AptMode *)g_bfmeAptWindowManager)->m_mode == 0)
+		m_owner->v03();
+}

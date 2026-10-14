@@ -175,8 +175,15 @@ void ProfileId::Shutdown(void)
 //////////////////////////////////////////////////////////////////////////////
 // ProfileHighLevel::Id
 
-// Zero Hour's Id::Increment and Id::SetMax are left out: no retail
-// evidence that BFME2 keeps them.
+// Zero Hour's Id::Increment is rowed from ProfileBlock.cpp (0x006C5F70).
+
+// ?SetMax@Id@ProfileHighLevel@@QAEXN@Z (0x006C5F90, right after Increment
+// as in Zero Hour; calls the rowed ProfileId::Maximum 0x006C5E00)
+void ProfileHighLevel::Id::SetMax(double max)
+{
+	if (m_idPtr)
+		m_idPtr->Maximum(max);
+}
 
 // ?GetName@Id@ProfileHighLevel@@QBEPBDXZ
 const char *ProfileHighLevel::Id::GetName(void) const
