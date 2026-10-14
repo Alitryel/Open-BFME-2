@@ -1,6 +1,8 @@
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
 // partial score=0.985 date=2026-10-14
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
+// partial score=0.985 date=2026-10-14
+// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
 // partial score=0.98 date=2026-10-14
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
 // partial score=0.781467 date=2026-10-14
@@ -75,7 +77,7 @@ struct Rva0029FD1BNode
 class InGameUI
 {
 public:
-	void rva0029FD1B(int id, Overridable *ov, MaterialPassClass *mp, int arg3);
+	void rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int arg3);
 protected:
 	void handleRadiusCursor();
 public:
@@ -128,7 +130,7 @@ typedef _STL::hashtable<_STL::pair<const unsigned, void *>, unsigned, _STL::hash
 void *rva002888D4(void *table, int *key);
 
 
-void InGameUI::rva0029FD1B(int id, Overridable *ov, MaterialPassClass *mp, int arg3)
+void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int arg3)
 {
 	if (m_888 != (id ? id : id))
 	{
@@ -171,7 +173,7 @@ void InGameUI::rva0029FD1B(int id, Overridable *ov, MaterialPassClass *mp, int a
 		float radius;
 		if (id == m_89C)
 		{
-			TextureClass *tex = ((MaterialPassClass *)((char *)obj + 0x330))->Peek_Texture((int)mp);
+			TextureClass *tex = ((MaterialPassClass *)((char *)obj + 0x330))->Peek_Texture((int)ov);
 			if (tex)
 			{
 				float *f = *(float **)((char *)tex + 4);
@@ -182,9 +184,9 @@ void InGameUI::rva0029FD1B(int id, Overridable *ov, MaterialPassClass *mp, int a
 		}
 		else
 		{
-			if (!ov)
+			if (!mp)
 				return;
-			const Overridable *fo = ov->friend_getFinalOverride();
+			const Overridable *fo = ((Overridable *)mp)->friend_getFinalOverride();
 			radius = *(float *)((char *)fo + 0x54);
 		}
 		if (radius <= 0.0f)
