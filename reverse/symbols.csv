@@ -6247,7 +6247,6 @@ name,address,notes
 ?Rva005B6755Helper@@YAXXZ,0x005B6755,free-function spelling for the 0x5B692F conditional helper (no ecx setup; entry ecx flows through; true callee is the 474B dump body); target REL32 from retail call at 0x005B6939
 ?Rva005B6967F@@YAXPADHPAH@Z,0x003252EA,wrapper-call spelling for the 0x5B6967 buffer filler (cdecl 3 args); target REL32 from retail calls at 0x005B69AB and 0x005B69E7
 ?Rva005B6967G@@YAXPAD@Z,0x00325199,wrapper-call spelling for the 0x5B6967 single callee (cdecl 1 arg); target REL32 from retail call at 0x005B69ED
-?Rva005B7DC3Alloc@@YAPAXH@Z,0x0002FDA0,wrapper-call spelling for the 0x5B7DC3 raw alloc (cdecl 1 arg; true callee is operator new); target REL32 from retail call at 0x005B7DCC
 ?Rva005CB260@@YAXXZ,0x005CB260,opaque callback address from retail DIR32 operand VA 0x009CB260; Ghidra boundary 5 bytes; semantic name unknown
 ?Rva005CB26A@@YAXXZ,0x005CB26A,opaque callback address from retail DIR32 operand VA 0x009CB26A; Ghidra boundary 5 bytes; semantic name unknown
 ?Rva005CC208@Obj00527827@@QAEXHH@Z,0x005CC208,thiscall (a0,a1) spelling of the rowed vtable slot-2 forwarder for range clamp 0x00527827 (REL32 at 0x00527875, ecx flows from the m_1C null check); body rowed as ?rva005CC208@Rva005CC208@@UAEXXZ; address name
@@ -7662,7 +7661,6 @@ name,address,notes
 ?bfmeAdvance996@BfmeB996@@QAEXXZ,0x0010690D,callee read from the retail REL32 in placed BFME1-donor body ?update@Rva007E4AD0Vp6Stream@@QAEXXZ (0x00091189)
 ?bfmeAfterEOC@BfmeThingEOC@@QAEXXZ,0x0030D65B,member call target of the placed ?bfmeGoBTA 0x0030D6B1; REL32 read off retail at 0x0030D6BD
 ?bfmeAfterFCB@BfmeOwnFCB@@QAEXXZ,0x004C0C52,callee of ?bfmeGoFCB@BfmeThingFCB@@QAEXPAX@Z at retail 0x004C121B read from its REL32 displacement; body unrowed
-?bfmeAlloc1039@@YAPAXH@Z,0x0002FDA0
 ?bfmeAlloc1053@@YAPAXH@Z,0x006724D0
 ?bfmeAllocDGD@@YAPAXI@Z,0x0065D010
 ?bfmeAllocDGF@@YAPAXI@Z,0x0065D010

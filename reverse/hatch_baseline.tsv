@@ -5547,7 +5547,6 @@ alternatename	Code/Libraries/Source/WWVegas/WWLib/VectorResizeRva005FE974.cpp	?e
 alternatename	Code/Libraries/Source/WWVegas/WWLib/VectorResizeRva005FE974.cpp	?fill@Rva005FE974Vector@@AAEXPAURva005FE974Record@@IABU2@@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/chunkio.cpp	?bfmeReadVFC@BfmeChunkVFC@@QAEIPAXI@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/chunkio.cpp	?bfmeWriteUQB@BfmeChunkUQB@@QAEIPAXI@Z	1
-alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeAlloc1039@@YAPAXH@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeDelArrVJS@@YAXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeArrayTXA@@YAXPAX@Z	1
 alternatename	Code/Libraries/Source/WWVegas/WWLib/mem_ops.cpp	?bfmeFreeRC@@YAXPAX@Z	1
@@ -23271,7 +23270,7 @@ pin	reverse/symbols.csv	0x0002FBB0	2
 pin	reverse/symbols.csv	0x0002FBC0	2
 pin	reverse/symbols.csv	0x0002FD60	6
 pin	reverse/symbols.csv	0x0002FD80	36
-pin	reverse/symbols.csv	0x0002FDA0	4
+pin	reverse/symbols.csv	0x0002FDA0	2
 pin	reverse/symbols.csv	0x0002FDE0	2
 pin	reverse/symbols.csv	0x0002FFC0	1
 pin	reverse/symbols.csv	0x0002FFE0	1

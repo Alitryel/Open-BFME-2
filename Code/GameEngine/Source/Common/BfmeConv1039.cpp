@@ -14,7 +14,7 @@ public:
 	void *m_bfmeVfptr;
 };
 
-void *bfmeAlloc1039(int n);
+void *__cdecl operator new(unsigned int size);
 
 class BfmeD1039
 {
@@ -24,7 +24,7 @@ public:
 
 BfmeC1039 *BfmeD1039::bfmeGo1039C(void)
 {
-	BfmeC1039 *p = (BfmeC1039 *)bfmeAlloc1039(0x38);
+	BfmeC1039 *p = (BfmeC1039 *)::operator new(0x38);
 
 	if (p != 0) {
 		p->bfmeInit1039(this);
