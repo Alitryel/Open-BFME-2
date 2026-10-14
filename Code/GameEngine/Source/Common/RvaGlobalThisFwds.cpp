@@ -33,3 +33,29 @@ void ScriptActions::Rva003BBEE9()
 {
 	((Rva00203ADDRun *)(*(Rva00203AD5Run **)&TheScriptEngine))->run();
 }
+
+// 0x003BBED3 (11B): mov ecx, [TheSnowManager 0x00DFE114], jmp 0x00203574,
+// the rowed byte-at-+0x40 setter (ledger spelling AnimateWindow::
+// setNeedsToFinish; ZH's SnowManager::setVisible has the same shape but
+// that name is not proven at the folded address). One bool argument that
+// the callee's ret 4 pops. No direct callers; owner unrecovered, so the
+// wrapper is an address-named view.
+class SnowManager;
+extern SnowManager *TheSnowManager;
+
+class AnimateWindow
+{
+public:
+	void setNeedsToFinish(bool needsToFinish);
+};
+
+class Rva003BBED3Fwd
+{
+public:
+	void rva003BBED3(bool value);
+};
+
+void Rva003BBED3Fwd::rva003BBED3(bool value)
+{
+	((AnimateWindow *)TheSnowManager)->setNeedsToFinish(value);
+}

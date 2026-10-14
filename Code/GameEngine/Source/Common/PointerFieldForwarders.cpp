@@ -66,3 +66,30 @@ private:
 	Rva0013EDC0DwordField *m_target;
 };
 int Rva006C0830Owner::rva006C0830() const { return m_target->get(); }
+
+// 0x00262377: [ecx+4] -> the rowed false-returning const predicate folded at
+// 0x0047A699 (ledger spellings include WeaponTemplate::isContactWeapon and
+// the Xfer mode predicates; which one the original called is not proven).
+class WeaponTemplate { public: bool isContactWeapon() const; };
+class Rva00262377Owner
+{
+public:
+	bool rva00262377() const;
+private:
+	char m_pad00[0x4];
+	WeaponTemplate *m_target;
+};
+bool Rva00262377Owner::rva00262377() const { return m_target->isContactWeapon(); }
+
+// 0x002B2964: [ecx+0xB0] -> Rva0020E3D6::rva0020E3D6(void *), passing the
+// one stack argument through to the callee's ret 4.
+class Rva0020E3D6 { public: void rva0020E3D6(void *arg); };
+class Rva002B2964Owner
+{
+public:
+	void rva002B2964(void *arg);
+private:
+	char m_pad00[0xB0];
+	Rva0020E3D6 *m_target;
+};
+void Rva002B2964Owner::rva002B2964(void *arg) { m_target->rva0020E3D6(arg); }

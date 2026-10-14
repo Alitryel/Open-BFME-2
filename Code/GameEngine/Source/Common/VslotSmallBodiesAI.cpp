@@ -324,6 +324,27 @@ void Rva0044BD53::rva0044BD53(Int a)
 	m_08.handle(a);
 }
 
+// 0x0044BDF7 (8B): slot 4 of the same table (VA 0x00C3EDF0 holds
+// 0x0044BD53, ..., 0x0044BDF7): the rowed functor fire 0x0044BDFF on the
+// +0x08 member.
+class Rva0044BDFF
+{
+public:
+	void fire(Int which);
+};
+class Rva0044BDF7
+{
+public:
+	void rva0044BDF7(Int which);
+private:
+	char m_pad00[0x08];
+	Rva0044BDFF m_08;
+};
+void Rva0044BDF7::rva0044BDF7(Int which)
+{
+	m_08.fire(which);
+}
+
 // 0x00575CA6: the rowed clear 0x000AD6F4 on the +0x24 member.
 class Rva000AD6F4
 {

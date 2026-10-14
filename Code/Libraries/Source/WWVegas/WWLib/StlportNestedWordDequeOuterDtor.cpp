@@ -17,3 +17,6 @@ template<> void _Destroy<OuterDeque::iterator>(OuterDeque::iterator,OuterDeque::
 }
 template OuterDeque::~deque();
 
+// The 9B STLport _Destroy instance 0x424DD5 tail-jumps to this destructor
+// (mov ecx,[esp+4]; jmp 0x424A0E), so a container of outer deques exists.
+template void _STL::_Destroy<OuterDeque>(OuterDeque *);

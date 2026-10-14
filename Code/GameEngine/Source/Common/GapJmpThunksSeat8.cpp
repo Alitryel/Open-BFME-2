@@ -979,3 +979,9 @@ void Rva0021BA41Swap(Rva0021915B *a, Rva0021915B *b) { Rva0021ACB9Swap(a, b); }
 // 0x002BC588 (5B) -> Rva002BBBE7::rva002BC39D 0x002BC39D.
 class Rva002BC588 { public: void rva002BC588(); };
 void Rva002BC588::rva002BC588() { ((Rva002BBBE7 *)this)->rva002BC39D(); }
+
+// 0x002BC5C9 (10B, cdecl) -> Rva002BBBE7::rva002BC39D 0x002BC39D on the
+// int-keyed LivingWorld map global at VA 0x00E04544 (the tree clear), with
+// ecx loaded from the immediate; no direct callers.
+extern unsigned int g_Va00E04544;
+void Rva002BC5C9ClearMap() { ((Rva002BBBE7 *)&g_Va00E04544)->rva002BC39D(); }
