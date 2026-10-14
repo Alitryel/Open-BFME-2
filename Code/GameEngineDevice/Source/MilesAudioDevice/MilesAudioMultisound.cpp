@@ -4,6 +4,7 @@
 #include <list>
 #include <map>
 #include <set>
+#include <hash_set>
 #include <new>
 #include "Common/BfmeAudioEventPrefix136.h"
 // WorldBuilder786370 multisound identity; native5A451..5A7BE. Previous bank
@@ -33,17 +34,18 @@ struct OwnedAudioInfoCopy : Rva0036CA00Str {
  OpaqueRefCounted*get()const{return m_ptr;}
 };
 class BfmeStringTailRecord156 {public: AudioEventInfoRef m_eventInfo;unsigned m_weight;};
-struct AudioEventInfo { virtual ~AudioEventInfo();virtual int getNameKey()const;char pad04[0xc];float defaultPriority;char pad14[8];float defaultVolume;char pad20[0x20]; int m_lastSubsoundIndex; unsigned m_priority,m_type,m_control;
+struct AudioEventInfo { virtual ~AudioEventInfo();virtual int getNameKey()const;char pad04[0xc];float defaultPriority;char pad14[8];float defaultVolume;char pad20[0x1c];int m_simultaneousLimit; int m_lastSubsoundIndex; unsigned m_priority,m_type,m_control;
  char pad50[0x3c]; unsigned m_totalSubsoundWeight; char pad90[0x20];int m_audioType;
 
  const _STL::vector<BfmeStringTailRecord156>&getSubsoundVector()const;
+ __forceinline int getSimultaneousLimit()const{return m_simultaneousLimit;}
 };
 class AudioEventRTS { public:
  char pad0[8];AudioEventInfo *m_info;unsigned m_playingHandle;AudioEventRTS*m_multiSoundParent;int m_eventsBeforeReplay;
  char pad18[0x18];int m_viewType;char pad34[0x16];bool m_localOverride;
  bool m_loopRestart;char pad4C[3];bool m_startFlag;char pad50[2];bool m_immediate;char pad53[0x11];float m_delay;char pad68[0xc];int m_nextPlayPortion;
  const AudioEventInfo*getAudioEventInfo()const{return m_info;}
- unsigned getSoundClass()const;void advanceNextPlayPortion();bool hasMoreLoops()const;
+ unsigned getSoundClass()const;void advanceNextPlayPortion();bool hasMoreLoops()const;bool isPositionalAudio()const;
  __forceinline float getDelay()const{return m_delay;}void rva002D9ADC();
 };
 inline AudioEventRTS *multisoundTarget(const BfmePoolRef10& ref) {
@@ -68,6 +70,12 @@ class Rva00690FF0Handle:public Rva00691110Handle {public:
  bool hasFailed()const{return target ? target->failed.check(0):false;}
 };
 struct Rva00051107AudioRequest {int kind;BfmePoolRef10 event;unsigned field08;Rva00690FF0Handle file;bool flag10,flag11,flag12,flag13,flag14;char pad15[3];};
+struct Rva00051B89Hash {unsigned operator()(const Rva00051107AudioRequest*r)const{return r?r->field08:0;}};
+struct Rva00050E1CEqualTo {bool operator()(const Rva00051107AudioRequest*a,const Rva00051107AudioRequest*b)const{return a&&b?a->field08==b->field08:a==b;}};
+typedef _STL::hash_set<Rva00051107AudioRequest*,Rva00051B89Hash,Rva00050E1CEqualTo> Rva00051107AudioRequestSet;
+struct PlayingAudio {char pad0[0x1c];AudioEventRTS*event;};
+struct PlayingAudioRef {PlayingAudio*target;};
+class GameSlot {public:void setTeamNumber(int);};
 class Image;
 typedef _STL::map<unsigned,Image*> ResumeHandles;
 union Rva006AD590Slot {int m_asInt;float m_asFloat;};
@@ -146,18 +154,18 @@ class MilesAudioManager {public:
  unsigned allocateNewHandle(){return m_nextHandle++;}
  unsigned rva0005933D(AudioEventRTS*,int);
  void rva000592B8(AudioEventRTS*);
- bool shouldPlayLocally(const AudioEventRTS*);
+ bool shouldPlayLocally(const AudioEventRTS*);bool rva000575CE(AudioEventRTS*);
  bool addAudioEventMusic(BfmePoolRef10&,int,int);
  bool addAudioEventSound(BfmePoolRef10&,int,int);
  void processRequest(Rva00051107AudioRequest*,bool*);
  void deleteAudioRequest(void*);
  Rva00051107AudioRequest*rva00051107();
  char pad04[0xc];AudioSettings*settings;char pad14[0x98-0x14];_STL::list<Rva00051107AudioRequest*>requests;
- char pad9C[0xd0-0x9c];unsigned m_nextHandle;
+ Rva00051107AudioRequestSet requestSet;char padB0[0xd0-0xb0];unsigned m_nextHandle;
  char padD4[0xc];_STL::vector<BfmePod144> m_queued[3];char pad104[0x28];Rva006AD590Entry m_priority[3];char pad678[0x698-0x678];unsigned activeViews;
  char pad69C[0x18];unsigned flags6B4[3],flags6C0[3];char pad6CC[0x9d4-0x6cc];void*mutex;
  char pad9D8[0xa14-0x9d8];_STL::set<AsciiString>mutedNames[3];
- char padA38[0xb6c-0xa38];ResumeHandles resumeHandles;char padB78[0x14];AudioFileCache*fileCache;
+ char padA38[8];_STL::list<PlayingAudioRef> playing2D,playing3D;char padA48[0xb6c-0xa48];ResumeHandles resumeHandles;char padB78[0x14];AudioFileCache*fileCache;
 };
 class Rva002D9C2F {public:OpaqueRefElement4&rva002D9C2F(const OpaqueRefElement4&);};
 class Rva002D9AD4 {public:BfmePoolRef10&rva002D9AD4(const BfmePoolRef10&);};
@@ -332,4 +340,56 @@ bool MilesAudioManager::addAudioEventSound(BfmePoolRef10&event,int requestType,i
  }
  if(!append)requests.push_front(request);else requests.push_back(request);
  return true;
+}
+
+// Native575CE..5774F RET4 and WB79E1E0 enforce the per-info simultaneous
+// event limit across playing lists and pending requests. Original name unknown.
+bool MilesAudioManager::rva000575CE(AudioEventRTS*event)
+{
+ int limit=event->getAudioEventInfo()->getSimultaneousLimit();
+ if(!limit) return false;
+ {
+ int total=0,pending=0;
+ if(!event->isPositionalAudio()) {
+  for(_STL::list<PlayingAudioRef>::iterator it=playing2D.begin();it!=playing2D.end();++it) {
+   AudioEventRTS *other=it->target->event;
+   if(other->m_info==event->m_info && other!=event) {
+    if(total==0)reinterpret_cast<GameSlot*>(event)->setTeamNumber((pending ? (other->m_playingHandle) : (other->m_playingHandle)));
+    ++total;
+   }
+  }
+ }else {
+  for(_STL::list<PlayingAudioRef>::iterator it=playing3D.begin();it!=playing3D.end();++it) {
+   AudioEventRTS *other=it->target->event;
+   if(other->m_info==event->m_info && other!=event) {
+    if(total==0)reinterpret_cast<GameSlot*>(event)->setTeamNumber(other->m_playingHandle);
+    ++total;
+   }
+  }
+ }
+ Rva00051107AudioRequestSet::const_iterator it;
+ for(it=requestSet.begin();it!=requestSet.end();++it) {
+  Rva00051107AudioRequest*request=*it;
+  if(request && multisoundTarget(request->event)) {
+   AudioEventRTS*other=multisoundTarget(request->event);
+   if(other->m_info==event->m_info && other!=event && !other->m_loopRestart){++pending;++total;}
+  }
+ }
+ for(_STL::list<Rva00051107AudioRequest*>::iterator it=requests.begin();it!=requests.end();++it) {
+  Rva00051107AudioRequest*request=*it;
+  if(request && multisoundTarget(request->event)) {
+   AudioEventRTS*other=multisoundTarget(request->event);
+   if(other->m_info==event->m_info && other!=event && !other->m_loopRestart){++pending;++total;}
+  }
+ }
+
+ if(total>=limit && event->m_loopRestart){reinterpret_cast<GameSlot*>(event)->setTeamNumber(0);return true;}
+ if((event->m_info->m_control&8) && pending<limit) {
+  int diff=total-pending;
+  if(pending+diff<limit){reinterpret_cast<GameSlot*>(event)->setTeamNumber(0);return false;}
+  return false;
+ }
+ if(total<limit){reinterpret_cast<GameSlot*>(event)->setTeamNumber(0);return false;}
+ return true;
+ }
 }
