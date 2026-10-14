@@ -644,10 +644,10 @@ class Rva00319610
 public:
     void rva00319610();
 };
-class Rva0020FDDFHost
+class LivingWorldRegionManager
 {
 public:
-    void rva0020FDDF();
+    void CheckForBattles();
 };
 struct Rva002B3D0ERange
 {
@@ -673,7 +673,7 @@ private:
     unsigned char pad[0x8C];
     Rva002B3D0EGroups groups;
     unsigned char pad94[0x1C];
-    Rva0020FDDFHost *m_b0;
+    LivingWorldRegionManager *m_b0;
 };
 void Rva002B3D0E::rva002B3D0E()
 {
@@ -682,7 +682,7 @@ void Rva002B3D0E::rva002B3D0E()
         for (unsigned j = 0; j < range.size(); ++j)
             range.begin[j]->rva00319610();
     }
-    m_b0->rva0020FDDF();
+    m_b0->CheckForBattles();
 }
 
 // ?rva00367510@Rva00367510Owner@@QBEMXZ @0x00367510 8B: offsets this to the Rva0030B719Shape embedded at +0x8 and
