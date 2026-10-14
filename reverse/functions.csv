@@ -88909,3 +88909,7 @@ __Locale_ctype_default,,0x00021980,5,Code/Libraries/Source/WWVegas/WWLib/stlport
 ??1Rva00042100@@QAE@XZ,,0x00042100,5,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,holder dtor destroying its polymorphic member at +0 directly (tail jump); unreferenced
 ?rva00041EB9@Rva00041EB9@@QAEXXZ,,0x00041EB9,5,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,qualified call of the rowed virtual GameEngine::rva0023054C on the object at +0 (tail jump); unreferenced
 ?rva00132C8D@Rva0090E190@@QAEXH@Z,,0x00132C8D,16,Code/GameEngine/Source/Common/Rva0090E190Set.cpp,matched,null-guarded inner setter +0x34 between set 0x00132C7D (+0x30) and TextureAsset::SetQualityLevel 0x00132C9D (+0x38); no direct caller
+?rva000B3F75@Rva000B3F75@@QAEPAURva000B3F75Record@@H@Z,,0x000B3F75,15,Code/GameEngine/Source/Common/GapBodiesSeat2A.cpp,matched,indexed address into the 0xFC-byte record array at +0; no direct caller
+?rva000B693D@Rva000B693D@@QAEXABVGen_0075EF90@@@Z,,0x000B693D,15,Code/GameEngine/Source/Common/GapBodiesSeat2A.cpp,matched,null-guarded tail jump into rowed bfmeAssign 0x000B4682 on the +0x68 object; no direct caller
+??1Rva000FB85D@@QAE@XZ,,0x000FB85D,15,Code/GameEngine/Source/Common/GapBodiesSeat2A.cpp,matched,holder dtor freeing +0x18 through rowed _free 0x00030830; no direct caller
+?rva000D167A@Rva000D167A@@QAEXI@Z,,0x000D167A,13,Code/GameEngine/Source/Common/GapBodiesSeat2A.cpp,matched,ORs the argument into the flag word at +0x118; no direct caller
