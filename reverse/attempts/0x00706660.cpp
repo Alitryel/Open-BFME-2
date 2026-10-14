@@ -1,4 +1,8 @@
 // ?callFunction@AptActionInterpreter@@QAEXPAVAptValue@@0H@Z
+// partial score=0.95824 date=2026-10-14
+void __debugbreak();
+#pragma intrinsic(__debugbreak)
+// ?callFunction@AptActionInterpreter@@QAEXPAVAptValue@@0H@Z
 // partial score=0.96816 date=2026-10-14
 // ?callFunction@AptActionInterpreter@@QAEXPAVAptValue@@0H@Z
 // partial score=0.955 date=2026-10-14
@@ -25,8 +29,8 @@ class AptCIH : public AptValue { char opaque[0x5c-8]; public: unsigned int state
 extern AptValue *gpUndefinedValue;
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *,const char *,int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
-class AptBasePtrStack { public: int count,capacity; AptValue **items; BfmeAptValue006DCD20 *At(int); void rva006E3AA0(int); void PopAndPush(int,BfmeAptValue006DCD20 *); void rva006FDF30(BfmeAptValue006DCD20*);void PushNoInc(AptValue *v) {if(count>=capacity){g_bfmeAptAssertAtE17734("m_nElements < m_nCapacity","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\_AptBasePtrStack.h",0x90);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}items[count++]=v;} };
-template<class T>struct AptValuePtrStack { int count,capacity; AptValue **items; void push(AptValue *); void pop(){if(count<=0){g_bfmeAptAssertAtE17734("size() > 0","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\_AptValuePtrStack.h",0x7d);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}items[count-1]->Release();--count;} };
+class AptBasePtrStack { public: int count,capacity; AptValue **items; BfmeAptValue006DCD20 *At(int); void rva006E3AA0(int); void PopAndPush(int,BfmeAptValue006DCD20 *); void rva006FDF30(BfmeAptValue006DCD20*);void PushNoInc(AptValue *v) {if(count>=capacity){g_bfmeAptAssertAtE17734("m_nElements < m_nCapacity","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\_AptBasePtrStack.h",0x90);if(g_bfmeAptBreakOnAssertAtDDC01C){__debugbreak();}}items[count++]=v;} };
+template<class T>struct AptValuePtrStack { int count,capacity; AptValue **items; void push(AptValue *); void pop(){if(count<=0){g_bfmeAptAssertAtE17734("size() > 0","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\_AptValuePtrStack.h",0x7d);if(g_bfmeAptBreakOnAssertAtDDC01C){__debugbreak();}}items[count-1]->Release();--count;} };
 struct AptActionInterpreter {
  AptBasePtrStack stack; char pad[0x24-12]; AptValuePtrStack<AptValue> thisStack; AptScriptFunctionBase *mpCurrentFunction; char debug[12]; AptConstantPool constantPool; char pad2[0x60-0x48]; int unwind;
  const unsigned char *runStream(const unsigned char *,AptCIH *,int,struct AptCharacterInst*);
@@ -58,7 +62,7 @@ void AptActionInterpreter::callFunction(AptValue *context,AptValue *function,int
  } else {stack.rva006E3AA0(nParams);stack.PushNoInc(gpUndefinedValue);}
  int after=stack.count;
  if(unwind){if(after>before)stack.rva006E3AA0(after-before);}
- else if(!(after==before || after==before+1)){g_bfmeAptAssertAtE17734("nStackElementsPost == nStackElementsPre || nStackElementsPost == (nStackElementsPre+1)","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp",0x837);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}
+ else if(!(after==before || after==before+1)){g_bfmeAptAssertAtE17734("nStackElementsPost == nStackElementsPre || nStackElementsPost == (nStackElementsPre+1)","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp",0x837);if(g_bfmeAptBreakOnAssertAtDDC01C){__debugbreak();}}
 }
 
 

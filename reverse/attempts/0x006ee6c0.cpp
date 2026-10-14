@@ -1,4 +1,8 @@
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
+// partial score=0.98899 date=2026-10-14
+void __debugbreak();
+#pragma intrinsic(__debugbreak)
+// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
 // partial score=0.9889924218835513 date=2026-10-14
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
 // partial score=0.9889924218835513 date=2026-10-14
@@ -147,7 +151,7 @@ static __forceinline bool rva006EEIsDefinedMovieClip(AptCIH *cih)
 "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",
   0xD3);
   if (g_bfmeAptBreakOnAssertAtDDC01C)
-  __asm int 3
+  __debugbreak();
   
  }
  const AptValue *value = (const AptValue *)cih;
@@ -180,7 +184,7 @@ AptValue *__cdecl rva006ee3b0(AptValue *value)
 "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptCharacter.cpp",
   0x636);
   if (g_bfmeAptBreakOnAssertAtDDC01C)
-  __asm int 3
+  __debugbreak();
   
  }
  float byteCount = 0.0f;
@@ -213,7 +217,7 @@ AptValue *__cdecl rva006ee540(AptValue *value)
 "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptCharacter.cpp",
   0x64B);
   if (g_bfmeAptBreakOnAssertAtDDC01C)
-  __asm int 3
+  __debugbreak();
   
  }
  float byteCount = 0.0f;

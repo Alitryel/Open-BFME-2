@@ -1,4 +1,8 @@
 // ?rva007092F0@AptActionInterpreter@@AAEXPAVAptCIH@@PAVAptValue@@11H1@Z
+// partial score=0.90463 date=2026-10-14
+void __debugbreak();
+#pragma intrinsic(__debugbreak)
+// ?rva007092F0@AptActionInterpreter@@AAEXPAVAptCIH@@PAVAptValue@@11H1@Z
 // partial score=0.9081 date=2026-10-14
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -71,7 +75,7 @@ public:
     __forceinline AptSpriteInstBase *GetCharacterInst() const {
         if (!IsCharacterInst()) {
             g_bfmeAptAssertAtE17734("isCharacterInst()", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h", 0xA5);
-            if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
+            if (g_bfmeAptBreakOnAssertAtDDC01C) { __debugbreak(); }
         }
         return (AptSpriteInstBase *)mpCharacterInst;
     }
@@ -79,7 +83,7 @@ public:
     __forceinline AptSpriteInstBase *SpriteBaseInline() const {
         if (!IsSpriteInstBase()) {
             g_bfmeAptAssertAtE17734("isSpriteInstBase()", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h", 0x7D);
-            if (g_bfmeAptBreakOnAssertAtDDC01C) { __asm int 3 }
+            if (g_bfmeAptBreakOnAssertAtDDC01C) { __debugbreak(); }
         }
         return (AptSpriteInstBase *)mpCharacterInst;
     }
@@ -97,12 +101,12 @@ __declspec(noinline) void rva007065e0(int a,int b,BfmeAptValue006DCD20 *value,Bf
  if(v->isCIH(false) || v->ContainsNativeHashVirtual()) {*out=value;return;}
  if(v->isString()) {*out=rva007064f0(a,b,v->c_string()->GetInternalString());return;}
  g_bfmeAptAssertAtE17734("NOT_REACHED","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptActionInterpreter.cpp",0x7a6);
- if(g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
+ if(g_bfmeAptBreakOnAssertAtDDC01C) {__debugbreak();}
 }
 
 class Rva006E3C80 { public: int rva006E3C80(); };
 class AptAnimationPoolData { public: void _tickNewInsts(); };
-class BfmeSubmitter1283 { public: void bfmeSubmit1283(int,int,int,int,int,int,int,float*,int,int,int,int); };
+class BfmeSubmitter1283 { public: void *bfmeSubmit1283(AptCIH*,int,int,int,int,int,int,float*,int,int,int,int); };
 class BfmeQuery1279 { public: void bfmeQuery1279(int,int,void**,void**); };
 struct Rva007092F0Character { char prefix[0x2c]; int flag2c; };
 void AptActionInterpreter::rva007092F0(AptCIH *context,AptValue *with,AptValue *source,AptValue *target,int depth,AptValue *init)

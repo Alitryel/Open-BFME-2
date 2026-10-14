@@ -1,4 +1,6 @@
 // ?rva00624130@Rva00624130@@QAEXXZ
+// partial score=0.99638 date=2026-10-14
+// ?rva00624130@Rva00624130@@QAEXXZ
 // partial score=0.996 date=2026-10-14
 // ?rva00624130@Rva00624130@@QAEXXZ
 // partial score=0.99 date=2026-10-07
@@ -12,14 +14,13 @@
 // E09C08 set for queues4..6, target +8 layout and64bit unsigned-cost counter.
 // The custom20B set header avoids donor allocator/OOM divergence. Original
 // element and receiver names remain opaque; no allocation extent is claimed.
-// Remaining code gap: six operand bytes in the mathematically equivalent
-// aggregate queue-count calculation (120 order). Other executable bytes
-// match after relocations are masked. Callee binding still needs review:
-// pointer-set const find at native4D7546 actually belongs to the rowed
-// map<int,void*> nonconst find wrapper; pointer-tree destructor6BF2A has
-// an existing legacy alias and is not a reliable linking provider.
-// No new pins were admitted. Native EH data and all switch targets remain
-// to be verified through the normal gates before this body may be claimed.
+// Remaining code gap: four operand bytes in the aggregate queue-count
+// calculation. Native schedules queue2's node difference before queue0's;
+// all other 1376 bytes and every callee relocation now agree. The real
+// pointer-set const-find and lower-bound instantiations are verified fold
+// rows in AssetPointerSetFind.cpp. Native EH graph verifies EXACT.
+// Permuted sums and forced-inline typed queue views retain the same gap.
+// No new pins or baselines were admitted. This remains an unclaimed bank.
 
 // Retail mixes direct static free with imported memmove.
 #include <stdlib.h>

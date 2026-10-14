@@ -1,16 +1,20 @@
 // ?Rva006EF920TextFormat@@YAPAVAptValue@@PAV1@H@Z
+// partial score=0.87531 date=2026-10-14
+void __debugbreak();
+#pragma intrinsic(__debugbreak)
+// ?Rva006EF920TextFormat@@YAPAVAptValue@@PAV1@H@Z
 // partial score=0.8753125 date=2026-10-10
 // ?Rva006EF920TextFormat@@YAPAVAptValue@@PAV1@H@Z
 // partial score=0.8753125 date=2026-10-09
 // cl: /O2 /DNDEBUG /MD /EHsc
-// Native Apt text-format callback at 006EF6D0..006EF920. Offsets measured
+// Native Apt text-format callback at 006EF920..006EFB6E. Offsets measured
 // from this body; callback identity inferred from text-format allocation,
 // copying and character-definition strings. Names remain address-derived.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char*,const char*,int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 static __forceinline void aptAssert(const char *test,const char *file,int line){
  g_bfmeAptAssertAtE17734(test,file,line);
- if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}
+ if(g_bfmeAptBreakOnAssertAtDDC01C){__debugbreak();}
 }
 class EAStringC {void *data;public:EAStringC(const char*);~EAStringC();EAStringC &operator=(const EAStringC&);};
 class Rva006DB160 {public:void *allocBlock(int);};

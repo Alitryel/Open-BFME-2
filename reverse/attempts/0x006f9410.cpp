@@ -1,4 +1,8 @@
 // ?mergeState@AptDisplayList@@QAEXPAVAptPseudoDisplayList@@PAVAptNativeHash@@_N@Z
+// partial score=0.64033 date=2026-10-14
+void __debugbreak();
+#pragma intrinsic(__debugbreak)
+// ?mergeState@AptDisplayList@@QAEXPAVAptPseudoDisplayList@@PAVAptNativeHash@@_N@Z
 // partial score=0.2617 date=2026-10-06
 // cl: /O2 /MD /EHsc
 // Donor 5767d8d001ee10b1 AptMovie.cpp supplies two-pass init/dispatch semantics.
@@ -23,7 +27,7 @@ bool g_aptBackgroundSet = false;
 void (__cdecl *g_aptBackgroundCallback)(int) = 0;
 extern void (__cdecl *g_bfmeAptFreeAtE17784)(void *,int);
 void AptDebuggerPrint(int,const char *,...);
-#define CHECK(c,l,s) if(!(c)){g_bfmeAptAssertAtE17734(s,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptMovie.cpp",l);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}
+#define CHECK(c,l,s) if(!(c)){g_bfmeAptAssertAtE17734(s,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptMovie.cpp",l);if(g_bfmeAptBreakOnAssertAtDDC01C){__debugbreak();}}
 struct AptFrame; class AptDisplayList; class AptPseudoDisplayList;
 class AptMovie {public:int nFrames;AptFrame *frames; void doFrameControls(AptDisplayList *,AptCIH *,int); void DoTemporaryFrameControls(AptPseudoDisplayList *,int);};
 struct AptCharacter;
@@ -45,7 +49,7 @@ class AptCIH {public:
  char pad[8];EAStringC name;AptMatrix matrix;float colors[8];int unknown44;
  AptCIH *parent;AptCharacterInst *inst;AptCIH *prev,*next;int depth:17;int created:14;unsigned top:1;short unknown5c;unsigned char changed;
  int GetDepth() const{return depth;} int GetCreatedOnFrame()const{return created;} AptCIH *GetDisplayListNext()const{return next;} bool GetASChanged()const{return (changed&1)!=0;} AptMatrix *GetPositionMatrixWritable(){return &matrix;} const AptCIH *rva006E0CB0() const;bool IsSpriteInstBase() const;bool IsUndefined() const;int Type() const;void Finish();
- AptCharacterInst *Sprite() const {if(!IsSpriteInstBase()){g_bfmeAptAssertAtE17734("isSpriteInstBase()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0x7d);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}return inst;}
+ AptCharacterInst *Sprite() const {if(!IsSpriteInstBase()){g_bfmeAptAssertAtE17734("isSpriteInstBase()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0x7d);if(g_bfmeAptBreakOnAssertAtDDC01C){__debugbreak();}}return inst;}
 };
 AptCIH *Unlink(AptCIH *);
 void bfmeUnpackTwoColors1280(float *,const unsigned int *);
@@ -293,7 +297,7 @@ void AptCharacterAnimation::ExportClassDefinitionAssets(AptCIH *inst) {
  }
 }
 
-#define DL_CHECK(c,l,s) if(!(c)){g_bfmeAptAssertAtE17734(s,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp",l);if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}}
+#define DL_CHECK(c,l,s) if(!(c)){g_bfmeAptAssertAtE17734(s,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp",l);if(g_bfmeAptBreakOnAssertAtDDC01C){__debugbreak();}}
 __forceinline void copyMatrix(int *out,const float *in){const int *src=(const int *)in;out[0]=src[0];out[1]=src[1];out[2]=src[2];out[3]=src[3];out[4]=src[4];out[5]=src[5];}
 void AptDisplayList::mergeState(AptPseudoDisplayList *incoming,AptNativeHash *hash,bool ahead){
  AptPseudoCIH_t *control=((AptPseudoCIH_t *)incoming->head)->next;

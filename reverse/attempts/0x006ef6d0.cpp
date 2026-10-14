@@ -1,4 +1,8 @@
 // ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
+// partial score=0.85526 date=2026-10-14
+void __debugbreak();
+#pragma intrinsic(__debugbreak)
+// ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
 // partial score=0.8764593201448871 date=2026-10-10
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
@@ -12,7 +16,7 @@ extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char*,const char*,int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 static __forceinline void aptAssert(const char *test,const char *file,int line){
  g_bfmeAptAssertAtE17734(test,file,line);
- if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}
+ if(g_bfmeAptBreakOnAssertAtDDC01C){__debugbreak();}
 }
 class EAStringC {void *data;public:EAStringC(const char*);~EAStringC();EAStringC &operator=(const EAStringC&);};
 class Rva006DB160 {public:void *allocBlock(int);};
