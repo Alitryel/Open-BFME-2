@@ -34,6 +34,8 @@
 // The remaining frame/direction/swap statics retain their ledger names;
 // class and method names stay address-derived.
 
+#include <string.h>
+
 typedef int Int;
 typedef float Real;
 typedef bool Bool;
@@ -43,6 +45,8 @@ enum FilterModes
 {
 	FM_NULL_MODE = 0
 };
+
+class Coord2D;
 
 enum TimeOfDay
 {
@@ -170,10 +174,13 @@ struct IDirect3DDevice8
 	virtual long __stdcall SetTexture(unsigned stage, IDirect3DBaseTexture8 *texture) = 0;	// 65
 	S(66) S(67) S(68)
 	virtual long __stdcall SetSamplerState(unsigned sampler, unsigned type, unsigned value) = 0;	// 69
-	S(70) S(71) S(72) S(73) S(74) S(75) S(76) S(77) S(78) S(79) S(80) S(81) S(82) S(83) S(84)
-	S(85) S(86)
+	S(70) S(71) S(72) S(73) S(74) S(75) S(76) S(77) S(78) S(79) S(80) S(81) S(82)
+	virtual long __stdcall DrawPrimitiveUP(unsigned type, unsigned count, const void *data, unsigned stride) = 0;	// 83
+	S(84) S(85) S(86)
 	virtual long __stdcall SetVertexDeclaration(unsigned decl) = 0;	// 87
-	S(88) S(89) S(90) S(91)
+	S(88)
+	virtual long __stdcall SetFVF(unsigned long fvf) = 0;	// 89
+	S(90) S(91)
 	virtual long __stdcall SetVertexShader(unsigned shader) = 0;	// 92
 	S(93) S(94) S(95) S(96) S(97) S(98) S(99) S(100) S(101) S(102) S(103) S(104) S(105) S(106)
 	virtual long __stdcall SetPixelShader(unsigned shader) = 0;	// 107
@@ -183,6 +190,13 @@ struct IDirect3DDevice8
 };
 
 extern unsigned number_of_DX8_calls;
+
+class Vector4
+{
+public:
+	Vector4(float x, float y, float z, float w) : X(x), Y(y), Z(z), W(w) {}
+	float X, Y, Z, W;
+};
 
 class DX8Caps;
 
@@ -212,6 +226,21 @@ public:
 		texture_changes++;
 	}
 	static void Set_Shader(const ShaderClass &shader);
+	static __forceinline void Set_DX8_Sampler_State(unsigned stage, unsigned type, unsigned value)
+	{
+		_Get_D3D_Device8()->SetSamplerState(stage, type, value);
+		number_of_DX8_calls++;
+		texture_stage_state_changes++;
+	}
+	static __forceinline void Set_Pixel_Shader_Constant(int reg, const void *data, int count)
+	{
+		int memsize = sizeof(Vector4) * count;
+		if (memcmp(data, &Pixel_Shader_Constants[reg], memsize) == 0)
+			return;
+		memcpy(&Pixel_Shader_Constants[reg], data, memsize);
+		_Get_D3D_Device8()->SetPixelShaderConstantF(reg, data, count);
+		number_of_DX8_calls++;
+	}
  static void Get_DX8_Render_State_Value_Name(StringClass &, unsigned long, unsigned int);
  static __forceinline void Set_Dot3_Shader(const ShaderClass &shader) {
   if (!ShaderClass::ShaderDirty && shader.bits == render_state.shader.bits) return;
@@ -242,6 +271,8 @@ protected:
 	static IDirect3DDevice8 *D3DDevice;
 	static IDirect3DBaseTexture8 *Textures[16];
 	static unsigned texture_changes;
+	static unsigned texture_stage_state_changes;
+	static Vector4 Pixel_Shader_Constants[8];
 	static DX8Caps *CurrentCaps;
 };
 
@@ -273,14 +304,14 @@ public:
 	virtual int init();
 	virtual int shutdown();
 	virtual bool preRender(bool &, int &);
-	virtual bool postRender(FilterModes, Coord2D &, bool &, Coord2D *);
+	virtual bool postRender(FilterModes mode, Coord2D &scrollDelta, Bool &doExtraRender, Coord2D *displaySize);
 	virtual bool setup(FilterModes);
 protected:
 	virtual Int set(FilterModes mode);
 	virtual void reset();
 
 private:
-	Int m_04;				// +0x04
+	unsigned long m_shader;			// +0x04
 	BFME2TextureRef m_texture;		// +0x08
 	TimeOfDay m_savedTimeOfDay;		// +0x0C
 };
@@ -292,7 +323,7 @@ private:
 // it, and the derived DOT3 filter's constructor (0x000FD4A5, vftable
 // 0x00BCF3F4) calls it first.
 Rva000FC63DFilter::Rva000FC63DFilter() :
-	m_04(0),
+	m_shader(0),
 	m_savedTimeOfDay((TimeOfDay)2)
 {
 }
@@ -411,6 +442,7 @@ struct D3DXVECTOR4
 	float x, y, z, w;
 	D3DXVECTOR4() {}
 	D3DXVECTOR4(float a, float b, float c, float d) : x(a), y(b), z(c), w(d) {}
+	operator const float *() const { return &x; }
 };
 struct IDirect3DTexture8 : IDirect3DBaseTexture8 {};
 class W3DShaderManager
@@ -477,6 +509,138 @@ struct BfmeCaps
 	char pad[0x2A8];
 	Bool dot3;
 };
+
+// ?postRender@Rva000FC63DFilter@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z @0x000FC95E
+// Native 0x000FC95E..0x000FCF54 is the complete 1526B RET16 body: slot 3 of
+// vftable 0x007CF3C8 (entry 0x007CF3D4), beside slot 0 init 0x000FC5B7 (which
+// loads "shaders\\monochromezoom.nvp" into +0x04), slot 5 set and slot 6 reset.
+// Zero Hour W3DShaderManager.cpp ScreenMotionBlurFilter::postRender supplies
+// the transformed quad and the 0.99 shrink-and-blend pass loop (here capped
+// at 30 passes of 0x15ffffff); target bytes give the second texture stage
+// (u2/v2 zoomed by 0.15 / fade, clamped below 0.02, scaled by the view's
+// aspect), the four pixel shader constants and the swap-counter stepping.
+// The separate aspect local reproduces retail's SSE allocation and frame.
+Bool Rva000FC63DFilter::postRender(FilterModes mode, Coord2D &scrollDelta,
+	Bool &doExtraRender, Coord2D *displaySize)
+{
+	IDirect3DTexture8 *tex = W3DShaderManager::endRenderToTexture();
+	BFME2Set_Texture(1, m_texture);
+	DX8Wrapper::Apply_Render_State_Changes();
+	if (!tex)
+		return false;
+	if (!set(mode))
+		return false;
+
+	IDirect3DDevice8 *pDev = DX8Wrapper::_Get_D3D_Device8();
+	DX8Wrapper::Set_DX8_Texture(0, tex);
+
+	struct _TRANS_LIT_TEX2_VERTEX
+	{
+		D3DXVECTOR4 p;
+		unsigned long color;
+		float u;
+		float v;
+		float u2;
+		float v2;
+	} v[4];
+	Int xpos, ypos, width, height;
+
+	theTacticalView()->getOrigin(&xpos, &ypos);
+	width = theTacticalView()->getWidth();
+	height = theTacticalView()->getHeight();
+
+	Real zoom;
+	if (BfmeScreenTransitionFadeValue < 0.02f)
+		zoom = 10.0f;
+	else
+		zoom = 0.15f / BfmeScreenTransitionFadeValue;
+	Real aspect = (Real)width / (Real)height;
+
+	v[0].p = D3DXVECTOR4(xpos + width - 0.5f, ypos + height - 0.5f, 0.0f, 1.0f);
+	v[0].u = (Real)(xpos + width) / displaySize->x;
+	v[0].v = (Real)(ypos + height) / displaySize->y;
+	v[0].u2 = aspect * zoom + 0.5f;
+	v[0].v2 = zoom + 0.5f;
+	v[1].p = D3DXVECTOR4(xpos + width - 0.5f, ypos - 0.5f, 0.0f, 1.0f);
+	v[1].u = (Real)(xpos + width) / displaySize->x;
+	v[1].v = (Real)ypos / displaySize->y;
+	v[1].u2 = aspect * zoom + 0.5f;
+	v[1].v2 = 0.5f - zoom;
+	v[2].p = D3DXVECTOR4(xpos - 0.5f, ypos + height - 0.5f, 0.0f, 1.0f);
+	v[2].u = (Real)xpos / displaySize->x;
+	v[2].v = (Real)(ypos + height) / displaySize->y;
+	v[2].u2 = 0.5f - aspect * zoom;
+	v[2].v2 = zoom + 0.5f;
+	v[3].p = D3DXVECTOR4(xpos - 0.5f, ypos - 0.5f, 0.0f, 1.0f);
+	v[3].u = (Real)xpos / displaySize->x;
+	v[3].v = (Real)ypos / displaySize->y;
+	v[3].u2 = 0.5f - aspect * zoom;
+	v[3].v2 = 0.5f - zoom;
+	v[0].color = 0xffffffff;
+	v[1].color = 0xffffffff;
+	v[2].color = 0xffffffff;
+	v[3].color = 0xffffffff;
+
+	// Retail's constants are the float products (0x3EF5C290, 0x3F23D70B), not 0.48f / 0.64f.
+	D3DXVECTOR4 color(0.6f * 0.8f, 0.6f * 0.8f, 1.0f * 0.8f, 0.8f * 0.8f);
+	DX8Wrapper::_Get_D3D_Device8()->SetPixelShader(m_shader);
+	++number_of_DX8_calls;
+	DX8Wrapper::Set_Pixel_Shader_Constant(0, D3DXVECTOR4(0.3f, 0.59f, 0.11f, 1.0f), 1);
+	DX8Wrapper::Set_Pixel_Shader_Constant(1, color, 1);
+	DX8Wrapper::Set_Pixel_Shader_Constant(3, D3DXVECTOR4(0.4f, 0.4f, 0.4f, 1.0f), 1);
+	Real fade = ((1.0f - BfmeScreenTransitionFadeValue) + 1.0f) * 0.5f;
+	DX8Wrapper::Set_Pixel_Shader_Constant(2, D3DXVECTOR4(fade, fade, fade, 1.0f), 1);
+	DX8Wrapper::Set_DX8_Sampler_State(1, 1, 3);	// D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP
+	DX8Wrapper::Set_DX8_Sampler_State(1, 2, 3);	// D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP
+	DX8Wrapper::_Get_D3D_Device8()->SetFVF(0x244);	// XYZRHW | DIFFUSE | TEX2
+	++number_of_DX8_calls;
+	DX8Wrapper::Set_DX8_Render_State(27, 0);	// D3DRS_ALPHABLENDENABLE
+	pDev->DrawPrimitiveUP(5, 2, v, sizeof(_TRANS_LIT_TEX2_VERTEX));
+
+	if (BfmeScreenTransitionSwapCounter)
+	{
+		UnsignedInt frame = TheGameLogic->getFrame();
+		if (BfmeScreenTransitionLastLogicFrame != frame)
+		{
+			BfmeScreenTransitionLastLogicFrame = frame;
+			if (BfmeScreenTransitionTimeOfDaySwapped)
+			{
+				BfmeScreenTransitionSwapCounter -= 3;
+				if (BfmeScreenTransitionSwapCounter < 1)
+				{
+					BfmeScreenTransitionSwapCounter = 0;
+					BfmeScreenTransitionTimeOfDaySwapped = false;
+				}
+			}
+			else
+			{
+				BfmeScreenTransitionSwapCounter += 3;
+				if (BfmeScreenTransitionSwapCounter >= 30)
+					BfmeScreenTransitionTimeOfDaySwapped = true;
+			}
+		}
+		DX8Wrapper::Set_DX8_Render_State(27, 1);
+		DX8Wrapper::Apply_Render_State_Changes();
+		Int passes = BfmeScreenTransitionSwapCounter;
+		if (BfmeScreenTransitionSwapCounter > 30)
+			passes = 30;
+		for (Int i = 0; i < passes; i++)
+		{
+			for (Int j = 0; j < 4; j++)
+			{
+				v[j].u = (v[j].u - 0.5f) * 0.99f + 0.5f;
+				v[j].color = 0x15ffffff;
+				v[j].v = (v[j].v - 0.5f) * 0.99f + 0.5f;
+			}
+			DX8Wrapper::Set_DX8_Render_State(19, 5);	// D3DRS_SRCBLEND, D3DBLEND_SRCALPHA
+			DX8Wrapper::Set_DX8_Render_State(20, 6);	// D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA
+			DX8Wrapper::Set_DX8_Render_State(27, 1);
+			pDev->DrawPrimitiveUP(5, 2, v, sizeof(_TRANS_LIT_TEX2_VERTEX));
+		}
+	}
+	reset();
+	return true;
+}
 
 // DOT3 postRender: native 0x000FCF54..0x000FD257 (771B; RET16).
 // Slot 3 of vftable 0x007CF3F4, beside the unrowed set at 0x000FD257.
