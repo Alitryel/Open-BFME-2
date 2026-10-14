@@ -9,9 +9,17 @@
 struct Item003190A5 { char prefix[0x2C]; unsigned int word; inline bool equalFour() const { return word==4; } };
 class Rva003190A5 {
 public: bool query() const;
+bool rva003F3FD9() const;
 private: char prefix[0x78]; Item003190A5 *item;
 };
 bool Rva003190A5::query() const
 {
 if(item) { return item->equalFour(); } return false;
+}
+
+// Native 0x003F3FD9 (11B): the negation of query() above (call, neg/sbb/inc),
+// the same shape as StringBase<char>::isNotEmpty 0x00407101 over isEmpty.
+bool Rva003190A5::rva003F3FD9() const
+{
+return !query();
 }

@@ -15,3 +15,13 @@ int parseNoWatchdog(char *args[],int num) {
     BFME2WatchdogEnabled=false;
     return 1;
 }
+
+// 3B9516 (11B), another handler of this family (not referenced from the live
+// table): clears BfmeFormationPreviewUseDecals (VA DC84F4, defined in
+// Rva0029B1C2.cpp, retail initial value 1; 3B9400 is its setter). Name
+// address-derived; option string unknown.
+extern bool BfmeFormationPreviewUseDecals;
+int Rva003B9516(char *args[],int num) {
+    BfmeFormationPreviewUseDecals=false;
+    return 1;
+}

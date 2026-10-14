@@ -89414,3 +89414,5 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva0039C40A@Rva0039C190@@QAEXXZ,,0x0039C40A,11,Code/GameEngine/Source/Common/Rva0039C190Assign.cpp,matched,clear over rowed range erase 0x0039C190 (call 0x0039C40F); twin of 0x000BCFB8
 ?rva003BC577@Rva003BC577@@QAEXABVAsciiString@@PAUCoord3D@@@Z,,0x003BC577,11,Code/GameEngine/Source/Common/RvaGlobalThisArgFwds.cpp,matched,TheScriptEngine forward tail-jumping rowed 0x0035818E with the callers args in place; twin of 0x00203688
 ?rva003BC9D5@Rva003BC9D5@@QAEXABVAsciiString@@0_N@Z,,0x003BC9D5,11,Code/GameEngine/Source/Common/RvaGlobalThisArgFwds.cpp,matched,TheScriptEngine forward tail-jumping rowed doObjectTypeListMaintenance 0x00358286 with args in place; twin of 0x00203688
+?Rva003B9516@@YAHQAPADH@Z,,0x003B9516,11,Code/GameEngine/Source/Common/CommandLineWatchdog.cpp,matched,command-line leaf clearing BfmeFormationPreviewUseDecals VA 0xDC84F4 and returning 1; twin of parseNoWatchdog 0x003B94F1
+?rva003F3FD9@Rva003190A5@@QBE_NXZ,,0x003F3FD9,11,Code/GameEngine/Source/Common/Rva003190A5Query.cpp,matched,negation of rowed query 0x003190A5; twin of StringBase isNotEmpty 0x00407101
