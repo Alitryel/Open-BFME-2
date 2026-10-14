@@ -557,7 +557,9 @@ public:
 	virtual void InitGadgets();
 	// Slot 3 of vftable 0x00871414: the per-frame update (WB unnamed).
 	virtual void rva005A61C6();
-	virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
+	// Slot 4 of vftable 0x00871414: the screen's key handler (WB unnamed).
+	virtual int rva005A6582(int window, int msg, unsigned char key, int flags);
+	virtual void v05(); virtual void v06(); virtual void v07();
 	// Slots 8 and 9 of vftable 0x00871414 (unnamed in WorldBuilder).
 	virtual bool rva0059EF49();
 	virtual bool rva005A6697();
@@ -623,6 +625,15 @@ private:
 	unsigned char m_pad04[0x0C - 0x04];
 };
 
+// The screen viewed by its rowed 0x0059ECD2 / 0x0059EC72 helpers (Rva0059ECD2.cpp).
+class Rva0059ECD2
+{
+public:
+	void rva0059ECD2(int unused);
+	void rva0059EC72(int unused);
+};
+int __cdecl Rva0043DB23(Rva00222A8BTarget *target, void *owner, const char *name);
+
 class AptOnlineCustomMatch : public CustomMatchScreen, public MpOwner
 {
 public:
@@ -655,8 +666,12 @@ public:
 	virtual void rva0059EBFE();
 	virtual bool rva0059EC50();
 	virtual void InitGadgets();
+	virtual int rva005A6582(int window, int msg, unsigned char key, int flags);
 	virtual bool rva0059EF49();
 	virtual bool rva005A6697();
+
+	void OnBttnCancel(int unused);
+	void AcceptJoinGame(const char *unused);
 
 	GameSpyStagingRoom *GetGameToJoin();
 	bool RequestJoinGame(const char *password);
@@ -1221,6 +1236,75 @@ bool AptOnlineCustomMatch::rva0059EC50()
 bool AptOnlineCustomMatch::rva0059EF49()
 {
 	return !((Rva0043DFE0 *)&m_70)->rva0043DBCA();
+}
+
+// Retail 0x005A6582, 277 bytes, vftable 0x00871414 slot 4 (unnamed in WorldBuilder):
+// the screen's key handler. For message 0x15 with the key-down bit set, Escape
+// (1) cancels or closes whatever the current state shows and Enter (0x1C) accepts
+// it, unless a connecting pop-up is open; both report the key handled.
+int AptOnlineCustomMatch::rva005A6582(int window, int msg, unsigned char key, int flags)
+{
+	if (msg == 0x15)
+	{
+		switch (key)
+		{
+		case 1:
+		{
+			if (flags & 1)
+			{
+				if (m_connectingCount > 0)
+					return 1;
+				switch (m_state)
+				{
+				case 2:
+					return 0;
+				case 3:
+				{
+					void *movie = m_owner->m_movie;
+					Rva00524EF4AptCall((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), movie, v10(), "EscapeKeyPressed");
+					m_state = 1;
+					m_popUp = false;
+					return 1;
+				}
+				case 6:
+				case 12:
+					if (!m_connectionsScreen)
+						OnBttnCancel(0);
+					else
+						Rva0043DB23((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), m_owner->m_movie, "CloseConnectionsScreen");
+					return 1;
+				case 10:
+					((Rva0059ECD2 *)this)->rva0059ECD2(0);
+					return 1;
+				default:
+					return 1;
+				}
+			}
+			break;
+		}
+		case 0x1C:
+		{
+			if (flags & 1)
+			{
+				if (m_connectingCount > 0)
+					return 1;
+				switch (m_state)
+				{
+				case 3:
+					((Rva0059ECD2 *)this)->rva0059EC72(0);
+					return 1;
+				case 10:
+					AcceptJoinGame(0);
+					return 1;
+				default:
+					return 1;
+				}
+			}
+			break;
+		}
+		}
+	}
+	return 0;
 }
 
 // Retail 0x005A6697, 33 bytes, vftable 0x00871414 slot 9 (unnamed in
