@@ -88908,3 +88908,4 @@ __Locale_ctype_default,,0x00021980,5,Code/Libraries/Source/WWVegas/WWLib/stlport
 ??1Rva0004208C@@QAE@XZ,,0x0004208C,5,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,holder dtor destroying its polymorphic member at +0 directly (tail jump); unreferenced
 ??1Rva00042100@@QAE@XZ,,0x00042100,5,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,holder dtor destroying its polymorphic member at +0 directly (tail jump); unreferenced
 ?rva00041EB9@Rva00041EB9@@QAEXXZ,,0x00041EB9,5,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,qualified call of the rowed virtual GameEngine::rva0023054C on the object at +0 (tail jump); unreferenced
+?rva00132C8D@Rva0090E190@@QAEXH@Z,,0x00132C8D,16,Code/GameEngine/Source/Common/Rva0090E190Set.cpp,matched,null-guarded inner setter +0x34 between set 0x00132C7D (+0x30) and TextureAsset::SetQualityLevel 0x00132C9D (+0x38); no direct caller
