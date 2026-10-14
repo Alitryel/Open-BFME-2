@@ -77,6 +77,10 @@ template <typename T> struct BfmeStringData
 #include "unicode_string.h"
 // bfme link decl-only begin
 namespace _STL { template <> _List_node<AsciiString> * list<AsciiString, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
+namespace _STL { template <> _List_node<AsciiString> * allocator<_List_node<AsciiString> >::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> void allocator<_List_node<AsciiString> >::deallocate(_List_node<AsciiString> *, unsigned int) const; }
+namespace _STL { template <> _List_node<AsciiString> * _STLP_alloc_proxy<_List_node<AsciiString> *, _List_node<AsciiString>, allocator<_List_node<AsciiString> > >::allocate(unsigned int); }
+namespace _STL { template <> void _STLP_alloc_proxy<_List_node<AsciiString> *, _List_node<AsciiString>, allocator<_List_node<AsciiString> > >::deallocate(_List_node<AsciiString> *, unsigned int); }
 // bfme link decl-only end
 
 namespace _STL
