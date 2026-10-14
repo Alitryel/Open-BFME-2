@@ -38,3 +38,14 @@ void Rva00118990(void)
 	g_Va00DB5FC0 = 2;
 	g_Va00DB5FC4 = 5;
 }
+
+// 0x00118A50: full 53-byte state setter; see crack-j-state-boundaries.txt.
+void Rva00118A50(void)
+{
+	g_Va00DEC4A8 = 1;
+	g_Va00DEC4A4 = 0;
+	g_Va00DEC4A0 = 0;
+	g_Va00DB5FBC = 7;
+	g_Va00DB5FC0 = 2;
+	g_Va00DB5FC4 = 5;
+}
