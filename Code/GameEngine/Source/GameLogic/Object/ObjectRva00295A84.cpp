@@ -24,12 +24,11 @@ virtual void slot114();virtual void slot115();virtual void slot116();virtual voi
 class Rva002C9400ByteField{public:unsigned char get()const;};
 class Weapon{public:char pad00[4];Rva002C9400ByteField *m_field;};
 struct ThingTemplateView{char pad00[0x108];unsigned char kinds[28];bool isStructure()const{return(kinds[0]&0x80)!=0;}bool isKind55()const{return(kinds[6]&0x80)!=0;}};
-class Rva0028CECFOwner{public:bool rva0028CECF();};
 class Object{public:
  void rva00295A84(Object*);
  Object*rva0028ACA0()const;bool testStatus(ObjectStatusTypes)const;Object*rva002931F5(bool);
  const Weapon*getCurrentWeapon(WeaponSlotType*)const;bool rva0029493F(Object*,int);
- bool rva0028CC7C(int);Player*getControllingPlayer()const;bool rva002943B2(const Player*);bool rva0028F518();void rva0028CDB6();Relationship getRelationship(const Object*)const;
+ bool rva0028CC7C(int);Player*getControllingPlayer()const;bool rva002943B2(const Player*);bool rva0028F518();void rva0028CDB6();bool rva0028CECF();Relationship getRelationship(const Object*)const;
  char pad00[4];ThingTemplateView*m_template;char pad08[0x258-8];AIUpdateInterface*m_ai;char pad25c[0x456-0x25c];bool m_recursing;
 };
 void Object::rva00295A84(Object*victim){
@@ -50,9 +49,9 @@ void Object::rva00295A84(Object*victim){
    if(ai->slot113())return;
    const Weapon *weapon=getCurrentWeapon(0);if(!weapon)return;
    if(!weapon->m_field->get())return;
-   if(rva0029493F(victim,2) && ((Rva0028CECFOwner*)this)->rva0028CECF())return;
+   if(rva0029493F(victim,2) && rva0028CECF())return;
    related=rva002931F5(false);
-   if(testStatus(STATUS_26) && related && related->rva0029493F(victim,2) && ((Rva0028CECFOwner*)related)->rva0028CECF())return;
+   if(testStatus(STATUS_26) && related && related->rva0029493F(victim,2) && related->rva0028CECF())return;
    if(ai->getMoodMatrixValue()&0x2000)return;
    if(!rva0028CC7C((int)victim))return;
    if(!ai->slot110() && !ai->slot111())return;
