@@ -89120,3 +89120,5 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ?Rva0073B6F0PrevIndex@@YAHHH@Z,,0x0073B6F0,14,Code/GameEngine/Source/Common/RTS/Rva0073B670Stepper.cpp,matched,cyclic predecessor index wrap from 0 to count-1
 ?state@Rva0073A130Table@@QBEHH@Z,,0x0073A130,36,Code/GameEngine/Source/Common/Rva0073A130Leaves.cpp,matched,8-byte entry word +4: 2 for 0xFFFF else word==0
 ?set@Rva0073A160Field@@QAE_NH@Z,,0x0073A160,28,Code/GameEngine/Source/Common/Rva0073A130Leaves.cpp,matched,store at +0xA4 returning whether it changed
+?resume@Rva0073F778@@QAEHXZ,,0x0073F7F9,38,Code/GameEngine/Source/Common/Rva0073F778Thread.cpp,matched,ResumeThread on +4 handle folded to 0/1/2/3
+?suspend@Rva0073F778@@QAE_NXZ,,0x0073F81F,20,Code/GameEngine/Source/Common/Rva0073F778Thread.cpp,matched,SuspendThread on +4 handle != -1

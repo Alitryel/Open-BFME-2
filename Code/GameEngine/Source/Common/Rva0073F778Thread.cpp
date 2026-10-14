@@ -6,12 +6,15 @@
 extern "C" __declspec(dllimport) unsigned __cdecl _beginthreadex(void *security, unsigned stackSize, unsigned (__stdcall *start)(void *), void *arglist, unsigned initflag, unsigned *thrdaddr);
 extern "C" __declspec(dllimport) int __stdcall SetThreadPriority(void *hThread, int nPriority);
 extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void *hThread);
+extern "C" __declspec(dllimport) unsigned long __stdcall SuspendThread(void *hThread);
 class Rva0073F778 {
     char _pad[4];
     void *m_handle;
 public:
     bool rva0073F778(unsigned (__stdcall *start)(void *), void *arglist, int resume, unsigned stackSize, int priority, void *security);
     bool rva0073F83F(int resume, unsigned stackSize, int priority, void *security);
+    int resume();
+    bool suspend();
 };
 unsigned __stdcall Rva0073F833Cb(void *arg);
 bool Rva0073F778::rva0073F778(unsigned (__stdcall *start)(void *), void *arglist, int resume, unsigned stackSize, int priority, void *security)
@@ -56,4 +59,24 @@ struct Rva0073F833If {
 unsigned __stdcall Rva0073F833Cb(void *arg)
 {
     return ((Rva0073F833If *)arg)->v3();
+}
+
+// ?resume@Rva0073F778@@QAEHXZ @0x0073F7F9 38B and ?suspend@Rva0073F778@@QAE_NXZ
+// @0x0073F81F 20B: the thread handle at +4 through ResumeThread and
+// SuspendThread (IAT 0x00BBA248 / 0x00BBA258). Resume folds the previous
+// suspend count into 0, 1, 2 (still suspended) or 3 (failure); suspend reports
+// success. Method names are descriptive of the calls only.
+int Rva0073F778::resume()
+{
+    switch (ResumeThread(m_handle)) {
+    case 0: return 0;
+    case 1: return 1;
+    case 0xFFFFFFFF: return 3;
+    default: return 2;
+    }
+}
+
+bool Rva0073F778::suspend()
+{
+    return SuspendThread(m_handle) != 0xFFFFFFFF;
 }
