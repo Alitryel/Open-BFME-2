@@ -1,0 +1,845 @@
+// flags: region default (reverse/retail_inventory/flag_regions.csv)
+//
+// Five-byte bodies from unrowed .text gaps that are a bare tail jump to a
+// rowed member on the same receiver (or a derived-class destructor jumping
+// to its rowed base destructor). Each callee keeps its ledger spelling; the
+// forwarding owners are not recovered and are address-named.
+
+class Rva001F050B
+{
+public:
+	void rva001F050B();
+};
+
+class Rva001F425C
+{
+public:
+	void call();
+};
+
+class Rva001F4276
+{
+public:
+	void call(int, int);
+};
+
+class Rva001F429A
+{
+public:
+	void call();
+};
+
+class Rva001F42BA
+{
+public:
+	void call(int);
+};
+
+class Rva001F43BD
+{
+public:
+	void rva001F43BD(void *);
+};
+
+class Rva001F5CF7
+{
+public:
+	void rva001F5CF7();
+};
+
+class Rva001F5D4F
+{
+public:
+	void rva001F5D4F(int);
+};
+
+class H1F8167
+{
+public:
+	~H1F8167();
+};
+
+class Rva001F8E45
+{
+public:
+	void rva001F8E45(void *, void *);
+};
+
+class Rva005C9D30
+{
+public:
+	~Rva005C9D30();
+};
+
+class Rva001FA529
+{
+public:
+	void rva001FA529(void *, void *);
+};
+
+class Rva001EAF7B
+{
+public:
+	bool rva001EAF7B();
+};
+
+class Rva00204136
+{
+public:
+	void rva00204984();
+	~Rva00204136();
+};
+
+class Rva00206593
+{
+public:
+	void rva00206EC7();
+};
+
+class Rva0021030E
+{
+public:
+	~Rva0021030E();
+};
+
+class Rva0021DB35
+{
+public:
+	~Rva0021DB35();
+};
+
+class Rva00223591
+{
+public:
+	void rva0022380B();
+};
+
+class Rva00226856
+{
+public:
+	~Rva00226856();
+};
+
+class Rva002268B0
+{
+public:
+	~Rva002268B0();
+};
+
+class Rva0022DB29
+{
+public:
+	~Rva0022DB29();
+};
+
+class Rva0022DD19
+{
+public:
+	~Rva0022DD19();
+};
+
+class Rva0022DD62
+{
+public:
+	~Rva0022DD62();
+};
+
+class Rva0022DDAB
+{
+public:
+	~Rva0022DDAB();
+};
+
+class Rva0039B20C
+{
+public:
+	void rva0039B227(int);
+	void rva0039B246();
+};
+
+class Rva002461DA
+{
+public:
+	void rva002461DA();
+};
+
+class Rva00255CA8
+{
+public:
+	void rva00255CA8();
+};
+
+class Rva0028614C
+{
+public:
+	void rva0028662D();
+};
+
+class Rva0028881C
+{
+public:
+	void rva002889BB();
+};
+
+class Rva00289371HashTable
+{
+public:
+	void clear();
+};
+
+class Rva002913EB
+{
+public:
+	void rva002913EB();
+};
+
+class Rva0029A407
+{
+public:
+	void rva0029A407();
+};
+
+class Rva0029B63A
+{
+public:
+	void rva0029E015();
+};
+
+class Rva002A1D02
+{
+public:
+	void clear();
+};
+
+class Rva002A8FE0
+{
+public:
+	void rva002A8FE0();
+};
+
+class Rva001FD42B
+{
+public:
+	void rva001FD630();
+};
+
+class Rva001FD458
+{
+public:
+	void rva001FD659();
+};
+
+class Rva002B54F9
+{
+public:
+	void rva002B54F9();
+};
+
+class Rva002B5522
+{
+public:
+	void rva002B5522();
+};
+
+class Rva002BF75A
+{
+public:
+	void rva002BF7BE();
+};
+
+class Rva000427195
+{
+public:
+	void rva00212858(unsigned int);
+	void rva003A2A41();
+};
+
+class Rva002E15E6
+{
+public:
+	void rva002E15E6();
+};
+
+class Rva002E6158
+{
+public:
+	~Rva002E6158();
+};
+
+class Rva002EE9B7
+{
+public:
+	void rva002EE9B7();
+};
+
+class Out
+{
+public:
+	~Out();
+};
+
+class Rva002CF7B5
+{
+public:
+	void rva002CF7B5();
+};
+
+class Rva002CF7DE
+{
+public:
+	void rva002CF7DE();
+};
+
+class Rva002D02FD
+{
+public:
+	void rva002D02FD();
+};
+
+// 0x001F0652 (5B): tail jump to the rowed Rva001F050B::rva001F050B 0x001F050B on the same receiver.
+class Rva001F0652
+{
+public:
+	void rva001F0652();
+};
+void Rva001F0652::rva001F0652()
+{
+	((Rva001F050B *)this)->rva001F050B();
+}
+
+// 0x001F495A (5B): tail jump to the rowed Rva001F425C::call 0x001F425C on the same receiver.
+class Rva001F495A
+{
+public:
+	void rva001F495A();
+};
+void Rva001F495A::rva001F495A()
+{
+	((Rva001F425C *)this)->call();
+}
+
+// 0x001F495F (5B): tail jump to the rowed Rva001F4276::call 0x001F4276 on the same receiver.
+class Rva001F495F
+{
+public:
+	void rva001F495F(int a, int b);
+};
+void Rva001F495F::rva001F495F(int a, int b)
+{
+	((Rva001F4276 *)this)->call(a, b);
+}
+
+// 0x001F4964 (5B): tail jump to the rowed Rva001F429A::call 0x001F429A on the same receiver.
+class Rva001F4964
+{
+public:
+	void rva001F4964();
+};
+void Rva001F4964::rva001F4964()
+{
+	((Rva001F429A *)this)->call();
+}
+
+// 0x001F4969 (5B): tail jump to the rowed Rva001F42BA::call 0x001F42BA on the same receiver.
+class Rva001F4969
+{
+public:
+	void rva001F4969(int a);
+};
+void Rva001F4969::rva001F4969(int a)
+{
+	((Rva001F42BA *)this)->call(a);
+}
+
+// 0x001F4A0D (5B): tail jump to the rowed Rva001F43BD::rva001F43BD 0x001F43BD on the same receiver.
+class Rva001F4A0D
+{
+public:
+	void rva001F4A0D(void *a);
+};
+void Rva001F4A0D::rva001F4A0D(void *a)
+{
+	((Rva001F43BD *)this)->rva001F43BD(a);
+}
+
+// 0x001F6488 (5B): tail jump to the rowed Rva001F5CF7::rva001F5CF7 0x001F5CF7 on the same receiver.
+class Rva001F6488
+{
+public:
+	void rva001F6488();
+};
+void Rva001F6488::rva001F6488()
+{
+	((Rva001F5CF7 *)this)->rva001F5CF7();
+}
+
+// 0x001F648D (5B): tail jump to the rowed Rva001F5D4F::rva001F5D4F 0x001F5D4F on the same receiver.
+class Rva001F648D
+{
+public:
+	void rva001F648D(int a);
+};
+void Rva001F648D::rva001F648D(int a)
+{
+	((Rva001F5D4F *)this)->rva001F5D4F(a);
+}
+
+// 0x001F8BE3 (5B): tail jump to the rowed H1F8167 destructor 0x001F8167.
+class Rva001F8BE3 : public H1F8167
+{
+public:
+	~Rva001F8BE3();
+};
+Rva001F8BE3::~Rva001F8BE3()
+{
+}
+
+// 0x001F9487 (5B): tail jump to the rowed Rva001F8E45::rva001F8E45 0x001F8E45 on the same receiver.
+class Rva001F9487
+{
+public:
+	void rva001F9487(void *a, void *b);
+};
+void Rva001F9487::rva001F9487(void *a, void *b)
+{
+	((Rva001F8E45 *)this)->rva001F8E45(a, b);
+}
+
+// 0x001F9B64 (5B): tail jump to the rowed Rva005C9D30 destructor 0x001F9025.
+class Rva001F9B64 : public Rva005C9D30
+{
+public:
+	~Rva001F9B64();
+};
+Rva001F9B64::~Rva001F9B64()
+{
+}
+
+// 0x001FA831 (5B): tail jump to the rowed Rva001FA529::rva001FA529 0x001FA529 on the same receiver.
+class Rva001FA831
+{
+public:
+	void rva001FA831(void *a, void *b);
+};
+void Rva001FA831::rva001FA831(void *a, void *b)
+{
+	((Rva001FA529 *)this)->rva001FA529(a, b);
+}
+
+// 0x001FF5A7 (5B): tail jump to the rowed Rva001EAF7B::rva001EAF7B 0x001EAF7B on the same receiver.
+class Rva001FF5A7
+{
+public:
+	bool rva001FF5A7();
+};
+bool Rva001FF5A7::rva001FF5A7()
+{
+	return ((Rva001EAF7B *)this)->rva001EAF7B();
+}
+
+// 0x002055DF (5B): tail jump to the rowed Rva00204136::rva00204984 0x00204984 on the same receiver.
+class Rva002055DF
+{
+public:
+	void rva002055DF();
+};
+void Rva002055DF::rva002055DF()
+{
+	((Rva00204136 *)this)->rva00204984();
+}
+
+// 0x00205AF8 (5B): tail jump to the rowed Rva00204136 destructor 0x002055E4.
+class Rva00205AF8 : public Rva00204136
+{
+public:
+	~Rva00205AF8();
+};
+Rva00205AF8::~Rva00205AF8()
+{
+}
+
+// 0x002075EE (5B): tail jump to the rowed Rva00206593::rva00206EC7 0x00206EC7 on the same receiver.
+class Rva002075EE
+{
+public:
+	void rva002075EE();
+};
+void Rva002075EE::rva002075EE()
+{
+	((Rva00206593 *)this)->rva00206EC7();
+}
+
+// 0x0021038B (5B): tail jump to the rowed Rva0021030E destructor 0x0021030E.
+class Rva0021038B : public Rva0021030E
+{
+public:
+	~Rva0021038B();
+};
+Rva0021038B::~Rva0021038B()
+{
+}
+
+// 0x0021DE70 (5B): tail jump to the rowed Rva0021DB35 destructor 0x0021DB35.
+class Rva0021DE70 : public Rva0021DB35
+{
+public:
+	~Rva0021DE70();
+};
+Rva0021DE70::~Rva0021DE70()
+{
+}
+
+// 0x00223FEC (5B): tail jump to the rowed Rva00223591::rva0022380B 0x0022380B on the same receiver.
+class Rva00223FEC
+{
+public:
+	void rva00223FEC();
+};
+void Rva00223FEC::rva00223FEC()
+{
+	((Rva00223591 *)this)->rva0022380B();
+}
+
+// 0x0022CA36 (5B): tail jump to the rowed Rva00226856 destructor 0x0022C5DA.
+class Rva0022CA36 : public Rva00226856
+{
+public:
+	~Rva0022CA36();
+};
+Rva0022CA36::~Rva0022CA36()
+{
+}
+
+// 0x0022CA40 (5B): tail jump to the rowed Rva002268B0 destructor 0x0022C64A.
+class Rva0022CA40 : public Rva002268B0
+{
+public:
+	~Rva0022CA40();
+};
+Rva0022CA40::~Rva0022CA40()
+{
+}
+
+// 0x0022DE29 (5B): tail jump to the rowed Rva0022DB29 destructor 0x0022DC62.
+class Rva0022DE29 : public Rva0022DB29
+{
+public:
+	~Rva0022DE29();
+};
+Rva0022DE29::~Rva0022DE29()
+{
+}
+
+// 0x0022DF6F (5B): tail jump to the rowed Rva0022DD19 destructor 0x0022DEA8.
+class Rva0022DF6F : public Rva0022DD19
+{
+public:
+	~Rva0022DF6F();
+};
+Rva0022DF6F::~Rva0022DF6F()
+{
+}
+
+// 0x0022DF74 (5B): tail jump to the rowed Rva0022DD62 destructor 0x0022DEE1.
+class Rva0022DF74 : public Rva0022DD62
+{
+public:
+	~Rva0022DF74();
+};
+Rva0022DF74::~Rva0022DF74()
+{
+}
+
+// 0x0022DFCC (5B): tail jump to the rowed Rva0022DDAB destructor 0x0022DF1A.
+class Rva0022DFCC : public Rva0022DDAB
+{
+public:
+	~Rva0022DFCC();
+};
+Rva0022DFCC::~Rva0022DFCC()
+{
+}
+
+// 0x0023C624 (5B): tail jump to the rowed Rva0039B20C::rva0039B227 0x0039B227 on the same receiver.
+class Rva0023C624
+{
+public:
+	void rva0023C624(int a);
+};
+void Rva0023C624::rva0023C624(int a)
+{
+	((Rva0039B20C *)this)->rva0039B227(a);
+}
+
+// 0x00247084 (5B): tail jump to the rowed Rva002461DA::rva002461DA 0x002461DA on the same receiver.
+class Rva00247084
+{
+public:
+	void rva00247084();
+};
+void Rva00247084::rva00247084()
+{
+	((Rva002461DA *)this)->rva002461DA();
+}
+
+// 0x00256424 (5B): tail jump to the rowed Rva00255CA8::rva00255CA8 0x00255CA8 on the same receiver.
+class Rva00256424
+{
+public:
+	void rva00256424();
+};
+void Rva00256424::rva00256424()
+{
+	((Rva00255CA8 *)this)->rva00255CA8();
+}
+
+// 0x00286815 (5B): tail jump to the rowed Rva0028614C::rva0028662D 0x0028662D on the same receiver.
+class Rva00286815
+{
+public:
+	void rva00286815();
+};
+void Rva00286815::rva00286815()
+{
+	((Rva0028614C *)this)->rva0028662D();
+}
+
+// 0x002885FA (5B): tail jump to the rowed Rva0039B20C::rva0039B246 0x0039B246 on the same receiver.
+class Rva002885FA
+{
+public:
+	void rva002885FA();
+};
+void Rva002885FA::rva002885FA()
+{
+	((Rva0039B20C *)this)->rva0039B246();
+}
+
+// 0x00288B4C (5B): tail jump to the rowed Rva0028881C::rva002889BB 0x002889BB on the same receiver.
+class Rva00288B4C
+{
+public:
+	void rva00288B4C();
+};
+void Rva00288B4C::rva00288B4C()
+{
+	((Rva0028881C *)this)->rva002889BB();
+}
+
+// 0x002895BA (5B): tail jump to the rowed Rva00289371HashTable::clear 0x00289371 on the same receiver.
+class Rva002895BA
+{
+public:
+	void rva002895BA();
+};
+void Rva002895BA::rva002895BA()
+{
+	((Rva00289371HashTable *)this)->clear();
+}
+
+// 0x002923A2 (5B): tail jump to the rowed Rva002913EB::rva002913EB 0x002913EB on the same receiver.
+class Rva002923A2
+{
+public:
+	void rva002923A2();
+};
+void Rva002923A2::rva002923A2()
+{
+	((Rva002913EB *)this)->rva002913EB();
+}
+
+// 0x0029B346 (5B): tail jump to the rowed Rva0029A407::rva0029A407 0x0029A407 on the same receiver.
+class Rva0029B346
+{
+public:
+	void rva0029B346();
+};
+void Rva0029B346::rva0029B346()
+{
+	((Rva0029A407 *)this)->rva0029A407();
+}
+
+// 0x0029FAB2 (5B): tail jump to the rowed Rva0029B63A::rva0029E015 0x0029E015 on the same receiver.
+class Rva0029FAB2
+{
+public:
+	void rva0029FAB2();
+};
+void Rva0029FAB2::rva0029FAB2()
+{
+	((Rva0029B63A *)this)->rva0029E015();
+}
+
+// 0x002A404D (5B): tail jump to the rowed Rva002A1D02::clear 0x002A1D02 on the same receiver.
+class Rva002A404D
+{
+public:
+	void rva002A404D();
+};
+void Rva002A404D::rva002A404D()
+{
+	((Rva002A1D02 *)this)->clear();
+}
+
+// 0x002A91D8 (5B): tail jump to the rowed Rva002A8FE0::rva002A8FE0 0x002A8FE0 on the same receiver.
+class Rva002A91D8
+{
+public:
+	void rva002A91D8();
+};
+void Rva002A91D8::rva002A91D8()
+{
+	((Rva002A8FE0 *)this)->rva002A8FE0();
+}
+
+// 0x002ABFFD (5B): tail jump to the rowed Rva001FD42B::rva001FD630 0x001FD630 on the same receiver.
+class Rva002ABFFD
+{
+public:
+	void rva002ABFFD();
+};
+void Rva002ABFFD::rva002ABFFD()
+{
+	((Rva001FD42B *)this)->rva001FD630();
+}
+
+// 0x002AC002 (5B): tail jump to the rowed Rva001FD458::rva001FD659 0x001FD659 on the same receiver.
+class Rva002AC002
+{
+public:
+	void rva002AC002();
+};
+void Rva002AC002::rva002AC002()
+{
+	((Rva001FD458 *)this)->rva001FD659();
+}
+
+// 0x002B5FEC (5B): tail jump to the rowed Rva002B54F9::rva002B54F9 0x002B54F9 on the same receiver.
+class Rva002B5FEC
+{
+public:
+	void rva002B5FEC();
+};
+void Rva002B5FEC::rva002B5FEC()
+{
+	((Rva002B54F9 *)this)->rva002B54F9();
+}
+
+// 0x002B6029 (5B): tail jump to the rowed Rva002B5522::rva002B5522 0x002B5522 on the same receiver.
+class Rva002B6029
+{
+public:
+	void rva002B6029();
+};
+void Rva002B6029::rva002B6029()
+{
+	((Rva002B5522 *)this)->rva002B5522();
+}
+
+// 0x002BFA48 (5B): tail jump to the rowed Rva002BF75A::rva002BF7BE 0x002BF7BE on the same receiver.
+class Rva002BFA48
+{
+public:
+	void rva002BFA48();
+};
+void Rva002BFA48::rva002BFA48()
+{
+	((Rva002BF75A *)this)->rva002BF7BE();
+}
+
+// 0x002CFF23 (5B): tail jump to the rowed Rva000427195::rva003A2A41 0x003A2A41 on the same receiver.
+class Rva002CFF23
+{
+public:
+	void rva002CFF23();
+};
+void Rva002CFF23::rva002CFF23()
+{
+	((Rva000427195 *)this)->rva003A2A41();
+}
+
+// 0x002CFF28 (5B): tail jump to the rowed Rva000427195::rva00212858 0x00212858 on the same receiver.
+class Rva002CFF28
+{
+public:
+	void rva002CFF28(unsigned int a);
+};
+void Rva002CFF28::rva002CFF28(unsigned int a)
+{
+	((Rva000427195 *)this)->rva00212858(a);
+}
+
+// 0x002E1E14 (5B): tail jump to the rowed Rva002E15E6::rva002E15E6 0x002E15E6 on the same receiver.
+class Rva002E1E14
+{
+public:
+	void rva002E1E14();
+};
+void Rva002E1E14::rva002E1E14()
+{
+	((Rva002E15E6 *)this)->rva002E15E6();
+}
+
+// 0x002E6324 (5B): tail jump to the rowed Rva002E6158 destructor 0x002E6158.
+class Rva002E6324 : public Rva002E6158
+{
+public:
+	~Rva002E6324();
+};
+Rva002E6324::~Rva002E6324()
+{
+}
+
+// 0x002F0B4D (5B): tail jump to the rowed Rva002EE9B7::rva002EE9B7 0x002EE9B7 on the same receiver.
+class Rva002F0B4D
+{
+public:
+	void rva002F0B4D();
+};
+void Rva002F0B4D::rva002F0B4D()
+{
+	((Rva002EE9B7 *)this)->rva002EE9B7();
+}
+
+// 0x003291EF (5B): tail jump to the rowed Out destructor 0x00329182.
+class Rva003291EF : public Out
+{
+public:
+	~Rva003291EF();
+};
+Rva003291EF::~Rva003291EF()
+{
+}
+
+// 0x0033BE6B (5B): tail jump to the rowed Rva002CF7B5::rva002CF7B5 0x002CF7B5 on the same receiver.
+class Rva0033BE6B
+{
+public:
+	void rva0033BE6B();
+};
+void Rva0033BE6B::rva0033BE6B()
+{
+	((Rva002CF7B5 *)this)->rva002CF7B5();
+}
+
+// 0x0033BECC (5B): tail jump to the rowed Rva002CF7DE::rva002CF7DE 0x002CF7DE on the same receiver.
+class Rva0033BECC
+{
+public:
+	void rva0033BECC();
+};
+void Rva0033BECC::rva0033BECC()
+{
+	((Rva002CF7DE *)this)->rva002CF7DE();
+}
+
+// 0x0033D005 (5B): tail jump to the rowed Rva002D02FD::rva002D02FD 0x002D02FD on the same receiver.
+class Rva0033D005
+{
+public:
+	void rva0033D005();
+};
+void Rva0033D005::rva0033D005()
+{
+	((Rva002D02FD *)this)->rva002D02FD();
+}
