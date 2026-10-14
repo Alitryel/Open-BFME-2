@@ -88,10 +88,12 @@ public:
 };
 extern ScriptEngine *TheScriptEngine;
 
+// Owner row ?get@Rva0039ADAFByteChase32Field@@QBEEXZ (0x0039ADAF): the trainable byte.
+class Rva0039ADAFByteChase32Field { public: unsigned char get() const; };
+
 class ExperienceTracker
 {
 public:
-	bool isTrainable() const;	// 0x0039ADAF
 	bool rva0039ABFF() const;	// 0x0039ABFF
 	bool rva0039B4EC(int levels, bool flag1, bool flag2);	// 0x0039B4EC
 	char m_pad00[0x24];
@@ -126,6 +128,9 @@ struct VeterancyCrateCollideModuleData
 	int m_affectsUpToLevel;		// +0x64
 };
 
+// Owner row ?rva004BCF92@Rva004BCF92@@QAEXPBVObject@@H@Z: the text arrives as an int.
+class Rva004BCF92 { public: void rva004BCF92(const Object *obj, int arg); };	// 0x004BCF92
+
 class CrateCollide
 {
 public:
@@ -133,7 +138,6 @@ public:
 protected:
 	virtual bool executeCrateBehavior(Object *other);
 	virtual bool isValidToExecute(const Object *other) const;	// 0x004BC6C2
-	void rva004BCF92(const Object *other, const UnicodeString *text);	// 0x004BCF92
 	const void *m_moduleData;	// +0x04
 	Object *m_object;		// +0x08
 };
@@ -174,7 +178,7 @@ bool VeterancyCrateCollide::isValidToExecute(const Object *other) const
 	if (levelsToGain <= 0)
 		return false;
 	const ExperienceTracker *tracker = other->getExperienceTracker();
-	if (!tracker || !tracker->isTrainable())
+	if (!tracker || !((const Rva0039ADAFByteChase32Field *)tracker)->get())
 		return false;
 	if (!tracker || !tracker->rva0039ABFF())
 		return false;
@@ -199,7 +203,7 @@ bool VeterancyCrateCollide::executeCrateBehavior(Object *other)
 			other->getExperienceTracker()->rva0039B4EC(getLevelsToGain(), !data->m_isPilot, false);
 			UnicodeString rankString;
 			rankString.format(TheGameText->slot44("GUI:GainRank", 0), getLevelsToGain());
-			rva004BCF92(other, &rankString);
+			((Rva004BCF92 *)this)->rva004BCF92(other, (int)&rankString);
 		}
 	} else {
 		BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(other->getPosition(), range, 0,
@@ -210,7 +214,7 @@ bool VeterancyCrateCollide::executeCrateBehavior(Object *other)
 				obj->getExperienceTracker()->rva0039B4EC(getLevelsToGain(), !data->m_isPilot, false);
 				UnicodeString rankString;
 				rankString.format(TheGameText->slot44("GUI:GainRank", 0), getLevelsToGain());
-				rva004BCF92(obj, &rankString);
+				((Rva004BCF92 *)this)->rva004BCF92(obj, (int)&rankString);
 			}
 		}
 	}

@@ -224,6 +224,9 @@ struct SalvageCrateCollideModuleData
 	bool m_allowComputerPickup;	// +0x7C
 };
 
+// Owner row ?rva004BCF92@Rva004BCF92@@QAEXPBVObject@@H@Z: the text arrives as an int.
+class Rva004BCF92 { public: void rva004BCF92(const Object *obj, int arg); };	// 0x004BCF92
+
 class CrateCollide
 {
 public:
@@ -231,7 +234,6 @@ public:
 protected:
 	virtual bool executeCrateBehavior(Object *other);
 	virtual bool isValidToExecute(const Object *other) const;	// 0x004BC6C2
-	void rva004BCF92(const Object *other, const UnicodeString *text);	// 0x004BCF92
 	const void *m_moduleData;	// +0x04
 	Object *m_object;		// +0x08
 };
@@ -302,7 +304,7 @@ void SalvageCrateCollide::doMoney(Object *other)
 		}
 		UnicodeString moneyString;
 		moneyString.format(TheGameText->slot44("GUI:AddCash", 0), money);
-		rva004BCF92(other, &moneyString);
+		((Rva004BCF92 *)this)->rva004BCF92(other, (int)&moneyString);
 	}
 }
 
@@ -331,7 +333,7 @@ bool SalvageCrateCollide::executeCrateBehavior(Object *other)
 			other->m_experienceTracker->rva0039B4EC(1, true, false);
 			UnicodeString rankString;
 			rankString.format(TheGameText->slot44("GUI:GainRank", 0), 1);
-			rva004BCF92(other, &rankString);
+			((Rva004BCF92 *)this)->rva004BCF92(other, (int)&rankString);
 		}
 		break;
 	case 4: {
