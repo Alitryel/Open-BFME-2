@@ -1,8 +1,10 @@
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
+// partial score=0.96 date=2026-10-14
+// ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.9 date=2026-10-14
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.844802 date=2026-10-10
-// cl: /O1 /G7 /Ob1 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include
+// cl: /O1 /G7 /Ob1 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /EHa
 // stlport
 #include <vector>
 #include "ascii_string.h"

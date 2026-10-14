@@ -1,6 +1,8 @@
 // ?update@AIRingHeroTactic@@UAEXXZ
+// partial score=0.97 date=2026-10-14
+// ?update@AIRingHeroTactic@@UAEXXZ
 // partial score=0.98 date=2026-10-11
-// cl: /MD /GX /DNDEBUG /Ireference/shims/bfme2_ascii
+// cl: /MD /GX /DNDEBUG /Ireference/shims/bfme2_ascii /Os
 //
 // The "AIRingHeroTactic" skirmish-AI tactic (vtable 0x008723E8; ctor
 // 0x005AC7EC in Rva004ECECDTacticCtors.cpp, dtor 0x005AC7E1 and ??_G, slot 9

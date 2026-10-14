@@ -1,6 +1,8 @@
 // ?update@FiringTracker@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.985 date=2026-10-14
+// ?update@FiringTracker@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.96 date=2026-10-07
-// cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Os
 // stlport
 //
 // FiringTracker (Zero Hour GameLogic/Object/FiringTracker.cpp) in BFME 2:
