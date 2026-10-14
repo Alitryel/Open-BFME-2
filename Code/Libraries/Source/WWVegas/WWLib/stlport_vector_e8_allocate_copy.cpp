@@ -30,3 +30,8 @@ template void _STL::vector<AudioTriggerArea, _STL::allocator<AudioTriggerArea > 
 // the same push_back (0x00539A2E).
 struct AudioTriggerAreaSave { int a, b; };
 template void _STL::vector<AudioTriggerAreaSave, _STL::allocator<AudioTriggerAreaSave > >::push_back(const AudioTriggerAreaSave &);
+
+// GameLogic's created-object record is two pointers, the native 8-byte fold.
+class Object; class MapObject;
+struct Rva0024622FEntry { Object *obj; MapObject *mapObj; };
+template void _STL::vector<Rva0024622FEntry>::push_back(const Rva0024622FEntry &);

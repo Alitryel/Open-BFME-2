@@ -212,6 +212,45 @@ public:
 	virtual float getLayerHeight(float x, float y, PathfindLayerEnum layer,
 	                            Coord3D *normal = 0, bool clip = true) const;
 	virtual void getExtent(Region3D *extent) const;                      // +0x20
+	virtual void bridgeSlot09();
+	virtual void bridgeSlot0A();
+	virtual void bridgeSlot0B();
+	virtual void bridgeSlot0C();
+	virtual void bridgeSlot0D();
+	virtual void bridgeSlot0E();
+	virtual void bridgeSlot0F();
+	virtual void bridgeSlot10();
+	virtual void bridgeSlot11();
+	virtual void bridgeSlot12();
+	virtual void bridgeSlot13();
+	virtual void bridgeSlot14();
+	virtual void bridgeSlot15();
+	virtual void bridgeSlot16();
+	virtual void bridgeSlot17();
+	virtual void bridgeSlot18();
+	virtual void bridgeSlot19();
+	virtual void bridgeSlot1A();
+	virtual void bridgeSlot1B();
+	virtual void bridgeSlot1C();
+	virtual void bridgeSlot1D();
+	virtual void bridgeSlot1E();
+	virtual void bridgeSlot1F();
+	virtual void bridgeSlot20();
+	virtual void bridgeSlot21();
+	virtual void bridgeSlot22();
+	virtual void bridgeSlot23();
+	virtual void bridgeSlot24();
+	virtual void bridgeSlot25();
+	virtual void bridgeSlot26();
+	virtual void bridgeSlot27();
+	virtual void bridgeSlot28();
+	virtual void bridgeSlot29();
+	virtual void bridgeSlot2A();
+	virtual void bridgeSlot2B();
+	virtual void bridgeSlot2C();
+	virtual void bridgeSlot2D();
+	virtual void bridgeSlot2E();
+	virtual void addLandmarkBridgeToLogic(Object *bridgeObj); // +0xBC; donor name
 	void rva002817F2(const AsciiString &filename);
 	PathfindLayerEnum getLayerForDestination(Object *obj, const Coord3D *pos);
 	void rva0027D3D9(const ThingTemplate *tt, const Coord3D *pos, const Matrix3D *mtx, float scale);
@@ -582,6 +621,30 @@ enum ObjectID
 {
 	INVALID_ID = 0
 };
+
+// Retail folds this record's vector growth onto the no-EH STLport provider.
+// Keep that provider's algorithm visible without emitting an EH-enabled copy.
+namespace _STL {
+template<> inline void vector<Rva0024622FEntry>::_M_insert_overflow(
+    pointer position, const Rva0024622FEntry &value, const __false_type &,
+    size_type fillLength, bool atEnd)
+{
+    const size_type oldSize = size();
+    const size_type length = oldSize + (max)(oldSize, fillLength);
+    pointer start = this->_M_end_of_storage.allocate(length);
+    pointer finish = start;
+    finish = __uninitialized_copy(this->_M_start, position, start, __false_type());
+    if (fillLength == 1) {
+        _Construct(finish, value);
+        ++finish;
+    } else
+        finish = __uninitialized_fill_n(finish, fillLength, value, __false_type());
+    if (!atEnd)
+        finish = __uninitialized_copy(position, this->_M_finish, finish, __false_type());
+    _M_clear();
+    _M_set(start, finish, start + length);
+}
+}
 
 class GameLogic : public SubsystemInterface
 {
@@ -5186,4 +5249,79 @@ void GameLogic::loadAllObjects(_STL::vector<Rva0024622FEntry> *created, const Ki
 		}
 	}
 	bfmeMergeReceiverKeys((int)&assets);
+}
+
+// ?rva0024622F@GameLogic@@QAEX_N@Z
+// @0x0024622F 499B (ret 4 at 0x0024641F; caller 0x00246E74).
+// Target evidence: the body walks the map object list skipping flagged
+// objects (0x36), template-less objects and templates whose +0x5E5 flag is
+// clear. Each survivor's template is announced to a fresh asset list
+// (notify 0x0033CF34, merge 0x0061F010); unless the flag argument is set it
+// is created through 0x002D0A23 on the neutral player's default team,
+// dropped to the ground (TerrainLogic +0x18), oriented by normalizeAngle,
+// positioned, passed to TerrainLogic +0xBC, recorded with its map object
+// and given the map properties (0x002951AB). The rest of the map objects
+// follow through loadAllObjects (0x00244D56) restricted to kind 0x3C, then every recorded
+// object gets 0x00293E64 with its map properties. Donor: BFME 1
+// GameLogic::startNewGame's bridge pass ("Special case, load any bridge map
+// objects": isBridge, neutral default team, getGroundHeight, normalizeAngle,
+// setOrientation, setPosition, addLandmarkBridgeToLogic). BFME 2 split it
+// into this helper; the helper names stay address names.
+// Keep the two nested creation scopes: with the real loadAllObjects visible,
+// these reproduce retail's EBX object lifetime and unescaped created vector.
+void GameLogic::rva0024622F(bool dontCreate)
+{
+	_STL::vector<Rva0024622FEntry> created;
+	for (MapObject *pMapObj = BfmeTheMapObjectListHolder->m_head; pMapObj; pMapObj = pMapObj->getNext()) {
+		Rva0134FAA0->slot28();
+		bfmeReleaseQueuedDeviceInterfaces();
+
+		if (pMapObj->getFlags() & 0x36)
+			continue;
+
+		const ThingTemplate *thingTemplate = pMapObj->getThingTemplate();
+		if (thingTemplate == 0)
+			continue;
+		if (!thingTemplate->m_5e5)
+			continue;
+
+		AssetLoadMode mode;
+		AssetList assets;
+		((ThingTemplate *)thingTemplate)->GetAssetList((int)&assets, (int)&mode);
+		bfmeMergeReceiverKeys((int)&assets);
+		if (!dontCreate) {
+			Team *team = ThePlayerList->getNeutralPlayer()->getDefaultTeam();
+			CreateMask mask;
+			Object *obj = TheThingFactory->rva002D0A23(thingTemplate, team, mask, (ObjectID)0);
+			if (obj) {
+				const Coord3D *loc = pMapObj->getLocation();
+				Coord3D pos;
+				pos.x = loc->x;
+				pos.y = loc->y;
+				pos.z = loc->z;
+				pos.z += TheTerrainLogic->getGroundHeight(pos.x, pos.y);
+				obj->setOrientation(normalizeAngle(pMapObj->getAngle()));
+				obj->setPosition(&pos);
+				if (thingTemplate->m_5e5)
+					TheTerrainLogic->addLandmarkBridgeToLogic(obj);
+
+				Rva0024622FEntry entry;
+				entry.obj = obj;
+				entry.mapObj = pMapObj;
+				created.push_back(entry);
+				obj->updateObjValuesFromMapProperties(pMapObj->getProperties());
+			}
+		}
+	}
+
+	{
+		KindOfType kind = (KindOfType)0x3c;
+		loadAllObjects(&created, 0, &kind, dontCreate);
+	}
+
+	for (Rva0024622FEntry *it = created.begin(); it != created.end(); ++it) {
+		Rva0134FAA0->slot28();
+		bfmeReleaseQueuedDeviceInterfaces();
+		it->obj->rva00293E64(it->mapObj->getProperties());
+	}
 }
