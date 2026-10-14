@@ -5,8 +5,9 @@
 // WND lobby screens, retail 0x00446A95..0x004476E0 after the rowed
 // EnableSlotListUpdates pair (0x00446A67/0x00446A71). BFME2 returns early from
 // each helper while the game-mode object at VA 0x00E0333C exists.
-// PopulateTeamComboBox 0x00446C18 and PopulatePlayerTemplateComboBox 0x004474C7
-// remain banked for their initial base/index register tie.
+// PopulateTeamComboBox 0x00446C18 remains banked for its initial base/index
+// register tie; PopulatePlayerTemplateComboBox 0x004474C7 closed with an
+// equal-arm on the SIDE: format argument.
 // UpdateSlotList is reconstructed from ZH GUIUtil.cpp at the pinned BFME1
 // donor575ba2b04; WB1496390 names it and native44712F..4474C7 proves its
 // complete920B body, field reads, slots and BFME2 combo refresh additions.
@@ -481,4 +482,77 @@ void UpdateSlotList( GameInfo *myGame, GameWindow *comboPlayer[],
 			}
 		}
 	}
+}
+
+// Retail 0x004474C7, 537B. BFME2 lists one entry per side whose SIDE: label
+// exists in the string table (no starting-building, old-faction or locked
+// general checks).
+class PlayerTemplate
+{
+public:
+	const AsciiString &getSide() const { return m_side; }
+private:
+	unsigned char m_00[0x18];
+	AsciiString m_side;	// +0x18
+	unsigned char m_1c[0x1DC - 0x1C];
+};
+class PlayerTemplateStore
+{
+public:
+	Int getPlayerTemplateCount() const { return m_end - m_begin; }
+	const PlayerTemplate *getNthPlayerTemplate(Int i) const;
+private:
+	unsigned char m_00[0x0C];
+	PlayerTemplate *m_begin;	// +0x0C
+	PlayerTemplate *m_end;		// +0x10
+};
+extern PlayerTemplateStore *ThePlayerTemplateStore;
+
+void PopulatePlayerTemplateComboBox(Int comboBox, GameWindow *comboArray[], GameInfo *myGame, Bool allowObservers)
+{
+	if (g_Va00E0333C)
+		return;
+
+	Int numPlayerTemplates = ThePlayerTemplateStore->getPlayerTemplateCount();
+	UnicodeString playerTemplateName;
+
+	GadgetComboBoxReset(comboArray[comboBox]);
+
+	MultiplayerColorDefinition *def = TheMultiplayerSettings->getColor(PLAYERTEMPLATE_RANDOM);
+	Int newIndex = GadgetComboBoxAddEntry(comboArray[comboBox], TheGameText->fetch("GUI:Random"), def->getColor());
+	GadgetComboBoxSetItemData(comboArray[comboBox], newIndex, (void *)PLAYERTEMPLATE_RANDOM);
+
+	std::set<AsciiString> seenSides;
+
+	for (Int c=0; c<numPlayerTemplates; ++c)
+	{
+		const PlayerTemplate *fac = ThePlayerTemplateStore->getNthPlayerTemplate(c);
+		if (!fac)
+			continue;
+
+		AsciiString side;
+		side.format("SIDE:%s", (comboBox ? (fac->getSide().str()) : (fac->getSide().str())));
+		if (seenSides.find(side) != seenSides.end())
+			continue;
+
+		seenSides.insert(side);
+
+		bool exists;
+		UnicodeString sideName = TheGameText->fetch(side, &exists);
+		if (!exists)
+			continue;
+
+		newIndex = GadgetComboBoxAddEntry(comboArray[comboBox], TheGameText->fetch(side), def->getColor());
+		GadgetComboBoxSetItemData(comboArray[comboBox], newIndex, (void *)c);
+	}
+
+	seenSides.clear();
+
+	if (allowObservers)
+	{
+		def = TheMultiplayerSettings->getColor(PLAYERTEMPLATE_OBSERVER);
+		newIndex = GadgetComboBoxAddEntry(comboArray[comboBox], TheGameText->fetch("GUI:Observer"), def->getColor());
+		GadgetComboBoxSetItemData(comboArray[comboBox], newIndex, (void *)PLAYERTEMPLATE_OBSERVER);
+	}
+	GadgetComboBoxSetSelectedPos(comboArray[comboBox], 0);
 }
