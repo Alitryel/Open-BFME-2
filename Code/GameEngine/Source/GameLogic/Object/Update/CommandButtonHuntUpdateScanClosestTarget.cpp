@@ -1,18 +1,5 @@
-// ?scanClosestTarget@CommandButtonHuntUpdate@@IAEPAVObject@@XZ
-// partial score=0.9813 date=2026-10-13
-// ?scanClosestTarget@CommandButtonHuntUpdate@@IAEPAVObject@@XZ
-// partial score=0.98 date=2026-10-13
-// ?scanClosestTarget@CommandButtonHuntUpdate@@IAEPAVObject@@XZ
-// partial score=0.9813254042140862 date=2026-10-10
-// ?scanClosestTarget@CommandButtonHuntUpdate@@IAEPAVObject@@XZ
-// partial score=0.9813 date=2026-10-06
-// ?scanClosestTarget@CommandButtonHuntUpdate@@IAEPAVObject@@XZ
-// partial score=0.9768 date=2026-10-05
-// ?scanClosestTarget@CommandButtonHuntUpdate@@IAEPAVObject@@XZ
-// partial score=0.97 date=2026-10-04
 // cl: /O1 /DNDEBUG /MD /GX /arch:SSE /I.
 //
-// ?scanClosestTarget@CommandButtonHuntUpdate@@AAEPAVObject@@XZ, retail
 // 0x00495489, 721 bytes. Zero Hour's CommandButtonHuntUpdate::scanClosestTarget
 // (reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/
 // Code/GameEngine/Source/GameLogic/Object/Update/CommandButtonHuntUpdate.cpp)
@@ -27,6 +14,10 @@
 // special power template at +0x44; the template's view-object range at
 // +0x50; the module data's scan range at +0x0C.
 
+// The BFME1 donor at23b143233b5a8664a3bdf8572df6d905c310a5a1
+// CommandButtonHuntUpdateScanClosestTarget.cpp retains an inner scope for
+// filterPlayer. Retail cleans up that filter before branching on the mine
+// result, which also fixes the stack homes of the retained scan locals.
 #include <math.h>
 typedef bool Bool;
 typedef int Int;
@@ -193,21 +184,9 @@ public:
 	BfmeFixedStorage0004543D m_24;
 };
 
-struct BfmeWideResult
-{
-	Object *next() throw();	// 0x00045623
-	~BfmeWideResult();	// 0x0004AA28
-	void *m_value;
-};
 
-class PartitionManager
-{
-public:
-	Object *getClosestObject(const Coord3D *pos, float maxDist, int dc,
-		Rva000421C8 *filters);	// 0x00625360
-	BfmeWideResult iterateObjectsInRange(const Coord3D *pos, float radius, int distCalc,
-		Rva000421C8 *filters, int order);	// 0x00625610
-};
+
+#include "../../../Common/PartitionRangeQueryCallView.h"
 extern PartitionManager *ThePartitionManager;
 
 class ActionManager
@@ -312,10 +291,13 @@ Object *CommandButtonHuntUpdate::scanClosestTarget()
 			if (TheActionManager->canDoSpecialPowerAtObject(me, other, CMD_FROM_AI, spTemplate, 0, true)) {
 				if (isPlaceExplosive) {
 					Real range = spTemplate->getViewObjectRange();
-					Rva00260E2AFilter filterPlayer(me->getControllingPlayer());
-					Object *mine = ThePartitionManager->getClosestObject(other->getPosition(), range, 1,
-						Rva0004584D(BfmeFixedStorage0004543D(0, KINDOF_MINE),
-							*(const BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype).link(&filterPlayer));
+					Object *mine;
+					{
+						Rva00260E2AFilter filterPlayer(me->getControllingPlayer());
+						mine = ThePartitionManager->getClosestObject(other->getPosition(), range, 1,
+							Rva0004584D(BfmeFixedStorage0004543D(0, KINDOF_MINE),
+								*(const BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype).link(&filterPlayer));
+					}
 					if (mine)
 						continue;
 				}

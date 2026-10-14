@@ -157,11 +157,18 @@ struct RetHolder
 	int m_val;
 };
 
+class Rva00495840;
+class CommandButtonHuntUpdate
+{
+	friend class Rva00495840;
+protected:
+	Object *scanClosestTarget();
+};
+
 class Rva00495840
 {
 public:
 	int rva00495840(Arg *arg);
-	Object *rva00495489();
 
 private:
 	char m_pad0[4];
@@ -185,7 +192,7 @@ int Rva00495840::rva00495840(Arg *arg)
 		if (((Gate *)((char *)found + 0x20))->s2())
 			return holder->m_val;
 	}
-	Object *hit = rva00495489();
+	Object *hit = ((CommandButtonHuntUpdate *)this)->scanClosestTarget();
 	if (hit != 0)
 		obj->rva00297000(m_btn, hit, 2, 0);
 	return holder->m_val;
