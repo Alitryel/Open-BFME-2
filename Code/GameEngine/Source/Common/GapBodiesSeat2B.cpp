@@ -228,15 +228,25 @@ class Rva001338A0
 {
 public:
 	float rva001338A0() const;
+	float rva001338B0() const;
 private:
 	float m_00;
 	float m_04;
 	float m_08;
+	float m_0C;
 };
 
 float Rva001338A0::rva001338A0() const
 {
 	return m_08 - m_00;
+}
+
+// --- 0x001338B0 (6B): the sibling difference, the float at +0xC minus the
+// float at +4 (with the one above, the width/height pair of a
+// left/top/right/bottom rectangle; the class is not established).
+float Rva001338A0::rva001338B0() const
+{
+	return m_0C - m_04;
 }
 
 // --- 0x000FA927 (8B) / 0x000FA92F (6B): clear and read the shared dirty
@@ -273,4 +283,13 @@ private:
 
 Rva000F0FB8::~Rva000F0FB8()
 {
+}
+
+// --- 0x000E0E64 (6B): reads the dx8wrapper flag bfmeOnlyEmissiveDraws
+// (0x00DEC3D8); in the aabtreecull run, no direct caller.
+extern bool bfmeOnlyEmissiveDraws;
+
+bool Rva000E0E64OnlyEmissiveDraws()
+{
+	return bfmeOnlyEmissiveDraws;
 }
