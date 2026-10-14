@@ -433,3 +433,11 @@ Rva0033A501::Rva0033A501()
 	: m_00(-1)
 {
 }
+
+// --- 0x002226DA (11B, cdecl): stores the byte argument through the pointer
+// argument and returns the pointer (EAX holds it on return).
+unsigned char *Rva002226DAStore(unsigned char *target, unsigned char value)
+{
+	*target = value;
+	return target;
+}

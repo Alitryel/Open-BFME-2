@@ -89289,3 +89289,4 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva002E6C72@Rva002E6C72@@QBEIXZ,,0x002E6C72,7,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Native7 gap leaf 2E6C72: bit0 of byte +0xE; owner unresolved
 ?rva0033A430@Rva0033A430@@QAEPAHH@Z,,0x0033A430,6,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Native6 gap leaf 33A430: RET4 address of +4 with unused argument; owner unresolved
 ??0Rva0033A501@@QAE@XZ,,0x0033A501,6,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Native6 gap leaf 33A501: ctor setting +0 to -1; owner unresolved
+?Rva002226DAStore@@YAPAEPAEE@Z,,0x002226DA,11,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,Native11 2226DA..2226E5 cdecl stores the byte argument through the pointer argument and leaves the pointer in EAX; owner unresolved
