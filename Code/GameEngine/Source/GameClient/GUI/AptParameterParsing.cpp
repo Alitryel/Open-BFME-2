@@ -2,6 +2,7 @@
 #include "ascii_string.h"
 #include <ctype.h>
 #include <string.h>
+#include "../../../../Libraries/Include/Lib/Coord2D.h"
 // Apt query-string parameter parsing ("key=value&key=value").
 // Native helpers in retail order: 00412689 SkipSpaces (29B) 004126A6
 // SkipPastEquals (23B) 004126BD SkipPastAmpersand (23B) 004126D4 key-prefix
@@ -79,5 +80,40 @@ bool __cdecl Rva004128F0GetParam(const char *input, const char *key, AsciiString
    return true;
   }
   Rva004126BDSkipPastAmpersand(&params);
+ }
+}
+
+// Native 004129DF..00412A3C (93B cdecl ret): the "RenderImageDisabled"
+// custom-render callback the global registration 0x00412F14 binds by address.
+// Same image lookup (0x00223AC4) and W3DDisplay draw (0x0004D6B3) as the rowed
+// sibling Rva00412B94, with the draw mode fixed at 1 instead of parsed from the
+// parameters; the mode's meaning is not established.
+class Image;
+class AptPlayer
+{
+public:
+ const Image *FindRenderImage(const char *path, const char *parameters);
+};
+// One native manager datum at VA DFE4CC; cast to this unit's receiver view.
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
+class Display;
+extern Display *TheDisplay;
+class W3DDisplay
+{
+public:
+ void rva0004D6B3(Image *image, float x0, float y0, float x1, float y1, int color, int mode);
+};
+
+// ?Rva004129DF@@YAXPBVCoord2D@@0PBD1@Z
+void Rva004129DF(const Coord2D *origin, const Coord2D *size,
+                 const char *path, const char *parameters)
+{
+ const Image *image = reinterpret_cast<AptPlayer *>(g_bfmeAptWindowManager)->FindRenderImage(path, parameters);
+ if (image)
+ {
+  reinterpret_cast<W3DDisplay *>(TheDisplay)->rva0004D6B3(
+      const_cast<Image *>(image), origin->x, origin->y, size->x + origin->x,
+      size->y + origin->y, -1, 1);
  }
 }

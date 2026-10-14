@@ -3,13 +3,12 @@
 void *__cdecl operator new(unsigned int);
 inline void *__cdecl operator new(unsigned int, void *p) { return p; }
 
-class Rva00380AB1Impl
+struct Rva00080221RefImpl { virtual ~Rva00080221RefImpl() {} int m_ref; Rva00080221RefImpl() : m_ref(0) {} };
+class Rva00380AB1Impl : public Rva00080221RefImpl
 {
 public:
-	virtual ~Rva00380AB1Impl();
-	int m_ref;
 	void *m_func;
-	Rva00380AB1Impl(void *p) : m_ref(0) { m_func = *(void **)p; }
+	Rva00380AB1Impl(void *p) { m_func = *(void **)p; }
 };
 
 class Rva00380AB1
@@ -19,10 +18,20 @@ public:
 	Rva00380AB1(void *p);
 };
 
-Rva00380AB1::Rva00380AB1(void *p)
+// Select-any like the identical consumer copies (AptGuiFXInit.cpp,
+// AptGlobalCallbackRegistration.cpp); a strong copy here duplicated them at
+// link. The anchor keeps the body emitted.
+inline Rva00380AB1::Rva00380AB1(void *p)
 {
 	Rva00380AB1Impl *q = new Rva00380AB1Impl(p);
 	m_ptr = q;
 	if (q)
 		++q->m_ref;
+}
+
+// Retain the inline body's ledger emission without changing its callers.
+// ?bfmeEmitRva00380AB1Ctor@@YAXPAVRva00380AB1@@PAX@Z absent-from-retail
+void bfmeEmitRva00380AB1Ctor(Rva00380AB1 *p, void *q)
+{
+	new (p) Rva00380AB1(q);
 }

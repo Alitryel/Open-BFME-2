@@ -52,9 +52,10 @@ class AptCustomRender : public AptRefCounted {};
 // pointer, which shares the pointer temporary and the argument-save slot
 // across the registrations (frame 0x10).
 void *__cdecl operator new(unsigned int);
-class Rva0023E8D8Impl { public: virtual ~Rva0023E8D8Impl(); int m_ref; void *m_func; Rva0023E8D8Impl(void *p) : m_ref(0) { m_func = *(void **)p; } };
+struct Rva00080221RefImpl { virtual ~Rva00080221RefImpl() {} int m_ref; Rva00080221RefImpl() : m_ref(0) {} };
+class Rva0023E8D8Impl : public Rva00080221RefImpl { public: void *m_func; Rva0023E8D8Impl(void *p) { m_func = *(void **)p; } };
 class Rva0023E8D8 { Rva0023E8D8Impl *m_ptr; public: __declspec(noinline) Rva0023E8D8(void *p) { Rva0023E8D8Impl *q = new Rva0023E8D8Impl(p); m_ptr = q; if (q) ++q->m_ref; } };
-class Rva00380AB1Impl { public: virtual ~Rva00380AB1Impl(); int m_ref; void *m_func; Rva00380AB1Impl(void *p) : m_ref(0) { m_func = *(void **)p; } };
+class Rva00380AB1Impl : public Rva00080221RefImpl { public: void *m_func; Rva00380AB1Impl(void *p) { m_func = *(void **)p; } };
 class Rva00380AB1 { Rva00380AB1Impl *m_ptr; public: __declspec(noinline) Rva00380AB1(void *p) { Rva00380AB1Impl *q = new Rva00380AB1Impl(p); m_ptr = q; if (q) ++q->m_ref; } };
 
 template<class T> class AptRef {

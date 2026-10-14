@@ -85,13 +85,12 @@ public:
 	FunctorWrapperHead *m_ptr;
 };
 
-class Rva0023E8D8Impl
+struct Rva00080221RefImpl { virtual ~Rva00080221RefImpl() {} int m_ref; Rva00080221RefImpl() : m_ref(0) {} };
+class Rva0023E8D8Impl : public Rva00080221RefImpl
 {
 public:
-	virtual ~Rva0023E8D8Impl();
-	int m_ref;
 	void *m_func;
-	Rva0023E8D8Impl(void *p) : m_ref(0) { m_func = *(void **)p; }
+	Rva0023E8D8Impl(void *p) { m_func = *(void **)p; }
 };
 class Rva0023E8D8
 {
