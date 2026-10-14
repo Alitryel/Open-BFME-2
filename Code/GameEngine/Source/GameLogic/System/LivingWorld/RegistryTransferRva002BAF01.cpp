@@ -59,11 +59,19 @@ public:
     void rva004FBDCC();
 };
 
+// 0x002B9B42 is matched as the private LivingWorldLogic::AddDelayedRegionVictory.
+class Rva003F287F;
+class LivingWorldLogic
+{
+    friend class Rva002BAF01;
+private:
+    void AddDelayedRegionVictory(Rva003F287F *region, int value, unsigned int word);
+};
+
 class Rva002BAF01
 {
 public:
     void rva002BAF01(Rva002BAF01Region *region, CreateAHeroData *value);
-    void rva002B9B42(Rva002BAF01Region *region, CreateAHeroData *value, int word);
 private:
     char unknown00[0x130];
     Rva002BAF01Tree tree;
@@ -80,7 +88,7 @@ void Rva002BAF01::rva002BAF01(Rva002BAF01Region *region, CreateAHeroData *value)
             && !record->marked)
         {
             reinterpret_cast<Rva004FBDCC *>(record)->rva004FBDCC();
-            rva002B9B42(region, value, record->value14);
+            ((LivingWorldLogic *)this)->AddDelayedRegionVictory((Rva003F287F *)region, (int)value, record->value14);
         }
     }
 }
