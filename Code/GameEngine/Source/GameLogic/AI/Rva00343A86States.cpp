@@ -3,7 +3,9 @@
 // Name is a scalar hash: factory 34B1E9 pushes an immediate key, with no
 // string construction or destruction. Keep the established host-word view.
 // StateMachine-family ctor (thiscall): base-constructs the rowed
-// StateMachine base from (owner, name, 0), stores vtable g_00C11A86, then four
+// StateMachine base from (owner, name, 0), installs its vftable 0x00811CF0
+// (shared with the destructor 0x0033FBB7, whose unit names the class from
+// the slot 2 getter 0x0033FC04), then four
 // new-expression state blocks into the dead name slot with post-call eax
 // feeding rowed defineState directly (B952-family shape). The zero lives in
 // esi and is recycled into 0x2BC; 0x2C0/0x2BE trade through ebx; the 0x270F
@@ -21,10 +23,10 @@ public:
 };
 
 
-class Rva00342978
+class AIAttackApproachTargetState00C12678
 {
 public:
-	Rva00342978(StateMachine *machine);
+	AIAttackApproachTargetState00C12678(StateMachine *machine);
 private:
 	void *m_vtbl;
 	char m_pad[0x64 - 4];
@@ -48,19 +50,17 @@ private:
 	char m_pad[0x28 - 4];
 };
 
-extern const void *const g_00C11A86[];
-
-class Rva00343A86 : public StateMachine
+class AttackPositionHordeStateMachine : public StateMachine
 {
 public:
-	Rva00343A86(Object *owner, int x, unsigned int name);
+	AttackPositionHordeStateMachine(Object *owner, int x, unsigned int name);
+	virtual ~AttackPositionHordeStateMachine();
 };
 
-Rva00343A86::Rva00343A86(Object *owner, int x, unsigned int name)
+AttackPositionHordeStateMachine::AttackPositionHordeStateMachine(Object *owner, int x, unsigned int name)
 	: StateMachine(owner, name, false)
 {
-	*(const void **)this = g_00C11A86;
-	Rva00342978 *s0 = new Rva00342978((StateMachine *)this);
+	AIAttackApproachTargetState00C12678 *s0 = new AIAttackApproachTargetState00C12678((StateMachine *)this);
 	((StateMachine *)this)->defineState(0x2BC, (State *)s0, 0x2BD, 0x2C0, (const StateConditionInfo *)0);
 	Rva0033F460 *s1 = new Rva0033F460((StateMachine *)this);
 	((StateMachine *)this)->defineState(0x2C0, (State *)s1, 0x270F, 0x270F, (const StateConditionInfo *)0);
@@ -69,7 +69,3 @@ Rva00343A86::Rva00343A86(Object *owner, int x, unsigned int name)
 	Rva0033F460 *s3 = new Rva0033F460((StateMachine *)this);
 	((StateMachine *)this)->defineState(0x2BE, (State *)s3, 0x2BC, 0x2BC, (const StateConditionInfo *)0);
 }
-
-// The global below is defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_00C11A86@@3QBQBXB=??_7Rva00343A86@@6B@")

@@ -1,6 +1,10 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
 //
-// Rva003676A2::Rva003676A2, retail 0x3676a2: a BFME 2 state machine constructor. The base
+// AIAttackSwoopThenIdleStateMachine::AIAttackSwoopThenIdleStateMachine, retail 0x3676a2: a
+// BFME 2 state machine constructor. The name is a target fact: the vftable
+// 0x008174E0 it installs (dtor 0x003677B3, deleting dtor 0x0036898C in slot
+// 0) has the name getter 0x003677AD in slot 2, returning
+// "AIAttackSwoopThenIdleStateMachine". The base
 // is the rowed StateMachine constructor 0x004D79E1 with the caller's name key
 // (its unsigned spelling is pinned); each state comes from plain operator
 // new and its rowed constructor, registered with the IDs and transitions
@@ -70,16 +74,16 @@ public:
 private:
 	unsigned char m_pad04[0x28 - 0x04];
 };
-class Rva003676A2 : public StateMachine
+class AIAttackSwoopThenIdleStateMachine : public StateMachine
 {
 public:
-	Rva003676A2(Object *owner, UnsignedInt nameKey);
-	virtual ~Rva003676A2();
+	AIAttackSwoopThenIdleStateMachine(Object *owner, UnsignedInt nameKey);
+	virtual ~AIAttackSwoopThenIdleStateMachine();
 	virtual Bool isInAttackState() const;
 
 };
 
-Rva003676A2::Rva003676A2(Object *owner, UnsignedInt nameKey) : StateMachine(owner, nameKey, false)
+AIAttackSwoopThenIdleStateMachine::AIAttackSwoopThenIdleStateMachine(Object *owner, UnsignedInt nameKey) : StateMachine(owner, nameKey, false)
 {
 
 	// order matters: first state is the default state.
@@ -89,7 +93,7 @@ Rva003676A2::Rva003676A2(Object *owner, UnsignedInt nameKey) : StateMachine(owne
 	defineState( 0, new Rva0033FE65( this, 1 ), 0, 0 );
 }
 
-// Rva003676A2::isInAttackState, retail 0x0036890E (126B): slot 11 of this
+// AIAttackSwoopThenIdleStateMachine::isInAttackState, retail 0x0036890E (126B): slot 11 of this
 // machine's vtable 0x00C174E0 (StateMachine's isInAttackState slot). The
 // final state 0 always counts; state 1013 counts while the owner's AI
 // (Object +0x258) reports slot +0x168 and its slot +0x188 target either lacks
@@ -143,11 +147,11 @@ static __forceinline Bool rva0036890EAttacking(const Rva0036890EObject *owner)
 }
 // The destructor restores vtable 0x008174E0 and tail-calls the base; slot 0
 // of that vtable is the deleting destructor 0x0036898C.
-Rva003676A2::~Rva003676A2()
+AIAttackSwoopThenIdleStateMachine::~AIAttackSwoopThenIdleStateMachine()
 {
 }
 
-Bool Rva003676A2::isInAttackState() const
+Bool AIAttackSwoopThenIdleStateMachine::isInAttackState() const
 {
 	const Rva0036890EMachine *machine = (const Rva0036890EMachine *)this;
 	StateID id = machine->m_currentState ? machine->m_currentState->m_ID : INVALID_STATE_ID;

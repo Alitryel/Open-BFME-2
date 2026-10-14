@@ -1,7 +1,10 @@
 // cl: /ICode/Libraries/Include/Lib /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc 
 //
-// Rva00346D17::Rva00346D17, retail 0x00346D17 (654 bytes): Zero Hour's
-// AttackStateMachine constructor (AIStates.cpp): aim, fire and the BFME 2
+// AttackStateMachine::AttackStateMachine, retail 0x00346D17 (654 bytes): Zero
+// Hour's AttackStateMachine constructor (AIStates.cpp). The name is a target
+// fact: the vftable 0x00811A68 it installs (dtor 0x0033FAE9, deleting dtor
+// 0x0034314E in slot 0) has the name getter 0x0033FAF4 in slot 2, returning
+// "AttackStateMachine". Aim, fire and the BFME 2
 // re-aim state, then chase/approach unless immobile (a portable structure
 // that can attack gets the always-aim chase state). Object conditions are the
 // normal or forced table, replaced by BFME 2's status-0x26 tables (one for a
@@ -129,11 +132,11 @@ public:
 private:
 	unsigned char m_pad04[0x74 - 0x04];
 };
-class Rva00346D17 : public StateMachine
+class AttackStateMachine : public StateMachine
 {
 public:
-	Rva00346D17(Object *obj, Rva00346D17Attack *att, UnsignedInt nameKey, Bool follow, Bool attackingObject, Bool forceAttacking);
-	virtual ~Rva00346D17();
+	AttackStateMachine(Object *obj, Rva00346D17Attack *att, UnsignedInt nameKey, Bool follow, Bool attackingObject, Bool forceAttacking);
+	virtual ~AttackStateMachine();
 };
 // The conditions the tables reference (retail .rdata entries).
 bool rva00343DD8(void *thisState, void *userData);	// outOfWeaponRangeObject
@@ -152,7 +155,7 @@ enum
 	EXIT_MACHINE_WITH_FAILURE = 9999
 };
 
-Rva00346D17::Rva00346D17(Object *obj, Rva00346D17Attack *att, UnsignedInt nameKey, Bool follow, Bool attackingObject, Bool forceAttacking) : StateMachine(obj, nameKey, false)
+AttackStateMachine::AttackStateMachine(Object *obj, Rva00346D17Attack *att, UnsignedInt nameKey, Bool follow, Bool attackingObject, Bool forceAttacking) : StateMachine(obj, nameKey, false)
 {
 	static const StateConditionInfo objectConditionsNormal[] =
 	{

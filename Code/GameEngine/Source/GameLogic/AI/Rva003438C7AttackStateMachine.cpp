@@ -1,6 +1,10 @@
 // cl: /O1 /I. /arch:SSE /G7 /DNDEBUG /MD /EHsc
 //
-// Rva003438C7::Rva003438C7, retail 0x3438c7: a BFME 2 state machine constructor. The base
+// AttackPositionStateMachine::AttackPositionStateMachine, retail 0x3438c7: a
+// BFME 2 state machine constructor. The name is a target fact: the vftable
+// 0x00811C90 it installs (dtor 0x0033FBA6, deleting dtor 0x00343A6A in slot
+// 0) has the name getter 0x0033FBB1 in slot 2, returning
+// "AttackPositionStateMachine". The base
 // is the rowed StateMachine constructor 0x004D79E1 with the caller's name key
 // (its unsigned spelling is pinned); each state comes from plain operator
 // new and its rowed constructor, registered with the IDs and transitions
@@ -79,11 +83,11 @@ class Rva004D74AC : public State { public: Rva004D74AC(StateMachine*); private: 
 class AIAttackApproachTargetState00C12678 : public State { public: AIAttackApproachTargetState00C12678(StateMachine*); private: char pad[0x64-4]; };
 struct AttackKindPrefixView { char before108[0x108]; unsigned char kind108; char gap[6]; unsigned char kind10F; };
 struct AttackOwnerPrefixView { char first[4]; AttackKindPrefixView *thing; };
-class Rva003438C7 : public StateMachine
+class AttackPositionStateMachine : public StateMachine
 {
 public:
-	Rva003438C7(Object *owner, Rva003438C7Host *host, UnsignedInt nameKey);
-	virtual ~Rva003438C7();
+	AttackPositionStateMachine(Object *owner, Rva003438C7Host *host, UnsignedInt nameKey);
+	virtual ~AttackPositionStateMachine();
 
 };
 // condition 0x0033FD98 (retail .rdata table entry)
@@ -91,7 +95,7 @@ class Rva00343F8A;
 Bool rva0033FD98(Rva00343F8A *thisState, void *userData);
 Bool rva0033FDD6(Rva00343F8A *thisState, void *userData);
 
-Rva003438C7::Rva003438C7(Object *owner, Rva003438C7Host *host, UnsignedInt nameKey) : StateMachine(owner, nameKey, false)
+AttackPositionStateMachine::AttackPositionStateMachine(Object *owner, Rva003438C7Host *host, UnsignedInt nameKey) : StateMachine(owner, nameKey, false)
 {
 	static const StateConditionInfo g_condC131A0[] =
 	{
@@ -115,6 +119,6 @@ Rva003438C7::Rva003438C7(Object *owner, Rva003438C7Host *host, UnsignedInt nameK
 
 // The destructor restores vtable 0x00811C90 and tail-calls the base; slot 0
 // of that vtable is the deleting destructor 0x00343A6A.
-Rva003438C7::~Rva003438C7()
+AttackPositionStateMachine::~AttackPositionStateMachine()
 {
 }

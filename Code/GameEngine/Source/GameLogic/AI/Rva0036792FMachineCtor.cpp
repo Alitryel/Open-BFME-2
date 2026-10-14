@@ -91,10 +91,10 @@ private:
 	unsigned char m_pad1C[0x28 - 0x1C];
 };
 // The rowed sub-machine 0x003676A2; slot 7 (+0x1C) starts its default state.
-class Rva003676A2
+class AIAttackSwoopThenIdleStateMachine
 {
 public:
-	Rva003676A2(Object *owner, UnsignedInt nameKey);
+	AIAttackSwoopThenIdleStateMachine(Object *owner, UnsignedInt nameKey);
 	virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
 	virtual void v04(); virtual void v05(); virtual void v06();
 	virtual void initDefaultState();
@@ -109,7 +109,7 @@ public:
 	Rva003677BE(StateMachine *machine);
 private:
 	UnsignedInt m_24;			// +0x24
-	Rva003676A2 *m_subMachine;	// +0x28
+	AIAttackSwoopThenIdleStateMachine *m_subMachine;	// +0x28
 	int m_2C;					// +0x2C
 };
 class Rva003678F7 : public State
@@ -143,7 +143,7 @@ public:
 Rva003677BE::Rva003677BE(StateMachine *machine) : GiantBirdNormalFlightState(machine, false, true)
 {
 	m_2C = 5;
-	m_subMachine = new Rva003676A2(m_machine->getOwner(), 0xc586154eu);
+	m_subMachine = new AIAttackSwoopThenIdleStateMachine(m_machine->getOwner(), 0xc586154eu);
 	m_subMachine->initDefaultState();
 	m_24 = 0;
 }

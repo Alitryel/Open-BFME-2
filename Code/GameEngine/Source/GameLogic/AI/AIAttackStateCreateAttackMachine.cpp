@@ -33,10 +33,10 @@ public:
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
-class Rva00343A86
+class AttackPositionHordeStateMachine
 {
 public:
-    Rva00343A86(Object*,int,unsigned);
+    AttackPositionHordeStateMachine(Object*,int,unsigned);
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
@@ -47,10 +47,10 @@ public:
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
-class Rva003438C7
+class AttackPositionStateMachine
 {
 public:
-    Rva003438C7(Object*,Rva003438C7Host*,unsigned);
+    AttackPositionStateMachine(Object*,Rva003438C7Host*,unsigned);
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
@@ -61,10 +61,10 @@ public:
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
-class Rva00346D17
+class AttackStateMachine
 {
 public:
-    Rva00346D17(Object*,Rva00346D17Attack*,unsigned,bool,bool,bool);
+    AttackStateMachine(Object*,Rva00346D17Attack*,unsigned,bool,bool,bool);
 private:
     char body[0x3C]; // allocation extent established separately at every case
 };
@@ -106,9 +106,9 @@ void AIAttackState::createAttackMachine(Object *owner)
     else if (kind == 0)
         machine = reinterpret_cast<AttackOwnerPrefixView*>(owner)->ai->getAttackMachine();
     else if (kind == 4)
-        machine = new Rva003438C7(owner, reinterpret_cast<Rva003438C7Host*>(this), 0x3c81e213);
+        machine = new AttackPositionStateMachine(owner, reinterpret_cast<Rva003438C7Host*>(this), 0x3c81e213);
     else if (kind == 7)
-        machine = new Rva00343A86(owner, reinterpret_cast<int>(this), 0x79565b18);
+        machine = new AttackPositionHordeStateMachine(owner, reinterpret_cast<int>(this), 0x79565b18);
     else
-        machine = new Rva00346D17(owner, reinterpret_cast<Rva00346D17Attack*>(this), 0xd30e2fb3, follow, attackingObject, forceAttacking);
+        machine = new AttackStateMachine(owner, reinterpret_cast<Rva00346D17Attack*>(this), 0xd30e2fb3, follow, attackingObject, forceAttacking);
 }

@@ -72,10 +72,10 @@ public:
 private:
 	unsigned char m_pad[0x74];	// operator new size 0x74
 };
-class Rva003676A2
+class AIAttackSwoopThenIdleStateMachine
 {
 public:
-	Rva003676A2(Object *owner, UnsignedInt nameKey);	// rowed 0x003676A2
+	AIAttackSwoopThenIdleStateMachine(Object *owner, UnsignedInt nameKey);	// rowed 0x003676A2
 private:
 	unsigned char m_pad[0x3C];	// operator new size 0x3C
 };
@@ -96,7 +96,7 @@ public:
 class Rva0036792FSlot9 : public StateMachineOwnerView
 {
 public:
-	virtual Rva003676A2 *rva00367F9E();
+	virtual AIAttackSwoopThenIdleStateMachine *rva00367F9E();
 };
 
 AIGuardMachine *AIStateMachineSlot10::rva0034145C()
@@ -104,7 +104,7 @@ AIGuardMachine *AIStateMachineSlot10::rva0034145C()
 	return new AIGuardMachine(getOwner(), 0x0F9E47F7);
 }
 
-Rva003676A2 *Rva0036792FSlot9::rva00367F9E()
+AIAttackSwoopThenIdleStateMachine *Rva0036792FSlot9::rva00367F9E()
 {
-	return new Rva003676A2(getOwner(), 0x615E895F);
+	return new AIAttackSwoopThenIdleStateMachine(getOwner(), 0x615E895F);
 }

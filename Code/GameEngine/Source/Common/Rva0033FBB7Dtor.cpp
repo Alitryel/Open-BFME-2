@@ -6,7 +6,10 @@
 // present, then calling the pinned base 0x004D759C. Caller is the deleting
 // dtor 0x00343BAD. Precedent is the Object+0x250 iface pattern
 // (ObjectRva0028C197) with BfmeVirtualSlots for the 0x250 slot. Layout is
-// base plus pad to +0x14 plus Object pointer.
+// base plus pad to +0x14 plus Object pointer. The name is a target fact:
+// vftable 0x00811CF0 (deleting dtor 0x00343BAD in slot 0) has the name
+// getter 0x0033FC04 in slot 2, returning "AttackPositionHordeStateMachine";
+// its constructor is 0x00343A86.
 
 class Object;
 
@@ -40,17 +43,17 @@ public:
 	virtual ~StateMachine();
 };
 
-class Rva0033FBB7 : public StateMachine
+class AttackPositionHordeStateMachine : public StateMachine
 {
 public:
-	virtual ~Rva0033FBB7();
+	virtual ~AttackPositionHordeStateMachine();
 
 private:
 	char m_pad04[0x14 - 0x04];
 	Object *m_ptr14;
 };
 
-Rva0033FBB7::~Rva0033FBB7()
+AttackPositionHordeStateMachine::~AttackPositionHordeStateMachine()
 {
 	if (m_ptr14 != 0) {
 		Ret250 *p = (Ret250 *)m_ptr14->rva0028C197();
