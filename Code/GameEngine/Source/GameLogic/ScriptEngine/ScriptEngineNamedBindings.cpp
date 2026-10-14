@@ -117,3 +117,8 @@ void ScriptEngine::rva00208BCD(const AsciiString &newName, AsciiString oldName)
         newIt->second = it->second;
     }
 }
+
+// Retail 0x0032C5A5 (20B, RET8): the out-of-line tree find over the rowed
+// _M_find 0x0032C07C of this tree, wrapping its node into the returned
+// iterator (twin of map<int,void*> find 0x004D7546).
+template NameTree::iterator NameTree::find<NameKey>(const NameKey &);
