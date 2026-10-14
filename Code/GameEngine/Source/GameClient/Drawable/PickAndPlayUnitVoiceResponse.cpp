@@ -1155,7 +1155,6 @@ static bool moveRequiresClimbingWalls(Object *obj, const Coord3D *pos)
 }
 
 
-// ?doPickAndPlayForMoveCommand@@YAXHPAURva004DA57ATarget@@_NPAHPAVRva004D97B0@@2@Z present-unmatched
 static void doPickAndPlayForMoveCommand(int command, Rva004DA57ATarget *target, bool forced, int *pending, Rva004D97B0 *record, int *voiceType)
 {
 	Rva004D99FF ids;
