@@ -17006,3 +17006,4 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ??3Rva00672460@@SAXPAXI@Z,0x0065D030,callee of ??_GRva00672460@@UAEPAXI@Z
 ?updateInternal@AIAttackAimAtTargetState@@QAE?AW4StateReturnType@@_N@Z,0x003508C5,callee of ?update@AIAttackAimAtTargetState@@UAE?AW4StateReturnType@@XZ
 ??4Rva000AD6F4@@QAEAAV0@U?$auto_ptr@VBfmeThingGX@@@_STL@@@Z,0x00405AC9,callee of ?rva00405C04@Rva00405A50@@QAEXPAVBfmeThingGX@@@Z
+?rva001F9BA4@ParticleSystem@@QAEXPAX0@Z,0x001F9BA4,callee of ?rva003AFF06@Rva003AFF06@@UAEXPAX0@Z; native 207B RET8 (ghidra FUN_005f9ba4)

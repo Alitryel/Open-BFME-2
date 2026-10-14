@@ -89681,3 +89681,4 @@ _chatEnumJoinedChannels,,0x006A2100,5,Code/GameEngine/Source/GameNetwork/GameSpy
 ?rva00365B8A@Path@@QAEXPAVObject@@PAVPathNode@@1PBUCoord3D@@M@Z,,0x00365B8A,614,Code/GameEngine/Source/GameLogic/Pathfinder/PathRva00365B8A.cpp,matched,
 ?IsValidHordeMemberRegularMovement@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@11@Z,,0x002F06A3,338,Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderIsValidHordeMemberRegularMovement.cpp,matched,
 ?rva00177EC7@@YAXPAURva00177EC7Pair@@AAU1@@Z,,0x00177EC7,70,Code/Libraries/Source/WWVegas/WW3D2/Rva00177E95Fill.cpp,matched,
+?rva003AFF06@Rva003AFF06@@UAEXPAX0@Z,,0x003AFF06,28,Code/GameEngine/Source/Common/VslotSmallBodiesAD.cpp,matched,

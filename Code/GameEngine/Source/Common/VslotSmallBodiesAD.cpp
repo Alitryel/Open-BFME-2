@@ -430,3 +430,54 @@ unsigned char Rva0050B92D::rva0050B92D(const void *arg, Object *target)
 		return 0;
 	return m_filter128.accepts(target, 0) != 0;
 }
+
+// 0x003AFF06 (28B): a vtable slot that forwards both of its arguments to the
+// ParticleSystem member at 0x001F9BA4 (unrowed, pinned) through the system
+// held at +0x4, when one is held. The test goes through the conversion
+// operator, the call through operator->, which falls back to the rowed
+// null-system factory 0x001FCBD7 and re-reads +0x4 (volatile read), as the
+// sibling ParticleSystem::destroy (0x001F462C) does. Class and method names
+// are address-derived; the meaning is not recovered.
+class ParticleSystem
+{
+public:
+	void rva001F9BA4(void *a, void *b);
+};
+
+ParticleSystem *Make001FCBD7(void);
+
+class Rva003AFF06SystemPtr
+{
+public:
+	operator ParticleSystem *(void) const
+	{
+		return m_target;
+	}
+
+	ParticleSystem *operator->(void) const
+	{
+		ParticleSystem *target = *(ParticleSystem *const volatile *)&m_target;
+		if (!target)
+			target = Make001FCBD7();
+		return target;
+	}
+
+private:
+	ParticleSystem *m_target;
+};
+
+class Rva003AFF06
+{
+public:
+	virtual void rva003AFF06(void *a, void *b);
+
+private:
+	Rva003AFF06SystemPtr m_system;				///< +0x4
+};
+
+// ?rva003AFF06@Rva003AFF06@@UAEXPAX0@Z @0x003AFF06 (28B)
+void Rva003AFF06::rva003AFF06(void *a, void *b)
+{
+	if (m_system != 0)
+		m_system->rva001F9BA4(a, b);
+}
