@@ -23,7 +23,7 @@
 
 #include <locale>
 namespace _STL {
-inline void _Classic_monetary_formats(money_base::pattern& positive,money_base::pattern& negative) {
+static void _Classic_monetary_formats(money_base::pattern& positive,money_base::pattern& negative) {
  positive.field[0] = (char)money_base::symbol;
  positive.field[1] = (char)money_base::sign;
  positive.field[2] = (char)money_base::none;
