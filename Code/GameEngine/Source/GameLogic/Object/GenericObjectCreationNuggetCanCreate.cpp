@@ -1,30 +1,20 @@
-// ?canCreate@GenericObjectCreationNugget@@UAE_NPAVObject@@PBUCoord3D@@@Z
-// partial score=0.936760408824693 date=2026-10-13
-// ?canCreate@GenericObjectCreationNugget@@UAE_NPAVObject@@PBUCoord3D@@@Z
-// partial score=0.936760408824693 date=2026-10-10
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHsc /arch:SSE /G7 /Op /D_CRTIMP=
-// Native1F1010..1F12DF,719B RET8; WB B04A00 explicitly names canCreate
-// in ObjectCreationList.cpp:1083. The retail OCL walker1F0434 dispatches slot5
-// with the same two pointer inputs. Object and Coord3D roles are structural
-// evidence from controlling-player/angle access and the three position loads;
-// their source-level const qualification is not asserted as an export fact.
-// All direct helpers now resolve, including177B396A5C recovered this pass.
-// BuildListInfo's128B ctor/dtor and folded template-name getter are existing
-// providers; ModuleInfo's20B records and BFMERetailAsciiString four-byte return
-// follow its64B name getter. BFMERetailAsciiString is deliberately opaque here;
-// the existing destructor pin is the complete StringBase release worker.
-// The two early guards must remain separate to recover late register saves.
-// /Op reproduces the native rounded SSE local stores before normalizeAngle.
-// Current trial emits731B against719B; native key/temp homes(-1C/-18) are
-// swapped, the rounded addition's two loads choose different source registers,
-// and the nested OCL walk interchanges EBX/EDI. This is a bank, not recovery.
-// Missing methods slot00..slot04 reserve the proven slot5 position only.
-// Other scalar names/flags retained from the ctor view or are neutral offsets.
+// Native1F1010..1F12DF,719B RET8. WB B04A00 names canCreate in
+// ObjectCreationList.cpp:1083; native OCL walker1F0434 dispatches slot5.
+// ZH ObjectCreationList.cpp guides the creation rules; retail establishes
+// the BFME2 offsets, helper calls and ABI. Const qualifications and private
+// scalar labels are structural inferences, not independently exported names.
+// A direct ModuleInfo string temporary gives the native key/result homes.
+// Load primary angle before spin to retain the target's rounded SSE ordering.
+// The comparison below reads strings and calls only C strlen/_memicmp;
+// its native91B implementation has no throwing C++ path. Preserve its
+// no-throw contract locally without changing the shared string header.
+// The equal-arm expressions preserve target scheduling/register allocation.
 #include "ascii_string.h"
-struct Coord3D { float x,y,z; };
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 class Player;
 class Object { public: Player *getControllingPlayer() const; char pad00[0x44]; float angle44; };
-class BFMERetailAsciiString { public: ~BFMERetailAsciiString(); private: char m_data[4]; };
+
 class ModuleData;
 class Rva00396A5C { public: int rva00396A5C(Player *); };
 class ObjectCreationList { public: bool rva001F0434(void*,void*); };
@@ -33,7 +23,7 @@ class SlowDeathData { public: char pad00[0x88]; OCLArray ocls[4]; };
 struct ModuleNugget { char name[4],tag[4]; const ModuleData *data; int mask,tail; };
 class ModuleInfo {
 public:
-    BFMERetailAsciiString getNthName(int) const;
+    AsciiString getNthName(int) const;
     int count() const { return ((const char*)end-(const char*)begin)/20; }
     __forceinline const ModuleData *nthData(int i) const { if(i<0 || (unsigned)i >= (unsigned)count()) return 0; return begin[i].data; }
     ModuleNugget *begin,*end,*cap;
@@ -79,6 +69,7 @@ private:
     unsigned int disposition40; float intensity44,spin48;
     char pad4c[0xab-0x4c]; bool flagAB;
 };
+template<> __declspec(nothrow) int StringBase<char>::compareNoCase(const char *str)const;
 bool GenericObjectCreationNugget::canCreate(Object *primary, const Coord3D *pos)
 {
     if(count28 != 1) return true;
@@ -97,7 +88,7 @@ bool GenericObjectCreationNugget::canCreate(Object *primary, const Coord3D *pos)
             const ThingTemplate *part=TheThingFactory->findTemplate(entry.rva000AF1DD());
             if(part==0) continue;
             if(disposition40 & 0x2000) angle=spin48;
-            if(disposition40 & 0x8000) { angle=spin48; angle+=primary->angle44; angle=normalizeAngle(angle); }
+            if(disposition40 & 0x8000) { angle=primary->angle44; angle+=spin48; angle=normalizeAngle(angle); }
             if((what ? (TheBuildAssistant->isLocationLegalToBuild(pos,part,angle,0x19d,primary,0)) : (TheBuildAssistant->isLocationLegalToBuild(pos,part,angle,0x19d,primary,0))) != LBC_OK) return false;
         }
     } else if((what->kind108[0] & 0x80) && !(what->kind108[0] & 0x400)) {
@@ -111,7 +102,7 @@ bool GenericObjectCreationNugget::canCreate(Object *primary, const Coord3D *pos)
         int n=info->count();
         for(int i=0;i<n;++i) {
             bool slow;
-            { BFMERetailAsciiString name=info->getNthName(i); slow=((const AsciiString*)&name)->compareNoCase("SlowDeathBehavior")==0; }
+            { slow=info->getNthName(i).compareNoCase("SlowDeathBehavior")==0; }
             if(slow) {
                 const SlowDeathData *data=(const SlowDeathData*)info->nthData(i);
                 for(int j=0;j<4;++j) {
