@@ -88394,3 +88394,4 @@ __ehhandler$?scanClosestTarget@CommandButtonHuntUpdate@@IAEPAVObject@@XZ,,0x0078
 ?xfer@AttributeModifierPoolUpdate@@MAEXPAVXfer@@@Z,,0x0040426D,321,Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierPoolUpdateXfer.cpp,matched,AttributeModifierPoolUpdate xfer version 1 to 3; entry views with real members so the dtor is the inline string release; store-side count at function scope; loop re-reads the vector end (W7-G1 r8; WB 0xE92C60)
 ?Rva003A47F3Parse@@YAXPAVINI@@PAVRva003A47F3Owner@@@Z,,0x003A47F3,461,Code/GameEngine/Source/Common/Rva003A47F3Parse.cpp,matched,
 ?rva00415218@Rva0041573F@@QAEXPAVINI@@@Z,,0x00415218,163,Code/GameEngine/Source/Common/Rva0041573FParse.cpp,matched,
+?Rva00415B91Parse@@YAXPAVINI@@PAX1PBX@Z,,0x00415B91,197,Code/GameEngine/Source/Common/Rva00415B91Parse.cpp,matched,

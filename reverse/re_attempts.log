@@ -54305,3 +54305,4 @@ _DiagonalBlur	0x001C2B80	916	blocked	vp6-cleanroom 001c2b80: bank (.99) recompil
 ?Rva003A47F3Parse@@YAXPAVINI@@PAVRva003A47F3Owner@@@Z	0x003A47F3	461	landed	add_match verified Code/GameEngine/Source/Common/Rva003A47F3Parse.cpp 461B
 ?Rva00423FD8Parse@@YAXPAVINI@@PAX1PBX@Z	0x00423FD8	429	partial	size-exact 429B; one scheduling residue: retail interleaves the name-dtor lea between the two slot stores (mov [eax],edi; lea ecx,[ebp-0x10]; mov [eax+4],ebx) ours lea first; WB 113cf20 structure, rowed callees, g_Va00E03168 cast to map<int,Pod8> and map<int,vector*> for the shared _M_find. t=30 model=sonnet-5.5 score=0.99 stash=reverse/attempts/0x00423fd8.cpp
 ?rva00415218@Rva0041573F@@QAEXPAVINI@@@Z	0x00415218	163	landed	add_match verified Code/GameEngine/Source/Common/Rva0041573FParse.cpp 163B
+?Rva00415B91Parse@@YAXPAVINI@@PAX1PBX@Z	0x00415B91	197	landed	add_match verified Code/GameEngine/Source/Common/Rva00415B91Parse.cpp 197B
