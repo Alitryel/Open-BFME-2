@@ -88970,3 +88970,6 @@ __ehhandler$?rva00115DD2@W3DTerrainBackground@@QAEXXZ,,0x00764B35,10,Code/GameEn
 ??$_Destroy@VRva0022D1DF@@@_STL@@YAXPAVRva0022D1DF@@@Z,,0x0022D9D3,9,Code/GameEngine/Source/Common/Rva0022D9D3Destroy.cpp,matched,STLport _Destroy(T*) instantiation tail-jumping into the rowed ??1Rva0022D1DF dtor; uncalled in retail
 ??$_Destroy@VRva0022D214@@@_STL@@YAXPAVRva0022D214@@@Z,,0x0022D9DC,9,Code/GameEngine/Source/Common/Rva0022D9D3Destroy.cpp,matched,STLport _Destroy(T*) instantiation tail-jumping into the rowed ??1Rva0022D214 dtor; uncalled in retail
 ??$_Destroy@VRva0022D249@@@_STL@@YAXPAVRva0022D249@@@Z,,0x0022D9E5,9,Code/GameEngine/Source/Common/Rva0022D9D3Destroy.cpp,matched,STLport _Destroy(T*) instantiation tail-jumping into the rowed ??1Rva0022D249 dtor; uncalled in retail
+?isDisabled@Object@@QBE_NXZ,,0x0023D394,11,Code/GameEngine/Source/GameLogic/Object/ObjectStatusQueries.cpp,matched,ZH Object::isDisabled inline: m_disabledMask (+0x1C8) BitFlags<11>::any tail jump 0x0023C58B
+?rva0023D39F@Object@@QBE_NXZ,,0x0023D39F,8,Code/GameEngine/Source/GameLogic/Object/ObjectStatusQueries.cpp,matched,Object testStatus(0x4A) query; named query unknown
+?rva0023D3A7@Object@@QBE_NXZ,,0x0023D3A7,8,Code/GameEngine/Source/GameLogic/Object/ObjectStatusQueries.cpp,matched,Object testStatus(4) query; named query unknown
