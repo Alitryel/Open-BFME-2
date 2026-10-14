@@ -46,8 +46,8 @@
 //   with (Rva00990030Range*)state cast, as in ObjectCountNearbyEnemies.cpp
 //   and ObjectBroadcastEvent.cpp (both /O1, both matched).
 // All callees rowed (9652/11127/5818/13658/11130/11104), no new symbols.csv pin.
-// No canonical header (GameLogic/Object/Team/Player have no canonical entry;
-// AsciiString canonical avoided via holder struct with void*).
+// GameLogic uses the shared target view. Object/Team/Player remain existing
+// per-unit layouts; the string holder preserves their native four-byte member.
 
 struct lua_State;
 extern "C" int lua_type( lua_State *state, int index );
@@ -56,10 +56,7 @@ extern "C" void lua_pushstring( lua_State *state, const char *str );
 struct Rva00990030Range;
 unsigned Rva00990030Lookup( Rva00990030Range *range, int index );
 
-enum ObjectID
-{
-	INVALID_OBJECT_ID = 0
-};
+#include "../../Common/GameLogicObjectLookupView.h"
 
 class Object;
 class Player;
@@ -94,19 +91,48 @@ public:
 	void *m_p04; // +0x04 target fact (ThingTemplate* for template-name path)
 
 private:
-	unsigned char m_pad08[ 0x304 - 0x08 ]; // +0x08..0x304
+	unsigned char m_pad08[ 0x80 - 0x08 ];
+public:
+    ObjectID m_capturingID;
+private:
+    unsigned char m_pad84[0x304 - 0x84]; // +0x08..0x304
 
 public:
 	Team *m_team304; // +0x304 target fact (Team* for player-side path)
+    Player *getControllingPlayer() const;
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID( ObjectID id ); // row 5818 @0x49DC5, enum W4ObjectID
-};
 
 extern GameLogic *TheGameLogic;
+
+// Native lookup bodies are visible so the compiler knows they only read the
+// map and can retain TheGameLogic across both calls in Rva00334F2E.
+// Same verified traversal as ProjectileNuggetObjectEffect.cpp: native
+// _M_find2888D4 plus pinned STLport reference; 37B/47B COMDAT owners unchanged.
+struct LuaCapturingLookupNode { LuaCapturingLookupNode *next; ObjectID key; Object *object; };
+struct LuaCapturingLookupBuckets {
+ LuaCapturingLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ LuaCapturingLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct LuaCapturingLookupMap { unsigned char hashEqual[4]; LuaCapturingLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ LuaCapturingLookupMap *map=(LuaCapturingLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ LuaCapturingLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 
 // ?Rva00334EC4@@YAHPAUlua_State@@@Z (Lua ObjectPlayerSide binding)
 int Rva00334EC4( lua_State *state )
@@ -148,4 +174,24 @@ int Rva00334FAB( lua_State *state )
 fail:
 	lua_pushnil( state );
 	return 1;
+}
+
+// Native334F2E..334FAB,125B. Lua registration3384C2 identifies
+// ObjectCapturingObjectPlayerSide. Object capture ID is read at80; both
+// lookup calls use the same game-logic receiver. Controller28AFA9 and
+// player side holder58 match the neighboring player-side binding.
+int Rva00334F2E(lua_State *state) {
+    unsigned id=Rva00990030Lookup((Rva00990030Range*)state,1);
+    if(!id && lua_type(state,1)!=1)goto fail;
+    Object *object=TheGameLogic->findObjectByID((ObjectID)id);
+    Object *capturing=object ? TheGameLogic->findObjectByID(object->m_capturingID) : 0;
+    if(capturing) {
+        Player *player=capturing->getControllingPlayer();
+        BfmeSideHolder *holder=&player->m_side58;
+        const char *side=holder->m_data ? (const char*)holder->m_data+8 : "";
+        lua_pushstring(state,side);
+        return 1;
+    }
+fail:
+    lua_pushnil(state); return 1;
 }
