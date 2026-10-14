@@ -1,4 +1,6 @@
 // ?rva0039E84B@Team@@QAEMPAVObject@@@Z
+// partial score=0.93 date=2026-10-14
+// ?rva0039E84B@Team@@QAEMPAVObject@@@Z
 // partial score=0.95 date=2026-10-05
 // cl: /O1 /DNDEBUG /MD /arch:SSE
 // ?rva0039E84B@Team@@QAEMPAVObject@@@Z @0x0039E84B 160B chain via rowed 0x002627E8 plus iterate 0x00263864 plus advance 0x00263526 prev 0x0039E815 next 0x0039E8EB
@@ -46,8 +48,8 @@ float Team::rva0039E84B(Object *obj)
 		if (best < rp->rva002627E8())
 			best = rp->rva002627E8();
 	}
-	float scaled = length_estimate_factor * f;
-	if (scaled > best)
-		return scaled;
+	float scaled = f * length_estimate_factor;
+	if (best < scaled)
+		best = scaled;
 	return best;
 }
