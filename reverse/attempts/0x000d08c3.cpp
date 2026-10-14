@@ -1,4 +1,6 @@
 // ?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z
+// partial score=0.9587909409209768 date=2026-10-14
+// ?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z
 // partial score=0.97 date=2026-10-14
 // ?rva000D08C3@Rva000D08C3@@QAEXPAVMatrix3D@@@Z
 // partial score=0.9 date=2026-10-14
@@ -23,7 +25,6 @@
 // +0x190 per call. The result is stored and applied as WWMath's inline
 // Matrix3D::Rotate_Z (cos/sin imports). WorldBuilder twin 0x0095E7A0 is
 // unnamed; owner and member names are not recovered.
-// class-gate: allow Coord3D the canonical data-only header cannot declare BFME 2's Normalize (rowed 0x00005A70) nor the user-declared empty destructor that makes the static axis register an atexit stub (retail 0x007B6DA9 ret); same three floats
 
 extern "C" double __cdecl acos(double);
 extern "C" double __cdecl fabs(double);
@@ -32,15 +33,27 @@ extern "C" double __cdecl sin(double);
 
 typedef float Real;
 
-struct Coord3D
-{
-	Coord3D(Real ax, Real ay, Real az) : x(ax), y(ay), z(az) {}
-	~Coord3D() {}
-	Real Normalize();
-	Real dot(const Coord3D &o) const { return x * o.x + y * o.y + z * o.z; }
+#include "Libraries/Include/Lib/Coord3D.h"
+struct TurnAxis : Coord3D {TurnAxis(Real a,Real b,Real c){x=a;y=b;z=c;}~TurnAxis(){}Real dot(const Coord3D&o)const{return x*o.x+y*o.y+z*o.z;}};
 
-	Real x, y, z;
-};
+#include <math.h>
+__declspec(noinline) inline float Coord3D::length() const { return (float)sqrt(x * x + y * y + z * z); }
+__declspec(noinline) inline float Coord3D::GetLength() const
+{
+	float x_value = x;
+	float y_value = y;
+	float z_value = z;
+	return (float)sqrt(x_value * x_value + y_value * y_value + z_value * z_value);
+}
+__declspec(noinline) inline float Coord3D::Normalize()
+{
+	float len = GetLength();
+	float scale = 1.0f / len;
+	x *= scale;
+	y *= scale;
+	z *= scale;
+	return len;
+}
 
 Real normalizeAngle(Real angle);
 
@@ -94,10 +107,10 @@ private:
 
 void Rva000D08C3::rva000D08C3(Matrix3D *mat)
 {
-	static Coord3D axis(0.5f, 0.5f, 0.0f);
+	static TurnAxis axis(0.5f, 0.5f, 0.0f);
 	axis.Normalize();
-	Real cosAngle = axis.dot(Coord3D(mat->Row[0][0], mat->Row[1][0], mat->Row[2][0]));
-	Real sinAngle = axis.dot(Coord3D(mat->Row[0][1], mat->Row[1][1], (m_data ? (mat->Row[2][1]) : (mat->Row[2][1]))));
+	Real cosAngle = axis.dot(TurnAxis(mat->Row[0][0], mat->Row[1][0], mat->Row[2][0]));
+	Real sinAngle = axis.dot(TurnAxis(mat->Row[0][1], mat->Row[1][1], (m_data ? (mat->Row[2][1]) : (mat->Row[2][1]))));
 	const Rva000D08C3Data *data = m_data;
 	if (-1.0f > cosAngle)
 		cosAngle = -1.0f;

@@ -1,9 +1,11 @@
 // ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
+// partial score=0.9899567303446856 date=2026-10-14
+// ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
 // partial score=0.99 date=2026-10-13
 // ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
 // partial score=0.97 date=2026-10-10
-// cl: /O1 /arch:SSE /EHsc /MD
-#include "../Code/Libraries/Include/Lib/Coord2D.h"
+// cl: /I. /O1 /G7 /arch:SSE /EHsc /MD
+#include "Code/Libraries/Include/Lib/Coord2D.h"
 struct AptTriangle 
 {
  Coord2D point[3];
@@ -56,13 +58,7 @@ static void rva000A94F9(Coord2D &low,Coord2D &high,const Coord2D &point)
  else if (point.y > high.y) high.y = point.y;
  
 }
-static inline void aptMatrixMul(Coord2D &out,const Coord2D &point,const AptRenderTransform &matrix)
-
-{
- out.x=point.x*matrix.a+point.y*matrix.c+matrix.tx;
- out.y=point.x*matrix.b+point.y*matrix.d+matrix.ty;
- 
-}
+static inline void aptMatrixMul(Coord2D&out,const Coord2D&point,const AptRenderTransform&matrix){out.x=point.x*matrix.a+point.y*matrix.c+matrix.tx;out.y=point.x*matrix.b+point.y*matrix.d+matrix.ty;}
 class AptShapeContainer 
 {
  public:

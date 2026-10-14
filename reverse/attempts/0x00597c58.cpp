@@ -1,4 +1,7 @@
 // ?Register@AIUpgradeScienceBuilder@@QAEXPAVObject@@PAX@Z
+// partial score=0.9586158192090395 date=2026-10-14
+// stlport
+// ?Register@AIUpgradeScienceBuilder@@QAEXPAVObject@@PAX@Z
 // partial score=0.97 date=2026-10-14
 // ?Register@AIUpgradeScienceBuilder@@QAEXPAVObject@@PAX@Z
 // partial score=0.9 date=2026-10-14
@@ -12,6 +15,7 @@
 // are not admitted. This bank does not assert a matching body or complete class contract.
 #include "Lib/Coord3D.h"
 #include <stddef.h>
+#include <vector>
 #include <string.h>
 class Player;
 class AsciiString;
@@ -51,9 +55,10 @@ class UpgradeTemplate
  
 }
 ;
+class ThingTemplate;
 class CommandButton 
 {
- public: void *rva0035B570() const;
+ public: const ThingTemplate *rva0035B570() const;
  char pad00[0x14];
  int command;
  char pad18[0x24-0x18];
@@ -130,22 +135,6 @@ enum ScienceType
  SCIENCE_DUMMY=0 
 }
 ;
-namespace _STL 
-{
- template<class T> class allocator 
- {
-  
- }
- ;
- template<class T,class A=allocator<T> > class vector 
- {
-  public: void push_back(const T &);
-  T *begin,*end,*limit;
-  
- }
- ;
- 
-}
 class AIUpgradeScienceBuilder 
 {
  char pad00[0x14];
@@ -174,20 +163,22 @@ void AIUpgradeScienceBuilder::Register(Object *object,void *)
    if (upgrade) 
    {
     unsigned cost=upgrade->rva0026EF50(owner,object);
-    Rva005970ED *record=new Rva005970ED;
+    item=new Rva005970ED;
+    Rva005970ED *record=(Rva005970ED*)item;
     record->cost=cost;
     record->id=object->id;
     record->command=button;
     (i ? record->name : record->name).set(upgrade->name);
     record->rva0059717F(upgrade->heuristic);
-    upgrades.push_back((AIUpgrade *const &)record);
+    upgrades.push_back((AIUpgrade *const &)item);
     
    }
    else if (button->command==1 && button->rva0035B570() &&
    !(((ScienceBuildTemplateView *)button->rva0035B570())->bit11B & 0x10) &&
    !(((ScienceBuildTemplateView *)button->rva0035B570())->bit116 & 0x40)) 
    {
-    Rva005DAAB6 *record=new Rva005DAAB6;
+    item=new Rva005DAAB6;
+    Rva005DAAB6 *record=(Rva005DAAB6*)item;
     record->command=button;
     record->name.set(((ScienceBuildTemplateView *)button->rva0035B570())->name);
     record->delay=-1.0f;
@@ -195,7 +186,7 @@ void AIUpgradeScienceBuilder::Register(Object *object,void *)
     memcpy(&record->angle,&object->angle,sizeof(float));
     record->id=object->id;
     record->registered=true;
-    ((&(buildings)) ? (buildings) : (buildings)).push_back(record);
+    ((&(buildings)) ? (buildings) : (buildings)).push_back(item);
     
    }
    

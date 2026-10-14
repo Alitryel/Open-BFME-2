@@ -1,6 +1,8 @@
 // ?update@RampageBehavior@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.976837701698967 date=2026-10-14
 // ?update@RampageBehavior@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.976837701698967 date=2026-10-14
+// ?update@RampageBehavior@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.9759668744 date=2026-10-12
 // Native full689B 458CCB..458F7C, secondary update callback at +10.
 // New native corrections to the old bank: AI commands are embedded at
