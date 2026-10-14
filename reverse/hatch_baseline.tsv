@@ -34675,9 +34675,6 @@ pragma_optimize	Code/GameEngine/Source/Common/Rva003B93BCMethod.cpp	"t",on	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva003F9004.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva003F9004.cpp	"s",off	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva003F9004.cpp	"t",on	1
-pragma_optimize	Code/GameEngine/Source/Common/Rva003FA26FCopyCtor.cpp	"",on	1
-pragma_optimize	Code/GameEngine/Source/Common/Rva003FA26FCopyCtor.cpp	"s",off	1
-pragma_optimize	Code/GameEngine/Source/Common/Rva003FA26FCopyCtor.cpp	"t",on	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva00402D7ECopyCtor.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva00402D7ECopyCtor.cpp	"s",off	1
 pragma_optimize	Code/GameEngine/Source/Common/Rva00402D7ECopyCtor.cpp	"t",on	1
@@ -37441,7 +37438,6 @@ present_unmatched	Code/GameEngine/Source/Common/Rva0039225EDtor.cpp	bfmeEmitRva0
 present_unmatched	Code/GameEngine/Source/Common/Rva003A6F70Ctor.cpp	dummy@Rva003A6F70@@UAEXXZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva003B1101Dtor.cpp	bfmeEmitRva003B1101Dtor@@YAXPAVRva003B1101@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva003F8509.cpp	rva003F8509@Rva003F8090@@QAEPAXXZ	1
-present_unmatched	Code/GameEngine/Source/Common/Rva003FA26FCopyCtor.cpp	clearItems@Rva003FA26F@@QAEXXZ	1
 present_unmatched	Code/GameEngine/Source/Common/Rva004075E0.cpp	0Rva004075E0Iter@@QAE@PAURva004075E0Node@@@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva004075E0.cpp	0Rva004075E0Pair@@QAE@PAURva004075E0Node@@_N@Z	1
 present_unmatched	Code/GameEngine/Source/Common/Rva004075E0.cpp	0Rva004075E0Pair@@QAE@URva004075E0Iter@@_N@Z	1

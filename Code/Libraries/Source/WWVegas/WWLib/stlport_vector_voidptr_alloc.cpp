@@ -190,3 +190,6 @@ template <> vector<void *> &vector<void *>::operator=(const vector<void *> &x)
 }
 
 template class _STL::vector<void *, _STL::allocator<void *> >;
+// _Vector_base's dtor (0x000251F0) is only an EH cleanup callee in vector's
+// bodies, and with __copy_trivial nothrow none of them needs it here.
+template class _STL::_Vector_base<void *, _STL::allocator<void *> >;

@@ -42,6 +42,11 @@ site reaches it with a plain three-argument cdecl call, so the shipped header
 declared it rather than defining it inline. Left inline, cl expands the
 memmove at the call site and the tail of every copying body is wrong.
 
+Both declarations (and `__copy_trivial_backward`, 0x00620840) carry `throw()`:
+retail's callers keep no EH cleanup region across the call. Without it a
+caller such as `vector<unsigned int>`'s copy constructor (0x002CFAB9) keeps
+its `_Vector_base` cleanup state and grows from 67 to 92 bytes.
+
 ## `stl/_uninitialized.h` - the dispatch chain was expanded
 
 `__uninitialized_copy` and its neighbours are marked `inline` upstream, but

@@ -148,8 +148,11 @@ __copy(_RandomAccessIter __first, _RandomAccessIter __last,
 // built with other flags emits a copy the link rejects; such a unit defines
 // _STLP_BFME_COPY_TRIVIAL_EXTERN to call retail's copy instead. The same
 // holds for __copy_trivial_backward (0x00620840) below.
+// Both are declared throw(): retail's callers treat them as nothrow (the
+// inline memmove body), so callers such as vector<unsigned int>'s copy
+// constructor (0x002CFAB9) register no EH frame around the call.
 #ifdef _STLP_BFME_COPY_TRIVIAL_EXTERN
-void* __copy_trivial(const void* __first, const void* __last, void* __result);
+void* __copy_trivial(const void* __first, const void* __last, void* __result) throw();
 #else
 inline void*
 __copy_trivial(const void* __first, const void* __last, void* __result) {
@@ -188,7 +191,7 @@ inline _BidirectionalIter __copy_backward(_RandomAccessIter __first,
 }
 
 #ifdef _STLP_BFME_COPY_TRIVIAL_EXTERN
-void* __copy_trivial_backward(const void* __first, const void* __last, void* __result);
+void* __copy_trivial_backward(const void* __first, const void* __last, void* __result) throw();
 #else
 inline void*
 __copy_trivial_backward(const void* __first, const void* __last, void* __result) {

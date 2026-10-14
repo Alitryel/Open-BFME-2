@@ -146,7 +146,7 @@ __copy(_RandomAccessIter __first, _RandomAccessIter __last,
 // BFME SHIM: declaration only. __copy_trivial is a real out-of-line function
 // in game.dat at 0x000179B0 and every call site reaches it with a plain
 // three-argument cdecl call, so the shipped STLport did not define it inline.
-void* __copy_trivial(const void* __first, const void* __last, void* __result);
+void* __copy_trivial(const void* __first, const void* __last, void* __result) throw();
 
 //--------------------------------------------------
 // copy_backward auxiliary functions
@@ -180,7 +180,7 @@ inline _BidirectionalIter __copy_backward(_RandomAccessIter __first,
 // It is a real function in the image at 0x00620840, already landed out of
 // stlport_vector_int.cpp, and call sites reach it with a three-argument cdecl
 // call. Left inline, cl expands the memmove here and the call disappears.
-void* __copy_trivial_backward(const void* __first, const void* __last, void* __result);
+void* __copy_trivial_backward(const void* __first, const void* __last, void* __result) throw();
 
 template <class _InputIter, class _OutputIter>
 __forceinline _OutputIter __copy_ptrs(_InputIter __first, _InputIter __last, _OutputIter __result, __false_type ) {
