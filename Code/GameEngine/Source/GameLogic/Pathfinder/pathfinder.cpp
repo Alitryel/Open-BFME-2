@@ -417,10 +417,15 @@ class Rva002C9400ByteField
 public:
 	unsigned char get() const;
 };
+// Weapon::isWithinAttackRange 0x002CB35C (WorldBuilder name).
+class Weapon
+{
+public:
+	bool isWithinAttackRange(Object*,const Coord3D*,Object*,const Coord3D*,float,bool);
+};
 class Rva002C9B80Owner
 {
 public:
-bool isWithinAttackRange(Object*,const Coord3D*,Object*,const Coord3D*,float,bool);
 	float rva002C9B80(void *a, float b);
 	void *m_00;
 	Rva002C9400ByteField *m_04;				// +0x04
@@ -4072,7 +4077,7 @@ Bool Pathfinder::rva002EEA8A(const ICoord2D *searchCenterCell, Int maxCells,
 bool Rva002F23A6::rva002F23A6(Object *unit,int weapon,int locomotor,Coord3D *dest,Object *victim)
 {
  Pathfinder *path=(Pathfinder *)this;
- Rva002C9B80Owner *range=(Rva002C9B80Owner *)weapon;
+ Weapon *range=(Weapon *)weapon;
  if(range->isWithinAttackRange(unit,unit->getPosition(),victim,victim->getPosition(),0.0f,true) && path->rva002ED313(unit)) {
    *dest=*unit->getPosition();return true;
  }

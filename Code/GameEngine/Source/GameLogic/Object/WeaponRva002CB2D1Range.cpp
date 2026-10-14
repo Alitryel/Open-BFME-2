@@ -104,6 +104,16 @@ class Rva002C9B80Owner
 public:
 	float rva002C9B80(void *a, float b);
 	bool rva002CB2D1(Object *o, const Coord3D *a, const void *other, const Coord3D *b2);
+private:
+	void *m_00;
+	WeaponTemplate *m_04;		// +0x04
+};
+
+// The same weapon object under its WorldBuilder class name; only the method
+// named from WorldBuilder is declared on it so far.
+class Weapon
+{
+public:
 	bool isWithinAttackRange(Object *source, const Coord3D *pos, Object *victim,
 		const Coord3D *victimPos, float bonus, bool checkMinimum);
 private:
@@ -135,12 +145,12 @@ bool Rva002C9B80Owner::rva002CB2D1(Object *o, const Coord3D *a, const void *othe
 }
 
 // Weapon::isWithinAttackRange, retail 0x002CB35C (568 bytes). Name from
-// WorldBuilder (Weapon.cpp lines 2737..2779, callgraph evidence) on the
-// address-named weapon class. A melee template (+0x125) asks the pathfinder
+// WorldBuilder (Weapon.cpp lines 2737..2779, sourcePos/targetPos asserts,
+// callgraph evidence). A melee template (+0x125) asks the pathfinder
 // (0x002EC479) when the victim can be reached in melee; otherwise compares the
 // squared distance (plus the bonus squared) against the squared 0x002C9B80
 // range and, when asked, the template's squared minimum range.
-bool Rva002C9B80Owner::isWithinAttackRange(Object *source, const Coord3D *pos,
+bool Weapon::isWithinAttackRange(Object *source, const Coord3D *pos,
 	Object *victim, const Coord3D *victimPos, float bonus, bool checkMinimum)
 {
 	if (m_04->m_125)
@@ -191,13 +201,13 @@ bool Rva002C9B80Owner::isWithinAttackRange(Object *source, const Coord3D *pos,
 			distSq = victim->rva0028ED19(victimPos, source, pos);
 		else
 			distSq = source->rva002636F6(pos, victim, victimPos);
-		float range = rva002C9B80(source, victimPos->z - pos->z);
+		float range = ((Rva002C9B80Owner *)this)->rva002C9B80(source, victimPos->z - pos->z);
 		rangeSq = range * range;
 	}
 	else
 	{
 		distSq = source->rva002C97E8(pos, victimPos);
-		float range = rva002C9B80(source, victimPos->z - pos->z) - 2.5f;
+		float range = ((Rva002C9B80Owner *)this)->rva002C9B80(source, victimPos->z - pos->z) - 2.5f;
 		rangeSq = range * range;
 	}
 	distSq += bonus * bonus;

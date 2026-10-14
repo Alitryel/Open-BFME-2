@@ -166,10 +166,10 @@ class Path { public:
 class WeaponTemplate { public: Bool isContactWeapon()const; };
 class Weapon { public:
  Bool isWithinAttackRange(const Object*,const Object*,float,int)const;
+ Bool isWithinAttackRange(Object*,const Coord3D*,Object*,const Coord3D*,float,Bool); // 0x002CB35C
  unsigned int pad; WeaponTemplate *templ;
  Bool computeApproachTarget(const Object*,const Object*,const Coord3D*,float,Coord3D&) const;
 };
-class Rva002C9B80Owner { public: Bool isWithinAttackRange(Object*,const Coord3D*,Object*,const Coord3D*,float,Bool); };
 // updateLastNode, rowed under its address name.
 class Rva003638BA
 {
@@ -335,7 +335,7 @@ Bool AIUpdateInterface::computeAttackPath(PathfindServicesInterface *services,co
    if(!viewBlocked){destroyPath();return true;}
   }
  }else if(victimPos){
-  if(((Rva002C9B80Owner*)weapon)->isWithinAttackRange(source,source->getPosition(),0,victimPos,0.0f,true)){
+  if(((Weapon*)weapon)->isWithinAttackRange(source,source->getPosition(),0,victimPos,0.0f,true)){
    destroyPath();return true;
   }
  }
@@ -388,7 +388,7 @@ Bool AIUpdateInterface::computeAttackPath(PathfindServicesInterface *services,co
   else m_path=services->findAttackPath(getObject(),m_locomotorSet,getObject()->getPosition(),victim,&localVictimPos,weapon,attackFlag,&shortPath);
   if(m_path){
    Coord3D goal;const Coord3D *last=&m_path->tail->pos;goal.x=last->x;goal.y=last->y;goal.z=last->z;
-   if(!shortPath&&!((Rva002C9B80Owner*)weapon)->isWithinAttackRange(getObject(),&goal,(Object*)victim,&localVictimPos,0.0f,true)&&!attackFlag){
+   if(!shortPath&&!((Weapon*)weapon)->isWithinAttackRange(getObject(),&goal,(Object*)victim,&localVictimPos,0.0f,true)&&!attackFlag){
     Coord3D objPos;const Coord3D *position=getObject()->getPosition();objPos.x=position->x;objPos.y=position->y;objPos.z=position->z;
     goal.x-=objPos.x;goal.y-=objPos.y;goal.z-=objPos.z;
     if(goal.length()<30.0f){

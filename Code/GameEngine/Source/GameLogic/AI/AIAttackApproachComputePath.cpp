@@ -570,12 +570,6 @@ private:
 	const WeaponTemplate *m_template; // +0x04
 };
 
-class Rva002C9B80Owner
-{
-public:
-	Bool isWithinAttackRange(Object *source, const Coord3D *sourcePos, Object *victim, const Coord3D *victimPos, Real extra, Bool flag);
-};
-
 // BFME 2's partition filter base (ctor 0x000421C8): a vptr and the +0x04 link
 // to the next filter (link 0x00625790 appends its argument and returns this).
 class Rva000421C8

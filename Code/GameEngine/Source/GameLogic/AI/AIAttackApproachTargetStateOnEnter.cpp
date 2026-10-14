@@ -554,17 +554,12 @@ public:
 	const WeaponTemplate *getTemplate() const { return m_template; }
 	Bool isWithinAttackRange(const Object *source, const Object *target, Real extra, Int flag) const;
 	char isWithinAttackRange(Object *source, void *pos, Real extra, Int flag) const;
+	Bool isWithinAttackRange(Object *source, const Coord3D *sourcePos, Object *victim, const Coord3D *victimPos, Real extra, Bool flag);	// 0x002CB35C
 	Bool rva002C9AFE(const Object *source, const void *target) const;
 	WeaponStatus getStatus() const;
 private:
 	unsigned char m_pad00[0x04];
 	const WeaponTemplate *m_template; // +0x04
-};
-
-class Rva002C9B80Owner
-{
-public:
-	Bool isWithinAttackRange(Object *source, const Coord3D *sourcePos, Object *victim, const Coord3D *victimPos, Real extra, Bool flag);
 };
 
 // BFME 2's partition filter base (ctor 0x000421C8): a vptr and the +0x04 link
@@ -1470,7 +1465,7 @@ Bool AIAttackFireDuringApproachState::computePath()
 		m_prevVictimPos = *victim->getPosition();
 		if (gameLogicDebugLevel() > 0 && !forceRepath)
 			debugTrace("masiwar called by AIAttackFireDuringApproachState::computePath [1]");
-		if (!forceRepath && ((Rva002C9B80Owner *)weapon)->isWithinAttackRange(source, &m_goalPosition,
+		if (!forceRepath && ((Weapon *)weapon)->isWithinAttackRange(source, &m_goalPosition,
 				victim, &m_prevVictimPos, 0.0f, true))
 			return true;
 		m_goalPosition = m_prevVictimPos;
@@ -2360,7 +2355,7 @@ StateReturnType AIAttackApproachTargetState::updateInternal()
 				ApproachCoord dir(*victim->getUnitDirectionVector2D());
 				dir.Scale(victim->rva0028AC7D() * 4.0f);
 				pos += dir;
-				inRange = ((Rva002C9B80Owner *)weapon)->isWithinAttackRange(source, source->getPosition(),
+				inRange = ((Weapon *)weapon)->isWithinAttackRange(source, source->getPosition(),
 					victim, &pos, 0.0f, true);
 			}
 			else

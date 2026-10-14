@@ -14,26 +14,24 @@ public:
 	Coord3D m_position;
 };
 
-// LINK: 0x002CB35C is rowed as Rva002C9B80Owner::isWithinAttackRange (WeaponRva002CB2D1Range.cpp); the old six-slot
-// call shape is kept through a member-pointer cast.
-class Rva002C9B80Owner
-{
-public:
-	bool isWithinAttackRange(Object *a, const Coord3D *b, Object *c, const Coord3D *d, float e, bool f);
-};
-typedef bool (Rva002C9B80Owner::*Rva002CB35CShape)(int, void *, void *, void *, float, int);
-
 class Weapon
 {
 public:
 	bool isWithinAttackRange(const Object *source, const Object *target, float extra, int flag) const;
 	char isWithinAttackRange(Object *source, void *pos, float extra, int flag) const;
+	bool isWithinAttackRange(Object *a, const Coord3D *b, Object *c, const Coord3D *d, float e, bool f);	// 0x002CB35C
 };
+
+// The six-slot worker 0x002CB35C (WeaponRva002CB2D1Range.cpp) is called
+// through a member-pointer cast that keeps retail's untyped argument shape.
+typedef bool (Weapon::*Rva002CB35CWorker)(Object *, const Coord3D *, Object *, const Coord3D *, float, bool);
+typedef bool (Weapon::*Rva002CB35CShape)(int, void *, void *, void *, float, int);
+#define RVA002CB35C_CALL(self) (((Weapon *)(self))->*reinterpret_cast<Rva002CB35CShape>(static_cast<Rva002CB35CWorker>(&Weapon::isWithinAttackRange)))
 
 bool Weapon::isWithinAttackRange(const Object *source, const Object *target, float extra, int flag) const
 {
 	if (source && target)
-		return (((Rva002C9B80Owner *)this)->*reinterpret_cast<Rva002CB35CShape>(&Rva002C9B80Owner::isWithinAttackRange))((int)source, (void *)&source->m_position, (void *)target, (void *)&target->m_position, extra, flag);
+		return RVA002CB35C_CALL(this)((int)source, (void *)&source->m_position, (void *)target, (void *)&target->m_position, extra, flag);
 	return false;
 }
 
@@ -43,6 +41,6 @@ bool Weapon::isWithinAttackRange(const Object *source, const Object *target, flo
 char Weapon::isWithinAttackRange(Object *source, void *pos, float extra, int flag) const
 {
 	if (source && pos)
-		return (((Rva002C9B80Owner *)this)->*reinterpret_cast<Rva002CB35CShape>(&Rva002C9B80Owner::isWithinAttackRange))((int)source, (void *)&source->m_position, 0, pos, extra, flag);
+		return RVA002CB35C_CALL(this)((int)source, (void *)&source->m_position, 0, pos, extra, flag);
 	return 0;
 }
