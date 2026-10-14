@@ -21,7 +21,16 @@ namespace _STL
 struct __false_type
 {
 };
-struct random_access_iterator_tag
+struct input_iterator_tag
+{
+};
+struct forward_iterator_tag : public input_iterator_tag
+{
+};
+struct bidirectional_iterator_tag : public forward_iterator_tag
+{
+};
+struct random_access_iterator_tag : public bidirectional_iterator_tag
 {
 };
 template <class Type>
@@ -41,8 +50,8 @@ private:
 };
 template <class InputIter, class OutputIter>
 OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result, const __false_type &tag);
-template <class InputIter, class OutputIter>
-OutputIter __copy(InputIter first, InputIter last, OutputIter result, const random_access_iterator_tag &tag, int *distance);
+template <class InputIter, class OutputIter, class Distance>
+OutputIter __copy(InputIter first, InputIter last, OutputIter result, const random_access_iterator_tag &tag, Distance *distance);
 template <class ForwardIter>
 void _Destroy(ForwardIter first, ForwardIter last);
 }
