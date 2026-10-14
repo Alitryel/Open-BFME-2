@@ -185,3 +185,61 @@ void Rva004F68A8::rva004F68A8(const TreeHintRef00217D4C &ref)
 {
 	m_20 = ref;
 }
+
+// --- 0x004F68B0 (8B): clear the member at +0x20 through the rowed
+// Rva002BED91::clear 0x002BED91 (add ecx, 0x20; jmp).
+class Rva002BED91
+{
+public:
+	void clear();										// 0x002BED91
+};
+
+class Rva004F68B0
+{
+public:
+	void rva004F68B0();
+private:
+	char m_pad00[0x20];
+	Rva002BED91 m_20;
+};
+
+void Rva004F68B0::rva004F68B0()
+{
+	m_20.clear();
+}
+
+// --- 0x004EC062 / 0x004EC06A (8B each): two forwards into the AI unit
+// builder held at +0x38 of their owner (add ecx, 0x38; jmp), with the
+// caller's argument in place: AIUnitBuilder::registerUnitFactory 0x00598431
+// and the rowed map member 0x00598149 over the same sub-object.
+class AIUnitBuilder
+{
+public:
+	void registerUnitFactory(ObjectID id);				// 0x00598431
+};
+
+class Rva00598149
+{
+public:
+	void rva00598149(void *p);							// 0x00598149
+};
+
+class Rva004EC062
+{
+public:
+	void rva004EC062(ObjectID id);
+	void rva004EC06A(void *p);
+private:
+	char m_pad00[0x38];
+	AIUnitBuilder m_38;
+};
+
+void Rva004EC062::rva004EC062(ObjectID id)
+{
+	m_38.registerUnitFactory(id);
+}
+
+void Rva004EC062::rva004EC06A(void *p)
+{
+	((Rva00598149 *)&m_38)->rva00598149(p);
+}
