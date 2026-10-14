@@ -5,6 +5,10 @@
 // U1 r6: EXACT in Lab2 (nd 0, 394 B): single-exit shape (found flag + `result` assigned in both arms, one return) puts the epilogue at the end like retail; plus chain
 // vref on location.x. Landing needs g_00DFEEF8 (TheSkirmishAIManager, address-named global = hatch) in a new TU.
 // ?rva005D7395@Rva005D736E@@QAE_NPAVObject@@@Z
+// partial score=0.999 date=2026-10-14
+// U1 r6: EXACT in Lab2 (nd 0, 394 B): single-exit shape (found flag + `result` assigned in both arms, one return) puts the epilogue at the end like retail; plus chain
+// vref on location.x. Landing needs g_00DFEEF8 (TheSkirmishAIManager, address-named global = hatch) in a new TU.
+// ?rva005D7395@Rva005D736E@@QAE_NPAVObject@@@Z
 // partial score=0.92 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /ICode/Libraries/Include /Ireference/shims/bfmealloc
 // stlport
