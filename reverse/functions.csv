@@ -44910,7 +44910,7 @@ _SetDeInterlaceMode,,0x001B6910,15,Code/Libraries/Source/VP6/PostProcModes.cpp,m
 ?rva0031BEF1@Rva0031BEF1@@QAEPAXABU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z,,0x0031BEF1,37,Code/Libraries/Source/WWVegas/WWLib/Rva0031BEF1Create.cpp,matched,unlock hashtable node create via 0x307F0 and dup 0x31BDC1 unlocks 0x31C7D6
 ?Rva0031BA18Copy@@YAPAURva002C99FB@@PAU1@00@Z,,0x0031BA18,47,Code/GameEngine/Source/GameLogic/Object/Rva0031BA18Copy.cpp,matched,unlock __copy 8B via rowed assign 0x2C99FB unblocks 0x31BDA4
 ??$__copy_ptrs@PBUBfmeAsciiScalarValue8@@PAU1@@_STL@@YAPAUBfmeAsciiScalarValue8@@PBU1@0PAU1@ABU__false_type@0@@Z,,0x0031BDA4,29,Code/Libraries/Source/WWVegas/WWLib/stlport_copy_ptrs_scalar8.cpp,matched,chain __copy_ptrs scalar8 via rowed 0x31BA18
-?rva0030A8EE@Rva0030A8EE@@QAEXPAUCoord3D@@@Z,,0x0030A8EE,62,Code/GameEngine/Source/Common/Thing/Rva0030A8EECopy.cpp,matched,unlock Coord3D build from this plus Normalize via 0x5A70
+?getUnitDirectionVector3D@Thing@@QBEXAAUCoord3D@@@Z,,0x0030A8EE,62,Code/GameEngine/Source/Common/Thing/Rva0030A8EECopy.cpp,matched,unlock Coord3D build from this plus Normalize via 0x5A70
 ??4Rva003B32E5@@QAEAAV0@ABV0@@Z,,0x003B32E5,57,Code/GameEngine/Source/Common/Rva003B32E5Assign.cpp,matched,copy-assign two ints AsciiString set plus tail bytes callers 0x3B7FE0 0x3B825F linkbody
 ?rva00115DA7@Rva00115DA7@@QAEXHHHHH@Z,,0x00115DA7,43,Code/GameEngine/Source/Common/Rva00115DA7.cpp,matched,unlock setter via caller 0xE424C stores 4 ints at A8 B0 B8 C0
 ?rva0036DBBA@AIGroup@@QAEXHHI@Z,,0x0036DBBA,99,Code/GameEngine/Source/GameLogic/AI/AIGroupAttackTeam.cpp,matched,member walk mapping a type code to a timed special model condition (0x72 or 0xB8..0xBB) through Object::setSpecialModelConditionState

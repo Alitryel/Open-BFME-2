@@ -157,15 +157,6 @@ void Thing::getUnitDirectionVector2D(Coord3D& dir) const
 #pragma optimize("", on)
 
 //=============================================================================
-// ?getUnitDirectionVector3D@Thing@@ present-unmatched
-void Thing::getUnitDirectionVector3D(Coord3D& dir) const
-{
-	Vector3 vdir(m_transform[0][0], m_transform[1][0], m_transform[2][0]);  // the X column; naming Get_X_Vector left a non-retail copy first in link order
-	vdir.Normalize();
-	dir.x = vdir.X;
-	dir.y = vdir.Y;
-	dir.z = vdir.Z;
-}
 
 // File-static matrix copy (LK3-style): the TU's copy-ctor COMDAT loses
 // the link (first in link order), and the unrowed body below inlines the

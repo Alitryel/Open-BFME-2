@@ -177,7 +177,7 @@ public:
 	const Coord3D *getPosition() const { return &m_cachedPos; }
 	Real getOrientation() const { return m_cachedAngle; }
 	void setOrientation(Real angle);
-	void rva0030A8EE(Coord3D *dir) const;
+	void getUnitDirectionVector3D(Coord3D &dir) const;
 
 private:
 	char m_unrecovered00[0x04];
@@ -477,7 +477,7 @@ void QueueProductionExitUpdate::exitObjectViaDoor( Object *newObj, ExitDoorType 
 		//
 		Rva003909FAObj *newObjectPhysics = newObj->getPhysics();
 		Coord3D startingForce;
-		creationObject->rva0030A8EE( &startingForce );
+		creationObject->getUnitDirectionVector3D( startingForce );
 		Real speed = creationObject->rva0028AC7D();
 		if( creationInAir && newObjectPhysics && speed > 0.01f )
 		{

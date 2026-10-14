@@ -435,7 +435,7 @@ public:
 class Thing
 {
 public:
-	void rva0030A8EE(Coord3D *dir) const;
+	void getUnitDirectionVector3D(Coord3D &dir) const;
 };
 enum ObjectStatusTypes
 {
@@ -466,7 +466,7 @@ public:
 	}
 	const GeometryInfo &getGeometryInfo() const { return *(const GeometryInfo *)m_geometryInfo; }
 	Real rva0028AC7D() const;
-	void getUnitDirectionVector3D(Coord3D &dir) const { ((const Thing *)this)->rva0030A8EE(&dir); }
+	void getUnitDirectionVector3D(Coord3D &dir) const { ((const Thing *)this)->getUnitDirectionVector3D(dir); }
 	AIUpdateInterface *getAI() { return m_ai; }
 	Team *getTeam() { return m_team; }
 	Player *getControllingPlayer() const;

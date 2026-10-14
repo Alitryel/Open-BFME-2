@@ -423,7 +423,7 @@ public:
 class Thing
 {
 public:
-	void rva0030A8EE(Coord3D *dir) const;
+	void getUnitDirectionVector3D(Coord3D &dir) const;
 	void setOrientation(Real angle);
 };
 class Rva00373EC6
@@ -439,7 +439,7 @@ public:
 	__forceinline unsigned int isKindOf(KindOfType t) const { return m_template->isKindOf(t); }
 	const GeometryInfo &getGeometryInfo() const { return *(const GeometryInfo *)m_geometryInfo; }
 	Real rva0028AC7D() const;
-	void getUnitDirectionVector3D(Coord3D &dir) const { ((const Thing *)this)->rva0030A8EE(&dir); }
+	void getUnitDirectionVector3D(Coord3D &dir) const { ((const Thing *)this)->getUnitDirectionVector3D(dir); }
 	Real getOrientation() const { return m_orientation; }
 	void setOrientation(Real angle) { ((Thing *)this)->setOrientation(angle); }
 	Bool testStatus(ObjectStatusTypes bit) const;

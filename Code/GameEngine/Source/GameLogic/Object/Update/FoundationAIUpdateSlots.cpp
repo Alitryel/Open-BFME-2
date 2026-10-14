@@ -93,7 +93,7 @@ class Thing
 {
 public:
 	Drawable *getDrawable() const;
- void rva0030A8EE(Coord3D *out) const;
+ void getUnitDirectionVector3D(Coord3D &dir) const;
 };
 
 class Player;
@@ -512,7 +512,7 @@ bool FoundationAIUpdate::rva00455C98(const ThingTemplate *tmpl, const Coord3D *p
        delta=*m_object->getPosition();delta.x-=pos->x;delta.y-=pos->y;delta.z-=pos->z;
        delta.x*=0.5F;delta.y*=0.5F;delta.z*=0.5F;
       } else {
-       obj->rva0030A8EE(&delta);float scale=variedRadius+radius;
+       obj->getUnitDirectionVector3D(delta);float scale=variedRadius+radius;
        delta.x*=scale;delta.y*=scale;delta.z*=scale;
       }
       dest1.x=pos->x+delta.x;dest1.y=pos->y+delta.y;dest1.z=pos->z+delta.z;
