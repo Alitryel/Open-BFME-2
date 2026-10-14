@@ -88895,3 +88895,12 @@ __Locale_ctype_default,,0x00021980,5,Code/Libraries/Source/WWVegas/WWLib/stlport
 ?rva000554F0@Rva000554F0@@QAEAAURva003B5603Element@@XZ,,0x000554F0,5,Code/Libraries/Source/WWVegas/WWLib/StlportDequeHolderForwarders.cpp,matched,unreferenced deque-holder tail-jump forwarder
 ?rva00056B34@Rva00056B34@@QAEXXZ,,0x00056B34,5,Code/Libraries/Source/WWVegas/WWLib/StlportDequeHolderForwarders.cpp,matched,unreferenced deque-holder pop tail-jumping into rowed pop_back 0x0005555F
 ?rva00055463@Rva00055463@@QAEIABQAURva00051107AudioRequest@@@Z,,0x00055463,5,Code/Libraries/Source/WWVegas/WWLib/StlportHashSetHolderErase.cpp,matched,unreferenced hash-set-holder erase(key) tail-jumping into rowed hashtable erase 0x00054C93
+?rva00013280@Rva00013280Slots@@QAEXXZ,,0x00013280,5,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,virtual-slot tail-jump forwarder; unreferenced
+?rva00013290@Rva00013290Slots@@QAEXXZ,,0x00013290,5,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,virtual-slot tail-jump forwarder; unreferenced
+?rva000184E0@Rva000184E0Slots@@QAEXXZ,,0x000184E0,5,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,virtual-slot tail-jump forwarder; unreferenced
+?rva000184F0@Rva000184F0Slots@@QAEXXZ,,0x000184F0,5,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,virtual-slot tail-jump forwarder; unreferenced
+?rva0001C8B0@Rva0001C8B0Slots@@QAEXXZ,,0x0001C8B0,5,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,virtual-slot tail-jump forwarder; unreferenced
+?rva0001D170@Rva0001D170Slots@@QAEXXZ,,0x0001D170,5,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,virtual-slot tail-jump forwarder; unreferenced
+?rva00035790@Rva00035790Slots@@QAEXXZ,,0x00035790,4,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,virtual-slot tail-jump forwarder; unreferenced
+?rva000357F0@Rva000357F0Slots@@QAEXXZ,,0x000357F0,5,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,virtual-slot tail-jump forwarder; unreferenced
+?rva00021280@@YAHHHHHH@Z,,0x00021280,5,Code/GameEngine/Source/Common/GapBodiesGE21.cpp,matched,returns its fifth argument; unreferenced

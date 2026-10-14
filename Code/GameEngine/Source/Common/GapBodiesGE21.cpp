@@ -181,3 +181,168 @@ int rva00030E10(const Rva00030E10Record *record)
 {
 	return record->m_18;
 }
+
+// Unreferenced virtual-slot forwarders: each calls one slot of its own
+// object with no arguments, a tail jump through the vtable (mov eax,[ecx];
+// jmp [eax+4*slot]). Owners are address-derived views of the slots used.
+// 0x00013280: slot 6.
+class Rva00013280Slots
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	virtual void slot04();
+	virtual void slot05();
+	virtual void slot06();
+	void rva00013280();
+};
+
+void Rva00013280Slots::rva00013280()
+{
+	slot06();
+}
+
+// 0x00013290: slot 10.
+class Rva00013290Slots
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	virtual void slot04();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	virtual void slot09();
+	virtual void slot10();
+	void rva00013290();
+};
+
+void Rva00013290Slots::rva00013290()
+{
+	slot10();
+}
+
+// 0x000184E0: slot 8.
+class Rva000184E0Slots
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	virtual void slot04();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	void rva000184E0();
+};
+
+void Rva000184E0Slots::rva000184E0()
+{
+	slot08();
+}
+
+// 0x000184F0: slot 12.
+class Rva000184F0Slots
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	virtual void slot04();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	virtual void slot09();
+	virtual void slot10();
+	virtual void slot11();
+	virtual void slot12();
+	void rva000184F0();
+};
+
+void Rva000184F0Slots::rva000184F0()
+{
+	slot12();
+}
+
+// 0x0001C8B0: slot 11.
+class Rva0001C8B0Slots
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	virtual void slot04();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	virtual void slot08();
+	virtual void slot09();
+	virtual void slot10();
+	virtual void slot11();
+	void rva0001C8B0();
+};
+
+void Rva0001C8B0Slots::rva0001C8B0()
+{
+	slot11();
+}
+
+// 0x0001D170: slot 3.
+class Rva0001D170Slots
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	void rva0001D170();
+};
+
+void Rva0001D170Slots::rva0001D170()
+{
+	slot03();
+}
+
+// 0x00035790: slot 0.
+class Rva00035790Slots
+{
+public:
+	virtual void slot00();
+	void rva00035790();
+};
+
+void Rva00035790Slots::rva00035790()
+{
+	slot00();
+}
+
+// 0x000357F0: slot 2.
+class Rva000357F0Slots
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	void rva000357F0();
+};
+
+void Rva000357F0Slots::rva000357F0()
+{
+	slot02();
+}
+
+// 0x00021280 (5B), unreferenced: return the fifth argument.
+int rva00021280(int, int, int, int, int fifth)
+{
+	return fifth;
+}
