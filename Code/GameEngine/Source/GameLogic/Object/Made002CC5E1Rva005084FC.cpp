@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /arch:SSE
+// cl: /O1 /DNDEBUG /MD /arch:SSE /ICode/GameEngine/Source/Common
 // Retail0x005084FC186B; vtable00864048 slot14 owned by matched Made002CC5E1
 // deleting destructor/constructor. Original method name unknown. This scoped
 // view emits the method body only and deliberately does not model the vtable.
@@ -11,7 +11,91 @@
 // Bonus tests !=0 (unordered included) whereas final result tests >0.
 // Parent correction of uncompiled router artifact; native wrapper5084FC186B.
 // DamageInfo local uses already-pinned ctor263895 and actual named attemptDamage.
+#include "GameLogicObjectLookupView.h"
 struct Coord3D;
+class AttributeModifierPoolUpdate {public:unsigned char isCategoryDisabled(int);};
+struct Rva005086CEPair {void *context;void *list;};
+class Rva00291793 {public:int rva00291793();};
+class Rva005086CEContain {public:
+ virtual void slot00();
+ virtual void slot01();
+ virtual void slot02();
+ virtual void slot03();
+ virtual void slot04();
+ virtual void slot05();
+ virtual void slot06();
+ virtual void slot07();
+ virtual void slot08();
+ virtual void slot09();
+ virtual void slot10();
+ virtual void slot11();
+ virtual void slot12();
+ virtual void slot13();
+ virtual void slot14();
+ virtual void slot15();
+ virtual void slot16();
+ virtual void slot17();
+ virtual void slot18();
+ virtual void slot19();
+ virtual void slot20();
+ virtual void slot21();
+ virtual void slot22();
+ virtual void slot23();
+ virtual void slot24();
+ virtual void slot25();
+ virtual void slot26();
+ virtual void slot27();
+ virtual void slot28();
+ virtual void slot29();
+ virtual void slot30();
+ virtual void slot31();
+ virtual void slot32();
+ virtual void slot33();
+ virtual void slot34();
+ virtual void slot35();
+ virtual void slot36();
+ virtual void slot37();
+ virtual void slot38();
+ virtual void slot39();
+ virtual void slot40();
+ virtual void slot41();
+ virtual void slot42();
+ virtual void slot43();
+ virtual void slot44();
+ virtual void slot45();
+ virtual void slot46();
+ virtual void slot47();
+ virtual void slot48();
+ virtual void slot49();
+ virtual void slot50();
+ virtual void slot51();
+ virtual void slot52();
+ virtual void slot53();
+ virtual void slot54();
+ virtual void slot55();
+ virtual void slot56();
+ virtual void slot57();
+ virtual void slot58();
+ virtual void slot59();
+ virtual void slot60();
+ virtual void slot61();
+ virtual void slot62();
+ virtual void slot63();
+ virtual void slot64();
+ virtual void slot65();
+ virtual void slot66();
+ virtual void slot67();
+ virtual void slot68();
+ virtual void slot69();
+ virtual void slot70();
+ virtual Rva005086CEPair *members(Rva005086CEPair*);
+};
+template<int N> class BitFlags {public: __declspec(nothrow) BitFlags(const BitFlags&);unsigned words[7];};
+extern BitFlags<116> KINDOFMASK_NONE;
+int Rva00360C1FEqual(const void*,const void*);
+class Thing {public:bool isKindOfMulti(const BitFlags<116>&,const BitFlags<116>&) const;};
+template<class T> static __forceinline const T& minDamageRatio(const T&a,const T&b) {return b<a?b:a;}
+
 class DamageInfo
 {
 public:
@@ -20,7 +104,8 @@ public:
  int damageType10;
  unsigned char pad14[0x0C];
  float amount20;
- unsigned char pad24[0x4C];
+ bool flag24;
+ unsigned char pad25[0x4B];
  float value70;
  float value74;
  unsigned char pad78[4];
@@ -35,33 +120,37 @@ class Object
 {
 public:
  void attemptDamage(DamageInfo *info);
+ float rva0028D2C5(void*) const;
  void attemptHealing(float amount, const Object *source);
  unsigned char pad00[4];
  Rva005084FCModuleView *module04;
-};
-enum ObjectID { INVALID_ID = 0 };
-class GameLogic
-{
-public:
- Object *findObjectByID(ObjectID id);
+ unsigned char pad08[0x250-8]; Rva005086CEContain *contain250;
+private:
+ friend class Made002CC5E1;
+ AttributeModifierPoolUpdate *findAttributeModifierPoolUpdate() const;
 };
 extern GameLogic *TheGameLogic;
+struct Rva005086CETemplate {char pad[0x140];bool scaleByCount;unsigned char divisor;};
 struct Rva005084FCWeaponView
 {
- unsigned char pad00[8];
+ unsigned char pad00[4];
+ Rva005086CETemplate *parameters;
  int sourceID08;
 };
 class Rva00507823
 {
 public:
  virtual ~Rva00507823();
+ unsigned char rva005075D6(const void*,Object*);
 };
 class Made002CC5E1 : public Rva00507823
 {
 public:
  bool rva005084FC(void *weapon, Object *target, const Coord3D *position);
+ bool rva005086CE(void *weapon,Object *target);
 private:
- unsigned char pad04[0x194 - 4];
+ unsigned char pad04[0x178 - 4];
+ BitFlags<116> filter178;
  bool flag194;
  unsigned char pad195[3];
  float value198;
@@ -92,4 +181,48 @@ bool Made002CC5E1::rva005084FC(void *weapon, Object *target, const Coord3D *posi
  if (info.value74 > 0.0f)
   return true;
  return false;
+}
+
+// Native 005086CE..0050882B, RET8, owning vtable864048/864C38 slot1.
+// WB0109F2E0 confirms the full target/filter/modifier flow. The explicit
+// minimum reference followed by a value copy preserves its scalar lifetime.
+// The final <= guard preserves retail behavior for unordered float values.
+// Pinned BFME1 a7c38d3b DamageNugget.cpp supplies the source-count/divisor
+// damage scale with a reference-returning min; native fixes the target ABI,
+// condition filter and modifier-category gate. Original virtual name unknown.
+bool Made002CC5E1::rva005086CE(void *weapon,Object *target)
+{
+ Rva005084FCWeaponView *descriptor=(Rva005084FCWeaponView*)weapon;
+ if(!rva005075D6(weapon,target)) return false;
+ DamageInfo info;
+ rva00508120(weapon,target,&info,true,0);
+ if(!target) return false;
+ Object *source=TheGameLogic->findObjectByID((ObjectID)descriptor->sourceID08);
+ if(!source) return false;
+ // The existing equality provider returns canonical integer 0 or 1; this
+ // caller consumes its low byte, as native TEST AL proves.
+ if(!(unsigned char)Rva00360C1FEqual(&filter178,&KINDOFMASK_NONE)) {
+  BitFlags<116> required(filter178);
+  if(((Thing*)target)->isKindOfMulti(required,KINDOFMASK_NONE)) {
+   AttributeModifierPoolUpdate *modifiers=source->findAttributeModifierPoolUpdate();
+   if(modifiers && modifiers->isCategoryDisabled(1)) return false;
+  }
+ }
+ float damage=target->rva0028D2C5((char*)&info+4);
+ if(descriptor->parameters->scaleByCount) {
+  Rva005086CEContain *contain=source->contain250;
+  if(contain) {
+  Rva005086CEPair pair;
+  unsigned count=((Rva00291793*)contain->members(&pair))->rva00291793();
+  int divisor=descriptor->parameters->divisor;
+  if(divisor>0) {
+   float ratio=(float)count/divisor;
+   const float& selected=minDamageRatio(ratio,1.0f);
+   float scale=selected;
+   damage=damage*scale;
+  }
+ }
+ }
+ if(damage<=0.0f && !info.flag24) return false;
+ return true;
 }
