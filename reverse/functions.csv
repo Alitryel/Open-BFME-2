@@ -89686,3 +89686,4 @@ _chatEnumJoinedChannels,,0x006A2100,5,Code/GameEngine/Source/GameNetwork/GameSpy
 ?rva005CB432@@YIXPAVRegionUI@@PAURva005CB432Owner@@@Z,,0x005CB432,56,Code/GameEngine/Source/Common/Rva005CB432PageCounts.cpp,matched,
 ??0LargeGroupBonusUpdateModuleData@@QAE@XZ,,0x004901BD,104,Code/GameEngine/Source/GameLogic/Object/Update/LargeGroupBonusUpdateModuleDataCtor.cpp,matched,
 ?rva004BA9E4@TransitionDamageFX@@UAEXH@Z,,0x004BA9E4,321,Code/GameEngine/Source/GameLogic/Object/Damage/TransitionDamageFXRva004BA9E4.cpp,matched,
+?rva0006BBD9@BaseHeightMapRenderObjClass@@QAEXHH@Z,,0x0006BBD9,556,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapRenderTreesShrubs.cpp,matched,BaseHeightMapRenderObjClass RenderBuffs draw step: scoped event; ZH inline Set_Transform(D3DTS_WORLD Matrix3D) whose generic case takes the Matrix4x4 address so retail keeps its 16 stores; inlined Set_Material; pinned W3DBuffBuffer draw D28FA

@@ -10,9 +10,12 @@
 // 12 KB because it keeps DX8Wrapper::Set_Transform and Set_DX8_Render_State
 // out of line; the retail copy has them inlined, as the world-matrix store
 // at 0x00DEE7C4 and the render-state check at 0x00DED5F8 + 4 * state show.
-// The second step ("RenderBuffs") loads the same transform through a 4x4
-// row-major staging matrix, installs the vertex material at +0x3818 as the
-// current one and hands both arguments to the buffer at +0x3874.
+// The second step ("RenderBuffs") loads the same transform through ZH's
+// inline DX8Wrapper::Set_Transform(D3DTS_WORLD, Matrix3D) (Matrix4x4 staging
+// copy, transposed into render_state.world), installs the vertex material at
+// +0x3818 through the inlined Set_Material and hands both arguments to the
+// buff buffer at +0x3874: its draw body 0x000D28FA follows the rowed
+// W3DBuffBuffer fill 0x000D2301 and calls it at 0x000D3744.
 // The target identity of the receiver method names is unknown.
 
 typedef int Int;
@@ -52,7 +55,9 @@ extern VertexMaterialClass *ScreenMaterial;
 struct IDirect3DDevice8;
 struct DeviceVtable
 {
-	char pad[0xe4];
+	char pad[0xb0];
+	int (__stdcall *SetTransform)(IDirect3DDevice8 *, int, const void *);
+	char pad_b4[0xe4 - 0xb4];
 	int (__stdcall *SetRenderState)(IDirect3DDevice8 *, unsigned long, unsigned);
 };
 struct IDirect3DDevice8
@@ -73,8 +78,9 @@ class DX8Wrapper
  friend class BaseHeightMapRenderObjClass;
  friend void Rva00726290SetWorld(const Rva00726290Matrix3D &);
  friend void Rva0006BBD9SetWorld(const Rva00726290Matrix4 &);
+ friend void BfmeSetTransform(int, const class BfmeMatrix3D &);
 protected:
- static unsigned render_state_changed, RenderStates[256], render_state_changes;
+ static unsigned render_state_changed, RenderStates[256], render_state_changes, matrix_changes;
  static RenderStateStruct render_state;
  static IDirect3DDevice8 *D3DDevice;
 public:
@@ -152,12 +158,13 @@ extern GlobalData *TheWritableGlobalData;
 class RenderInfoClass;
 class Rva000EC9C6 { public: void rva000EC9C6(int); };
 class W3DShrubBuffer { public: void rva000E89BD(int); };
-class Rva000D28FA { public: void rva000D28FA(int, int); };
+class W3DBuffBuffer { public: void rva000D28FA(int, int); };
 
 class BaseHeightMapRenderObjClass
 {
 public:
 	void rva0006B895(RenderInfoClass &rinfo);
+	void rva0006BBD9(int a, int b);
 	void rva000687EF();
 
 private:
@@ -173,8 +180,69 @@ private:
 	Rva000EC9C6 *m_treeBuffer;
 	W3DShrubBuffer *m_shrubBuffer;
 	char m_pad3858[0x3874 - 0x3858];
-	Rva000D28FA *m_roadBuffer;	// +0x3874
+	W3DBuffBuffer *m_buffBuffer;	// +0x3874
 };
+
+class BfmeVector4
+{
+public:
+	Real X, Y, Z, W;
+	__forceinline BfmeVector4() {}
+	__forceinline BfmeVector4(const BfmeVector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
+	__forceinline BfmeVector4 &operator=(const BfmeVector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
+	__forceinline BfmeVector4(Real x, Real y, Real z, Real w) { X = x; Y = y; Z = z; W = w; }
+	__forceinline Real &operator[](int i) { return (&X)[i]; }
+	__forceinline const Real &operator[](int i) const { return (&X)[i]; }
+};
+
+class BfmeMatrix3D
+{
+public:
+	BfmeVector4 Row[3];
+	__forceinline BfmeMatrix3D(const BfmeMatrix3D &m) { Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; }
+	__forceinline const BfmeVector4 &operator[](int i) const { return Row[i]; }
+};
+
+class BfmeMatrix4x4
+{
+public:
+	BfmeVector4 Row[4];
+	__forceinline BfmeMatrix4x4(const BfmeMatrix4x4 &m) { Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3]; }
+	__forceinline BfmeMatrix4x4 &operator=(const BfmeMatrix4x4 &m) { Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3]; return *this; }
+	__forceinline explicit BfmeMatrix4x4(const BfmeMatrix3D &m) { Init(m); }
+	__forceinline BfmeMatrix4x4(const BfmeVector4 &r0, const BfmeVector4 &r1, const BfmeVector4 &r2, const BfmeVector4 &r3) { Init(r0, r1, r2, r3); }
+	__forceinline void Init(const BfmeMatrix3D &m) { Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3] = BfmeVector4(0.0f, 0.0f, 0.0f, 1.0f); }
+	__forceinline void Init(const BfmeVector4 &r0, const BfmeVector4 &r1, const BfmeVector4 &r2, const BfmeVector4 &r3) { Row[0] = r0; Row[1] = r1; Row[2] = r2; Row[3] = r3; }
+	__forceinline BfmeMatrix4x4 Transpose() const
+	{
+		return BfmeMatrix4x4(
+			BfmeVector4(Row[0][0], Row[1][0], Row[2][0], Row[3][0]),
+			BfmeVector4(Row[0][1], Row[1][1], Row[2][1], Row[3][1]),
+			BfmeVector4(Row[0][2], Row[1][2], Row[2][2], Row[3][2]),
+			BfmeVector4(Row[0][3], Row[1][3], Row[2][3], Row[3][3]));
+	}
+};
+
+// DX8Wrapper::Set_Transform(D3DTRANSFORMSTATETYPE, const Matrix3D &), the
+// inline ZH overload: the Matrix4x4 staging copy has its address taken by the
+// generic case, which is why retail keeps all sixteen of its stores.
+__forceinline void BfmeSetTransform(int transform, const BfmeMatrix3D &m)
+{
+	BfmeMatrix4x4 m2(m);
+	switch (transform) {
+	case 256:
+		*(BfmeMatrix4x4 *)&DX8Wrapper::render_state.world = m2.Transpose();
+		DX8Wrapper::render_state_changed |= 1u;
+		DX8Wrapper::render_state_changed &= ~0x40000u;
+		break;
+	default:
+		DX8Wrapper::matrix_changes++;
+		m2 = m2.Transpose();
+		DX8Wrapper::D3DDevice->v->SetTransform(DX8Wrapper::D3DDevice, transform, &m2);
+		number_of_DX8_calls++;
+		break;
+	}
+}
 
 class RtsTreeBufferView { public: char pad[0x45c5c]; unsigned char m_45C5C; };
 
@@ -223,4 +291,23 @@ void BaseHeightMapRenderObjClass::rva0006B895(RenderInfoClass &rinfo)
 		BFME_SET_RS(0x34, 0);
 		m_shrubBuffer->rva000E89BD((Int)&rinfo);
 	}
+}
+
+void BaseHeightMapRenderObjClass::rva0006BBD9(int a, int b)
+{
+	if (m_37C0 == 0 || m_78 == 0 || m_buffBuffer == 0)
+		return;
+
+	BFME2ScopedRenderEvent event("RenderBuffs", "Frame", 0);
+	BfmeMatrix3D tm(*(const BfmeMatrix3D *)&m_transform);
+	BfmeSetTransform(256, tm);
+
+	VertexMaterialClass *material = m_material;
+	if (material)
+		++material->refs;
+	if (ScreenMaterial)
+		ScreenMaterial->Release_Ref();
+	ScreenMaterial = material;
+	DX8Wrapper::render_state_changed |= 0x4000;
+	m_buffBuffer->rva000D28FA(a, b);
 }
