@@ -260,3 +260,96 @@ unsigned long ChunkLoadClass::rva00615230(void *buffer)
 {
 	return Read(buffer, 4);
 }
+
+// Pointer adjustments of the +0 pointer: ?rva0060F120@Rva0060F120@@QBEPAXXZ
+// @0x0060F120 6B (8 bytes back), ?rva00620260@Rva00620260@@QBEPAXXZ
+// @0x00620260 6B (4 bytes in) and ?rva0060393E@Rva0060393E@@QBEPAXXZ
+// @0x0060393E 6B (12 bytes in).
+class Rva0060F120
+{
+public:
+	void *rva0060F120() const;
+private:
+	char *m_00;
+};
+void *Rva0060F120::rva0060F120() const
+{
+	return m_00 - 8;
+}
+class Rva00620260
+{
+public:
+	void *rva00620260() const;
+private:
+	char *m_00;
+};
+void *Rva00620260::rva00620260() const
+{
+	return m_00 + 4;
+}
+class Rva0060393E
+{
+public:
+	void *rva0060393E() const;
+private:
+	char *m_00;
+};
+void *Rva0060393E::rva0060393E() const
+{
+	return m_00 + 0xc;
+}
+
+// ?rva00614D80@Rva00614D80@@QBE_NXZ @0x00614D80 3B: the flag byte at +0.
+class Rva00614D80
+{
+public:
+	bool rva00614D80() const;
+private:
+	bool m_00;
+};
+bool Rva00614D80::rva00614D80() const
+{
+	return m_00;
+}
+
+// ??0Rva0065E890@@QAE@XZ @0x0065E890 13B: default ctor zeroing two words and a byte.
+class Rva0065E890
+{
+public:
+	Rva0065E890();
+private:
+	int m_00;
+	int m_04;
+	bool m_08;
+};
+Rva0065E890::Rva0065E890() : m_00(0), m_04(0), m_08(false)
+{
+}
+
+// ?rva006C5EB0@Rva006C5EB0@@QBENXZ @0x006C5EB0 4B: the double at +0x20.
+class Rva006C5EB0
+{
+public:
+	double rva006C5EB0() const;
+private:
+	char m_pad[0x20];
+	double m_20;
+};
+double Rva006C5EB0::rva006C5EB0() const
+{
+	return m_20;
+}
+
+// ?rva006CFEF0@Rva006CFEF0@@QBEHABV1@@Z @0x006CFEF0 14B: word-pointer distance
+// from another iterator.
+class Rva006CFEF0
+{
+public:
+	int rva006CFEF0(const Rva006CFEF0 &other) const;
+private:
+	int *m_cur;
+};
+int Rva006CFEF0::rva006CFEF0(const Rva006CFEF0 &other) const
+{
+	return m_cur - other.m_cur;
+}

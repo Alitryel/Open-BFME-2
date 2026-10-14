@@ -89598,3 +89598,10 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva005B1908@Rva005B1908@@QAEXPAUBfmePod20@@IABU2@@Z,,0x005B1908,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005B1748
 ?rva005EE00F@Rva005EE00F@@QAEXPAUBfmeStringRecord005ED5F3@@IABU2@@Z,,0x005EE00F,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005EDEF3
 ?rva005EFD8A@Rva005EFD8A@@QAEXPAURva005EFD53Element@@IABU2@@Z,,0x005EFD8A,5,Code/GameEngine/Source/Common/GapBodiesSeat10O1.cpp,matched,tail jump to rowed vector _M_fill_insert 0x005EFC30
+?rva0060F120@Rva0060F120@@QBEPAXXZ,,0x0060F120,6,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,+0 pointer 8 bytes back
+?rva00620260@Rva00620260@@QBEPAXXZ,,0x00620260,6,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,+0 pointer 4 bytes in
+?rva0060393E@Rva0060393E@@QBEPAXXZ,,0x0060393E,6,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,+0 pointer 12 bytes in
+?rva00614D80@Rva00614D80@@QBE_NXZ,,0x00614D80,3,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,flag byte at +0
+??0Rva0065E890@@QAE@XZ,,0x0065E890,13,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,default ctor zeroing two words and a byte
+?rva006C5EB0@Rva006C5EB0@@QBENXZ,,0x006C5EB0,4,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,double at +20
+?rva006CFEF0@Rva006CFEF0@@QBEHABV1@@Z,,0x006CFEF0,14,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,word-pointer distance between iterators
