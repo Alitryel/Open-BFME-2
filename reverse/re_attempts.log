@@ -55642,3 +55642,6 @@ __Locale_ctype_default	0x00021980	5	landed	add_match verified Code/Libraries/Sou
 ?rva000730D9@Rva00073421@@QAEXXZ	0x000730D9	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 5B; forwarder to rowed rva00072FE6 of the object at +0; unreferenced
 ?rva00057AE9@Rva00057AE9@@QAEXXZ	0x00057AE9	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 5B; forwarder to rowed rva00056DA2 of the object at +0; unreferenced
 ?rva0005A07F@Rva0005A07F@@QAEXABVRva0036CA00Str@@@Z	0x0005A07F	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 5B; forwarder to rowed rva00058B90 of the object at +0; unreferenced
+?size@?$deque@PAXV?$allocator@PAX@_STL@@@_STL@@QBEIXZ	0x000554E6	10	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/stlport_deque_ptr_o1.cpp 10B; STLport 4.5.3 deque<void*> size: finish minus start through rowed iterator _M_subtract 0x00051A98; unreferenced
+?rva000554F5@Rva000554F5@@QAEXXZ	0x000554F5	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 5B; unreferenced tail-jump forwarder
+?rva000907BC@@YAXXZ	0x000907BC	5	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesGE31.cpp 5B; unreferenced tail-jump forwarder

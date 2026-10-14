@@ -786,3 +786,33 @@ void Rva0005A07F::rva0005A07F(const Rva0036CA00Str &value)
 {
 	m_00.rva00058B90(value);
 }
+
+// 0x000554F5 (5B), unreferenced: forwarder to the rowed
+// Rva00053DC5::rva00054B9A (0x00054B9A) of the object at +0.
+class Rva00053DC5
+{
+public:
+	void rva00054B9A();
+};
+
+class Rva000554F5
+{
+public:
+	void rva000554F5();
+private:
+	Rva00053DC5 m_00;
+};
+
+void Rva000554F5::rva000554F5()
+{
+	m_00.rva00054B9A();
+}
+
+// 0x000907BC (5B), unreferenced: tail jump into the rowed DX8_Assert
+// (0x0069E440).
+void DX8_Assert();
+
+void rva000907BC()
+{
+	DX8_Assert();
+}
