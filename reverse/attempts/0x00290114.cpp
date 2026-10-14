@@ -1,7 +1,5 @@
 // ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z
-// partial score=0.93 date=2026-10-15
-// ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z
-// partial score=0.93 date=2026-10-15
+// partial score=0.958 date=2026-10-14
 // ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z
 // partial score=0.88779 date=2026-10-12
 // cl: /I. /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include
@@ -107,8 +105,6 @@ public:
 	void makeDirty( void );
 };
 
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 #include <float.h>
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
@@ -246,9 +242,10 @@ private:
  AttributeModifierPoolUpdate *findAttributeModifierPoolUpdate() const;
 __forceinline void setConditionBit(unsigned int index) {
      unsigned int bit = 1u << (index & 31);
-     unsigned int *word = &reinterpret_cast<unsigned int *>((char *)this + 0x10C)[index >> 5];
-     if ((*word & bit) == 0) { *word |= bit; rva0028AE6D(); }
+     unsigned int &word = reinterpret_cast<unsigned int *>((char *)this + 0x10C)[index >> 5];
+     if ((word | bit) != word) { word = word | bit; rva0028AE6D(); }
     }
+ __forceinline unsigned int isKindOfB(int k) const { return reinterpret_cast<const unsigned char *>((const char *)m_template+0x108)[k>>3] & (1u<<(k&7)); }
  __forceinline unsigned int isKindOf(int k) const { return reinterpret_cast<const unsigned int *>((const char *)m_template+0x108)[k>>5] & (1u<<(k&31)); }
  // Primary vptr at +0; all accessed fields are witnessed in retail.
  const ObjectCrushLevelsView *m_template; // +0x04
@@ -728,17 +725,23 @@ public:
 // Object::setDisabledUntil; native290114..290357 independently gives timer,
 // condition, tint and audio offsets. The old bank's unowned generic setter
 // now has a verified owner. Native RET8 begins at 290354; the earlier 576B extent clipped it.
+struct BfmeCondBits529 {
+ unsigned int test(int bit) const{return words[bit>>5]&(1U<<(bit&0x1f));}
+ void set(int bit){words[bit>>5]|=1U<<(bit&0x1f);}
+ unsigned int words[20];
+};
 void Object::setDisabledUntil(DisabledType type, const unsigned int frame)
 {
 	unsigned int now = TheGameLogic->getFrame();
 	if (frame > now)
 	{
-	bool edgeCase = !disabledMask.any();
+	BitFlags<11> *const maskp=&disabledMask; const BitFlags<11> &mask=*maskp;
+	bool edgeCase = !mask.any();
 
 	if (type < 0 || type >= 11)
 		return;
 
-	if (type == (DisabledType)5 && !isKindOf(73))
+	if (type == (DisabledType)5 && !isKindOfB(73))
 	{
 		BfmeAudioEventPrefix136 sound(*reinterpret_cast<const OpaqueRefElement4*>((char*)reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->getMiscAudio()+0x50), 0);
 		((Rva002D9508 *)&sound)->rva002D9508((&position));
@@ -746,16 +749,15 @@ void Object::setDisabledUntil(DisabledType type, const unsigned int frame)
 	}
 	else if (type == (DisabledType)6 || type == (DisabledType)2)
 	{
-		if ((disabledMask.m_bits[0] & 0x44) == 0)
+		if ((mask.m_bits[0] & 0x44) == 0)
 		{
-			const unsigned char *kindBytes = reinterpret_cast<const unsigned char *>(m_template);
-			if (kindBytes[0x108] & 0x80)
+			if (isKindOf(7))
 			{
 				BfmeAudioEventPrefix136 sound(*reinterpret_cast<const OpaqueRefElement4*>((char*)reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->getMiscAudio()+0x40), 0);
 				((Rva002D9508 *)&sound)->rva002D9508((&position));
 				reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->addAudioEvent(&sound);
 			}
-			else if (kindBytes[0x109] & 8)
+			else if (isKindOfB(11))
 			{
 				BfmeAudioEventPrefix136 sound(*reinterpret_cast<const OpaqueRefElement4*>((char*)reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->getMiscAudio()+0x48), 0);
 				((Rva002D9508 *)&sound)->rva002D9508((&position));
@@ -770,22 +772,15 @@ void Object::setDisabledUntil(DisabledType type, const unsigned int frame)
 			rva0028B292(1);
 
 		disabledTill[type] = frame;
-		reinterpret_cast<ModelConditionFlags *>(reinterpret_cast<char *>(this) + 0x1C8)->rva000B3FA5(type, frame > TheGameLogic->getFrame());
+		reinterpret_cast<ModelConditionFlags *>(&disabledMask)->rva000B3FA5(type, frame > TheGameLogic->getFrame());
 
 		if (type == (DisabledType)1)
 		{
-			unsigned int bit = 1u << (529 & 31);
-			if ((m_condition14C & bit) == 0)
-			{
-				_ReadWriteBarrier();
-				m_condition14C |= bit;
-				rva0028AE6D();
-			}
+			if (!reinterpret_cast<BfmeCondBits529 *>((char *)this + 0x10C)->test(529)) { reinterpret_cast<BfmeCondBits529 *>((char *)this + 0x10C)->set(529); rva0028AE6D(); }
 		}
 
-		Drawable *draw = (Drawable *)drawable;
-		if (draw && disabledMask.any() && type != (DisabledType)3 && type != (DisabledType)9 && type != (DisabledType)5 && type != (DisabledType)4 && type != (DisabledType)1 && type != (DisabledType)8)
-			*reinterpret_cast<unsigned int *>((char *)draw+0x118) |= 1;
+		if (drawable && disabledMask.any() && type != (DisabledType)3 && type != (DisabledType)9 && type != (DisabledType)5 && type != (DisabledType)4 && type != (DisabledType)1 && type != (DisabledType)8)
+			*reinterpret_cast<unsigned int *>((char *)drawable+0x118) |= 1;
 
 		ObjectDisabledContain *container = reinterpret_cast<ObjectDisabledContain *>(contain);
 		if (container)
