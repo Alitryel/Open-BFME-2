@@ -1,8 +1,10 @@
 // cl: /MD
-class Rva0057C499
+// 0x0057C499 is matched as the constructor AptLoadMovieFrame(int, const AsciiString &).
+class AsciiString;
+class AptLoadMovieFrame
 {
 public:
-	void rva0057C499(int a1, int a2);
+	AptLoadMovieFrame(int a1, const AsciiString &a2);
 };
 class Rva005D4EA8
 {
@@ -15,7 +17,7 @@ private:
 };
 void *Rva005D4EA8::rva005D4EA8(int a1, int a2)
 {
-	((Rva0057C499 *)this)->rva0057C499(a1, a2);
+	((AptLoadMovieFrame *)this)->AptLoadMovieFrame::AptLoadMovieFrame(a1, *(const AsciiString *)a2);
 	m_08 = 0;
 	m_0C = 0;
 	return this;
