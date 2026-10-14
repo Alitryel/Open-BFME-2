@@ -35,12 +35,36 @@ struct BfmeE8 {
 // copies. Pointer stride and the point caller establish the eight-byte ABI;
 // the original point type name remains unknown.
 
+// Retail 0x0030B8E4..0x0030B92C copies the same 0x0C..0x1C block and the
+// two floats at 0x1C/0x20 under the same dirty-flag gate as the rowed
+// operator= at 0x0030B92C; the bounds block's member names are unknown.
+struct AreaPolygonBounds { int v[4]; };
+
 struct AreaPolygonBase {
     _STL::vector<BfmeE8, _STL::allocator<BfmeE8> > m_points;
-    char m_pad[0x24 - 12];
+    AreaPolygonBounds m_bounds;
+    float m_1c;
+    float m_20;
     bool m_dirty;
+    AreaPolygonBase(const AreaPolygonBase& that);
     void insertPoint(int index, const BfmeE8& point);
 };
+
+// ??0AreaPolygonBase@@QAE@ABU0@@Z @0x0030B8E4 72B: copy the point vector
+// through the rowed BfmeE8 vector copy constructor 0x004334D7, clear the two
+// floats, then copy the cached bounds only when the source is not dirty.
+AreaPolygonBase::AreaPolygonBase(const AreaPolygonBase& that)
+    : m_points(that.m_points)
+{
+    m_1c = 0.0f;
+    m_20 = 0.0f;
+    m_dirty = that.m_dirty;
+    if (!that.m_dirty) {
+        m_bounds = that.m_bounds;
+        m_1c = that.m_1c;
+        m_20 = that.m_20;
+    }
+}
 
 void AreaPolygonBase::insertPoint(int index, const BfmeE8& point)
 {
