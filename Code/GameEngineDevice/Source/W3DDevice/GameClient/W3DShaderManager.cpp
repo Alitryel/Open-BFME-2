@@ -287,7 +287,7 @@ long __cdecl Rva00077D0FLoad(const char *strFilePath, unsigned long *pHandle)
 // the smudge manager probes and set by startRenderToTexture.
 bool W3DShaderManager::m_renderingToTexture;
 
-// Retail 0x00077E05 (345 bytes plus its catch funclet), the assembled-source sibling of
+// Retail 0x00077E05..0x00077F80 (379 bytes including its catch and final epilogue), sibling of
 // Rva00077D0FLoad: the file is read into a terminated heap copy, D3DXAssembleShader (thunk
 // 0x0062AF3E) turns it into shader code, and the pixel shader is created from the assembled
 // buffer. A failed assembly with an error buffer is retried, up to ten attempts; any other
