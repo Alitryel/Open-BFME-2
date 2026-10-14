@@ -421,3 +421,30 @@ void rva007B6680()
 {
 	atexit(rva007B9C00);
 }
+
+// PointGroupClass::transformed_loc (VA 0x00DF709C, read and resized by
+// 0x0017E920) is a VectorClass<Vector3> built empty by the rowed
+// (int, const Vector3 *) constructor 0x000F0D2F and destroyed by the rowed
+// cleanup 0x007B73C0. Only the declarations the call sites need are given.
+class Vector3;
+template <class T> class VectorClass
+{
+public:
+	VectorClass(int size = 0, T const *array = 0);
+	virtual ~VectorClass();
+};
+void rva007ACF00();
+class PointGroupClass
+{
+	friend void rva007ACF00();
+	static VectorClass<Vector3> transformed_loc;
+};
+void __cdecl Rva007B73C0();
+
+// ?rva007ACF00@@YAXXZ @0x007ACF00 26B: VectorClass<Vector3>(0, 0) on
+// PointGroupClass::transformed_loc, atexit(0x007B73C0).
+void rva007ACF00()
+{
+	new (&PointGroupClass::transformed_loc) VectorClass<Vector3>(0, 0);
+	atexit(Rva007B73C0);
+}

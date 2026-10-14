@@ -88809,3 +88809,4 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?rva007B6630@@YAXXZ,,0x007B6630,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B9BD0
 ?rva007B6670@@YAXXZ,,0x007B6670,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B9BE0
 ?rva007B6680@@YAXXZ,,0x007B6680,12,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,atexit-only global initializer registering rowed cleanup rva007B9C00
+?rva007ACF00@@YAXXZ,,0x007ACF00,26,Code/GameEngine/Source/Common/Rva007AC6DDGlobalInits.cpp,matched,PointGroupClass transformed_loc initializer VectorClass Vector3 ctor 0 0 then atexit 0x007B73C0
