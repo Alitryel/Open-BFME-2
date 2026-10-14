@@ -57,7 +57,7 @@ private:
 class Rva00291440;
 
 void XferInvisibilityType(Xfer *xfer, int *value);
-void rva003064CB(Xfer *xfer, Rva00291440 *value);
+void xferUpgradeMask(Xfer *xfer, Rva00291440 *value);
 
 class FXList
 {
@@ -101,7 +101,7 @@ void Rva002542F3Member::rva00438592(Rva00438758Interface *interfaceView)
 	interfaceView->slot30(this);
 	m_bits04.xfer(xfer);
 	XferInvisibilityType(xfer, &m_int18);
-	rva003064CB(xfer, reinterpret_cast<Rva00291440 *>(m_buf1C));
+	xferUpgradeMask(xfer, reinterpret_cast<Rva00291440 *>(m_buf1C));
 	interfaceView->slot30(&m_9C);
 	if (interfaceView->slot01())
 	{

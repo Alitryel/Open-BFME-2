@@ -178,7 +178,7 @@ class Rva00291440;
 void XferLivingWorldPlayerID(Xfer*,int*);
 void XferOwningLivingWorldArmyVec(Xfer*,std::vector<const ModuleData*>*);
 Xfer *Rva001ECA2DXfer(Xfer*,void*);
-void rva003064CB(Xfer*,Rva00291440*);
+void xferUpgradeMask(Xfer*,Rva00291440*);
 
 Xfer *Rva002E208AXfer(Xfer*,std::set<int>*);
 enum ScienceType {SCIENCE_INVALID=-1};
@@ -218,7 +218,7 @@ void Rva002E2AAE::xfer(Xfer *xfer) {
   Rva001ECA2DXfer(xfer,&scienceVec);
  }
  *xfer == zero1B4; *xfer == value1C8; *xfer == zero1C4;
- rva003064CB(xfer,reinterpret_cast<Rva00291440*>(&storage));
+ xferUpgradeMask(xfer,reinterpret_cast<Rva00291440*>(&storage));
  *xfer == zero290; *xfer == zero294;
  *xfer == *reinterpret_cast<Snapshot*>(&member258);
  *xfer == *reinterpret_cast<Snapshot*>(&member274);

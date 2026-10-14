@@ -158,7 +158,7 @@ void XferObjectID(Xfer *xfer, ObjectID *id);
 void XferDrawableID(Xfer *xfer, int *id);
 void Rva003062FEXfer(Xfer *xfer, float *values);
 class Rva00291440;
-void rva003064CB(Xfer *xfer, Rva00291440 *mask);
+void xferUpgradeMask(Xfer *xfer, Rva00291440 *mask);
 Xfer *XferPathfindLayerEnum(Xfer *xfer, int *layer);
 void XferFormationID(Xfer *xfer, int *id);
 void XferLivingWorldArmyID(Xfer *xfer, int *id);
@@ -627,7 +627,7 @@ void Object::xfer(Xfer *xfer)
 	*xfer == m_privateStatus;
 
 	if (notLightCRC)
-		rva003064CB(xfer, &m_upgrades);
+		xferUpgradeMask(xfer, &m_upgrades);
 	else
 		m_upgrades.rva00291440((Sink00291440 *)xfer);
 

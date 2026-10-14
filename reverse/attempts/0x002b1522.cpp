@@ -58,7 +58,7 @@ class TeamFactory { public: Team *findTeamByID(unsigned); TeamPrototype *findTea
 extern TeamFactory *TheTeamFactory;
 class Rva002AAC74PoolList { public: void clear(); };
 class Rva00291440;
-void rva003064CB(Xfer*,Rva00291440*);
+void xferUpgradeMask(Xfer*,Rva00291440*);
 Xfer *Rva001ECA2DXfer(Xfer*,void*);
 void XferObjectID(Xfer*,ObjectID*);
 void XferOrderMode(Xfer*,int*);
@@ -226,8 +226,8 @@ void Player::DoXfer(Xfer *raw)
   }
   xfer->integer(&m_radarCount); xfer->boolean(&m_isPlayerDead);
   xfer->integer(&m_disableProofRadarCount); xfer->boolean(&m_radarDisabled);
-  rva003064CB(raw,reinterpret_cast<Rva00291440*>(&m_upgradesInProgress));
-  rva003064CB(raw,reinterpret_cast<Rva00291440*>(&m_upgradesCompleted));
+  xferUpgradeMask(raw,reinterpret_cast<Rva00291440*>(&m_upgradesInProgress));
+  xferUpgradeMask(raw,reinterpret_cast<Rva00291440*>(&m_upgradesCompleted));
   xfer->snapshot(&m_energy); if(version.value>=9)xfer->boolean(&m_field33F);
   PlayerListView&prototypes=listView(m_playerTeamPrototypes);
   unsigned short prototypeCount=(unsigned short)m_playerTeamPrototypes.size(); xfer->ushort(&prototypeCount);

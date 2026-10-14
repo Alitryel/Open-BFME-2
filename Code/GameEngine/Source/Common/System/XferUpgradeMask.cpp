@@ -1,4 +1,4 @@
-// ?rva003064CB@@YAXPAVXfer@@PAVRva00291440@@@Z
+// ?xferUpgradeMask@@YAXPAVXfer@@PAVRva00291440@@@Z
 // partial score=0.98 date=2026-10-08
 // cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /DNDEBUG /G7
 // Native 003064CB..00306629: complete 350-byte upgrade-mask transfer.
@@ -124,7 +124,7 @@ public:
 }
 
 // ?Rva003064CBXfer@@YAXPAVXfer@@PAI@Z
-void __cdecl rva003064CB(Xfer *xfer, Rva00291440 *bits)
+void __cdecl xferUpgradeMask(Xfer *xfer, Rva00291440 *bits)
 {
 	Xfer *x = xfer;
 	Rva00291440 *b = bits;

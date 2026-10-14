@@ -288,7 +288,7 @@ public:
 
 class Rva004E0513 { public: void rva004E0513(Xfer*); };
 class Rva00291440;
-void rva003064CB(Xfer*,Rva00291440*);
+void xferUpgradeMask(Xfer*,Rva00291440*);
 void XferLivingWorldArmyID(Xfer*,int*);
 void Rva004E12D7Parse(void*,void*);
 
@@ -664,7 +664,7 @@ void UnitRevivalEntry::rva0037E473(Xfer *xfer)
     if(version.m_minimum >= 4) *xfer == m_experience;
     else { int oldExperience=0; *xfer == oldExperience; m_experience=oldExperience; }
     if(version.m_minimum >= 5) *xfer == m_level;
-    rva003064CB(xfer,reinterpret_cast<Rva00291440*>(&m_upgrades));
+    xferUpgradeMask(xfer,reinterpret_cast<Rva00291440*>(&m_upgrades));
     *xfer == m_94;
     *xfer == m_reviveStartFrame;
     *xfer == m_9c;

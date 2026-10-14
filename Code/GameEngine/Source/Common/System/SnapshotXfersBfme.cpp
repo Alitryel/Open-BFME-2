@@ -141,7 +141,7 @@ class Rva00291440
 {
 	unsigned int m_bits[ 1024 / 32 ];
 };
-void rva003064CB( Xfer *xfer, Rva00291440 *bits );
+void xferUpgradeMask( Xfer *xfer, Rva00291440 *bits );
 
 class Rva004E0513
 {
@@ -464,7 +464,7 @@ void CarryoverUnit::xfer( Xfer *xfer )
 	*xfer == m_bfmeValue90;
 	*xfer == m_bfmeReal08;
 	m_bfmeMember94.rva004E0513( xfer );
-	rva003064CB( xfer, &m_bfmeBits10 );
+	xferUpgradeMask( xfer, &m_bfmeBits10 );
 	*xfer == m_bfmeValue0C;
 }  // end xfer
 
@@ -506,7 +506,7 @@ void Rva001EBAEA::xfer( Xfer *xfer )
 		m_bfmeSciences14.clear();
 	}
 	if( version.m_minimum >= 4 )
-		rva003064CB( xfer, &m_bfmeBits20 );
+		xferUpgradeMask( xfer, &m_bfmeBits20 );
 	else
 		memset( &m_bfmeBits20, 0, sizeof( m_bfmeBits20 ) );
 	if( version.m_minimum >= 5 )

@@ -29,7 +29,7 @@ public:
 private:
 	unsigned int m_bits[32];
 };
-void rva003064CB(Xfer *xfer, Rva00291440 *bits);
+void xferUpgradeMask(Xfer *xfer, Rva00291440 *bits);
 class UpdateModule
 {
 public:
@@ -53,7 +53,7 @@ void SlaveWatcherBehavior::xfer(Xfer *xfer)
 	Bool viaHelper = !xfer->slot04();
 	XferObjectID(xfer, &m_watchedID);
 	if (viaHelper)
-		rva003064CB(xfer, &m_bits);
+		xferUpgradeMask(xfer, &m_bits);
 	else
 		m_bits.rva00291440((Sink00291440 *)xfer);
 }

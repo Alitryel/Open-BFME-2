@@ -154,7 +154,7 @@ static inline const unsigned short *lanWideText(const UnicodeString &s) {
     return data ? data+4 : reinterpret_cast<const unsigned short*>(L"");
 }
 
-void Rva00447CA9(LANGameInfo *game,char *data,int size)
+void GameInfoToByteBuffer(LANGameInfo *game,char *data,int size)
 {
     if (!data) return;
     memset(data,0,size);

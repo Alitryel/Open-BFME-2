@@ -425,7 +425,7 @@ public:
 };
 
 // BFME 1's writeLANGameInfo: serializes the game into a message's options.
-void Rva00447CA9( LANGameInfo *game, char *buffer, Int size );
+void GameInfoToByteBuffer( LANGameInfo *game, char *buffer, Int size );
 
 // fillCurrentLANGameInfo: the current game's options, as Open-BFME-1 names
 // BFME's helper.
@@ -793,7 +793,7 @@ void LANAPI::handleRequestGameInfo( LANMessage *msg, const BfmeNetAddress *sende
 			fillInLANMessage( &reply );
 			reply.LANMessageType = 1;	// MSG_GAME_ANNOUNCE
 
-			Rva00447CA9( m_currentGame, reply.GameInfo.options, g_lanMaxOptionsLength );
+			GameInfoToByteBuffer( m_currentGame, reply.GameInfo.options, g_lanMaxOptionsLength );
 			wcsncpy( reply.GameInfo.gameName, m_currentGame->getName().str(), g_lanGameNameLength );
 			reply.GameInfo.gameName[g_lanGameNameLength] = 0;
 			reply.GameInfo.inProgress = m_currentGame->isGameInProgress();
