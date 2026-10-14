@@ -1,6 +1,6 @@
 // cl: /O1 /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG /Gy
 //
-// ?rva00433796@@YAXPAVDict@@PAVDrawable@@PAVThingTemplate@@PA_NPAVRva000A8C9B@@3@Z
+// ?TranslateAudioProperties@@YAXPAVDict@@PAVDrawable@@PAVThingTemplate@@PA_NPAVRva000A8C9B@@3@Z
 // retail 0x00433796, 898 bytes.
 //
 // Target evidence: the map-object ambient-sound reader. Its caller
@@ -180,7 +180,8 @@ public:
 };
 extern AudioManager *TheAudio;
 
-void rva00433796(Dict *props, Drawable *draw, ThingTemplate *tmpl, bool *forceOff,
+// WorldBuilder TranslateAudioProperties, WB VA 0x00ED7010 (callgraph lead, score 5.0).
+void TranslateAudioProperties(Dict *props, Drawable *draw, ThingTemplate *tmpl, bool *forceOff,
 	Rva000A8C9B *customInfo, bool *soundEnabled)
 {
 	*forceOff = false;

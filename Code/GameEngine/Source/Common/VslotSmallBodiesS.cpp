@@ -431,7 +431,7 @@ void Rva0057A4C9::rva0057A4C9()
 
 class Rva00222A8BTarget;
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
-bool Rva0023D339Get();
+bool canPlayersTransferMoneyYet();
 int Rva005FB5E6AptCall(Rva00222A8BTarget *target, void *level, const char *prefix, const char *function, const char *a0);
 // Native 0x005101E2..0x00510233 is 81B; the queue's 125B also contains
 // independent following wrappers. WB's unnamed 0x01359980 vtable body in
@@ -441,7 +441,7 @@ int Rva005FB5E6AptCall(Rva00222A8BTarget *target, void *level, const char *prefi
 // Original owner/method identity remains unknown.
 void Rva005101C0::rva005101E2()
 {
-	if (!m_enabled && Rva0023D339Get())
+	if (!m_enabled && canPlayersTransferMoneyYet())
 	{
 		Rva005FB5E6AptCall((Rva00222A8BTarget *)g_bfmeAptWindowManager, m_level,
 			((const StringBase<char> *)&m_prefix)->str(), "SetState", "_enabled");

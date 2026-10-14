@@ -155,7 +155,7 @@ public:
 	Bool m_448;
 };
 
-void rva00433796(Dict *properties, Drawable *draw, ThingTemplate *tmpl,
+void TranslateAudioProperties(Dict *properties, Drawable *draw, ThingTemplate *tmpl,
 	Bool *forcedOff, Rva000A8C9B *info, Bool *enabled);
 
 class Locomotor
@@ -489,7 +489,7 @@ void Object::updateObjValuesFromMapProperties(Dict *properties)
 		Bool enabled = false;
 		Rva0010F149Handle info;
 		ThingTemplate *tmpl = drawable->m_template;
-		rva00433796(properties, drawable, tmpl, &forcedOff,
+		TranslateAudioProperties(properties, drawable, tmpl, &forcedOff,
 			reinterpret_cast<Rva000A8C9B *>(&info), &enabled);
 		if (forcedOff)
 		{

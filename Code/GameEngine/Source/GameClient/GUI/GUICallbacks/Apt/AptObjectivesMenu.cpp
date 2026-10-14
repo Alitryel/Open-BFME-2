@@ -34,7 +34,8 @@ struct Rva0039B95FHolder
 
 extern Rva0039B95FHolder *g_00E031E8;
 
-int __cdecl Rva004E43F2(int skip)
+// WorldBuilder GetNthVisibleObjectiveIndex, WB VA 0x013266A0 (callgraph lead, score 2.0).
+int __cdecl GetNthVisibleObjectiveIndex(int skip)
 {
 	Rva0039B95FHolder *tracker = g_00E031E8;
 	if (!tracker)

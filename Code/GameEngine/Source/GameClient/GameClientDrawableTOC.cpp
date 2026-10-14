@@ -2165,7 +2165,7 @@ private:
 	char bytes[4];
 };
 
-void rva00433796(Dict *props, Drawable *draw, ThingTemplate *tmpl, bool *soundOff,
+void TranslateAudioProperties(Dict *props, Drawable *draw, ThingTemplate *tmpl, bool *soundOff,
 	Rva000A8C9B *customInfo, bool *soundEnabled);
 
 void GameClient::rva0023B383(Dict *props, ThingTemplate *tmpl, const Coord3D *pos)
@@ -2174,7 +2174,7 @@ void GameClient::rva0023B383(Dict *props, ThingTemplate *tmpl, const Coord3D *po
 	bool soundEnabled = false;
 	Rva00239057Ref customInfo;
 
-	rva00433796(props, 0, tmpl, &soundOff, (Rva000A8C9B *)&customInfo, &soundEnabled);
+	TranslateAudioProperties(props, 0, tmpl, &soundOff, (Rva000A8C9B *)&customInfo, &soundEnabled);
 	if (soundOff || !soundEnabled)
 		return;
 

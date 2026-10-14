@@ -73,7 +73,7 @@ struct AptPlayerStatusObjectives
 
 // Unrowed 0x004E43F2 (84 bytes; cdecl) maps a shown row to its objective,
 // pinned by address.
-int __cdecl Rva004E43F2(int row);
+int __cdecl GetNthVisibleObjectiveIndex(int row);
 
 class AptPlayerStatus
 {
@@ -153,7 +153,7 @@ void AptPlayerStatus::Objective(int row, char *result, bool skip)
 	strcpy(result, "00");
 	if (m_state == 0 && row >= 0 && row < 12 && !skip && g_00E031E8)
 	{
-		int index = Rva004E43F2(row);
+		int index = GetNthVisibleObjectiveIndex(row);
 		Rva004266A1 *list = ((AptPlayerStatusObjectives *)g_00E031E8)->m_list;
 		if (index >= 0 && list)
 		{

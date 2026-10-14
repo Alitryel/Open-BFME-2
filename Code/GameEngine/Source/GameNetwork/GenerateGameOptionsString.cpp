@@ -103,7 +103,7 @@ AsciiString GenerateGameOptionsString( void )
 // Original existing entry symbol retained pending independent name admission.
 AsciiString Rva00400783Get(const AsciiString&,bool);
 char *NetworkBufferAppend(char*,const char*,char*);
-char *Rva0044780FCopy(char*,void*,unsigned int,char*) throw();
+char *NetworkBufferAppendRaw(char*,void*,unsigned int,char*) throw();
 char *Rva00447845WriteU16(char*,unsigned short,char*);
 char *Rva0044786BWriteU32(char*,unsigned int,char*);
 char *Rva00447891Write1(char*,char,char*);
@@ -115,7 +115,8 @@ static inline const unsigned short *lanWideText(const UnicodeString &s) {
     return data ? data+4 : reinterpret_cast<const unsigned short*>(L"");
 }
 
-void Rva00447CA9(LANGameInfo *game,char *data,int size)
+// WorldBuilder GameInfoToByteBuffer, WB VA 0x014A7FD0 (callgraph lead, score 2.0).
+void GameInfoToByteBuffer(LANGameInfo *game,char *data,int size)
 {
     if (!data) return;
     memset(data,0,size);
@@ -138,7 +139,7 @@ void Rva00447CA9(LANGameInfo *game,char *data,int size)
         if (slot && slot->isHuman()) {
             cursor=Rva00447891Write1(cursor,'P',limit);
             { UnicodeString name(lanWideText(slot->name),10);
-              cursor=Rva0044780FCopy(cursor,const_cast<unsigned short*>(lanWideText(name)),22,limit); }
+              cursor=NetworkBufferAppendRaw(cursor,const_cast<unsigned short*>(lanWideText(name)),22,limit); }
             cursor=Rva0044786BWriteU32(cursor,slot->ip,limit);
             cursor=Rva00447845WriteU16(cursor,slot->port,limit);
             char flags=0;

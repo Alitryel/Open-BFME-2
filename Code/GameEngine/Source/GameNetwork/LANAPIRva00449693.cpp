@@ -119,12 +119,12 @@ protected:
 
 extern LANAPI *TheLAN;
 
-void Rva00447CA9( LANGameInfo *game, char *buffer, Int size );
+void GameInfoToByteBuffer( LANGameInfo *game, char *buffer, Int size );
 
 void Rva0044802D( char *buffer, Int size )
 {
 	if( TheLAN->GetMyGame() && TheLAN->GetMyGame()->amIHost() )
-		Rva00447CA9( TheLAN->GetMyGame(), buffer, size );
+		GameInfoToByteBuffer( TheLAN->GetMyGame(), buffer, size );
 	else
 		memset( buffer, 0, size );
 }

@@ -6169,7 +6169,7 @@ name,address,notes
 ?Rva004E1579ParseEnableRegion@@YAXPAVINI@@PAX1PBX@Z,0x004E1579,second name for the body rowed as ?ParseEnableRegion@@YAXPAVINI@@PAX1PBX@Z; both landed independently and one definition was dropped when the solo fork was squashed onto upstream
 ?Rva004E41AB@@YAXXZ,0x004E41AB,unrowed 359B cdecl (Ghidra FUN_008e41ab; plain ret); REL32 read at AptPalantir::OnBttnObjectives 0x002D30E8 (no arguments and no ECX setup); address name
 ?Rva004E4312GetRoute@@YAPAXXZ,0x004E4312
-?Rva004E43F2@@YAHH@Z,0x004E43F2,unrowed 84B cdecl (Ghidra FUN_008e43f2) mapping an objectives row to its objective; REL32 read at the Objective%d query 0x004E4483 with the row pushed and popped by the caller and the int result tested for negative; address name
+?GetNthVisibleObjectiveIndex@@YAHH@Z,0x004E43F2,unrowed 84B cdecl (Ghidra FUN_008e43f2) mapping an objectives row to its objective; REL32 read at the Objective%d query 0x004E4483 with the row pushed and popped by the caller and the int result tested for negative; address name
 ?Rva004ED0E9Copy@@YAPAVModelNodeClass@HLodClass@@PBV12@0PAV12@PBX@Z,0x004ED0E9,four-arg cdecl spelling of the rowed 3-arg ModelNode range copy: retail rva004ED471 pushes the empty allocator temp as a trailing stack argument and reclaims all four at add esp 0x10; same body address as ?Rva004ED0E9Copy@@YAPAVModelNodeClass@HLodClass@@PBV12@0PAV12@@Z
 ?Rva004ED10FFill@@YAPAVModelNodeClass@HLodClass@@PAV12@IPBV12@PBX@Z,0x004ED10F,four-arg cdecl spelling of the rowed 3-arg ModelNode counted fill: retail rva004ED471 pushes the empty allocator temp as a trailing stack argument and reclaims all four at add esp 0x10; same body address as ?Rva004ED10FFill@@YAPAVModelNodeClass@HLodClass@@PAV12@IPBV12@@Z
 ?Rva004EE1E2UninitCopy@@YAPAUElem003AF8C0@@PAU1@00ABU__false_type@_STL@@@Z,0x004EE1E2,hand insert 0x004EE6D0 uninit-copy helper
@@ -12912,7 +12912,7 @@ dup_7e86b0,0x00655770
 rva009C7380WeightPairs,0x009B84E0
 ?rva0005106A@Rva0005F279Elem@@QAE_NXZ,0x0005106A,dump range 1 loop callees for 0x5F279
 ?rva00628770@Rva00628770Impl@@QAE?AUBfmeWideResult@@PBUCoord3D@@MHHPAVRva000421C8@@H@Z,0x00628770,"PartitionManager range-query implementation (525 bytes, SEH frame) behind +0x10: position, float radius, 0, distance type, filter chain, order; called from iterateObjectsInRange 0x00625610; same address as the int-typed ?bfmeMakeWideResult pin"
-?Rva00447CA9@@YAXPAVLANGameInfo@@PADH@Z,0x00447CA9,callee of ?Rva0044802D@@YAXPADH@Z
+?GameInfoToByteBuffer@@YAXPAVLANGameInfo@@PADH@Z,0x00447CA9,callee of ?Rva0044802D@@YAXPADH@Z
 ?enterGame@GameInfo@@QAEXXZ,0x003FF268,callee of ?RequestGameCreate@LANAPI@@UAEXVUnicodeString@@_N@Z
 ??1LANPreferences@@UAE@XZ,0x0044D285,callee of ?RequestGameCreate@LANAPI@@UAEXVUnicodeString@@_N@Z
 ?setSlotPointer@GameInfo@@QAEXHPAVGameSlot@@@Z,0x003FF332,callee of ??0LANGameInfo@@QAE@XZ
@@ -15182,7 +15182,7 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ?evaluateContextCommand@CommandTranslator@@QAE?AW4Type@GameMessage@@PAVDrawable@@PBUCoord3D@@W4CommandEvaluateType@1@@Z,0x00429E11,GameClient::evaluateContextCommand (0x00238F15; ZH forwards to m_commandTranslator) tail-jumps here; 4486-byte Ghidra function
 ?rva002888D4@Rva00239CC9DrawableHash@@QBEPAURva00239CC9DrawableHashNode@@ABW4DrawableID@@@Z,0x002888D4,callee of ?findDrawableByID@GameClient@@UAEPAVDrawable@@W4DrawableID@@@Z; folded hashtable _M_find
 ?rva00239057@Rva00239057Ref@@QAEAAU1@PBU1@@Z,0x00239057,callee of ?rva0023B383@GameClient@@QAEXPAVDict@@PAVThingTemplate@@PBUCoord3D@@@Z
-?rva00433796@@YAXPAVDict@@PAVDrawable@@PAVThingTemplate@@PA_NPAVRva000A8C9B@@3@Z,0x00433796,callee of ?rva0023B383@GameClient@@QAEXPAVDict@@PAVThingTemplate@@PBUCoord3D@@@Z
+?TranslateAudioProperties@@YAXPAVDict@@PAVDrawable@@PAVThingTemplate@@PA_NPAVRva000A8C9B@@3@Z,0x00433796,callee of ?rva0023B383@GameClient@@QAEXPAVDict@@PAVThingTemplate@@PBUCoord3D@@@Z
 ?rva00134A80@CameraClass@@QAEXPAVMatrix4@@@Z,0x00134A80,callee of ?rva0007C18E@Rva0007DA23ResourceManager@@QAEXXZ
 ?rva0007BB4B@Rva0007DA23ResourceManager@@QAE?AV?$RefCountPtr@VTextureClass@@@@XZ,0x0007BB4B,callee of ?rva0007C18E@Rva0007DA23ResourceManager@@QAEXXZ
 ??BRva0059B036Concat@@QAE?AVUnicodeString@@XZ,0x00513E6F,callee of ?Rva00513ED1@@YA?AVUnicodeString@@ABV1@@Z

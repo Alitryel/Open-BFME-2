@@ -91,7 +91,7 @@ public:
 
 extern NetworkInterface *TheNetwork;
 
-void Rva00447CA9( LANGameInfo *game, char *buffer, Int size );
+void GameInfoToByteBuffer( LANGameInfo *game, char *buffer, Int size );
 
 class LANAPI : public VSlots<28>
 {
@@ -155,7 +155,7 @@ void LANAPI::RequestGameAnnounce( void )
 			fillInLANMessage( &reply );
 			reply.LANMessageType = 1;
 
-			Rva00447CA9( m_currentGame, reply.options, g_lanMaxOptionsLength );
+			GameInfoToByteBuffer( m_currentGame, reply.options, g_lanMaxOptionsLength );
 			wcsncpy( reply.gameName, m_currentGame->getName().str(), g_lanGameNameLength );
 			reply.gameName[g_lanGameNameLength] = 0;
 			reply.inProgress = m_currentGame->m_inProgress;

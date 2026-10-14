@@ -29,8 +29,8 @@ char *__cdecl NetworkBufferAppend(char *dst, const char *src, char *limit)
 	return dst + strlen(src) + 1;
 }
 
-char *Rva0044780FCopy(char*,void*,unsigned int,char*);
+char *NetworkBufferAppendRaw(char*,void*,unsigned int,char*);
 char *Rva00447891Write1(char *dst,unsigned char value,char *limit)
 {
-    return Rva0044780FCopy(dst,&value,1,limit);
+    return NetworkBufferAppendRaw(dst,&value,1,limit);
 }

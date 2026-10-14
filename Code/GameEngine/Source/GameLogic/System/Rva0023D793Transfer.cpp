@@ -1,8 +1,8 @@
 // cl: /DNDEBUG /MD
 // ?CallPlayerGiveMoney@GameLogic@@QAEXHHH@Z, retail 0x0023D793, 241 bytes.
 // Player index pair transfer with Money withdraw/deposit and tracker adds.
-// Evidence: leaf lane; callees Rva0023D339Get getNthPlayer Rva002AA22AByteField MoneyRva003B0D7C Rva0039B795; caller 0x0037AB1B.
-bool Rva0023D339Get();
+// Evidence: leaf lane; callees canPlayersTransferMoneyYet getNthPlayer Rva002AA22AByteField MoneyRva003B0D7C Rva0039B795; caller 0x0037AB1B.
+bool canPlayersTransferMoneyYet();
 class Player;
 class PlayerList
 {
@@ -55,7 +55,7 @@ public:
 
 void GameLogic::CallPlayerGiveMoney(int a1, int a2, int a3)
 {
-	if (!Rva0023D339Get())
+	if (!canPlayersTransferMoneyYet())
 		return;
 	if (a1 < 0 || a1 >= 20)
 		return;

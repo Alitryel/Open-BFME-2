@@ -382,7 +382,7 @@ public:
 };
 
 // BFME 1's writeLANGameInfo: serializes the game into a message's options.
-void Rva00447CA9( LANGameInfo *game, char *buffer, Int size );
+void GameInfoToByteBuffer( LANGameInfo *game, char *buffer, Int size );
 
 // fillCurrentLANGameInfo: the current game's options, as Open-BFME-1 names
 // BFME's helper.

@@ -1,5 +1,5 @@
 // cl: /MD
-// ?Rva0023D339Get@@YA_NXZ, retail 0x0023D339, 34 bytes.
+// ?canPlayersTransferMoneyYet@@YA_NXZ, retail 0x0023D339, 34 bytes.
 // mov eax,[g1] mov eax,[eax+0x122c] imul eax,[gInt] mov ecx,[g2] imul 60 cmp [ecx+0x40],eax sbb inc ret.
 // Evidence: unlock lane; caller 0x005101EB tests al with no args.
 struct Rva0023D339A
@@ -15,7 +15,8 @@ struct Rva0023D339B
 extern class GlobalData *TheWritableGlobalData;
 extern int BfmeLogicFramesPerSecond;
 extern class GameLogic *TheGameLogic;
-bool Rva0023D339Get()
+// WorldBuilder canPlayersTransferMoneyYet, WB VA 0x00D10670 (callsite lead, score 1.0).
+bool canPlayersTransferMoneyYet()
 {
 	unsigned int tmp = (*(Rva0023D339A **)&TheWritableGlobalData)->m_122C;
 	tmp *= (*(unsigned int *)&BfmeLogicFramesPerSecond);
