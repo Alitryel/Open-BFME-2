@@ -19,7 +19,7 @@ class Rva00573E7C : public Rva00573B23
 {
 public:
 	Rva00573E7C(const Rva00573E7C &other);
-	virtual ~Rva00573E7C();
+	virtual ~Rva00573E7C() {}
 private:
 	float m_40;
 	float m_44;
