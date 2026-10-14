@@ -14,7 +14,13 @@ void **vector<void*>::end()
 { return _M_finish; }
 }
 struct Rva00240E18Node {char unknown[0x18];unsigned index18,index1c;};
-namespace _STL {template<> void**vector<void*>::erase(void**,void**);}
+namespace _STL {
+template<> void**vector<void*>::erase(void**,void**);
+// Preserve STLport's clear operation without emitting an unused competing
+// out-of-line copy in this unit.
+template<> __declspec(dllimport) __forceinline void vector<void*>::clear()
+{ erase(begin(),end()); }
+}
 class Rva00240E18 {public:void rva00240E18(bool);private:
  char unknown00[0x30];float scalar30,scalar34;char unknown38[8];unsigned value40;
  char unknown44[0x68];unsigned valueac;char unknownb0[0x18];

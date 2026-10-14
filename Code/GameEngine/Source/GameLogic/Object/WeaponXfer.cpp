@@ -27,6 +27,10 @@ void **vector<void*>::begin()
 template <> __declspec(dllimport) __forceinline
 void **vector<void*>::end()
 { return _M_finish; }
+// Preserve STLport's clear operation without emitting an unused competing
+// out-of-line copy in this unit.
+template<> __declspec(dllimport) __forceinline void vector<void*>::clear()
+{ erase(begin(),end()); }
 }
 
 class AsciiString;
