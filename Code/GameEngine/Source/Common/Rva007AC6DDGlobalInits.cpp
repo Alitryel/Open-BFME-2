@@ -448,3 +448,17 @@ void rva007ACF00()
 	new (&PointGroupClass::transformed_loc) VectorClass<Vector3>(0, 0);
 	atexit(Rva007B73C0);
 }
+
+// ?rva007AE7FB@@YAXXZ @0x007AE7FB 11B: the initializer after
+// Rva007AE7EFStaticInstance.cpp's 0x007AE7EF in the same unit stores the
+// address of WorldMapObjects' +4 word (VA 0x00DBDF70) into the map-object
+// list holder at VA 0x00E00940, which Rva000ABD70Clear.cpp reads.
+class Rva0030D346;
+extern Rva0030D346 WorldMapObjects;
+class BfmeMapObjectListHolder;
+extern BfmeMapObjectListHolder *BfmeTheMapObjectListHolder;
+
+void rva007AE7FB()
+{
+	BfmeTheMapObjectListHolder = (BfmeMapObjectListHolder *)((char *)&WorldMapObjects + 4);
+}

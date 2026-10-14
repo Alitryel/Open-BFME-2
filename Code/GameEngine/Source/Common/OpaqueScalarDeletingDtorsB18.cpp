@@ -331,3 +331,19 @@ Rva005FCF0E::Rva005FCF0E(unsigned int level, const AsciiString &name)
           (AptMovieClipFrame *)level, name))
 {
 }
+
+// ??0Rva0073EF3A@@QAE@XZ @0x0073EF3A 10B: default constructor zeroing the
+// words at +0 and +8 (the +4 word is left as is) and returning this.
+class Rva0073EF3A
+{
+public:
+	Rva0073EF3A();
+private:
+	int m_00;
+	int m_04;
+	int m_08;
+};
+
+Rva0073EF3A::Rva0073EF3A() : m_00(0), m_08(0)
+{
+}

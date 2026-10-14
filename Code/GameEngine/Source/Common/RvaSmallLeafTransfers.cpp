@@ -701,3 +701,19 @@ unsigned int Rva00758CB0::nonzero() const
 {
     return m_word10 != 0;
 }
+
+// ?rva0061EE80@Rva0061EE80@@QAEHXZ @0x0061EE80 8B: pre-increment the +0x30
+// counter and return it; same inc shape as Rva00665A30::increment above.
+class Rva0061EE80
+{
+public:
+	int rva0061EE80();
+
+	char m_lead[ 0x30 ];
+	int m_30;
+};
+
+int Rva0061EE80::rva0061EE80()
+{
+	return ++m_30;
+}

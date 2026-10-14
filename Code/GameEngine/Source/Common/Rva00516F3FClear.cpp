@@ -37,3 +37,19 @@ Rva00516F3F *Rva00516F3F::rva00516F63(const Rva00516F3F &other)
 	m_14 = other.m_14;
 	return this;
 }
+
+// ?rva00516FA0@Rva00516FA0@@QAEXXZ @0x00516FA0 9B: an owner that embeds the
+// Rva00516F3F record at +0 and an int at +0x18: clear the int, then tail into
+// the rowed record reset 0x00516F3F.
+struct Rva00516FA0
+{
+	Rva00516F3F m_record;
+	int m_18;
+	void rva00516FA0();
+};
+
+void Rva00516FA0::rva00516FA0()
+{
+	m_18 = 0;
+	m_record.rva00516F3F();
+}
