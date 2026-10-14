@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 //
 // Scratch Online-Files MiscPref reset (retail 0x0055478A, 140B).
@@ -12,6 +12,15 @@
 
 #include <map>
 #include <stdlib.h>
+
+// Retail's tree frees nodes through a direct _free; the dllimport+forceinline
+// specialization takes __malloc_alloc<0>::deallocate inline so this TU emits
+// no copy of its own (retail's is the unoptimized import entry, 0x00023A70).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
 
 typedef bool Bool;
 typedef int Int;

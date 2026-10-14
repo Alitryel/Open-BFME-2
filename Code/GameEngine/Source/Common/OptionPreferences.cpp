@@ -1,4 +1,4 @@
-// cl: /GX /Ireference/shims/bfme2_ascii /MD /D_STLP_USE_STATIC_LIB
+// cl: /GX /Ireference/shims/bfme2_ascii /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 // ?setSetting@OptionPreferences@@QAEXHH@Z @0x002E553D 155B.
 // WB 0x00DCD180 names OptionPreferences::setSetting in this file; assertion
@@ -13,6 +13,15 @@
 // text across map::operator[] before calling BFME2's StringBase::set(text).
 #include "ascii_string.h"
 #include <map>
+
+// Retail's tree frees nodes through a direct _free; the dllimport+forceinline
+// specialization takes __malloc_alloc<0>::deallocate inline so this TU emits
+// no copy of its own (retail's is the unoptimized import entry, 0x00023A70).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free

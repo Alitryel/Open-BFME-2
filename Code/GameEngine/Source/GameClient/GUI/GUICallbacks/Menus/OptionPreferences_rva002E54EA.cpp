@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 //
 // ?rva002E54EA@OptionPreferences@@QAEXXZ, retail 0x002E54EA,
@@ -10,6 +10,15 @@
 // noted lea-edi scheduling early-vs-late plus loop branch jl-vs-jb.
 
 #include <map>
+
+// Retail's tree frees nodes through a direct _free; the dllimport+forceinline
+// specialization takes __malloc_alloc<0>::deallocate inline so this TU emits
+// no copy of its own (retail's is the unoptimized import entry, 0x00023A70).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{ free((char *)__p); }
+}
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {
