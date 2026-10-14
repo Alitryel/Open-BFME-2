@@ -242,7 +242,8 @@ extern GlobalData *TheWritableGlobalData;
 #define TheGlobalData ((const GlobalData *)TheWritableGlobalData)
 extern char g_00DC8AF0[];
 class Rva003006C4 { public: bool rva003006C4(const AsciiString &directory); };
-extern Rva003006C4 *TheFileSystem;
+class FileSystem;
+extern FileSystem *TheFileSystem;
 
 class StatsCollector
 {
@@ -650,7 +651,7 @@ void RvaA22F0FieldReset::reset()
 // Target setup sequence437DF8..437E72; WB12892C0 and ZHreset are semantic leads.
 void StatsCollector::rva00437DF8()
 {
-    { AsciiString directory(g_00DC8AF0); TheFileSystem->rva003006C4(directory); }
+    { AsciiString directory(g_00DC8AF0); ((Rva003006C4 *)TheFileSystem)->rva003006C4(directory); }
     createFileName(); writeInitialFileInfo(); collectUnitCountStats(); writeStatInfo();
     ((RvaA22F0FieldReset *)this)->reset(); collectScoreKeeperStats();
     m_lastUpdate=static_cast<GameLogic *>(TheGameLogic)->getFrame();
