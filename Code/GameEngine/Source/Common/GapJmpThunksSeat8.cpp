@@ -914,3 +914,56 @@ WeaponTemplate *Rva002C724E::rva002C724E(NameKeyType key) const { return ((const
 // 0x00314D11 (5B) -> FunctionLexicon::findFunction 0x002D225F.
 class Rva00314D11 { public: void *rva00314D11(NameKeyType key, FunctionLexicon::TableIndex index); };
 void *Rva00314D11::rva00314D11(NameKeyType key, FunctionLexicon::TableIndex index) { return ((FunctionLexicon *)this)->findFunction(key, index); }
+
+// ---- third group ---------------------------------------------------------
+
+template <typename T> class StringBase { public: void set(const StringBase<T> &other); };
+class ControlBar { public: int rva00539997(int a, int b); };
+class ResourceEntryCollector { public: void rva004E551E(); };
+struct Rva0030B6A6Range;
+struct Rva0030BFE8Range;
+int Rva0030B6A6Equal(const Rva0030B6A6Range *a, const Rva0030B6A6Range *b);
+int Rva0030BFE8Equal(const Rva0030BFE8Range *a, const Rva0030BFE8Range *b);
+class MixFileCreator { public: struct FileInfoStruct; };
+void Rva002176A6Swap(MixFileCreator::FileInfoStruct *a, MixFileCreator::FileInfoStruct *b);
+class Rva002B2F97;
+void Rva002B2FF4Swap(Rva002B2F97 &a, Rva002B2F97 &b);
+struct S4SortElem20;
+struct S4Cmp002EB8E0 { bool operator()(const S4SortElem20 &a, const S4SortElem20 &b) const; };
+class Locomotor;
+class Drawable
+{
+	friend class Rva00278DF9;
+public:
+	struct PhysicsXformInfo;
+protected:
+	void calcPhysicsXformWheels(const Locomotor *locomotor, PhysicsXformInfo &info);
+};
+
+// 0x001FD2C5 (5B) -> StringBase<char>::set 0x000366F0 on the same receiver.
+class Rva001FD2C5 { public: void rva001FD2C5(const StringBase<char> &other); };
+void Rva001FD2C5::rva001FD2C5(const StringBase<char> &other) { ((StringBase<char> *)this)->set(other); }
+
+// 0x0031ABD4 (5B) -> ControlBar::rva00539997 0x00539997.
+class Rva0031ABD4 { public: int rva0031ABD4(int a, int b); };
+int Rva0031ABD4::rva0031ABD4(int a, int b) { return ((ControlBar *)this)->rva00539997(a, b); }
+
+// 0x0029A384 (5B) -> ResourceEntryCollector::rva004E551E 0x004E551E.
+class Rva0029A384 { public: void rva0029A384(); };
+void Rva0029A384::rva0029A384() { ((ResourceEntryCollector *)this)->rva004E551E(); }
+
+// 0x0030B7BD / 0x0030C10F (5B, cdecl) -> the rowed range equality tests.
+int Rva0030B7BDEqual(const Rva0030B6A6Range *a, const Rva0030B6A6Range *b) { return Rva0030B6A6Equal(a, b); }
+int Rva0030C10FEqual(const Rva0030BFE8Range *a, const Rva0030BFE8Range *b) { return Rva0030BFE8Equal(a, b); }
+
+// 0x002178F8 / 0x002B4536 (5B, cdecl) -> the rowed swaps.
+void Rva002178F8Swap(MixFileCreator::FileInfoStruct *a, MixFileCreator::FileInfoStruct *b) { Rva002176A6Swap(a, b); }
+void Rva002B4536Swap(Rva002B2F97 &a, Rva002B2F97 &b) { Rva002B2FF4Swap(a, b); }
+
+// 0x00334A38 (5B) -> S4Cmp002EB8E0::operator() 0x003340A8.
+class Rva00334A38 { public: bool rva00334A38(const S4SortElem20 &a, const S4SortElem20 &b) const; };
+bool Rva00334A38::rva00334A38(const S4SortElem20 &a, const S4SortElem20 &b) const { return (*(const S4Cmp002EB8E0 *)this)(a, b); }
+
+// 0x00278DF9 (5B) -> Drawable::calcPhysicsXformWheels 0x00276CFB.
+class Rva00278DF9 { public: void rva00278DF9(const Locomotor *locomotor, Drawable::PhysicsXformInfo &info); };
+void Rva00278DF9::rva00278DF9(const Locomotor *locomotor, Drawable::PhysicsXformInfo &info) { ((Drawable *)this)->calcPhysicsXformWheels(locomotor, info); }

@@ -89361,3 +89361,12 @@ __ehhandler$?init@W3DView@@UAEXXZ,,0x0075FD33,10,Code/GameEngineDevice/Source/W3
 ?rva0028C8C8@Rva0028C8C8@@QBEPBVOverridable@@XZ,,0x0028C8C8,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 28C8C8 jmp to rowed Overridable friend_getFinalOverride 288609
 ?rva002C724E@Rva002C724E@@QBEPAVWeaponTemplate@@W4NameKeyType@@@Z,,0x002C724E,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2C724E jmp to rowed WeaponStore findWeaponTemplatePrivate 2CADBE
 ?rva00314D11@Rva00314D11@@QAEPAXW4NameKeyType@@W4TableIndex@FunctionLexicon@@@Z,,0x00314D11,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 314D11 jmp to rowed FunctionLexicon findFunction 2D225F
+?rva001FD2C5@Rva001FD2C5@@QAEXABV?$StringBase@D@@@Z,,0x001FD2C5,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 1FD2C5 jmp to rowed StringBase<char> set 366F0 same receiver
+?rva0031ABD4@Rva0031ABD4@@QAEHHH@Z,,0x0031ABD4,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 31ABD4 jmp to rowed ControlBar rva00539997 same receiver
+?rva0029A384@Rva0029A384@@QAEXXZ,,0x0029A384,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 29A384 jmp to rowed ResourceEntryCollector rva004E551E same receiver
+?Rva0030B7BDEqual@@YAHPBURva0030B6A6Range@@0@Z,,0x0030B7BD,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 30B7BD cdecl jmp to rowed Rva0030B6A6Equal
+?Rva0030C10FEqual@@YAHPBURva0030BFE8Range@@0@Z,,0x0030C10F,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 30C10F cdecl jmp to rowed Rva0030BFE8Equal
+?Rva002178F8Swap@@YAXPAUFileInfoStruct@MixFileCreator@@0@Z,,0x002178F8,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2178F8 cdecl jmp to rowed Rva002176A6Swap
+?Rva002B4536Swap@@YAXAAVRva002B2F97@@0@Z,,0x002B4536,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 2B4536 cdecl jmp to rowed Rva002B2FF4Swap
+?rva00334A38@Rva00334A38@@QBE_NABUS4SortElem20@@0@Z,,0x00334A38,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 334A38 jmp to rowed S4Cmp002EB8E0 operator() same receiver
+?rva00278DF9@Rva00278DF9@@QAEXPBVLocomotor@@AAUPhysicsXformInfo@Drawable@@@Z,,0x00278DF9,5,Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp,matched,Native5 278DF9 jmp to rowed Drawable calcPhysicsXformWheels same receiver
