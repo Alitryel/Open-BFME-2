@@ -39,8 +39,10 @@
 extern "C" int __cdecl abs( int n );
 
 typedef int Int;
+typedef float Real;
 
 #include "../../../../Libraries/Include/Lib/ICoord2D.h"
+#include "../../../../Libraries/Include/Lib/Coord2D.h"
 
 enum PathfindLayerEnum
 {
@@ -108,6 +110,27 @@ class Rva004DD9E3 {public:Int rva004DD9E3(Int,Int,Int);};
 
 struct Rva002E8145Info { int opaque; int skipX; int skipY; };
 
+// 16th copy:   walk 0x002E85AD.  Its callback has its own member layout
+// (owner + out Coord2D + layer + a 0x10 check block + flag) and the walk body
+// inlines the per-cell reject/predicate/layer checks instead of calling
+// cellCallback; offsets and callees from retail.
+class Rva002E6DC4
+{
+public:
+	bool rva002E6DC4( void *a, void *b );
+};
+
+int __cdecl Rva002E6E8AGet( int v );
+
+struct Rva002E85ADInfo
+{
+	Rva002E6DC4 *m_owner;
+	Coord2D *m_out;
+	Int m_layer;
+	char m_check[0x10];
+	unsigned char m_flag;
+};
+
 class Pathfinder
 {
 public:
@@ -137,6 +160,8 @@ private:
 		PathfindLayerEnum layer, Rva002E8145Info *callbackInfo);
 	Int rva002E8251(const ICoord2D *startCell, const ICoord2D *destinationCell,
 		PathfindLayerEnum layer, Rva002E7ED6Info *callbackInfo);
+	Int iterateCellsAlongLine(const ICoord2D *startCell, const ICoord2D *destinationCell,
+		PathfindLayerEnum layer, Rva002E85ADInfo *callbackInfo);
 
 	char m_beforeMap[0x10];
 	PathfindCell **m_map;
@@ -739,6 +764,94 @@ Int Pathfinder::rva002E8145(const ICoord2D *startCell, const ICoord2D *destinati
 		else if ((currentCell->m_flags & 0xf) != 0 && (currentCell->m_flags & 0xf) != 1) blocked=1;
 		else if((unsigned char)((currentCell->m_flags>>16)&1))blocked=1;else blocked=0;
 		if(blocked) return blocked;
+		if (num < 0)
+		{
+			num += numadd;
+			x += xinc2;
+			y += yinc2;
+		}
+		else
+		{
+			num += den;
+			x += xinc1;
+			y += yinc1;
+		}
+	}
+	return 0;
+}
+
+// ?iterateCellsAlongLine@Pathfinder@@AAEHPBUICoord2D@@0W4PathfindLayerEnum@@PAURva002E85ADInfo@@@Z @0x002E85AD 454B
+Int Pathfinder::iterateCellsAlongLine( const ICoord2D *startCell,
+	const ICoord2D *destinationCell, PathfindLayerEnum layer,
+	Rva002E85ADInfo *callbackInfo )
+{
+	Int delta_x = abs( destinationCell->x - startCell->x );
+	Int delta_y = abs( destinationCell->y - startCell->y );
+
+	Int xinc2, yinc1, xinc1, numpixels, numadd, den;
+	Int yinc2, num;
+	if (delta_x >= delta_y)
+	{
+		numpixels = delta_x + 1;
+		num = 2 * delta_y - delta_x;
+		numadd = delta_y << 1;
+		den = 2 * (delta_y - delta_x);
+		xinc2 = 1;
+		yinc2 = 0;
+		yinc1 = 1;
+		xinc1 = 1;
+	}
+	else
+	{
+		numpixels = delta_y + 1;
+		num = 2 * delta_x - delta_y;
+		numadd = delta_x << 1;
+		den = 2 * (delta_x - delta_y);
+		yinc2 = 1;
+		xinc2 = 0;
+		yinc1 = 1;
+		xinc1 = 1;
+	}
+
+	if (startCell->x > destinationCell->x)
+	{
+		xinc2 = -xinc2;
+		xinc1 = -1;
+	}
+	if (startCell->y > destinationCell->y)
+	{
+		yinc2 = -yinc2;
+		yinc1 = -1;
+	}
+
+	Int curpixel = 0;
+	Int x = startCell->x;
+	Int y = startCell->y;
+	for (; curpixel < numpixels; curpixel++)
+	{
+		PathfindCell *currentCell = getCell( layer, x, y );
+		if (currentCell == 0)
+			return 0;
+
+		unsigned int flags = currentCell->m_flags;
+		if ((flags & 0xF) == 5 || (flags & 0xF) == 2 || (flags & 0xF) == 4)
+			return 1;
+
+		if (callbackInfo->m_flag != 0)
+		{
+			if (!callbackInfo->m_owner->rva002E6DC4( &callbackInfo->m_check, currentCell ))
+				return 1;
+		}
+
+		if (callbackInfo->m_layer == 1)
+		{
+			if ((unsigned char)Rva002E6E8AGet( (flags >> 4) & 0x3F ))
+				return 1;
+		}
+		callbackInfo->m_layer = (flags >> 4) & 0x3F;
+		callbackInfo->m_out->x = (Real)(x * 10);
+		callbackInfo->m_out->y = (Real)(y * 10);
+
 		if (num < 0)
 		{
 			num += numadd;
