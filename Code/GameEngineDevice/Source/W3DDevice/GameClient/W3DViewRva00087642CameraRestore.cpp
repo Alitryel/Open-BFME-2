@@ -26,6 +26,7 @@
 // stores to this; the named temporaries below reproduce that order with
 // extern declarations.
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include <math.h>
 
 typedef float Real;
 typedef int Int;
@@ -69,6 +70,19 @@ public:
 extern Mouse *TheMouse;
 
 #define W3DVIEW_SLOT(n) virtual void slot##n();
+
+class Rva0008CE2ESettings
+{
+public:
+	virtual void v0();
+	virtual Real v1();
+	virtual Real v2();
+	virtual Real v3();
+	virtual void v4();
+	virtual void v5();
+	virtual void v6();
+	virtual void v7();
+};
 
 class W3DView
 {
@@ -131,6 +145,7 @@ public:
 	virtual void slot164Set(Int value);			// +0x290
 
 	void rva00087642();
+	void rva0008780A(int unused);
 
 private:
 	char m_pad0004[0x0C - 0x04];
@@ -156,13 +171,17 @@ private:
 	Real m_cameraHeight;			// +0x2408
 	char m_pad240c[0x241C - 0x240C];
 	Bool m_cameraHeightValid;		// +0x241C
-	char m_pad241d[0x2449 - 0x241D];
+	char m_pad241d[0x2444 - 0x241D];
+	Real m_2444;				// +0x2444
+	char m_pad2448[0x2449 - 0x2448];
 	Bool m_following;			// +0x2449
 	char m_pad244a[0x2484 - 0x244A];
 	Real m_2484;				// +0x2484
 	Real m_2488;				// +0x2488
 	char m_pad248c[0x2493 - 0x248C];
 	Bool m_2493;				// +0x2493
+	char m_pad2494[0x24C8 - 0x2494];
+	Rva0008CE2ESettings m_24c8;		// +0x24C8
 };
 
 #undef W3DVIEW_SLOT
@@ -220,3 +239,42 @@ void W3DView::rva00087642()
 	TheMouse->_bfme_setEngineVisibility(true);
 	TheMouse->m_5009 = false;
 }
+
+// ?rva0008780A@W3DView@@QAEXH@Z retail 0x0008780A..0x00087952 (328B) RET4:
+// default-camera reset. Clears follow mode through the same file statics the
+// restore (0x87642) reads, re-clamps the camera height over the terrain and
+// rebuilds the +0x23E8 projection offset from the +0x24C8 camera-limits
+// getters (slot1 base, slot2/slot3 angles in degrees).
+#define W3DVIEW_PI 3.14159265358979323846f
+void W3DView::rva0008780A(int unused)
+{
+	slot104();
+	if (m_following) {
+		m_6c = BfmeFollowSaved6C;
+		m_pos = BfmeFollowSavedPosition;
+		m_70 = 1.0f;
+		m_angle = BfmeFollowSavedAngle;
+		Real pitch = BfmeFollowSavedPitch;
+		m_following = false;
+		m_40 = pitch;
+		m_50 = pitch;
+		setFollowedID(0);
+	}
+	if (TheTerrainLogic) {
+		m_cameraHeight = TheTerrainLogic->getGroundHeight(m_pos.x, m_pos.y, 0);
+		if (m_cameraHeight > W3DVIEW_MAX_CAMERA_HEIGHT)
+			m_cameraHeight = W3DVIEW_MAX_CAMERA_HEIGHT;
+	} else {
+		m_cameraHeight = 10.0f;
+	}
+	Real angle = m_24c8.v1();
+	double base = angle;
+	Coord3D offset;
+	offset.z = angle;
+	offset.y = (Real)(-(base / tan(m_24c8.v2() * (W3DVIEW_PI / 180.0))));
+	offset.x = (Real)(-(tan(m_24c8.v3() * (W3DVIEW_PI / 180.0)) * offset.y));
+	m_23e8 = offset;
+	m_cameraHeightValid = false;
+	m_2444 = 1.0f;
+}
+
