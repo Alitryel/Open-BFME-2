@@ -88248,3 +88248,5 @@ __ehhandler$?rva003449C5@@YA_NPAUCoord3D@@PAVObject@@1@Z,,0x0077CDBA,10,Code/Gam
 ??4Rva00311602Element@@QAEAAU0@ABU0@@Z,,0x00311537,118,Code/Libraries/Source/WWVegas/WWLib/StlSweepW5Rva00311602AssignTwin.cpp,matched,ICF fold: compiler-generated assignment of the 184-byte record; same body as Rva003A35A0Element::operator= with the owner's flags and layout
 ??0Elem003AF7A0@@QAE@ABU0@@Z,,0x005DBCD1,31,Code/GameEngine/Source/Common/Elem003AF7A0CopyTwin.cpp,matched,ICF fold: copy ctor of the vptr plus two words element; same body as Rva005DBCD1's
 ??0Rva0028625DRecord@@QAE@ABU0@@Z,,0x00285C30,88,Code/GameEngine/Source/Common/Rva0028625DRecordCopyTwin.cpp,matched,ICF fold: copy ctor of the two-base registered record; same body as Rva00285BEC's
+?noop@Rva000B3FD0Nop@@QAEXXZ,,0x000B3FD0,1,Code/GameEngine/Source/Common/Rva000B3FD0NopTwin.cpp,matched,gen-alias; empty thiscall body: the 1-byte ret retail folds at 0x000B3FD0
+??1Rva002E2D10Record@@QAE@XZ,,0x001EB63C,78,Code/GameEngine/Source/Common/Rva002E2D10RecordDtorTwin.cpp,matched,ICF fold: destructor of the 216-byte record; same body as Rva001EB63C's

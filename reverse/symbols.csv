@@ -10088,7 +10088,6 @@ name,address,notes
 ?newMap@TerrainLogic@@UAEX_N@Z,0x00284290,address read from the REL32 displacement at a placed body
 ?newObject@ThingFactory@@QAEPAVObject@@PBVThingTemplate@@PAVTeam@@PBUCreateMask@@_N@Z,0x002D0A23,4-arg factory reached by createViewObject 0x00493845 (template team zeroed 16B params 0); ret 0x10; params type opaque
 ?next@BfmeWideResult@@QAEPAVObject@@XZ,0x00045623,"range-query handle: the payload's next hit (+0x0C cursor over 8-byte entries up to +0x04) or 0; REL32 in StructureCreep slot 7 0x005AC549; the body is the matched ?bfmeGoEOF@BfmeThingEOF row"
-?noop@Rva000B3FD0Nop@@QAEXXZ,0x000B3FD0,opaque alias: the known folded empty body shared by many rows; identity unproven
 ?normalizeAngle@@YAMM@Z,0x00238954,address read from the REL32 displacement at a placed body
 ?note@Rva00056BFESub@@QAEXH@Z,0x00056BFE,REL32 callee decoded from target call bytes of same-shape count-note-run member; identity unproven
 ?note@Rva000E0322Sub@@QAEXH@Z,0x000E0322,REL32 callee decoded from target call bytes of same-shape count-note-run member; identity unproven
@@ -13057,7 +13056,6 @@ rva009C7380WeightPairs,0x009B84E0
 ??4Rva0038454E@@QAEAAV0@ABV0@@Z,0x00387945,unrowed assignment of the 0x208-byte strategic stats block (dtor rowed as Rva0038454E); retail REL32 in PSPlayerAllStats::setStrategicStats 0x00555B5A with ecx=this+0x340 and the by-value block
 ??4Rva00385333@@QAEAAV0@ABV0@@Z,0x00387A68,unrowed assignment of the 0x1A8-byte tournament stats block (dtor rowed as Rva00385333); retail REL32 in PSPlayerAllStats::setTournamentStats 0x00555FC7 with ecx=this+8 and the by-value block
 ??0Rva002E2D10Record@@QAE@PBVThingTemplate@@@Z,0x0037E289,revival record ctor from a ThingTemplate; REL32 at 0x003C6360 in doCreateUnitRevivalEntry on the 0xD8-byte local later pushed through rva0037F38F; WB 0x00F5E7A0 unnamed
-??1Rva002E2D10Record@@QAE@XZ,0x001EB63C,dtor of the same 0xD8-byte revival record; REL32 at 0x003C6421 in doCreateUnitRevivalEntry
 ?addRevivableUnit@UnitRevivalTracker@@QAEXABURva002E2D10Record@@PAVPlayer@@@Z,0x0037F38F,WB UnitRevivalTracker::addRevivableUnit (callgraph pair); same body as the matched rva0037F38F forwarder; REL32 at 0x003C6412 in doCreateUnitRevivalEntry with the player as the second argument
 ??0?$_Vector_base@PAVRva0040D701ArmySummary@@V?$allocator@PAVRva0040D701ArmySummary@@@_STL@@@_STL@@QAE@ABV?$allocator@PAVRva0040D701ArmySummary@@@1@@Z,0x00211E58,ICF-folded empty vector base ctor; REL32 at 0x003CA22B for the local army vector in doCreateUnitRevivalEntryFromDelayedCarryoverHero
 ?RemoveSocketForSlot@Transport@@QAEXG@Z,0x004D5133,address read from the REL32 displacement at Transport helper 0x4D5496 loop call site; slot-clear shape with word index; identity unproven
