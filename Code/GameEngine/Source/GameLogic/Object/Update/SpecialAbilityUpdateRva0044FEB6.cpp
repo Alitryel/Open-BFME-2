@@ -1,5 +1,3 @@
-// ?rva0044FEB6@SpecialAbilityUpdate@@QAEPAVObject@@XZ
-// partial score=0.93 date=2026-10-06
 // cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB
 // stlport
 //
@@ -7,23 +5,18 @@
 // SpecialAbilityUpdate helper that spawns one special object via ThingFactory.
 // Evidence: prev row 0x0044F996 xfer same TU dir; callee 0x0044F72E same class
 // (list clear plus count zero); ModuleData +0x40 AsciiString lookup via rowed
-// 0x002D06CA through g_009FF000; 16-byte zeroed CreateMask via memset thunk
+// 0x002D06CA through TheThingFactory; 16-byte zeroed CreateMask via memset thunk
 // 0x006291AE; ThingFactory::newObject pin 0x002D0A23 (template team mask false);
 // list<int> push_back row 0x0005548F at +0x64 plus count inc at +0x68;
 // Thing::setPosition row 0x0030AA80 at +0x38; AIUpdateInterface
 // setLastCommandSource row 0x003B23AF via +0x264 with +0x74 source.
 #include "ascii_string.h"
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 #include <list>
 
 #pragma function(memset)
 extern "C" void *memset(void *dst, int value, unsigned int size);
 
-struct Coord3D
-{
-	float x;
-	float y;
-	float z;
-};
 
 class Team;
 class ThingTemplate;
@@ -33,19 +26,14 @@ struct CreateMask
 	unsigned int words[4];
 };
 
-class Rva002D06CA
-{
-public:
-	void *rva002D06CA(const AsciiString *key);
-};
-
 class ThingFactory
 {
 public:
 	class Object *newObject(const ThingTemplate *tmplate, Team *team, const CreateMask *mask, bool flag);
+	const ThingTemplate *findTemplate(const AsciiString &name);
 };
 
-extern Rva002D06CA *g_009FF000;
+extern ThingFactory *TheThingFactory;
 
 enum CommandSourceType
 {
@@ -106,7 +94,6 @@ private:
 	int m_count68;
 };
 
-// ?rva0044FEB6@SpecialAbilityUpdate@@QAEPAVObject@@XZ present-unmatched
 Object *SpecialAbilityUpdate::rva0044FEB6()
 {
 	const SpecialAbilityUpdateModuleData *md = m_moduleData;
@@ -116,22 +103,21 @@ Object *SpecialAbilityUpdate::rva0044FEB6()
 			return 0;
 		rva0044F72E();
 	}
-	void *tmplRaw = g_009FF000->rva002D06CA(&md->m_name40);
-	if (tmplRaw == 0)
-		return newObj;
-	CreateMask mask;
-	memset(&mask, 0, sizeof(mask));
-	Team *team = m_object->m_team304;
-	newObj = ((ThingFactory *)g_009FF000)->newObject((const ThingTemplate *)tmplRaw, team, &mask, false);
-	if (newObj == 0)
-		return newObj;
-	int id = newObj->m_id74;
-	m_list64.push_back(id);
-	++m_count68;
-	((Thing *)newObj)->setPosition(&m_object->m_coord38);
-	AIUpdateInterface *ai = newObj->m_ai264;
-	if (ai == 0)
-		return newObj;
-	ai->setLastCommandSource((CommandSourceType)m_object->m_id74);
+	const ThingTemplate *tmplRaw = TheThingFactory->findTemplate(md->m_name40);
+	if (tmplRaw != 0) {
+		CreateMask mask;
+		memset(&mask, 0, sizeof(mask));
+		Team *team = m_object->m_team304;
+		newObj = TheThingFactory->newObject(tmplRaw, team, &mask, false);
+		if (newObj != 0) {
+			int id = newObj->m_id74;
+			m_list64.push_back(id);
+			++m_count68;
+			((Thing *)newObj)->setPosition(&m_object->m_coord38);
+			AIUpdateInterface *ai = newObj->m_ai264;
+			if (ai != 0)
+				ai->setLastCommandSource((CommandSourceType)m_object->m_id74);
+		}
+	}
 	return newObj;
 }
