@@ -124,6 +124,15 @@ public:
 // a plain uninitialised definition (StringBase's default ctor only zeroes
 // m_data, which is already what .bss gives it).
 UnicodeString g_Va00E032E8;
+
+// Retail 0x0023C552 (15B, cdecl): stores its argument into that string
+// through the rowed StringBase<wchar>::set 0x00037150 (UnicodeString's
+// inline operator=). Twin skeleton of Rva005F01B8Get (0x005F01B8). The
+// setter's original name is unknown; address-named.
+void rva0023C552(const UnicodeString &text)
+{
+	g_Va00E032E8 = text;
+}
 void __cdecl Rva004341D8(int button);
 void __cdecl Rva00435CCC(void);
 
