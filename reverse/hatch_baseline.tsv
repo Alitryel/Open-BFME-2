@@ -1443,9 +1443,6 @@ address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3EC0Init.cpp	g_Rva
 address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3EC0Init.cpp	g_Rva009B3E40Arr2	2
 address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3EC0Init.cpp	g_Rva009B3E40Arr3	2
 address_global	Code/GameEngine/Source/Common/SmallGaps/Rva009B3EC0Init.cpp	g_Rva009B3EC0Blocks	6
-address_global	Code/GameEngine/Source/Common/StatsCollector.cpp	g_Va009FE78C	1
-address_global	Code/GameEngine/Source/Common/StatsCollector.cpp	g_Va00DBA4E4	2
-address_global	Code/GameEngine/Source/Common/StatsCollector.cpp	g_bfmeRva42E8C1Holder	1
 address_global	Code/GameEngine/Source/Common/System/GeometryInfoCtor.cpp	g_Va00BC2424	1
 address_global	Code/GameEngine/Source/Common/System/GeometryInfoRva006BD9C0.cpp	g_Va00BBAEAC	1
 address_global	Code/GameEngine/Source/Common/System/INI_VeterancyLevelToken.cpp	g_Va00DC17CCNames	4
@@ -3088,13 +3085,6 @@ alternatename	Code/GameEngine/Source/Common/SkirmishPreferences.cpp	?g_emptyProf
 alternatename	Code/GameEngine/Source/Common/SmallGaps/Rva007F5A70VideoBufferValue.cpp	?m@Gen_007e88b0@@QAEHXZ	1
 alternatename	Code/GameEngine/Source/Common/SmallGaps/Rva00826840ResetTables.cpp	?Rva00826740BigInit@@3URva00826740Big@@B	1
 alternatename	Code/GameEngine/Source/Common/SmallGaps/Rva00826840ResetTables.cpp	?Rva00826740SmallInit@@3URva00826740Small@@B	1
-alternatename	Code/GameEngine/Source/Common/StatsCollector.cpp	?TheGameLogic@@3PAUGameLogic@@A	1
-alternatename	Code/GameEngine/Source/Common/StatsCollector.cpp	?TheGameLogic@@3PAXA	2
-alternatename	Code/GameEngine/Source/Common/StatsCollector.cpp	?Va00DFE78CStatePointer@@3PAUVa00DFE78CState@@A	1
-alternatename	Code/GameEngine/Source/Common/StatsCollector.cpp	?g_009FE78C@@3PAUGameLogic@@A	1
-alternatename	Code/GameEngine/Source/Common/StatsCollector.cpp	?g_009FE78C@@3PAVRva0023D661@@A	1
-alternatename	Code/GameEngine/Source/Common/StatsCollector.cpp	?g_Va009FE78C@@3HA	1
-alternatename	Code/GameEngine/Source/Common/StatsCollector.cpp	?g_bfmeRva42E8C1Holder@@3PAUBfmeRva42E8C1Limit@@A	1
 alternatename	Code/GameEngine/Source/Common/StringContainerRecordCopyBFME2.cpp	??$_Construct@URva0004B22EElement@@U1@@_STL@@YAXPAURva0004B22EElement@@ABU1@@Z	1
 alternatename	Code/GameEngine/Source/Common/StringContainerRecordCopyBFME2.cpp	??$_Construct@URva000C828CElement@@U1@@_STL@@YAXPAURva000C828CElement@@ABU1@@Z	1
 alternatename	Code/GameEngine/Source/Common/StringContainerRecordVector.cpp	?_M_clear@?$vector@URva0004B22EElement@@V?$allocator@URva0004B22EElement@@@_STL@@@_STL@@IAEXXZ	1
@@ -38437,7 +38427,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cp
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::getContainMax	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::getContainedItemsMass	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::getDamagePercentageToUnits	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::getNaturalRallyPoint	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::getRallyPoint	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::getWeaponBonusPassedToPassengers	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::harmAndForceExitAllContained	1
@@ -38449,15 +38438,10 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cp
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::isWeaponBonusPassedToPassengers	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::iterateContained	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::killAllContained	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::loadPostProcess	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::markAllPassengersDetected	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::monitorConditionChanges	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::onCollide	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::onContaining	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::onDelete	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::onDie	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::onObjectWantsToEnterOrExit	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::onRemoving	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::onSelling	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::orderAllPassengersToExit	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::orderAllPassengersToHackInternet	1
@@ -38471,7 +38455,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cp
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::scatterToNearbyPosition	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::setRallyPoint	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::update	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::xfer	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContain.cpp	OpenContain::~OpenContain	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainFriendNew.cpp	bfmeEmitOpenContainFriendNew@@YAXPAVThing@@PBVModuleData@@@Z	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Contain/OpenContainModuleDataCtor.cpp	0DieMuxData@@	1
@@ -39614,7 +39597,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	dealDamageI
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	deleteAllDelayedDamage@WeaponStore@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	estimateWeaponDamage@Weapon@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	estimateWeaponTemplateDamage@WeaponTemplate@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	findWeaponTemplatePrivate@WeaponStore@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	getAttackDistance@Weapon@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	getAttackRange@WeaponTemplate@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	getClipReloadTime@Weapon@@	1
@@ -39626,7 +39608,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	getPrimaryD
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	getSecondaryDamage@WeaponTemplate@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	getSecondaryDamageRadius@WeaponTemplate@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	getUnmodifiedAttackRange@WeaponTemplate@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	isContactWeapon@WeaponTemplate@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	isDamageWeapon@Weapon@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	isGoalPosWithinAttackRange@Weapon@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	isSourceObjectWithGoalPositionWithinAttackRange@Weapon@@	1
@@ -39641,7 +39622,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	reset@Weapo
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	resetWeaponTemplates@WeaponStore@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	setClipPercentFull@Weapon@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	setDelayedDamage@WeaponStore@@	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	shouldProjectileCollideWith@WeaponTemplate@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	transferNextShotStatsFrom@Weapon@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	trimOldHistoricDamage@WeaponTemplate@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	update@WeaponStore@@	1
