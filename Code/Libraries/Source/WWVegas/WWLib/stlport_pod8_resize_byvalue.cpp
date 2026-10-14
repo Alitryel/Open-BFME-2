@@ -54,3 +54,20 @@ void BfmePod8Vector::resize(unsigned int n)
 	BfmePod8 x;
 	resize(n, x);
 }
+
+// ?rva005FF9C5@Rva005FF9C5@@QAEXI@Z @ 0x005FF9C5 (19B). A second one-argument
+// resize over the same vector, whose default pod is {0, -1}; it forwards to
+// the rowed by-value resize 0x005FF96A. Owner type unrecovered.
+class Rva005FF9C5 : public BfmePod8Vector
+{
+public:
+	void rva005FF9C5(unsigned int n);
+};
+
+void Rva005FF9C5::rva005FF9C5(unsigned int n)
+{
+	BfmePod8 x;
+	x.a[0] = 0;
+	x.a[1] = -1;
+	resize(n, x);
+}
