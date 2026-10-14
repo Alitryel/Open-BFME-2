@@ -1,4 +1,6 @@
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
+// partial score=0.7874684447557369 date=2026-10-14
+// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.707 date=2026-10-09
 // stlport
 // cl: /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep

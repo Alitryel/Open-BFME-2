@@ -1,4 +1,6 @@
 // ?rva0029D9F9@InGameUI@@QAE?AVCoord2D@@XZ
+// partial score=0.7691467002942413 date=2026-10-14
+// ?rva0029D9F9@InGameUI@@QAE?AVCoord2D@@XZ
 // partial score=0.7306874546218809 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /ICode/Libraries/Include
 // Native29DB61..29DCA9328B posts a formation-facing command and voice response.
@@ -166,7 +168,7 @@ Coord2D InGameUI::rva0029D9F9() {
   d.x=0.0f;d.y=0.0f;
   const DrawableList*list=getAllSelectedDrawables();
   for(FormationDrawNode*n=list->head->next;n!=list->head;n=n->next){
-   Object*obj=n->value->object;if(obj){d.x+=position.x-obj->position.x;d.y+=position.y-obj->position.y;}
+   Object*obj=n->value->object;if(obj){Coord2D delta; delta.x=position.x-obj->position.x;delta.y=position.y-obj->position.y;d.x+=delta.x;d.y+=delta.y;}
   }
   float inv=1.0f/(float)sqrt(d.x*d.x+d.y*d.y);
   float scale=TheFormationAssistant->threshold*0.5f;
