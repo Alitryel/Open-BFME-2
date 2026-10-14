@@ -50,6 +50,7 @@ struct Rva003BE5C9P34
 class Player
 {
 public:
+	bool isLocalPlayer() const;
 	char m_pad[0x34];
 	Rva003BE5C9P34 *m_p34; // +0x34
 };
@@ -94,17 +95,24 @@ public:
 	void rva004074CF();
 };
 
+class Object;
+class DamageInfo;
+
 class CreateAHeroManager
 {
 public:
 	void rva0021A4E6();
 	int rva002192C0();
+	CreateAHeroData *rva002197A6(int id);
+	void OnDie(Object *object, const DamageInfo *damageInfo);
 	char m_pad000[0x1A4];
 	unsigned int m_1A4;
 	unsigned int m_1A8;
 	unsigned int m_1AC;
 	unsigned int m_1B0;
-	char m_pad1B4[0x2C];
+	char m_pad1B4[0x1D0 - 0x1B4];
+	unsigned int m_1D0;
+	char m_pad1D4[0x1E0 - 0x1D4];
 	CreateAHeroData *m_1E0;
 };
 extern CreateAHeroManager *TheCreateAHeroManager;
@@ -218,4 +226,46 @@ void Rva0021A54A::rva0021A54A()
 	clear:
 		*slot = 0;
 	}
+}
+
+// The object's template KindOf flags (BitFlags at template+0x108); retail
+// tests bit 190 (0xBE) as WB's BitFlags<218,KindOfType>::test call does.
+class Rva0021A5AETemplate
+{
+public:
+	int isKindOfBE() const { return m_kindOf[0xBE / 32] & 0x40000000u; }
+	char m_pad000[0x108];
+	unsigned int m_kindOf[7];
+};
+class Object
+{
+public:
+	Player *getControllingPlayer() const;
+	char m_pad00[4];
+	const Rva0021A5AETemplate *m_template; // +0x04
+	char m_pad08[0x74 - 0x08];
+	int m_id; // +0x74
+};
+
+// ?OnDie@CreateAHeroManager@@QAEXPAVObject@@PBVDamageInfo@@@Z @ 0x0021A5AE 118B.
+// WB B7E5B0 names CreateAHeroManager::OnDie (CreateAHero.cpp lines
+// 2416..2433; asserts object, damageInfo, hero and m_localHero). Retail drops
+// the asserts: kind-of 0xBE, controlling local player, state helper not 4,
+// the manager's registry lookup by object id, then the bound hero's rowed
+// 0x004089C7 stat update with the +0x1D0 key.
+void CreateAHeroManager::OnDie(Object *object, const DamageInfo *damageInfo)
+{
+	if (!object || !damageInfo)
+		return;
+	if (!object->m_template->isKindOfBE())
+		return;
+	if (!object->getControllingPlayer())
+		return;
+	if (!object->getControllingPlayer()->isLocalPlayer())
+		return;
+	if (rva002192C0() == 4)
+		return;
+	CreateAHeroData *hero = TheCreateAHeroManager->rva002197A6(object->m_id);
+	if (hero && m_1E0)
+		((Rva0021937DTarget *)m_1E0)->rva004089C7(m_1D0, 1);
 }
