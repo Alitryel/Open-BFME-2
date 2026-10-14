@@ -66,11 +66,14 @@ template void _STL::_Construct<ConstructProbeSciVec, ConstructProbeSciVec>(Const
 template void _STL::_Construct<ConstructProbeCoordList, ConstructProbeCoordList>(ConstructProbeCoordList *, const ConstructProbeCoordList &);
 template void _STL::_Construct<ConstructProbePairC, ConstructProbePairC>(ConstructProbePairC *, const ConstructProbePairC &);
 
-// ??0Rva0023FC98@@QAE@ABU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z,
+// ??0Rva0023FD06@@QAE@ABU?$pair@$$CBVAsciiString@@UNoCaseTreeValue4@@@_STL@@@Z,
 // retail 0x0023FC98..0x0023FCD3 (59 bytes, EH, RET 4): a counted holder of one
 // such pair. The counted base (count at +0x04 cleared; EH state 0 once built)
 // comes first, then the vtable 0x00BEDC94 and the pair copied into +0x08
 // through its rowed out-of-line copy constructor 0x00466EA7.
+// Vtable 0x00BEDC94 is Rva0023FD06Dtor.cpp's class: its slot 0 is the rowed
+// scalar deleting dtor 0x0023FCEA (calling the rowed dtor 0x0023FD06) and its
+// slot 1 the rowed 0x0023FCD3. Use that name so the dtor binds to its row.
 class Rva0007DF07
 {
 public:
@@ -79,16 +82,17 @@ public:
 	int m_refCount;
 };
 
-class Rva0023FC98 : public Rva0007DF07
+class Rva0023FD06 : public Rva0007DF07
 {
 public:
-	Rva0023FC98(const ConstructProbePair &value);
-	virtual ~Rva0023FC98();
+	Rva0023FD06(const ConstructProbePair &value);
+	virtual ~Rva0023FD06();
+	virtual int rva0023FCD3(float a, int b);
 private:
 	ConstructProbePair m_value;
 };
 
-Rva0023FC98::Rva0023FC98(const ConstructProbePair &value)
+Rva0023FD06::Rva0023FD06(const ConstructProbePair &value)
 	: m_value(value)
 {
 }

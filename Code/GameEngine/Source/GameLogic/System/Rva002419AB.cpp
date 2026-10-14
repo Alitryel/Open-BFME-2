@@ -11,16 +11,17 @@ typedef _STL::pair<const AsciiString,NoCaseTreeValue4> NativeCountedStringPair;
 
 // This 16-byte object is allocated by the target at 0x00240D8C. Its helper
 // initializes a vtable-like word at +0 and an AsciiString at +8; the object
-// identity is unresolved, so the type and constructor name use the helper RVA.
-// The complete 23FC98 provider copies the eight-byte key/value pair at +8;
-// the source pointer is passed through in the same single native stack slot.
-class Rva0023FC98
+// identity is unresolved, so the type takes the address-derived name of the
+// class whose vtable 0x00BEDC94 the 23FC98 constructor installs (its rowed
+// dtor 0x0023FD06). That complete provider copies the eight-byte key/value pair
+// at +8; the source pointer is passed through in the same single native stack slot.
+class Rva0023FD06
 {
 private:
 	void *m_vtable;
 
 public:
-	Rva0023FC98(const NativeCountedStringPair &value);
+	Rva0023FD06(const NativeCountedStringPair &value);
 	int m_referenceCount;
 
 private:
@@ -30,7 +31,7 @@ private:
 class Rva002419ABOwner
 {
 private:
-	Rva0023FC98 *m_value;
+	Rva0023FD06 *m_value;
 
 public:
 	void *rva00240D8C(const AsciiString *value);
@@ -44,7 +45,7 @@ public:
 // and operation remain address-derived.
 void *Rva002419ABOwner::rva00240D8C(const AsciiString *value)
 {
-	m_value = new Rva0023FC98(*reinterpret_cast<const NativeCountedStringPair *>(value));
+	m_value = new Rva0023FD06(*reinterpret_cast<const NativeCountedStringPair *>(value));
 	if (m_value != 0)
 		++m_value->m_referenceCount;
 	return this;

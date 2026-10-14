@@ -3852,7 +3852,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007EDC60,12,.rdata,string,??_C@_09LNOEEDFP@voted?5out?$AA@,,literal,,0,1
 0x007EDC6C,24,.rdata,string,??_C@_0BI@NPKNOKAL@?5?5?5?5Game?5Over?5Details?3?6?$AA@,,literal,,0,1
 0x007EDC84,16,.rdata,string,??_C@_0N@CIHPADHJ@Invalid?5Slot?$AA@,,literal,,0,1
-0x007EDC94,8,.rdata,vtable,??_7Rva0023FC98@@6B@,,literal,,0,1
+0x007EDC94,8,.rdata,vtable,??_7Rva0023FD06@@6B@,,literal,,0,1
 0x007EDC9C,24,.rdata,string,??_C@_0BG@LNCGLNKG@Player_1_BuildPlot_?$CFd?$AA@,,literal,,0,1
 0x007EDCB4,20,.rdata,global,?g_00BEDCB4@@3QBQBXB,,unowned,,0,1
 0x007EDCC8,692,.rdata,string,??_C@_0BA@BFFCOOAO@FadeWholeScreen?$AA@,,literal,,0,1
