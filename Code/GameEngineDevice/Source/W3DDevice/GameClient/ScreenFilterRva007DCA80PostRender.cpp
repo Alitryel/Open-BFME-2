@@ -20,7 +20,7 @@
 // builds a four-vertex XYZRHW|DIFFUSE|TEX3 quad over the tactical view (UVs
 // scaled by the viewport size argument) picks additive or modulating blend
 // by the flag at 0x00DB5B08 and draws it as a triangle strip then resets.
-// Globals without a ledger name keep address-derived names.
+// Existing provisional global names are retained; original names unknown.
 #include "Lib/Coord2D.h"
 #include <math.h>
 
@@ -162,9 +162,11 @@ struct Rva000F9F82GlobalData
 };
 
 // Frame-rate divisor and the glow pulse phase of this filter.
-extern float g_Va00DB457C;
-extern float g_Va00DEC0DC;
-extern bool g_Va00DB5B08;
+// Native scalar accesses prove these extents; initial values are retail data.
+// The camera-transform builder also reads the shared frame scale.
+float g_Va00DB457C = 1.0f;
+float g_Va00DEC0DC = 0.0f;
+bool g_Va00DB5B08 = true;
 
 class WWMath
 {
