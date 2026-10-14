@@ -76,7 +76,6 @@ template <int N> struct _Base_bitset
 }
 struct UpgradeMaskType : _STL::_Base_bitset<32>
 {
-	bool any() const { return _M_is_any(); }
 	__forceinline bool test(unsigned int pos) const { return (_M_w[pos / 32] & (1 << (pos % 32))) != 0; }
 };
 
@@ -130,7 +129,9 @@ AsciiString Rva0059B5A3::rva0059B5A3()
 
 	str.concat(", Upgrades:");
 	const UpgradeMaskType &upgrades = m_unit->m_upgrades;
-	if (upgrades.any())
+	// The target calls the rowed 32-word provider directly; avoid emitting
+	// a competing UpgradeMaskType::any wrapper for this private mask view.
+	if (upgrades._M_is_any())
 	{
 		bool first = true;
 		for (int i = 0; i < 1024; ++i)
