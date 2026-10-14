@@ -41,10 +41,10 @@ public:
 	Rva00075E42D3D8Vtable *m_vtable;
 };
 
-struct Rva00075E42DeviceLock
+struct BFMEDX8DeviceLock
 {
-	Rva00075E42DeviceLock() { BFME_DX8_Thread_Lock(); }
-	~Rva00075E42DeviceLock() { BFME_DX8_Thread_Assert(); }
+	BFMEDX8DeviceLock() { BFME_DX8_Thread_Lock(); }
+	~BFMEDX8DeviceLock() { BFME_DX8_Thread_Assert(); }
 };
 
 void rva00075E42(void)
@@ -52,7 +52,7 @@ void rva00075E42(void)
 	if (g_Va001FDE58 != 0)
 		return;
 
-	Rva00075E42DeviceLock lock;
+	BFMEDX8DeviceLock lock;
 	IDirect3D8 *interface8 = DX8Wrapper::D3DInterface;
 	if (interface8 == 0)
 		return;
