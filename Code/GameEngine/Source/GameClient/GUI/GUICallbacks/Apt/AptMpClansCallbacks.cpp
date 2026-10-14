@@ -329,3 +329,70 @@ void AptMpClans::PopulateMyClans(const UnicodeString &name)
     v04();
     m_registered = true;
 }
+
+// Retail 0x0057F5ED, 447 bytes (WorldBuilder AptMpClans::OnGameInfoChange 0x015A0AB0): refills the
+// player list of the clans panel from the staging room: a row per human slot, green for the local
+// player's clan, white for others and red for slots without a team; the clan error message is set
+// first (missing clan, or only two clans can play).
+class Rva0043DA65 { public: int rva0043DA65(); };
+class Rva003821B9AsciiField { public: AsciiString get() const; };
+class GameSlot
+{
+public:
+    bool isHuman() const;
+    unsigned char m_pad000[0x1C];
+    int m_team; // +0x1C
+    unsigned char m_pad020[0x30 - 0x20];
+    UnicodeString m_name; // +0x30
+};
+class GameInfo
+{
+public:
+    virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
+    virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
+    virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
+    virtual void v12();
+    virtual int getLocalSlotNum(); // +0x34
+    GameSlot *getSlot(int slotNum);
+};
+int GadgetListBoxAddEntryText(GameWindow *, UnicodeString, int, int, int, bool);
+void GadgetListBoxReset(GameWindow *);
+void AptMpClans::rva0057F5ED()
+{
+    if (!m_clanPlayers)
+        return;
+    GadgetListBoxReset(m_clanPlayers);
+    GameInfo *room = (GameInfo *)((Rva0043DA65 *)m_9c)->rva0043DA65();
+    if (!room)
+        return;
+    GameSlot *localSlot = room->getSlot(room->getLocalSlotNum());
+    if (!localSlot)
+        return;
+    int sameClan = 0xff64ff64;
+    int otherClan = 0xffffffff;
+    int noTeam = 0xffff0000;
+    AsciiString localTag = ((Rva003821B9AsciiField *)localSlot)->get();
+    UnicodeString unused;
+    if (localTag.isEmpty())
+        reinterpret_cast<Rva0057F538 *>(this)->rva0057F538(TheGameText->fetch("CLAN:ErrorMissingClanAffiliation", 0));
+    else if (localSlot->m_team < 0)
+        reinterpret_cast<Rva0057F538 *>(this)->rva0057F538(TheGameText->fetch("CLAN:ErrorOnlyTwoClans", 0));
+    else
+        reinterpret_cast<Rva0057F538 *>(this)->rva0057F538(UnicodeString::TheEmptyString);
+    for (int i = 0; i < 8; ++i)
+    {
+        GameSlot *slot = room->getSlot(i);
+        if (!slot || !slot->isHuman())
+            continue;
+        int color;
+        if (slot->m_team < 0)
+            color = noTeam;
+        else
+            {
+            bool same = ((Rva003821B9AsciiField *)slot)->get().compare(localTag) == 0;
+            color = same ? sameClan : otherClan;
+        }
+        int row = GadgetListBoxAddEntryText(m_clanPlayers, slot->m_name, color, -1, 0, true);
+        GadgetListBoxAddEntryText(m_clanPlayers, UnicodeString(((Rva003821B9AsciiField *)slot)->get()), color, row, 1, true);
+    }
+}
