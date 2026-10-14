@@ -158,20 +158,6 @@ void Rva0011018B_Anchor(Rva00785FD0Renderer *p)
 	delete p;
 }
 
-class Rva002C0C0
-{
-public:
-	Rva002C0C0(EmitVtableTag *);
-	virtual ~Rva002C0C0();
-};
-
-// The tag constructor (no retail counterpart) makes this TU emit the vtable
-// and with it the scalar deleting destructor; the destructor is only declared here.
-// ?<Rva002C0C0::Rva002C0C0> absent-from-retail
-Rva002C0C0::Rva002C0C0(EmitVtableTag *)
-{
-}
-
 class Rva00119D00
 {
 public:

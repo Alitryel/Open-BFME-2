@@ -4124,7 +4124,6 @@ name,address,notes
 ??1Rva002BEDA4@@QAE@XZ,0x002BEDA4,destructor called by the vtable-referenced scalar deleting dtor 0x005CBAEE (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name
 ??1Rva002BF17C@@QAE@XZ,0x002BF0D6,non-virtual dtor called directly by scalar deleting dtor 0x002BF17C; owning class unproven
 ??1Rva002BFB2D@@UAE@XZ,0x002BFB2D,"destructor the scalar deleting destructor 0x002BFD53 calls (REL32 at 0x002BFD56; vtable 0x00BFE508#0); opaque address name"
-??1Rva002C0C0@@UAE@XZ,0x002C0C0,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0x2C536; identity unproven, address-derived name
 ??1Rva002C5398@@UAE@XZ,0x002C5398,opaque SEH dtor (mov-eax-cookie prologue); tail-called by single-inheritance dtor at 0x8FCA3; identity unproven, address-derived name
 ??1Rva002C5F72@@QAE@XZ,0x00505BBA,non-virtual dtor called directly by scalar deleting dtor 0x002C5F72; owning class unproven
 ??1Rva002C5F8E@@QAE@XZ,0x0050549A,non-virtual dtor called directly by scalar deleting dtor 0x002C5F8E; owning class unproven
