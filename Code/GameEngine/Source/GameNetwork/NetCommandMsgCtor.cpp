@@ -15,6 +15,7 @@
 typedef unsigned int UnsignedInt;
 typedef unsigned short UnsignedShort;
 typedef int Int;
+typedef unsigned char UnsignedByte;
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -28,6 +29,15 @@ enum NetCommandType
 
 class MemoryPool;
 class AsciiString;
+typedef bool Bool;
+
+// Retail vtable 0x860130 has four slots and no memory-pool slot (??_G frees
+// through global operator delete): the deleting dtor, getSortNumber 0x004CEEA1
+// (m_id; NetAckStage1 overrides it with its m_commandID at 0x004D5776, as in
+// ZH), a bool slot whose base body is the folded `xor eax,eax; ret` 0x0047A699
+// (BFME1 donor names it unknownSlot08; only NetGameCommandMsg overrides it,
+// 0x004D55FC below), and getContentsAsAsciiString 0x004D5B4C. Every derived
+// vtable 0x8601E4..0x860530 shares slots 1 and 2 unless noted.
 
 class NetCommandMsg
 {
@@ -39,10 +49,9 @@ public:
 	UnsignedShort getID() { return m_id; }
 protected:
 	virtual ~NetCommandMsg() {}
-private:
-	virtual MemoryPool *getObjectMemoryPool();
 public:
 	virtual Int getSortNumber();
+	virtual Bool vslot08() { return false; }
 	virtual AsciiString getContentsAsAsciiString();
 protected:
 	UnsignedInt m_timestamp;
@@ -52,6 +61,14 @@ protected:
 	NetCommandType m_commandType;
 	Int m_referenceCount;
 };
+
+// ?getSortNumber@NetCommandMsg@@UAEHXZ, retail 0x004CEEA1, 5 bytes: slot 1 of
+// 0x860130 and of every derived vtable but the three ack messages; returns m_id
+// zero-extended, as ZH's NetCommandMsg::getSortNumber.
+Int NetCommandMsg::getSortNumber()
+{
+	return m_id;
+}
 
 // ??0NetCommandMsg@@QAE@XZ
 NetCommandMsg::NetCommandMsg()
@@ -205,9 +222,7 @@ public:
 protected:
 	virtual ~NetWrapperCommandMsg();
 private:
-	virtual MemoryPool *getObjectMemoryPool();
-private:
-	unsigned int m_1c;
+	UnsignedByte *m_data; // +0x1C
 	unsigned int m_20;
 	unsigned int m_24;
 	unsigned int m_28;
@@ -219,13 +234,30 @@ private:
 NetWrapperCommandMsg::NetWrapperCommandMsg() : NetCommandMsg()
 {
 	m_30 = 0;
-	m_1c = 0;
+	m_data = 0;
 	m_28 = 0;
 	m_2c = 0;
 	m_20 = 0;
 	m_24 = 0;
 	m_34 = 0;
 	m_commandType = (NetCommandType)18;
+}
+
+// Global delete declared throw(): otherwise cl wraps the dtor below in an EH
+// frame (base-dtor unwind state) that retail 0x004D5871 lacks.
+void operator delete(void *p) throw();
+
+// ??1NetWrapperCommandMsg@@MAE@XZ, retail 0x004D5871, 35 bytes: frees m_data
+// (+0x1C) through global operator delete and nulls it, as ZH's
+// NetWrapperCommandMsg::~NetWrapperCommandMsg, then reinstalls the base
+// vtable 0x860130. Its scalar deleting dtor ??_GNetWrapperCommandMsg@@MAEPAXI@Z
+// (0x004D5AF8, 28 bytes, slot 0 of 0x860254) is emitted beside it.
+NetWrapperCommandMsg::~NetWrapperCommandMsg()
+{
+	if (m_data != 0) {
+		delete m_data;
+		m_data = 0;
+	}
 }
 
 // ??0Rva004D59D1@@QAE@XZ @0x004D59D1 29B: calls base plus dword 0 at +0x1c via And plus dword -1 at +0x20 via Or plus vtable 0x860274 plus type 8.
@@ -310,6 +342,7 @@ class Rva004D64F5 : public NetCommandMsg
 {
 public:
 	Rva004D64F5();
+	virtual ~Rva004D64F5();
 private:
 	unsigned int m_1c;
 };
@@ -358,16 +391,6 @@ Rva004D6134::Rva004D6134() : NetCommandMsg()
 	m_commandType = (NetCommandType)0xe;
 }
 
-// ??1Rva004D6134@@MAE@XZ, retail 0x004D6151, 54 bytes. Protected virtual
-// dtor for Rva004D6134 (vtable 0x860474, base NetCommandMsg vtable 0x860130):
-// stores derived vptr, destroys wide-string member at +0x1C via the rowed
-// releaseBuffer at 0x00036E70, reinstalls base vptr. Member at +0x1C is a
-// 4-byte StringBase<ushort> nulled inline in the ctor (And form preserved).
-// Caller at 0x004D6AA0 is the deleting dtor at 0x004D6A9D (slot 0).
-Rva004D6134::~Rva004D6134()
-{
-}
-
 // ??0Rva004D65DC@@QAE@XZ @0x004D65DC 29B: calls base plus vtable 0x860530 plus dword 0 at +0x1c via And plus dword 0 at +0x20 via And plus type 6 at +0x14.
 // Honest-address ctor; same barrier-pinned vptr-first recipe as siblings above; unblocks 0x00592520 0x004D12B2.
 // Callers at 0x004D1346 0x00592549.
@@ -398,15 +421,15 @@ Rva004D65DC::Rva004D65DC() : NetCommandMsg()
 // m_timestamp (+0x04) and +0x24 from its m_executionFrame (+0x08); the field
 // names are inferred from those sources. The NetGameCommandMsg fields follow
 // the ZH layout the rowed addArgument 0x004D5A7A reads (+0x28/+0x2C).
-typedef unsigned char UnsignedByte;
 
 // ??0NetGameCommandMsg@@QAE@XZ @0x004D55D6 38B: five zeroed dwords +0x1C..+0x2C,
 // vtable 0x8601E4, type 4 (GAMECOMMAND).
 class NetGameCommandMsg : public NetCommandMsg
 {
 public:
-	~NetGameCommandMsg();	// rowed out of line; this view must not emit its own
 	NetGameCommandMsg();
+	virtual ~NetGameCommandMsg();	// rowed out of line; this view must not emit its own
+	virtual Bool vslot08();
 private:
 	Int m_numArgs; // +0x1C
 	Int m_argSize; // +0x20
@@ -423,6 +446,14 @@ NetGameCommandMsg::NetGameCommandMsg() : NetCommandMsg()
 	m_argList = 0;
 	m_argTail = 0;
 	m_commandType = (NetCommandType)4;
+}
+
+// ?vslot08@NetGameCommandMsg@@UAE_NXZ, retail 0x004D55FC, 13 bytes: slot 2 of
+// 0x8601E4, the only override of the base bool slot; true when m_type (+0x24)
+// is 0x448.
+Bool NetGameCommandMsg::vslot08()
+{
+	return m_type == 0x448;
 }
 
 // ??0NetAckBothCommandMsg@@QAE@PAVNetCommandMsg@@@Z @0x004D565D 50B and
@@ -529,12 +560,26 @@ class NetHeroCommandMsg : public NetCommandMsg
 {
 public:
 	NetHeroCommandMsg();
+	virtual ~NetHeroCommandMsg();
 private:
 	unsigned int m_1c;
 	unsigned short m_20;
-	unsigned int m_24;
+	char *m_24; // array freed by the dtor
 	unsigned int m_28;
 };
+
+// ??1NetHeroCommandMsg@@UAE@XZ, retail 0x004D5902, is rowed in
+// Rva004D58DEDtor.cpp; the deleting dtor this unit emits with vtable 0x860264
+// calls this identical inline copy.
+void __cdecl operator delete[](void *) throw();
+inline NetHeroCommandMsg::~NetHeroCommandMsg()
+{
+	if (m_24)
+	{
+		delete[] m_24;
+		m_24 = 0;
+	}
+}
 
 NetHeroCommandMsg::NetHeroCommandMsg() : NetCommandMsg()
 {

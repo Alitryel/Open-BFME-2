@@ -88,22 +88,6 @@ int Rva006E3C40WordIntField::get() const
 	return m_value;
 }
 
-class Rva004CEEA1WordIntField
-{
-public:
-	int get() const;
-
-private:
-	char m_pad[0x10];
-	unsigned short m_value; // +0x10
-};
-
-// ?get@Rva004CEEA1WordIntField@@QBEHXZ
-int Rva004CEEA1WordIntField::get() const
-{
-	return m_value;
-}
-
 // Clean BF1 9cbfb551fe20dae985f91f2319d8997287b6a705 donor
 // game/GameEngine/Source/Common/SignedFieldAccessor00191450.cpp supplies the
 // signed-short to int expression under /O1 /arch:SSE /G7 (also exact /O2).

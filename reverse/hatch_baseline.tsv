@@ -4638,7 +4638,6 @@ alternatename	Code/GameEngine/Source/GameNetwork/LANAPIReset.cpp	?g_Rva00E02EEC@
 alternatename	Code/GameEngine/Source/GameNetwork/LANAPIRva00248D9D.cpp	?g_Va00A03354@@3PAUGlobalA03354@@A	1
 alternatename	Code/GameEngine/Source/GameNetwork/NetCommandListCtor.cpp	_vtbl_00C70A08	1
 alternatename	Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp	?count@XmlNameSlotList@@QAEHXZ	1
-alternatename	Code/GameEngine/Source/GameNetwork/NetCommandMsg.cpp	?getSortNumber@NetCommandMsg@@UAEHXZ	1
 alternatename	Code/GameEngine/Source/GameNetwork/NetworkUtilResolveIP.cpp	?ResolveIP@@YAIVAsciiString@@@Z	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva004CEEE8Ctor.cpp	_vtbl_00C60244	1
 alternatename	Code/GameEngine/Source/GameNetwork/Rva004D6208Dtor.cpp	??1?$StringBase@D@@QAE@XZ	1

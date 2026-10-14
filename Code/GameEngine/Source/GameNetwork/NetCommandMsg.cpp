@@ -51,13 +51,9 @@ void NetGameCommandMsg::addArgument(
 
 // Full retail detach body (including negative counts) is in NetCommandMsg_detach.cpp.
 
-NetWrapperCommandMsg::~NetWrapperCommandMsg()
-{
-	if (m_data != NULL) {
-		delete m_data;
-		m_data = NULL;
-	}
-}
+// ~NetWrapperCommandMsg (0x004D5871) and its deleting dtor live in
+// NetCommandMsgCtor.cpp: retail vtable 0x860254 has no memory-pool slot, so
+// the vtable this ZH header would emit beside them is not retail's.
 
 void NetWrapperCommandMsg::setData(UnsignedByte *data, UnsignedInt dataLength)
 {
@@ -240,11 +236,6 @@ UnsignedInt NetDisconnectScreenOffCommandMsg::getNewFrame() {
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:?count@XmlNameSlotList@@QAEHXZ=?getTotalDataLength@NetWrapperCommandMsg@@QAEIXZ")
-
-// Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
-// each one has the same function in that slot (vftable addresses from matched vptr
-// stores). Bind them to the rows at those functions.
-#pragma comment(linker, "/alternatename:?getSortNumber@NetCommandMsg@@UAEHXZ=?IsCRC@Xfer@@UBE_NXZ")
 
 // BFME1 874e38488c moved this virtual out of NetCommandMsg.h. BFME2's
 // existing folded 28B body at 0x0028F940 must still be emitted by this TU;
