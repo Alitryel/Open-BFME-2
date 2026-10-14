@@ -75,3 +75,23 @@ void *Rva00674BA0::rva00674BA0() const
 {
 	return m_08->m_0c->get();
 }
+
+// ?rva0066CA80@Rva0066CA80@@QAEXXZ @0x0066CA80 5B (called from 0x006661DA):
+// clear the chain member at +0 through the rowed Rva00800550Chain::clear
+// 0x0066C970.
+class Rva00800550Chain
+{
+public:
+	void clear();
+};
+class Rva0066CA80
+{
+public:
+	void rva0066CA80();
+private:
+	Rva00800550Chain m_chain;
+};
+void Rva0066CA80::rva0066CA80()
+{
+	m_chain.clear();
+}
