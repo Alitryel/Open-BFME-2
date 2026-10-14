@@ -88,27 +88,29 @@ char Rva0011C690::rva0011C690(int i) const
 }
 
 // --- 0x00120670 / 0x00120690 (29B each), 0x001206B0 (26B): primitive draws
-// through the rowed BfmeDrawOps::Draw 0x001203C0: types 2, 3 and 1 with
-// counts n*2, n+1 and n.
-class BfmeDrawOps
+// through the rowed DX8Wrapper::Draw 0x001203C0: types 2, 3 and 1 with
+// counts n*2, n+1 and n. Draw is private (as in ZH), so the callers are friends.
+class DX8Wrapper
 {
-public:
+	friend void rva00120670(unsigned int start, unsigned int count);
+	friend void rva00120690(unsigned int start, unsigned int count);
+	friend void rva001206B0(unsigned int start, unsigned int count);
 	static void Draw(unsigned int type, unsigned int a, unsigned int count, unsigned int start, unsigned int vertices, bool flag);
 };
 
 void rva00120670(unsigned int start, unsigned int count)
 {
-	BfmeDrawOps::Draw(2, 0, count, start, count * 2, false);
+	DX8Wrapper::Draw(2, 0, count, start, count * 2, false);
 }
 
 void rva00120690(unsigned int start, unsigned int count)
 {
-	BfmeDrawOps::Draw(3, 0, count, start, count + 1, false);
+	DX8Wrapper::Draw(3, 0, count, start, count + 1, false);
 }
 
 void rva001206B0(unsigned int start, unsigned int count)
 {
-	BfmeDrawOps::Draw(1, 0, count, start, count, false);
+	DX8Wrapper::Draw(1, 0, count, start, count, false);
 }
 
 // --- 0x0011F620 (19B): the DX8 device recursion depth when this thread

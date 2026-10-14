@@ -2355,176 +2355,6 @@ void DX8Wrapper::Set_Index_Buffer(const DynamicIBAccessClass& iba_,unsigned shor
 //
 // ----------------------------------------------------------------------------
 
-// ?Draw@DX8Wrapper@@ present-unmatched
-void DX8Wrapper::Draw(
-	unsigned primitive_type,
-	unsigned short start_index,
-	unsigned short polygon_count,
-	unsigned short min_vertex_index,
-	unsigned short vertex_count)
-{
-	if (DrawPolygonLowBoundLimit && DrawPolygonLowBoundLimit>=polygon_count) return;
-
-	DX8_THREAD_ASSERT();
-	SNAPSHOT_SAY(("DX8 - draw\n"));
-
-	Apply_Render_State_Changes();
-
-	// Anchor the rowed DynamicVBAccessClass::Get_Vertex_Count copy: the
-	// DynamicVB Set_Vertex_Buffer overload above reads the 24-byte retail view
-	// directly, so this address-take is the unit's only remaining ODR-use.
-	(void)&DynamicVBAccessClass::Get_Vertex_Count;
-
-	// Debug feature to disable triangle drawing...
-	if (!_Is_Triangle_Draw_Enabled()) return;
-
-#ifdef MESH_RENDER_SNAPSHOT_ENABLED
-	if (WW3D::Is_Snapshot_Activated()) {
-		unsigned long passes=0;
-		SNAPSHOT_SAY(("ValidateDevice: "));
-		HRESULT res=D3DDevice->ValidateDevice(&passes);
-		switch (res) {
-		case D3D_OK:
-			SNAPSHOT_SAY(("OK\n"));
-			break;
-
-		case D3DERR_CONFLICTINGTEXTUREFILTER:
-			SNAPSHOT_SAY(("D3DERR_CONFLICTINGTEXTUREFILTER\n"));
-			break;
-		case D3DERR_CONFLICTINGTEXTUREPALETTE:
-			SNAPSHOT_SAY(("D3DERR_CONFLICTINGTEXTUREPALETTE\n"));
-			break;
-		case D3DERR_DEVICELOST:
-			SNAPSHOT_SAY(("D3DERR_DEVICELOST\n"));
-			break;
-		case D3DERR_TOOMANYOPERATIONS:
-			SNAPSHOT_SAY(("D3DERR_TOOMANYOPERATIONS\n"));
-			break;
-		case D3DERR_UNSUPPORTEDALPHAARG:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDALPHAARG\n"));
-			break;
-		case D3DERR_UNSUPPORTEDALPHAOPERATION:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDALPHAOPERATION\n"));
-			break;
-		case D3DERR_UNSUPPORTEDCOLORARG:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDCOLORARG\n"));
-			break;
-		case D3DERR_UNSUPPORTEDCOLOROPERATION:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDCOLOROPERATION\n"));
-			break;
-		case D3DERR_UNSUPPORTEDFACTORVALUE:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDFACTORVALUE\n"));
-			break;
-		case D3DERR_UNSUPPORTEDTEXTUREFILTER:
-			SNAPSHOT_SAY(("D3DERR_UNSUPPORTEDTEXTUREFILTER\n"));
-			break;
-		case D3DERR_WRONGTEXTUREFORMAT:
-			SNAPSHOT_SAY(("D3DERR_WRONGTEXTUREFORMAT\n"));
-			break;
-		default:
-			SNAPSHOT_SAY(("UNKNOWN Error\n"));
-			break;
-		}
-	}
-#endif	// MESH_RENDER_SHAPSHOT_ENABLED
-
-
-	SNAPSHOT_SAY(("DX8 - draw %d polygons (%d vertices)\n",polygon_count,vertex_count));
-
-	if (vertex_count<3) {
-		min_vertex_index=0;
-		switch (render_state.vertex_buffer_types[0]) {
-		case BUFFER_TYPE_DX8:
-		case BUFFER_TYPE_SORTING:
-			vertex_count=render_state.vertex_buffers[0]->Get_Vertex_Count()-render_state.index_base_offset-render_state.vba_offset-min_vertex_index;
-			break;
-		case BUFFER_TYPE_DYNAMIC_DX8:
-		case BUFFER_TYPE_DYNAMIC_SORTING:
-			vertex_count=render_state.vba_count;
-			break;
-		}
-	}
-
-	switch (render_state.vertex_buffer_types[0]) {
-	case BUFFER_TYPE_DX8:
-	case BUFFER_TYPE_DYNAMIC_DX8:
-		switch (render_state.index_buffer_type) {
-		case BUFFER_TYPE_DX8:
-		case BUFFER_TYPE_DYNAMIC_DX8:
-			{
-/*				if ((start_index+render_state.iba_offset+polygon_count*3) > render_state.index_buffer->Get_Index_Count())
-				{	WWASSERT_PRINT(0,"OVERFLOWING INDEX BUFFER");
-					///@todo: MUST FIND OUT WHY THIS HAPPENS WITH LOTS OF PARTICLES ON BIG FIGHT!  -MW
-					break;
-				}*/
-				DX8_RECORD_RENDER(polygon_count,vertex_count,render_state.shader);
-				DX8_RECORD_DRAW_CALLS();
-				DX8CALL(DrawIndexedPrimitive(
-					(D3DPRIMITIVETYPE)primitive_type,
-					min_vertex_index,
-					vertex_count,
-					start_index+render_state.iba_offset,
-					polygon_count));
-			}
-			break;
-		case BUFFER_TYPE_SORTING:
-		case BUFFER_TYPE_DYNAMIC_SORTING:
-			WWASSERT_PRINT(0,"VB and IB must of same type (sorting or dx8)");
-			break;
-		case BUFFER_TYPE_INVALID:
-			WWASSERT(0);
-			break;
-		}
-		break;
-	case BUFFER_TYPE_SORTING:
-	case BUFFER_TYPE_DYNAMIC_SORTING:
-		switch (render_state.index_buffer_type) {
-		case BUFFER_TYPE_DX8:
-		case BUFFER_TYPE_DYNAMIC_DX8:
-			WWASSERT_PRINT(0,"VB and IB must of same type (sorting or dx8)");
-			break;
-		case BUFFER_TYPE_SORTING:
-		case BUFFER_TYPE_DYNAMIC_SORTING:
-			Draw_Sorting_IB_VB(primitive_type,start_index,polygon_count,min_vertex_index,vertex_count);
-			break;
-		case BUFFER_TYPE_INVALID:
-			WWASSERT(0);
-			break;
-		}
-		break;
-	case BUFFER_TYPE_INVALID:
-		WWASSERT(0);
-		break;
-	}
-}
-
-// ----------------------------------------------------------------------------
-//
-//
-//
-// ----------------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------------
-//
-//
-//
-// ----------------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------------
-//
-//
-//
-// ----------------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------------
-//
-//
-//
-// ----------------------------------------------------------------------------
-
 /*
  * Copyright (C) 2002-2003 Jason Edmeades
  *                         Raphael Junqueira
@@ -4454,11 +4284,14 @@ void bfmeSetProjectionDepthBias(float bias)
 extern bool bfmeOnlyEmissiveDraws;
 // bfmeOnlyEmissiveDraws: matched references place it at VA 0xdec3d8 (zero-filled .bss).
 bool bfmeOnlyEmissiveDraws;
-struct BfmeDrawOps:DX8Wrapper {
- static void Draw(unsigned primitive_type,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count,bool indexed);
-};
-void BfmeDrawOps::Draw(unsigned primitive_type,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count,bool indexed)
+// Name: WorldBuilder twin DXWrapper::Draw (call graph); the ledger's class spelling is ZH's
+// DX8Wrapper, and retail adds the trailing indexed flag to ZH's signature.
+void DX8Wrapper::Draw(unsigned primitive_type,unsigned start_index,unsigned polygon_count,unsigned min_vertex_index,unsigned vertex_count,bool indexed)
 {
+ // Anchor the rowed DynamicVBAccessClass::Get_Vertex_Count copy: the
+ // DynamicVB Set_Vertex_Buffer overload reads the 24-byte retail view
+ // directly, so this address-take is the unit's only remaining ODR-use.
+ (void)&DynamicVBAccessClass::Get_Vertex_Count;
  if (DrawPolygonLowBoundLimit && DrawPolygonLowBoundLimit>=polygon_count) return;
  if (bfmeOnlyEmissiveDraws) {
   if (!bfmeApplyRenderState.material) return;

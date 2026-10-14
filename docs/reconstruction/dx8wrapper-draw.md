@@ -1,6 +1,6 @@
 # BFME2 primitive drawing
 
-The recovered static role `BfmeDrawOps::Draw` matches all 452 code bytes at RVA
+The recovered static `DX8Wrapper::Draw` (formerly the role `BfmeDrawOps::Draw`) matches all 452 code bytes at RVA
 `0x1203C0`, plus both trailing 16-byte switch tables. The final return is at
 `0x120583`; tables occupy VA `0x520584..0x5205A3`, followed by twelve alignment
 bytes before the next function. All eight table entries and both references to

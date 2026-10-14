@@ -259,15 +259,16 @@ class DX8Wrapper
 		unsigned polygon_count,
 		unsigned min_vertex_index,
 		unsigned vertex_count);
-	// dx8wrapper.cpp's recovered Draw view calls the private sorting draw.
-	friend struct BfmeDrawOps;
 
+	// BFME2 retail (0x001203C0) takes five dwords plus an indexed flag: false
+	// draws DrawPrimitive from min_vertex_index, true dispatches indexed draws.
 	static void Draw(
 		unsigned primitive_type,
-		unsigned short start_index,
-		unsigned short polygon_count,
-		unsigned short min_vertex_index=0,
-		unsigned short vertex_count=0);
+		unsigned start_index,
+		unsigned polygon_count,
+		unsigned min_vertex_index,
+		unsigned vertex_count,
+		bool indexed);
 
 public:
 #ifdef EXTENDED_STATS
