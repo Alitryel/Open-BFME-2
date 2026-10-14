@@ -1,4 +1,6 @@
 // ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z
+// partial score=0.995629 date=2026-10-14
+// ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z
 // partial score=0.94 date=2026-10-13
 // ?AddHordeMember@SlaughterHordeContain@@QAEXPAVObject@@@Z
 // partial score=0.9113924798525276 date=2026-10-10
@@ -69,7 +71,7 @@ class SlaughterHordeContain:public SlaughterAddSlots<32>{public:
 namespace _STL{template<>void _Base_bitset<32>::_M_do_or(const _Base_bitset<32>&);}
 __forceinline long fast_float2long_round(float f)
 {
- volatile long i;
+ long i;
  __asm {
   fld [f]
   fistp [i]
@@ -89,7 +91,7 @@ void SlaughterHordeContain::AddHordeMember(Object *member)
    if(wallet){
      if(((BfmeGlob939D*)TheGameLogic)->bfmeCall939D())money*=TheWritableGlobalData->mults.getMoneyMult(ThePlayerList->rva002A7C0B(false));
      float mult=1.0f;if(me->rva0028C15E(13,&mult,0,1))money*=mult;
-     money=(float)player->ScaleMoney(REAL_TO_INT_CEIL(player->getProductionCostChangeBasedOnTemplate(me->getTemplate(),true)*money));
+     money=(float)player->ScaleMoney(REAL_TO_INT_CEIL(player->getProductionCostChangeBasedOnTemplate(((me ? me : me) ? (me->getTemplate()) : (me->getTemplate())),true)*money));
      typedef void (Rva003B0D7C::*UnsignedDeposit)(unsigned int,Rva0039B7AD*,bool);
      (wallet->*reinterpret_cast<UnsignedDeposit>(&Rva003B0D7C::rva003B0D7C))(money,(Rva0039B7AD*)&player->score,true);
    }

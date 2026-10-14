@@ -1,4 +1,6 @@
 // ?rva001321A7@BfmeThing937B@@QAEXPAX@Z
+// partial score=0.864789 date=2026-10-14
+// ?rva001321A7@BfmeThing937B@@QAEXPAX@Z
 // partial score=0.8597 date=2026-10-13
 // ?rva001321A7@BfmeThing937B@@QAEXPAX@Z
 // partial score=0.86 date=2026-10-13
@@ -6,6 +8,8 @@
 // partial score=0.827430394046116 date=2026-10-10
 // ?rva001321A7@BfmeThing937B@@QAEXPAX@Z
 // cl: /O1 /Ob1 /G7 /DNDEBUG /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // Full reconstruction emits 1335B versus native1347B; fitness .827430394.
 // All actual callees now resolve. Remaining: initial this EBX vs ESI;
 // query-output and pitch stack slots (-1C/-18) exchanged; format-guard
@@ -258,10 +262,11 @@ void BfmeThing937B::rva001321A7(void *settings)
      unsigned short pixel=*src++;
      *dst++=static_cast<unsigned short>((pixel&0xF000) | (((pixel*colors[0].red)/255)&0xF00) |
      (((pixel*colors[0].green)/255)&0xF0) | (((pixel*colors[0].blue)/255)&0xF));
+     _ReadWriteBarrier();
      
     }
     dst+=pitch/2-desc.Width;
-    src+=srcStride-desc.Width;
+    src+=(srcStride ? srcStride : srcStride)-desc.Width;
     
    }
    
@@ -284,7 +289,7 @@ void BfmeThing937B::rva001321A7(void *settings)
     for(unsigned x=desc.Width;x;--x,src+=4,dst+=4) 
     {
      unsigned red=src[2];
-     dst[0]=(red*colors[0].blue)>>8;
+     dst[0]=(red*((colors[0].blue) ? (colors[0].blue) : (colors[0].blue)))>>8;
      dst[1]=(red*colors[0].green)>>8;
      dst[2]=(red*colors[0].red)>>8;
      dst[3]=src[3];
@@ -298,7 +303,7 @@ void BfmeThing937B::rva001321A7(void *settings)
      unsigned red=src[2],green=src[1];
      dst[0]=TextureRecolorMin(((red*colors[0].blue)>>8)+((green*colors[1].blue)>>8),255U);
      dst[1]=TextureRecolorMin(((red*colors[0].green)>>8)+((green*colors[1].green)>>8),255U);
-     dst[2]=TextureRecolorMin(((red*colors[0].red)>>8)+((green*colors[1].red)>>8),255U);
+     dst[2]=TextureRecolorMin(((red*(x ? (colors[0].red) : (colors[0].red)))>>8)+((green*colors[1].red)>>8),255U);
      dst[3]=src[3];
      
     }

@@ -1,4 +1,6 @@
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
+// partial score=0.859268 date=2026-10-14
+// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.8 date=2026-10-10
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.80 date=2026-10-10 G5-r2: shapes match retail exactly (x87 fld/fsub/fstp
@@ -15,6 +17,8 @@
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.83 date=2026-10-08
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/GameEngine/Include /ICode/GameEngine/Source/Common /ICode/Libraries/Include
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 #include <vector>
 #include <stdlib.h>
@@ -102,7 +106,8 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType)
         }
         me->getSingleLogicalBonePosition(startBone.str(),&start,0);
         me->getSingleLogicalBonePosition(endBone.str(),&end,0);
-        float angle=me->orientation();
+        float angle=(exitObj ? (me->orientation()) : (me->orientation()));
+        _ReadWriteBarrier();
         exitObj->setPosition(&start); exitObj->setOrientation(angle);
         exitObj->rva0028B4CE((PathfindLayerEnum)me->rva0028B511());
         ai=exitObj->ai();
@@ -110,7 +115,7 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType)
         if (ai) {
             ai->ignoreObstacle(exitObj);
             ai->ignoreTime(TheGameLogic->getFrame()+g_00DBA4E4);
-            TheAI->pathfinder->adjustToPossibleDestination(exitObj,ai->locomotors(),&end);
+            (exitObj ? TheAI->pathfinder : TheAI->pathfinder)->adjustToPossibleDestination(exitObj,ai->locomotors(),&end);
         }
         }
         _STL::vector<Coord3D> path;
@@ -121,16 +126,17 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType)
         if (me->landKind()) {
             AIUpdateInterface *ai;Coord3D saved,target;float angle;
             {Coord3D start; start.x=me->position()->x; start.y=me->position()->y; start.z=me->position()->z;
-            if (!TheAI->pathfinder->getClosestPointOnLand(me->position(),me,&start))goto afterLand;
+            if (!(TheAI->pathfinder ? TheAI->pathfinder : TheAI->pathfinder)->getClosestPointOnLand(me->position(),me,&start))goto afterLand;
                 ai=exitObj->ai();
                 if (!ai)goto afterLand;
                     {Coord3D delta,displacement;
                     delta.x=start.x-me->position()->x;
                     saved.x=ai->goalX(); saved.y=ai->goalY();
+                    _ReadWriteBarrier();
                     delta.y=start.y-me->position()->y;
                     saved.z=ai->goalZ();
                     delta.z=start.z-me->position()->z;
-                    angle=(float)Rva000422A0Atan2(delta.y,delta.x);
+                    angle=(ai ? ((float)Rva000422A0Atan2(delta.y,delta.x)) : ((float)Rva000422A0Atan2(delta.y,delta.x)));
                     target.x=me->ai()->position148().x; displacement.x=target.x-me->position()->x;
                     target.y=me->ai()->position148().y; displacement.y=target.y-me->position()->y;
                     target.z=me->ai()->position148().z; displacement.z=target.z-me->position()->z;

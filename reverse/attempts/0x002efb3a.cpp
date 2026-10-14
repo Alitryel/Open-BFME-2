@@ -1,4 +1,6 @@
 // ?rva002EFB3A@Pathfinder@@QAEXXZ
+// partial score=0.933969 date=2026-10-14
+// ?rva002EFB3A@Pathfinder@@QAEXXZ
 // partial score=0.917077 date=2026-10-13
 // ?BuildGroundPath@Pathfinder@@QAEPAVPath@@PBUCoord3D@@PAVPathfindCell@@_NH@Z
 // cl: /ICode/Libraries/Include /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc
@@ -182,9 +184,9 @@ void Pathfinder::rva002EFB3A()
                         case 3: color.red=1; color.green=0.5f; empty=false; break;
                         case 4: color.green=1; color.red=1; empty=false; break;
                         default:
-                            if ((cell->getRawWord()>>16)&1) { color.green=0.7f; color.blue=0.7f; empty=false; }
+                            if (((cell ? (cell->getRawWord()>>16) : (cell->getRawWord()>>16)))&1) { color.green=0.7f; color.blue=0.7f; empty=false; }
                             if (cell->getLayer()==16) { color.blue=0.5f; empty=false; }
-                            else if (cell->getLayer()!=1 || ((cell->getRawWord()>>10)&63)==16) { color.blue=0.7f; color.red=0.7f; empty=false; }
+                            else if (cell->getLayer()!=1 || (((cell ? (cell->getRawWord()>>10) : (cell->getRawWord()>>10)))&63)==16) { color.blue=0.7f; color.red=0.7f; empty=false; }
                             break;
                         }
                     }
@@ -221,7 +223,7 @@ void Pathfinder::rva002EFB3A()
                         color.red=(float)(Int)((cell->getRawWord()>>19)&3)*0.5f; color.blue=0; color.green=0;
                         Rva000B3FD0PathDebug(&position,1.5f,duration-1,color);
                     }
-                    if (cell && ((cell->getRawWord()>>21)&1)) {
+                    if (cell && ((cell ? ((cell->getRawWord()>>21)&1) : ((cell->getRawWord()>>21)&1)))) {
                         color.red=0; color.green=0.5f; color.blue=0;
                         Rva000B3FD0PathDebug(&position,10.0f,duration-1,color);
                     }

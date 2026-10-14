@@ -1,4 +1,6 @@
 // ?rva00392DC0@BuildAssistant@@QAE_NPAVObject@@PBVThingTemplate@@PBUCoord3D@@PAVPlayer@@IPAPAV2@@Z
+// partial score=0.918203 date=2026-10-14
+// ?rva00392DC0@BuildAssistant@@QAE_NPAVObject@@PBVThingTemplate@@PBUCoord3D@@PAVPlayer@@IPAPAV2@@Z
 // partial score=0.8931 date=2026-10-13
 // ?rva00392DC0@BuildAssistant@@QAE_NPAVObject@@PBVThingTemplate@@PBUCoord3D@@PAVPlayer@@IPAPAV2@@Z
 // partial score=0.8931489049261417 date=2026-10-10
@@ -102,7 +104,7 @@ bool BuildAssistant::rva00392DC0(Object *builder,const ThingTemplate *what,const
    NativeBuildBody *body=((NativeBuildObjectView*)made)->body;if(body)body->s32(1.0f-body->s4(false));
    NativeBuildBehavior *behavior=(NativeBuildBehavior*)made->rva0028BD17();
    NativeBuildBehavior *producer=(NativeBuildBehavior*)((Rva00293330*)builder)->rva00293330(kind);
-   if(behavior&&producer&&!(((NativeBuildTemplateView*)((NativeBuildObjectView*)made)->thing)->flag11B&0x10)&&tiles.status!=10)behavior->s17(producer->s14()*i);
+   if(behavior&&producer&&!(((made ? ((NativeBuildTemplateView*)((NativeBuildObjectView*)made)->thing) : ((NativeBuildTemplateView*)((NativeBuildObjectView*)made)->thing)))->flag11B&0x10)&&(i ? (tiles.status!=10) : (tiles.status!=10)))behavior->s17(producer->s14()*i);
    ((NativeBuildObjectView*)made)->construction=0.0f;
    made->setStatus(NATIVE_STATUS57,false);made->setStatus(NATIVE_STATUS2,true);
    Rva001E4912 mask;((Rva001E431E*)made)->rva001E431E((const int*)mask.rva001E4912(0,0x44,0x45));
@@ -126,7 +128,7 @@ bool BuildAssistant::rva00392DC0(Object *builder,const ThingTemplate *what,const
   if(behavior) {
    if(parent)behavior->s18(parent);
    behavior->s18(builder);
-   for(std::list<int>::iterator jt=created.begin();jt!=created.end();++jt) {Object *other=TheGameLogic->findObjectByID((ObjectID)*jt);if(other)behavior->s18(other);}
+   for(std::list<int>::iterator jt=created.begin();(behavior ? jt : jt)!=created.end();++jt) {Object *other=TheGameLogic->findObjectByID((ObjectID)*jt);if(other)behavior->s18(other);}
   }
   NativeBuildBehavior *producer=(NativeBuildBehavior*)builder->rva0028BD17();if(producer)producer->s18(made);
  }
