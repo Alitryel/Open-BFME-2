@@ -71,6 +71,7 @@ public:
  BfmeFVFDescriptor *format;
  bool usesDeclaration;
  const BfmeDynamicFVFPrefix &FVF_Info() const { return *reinterpret_cast<BfmeDynamicFVFPrefix *>(format); }
+ void rva00139280(bool uses_declaration);
 };
 struct BfmeDynamicVertexBuffer9;
 class Vector2;
@@ -759,6 +760,16 @@ struct VertexFormatXYZN
 	float ny;
 	float nz;
 };
+
+// ?rva00139280@BfmeDynamicVBBase@@QAEX_N@Z, retail 0x00139280 (10B): the
+// out-of-line setter of the uses-declaration flag at +0x18, in the int3-padded
+// run directly ahead of Convert_Color 0x00139290. No direct caller reaches it
+// in retail (the pool allocator stores the flag inline), so it keeps an
+// address-derived name.
+void BfmeDynamicVBBase::rva00139280(bool uses_declaration)
+{
+ usesDeclaration=uses_declaration;
+}
 
 // Zero Hour's DX8VertexBufferClass::Copy for XYZ, dx8vertexbuffer.cpp
 // (retail 0x00139BF0, between the XYZNUV1 and XYZUV1 copies as upstream
