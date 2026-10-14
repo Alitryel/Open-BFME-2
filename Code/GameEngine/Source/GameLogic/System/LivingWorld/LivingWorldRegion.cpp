@@ -335,7 +335,17 @@ Int LivingWorldRegion::rva003F05CE()
     return count;
 }
 
-class Rva003F3F27 { public: void rva003F3B4F(); };
+// WB 103CED0 and native 0x003F3B4F..0x003F3BFF (176B, RET0), the reset half of
+// DoXfer's hero-slot load: size the +0x180 and +0x18C hero-slot vectors to the
+// +0xE4 and +0xF0 position counts (rowed resize 0x003F3B28) and empty every
+// slot's army vector (the folded pointer-vector erase 0x0031BD55). Callers
+// 0x003F3F27/0x003F3F03 and DoXfer reach it under this view's pinned spelling.
+class Rva003F3F27 { public: void rva003F3B4F();
+    char prefix[0xe4];
+    _STL::vector<Coord2D> positions,enemyPositions;
+    char before180[0x180-0xfc];
+    _STL::vector<RegionHeroSlot> heroes,enemyHeroes;
+};
 // 0x003F2106 is rowed as Rva003F2106::rva003F2106 (Rva002B7B71DeleteAll.cpp).
 class Rva003F2106 { public: void rva003F2106(); };
 class Rva002B3166BumpCounter { public: int bump(); };
@@ -717,4 +727,13 @@ Rva002B3769Entry *Rva002B3769::rva002B3769(Int id) const
         if (m_entries[i]->m_id == id)
             return m_entries[i];
     return 0;
+}
+
+void Rva003F3F27::rva003F3B4F()
+{
+    reinterpret_cast<Rva003F3B28View *>(&heroes)->rva003F3B28(positions.size());
+    unsigned i;
+    for(i=0;i<heroes.size();++i) heroes[i].armies.clear();
+    reinterpret_cast<Rva003F3B28View *>(&enemyHeroes)->rva003F3B28(enemyPositions.size());
+    for(i=0;i<enemyHeroes.size();++i) enemyHeroes[i].armies.clear();
 }
