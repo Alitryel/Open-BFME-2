@@ -22,9 +22,8 @@ struct TargetRef00217D4C { void *vtable; int references; };
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C*);
 class Rva0043F103 {public: TargetRef00217D4C *rva0043F103(int);};
 class MpGameSetupOwner;
-class Rva002D2C34 {public:void rva002D2C34();};
 class __declspec(novtable) Rva005248D0 {
-public: Rva005248D0(){((Rva002D2C34*)this)->rva002D2C34();} virtual ~Rva005248D0();
+public: Rva005248D0(); virtual ~Rva005248D0();
 private:unsigned char pad[0x54];
 };
 struct SetupGameRef {

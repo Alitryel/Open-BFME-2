@@ -1,5 +1,5 @@
 // cl: /O1 /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
-// ??0_bfme_AptGameWindow@@QAE@PAX@Z @0x0051268C 94B ctor for 0x27C AptGameWindow via rowed base 0x00313847 plus pinned 0x002D2C34 plus vtables C659E8/C659E4 plus 270/274/278 inits evidence factory 0x002D1E55 size 0x27C and dtor 0x005126F5 same vtables
+// ??0_bfme_AptGameWindow@@QAE@PAX@Z @0x0051268C 94B ctor for 0x27C AptGameWindow via rowed base 0x00313847 plus matched 0x002D2C34 plus vtables C659E8/C659E4 plus 270/274/278 inits evidence factory 0x002D1E55 size 0x27C and dtor 0x005126F5 same vtables
 class BfmeAptScreenBase
 {
 public:
@@ -9,10 +9,10 @@ private:
 	char m_pad[0x218 - 4];
 };
 
-class Rva002D2C34
+class Rva005248D0
 {
 public:
-	void rva002D2C34();
+	Rva005248D0();
 };
 
 extern "C" const void *const __identifier("??_7_bfme_AptGameWindow@@6BGameWindow@@@")[];
@@ -33,8 +33,8 @@ private:
 _bfme_AptGameWindow::_bfme_AptGameWindow(void *context)
 	: m_primary(context)
 {
-	Rva002D2C34 *sec = (Rva002D2C34 *)m_sec;
-	sec->rva002D2C34();
+	Rva005248D0 *sec = (Rva005248D0 *)m_sec;
+	sec->Rva005248D0::Rva005248D0();
 	*(const void **)this = __identifier("??_7_bfme_AptGameWindow@@6BGameWindow@@@");
 	*(const void **)sec = __identifier("??_7_bfme_AptGameWindow@@6BRva005248D0@@@");
 	m_270 = 0;

@@ -37,11 +37,10 @@ struct ReleaseHolder0057EE5C
 	}
 };
 
-class Rva002D2C34{public:void rva002D2C34();};
 class __declspec(novtable) Rva005248D0
 {
 public:
-	__forceinline Rva005248D0(){((Rva002D2C34*)this)->rva002D2C34();}
+	Rva005248D0();
  virtual ~Rva005248D0();
 private:char pad[0x58-4];
 };

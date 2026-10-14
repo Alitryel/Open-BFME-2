@@ -187,16 +187,10 @@ private:
 
 // The 0x58-byte callback registry (as in BfmeAptGameWindowDestructor.cpp),
 // constructed by the pinned 0x002D2C34.
-class Rva002D2C34
-{
-public:
-	void rva002D2C34();
-};
-
 class __declspec(novtable) Rva005248D0
 {
 public:
-	__forceinline Rva005248D0() { ((Rva002D2C34 *)this)->rva002D2C34(); }
+	Rva005248D0();
 	virtual ~Rva005248D0();
 
 	AptCommandMapAdder m_commandMaps; // +0x04
