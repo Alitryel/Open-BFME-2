@@ -1,4 +1,6 @@
 // ?rva0053D355@ControlBar@@QAEXPAVObject@@_N@Z
+// partial score=0.9006 date=2026-10-14
+// ?rva0053D355@ControlBar@@QAEXPAVObject@@_N@Z
 // partial score=0.9 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP= /D_STLP_NO_CSTD_FUNCTION_IMPORTS /D_BFME_RETAIL_TREE_INSERT_LAYOUT /Ireference/shims/bfme2_ascii /ICode/Libraries/Include
 // 2026-10-11 claude-opus-5-5: callees renamed to ledger names setControlCommand (0x31B641) and
