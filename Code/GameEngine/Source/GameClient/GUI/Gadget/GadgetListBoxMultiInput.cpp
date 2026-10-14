@@ -106,8 +106,9 @@ enum { LISTBOX_TEXT = 1 };
 extern "C" void *__cdecl memcpy(void *dst, const void *src, unsigned int count);
 
 // Zero Hour inlines UnicodeString::getCharAt; WWLib keeps the out-of-line
-// copy at 0x00035760, but this unit expands it in place.
-template <> inline unsigned short StringBase<unsigned short>::getCharAt(int index) const
+// copy at 0x00035760. Keep this expansion inline without emitting a competing
+// size-optimized external copy; the provider retains the retail speed-built body.
+template <> __declspec(dllimport) __forceinline unsigned short StringBase<unsigned short>::getCharAt(int index) const
 {
 	return m_data ? m_data->data[index] : 0;
 }
