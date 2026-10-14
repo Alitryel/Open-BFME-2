@@ -1,4 +1,6 @@
 // ?rva006638A0@BfmeThingDGD@@QAEXHH@Z
+// partial score=0.98 date=2026-10-14
+// ?rva006638A0@BfmeThingDGD@@QAEXHH@Z
 // partial score=0.93 date=2026-10-13
 // ?rva006638A0@BfmeThingDGD@@QAEXHH@Z
 // partial score=0.923 date=2026-10-05
@@ -229,6 +231,7 @@ void BfmeThingDGD::rva006638A0( int a1, int a2 )
 found:
 	slot->m_04 = (unsigned)this;
 
+	int key2 = a2;
 	unsigned char flag = 0;
 	if( m_2d8 != 0 )
 	{
@@ -236,7 +239,7 @@ found:
 		if( *p1 == a1 )
 		{
 			int *p2 = m_2d8->get10( &a2 );
-			if( *p2 == a2 )
+			if( *p2 == key2 )
 				flag = 1;
 		}
 	}
@@ -249,7 +252,7 @@ found:
 	slot->m_buffer1C.append( "" );
 	slot->m_6c = 0;
 	slot->m_28 = (unsigned)a1;
-	slot->m_24holder.m_value = (unsigned)a2;
+	slot->m_24holder.m_value = (unsigned)key2;
 	slot->m_08 = 1;
 	slot->m_14 = flag;
 
@@ -259,6 +262,6 @@ found:
 	int sel = (int)m_2cval;
 	if( sel == 0 )
 		sel = (int)m_28val;
-	m_10->send( &msg, a1, a2, sel );
+	m_10->send( &msg, a1, key2, sel );
 	m_14ptr->send( &msg, Rva006620A0Callback, slot, (int)m_6dc );
 }
