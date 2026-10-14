@@ -143,3 +143,10 @@ void Rva0082140::onAreaAdded(int, StandingWaveArea *area)
 	m_standingRenderables.push_back(ref);
 }
 
+
+// Native 0x000837F1..0x0008385F, RET 8; river observer slot 1 at BC70E0.
+// The constructor's established void* parameter and 5C allocation are native.
+void Rva0082140::onAreaAdded(int, RiverArea *area)
+{
+    m_riverRenderables.push_back(Rva00082C1DElement(new RenderableRiverArea(area)));
+}
