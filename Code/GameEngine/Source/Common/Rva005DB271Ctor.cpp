@@ -71,9 +71,11 @@ struct Arg1Host005DB271 {
 	Inner1005DB271 *m_field38;
 };
 
-class Rva002D3627Host {
+// 0x002BFFD4 is rowed as Rva002BFF5A::rva002BFFD4 (Rva002BFF5A.cpp).
+struct Rva002BFFD4Template;
+class Rva002BFF5A {
 public:
-	void method_002BFFD4(void *, int, void *);
+	void rva002BFFD4(Rva002BFFD4Template *, int, unsigned int);
 };
 class LivingWorld; extern LivingWorld *TheLivingWorld;
 
@@ -97,7 +99,7 @@ LivingWorldBuildPlotIconSubObject::LivingWorldBuildPlotIconSubObject(void *arg0,
 			m_c0 = arg1->m_field38->m_1c->m_13c;
 		}
 		if (m_ac->m_flag58) {
-			((Rva002D3627Host *)TheLivingWorld)->method_002BFFD4(this, 5, m_b0);
+			((Rva002BFF5A *)TheLivingWorld)->rva002BFFD4((Rva002BFFD4Template *)this, 5, (unsigned int)m_b0);
 		}
 		rva005C4B96(rva005C4B26());
 	}

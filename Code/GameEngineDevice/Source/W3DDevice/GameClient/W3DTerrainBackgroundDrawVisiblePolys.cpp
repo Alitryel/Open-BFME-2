@@ -95,11 +95,6 @@ public:
 
 class RenderInfoClass;
 
-class Rva00113110Holder
-{
-public:
-	void rva00112898(int, int, void *);
-};
 
 class Rva00115044
 {
@@ -110,6 +105,7 @@ public:
 class W3DTerrainBackground
 {
 public:
+	void setFlipRecursive(int, int, int);
 	void rva0011580A(RenderInfoClass &rinfo, bool disableTextures, FXShader::RenderingMethod *method);
 
 private:
@@ -153,7 +149,7 @@ void W3DTerrainBackground::rva0011580A(RenderInfoClass &rinfo, bool disableTextu
 		range[1] = 0;
 		range[2] = m_xOrigin + m_width;
 		range[3] = m_yOrigin + m_width;
-		((Rva00113110Holder *)this)->rva00112898(0, 0, (void *)m_width);
+		setFlipRecursive(0, 0, m_width);
 		((Rva00115044 *)this)->rva00115044(range, 0, 0, m_updateMode);
 	}
 

@@ -30,12 +30,14 @@ public:
 	bool rva00112AD1(int arg0, int arg1, int arg2, float arg3);
 };
 
+// 0x00112898 is rowed as W3DTerrainBackground::setFlipRecursive.
+class W3DTerrainBackground { public: void setFlipRecursive(int, int, int); };
+
 class Rva00113110Holder
 {
 public:
 	void rva00113151(void *incoming, float value);
  void rva00113110(void *incoming);
- void rva00112898(int,int,void*);
 
 private:
 	char m_pad00[0x58];
@@ -59,6 +61,6 @@ void Rva00113110Holder::rva00113110(void *incoming)
 		m_resource = (Rva00113151Resource *)incoming;
 	}
 	if (m_refresh != 0) {
-		rva00112898(0,0,(void*)m_callbackContext);
+		((W3DTerrainBackground *)this)->setFlipRecursive(0,0,m_callbackContext);
 	}
 }

@@ -18,11 +18,17 @@ struct Rva002DEE9A0E10
 	char m_pad[8];
 };
 
+// 0x002DE311 is rowed as Rva002DE311Owner::rva002DE311 (SaveGameInfoCopyBFME2.cpp).
+class Rva002DE311Owner
+{
+public:
+	void rva002DE311();
+};
+
 class Rva002DEE9AOwner
 {
 public:
 	void rva002DEE9A();
-	void rva002DE311();
 private:
 	char m_pad00[0xE0C];
 	Rva002DEE9A0E0C m_s0E0C;
@@ -35,6 +41,6 @@ void Rva002DEE9AOwner::rva002DEE9A()
 {
 	m_s0E0C.clear();
 	m_s0E10.clear();
-	rva002DE311();
+	((Rva002DE311Owner *)this)->rva002DE311();
 	m_b0E18 = 0;
 }

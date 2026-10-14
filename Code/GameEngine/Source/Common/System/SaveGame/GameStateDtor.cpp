@@ -55,7 +55,7 @@ public:
 	virtual void loadPostProcess() = 0;
 };
 
-class Rva002DEE9AOwner
+class Rva002DE311Owner
 {
 public:
 	void rva002DE311();
@@ -83,5 +83,5 @@ GameState::~GameState()
 	m_intListB.clear();
 	// Same GameState object: Rva002DEE9AOwner shares the E0C/E10/E14/E18 layout
 	// (Rva002DEE9AClear.cpp); call its pinned clearer by its row name.
-	((Rva002DEE9AOwner *)this)->rva002DE311();
+	((Rva002DE311Owner *)this)->rva002DE311();
 }

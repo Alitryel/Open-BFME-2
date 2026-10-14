@@ -216,7 +216,7 @@ extern const char *SAVE_FILE_EOF;
 
 // clearAvailableGames 0x002DE311 keeps the address spelling it is pinned
 // under (Rva002DEE9AClear.cpp, GameStateDtor.cpp).
-class Rva002DEE9AOwner
+class Rva002DE311Owner
 {
 public:
 	void rva002DE311();
@@ -327,7 +327,7 @@ void GameState::populateSaveGameListbox(GameWindow *listbox, GameWindow *autoSav
 		++normalCount;
 	}
 
-	((Rva002DEE9AOwner *)this)->rva002DE311();
+	((Rva002DE311Owner *)this)->rva002DE311();
 	int mode = 1;
 	if (filter == 2)
 		mode = 2;

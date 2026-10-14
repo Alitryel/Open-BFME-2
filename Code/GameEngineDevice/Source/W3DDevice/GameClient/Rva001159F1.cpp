@@ -10,10 +10,11 @@ public:
 	void rva000AD9FE();
 };
 
-class Rva00113110Holder
+// 0x00112898 is rowed as W3DTerrainBackground::setFlipRecursive.
+class W3DTerrainBackground
 {
 public:
-	void rva00112898(int, int, void *);
+	void setFlipRecursive(int, int, int);
 };
 
 class Rva00111F0E
@@ -50,8 +51,8 @@ void Rva001159F1::rva001159F1(void *value)
 	m_previous = m_current;
 	m_current = value;
 	m_bitPlane->rva000AD9FE();
-	reinterpret_cast<Rva00113110Holder *>(this)->rva00112898(
-		0, 0, reinterpret_cast<void *>(m_span));
+	reinterpret_cast<W3DTerrainBackground *>(this)->setFlipRecursive(
+		0, 0, m_span);
 	reinterpret_cast<Rva00111F0E *>(this)->rva00111F0E();
 
 	int rectangle[4];

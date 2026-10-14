@@ -10062,7 +10062,6 @@ name,address,notes
 ?method@Rva0040FAFESub@@QAEHH@Z,0x0040FAFE,REL32 callee decoded from target call bytes of same-shape wide-adjust wrapper; identity unproven
 ?method@Rva0054CBEFTarget@@QAEXH@Z,0x0054CBEF,REL32 callee decoded from target call bytes of wrapper 0x00437E9C; identity unproven
 ?method@Rva0059A71CSub@@QAEXPAX@Z,0x0059A71C,opaque thiscall-view alias; same body as rowed Rva0059A71C::rva; identity unproven
-?method_002BFFD4@Rva002D3627Host@@QAEXPAXH0@Z,0x002BFFD4,Rva002D3627Host method called by Rva005C4230 ctor
 ?method_005C8DBF@TargetObj005C8DBF@@QAEXM@Z,0x005C8DBF,TargetObj005C8DBF float method called by HostClass005C8E0A::method_005C8E0A
 ?method_005C8F50@Rva005C847BRecord@@QAEXHH@Z,0x005C8F50,Rva005C847BRecord method called by HostClass005C815B::method_005C834A
 ?method_005C901B@Rva005C847BRecord@@QAEXXZ,0x005C901B,Rva005C847BRecord method called by HostClass005C815B::method_005C815B
@@ -10673,7 +10672,6 @@ name,address,notes
 ?rva0010FEF3@Rva0010FEF3@@QAEXH@Z,0x0010FEF3,tail-call target of the byte-verified Rva000A8B4B::rva000A8B4B 0x000A8B4B on its +0x0 member read from its REL32 displacement; name unknown
 ?rva0010e580MapPathCode@GameState@@QBE?AVAsciiString@@ABV2@@Z,0x002DC340,donor_sweep: call target read from retail at the unique placement of the BFME 1 donor _Rva00621350GameInfoMapPath (0x00400898); BFME 1 donor name
 ?rva0010f820MapPathCode@GameState@@QBE?AVAsciiString@@ABV2@@Z,0x002DCB9C,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-?rva00112898@Rva00113110Holder@@QAEXHHPAX@Z,0x00112898,"retail REL32 at 0x00113148 in 0x00113110 targets 0x00112898 (ecx=esi Holder thiscall 3 stack args [esi+0x58] plus 0 plus 0; 569B Ghidra body sharing +0x5C holder); opaque candidate not identity"
 ?rva001171B0Notify@@YAXXZ,0x001171B0,sole tail-notify target of dword option setter at 0x00117BB0 (guard byte + store + jmp); SEH body calls 0x51F520 + 0xA1F110; identity unproven address-derived pin
 ?rva00118A90@Rva0008FF12Host@@QAEXXZ,0x00118A90,"member vtable slot 0x0008FF12 calls first; opaque address name"
 ?rva00118F50@Rva00118F50@@QAEXXZ,0x00118F50,"thiscall per-element op, no args; loop target over [0x38]-array"
@@ -11039,7 +11037,6 @@ name,address,notes
 ?rva002DBE62Get@GameState@@QAEHXZ,0x002DBE62,Address-derived GameState thiscall view of the matched Rva002DBE62Get body: 0x00434B57 loads TheGameState into ECX before the call; target method identity unresolved
 ?rva002DD282@GameState@@QAE?AVUnicodeString@@H@Z,0x002DD282,Address-derived GameState member returning UnicodeString: 0x00434B62 passes Rva002DBE62Get's int in addition to a hidden return buffer with ECX loaded from TheGameState at VA 0x00DFF08C; Ghidra boundary 267B; method identity unresolved
 ?rva002DDE43@GameState@@QAEXABVUnicodeString@@0HH@Z,0x002DDE43,Address-derived GameState thiscall view: target 0x00435A6F loads TheGameState into ECX and passes two UnicodeString references plus integer flags 0 and 1; operation identity unresolved
-?rva002DE311@Rva002DEE9AOwner@@QAEXXZ,0x002DE311,pin for 0x2DEE9A thiscall void () on this
 ?rva002E0A9F@Rva002E0A9FElem@@QAEHPAX@Z,0x002E0A9F,thiscall int scan over +0x1B8/+0x1BC entries with 1 stack arg; head-decoded, Ghidra FUN_006e0a9f 75B
 ?rva002E3954@PolygonTrigger@@QAEXPAUFloatRect0073CE30@@@Z,0x002E3954,REL32 at the byte-verified do/undoNamedMapReveal (0x003577DA/0x0035789D) and 0x003C0169: called on the trigger from getQualifiedTriggerAreaByName with a 16-byte rect out-param (copies the rect 0x0007E03A returns)
 ?rva002E3A39@PolygonTrigger@@QAE_NABUCoord3D@@@Z,0x002E3A39,"PolygonTrigger member right after pointInTrigger 0x002E3A13 (ret 4): copies the float x/y of its Coord3D into a local pair and calls the same planar test 0x0070B7C2 with this+8; REL32 callee of the camera-settings slots 0x001019DA and 0x00101CF6, which test al; address-named, float-overload role inferred"
