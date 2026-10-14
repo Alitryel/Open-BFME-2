@@ -28,7 +28,7 @@ struct Bfme939Helper
 	int m_state; // +0xE74
 };
 
-extern Bfme939Helper *g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
 
 class NetWrapperCommandMsg
 {
@@ -40,9 +40,9 @@ char BfmeGlob939D::rva0023C6C5()
 {
 	if (isInMultiplayerGame())
 		return 1;
-	if (g_bfme939Helper != 0 && ((NetWrapperCommandMsg *)g_bfme939Helper)->getData() == (unsigned char *)1)
+	if (((Bfme939Helper *)TheRecorder) != 0 && ((NetWrapperCommandMsg *)((Bfme939Helper *)TheRecorder))->getData() == (unsigned char *)1)
 	{
-		int state = g_bfme939Helper->m_state;
+		int state = ((Bfme939Helper *)TheRecorder)->m_state;
 		if (state == 1 || state == 5)
 			return 1;
 		return 0;

@@ -159,7 +159,7 @@ void Rva0021237E::rva002123BE()
 // Getter and flag views carry native offsets without claiming full layouts.
 #include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
-struct Bfme939Helper { int get()const; }; extern Bfme939Helper *g_bfme939Helper;
+struct Bfme939Helper { int get()const; }; class RecorderClass; extern RecorderClass *TheRecorder;
 class RecorderClass { public:void stopRecording(); };
 class Rva00210C66CmpBoolField { public: bool get() const; };
 struct LANGameInfo; extern class GameInfo *TheGameInfo;
@@ -187,7 +187,7 @@ struct LogicMissionView {char pad[0xEC];int mission;};
 struct Rva0021246DInput {char pad[0x18];AsciiString name;};
 void Rva0021237E::rva0021246D(Rva0021246DInput *input)
 {
- if(!g_bfme939Helper->get()) ((RecorderClass*)g_bfme939Helper)->stopRecording();
+ if(!((Bfme939Helper *)TheRecorder)->get()) TheRecorder->stopRecording();
  TheGameLogic->rva00376E92(false,false);
  TheMouse->_bfme_setEngineVisibility(false);
  rva0021237E();

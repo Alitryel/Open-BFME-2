@@ -288,7 +288,7 @@ extern TeamFactory *TheTeamFactory;
 extern CrateSystem *TheCrateSystem;
 extern PlayerList *ThePlayerList;
 extern GameLogic *TheGameLogic;
-extern struct Bfme939Helper *g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
 extern Radar *TheRadar;
 extern struct UnknownE03138 *g_00E03138;
 class MetaMap;
@@ -796,7 +796,7 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem(TheCrateSystem, "TheCrateSystem", new CrateSystem, (Xfer *)&xferCRC);
 		initSubsystem(ThePlayerList, "ThePlayerList", new PlayerList, 0);
 		initSubsystem(TheGameLogic, "TheGameLogic", createGameLogic(), 0);
-		initSubsystem((reinterpret_cast<RecorderClass *&>(g_bfme939Helper)), "TheRecorder", createRecorder(), 0);
+		initSubsystem(TheRecorder, "TheRecorder", createRecorder(), 0);
 		initSubsystem(TheRadar, "TheRadar", createRadar(), 0);
 		initSubsystem((reinterpret_cast<VictoryConditionsInterface *&>(g_00E03138)), "TheVictoryConditions", Rva00420353CreateVictoryConditions(), 0);
 		initSubsystem(TheMetaMap, "TheMetaMap", new MetaMap, 0);
@@ -890,7 +890,7 @@ void GameEngine::init(Int argc, char *argv[])
 			}
 			else if (fname.endsWithNoCase(".rep"))
 			{
-				(reinterpret_cast<RecorderClass *&>(g_bfme939Helper))->playbackFile(UnicodeString(fname));
+				TheRecorder->playbackFile(UnicodeString(fname));
 			}
 		}
 

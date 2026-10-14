@@ -38,9 +38,10 @@ struct Bfme939Helper
 	int m_state;
 };
 
-extern Bfme939Helper *g_bfme939Helper;
-// g_bfme939Helper: matched references place it at VA 0xe02290 (zero-filled .bss).
-Bfme939Helper * g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
+// TheRecorder: native GameEngine::init registers createRecorder() at VA 0x00E02290.
+// Keep the private accessed-field view behind casts; one global owns the datum.
+RecorderClass *TheRecorder;
 
 char BfmeGlob939D::bfmeCall939D()
 {
@@ -48,9 +49,9 @@ char BfmeGlob939D::bfmeCall939D()
 		return 1;
 	if (m_gameMode == 2)
 		return 1;
-	if (g_bfme939Helper != 0 && g_bfme939Helper->get() == 1)
+	if (((Bfme939Helper *)TheRecorder) != 0 && ((Bfme939Helper *)TheRecorder)->get() == 1)
 	{
-		int state = g_bfme939Helper->m_state;
+		int state = ((Bfme939Helper *)TheRecorder)->m_state;
 		if (state == 2)
 			return 1;
 		if (state != 1 && state != 5)
@@ -69,9 +70,9 @@ char GameLogic::rva0023C6FD()
 		return 1;
 	if (m_gameMode == 2)
 		return 1;
-	if (g_bfme939Helper != 0 && g_bfme939Helper->get() == 1)
+	if (((Bfme939Helper *)TheRecorder) != 0 && ((Bfme939Helper *)TheRecorder)->get() == 1)
 	{
-		int state = g_bfme939Helper->m_state;
+		int state = ((Bfme939Helper *)TheRecorder)->m_state;
 		if (state == 2)
 			return 1;
 		if (state != 1 && state != 5)

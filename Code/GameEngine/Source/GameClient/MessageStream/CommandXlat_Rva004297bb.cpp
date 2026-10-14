@@ -636,7 +636,7 @@ extern Mouse* TheMouse;
 extern Radar* TheRadar;
 extern ControlBar* TheControlBar;
 extern Shell* TheShell;
-struct Bfme939Helper; extern Bfme939Helper* g_bfme939Helper;
+struct Bfme939Helper; class RecorderClass; extern RecorderClass *TheRecorder;
 extern GameWindowManager* TheWindowManager;
 extern NameKeyGenerator* TheNameKeyGenerator;
 extern ThingFactory* TheThingFactory;
@@ -1179,7 +1179,7 @@ GameMessageDisposition CommandTranslator::translateGameMessage(const GameMessage
  case 0x70:{TranslateTransition*c=(TranslateTransition*)TheTransitionHandler;if(c&&(c->first||c->second))c->flag=true;else Rva0051B8EA();disp=DESTROY_MESSAGE;break;}
  case 0x71: {
   Shell*shell=TheShell;bool shellMap=*(bool*)((char*)shell+0x5c);_ReadWriteBarrier();if(shellMap){WindowLayout*w=shell->top();if(w)w->hide(!w->m_hidden);}
-  else if(!(g_bfme939Helper&&g_bfme939Helper->get()==1)) {
+  else if(!(((Bfme939Helper *)TheRecorder)&&((Bfme939Helper *)TheRecorder)->get()==1)) {
    bool hide=false;if(TheWindowManager){int id=TheNameKeyGenerator->nameToKey(AsciiString("ControlBar.wnd:ControlBarParent"));GameWindow*w=((TranslateWindowManager*)TheWindowManager)->window(0,id);if(w)hide=!w->winIsHidden();}ToggleControlBar(true);
   }disp=DESTROY_MESSAGE;break;
  }

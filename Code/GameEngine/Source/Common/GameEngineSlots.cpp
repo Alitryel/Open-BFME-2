@@ -48,7 +48,7 @@ public:
 extern GlobalData *TheWritableGlobalData;
 extern SubsystemInterfaceList *TheSubsystemList;
 extern GameLogic *TheGameLogic;
-extern struct Bfme939Helper *g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
 
 class GameEngine
 {
@@ -84,5 +84,5 @@ Bool GameEngine::rva00225AFF()
 
 Bool GameEngine::isMultiplayerSession()
 {
-	return (*(RecorderClass **)&g_bfme939Helper)->isMultiplayer();
+	return TheRecorder->isMultiplayer();
 }

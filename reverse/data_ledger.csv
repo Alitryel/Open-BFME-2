@@ -19243,7 +19243,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A02284,4,.data,global,_recorderSavedGlobalValue,Code/GameEngine/Source/Common/System/RecorderPlaybackFile.cpp,owned,,1,1
 0x00A02288,4,.data,global,_recorderSavedGlobalFlag,Code/GameEngine/Source/Common/System/RecorderPlaybackFile.cpp,owned,,1,1
 0x00A0228C,4,.data,global,_startTime,Code/GameEngine/Source/Common/Recorder.cpp,owned,,1,1
-0x00A02290,4,.data,global,?g_bfme939Helper@@3PAUBfme939Helper@@A,Code/GameEngine/Source/Common/BfmeConv939Call939D.cpp,provisional,?TheRecorder@@3PAVRecorderClass@@A;?g_bfme939Helper@@3PAUBfme939Helper@@A,1,41
+0x00A02290,4,.data,global,?TheRecorder@@3PAVRecorderClass@@A,Code/GameEngine/Source/Common/BfmeConv939Call939D.cpp,owned,,1,48
 0x00A02294,4,.data,global,_s_rva007AEFE5,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x00A02298,4,.data,global,_s_rva007AF00F,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x00A0229C,4,.data,global,?respawnUpdateKey@?1???0UnitRevivalEntry@@QAE@PAVObject@@@Z@4W4NameKeyType@@A,Code/GameEngine/Source/Common/RTS/UnitRevivalTracker.cpp,owned,,1,2

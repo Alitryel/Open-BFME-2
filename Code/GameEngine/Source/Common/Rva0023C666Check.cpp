@@ -17,7 +17,7 @@ struct Bfme939Helper
 	int m_state; // +0xE74
 };
 
-extern Bfme939Helper *g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
 
 class NetWrapperCommandMsg
 {
@@ -39,11 +39,11 @@ int Rva0023C666::rva0023C666()
 {
 	if (m_mode == 0 || m_mode == 6)
 		return true;
-	if (g_bfme939Helper == 0)
+	if (((Bfme939Helper *)TheRecorder) == 0)
 		return false;
-	if (((NetWrapperCommandMsg *)g_bfme939Helper)->getData() != (unsigned char *)1)
+	if (((NetWrapperCommandMsg *)((Bfme939Helper *)TheRecorder))->getData() != (unsigned char *)1)
 		return false;
-	int state = g_bfme939Helper->m_state;
+	int state = ((Bfme939Helper *)TheRecorder)->m_state;
 	if (state == 0 || state == 6)
 		return true;
 	return false;

@@ -9,7 +9,7 @@ class AptSaveLoad { public: static AptSaveLoad *s_instance; };
 // and control-flow donor, with target-specific pending and replay branches.
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 
-extern struct Bfme939Helper *g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
 
 class AptQuitMenu; extern AptQuitMenu *TheAptQuitMenu;
 
@@ -298,7 +298,7 @@ Rva00435DE7::~Rva00435DE7()
 						m_flag2A4 = false;
 					}
 				}
-			else if (!((RecorderClass *)*(void **)&g_bfme939Helper)->
+			else if (!TheRecorder->
 				playbackFile(m_pending->m_text))
 			{
 				((GameLogic *)*(void **)&TheGameLogic)->rva00376E92(

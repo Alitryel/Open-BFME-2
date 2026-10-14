@@ -54,7 +54,7 @@ public:
 struct Bfme939Helper : public RecorderClass
 {
 };
-extern Bfme939Helper *g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
 
 class Radar
 {
@@ -129,7 +129,7 @@ bool VictoryConditions::isLocalAlliedVictory()
 // g_bfme939Helper ThePlayerList TheRadar as packet annotates.
 void VictoryConditions::cachePlayerPtrs()
 {
-	if (!g_bfme939Helper->isMultiplayer())
+	if (!((Bfme939Helper *)TheRecorder)->isMultiplayer())
 		return;
 	unsigned int n = 0;
 	for (int i = 0; i < 0x14; ++i) {

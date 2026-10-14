@@ -115,7 +115,7 @@ struct Bfme939Helper : public RecorderClass
 {
 };
 
-extern Bfme939Helper *g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
 
 class Player
 {
@@ -173,7 +173,7 @@ void ControlBarSchemeManager::setControlBarSchemeByPlayer(Player *p)
 	GameWindow *communicatorButton = TheWindowManager->winGetWindowFromId(0, TheNameKeyGenerator->nameToKey("ControlBar.wnd:PopupCommunicator"));
 	if (communicatorButton && TheControlBar)
 	{
-		if (g_bfme939Helper->isMultiplayer())
+		if (((Bfme939Helper *)TheRecorder)->isMultiplayer())
 			TheControlBar->setControlCommand(communicatorButton, TheControlBar->findCommandButton("NonCommand_Communicator"));
 		else
 			TheControlBar->setControlCommand(communicatorButton, TheControlBar->findCommandButton("NonCommand_BriefingHistory"));

@@ -32,7 +32,7 @@ public:
 };
 
 extern GameLogic *TheGameLogic;
-extern struct Bfme939Helper *g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
 
 class ScienceStore
 {
@@ -53,13 +53,9 @@ int ScienceStore::getSciencePurchaseCost(ScienceType st) const
 		if (!mp)
 			mode = game->m_gameMode;
 		if (mp || mode == 2 ||
-		    (mode == 3 && (*(RecorderClass **)&g_bfme939Helper) && (*(RecorderClass **)&g_bfme939Helper)->isMultiplayer()))
+		    (mode == 3 && TheRecorder && TheRecorder->isMultiplayer()))
 			return si->m_sciencePurchasePointCostMP;
 		return si->m_sciencePurchasePointCost;
 	}
 	return 0;
 }
-
-// The global(s) below are defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?TheRecorder@@3PAVRecorderClass@@A=?g_bfme939Helper@@3PAUBfme939Helper@@A")

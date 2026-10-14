@@ -31,7 +31,7 @@ extern Shell *TheShell;
 class RecorderClass { public: void stopRecording(); };
 class NetWrapperCommandMsg { public: unsigned char *getData(); };
 struct Bfme939Helper;
-extern Bfme939Helper *g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
 extern GameLogic *TheGameLogic;
 struct RGBColor;
 class Mouse { public: void _bfme_setEngineVisibility(bool); void rva001EEA6D(UnicodeString,int,const RGBColor *,float); };
@@ -74,8 +74,8 @@ void Rva001EB456::rva001EB456(int unused,int useMissionName)
 {
  BfmeAssignRecord36 *record=(_ReadWriteBarrier(),campaign)->rva001EB3A6(mission);
  if(record && !flagC1) {
-  if(!((NetWrapperCommandMsg *)g_bfme939Helper)->getData())
-   ((RecorderClass *)g_bfme939Helper)->stopRecording();
+  if(!((NetWrapperCommandMsg *)((Bfme939Helper *)TheRecorder))->getData())
+   TheRecorder->stopRecording();
   TheGameLogic->rva00376E92(false,false);
   TheMouse->_bfme_setEngineVisibility(false);
   flagC0=false;flagC1=false;flagC3=false;

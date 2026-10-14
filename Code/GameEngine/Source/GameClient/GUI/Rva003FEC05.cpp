@@ -11,7 +11,7 @@
 // 0x0021206C and 0x0051EE4B; literals FadeScreenRegionToMapBlack and TheEmptyString.
 
 struct Bfme939Helper;
-extern Bfme939Helper *g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
 
 class NetWrapperCommandMsg
 {
@@ -105,8 +105,8 @@ int Rva003FEC05FadeScreenRegionToMapBlack(int, bool start)
 	int result = 1;
 	if (start)
 	{
-		if (((NetWrapperCommandMsg *)g_bfme939Helper)->getData() == 0)
-			((RecorderClass *)g_bfme939Helper)->stopRecording();
+		if (((NetWrapperCommandMsg *)((Bfme939Helper *)TheRecorder))->getData() == 0)
+			TheRecorder->stopRecording();
 		TheTransitionHandler->reverse(AsciiString("FadeScreenRegionToMapBlack"));
 		((Rva001DBB87ZeroSetter *)TheTransitionHandler)->disable();
 		g_00DFEF18->slot10(1);

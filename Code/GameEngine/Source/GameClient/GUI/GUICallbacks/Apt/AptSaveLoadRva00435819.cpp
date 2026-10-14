@@ -63,7 +63,7 @@ struct Bfme939Helper
 {
 	bool rva0037D6E8(const UnicodeString &name, const UnicodeString &text);
 };
-extern Bfme939Helper *g_bfme939Helper;
+class RecorderClass; extern RecorderClass *TheRecorder;
 
 struct BFME2WideConcatPair
 {
@@ -127,7 +127,7 @@ void AptSaveLoad::rva00435819()
 
 		if (m_29c)
 		{
-			bool complete = g_bfme939Helper->rva0037D6E8(name, text);
+			bool complete = ((Bfme939Helper *)TheRecorder)->rva0037D6E8(name, text);
 			Rva00437E9C(0);
 			UnicodeString message;
 			if (complete)
