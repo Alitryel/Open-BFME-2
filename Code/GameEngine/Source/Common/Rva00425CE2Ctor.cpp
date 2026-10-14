@@ -33,7 +33,10 @@ private:
 	char m_bytes[0x1c];
 };
 
-extern BfmeFixedStorage0004543D g_00DFEFA4;
+// 0x00DFEFA4 is KINDOFMASK_NONE (ThingIsAnyKindOf.cpp); this unit copies it
+// through its storage view.
+template <int NUMBITS> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
 
 class Rva003623E5Filter
 {
@@ -73,5 +76,5 @@ Rva00425CE2::Rva00425CE2()
 	m_30 = 0.3f;
 	m_34 = false;
 	memset(m_10, 0, 0x10);
-	m_20.applyFilter(g_00DFEFA4);
+	m_20.applyFilter(reinterpret_cast<BfmeFixedStorage0004543D &>(KINDOFMASK_NONE));
 }

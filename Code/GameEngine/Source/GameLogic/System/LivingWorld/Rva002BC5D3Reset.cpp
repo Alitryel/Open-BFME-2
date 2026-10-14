@@ -55,7 +55,8 @@ public:
 	Rva00DFE1C8HostSub0C m_sub0C;	// +0x0C
 };
 
-extern Rva00DFE1C8Host *g_00DFE1C8;	// 0x009FE1C8 pin
+class LivingWorldManager;
+extern LivingWorldManager *TheLivingWorldManager;	// 0x009FE1C8
 
 // The host whose vslot 0x28 takes one int (pushed 0).
 class Rva002D3627Host
@@ -136,7 +137,7 @@ void Rva002BC5D3::rva002BC5D3()
 	{
 		TheCampaignManager->m_sub0C.slot04();
 		m_regionA4->slot04();
-		g_00DFE1C8->m_sub0C.slot04();
+		((Rva00DFE1C8Host *)TheLivingWorldManager)->m_sub0C.slot04();
 		((Rva002BBBE7 *)&g_Va00E04544)->rva002BC39D();
 		Rva005020CCBuildRegionDistances();
 

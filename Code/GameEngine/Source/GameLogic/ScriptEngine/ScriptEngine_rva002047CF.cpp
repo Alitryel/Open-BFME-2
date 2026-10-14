@@ -2,7 +2,7 @@
 // ?rva002047CF@ScriptEngine@@QAEXXZ at 0x002047CF (55B). Identity: ScriptEngine field offset matches the adjacent named client updater; shared frame getter and debug DLL state.
 
 typedef int HMODULE;
-extern "C" HMODULE st_DebugDLL;
+extern HMODULE st_DebugDLL;
 extern unsigned char g_00DFE15D;
 extern "C" __declspec(dllimport) void *__stdcall GetProcAddress(HMODULE module, const char *name);
 void Rva002040E7GetFrameNumber();

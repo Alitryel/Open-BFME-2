@@ -13,7 +13,9 @@ public:
 	void forEach(void (Rva004FA953Listener::*notify)(void *, int), void *arg, int value);
 };
 
-extern unsigned int g_Va00E044F0;
+// 0x00E044F0, defined in Rva004EE5D2Erase.cpp.
+class Rva002B7250;
+extern Rva002B7250 g_00E044F0;
 
 class Rva004FA992
 {
@@ -28,5 +30,5 @@ private:
 void Rva004FA992::rva004FA992(void (Rva004FA953Listener::*notify)(void *, int), void *arg, int value)
 {
 	m_list.forEach(notify, arg, value);
-	reinterpret_cast<Rva004FA953List &>(g_Va00E044F0).forEach(notify, arg, value);
+	reinterpret_cast<Rva004FA953List &>(g_00E044F0).forEach(notify, arg, value);
 }

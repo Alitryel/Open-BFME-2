@@ -25,7 +25,10 @@ private:
 	char m_bytes[0x1c];
 };
 
-extern BfmeFixedStorage0004543D g_00DFEFA4;
+// 0x00DFEFA4 is KINDOFMASK_NONE (ThingIsAnyKindOf.cpp); this unit copies it
+// through its storage view.
+template <int NUMBITS> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
 
 class Rva003623E5Member
 {
@@ -61,5 +64,5 @@ private:
 SlaughterHordeContainModuleData::SlaughterHordeContainModuleData()
 	: m_floatD4(0.5f), m_filterD8(), m_bitsDC()
 {
-	m_filterD8.initFromStorages(g_00DFEFA4, g_00DFEFA4);
+	m_filterD8.initFromStorages(reinterpret_cast<BfmeFixedStorage0004543D &>(KINDOFMASK_NONE), reinterpret_cast<BfmeFixedStorage0004543D &>(KINDOFMASK_NONE));
 }

@@ -14,7 +14,8 @@ public:
 	virtual void rvaSlot24(int a, int b, int c, int d);
 };
 
-extern int g_Va00DFEF18;
+class LivingWorld;
+extern LivingWorld *TheLivingWorld;	// 0x00DFEF18
 
 class Rva0043DB56ByteOneSetter
 {
@@ -41,7 +42,7 @@ private:
 int Rva0056D983::rva0056D983(void *unused)
 {
 	(void)unused;
-	((Rva00DFEF18Host *)g_Va00DFEF18)->rvaSlot24(m_14, m_18, m_0C, m_10);
+	((Rva00DFEF18Host *)TheLivingWorld)->rvaSlot24(m_14, m_18, m_0C, m_10);
 	if (m_flag == 0)
 	{
 		if (g_Va00E0333C != 0)
