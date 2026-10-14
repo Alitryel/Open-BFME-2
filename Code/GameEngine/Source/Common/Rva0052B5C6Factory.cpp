@@ -5,7 +5,8 @@
 class Rva005C46D9
 {
 public:
-	Rva005C46D9(const Rva005C46D9 &source);
+	// Rowed ??0Rva005C46D9@@QAE@ABV?$StringBase@D@@@Z (Rva005C46D9Ctor.cpp).
+	Rva005C46D9(const StringBase<char> &source);
 	virtual ~Rva005C46D9();
 
 private:
@@ -19,7 +20,7 @@ private:
 // copy-source type. The source object's full identity and layout remain unknown.
 void *__stdcall rva0052B5C6(const void *source)
 {
-	return new Rva005C46D9(*(const Rva005C46D9 *)source);
+	return new Rva005C46D9(*(const StringBase<char> *)source);
 }
 
 class Rva004FA830

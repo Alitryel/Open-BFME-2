@@ -6,10 +6,14 @@
 #include "ascii_string.h"
 #include <vector>
 
+template <typename T> class StringBase;
+
+// The base ctor is rowed with its StringBase<char> spelling
+// (??0Rva004FA830@@QAE@ABV?$StringBase@D@@@Z, Rva004FA830Ctor.cpp).
 class Rva004FA830 {
 public:
 	virtual ~Rva004FA830();
-	Rva004FA830(const AsciiString &s);
+	Rva004FA830(const StringBase<char> &s);
 
 private:
 	AsciiString m_s;
@@ -26,7 +30,7 @@ private:
 };
 
 Rva005C4A91::Rva005C4A91(const AsciiString &s)
-	: Rva004FA830(s)
+	: Rva004FA830(reinterpret_cast<const StringBase<char> &>(s))
 	, unknown08(4)
 	, member0C()
 {

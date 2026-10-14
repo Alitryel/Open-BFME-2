@@ -22,7 +22,8 @@ public:
 	virtual void slot01();
 };
 
-class Rva005C3E81
+// Rowed 0x005C3E81 as Rva005C3F02::rva005C3E81 (Rva005C40E7Ctor.cpp).
+class Rva005C3F02
 {
 public:
 	void rva005C3E81();
@@ -34,7 +35,7 @@ private:
 	struct Elem
 	{
 		void *m_00;
-		Rva005C3E81 *m_04;
+		Rva005C3F02 *m_04;
 		int m_08;
 		Rva005295D5Virtual *m_0C;
 		void *m_10;

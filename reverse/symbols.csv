@@ -2494,7 +2494,6 @@ name,address,notes
 ??0Rva004ECECD@@QAE@ABVAsciiString@@H@Z,0x004ED3D1,AITactic base ctor (name, flags): SEH ctor installing vtable 0x00C629E4; retail REL32 at the tactic base ctors 0x005DC730 and 0x005DCB1B targets this address
 ??0Rva004F802CSub@@QAE@ABU0@@Z,0x004F69D6,subobject copy constructor: REL32 read at the tail call site in the 29B element copy ctor 0x004F802C; identity unproven
 ??0Rva004FA1F@@QAE@XZ,0x0004F8EA,"constructor storing vtable 0x00BC4E34 (scalar deleting dtor ??_GRva004FA1F; Radar::loadPostProcess slot); REL32 in Win32GameEngine slot 34 factory 0x00041E54 after new 0x1504"
-??0Rva004FA830@@QAE@ABVAsciiString@@@Z,0x004FA815,Rva004FA830::Rva004FA830(AsciiString const&) alias for 0x004FA815
 ??0Rva004FD719Data@@QAE@XZ,0x004FCCF0,"record ctor called by Rva004FD719Parse (PlayerDefeatCondition ParseINI) at 0x004FD719; retail new 0x18 then thiscall"
 ??0Rva004FD7FBData@@QAE@XZ,0x004FCE41,"record ctor called by Rva004FD7FBParse (TeamDefeatCondition ParseINI) at 0x004FD7FB; retail new 0x24 then thiscall"
 ??0Rva005020AFSub@@QAE@ABU0@@Z,0x00501B33,subobject copy constructor: REL32 read at the tail call site in the 29B element copy ctor 0x005020AF; identity unproven
@@ -11637,7 +11636,6 @@ name,address,notes
 ?rva0056A989@Rva0056A989@@QAE_NXZ,0x0056A989,0-arg thiscall returning bool; RETAIL REL32 at 0x0056AB9D (body 0x0056AB97) targets this address; honest address-derived name
 ?rva0056AD80@Rva0056AD80@@QAEXPAX@Z,0x0056AD80,EH thiscall ctor (85B) setting [esi+8] vftable; RETAIL REL32 at 0x0056AF9B (body 0x0056AF94) targets this address; unblocks 0x0056AF4B too; honest address-derived name
 ?rva0056B7A0@Rva003F9FE6@@QAEEH@Z,0x0056B7A0,uchar thiscall(int) predicate; RETAIL REL32 at 0x0056B635 (body 0x0056B613) targets this address; banked 0x96 at reverse/attempts/0x0056b7a0.cpp names this spelling
-?rva0056B7E4@Rva0056B7E4@@QAEXPAX@Z,0x0056B7E4,thiscall (void*); RETAIL REL32 at 0x0056B645 (body 0x0056B63E) targets this address; honest address-derived name
 ?rva0056C0A5@Rva0056C0A5@@QAEHPAX@Z,0x0056C0A5,index lookup on (a+0x38) for 0x0056C4D3 probe returning 0x7FFFFFFF when missing; honest address-derived name
 ?rva0056CA31@Rva0056CA31@@QAEXH@Z,0x0056CA31,address-derived callee of matched slot 0x0056D2BD; retail jmp rel32 targets 0x0056CA31; Ghidra FUN bounds 689 bytes; thiscall on the +0x08 object 1 arg(s) ret 4; callee body remains unclaimed; no named identity inferred
 ?rva00573122@AITargetHeuristicExpansionBase@@QAE_NPAVPlayer@@@Z,0x00573122,"thiscall gate of the heuristic Rva00573117 (compares this+0x08 with the dword at 0x00E062F4 and logs through 0x00DFEFF0): REL32 at 0x0057328E in its slot 1 0x0057327E with ECX the heuristic unchanged and the player argument; slot 1 returns at once when AL is clear"
@@ -14539,7 +14537,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?rva00366E2E@Rva00366E2E@@QAEXXZ,0x00366E2E,callee of ?rva0052F294@Rva002E713FOwner@@QAEXXZ
 ?rva0052ED74@Rva002E713FOwner@@QAEXPAXH@Z,0x0052ED74,callee of ?rva0052F294@Rva002E713FOwner@@QAEXXZ
 ??1Rva0053470B@@QAE@XZ,0x0053470B,callee of ??1Rva0053476A@@QAE@XZ
-??0Rva005C46D9@@QAE@ABV0@@Z,0x005C46D9,callee of ?rva0052B5C6@@YGPAXPBX@Z
 ?rva0052B23D@Rva0052B23D@@QAEXXZ,0x0052B23D,callee of ??1Rva0052B3B2@@UAE@XZ
 ?rva00534A2A@Rva00534641@@QAEPAVImageSubscriptMap@@ABI@Z,0x00534A2A,callee of ?rva00534AAE@Rva00534AAE@@QAEXXZ
 ?rva0046391B@Rva00463A81@@QAEXXZ,0x0046391B,direct thiscall from 0x004640BE with ECX at the same this-0x10 view used by rowed 0x00463A81; zero stack arguments; return is ignored

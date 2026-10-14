@@ -4,10 +4,14 @@
 // Constructor: run the pinned 0x0056B7E4 initializer on this, clear the
 // +0x5C/+0x5D/+0x5E flags, install the 0x00C3789C vftable at +0, and set the
 // +0x58 count to 15. Honest address-derived name.
+class AsciiString;
+
+// The 0x0056B7E4 init is the rowed base ctor
+// ??0Rva0056B7E4@@QAE@ABVAsciiString@@@Z (Rva0056B7E4Ctor.cpp).
 class Rva0056B7E4
 {
 public:
-	void rva0056B7E4(void *arg);
+	Rva0056B7E4(const AsciiString &name);
 };
 
 extern "C" const void *const vtbl_00C3789C[];
@@ -26,7 +30,7 @@ private:
 
 Rva0056B63E::Rva0056B63E(void *arg)
 {
-	((Rva0056B7E4 *)this)->rva0056B7E4(arg);
+	((Rva0056B7E4 *)this)->Rva0056B7E4::Rva0056B7E4(*(const AsciiString *)arg);
 	m_5C = 0;
 	m_5D = 0;
 	m_5E = 0;
