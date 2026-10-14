@@ -25,10 +25,14 @@ public:
 	const Coord3D *getPosition() const;
 };
 
-class Rva005CB265
+class AnimateWindow;
+
+// 0x005CB265 is the folded body matched as
+// ProcessAnimateWindowSlideFromBottomTimed::reverseAnimateWindow; called directly.
+class ProcessAnimateWindowSlideFromBottomTimed
 {
 public:
-	void rva005CB265(const Coord3D *pos);
+	virtual bool reverseAnimateWindow(AnimateWindow *window);
 };
 
 class RadarMarker
@@ -115,5 +119,5 @@ void RadarMarkerClientUpdate::clientUpdate()
 		const RadarMarkerClientUpdateModuleData *data = (const RadarMarkerClientUpdateModuleData *)m_moduleData;
 		m_marker = TheRadar->rva004C9CF7Slot12(data->m_name.str());
 	}
-	((Rva005CB265 *)m_marker.get())->rva005CB265(draw->getPosition());
+	((ProcessAnimateWindowSlideFromBottomTimed *)m_marker.get())->ProcessAnimateWindowSlideFromBottomTimed::reverseAnimateWindow((AnimateWindow *)draw->getPosition());
 }
