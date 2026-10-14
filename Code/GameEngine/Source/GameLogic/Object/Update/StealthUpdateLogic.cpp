@@ -745,6 +745,9 @@ public:
 	virtual void recalcApparentControllingPlayer() = 0; // slot 20
 };
 
+// 0x002615E3 is rowed as Rva000CBA20::distSq (Rva000CBA20DistSq.cpp).
+#include "../../../Common/RTS/XYDistanceCallView.h"
+
 class Object : public Thing
 {
 public:
@@ -781,7 +784,6 @@ public:
 	Int getNightIndicatorColor() const;
 	Bool isLocallyControlled() const;
 	// The squared 2D distance from the position to pos (0x002615E3).
-	Real rva002615E3(const Coord3D *pos) const;
 	void clearWeaponSetFlag(WeaponSetType wst);
 	const BfmeObject872Header &getWeaponSetFlags() const { return *(const BfmeObject872Header *)((Rva0028B7AELeaGetter *)this)->get(); }
 	// The model condition notifier 0x0028AE6D.
@@ -1546,7 +1548,7 @@ UpdateSleepTime StealthUpdate::rva00374FD5()
 			Object *target = ai->getCurrentVictim();
 			if (target)
 			{
-				Real distSqrd = self->rva002615E3(target->getPosition());
+				Real distSqrd = ((Rva000CBA20 *)self)->distSq((const Rva000CBA20Point *)target->getPosition());
 				if (distSqrd <= revealDistance * revealDistance)
 				{
 					//We're close enough to reveal ourselves

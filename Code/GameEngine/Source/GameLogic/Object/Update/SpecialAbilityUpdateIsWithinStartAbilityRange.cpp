@@ -65,13 +65,15 @@ public:
 	virtual Bool slot90();					// +0x168
 };
 
+// 0x002615E3 is rowed as Rva000CBA20::distSq (Rva000CBA20DistSq.cpp).
+#include "../../../Common/RTS/XYDistanceCallView.h"
+
 class Object
 {
 public:
 	Bool getWorldspaceBestContactPoint(Coord3D *out, const Coord3D *from, const char *boneName, Int a, Int b, Bool c) const;
 	Real rva002C97E8(const Coord3D *a, const Coord3D *b) const;
 	Real rva0044E6B8(const Object *other) const;
-	Real rva002615E3(const Coord3D *pos) const;
 	Real rva00263763(const void *other) const;
 	Bool testStatus(ObjectStatusTypes status) const;
 
@@ -222,7 +224,7 @@ Bool SpecialAbilityUpdate::isWithinStartAbilityRange()
 				else if ((self->getTemplate()->m_kindOf115 & 0x20) && data->m_addRadiusC5)
 				{
 					Real radius = self->m_radiusB8;
-					fDistSquared = target->rva002615E3(self->getPosition()) + radius;
+					fDistSquared = ((Rva000CBA20 *)target)->distSq((const Rva000CBA20Point *)self->getPosition()) + radius;
 				}
 				else
 					fDistSquared = target->rva00263763(self);

@@ -38,10 +38,12 @@ public:
 	void setCurrentVictim(const Object *victim);	// 0x00268D1F
 };
 
+// 0x002615E3 is rowed as Rva000CBA20::distSq (Rva000CBA20DistSq.cpp).
+#include "../../Common/RTS/XYDistanceCallView.h"
+
 class Object
 {
 public:
-	float rva002615E3(const Coord3D *pos) const;	// 0x002615E3 2D distance squared
 	float rva00263763(const void *other) const;	// 0x00263763 distance squared
 	Weapon *getCurrentWeapon(WeaponSlotType *slot);	// 0x0028AEBD
 
@@ -113,7 +115,7 @@ bool Rva003543BF::rva003543BF(Object *obj, Object *target)
 {
 	if (obj->isContained())
 		return false;
-	float dist = sqrtf(obj->rva002615E3(target->getPosition()));
+	float dist = sqrtf(((Rva000CBA20 *)obj)->distSq((const Rva000CBA20Point *)target->getPosition()));
 	float range = dist;
 	Weapon *weapon = obj->getCurrentWeapon(0);
 	if (weapon)

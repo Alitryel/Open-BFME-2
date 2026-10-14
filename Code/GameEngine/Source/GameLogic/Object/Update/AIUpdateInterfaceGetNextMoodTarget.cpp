@@ -247,6 +247,9 @@ public:
 };
 
 class AIUpdateInterface;
+// 0x002615E3 is rowed as Rva000CBA20::distSq (Rva000CBA20DistSq.cpp).
+#include "../../../Common/RTS/XYDistanceCallView.h"
+
 class Object
 {
 public:
@@ -263,7 +266,6 @@ public:
 	CanAttackResult getAbleToAttackSpecificObject(AbleToAttackType t, const Object *target, CommandSourceType src) const;
 	Real rva00263763(const void *other) const;
 	Bool isAbleToAttack() const;
-	Real rva002615E3(const Coord3D *pos) const;
 	Bool isEffectivelyDead() const { return (m_privateStatus & 1) != 0; }
 	Bool isDestroyed() const { return (m_privateStatus & 8) != 0; }
 	unsigned char m_pad000[0x04];
@@ -519,7 +521,7 @@ Object *AIUpdateInterface::getNextMoodTarget(Bool calledByAI, Bool calledDuringI
 		target = nemesis ? nemesis->adjustVictim(obj, true, 0) : 0;
 		if (target)
 		{
-			if (target->rva002615E3(obj->getPosition()) > rangeToFindWithin * rangeToFindWithin)
+			if (((Rva000CBA20 *)target)->distSq((const Rva000CBA20Point *)obj->getPosition()) > rangeToFindWithin * rangeToFindWithin)
 				target = 0;
 		}
 	}

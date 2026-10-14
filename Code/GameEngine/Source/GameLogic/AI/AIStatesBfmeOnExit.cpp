@@ -641,6 +641,9 @@ private:
 	Real m_orientation; // +0x44
 };
 
+// 0x002615E3 is rowed as Rva000CBA20::distSq (Rva000CBA20DistSq.cpp).
+#include "../../Common/RTS/XYDistanceCallView.h"
+
 class Object : public Thing
 {
 public:
@@ -652,7 +655,6 @@ public:
 	void setBfmeAngle1C0(Real angle) { m_bfmeAngle1C0 = angle; }
 	Bool testStatus(ObjectStatusTypes status) const;
 	Bool rva002943B2(const Player *player);
-	Real rva002615E3(const Coord3D *pos) const;
 	Real rva0028AC7D() const;
 	const Rva0028AC4EEntry *rva0028AC4E() const;
 	Object *rva002931F5(Bool b);
@@ -1565,7 +1567,7 @@ StateReturnType AIAttackMeleeHordeApproachTargetState::update()
 	if (rva00344EB2Gate(source, target))
 	{
 		specialTarget = true;
-		Real distance = (Real)sqrt(source->rva002615E3(target->getPosition()));
+		Real distance = (Real)sqrt(((Rva000CBA20 *)source)->distSq((const Rva000CBA20Point *)target->getPosition()));
 		Real sourceHeight = source->getShapes()->bfmeAtE15(0)->m_height;
 		Real gap = distance - (sourceHeight + target->getShapes()->bfmeAtE15(0)->m_height);
 		Real range = target->rva0028AC7D() + gap;
