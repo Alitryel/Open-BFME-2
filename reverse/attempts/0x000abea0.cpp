@@ -1,7 +1,9 @@
 // ?readTiles@WorldHeightMap@@SA_NPAVInputStream@@0PAPAVTileData@@H@Z
+// partial score=0.82 date=2026-10-14
+// ?readTiles@WorldHeightMap@@SA_NPAVInputStream@@0PAPAVTileData@@H@Z
 // partial score=0.8450573945053876 date=2026-10-10
 // ?readTiles@WorldHeightMap@@SA_NPAVInputStream@@0PAPAVTileData@@H@Z
-// cl: /O1 /Oy- /MD /EHsc /DNDEBUG
+// cl: /O1 /Oy- /MD /EHsc /DNDEBUG /G7
 // Reference reviewed at pinned BFME1 575ba2b04.
 // Semantic guide: ZH WorldHeightMap::readTiles; target BFME2 adds normal
 // input, block reads and direct mip resampling. Native ABEA0..AC296.
@@ -9,6 +11,8 @@
 // GlobalData +49; TileData allocation 2AC0/refcount4/companion2AB4; 64-row
 // blocks; shared zero-initialized 256-byte default normal row.
 // Original helper/member names remain unknown and retain rowed RVA names.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <string.h>
 void* __cdecl operator new(unsigned int);
 void* __cdecl operator new[](unsigned int);
@@ -44,7 +48,7 @@ bool WorldHeightMap::readTiles(InputStream*pStr,InputStream*nStr,TileData**tiles
  pStr->read(&hdr,sizeof(hdr));
  int tileWidth=hdr.imageWidth/64;
  int tileHeight=hdr.imageHeight/64;
- if(hdr.imageHeight==32)tileHeight=1;
+ if(32 == hdr.imageHeight)tileHeight=1;
  if(hdr.imageWidth==32)tileWidth=1;
  if(tileWidth<numRows&&tileHeight<numRows)return false;
  if((hdr.imageType&8)||hdr.imageWidth>1024)return false;
@@ -101,7 +105,8 @@ bool WorldHeightMap::readTiles(InputStream*pStr,InputStream*nStr,TileData**tiles
    }
   }
   unsigned char*pBuf=buf; unsigned char*pNormal=nbuf;
-  for(int i=0,width=64;i<numRows;i++,width+=64,pBuf+=256,pNormal+=256){
+  _ReadWriteBarrier();
+  for(unsigned short i=0,width=64;i<numRows;i++,width+=64,pBuf+=256,pNormal+=256){
    if(width>hdr.imageWidth)break;
    tiles[i]->rva00111A05(pBuf,hdr.imageWidth*4);
    if(tiles[i]->companion()){
@@ -117,6 +122,7 @@ bool WorldHeightMap::readTiles(InputStream*pStr,InputStream*nStr,TileData**tiles
    }
   }
   tiles+=(numRows ? *(volatile int*)&numRows : *(volatile int*)&numRows);
+  _ReadWriteBarrier();
  }
  operator delete[](nbuf);operator delete[](buf);
  return true;

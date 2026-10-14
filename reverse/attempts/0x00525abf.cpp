@@ -1,4 +1,6 @@
 // ?rva00525ABF@Rva00525ABF@@QAEXPAVXfer@@@Z
+// partial score=0.87 date=2026-10-14
+// ?rva00525ABF@Rva00525ABF@@QAEXPAVXfer@@@Z
 // partial score=0.9 date=2026-10-14
 // ?rva00525ABF@Rva00525ABF@@QAEXPAVXfer@@@Z
 // partial score=0.94 date=2026-10-05
@@ -182,13 +184,13 @@ void Rva00525ABF::rva00525ABF(Xfer *xfer)
 	_STL::list<BfmePod12> tmp10;
 	BfmePod12 v10;
 	for (; n10 > 0; --n10) {
-		v10.a[0] = 0;
-		v10.a[1] = 0;
+		v10.a[0] = v10.a[1] = 0;
+
 		v10.a[2] = 0;
 		_ReadWriteBarrier();
 		XferObjectID(xfer, (ObjectID *)&v10.a[0]);
-		*xfer == v10.a[1];
 		*xfer == v10.a[2];
+		*xfer == v10.a[1];
 		tmp10.insert(tmp10.end(), v10);
 	}
 	tmp10.swap(m_list10);
