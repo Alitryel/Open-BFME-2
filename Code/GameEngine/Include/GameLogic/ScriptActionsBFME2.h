@@ -324,6 +324,7 @@ public:
     Object * rva003C24F0(Coord3D const *, ObjectTypes *, Player *, bool);
 
 protected:
+    void doCreateReinforcements(const AsciiString &team, const AsciiString &waypoint, bool useUnit);
     void doTransferTeamToPlayer(const AsciiString &teamName, const AsciiString &playerName);
     void doLoadAllTransports(const AsciiString &teamName);
     void doBorderSwitch(int);

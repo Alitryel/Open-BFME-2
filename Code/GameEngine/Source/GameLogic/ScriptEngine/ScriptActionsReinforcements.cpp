@@ -1,79 +1,42 @@
-// ?doCreateReinforcements@ScriptActions@@IAEXABVAsciiString@@0_N@Z
-// partial score=0.8998968189074485 date=2026-10-13
-// W7-ASTRA 2026-10-13: fresh baseline1833B nd169/.874142; chain3 ->1830B
-// nd127/.899897 via barriers after iter.cur in the two transport walks and
-// swapping the two solution ObjectID lookups. Native findObjectByID49DC5 and
-// its47B hash lookup2888D4 only read memory, so that swap preserves effects.
-// Frame/scheduling still differs and four REL32 names remain unresolved:
-// PartitionSolver::solve5675B3, destructor3C649E, getter2A9808, pair push539A2E.
-// Visible rowed Object28ACDC (18B exact) and iterator263526 (32B exact) each
-// leave the parent unchanged; actual experiments stay in build/w7astra.
-// WB FFC440 and ZH donor retained; no new identity/layout claim from score.
-// ?doCreateReinforcements@ScriptActions@@IAEXABVAsciiString@@0_N@Z
-// partial score=0.9 date=2026-10-10
-// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /DNDEBUG /MD /EHs /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
-// ScriptActions::doCreateReinforcements, retail 0x003C7BBB (1839 bytes).
-// Bank note (X1, 2026-10-10): 1833/1839B. Making the SolutionVec copy
-// constructor and _Vector_base(const A&) visible (inline, never inlined)
-// moved theTeam/transport into the dead [ebp+0xC]/[ebp+0x10] homes and the
-// solution vector to -0x6C like retail (the visible-callee lever of
-// ab181d4413). Remaining: pos/i/j/bool frame order (retail i -0x24, pos
-// -0x20, j -0x14) and register coalescing in the member loops; candidates
-// for more visibility: DLINK_ITERATOR<Object>::advance 0x263526 and
-// Team::iterate_TeamMemberList 0x263864 (address of the iterator),
-// Thing::setPosition / 0x28ACDC (address of pos), push_back 0x539A2E.
-extern "C" void _ReadWriteBarrier(void);
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /DNDEBUG /MD /EHs /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /I. /D_STLP_NO_EXCEPTIONS
+// stlport
+// Native003C7BBB..003C82EA; WB FFC440 independently identifies this action,
+// team composition fields and branch sequence. ZH ScriptActions.cpp at
+// BFME1 cee35b7d8 supplies reinforcement creation/partitioning semantics.
+// BFME2 template offsets, kind7 test, seven unit entries, upgrade/rank calls,
+// transport movement and full321-byte PartitionSolver are target evidence.
+// All1839 bytes and call bindings verified. Visible iterator49/advance32 and
+// GameLogic lookup37/hash47 independently reproduce the existing providers.
+// Trivial eight-byte vector storage uses established BfmeE8 providers; no
+// original target template spelling is asserted for those folded routines.
+// Fieldwise Coord3D copy retains value semantics and native SSE scheduling.
+extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include <vector>
+#include "../../../Include/GameLogic/ScriptActionsBFME2.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 extern "C" void __cdecl free(void *p);
 extern "C" void *__cdecl memset(void *dst, int value, unsigned int count);
 
-enum ObjectID { INVALID_OBJECT_ID = 0 };
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 enum SolutionType { PREFER_FAST_SOLUTION = 0 };
 enum CommandSourceType { CMD_FROM_SCRIPT = 1 };
 
 struct BfmeE8 { int a, b; };
 
-namespace _STL {
-template <class T> class allocator { public: allocator() {} };
-void *bfmeAllocX2(unsigned int bytes);
-template <class T> T *bfmeCopyX2(const T *first, const T *last, T *out);
-template <class T, class A = allocator<T> > class _Vector_base
-{
-public:
-	__declspec(noinline) _Vector_base(const A &a) : m_start(0), m_finish(0), m_endOfStorage(0) {}
-	T *m_start;
-	T *m_finish;
-	T *m_endOfStorage;
-};
-template <class T, class A = allocator<T> > class vector : public _Vector_base<T, A>
-{
-public:
-	explicit vector(const A &a = A()) : _Vector_base<T, A>(a) {}
-	__declspec(noinline) vector(const vector &other) : _Vector_base<T, A>(A())
-	{
-		unsigned int n = other.m_finish - other.m_start;
-		this->m_start = (T *)bfmeAllocX2(n * sizeof(T));
-		this->m_finish = bfmeCopyX2(other.m_start, other.m_finish, this->m_start);
-		this->m_endOfStorage = this->m_start + n;
-	}
-	~vector() { if (this->m_start) free(this->m_start); }
-	void push_back(const T &x);
-	unsigned int size() const { return this->m_finish - this->m_start; }
-	T &operator[](unsigned int i) { return this->m_start[i]; }
-};
-template <class T1, class T2> struct pair
-{
-	pair(const T1 &a, const T2 &b) : first(a), second(b) {}
-	T1 first;
-	T2 second;
-};
-}
-
+#include <vector>
 typedef _STL::vector<_STL::pair<ObjectID, unsigned int> > EntriesVec;
 typedef _STL::vector<BfmeE8> SolutionVec;
+namespace _STL {
+template <> void vector<BfmeE8,allocator<BfmeE8> >::_M_insert_overflow(BfmeE8 *,const BfmeE8 &,const __false_type &,size_t,bool);
+}
+
+
+static __forceinline void pushPartitionEntry(SolutionVec &entries, const _STL::pair<ObjectID, unsigned int> &value) {
+ reinterpret_cast<SolutionVec &>(entries).push_back(reinterpret_cast<const BfmeE8 &>(value));
+}
 
 class PartitionSolver
 {
@@ -81,7 +44,7 @@ public:
 	PartitionSolver(const EntriesVec &elements, const EntriesVec &spaces, SolutionType solveHow);
 	~PartitionSolver();
 	void solve();
-	const SolutionVec &getSolution() const;
+	const _STL::vector<_STL::pair<ObjectID, ObjectID> > &getSolution() const;
 private:
 	unsigned char m_pad[0x38];
 };
@@ -143,6 +106,7 @@ public:
 class Thing
 {
 public:
+	virtual ~Thing();
 	void setOrientation(float angle);
 	void setPosition(const Coord3D *pos);
 };
@@ -153,7 +117,15 @@ public:
 	void rva00294759(int level);
 };
 
-class Object : public Thing
+class BfmeObjectVirtualTail { public: unsigned char m_vt[4]; };
+class BfmeObjectVbptrCarrier : public virtual BfmeObjectVirtualTail { public: unsigned char m_carrier[4]; };
+class BfmeObjectDlinkBase { public: Object *dlink_next_TeamMemberList() const;
+ const ThingTemplate *m_template;
+ unsigned char m_pad08[0x38-8];
+ Coord3D m_position;
+ unsigned char m_pad44[0x68-0x44];
+};
+class Object : public Thing, public BfmeObjectDlinkBase, public BfmeObjectVbptrCarrier
 {
 public:
 	const ThingTemplate *getTemplate() const { return m_template; }
@@ -162,7 +134,7 @@ public:
 	float getMajorRadius() const { return m_majorRadius; }
 	__forceinline bool isKindOf(int t) const { return m_template->isKindOf(t); }
 	__forceinline bool isDisabledByType(int t) const { return (m_disabledMask[t >> 3] & (1 << (t & 7))) != 0; }
-	ContainModuleInterface *getContain() const { return m_contain; }
+	__declspec(dllimport) __forceinline ContainModuleInterface *getContain() const { return m_contain; }
 	AIUpdateInterface *getAIUpdateInterface() const { return m_ai; }
 	Object *getContainedBy() const { return m_containedBy; }
 	void rva0028FC18();
@@ -170,11 +142,7 @@ public:
 	void rva00293275(AsciiString upgrades);
 	void rva0028ACDC(int pos);
 
-	unsigned char m_pad00[0x04];
-	const ThingTemplate *m_template;
-	unsigned char m_pad08[0x38 - 0x08];
-	Coord3D m_position;
-	unsigned char m_pad44[0x74 - 0x44];
+	unsigned char m_pad70[4];
 	ObjectID m_objectID;
 	unsigned char m_pad78[0xB8 - 0x78];
 	float m_majorRadius;
@@ -188,16 +156,19 @@ public:
 	Object *m_containedBy;
 };
 
-template <class OBJCLASS> class DLINK_ITERATOR;
-template <> class DLINK_ITERATOR<Object>
+template<class OBJCLASS>
+class DLINK_ITERATOR
 {
 public:
-	void advance();
+	typedef OBJCLASS *(OBJCLASS::*GetNextFunc)() const;
+	DLINK_ITERATOR(OBJCLASS *cur, GetNextFunc next):m_cur(cur),m_next(next) {}
+	__declspec(noinline) void advance() { if(m_cur) m_cur=(m_cur->*m_next)(); }
 	bool done() const { return m_cur == 0; }
-	Object *cur() const { return m_cur; }
+	OBJCLASS *cur() const { return m_cur; }
+
 private:
-	Object *m_cur;
-	unsigned char m_targetAbiState[20];
+	OBJCLASS *m_cur;
+	GetNextFunc m_next;
 };
 
 class AIGroup;
@@ -214,11 +185,14 @@ public:
 		}
 	}
 private:
-	unsigned char m_pad[0x5D];
+	unsigned char m_pad[0x38];
+	Object *m_head;
+	unsigned char m_pad3C[0x5D-0x3C];
 	bool m_active;
 	bool m_created;
 };
 
+inline __declspec(noinline) DLINK_ITERATOR<Object> Team::iterate_TeamMemberList() const { return DLINK_ITERATOR<Object>(m_head,&Object::dlink_next_TeamMemberList); }
 class TeamFactory
 {
 public:
@@ -250,8 +224,8 @@ class TeamPrototype
 {
 public:
 	const AsciiString &getOwnerName() const { return m_owner; }
-	const AsciiString &getName() const { return m_name; }
-	const TeamTemplateInfo *getTemplateInfo() const { return &m_teamTemplate; }
+	__declspec(dllimport) __forceinline const AsciiString &getName() const { return m_name; }
+	__declspec(dllimport) __forceinline const TeamTemplateInfo *getTemplateInfo() const { return &m_teamTemplate; }
 private:
 	unsigned char m_pad00[0x10];
 	AsciiString m_owner;
@@ -297,11 +271,7 @@ public:
 };
 extern ThingFactory *TheThingFactory;
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
+
 extern GameLogic *TheGameLogic;
 
 class Rva00358752Opaque
@@ -350,11 +320,34 @@ extern AI *TheAI;
 // transport test of Zero Hour's team-starts-full pass); disabled bit 3 at +0x1C8.
 enum { KINDOF_BIT7 = 7, KINDOF_TRANSPORT = 21, DISABLED_HELD = 3 };
 
-class ScriptActions
-{
-protected:
-	void doCreateReinforcements(const AsciiString &team, const AsciiString &waypoint, bool useUnit);
+
+// Storage and traversal from native _M_find2888D4 and pinned STLport reference.
+struct ReinforcementObjectLookupNode { ReinforcementObjectLookupNode *next; ObjectID key; Object *object; };
+struct ReinforcementObjectLookupBuckets {
+ ReinforcementObjectLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ ReinforcementObjectLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
 };
+struct ReinforcementObjectLookupMap { unsigned char hashEqual[4]; ReinforcementObjectLookupBuckets buckets; };
+inline __declspec(noinline) ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ ReinforcementObjectLookupMap *map=(ReinforcementObjectLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ ReinforcementObjectLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+
+inline __declspec(noinline) Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
+
+
 
 void ScriptActions::doCreateReinforcements(const AsciiString &team, const AsciiString &waypoint, bool useUnit)
 {
@@ -449,8 +442,8 @@ void ScriptActions::doCreateReinforcements(const AsciiString &team, const AsciiS
 
 	origin = destination;
 	if (pInfo->m_teamStartsFull) {
-		EntriesVec vecOfUnits;
-		EntriesVec vecOfTransports;
+		SolutionVec vecOfUnits;
+		SolutionVec vecOfTransports;
 		for (DLINK_ITERATOR<Object> iter = theTeam->iterate_TeamMemberList(); !iter.done(); iter.advance()) {
 			Object *obj = iter.cur();
 			if (obj == transport)
@@ -458,21 +451,21 @@ void ScriptActions::doCreateReinforcements(const AsciiString &team, const AsciiS
 			if (obj->isKindOf(KINDOF_TRANSPORT)) {
 				ContainModuleInterface *contain = obj->getContain();
 				if (contain)
-					vecOfTransports.push_back(_STL::pair<ObjectID, unsigned int>(obj->getID(), contain->getContainMax()));
+					pushPartitionEntry(vecOfTransports, _STL::pair<ObjectID, unsigned int>(obj->getID(), contain->getContainMax()));
 			} else {
 				int slots = obj->rva0028FBBE();
 				if (slots == 0)
 					slots = 0x7fffff;
-				vecOfUnits.push_back(_STL::pair<ObjectID, unsigned int>(obj->getID(), slots));
+				pushPartitionEntry(vecOfUnits, _STL::pair<ObjectID, unsigned int>(obj->getID(), slots));
 			}
 		}
-		PartitionSolver partition(vecOfUnits, vecOfTransports, PREFER_FAST_SOLUTION);
+		PartitionSolver partition(reinterpret_cast<const EntriesVec &>(vecOfUnits), reinterpret_cast<const EntriesVec &>(vecOfTransports), PREFER_FAST_SOLUTION);
 		partition.solve();
-		SolutionVec solution = partition.getSolution();
+		SolutionVec solution = reinterpret_cast<const SolutionVec &>(partition.getSolution());
 		unsigned int count = solution.size();
 		for (unsigned int k = 0; k < count; ++k) {
-			Object *trans = TheGameLogic->findObjectByID((ObjectID)solution[k].b);
 			Object *unit = TheGameLogic->findObjectByID((ObjectID)solution[k].a);
+			Object *trans = TheGameLogic->findObjectByID((ObjectID)solution[k].b);
 			if (!unit || !trans)
 				continue;
 			ContainModuleInterface *contain = trans->getContain();
@@ -493,7 +486,7 @@ void ScriptActions::doCreateReinforcements(const AsciiString &team, const AsciiS
 					continue;
 				if (obj->getContainedBy())
 					continue;
-				Coord3D pos = origin;
+				Coord3D pos; pos.x=origin.x; pos.y=origin.y; pos.z=origin.z;
 				pos.z = TheTerrainLogic->getGroundHeight(pos.x, pos.y);
 				if (transport)
 					pos.x += transportCount * transport->getMajorRadius();
