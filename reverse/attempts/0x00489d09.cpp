@@ -1,9 +1,5 @@
 // ?rva00489D09@DozerAIUpdate@@UAEXXZ
-// partial score=0.97 date=2026-10-14
-// ?rva00489D09@DozerAIUpdate@@UAEXXZ
-// partial score=0.94 date=2026-10-14
-// ?rva00489D09@DozerAIUpdate@@UAEXXZ
-// partial score=0.94 date=2026-10-07
+// partial score=0.97 date=2026-10-15
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /GX /Os
 //
 // Zero Hour's DozerAIUpdate (GeneralsMD GameLogic/Object/Update/AIUpdate/
@@ -1447,10 +1443,10 @@ public:
 	void rva0039BAD2(Rva0039BAD2Input *what, Int amount);
 };
 
-class Rva0039CBCE
+class ScoreKeeper
 {
 public:
-	void rva0039CBCE(Object *obj, Int count);
+	void addObjectBuilt(Object *obj, Int count);
 };
 
 class Player
@@ -1488,7 +1484,7 @@ void DozerAIUpdate::rva00489D09()
 			Rva003B0D7C *money = player->getMoney();
 			money->rva003B0D7C(amount, scoreKeeper, true);
 			reinterpret_cast<Rva0039BAD2 *>(scoreKeeper)->rva0039BAD2((Rva0039BAD2Input *)obj->getTemplate(), -amount);
-			reinterpret_cast<Rva0039CBCE *>(scoreKeeper)->rva0039CBCE(obj, -1);
+			reinterpret_cast<ScoreKeeper *>(scoreKeeper)->addObjectBuilt(obj, -1);
 		}
 		TheGameLogic->destroyObject(obj);
 		reinterpret_cast<Rva0029F93A *>(TheInGameUI)->rva0029F93A(m_4A4);
