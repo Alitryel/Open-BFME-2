@@ -27,7 +27,8 @@ Rva0008B689Element Rva000897C8(CameraClass*);
 class Rva0007BB79Owner{public:Rva0008B689Element rva0007BB79();};
 class Rva0007D9B5Host{public:void rva0007D9B5(int);};
 class Rva0006ED29{public:void rva0006ED29(void*);};
-extern Rva0007BB79Owner *TheWaterRenderObj;
+class Rva0007DA23ResourceManager;
+extern Rva0007DA23ResourceManager *Rva00DE1FF8Manager;
 class Drawable { public: const Coord3D *getPosition() const; };
 class Object { char gap[0x38]; public: Coord3D m_position; };
 class ScriptEngine;
@@ -558,7 +559,7 @@ void W3DView::update()
         RefMultiListIterator<RenderObjClass>* it=W3DDisplay::m_3DScene->createLightsIterator();
         Rva0008B470 cameras;
         cameras.push_back(Rva000897C8(m_3DCamera));
-        if(TheWaterRenderObj){reinterpret_cast<Rva0007D9B5Host*>(TheWaterRenderObj)->rva0007D9B5((int)m_3DCamera);Rva0008B689Element extra=TheWaterRenderObj->rva0007BB79();if(!extra.isNull())cameras.push_back(extra);}
+        if(Rva00DE1FF8Manager){reinterpret_cast<Rva0007D9B5Host*>(Rva00DE1FF8Manager)->rva0007D9B5((int)m_3DCamera);Rva0008B689Element extra=reinterpret_cast<Rva0007BB79Owner*>(Rva00DE1FF8Manager)->rva0007BB79();if(!extra.isNull())cameras.push_back(extra);}
         TheTerrainRenderObject->updateCenter(*reinterpret_cast<std::vector<Rva0008B689Element>*>(&cameras),it);
         if(it) reinterpret_cast<Rva0006ED29*>(W3DDisplay::m_3DScene)->rva0006ED29(it);
     }
