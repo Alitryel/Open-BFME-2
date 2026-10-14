@@ -13,6 +13,7 @@
 class Rva00217537
 {
 public:
+	Rva00217537();
 	virtual ~Rva00217537();
 
 private:
@@ -27,6 +28,7 @@ Rva00217537::~Rva00217537()
 class Rva0030714F
 {
 public:
+	Rva0030714F();
 	virtual ~Rva0030714F();
 
 private:
@@ -154,3 +156,13 @@ void Rva005C31FB::rva005C3209()
 // Original semantic class name and complete class bounds remain unresolved.
 // ??0Rva004E156B@@QAE@XZ
 Rva004E156B::Rva004E156B() {}
+
+// Natives 0x002175BA..0x002175C7 and 0x00307126..0x00307133 (13B each) are
+// the ctors of the two classes above: each stores its vtable (0x00BE5AAC,
+// slot 0 the rowed ??_G 0x00217545; 0x00C07EAC, slot 0 the rowed ??_G
+// 0x00307133) and empties the string at +8, leaving +4 untouched. Same
+// default-ctor shape as Rva004E156B above; names stay address-owned.
+// ??0Rva00217537@@QAE@XZ
+Rva00217537::Rva00217537() {}
+// ??0Rva0030714F@@QAE@XZ
+Rva0030714F::Rva0030714F() {}
