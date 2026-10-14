@@ -30829,7 +30829,6 @@ uw_007a2719,,0x007A2719,8,Code/gen_small/uw_gen_005.cpp,matched,gen-funclet;obje
 uw_007a2721,,0x007A2721,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L2265
 uw_007a2729,,0x007A2729,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L2280
 uw_007a2731,,0x007A2731,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L2298
-uw_007a2743,,0x007A2743,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1530
 uw_007a274b,,0x007A274B,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1386
 uw_007a2753,,0x007A2753,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L1341
 uw_007a276d,,0x007A276D,8,Code/gen_small/uw_gen_014.cpp,matched,gen-funclet;object-symbol=$L4673
@@ -88378,3 +88377,4 @@ __ehhandler$?rva0024622F@GameLogic@@QAEX_N@Z,,0x007716D0,10,Code/GameEngine/Sour
 ?rva0008385F@Rva0082140@@QAEXPAV?$AreaSet@VStandingWaveArea@@@@PAV?$vector@UTreeHintRef00217D4C@@V?$allocator@UTreeHintRef00217D4C@@@_STL@@@_STL@@@Z,,0x0008385F,250,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWaterAreaRenderables.cpp,matched,Standing-water renderable list rebuild; real vector and visible target29B cursor equality preserve EDI handle and EBX receiver; canonical ctor82F6A and all calls resolve; native8385F..83959 RET8; potential1236 dependent bytes
 uw_00762505,,0x00762505,14,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawCtor.cpp,matched,gen-funclet;parent=??0W3DTruckDraw@@QAE@PAVThing@@PBVModuleData@@@Z;object-symbol=$L488
 uw_007624ef,,0x007624EF,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DTruckDrawCtor.cpp,matched,gen-funclet;parent=??0W3DTruckDraw@@QAE@PAVThing@@PBVModuleData@@@Z;object-symbol=$L486
+uw_007a2743,,0x007A2743,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AISpecialPowers/AISpecialPowerPickers.cpp,matched,gen-funclet;parent=?rva005D75BE@Rva005EE816@@QAE_NPAVObject@@@Z;object-symbol=$L1735
