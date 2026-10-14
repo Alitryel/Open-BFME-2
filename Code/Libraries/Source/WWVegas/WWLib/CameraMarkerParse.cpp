@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /EHsc
+// cl: /Ireference/shims/bfme2_ascii /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /EHsc /D_STLP_NO_EXCEPTIONS
 // stlport
 // ?Rva000D06C6Parse@@YAXPAVINI@@PAX1PBX@Z @0x000D06C6 96B
 // Evidence: chain from push_back 0x000D068F; locals int at [ebp-0x14] plus AsciiString at [ebp-0x10] form 8B CameraMarker; parseIndexList with WeatherNames (VA 0x00DBE974) then parseAsciiString with 0 then vector push_back; EH_prolog scope.

@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_STLP_NO_EXCEPTIONS
 // stlport
 // ?rva00542067@Rva00542225@@QAEXXZ @0x00542067 70B. Leaf via caller 0x00542256
 // in Rva00542225 ctor. Trims vector at +0x10 to one element via rowed
