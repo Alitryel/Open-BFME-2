@@ -1,8 +1,4 @@
-// ?rva00433796@@YAXPAVDict@@PAVDrawable@@PAVThingTemplate@@PA_NPAVRva000A8C9B@@3@Z
-// partial score=0.921 date=2026-10-14
-// ?rva00433796@@YAXPAVDict@@PAVDrawable@@PAVThingTemplate@@PA_NPAVRva000A8C9B@@3@Z
-// partial score=0.8 date=2026-10-08
-// cl: /O1 /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
+// cl: /O1 /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG /Gy
 //
 // ?rva00433796@@YAXPAVDict@@PAVDrawable@@PAVThingTemplate@@PA_NPAVRva000A8C9B@@3@Z
 // retail 0x00433796, 898 bytes.
@@ -56,9 +52,11 @@ extern const StaticNameKey TheKey_objectSoundAmbientMinRange;		// retail 0x00DBD
 extern const StaticNameKey TheKey_objectSoundAmbientMaxRange;		// retail 0x00DBDDF4
 extern const StaticNameKey TheKey_objectSoundAmbientPriority;		// retail 0x00DBDDFC
 
+extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile *);
 class OpaqueRefCounted
 {
 public:
+	void Add_Ref() { InterlockedIncrement((long volatile *)((char *)this + 4)); }
 	void Release_Ref();
 };
 class Rva001DA2D5;
@@ -86,7 +84,8 @@ class Rva0043346A { public: void rva0043346A(float value); };
 class Rva00433453 { public: void rva00433453(float value); };
 class Rva00433481 { public: void rva00433481(float value); };
 class Rva00433498 { public: void rva00433498(float value); };
-class Rva004334AF { public: void rva004334AF(int value); };
+enum AudioPriority { AUDIOPRIORITY_LOWEST };
+class Rva004334AF { public: void rva004334AF(AudioPriority value); };
 
 // The shared audio event info; +0xB0 is the field compared against 5.
 class Rva001DA2D5 : public OpaqueRefCounted
@@ -109,7 +108,7 @@ public:
 	void overrideVolume(float value) { ((Rva00433453 *)this)->rva00433453(value); }
 	void overrideMinRange(float value) { ((Rva00433481 *)this)->rva00433481(value); }
 	void overrideMaxRange(float value) { ((Rva00433498 *)this)->rva00433498(value); }
-	void overridePriority(int value) { ((Rva004334AF *)this)->rva004334AF(value); }
+	void overridePriority(int value) { ((Rva004334AF *)this)->rva004334AF((AudioPriority)value); }
 
 	char m_padB4[0xD0 - 0xB4];
 };
@@ -125,6 +124,17 @@ public:
 };
 
 typedef OpaqueRefElement4 AudioEventInfoRef;
+inline __declspec(noinline) OpaqueRefElement4 &OpaqueRefElement4::operator=(const OpaqueRefElement4 &other)
+{
+	if (this != &other) {
+		if (other.referent)
+			other.referent->Add_Ref();
+		if (referent)
+			referent->Release_Ref();
+		referent = other.referent;
+	}
+	return *this;
+}
 
 // 8-byte template audio slot, returned by value; the info reference is at +4.
 class Rva002390CB
@@ -272,5 +282,8 @@ void rva00433796(Dict *props, Drawable *draw, ThingTemplate *tmpl, bool *forceOf
 		}
 	}
 
- if (0) throw 1;
+	// layout lever: dead throw after the sibling blocks restores cl's slot merge
+	// in this EH function (retail frame); emits no code.
+	if (0)
+		throw 1;
 }
