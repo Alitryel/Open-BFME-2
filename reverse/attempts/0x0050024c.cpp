@@ -1,4 +1,6 @@
 // ?rva0050024C@Rva004FF8DA@@QAEPAXHH@Z
+// partial score=0.901963 date=2026-10-14
+// ?rva0050024C@Rva004FF8DA@@QAEPAXHH@Z
 // partial score=0.8966 date=2026-10-14
 // ?rva0050010D@Rva004FF8DA@@QAE_NHH@Z
 // partial score=0.9804 date=2026-10-13
@@ -165,7 +167,7 @@ void *Rva004FF8DA::rva0050024C(int type,int key) {
   ModuleData const **start=v->begin();
   unsigned size=v->end()-start;
   if(size>0) {
-   volatile int chosen = GetGameLogicRandomValue(0,size-1,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\System\\LivingWorld\\LivingWorldAISupport\\LivingWorldAIInformation.cpp",0x123);
+   int chosen = GetGameLogicRandomValue(0,size-1,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\System\\LivingWorld\\LivingWorldAISupport\\LivingWorldAIInformation.cpp",0x123);
    int *selected=(int*)&start[chosen];
    unsigned cnt=((IntPtrTree*)&inner)->count(*selected);
    if(cnt>0) {

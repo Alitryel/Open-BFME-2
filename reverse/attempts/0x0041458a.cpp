@@ -1,4 +1,6 @@
 // ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
+// partial score=0.904138 date=2026-10-14
+// ?rva0041458A@Rva004147CF@@QAEXPAVRva0041458AInterface@@@Z
 // partial score=0.871 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
@@ -49,10 +51,12 @@ private:
 void Rva004147CF::rva0041458A(Rva0041458AInterface *iface)
 {
 	struct Flags { bool a; bool b; };
+	{
 	Flags flags;
 	flags.a = true;
 	flags.b = true;
 	iface->vslot10(&flags);
+	}
 
 	int count = (int)((char *)m_end - (char *)m_begin) / 0x30;
 	iface->vslot31(&count);
