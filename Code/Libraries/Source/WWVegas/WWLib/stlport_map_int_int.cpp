@@ -17,11 +17,18 @@ namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonco
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Const_traits<pair<int const, int> > >, _Rb_tree_iterator<pair<int const, int>, _Const_traits<pair<int const, int> > > > map<int, int, less<int>, allocator<pair<int const, int> > >::equal_range(int const &) const; }
 namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > map<int, int, less<int>, allocator<pair<int const, int> > >::insert(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, pair<int const, int> const &); }
 namespace _STL { template <> void _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::swap(_Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > > &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::upper_bound(int const &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > map<int, int, less<int>, allocator<pair<int const, int> > >::upper_bound(int const &); }
 // bfme link decl-only end
 
 // Preserve retail's inlined buffer release while using the canonical public allocator.
 namespace _STL {
 #pragma optimize("gsy", on)
+// The explicit map instantiation below emits this copy constructor out of line
+// although nothing here calls it; under this unit's /O2 it would take edx
+// (retail 0x6CFE10 form) and differ from the /O1 ecx form every other tree
+// copy carries (retail 0x27EA56 form). The size profile keeps them identical.
+template <> inline _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::_Rb_tree_iterator(const _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &__it) { _M_node = __it._M_node; }
 template <> __forceinline void allocator<_Rb_tree_node<pair<const int, int> > >::deallocate(_Rb_tree_node<pair<const int, int> > *p, size_t) const { if (p != 0) free(p); }
 #pragma optimize("", on)
 }
@@ -98,6 +105,8 @@ typedef _Rb_tree_iterator<pair<const int,int>,_Nonconst_traits<pair<const int,in
 typedef _Rb_tree<int,pair<const int,int>,_Select1st<pair<const int,int> >,less<int>,allocator<pair<const int,int> > > CBSpeedTree;
 typedef _Rb_tree_node<pair<const int,int> > CBSpeedNode;
 template pair<CBSpeedIterator,bool>::pair(const CBSpeedIterator&,const bool&);
+template CBSpeedNode*& CBSpeedTree::_S_left(CBSpeedNode*);
+template CBSpeedNode*& CBSpeedTree::_S_right(CBSpeedNode*);
 template CBSpeedNode*& CBSpeedTree::_S_parent(CBSpeedNode*);
 template CBSpeedIterator& CBSpeedIterator::operator--();
 }
