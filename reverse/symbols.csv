@@ -13283,7 +13283,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?resetMaster@SkirmishAI@@QAEHXZ,0x002C68CE,WB SkirmishAI.cpp callee name in doSpecialMasterAIDying (rowed under placeholder Rva002C68CE::rva002C68CE); REL32 at 0x002C6B96
 ?doSpecialSlaveAIUpdate@SkirmishAI@@QAEXXZ,0x002C6879,WB SkirmishAI.cpp callee name in doSpecialMasterAIDying; unrowed; REL32 at 0x002C6BAB
 ?rva002197A6@CreateAHeroManager@@QAEPAVCreateAHeroData@@H@Z,0x002197A6,REL32 callee of rva0033B634 hero-image fallback 0x0033B634; CreateAHeroManager two-phase hero-entry scan (8 slots via 0x003FF29F then +0x174 vector); arg is the +0x74 key callers push; entry +0x13c is the returned portrait
-?rva0021BD41@CreateAHeroSubClass@CreateAHeroManager@@QBEHIPAX@Z,0x0021BD41,inner entry of the 0x0021BDAB chain taking index then element pointer: REL32 read at the second call site in 0x0021BDAB; resolves through 0x0021BC0D and rowed 0x00219D85; owner class identity unproven
 ?rva0021F797@CreateAHeroManager@@QAEPAVRva0040A3F9@@XZ,0x0021F797,unrowed 16B thiscall (Ghidra FUN_0061f797; plain ret) on TheCreateAHeroManager (0x00DFE344): runs 0x0021F47E and returns its +0x174 hero list (the Rva0040A3F9 CreateAHeroData pointer vector); called from 0x0043DD53 and 0x004414F4; address name
 ?rva002197A6@CreateAHeroManager@@QAEPAXH@Z,0x002197A6,thiscall with int from 0x28F2F8 returns bool
 ?rva0021A4E6@CreateAHeroManager@@QAEXXZ,0x0021A4E6,thiscall void() on the hero-manager global; tail callee of dump-range-18 0x003BE6CB

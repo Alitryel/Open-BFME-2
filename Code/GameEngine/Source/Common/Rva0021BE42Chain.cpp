@@ -8,8 +8,14 @@
 // 0x00219B9E (null yields -1 via or eax,-1) and forwards the attribute to the
 // subclass getter of the same name, which looks the attribute up through
 // 0x0021BD22 then reads it through 0x0021BD41 at +4/+8/+0xC (both unnamed in
-// WB; 0x0021BD22 is rowed in Rva0021BD22Find.cpp, 0x0021BD41 pinned).
+// WB; 0x0021BD22 is rowed in Rva0021BD22Find.cpp). 0x0021BD41 is rowed as
+// CreateAHeroSubClass::GetBlingIndex(int, const AsciiString &) from a WB lead
+// (Rva0021BD41GetBlingIndex.cpp); these getters reach it with the attribute
+// and a pointer into the found record, the same thiscall ABI. That the lookup
+// here is a bling index is the row's naming claim, not evidence from these
+// callers.
 typedef unsigned int UnsignedInt;
+class AsciiString;
 
 class CreateAHeroManager
 {
@@ -18,7 +24,7 @@ public:
 	{
 	public:
 		int *rva0021BD22(int attribute) const;
-		int rva0021BD41(UnsignedInt attribute, void *p) const;
+		int GetBlingIndex(int attribute, const AsciiString &value);
 		int GetAttributeMinValue(UnsignedInt attribute) const;
 		int GetAttributeMaxValue(UnsignedInt attribute) const;
 		int GetAttributeDefaultValue(UnsignedInt attribute) const;
@@ -69,7 +75,7 @@ int CreateAHeroSubClass::GetAttributeMinValue(UnsignedInt o) const
 	if (!p)
 		r = -1;
 	else
-		r = rva0021BD41(o, (char *)p + 4);
+		r = const_cast<CreateAHeroSubClass *>(this)->GetBlingIndex(o, *(const AsciiString *)((char *)p + 4));
 	return r;
 }
 
@@ -80,7 +86,7 @@ int CreateAHeroSubClass::GetAttributeMaxValue(UnsignedInt o) const
 	if (!p)
 		r = -1;
 	else
-		r = rva0021BD41(o, (char *)p + 8);
+		r = const_cast<CreateAHeroSubClass *>(this)->GetBlingIndex(o, *(const AsciiString *)((char *)p + 8));
 	return r;
 }
 
@@ -91,6 +97,6 @@ int CreateAHeroSubClass::GetAttributeDefaultValue(UnsignedInt o) const
 	if (!p)
 		r = -1;
 	else
-		r = rva0021BD41(o, (char *)p + 0xC);
+		r = const_cast<CreateAHeroSubClass *>(this)->GetBlingIndex(o, *(const AsciiString *)((char *)p + 0xC));
 	return r;
 }
