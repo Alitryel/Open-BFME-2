@@ -38,7 +38,7 @@ protected:
 
 struct StatusBitsEldestFrame
 {
-	void cacheGameLogicFrame(void);
+	StatusBitsEldestFrame *cacheGameLogicFrame(void);
 
 private:
 	int m_cachedFrame;

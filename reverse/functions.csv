@@ -88164,3 +88164,4 @@ $L17825,,0x0077F708,24,Code/GameEngine/Source/GameNetwork/GameSpy/Thread/Persist
 ?rva001B51C0@SubsystemInterfaceList@@QAEXXZ,,0x001B51C0,71,Code/GameEngine/Source/Common/SubsystemInterfaceListDtor.cpp,matched,named previous-entry pointer keeps add esi -8; WB A758D0 unnamed
 ?UpdatePings@AptOnlineCustomMatch@@QAEXXZ,,0x0059ED8B,244,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptOnlineCustomMatchMessageHandler.cpp,matched,refresh the host panel connection icons per slot; WB UpdatePings structure
 ?bfmeRva0011F3C0@@YAHXZ,,0x0011F3C0,12,Code/Libraries/Source/WWVegas/WW3D2/BfmeDX8Callbacks.cpp,matched,optional EndEvent hook dispatcher; returns hook result or zero
+?cacheGameLogicFrame@StatusBitsEldestFrame@@QAEPAU1@XZ,,0x00485975,14,Code/GameEngine/Source/GameLogic/Object/Upgrade/StatusBitsEldestFrameCache.cpp,matched,returns this; WB 011C1270 unnamed

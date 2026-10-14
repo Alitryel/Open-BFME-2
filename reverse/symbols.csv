@@ -8529,7 +8529,7 @@ name,address,notes
 ?c_prototype@AptValue@@QBEPAVAptPrototype@@XZ,0x006DD120,Native Extends calls checked existing provider; original AptValue header signature; linker alias binds provider
 ?c_register@AptValue@@QBEPAVAptRegister@@XZ,0x006DCDD0,Native stackPushIndirect calls checked existing provider; original AptValue header504032fc6593aab6 signature; linker alias binds provider
 ?c_string@AptValue@@QBEPAVAptString@@XZ,0x006DCE50,Native7056D0 calls existing checkedString68B; both donor AptValue headers declare const c_string returning AptString; alias binds rowed provider
-?cacheGameLogicFrame@StatusBitsEldestFrame@@QAEXXZ,0x00485975,sole-called frame-cache helper at +0x1C of StatusBitsUpgradeIfEldestKindof (body stores TheGameLogic+0x40 proven frame); pinned for the ctor TU
+?cacheGameLogicFrame@StatusBitsEldestFrame@@QAEPAU1@XZ,0x00485975,sole-called frame-cache helper at +0x1C of StatusBitsUpgradeIfEldestKindof (body stores TheGameLogic+0x40 proven frame); pinned for the ctor TU
 ?cacheStatus@Weapon@@QBEXW4WeaponStatus@@@Z,0x002C94F5,Reconstructed helper name; getStatus REL32 target compares and writes Weapon+0x10; complete 15-byte body independently decoded
 ?calcBoundingStuff@BfmeSubCNG@@QAEXXZ,0x006BE700
 ?calcBoundingStuff@GeometryInfo@@QAEXXZ,0x006BE700,PC geometry extent recomputation walks active24-byte shapes at2C; shared target of existing GeometryInfo-related calcBoundingStuff facade and GeometryType parser6BFEE0
