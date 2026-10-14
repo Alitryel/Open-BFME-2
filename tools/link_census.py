@@ -2156,7 +2156,7 @@ def record(census, rows, rerun=False, rebaseline=None):
           f"{census.get('seconds', 0):.0f}s", flush=True)
     guard("during the selection link")
     clean, files, blocking, clean_prev, prepared = write_status(
-        log, rows, present, {"date": census["when"], "commit": commit}, kept, publish=False)
+        log, rows, present, {"date": census["when"], "commit": commit, "clean_tree": True}, kept, publish=False)
     before = linked_figures(clean_prev)
     figure = {"files": files, "files_linked": len(clean), "blocking_names": blocking,
               "addresses": sum(count for count, _ in link_debt.per_file(link_debt.addresses)),

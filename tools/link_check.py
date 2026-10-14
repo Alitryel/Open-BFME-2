@@ -35,6 +35,12 @@ recompiles every stale ledger object and replaces its census definitions).
   python3 tools/link_check.py --refresh SOURCE          # recompile stale objects first
   python3 tools/link_check.py --refresh --current-ledger SOURCE  # include newer matched units
   python3 tools/link_check.py --prepare-current SOURCE [...]   # explicit safe provider witnesses
+  python3 tools/link_check.py --fetch-index             # download the last published census's index
+  python3 tools/link_check.py --publish-index           # a census runner: upload the index it just wrote
+
+The index is never tracked, and building one is a whole census (every unit
+compiled, then linked: hours on a slow host). Whoever runs a census publishes
+its index as the `census-index` release asset; everyone else fetches it.
 
 The pre-commit hook runs the admission form on the units a commit adds, with
 their list on stdin (Windows caps a command line at 32,767 characters). It
@@ -64,6 +70,9 @@ import build  # noqa: E402
 import link_census  # noqa: E402
 
 INDEX = link_census.OUT / "link_index.pkl"
+INDEX_REPO = "Open-BFME/Open-BFME-2"
+INDEX_TAG = "census-index"
+INDEX_URL = f"https://github.com/{INDEX_REPO}/releases/download/{INDEX_TAG}/{INDEX.name}"
 COMMON_SCHEMA = 1
 PREPARE_LIMIT = 32
 # On2 is a vendor token or a camel-case component, not the suffix of
@@ -157,11 +166,95 @@ def load_index():
                 "build/link_census/\n" if census.exists() else "")
         raise SystemExit(
             f"link_check: no census index at {INDEX.relative_to(ROOT).as_posix()} (never tracked).\n"
+            "  download the last published census's:  python3 tools/link_check.py --fetch-index\n"
             f"{copy}"
             "  build one (keep the tree still until it ends; rewrites reverse/link_status.csv):\n"
             "                            python3 tools/link_census.py --build --measure")
     with INDEX.open("rb") as handle:
         return pickle.load(handle)
+
+
+def index_meta(path):
+    """The census date and commit a saved index records (meta), or None when
+    the file is not an index."""
+    try:
+        with Path(path).open("rb") as handle:
+            index = pickle.load(handle)
+    except (OSError, EOFError, pickle.UnpicklingError, AttributeError, ImportError, IndexError, ValueError):
+        return None
+    meta = index.get("meta") if isinstance(index, dict) else None
+    if not isinstance(meta, dict) or not meta.get("date") or not meta.get("commit") or "blockers" not in index:
+        return None
+    return meta
+
+
+def contains(commit, ref="HEAD"):
+    return subprocess.run(["git", "merge-base", "--is-ancestor", commit, ref], cwd=ROOT,
+                          capture_output=True).returncode == 0
+
+
+def fetch_index(url=INDEX_URL):
+    """--fetch-index: download the published census's index unless the local
+    one is the same census or a later one. Only the repository's writers can
+    replace the release asset, and they can already change these tools.
+    An index of a commit this checkout lacks would show providers it does
+    not have as linking, so it replaces nothing: pull first."""
+    import tempfile
+    import urllib.request
+    link_census.OUT.mkdir(parents=True, exist_ok=True)
+    handle = tempfile.NamedTemporaryFile(dir=link_census.OUT, prefix="link_index.", suffix=".download",
+                                         delete=False)
+    temp = Path(handle.name)
+    try:
+        with handle, urllib.request.urlopen(url, timeout=60) as response:
+            while chunk := response.read(1 << 20):
+                handle.write(chunk)
+        meta = index_meta(temp)
+        if meta is None:
+            raise SystemExit(f"link_check: {url} is not a census index; nothing replaced")
+        if not contains(meta["commit"]):
+            raise SystemExit(f"link_check: this checkout lacks census commit {meta['commit']}; nothing "
+                             "replaced: git pull --rebase origin master, then fetch again")
+        local = index_meta(INDEX) if INDEX.exists() else None
+        if local and local["date"] >= meta["date"]:
+            print(f"link_check: keeping the local index (census {local['date']} at {local['commit']}); "
+                  f"the published one is census {meta['date']} at {meta['commit']}")
+            return 0
+        temp.replace(INDEX)
+    except OSError as exc:
+        raise SystemExit(f"link_check: could not download {url}: {exc}")
+    finally:
+        temp.unlink(missing_ok=True)
+    print(f"link_check: index of census {meta['date']} at {meta['commit']} -> {INDEX.relative_to(ROOT).as_posix()}")
+    return 0
+
+
+def publish_index():
+    """--publish-index: upload the index the last census wrote as the
+    census-index release asset (gh, with write access). Only the index of a
+    --history census (link_census.record, which refuses uncommitted census
+    inputs: clean_tree) of a commit origin/master contains is published; an
+    index of unpushed or uncommitted work describes a tree nobody else has."""
+    meta = index_meta(INDEX) if INDEX.exists() else None
+    if meta is None:
+        raise SystemExit(f"link_check: no census index at {INDEX.relative_to(ROOT).as_posix()} to publish")
+    if meta.get("clean_tree") is not True:
+        raise SystemExit("link_check: this index is not from a --history census of a clean tree; not published")
+    _git("fetch", "--quiet", "origin", "master", check=True)
+    if not contains(meta["commit"], "origin/master"):
+        raise SystemExit(f"link_check: census commit {meta['commit']} is not on origin/master; not published")
+    notes = (f"Census {meta['date']} UTC at {meta['commit']}. Download with "
+             "`python3 tools/link_check.py --fetch-index`; every published census replaces it.")
+    repo = ["--repo", INDEX_REPO]
+    if subprocess.run(["gh", "release", "view", INDEX_TAG, *repo], cwd=ROOT, capture_output=True).returncode:
+        if subprocess.run(["gh", "release", "create", INDEX_TAG, *repo, "--prerelease", "--target", "master",
+                           "--title", "Link census index", "--notes", notes], cwd=ROOT).returncode:
+            raise SystemExit("link_check: gh release create failed (see above)")
+    for step in (["upload", INDEX_TAG, str(INDEX), "--clobber"], ["edit", INDEX_TAG, "--notes", notes]):
+        if subprocess.run(["gh", "release", *step, *repo], cwd=ROOT).returncode:
+            raise SystemExit(f"link_check: gh release {step[0]} failed (see above)")
+    print(f"link_check: published the index of census {meta['date']} at {meta['commit']}")
+    return 0
 
 
 def census_blockers():
@@ -918,7 +1011,15 @@ def main(argv=None):
                          "line at 32,767 characters")
     ap.add_argument("--shadow", action="store_true",
                     help="with --new-variants: report, never refuse (the pre-commit hook, until promoted)")
+    ap.add_argument("--fetch-index", action="store_true",
+                    help="download the last published census's index instead of building one")
+    ap.add_argument("--publish-index", action="store_true",
+                    help="upload the index this checkout's last census wrote (census runners)")
     args = ap.parse_args(argv)
+    if args.fetch_index:
+        return fetch_index()
+    if args.publish_index:
+        return publish_index()
     if args.prepare_current and (args.refresh or args.current_ledger or args.census_only or args.new_variants
                                  or args.shadow or args.staged_peers):
         ap.error("--prepare-current cannot combine with preview/admission modes")
