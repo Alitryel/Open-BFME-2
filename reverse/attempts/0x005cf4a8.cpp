@@ -1,5 +1,6 @@
-// ?rva005CF4A8@StrategicInGameUI@@QAEXXZ
+// ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
 // partial score=0.97 date=2026-10-13
+// W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
 // partial score=0.9443093203093204 date=2026-10-13
 // ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z

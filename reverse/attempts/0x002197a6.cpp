@@ -2,6 +2,7 @@
 // partial score=0.9496331621423331 date=2026-10-14
 // ?rva002197A6@Rva002197A6@@QAEXXZ
 // partial score=0.95 date=2026-10-13
+// W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?rva002197A6@Rva002197A6@@QAEPAVRva002197A6Entry@@H@Z
 // partial score=0.97 date=2026-10-13
 // ?rva002197A6@Rva002197A6@@QAEPAVRva002197A6Entry@@H@Z

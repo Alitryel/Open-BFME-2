@@ -1,5 +1,6 @@
-// ?rva00473212@Rva00473212@@QAEXXZ
+// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
 // partial score=0.8675 date=2026-10-13
+// W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
 // partial score=0.84 date=2026-10-09
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include

@@ -1,5 +1,6 @@
-// ?rva003508C5@Rva003508C5@@QAEXXZ
+// ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
 // partial score=0.8663 date=2026-10-13
+// W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z
 // partial score=0.8 date=2026-10-13
 // ?updateInternal@AIAttackAimAtTargetState@@AAE?AW4StateReturnType@@_N@Z

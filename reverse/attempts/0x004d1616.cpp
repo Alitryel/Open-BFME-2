@@ -1,5 +1,6 @@
-// ?parseUserList@ConnectionManager@@QAEXXZ
+// ?parseUserList@ConnectionManager@@QAEXPBVGameInfo@@@Z
 // partial score=0.95 date=2026-10-13
+// W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?parseUserList@ConnectionManager@@QAEXPBVGameInfo@@@Z
 // partial score=0.95 date=2026-10-07
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /O1 /arch:SSE /G7

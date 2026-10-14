@@ -1,5 +1,6 @@
-// ?iterateCellsAlongLine@Pathfinder@@AAEHPBUICoord2D@@0W4PathfindLayerEnum@@PAVRva003EA570@@PBVRva003EABB@@@Z
+// ?iterateCellsAlongLine@Pathfinder@@AAEHPBUICoord2D@@0W4PathfindLayerEnum@@PAURva002E85ADInfo@@@Z
 // partial score=0.9541 date=2026-10-13
+// W7-MP6 r10: first-line symbol corrected to the emitted body (old 5-param name rets 20; retail rets 16)
 // ?iterateCellsAlongLine@Pathfinder@@AAEHPBUICoord2D@@0W4PathfindLayerEnum@@PAURva002E85ADInfo@@@Z
 // partial score=0.93 date=2026-10-13
 // ?iterateCellsAlongLine@Pathfinder@@AAEHPBUICoord2D@@0W4PathfindLayerEnum@@PAURva002E85ADInfo@@@Z

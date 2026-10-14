@@ -1,5 +1,6 @@
-// ?rva004BBA65@Rva004BBA65@@QAEXXZ
+// ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
 // partial score=0.844 date=2026-10-13
+// W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
 // partial score=0.8258513473497188 date=2026-10-10
 // ?onCollide@SquishCollide@@UAEXPAVObject@@PBUCoord3D@@1@Z
