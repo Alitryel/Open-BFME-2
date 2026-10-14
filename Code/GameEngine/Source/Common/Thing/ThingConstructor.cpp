@@ -94,8 +94,6 @@ protected:
 	virtual const Drawable *asDrawableMeth() const { return 0; }
 	virtual void reactToTransformChange(const Matrix3D *oldMtx, const Coord3D *oldPos, float oldAngle) = 0;
 	virtual void vslot6() {}
-
-public:
 	virtual ~Thing();
 
 private:

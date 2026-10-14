@@ -11,10 +11,10 @@ class ParticleModule005F2CA0
 {
 public:
 	ParticleModule005F2CA0(void *a, void *b);
-	~ParticleModule005F2CA0();
+	virtual ~ParticleModule005F2CA0();
 
 private:
-	char m_base[0x14];
+	char m_base[0x10];
 };
 
 namespace FXParticleSystem

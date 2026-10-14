@@ -11,10 +11,13 @@ private:
 	bool m_flag;
 };
 
-struct Rva005E9FC1Base
+// Polymorphic base (vptr at +0, as in Rva005E9FC1Dtor.cpp): retail's unwind
+// funclet passes the unadjusted this to the base dtor at 0x005EA2AB. novtable
+// keeps the base ctor from storing a vtable the derived ctor overwrites.
+struct __declspec(novtable) Rva005E9FC1Base
 {
 	Rva005E9FC1Base(void *p) : m_04(p) {}
-	~Rva005E9FC1Base();
+	virtual ~Rva005E9FC1Base();
 	void *m_04;
 };
 

@@ -67,6 +67,7 @@ public:
     static bool Render(const LayerClass &layer);
     static bool Render(const LayerListClass &layer_list);
     friend bool Rva00118660Call(void *owner, void *camera);
+private:
     static bool IsInitted;
 };
 bool Rva001182A0(void *owner, RenderInfoClass &info);
