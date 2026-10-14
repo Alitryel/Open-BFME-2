@@ -9,7 +9,7 @@
 struct Rva004E72C0
 {
 	Rva004E72C0(const Rva004E72C0 &other);
-	virtual ~Rva004E72C0();
+	virtual ~Rva004E72C0() {}
 };
 
 Rva004E72C0::Rva004E72C0(const Rva004E72C0 &)
