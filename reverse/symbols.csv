@@ -4547,7 +4547,6 @@ name,address,notes
 ??1Rva005C9D30@@QAE@XZ,0x001F9025,tail-jump target of ??1Sub005CD540Outer@@QAE@XZ at retail 0x001FA95A read from its jmp displacement; body unrowed
 ??1Rva005CB4E6Elem@@QAE@XZ,0x005CB4E6,element destructor called by the guarded-delete clear helper; address from its retail REL32 call and a Ghidra function start
 ??1Rva005CC37C@@UAE@XZ,0x005CC37C,opaque dtor called by the scalar deleting dtor at 0x005CC44C (vtable 0x00C74E38#0); identity unproven; address-derived name
-??1Rva005CC788Obj@@QAE@XZ,0x005CC788,REL32 callee decoded from target call bytes of negative-adjust body 0x005CEC55; identity unproven
 ??1Rva005CCDDD@@UAE@XZ,0x005CCDDD,opaque dtor called by the scalar deleting dtor at 0x005CCF2B (vtable 0x00C74F44#0); identity unproven; address-derived name
 ??1Rva005CD0FEElem@@QAE@XZ,0x005CD0FE,element destructor called by the guarded-delete clear helper; address from its retail REL32 call and a Ghidra function start
 ??1Rva005CDA3D@@UAE@XZ,0x005CDA3D,opaque dtor called by the scalar deleting dtor at 0x005CDB43 (vtable 0x00C75038#0); identity unproven; address-derived name

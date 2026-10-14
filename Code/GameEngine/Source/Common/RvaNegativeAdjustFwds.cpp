@@ -12,10 +12,12 @@ public:
 	~Rva0030B706Obj();
 };
 
-class Rva005CC788Obj
+// The destructor at 0x005CC788 is rowed virtual as ??1Rva005CC698@@UAE@XZ
+// (Rva005CC788Dtor.cpp); the qualified call stays direct.
+class Rva005CC698
 {
 public:
-	~Rva005CC788Obj();
+	virtual ~Rva005CC698();
 };
 
 class Rva00330BDBMid
@@ -33,5 +35,5 @@ public:
 
 void Rva005CEC55Mid::cleanup()
 {
-	((Rva005CC788Obj *)((char *)this - 4))->~Rva005CC788Obj();
+	((Rva005CC698 *)((char *)this - 4))->Rva005CC698::~Rva005CC698();
 }
