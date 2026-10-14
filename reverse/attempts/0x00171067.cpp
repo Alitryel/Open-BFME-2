@@ -1,4 +1,6 @@
 // ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
+// partial score=0.98 date=2026-10-14
+// ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
 // partial score=0.97 date=2026-10-14
 // ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
 // partial score=0.96 date=2026-10-06
@@ -109,8 +111,7 @@ void Rva00171067::rva00171067(const AssetReference &ref)
 	}
 	{
 		Rva00170999 tmp1 = Rva00170A58Get(ref, Rva00170999Data());
-		Rva00170999 tmp2(tmp1);
-		m_bff.rva00170DB7(tmp2);
+		m_bff.rva00170DB7(Rva00170999((const Rva00170999 &)tmp1));
 	}
 	m_14 = m_bff.m_00Head->_left;
 	m_1C = true;
