@@ -253,3 +253,24 @@ bool Rva000FA92FIsDirty()
 {
 	return g_bfmeDirtyCU;
 }
+
+// --- 0x000F0FB8 (5B): a destructor whose only work is its leading Geometry
+// member's (the rowed ??1Geometry@@QAE@XZ, 0x000EFC45), emitted as a tail
+// jump, in the shadow-geometry run after ??0Geometry 0x000F0F98.
+class Geometry
+{
+public:
+	~Geometry();
+};
+
+class Rva000F0FB8
+{
+public:
+	~Rva000F0FB8();
+private:
+	Geometry m_geometry;
+};
+
+Rva000F0FB8::~Rva000F0FB8()
+{
+}

@@ -88941,3 +88941,4 @@ __Locale_ctype_default,,0x00021980,5,Code/Libraries/Source/WWVegas/WWLib/stlport
 ?Rva000FA92FIsDirty@@YA_NXZ,,0x000FA92F,6,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,matched,reads g_bfmeDirtyCU 0x00DFF48C; no direct caller
 ??$_Destroy@UBfmeVectorRecord000BDF17@@@_STL@@YAXPAUBfmeVectorRecord000BDF17@@@Z,,0x000C251D,9,Code/Libraries/Source/WWVegas/WWLib/stlport_destroy_single_bc859.cpp,matched,STLport single-object _Destroy: tail jump to rowed dtor 0x000BE201; no direct caller
 ??$_Destroy@URva000BEDF0Record@@@_STL@@YAXPAURva000BEDF0Record@@@Z,,0x000C2526,9,Code/Libraries/Source/WWVegas/WWLib/stlport_destroy_single_bc859.cpp,matched,STLport single-object _Destroy: tail jump to rowed dtor 0x000BEDF0; no direct caller
+??1Rva000F0FB8@@QAE@XZ,,0x000F0FB8,5,Code/GameEngine/Source/Common/GapBodiesSeat2B.cpp,matched,dtor that only destroys its leading Geometry member: tail jump to rowed ??1Geometry 0x000EFC45; after ??0Geometry 0x000F0F98; no direct caller
