@@ -88861,3 +88861,11 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?rva0002BF21@Rva0002BF21@@QAEHPAD@Z,,0x0002BF21,14,Code/GameEngine/Source/Common/GapBodiesGE19.cpp,matched,byte at +0 copied out through the pointer argument; returns 1; unreferenced
 ?rva00051888@Rva00051888@@QAEHXZ,,0x00051888,14,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,post-increment of the counter at +0xD0; unreferenced
 ?rva00030A30@@YAII@Z,,0x00030A30,22,Code/GameEngine/Source/Common/GapBodiesGE23.cpp,matched,GeneralAllocator request-to-chunk size (+0xB rounded to 8 min 16); replaces the false interior 6-byte row at 0x00030A40
+?rva00001014@@YAPAXI@Z,,0x00001014,6,Code/Libraries/Source/ATL/atlconv.cpp,matched,malloc forwarder tail jump through the import; unreferenced
+?rva0000101A@@YAXPAX@Z,,0x0000101A,6,Code/Libraries/Source/ATL/atlconv.cpp,matched,free forwarder tail jump through the import; unreferenced
+?_AtlGetConversionACP@ATL@@YGIXZ,,0x0000111F,6,Code/Libraries/Source/ATL/atlconv.cpp,matched,ATL 7.1 atlconv.h inline out of line: jmp through g pfnGetThreadACP; unreferenced
+?InterlockedExchangePointer@@YGPAXPAPAXPAX@Z,,0x00001079,6,Code/Libraries/Source/ATL/atlconv.cpp,matched,ATL 7.1 atlbase.h x86 InterlockedExchangePointer over the InterlockedExchange import; unreferenced
+?rva00030850@@YA_NPAXI@Z,,0x00030850,6,Code/GameEngine/Source/Common/System/GameMemoryBlockSlots.cpp,matched,tail jump into the IsValidBlock memory-pool slot VA 0x00DE03F8; unreferenced
+?get@Rva00042F91FloatField@@QBEMXZ,,0x00042F91,7,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,float at +0x37E8; unreferenced
+?Is_Snapshot_Activated@WW3D@@SA_NXZ,,0x00065F60,6,Code/Libraries/Source/WWVegas/WW3D2/ww3d_snapshot_activated.cpp,matched,ZH ww3d.h inline out of line: SnapshotActivated VA 0x00DEC3FD; unreferenced
+?rva00042334@@YAKXZ,,0x00042334,6,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,timeGetTime import tail jump; unreferenced

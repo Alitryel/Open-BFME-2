@@ -61,6 +61,18 @@ extern "C" __declspec(dllimport) int __stdcall GetLocaleInfoA(
 // as the conversion code page itself. See g_pfnGetThreadACP.
 extern "C" __declspec(dllimport) UINT __stdcall GetACP();
 
+// 0x00001014 / 0x0000101A (6B each), unreferenced: one-line malloc and free
+// forwarders, each a tail jump through its msvcr71 import. Address-named.
+void *__cdecl rva00001014(unsigned int size)
+{
+	return malloc(size);
+}
+
+void __cdecl rva0000101A(void *block)
+{
+	free(block);
+}
+
 LPWSTR __stdcall AtlA2WHelper(LPWSTR lpw, LPCSTR lpa, int nChars, UINT acp)
 {
     if (lpw == 0 || lpa == 0)
@@ -168,6 +180,12 @@ inline UINT __stdcall _AtlGetConversionACP() throw()
 {
 	return g_pfnGetThreadACP();
 }
+
+// _AtlGetConversionACP's out-of-line copy sits at 0x0000111F (6B, jmp through
+// the slot), unreferenced; this pointer anchor (no retail counterpart) only
+// makes the unit emit it.
+extern UINT (__stdcall *const g_bfmeAtlGetConversionACPAnchor)();
+UINT (__stdcall *const g_bfmeAtlGetConversionACPAnchor)() = &_AtlGetConversionACP;
 
 class CAtlException
 {
@@ -332,3 +350,12 @@ void Rva00001DACClass::dtor()
 	reinterpret_cast<W3DRadarResetSurface *>(this)->~W3DRadarResetSurface();
 }
 
+// ATL 7.1 atlbase.h's x86 InterlockedExchangePointer (retail 0x00001079, 6B,
+// unreferenced): the pointer exchange through the kernel32 InterlockedExchange
+// import, a tail jump. The macro above stands in for it inside this unit's
+// own callers, as the inline is expanded there.
+#undef InterlockedExchangePointer
+void *__stdcall InterlockedExchangePointer(void **pp, void *pNew)
+{
+	return reinterpret_cast<void *>(::InterlockedExchange(reinterpret_cast<LONG *>(pp), reinterpret_cast<LONG>(pNew)));
+}

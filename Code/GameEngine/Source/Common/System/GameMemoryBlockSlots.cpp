@@ -35,3 +35,12 @@ void rva00031420(const char *text)
 {
 	OutputDebugStringA(text);
 }
+
+// --- 0x00030850 (6B): tail-jump into the block-validity slot VA 0x00DE03F8
+// (?_IsValidBlock@MemoryPool@@YA_NPAXI@Z), unreferenced.
+extern void *g_00DE03F8;
+
+bool rva00030850(void *block, unsigned int heap)
+{
+	return ((bool (__cdecl *)(void *, unsigned int))g_00DE03F8)(block, heap);
+}

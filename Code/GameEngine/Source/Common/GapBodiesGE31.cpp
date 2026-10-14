@@ -601,3 +601,12 @@ int Rva00051888::rva00051888()
 {
 	return m_D0++;
 }
+
+// 0x00042334 (6B), unreferenced: timeGetTime through its winmm import, a
+// tail jump.
+extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
+
+unsigned long rva00042334()
+{
+	return timeGetTime();
+}
