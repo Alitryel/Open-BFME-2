@@ -14,12 +14,9 @@
 
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
-struct Coord3D
-{
-    float x, y, z;
-    Coord3D();
-    ~Coord3D();
-};
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_EXTERN_DTOR
+#include "../../../Include/Lib/Coord3DCtorView.h"
 
 struct PlayerPosition
 {
