@@ -51,7 +51,7 @@ class RousingSpeechUpdateModuleData {public:
  _STL::vector<AsciiString> modifiers;bool levelUp;
 };
 class SpecialAbilityUpdate {public:
- virtual void anchor();virtual void rva0045108D();
+ virtual void anchor();virtual void triggerAbilityEffect();
  const RousingSpeechUpdateModuleData *data;Object *object;char unknown0c[0x88-0xc];
 };
 class RousingSpeechUpdate:public SpecialAbilityUpdate {public:
@@ -61,7 +61,7 @@ class RousingSpeechUpdate:public SpecialAbilityUpdate {public:
 void RousingSpeechUpdate::triggerAbilityEffect()
 {
  const RousingSpeechUpdateModuleData *md=data;
- SpecialAbilityUpdate::rva0045108D();
+ SpecialAbilityUpdate::triggerAbilityEffect();
  rva004AD176();
  if(!affected.empty()) {
    _STL::vector<AsciiString> names(md->modifiers);
