@@ -1,4 +1,8 @@
 // ?rva007092F0@AptActionInterpreter@@AAEXPAVAptCIH@@PAVAptValue@@11H1@Z
+// partial score=0.9 date=2026-10-14
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva007092F0@AptActionInterpreter@@AAEXPAVAptCIH@@PAVAptValue@@11H1@Z
 // partial score=0.8956090242917316 date=2026-10-10
 // cl: /O2 /MD /EHsc
 class AptCIH; class EAStringC; class AptNativeHash; class AptArray; class AptPrototype; class AptLookup; class AptRegister; class AptString; class AptInteger;
@@ -105,6 +109,7 @@ void AptActionInterpreter::rva007092F0(AptCIH *context,AptValue *with,AptValue *
 {
     AptValue *value=0;
     rva007065e0((int)context,(int)with,(BfmeAptValue006DCD20*)source,(BfmeAptValue006DCD20**)&value);
+    _ReadWriteBarrier();
     EAStringC name;
     target->toString(name);
     if(value) {
@@ -116,7 +121,7 @@ void AptActionInterpreter::rva007092F0(AptCIH *context,AptValue *with,AptValue *
             AptCIH *parent=child->mpDisplayListParent;
             AptSpriteInstBase *parentDefinition=parent->SpriteBaseInline();
             ((BfmeSubmitter1283*)&parentDefinition->displayList)->bfmeSubmit1283(0,depth,(int)definition->character,(int)&name,(int)parent,1,-1,(float*)child->matrixToParent,(int)((char*)child+0xc),actions,morph,(int)init);
-            if(((Rva007092F0Character*)child->SpriteBaseInline())->flag2c==1) {
+            if((definition ? (((Rva007092F0Character*)child->SpriteBaseInline())->flag2c) : (((Rva007092F0Character*)child->SpriteBaseInline())->flag2c))==1) {
                 AptCIH *prev=0,*clone=0;
                 ((BfmeQuery1279*)&child->mpDisplayListParent->GetSpriteInstBase()->displayList)->bfmeQuery1279(depth,(int)&name,(void**)&prev,(void**)&clone);
                 if(clone->isCIH(false)) ((Rva007092F0Character*)((Rva006E3C80*)clone)->rva006E3C80())->flag2c=1;

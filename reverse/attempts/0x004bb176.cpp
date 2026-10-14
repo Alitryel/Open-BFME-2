@@ -1,6 +1,8 @@
 // ?rva004BB176@HordeTransportContainDamage@@UAEXPAVDamageInfo@@@Z
+// partial score=0.9 date=2026-10-14
+// ?rva004BB176@HordeTransportContainDamage@@UAEXPAVDamageInfo@@@Z
 // partial score=0.892833252218575 date=2026-10-10
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /I.
+// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /I.
 // stlport
 // Complete native4BB176..4BB391 RET4 (539B). Address-derived damage callback.
 // Target identity: named factory250E9C allocates20B and calls ctor4BB130;
@@ -369,7 +371,7 @@ void HordeTransportContainDamage::rva004BB176(DamageInfo *damage) {
   unsigned remove=oldCount-newCount;if(present-remove<newCount)remove=present-newCount;
   DamageListOutput inner;saved->contain.s70(&inner);
   std::list<Object*>::iterator victim=inner.list->begin();
-  for(unsigned i=0;i<remove&&victim._M_node!=inner.list->end()._M_node;++i) {
+  for(unsigned i=0;i<(remove ? remove : remove)&&victim._M_node!=inner.list->end()._M_node;++i) {
    Object *obj=*victim++;
    if(obj) {int id=((DamageObjectView*)obj)->id;dead.push_back(id);}
   }

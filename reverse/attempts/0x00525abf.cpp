@@ -1,4 +1,6 @@
 // ?rva00525ABF@Rva00525ABF@@QAEXPAVXfer@@@Z
+// partial score=0.9 date=2026-10-14
+// ?rva00525ABF@Rva00525ABF@@QAEXPAVXfer@@@Z
 // partial score=0.94 date=2026-10-05
 // cl: /Ireference/shims/bfmelist /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE
 // stlport
@@ -11,6 +13,8 @@
 // then swaps into +0x10/+0x14, version-gated second list (>=2) and +0x18 (>=3),
 // then forEach listener 0x005CC208. Layout: Rva005258E2List base 0x10 plus two
 // 4-byte STL lists plus int, same as Rva00526275 ctor precedent.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <list>
 
 class AsciiString;
@@ -181,6 +185,7 @@ void Rva00525ABF::rva00525ABF(Xfer *xfer)
 		v10.a[0] = 0;
 		v10.a[1] = 0;
 		v10.a[2] = 0;
+		_ReadWriteBarrier();
 		XferObjectID(xfer, (ObjectID *)&v10.a[0]);
 		*xfer == v10.a[1];
 		*xfer == v10.a[2];
@@ -196,6 +201,7 @@ void Rva00525ABF::rva00525ABF(Xfer *xfer)
 			v14.a[0] = 0;
 			((char *)&v14.a[1])[0] = 0;
 			*(float *)&v14.a[2] = g_00BBB9AC;
+			_ReadWriteBarrier();
 			XferObjectID(xfer, (ObjectID *)&v14.a[0]);
 			tmp14.insert(tmp14.end(), v14);
 		}

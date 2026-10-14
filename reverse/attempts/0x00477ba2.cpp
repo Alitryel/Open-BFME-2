@@ -1,4 +1,6 @@
 // ?rva00477BA2@HordeTransportContain@@QAEXPAVOldContain@@PAVObject@@@Z
+// partial score=0.9 date=2026-10-14
+// ?rva00477BA2@HordeTransportContain@@QAEXPAVOldContain@@PAVObject@@@Z
 // partial score=0.92 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
@@ -126,14 +128,14 @@ void HordeTransportContain::rva00477BA2(OldContain*old,Object*object){
  int count=container->getMultiLogicalBonePosition(bone.str(),32,0,matrices,true,reinterpret_cast<int>(indices));
  if(!count && container->getSingleLogicalBonePosition(bone.str(),0,&matrices[0]))count=1;
  int id=object->id;
- if(slots.find(id)!=slots.end())index=slots[id];
+ if(slots.end() != slots.find(id))index=slots[id];
  if(index>=count)index=0;
  if(old)old->removing(object);
  reinterpret_cast<NotifyContain*>(reinterpret_cast<char*>(this)+0x20)->n41(object,false);
  object->setTransformMatrix(&matrices[index]);
  PhysicsBehavior*physics=object->physics;
  if(physics){
-  RvaVector direction(object->matrix.rows[0].x,(physics ? object->matrix.rows[1].x : object->matrix.rows[1].x),1.0f);
+  RvaVector direction((owner ? object->matrix : object->matrix).rows[0].x,(physics ? object->matrix.rows[1].x : object->matrix.rows[1].x),1.0f);
   int r=GetGameLogicRandomValue(3,8,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeTransportContain.cpp",702);
   RvaVector force=direction*(float)r;
   physics->rva00390629(true);

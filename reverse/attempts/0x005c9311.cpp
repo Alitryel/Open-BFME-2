@@ -1,4 +1,6 @@
 // ?method_005C9311@Rva005C847BRecord@@QAEXHHM@Z
+// partial score=0.9 date=2026-10-14
+// ?method_005C9311@Rva005C847BRecord@@QAEXHHM@Z
 // partial score=0.9327098321342925 date=2026-10-10
 // stlport
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
@@ -18,7 +20,7 @@ void Rva005C847BRecord::method_005C9311(int a,int b,float weight){
  float width=((GridRadiusView*)a)->radius;
  int count=(int)(ceil((double)width/spacing)+1.1);
  FloatPair corner;corner.x=x-width*.5f;corner.y=y-width*.5f;
- for(int gridIndex=0;gridIndex<4;++gridIndex){
+ for(int gridIndex=0;4 > gridIndex;++gridIndex){
   Rva005C8176*grid=(Rva005C8176*)((LargeGroupAudioSoundKeyPair*)b)->getGrid(gridIndex);
   unsigned previous=entries.size();
   for(int i=0;i<count;++i){
@@ -27,7 +29,7 @@ void Rva005C847BRecord::method_005C9311(int a,int b,float weight){
     float py=(float)j*spacing;
     float offsetX=px;bool boundary=false;
     if(offsetX>width){offsetX=width;boundary=true;}
-    if(py>width){py=width;boundary=true;}
+    if(py>width){py=(width ? width : width);boundary=true;}
     FloatPair point;point.x=corner.x+offsetX;point.y=corner.y+py;
     TargetObj005C8DBF*cell=(TargetObj005C8DBF*)grid->rva005C8176(point);
     if(cell){

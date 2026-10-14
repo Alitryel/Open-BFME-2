@@ -1,4 +1,6 @@
 // ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
+// partial score=0.9 date=2026-10-14
+// ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
 // partial score=0.93 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /ICode/Libraries/Include/Lib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
@@ -151,13 +153,13 @@ Bool TerrainLogic::rva002814EF(const Coord3D *p0, const Coord3D *p1, Coord3D *ou
 			out->x -= p0->x;
 			out->y -= p0->y;
 			out->z -= p0->z;
-			out->x *= t;
+			out->x *= (out->y ? t : t);
 			out->z *= t;
 			out->y *= t;
 			out->x += p0->x;
 			out->y += p0->y;
 			out->z += p0->z;
-			if (isUnderwater(out->x, out->y, &out->z, 0, 0))
+			if (isUnderwater((out->y ? out : out)->x, out->y, &out->z, 0, 0))
 			{
 				Rva0030D111Shape *shape = area->shape();
 				Coord2D at;

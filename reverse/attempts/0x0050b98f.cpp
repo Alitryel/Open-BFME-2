@@ -1,13 +1,16 @@
 // ?rva0050B98F@Made002CCC2D@@QAEXPBUFadeInputPrefix@@H@Z
-// partial score=0.64 date=2026-10-14
+// partial score=0.9 date=2026-10-14
 // ?rva0050B98F@Made002CCC2D@@QAEXPBUFadeInputPrefix@@H@Z
 // partial score=0.8766027866500022 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /Oy- /MD /DNDEBUG /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <math.h>
 #include <string.h>
 #include "ascii_string.h"
 #include "Coord3D.h"
 #include "GameLogicObjectLookupView.h"
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 extern GameLogic *TheGameLogic;
 class Team;class ThingTemplate;
 struct CreateMask {unsigned words[4];};
@@ -34,11 +37,12 @@ void Made002CCC2D::rva0050B98F(const FadeInputPrefix *input,int unused) {
   position.x=((FadeObjectPrefix*)source)->position.x;
   position.y=((FadeObjectPrefix*)source)->position.y;
   position.z=((((FadeObjectPrefix*)source)->position.z) ? (((FadeObjectPrefix*)source)->position.z) : (((FadeObjectPrefix*)source)->position.z));
-  Coord3D offset;offset.x=offsetX;offset.y=offsetY;
+  _ReadWriteBarrier();
+  Coord3D offset;__vref(offset.x)=offsetX;offset.y=offsetY;
   float angle=((FadeObjectPrefix*)source)->angle;
   struct TrigPair {float c,s;} trig;
-  trig.s=(source ? ((float)sin((double)angle)) : ((float)sin((double)angle)));
-  trig.c=(input ? ((float)cos((double)angle)) : ((float)cos((double)angle)));
+  trig.s=(float)sin((double)angle);
+  trig.c=(float)cos((double)angle);
   float x=offset.x,y=offset.y;
   float dx=x*trig.c-y*trig.s;
   float dy=x*trig.s+y*trig.c;

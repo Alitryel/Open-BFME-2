@@ -1,11 +1,16 @@
 // ?update@AttributeModifierPoolUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.9 date=2026-10-14
+// ?update@AttributeModifierPoolUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.8 date=2026-10-12
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <deque>
 #include <vector>
 #include "reference/shims/bfme2_ascii/ascii_string.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 extern GameLogic *TheGameLogic;
 class Rva001E42F2 {public:void rva001E42F2(const int *);};
 class Object {public:void rva00293077(const void *);};
@@ -67,7 +72,7 @@ UpdateSleepTime AttributeModifierPoolUpdate::update()
      AttributeConditionWords clear;
      TheAttributeModifierStore->rva00214801(&clear,entry->index);
      ((Rva001E42F2*)getObject())->rva001E42F2(clear.words);
-     if(upgrade<=frame) {
+     if(__vref(upgrade)<=frame) {
        const FXList *fx=(const FXList*)TheAttributeModifierStore->getEndFX(entry->index,getObject());
        if(fx)FXList::doFXObj(fx,getObject(),0);
        CategoryView *category=(CategoryView*)TheAttributeModifierStore->GetCategoryContainer(entry->index);
@@ -76,6 +81,7 @@ UpdateSleepTime AttributeModifierPoolUpdate::update()
      } else {
        ++it;
        next=next<upgrade?next:upgrade;
+       _ReadWriteBarrier();
      }
    } else {
      ++it;

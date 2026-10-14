@@ -1,4 +1,6 @@
 // ?rva00480093@ShareExperienceBehavior@@UAEXM@Z
+// partial score=0.9 date=2026-10-14
+// ?rva00480093@ShareExperienceBehavior@@UAEXM@Z
 // partial score=0.93 date=2026-10-04
 // cl: /O1 /GX /arch:SSE /MD /DNDEBUG
 // ?rva0047FFFE@ShareExperienceBehavior@@QAEMPAVCoord3D@@PAUPos0047FFFE@@@Z @ 0x0047FFFE 149B
@@ -242,7 +244,7 @@ void ShareExperienceBehavior::rva00480093(float amount)
 {
 	const ShareExperienceBehaviorModuleData *data = m_moduleData;
 	Object *obj = m_object;
-	if (!((obj ? data->m_10 : data->m_10) > 0.0f))
+	if (!(!((obj ? data->m_10 : data->m_10) <= 0.0f)))
 		return;
 	if (obj->testStatus(OBJECT_STATUS_RVA00480093_65))
 		return;
@@ -256,7 +258,7 @@ void ShareExperienceBehavior::rva00480093(float amount)
 	center.y = obj->getPosition()->y;
 	center.z = obj->getPosition()->z;
 	Object *other;
-	while ((other = hits.next()) != 0) {
+	while (0 != (other = hits.next())) {
 		if (selfFlag && !TheGameLogic->m_9F && (other->m_template->m_110 & 0x04000000))
 			continue;
 		ExperienceTracker *tracker = other->m_264;

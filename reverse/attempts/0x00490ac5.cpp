@@ -1,4 +1,6 @@
 // ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
+// partial score=0.9 date=2026-10-14
+// ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
 // partial score=0.8831712078770902 date=2026-10-10
 // ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
 // partial score=0.8831712078770902 date=2026-10-10
@@ -175,7 +177,7 @@ void ArrowStormUpdate::rva00490AC5()
 		Rva00260EB1Filter(obj, 1, false).link(Rva0026119DFilter().link(&Rva002611BFFilter(obj))), 1);
 	Rva0029FB3BMember extra;
 	Object *other;
-	while ((other = hits.next()) != 0) {
+	while (0 != (other = hits.next())) {
 		const ThingTemplate *tmpl = other->m_template;
 		if (((tmpl ? tmpl : tmpl)->w[0x114 / 4] & 0x100) || ((tmpl ? tmpl : tmpl)->w[0x110 / 4] & 0x02000000)
 				|| ((tmpl ? tmpl : tmpl)->b.m_10D & 0x80) || ((tmpl ? tmpl : tmpl)->w[0x118 / 4] & 0x400000)
@@ -188,7 +190,7 @@ void ArrowStormUpdate::rva00490AC5()
 			extra.insert(extra.end(), id);
 		}
 	}
-	if (m_88.size() != 0) {
+	if ((other ? (m_88.size() != 0) : (m_88.size() != 0))) {
 		if (m_88.size() < data->m_D8) {
 			Rva0029FB3BMember &source = extra.empty() ? m_88 : extra;
 			Rva0029FB3BNode *it = source.m_node->m_next;

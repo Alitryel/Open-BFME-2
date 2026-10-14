@@ -1,4 +1,6 @@
 // ?rva002E916A@Rva002E7388Owner@@QAE_NHH@Z
+// partial score=0.9 date=2026-10-14
+// ?rva002E916A@Rva002E7388Owner@@QAE_NHH@Z
 // partial score=0.9424238913 date=2026-10-13
 // ?rva002E916A@Rva002E7388Owner@@QAE_NHH@Z
 // partial score=0.9424238913 date=2026-10-10
@@ -9,6 +11,8 @@
 // line walk come from this complete native boundary and WB D3CDE0.
 // Field names remain structural. 2E7388 setter independently establishes
 // field offsets; no new source name, type or storage ownership is inferred.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <math.h>
 struct ICoord2DBase {int x,y;};
 struct ICoord2D:public ICoord2DBase {bool operator!=(const ICoord2DBase&)const;};
@@ -51,6 +55,7 @@ bool Rva002E7388Owner::rva002E916A(int x,int y)
     else if((unsigned char)Rva002E6E8AGet(requestedLayer)||Rva001E3679(requestedLayer)) {if(cellLayer!=16)return false;}
    }
    if(!((Rva002E6DC4*)pathfinder)->rva002E6DC4(movementInfo,cell))return false;
+   _ReadWriteBarrier();
    float h=TheTerrainLogic->height(float(cx*10)+5.0,float(cy*10)+5.0,cellLayer,0,true);
    if(first){initialHeight=h;first=false;}
    else if((float)fabs((double)(h-initialHeight))>10.0f)return false;
@@ -58,6 +63,7 @@ bool Rva002E7388Owner::rva002E916A(int x,int y)
  }
  current.x=x;current.y=y;
  const ICoord2D *skip=&skipped;
+ _ReadWriteBarrier();
  int requested=requestedLayer;
  if((unsigned char)Rva002E6E6CGet(requested)&&current!=*skip) {
   Rva002E8145Info info;info.opaque=(int)pathfinder;info.skipX=skip->x;info.skipY=skip->y;

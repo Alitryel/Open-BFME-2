@@ -1,4 +1,6 @@
 // ?rva0052E4C9@Pathfinder@@QAEXPAVObject@@_N@Z
+// partial score=0.9 date=2026-10-14
+// ?rva0052E4C9@Pathfinder@@QAEXPAVObject@@_N@Z
 // partial score=0.8926492984108162 date=2026-10-10
 // cl: /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 
@@ -137,9 +139,9 @@ void Pathfinder::rva0052E4C9(Object *fenceObject, Bool insertFence)
 	Real tl_y = fencePosition->y + halfsizeY * c - fenceOffset * s;
 
 
-	for (Int iy = numStepsY; iy > 0; --iy, tl_x += ydx, tl_y += ydy)
+	for (Int iy = numStepsY;0 < iy; --iy, tl_x += ydx, tl_y += ydy)
 	{
-		Real x = tl_x;
+		volatile Real x = tl_x;
 		Real y = tl_y;
 		for (Int ix = numStepsX; (c ? ix : ix) > 0; --ix, x += xdx, y += xdy)
 		{
