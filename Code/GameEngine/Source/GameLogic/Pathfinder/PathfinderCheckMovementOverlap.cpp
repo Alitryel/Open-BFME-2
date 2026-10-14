@@ -1,37 +1,15 @@
-// ?rva002EA658@Pathfinder@@QAE_NPAVObject@@AAUTCheckMovementInfo@@PBUICoord2D@@@Z
-// partial score=0.9603315203315204 date=2026-10-10
-// ?rva002EA658@Pathfinder@@QAE_NPAVObject@@AAUTCheckMovementInfo@@PBUICoord2D@@@Z
-// partial score=0.918554 date=2026-10-09
-// ?rva002EA658@Pathfinder@@QAE_NPAVObject@@AAUTCheckMovementInfo@@PBUICoord2D@@@Z
-// partial score=0.918554 date=2026-10-09
-// ?rva002EA658@Pathfinder@@QAE_NPAVObject@@AAUTCheckMovementInfo@@PBUICoord2D@@@Z
-// partial score=0.97 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-// NEAR (helper draft for 0x002EA658 rva002EA658; the two other bodies here are
-// exact and landed from Code/GameEngine/Source/GameLogic/AI/PathfinderCheckForMovement.cpp).
-// 1015 of 1001 bytes: everything up to the inlined unit loop matches; there
-// retail moves the object (arg 1) into EBX once the cell pointer is dead
-// (`mov ebx,[ebp+8]` at 0x002EA878, cell reloaded from [ebp-0x20] per node)
-// while cl keeps reloading [ebp+8], so later template tests use dword/byte
-// forms with different registers. Tried: the 0x002EA0BA body (cached option
-// bits) for the else branch, flags+units split calls, a merged
-// flags-then-units form.
-//
-// BFME2's Pathfinder::checkForMovement family (Zero Hour AIPathfind.cpp
-// checkForMovement, extended):
-//   0x002EA0BA  rva002EA0BA (656 bytes): one cell's check, the body the
-//               WorldBuilder twin 0x00D5B030 calls out of line
-//   0x002EA34A  checkForMovement (782 bytes): resets the result fields and
-//               checks every cell of the footprint (radius, plus one when
-//               centred in a cell) around info.cell on info.layer; a missing
-//               cell or a refused cell fails
-//   0x002EA658  rva002EA658 (1001 bytes): the same with a second footprint
-//               (third argument) whose cells only count their own flags
-//               (WorldBuilder twin 0x00D5B720 calls 0x00D5B030 for the rest)
-// Retail inlines the per-cell check into both loops; the shared inline
-// helpers below are that check. Field names past Zero Hour's are not
-// recovered; kind-of bits (template +0x108) and cell flag fields follow the
-// WorldBuilder twin's BitFlags tests.
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include
+// Pathfinder second-footprint movement check, retail 002EA658..002EAA41
+// (1001 bytes, RET 12). WorldBuilder D5B720 calls the per-cell check D5B030;
+// retail inlines it. The established 002EA0BA/002EA34A sibling layouts and
+// Zero Hour AIPathfind.cpp checkForMovement supply the semantic guide.
+// Cells shared with otherCell only contribute terrain flags. Other cells
+// additionally check occupants, allies, crushing and the current target.
+// WB D5B1FD..D5B22E uses one compound skip condition for the mover, ignored
+// object and last object. Keeping that condition joined reproduces the EBX
+// owner and final full-word kind-BA test without a volatile pointer read.
+// The ordinal kind bits and neutral field names describe observed BFME2
+// accesses; the original helper name is not asserted.
 
 typedef int Int;
 typedef bool Bool;
@@ -54,11 +32,7 @@ enum Relationship
 	ALLIES
 };
 
-struct ICoord2D
-{
-	Int x;
-	Int y;
-};
+#include "Lib/ICoord2D.h"
 
 class ThingTemplate
 {
@@ -169,8 +143,6 @@ class Pathfinder
 {
 public:
 	PathfindCell *getCell(PathfindLayerEnum layer, Int x, Int y);
-	Bool rva002EA0BA(Object *obj, PathfindCell *cell, TCheckMovementInfo &info, ObjectID *lastID);
-	Bool checkForMovement(Object *obj, TCheckMovementInfo &info);
 	Bool rva002EA658(Object *obj, TCheckMovementInfo &info, const ICoord2D *otherCell);
 
 private:
@@ -195,105 +167,6 @@ private:
 			info.m_34++;
 	}
 
-	__forceinline Bool checkCell(Object *obj, PathfindCell *cell, TCheckMovementInfo &info, ObjectID *lastID)
-	{
-		checkCellFlags(obj, cell, info);
-		return checkCellUnits(obj, cell, info, lastID);
-	}
-
-	__forceinline Bool checkCellUnits(Object *obj, PathfindCell *cell, TCheckMovementInfo &info, ObjectID *lastID)
-	{
-		if (cell->rvaInfo14())
-			info.m_32 = true;
-
-		for (PathfindCellObjectNode *node = cell->getObjects(); node; node = node->m_next)
-		{
-			Object *unit = node->m_object;
-			if (unit == obj)
-				continue;
-			if (unit->getID() == info.m_18)
-				continue;
-			if (unit->getID() == *lastID)
-				continue;
-			*lastID = unit->getID();
-
-			Bool check = false;
-			Bool isAlly;
-			if (cell->hasObjects())
-			{
-				isAlly = obj->getRelationship(unit) == ALLIES;
-				if (isAlly)
-					info.m_31 = true;
-				if (info.m_11)
-					check = true;
-				if (!isAlly && (info.m_14 & 0x10))
-					check = true;
-			}
-			if (unit->IsAtGoalPosition())
-			{
-				isAlly = obj->getRelationship(unit) == ALLIES;
-				check = true;
-			}
-			if (!check)
-				continue;
-
-			if (isAlly && obj->getTemplate()->isKindOf(0x74) && unit->getTemplate()->isKindOf(0x74))
-				continue;
-			if (obj->getTemplate()->isKindOf(0x7D) && unit->getTemplate()->isKindOf(8))
-				continue;
-			if (isAlly && obj->getTemplate()->isKindOf(0xBA) && !unit->getTemplate()->isKindOf(0xBA))
-			{
-				info.m_32 = false;
-				continue;
-			}
-			if (obj->getTemplate()->isKindOf(0xBB))
-			{
-				info.m_32 = false;
-				continue;
-			}
-
-			if (isAlly)
-			{
-				if (!unit->getAI())
-					return false;
-				if (info.m_14 & 2)
-					return false;
-				info.m_2C = 1;
-				if (unit->getTemplate()->isKindOf(0xBA) && !obj->getTemplate()->isKindOf(0xBA))
-					return false;
-				continue;
-			}
-
-			if (obj->canCrushOrSquishNoAlly(unit, 2))
-				continue;
-			if (!(info.m_14 & 0x11))
-				continue;
-			AIUpdateInterface *ai = obj->getAI();
-			if (!ai)
-				return false;
-			Object *goal = ai->m_stateMachine->getGoalObject();
-			if (goal)
-			{
-				if (unit == goal || unit->m_274 == goal)
-					continue;
-				goal = goal->m_274;
-				if (goal && (unit == goal || unit->m_274 == goal))
-					continue;
-			}
-			Object *victim = ai->getCurrentVictim();
-			if (!victim)
-				return false;
-			if (unit == victim || unit->m_274 == victim)
-				continue;
-			victim = victim->m_274;
-			if (!victim)
-				return false;
-			if (unit == victim || unit->m_274 == victim)
-				continue;
-			return false;
-		}
-		return true;
-	}
 	__forceinline Bool checkPairCellUnits(Object *&obj, PathfindCell *cell, TCheckMovementInfo &info, ObjectID *lastID)
 	{
 		if (cell->rvaInfo14())
@@ -302,18 +175,14 @@ private:
 		for (PathfindCellObjectNode *node = cell->getObjects(); node; node = node->m_next)
 		{
 			Object *unit = node->m_object;
-			if (unit == obj)
-				continue;
-			if (unit->getID() == info.m_18)
-				continue;
-			if (unit->getID() == *lastID)
+			if (unit == obj || unit->getID() == info.m_18 || unit->getID() == *lastID)
 				continue;
 			*lastID = unit->getID();
 
 			Bool check = false;
 			Bool isAlly;
-			unsigned occupied=cell->hasObjects();
-			Object *owner=*(Object *volatile *)&obj;
+			unsigned occupied = cell->hasObjects();
+			Object *owner = obj;
 			if (occupied)
 			{
 				isAlly = owner->getRelationship(unit) == ALLIES;
@@ -391,56 +260,6 @@ private:
 	}
 };
 
-Bool Pathfinder::rva002EA0BA(Object *obj, PathfindCell *cell, TCheckMovementInfo &info, ObjectID *lastID)
-{
-	if (cell->getType() == 5)
-		info.m_34++;
-	if (cell->rvaBit18() && obj->rva0028AFBB())
-		info.m_34++;
-	UnsignedInt options = info.m_14;
-	if (options & 8)
-	{
-		Int layer = cell->getLayer();
-		if (info.layer != layer)
-		{
-			if (info.layer == 1 && layer != 0x10)
-				info.m_34++;
-			else if ((unsigned char)Rva002E6E8AGet(info.layer) && layer != 0x10)
-				info.m_34++;
-		}
-	}
-	if ((options & 4) && !((Rva002E6DC4 *)this)->rva002E6DC4(info.m_1C, cell))
-		info.m_34++;
-	return checkCellUnits(obj, cell, info, lastID);
-}
-
-Bool Pathfinder::checkForMovement(Object *obj, TCheckMovementInfo &info)
-{
-	info.m_2C = 0;
-	info.m_31 = false;
-	info.m_32 = false;
-	info.m_30 = false;
-	info.m_34 = 0;
-
-	Int numCellsAbove = info.radius;
-	if (info.centerInCell)
-		numCellsAbove++;
-
-	ObjectID lastID = INVALID_ID;
-	for (Int i = info.cell.x - info.radius; i < info.cell.x + numCellsAbove; i++)
-	{
-		for (Int j = info.cell.y - info.radius; j < info.cell.y + numCellsAbove; j++)
-		{
-			PathfindCell *cell = getCell(info.layer, i, j);
-			if (!cell)
-				return false;
-			if (!checkCell(obj, cell, info, &lastID))
-				return false;
-		}
-	}
-	return true;
-}
-
 Bool Pathfinder::rva002EA658(Object *obj, TCheckMovementInfo &info, const ICoord2D *otherCell)
 {
 	info.m_2C = 0;
@@ -468,7 +287,7 @@ Bool Pathfinder::rva002EA658(Object *obj, TCheckMovementInfo &info, const ICoord
 			}
 			else
 			{
-				checkCellFlags(obj,cell,info);
+				checkCellFlags(obj, cell, info);
 				if (!checkPairCellUnits(obj, cell, info, &lastID))
 					return false;
 			}
