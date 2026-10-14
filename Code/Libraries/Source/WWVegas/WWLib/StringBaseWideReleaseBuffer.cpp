@@ -104,8 +104,10 @@ void StringBase<char>::releaseBuffer()
 
 // The public destructor ??1?$StringBase@D@@QAE@XZ is the same retail body as releaseBuffer:
 // /OPT:ICF folded the two, so callers that destroy a StringBase<char> call 0x00036410.
-template <>
-StringBase<char>::~StringBase()
+// Instantiate the whole verified body as a COMDAT, as the other template
+// providers do. A strong specialization conflicts with callers' inline copies.
+template <typename T>
+StringBase<T>::~StringBase()
 {
     WideLock lock(Rva00035C90Get());
     if (m_data)
@@ -115,6 +117,8 @@ StringBase<char>::~StringBase()
         m_data = 0;
     }
 }
+
+template StringBase<char>::~StringBase();
 
 // One template definition, two explicit instantiations: retail's narrow and
 // wide bodies (exports 1625/1626) each sit straight after their releaseBuffer
