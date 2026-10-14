@@ -170,6 +170,7 @@ public:
 };
 extern const FieldParse g_rva005C4352FieldParse[];
 extern const FieldParse g_rva005C4553FieldParse[];
+extern const FieldParse g_rva005C47A8FieldParse[];
 class Rva005C4352Base
 {
 public:
@@ -180,6 +181,7 @@ class Rva005C4352 : public Rva005C4352Base
 public:
 	void rva005C4352(MultiIniFieldParse &p);
 	void rva005C4553(MultiIniFieldParse &p);
+	void rva005C47A8(MultiIniFieldParse &p);
 };
 void Rva005C4352::rva005C4352(MultiIniFieldParse &p)
 {
@@ -190,6 +192,12 @@ void Rva005C4352::rva005C4553(MultiIniFieldParse &p)
 {
 	buildFieldParse(p);
 	p.add(g_rva005C4553FieldParse, 0);
+}
+// 0x005C47A8: the same builder over the table at VA 0x00C74704.
+void Rva005C4352::rva005C47A8(MultiIniFieldParse &p)
+{
+	buildFieldParse(p);
+	p.add(g_rva005C47A8FieldParse, 0);
 }
 
 // 0x00576FFE (table VA 0x00C6E8F0): the dword the rowed getter 0x0042D697
