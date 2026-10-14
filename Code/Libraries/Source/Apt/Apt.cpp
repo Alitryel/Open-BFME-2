@@ -15,6 +15,7 @@ class EAStringC {
 public:
  EAStringC();
  EAStringC(const EAStringC &other);
+ const char *rva00620090() const;
  bool rva006CD4A0() const;
  bool rva006D30D0(const EAStringC *other) const;
  void rva006D3C60();
@@ -137,7 +138,7 @@ extern int g_bfmeAptFlagAtE176D4,g_rva00891FA0Value,g_rva00891FA0Ready;
 extern unsigned char g_Va00E1770C;
 extern AptActionInterpreter g_aptDateInterpreter;
 class Rva006DBB30SarDwordField {public:int get() const;};
-class BfmeAptValue006DCD20 {public:bool isUndefined() const;void setGCRootCount(unsigned);};
+class BfmeAptValue006DCD20 {public:bool isUndefined() const;void setGCRootCount(unsigned);BfmeAptValue006DCD20 *rva006DCF60(bool);};
 class Rva006CD650 {public:void *rva006CD650();};
 struct TickMovie {char pad[0x24];unsigned interval;};
 struct TickState {char pad[0xc];TickMovie *movie;char pad10[0x20];unsigned remainder;};
@@ -244,7 +245,13 @@ class BfmeRefVGO {unsigned *value;public:BfmeRefVGO():value(0){} ~BfmeRefVGO();}
 class Rva004A9DF3Element : public BfmeRefVGO {public:Rva004A9DF3Element(){} ~Rva004A9DF3Element();};
 class Rva00893030Manager {int head;public:Rva00893030Manager():head(0){} POOL_ALLOC void rva006CDE50(Rva004A9DF3Element *,int);};
 extern Rva00893030Manager *g_rva00893030Manager;
-class AptValueVector {int capacity,count;AptValue **values;int high;public:AptValueVector(int);void ReleaseValues();POOL_ALLOC};
+class AptValueVector {int capacity,count;AptValue **values;int high;public:AptValueVector(int);void ReleaseValues();POOL_ALLOC
+ int GetNumValues() const;
+ AptValue *operator[](int iPos) const {
+  if(!(iPos>=0 && iPos<count)){g_bfmeAptAssertAtE17734("iPos >= 0 && iPos < mCurrentNum","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValueVector.h",0x39);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}
+  return values[iPos];
+ }
+};
 extern AptValueVector *g_releaseVectorAtE17710;
 void Rva006CEC90Tick();
 void d_00891fa0();
@@ -756,4 +763,27 @@ private:
 
 Rva006CDB70Owner::Rva006CDB70Owner() : m_count(0), m_used(0), m_items(m_inline)
 {
+}
+
+// Native6CDA40..6CDB02: Ghidra-unlisted zombie-vector report over the E17714
+// optional value vector (owned above): count line, then for each entry from
+// the last down its CIH name, the instance resource file and size (+34 ->
+// +08/+04) and the +5C low word, plus the coreforge advisory line, all through
+// the rowed log 0x006CC110. Retail text; address name. The reload of the
+// global into a local inside the loop is what retail's per-iteration load of
+// E17714 at the same spot compiles as; a direct ternary read left an extra
+// branch (+2B).
+struct ZombieResource {int pad;unsigned size;EAStringC file;};
+struct ZombieInst {char pad[0x34];ZombieResource *resource;};
+struct ZombieCIH {char pad[8];EAStringC name;char pad0C[0x50];unsigned refs;};
+void Rva006CDA40ReportZombies() {
+ if(!g_aptOptionalValueVector)return;
+ int i=g_aptOptionalValueVector->GetNumValues()-1;
+ Rva006CC110Log(4,"ZOMBIE VECTOR HAS %d ITEMS IN IT\n",i+1);
+ for(;i>=0;--i) { AptValueVector *vec=g_aptOptionalValueVector;
+  ZombieCIH *cih=(ZombieCIH *)((BfmeAptValue006DCD20 *)(*vec)[i])->rva006DCF60(false);
+  ZombieInst *inst=(ZombieInst *)((Rva006CD650 *)cih)->rva006CD650();
+  Rva006CC110Log(4,"%d :: ZOMBIE SPRITE[name %s  file = %s.swf  size = %d bytes] HAS %d EXTERNAL REFERENCES\n",i+1,cih->name.rva00620090(),inst->resource->file.rva00620090(),(inst->resource->size ? (inst->resource->size) : (inst->resource->size)),cih->refs&0xffff);
+  Rva006CC110Log(4,"      REFER TO BUG253 ON COREFORGE FOR MORE INFORMATION [http://coreforge.eac.ad.ea.com/tracker/index.php?func=detail&aid=253&group_id=41&atid=247].  EVALUATION OF YOUR SWF FILES IS HIGHLY RECOMMENDED\n");
+ }
 }
