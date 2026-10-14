@@ -47,10 +47,13 @@ typedef std::list<Rva0073EEE0ListValue> TargetListAt0073EEE0;
 // push_back below reaches it through a call.
 template<>
 TargetListAt0073EEE0::iterator TargetListAt0073EEE0::insert(TargetListAt0073EEE0::iterator, const Rva0073EEE0ListValue &);
+template<> void TargetListAt0073EEE0::splice(iterator,TargetListAt0073EEE0&,iterator);
 template TargetListAt0073EEE0::_Node *TargetListAt0073EEE0::_M_create_node(const Rva0073EEE0ListValue &);
 __declspec(noinline) void ForceTargetListAt0073EEE0(
     TargetListAt0073EEE0 &list, const Rva0073EEE0ListValue &item) {
     list.push_back(item);
+    // Keep the real single-node splice provider emitted for the worker.
+    list.splice(list.end(), list, list.begin());
 }
 
 typedef char TargetListValueSize12[(sizeof(Rva0073EEE0ListValue) == 12) ? 1 : -1];
