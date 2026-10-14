@@ -240,6 +240,23 @@ class Rva001D28F0Element
 public:
 	~Rva001D28F0Element();
 };
+struct Rva004F69C3
+{
+	~Rva004F69C3();
+};
+class Rva00495C43PoolRecord
+{
+public:
+	~Rva00495C43PoolRecord();
+};
+class ProductionPrerequisite
+{
+public:
+	struct PrereqUnitRec
+	{
+		~PrereqUnitRec();
+	};
+};
 template void _STL::_Destroy<Rva000C2980>(Rva000C2980 *);
 template void _STL::_Destroy<Rva00216108>(Rva00216108 *);
 template void _STL::_Destroy<Rva0022304A>(Rva0022304A *);
@@ -303,3 +320,7 @@ typedef _STL::pair<AsciiString, AudioEventRTS> Rva002A12E1Pair;
 template <> Rva002A12E1Pair::~pair();
 template void _STL::_Destroy<Rva00288B89Pair>(Rva00288B89Pair *);
 template void _STL::_Destroy<Rva002A12E1Pair>(Rva002A12E1Pair *);
+
+template void _STL::_Destroy<Rva004F69C3>(Rva004F69C3 *);				// 0x0040D47E
+template void _STL::_Destroy<Rva00495C43PoolRecord>(Rva00495C43PoolRecord *);	// 0x00495DF8
+template void _STL::_Destroy<ProductionPrerequisite::PrereqUnitRec>(ProductionPrerequisite::PrereqUnitRec *);	// 0x0045710A
