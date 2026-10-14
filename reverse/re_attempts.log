@@ -56127,3 +56127,11 @@ __ehhandler$?init@W3DView@@UAEXXZ	0x0075FD33	10	landed	add_match verified Code/G
 ?Rva002226DAStore@@YAPAEPAEE@Z	0x002226DA	11	landed	add_match_batch verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 11B; cdecl byte store through the pointer argument returning it (EAX); t=3 model=claude-opus-5-5
 ?rva0023527F@Rva0023527FScales@@QAEXXZ	0x0023527F	15	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 15B; Native15 23527F..23528E sets six floats at +0 to 1.0 via rep stosd; owner unresolved
 ?rva0029A255@Rva0029A255Float@@QBEMXZ	0x0029A255	8	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 8B; Native8 29A255..29A25D x87 square of the float at +0x2C; owner unresolved
+?get@Rva0024AAEAConst@@SAHXZ	0x0024AAEA	4	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 4B; Native4 24AAEA constant 9 (push imm8 pop eax ret); owner unresolved
+?get@Rva0024AC8CConst@@SAHXZ	0x0024AC8C	4	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 4B; Native4 24AC8C constant 7; owner unresolved
+?get@Rva0024B1D7Const@@SAHXZ	0x0024B1D7	4	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 4B; Native4 24B1D7 constant 0x11; owner unresolved
+?get@Rva0024B778Const@@SAHXZ	0x0024B778	4	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 4B; Native4 24B778 constant 0x5F; owner unresolved
+?get@Rva0024C3F7Const@@SAHXZ	0x0024C3F7	4	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 4B; Native4 24C3F7 constant 5; owner unresolved
+?getCommonFieldParse@GenericObjectCreationNugget@@SAPBUFieldParse@@XZ	0x001F01EB	6	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetParseObject.cpp 6B; Native6 1F01EB returns the common FieldParse table BE0CC0 (s_commonFieldParse); ZH GenericObjectCreationNugget getCommonFieldParse
+?getFieldParse@Rva002E0628Table@@SAPBUFieldParse@@XZ	0x002E0628	6	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 6B; Native6 2E0628 returns FieldParse table C04820; owner unresolved
+?rva0030BE96@Rva0030BE96@@QBEHXZ	0x0030BE96	12	landed	add_match verified Code/GameEngine/Source/Common/GapLeavesSeat8.cpp 12B; Native12 30BE96 twice the count of the 16-byte vector at this-0x28; reached by jmp 30C4C1

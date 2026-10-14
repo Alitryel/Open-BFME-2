@@ -469,3 +469,46 @@ float Rva0029A255Float::rva0029A255() const
 {
 	return m_2C * m_2C;
 }
+
+// ---- third batch: constant returns ------------------------------------
+
+// --- 0x0024AAEA, 0x0024AC8C, 0x0024B1D7, 0x0024B778, 0x0024C3F7 (4B each):
+// constant returns (push imm8 / pop eax / ret); owners and meaning
+// unresolved, so each is a static of an address-named holder.
+struct Rva0024AAEAConst { static int get(); };
+int Rva0024AAEAConst::get() { return 9; }
+struct Rva0024AC8CConst { static int get(); };
+int Rva0024AC8CConst::get() { return 7; }
+struct Rva0024B1D7Const { static int get(); };
+int Rva0024B1D7Const::get() { return 0x11; }
+struct Rva0024B778Const { static int get(); };
+int Rva0024B778Const::get() { return 0x5F; }
+struct Rva0024C3F7Const { static int get(); };
+int Rva0024C3F7Const::get() { return 5; }
+
+// --- 0x002E0628 (6B): returns the FieldParse table g_00C04820 (the one
+// Rva002E2386Parse.cpp defines), the shape of a static getFieldParse();
+// owner unresolved.
+struct FieldParse;
+extern const FieldParse g_00C04820[];
+struct Rva002E0628Table { static const FieldParse *getFieldParse(); };
+const FieldParse *Rva002E0628Table::getFieldParse() { return g_00C04820; }
+
+// --- 0x0030BE96 (12B): twice the element count of the 16-byte vector
+// 0x28 bytes before the receiver (reached through the jmp at 0x0030C4C1).
+struct Rva0030BE96Element { int a[4]; };
+struct Rva0030BE96Range
+{
+	Rva0030BE96Element *m_begin;
+	Rva0030BE96Element *m_end;
+};
+class Rva0030BE96
+{
+public:
+	int rva0030BE96() const;
+};
+int Rva0030BE96::rva0030BE96() const
+{
+	const Rva0030BE96Range *range = (const Rva0030BE96Range *)((const char *)this - 0x28);
+	return (int)(range->m_end - range->m_begin) * 2;
+}

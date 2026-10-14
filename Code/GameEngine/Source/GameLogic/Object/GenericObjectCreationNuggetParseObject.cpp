@@ -63,6 +63,7 @@ public:
 	GenericObjectCreationNugget();
 	static void parseObject(INI *ini, void *instance, void *, const void *);
 	static void parseDebris(INI *ini, void *instance, void *, const void *);
+	static const FieldParse *getCommonFieldParse();
 
 protected:
 	~GenericObjectCreationNugget();
@@ -83,6 +84,14 @@ static const FieldParse s_commonFieldParse[] =
 {
 	{ 0, 0, 0, 0 }
 };
+
+// ?getCommonFieldParse@GenericObjectCreationNugget@@SAPBUFieldParse@@XZ,
+// retail 0x001F01EB (6B): returns the common table above (VA 0x00BE0CC0),
+// Zero Hour's GenericObjectCreationNugget::getCommonFieldParse.
+const FieldParse *GenericObjectCreationNugget::getCommonFieldParse()
+{
+	return s_commonFieldParse;
+}
 
 static const FieldParse s_objectFieldParse[] =
 {
