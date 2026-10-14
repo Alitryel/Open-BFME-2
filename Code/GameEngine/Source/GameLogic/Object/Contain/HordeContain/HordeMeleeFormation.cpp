@@ -128,4 +128,8 @@ namespace _STL {
 template bool operator==<deque<BfmeE12>::iterator>(
  const reverse_iterator<deque<BfmeE12>::iterator> &,
  const reverse_iterator<deque<BfmeE12>::iterator> &);
+// Its inequality, native00584DED (21B): !(x == y) through the call above.
+template bool operator!=<deque<BfmeE12>::iterator>(
+ const reverse_iterator<deque<BfmeE12>::iterator> &,
+ const reverse_iterator<deque<BfmeE12>::iterator> &);
 }
