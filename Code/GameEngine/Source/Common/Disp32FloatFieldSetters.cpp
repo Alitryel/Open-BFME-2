@@ -26,18 +26,6 @@ BFME_DISP32_FLOAT_SETTER(Rva0029A767FloatField, 0x764)
 BFME_DISP32_FLOAT_SETTER(Rva002A9E25FloatField, 0x314)
 BFME_DISP32_FLOAT_SETTER(Rva002AA0CDFloatField, 0x6F8)
 
-// BF1 9cbfb551fe Common/INI/AudioEventInfoConstructor.cpp One::set is the
-// clean 1.0f-store semantic guide; its AudioEventInfo and helper identities
-// are not target facts. Complete native177F00..177F0D lies after RET177EFF
-// and before the already-rowed177F0D body. It writes ECX+0 from independently
-// verified BBB8D8=0000803F and returns without stack arguments. Original owner,
-// field purpose, qualifiers and complete class bounds remain unresolved.
-struct Rva00177F00Fields {
-    float value00;
-    void setOne();
-};
-void Rva00177F00Fields::setOne() { value00=1.0f; }
-
 // Native30F2BA..30F2C7 is a complete float-argument store at ECX+0,
 // between independently bounded RET4 at30F2B7 and known getter30F2C7.
 // Found beside the BF1 9cb WaterRenderObjConstructor Boxed<float> placement;
