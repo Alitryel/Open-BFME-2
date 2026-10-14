@@ -683,6 +683,100 @@ Int Rva000FC34FFilter::set(FilterModes mode) {
  return false;
 }
 
+// ?postRender@Rva000FC34FFilter@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z @0x000FC04C
+// Native 771B RET16 body: instruction-for-instruction the DOT3 postRender
+// above (0x000FCF54) except that the two-pass alpha comes from
+// ScreenBWFilter::m_curFadeValue (0x00DEC1A0), the fade value this
+// filter's own set (0x000FC34F, slot 5 of the same table) steps. Zero
+// Hour's ScreenBWFilterDOT3::postRender is the matching two-pass contract.
+Bool Rva000FC34FFilter::postRender(FilterModes mode, Coord2D &scrollDelta,
+	Bool &doExtraRender, Coord2D *displaySize)
+{
+	IDirect3DTexture8 *tex = W3DShaderManager::endRenderToTexture();
+	if (!tex)
+		return false;
+	if (!set(mode))
+		return false;
+
+	BfmeDevice *pDev = BfmeDeviceGlobal;
+	Int xpos, ypos, width, height;
+	struct Vertex
+	{
+		D3DXVECTOR4 p;
+		unsigned int color;
+		Real u;
+		Real v;
+	} v[4];
+
+	theTacticalView()->getOrigin(&xpos, &ypos);
+	width = theTacticalView()->getWidth();
+	height = theTacticalView()->getHeight();
+
+	v[0].p = D3DXVECTOR4(xpos + width - 0.5f,
+		ypos + height - 0.5f, 0.0f, 1.0f);
+	v[0].u = (1.0f / displaySize->x) *
+		(Real)(xpos + width);
+	v[0].v = (1.0f / displaySize->y) *
+		(Real)(ypos + height);
+	v[1].p = D3DXVECTOR4(xpos + width - 0.5f,
+		ypos - 0.5f, 0.0f, 1.0f);
+	v[1].u = (1.0f / displaySize->x) *
+		(Real)(xpos + width);
+	v[1].v = (1.0f / displaySize->y) * (Real)ypos;
+	v[2].p = D3DXVECTOR4(xpos - 0.5f,
+		ypos + height - 0.5f, 0.0f, 1.0f);
+	v[2].u = (1.0f / displaySize->x) * (Real)xpos;
+	v[2].v = (1.0f / displaySize->y) *
+		(Real)(ypos + height);
+	v[3].p = D3DXVECTOR4(xpos - 0.5f,
+		ypos - 0.5f, 0.0f, 1.0f);
+	v[3].u = (1.0f / displaySize->x) * (Real)xpos;
+	v[3].v = (1.0f / displaySize->y) * (Real)ypos;
+	unsigned int currentFade =
+		((Int)((1.0f - ScreenBWFilter::m_curFadeValue) * 255.0f) << 24) |
+		0x00ffffff;
+	v[0].color = currentFade;
+	v[1].color = currentFade;
+	v[2].color = currentFade;
+	v[3].color = currentFade;
+
+	BfmeDevice *fvfDevice = BfmeDeviceGlobal;
+	fvfDevice->v->SetVertexShader(fvfDevice, 0x144);
+	++number_of_DX8_calls;
+	if (((struct BfmeCaps *)DX8Wrapper::_Get_DX8_Caps())->dot3)
+	{
+		DX8Wrapper::Set_DX8_Render_State(60, 0x80a5ca8e);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 26, 35);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 2, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 3, 35);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 1, 25);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(1, 2, 1);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(1, 3, 3);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(1, 1, 24);
+	}
+	else
+	{
+		DX8Wrapper::Set_DX8_Render_State(60, 0x60606060);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 2, 2);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 3, 3);
+		DX8Wrapper::Set_DX8_Texture_Stage_State(0, 1, 4);
+	}
+
+	DX8Wrapper::Set_DX8_Texture(0, tex);
+	pDev->v->DrawPrimitiveUP(pDev, 5, 2, v,
+		sizeof(Vertex));
+
+	ShaderClass::Force_Dirty();
+	DX8Wrapper::Set_Shader(
+		ShaderClass(ShaderClass::_PresetAlphaShader.bits | 7));
+	DX8Wrapper::Apply_Render_State_Changes();
+	DX8Wrapper::Set_DX8_Texture_Stage_State(0, 4, 3);
+	pDev->v->DrawPrimitiveUP(pDev, 5, 2, v,
+		sizeof(Vertex));
+	reset();
+	return true;
+}
+
 // ?init@Rva000FCF54Filter@@UAEHXZ @0x000FC91C (42B): slot 0 of the same
 // vftable. Zero Hour's filter init shape: the shared fade frame is reset,
 // render to texture and the rowed shader-manager setting 0x00075E3C must
