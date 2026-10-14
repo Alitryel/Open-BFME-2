@@ -191,3 +191,50 @@ table->AddStat(0,6,Rva005DD822(prefs->rva00535FBA()),true);
 table->AddStat(2,6,Rva005DD822(prefs->rva0053604B()),true);
 table->AddStat(3,6,Rva005DD822(prefs->rva0053616D()),true);
 }
+
+// Native5C2603..5C2F74 code plus35 DWORD switch entries through5C3000.
+// WB1592C10 repeats the six-faction persistent-stat builder with the RTS
+// rows26/28..31/33..34 and a zero total-column weight. The shared string
+// and display-record ABI comes from the independently matched builder above.
+// Receiver identity remains unknown; native LEA EDI,[ECX+8] proves prefs+8.
+class Rva005C2603View {public:void call(Rva005DDE01*);};
+void Rva005C2603View::call(Rva005DDE01*table){
+UserPreferences*prefs=(UserPreferences*)((char*)this+8);
+for(int side=0;side<6;++side){AsciiString faction(kFactions[side]);int wins=prefs->rva00535BF6(faction);int losses=prefs->rva00535CE4(faction);for(int row=0;row<37;++row){switch(row){
+case 0:{table->AddStat(0,side,Rva005DD822(prefs->rva00535D75(faction)),true);break;}
+case 1:{table->AddStat(1,side,Rva005DD822(prefs->rva00535E06(faction)),true);break;}
+case 2:{table->AddStat(2,side,Rva005DD822(prefs->rva00535E97(faction)),true);break;}
+case 3:{table->AddStat(3,side,Rva005DD822(prefs->rva00535F28(faction)),true);break;}
+case 4:{table->AddStat(4,side,Rva005DD822(wins),true);break;}
+case 5:{table->AddStat(5,side,Rva005DD822(losses),true);break;}
+case 6:{table->AddStat(6,side,Rva005DD8E0((float)wins,(float)losses),true);break;}
+case 7:{table->AddStat(7,side,Rva005DD822(wins+losses),true);break;}
+case 8:{table->AddStat(8,side,Rva005DDED5((unsigned int)prefs->rva00535AE1(faction)),true);break;}
+case 9:{table->AddStat(9,side,Rva005DDED5((unsigned int)prefs->rva005359A9(faction)),true);break;}
+case 10:{table->AddStat(10,side,Rva005DDED5((unsigned int)prefs->rva00535A45(faction)),true);break;}
+case 11:{table->AddStat(11,side,Rva005DDED5((unsigned int)prefs->rva0053590D(faction)),true);break;}
+case 12:{UnicodeString label=Rva005C1B2D(prefs->rva0053755A(faction));table->AddStat(12,side,Rva005DD772(label,0),true);break;}
+case 13:{UnicodeString label=Rva005C1B2D(prefs->rva00537616(faction));table->AddStat(13,side,Rva005DD772(label,0),true);break;}
+case 14:{table->AddStat(14,side,Rva005DD822(prefs->rva005362B2(faction)),true);break;}
+case 15:{table->AddStat(15,side,Rva005DD822(prefs->rva00536343(faction)),true);break;}
+case 16:{table->AddStat(16,side,Rva005DD822(prefs->rva005363D4(faction)),true);break;}
+case 17:{table->AddStat(17,side,Rva005DD822(prefs->rva00536465(faction)),true);break;}
+case 18:{table->AddStat(18,side,Rva005DD822(prefs->rva005364F6(faction)),true);break;}
+case 19:{float numerator=(float)prefs->rva00536587(faction);float denominator=(float)prefs->rva005364F6(faction);table->AddStat(19,side,Rva005DD8E0(numerator,denominator),true);break;}
+case 20:{table->AddStat(20,side,Rva005DD822(prefs->rva00536587(faction)),true);break;}
+case 26:{table->AddStat(26,side,Rva005DD822(prefs->rva00536815(faction)),true);break;}
+case 28:{table->AddStat(28,side,Rva005DD822(prefs->rva00536D39(faction)),true);break;}
+case 29:{table->AddStat(29,side,Rva005DD822(prefs->rva00536CA8(faction)),true);break;}
+case 30:{table->AddStat(30,side,Rva005DD822(prefs->rva00536E5B(faction)),true);break;}
+case 31:{table->AddStat(31,side,Rva005DD822(prefs->rva00536DCA(faction)),true);break;}
+case 33:{table->AddStat(33,side,Rva005DD822(prefs->rva00536EEC(faction)),true);break;}
+case 34:{table->AddStat(34,side,Rva005DD822(prefs->rva00536F7D(faction)),true);break;}
+}}}
+((GameStats::Persistent*)table)->CalculateTotalColumn(0);
+table->AddStat(12,6,Rva005DD772(Rva005C1B2D(prefs->rva005376D2()),0),true);
+table->AddStat(13,6,Rva005DD772(Rva005C1B2D(prefs->rva005377B6()),0),true);
+table->AddStat(1,6,Rva005DD822(prefs->rva005360DC()),true);
+table->AddStat(0,6,Rva005DD822(prefs->rva00535FBA()),true);
+table->AddStat(2,6,Rva005DD822(prefs->rva0053604B()),true);
+table->AddStat(3,6,Rva005DD822(prefs->rva0053616D()),true);
+}
