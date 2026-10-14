@@ -1,7 +1,3 @@
-// ?distanceSortUnits@AITeamBuilder@@QAEXPAXPBXPBUCoord3D@@@Z
-// partial score=0.94 date=2026-10-08
-// ?distanceSortUnits@AITeamBuilder@@QAEXPAXPBXPBUCoord3D@@@Z
-// partial score=0.85 date=2026-10-08
 // cl: /O1 /MD /EHs /G7 /ICode/GameEngine/Source/Common /ICode/Libraries/Include /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // WB 0x0152B630 names distanceSortUnits (assert 492). Native
@@ -67,7 +63,7 @@ void AITeamBuilder::distanceSortUnits(void *sortedStorage,
         delta.z -= position->z;
         TreeOpaqueMapped00372FF4 value;
         value.m_bits = objectID;
-        ((DistanceTree *)&distances)->insert_equal(DistanceValue(delta.x*delta.x + delta.y*delta.y + delta.z*delta.z, value));
+        ((sorted ? ((DistanceTree *)&distances) : ((DistanceTree *)&distances)))->insert_equal(DistanceValue(delta.x*delta.x + delta.y*delta.y + delta.z*delta.z, value));
     }
     sorted->reserve(distances.size());
     DistanceTree *tree = (DistanceTree *)&distances;
