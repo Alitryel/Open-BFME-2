@@ -220,7 +220,7 @@ struct AudioEventInfo {
     bool isTightlyCoupledSound(void) const;
     char at00[0x08];
     AsciiString m_audioName;                 // +0x08
-    char at0C[0x30 - 0x0C];
+    char at0C[0x1C - 0x0C]; float m_at1C; char at20[0x30 - 0x20];
     float m_at30;                            // +0x30, playAudioEvent drops a sound effect when a random draw exceeds it
     char at34[0x38 - 0x34];
     int m_at38;                              // +0x38, playAudioEvent compares it with g_00DBA4FC
@@ -405,7 +405,7 @@ struct PlayingAudio {
     bool m_at49;                         // +0x49
     bool m_at4A;                         // +0x4A
     bool m_at4B;                         // +0x4B, set by 0x000535A6
-    char at4C[0x4D - 0x4C];
+    bool m_at4C;
     bool m_at4D;                         // +0x4D, raise the event's script flag on release (0x5FDCA)
     bool m_at4E;                         // +0x4E, m_at24 holds a position
     bool m_at4F;                         // +0x4F, set when 0x5634C hands on a new extra volume
@@ -1057,7 +1057,7 @@ public:
     virtual void slot106(Rva0005276C *corners);
     virtual bool rva000516EF(const Coord3D *pos);
     // Slot 109 (+0x1B4) returns the frame's elapsed time the update keeps at +0x90.
-    virtual void slot108(); virtual float slot109();
+    virtual bool slot108(AudioEventRTS *); virtual float slot109();
     // Slot 110 (+0x1B8), the first call init() makes.
     virtual void rva000541DB(void);
     bool rva00055FCA(int key, void **result, PlayingAudioRef *playingOut);
@@ -1119,6 +1119,7 @@ public:
         void reset(void);
         void rva00052048(int index);
         void rva00052015(int arg);
+        unsigned char rva000520F4(const AudioEventInfoRef &, int);
         float rva0005910F(AudioEventRTS *event);
         void refreshAll(void);
         // Distance attenuation of +0x94 (WB 0x77A260, unnamed) from the
@@ -1169,6 +1170,9 @@ public:
     void rva000603ED(void);
     void rva000544EB(void);
     void startPendingMusicTracks(void);
+    void processPlayingList(Rva00052B3D *streams);
+    int rva00052F1E(void *);
+    void adjustPlayingVolume(void *ref);
     bool processFade(PlayingAudioRef &playing);
     void openDevice(void);
     void removeCurrentlyPlayingMusic(int viewType, int arg);
@@ -2580,7 +2584,7 @@ void MilesAudioManager::rva0005B256(Xfer *xfer, PlayingAudioRef &playing, int *u
             reinterpret_cast<Rva000A8C9B *>(&playing)->clear();
             return;
         }
-        playing->at4C[0] = 1;
+        playing->m_at4C = 1;
         unsigned int handle = m_nextHandle++;
         _STL::pair<Rva0005B256HandleMap::iterator, bool> result =
             reinterpret_cast<Rva0005B256HandleMap *>(atB6C)->insert(
@@ -4133,7 +4137,7 @@ bool MilesAudioManager::rva0005538C(void)
 }
 
 class Rva00052B3D;
-class Rva0005C892 { public: void rva0005C892(void); void rva0005C23C(Rva00052B3D *state); };
+class Rva0005C892 { public: void rva0005C892(void); };
 
 // Retail 0x0005DAFC (address-derived): under the mutex, switches the active
 // view type (+0x678) and refreshes the reverb, the microphone and the 0x5C892
@@ -5369,7 +5373,7 @@ void MilesAudioManager::rva00062690()
     processRequestList();
     startPendingMusicTracks();
     Rva00052B3D ambient;
-    ((Rva0005C892 *)this)->rva0005C23C(&ambient);
+    processPlayingList(&ambient);
     rva0005F2BB(&ambient);
     rva0005B708();
     m_at6A5 = false;
@@ -6200,4 +6204,265 @@ void MilesAudioManager::friend_xferSubAudioEventRTS(Xfer *xfer, BfmePoolRef10 *e
     } else if (xfer->isLoading()) {
         eventRef->rva000519BD();
     }
+}
+
+// Rowed gate535CC and audibility predicate52F1E, rehomed with their caller.
+class Rva002DA318 { public: bool rva002DA318(); };
+class Rva000535CC
+{
+public:
+    void rva000535CC(void *p);
+private:
+    char at00[0x10];
+    AudioSettings *m_audioSettings;
+    char at14[0x6AC - 0x14];
+    bool m_at6AC;
+    char at6AD[0x6B0 - 0x6AD];
+    int m_at6B0;
+};
+
+void Rva000535CC::rva000535CC(void *p)
+{
+    if ((*(PlayingAudio **)p)->m_at4C == 0)
+        return;
+    if (m_at6AC != 0)
+        return;
+    (*(PlayingAudio **)p)->m_at4C = 0;
+    if (m_at6B0 != 0)
+        return;
+    (*(PlayingAudio **)p)->m_at45 = 1;
+    (*(PlayingAudio **)p)->m_at30 = (float)m_audioSettings->m_at78;
+}
+
+// Retail 0x00052F1E: an event stays audible below the settings' +0xB8
+// cutoff when its info's type bit 3 is set, its priority is 4 or its +0x1C
+// reaches the cutoff.
+int MilesAudioManager::rva00052F1E(void *event)
+{
+    AudioEventRTS *e = (AudioEventRTS *)event;
+    if ((e->m_info->m_type & 8) || e->m_info->m_priority == 4 || e->m_info->m_at1C >= m_audioSettings->m_atB8)
+        return true;
+    return false;
+}
+
+
+extern const float BfmeZeroRange;  // data-ledger zero at VA 0x00BBAEAC
+
+// These two rowed volume helpers must be visible together. Read the referent
+// explicitly after each call: this preserves native reloads without binding a
+// pointer-reference local that makes the caller's PlayingAudioRef escape.
+class Rva001D990C
+{
+public:
+	bool rva001D990C(int v);
+};
+__declspec(noinline) inline float MilesAudioManager::rva0005A9F8(void *ref, int a, int b)
+{
+	AudioEventRTS *event = (*(PlayingAudio **)ref)->m_event.get();
+	float volume = rva00059AD0(event, a);
+	if (b == 1)
+		volume *= ((Rva0005117B *)this)->rva0005117B((*(PlayingAudio **)ref)->m_at30);
+
+	event = (*(PlayingAudio **)ref)->m_event.get();
+	if (event->m_at52 && volume < 0.01f && event->m_info != 0
+		&& !((Rva001D990C *)event->m_info)->rva001D990C(2))
+		volume = 0.01f;
+	return volume;
+}
+
+extern "C" __declspec(dllimport) void __stdcall AIL_sample_volume_pan(void *, float *, float *);
+extern "C" __declspec(dllimport) void __stdcall AIL_set_sample_volume_pan(void *, float, float);
+__declspec(noinline) inline void MilesAudioManager::adjustPlayingVolume(void *ref)
+{
+	float volume = rva0005A9F8(ref, 1, 1);
+	PlayingAudio *playing = *(PlayingAudio **)ref;
+	int type = playing->m_type;
+	if (type == 0 || type == 1)
+	{
+		void *sample = get2DSampleHandleForPlayingAudio(ref);
+		float pan;
+		AIL_sample_volume_pan(sample, 0, &pan);
+		AIL_set_sample_volume_pan(sample, volume, pan);
+	}
+	else if (type == 2 || type == 3)
+	{
+		void *sample3D = get3DSampleHandleForPlayingAudio(*(PlayingAudioRef *)ref);
+		if (sample3D != 0)
+			AIL_set_3D_sample_volume(sample3D, volume);
+	}
+	else if (type == 4)
+	{
+		((Rva000A8AEE *)&playing->m_at0C)->rva000A8AEE(volume);
+	}
+	(*(PlayingAudio **)ref)->m_at4F = 0;
+}
+
+// Retail 0x0005C23C (WorldBuilder twin 0x007A14A0, unnamed; Zero Hour's
+// processPlayingList is the semantic guide): every playing 2D sound, 3D
+// sound and stream applies pending pauses, fades and volume changes and
+// leaves its list once stopped or finished; the 3D pass also moves its
+// sample. The first two music streams of the current view type are handed
+// back in streams, the rest of it filled with the stream list's end.
+void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
+{
+    PlayingAudioRef playing;
+    OpaqueRefList::iterator it;
+
+    it = reinterpret_cast<OpaqueRefList &>(m_playingSounds).begin();
+    while (it != reinterpret_cast<OpaqueRefList &>(m_playingSounds).end()) {
+        playing = *reinterpret_cast<const PlayingAudioRef *>(&*it);
+        PlayingAudio *audio = playing.get();
+        if (!audio) {
+            it = reinterpret_cast<OpaqueRefList &>(m_playingSounds).erase(it);
+            continue;
+        }
+        if (m_at6A5 || (audio->m_at4C && !m_at6AC)) {
+            ((Rva000535CC *)this)->rva000535CC(&playing);
+            rva000535A6(playing);
+            pauseResumeSound(playing);
+        }
+        if (((Rva002DA318 *)audio->m_event.operator->())->rva002DA318())
+            audio->m_event->m_at4C = true;
+        if (audio->m_event->m_at4C && (audio->m_event->m_info->m_control & 0x10))
+            audio->m_at44 = true;
+        bool fading = processFade(playing);
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_at47;
+        if (done && audio->m_at48) {
+            if (audio->m_event->hasMoreLoops())
+                rva0005AA72(playing);
+            it = reinterpret_cast<OpaqueRefList &>(m_playingSounds).erase(it);
+        } else if (audio->m_status == 1 || done) {
+            AIL_stop_sample(get2DSampleHandleForPlayingAudio(&playing));
+            it = reinterpret_cast<OpaqueRefList &>(m_playingSounds).erase(it);
+        } else {
+            if (reinterpret_cast<GlobalVolumeData *>(m_volumeData[audio->m_event->getViewType()])->rva000520F4(*reinterpret_cast<const AudioEventInfoRef *>(&audio->m_event->m_info), 0)
+                || m_at6A5 || fading || audio->m_at4F)
+                adjustPlayingVolume(&playing);
+            if (m_at6A8)
+                rva00052FA0(playing);
+            ++it;
+        }
+    }
+
+    it = reinterpret_cast<OpaqueRefList &>(m_playing3DSounds).begin();
+    while (it != reinterpret_cast<OpaqueRefList &>(m_playing3DSounds).end()) {
+        playing = *reinterpret_cast<const PlayingAudioRef *>(&*it);
+        PlayingAudio *audio = playing.get();
+        if (!audio) {
+            it = reinterpret_cast<OpaqueRefList &>(m_playing3DSounds).erase(it);
+            continue;
+        }
+        if (m_at6A5 || (audio->m_at4C && !m_at6AC)) {
+            ((Rva000535CC *)this)->rva000535CC(&playing);
+            rva000535A6(playing);
+            pauseResumeSound(playing);
+        }
+        if (((Rva002DA318 *)audio->m_event.operator->())->rva002DA318())
+            audio->m_event->m_at4C = true;
+        if (audio->m_event->m_at4C && (audio->m_event->m_info->m_control & 0x10))
+            audio->m_at44 = true;
+        processFade(playing);
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_at47;
+        void *sample3D = get3DSampleHandleForPlayingAudio(playing);
+        if (done && audio->m_at48) {
+            if (audio->m_event->hasMoreLoops())
+                rva0005AA72(playing);
+            it = reinterpret_cast<OpaqueRefList &>(m_playing3DSounds).erase(it);
+        } else if (audio->m_status == 1 || done) {
+            if (sample3D)
+                AIL_stop_3D_sample(sample3D);
+            it = reinterpret_cast<OpaqueRefList &>(m_playing3DSounds).erase(it);
+        } else if (!sample3D) {
+            ++it;
+        } else {
+            bool valid;
+            BfmeEventPositionView pos = Rva0005160FGet(audio->m_event.operator->(), valid);
+            if (valid) {
+            if (slot108(audio->m_event.operator->())) {
+                audio->m_at46 = true;
+                audio->m_at47 = false;
+            } else if (audio->m_at46) {
+                audio->m_at46 = false;
+                audio->m_at47 = true;
+            }
+            float volume = rva0005A9F8(&playing, 0, 0);
+            AudioEventRTS *event = audio->m_event.operator->();
+            unsigned char audible = (unsigned char)rva00052F1E(event);
+            if (m_audioSettings->m_atB8 > volume && !audible) {
+                if (event->hasMoreLoops())
+                    rva0005AA72(playing);
+                AIL_register_3D_EOS_callback(sample3D, 0);
+                it = reinterpret_cast<OpaqueRefList &>(m_playing3DSounds).erase(it);
+                continue;
+            }
+            setOcclusionLevels(playing, reinterpret_cast<const Coord3D *>(&pos));
+            bool retest = false;
+            if (m_at6A9 && audio->m_event->m_info->m_reverbWetLevel > BfmeZeroRange)
+                rva00055C5D(playing, &retest);
+            if (m_at6A8 || retest)
+                rva00052FA0(playing);
+            float level = rva0005A9F8(&playing, 1, 1);
+            AIL_set_3D_position(sample3D, pos.x, pos.y, -pos.z);
+            AIL_set_3D_sample_volume(sample3D, level);
+            ++it;
+            } else {
+                if (audio->m_event->hasMoreLoops())
+                    rva0005AA72(playing);
+                AIL_register_3D_EOS_callback(sample3D, 0);
+                it = reinterpret_cast<OpaqueRefList &>(m_playing3DSounds).erase(it);
+            }
+        }
+    }
+
+    OpaqueRefList::iterator *found = reinterpret_cast<OpaqueRefList::iterator *>(streams);
+    int count = 0;
+    OpaqueRefList &list = reinterpret_cast<OpaqueRefList &>(m_playingStreams);
+    it = list.begin();
+    while (it != list.end()) {
+        playing = *reinterpret_cast<const PlayingAudioRef *>(&*it);
+        PlayingAudio *audio = playing.get();
+        if (!audio) {
+            it = list.erase(it);
+            continue;
+        }
+        if (m_at6A5 || (audio->m_at4C && !m_at6AC)) {
+            ((Rva000535CC *)this)->rva000535CC(&playing);
+            rva000535A6(playing);
+            pauseResumeSound(playing);
+        }
+        if (((Rva002DA318 *)audio->m_event.operator->())->rva002DA318())
+            audio->m_event->m_at4C = true;
+        if (audio->m_event->m_info->m_atB0 == 3) {
+            if (audio->m_event->m_viewType == m_at678)
+                found[count++] = it;
+            ++it;
+            continue;
+        }
+        if (audio->m_event->m_at4C) {
+            if (audio->m_event->m_info->m_control & 0x10)
+                audio->m_at44 = true;
+            else
+                audio->m_status = 1;
+        }
+        bool fading = processFade(playing);
+        bool done = audio->m_at30 >= (float)m_audioSettings->m_at78 && !audio->m_at45 && !audio->m_at47;
+        if (done && audio->m_at48) {
+            if (audio->m_event->hasMoreLoops())
+                rva0005AA72(playing);
+            ((MilesStreamRef *)&audio->m_at0C)->rva000A8AC0();
+            it = list.erase(it);
+        } else if (audio->m_status == 1 || done) {
+            ((MilesStreamRef *)&audio->m_at0C)->rva000A8AC0();
+            it = list.erase(it);
+        } else {
+            if (m_at6A8)
+                rva00052FA0(playing);
+            if (reinterpret_cast<GlobalVolumeData *>(m_volumeData[audio->m_event->getViewType()])->rva000520F4(*reinterpret_cast<const AudioEventInfoRef *>(&audio->m_event->m_info), 0)
+                || fading || m_at6A5 || audio->m_at4F)
+                adjustPlayingVolume(&playing);
+            ++it;
+        }
+    }
+    for (; count < 2; ++count)
+        found[count] = list.end();
 }
