@@ -291,6 +291,7 @@ const std::vector<AsciiString>& getExtraCommands() const { return extraCommands;
 bool getAutoAbility() const { return autoAbility; }
 void setFlashCount(int n) const { flashCount=n; }
 void rva0035B5C2(Object*,bool); void rva0035B6FA(ObjectID,bool);
+const class Image *rva0035B19E() const;
  char pad000[0x14];
  int type;
  char pad018[0x4];
@@ -334,6 +335,7 @@ enum CommandAvailability
 
 class ControlBar { public:
 CBCommandStatus processCommandUI(const CommandButton*,bool,bool);
+CBCommandStatus rva0053B1CF(GameWindow *control, unsigned int gadgetMessage);
 void switchToContext(int,void*);
 const CommandButton *findCommandButton(const AsciiString&);
 CommandAvailability getCommandAvailability(const CommandButton*,GameWindow*,Object*,float*,bool) const;
@@ -922,4 +924,41 @@ CBCommandStatus ControlBar::processCommandUI(const CommandButton *commandButton,
     default: return CBC_COMMAND_NOT_USED;
     }
     return CBC_COMMAND_USED;
+}
+
+// Retail 0x0053B1CF (141 bytes, RET 8), after processCommandUI's switch
+// data: the button-click entry. A null control or one without a command
+// button, a control whose vslot 8 answers false, or the rowed PlayerList
+// query 0x002A7DD0 being true, ignores the click. Otherwise the button
+// remembers its window (+0xC4), processCommandUI runs with primary = not
+// 0x4009 and repeated = 0x400B, and a button still on the same control
+// whose command type is not 0x10 gets its enabled image refreshed (rowed
+// 0x0035B19E / 0x002C0433). Zero Hour's processCommandUI(GameWindow*, ...)
+// front half; BFME 2's name for it is not established.
+class Image;
+void *GadgetButtonGetData(GameWindow *window);
+void GadgetButtonSetEnabledImage_Rva002C0433(GameWindow *window, const Image *image);
+class Rva0053B1CFWindow { public:
+virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
+virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
+virtual bool slot8();
+};
+class Rva002A7DD0 { public: bool rva002A7DD0(); };
+struct Rva0053B1CFButtonWindow { char pad000[0xC4]; GameWindow *window; };
+CBCommandStatus ControlBar::rva0053B1CF(GameWindow *control, unsigned int gadgetMessage)
+{
+    if (!control)
+        return CBC_COMMAND_NOT_USED;
+    CommandButton *commandButton = (CommandButton *)GadgetButtonGetData(control);
+    if (!((Rva0053B1CFWindow *)control)->slot8())
+        return CBC_COMMAND_NOT_USED;
+    if (!commandButton)
+        return CBC_COMMAND_NOT_USED;
+    if (((Rva002A7DD0 *)ThePlayerList)->rva002A7DD0())
+        return CBC_COMMAND_NOT_USED;
+    ((Rva0053B1CFButtonWindow *)commandButton)->window = control;
+    CBCommandStatus result = processCommandUI(commandButton, gadgetMessage != 0x4009, gadgetMessage == 0x400B);
+    if ((CommandButton *)GadgetButtonGetData(control) == commandButton && commandButton->getCommandType() != 0x10)
+        GadgetButtonSetEnabledImage_Rva002C0433(control, commandButton->rva0035B19E());
+    return result;
 }
