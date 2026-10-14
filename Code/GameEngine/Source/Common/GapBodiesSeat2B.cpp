@@ -82,3 +82,78 @@ float Rva000B2B7CScale(float value)
 {
 	return value * 0.001f;
 }
+
+// --- 0x000A47AE (8B): cdecl read of the dword at +0x58 of its argument.
+struct Rva000A47AERecord
+{
+	unsigned char m_pad00[0x58];
+	int m_58;
+};
+
+int Rva000A47AEGet(const Rva000A47AERecord *record)
+{
+	return record->m_58;
+}
+
+// --- 0x000D1D2B / 0x000D1EA2 (8B each): cdecl addresses of the link words
+// at +8 and +4 of a tree-node-like record (the shape of STLport's
+// _Rb_tree _S_left / _S_parent; the instantiation is not recovered).
+struct Rva000D1D2BNode
+{
+	int m_color;
+	Rva000D1D2BNode *m_parent;
+	Rva000D1D2BNode *m_left;
+	Rva000D1D2BNode *m_right;
+};
+
+Rva000D1D2BNode **Rva000D1D2BLeft(Rva000D1D2BNode *node)
+{
+	return &node->m_left;
+}
+
+Rva000D1D2BNode **Rva000D1EA2Parent(Rva000D1D2BNode *node)
+{
+	return &node->m_parent;
+}
+
+// --- 0x000E0F0E (8B): sets the byte flag at +0x44555.
+class Rva000E0F0E
+{
+public:
+	void rva000E0F0E();
+private:
+	unsigned char m_pad00[0x44555];
+	bool m_44555;
+};
+
+void Rva000E0F0E::rva000E0F0E()
+{
+	m_44555 = true;
+}
+
+// --- 0x0009DBF4 (17B): log10 of a float through the msvcr71 import
+// (thunk 0x0062997C), returned as double.
+extern "C" double __cdecl log10(double);
+
+double __cdecl Rva0009DBF4Log10(float value)
+{
+	return log10(value);
+}
+
+// --- 0x000A87E1 (18B): a constructor that only runs the rowed
+// ??0Rva0073F4F3@@QAE@PAX@Z (0x0073F468) on itself with its argument.
+class Rva0073F4F3
+{
+public:
+	Rva0073F4F3(void *source);
+};
+
+class Rva000A87E1 : public Rva0073F4F3
+{
+public:
+	Rva000A87E1(void *source);
+};
+
+Rva000A87E1::Rva000A87E1(void *source) : Rva0073F4F3(source)
+{
+}
