@@ -264,3 +264,32 @@ InGameNotificationType *FindInGameNotificationType(const AsciiString &name)
 	}
 	return 0;
 }
+
+// Retail 0x002221A9 (78B): visit every type in the store's map, in key order,
+// through the visitor's first virtual (handed the entry's
+// InGameNotificationType base, NULL-preserving), stopping at the first false.
+// Visitor and function names are address-derived. The base conversion goes
+// through an inline returning it, which keeps retail's branchless neg/sbb/and
+// NULL adjust (an in-place conversion branches); the end node is read once.
+static inline InGameNotificationType *rva002221A9Type(Rva0022216EEntry *entry)
+{
+	return entry;
+}
+
+class Rva002221A9Visitor
+{
+public:
+	virtual bool visit(InGameNotificationType *type) = 0;
+};
+
+void Rva002221A9ForEach(Rva002221A9Visitor &visitor)
+{
+	if (!g_00DFE4C4.m_ptr)
+		Rva002220DCInit();
+	_STL::map<AsciiString, Rva0022216EEntry *> &types = g_00DFE4C4.m_ptr->m_types;
+	_STL::map<AsciiString, Rva0022216EEntry *>::iterator end = types.end();
+	for (_STL::map<AsciiString, Rva0022216EEntry *>::iterator it = types.begin(); it != end; ++it) {
+		if (!visitor.visit(rva002221A9Type((*it).second)))
+			break;
+	}
+}
