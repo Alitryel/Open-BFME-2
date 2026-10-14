@@ -32,6 +32,7 @@ void Rva000BDCEFDestroy32(Rva000C24EA*,Rva000C24EA*);
 class Rva000C24EAVector {
 public: Rva000C24EA *eraseRange(Rva000C24EA *first,Rva000C24EA *last);
  Rva000C24EA *eraseOne(Rva000C24EA *position);
+ void clear();
 private: Rva000C24EA *_M_start,*_M_finish,*_M_end;
 };
 Rva000C24EA *Rva000C24EAVector::eraseRange(Rva000C24EA *first,Rva000C24EA *last) {
@@ -47,4 +48,11 @@ Rva000C24EA *Rva000C24EAVector::eraseOne(Rva000C24EA *position) {
  Rva000C24EA *finish=_M_finish;
  if(position+1!=finish)Rva000C4795Copy4(position+1,finish,position,&tag);
  --_M_finish;_M_finish->Rva000C24EA::~Rva000C24EA();return position;
+}
+
+// C6901 is clear(): the whole [start,finish) range through eraseRange C4DBC
+// (vector::clear's erase(begin(),end())), result discarded. No direct caller
+// reaches it in retail.
+void Rva000C24EAVector::clear() {
+ eraseRange(_M_start,_M_finish);
 }
