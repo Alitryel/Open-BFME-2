@@ -1,4 +1,6 @@
 // ?roam@AIRoamingDefenseTactic@@QAEXPAVObject@@@Z
+// partial score=0.94 date=2026-10-14
+// ?roam@AIRoamingDefenseTactic@@QAEXPAVObject@@@Z
 // partial score=0.9401 date=2026-10-13
 // ?roam@AIRoamingDefenseTactic@@QAEXPAVObject@@@Z
 // partial score=0.9401215346010823 date=2026-10-10
