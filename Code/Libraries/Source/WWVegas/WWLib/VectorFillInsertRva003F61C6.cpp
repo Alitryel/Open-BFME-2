@@ -1,4 +1,4 @@
-// cl: /G7 /O1 /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /EHsc
+// cl: -O1 -arch:SSE -G7 -MD -D_CRTIMP= -D_STLP_USE_STATIC_LIB -D_STLP_NO_EXCEPTIONS -Ireference/shims/bfmealloc -EHsc
 // stlport
 // Target Ghidra [3F61C6,3F62C8),258B. Native stride48; temporary
 // copy84B3F54DC and destructor60B3F535B independently establish nontrivial
@@ -90,3 +90,6 @@ void Rva003F61C6EmitAnchor(_STL::vector<Rva003F61C6Record> *v,Rva003F61C6Record*
 
 #pragma comment(linker, "/alternatename:??$_Construct@URva003F61C6Record@@U1@@_STL@@YAXPAURva003F61C6Record@@ABU1@@Z=??$_Construct@URva003F610FElement@@U1@@_STL@@YAXPAURva003F610FElement@@ABU1@@Z")
 
+
+// STLport4.5.3 _vector.h public count-insertion adaptor; complete native tail to owned _M_fill_insert.
+template void _STL::vector<Rva003F61C6Record, _STL::allocator<Rva003F61C6Record> >::insert(Rva003F61C6Record *, unsigned int, const Rva003F61C6Record &);
