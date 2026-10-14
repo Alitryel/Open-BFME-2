@@ -213,7 +213,9 @@ public:
 	virtual void slot13() = 0;
 	virtual void setGoalObject(Object *object) = 0;
 
-	Bool isInIdleState() const
+	// Local +0x04 state and slot-8 query; keep this implementation distinct
+	// from the indexed +0x20 state and slot-5 idle-check helper.
+	Bool flightMachineIdle() const
 	{
 		return m_currentState ? m_currentState->isIdle() : true;
 	}
@@ -324,7 +326,7 @@ StateReturnType GiantBirdAttackMoveToState::update()
 	Bool forceRetargetThisFrame = false;
 	Bool shouldRepathThisFrame = false;
 
-	if (!m_attackMachine->isInIdleState())
+	if (!m_attackMachine->flightMachineIdle())
 	{
 		ai->setLocomotorGoalNone();
 		owner->clearModelConditionBit(61);
@@ -332,14 +334,14 @@ StateReturnType GiantBirdAttackMoveToState::update()
 		m_attackMachine->updateStateMachine();
 		if (!m_attackMachine)
 			return STATE_CONTINUE;
-		if (!m_attackMachine->isInIdleState())
+		if (!m_attackMachine->flightMachineIdle())
 			return STATE_CONTINUE;
 		forceRetargetThisFrame = true;
 		shouldRepathThisFrame = true;
 		ai->m_lastCommandSource = m_commandSource;
 	}
 
-	if (m_attackMachine->isInIdleState())
+	if (m_attackMachine->flightMachineIdle())
 	{
 		Object *crate = ai->checkForCrateToPickup();
 		if (crate)

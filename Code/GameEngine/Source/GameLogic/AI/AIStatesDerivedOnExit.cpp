@@ -527,7 +527,9 @@ public:
 	// This local +0x24 view must not emit the shared +0x28 getter.
 	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 	void setGoalPosition(const Coord3D *pos);
-	Bool isInIdleState() const;
+	// Local +0x04 state and slot-8 query; keep this implementation distinct
+	// from the indexed +0x20 state and slot-5 idle-check helper.
+	Bool attackMachineIdle() const;
 private:
 	State *m_currentState; // +0x4
 	unsigned char m_pad08[0x14 - 8];
@@ -557,8 +559,8 @@ protected:
 	unsigned char m_pad04[0x18 - 0x04];
 	StateMachine *m_machine; // +0x18
 };
-// ?isInIdleState@StateMachine@@ present-unmatched
-inline Bool StateMachine::isInIdleState() const
+// ?attackMachineIdle@StateMachine@@ present-unmatched
+inline Bool StateMachine::attackMachineIdle() const
 {
 	return m_currentState ? m_currentState->isIdle() : true;
 }
@@ -704,7 +706,7 @@ StateReturnType AIAttackFollowWaypointPathState::update()
 	Bool shouldRepath = false;
 	Object *victim = 0;
 
-	if (!m_attackFollowMachine->isInIdleState())
+	if (!m_attackFollowMachine->attackMachineIdle())
 	{
 		ai->setLocomotorGoalNone();
 
@@ -713,14 +715,14 @@ StateReturnType AIAttackFollowWaypointPathState::update()
 
 		m_attackFollowMachine->updateStateMachine();
 
-		if (m_attackFollowMachine == 0 || !m_attackFollowMachine->isInIdleState())
+		if (m_attackFollowMachine == 0 || !m_attackFollowMachine->attackMachineIdle())
 			return STATE_CONTINUE;
 
 		forceRetarget = true;
 		shouldRepath = true;
 	}
 
-	if (m_attackFollowMachine->isInIdleState())
+	if (m_attackFollowMachine->attackMachineIdle())
 	{
 		Object *crate = ai->checkForCrateToPickup();
 		if (crate != 0)
@@ -981,21 +983,21 @@ StateReturnType AIAttackMoveToState::update()
 	Bool forceRetargetThisFrame = false;
 	Bool shouldRepathThisFrame = false;
 
-	if (!m_attackMoveMachine->isInIdleState())
+	if (!m_attackMoveMachine->attackMachineIdle())
 	{
 		Object *goalObj = getMachine()->getGoalObject();
 		if (goalObj && goalObj != m_attackMoveMachine->getGoalObject())
 			m_attackMoveMachine->setGoalObject(goalObj);
 		m_attackMoveMachine->updateStateMachine();
 
-		if (m_attackMoveMachine == 0 || !m_attackMoveMachine->isInIdleState())
+		if (m_attackMoveMachine == 0 || !m_attackMoveMachine->attackMachineIdle())
 			return STATE_CONTINUE;
 		forceRetargetThisFrame = true;
 		shouldRepathThisFrame = true;
 		ai->friend_setLastCommandSource(m_commandSrc);
 	}
 
-	if (m_attackMoveMachine->isInIdleState())
+	if (m_attackMoveMachine->attackMachineIdle())
 	{
 		Object *crate = ai->checkForCrateToPickup();
 		if (crate)
