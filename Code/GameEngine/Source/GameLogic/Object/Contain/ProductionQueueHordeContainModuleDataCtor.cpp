@@ -31,8 +31,19 @@ template <> vector<int, allocator<int> >::~vector();
 template <> _Vector_base<int, allocator<int> >::~_Vector_base();
 }
 
-class MultiIniFieldParse;
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+
+struct FieldParse
+{
+	const char *m_name;
+	INIFieldParseProc m_parser;
+	const void *m_userData;
+	int m_offset;
+};
+
+// Rowed parse proc (retail 0x004816F4).
+void parseFilterStringEntryRva004816F4(INI *ini, void *instance, void *store, const void *userData);
 
 class MultiIniFieldParse
 {
@@ -75,7 +86,14 @@ ProductionQueueHordeContainModuleData::ProductionQueueHordeContainModuleData()
 void ProductionQueueHordeContainModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	HordeGarrisonContainModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C490D4), 0);
+
+	// Own table (retail .data 0x00C490D4): one entry and the terminator.
+	static const FieldParse dataFieldParse[] =
+	{
+		{ "DestinationTemplate", parseFilterStringEntryRva004816F4, 0, 0xD4 },
+		{ 0, 0, 0, 0 }
+	};
+	parse.add(dataFieldParse, 0);
 }
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds

@@ -30,8 +30,19 @@ template <> vector<int, allocator<int> >::~vector();
 template <> _Vector_base<int, allocator<int> >::~_Vector_base();
 }
 
-class MultiIniFieldParse;
-struct FieldParse;
+class INI;
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+
+struct FieldParse
+{
+	const char *m_name;
+	INIFieldParseProc m_parser;
+	const void *m_userData;
+	int m_offset;
+};
+
+// Rowed parse proc (retail 0x004CDF2B).
+void Rva004CDF2BParse(INI *ini, void *instance, void *store, const void *userData);
 
 class MultiIniFieldParse
 {
@@ -72,7 +83,14 @@ ActivateModuleSpecialPowerModuleData::ActivateModuleSpecialPowerModuleData()
 void ActivateModuleSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	SpecialAbilityUpdateModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C5FD70), 0);
+
+	// Own table (retail .data 0x00C5FD70): one entry and the terminator.
+	static const FieldParse dataFieldParse[] =
+	{
+		{ "TriggerSpecialPower", Rva004CDF2BParse, 0, 0 },
+		{ 0, 0, 0, 0 }
+	};
+	parse.add(dataFieldParse, 0);
 }
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
