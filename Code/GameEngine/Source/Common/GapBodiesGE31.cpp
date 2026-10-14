@@ -610,3 +610,70 @@ unsigned long rva00042334()
 {
 	return timeGetTime();
 }
+
+// 0x0007FB4B (13B), unreferenced: the second word of the 8-byte entry the
+// index at +4 selects in the table at +0x14 of the object the pointer at +0
+// names.
+struct Rva0007FB4BEntry
+{
+	int m_00;
+	int m_04;
+};
+
+struct Rva0007FB4BTable
+{
+	char m_pad[0x14];
+	Rva0007FB4BEntry *m_14;
+};
+
+class Rva0007FB4B
+{
+public:
+	int rva0007FB4B() const;
+private:
+	Rva0007FB4BTable *m_00;
+	int m_04;
+};
+
+int Rva0007FB4B::rva0007FB4B() const
+{
+	return m_00->m_14[m_04].m_04;
+}
+
+// 0x00085299 (9B) / 0x000855B3 (7B), unreferenced: whether the byte at +0x1C
+// is clear, and whether the word at +0 is set.
+class Rva00085299
+{
+public:
+	bool rva00085299() const;
+	bool rva000855B3() const;
+private:
+	int m_00;
+	char m_pad[0x18];
+	unsigned char m_1C;
+};
+
+bool Rva00085299::rva00085299() const
+{
+	return m_1C == 0;
+}
+
+bool Rva00085299::rva000855B3() const
+{
+	return m_00 ? true : false;
+}
+
+// 0x00078298 (4B), unreferenced: address of the byte at +9.
+class Rva00078298
+{
+public:
+	unsigned char *rva00078298();
+private:
+	char m_pad[9];
+	unsigned char m_09;
+};
+
+unsigned char *Rva00078298::rva00078298()
+{
+	return &m_09;
+}

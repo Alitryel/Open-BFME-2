@@ -88873,3 +88873,7 @@ __ehhandler$?renderShadows@W3DVolumetricShadowManager@@QAEXAAVRenderInfoClass@@@
 ?rva00030970@MemoryPool@@YAXXZ,,0x00030970,8,Code/GameEngine/Source/Common/System/memory_pool.cpp,matched,raises g_heaps shut-down flag VA 0x00DE0820; unreferenced
 ?rva00030910@MemoryPool@@YAIXZ,,0x00030910,90,Code/GameEngine/Source/Common/System/memory_pool.cpp,matched,allocated-block data bytes summed over all heaps via the 0x00030900 callback and the unrowed report walk 0x00035540 (pinned); unreferenced
 ?rva000308F0@@YAPAVGeneralAllocator@Allocator@EA@@I@Z,,0x000308F0,6,Code/GameEngine/Source/Common/System/GameMemoryBlockSlots.cpp,matched,tail jump into the GetHeapAllocator memory-pool slot VA 0x00DE03E4; unreferenced
+?rva0007FB4B@Rva0007FB4B@@QBEHXZ,,0x0007FB4B,13,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,indexed 8-byte entry second word through a table pointer; unreferenced
+?rva00085299@Rva00085299@@QBE_NXZ,,0x00085299,9,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,byte at +0x1C clear; unreferenced
+?rva000855B3@Rva00085299@@QBE_NXZ,,0x000855B3,7,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,word at +0 set; unreferenced
+?rva00078298@Rva00078298@@QAEPAEXZ,,0x00078298,4,Code/GameEngine/Source/Common/GapBodiesGE31.cpp,matched,address of byte at +9; unreferenced
