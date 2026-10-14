@@ -1,5 +1,5 @@
 // cl: /O2 /MD
-// Dynamic initializers of seven file-scope STLport strings, each constructed
+// Dynamic initializers of file-scope STLport strings, each constructed
 // from a literal with a default allocator temporary and registered for
 // destruction with atexit. Target evidence: game.dat's __xc_a table points at
 // these bodies; each reserves the allocator temporary with `push ecx`, passes
@@ -8,7 +8,7 @@
 // then registers the matched atexit thunk (Rva007B6880Thunks.cpp) whose
 // ecx is the same global. The literals are read from .rdata: "*" (0x00BBBC28),
 // "true" (0x00BBC408), "false" (0x00BBC410), "" (0x00BBAC1C) and L""
-// (0x00BBB5C4). The owning TUs and the globals' names are not established; the
+// (0x00BBB5C4) plus L"true" (0x00BBC418). The owning TUs and the globals' names are not established; the
 // RVA names stand in for them. /O2: retail drops the two stack words with
 // `add esp, 8`, where /O1 emits `pop ecx` twice.
 extern "C" int __cdecl atexit( void ( __cdecl * )( void ) );
@@ -27,6 +27,10 @@ template <class C, class Tr = char_traits<C>, class A = allocator<C> > class bas
 {
 public:
 	basic_string( const C *s, const A &a = A() );
+private:
+	C *m_start;
+	C *m_finish;
+	C *m_endOfStorage;
 };
 }
 
@@ -37,6 +41,7 @@ void __cdecl rva007B68C0();
 void __cdecl rva007B69D0();
 void __cdecl rva007B69E0();
 void __cdecl rva007B69F0();
+void __cdecl rva007B6A00();
 void __cdecl rva007B6A20();
 void __cdecl rva007B6A30();
 void __cdecl rva007B6A40();
@@ -45,6 +50,7 @@ extern unsigned g_Va00DDEB2C;
 extern unsigned g_Va00DDEF08;
 extern unsigned g_Va00DDEEFC;
 extern unsigned g_Va00DDEF14;
+extern unsigned char g_009DEEF0Static[12];
 extern unsigned g_Va00DDEEE4;
 extern unsigned g_Va00DDEF38;
 extern unsigned g_Va00DDEF2C;
@@ -55,6 +61,7 @@ struct Rva007AB8D0StringInits
 	static void __cdecl rva007ABA00();
 	static void __cdecl rva007ABA30();
 	static void __cdecl rva007ABA60();
+	static void __cdecl rva007ABA90();
 	static void __cdecl rva007ABAF0();
 	static void __cdecl rva007ABB20();
 	static void __cdecl rva007ABB50();
@@ -100,4 +107,15 @@ void __cdecl Rva007AB8D0StringInits::rva007ABB50()
 {
 	( (WideString *)&g_Va00DDEF2C )->WideString::basic_string( (const unsigned short *)L"" );
 	atexit( rva007B6A40 );
+}
+
+// The __xc entry at RVA 0x9A4054 points to 0x7ABA90..0x7ABAB3 (35 bytes).
+// It constructs L"true" at VA 0xDDEEF0 and registers 0x7B6A00,
+// whose cleanup uses the same global. The existing 12-byte storage owner is
+// used directly. Copy initializer 0x17B00 later reads this value; its older
+// comments calling the initialized global empty are incorrect.
+void __cdecl Rva007AB8D0StringInits::rva007ABA90()
+{
+	( (WideString *)g_009DEEF0Static )->WideString::basic_string( (const unsigned short *)L"true" );
+	atexit( rva007B6A00 );
 }
