@@ -318,14 +318,28 @@ class GameMessageTranslator
 {
 public:
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg) = 0;
+	virtual ~GameMessageTranslator() {}
 };
 class WindowTranslator : public GameMessageTranslator
 {
 public:
+	WindowTranslator();
 	virtual GameMessageDisposition translateGameMessage(const GameMessage *msg);
 private:
 	Int m_mode;	// +0x04
 };
+
+// ??0WindowTranslator@@QAE@XZ, retail 0x002390E8 (16B). Target evidence: it
+// installs vftable 0x00BED684, whose slot 0 is the rowed
+// WindowTranslator::translateGameMessage (0x0040FF12) and slot 1 the folded
+// translator deleting destructor 0x004296EE (ZH GameMessageTranslator's
+// pure handler plus inline virtual destructor), then sets the +4 word that
+// translateGameMessage copies into TheWindowManager to 1. ZH's empty
+// WindowTranslator constructor predates that BFME2 member.
+WindowTranslator::WindowTranslator()
+	: m_mode(1)
+{
+}
 
 GameMessageDisposition WindowTranslator::translateGameMessage(const GameMessage *msg)
 {
