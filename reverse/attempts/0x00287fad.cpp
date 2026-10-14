@@ -1,4 +1,6 @@
 // ?update@FireLogicSystem@@UAEXXZ
+// partial score=0.9107 date=2026-10-14
+// ?update@FireLogicSystem@@UAEXXZ
 // partial score=0.9107 date=2026-10-10
 // ?update@FireLogicSystem@@UAEXXZ
 // partial score=0.85 date=2026-10-08
@@ -42,7 +44,7 @@
 // Thing+0x04 under a template flag test.
 #include <map>
 #include <vector>
-#include "Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 typedef int Int;
 
@@ -68,7 +70,7 @@ extern Rva00065964ObjectPool g_pool00286136;
 extern Rva00065964ObjectPool g_pool00286116;
 void Rva00286116Free(void *node);
 
-#include "/mnt/titan_nv3/open-bfme2-agent-fleet/gemini200/writer-060/Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class ThingTemplate;
@@ -185,7 +187,7 @@ public:
 private:
 	char m_pad[8];
 };
-#include "/mnt/titan_nv3/open-bfme2-agent-fleet/gemini200/writer-060/reference/shims/moduledata/Common/Snapshot.h"
+#include "reference/shims/moduledata/Common/Snapshot.h"
 
 // A material entry (0x18 bytes): the array constructor zeroes all six
 // dwords (0x00286297) and the destructor releases the string at +4

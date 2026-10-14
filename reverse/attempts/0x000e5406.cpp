@@ -1,4 +1,6 @@
 // ?rva006F83F0@Gen_uw_000e5033@@QAEHPAXH00@Z
+// partial score=0.9847 date=2026-10-14
+// ?rva006F83F0@Gen_uw_000e5033@@QAEHPAXH00@Z
 // partial score=0.980303 date=2026-10-10
 // cl: /O1 /arch:SSE /G7 /Oy- /MD /DNDEBUG /EHs-c- /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/shims/sweep
 // Bank-only declaration snapshot of the actual canonical floor contract.
@@ -7,7 +9,7 @@
 // Shared 0xA0 target floor element: layout validated by the complete
 // 275-byte constructor, 104-byte destructor and independent EH checks.
 // Original class identity remains represented by its existing neutral name.
-#include "../../Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DFloorElementTypes.h"
+#include "Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DFloorElementTypes.h"
 class Gen_uw_000e5033 {
 public:
     Gen_uw_000e5033();
@@ -34,8 +36,8 @@ private:
 };
 typedef char FloorElementExtentShared[(sizeof(Gen_uw_000e5033)==0xa0)?1:-1];
 
-#include "../../reference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath/matrix3d.h"
-#include "../../Code/Libraries/Include/Lib/Coord3D.h"
+#include "reference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath/matrix3d.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 class GlobalData; extern GlobalData *TheWritableGlobalData;
 struct BfmeLighting36;
 struct FloorGlobalLightAccess { char pad[0x134];int time;char gap[8];BfmeLighting36 *unused; };

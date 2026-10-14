@@ -1,11 +1,13 @@
 // ?rva00282135@Rva00282135@@QAEXXZ
+// partial score=0.8766 date=2026-10-14
+// ?rva00282135@Rva00282135@@QAEXXZ
 // partial score=0.88 date=2026-10-09
 // cl: /O1 /Oy- /G7 /arch:SSE /MD /EHsc- /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 #include <vector>
 struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
-#include "../Code/GameEngine/Source/GameLogic/Map/AreaSetEntryView.h"
+#include "Code/GameEngine/Source/GameLogic/Map/AreaSetEntryView.h"
 struct Rva0027EA49 { int m_00; AreaRefValueView m_04; };
 typedef _STL::vector<Rva0027EA49> AreaRecordVector;
 template <> AreaRecordVector::~vector();

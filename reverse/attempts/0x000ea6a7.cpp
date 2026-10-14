@@ -1,4 +1,6 @@
 // ?rva000EA6A7@W3DTreeBuffer@@QAE_NPAX@Z
+// partial score=0.7961 date=2026-10-14
+// ?rva000EA6A7@W3DTreeBuffer@@QAE_NPAX@Z
 // partial score=0.796 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // W3DTreeBuffer method at retail 0x000EA48D (439 bytes, ret 0xC): finds the tree record of a drawable key and
@@ -7,7 +9,7 @@
 // (count +0x44540, changed byte +0x44545), 64 types of 0x5C at +0x44558 with the type data at +0x20, terrain
 // height override at TheTerrainLogic+0x1918; the effect is played without the BFME1 block test.
 #include "matrix3d.h"
-#include "../../Code/Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 typedef bool Bool;
 typedef int Int;

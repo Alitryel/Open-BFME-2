@@ -1,4 +1,6 @@
 // ?Rva000AB96DLoadAnimation@@YAXPBDVBfmeRefVGO@@@Z
+// partial score=0.8541 date=2026-10-14
+// ?Rva000AB96DLoadAnimation@@YAXPBDVBfmeRefVGO@@@Z
 // partial score=0.84 date=2026-10-11
 // cl: /Ireference/shims/bfme2_ascii /MD /O1 /G7 /arch:SSE /EHs-c- /Ob0
 // ?openFile@@YAPAVFile@@PBVAsciiString@@@Z @0x000A9F48 61B
@@ -59,8 +61,7 @@ void Rva000AB910::rva000AA557(){
  File *input=openFile(&path);
  data=input?input->readEntireAndClose():0;
 }
-
-#include "../Code/GameEngineDevice/Source/W3DDevice/GameClient/BFME2ParticleTextureHandles.h"
+#include "Code/GameEngineDevice/Source/W3DDevice/GameClient/BFME2ParticleTextureHandles.h"
 extern BFME2ParticleTextureHandle BFME2LoadParticleTexture(const char*,int,int);
 class TextureAsset {public:void SetQualityLevel(int);};
 class ShroudFilter; // The already-owned10B setter at13ED10 writes word+8. Its ledger spelling

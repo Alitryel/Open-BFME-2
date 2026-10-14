@@ -1,4 +1,6 @@
 // ?rva002A8306@PlayerList@@QAEX_N@Z
+// partial score=0.8403 date=2026-10-14
+// ?rva002A8306@PlayerList@@QAEX_N@Z
 // partial score=0.7 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD /Ireference/shims/bfme2_ascii
 // ?rva002A8306@PlayerList@@QAEX_N@Z retail 0x002A8306..0x002A851D 535 B.
@@ -14,7 +16,7 @@
 // slot 0x4C before re-registering the shroud / taint callbacks and the
 // 0x002A7E42 refresh. Offsets and callees are target evidence.
 #include "unicode_string.h"
-#include "../../Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class PlayerTemplate
 {

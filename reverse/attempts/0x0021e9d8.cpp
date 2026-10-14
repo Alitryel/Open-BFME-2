@@ -1,4 +1,6 @@
 // ?rva0021E9D8@Rva0021E9D8@@QAEHIABVAsciiString@@00@Z
+// partial score=0.8139 date=2026-10-14
+// ?rva0021E9D8@Rva0021E9D8@@QAEHIABVAsciiString@@00@Z
 // partial score=0.93 date=2026-10-06
 // cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
@@ -24,7 +26,7 @@ struct CreateAHeroBlingEntry {
     unsigned char pad[12];
     int blingId;
 };
-CreateAHeroBlingEntry *rva0021D120(CreateAHeroBlingEntry *, CreateAHeroBlingEntry *, const AsciiString &);
+BfmeStringRecord002199C8 *rva0021D120(BfmeStringRecord002199C8 *, BfmeStringRecord002199C8 *, const AsciiString &);
 
 namespace _STL {
 template <> void _Construct<BfmeStringRecord002199C8, BfmeStringRecord002199C8>(
@@ -42,7 +44,7 @@ int Rva0021E9D8::rva0021E9D8(unsigned int word, const AsciiString &a, const Asci
 {
     int count = (int)((char *)records.end() - (char *)records.begin());
     count >>= 4;
-    CreateAHeroBlingEntry *found = rva0021D120(records.begin(), records.end(), a);
+    BfmeStringRecord002199C8 *found = rva0021D120(records.begin(), records.end(), a);
     if (found == records.end()) {
         Rva0021A0C2 record(word, a, b, c);
         records.push_back(record);

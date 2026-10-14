@@ -1,4 +1,6 @@
 // ?rva0027F1DD@BfmeThingCME@@QAEXPAUCoord3D@@M@Z
+// partial score=0.9899 date=2026-10-14
+// ?rva0027F1DD@BfmeThingCME@@QAEXPAUCoord3D@@M@Z
 // partial score=0.96 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /Oy- /DNDEBUG /MD
 //
@@ -9,7 +11,7 @@
 // is reset through rowed 0x0027D098, the id is passed to slot 22 (+0x58) of the object at
 // VA 0x00DFF080 and the game-logic frame (+0x40) is stored at +0x1910. Evidence: target
 // bytes and the rowed callees (GetLength2D 0x0040599F included); names are neutral views.
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 class Rva002872BA;
 extern Rva002872BA *TheTriggerManager;
@@ -88,10 +90,13 @@ void BfmeThingCME::rva0027F1DD(Coord3D *position, float radius)
 		float px = source->x;
 		float py = source->y;
 		float pz = source->z;
+		float dx = px - (*it)->m_position.x;
+		float dy = py - (*it)->m_position.y;
+		float dz = pz - (*it)->m_position.z;
 		Coord3D delta;
-		delta.x = px - (*it)->m_position.x;
-		delta.y = py - (*it)->m_position.y;
-		delta.z = pz - (*it)->m_position.z;
+		delta.x = dx;
+		delta.y = dy;
+		delta.z = dz;
 		if (!(delta.GetLength2D() <= radius))
 			continue;
 		int id = (*it)->m_id;

@@ -1,4 +1,6 @@
 // ?rva000E912A@W3DShrubBuffer@@QAEXPBUCoord3D@@MH@Z
+// partial score=0.8035 date=2026-10-14
+// ?rva000E912A@W3DShrubBuffer@@QAEXPBUCoord3D@@MH@Z
 // partial score=0.85 date=2026-10-10
 // ?rva000E912A@W3DShrubBuffer@@QAEXPBUCoord3D@@MH@Z
 // partial score=0.85 date=2026-10-09
@@ -8,8 +10,8 @@
 // upright type (or the toppled type while a push-aside model exists), drops its topple and push-aside models (a
 // shrub with none resets the rows that share its key) and leaves the toppling state. BFME2 layout: 2000 records
 // of 0xA0 at +0x1958, count +0x4FB58, changed byte +0x4FB5C.
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
-#include "../../../../Libraries/Include/Lib/Coord2D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord2D.h"
 typedef int Int;
 
 

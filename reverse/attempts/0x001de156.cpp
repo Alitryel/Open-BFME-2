@@ -1,4 +1,6 @@
 // ?update@Eva@@UAEXXZ
+// partial score=0.8373 date=2026-10-14
+// ?update@Eva@@UAEXXZ
 // partial score=0.8227684346701164 date=2026-10-10
 // Whole-home bank for Code/GameEngine/Source/GameClient/Eva.cpp.
 // Retail update1DE156..1DE2DA388B, WB primary Eva::update ACBEB0.
@@ -96,9 +98,8 @@ template<> void vector<BfmePod52, allocator<BfmePod52> >::_M_fill_insert(iterato
 // +0x1C; the parallel status array, 0x34-byte records at +0x5C. The status
 // record's members are rowed under placeholder names (0x001DCDAF,
 // 0x001DD240); field names past WB's are not recovered.
-
-#include "../../../Libraries/Include/Lib/Coord2D.h"
-#include "../../../Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord2D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -199,8 +200,7 @@ public:
 	unsigned char m_pad23[0x30 - 0x23];
 	UnsignedInt m_lastReallyPlayedFrame;			// +0x30
 };
-
-#include "../Common/GameLogicObjectLookupView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 class Eva;
 extern GameLogic *TheGameLogic;
