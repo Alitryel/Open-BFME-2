@@ -35,11 +35,9 @@ private:
 
 class Player
 {
-public:
-	const AsciiString &getSide() const { return m_side; }
-
 private:
 	char m_pad[0x58];
+public:
 	AsciiString m_side;					// +0x58
 };
 
@@ -71,7 +69,7 @@ int doFindCommandCenter(Object *obj, void *userData)
 
 	if (info->obj == 0
 			&& obj->isKindOfCommandCenter()
-			&& obj->getTemplate()->getDefaultOwningSide() == info->player->getSide()
+			&& obj->getTemplate()->getDefaultOwningSide() == info->player->m_side
 			&& !obj->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION)
 			&& !obj->testStatus(OBJECT_STATUS_SOLD))
 	{

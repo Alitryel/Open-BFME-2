@@ -137,7 +137,7 @@ class Player
 public:
 	unsigned char m_pad00[0x54];
 	int m_playerIndex;
-	unsigned char m_pad58[0x5C - 0x58];
+	AsciiString m_side; // +0x58
 	int m_playerType;
 	unsigned char m_pad60[0x32C - 0x60];
 	PlayerTeamNode *m_playerTeamPrototypes;
@@ -149,7 +149,6 @@ public:
 	bool rva00339() const { return ((const unsigned char *)this)[0x339] != 0; }
 	int getPlayerType() const { return m_playerType; }
 	void rva002ABA9B();
-	const AsciiString &getSide() const { return *(const AsciiString *)((const unsigned char *)this + 0x58); }
 	int getPlayerIndex() const { return m_playerIndex; }
 	int getMpStartIndex() const { return *(const int *)((const unsigned char *)this + 0x2E0); }
 	void setUnitsShouldIdleOrResume(bool idle);
@@ -1003,7 +1002,7 @@ void ScriptActions::rva003C606C(Parameter *playerParam, bool flag)
 		ScriptActionsTemplateListView *tmpl = *(ScriptActionsTemplateListView **)((unsigned char *)TheThingFactory + 0x0C);
 		player->rva002ABA9B();
 		for (; tmpl; tmpl = tmpl->m_next) {
-			if (tmpl->isKindOf(7) && tmpl->m_side == player->getSide())
+			if (tmpl->isKindOf(7) && tmpl->m_side == player->m_side)
 				((Rva002ABFA0 *)player)->rva002ACEDF((void *)tmpl);
 		}
 	}

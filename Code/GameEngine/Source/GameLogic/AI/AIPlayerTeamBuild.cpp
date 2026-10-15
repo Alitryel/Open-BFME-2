@@ -305,7 +305,6 @@ public:
 	const PlayerTeamList *getPlayerTeams() const { return &m_playerTeamPrototypes; }
 	Int getSciencePurchasePoints() const { return m_sciencePurchasePoints; }
 	NameKeyType getPlayerNameKey() const { return m_playerNameKey; }
-	const AsciiString &getSide() const { return m_side; }
 	Bool isCapableOfPurchasingScience(ScienceType science) const;
 	Bool attemptToPurchaseScience(ScienceType science);
 
@@ -1753,7 +1752,7 @@ void AIPlayer::doUpgradesAndSkills()
 	const AISideInfo *sideInfo = TheAI->getAiData()->m_sideInfo;
 	while (sideInfo)
 	{
-		if (sideInfo->m_side == m_player->getSide())
+		if (sideInfo->m_side == m_player->m_side)
 			break;
 		sideInfo = sideInfo->m_next;
 	}

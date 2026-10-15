@@ -20,7 +20,6 @@ typedef int PlayerMaskType;
 class Player
 {
 public:
-    const AsciiString &getSide() const { return m_side; }
     unsigned char m_pad00[0x58];
     AsciiString m_side; // +0x58
 };
@@ -46,7 +45,7 @@ bool ScriptConditions::evaluateSkirmishPlayerIsFaction(Parameter *pSkirmishPlaye
     PlayerMaskType mask = TheScriptEngine->rva00357B82(pSkirmishPlayerParm);
     while (mask) {
         Player *player = ThePlayerList->getEachPlayerFromMask(mask);
-        if (player && player->getSide() == pFactionParm->getString()) {
+        if (player && player->m_side == pFactionParm->getString()) {
             return true;
         }
     }

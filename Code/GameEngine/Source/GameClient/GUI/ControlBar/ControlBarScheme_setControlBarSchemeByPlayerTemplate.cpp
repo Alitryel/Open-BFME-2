@@ -119,10 +119,9 @@ class RecorderClass; extern RecorderClass *TheRecorder;
 
 class Player
 {
-public:
-	const AsciiString &getSide() const { return m_side; }
 private:
 	char m_pad[0x58];
+public:
 	AsciiString m_side;
 };
 
@@ -180,7 +179,7 @@ void ControlBarSchemeManager::setControlBarSchemeByPlayer(Player *p)
 	}
 	if (!p)
 		return;
-	AsciiString side = p->getSide();
+	AsciiString side = p->m_side;
 	if (m_currentScheme && m_currentScheme->m_side.compare(side) == 0)
 	{
 		m_currentScheme->init();

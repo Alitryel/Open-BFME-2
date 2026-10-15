@@ -25,7 +25,6 @@ typedef float Real;
 class Player
 {
 public:
-	const AsciiString &getSide() const { return m_side; }
 	unsigned char m_pad00[0x58];
 	AsciiString m_side; // +0x58
 };
@@ -68,7 +67,7 @@ Real CastleBehavior::getCampDiameter(const Player *player)
 	for (int i = 0; i < count; ++i)
 	{
 		BfmeStringRecord00395E75 record = data->m_campDiameters[i];
-		if (record.m_side == player->getSide())
+		if (record.m_side == player->m_side)
 			return record.m_diameter;
 	}
 	return 0.0f;
