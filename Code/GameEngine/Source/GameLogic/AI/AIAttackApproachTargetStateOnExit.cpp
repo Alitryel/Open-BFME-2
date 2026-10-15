@@ -66,7 +66,7 @@ public:
 		MAINTAIN_POS_IS_VALID,
 		PRECISE_Z_POS
 	};
-	void setUsePreciseZPos(Bool b)
+	__declspec(dllimport) __forceinline void setUsePreciseZPos(Bool b)
 	{
 		if (b)
 			m_flags |= (1 << PRECISE_Z_POS);

@@ -79,7 +79,7 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 {
 public:
 	UnsignedInt friend_getNextCallFrame() const { return m_nextCallFrame; }
-	void friend_setNextCallFrame(UnsignedInt frame)
+	__declspec(dllimport) __forceinline void friend_setNextCallFrame(UnsignedInt frame)
 	{
 		m_nextCallFrame = frame > UPDATE_SLEEP_FOREVER ? UPDATE_SLEEP_FOREVER : frame;
 	}

@@ -192,7 +192,7 @@ public:
 	const ThingTemplate *getTemplate() const { return m_template; }
 	const Coord3D *getPosition() const { return &m_position; }
 	AIUpdateInterface *getAI() { return m_ai; }
-	Object *getContainedBy() { return m_containedBy; }
+	__declspec(dllimport) __forceinline Object *getContainedBy() { return m_containedBy; }
 	__declspec(dllimport) __forceinline Bool isDisabledByType(DisabledType type) const { return (m_disabledMask & (1U << type)) != 0; }
 	Weapon *getCurrentWeapon(WeaponSlotType *wslot = 0);
 	Bool testStatus(ObjectStatusTypes bit) const;

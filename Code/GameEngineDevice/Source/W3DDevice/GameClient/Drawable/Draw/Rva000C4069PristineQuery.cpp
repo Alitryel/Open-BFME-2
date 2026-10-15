@@ -117,7 +117,7 @@ class Drawable
 public:
 	// Retail inlines this and has no out-of-line copy; other units' views
 	// emit it first in link order, so dllimport keeps this one inline-only.
-	__declspec(dllimport) const Object *getObject() const { return m_object; }
+	__declspec(dllimport) __forceinline const Object *getObject() const { return m_object; }
 
 	UnsignedByte m_unmodelled000[0xfc];
 	Object *m_object;									///< +0xFC
