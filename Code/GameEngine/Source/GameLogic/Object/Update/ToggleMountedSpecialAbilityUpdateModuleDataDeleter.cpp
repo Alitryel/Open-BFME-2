@@ -7,15 +7,17 @@
 // this body. The dtor is declared-not-defined so this TU calls it out of
 // line through its row.
 
+struct EmitVtableTag;
+
 class ToggleMountedSpecialAbilityUpdateModuleData
 {
 public:
 	virtual ~ToggleMountedSpecialAbilityUpdateModuleData();
-	ToggleMountedSpecialAbilityUpdateModuleData();
+	ToggleMountedSpecialAbilityUpdateModuleData(EmitVtableTag *);
 };
 
-// ??0ToggleMountedSpecialAbilityUpdateModuleData@@QAE@XZ present-unmatched
-ToggleMountedSpecialAbilityUpdateModuleData::ToggleMountedSpecialAbilityUpdateModuleData()
+// ?<ToggleMountedSpecialAbilityUpdateModuleData::ToggleMountedSpecialAbilityUpdateModuleData> absent-from-retail
+ToggleMountedSpecialAbilityUpdateModuleData::ToggleMountedSpecialAbilityUpdateModuleData(EmitVtableTag *)
 {
 }
 
