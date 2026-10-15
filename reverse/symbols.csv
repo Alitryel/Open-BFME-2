@@ -17064,3 +17064,6 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?erase@Rva000C68C2Wrap@@QAEPAXPAX0@Z,0x000C690C,callee of ??0W3DModelDrawModuleData@@QAE@XZ
 ?push_back@Rva000C8B83Wrap@@QAEXABUBfmePod248@@@Z,0x000C8DDF,callee of ??0W3DModelDrawModuleData@@QAE@XZ
 ??0Rva001F9D98@@QAE@XZ,0x001FA69F,callee of ??0Rva004CE36@@QAE@XZ
+??0Rva001F81ECBase@@QAE@ABURva001FA69FAlloc@@@Z,0x00280A8D,callee of ??0Rva001F9D98@@QAE@XZ
+??0Rva001F8D70Map@@QAE@XZ,0x001FA440,callee of ??0Rva001F9D98@@QAE@XZ
+??0Rva001F9D98Buffer@@QAE@XZ,0x001F81BF,callee of ??0Rva001F9D98@@QAE@XZ

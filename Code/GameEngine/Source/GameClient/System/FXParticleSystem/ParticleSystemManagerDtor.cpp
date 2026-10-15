@@ -50,10 +50,11 @@ protected:
 };
 
 template <class T>
-class RefCountPtr
+class Rva0007B724RefCountPtr
 {
 public:
-	~RefCountPtr(void)
+	Rva0007B724RefCountPtr(void) : Referent(0) {}
+	~Rva0007B724RefCountPtr(void)
 	{
 		if (Referent)
 			Referent->Release_Ref();
@@ -70,25 +71,62 @@ struct IUnknownView
 	virtual unsigned long __stdcall Release() = 0;
 };
 
-class Rva001F81EC
+// Empty allocator tag for the folded STLport list/vector base ctors.
+struct Rva001FA69FAlloc
+{
+	Rva001FA69FAlloc() {}
+};
+
+// The +0x4C list's base: its out-of-line ctor is the ICF-folded
+// _List_base ctor 0x00280A8D.
+class Rva001F81ECBase
 {
 public:
+	Rva001F81ECBase(const Rva001FA69FAlloc &alloc);
+
+protected:
+	void *m_node;
+};
+
+class Rva001F81EC : public Rva001F81ECBase
+{
+public:
+	Rva001F81EC(const Rva001FA69FAlloc &alloc = Rva001FA69FAlloc()) : Rva001F81ECBase(alloc) {}
 	~Rva001F81EC() { rva001F81EC(); }
 	void rva001F81EC();
-
-private:
-	void *m_node;
 };
 
 class RvaSmartPtr12
 {
 public:
 	void rva0004CBC0() throw();
+	RvaSmartPtr12 &operator=(const RvaSmartPtr12 &that) throw();
 };
 
 class Rva001F9D98Handle
 {
 public:
+	Rva001F9D98Handle() : m_p(0), m_04(0), m_08(0) {}
+	// RvaSmartPtr12(void *) (SmartPtrCopyCtor.cpp): attach when non-null,
+	// else clear the two link words.
+	explicit Rva001F9D98Handle(void *ptr)
+	{
+		m_p = ptr;
+		if (m_p != 0)
+			attach();
+		else
+		{
+			m_08 = 0;
+			m_04 = 0;
+		}
+	}
+	void attach() throw();
+	Rva001F9D98Handle &operator=(const Rva001F9D98Handle &that)
+	{
+		reinterpret_cast<RvaSmartPtr12 *>(this)->operator=(
+			*reinterpret_cast<const RvaSmartPtr12 *>(&that));
+		return *this;
+	}
 	~Rva001F9D98Handle()
 	{
 		if (m_p)
@@ -104,6 +142,7 @@ private:
 class Rva001F8D70Map
 {
 public:
+	Rva001F8D70Map();
 	~Rva001F8D70Map();
 
 private:
@@ -115,6 +154,7 @@ private:
 class Rva001F9D98Buffer
 {
 public:
+	Rva001F9D98Buffer() throw();
 	~Rva001F9D98Buffer()
 	{
 		if (m_data)
@@ -162,6 +202,7 @@ public:
 class Rva001F9D98 : public SubsystemInterface, public Snapshot
 {
 public:
+	Rva001F9D98();
 	virtual ~Rva001F9D98();
 	virtual void init();
 
@@ -171,14 +212,21 @@ protected:
 	virtual void xfer(Xfer *xfer);
 
 private:
-	char m_pad10[0x4C - 0x10];
+	int m_10[7];                        // +0x10
+	int m_2C[7];                        // +0x2C
+	int m_48;                           // +0x48
 	Rva001F81EC m_list;                 // +0x4C
-	char m_pad50[0x68 - 0x50];
+	int m_50;                           // +0x50
+	int m_54;                           // +0x54
+	int m_58;                           // +0x58
+	int m_5C;                           // +0x5C
+	float m_60;                         // +0x60
+	int m_64;                           // +0x64
 	Rva001F9D98Handle m_handle;         // +0x68
 	int m_74;                           // +0x74
 	IUnknownView *m_device78;           // +0x78
 	RefCountClass *m_ref7C;             // +0x7C
-	RefCountPtr<RefCountClass> m_ref80; // +0x80
+	Rva0007B724RefCountPtr<RefCountClass> m_ref80; // +0x80
 	bool m_84;                          // +0x84
 	Rva001F8D70Map m_systems;           // +0x88
 	Rva001F9D98Buffer m_buffer;         // +0x9C
@@ -204,4 +252,32 @@ Rva001F9D98::~Rva001F9D98()
 			m_ref7C = 0;
 		}
 	}
+}
+
+// ??0Rva001F9D98@@QAE@XZ retail 0x001FA69F..0x001FA779 (218 bytes EH): the
+// constructor. Bases SubsystemInterface (rowed 0x001B4E63) and inline
+// Snapshot, then the members in order: +0x4C list (folded _List_base ctor
+// 0x00280A8D), +0x68 handle, +0x80 reference, +0x84 flag, +0x88 ID map
+// (0x001FA440) and +0x9C buffer (folded 12-byte vector ctor 0x001F81BF).
+// The body zeroes the scalars and both seven-slot arrays, resets the handle
+// from an empty temporary (rowed assignment 0x0004CC3D, unlink 0x0004CBC0)
+// and clears +0x74/+0x78/+0x7C.
+Rva001F9D98::Rva001F9D98() : m_84(false)
+{
+	m_48 = 0;
+	m_5C = 0;
+	m_64 = 0;
+	m_50 = 0;
+	m_54 = 0;
+	m_58 = 0;
+	m_60 = 0.0f;
+	for (int i = 0; i < 7; i++)
+	{
+		m_10[i] = 0;
+		m_2C[i] = 0;
+	}
+	m_handle = Rva001F9D98Handle(0);
+	m_74 = 0;
+	m_device78 = 0;
+	m_ref7C = 0;
 }
