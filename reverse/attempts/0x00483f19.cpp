@@ -1,4 +1,6 @@
 // ?rva00483F19@Rva00483C35@@UAE_NXZ
+// partial score=0.985 date=2026-10-15
+// ?rva00483F19@Rva00483C35@@UAE_NXZ
 // partial score=0.9 date=2026-10-15
 // ?rva00483F19@Rva00483C35@@UAE_NXZ
 // partial score=0.676 date=2026-10-14
@@ -197,4 +199,6 @@ bool Rva00483C35::rva00483F19()
 		}
 	}
 	return true;
+
+ if (0) throw 1;
 }

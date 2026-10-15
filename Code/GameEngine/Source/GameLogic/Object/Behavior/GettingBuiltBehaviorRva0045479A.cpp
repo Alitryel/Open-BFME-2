@@ -1,12 +1,16 @@
-// ?rva0045479A@GettingBuiltBehavior@@QAEXXZ
-// partial score=0.84558 date=2026-10-13
-// ?rva0045479A@GettingBuiltBehavior@@QAEXXZ
-// partial score=0.91 date=2026-10-09
 // cl: /G7 /O1 /arch:SSE /Ob2 /DNDEBUG /MD /GX /Ireference/shims/bfme2_ascii /I.
-// Native45479A..45499B complete EH body, WB116FCD0 same call graph.
-// The primary GettingBuiltBehavior receiver and fields follow owned ctor
-// and interface sibling units. Original method name unknown.
+// GettingBuiltBehavior::rva0045479A, retail 0x0045479A (513 B): the per-tick
+// self-heal gate of the construction behavior (owned caller 0x00454DF9). Original
+// method name unknown; WB 0x0116FCD0 has the same call graph (target fact).
+// The primary receiver and fields follow the owned ctor and interface sibling units.
+// Target facts from the retail EH map (3 states): the range filter is a TEMPORARY of the
+// iterateObjectsInRange call (state 0 over the call, the result object registered twice:
+// state 1 under it, state 2 after it), so the result is destroyed with the unwind state -1.
+// Structural inferences (codegen levers, no behavioural meaning): the scoped `out`
+// local lets it share a frame slot with `body`; the dead `if (0) throw 1;` after the last
+// statement restores sibling-block frame slot merging that an EH object otherwise disables.
 #include "ascii_string.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
 class Player;
@@ -30,7 +34,6 @@ public:
  virtual float health();virtual void slot5();virtual float maxHealth();
 };
 struct GettingBuiltTemplateView { unsigned char pad[0x11b]; unsigned char kindFlags; };
-enum ObjectID { INVALID_ID = 0 };
 class Object {
 public:
  Player *getControllingPlayer() const;
@@ -41,7 +44,6 @@ public:
  unsigned char pad80[0x254-0x80];Rva0045342FBody *body;
  unsigned char pad258[0x438-0x258];unsigned char privateStatus;
 };
-class GameLogic { public:Object *findObjectByID(ObjectID); };
 extern GameLogic *TheGameLogic;
 extern PartitionManager *ThePartitionManager;
 struct GettingBuiltBehaviorTickData {
@@ -76,16 +78,18 @@ void GettingBuiltBehavior::rva0045479A()
  if (!body) return;
  if (obj->privateStatus&1) {
    if (!d->nearby) return;
-   Rva002614ECFilter filter(&d->filter,obj->getControllingPlayer(),true);
-   BfmeWideResult result=ThePartitionManager->iterateObjectsInRange(&obj->position,d->radius,1,&filter,0);
+   BfmeWideResult result=ThePartitionManager->iterateObjectsInRange(&obj->position,d->radius,1,&Rva002614ECFilter(&d->filter,obj->getControllingPlayer(),true),0);
    Object *found;
    while ((found=result.next())!=0) if (found!=obj && !(found->privateStatus&1)) return;
  }
  if (!(body->health()<body->maxHealth())) return;
  }
  if (rva00453124()) return;
+ bool busy;
+ {
  int out=0;
- bool busy=!flag35 && obj->rva0028C264(&out,4);
+ busy=!flag35 && obj->rva0028C264(&out,4);
+ }
  Object *builder=TheGameLogic->findObjectByID(obj->builderID);
  bool special=builder && (builder->tmplate->kindFlags&0x10);
  if (d->builder.isEmpty() && (!builder || builder==obj || special)) {
@@ -99,4 +103,6 @@ void GettingBuiltBehavior::rva0045479A()
    if (timer>0.0f && !busy)timer-=1.0f;
    if (timer<=0.0f)iface.start(true);
  }
+
+ if (0) throw 1;
 }

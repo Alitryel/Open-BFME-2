@@ -1,4 +1,6 @@
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
+// partial score=0.985 date=2026-10-15
+// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.95 date=2026-10-14
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.95 date=2026-10-14 (self-contained BFME2-layout TU, same head as
@@ -13,6 +15,8 @@
 // (3) delta.x fld before/after the goalView load scheduling at the atan2 setup.
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /I.
 // stlport
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 #include "ascii_string.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
@@ -115,8 +119,8 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
   exitObj->setPosition(&startPosition);
   exitObj->setOrientation(exitAngle);
   exitObj->rva0028B4CE((PathfindLayerEnum)me->rva0028B511());
-  ai=exitObj->ai;
   TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
+  ai=exitObj->ai;
   if(ai){
    ai->ignoreObstacle(exitObj);
    ai->ignoreCollisionUntil=TheGameLogic->getFrame()+BfmeLogicFramesPerSecond;
@@ -136,16 +140,17 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
  }else{
   if(me->thingTemplate[0x11f]&0x80){
    AIUpdateInterface *ai;
-   Coord3D savedGoal,target;
+   Coord3D savedGoal,target,startPosition;
    float exitAngle;
    {
-   Coord3D startPosition;
    const Coord3D *pos=&me->position;
    AI *theAI=TheAI;
+   Pathfinder *pf=theAI->pathfinder;
    startPosition.x=pos->x;
    startPosition.y=pos->y;
    startPosition.z=pos->z;
-   if(!theAI->pathfinder->getClosestPointOnLand(pos,me,&startPosition))goto done;
+   _ReadWriteBarrier();
+   if(!pf->getClosestPointOnLand(pos,me,&startPosition))goto done;
    ai=exitObj->ai;
    if(!ai)goto done;
    {
@@ -153,8 +158,8 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
      AIGoalView *goalView=ai->goalView;
      savedGoal.x=goalView->goal.x;
      savedGoal.y=goalView->goal.y;
-     savedGoal.z=goalView->goal.z;
      delta.x=startPosition.x-pos->x;
+     savedGoal.z=goalView->goal.z;
      delta.y=startPosition.y-pos->y;
      delta.z=startPosition.z-pos->z;
      exitAngle=(float)Rva000422A0Atan2(delta.y,delta.x);
@@ -195,4 +200,6 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
 done:
   TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
  }
+
+ if (0) throw 1;
 }
