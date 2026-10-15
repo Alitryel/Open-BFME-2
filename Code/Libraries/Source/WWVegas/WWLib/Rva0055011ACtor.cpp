@@ -2,10 +2,19 @@
 // stlport
 // ??0Rva0055011A@@QAE@XZ @0x0055011A 157B.
 // Virtual-class default ctor: vtable store, three MutexClass members, two deque wrappers,
-// ModuleTemplateMap member, tail zeroes plus a 10-dword body loop.
+// string-key map member, tail zeroes plus a 10-dword body loop.
 // Evidence: vtable store at +0 proves ctor; callees rowed 0x006139F0 0x00550083 0x00413727;
 // two 0x28-spaced wrapper slots plus mutex/map offsets fix the layout.
+// Native FuncInfo94CDEC binds seven complete cleanup actions. State0 passes
+// this to the7B primary-base dtor54F91B (table C6AB10); the existing156B
+// destructor54FFA5 uses the same base view. States4/5 call distinct5B deque
+// wrappers54FF9B/54FFA0 which both reach the complete87B dtor54FF17.
+// The slot10 clear and slot6 lookup/store units independently identify the
+// string-key map at74; its native5B outer teardown38A5D1 calls the existing
+// full56B string/int tree destructor38A48B. Signedness and queue element
+// identities remain unspecified beyond these existing provider views.
 #include <map>
+#include <string>
 
 class MutexClass
 {
@@ -18,6 +27,13 @@ private:
 	char m_pad[3];
 };
 
+// Existing opaque lifetime view from the complete156B owner destructor.
+struct Rva00660470Deque
+{
+    ~Rva00660470Deque();
+    char m_body[0x28];
+};
+
 class Rva00550083
 {
 public:
@@ -27,36 +43,32 @@ private:
 	char m_pad[0x28];
 };
 
-enum NameKeyType
-{
-	NAMEKEY_FIRST = 0
-};
-
-class ModuleFactory
+// The second wrapper shares the exact21B storage construction. Its distinct
+// native destructor copy still tears down precisely one underlying deque.
+class Rva0055011ADeque44
 {
 public:
-	class ModuleTemplate
-	{
-	public:
-		void *m_createProc;
-		void *m_createDataProc;
-		int m_whichInterfaces;
-	};
+    ~Rva0055011ADeque44();
+private:
+    Rva00550083 m_storage;
 };
 
-typedef _STL::map<NameKeyType, ModuleFactory::ModuleTemplate,
-	_STL::less<NameKeyType> > ModuleTemplateMap;
+typedef _STL::basic_string<char> PingKey;
+typedef _STL::pair<const PingKey, int> PingPair;
+typedef _STL::_Rb_tree<PingKey, PingPair, _STL::_Select1st<PingPair>,
+    _STL::less<PingKey>, _STL::allocator<PingPair> > PingTree;
+// The complete tree lifetime is already defined and verified in PeerStatMapTreeDestructor.cpp.
+namespace _STL { template<> PingTree::~_Rb_tree(); }
+typedef _STL::map<PingKey, int, _STL::less<PingKey> > PingMap;
+extern template PingMap::map();
 
-extern template ModuleTemplateMap::map();
-
-class Rva0055011ABase
+class Rva006609D0Base
 {
 public:
-	Rva0055011ABase() {}
-	~Rva0055011ABase();
+    virtual ~Rva006609D0Base() {}
 };
 
-class Rva0055011A : public Rva0055011ABase
+class Rva0055011A : public Rva006609D0Base
 {
 public:
 	Rva0055011A();
@@ -66,10 +78,10 @@ private:
 	MutexClass m_0C;
 	MutexClass m_14;
 	Rva00550083 m_1C;
-	Rva00550083 m_44;
+	Rva0055011ADeque44 m_44;
 	int m_6C;
 	int m_70;
-	ModuleTemplateMap m_74;
+	PingMap m_74;
 	int m_80[10];
 	MutexClass m_A8;
 	int m_B0;
