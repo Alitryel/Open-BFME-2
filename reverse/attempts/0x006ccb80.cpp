@@ -1,4 +1,6 @@
 // ?Rva006CCB80CallFunction@@YAXPBDPAD0HZZ
+// partial score=0.975 date=2026-10-15
+// ?Rva006CCB80CallFunction@@YAXPBDPAD0HZZ
 // partial score=0.97 date=2026-10-15
 // cl: /O2 /MD /EHsc
 
@@ -754,7 +756,8 @@ void Rva006CCB80CallFunction(const char *function,char *result,const char *targe
  }
  AptString *apStrings[32];
  va_list list;
- va_start(list,nNumParams);
+ va_list list_c10 = list;
+ va_start(list_c10,nNumParams);
  for(int i=0;i<nNumParams;i++) {
   apStrings[i]=AptString::Create();
   apStrings[i]->setStringInline(va_arg(list,const char *));
@@ -763,7 +766,7 @@ void Rva006CCB80CallFunction(const char *function,char *result,const char *targe
  for(int j=nNumParams-1;j>=0;j--)
   g_aptDateInterpreter.stack.Push((BfmeAptValue006DCD20 *)apStrings[j]);
  GAPCHECK(context,"pContext",0x504);
- EAStringC name(function);
+ EAStringC name((*(const char * volatile *)&(function)));
  AptValue *value=g_aptDateInterpreter.getVariable(context,0,&name,1,1,0);
  void *saved=AptPushStaticData();
  g_aptDateInterpreter.callFunction(context,value,nNumParams);

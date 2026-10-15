@@ -1,4 +1,6 @@
 // ?render@Rva000E0856@@QAEXPAVRenderContext@@@Z
+// partial score=0.989 date=2026-10-15
+// ?render@Rva000E0856@@QAEXPAVRenderContext@@@Z
 // partial score=0.9741952894126807 date=2026-10-14
 // ?render@Rva000E0856@@QAEXPAVRenderContext@@@Z
 // partial score=0.9742 date=2026-10-10
@@ -175,10 +177,10 @@ void Rva000E0856::render(RenderContext*ctx){
  Vector2 uv(0,phase=1.0f-(timeGetTime()%1000)/1000.0f);lines[2]->rva0015E3E0(uv);
  uv.x=0;uv.y=phase;lines[3]->rva0015E3E0(uv);
  BfmeVecHF one={1,1,1},zero={0,0,0};((Gen_0094AC70*)lights)->bfmeSetPair(&zero,&one);
- CameraClass*camera=ctx->camera;camera->update();((LightEnvironmentClass*)lights)->Pre_Render_Update(camera->transform);
+ CameraClass*camera=(*(RenderContext* volatile *)&(ctx))->camera;camera->update();((LightEnvironmentClass*)lights)->Pre_Render_Update(camera->transform);
  RenderInfoClass ri(*ctx->camera);info=&ri;ri.lights=(LightEnvironmentClass*)lights;
  int mode=TheInGameUI->mode;
- if(mode==1||mode==2){
+ if(TheInGameUI->mode==1||mode==2){
   unsigned selected=TheInGameUI->slot93();
   if(selected){DrawableView*d=TheGameClient->lookup(selected);
    if(d){Rva000E07F4Obj*o=d->object;
