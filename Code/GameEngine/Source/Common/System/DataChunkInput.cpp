@@ -105,7 +105,7 @@ public:
 class InputChunk
 {
 public:
-	virtual void *deleteInstance(int flags);	// vptr this+0x00 (MemoryPoolObject pattern)
+	virtual ~InputChunk() {}	// native slot 0 is the rowed scalar deleting destructor
 
 	InputChunk *next;					// this+0x04
 	UnsignedInt id;						// this+0x08
@@ -217,7 +217,8 @@ protected:
 
 		InputChunk *c = m_chunkStack;
 		m_chunkStack = m_chunkStack->next;
-		::operator delete(c != 0 ? c->deleteInstance(0) : 0);
+		// Both node types expose the same scalar-deleting ABI at slot 0.
+		::operator delete(c != 0 ? ((UserParser *)c)->deleteInstance(0) : 0);
 	}
 
 public:
@@ -381,8 +382,8 @@ UserParser *DataChunkInput::registerParser(const AsciiString &label,
 	DataChunkInput *self = this;
 
 	p = new UserParser;
-	p->label.set(label);
-	p->parentLabel.set(parentLabel);
+	((StringBase<char> *)&p->label)->set(*(const StringBase<char> *)&label);
+	((StringBase<char> *)&p->parentLabel)->set(*(const StringBase<char> *)&parentLabel);
 	p->parser = parser;
 
 	void *ud = userData;
