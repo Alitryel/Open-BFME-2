@@ -9,6 +9,8 @@ public:
 	void rva002B7250(CreateAHeroData *v);
 };
 struct TreeHintRef00217D4C { char m_pad[4]; };
+// Retail's erase is the rowed copy in Rva004F92E3Rva004F92E3.cpp.
+namespace _STL { template <> TreeHintRef00217D4C *vector<TreeHintRef00217D4C, allocator<TreeHintRef00217D4C> >::erase(TreeHintRef00217D4C *, TreeHintRef00217D4C *); }
 class WaterTracksRenderSystem
 {
 public:
