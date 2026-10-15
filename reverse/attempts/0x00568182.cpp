@@ -1,4 +1,6 @@
 // ??0?$vector@VRva00567BD7@@V?$allocator@VRva00567BD7@@@_STL@@@_STL@@QAE@I@Z
+// partial score=0.9 date=2026-10-15
+// ??0?$vector@VRva00567BD7@@V?$allocator@VRva00567BD7@@@_STL@@@_STL@@QAE@I@Z
 // partial score=0.6 date=2026-10-15
 // ??0?$vector@VRva00567BD7@@V?$allocator@VRva00567BD7@@@_STL@@@_STL@@QAE@I@Z
 // partial score=0.85 date=2026-10-09
