@@ -11,12 +11,13 @@ enum PathfindLayerEnum
 {
 	LAYER_INVALID = 0
 };
+struct Rva002E85ADInfo;
 class Pathfinder
 {
 public:
 	int rva002EB4A0(const Coord3D *a, const Coord3D *b, PathfindLayerEnum layer, void *info);
 private:
-	int rva002E85AD(const ICoord2D *startCell, const ICoord2D *destinationCell, PathfindLayerEnum layer, void *callbackInfo);
+	int iterateCellsAlongLine(const ICoord2D *startCell, const ICoord2D *destinationCell, PathfindLayerEnum layer, struct Rva002E85ADInfo *callbackInfo);
 };
 ICoord2D *__cdecl Rva002E7875WorldToCell(ICoord2D *out, bool center, const Coord3D *pos);
 // ?rva002EB4A0@Pathfinder@@QAEHPBUCoord3D@@0W4PathfindLayerEnum@@PAX@Z @0x002EB4A0 63B.
@@ -25,5 +26,5 @@ int Pathfinder::rva002EB4A0(const Coord3D *a, const Coord3D *b, PathfindLayerEnu
 {
 	ICoord2D tmp1;
 	ICoord2D tmp2;
-	return rva002E85AD(Rva002E7875WorldToCell(&tmp2, true, a), Rva002E7875WorldToCell(&tmp1, true, b), layer, info);
+	return iterateCellsAlongLine(Rva002E7875WorldToCell(&tmp2, true, a), Rva002E7875WorldToCell(&tmp1, true, b), layer, (struct Rva002E85ADInfo *)info);
 }
