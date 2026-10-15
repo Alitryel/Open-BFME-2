@@ -51,3 +51,8 @@ void Rva00091D0D::rva00091D0D()
 		(*(Gen0003AC38 * *)&TheW3DShadowManager)->rva0009A338();
 }
 
+
+// The retail call in this body reads 0x0009A338, an address the ledger already
+// carries as ?Rva007B7600@@YAXXZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva0009A338@Gen0003AC38@@QAEXXZ=?Rva007B7600@@YAXXZ")

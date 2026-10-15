@@ -30,3 +30,8 @@ Rva001DE3E3 *Rva001DE3E3::rva001DE3E3(Rva001DE3E3 *other)
 	}
 	return this;
 }
+
+// The retail call in this body reads 0x001DDCC5, an address the ledger already
+// carries as ?_M_copy_from@?$hashtable@U?$pair@$$CBHURva001DDCC5Record@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHURva001DDCC5Record@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHURva001DDCC5Record@@@_STL@@@2@@_STL@@AAEXABV12@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva001DDCC5@Rva001DDCC5@@QAEXPAX@Z=?_M_copy_from@?$hashtable@U?$pair@$$CBHURva001DDCC5Record@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHURva001DDCC5Record@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHURva001DDCC5Record@@@_STL@@@2@@_STL@@AAEXABV12@@Z")

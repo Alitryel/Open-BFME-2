@@ -3415,7 +3415,9 @@ void __cdecl Rva002EBCA7Split(void *p, int *outHalf, unsigned char *outOdd)
 // Hierarchical search views: native2F71A6 and the complete WB D4FAE0 body
 // establish these accessed fields; ZH/BF1 supply the search algorithm only.
 class MineshaftPortalNetworkManager { public: Bool hasUsableNetwork(void *); };
-extern MineshaftPortalNetworkManager *TheMineshaftPortalNetworkManager;
+// The sole datum owner is GameStateInit.cpp g_Va00E01EDC (data_ledger A01EDC).
+// GameEngineInit.cpp registration literal independently identifies its role.
+extern void *g_Va00E01EDC;
 class HierarchyTerrain : public PathfinderNativeSlots<33> { public: virtual Waypoint *getFirstWaypoint(); };
 class Rva002E6ECA { public: Int get() const; };
 Int Rva002E6E6CGet(Int);
@@ -3429,7 +3431,7 @@ static __forceinline void hierarchySetParent(PathfindCell *cell,PathfindCell *pa
 }
 static __forceinline bool hierarchyClosed(PathfindCell *cell) { return (unsigned char)((Rva002E6B06 *)cell)->rva002E6B06()!=0; }
 static __forceinline bool hierarchyOpen(PathfindCell *cell) { return (unsigned char)((Rva002E6AF3 *)cell)->get()!=0; }
-struct HierarchyPoint : public Coord3D {
+struct HierarchyPoint : public Coord3D { HierarchyPoint(){}
  HierarchyPoint(const HierarchyPoint &c) { x=c.x;y=c.y;z=c.z; }
  HierarchyPoint(const Coord3D &c) { x=c.x;y=c.y;z=c.z; }
  HierarchyPoint &operator=(const Coord3D &c) { *(Coord3D *)this=c;return *this; }

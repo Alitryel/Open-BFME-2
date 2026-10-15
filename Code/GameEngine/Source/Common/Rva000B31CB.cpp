@@ -143,3 +143,8 @@ void Rva000B31CB::rva000B31CB(unsigned int selected, int color)
 	}
 	m_template.createSelectionRadiusDecal(object->Object::rva0028D4E0(0), selected, color, &m_decal, scale);
 }
+
+// The retail call in this body reads 0x0028D4E0, an address the ledger already
+// carries as ?rva0028D4E0@Object@@UAEPBUCoord3D@@PAU2@0@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva0028D4E0@Object@@UAE?AUCoord3D@@PAU2@@Z=?rva0028D4E0@Object@@UAEPBUCoord3D@@PAU2@0@Z")

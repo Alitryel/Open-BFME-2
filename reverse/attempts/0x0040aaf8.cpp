@@ -1,4 +1,6 @@
 // ?rva0040AAF8@Rva0040BAD0@@QAEHH@Z
+// partial score=0.9592432791237968 date=2026-10-15
+// ?rva0040AAF8@Rva0040BAD0@@QAEHH@Z
 // partial score=0.99 date=2026-10-14
 // ?rva0040AAF8@Rva0040BAD0@@QAEHH@Z
 // partial score=0.93 date=2026-10-14
@@ -98,7 +100,7 @@ int Rva0040BAD0::rva0040AAF8(int key)
 	do
 	{
 		new ((void *)&key, InParamSlot()) AsciiString(nameOfI(*(const int *)((const char *)m_begin + off)));
-		__asm nop
+
 		((AsciiString *)&key)->~AsciiString();
 	} while (off += sizeof(BfmePod104), ++i < m_vec18.size());
 	}

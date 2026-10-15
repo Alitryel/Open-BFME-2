@@ -20,3 +20,8 @@ public:
 Rva00135E35::Rva00135E35()
 {
 }
+
+// The retail call in this body reads 0x00135E35, an address the ledger already
+// carries as ?rva00135E35@BfmeThingUB@@QAEXXZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??1Rva00135E35@@UAE@XZ=?rva00135E35@BfmeThingUB@@QAEXXZ")

@@ -22,6 +22,18 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include <map>
 
+// Native int-map operations stay inline without per-unit allocator/pair copies.
+namespace _STL {
+typedef pair<const int,int> SVIntPair;
+typedef _Rb_tree_node<SVIntPair> SVIntNode;
+template<> __declspec(dllimport) __forceinline SVIntNode *allocator<SVIntNode>::allocate(size_t n, const void *) const { return n ? reinterpret_cast<SVIntNode *>(allocator<char>::allocate(n * sizeof(SVIntNode),0)) : 0; }
+template<> __declspec(dllimport) __forceinline void allocator<SVIntNode>::deallocate(SVIntNode *p, size_t) const { if(p) ::free(p); }
+template<> __declspec(dllimport) __forceinline SVIntNode *_STLP_alloc_proxy<SVIntNode *,SVIntNode,allocator<SVIntNode> >::allocate(size_t n) { return __stl_alloc_rebind(static_cast<allocator<SVIntNode> &>(*this), (SVIntNode *)0).allocate(n,0); }
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<SVIntNode *,SVIntNode,allocator<SVIntNode> >::deallocate(SVIntNode *p, size_t n) { __stl_alloc_rebind(static_cast<allocator<SVIntNode> &>(*this), (SVIntNode *)0).deallocate(p,n); }
+template<> __declspec(dllimport) __forceinline pair<const int,int>::pair(const int &a,const int &b):first(a),second(b) {}
+}
+
+
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
 // specialization takes those calls inline so this TU emits no external copy.

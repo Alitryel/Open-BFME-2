@@ -1,5 +1,7 @@
 // ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z
 // partial score=0.9922685185185185 date=2026-10-15
+// ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z
+// partial score=0.9922685185185185 date=2026-10-15
 // cl: /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 // W7-D1 r11: native6045A2..6046B0 RET16; whole270B and frame44 exact.
@@ -11,6 +13,8 @@
 // reverse/attempt_evidence/big_archive_r11_eh_exact.cpp.
 // All8 original call candidates plus17 transitive bodies/relocations/EH
 // were independently checked whole against retail. See r11_call_graph.json.
+// Alternate270B/EH-exact direct-return experiment: r11_prvalue.patch,
+// three later member-pair homes differ; factory whole27B separately checked.
 // No candidate is an admitted production pin; owner-unit/fold admission is
 // still required before this parent can land. Never substitute the existing
 // 4B Rva00603A00Mapped placeholder for the native12B member descriptor.

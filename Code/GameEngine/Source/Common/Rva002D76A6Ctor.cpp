@@ -8,7 +8,7 @@
 class Rva002D76A6
 {
 public:
-	virtual void v0();
+	virtual void v0() = 0;
 	Rva002D76A6();
 
 private:

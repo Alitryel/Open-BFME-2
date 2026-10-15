@@ -58,3 +58,8 @@ BfmePairEL __cdecl bfmeMakePairEL(
 {
 	return BfmePairEL(first, second);
 }
+
+// The retail call in this body reads 0x0002C4FD, an address the ledger already
+// carries as ??0Rva0002C4FD@@QAE@ABV?$StringBase@D@@0@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??0BfmePairEL@@QAE@ABVBfmeWordEL@@0@Z=??0Rva0002C4FD@@QAE@ABV?$StringBase@D@@0@Z")

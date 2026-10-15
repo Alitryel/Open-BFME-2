@@ -6,3 +6,8 @@
 // ??_GGen_uw_003b774b@@QAEPAXI@Z @0x3b7d90
 class Gen_uw_003b774b { public: ~Gen_uw_003b774b(); };
 void famgenDelete(Gen_uw_003b774b *p) { delete p; }
+
+// The retail call in this body reads 0x003B774B, an address the ledger already
+// carries as ??1ScriptList@@QAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??1Gen_uw_003b774b@@QAE@XZ=??1ScriptList@@QAE@XZ")

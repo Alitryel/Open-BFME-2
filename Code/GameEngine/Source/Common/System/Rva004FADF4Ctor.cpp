@@ -12,7 +12,7 @@ class Rva0059B7CB
 {
 public:
 	Rva0059B7CB(unsigned int field04, unsigned int field08);
-	virtual void slot00();
+	virtual void slot00() = 0;
 private:
 	unsigned int m_field04;
 	unsigned int m_field08;
@@ -22,7 +22,7 @@ class Rva004FAC6B
 {
 public:
 	Rva004FAC6B();
-	virtual void slot00();
+	virtual void slot00() = 0;
 private:
 	char m_pad[0x10];
 };
@@ -31,7 +31,7 @@ class Rva004FADF4 : public Rva0059B7CB, public Rva004FAC6B
 {
 public:
 	Rva004FADF4(unsigned int a, unsigned int b);
-	virtual void slot00();
+	virtual void slot00() = 0;
 private:
 	_STL::vector<BfmeE16> m_vec;
 	int m_2c;

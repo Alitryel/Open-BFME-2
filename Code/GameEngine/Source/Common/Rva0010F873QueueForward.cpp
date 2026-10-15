@@ -64,3 +64,8 @@ Rva0073EEE0ListIterator AsyncServiceQueue::rva0010F873(AudioEventInfoRef ref)
 {
 	return enqueue(Rva0010F760(ref));
 }
+
+// The retail call in this body reads 0x0010F760, an address the ledger already
+// carries as ?Rva0010F760@@YA?AVAudioEventInfoRef@@VRva0036CA00Str@@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?Rva0010F760@@YA?AVRva0036CA00Str@@V1@@Z=?Rva0010F760@@YA?AVAudioEventInfoRef@@VRva0036CA00Str@@@Z")

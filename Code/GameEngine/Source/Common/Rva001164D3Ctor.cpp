@@ -13,7 +13,7 @@ public:
 struct CountBase {
     volatile int m_count;
     __forceinline CountBase() : m_count(0) {}
-    virtual void dummy();
+    virtual void dummy() = 0;
 };
 class Rva001164D3 : public CountBase {
 public:

@@ -38,3 +38,8 @@ void *Rva001514B2::rva001514B2(int a, int b)
 	}
 	return p;
 }
+
+// The retail call in this body reads 0x0015326D, an address the ledger already
+// carries as ?apply@Rva0015326DTarget@@QAEXIPAX@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva0015326D@Rva0015326D@@QAEPAXHH@Z=?apply@Rva0015326DTarget@@QAEXIPAX@Z")

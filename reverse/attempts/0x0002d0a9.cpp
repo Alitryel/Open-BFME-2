@@ -1,4 +1,6 @@
 // ?preprocessMacro@INI@@SAPBDPBD@Z
+// partial score=0.9806366047745358 date=2026-10-15
+// ?preprocessMacro@INI@@SAPBDPBD@Z
 // partial score=0.98 date=2026-10-13
 // ?preprocessMacro@INI@@SAPBDPBD@Z
 // partial score=0.98 date=2026-10-11
@@ -66,6 +68,7 @@ public:
 
 // Shared real scope provider (see header note). No new pin.
 extern AsciiString g_00DDF5B4;
+extern unsigned BfmeINIMacroTableStorage[8];
 
 // ?preprocessMacro@INI@@SAPBDPBD@Z
 const char *INI::preprocessMacro(const char *token)
@@ -78,7 +81,7 @@ const char *INI::preprocessMacro(const char *token)
 		MacroScopeSlot slot;
 		{
 			AsciiString tmp(tok);
-			Rva002C9E7Table *table = (Rva002C9E7Table *)0xDDF58C;
+			Rva002C9E7Table *table = (Rva002C9E7Table *)&BfmeINIMacroTableStorage[0];
 			node = table->find(tmp);
 			slot.m_table = table;
 		}
@@ -88,7 +91,7 @@ const char *INI::preprocessMacro(const char *token)
 			const AsciiString *other = &AsciiString::TheEmptyString;
 			if (scope->compare(*other) != 0)
 			{
-				((Rva002CA26Map *)0xDDF5A0)->opaqueCall(&slot, (const StringBase<char> &)*scope);
+				((Rva002CA26Map *)&BfmeINIMacroTableStorage[5])->opaqueCall(&slot, (const StringBase<char> &)*scope);
 			}
 			char *text = node->m_text;
 			const char *r = text + 8;

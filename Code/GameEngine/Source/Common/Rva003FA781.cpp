@@ -195,7 +195,8 @@ struct Rva003FA835Details { char pad0[8]; Rva003FA835Model *model; };
 BfmeEventPositionView Rva003FA835::rva003FA835()
 {
  Rva003FA835Model *model = ((Rva003FA835Details *)m_target)->model;
- BfmeEventPositionView out(0.0f, 0.0f, 0.0f);
+ BfmeEventPositionView out;
+ out.zero();
  if (model)
  {
   model->refresh();
@@ -205,5 +206,5 @@ BfmeEventPositionView Rva003FA835::rva003FA835()
   out.y = out.z;
   out.z = model->z;
  }
- return BfmeEventPositionView(out.x, out.y, out.z);
+ return out;
 }

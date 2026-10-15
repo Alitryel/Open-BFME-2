@@ -34,3 +34,8 @@ void Rva0002A270Thing::rva0002a2a0(void *at, void *what)
 {
 	bfmeDoPF((char *)at, what, bfmeMakeOX(at));
 }
+
+// The retail call in this body reads 0x000078C0, an address the ledger already
+// carries as ??$_M_range_initialize@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEXPBD0ABUforward_iterator_tag@1@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva00078c0@Rva00029F80@@AAEXPBD0PAX@Z=??$_M_range_initialize@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEXPBD0ABUforward_iterator_tag@1@@Z")
