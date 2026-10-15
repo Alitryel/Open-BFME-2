@@ -5,7 +5,9 @@ class Rva00791F70CallbackHost;
 typedef void (__cdecl *Rva00791F70Callback)(
 	Rva00791F70CallbackHost *, int, int, int );
 
-void j_0003c281();
+enum WindowMsgHandledType { BFME_WMHT_IGNORED = 0 };
+class GameWindow;
+WindowMsgHandledType GadgetListBoxInput( GameWindow *, unsigned, unsigned, unsigned );
 
 class Rva00791F70CallbackHost
 {
@@ -23,5 +25,5 @@ void Rva00791F70CallbackHost::dispatch(
 	if( m_callback )
 		m_callback( this, first, second, third );
 	else
-		((Rva00791F70Callback)&j_0003c281)( this, first, second, third );
+		GadgetListBoxInput( (GameWindow *)this, (unsigned)first, (unsigned)second, (unsigned)third );
 }
