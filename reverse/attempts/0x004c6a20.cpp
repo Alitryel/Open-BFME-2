@@ -1,4 +1,6 @@
 // ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.96 date=2026-10-15
+// ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.92 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
@@ -156,8 +158,7 @@ UpdateSleepTime WoundArrowUpdate::update()
 			if (target)
 			{
 				AIUpdateInterface *ai = target->m_ai;
-				if (!ai)
-					return UPDATE_SLEEP_FOREVER;
+				if (!(!ai)) {
 				Coord3D dir;
 				dir.x = target->m_pos.x - owner->m_pos.x;
 				dir.y = target->m_pos.y - owner->m_pos.y;
@@ -172,7 +173,9 @@ UpdateSleepTime WoundArrowUpdate::update()
 				ai->chooseLocomotorSet(LOCOMOTORSET_WOUNDED);
 				ai->aiMoveToPosition(&dir, CMD_FROM_AI);
 				setModelConditionBit(target, 77);
-			}
+			
+} else return UPDATE_SLEEP_FOREVER;
+}
 			owner->releaseWeaponLock(LOCKED_TEMPORARILY);
 			clearModelConditionBit(owner, 207);
 			onExit(false, false);

@@ -1,4 +1,6 @@
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
+// partial score=0.96 date=2026-10-15
+// ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
 // partial score=0.9400584298469198 date=2026-10-14
 // ?computeApproachTarget@Weapon@@QBE_NPBVObject@@0PBUCoord3D@@MAAU3@@Z
 // partial score=0.95 date=2026-10-14
@@ -188,7 +190,7 @@ bool Weapon::computeApproachTarget(const Object *source, const Object *target, c
 	float attackRange = ((Rva002C9BC3Owner *)this)->rva002C9BC3((void *)source, (void *)targetPos) * 0.9f;
 	if (dir.z != 0.0f)
 	{
-		for (int i = 0; (i ? i : i) < 10; ++i)
+		for (int i = 0; (i) < 10; ++i)
 		{
 			float newRange = ((Rva002C9B80Owner *)this)->rva002C9B80((void *)source, -attackRange * dir.z);
 			if (!(attackRange > newRange))

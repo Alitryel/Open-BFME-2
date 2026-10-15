@@ -1,4 +1,6 @@
 // ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
+// partial score=0.97 date=2026-10-15
+// ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
 // partial score=0.93 date=2026-10-15
 // ?RenderGraph@AptTimeLine@@QAEXABUPair0051E31A@@0HPBD@Z
 // partial score=0.9 date=2026-10-14
@@ -246,8 +248,8 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 		m_lastMaximum = maximum;
 	}
 
-	if (m_lastFrames != maxFrames)
-	{
+	if (!(m_lastFrames != maxFrames)) return;
+
 		for (int i = 0; i < 11; ++i)
 		{
 			UnicodeString text;
@@ -320,5 +322,5 @@ void AptTimeLine::RenderGraph(const Pair0051E31A &position, const Pair0051E31A &
 				g_bfmeAptWindowManager->bfmeSetText(AsciiString("Timeline:TotalTime"), text, false);
 		}
 		m_lastFrames = maxFrames;
-	}
+	
 }
