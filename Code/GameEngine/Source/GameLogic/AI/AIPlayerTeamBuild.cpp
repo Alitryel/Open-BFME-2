@@ -135,6 +135,15 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <list>
+
+// Keep the inlined node comparison local, as in GameClientXfer.cpp, so
+// this unit does not emit an incompatible STLport base-iterator COMDAT.
+namespace _STL {
+template <class T, class L, class R>
+static inline bool operator!=(const _List_iterator<T, L> &a,
+                              const _List_iterator<T, R> &b)
+{ return a._M_node != b._M_node; }
+}
 #include <vector>
 
 // GameLogic comes from the canonical GameLogicObjectLookupView.h.
