@@ -31,7 +31,6 @@ public:
 	unsigned char m_38;
 	char m_pad39[3];
 };
-class BfmeParticleSystemHandle {public:~BfmeParticleSystemHandle()throw();};
 class ParticleSystem;
 ParticleSystem *Make001FCBD7();
 class RvaSmartPtr12
@@ -41,7 +40,10 @@ public:
  RvaSmartPtr12() { m_ptr = 0; m_pad04 = 0; m_pad08 = 0; }
   RvaSmartPtr12(const RvaSmartPtr12 &that);
   RvaSmartPtr12 &operator=(const RvaSmartPtr12 &that);
- ~RvaSmartPtr12() throw() {if(m_ptr)((BfmeParticleSystemHandle*)this)->BfmeParticleSystemHandle::~BfmeParticleSystemHandle();}
+ // The guarded destructor at 2115C5 calls the non-null unlink at 4CBC0.
+ // Calling the other guarded spelling here would test the pointer twice.
+ void rva0004CBC0() throw();
+ ~RvaSmartPtr12() throw() {if(m_ptr)rva0004CBC0();}
 	void *m_ptr;
 	int m_pad04;
 	int m_pad08;
