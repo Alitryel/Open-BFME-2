@@ -227,6 +227,7 @@ public:
 	ObjectTypes();
 	virtual ~ObjectTypes();
 	int getListSize() const { return m_objectTypes.size(); }
+	void addObjectType(const AsciiString &objectType);
 
 private:
 	AsciiString m_listName;
@@ -244,13 +245,9 @@ private:
 };
 extern LinearCampaignManager *TheLinearCampaignManager;
 
-// The list append and the campaign forwarders are rowed under their address
-// classes (Rva00376A62Contains.cpp, VslotNullCheckedForwarders3.cpp).
-class Rva00376A62
-{
-public:
-	void rva00376B50(const AsciiString &objectType);
-};
+// ObjectTypes::addObjectType is rowed in Rva00376A62Contains.cpp; the
+// campaign forwarders under their address classes
+// (VslotNullCheckedForwarders3.cpp).
 class Rva001EC9AC
 {
 public:
@@ -710,7 +707,7 @@ void ScriptActions::doCreateUnitRevivalEntryFromDelayedCarryoverHero(const Ascii
 	ObjectTypes tempTypes;
 	ObjectTypes *types = TheScriptEngine->getObjectTypes(objectTypeName);
 	if (!types || types->getListSize() == 0) {
-		((Rva00376A62 *)&tempTypes)->rva00376B50(objectTypeName);
+		tempTypes.addObjectType(objectTypeName);
 		types = &tempTypes;
 	}
 	int mask = TheScriptEngine->rva00357475(playerName, 0);
@@ -747,7 +744,7 @@ void ScriptActions::doCreateDelayedCarryoverUnitAtWaypoint(const AsciiString &ob
 	ObjectTypes tempTypes;
 	ObjectTypes *types = TheScriptEngine->getObjectTypes(objectTypeName);
 	if (!types || types->getListSize() == 0) {
-		((Rva00376A62 *)&tempTypes)->rva00376B50(objectTypeName);
+		tempTypes.addObjectType(objectTypeName);
 		types = &tempTypes;
 	}
 	Waypoint *way = TheTerrainLogic->getWaypointByName(waypointName);
