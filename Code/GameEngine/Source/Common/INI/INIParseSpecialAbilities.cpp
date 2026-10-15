@@ -1,7 +1,3 @@
-// ?Rva00339B50_ParseSpecialAbilities@INI@@SAXPAV1@PAX1PBX@Z
-// partial score=0.93 date=2026-10-06
-// ?Rva00339B50_ParseSpecialAbilities@INI@@SAXPAV1@PAX1PBX@Z
-// partial score=0.93 date=2026-10-06
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /DNDEBUG /MD /GX
 // Rva00339B50_ParseSpecialAbilities (retail 0x00339B50, 74 bytes), in the INI
 // parse run beside Rva00339AF1_ParseSciences. Each remaining token is looked
@@ -11,6 +7,8 @@
 // final override (rowed Overridable::friend_getFinalOverride 0x00288609) to
 // the 4-byte vector at the store (push_back fold 0x004DFCB0). Serves the
 // SpecialAbilities entry 0x00C3BE84. Callback name address-derived.
+// The final override is held in a named local: retail then reuses the
+// AsciiString argument-address slot [ebp-4] for the pushed id.
 
 #include "ascii_string.h"
 
@@ -73,8 +71,8 @@ void INI::Rva00339B50_ParseSpecialAbilities(INI *ini, void *, void *store, const
 		const SpecialPowerTemplate *power = TheSpecialPowerStore->findSpecialPowerTemplate(AsciiString(token));
 		if (power)
 		{
-			UnsignedInt id = ((const SpecialPowerTemplate *)power->friend_getFinalOverride())->getID();
-			ids->push_back(id);
+			const SpecialPowerTemplate *final = (const SpecialPowerTemplate *)power->friend_getFinalOverride();
+			ids->push_back(final->getID());
 		}
 	}
 }
