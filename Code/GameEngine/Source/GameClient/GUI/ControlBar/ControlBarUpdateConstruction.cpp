@@ -142,7 +142,7 @@ private:
 
 public:
 	const Team *m_304;
-	const Team *getTeam() const { return m_304; }
+	__declspec(dllimport) __forceinline const Team *getTeam() const { return m_304; }
 };
 
 struct Rva0053E4B1Owner
