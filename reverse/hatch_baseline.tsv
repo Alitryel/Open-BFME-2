@@ -40971,9 +40971,8 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/linegrp.cpp	Peek_Texture@L
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/linegrp.cpp	Render@LineGroupClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/linegrp.cpp	Set_Texture@LineGroupClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp	0MaterialCollectorClass@@QAE@XZ	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp	0MaterialInfoClass@@	2
+present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp	0MaterialInfoClass@@	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp	0MaterialRemapperClass@@QAE@PAVMaterialInfoClass@@0@Z	1
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp	1MaterialCollectorClass@@QAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp	1MaterialInfoClass@@UAE@XZ	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp	Add_Texture@MaterialCollectorClass@@QAEXPAVTextureClass@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp	Add_Texture@MaterialInfoClass@@QAEHPAVTextureClass@@@Z	1
