@@ -1,42 +1,39 @@
-// ??0Rva000A8684@@QAE@XZ
-// partial score=0.92 date=2026-09-29
-// cl: /DNDEBUG /MD /EHsc
-//
-// ??0Rva000A8684@@QAE@XZ, retail 0x000A8684, 74 bytes.
-// Honest-address default ctor (size 0x18 via new at 0x00051107).
-// Zeroes +0/+4, sets +8=1, default-constructs UnicodeString at +0xC
-// via the rowed ??0UnicodeString@@QAE@XZ, zeroes five bytes at
-// +0x10-0x14. Callers at 0x00051128 and 0x0005595D are unclaimed
-// new+ctor sequences so owner is unknown. EH via /EHsc.
-class AsciiString
+// cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
+// Native74B constructorA8684 belongs to the24B Miles audio request allocated
+// at51107 and stack-built by55951. Request kind0, event holder4, handle8,
+// audio-file handleC and flags10..14 agree with the established request users
+// in MilesAudioManager.cpp. The original class identity remains unresolved.
+// Native state0 action760CB3 loads the saved receiver, adds4 and jumps to the
+// complete18B BfmePoolRef10 destructor519AB. Existing complete64B teardown
+// A86CE releases the same event's+88 reference after the file handleA8A37.
+// These target facts replace the former AsciiString/UnicodeString guesses.
+// Both complete74B owner and native associative EH graph verify exact.
+class BfmePoolHolder88;
+class BfmePoolRef10
 {
 public:
-	AsciiString() { m_data = 0; }
-	// LINK: the default ctor's COMDAT loses to the first-in-order copy; the one member
-	// init uses a TU-unique no-init ctor (same store). No flags touched.
-	struct BfmeNoInitA8684 {};
-	AsciiString(BfmeNoInitA8684) { m_data = 0; }
-	~AsciiString();
+    __forceinline BfmePoolRef10() : m_target(0) {}
+    ~BfmePoolRef10();
 private:
-	char * volatile m_data;
+    BfmePoolHolder88 *m_target;
 };
-class UnicodeString
+class Rva00690FF0Handle
 {
 public:
-	UnicodeString();
-	~UnicodeString();
+	Rva00690FF0Handle();
+	~Rva00690FF0Handle();
 private:
-	unsigned short *m_text;
+	void *m_handle;
 };
 class Rva000A8684
 {
 public:
 	Rva000A8684();
 private:
-	AsciiString m_0;
-	volatile int m_4;
+	int m_0;
+	BfmePoolRef10 m_4;
 	int m_8;
-	UnicodeString m_str;
+	Rva00690FF0Handle m_str;
 	volatile unsigned char m_10;
 	volatile unsigned char m_11;
 	volatile unsigned char m_12;
@@ -48,8 +45,8 @@ private:
 };
 
 Rva000A8684::Rva000A8684()
-	: m_0((AsciiString::BfmeNoInitA8684()))
-	, m_4(0)
+	: m_0(0)
+	, m_4()
 	, m_8(1)
 	, m_str()
 	, m_10(0)
