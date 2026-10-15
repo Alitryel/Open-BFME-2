@@ -2,7 +2,7 @@
 // ?rva002167A3@BannerUI@@QAEXXZ retail 0x002167A3..0x00216A2E (651B).
 // Same-TU callee lever: stateString's address goes to Rva00216332Call
 // (0x00216332) and progress's to Rva0021639AInvoke (0x0021639A); with both
-// rowed bodies visible here as byte-identical select-any copies cl proves the
+// rowed bodies owned here as select-any definitions cl proves the
 // addresses do not escape and shares the frame slots as retail does. The
 // summary message object Rva00406BB0 is 12 bytes (its ctor 0x00406B6A stores
 // the army id at +8), which gives retail's frame 0x20 and its slot at -0x2C.
@@ -69,11 +69,13 @@ __forceinline const char *GetStr00216332(const AsciiString &s, void *const *extr
 	*a1 = *(void **)extra;
 	return t ? t + 8 : "";
 }
+// Row owner: retail 0x00216332, 104 bytes. Kept visible for caller analysis.
 __declspec(noinline) inline int __cdecl Rva00216332Call(void *target, void *level, const char *func, const unsigned int *val, void *const *extra)
 {
     void *a1;
     return ((Rva00222A8BTarget *)target)->invoke(level, func, 2, GetStr00216332(Rva0022288EGet(*val), extra, &a1), a1, 0, 0, 0);
 }
+// Row owner: retail 0x0021639A, 149 bytes. Kept visible for caller analysis.
 __declspec(noinline) inline int __cdecl Rva0021639AInvoke(Rva00222A8BTarget *target, void *movie, const char *name, const unsigned int &slot, const int &value)
 {
 	return target->invoke(movie, name, 2, Rva002162CFStr(Rva0022288EGet(slot)), (void *)Rva002162CFStr(Rva00222834Get(value)), 0, 0, 0);

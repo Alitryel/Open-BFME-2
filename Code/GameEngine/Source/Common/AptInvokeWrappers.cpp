@@ -7,7 +7,8 @@
 //
 // ?Rva002162CFInvoke@@YAHPAVRva00222A8BTarget@@PAXPBDABI@Z @0x002162CF 99B  unsigned
 // ?Rva0021642FInvoke@@YAHPAVRva00222A8BTarget@@PAXPBDABM@Z @0x0021642F 103B float
-// and three siblings below (int; unsigned+int; unsigned+two strings).
+// and two siblings below (int; unsigned+two strings). The unsigned+int
+// wrapper is owned by BannerUIUpdate.cpp, whose caller needs its body visible.
 #include "ascii_string.h"
 
 class Rva00222A8BTarget
@@ -39,13 +40,6 @@ int __cdecl Rva0021642FInvoke(Rva00222A8BTarget *target, void *owner, const char
 }
 
 AsciiString __cdecl Rva00222834Get(int value);
-
-// ?Rva0021639AInvoke@@YAHPAVRva00222A8BTarget@@PAXPBDABIABH@Z @0x0021639A 149B
-// two arguments, unsigned then int.
-int __cdecl Rva0021639AInvoke(Rva00222A8BTarget *target, void *owner, const char *name, const unsigned int &a, const int &b)
-{
-	return target->invoke(owner, name, 2, Rva002162CFStr(Rva0022288EGet(a)), (void *)Rva002162CFStr(Rva00222834Get(b)), 0, 0, 0);
-}
 
 // ?Rva00216496Invoke@@YAHPAVRva00222A8BTarget@@PAXPBDABIABVAsciiString@@4@Z @0x00216496 129B
 // three arguments, an unsigned then two strings.
