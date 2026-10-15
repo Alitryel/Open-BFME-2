@@ -57,6 +57,7 @@ class DynamicAutoResolvePlayerPanelMovieClip { public: class Impl; };
 class StrategicHUD::DynamicAutoResolvePlayerPanelMovieClip::Impl {
 public:
     void ShowBanner(int slot,const Image *image);
+    void HideBanner(int slot);
 private:
     void *m_owner;
     int m_level;
@@ -98,3 +99,21 @@ void Rva005FBB96::rva005FBB96(int slot, const Image *image)
 {
 	return m_impl->ShowBanner(slot, image);
 }
+
+// WB 0x016129B0 lines291..296 and native005FBAFE..005FBB4D RET4
+// agree on the two banner records at+3C and SetBannerVisibility(false).
+void StrategicHUD::DynamicAutoResolvePlayerPanelMovieClip::Impl::HideBanner(int slot)
+{
+    Banner *banner=&m_banners[slot];
+    if (!banner->visible) return;
+    bool visible=false;
+    Rva00577C23AptCall((Rva00222A8BTarget *)g_bfmeAptWindowManager,
+        (void *)m_level,m_name.str(),"SetBannerVisibility",&slot,&visible);
+    banner->visible=false;
+}
+// Native005FBB9E is an8B member+4 tail forwarder; outer identity unproven.
+class Rva005FBB9E {
+public: void rva005FBB9E(int idx);
+private: char m_pad[4]; StrategicHUD::DynamicAutoResolvePlayerPanelMovieClip::Impl *m_member;
+};
+void Rva005FBB9E::rva005FBB9E(int idx) { return m_member->HideBanner(idx); }
