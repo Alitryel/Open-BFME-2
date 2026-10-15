@@ -1,4 +1,6 @@
 // ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
+// partial score=0.945 date=2026-10-15
+// ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
 // partial score=0.94 date=2026-10-15
 // cl: /O1 /DNDEBUG /MD /GX /arch:SSE /I.
 //
@@ -124,7 +126,7 @@ public:
 	unsigned size() const
 	{
 		unsigned n = 0;
-		for (Rva0029FB3BNode *p = m_node->m_next; p != m_node; p = p->m_next)
+		for (Rva0029FB3BNode *p = m_node->m_next; m_node != p; p = p->m_next)
 			++n;
 		return n;
 	}
