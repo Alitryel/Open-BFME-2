@@ -8,7 +8,6 @@
 class ShaderClass
 {
 public:
-	ShaderClass &operator=(const ShaderClass &that) { ShaderBits = that.ShaderBits; return *this; }
 	unsigned int ShaderBits;
 };
 
@@ -29,7 +28,8 @@ protected:
 // this anchor keeps it emitted here (it is not retail code).
 inline void DX8Wrapper::Get_Shader(ShaderClass &shader)
 {
-	shader = render_state.shader;
+	// Copy the single word directly; no competing ShaderClass assignment body.
+	shader.ShaderBits = render_state.shader.ShaderBits;
 }
 
 extern void (*const g_bfmeDX8GetShaderAnchor)(ShaderClass &);
