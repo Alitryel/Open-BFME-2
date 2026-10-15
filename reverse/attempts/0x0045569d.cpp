@@ -1,10 +1,17 @@
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
-// partial score=0.8696 date=2026-10-14
-// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
-// partial score=0.637 date=2026-10-14
-// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
-// partial score=0.85 date=2026-10-08
+// partial score=0.94 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /GX
+// d2 wave-2 rebank (0.94, 1175/1174B, 89 diff lines; compiled as the home TU
+// FoundationAIUpdateSlots.cpp replacement): barrier removed; lever 7 (visible
+// findObjectByID via GameLogicObjectLookupView.h) with TheGameLogic read
+// directly fixes the prologue (foundation EDI + [ebp-0x14], name literal EBX);
+// kind-0x69 order is placement angle THEN + Get_Z_Rotation; the atan2 adapter
+// is called as FLOAT-returning (needs address-named pin
+// ?Rva000422A0Atan2@@YAMMM@Z=0x000422A0, else the double spelling adds
+// fld st(0)/fstp st(0)); md->m_mode re-read (no local) gives md in EDI.
+// Left: `push ecx` before the delta.x spill in the atan2 arg setup, and
+// after the Lua block retail keeps `this` in EDI / newMember in EBX (ours
+// this in EBX, newMember in EDI), shifting the cost/self registers.
 //
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // retail 0x0045569D, 1174 bytes (ret 0x18): slot 7 of the +0x20 interface
@@ -53,10 +60,7 @@ enum NameKeyType
 	NAMEKEY_INVALID = 0
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class NameKeyGenerator
 {
@@ -324,15 +328,33 @@ private:
 };
 extern AI *TheAI;
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	void rva0023D0C2(Object *obj, Int value);
+// The lookup chain is visible in this unit, as in AIUpgradeBuild.cpp.
+struct L7LookupNode { L7LookupNode *next; ObjectID key; Object *object; };
+struct L7LookupBuckets {
+ L7LookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ L7LookupNode *const &operator[](unsigned int i) const { return begin[i]; }
 };
+struct L7LookupMap { unsigned char hashEqual[4]; L7LookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ L7LookupMap *map=(L7LookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ L7LookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 extern GameLogic *TheGameLogic;
 
-double Rva000422A0Atan2(Real y, Real x);
+Real Rva000422A0Atan2(Real y, Real x);
 Real normalizeAngle(Real angle);
 
 extern "C" void *__cdecl memset(void *dst, int value, unsigned int size);
@@ -448,11 +470,10 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 		BfmeItemE63 *member2 = (BfmeItemE63 *)foundation->findModule(memberKey2);
 		if (member2)
 		{
-			GameLogic *logic = TheGameLogic;
-			Object *keep = logic->findObjectByID(member2->m_keepID);
+			Object *keep = TheGameLogic->findObjectByID(member2->m_keepID);
 			if (keep)
 			{
-				Object *castle = logic->findObjectByID(member2->m_castleID);
+				Object *castle = TheGameLogic->findObjectByID(member2->m_castleID);
 				Module *castleModule;
 				if (castle == NULL
 					|| (castleModule = castle->findModule(CastleBehavior::rva0003955DA())) == NULL
@@ -461,10 +482,9 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 					Coord3D delta;
 					delta.x = foundation->getPosition()->x;
 					delta.y = foundation->getPosition()->y;
-					_ReadWriteBarrier();
 					delta.x -= keep->getPosition()->x;
 					delta.y -= keep->getPosition()->y;
-					orientation = normalizeAngle((Real)Rva000422A0Atan2(delta.y, delta.x));
+					orientation = normalizeAngle(Rva000422A0Atan2(delta.y, delta.x));
 					orientation = obj->getTemplate()->getPlacementAngle() + orientation;
 				}
 			}
@@ -472,8 +492,8 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 	}
 	else if (obj->getTemplate()->isKindOf(KINDOF_69))
 	{
-		orientation = foundation->getTransformMatrix()->Get_Z_Rotation() + orientation;
 		orientation = obj->getTemplate()->getPlacementAngle();
+		orientation = foundation->getTransformMatrix()->Get_Z_Rotation() + orientation;
 	}
 
 	if (!isRebuild && obj->getTemplate()->isKindOf(KINDOF_69) && !obj->getTemplate()->isKindOf(KINDOF_68))
@@ -486,10 +506,9 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 		body->setHealthDelta(1.0f - body->getHealth(0));
 	}
 
-	Int t_m_mode = md->m_mode;
 	if (md->m_mode)
 	{
-		switch (t_m_mode)
+		switch (md->m_mode)
 		{
 		case 1:
 			obj->setModelConditionState(340);
@@ -509,10 +528,10 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 		((Rva000B3FD0 *)draw)->rva000B3FD0();
 	obj->rva0028DCC4();
 
-	if (t_m_mode)
+	if (md->m_mode)
 	{
 		BfmeDelayedLuaEventList list;
-		list.m_events[0].m_number = (Real)t_m_mode;
+		list.m_events[0].m_number = (Real)md->m_mode;
 		list.m_events[0].m_type = 1;
 		reinterpret_cast<BfmeObjectEventDispatch *>(TheLuaScriptEngine)->rva003360D2(16, obj, &list);
 	}

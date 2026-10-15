@@ -573,6 +573,8 @@ class Eva
  Bool isEventAboutToPlay(EvaEventID eventID) const;
  Bool getLastReallyPlayedFrameForEvaEvent(EvaEventID eventID, UnsignedInt *frame) const;
  static void iniParseEvaEventForwardReference(INI *ini);
+ static void iniParsePredefinedEvaEvent(INI *ini);
+// 0x001DEA96 (WB name)
  static void iniParseNewEvaEvent(INI *ini);
 // 0x001DF42D (WB name)
  int rva001DE78E(const AsciiString *name);
@@ -742,6 +744,38 @@ Rva001DDBF3::~Rva001DDBF3()
  ((Rva000427195 *)this)->rva003A2A41();
  
 }
+// Eva::iniParsePredefinedEvaEvent, retail 0x001DEA96 (244 bytes with the
+// int3 after the final throw); WorldBuilder twin 0x00AC9620 (Eva.cpp). The
+// name must be a predefined event (Eva.ini name map, id below 0x16); a map
+// override (load type 2) may not redefine the default event 0 and edits the
+// live record, Eva.ini its own. Every record but 0 restarts as a copy of
+// Eva.ini's default record 0 before the block is parsed (0x001DCFC9, ECX
+// TheEva). The name map is taken into a pointer before the lookup: retail
+// adjusts ECX to +0x48 before pushing the key.
+void Eva::iniParsePredefinedEvaEvent(INI *ini)
+{
+ AsciiString name(ini->getNextToken());
+ Rva00056F61 *names = reinterpret_cast<Rva00056F61 *>(&TheEva->m_iniEventNameMap);
+ void *node = names->rva00056F61(&name);
+ if (!node)
+  throw INIException(3, "'%s' is not a predefined Eva event name", name.str());
+ int id = *(int *)((char *)node + 8);
+ if (id < 0 || id >= 0x16)
+  throw INIException(3, "'%s' is not a predefined Eva event name", name.str());
+ Arg001DCDAF *info;
+ if (ini->getLoadType() == INI_LOAD_CREATE_OVERRIDES)
+ {
+  if (id == 0)
+   throw INIException(3, "You cannot redefine the default Eva event in a map.ini");
+  info = &evaInfoAt(TheEva->m_allEventInfos, id);
+ }
+ else
+  info = &evaInfoAt(TheEva->m_iniEventInfos, id);
+ if (id != 0)
+  *reinterpret_cast<Rva001DE727 *>(info) = *reinterpret_cast<const Rva001DE727 *>(&TheEva->m_iniEventInfos[0]);
+ TheEva->rva001DCFC9(ini, info);
+}
+
 // Eva::iniParseNewEvaEvent, retail 0x001DF42D (635 bytes); WorldBuilder name
 // (Eva.cpp, the Eva.ini block parser at table entry 0x009B8D84). A new event
 // name may not be "None" or a predefined event (id below 0x16). Map overrides
