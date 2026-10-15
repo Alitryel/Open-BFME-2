@@ -1,18 +1,4 @@
-// ?changeToFormation@HordeContain@@UAEXPBVThingTemplate@@@Z
-// partial score=0.98 date=2026-10-14
-// ?changeToFormation@HordeContain@@UAEXPBVThingTemplate@@@Z
-// partial score=0.9 date=2026-10-13
-// ?changeToFormation@HordeContain@@UAEXPBVThingTemplate@@@Z
-// partial score=0.89 date=2026-10-13
-// ?changeToFormation@HordeContain@@UAEXPBVThingTemplate@@@Z
-// partial score=0.89 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /ICode/GameEngine/Source /ICode /I.
-// Retail 0x00472D43 (811B). Port target: Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainChangeToFormation.cpp
-// (new TU: picker's Rva00472CA9Finish.cpp cannot host it - its single-vtable HordeContain collides with the MI view this body needs).
-// 804/811 in the TU. Residue: (1) newHorde pre-spill+reload around slot122 (ai takes ebx; retail keeps newHorde, homes ai); (2) size-loop iterator spilled home vs reg (and last reg vs home); (3) list-ctor alloc temp slot +0xB vs frame; (4) leader/camp homes shifted by the same global numbering. FIXED HERE vs prior bank: m_2B4 pad math (+0x2B8 -> +0x2B4, correctness, size-neutral).
-// Negatives: by-value distance params (+1B, it stays reg); ai decl split (neutral); volatile/struct home anchors reshuffle or mis-slot (see 0x27893e notes).
-// t=35 model=muse-spark (seat W7-MP6).
-// cl: /Gy /O1 /DNDEBUG /MD /EHs
 // ?changeToFormation@HordeContain@@UAEXPBVThingTemplate@@@Z, retail 0x00472D43
 // (811B, EH, RET 4): slot 26 of the HordeContainInterface vtable (shared by
 // HorseHordeContain and AODHordeContain); WorldBuilder HordeContain.cpp
@@ -20,6 +6,10 @@
 // template, moves the horde over (leader/member lists, AI orders, lifetime),
 // then tears the old one down. /EHs for the LatchRestore guard, the static
 // LifetimeUpdate key and the nothrow list disposal.
+// Closed by a joint-edit beam: one extra _ReadWriteBarrier() after the newHorde
+// bookkeeping store fixes the register/home assignment.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <string.h>
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
@@ -403,6 +393,7 @@ void HordeContain::changeToFormation(const ThingTemplate *newTemplate)
 				else
 					newLife->setLifetimeRange(dieFrame - now, dieFrame - now);
 			}
+			_ReadWriteBarrier();
 		}
 		TheGameLogic->destroyObject(leader);
 	}

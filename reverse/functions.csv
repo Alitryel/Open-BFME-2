@@ -89895,3 +89895,4 @@ uw_0079d478,,0x0079D478,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/
 ?rva0056AB35@Rva0056ACC5@@QAEXH@Z,,0x0056AB35,83,Code/GameEngine/Source/Common/Rva0056AB35Method.cpp,matched,vslot 2 of 0x0086D0FC; volatile-cast store+receiver-load pair keeps retail order around the x87 fstp (W7-S2 r14 lever)
 $L3985,,0x0075D58E,10,Code/GameEngine/Source/Common/Rva0004F84ESnapshotFactory.cpp,matched,
 ?isLocalPlayer@LANGameSlot@@QBE_NXZ,,0x0044770F,100,Code/GameEngine/Source/GameNetwork/LANGameSlotIsLocalPlayer.cpp,matched,TheLAN slot 64 local address vs slot +0x38 via pinned BfmeNetAddress::Rva00248CBF; retry with port+8; volatile dword copy plus barrier keeps retail load order (W7-S2 r14)
+?changeToFormation@HordeContain@@UAEXPBVThingTemplate@@@Z,,0x00472D43,811,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainChangeToFormation.cpp,matched,beam16 bar1
