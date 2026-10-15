@@ -1,8 +1,10 @@
 // ?Rva00328DE4Add@@YAXPAXPAPAX@Z
+// partial score=0.94 date=2026-10-15
+// ?Rva00328DE4Add@@YAXPAXPAPAX@Z
 // partial score=0.85 date=2026-10-13
 // ?Rva00328DE4Add@@YAXPAXPAPAX@Z
 // partial score=0.85 date=2026-10-08
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /I.
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /I.
 // WorldBuilder names parseWaterAreasChunkImpl in OldPolygonTrigger.cpp at
 // 0x00BE2810. Its call graph maps to retail 0x003295B4. Retail proves the
 // two area-set pointers at +0x20/+0x24 and the parsed holder's point vector
@@ -136,61 +138,102 @@ bool OldPolygonTriggerDataChunkParserBase::Impl::parsePolygonTriggersChunkImpl(
 }
 
 // Target-proven trigger prefix; this constructor's original name is unresolved.
-class Rva002E3FAB
+class Rva00330C50Interface
 {
 public:
-	Rva002E3FAB(int, int, bool);
-	virtual void *destroy(int);
+	~Rva00330C50Interface() {}
+	virtual void slot0() = 0;
+	virtual void slot1() = 0;
+	virtual void slot2() = 0;
+	virtual void slot3() = 0;
+	virtual void slot4() = 0;
+	virtual void slot5() = 0;
+	virtual void slot6() = 0;
+};
+
+class Rva0030B9DD
+{
+public:
+	Rva0030B9DD(int);
+	~Rva0030B9DD();
+private:
+	char unknown00[0x2C];
+};
+
+class Rva00330C50 : public virtual Rva00330C50Interface
+{
+public:
+	Rva00330C50();
+	void rva00330AA6(int);
+	virtual ~Rva00330C50();
+	virtual void slot0();
 	virtual void slot1();
 	virtual void slot2();
 	virtual void slot3();
 	virtual void slot4();
 	virtual void slot5();
 	virtual void slot6();
-	virtual void setBoundary(const void *);
-	char m_pad04[0x3c - 4];
-	Rva002E3FAB *m_next;
-	AsciiString m_name;
-	char m_pad44[8];
-	AsciiString m_extra;
-	char m_pad50[0x64 - 0x50];
+private:
+	Rva0030B9DD container;
+	bool changed;
 };
 
-struct Rva002E3E2AResult
-{
-	Rva002E3FAB *m_ptr;
-	void detach() { m_ptr = 0; }
-	~Rva002E3E2AResult()
-	{
-		if (m_ptr)
-			m_ptr->destroy(1);
-	}
+#include "ascii_string.h"
+class PolygonTrigger;
+class PolygonNext { public: PolygonNext():next(0){} PolygonTrigger *next; };
+class PolygonSecondary {
+public:
+ PolygonSecondary(){}
+ virtual PolygonTrigger* secondarySlot()=0;
 };
-
+class PolygonTrigger : public PolygonNext, public Rva00330C50, public PolygonSecondary {
+public:
+ PolygonTrigger(int,int);
+ virtual ~PolygonTrigger();
+ virtual PolygonTrigger* secondarySlot();
+ void rva002E36B7(int);
+ AsciiString name;
+ int id;
+ bool flag48;
+ AsciiString layer;
+ bool flag50;
+ int field54,field58;
+};
+class Rva002E3E2AObject { public: virtual ~Rva002E3E2AObject(); };
+class Rva002E3E2AOut {
+public:
+ explicit Rva002E3E2AOut(Rva002E3E2AObject *p):pointer(p){}
+ Rva002E3E2AOut(Rva002E3E2AOut &other):pointer(other.pointer){other.pointer=0;}
+ ~Rva002E3E2AOut(){delete pointer;}
+ void detach(){pointer=0;}
+ Rva002E3E2AObject *pointer;
+};
 class Rva000AD6F4
 {
 public:
-	Rva000AD6F4(Rva002E3FAB *p) : m_ptr(p) {}
+	Rva000AD6F4(PolygonTrigger *p) : m_ptr(p) {}
 	~Rva000AD6F4();
-	Rva002E3E2AResult rva002E3E2A();
-	Rva002E3FAB *m_ptr;
+	Rva002E3E2AOut rva002E3E2A();
+	PolygonTrigger *m_ptr;
 };
 
+class BoundaryView { public: virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void setBoundary(const void*); };
 // WB 0x00BE1500 is the unnamed non-water trigger importer called by the
 // polygon parser. Retail independently proves allocation size 0x64, next +3C,
 // strings +40/+4C, and transfer into the caller's current list link.
 void __cdecl Rva00328DE4Add(void *record, void **linkPtr)
 {
 	Out *data = static_cast<Out *>(record);
-	Rva000AD6F4 trigger(new Rva002E3FAB(*static_cast<int *>(record),
-		data->m_pointsEnd - data->m_pointsBegin, true));
-	void (Rva002E3FAB::*setBoundary)(const void *) = &Rva002E3FAB::setBoundary;
-	(trigger.m_ptr->*setBoundary)(&data->m_pointsBegin);
-	reinterpret_cast<StringBase<char> *>(&trigger.m_ptr->m_name)->set(
+	Rva000AD6F4 trigger(new PolygonTrigger(*static_cast<int *>(record),
+		data->m_pointsEnd - data->m_pointsBegin));
+	PolygonTrigger *const object=trigger.m_ptr;
+	void (BoundaryView::*setBoundary)(const void *) = &BoundaryView::setBoundary;
+	(reinterpret_cast<BoundaryView*>(object)->*setBoundary)(&data->m_pointsBegin);
+	reinterpret_cast<StringBase<char> *>(&object->name)->set(
 		*reinterpret_cast<StringBase<char> *>(static_cast<char *>(record) + 4));
-	reinterpret_cast<StringBase<char> *>(&trigger.m_ptr->m_extra)->set(
+	reinterpret_cast<StringBase<char> *>(&object->layer)->set(
 		*reinterpret_cast<StringBase<char> *>(static_cast<char *>(record) + 8));
-	*static_cast<Rva002E3FAB **>(*linkPtr) = trigger.m_ptr;
-	*linkPtr = trigger.m_ptr ? &trigger.m_ptr->m_next : 0;
+	*static_cast<PolygonTrigger **>(*linkPtr) = object;
+	*linkPtr = object ? &object->next : 0;
 	trigger.rva002E3E2A().detach();
 }
