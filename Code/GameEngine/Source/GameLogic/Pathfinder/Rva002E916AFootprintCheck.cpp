@@ -1,21 +1,19 @@
-// ?rva002E916A@Rva002E7388Owner@@QAE_NHH@Z
-// partial score=0.9392593343568056 date=2026-10-14
-// ?rva002E916A@Rva002E7388Owner@@QAE_NHH@Z
-// partial score=0.9 date=2026-10-14
-// ?rva002E916A@Rva002E7388Owner@@QAE_NHH@Z
-// partial score=0.9424238913 date=2026-10-13
-// ?rva002E916A@Rva002E7388Owner@@QAE_NHH@Z
-// partial score=0.9424238913 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
-// Native 2E916A..2E931F owns a 0x30-byte destination-check functor.
-// BFME1/ZH Pathfinder checkDestination is the semantic guide to footprint,
-// layers and height variation; target-specific endpoints and excluded-cell
-// line walk come from this complete native boundary and WB D3CDE0.
-// Field names remain structural. 2E7388 setter independently establishes
-// field offsets; no new source name, type or storage ownership is inferred.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// ?rva002E916A@Rva002E7388Owner@@QAE_NHH@Z
+// Native 2E916A..2E931F (437B, RET8) owns a 0x30-byte destination-check functor
+// (fields set by the matched 2E7388 setter). WB D3CDE0 twin; BFME1/ZH Pathfinder
+// checkDestination is the semantic guide: every footprint cell around (x,y)
+// must exist, not be blocked (flags bit16), match the requested layer (layer 1
+// or a 2E6E8A/1E3679 layer only over layer-16 cells), pass the movement check
+// 2E6DC4, and its centre ground height (cell*10 + 5, through a Coord3D local
+// as in the WB twin) must stay within 10 of the first cell's. Then the centre
+// is stored and, for a 2E6E6C layer whose skipped cell differs, the 2E8145
+// line walk must not hit. The height delta uses the float <math.h> fabs
+// overload (retail compares the CRT fabs result without a float narrowing).
+// Field names remain structural.
 #include <math.h>
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
+// class-gate: allow ICoord2D TU-local view: the canonical header lacks the ICoord2DBase base and operator!=, and retail calls the rowed out-of-line ICoord2D::operator!= at 0x00004CC9.
 struct ICoord2DBase {int x,y;};
 struct ICoord2D:public ICoord2DBase {bool operator!=(const ICoord2DBase&)const;};
 enum PathfindLayerEnum { LAYER_INVALID=0 };
@@ -57,19 +55,22 @@ bool Rva002E7388Owner::rva002E916A(int x,int y)
     else if((unsigned char)Rva002E6E8AGet(requestedLayer)||Rva001E3679(requestedLayer)) {if(cellLayer!=16)return false;}
    }
    if(!((Rva002E6DC4*)pathfinder)->rva002E6DC4(movementInfo,cell))return false;
-   _ReadWriteBarrier();
-   float h=TheTerrainLogic->height(float(cx*10)+5.0,float(cy*10)+5.0,cellLayer,0,true);
+   Coord3D pos;
+   pos.x=cx*10+5.0f;
+   pos.y=cy*10+5.0f;
+   float h=TheTerrainLogic->height(pos.x,pos.y,cellLayer,0,true);
    if(first){initialHeight=h;first=false;}
-   else if((float)fabs((double)(h-initialHeight))>10.0f)return false;
+   else if(fabs(h-initialHeight)>10.0f)return false;
   }
  }
  current.x=x;current.y=y;
- const ICoord2D *skip=&skipped;
- _ReadWriteBarrier();
  int requested=requestedLayer;
- if((unsigned char)Rva002E6E6CGet(requested)&&current!=*skip) {
-  Rva002E8145Info info;info.opaque=(int)pathfinder;info.skipX=skip->x;info.skipY=skip->y;
-  if(pathfinder->rva002E8145(&current,skip,(PathfindLayerEnum)requested,&info))return false;
+ if((unsigned char)Rva002E6E6CGet(requested)) {
+  const ICoord2D *skip=&skipped;
+  if(current!=*skip) {
+   Rva002E8145Info info;info.opaque=(int)pathfinder;info.skipX=skip->x;info.skipY=skip->y;
+   if(pathfinder->rva002E8145(&current,skip,(PathfindLayerEnum)requested,&info))return false;
+  }
  }
  return true;
 }
