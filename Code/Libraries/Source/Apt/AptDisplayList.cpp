@@ -420,7 +420,7 @@ public:
 
 EAStringC *Rva0070B4F0GetString(int index);
 
-class AptActionInterpreter
+struct AptActionInterpreter
 {
 public:
     bool setVariable(AptValue *, AptValue *, const EAStringC *, AptValue *, int, int, int);
