@@ -5,7 +5,7 @@
 // Rva00492402 0x00492402). Their primary vtables 0x00C4DEF8 and 0x00C4DFF8
 // hold these bodies in slot 22, where the SpecialAbilityUpdate vtable 0x00C3FBA8
 // holds 0x004508B7 (also inherited by ArrowStormUpdate), the base slot each
-// override calls first (pinned as ?rva004508B7@SpecialAbilityUpdate@@UAEXXZ).
+// override calls first (rowed as SpecialAbilityUpdate::startUnpacking).
 // Slot names are not established, hence address names.
 // Retail 0x00492231 (59 bytes): Rva00492179 sets weapon set flag 0x1B when the
 // matched Object::rva0029091E gate passes, then stores frame + data +0xCC at

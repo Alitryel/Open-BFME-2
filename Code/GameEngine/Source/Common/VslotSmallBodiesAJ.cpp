@@ -342,7 +342,7 @@ class SpecialAbilityUpdate
 {
 public:
 	virtual bool rva0044FC52();
-	virtual void rva004508B7();
+	virtual void startUnpacking();
 	virtual UpdateSleepTime update();
 private:
 	void onExit(bool a, bool b);
@@ -939,7 +939,7 @@ bool Rva00494E21::rva00494E21()
 	return SpecialAbilityUpdate::rva0044FC52();
 }
 
-// 0x00494E48: tail jump to SpecialAbilityUpdate::rva004508B7.
+// 0x00494E48: tail jump to SpecialAbilityUpdate::startUnpacking.
 class Rva00494E48 : public SpecialAbilityUpdate
 {
 public:
@@ -947,7 +947,7 @@ public:
 };
 void Rva00494E48::rva00494E48()
 {
-	SpecialAbilityUpdate::rva004508B7();
+	SpecialAbilityUpdate::startUnpacking();
 }
 
 // 0x00494E4D: tail jump to SpecialAbilityUpdate::onExit.

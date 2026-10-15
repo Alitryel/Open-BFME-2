@@ -3,10 +3,9 @@
 // ModelConditionSpecialAbilityUpdate's slot-22 override (vftable whose
 // slot-2 name getter returns "ModelConditionSpecialAbilityUpdate"; rowed
 // pool key 0x00490D96). It runs the base SpecialAbilityUpdate slot 22
-// (pinned rva004508B7) and carries that slot's address name, which cl 7.1
-// needs to place the override; the method identity is not established.
+// (rowed startUnpacking at 0x004508B7) and overrides it under the same name.
 //
-// ?rva004508B7@ModelConditionSpecialAbilityUpdate@@UAEXXZ, retail 0x00490ECF, 102 bytes.
+// ?startUnpacking@ModelConditionSpecialAbilityUpdate@@UAEXXZ, retail 0x00490ECF, 102 bytes.
 // While the ability state at +0x24 is 0, sets one model-condition bit on the
 // owner chosen by module data +0xC8 (0: bit 10*32+10; 1 to 3: bits 6*32+19
 // to 6*32+21) and, when it was clear, runs the pinned notifier
@@ -164,7 +163,7 @@ class SpecialAbilityUpdate
 	friend class ModelConditionSpecialAbilityUpdate;
 public:
 	virtual void triggerAbilityEffect();
-	virtual void rva004508B7();
+	virtual void startUnpacking();
 private:
 	void onExit(bool a, bool b);
 protected:
@@ -179,15 +178,15 @@ class ModelConditionSpecialAbilityUpdate : public SpecialAbilityUpdate
 {
 public:
 	virtual void triggerAbilityEffect();
-	virtual void rva004508B7();
+	virtual void startUnpacking();
 protected:
 	virtual void onExit(bool a, bool b);
 };
 
-// ?rva004508B7@ModelConditionSpecialAbilityUpdate@@UAEXXZ @0x00490ECF
-void ModelConditionSpecialAbilityUpdate::rva004508B7()
+// ?startUnpacking@ModelConditionSpecialAbilityUpdate@@UAEXXZ @0x00490ECF
+void ModelConditionSpecialAbilityUpdate::startUnpacking()
 {
-	SpecialAbilityUpdate::rva004508B7();
+	SpecialAbilityUpdate::startUnpacking();
 	if (m_24 != 0)
 		return;
 
