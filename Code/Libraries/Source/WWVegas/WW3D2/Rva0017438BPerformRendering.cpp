@@ -17,7 +17,7 @@ public:
  virtual void Delete_This();
  int NumRefs;
  void Add_Ref() { ++NumRefs; }
- int Dec_Ref() { return --NumRefs; }
+ __declspec(dllimport) __forceinline int Dec_Ref() { return --NumRefs; }
 };
 namespace FXShader {
 class RenderingMethod : public RefCountClass {
@@ -33,7 +33,11 @@ public:
 class Rva00087A93 {
 public:
  Rva00087A93(const Rva00087A93 &p) : Referent(p.Referent) { if(Referent) Referent->Add_Ref(); }
- ~Rva00087A93() { if(Referent && Referent->Dec_Ref()==0) Referent->Delete_This(); }
+ ~Rva00087A93() {
+  RefCountClass *d = Referent;
+  if (d && --d->NumRefs == 0)
+   d->Delete_This();
+ }
  bool IsBound() const { return Referent!=0; }
  RefCountClass *GetPtr() const { return Referent; }
  FXShader::RenderingMethod *operator->() const { return (FXShader::RenderingMethod *)Referent; }
