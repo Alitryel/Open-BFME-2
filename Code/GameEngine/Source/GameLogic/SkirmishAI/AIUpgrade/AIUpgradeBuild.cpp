@@ -1,8 +1,8 @@
 // cl: /O1 /DNDEBUG /MD
 //
-// AIUpgrade::build, retail 0x0059738A (78 bytes, ret 4), vtable slot beside
-// getCostPerTick in the AIUpgrade tables (refs 0x00870BC4, 0x00870C0C,
-// 0x0087667C).
+// AIUpgrade::build, retail0x0059738A (78 bytes, RET4). The complete
+// native17-entry AIUpgrade table atVA C70BD0 places build atslot15
+// and getCostPerTick atslot8 (constructor597331 installs this table).
 // Identity (target): WorldBuilder's debug AIUpgrade.cpp lines 36..37 names it
 // (wb-lead 2/callgraph): the builder object (ObjectID +0x08) runs the upgrade's
 // command button (+0x30) through Object::doCommandButton (0x00296749, flags
@@ -79,8 +79,24 @@ class AIUpgrade
 {
 public:
 	virtual ~AIUpgrade();
-	virtual bool build(void *context);
+	virtual void slot1();
+	virtual void slot2();
+	virtual void slot3();
+	virtual void slot4();
+	virtual void slot5();
+	virtual void slot6();
+	virtual void slot7(int value);
+	virtual void slot8();
+	virtual void slot9();
+	virtual void slot10();
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	virtual void slot14();
+	virtual bool build(void *context); // native slot15
+	virtual void slot16();
 	int rva005973D8();
+	void rva005975C0();
 
 private:
 	unsigned char m_pad04[0x08 - 0x04];
@@ -114,4 +130,17 @@ int AIUpgrade::rva005973D8()
 		return 1;
 	}
 	return 0;
+}
+
+// Native5975C0..5975D7: retain this across the existing int-returning
+// helper5973D8, test only AL, and dispatch slot7 with2 when set. The
+// explicit low-byte conversion preserves that observed test without a
+// second callee name or a different declaration for its return type.
+// Constructor597331 installs C70BD0: the complete17-entry table places
+// this dispatch at1C and build at3C; the following word is float400.
+// Unused slot declarations above express positions only, not their ABI.
+void AIUpgrade::rva005975C0()
+{
+    if (static_cast<unsigned char>(rva005973D8()))
+        slot7(2);
 }

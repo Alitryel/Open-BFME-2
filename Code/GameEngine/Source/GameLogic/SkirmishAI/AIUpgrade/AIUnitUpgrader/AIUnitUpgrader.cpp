@@ -64,7 +64,7 @@ void AIUnitUpgrader::Register(Object *object, void *)
 // Keep its neutral address name until a complete class relationship is proven.
 class Rva00506FE9Hit { public: void unRegisterWithBuilder(void *); };
 class Rva004E9378 { public: bool rva004E9378(); };
-class Rva005975C0 { public: void rva005975C0(); };
+class AIUpgrade { public: void rva005975C0(); };
 class ModuleData;
 struct UnitUpgradeRecordView {
  virtual void *destroy(int);
@@ -111,7 +111,7 @@ void Rva00599264::update()
    } else ++i;
  }
  _STL::vector<const ModuleData *>::iterator end=upgrading.end();
- for (i=vec->begin();i!=end;++i) ((Rva005975C0 *)*i)->rva005975C0();
+ for (i=vec->begin();i!=end;++i) ((AIUpgrade *)*i)->rva005975C0();
 }
 
 // WB 0x01528330 AIUnitUpgrader::UnRegister (asserts near 107): remove every upgrade record

@@ -225,7 +225,7 @@ class Rva00506FE9Hit { public: void unRegisterWithBuilder(void *); };
 class Rva004E9378 { public: bool rva004E9378(); };
 // Existing pin5975C0: complete native23B caller checks helper5973D8's bool,
 // then dispatches slot7(2); member receiver and no stack arguments are proved.
-class Rva005975C0 { public: void rva005975C0(); };
+class AIUpgrade { public: void rva005975C0(); };
 
 class Rva004EAC8C { public: void rva004EAC8C(float); };
 // Matched constructor5970ED and complete activate body establish allocation44
@@ -435,7 +435,7 @@ void AIWall::update()
     Rva004EB902Plan *plan = m_14;
     if (plan->m_08 != 0 &&
         !reinterpret_cast<Rva004E9378 *>(plan)->rva004E9378())
-        reinterpret_cast<Rva005975C0 *>(plan)->rva005975C0();
+        reinterpret_cast<AIUpgrade *>(plan)->rva005975C0();
 }
 
 // Named WB137BB30/420 and complete native4EAF18..4EAFBD prove owner18,

@@ -231,6 +231,7 @@ public:
 class AIUpgrade : public Rva0055B0CC
 {
 public:
+	void rva005975C0();
 	unsigned m_cost;			// +0x2C
 	const CommandButton *m_command;	// +0x30
 };
@@ -398,7 +399,6 @@ public:
 class Rva005975C0
 {
 public:
-	void rva005975C0();
 	unsigned char m_pad00[0x34];
 	bool m_34;
 };
@@ -428,7 +428,7 @@ void Rva00597FC5::rva00597fc5()
 	{
 		Rva005975C0 *entry = reinterpret_cast<Rva005975C0 *>(*it);
 		if (entry->m_34)
-			entry->rva005975C0();
+			reinterpret_cast<AIUpgrade *>(entry)->rva005975C0();
 		++it;
 	}
 }
