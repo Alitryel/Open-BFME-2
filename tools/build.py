@@ -1876,18 +1876,41 @@ def _restore_object(source, output, fingerprint):
     entry_dir = _objstore_dir(source, fingerprint)
     if entry_dir is None or not entry_dir.is_dir():
         return False
-    for obj in sorted(entry_dir.glob("*.obj"), key=lambda p: p.stat().st_mtime, reverse=True):
+    candidates = []
+    for obj in entry_dir.glob("*.obj"):
+        try:
+            candidates.append((obj.stat().st_mtime, obj))
+        except FileNotFoundError:
+            continue  # another writer pruned this optional cache variant
+    for _, obj in sorted(candidates, key=lambda item: item[0], reverse=True):
         meta = obj.with_suffix(".deps.json")
         if not meta.exists():
             continue
         output.parent.mkdir(parents=True, exist_ok=True)
-        for src, dst in ((obj, output), (meta, _deps_sidecar(output))):
-            # Two builds sharing a cache may restore one output at once.
-            tmp = dst.with_name(f"{dst.name}.{os.getpid()}.{threading.get_ident()}.restore")
-            shutil.copyfile(src, tmp)  # a fresh inode: never shared with the store
-            os.replace(tmp, dst)
+        # Capture both files before publishing either: eviction can remove the
+        # receipt after the object was copied. Keep an existing output pair
+        # untouched on a cache miss, and use private temps across writers.
+        copies = [(src, dst.with_name(f"{dst.name}.{os.getpid()}.{threading.get_ident()}.restore"), dst)
+                  for src, dst in ((obj, output), (meta, _deps_sidecar(output)))]
+        try:
+            try:
+                for src, tmp, _ in copies:
+                    shutil.copyfile(src, tmp)  # never share an inode with the store
+            except FileNotFoundError:
+                continue  # a cache read raced eviction; compile if no variant survives
+            for _, tmp, dst in copies:
+                os.replace(tmp, dst)
+        finally:
+            for _, tmp, _ in copies:
+                try:
+                    tmp.unlink(missing_ok=True)
+                except OSError:
+                    pass  # temporary-file cleanup must not mask a write error
         if compile_is_current(source, output):
-            os.utime(obj)
+            try:
+                os.utime(obj)
+            except FileNotFoundError:
+                pass  # the installed, verified pair survives cache eviction
             return True
         _deps_sidecar(output).unlink(missing_ok=True)
         output.unlink(missing_ok=True)

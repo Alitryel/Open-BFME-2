@@ -229,3 +229,102 @@ def test_restore_stale_returns_only_what_the_store_cannot_restore(hosts):
     build._deps_sidecar(output).unlink()
     header.write_text("#define X 2\n")
     assert build._restore_stale([source], {source: output}) == [source]
+
+
+@pytest.fixture
+def cached_object_variant(hosts):
+    source, header, output, host, bundle = hosts
+    assert build.export_objects([source], bundle) == 1
+    output.unlink()
+    build._deps_sidecar(output).unlink()
+    host["command"] = [r"@ROOT@\tc\cl.exe", "-O2", "Code/a.cpp"]
+    assert build.import_objects(bundle) == 1
+    fingerprint = build._cmd_fingerprint(host["command"], {"INCLUDE": "@ROOT@/tc/inc"})
+    directory = build._objstore_dir(source, fingerprint)
+    cached, = directory.glob("*.obj")
+    return source, output, fingerprint, cached
+
+
+def test_restore_skips_object_pruned_while_ordering(cached_object_variant, monkeypatch):
+    source, output, fingerprint, cached = cached_object_variant
+    original = Path.glob
+
+    def prune(path, pattern, *args, **kwargs):
+        entries = list(original(path, pattern, *args, **kwargs))
+        if path == cached.parent and pattern == "*.obj":
+            cached.unlink(missing_ok=True)
+        return iter(entries)
+
+    monkeypatch.setattr(Path, "glob", prune)
+    assert not build._restore_object(source, output, fingerprint)
+    assert not output.exists()
+    assert not build._deps_sidecar(output).exists()
+
+
+@pytest.mark.parametrize("part", ["object", "receipt"])
+def test_restore_skips_cache_pair_pruned_during_copy(cached_object_variant, monkeypatch, part):
+    source, output, fingerprint, cached = cached_object_variant
+    victim = cached if part == "object" else cached.with_suffix(".deps.json")
+    output.write_bytes(b"PREVIOUS OBJECT")
+    sidecar = build._deps_sidecar(output)
+    sidecar.write_bytes(b"PREVIOUS RECEIPT")
+    original = build.shutil.copyfile
+
+    def prune(src, dst, *args, **kwargs):
+        if Path(src) == victim:
+            victim.unlink(missing_ok=True)
+        return original(src, dst, *args, **kwargs)
+
+    monkeypatch.setattr(build.shutil, "copyfile", prune)
+    assert not build._restore_object(source, output, fingerprint)
+    assert output.read_bytes() == b"PREVIOUS OBJECT"
+    assert sidecar.read_bytes() == b"PREVIOUS RECEIPT"
+    assert not list(output.parent.glob("*.restore"))
+
+
+def test_restore_uses_other_variant_when_one_is_pruned(cached_object_variant, monkeypatch):
+    source, output, fingerprint, cached = cached_object_variant
+    other = cached.with_name("another-valid-variant.obj")
+    other.write_bytes(cached.read_bytes())
+    other.with_suffix(".deps.json").write_bytes(cached.with_suffix(".deps.json").read_bytes())
+    original = Path.glob
+
+    def prune(path, pattern, *args, **kwargs):
+        entries = list(original(path, pattern, *args, **kwargs))
+        if path == cached.parent and pattern == "*.obj":
+            cached.unlink(missing_ok=True)
+        return iter(entries)
+
+    monkeypatch.setattr(Path, "glob", prune)
+    assert build._restore_object(source, output, fingerprint)
+    assert output.read_bytes() == b"OBJECT"
+    assert build.compile_is_current(source, output)
+
+
+def test_restore_remains_valid_when_cache_is_pruned_before_lru_touch(cached_object_variant, monkeypatch):
+    source, output, fingerprint, cached = cached_object_variant
+    original = build.os.utime
+
+    def prune(path, *args, **kwargs):
+        if Path(path) == cached:
+            cached.unlink(missing_ok=True)
+        return original(path, *args, **kwargs)
+
+    monkeypatch.setattr(build.os, "utime", prune)
+    assert build._restore_object(source, output, fingerprint)
+    assert output.read_bytes() == b"OBJECT"
+    assert build.compile_is_current(source, output)
+
+
+def test_restore_still_reports_output_write_errors(cached_object_variant, monkeypatch):
+    source, output, fingerprint, cached = cached_object_variant
+    original = build.shutil.copyfile
+
+    def denied(src, dst, *args, **kwargs):
+        if Path(src) == cached:
+            raise PermissionError("restore output denied")
+        return original(src, dst, *args, **kwargs)
+
+    monkeypatch.setattr(build.shutil, "copyfile", denied)
+    with pytest.raises(PermissionError, match="restore output denied"):
+        build._restore_object(source, output, fingerprint)
