@@ -61,7 +61,9 @@ struct Rva004F6352
 	~Rva004F6352() {}
 };
 
-// The matched 0x004F6352 body (Rva004F6352Assign.cpp), visible for the same reason.
+// Own the matched 35-byte 0x004F6352 assignment here: the two leading words
+// and +8 TreeHintRef agree with the stride-12 callers at 0x004F6C32/0x004F6876.
+// Same-TU visibility preserves the native insertion callers' register use.
 __declspec(noinline) inline Rva004F6352 &Rva004F6352::operator=(const Rva004F6352 &other)
 {
 	m_ptr = other.m_ptr;

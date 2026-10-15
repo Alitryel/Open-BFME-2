@@ -43,10 +43,5 @@ Rva004F6352::Rva004F6352(const Rva004F6352 &other)
 		++m_08.m_ptr->references;
 }
 
-Rva004F6352 &Rva004F6352::operator=(const Rva004F6352 &other)
-{
-	m_00 = other.m_00;
-	m_04 = other.m_04;
-	m_08 = other.m_08;
-	return *this;
-}
+// The assignment body is owned by stlport_rva004f6352_sort_entry.cpp,
+// where its same-TU visibility preserves the native insertion callers.
