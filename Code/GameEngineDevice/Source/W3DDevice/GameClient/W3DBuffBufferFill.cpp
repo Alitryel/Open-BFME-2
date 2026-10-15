@@ -164,6 +164,9 @@ public:
 class Matrix4
 {
 public:
+	// Declared only: the view's implicit row-loop assignment differed from the
+	// common unrolled Matrix4::operator= copy the link keeps.
+	Matrix4 &operator=(const Matrix4 &other);
 	__forceinline Matrix4(void) {}
 	__forceinline explicit Matrix4(bool identity)
 	{
@@ -416,6 +419,13 @@ extern unsigned number_of_DX8_calls;
 void bfmeSetProjectionDepthBias(float bias);
 extern float bfmeProjectionBias;
 
+// DX8Wrapper's render state is the global RenderStateStruct (dx8wrapper.cpp's spelling).
+struct RenderStateStruct
+{
+	Matrix4 world;
+	Matrix4 view;
+};
+
 class DX8Wrapper
 {
 public:
@@ -502,11 +512,6 @@ public:
 		VIEW_IDENTITY = 1 << 31
 	};
 	enum { D3DTS_VIEW = 2, D3DTS_PROJECTION = 3, D3DTS_WORLD = 256 };
-	struct RenderStateStruct
-	{
-		Matrix4 world;
-		Matrix4 view;
-	};
 
 protected:
 	static IDirect3DDevice8 *D3DDevice;
