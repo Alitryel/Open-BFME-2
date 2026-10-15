@@ -17,11 +17,23 @@
 // established; names are address-derived.
 #include "ascii_string.h"
 
-class VBase00C6EE28
-{
+#include "../../../Libraries/Include/Lib/Region2D.h"
+struct Rva0030B72CPoint {
+ Rva0030B72CPoint() {}
+ __forceinline Rva0030B72CPoint(const Rva0030B72CPoint &p):x(p.x),y(p.y) {}
+ float x,y;
+};
+
+class VBase00C6EE28 {
 public:
-	virtual void s0() = 0;
-	~VBase00C6EE28();
+ ~VBase00C6EE28() {}
+	virtual int slot0() const = 0;
+	virtual Rva0030B72CPoint slot1(int index) const = 0;
+	virtual int slot2() const = 0;
+	virtual Region2D slot3() = 0;
+	virtual float slot4() const = 0;
+	virtual float slot5() const = 0;
+	virtual Rva0030B72CPoint slot6() const = 0;
 };
 
 // The base as Rva0053805DBaseCtor.cpp lays it out.
@@ -63,8 +75,21 @@ class Rva00330C50 : public virtual VBase00C6EE28
 {
 public:
 	Rva00330C50();
+	void rva00330AA6(int);
 	virtual ~Rva00330C50();
-	void rva00330AA6(int count);
+	virtual int slot0() const;
+	virtual Rva0030B72CPoint slot1(int index) const;
+	virtual int slot2() const;
+	virtual Region2D slot3();
+	virtual float slot4() const;
+	virtual float slot5() const;
+	virtual Rva0030B72CPoint slot6() const;
+	virtual void primary1();
+	virtual void primary2();
+	virtual void primary3();
+	virtual void primary4();
+	virtual void primary5();
+	virtual void primary6(int);
 private:
 	unsigned char m_pad08[0x38 - 8];
 };
@@ -74,7 +99,6 @@ class Rva0030CAA9Owner : public Rva0053805DBase, public Rva00330C50, public Rva0
 public:
 	Rva0030CAA9Owner(int count);
 	virtual ~Rva0030CAA9Owner();
-	virtual void s0();
 private:
 	float m_78;				// +0x78
 	int m_7C;
