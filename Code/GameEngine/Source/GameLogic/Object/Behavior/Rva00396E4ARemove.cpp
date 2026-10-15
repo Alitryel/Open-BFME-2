@@ -1,4 +1,4 @@
-// cl: /Oy- /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: -O1 -arch:SSE -G7 -EHsc -MD -D_STLP_USE_STATIC_LIB -D_STLP_USE_MALLOC -D_CRTIMP= -D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 // ?rva00396E4A@Rva00396E4A@@QAEXPAVObject@@@Z @0x00396E4A 72B
 // Map remove: find key from Object+0x74 in map at +0x8c via rowed _M_find
@@ -6,7 +6,7 @@
 // type does not change bytes; erase proves void* value), clear status 0x55,
 // erase via rowed 0x005530A8 (int-void*).
 // Evidence: ret 4 thiscall, test ebx null, [ebx+0x74] key, [ecx+0x8c] map,
-// callers unclaimed, callees all rowed. /Oy- keeps retail EBP frame; local
+// callers unclaimed, callees all rowed. Scoped settings keep EBP; local
 // key copy reproduces retail mov/mov/lea.
 #include <map>
 #include <set>
@@ -41,6 +41,29 @@ template <class T, class LeftTraits, class RightTraits>
 static inline bool operator==(const _Rb_tree_iterator<T, LeftTraits>& a,
                               const _Rb_tree_iterator<T, RightTraits>& b)
 { return a._M_node == b._M_node; }
+}
+
+// Tree erase has a complete verified retail provider at5530A8.
+// Keep inline iterator access visible without emitting a competing erase.
+typedef _STL::pair<const int,void *> TriggerPtrValue;
+typedef _STL::_Rb_tree<int,TriggerPtrValue,_STL::_Select1st<TriggerPtrValue>,_STL::less<int>,_STL::allocator<TriggerPtrValue> > TriggerPtrTree;
+typedef _STL::_Rb_tree<int,int,_STL::_Identity<int>,_STL::less<int>,_STL::allocator<int> > TriggerSetTree;
+namespace _STL {
+// Native set-node creation4ABCC9 uses the rowed byte allocator.
+template <> class allocator<char> {
+public:
+    static char *allocate(unsigned int bytes, const void *hint);
+};
+template <> __declspec(dllimport) __forceinline
+void _Construct<int,int>(int *place, const int &value)
+{ new (static_cast<void *>(place)) int(value); }
+template <> TriggerSetTree::_Link_type TriggerSetTree::_M_create_node(const int &value)
+{
+    _Link_type node = (_Link_type)allocator<char>::allocate(sizeof(_Rb_tree_node<int>), 0);
+    _Construct(&node->_M_value_field, value);
+    return node;
+}
+template <> void TriggerPtrTree::erase(TriggerPtrTree::iterator);
 }
 
 enum ObjectStatusTypes
@@ -141,7 +164,7 @@ static __forceinline void addCoord(Coord3D &c, const Coord3D *p) { c.x += p->x; 
 static __forceinline void scaleCoord(Coord3D &c, float s) { c.x *= s; c.y *= s; c.z *= s; }
 
 extern "C" int __cdecl fprintf(void *stream, const char *format, ...);
-extern unsigned char g_00E03744;
+extern bool g_bfmeCritterDesyncLog;
 extern void *g_00DFEFF0;
 extern GameLogic *TheGameLogic;
 
@@ -157,6 +180,8 @@ private:
 	_STL::map<int, void *> m_map8c;
 };
 
+// Native trigger bodies retain EBP; inline library helpers use normal omission.
+#pragma optimize("y", off)
 void Rva00396E4A::rva00396E4A(Object *obj)
 {
 	if (obj == 0)
@@ -193,12 +218,12 @@ void Rva00396E4A::rva00396C43(Object *obj)
 		Rva00396C43Critter *critter = ai->slot96();
 		if (critter == 0)
 			return;
-		if (g_00E03744 && g_00DFEFF0)
+		if (g_bfmeCritterDesyncLog && g_00DFEFF0)
 			fprintf(g_00DFEFF0, "CritterDesync:  CastleBehavior::onTriggerEntered called with animal %s",
 				obj->getTemplate()->getName().str());
 		if (!critter->slot0())
 		{
-			if (g_00E03744 && g_00DFEFF0)
+			if (g_bfmeCritterDesyncLog && g_00DFEFF0)
 				fprintf(g_00DFEFF0, "CritterDesync:  animal %s not scared, returning.",
 					obj->getTemplate()->getName().str());
 			return;
@@ -211,7 +236,7 @@ void Rva00396E4A::rva00396C43(Object *obj)
 		addCoord(dest, obj->getPosition());
 		obj->rva0028AD32();
 		ai->requestPath(&dest, true);
-		if (g_00E03744 && g_00DFEFF0)
+		if (g_bfmeCritterDesyncLog && g_00DFEFF0)
 			fprintf(g_00DFEFF0, "CritterDesync:  animal %s is scared, requesting new path to pos %g,%g,%g.",
 				obj->getTemplate()->getName().str(), (double)dest.x, (double)dest.y, (double)dest.z);
 		return;
