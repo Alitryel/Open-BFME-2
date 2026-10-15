@@ -74,7 +74,7 @@ public:
     virtual void slot43();
     virtual void slot44();
     virtual bool pickBridge(const Vector3 &from, const Vector3 &to, Vector3 *pos);
-    bool rva002814EF(const Vector3 &from, const Vector3 &to, Vector3 *hit);
+    bool rva002814EF(const Coord3D *from, const Coord3D *to, Coord3D *hit);
 };
 
 class GlobalData
@@ -654,7 +654,7 @@ Bool W3DView::screenToTerrain(const ICoord2D *screen, Coord3D *world, Bool noCac
 		if (TheTerrainLogic->isUnderwater(result.ContactPoint.X, result.ContactPoint.Y))
 		{
 			Vector3 waterPoint(0, 0, 0);
-			if (TheTerrainLogic->rva002814EF(rayStart, intersection, &waterPoint))
+			if (TheTerrainLogic->rva002814EF((const Coord3D *)&rayStart, (const Coord3D *)&intersection, (Coord3D *)&waterPoint))
 				intersection = waterPoint;
 		}
 	}
