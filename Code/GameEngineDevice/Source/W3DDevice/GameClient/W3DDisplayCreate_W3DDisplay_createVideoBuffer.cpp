@@ -102,7 +102,8 @@ bool __cdecl BFME_DX8_Thread_Assert(void);
 class BFMEDX8DeviceLock
 {
 public:
-	BFMEDX8DeviceLock(void)
+	// Keep the inline lock without emitting a competing constructor copy.
+	__declspec(dllimport) __forceinline BFMEDX8DeviceLock(void)
 	{
 		W3DRadarResetLock();
 	}
