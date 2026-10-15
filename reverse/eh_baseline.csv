@@ -10,9 +10,7 @@ name,target_rva,verdict
 ?d_00012190@@YAXXZ,0x00012190,retail_only
 ??0__Named_exception@_STL@@QAE@ABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@1@@Z,0x00024C40,retail_only
 ?bfmeSmallAllocPR@@YAPAXI@Z,0x000279A0,bytes_differ
-?d_0002c7fd@@YAXXZ,0x0002C7FD,retail_only
 ??0Rva0007517F@@QAE@XZ,0x0007517F,bytes_differ
-??0Rva0007EBFB@@QAE@XZ,0x0007EBFB,bytes_differ
 ?initD3DAssets@W3DMouse@@AAEXXZ,0x00098FC1,bytes_differ
 ?Record_Texture_End@@YAXXZ,0x00129E50,obj_only
 ??1SimpleSceneClass@@UAE@XZ,0x00141DF0,bytes_differ
