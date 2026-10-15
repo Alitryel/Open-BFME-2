@@ -68,6 +68,9 @@ struct AmoebaHeld { unsigned char pad[0x120]; bool active; };
 class Rva0046ACF6 { public: int rva0046ACF6(int); };
 
 #include "../../../../../../Libraries/Include/Lib/ICoord2D.h"
+// Keep the shared view conversion inline without a competing external copy.
+struct ICoord2DBase;
+__declspec(dllimport) __forceinline ICoord2DBase &asBase(ICoord2D &);
 #include "../../../../../../Libraries/Include/Lib/ICoord2DBase.h"
 struct AmoebaAttackEntry {
  void rva005872CF(const ICoord2DBase &);
