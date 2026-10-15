@@ -65,6 +65,7 @@ bool less<int>::operator()(const int &a, const int &b) const
 struct Rva00470041Less : public _STL::less<unsigned short> {};
 // Coord3D: shared header/view; no private copy.
 #include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
+#include "../../../../../Libraries/Include/Lib/RGBColor.h"
 #include "../../../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
 // The float triple whose length is the address-owned copy 0x00003571.
 class Rva0055A627Difference
@@ -251,6 +252,7 @@ public:
 	void rva00272BAB(int a1, int a2);
 	void rva00274176(bool a1);
 	void rva00272945(int a);
+	void rva0027541E(const RGBColor *color, unsigned int a2, unsigned int a3, unsigned int a4);
 };
 class Thing
 {
@@ -514,6 +516,8 @@ class Object
 {
 public:
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
+	void rva00293077(const void *upgrade); // rowed 0x00293077
+
 	Weapon *getCurrentWeapon(WeaponSlotType *slot = 0);	// pinned 0x0028AEBD
 	int getID() const { return m_74; }
 	void setProducer(Object *);
@@ -922,7 +926,7 @@ public:
 	virtual bool rva00468D11() = 0; virtual bool rva00468D2C() = 0; virtual bool rva0046BB6F(int *out, unsigned int frame) = 0; virtual bool rva0046A2A7() = 0;
 	virtual void gap38() = 0; virtual bool rva0046C65C() = 0; virtual bool rva0046C71E() = 0; virtual bool rva0046C6E7() = 0;
 	virtual void slot42(const Object *obj) = 0; virtual bool rva0046B9DC(int a1) = 0; virtual bool rva0046B95E(int a1) = 0; virtual void rva00468CA3(const Rva00468CA3Arg *arg) = 0;
-	virtual void gap46() = 0; virtual void gap47() = 0; virtual void rva004707DB(Object *obj, float amount) = 0; virtual void rva004739B4() = 0;
+	virtual void rva0046E7E3(const UpgradeTemplate *upgrade, bool all) = 0; virtual void gap47() = 0; virtual void rva004707DB(Object *obj, float amount) = 0; virtual void rva004739B4() = 0;
 	virtual void gap50() = 0; virtual void rva0046BD70() = 0; virtual void rva0046BE0E() = 0; virtual void rva0046C3FE(Player *player) = 0;
 	virtual void gap54() = 0; virtual void rva0046C4C0() = 0; virtual void rva0046C327() = 0; virtual void rva0046C20B() = 0;
 	virtual bool rva0046C5D7(int value) = 0; virtual bool rva0046F8A5() = 0; virtual bool rva0046F8F4() = 0; virtual void gap61() = 0;
@@ -1114,6 +1118,7 @@ class HordeContain : public TransportContain, public Rva0046BB38Iface11C
 public:
 	virtual void attackTargetNow(Object *target, int select);
 	virtual void rva004726DD(Object *target);
+	virtual void rva0046E7E3(const UpgradeTemplate *upgrade, bool all);
 	virtual void removeMemberFromHorde(Object *obj);
 	bool rva00468CB6(Rva00468CB6A *,Object *);
 	void rva00468B24(float value);
@@ -4232,4 +4237,41 @@ bool HordeContain::rva00470B21()
         return true;
     }
     return false;
+}
+
+// Native46E7E3..46E8EE RET8, slot 46 of the +0x11C vftable C44C58 (also in
+// the HorseHorde/derived tables 0x00C45838 / 0x00C46930). Runs the rowed
+// Object upgrade step 0x00293077 on our Object, then on each contained
+// member the upgrade affects (all of them when the flag is set) and on the
+// live Object of every +0x170 key, flashing each one's drawable with a 0.99
+// grey through the rowed Drawable 0x0027541E (4, 4, 15). Name address-derived.
+void HordeContain::rva0046E7E3(const UpgradeTemplate *upgrade, bool all)
+{
+	Rva0046247DPair descriptor;
+	ContainmentList members = ((Rva0036AE51ListView *)((Rva0046247D *)(UpdateModule *)this)->rva0046247D(descriptor))->rva0036AE51();
+	ContainmentList::const_iterator i = members.begin();
+	RGBColor color;
+	color.red = 0.99f;
+	color.green = 0.99f;
+	color.blue = 0.99f;
+	m_object->rva00293077(upgrade);
+	for (; i != members.end(); ++i)
+	{
+		Object *obj = (Object *)containmentFirstWord(*i);
+		if (all || obj->affectedByUpgrade(upgrade))
+		{
+			obj->rva00293077(upgrade);
+			Drawable *draw = ((Thing *)obj)->getDrawable();
+			if (draw)
+				draw->rva0027541E(&color, 4, 4, 15);
+		}
+	}
+	for (_STL::set<int>::iterator k = m_170.begin(); k != m_170.end(); ++k)
+	{
+		Object *obj = TheGameLogic->findObjectByID((ObjectID)*k);
+		obj->rva00293077(upgrade);
+		Drawable *draw = ((Thing *)obj)->getDrawable();
+		if (draw)
+			draw->rva0027541E(&color, 4, 4, 15);
+	}
 }
