@@ -7,8 +7,8 @@
 // audio slots6C/D0, GameLogic frame40 and world frame100.
 // The timer reads mutable data VA DBA4FC, whose existing owner is g_00DBA4FC.
 // Native initial bytes 55550542 are 33.333332f. Use that owner's declaration,
-// not a literal or a second datum. Its current provider initializer differs
-// (Rva0005121FElapsed.cpp uses 0.033333335f); this bank does not repair it.
+// not a literal or a second datum. Rva0005121FElapsed.cpp now defines the
+// verified millisecond value; reverse/data_rows.csv enforces all four bytes.
 // Typed audio dispatch preserves the exact opening block. An explicit delayed
 // tree member and the owned timestep reproduce retail's timer-loop shape.
 // Complete body383/native388, fitness .8669116587404525 vs prior .837347804581082.

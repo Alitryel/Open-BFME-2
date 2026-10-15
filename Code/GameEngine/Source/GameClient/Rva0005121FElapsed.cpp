@@ -1,8 +1,8 @@
 // cl: /Oy- /DNDEBUG /MD
 // ?rva0005121F@Rva0005121F@@QAEMXZ @0x0005121F 157B, a virtual whose table
-// entry is at VA 0x00BC5764: seconds since the frame stamped at +0x94,
+// entry is at VA 0x00BC5764: milliseconds since the frame stamped at +0x94,
 // using TheGameClient's frame (slot 0x7C, as DrawableFade.cpp has it) and
-// the seconds-per-frame float at 0x00DBA4FC, clamped at zero, restamping
+// the milliseconds-per-frame float at 0x00DBA4FC, clamped at zero, restamping
 // +0x94. When +0x678 is set or the byte at +0x6A5 is, or there is no
 // client, it only restamps (if it can) and returns one frame's worth.
 // Retail tests the delta with fcompi, which MSVC 7.1 emits only under
@@ -35,9 +35,10 @@ public:
 };
 #define TheRva00DFE77C (*(Rva00DFE77CHolder **)&TheGameClient)
 // g_00DBA4FC: matched references place it at VA 0xdba4fc (retail .data initial
-// value 0.033333335f, one client frame at 30fps; seconds-per-frame multiplier
-// and default return for the elapsed virtual in this TU).
-float g_00DBA4FC = 0.033333335f;
+// bytes 55 55 05 42, or 33.333332f: one client frame at 30fps in milliseconds).
+// Eva::update also subtracts this mutable timestep from both countdowns.
+// reverse/data_rows.csv verifies its scalar extent and complete initializer.
+float g_00DBA4FC = 1000.0f / 30.0f;
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../Libraries/Include/Lib/ICoord2D.h"
