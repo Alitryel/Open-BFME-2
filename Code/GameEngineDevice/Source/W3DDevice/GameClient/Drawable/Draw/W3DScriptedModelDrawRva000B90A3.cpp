@@ -1,14 +1,13 @@
-// ?rva000B90A3@W3DScriptedModelDraw@@QAEXXZ
-// partial score=0.9946 date=2026-10-15
-// ?rva000B90A3@W3DScriptedModelDraw@@QAEXXZ
-// partial score=0.9005 date=2026-10-13
-// ?rva000B90A3@W3DScriptedModelDraw@@QAEXXZ
-// partial score=0.826 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /DWIN32 /D_WINDOWS /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/game/Libraries/Source/WWVegas
 #include <math.h>
 #include "matrix3d.h"
-// Heading rotation is the real WWMath Matrix3D::Rotate_Z(theta) (cosf/sinf);
-// residue: row-0 c*tmp2 operand order only (retail loads Row[0][1] then mulss c).
+// ?rva000B90A3@W3DScriptedModelDraw@@QAEXXZ @0x000B90A3 559B: copy the drawable
+// transform to the render object (translation only, or translation plus client
+// heading via the real WWMath Matrix3D::Rotate_Z(theta) with cosf/sinf, otherwise
+// the full matrix), run the rowed 0x000B710D adjuster, then notify the shadow.
+// The branch is the natural "special case first" form: with the heading/translation-only
+// arm first and the full-copy arm as the else, cl lays the arms out as retail does
+// (the inverted !a && !b test with the copy first left the arms swapped).
 struct B90A3Data {char pad[0x69];bool translationOnly,clientHeading;};
 class Object {char pad[0x1C0];public:float orientation;};
 class Drawable {char pad[0xFC];public:Object *object;const Matrix3D *getTransformMatrix()const;};
@@ -49,16 +48,14 @@ void W3DScriptedModelDraw::rva000B90A3()
  if(shadow&&render&&drawable->object){
   B90A3Data *moduleData=data;
   Matrix3D mtx(true);
-  if(!moduleData->translationOnly&&!moduleData->clientHeading)
-   mtx=*drawable->getTransformMatrix();
-  else{
+  if (moduleData->translationOnly||moduleData->clientHeading) {
    mtx.Set_Translation(drawable->getTransformMatrix()->Get_Translation());
    if(moduleData->clientHeading){
     Object *obj=drawable->object;
     float angle=TheInGameUI?TheInGameUI->rva0029B3C1(obj):obj->orientation;
     mtx.Rotate_Z(angle);
    }
-  }
+  } else mtx=*drawable->getTransformMatrix();
   rva000B710D(mtx);
   render->Set_Transform(mtx);
   shadow->notify();
