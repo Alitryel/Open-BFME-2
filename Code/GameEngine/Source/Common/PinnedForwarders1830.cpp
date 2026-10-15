@@ -500,13 +500,8 @@ public:
 	void rva0043CD3C();
 };
 
-class Rva0043D15F
-{
-public:
-	void rva0043D15F();
-};
-
-void Rva0043D15F::rva0043D15F()
+// Native 43D15F reads no receiver; InGameUI calls this as a free update.
+void Rva0043D15FUpdate()
 {
 	AptSpellStore *p = (AptSpellStore *)g_Va00A03314;
 	if (p)

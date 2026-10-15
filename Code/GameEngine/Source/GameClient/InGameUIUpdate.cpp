@@ -272,8 +272,8 @@ class BannerUI;
 
 // The purchase-science screen at 0x00E03314: 0x0043C99A reports it up (its
 // row spells int but retail tests al) and 0x0043D15F updates it. The latter
-// is rowed as a thiscall placeholder but ignores ecx and is called without
-// one, so it is declared here as the free function it is.
+// is the rowed free-function update: the native caller sets no receiver
+// and the body never reads ecx.
 int Rva0043C99AGet(void);
 void Rva0043D15FUpdate(void);
 
@@ -288,7 +288,7 @@ extern GameTextInterface *TheGameText;
 extern ControlBar *TheControlBar;
 extern View *TheTacticalView;
 extern GlobalData *TheWritableGlobalData;
-extern float g_00DBBADC;
+float BfmeKeyboardScrollScale = 250.0f;
 extern RadarWindowOverrideSource *theRadarWindowOverrideSource;
 extern BannerUI *TheBannerUI;
 extern GameClient *TheGameClient;
@@ -463,13 +463,13 @@ void InGameUI::update()
 	scroll.x = 0.0f;
 	scroll.y = 0.0f;
 	if (m_scrollLeft && !m_scrollRight)
-		scroll.x = -(TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_horizontalScrollSpeedFactor * g_00DBBADC);
+		scroll.x = -(TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_horizontalScrollSpeedFactor * BfmeKeyboardScrollScale);
 	else if (m_scrollRight && !m_scrollLeft)
-		scroll.x = TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_horizontalScrollSpeedFactor * g_00DBBADC;
+		scroll.x = TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_horizontalScrollSpeedFactor * BfmeKeyboardScrollScale;
 	if (m_scrollUp && !m_scrollDown)
-		scroll.y = -(TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_horizontalScrollSpeedFactor * g_00DBBADC);
+		scroll.y = -(TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_horizontalScrollSpeedFactor * BfmeKeyboardScrollScale);
 	else if (m_scrollDown && !m_scrollUp)
-		scroll.y = TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_horizontalScrollSpeedFactor * g_00DBBADC;
+		scroll.y = TheWritableGlobalData->m_keyboardScrollFactor * TheWritableGlobalData->m_horizontalScrollSpeedFactor * BfmeKeyboardScrollScale;
 
 	if (Coord2DGetLengthEstimate(&scroll) > 0.0f)
 		TheTacticalView->scroll(&scroll);
