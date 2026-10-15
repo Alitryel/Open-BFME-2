@@ -7,8 +7,11 @@
 // Both lists use the shared four-byte opaque element whose insertion chain
 // is independently recovered. Declared virtual slots are ABI views only;
 // this unit creates no interface objects or invented vtable data.
-// cl: /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_OPERATOR_NEW_DEFINED_ /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
+#include <new>
+#include "matrix3d.h"
+#include "ascii_string.h"
 #include <list>
 #include <vector>
 
@@ -46,7 +49,12 @@ class Rva0047A040Base9E0 {public:void *rva00588B8A(void *);};
 class Rva00270260 {public:bool rva00270260();};
 enum DamageType { DeathDamage=8 }; enum DeathType { NormalDeath=0 };
 class Drawable {public:void setDrawableHidden(bool hidden);};
-class Object {public:Drawable *getDrawable() const;void kill(DamageType,DeathType);};
+class Matrix3D; struct Coord3D;
+class Object {public:Drawable *getDrawable() const;void kill(DamageType,DeathType);
+ int getMultiLogicalBonePosition(const char *,int,Coord3D *,Matrix3D *,bool,int) const;
+ bool getSingleLogicalBonePosition(const char *,Coord3D *,Matrix3D *) const;
+ void rva0028AE6D();
+};
 #define V(n) virtual void s##n()=0;
 class RiderContain {public:
 V(00) V(01) V(02) V(03) V(04) V(05) V(06) V(07) V(08) V(09)
@@ -71,6 +79,7 @@ struct Rva0047727EObjectPositionView;
 class HordeTransportContain {
 public:
     void rva004779F9();
+    void rva0047778B();
     void rva004776E7(const struct Rva004776E7UpgradeMask *,bool);
     void rva0047727E(Thing *object);
 private:
@@ -181,4 +190,86 @@ void HordeTransportContain::rva004776E7(const Rva004776E7UpgradeMask *mask,bool)
     }
     ((Rva004776E7CallView *)this)->iterate((Rva004776E7Callback)&rva004772D1,&upgrades,1);
     ((_STL::vector<void *> *)&upgrades)->clear();
+}
+
+// Native47778B..4779F9 complete622B RET; class from primary owner+8,
+// helper+11D and +20 removal interface, agreeing with identified ctor477003.
+// No applicable complete BF1 donor found: HordeTransport update/maintenance
+// supply subsystem leads and OpenContain getPassengerBoneName supplies
+// bone-name purpose only. Array32 of48B Matrix3D and extra32-word output
+// buffer are target facts from constructor loop/getMulti bone arguments.
+// Nested riders are removed, positioned, given random5..10 forward impulse
+// with Z=that scalar and model-condition bit127, then killed with8/0.
+// Original handler name and extra output-buffer purpose remain unknown.
+// Ordinary Matrix3D copy/Get_Translation and Get_X_Vector preserve native
+// scalar-load/evaluation shape; minimal Object prefix accesses are target
+// measured, not a recovered full Object layout. The 19-word condition view
+// carries the existing engine convention; only word3 is used/proved here.
+// The impulse follows the sibling 0x00477BA2 (WB twin 0x011A13C0) shape:
+// X column with Z forced to 1, scaled in place by a separate magnitude
+// local, then copied memberwise into the Coord3D passed to the consumer.
+// The unit's /G7 /arch:SSE flags and WWMath headers come from the bank;
+// the three earlier bodies verify unchanged under them.
+class Rva00463235 {public: AsciiString rva00463235(Thing *);};
+class PhysicsBehavior { public:void rva00390629(bool); };
+class Rva003909FAObj {public:void consume(void *,int,int);};
+struct Rva0047778BConditions {
+ unsigned int words[19];
+ unsigned int test(int bit)const {return words[bit>>5] & (1U<<(bit&31));}
+ void set(int bit){words[bit>>5]|=1U<<(bit&31);}
+};
+struct Rva0047778BObjectView {
+ unsigned char prefix00[8];
+ float transform[12];
+ unsigned char gap38[0x10C-0x38];
+ Rva0047778BConditions condition;
+ unsigned char gap158[0x25C-0x158];
+ PhysicsBehavior *physics;
+};
+int GetGameLogicRandomValue(int,int,char *,int);
+
+class Rva0046247DDescriptor {public: Rva0036AE51ListView rva0046247D();};
+void HordeTransportContain::rva0047778B()
+{
+ IntList outerObjects=((Rva0046247DDescriptor *)this)->rva0046247D().rva0036AE51();
+ Matrix3D matrices[32];
+ int indices[32];
+ int next=0;
+ for(IntList::iterator i=outerObjects.begin();i!=outerObjects.end();++i)
+ {
+  RiderContain *contain=(RiderContain *)((Rva0047A040Base9E0 *)((char *)this+0x11D))->rva00588B8A((void*)containmentFirstWord(*i));
+  if(!contain)continue;
+  IntList nested=contain->s108().rva0036AE51();
+  for(IntList::iterator j=nested.begin();j!=nested.end();++j)
+  {
+   Object *object=(Object *)containmentFirstWord(*j);
+   AsciiString bone=((Rva00463235 *)this)->rva00463235((Thing *)object);
+   int count;
+   {const char *name=bone.str();Object *owner=(Object *)m_object;
+    count=owner->getMultiLogicalBonePosition(name,32,0,matrices,true,(int)indices);}
+   if(!count){const char *name=bone.str();Object *owner=(Object *)m_object;
+    if(owner->getSingleLogicalBonePosition(name,0,matrices))count=1;}
+   if(next>=count)next=0;
+   contain->sA8(object);
+   ((RemovalNotice *)((char *)this+0x20))->sA4(object,0);
+   Matrix3D matrix(matrices[next]);
+   Vector3 position=matrix.Get_Translation();
+   ((Thing *)object)->setPosition((const Coord3D *)&position);
+   Rva0047778BObjectView *view=(Rva0047778BObjectView *)object;
+   PhysicsBehavior *physics=view->physics;
+   if(physics)
+   {
+    Vector3 direction=((const Matrix3D *)view->transform)->Get_X_Vector();
+    direction.Z=1.0f;
+    float magnitude=(float)GetGameLogicRandomValue(5,10,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeTransportContain.cpp",0x234);
+    direction*=magnitude;
+    Coord3D force; force.x=direction.X; force.y=direction.Y; force.z=direction.Z;
+    physics->rva00390629(true);
+    if(view->condition.test(127)==0) {view->condition.set(127);object->rva0028AE6D();}
+    ((Rva003909FAObj *)physics)->consume(&force,0,0);
+   }
+   object->kill(DeathDamage,NormalDeath);
+   ++next;
+  }
+ }
 }
