@@ -22,4 +22,10 @@ private:
 	char m_pad[0x18];
 };
 #include <vector>
+namespace _STL { template <> void vector<Rva004E32F2, allocator<Rva004E32F2> >::_M_insert_overflow(Rva004E32F2 *, const Rva004E32F2 &, const __false_type &, unsigned int, bool); }
+namespace _STL {
+template <> void vector<Rva004E32F2, allocator<Rva004E32F2> >::push_back(const Rva004E32F2 &);
+template <> vector<Rva004E32F2, allocator<Rva004E32F2> >::~vector();
+template <> void vector<Rva004E32F2, allocator<Rva004E32F2> >::_M_clear();
+}
 template class _STL::vector<Rva004E32F2, _STL::allocator<Rva004E32F2> >;
