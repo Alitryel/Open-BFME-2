@@ -150,12 +150,32 @@ class GateOpenAndCloseBehavior : public Rva004989D7
 class Rva004E8F37
 {
 public:
+	bool rva004E8F37(Player *player);
 	void rva004E8F76(const Player *player);
 	void rva004E8FB7(const Player *player);
 private:
 	GateOpenAndCloseBehavior **m_begin;
 	GateOpenAndCloseBehavior **m_end;
 };
+
+// --- 0x004E8F37 (63B, RET 4): false as soon as a gate behaviour owned by the
+// player answers slot 6 (vtable +0x18) with true; true otherwise, including
+// for an empty vector. Codegen: the empty check reads the MEMBERS before the
+// cached end/iterator locals (guarding on the locals lets cl rotate the loop
+// and drop retail's jmp-to-test).
+bool Rva004E8F37::rva004E8F37(Player *player)
+{
+	if (m_begin == m_end)
+		return true;
+	GateOpenAndCloseBehavior **end = m_end;
+	for (GateOpenAndCloseBehavior **it = m_begin; it != end; ++it)
+	{
+		GateOpenAndCloseBehavior *gate = *it;
+		if (gate->rva004989D7() == player && gate->slot18())
+			return false;
+	}
+	return true;
+}
 
 void Rva004E8F37::rva004E8F76(const Player *player)
 {
