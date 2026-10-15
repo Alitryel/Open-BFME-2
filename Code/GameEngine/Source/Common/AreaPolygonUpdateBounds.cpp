@@ -22,7 +22,8 @@ class MathCoord2D
 {
 public:
 	MathCoord2D() {}
-	MathCoord2D(const MathCoord2D &that) : x(that.x), y(that.y) {}
+	// Keep inline copies without emitting a competing standalone constructor.
+	__declspec(dllimport) __forceinline MathCoord2D(const MathCoord2D &that) : x(that.x), y(that.y) {}
 	MathCoord2D(float ix, float iy) : x(ix), y(iy) {}
 	~MathCoord2D() {}
 	float Dot(const MathCoord2D &c) const { return y * c.y + x * c.x; }
