@@ -23,17 +23,13 @@ enum PathfindLayerEnum
 class PathNode
 {
 public:
-	PathNode *getNext(void) const { return m_next; }
+	// Both getters inline in the native optimizer. Suppress their surplus
+	// standalone copies without changing the member accesses or call ABI.
+	__declspec(dllimport) __forceinline PathNode *getNext(void) const { return m_next; }
 	PathNode *getPrevious(void) const { return m_previous; }
 	PathNode *getNextOptimized(void) const { return m_nextOptimized; }
 	const Coord3D *getPosition(void) const { return &m_position; }
-	PathfindLayerEnum getLayer(void) const { return m_layer; }
-	// LINK: same-body helper under a TU-unique name (identical inlined
-	// bytes). This TU's getLayer copy loses to the first-in-order copy (no
-	// retail address); the six call sites below inline it but still emit the
-	// loser COMDAT. Rebinding there emits only this unique (trivially kept)
-	// copy. No flags touched.
-	PathfindLayerEnum bfme_get_layer(void) const { return m_layer; }
+	__declspec(dllimport) __forceinline PathfindLayerEnum getLayer(void) const { return m_layer; }
 
 private:
 	friend class Path;
@@ -92,8 +88,8 @@ void Path::rva00363FA4(Int pathDiameter)
 	while (anchor != m_pathTail)
 	{
 		Bool optimizedSegment = false;
-		PathfindLayerEnum layer = anchor->bfme_get_layer();
-		PathfindLayerEnum curLayer = anchor->bfme_get_layer();
+		PathfindLayerEnum layer = anchor->getLayer();
+		PathfindLayerEnum curLayer = anchor->getLayer();
 		Int count = 0;
 		const Int ALLOWED_STEPS = 3;
 		PathNode *next;
@@ -105,20 +101,20 @@ void Path::rva00363FA4(Int pathDiameter)
 			count++;
 			if (static_cast<unsigned char>(Rva002E6E6CGet(curLayer)))
 			{
-				if (node->bfme_get_layer() != curLayer)
+				if (node->getLayer() != curLayer)
 				{
-					layer = node->bfme_get_layer();
+					layer = node->getLayer();
 					curLayer = layer;
 					if (count > ALLOWED_STEPS)
 						break;
 				}
 			}
-			else if (next->bfme_get_layer() != curLayer)
+			else if (next->getLayer() != curLayer)
 			{
 				if (count > ALLOWED_STEPS)
 					break;
 			}
-			curLayer = node->bfme_get_layer();
+			curLayer = node->getLayer();
 		}
 
 		for (; node != anchor; node = node->getPrevious())
