@@ -85,6 +85,7 @@ extern AptActionInterpreter g_aptDateInterpreter;
 class AptBoolean {public:static void ClearPool();};
 class AptInteger {public:static void ClearPool();};
 class AptFloat {public:static void ClearPool();};
+void Rva0070B590Drain();
 class StringPool {public:static void ClearTemporaryPool();static void Teardown();};
 
 void Rva006CFAB0(int arg)
@@ -130,7 +131,7 @@ void Rva006CFAB0(int arg)
 	AptBoolean::ClearPool();
 	AptInteger::ClearPool();
 	AptFloat::ClearPool();
-	StringPool::ClearTemporaryPool();
+	Rva0070B590Drain();
 	g_bfmeAptInitAtE17700=0;
 }
 #undef CHECK

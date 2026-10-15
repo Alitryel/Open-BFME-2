@@ -46,6 +46,7 @@ class GettingBuiltUpdateSecondary {
 public:virtual void v0();virtual void v1();virtual void v2();virtual void v3();
  virtual void v4();virtual void cleanup();virtual bool active();
 };
+class BfmeThingE63 { public: bool isValid(); };
 class GettingBuiltBehavior {
  friend class GettingBuiltBehaviorUpdateReceiver;
  bool rva004541AB();bool rva00453124();
@@ -81,7 +82,7 @@ UpdateSleepTime GettingBuiltBehaviorUpdateReceiver::update()
  }
  if(!dead){
    if(data->duration>=0.0f && busy && !*((bool *)this+0x26))goto cleanup;
-   if(!active || worker || primary->rva00453124())goto handled_or_cleanup;
+   if(!active || worker || ((BfmeThingE63 *)primary)->isValid())goto handled_or_cleanup;
    if(!*((bool *)this+0x26) && handled)return UPDATE_SLEEP_NONE;
    if(!*((bool *)this+0x24) && obj->progress>=75.0f){
      *((bool *)this+0x24)=true;

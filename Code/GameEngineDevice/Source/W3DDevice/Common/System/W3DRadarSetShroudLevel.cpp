@@ -50,11 +50,11 @@ public:
 	W3DRadarResetSurface Get_Surface_Level();
 };
 
-class Rva00132D0FHolder
+class TextureBaseClass
 {
 public:
-	Int rva0013275A();
-	Int rva00132784();
+	Int rva0013275A() const;
+	Int rva00132784() const;
 };
 
 class W3DShroud
@@ -72,7 +72,7 @@ private:
 class BaseHeightMapRenderObjClass
 {
 public:
-	W3DShroud *getShroud() { return m_shroud; }
+	__declspec(dllimport) __forceinline W3DShroud *getShroud() { return m_shroud; }
 
 private:
 	unsigned char m_pad00[0x3878];
@@ -142,13 +142,13 @@ void W3DRadar::setShroudLevel(Int shroudX, Int shroudY, CellShroudStatus setting
 		if (scaleX > scaleY) {
 			radarMinY = radarMinY * scaleY;
 			radarMaxY = radarMaxY * scaleY;
-			Real offset = (UnsignedInt)((Rva00132D0FHolder *)&m_shroudTexture)->rva00132784() * ((1.0f - scaleY) * 0.5f);
+			Real offset = (UnsignedInt)((TextureBaseClass *)&m_shroudTexture)->rva00132784() * ((1.0f - scaleY) * 0.5f);
 			radarMinY = radarMinY + offset;
 			radarMaxY = radarMaxY + offset;
 		} else {
 			radarMinX = radarMinX * scaleX;
 			radarMaxX = radarMaxX * scaleX;
-			Real offset = (UnsignedInt)((Rva00132D0FHolder *)&m_shroudTexture)->rva0013275A() * ((1.0f - scaleX) * 0.5f);
+			Real offset = (UnsignedInt)((TextureBaseClass *)&m_shroudTexture)->rva0013275A() * ((1.0f - scaleX) * 0.5f);
 			radarMinX = radarMinX + offset;
 			radarMaxX = radarMaxX + offset;
 		}

@@ -158,6 +158,7 @@ struct Rva002A8F24Stats
 	Rva002A8F24Economy *m_economy;			// +0x0C
 };
 // A skirmish AI target: its type, its object and its done flags.
+class Bfme939Helper { public: Int get() const; };
 class Rva002C589B
 {
 public:
@@ -365,7 +366,7 @@ void W3DDisplay::gatherSkirmishAIStats()
 						Rva002C589B *target = *it;
 						Int count = target->m_count;
 						Int type = target->m_type;
-						cell.format("%s(%d/%d)", AITargetTypeNames[type], target->rva0030F2C7(), count);
+						cell.format("%s(%d/%d)", AITargetTypeNames[type], ((const Bfme939Helper *)target)->get(), count);
 						typeRow.concat(cell);
 						for (Int pad = 0; pad < columnPad(cell); pad++)
 							typeRow.concat(" ");

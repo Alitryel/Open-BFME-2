@@ -204,7 +204,7 @@ private:
 
 // The hot key lookup (Zero Hour HotKeyManager::searchHotKey) on the manager at
 // retail [0x00E01E28]; pinned at 0x00358B9E.
-class Rva00E01E28Owner
+class HotKeyManager
 {
 public:
 	AsciiString searchHotKey( const UnicodeString &uStr );
@@ -238,7 +238,7 @@ Bool W3DDisplayString::rva00106277( void )
 		{
 			m_textRenderer.Set_Hot_Key_Parse( TRUE );
 			m_textRenderer.Build_Sentence( getText().str(), &m_hotKeyPos.x, &m_hotKeyPos.y );
-			m_hotkey.translate( ((Rva00E01E28Owner *)TheHotKeyManager)->searchHotKey( getText() ) );
+			m_hotkey.translate( ((HotKeyManager *)TheHotKeyManager)->searchHotKey( getText() ) );
 			if( !m_hotkey.isEmpty() )
 				m_textRendererHotKey.Build_Sentence( m_hotkey.str(), NULL, NULL );
 			else
