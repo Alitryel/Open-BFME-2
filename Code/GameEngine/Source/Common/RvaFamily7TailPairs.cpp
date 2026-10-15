@@ -12,6 +12,18 @@ public:
 	void second();
 };
 
+class Rva00043511
+{
+public:
+	void rva0004353C();
+};
+
+class Display
+{
+public:
+	void rva0025C4F3();
+};
+
 class Rva0004378D
 {
 public:
@@ -24,8 +36,8 @@ private:
 
 void Rva0004378D::method()
 {
-	first();
-	m_280.second();
+	((Display *)this)->rva0025C4F3();
+	((Rva00043511 *)&m_280)->rva0004353C();
 }
 
 class Rva0033B1CDMbr
@@ -51,6 +63,18 @@ public:
 	void second();
 };
 
+class Drawable
+{
+public:
+	void rva000B3FD0();
+};
+
+class Rva005E590F
+{
+public:
+	void rva005E590F();
+};
+
 class Rva005CDDF0
 {
 public:
@@ -63,14 +87,26 @@ private:
 
 void Rva005CDDF0::method()
 {
-	first();
-	m_0C.second();
+	((Rva005E590F *)this)->rva005E590F();
+	((Drawable *)&m_0C)->rva000B3FD0();
 }
 
 class Rva005E5554Member
 {
 public:
 	void second();
+};
+
+class Rva005E549E
+{
+public:
+	void rva005E549E();
+};
+
+class Rva005F327ARun
+{
+public:
+	void run();
 };
 
 class Rva005E5554
@@ -82,6 +118,6 @@ public:
 
 void Rva005E5554::method()
 {
-	first();
-	((Rva005E5554Member *)((char *)this - 8))->second();
+	((Rva005E549E *)this)->rva005E549E();
+	((Rva005F327ARun *)((char *)this - 8))->run();
 }
