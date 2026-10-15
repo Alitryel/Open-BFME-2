@@ -29,3 +29,22 @@ Rva001F20D6::Rva001F20D6(unsigned int n, const _STL::allocator<int> &a)
     m_finish = tmp;
     m_end._M_data = (unsigned int)((char *)tmp + n * sizeof(int));
 }
+
+// Native1F206E and its creator/consumer1F1634/1F2F0E use this storage for
+// four-byte Object pointers; 1F2F0E dereferences entries through Object::findModule.
+// The existing neutral count constructor above and this typed STLport form
+// reproduce the same complete69B body. Expand the allocator byte-count path
+// as retail does; preserve the zero-count branch and proxy at +8.
+
+#include <vector>
+class Object;
+namespace _STL {
+template<> _Vector_base<Object*,allocator<Object*> >::_Vector_base(unsigned int n,const allocator<Object*>&a)
+ : _M_start(0),_M_finish(0),_M_end_of_storage(a,0) {
+ void* tmp=_M_finish;
+ if(n!=0) tmp=(void*)allocator<char>::allocate(n*sizeof(Object*),0); else tmp=0;
+ _M_start=(Object**)tmp;_M_finish=(Object**)tmp;
+ _M_end_of_storage._M_data=(Object**)((char*)tmp+n*sizeof(Object*));
+}
+}
+template _STL::_Vector_base<Object*,_STL::allocator<Object*> >::_Vector_base(unsigned int,const _STL::allocator<Object*>&);
