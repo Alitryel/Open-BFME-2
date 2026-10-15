@@ -608,13 +608,7 @@ inline void AICommandInterface::aiMoveToPosition(const Coord3D *p, CommandSource
     parms.pos = *p;
     aiDoCommand(&parms);
 }
-inline void Rva00295A0FCommands::Rva00295A0FCommand(void *p, int maxShots, int source)
-{
-    AICommandParms parms((AICommandType)0xf, (CommandSourceType)source);
-    parms.pos = *(Coord3D *)p;
-    parms.maxShots = maxShots;
-    aiDoCommand(&parms);
-}
+// Rva00295A0FCommands::Rva00295A0FCommand is defined in AICommandRva00295A0F.cpp.
 inline void AICommandInterface::rva0036EE89(const Rva0035149F *path, Object *target, float angle,
                                             CommandSourceType source)
 {

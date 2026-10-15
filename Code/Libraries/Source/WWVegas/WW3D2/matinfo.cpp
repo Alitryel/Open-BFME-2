@@ -176,12 +176,7 @@ MaterialCollectorClass::MaterialCollectorClass(void)
 	LastTexture = NULL;
 }
 
-// byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorClassDestructorThunk.cpp
-// ??1MaterialCollectorClass@@QAE@XZ present-unmatched
-MaterialCollectorClass::~MaterialCollectorClass(void)
-{
-	Reset();
-}
+// MaterialCollectorClass::~MaterialCollectorClass is defined with its retail-matched body in MaterialCollectorDestructor.cpp.
 
 // byte-exact reconstruction: Code/Libraries/Source/WWVegas/WW3D2/MaterialCollectorCollectMaterials.cpp
 

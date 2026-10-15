@@ -102,18 +102,7 @@ public:
 	float getMaxTurnRate(Object *object) const;
 };
 
-__declspec(noinline) float Locomotor::getMaxTurnRate(Object *object) const
-{
-	BodyDamageType condition = object->m_body->getDamageState();
-	float turnRate;
-	if (condition < TheGlobalData->m_movementPenaltyDamageState)
-		turnRate = 6.283185307179586f / (float)(unsigned int)m_template->m_turnPeriod;
-	else
-		turnRate = 6.283185307179586f / (float)(unsigned int)m_template->m_damagedTurnPeriod;
-	if (turnRate > m_maxTurnRate)
-		turnRate = m_maxTurnRate;
-	return turnRate;
-}
+// Locomotor::getMaxTurnRate(Object *) (0x001E3E9F) is defined in LocomotorGetMaxTurnRate.cpp.
 
 class Rva001E4073
 {

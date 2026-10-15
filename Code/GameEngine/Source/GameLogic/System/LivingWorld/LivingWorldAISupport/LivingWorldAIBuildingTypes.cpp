@@ -194,7 +194,7 @@ inline __declspec(noinline) Rva00500BF5Tree::Iterator Rva00500BF5Tree::insertEqu
 class Rva00501F2D {public:void rva0050247A();};class Rva005007CF {public:void rva00500AA6();};
 static __forceinline const Rva00500500&AsReference(const Rva00500500&v){return v;}
 struct PairCopy{Rva00500500 value;__forceinline PairCopy(const Rva00500500&v):value(v){} operator const Rva00500500&()const{return value;} const Rva00500500&get()const{return value;}};
-inline __declspec(noinline) Rva00500500::Rva00500500(void*&k,const SpawnArmy&v):key(k),value(v){}
+// The Rva00500500 ctor is defined in Rva00500500Ctors.cpp.
 void Rva005020CCBuildRegionDistances();
 class Rva00502FE9 {public:void rva00502FE9(int);int commandBuilding,spawnBuilding,strengthBuilding,upgradeBuilding;_STL::vector<ScienceType>spawnBuildings;int commandPoints;float average;char gap24[12];int strengthenAmount,upgradeAmount;VectorMap vectors;SetMap sets;};
 void Rva00502FE9::rva00502FE9(int playerID) {
