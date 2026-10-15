@@ -48,7 +48,9 @@ struct DataChunkInfo
 	unsigned short version;							// +0x08
 };
 
-namespace _STL { void free(void *); }
+// Match the quad-strip cleanup emitted by Rva0030C1FCOwnerCtor.cpp:
+// the verified game allocator wrapper owns retail's free at 0x00030830.
+void __cdecl Rva00030830GameFree(void *);
 
 class VBase00C6EE28
 {
@@ -105,7 +107,7 @@ public:
 	~Rva005388AB()
 	{
 		if (m_data)
-			_STL::free(m_data);
+			Rva00030830GameFree(m_data);
 	}
 private:
 	void *m_data;
