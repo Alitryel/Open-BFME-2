@@ -13,7 +13,6 @@
 #include "ascii_string.h"
 
 extern const char *TheWeaponSlotTypeNames[];
-extern const char g_Rva0107301CEmptyString[];
 
 class Rva000C2AA4
 {
@@ -48,7 +47,7 @@ void INI::Rva000C3AB3Parse(INI *ini, void *instance, void *store, const void *us
 		value.clear();
 	_STL::vector<AsciiString> *vec = (_STL::vector<AsciiString> *)store;
 	if (vec->size() < index + 1)
-		((Rva000C32D9 *)vec)->rva000C32D9(index + 1, AsciiString(g_Rva0107301CEmptyString));
+		((Rva000C32D9 *)vec)->rva000C32D9(index + 1, AsciiString(""));
 	(*vec)[index] = value;
 	if (instance != 0)
 		((Rva000C2AA4 *)instance)->rva000C2AA4((*vec)[index]);
