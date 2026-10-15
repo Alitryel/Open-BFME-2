@@ -1485,7 +1485,6 @@ AllocProxyIntCtor_dupA,,0x00007410,11,Code/Libraries/Source/WWVegas/WWLib/stlpor
 ?Sub2D@Coord3D@@QAEAAV1@ABUCoord3DBase@@@Z,0x000038D7,0x000038D7,36,Code/Libraries/Source/WWVegas/WWMath/coord3d.cpp,matched,
 ?Add@Coord3D@@QAEAAV1@ABUCoord3DBase@@@Z,0x00003CD1,0x00003CD1,51,Code/Libraries/Source/WWVegas/WWMath/coord3d.cpp,matched,
 ?IsExactlyEqualTo@Coord3D@@QBE_NABV1@@Z,0x00003702,0x00003702,57,Code/Libraries/Source/WWVegas/WWMath/coord3d.cpp,matched,
-?equals@Coord3D@@QBE_NABUCoord3DBase@@@Z,0x00003702,0x00003702,57,Code/Libraries/Source/WWVegas/WWMath/coord3d.cpp,matched,
 ??4Coord3D@@QAEAAV0@ABVCoord2D@@@Z,0x00003AB3,0x00003AB3,27,Code/Libraries/Source/WWVegas/WWMath/coord3d.cpp,matched,
 ??0ICoord2D@@QAE@XZ,0x0047A6A9,0x0047A6A9,3,Code/Libraries/Source/WWVegas/WWMath/icoord.cpp,matched,
 ??0ICoord3D@@QAE@XZ,0x0047A6A9,0x0047A6A9,3,Code/Libraries/Source/WWVegas/WWMath/icoord.cpp,matched,
@@ -91528,3 +91527,4 @@ __ehhandler$??0Rva005CE804@@QAE@PAXHHHHPAUFwdArg@@@Z,,0x007A1714,10,Code/GameEng
 ?append@Rva006D1130@@QAEXPAVRva006D1130Item@@@Z,,0x006D13E0,63,Code/GameEngine/Source/Common/Bfme5ThirtyFour.cpp,matched,append at end() through range insert 0x006D1230; 4-byte twin of Rva006CE660Vec::append 0x006CEA90
 ?rva001076F6@W3DVolumetricShadowManagerV2@@QAEXXZ,,0x001076F6,367,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/BfmeVolumetricShadowBufferDraw.cpp,matched,d3 seat4: V2 stencil setup called once by W3DVolumetricShadowManagerV2Render before drawAndRelease; ZH renderStencilShadows preamble shape (Set_Material/REF_PTR_RELEASE preset; Set_Shader; buffers; Set_World_Identity; Apply_Render_State_Changes; stencil states; DX8CALL counters) over rowed DX8Wrapper callees and dx8wrapper.cpp globals; name address-derived
 ?m009EFD40@Q1Receiver0134FAAC@@QAEXPAUQ1ReceiverLocalSet@@@Z,,0x006217F0,513,Code/Libraries/Source/assetmanager/assetmanager_impl.cpp,matched,WB 1678D00 AssetManagerImpl::AddDependentAssets; native 6217F0..6219F1 RET4 (513B). Fixed-point dependency closure: frontier copy (9EE8E0) / inline clear / +0x4C table lookup keyed straight from the tree node (as m009F0D40) / insert into both sets. Key read from the node reference moves the key home to retail's EAX-then-ESI. Set<ptr> subtree erase is the fold-proof pin at 692F5.
+?equals@Coord3D@@QBE_NABUCoord3DBase@@@Z,0x00003702,0x00003702,57,Code/GameEngine/Source/GameLogic/Object/FiringTrackerXfer.cpp,matched,Retail-identical inline COMDAT emitter; row moved from coord3d.cpp to remove its exclusive duplicate; BFME1 d5043e165 supplies repair pattern only

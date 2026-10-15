@@ -297,8 +297,8 @@ extern int BfmeLogicFramesPerSecond;
 #define COORD3D_DV_EQUALS
 #include "../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
 
-// Coord3D::equals (rowed 0x00003702 in coord3d.cpp), out of line but visible
-// here: update's operand order (the Object loaded into ECX before the frame
+// Coord3D::equals (rowed 0x00003702 here), out of line but visible:
+// update's operand order (the Object loaded into ECX before the frame
 // read, add ecx,0x38 after pushing &m_lastShotPosition) needs cl to see it.
 inline __declspec(noinline) bool Coord3D::equals(const Coord3DBase &that) const
 {

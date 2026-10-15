@@ -124,7 +124,6 @@ public:
     Coord3D &Sub(const Coord3DBase &that);
     Coord3D &operator-=(const Coord3DBase &that);
     bool IsExactlyEqualTo(const Coord3D &that) const;
-    bool equals(const Coord3DBase &that) const;
 };
 
 
@@ -702,10 +701,8 @@ bool Coord3D::IsExactlyEqualTo(const Coord3D &that) const
     return x == that.x && y == that.y && z == that.z;
 }
 
-bool Coord3D::equals(const Coord3DBase &that) const
-{
-    return x == that.x && y == that.y && z == that.z;
-}
+// The retail-identical inline Coord3D::equals body is owned by
+// FiringTrackerXfer.cpp; an exclusive copy here collided with that emitter.
 
 // The generated assignment, which is the one that block-copies the base; the
 // declared overloads above hide it, so a member pointer is what names it.
