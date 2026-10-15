@@ -1,5 +1,17 @@
 // ?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
-// partial score=0.4041 date=2026-10-14
+// partial score=0.54 date=2026-10-15
+// ?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
+// partial seat s2 (claude-sonnet-5-5): BFME2 message numbering + native input guard.
+// Changes vs the prior scaffold: every GameMessage::MSG_x in the body is the BFME2 value read from
+// MessageStreamCommandName.cpp ((GameMessage::Type)N; the ZH header numbering is wrong); force-attack
+// cases 116/117 removed (absent from the native switch); the inline input guard is flags +0x15/+0x16 plus
+// InGameUI virtual 0x17C (InGameUISlot17C probe). Switch ladder now matches retail (3,4,6,14,16,23,24
+// then 52..91, 112, 162). Remaining: each case body is a BFME2 variant of ZH (SelectionTranslator has
+// extra bools at +6/+7; native case 24 is just m_f7=0, case 23 begins m_f6/m_f7 handling and builds the
+// pick list differently), frame 0x88 vs 0xC4, unresolved callee spellings (vector copy ctor,
+// PickDrawableStruct ctor, list assign, _List_base clear...). 3731B vs 4054B.
+// Score method: difflib ratio over capstone instruction streams (calls/jumps/large imms masked):
+// 0.3708 (prior scaffold) -> 0.5416.
 // ?areAllSelected@@YA_NABV?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@@Z
 // partial score=1.0 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /DBFME_STLP_NODE_ALLOC /Ireference/open-bfme-1/inputs/reference/shims/stlp_nodealloc /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
@@ -1045,6 +1057,104 @@ static Bool areAllSelected(const DrawableList& listToCheck)
  
 }
 // ?SelectionTranslator::translateGameMessage present-unmatched  // retail 0x0043003C body is a banked partial; retained because it fixes the private EBX call ABI of the 0x0042FA0D helper
+class InGameUISlot17C { public:
+ virtual void s0();
+ virtual void s1();
+ virtual void s2();
+ virtual void s3();
+ virtual void s4();
+ virtual void s5();
+ virtual void s6();
+ virtual void s7();
+ virtual void s8();
+ virtual void s9();
+ virtual void s10();
+ virtual void s11();
+ virtual void s12();
+ virtual void s13();
+ virtual void s14();
+ virtual void s15();
+ virtual void s16();
+ virtual void s17();
+ virtual void s18();
+ virtual void s19();
+ virtual void s20();
+ virtual void s21();
+ virtual void s22();
+ virtual void s23();
+ virtual void s24();
+ virtual void s25();
+ virtual void s26();
+ virtual void s27();
+ virtual void s28();
+ virtual void s29();
+ virtual void s30();
+ virtual void s31();
+ virtual void s32();
+ virtual void s33();
+ virtual void s34();
+ virtual void s35();
+ virtual void s36();
+ virtual void s37();
+ virtual void s38();
+ virtual void s39();
+ virtual void s40();
+ virtual void s41();
+ virtual void s42();
+ virtual void s43();
+ virtual void s44();
+ virtual void s45();
+ virtual void s46();
+ virtual void s47();
+ virtual void s48();
+ virtual void s49();
+ virtual void s50();
+ virtual void s51();
+ virtual void s52();
+ virtual void s53();
+ virtual void s54();
+ virtual void s55();
+ virtual void s56();
+ virtual void s57();
+ virtual void s58();
+ virtual void s59();
+ virtual void s60();
+ virtual void s61();
+ virtual void s62();
+ virtual void s63();
+ virtual void s64();
+ virtual void s65();
+ virtual void s66();
+ virtual void s67();
+ virtual void s68();
+ virtual void s69();
+ virtual void s70();
+ virtual void s71();
+ virtual void s72();
+ virtual void s73();
+ virtual void s74();
+ virtual void s75();
+ virtual void s76();
+ virtual void s77();
+ virtual void s78();
+ virtual void s79();
+ virtual void s80();
+ virtual void s81();
+ virtual void s82();
+ virtual void s83();
+ virtual void s84();
+ virtual void s85();
+ virtual void s86();
+ virtual void s87();
+ virtual void s88();
+ virtual void s89();
+ virtual void s90();
+ virtual void s91();
+ virtual void s92();
+ virtual void s93();
+ virtual void s94();
+ virtual Bool slot95();
+};
 static void deselectAll()
 
 {
@@ -1071,7 +1181,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
 
 {
  GameMessageDisposition disp = KEEP_MESSAGE;
- if(	!TheInGameUI->getInputEnabled() )
+ if(	!(((const char *)TheInGameUI)[0x15] && ((const char *)TheInGameUI)[0x16] && !((InGameUISlot17C *)TheInGameUI)->slot95()) )
  
  {
   if( m_dragSelecting )
@@ -1090,13 +1200,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
  switch (t)
  
  {
-  case GameMessage::MSG_META_BEGIN_FORCEATTACK:
-  TheInGameUI->setForceAttackMode( true );
-  break;
-  case GameMessage::MSG_META_END_FORCEATTACK:
-  TheInGameUI->setForceAttackMode( false );
-  break;
-  case GameMessage::MSG_RAW_MOUSE_POSITION:
+  case ((GameMessage::Type)3):
   
   {
    ICoord2D pixel;
@@ -1123,7 +1227,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
     if (m_dragSelecting)
     
     {
-     GameMessage *hintMsg = TheMessageStream->appendMessage( GameMessage::MSG_AREA_SELECTION_HINT );
+     GameMessage *hintMsg = TheMessageStream->appendMessage( ((GameMessage::Type)166) );
      IRegion2D pixelRegion;
      buildRegion( &m_selectFeedbackAnchor, &pixel, &pixelRegion );
      hintMsg->appendPixelRegionArgument( pixelRegion );
@@ -1141,7 +1245,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
     if( objUnderCursor && (!objUnderCursor->isEffectivelyDead() || objUnderCursor->isKindOf( KINDOF_ALWAYS_SELECTABLE )) )
     
     {
-     mouseoverMessage = TheMessageStream->appendMessage( GameMessage::MSG_MOUSEOVER_DRAWABLE_HINT );
+     mouseoverMessage = TheMessageStream->appendMessage( ((GameMessage::Type)162) );
      mouseoverMessage->appendDrawableIDArgument( underCursor->getID() );
      
     }
@@ -1150,7 +1254,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
     {
      Coord3D position;
      TheTacticalView->screenToTerrain( &pixel, &position );
-     mouseoverMessage = TheMessageStream->appendMessage( GameMessage::MSG_MOUSEOVER_LOCATION_HINT );
+     mouseoverMessage = TheMessageStream->appendMessage( ((GameMessage::Type)163) );
      mouseoverMessage->appendLocationArgument( position );
      
     }
@@ -1159,7 +1263,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_MOUSE_LEFT_DOUBLE_CLICK:
+  case ((GameMessage::Type)24):
   
   {
    Int modifiers = msg->getArgument(1)->integer;
@@ -1189,12 +1293,12 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
     TheInGameUI->selectMatchingAcrossMap();
     else
     TheInGameUI->selectMatchingAcrossScreen();
-    GameMessage *pickMsg = TheMessageStream->appendMessage( GameMessage::MSG_AREA_SELECTION );
+    GameMessage *pickMsg = TheMessageStream->appendMessage( ((GameMessage::Type)1060) );
     pickMsg->appendDrawableIDArgument( picked->getID() );
 /// note we are putting in a drawable id
     if (TheInGameUI->isInPreferSelectionMode() && !listOfSelectedDrawables.empty()) 
     {
-     GameMessage *selectMore = TheMessageStream->appendMessage( GameMessage::MSG_CREATE_SELECTED_GROUP_NO_SOUND );
+     GameMessage *selectMore = TheMessageStream->appendMessage( ((GameMessage::Type)1002) );
      selectMore->appendBooleanArgument(FALSE);
      for (DrawableListIt it = listOfSelectedDrawables.begin(); it != listOfSelectedDrawables.end(); ++it) 
      {
@@ -1215,7 +1319,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_MOUSEOVER_DRAWABLE_HINT:
+  case ((GameMessage::Type)162):
   
   {
    if (TheInGameUI->isScrolling()) 
@@ -1231,7 +1335,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
     
    }
    GameMessage::Type msgType = TheGameClient->evaluateContextCommand(draw, draw->getPosition(), CommandTranslator::EVALUATE_ONLY);
-   if( msgType == GameMessage::MSG_INVALID )
+   if( msgType == ((GameMessage::Type)0) )
    
    {
     TheInGameUI->createMouseoverHint(msg);
@@ -1275,7 +1379,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_MOUSE_LEFT_CLICK:
+  case ((GameMessage::Type)23):
   
   {
    if (TheInGameUI->isQuitMenuVisible())
@@ -1407,7 +1511,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    if (TheInGameUI->isInPreferSelectionMode() && isPoint && areAllSelected(drawablesThatWillSelect))
    
    {
-    GameMessage *newMsg = TheMessageStream->appendMessage(GameMessage::MSG_REMOVE_FROM_SELECTED_GROUP);
+    GameMessage *newMsg = TheMessageStream->appendMessage(((GameMessage::Type)1005));
     Drawable *draw = NULL;
     DrawableListIt it;
     for (it = drawablesThatWillSelect.begin(); it != drawablesThatWillSelect.end(); ++it)
@@ -1442,7 +1546,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
      deselectAll();
      
     }
-    GameMessage *newMsg = TheMessageStream->appendMessage(GameMessage::MSG_CREATE_SELECTED_GROUP);
+    GameMessage *newMsg = TheMessageStream->appendMessage(((GameMessage::Type)1001));
     newMsg->appendBooleanArgument(!addToGroup);
     Player *localPlayer = ThePlayerList->getLocalPlayer();
     Int newDrawablesSelected = 0;
@@ -1613,7 +1717,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_RAW_MOUSE_LEFT_BUTTON_DOWN:
+  case ((GameMessage::Type)4):
   
   {
    m_leftMouseButtonIsDown = true;
@@ -1621,7 +1725,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_RAW_MOUSE_LEFT_BUTTON_UP:
+  case ((GameMessage::Type)6):
   
   {
    m_leftMouseButtonIsDown = FALSE;
@@ -1631,7 +1735,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
     TheTacticalView->setMouseLock( FALSE );
     TheInGameUI->setSelecting( FALSE );
     TheInGameUI->endAreaSelectHint(NULL);
-    GameMessage *dragMsg = TheMessageStream->appendMessage( GameMessage::MSG_AREA_SELECTION );
+    GameMessage *dragMsg = TheMessageStream->appendMessage( ((GameMessage::Type)1060) );
     IRegion2D selectionRegion;
     buildRegion( &m_selectFeedbackAnchor, &msg->getArgument(0)->pixel, &selectionRegion );
     dragMsg->appendPixelRegionArgument( selectionRegion );
@@ -1667,7 +1771,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_RAW_MOUSE_RIGHT_BUTTON_DOWN:
+  case ((GameMessage::Type)14):
   
   {
    m_deselectFeedbackAnchor = msg->getArgument( 0 )->pixel;
@@ -1676,7 +1780,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_RAW_MOUSE_RIGHT_BUTTON_UP:
+  case ((GameMessage::Type)16):
   
   {
    ICoord2D delta, pixel;
@@ -1738,24 +1842,24 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_META_CREATE_TEAM0:
-  case GameMessage::MSG_META_CREATE_TEAM1:
-  case GameMessage::MSG_META_CREATE_TEAM2:
-  case GameMessage::MSG_META_CREATE_TEAM3:
-  case GameMessage::MSG_META_CREATE_TEAM4:
-  case GameMessage::MSG_META_CREATE_TEAM5:
-  case GameMessage::MSG_META_CREATE_TEAM6:
-  case GameMessage::MSG_META_CREATE_TEAM7:
-  case GameMessage::MSG_META_CREATE_TEAM8:
-  case GameMessage::MSG_META_CREATE_TEAM9:
+  case ((GameMessage::Type)52):
+  case ((GameMessage::Type)53):
+  case ((GameMessage::Type)54):
+  case ((GameMessage::Type)55):
+  case ((GameMessage::Type)56):
+  case ((GameMessage::Type)57):
+  case ((GameMessage::Type)58):
+  case ((GameMessage::Type)59):
+  case ((GameMessage::Type)60):
+  case ((GameMessage::Type)61):
   
   {
-   Int group = t - GameMessage::MSG_META_CREATE_TEAM0;
+   Int group = t - ((GameMessage::Type)52);
    if ( group >= 0 && group < 10 )
    
    {
     DEBUG_LOG(("META: create team %d\n",group));
-    GameMessage *newmsg = TheMessageStream->appendMessage((GameMessage::Type)(GameMessage::MSG_CREATE_TEAM0 + group));
+    GameMessage *newmsg = TheMessageStream->appendMessage((GameMessage::Type)(((GameMessage::Type)1006) + group));
     Drawable *drawable = TheGameClient->getDrawableList();
     while (drawable != NULL)
     
@@ -1775,19 +1879,19 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_META_SELECT_TEAM0:
-  case GameMessage::MSG_META_SELECT_TEAM1:
-  case GameMessage::MSG_META_SELECT_TEAM2:
-  case GameMessage::MSG_META_SELECT_TEAM3:
-  case GameMessage::MSG_META_SELECT_TEAM4:
-  case GameMessage::MSG_META_SELECT_TEAM5:
-  case GameMessage::MSG_META_SELECT_TEAM6:
-  case GameMessage::MSG_META_SELECT_TEAM7:
-  case GameMessage::MSG_META_SELECT_TEAM8:
-  case GameMessage::MSG_META_SELECT_TEAM9:
+  case ((GameMessage::Type)62):
+  case ((GameMessage::Type)63):
+  case ((GameMessage::Type)64):
+  case ((GameMessage::Type)65):
+  case ((GameMessage::Type)66):
+  case ((GameMessage::Type)67):
+  case ((GameMessage::Type)68):
+  case ((GameMessage::Type)69):
+  case ((GameMessage::Type)70):
+  case ((GameMessage::Type)71):
   
   {
-   Int group = t - GameMessage::MSG_META_SELECT_TEAM0;
+   Int group = t - ((GameMessage::Type)62);
    if ( group >= 0 && group < 10 )
    
    {
@@ -1830,7 +1934,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
     {
      TheInGameUI->deselectAllDrawables( false );
 //No need to post message because we're just creating a new group!
-     TheMessageStream->appendMessage((GameMessage::Type)(GameMessage::MSG_SELECT_TEAM0 + group));
+     TheMessageStream->appendMessage((GameMessage::Type)(((GameMessage::Type)1016) + group));
      Player *player = ThePlayerList->getLocalPlayer();
      if (player)
      
@@ -1866,19 +1970,19 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_META_ADD_TEAM0:
-  case GameMessage::MSG_META_ADD_TEAM1:
-  case GameMessage::MSG_META_ADD_TEAM2:
-  case GameMessage::MSG_META_ADD_TEAM3:
-  case GameMessage::MSG_META_ADD_TEAM4:
-  case GameMessage::MSG_META_ADD_TEAM5:
-  case GameMessage::MSG_META_ADD_TEAM6:
-  case GameMessage::MSG_META_ADD_TEAM7:
-  case GameMessage::MSG_META_ADD_TEAM8:
-  case GameMessage::MSG_META_ADD_TEAM9:
+  case ((GameMessage::Type)72):
+  case ((GameMessage::Type)73):
+  case ((GameMessage::Type)74):
+  case ((GameMessage::Type)75):
+  case ((GameMessage::Type)76):
+  case ((GameMessage::Type)77):
+  case ((GameMessage::Type)78):
+  case ((GameMessage::Type)79):
+  case ((GameMessage::Type)80):
+  case ((GameMessage::Type)81):
   
   {
-   Int group = t - GameMessage::MSG_META_ADD_TEAM0;
+   Int group = t - ((GameMessage::Type)72);
    if ( group >= 0 && group < 10 )
    
    {
@@ -1926,7 +2030,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
       TheInGameUI->deselectAllDrawables();
       
      }
-     TheMessageStream->appendMessage((GameMessage::Type)(GameMessage::MSG_ADD_TEAM0 + group));
+     TheMessageStream->appendMessage((GameMessage::Type)(((GameMessage::Type)1026) + group));
      Player *player = ThePlayerList->getLocalPlayer();
      if (player)
      
@@ -1957,19 +2061,19 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_META_VIEW_TEAM0:
-  case GameMessage::MSG_META_VIEW_TEAM1:
-  case GameMessage::MSG_META_VIEW_TEAM2:
-  case GameMessage::MSG_META_VIEW_TEAM3:
-  case GameMessage::MSG_META_VIEW_TEAM4:
-  case GameMessage::MSG_META_VIEW_TEAM5:
-  case GameMessage::MSG_META_VIEW_TEAM6:
-  case GameMessage::MSG_META_VIEW_TEAM7:
-  case GameMessage::MSG_META_VIEW_TEAM8:
-  case GameMessage::MSG_META_VIEW_TEAM9:
+  case ((GameMessage::Type)82):
+  case ((GameMessage::Type)83):
+  case ((GameMessage::Type)84):
+  case ((GameMessage::Type)85):
+  case ((GameMessage::Type)86):
+  case ((GameMessage::Type)87):
+  case ((GameMessage::Type)88):
+  case ((GameMessage::Type)89):
+  case ((GameMessage::Type)90):
+  case ((GameMessage::Type)91):
   
   {
-   Int group = t - GameMessage::MSG_META_VIEW_TEAM0;
+   Int group = t - ((GameMessage::Type)82);
    if ( group >= 1 && group <= 10 )
    
    {
@@ -2000,7 +2104,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
    break;
    
   }
-  case GameMessage::MSG_META_OPTIONS:
+  case ((GameMessage::Type)112):
   
   {
    m_leftMouseButtonIsDown = FALSE;
