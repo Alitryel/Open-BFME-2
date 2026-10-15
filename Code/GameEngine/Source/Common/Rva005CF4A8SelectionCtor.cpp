@@ -1,8 +1,10 @@
-// ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
-// partial score=0.9 date=2026-10-15
-// cl: /O1 /G7 /arch:SSE /Oy- /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /Oy- /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include
 // stlport
+// ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z, retail 0x005CF4A8, 525 bytes: selection-command constructor.
+// Codegen levers: the building lookup is an equal-arm conditional on the iterator (it ? call : call), which
+// keeps the iterator in ebx ahead of the slot counter and fixes the frame slot order; /Oy- frame.
 #include <vector>
+#include "Lib/ICoord3DCtorView.h"
 //
 // Wave-3 F78 shape family: throwing-new plus final. Each body allocates its
 // POD helper with operator new, constructs it in place with (member, arg)
@@ -29,27 +31,6 @@ struct Rva005CF22CBig
 	Rva00575674Sub m_sub;
 };
 
-class Rva005CF07EHelper
-{
-public:
-	Rva005CF07EHelper(Rva005CF22CBig *b, int x);
-	unsigned char m_data[0x14];
-};
-
-class Rva005CF22COwner
-{
-public:
-	void rva005CF22C(int x);
-private:
-	unsigned char m_pad00[0xC];
-	Rva005CF22CBig *m_a;
-};
-
-void Rva005CF22COwner::rva005CF22C(int x)
-{
-	Rva005CF07EHelper *h = new Rva005CF07EHelper(m_a, x);
-	m_a->m_sub.rva00575674(h);
-}
 
 struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
@@ -108,61 +89,6 @@ public:
     Rva00575E4EBase2() {}
     virtual ~Rva00575E4EBase2() {}
 };
-class Rva005CF37DHelper : public Rva005CE8F5, public Rva00575E4EBase2
-{
-public:
-    Rva005CF37DHelper(Rva005CF22CBig *b, int x);
-    virtual ~Rva005CF37DHelper();
-private:
-    int m_army;
-};
-
-// Native boundary 5CF37D..5CF4A8, RET8. Existing allocating caller5CF6B5
-// proves this constructor and its16B allocation. Primary/secondary vptrs at
-// +0/+8; owner+4 and army+0C; WB is an unnamed StrategicInGameUI lead.
-Rva005CF37DHelper::Rva005CF37DHelper(Rva005CF22CBig *b, int x)
-    : Rva005CE8F5(b), m_army(x)
-{
-    ((Rva00319B0AOwner *)m_army)->rva00319B0A();
-    void *view = m_owner->m_view10;
-    Rva005CF37DPortrait *portrait = (Rva005CF37DPortrait *)
-        ((Rva0042D703PtrChaseField *)view)->get();
-    if (portrait) {
-        portrait->setImage(Rva005D2355Get((Rva005D2355In *)m_army));
-        { int army = m_army; Rva005773DB ref(&army); portrait->setArmy(ref); }
-        portrait->setCounts(((Rva00318FBE *)m_army)->rva00318FBE(),
-                            GetMaxCommandPoints((void *)m_army));
-        portrait->refresh();
-    }
-    Rva005CF37DCommandUI *commands = (Rva005CF37DCommandUI *)
-        ((Rva0042D69DPtrChaseField *)view)->get();
-    if (commands) {
-        int button = ((Rva0042D6B4PtrChaseField *)view)->get();
-        if (button) {
-            int army = m_army;
-            Rva005CEA74::Payload payload = { button, army };
-            commands->createButton(1, Rva005CEC5DCreate(&payload));
-        }
-    }
-    ((Rva005A0B4CList *)((char *)m_army + 8))->append(
-        (Rva002BA8F1Listener *)static_cast<Rva00575E4EBase2 *>(this));
-}
-
-class Rva005CF6B5Owner
-{
-public:
-	void rva005CF6B5(int x);
-private:
-	unsigned char m_pad00[0xC];
-	Rva005CF22CBig *m_a;
-};
-
-void Rva005CF6B5Owner::rva005CF6B5(int x)
-{
-	Rva005CF37DHelper *h = new Rva005CF37DHelper(m_a, x);
-	m_a->m_sub.rva00575674(h);
-}
-
 
 class Rva004FC275 {public:void rva004FC299();};
 struct Rva005D23BBSelection;
@@ -186,7 +112,7 @@ struct LivingWorldPlayerKeyView {char gap[0x40];int key;int getKey()const{return
 class Rva002E2903Player;
 class Rva002BA8F1Logic {public:Rva002E2903Player *find(int,unsigned*);};
 class Rva0042D6E6PtrChaseField {public:int get()const;};
-struct ICoord3D {ICoord3D(int,int,int);int x,y,z;};
+
 class Rva005CEAE6 {public:struct Payload{int v[3];};};
 class Rva005CEC8F {public:TargetRef00217D4C *pointer;
  ~Rva005CEC8F(){if(pointer)ReleaseTreeHintRef00217D4C(pointer);}
@@ -208,20 +134,6 @@ class Rva005CEF2F: public Rva005CE8F5,public Rva0023A128Link {
 public:Rva005CEF2F(Rva005CF22CBig*,int);virtual ~Rva005CEF2F();
  int selection;Rva005CEA51 secondary;
 };
-class Rva005CF703Owner
-{
-public:
-	void rva005CF703(int x);
-private:
-	unsigned char m_pad00[0xC];
-	Rva005CF22CBig *m_a;
-};
-
-void Rva005CF703Owner::rva005CF703(int x)
-{
-	Rva005CEF2F *h = new Rva005CEF2F(m_a, x);
-	m_a->m_sub.rva00575674(h);
-}
 
 Rva005CEF2F::Rva005CEF2F(Rva005CF22CBig*b,int value):Rva005CE8F5(b),selection(value) {
  ((Rva004FC275*)selection)->rva004FC299();
@@ -242,7 +154,7 @@ Rva005CEF2F::Rva005CEF2F(Rva005CF22CBig*b,int value):Rva005CE8F5(b),selection(va
    int slot=1;
    _STL::vector<ScienceType>::iterator end=keys.end();
    for(_STL::vector<ScienceType>::iterator it=keys.begin();it!=end;++it){
-    ArmorTemplate *building=((Rva002B6498*)TheLivingWorldBuildingTemplateStore)->rva002B6498((NameKeyType)*it);
+    ArmorTemplate *building=(it)?((Rva002B6498*)TheLivingWorldBuildingTemplateStore)->rva002B6498((NameKeyType)*it):((Rva002B6498*)TheLivingWorldBuildingTemplateStore)->rva002B6498((NameKeyType)*it);
     if(building){
      commands->createButton(slot,(const RvaCloneResult<Rva005CEA74>&)Rva005CEC8FCreate((const Rva005CEAE6::Payload*)&ICoord3D(button,selection,(int)building)));
      if(++slot>=6)break;
