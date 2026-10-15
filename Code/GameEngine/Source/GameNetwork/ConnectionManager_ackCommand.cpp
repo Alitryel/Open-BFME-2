@@ -1,10 +1,7 @@
-// ?ackCommand@ConnectionManager@@AAEXPAVNetCommandRef@@PBUBfmeNetAddress@@@Z
-// partial score=0.992141 date=2026-10-15
-// ?ackCommand@ConnectionManager@@AAEXPAVNetCommandRef@@PBUBfmeNetAddress@@@Z
-// partial score=0.98 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
-// ConnectionManager::ackCommand, retail 0x004D2F04's sibling 0x004CF40E,
-// 362 bytes.
+// ?ackCommand@ConnectionManager@@AAEXPAVNetCommandRef@@PBUBfmeNetAddress@@@Z @0x004CF40E 362B
+// ConnectionManager::ackCommand (WB 0x0138BDA0, ConnectionManager.cpp
+// 1605..1610), retail 0x004CF40E..0x004CF578.
 //
 // Reference: Zero Hour ConnectionManager::ackCommand. The relay mask over
 // the live connections picks an ack-both or ack-stage-1 reply, stamped with
@@ -85,6 +82,9 @@ private:
 };
 
 Bool CommandRequiresDirectSend(NetCommandMsg *msg);
+// The WB twin copies the connection's address (both words loaded, then
+// stored) before comparing it with the source: a by-value address operand.
+inline bool SameAddress(BfmeNetAddress a, const BfmeNetAddress *b) { return a.Rva00248CBF(b); }
 
 class NetCommandRef
 {
@@ -103,8 +103,9 @@ class Connection
 {
 public:
 	void sendNetCommandMsg(NetCommandMsg *msg, UnsignedByte relay);
-	Bool isQuitting() const { return m_quitFrame != -1; }
 	BfmeNetAddress getAddress() const { return m_address; }
+	// WB compares the +0 quit frame with -1 directly (no bool temporary).
+	Int getQuitFrame() const { return m_quitFrame; }
 
 private:
 	Int m_quitFrame;
@@ -129,12 +130,11 @@ void ConnectionManager::ackCommand(NetCommandRef *ref, const BfmeNetAddress *sou
 {
 	NetCommandMsg *msg = ref->getCommand();
 	NetCommandMsg *ackmsg;
-	BfmeNetAddress address;
 	UnsignedByte sendRelay = 0;
 
 	for (Int i = 0; i < MAX_SLOTS; ++i)
 	{
-		if ((msg ? m_connections[i] : m_connections[i]) != 0 && m_connections[i]->isQuitting() == false)
+		if (m_connections[i] != 0 && m_connections[i]->getQuitFrame() == -1)
 			sendRelay = sendRelay | (1 << i);
 	}
 
@@ -157,8 +157,7 @@ void ConnectionManager::ackCommand(NetCommandRef *ref, const BfmeNetAddress *sou
 		{
 			if (m_connections[i] != 0 && source != 0)
 			{
-				address = m_connections[i]->getAddress();
-				if (address.Rva00248CBF(source))
+				if (SameAddress(m_connections[i]->getAddress(), source))
 				{
 					m_connections[i]->sendNetCommandMsg(ackmsg, 1 << i);
 					return;
