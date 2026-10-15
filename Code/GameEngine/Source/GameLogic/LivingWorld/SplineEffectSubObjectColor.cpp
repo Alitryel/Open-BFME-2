@@ -59,6 +59,8 @@ class Rva00064390 {public:
     float x,y,z,w,control0,control1;
     unsigned frame;
 };
+struct Rva005042F2Key;
+class Rva005042F2 {public: bool rva005042F2(unsigned,Rva005042F2Key *);};
 class Rva00064880Tree {public:
     bool atEnd(unsigned);
     bool rva005042F2(unsigned,Rva00064390 *);
@@ -113,7 +115,7 @@ void SplineEffect::Execute()
     else
     {
         Rva00064390 point;
-        curve.rva005042F2(++frame,&point);
+        reinterpret_cast<Rva005042F2 *>(&curve)->rva005042F2(++frame,reinterpret_cast<Rva005042F2Key *>(&point));
         Rva002BE7DBValue scale;
         reinterpret_cast<Rva002BE7DB *>(&point)->rva002BE7DB(scale);
         for(unsigned i=0;i<geometry.size();++i)
