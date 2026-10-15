@@ -1,4 +1,4 @@
-// cl: /MD /GX /DNDEBUG /Oy-
+// cl: /MD /GX /DNDEBUG
 //
 // ??0AODCrushCollideModuleData@@QAE@XZ, retail 0x004BBF89 (115 bytes).
 // Standalone Collide-side ModuleData for the Army-of-the-Dead crush: nulls
