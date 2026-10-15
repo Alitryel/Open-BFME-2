@@ -167,13 +167,14 @@ def main():
                     "only scaffolding may be taken over by name")
             retire[(at[0]["name"], at[0]["rva"])] = at[0]
         if by_name.get(name):
-            live = [r for r in by_name[name] if (r["name"], r["rva"]) not in retire]
+            live = [r for r in by_name[name] if (r["name"], r["rva"]) not in retire
+                    and ledger_io.same_function_name(r, c)]
             if live:
                 where = ", ".join(f"0x{r['rva']:08X} ({r['source']})" for r in live)
                 add_match.fail(f"line {c['line']}: {name} is already in the ledger at {where}",
                                "one name = one address")
         for other in accepted:
-            if other["name"] == name:
+            if ledger_io.same_function_name(other, c):
                 add_match.fail(f"line {c['line']}: {name} is claimed twice IN THIS BATCH "
                                f"(also line {other['line']})")
             if other["rva"] < end and rva < other["rva"] + other["size"]:

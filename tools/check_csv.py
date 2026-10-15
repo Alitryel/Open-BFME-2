@@ -253,10 +253,14 @@ def check_functions(raw, problems, sources_ok, deleted_raw=None):
             # folded to one address in retail; each byte-verifies independently.
         by_rva.setdefault(rva, (name, size, gen_row))
 
-        if name in by_name and by_name[name] != rva and name not in ALLOWED_DUP_NAMES:
-            problems.append(f"functions.csv: {name} claims two addresses: "
-                            f"0x{by_name[name]:08X} and 0x{rva:08X}. One is wrong.")
-        by_name.setdefault(name, rva)
+        identity = {"name": name, "source": source, "notes": _notes}
+        previous = by_name.setdefault(name, [])
+        for old_rva, old_identity in previous:
+            if old_rva != rva and name not in ALLOWED_DUP_NAMES \
+                    and ledger_io.same_function_name(identity, old_identity):
+                problems.append(f"functions.csv: {name} claims two addresses: "
+                                f"0x{old_rva:08X} and 0x{rva:08X}. One is wrong.")
+        previous.append((rva, identity))
 
         if status == "matched":
             matched_ranges.append((rva, rva + size, name))

@@ -370,7 +370,8 @@ def main():
     eol = ledger_io.lf_terminator(raw, "functions.csv")
 
     rows = parse_ledger(raw)
-    claims = [row for row in rows if row["name"] == name]
+    identity = {"name": name, "source": source_rel, "notes": args.notes}
+    claims = [row for row in rows if ledger_io.same_function_name(row, identity)]
     replaced = None
     if args.replace_rva:
         if args.replace_existing:

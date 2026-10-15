@@ -17,6 +17,7 @@ import time
 from pathlib import Path
 
 import flag_defaults
+import ledger_io
 import stlport_folds
 from coffar import RELOC_WIDTH, read_archive
 from gen_case_shims import ensure_case_shims
@@ -1791,6 +1792,10 @@ def load_symbol_map():
     thunks = build_call_thunks()
     symbol_map = {}
     for row in load_all_function_rows():
+        # Compiler-local ordinals cannot resolve a call from another TU.
+        # Their EH references are resolved through the owning object's graph.
+        if re.fullmatch(r"\$L\d+", row["name"]):
+            continue
         # An alias row that is not in the reviewed register is no evidence for
         # its name: admitting it made "rename a row via object-symbol=" a way
         # to resolve any caller's wrong callee (tools/pin_admission.py).
@@ -1811,6 +1816,8 @@ def load_symbol_map():
             for row in csv.DictReader(handle):
                 address = int(row["address"], 16)
                 name = row["name"]
+                if re.fullmatch(r"\$L\d+", name):
+                    continue
                 candidates = symbol_map.setdefault(name, [])
                 seen = members.get(name)
                 if seen is None:
@@ -2227,6 +2234,33 @@ def funclet_parent_rows(path, mtime, size):
     return found
 
 
+@functools.lru_cache(maxsize=2)
+def local_funclet_sources(path, mtime, size):
+    """Names whose independent TUs need EH ownership to disambiguate them."""
+    found = {}
+    with Path(path).open(newline="", encoding="utf-8") as handle:
+        for row in csv.DictReader(handle):
+            if ledger_io.local_funclet(row):
+                found.setdefault(row["name"], set()).add(row["source"].replace("\\", "/"))
+    return found
+
+
+def scoped_funclet_collision(row):
+    """Require graph proof when admitting a repeated raw label across TUs.
+
+    Existing singleton labels keep their existing verifier path. They are not
+    evidence for a second TU's label without both exact parent graphs.
+    """
+    if not ledger_io.local_funclet(row):
+        return False
+    ledger = ROOT / "reverse" / "functions.csv"
+    if not ledger.is_file():
+        return True
+    stat = ledger.stat()
+    return len(local_funclet_sources(str(ledger), stat.st_mtime_ns,
+                                    stat.st_size).get(row["name"], set())) > 1
+
+
 @functools.lru_cache(maxsize=1)
 def funclet_retail_image():
     import eh_verify
@@ -2276,6 +2310,11 @@ def located_funclet(row, output, target):
     if not ledger.is_file():
         return None
     ledger_stat = ledger.stat()
+    if scoped_funclet_collision(row):
+        parents = funclet_parent_rows(str(ledger), ledger_stat.st_mtime_ns,
+                                     ledger_stat.st_size).get(parent.group(1), [])
+        if len(parents) != 1 or parents[0]["source"] != row["source"]:
+            return None
     pins = ROOT / "reverse" / "symbols.csv"
     pin_stat = pins.stat() if pins.is_file() else None
     locations = funclet_eh_locations(str(output), stat.st_mtime_ns, stat.st_size,
@@ -2303,11 +2342,19 @@ def read_funclet(row, object_symbol, output, target):
     """
     located = located_funclet(row, output, target)
     if located is not None:
+        if scoped_funclet_collision(row):
+            stat = output.stat()
+            _, _, symbols = _object_layout(str(output), stat.st_mtime_ns, stat.st_size)
+            labels = [symbol for symbol in symbols if symbol["name"] == located]
+            if len(labels) != 1 or labels[0].get("storage") != 3:
+                raise SystemExit(f"{row['name']} ({row['source']}): scoped funclet is not a local COFF label")
         compiled, relocs = read_object_symbol_bytes(output, located, len(target), code_only=True)
         note = None if located == object_symbol else (
             f"{object_symbol} was renumbered; verified parent EH data places {located} "
             f"at {row['target_rva']}")
         return compiled, relocs, note
+    if scoped_funclet_collision(row):
+        raise SystemExit(f"{row['name']} ({row['source']}): scoped funclet lacks an exact same-source parent EH location")
     try:
         compiled, relocs = read_object_symbol_bytes(output, object_symbol, len(target), code_only=True)
     except ValueError as missing:

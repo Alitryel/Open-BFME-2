@@ -12,6 +12,32 @@ import re
 TERM = re.compile(rb"\r*\n")
 
 
+def local_funclet(row):
+    """A raw compiler label with explicit parent ownership, never an alias.
+
+    This identifies a ledger namespace only. The byte gate must establish the
+    label's local COFF storage and its exact parent EH location independently.
+    """
+    source = row.get("source", "").replace("\\", "/")
+    tokens = [token.strip() for token in row.get("notes", "").split(";")]
+    parents = [token[7:] for token in tokens if token.startswith("parent=")]
+    return bool(re.fullmatch(r"\$L\d+", row.get("name", ""))
+                and source.startswith("Code/") and source.endswith(".cpp")
+                and not source.startswith(("Code/gen_asm/", "Code/gen_small/"))
+                and "gen-funclet" in tokens
+                and len(parents) == 1 and parents[0]
+                and not any(token.startswith("object-symbol=") for token in tokens))
+
+
+def same_function_name(left, right):
+    """External names are global; proven compiler labels belong to one TU."""
+    if left["name"] != right["name"]:
+        return False
+    if local_funclet(left) and local_funclet(right):
+        return left["source"].replace("\\", "/") == right["source"].replace("\\", "/")
+    return True
+
+
 def split_records(raw):
     """[(payload_bytes, terminator_bytes)] over the whole file, order preserved."""
     out, pos = [], 0

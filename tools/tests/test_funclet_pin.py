@@ -275,3 +275,52 @@ def test_masked_parent_cannot_supply_eh_identity(monkeypatch):
     monkeypatch.setattr(build, "compile_function", lambda *_: {
         "bytes": b"\xc3", "target": b"\xc3", "unresolved": [], "masked": True})
     assert build.funclet_eh_locations("masked-parent.obj", 1, 1, PARENT, "ledger", 1, 1, "pins", 1, 1) == {}
+
+
+def local_row():
+    row = make_row("$L47551")
+    row["name"] = "$L47551"
+    row["notes"] = f"gen-funclet;parent={PARENT}"
+    return row
+
+
+def test_bare_local_label_requires_parent_proof_even_when_bytes_match(tmp_path, monkeypatch):
+    obj = write_object(tmp_path / "unowned-local.obj", {"$L47551": BIT0})
+    monkeypatch.setattr(build, "located_funclet", lambda *_: None)
+    monkeypatch.setattr(build, "scoped_funclet_collision", lambda *_: True)
+    with pytest.raises(SystemExit, match="exact same-source parent EH location"):
+        build.compile_function(local_row(), {}, obj)
+
+
+@pytest.mark.parametrize("storage", [2, 3])
+def test_bare_label_requires_local_coff_storage(tmp_path, monkeypatch, storage):
+    obj = write_object(tmp_path / "storage.obj", {"$L47551": BIT0})
+    monkeypatch.setattr(build, "located_funclet", lambda *_: "$L47551")
+    monkeypatch.setattr(build, "scoped_funclet_collision", lambda *_: True)
+    original = build._object_layout
+    def layout(*args):
+        data, sections, symbols = original(*args)
+        return data, sections, [dict(symbol, storage=storage) if symbol["name"] == "$L47551"
+                                else symbol for symbol in symbols]
+    monkeypatch.setattr(build, "_object_layout", layout)
+    if storage == 2:
+        with pytest.raises(SystemExit, match="not a local COFF label"):
+            build.compile_function(local_row(), {}, obj)
+    else:
+        patch = build.compile_function(local_row(), {}, obj)
+        assert patch["bytes"] == patch["target"]
+
+
+def test_bare_label_cannot_borrow_another_sources_parent(tmp_path, monkeypatch):
+    obj = write_object(tmp_path / "foreign-parent.obj", {"$L47551": BIT0})
+    (tmp_path / "reverse").mkdir()
+    (tmp_path / "reverse/functions.csv").write_text("fixture\n")
+    monkeypatch.setattr(build, "ROOT", tmp_path)
+    monkeypatch.setattr(build, "scoped_funclet_collision", lambda *_: True)
+    monkeypatch.setattr(build, "funclet_parent_rows", lambda *_: {PARENT: [
+        {"source": "Code/foreign.cpp", "name": PARENT}]})
+    def forbidden(*_):
+        raise AssertionError("foreign parent reached EH identity resolver")
+    monkeypatch.setattr(build, "funclet_eh_locations", forbidden)
+    with pytest.raises(SystemExit, match="exact same-source parent EH location"):
+        build.compile_function(local_row(), {}, obj)
