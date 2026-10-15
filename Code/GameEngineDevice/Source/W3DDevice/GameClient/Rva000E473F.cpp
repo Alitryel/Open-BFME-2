@@ -2,6 +2,7 @@
 // stlport
 #define _STLP_USE_STATIC_LIB 1
 #include <list>
+#include <vector>
 #include "W3DFloorElement.h"
 // Use the same direct node comparison as the canonical list<int> provider;
 // keep its unused iterator-base wrapper out of this object's definitions.
@@ -240,8 +241,241 @@ public:
 class Rva000E5EC1;
 class Rva000E5F60 { public: Rva000E5EC1 *rva000E5F60(int, AsciiString); };
 class Rva000E440D { public: bool rva000E440D(); };
-class Rva000E459F { public: void rva000E46DA(Drawable *, const AsciiString &, const AsciiString &, bool, bool); };
+class Rva000E459F { public: void rva000E46DA(Drawable *, const AsciiString &, const AsciiString &, bool, bool); bool rva000E459F(); };
 
+
+// drawFloors (0x000E5AAD) render-side views. The rendering-method handle is
+// the WW3D reference pointer (inline add/release through slot 0); the floor
+// texture handle at +0x14 is copied into each draw call by the rowed
+// AssetReference copy constructor 0x000424BB.
+class TextureClass
+{
+public:
+	void Release_Ref();	// 0x0061ED10
+};
+
+template <class T>
+class RefCountPtr
+{
+public:
+	RefCountPtr(const RefCountPtr &rhs) : Referent(rhs.Referent)
+	{
+		if (Referent)
+			Referent->Add_Ref();
+	}
+	~RefCountPtr(void)
+	{
+		if (Referent)
+			Referent->Release_Ref();
+	}
+	T *Peek(void) const { return Referent; }
+	T *operator->(void) const { return Referent; }
+
+private:
+	T *Referent;
+};
+// The texture handle wraps an AssetReference whose out-of-line copy
+// constructor is 0x000424BB; its inline copy gives retail's argument-copy
+// order (argument home stored before ECX takes the slot).
+class AssetReference
+{
+public:
+	AssetReference(const AssetReference &that);
+	void *m_object;
+};
+template <>
+class RefCountPtr<TextureClass>
+{
+public:
+	RefCountPtr(const RefCountPtr &rhs) : m_asset(rhs.m_asset) {}
+
+private:
+	AssetReference m_asset;
+};
+
+class RefCountClass
+{
+public:
+	virtual void Delete_This(void);
+	void Add_Ref(void) { NumRefs++; }
+	void Release_Ref(void) { NumRefs--; if (NumRefs == 0) Delete_This(); }
+
+protected:
+	int NumRefs;
+};
+
+namespace FXShader {
+class RenderingMethod : public RefCountClass
+{
+public:
+	virtual void slot1();
+	virtual bool Begin(int *passCount, int flags);	// slot 2
+	virtual void Begin_Pass(int pass);	// slot 3
+	virtual void slot4();
+	virtual void End_Pass(void);	// slot 5
+	virtual void End(void);	// slot 6
+};
+}
+
+typedef _STL::vector<RefCountPtr<FXShader::RenderingMethod>, _STL::allocator<RefCountPtr<FXShader::RenderingMethod> > > RenderingMethodStackType;
+
+class LightEnvironmentClass;
+
+class RenderInfoClass
+{
+public:
+	void Push_Rendering_Method(RefCountPtr<FXShader::RenderingMethod> method);
+	void Pop_Rendering_Method(void);
+	const RenderingMethodStackType &Get_Rendering_Method_Stack(void) const;
+
+	char _bfme_unk_00[0x28];
+	LightEnvironmentClass *light_environment;	// +0x28
+};
+
+// Rendering-method stack walkers (element array, count): rows Rva001688FFShift
+// 0x001688FF and Rva00168952Clear 0x00168952 (RenderingMethodLinkArray.cpp).
+class Rva001688FFElement;
+void Rva001688FFShift(Rva001688FFElement **items, int count);
+void Rva00168952Clear(Rva001688FFElement **items, int count);
+
+class StringClass
+{
+public:
+	StringClass(int initial_len = 0, bool hint_temporary = false);
+	__forceinline ~StringClass() { Free_String(); }
+private:
+	void Free_String();
+	char *m_Buffer;
+};
+
+class ShaderClass
+{
+	friend class DX8Wrapper;
+public:
+	static ShaderClass _PresetOpaque2DShader;
+	unsigned int ShaderBits;
+protected:
+	static bool ShaderDirty;
+};
+
+struct BFME2TextureResource;
+struct BFME2TextureRef
+{
+	BFME2TextureRef(BFME2TextureResource *texture) : Ptr(texture) {}
+	~BFME2TextureRef()
+	{
+		if (Ptr)
+			((TextureBaseClass *)Ptr)->Release_Ref();
+	}
+	BFME2TextureResource *Ptr;
+};
+void BFME2Set_Texture(unsigned stage, const BFME2TextureRef &texture);
+
+#define PAD_STDCALL10(p) \
+	virtual void __stdcall p##0() = 0; virtual void __stdcall p##1() = 0; virtual void __stdcall p##2() = 0; \
+	virtual void __stdcall p##3() = 0; virtual void __stdcall p##4() = 0; virtual void __stdcall p##5() = 0; \
+	virtual void __stdcall p##6() = 0; virtual void __stdcall p##7() = 0; virtual void __stdcall p##8() = 0; \
+	virtual void __stdcall p##9() = 0;
+
+struct IDirect3DDevice8
+{
+	PAD_STDCALL10(d0) PAD_STDCALL10(d1) PAD_STDCALL10(d2) PAD_STDCALL10(d3) PAD_STDCALL10(d4)
+	PAD_STDCALL10(d5) PAD_STDCALL10(d6) PAD_STDCALL10(d7) PAD_STDCALL10(d8)
+	virtual void __stdcall d90() = 0; virtual void __stdcall d91() = 0;
+	virtual long __stdcall SetVertexShader(void *shader) = 0;	// slot 92
+	PAD_STDCALL10(e0)
+	virtual void __stdcall f103() = 0; virtual void __stdcall f104() = 0;
+	virtual void __stdcall f105() = 0; virtual void __stdcall f106() = 0;
+	virtual long __stdcall SetPixelShader(void *shader) = 0;	// slot 107
+};
+
+extern unsigned number_of_DX8_calls;
+
+struct RenderStateStruct
+{
+	ShaderClass shader;
+};
+
+class VertexBufferClass;
+class IndexBufferClass;
+class DX8Wrapper
+{
+public:
+	static void Set_Index_Buffer(const IndexBufferClass *ib, unsigned short index_base_offset);
+	static void Set_Vertex_Buffer(const VertexBufferClass *vb, unsigned stream);
+	static void Set_Light_Environment(LightEnvironmentClass *light_env);
+	static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
+
+	static __forceinline void Set_Shader(const ShaderClass &shader)
+	{
+		if (!ShaderClass::ShaderDirty && shader.ShaderBits == render_state.shader.ShaderBits)
+			return;
+		render_state.shader.ShaderBits = shader.ShaderBits;
+		render_state_changed |= 0x8000;
+		StringClass str;
+	}
+	static __forceinline void Set_Vertex_Shader(void *shader)
+	{
+		_Get_D3D_Device8()->SetVertexShader(shader);
+		number_of_DX8_calls++;
+	}
+	static __forceinline void Set_Pixel_Shader(void *shader)
+	{
+		_Get_D3D_Device8()->SetPixelShader(shader);
+		number_of_DX8_calls++;
+	}
+
+protected:
+	static IDirect3DDevice8 *D3DDevice;
+	static unsigned int render_state_changed;
+	static RenderStateStruct render_state;
+};
+
+// g_00DEBC60, the road/terrain shader interface (Rva000E19A3Dtor.cpp).
+class Rva000E19A3Interface
+{
+public:
+	virtual void setRenderingMode(int mode) = 0;
+	virtual void setBaseTexture(RefCountPtr<TextureClass> texture) = 0;
+	virtual void setNormalTexture(RefCountPtr<TextureClass> texture) = 0;
+	virtual void clearTextures() = 0;
+};
+extern Rva000E19A3Interface *g_00DEBC60;
+
+// TheTerrainRenderObject's slot 18 returns a state whose +0x14 mode 1 makes
+// the floors draw untextured.
+struct BfmeTerrainRenderState { char m_pad[0x14]; int m_mode; };
+class BaseHeightMapRenderObjClass;
+extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
+class BfmeTerrainRenderView
+{
+public:
+	virtual void s0(); virtual void s1(); virtual void s2(); virtual void s3();
+	virtual void s4(); virtual void s5(); virtual void s6(); virtual void s7();
+	virtual void s8(); virtual void s9(); virtual void s10(); virtual void s11();
+	virtual void s12(); virtual void s13(); virtual void s14(); virtual void s15();
+	virtual void s16(); virtual void s17();
+	virtual BfmeTerrainRenderState *getRenderState();	// slot 18
+};
+
+class Rva000E48BC { public: int rva000E49B8(int); };
+class Rva000E58BE { public: void rva000E58BE(); };
+class Rva000E44BE { public: void rva000E44BE(FXShader::RenderingMethod *, RefCountPtr<TextureClass>); };
+class PlayerList;
+extern PlayerList *ThePlayerList;
+class PartitionManager;
+extern PartitionManager *TheShroudManager;
+struct FloorPlayerView { char pad[0x54]; int index; };
+// The floor element's shroud status (+0x94), set through its inline
+// accessor as the retail register choice in both shroud branches shows.
+struct FloorShroudView
+{
+	char m_pad[0x94];
+	int m_shroudStatus;
+	int getShroudStatus() const { return m_shroudStatus; }
+	void setShroudStatus(int status) { m_shroudStatus = status; }
+};
+struct FloorPlayerListView { char pad[0x10]; FloorPlayerView *local; };
 
 class W3DFloorBuffer
 {
@@ -251,6 +485,7 @@ public:
 	void rva000E598B();
 	void DoXfer(Xfer *xfer);
 	Gen_uw_000e5033 *addFloor(int id, AsciiString *name, AsciiString *second, bool front, bool flag);
+	void drawFloors(RenderInfoClass &rinfo, RefCountPtr<FXShader::RenderingMethod> method);
 
 private:
 	char m_pad00[4];
@@ -387,4 +622,99 @@ void W3DFloorBuffer::DoXfer(Xfer *xfer)
         for (_STL::list<Gen_uw_000e5033 *>::iterator it=m_floors.begin(); it._M_node != m_floors.end()._M_node; ++it)
             reinterpret_cast<Rva000E5725 *>(*it)->rva000E5725(xfer);
     }
+}
+
+// WB8848E0 names drawFloors; native E5AAD..E5EBF is the complete 1044-byte
+// RET8 body. It first drops floors whose element reports done (E440D),
+// refreshes each floor's shroud state for the local player (E49B8) and the
+// dirty flag, rebuilds the buffers (E58BE) when dirty, then draws every
+// visible floor either untextured (terrain render mode 1) or through each
+// pass of the rendering-method stack, as the matched W3DRoadBuffer path does.
+// Removal/shroud loop shape carried from Open-BFME-1 a7c38d3b
+// FloorBuffer006F9380Draw.cpp (donor semantics); offsets, callees and the
+// render path are target facts from the native body and WB.
+void W3DFloorBuffer::drawFloors(RenderInfoClass &rinfo, RefCountPtr<FXShader::RenderingMethod> method)
+{
+	int player;
+	if (ThePlayerList)
+		player = reinterpret_cast<FloorPlayerListView *>(ThePlayerList)->local->index;
+	else
+		player = 0;
+	_STL::list<Gen_uw_000e5033 *>::iterator it = m_floors.begin();
+	for (; it != m_floors.end(); ++it) {
+		while (it != m_floors.end() && reinterpret_cast<Rva000E440D *>(*it)->rva000E440D()) {
+			_STL::list<Gen_uw_000e5033 *>::iterator next = it;
+			++next;
+			reinterpret_cast<Rva000E4567 *>(*it)->rva000E4567();
+			delete *it;
+			m_floors.erase(it);
+			m_numFloors = m_floors.size();
+			it = next;
+		}
+		if (it == m_floors.end())
+			break;
+		if (reinterpret_cast<Rva000E459F *>(*it)->rva000E459F())
+			m_ready22 = true;
+		if (ThePlayerList && TheShroudManager) {
+			int old = reinterpret_cast<FloorShroudView *>(*it)->getShroudStatus();
+			int current = reinterpret_cast<Rva000E48BC *>(*it)->rva000E49B8(player);
+			if (current != old) {
+				reinterpret_cast<FloorShroudView *>(*it)->setShroudStatus(current);
+				Gen_uw_000e5033 *floor = *it;
+				if (floor->m_state98 == 0) {
+					if (current == 1) { floor->m_state98 = 1; m_ready22 = true; }
+				} else if (floor->m_state98 == 1) {
+					if (current == 0) { floor->m_state98 = 2; m_ready22 = true; }
+				} else if (floor->m_state98 == 2) {
+					if (current == 1) { floor->m_state98 = 1; m_ready22 = true; }
+				}
+			}
+		} else {
+			reinterpret_cast<FloorShroudView *>(*it)->setShroudStatus(1);
+			(*it)->m_state98 = 1;
+			m_ready22 = true;
+		}
+	}
+	if (m_ready22) {
+		reinterpret_cast<Rva000E58BE *>(this)->rva000E58BE();
+		m_ready22 = false;
+	}
+	m_flag21 = false;
+	if (!m_10)
+		return;
+	DX8Wrapper::Set_Index_Buffer(reinterpret_cast<IndexBufferClass *>(m_ib), 0);
+	DX8Wrapper::Set_Vertex_Buffer(reinterpret_cast<VertexBufferClass *>(m_vb), 0);
+	DX8Wrapper::Set_Light_Environment(rinfo.light_environment);
+	if (TheTerrainRenderObject && reinterpret_cast<BfmeTerrainRenderView *>(TheTerrainRenderObject)->getRenderState()->m_mode == 1) {
+		BFME2Set_Texture(0, BFME2TextureRef(0));
+		DX8Wrapper::Set_Shader(ShaderClass::_PresetOpaque2DShader);
+		for (_STL::list<Gen_uw_000e5033 *>::iterator drawIt = m_floors.begin(); drawIt != m_floors.end(); ++drawIt)
+			if ((*drawIt)->m_active80 && (*drawIt)->m_state98 != 0 && !reinterpret_cast<Rva000E440D *>(*drawIt)->rva000E440D())
+				reinterpret_cast<Rva000E44BE *>(*drawIt)->rva000E44BE(0, reinterpret_cast<const RefCountPtr<TextureClass> &>(m_slot));
+	} else {
+		g_00DEBC60->setRenderingMode(3);
+		rinfo.Push_Rendering_Method(method);
+		Rva001688FFShift((Rva001688FFElement **)rinfo.Get_Rendering_Method_Stack().begin(), rinfo.Get_Rendering_Method_Stack().size());
+		RefCountPtr<FXShader::RenderingMethod> current = rinfo.Get_Rendering_Method_Stack()[0];
+		int passes;
+		if (!current->Begin(&passes, 0xffff))
+			return;
+		passes = 1;
+		for (int pass = 0; pass < passes; ++pass) {
+			current->Begin_Pass(pass);
+			// Retail reloads the list head from this+0x18 on every test here
+			// instead of keeping the list address in a register.
+			for (_STL::list<Gen_uw_000e5033 *>::iterator drawIt = m_floors.begin(); drawIt._M_node != m_floors._M_node._M_data; ++drawIt)
+				if ((*drawIt)->m_active80 && (*drawIt)->m_state98 != 0 && !reinterpret_cast<Rva000E440D *>(*drawIt)->rva000E440D())
+					reinterpret_cast<Rva000E44BE *>(*drawIt)->rva000E44BE(current.Peek(), reinterpret_cast<const RefCountPtr<TextureClass> &>(m_slot));
+			current->End_Pass();
+		}
+		current->End();
+		Rva00168952Clear((Rva001688FFElement **)rinfo.Get_Rendering_Method_Stack().begin(), rinfo.Get_Rendering_Method_Stack().size());
+		rinfo.Pop_Rendering_Method();
+	}
+	g_00DEBC60->clearTextures();
+	DX8Wrapper::Set_Light_Environment(0);
+	DX8Wrapper::Set_Vertex_Shader(0);
+	DX8Wrapper::Set_Pixel_Shader(0);
 }
