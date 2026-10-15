@@ -64,7 +64,7 @@ struct BfmeAssignRecord44 { public: ~BfmeAssignRecord44(); };
 template _STL::vector<BfmeAssignRecord44>::~vector();
 
 // ??1?$vector@UBfmeObject544@@V?$allocator@UBfmeObject544@@@_STL@@@_STL@@QAE@XZ @0x4cae89 (_Destroy at 0x4cae71)
-struct BfmeObject544 { public: ~BfmeObject544(); };
+struct BfmeObject544 { public: ~BfmeObject544(); unsigned char m_opaque[544]; };
 template _STL::vector<BfmeObject544>::~vector();
 
 // ??1?$vector@URvaPair004C3D4C@@V?$allocator@URvaPair004C3D4C@@@_STL@@@_STL@@QAE@XZ @0x4c3d4c (_Destroy at 0x32c0ca, stride-identical fold with rowed Rva0032C0CADestroyPairs).
@@ -85,7 +85,7 @@ template _STL::vector<BfmeStringHeadRecord160>::~vector();
 
 // ??1?$vector@URva0048130E@@V?$allocator@URva0048130E@@@_STL@@@_STL@@QAE@XZ @0x004815AE 63B.
 // ProductionQueueHordeContainModuleData +0xD4 member vector: retail destroys the range through the rowed 8-byte filter-plus-string _Destroy at 0x00481595 then frees storage via 0x30830 (EH states 0/-1); called by the ModuleData dtor at 0x004817B6. Element is Rva0048130E whose dtor is rowed at 0x0048130E; size-free per the family rule.
-struct Rva0048130E { public: ~Rva0048130E(); };
+struct Rva0048130E { public: ~Rva0048130E(); unsigned char m_data[8]; };
 template _STL::vector<Rva0048130E>::~vector();
 
 // ??1?$vector@VRva002A73B8@@V?$allocator@VRva002A73B8@@@_STL@@@_STL@@QAE@XZ @0x002AE486 63B.
@@ -100,31 +100,31 @@ template _STL::vector<Rva002A73B8>::~vector();
 // ??1?$vector@URva00395D77@@V?$allocator@URva00395D77@@@_STL@@@_STL@@QAE@XZ @0x0039977A 63B.
 // CastleBehavior range vector: destroys via rowed 12-byte _Destroy at 0x00399336 then frees via 0x30830.
 // Same 63B Destroy-plus-free shape as rowed 0x004815AE. Caller at 0x0039A1F1 plus Unwind funclets.
-struct Rva00395D77 { public: ~Rva00395D77(); };
+struct Rva00395D77 { public: ~Rva00395D77(); unsigned char m_data[12]; };
 template _STL::vector<Rva00395D77>::~vector();
 
 // ??1?$vector@URva000BEDF0Record@@V?$allocator@URva000BEDF0Record@@@_STL@@@_STL@@QAE@XZ @0x000c68c2 63B.
 // Same 63B Destroy-plus-free shape: destroys the range through the rowed
 // _Destroy at 0x000c37e6 then frees via 0x30830; called at 0x000c8c74 plus Unwind funclets.
-struct Rva000BEDF0Record { public: ~Rva000BEDF0Record(); };
+struct Rva000BEDF0Record { public: ~Rva000BEDF0Record(); unsigned char m_data[0x14]; };
 template _STL::vector<Rva000BEDF0Record>::~vector();
 
 // ??1?$vector@VRva001EC349@@V?$allocator@VRva001EC349@@@_STL@@@_STL@@QAE@XZ @0x001ECFDF 63B.
 // Same 63B Destroy-plus-free shape: destroys the range through the rowed
 // _Destroy at 0x001ECFC6 then frees via 0x30830; caller at 0x001ED0F9.
-class Rva001EC349 { public: ~Rva001EC349(); };
+class Rva001EC349 { public: ~Rva001EC349(); private: unsigned char m_pad[0x24]; };
 template _STL::vector<Rva001EC349>::~vector();
 
 // ??1?$vector@VRva001ED0DE@@V?$allocator@VRva001ED0DE@@@_STL@@@_STL@@QAE@XZ @0x001ED363 63B.
 // Same 63B Destroy-plus-free shape: destroys the range through the rowed
 // _Destroy at 0x001ED34A then frees via 0x30830; caller at 0x001ED446.
-class Rva001ED0DE { public: ~Rva001ED0DE(); };
+class Rva001ED0DE { public: ~Rva001ED0DE(); private: unsigned char m_pad[0x24]; };
 template _STL::vector<Rva001ED0DE>::~vector();
 
 // ??1?$vector@URva00414BDBElement@@V?$allocator@URva00414BDBElement@@@_STL@@@_STL@@QAE@XZ @0x00414721 63B.
 // Same 63B Destroy-plus-free shape: destroys the range through pinned
 // _Destroy at 0x00414508 then frees via 0x30830; caller at 0x00414B5B in 0x00414B40; unblocks 0x00414B40.
-struct Rva00414BDBElement { public: ~Rva00414BDBElement(); };
+struct Rva00414BDBElement { public: ~Rva00414BDBElement(); char m_pad[0x30]; };
 template _STL::vector<Rva00414BDBElement>::~vector();
 
 // ??1?$vector@URvaPair0039973B@@V?$allocator@URvaPair0039973B@@@_STL@@@_STL@@QAE@XZ @0x0039973B 63B.
