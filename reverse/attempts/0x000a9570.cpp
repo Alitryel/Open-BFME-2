@@ -1,0 +1,527 @@
+// ?bfmeTouch982C@BfmeT982@@QAEXXZ
+// partial score=0.99 date=2026-10-15
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /G7 /EHsc /MD /arch:SSE /D_STLP_USE_STATIC_LIB
+// stlport
+// W3DAptAux.cpp -- W3DAptAux members recovered from WorldBuilder leads
+// (reverse/wb_name_leads.csv): WB's debug build names the function and
+// asserts s_renderer ("Umm, no renderer"); retail compiles out the debug
+// timers and statistics and keeps a NULL-renderer guard. Retail supplies the
+// bytes.
+//
+// Target evidence: the renderer pointer at 0x00DE6170 is flushed through a
+// thiscall at 0x001116E2 (unrowed, a jump to 0x00111319), then the 2D render
+// state reset 0x00118990 runs, a counter (0x00DB5FB0) and a float
+// (0x00DEC49C) are cleared and WW3D::Sync is called with the two sync times
+// stored after the renderer (0x00DE6174, 0x00DE6178). Their names are
+// unknown and keep address tokens.
+#include "ascii_string.h"
+#include "unicode_string.h"
+#include <ctype.h>
+#include <stdio.h>
+#include <math.h>
+#undef _CRTIMP
+#define _CRTIMP
+#include <list>
+
+// _List_iterator comparisons otherwise instantiate the base-class
+// operator!= COMDAT (one byte shape per TU flags); exact-match free
+// overloads take those calls instead so this TU emits no external copy.
+namespace _STL {
+template <class _IterTp, class _LeftTraits, class _RightTraits>
+static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
+                              const _List_iterator<_IterTp, _RightTraits> &b)
+{ return a._M_node != b._M_node; }
+}
+
+typedef bool Bool;
+typedef float Real;
+
+typedef unsigned int UnsignedInt;
+typedef int Int;
+
+class WW3D
+{
+public:
+	static void Get_Device_Resolution(int &width, int &height, int &bits, bool &windowed);
+	static void Sync(UnsignedInt sync_time);	// 0x00117490
+};
+
+void Rva00118990();					// 0x00118990
+
+// The renderer behind s_renderer, placeholder-named by its bracketing calls.
+class BfmeHub982
+{
+public:
+	void * __fastcall rva00111312(int count);
+	void rva001116E2();				// 0x001116E2
+	void bfmeBegin982C();				// 0x00111319
+	void bfmeEnd982C();				// 0x00110611
+};
+
+// g_Va00DB5FB0 is only an alias of the owned global g_00DB5FB0 (ledger names column); this unit reads the owner through its own view type.
+extern int g_00DB5FB0;
+#define g_Va00DB5FB0 (*(int *)&g_00DB5FB0)
+extern float g_Va00DEC49C;
+
+class W3DAptAux
+{
+ friend void w3dDrawRenderingUnit(class AptRenderingUnit*,Int);
+	friend void w3dCustomControlRender(const char *name, Int arg1, class AptRenderingUnit *renderingUnit, Int arg3);
+
+public:
+	static void PostDraw();
+
+private:
+	static BfmeHub982 *s_renderer;			// 0x00DE6170
+	static UnsignedInt s_syncTime0;			// 0x00DE6174
+	static UnsignedInt s_syncTime1;			// 0x00DE6178
+};
+
+// W3DAptAux::PostDraw, retail 0x000A9071.
+void W3DAptAux::PostDraw()
+{
+	if (s_renderer)
+	{
+		s_renderer->rva001116E2();
+		Rva00118990();
+		g_Va00DB5FB0 = 0;
+		g_Va00DEC49C = 0.0f;
+		WW3D::Sync(s_syncTime0);
+		WW3D::Sync(s_syncTime1);
+	}
+}
+
+// getNameAndIndex, retail 0x000AA73A. Splits "...\\name123.ext" into the
+// trailing frame index (parsed with "%d.") and either the full path or the
+// file name after the last backslash. WB asserts both separators exist;
+// retail returns NULL instead.
+const char *getNameAndIndex(const AsciiString &path, Int *index, Bool fullPath)
+{
+	const char *fname = path.reverseFind('\\');
+	if (!fname)
+		return NULL;
+	const char *digits = path.reverseFind('.');
+	if (!digits)
+		return NULL;
+	while (isdigit(digits[-1]))
+		--digits;
+	sscanf(digits, "%d.", index);
+	if (fullPath)
+		return path.str();
+	return fname + 1;
+}
+
+// Retail sets up no unwind frame around the getText() temporary, so the
+// compare it calls cannot throw.
+template <> int StringBase<unsigned short>::compare(const StringBase<unsigned short> &str) const throw();
+
+// The game-client DisplayString as W3DAptDisplayString reaches it (virtual
+// slots by offset; target evidence).
+class DisplayString
+{
+public:
+	virtual void slot00();
+	virtual void setText(UnicodeString text);		// +0x04
+	virtual UnicodeString getText();			// +0x08
+	virtual void slot0C(); virtual void slot10(); virtual void slot14();
+	virtual void slot18(); virtual void slot1C(); virtual void slot20();
+	virtual void slot24();
+	virtual void slot28(unsigned long color, unsigned long dropColor);	// +0x28
+	virtual void slot2C();
+	virtual void slot30();
+	virtual void slot34(Int x, Int y);				// +0x34
+	virtual void slot38(Int x, Int y, Int xDrop, Int yDrop);	// +0x38
+	virtual void getSize(Int *width, Int *height);		// +0x3C
+	virtual void slot40(); virtual void slot44();
+	virtual void slot48(Real x, Real y);			// +0x48, called with (0, 0)
+};
+
+#include "../../../../../Libraries/Include/Lib/Coord2D.h"
+
+class W3DAptDisplayString
+{
+public:
+	virtual void SetText(const UnicodeString &text);
+
+private:
+	unsigned char m_pad04[4];
+	DisplayString *m_displayString;			// +0x08 (WB member name)
+	unsigned char m_pad0C[0x1c - 0xc];
+	Coord2D m_size;						// +0x1C
+};
+
+// W3DAptDisplayString::SetText, retail 0x000AA7B2.
+void W3DAptDisplayString::SetText(const UnicodeString &text)
+{
+	if (m_displayString->getText().compare(text) == 0)
+		return;
+	m_displayString->slot48(0.0f, 0.0f);
+	m_displayString->setText(text);
+	Int width, height;
+	m_displayString->getSize(&width, &height);
+	m_size.x = (Real)width;
+	m_size.y = (Real)height;
+}
+
+// The Apt-side render transform copied into each shape container before it
+// draws (six dwords at 0x00DE6148; target evidence).
+struct AptRenderTransform
+{
+	int m_data[6];
+};
+
+AptRenderTransform g_aptRenderTransform; // native zero-filled DE6148..DE6160
+
+class AptShapeContainer
+{
+public:
+	void getRenderRegion(Coord2D &topLeft, Coord2D &bottomRight);	// 0x000A99B8
+
+	unsigned char m_pad00[0x10];
+	AptRenderTransform m_transform;				// +0x10
+};
+
+class AptRenderingUnit
+{
+public:
+	virtual void slot00();
+	virtual void slot04();
+	virtual AptShapeContainer *getShapes();			// +0x08
+};
+
+void rebuildMask();						// 0x000AA5E1
+unsigned long Rva000A90B0(unsigned long);						// 0x000A90B0
+
+// The Apt draw callback slot (0x00DB5FC8) and the Apt player (0x00DFE4CC),
+// whose OnCustomRender (WB name) is rowed under a placeholder.
+extern int g_Va00DB5FC8;
+
+class Rva00223D8D
+{
+public:
+	void rva00223D8D(const char *name, int topLeft, int bottomRight, int arg1, int arg3);	// 0x00223D8D
+};
+
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
+
+static inline Real roundToPixel(Real value)
+{
+	return (Real)(Int)(value + 0.5f);
+}
+
+// w3dCustomControlRender, retail 0x000AA645.
+void w3dCustomControlRender(const char *name, Int arg1, AptRenderingUnit *renderingUnit, Int arg3)
+{
+	if (!renderingUnit)
+		return;
+	AptShapeContainer *shapes = renderingUnit->getShapes();
+	if (!shapes)
+		return;
+	rebuildMask();
+	int savedCallback = g_Va00DB5FC8;
+	g_Va00DB5FC8 = (int)&Rva000A90B0;
+	W3DAptAux::s_renderer->bfmeBegin982C();
+	shapes->m_transform = g_aptRenderTransform;
+	Coord2D topLeft, bottomRight;
+	shapes->getRenderRegion(topLeft, bottomRight);
+	topLeft.x = roundToPixel(topLeft.x);
+	topLeft.y = roundToPixel(topLeft.y);
+	bottomRight.x = roundToPixel(bottomRight.x);
+	bottomRight.y = roundToPixel(bottomRight.y);
+	((Rva00223D8D *)g_bfmeAptWindowManager)->rva00223D8D(name, (int)&topLeft, (int)&bottomRight, arg1, arg3);
+	g_Va00DB5FC8 = savedCallback;
+	W3DAptAux::s_renderer->bfmeEnd982C();
+}
+
+// WB 8A7590 names w3dDrawRenderingUnit at W3DAptAux.cpp lines968..973.
+// Native AA8D1..AA966 proves the 149B cdecl boundary, renderer guard,
+// six-word transform copy, modes -1/0/1 and pointer-valued queue operations.
+// BFME1 Apt flush/rounded-bounds donors supply the established transform and
+// queue views; native data/call relocations independently verify their use.
+// Keep the existing address-neutral cleanup spelling for the unrowed render
+// callee; this recovery does not assert its full body is recovered.
+namespace _STL {
+template list<AptShapeContainer*>::_Node *list<AptShapeContainer*>::_M_create_node(AptShapeContainer*const&);
+}
+class Rva00785FD0Item { public:void cleanup(); };
+struct Rva00785FD0Node;
+// g_rva00785FD0Queue is only an alias of the owned global g_Va00DE6194 (ledger names column); this unit reads the owner through its own view type.
+extern unsigned int g_Va00DE6194;
+#define g_rva00785FD0Queue (*(Rva00785FD0Node * *)&g_Va00DE6194)
+extern char g_rva00785FD0Dirty;
+void w3dDrawRenderingUnit(AptRenderingUnit *renderingUnit,Int mode)
+{
+ if(!W3DAptAux::s_renderer || !renderingUnit) return;
+ AptShapeContainer *const renderShape=renderingUnit->getShapes();
+ AptShapeContainer *shapes=renderShape;
+ if(!renderShape) return;
+ renderShape->m_transform=g_aptRenderTransform;
+ // The existing flush names the sentinel pointer; the list header is that
+ // one pointer, and the native queue stores AptShapeContainer pointers.
+ _STL::list<AptShapeContainer*> &queue=*(_STL::list<AptShapeContainer*>*)&g_rva00785FD0Queue;
+ switch(mode) {
+ case 1: queue.insert(queue.end(),shapes);g_rva00785FD0Dirty=1;return;
+ case -1: if(!queue.empty()) {queue.remove(shapes);g_rva00785FD0Dirty=1;return;}
+ case 0: rebuildMask();((Rva00785FD0Item*)renderShape)->cleanup();return;
+ }
+}
+
+// Native ABA2F installs A91D3 at the Apt allocator callback slot E17728.
+// The complete five-byte tail jump reaches the verified array allocator.
+// WB 8A5F80 independently shows allocation between debug-only Apt timers;
+// the original callback name is unknown.
+void *Rva000A91D3AptAlloc(unsigned int bytes)
+{
+ return ::operator new[](bytes);
+}
+
+// The adjacent Apt free callback A91D8..A91DD is installed at E1772C
+// and E17750. It tail-jumps to array delete without adding a null guard.
+void Rva000A91D8AptFree(void *memory)
+{
+ ::operator delete[](memory);
+}
+
+class AptPlayer
+{
+public:
+ void OnCommand(const char *name, int value);
+ void SetExtern(const char *name, int value);
+};
+
+// Apt command slot E17758: native A91DD..A91F1 forwards both cdecl
+// arguments to the owned OnCommand member through the established global.
+// WB 8A6730 calls the same named member; callback identity remains unknown.
+void Rva000A91DDOnCommand(const char *name, int value)
+{
+ reinterpret_cast<AptPlayer *>(g_bfmeAptWindowManager)->OnCommand(name, value);
+}
+
+void *Rva006CB9D0(const char *text);
+
+// Apt callback E1775C: A91F1..A91FD returns the existing string factory's
+// result for the native empty literal at BBAC1C. WB 8A6750 agrees.
+void *Rva000A91F1EmptyValue()
+{
+ return Rva006CB9D0("");
+}
+
+// Native A91FD..A9211 is the analogous SetExtern callback at E17764.
+// WB 8A6770 and the owned member at 223DD7 establish the two-word ABI.
+void Rva000A91FDSetExtern(const char *name, int value)
+{
+ reinterpret_cast<AptPlayer *>(g_bfmeAptWindowManager)->SetExtern(name, value);
+}
+
+// The Apt string-release callback observes only a virtual destructor.
+// Its concrete string type and original declaration remain unknown.
+class Rva000A923EString
+{
+public:
+ virtual ~Rva000A923EString();
+};
+
+// Native A923E..A925D, installed at E17774. WB 8A6900 independently
+// shows the 0x406 mask, explicit null guard and global-delete expression.
+void Rva000A923EReleaseString(Rva000A923EString *value, unsigned int flags)
+{
+ if ((flags & 0x406) && value)
+  ::delete value;
+}
+
+// Native A994C..A99B8 copies eight floats in two four-component groups.
+// WB 8A7370 independently preserves the same argument and assignment order.
+// The Apt slot is SetColourTransform; component meanings and the original
+// global names are not established, so the two destination blocks stay neutral.
+struct Rva000A994CColors
+{
+ float x, y, z, w;
+ void set(float a, float b, float c, float d) { x=a; y=b; z=c; w=d; }
+};
+Rva000A994CColors g_aptHostColorBlock0; // native DE6198..DE61A8
+Rva000A994CColors g_aptHostColorBlock1; // native DE61A8..DE61B8
+
+void Rva000A994CSetColor(const float *value)
+{
+ g_aptHostColorBlock0.set(value[0], value[1], value[2], value[3]);
+ g_aptHostColorBlock1.set(value[4], value[5], value[6], value[7]);
+}
+
+class Rva00786BD0Owner
+{
+public:
+ void *find(unsigned int key);
+};
+
+// Native AA8C3..AA8D1 is installed at the Apt LoadRenderingUnit slot
+// E17798. Unlike the texture callback AA8AE, it does not guard the owner.
+// Reuse that callback's existing lookup spelling and provider binding.
+void *Rva000AA8C3LoadRenderingUnit(Rva00786BD0Owner *owner, unsigned int key)
+{
+ return owner->find(key);
+}
+
+extern unsigned char g_aptHostStateStorage[32];
+// Pair comparison follows the Vector2i operation visible in WB 8A6D50.
+// Keep a local neutral type: its use here proves two integers, not a class name.
+struct AptSizePair {
+ int x,y;
+ __forceinline bool operator!=(const AptSizePair &b) const {
+  return !(x==b.x && y==b.y);
+ }
+};
+AptSizePair g_aptLastStageSize,g_aptLastDeviceSize; // DE61B8 and DE61C0, zero-filled
+AptRenderTransform g_aptTransformBeforeLinearScale; // DE6130, before the linear scale
+void Rva006CD6F0Get(void **,void **);
+static __forceinline bool aptFar(float value) {
+ float magnitude=fabs((double)value);
+ return magnitude>0.0001f;
+}
+#define aptScaleX (*reinterpret_cast<float*>(g_aptHostStateStorage+0x10))
+#define aptScaleY (*reinterpret_cast<float*>(g_aptHostStateStorage+0x14))
+#define aptInvScaleX (*reinterpret_cast<float*>(g_aptHostStateStorage+0x18))
+#define aptInvScaleY (*reinterpret_cast<float*>(g_aptHostStateStorage+0x1c))
+#define aptMatrixMode (*reinterpret_cast<int*>(g_aptHostStateStorage+4))
+// Apt SetMatrix callback at A92B0..A94F9 (585 bytes, cdecl pointer).
+// Retail establishes the six-word transform, dimension-cache comparisons,
+// zero-size/zero-scale fallbacks and 0.0001f identity tolerance. WB 8A6D50
+// independently preserves the same operations and the Vector2i comparisons.
+// Its float temporaries are significant to the native mixed SSE/x87 shape.
+// Original callback/global names remain unknown; no donor layout is asserted.
+void Rva000A92B0SetMatrix(const AptRenderTransform *input) {
+ g_aptRenderTransform=*input;
+ AptSizePair stage,device;
+ int bits;bool windowed;
+ Rva006CD6F0Get(reinterpret_cast<void**>(&stage.x),reinterpret_cast<void**>(&stage.y));
+ WW3D::Get_Device_Resolution(device.x,device.y,bits,windowed);
+ if(stage!=g_aptLastStageSize || device!=g_aptLastDeviceSize) {
+  aptScaleX=stage.x ? (float)device.x/(float)stage.x : 1.0f;
+  aptScaleY=stage.y ? (float)device.y/(float)stage.y : 1.0f;
+  aptInvScaleX=aptScaleX ? 1.0f/aptScaleX : 1.0f;
+  aptInvScaleY=aptScaleY ? 1.0f/aptScaleY : 1.0f;
+  g_aptLastStageSize=stage;g_aptLastDeviceSize=device;
+ }
+ float *m=reinterpret_cast<float*>(&g_aptRenderTransform);
+ m[4]*=aptScaleX;m[5]*=aptScaleY;
+ g_aptTransformBeforeLinearScale=g_aptRenderTransform;
+ m[0]*=aptScaleX;m[2]*=aptScaleX;m[1]*=aptScaleY;m[3]*=aptScaleY;
+ if(aptFar(m[0]-1.0f) || aptFar(m[1]) || aptFar(m[2]) || aptFar(m[3]-1.0f)) aptMatrixMode=1;
+ else aptMatrixMode=3;
+}
+
+// Native A90B0..A9192, 226B. WB8A5E20 independently preserves unsigned
+// ARGB decode, divide255, multiplier/addend transform and unbounded packing.
+// Timer calls are debug-only. Native channels read the two existing host
+// blocks; their original names remain unknown. WB evaluates alpha/red/green/blue,
+// while retail schedules red first. No class/layout identity inferred.
+unsigned long Rva000A90B0(unsigned long color){
+float a=((color>>24)&255u)/255.0f;
+float r=((color>>16)&255u)/255.0f;
+float g=((color>>8)&255u)/255.0f;
+float b=((color>>0)&255u)/255.0f;
+a=a*g_aptHostColorBlock0.x+g_aptHostColorBlock1.x;
+r=r*g_aptHostColorBlock0.y+g_aptHostColorBlock1.y;
+g=g*g_aptHostColorBlock0.z+g_aptHostColorBlock1.z;
+b=b*g_aptHostColorBlock0.w+g_aptHostColorBlock1.w;
+return (unsigned(a*255.0f)<<24)|(unsigned(r*255.0f)<<16)|(unsigned(g*255.0f)<<8)|unsigned(b*255.0f);
+}
+
+class W3DAptRenderer {public:void *__fastcall BeginTriangleList(int count);};
+// Native111312 is a whole7B tail wrapper. Unmatched WB979610 independently
+// shows the same ECX receiver and EDX count doubled before BeginTriangleList.
+// The purpose and original wrapper name remain unknown; this unit reuses
+// its established neutral renderer view.
+void *__fastcall BfmeHub982::rva00111312(int count)
+{
+ return reinterpret_cast<W3DAptRenderer *>(this)->BeginTriangleList(count*2);
+}
+
+// Private Apt ratio, retail 0x000A925D (69 bytes). BFME 1 donor
+// game/GameEngine/Source/Common/BfmeConv982.cpp at 1399ad37d4 (Rva007845D0Ratio
+// logic). Its three direct callers (the display-string render below) consume
+// XMM0: MSVC returns a TU-local float there when the caller is visible.
+// Native literals BC93B4/BCF628/BBB8D8 are 0.0001f/0.01f/1.0f.
+
+static float rva000A925D(float denominator, float numerator)
+{
+	if (denominator < 0.0001f)
+		return 1.0f;
+	if (fabs(numerator - denominator) < 0.01f)
+		return 1.0f;
+	return numerator / denominator;
+}
+
+class BfmeT982
+{
+public:
+	void bfmeTouch982C();
+
+private:
+	unsigned char m_pad00[8];
+	DisplayString *m_displayString;			// +0x08
+	Coord2D m_topLeft;				// +0x0C
+	Coord2D m_bottomRight;				// +0x14
+	Coord2D m_size;					// +0x1C
+	unsigned long m_color;				// +0x24
+	Int m_alignment;				// +0x28
+	Bool m_preScaleTransform;			// +0x2C
+	Bool m_dropShadow;				// +0x2D
+	Bool m_centerVertically;			// +0x2E
+};
+
+// The six transform words as WB aptMatrixMul (W3DAptAux.cpp:470) reads them.
+struct AptMatrix
+{
+	float a, b, c, d, tx, ty;
+};
+
+static __forceinline void aptMatrixMul(Coord2D &out, const Coord2D &in, const AptMatrix &m)
+{
+	out.x = in.x * m.a + in.y * m.c + m.tx;
+	out.y = in.x * m.b + in.y * m.d + m.ty;
+}
+
+void BfmeT982::bfmeTouch982C()
+{
+	const float *m = m_preScaleTransform ? reinterpret_cast<const float *>(&g_aptTransformBeforeLinearScale) : reinterpret_cast<const float *>(&g_aptRenderTransform);
+	Coord2D topLeft, bottomRight;
+	topLeft.x = m_topLeft.x * m[0] + m_topLeft.y * m[2] + m[4];
+	topLeft.y = m_topLeft.x * m[1] + m_topLeft.y * m[3] + m[5];
+	const Coord2D &br = m_bottomRight;
+	bottomRight.x = br.x * m[0] + br.y * m[2] + m[4];
+	bottomRight.y = br.x * m[1] + br.y * m[3] + m[5];
+	float scaleX = rva000A925D(m_bottomRight.x - m_topLeft.x, bottomRight.x - topLeft.x);
+	float scaleY = rva000A925D(m_bottomRight.y - m_topLeft.y, bottomRight.y - topLeft.y);
+	const Coord2D &size = m_size;
+	float width = scaleX * size.x;
+	float height = scaleY * size.y;
+	float span = bottomRight.x - topLeft.x;
+	if (width > span)
+	{
+		scaleX = rva000A925D(width, span);
+		width = span;
+	}
+	if (scaleX == 1.0f && scaleY == 1.0f)
+		m_displayString->slot48(0.0f, 0.0f);
+	else
+		m_displayString->slot48(width, height);
+	m_displayString->slot28(Rva000A90B0(m_color), Rva000A90B0(0xff000000));
+	float x = topLeft.x;
+	switch (m_alignment)
+	{
+	case 1:
+		x = bottomRight.x - width;
+		break;
+	case 2:
+		x += (bottomRight.x - topLeft.x - width) * 0.5f;
+		break;
+	}
+	float y = topLeft.y;
+	if (m_centerVertically)
+		y += (m_bottomRight.y - m_topLeft.y - m_size.y) / 2.0f;
+	if (m_dropShadow)
+		m_displayString->slot38((int)x, (int)y, 1, 1);
+	else
+		m_displayString->slot34((int)x, (int)y);
+}
