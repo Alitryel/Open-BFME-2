@@ -1,4 +1,6 @@
 // ?rva0046D2C3@HordeContain@@UAEPAVObject@@H@Z
+// partial score=0.9 date=2026-10-15
+// ?rva0046D2C3@HordeContain@@UAEPAVObject@@H@Z
 // partial score=0.902 date=2026-10-15
 // ?rva0046D2C3@HordeContain@@UAEPAVObject@@H@Z
 // partial score=0.88 date=2026-10-13
@@ -1014,5 +1016,36 @@ Object *HordeContain::rva0046D2C3_g3(int kind)
 			return 0;
 		return TheGameLogic->findObjectByID((ObjectID)*m_170.begin());
 	}
+}
+#endif
+
+#if 0
+// d2 2026-10-15 clean home-unit variant (claude-opus-5-5): drop into HordeContainIface11CSlots.cpp
+// after renaming iface gap69 -> 'virtual Object *rva0046D2C3(int kind) = 0' and declaring the override;
+// size-exact 175B nd20 (only the this/sentinel/cursor register rotation).
+Object *HordeContain::rva0046D2C3(int kind)
+{
+	Rva0046247DPair p;
+	rva0046D27ASlot70(p);
+	const _STL::list<Object *> *items = p.m04;
+	_STL::list<Object *>::const_iterator end = items->end();
+	for (_STL::list<Object *>::const_iterator it = items->begin(); it != end; ++it)
+	{
+		if (!(unsigned char)(*it)->m_template->rva000456AC(kind))
+			return *it;
+	}
+	_STL::list<Object *>::const_iterator first = end;
+	if (++first != end)
+		return *first;
+	for (_STL::set<int>::iterator k = m_170.begin(); k != m_170.end(); ++k)
+	{
+		Object *obj = TheGameLogic->findObjectByID((ObjectID)*k);
+		if (obj && !(unsigned char)obj->m_template->rva000456AC(kind))
+			return obj;
+	}
+	_STL::set<int>::iterator it = m_170.begin();
+	if (it != m_170.end())
+		return TheGameLogic->findObjectByID((ObjectID)*it);
+	return 0;
 }
 #endif
