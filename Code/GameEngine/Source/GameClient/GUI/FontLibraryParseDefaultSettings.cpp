@@ -1,7 +1,3 @@
-// ?ParseFontDefaultSettings@FontLibrary@@SAXPAVINI@@@Z
-// partial score=0.97 date=2026-10-15
-// ?ParseFontDefaultSettings@FontLibrary@@SAXPAVINI@@@Z
-// partial score=0.88416 date=2026-10-08
 // cl: /O1 /G7 /MD /EHsc /arch:SSE2 /Ireference/shims/bfme2_ascii /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 #include "ascii_string.h"
@@ -35,6 +31,6 @@ void FontLibrary::ParseFontDefaultSettings(INI *ini)
  TreeHintRef00217D4C &nameSlot=TheFontLibrary->names[name];
  if(!nameSlot.m_ptr)((Rva002BED91*)&nameSlot)->set((TargetRef00217D4C*)new Rva002186EB);
  Rva002186EB *table=(Rva002186EB*)nameSlot.m_ptr;
- if(pointSize>=0.f){size=(int)pointSize;*(TreeHintRef00217D4C*)&table->sizes[size]=settings;}
+ if((ini ? (pointSize>=0.f) : (pointSize>=0.f))){size=(int)pointSize;*(TreeHintRef00217D4C*)&table->sizes[size]=settings;}
  else *(TreeHintRef00217D4C*)&table->defaults=settings;
 }
