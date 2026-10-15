@@ -20,6 +20,7 @@ class GameTextInterface {public:
 V(0)V(1)V(2)V(3)V(4)V(5)V(6)V(7)V(8)V(9)V(10)V(11)V(12)V(13)
 #undef V
 virtual UnicodeString fetchLabel(const AsciiString &,bool *exists=0);
+virtual UnicodeString fetchByName(const char *,bool *exists=0);
 };
 extern GameTextInterface *TheGameText;
 void GadgetListBoxReset(GameWindow *);
@@ -42,7 +43,7 @@ class AptCreateAHero {public:class Manager;};
 class AptCreateAHero::Manager {public:
  char word0[4];HeroListScreenPrefix *screen;GameWindow *heroWindow,*otherWindow;
  CreateAHeroData *selectedHero;int word14;Rva005B61B3Less order;
- void PopulateHeroList();void rva005B6A05();void rva005B5F2E();
+ void PopulateHeroList();void rva005B6A05();void rva005B5F2E();void rva005B6A5E(int);
  void rva005B6A31(void *);void rva005B6A40(void *);void rva005B6A4F(void *);
 };
 void AptCreateAHero::Manager::PopulateHeroList() {
@@ -148,4 +149,62 @@ void AptCreateAHero::Manager::rva005B5F2E() {
   }
   GadgetListBoxSetTopVisibleEntry(otherWindow,oldTop);
  }
+}
+
+// Native 0x005B6A5E..0x005B6B93 (309B), RET4: selected-hero delete prompt.
+// The +8 list/+10 selected hero match this Manager and its owned delete
+// continuation 0x005B6A05. Bound callbacks use that continuation and 0x005B5B07.
+// DelegateDesc is a local binding helper; its two-word payload is established
+// by 0x00579E47. Its value constructor preserves native descriptor lifetimes.
+// Keep the complete59B wrapper constructor visible and potentially throwing:
+// the opaque allocation contract preserves the caller's native unwind stores.
+void __cdecl GadgetListBoxGetSelected(GameWindow *, int *);
+void *GadgetListBoxGetItemData(GameWindow *, int, int);
+extern unsigned char g_rva005B5C02Flag;
+struct TargetRef00217D4C {void *vtbl;int references;};
+void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
+struct DelegateDesc {void *m_object;void *m_method;DelegateDesc(void *o,void *m):m_object(o),m_method(m){}};
+static __forceinline DelegateDesc MakeDelegate(void *object,void *method){return DelegateDesc(object,method);}
+
+void *__cdecl operator new(unsigned int size);
+struct ImplBase {virtual ~ImplBase(){} int m_ref;ImplBase():m_ref(0){}};
+struct Impl:ImplBase {virtual void rva005b4c73(const char*);void *m_object,*m_method;Impl(const DelegateDesc&d):m_object(d.m_object),m_method(d.m_method){}};
+class Rva00579E47 {public:Rva00579E47(const DelegateDesc &);private:void *m_ptr;};
+
+__declspec(noinline) inline Rva00579E47::Rva00579E47(const DelegateDesc &d){Impl *p=new Impl(d);m_ptr=p;if(p)p->m_ref++;}
+struct Rva004F6986Member {
+ TargetRef00217D4C *ptr;
+ __forceinline Rva004F6986Member(DelegateDesc desc) {
+  reinterpret_cast<Rva00579E47 *>(this)->Rva00579E47::Rva00579E47(desc);
+ }
+ Rva004F6986Member(const Rva004F6986Member &o):ptr(o.ptr){if(ptr)++ptr->references;}
+ ~Rva004F6986Member(){if(ptr)ReleaseTreeHintRef00217D4C(ptr);}
+};
+class Rva004C5DD0 {public:Rva004C5DD0(const Rva004C5DD0 &other);private:TargetRef00217D4C *a,*b;};
+struct Rva0044BA4E : Rva004C5DD0 {
+ Rva0044BA4E(Rva004F6986Member,Rva004F6986Member);
+ ~Rva0044BA4E();
+};
+struct Rva0044BF40 {
+ TargetRef00217D4C *ptr;
+ Rva0044BF40(Rva004C5DD0 pair);
+ Rva0044BF40(const Rva0044BF40 &o):ptr(o.ptr){if(ptr)++ptr->references;}
+ ~Rva0044BF40(){if(ptr)ReleaseTreeHintRef00217D4C(ptr);}
+};
+namespace n0044BF40 {extern "C" void __cdecl Rva00437F61(int,const UnicodeString &,const UnicodeString &,Rva0044BF40);}
+class Rva005B5B07DwordClearer {public:void clear();};
+template <class M> static __forceinline void *codeAddress(M method) {union {M m;void *p;} u;u.m=method;return u.p;}
+
+// ?rva005B6A5E@Manager@AptCreateAHero@@QAEXH@Z
+void AptCreateAHero::Manager::rva005B6A5E(int unused) {
+ int selected;
+ GadgetListBoxGetSelected(heroWindow,&selected);
+ if(selected<0)return;
+ CreateAHeroData *hero=(CreateAHeroData *)GadgetListBoxGetItemData(heroWindow,selected,0);
+ if(hero==0)return;
+ if(hero->isDefault&&g_rva005B5C02Flag==0)return;
+ UnicodeString title=TheGameText->fetchByName("GUI:DeleteFile");
+ UnicodeString text=TheGameText->fetchByName("GUI:AreYouSureDelete");
+ n0044BF40::Rva00437F61(2,title,text,Rva0044BF40(Rva0044BA4E(Rva004F6986Member(MakeDelegate(this,codeAddress(&AptCreateAHero::Manager::rva005B6A05))),Rva004F6986Member(MakeDelegate(this,codeAddress(&Rva005B5B07DwordClearer::clear))))));
+ selectedHero=hero;
 }
