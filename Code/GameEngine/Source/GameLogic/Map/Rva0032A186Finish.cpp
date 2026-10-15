@@ -36,10 +36,6 @@ inline Snapshot::~Snapshot()
 class BuildListInfo : public Snapshot
 {
 public:
-    BuildListInfo *getNext() const
-    {
-        return m_nextBuildList;
-    }
     void setNextBuildList(BuildListInfo *next)
     {
         m_nextBuildList = next;
@@ -58,7 +54,7 @@ BuildListInfo::~BuildListInfo()
     if (m_nextBuildList) {
         register BuildListInfo *cur = m_nextBuildList;
         while (cur) {
-            next = cur->getNext();
+            next = cur->m_nextBuildList;
             cur->setNextBuildList(0);
             _ReadWriteBarrier();
             ::operator delete(cur->deleteInstance(0));

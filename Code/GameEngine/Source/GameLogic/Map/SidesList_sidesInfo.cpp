@@ -15,12 +15,13 @@ class BuildListInfo
 public:
 	BuildListInfo(const BuildListInfo &that);
 	virtual void *deleteInstance(int pool);
-	BuildListInfo *getNext() const { return m_nextBuildList; }
 	__declspec(dllimport) __forceinline void setNextBuildList(BuildListInfo *next) { m_nextBuildList = next; }
 
 private:
 	char m_body[0x28];
+public:
 	BuildListInfo *m_nextBuildList; // +0x2C
+private:
 	char m_tail[0x80 - 0x30];
 };
 
@@ -166,7 +167,7 @@ SidesInfo::SidesInfo(const SidesInfo &that) :
 {
 	try {
 		BuildListInfo *tail = 0;
-		for (BuildListInfo *thatBL = that.m_pBuildList; thatBL; thatBL = thatBL->getNext()) {
+		for (BuildListInfo *thatBL = that.m_pBuildList; thatBL; thatBL = thatBL->m_nextBuildList) {
 			BuildListInfo *thisBL = new BuildListInfo(*thatBL);
 			thisBL->setNextBuildList(0);
 			if (tail)

@@ -272,7 +272,6 @@ public:
 	Int getHealth() const { return m_health; }
 	Bool getUnsellable() const { return m_unsellable; }
 	void setUnderConstruction(Bool construction) { m_underConstruction = construction; }
-	BuildListInfo *getNext() const { return m_next; }
 	const Coord3D *getLocation() const { return &m_location; }
 	ObjectID getObjectID() const { return m_objectID; }
 	Bool isSupplyBuilding() const { return m_isSupplyBuilding; }
@@ -1381,7 +1380,7 @@ void AIPlayer::computeCenterAndRadiusOfBase(Coord3D *center, Real *radius)
 	totalPos.x = 0;
 	totalPos.y = 0;
 	Int numBldg = 0;
-	for (info = m_player->getBuildList(); info; info = info->getNext())
+	for (info = m_player->getBuildList(); info; info = info->m_next)
 	{
 		AsciiString name = info->getTemplateName();
 		if (name.isEmpty())
@@ -1406,7 +1405,7 @@ void AIPlayer::computeCenterAndRadiusOfBase(Coord3D *center, Real *radius)
 	center->y = totalPos.y;
 
 	Real maxRadSqr = 0;
-	for (info = m_player->getBuildList(); info; info = info->getNext())
+	for (info = m_player->getBuildList(); info; info = info->m_next)
 	{
 		AsciiString name = info->getTemplateName();
 		if (name.isEmpty())
@@ -2019,7 +2018,7 @@ void AIPlayer::onUnitProduced(Object *factory, Object *unit)
 						if (supplyTruck)
 						{
 							// assign to a supply depot.
-							for (BuildListInfo *info = m_player->getBuildList(); info; info = info->getNext())
+							for (BuildListInfo *info = m_player->getBuildList(); info; info = info->m_next)
 							{
 								if (info->isSupplyBuilding() && info->getDesiredGatherers() > 0 &&
 									info->getDesiredGatherers() > info->getCurrentGatherers())
@@ -2063,7 +2062,7 @@ void AIPlayer::onStructureProduced(Object *factory, Object *bldg)
 	m_teamDelay = 0;
 	m_buildDelay = 0;
 	BuildListInfo *info;
-	for (info = m_player->getBuildList(); info; info = info->getNext())
+	for (info = m_player->getBuildList(); info; info = info->m_next)
 	{
 		if (info->getObjectID() != bldg->getID())
 			continue;
@@ -2088,7 +2087,7 @@ void AIPlayer::onStructureProduced(Object *factory, Object *bldg)
 		return;
 	}
 
-	for (info = m_player->getBuildList(); info; info = info->getNext())
+	for (info = m_player->getBuildList(); info; info = info->m_next)
 	{
 		const ThingTemplate *bldgPlan = TheThingFactory->findTemplate(info->getTemplateName());
 		if (!bldgPlan)

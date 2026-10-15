@@ -205,7 +205,6 @@ public:
 	void setInitiallyBuilt(Bool b) { m_isInitiallyBuilt = b; }
 	__declspec(dllimport) __forceinline Real getAngle() const { return m_angle; }
 	__declspec(dllimport) __forceinline void setAngle(Real angle) { m_angle = angle; }
-	BuildListInfo *getNext() const { return m_next; }
 private:
 	unsigned char m_pad00[0x0C];
 	Coord3D m_location;			// +0x0C
@@ -213,6 +212,8 @@ private:
 	unsigned char m_pad1C[0x24 - 0x1C];
 	Bool m_isInitiallyBuilt;		// +0x24
 	unsigned char m_pad25[0x2C - 0x25];
+public:
+	// Retail adjustBuildList reads this link directly.
 	BuildListInfo *m_next;			// +0x2C
 };
 
@@ -817,7 +818,7 @@ void AISkirmishPlayer::adjustBuildList(BuildListInfo *list)
 			buildPos = *cur->getLocation();
 			cur->setInitiallyBuilt(true);
 		}
-		cur = cur->getNext();
+		cur = cur->m_next;
 	}
 	Region3D bounds;
 	TheTerrainLogic->getMaximumPathfindExtent(&bounds);
@@ -881,7 +882,7 @@ void AISkirmishPlayer::adjustBuildList(BuildListInfo *list)
 			cur->setLocation(curPos.x, curPos.y, curPos.z);
 			cur->setAngle(cur->getAngle());
 		}
-		cur = cur->getNext();
+		cur = cur->m_next;
 	}
 
 }
