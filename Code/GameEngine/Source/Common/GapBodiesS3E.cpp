@@ -239,3 +239,26 @@ void rva003F9CD2(INI *ini)
 	ini->initFromINI(record, Rva003F9C11::s_fieldParseTable);
 	((Rva003F9CD2ManagerView *)TheLivingWorldManager)->m_2C4 = record;
 }
+
+// Native 5742B3..5742CD (26B): a file-static helper in cl 7.1's SSE register
+// convention - the Rva002E0C2B object stays in ECX for the rowed 0x002E0C2B
+// call and the float result returns in XMM0 - computing its int value as a
+// percentage bonus factor (value * 0.01 + 1). No call to it survives in the
+// image; the anchor below only forces cl to emit it in that convention.
+// Identity unproven; address-derived names.
+class Rva002E0C2B
+{
+public:
+	int rva002E0C2B();
+};
+
+static __declspec(noinline) float Rva005742B3(Rva002E0C2B *owner)
+{
+	return (float)owner->rva002E0C2B() * 0.01f + 1.0f;
+}
+
+// ?Rva005742B3Anchor absent-from-retail
+float Rva005742B3Anchor(Rva002E0C2B *owner)
+{
+	return Rva005742B3(owner);
+}
