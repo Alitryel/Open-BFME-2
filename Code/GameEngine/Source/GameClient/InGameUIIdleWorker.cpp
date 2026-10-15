@@ -120,7 +120,8 @@ class Object : public Thing
 public:
 	Player *getControllingPlayer() const;
 	ObjectID getID() const { return m_id; }
-	Object *getContainedBy() { return m_containedBy; }
+	// Retail callers inline this +0x274 load; no external copy is needed.
+	__declspec(dllimport) __forceinline Object *getContainedBy() { return m_containedBy; }
 private:
 	char m_unknown44[0x74 - 0x44];
 	ObjectID m_id;

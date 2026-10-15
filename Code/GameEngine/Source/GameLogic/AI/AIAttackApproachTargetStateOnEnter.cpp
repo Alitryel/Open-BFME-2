@@ -435,7 +435,8 @@ class Object : public Thing
 public:
 	// This retail view reads +0x258; the named Object::getAI provider reads +0x19C.
 	AIUpdateInterface *getObservedAI() { return m_ai; }
-	Object *getContainedBy() { return m_containedBy; }
+	// Retail callers inline this +0x274 load; no external copy is needed.
+	__declspec(dllimport) __forceinline Object *getContainedBy() { return m_containedBy; }
 	Object *getOutermostContainer()
 	{
 		Object *container = m_containedBy;

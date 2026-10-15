@@ -106,7 +106,8 @@ public:
 	__declspec(dllimport) __forceinline AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 	Player *getControllingPlayer() const;
 	ContainModuleInterface *getContain() const { return m_contain; }
-	Object *getContainedBy() { return m_containedBy; }
+	// Retail inlines this +0x274 load, as in AIIdleState::update.
+	__declspec(dllimport) __forceinline Object *getContainedBy() { return m_containedBy; }
 private:
 	unsigned char m_pad00[0x38];
 	Coord3D m_position; // +0x38
