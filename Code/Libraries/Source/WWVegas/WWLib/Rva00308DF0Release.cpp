@@ -14,11 +14,13 @@ public:
 	int m_numRefs;
 };
 
+// 0x00308C31 is rowed as StandingWaterArea::loadFXShaderSetup (same receiver).
+class StandingWaterArea { public: void loadFXShaderSetup(); };
+
 class Rva00308DF0
 {
 public:
 	Rva00308DF0Ref *rva00308DF0();
-	void rva00308C31();
 
 private:
 	char m_pad[0x84];
@@ -39,7 +41,7 @@ Rva00308DF0Ref *Rva00308DF0::rva00308DF0()
 			*slot = 0;
 		}
 		m_flag = 0;
-		rva00308C31();
+		((StandingWaterArea *)this)->loadFXShaderSetup();
 	}
 	return m_ref;
 }

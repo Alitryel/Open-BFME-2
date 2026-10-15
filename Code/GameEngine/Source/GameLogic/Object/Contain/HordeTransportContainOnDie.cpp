@@ -19,22 +19,19 @@ public:
 	int rva00462785();
 };
 
-class Rva00588E44
+// Row spellings: 0x00588E44 is Rva0047A040Base9E0::rva00588E44 and
+// 0x0047778B is HordeTransportContain::rva0047778B.
+class Rva0047A040Base9E0
 {
 public:
 	void rva00588E44(void *argument);
-};
-
-class Rva0047778B
-{
-public:
-	void rva0047778B();
 };
 
 class HordeTransportContain
 {
 public:
 	virtual void onDie(const DamageInfo *damageInfo);
+	void rva0047778B();
 };
 
 void HordeTransportContain::onDie(const DamageInfo *damageInfo)
@@ -42,10 +39,10 @@ void HordeTransportContain::onDie(const DamageInfo *damageInfo)
 	const unsigned char *moduleData =
 		*(const unsigned char **)((char *)this - 0x24);
 	if (moduleData[0x82] != 0) {
-		((Rva0047778B *)((char *)this - 0x28))->rva0047778B();
+		((HordeTransportContain *)((char *)this - 0x28))->rva0047778B();
 	} else {
 		Rva00462785 *owner = (Rva00462785 *)((char *)this - 0x28);
 		if ((unsigned char)owner->rva00462785() != 0)
-			((Rva00588E44 *)((char *)this + 0xF5))->rva00588E44(owner);
+			((Rva0047A040Base9E0 *)((char *)this + 0xF5))->rva00588E44(owner);
 	}
 }

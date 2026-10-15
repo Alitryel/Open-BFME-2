@@ -37,7 +37,8 @@ public:
 	int m_references;
 };
 
-class Rva00308DF0 {public:void rva00308C31();};
+class Rva00308DF0;
+class StandingWaterArea {public:void loadFXShaderSetup();}; // row 0x00308C31
 class Rva008291D : public WaterAreaRenderable
 {
 public:
@@ -218,7 +219,7 @@ void Rva0082140::rva00083A7A(AreaSet<StandingWaveArea>*standing,AreaSet<RiverAre
  m_waveAreas=waves;
  for(_STL::vector<Rva00082BE6Element>::iterator i=m_standingRenderables.begin();i!=m_standingRenderables.end();++i) {
   Rva00082BE6Element ref(*i);
-  ref.m_ptr->m_area->rva00308C31();
+  ((StandingWaterArea *)ref.m_ptr->m_area)->loadFXShaderSetup();
  }
 }
 
