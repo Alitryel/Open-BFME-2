@@ -1,11 +1,12 @@
-// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /O1 /EHs /MD /arch:SSE /Ireference/shims/subsystem_bfme2
+// cl: -O1 -arch:SSE -G7 -Ireference/shims/bfme2_ascii -Ireference/shims/bfmealloc -D_CRTIMP= -D_STLP_USE_STATIC_LIB -EHs -MD -Ireference/shims/subsystem_bfme2
 // The +15C/+168 vector destructors require the retail free-backed allocator
 // and /EHs: both complete 63-byte bodies retain the unwind state through free.
-// Constructor421B and EH15-state section structure match; EH callee identities need repair.
+// Constructor421B and its complete15-state EH graph match retail.
 // Storage is established by rowed32B class record copy/dtor and16/20B bling records.
 // Native state5 calls40A603 after constructor40A530 on the pointer vector at174.
-// Existing40A603 ledger instead labels an Rb_tree destructor; do not treat the
-// masked EH relocation comparison as proof of that callee identity.
+// Native56B destructor40A603 clears the owned pointer vector through40A59B
+// and frees its first pointer; its own EH cleanup7854A8 reaches base7FAB3.
+// The older tree-shaped donor row is not evidence of the target container type.
 // WB B7EE40 names LoadMyHeroList; retail21F47E..21F5E3 supplies extent and layout.
 // Complete357B instruction sequence with three unresolved calls: 408A55 data refresh;
 // 21F19B file vector construction; 4099CA file load with one-byte mode argument.
@@ -183,9 +184,12 @@ public:
     unsigned int m_crc;
     unsigned char m_pad138[8];
 };
+extern "C" void __cdecl free(void *);
 class Rva0040A3F9
 {
 public:
+// ??1Rva0040A3F9@@QAE@XZ present-unmatched
+	__forceinline ~Rva0040A3F9() { if (m_begin) free(m_begin); }
     CreateAHeroData **m_begin;
     CreateAHeroData **m_end;
     CreateAHeroData **m_capacity;
@@ -255,7 +259,7 @@ class Rva0040A530 : public Rva0040A3F9
 {
 public:
     Rva0040A530(bool flag);
-    ~Rva0040A530();
+    __declspec(noinline) ~Rva0040A530();
 };
 
 // Retail copy/destruction providers establish these storage element views.
@@ -369,3 +373,6 @@ CreateAHeroManager::CreateAHeroManager()
     }
     g_Va00DFE348 = (int)this;
 }
+
+class Rva0040A59B { public: void rva0040A59B(); };
+Rva0040A530::~Rva0040A530() { reinterpret_cast<Rva0040A59B *>(this)->rva0040A59B(); }
