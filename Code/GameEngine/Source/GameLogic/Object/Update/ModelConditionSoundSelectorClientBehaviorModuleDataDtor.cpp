@@ -23,8 +23,12 @@ class Xfer;
 
 struct BfmeObject544
 {
+	unsigned char opaque[544];
 	~BfmeObject544();
 };
+
+// Retail's vector dtor is the rowed 0x4CAE89 body (StlportObject544Vector.cpp).
+namespace _STL { template <> vector<BfmeObject544, allocator<BfmeObject544> >::~vector(); }
 
 class __declspec(novtable) ModelConditionSoundSelectorClientBehaviorModuleData : public Snapshot
 {
@@ -39,3 +43,5 @@ private:
 ModelConditionSoundSelectorClientBehaviorModuleData::~ModelConditionSoundSelectorClientBehaviorModuleData()
 {
 }
+
+template void _STL::_Destroy<BfmeObject544>(BfmeObject544 *);
