@@ -1,4 +1,6 @@
 // ?rva00477513@HordeTransportContain@@QAEXXZ
+// partial score=0.95 date=2026-10-15
+// ?rva00477513@HordeTransportContain@@QAEXXZ
 // partial score=0.94 date=2026-10-13
 // ?rva00477513@HordeTransportContain@@QAEXXZ
 // partial score=0.95 date=2026-10-13
@@ -132,7 +134,7 @@ class HordeTransportContain
  void rva004779F9();
  __declspec(noinline) void rva0047727E(Thing *object);
  void rva00477513();
- void rva00463A4D(IntList objects, int context);
+ void rva00463A4D(ContainmentList objects, int context);
  private:
  unsigned char prefix00[8];
  Rva0047727EObjectPositionView *m_object;
@@ -207,9 +209,7 @@ void HordeTransportContain::rva00477513()
  for (IntList::iterator i=outer.objects->begin();i!=outer.objects->end();++i) 
  {
   int element=*i;
-  _ReadWriteBarrier();
-  Object *object;
-  memcpy(&object,&element,4);
+  Object *object=(Object *)element;
   if (object->templateView->flags115 & 0x20) 
   {
    RiderContain *contain=(RiderContain*)((Rva0047A040Base9E0*)((char*)this+0x11D))->rva00588B8A(object);
@@ -226,6 +226,6 @@ void HordeTransportContain::rva00477513()
   }
   
  }
- rva00463A4D(objects,(int)((char*)this+0x48));
+ rva00463A4D(*reinterpret_cast<ContainmentList *>(&objects),(int)((char*)this+0x48));
  
 }
