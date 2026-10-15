@@ -309,10 +309,11 @@ private:
 	char m_pad[0x2c];
 };
 
-class Rva0054D3D9Target
+// 0x0054D3D9 is rowed as Rva0054D3E1Prompt::configure (its bool result is unused here).
+class Rva0054D3E1Prompt
 {
 public:
-	void method(int type, const UnicodeString &text, const UnicodeString &title);
+	bool configure(int type, const UnicodeString &text, const UnicodeString &title);
 };
 
 // Native 54D438 takes both counted handles (RET 20), forwards the first
@@ -766,7 +767,7 @@ bool Rva0054D4CDPrompt::prompt(int type, const UnicodeString &text,
 // Same target-proven forwarder shape; the callee's identity remains its RVA.
 void Rva00437EAC(int type, const UnicodeString &text, const UnicodeString &title)
 {
-	((Rva0054D3D9Target *)g_Va00E032FC)->method(type, text, title);
+	((Rva0054D3E1Prompt *)g_Va00E032FC)->configure(type, text, title);
 }
 
 // Retail 0x00444DC3, 166 bytes: vftable 0x00C3E098 slot 16. BFME1's
