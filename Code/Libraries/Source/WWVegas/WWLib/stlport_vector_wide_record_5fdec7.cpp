@@ -32,4 +32,5 @@ __declspec(nothrow) BfmeContainerRecord005FDEC7 &BfmeContainerRecord005FDEC7::op
 namespace _STL { template <> void vector<BfmeContainerRecord005FDEC7, allocator<BfmeContainerRecord005FDEC7> >::_M_fill_insert(BfmeContainerRecord005FDEC7 *, unsigned int, BfmeContainerRecord005FDEC7 const &); }
 namespace _STL { template <> BfmeContainerRecord005FDEC7 *uninitialized_fill_n(BfmeContainerRecord005FDEC7 *, unsigned int, BfmeContainerRecord005FDEC7 const &); }
 // bfme link decl-only end
+namespace _STL { template <> BfmeContainerRecord005FDEC7 *vector<BfmeContainerRecord005FDEC7, allocator<BfmeContainerRecord005FDEC7> >::erase(BfmeContainerRecord005FDEC7 *, BfmeContainerRecord005FDEC7 *); }
 template class _STL::vector<BfmeContainerRecord005FDEC7, _STL::allocator<BfmeContainerRecord005FDEC7> >;
