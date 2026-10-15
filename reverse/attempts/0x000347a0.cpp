@@ -1,6 +1,16 @@
 // ?rva000347A0@GeneralAllocator@Allocator@EA@@QAEPAXPAXIH@Z
-// partial score=0.92 date=2026-10-15
-// flags: region default (reverse/retail_inventory/flag_regions.csv)
+// partial score=0.998 date=2026-10-15
+// cl: /O2 /MD /DNDEBUG
+// Seat5 2026-10-15 rebuild: 704/704 B, ONE byte differs (nd1). Levers that
+// closed the old 700 B bank: single exit `return newMem` with newMem
+// function-scope (split paths assign chunk2mem(newp), mmapped keep path assigns
+// oldMem) reproduces retail's dead EBP stores into the flags slot and the pop
+// order; the malloc failure as `else return 0;` moves out of line; computing
+// the remainder pointer BEFORE set_head_size(newp, nb) in the split branch lets
+// cl hoist the shared head & 0x80000007 load above the remainder<16 test.
+// Residue: the top-extend foot store encodes [ecx+eax] (89 0C 01) where retail
+// has [eax+ecx] (89 0C 08); statement permutations, char*/int/helper/next/newp
+// spellings and /G5 /G6 /G7 /Ox /Ob1 /Op /Oa leave it unchanged.
 // ?rva000347A0@GeneralAllocator@Allocator@EA@@QAEPAXPAXIH@Z
 // Retail 0x000347A0..0x00034A60 (704 bytes including the eight-entry case
 // table at 0x00034A40) RET0C: the general allocator's reallocation,
@@ -71,6 +81,7 @@ void *EA::Allocator::GeneralAllocator::rva000347A0(void *oldMem, unsigned int by
 	unsigned int oldSize = oldp->head & 0x7ffffff8;
 	Rva000347A0Chunk *newp;
 	unsigned int newSize;
+	void *newMem;
 	if (!(oldp->head & 2)) {
 		if (nb <= oldSize) {
 			newp = oldp;
@@ -92,35 +103,35 @@ void *EA::Allocator::GeneralAllocator::rva000347A0(void *oldMem, unsigned int by
 				next->fd->bk = next->bk;
 				next->bk->fd = next->fd;
 			} else {
-				void *newMem = ((Rva006C1F60 *)this)->rva00033ED0(nb - 7, flags);
-				if (newMem == 0)
-					return 0;
-				newp = (Rva000347A0Chunk *)((char *)newMem - 8);
-				newSize = newp->head & 0x7ffffff8;
-				if (newp == next) {
-					newSize += oldSize;
-					newp = oldp;
-				} else {
-					unsigned int copySize = oldSize - 4;
-					if (copySize > 0x20) {
-						memcpy(newMem, oldMem, copySize);
+				void *mem = ((Rva006C1F60 *)this)->rva00033ED0(nb - 7, flags);
+				if (mem != 0) {
+					newp = (Rva000347A0Chunk *)((char *)mem - 8);
+					if (newp == next) {
+						newSize = (newp->head & 0x7ffffff8) + oldSize;
+						newp = oldp;
 					} else {
-						unsigned int *d = (unsigned int *)newMem;
-						unsigned int *s = (unsigned int *)oldMem;
-						switch ((copySize >> 2) - 1) {
-						case 7: *d++ = *s++;
-						case 6: *d++ = *s++;
-						case 5: *d++ = *s++;
-						case 4: *d++ = *s++;
-						case 3: *d++ = *s++;
-						case 2: *d++ = *s++;
-						case 1: *d++ = *s++;
-						case 0: *d = *s;
+						unsigned int copySize = oldSize - 4;
+						if (copySize > 0x20) {
+							memcpy(mem, oldMem, copySize);
+						} else {
+							unsigned int *d = (unsigned int *)mem;
+							unsigned int *s = (unsigned int *)oldMem;
+							switch ((copySize >> 2) - 1) {
+							case 7: *d++ = *s++;
+							case 6: *d++ = *s++;
+							case 5: *d++ = *s++;
+							case 4: *d++ = *s++;
+							case 3: *d++ = *s++;
+							case 2: *d++ = *s++;
+							case 1: *d++ = *s++;
+							case 0: *d = *s;
+							}
 						}
+						((Rva00033E90 *)this)->freeBlock(oldMem);
+						return (char *)newp + 8;
 					}
-					((Rva00033E90 *)this)->freeBlock(oldMem);
-					return (char *)newp + 8;
-				}
+				} else
+					return 0;
 			}
 		}
 		unsigned int remainderSize = newSize - nb;
@@ -128,8 +139,8 @@ void *EA::Allocator::GeneralAllocator::rva000347A0(void *oldMem, unsigned int by
 			newp->head = (newp->head & 0x80000007) | newSize;
 			((Rva000347A0Chunk *)((char *)newp + newSize))->head |= 1;
 		} else {
-			newp->head = (newp->head & 0x80000007) | nb;
 			Rva000347A0Chunk *remainder = (Rva000347A0Chunk *)((char *)newp + nb);
+			newp->head = (newp->head & 0x80000007) | nb;
 			remainder->head = remainderSize | 1;
 			Rva000347A0Chunk *after = (Rva000347A0Chunk *)((char *)remainder + remainderSize);
 			after->prevSize = remainderSize;
@@ -139,14 +150,15 @@ void *EA::Allocator::GeneralAllocator::rva000347A0(void *oldMem, unsigned int by
 			((Rva00033E90 *)this)->freeBlock((char *)remainder + 8);
 			m_478 = saved;
 		}
-		return (char *)newp + 8;
-	}
-	if (nb + 4 <= oldSize)
-		return oldMem;
-	void *newMem = ((Rva006C1F60 *)this)->rva00033ED0(nb - 7, flags);
-	if (newMem != 0) {
-		memcpy(newMem, oldMem, oldSize - 8);
-		((Rva00033E90 *)this)->freeBlock(oldMem);
+		newMem = (char *)newp + 8;
+	} else if (nb + 4 <= oldSize) {
+		newMem = oldMem;
+	} else {
+		newMem = ((Rva006C1F60 *)this)->rva00033ED0(nb - 7, flags);
+		if (newMem != 0) {
+			memcpy(newMem, oldMem, oldSize - 8);
+			((Rva00033E90 *)this)->freeBlock(oldMem);
+		}
 	}
 	return newMem;
 }
