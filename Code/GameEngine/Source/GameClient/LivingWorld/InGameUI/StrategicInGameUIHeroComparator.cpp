@@ -227,3 +227,29 @@ private:
 bool Rva005D50AD::rva005D50AD(const UnicodeString &msg, GameWindow *window) {
  return m_04->send(msg, window);
 }
+
+// Native5E4116..5E4157 (banked, not here: this/header register swap) sums the
+// template cost (+0x618) over the integer keys of the set held at +0x14's +0x10;
+// only its receiver view is needed by 5E415F/5E69D0 below.
+class Rva005E4116 {public:int rva005E4116();
+ char pad0[0x10];Rva005E4300Context *context;void *keys;
+};
+// Native5E415F (table slot, 8B, rowed in stlport_map_int_sbserver.cpp) forwards
+// to that sum for its +0x10 object;
+// native5E69D0 (table slot, 48B) calls it directly and adds the selected
+// +0x14 entry's template cost when that clip's flag byte is set.
+class Rva005F6037ByteChaseField {public:unsigned char get()const;};
+struct Rva005E69D0Selection {char pad0[4];Rva005F6037ByteChaseField *clip;char pad8[0x18-8];Rva005E4300Entry *entry;};
+class Rva005E69D0 {public:int rva005E415F();int rva005E69D0();
+ char pad0[0x10];Rva005E4116 *sum;Rva005E69D0Selection *selection;
+};
+int Rva005E69D0::rva005E69D0() {
+ int total=rva005E415F();
+ if(selection->clip->get()) {
+  // Re-reading the selection into its own local lets it take over this's
+  // register (retail mov edi,[edi+0x14]) and keeps total in esi.
+  Rva005E69D0Selection *s=selection;
+  total+=StrategicInGameUI::Rva005E3967(s->entry)->cost;
+ }
+ return total;
+}
