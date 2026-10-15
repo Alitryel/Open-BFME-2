@@ -37,14 +37,14 @@ private:
 	void *m_lock;
 };
 
+// Destructor-only base view: Watchdog declares its complete primary table
+// below (retail BE6FD8: deleting dtor, start, Thread_Function, reportWatchdog).
 class ThreadClass
 {
 public:
 	ThreadClass(const char *name);
 	virtual ~ThreadClass();
-	void Execute(void);
 	void Stop(void);
-	virtual void Thread_Function(void) = 0;
 
 private:
 	char m_name[0x40];
