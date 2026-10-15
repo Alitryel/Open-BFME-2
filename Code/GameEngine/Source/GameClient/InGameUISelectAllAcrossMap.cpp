@@ -57,7 +57,7 @@ enum KindOfType
 class ThingTemplate
 {
 public:
-	__forceinline Bool isKindOf(KindOfType kind) const
+	__declspec(dllimport) __forceinline Bool isKindOf(KindOfType kind) const
 	{
 		return (((const unsigned char *)m_kindOf)[kind >> 3] & (1 << (kind & 7))) != 0;
 	}
