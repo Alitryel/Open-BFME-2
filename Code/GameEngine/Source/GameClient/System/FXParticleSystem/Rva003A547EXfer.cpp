@@ -1,6 +1,7 @@
 // cl: /MD
 //
-// ?rva003A547E@Rva003A547E@@QAEXPAVXfer@@@Z, retail 0x003A547E, 226 bytes.
+// WindModuleInfo::DoXfer(Xfer&), retail 0x003A547E, 226 bytes.
+// Target export and native Wind info vtable slot 3 establish the owner.
 // Slot 7 (offset 0x1C) of vtable 0x0081BF84 (class of
 // ??0?$ConcreteModuleTemplate@V?$DefaultModuleTag@$01@FXParticleSystem@@@FXParticleSystem@@QAE@ABV01@@Z
 // in Code/GameEngine/Source/GameClient/FXParticleSystemModules.cpp).
@@ -85,11 +86,21 @@ protected:
 
 void XferWindMotion(Xfer *xfer, int *value);
 
-class Rva003A547E
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
+namespace FXParticleSystem {
+class WindModuleInfo : public ::Snapshot
 {
 public:
-	virtual void anchor();
-	void rva003A547E(Xfer *xfer);
+	WindModuleInfo();
+	virtual ~WindModuleInfo();
+	virtual void LoadPostProcess();
+	virtual const char *GetSnapshotName();
+	virtual void DoXfer(Xfer &);
 	int m_04;
 	float m_08;
 	float m_0c;
@@ -109,8 +120,13 @@ public:
 	float m_44;
 };
 
-void Rva003A547E::rva003A547E(Xfer *xfer)
+} // namespace FXParticleSystem
+
+// Retail export names this owner; BE15A4 slot3 and the same field accesses
+// independently establish WindModuleInfo and its reference-transfer ABI.
+void FXParticleSystem::WindModuleInfo::DoXfer(Xfer &stream)
 {
+	Xfer *xfer = &stream;
 	if (xfer->IsLightCRC())
 		return;
 	xfer->Version1();
@@ -144,22 +160,54 @@ public:
 	virtual void anchor();
 	void rva003A5757(Xfer *xfer);
 	char _pad04[0x18];
-	Rva003A547E m_1c;
+	FXParticleSystem::WindModuleInfo m_1c;
 };
 
 void Rva003A5757::rva003A5757(Xfer *xfer)
 {
 	xfer->Version1();
-	m_1c.rva003A547E(xfer);
+	m_1c.FXParticleSystem::WindModuleInfo::DoXfer(*xfer);
 }
 
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *name;
+	void (*parse)(INI *, void *, void *, const void *);
+	const void *data;
+	unsigned int offset;
+};
 class INI
 {
 public:
 	void initFromINI(void *what, const struct FieldParse *table);
+	static void parseIndexList(INI *, void *, void *, const void *);
+	static void parseReal(INI *, void *, void *, const void *);
 };
-extern const struct FieldParse g_00C1B420[];
+namespace FXParticleSystem {
+// Export names the five-entry native enum table at C1B6C4; the null terminator
+// and next datum bound its complete 20 bytes.
+extern const char * const WindMotionNames[] = {
+    "NONE", "Unused", "PingPong", "Circular", 0
+};
+// Descriptive table name inferred from the native 3A5560 parser reference.
+// C1B420..C1B4F0: twelve 16-byte records followed by the null record.
+extern const FieldParse WindFieldParse[] = {
+    { "WindMotion", INI::parseIndexList, WindMotionNames, 0x0c },
+    { "WindStrength", INI::parseReal, 0, 0x10 },
+    { "WindFullStrengthDist", INI::parseReal, 0, 0x14 },
+    { "WindZeroStrengthDist", INI::parseReal, 0, 0x18 },
+    { "WindAngleChangeMin", INI::parseReal, 0, 0x24 },
+    { "WindAngleChangeMax", INI::parseReal, 0, 0x28 },
+    { "WindPingPongStartAngleMin", INI::parseReal, 0, 0x30 },
+    { "WindPingPongStartAngleMax", INI::parseReal, 0, 0x34 },
+    { "WindPingPongEndAngleMin", INI::parseReal, 0, 0x3c },
+    { "WindPingPongEndAngleMax", INI::parseReal, 0, 0x40 },
+    { "TurbulenceAmplitude", INI::parseReal, 0, 0x48 },
+    { "TurbulenceFrequency", INI::parseReal, 0, 0x4c },
+    { 0, 0, 0, 0 }
+};
+}
 class Rva003A5560
 {
 public:
@@ -168,5 +216,5 @@ public:
 
 void Rva003A5560::rva003A5560(INI *ini)
 {
-	ini->initFromINI(this, g_00C1B420);
+	ini->initFromINI(this, FXParticleSystem::WindFieldParse);
 }

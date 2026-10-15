@@ -4,6 +4,12 @@
 
 #include "../../../Libraries/Include/Lib/RGBColor.h"
 
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 class GameClientRandomVariable
 {
 public:
@@ -278,7 +284,20 @@ struct ModuleCategoryNames
     const char *m_key;
 };
 
-extern const ModuleCategoryNames TheModuleCategoryNames[];
+// Native 0x81D840..0x81D888: nine 8-byte display-name / INI-key pairs.
+// GetName/GetKey at 0x3AFD0A/16 prove stride and halves; Event text starts
+// immediately after the table, establishing the complete 72-byte extent.
+extern const ModuleCategoryNames TheModuleCategoryNames[] = {
+    {"Color", "Color"},
+    {"Alpha", "Alpha"},
+    {"Update", "Update"},
+    {"Physics", "Physics"},
+    {"Emission Velocity", "EmissionVelocity"},
+    {"Emission Volume", "EmissionVolume"},
+    {"Draw", "Draw"},
+    {"Wind", "Wind"},
+    {"Event", "Event"},
+};
 
 enum ModuleCategory
 {
@@ -635,12 +654,17 @@ const CategoryModuleClass<CATEGORY> *CategoryModuleClass<CATEGORY>::getFirst()
 
 // The four draw-module info classes carry nothing but their own vtable: both
 // constructors install it and the copy constructor ignores its argument.
-#define FX_VTABLE_ONLY_INFO(NAME)                                                                      class NAME : public Snapshot                                                                       {                                                                                                  public:                                                                                                NAME();                                                                                            NAME(const NAME &that);                                                                                                                                                                               virtual ~NAME();                                                                                    virtual void v1() = 0;                                                                             virtual const char *GetSnapshotName();                                                         };                                                                                                                                                                                                    NAME::NAME() {}                                                                                    NAME::NAME(const NAME &that) {}                                                                                                                                                                       const char *NAME::GetSnapshotName()                                                                {                                                                                                      return #NAME;                                                                                  }
+#define FX_VTABLE_ONLY_INFO(NAME)                                                                      class NAME : public Snapshot                                                                       {                                                                                                  public:                                                                                                NAME();                                                                                            NAME(const NAME &that);                                                                                                                                                                               virtual ~NAME();                                                                                    virtual void v1() = 0;                                                                             virtual const char *GetSnapshotName();                                                         };                                                                                                                                                                                                                                                                                        NAME::NAME(const NAME &that) {}                                                                                                                                                                       const char *NAME::GetSnapshotName()                                                                {                                                                                                      return #NAME;                                                                                  }
 
 FX_VTABLE_ONLY_INFO(DefaultDrawModuleInfo)
 FX_VTABLE_ONLY_INFO(StreakDrawModuleInfo)
 FX_VTABLE_ONLY_INFO(QuadDrawModuleInfo)
 FX_VTABLE_ONLY_INFO(ButterflyDrawModuleInfo)
+
+// DefaultDrawModuleInfo is supplied by its existing constructor provider.
+StreakDrawModuleInfo::StreakDrawModuleInfo() {}
+QuadDrawModuleInfo::QuadDrawModuleInfo() {}
+ButterflyDrawModuleInfo::ButterflyDrawModuleInfo() {}
 
 // Out of line, one per class: an in-class body is implicitly inline and MSVC
 // then folds it into its callers rather than emitting the COMDAT the ledger
@@ -819,7 +843,7 @@ template class CategoryModuleInfo<8>;
 // Seventeen members and no grouping anywhere: the generated assignment copies
 // every one of them with its own move rather than blocking any run together,
 // which is what separates loose scalars from a sub-object here.
-class WindModuleInfo : public Snapshot
+class WindModuleInfo : public ::Snapshot
 {
 public:
     // Declared only: retail has a real one at 0x003A53C4 and this file has no
@@ -829,7 +853,8 @@ public:
     WindModuleInfo(const WindModuleInfo &that);
 
     virtual ~WindModuleInfo();
-    virtual void v1() = 0;
+    virtual void LoadPostProcess();
+    virtual void DoXfer(::Xfer &);
 
     float m_unknown04;
     float m_unknown08;
@@ -859,9 +884,8 @@ const char *WindModuleInfo::GetSnapshotName()
 // Defined, not just declared: the wind template destructor at 0x003A6201 folds
 // it down to the one vtable store, behind the null-checked +8 adjustment of
 // `this` that a base at offset 8 needs.
-WindModuleInfo::~WindModuleInfo()
-{
-}
+// Keep the inline cleanup for the native category-7 destructor.
+inline WindModuleInfo::~WindModuleInfo() {}
 
 
 WindModuleInfo::WindModuleInfo(const WindModuleInfo &that)

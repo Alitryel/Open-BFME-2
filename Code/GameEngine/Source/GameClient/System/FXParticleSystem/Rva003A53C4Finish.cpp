@@ -27,6 +27,10 @@
 // xmm0 carries the first three globals and xmm1 the rest. That split falls out
 // of the assignment order rather than being requested.
 
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
 #include "Common/Snapshot.h"
 
 namespace FXParticleSystem {
@@ -35,7 +39,10 @@ class WindModuleInfo : public Snapshot
 public:
     WindModuleInfo();
     virtual ~WindModuleInfo() {}
-    virtual void v1() = 0;
+    // Exports and native BE15A4 give these three Snapshot overrides.
+    virtual void LoadPostProcess() {}
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(Xfer &);
     int m04; float m08; float m0C; float m10; float m14; float m18; float m1C; float m20;
     float m24; float m28; float m2C; float m30; float m34; float m38; bool m3C; float m40; float m44;
 };
