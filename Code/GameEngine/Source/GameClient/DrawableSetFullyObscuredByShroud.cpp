@@ -47,7 +47,6 @@ class Drawable
 {
 public:
 	void setFullyObscuredByShroud( Bool fullyObscured );
-	DrawModule **getDrawModules( void ) { return m_drawModules; }
 private:
 	void onComingOutOfShroud( void );
 
@@ -62,7 +61,7 @@ void Drawable::setFullyObscuredByShroud(Bool fullyObscured)
 {
 	if (m_drawableFullyObscuredByShroud != fullyObscured)
 	{
-		for (DrawModule** dm = getDrawModules(); *dm; ++dm)
+		for (DrawModule** dm = m_drawModules; *dm; ++dm)
 		{
 			(*dm)->setFullyObscuredByShroud(fullyObscured);
 		}
