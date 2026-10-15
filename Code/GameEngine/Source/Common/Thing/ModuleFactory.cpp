@@ -305,6 +305,7 @@ template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
 template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
 template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
 template <> AsciiString *vector<AsciiString, allocator<AsciiString> >::erase(AsciiString*, AsciiString*);
+template <> FXBoneInfo *vector<FXBoneInfo, allocator<FXBoneInfo> >::erase(FXBoneInfo *, FXBoneInfo *);
 }
 
 // PUBLIC DATA ////////////////////////////////////////////////////////////////////////////////////
@@ -584,3 +585,7 @@ void ModuleFactory::loadPostProcess( void )
 #pragma comment(linker, "/alternatename:?push_back@?$vector@UHordeBannerSlot@@V?$allocator@UHordeBannerSlot@@@_STL@@@_STL@@QAEXABUHordeBannerSlot@@@Z=?push_back@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXABQBVModuleData@@@Z")
 #pragma comment(linker, "/alternatename:?push_back@?$vector@PBVUpgradeTemplate@@V?$allocator@PBVUpgradeTemplate@@@_STL@@@_STL@@QAEXABQBVUpgradeTemplate@@@Z=?push_back@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXABQBVModuleData@@@Z")
 #pragma comment(linker, "/alternatename:?push_back@GateOpenBehaviorList@@QAEXABQAX@Z=?push_back@?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@QAEXABQBVModuleData@@@Z")
+
+// Keep this unit's independently rowed FXBoneInfo assignment when the
+// vector erase is supplied by its retail owner instead of this header copy.
+template FXBoneInfo *_STL::__copy<FXBoneInfo *, FXBoneInfo *, int>(FXBoneInfo *, FXBoneInfo *, FXBoneInfo *, const _STL::random_access_iterator_tag &, int *);

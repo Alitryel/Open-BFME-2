@@ -46,8 +46,16 @@ struct RvaPair0032C0CA
 	int m_value;
 };
 
-FXBoneInfo *copyEightByteRange(FXBoneInfo *first, FXBoneInfo *last,
-	FXBoneInfo *dest, void *tag, int extra);
+// Rowed worker at 254D65 uses an opaque eight-byte element view. The
+// caller preserves its native pointer/tag/null-distance argument ABI.
+struct Rva00254D65Element;
+namespace _STL {
+struct random_access_iterator_tag;
+template <class Input, class Output, class Distance>
+Output __copy(Input, Input, Output, const random_access_iterator_tag &, Distance *);
+}
+typedef Rva00254D65Element *(__cdecl *NativeEightByteCall)(Rva00254D65Element *, Rva00254D65Element *, Rva00254D65Element *, const _STL::random_access_iterator_tag &, int *);
+typedef FXBoneInfo *(__cdecl *CopyEightByteCall)(FXBoneInfo *, FXBoneInfo *, FXBoneInfo *, void *, int);
 
 void Rva0032C0CADestroyPairs(RvaPair0032C0CA *first, RvaPair0032C0CA *last);
 
@@ -82,7 +90,7 @@ template <class InputIter, class OutputIter>
 OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result,
 	const __false_type &tag){
 	__false_type local;
-	return copyEightByteRange(first, last, result,
+	return (reinterpret_cast<CopyEightByteCall>(static_cast<NativeEightByteCall>(&_STL::__copy<Rva00254D65Element *, Rva00254D65Element *, int>)))(first, last, result,
 		reinterpret_cast<void *>(&local), 0);
 }
 
