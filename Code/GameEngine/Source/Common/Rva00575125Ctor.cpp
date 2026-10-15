@@ -42,6 +42,7 @@ public:
 class Rva00575125 : public Rva005746AF, public Rva00575125Second
 {
 public:
+	~Rva00575125();	// rowed out of line; this view must not emit its own
 	Rva00575125(int a, void *mgr);
 private:
 	void *m_14;

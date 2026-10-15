@@ -194,18 +194,8 @@ Rva00576591::Rva00576591(void *owner)
 	((Rva005CD5FA *)((char *)owner + 0x30))->rva005CD5FA(0);
 }
 
-class Rva00576803
-{
-public:
-	Rva00576803(EmitVtableTag *);
-public:
-	virtual ~Rva00576803();
-};
-
-// ?<Rva00576803::Rva00576803> absent-from-retail
-Rva00576803::Rva00576803(EmitVtableTag *)
-{
-}
+// ??_GRva005765D1 (0x005767E7) is emitted with the Rva005765D1 vtable in
+// Rva005765D1Ctor.cpp.
 
 // TU-local opaque base view. Target constructor 0x005D1BA1 writes its vptr,
 // then members at +0x0C and +0x10; its paired destructor at 0x005D1ADE

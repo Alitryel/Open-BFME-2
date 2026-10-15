@@ -196,7 +196,7 @@ Rva005CC656::~Rva005CC656()
 //   0x004C70A8  0x00493DEF  Rva004C70A8 -> SpecialPowerModule
 //   0x00510665  0x0050FDDC  Rva00510665 -> Rva0050FDDC
 //   0x0052163E  0x003148E6  Rva0052163E -> Rva0031455E
-//   0x00576803  0x005D1A42  Rva00576803 -> Rva005D1A42
+//   0x00576803  0x005D1A42  Rva005765D1 -> Rva005D19F8
 //   0x0057682F  0x005D1ADE  Rva0057682F -> Rva005D1ADE
 //   0x005770F2  0x005D2111  Rva005770F2 -> Rva005D2111
 //   0x005CD3A5  0x005CCDDD  Rva005CD3A5 -> Rva005CCDDD
@@ -667,19 +667,19 @@ Rva0052163E::~Rva0052163E()
 {
 }
 
-class Rva005D1A42
+class Rva005D19F8
 {
 public:
-	virtual ~Rva005D1A42();
+	virtual ~Rva005D19F8();
 };
 
-class __declspec(novtable) Rva00576803 : public Rva005D1A42
+class __declspec(novtable) Rva005765D1 : public Rva005D19F8
 {
 public:
-	virtual ~Rva00576803();
+	virtual ~Rva005765D1();
 };
 
-Rva00576803::~Rva00576803()
+Rva005765D1::~Rva005765D1()
 {
 }
 

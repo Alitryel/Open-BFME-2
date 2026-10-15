@@ -141,6 +141,7 @@ private:
 class ProductionUpdate : public UpdateModule, public Rva0049E03AIface20, public Rva0049E03AIface24
 {
 public:
+	~ProductionUpdate();	// rowed out of line; this view must not emit its own
 	ProductionUpdate(Thing *thing, const ModuleData *moduleData);
 
 private:
