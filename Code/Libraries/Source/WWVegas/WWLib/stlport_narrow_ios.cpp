@@ -25,4 +25,5 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
+namespace _STL { template <> basic_ios<char, char_traits<char> > &basic_ios<char, char_traits<char> >::copyfmt(const basic_ios<char, char_traits<char> > &); }
 template class _STL::basic_ios<char, _STL::char_traits<char> >;
