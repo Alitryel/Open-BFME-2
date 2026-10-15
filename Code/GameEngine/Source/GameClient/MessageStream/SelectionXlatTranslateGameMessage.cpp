@@ -568,7 +568,8 @@ class Object : public Thing, public Snapshot
   
  }
  RadarPriorityType getRadarPriority() const;
- inline Object *getContainedBy() 
+ // Inline the view without emitting a competing external getter copy.
+ __declspec(dllimport) inline Object *getContainedBy()
  {
   return m_containedBy;
   
