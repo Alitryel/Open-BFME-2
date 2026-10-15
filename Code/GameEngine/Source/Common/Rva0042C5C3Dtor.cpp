@@ -155,3 +155,7 @@ Rva0042C5C3::~Rva0042C5C3()
 // Native 0x00787652: complete20B null-preserving adjusted-base lifetime action.
 // Whole180B owner and native EH graph prove the receiver adjustment; the
 // existing same-object7B destructor restores its witnessed base table.
+
+// Native 0x00787666: complete20B null-preserving adjusted-base lifetime action.
+// Whole180B owner and native EH graph prove the receiver adjustment; the
+// existing same-object7B destructor restores its witnessed base table.
