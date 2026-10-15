@@ -1,15 +1,5 @@
 // ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
-// partial score=0.9758102899985258 date=2026-10-14
-// ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
-// partial score=0.9758102899985258 date=2026-10-14
-// ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
-// partial score=0.93 date=2026-10-13
-// ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
-// partial score=0.93 date=2026-10-13
-// ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
-// partial score=0.9272977022977023 date=2026-10-10
-// ?OnActivation@EmotionNugget@@QAEXPAVObject@@H@Z
-// partial score=0.9 date=2026-10-09
+// partial score=0.9758 date=2026-10-15
 // cl: /I. /O1 /G7 /arch:SSE /EHsc /MD /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // Primary guide: BFME 1 EmotionNugget.cpp at verified pointer 0bef414b5.
@@ -90,6 +80,7 @@ extern LuaScriptEngine *TheLuaScriptEngine;
 class EmotionNugget {
 public:
     void OnActivation(Object *, int);
+    Rva004DC902AsciiField *getTemplate() const { return entry04; }
     Object *object00; Rva004DC902AsciiField *entry04; int id08;
     unsigned short template0c; char pad0e[2]; unsigned next10;
     _STL::map<int, int> targets14;
@@ -108,25 +99,25 @@ void EmotionNugget::OnActivation(Object *target, int duration)
     }
     unsigned frame = activated30;
     if (duration > 0) until2c = frame + duration;
-    else until2c = (entry04?entry04:entry04)->duration0c ? frame + (entry04?entry04:entry04)->duration0c : 0;
-    if ((entry04?entry04:entry04)->fx30) {
+    else until2c = getTemplate()->duration0c ? frame + getTemplate()->duration0c : 0;
+    if (getTemplate()->fx30) {
         Object *object = object00;
         void *query = object->rva0029439D();
         if (query) object = ((Rva0029439DIface *)query)->v19();
         if (!object) object = object00;
-        FXList::doFXObj((entry04?entry04:entry04)->fx30, object, target);
+        FXList::doFXObj(getTemplate()->fx30, object, target);
     }
     AIUpdateInterface *ai = object00->ai;
     if (ai) {
-        int state = (entry04?entry04:entry04)->state4c;
+        int state = getTemplate()->state4c;
         if (state == 0 || (state > 1 && state <= 5)) {
             // The verified provider is virtual; retail selects it directly.
             ai->AIUpdateInterface::SetEmotionState(state, target);
-            if ((entry04?entry04:entry04)->flag184) ai->allow04 = 1;
+            if (getTemplate()->flag184) ai->allow04 = 1;
         }
         if (object00->rva0029439D())
-            object00->clearAndSetModelConditionFlagsForHorde((entry04?entry04:entry04)->clearec, (entry04?entry04:entry04)->set54);
-        else object00->rva0028CFB2((entry04?entry04:entry04)->clearec, (entry04?entry04:entry04)->set54);
+            object00->clearAndSetModelConditionFlagsForHorde(getTemplate()->clearec, getTemplate()->set54);
+        else object00->rva0028CFB2(getTemplate()->clearec, getTemplate()->set54);
         if (target && target->isSignificantlyAboveTerrain()) {
             Object *object = object00;
             if (!((object ? object : object)->conditionWord124 & 0x100)) {
@@ -134,9 +125,9 @@ void EmotionNugget::OnActivation(Object *target, int duration)
                 object->rva0028AE6D();
             }
         }
-        if (!((const StringBase<char> &)((entry04?entry04:entry04)->get())).isEmpty()) {
+        if (!((const StringBase<char> &)(getTemplate()->get())).isEmpty()) {
             void *event = ((Rva00332E60 *)TheLuaScriptEngine)->rva00333918(
-                TheNameKeyGenerator->nameToKey((entry04?entry04:entry04)->get()));
+                TheNameKeyGenerator->nameToKey(getTemplate()->get()));
             if (event) {
                 DelayedLuaEventList list;
                 ((LuaScriptEngine *)TheLuaScriptEngine)->DispatchEvent((int *)event, object00, &list);
