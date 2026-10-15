@@ -197,7 +197,7 @@ public:
 	SimpleObjectIterator();
 	virtual Object *first();
 	virtual Object *next();
-	void insert(Object *obj, Real numeric);
+	void insert(int obj, Real numeric);	// row 0x0054BBB5 spells the object argument as int
 	void sort(IterOrderType order);
 
 private:
@@ -546,7 +546,7 @@ void AIGroup::rva00372571(Rva00372571Params *params, int cmdSource)
 						if (obj->getAI() == 0)
 							continue;
 						obj->rva0028AD32();
-						iter->insert(obj, 0.0f);
+						iter->insert((int)obj, 0.0f);
 					}
 				}
 				((Rva00423FBDThis *)TheFormationAssistant)->Delete(
@@ -575,7 +575,7 @@ void AIGroup::rva00372571(Rva00372571Params *params, int cmdSource)
 			dx = unitPos.x - params->m_pos->x;
 			dy = unitPos.y - params->m_pos->y;
 			Real adjust = 0;
-			iter->insert((*i), adjust + dx * dx + dy * dy);
+			iter->insert((int)(*i), adjust + dx * dx + dy * dy);
 		}
 		iter->sort(ITER_SORTED_NEAR_TO_FAR);
 	}

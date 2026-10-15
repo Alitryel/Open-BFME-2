@@ -106,7 +106,7 @@ public:
 	SimpleObjectIterator();
 	virtual Object *first();
 	virtual Object *next();
-	void insert(Object *obj, float numeric);
+	void insert(int obj, float numeric);	// row 0x0054BBB5 spells the object argument as int
 	void sort(IterOrderType order);
 
 private:
@@ -143,7 +143,7 @@ void AIGroup::groupTightenToPosition(const Coord3D *pos, bool addWaypoint, Comma
 			continue;
 		dx = unitPos.x - pos->x;
 		dy = unitPos.y - pos->y;
-		iter->insert((*i), dx * dx + dy * dy);
+		iter->insert((int)(*i), dx * dx + dy * dy);
 	}
 
 	iter->sort(ITER_SORTED_NEAR_TO_FAR);

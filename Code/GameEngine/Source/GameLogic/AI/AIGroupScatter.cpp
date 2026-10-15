@@ -147,7 +147,7 @@ public:
 	virtual ~SimpleObjectIterator();
 	virtual Object *first();
 	virtual Object *next();
-	void insert(Object *obj, Real numeric);
+	void insert(int obj, Real numeric);	// row 0x0054BBB5 spells the object argument as int
 	void sort(IterOrderType order);
 private:
 	unsigned char m_pad04[0x3C - 0x04];
@@ -255,7 +255,7 @@ void AIGroup::groupScatter(CommandSourceType cmdSource)
 		(*i)->rva0028AD32();
 		dx = unitPos.x - center.x;
 		dy = unitPos.y - center.y;
-		iter->insert((*i), dx * dx + dy * dy);
+		iter->insert((int)(*i), dx * dx + dy * dy);
 	}
 
 	iter->sort(ITER_SORTED_FAR_TO_NEAR);
