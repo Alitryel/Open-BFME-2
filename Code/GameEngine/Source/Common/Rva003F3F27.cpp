@@ -11,11 +11,25 @@
 // and [esi+0x17c],0 / lea eax,[esi+0x60] / push eax /
 // lea ecx,[esi+0x1a8] / mov byte [esi+0x1a3],0 / call 0x003F318C /
 // call 0x003F3B4F / and [esi+0x134],0 / and [esi+0x138],0 / pop esi / ret.
-class Rva003F3F27Sub1A8
+// Row spellings of the callees: 0x003F318C is vector<Rva003F318CRecord>::
+// operator= (the +0x1A8 vector assigned from the +0x60 one), and 0x003F20B0,
+// 0x003F1AFF and 0x003EFDF5 are rowed on their own address-named views.
+struct Rva003F318CRecord;
+namespace _STL {
+template <class T> class allocator;
+template <class T, class A> class vector
 {
 public:
-	void rva003F318C(void *block);
+	vector &operator=(const vector &other);
 };
+}
+typedef _STL::vector<Rva003F318CRecord, _STL::allocator<Rva003F318CRecord> > Rva003F318CVector;
+class Rva003F3F27Sub1A8
+{
+};
+class Rva003F20B0 { public: void rva003F20B0(); };
+class Rva003F1AFF { public: void rva003F1AFF(int n); };
+class Rva003EFDF5Host { public: void rva003EFDF5(void *p); };
 
 // 0x003F2106 is rowed as Rva003F2106::rva003F2106 (Rva002B7B71DeleteAll.cpp).
 class Rva003F2106 { public: void rva003F2106(); };
@@ -24,9 +38,6 @@ class Rva003F3F27
 {
 public:
 	void rva003F3F27();
-	void rva003F20B0();
-	void rva003F1AFF(int n);
-	void rva003FEFDF5(int n);
 	void rva003F3B4F();
 private:
 	char m_pad00[0x60];
@@ -44,13 +55,13 @@ private:
 
 void Rva003F3F27::rva003F3F27()
 {
-	rva003F20B0();
-	rva003F1AFF(-1);
-	rva003FEFDF5(1);
+	((Rva003F20B0 *)this)->rva003F20B0();
+	((Rva003F1AFF *)this)->rva003F1AFF(-1);
+	((Rva003EFDF5Host *)this)->rva003EFDF5((void *)1);
 	((Rva003F2106 *)this)->rva003F2106();
 	m_17c = 0;
 	m_1a3 = 0;
-	m_1a8.rva003F318C(&m_60marker);
+	*(Rva003F318CVector *)&m_1a8 = *(const Rva003F318CVector *)&m_60marker;
 	rva003F3B4F();
 	m_134 = 0;
 	m_138 = 0;
