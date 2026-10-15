@@ -11,14 +11,23 @@
 // computed begin-first (`end - begin`, begin kept in eax for the element push),
 // and keeps the node in esi with no copy of `this`: the compiler knew the find
 // leaves ecx alone. MSVC only knows that for an out-of-line callee defined
-// earlier in the same TU, so the find body (identical to Rva0021BC0DFind.cpp)
-// is defined here ahead of the caller; /Gy makes the duplicate a COMDAT.
+// earlier in the same TU, so the find body owns its row here ahead of the
+// caller. The redundant standalone definition has been removed.
 #include <map>
 #include <vector>
 #include "ascii_string.h"
 
-// as in Rva0021BC0DFind.cpp: take less<int> inline so no external COMDAT copy
+// Take less<int> inline so no external COMDAT copy is emitted.
+// Keep the library accessors inline without emitting unused alternate COMDATs.
+// These bodies are the STLport 4.5.3 _vector.h definitions; call sites remain
+// byte-exact and no __imp_ reference may survive.
 namespace _STL {
+template <> __declspec(dllimport) __forceinline
+unsigned int *vector<unsigned int>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+unsigned int *vector<unsigned int>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+unsigned int &vector<unsigned int>::operator[](size_type n) { return *(begin() + n); }
 template <> __declspec(dllimport) __forceinline
 bool less<int>::operator()(const int &a, const int &b) const
 { return a < b; }
@@ -49,8 +58,8 @@ struct CreateAHeroManager::CreateAHeroSubClass
 
 unsigned char CreateAHeroManager::CreateAHeroSubClass::rva0021BC0D(int key, void **out)
 {
-	// the home copy (Rva0021BC0DFind.cpp) sees the same tree as map<int, int>:
-	// view it so this duplicate calls the same _M_find instantiation
+	// the original standalone copy saw the same tree as map<int, int>:
+	// preserve that view so the helper calls the same _M_find instantiation
 	_STL::map<int, int> &tree = *(_STL::map<int, int> *)&m_map;
 	_STL::map<int, int>::iterator it = tree.find(key);
 	*out = it._M_node;
