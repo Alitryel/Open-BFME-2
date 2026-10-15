@@ -65,7 +65,7 @@ class VertexMaterialClass {
 public:
     VertexMaterialClass();
     virtual void Delete_This();
-    void Add_Ref() { ++RefCount; }
+    __declspec(dllimport) __forceinline void Add_Ref() { ++RefCount; }
     __declspec(dllimport) __forceinline void Release_Ref() { RefCount--; if (RefCount == 0) Delete_This(); }
     void Init_From_Material3(const W3dMaterial3Struct &mat3);
     void Set_Name(const char *name) { Name = name; }
@@ -92,7 +92,7 @@ private:
 class TextureBaseClass {
 public:
     virtual const char *Get_Name() const;
-    void Add_Ref() {
+    __declspec(dllimport) __forceinline void Add_Ref() {
         ++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
     }
     void Release_Ref();
