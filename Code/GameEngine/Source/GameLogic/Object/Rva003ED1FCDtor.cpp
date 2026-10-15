@@ -51,12 +51,40 @@ typedef std::hash_map<
 	rts::hash<NameKeyType>,
 	std::equal_to<NameKeyType> > ArmorTemplateMap;
 
+// Use the existing table destructor and clear providers. This unit's /O1
+// instantiation otherwise emits a different clear/delete-node pair.
+namespace _STL
+{
+typedef pair<const NameKeyType, ArmorTemplate> ManagerMapValue;
+typedef hashtable<ManagerMapValue, NameKeyType, rts::hash<NameKeyType>,
+	_Select1st<ManagerMapValue>, equal_to<NameKeyType>,
+	allocator<ManagerMapValue> > ManagerMapTable;
+template <> void ManagerMapTable::clear();
+template <> ManagerMapTable::~hashtable();
+}
+// Existing neutral owner of the complete 72-byte bucket/node cleanup at
+// 0x001DBCDC; it touches no payload fields (Rva004E013BOwnedResources.cpp).
+class Rva004DFC20 { public: void clear(); };
+
+// Native parent FuncInfo 0x0092F5C0 state 1 uses cleanup 0x007836A4:
+// load this, add 0x0C, jump to the 5-byte destructor at 0x003ED1F7.
+// That wrapper tail-calls the same table destructor as the normal path.
+// Keep its address-derived identity separate from the existing Armor map
+// spelling. The map implementation is inherited from this verified unit;
+// its original target payload type and source-level wrapper name are unknown.
+class Rva003ED1F7
+{
+	ArmorTemplateMap table;
+public:
+	void clear() { reinterpret_cast<Rva004DFC20 *>(&table)->clear(); }
+};
+
 class Rva003ED1FC : public SubsystemInterface
 {
 public:
 	virtual ~Rva003ED1FC();
 private:
-	ArmorTemplateMap m_map;
+	Rva003ED1F7 m_map;
 };
 
 // ??1Rva003ED1FC@@UAE@XZ
