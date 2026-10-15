@@ -45,6 +45,12 @@ void __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
 #include "subsystem_legend.h"
 #include "Common/INI/INI.h"
 #include "game_engine_subsystems.h"
+
+// The rowed append helper calls the retail vector provider; avoid emitting
+// its unused growth and lifetime COMDATs under this TU's allocator settings.
+namespace _STL {
+template <> void vector<AsciiString, allocator<AsciiString> >::push_back(const AsciiString &);
+}
 #include "Common/Snapshot.h"
 
 SubsystemInterfaceList *TheSubsystemList;		// BFME1 0x0134C6C8
