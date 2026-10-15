@@ -44,7 +44,8 @@ public:
 		m_bits &= ~7u;
 		m_bits |= (unsigned)mode;
 	}
-	void Set_Depth_Mask(DepthMaskType mode)
+	// Suppress the unused standalone copy; the verified caller keeps this inline.
+	__declspec(dllimport) __forceinline void Set_Depth_Mask(DepthMaskType mode)
 	{
 		m_bits &= ~8u;
 		m_bits |= ((unsigned)mode << 3);
