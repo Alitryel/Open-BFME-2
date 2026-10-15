@@ -1,6 +1,10 @@
 // ?rva006E2EE0@AptCIH@@QAEXXZ
-// partial score=0.99 date=2026-10-15
+// Native 0x006E2EE0..0x006E31D5 757B AptCIH class-registration hook.
+// Exact in the nn-lab chain (scope-wrap of the AptActionSetup block plus a
+// barrier before it); ported from build/d1/lab_006e2e/chain_0x006e2ee0.cpp.
 // cl: /O2 /G6 /arch:SSE /MD
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // ?rva006E2EE0@AptCIH@@QAEXXZ, retail 0x006E2EE0..0x006E31D5 (757 bytes).
 // AptCIH class-registration hook, WorldBuilder twin 0x017966F0 (an optimized
 // build with the same calls and order). For a character instance (AptCIH.h
@@ -244,6 +248,8 @@ void AptCIH::rva006E2EE0()
 		rva006E2D60();
 		refresh(1);
 		const char *name = movie->exports[i].name;
+		_ReadWriteBarrier();
+		{
 		AptActionSetup setup;
 		setup.context = this;
 		setup.value = constructor;
@@ -255,6 +261,7 @@ void AptCIH::rva006E2EE0()
 		g_aptDateInterpreter.contexts.pop();
 		g_aptDateInterpreter.stack.rva006FE920();
 		g_aptDateInterpreter.CleanupAfterExecution(saved, &setup);
+		}
 		if (((Rva006E0AC0 *)this)->rva006E0AC0())
 		{
 			Rva006E9A40List &clips = g_bfmeAptPtrAtE176D0->clips;
@@ -266,3 +273,4 @@ void AptCIH::rva006E2EE0()
 		return;
 	}
 }
+
