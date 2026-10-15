@@ -8,7 +8,9 @@
 struct Rva00423A4A
 {
 	unsigned int m_data[3];
-	~Rva00423A4A() {}
+	// Size-only view: the vector-owning definition supplies destruction.
+	// An empty local body would override its cleanup in other units.
+	~Rva00423A4A();
 };
 
 class Rva0042476C

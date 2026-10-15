@@ -37,7 +37,8 @@ struct BfmeE8
 struct Rva00423A4A
 {
 	unsigned int m_data[3];
-	~Rva00423A4A() {}
+	// Size-only view: use the vector-owning definition's destructor.
+	~Rva00423A4A();
 };
 
 class Rva0052BDE6
