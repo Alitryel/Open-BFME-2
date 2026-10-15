@@ -17,6 +17,7 @@ class Rva00330757Member
 {
 public:
 	Rva00330757Member();
+	~Rva00330757Member();
 private:
 	_STL::vector<BfmeE16> m_items;
 	int m_flags;
