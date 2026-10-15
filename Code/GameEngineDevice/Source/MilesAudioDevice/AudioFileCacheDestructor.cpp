@@ -33,7 +33,9 @@ class Rva000427195 {
  unsigned count;
 public:AudioCacheCursor rva00427195();void rva003A37DC(VideoPair);
 };
-AudioCacheCursor Rva000427195::rva00427195() {
+// Other retail-exact providers emit this helper as an inline COMDAT.
+// Keep its call and whole body while allowing those identical copies to fold.
+__declspec(noinline) inline AudioCacheCursor Rva000427195::rva00427195() {
  for(unsigned n=0;n<buckets.size();++n)
   if(buckets[n])return AudioCacheCursor(buckets[n],this);
  return AudioCacheCursor(0,this);
