@@ -1,4 +1,6 @@
 // ?rva00296065@Object@@QAEXPAURva00297612Entry@@@Z
+// partial score=0.915869 date=2026-10-15
+// ?rva00296065@Object@@QAEXPAURva00297612Entry@@@Z
 // partial score=0.913863 date=2026-10-14
 // ?rva00296065@Object@@QAEXPAURva00297612Entry@@@Z
 // partial score=0.8887731533183905 date=2026-10-10
@@ -16,6 +18,7 @@ class Rva002390CB {public:Rva002390CB(const Rva002390CB&);__forceinline ~Rva0023
 struct Rva00297612Entry {char pad0[0x2c];int visualState;ObjectID source;Coord3D vector;float amount,radius,taper,up;bool radial;char pad51[3];float extraDistance,secondary;Coord3D origin;float mode;};
 class Drawable {public:Rva002390CB rva0028F8F9();Rva002390CB rva0028F8E0();void rva0027B18C(Rva00297612Entry*);};
 class Rva002D9531 {public:void rva002D9531(int);};
+class Rva00294D61 {public:void report(Object*,int);};
 template<int N>class ShockSlots:public ShockSlots<N-1>{public:virtual void gap(char(*)[N])=0;};template<>class ShockSlots<0>{};
 class AudioManager:public ShockSlots<25>{public:virtual void addAudioEvent(BfmeAudioEventPrefix136*)=0;};extern AudioManager*TheAudio;
 class Rva003909FAObj{public:void consume(void*,int,int);};
@@ -30,7 +33,7 @@ class ThingTemplate {public:char pad0[0x11c];unsigned kinds;};
 class Rva001E438B {public:float*rva00261988(float*,Rva001E438B*);};
 enum DamageType{DAMAGE_UNKNOWN8=8};enum DeathType{DEATH_UNKNOWN0=0};
 class ShockFlags {public:unsigned words[19];unsigned test(int bit)const{return words[bit>>5]&(1u<<(bit&31));}void SetBit(int bit){words[bit>>5]|=1u<<(bit&31);}};
-class Object {public:void rva00296065(Rva00297612Entry*);void rva0028AE9B(int);bool rva0028DB0F(bool)const; PhysicsBehavior*getPhysics()const{return physics;} Drawable *getDrawable()const{return drawable;}private:AttributeModifierPoolUpdate *findAttributeModifierPoolUpdate() const;public:void rva0028AE6D();void scoreTheKill(Object*,bool);void kill(DamageType,DeathType);
+class Object {public:void rva00296065(Rva00297612Entry*);void rva0028AE9B(int);bool rva0028DB0F(bool)const; PhysicsBehavior*getPhysics()const{return physics;} Drawable *getDrawable()const{return drawable;}private:AttributeModifierPoolUpdate *findAttributeModifierPoolUpdate() const;public:void rva0028AE6D();void kill(DamageType,DeathType);
  char pad0[4];ThingTemplate*templ;char pad8[0x38-8];Coord3D position;char pad44[0x74-0x44];ObjectID id;char pad78[0x84-0x78];Drawable*drawable;char pad88[0x10c-0x88];ShockFlags flags;char pad158[0x254-0x158];BodyModule*body;AIUpdateInterface*ai;PhysicsBehavior*physics;char pad260[0x438-0x260];unsigned char status;
  __forceinline unsigned getCondition(int bit)const{return flags.test(bit);}__forceinline void setCondition(int bit){flags.SetBit(bit);rva0028AE6D();}
 };
@@ -55,7 +58,7 @@ void Object::rva00296065(Rva00297612Entry*entry){
    if(templ->kinds&0x80000000){if(forceVector.z>0.0f)forceVector.z=-forceVector.z;}else{if(forceVector.z<0.0f)forceVector.z=-forceVector.z;}((Rva003909FAObj*)behavior)->consume(&forceVector,0,0);
   }
   if(!getCondition(127))setCondition(127);behavior->rva00390629(true);
-  if(ai&&ai->getCurrentStateID()==45){ShockBodyEntry*data=body->slot15();Object*source=TheGameLogic->findObjectByID(data?body->slot15()->source:INVALID_OBJECT_ID);if(source&&!(status&1))source->scoreTheKill(this,true);kill(DAMAGE_UNKNOWN8,DEATH_UNKNOWN0);kill(DAMAGE_UNKNOWN8,DEATH_UNKNOWN0);}
+  if(ai&&ai->getCurrentStateID()==45){ShockBodyEntry*data=body->slot15();Object*source=TheGameLogic->findObjectByID(data?body->slot15()->source:INVALID_OBJECT_ID);if(source&&!(status&1))((Rva00294D61*)source)->report(this,1);kill(DAMAGE_UNKNOWN8,DEATH_UNKNOWN0);kill(DAMAGE_UNKNOWN8,DEATH_UNKNOWN0);}
   if(ai)ai->slot153();rva0028AE9B(entry->visualState);
  }
 end:if(draw)draw->rva0027B18C(entry);
