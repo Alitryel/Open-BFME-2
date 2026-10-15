@@ -198,6 +198,12 @@ private:
 
 enum ObjectStatusTypes { OBJECT_STATUS_NONE = 0 };
 enum ObjectID { INVALID_ID = 0 };
+namespace _STL {
+template<> void vector<ObjectID, allocator<ObjectID> >::_M_clear();
+template<> void vector<ObjectID, allocator<ObjectID> >::push_back(const ObjectID &);
+template<> void vector<ObjectID, allocator<ObjectID> >::_M_insert_overflow(ObjectID *, const ObjectID &, const __false_type &, size_t, bool);
+}
+
 enum NameKeyType { NAMEKEY_INVALID = 0 };
 enum SpecialPowerType { SPECIAL_INVALID = 0 };
 class Module;
@@ -455,6 +461,9 @@ public:
 	void rva005CC208(const UnicodeString &text, const Rva002217EA &data, int timeoutMS);
 };
 
+class GameMessage;
+class Rva0042C0DBDelegate { public: int invokeMessage(GameMessage *); };
+
 class Rva005CB260;
 
 class InGameUI
@@ -487,7 +496,10 @@ void ScriptActions::doDisplayNotificationBox(const AsciiString &name, const Asci
 			data.rva0010670B(const_cast<ThingTemplate *>(thingTemplate)->getButtonImage());
 	}
 	UnicodeString text = TheGameText->fetch(textLabel);
-	((InGameNotificationBox *)TheInGameUI->rva000CF155())->rva005CC208(text, data, seconds * 1000);
+    typedef int (Rva0042C0DBDelegate::*DelegateCall)(GameMessage *);
+    typedef void (InGameNotificationBox::*OpenCall)(const UnicodeString &, const Rva002217EA &, int);
+    OpenCall open = reinterpret_cast<OpenCall>(static_cast<DelegateCall>(&Rva0042C0DBDelegate::invokeMessage));
+    (((InGameNotificationBox *)TheInGameUI->rva000CF155())->*open)(text, data, seconds * 1000);
 }
 
 static void transferContainedObjects(ContainTransfer *transfer)

@@ -47,6 +47,10 @@ public:
     virtual void rva0029B56E(const UnicodeString &text, const Rva002217EA &data, int timeoutMS);
     void rva005CC208(const UnicodeString &text, const Rva002217EA &data, int timeoutMS);
 };
+// The native Open call reaches the shared slot-2 thunk. Its rowed delegate
+// spelling is used with this call site's independently established ABI.
+class GameMessage;
+class Rva0042C0DBDelegate { public: int invokeMessage(GameMessage *); };
 class InGameUIPrimaryView
 {
 public:
@@ -86,7 +90,10 @@ void ShowStuckAsObserverInStrategicRTSGameMessage()
         return;
     UnicodeString text = TheGameText->fetch("GUI:StuckAsObserverInStrategicRTSGameMessage");
     InGameNotificationBox *box = (InGameNotificationBox *)TheInGameUI->rva000CF155();
-    box->rva005CC208(text, type->rva00221ABB(), 0);
+    typedef int (Rva0042C0DBDelegate::*DelegateCall)(GameMessage *);
+    typedef void (InGameNotificationBox::*OpenCall)(const UnicodeString &, const Rva002217EA &, int);
+    OpenCall open = reinterpret_cast<OpenCall>(static_cast<DelegateCall>(&Rva0042C0DBDelegate::invokeMessage));
+    (box->*open)(text, type->rva00221ABB(), 0);
 }
 
 // Target evidence for notifyHeroEarnedAward: WB0x00DC4B30 names the owner,

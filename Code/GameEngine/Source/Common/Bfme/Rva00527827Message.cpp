@@ -10,6 +10,9 @@ public:
 	void Rva005CC208(int a, int b);
 };
 
+class GameMessage;
+class Rva0042C0DBDelegate { public: int invokeMessage(GameMessage *); };
+
 class Rva00527827
 {
 public:
@@ -33,7 +36,11 @@ void Rva00527827::rva00527827(int a, const float *b, int c, int d)
 	}
 	else if (m_mode == 3 || m_mode == 4)
 	{
-		if (m_1C != 0)
-			m_1C->Rva005CC208(a, (int)b);
+		if (m_1C != 0) {
+            typedef int (Rva0042C0DBDelegate::*DelegateCall)(GameMessage *);
+            typedef void (Obj00527827::*ForwardCall)(int, int);
+            ForwardCall forward = reinterpret_cast<ForwardCall>(static_cast<DelegateCall>(&Rva0042C0DBDelegate::invokeMessage));
+            (m_1C->*forward)(a, (int)b);
+        }
 	}
 }
