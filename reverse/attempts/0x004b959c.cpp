@@ -1,4 +1,6 @@
 // ?rva004B959C@InheritUpgradeCreate@@QAEXXZ
+// partial score=0.84 date=2026-10-15
+// ?rva004B959C@InheritUpgradeCreate@@QAEXXZ
 // partial score=0.8 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG
 // ?rva004B959C@InheritUpgradeCreate@@QAEXXZ @0x004B959C 269B
@@ -102,8 +104,7 @@ void InheritUpgradeCreate::rva004B959C()
 		const InheritUpgradeCreateData *data = m_moduleData;
 		if (data)
 		{
-			Rva002614ECFilter filter(data->m_pad8C, self->getControllingPlayer(), true);
-			BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&self->m_pos, data->m_range, 1, &filter, 0);
+			BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&self->m_pos, data->m_range, 1, &Rva002614ECFilter(data->m_pad8C, self->getControllingPlayer(), true), 0);
 			for (Object *other = hits.next(); other != 0; other = hits.next())
 			{
 				if (other->getControllingPlayer() != self->getControllingPlayer())

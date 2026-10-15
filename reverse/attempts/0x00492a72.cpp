@@ -1,4 +1,6 @@
 // ?rva0045108D@WeaponFireSpecialAbilityUpdate@@UAEXXZ
+// partial score=0.992 date=2026-10-15
+// ?rva0045108D@WeaponFireSpecialAbilityUpdate@@UAEXXZ
 // partial score=0.793 date=2026-10-14
 // ?rva0045108D@WeaponFireSpecialAbilityUpdate@@UAEXXZ
 // partial score=0.9495870263742425 date=2026-10-14
@@ -295,6 +297,7 @@ void WeaponFireSpecialAbilityUpdate::rva0045108D()
 
 {
  const WeaponFireSpecialAbilityUpdateModuleData *data = m_moduleData;
+ Rva00492A72Redirect * redirect = 0;
  Object *obj = m_object;
  if (obj->m_240)
  obj->m_240->rva004DEC88(true);
@@ -307,7 +310,7 @@ void WeaponFireSpecialAbilityUpdate::rva0045108D()
   
   {
    Rva00492A72Redirect * t1_live_redirect_302 = (data ? (target->rva0028C197()) : (target->rva0028C197()));
-   Rva00492A72Redirect * volatile redirect = t1_live_redirect_302;
+   redirect = t1_live_redirect_302;
    if (t1_live_redirect_302)
    
    {
