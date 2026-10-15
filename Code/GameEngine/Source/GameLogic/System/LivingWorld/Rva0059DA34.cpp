@@ -10,6 +10,18 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <map>
+// Keep the iterator comparison local: the incidental external base helper
+// differs from the selected library copy. Both compare the node pointers.
+namespace _STL {
+template <class Value, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits> &a,
+                              const _Rb_tree_iterator<Value, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+// Preserve inlined comparisons without emitting another external less<int>.
+template <> __declspec(dllimport) __forceinline
+bool less<int>::operator()(const int &a, const int &b) const
+{ return a < b; }
+}
 #include <vector>
 #include "ascii_string.h"
 
