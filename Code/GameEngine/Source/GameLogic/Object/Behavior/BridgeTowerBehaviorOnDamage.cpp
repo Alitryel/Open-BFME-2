@@ -28,6 +28,19 @@ public:
 	Real m_amount;
 	unsigned char m_pad24[0x7C - 0x24];
 };
+class Rva00263895Member
+{
+public:
+	Rva00263895Member();
+	unsigned char m_pad00[0x08];
+	ObjectID m_sourceID;
+	unsigned char m_pad0C[0x10 - 0x0C];
+	int m_damageType;
+	unsigned char m_pad14[0x1C - 0x14];
+	int m_deathType;
+	Real m_amount;
+	unsigned char m_pad24[0x7C - 0x24];
+};
 
 class BodyModuleInterface
 {
@@ -170,13 +183,13 @@ void BridgeTowerBehavior::onDamage( DamageInfo *damageInfo )
 				if( tower && tower != getObject() )
 				{
 					BodyModuleInterface *towerBody = tower->getBodyModule();
-					DamageInfo towerDamage;
+					Rva00263895Member towerDamage;
 
 					towerDamage.m_amount = damagePercentage * towerBody->getMaxHealth();
 					towerDamage.m_sourceID = getObject()->getID();  // we're now the source
 					towerDamage.m_damageType = damageInfo->m_damageType;
 					towerDamage.m_deathType = damageInfo->m_deathType;
-					tower->attemptDamage( &towerDamage );
+					tower->attemptDamage( (DamageInfo *)&towerDamage );
 
 				}  // end if
 
@@ -187,13 +200,13 @@ void BridgeTowerBehavior::onDamage( DamageInfo *damageInfo )
 			// so that it doesn't automatically propagate that damage to the towers
 			//
 			BodyModuleInterface *bridgeBody = bridge->getBodyModule();
-			DamageInfo bridgeDamage;
+			Rva00263895Member bridgeDamage;
 
 			bridgeDamage.m_amount = damagePercentage * bridgeBody->getMaxHealth();
 			bridgeDamage.m_sourceID = getObject()->getID();  // we're now the source
 			bridgeDamage.m_damageType = damageInfo->m_damageType;
 			bridgeDamage.m_deathType = damageInfo->m_deathType;
-			bridge->attemptDamage( &bridgeDamage );
+			bridge->attemptDamage( (DamageInfo *)&bridgeDamage );
 
 		}  // end if
 

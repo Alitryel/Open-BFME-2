@@ -39,6 +39,14 @@ public:
 	char m_pad24[0x7C - 0x24];
 };
 
+class Rva00263895Member
+{
+public:
+	Rva00263895Member();
+	DamageInfoInput in;
+	char m_pad24[0x7C - 0x24];
+};
+
 enum
 {
 	DAMAGE_HEALING = 7,
@@ -125,17 +133,17 @@ bool RepairDockUpdate::action(Object *docker, Object *drone)
 		return false;
 	}
 
-	DamageInfo healingInfo;
+	Rva00263895Member healingInfo;
 	healingInfo.in.m_amount = m_healthToAddPerFrame;
 	healingInfo.in.m_sourceID = m_object->getID();
 	healingInfo.in.m_damageType = DAMAGE_HEALING;
 	healingInfo.in.m_deathType = DEATH_NONE;
-	body->attemptHealing(&healingInfo);
+	body->attemptHealing((DamageInfo *)&healingInfo);
 	if (drone)
 	{
 		body = drone->getBodyModule();
 		healingInfo.in.m_amount = body->getMaxHealth();
-		body->attemptHealing(&healingInfo);
+		body->attemptHealing((DamageInfo *)&healingInfo);
 	}
 
 	return true;

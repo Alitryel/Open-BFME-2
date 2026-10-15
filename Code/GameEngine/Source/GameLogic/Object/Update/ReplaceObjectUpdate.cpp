@@ -89,6 +89,16 @@ public:
 	bool m_24;		// +0x24
 	char m_pad25[0x7C - 0x25];
 };
+class Rva00263895Member
+{
+public:
+	Rva00263895Member();		// 0x00263895
+	char m_pad00[0x08];
+	ObjectID m_sourceID;	// +0x08
+	char m_pad0C[0x24 - 0x0C];
+	bool m_24;		// +0x24
+	char m_pad25[0x7C - 0x25];
+};
 
 // The AI command entry at AIUpdateInterface +0x20 (0x0047ED64).
 enum CommandSourceType
@@ -233,10 +243,10 @@ private:
 
 void ReplaceObjectUpdate::rva004B2A60(Object *obj)
 {
-	DamageInfo info;
+	Rva00263895Member info;
 	info.m_24 = true;
 	info.m_sourceID = getObject()->getID();
-	obj->attemptDamage(&info);
+	obj->attemptDamage((DamageInfo *)&info);
 	TheGameLogic->destroyObject(obj);
 }
 void ReplaceObjectUpdate::rva004B2D28()

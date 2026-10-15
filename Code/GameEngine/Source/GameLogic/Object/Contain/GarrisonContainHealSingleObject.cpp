@@ -23,6 +23,16 @@ public:
     float m_amount;
     char m_tail[0x7c-0x24];
 };
+class Rva00263895Member {
+public:
+    Rva00263895Member();
+    char m_lead[0x10];
+    int m_damageType;
+    char m_gap[8];
+    int m_deathType;
+    float m_amount;
+    char m_tail[0x7c-0x24];
+};
 class Rva004786F8Body {
 public:
     virtual void slot00();
@@ -94,7 +104,7 @@ protected:
     void healSingleObject(Object*,float);
 };
 void GarrisonContain::healSingleObject(Object* object,float framesForFullHeal) {
-    DamageInfo healInfo;
+    Rva00263895Member healInfo;
     healInfo.m_damageType=7;
     healInfo.m_deathType=1;
     Rva004786F8ObjectView* view=(Rva004786F8ObjectView*)object;
@@ -103,7 +113,7 @@ void GarrisonContain::healSingleObject(Object* object,float framesForFullHeal) {
         healInfo.m_amount=body->getMaxHealth();
     else
         healInfo.m_amount=body->getMaxHealth()/framesForFullHeal;
-    body->attemptHealing(&healInfo);
+    body->attemptHealing((DamageInfo*)&healInfo);
 }
 void GarrisonContain::rva0047876A(const DamageInfo*, BodyDamageType, BodyDamageType newState) {
     if(newState == BODY_RUBBLE && !(m_object->m_template->m_kindof111 & 0x80)) {

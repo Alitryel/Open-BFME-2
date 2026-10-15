@@ -72,6 +72,19 @@ public:
 	Real m_amount; // +0x20
 	char m_pad24[0x7C - 0x24];
 };
+class Rva00263895Member
+{
+public:
+	Rva00263895Member();
+	char m_pad00[0x08];
+	ObjectID m_sourceID; // +0x08
+	char m_pad0C[0x10 - 0x0C];
+	Int m_damageType; // +0x10
+	char m_pad14[0x1C - 0x14];
+	Int m_deathType; // +0x1C
+	Real m_amount; // +0x20
+	char m_pad24[0x7C - 0x24];
+};
 
 class Object
 {
@@ -86,7 +99,7 @@ private:
 class Pathfinder
 {
 public:
-	void forceMapRecalculation();
+	void ForceMapRecalculation();
 };
 
 // TheAI's pathfinder at +0x10.
@@ -167,7 +180,7 @@ void TerrainLogic::setWaterHeight( const WaterHandle *water, Real height, Real d
 	{
 
 		// do the pathfind remapping
-		TheAI->pathfinder()->forceMapRecalculation();
+		TheAI->pathfinder()->ForceMapRecalculation();
 
 	}  // end if
 
@@ -203,12 +216,12 @@ void TerrainLogic::setWaterHeight( const WaterHandle *water, Real height, Real d
 			{
 
 				// do a lot of water damage
-				DamageInfo damageInfo;
+				Rva00263895Member damageInfo;
 				damageInfo.m_damageType = 9;
 				damageInfo.m_deathType = 7;
 				damageInfo.m_sourceID = INVALID_ID;
 				damageInfo.m_amount = damageAmount;
-				obj->attemptDamage( &damageInfo );
+				obj->attemptDamage( (DamageInfo *)&damageInfo );
 
 			}  // end if
 
