@@ -1,60 +1,36 @@
 // ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
-// partial score=0.594 date=2026-10-14
-// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
-// partial score=0.509 date=2026-10-14
-// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
-// partial score=0.8517 date=2026-10-05
-// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
-// partial score=0.92 date=2026-10-05
-// cl: /O1 /GX /DNDEBUG /MD /arch:SSE
+// partial score=0.83 date=2026-10-15
+// cl: /O1 /G7 /arch:SSE /GX /DNDEBUG /MD
 //
-// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z @0x0045C975 (281B).
-// BezierProjectileBehavior impact/detonate: layer resolve plus terrain pass check
-// plus position set plus trail clear plus reset plus kill plus AI notify.
-// Evidence: neighbours ??_GBezierProjectileBehavior 0x0045C959 and
-// ?xfer@BezierProjectileBehavior 0x0045CA8E prove BezierProjectileBehavior TU;
-// offsets +0x44 vector erase plus +0x7C reset plus +0x28/+0x70/+0x78 clears plus
-// +0x38 target id match Xfer layout; callees rowed setPosition kill setStatus
-// rva0028B4CE rva0028AE6D erase reset rva001E4912 rva001E42F2 rva0045003E aiIdle
-// plus pinned getLayerForDestination plus TerrainLogic vslot 0x1C plus globals
-// TheTerrainLogic and g_Va00BC2428; ret 4 unused int param.
-
+// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z, retail 0x0045C975..0x0045CA8E
+// (281 B, RET4, the int argument unused): the projectile's landing. Between the
+// rowed deleting destructor 0x0045C959 and xfer 0x0045CA8E, on the module's
+// layout (module data +4, object +8, path vector +0x44, counters +0x28/+0x70/
+// +0x78, list +0x7C as xfer and the BFME 1 Bezier bodies establish).
+// Target facts: the layer for the position 10 above the object
+// (getLayerForDestination) is set on the object (0x0028B4CE), the object is
+// put on that layer's height (TheTerrainLogic slot 7), the path and counters
+// are cleared, model-condition bits 0x9A/0x9B are applied (0x001E4912 ->
+// 0x001E42F2), a data flag at +0x19 marks status bit 0x4000000 (0x0028AE6D)
+// and kills the object (DamageType 8), status 5 is cleared, and the AI gets
+// command 0x0045003E with the data's +0x38 value, or idles, from source 2.
+// Method and field names are address- or role-derived.
+// BANK residue: retail keeps this/data/command in EDI and the object/AI in
+// ESI (swapped here) and tests/sets the +0x118 bit as mov eax,mask; test
+// [esi+118],eax; or [esi+118],eax (here the word is loaded once into a register).
 struct Coord3D
 {
 	float x;
 	float y;
 	float z;
 };
-
-enum PathfindLayerEnum
-{
-	LAYER_INVALID = -1
-};
-
-enum DamageType
-{
-	DAMAGE_TYPE_8 = 8
-};
-
-enum DeathType
-{
-	DEATH_TYPE_0 = 0
-};
-
-enum ObjectStatusTypes
-{
-	OBJECT_STATUS_5 = 5
-};
-
-enum CommandSourceType
-{
-	COMMAND_SOURCE_2 = 2
-};
+enum PathfindLayerEnum { LAYER_INVALID = -1 };
+enum DamageType { DAMAGE_TYPE_8 = 8 };
+enum DeathType { DEATH_TYPE_0 = 0 };
+enum ObjectStatusTypes { OBJECT_STATUS_5 = 5 };
+enum CommandSourceType { COMMAND_SOURCE_2 = 2 };
 
 class Object;
-class Thing;
-class ModuleData;
 
 class TerrainLogic
 {
@@ -69,26 +45,7 @@ public:
 	virtual float getLayerHeight(float x, float y, PathfindLayerEnum layer, Coord3D *normal, bool clip);
 	PathfindLayerEnum getLayerForDestination(Object *obj, const Coord3D *coord);
 };
-
 extern TerrainLogic *TheTerrainLogic;
-extern float g_Va00BC2428;
-
-class Object
-{
-public:
-	void rva0028B4CE(PathfindLayerEnum layer);
-	void rva0028AE6D();
-	void kill(DamageType damage, DeathType death);
-	void setStatus(ObjectStatusTypes status, bool flag);
-
-public:
-	char m_pad0[0x38];
-	Coord3D m_pos38;
-	char m_pad44[0x118 - 0x44];
-	int m_flags118;
-	char m_pad11C[0x258 - 0x11C];
-	void *m_ptr258;
-};
 
 class Thing
 {
@@ -96,18 +53,63 @@ public:
 	void setPosition(const Coord3D *pos);
 };
 
+class AICommandInterface
+{
+public:
+	void rva0045003E(int v, CommandSourceType src);
+	void aiIdle(CommandSourceType src);
+};
+struct ObjectAI
+{
+	char m_pad[0x20];
+	AICommandInterface m_ai; // +0x20
+};
+
+class Rva001E4912
+{
+public:
+	Rva001E4912 *rva001E4912(int a, unsigned int b, unsigned int c);
+	unsigned m_bits[19];
+};
+class Rva001E42F2
+{
+public:
+	void rva001E42F2(const int *p);
+};
+
+class Object
+{
+public:
+	const Coord3D *getPosition() const { return &m_pos38; }
+	// Sets status bit 26 once, notifying through 0x0028AE6D.
+	__forceinline void rva0045C975SetBit26()
+	{
+		if (!(m_flags118 & 0x4000000))
+		{
+			m_flags118 |= 0x4000000;
+			rva0028AE6D();
+		}
+	}
+	void rva0028B4CE(PathfindLayerEnum layer);
+	void rva0028AE6D();
+	void kill(DamageType damage, DeathType death);
+	void setStatus(ObjectStatusTypes status, bool flag);
+
+	char m_pad0[0x38];
+	Coord3D m_pos38; // +0x38
+	char m_pad44[0x118 - 0x44];
+	int m_flags118; // +0x118
+	char m_pad11C[0x258 - 0x11C];
+	ObjectAI *m_ai258; // +0x258
+};
+
 struct Gen_p12pod
 {
 	int a[3];
 };
-
 namespace _STL
 {
-template <class T>
-class allocator
-{
-};
-
+template <class T> class allocator {};
 template <class T, class A = allocator<T> >
 class vector
 {
@@ -125,148 +127,73 @@ class Rva0029FB3BMember
 {
 public:
 	void reset();
-
 private:
 	void *m_head;
-};
-
-class Rva001E4912
-{
-public:
-	Rva001E4912 *rva001E4912(int a, unsigned int b, unsigned int c);
-	unsigned m_bits[19];
-};
-
-class Rva001E42F2
-{
-public:
-	void rva001E42F2(const int *p);
-};
-
-class AICommandInterface
-{
-public:
-	void rva0045003E(int v, CommandSourceType src);
-	void aiIdle(CommandSourceType src);
-};
-
-struct ObjectAI
-{
-	char m_pad[0x20];
-	AICommandInterface m_ai;
 };
 
 struct BezierModuleData
 {
 	char m_pad[0x19];
-	unsigned char m_flag19;
+	bool m_flag19; // +0x19
 	char m_pad1A[0x38 - 0x1A];
-	int m_val38;
+	unsigned int m_command38; // +0x38
 };
 
-class BehaviorModuleBase
-{
-public:
-	virtual void behaviorModuleBaseAnchor();
-	const ModuleData *m_moduleData;
-	Object *m_object;
-};
-
-class BehaviorModuleOther
-{
-public:
-	virtual void behaviorModuleOtherAnchor();
-};
-
-class BehaviorModule : public BehaviorModuleBase, public BehaviorModuleOther
-{
-public:
-	BehaviorModule(Thing *thing, const ModuleData *moduleData);
-};
-
-class UpdateModuleInterface
-{
-public:
-	virtual void update();
-};
-
-class Rva0024A797 : public BehaviorModule, public UpdateModuleInterface
-{
-	unsigned m_nextCallFrameAndPhase;
-	int m_indexInLogic;
-	int m_bfmeReserved;
-
-public:
-	virtual ~Rva0024A797();
-};
-
-class BezierProjectileBehaviorSecondaryBase0
-{
-public:
-	virtual void slot();
-};
-
-class BezierProjectileBehaviorSecondaryBase1
-{
-public:
-	virtual void slot();
-};
-
-class BezierProjectileBehavior : public Rva0024A797, public BezierProjectileBehaviorSecondaryBase0, public BezierProjectileBehaviorSecondaryBase1
+class BezierProjectileBehavior
 {
 public:
 	void rva0045C975(int unused);
-
 private:
-	int m_id28;
+	void *m_vtbl;
+	const BezierModuleData *m_moduleData; // +0x04
+	Object *m_object; // +0x08
+	char m_pad0C[0x28 - 0x0C];
+	int m_id28; // +0x28
 	char m_pad2C[0x44 - 0x2C];
-	_STL::vector<Gen_p12pod> m_vec44;
+	_STL::vector<Gen_p12pod> m_path; // +0x44
 	char m_pad50[0x70 - 0x50];
-	int m_int70;
+	int m_int70; // +0x70
 	int m_pad74;
-	int m_int78;
-	Rva0029FB3BMember m_list7C;
+	int m_int78; // +0x78
+	Rva0029FB3BMember m_list7C; // +0x7C
 };
 
-// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z present-unmatched
-void BezierProjectileBehavior::rva0045C975(int unused)
+void BezierProjectileBehavior::rva0045C975(int)
 {
-	Object *obj = *(Object **)((char *)this + 8);
+	Object *obj = m_object;
 	Coord3D pos;
-	pos.x = obj->m_pos38.x;
-	pos.y = obj->m_pos38.y;
-	pos.z = obj->m_pos38.z + g_Va00BC2428;
+	pos.x = obj->getPosition()->x;
+	pos.y = obj->getPosition()->y;
+	pos.z = obj->getPosition()->z + 10.0f;
 	PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(obj, &pos);
 	obj->rva0028B4CE(layer);
-	float h = (obj ? (TheTerrainLogic->getLayerHeight(pos.x, pos.y, layer, 0, true)) : (TheTerrainLogic->getLayerHeight(pos.x, pos.y, layer, 0, true)));
+	pos.z = TheTerrainLogic->getLayerHeight(pos.x, pos.y, layer, 0, true);
 	((Thing *)obj)->setPosition(&pos);
-	pos.z = ((layer ? h : h) ? h : h);
-	_STL::vector<Gen_p12pod> &vec = this->m_vec44;
-	vec.erase(vec.begin(), vec.end());
-	this->m_int70 = 0;
-	this->m_int78 = 0;
-	this->m_id28 = 0;
-	this->m_list7C.reset();
+
+	_STL::vector<Gen_p12pod> &path = m_path;
+	path.erase(path.begin(), path.end());
+	m_int70 = 0;
+	m_int78 = 0;
+	m_id28 = 0;
+	m_list7C.reset();
+
 	Rva001E4912 bits;
-	((obj->m_flags118 ? ((Rva001E42F2 *)obj) : ((Rva001E42F2 *)obj)))->rva001E42F2((const int *)bits.rva001E4912(0, 0x9a, 0x9b));
-	const BezierModuleData *d = (const BezierModuleData *)this->m_moduleData;
-	if (d->m_flag19 != 0) {
-		if ((__vref(obj->m_flags118) & 0x4000000) == 0) {
-			obj->m_flags118 |= 0x4000000;
-			obj->rva0028AE6D();
-		}
+	((Rva001E42F2 *)obj)->rva001E42F2((const int *)bits.rva001E4912(0, 0x9a, 0x9b));
+
+	const BezierModuleData *d = m_moduleData;
+	if (d->m_flag19)
+	{
+		obj->rva0045C975SetBit26();
 		obj->kill(DAMAGE_TYPE_8, DEATH_TYPE_0);
 	}
 	obj->setStatus(OBJECT_STATUS_5, false);
-	int v38 = d->m_val38;
-	ObjectAI *aiobj = (ObjectAI *)obj->m_ptr258;
-	if ((unsigned int)v38 > 0u) {
-		if (aiobj == 0)
-			return;
-		aiobj->m_ai.rva0045003E(v38, COMMAND_SOURCE_2);
-	} else {
-		if (aiobj == 0)
-			return;
-		aiobj->m_ai.aiIdle(COMMAND_SOURCE_2);
+
+	ObjectAI *ai = obj->m_ai258;
+	if (d->m_command38 > 0)
+	{
+		if (ai)
+			ai->m_ai.rva0045003E(d->m_command38, COMMAND_SOURCE_2);
 	}
+	else if (ai)
+		ai->m_ai.aiIdle(COMMAND_SOURCE_2);
 }
