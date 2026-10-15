@@ -19,15 +19,14 @@
 // IDENTITY IS NOT RECOVERED.  Four classes at four addresses, each with one
 // four-byte head and the compared dword at +0x04.
 //
-// This TU holds the four rows the BFME 1 donor sweep placed; the donor's
-// other eight definitions are omitted.
+// The BFME 1 donor sweep placed four comparisons. Gen_0056E190's row now
+// belongs to AptSaveLoad.cpp, which needs its inline body visible to the caller;
+// keeping an out-of-line copy here creates a duplicate definition.
 
-unsigned int bfmeHash00010AFA(unsigned int left, unsigned int right);	// ILT 0x00010AFA
 unsigned int bfmeHash00013412(unsigned int left, unsigned int right);	// ILT 0x00013412
 unsigned int bfmeHash0002A473(unsigned int left, unsigned int right);	// ILT 0x0002A473
 unsigned int bfmeHash0002BB70(unsigned int left, unsigned int right);	// ILT 0x0002BB70
 
-enum { BFME_HASH_EQUAL_00010AFA = 0x993BA311 };
 enum { BFME_HASH_EQUAL_00013412 = 0x342C2BE0 };
 enum { BFME_HASH_EQUAL_0002A473 = 0x66DE9C79 };
 enum { BFME_HASH_EQUAL_0002BB70 = 0xA69B3F6A };
@@ -62,16 +61,6 @@ private:
 	unsigned int m_bfmeValue;				// +0x04
 };
 
-class Gen_0056E190
-{
-public:
-	bool bfmeDiffers(const Gen_0056E190 &other) const;
-
-private:
-	char m_bfmeHead[4];
-	unsigned int m_bfmeValue;				// +0x04
-};
-
 // ?bfmeDiffers@Gen_00528EC0@@QBE_NABV1@@Z		34B @0x003F2330
 bool Gen_00528EC0::bfmeDiffers(const Gen_00528EC0 &other) const
 {
@@ -100,15 +89,6 @@ inline bool Gen_0054EC80::bfmeDiffers(const Gen_0054EC80 &other) const
 	unsigned int mine = m_bfmeValue;
 
 	return bfmeHash00013412(mine, theirs) != BFME_HASH_EQUAL_00013412;
-}
-
-// ?bfmeDiffers@Gen_0056E190@@QBE_NABV1@@Z		34B @0x00435B4F
-bool Gen_0056E190::bfmeDiffers(const Gen_0056E190 &other) const
-{
-	unsigned int theirs = other.m_bfmeValue;
-	unsigned int mine = m_bfmeValue;
-
-	return bfmeHash00010AFA(mine, theirs) != BFME_HASH_EQUAL_00010AFA;
 }
 
 // ?rva003F2352@Rva003F2352@@QAEPAV1@PAV1@0@Z 31B @0x003F2352
