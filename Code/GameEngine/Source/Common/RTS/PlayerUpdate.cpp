@@ -1,6 +1,4 @@
-// ?update@Player@@QAEXXZ
-// partial score=0.99 date=2026-10-15
-// cl: /G7 /O1 /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /I. /G7 /O1 /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 //
 // ?update@Player@@QAEXXZ, retail 0x002AE770 (351 bytes, RET0).
@@ -22,6 +20,9 @@
 // Field names for +2BC/+2A8/+294/+33E are donor inference; the map views
 // keep their rowed address-derived owners.
 #include <list>
+#include <vector>
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "reference/shims/moduledata/Common/Snapshot.h"
 
 typedef bool Bool;
 typedef int Int;
@@ -29,17 +30,45 @@ typedef unsigned int UnsignedInt;
 
 class AsciiString;
 class TeamPrototype;
+// The team-prototype list instantiation keeps the ledger's placeholder
+// element name of its rowed copy constructor 0x002AE577.
+struct Rva002AE577PointerTarget;
 
-// Retail calls the team list's base destructor (0x002ABB44) with no EH
-// state transition before it (see AIPlayerTeamBuild.cpp).
+// The team list's nodes come from a pool and go back onto its free list
+// (VA 0x00DBBD34, see Rva002AAC74PoolListClear.cpp), so its base clear
+// (0x002AAC74) and destructor (0x002ABB44) are that pool's; retail calls the
+// destructor with no EH state transition before it (see AIPlayerTeamBuild.cpp).
+struct PoolNode002ABAC0;
+extern PoolNode002ABAC0 *g_00DBBD34;
 namespace _STL {
-template <> inline _List_base<TeamPrototype *, allocator<TeamPrototype *> >::~_List_base() throw()
+template <> inline void _List_base<Rva002AE577PointerTarget *, allocator<Rva002AE577PointerTarget *> >::clear()
+{
+	void *head = _M_node._M_data;
+	void *node = ((void **)head)[0];
+	if (node != head) {
+		do {
+			void *freeHead = g_00DBBD34;
+			void *current = node;
+			node = ((void **)current)[0];
+			((void **)current)[0] = freeHead;
+			g_00DBBD34 = (PoolNode002ABAC0 *)current;
+		} while (node != _M_node._M_data);
+	}
+	((void **)_M_node._M_data)[0] = _M_node._M_data;
+	((void **)_M_node._M_data)[1] = _M_node._M_data;
+}
+template <> inline _List_base<Rva002AE577PointerTarget *, allocator<Rva002AE577PointerTarget *> >::~_List_base() throw()
 {
 	clear();
-	_M_node.deallocate(_M_node._M_data, 1);
+	void *head = _M_node._M_data;
+	if (head != 0) {
+		void *freeHead = g_00DBBD34;
+		((void **)head)[0] = freeHead;
+		g_00DBBD34 = (PoolNode002ABAC0 *)head;
+	}
 }
 }
-typedef _STL::list<TeamPrototype *> PlayerTeamList;
+typedef _STL::list<Rva002AE577PointerTarget *> PlayerTeamList;
 
 template <class OBJCLASS>
 class DLINK_ITERATOR
@@ -65,11 +94,6 @@ class MemoryPoolObject
 public:
 	virtual ~MemoryPoolObject();
 };
-class Snapshot
-{
-public:
-	virtual void crc();
-};
 
 class Team : public MemoryPoolObject, public Snapshot
 {
@@ -91,17 +115,75 @@ private:
 };
 
 // Rowed name-map helpers (AsciiStringTableSubscripts.cpp, MilesAudio views).
-class Rva000411084
-{
-public:
-	void *next();
-	void *current, *owner;
-};
+// The +2BC name->int timer table is an STLport hashtable (unused word, the
+// bucket vector at +4, count) whose begin (0x00427195), iterator advance
+// (0x00411084) and bucket skip (0x003F7925) keep their rowed address-derived
+// owners. Their bodies are defined here as the retail TU saw them (template
+// inlines that stay out of line): with them visible cl knows the iterator's
+// address never escapes, so the timer walk keeps it.current in eax across the
+// decrement as retail does; declared only, it reloaded it.current after the
+// store through the node. The spellings follow the rowed bodies
+// (AudioFileCacheDestructor.cpp, EvaMessageName.cpp, EvaBucketAdvance.cpp).
+class Rva000411084;
 class Rva000427195
 {
 public:
-	void *first(Rva000411084 *);
+	__declspec(noinline) void *first(Rva000411084 *iter);
+	int bucketIndex(const AsciiString *name);
+	void *m_unused00;
+	_STL::vector<void *> m_buckets;
 };
+class Rva000411084
+{
+public:
+	__declspec(noinline) void *next()
+	{
+		void *node = *(void **)current;
+		if (node == 0)
+			node = advance();
+		current = node;
+		return this;
+	}
+	__declspec(noinline) void *advance()
+	{
+		struct Table
+		{
+			void *m_unused00;
+			union {
+				void **m_beginBuckets;
+				void ** volatile m_beginBucketsVolatile;
+			};
+			void **m_endBuckets;
+			int bucketIndex(const AsciiString *name);
+		};
+		Table *table = (Table *)owner;
+		unsigned index = (unsigned)((Rva000427195 *)table)->bucketIndex((const AsciiString *)((char *)current + 4));
+		unsigned count = (unsigned)(((char *)table->m_endBuckets - (char *)table->m_beginBuckets) >> 2);
+		void *head = 0;
+		do {
+			++index;
+			if (index >= count)
+				break;
+			head = table->m_beginBucketsVolatile[index];
+		} while (head == 0);
+		return head;
+	}
+	void *current, *owner;
+};
+// ?Rva000427195::first present-unmatched (inline, emitted out of line; ICF-folded at 0x00427195; pinned)
+inline void *Rva000427195::first(Rva000411084 *iter)
+{
+	for (unsigned n = 0; n < m_buckets.size(); ++n)
+		if (m_buckets[n])
+		{
+			iter->current = m_buckets[n];
+			iter->owner = this;
+			return iter;
+		}
+	iter->current = 0;
+	iter->owner = this;
+	return iter;
+}
 class Rva001FDE3F
 {
 public:
@@ -159,14 +241,6 @@ private:
 };
 extern PlayerList *ThePlayerList;
 
-class GameLogic
-{
-public:
-	UnsignedInt getFrame() const { return m_frame; }
-private:
-	unsigned char m_pad[0x40];
-	UnsignedInt m_frame; // +0x40
-};
 extern GameLogic *TheGameLogic;
 
 class GlobalData;
@@ -196,7 +270,7 @@ private:
 	Rva001FDE3F m_startingProductionSpeedBonus; // +0x2A8
 	unsigned char m_pad2A9[0x2BC - 0x2A9];
 	Rva000427195 m_productionSpeedTimers; // +0x2BC
-	unsigned char m_pad2BD[0x2DC - 0x2BD];
+	unsigned char m_pad2CC[0x2DC - 0x2CC];
 	AIPlayerView *m_ai; // +0x2DC
 	unsigned char m_pad2E0[0x32C - 0x2E0];
 	PlayerTeamList m_playerTeamPrototypes; // +0x32C
@@ -219,12 +293,13 @@ void Player::update()
 			if (((NameTimerNode *)it.current)->m_value != 0)
 			{
 				((NameTimerNode *)it.current)->m_value--;
-				// Residue: retail re-reads the count at [eax+8] without reloading
-				// it.current; this path reloads it (one extra mov).
-				if (((NameTimerNode *)it.current)->m_value == 0)
-			{
-				const AsciiString &name = *(const AsciiString *)node->m_key;
-				m_productionSpeedBonus.rva001FDE3F(name) = m_startingProductionSpeedBonus.rva001FDE3F(name);
+				// The test reads the count through the node local: through the
+				// iterator cl folds it into the dec's flags (dec; jne), retail
+				// re-reads it (dec; cmp [eax+8],0).
+				if (node->m_value == 0)
+				{
+					const AsciiString &name = *(const AsciiString *)node->m_key;
+					m_productionSpeedBonus.rva001FDE3F(name) = m_startingProductionSpeedBonus.rva001FDE3F(name);
 				}
 			}
 		}
@@ -235,7 +310,7 @@ void Player::update()
 	PlayerTeamList::iterator end = teams.end();
 	for (PlayerTeamList::iterator pit = teams.begin(); pit != end; ++pit)
 	{
-		for (DLINK_ITERATOR<Team> iter = (*pit)->iterate_TeamInstanceList(); !iter.done(); iter.advance())
+		for (DLINK_ITERATOR<Team> iter = ((TeamPrototype *)*pit)->iterate_TeamInstanceList(); !iter.done(); iter.advance())
 		{
 			Team *team = iter.cur();
 			if (!team)
