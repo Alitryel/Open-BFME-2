@@ -70,6 +70,12 @@ typedef _STL::_Rb_tree<int, _STL::pair<const int, Rva0040A603Record>,
 template <> CleanupTree::~_Rb_tree();
 template <> void CleanupTree::clear();
 
+class Rva0040A59B
+{
+public:
+	void rva0040A59B();
+};
+
 class Rva0021FFEE : public SubsystemInterface
 {
 public:
@@ -98,7 +104,7 @@ private:
 Rva0021FFEE::~Rva0021FFEE()
 {
 	m_state1E0 = 0;
-	m_tree174.clear();
+	reinterpret_cast<Rva0040A59B *>(&m_tree174)->rva0040A59B();
 }
 
 // Native 0022020C..002202BF (179B): reuse an existing entry by its fifth
