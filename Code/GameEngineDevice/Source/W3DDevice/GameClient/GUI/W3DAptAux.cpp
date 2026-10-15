@@ -186,13 +186,15 @@ void rebuildMask();						// 0x000AA5E1
 unsigned long Rva000A90B0(unsigned long);						// 0x000A90B0
 
 // The Apt draw callback slot (0x00DB5FC8) and the Apt player (0x00DFE4CC),
-// whose OnCustomRender (WB name) is rowed under a placeholder.
+// whose OnCustomRender identity is corroborated by WB B97350 and retail 223D8D.
 extern int g_Va00DB5FC8;
 
-class Rva00223D8D
+class AptPlayer
 {
 public:
-	void rva00223D8D(const char *name, int topLeft, int bottomRight, int arg1, int arg3);	// 0x00223D8D
+ void OnCommand(const char *name, int value);
+ void SetExtern(const char *name, int value);
+	void OnCustomRender(const char *name, int topLeft, int bottomRight, int arg1, int arg3);	// 0x00223D8D
 };
 
 class BfmeAptWindowManager;
@@ -222,7 +224,7 @@ void w3dCustomControlRender(const char *name, Int arg1, AptRenderingUnit *render
 	topLeft.y = roundToPixel(topLeft.y);
 	bottomRight.x = roundToPixel(bottomRight.x);
 	bottomRight.y = roundToPixel(bottomRight.y);
-	((Rva00223D8D *)g_bfmeAptWindowManager)->rva00223D8D(name, (int)&topLeft, (int)&bottomRight, arg1, arg3);
+	((AptPlayer *)g_bfmeAptWindowManager)->OnCustomRender(name, (int)&topLeft, (int)&bottomRight, arg1, arg3);
 	g_Va00DB5FC8 = savedCallback;
 	W3DAptAux::s_renderer->bfmeEnd982C();
 }
@@ -276,12 +278,6 @@ void Rva000A91D8AptFree(void *memory)
  ::operator delete[](memory);
 }
 
-class AptPlayer
-{
-public:
- void OnCommand(const char *name, int value);
- void SetExtern(const char *name, int value);
-};
 
 // Apt command slot E17758: native A91DD..A91F1 forwards both cdecl
 // arguments to the owned OnCommand member through the established global.

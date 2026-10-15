@@ -144,6 +144,7 @@ struct AptLevelOverrideNode {void *next; AsciiString key; int index;};
 class AptPlayer
 {
 public:
+ void OnCustomRender(const char *name, int a, int b, int c, int d);
  static int GetLevelIndex(GameWindow *window);
  GameWindow *WinCreate(const AsciiString *name,AptLayoutInfoView *layout);
  bool ShowLevel(int index);
@@ -652,4 +653,26 @@ RadialClockResult *Rva00223BF6::rva00223BF6(RadialClockResult *out, const char *
 	out->fraction = 1.0f;
 	out->image = 0;
 	return out;
+}
+
+// WorldBuilder identifies AptPlayer::OnCustomRender; retail 223D8D..223DD7
+// proves the null-name guard, temporary key, +34 custom-render map, node+8
+// callback handle and four forwarded machine words. Keep those argument
+// types neutral: the native caller passes two coordinate pointers as words.
+class Rva0022297BRef {
+public:
+ void invoke(int a, int b, int c, int d);
+};
+void AptPlayer::OnCustomRender(const char *name, int a, int b, int c, int d)
+{
+ if (!name)
+  return;
+ void *node;
+ {
+  AsciiString key(name);
+  node = reinterpret_cast<Rva00056F61 *>(m_customRenderMap)->rva00056F61(&key);
+ }
+ if (!node)
+  return;
+ reinterpret_cast<Rva0022297BRef *>(static_cast<char *>(node) + 8)->invoke(a, b, c, d);
 }
