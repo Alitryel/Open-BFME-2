@@ -18,7 +18,9 @@ public:
 };
 
 int __cdecl Rva002E6E8AGet(int v);
-int __cdecl rva002E79A8_ret(int a1, unsigned char a2, int a3, int a4, int a5);
+struct PathfinderCellPoint : Coord3D {};
+enum PathfindLayerEnum { LAYER_INVALID = 0 };
+PathfinderCellPoint rva002E79A8(bool centerInCell, int cellX, int cellY, PathfindLayerEnum layer);
 
 struct Rva002E7ED6Info
 {
@@ -33,9 +35,7 @@ int Rva002E7ED6Info::cellCallback(PathfindCell *previousCell, PathfindCell *curr
 	int v = (currentCell->m_0C >> 4) & 0x3F;
 	if ((unsigned char)Rva002E6E8AGet(v))
 		return 0;
-	Rva002E7ED6Info tmp;
-	Rva002E7ED6Info *p = (Rva002E7ED6Info *)rva002E79A8_ret((int)&tmp, 1, cellX, cellY, v);
-	*this = *p;
+	*(Coord3D *)this = rva002E79A8(true, cellX, cellY, (PathfindLayerEnum)v);
 	return 1;
 }
 
@@ -100,9 +100,7 @@ int Rva002E7B29Info::cellCallback(PathfindCell *previousCell, PathfindCell *curr
    return 0;
  }
  if (provider->rva002E7749(0,cellX,cellY,(currentCell->m_0C>>4)&0x3F,clearance,true)==clearance) {
-  Coord3D temporary;
-  Coord3D *point=(Coord3D *)rva002E79A8_ret((int)&temporary,1,cellX,cellY,(currentCell->m_0C>>4)&0x3F);
-  result=*point;
+  result=rva002E79A8(true,cellX,cellY,(PathfindLayerEnum)((currentCell->m_0C>>4)&0x3F));
   return 0;
  }
  return 1;
