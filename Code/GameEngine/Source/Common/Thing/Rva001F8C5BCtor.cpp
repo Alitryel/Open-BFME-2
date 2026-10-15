@@ -51,3 +51,18 @@ Rva001F8C5B::Rva001F8C5B(const _STL::vector<void*>& src)
 		((_STL::vector<const ModuleData*>&)m_vec).push_back(md);
 	}
 }
+
+// Native 1F90B1..1F90C3 (18B, ret 4): orphan .text hole whose only content is
+// a constructor forwarding its pointer vector to the Rva001F8C5B constructor
+// above and returning this; no reference to it survives in the image. Modelled
+// as a member-less derived class; identity unproven.
+class Rva001F90B1 : public Rva001F8C5B
+{
+public:
+	Rva001F90B1(const _STL::vector<void*>& src);
+};
+
+Rva001F90B1::Rva001F90B1(const _STL::vector<void*>& src)
+	: Rva001F8C5B(src)
+{
+}
