@@ -17,9 +17,35 @@ class PlayerTemplate;
 class Team;
 enum Relationship { ENEMIES = 0, NEUTRAL = 1, ALLIES = 2 };
 class ParticleSystem { public: bool isSaveable() const; };	// 0x002AA223 (rowed under this name)
+extern "C" void *__cdecl memset(void *dst, int value, unsigned int size);
+
+// The 28-byte by-value kind filter retail copies through the rowed copy
+// constructor 0x0004543D; a one-bit filter is built in place (memset, then
+// the bit's byte).
+class BfmeFixedStorage0004543D
+{
+public:
+	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other);
+	__forceinline explicit BfmeFixedStorage0004543D(Int bit)
+	{
+		memset(w, 0, sizeof(w));
+		((unsigned char *)w)[bit / 8] |= 1 << (bit % 8);
+	}
+	unsigned int w[7];
+};
+template <int N> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
+class BfmeTab1026;
+class Rva002AA22AByteField { public: unsigned char get() const; };	// 0x002AA22A
+
 class Player {
 public:
  Bool isLocalPlayer() const;
+ Bool rva002AB295(BfmeFixedStorage0004543D mask, Bool flag) const;
+ Bool rva002AB2D9(BfmeTab1026 *tab, Bool flag) const;
+ Bool rva002AB341(BfmeFixedStorage0004543D mask, BfmeFixedStorage0004543D exclude) const;
+ Bool rva002AB390(BfmeTab1026 *tab) const;
+ Bool hasAnyObjects(Bool flag) const;
  Relationship getRelationship(const Team *that) const;
  Team *getDefaultTeam() const { return defaultTeam; }
  char prefix[0x34]; const PlayerTemplate *playerTemplate;
@@ -28,6 +54,28 @@ public:
 class Rva0023D229 {public:void rva0023D24C(Int slot);};
 class GameLogic;
 extern GameLogic *TheGameLogic;
+// Fields testDefeat reads: TheGameLogic +0x110 (game mode, 9 refuses any
+// defeat) and +0x114 (3 skips the selection lock); TheWritableGlobalData
+// +0xEBC/+0xEC0 (the two template tables the structure conditions test).
+struct VictoryGameLogicView { char m_pad[0x110]; Int m_mode; Int m_network; };
+class GlobalData;
+extern GlobalData *TheWritableGlobalData;
+struct VictoryGlobalDataView { char m_pad[0xEBC]; unsigned int m_buildingTable; unsigned int m_unitTable; };
+class LivingWorldLogic;
+extern LivingWorldLogic *TheLivingWorldLogic;
+
+// ?isSelectionLocked@BfmeSelectionState@@QBE_NXZ, rowed 0x0004253A (20 bytes,
+// InGameUI_isSelectionLocked.cpp): a visible noinline copy of the same body,
+// so cl knows the call leaves TheGameLogic alone and keeps it in ESI across it.
+class BfmeSelectionState
+{
+public:
+	__declspec(noinline) bool isSelectionLocked() const { return m_first != 0 && m_second != 0; }
+private:
+	unsigned char m_pad[0xB4];
+	unsigned char m_first;
+	unsigned char m_second;
+};
 class PlayerList {public:char prefix[0x18];Player *neutralPlayer;};
 extern PlayerList *ThePlayerList;
 enum NameKeyType { NAMEKEY_INVALID=0 };
@@ -61,7 +109,9 @@ public:
 
 
 private:
-	unsigned char m_pad04[0x18 - 4];
+	unsigned char m_pad04[0x0C - 4];
+	Int m_victoryCondition;				// +0x0C (testDefeat's switch)
+	unsigned char m_pad10[0x18 - 0x10];
 	Player *m_players[MAX_PLAYER_COUNT];		// +0x18
 	Int m_localSlotNum;				// +0x68
 	unsigned char m_pad6C[0x85 - 0x6c];
@@ -127,6 +177,53 @@ Bool VictoryConditions::hasBeenDefeated(Player *player)
 	if (m_singleAllianceRemaining && m_field88 > 0 && !hasAchievedVictory(player))
 		return true;
 
+	return false;
+}
+
+// VictoryConditions::testDefeat, retail 0x004207D4 (312 bytes), named by its
+// own assert string in WB 0x01115160 (same flow, BFME2's offsets): a player
+// flagged by 0x002AA22A is defeated; a selection lock outside game type 3, or
+// game mode 9, defeats nobody; otherwise the +0x0C condition picks the test:
+// 0 no object of kind 177 (0x002AB295), 1 no objects at all, 2 neither a
+// building of the +0xEBC table nor an object of kind 14 (0x002AB341 against
+// KINDOFMASK_NONE), 3 neither a +0xEBC building nor a +0xEC0 unit. WB keeps
+// the value 3 test (0x002AB390) before value 2's in the source, which gives
+// retail's shared negate tail in value 2's block.
+Bool VictoryConditions::testDefeat(Player *player)
+{
+	if (((const Rva002AA22AByteField *)player)->get())
+		return true;
+	if (((VictoryGameLogicView *)TheGameLogic)->m_network != 3 && TheLivingWorldLogic
+		&& ((BfmeSelectionState *)TheLivingWorldLogic)->isSelectionLocked())
+		return false;
+	if (((VictoryGameLogicView *)TheGameLogic)->m_mode == 9)
+		return false;
+
+	switch (m_victoryCondition)
+	{
+	case 0:
+	{
+		BfmeFixedStorage0004543D mask(177);
+		if (!player->rva002AB295(mask, false))
+			return true;
+		break;
+	}
+	case 1:
+		if (!player->hasAnyObjects(false))
+			return true;
+		break;
+	case 3:
+		if (player->rva002AB2D9((BfmeTab1026 *)&((VictoryGlobalDataView *)TheWritableGlobalData)->m_buildingTable, false))
+			return false;
+		return player->rva002AB390((BfmeTab1026 *)&((VictoryGlobalDataView *)TheWritableGlobalData)->m_unitTable) ? false : true;
+	case 2:
+	{
+		if (player->rva002AB2D9((BfmeTab1026 *)&((VictoryGlobalDataView *)TheWritableGlobalData)->m_buildingTable, false))
+			return false;
+		BfmeFixedStorage0004543D mask(14);
+		return player->rva002AB341(mask, *(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE) ? false : true;
+	}
+	}
 	return false;
 }
 
