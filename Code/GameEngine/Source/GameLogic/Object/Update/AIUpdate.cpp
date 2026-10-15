@@ -66,10 +66,8 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
                               const _List_iterator<T, RightTraits>& b)
 { return a._M_node != b._M_node; }
 }
-
 #define DEFINE_LOCOMOTORSET_NAMES					// for TheLocomotorSetNames[]
 #define DEFINE_AUTOACQUIRE_NAMES
-
 #include "Common/ActionManager.h"
 #include "Common/GameState.h"
 #include "Common/CRCDebug.h"
@@ -85,14 +83,17 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "Common/UnitTimings.h"
 #include "Common/Xfer.h"
 #include "Common/XferCRC.h"
-
 #include "GameClient/ControlBar.h"
 #include "GameClient/Drawable.h"
 #include "GameClient/InGameUI.h"  // useful for printing quick debug strings when we need to
-
 #include "GameLogic/AI.h"
 #include "GameLogic/AIPathfind.h"
 #include "GameLogic/Locomotor.h"
+#define isInAttackState __declspec(dllimport) __forceinline isInAttackState
+#define lock __declspec(dllimport) __forceinline lock
+#include "Common/StateMachine.h" // Suppress unused legacy helpers before AIUpdate.h reads it.
+#undef lock
+#undef isInAttackState
 #include "GameLogic/Module/AIUpdate.h"
 #include "GameLogic/Module/BodyModule.h"
 #include "GameLogic/Module/ContainModule.h"
@@ -108,7 +109,6 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "GameLogic/TurretAI.h"
 #include "GameLogic/Weapon.h"
 #include "Common/Radar.h"									// For TheRadar
-
 // BFME 2's Object keeps its behavior list at +0x244 (the matched
 // Object::findModule 0x0028B6D6 walks it there), its contain module at +0x250
 // and its body module at +0x254; this tree's Zero Hour Object.h has +0x18C,
