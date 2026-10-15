@@ -159,6 +159,7 @@ public:
 #include "../../../../../../../reference/shims/wwmath/Vector2.h"
 // bfme link decl-only begin
 namespace _STL { template <> AssetReference * __uninitialized_copy<AssetReference *, AssetReference *>(AssetReference *, AssetReference *, AssetReference *, __false_type const &); }
+namespace _STL { template <> void vector<AssetReference, allocator<AssetReference> >::push_back(AssetReference const &); }
 namespace _STL { template <> void vector<AssetReference, allocator<AssetReference> >::_M_insert_overflow(AssetReference *, AssetReference const &, __false_type const &, unsigned int, bool); }
 // bfme link decl-only end
 
