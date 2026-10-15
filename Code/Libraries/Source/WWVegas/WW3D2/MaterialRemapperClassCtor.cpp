@@ -47,7 +47,8 @@ class RefCountPtr
 {
 public:
 	__declspec(dllimport) __forceinline RefCountPtr() : Referent(0) {}
-	RefCountPtr &operator=(const RefCountPtr &src)
+	// The constructor inlines this assignment; do not emit a competing copy.
+	__declspec(dllimport) __forceinline RefCountPtr &operator=(const RefCountPtr &src)
 	{
 		if (src.Referent) {
 			src.Referent->Add_Ref();
@@ -75,7 +76,8 @@ class MaterialInfoClass
 public:
 	void Add_Ref(void) { NumRefs++; }
 	int Vertex_Material_Count(void) const { return m_vmatCount; }
-	VertexMaterialClass *Peek_Vertex_Material(int index) const
+	// Keep the bounds check inline; the native out-of-line body has its owner.
+	__declspec(dllimport) __forceinline VertexMaterialClass *Peek_Vertex_Material(int index) const
 	{
 		if (index < m_vmatCount) {
 			return m_vmatBase[index];

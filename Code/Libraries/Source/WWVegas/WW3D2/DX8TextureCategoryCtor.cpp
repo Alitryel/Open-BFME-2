@@ -92,7 +92,8 @@ class VertexMaterialClass
 {
 public:
 	virtual void Delete_This() = 0;
-	void Add_Ref() { ++NumRefs; }
+	// Preserve the inline 32-bit increment without a competing external copy.
+	__declspec(dllimport) __forceinline void Add_Ref() { ++NumRefs; }
 	int NumRefs;
 };
 
