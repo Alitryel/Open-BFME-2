@@ -1,3 +1,5 @@
+// ?doTakeGroup@ScriptList@@QAEXXZ
+// partial score=0.995 date=2026-10-15
 // ?doTakeGroup@ScriptList@@QAEXPAV1@PAPAUScriptGroupLink@@1@Z
 // partial score=0.995 date=2026-10-14
 // ?doTakeGroup@ScriptList@@QAEXPAV1@PAPAUScriptGroupLink@@1@Z

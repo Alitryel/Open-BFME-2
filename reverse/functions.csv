@@ -89896,3 +89896,5 @@ uw_0079d478,,0x0079D478,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/
 $L3985,,0x0075D58E,10,Code/GameEngine/Source/Common/Rva0004F84ESnapshotFactory.cpp,matched,
 ?isLocalPlayer@LANGameSlot@@QBE_NXZ,,0x0044770F,100,Code/GameEngine/Source/GameNetwork/LANGameSlotIsLocalPlayer.cpp,matched,TheLAN slot 64 local address vs slot +0x38 via pinned BfmeNetAddress::Rva00248CBF; retry with port+8; volatile dword copy plus barrier keeps retail load order (W7-S2 r14)
 ?changeToFormation@HordeContain@@UAEXPBVThingTemplate@@@Z,,0x00472D43,811,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainChangeToFormation.cpp,matched,beam16 bar1
+??1TreeHintRef00217D4C@@QAE@XZ,,0x005F8F96,12,Code/GameEngine/Source/Common/Rva002833A3C5.cpp,matched,ICF fold of the 12B counted-handle release destructor; proven sole owner of 0x5F8F96; parent Rva0028292B funclet 0x773B1B jmp target; fold-proof=Code/GameEngine/Source/Common/Rva002833A3C5.cpp
+$L499,,0x00773B1B,25,Code/GameEngine/Source/Common/Rva002833A3C5.cpp,matched,
