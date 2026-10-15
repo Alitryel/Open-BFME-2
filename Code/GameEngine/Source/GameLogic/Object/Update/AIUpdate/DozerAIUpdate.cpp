@@ -1320,22 +1320,8 @@ void DozerAIUpdate::privateRepair( Object *obj, CommandSourceType cmdSource )
 // ------------------------------------------------------------------------------------------------
 /** Resume construction on a building */
 // ------------------------------------------------------------------------------------------------
-// ?privateResumeConstruction@DozerAIUpdate@@MAEXPAVObject@@W4CommandSourceType@@@Z present-unmatched
-void DozerAIUpdate::privateResumeConstruction( Object *obj, CommandSourceType cmdSource )
-{
-
-	// sanity
-	if( obj == NULL )
-		return;
-
-	// make sure we can resume construction on this
-	if( TheActionManager->canResumeConstructionOf( getObject(), obj, cmdSource ) == FALSE )
-		return;
-
-	// start the new task for construction
-	newTask( DOZER_TASK_BUILD, obj );
-
-}  // end privateResumeConstruction
+// rowed in its own unit
+  // end privateResumeConstruction
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------

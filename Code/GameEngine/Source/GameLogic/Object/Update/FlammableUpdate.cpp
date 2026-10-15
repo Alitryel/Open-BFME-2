@@ -62,20 +62,7 @@ private:
 
 //-------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/GameLogic/AI/FlammableUpdateModuleDataCtorThunk.cpp
-// ??0FlammableUpdateModuleData@@QAE@XZ present-unmatched
-FlammableUpdateModuleData::FlammableUpdateModuleData()
-{
-	m_burnedDelay = 0;
-	m_aflameDuration = 0;
-	m_aflameDamageDelay = 0;
-	m_aflameDamageAmount = 0;
-	// Enabled By Sadullah Nader
-	// Initialization needed
-	m_burningSoundName.clear();
-	//
-	m_flameDamageLimitData = 20.0f;
-	m_flameDamageExpirationDelay = LOGICFRAMES_PER_SECOND * 2;
-}
+// rowed in its own unit
 
 //-------------------------------------------------------------------------------------------------
 // FlammableUpdateModuleData::buildFieldParse: defined in ModuleDataBuildFieldParse.cpp (its row's unit).
