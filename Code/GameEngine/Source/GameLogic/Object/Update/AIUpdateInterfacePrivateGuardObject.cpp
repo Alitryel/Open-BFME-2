@@ -48,6 +48,8 @@ public:
 	Overridable *m_nextOverride;
 };
 
+// Keep the guard kind checks inline without exporting competing private
+// Thing/ThingTemplate helper bodies. No import remains when fully inlined.
 class ThingTemplate : public Overridable
 {
 public:
