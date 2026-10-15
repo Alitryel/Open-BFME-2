@@ -1,4 +1,6 @@
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
+// partial score=0.99 date=2026-10-15
+// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
 // partial score=0.985 date=2026-10-14
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
 // partial score=0.985 date=2026-10-14
@@ -8,6 +10,10 @@
 // partial score=0.781467 date=2026-10-14
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
 // partial score=0.752 date=2026-10-14
+// seat4 2026-10-15: hash_map find spelled as the inline iterator-returning
+// find over _M_find (iterator {cur, ht} local) gives retail's 0x14 frame and
+// slots; left: retail computes the color before the m_890 null test (ours
+// sinks it into the branch; an inline decal setColor wrapper is inert).
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
 // @0x0029FD1B 387B, retail-guided InGameUI radius decal.
@@ -120,6 +126,13 @@ struct hashtable
 {
 private:
 	template <class K2> _Hashtable_node<V> *_M_find(const K2 &key) const;
+	struct iterator
+	{
+		iterator(_Hashtable_node<V> *cur, hashtable *ht) : _M_cur(cur), _M_ht(ht) {}
+		_Hashtable_node<V> *_M_cur;
+		hashtable *_M_ht;
+	};
+	iterator find(const K &key) { return iterator(_M_find(key), this); }
 	friend class InGameUI;
 };
 }
@@ -135,9 +148,10 @@ void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int a
 	if (m_888 != (id ? id : id))
 	{
 		v81();
-		Rva0029FD1BNode *node = (Rva0029FD1BNode *)((Rva0029FD1BHashtable *)m_hashtable)->_M_find<unsigned>(*(const unsigned *)&id);
-		if (!node)
+		Rva0029FD1BHashtable::iterator it = ((Rva0029FD1BHashtable *)m_hashtable)->find(*(const unsigned *)&id);
+		if (it._M_cur == 0)
 			return;
+		Rva0029FD1BNode *node = (Rva0029FD1BNode *)it._M_cur;
 
 		Object *obj = 0;
 		if (m_238)
