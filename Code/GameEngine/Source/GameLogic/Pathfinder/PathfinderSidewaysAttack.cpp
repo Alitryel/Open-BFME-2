@@ -1,10 +1,14 @@
-// ?FindAttackPathSideways@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@@Z
-// partial score=0.99 date=2026-10-15
-// ?FindAttackPathSideways@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@@Z
-// partial score=0.98711 date=2026-10-14
-// ?rva002F83F5@Pathfinder@@QAEHPAVPathfindCell@@0ABVLocomotorSet@@_N2HABUICoord2D@@PAVObject@@H@Z
-// partial score=0.773791 date=2026-10-09
 // cl: /ICode/Libraries/Include /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /Ow
+// Pathfinder::FindAttackPathSideways, retail 0x002FC9B1 (1566 B), with the
+// callees that share its translation unit: ExamineNeighboringCellsForSidewaysAttack
+// 0x002F8B00 (re-homed here from pathfinder.cpp), the init 0x002E6BA1 and the
+// unlanded rva002F83F5. Lab evidence: the target only reproduces retail with
+// those callee bodies visible and /Ow; pathfinder.cpp cannot take /Ow.
+// Target facts: bool at 0x00DBD4AC passed as faceDirection of the primary
+// attack-path build, int at 0x00DFF0CC cleared before the search. The
+// m_1BEB6 set/clear around BuildActualPath is two volatile stores and the
+// surface mask a volatile read of the locomotor set +0x10.
+// Structural inference: the body follows WorldBuilder's sideways attack search.
 // stlport
 #include <vector>
 typedef bool Bool;
@@ -310,6 +314,12 @@ class Rva002C9400ByteField
 public:
 unsigned char get() const;
 };
+// Weapon::isWithinAttackRange 0x002CB35C (WorldBuilder name).
+class Weapon
+{
+public:
+	bool isWithinAttackRange(Object*,const Coord3D*,Object*,const Coord3D*,float,bool);
+};
 class Rva002C9B80Owner
 {
 public:
@@ -456,7 +466,7 @@ extern "C" int __cdecl fprintf(PathfinderLogFile *,const char *,...);
 extern unsigned char g_00E03745;
 extern void *g_00DFEFF0;
 
-struct ICoord2D { Int x,y; };
+#include "../../../../Libraries/Include/Lib/ICoord2D.h"
 struct TCheckMovementInfo { ICoord2D cell;PathfindLayerEnum layer;Int radius;Bool centerInCell,considerTransient;char pad12[2];Int options,ignore;Rva002E8BCF movement;Int allyFixedCount;Bool flag30,flag31,allyGoal;char pad33;Int blockedCells; };
 class Rva002E6FDF { public:Rva002E6FDF *rva002E6FDF(); };
 class Rva002EAB6F {public:Rva002EAB6F(Int,const Rva002E8BCFSrc *,unsigned char,Int,Object *,unsigned char,Int,Int);char fields[0x34];};
@@ -482,8 +492,9 @@ PathfinderCellIndex Rva002E7917(Bool,const Coord3D *);
 Int rva002F83F5(PathfindCell *,PathfindCell *,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
 Bool rva002EA658(Object *,TCheckMovementInfo &,const ICoord2D *);
 __forceinline Path *BuildAttackPath(Object *obj,const LocomotorSet &locos,const Coord3D *from,PathfindCell *goal,Bool center,Bool blocked,Bool faceDirection) {
- m_1BEB6=true;
- Path *path=BuildActualPath(obj,locos.getValidSurfaces(),from,goal,center,blocked,faceDirection);
+ *(volatile Bool*)&m_1BEB6=true;
+ int surf=*(volatile int*)((char*)&locos+0x10);
+ Path *path=BuildActualPath(obj,surf,from,goal,center,blocked,faceDirection);
  m_1BEB6=false;
  return path;
 }
@@ -568,15 +579,6 @@ _STL::vector<Rva002F35AFHop> m_1C1CC; Int m_searchWord,m_destMineshaft;	// +0x1C
 
 
 
-#pragma optimize("y", off)
-
-#pragma optimize("y", on)
-
-
-
-
-
-
 
 Pathfinder_FuncTightenPath::Pathfinder_FuncTightenPath(Pathfinder *pathfinder,
 Object *obj, const LocomotorSet &locomotorSet, PathfindLayerEnum layer,
@@ -649,6 +651,7 @@ void Rva000B3FD0PathDebug(const Coord3D *,float,Int,PathfinderDebugColor);
 
 
 
+// ?Pathfinder::rva002F83F5 present-unmatched
 Int Pathfinder::rva002F83F5(PathfindCell *parentCell,PathfindCell *goalCell,const LocomotorSet &locomotorSet,Bool isHuman,Bool centerInCell,Int radius,ICoord2D *startCellNdx,Object *obj,Int attackMode)
 {
 if(obj->m_template->hasKind(109)||obj->m_template->hasKind(191)){radius=1;centerInCell=true;}
@@ -730,7 +733,7 @@ AddToOpenList(newCell);
 return cellCount;
 }
 
-class PartitionManager {public: float rva002C9C37(const Object *,const Object *,void *);};
+#include "../../Common/PartitionRangeQueryCallView.h"
 struct PathfinderAttackCoord : Coord3D
 {
 	__forceinline PathfinderAttackCoord() {}
@@ -750,7 +753,7 @@ public:
 	~MathCoord2D() {}
 	MathCoord2D &operator*=(float v) {x*=v;y*=v;return *this;}
  MathCoord2D &operator+=(const MathCoord2D &v) {x+=v.x;y+=v.y;return *this;}
- float GetLengthEstimate() const {return fabs(x)>fabs(y)?fabs(x)+fabs(y)*0.25f:fabs(y)+fabs(x)*0.25f;}
+	__forceinline float GetLengthEstimate() const {return fabs(x)>fabs(y)?fabs(x)+fabs(y)*0.25f:fabs(y)+fabs(x)*0.25f;}
  float dot(const MathCoord2D &c) const { return y * c.y + x * c.x; }
 	MathCoord2D &operator-=(const MathCoord2D &c) { x -= c.x; y -= c.y; return *this; }
 	__forceinline float GetLength() const { return (float)sqrt(x * x + sqr(y)); }
@@ -772,7 +775,7 @@ struct PathfinderAttackHandle
 	__forceinline ~PathfinderAttackHandle() { ((Rva002EAD62 *)this)->rva002EAD62(); }
 };
 
-extern Int g_00DFF0CC; extern bool g_00DBD4AC;
+extern Int PathfinderSearchCellsVisited; extern bool PathfinderFaceGoalFlag;
 void Rva002EBCA7Split(void *,Int *,unsigned char *);
 struct PathfinderCellPoint : Coord3D {
  __forceinline PathfinderCellPoint() {}
@@ -807,7 +810,7 @@ private:
 	int m_30;
 };
 
-void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
+inline __declspec(noinline) void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
 {
 	m_30 = a;
 	m_00 = b->x;
@@ -842,10 +845,6 @@ MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in
 }
 
 
-PathfinderCellPoint Rva002E8C23Call(Bool center, PathfindCell *cell)
-{
- return rva002E79A8(center, cell->getXIndex(), cell->getYIndex(), (PathfindLayerEnum)cell->getLayer());
-}
 static const float PATHFINDER_CELL_INV = 1.0f / 10.0f;
 __declspec(noinline) ICoord2D* __cdecl Rva002E7875WorldToCell(ICoord2D* out, bool center, const Coord3D* pos)
 {
@@ -948,7 +947,7 @@ Path *Pathfinder::FindAttackPathSideways(Object *obj, const LocomotorSet &locos,
 	{
 		if (adjusted.x != goal.x || adjusted.y != goal.y)
 		{
-			if (!weapon->isWithinAttackRange(obj, &adjusted, victim, victimPos, 10.0f, false))
+			if (!((Weapon *)weapon)->isWithinAttackRange(obj, &adjusted, victim, victimPos, 10.0f, false))
 				return 0;
 		}
 	}
@@ -976,7 +975,7 @@ Path *Pathfinder::FindAttackPathSideways(Object *obj, const LocomotorSet &locos,
 	Int sideOffset = (Int)((PartitionManager *)weapon)->rva002C9C37(obj, victim, (void *)victimPos) - 10;
 	AddToOpenList(parent);
 	unsigned int count = 0;
-	g_00DFF0CC = 0;
+	PathfinderSearchCellsVisited = 0;
 	PathfindCell *acceptable = 0;
 	PathfindCell *closest = 0;
 	Int closestOrder = 0;
@@ -1003,7 +1002,7 @@ Path *Pathfinder::FindAttackPathSideways(Object *obj, const LocomotorSet &locos,
 		}
 		Int destinationDistance = 0;
 		Int cellState = parent->m_pathInfo ? parent->m_pathInfo->state : 0;
-		if (!cellState && weapon->isWithinAttackRange(obj, &cellCenter, victim, victimPos, 10.0f, true))
+		if (!cellState && ((Weapon *)weapon)->isWithinAttackRange(obj, &cellCenter, victim, victimPos, 10.0f, true))
 		{
 			if (CheckDestination(obj, parent->getXIndex(), parent->getYIndex(), (PathfindLayerEnum)parent->getLayer(), radius, center, &destinationDistance, false))
 			{
@@ -1052,7 +1051,7 @@ Path *Pathfinder::FindAttackPathSideways(Object *obj, const LocomotorSet &locos,
 				if (!blocked)
 				{
 					parent->PutOnClosedList(&m_closedList);
-					Path *path = BuildAttackPath(obj, locos, obj->getPosition(), parent, center, false, g_00DBD4AC);
+					Path *path = BuildAttackPath(obj, locos, obj->getPosition(), parent, center, false, PathfinderFaceGoalFlag);
 					rva002F40E7();
 					return path;
 				}
