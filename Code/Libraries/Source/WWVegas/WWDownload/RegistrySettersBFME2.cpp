@@ -13,20 +13,20 @@ public:
     _STLP_alloc_proxy(const Alloc &a,Pointer data):Alloc(a),_M_data(data) {}
     Pointer _M_data;
 };
-template<class CharT,class Alloc> class _String_base {
+template<class CharT,class Alloc> class _String_base_Registry_RV {
 public:
-    __declspec(dllimport) __forceinline _String_base(const Alloc &a):_M_start(0),_M_finish(0),_M_end_of_storage(a,0) {}
-    ~_String_base() { if(_M_start) free(_M_start); }
+    __declspec(dllimport) __forceinline _String_base_Registry_RV(const Alloc &a):_M_start(0),_M_finish(0),_M_end_of_storage(a,0) {}
+    ~_String_base_Registry_RV() { if(_M_start) free(_M_start); }
     CharT *_M_start,*_M_finish;
     _STLP_alloc_proxy<CharT *,CharT,Alloc> _M_end_of_storage;
 };
 struct RegistryRangeCopyTag {};
-template<class CharT,class Traits,class Alloc> class basic_string : public _String_base<CharT,Alloc> {
+template<class CharT,class Traits,class Alloc> class basic_string : public _String_base_Registry_RV<CharT,Alloc> {
 public:
-    __declspec(noinline) basic_string(const basic_string &s):_String_base<CharT,Alloc>(Alloc()) {
+    __declspec(noinline) basic_string(const basic_string &s):_String_base_Registry_RV<CharT,Alloc>(Alloc()) {
         _M_range_initialize(s._M_start,s._M_finish);
     }
-    __forceinline basic_string(const basic_string &s,RegistryRangeCopyTag):_String_base<CharT,Alloc>(Alloc()) {
+    __forceinline basic_string(const basic_string &s,RegistryRangeCopyTag):_String_base_Registry_RV<CharT,Alloc>(Alloc()) {
         _M_range_initialize(s._M_start,s._M_finish);
     }
     ~basic_string() {}

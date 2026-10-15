@@ -1,7 +1,14 @@
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
 // stlport
 
+// Keep unused inline storage allocation local to this numeric facet.
+#define _M_allocate_block _M_allocate_block_NumPut_RV
 #include <string>
+
+// Bind string copies to their independently rowed owner.
+namespace _STL {
+template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(const basic_string<char, char_traits<char>, allocator<char> > &);
+}
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit
@@ -62,3 +69,7 @@ num_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(
     ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, const void *) const;
 }
 template class _STL::num_put<char, _STL::ostreambuf_iterator<char, _STL::char_traits<char> > >;
+
+// Keep the independently rowed range initializer even though the unused
+// copy constructor no longer instantiates it as a side effect.
+template void _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >::_M_range_initialize<char *>(char *, char *);

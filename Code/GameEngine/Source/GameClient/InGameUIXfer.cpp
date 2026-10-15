@@ -302,6 +302,11 @@ struct TreeHintPayload002A1D9D
 typedef _STL::pair<const AsciiString, TreeHintPayload002A1D9D> TreeHintPair002A1D9D;
 typedef _STL::map<AsciiString, TreeHintPayload002A1D9D, _STL::less<AsciiString>, _STL::allocator<TreeHintPair002A1D9D> > NamedTimerSubscriptMap;
 
+// Use the rowed ordinary insertion provider instead of emitting its
+// differently configured inline tree copy in this snapshot unit.
+typedef _STL::_Rb_tree<AsciiString, TreeHintPair002A1D9D, _STL::_Select1st<TreeHintPair002A1D9D>, _STL::less<AsciiString>, _STL::allocator<TreeHintPair002A1D9D> > TimerInsertTree;
+template <> _STL::pair<TimerInsertTree::iterator, bool> TimerInsertTree::insert_unique(const TreeHintPair002A1D9D &);
+
 // The folded four-byte vector reserve 0x002A1410 is rowed for ScienceType.
 enum ScienceType { SCIENCE_INVALID = -1 };
 // Nothing here calls the science vector's deallocation helpers out of line;

@@ -83,6 +83,8 @@ template <> __forceinline void allocator<unsigned short>::deallocate(unsigned sh
 #pragma optimize("", on)
 }
 
+// Keep this TU's inline string storage implementation local.
+#define _String_base _String_base_NumGetBool_RV
 #include <locale>
 // The locale implementation is opaque in _locale.h. Its three vtable slots
 // are established by stlport_locale.cpp; visibility here inlines _M_decr.
