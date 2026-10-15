@@ -164,7 +164,8 @@ struct BFME2TextureRef
 };
 void BFME2Set_Texture(unsigned int stage, const BFME2TextureRef &texture);
 
-extern ShaderClass g_00DB4720;
+// Native snow point-sprite shader, initialized bits verified at VA DB4720.
+ShaderClass BfmeSnowPointSpriteShader = { 0x000198B3 };
 
 class W3DSnowManager
 {
@@ -222,7 +223,7 @@ void W3DSnowManager::render(RenderInfoClass &rinfo)
 	int dimX = (int)((float)(map->m_width - border) * 10.0f);
 	int dimY = (int)((float)(map->m_height - border) * 10.0f);
 	m_snowCeiling = m_boxDimensions;
-	DX8Wrapper::Set_Shader(g_00DB4720);
+	DX8Wrapper::Set_Shader(BfmeSnowPointSpriteShader);
 	VertexMaterialClass *material = VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
 	DX8Wrapper::Set_Material(material);
 	if (material)
