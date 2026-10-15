@@ -6,9 +6,9 @@
 // AL zero/one ABI without claiming the original C++ return spelling.
 #include "ascii_string.h"
 #include "unicode_string.h"
-class ThingFactory;
+class ThingTemplate;
+class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString &); };
 extern ThingFactory *TheThingFactory;
-class Rva002D06CA { public: void *rva002D06CA(const AsciiString *); };
 struct Rva005E4300Entry {
  int key;
  AsciiString name;
@@ -33,7 +33,7 @@ struct Rva005E4300Context {
 namespace StrategicInGameUI {
 static __declspec(noinline) Rva005E3967Template *Rva005E3967(const Rva005E4300Entry *entry)
 {
- return (Rva005E3967Template *)((Rva002D06CA *)TheThingFactory)->rva002D06CA(&entry->name);
+ return (Rva005E3967Template *)TheThingFactory->findTemplate(entry->name);
 }
 static __declspec(noinline) bool Rva005E3FE6(const Rva005E4300Entry *a,const Rva005E4300Entry *b,int keyA,int keyB)
 {
