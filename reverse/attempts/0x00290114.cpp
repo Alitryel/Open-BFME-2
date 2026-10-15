@@ -1,4 +1,6 @@
 // ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z
+// partial score=0.93 date=2026-10-15
+// ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z
 // partial score=0.88779 date=2026-10-12
 // cl: /I. /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include
 // Regional O1/SSE/G7 preserved; /MD imports the native _isnan dependency.
@@ -240,8 +242,8 @@ private:
  AttributeModifierPoolUpdate *findAttributeModifierPoolUpdate() const;
 __forceinline void setConditionBit(unsigned int index) {
      unsigned int bit = 1u << (index & 31);
-     unsigned int &word = reinterpret_cast<unsigned int *>((char *)this + 0x10C)[index >> 5];
-     if ((word | bit) != word) { word = word | bit; rva0028AE6D(); }
+     unsigned int *word = &reinterpret_cast<unsigned int *>((char *)this + 0x10C)[index >> 5];
+     if ((*word & bit) == 0) { *word |= bit; rva0028AE6D(); }
     }
  __forceinline unsigned int isKindOf(int k) const { return reinterpret_cast<const unsigned int *>((const char *)m_template+0x108)[k>>5] & (1u<<(k&31)); }
  // Primary vptr at +0; all accessed fields are witnessed in retail.
@@ -727,8 +729,7 @@ void Object::setDisabledUntil(DisabledType type, const unsigned int frame)
 	unsigned int now = TheGameLogic->getFrame();
 	if (frame > now)
 	{
-	BitFlags<11> *const maskp=&disabledMask; const BitFlags<11> &mask=*maskp;
-	bool edgeCase = !mask.any();
+	bool edgeCase = !disabledMask.any();
 
 	if (type < 0 || type >= 11)
 		return;
@@ -741,15 +742,16 @@ void Object::setDisabledUntil(DisabledType type, const unsigned int frame)
 	}
 	else if (type == (DisabledType)6 || type == (DisabledType)2)
 	{
-		if ((mask.m_bits[0] & 0x44) == 0)
+		if ((disabledMask.m_bits[0] & 0x44) == 0)
 		{
-			if (isKindOf(7))
+			const unsigned char *kindBytes = reinterpret_cast<const unsigned char *>(m_template);
+			if (kindBytes[0x108] & 0x80)
 			{
 				BfmeAudioEventPrefix136 sound(*reinterpret_cast<const OpaqueRefElement4*>((char*)reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->getMiscAudio()+0x40), 0);
 				((Rva002D9508 *)&sound)->rva002D9508((&position));
 				reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->addAudioEvent(&sound);
 			}
-			else if (isKindOf(11))
+			else if (kindBytes[0x109] & 8)
 			{
 				BfmeAudioEventPrefix136 sound(*reinterpret_cast<const OpaqueRefElement4*>((char*)reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->getMiscAudio()+0x48), 0);
 				((Rva002D9508 *)&sound)->rva002D9508((&position));
@@ -764,15 +766,20 @@ void Object::setDisabledUntil(DisabledType type, const unsigned int frame)
 			rva0028B292(1);
 
 		disabledTill[type] = frame;
-		reinterpret_cast<ModelConditionFlags *>(&const_cast<BitFlags<11> &>(mask))->rva000B3FA5(type, frame > TheGameLogic->getFrame());
+		reinterpret_cast<ModelConditionFlags *>(reinterpret_cast<char *>(this) + 0x1C8)->rva000B3FA5(type, frame > TheGameLogic->getFrame());
 
 		if (type == (DisabledType)1)
 		{
-			setConditionBit(529);
+			unsigned int bit = 1u << (529 & 31);
+			if ((m_condition14C & bit) == 0)
+			{
+				m_condition14C |= bit;
+				rva0028AE6D();
+			}
 		}
 
 		Drawable *draw = (Drawable *)drawable;
-		if (draw && mask.any() && type != (DisabledType)3 && type != (DisabledType)9 && type != (DisabledType)5 && type != (DisabledType)4 && type != (DisabledType)1 && type != (DisabledType)8)
+		if (draw && disabledMask.any() && type != (DisabledType)3 && type != (DisabledType)9 && type != (DisabledType)5 && type != (DisabledType)4 && type != (DisabledType)1 && type != (DisabledType)8)
 			*reinterpret_cast<unsigned int *>((char *)draw+0x118) |= 1;
 
 		ObjectDisabledContain *container = reinterpret_cast<ObjectDisabledContain *>(contain);
