@@ -171,7 +171,7 @@ class BannerUI
  
 }
 ;
-extern BannerUI *g_00DFE32C;
+extern BannerUI *TheBannerUI;
 class InGameUI;
 extern InGameUI *TheInGameUI;
 class Rva0029A767FloatField 
@@ -265,11 +265,11 @@ static const SpellWidthTable spellWidths=
 ;
 __forceinline void SetSpellBannerLayout(int count) 
 {
- if(!g_00DFE32C)return;
+ if(!TheBannerUI)return;
  unsigned i=0;
  while(i<4 && count>=spellBannerLayouts[i].limit)++i;
  const float *offsets=spellBannerLayouts[i].offsets;
- for(unsigned j=0;j<2;++j)g_00DFE32C->SetBannerSlotXOffset(j,offsets[j]);
+ for(unsigned j=0;j<2;++j)TheBannerUI->SetBannerSlotXOffset(j,offsets[j]);
  
 }
 __forceinline void SetSpellWindowWidth(int count) 

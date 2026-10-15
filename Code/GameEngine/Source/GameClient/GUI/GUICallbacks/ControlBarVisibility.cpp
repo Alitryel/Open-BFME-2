@@ -151,7 +151,7 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 extern View *TheTacticalView;
 extern Display *TheDisplay;
 extern RadarWindowOverrideSource *theRadarWindowOverrideSource;
-extern BannerUI *g_00DFE32C;
+extern BannerUI *TheBannerUI;
 extern InGameUI *TheInGameUI;
 
 void HideControlBar(Bool immediate)
@@ -188,8 +188,8 @@ void HideControlBar(Bool immediate)
 
 	if (theRadarWindowOverrideSource)
 		theRadarWindowOverrideSource->rva002D4240(true);
-	if (g_00DFE32C)
-		g_00DFE32C->Hide(true);
+	if (TheBannerUI)
+		TheBannerUI->Hide(true);
 	if (TheInGameUI)
 		TheInGameUI->rva000CF155()->rva005CB260(false);
 }
@@ -204,8 +204,8 @@ void ShowControlBar(Bool immediate)
 	case 1:
 		if (theRadarWindowOverrideSource)
 			theRadarWindowOverrideSource->rva002D4240(false);
-		if (g_00DFE32C)
-			g_00DFE32C->Hide(false);
+		if (TheBannerUI)
+			TheBannerUI->Hide(false);
 		if (TheInGameUI)
 			TheInGameUI->rva000CF155()->rva005CB260(true);
 		break;

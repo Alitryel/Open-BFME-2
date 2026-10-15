@@ -34,7 +34,7 @@ class BannerUI
 public:
 	void SetBannerSlotXOffset(unsigned int index, float value);
 };
-extern BannerUI *g_00DFE32C;
+extern BannerUI *TheBannerUI;
 
 class Rva0029A767FloatField
 {
@@ -73,11 +73,11 @@ const Rva0052A295Step *Rva0052A295(int level)
 
 void Rva0052A2B7(int level)
 {
-	if (g_00DFE32C == 0)
+	if (TheBannerUI == 0)
 		return;
 	const Rva0052A295Step *step = findBannerStep(level);
 	for (unsigned int i = 0; i < 2; ++i)
-		g_00DFE32C->SetBannerSlotXOffset(i, step->x[i]);
+		TheBannerUI->SetBannerSlotXOffset(i, step->x[i]);
 }
 
 void Rva0052A321(int level)

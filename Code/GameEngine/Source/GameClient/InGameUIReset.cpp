@@ -63,7 +63,7 @@ class BannerUI : public SubsystemResetView {};
 
 extern ControlBar *TheControlBar;
 extern RadarWindowOverrideSource *theRadarWindowOverrideSource;
-extern BannerUI *g_00DFE32C;
+extern BannerUI *TheBannerUI;
 
 void Rva0043CCC7Set();
 void rva004E4317();
@@ -269,7 +269,7 @@ void InGameUI::reset()
 
 	TheControlBar->reset();
 	theRadarWindowOverrideSource->reset();
-	g_00DFE32C->reset();
+	TheBannerUI->reset();
 	Rva0043CCC7Set();
 	rva004E4317();
 

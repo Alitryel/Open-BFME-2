@@ -290,7 +290,7 @@ extern View *TheTacticalView;
 extern GlobalData *TheWritableGlobalData;
 extern float g_00DBBADC;
 extern RadarWindowOverrideSource *theRadarWindowOverrideSource;
-extern BannerUI *g_00DFE32C;
+extern BannerUI *TheBannerUI;
 extern GameClient *TheGameClient;
 extern int BfmeClientFramesPerSecond;
 extern InGameUI *TheInGameUI;
@@ -477,7 +477,7 @@ void InGameUI::update()
 	v53handler();
 
 	((SubsystemUpdate *)theRadarWindowOverrideSource)->update();
-	((SubsystemUpdate *)g_00DFE32C)->update();
+	((SubsystemUpdate *)TheBannerUI)->update();
 
 	if ((unsigned char)Rva0043C99AGet())
 		Rva0043D15FUpdate();

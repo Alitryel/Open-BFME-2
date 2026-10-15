@@ -3,7 +3,7 @@
 // BannerUI::ParseBannerTypeInfo, retail 0x00217194 (94B), from the WorldBuilder
 // lead (BannerUI.cpp): an INI block parser that takes the banner type name
 // token, finds or creates its info in the banner UI singleton's type table
-// (g_00DFE32C +0x0C, 0x00216F91) and parses the block into it with the
+// (TheBannerUI +0x0C, 0x00216F91) and parses the block into it with the
 // banner-type field table at 0x00BE5A50 (INI::initFromINI).
 //
 // Target facts: the type table, its lookup and the info record keep
@@ -37,7 +37,10 @@ private:
 	unsigned char m_pad00[0x0C];
 	Rva00217194Types m_types;
 };
-extern Rva00217194BannerUI *g_00DFE32C;
+// Retail InGameUI::init stores the BannerUI constructor result here.
+// One four-byte owner; parsing uses the existing +0x0C table view.
+class BannerUI;
+BannerUI *TheBannerUI = 0;
 
 extern const FieldParse g_00BE5A50[];
 
@@ -179,7 +182,7 @@ void BannerUI::ParseBannerTypeInfo(INI *ini)
 	void *info;
 	{
 		AsciiString name(ini->getNextToken());
-		info = g_00DFE32C->getTypes()->rva00216F91(name);
+		info = ((Rva00217194BannerUI *)TheBannerUI)->getTypes()->rva00216F91(name);
 	}
 	ini->initFromINI(info, g_00BE5A50);
 }
@@ -271,7 +274,7 @@ public:
  virtual int loadWindow(AsciiString directory,AsciiString movie,int arg1,int arg2)=0;
 };
 void BannerUI::init() {
- if(g_00DFE32C)
+ if(TheBannerUI)
   m_windowIndex=((BannerWindowLoader*)g_bfmeAptWindowManager)->loadWindow("Apt\\","BannerUI.apt",0,0);
 }
 

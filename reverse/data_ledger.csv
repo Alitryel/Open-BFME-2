@@ -18633,7 +18633,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009FE1E8,152,.data,global,?TheCloudEffectSettingsSaved@@3VRva00214E02@@A,Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,owned,,1,4
 0x009FE280,156,.data,global,?TheCloudEffectSettings@@3VRva00214E02@@A,Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,owned,,1,35
 0x009FE31C,16,.data,global,?ThePlayerAITypeSet@@3PAVPlayerAITypeSet@@A,,unowned,,0,4
-0x009FE32C,4,.data,global,?g_00DFE32C@@3PAVBannerUI@@A,,unowned,?g_00DFE32C@@3PAVBannerUI@@A;?g_00DFE32C@@3PAVRva00217194BannerUI@@A,0,9
+0x009FE32C,4,.data,global,?TheBannerUI@@3PAVBannerUI@@A,Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/BannerUI.cpp,owned,,1,17
 0x009FE330,12,.data,global,_s_rva007ADA3C,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x009FE33C,8,.data,global,?TheFontLibrary@@3PAVFontLibrary@@A,Code/GameEngine/Source/GameClient/GUI/GameWindowManagerScript_parseFont.cpp,owned,,1,36
 0x009FE344,4,.data,global,?TheCreateAHeroManager@@3PAVCreateAHeroManager@@A,Code/GameEngine/Source/GameLogic/Object/CreateAHero.cpp,provisional,?TheCreateAHeroManager@@3PAVCreateAHeroManager@@A;?TheCreateAHeroManager@@3PAVRva00219251@@A;?TheHeroManager@@3PAURva005B5C02Mgr@@A;?TheHeroManager@@3PAVRva00219251@@A;?TheHeroManager@@3PAVRva0021A54A@@A,2,101

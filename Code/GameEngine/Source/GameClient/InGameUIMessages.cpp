@@ -311,7 +311,7 @@ public:
 private:
 	char m_opaque04[ 0x44 - 0x4 ];
 };
-extern BannerUI *g_00DFE32C;
+extern BannerUI *TheBannerUI;
 
 void *Rva0043CCC2Get();
 void *Rva004E4312GetRoute();
@@ -959,9 +959,9 @@ void InGameUI::init()
 
 	vslot119();
 
-	g_00DFE32C = new BannerUI;
-	g_00DFE32C->init();
-	g_00DFE32C->loadIniFilesFromLegend();
+	TheBannerUI = new BannerUI;
+	TheBannerUI->init();
+	TheBannerUI->loadIniFilesFromLegend();
 
 	Rva0043CCC2Get();
 	Rva004E4312GetRoute();

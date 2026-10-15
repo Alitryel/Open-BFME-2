@@ -50,7 +50,7 @@ class BannerUI : public SubsystemInterface {};
 
 extern ControlBar *TheControlBar;
 extern RadarWindowOverrideSource *theRadarWindowOverrideSource;
-extern BannerUI *g_00DFE32C;
+extern BannerUI *TheBannerUI;
 
 // The five-slot interface at +0x10: its table 0x00C078DC is all purecall.
 class InGameUIInterface10
@@ -323,8 +323,8 @@ InGameUI::~InGameUI()
 	TheControlBar = 0;
 	::delete theRadarWindowOverrideSource;
 	theRadarWindowOverrideSource = 0;
-	::delete g_00DFE32C;
-	g_00DFE32C = 0;
+	::delete TheBannerUI;
+	TheBannerUI = 0;
 
 	// free all the display strings if we're
 	removeMilitarySubtitle();

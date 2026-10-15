@@ -96,7 +96,7 @@ void Rva0052A765Owner::rva0052A765()
 }
 
 class BannerUI { public: void SetBannerSlotXOffset(unsigned,float); };
-extern BannerUI *g_00DFE32C;
+extern BannerUI *TheBannerUI;
 // Native52A4B5..52A53B complete134B: flags30..50 are reset true;
 // twenty-four 20B records50..230 receive {0,0,1,0,false}; scalar28/2C
 // reset and existing banner singleton receives offsets0/1. Original names
@@ -107,7 +107,7 @@ void Rva0052A470::rva0052A4B5(){
  const BfmePod20 empty={0,0,1.0f,0,false};
  _STL::fill(records50,records50+24,empty);
  first28=0;second2C=0;
- if(g_00DFE32C)for(unsigned i=0;i<2;++i)g_00DFE32C->SetBannerSlotXOffset(i,0.0f);
+ if(TheBannerUI)for(unsigned i=0;i<2;++i)TheBannerUI->SetBannerSlotXOffset(i,0.0f);
 }
 
 // ?rva0052A5E0@Rva0052A5E0Owner@@QAEXXZ @0x0052A5E0 7B: forwards to Rva0052A470::rva0052A4B5 above through the pointer held at +0
