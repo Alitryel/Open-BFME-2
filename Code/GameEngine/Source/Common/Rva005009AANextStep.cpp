@@ -65,7 +65,9 @@ int __cdecl rva005009AA(int from, int to)
 	Rva002B82D5 fromValue(*(const Rva0050055D *)&map->find(from)->second);
 	int fromDistance = ((Rva005009AAIntMap *)((char *)&fromValue + 0x0C))->find(to)->second;
 	Rva005009AARange range = ((Rva005009AAIntTree *)&fromValue)->equal_range(1);
-	for (Rva005009AAIntTree::iterator it = range.first; it != range.second; ++it)
+	// Same step as iterator::operator++: avoid its unused competing COMDAT.
+	for (Rva005009AAIntTree::iterator it = range.first; it != range.second;
+	     it._M_node = _STL::_Rb_global_inst::_M_increment(it._M_node))
 	{
 		if (map->find((*it).second) != map->end())
 		{
