@@ -6,6 +6,12 @@
 // (restores vtable 0x00BBB554), SubsystemInterface dtor row at 0x001B4E74.
 // Callers: 0x002DF03C, ??_G at 0x002DF2DA, unwind at 0x007783D4.
 
+// Native ctor2DE4E6 and registration2DE34B establish five four-byte
+// SnapshotBlock lists. CameraMarker is only the existing certified folded
+// ABI view here: both payloads are a non-owning pointer then AsciiString.
+// The source does not identify the real entries as CameraMarker objects.
+// List::~list at295983 is an admitted whole-byte/relocation twin of the
+// SnapshotBlock list specialization already rowed by GameStateConstructor.
 struct CameraMarker;
 
 namespace _STL
@@ -23,6 +29,15 @@ public:
 	~_List_base();
 private:
 	void *_M_head;
+};
+
+// Four-byte list wrapper; its native destructor is the five-byte tail
+// wrapper at295983. The list-base destructor is a separate23B body at2A1BEB.
+template <class _Tp, class _Alloc>
+class list : public _List_base<_Tp, _Alloc>
+{
+public:
+	~list();
 };
 }
 
@@ -56,16 +71,18 @@ class GameState : public SubsystemInterface, public Snapshot
 public:
 	virtual ~GameState();
 private:
-	_STL::_List_base<CameraMarker, _STL::allocator<CameraMarker> > m_cameraLists[5];
+	_STL::list<CameraMarker, _STL::allocator<CameraMarker> > m_cameraLists[5];
 	BfmeSubobject0022CE19 m_saveInfo;
 	_STL::_List_base<int, _STL::allocator<int> > m_intListA;
 	_STL::_List_base<int, _STL::allocator<int> > m_intListB;
 };
 
+typedef char GameStateListExtent[sizeof(_STL::list<CameraMarker, _STL::allocator<CameraMarker> >)==4 ? 1 : -1];
+
 // ??1GameState@@UAE@XZ
 GameState::~GameState()
 {
-	_STL::_List_base<CameraMarker, _STL::allocator<CameraMarker> > *cameraLists = m_cameraLists;
+	_STL::list<CameraMarker, _STL::allocator<CameraMarker> > *cameraLists = m_cameraLists;
 	for (int i = 0; i < 5; ++i)
 		cameraLists[i].clear();
 
