@@ -16,6 +16,8 @@
 // Layout (target): Object position +0x38, template +0x04 (kind bits from
 // +0x108), disabled mask +0x1C8, AI +0x258 with its command interface at
 // +0x20.
+// Keep these private mask helpers inlined without competing standalone copies.
+// MSVC 7.1 emits no imports here; retained code and relocations are unchanged.
 #include <list>
 
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
