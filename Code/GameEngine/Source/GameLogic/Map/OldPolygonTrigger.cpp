@@ -65,7 +65,10 @@ void __cdecl Rva00328A8AParse(DataChunkInput &, int, void *);
 void __cdecl rva00329339(Rva003294B3Obj *, int);
 void __cdecl rva0032927A(Rva003294B3Obj *, int);
 void __cdecl rva003294B3(Rva003294B3Obj *, int, int);
-void __cdecl Rva00328E96Parse(DataChunkInput &, int, void *);
+struct Rva00328E96WaterRecord;
+// The typed reader owns retail 0x00328E96. Its fields through the polygon
+// and trailing water flag match PolygonData; retain this caller's local view.
+void __cdecl rva00328E96(DataChunkInput &, int, Rva00328E96WaterRecord *);
 void __cdecl Rva00328DE4Add(void *, void **);
 
 class Rva003294D6Trigger
@@ -333,7 +336,8 @@ bool OldPolygonTriggerDataChunkParserBase::Impl::parsePolygonTriggersChunkImpl(
 	PolygonData data;
 	for (; count > 0; --count)
 	{
-		Rva00328E96Parse(file, info->m_version, &data);
+		rva00328E96(file, info->m_version,
+			reinterpret_cast<Rva00328E96WaterRecord *>(&data));
 		if (static_cast<int>(data.pointCount()) >= 2)
 		{
 			if (data.m_isWaterArea)
