@@ -24,6 +24,10 @@
 
 #include <vector>
 #include "coord.h"
+#include "string_base.h"
+// Preserve inlined null initialization without a competing external ctor.
+template <> __declspec(dllimport) __forceinline
+StringBase<char>::StringBase() : m_data(0) {}
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
 
