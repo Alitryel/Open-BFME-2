@@ -37,6 +37,8 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 //   0x0013BA10 Remove_Sub_Objects_From_Bone (by index)
 // All are Zero Hour's bodies unchanged.
 
+// Preserve the inline count operations without competing external copies.
+#include "../../../../../reference/shims/bfme_mesh_refcount_link/refcount.h"
 #include "rendobj.h"
 #include "scene.h"
 

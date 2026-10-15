@@ -21,6 +21,9 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 
+// Preserve the inline count operations without competing external copies.
+#include "../../../../../reference/shims/bfme_mesh_refcount_link/refcount.h"
+
 // Preserve the inline transform algorithms while suppressing unused external copies.
 #include "matrix3d.h"
 #include "rendobj.h"
