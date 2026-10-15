@@ -295,6 +295,10 @@ class GameMessage {public:
  Type getType()const{return m_type;}unsigned char getArgumentCount()const{return m_argCount;}int getPlayerIndex()const{return m_playerIndex;}const GameMessageArgumentType*getArgument(int)const;GameMessageArgumentDataType getArgumentDataType(int);void friend_setPlayerIndex(int index){m_playerIndex=index;}
  AsciiString getCommandAsAsciiString();
 };
+// The retail constructor at 0x0030F47A is already owned under this
+// address-derived name. Its 0x24-byte allocation and Type argument agree
+// with appendNextCommand and the existing NetGameCommandMsg caller.
+class Rva0030F47A {public:Rva0030F47A(void*);private:char storage[0x24];};
 struct Rva0054D54ANode {virtual void*destroy(unsigned);Rva0054D54ANode*next;int type,count;};
 class Rva0054D54A {public:Rva0054D54A();Rva0054D54A(GameMessage*);virtual ~Rva0054D54A();Rva0054D54ANode*first;void*last;int numTypes;};
 class Rva0054D5D3 {public:void rva0054D5D3(void*,void*);};
@@ -350,7 +354,7 @@ void RecorderClass::appendNextCommand()
         return;
     }
 
-    GameMessage *msg = new GameMessage(type);
+    GameMessage *msg = (GameMessage *)new Rva0030F47A((void *)type);
     if (type != GameMessage::MSG_BEGIN_NETWORK_MESSAGES && type != GameMessage::MSG_CLEAR_GAME_DATA) {
         if (!m_doingAnalysis) {
             TheCommandList->appendMessage(msg);
