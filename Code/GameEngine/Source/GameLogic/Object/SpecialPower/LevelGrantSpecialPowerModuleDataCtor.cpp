@@ -1,4 +1,4 @@
-// cl: /MD /GX /DNDEBUG /Oy-
+// cl: /MD /GX /DNDEBUG
 //
 // ??0LevelGrantSpecialPowerModuleData@@QAE@XZ, retail 0x004C2AA0, 83 bytes.
 // SpecialPower-side ModuleData for the level-grant power. The rowed chained

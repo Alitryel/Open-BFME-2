@@ -1,4 +1,4 @@
-// cl: /Oy- /GX /DNDEBUG /MD
+// cl: /GX /DNDEBUG /MD
 //
 // ??1PickupStuffUpdateModuleData@@UAE@XZ retail 0x00491F76 48B.
 // Dtor lane: ctor rowed at 0x00491E37 in PickupStuffUpdateModuleDataCtor.cpp vtable
