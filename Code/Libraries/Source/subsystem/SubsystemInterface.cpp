@@ -26,6 +26,20 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #define __PLACEMENT_VEC_NEW_INLINE
 #include <vector>
+
+// __node_alloc<1,0> allocate/deallocate (reached through vector<pair>
+// growth) otherwise emit per-TU COMDATs that lose to another unit's copy in
+// link order; explicit dllimport+forceinline specializations keep the bodies
+// inline here and emit no external copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__node_alloc<true, 0>::allocate(size_t __n)
+{ return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
+template <> __declspec(dllimport) __forceinline
+void __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
+
 #include "PreRTS.h"
 #include "subsystem_interface.h"
 #include "subsystem_legend.h"

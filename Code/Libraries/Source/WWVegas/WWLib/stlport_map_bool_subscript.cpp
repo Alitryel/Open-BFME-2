@@ -11,6 +11,20 @@
 // callees, no scaffold function.
 #include <map>
 
+// __node_alloc<1,0>:: otherwise emits a per-TU COMDAT that loses to another
+// unit's copy in link order; this declaration-only specialization suppresses
+// this unit's copy and binds the calls to the kept one (bodies unchanged).
+namespace _STL {
+template <> void *__node_alloc<true, 0>::allocate(size_t);
+}
+
+// __node_alloc<1,0>:: otherwise emits a per-TU COMDAT that loses to another
+// unit's copy in link order; this declaration-only specialization suppresses
+// this unit's copy and binds the calls to the kept one (bodies unchanged).
+namespace _STL {
+template <> void __node_alloc<true, 0>::deallocate(void *, size_t);
+}
+
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
 // specialization takes those calls inline so this TU emits no external copy.

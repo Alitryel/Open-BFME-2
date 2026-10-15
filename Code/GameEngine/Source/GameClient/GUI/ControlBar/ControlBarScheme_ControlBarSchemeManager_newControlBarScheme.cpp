@@ -75,6 +75,15 @@
 #include "GameClient/Image.h"
 #include "GameClient/GameWindowManager.h"
 #include "GameClient/GadgetPushButton.h"
+
+// __node_alloc<1,0>::allocate (STLport list/vector node path) otherwise emits a
+// per-TU COMDAT that loses to another unit's copy in link order; this explicit
+// dllimport+forceinline specialization keeps the body inline and emits none.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__node_alloc<true, 0>::allocate(size_t __n)
+{ return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
+}
 #ifdef _INTERNAL
 // for occasional debugging...
 //#pragma optimize("", off)

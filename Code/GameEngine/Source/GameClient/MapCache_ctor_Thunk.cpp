@@ -17,6 +17,24 @@
 typedef int Bool;
 
 #include "ascii_string.h"
+
+// __node_alloc<1,0>::allocate (STLport node path) otherwise emits a per-TU
+// COMDAT that loses to another unit's copy in link order; this explicit
+// dllimport+forceinline specialization keeps the body inline and emits none.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *__node_alloc<true, 0>::allocate(size_t __n)
+{ return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
+}
+
+// __node_alloc<1,0>::deallocate (STLport node path) otherwise emits a per-TU
+// COMDAT that loses to another unit's copy in link order; this explicit
+// dllimport+forceinline specialization keeps the body inline and emits none.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void __node_alloc<true, 0>::deallocate(void *__p, size_t __n)
+{ if (__n > (size_t)_MAX_BYTES) __stl_delete(__p); else _M_deallocate(__p, __n); }
+}
 // bfme link decl-only begin
 namespace _STL { template <> _Rb_tree_base<_STL::pair<AsciiString const,int>,_STL::allocator<_STL::pair<AsciiString const,int> > >::_Rb_tree_base(_STL::allocator<_STL::pair<AsciiString const,int> > const &); }
 namespace _STL { template <> _Rb_tree<AsciiString,_STL::pair<AsciiString const,int>,_STL::_Select1st<_STL::pair<AsciiString const,int> >,_STL::less<AsciiString>,_STL::allocator<_STL::pair<AsciiString const,int> > >::~_Rb_tree(); }

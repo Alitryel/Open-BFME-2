@@ -67,6 +67,13 @@ template void _STL::_Construct<BfmeContainerRecord002CF46E,BfmeContainerRecord00
 
 #include <vector>
 
+// __node_alloc<1,0>:: otherwise emits a per-TU COMDAT that loses to another
+// unit's copy in link order; this declaration-only specialization suppresses
+// this unit's copy and binds the calls to the kept one (bodies unchanged).
+namespace _STL {
+template <> void __node_alloc<true, 0>::deallocate(void *, size_t);
+}
+
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> dtor COMDAT, so the call binds the kept copy.
 namespace _STL {
