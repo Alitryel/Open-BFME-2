@@ -32,7 +32,7 @@ class Rva003BB730Record;
 class Rva004E37CF
 {
 public:
-    void rva004E37CF(AsciiString &name, Rva003BB730Record *record);
+    void rva004E37CF(const AsciiString &key, class Rva004E37CFValue *value);
 };
 class Rva003BB730Owner
 {
@@ -45,5 +45,5 @@ private:
 };
 void Rva003BB730Owner::addEffect(AsciiString &name, Rva003BB730Record *record)
 {
-    m_08.rva004E37CF(name, record);
+    m_08.rva004E37CF(name, (Rva004E37CFValue *)record);
 }
