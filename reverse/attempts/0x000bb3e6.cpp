@@ -1,4 +1,6 @@
 // ?rva000BB3E6@Rva000BB3E6@@QAEXHHHHVAsciiString@@PBVFXList@@@Z
+// partial score=0.947068 date=2026-10-15
+// ?rva000BB3E6@Rva000BB3E6@@QAEXHHHHVAsciiString@@PBVFXList@@@Z
 // partial score=0.836 date=2026-10-15
 // ?rva000BB3E6@Rva000BB3E6@@QAEXHHHHVAsciiString@@PBVFXList@@@Z
 // partial score=0.96 date=2026-10-03

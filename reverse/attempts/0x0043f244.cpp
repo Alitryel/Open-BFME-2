@@ -1,4 +1,6 @@
 // ?rva0043F244@AptMpGameSetup@@QAEXH_N@Z
+// partial score=0.98288 date=2026-10-15
+// ?rva0043F244@AptMpGameSetup@@QAEXH_N@Z
 // partial score=0.985 date=2026-10-14
 // ?rva0043F244@AptMpGameSetup@@QAEXH_N@Z
 // partial score=0.98 date=2026-10-13
