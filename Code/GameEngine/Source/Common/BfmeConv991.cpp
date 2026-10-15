@@ -37,10 +37,18 @@ public:
 	virtual void bfmeVB1991();
 	virtual void bfmeTick991();
 
-	void bfmeSet991(int a);
 
 	char m_bfmePad[0x1c];
 	int m_bfmeSlot;
+};
+
+// Retail 0x0004CB40 calls the verified W3DSmudgeManager::render owner at
+// 0x000A6E08. The donor's integer argument carries its RenderInfoClass address.
+class RenderInfoClass;
+class W3DSmudgeManager
+{
+public:
+	void render(RenderInfoClass &rinfo);
 };
 
 extern BfmeB991 *g_bfmeB991;
@@ -51,7 +59,8 @@ void bfmeGo991B(int a)
 	if (!g_bfmeB991)
 		return;
 
-	g_bfmeB991->bfmeSet991(a);
+	reinterpret_cast<W3DSmudgeManager *>(g_bfmeB991)->render(
+		*reinterpret_cast<RenderInfoClass *>(a));
 	g_bfmeB991->bfmeTick991();
 	g_bfmeB991->m_bfmeSlot = g_bfmeVal991;
 }

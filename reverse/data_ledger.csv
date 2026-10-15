@@ -17902,7 +17902,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x009E1CD4,4,.data,global,_s_rva007ABD11,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x009E1CD8,12,.data,global,?g_00DE1CD8@@3PADA,Code/GameEngine/Source/Common/Rva002D22CADerived.cpp,owned,,1,1
 0x009E1CE4,12,.data,global,?g_00DE1CE4@@3PADA,Code/GameEngine/Source/Common/Rva002D22CADerived.cpp,owned,,1,1
-0x009E1CF0,8,.data,global,?g_bfmeVal991@@3HA,,unowned,,0,1
+0x009E1CF0,8,.data,global,?g_bfmeVal991@@3HA,Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DFXParticleSystem.cpp,owned,,1,3
 0x009E1CF8,4,.data,global,?RadarEndpointColor@@3IA,Code/GameEngineDevice/Source/W3DDevice/Common/System/W3DRadar.cpp,owned,,1,2
 0x009E1CFC,4,.data,global,_s_rva007ABD3B,Code/GameEngine/Source/Common/Rva007AB7F0HalfRateInits.cpp,owned,,1,1
 0x009E1D00,96,.data,global,?g_Va00DE1D00@@3IA,,unowned,,0,2

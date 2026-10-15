@@ -273,7 +273,8 @@ extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
 extern ParticleSystemManager *TheParticleSystemManager;
 extern unsigned char g_Va00DB5F7D;
 extern BfmeB991 *g_bfmeB991;
-extern Int g_bfmeVal991;
+// Native render counter at RVA 0x009E1CF0; shared with bfmeGo991B.
+Int g_bfmeVal991 = 0;
 extern GlobalData *TheWritableGlobalData;
 extern SnowManager *TheSnowManager;
 

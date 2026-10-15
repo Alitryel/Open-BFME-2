@@ -7694,7 +7694,6 @@ name,address,notes
 ?bfmeSet3VJF@BfmeMsgVJF@@QAEXPBDH@Z,0x00655960
 ?bfmeSet3VJH@BfmeMsgVJH@@QAEXPBDH@Z,0x00655960
 ?bfmeSet3VJI@BfmeMsgVJI@@QAEXPBDH@Z,0x00655960
-?bfmeSet991@BfmeB991@@QAEXH@Z,0x000A6E08,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeSet@BfmeWindowManager@@QAEXPAH@Z,0x00758230,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeSetBPC@BfmeThingBPC@@QAEXH@Z,0x00291C9B,callee read from the retail REL32 in placed BFME1-donor body ?bfmeGoBPC@@YGXPAVBfmeThingBPC@@PAX@Z (0x0047DB95)
 ?bfmeSetBPD@BfmeSubBPD@@QAEXPAX@Z,0x000365F0,address read from the REL32 displacement at placed bfmeGoBPD 0x41058B; donor call folds with the StringBase copy-ctor family
