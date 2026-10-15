@@ -25,6 +25,15 @@ private:
 	char m_data[0x14];
 };
 
+// Native normal teardown reaches57B2CFF2D while unwind reaches the
+// separate5B forwarder2D0583. This lifetime view models the unadjusted
+// receiver; original wrapper type and inheritance identity remain unknown.
+class Rva002D0583Member : public Rva002CFF2D
+{
+public:
+	~Rva002D0583Member() {}
+};
+
 class ThingFactory : public SubsystemInterface
 {
 public:
@@ -33,7 +42,7 @@ private:
 	void freeDatabase();
 	void *m_firstTemplate;	// +0x0C
 	unsigned int m_nextTemplateID;	// +0x10
-	Rva002CFF2D m_templateHashMap;	// +0x14
+	Rva002D0583Member m_templateHashMap;	// +0x14
 };
 
 ThingFactory::~ThingFactory()
