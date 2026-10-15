@@ -1,9 +1,12 @@
-// ?findBestTarget@AITargetHeuristicTechBuilding@@QAEXPAVAITarget@@PAVPlayer@@1@Z
-// partial score=0.911919 date=2026-10-13
-// ?findBestTarget@AITargetHeuristicTechBuilding@@QAEXPAVAITarget@@PAVPlayer@@1@Z
-// partial score=0.8950408658383964 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common /ICode/Libraries/Include
 // stlport
+//
+// ?findBestTarget@AITargetHeuristicTechBuilding@@QAEXPAVAITarget@@PAVPlayer@@1@Z, retail 0x00572EFF, 512 bytes.
+// Native tech-building selector: owner record +0x16C mode / +0x164 tactics, registry +0x934 building IDs,
+// fallback weight +0x884 passed through the x87 stack. WB 1503190 corroborates owner record, mode and the two
+// repeated distance guards. Codegen levers: (float)(double) argument spelling selects the fld/fstp pass,
+// equal-arm calls on the iterator keep it register-resident at the loop head, nt keeps near->type off the
+// obj type temp, volatile bestDistance holds the 0x18 slot.
 #include "GameLogicObjectLookupView.h"
 #include "PartitionRangeQueryCallView.h"
 #include "Lib/Coord3D.h"
@@ -185,11 +188,11 @@ void AITargetHeuristicTechBuilding::findBestTarget(AITarget *target,Player *owne
  TacticalAI *tactics=stats->tactics;
  Coord3D center=stats->rva004EBF4B();
  Object *best=0;
- float bestDistance=0.0f;
+ volatile float bestDistance = 0.0f;
  for(_STL::vector<ObjectID>::iterator i=buildings.begin();i!=buildings.end();++i)
  
  {
-  Object *obj=TheGameLogic->findObjectByID(((i) ? (*i) : (*i)));
+  Object *obj=((i != buildings.end()) ? TheGameLogic->findObjectByID(*i) : TheGameLogic->findObjectByID(*i));
   if(owner->getRelationship(obj)==2)continue;
   bool good=false;
   if(obj->type->flag121&0x10)
@@ -199,7 +202,8 @@ void AITargetHeuristicTechBuilding::findBestTarget(AITarget *target,Player *owne
    if(near && owner->getRelationship(near)!=2)
    
    {
-    if(!mode || (mode && (near->type->flag120&0x10)) || tactics->begin==tactics->end)good=true;
+    TemplateView *nt;
+    if(!mode || (mode && ((nt=near->type)->flag120&0x10)) || tactics->begin==tactics->end)good=true;
     
    }
    
@@ -231,6 +235,6 @@ void AITargetHeuristicTechBuilding::findBestTarget(AITarget *target,Player *owne
   }
   
  }
- if(best)target->setTarget(best,g_tacticalAIRegistry->fallbackWeight);
+ if(best)target->setTarget(best,(float)(double)g_tacticalAIRegistry->fallbackWeight);
  
 }
