@@ -38,7 +38,7 @@ class Rva00550083
 {
 public:
 	Rva00550083();
-	~Rva00550083();
+	~Rva00550083() { ((Rva00660470Deque *)this)->~Rva00660470Deque(); }
 private:
 	char m_pad[0x28];
 };
