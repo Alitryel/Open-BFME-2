@@ -158,3 +158,19 @@ void Rva005E4157::rva005E4157(int index)
 {
     implementation->rva005E4087(index);
 }
+
+// Native 005E415F..005E4167 is the same counted-wrapper shape for the
+// int-returning 005E4116 (WB caller 005E69D0 reaches it directly): the
+// handle at +10 is the receiver and the result passes through as a tail jump.
+class Rva005E4116 { public: int rva005E4116(); };
+class Rva005E69D0
+{
+public:
+    int rva005E415F();
+    char unknown00[0x10];
+    Rva005E4116 *implementation;
+};
+int Rva005E69D0::rva005E415F()
+{
+    return implementation->rva005E4116();
+}

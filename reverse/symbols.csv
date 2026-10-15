@@ -17026,3 +17026,4 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?rva00031660@GeneralAllocator@Allocator@EA@@QAEXPAX@Z,0x00031660,callee of ?rva00033D50@GeneralAllocator@Allocator@EA@@QAE_NXZ
 ?rva0004F82B@Rva0004F82B@@QAEXXZ,0x0004F82B,callee of ?reset@W3DTerrainVisual@@UAEXXZ
 ?rva0009A2CD@W3DShadowManager@@QAEXXZ,0x0009A2CD,callee of ?reset@W3DTerrainVisual@@UAEXXZ
+?rva005E4116@Rva005E4116@@QAEHXZ,0x005E4116,callee of ?rva005E415F@Rva005E69D0@@QAEHXZ
