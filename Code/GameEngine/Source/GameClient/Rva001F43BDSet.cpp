@@ -64,3 +64,38 @@ BFME_RVA001F43BD_SLOT_SETTER(Rva001F619DSlot, 0xB4)
 BFME_RVA001F43BD_SLOT_SETTER(Rva001F61A8Slot, 0xB8)
 BFME_RVA001F43BD_SLOT_SETTER(Rva001F61B3Slot, 0xBC)
 BFME_RVA001F43BD_SLOT_SETTER(Rva001F61BESlot, 0xC0)
+
+// Eight more forwarders to the same setters (+0xA4..+0xC0), contiguous at
+// 0x001F68AF and 0x001F68CE..0x001F693E (16 bytes each): the same offset and
+// call, but as file-statics in cl 7.1's register convention - the owner stays
+// in ECX and the caller cleans the argument, so they call the ret-4 setter and
+// end in a plain ret instead of tail-jumping. No call to any of them survives
+// in the image; the anchor below only forces cl to emit them in that
+// convention. Owners and names are address-derived.
+#define BFME_RVA001F43BD_STATIC_SETTER(NAME, DISP) \
+	static __declspec(noinline) void NAME(char *owner, void *p) \
+	{ \
+		((Rva001F43BD *)(owner + DISP))->rva001F43BD(p); \
+	}
+
+BFME_RVA001F43BD_STATIC_SETTER(Rva001F68AFSet, 0xA4)
+BFME_RVA001F43BD_STATIC_SETTER(Rva001F68CESet, 0xA8)
+BFME_RVA001F43BD_STATIC_SETTER(Rva001F68DESet, 0xAC)
+BFME_RVA001F43BD_STATIC_SETTER(Rva001F68EESet, 0xB0)
+BFME_RVA001F43BD_STATIC_SETTER(Rva001F68FESet, 0xB4)
+BFME_RVA001F43BD_STATIC_SETTER(Rva001F690ESet, 0xB8)
+BFME_RVA001F43BD_STATIC_SETTER(Rva001F691ESet, 0xBC)
+BFME_RVA001F43BD_STATIC_SETTER(Rva001F692ESet, 0xC0)
+
+// ?Rva001F68AFAnchor absent-from-retail
+void Rva001F68AFAnchor(char *owner, void *p)
+{
+	Rva001F68AFSet(owner, p);
+	Rva001F68CESet(owner, p);
+	Rva001F68DESet(owner, p);
+	Rva001F68EESet(owner, p);
+	Rva001F68FESet(owner, p);
+	Rva001F690ESet(owner, p);
+	Rva001F691ESet(owner, p);
+	Rva001F692ESet(owner, p);
+}
