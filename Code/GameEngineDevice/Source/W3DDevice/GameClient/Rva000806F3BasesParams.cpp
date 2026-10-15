@@ -52,10 +52,13 @@ private:
 
 extern int BfmeClientFramesPerSecond;
 
+// WorldBuilder BDE250 and the recovered loader establish this identity.
+class StandingWaterArea { public: void LoadPCAFile(); };
+
 class Rva003093F6Bases
 {
 public:
-	void rva003093F6();
+
 	Rva000806F3Vector4 rva0030822F(float time);
 	Rva000806F3Vector4 rva00308325(float time, int group);
 	Rva000806F3Vector4 rva00308417(float time, int group);
@@ -81,7 +84,7 @@ void Rva00080858Mean(ID3DXEffect *effect, D3DXHANDLE handle)
 	if (bases)
 	{
 		float time = (WW3D::Get_Sync_Time() / 1000.0f) * BfmeClientFramesPerSecond;
-		bases->rva003093F6();
+		reinterpret_cast<StandingWaterArea *>(bases)->LoadPCAFile();
 		value = bases->rva0030822F(time);
 	}
 	effect->SetVector(handle, &value);
@@ -99,7 +102,7 @@ void Rva00080858Mean(ID3DXEffect *effect, D3DXHANDLE handle)
 		if (bases)                                                        \
 		{                                                                 \
 			float time = (WW3D::Get_Sync_Time() / 1000.0f) * BfmeClientFramesPerSecond;     \
-			bases->rva003093F6();                                         \
+			reinterpret_cast<StandingWaterArea *>(bases)->LoadPCAFile();                                         \
 			value = bases->GETTER(time, GROUP);                           \
 		}                                                                 \
 		effect->SetVector(handle, &value);                                \
@@ -151,7 +154,7 @@ void Rva00080F95Mean2(ID3DXEffect *effect, D3DXHANDLE handle)
 	if (bases)
 	{
 		float time = (WW3D::Get_Sync_Time() / 1000.0f) * BfmeClientFramesPerSecond;
-		bases->rva003093F6();
+		reinterpret_cast<StandingWaterArea *>(bases)->LoadPCAFile();
 		value = bases->rva0030822F(time);
 		Rva0008103AAdjust(&value.x);
 	}
@@ -184,7 +187,7 @@ void __cdecl Rva0008103AAdjust(float *v)
 	if (!bases)
 		return;
 	float time = (WW3D::Get_Sync_Time() / 1000.0f) * BfmeClientFramesPerSecond;
-	bases->rva003093F6();
+	reinterpret_cast<StandingWaterArea *>(bases)->LoadPCAFile();
 	v[0] -= Rva0008103ASum(bases->rva00308325(time, 0)) * 0.5f;
 	v[0] -= Rva0008103ASum(bases->rva00308325(time, 1)) * 0.5f;
 	v[1] -= Rva0008103ASum(bases->rva00308417(time, 0)) * 0.5f;
@@ -208,7 +211,7 @@ void Rva00081242Bases03X2(ID3DXEffect *effect, D3DXHANDLE handle)
 	if (bases)
 	{
 		float time = (WW3D::Get_Sync_Time() / 1000.0f) * BfmeClientFramesPerSecond;
-		bases->rva003093F6();
+		reinterpret_cast<StandingWaterArea *>(bases)->LoadPCAFile();
 		value = bases->rva00308325(time, 0);
 		Rva000812E1Scale(&value.x);
 	}
@@ -227,7 +230,7 @@ void Rva00081242Bases03X2(ID3DXEffect *effect, D3DXHANDLE handle)
 		if (bases)                                                        \
 		{                                                                 \
 			float time = (WW3D::Get_Sync_Time() / 1000.0f) * BfmeClientFramesPerSecond;  \
-			bases->rva003093F6();                                         \
+			reinterpret_cast<StandingWaterArea *>(bases)->LoadPCAFile();                                         \
 			value = bases->GETTER(time, GROUP);                           \
 			Rva00080E30Scale(&value.x);                                   \
 		}                                                                 \

@@ -627,7 +627,6 @@ Code/Libraries/Source/WWVegas/WW3D2/RayCollisionCopyCtor.cpp,-arch:SSE -G7,1,1,r
 Code/Libraries/Source/WWVegas/WW3D2/RegistryPrototypeLookup.cpp,,3,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/Rva00149280Siblings.cpp,-arch:SSE -G7,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/Rva00171720Finish.cpp,-G7,1,1,region default loses rows
-Code/Libraries/Source/WWVegas/WW3D2/Rva00199FCCFind.cpp,-O1,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/Rva00910F10DeviceSlot79.cpp,-O2 -arch:SSE -G7,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/Rva0092CC40BoxOutsideFrustum.cpp,-arch:SSE -G7,1,1,region default loses rows
 Code/Libraries/Source/WWVegas/WW3D2/StreakLineGetTexture.cpp,-O2 -G7 -arch:SSE,1,1,region default loses rows
