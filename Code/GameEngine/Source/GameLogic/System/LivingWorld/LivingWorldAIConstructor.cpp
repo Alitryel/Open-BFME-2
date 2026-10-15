@@ -22,8 +22,11 @@ template<> _Deque_iterator_base<Rva00063333Element>::_Deque_iterator_base();
 }
 class Rva0050292B { public: ~Rva0050292B(); };
 class Rva00502C80 { public: Rva00502C80(); ~Rva00502C80() { reinterpret_cast<Rva0050292B *>(this)->~Rva0050292B(); } char bytes[0x50]; };
-class Rva0059BE1A { public: void rva0059BE1A(); };
-class Rva004E35A3 { public: Rva004E35A3(); ~Rva004E35A3() { reinterpret_cast<Rva0059BE1A *>(this)->rva0059BE1A(); } char bytes[0x24]; };
+// Native constructor4FB3F2 and destructor4FB4D2 bind +FC to constructor4E35A3
+// and destructor59BE1A. Use its one rowed destructor directly so both native
+// state6 cleanups resolve to the same provider as the ordinary teardown path.
+// The0x24-byte occupied span is retained; its original container type is unknown.
+class Rva004E35A3 { public: Rva004E35A3(); ~Rva004E35A3(); char bytes[0x24]; };
 class Rva004FB3F2State8C { public: Rva004FB3F2State8C(); ~Rva004FB3F2State8C(); char bytes[0x60]; };
 class Rva004FB3F2State120 { public: Rva004FB3F2State120(); ~Rva004FB3F2State120(); int value; };
 class Rva004FB3F2Iterator { public: Rva004FB3F2Iterator(); ~Rva004FB3F2Iterator(); int first,last,current,node; };

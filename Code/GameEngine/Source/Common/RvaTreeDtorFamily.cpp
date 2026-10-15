@@ -1302,13 +1302,17 @@ void Rva0059A2B9::rva0059A2B9()
 	((Rva00599FAA *)this)->~Rva00599FAA();
 }
 
-class Rva0059BE1A
+// LivingWorldAI constructs its +0xFC member through the existing
+// Rva004E35A3 ABI view, then its constructor and destructor unwind maps
+// destroy that same member through native59BE1A. Name the one5B provider
+// as the destructor of that view; the original container type stays unknown.
+class Rva004E35A3
 {
 public:
-	void rva0059BE1A();
+	~Rva004E35A3();
 };
 
-void Rva0059BE1A::rva0059BE1A()
+Rva004E35A3::~Rva004E35A3()
 {
 	((Rva0059BD58 *)this)->~Rva0059BD58();
 }
