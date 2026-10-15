@@ -19,11 +19,12 @@ public:
 	int m_state; // +0x08
 };
 
-// Embedded material prefix, shared with the rowed 0x00362499 predicate.
-class Rva00362499
+// Native embedded material prefix. The first word is the existing snapshot
+// vptr; only the two pointer fields are inspected by IsActive.
+class GlowMaterial
 {
 public:
-	unsigned char rva00362499();
+	unsigned char __declspec(noinline) IsActive();
 private:
 	char m_00[4];
 	void *m_04;
@@ -49,7 +50,7 @@ private:
 	unsigned int m_frameLimit; // +0x14, unsigned comparison in retail
 	Rva00419BA5 *m_glow; // +0x18
 	char m_pad1C[0x30 - 0x1C];
-	Rva00362499 m_material; // +0x30, 0x14 bytes
+	GlowMaterial m_material; // +0x30, 0x14 bytes
 };
 
 class BuffManager
@@ -98,13 +99,22 @@ void BuffManager::TurnOffBuff(int type, bool immediate)
 		m_buffs[type].TurnOff(immediate);
 }
 
+// WB F13B20 names IsActive and checks that both material pointers agree on
+// nullness (BuffManager.cpp:108). Retail 362499..3624A8 retains the same
+// +8 then +4 predicate after removing the debug assertion. Preserve the
+// existing unsigned-byte return view: the original Boolean typedef is unknown.
+unsigned char GlowMaterial::IsActive()
+{
+	return m_08 != 0 && m_04 != 0;
+}
+
 // WB F14400 names Update and asserts m_buff == NULL on the active embedded
 // GlowMaterial branch (BuffManager.cpp:351). Retail 3627B8..3627F9 removes
 // that debug assertion but preserves the same three calls, offsets and RET4.
 // Native comparison proves unsigned frame ordering; original typedef unknown.
 void BuffInstance::Update(unsigned int frame)
 {
-	if (m_active && !m_material.rva00362499() && frame > m_frameLimit)
+	if (m_active && !m_material.IsActive() && frame > m_frameLimit)
 		TurnOff(false);
 	if (m_glow != 0 && m_glow->m_state == 3)
 	{
@@ -253,5 +263,58 @@ void Rva0036276F::rva0036276F()
     }
     for (int i = 0; i < 9; ++i) {
         reinterpret_cast<Rva0036265E *>(&m_buffs[i])->rva0036265E((activeMask & (1u << i)) != 0);
+    }
+}
+
+// These two neutral helpers retain their proven identities and stay beside
+// IsActive so MSVC knows that its call preserves ECX, as retail requires.
+class Rva00362499
+{
+public:
+    unsigned int rva003624A8();
+    void rva003624FE();
+private:
+	char m_00[4];
+	void *m_04;
+	void *m_08;
+	unsigned int m_0C;
+	unsigned int m_10;
+};
+
+// Clean BF1 f98983a7 Common/Rva00409570StateCheck.cpp under O2/SSE2/G6
+// supplies the read-and-return control flow. Its state/owner names and
+// volatile qualifier are not asserted here. Native3624A8..3624B4 is a
+// complete twelve-byte leaf after the matched362499 RET and before the
+// next argument setter. It reads receiver+4, then that child's DWORD+40,
+// compares the value with1 and jumps to the immediately following RET.
+// Both arms return the one loaded word. This existing receiver prefix is
+// reused only for its proven +4 access; original concrete owners, full
+// bounds, field purpose and original return type remain unknown.
+struct Rva003624A8StatePrefix
+{
+    char unknown00[0x40];
+    unsigned int word40;
+};
+
+unsigned int Rva00362499::rva003624A8()
+{
+    unsigned int value = static_cast<Rva003624A8StatePrefix *>(m_04)->word40;
+    if (value == 1)
+        return value;
+    return value;
+}
+
+// ?rva003624FE@Rva00362499@@QAEXXZ @0x003624FE (26B)
+void Rva00362499::rva003624FE()
+{
+    if (((GlowMaterial *)this)->IsActive())
+    {
+        Rva003624A8StatePrefix *s = static_cast<Rva003624A8StatePrefix *>(m_04);
+        if (s)
+        {
+            unsigned int v = m_10;
+            s->word40 = v;
+            m_10 = v;
+        }
     }
 }
