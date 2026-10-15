@@ -10,8 +10,10 @@ extern int BfmeLogicFramesPerSecond;
 
 // Never read elsewhere in .text.
 static float s_rva007AF1DE;
-// Read by 0x003942FD.
-extern float g_00E027C4;
+// Sell duration read by 0x003942FD and initialized by 0x007AF1F7 below.
+// Retail reserves one zero-filled float at VA 0x00E027C4 before startup.
+// Keep the existing address-derived name; the original identifier is unknown.
+float g_00E027C4 = 0.0f;
 
 struct Rva007AF1DEFrameScaleSseInits
 {
