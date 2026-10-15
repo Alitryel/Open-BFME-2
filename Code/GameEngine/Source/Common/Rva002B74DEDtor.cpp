@@ -1,8 +1,8 @@
-// cl: /MD /EHs
+// cl: -O1 -arch:SSE -G7 -MD -EHs
 // ??1Rva002B74DE@@QAE@XZ retail 0x002B74DE 93B
 // Non-virtual dtor with an empty body: member dtors in reverse order under EH
 // states 2..0 -- the vectors at +0x1C and +0x10 (inline CRT free of each
-// block), the holder at +0xC whose inline dtor runs the rowed
+// block), the holder at +0xC whose complete dtor matches the rowed
 // ?clear@Rva002B430C@@QAEXXZ 0x002B430C, then the holder at +8 whose inline
 // dtor runs the rowed ?rva002B2EA0@Rva002B2EA0@@QAEXXZ 0x002B2EA0.
 // Names address-derived.
@@ -21,17 +21,27 @@ private:
 	void *m_ptr;
 };
 
+class Rva004FA2E2 { public: ~Rva004FA2E2(); };
+void __cdecl operator delete(void *);
 class Rva002B430C
 {
 public:
-	~Rva002B430C()
-	{
-		clear();
-	}
-	void clear();
+    ~Rva002B430C();
+    void clear();
 private:
-	void *m_ptr;
+    Rva004FA2E2 *m_ptr;
 };
+// Native normal and unwind paths both call the complete26-byte owning
+// teardown at2B430C: null the slot, destroy its pointee, then free storage.
+Rva002B430C::~Rva002B430C()
+{
+    Rva004FA2E2 *old = m_ptr;
+    m_ptr = 0;
+    if (old) {
+        old->Rva004FA2E2::~Rva004FA2E2();
+        operator delete(old);
+    }
+}
 
 class Rva002B74DEVector
 {
