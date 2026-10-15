@@ -62,6 +62,7 @@ namespace Allocator
 class GeneralAllocator
 {
 public:
+	bool rva00033D50();	// 0x00033D50
 	void *rva00035080(unsigned int size, int flags);
 };
 }
@@ -72,8 +73,6 @@ class Rva006C1F60 : public EA::Allocator::GeneralAllocator
 public:
 	bool rva006C38D0();
 
-	// Address-derived member, pinned at 0x00033D50.
-	bool rva00033D50();
 
 	void rva006C33D0(int a, int b);
 
@@ -98,7 +97,7 @@ private:
 bool Rva006C1F60::rva006C38D0()
 {
 	rva006C33D0(0, 0);
-	bool result = rva00033D50();
+	bool result = GeneralAllocator::rva00033D50();
 	m_510 = 0;
 	if (m_678 == this)
 	{
