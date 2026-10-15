@@ -69,8 +69,8 @@ header, draining a source file, re-homing split rows - is claimed by scope:
 
   python3 tools/claims.py claim file:Code/.../Unit.cpp   # refs/claims/file/<hash>
   python3 tools/claims.py claim class:RenderObjClass     # refs/claims/class/<name>
-  (lease:master, refs/claims/lease/master, is the push window tools/push_lease.py
-  and the pre-push hook take around a full-gate push to master)
+  (lease:<name>, refs/claims/lease/<name>, is a short-lived shared window; the
+  master push window that used it was retired for tools/full_gate_receipt.py)
 
 Same refs, same TTL, same compare-and-swap; `list` shows them with the path
 or class. Body pickers only consult RVA claims, so a scope claim is a
@@ -280,7 +280,7 @@ def current_lease(rva, who=None, root=None):
 
 def key_of(text):
     """A claim key: an int RVA, or a scope string 'file/<hash>' / 'class/<name>' /
-    'lease/<name>' (BFME2; a lease is a push window, see tools/push_lease.py)."""
+    'lease/<name>' (BFME2; a short-lived shared window)."""
     if isinstance(text, int):
         return text
     if text.startswith(("file/", "class/", "lease/")):    # a key already (ClaimResult.tokens, renew)

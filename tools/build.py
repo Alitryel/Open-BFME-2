@@ -3666,6 +3666,36 @@ def _report_reference_result(result):
         raise SystemExit(code)
 
 
+def cross_source_checks():
+    """The full gate's checks that compare sources with each other rather than
+    each with retail: one retail address per DIR32 symbol across every object
+    (verify_dir32_consistency) and the module registry. A push that carries a
+    passed full gate (.githooks/pre-push, tools/full_gate_receipt.py) byte-verifies
+    only what changed, then runs these over every row, after bringing every
+    object up to date (what is current is reused). Returns an exit status."""
+    import check_module_registry
+    ensure_case_shims()
+    ensure_reference_current()
+    rows = load_function_rows()
+    sources = list(dict.fromkeys(ROOT / row["source"] for row in rows))
+    compile_rows(rows, sources)
+    stale = stale_sources([s for s in sources if s.suffix.lower() != LIB_SUFFIX],
+                          {s: obj_path(s) for s in sources if s.suffix.lower() != LIB_SUFFIX}, _pool_size())
+    if stale:
+        print(f"cross-source checks: {len(stale)} object(s) not current, e.g. {stale[0].relative_to(ROOT)}")
+        return 1
+    failed = 0
+    for label, check in (("dir32 consistency", lambda: verify_dir32_consistency(rows)),
+                         ("module registry", check_module_registry.verify)):
+        try:
+            check()
+        except SystemExit as exc:
+            if exc.code:
+                print(f"{label}: FAIL")
+                failed = 1
+    return failed
+
+
 def main(only=None):
     # Sources include some sweep headers under two case spellings; only the
     # canonical one is committed (case-only-colliding paths break Windows/macOS
