@@ -29,4 +29,5 @@ struct BfmeAssignRecord32 {
 namespace _STL {
 template <> void _Construct<BfmeAssignRecord32, BfmeAssignRecord32>(BfmeAssignRecord32 *, const BfmeAssignRecord32 &);
 }
+namespace _STL { template <> BfmeAssignRecord32 *vector<BfmeAssignRecord32, allocator<BfmeAssignRecord32> >::erase(BfmeAssignRecord32 *, BfmeAssignRecord32 *); }
 template class _STL::vector<BfmeAssignRecord32, _STL::allocator<BfmeAssignRecord32> >;
