@@ -37,7 +37,8 @@ public:
 	int getMaskIndex() const { return m_maskIndex; }
 	void setMaskIndex(int index) { m_maskIndex = index; }
 	const UpgradeTemplate *friend_getNext() const { return m_next; }
-	UpgradeTemplate *friend_getNext() { return m_next; }
+	// Keep the native inline loads without an unused competing external copy.
+	__declspec(dllimport) __forceinline UpgradeTemplate *friend_getNext() { return m_next; }
 	const UpgradeTemplate *friend_getPrev() const { return m_prev; }
 	UpgradeTemplate *friend_getPrev() { return m_prev; }
 	__declspec(dllimport) __forceinline void friend_setNext(UpgradeTemplate *n) { m_next = n; }
