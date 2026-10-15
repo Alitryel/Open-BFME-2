@@ -17,6 +17,14 @@ void Rva00030830FreeAllocation(void *);
 #define free Rva00030830FreeAllocation
 #include <map>
 #undef free
+// Compare typed nodes locally; the inlined test needs no external tree-base
+// wrapper compiled under this unit's settings.
+namespace _STL {
+template <class Value, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits> &a,
+                              const _Rb_tree_iterator<Value, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+}
 // STLport has already supplied the placement-new operators.
 #define _OPERATOR_NEW_DEFINED_
 // BFME 2's WWLib thread base, not ZH's 0x58-byte one that mutex.h would pull
