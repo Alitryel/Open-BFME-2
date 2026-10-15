@@ -13,7 +13,8 @@ struct TreeHintRef00217D4C {
  ~TreeHintRef00217D4C();
 };
 typedef _STL::pair<const AsciiString,TreeHintRef00217D4C> Pair358C60;
-namespace _STL { template<> Pair358C60::pair(const AsciiString &,const TreeHintRef00217D4C &); }
+// pair dtor inline so this TU emits no external copy; the owner is 0x002175CE (stlport_rb_tree_hint_00218022.cpp)
+namespace _STL { template<> Pair358C60::pair(const AsciiString &,const TreeHintRef00217D4C &); template<> __declspec(dllimport) __forceinline Pair358C60::~pair() { second.~TreeHintRef00217D4C(); first.~AsciiString(); } }
 Pair358C60 __cdecl Rva00358C60Factory(const AsciiString &key,const TreeHintRef00217D4C &value) {
  return Pair358C60(key,value);
 }

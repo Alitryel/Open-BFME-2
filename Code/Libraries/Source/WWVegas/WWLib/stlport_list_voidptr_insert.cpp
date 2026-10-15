@@ -22,5 +22,12 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
 
+// The node factory and node allocator are retail's out-of-line copies; this
+// unit's own copies differ from them, so the calls link to the kept definitions.
+namespace _STL {
+template <> _List_node<void *> *list<void *, allocator<void *> >::_M_create_node(void *const &);
+template <> _List_node<void *> *allocator<_List_node<void *> >::allocate(size_t, const void *) const;
+}
+
 template _STL::list<void *, _STL::allocator<void *> >::iterator
 	_STL::list<void *, _STL::allocator<void *> >::insert(iterator, void *const &);

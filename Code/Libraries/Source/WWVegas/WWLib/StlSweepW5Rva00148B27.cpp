@@ -16,6 +16,10 @@ template <> size_t vector<void*>::size() const;
 template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_reference vector<void *>::operator[](size_type __n) const { return *(begin() + __n); }
+}
 
 struct Rva00148B27Element {Rva00148B27Element();Rva00148B27Element(const Rva00148B27Element&);Rva00148B27Element&operator=(const Rva00148B27Element&);~Rva00148B27Element(){}char bytes[8]; bool operator==(const Rva00148B27Element&)const;};
 

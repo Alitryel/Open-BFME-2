@@ -15,6 +15,14 @@
 
 #include <map>
 
+// lower_bound's less<int> compare otherwise emits an unreferenced COMDAT copy
+// that is not retail's body; declared imported and force-inlined it is not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool less<int>::operator()(const int &__x, const int &__y) const
+{ return __x < __y; }
+}
+
 class Rva0043B196
 {
 public:

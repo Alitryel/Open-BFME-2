@@ -15,6 +15,13 @@
 #include <map>
 #include "ascii_string.h"
 
+// insert_unique otherwise emits this unit's own copy, which differs from the
+// kept one; the call links to the rowed tree insert (0x00058CB3).
+namespace _STL {
+template <> pair<_Rb_tree<AsciiString, pair<const AsciiString, float>, _Select1st<pair<const AsciiString, float> >, less<AsciiString>, allocator<pair<const AsciiString, float> > >::iterator, bool>
+_Rb_tree<AsciiString, pair<const AsciiString, float>, _Select1st<pair<const AsciiString, float> >, less<AsciiString>, allocator<pair<const AsciiString, float> > >::insert_unique(const pair<const AsciiString, float> &);
+}
+
 class MilesAudioManager
 {
 public:

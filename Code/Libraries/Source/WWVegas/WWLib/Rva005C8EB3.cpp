@@ -29,6 +29,12 @@ public:
 	void *m_ptr;
 };
 
+// The map<int,void*> destructor otherwise emits this unit's own copy, which is
+// not retail's body; the call links to the kept retail definition.
+namespace _STL {
+template <> _Rb_tree<int, pair<const int, void *>, _Select1st<pair<const int, void *> >, less<int>, allocator<pair<const int, void *> > >::~_Rb_tree();
+}
+
 class Rva005C8EB3 : public Base0C
 {
 public:

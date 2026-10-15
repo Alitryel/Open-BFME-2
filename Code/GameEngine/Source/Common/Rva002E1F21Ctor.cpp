@@ -14,6 +14,15 @@ namespace _STL {
 template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
 }
 
+// _Vector_base<BfmeE16>::~_Vector_base is inline-only in retail; expanded here so this TU emits no copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Vector_base<BfmeE16, allocator<BfmeE16> >::~_Vector_base() {
+  if (_M_start != 0)
+    _M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start);
+}
+}
+
 class BFME2NativeNetwork
 {
 public:

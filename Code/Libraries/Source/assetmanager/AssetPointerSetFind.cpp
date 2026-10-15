@@ -12,4 +12,11 @@ typedef Rva001408C0Target *AssetKey;
 typedef _STL::set<AssetKey,_STL::less<AssetKey>,_STL::allocator<AssetKey> > AssetSet;
 typedef _STL::_Rb_tree<AssetKey,AssetKey,_STL::_Identity<AssetKey>,_STL::less<AssetKey>,_STL::allocator<AssetKey> > AssetTree;
 
+// less<AssetKey>::operator() is inline-only in retail; a TU-local imported
+// force-inline specialization keeps this unit from emitting its own copy.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool less<AssetKey>::operator()(const AssetKey &__x, const AssetKey &__y) const { return __x < __y; }
+}
+
 template AssetTree::const_iterator AssetTree::find<AssetKey>(const AssetKey &) const;

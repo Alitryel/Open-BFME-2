@@ -64,6 +64,10 @@ public:
     }
 };
 
+// The new-expression's cleanup otherwise emits this unit's own copy of the pool's
+// operator delete, which is not retail's body; the call links to the kept retail definition.
+template <> void AutoPoolClass<MatPassTaskClass, 256>::operator delete(void *);
+
 // upstream layout: reference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2/dx8renderer.h
 // This is the base class's non-virtual Add_Visible_Material_Pass, not the
 // rigid container's delayed override: the base ctor 0x00144E90 clears the

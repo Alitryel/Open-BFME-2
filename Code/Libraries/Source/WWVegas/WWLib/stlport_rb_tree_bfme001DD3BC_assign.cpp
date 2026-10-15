@@ -9,6 +9,11 @@ struct BfmeRecord001DD3BC {
 };
 bool operator<(const BfmeRecord001DD3BC &a, const BfmeRecord001DD3BC &b);
 typedef _STL::_Rb_tree<BfmeRecord001DD3BC, BfmeRecord001DD3BC, _STL::_Identity<BfmeRecord001DD3BC>, _STL::less<BfmeRecord001DD3BC>, _STL::allocator<BfmeRecord001DD3BC> > BfmeRecord001DD3BCSetTree;
+namespace _STL {
+template <> void _Destroy<BfmeRecord001DD3BC>(BfmeRecord001DD3BC *);
+template <> void _Construct<BfmeRecord001DD3BC, BfmeRecord001DD3BC>(BfmeRecord001DD3BC *, const BfmeRecord001DD3BC &);
+template <> void BfmeRecord001DD3BCSetTree::_M_erase(_Rb_tree_node<BfmeRecord001DD3BC> *);
+}
 template BfmeRecord001DD3BCSetTree &BfmeRecord001DD3BCSetTree::operator=(const BfmeRecord001DD3BCSetTree &);
 
 // 0x001DE3D1 (18B, RET4): the set's inline operator= forwarding to the tree

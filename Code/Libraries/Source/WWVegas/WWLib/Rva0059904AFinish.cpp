@@ -17,6 +17,18 @@
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 
+// vector<void*> begin/end/clear are expanded inline here; their out-of-line copies
+// would differ from retail's. Declared imported and force-inlined, they are not emitted.
+namespace _STL {
+template <> void **vector<void *>::erase(void **first, void **last);
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+void vector<void *>::clear() { erase(begin(), end()); }
+}
+
 struct Polymorph004F
 {
 	virtual void *destroy(unsigned int flags);

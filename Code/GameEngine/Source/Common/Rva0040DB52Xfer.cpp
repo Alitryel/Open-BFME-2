@@ -67,6 +67,19 @@ public:
 
 #include "Common/Snapshot.h"
 
+// vector<void*> begin/end/clear are expanded inline here; their out-of-line copies
+// would differ from retail's. Declared imported and force-inlined, they are not emitted.
+namespace _STL {
+template <> void **vector<void *>::erase(void **first, void **last);
+template <> ScienceType *vector<ScienceType>::erase(ScienceType *first, ScienceType *last);
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+void vector<void *>::clear() { erase(begin(), end()); }
+}
+
 Xfer *Rva003F2394Xfer(Xfer *xfer, _STL::vector<ScienceType> *vec);
 Xfer *Rva0040E269Xfer(Xfer *xfer, _STL::vector<const ModuleData *> *vec);
 

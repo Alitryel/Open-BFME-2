@@ -29,6 +29,10 @@ template <> size_t vector<void*>::size() const;
 template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_reference vector<void *>::operator[](size_type __n) const { return *(begin() + __n); }
+}
 
 
 

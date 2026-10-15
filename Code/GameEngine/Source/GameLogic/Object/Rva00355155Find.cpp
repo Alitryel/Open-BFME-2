@@ -15,6 +15,10 @@ template <> size_t vector<void*>::size() const;
 template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
 }
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_reference vector<void *>::operator[](size_type __n) const { return *(begin() + __n); }
+}
 
 enum NameKeyType
 {
@@ -31,6 +35,12 @@ template <typename T> struct hash
 	size_t operator()(const T &value) const { return (size_t)value; }	// Zero Hour's rts::hash<NameKeyType>, inline
 };
 
+}
+// The hash body is inline-only in retail; keep this TU's copy from emitting.
+namespace rts
+{
+template <> __declspec(dllimport) __forceinline
+size_t hash<NameKeyType>::operator()(const NameKeyType &value) const { return (size_t)value; }
 }
 
 class ArmorTemplate

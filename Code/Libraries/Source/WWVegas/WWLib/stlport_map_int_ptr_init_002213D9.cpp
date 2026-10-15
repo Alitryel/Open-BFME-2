@@ -19,6 +19,14 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 { free((char *)__p); }
 }
 
+// The map's constructor, destructor and node allocator otherwise emit this
+// unit's own copies, which are not retail's bodies; the calls link to the kept
+// retail definitions.
+namespace _STL {
+template <> _Rb_tree_base<pair<const int, void *>, allocator<pair<const int, void *> > >::_Rb_tree_base(const allocator<pair<const int, void *> > &);
+template <> _Rb_tree<int, pair<const int, void *>, _Select1st<pair<const int, void *> >, less<int>, allocator<pair<const int, void *> > >::~_Rb_tree();
+}
+
 _STL::map<int, void *, _STL::less<int>, _STL::allocator<_STL::pair<const int, void *> > > *Rva002213D9Get()
 {
     static _STL::map<int, void *, _STL::less<int>, _STL::allocator<_STL::pair<const int, void *> > > s_map;

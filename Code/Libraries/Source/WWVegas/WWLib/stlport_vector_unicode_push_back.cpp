@@ -22,6 +22,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 namespace _STL {
 template <> void _Construct<UnicodeString, UnicodeString>(UnicodeString *, const UnicodeString &);
+// Allocator deallocate copies here differ from the kept copy; declaration only
+// so the calls link to the kept definition.
+template <> void allocator<UnicodeString>::deallocate(UnicodeString *, size_t) const;
+template <> void _STLP_alloc_proxy<UnicodeString *, UnicodeString, allocator<UnicodeString> >::deallocate(UnicodeString *, size_t);
+template <> void vector<UnicodeString, allocator<UnicodeString> >::_M_clear();
 }
 
 template void _STL::vector<UnicodeString, _STL::allocator<UnicodeString> >::push_back(const UnicodeString &);

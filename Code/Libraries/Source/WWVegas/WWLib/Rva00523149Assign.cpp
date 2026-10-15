@@ -25,6 +25,11 @@ void __malloc_alloc<0>::deallocate(void *__p, size_t)
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 typedef _STL::pair<const AsciiString, AsciiString> StringPair;
 typedef _STL::_Rb_tree<AsciiString, StringPair, _STL::_Select1st<StringPair>, _STL::less<AsciiString>, _STL::allocator<StringPair> > StringPairTree;
+// _M_create_node otherwise emits this unit's own copy, which is not retail's
+// body; the call links to the kept retail definition.
+namespace _STL {
+template <> _Rb_tree_node<StringPair> *StringPairTree::_M_create_node(const StringPair &);
+}
 struct Rva00523149 {
 	char pad0[4];
 	StringPairTree m_tree;

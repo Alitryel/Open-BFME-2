@@ -3,6 +3,22 @@
 // ?rva001E7E25@Rva001E7E25@@QAEXXZ retail 0x001E7E25 83B: clears pointer array via virtual slot 0 plus delete then vector erase plus flag clears.
 // Evidence: frameless thiscall with ebx index esi vector plus loop test ecx je plus push 0 call [eax] push eax call 0x0002FD60 then push end push begin call 0x0031BD55 erase then and [edi+0x10] 0 plus bytes [edi+0x14] [edi+0x15] 0; callers 0x001E86EE 0x00268364 0x00268A59 0x0026E87A 0x0026EBD4.
 #include <vector>
+
+// vector<void*> begin/end/clear are expanded inline here; their out-of-line copies
+// would differ from retail's. Declared imported and force-inlined, they are not emitted.
+namespace _STL {
+template <> void **vector<void *>::erase(void **first, void **last);
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+void vector<void *>::clear() { erase(begin(), end()); }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void *>::size() const { return this->_M_finish - this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void *>::operator[](size_t n) { return this->_M_start[n]; }
+}
 void __cdecl operator delete(void *block);
 class Rva001E7E25Elem
 {

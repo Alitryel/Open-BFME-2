@@ -12,6 +12,7 @@
 namespace _STL {
 template <> void **vector<void*>::begin();
 template <> void **vector<void*>::end();
+template <> void **vector<void*>::erase(void **);
 }
 
 class CreateAHeroData;
