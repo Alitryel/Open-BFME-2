@@ -115,6 +115,11 @@ class LivingWorldRegionManager { public:
     Bool GetRegionCenterPoint(Rva0020E89C *,Coord2D *);
     Bool GetDefaultArmyPlacementPos(Int index, Pair8 *out);
 };
+
+// The rowed 0x20FAEA finder (Rva0020EE29 view) and the rowed 0x3F3B28
+// vector-resize owner (Rva003F3AB5 view) spellings.
+class Rva0020EE29 { public: void *rva0020FAEA(float *, void *); };
+class Rva003F3AB5 { public: void rva003F3B28(unsigned int); };
 class LivingWorldLogic
 {
 public:
@@ -423,7 +428,7 @@ Bool LivingWorldRegion::DebugValidatePlacementSpot(const Coord2D &spot,Coord2D *
     pos.x=x;
     pos.z=100.0f;
     LivingWorldRegionManager *manager=logic->regions;
-    if (manager->rva0020FAEA(reinterpret_cast<const Coord2D *>(&pos),reinterpret_cast<Rva00318C32Ret *>(this)) != reinterpret_cast<Rva00318C32Ret *>(this)) {
+    if (((Rva0020EE29 *)manager)->rva0020FAEA((float *)&pos,(void *)this) != (void *)this) {
     AsciiString message;
     message.format("Bad INI data! Region %s has a %s placement spot (%.0f, %.0f) outside its bounds (remember, extra offset points are generated for overlapping opposing armies)! Using region center point",m_name.str(),kind,pos.x,pos.y);
     TheLivingWorldLogic->regions->GetRegionCenterPoint(reinterpret_cast<Rva0020E89C *>(this),out);
@@ -588,7 +593,7 @@ void LivingWorldRegion::DoXfer(Xfer *xfer)
     xfer->Int(&spots);
     if(xfer->IsLoading()) {
         reinterpret_cast<Rva003F3F27 *>(this)->rva003F3B4F();
-        reinterpret_cast<Rva003F3B28View *>(&m_heroSlots)->rva003F3B28(spots);
+        ((Rva003F3AB5 *)&m_heroSlots)->rva003F3B28((unsigned int)spots);
     }
     if(TheLivingWorldLogic) {
         for(int i=0;i<spots;++i) reinterpret_cast<Rva002BA8F1Logic *>(TheLivingWorldLogic)->rva002B8D06(xfer,&m_heroSlots[i].armies);
@@ -731,9 +736,9 @@ Rva002B3769Entry *Rva002B3769::rva002B3769(Int id) const
 
 void Rva003F3F27::rva003F3B4F()
 {
-    reinterpret_cast<Rva003F3B28View *>(&heroes)->rva003F3B28(positions.size());
+    ((Rva003F3AB5 *)&heroes)->rva003F3B28((unsigned int)positions.size());
     unsigned i;
     for(i=0;i<heroes.size();++i) heroes[i].armies.clear();
-    reinterpret_cast<Rva003F3B28View *>(&enemyHeroes)->rva003F3B28(enemyPositions.size());
+    ((Rva003F3AB5 *)&enemyHeroes)->rva003F3B28((unsigned int)enemyPositions.size());
     for(i=0;i<enemyHeroes.size();++i) enemyHeroes[i].armies.clear();
 }

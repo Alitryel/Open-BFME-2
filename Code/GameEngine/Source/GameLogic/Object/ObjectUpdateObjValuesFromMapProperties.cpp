@@ -155,6 +155,12 @@ public:
 	Bool m_448;
 };
 
+class Rva0027974B
+{
+public:
+	void rva0027974B();
+};
+
 void TranslateAudioProperties(Dict *properties, Drawable *draw, ThingTemplate *tmpl,
 	Bool *forcedOff, Rva000A8C9B *info, Bool *enabled);
 
@@ -493,7 +499,7 @@ void Object::updateObjValuesFromMapProperties(Dict *properties)
 			reinterpret_cast<Rva000A8C9B *>(&info), &enabled);
 		if (forcedOff)
 		{
-			drawable->rva0027974B();
+			((Rva0027974B *)drawable)->rva0027974B();
 		}
 		else
 		{
