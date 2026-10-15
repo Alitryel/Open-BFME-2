@@ -92,11 +92,21 @@ public:
     Rva00359302Result addHotKey(const TreeHintRef00217D4C &,const AsciiString &,bool);
 };
 extern HotKeyManager *TheHotKeyManager;
+// The matched 0x0031ABD9 provider establishes this border argument type.
+enum CommandButtonMappedBorderType
+{
+    COMMAND_BUTTON_BORDER_NONE,
+    COMMAND_BUTTON_BORDER_BUILD,
+    COMMAND_BUTTON_BORDER_UPGRADE,
+    COMMAND_BUTTON_BORDER_ACTION,
+    COMMAND_BUTTON_BORDER_SYSTEM,
+    COMMAND_BUTTON_BORDER_BFME5
+};
 class ControlBar
 {
 public:
     void setControlCommand(GameWindow *,const CommandButton *);
-    void rva0031ABD9(GameWindow *,int);
+    void setCommandBarBorder(GameWindow *,CommandButtonMappedBorderType);
 };
 void ControlBar::setControlCommand(GameWindow *button,const CommandButton *commandButton)
 {
@@ -130,7 +140,8 @@ void ControlBar::setControlCommand(GameWindow *button,const CommandButton *comma
         && command->sciences.empty())
         GadgetButtonSetText(button,UnicodeString((const unsigned short *)L""));
     command->window=button;
-    rva0031ABD9(button,((Rva0035AFD0 *)commandButton)->rva0035AFD0());
+    setCommandBarBorder(button,(CommandButtonMappedBorderType)
+        ((Rva0035AFD0 *)commandButton)->rva0035AFD0());
     Rva00327D86Update(button,command->productionCount());
     if (TheHotKeyManager)
     {
