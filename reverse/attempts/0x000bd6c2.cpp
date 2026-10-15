@@ -1,8 +1,12 @@
 // ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
-// partial score=0.95563681246625 date=2026-10-13
-// ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
-// partial score=0.95563681246625 date=2026-10-13
+// partial score=0.95 date=2026-10-15
 // cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// d3 seat4: hacks removed (no volatile object read, no equal-arm "it ? x : x" list-head ternary);
+// the non-loop FX triggers now set one Bool and call rva000BB3E6(event) once, which gives retail's
+// "mov ecx,esp; mov [ebp-0x1c],esp" order at the shared call. nd72 clean (the equal-arm ternary
+// variant reaches nd66): residue is the events-loop iterator weight (retail keeps it in EBX with
+// home -0x1c, restored at the end-branch exit), the two block lists' homes swapped (-0x14/-0x18)
+// and EBX/EDI/EDX roles for node/nugget in both list loops.
 // Native BD6C2..BDA40, 894B. W3DScriptedModelDraw particle/event update.
 // WB945CC0 supplies the debug control-flow twin, not the original method name.
 // ZH W3DModelDraw::handleWeaponFireFX guides the FX emission relationship;
@@ -138,29 +142,31 @@ static __declspec(noinline) bool Rva000B3AAB(const AnimationClock *clock,int fra
 void W3DScriptedModelDraw::rva000BD6C2()
 {
  if(state){
-  void*object=*(void*volatile*)&drawable->object;
+  void*object=drawable->object;
   AnimationClock *animation=&clock;
   int frame=(int)animation->current;
   reinterpret_cast<Rva000B9A0E*>(state)->rva000B9A0E(object,0,frame);
   if(!state->fx.empty()){
    for(Rva000BB491 *it=state->fx.begin();it!=state->fx.end();++it){
     Rva000BB491 event(*it);
+    bool fire=false;
     if(!event.loop){
      if((frame>=event.start&&frame<=event.end)||frame==event.start||
-        (event.start<0&&(event.period==0||frame%event.period==0)))rva000BB3E6(event);
+        (event.start<0&&(event.period==0||frame%event.period==0)))fire=true;
     }else{
      int previous=(int)animation->previous;
      if(event.end>0){
-     if((frame>=event.start&&frame<=event.end)||(previous<event.start&&frame>event.end))rva000BB3E6(event);
+     if((frame>=event.start&&frame<=event.end)||(previous<event.start&&frame>event.end))fire=true;
     }else if(event.start>=0){
-     if(Rva000B3AAB(animation,event.start))rva000BB3E6(event);
-    }else if(event.period==0||event.period==1)rva000BB3E6(event);
+     if(Rva000B3AAB(animation,event.start))fire=true;
+    }else if(event.period==0||event.period==1)fire=true;
     else if(animation->direction==1){
      for(int i=previous+1;i<=frame;++i)if(i%event.period==0)rva000BB3E6(event);
     }else{
      for(int i=previous-1;i>=frame;--i)if(i%event.period==0)rva000BB3E6(event);
      }
     }
+    if(fire)rva000BB3E6(event);
    }
   }
   if(!state->events.empty()){
@@ -169,7 +175,7 @@ void W3DScriptedModelDraw::rva000BD6C2()
     Rva00B9AC2 &event=*reinterpret_cast<Rva00B9AC2*>(&copied);
     if(frame==event.start||(event.start<0&&(event.period==0||frame%event.period==0))){
      _STL::list<Rva000BC0DBElement> events(reinterpret_cast<EventCollection*>(event.events)->list);
-     for(ListNode*n=(it ? events.node->next : events.node->next);n!=events.node;n=n->next){
+     for(ListNode*n=events.node->next;n!=events.node;n=n->next){
       EventNugget *e=reinterpret_cast<EventNugget*>(n->value);
       if(e->type==9){
        ParticleEvent32 particle;

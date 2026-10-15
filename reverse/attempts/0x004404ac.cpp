@@ -1,92 +1,90 @@
 // ?rva004404AC@AptMpGameSetup@@QAEX_NH@Z
-// partial score=0.85 date=2026-10-13
-// ?rva004404AC@AptMpGameSetup@@QAEX_NH@Z
-// partial score=0.85 date=2026-10-13
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// partial score=0.9 date=2026-10-15
+// cl: /O1 /G7 /arch:SSE /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
-// FRAGMENT for Code/GameEngine/Source/GameClient/GUI/MpGameSetupSlots.cpp (needs its class views).
-// 513/526B. R3: holder lever puts game in EBX (was EDI); this/slot stay EDI/ESI vs retail ESI/EDI (+SIB fallout).
-// observer stays home-al vs retail bl. s-early/s-late tried (one normalizes, one keeps shape). Untried: count-ordering levers.
-
-// Retail 0x004404AC, 526 bytes: slot-widget enable cascade (see bank note).
+// FRAGMENT: append to Code/GameEngine/Source/GameClient/GUI/MpGameSetupSlots.cpp (uses its class views; the home's
+// cl line lacks /O, so scratch compiles need the region flags above).
+// d3 seat4 rewrite from retail + WB 149E9C0: early return when the slot stays invalid, the combo
+// lives to the end (dtor after the preview call), found=false inside the local-slot block,
+// teamEnable=false stored before HideList, slot == v13() operand order. 526/526B, every
+// instruction identical except this/slot register roles (ours this=EDI slot=ESI, retail
+// this=ESI slot=EDI). Probe: dropping two slot pushes flips the roles, so slot outweighs
+// this by about two refs; a local copy of slot made before the null check also flips them but
+// hoists push edi/load above the call. 64-variant grid (param/copy, holder, hero/team locals,
+// loop/found scope), nested-if forms, self/idx copies and flags /G6 /Ob1 /Op /SSE2 inert.
+// Retail 0x004404AC, 526 bytes (ret 8): enables one slot's widgets by the
+// enable flag and the slot's observer state, then, for the local slot,
+// tells the +0x60 map preview whether a playable entry exists.
 void AptMpGameSetup::rva004404AC(bool enable, int slot)
 {
-	Rva0043DA65 *holder = m_game;
-	GameInfo *game = (GameInfo *)holder->rva0043DA65();
-	int s = slot;
-	bool observer;
-	bool foundAI;
+	GameInfo *game = (GameInfo *)m_game->rva0043DA65();
 	if (!game)
 		return;
-	if (s == -1 || s >= 8)
-		s = game->v13();
-	if (s != -1 && s < 8)
+	if (slot == -1 || slot >= 8)
+		slot = game->v13();
+	if (slot == -1 || slot >= 8)
+		return;
+	bool observer = game->getConstSlot(slot)->isObserver();
+	MpGameSetupComboRef combo(m_colorCombo[slot]);
+	if (combo.m_window)
 	{
-		observer = game->getConstSlot(s)->isObserver();
-		MpGameSetupComboRef combo(m_colorCombo[s]);
-		if (combo.m_window != NULL)
-		{
-			if (observer)
-				combo.rva00323736(true);
-			combo.m_window->winEnable(enable && !observer);
-		}
+		if (observer)
+			combo.rva00323736(true);
+		combo.m_window->winEnable(enable && !observer);
 	}
-	if (m_handicap[s] != NULL)
-		m_handicap[s]->winEnable(enable && !observer);
-	GameWindow *hero = m_hero[s];
-	if (hero != NULL)
+	if (m_handicap[slot])
+		m_handicap[slot]->winEnable(enable && !observer);
+	GameWindow *hero = m_hero[slot];
+	if (hero)
 	{
 		if (m_rules.m_00 == 1)
 			hero->winEnable(enable && !observer);
 		else
 		{
 			hero->winEnable(false);
-			if (Rva00322910(hero) != 0)
+			if (Rva00322910(hero))
 			{
-				GadgetComboBoxSetSelectedPos(hero, 0, 0);
-				HandleHeroSelection(s);
+				GadgetComboBoxSetSelectedPos(hero, 0, false);
+				HandleHeroSelection(slot);
 			}
 		}
-		UpdateHeroDisplay(s);
+		UpdateHeroDisplay(slot);
 	}
-	if (m_playerTemplate[s] != NULL)
-		m_playerTemplate[s]->winEnable(enable);
-	GameWindow **teamCombo = &m_team[s];
-	if (*teamCombo != NULL)
+	if (m_playerTemplate[slot])
+		m_playerTemplate[slot]->winEnable(enable);
+	GameWindow **team = &m_team[slot];
+	if (*team)
 	{
-		bool hideDone;
-		if (enable && !observer && m_rules.m_04 == 1)
-			hideDone = true;
+		bool locked = m_rules.m_04 == 1;
+		bool teamEnable;
+		if (enable && !observer && !locked)
+			teamEnable = true;
 		else
 		{
-			GadgetComboBoxHideList(*teamCombo);
-			hideDone = false;
+			teamEnable = false;
+			GadgetComboBoxHideList(*team);
 		}
-		(*teamCombo)->winEnable(hideDone);
+		(*team)->winEnable(teamEnable);
 	}
-	if (game->v13() == s)
+	if (slot == game->v13())
 	{
-		if (enable)
+		bool found = false;
+		if (enable && game->getConstSlot(game->v13())->m_hasMap)
 		{
-			if (game->getConstSlot(game->v13())->m_hasMap)
+			if (!observer)
+				found = true;
+			else if (game->v12())
 			{
-				if (!observer)
-					foundAI = true;
-				else if (game->v12())
+				for (int i = 0; i < 8; ++i)
 				{
-					for (int i = 0; i < 8; ++i)
+					if (game->getConstSlot(i) && game->getConstSlot(i)->isAI())
 					{
-						if (!game->getConstSlot(i))
-							continue;
-						if (game->getConstSlot(i)->isAI())
-						{
-							foundAI = true;
-							break;
-						}
+						found = true;
+						break;
 					}
 				}
 			}
 		}
+		((AptMapPreview *)&m_60)->rva0057C597(found);
 	}
-	((AptMapPreview *)&m_60)->rva0057C597(foundAI);
 }
