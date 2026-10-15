@@ -1,4 +1,6 @@
 // ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
+// partial score=0.93 date=2026-10-15
+// ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
 // partial score=0.9031 date=2026-10-15
 // ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
 // partial score=0.8817255179889107 date=2026-10-14
@@ -189,7 +191,11 @@ Rva003642DFResult Path::rva003642DF(Real distance)
   if(remain>=distance*scale) {
    scale=scale/length;scale*=distance;scale+=t;float f=scale;
    result.m_pos=node->position;
-   result.m_pos.x-=(result.m_node->position.x);result.m_pos.y-=result.m_node->position.y;result.m_pos.z-=result.m_node->position.z;result.m_pos.x*=f;result.m_pos.y*=f;result.m_pos.z*=f;result.m_pos.x+=(result.m_node->position.x);result.m_pos.y+=result.m_node->position.y;result.m_pos.z+=result.m_node->position.z;
+   Coord3D delta;
+   delta.x=result.m_pos.x-result.m_node->position.x;delta.y=result.m_pos.y-result.m_node->position.y;delta.z=result.m_pos.z-result.m_node->position.z;
+   delta.x*=f;delta.y*=f;delta.z*=f;
+   result.m_pos.x=result.m_node->position.x;result.m_pos.y=result.m_node->position.y;result.m_pos.z=result.m_node->position.z;
+   result.m_pos.x+=delta.x;result.m_pos.y+=delta.y;result.m_pos.z+=delta.z;
    last=result.m_pos;return result;
   }
   distance-=remain/scale;t=0.0f;result.m_node=node;
