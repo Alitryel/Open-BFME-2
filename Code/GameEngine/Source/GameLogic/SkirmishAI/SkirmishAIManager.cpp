@@ -17,6 +17,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include <algorithm>
 #include <map>
+// Keep the inlined node comparison local; this unit's incidental
+// tree-base operator!= copy conflicts with the selected provider.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include <new>
 
 class Xfer;
