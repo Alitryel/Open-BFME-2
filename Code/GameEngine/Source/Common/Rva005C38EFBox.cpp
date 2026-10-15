@@ -4,24 +4,16 @@
 // non-null handle must survive the second global (null-checked) and its
 // pinned check, otherwise return; then the third global runs its pinned
 // 2-arg callee on (+0xC, 0). Globals as named externs; targets from REL32.
-struct Rva005C38EFinder
-{
-	void *Find(int id);
-};
+// Row spellings of the three callees.
+#include "GameLogicObjectLookupView.h"
+class GameWindow;
+class Rva002A7DDEArg;
+class Rva002A7DDE { public: bool rva002A7DDE(Rva002A7DDEArg *h); };
+class ControlBar { public: void rva004C1B60(GameWindow *window, void *data); };
 
-struct Rva005C38EChecker
-{
-	bool Check(void *h);
-};
-
-struct Rva005C38EExec
-{
-	void Exec(int v, int z);
-};
-
-extern class GameLogic *TheGameLogic;
+extern GameLogic *TheGameLogic;
 extern class PlayerList *ThePlayerList;
-extern class ControlBar *TheControlBar;
+extern ControlBar *TheControlBar;
 
 struct Rva005C38EFBox
 {
@@ -34,12 +26,12 @@ struct Rva005C38EFBox
 
 void Rva005C38EFBox::Run()
 {
-	void *r = (*(Rva005C38EFinder **)&TheGameLogic)->Find(m_10);
+	Object *r = TheGameLogic->findObjectByID((ObjectID)m_10);
 	if (r != 0) {
-		if ((*(Rva005C38EChecker **)&ThePlayerList) == 0)
+		if ((*(Rva002A7DDE **)&ThePlayerList) == 0)
 			return;
-		if (!(*(Rva005C38EChecker **)&ThePlayerList)->Check(r))
+		if (!(*(Rva002A7DDE **)&ThePlayerList)->rva002A7DDE((Rva002A7DDEArg *)r))
 			return;
 	}
-	(*(Rva005C38EExec **)&TheControlBar)->Exec(m_C, 0);
+	TheControlBar->rva004C1B60((GameWindow *)m_C, 0);
 }
