@@ -1,11 +1,6 @@
-// ?findMeleeAttackPosition@HordeMeleeSwarm@@QAE_NPAVObject@@PAUCoord3D@@0PBU3@_NPAH3@Z
-// partial score=0.8784 date=2026-10-14
-// ?findMeleeAttackPosition@HordeMeleeSwarm@@QAE_NPAVObject@@PAUCoord3D@@0PBU3@_NPAH3@Z
-// partial score=0.94 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //
-// ?findMeleeAttackPosition@HordeMeleeSwarm@@QAE_NPAVObject@@PAUCoord3D@@0PBU3@_NPAH4@Z,
-// retail 0x00583D54..0x005842F7 (1443B), thiscall ret 0x1C; sole caller
+// HordeMeleeSwarm::findMeleeAttackPosition, retail 0x00583D54..0x005842F7 (1443B), thiscall ret 0x1C; sole caller
 // 0x0058492D (the swarm's unit update).
 //
 // Picks a melee attack position for a horde member around its target: from
@@ -23,7 +18,12 @@
 // line 349, DEBUG logs "Allowed backwards due to overlap" and "Moving too far
 // away from group."); callees are rowed or pinned under the spellings used
 // here.
-#include "Code/Libraries/Include/Lib/Coord3D.h"
+// Codegen notes: the ObjectID lookup chain (ObjectIdMap::find 0x002888D4 and
+// GameLogic::findObjectByID 0x00049DC5, rowed COMDAT copies as in
+// ProjectileNuggetObjectEffect.cpp) is visible in this unit, which gives
+// retail's register allocation; the two ring searches share one i/j pair,
+// which gives retail's loop-counter frame slots.
+#include "../../../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../Common/GameLogicObjectLookupView.h"
 #include <math.h>
 
@@ -42,8 +42,7 @@ enum WeaponSlotType
 	PRIMARY_WEAPON = 0
 };
 
-class Weapon;
-class Rva002C9B80Owner
+class Weapon
 {
 public:
 	Bool isWithinAttackRange(Object *source, const Coord3D *pos, Object *victim, const Coord3D *victimPos, Real extra, Bool flag);
@@ -79,7 +78,7 @@ private:
 class Pathfinder
 {
 public:
-	Int rva002EC9E1(Object *obj, const Coord3D *pos, Int *ids);
+	Int GetOverlapGoalUnits(Object *obj, const Coord3D *pos, Int *ids);
 	Bool Rva002F1BA2(void *obj, void *locomotorSet, PathfindLayerEnum layer, const Coord3D *from, const Coord3D *to);
 	Bool rva002EDFF9(Object *obj, Coord3D *pos);
 };
@@ -104,6 +103,30 @@ public:
 extern TerrainLogic *TheTerrainLogic;
 
 extern GameLogic *TheGameLogic;
+
+struct SwarmLookupNode { SwarmLookupNode *next; ObjectID key; Object *object; };
+struct SwarmLookupBuckets {
+ SwarmLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ SwarmLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct SwarmLookupMap { unsigned char hashEqual[4]; SwarmLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ SwarmLookupMap *map=(SwarmLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ SwarmLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 extern Int g_Va00DBA4E4;			// LOGICFRAMES_PER_SECOND
 
 int Rva002EDE5B(void *obj, Coord3D *pos);
@@ -178,18 +201,19 @@ Bool HordeMeleeSwarm::findMeleeAttackPosition(Object *obj, Coord3D *result, Obje
 	Real bestDist = dist + 100.0f;
 
 	Int overlapIds[16];
-	Bool overlapping = TheAI->pathfinder()->rva002EC9E1(obj, obj->getPosition(), overlapIds) > 0;
+	Bool overlapping = TheAI->pathfinder()->GetOverlapGoalUnits(obj, obj->getPosition(), overlapIds) > 0;
 	Bool blocked = !TheAI->pathfinder()->Rva002F1BA2(obj, locomotorSet, layer, &pos, &pos);
 
 	Coord3D lastGood;
+	Int i, j;
 	copyCoord(lastGood, &pos);
 	if (blocked)
 	{
 		for (Int r = 1; r <= 2 && blocked; r++)
 		{
-			for (Int i = -r; i <= r && blocked; i++)
+			for (i = -r; i <= r && blocked; i++)
 			{
-				for (Int j = -r; j <= r && blocked; j++)
+				for (j = -r; j <= r && blocked; j++)
 				{
 					if (i == r || j == r || i == -r || j == -r)
 					{
@@ -211,9 +235,9 @@ Bool HordeMeleeSwarm::findMeleeAttackPosition(Object *obj, Coord3D *result, Obje
 	PathfindLayerEnum objLayer = (PathfindLayerEnum)obj->rva0028B511();
 	for (Int r = 1; r <= rings; r++)
 	{
-		for (Int i = -r; i <= r; i++)
+		for (i = -r; i <= r; i++)
 		{
-			for (Int j = -r; j <= r; j++)
+			for (j = -r; j <= r; j++)
 			{
 				if (i == r || j == r || i == -r || j == -r)
 				{
@@ -250,13 +274,13 @@ Bool HordeMeleeSwarm::findMeleeAttackPosition(Object *obj, Coord3D *result, Obje
 					if (!clear && allowOverlap && weapon)
 					{
 						Int ids[16];
-						if (TheAI->pathfinder()->rva002EC9E1(obj, &cand, ids) == 2 && weapon)
+						if (TheAI->pathfinder()->GetOverlapGoalUnits(obj, &cand, ids) == 2 && weapon)
 						{
 							Object *a = TheGameLogic->findObjectByID((ObjectID)ids[0]);
 							Object *b = TheGameLogic->findObjectByID((ObjectID)ids[1]);
 							if (a && b && a->getTeamValue() == b->getTeamValue() && obj->getTeamValue() == a->getTeamValue())
 							{
-								if (((Rva002C9B80Owner *)weapon)->isWithinAttackRange(obj, &cand, victim, victimPos, 0.0f, true))
+								if (const_cast<Weapon *>(weapon)->isWithinAttackRange(obj, &cand, victim, victimPos, 0.0f, true))
 								{
 									clear = true;
 									candDist = dist - 5.0f;
