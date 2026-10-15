@@ -18,7 +18,7 @@
 // every banner maps the army state (GameLogic +0x184 forwarder 0x0023D075;
 // 0->0 2->1 3->2 else 3) and pushes state / progress (engage progress
 // 0x0023D096 times 100) / timer (0x0023D0AC frames over the frame rate
-// g_Va00DBA4E4 as minutes and seconds around the language time separator)
+// BfmeLogicFramesPerSecond as minutes and seconds around the language time separator)
 // changes to the movie; an available banner fires OnBannerButton. A pending
 // summary index +0x38 shows the BANNERUI:SummaryTitle message for that
 // banner's army through ControlBar 0x00405C04 and is cleared.
@@ -87,7 +87,7 @@ public:
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 extern GameLogic *TheGameLogic;
-extern int g_Va00DBA4E4;
+extern int BfmeLogicFramesPerSecond;
 
 class GlobalLanguage
 {
@@ -186,7 +186,7 @@ void BannerUI::rva002167A3()
 		int timer;
 		if (banner->state == 1) {
 			progress = (int)(((GameLogicFwd *)TheGameLogic)->rva0023D096(banner->bannerID) * 100.0f);
-			timer = ((GameLogicFwd *)TheGameLogic)->rva0023D0AC(banner->bannerID) / g_Va00DBA4E4;
+			timer = ((GameLogicFwd *)TheGameLogic)->rva0023D0AC(banner->bannerID) / BfmeLogicFramesPerSecond;
 		} else {
 			progress = 0;
 			timer = -1;
