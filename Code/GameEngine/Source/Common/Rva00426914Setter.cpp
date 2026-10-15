@@ -1,14 +1,13 @@
 // ?rva00426914@Rva004266A1@@QAEXHE@Z
-// partial score=0.9 date=2026-10-03
 // cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /arch:SSE /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
+// Schedule note (W7-S2 r14): the scheduling fence of the earlier draft is replaced by two textual volatile
+// reads (the PlayerList field and the a->m_34 field); a fence also pins compiler-made stores.
 // ?rva00426914@Rva004266A1@@QAEXHE@Z @0x00426914 227B evidence: same Rva004266A1 vector at +4 as rowed 0x4266A1 plus flag2 store +6 via callers 0x3BA7ED 0x3BD389 0x3BD3AB; TheAudio ThePlayerList TheGameLogic plus BfmeAudioEventPrefix136 ctor 0x2D97D6 plus dword slot set 0x33F15D plus tail dtor 0x2D9A43 via prefix alias plus AudioManager slot 0x64
 #include <vector>
 
 #include "Common/BfmeAudioEventPrefix136.h"
 
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 
 struct Rva004266A1Rec
 {
@@ -59,9 +58,9 @@ public:
 
 extern PlayerList *ThePlayerList;
 
-class GameLogic
+class GameLogic;
+struct GameLogicFrameView
 {
-public:
 	char m_pad[0x40];
 	int m_40;
 };
@@ -101,7 +100,6 @@ public:
 
 extern AudioManager *TheAudio;
 
-// ?rva00426914@Rva004266A1@@QAEXHE@Z present-unmatched
 void Rva004266A1::rva00426914(int index, unsigned char value)
 {
 	if (!rva004266A1(index))
@@ -110,16 +108,16 @@ void Rva004266A1::rva00426914(int index, unsigned char value)
 	m_04[index].flag2 = value;
 	if (TheAudio == 0 || old != 0 || value == 0)
 		return;
-	Afield *a = ThePlayerList->m_10;
+	Afield *a = (*(Afield * volatile *)&(ThePlayerList->m_10));
 	if (a == 0)
 		return;
-	if (a->m_34 == 0)
+	if ((*(Bfield * volatile *)&(a->m_34)) == 0)
 		return;
 	if (a->m_34->m_ref.referent == 0)
 		return;
-	if (TheGameLogic == 0 || (unsigned int)TheGameLogic->m_40 <= 3)
+	if (TheGameLogic == 0 || (unsigned int)((GameLogicFrameView *)TheGameLogic)->m_40 <= 3)
 		return;
-	_ReadWriteBarrier();
+	
 	BfmeAudioEventPrefix136 ev(ThePlayerList->m_10->m_34->m_ref, 2);
 	((Rva0033F15DDwordSlot *)&ev)->set(ThePlayerList->m_10->m_54);
 	TheAudio->audioEvent(&ev);
