@@ -188,7 +188,6 @@ extern "C" void __cdecl free(void *);
 class Rva0040A3F9
 {
 public:
-// ??1Rva0040A3F9@@QAE@XZ present-unmatched
 	__forceinline ~Rva0040A3F9() { if (m_begin) free(m_begin); }
     CreateAHeroData **m_begin;
     CreateAHeroData **m_end;
