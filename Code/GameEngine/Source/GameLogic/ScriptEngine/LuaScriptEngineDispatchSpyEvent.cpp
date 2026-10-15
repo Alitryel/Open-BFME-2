@@ -28,7 +28,8 @@ extern "C" void lua_call(lua_State *L, int arguments, int results);
 extern void bfmeGo1039E(BfmeQ1039 *q, int value);
 void __cdecl bfmeLogMsg574(const char *message);
 
-extern void *g_00E01DC0;	// the Lua state while single-stepping
+// Shared with the console provider at retail VA 0x00E01DC0.
+extern void *g_activeObj12F0610;	// the Lua state while single-stepping
 
 #include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
@@ -75,7 +76,7 @@ void LuaScriptEngine::DispatchSpyEvent(int key, void *object, void *spy, void *p
 		return;
 
 	int top = lua_gettop(m_luaState);
-	g_00E01DC0 = 0;
+	g_activeObj12F0610 = 0;
 
 	char *objectBytes = (char *)object;
 	void *eventSource = *(void **)(objectBytes + 0x258);
@@ -138,15 +139,15 @@ void LuaScriptEngine::DispatchSpyEvent(int key, void *object, void *spy, void *p
 	}
 
 	if (debugStep)
-		g_00E01DC0 = m_luaState;
+		g_activeObj12F0610 = m_luaState;
 	++m_depth;
 	lua_call(m_luaState, count, 0);
 	lua_settop(m_luaState, top);
 	--m_depth;
 
-	if (g_00E01DC0 && m_depth == 0)
+	if (g_activeObj12F0610 && m_depth == 0)
 	{
 		bfmeLogMsg574("Stepping out of LUA function - step disabled.\n");
-		g_00E01DC0 = 0;
+		g_activeObj12F0610 = 0;
 	}
 }

@@ -15,7 +15,7 @@
 // lua_State test, the string parameter kind, the Lua stack restore on the
 // error path and the processSpies tail.
 // Callee spellings follow their rows or pins: event-name lookup 0x0033280B
-// (Rva0033280B::find) / object-table push 0x00334003 (unrowed, address-named); g_00E01DC0 is the
+// (Rva0033280B::find) / object-table push 0x00334003 (unrowed, address-named); g_activeObj12F0610 is the
 // single-step Lua state. Event parameters are 24-byte records (float at +8,
 // bool at +0xC, object id at +0x10, name at +0x14, kind tag at +0x18 with
 // kinds 1 real / 2 bool / 3 object / 4 string, else end).
@@ -37,7 +37,8 @@ extern "C" void lua_pushstring(lua_State *L, const char *s);
 extern void bfmeGo1039E(BfmeQ1039 *q, int value);
 void __cdecl bfmeLogMsg574(const char *message);
 
-extern void *g_00E01DC0;	// the Lua state while single-stepping
+// Shared with the console provider at retail VA 0x00E01DC0.
+extern void *g_activeObj12F0610;	// the Lua state while single-stepping
 
 #include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
@@ -94,7 +95,7 @@ void LuaScriptEngine::DispatchEvent(int *key, Object *object, void *parameters)
 		return;
 
 	int top = lua_gettop(m_luaState);
-	g_00E01DC0 = 0;
+	g_activeObj12F0610 = 0;
 
 	char *objectBytes = (char *)object;
 	void *eventSource = *(void **)(objectBytes + 0x258);
@@ -162,15 +163,15 @@ void LuaScriptEngine::DispatchEvent(int *key, Object *object, void *parameters)
 	}
 
 	if (debugStep)
-		g_00E01DC0 = m_luaState;
+		g_activeObj12F0610 = m_luaState;
 	++m_depth;
 	lua_call(m_luaState, count, 0);
 	--m_depth;
 
-	if (g_00E01DC0 && m_depth == 0)
+	if (g_activeObj12F0610 && m_depth == 0)
 	{
 		bfmeLogMsg574("Stepping out of LUA function - step disabled.\n");
-		g_00E01DC0 = 0;
+		g_activeObj12F0610 = 0;
 	}
 	int k2 = *key;
 	((AIUpdateInterface *)eventSource)->processSpies(k2, object, parameters);
