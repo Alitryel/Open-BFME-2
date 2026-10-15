@@ -158,3 +158,50 @@ def test_generated_header_includes_nested_canonical_headers(tmp_path, monkeypatc
     copy = lane.generate(region, "data+ctor+copy", {}, "Code/Lib/Region2D.h")
     assert "Region2D() {}" in copy and "Region2D(const Region2D &that);" in copy
     assert "Region2D(const Region2D &that);" not in text
+
+def decide_virtual_fixture(monkeypatch, tables, *, extra=False, tied=False):
+    """Use compiled-view fixtures at the complete contract decision boundary."""
+    slots = {"0": "a0()", "1": "a1()", "2": "__vecDelDtor(uint)"}
+    if extra:
+        slots["3"] = "extra()"
+    first = {"size": 12, "key": "class", "bases": [], "vslots": slots}
+    second = {**first, "vslots": {**slots}}
+    if tied:
+        second["vslots"]["0"] = "other()"
+    layouts = {"one.cpp": first, "two.cpp": second}
+    monkeypatch.setattr(class_layouts, "build_module", lambda: SimpleNamespace())
+    monkeypatch.setattr(contract, "ledger_rows", lambda: [])
+    monkeypatch.setattr(contract, "views", lambda *args: (layouts, {s: {} for s in layouts}))
+    monkeypatch.setattr(contract, "flatten", lambda *args, **kwargs: [])
+    monkeypatch.setattr(contract, "zh_layout", lambda *args: None)
+    monkeypatch.setattr(contract, "retail_access", lambda *args: {})
+    monkeypatch.setattr(contract, "witnesses", lambda *args: {})
+    monkeypatch.setattr(contract, "retail_vtable", lambda *args: tables)
+    return contract.decide("BaseA", sources=list(layouts), jobs=1)
+
+
+@pytest.mark.parametrize("tables", [{}, {"0x862888": {"stores": 1, "slots": {}}}])
+def test_unknown_vtable_inventory_does_not_invent_zero_slot_bound(monkeypatch, tables):
+    # The live BaseA failure: a proven constructor store, but no vtables.tsv rows.
+    result = decide_virtual_fixture(monkeypatch, tables)
+    assert set(result["vslots"]) == {"0", "1", "2"}
+    assert result["queue"] == []
+    assert result["evidence"]["retail_vtables"] == tables
+
+
+def test_known_vtable_bound_still_refuses_extra_source_slot(monkeypatch):
+    tables = {"0x862888": {"stores": 1, "slots": {
+        0: "__purecall", 1: "__purecall", 2: "scalar deleting destructor"}}}
+    result = decide_virtual_fixture(monkeypatch, tables, extra=True)
+    assert set(result["vslots"]) == {"0", "1", "2"}
+    assert [item["attribute"] for item in result["queue"]] == ["slot3"]
+    assert "beyond the retail vftable's 3 slots" in result["queue"][0]["why"]
+
+
+def test_unknown_vtable_inventory_keeps_ambiguous_source_slots_queued(monkeypatch):
+    tables = {"0x862888": {"stores": 1, "slots": {}}}
+    result = decide_virtual_fixture(monkeypatch, tables, tied=True)
+    assert set(result["vslots"]) == {"1", "2"}
+    assert [item["attribute"] for item in result["queue"]] == ["slot0"]
+    assert result["queue"][0]["candidates"] == {"a0()": 1, "other()": 1}
+    assert "why" not in result["queue"][0]

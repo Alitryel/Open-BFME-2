@@ -451,7 +451,9 @@ def decide(name, sources=None, jobs=8, sample=None):
     for L in good.values():
         for slot, member in L.get("vslots", {}).items():
             slot_votes[int(slot)][member] += 1
-    retail_slots = max((len(v["slots"]) for v in vtables.values()), default=None)
+    # A constructor may prove the table address before vtables.tsv inventories
+    # its entries. Missing slot evidence is unknown, not a zero-slot ABI bound.
+    retail_slots = max((len(v["slots"]) for v in vtables.values() if v["slots"]), default=None)
     zh_slots = {int(k): v for k, v in zh["layout"].get("vslots", {}).items()} if zh and "layout" in zh else {}
     vslots = {}
     for slot, votes in sorted(slot_votes.items()):
