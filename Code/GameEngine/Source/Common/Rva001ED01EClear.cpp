@@ -10,6 +10,8 @@ class Rva001EC349
 {
 public:
 	~Rva001EC349();
+private:
+	unsigned char m_pad[0x24];
 };
 
 class Rva001ED01E
