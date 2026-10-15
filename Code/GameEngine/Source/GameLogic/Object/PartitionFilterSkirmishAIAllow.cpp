@@ -1,5 +1,5 @@
 // cl: /O1 /EHsc /MD /arch:SSE
-// PartitionFilterSkirmishAI::Allow, retail 0x00261535 (55B), from WorldBuilder leads
+// PartitionFilterSkirmishAI::allow, retail 0x00261535 (55B), from WorldBuilder leads
 // (reverse/wb_name_leads.csv): WB's debug build names the function, its
 // callee and asserts m_searcherAI; retail supplies the bytes.
 //
@@ -48,7 +48,7 @@ enum { AI_STATE_ATTACK_MOVE = 0x21 };
 class PartitionFilterSkirmishAI
 {
 public:
-	virtual Bool Allow(Object *objOther);
+	virtual Bool allow(Object *objOther);
 
 private:
 	unsigned char m_pad04[4];
@@ -56,8 +56,8 @@ private:
 	SkirmishAI *m_searcherAI;			// +0x0C (WB member name)
 };
 
-// PartitionFilterSkirmishAI::Allow, retail 0x00261535.
-Bool PartitionFilterSkirmishAI::Allow(Object *objOther)
+// PartitionFilterSkirmishAI::allow, retail 0x00261535.
+Bool PartitionFilterSkirmishAI::allow(Object *objOther)
 {
 	Object *searcher = m_searcher;
 	if (searcher->getAIUpdateInterface() && searcher->getAIUpdateInterface()->rva00260DED() == AI_STATE_ATTACK_MOVE)
