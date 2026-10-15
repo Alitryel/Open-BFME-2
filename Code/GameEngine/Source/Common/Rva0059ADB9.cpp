@@ -40,7 +40,8 @@ bool Rva0059ADB9::rva0059ADB9()
 class Rva005DB045
 {
 public:
-	void rva005DB045(float value, int first, int second, int third);
+	// Rowed virtual at 0x005DB045; called directly (qualified), not through the vtable.
+	virtual void rva005DB045(float value, bool first, bool second, bool third);
 };
 
 class Rva0059ADF4
@@ -56,7 +57,7 @@ private:
 void Rva0059ADF4::rva0059ADF4(int value)
 {
 	float converted = (float)value;
-	m_component->rva005DB045(converted, 1, 1, 0);
+	m_component->Rva005DB045::rva005DB045(converted, true, true, false);
 }
 
 // ?rva0059AE55@Rva0059AE55@@QAEXPAXPAPAX@Z @0x0059AE55 29B
@@ -100,8 +101,6 @@ public:
 	void rva0059AC4D(void *object);
 	__declspec(noinline) void rva0059ABC9(void *object);
 	class Team *rva00599F74(class TeamPrototype *);
-	void rva0059A499(class Team *, int *, class TeamPrototype *);
-	void rva0059A8D7(class Team *, int *);
 private:
 	char prefix00[0x14];
 	class Player *owner14;
@@ -301,6 +300,8 @@ class AITeamBuilder
 {
 public:
     int getCurNumUnits(Team *);
+    void recruitPreDefined(Team *, int *, TeamPrototype *);	// row 0x0059A499
+    void recruitUnDefined(Team *, int *);	// row 0x0059A8D7
 };
 class Rva0039D5A9
 {
@@ -347,9 +348,9 @@ void Rva0059AC4D::rva0059ABC9(void *object)
         Rva0039D5A9 *requirements = reinterpret_cast<Rva0039D5A9 *>(
             static_cast<char *>(object) + 0x12c);
         if (requirements->rva0039D5A9() > 0)
-            rva0059A499(team, &count, prototype);
+            reinterpret_cast<AITeamBuilder *>(this)->recruitPreDefined(team, &count, prototype);
         else
-            rva0059A8D7(team, &count);
+            reinterpret_cast<AITeamBuilder *>(this)->recruitUnDefined(team, &count);
     }
 }
 
