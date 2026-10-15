@@ -1230,6 +1230,8 @@ DefaultColorAssign g_defaultColorAssign = &DefaultColorModuleInfo::operator=;
 class SphericalEmissionVelocityInfo : public EmissionVelocityInfo
 {
 public:
+    // Default initialization is supplied by its byte-verified owner.
+    SphericalEmissionVelocityInfo();
     FXCoord3D m_unknown04;
 };
 
@@ -1340,6 +1342,8 @@ CylinderEmissionVolumeModuleTemplate g_cylinderEmissionVolumeModuleTemplate;
 class SphericalEmissionVelocityModuleTemplate : public ModuleTemplate, public SecondaryModuleBase, public SphericalEmissionVelocityInfo
 {
 public:
+    // Default initialization is supplied by its byte-verified owner.
+    SphericalEmissionVelocityModuleTemplate();
     virtual void v1();
 };
 
@@ -1480,6 +1484,10 @@ class LineEmissionVolumeModule;
 
 typedef ConcreteModuleTemplate<ModuleTag<5, LINE_EMISSION_VOLUME_MODULE_KEY, LINE_EMISSION_VOLUME_MODULE_NAME, LineEmissionVolumeModule, LineEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >
     LineEmissionVolumeModuleConcrete;
+// Do not instantiate another default constructor under this unit's views.
+template <> LineEmissionVolumeModuleConcrete::ConcreteModuleTemplate();
+// Retain the owned copy and clone instantiations.
+template class ConcreteModuleTemplate<ModuleTag<5, LINE_EMISSION_VOLUME_MODULE_KEY, LINE_EMISSION_VOLUME_MODULE_NAME, LineEmissionVolumeModule, LineEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >;
 typedef LineEmissionVolumeModuleConcrete &(LineEmissionVolumeModuleConcrete::*LineEmissionVolumeModuleConcreteAssign)(const LineEmissionVolumeModuleConcrete &);
 
 LineEmissionVolumeModuleConcreteAssign g_lineEmissionVolumeModuleConcreteAssign = &LineEmissionVolumeModuleConcrete::operator=;
@@ -1493,6 +1501,10 @@ class BoxEmissionVolumeModule;
 
 typedef ConcreteModuleTemplate<ModuleTag<5, BOX_EMISSION_VOLUME_MODULE_KEY, BOX_EMISSION_VOLUME_MODULE_NAME, BoxEmissionVolumeModule, BoxEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >
     BoxEmissionVolumeModuleConcrete;
+// Do not instantiate another default constructor under this unit's views.
+template <> BoxEmissionVolumeModuleConcrete::ConcreteModuleTemplate();
+// Retain the owned copy and clone instantiations.
+template class ConcreteModuleTemplate<ModuleTag<5, BOX_EMISSION_VOLUME_MODULE_KEY, BOX_EMISSION_VOLUME_MODULE_NAME, BoxEmissionVolumeModule, BoxEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >;
 typedef BoxEmissionVolumeModuleConcrete &(BoxEmissionVolumeModuleConcrete::*BoxEmissionVolumeModuleConcreteAssign)(const BoxEmissionVolumeModuleConcrete &);
 
 BoxEmissionVolumeModuleConcreteAssign g_boxEmissionVolumeModuleConcreteAssign = &BoxEmissionVolumeModuleConcrete::operator=;
@@ -1506,6 +1518,10 @@ class CylinderEmissionVolumeModule;
 
 typedef ConcreteModuleTemplate<ModuleTag<5, CYLINDER_EMISSION_VOLUME_MODULE_KEY, CYLINDER_EMISSION_VOLUME_MODULE_NAME, CylinderEmissionVolumeModule, CylinderEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >
     CylinderEmissionVolumeModuleConcrete;
+// Do not instantiate another default constructor under this unit's views.
+template <> CylinderEmissionVolumeModuleConcrete::ConcreteModuleTemplate();
+// Retain the owned copy and clone instantiations.
+template class ConcreteModuleTemplate<ModuleTag<5, CYLINDER_EMISSION_VOLUME_MODULE_KEY, CYLINDER_EMISSION_VOLUME_MODULE_NAME, CylinderEmissionVolumeModule, CylinderEmissionVolumeModuleTemplate, DefaultParticleModule<5> > >;
 typedef CylinderEmissionVolumeModuleConcrete &(CylinderEmissionVolumeModuleConcrete::*CylinderEmissionVolumeModuleConcreteAssign)(const CylinderEmissionVolumeModuleConcrete &);
 
 CylinderEmissionVolumeModuleConcreteAssign g_cylinderEmissionVolumeModuleConcreteAssign = &CylinderEmissionVolumeModuleConcrete::operator=;
@@ -1564,6 +1580,9 @@ class ParticleLifeEventModule;
 class LifeEventModuleTemplate : public ModuleTemplate, public SecondaryModuleBase, public EventModuleInfo,
            public LifeEventModuleInfo
 {
+public:
+    // Native 0x3A7A7F / 0x3A81E2 owners retain the retail base ordering.
+    LifeEventModuleTemplate &operator=(const LifeEventModuleTemplate &);
 };
 
 typedef ConcreteModuleTemplate<ModuleTag<8, LIFE_EVENT_MODULE_KEY, LIFE_EVENT_MODULE_NAME, LifeEventModule, LifeEventModuleTemplate, ParticleLifeEventModule> >
@@ -1607,6 +1626,9 @@ class ParticleTerrainCollisionModule;
 class TerrainCollisionModuleTemplate : public ModuleTemplate, public SecondaryModuleBase, public EventModuleInfo,
            public TerrainCollisionModuleInfo
 {
+public:
+    // Native 0x3A7A7F / 0x3A81E2 owners retain the retail base ordering.
+    TerrainCollisionModuleTemplate &operator=(const TerrainCollisionModuleTemplate &);
 };
 
 typedef ConcreteModuleTemplate<ModuleTag<8, TERRAIN_COLLISION_MODULE_KEY, TERRAIN_COLLISION_MODULE_NAME, TerrainCollisionModule, TerrainCollisionModuleTemplate, ParticleTerrainCollisionModule> >
