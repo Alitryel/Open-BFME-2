@@ -1,9 +1,5 @@
 // ?Render@W3DAptComponentColorPicker@@UAEXHHHH@Z
-// partial score=0.9 date=2026-10-15
-// ?Render@W3DAptComponentColorPicker@@UAEXHHHH@Z
-// partial score=0.97 date=2026-10-14
-// ?Render@W3DAptComponentColorPicker@@UAEXHHHH@Z
-// partial score=0.9759 date=2026-10-11
+// partial score=0.976 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // Target evidence: WorldBuilder identifies Init (17EF830) and ExternFunc
 // (17F08B0) in W3DAptComponentColorPicker.cpp. Retail's 80-byte factory,
@@ -52,7 +48,7 @@ class Display;extern Display *TheDisplay;
 class W3DDisplay {public:void rva0004D6B3(Image*,float,float,float,float,int,int);};
 class TextureClass {public:void Release_Ref();};
 class BFME2ParticleTextureHandle {public:TextureClass *Ptr;~BFME2ParticleTextureHandle(){if(Ptr)Ptr->Release_Ref();}};
-BFME2ParticleTextureHandle BFME2LoadParticleTexture(const char *,int,int);
+struct TextureAsset {static BFME2ParticleTextureHandle Get(const char *,int,int);};
 class W3DRadarResetSurface {public:void *ptr;~W3DRadarResetSurface();};
 struct CursorTextureSlot {W3DRadarResetSurface Get_Surface_Level();};
 class SurfaceClass {public:struct SurfaceDescription {unsigned Format,Width,Height;};void Get_Description(SurfaceDescription &);};
@@ -97,7 +93,7 @@ void W3DAptComponentColorPicker::Render(int x,int y,int width,int height) {
  ((W3DDisplay*)TheDisplay)->rva0004D6B3(const_cast<Image*>(image),(float)x,(float)y,(float)(x+width),(float)(y+height),-1,5);
  if(sample) {
   if(!image)return;
-  BFME2ParticleTextureHandle texture=BFME2LoadParticleTexture(colorName(image->filename),1,0);
+  BFME2ParticleTextureHandle texture=TextureAsset::Get(colorName(image->filename),1,0);
   W3DRadarResetSurface surface=((CursorTextureSlot*)&texture)->Get_Surface_Level();
   SurfaceClass::SurfaceDescription desc;
   ((SurfaceClass*)&surface)->Get_Description(desc);
@@ -120,7 +116,7 @@ void W3DAptComponentColorPicker::Render(int x,int y,int width,int height) {
  }
  if(seek) {
   if(!image)return;
-  BFME2ParticleTextureHandle texture=BFME2LoadParticleTexture(colorName(image->filename),1,0);
+  BFME2ParticleTextureHandle texture=TextureAsset::Get(colorName(image->filename),1,0);
   W3DRadarResetSurface surface=((CursorTextureSlot*)&texture)->Get_Surface_Level();
   SurfaceClass::SurfaceDescription desc;
   ((SurfaceClass*)&surface)->Get_Description(desc);

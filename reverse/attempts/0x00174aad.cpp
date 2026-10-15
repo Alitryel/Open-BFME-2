@@ -1,7 +1,5 @@
 // ?Add_Rendering_Task@Rva00DF6F94GapFillerContext@@QAEXV?$RefCountPtr@VMeshClass@@@@ABV?$vector@V?$RefCountPtr@VRenderingMethod@FXShader@@@@V?$allocator@V?$RefCountPtr@VRenderingMethod@FXShader@@@@@_STL@@@_STL@@@Z
-// partial score=0.85 date=2026-10-14
-// ?Add_Rendering_Task@Rva00DF6F94GapFillerContext@@QAEXV?$RefCountPtr@VMeshClass@@@@ABV?$vector@V?$RefCountPtr@VRenderingMethod@FXShader@@@@V?$allocator@V?$RefCountPtr@VRenderingMethod@FXShader@@@@@_STL@@@_STL@@@Z
-// partial score=0.8 date=2026-10-14
+// partial score=0.9 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // ?Add_Rendering_Task@Rva00DF6F94GapFillerContext@@QAEXV?$RefCountPtr@VMeshClass@@@@ABV?$vector@...@Z @0x00174AAD 249B
@@ -13,18 +11,16 @@
 // through the rowed grower 0x00174A8A and filled with the rowed holder assignment 0x00072A94. The by-value mesh
 // pointer is released on exit. Evidence: target bytes; callee MeshClass::Render 0x0014BB90 (MeshClassRender.cpp)
 // and the three-queue layout of Rva00DF6F94GapFillerContext (MeshGapFillerFlush.cpp). Field names are structural.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// The rowed holder assignment is defined visibly (inline noinline, byte-identical to its row) so cl proves it
+// leaves the by-value mesh alone and drops the main-path null test of the mesh release, as retail does.
 #include <vector>
-
-class DummyPtrType;
 
 class RefCountClass
 {
 public:
 	virtual void Delete_This(void);
-	__forceinline void Add_Ref(void) { NumRefs++; }
-	__forceinline void Release_Ref(void) { NumRefs--; if (NumRefs == 0) Delete_This(); }
+	__forceinline void Add_Ref(void) { ++NumRefs; }
+	__forceinline void Release_Ref(void) { --NumRefs; if (NumRefs == 0) Delete_This(); }
 
 protected:
 	int NumRefs;
@@ -46,7 +42,8 @@ public:
 			Referent->Release_Ref();
 		}
 	}
-	T *volatile Referent;
+	T *operator->() const { return Referent; }
+	T *Referent;
 };
 
 namespace FXShader {
@@ -80,6 +77,17 @@ public:
 private:
 	RefCountClass *m_ptr;
 };
+inline __declspec(noinline) Rva00072A94 &Rva00072A94::operator=(const Rva00072A94 &other)
+{
+	if (this != &other) {
+		if (other.m_ptr)
+			other.m_ptr->Add_Ref();
+		if (m_ptr)
+			m_ptr->Release_Ref();
+		m_ptr = other.m_ptr;
+	}
+	return *this;
+}
 
 struct Rva00174AADRecord
 {
@@ -88,17 +96,15 @@ struct Rva00174AADRecord
 	Rva00072A94 methods[6];
 };
 
-struct Rva00174AADQueue
-{
-	Rva00174AADRecord *m_begin;
-	Rva00174AADRecord *m_end;
-	Rva00174AADRecord *m_limit;
-};
 
 class Rva00174A8A
 {
 public:
+	int size() const { return (int)(m_end - m_begin); }
 	void rva00174A8A(int n);
+	Rva00174AADRecord *m_begin;
+	Rva00174AADRecord *m_end;
+	Rva00174AADRecord *m_limit;
 };
 
 class Rva00DF6F94GapFillerContext
@@ -107,39 +113,37 @@ public:
 	void Add_Rendering_Task(RefCountPtr<MeshClass> mesh, const RenderingMethodStackType &renderingMethodStack);
 
 private:
-	Rva00174AADQueue m_plain;	// +0
-	Rva00174AADQueue m_second;	// +0xC
-	Rva00174AADQueue m_third;	// +0x18
+	Rva00174A8A m_plain;	// +0
+	Rva00174A8A m_second;	// +0xC
+	Rva00174A8A m_third;	// +0x18
 };
 
 void Rva00DF6F94GapFillerContext::Add_Rendering_Task(RefCountPtr<MeshClass> mesh, const RenderingMethodStackType &renderingMethodStack)
 {
-	if (renderingMethodStack.size() <= 6)
+	if (renderingMethodStack.size() > 6)
+		return;
+	Rva00174AADRecord *record;
+	Rva00174AADLightEnv *env = mesh->m_lightEnv;
+	if (env->m_flags19 & 4)
 	{
-		Rva00174AADRecord *record;
-		_ReadWriteBarrier();
-		Rva00174AADLightEnv * volatile env = mesh.Referent->m_lightEnv;
-		if (env->m_flags19 & 4)
+		if (*env->m_ptrBC)
 		{
-			if (*env->m_ptrBC)
-			{
-				record = m_second.m_end - 1;
-				((Rva00174A8A *)&m_second)->rva00174A8A((int)(m_second.m_end - m_second.m_begin) + 1);
-			}
-			else
-			{
-				((Rva00174A8A *)&m_third)->rva00174A8A((int)(m_third.m_end - m_third.m_begin) + 1);
-				record = m_third.m_end - 1;
-			}
+			m_second.rva00174A8A(m_second.size() + 1);
+			record = m_second.m_end - 1;
 		}
 		else
 		{
-			((Rva00174A8A *)&m_plain)->rva00174A8A((int)(m_plain.m_end - m_plain.m_begin) + 1);
-			record = m_plain.m_end - 1;
+			m_third.rva00174A8A(m_third.size() + 1);
+			record = m_third.m_end - 1;
 		}
-		record->mesh = *(const Rva00072A94 *)&mesh;
-		record->count = (int)renderingMethodStack.size();
-		for (unsigned int i = 0; i < renderingMethodStack.size(); ++i)
-			record->methods[i] = *(const Rva00072A94 *)&renderingMethodStack[i];
 	}
+	else
+	{
+		m_plain.rva00174A8A(m_plain.size() + 1);
+		record = m_plain.m_end - 1;
+	}
+	record->mesh = *(const Rva00072A94 *)&mesh;
+	record->count = (int)renderingMethodStack.size();
+	for (unsigned int i = 0; i < renderingMethodStack.size(); ++i)
+		record->methods[i] = *(const Rva00072A94 *)&renderingMethodStack[i];
 }
