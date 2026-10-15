@@ -181,6 +181,8 @@ public:
 	// Access to the projection matrices for this camera
 	void								Get_Projection_Matrix(Matrix4x4 * set_tm);
 	void								Get_D3D_Projection_Matrix(Matrix4x4 * set_tm);
+	// Native 0x00134A80: D3D projection multiplied by the inverse camera transform.
+	void rva00134A80(Matrix4x4 *set_tm);
 	void								Get_View_Matrix(Matrix3D * set_tm);
 	const Matrix4x4 &				Get_Projection_Matrix(void);
 	const Matrix3D &				Get_View_Matrix(void);

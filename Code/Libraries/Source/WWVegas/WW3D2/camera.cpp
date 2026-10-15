@@ -929,3 +929,13 @@ void Rva009243A0::method(const Vector3 *a, const Rva009243A0 &other, const Vecto
         ++a; ++b; ++out;
     }
 }
+
+// Native 0x00134A80..0x00134AB0, RET4; WB 0x009BD3A0 confirms
+// the projection temporary and CameraInvTransform at +0x3CC. The original
+// nonvirtual member name is unknown; retain the existing caller-proven pin.
+void CameraClass::rva00134A80(Matrix4x4 *set_tm)
+{
+	Matrix4x4 projection;
+	Get_D3D_Projection_Matrix(&projection);
+	Matrix4x4::Multiply(projection, CameraInvTransform, set_tm);
+}
