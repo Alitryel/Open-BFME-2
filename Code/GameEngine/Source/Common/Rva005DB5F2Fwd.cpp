@@ -36,3 +36,18 @@ void Rva005DB5F2::rva005DB5F2(int a, int b, int c)
 	((AptConnectionScreen *)o)->UpdateGrid((PortNegotiationSchema *)a, c, b);
 	((AptConnectionScreen *)o)->UpdateSlotName(b);
 }
+
+// ?rva005DB628@Rva005DB628@@QAEXPAVPortNegotiationSchema@@HH@Z @0x005DB628 8B:
+// the next slot of the same +0x58 listener table (VA 0x00C7678C holds
+// 0x005DB5F2, 0x005DB628, 0x005DB6DA): forwards its three arguments
+// unchanged to UpdateGrid on o = this-0x58 as a tail jump. Address-derived.
+class Rva005DB628
+{
+public:
+	void rva005DB628(PortNegotiationSchema *schema, int a, int b);
+};
+
+void Rva005DB628::rva005DB628(PortNegotiationSchema *schema, int a, int b)
+{
+	((AptConnectionScreen *)((char *)this - 0x58))->UpdateGrid(schema, a, b);
+}
