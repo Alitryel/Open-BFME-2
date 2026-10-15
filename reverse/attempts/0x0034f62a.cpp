@@ -1,4 +1,6 @@
 // ?onEnter@AIAttackPositionAimAtTargetState@@UAE?AW4StateReturnType@@XZ
+// partial score=0.9091868988023032 date=2026-10-15
+// ?onEnter@AIAttackPositionAimAtTargetState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.785 date=2026-10-15
 // ?onEnter@AIAttackPositionAimAtTargetState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.88 date=2026-10-13
@@ -1547,7 +1549,7 @@ StateReturnType AIAttackPositionAimAtTargetState::onEnter()
 		if (!weapon)
 			return STATE_FAILURE;
 		inFiringRange = ((ContainFirePointView *)containedBy->m_contain)->attemptBestFirePointPosition(source, weapon, targetPos);
-		_ReadWriteBarrier();
+
 	}
 	else
 	{
