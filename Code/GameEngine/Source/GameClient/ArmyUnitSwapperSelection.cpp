@@ -173,6 +173,19 @@ bool StrategicInGameUI::CanCancelAnyUpgrades(LivingWorldArmy *army,Rva005F56B0Se
  }
  return false;
 }
+// Native 5F5A32..5F5A5A (40B), between CanCancelAnyUpgrades and
+// SendUpgradeMessages: the upgrade button's enable test that
+// Rva005F5B77::enabled inlines, as an out-of-line file-static (army in EAX,
+// copied to EBX for CanUpgradeAny's private entry; int 0/1 result). No call
+// to it survives in the image; the anchor below only forces cl to emit it in
+// that convention. Identity unproven; address-derived names.
+static __declspec(noinline) int Rva005F5A32(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
+ return (StrategicInGameUI::CanCancelAnyUpgrades(army,selection)||StrategicInGameUI::CanUpgradeAny(army,selection))?1:0;
+}
+// ?Rva005F5A32Anchor absent-from-retail
+int Rva005F5A32Anchor(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
+ return Rva005F5A32(army,selection);
+}
 void StrategicInGameUI::SendUpgradeMessages(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
  Rva003F287F *region=reinterpret_cast<Rva003F287F*>(reinterpret_cast<Rva00318C79Owner*>(army)->rva00318C32());
  int countA,countB;
