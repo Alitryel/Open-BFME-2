@@ -8,16 +8,26 @@
 // per LINK BONUS on 0x00256646; dtor slot 0x47FAB3 is the folded free-if-non-null
 // shared with BasicStringCharDtor_dup; caller 0x00046A50.
 
-class EmptyBase
+// Native one-state cleanup75EF14 keeps the receiver at0 and calls the
+// complete7B Rva0030B0E3 destructor7461F. Its54B constructor30B0E3 and
+// deleting wrapper30B119 independently establish this20B polymorphic base;
+// wrapper30B119 is slot0 of the full100B C08830 interface table. Its own
+// base is the existing Rva00074626 view. Other unused interface slots stay
+// unspecified; the full native table was inspected before choosing slot0.
+// Derived BC6620 slot0 is deleting75279, which calls complete138B751EF.
+// The old separate empty base displaced this cleanup. Existing RubbleFXVec
+// spelling/layout is retained as a representation lead; this repair makes
+// no further claim about the element's original identity. All112 owner bytes
+// and its complete native EH graph remain exact.
+class Rva00074626
 {
 public:
-	~EmptyBase();
+    virtual ~Rva00074626();
 };
-
-class Rva0030B0E3
+class Rva0030B0E3 : public Rva00074626
 {
 public:
-	virtual void s0();
+	virtual ~Rva0030B0E3();
 	virtual void s1();
 	virtual void s2();
 	virtual void v3(int a, int b);
@@ -49,9 +59,10 @@ private:
 extern void *g_00DE1ED0;
 extern float g_Va00BBB8D8;
 
-class Rva0007517F : public Rva0030B0E3, public EmptyBase
+class Rva0007517F : public Rva0030B0E3
 {
 public:
+	virtual ~Rva0007517F();
 	Rva0007517F();
 	virtual void _D10();
 	virtual void _D11(char *p1, char *p2, int a, int b, int c);
