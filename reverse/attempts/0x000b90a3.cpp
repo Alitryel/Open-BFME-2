@@ -1,11 +1,14 @@
 // ?rva000B90A3@W3DScriptedModelDraw@@QAEXXZ
+// partial score=0.9946 date=2026-10-15
+// ?rva000B90A3@W3DScriptedModelDraw@@QAEXXZ
 // partial score=0.9005 date=2026-10-13
 // ?rva000B90A3@W3DScriptedModelDraw@@QAEXXZ
 // partial score=0.826 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /DWIN32 /D_WINDOWS /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/game/Libraries/Source/WWVegas
 #include <math.h>
 #include "matrix3d.h"
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
+// Heading rotation is the real WWMath Matrix3D::Rotate_Z(theta) (cosf/sinf);
+// residue: row-0 c*tmp2 operand order only (retail loads Row[0][1] then mulss c).
 struct B90A3Data {char pad[0x69];bool translationOnly,clientHeading;};
 class Object {char pad[0x1C0];public:float orientation;};
 class Drawable {char pad[0xFC];public:Object *object;const Matrix3D *getTransformMatrix()const;};
@@ -41,13 +44,6 @@ class W3DScriptedModelDraw {public:
  void rva000B710D(Matrix3D&);
  void rva000B90A3();
 };
-static inline void RotateZ(Matrix3D &m,float theta)
-{
- float c=(float)cos((double)theta),s=(float)sin((double)theta);
- {float a=m[0][0],b=m[0][1];m[0][0]=a*c+b*s;m[0][1]=b*c-a*s;}
- {float a=m[1][0],b=m[1][1];m[1][0]=a*c+b*s;m[1][1]=b*c-a*s;}
- {float a=m[2][0],b=m[2][1];m[2][0]=a*c+b*s;m[2][1]=b*c-a*s;}
-}
 void W3DScriptedModelDraw::rva000B90A3()
 {
  if(shadow&&render&&drawable->object){
@@ -60,7 +56,7 @@ void W3DScriptedModelDraw::rva000B90A3()
    if(moduleData->clientHeading){
     Object *obj=drawable->object;
     float angle=TheInGameUI?TheInGameUI->rva0029B3C1(obj):obj->orientation;
-    RotateZ(mtx,__vref(angle));
+    mtx.Rotate_Z(angle);
    }
   }
   rva000B710D(mtx);
