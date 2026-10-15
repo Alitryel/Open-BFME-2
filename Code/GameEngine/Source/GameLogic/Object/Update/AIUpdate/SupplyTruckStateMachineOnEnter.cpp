@@ -72,13 +72,15 @@ class BitFlags
 
 {
  public:
- BitFlags() 
+ // The constructor also stays inline without a competing external copy.
+ __declspec(dllimport) __forceinline BitFlags()
  {
   memset(m_bits, 0, sizeof(m_bits));
   
  }
  BitFlags(const BitFlags &other);
- void clear() 
+ // Native clear is owned by SupplyTruckAIUpdate.cpp; retain only inlining here.
+ __declspec(dllimport) __forceinline void clear()
  {
   memset(m_bits, 0, sizeof(m_bits));
   

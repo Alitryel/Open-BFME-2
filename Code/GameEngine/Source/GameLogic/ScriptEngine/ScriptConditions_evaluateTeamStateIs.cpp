@@ -423,7 +423,8 @@ public:
 	int rva000456AC(int kind) const;
 	// The KindOf mask read in place as 32-bit words from +0x108.
 	template <unsigned int BIT> unsigned int testKindOfBit() const { return ((const unsigned int *)((const char *)this + 0x108))[BIT >> 5] & (1u << (BIT & 31)); }
-	bool isKindOf(int kind) const { return (unsigned char)rva000456AC(kind) != 0; }
+	// Retain the inlined query without an unused competing external copy.
+	__declspec(dllimport) __forceinline bool isKindOf(int kind) const { return (unsigned char)rva000456AC(kind) != 0; }
 	float getRva51C() const { return m_51C; }
 	// KindOf bit 0x2F (byte +0x10D, bit 7), unnamed: skipped by the team
 	// health total alongside 0x59.
@@ -787,7 +788,8 @@ class BitFlags
 public:
 	__declspec(dllimport) __forceinline BitFlags() { clear(); }
 	BitFlags(const BitFlags &other);
-	void clear() { memset(m_bits, 0, sizeof(m_bits)); }
+	// The native out-of-line clear belongs to SupplyTruckAIUpdate.cpp.
+	__declspec(dllimport) __forceinline void clear() { memset(m_bits, 0, sizeof(m_bits)); }
 	void set(unsigned int bit) { m_bits[bit >> 5] |= 1u << (bit & 31); }
 private:
 	unsigned int m_bits[7];
