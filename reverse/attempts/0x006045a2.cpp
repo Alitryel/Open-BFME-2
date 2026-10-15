@@ -10,7 +10,7 @@
 // Two remaining instruction bytes are first source-pair home -40 versus
 // retail -50; the matching destructor funclet is off by16 in one byte too.
 // The old273B/frame44/EH-exact alternative is preserved in
-// reverse/attempt_evidence/big_archive_r11_eh_exact.cpp.
+// reverse/attempt_evidence/big_archive_r11_eh_exact.patch.
 // All8 original call candidates plus17 transitive bodies/relocations/EH
 // were independently checked whole against retail. See r11_call_graph.json.
 // Alternate270B/EH-exact direct-return experiment: r11_prvalue.patch,
