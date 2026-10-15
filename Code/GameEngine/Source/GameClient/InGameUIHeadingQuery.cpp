@@ -1,5 +1,3 @@
-// ?rva0029B3C1@InGameUI@@QBEMPBVObject@@@Z
-// partial score=0.909 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //
 // InGameUI's heading query, native 0x0029B3C1..0x0029B45C (155B, RET4);
@@ -9,7 +7,9 @@
 // plane -- the orientation again when that point is within 1 of it --
 // recovered from the normalized direction's x by ACos, negated for a
 // negative y. W3DModelDraw::reactToTransformChange (0x0029B3C1 callers)
-// rotates the model by it. The method name is address-derived.
+// rotates the model by it. The method name is address-derived. The else
+// after the near-target return keeps cl's cross-jump on the first
+// orientation block (retail's ja back to 0x0029B3D3).
 
 #include "../../../Libraries/Include/Lib/Coord3DInline.h"
 
@@ -52,8 +52,11 @@ float InGameUI::rva0029B3C1(const Object *obj) const
 	dir.sub(obj->getPosition());
 	if (lengthSqr2D(dir) < 1.0f)
 		return obj->getOrientation();
-	dir.Normalize2D();
-	if (dir.y < 0.0f)
-		return -ACos(dir.x);
-	return ACos(dir.x);
+	else {
+		dir.Normalize2D();
+		if (dir.y < 0.0f)
+			return -ACos(dir.x);
+		else
+			return ACos(dir.x);
+	}
 }
