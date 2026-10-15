@@ -48,14 +48,22 @@ public:~Rva000A7BB5();
 };
 class Rva00200667 {void *header;public:~Rva00200667();};
 class Rva000A79CE {void *header[3];public:~Rva000A79CE();};
+// Native five-byte entries A7CE9/A7CEE forward the same receiver to the
+// rowed hash/tree base destructors. These zero-storage derived ABI views
+// preserve the parent-proven20B/12B widths and the native EH entry calls.
+// Original container specializations and inheritance remain unproven.
+class Rva000A7CE9:public Rva000A7BB5 {public:~Rva000A7CE9(){}};
+class Rva000A7CEE:public Rva000A79CE {public:~Rva000A7CEE(){}};
+typedef char AudioHashLifetimeSize[sizeof(Rva000A7CE9)==0x14?1:-1];
+typedef char AudioTreeLifetimeSize[sizeof(Rva000A7CEE)==0x0c?1:-1];
 class Gen0002857E;
 class AudioFileContainer {Gen0002857E *target;public:~AudioFileContainer();};
 class Rva000A77B3 {public:void rva000A77B3();};
 class Rva000A8A6C {public:void rva000A8A6C();};
 class MilesMutexGuard {void *mutex;bool flag;public:MilesMutexGuard(void*,int);~MilesMutexGuard();};
-class AudioFileCache:public Rva000A7BB5 {
+class AudioFileCache:public Rva000A7CE9 {
  Rva00200667 lists14[3];
- Rva000A79CE unused20;
+ Rva000A7CEE unused20;
  _STL::set<AsciiString> failed2C;
  unsigned active38,unused3C,budget40;
  AudioFileContainer sentinel44;
