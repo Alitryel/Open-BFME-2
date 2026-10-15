@@ -173,8 +173,6 @@ inline Bool legalRadarPoint(Int px, Int py)
 extern UnsignedInt RadarEndpointColor;
 extern unsigned int g_Va00DE1D00;
 extern unsigned int g_Va00DE1D60;
-extern const UnsignedByte g_Va00BC4E84[];
-extern const unsigned char g_Va00BC4E80[][2];
 
 __forceinline long fast_float2long_round(Real f)
 {
@@ -273,8 +271,10 @@ static void rva0004F29B(void *surface, Int width, Int height,
 }
 
 // ?rva0004F037Caller absent-from-retail
-void rva0004F037Caller(void *surface, Int width, Int height, Int x, Int y, Color c, Color light)
+// The emission driver takes its tables from its caller; it owns no retail data.
+void rva0004F037Caller(void *surface, Int width, Int height, Int x, Int y, Color c, Color light,
+	const UnsignedByte *blobAlpha, const UnsignedByte blipAlpha[][2])
 {
-	rva0004F037(surface, width, height, x, y, c, g_Va00BC4E84);
-	rva0004F29B(surface, width, height, x, y, light, g_Va00BC4E80);
+	rva0004F037(surface, width, height, x, y, c, blobAlpha);
+	rva0004F29B(surface, width, height, x, y, light, blipAlpha);
 }
