@@ -63,6 +63,12 @@ class Rva000AC514Host
 public:
 	void rva000AC514( Real x, Real y, int value );
 };
+struct RGBColor;
+class WorldHeightMap
+{
+public:
+	void getTerrainColorAt( Real x, Real y, RGBColor *pColor );
+};
 class Rva00068119
 {
 public:
@@ -297,7 +303,7 @@ void W3DTerrainVisual::rva00091E64( const Coord3D *pos, const GeometryInfo *geom
 void W3DTerrainVisual::rva00091D3D( Real x, Real y, int value )
 {
 	if (m_object1C)
-		m_object1C->rva000AC514(x, y, value);
+		((WorldHeightMap *)m_object1C)->getTerrainColorAt(x, y, (RGBColor *)value);
 }
 
 // Retail 0x00091EEC (62B, RET 0x10; vtable entry 0x00BC80FC): passes a
