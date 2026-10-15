@@ -759,7 +759,8 @@ public:
 	Player *getControllingPlayer() const;
 	Rva00373EC6 *rva0028F4BC();
 	Object *rva002931F5(bool flag);
-	StealthUpdate *getStealth() const { return (StealthUpdate *)((Object *)this)->rva0028F4BC(); }
+	// Keep the retail inline forwarding without competing standalone copies.
+	__declspec(dllimport) __forceinline StealthUpdate *getStealth() const { return (StealthUpdate *)((Object *)this)->rva0028F4BC(); }
 	Bool isEffectivelyDead() const { return (m_privateStatus & 1) != 0; }
 	Team *getTeam() const { return m_team; }
 	Bool isKindOf(KindOfType t) const;
@@ -768,7 +769,7 @@ public:
 	void *rva0028C197() const;
 	Bool rva00290D2B(const UpgradeTemplate *upgrade) const;
 	BodyModuleInterface *getBodyModule() const { return m_body; }
-	Weapon *getWeaponInWeaponSlot(WeaponSlotType wslot) const { return m_weaponSet.getWeaponInWeaponSlot(wslot); }
+	__declspec(dllimport) __forceinline Weapon *getWeaponInWeaponSlot(WeaponSlotType wslot) const { return m_weaponSet.getWeaponInWeaponSlot(wslot); }
 	__declspec(dllimport) __forceinline Bool testScriptStatusBit(ObjectScriptStatusBit bit) const { return (m_scriptStatus & bit) != 0; }
 	ObjectID getID() const { return m_id; }
 	AIUpdateInterface *getAI() const { return m_ai; }
