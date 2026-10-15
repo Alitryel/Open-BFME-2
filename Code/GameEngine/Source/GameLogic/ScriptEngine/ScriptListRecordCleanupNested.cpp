@@ -1,7 +1,3 @@
-// ?cleanup@NestedAt0C@@QAEXXZ
-// partial score=0.9071853910281859 date=2026-10-10
-// ?cleanup@NestedAt0C@@QAEXXZ
-// partial score=0.9 date=2026-10-10
 // cl: /I. /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
@@ -17,6 +13,12 @@
 // destructors 0x003B448C / 0x003B3F5E. Evidence: retail bodies and callees
 // read at the REL32s; record layout as rowed by ScriptListSubrecordRemove.cpp.
 // Method roles are address-derived.
+//
+// Codegen: the released test reads the flag through a by-value copy of the
+// record (__cp) and the node chain's next link through a conditional with equal
+// arms; both keep cl from merging the loads across the release call, as retail
+// does not.
+template<class T> static __forceinline T __cp(const T &x) { T t = x; return t; }
 
 class Rva003B448C
 {
@@ -75,7 +77,7 @@ void NestedAt0C::cleanup(void)
 	{
 		Rva003B7096Record *rec = &m_records[index];
 		int next = rec->m_previous;
-		if (rec->m_released)
+		if (__cp(&m_records[index])->m_released)
 		{
 			rva003B7096(index);
 		}
@@ -102,7 +104,7 @@ void NestedAt2C::cleanup(void)
 	{
 		Rva003B7096Record *rec = &m_records[index];
 		int next = rec->m_previous;
-		if (rec->m_released)
+		if (__cp(&m_records[index])->m_released)
 		{
 			rva003B71B4(index);
 		}
@@ -112,7 +114,7 @@ void NestedAt2C::cleanup(void)
 			while (first->m_next)
 			{
 				BfmeNodeZ *node = first->m_next;
-				BfmeNodeZ *after = node->m_next;
+				BfmeNodeZ *after = (node ? node : node)->m_next;
 				delete node;
 				first->m_next = after;
 			}
