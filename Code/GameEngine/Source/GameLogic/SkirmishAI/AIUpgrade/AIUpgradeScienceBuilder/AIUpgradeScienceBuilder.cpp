@@ -173,7 +173,7 @@ public:
 class UpgradeTemplate
 {
 public:
-	unsigned rva0026EF50(Player *owner, Object *object) const;	// 0x0026EF50 the cost
+	unsigned calcCostToBuild(Player *owner, unsigned object) const;	// 0x0026EF50 the cost
 	char m_pad00[8];
 	AsciiString m_name;	// +0x08
 	char m_pad0C[0x98 - 0x0C];
@@ -306,7 +306,7 @@ void AIUpgradeScienceBuilder::Register(Object *object, void *)
 				continue;
 			UpgradeTemplate *upgrade = button->m_upgrade;
 			if (upgrade) {
-				unsigned cost = upgrade->rva0026EF50(m_14, object);
+				unsigned cost = upgrade->calcCostToBuild(m_14, (unsigned)object);
 				Rva005970ED *record = new Rva005970ED;
 				// Opening the item's scope before the cost store puts it in
 				// the new-expression's frame slot, as retail does.
