@@ -43,6 +43,7 @@ class AptCreateAHero::Manager {public:
  char word0[4];HeroListScreenPrefix *screen;GameWindow *heroWindow,*otherWindow;
  CreateAHeroData *selectedHero;int word14;Rva005B61B3Less order;
  void rva005B6755();void rva005B6A05();void rva005B5F2E();
+ void rva005B6A31(void *);void rva005B6A40(void *);void rva005B6A4F(void *);
 };
 void AptCreateAHero::Manager::rva005B6755() {
  if(TheCreateAHeroManager) {
@@ -68,6 +69,47 @@ void AptCreateAHero::Manager::rva005B6755() {
   GadgetListBoxSetSelected(heroWindow,selectedIndex);
   reinterpret_cast<Rva005B5C70Box *>(this)->Run(0);
  }
+}
+// 0x005B5BDC (38B): the sort-column tracker over the manager's +0x18/+0x1C
+// order keys and +0x20 dirty byte (moved from Rva005B5BDC.cpp: its three
+// column callbacks below rely on cl seeing that it leaves ECX intact).
+class Rva005B5BDC
+{
+    char m_pad[0x18];
+    unsigned int m_18;
+    unsigned int m_1C;
+    bool m_20;
+public:
+    void rva005B5BDC(unsigned int arg);
+};
+
+void Rva005B5BDC::rva005B5BDC(unsigned int arg)
+{
+    unsigned int next = arg + 1;
+    unsigned int old = m_18;
+    if (old == arg) {
+        m_18 = next;
+    } else {
+        m_18 = arg;
+        if (old != next)
+            m_1C = old;
+    }
+    m_20 = true;
+}
+
+// 0x005B6A31 / 0x005B6A40 / 0x005B6A4F (15B each, RET4): column-header
+// callbacks that set sort column 0/2/4 and repopulate the hero list.
+void AptCreateAHero::Manager::rva005B6A31(void *) {
+ reinterpret_cast<Rva005B5BDC *>(this)->rva005B5BDC(0);
+ rva005B6755();
+}
+void AptCreateAHero::Manager::rva005B6A40(void *) {
+ reinterpret_cast<Rva005B5BDC *>(this)->rva005B5BDC(2);
+ rva005B6755();
+}
+void AptCreateAHero::Manager::rva005B6A4F(void *) {
+ reinterpret_cast<Rva005B5BDC *>(this)->rva005B5BDC(4);
+ rva005B6755();
 }
 void AptCreateAHero::Manager::rva005B6A05() {
  if(selectedHero) {
