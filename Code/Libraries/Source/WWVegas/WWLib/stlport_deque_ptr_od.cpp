@@ -24,5 +24,6 @@ namespace _STL { template <> int _Deque_iterator_base<void *>::_M_subtract(_Dequ
 namespace _STL { template <> void deque<void *, allocator<void *> >::clear(); }
 namespace _STL { template <> void deque<void *, allocator<void *> >::pop_back(); }
 namespace _STL { template <> void deque<void *, allocator<void *> >::pop_front(); }
+namespace _STL { template <> unsigned int deque<void *, allocator<void *> >::size() const; }
 // bfme link decl-only end
 template class _STL::deque<void *, _STL::allocator<void *> >;
