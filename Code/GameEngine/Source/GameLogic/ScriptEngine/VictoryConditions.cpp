@@ -54,6 +54,10 @@ public:
  virtual void slot20();virtual void slot21();virtual void slot22();
  virtual void slot23();virtual void slot24();virtual void slot25();
  virtual Bool rva00420017(Player *player);
+ virtual void slot27(); virtual void slot28();
+	virtual Bool slot29();					// +0x74 (rowed byte getter +0x90)
+
+	Bool testDefeat(Player *player);			// 0x004207D4
 
 
 private:
@@ -124,6 +128,24 @@ Bool VictoryConditions::hasBeenDefeated(Player *player)
 		return true;
 
 	return false;
+}
+
+// VictoryConditions::hasSinglePlayerBeenDefeated, retail 0x0042090C (65 bytes),
+// vtable slot 16 (+0x40, after hasAchievedVictory and hasBeenDefeated as in
+// Zero Hour's VictoryConditionsInterface). WB 0x011154F0 has the same flow:
+// refuse a missing or 0x002AA223-flagged player, answer true when the slot 29
+// byte is set, else ask testDefeat (0x004207D4, named by its own WB assert
+// string) and count each defeat in +0x88.
+Bool VictoryConditions::hasSinglePlayerBeenDefeated(Player *player)
+{
+	if (!isEligiblePlayer(player))
+		return false;
+	if (slot29())
+		return true;
+	Bool defeated = testDefeat(player);
+	if (defeated)
+		++m_field88;
+	return defeated;
 }
 
 // VictoryConditions::isLocalAlliedDefeat, retail 0x004200CB.
