@@ -127,7 +127,7 @@ public:
 	void init(const Dict *d);
 	void clear() { init(0); }
 	const ScriptList *getScriptList() const { return &m_scripts; }
-	ScriptList *getScriptList() { return &m_scripts; }
+	__declspec(dllimport) __forceinline ScriptList *getScriptList() { return &m_scripts; }
 	void setScriptList(ScriptList *scripts) { m_scripts.swap(scripts); }	// 0x003297F3 out of line
 
 private:
