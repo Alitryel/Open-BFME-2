@@ -345,7 +345,7 @@ template void _STL::_Destroy<Rva001D28F0Element>(Rva001D28F0Element *);
 // with another AsciiString-keyed pair). Each pair destructor is the rowed
 // body, declared here so the instance tail-jumps to it.
 #include <list>
-struct BfmePod264 { int a[66]; };
+struct BfmePod264 { BfmePod264(const BfmePod264 &); virtual ~BfmePod264(); int a[65]; };
 typedef _STL::pair<const int, _STL::list<BfmePod264> > Rva00288B89Pair;
 template <> Rva00288B89Pair::~pair();
 class AudioEventRTS
