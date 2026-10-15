@@ -119,6 +119,23 @@ bool istreambuf_iterator<char, char_traits<char> >::equal(const istreambuf_itera
     __i._M_getc();
   return this->_M_eof == __i._M_eof;
 }
+// Retain the inline algorithms while importing their canonical standalone bodies.
+template <> __declspec(dllimport) __forceinline
+void istreambuf_iterator<char,char_traits<char> >::_M_bumpc() {
+  _M_buf->sbumpc();
+  _M_have_c = false;
+}
+template <> __declspec(dllimport) __forceinline
+char istreambuf_iterator<char,char_traits<char> >::operator*() const {
+  this->_M_getc();
+  return _M_c;
+}
+template <> __declspec(dllimport) __forceinline
+istreambuf_iterator<char,char_traits<char> >&
+istreambuf_iterator<char,char_traits<char> >::operator++() {
+  this->_M_bumpc();
+  return *this;
+}
 typedef istreambuf_iterator<char,char_traits<char> > _BoolIn;
 template <>
 inline _BoolIn
