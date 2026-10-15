@@ -1,4 +1,6 @@
 // ?onDie@DamageFilteredCreateObjectDie@@UAEXPBVDamageInfo@@@Z
+// partial score=0.9 date=2026-10-15
+// ?onDie@DamageFilteredCreateObjectDie@@UAEXPBVDamageInfo@@@Z
 // partial score=0.829 date=2026-10-13
 // ?onDie@DamageFilteredCreateObjectDie@@UAEXPBVDamageInfo@@@Z
 // partial score=0.86 date=2026-10-09
@@ -15,6 +17,8 @@
 //   slot 1, retail 0x00485EF6 (7 bytes): clears the recorded frame; its
 //           argument is unused.
 // Slot names by address.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 class ObjectCreationList;
@@ -138,6 +142,7 @@ void DamageFilteredCreateObjectDie::onDie(const DamageInfo *damageInfo)
   if (!source) return;
   if (data->m_creationList)
    data->m_creationList->create(source,&object->position,0,0);
+   _ReadWriteBarrier();
   TheGameLogic->destroyObject(object);
  }
  else if (TheGameLogic->getFrame()-m_frame < data->m_timeWindow)

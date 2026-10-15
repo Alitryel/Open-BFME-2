@@ -1,4 +1,6 @@
 // ?seekKeyFrame@?$CameraAnimationTrack@VRva00540D94@@@@QAE_NH@Z
+// partial score=0.93 date=2026-10-15
+// ?seekKeyFrame@?$CameraAnimationTrack@VRva00540D94@@@@QAE_NH@Z
 // partial score=0.8 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
 // stlport
@@ -16,6 +18,8 @@
 //
 // The frame data's out-of-line copy constructor is ICF-folded with the rowed
 // Region3D copy constructor 0x0009AC04 (six dword copies, ret 4).
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <math.h>
 #include <vector>
 
@@ -157,6 +161,7 @@ bool CameraAnimationTrack<T>::seekKeyFrame(int frameNum)
 	if ((unsigned int)m_lastUsedKeyFrame >= (unsigned int)(m_keyFrames.end() - first)
 		|| (m_lastUsedKeyFrame > 0 && first[m_lastUsedKeyFrame].m_frame != frameNum))
 		--m_lastUsedKeyFrame;
+		_ReadWriteBarrier();
 	return first[m_lastUsedKeyFrame].m_frame == frameNum;
 }
 
