@@ -118,7 +118,7 @@ struct TeamTemplateInfo
 
 struct TeamPrototype
 {
-	const TeamTemplateInfo *getTemplateInfo() const { return &m_info; }
+	__declspec(dllimport) __forceinline const TeamTemplateInfo *getTemplateInfo() const { return &m_info; }
 	TeamTemplateInfo m_info;
 };
 
