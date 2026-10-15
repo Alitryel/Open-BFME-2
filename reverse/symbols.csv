@@ -9724,12 +9724,9 @@ name,address,notes
 ?rva000E5EE5@Rva000E5EE5@@QAEXPBVRva0055A88BDwordField@@VAsciiString@@@Z,0x000E5EE5,twin of rowed StringBase spelling for AsciiString caller 0x0006B76C
 ?rva000E7734@Rva000E7734NullTarget@@QAEXH@Z,0x000E7734,null-checked tail jmp target of forwarder 0x00068061; original name unknown
 ?rva000E7C20SciencePrereqMemo@ScienceStore@@ABE_NPBVPlayer@@W4ScienceType@@PAX@Z,0x001FFAA1,address read from the REL32 displacement at a placed body
-?rva000E912A@W3DPropBuffer@@QAEXHMH@Z,0x000E912A,pin for 0x68073 first call
-?rva000E9D18@W3DPropBuffer@@QAEXPBUCoord3D@@ABVGeometryInfo@@M@Z,0x000E9D18,pin for 0x680D6 first call
 ?rva000EA2C0@Rva000EA2C0NullTarget@@QAEXH@Z,0x000EA2C0,null-checked tail jmp target of forwarder 0x00068283; original name unknown
 ?rva000EA644@Rva000EA644NullTarget@@QAE_NH@Z,0x000EA644,"method a null-checked vtable-slot forwarder tail-jumps to (ret 4); opaque address name"
 ?rva000EDB47@Rva000EDB47@@QAEXXZ,0x000EDB47,tail-call target of the byte-verified Rva00068D43::rva00068D43 0x00068D43 on its +0x3850 member read from its REL32 displacement; name unknown
-?rva000EE04A@W3DPropBuffer@@QAEXHM@Z,0x000EE04A,pin for 0x68073 second call
 ?rva000EE198@Rva000EE198NullTarget@@QAEXXZ,0x000EE198,null-checked tail jmp target of forwarder 0x00068385; original name unknown
 ?rva000F0A75@W3DVolumetricShadowManager@@QAEXPAX@Z,0x000F0A75,"W3DVolumetricShadowManager member taking an owner, called from vtable slot 0x000F168B; opaque address name"
 ?rva000F4017@Rva000F42F7Host@@QAEXH@Z,0x000F4017,"member a vtable slot 0x000F42F7 calls with a constant argument; opaque address name"
