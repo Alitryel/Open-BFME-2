@@ -1353,6 +1353,30 @@ bool Rva0028BC29::rva0028BC29() const
 	return m_field->get();
 }
 
+// --- 0x0028BC3B (18B): the same +0x23C field's second query, false without
+// one; the tail jump to 0x004DF49C (list size != 0) shows a bool result.
+class Rva00256AB0Owner
+{
+public:
+	bool hasEntries() const;								// 0x004DF49C
+};
+
+class Rva0028BC3B
+{
+public:
+	bool rva0028BC3B() const;
+private:
+	char m_pad000[0x23C];
+	Rva00256AB0Owner *m_field;
+};
+
+bool Rva0028BC3B::rva0028BC3B() const
+{
+	if (m_field == 0)
+		return false;
+	return m_field->hasEntries();
+}
+
 // --- 0x0028C59F (14B): zeroes twenty bytes of this through the CRT memset
 // thunk 0x006291AE.
 void *__cdecl ji_006291ae(void *dest, int val, unsigned int count);
