@@ -10971,7 +10971,6 @@ name,address,notes
 ?rva002D76C6@Rva002D7714@@QAE_NPAURva002D76C6Owner@@PAPAURva002D76C6Node@@@Z,0x002D76C6,ICF twin of rowed free Remove via thiscall call site 0x002D7714 exact
 ?rva002D7BFD@@YAHH@Z,0x002D7BFD,pin for 0x2D7FAE cdecl query (int) returns int
 ?rva002D7DD5@Rva002D7DD5@@QAEXXZ,0x002D7DD5,address-derived callee of matched slot 0x0004E3A1; retail jmp rel32 targets 0x002D7DD5; Ghidra FUN bounds 147 bytes; thiscall no args ret; callee body remains unclaimed; no named identity inferred
-?rva002D7E68@Rva0004E3A6@@QAEXH@Z,0x002D7E68,callee of ?rva0004E3A6@Rva0004E3A6@@QAEXH@Z at retail 0x0004E3AD read from its REL32 displacement; argument count from the callee ret
 ?rva002D96D3@BfmeAudioEventPrefix136@@QAEXABUOpaqueRefElement4@@@Z,0x002D96D3,Native136-byte view alias of rowed common-prefix initializer259; ctor2D97D6 calls it and radar2AA9C2 reserves0x88; wrapper90 stride is separately proven; linker alias binds existing provider
 ?rva002D9ADC@Rva002DAAD5Owner@@QAEXXZ,0x002D9ADC,pin for 0x2DAAD5 thiscall void ()
 ?rva002D9D7C@Rva002D9F9FOwner@@QAEXPAX0@Z,0x002D9D7C,pin for 0x2D9F9F thiscall (ptr, ptr) void
@@ -11553,7 +11552,6 @@ name,address,notes
 ?rva0059E0C1@@YAHH@Z,0x0059E0C1,cdecl 1-arg callee of 0x59E0F7 returning int-or-pointer (caller pops once and derefs +0xBC or tests null)
 ?rva0059E390@Rva0059E390@@QAEXPBVModuleData@@@Z,0x0059E390,"holder append reached by Rva0059E436Parse at 0x0059E436; abuts 0x0059E3A7"
 ?rva0059E3A7@Rva0059E3A7@@QAEXPBVModuleData@@@Z,0x0059E3A7,"holder append reached by Rva0059E511Parse at 0x0059E511; abuts 0x0059E390"
-?rva005A061B@Rva005A0D61@@QAEXXZ,0x005A061B,callee of 0x005A0D61 from retail REL32; name unknown
 ?rva005A0D61@CustomMatch@AptOnline@@QAEX_N@Z,0x005A0D61,unrowed 97B thiscall (Ghidra FUN_009a0d61; ret 4; byte flag) on the online custom match screen; REL32 read at AptOnline::CustomMatch::Refresh 0x005A0F17 with ECX=this and 1; address name
 ?rva005A6D47@Rva005A6D47@@QAEXXZ,0x005A6D47,unrowed 101B thiscall (Ghidra FUN_009a6d47) on the global at 0x00E063F8; REL32 read at the Connection::OnRetryConnections callback 0x005DB36A with ECX=that global; address name
 ?rva005A910E@Rva005A9562@@QAEPAURva0050542BTarget@@XZ,0x005A910E,current target of the +0x04 Rva005A9562 (rowed under the Player* spelling); REL32 at 0x00505653
@@ -11623,7 +11621,6 @@ name,address,notes
 ?rva005D2F7E@Rva005D2F7E@@QAEXXZ,0x005D2F7E,address-derived callee of matched slot 0x0057862E; retail jmp rel32 targets 0x005D2F7E; Ghidra FUN bounds None bytes; thiscall no args ret; callee body remains unclaimed; no named identity inferred
 ?rva005D2F84@Rva005D2F84@@QAEXXZ,0x005D2F84,address-derived callee of matched slot 0x00578636; retail jmp rel32 targets 0x005D2F84; Ghidra FUN bounds None bytes; thiscall no args ret; callee body remains unclaimed; no named identity inferred
 ?rva005D2F8A@Rva005D2F8A@@QAEXXZ,0x005D2F8A,address-derived callee of matched slot 0x0057863E; retail jmp rel32 targets 0x005D2F8A; Ghidra FUN bounds None bytes; thiscall no args ret; callee body remains unclaimed; no named identity inferred
-?rva005D388B@Rva005D388B@@QAE?AUTreeHintRef00217D4C@@XZ,0x005D388B,by-value TreeHintRef getter on +0x24 member (hidden retptr at [ebp-16]); read from REL32 at 0x005D3AB2 in rva005D3A91 0x005D3A91; Ghidra 61B blocked
 ?rva005D3A91@Rva005D3B26@@QAEXXZ,0x005D3A91,unrowed thiscall (Ghidra FUN_009d3a91) on the same panel object; callee of ?rva005D3CFA@Rva005D3B26@@QAEXXZ at retail 0x005D3D3C read from its REL32 displacement; body unrowed
 ?rva005D3CA6@Rva005D3C2B@@QAEXPAX@Z,0x005D3CA6,unrowed 39B thiscall (Ghidra FUN_009d3ca6; ret 4) storing its argument at +0x18 when it changes (the selection); REL32 read at the WOTR UI selection setter 0x005785B6 and _OnSelectionUILoaded 0x005789D3 with ECX = the +0x50 Rva005D3C2B object; address name
 ?rva005D3F8D@Rva005D3F8D@@QAEXXZ,0x005D3F8D,address-derived callee of matched slot 0x0057A36A; retail jmp rel32 targets 0x005D3F8D; Ghidra FUN bounds 6 bytes; thiscall on the +0x08 member 0 arg(s) ret; callee body remains unclaimed; no named identity inferred
@@ -11633,7 +11630,6 @@ name,address,notes
 ?rva005D46E3@Rva005D46E3@@QAEXH@Z,0x005D46E3,address-derived callee of matched slot 0x0057A362; retail jmp rel32 targets 0x005D46E3; Ghidra FUN bounds 73 bytes; thiscall on the +0x08 member 1 arg(s) ret 4; callee body remains unclaimed; no named identity inferred
 ?rva005D4E37@Rva005D4E37@@QAEXHHH@Z,0x005D4E37,address-derived callee of matched slot 0x0057AA3D; retail jmp rel32 targets 0x005D4E37; Ghidra FUN bounds 44 bytes; thiscall on the +0x08 member 3 arg(s) ret 12; callee body remains unclaimed; no named identity inferred
 ?rva005D4E6F@Rva005D4E6F@@QAE_NXZ,0x005D4E6F,alias pin: same body already rowed as ?rva005D4E6F@Rva005D4E6F@@QAEHXZ; it answers 0/1 in eax and the matched slot 0x0057B97C tests al after the call; bool spelling binds the same bytes; no new identity inferred
-?rva005D4F27@Rva005D4F27@@QAEXHH@Z,0x005D4F27,method pointer stored in delegate desc at 0x005D5029 in rva005D5001 0x005D5001 (EH prolog at entry, thiscall two-arg shape); Ghidra missed boundary (follows 0x005D4F0E); callee body unclaimed
 ?rva005D7558@Rva005EE816@@QAE_NPAVObject@@@Z,0x005D7558,"AoE picker member taking the caster (ret 4) returning a bool; REL32 at 0x005D76CC in 0x005D75BE (and its picker siblings) with ECX the picker: when true the slot gives up (false)"
 ?rva005D772D@Rva00049D20@@QAEHH@Z,0x005D772D,"element count of the +0x1C vector of entry i of the +0x10 pointer vector (ret 4): REL32 at 0x00573918 in AITargetHeuristicBaseDefense slot 1 0x005737D6 with ECX the record's base-defense list and the loop index"
 ?rva005D7D93@Rva005EE816@@QAE_NPAVObject@@@Z,0x005D7D93,"AoE picker member taking the caster (ret 4) returning a bool, also a slot of vftable 0x00C75EC4; REL32 at 0x005D76DF in 0x005D75BE as the fallback when no target is found and 0x005D7558 is false"
@@ -11662,7 +11658,6 @@ name,address,notes
 ?rva005E1B4E@Rva005E1B4E@@QAEXXZ,0x005E1B4E,pin for 0x005E1B9A first; address-derived
 ?rva005E1B9A@Rva005E1B9A@@QAEXXZ,0x005E1B9A,jump target of 17B forwarder 0x005E1BC4; original name unknown
 ?rva005E2180@Rva005E2180@@QAEXXZ,0x005E2180,jump target of 17B forwarder 0x005E2226; original name unknown
-?rva005E2460@Rva005E2460@@QAEXXZ,0x005E2460,pin for 0x005E24D8 (reuses banked name); address-derived
 ?rva005E254C@Rva005E254C@@QAEXXZ,0x005E254C,jump target of 17B forwarder 0x005E25DE; original name unknown
 ?rva005E31AA@Rva005E31AA@@QAEXH@Z,0x005E31AA,pin for 0x005E31EE cleanup; address-derived
 ?rva005E3AAA@Rva005E3AAA@@QAEXH@Z,0x005E3AAA,pin for 0x005E3E41 second; address-derived
@@ -14350,7 +14345,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?rva0057FAB0@Rva0057F2DE@@QAEXXZ,0x0057FAB0,callee of ?rva0044303D@AptMpGameSetup@@QAEXXZ (the +0x190 member's registration; binds AptMpClans::WebSite and AptMpClans::Delete); owner identity unresolved
 ?rva0057FFB9@Rva0057FD6E@@QAEXXZ,0x0057FFB9,callee of ?rva0044303D@AptMpGameSetup@@QAEXXZ (the +0x244 member's registration; binds AptMpChat::Send and AptMpChat::InitGadgets); owner identity unresolved
 ?_bfme_setAptScreenRef@@YAXABVAsciiString@@V?$AptRef@VAptScreenInitGadgets@@@@@Z,0x00411458,callee of ?rva0044303D@AptMpGameSetup@@QAEXXZ; stores the by-value reference under the name in the screen table 0x00E02FD0 (operator[] 0x0041112B then assign 0x002174A4) and releases it via 0x0007DEEF; BFME1 _bfme_setAptScreenRef analogue
-?rva0054C805@Rva0054C88AInner@@QAEXM@Z,0x0054C805,callee of ?rva0054C877@Rva0054C88A@@QAEXM@Z
 ?rva005294FC@Rva0052936C@@QAEXH@Z,0x005294FC,callee of ?rva005295D5@Rva0052936C@@QAEXH@Z
 ?rva005C3E81@Rva005C3E81@@QAEXXZ,0x005C3E81,callee of ?rva005295D5@Rva0052936C@@QAEXH@Z
 ?rva00366E2E@Rva00366E2E@@QAEXXZ,0x00366E2E,callee of ?rva0052F294@Rva002E713FOwner@@QAEXXZ
@@ -14482,7 +14476,6 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ?resize@?$vector@URva00153729@@V?$allocator@URva00153729@@@_STL@@@_STL@@QAEXI@Z,0x00153EE5,callee of ?Init@FXShaderParameterBinder@@QAEXPAUID3DXEffect@@@Z
 ?push_back@?$vector@URva004DFCB0Element@@V?$allocator@URva004DFCB0Element@@@_STL@@@_STL@@QAEXABURva004DFCB0Element@@@Z,0x004DFCB0,ICF-folded 4-byte vector push_back (rowed ModuleData-const instance at this address); REL32 in FXShaderAsset::Impl::Load 0x00151915 appending validated technique handles
 ?rva00455BDD@FoundationAIUpdate@@AAEXPBVThingTemplate@@PBUCoord3D@@M@Z,0x00455BDD,callee of ?rva00456134@FoundationAIUpdate: REL32 at 0x0045615F resolves to 0x00455BDD whose EH-prolog body starts there (mov eax then call __EH_prolog); restores the pin 0a2c10a446 dropped on a misread boundary
-?rva0023D68E@GameLogic@@QAEXH@Z,0x0023D68E,int-argument spelling the 0x003BD2A6 caller declares (it pushes the full dword); restores the pin f7cbfc4fcd replaced when it rowed the bool spelling at the same placeholder address
 ?rva0048DC51@FloodUpdate@@QAEXPBUFloodMember@@PAVRva0048E16C@@@Z,0x0048DC51,FloodUpdate path builder (unrowed; banked partial in reverse/attempts); REL32 from the creator rva0048E189 at 0x0048E22B
 ?push_back@?$list@PAVRva0048E16C@@V?$allocator@PAVRva0048E16C@@@_STL@@@_STL@@QAEXABQAVRva0048E16C@@@Z,0x0005548F,ICF twin of the four-byte list push_back; REL32 at 0x0048E312 in FloodUpdate member creation 0x0048E189 on +0x20
 ?rva001F5BBE@ParticleSystemManager@@QAEXPAVObject@@@Z,0x001F5BBE,ZH destroyAttachedSystems(Object*) on TheParticleSystemManager (0x00DFDD04): REL32 at 0x0048FF56 in HeightDieUpdate::update 0x0048FD1B; the rowed body destroys every system whose +0xB4 attached ID is the object's +0x74 ID
@@ -15303,7 +15296,6 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ??0Rva005E92F7@@QAE@IPAX@Z,0x005E93FF,rename former address-only constructor view Rva005E93FF to the already rowed destructor and vtable owner Rva005E92F7; whole140B constructor and60B destructor exact; consumer005CEB03 reconciled in the same change
 ?rva00466848@CaveContain@@QAEXPAVTeam@@_N@Z,0x00466848,Direct REL32 callee of target recalc body 0x00466977 at 0x00466A04; Ghidra boundary 0x00466848 size 148. Address-derived label; BFME1 helper source is a semantic lead only.
 ?newBridge@TerrainRoadCollection@@QAEPAVTerrainRoadType@@VAsciiString@@@Z,0x002DB64E,callee of ?parseTerrainBridgeDefinition@INI@@SAXPAV1@@Z
-?Rva00220E30@@YA?AVUnicodeString@@PAX_N@Z,0x00220E30,callee of ?rva00406BF3@Rva00406BB0@@QAE?AUTreeHintRef00217D4C@@XZ
 ?rva00399370@CastleBehavior@@QAEXXZ,0x00399370,Native REL32 at CastleBehavior DoXfer RVA00399665 calls00399370 with the unchanged CastleBehavior receiver. Ghidra130B boundary VA00799370..007993F2 ends RET0; WorldBuilder equivalent unnamed eb9110. No existing owner name. PolygonTrigger loading role evidenced by constructor2E3EB8 and registration39865E; semantic method name unresolved.
 ?calculateThreatLevel@ThreatFinder@@QAEXXZ,0x003ECFBC,callee of ?getThreatForPlayer@ThreatFinder@@QAE?AUThreatInfo@@PAVPlayer@@H0@Z
 ?rva003ECA81@Rva003ECA4BElement@@QAEXPBV1@@Z,0x003ECA81,callee of ?getThreatForPlayer@ThreatFinder@@QAE?AUThreatInfo@@PAVPlayer@@H0@Z

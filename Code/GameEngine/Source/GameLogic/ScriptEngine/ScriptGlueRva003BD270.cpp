@@ -46,7 +46,7 @@ extern GameLogic *TheGameLogic;
 void ScriptActions::rva003BD2A6(bool value)
 {
 	if (TheGameLogic->m_field11C != (unsigned char)value) {
-		TheGameLogic->rva0023D68E(value);
+		TheGameLogic->rva0023D68E((bool &)value); // retail pushes the same ebx it compared as bl
 		TheGameLogic->m_field11C = (unsigned char)value;
 	}
 }

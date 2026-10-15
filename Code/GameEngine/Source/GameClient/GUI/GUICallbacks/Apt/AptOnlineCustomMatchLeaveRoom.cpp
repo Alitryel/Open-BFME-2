@@ -17,10 +17,10 @@
 // AptMpGameSetup::rva0043DC0F 0x0043DC0F OpenConnectionScreen 0x0059F37C
 // AptOnline::rva00516F08 0x00516F08 PeerRequest ctor 0x001EF661 / dtor
 // 0x001EF723 basic_string::operator=(const char *) 0x0001B790 AsciiString
-// ctor 0x00037BA0 PopulateLobbyComboBox 0x0059FD3A Rva00524EF4AptCall
+// ctor 0x00037BA0 PopulateLobbyComboBox 0x0059FD3A PopulateGamesListBox
+// 0x005A061B Rva00524EF4AptCall
 // 0x00524EF4 Rva005FB5E6AptCall 0x005FB5E6; pinned GameWindowManager
-// 0x002C5761 PopulateGamesListBox (pin spelling Rva005A0D61::rva005A061B)
-// and 0x00437421. Views and offsets follow
+// 0x002C5761 and 0x00437421. Views and offsets follow
 // AptOnlineCustomMatchCallbacks.cpp. WorldBuilder 0x014EDC70 has the same
 // calls (it names PopulateGamesListBox). The method name is address-derived.
 // The two guards are separate early returns: a combined || test moves the
@@ -140,12 +140,6 @@ public:
 	void rva0043DC0F();
 };
 
-class Rva005A0D61
-{
-public:
-	void rva005A061B();
-};
-
 class CustomMatchScreen
 {
 public:
@@ -167,6 +161,7 @@ public:
 	bool rva005A1EEE();
 	void OpenConnectionScreen(bool open);
 	void PopulateLobbyComboBox();
+	void PopulateGamesListBox();
 
 private:
 	unsigned char m_70[0x488 - 0x70]; // +0x70 game setup panel
@@ -200,7 +195,7 @@ bool AptOnlineCustomMatch::rva005A1EEE()
 	TheGameSpyPeerMessageQueue->addRequest(req);
 	TheGameSpyInfo->setRoomName("");
 	PopulateLobbyComboBox();
-	((Rva005A0D61 *)this)->rva005A061B();
+	PopulateGamesListBox();
 	void *movie = m_owner->m_movie;
 	Rva00524EF4AptCall((Rva00222A8BTarget *)g_bfmeAptWindowManager, movie, v10(), "ClosePassword");
 	movie = m_owner->m_movie;

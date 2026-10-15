@@ -30,12 +30,17 @@ void **vector<void*>::end()
 typedef int Int;
 typedef bool Bool;
 
-// vtable 0x00BC4E34#6: raise the byte at +0x1464, then 0x002D7E68 on this.
+class Radar
+{
+public:
+	void rva002D7E68(void *terrainParam);
+};
+
+// vtable 0x00BC4E34#6: raise the byte at +0x1464, then Radar 0x002D7E68 on this.
 class Rva0004E3A6
 {
 public:
 	void rva0004E3A6(Int value);
-	void rva002D7E68(Int value);
 private:
 	char m_pad00[0x1464];
 	Bool m_1464;
@@ -43,7 +48,7 @@ private:
 void Rva0004E3A6::rva0004E3A6(Int value)
 {
 	m_1464 = true;
-	rva002D7E68(value);
+	((Radar *)this)->rva002D7E68((void *)value);
 }
 
 // vtable 0x00BCBC40#7: 0x000B5FE6 on this when the field at +0x50 is set.

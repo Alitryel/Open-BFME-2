@@ -427,12 +427,6 @@ public:
 	bool rva0043DBCA();
 };
 
-class Rva005A0D61
-{
-public:
-	void rva005A061B();
-};
-
 class Rva005A5B38Box
 {
 public:
@@ -670,6 +664,7 @@ public:
 	virtual void rva005A61C6();
 	virtual int rva005A52FE(GameWindow *window, unsigned int msg, unsigned int mData1, unsigned int mData2);
 	void UpdatePings();					 // 0x0059ED8B
+	void PopulateGamesListBox();		 // rowed 0x005A061B
 	void rva005A2899();					 // unrowed 0x005A2899 (990 bytes), pinned
 	bool rva005A1EEE();					 // rowed 0x005A1EEE
 	void UpdateHostStartGameButton();	   // rowed 0x0059EEE2
@@ -1797,7 +1792,7 @@ void Rva005A5B38Box::DoRefresh(int ladder, void *password)
 		if (TheGameSpyConfig->v13())
 		{
 			TheGameSpyInfo->leaveRoom();
-			((Rva005A0D61 *)this)->rva005A061B();
+			((AptOnlineCustomMatch *)this)->PopulateGamesListBox();
 			PeerRequest req;
 			req.peerRequestType = 7;
 			req.isStagingRoom = true;
