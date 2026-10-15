@@ -1,36 +1,43 @@
-// ?Rva006B3100@@YAPAURva006B3100Pair@@PAU1@PBURva006B3100Segment@@PBU1@@Z
-// partial score=0.94 date=2026-10-13
-// ?Rva006B3100@@YAPAURva006B3100Pair@@PAU1@PBURva006B3100Segment@@PBU1@@Z
-// partial score=0.94 date=2026-10-10
-#include <cstring>
-// ?Rva006B3100@@YAPAURva006B3100Pair@@PAU1@PBURva006B3100Segment@@PBU1@@Z
-// partial score=0.92 date=2026-10-09
+// ?ClosestPointOnLineSegment@@YA?AVCoord2D@@ABULineSegment2D@@ABV1@@Z
+// partial score=0.967 date=2026-10-15
 // cl: /O2 /MD /EHsc
-// Closest-point projection semantic guide: BFME1 f98983a7d
-// TerrainLogicRva001A8170BeaconPathPoint.cpp; native 6B3100..6B3200 proves
-// the two-component segment and clamp contract. Export1138 independently names ClosestPointOnLineSegment returning Coord2D
-// from LineSegment2D and Coord2D references; this local nontrivial carrier
-// expresses the witnessed hidden-output/copy ABI rather than full class layout.
-// Existing subtraction/addition providers prove the four-word cdecl ABI;
-// their adjacent two float words are passed as one eight-byte value here.
-struct Rva006B3100Pair { float x,y; Rva006B3100Pair(){} ~Rva006B3100Pair(){} Rva006B3100Pair(const Rva006B3100Pair &p){std::memcpy(this,&p,8);} };
-struct Rva006B3100Segment { Rva006B3100Pair begin,end; };
-void Rva001040AESub(float*,float,float,const float*);
-void Rva0007DEC8Add(float*,float,float,const float*);
-typedef void (__cdecl *PairOperation)(Rva006B3100Pair*,Rva006B3100Pair,const Rva006B3100Pair*);
-Rva006B3100Pair *Rva006B3100(Rva006B3100Pair *result,const Rva006B3100Segment *segment,const Rva006B3100Pair *point)
+// ?ClosestPointOnLineSegment@@YA?AVCoord2D@@ABULineSegment2D@@ABV1@@Z, retail
+// 0x006B3100..0x006B3200 (export 1138 names it). WB twin 0x6F6610 (file
+// MathCoord2D.h asserts): operator- twice, dot products, `projection /= length`,
+// a copy of direction scaled by operator*= and operator+ with the start.
+// Callees: the rowed ??G/??H 0x001040AE / 0x0007DEC8 (rowed with the
+// MathCoord2D view name; BFME 2's class is Coord2D per the exports).
+// Residue (nd6, size exact): the y product's fmul/fstp and the final fstp st(0)
+// schedule before the begin.y arg copy / result push; retail interleaves them.
+class Coord2D
 {
- Rva006B3100Pair direction,offset;
- ((PairOperation)&Rva001040AESub)(&direction,segment->end,&segment->begin);
- ((PairOperation)&Rva001040AESub)(&offset,*point,&segment->begin);
- float projection=direction.x*offset.x+direction.y*offset.y;
- if(projection<=0.0f) { *result=segment->begin; return result; }
- float length=direction.x*direction.x+direction.y*direction.y;
- if(projection>=length) { *result=segment->end; return result; }
- double factor=projection/length;
- Rva006B3100Pair scaled;
- scaled.x=direction.x*factor;
- scaled.y=direction.y*factor;
- ((PairOperation)&Rva0007DEC8Add)(result,segment->begin,&scaled);
- return result;
+public:
+	Coord2D() {}
+	Coord2D(const Coord2D &that) : x(that.x), y(that.y) {}
+	~Coord2D() {}
+	Coord2D &operator*=(float s) { x *= s; y *= s; return *this; }
+	float x;
+	float y;
+};
+Coord2D operator-(Coord2D left, const Coord2D &right);
+Coord2D operator+(Coord2D left, const Coord2D &right);
+
+struct LineSegment2D {
+	Coord2D m_start;
+	Coord2D m_end;
+};
+Coord2D ClosestPointOnLineSegment(const LineSegment2D &segment, const Coord2D &point)
+{
+	Coord2D direction = segment.m_end - segment.m_start;
+	Coord2D offset = point - segment.m_start;
+	float projection = direction.x * offset.x + direction.y * offset.y;
+	if (projection <= 0.0f)
+		return segment.m_start;
+	float length = direction.x * direction.x + direction.y * direction.y;
+	if (projection >= length)
+		return segment.m_end;
+	projection /= length;
+	Coord2D scaled(direction);
+	scaled *= projection;
+	return segment.m_start + scaled;
 }

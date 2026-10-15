@@ -1,4 +1,6 @@
 // ?rva00547CB6@MoveToFormationGroupOrder@@QAEXXZ
+// partial score=0.95 date=2026-10-15
+// ?rva00547CB6@MoveToFormationGroupOrder@@QAEXXZ
 // partial score=0.829 date=2026-10-15
 // ?rva00547CB6@MoveToFormationGroupOrder@@QAEXXZ
 // partial score=0.85 date=2026-10-13
@@ -7,15 +9,13 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /I.
 // stlport
 // NEW 00547CB6..00547DE9, 307B: populate formation group-order positions.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 #include <list>
 #include <hash_map>
 #include <string>
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 class Object{public:char pad[0x74];ObjectID id;};
-class Rva001EB769{public:void rva001EB769();};
+class Rva001EB769{public:void rva001EB769() throw();};
 namespace _STL{
 template<> inline _List_base<Object*,allocator<Object*> >::~_List_base(){((Rva001EB769*)this)->rva001EB769();}
 }
@@ -36,16 +36,15 @@ class MoveToFormationGroupOrder{public:void rva00547CB6();
  char pad0[4];ObjectID*first,*last;char padC[0x18-0xc];int kind;Coord3D origin;float angle;bool flag2C;char pad2D[3];ObjectCoord3DMap positions;bool flag44;
 };
 void MoveToFormationGroupOrder::rva00547CB6(){
-	_ReadWriteBarrier();
  _STL::list<Object*>objects;
- for(ObjectID*p=first;p!=last;++p){Object*object=TheGameLogic->findObjectByID(*p);if(object)objects.insert(objects.end(),object);}
+ for(ObjectID*p=first;p!=last;++p){Object*object=TheGameLogic->findObjectByID(*p);if(object)objects.push_back(object);}
  if(!objects.empty()){
   Rva00424E77Result*formation=((Rva00424E77Manager*)TheFormationAssistant)->rva00424E77(kind,&objects,&origin);
   if(formation){
    formation->rva0042245F(angle);formation->rva0042550E(&origin);
    for(Rva00424E77Slot*p=formation->begin;p!=formation->end;++p){
     Object*object=TheGameLogic->findObjectByID(p->id);
-    if(object){Coord3D position={origin.x+p->x,origin.y+p->y,origin.z};ObjectID id=object->id;positions[id]=position;}
+    if(object){const Coord3D &o=origin;const Rva00424E77Slot &slot=*p;Coord3D position={o.x+slot.x,o.y+slot.y,o.z};ObjectID id=object->id;positions[id]=position;}
    }
    union DestroyAdapter {void(__stdcall*provider)(_STL::basic_string<char>*);void(Rva00423FBDReceiverView::*member)(Rva00424E77Result*);};
    DestroyAdapter destroy;destroy.provider=&Rva00423FBDDelete;
