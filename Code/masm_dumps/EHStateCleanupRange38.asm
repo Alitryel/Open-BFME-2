@@ -2789,29 +2789,7 @@ PUBLIC ?rva007873e9@@YAXXZ
     jmp ??1EmissionVelocityInfo@FXParticleSystem@@UAE@XZ
 ?rva007873e9@@YAXXZ ENDP
 
-; Unwind@00b87652 at RVA 0x00787652; 20-byte masked-add funclet tail-jumps to apply.
-PUBLIC ?rva00787652@@YAXXZ
-?rva00787652@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 4
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ?apply@Rva00238D97DwordImmSetter@@QAEXXZ
-?rva00787652@@YAXXZ ENDP
 
-; Unwind@00b87666 at RVA 0x00787666; 20-byte masked-add funclet tail-jumps to apply.
-PUBLIC ?rva00787666@@YAXXZ
-?rva00787666@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 8
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ?apply@Rva004EDFFFDwordImmSetter@@QAEXXZ
-?rva00787666@@YAXXZ ENDP
 
 ; Unwind@00b8768e at RVA 0x0078768E; 20-byte masked-add funclet tail-jumps to dtor.
 PUBLIC ?rva0078768e@@YAXXZ
