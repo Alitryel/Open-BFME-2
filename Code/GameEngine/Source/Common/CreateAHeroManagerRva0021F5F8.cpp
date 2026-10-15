@@ -73,7 +73,7 @@ struct Rva0021DB35
 class BFME2WideConcatPair
 {
 public:
-	__forceinline BFME2WideConcatPair(const UnicodeString &left, const UnicodeString &right) : m_left(&left), m_right(&right) {}
+	__forceinline BFME2WideConcatPair(const UnicodeString &left, const UnicodeString &right) { m_right = &right; m_left = &left; }
 	operator UnicodeString();			// 0x0021C3F7 (pinned UnicodeString spelling)
 	const UnicodeString *m_left;
 	const UnicodeString *m_right;
