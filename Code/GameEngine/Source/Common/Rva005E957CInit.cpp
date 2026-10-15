@@ -55,3 +55,39 @@ void Rva005E957C::rva005E95E9()
 	w->m_iface->f1();
 	*(unsigned char *)((char *)this + 0x10) = 0;
 }
+
+// Native 5E95A8..5E95B9 (17B), between rva005E957C and rva005E95E9: fires and
+// clears a one-shot member-function callback held by the record at +0x08 -
+// the pointer-to-member at +0x1C is read, cleared, and invoked on the
+// record's +0x00 target (single-inheritance PMF: ECX = target, tail jmp to
+// the code pointer). Orphan .text hole with no surviving reference; owner,
+// record and name are address-derived.
+class Rva005E95A8Target
+{
+public:
+	void dummy();
+};
+typedef void (Rva005E95A8Target::*Rva005E95A8Callback)();
+
+struct Rva005E95A8Record
+{
+	Rva005E95A8Target *m_target;	// +0x00
+	char m_pad04[0x1c - 0x04];
+	Rva005E95A8Callback m_callback;	// +0x1C
+};
+
+class Rva005E95A8
+{
+public:
+	void rva005E95A8();
+private:
+	char m_pad00[0x08];
+	Rva005E95A8Record *m_record;	// +0x08
+};
+
+void Rva005E95A8::rva005E95A8()
+{
+	Rva005E95A8Callback callback = m_record->m_callback;
+	m_record->m_callback = 0;
+	(m_record->m_target->*callback)();
+}

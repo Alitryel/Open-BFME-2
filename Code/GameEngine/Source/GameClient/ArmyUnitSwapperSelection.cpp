@@ -182,6 +182,18 @@ bool StrategicInGameUI::CanCancelAnyUpgrades(LivingWorldArmy *army,Rva005F56B0Se
 static __declspec(noinline) int Rva005F5A32(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
  return (StrategicInGameUI::CanCancelAnyUpgrades(army,selection)||StrategicInGameUI::CanUpgradeAny(army,selection))?1:0;
 }
+// Native 5E39E6..5E39F3 (13B): the army summary lookup these workers inline
+// (army+0x78 summary, rowed Rva0040CB3AIndexedField::get 0x0040CBB8) as an
+// out-of-line file-static with the army in EAX. No call to it survives in the
+// image; the anchor below only forces cl to emit it in that convention.
+// Identity unproven; address-derived names.
+static __declspec(noinline) int Rva005E39E6(LivingWorldArmy *army,int entryID) {
+ return army->summary->get(entryID);
+}
+// ?Rva005E39E6Anchor absent-from-retail
+int Rva005E39E6Anchor(LivingWorldArmy *army,int entryID) {
+ return Rva005E39E6(army,entryID);
+}
 // ?Rva005F5A32Anchor absent-from-retail
 int Rva005F5A32Anchor(LivingWorldArmy *army,Rva005F56B0Selection *selection) {
  return Rva005F5A32(army,selection);
