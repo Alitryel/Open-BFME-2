@@ -12,6 +12,14 @@
 // The source split is a code-generation choice; it asserts no extra retail
 // function. All callees already have verified owners; no pins are added.
 #include <map>
+
+// Keep STLport's signed comparison inline without emitting another
+// conflicting external copy; stlport_list_int.cpp owns the retail body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool less<int>::operator()(const int &left, const int &right) const
+{ return left < right; }
+}
 enum NameKeyType { NAMEKEY_INVALID = 0 };
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 

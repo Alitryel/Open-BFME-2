@@ -6,6 +6,14 @@ extern "C" void _ReadWriteBarrier(void);
 #include <vector>
 #include <set>
 #include <map>
+
+// Keep STLport's signed comparison inline without emitting another
+// conflicting external copy; stlport_list_int.cpp owns the retail body.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool less<int>::operator()(const int &left, const int &right) const
+{ return left < right; }
+}
 // Keep the inlined node comparison local; this unit's incidental
 // tree-base operator!= copy conflicts with the selected provider.
 namespace _STL {
