@@ -21,13 +21,17 @@ public:
 		releaseBuffer();
 	}
 	void concat(const StringBase<T> &str);
+private:
+	friend class W3DDisplay;
 	~StringBase() { releaseBuffer(); }
 };
 
-// Retail teardown calls use the rowed releaseBuffer worker at RVA 0x00036410.
-// Existing narrow teardown aliases bind this declaration to that provider;
-// emitting another forwarding destructor would override them at link time.
-template <> StringBase<char>::~StringBase();
+// Retail ordinary teardown calls releaseBuffer36410; return-value
+// cleanup75D142 calls the five-byte private StringBase destructor48BA39.
+// Keeping that destructor inline permits the worker call at ordinary
+// exits while giving the EH return-value callback its actual wrapper.
+// The friend grants access only for this address-named by-value ABI
+// view; the original method return type remains unproven.
 
 class GameLODManager
 {
