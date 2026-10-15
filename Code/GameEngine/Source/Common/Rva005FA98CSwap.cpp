@@ -11,8 +11,10 @@
 // (b and c are compared through edx; no esi/edi copy of this), i.e. the
 // compiler knew 0x005FA8F5 leaves ecx alone. MSVC only tracks callee register
 // use for out-of-line functions defined earlier in the same TU, so the find
-// body (identical to Rva005FA8F5Find.cpp) is defined here ahead of the caller;
-// /Gy makes the duplicate a COMDAT.
+// body is defined here ahead of the caller. Its existing 39-byte retail row
+// belongs here too; the redundant Rva005FA8F5Find.cpp owner was removed.
+// Target: search stride-8 keys at +0x34 using the signed count at +0x4C,
+// returning the matching entry or one-past-end (calls at 0x005FA9AE/5FA9B8).
 struct Rva005FA8F5Entry
 {
 	int m_key;
