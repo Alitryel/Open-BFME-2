@@ -111,6 +111,8 @@ struct Q1ReceiverHashPayload
 {
 	int m_unused;
 	int m_flags;
+	Q1ReceiverKey m_key;			// +0x08
+	Q1ReceiverKey *m_dependencies;	// +0x0C, null-terminated
 };
 
 // Hash payload as m009F0E50 sees it: the flag dword at +4 carries bit 26 as
@@ -271,6 +273,48 @@ void Q1Receiver0134FAAC::m009F0D40(int value)
 			found->second->m_flags |= 0x04000000;
 
 		++current;
+	}
+}
+
+// WB 0x01678D00 AssetManagerImpl::AddDependentAssets, retail 0x006217F0
+// (513 bytes, ret 4): grows the caller's key set to its dependency closure.
+// Each pass copies the frontier (0x009EE8E0), clears the frontier, and for
+// every non-null key of the copy looks its payload up in the +0x4C table
+// (the key read straight from the tree node, as m009F0D40 does) and adds
+// every listed dependency not yet in the caller's set to both sets.
+void Q1Receiver0134FAAC::m009EFD40(Q1ReceiverLocalSet *source)
+{
+	Q1ReceiverLocalSet frontier = { source->m_set.get(), 0, true };
+	Q1ReceiverPtrSet &sourceKeys = (Q1ReceiverPtrSet &)source->m_set.get();
+	Q1ReceiverPtrSet &frontierKeys = (Q1ReceiverPtrSet &)frontier.m_set.get();
+	while (!frontierKeys.empty())
+	{
+		Q1ReceiverLocalSet previous = { frontier.m_set.get(), 0, true };
+		frontierKeys.clear();
+		frontier.m_one = true;
+		Q1ReceiverPtrSet &previousKeys = (Q1ReceiverPtrSet &)previous.m_set.get();
+		for (Q1ReceiverPtrSet::const_iterator it = previousKeys.begin();
+			it != previousKeys.end(); ++it)
+		{
+			Q1ReceiverSetNode *node = (Q1ReceiverSetNode *)it._M_node;
+			if (!node->m_key)
+				continue;
+			Q1ReceiverHashTable::const_iterator found = m_table.find(node->m_key);
+			if (found == m_table.end())
+				continue;
+			Q1ReceiverHashPayload *asset = found->second;
+			if (!asset->m_dependencies)
+				continue;
+			for (int n = 0; asset->m_dependencies[n]; ++n)
+			{
+				Q1ReceiverKey dependency = asset->m_dependencies[n];
+				if (sourceKeys.find(dependency) == sourceKeys.end())
+				{
+					frontierKeys.insert(dependency);
+					sourceKeys.insert(dependency);
+				}
+			}
+		}
 	}
 }
 

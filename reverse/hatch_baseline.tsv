@@ -23580,7 +23580,7 @@ pin	reverse/symbols.csv	0x00068283	1
 pin	reverse/symbols.csv	0x00068395	1
 pin	reverse/symbols.csv	0x00068436	1
 pin	reverse/symbols.csv	0x00068E15	58
-pin	reverse/symbols.csv	0x000692F5	1
+pin	reverse/symbols.csv	0x000692F5	2	allow=c75c845cdb9835b9f4c08b1b4fde1cd537c142b9
 pin	reverse/symbols.csv	0x00069F22	1
 pin	reverse/symbols.csv	0x00069F75	1
 pin	reverse/symbols.csv	0x0006A1E4	1
