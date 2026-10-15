@@ -1,9 +1,5 @@
 // ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
-// partial score=0.9544510602102193 date=2026-10-14
-// ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
-// partial score=0.9563570083237135 date=2026-10-14
-// ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
-// partial score=0.9045927228090382 date=2026-10-09
+// partial score=0.93 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/GameEngine/Source/Common
 // Native 27B18C..27B47F RET4; unnamed WB CB7E40 supplies damage/EVA control flow.
 // BF1 f989 / ZH Drawable lack this BF2 notification method; existing partition
@@ -38,7 +34,7 @@ struct DamageInfo
  char pad0[8];
  ObjectID source;
  unsigned playerMask;
- volatile int damageType;
+ int damageType;
  int p14;
  int p18;
  int p1c;
@@ -96,14 +92,14 @@ class Eva
 {
  public:bool isEventBlockedByTimeout(EvaEventID)const;
  bool isEventAboutToPlay(EvaEventID)const;
- void reportEvaEvent(int,const Coord3D*,int);
+ bool reportEvaEvent(EvaEventID,const Coord3D*,const Coord3D*);
  
 }
 ;
 extern Eva*TheEva;
 class Radar
 {
- public:void rva002D8B9D(Object*);
+ public:void tryUnderAttackEvent(const Object*);
  
 }
 ;
@@ -202,7 +198,7 @@ void Drawable::rva0027B18C(DamageInfo*damage)
  templ=data;
  if(damage->report)
  {
-  if(obj->radarInfo)TheRadar->rva002D8B9D(obj);
+  if(obj->radarInfo)TheRadar->tryUnderAttackEvent(obj);
   if(templ)
   {
    Object*attacker=TheGameLogic->findObjectByID(damage->source);
@@ -233,8 +229,8 @@ void Drawable::rva0027B18C(DamageInfo*damage)
    if(event!=-1)
    {
     unsigned now=TheGameLogic->frame;
-    if(nextFrame<=now&&(TheEva->isEventBlockedByTimeout((EvaEventID)event)||TheEva->isEventAboutToPlay((EvaEventID)event))&&other!=-1)TheEva->reportEvaEvent(other,&obj->position,0);
-    else TheEva->reportEvaEvent(event,&obj->position,0);
+    if(nextFrame<=now&&(TheEva->isEventBlockedByTimeout((EvaEventID)event)||TheEva->isEventAboutToPlay((EvaEventID)event))&&other!=-1)TheEva->reportEvaEvent((EvaEventID)other,&obj->position,0);
+    else TheEva->reportEvaEvent((EvaEventID)event,&obj->position,0);
     float range=templ->range;
     if(range<=0.0f||templ->event580==-1)((Rva00271B03*)this)->rva00271B03();
     else
