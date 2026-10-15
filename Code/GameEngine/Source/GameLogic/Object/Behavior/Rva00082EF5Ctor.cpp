@@ -89,6 +89,14 @@ Rva00082EF5::~Rva00082EF5()
 // and three texture references (+0x44..+0x4C, Release_Ref 0x0021ED10).
 // Member roles are structural inference.
 #include <set>
+// Keep typed iterator comparisons local; do not emit the incompatible
+// out-of-line base-iterator comparison used by other STLport units.
+namespace _STL {
+ template<class T, class L, class R>
+ static inline bool operator!=(const _Rb_tree_iterator<T, L>& a,
+                               const _Rb_tree_iterator<T, R>& b)
+ { return a._M_node != b._M_node; }
+}
 class Rva00081F03 { public: void rva00081F03(); };
 class TextureBaseClass { public: void Release_Ref(); };
 class TextureClass;

@@ -29,6 +29,14 @@
 // dead m2 stores (bfme2_mesh_material_pass.cpp keeps the same switch).
 #include <vector>
 #include <set>
+// Keep typed iterator comparisons local; do not emit the incompatible
+// out-of-line base-iterator comparison used by other STLport units.
+namespace _STL {
+ template<class T, class L, class R>
+ static inline bool operator!=(const _Rb_tree_iterator<T, L>& a,
+                               const _Rb_tree_iterator<T, R>& b)
+ { return a._M_node != b._M_node; }
+}
 
 typedef int Int;
 typedef bool Bool;
