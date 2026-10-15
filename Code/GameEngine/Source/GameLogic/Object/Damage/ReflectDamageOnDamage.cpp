@@ -43,7 +43,8 @@ public:
 class DamageInfo : public Rva00263895Member
 {
 public:
-	DamageInfo() throw() {}
+	// Inline the native member construction without publishing a competing wrapper.
+	__declspec(dllimport) __forceinline DamageInfo() throw() {}
 };
 
 class Object
