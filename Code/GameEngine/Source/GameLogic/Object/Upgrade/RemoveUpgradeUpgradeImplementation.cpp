@@ -45,6 +45,12 @@ enum ScienceType
 	SCIENCE_DUMMY = 0
 };
 
+// Retail calls the shared ScienceType push_back provider at 0x002E01C6.
+// This caller must not emit its own overflow/allocation dependency chain.
+namespace _STL {
+template <> void vector<ScienceType>::push_back(const ScienceType &);
+}
+
 enum NameKeyType
 {
 	NAMEKEY_INVALID = 0
