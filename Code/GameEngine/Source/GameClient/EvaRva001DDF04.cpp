@@ -21,6 +21,11 @@
 // Retail keeps edx (priority) and xmm0/xmm1 live across the call to 0x001DCE4C,
 // so that callee's single out-of-line definition and ledger row live here.
 #include <map>
+namespace _STL {
+template <class T, class L, class R>
+static inline bool operator!=(const _Rb_tree_iterator<T, L>& a, const _Rb_tree_iterator<T, R>& b)
+{ return a._M_node != b._M_node; }
+}
 #include "ascii_string.h"
 #include "Common/BfmeAudioEventPrefix136.h"
 #include "../Common/GameLogicObjectLookupView.h"
