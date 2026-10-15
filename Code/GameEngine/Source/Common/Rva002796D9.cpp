@@ -1,8 +1,13 @@
 // cl: /O1 /MD
+// 0x00273808 (drawAmmo), 0x00273F74, 0x00277669 and 0x002778E1 are rowed on Drawable.
 class Drawable
 {
 public:
 	void rva00273755();
+	void drawAmmo();
+	void rva00273F74();
+	void rva00277669();
+	void rva002778E1();
 };
 class Rva0027601BHost
 {
@@ -19,25 +24,10 @@ class Rva002779CEHost
 public:
 	void rva002779CE();
 };
-class Rva00273F74Host
-{
-public:
-	void rva00273F74();
-};
 class Rva00275F3FHost
 {
 public:
 	void rva00275F3F();
-};
-class Rva00273808Host
-{
-public:
-	void rva00273808();
-};
-class Rva00277669Host
-{
-public:
-	void rva00277669();
 };
 class Rva00279074Host
 {
@@ -49,7 +39,6 @@ class Rva00273C47Host
 public:
 	void rva00273C47();
 };
-void __cdecl rva002778E1();
 class Rva002796D9Host
 {
 public:
@@ -67,10 +56,10 @@ void Rva002796D9Host::drawIconLayer(int v)
 		((Rva002779CEHost *)this)->rva002779CE();
 		break;
 	case 1:
-		((Rva00273F74Host *)this)->rva00273F74();
+		((Drawable *)this)->rva00273F74();
 		((Rva00275F3FHost *)this)->rva00275F3F();
-		((Rva00273808Host *)this)->rva00273808();
-		((Rva00277669Host *)this)->rva00277669();
+		((Drawable *)this)->drawAmmo();
+		((Drawable *)this)->rva00277669();
 		break;
 	case 2:
 		((Rva00279074Host *)this)->rva00279074();
@@ -81,7 +70,7 @@ void Rva002796D9Host::drawIconLayer(int v)
 	case 4:
 		return;
 	case 5:
-		rva002778E1();
+		((Drawable *)this)->rva002778E1();
 		break;
 	default:
 		break;
