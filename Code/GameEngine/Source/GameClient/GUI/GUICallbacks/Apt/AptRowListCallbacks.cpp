@@ -173,7 +173,8 @@ public:
 class __declspec(novtable) Rva005248D0
 {
 public:
-	__forceinline Rva005248D0() { ((Rva002D2C34 *)this)->rva002D2C34(); }
+	// Native construction is supplied by the rowed Rva005248D0 owner.
+	Rva005248D0();
 	virtual ~Rva005248D0();
 
 	AptCommandMapAdder m_commandMaps; // +0x04
