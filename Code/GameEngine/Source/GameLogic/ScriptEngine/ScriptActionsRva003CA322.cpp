@@ -26,7 +26,8 @@ private:
 class Team
 {
 public:
-	void rva003A178D(ObjectTypes *types, int count, Team *otherTeam);
+	// ?rva003A178D@Team@@QAEHPAVObjectTypes@@HPAV1@@Z (0x003A178D, returns int; ignored here)
+	int rva003A178D(ObjectTypes *types, int count, Team *otherTeam);
 };
 
 class ScriptEngine

@@ -427,7 +427,9 @@ class TooltipRecord: public TooltipBase { public:
  UnsignedInt objectID,uiContext;
 };
 struct BfmeMsgDN;
+class BfmeThingGX;
 class ControlBar { public: void bfmeShowDN(BfmeMsgDN*); };
+class Rva00405A50 { public: void rva00405C04(BfmeThingGX*); };
 extern ControlBar* TheControlBar;
 bool CanSelectDrawable(const Drawable*,bool);
 
@@ -612,7 +614,7 @@ void InGameUI::createMouseoverHint(const GameMessage* msg)
           obj->getTemplate()->testByte(1,4) ||obj->getTemplate()->testByte(0,0x80))) ||
           obj->getTemplate()->testByte(6,4)) {
         { TooltipRecord record(obj->getID(),m_tooltipContext);
-        TheControlBar->bfmeShowDN((BfmeMsgDN*)&record); }
+        reinterpret_cast<Rva00405A50*>(TheControlBar)->rva00405C04((BfmeThingGX*)&record); }
         if(!TheGlobalData->tooltipFlag && !warehouseModule)sendOrdinaryTooltip=false;
        }
       }
