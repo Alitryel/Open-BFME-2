@@ -34,7 +34,13 @@ template <> inline unsigned int *__copy_ptrs<unsigned int *, unsigned int *>(
 namespace _STL {
 template <> vector<unsigned int>::vector(const vector<unsigned int> &);
 }
-template class _STL::vector<unsigned int, _STL::allocator<unsigned int> >;
+// Only the four rowed members are instantiated: a whole-class instantiation
+// also emitted /Od copies of every other member (~vector, begin, size, ...),
+// which won the link order over the optimised copies the other units share.
+template void _STL::vector<unsigned int, _STL::allocator<unsigned int> >::_M_set(unsigned int *, unsigned int *, unsigned int *);
+template _STL::vector<unsigned int, _STL::allocator<unsigned int> >::vector(const _STL::allocator<unsigned int> &);
+template void _STL::vector<unsigned int, _STL::allocator<unsigned int> >::clear();
+template unsigned int *_STL::vector<unsigned int, _STL::allocator<unsigned int> >::erase(unsigned int *, unsigned int *);
 
 // Hashtable constructors across the tree call _Vector_base<void *>(const
 // allocator &) out of line for their bucket vector, and retail lands every one
