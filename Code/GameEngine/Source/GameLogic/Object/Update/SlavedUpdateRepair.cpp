@@ -261,12 +261,28 @@ private:
 };
 
 // The 3D distance squared from an object's position, rowed at 0x001E435D
-// under its BFME 1 donor's names.
-class BfmeVec3EJ;
+// under its BFME 1 donor's names. Its body is visible here (the same inline
+// noinline COMDAT HordeDispatchSpecialPower.cpp emits): doGuardLogic's retail
+// code reads the guard wander range only after the call, which VC7.1 does
+// only when it can see the callee writes no memory.
+class BfmeVec3EJ
+{
+public:
+	Real x, y, z;
+};
 class Gen_000E5A50
 {
 public:
-	Real bfmeDistanceSquared(const BfmeVec3EJ *point) const;
+	inline __declspec(noinline) Real bfmeDistanceSquared(const BfmeVec3EJ *point) const
+	{
+		Real dx = x - point->x;
+		Real dy = y - point->y;
+		Real dz = z - point->z;
+		return dx * dx + dy * dy + dz * dz;
+	}
+private:
+	char m_pad[0x38];
+	Real x, y, z;
 };
 
 class Matrix3D;
@@ -805,6 +821,59 @@ void SlavedUpdate::doScoutLogic(const Coord3D *mastersDestination)
 	if (ai)
 	{
 		ai->aiMoveToPosition(&scoutPosition, CMD_FROM_AI);
+	}
+}
+
+// We are ordered to guard a position (Zero Hour doGuardLogic, retail
+// 0x004A1FDC, 360 bytes, logic random line 543). BFME2 additions read from
+// retail: a returning slave (status 30) within the squared wander range drops
+// the status and model condition 342; idle guards issue aiIdle before the
+// move, otherwise the slave attacks the position with its current weapon's
+// shot count (Weapon +0x34) through the 0x00295A0F command.
+void SlavedUpdate::doGuardLogic(Coord3D *pinnedPosition, Bool idle)
+{
+	const SlavedUpdateModuleData *data = getSlavedUpdateModuleData();
+	Object *me = getObject();
+
+	if (me->testStatus(OBJECT_STATUS_SLAVE_RETURNING))
+	{
+		if (me->getDistanceSquared(pinnedPosition) <= sqr(data->m_guardWanderRange))
+
+		{
+			me->setStatus(OBJECT_STATUS_SLAVE_RETURNING, false);
+			me->clearModelConditionState(MODELCONDITION_SLAVE_RETURNING);
+		}
+	}
+
+	if (data->m_guardWanderRange)
+	{
+		// recalc where we want to be if we wander around
+		Real randomDirection = GameLogicRandomValueReal(0, 2 * PI, 543);
+		m_guardPointOffset.zero();
+		m_guardPointOffset.x += data->m_guardWanderRange * Cos(randomDirection);
+		m_guardPointOffset.y += data->m_guardWanderRange * Sin(randomDirection);
+
+		pinnedPosition->x += m_guardPointOffset.x;
+		pinnedPosition->y += m_guardPointOffset.y;
+		m_guardPointOffset.z = TheTerrainLogic->getGroundHeight(pinnedPosition->x, pinnedPosition->y);
+	}
+
+	AIUpdateInterface *ai = me->getAIUpdateInterface();
+	if (ai)
+	{
+		if (idle)
+		{
+			ai->aiIdle(CMD_FROM_AI);
+			ai->aiMoveToPosition(pinnedPosition, CMD_FROM_AI);
+		}
+		else
+		{
+			Int maxShotsToFire = 0;
+			const Weapon *weapon = getObject()->getCurrentWeapon();
+			if (weapon)
+				maxShotsToFire = weapon->getMaxShotCount();
+			ai->aiAttackPosition(pinnedPosition, maxShotsToFire, CMD_FROM_AI);
+		}
 	}
 }
 
