@@ -1,4 +1,4 @@
-// cl: /Oy- /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /DNDEBUG /DWIN32 /MD /EHsc /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ScriptEngine::removeObjectTypes (retail 0x002046E4, 79 bytes) and

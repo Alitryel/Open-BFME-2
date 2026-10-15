@@ -1,4 +1,4 @@
-// cl: /O1 /Oy- /G7 /MD /DNDEBUG /ICode/GameEngine/Source/Common
+// cl: /O1 /G7 /MD /DNDEBUG /ICode/GameEngine/Source/Common
 // Native46391B..4639D5 RET0; rowed release4640BE calls helper on this minus10 and established pin owns void argless ABI. Countdown E4 EC and reporter E8; notice secondary20 slotA4 then rowed Drawable hide report294D61 Object list find29B694 and GameLogic destroy242C09. Explicit search value copy preserves native register and home lifetimes; full186 exact and no new pins. Purpose and full class remain address-derived; t=4 model=gpt-6.1-sol
 // stlport
 #include <list>

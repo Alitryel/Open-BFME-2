@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD
 #include "ascii_string.h"
 
 extern "C" void _ReadWriteBarrier(void);
