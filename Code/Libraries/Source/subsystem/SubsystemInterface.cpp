@@ -404,3 +404,22 @@ template class SubsystemSlot<Rva0022C2A1Subsystem>;
 class Rva0022C316Subsystem : public SubsystemInterface {};
 template void initSubsystem<Rva0022C316Subsystem>(Rva0022C316Subsystem *&, AsciiString, Rva0022C316Subsystem *, Xfer *, const char *, const char *, const char *);
 template class SubsystemSlot<Rva0022C316Subsystem>;
+
+// Native 1B536B..1B5384 (25B), between the rowed initSubsystem and
+// loadIniFilesFromLegend: a file-static helper in cl 7.1's register
+// convention (the source vector in EDI, the destination on the stack) that
+// appends every string of one vector to another through the rowed
+// vector<AsciiString>::push_back (0x0002DBE6). No call to it survives in the
+// image; the anchor below only forces cl to emit it in that convention.
+// Identity unproven; address-derived names.
+static __declspec(noinline) void Rva001B536B(const std::vector<AsciiString> &src, std::vector<AsciiString> *dst)
+{
+	for (std::vector<AsciiString>::const_iterator it = src.begin(); it != src.end(); ++it)
+		dst->push_back(*it);
+}
+
+// ?Rva001B536BAnchor absent-from-retail
+void Rva001B536BAnchor(const std::vector<AsciiString> &src, std::vector<AsciiString> *dst)
+{
+	Rva001B536B(src, dst);
+}
