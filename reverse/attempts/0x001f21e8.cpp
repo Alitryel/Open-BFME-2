@@ -1,4 +1,6 @@
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
+// partial score=0.959259 date=2026-10-15
+// ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.96 date=2026-10-14
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.9 date=2026-10-14

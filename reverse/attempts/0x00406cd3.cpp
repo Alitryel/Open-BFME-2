@@ -1,4 +1,6 @@
 // ?rva00406CD3@Rva00406BB0@@UAE?AURva00406CD3Ptr@@XZ
+// partial score=0.8738 date=2026-10-15
+// ?rva00406CD3@Rva00406BB0@@UAE?AURva00406CD3Ptr@@XZ
 // partial score=0.85 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc
 // 0x00406CD3 (75B): Rva00406BB0's clone slot - new 12-byte copy through the
