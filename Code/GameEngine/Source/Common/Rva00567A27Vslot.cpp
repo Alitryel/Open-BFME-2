@@ -17,10 +17,11 @@ struct BfmeMsgDN
 struct BfmeWorldRV;
 extern struct BfmeWorldRV *g_bfmeWorldRV;
 
-class ControlBar
+class BfmeThingGX;
+class Rva00405A50
 {
 public:
-	void bfmeShowDN(struct BfmeMsgDN *msg);
+	void rva00405C04(BfmeThingGX *thing);
 };
 
 struct Rva00567A27Holder
@@ -42,5 +43,5 @@ private:
 void Rva00567960::rva00567A27()
 {
 	BfmeMsgDN msg(m_08->m_14, m_0c);
-	((ControlBar *)g_bfmeWorldRV)->bfmeShowDN((struct BfmeMsgDN *)&msg);
+	((Rva00405A50 *)g_bfmeWorldRV)->rva00405C04((BfmeThingGX *)&msg);
 }
