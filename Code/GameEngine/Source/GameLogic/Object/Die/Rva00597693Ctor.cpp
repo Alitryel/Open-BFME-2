@@ -18,7 +18,7 @@ class BaseA
 public:
 	virtual void a0(void *, void *) = 0;
 	virtual void a1(void *) = 0;
-	virtual ~BaseA();
+	virtual ~BaseA() {}
 	int m_04;
 	int m_08;
 	__forceinline BaseA(unsigned a, unsigned b) : m_04(a), m_08(b) {}
