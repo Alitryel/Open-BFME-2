@@ -32,6 +32,8 @@ namespace _STL { template <> vector<BfmePod32, allocator<BfmePod32> >::~vector()
 struct BfmePod40 { int a[10]; };
 // bfme link decl-only BfmePod40
 namespace _STL { template <> vector<BfmePod40, allocator<BfmePod40> >::~vector(); }
+namespace _STL { template <> BfmePod40 *vector<BfmePod40, allocator<BfmePod40> >::erase(BfmePod40 *); }
+namespace _STL { template <> BfmePod40 *vector<BfmePod40, allocator<BfmePod40> >::erase(BfmePod40 *, BfmePod40 *); }
 struct BfmePod44 { int a[11]; };
 struct BfmePod52 { int a[13]; };
 struct BfmePod68 { int a[17]; };
