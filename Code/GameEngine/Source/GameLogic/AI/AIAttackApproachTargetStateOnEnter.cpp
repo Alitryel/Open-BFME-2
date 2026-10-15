@@ -459,6 +459,8 @@ public:
 	Bool isMobile() const;
 	Bool isSignificantlyAboveTerrain() const;
 	Bool rva0029493F(Object *other, Int test);
+	// The matched Object predicate owns the native 0x0028CECF callee.
+	Bool rva0028CECF();
 	Real rva0028AC7D() const;
 	Bool rva0028ADE0() const;
 	const Rva0028AC4EEntry *rva0028AC4E() const;
@@ -1512,13 +1514,6 @@ StateReturnType AIAttackMeleeSquishState::onEnter()
 	return STATE_SUCCESS;
 }
 
-// Thing-template gate 0x0028CECF (pinned under this name).
-class Rva0028CECFOwner
-{
-public:
-	Bool rva0028CECF();
-};
-
 // The owner's contain module (+0x250) slot 31 and the object it returns,
 // whose slot 85 says whether the victim may be squished from inside.
 class SquishRiderView : public VirtualSlots<85>
@@ -1552,7 +1547,7 @@ StateReturnType AIAttackMeleeSquishState::rva0034D98B()
 	AIUpdateInterface *ai = obj->getObservedAI();
 	ai->setPathExtraDistance(50.0f);
 	Object *victim = getMachineGoalObject();
-	if (obj->m_contain && !((Rva0028CECFOwner *)obj)->rva0028CECF())
+	if (obj->m_contain && !obj->rva0028CECF())
 	{
 		SquishRiderView *rider = ((SquishContainView *)obj->m_contain)->slot31();
 		if (rider && rider->slot85(victim))
@@ -1566,7 +1561,7 @@ StateReturnType AIAttackMeleeSquishState::rva0034D98B()
 		(victim && ((victim->m_438 & 1) || victim->testStatus(OBJECT_STATUS_32))))
 	{
 		ai->setPathExtraDistance(0.0f);
-		if (m_64 && ((Rva0028CECFOwner *)obj)->rva0028CECF())
+		if (m_64 && obj->rva0028CECF())
 		{
 			m_64 = false;
 			const AttackPriorityInfo *info = ai->m_attackInfo;
@@ -1612,7 +1607,7 @@ StateReturnType AIAttackMeleeSquishState::rva0034D98B()
 			return STATE_SUCCESS;
 		}
 	}
-	Bool squishing = ((Rva0028CECFOwner *)obj)->rva0028CECF();
+	Bool squishing = obj->rva0028CECF();
 	obj->setStatus(OBJECT_STATUS_1C, squishing);
 	return status;
 }

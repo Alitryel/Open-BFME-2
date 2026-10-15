@@ -9947,7 +9947,6 @@ name,address,notes
 ?rva0028CDEB@Object@@QAEXABVRva00346BC0@@_N@Z,0x0028CDEB,"Object status-mask setter (ret 8): (mask, set); REL32 callee of WallUpgradeUpdate::update 0x004AB4D8 at 0x004AB564 with an Rva00346BC0 mask built on the stack and false; same body as the bitset-typed pin of this address"
 ?rva0028CDEB@Object@@QAEXPBU?$_Base_bitset@$03@_STL@@_N@Z,0x0028CDEB,"Object status-mask setter (ret 8): (128-bit mask, true); REL32 callee of the AttachUpdate attach helper 0x00491AD0 at 0x00491BE9 with the module data's ParentStatus +0x0C after its _M_is_any 0x000454BA"
 ?rva0028CE7B@Object@@QBECXZ,0x0028CE7B,address read from the REL32 displacement at 0x0026DAFA in privateMoveAwayFromUnit 0x0026D765 with ECX = the owner; returns a byte the caller compares signed against 4 (setge) for moveAllies' third argument; body unrowed
-?rva0028CECF@Rva0028CECFOwner@@QAE_NXZ,0x0028CECF,pin for 0x2E7388 thiscall bool() on p2 arg; target walks +0x274 chain with SSE
 ?rva0028CFF5@Object@@QAEXPBH_N@Z,0x0028CFF5,pinned for ObjectConditionAndPassengerWeaponSet
 ?rva0028DB3C@Object@@QAEXXZ,0x0028DB3C,address read from the REL32 displacement at 0x0026D756 in privateIdle 0x0026D5FB (aiDoCommand command 0x05) with ECX the owner; called last where BFME1 privateIdle calls adjustModelConditionForWeaponStatus (donor-carried; the body tests status bits 0x16/0x19/0x0D and walks the WeaponSet at +0x330); body unrowed
 ?rva0028DCC4@Object@@QAEXXZ,0x0028DCC4,callee of ?rva00489E2E@AIUpdateInterface@@QAEXXZ
