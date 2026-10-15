@@ -401,6 +401,37 @@ __declspec(noinline) static int rva005E77F0Get(Rva005E72B4Queue *queue,int index
  if(summary) return ((Rva0037E07C *)((Rva005E7322R *)summary)->mid(0))->rva0037E07C();
  return 0;
 }
+// Native 5E735D..5E73B2: three by-id helpers emitted after GetThingTemplate
+// in the same static convention (queue in ECX, id on the stack). No call,
+// jump or absolute reference to any of them survives in the image; their WB
+// twins 0x016055B0 (the +0x618 field) and 0x016042F0 (the +0x5C4 image) call
+// GetThingTemplate(queue,id). Identities unproven; RVA-qualified names.
+struct Rva005E735DTemplate { char pad[0x5c4]; int imageID; char pad5c8[0x618-0x5c8]; int field618; };
+__declspec(noinline) static int rva005E735DGet(Rva005E72B4Queue *queue,int id)
+{
+ Rva005E735DTemplate *thing=(Rva005E735DTemplate *)StrategicInGameUI::GetThingTemplate(queue,id);
+ if(thing) return thing->field618;
+ return 0;
+}
+__declspec(noinline) static const Image *rva005E7375Get(Rva005E72B4Queue *queue,int id)
+{
+ Rva005E735DTemplate *thing=(Rva005E735DTemplate *)StrategicInGameUI::GetThingTemplate(queue,id);
+ if(!thing) return 0;
+ return Rva005F01C7Get(thing->imageID);
+}
+__declspec(noinline) static int rva005E7391Get(Rva005E72B4Queue *queue,int id)
+{
+ void *summary=rva005E72B4Get(queue,id);
+ if(summary) return ((Rva0037E07C *)((Rva005E7322R *)summary)->mid(0))->rva0037E07C();
+ return 0;
+}
+// Retail keeps the three helpers above without any surviving caller; this
+// anchor only forces cl to emit them in the TU's static convention.
+// ?Rva005E735DAnchor absent-from-retail
+int Rva005E735DAnchor(Rva005E72B4Queue *queue,int id)
+{
+ return rva005E735DGet(queue,id)+(int)rva005E7375Get(queue,id)+rva005E7391Get(queue,id);
+}
 class Rva005F6B12 { public: int rva005F6B12(int) const; };
 // Native reference-count writes occur at base+4 (queued object+28).
 // Its own direct member initializer preserves the ctor EH-state/store order.
