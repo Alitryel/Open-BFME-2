@@ -42,7 +42,9 @@ public:
     __forceinline friend Vector3 operator-(const Vector3& a, const Vector3& b) {
         return Vector3(a.X-b.X, a.Y-b.Y, a.Z-b.Z);
     }
-    __forceinline friend Vector3 operator*(const Vector3& a, float k) {
+    // Keep this helper inline without emitting a competing retail symbol,
+    // as for Length above. Add_Sphere contains the multiplication itself.
+    __declspec(dllimport) __forceinline friend Vector3 operator*(const Vector3& a, float k) {
         return Vector3(a.X*k, a.Y*k, a.Z*k);
     }
     __forceinline friend Vector3 operator+(const Vector3& a, const Vector3& b) {
