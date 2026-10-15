@@ -9,7 +9,8 @@
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
 
-struct Rva00414BDBElement { ~Rva00414BDBElement(); };
+struct Rva00414BDBElement { unsigned char m_data[0x30]; ~Rva00414BDBElement(); };
+namespace _STL { template <> vector<Rva00414BDBElement, allocator<Rva00414BDBElement> >::~vector(); }
 
 class AsciiStringMember
 {
@@ -38,3 +39,5 @@ private:
 Rva00414B40::~Rva00414B40()
 {
 }
+
+template void _STL::_Destroy<Rva00414BDBElement>(Rva00414BDBElement *);
