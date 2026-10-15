@@ -652,7 +652,9 @@ public:
     int argumentCount;
 };
 class ExperienceLevelSystem;
-extern ExperienceLevelSystem *TheExperienceLevelSystem;
+// GameEngine::init registers this singleton under its native literal name.
+// VA DFECC4 is one zero-initialized pointer; original class layout is opaque.
+ExperienceLevelSystem *TheExperienceLevelSystem = 0;
 void *operator new(unsigned int);
 void operator delete(void *);
 struct Rva00289FBCRecord { Rva00289FBCRecord &operator=(const Rva00289FBCRecord &); };
