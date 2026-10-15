@@ -11,10 +11,7 @@
 // The slot-6 receiver and the argument are not identified by target evidence
 // and stay opaque.
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../Common/GameLogicObjectLookupView.h"
 
 class CommandButton
 {
@@ -46,24 +43,51 @@ public:
 	void *rva0028BC58(int which);
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-};
-
 extern GameLogic *TheGameLogic;
+
+// The lookup chain is visible in this unit, as in ProjectileNuggetObjectEffect.cpp:
+// storage and traversal from native _M_find 0x002888D4 and GameLogic::findObjectByID
+// 0x00049DC5 (both rowed; out-of-line COMDAT copies). Seeing that neither touches
+// TheGameLogic nor the AIUpgrade lets rva005973D8 keep both lookup operands in
+// EBX/EDI across its two calls, as retail does.
+struct AIUpgradeLookupNode { AIUpgradeLookupNode *next; ObjectID key; Object *object; };
+struct AIUpgradeLookupBuckets {
+ AIUpgradeLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ AIUpgradeLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct AIUpgradeLookupMap { unsigned char hashEqual[4]; AIUpgradeLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ AIUpgradeLookupMap *map=(AIUpgradeLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ AIUpgradeLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 
 class AIUpgrade
 {
 public:
 	virtual ~AIUpgrade();
 	virtual bool build(void *context);
+	int rva005973D8();
 
 private:
 	unsigned char m_pad04[0x08 - 0x04];
 	ObjectID m_builderID; // +0x08
-	unsigned char m_pad0C[0x30 - 0x0C];
+	unsigned char m_pad0C[0x10 - 0x0C];
+	int m_remaining10; // +0x10
+	unsigned char m_pad14[0x30 - 0x14];
 	const CommandButton *m_commandButton; // +0x30
 };
 
@@ -73,4 +97,21 @@ bool AIUpgrade::build(void *context)
 	ObjectID id = m_builderID;
 	Rva0028BC58Result *result = (Rva0028BC58Result *)TheGameLogic->findObjectByID(id)->rva0028BC58(0);
 	return result->slot6(m_commandButton->getField24()) ? true : false;
+}
+
+// Native 0x005973D8..0x00597426 (78B, RET0) follows build; WB 0x01537BF0 (AIUpgrade.cpp)
+// gives the shape: with a positive count at +0x10, an existing builder object answers
+// slot 6 of its rva0028BC58(0) query about the button's +0x24 field; no answer -> 1.
+// Original name unproven.
+int AIUpgrade::rva005973D8()
+{
+	if (m_remaining10 > 0) {
+		if (TheGameLogic->findObjectByID(m_builderID) != 0) {
+			Rva0028BC58Result *result = (Rva0028BC58Result *)TheGameLogic->findObjectByID(m_builderID)->rva0028BC58(0);
+			if (result->slot6(m_commandButton->getField24()))
+				return 0;
+		}
+		return 1;
+	}
+	return 0;
 }
