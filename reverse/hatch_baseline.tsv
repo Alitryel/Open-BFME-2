@@ -40589,7 +40589,7 @@ present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/MeshGeometryShareBufferIns
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescDisableBackfaceCulling.cpp	bfmeEmitMeshMatDescDisableBackfaceCulling@MeshMatDescClass@@SAXPAV1@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/MeshModelReadDcg.cpp	DX8Wrapper::Convert_Color	3
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/MeshModelReadDig.cpp	DX8Wrapper::Convert_Color	3
-present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/MeshModelReadVertexColors.cpp	DX8Wrapper::Convert_Color	3
+present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/MeshModelReadVertexColors.cpp	DX8Wrapper::Convert_Color	2
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/ParticleEmitterVisibilityWrappers.cpp	bfmeEmitParticleEmitterVisibilityWrappers@@YAXPAVParticleEmitterClass@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructAssignmentBFME.cpp	bfmeEmitPendingSurfaceStructAssignmentBFME@@YAXPAUPendingSurfaceStruct@Render2DSentenceClass@@@Z	1
 present_unmatched	Code/Libraries/Source/WWVegas/WW3D2/PendingSurfaceStructCtor.cpp	DynamicVectorDummy::DynamicVectorDummy	1

@@ -80,16 +80,6 @@ public:
 	__declspec(dllimport) static unsigned int Convert_Color(const Vector4 &color);
 };
 
-// ?DX8Wrapper::Convert_Color present-unmatched
-__declspec(dllimport) __forceinline Vector4 DX8Wrapper::Convert_Color(unsigned color)
-{
-	Vector4 col;
-	col[3] = ((color & 0xff000000) >> 24) / 255.0f;
-	col[0] = ((color & 0xff0000) >> 16) / 255.0f;
-	col[1] = ((color & 0xff00) >> 8) / 255.0f;
-	col[2] = ((color & 0xff) >> 0) / 255.0f;
-	return col;
-}
 
 // ?DX8Wrapper::Convert_Color present-unmatched
 __declspec(dllimport) __forceinline unsigned int DX8Wrapper::Convert_Color(const Vector3 &color, const float alpha)
