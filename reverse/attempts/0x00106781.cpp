@@ -1,4 +1,7 @@
 // ?rva00106781@BfmeB996Range@@QAE_NPAPAXPAHPAIPAD_N@Z
+// partial score=0.99 date=2026-10-15
+// ?rva00106781@BfmeB996Range@@QAE_NPAPAXPAHPAIPAD_N@Z
+// r2-s1: compiled in BfmeConv996RangeCheck.cpp region flags (/O1 /G7 /arch:SSE): 145B nd2 -- layout exact via 'goto fail' shape; recomputing (*second - 8) in cursor()+..>limit AND v5(*second - 8) (no temp) yields retail 'add esi,-8'. Left: retail add eax,8 BEFORE push edi in classify args.
 // partial score=0.93 date=2026-10-14
 // ?rva00106781@BfmeB996Range@@QAE_NPAPAXPAHPAIPAD_N@Z
 // partial score=0.9 date=2026-10-14
@@ -226,23 +229,22 @@ bool BfmeB996Range::rva00106781( void **firstOut, int *first, unsigned int *seco
 {
 	*stop = 0;
 	*firstOut = 0;
-	if ( !checkRange( (int)first, second, stop ) )
-		return false;
-	if ( mode ) {
-		void *body = Rva0009072BAlloc( *first, *second );
-		*firstOut = body;
-		if ( m_dev->classify( (int)body + 8, *second - 8 ) != *second - 8 ) {
-			Rva00090714Free( firstOut );
-			*stop = 1;
-			return false;
+	if ( checkRange( (int)first, second, stop ) ) {
+		if ( mode ) {
+			void *body = Rva0009072BAlloc( *first, *second );
+			*firstOut = body;
+			if ( m_dev->classify( (int)body + 8, *second - 8 ) != *second - 8 ) {
+				Rva00090714Free( firstOut );
+				goto fail;
+			}
+		} else {
+			if ( m_dev->cursor() + (int)(*second - 8) > m_limit )
+				goto fail;
+			m_dev->v5( *second - 8, 1 );
 		}
-	} else {
-		int skip = *second + -8;
-		if ( m_dev->cursor() + skip > m_limit ) {
-			*stop = 1;
-			return false;
-		}
-		m_dev->v5( skip, 1 );
+		return true;
+fail:
+		*stop = 1;
 	}
-	return true;
+	return false;
 }
