@@ -6,18 +6,13 @@
 // method on the 0xDFE344 global, pokes the same adjusted sub-object with 1
 // through the pinned setter, and stamps the byte +0x14. The repeated 0x27C
 // rides edi. Targets from retail REL32/DIR32.
-struct Rva005B692FMgr
-{
-	void UseSub(void *s);
-};
+// Row spellings of the three callees.
+class CreateAHeroData;
+class CreateAHeroManager { public: void rva0021A428(const CreateAHeroData &data); };
+class Rva005B034ADwordSlot { public: void set(int v); };
+class AptCreateAHero { public: class Manager { public: void PopulateHeroList(); }; };
 
-struct Rva005B692FSub
-{
-	void Poke(int v);
-};
-
-extern class CreateAHeroManager *TheCreateAHeroManager;
-void Rva005B6755Helper();
+extern CreateAHeroManager *TheCreateAHeroManager;
 
 struct Rva005B692FBox
 {
@@ -33,9 +28,9 @@ struct Rva005B692FBox
 void Rva005B692FBox::Run()
 {
 	if (m_8 != 0)
-		Rva005B6755Helper();
+		((AptCreateAHero::Manager *)this)->PopulateHeroList();
 	int off = 0x27c;
-	(*(Rva005B692FMgr **)&TheCreateAHeroManager)->UseSub((char *)m_4 + off);
-	((Rva005B692FSub *)((char *)m_4 + off))->Poke(1);
+	TheCreateAHeroManager->rva0021A428(*(const CreateAHeroData *)((char *)m_4 + off));
+	((Rva005B034ADwordSlot *)((char *)m_4 + off))->set(1);
 	m_14 = 1;
 }

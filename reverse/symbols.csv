@@ -5632,7 +5632,6 @@ name,address,notes
 ?Peek_Texture@MeshLoadContextClass@@AAE?AVBfmeHandleCX@@H@Z,0x00188700,BFME1 MeshModelMaterialIds pin 12112 attests mangling; address read from retail REL32 at 0x001891B9 in read_texture_ids; 40B handle loader over array +0x110 with WORD AddRef at +4
 ?Peek_Texture@MeshModelClass@@QBE?AV?$RefCountPtr@VTextureClass@@@@HHH@Z,0x00143560,MeshModel texture accessor: full 48B hidden-return forwarder through CurMatDesc+94 to established MeshMatDesc Get_Texture 15A910; reference meshmdl.h attests purpose and const three-index signature
 ?PixelScreenToW3DLogicalScreen@@YAXHHPAM0HH@Z,0x00101E6D,read from the REL32 at 0x00089689 in W3DView::getPickRay; body writes x*2/width-1 and -(y*2/height-1) through the two float pointers as Zero Hour PixelScreenToW3DLogicalScreen (cdecl six args)
-?Poke@Rva005B692FSub@@QAEXH@Z,0x005B034A,wrapper-call spelling for the 0x5B692F sub-object poke (thiscall 1 arg; true callee matched as dword setter 0x5B034A); target REL32 from retail call at 0x005B695B
 ?Poly_Count@AABTreeBuilderClass@@QAEHXZ,0x00144010,address read from the REL32 displacement at a placed body; stlport 4.5.3
 ?PopAndPush@AptBasePtrStack@@QAEXHPAVAptValue@@@Z,0x006FE880,Native GetMember703AE0/SetMember703CE0 calls; original AptValue header504032fc6593aab6 and AptArray header9e5fc78057531b2e types; existing byte-verified provider bound by alias
 ?PopAndPush@AptBasePtrStack@@QAEXHPAVBfmeAptValue006DCD20@@@Z,0x006FE880,AptBasePtrStack::PopAndPush(int nItems + AptValue *element) (Castaway name); thiscall on AptActionInterpreter::stack from every binary-op handler
@@ -5872,7 +5871,6 @@ name,address,notes
 ?Rva00580FD1IntroSort@@YAXPAPAX00HVRva000795C1Record@@@Z,0x00580FD1,Address-named callee read at5810FC; four4-byte arguments and16-byte copied record; native introsort threshold16 with supplied depth counter
 ?Rva0058AE1EHasVictim@@YG_NPAVObject@@@Z,0x0058AE1E,bool view of the rowed int victim test ?Rva0058AE1EGet@@YGHPAX@Z (stdcall ret 4); REL32 at 0x005D875F in 0x005D874A whose caller tests only AL
 ?Rva005A671DNext@@YAHXZ,0x005A671D,free-function spelling for the 0x5A6903 counter (no ecx setup at the site; callee overwrites ecx first thing from the 0xE063FC global); target REL32 from retail call at 0x005A694E
-?Rva005B6755Helper@@YAXXZ,0x005B6755,free-function spelling for the 0x5B692F conditional helper (no ecx setup; entry ecx flows through; true callee is the 474B dump body); target REL32 from retail call at 0x005B6939
 ?Rva005B6967F@@YAXPADHPAH@Z,0x003252EA,wrapper-call spelling for the 0x5B6967 buffer filler (cdecl 3 args); target REL32 from retail calls at 0x005B69AB and 0x005B69E7
 ?Rva005B6967G@@YAXPAD@Z,0x00325199,wrapper-call spelling for the 0x5B6967 single callee (cdecl 1 arg); target REL32 from retail call at 0x005B69ED
 ?Rva005CB260@@YAXXZ,0x005CB260,opaque callback address from retail DIR32 operand VA 0x009CB260; Ghidra boundary 5 bytes; semantic name unknown
@@ -6088,7 +6086,6 @@ name,address,notes
 ?Update_Sub_Object_Transforms@Animatable3DObjClass@@MAEXXZ,0x001A5900,HLod Update_Sub_Object_Transforms call19D649; matched Animatable constructors1A4900/1A5C50 install table7D6D10 slotA8 pointing directly here; target parent-hierarchy and motion-mode update dispatch independently supports donor method identity
 ?Use@Rva005B5C02Entry@@QAEXPAX@Z,0x00409359,wrapper-call spelling for the 0x5B5C02 entry use (thiscall 1 arg callee cleanup); target REL32 from retail call at 0x005B5C5A
 ?UseSub@Rva005B5B0CMgr@@QAEXPAX@Z,0x0021A428,wrapper-call spelling for the 0x5B5B0C manager handoff (thiscall 1 arg callee cleanup); target REL32 from retail call at 0x005B5B1E
-?UseSub@Rva005B692FMgr@@QAEXPAX@Z,0x0021A428,wrapper-call spelling for the 0x5B692F manager handoff (thiscall 1 arg callee cleanup); target REL32 from retail call at 0x005B694F
 ?Use_Alpha_Shader@BFME2ParticleTextureHandle@@QBE_NXZ,0x0047A699,Descriptive conversion predicate selecting alpha preset; body independentlyverified32C0C3 alwaysfalse; original method name unasserted
 ?Use_Non_Blocking_Mode@@YA_NXZ,0x006C9E00,retail REL32 from Cftp::ConnectToServer at 0x006CA71E; BFME1 WWDownload identity
 ?Vendor_Specific_Hacks@DX8Caps@@AAEXABU_D3DADAPTER_IDENTIFIER8@@@Z,0x0012B9B0,Retail 1065-byte vendor workaround routine with independent NVIDIA/ATI/Matrox driver-warning strings and mapped-device branches; exact Compute_Caps call corroborates identity
@@ -10894,7 +10891,6 @@ name,address,notes
 ?undoRevealMapForPlayerPermanently@ShroudManager@@QAEXH@Z,0x0073D810,tail-call target of PartitionManager undo thunk 0x7397B0 (mov ecx [ecx+0x10]; jmp); shroud-manager method by same-semantics forwarding
 ?unidentified_0034DB40@ScriptEngine@@QAEGPAVParameter@@@Z,0x00357B82,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?uninitialized_copy@_STL@@YAPAGPAG00@Z,0x0000DF10,STLport 4.5.3 wide copy helper; address read from the basic_string<wchar_t>::reserve REL32 displacement at 0x0000DEF6 -- retail reaches it through the five-byte jump Ghidra reads as thunk_FUN_004179b0
-?unlink@Gen0035B3A0@@QAEXPAX@Z,0x003B4982,callee read from the retail REL32 in placed BFME1-donor body ?cleanup@Gen0035B3A0@@QAEXXZ (0x003B7362)
 ?unlink@Gen_00943CF0@@AAEXPAX@Z,0x00141640
 ?unlink@PartitionData@@QAEXXZ,0x0073A0A0
 ?unlinkChain@Rva009A36F0Owner@@QAEXPAVRva009A36F0Thing@@@Z,0x00759220,BFME1 Rva009A36F0Owner donor unlinker; sole E8 caller is apply at 0x007592E0

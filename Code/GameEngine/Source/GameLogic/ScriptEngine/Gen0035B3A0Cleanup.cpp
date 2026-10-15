@@ -18,11 +18,13 @@ public:
 	void cleanup(void);
 };
 
+// 0x003B4982 is rowed as Rva003B4982::rva003B4982(void *), called on this.
+class Rva003B4982 { public: void rva003B4982(void *slot); };
+
 class Gen0035B3A0
 {
 public:
 	void cleanup(void);
-	void unlink(void *slot);
 
 private:
 	void *m_unused0;
@@ -36,7 +38,7 @@ private:
 // @?cleanup@Gen0035B3A0@@QAEXXZ 0x0035B3A0
 void Gen0035B3A0::cleanup(void)
 {
-	unlink(this ? &m_slot4 : 0);
+	((Rva003B4982 *)this)->rva003B4982(this ? &m_slot4 : 0);
 	m_at0C.cleanup();
 	m_at2C.cleanup();
 }
