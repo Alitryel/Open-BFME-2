@@ -1,4 +1,6 @@
 // ??0AnimationSoundClientBehavior@@QAE@ABV0@@Z
+// partial score=0.9842 date=2026-10-15
+// ??0AnimationSoundClientBehavior@@QAE@ABV0@@Z
 // partial score=0.933 date=2026-10-14
 // ??0AnimationSoundClientBehavior@@QAE@ABV0@@Z
 // partial score=0.96 date=2026-10-07
