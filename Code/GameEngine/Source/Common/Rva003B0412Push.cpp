@@ -21,7 +21,9 @@ struct PrereqUnitRec
 	unsigned int m_data[3];
 };
 
-void rva003B015D(int a1, int a2, char a3);
+void rva003B015D(int a1, int a2, int a3);
+typedef void (__cdecl *Rva003B015DRowed)(int, int, int);
+typedef void (__cdecl *Rva003B015DView)(int, int, char);
 
 class Rva003B0412
 {
@@ -36,5 +38,5 @@ private:
 void Rva003B0412::rva003B0412(const PrereqUnitRec *rec)
 {
 	m_vec.push_back(*rec);
-	rva003B015D((int)m_vec._M_start, (int)m_vec._M_finish, m_0c);
+	((Rva003B015DView)(Rva003B015DRowed)&rva003B015D)((int)m_vec._M_start, (int)m_vec._M_finish, m_0c);
 }
