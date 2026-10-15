@@ -12,6 +12,10 @@ struct Rva000C3886Range
 };
 
 class Rva000C3886;
+class AsciiString;
+class Rva000BBDDF;
+class ModelSMConditionInfo { public: void validateTurretInfo(const Rva000BBDDF *info); };
+class Rva000C2AA4 { public: void rva000C2AA4(const AsciiString &name); };
 
 struct Rva000C3886Obj
 {
@@ -24,9 +28,7 @@ struct Rva000C3886Obj
 class Rva000C3886
 {
 public:
-	void rva000C2AA4(int *element);
 	void rva000BE245(void *first, float value, Rva000C3886Obj *obj, void *last);
-	void rva000BBE86(Rva000C3886Obj *obj);
 	void rva000C3886(void *first, float value, Rva000C3886Range *range,
 		Rva000C3886Obj *obj, void *last);
 };
@@ -39,10 +41,10 @@ void Rva000C3886::rva000C3886(void *first, float value, Rva000C3886Range *range,
 	if ((obj->m_flags & 0x10) == 0 && (unsigned char)Rva000B2CBDGet() != 0)
 	{
 		for (int *cursor = range->m_begin; cursor != range->m_end; ++cursor)
-			rva000C2AA4(cursor);
+			((Rva000C2AA4 *)this)->rva000C2AA4(*(const AsciiString *)cursor);
 		obj->m_flags |= 0x10;
 	}
 	rva000BE245(first, value, obj, last);
-	rva000BBE86(obj);
+	((ModelSMConditionInfo *)this)->validateTurretInfo((const Rva000BBDDF *)obj);
 	obj->rva000BE775(this);
 }
