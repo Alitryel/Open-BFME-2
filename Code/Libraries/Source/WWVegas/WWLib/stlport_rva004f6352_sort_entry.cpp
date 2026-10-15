@@ -20,7 +20,21 @@ struct TreeHintRef00217D4C
 {
 	TargetRef00217D4C *m_ptr;
 	TreeHintRef00217D4C(const TreeHintRef00217D4C &other);
-	TreeHintRef00217D4C &operator=(const TreeHintRef00217D4C &other);
+	// The matched 0x002174A4 body (as in PAUTreeHintRef00217D4CRva004F9565.cpp),
+	// visible so cl knows the assignments keep no reference to the inserted
+	// value: retail's insert holds val.m_ptr in EDI across them.
+	__declspec(noinline) TreeHintRef00217D4C &operator=(const TreeHintRef00217D4C &other)
+	{
+		if (this != &other)
+		{
+			if (other.m_ptr)
+				++other.m_ptr->references;
+			if (m_ptr)
+				ReleaseTreeHintRef00217D4C(m_ptr);
+			m_ptr = other.m_ptr;
+		}
+		return *this;
+	}
 	~TreeHintRef00217D4C();
 };
 
@@ -46,6 +60,15 @@ struct Rva004F6352
 	Rva004F6352 &operator=(const Rva004F6352 &other);
 	~Rva004F6352() {}
 };
+
+// The matched 0x004F6352 body (Rva004F6352Assign.cpp), visible for the same reason.
+__declspec(noinline) inline Rva004F6352 &Rva004F6352::operator=(const Rva004F6352 &other)
+{
+	m_ptr = other.m_ptr;
+	m_04 = other.m_04;
+	m_08 = other.m_08;
+	return *this;
+}
 
 struct Rva004F6352Cmp
 {
