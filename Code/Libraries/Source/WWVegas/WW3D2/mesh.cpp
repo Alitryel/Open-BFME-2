@@ -221,22 +221,7 @@ static DynamicVectorClass<Vector3>	_TempVertexBuffer;
  * HISTORY:                                                                                    *
  *   1/6/98     GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::operator= present-unmatched
-MeshClass & MeshClass::operator = (const MeshClass & that)
-{
-	if (this != &that) {
-
-		RenderObjClass::operator = (that);
-
-		REF_PTR_SET(Model,that.Model);				// mesh instances share models by default
-		BaseVertexOffset = that.BaseVertexOffset;
-
-		// just dont copy the decals or light environment
-		REF_PTR_RELEASE(DecalMesh);
-		LightEnvironment = NULL;
-	}
-	return * this;
-}
+// MeshClass::operator= defined in MeshClassLifetime.cpp
 
 
 /***********************************************************************************************
@@ -740,49 +725,7 @@ void MeshClass::Replace_VertexMaterial(VertexMaterialClass* vmat,VertexMaterialC
  * HISTORY:                                                                                    *
  *   6/17/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ?MeshClass::Cast_Ray present-unmatched
-bool MeshClass::Cast_Ray(RayCollisionTestClass & raytest)
-{
-	if ((Get_Collision_Type() & raytest.CollisionType) == 0) return false;
-	//Modified for 'Generals' so we could select trees but filter out headlight beams, etc. -MW
-	if (raytest.CheckTranslucent && Is_Alpha()!=0)
-		return false;
-	if (Is_Hidden() && !raytest.CheckHidden) return false;
-	if (Is_Animation_Hidden()) return false;
-	if (raytest.Result->StartBad) return false;
-
-	Matrix3D world_to_obj;
-	Matrix3D world=Get_Transform();
-
-	// if aligned or oriented rotate the mesh so that it's aligned to the ray
-	if (Model->Get_Flag(MeshModelClass::ALIGNED)) {
-			Vector3 mesh_position;
-			world.Get_Translation(&mesh_position);
-			world.Obj_Look_At(mesh_position,mesh_position - raytest.Ray.Get_Dir(),0.0f);
-	} else if (Model->Get_Flag(MeshModelClass::ORIENTED)) {		
-			Vector3 mesh_position;
-			world.Get_Translation(&mesh_position);
-			world.Obj_Look_At(mesh_position,raytest.Ray.Get_P0(),0.0f);
-	}
-
-	world.Get_Inverse(world_to_obj);
-	RayCollisionTestClass objray(raytest,world_to_obj);
-
-	WWASSERT(Model);
-	
-	bool hit = Model->Cast_Ray(objray);
-	
-	// transform result back into original coordinate system
-	if (hit) {
-		raytest.CollidedRenderObj = this;
-		Matrix3D::Rotate_Vector(world,raytest.Result->Normal, &(raytest.Result->Normal));
-		if (raytest.Result->ComputeContactPoint) {
-			Matrix3D::Transform_Vector(world,raytest.Result->ContactPoint, &(raytest.Result->ContactPoint));
-		}
-	}
-	
-	return hit;
-}
+// MeshClass::Cast_Ray defined in MeshClassCastRay.cpp
 
 
 /***********************************************************************************************
@@ -1137,3 +1080,9 @@ void _bfmeMeshClassInlineAnchor(MeshClass *p)
     p->Get_Model();
 }
 #pragma inline_depth()
+
+// ?bfmeEmitLineSegClassCtor@@YAXPAVLineSegClass@@ABV0@ABVMatrix3D@@@Z present-unmatched
+void bfmeEmitLineSegClassCtor(LineSegClass *p, const LineSegClass &src, const Matrix3D &tm)
+{
+    new (p) LineSegClass(src, tm);
+}
