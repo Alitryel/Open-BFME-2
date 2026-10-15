@@ -23,7 +23,8 @@ extern InGameUI *TheInGameUI;
 class HotKeyManager;
 extern HotKeyManager *TheHotKeyManager;
 extern int g_Va00E04478;
-extern Drawable *g_00E01D14; // Native previous-selection pointer; original name unknown.
+// Retail E01D14 stores the prior selected drawable; original identifier unknown.
+Drawable *BfmeControlBarPreviousDrawable = 0;
 extern GameLogic *TheGameLogic;
 int Rva0043C969Get();
 class RadarWindowOverrideSource;
@@ -249,11 +250,11 @@ void ControlBar::switchToContext(int context,void *draw)
     Object *drawObject=incomingDraw ? ((ContextDrawableView *)incomingDraw)->getObject() : 0;
     if (TheHotKeyManager) ((ContextResetView *)TheHotKeyManager)->reset();
     ((ContextRadiusView *)TheInGameUI)->clearRadius();
-    if (incomingDraw!=g_00E01D14 && incomingDraw!=self->selected)
+    if (incomingDraw!=BfmeControlBarPreviousDrawable && incomingDraw!=self->selected)
         self->overlay->reset();
     Drawable *oldSelected=self->selected;
     self->selected=incomingDraw;
-    g_00E01D14=oldSelected;
+    BfmeControlBarPreviousDrawable=oldSelected;
     if (!g_Va00E04478 && !Rva0043C969Get() && TheGameLogic && TheGameLogic->rva0042219())
         ((ContextFocusView *)TheWindowManager)->setFocus(0);
     ((PhysicsBehavior *)self->overlay)->setIgnoreCollisionsWith(drawObject);
