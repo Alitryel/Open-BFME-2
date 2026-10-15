@@ -1,5 +1,5 @@
-// ??0Rva0051730E@@QAE@XZ
-// partial score=0.93 date=2026-10-15
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
 // cl: /O1 /G7 /arch:SSE /MD
 // ??0Rva0051730E@@QAE@XZ @0x0051730E 28B
 // Native 0x0051730E..0x00517329: thiscall constructor returning this that
@@ -20,6 +20,13 @@ struct Rva0051730E
 };
 
 Rva0051730E::Rva0051730E()
-	: m_first(-1), m_second(-1), m_third(-1), m_count(0), m_value(0), m_index(-1), m_extra(0)
 {
+	m_first=-1;
+	_ReadWriteBarrier();
+	m_second=-1;
+	m_third=-1;
+	m_count=0;
+	m_value=0;
+	m_index=-1;
+	m_extra=0;
 }

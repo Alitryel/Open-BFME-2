@@ -1,12 +1,61 @@
 // ??0RetailCollisionManagerData@@QAE@XZ
-// partial score=0.89 date=2026-10-15
+// partial score=0.9157 date=2026-10-15
+// ??0RetailCollisionManagerData@@QAE@XZ
+// partial score=0.8851 date=2026-10-14
+// ?RetailCollisionManagerData@@QAE@XZ
+// partial score=0.88 date=2026-10-05
+// ?RetailCollisionManagerData@@QAE@XZ
+// partial score=0.85 date=2026-09-23
 // cl: /DNDEBUG /MD /EHsc
-// ??0RetailCollisionManagerData@@QAE@XZ retail 0x0075A000 117 B (region /O2 /G6 /arch:SSE). Layout from retail offsets: two Pool<N>{items[N],count,a,b} members at +0x18/+0xAE10.
 #include <string.h>
-template <int N> struct Pool { int m_items[N]; int m_count; int m_a; int m_b;
- Pool() : m_a(0), m_b(0) { clear(); }
- void clear() { memset(m_items,0,sizeof(m_items)); m_count=0; } };
-class RetailCollisionManagerData { public: RetailCollisionManagerData();
-private: int m_00,m_04,m_08,m_0c,m_10,m_14; Pool<0x2B7B> m_A; Pool<0x493> m_B; int m_C068; unsigned char m_C06C,m_C06D; };
-RetailCollisionManagerData::RetailCollisionManagerData() : m_00(0), m_04(0), m_08(0)
-{ m_C06C=0; m_C06D=0; m_C068=3; m_0c=0; m_10=0; m_14=0; }
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
+class RetailCollisionManagerData
+{
+public:
+	RetailCollisionManagerData();
+private:
+	int m_00;
+	int m_04;
+	int m_08;
+	int m_0c;
+	int m_10;
+	int m_14;
+	int m_18[0x2B7B];
+	int m_AE04;
+	int m_AE08;
+	int m_AE0C;
+	int m_AE10[0x493];
+	int m_C05C;
+	int m_C060;
+	int m_C064;
+	int m_C068;
+	unsigned char m_C06C;
+	unsigned char m_C06D;
+	unsigned char m_pad6E[2];
+};
+RetailCollisionManagerData::RetailCollisionManagerData()
+{
+	(*(int volatile *)&(m_00)) = 0;
+	(*(int volatile *)&(m_04)) = 0;
+	(*(int volatile *)&(m_08)) = 0;
+	(*(int volatile *)&(m_AE08)) = 0;
+	(*(int volatile *)&(m_AE0C)) = 0;
+	int *arrayOne = m_18;
+	_ReadWriteBarrier();
+	memset(arrayOne, 0, sizeof(m_18));
+	arrayOne[0x2B7B] = 0;
+	(*(int volatile *)&(m_C060)) = 0;
+	(*(int volatile *)&(m_C064)) = 0;
+	int *arrayTwo = m_AE10;
+
+	memset(arrayTwo, 0, sizeof(m_AE10));
+	arrayTwo[0x493] = 0;
+	(*(unsigned char volatile *)&(m_C06C)) = 0;
+	(*(unsigned char volatile *)&(m_C06D)) = 0;
+	(*(int volatile *)&(m_C068)) = 3;
+
+	(*(int volatile *)&(m_0c)) = 0;
+	m_10 = 0;
+	m_14 = 0;
+}

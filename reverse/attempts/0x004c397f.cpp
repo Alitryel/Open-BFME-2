@@ -1,4 +1,8 @@
 // ?addObject@ElvenWoodSpecialPower@@QAEPAVObject@@PBUCoord3D@@PBVAsciiString@@@Z
+// partial score=0.9929563492063492 date=2026-10-15
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
+// ?addObject@ElvenWoodSpecialPower@@QAEPAVObject@@PBUCoord3D@@PBVAsciiString@@@Z
 // partial score=0.9 date=2026-10-15
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 #include "ascii_string.h"
@@ -132,14 +136,22 @@ Object *ElvenWoodSpecialPower::addObject(const Coord3D *position, const AsciiStr
 	{
 		if (tmpl->isKindOf(100) || tmpl->isKindOf(94) || tmpl->isKindOf(95))
 		{
-			Matrix3D matrix(true);
-			float scale = tmpl->getScale();
-			if (tmpl->isKindOf(94))
-				TheTerrainLogic->addTree(tmpl, position, &matrix, scale);
-			else if (tmpl->isKindOf(95))
-				TheTerrainLogic->rva00280176(tmpl, position, &matrix, scale);
-			else
-				TheTerrainLogic->rva0027D3D9(tmpl, position, &matrix, scale);
+Matrix3D matrix;
+*(volatile float *)&matrix[0][0] = 1.0f;
+*(volatile float *)&matrix[1][1] = 1.0f;
+matrix[0][1] = 0.0f;
+*(volatile float *)&matrix[2][2] = 1.0f;
+matrix[0][2] = 0.0f;
+matrix[0][3] = 0.0f;
+matrix[1][0] = 0.0f;
+matrix[1][2] = 0.0f;
+matrix[1][3] = 0.0f;
+matrix[2][0] = 0.0f;
+matrix[2][1] = 0.0f;
+matrix[2][3] = 0.0f;
+
+float scale=tmpl->getScale();
+unsigned kind=*(const volatile unsigned *)((const char*)tmpl+0x110); if(kind&0x40000000) TheTerrainLogic->addTree(tmpl,position,&matrix,scale); else if(kind&0x80000000) TheTerrainLogic->rva00280176(tmpl,position,&matrix,scale); else TheTerrainLogic->rva0027D3D9(tmpl,position,&matrix,scale);
 		}
 		else
 		{
