@@ -1,5 +1,5 @@
 // ?HandleOverButtons@AptPlayer@@QAEXXZ
-// partial score=0.95 date=2026-10-13
+// partial score=0.95 date=2026-10-15
 // cl: /Ireference/shims/bfmealloc /O1 /G7 /GX /MD /arch:SSE /DNDEBUG /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
 #define strchr _stlport_hides_strchr
@@ -151,6 +151,7 @@ public:
  static int GetLevelIndex(GameWindow *window);
  GameWindow *WinCreate(const AsciiString *name,AptLayoutInfoView *layout);
  bool ShowLevel(int index);
+ void HandleOverButtons();
  bool UnloadLevel(int index);
  bool HideLevel(int index);
  bool RemoveLevel(int index);
@@ -158,7 +159,6 @@ public:
  const Image *FindRenderImage(const char *targetName,const char *parameters);
 	void PopFocus(AptFocusTarget *target);
  void SetExtern(const char *name,int value);
- void HandleOverButtons();
 // Native vtable BE6E80 has AddLevel at +50 (entry 20). Earlier slots
  // are declaration-only positions; their original names and hierarchy remain unknown.
 #define APT_PLAYER_SLOT(n) virtual void aptPlayerSlot##n();
@@ -602,6 +602,58 @@ GameWindow *AptPlayer::WinCreate(const AsciiString *name,AptLayoutInfoView *layo
   if(!layout->callback) layout->callback=reinterpret_cast<void *>(&Rva002223FECreateLayout);
  }
  return found;
+}
+
+// Retail 0x00223BF6, 199 bytes (RET 0xC, answers its first argument): the
+// radial clock result for an Apt image path. The timer registered under the
+// parameters' "_timerId" (map at +0xB8) or else under the path without its
+// level prefix runs its functor into the result; no timer leaves {1.0, null}.
+// WB B935C0 shape; the fraction/image pair is the consumer's
+// (AptImageDrawRva00412BFF.cpp) RadialClockResult.
+struct RadialClockResult
+{
+	float fraction;
+	Image *image;
+};
+
+class Rva002229B2Ref
+{
+public:
+	void *invoke(void *result);
+};
+
+class Rva00223BF6
+{
+public:
+	RadialClockResult *rva00223BF6(RadialClockResult *out, const char *path, const char *parameters);
+
+private:
+	unsigned char m_pad000[0xB8];
+	unsigned char m_timerMap[0x14]; // +0xB8
+};
+
+RadialClockResult *Rva00223BF6::rva00223BF6(RadialClockResult *out, const char *path, const char *parameters)
+{
+	AsciiString timerId;
+	if (parameters && Rva004128F0GetParam(parameters, "_timerId", timerId))
+	{
+		void *node = reinterpret_cast<Rva00056F61 *>(m_timerMap)->find(timerId).m_node;
+		if (node)
+		{
+			reinterpret_cast<Rva002229B2Ref *>((char *)node + 8)->invoke(out);
+			return out;
+		}
+	}
+	path = AptUtils::SkipLevelN(path);
+	void *node = reinterpret_cast<Rva00056F61 *>(m_timerMap)->find(AsciiString(path)).m_node;
+	if (node)
+	{
+		reinterpret_cast<Rva002229B2Ref *>((char *)node + 8)->invoke(out);
+		return out;
+	}
+	out->fraction = 1.0f;
+	out->image = 0;
+	return out;
 }
 
 // WorldBuilder B905A0 names HandleOverButtons (AptPlayer.cpp:426..443); the
