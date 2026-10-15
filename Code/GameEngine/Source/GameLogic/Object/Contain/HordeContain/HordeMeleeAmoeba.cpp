@@ -163,7 +163,7 @@ void AmoebaAttackEntry::rva005872CF(const ICoord2DBase &cell)
  if(timer==4) {
   for(int i=1;i<4;++i) cells[i-1]=cells[i];
  } else ++timer;
- asBase(cells[timer-1])=cell;
+ *reinterpret_cast<ICoord2DBase *>(&cells[timer-1])=cell;
 }
 
 // Native58776E..5877AF:65B RET8. Existing constructor table86FF38

@@ -16,9 +16,9 @@ public:
 
 void PathfindLayer::AddWallConnectCell(const ICoord2D *p)
 {
-	if (*p == asBase(m_a))
+	if (*p == *reinterpret_cast<ICoord2DBase *>(&m_a))
 		return;
-	if (*p == asBase(m_b))
+	if (*p == *reinterpret_cast<ICoord2DBase *>(&m_b))
 		return;
 	if (m_a.x == -1) {
 		m_a = *p;
