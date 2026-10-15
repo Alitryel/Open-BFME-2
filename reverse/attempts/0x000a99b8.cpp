@@ -1,4 +1,6 @@
 // ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
+// partial score=0.985 date=2026-10-15
+// ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
 // partial score=0.9899567303446856 date=2026-10-14
 // ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
 // partial score=0.99 date=2026-10-13
@@ -58,7 +60,7 @@ static void rva000A94F9(Coord2D &low,Coord2D &high,const Coord2D &point)
  else if (point.y > high.y) high.y = point.y;
  
 }
-static inline void aptMatrixMul(Coord2D&out,const Coord2D&point,const AptRenderTransform&matrix){out.x=point.x*matrix.a+point.y*matrix.c+matrix.tx;out.y=point.x*matrix.b+point.y*matrix.d+matrix.ty;}
+static inline void aptMatrixMul(Coord2D&out,const Coord2D&point,const AptRenderTransform&matrix){out.x=(point.y*matrix.c)+(point.x*matrix.a)+matrix.tx;out.y=(point.y*matrix.d)+(point.x*matrix.b)+matrix.ty;}
 class AptShapeContainer 
 {
  public:
@@ -89,12 +91,13 @@ void AptShapeContainer::getRenderRegion(Coord2D &low,Coord2D &high)
     if(!solid) break;
     for(AptTriangle *triangle=solid->first;triangle!=solid->last;++triangle) 
     {
-     aptMatrixMul(point,triangle->point[0],matrix);
+     const Coord2D *p=triangle->point;
+     aptMatrixMul(point,p[0],matrix);
      rva000A94F9(low,high,point);
-     aptMatrixMul(point, (triangle ? triangle->point[2] : triangle->point[2]),matrix);
+     aptMatrixMul(point,p[2],matrix);
      rva000A94F9(low,high,point);
-     aptMatrixMul(point,triangle->point[1],matrix);
-     rva000A94F9(((&(low)) ? (low) : (low)),high,point);
+     aptMatrixMul(point,p[1],matrix);
+     rva000A94F9(low,high,point);
      
     }
     break;
@@ -106,9 +109,10 @@ void AptShapeContainer::getRenderRegion(Coord2D &low,Coord2D &high)
     if(!lineShape) break;
     for(AptLine *line=lineShape->first;line!=lineShape->last;++line) 
     {
-     aptMatrixMul(point,line->point[1],matrix);
+     const Coord2D *p=line->point;
+     aptMatrixMul(point,p[1],matrix);
      rva000A94F9(low,high,point);
-     aptMatrixMul(point,line->point[0],matrix);
+     aptMatrixMul(point,p[0],matrix);
      rva000A94F9(low,high,point);
      
     }
