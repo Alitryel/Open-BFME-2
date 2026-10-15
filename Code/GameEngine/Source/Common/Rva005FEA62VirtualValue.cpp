@@ -18,14 +18,17 @@ public:
  ~Rva005FEA62VirtualValue(){if(value)ReleaseTreeHintRef00217D4C(value);}
  TargetRef00217D4C *value;
 };
-class Rva005FEA62Value {
+// Both native EH graphs call the owned 12-byte destructor at 0x5F8F96.
+// Reuse its measured one-word receiver ABI view. The original concrete
+// handle/pointee identities are still unknown; no HotKeyAction type is inferred.
+class Rva005F8F96 {
 public:
- // ?Rva005FEA62Value::Rva005FEA62Value present-unmatched
- Rva005FEA62Value(const Rva005FEA62VirtualValue &other):value(other.value) {if(value)++value->references;}
- // ?Rva005FEA62Value::~Rva005FEA62Value present-unmatched
- ~Rva005FEA62Value(){if(value)ReleaseTreeHintRef00217D4C(value);}
+ // ?Rva005F8F96::Rva005F8F96 present-unmatched
+ Rva005F8F96(const Rva005FEA62VirtualValue &other):value(other.value) {if(value)++value->references;}
+ ~Rva005F8F96();
 private: TargetRef00217D4C *value;
 };
+typedef Rva005F8F96 Rva005FEA62Value;
 class Rva005FEA62 {
 public:
  virtual void unknownSlot0();
