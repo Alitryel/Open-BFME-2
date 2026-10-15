@@ -4,8 +4,8 @@
 // twin ?rva00357F5E@ScriptEngine@@QAE_NABVAsciiString@@_N@Z @0x00357F5E 280B
 // Dedicated TU: no existing owner file carried this body. The R1 member
 // visibility lever needs the visible __declspec(noinline)
-// Rva00357DF8::rva00357DF8 definition here; the rowed 0x357DF8 body in
-// ScriptEngineRva00357DF8.cpp stays untouched. Canonical GameLogic and
+// Rva00357DF8::rva00357DF8 definition here; this unit also owns its rowed
+// 0x357DF8 callable body. Canonical GameLogic and
 // BfmeSpecialPowerTimer8 views replace the bank's private copies.
 #include "../../Common/GameLogicObjectLookupView.h"
 #include <list>
@@ -152,7 +152,10 @@ bool ScriptEngine::rva00357F5E(const AsciiString &s, bool remove)
 	return false;
 }
 
-// Actual rowed member ?rva00357DF8@Rva00357DF8@@QAEXABUBfmeSpecialPowerTimer8@@@Z at 0x00357DF8 from Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptEngineRva00357DF8.cpp.
+// Retail 0x00357DF8..0x00357E14: insert the timer at list begin through
+// the rowed list<BfmeSpecialPowerTimer8>::insert at 0x0036E30E. Keep this
+// definition visible for the callers' compiler analysis; this unit owns its
+// exact 28-byte callable copy. No separate strong definition is needed.
 inline __declspec(noinline) void Rva00357DF8::rva00357DF8(const BfmeSpecialPowerTimer8 &rec)
 {
 	m_list.insert(m_list.begin(), rec);
