@@ -1,4 +1,6 @@
 // ?rva0039E84B@Team@@QAEMPAVObject@@@Z
+// partial score=0.94 date=2026-10-15
+// ?rva0039E84B@Team@@QAEMPAVObject@@@Z
 // partial score=0.93 date=2026-10-14
 // ?rva0039E84B@Team@@QAEMPAVObject@@@Z
 // partial score=0.95 date=2026-10-05
@@ -45,11 +47,9 @@ float Team::rva0039E84B(Object *obj)
 		Rva002627E8 *rp = ((ObjectWithRange *)cur)->m_range;
 		if (rp == 0)
 			continue;
-		if (best < rp->rva002627E8())
+		if (rp->rva002627E8() < best)
 			best = rp->rva002627E8();
 	}
 	float scaled = f * length_estimate_factor;
-	if (best < scaled)
-		best = scaled;
-	return best;
+	return scaled > best ? scaled : best;
 }
