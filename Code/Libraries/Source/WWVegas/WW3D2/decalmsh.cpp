@@ -8,6 +8,10 @@
 // Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
 // copy that competes with retail's integer-move owner (0x006D8A30).
 #include "../../../../../reference/shims/bfme_matrix3d_sse_link/vector4.h"
+#define Matrix4x4 Matrix4  // BFME renamed it
+// Link view: Matrix4(Matrix3D) and the other Matrix4 inlines stay inline without emitting
+// copies that lose to retail's /O1 owners (0x0006A2CD, 0x0006A34E, 0x0006A3D1).
+#include "../../../../../reference/shims/bfme_matrix4_rows_link/matrix4_zh_rows_link.h"
 // stlport
 // The compiler-generated vector constructor iterator (??_H) takes the
 // optimization state of the first function that needs it. Retail links one
