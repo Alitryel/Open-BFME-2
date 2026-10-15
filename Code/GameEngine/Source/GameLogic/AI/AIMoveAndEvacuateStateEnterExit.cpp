@@ -46,7 +46,7 @@ public:
 	// This local +0x24 view must not emit the shared +0x28 getter.
 	const Coord3D *locomotorGoalPosition() const { return &m_goalPosition; }
 	void setGoalPosition(const Coord3D *pos);
-	void lock(const char *msg) { m_locked = true; }
+	__declspec(dllimport) __forceinline void lock(const char *msg) { m_locked = true; }
 	__declspec(dllimport) __forceinline void unlock() { m_locked = false; }
 private:
 	unsigned char m_pad00[0x14];
@@ -78,7 +78,7 @@ public:
 	virtual StateReturnType onEnter();
 	virtual void onExit(StateExitType status);
 protected:
-	__forceinline void setAdjustsDestination(Bool b)
+	__declspec(dllimport) __forceinline void setAdjustsDestination(Bool b)
 	{
 		if (b)
 		{

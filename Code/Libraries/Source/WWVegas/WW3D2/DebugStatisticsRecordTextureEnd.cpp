@@ -118,7 +118,7 @@ class RefCountPtr
 {
 public:
 	RefCountPtr() : Referent(0) {}
-	RefCountPtr(RefCountPtr const &other) : Referent(other.Referent)
+	__declspec(dllimport) __forceinline RefCountPtr(RefCountPtr const &other) : Referent(other.Referent)
 	{
 		if (Referent != 0)
 			Referent->Add_Ref();
