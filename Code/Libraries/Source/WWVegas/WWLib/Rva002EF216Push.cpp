@@ -9,11 +9,12 @@ struct _Rva002EBB53Inner {
 struct _Rva002EBB53Wrap {
     _Rva002EBB53Inner *m_inner;
 };
-void Rva002EBB53SiftUp(_Rva002EBB53Wrap **base, int hole, int top, _Rva002EBB53Wrap *val, void *extra);
+void Rva002EBB53SiftUp(_Rva002EBB53Wrap **base, int hole, int top, _Rva002EBB53Wrap *val);
+typedef void (__cdecl *Rva002EBB53SiftUp5)(_Rva002EBB53Wrap **, int, int, _Rva002EBB53Wrap *, void *);
 void __cdecl Rva002EF216Push(_Rva002EBB53Wrap **first, _Rva002EBB53Wrap **last, void *extra, int d1, int d2)
 {
     (void)d1; (void)d2;
     _Rva002EBB53Wrap *val = *(last - 1);
     int hole = int(last - first) - 1;
-    Rva002EBB53SiftUp(first, hole, 0, val, extra);
+    ((Rva002EBB53SiftUp5)Rva002EBB53SiftUp)(first, hole, 0, val, extra);
 }
