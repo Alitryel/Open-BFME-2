@@ -48,7 +48,7 @@ private:
 class Rva0055011ADeque44
 {
 public:
-    ~Rva0055011ADeque44();
+    ~Rva0055011ADeque44() {}
 private:
     Rva00550083 m_storage;
 };
