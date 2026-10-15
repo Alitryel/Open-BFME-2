@@ -193,7 +193,7 @@ enum DrawableStatus
 class Drawable : public Thing, public Snapshot
 {
 public:
-	const Object *getObject() const { return m_object; }
+	__declspec(dllimport) __forceinline const Object *getObject() const { return m_object; }
 	Drawable *getNextDrawable() const { return m_nextDrawable; }
 	bool testDrawableStatus(DrawableStatus bit) const { return (m_status & bit) != 0; }
 
