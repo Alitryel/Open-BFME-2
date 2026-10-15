@@ -85,7 +85,8 @@ public:
 	const ThingTemplate *getTemplate() const { return m_template; }
 	const Coord3D *getPosition() const { return &m_position; }
 	ObjectID getID() const { return m_id; }
-	AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
+	// Retail inlines this +0x258 load; suppress the surplus external copy.
+	__declspec(dllimport) __forceinline AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 	void *rva0028C197() const;
 	void doSpecialPowerAtObject(const SpecialPowerTemplate *spt, Object *target, unsigned commandOptions, bool extra);
 protected:

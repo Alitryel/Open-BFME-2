@@ -71,7 +71,8 @@ public:
 	Bool isDisabledByHeld() const { return (m_disabledMask[0] & 8) != 0; }
 	UnsignedInt isKindOf(UnsignedInt mask) const { return m_template->isKindOf(mask); }
 	const Coord3D *getPosition() const { return &m_position; }
-	AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
+	// Retail inlines this +0x258 load; suppress the surplus external copy.
+	__declspec(dllimport) __forceinline AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 	AIUpdateInterface *getAI() { return m_ai; }
 	UnsignedInt getFormationID() const { return m_formationID; }
 

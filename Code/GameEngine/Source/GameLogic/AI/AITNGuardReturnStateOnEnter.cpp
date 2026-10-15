@@ -102,7 +102,8 @@ class Object
 public:
 	const Coord3D *getPosition() const { return &m_position; }
 	AIUpdateInterface *getAI() { return m_ai; }
-	AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
+	// Retail inlines this +0x258 load; suppress the surplus external copy.
+	__declspec(dllimport) __forceinline AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 	Player *getControllingPlayer() const;
 	ContainModuleInterface *getContain() const { return m_contain; }
 	Object *getContainedBy() { return m_containedBy; }

@@ -217,7 +217,8 @@ class Object : public BfmeObjectVtbl, public BfmeObjectDlinkBase,
 {
 public:
 	__forceinline bool isKindOf(int bit) const { return m_template->isKindOf(bit); }
-	AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
+	// Retail inlines this +0x258 load; suppress the surplus external copy.
+	__declspec(dllimport) __forceinline AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 	ContainModuleInterface *getContain() const { return m_contain; }
 	const Coord3D *getPosition() const { return &m_pos; }
 private:

@@ -276,7 +276,8 @@ class Object
   return &m_pos;
   
  }
- AIUpdateInterface *getAIUpdateInterface() 
+ // Retail inlines this +0x258 load; suppress the surplus external copy.
+ __declspec(dllimport) __forceinline AIUpdateInterface *getAIUpdateInterface()
  {
   return m_ai;
   

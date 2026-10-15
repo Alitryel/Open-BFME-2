@@ -273,7 +273,8 @@ public:
 	ObjectID getID() const { return m_id; }
 	__forceinline UnsignedInt isKindOf(KindOfType t) const { return getTemplate()->isKindOf(t); }
 	ContainModuleInterface *getContain() const { return m_contain; }
-	AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
+	// Retail inlines this +0x258 load; suppress the surplus external copy.
+	__declspec(dllimport) __forceinline AIUpdateInterface *getAIUpdateInterface() { return m_ai; }
 	Rva003909FAObj *getPhysics() const { return m_physics; }
 	Team *getTeam() const { return m_team; }
 	Int get45C() const { return m_45C; }
