@@ -58,8 +58,13 @@ class AptMessenger
 {
 public:
 	void rva005AEBD3();										// 0x005AEBD3
-	void rva005AED3C();										// 0x005AED3C
 	virtual void rva005AF117();
+};
+
+class AptMessengerOnline : public AptMessenger
+{
+public:
+    void UpdatePlayerTabButtons(); // 0x005AED3C, recovered WB identity
 };
 
 void AptMessenger::rva005AF117()
@@ -70,7 +75,7 @@ void AptMessenger::rva005AF117()
 		rva005AEBD3();
 		break;
 	case 1:
-		rva005AED3C();
+		static_cast<AptMessengerOnline *>(this)->UpdatePlayerTabButtons();
 		break;
 	}
 }
