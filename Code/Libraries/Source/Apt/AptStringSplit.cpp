@@ -17,7 +17,15 @@ public:
 class EAStringC
 {
 public:
-	EAStringC() { clear(); }
+	class StringDataC {
+	public:
+		unsigned short m_uRefCount;
+		unsigned short m_uSize;
+		unsigned short m_uMaxSize;
+		unsigned short m_uHash;
+	};
+	StringDataC *data;
+	EAStringC();
 	EAStringC(const EAStringC &other);
 	~EAStringC();
 	EAStringC &clear();
@@ -27,9 +35,13 @@ public:
 	EAStringC &rva006D61E0(int codepoint);		// assign one character
 	int Find(const char *text, int start);
 	EAStringC &Append(const char *const text, unsigned int length);
-private:
-	void *m_data;
 };
+extern EAStringC::StringDataC g_eaEmptyStringData;
+__declspec(noinline) inline EAStringC::EAStringC()
+{
+	data = &g_eaEmptyStringData;
+	++data->m_uRefCount;
+}
 
 class BfmeAptValue006DCD20
 {
