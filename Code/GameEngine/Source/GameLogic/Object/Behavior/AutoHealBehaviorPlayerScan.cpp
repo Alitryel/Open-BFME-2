@@ -63,7 +63,7 @@ typedef _STL::list<Object *> ObjectPointerList;
 class ThingTemplate
 {
 public:
-	__forceinline Bool isKindOf(KindOfType t) const { return (m_kindof[t >> 3] & (1 << (t & 7))) != 0; }
+	__declspec(dllimport) __forceinline Bool isKindOf(KindOfType t) const { return (m_kindof[t >> 3] & (1 << (t & 7))) != 0; }
 private:
 	char m_pad00[0x108];
 	unsigned char m_kindof[32]; // +0x108
@@ -73,7 +73,7 @@ class Thing
 {
 public:
 	const ThingTemplate *getTemplate() const { return m_template; }
-	__forceinline Bool isKindOf(KindOfType t) const { return getTemplate()->isKindOf(t); }
+	__declspec(dllimport) __forceinline Bool isKindOf(KindOfType t) const { return getTemplate()->isKindOf(t); }
 	Bool isAnyKindOf(const KindOfMaskType &anyKindOf) const;
 private:
 	void *m_vtable;

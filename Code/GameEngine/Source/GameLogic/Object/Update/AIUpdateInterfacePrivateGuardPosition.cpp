@@ -58,7 +58,7 @@ public:
 class ThingTemplate : public Overridable
 {
 public:
-	__forceinline Bool isKindOf(KindOfType t) const { return (m_kindof[t >> 3] & (1 << (t & 7))) != 0; }
+	__declspec(dllimport) __forceinline Bool isKindOf(KindOfType t) const { return (m_kindof[t >> 3] & (1 << (t & 7))) != 0; }
 
 	unsigned char m_unmodelled_08[0x108 - 8];
 	unsigned char m_kindof[16];
@@ -67,7 +67,7 @@ public:
 class Thing
 {
 public:
-	__forceinline Bool isKindOf(KindOfType t) const { return m_template->isKindOf(t); }
+	__declspec(dllimport) __forceinline Bool isKindOf(KindOfType t) const { return m_template->isKindOf(t); }
 
 	virtual void slot00();
 	ThingTemplate *m_template;

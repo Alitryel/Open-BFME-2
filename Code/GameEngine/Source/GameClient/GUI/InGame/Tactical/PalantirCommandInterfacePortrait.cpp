@@ -43,7 +43,7 @@ enum KindOfType
 class ThingTemplate
 {
 public:
-	__forceinline Bool isKindOf(KindOfType t) const { return (m_kindof[t >> 3] & (1 << (t & 7))) != 0; }
+	__declspec(dllimport) __forceinline Bool isKindOf(KindOfType t) const { return (m_kindof[t >> 3] & (1 << (t & 7))) != 0; }
 
 	unsigned char m_unreconstructed_000[0x108];
 	unsigned char m_kindof[12];
@@ -87,7 +87,7 @@ public:
 class Drawable
 {
 public:
-	__forceinline Bool isKindOf(KindOfType t) const { return m_template->isKindOf(t); }
+	__declspec(dllimport) __forceinline Bool isKindOf(KindOfType t) const { return m_template->isKindOf(t); }
 	__declspec(dllimport) __forceinline Object *getObject() { return m_object; }
 
 	void *m_vtable;

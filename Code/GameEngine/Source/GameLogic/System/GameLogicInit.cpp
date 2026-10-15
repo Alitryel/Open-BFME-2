@@ -1563,7 +1563,7 @@ public:
 	const AsciiString &getName(void) const { return m_name; }
 	void GetAssetList(int a, int b);
 	int rva000456AC(int bit) const;
-	__forceinline bool isKindOf(KindOfType t) const
+	__declspec(dllimport) __forceinline bool isKindOf(KindOfType t) const
 	{
 		unsigned int mask = 1u << (t & 31);
 		return (m_kindof[t >> 5] & mask) != 0;

@@ -46,7 +46,7 @@ enum DisabledType
 class ThingTemplate
 {
 public:
-	__forceinline bool isKindOf(KindOfType t) const { return (m_kindOf[t >> 3] & (1 << (t & 7))) != 0; }
+	__declspec(dllimport) __forceinline bool isKindOf(KindOfType t) const { return (m_kindOf[t >> 3] & (1 << (t & 7))) != 0; }
 
 private:
 	unsigned char m_pad000[0x108];
@@ -75,7 +75,7 @@ class Object
 public:
 	const ThingTemplate *getTemplate() const { return m_template; }
 	const Coord3D *getPosition() const { return &m_position; }
-	__forceinline bool isKindOf(KindOfType t) const { return getTemplate()->isKindOf(t); }
+	__declspec(dllimport) __forceinline bool isKindOf(KindOfType t) const { return getTemplate()->isKindOf(t); }
 	__declspec(dllimport) __forceinline bool isDisabledByType(DisabledType t) const { return (m_disabledMask[t >> 3] & (1 << (t & 7))) != 0; }
 	AIUpdateInterface *getAI() const { return m_ai; }
 

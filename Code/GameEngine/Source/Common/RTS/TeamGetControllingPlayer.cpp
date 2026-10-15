@@ -198,7 +198,7 @@ enum KindOfType { KINDOF_HORDE = 109, KINDOF_COMBO_HORDE = 110 };
 class ThingTemplate
 {
 public:
-	Bool isKindOf(KindOfType t) const { return (m_kindOfWord3 & (1UL << ((unsigned)t & 31))) != 0; }
+	__declspec(dllimport) __forceinline Bool isKindOf(KindOfType t) const { return (m_kindOfWord3 & (1UL << ((unsigned)t & 31))) != 0; }
 	const ModuleInfo &getBehaviorModuleInfo() const { return m_behaviorModuleInfo; }
 	Bool isEquivalentTo(const ThingTemplate *tt) const;
 	const AsciiString &getName() const { return m_name; }
