@@ -236,6 +236,7 @@ public:
 	void rva005AFD43(GameWindow *window, const UnicodeString &text);
 };
 
+class AptMessengerOnline { public: void OnBttnInvite(); };	// 0x005AE7C6 (WB)
 class AptMessenger : public GameWindow
 {
 public:
@@ -262,7 +263,6 @@ public:
 	void rva005AE990();
 	void rva005AEA3E();
 	void rva005AE90F();
-	void rva005AE7C6();
 	void rva00511CE6();
 
 private:
@@ -313,7 +313,7 @@ void AptMessenger::OnBttn_1(const char *unused)
 		if (m_2a0)
 			rva005AE90F();
 		else
-			rva005AE7C6();
+			((AptMessengerOnline *)this)->OnBttnInvite();
 		break;
 	case 1:
 		rva005AEA3E();

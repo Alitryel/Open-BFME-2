@@ -146,13 +146,20 @@ public:
 	__declspec(noinline) void GetSelectedPlayers(Int listIndex, Int a, Int b);
 	void rva005AE90F();
 	void rva005AE886();
-	void rva005AE7C6();
 	void rva005AE990();
 	void rva005AEA3E();
 
 private:
 	unsigned char m_pad000[0x280];
 	ChatWindowsInGame **m_lists;		// +0x280
+};
+
+// WB AptMessengerOnline::OnBttnInvite (callgraph lead); the Online screen is this
+// AptMessenger layout, so the body keeps the base view.
+class AptMessengerOnline : public AptMessenger
+{
+public:
+	void OnBttnInvite();
 };
 
 // AptMessenger::GetSelectedPlayers, retail 0x00511C19.
@@ -209,7 +216,7 @@ void AptMessenger::rva005AE886()
 // returns immediately. For each selected nonlocal profile, the cdecl helper
 // receives that local with its first field replaced. Query/helper names and
 // the remaining scalar meanings are retained as address-derived views.
-void AptMessenger::rva005AE7C6()
+void AptMessengerOnline::OnBttnInvite()
 {
     Rva0059FB4F *query = (Rva0059FB4F *)g_currentAptOnlineCustomMatch;
     if (query) {
