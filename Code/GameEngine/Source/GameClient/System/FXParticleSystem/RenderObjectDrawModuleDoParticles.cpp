@@ -1,5 +1,3 @@
-// ?doParticles@RenderObjectDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.992 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
 // ?doParticles@RenderObjectDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // Native 00562DDB..005634F7 (1820B), RET12. Vtable slot4 at RVA81C454,
@@ -56,7 +54,7 @@ extern TerrainLogic *TheTerrainLogic;
 class ParticleTerrainView:public ParticleSlots<6> {public:virtual float groundHeight(float,float,void*);};
 
 static __forceinline Matrix3 RenderRotationProduct(const Matrix3 &a,const Matrix3 &b) {
- return Matrix3(Vector3((a[0][0]*b[0][0]+a[0][1]*b[1][0]+a[0][2]*b[2][0]),(a[0][0]*b[0][1]+a[0][1]*b[1][1]+a[0][2]*b[2][1]),(a[0][0]*b[0][2]+a[0][1]*b[1][2]+a[0][2]*b[2][2])),Vector3((a[1][0]*b[0][0]+a[1][1]*b[1][0]+a[1][2]*b[2][0]),(a[1][0]*b[0][1]+a[1][1]*b[1][1]+a[1][2]*b[2][1]),(a[1][0]*b[0][2]+a[1][1]*b[1][2]+a[1][2]*b[2][2])),Vector3((a[2][0]*b[0][0]+a[2][2]*b[2][0]+a[2][1]*b[1][0]),(a[2][0]*b[0][1]+a[2][1]*b[1][1]+a[2][2]*b[2][1]),(a[2][0]*b[0][2]+a[2][1]*b[1][2]+a[2][2]*b[2][2])));
+ return Matrix3(Vector3((a[0][0]*b[0][0]+a[0][1]*b[1][0]+a[0][2]*b[2][0]),(a[0][0]*b[0][1]+a[0][1]*b[1][1]+a[0][2]*b[2][1]),(a[0][0]*b[0][2]+a[0][1]*b[1][2]+a[0][2]*b[2][2])),Vector3((a[1][0]*b[0][0]+a[1][1]*b[1][0]+a[1][2]*b[2][0]),(a[1][0]*b[0][1]+a[1][1]*b[1][1]+a[1][2]*b[2][1]),(a[1][0]*b[0][2]+a[1][1]*b[1][2]+a[1][2]*b[2][2])),Vector3((a[2][0]*b[0][0]+a[2][1]*b[1][0]+a[2][2]*b[2][0]),(a[2][0]*b[0][1]+a[2][1]*b[1][1]+a[2][2]*b[2][1]),(a[2][0]*b[0][2]+a[2][1]*b[1][2]+a[2][2]*b[2][2])));
 }
 namespace FXParticleSystem {
 class RenderObjectDrawModule {
@@ -78,7 +76,11 @@ int RenderObjectDrawModule::doParticles(RenderInfoClass&,void *bounds,int*) {
   p=getSystem()->storage->first();
  for(;p;p=p->next) {
   if(((CPUParticle*)p)->rva001F4E2D())continue;
-  float sx=((Rva001F4D4F*)p)->rva001F4D4F();
+  // The x extent goes through a second local so its value merges in a register
+  // first (measured: with this copy the plain row-major rotation product below
+  // compiles to retail without hand-permuted terms).
+  float sxExtent=((Rva001F4D4F*)p)->rva001F4D4F();
+  float sx=sxExtent;
   float sy=((Rva001F4D76*)p)->rva001F4D76();
   float sz=((Rva001F4D9D*)p)->rva001F4D9D();
   if(WWMath::Fabs(p->position.X-cx)>sx+ex)continue;

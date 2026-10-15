@@ -1,7 +1,7 @@
 .386
 .model flat
 
-; d3dx9_27.dll import thunks -- retail 0x0062AF26..0x0062AFC8, six bytes each:
+; d3dx9_27.dll import thunks -- retail 0x0062AF26..0x0062AFDA, six bytes each:
 ; `jmp dword ptr [__imp__<name>@<n>]` through the IAT slot the PE import
 ; directory names for that export. Import thunks are linker machinery (the
 ; d3dx9 import library supplies them). No C++ spelling both defines the
@@ -38,6 +38,9 @@ EXTERN __imp__D3DXCreateEffect@36:DWORD
 EXTERN __imp__D3DXLoadSurfaceFromSurface@32:DWORD
 EXTERN __imp__D3DXGetFVFVertexSize@4:DWORD
 EXTERN __imp__D3DXGetShaderInputSemantics@12:DWORD
+EXTERN __imp__D3DXMatrixRotationAxis@12:DWORD
+EXTERN __imp__D3DXMatrixRotationY@8:DWORD
+EXTERN __imp__D3DXMatrixRotationX@8:DWORD
 
 _TEXT SEGMENT
 
@@ -178,6 +181,24 @@ public _D3DXGetShaderInputSemantics@12
 _D3DXGetShaderInputSemantics@12 PROC
     jmp  DWORD PTR __imp__D3DXGetShaderInputSemantics@12
 _D3DXGetShaderInputSemantics@12 ENDP
+
+; retail 0x0062AFCE
+public _D3DXMatrixRotationAxis@12
+_D3DXMatrixRotationAxis@12 PROC
+    jmp  DWORD PTR __imp__D3DXMatrixRotationAxis@12
+_D3DXMatrixRotationAxis@12 ENDP
+
+; retail 0x0062AFD4
+public _D3DXMatrixRotationY@8
+_D3DXMatrixRotationY@8 PROC
+    jmp  DWORD PTR __imp__D3DXMatrixRotationY@8
+_D3DXMatrixRotationY@8 ENDP
+
+; retail 0x0062AFDA
+public _D3DXMatrixRotationX@8
+_D3DXMatrixRotationX@8 PROC
+    jmp  DWORD PTR __imp__D3DXMatrixRotationX@8
+_D3DXMatrixRotationX@8 ENDP
 
 _TEXT ENDS
 END
