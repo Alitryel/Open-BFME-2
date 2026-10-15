@@ -120,7 +120,9 @@ public:
     class Version;
 
     Xfer();
-    virtual ~Xfer();
+    // Retail's scalar deleting destructor calls ~Xfer instead of inlining its
+    // vtable restore; keep the dtor out of line in this TU.
+    __declspec(noinline) virtual ~Xfer();
 
     void Version1();
 
