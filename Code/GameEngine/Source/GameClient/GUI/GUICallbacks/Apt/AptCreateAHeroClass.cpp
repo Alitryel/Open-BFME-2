@@ -74,3 +74,46 @@ void Rva005B566B::rva005B566B()
   reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->rva002239FA(key,image);
  }
 }
+
+// Native5B54ED..5B566B,382B RET12: update the hero, subclass icons and
+// class/subclass descriptions. WB157C3E0 names Class::SetCurrentHero;
+// the existing receiver and provider spellings are retained.
+// Bind the returned text by const reference. The identical call arms keep
+// minor live through text construction, preserving retail's temporary homes.
+static __forceinline void SetTypeDescription(const AsciiString &key,
+    const UnicodeString &value, unsigned minor)
+{
+    (minor ? g_bfmeAptWindowManager->bfmeSetText(key, value, true)
+           : g_bfmeAptWindowManager->bfmeSetText(key, value, true));
+}
+
+void Rva005B566B::rva005B54ED(unsigned major, unsigned minor, bool animate)
+
+{
+ CreateAHeroData *hero = reinterpret_cast<Rva0040A3D2 *>(&heroes)->rva0040A3D2(major, minor);
+ if (!hero)
+ return;
+ screen->hero.rva005B21DA(hero, true, animate ? 1 : 0);
+ unsigned count = TheCreateAHeroManager->rva00219D52(major);
+ for (unsigned i = 0; i < count; ++i)
+ {
+  const AsciiString &image = TheCreateAHeroManager->GetButtonImageName(major, i);
+  AsciiString key;
+  key.format("Cah::TypeIcon%d", i);
+  reinterpret_cast<Rva00222A8BTarget *>(g_bfmeAptWindowManager)->rva002239FA(key, image);
+
+ }
+
+ {
+  AsciiString key("APT:CahClassDescription");
+  g_bfmeAptWindowManager->bfmeSetText(key, TheGameText->fetchLabel(TheCreateAHeroManager->GetClassDescTag(major)), true);
+
+ }
+
+ {
+  AsciiString key("APT:CahTypeDescription");
+  SetTypeDescription(key,TheGameText->fetchLabel(TheCreateAHeroManager->GetSubClassDescTag(major,minor)),minor);
+
+ }
+
+}
