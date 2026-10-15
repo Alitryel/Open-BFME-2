@@ -18,7 +18,6 @@ typedef float Real;
 
 extern "C" __declspec(dllimport) UnsignedInt __stdcall timeGetTime(void);
 
-extern const float g_00C1B4F0;
 extern const float g_00BC26EC;
 
 class NetCommandMsg
@@ -86,9 +85,9 @@ NetCommandRef *Connection::rva0058B9CA(UnsignedShort commandID, UnsignedByte pla
 		return 0;
 	}
 	Int latencyHistoryIndex = cmd->m_id % CONNECTION_LATENCY_HISTORY_LENGTH;
-	m_averageLatency -= m_latencies[latencyHistoryIndex] * g_00C1B4F0;
+	m_averageLatency -= m_latencies[latencyHistoryIndex] * 0.005f;
 	Real roundTripMilliseconds = (Real)(timeGetTime() - pendingCommandRef->getTimeLastSent());
-	m_averageLatency += roundTripMilliseconds * g_00C1B4F0;
+	m_averageLatency += roundTripMilliseconds * 0.005f;
 	m_latencies[latencyHistoryIndex] = roundTripMilliseconds;
 	m_netCommandList->removeMessage(pendingCommandRef);
 	return pendingCommandRef;

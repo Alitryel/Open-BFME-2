@@ -62,7 +62,6 @@ inline bool Object::testStatus(ObjectStatusTypes bit) const
 {
 	return (m_statusBits[(unsigned int)bit >> 5] & (1 << (bit & 31))) != 0;
 }
-extern float BfmeZeroRange;
 extern float g_00C6499C;
 float __cdecl GetGameLogicRandomValueReal(float a, float b, char *name, int line);
 
@@ -239,7 +238,7 @@ doAttr:
 	{
 		float v;
 		shooter->rva0028C149(0xA, &v, 0);
-		if (!(v > BfmeZeroRange))
+		if (!(v > 0.0f))
 			goto checkBit;
 		float r = GetGameLogicRandomValueReal(0.0f, g_00C6499C, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\WeaponEffects\\MetaImpactNugget.cpp", 0x19B);
 		if (!(r > v))

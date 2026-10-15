@@ -389,7 +389,7 @@ public:
 
 extern PlayerList *ThePlayerList;
 extern InGameUI *TheInGameUI;
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 
 bool Rva00498CB1Owner::invoke()
 {
@@ -403,7 +403,7 @@ bool Rva00498CB1Owner::invoke()
 	if (player && local && player == local)
 	{
 		((InGameUI167View *)TheInGameUI)->w68();
-		GameMessage *msg = MessageStreamSubsystem->appendType(0x3EA);
+		GameMessage *msg = TheMessageStream->appendType(0x3EA);
 		msg->appendBooleanArgument(true);
 		msg->appendObjectIDArgument(m_objectID);
 		Drawable *draw = ((Thing *)obj)->getDrawable();

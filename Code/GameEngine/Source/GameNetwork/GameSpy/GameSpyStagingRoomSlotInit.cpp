@@ -602,7 +602,7 @@ public:
 	virtual void v16(); virtual void v17();
 	virtual GameMessage *appendMessage(Int type);	// slot 18 (+0x48)
 };
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 
 enum GameSpyBuddyStatus
 {
@@ -667,7 +667,7 @@ void GameSpyStagingRoom::launchWOTRMPGame(void)
 	TheGameLogic->rva00376E92(false, false);
 	((Rva002D3627Host *)TheLivingWorld)->rva10(1);
 
-	GameMessage *msg = MessageStreamSubsystem->appendMessage(0x1F);
+	GameMessage *msg = TheMessageStream->appendMessage(0x1F);
 	if (msg)
 	{
 		msg->appendIntegerArgument(m_bfme58);
@@ -773,7 +773,7 @@ void GameSpyStagingRoom::launchGame(void)
 
 	TheWritableGlobalData->m_pendingFile = TheGameSpyGame->getMap();
 
-	GameMessage *msg = MessageStreamSubsystem->appendMessage(0x1E);
+	GameMessage *msg = TheMessageStream->appendMessage(0x1E);
 	msg->appendIntegerArgument(5);
 	msg->appendIntegerArgument(1);
 	msg->appendIntegerArgument(0);

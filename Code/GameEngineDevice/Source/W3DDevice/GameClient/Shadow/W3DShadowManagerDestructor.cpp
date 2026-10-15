@@ -26,7 +26,7 @@ class AudioManager0029E159;
 extern W3DVolumetricShadowManager *TheW3DVolumetricShadowManager;
 extern W3DProjectedShadowManager *TheW3DProjectedShadowManager;
 extern Rva00108660ResourceManager *Rva00DEC2D8Manager;
-extern AudioManager0029E159 *g_00DEC2D4;
+extern class ProjectedShadowManager *TheProjectedShadowManager;
 extern Rva0007DA23ResourceManager *Rva00DE1FF8Manager;
 
 // The projected shadow manager's destructor (rowed 0x001076E9).
@@ -59,7 +59,7 @@ Rva009A500::~Rva009A500()
 
 	::delete Rva00DEC2D8Manager;
 	Rva00DEC2D8Manager = 0;
-	g_00DEC2D4 = 0;
+	(*(AudioManager0029E159 **)&TheProjectedShadowManager) = 0;
 
 	delete (Rva0007BAD6 *)Rva00DE1FF8Manager;
 	Rva00DE1FF8Manager = 0;

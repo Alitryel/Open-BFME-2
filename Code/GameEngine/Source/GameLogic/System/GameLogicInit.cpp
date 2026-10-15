@@ -3266,7 +3266,7 @@ public:
 	void rva00739780(int playerIndex);
 };
 
-extern int g_00DFE158;
+extern int st_DebugDLL;
 class SkirmishGameInfo;
 extern SkirmishGameInfo *TheSkirmishGameInfo;
 extern LuaScriptEngine *TheLuaScriptEngine;
@@ -3283,7 +3283,7 @@ void bfmeStepReceiverRecord(int source);
 void GameLogic::rva002469A5(bool loadingSaveGame, int *progress)
 {
 	if (TheWritableGlobalData->m_9c1) {
-		NewMapProc proc = (NewMapProc)GetProcAddress((void *)g_00DFE158, "NewMap");
+		NewMapProc proc = (NewMapProc)GetProcAddress((void *)st_DebugDLL, "NewMap");
 		if (proc)
 			proc();
 	}
@@ -4198,7 +4198,7 @@ public:
 	virtual GameMessage *appendMessage(int type);                        // +0x48
 	void propagateMessages(void);
 };
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 
 // The diagnostic stream: 0x006021A4 hands back its buffer and its size; the
 // desync reporter names its file after the string at +4.
@@ -4296,7 +4296,7 @@ void GameLogic::ProcessCRC(unsigned int crc, int player, unsigned int frame, Gam
 					{
 						if (TheNetwork->slotAC() && forced)
 						{
-							GameMessage *out = MessageStreamSubsystem->appendMessage(0x44a);
+							GameMessage *out = TheMessageStream->appendMessage(0x44a);
 							out->appendIntegerArgument(crc);
 							out->appendTimestampArgument(m_38);
 							out->appendTimestampArgument(m_40);
@@ -4306,7 +4306,7 @@ void GameLogic::ProcessCRC(unsigned int crc, int player, unsigned int frame, Gam
 						else if (message && !forced)
 							message->appendBooleanArgument(true);
 					}
-					MessageStreamSubsystem->propagateMessages();
+					TheMessageStream->propagateMessages();
 					if (TheNetwork)
 						TheNetwork->slot3C(0);
 				}
@@ -4315,13 +4315,13 @@ void GameLogic::ProcessCRC(unsigned int crc, int player, unsigned int frame, Gam
 					rva002401DD((BfmeThingEC *)*m_4c, frame, player);
 					if (!TheRecorder || TheRecorder->getMode() != RECORDERMODETYPE_PLAYBACK)
 					{
-						GameMessage *out = MessageStreamSubsystem->appendMessage(0x44a);
+						GameMessage *out = TheMessageStream->appendMessage(0x44a);
 						out->appendIntegerArgument(crc);
 						out->appendTimestampArgument(m_38);
 						out->appendTimestampArgument(m_40);
 						out->appendBooleanArgument(TheRecorder->getMode() == RECORDERMODETYPE_PLAYBACK);
 						out->appendBooleanArgument(true);
-						MessageStreamSubsystem->propagateMessages();
+						TheMessageStream->propagateMessages();
 						if (TheNetwork)
 							TheNetwork->slot3C(0);
 					}
@@ -4729,7 +4729,7 @@ void GameLogic::update(int phase)
 				crc = getCRC(0);
 				TheLiteCRC = false;
 			}
-			GameMessage *msg = MessageStreamSubsystem->appendMessage(0x44a);
+			GameMessage *msg = TheMessageStream->appendMessage(0x44a);
 			msg->appendIntegerArgument(crc);
 			msg->appendTimestampArgument(m_38);
 			msg->appendTimestampArgument(getFrame());
@@ -4853,7 +4853,7 @@ void GameLogic::update(int phase)
 	}
 
 	if (rva0042219() && m_40 == 0x400 && !CopyProtect::rva00232D38()) {
-		GameMessage *msg = MessageStreamSubsystem->appendMessage(0x448);
+		GameMessage *msg = TheMessageStream->appendMessage(0x448);
 		msg->appendBooleanArgument(false);
 	}
 

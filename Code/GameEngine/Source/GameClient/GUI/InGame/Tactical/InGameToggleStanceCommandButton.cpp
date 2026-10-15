@@ -29,7 +29,7 @@ class MessageStream {public:
  virtual void v12();virtual void v13();virtual void v14();virtual void v15();
  virtual void v16();virtual void v17();virtual GameMessage *createMessage(int);
 };
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 class DrawableList;
 class PickAndPlayInfo {public:PickAndPlayInfo();char pad[0x20];CommandButton *button;};
 bool pickAndPlayUnitVoiceResponse(const DrawableList *,GameMessage::Type,PickAndPlayInfo *);
@@ -55,7 +55,7 @@ class Rva00525E55 {public:void rva00567A6E(int);char pad[0xC];StanceOwnerView *o
 void Rva00525E55::rva00567A6E(int stance) {
  reinterpret_cast<Rva0035B424 *>(button)->rva0035B424(StanceToButtonSlot(button,stance));
  GadgetButtonSetEnabledImage_Rva002C0433(window,button->rva0035B19E());
- GameMessage *message=MessageStreamSubsystem->createMessage(0x468);
+ GameMessage *message=TheMessageStream->createMessage(0x468);
  message->appendIntegerArgument(stance);
  void *menu=owner->currentMenu();
  if(menu && reinterpret_cast<Rva0057C22FByteChaseField *>(menu)->get())reinterpret_cast<Rva005C39AA *>(menu)->rva005C39AA();

@@ -25,7 +25,7 @@ extern class PartitionManager *TheShroudManager;
 extern PartitionManager *ThePartitionManager;
 class CollisionManager;
 extern CollisionManager *TheCollisionManager;
-extern FireLogicSystem *TheFireLogic;
+extern class Rva002872BA *TheTriggerManager;
 class LuaScriptEngine;
 extern LuaScriptEngine *TheLuaScriptEngine;
 // Sole data-ledger owner of the registry pointer at VA 0x00DFEEF8.
@@ -49,7 +49,7 @@ void Object::rva0028DCC4(){
    if(TheShroudManager && !partitionData)((Rva00739750*)TheShroudManager)->rva00739750(shroud);
    if(partitionData)partitionData->makeDirty();
    if(ThePartitionManager)ThePartitionManager->rva00625320(partition);
-   TheFireLogic->RegisterObject((Rva00287C21Other*)this);
+   (*(FireLogicSystem **)&TheTriggerManager)->RegisterObject((Rva00287C21Other*)this);
   }
   bool eligible = !(type->kind[0] & (1u<<30));
   if(*(bool*)&g_Va00DFE7A8) eligible=false;

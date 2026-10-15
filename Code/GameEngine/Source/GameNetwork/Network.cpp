@@ -83,7 +83,7 @@ public:
 #undef MESSAGE_STREAM_SLOT
 };
 
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 
 extern "C" __declspec(dllimport) int __stdcall QueryPerformanceFrequency(__int64 *frequency);
 extern "C" __declspec(dllimport) int __stdcall QueryPerformanceCounter(__int64 *counter);
@@ -243,7 +243,7 @@ void Network::quitGame(void)
 	if (m_pConMgr)
 		m_pConMgr->rva004D0E8B();
 
-	GameMessage *message = MessageStreamSubsystem->appendMessage(0x1D);
+	GameMessage *message = TheMessageStream->appendMessage(0x1D);
 	if (TheGameLogic != 0 || *(const int *)0x114 != 3)
 		message->appendIntegerArgument(2);
 

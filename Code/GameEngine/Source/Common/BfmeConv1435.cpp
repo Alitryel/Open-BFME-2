@@ -23,9 +23,7 @@ __int64 g_bfmeVM0Quotient;
 extern double g_bfmeVM0Scale;
 // g_bfmeVM0Scale: matched references place it at VA 0xdfea10 (zero-filled .bss).
 double g_bfmeVM0Scale;
-extern const double g_bfmeVM0Factor;
 // g_bfmeVM0Factor: matched references place it at VA 0xbf5d50 (retail .rdata value 0.03333333333333333).
-extern const double g_bfmeVM0Factor = 0.03333333333333333;
 
 class BfmeVM0Timer
 {
@@ -189,7 +187,7 @@ void BfmeStrVM0::StartRenderThread(int mode)
 			--span;
 			--span;
 			g_bfmeVM0Quotient = g_bfmeVM0Total / span;
-			g_bfmeVM0Scale = 1000.0 / (double)g_bfmeVM0Total * g_bfmeVM0Factor;
+			g_bfmeVM0Scale = 1000.0 / (double)g_bfmeVM0Total * 0.03333333333333333;
 		}
 		m_firstMutex = CreateMutexA(0, 0, 0);
 		m_secondMutex = CreateMutexA(0, 1, 0);

@@ -125,7 +125,7 @@ public:
 	virtual void v16(); virtual void v17();
 	virtual GameMessage *appendMessage(GameMessage::Type type);           // +0x48
 };
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 
 class GameWindowManager
 {
@@ -250,7 +250,7 @@ WindowMsgHandledType ControlBarSystem( GameWindow *window, UnsignedInt msg,
 			}
 			else if( controlID == beaconDeleteButtonID && TheGameLogic->isInMultiplayerGame() )
 			{
-				MessageStreamSubsystem->appendMessage( GameMessage::MSG_REMOVE_BEACON );
+				TheMessageStream->appendMessage( GameMessage::MSG_REMOVE_BEACON );
 			}
 			else if( controlID == beaconClearTextButtonID && TheGameLogic->isInMultiplayerGame() )
 			{
@@ -295,7 +295,7 @@ WindowMsgHandledType ControlBarSystem( GameWindow *window, UnsignedInt msg,
 			{
 				if (TheInGameUI->getSelectCount() == 1)
 				{
-					GameMessage *msg = MessageStreamSubsystem->appendMessage( GameMessage::MSG_SET_BEACON_TEXT );
+					GameMessage *msg = TheMessageStream->appendMessage( GameMessage::MSG_SET_BEACON_TEXT );
 					UnicodeString newText = GadgetTextEntryGetText( control );
 					TheLanguageFilter->filterLine(newText);
 					const WideChar * c = newText.str();

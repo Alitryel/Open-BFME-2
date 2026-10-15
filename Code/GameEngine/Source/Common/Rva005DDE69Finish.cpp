@@ -7,7 +7,6 @@
 // compiler from caching m_begin across the idiv, which is the register shape
 // retail uses; it emits no code.
 // The range-max provider in GameStats.cpp uses the same pooled -FLT_MAX.
-extern float g_Va00BBB8E0;
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -47,6 +46,6 @@ float Rva005DDE69::MinGameLength(unsigned idx, unsigned lo, unsigned hi)
 	int count = (m_end - m_begin) / 0x18;
 	_ReadWriteBarrier();
 	if (idx >= (unsigned)count)
-		return g_Va00BBB8E0;
+		return 3.4028235e+38f;
 	return ((Rva005DDC6B *)(m_begin + idx * 0x18))->rva005DDCE5(lo, hi);
 }

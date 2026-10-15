@@ -157,7 +157,7 @@ public:
 	virtual GameMessage *appendMessage(GameMessage::Type type) = 0;
 };
 
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 
 class View
 {
@@ -311,7 +311,7 @@ void InGameUI::selectNextIdleWorker(void)
 		}
 
 		deselectAllDrawables();
-		GameMessage *teamMsg = MessageStreamSubsystem->appendMessage( GameMessage::MSG_CREATE_SELECTED_GROUP );
+		GameMessage *teamMsg = TheMessageStream->appendMessage( GameMessage::MSG_CREATE_SELECTED_GROUP );
 
 		// New group or add to group? Passed in value is true if we are creating a new group.
 		teamMsg->appendBooleanArgument( true );

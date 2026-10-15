@@ -142,7 +142,7 @@ public:
 	virtual GameMessage *appendMessage( GameMessage::Type type );	// slot 18
 };
 
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 
 class Drawable
 {
@@ -406,7 +406,7 @@ void InGameUI::setInputEnabled( bool enabled, bool *gate )
 		m_modes[9] = false;
 		m_modes[10] = false;
 
-		GameMessage *msg = MessageStreamSubsystem->appendMessage( GameMessage::MSG_RVA469 );
+		GameMessage *msg = TheMessageStream->appendMessage( GameMessage::MSG_RVA469 );
 		msg->appendIntegerArgument( 0 );
 		msg->appendIntegerArgument( 1 );
 	}

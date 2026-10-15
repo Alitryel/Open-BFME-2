@@ -17,7 +17,7 @@ struct GlobalA01E48 { char pad[0x54]; unsigned char flag; };
 class Shell;
 extern Shell *TheShell;
 class Rva00222479ByteOneSetter { public: void enable(); };
-extern Rva00222479ByteOneSetter *g_Va009FE4CC;
+extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 class AptPlayerTribute
 {
 public:
@@ -32,7 +32,7 @@ void AptPlayerTribute::CloseScreen(void)
 		return;
 	p->flag = 1;
 	((GlobalA01E48 *)TheShell)->flag = 1;
-	g_Va009FE4CC->enable();
+	(*(Rva00222479ByteOneSetter **)&g_bfmeAptWindowManager)->enable();
 }
 
 // ?Rva004E400DEnable@@YAXXZ @0x004E400D 43B.
@@ -52,7 +52,7 @@ void Rva004E400DEnable(void)
 		return;
 	p->flag = 1;
 	((GlobalA01E48 *)TheShell)->flag = 1;
-	g_Va009FE4CC->enable();
+	(*(Rva00222479ByteOneSetter **)&g_bfmeAptWindowManager)->enable();
 }
 
 // ?Rva004E40A6Enable@@YGXH@Z @0x004E40A6 33B.
@@ -142,7 +142,7 @@ void Rva00444040Enable(void)
 {
 	if (g_Va00A03354 == 0)
 		return;
-	g_Va009FE4CC->enable();
+	(*(Rva00222479ByteOneSetter **)&g_bfmeAptWindowManager)->enable();
 }
 
 // ?Rva0052340DEnable@@YAXXZ @0x0052340D 43B.
@@ -164,7 +164,7 @@ void Rva0052340DEnable(void)
 		return;
 	p->flag = 1;
 	((GlobalA01E48 *)TheShell)->flag = 1;
-	g_Va009FE4CC->enable();
+	(*(Rva00222479ByteOneSetter **)&g_bfmeAptWindowManager)->enable();
 }
 
 // ?Rva0043C96FEnable@@YAXXZ @0x0043C96F 43B.
@@ -184,7 +184,7 @@ void Rva0043C96FEnable(void)
 		return;
 	p->flag = 1;
 	((GlobalA01E48 *)TheShell)->flag = 1;
-	g_Va009FE4CC->enable();
+	(*(Rva00222479ByteOneSetter **)&g_bfmeAptWindowManager)->enable();
 }
 
 // ?Rva0043C9B3Get@@YAPAXXZ @0x0043C9B3 50B.

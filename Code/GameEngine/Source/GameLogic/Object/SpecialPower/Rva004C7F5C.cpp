@@ -64,7 +64,6 @@ public:
 	static void doFXObj(const FXList *fx, const Object *primary, const Object *secondary);
 };
 
-extern const float BfmeZeroRange;
 
 struct Inner
 {
@@ -100,7 +99,7 @@ void Rva004C7F5C::rva004C7F5C(Object *obj)
 	if ((obj->m_4->m_108 & 0x80) != 0)
 	{
 		float *p280 = &obj->m_280;
-		if (*p280 >= BfmeZeroRange)
+		if (*p280 >= 0.0f)
 		{
 			if (99.0f > *p280) // retail's immutable float at RVA 0x007CEA18
 				return;
@@ -113,7 +112,7 @@ void Rva004C7F5C::rva004C7F5C(Object *obj)
 	float amount = inner->m_7c;
 	if (inner->m_80 != (unsigned char)zero)
 		amount *= mult->getMult();
-	if (!(amount > BfmeZeroRange))
+	if (!(amount > 0.0f))
 		return;
 	obj->attemptHealing(amount, (const Object *)zero);
 	FXList *fx = inner->m_a4;

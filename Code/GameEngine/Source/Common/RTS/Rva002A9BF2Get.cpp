@@ -81,7 +81,7 @@ struct BfmeWorldRV
 	unsigned char m_28;
 };
 
-extern struct BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 
 class Object
 {
@@ -122,8 +122,8 @@ void Rva002A9BF2::rva002A9D02(int a1, Object *obj, int a3)
 	obj->friend_adjustPowerForPlayer(true);
 	if (m_window)
 		((GameWindowVirt *)m_window)->v8(a1, obj);
-	if (g_bfmeWorldRV)
-		g_bfmeWorldRV->m_28 = 1;
+	if ((*(BfmeWorldRV **)&TheControlBar))
+		(*(BfmeWorldRV **)&TheControlBar)->m_28 = 1;
 	if (obj->rva0028BD17())
 		((SecondVirt *)obj->rva0028BD17())->w3(a1);
 	obj->rva0028DA67();

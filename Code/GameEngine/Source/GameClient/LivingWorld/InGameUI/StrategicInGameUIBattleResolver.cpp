@@ -167,7 +167,7 @@ struct ResolveGameInfoView{char unknown[0x84];int field84;bool isEmpty()const{re
 class GameMessage{public:void appendIntegerArgument(int);};
 class MessageStream{public:virtual ~MessageStream();
  virtual void v01();virtual void v02();virtual void v03();virtual void v04();virtual void v05();virtual void v06();virtual void v07();virtual void v08();virtual void v09();virtual void v10();virtual void v11();virtual void v12();virtual void v13();virtual void v14();virtual void v15();virtual void v16();virtual void v17();virtual GameMessage*CreateMessage(int);};
-extern MessageStream*MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 struct Rva005D06CBOwner;
 class Rva005D06CBB2{public:virtual ~Rva005D06CBB2();};
 class Rva005EB753{public:Rva005EB753(void*,void*,void*);virtual ~Rva005EB753();virtual void veterancySlot04();void*member04;};
@@ -184,7 +184,7 @@ void Rva005CF9FF::slot1(){
   Object*next=(Object*)new Rva005D06CB((Rva005D06CBOwner*)m_04,(void*)value,(void*)m_08);
   ((ResolvePlanView*)m_04)->state.rva00575674(next);
  }else{
-  GameMessage*message=MessageStreamSubsystem->CreateMessage(0x6be);
+  GameMessage*message=TheMessageStream->CreateMessage(0x6be);
   message->appendIntegerArgument(((ResolvePlanView*)m_04)->battle->id);
   Object*next=(Object*)new Rva005D073A(m_04);
   ((ResolvePlanView*)m_04)->state.rva00575674(next);

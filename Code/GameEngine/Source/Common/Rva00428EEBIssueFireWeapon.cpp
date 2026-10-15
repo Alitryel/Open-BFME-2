@@ -41,7 +41,7 @@ public:
 	virtual GameMessage *createMessage(int type);
 };
 
-extern class MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 
 class DrawableList;
 class PickAndPlayInfo;
@@ -179,7 +179,7 @@ int CommandTranslator::rva00428EEB(const CommandButton *command, int commandType
 			int msgType = GameMessage::MSG_434;
 			if (commandType == 0)
 			{
-				GameMessage *msg = MessageStreamSubsystem->createMessage(msgType);
+				GameMessage *msg = TheMessageStream->createMessage(msgType);
 				msg->appendObjectIDArgument(target->m_object ? target->m_object->m_id : OBJECTID_NONE);
 				msg->appendIntegerArgument(0);
 
@@ -197,7 +197,7 @@ int CommandTranslator::rva00428EEB(const CommandButton *command, int commandType
 		int msgType = GameMessage::MSG_433;
 		if (commandType == 0)
 		{
-			GameMessage *msg = MessageStreamSubsystem->createMessage(msgType);
+			GameMessage *msg = TheMessageStream->createMessage(msgType);
 			msg->appendLocationArgument(*pos);
 			msg->appendIntegerArgument(0);
 
@@ -230,7 +230,7 @@ int CommandTranslator::issueCombatDropCommand(const CommandButton *command, int 
 			int msgType = GameMessage::MSG_COMBATDROP_AT_OBJECT;
 			if (commandType == 0)
 			{
-				GameMessage *msg = MessageStreamSubsystem->createMessage(msgType);
+				GameMessage *msg = TheMessageStream->createMessage(msgType);
 				msg->appendObjectIDArgument(target->m_object ? target->m_object->m_id : OBJECTID_NONE);
 
 				PickAndPlayInfo info;
@@ -247,7 +247,7 @@ int CommandTranslator::issueCombatDropCommand(const CommandButton *command, int 
 		int msgType = GameMessage::MSG_COMBATDROP_AT_LOCATION;
 		if (commandType == 0)
 		{
-			GameMessage *msg = MessageStreamSubsystem->createMessage(msgType);
+			GameMessage *msg = TheMessageStream->createMessage(msgType);
 			msg->appendLocationArgument(*pos);
 
 			PickAndPlayInfo info;
@@ -294,7 +294,7 @@ int CommandTranslator::issueMoveToLocationCommand(const Coord3D *pos, Drawable *
             msgType = 0x42F;
         if (commandType == 0)
         {
-            GameMessage *msg = MessageStreamSubsystem->createMessage(msgType);
+            GameMessage *msg = TheMessageStream->createMessage(msgType);
             if (msgType == 0x425)
                 msg->appendObjectIDArgument(obj->m_id);
             else
@@ -327,7 +327,7 @@ int CommandTranslator::createAttackMessage(Drawable *draw, Drawable *other, int 
         return 0;
     if (commandType == 0)
     {
-        GameMessage *msg = MessageStreamSubsystem->createMessage(0x425);
+        GameMessage *msg = TheMessageStream->createMessage(0x425);
         msg->appendObjectIDArgument(other->m_object->m_id);
         Drawable *target = other;
         Object *container = other->m_object->m_containedBy274;
@@ -356,7 +356,7 @@ int CommandTranslator::issueAttackCommand(Drawable* target,const Coord3D* pos,in
   if(command!=0)return msgType;
   msgType=0x425;
   if(commandType==0) {
-   GameMessage* attackMsg=MessageStreamSubsystem->createMessage(msgType);
+   GameMessage* attackMsg=TheMessageStream->createMessage(msgType);
    Coord3D attackPos={0,0,0};
    if(pos)attackPos=*pos;
    attackMsg->appendObjectIDArgument(targetObj->m_id);
@@ -431,7 +431,7 @@ int CommandTranslator::issueSpecialPowerCommand(const CommandButton* command,int
   if(!command->isValidObjectTarget(sourceDraw,target))return msgType;
   msgType=0x412;
   if(commandType==0) {
-   GameMessage* msg=MessageStreamSubsystem->createMessage(msgType);
+   GameMessage* msg=TheMessageStream->createMessage(msgType);
    msg->appendIntegerArgument(static_cast<const SpecialPowerTemplate*>(command->special->friend_getFinalOverride())->id);
    msg->appendObjectIDArgument(target->m_object->m_id);
    msg->appendIntegerArgument(command->m_options);
@@ -449,7 +449,7 @@ int CommandTranslator::issueSpecialPowerCommand(const CommandButton* command,int
  } else if((command->m_options&0x20)&&pos) {
   msgType=0x411;
   if(commandType==0) {
-   GameMessage* msg=MessageStreamSubsystem->createMessage(msgType);
+   GameMessage* msg=TheMessageStream->createMessage(msgType);
    msg->appendIntegerArgument(static_cast<const SpecialPowerTemplate*>(command->special->friend_getFinalOverride())->id);
    msg->appendLocationArgument(*pos);
    ObjectID targetID=(target&&target->m_object)?target->m_object->m_id:OBJECTID_NONE;
@@ -460,7 +460,7 @@ int CommandTranslator::issueSpecialPowerCommand(const CommandButton* command,int
     for(unsigned int i=0;i<(unsigned int)(command->finish-command->start);++i) {
      const CommandButton* cb=TheControlBar->findCommandButton(command->start[i]);
      if(cb&&cb->command==0x18&&cb->special) {
-      msg=MessageStreamSubsystem->createMessage(msgType);
+      msg=TheMessageStream->createMessage(msgType);
       msg->appendIntegerArgument(static_cast<const SpecialPowerTemplate*>(cb->special->friend_getFinalOverride())->id);
       msg->appendLocationArgument(*pos);
       msg->appendObjectIDArgument(targetID);
@@ -478,7 +478,7 @@ int CommandTranslator::issueSpecialPowerCommand(const CommandButton* command,int
  } else {
   msgType=0x410;
   if(commandType==0) {
-   GameMessage* msg=MessageStreamSubsystem->createMessage(msgType);
+   GameMessage* msg=TheMessageStream->createMessage(msgType);
    msg->appendIntegerArgument(static_cast<const SpecialPowerTemplate*>(command->special->friend_getFinalOverride())->id);
    msg->appendIntegerArgument(command->m_options);
    msg->appendObjectIDArgument(specificSource);

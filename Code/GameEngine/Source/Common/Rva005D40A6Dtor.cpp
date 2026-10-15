@@ -126,7 +126,7 @@ Rva005D40A6::~Rva005D40A6()
 }
 
 class Rva00222A8BTarget;
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 int __cdecl Rva00524EF4AptCall(Rva00222A8BTarget *t, void *a1, const char *a2, const char *a3);
 
@@ -143,7 +143,7 @@ private:
 void StrategicHUD::ChecklistUIItemMovieClip::Flash()
 {
 	const char *s = m_08 ? m_08 + 8 : "";
-	Rva00524EF4AptCall(TheRva00222A8BTarget, m_04, s, "Flash");
+	Rva00524EF4AptCall((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), m_04, s, "Flash");
 }
 
 class Rva000B3F84Pair { public: Rva000B3F84Pair() {} Rva000B3F84Pair *init(const char *); const char *m_ptr; int m_len; };

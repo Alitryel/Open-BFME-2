@@ -14,7 +14,7 @@ public:
 	const CommandButton *findCommandButton(const AsciiString &name);
 };
 struct BfmeWorldRV;
-extern struct BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 extern int BfmeClientFramesPerSecond;
 class ScriptActions
 {
@@ -24,7 +24,7 @@ protected:
 
 void ScriptActions::doCameoFlash(const AsciiString &name, int v)
 {
-	const CommandButton *btn = ((ControlBar *)(void *)g_bfmeWorldRV)->findCommandButton(name);
+	const CommandButton *btn = ((ControlBar *)(void *)(*(BfmeWorldRV **)&TheControlBar))->findCommandButton(name);
 	if (btn) {
 		int q = BfmeClientFramesPerSecond * v / 10;
 		if (q % 2 == 1)

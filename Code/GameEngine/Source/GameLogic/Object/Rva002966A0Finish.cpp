@@ -84,7 +84,7 @@ struct BfmeWorldRV
 	unsigned char m_28;
 };
 
-extern struct BfmeWorldRV *g_bfmeWorldRV;
+extern class ControlBar *TheControlBar;
 
 class Rva002966A0Item
 {
@@ -128,5 +128,5 @@ void Object::onCapture(Player *a, Player *b)
 		pc8->rva00625840();
 	setScriptStatus(OBJECT_STATUS_BIT_4, false);
 	if (a->isLocalPlayer() || b->isLocalPlayer())
-		g_bfmeWorldRV->m_28 = 1;
+		(*(BfmeWorldRV **)&TheControlBar)->m_28 = 1;
 }

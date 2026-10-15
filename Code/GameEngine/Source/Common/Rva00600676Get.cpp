@@ -39,11 +39,11 @@ public:
 	virtual bool v12(const char *a1);
 };
 
-extern Rva00600676Target *G00A06E5C;
+extern class ArchiveFileSystem *TheArchiveFileSystem;
 
 File *FileSystem::rva00600676(const unsigned short *a1, int a2, int a3)
 {
-	Rva00600676Target *p = G00A06E5C;
+	Rva00600676Target *p = (*(Rva00600676Target **)&TheArchiveFileSystem);
 	File *r = 0;
 	if (p != 0)
 		r = p->v2(a1, a2, a3);
@@ -57,7 +57,7 @@ File *FileSystem::rva00600676(const unsigned short *a1, int a2, int a3)
 // a wide string (UnicodeString text or the wide empty literal 0x00BBB5C4).
 bool FileSystem::rva006006A9(const unsigned short *a1)
 {
-	Rva00600676Target *p = G00A06E5C;
+	Rva00600676Target *p = (*(Rva00600676Target **)&TheArchiveFileSystem);
 	if (p != 0)
 		return p->v11((const char *)a1);
 	return false;
@@ -68,7 +68,7 @@ bool FileSystem::rva006006A9(const unsigned short *a1)
 // caller 0x003006D9 pushes empty literal; address-derived honest name.
 bool __stdcall Rva00600695Get(const char *a1)
 {
-	Rva00600676Target *p = G00A06E5C;
+	Rva00600676Target *p = (*(Rva00600676Target **)&TheArchiveFileSystem);
 	if (p != 0)
 		return p->v12(a1);
 	return false;

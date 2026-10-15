@@ -51,7 +51,7 @@ public:
 	void rva002239FA(const AsciiString &key, const AsciiString &imageName);
 };
 
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 class Rva00524306
 {
@@ -65,12 +65,12 @@ private:
 
 void Rva00524306::rva00524306(const StringBase<char> &val)
 {
-	if (TheRva00222A8BTarget == 0)
+	if ((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager) == 0)
 		return;
 	StringBase<char> *found = Rva000BD22FFind((StringBase<char> *)m_vec.begin(), (StringBase<char> *)m_vec.end(), val);
 	if (found == (StringBase<char> *)m_vec.end())
 		return;
-	((Rva00223A94 *)TheRva00222A8BTarget)->rva00223A94((const AsciiString *)&val);
+	((Rva00223A94 *)(*(Rva00222A8BTarget **)&g_bfmeAptWindowManager))->rva00223A94((const AsciiString *)&val);
 	m_vec.erase((Gen_t_001db910_p4cd *)found);
 }
 
@@ -81,9 +81,9 @@ void Rva00524306::rva00524306(const StringBase<char> &val)
 // vector<AsciiString> body at 0x0042DBE6.
 void Rva00524306::rva00524725(const AsciiString &key, const Image *image)
 {
-	if (TheRva00222A8BTarget == 0)
+	if ((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager) == 0)
 		return;
-	reinterpret_cast<Rva002239B2 *>(TheRva00222A8BTarget)->rva002239E2(key, image);
+	reinterpret_cast<Rva002239B2 *>((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager))->rva002239E2(key, image);
 	if (Rva000BD22FFind((StringBase<char> *)m_vec.begin(), (StringBase<char> *)m_vec.end(), *(const StringBase<char> *)&key) == (StringBase<char> *)m_vec.end())
 		((_STL::vector<AsciiString, _STL::allocator<AsciiString> > *)&m_vec)->push_back(key);
 }
@@ -93,9 +93,9 @@ void Rva00524306::rva00524725(const AsciiString &key, const Image *image)
 // up through ImageCollection::findImageByName.
 void Rva00524306::rva00524767(const AsciiString &key, const AsciiString &imageName)
 {
-	if (TheRva00222A8BTarget == 0)
+	if ((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager) == 0)
 		return;
-	TheRva00222A8BTarget->rva002239FA(key, imageName);
+	(*(Rva00222A8BTarget **)&g_bfmeAptWindowManager)->rva002239FA(key, imageName);
 	if (Rva000BD22FFind((StringBase<char> *)m_vec.begin(), (StringBase<char> *)m_vec.end(), *(const StringBase<char> *)&key) == (StringBase<char> *)m_vec.end())
 		((_STL::vector<AsciiString, _STL::allocator<AsciiString> > *)&m_vec)->push_back(key);
 }

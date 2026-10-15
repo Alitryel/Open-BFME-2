@@ -18,11 +18,11 @@ extern class TerrainLogic *TheTerrainLogic;
 extern class ThingFactory *TheThingFactory;
 
 typedef int HMODULE;
-extern HMODULE g_00DFE158;
+extern int st_DebugDLL;
 
 extern "C" __declspec(dllimport) void *__stdcall GetProcAddress(HMODULE module, const char *name);
 
-#define TheAppModule g_00DFE158
+#define TheAppModule st_DebugDLL
 #define Rva00DFE78C (*(void **)&TheGameLogic)
 #define Rva00DFF000 (*(void **)&TheThingFactory)
 #define Rva00DFEC50 (*(void **)&TheTerrainLogic)

@@ -159,7 +159,7 @@ public:
 	virtual GameMessage *appendMessage(int type);
 };
 
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 
 class LanguageFilter
 {
@@ -512,7 +512,7 @@ bool AptInGameChat::rva004E8670(UnicodeString text)
 		if (to == 0)
 			return true;
 		int toIndex = to->m_playerIndex;
-		GameMessage *msg = MessageStreamSubsystem->appendMessage(0x466);
+		GameMessage *msg = TheMessageStream->appendMessage(0x466);
 		msg->appendIntegerArgument(from);
 		msg->appendIntegerArgument(toIndex);
 		msg->appendIntegerArgument(amount);
