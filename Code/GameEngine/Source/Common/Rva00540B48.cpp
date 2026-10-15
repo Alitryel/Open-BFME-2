@@ -17,7 +17,6 @@ class Rva0053FDE6
 public:
 	Rva0053FDE6();
 	Rva0053FDE6(const Rva0053FDE6 &o);
- bool readData(class DataChunkInput*,void*);
 	int m_00;
 	float m_04;
 	float m_08;
@@ -49,9 +48,20 @@ Rva0054000B::Rva0054000B() : m_00(0)
 }
 struct Rva00540B48Vector {
  Rva0054000B *first,*last,*capacity;
- Rva0054000B *erase(Rva0054000B*,Rva0054000B*);
+};
+// Rowed owners: the 40-byte element vector's erase/reserve (vector<BfmePod40>)
+// and the value reader 0x0053FB91.
+struct BfmePod40;
+namespace _STL {
+template <class T> class allocator;
+template <class T, class A = allocator<T> > class vector {
+public:
+ T *erase(T *, T *);
  void reserve(unsigned int);
 };
+}
+struct DataChunkInfo;
+class Rva0053FB91 { public: bool rva0053FB91(DataChunkInput *, DataChunkInfo *); };
 class Rva00540B48 {
 public:
  bool rva00540B48(DataChunkInput*,void*);
@@ -60,13 +70,13 @@ public:
  Rva00540B48Vector values;
 };
 bool Rva00540B48::rva00540B48(DataChunkInput*file,void*info) {
- Rva00540B48Vector &v=values; v.erase(v.first,v.last);
+ Rva00540B48Vector &v=values; ((_STL::vector<BfmePod40> *)&v)->erase((BfmePod40 *)v.first,(BfmePod40 *)v.last);
  int count=file->readInt();
- values.reserve(count);
+ ((_STL::vector<BfmePod40> *)&values)->reserve(count);
  for (int i=count;i>0;--i) {
   int key=file->readInt();
   Rva0053FDE6 value;
-  value.readData(file,info);
+  ((Rva0053FB91 *)&value)->rva0053FB91(file,(DataChunkInfo *)info);
   append(key,value);
  }
  return true;

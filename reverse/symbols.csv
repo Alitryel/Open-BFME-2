@@ -13094,9 +13094,6 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ??0BfmeRecord001ECAF9@@QAE@ABV?$StringBase@D@@@Z,0x001EC311,callee of ?Rva001ED2C5Parse@@YAXPAVINI@@PAXPAV?$vector@UBfmeRecord001ECAF9@@V?$allocator@UBfmeRecord001ECAF9@@@_STL@@@_STL@@@Z
 ??1BfmeRecord001ECAF9@@QAE@XZ,0x001EC349,callee of ?Rva001ED2C5Parse@@YAXPAVINI@@PAXPAV?$vector@UBfmeRecord001ECAF9@@V?$allocator@UBfmeRecord001ECAF9@@@_STL@@@_STL@@@Z
 ?rva001EB329@BfmeRecord001ECAF9@@QAEXPAVINI@@@Z,0x001EB329,callee of ?Rva001ED2C5Parse@@YAXPAVINI@@PAXPAV?$vector@UBfmeRecord001ECAF9@@V?$allocator@UBfmeRecord001ECAF9@@@_STL@@@_STL@@@Z
-?erase@Rva00540B48Vector@@QAEPAVRva0054000B@@PAV2@0@Z,0x00540324,callee of ?rva00540B48@Rva00540B48@@QAE_NPAVDataChunkInput@@PAX@Z
-?reserve@Rva00540B48Vector@@QAEXI@Z,0x0054067D,callee of ?rva00540B48@Rva00540B48@@QAE_NPAVDataChunkInput@@PAX@Z
-?readData@Rva0053FDE6@@QAE_NPAVDataChunkInput@@PAX@Z,0x0053FB91,callee of ?rva00540B48@Rva00540B48@@QAE_NPAVDataChunkInput@@PAX@Z
 ?append@Rva00540B48@@QAEXHABVRva0053FDE6@@@Z,0x0054098B,callee of ?rva00540B48@Rva00540B48@@QAE_NPAVDataChunkInput@@PAX@Z
 ?rvaClear@Rva001E7087@@AAEXXZ,0x001E7E25,callee of ??1Rva001E7087@@MAE@XZ
 ?rva0059DD3F@Rva0059DD3F@@QAEXPAX000HPAHH@Z,0x0059DD3F,Native REL32 at RVA 004FB2B3 in the 67B wrapper; callee Ghidra entry 0059DD3F has RET 28 and clears the sixth output-count argument at EBP+1C; address-derived receiver and method.
