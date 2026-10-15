@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /I.
 // retail 0x0055D741, 212 bytes, RET 0x14.
 //
 // Ported from the Open-BFME-1 donor
@@ -17,20 +17,8 @@ char *file, int line );
 namespace FXParticleSystem
 
 {
- struct Coord3D
- 
- {
-  Coord3D( float x_, float y_, float z_ ) : x( x_ ), y( y_ ), z( z_ ) 
-  
-  {
-   
-  }
-  float x;
-  float y;
-  float z;
-  
- }
- ;
+ // Reuse the constructor-bearing coordinate contract in the donor namespace.
+ #include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
  class CylinderEmissionVolumeModule
  
  {
