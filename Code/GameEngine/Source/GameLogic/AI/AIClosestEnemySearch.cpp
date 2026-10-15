@@ -296,7 +296,8 @@ extern NameKeyGenerator *TheNameKeyGenerator;
 class Player
 {
 public:
-	const AsciiString &getPlayerName() const { return name; }
+	// Retail inlines this accessor; suppress its competing standalone copy.
+	__declspec(dllimport) __forceinline const AsciiString &getPlayerName() const { return name; }
 	char pad0[0x4c];
 	AsciiString name;
 	char pad50[4];
