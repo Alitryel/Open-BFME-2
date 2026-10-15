@@ -173,7 +173,8 @@ public:
 		IS_BRAKING = 0,
 		ALLOW_INVALID_POSITION,
 	};
-	void setAllowInvalidPosition(Bool b)
+	// Keep the target inline flag update without a competing external copy.
+	__declspec(dllimport) __forceinline void setAllowInvalidPosition(Bool b)
 	{
 		if (b)
 			m_flags |= (1 << ALLOW_INVALID_POSITION);
