@@ -54,7 +54,7 @@ public:
 class Matrix3D
 {
 public:
-	explicit Matrix3D(const Vector3 &position) { Set(position); }
+	// Matrix3DO1Inlines owns the translation constructor; use its inlined Set here.
 	void Set(const Vector3 &position)
 	{
 		Row[0].Set(1.0f, 0.0f, 0.0f, position.X);
@@ -178,7 +178,8 @@ void W3DDisplay::drawSkirmishAIStats()
 			SkirmishAIStatsMarker **end = markers.end();
 			for (SkirmishAIStatsMarker **it = markers.begin(); it != end; ++it) {
 				Vector3 pos = (*it)->m_position;
-				Matrix3D tm(pos);
+				Matrix3D tm;
+				tm.Set(pos);
 				((SkirmishAIStatsDisplayView *)TheDisplay)->m_debugDraw->drawSphere(tm, (*it)->m_radius, GameMakeColor(255, 0, 0, 255), 0, 1);
 			}
 		}
@@ -187,7 +188,8 @@ void W3DDisplay::drawSkirmishAIStats()
 			for (unsigned int j = 0; j < dTree->size(); ++j) {
 				Vector3 tmp;
 				Vector3 pos = *(Vector3 *)dTree->rva00049D20(&tmp, j);
-				Matrix3D tm(pos);
+				Matrix3D tm;
+				tm.Set(pos);
 				((SkirmishAIStatsDisplayView *)TheDisplay)->m_debugDraw->drawSphere(tm, dTree->getRadius(j), player->m_color, 0, 1);
 			}
 		}
