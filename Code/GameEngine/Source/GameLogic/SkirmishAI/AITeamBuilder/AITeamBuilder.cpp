@@ -6,6 +6,32 @@
 #include <vector>
 #include <set>
 #include "GameLogicObjectLookupView.h"
+// The lookup chain (ObjectIdMap::find 0x002888D4 and GameLogic::findObjectByID
+// 0x00049DC5, rowed COMDAT copies, as in AIDozerManager.cpp) is visible in
+// this unit: recruitUnDefined needs it for retail's frame and register roles.
+struct AITeamBuilderLookupNode { AITeamBuilderLookupNode *next; ObjectID key; Object *object; };
+struct AITeamBuilderLookupBuckets {
+ AITeamBuilderLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ AITeamBuilderLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct AITeamBuilderLookupMap { unsigned char hashEqual[4]; AITeamBuilderLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ AITeamBuilderLookupMap *map=(AITeamBuilderLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ AITeamBuilderLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
@@ -18,6 +44,7 @@ static inline bool operator!=(const _Rb_tree_iterator<_RbVal, _RbLeft> &a,
 }
 #pragma pointers_to_members(full_generality, multiple_inheritance)
 class Player;
+struct Coord3D;
 struct AITeamRequirementView;
 struct AITargetView;
 struct Rva002A8AB1Record;
@@ -59,6 +86,8 @@ public:
 class AITeamBuilder {
 public:
  void recruitPreDefined(Team*,int*,TeamPrototype*);
+ void recruitUnDefined(Team*,int*);
+ void distanceSortUnits(void*,const void*,const Coord3D*);
  int getCurNumUnits(Team *);
  int doesTeamMeetThreat(Team *);
  bool rva0059A01C(Object*,const AITeamRequirementView*,const AITargetView*);
@@ -158,7 +187,11 @@ void Rva0059AC4D::rva0059A153(TeamPrototype *prototype)
 // the actual requirement storage and any() instantiation are BitFlags<218>.
 template<int N> class BitFlags { public: bool any() const; unsigned int words[7]; };
 class Thing { public: bool isAnyKindOf(const BitFlags<69>&) const; };
-struct RecruitThingTemplate { char prefix[0x64]; AsciiString name; char pad68[0x113-0x68]; unsigned char kind113; };
+// The template's kind-of words at +0x108, tested through an int-returning
+// word test that cl narrows to retail's byte test.
+struct RecruitKindOfFlags { unsigned int m_words[3]; __forceinline int test(int b) const { return m_words[b >> 5] & (1u << (b & 31)); } };
+struct RecruitThingTemplate { char prefix[0x64]; AsciiString name; char pad68[0x113-0x68]; unsigned char kind113;
+ const RecruitKindOfFlags &kindOf() const { return *(const RecruitKindOfFlags *)((const char *)this + 0x108); } };
 class AIUpdateInterface { public: Object* getCurrentVictim() const; };
 class Object {
 public:
@@ -294,6 +327,45 @@ void AITeamBuilder::recruitPreDefined(Team* team,int* count,TeamPrototype* remai
      remaining->rva003A0E08((const Rva0039D769&)used);
      recruited=true;
     }
+   }
+  }
+ }
+}
+
+// Native 59A8D7..59AA37, 352B; WB names recruitUnDefined. The units (sorted
+// by distance to the prototype's point when its flag is set) are recruited
+// while the count stays under the requirement maximum (+0x1A4) when their
+// template has kind bit 0x108&8 and they pass the rowed 0x0059A01C test; for
+// requirement modes 0 and 1 (+0x1A0) a second pass takes kind bit 0x113&4.
+void AITeamBuilder::recruitUnDefined(Team* teamToBuild,int* curNumUnits) {
+ void* stats=g_00DFEEF8->rva002A8F24(owner14);
+ Rva005C4AD1LeaField* unitStats=*(Rva005C4AD1LeaField**)stats;
+ TeamPrototype* prototype=teamToBuild->prototype30;
+ const AITeamRequirementView* requirements=(const AITeamRequirementView*)((const char*)prototype+0x12C);
+ AITargetView* target=(AITargetView*)g_00DFEEF8->rva002A8B73(owner14,requirements->targetKind);
+ const IDVectorView* units=(const IDVectorView*)unitStats->get();
+ const IDVectorView* useUnits=units;
+ IDVectorView sorted;
+ if(((Rva0039D7C1ByteField*)prototype)->get()) {
+  distanceSortUnits(&sorted,units,(const Coord3D*)((Rva0039D7C8LeaGetter*)prototype)->get());
+  useUnits=&sorted;
+ }
+ const Requirements* limits=(const Requirements*)requirements;
+ const ScienceType* end=useUnits->end();
+ for(const ScienceType* it=useUnits->begin();it!=end;++it) {
+  if((unsigned int)*curNumUnits>=limits->maximum)break;
+  Object* obj=TheGameLogic->findObjectByID((ObjectID)*it);
+  if(obj->objectTemplate->kindOf().test(3)&&rva0059A01C(obj,requirements,target)) {
+   obj->setTeam(teamToBuild);
+   ++*curNumUnits;
+  }
+ }
+ if(limits->mode==0||limits->mode==1) {
+  for(const ScienceType* it=useUnits->begin();it!=end;++it) {
+   Object* obj=TheGameLogic->findObjectByID((ObjectID)*it);
+   if(obj->objectTemplate->kindOf().test(90)&&rva0059A01C(obj,requirements,target)) {
+    obj->setTeam(teamToBuild);
+    ++*curNumUnits;
    }
   }
  }

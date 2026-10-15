@@ -91232,3 +91232,4 @@ __ehhandler$?rva00332975@Rva0026E7C8Ctor@@QAEXPAVXfer@@@Z,,0x0077BFF1,10,Code/Ga
 ?rva006C1850@Rva006C1850@@QAE_NIPAPAX@Z,,0x006C1850,70,Code/GameEngine/Source/Common/Rva006C3AB0DebugSetter.cpp,matched,unlock hash find bucket shr 3 div walks next at plus 8 stores node plus 4; rehomed to the debug setter that needs the real body visible for slot-reload ordering
 ??4Rva004F6352@@QAEAAU0@ABU0@@Z,,0x004F6352,35,Code/Libraries/Source/WWVegas/WWLib/stlport_rva004f6352_sort_entry.cpp,matched,12B struct assign via stride 0xC callers plus rowed TreeHintRef assign; exact body rehomed from Rva004F6352Assign.cpp to existing inline sort owner to remove duplicate strong definition
 ?rva007ADBFF@RandomValueMultFactorInit@@SAXXZ,,0x007ADBFF,47,Code/GameEngine/Source/Common/RandomValueMultFactorInit.cpp,matched,
+?recruitUnDefined@AITeamBuilder@@QAEXPAVTeam@@PAH@Z,,0x0059A8D7,352,Code/GameEngine/Source/GameLogic/SkirmishAI/AITeamBuilder/AITeamBuilder.cpp,matched,
