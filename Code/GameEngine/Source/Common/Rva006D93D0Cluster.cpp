@@ -25,7 +25,6 @@ public:
 	virtual void release();
 
 	void rva0070DFE0();
-	void rva006D93D0();
 
 	unsigned int m_flags;
 	char m_pad[0x18];
@@ -34,7 +33,14 @@ public:
 	int mnLength;
 };
 
-void BfmeAptValue006DCD20::rva006D93D0()
+// WB AptArray::DestroyGCPointers (vtable 0xCEA778 slot); layout is the shared value base above.
+class AptArray : public BfmeAptValue006DCD20
+{
+public:
+	virtual void DestroyGCPointers();
+};
+
+void AptArray::DestroyGCPointers()
 {
 	rva0070DFE0();
 
