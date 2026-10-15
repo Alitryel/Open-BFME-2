@@ -36,7 +36,9 @@ class Rva005CE93E : public Rva005CC698
 {
 public:
 	Rva005CE93E(void *, void *, Rva005CE93EContext *);
-	virtual ~Rva005CE93E();
+	// Implicit virtual destructor: native 5CEC55 adjusts the virtual-base
+	// receiver by -4 and tail-calls Rva005CC698::~Rva005CC698 (5CC788).
+	// An explicit empty destructor adds table writes absent from retail.
 private:
 	void *source;
 };
