@@ -25,6 +25,20 @@ static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits> &a,
                               const _Rb_tree_iterator<Value, RightTraits> &b)
 { return a._M_node != b._M_node; }
 }
+// Keep the native inline STL operations, suppressing competing per-unit copies.
+namespace _STL {
+typedef pair<const int,int> SVIntPair;
+typedef _Rb_tree_node<SVIntPair> SVIntNode;
+typedef _Rb_tree_iterator<SVIntPair,_Nonconst_traits<SVIntPair> > SVIntIter;
+template<> __declspec(dllimport) __forceinline SVIntNode *allocator<SVIntNode>::allocate(size_t n, const void *) const { return n ? reinterpret_cast<SVIntNode *>(allocator<char>::allocate(n * sizeof(SVIntNode),0)) : 0; }
+template<> __declspec(dllimport) __forceinline void allocator<SVIntNode>::deallocate(SVIntNode *p, size_t) const { if(p) Rva00030830FreeAllocation(p); }
+template<> __declspec(dllimport) __forceinline SVIntNode *_STLP_alloc_proxy<SVIntNode *,SVIntNode,allocator<SVIntNode> >::allocate(size_t n) { return __stl_alloc_rebind(static_cast<allocator<SVIntNode> &>(*this), (SVIntNode *)0).allocate(n,0); }
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<SVIntNode *,SVIntNode,allocator<SVIntNode> >::deallocate(SVIntNode *p, size_t n) { __stl_alloc_rebind(static_cast<allocator<SVIntNode> &>(*this), (SVIntNode *)0).deallocate(p,n); }
+template<> __declspec(dllimport) __forceinline pair<const int,int>::pair(const int &a,const int &b):first(a),second(b) {}
+template<> __declspec(dllimport) __forceinline pair<SVIntIter,bool>::pair(const SVIntIter &a,const bool &b):first(a),second(b) {}
+template<> __declspec(dllimport) __forceinline SVIntIter &SVIntIter::operator++() { _M_node = _Rb_global_inst::_M_increment(_M_node); return *this; }
+template<> __declspec(dllimport) __forceinline SVIntIter &SVIntIter::operator--() { _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; }
+}
 // STLport has already supplied the placement-new operators.
 #define _OPERATOR_NEW_DEFINED_
 // BFME 2's WWLib thread base, not ZH's 0x58-byte one that mutex.h would pull
@@ -66,10 +80,8 @@ public:
     basic_string();
     basic_string(const basic_string &);
     // The out-of-line c-string constructor 0x00009100 (rowed in the STLport
-    // library); a visible body keeps HandlePersistentStorageResponses' single
-    // shared allocator temporary at ebp-0xD for both registry string arguments.
-    inline __declspec(noinline) basic_string(const CharT *text, const Alloc &alloc = Alloc())
-        : start(0), finish(0), storageEnd(0) { _M_range_initialize(text, text + strlen(text)); }
+    // library); the registry caller explicitly shares its allocator object.
+    basic_string(const CharT *text, const Alloc &alloc = Alloc());
     template <class It> void _M_range_initialize(It, It);
     const CharT *c_str() const { return start; }
     // STLport's inline teardown under the game allocator: free the block when
@@ -87,6 +99,7 @@ private:
 
 typedef _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >
 	Rva00385333String;
+
 
 namespace _STL
 {
@@ -2613,7 +2626,16 @@ void HandlePersistentStorageResponses()
 				{
 					if (resp.preorder)
 					{
-						SetUnsignedIntInRegistry("", "Preorder", 1);
+						// Both native string calls pass EBP-0x0D. The allocator is empty
+                        // and byte-aligned; one-byte placement storage keeps that shared
+                        // lifetime without the old non-retail constructor copy.
+                        typedef _STL::allocator<char> RegistryAllocator;
+                        typedef char RegistryAllocatorAlignment[__alignof(RegistryAllocator) == 1 ? 1 : -1];
+                        unsigned char registryAllocatorStorage[sizeof(RegistryAllocator)];
+                        RegistryAllocator &registryAllocator = *new(registryAllocatorStorage) RegistryAllocator;
+                        SetUnsignedIntInRegistry(Rva00385333String("", registryAllocator),
+                                                 Rva00385333String("Preorder", registryAllocator), 1);
+                        registryAllocator.~RegistryAllocator();
 						TheGameSpyInfo->markPlayerAsPreorder(TheGameSpyInfo->getLocalProfileID());
 						BfmeOpaqueOwnedRecord1408 newResp;
 						newResp.responseType = 0;
