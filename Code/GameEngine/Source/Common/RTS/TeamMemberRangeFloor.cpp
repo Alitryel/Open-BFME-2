@@ -1,11 +1,12 @@
-// ?rva0039E84B@Team@@QAEMPAVObject@@@Z
-// partial score=0.94 date=2026-10-15
-// ?rva0039E84B@Team@@QAEMPAVObject@@@Z
-// partial score=0.93 date=2026-10-14
-// ?rva0039E84B@Team@@QAEMPAVObject@@@Z
-// partial score=0.95 date=2026-10-05
 // cl: /O1 /DNDEBUG /MD /arch:SSE
-// ?rva0039E84B@Team@@QAEMPAVObject@@@Z @0x0039E84B 160B chain via rowed 0x002627E8 plus iterate 0x00263864 plus advance 0x00263526 prev 0x0039E815 next 0x0039E8EB
+// ?rva0039E84B@Team@@QAEMPAVObject@@@Z, retail 0x0039E84B, 160 bytes (RET4).
+// Target evidence: the argument Object's +0x258 range provider (rowed
+// 0x002627E8) gives the starting range, else the default at VA 0x00C1ADB8;
+// the team member walk (iterate 0x00263864 / advance 0x00263526) lowers it to
+// the smallest member range (fld best / fcomip / jbe: a min, not a max), and
+// the result is the larger of that minimum and a quarter of the starting
+// range (0.25f literal at VA 0x00BBB8D4). Neighbours 0x0039E815/0x0039E8EB.
+// Identity: semantic names only; the original Team method is unproven.
 class Object;
 template<class OBJCLASS>
 class DLINK_ITERATOR
@@ -28,18 +29,16 @@ public:
 	Rva002627E8 *m_range;
 };
 extern const float g_00C1ADB8;
-extern "C" const float length_estimate_factor;
 class Team {
 public:
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;
 	float rva0039E84B(Object *obj);
 };
-// ?rva0039E84B@Team@@QAEMPAVObject@@@Z present-unmatched
 float Team::rva0039E84B(Object *obj)
 {
-	Rva002627E8 *p = ((ObjectWithRange *)obj)->m_range;
 	float f = g_00C1ADB8;
-	if (p != 0)
+	Rva002627E8 *p = ((ObjectWithRange *)obj)->m_range;
+	if (p)
 		f = p->rva002627E8();
 	float best = f;
 	for (DLINK_ITERATOR<Object> iter = iterate_TeamMemberList(); !iter.done(); iter.advance()) {
@@ -50,6 +49,7 @@ float Team::rva0039E84B(Object *obj)
 		if (rp->rva002627E8() < best)
 			best = rp->rva002627E8();
 	}
-	float scaled = f * length_estimate_factor;
-	return scaled > best ? scaled : best;
+	float scaled = f * 0.25f;
+	f = scaled > best ? scaled : best;
+	return f;
 }
