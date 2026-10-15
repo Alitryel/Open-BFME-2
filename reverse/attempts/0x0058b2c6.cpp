@@ -1,4 +1,6 @@
 // ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
+// partial score=0.9 date=2026-10-15
+// ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
 // partial score=0.711 date=2026-10-14
 // ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
 // partial score=0.96 date=2026-10-13
