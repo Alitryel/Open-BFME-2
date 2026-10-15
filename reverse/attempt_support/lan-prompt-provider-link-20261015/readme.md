@@ -1,3 +1,11 @@
+Publication reconciliation (2026-10-15)
+
+At final rebase, upstream already contained the same verified configure-provider
+binding and obsolete-pin deletion. Preserve upstream's source and record only
+this independent earlier verification. The historical gain below is relative
+to its recorded baseline and adds zero incremental bytes beyond current
+origin/master. This session preserves the prior seat's verification artifacts.
+
 # LAN lobby prompt provider binding repair
 
 BFME2 base: 78867b74343dab5920077a9f1d695c938fffd524.
