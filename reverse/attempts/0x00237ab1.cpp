@@ -1,4 +1,6 @@
 // ?parseGameDataDefinition@GlobalData@@SAXPAVINI@@@Z
+// partial score=0.998 date=2026-10-15
+// ?parseGameDataDefinition@GlobalData@@SAXPAVINI@@@Z
 // partial score=0.98 date=2026-10-13
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /O1 /EHsc /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
@@ -81,6 +83,7 @@ struct GDRandomVar { int m_type; float m_low, m_high; GDRandomVar():m_type(0),m_
 struct GDPair { int a,b; GDPair(int x,int y):a(x),b(y){} };
 struct RvaGDColor:RGBColor { RvaGDColor(int v) {setFromInt(v);} };
 
+struct FieldParse;
 class GlobalData:public SubsystemInterface {
 public:
  GlobalData();
@@ -91,7 +94,8 @@ public:
  virtual void update();
  virtual bool vslot04(int);
  virtual int vslot06();
- static GlobalData *newOverride();
+ GlobalData *newOverride();
+ static const FieldParse s_GlobalDataFieldParseTable[];
  static void parseGameDataDefinition(class INI*);
  void applyOptionPreferences();
  AsciiString getPicturePath() const;
@@ -1247,8 +1251,7 @@ void GlobalData::parseGameDataDefinition(INI *ini) {
    AsciiString name=TheWritableGlobalData->m_000C;
    bool enabled=false;
    if(TheWritableGlobalData->m_0098!=0.0f)enabled=true;
-   _ReadWriteBarrier();
-   ini->initFromINI(TheWritableGlobalData,(const FieldParse*)TheWritableGlobalData->GlobalData::vslot06());
+   ini->initFromINI(TheWritableGlobalData,s_GlobalDataFieldParseTable);
    TheWritableGlobalData->m_000C=name;
    TheWritableGlobalData->m_0098=(float)enabled;
    TheWritableGlobalData->applyOptionPreferences();
@@ -1258,7 +1261,7 @@ void GlobalData::parseGameDataDefinition(INI *ini) {
  } else {
   TheWritableGlobalData=new GlobalData;
  }
- ini->initFromINI(TheWritableGlobalData,(const FieldParse*)TheWritableGlobalData->GlobalData::vslot06());
+ ini->initFromINI(TheWritableGlobalData,s_GlobalDataFieldParseTable);
  ((StringBase<char>*)&TheWritableGlobalData->m_1240)->clear();
  TheWritableGlobalData->m_1244.clear();
  ((StringBase<char>*)&TheWritableGlobalData->m_picturePath)->clear();
