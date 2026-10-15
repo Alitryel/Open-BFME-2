@@ -9,6 +9,10 @@
 // this unit emit the copy; it is not retail code.
 // Keep the donor algorithm, but suppress the SSE constructor COMDAT: retail's
 // four-float constructor is the integer-move body owned by matrix3d.cpp.
+// Keep the donor vector-first arithmetic available for inlining; the exact
+// out-of-line body at RVA 0x00191070 belongs to seglinerenderer.cpp.
+class Vector4;
+__declspec(dllimport) __forceinline Vector4 operator * (const Vector4 &a, float k);
 #include "../../../../../reference/shims/bfme_vp_math/vector4.h"
 
 #pragma inline_depth(0)
