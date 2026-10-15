@@ -1,6 +1,8 @@
 // ?drawMoveHints@Rva0008EF3FProduct@@UAEXPAVView@@@Z
+// partial score=0.9327 date=2026-10-15
+// ?drawMoveHints@Rva0008EF3FProduct@@UAEXPAVView@@@Z
 // partial score=0.95 date=2026-10-15
-// cl: /O1 /G7 /DNDEBUG /MD /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii
+// cl: /DNDEBUG /MD /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /Ow
 // Bank for 0x0008F48E drawMoveHints (W3DInGameUI donor): whole unit Rva0008EF3FProductCtor.cpp with the body appended.
 // ??0Rva0008EF3FProduct@@QAE@XZ retail 0x0008EF3F 66B.
 //
