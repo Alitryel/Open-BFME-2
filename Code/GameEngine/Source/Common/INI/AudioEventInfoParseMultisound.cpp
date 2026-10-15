@@ -1,12 +1,14 @@
-// ?parseMultisoundDefinition@AudioEventInfo@@SAXPAVINI@@@Z
-// partial score=0.92 date=2026-10-13
-// ?parseMultisoundDefinition@AudioEventInfo@@SAXPAVINI@@@Z
-// partial score=0.94 date=2026-10-08
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
+// ?parseMultisoundDefinition@AudioEventInfo@@SAXPAVINI@@@Z, retail 0x001DA4DE, 374 B
+// (WorldBuilder twin 0x00AC05E0). Map-ini rejection, newAudioEventInfo through the
+// audio manager's slot 73, subsound vector reset, field parse and the PLAY_ONE /
+// LOOP / music-track checks. The reference-counted handle's assignment
+// (rowed 0x00239099) is defined here as in its owner unit so cl sees that it
+// does not keep the handle's address: retail then keeps the referent in ESI and
+// releases it at scope end without reloading the handle.
 #include "ascii_string.h"
 #include <vector>
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 class INIException
 {
 public:
@@ -33,11 +35,16 @@ private:
 extern const struct FieldParse g_00BD9D68[];
 extern const float g_00BDA3E4;
 
+extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile *);
+
 class OpaqueRefCounted
 {
 public:
 	virtual ~OpaqueRefCounted();
+	void Add_Ref() { InterlockedIncrement(&refs); }
 	void Release_Ref();
+private:
+	long refs;
 };
 
 struct OpaqueRefElement4
@@ -47,6 +54,18 @@ struct OpaqueRefElement4
 	~OpaqueRefElement4() { if (referent) referent->Release_Ref(); }
 	OpaqueRefElement4 &operator=(const OpaqueRefElement4 &other);
 };
+
+inline __declspec(noinline) OpaqueRefElement4 &OpaqueRefElement4::operator=(const OpaqueRefElement4 &other)
+{
+	if (this != &other) {
+		if (other.referent)
+			other.referent->Add_Ref();
+		if (referent)
+			referent->Release_Ref();
+		referent = other.referent;
+	}
+	return *this;
+}
 
 class AudioManager
 {
@@ -82,7 +101,7 @@ class BfmeStringTailRecord156 {public:OpaqueRefElement4 ref;int weight;};
 namespace _STL {template<> BfmeStringTailRecord156 *vector<BfmeStringTailRecord156>::erase(BfmeStringTailRecord156*,BfmeStringTailRecord156*);}
 extern const FieldParse g_00BD9F1C[];
 class AudioEventInfo : public OpaqueRefCounted {public:
- char prefix[4];AsciiString name;char pad0c[0x4c-0x0c];unsigned control;
+ AsciiString name;char pad0c[0x4c-0x0c];unsigned control;
  char pad50[0x80-0x50];_STL::vector<BfmeStringTailRecord156> subsounds;int totalWeight;
  char pad90[0xb0-0x90];int type;
  static void parseMultisoundDefinition(INI*);
@@ -106,9 +125,10 @@ void AudioEventInfo::parseMultisoundDefinition(INI *ini)
  if(info->control & ~0x81) throw INIException(1,"PLAY_ONE and LOOP are the only valid control flags for Multisounds");
  if(info->control & 1) {
   if(!(info->control & 0x80)) throw INIException(1,"Multisound control flag \"LOOP\" is supported only in conjunction with flag PLAY_ONE. See me if you need this changed.");
-  for(BfmeStringTailRecord156 *i=info->subsounds.begin(),*end=info->subsounds.end();i!=end;++i) {
-   AudioEventInfo * volatile sub = static_cast<AudioEventInfo*>(i->ref.referent);
-   if(sub && __vref(sub->type)!=0) throw INIException(1,"Multisound control flag \"LOOP\" is supported only when all subsounds are MusicTracks. See me if you need this changed.");
+  BfmeStringTailRecord156 *end=info->subsounds.end();
+  for(BfmeStringTailRecord156 *i=info->subsounds.begin();i!=end;++i) {
+   AudioEventInfo *sub = static_cast<AudioEventInfo*>(i->ref.referent);
+   if(sub && sub->type!=0) throw INIException(1,"Multisound control flag \"LOOP\" is supported only when all subsounds are MusicTracks. See me if you need this changed.");
   }
  }
 }
