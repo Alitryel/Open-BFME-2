@@ -38,7 +38,7 @@ class LightningDrawModuleInfo : public Snapshot
 {
 public:
 	LightningDrawModuleInfo();
-	virtual ~LightningDrawModuleInfo();
+	__declspec(noinline) virtual ~LightningDrawModuleInfo();
 	virtual const char *GetSnapshotName();
 protected:
 	virtual void xfer(Xfer *xfer);

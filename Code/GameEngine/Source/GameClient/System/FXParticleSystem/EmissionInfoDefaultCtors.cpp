@@ -145,7 +145,9 @@ class DefaultPhysicsModuleInfo : public Snapshot
 {
 public:
 	DefaultPhysicsModuleInfo();
-	virtual ~DefaultPhysicsModuleInfo();
+	__declspec(noinline) virtual ~DefaultPhysicsModuleInfo();
+	virtual const char *GetSnapshotName();
+	virtual void DoXfer(Xfer &);
 
 private:
 	struct PhysicsCoord

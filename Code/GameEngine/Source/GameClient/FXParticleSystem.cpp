@@ -923,7 +923,7 @@ CategoryModuleTemplate<7> *fxCopyWindCategoryModuleTemplate(void *storage,
 // Three more info classes read straight off their generated assignments: a
 // movsd run is a three-float group, a lone dword move is a loose float, and a
 // byte move is a flag.
-class DefaultPhysicsModuleInfo
+class DefaultPhysicsModuleInfo : public Snapshot
 {
 public:
     DefaultPhysicsModuleInfo(const DefaultPhysicsModuleInfo &that);
@@ -937,6 +937,7 @@ public:
     bool m_unknown20;
     bool m_unknown21;
     virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 };
 
 const char *DefaultPhysicsModuleInfo::GetSnapshotName()
@@ -976,6 +977,7 @@ public:
     float m_unknown28;
     bool m_unknown2C;
     virtual const char *GetSnapshotName();
+    protected: virtual void xfer(::Xfer *);
 };
 
 const char *LightningDrawModuleInfo::GetSnapshotName()
@@ -1908,7 +1910,7 @@ DefaultAlphaModuleInfo::~DefaultAlphaModuleInfo() {}
 
 DefaultColorModuleInfo::~DefaultColorModuleInfo() {}
 
-DefaultPhysicsModuleInfo::~DefaultPhysicsModuleInfo() {}
+__declspec(noinline) DefaultPhysicsModuleInfo::~DefaultPhysicsModuleInfo() {}
 
 __declspec(noinline) inline DefaultUpdateModuleInfo::~DefaultUpdateModuleInfo() {}
 
@@ -1916,7 +1918,7 @@ void fxDestroyInfoEmissionVelocityInfo(EmissionVelocityInfo *p) { p->~EmissionVe
 
 void fxDestroyInfoEmissionVolumeInfo(EmissionVolumeInfo *p) { p->~EmissionVolumeInfo(); }
 
-LightningDrawModuleInfo::~LightningDrawModuleInfo() {}
+__declspec(noinline) inline LightningDrawModuleInfo::~LightningDrawModuleInfo() {}
 
 inline LightningEmissionInfo::~LightningEmissionInfo() {}
 
