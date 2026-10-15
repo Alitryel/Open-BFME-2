@@ -81,19 +81,6 @@ template <class T> Debug &operator<<(Debug &debug, const StringBase<T> &string);
 bool bfmeRva000387C0();
 void _bfme_debugRecordCallsite(int kind);
 
-// Retail's debug-message locals: the ctor/dtor are the out-of-line
-// StringBase(const char *) and releaseBuffer, so the view declares them only.
-class BFMERetailAsciiString
-{
-public:
-	BFMERetailAsciiString(const char *string);
-	~BFMERetailAsciiString();
-
-private:
-	void releaseBuffer();
-	char *m_data;
-};
-
 class Parameter
 {
 public:
@@ -225,8 +212,8 @@ const AttackPriorityInfo *ScriptEngine::getAttackInfo(const AsciiString &name)
 // the bytes fix: the "invalid thing" message is a call temporary (its release
 // is emitted between the two AppendDebugMessage calls) and the "error
 // allocating" message is a named AsciiString local. The two inner message
-// sites keep the donor's scoped BFMERetailAsciiString, whose declared-only
-// ctor/dtor are retail's out-of-line StringBase and releaseBuffer.
+// sites are scoped AsciiString locals; their inline ctor/dtor call retail's
+// out-of-line StringBase(const char *) and releaseBuffer.
 void ScriptEngine::setPriorityThing(ScriptAction *action)
 {
 	AsciiString typeArgument = action->getParameter(1)->getString();
@@ -260,7 +247,7 @@ void ScriptEngine::setPriorityThing(ScriptAction *action)
 			if (!thisType)
 			{
 				{
-					BFMERetailAsciiString message("***Attempting to set attack priority on an invalid thing:***");
+					AsciiString message("***Attempting to set attack priority on an invalid thing:***");
 					AppendDebugMessage(*(const AsciiString *)&message, false);
 				}
 				AppendDebugMessage(action->getParameter(0)->getString(), false);
@@ -270,7 +257,7 @@ void ScriptEngine::setPriorityThing(ScriptAction *action)
 			Rva00205D5DEntry *info = rva00205D5D(action->getParameter(0)->getString(), true);
 			if (!info)
 			{
-				BFMERetailAsciiString message("***Error allocating attack priority set - fix or raise limit. ***");
+				AsciiString message("***Error allocating attack priority set - fix or raise limit. ***");
 				AppendDebugMessage(*(const AsciiString *)&message, false);
 				return;
 			}
