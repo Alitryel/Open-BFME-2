@@ -1,4 +1,6 @@
 // ?doDrawModule@W3DBoatWakeModelDraw@@UAEXPBVMatrix3D@@@Z
+// partial score=0.99 date=2026-10-15
+// ?doDrawModule@W3DBoatWakeModelDraw@@UAEXPBVMatrix3D@@@Z
 // partial score=0.987 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug
 //
@@ -27,7 +29,7 @@ extern Real g_Va00DB52E8;
 class Object;
 struct Rva0028AC4EEntry;
 class Rva0008BB38FloatField { public: Real get() const; };
-class Rva001E46E1 { public: Real rva001E46E1(Object *obj); };
+class Locomotor { public: Real getMaxSpeed(Object *obj) const; };
 
 class Object
 {
@@ -82,7 +84,7 @@ void W3DBoatWakeModelDraw::doDrawModule(const Matrix3D *transformMtx)
 	Object *obj = m_drawable->getObject();
 	const Rva0028AC4EEntry *locomotor = obj->rva0028AC4E();
 	Real speedRatio = ((const Rva0008BB38FloatField *)locomotor)->get()
-		/ ((Rva001E46E1 *)locomotor)->rva001E46E1(obj);
+		/ ((const Locomotor *)locomotor)->getMaxSpeed(obj);
 	if (fabs(speedRatio - m_speedRatio) > g_Va00DB52E8)
 	{
 		if (speedRatio > m_speedRatio)
