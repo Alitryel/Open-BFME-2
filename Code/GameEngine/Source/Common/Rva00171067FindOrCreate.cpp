@@ -1,21 +1,20 @@
-// ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
-// partial score=0.985 date=2026-10-15
-// ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
-// partial score=0.98 date=2026-10-14
-// ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
-// partial score=0.97 date=2026-10-14
-// ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
-// partial score=0.96 date=2026-10-06
 // cl: /O1 /EHs /MD /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
 //
-// ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
-// Candidate 0x00171067, 164B. Find-or-create on the embedded Rva00170BFF tree
-// at +8 (header pointer plus count, same layout as the rowed int_ptr tree so
-// the rowed _M_find serves); on miss builds a zero-Data Rva00170999 via the
-// rowed Get plus copy, inserts through the rowed unique-search worker at
-// 0x00170DB7, then refreshes current at +0x14 to begin plus flag at +0x1C.
-// Boundary from int3 padding; byte verification decides.
+// ?rva00171067@TexturePacker@@QAEXABVBFME2ParticleTextureHandle@@@Z @0x00171067 164B:
+// find-or-create on the embedded Rva00170BFF tree at +8 (header pointer plus
+// count, same layout as the rowed int_ptr tree so the rowed _M_find serves);
+// on a miss it builds a zero-Data Rva00170999 through the rowed Get wrapper
+// 0x00170A58, copies it (rowed copy ctor 0x001709D7) and inserts the copy
+// through the unique-search worker 0x00170DB7, then refreshes the current
+// position at +0x14 to the tree's leftmost node and sets the flag at +0x1C.
+// Evidence: callees rowed; boundary from int3 padding.
+//
+// Two live objects in retail, EH state 0 for the Get() temporary and state 1
+// for its copy: the copy is made by a helper that takes the temporary by
+// const reference, so the ctor argument is the sret call's returned pointer
+// and the copy keeps its own frame slot (a named local or a functional cast
+// makes the compiler re-materialise the address or elide the copy).
 #include <map>
 
 class TextureClass
@@ -50,7 +49,12 @@ class Rva00170999
 public:
 	__declspec(noinline) Rva00170999(const AssetReference &a, const Rva00170999Data &d) : m_asset(a), m_data(d) {}
 	__declspec(noinline) Rva00170999(const Rva00170999 &that) : m_asset(that.m_asset), m_data(that.m_data) {}
-	~Rva00170999();
+	~Rva00170999()
+	{
+		if (m_asset.m_object) {
+			m_asset.m_object->Release_Ref();
+		}
+	}
 };
 
 __declspec(noinline) inline Rva00170999 __cdecl Rva00170A58Get(const AssetReference &a, const Rva00170999Data &d)
@@ -90,7 +94,20 @@ public:
 	Rva00170DB7Out rva00170DB7(const Rva00170999 &value);
 };
 
-class Rva00171067
+__forceinline void rva00171067Insert(Rva00170BFF &tree, const Rva00170999 &temporary)
+{
+	Rva00170999 copy(temporary);
+	tree.rva00170DB7(copy);
+}
+
+// One-pointer texture handle view: the pointer at +0 is the atlas key.
+class BFME2ParticleTextureHandle
+{
+public:
+	TextureClass *Ptr;
+};
+
+class TexturePacker
 {
 	int m_00;
 	int m_04;
@@ -100,33 +117,21 @@ class Rva00171067
 	int m_18;
 	bool m_1C;
 public:
-	void rva00171067(const AssetReference &ref);
+	void rva00171067(const BFME2ParticleTextureHandle &texture);
 };
 
-// ??1Rva00170999@@QAE@XZ present-unmatched
-Rva00170999::~Rva00170999()
+void TexturePacker::rva00171067(const BFME2ParticleTextureHandle &texture)
 {
-	if (m_asset.m_object) {
-		m_asset.m_object->Release_Ref();
-	}
-}
-
-// ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z present-unmatched
-void Rva00171067::rva00171067(const AssetReference &ref)
-{
-	if (*(void *const *)&ref == 0) {
+	if (texture.Ptr == 0) {
 		return;
 	}
 	typedef _STL::map<unsigned, void *> MapIntPtr;
-	const unsigned &key = *(const unsigned *)&ref;
+	const unsigned &key = *(const unsigned *)&texture;
 	MapIntPtr &m = *(MapIntPtr *)&m_bff;
 	if (m.find(key) != m.end()) {
 		return;
 	}
-	{
-		Rva00170999 tmp1 = Rva00170A58Get(ref, Rva00170999Data());
-		m_bff.rva00170DB7(Rva00170999((const Rva00170999 &)tmp1));
-	}
+	rva00171067Insert(m_bff, Rva00170A58Get((const AssetReference &)texture, Rva00170999Data()));
 	m_14 = m_bff.m_00Head->_left;
 	m_1C = true;
 }
