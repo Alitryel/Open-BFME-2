@@ -364,7 +364,6 @@ public:
 class ParticleSystem
 {
 public:
-	ParticleSystemID getSystemID() const { return m_systemID; }
 	void setPosition(const Coord3D *pos)
 	{
 		((Rva001F3899Slot *)this)->set(*(const Rva001F3899Arg *)pos);
@@ -374,7 +373,6 @@ public:
 		((Rva001F3C43Slot *)this)->set((const Rva001F3C43Arg *)obj);
 	}
 
-private:
 	char m_unknown00[0xA8];
 	ParticleSystemID m_systemID; // +0xA8
 };
@@ -550,7 +548,7 @@ void TransitionDamageFX::onBodyDamageStateChange(const DamageInfo *damageInfo, B
 						pos = getLocalEffectPos((const Rva004B9C4DLoc *)&modData->m_particleSystem[newState][i].locInfo, draw);
 						pSystem->setPosition(&pos);
 						pSystem->attachToObject(getObject());
-						m_particleSystemID[newState][i] = pSystem->getSystemID();
+						m_particleSystemID[newState][i] = pSystem->m_systemID;
 					}
 				}
 			}

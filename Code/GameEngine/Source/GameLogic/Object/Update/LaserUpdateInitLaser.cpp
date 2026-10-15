@@ -57,7 +57,9 @@ enum ParticleSystemID { INVALID_PARTICLE_SYSTEM_ID=0 };
 struct Rva001F3899Arg { float x,y,z; };
 class Rva001F3899Slot { public: void set(const Rva001F3899Arg &); };
 class ParticleSystem { public:
- ParticleSystemID getSystemID() const { return *reinterpret_cast<const ParticleSystemID *>(reinterpret_cast<const char *>(this)+0xA8); } __forceinline void setPosition(const Coord3D *pos) { reinterpret_cast<Rva001F3899Slot *>(this)->set(*reinterpret_cast<const Rva001F3899Arg *>(pos)); } };
+ char m_unknown00[0xA8];
+ ParticleSystemID m_systemID; // +0xA8, verified by native initLaser loads.
+ __forceinline void setPosition(const Coord3D *pos) { reinterpret_cast<Rva001F3899Slot *>(this)->set(*reinterpret_cast<const Rva001F3899Arg *>(pos)); } };
 class RvaSmartPtr12 { public: RvaSmartPtr12 &operator=(const RvaSmartPtr12 &) throw(); void rva0004CBC0() throw(); };
 class BfmeParticleSystemHandle { public:
  BfmeParticleSystemHandle():m_system(0),m_previous(0),m_next(0) {}
@@ -179,7 +181,7 @@ void LaserUpdate::initLaser(const Object *parent, const Coord3D *startPos, const
             {
                 system = TheParticleSystemManager->createParticleSystem( tmp, true );
                 if( system.m_system )
-                    m_particleSystemID = system.m_system->getSystemID();
+                    m_particleSystemID = system.m_system->m_systemID;
             }
         }
 
@@ -190,7 +192,7 @@ void LaserUpdate::initLaser(const Object *parent, const Coord3D *startPos, const
             {
                 system = TheParticleSystemManager->createParticleSystem( tmp, true );
                 if( system.m_system )
-                    m_targetParticleSystemID = system.m_system->getSystemID();
+                    m_targetParticleSystemID = system.m_system->m_systemID;
             }
         }
     }

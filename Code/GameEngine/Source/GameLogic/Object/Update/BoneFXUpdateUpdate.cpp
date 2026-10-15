@@ -167,7 +167,6 @@ public:
 class ParticleSystem
 {
 public:
-	ParticleSystemID getSystemID() const { return m_systemID; }
 	void setPosition(const Coord3D *pos)
 	{
 		((Rva001F3899Slot *)this)->set(*(const Rva001F3899Arg *)pos);
@@ -178,7 +177,6 @@ public:
 	}
 	void stop() { ((Rva001F3852ByteOneSetter *)this)->enable(); }
 
-private:
 	char m_unknown00[0xA8];
 	ParticleSystemID m_systemID; // +0xA8
 };
@@ -448,7 +446,8 @@ void BoneFXUpdate::doParticleSystemAtBone(const ParticleSystemTemplate *particle
 	BfmeParticleSystemHandle psys = TheParticleSystemManager->createParticleSystem(particleSystemTemplate, true);
 	if (psys)
 	{
-		m_particleSystemIDs.push_back(psys->getSystemID());
+		ParticleSystemID systemID = psys->m_systemID;
+		m_particleSystemIDs.push_back(systemID);
 		psys->setPosition(bonePosition);
 		psys->attachToObject(building);
 		Drawable *drawable = building->getDrawable();
