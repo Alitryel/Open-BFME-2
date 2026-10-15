@@ -115,6 +115,8 @@ public:
     PathfindLayerEnum layer;
     Bool canOptimize;
     Int portalID;
+    const Coord3D *getPosition() const { return &position; }
+    PathNode *getNextOptimized() const { return nextOptimized; }
 };
 struct Rva002EDEABArg;
 struct Rva002E93A7Info
@@ -655,6 +657,7 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
  PathfindCell *rva002F36E5();Int rva002F40E7();void CheckChangeLayers(PathfindCell *,Object *);
 	Path *InternalFindPath(Object *,const LocomotorSet &,const Coord3D *,const Coord3D *,HierarchicalPath *,Bool *);
 	Int rva002F83F5(PathfindCell *,PathfindCell *,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
+	Path *GetMoveAwayFromPath(Object *,Object *,Path *,Object *,Path *);
 	Int ExamineNeighboringCellsForSidewaysAttack(PathfindCell *,const ICoord2D *,Int,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
 	Bool checkForMovement(Object *,TCheckMovementInfo &);
 	Bool rva002EDFF9(Object *,Coord3D *);
@@ -3430,6 +3433,82 @@ count+=rva002F83F5(parent,0,loco,human,center,cellRadius,startCell,obj,0);
 }
 m_isTunneling=false;rva002F40E7();return 0;
 }
+#include "../../../../Libraries/Include/Lib/Coord2D.h"
+#include "../../../../Libraries/Include/Lib/Region2D.h"
+Bool LineInRegion(const Coord2D *,const Coord2D *,const Region2D *);
+int Rva002E9B31Get(void *);
+// Evidence: WB lead D35600 names Pathfinder::GetMoveAwayFromPath (reverse/wb_name_leads.csv);
+// BFME1/ZH getMoveAwayFromPath is the semantic guide. The Coord2D pair is declared in the
+// segment loop body (one load of nextOptimized), via PathNode's getPosition/getNextOptimized.
+// 0x002F9DBA: a flood search from the mover's cell for the nearest cell whose
+// box (grown by both movers' radii) avoids both avoided paths and objects.
+Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToAvoid,Object *otherObj2,Path *pathToAvoid2)
+{
+ if(!m_isMapReady)return 0;
+ Bool isHuman=true;
+ if(obj->getControllingPlayer() && obj->getControllingPlayer()->m_playerType==1)isHuman=false;
+ ((_STL::vector<Gen_p12pod> *)&m_1C1CC)->clear();
+ m_zoneManager.rva00531300();
+ ICoord2D start;Rva002EBC14Cell(&start,obj,(const Coord3D *)obj->position);
+ PathfindCell *parent=rva002E8BF8((PathfindLayerEnum)obj->rva0028B511(),(const Coord3D *)obj->position);
+ if(!parent)return 0;
+ AIUpdateInterface *ai=obj->getAI();if(!ai)return 0;
+ Int priority=obj->m_template->priority;
+ Bool flag=obj->m_template->flag;
+ Rva002E8BCF movement((const Rva002E8BCFSrc *)((const char *)ai+0x1cc),!flag,priority-1,obj->rva0028AFBB());
+ m_isTunneling=false;
+ if(!((Rva002E6DC4 *)this)->rva002E6DC4(&movement,parent))m_isTunneling=true;
+ TCheckMovementInfo info;
+ ((Rva002E6FDF *)&info)->rva002E6FDF();
+ Int &radius=info.radius;Bool &center=info.centerInCell;
+ Rva002EBCA7Split(obj,&radius,(unsigned char *)&center);
+ info.cell=start;info.layer=(PathfindLayerEnum)obj->rva0028B511();
+ info.m_14=(*(const unsigned *)((const char *)obj->m_template+0x110)&0x4000000)?1:16;
+ info.m_11=false;
+ info.m_18=obj->getAI()?(ObjectID)((Rva0006E009DwordField *)obj->getAI())->get():(ObjectID)0;
+ if(!checkForMovement(obj,info))m_isTunneling=true;
+ parent->allocateInfo((In002E6BA1 *)&start);parent->StartPathfind(0);AddToOpenList(parent);
+ float boxHalfWidth=radius*10-2.5f;
+ if(center)boxHalfWidth+=5.0f;
+ boxHalfWidth+=Rva002E9B31Get(otherObj)*10*0.5f;
+ PathfinderSearchCellsVisited=0;
+ const LocomotorSet &locomotorSet=*(const LocomotorSet *)((const char *)obj->getAI()+0x1cc);
+ while((parent=rva002F36E5())!=0) {
+  Region2D bounds;
+  PathfinderCellPoint cellCenter=Rva002E8C23Call(center,parent);
+  bounds.lo=cellCenter.x-boxHalfWidth;bounds.y_min=cellCenter.y-boxHalfWidth;
+  bounds.hi=cellCenter.x+boxHalfWidth;bounds.y_max=cellCenter.y+boxHalfWidth;
+  PathNode *node;
+  Bool overlap=false;
+  if(bounds.lo<obj->position[0] && bounds.hi>obj->position[0] && bounds.y_min<obj->position[1] && bounds.y_max>obj->position[1])overlap=true;
+  if(pathToAvoid) {
+   for(node=pathToAvoid->firstNode;node && node->getNextOptimized();node=node->getNextOptimized()) {
+    Coord2D first,last;first.x=node->getPosition()->x;first.y=node->getPosition()->y;
+    last.x=node->getNextOptimized()->getPosition()->x;last.y=node->getNextOptimized()->getPosition()->y;
+    if(LineInRegion(&first,&last,&bounds)){overlap=true;break;}
+   }
+  }
+  if(bounds.lo<otherObj->position[0] && bounds.hi>otherObj->position[0] && bounds.y_min<otherObj->position[1] && bounds.y_max>otherObj->position[1])overlap=true;
+  if(!overlap && pathToAvoid2) {
+   for(node=pathToAvoid2->firstNode;node && node->getNextOptimized();node=node->getNextOptimized()) {
+    Coord2D first,last;first.x=node->getPosition()->x;first.y=node->getPosition()->y;
+    last.x=node->getNextOptimized()->getPosition()->x;last.y=node->getNextOptimized()->getPosition()->y;
+    if(LineInRegion(&first,&last,&bounds)){overlap=true;break;}
+   }
+  }
+  if(!overlap && start.x==parent->getXIndex() && start.y==parent->getYIndex())overlap=true;
+  if(!overlap && bfmeWrapE6E90(obj,(void *)parent->getXIndex(),(void *)parent->getYIndex(),(void *)parent->getLayer(),(void *)radius,boolArg(center))) {
+   m_isTunneling=false;
+   Path *newPath=BuildActualPath(obj,movement.surfaces,(const Coord3D *)obj->position,parent,center,false,true);
+   rva002F40E7();parent->ReleaseInfo();return newPath;
+  }
+  parent->PutOnClosedList(&m_closedList);
+  CheckChangeLayers(parent,obj);
+  rva002F83F5(parent,0,locomotorSet,isHuman,center,radius,&start,obj,0);
+ }
+ m_isTunneling=false;rva002F40E7();return 0;
+}
+
 Path *Pathfinder::InternalFindPath(Object *obj, const LocomotorSet &locomotorSet, const Coord3D *from,
 	const Coord3D *rawTo, HierarchicalPath *hierarchicalPath, Bool *destinationAdjusted)
 {

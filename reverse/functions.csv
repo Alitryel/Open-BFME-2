@@ -90707,3 +90707,4 @@ uw_007698b4,,0x007698B4,8,Code/GameEngine/Source/GameLogic/Object/Rva001DC0ECDto
 uw_0076b02d,,0x0076B02D,11,Code/GameEngine/Source/GameLogic/Object/Rva001F092ADtor.cpp,matched,gen-funclet;parent=??1Rva001F092A@@UAE@XZ;object-symbol=$L5051
 uw_0076eef7,,0x0076EEF7,10,Code/GameEngine/Source/GameLogic/Object/Rva00220DCDInit.cpp,matched,gen-funclet;parent=?Rva00220DCDInit@@YAXXZ;object-symbol=$L320
 uw_00776fcd,,0x00776FCD,10,Code/GameEngine/Source/GameLogic/Object/Rva002CA88BParse.cpp,matched,gen-funclet;parent=?Rva002CA88BParse@@YAXPAX0@Z;object-symbol=$L336
+?GetMoveAwayFromPath@Pathfinder@@QAEPAVPath@@PAVObject@@0PAV2@01@Z,,0x002F9DBA,1096,Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp,matched,WB D35600 Pathfinder::GetMoveAwayFromPath; ZH getMoveAwayFromPath semantic guide; native flood search avoiding two paths/objects
