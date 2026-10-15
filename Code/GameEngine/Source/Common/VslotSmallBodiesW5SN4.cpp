@@ -10,10 +10,12 @@
 
 typedef int Int;
 
-class Rva0057845C
+// 0x0057845C is rowed as the virtual AptRadialMenu::Impl::Show; called directly.
+class AptRadialMenu { public: class Impl; };
+class AptRadialMenu::Impl
 {
 public:
-	void rva0057845C(Int a0);
+	virtual void Show(Int a0);
 };
 class Rva00578513
 {
@@ -21,11 +23,11 @@ public:
 	void rva00578513(Int a0);
 private:
 	char m_pad00[0x04];
-	Rva0057845C *m_04;
+	AptRadialMenu::Impl *m_04;
 };
 void Rva00578513::rva00578513(Int a0)
 {
-	m_04->rva0057845C(a0);
+	m_04->AptRadialMenu::Impl::Show(a0);
 }
 class Image;
 class Rva003F038E { public: const Image *rva003F03B9(); };
@@ -205,7 +207,7 @@ void Rva005E3049::rva005E3049(Int page, bool enabled)
 class Rva005ED385
 {
 public:
-	void rva005ED385(Int a0, Int a1);
+	void rva005ED385(Int a0, const Image *a1);	// row spelling
 };
 class Rva005ED5BB
 {
@@ -217,21 +219,21 @@ private:
 };
 void Rva005ED5BB::rva005ED5BB(Int a0, Int a1)
 {
-	m_04->rva005ED385(a0, a1);
+	m_04->rva005ED385(a0, (const Image *)a1);
 }
 
-class Rva005ED6B9
-{
-public:
-	void rva005ED6B9(Int a0, Int a1);
-};
+// 0x005ED6B9 is rowed on StrategicHUD::RegionAwardMovieClip::Impl.
+namespace StrategicHUD {
+class RegionAwardMovieClip { public: class Impl; };
+class RegionAwardMovieClip::Impl { public: void rva005ED6B9(Int a0, Int a1); };
+}
 class Rva005ED849
 {
 public:
 	void rva005ED849(Int a0, Int a1);
 private:
 	char m_pad00[0x04];
-	Rva005ED6B9 *m_04;
+	StrategicHUD::RegionAwardMovieClip::Impl *m_04;
 };
 void Rva005ED849::rva005ED849(Int a0, Int a1)
 {
