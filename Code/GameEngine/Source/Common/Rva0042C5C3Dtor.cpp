@@ -175,6 +175,10 @@ Rva0042C5C3::~Rva0042C5C3()
 // Whole180B owner and native EH graph prove the receiver adjustment; the
 // existing same-object7B destructor restores its witnessed base table.
 
+// Native007876AD: complete11B member38 unwind reaches the same full26B
+// owned-pointer destructor as normal teardown. Whole180B parent and its
+// complete native EH graph prove this lifetime and receiver adjustment.
+
 // Native 0x00787666: complete20B null-preserving adjusted-base lifetime action.
 // Whole180B owner and native EH graph prove the receiver adjustment; the
 // existing same-object7B destructor restores its witnessed base table.
