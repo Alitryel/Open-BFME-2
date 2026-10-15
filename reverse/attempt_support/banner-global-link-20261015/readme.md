@@ -89,3 +89,10 @@ change both parents' frame/register shape. Their blocked verdicts and exact
 boundaries are recorded in re_attempts.log. Their local scratch directories
 contain the failed gates and restored passing gates. Do not repeat unchanged
 trials; the original native byte gates pass after restoration.
+
+Commit hook follow-up: the shadow identity check reported 35 keys outside
+its register: 32 definition keys and three code-binding keys. A paired
+comparison with the same cached tree objects, replacing only these nine
+snapshots, proves all keys identical before and after; verify_identity.py
+and identity-proof.json preserve this evidence. This is a shadow comparison,
+not receipt-current closure of the entire tree. Normal commit hooks passed.
