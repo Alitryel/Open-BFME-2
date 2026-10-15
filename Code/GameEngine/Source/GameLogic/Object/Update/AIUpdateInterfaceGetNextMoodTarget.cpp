@@ -70,6 +70,8 @@ public:
 	Rva000421C8() : m_next(0) {}
 	virtual ~Rva000421C8() {}
 	virtual Bool allow(Object *objOther) = 0;
+	// Native filter vtables retain the inherited player-mask slot.
+	virtual Int getPlayerMask();
 private:
 	Rva000421C8 *m_next; // +0x04
 };
@@ -267,7 +269,7 @@ public:
 	Real rva00263763(const void *other) const;
 	Bool isAbleToAttack() const;
 	Bool isEffectivelyDead() const { return (m_privateStatus & 1) != 0; }
-	Bool isDestroyed() const { return (m_privateStatus & 8) != 0; }
+	__declspec(dllimport) __forceinline Bool isDestroyed() const { return (m_privateStatus & 8) != 0; }
 	unsigned char m_pad000[0x04];
 	const ThingTemplate *m_template; // +0x04
 	unsigned char m_pad008[0x38 - 0x08];
