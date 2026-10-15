@@ -51,7 +51,7 @@ private:
 class Rva000411084
 {
 public:
-    void *next();
+    __declspec(noinline) void *next();
     void *advance();
 
     void *m_current;
@@ -159,7 +159,9 @@ void Eva::rva001debf6(_STL::vector<AsciiString> *out)
 
 
 // ?next@Rva000411084@@QAEPAXXZ
-void *Rva000411084::next()
+// Other iterator users emit this same retail body inline. Keep the call in
+// these two callers, but let the linker coalesce their identical definitions.
+inline void *Rva000411084::next()
 {
     EvaMessageNameNode *node = ((EvaMessageNameNode *)m_current)->m_next;
     if (node == 0)
