@@ -1,7 +1,12 @@
 // cl: /O1 /DNDEBUG /MD /EHsc
 // ??0Rva00109C27@@QAE@PBD@Z @0x00109C27 60B
-// Ctor over empty base for EH state 0 before StringClass member at +8;
-// vtable 0x00BCFA0C at +0 and null at +4; caller at 0x00109CDC.
+// Native60B owner zeroes inherited NextHash at+4 and constructs StringClass at+8.
+// Native state0 cleanup7645D7 calls complete7B virtual Hashable destructorEF9CF,
+// which restores BCEF94. Its complete8B table is [EF9D6,purecall3B810]; the
+// established13B constructorEF9C2 independently fixes the base size and field.
+// Layout/semantics follow WWLib hash.h at BFME1 donor a7c38d3b2597121f178ab5190b3062478823257d.
+// The original derived identity remains unknown. The native parent and complete
+// EH graph are exact; caller109CDC and existing54B destructor109C7F agree.
 class StringClass
 {
 public:
@@ -9,24 +14,27 @@ public:
 private:
 	char *m_Buffer;
 };
-class Base4
+// WWLib hash.h base: native8B layout and BCEF94 table.
+class HashableClass
 {
 public:
-	Base4() : m_4(0) {}
-	~Base4();
-	void *m_4;
+    HashableClass() : NextHash(0) {}
+    virtual ~HashableClass() {}
+    virtual const char *Get_Key() = 0;
+private:
+    HashableClass *NextHash;
 };
-class Rva00109C27 : public Base4
+class Rva00109C27 : public HashableClass
 {
 public:
 	Rva00109C27(const char *src);
-// ??1Rva00109C27@@UAE@XZ present-unmatched
-	virtual ~Rva00109C27() {}
+	virtual ~Rva00109C27();
+    virtual const char *Get_Key();
 private:
 	StringClass m_str;
 };
 Rva00109C27::Rva00109C27(const char *src)
-	: Base4()
+	: HashableClass()
 	, m_str(src, false)
 {
 }
