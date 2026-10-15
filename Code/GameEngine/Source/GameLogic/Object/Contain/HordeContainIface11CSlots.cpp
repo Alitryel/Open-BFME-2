@@ -189,6 +189,7 @@ public:
 	bool IsPointOnRamp(const Coord3D *pos);
 	void RemoveObjectFromPathfindMap(Object *object);
 	void RemoveObjectGoalFromPathfindMap(Object *object);
+	bool IsValidMovementPositionForObject(const Coord3D *pos, int layer, int surfaces, const Object *obj);
 };
 struct Rva00372571Params
 {
@@ -218,6 +219,7 @@ public:
 	static bool rva002FE193(Object *obj, Object *victim);	// rowed 0x002FE193
 	unsigned char m_pad00[0x10];
 	Pathfinder *m_pathfinder; // +0x10
+	Pathfinder *pathfinder() { return m_pathfinder; }
 };
 extern AI *TheAI;
 class FXList
@@ -611,6 +613,7 @@ public:
 	void rva0028B95F();
 	unsigned char rva00290FBB() const;
 	int rva0028B511() const;
+	void rva0028B4CE(PathfindLayerEnum layer);
 	void rva0028AE6D();
 	void rva0029A12B();
 	void rva00298979(Object *source, bool flag);
@@ -947,7 +950,7 @@ public:
 	virtual void rva00472D43(void *thingTemplate) = 0; virtual bool rva0046970D(Object *obj, int a2, const Rva00469851Names *names, bool sameGroup) = 0; virtual void gap28() = 0; virtual void gap29() = 0;
 	virtual void rva00473799(const _STL::list<Object *> &items) = 0; virtual void rva00472A24(const Coord3D *pos, CommandSourceType cmdSource, int a3) = 0; virtual void gap32() = 0; virtual void rva00472C8E(Object *obj, CommandSourceType cmdSource) = 0;
 	virtual bool rva00468D11() = 0; virtual bool rva00468D2C() = 0; virtual bool rva0046BB6F(int *out, unsigned int frame) = 0; virtual bool rva0046A2A7() = 0;
-	virtual void gap38() = 0; virtual bool rva0046C65C() = 0; virtual bool rva0046C71E() = 0; virtual bool rva0046C6E7() = 0;
+	virtual void rva0046BEAC(Object *obj) = 0; virtual bool rva0046C65C() = 0; virtual bool rva0046C71E() = 0; virtual bool rva0046C6E7() = 0;
 	virtual void slot42(const Object *obj) = 0; virtual bool rva0046B9DC(int a1) = 0; virtual bool rva0046B95E(int a1) = 0; virtual void rva00468CA3(const Rva00468CA3Arg *arg) = 0;
 	virtual void rva0046E7E3(const UpgradeTemplate *upgrade, bool all) = 0; virtual void gap47() = 0; virtual void rva004707DB(Object *obj, float amount) = 0; virtual void rva004739B4() = 0;
 	virtual void gap50() = 0; virtual void rva0046BD70() = 0; virtual void rva0046BE0E() = 0; virtual void rva0046C3FE(Player *player) = 0;
@@ -1222,6 +1225,7 @@ public:
 	virtual bool rva0046C5D7(int value);
 	virtual bool rva0046A2EC(Object *target);
 	virtual bool rva0046A381(Object *target);
+	virtual void rva0046BEAC(Object *obj);
 	virtual void rva0046BD70();
 	virtual void rva0046BE0E();
 	virtual void rva0046BA56(Object *source, int unused);
@@ -2439,6 +2443,91 @@ void HordeContain::rva0046BE0E()
 		Object *obj = TheGameLogic->findObjectByID((ObjectID)*k);
 		if (obj && !obj->testStatus((ObjectStatusTypes)0x1C))
 			TheAI->m_pathfinder->RemoveObjectGoalFromPathfindMap(obj);
+	}
+}
+
+// The locomotor set's valid-surfaces mask (+0x10), as the slot-38 walk reads it.
+struct LocomotorSetSurfacesView
+{
+	unsigned char m_pad00[0x10];
+	int m_validLocomotorSurfaces; // +0x10
+};
+// ?rva0046BEAC@HordeContain@@UAEXPAVObject@@@Z @0x0046BEAC: slot 38 (WB twin
+// 0x010C3050): averages the positions of the live +0x170 key Objects that pass
+// 0x00290FBB and of every contained Object (slot 70), then moves the given
+// Object to the member position closest to that center (contained members
+// only where the pathfinder accepts the spot for the given Object's layer and
+// locomotor surfaces) and gives it that member's layer (default ground).
+void HordeContain::rva0046BEAC(Object *obj)
+{
+	Coord3D center;
+	center.zero();
+	int count = 0;
+	int layer = 1;
+	for (_STL::set<int>::iterator k = m_170.begin(); k != m_170.end(); ++k)
+	{
+		Object *member = TheGameLogic->findObjectByID((ObjectID)*k);
+		if (member && member->rva00290FBB())
+		{
+			center.add(member->getPosition());
+			++count;
+		}
+	}
+	Rva0046247DPair p;
+	rva0046D27ASlot70(p);
+	for (_STL::list<Object *>::const_iterator it = p.m04->begin(); it != p.m04->end(); ++it)
+	{
+		Object *member = *it;
+		if (member)
+		{
+			center.add(member->getPosition());
+			++count;
+		}
+	}
+	if (count > 0)
+	{
+		float bestDist = -1.0f;
+		center.scale(1.0f / count);
+		Coord3D bestPos;
+		bestPos.set(obj->getPosition());
+		Coord3D pos;
+		Coord3D delta;
+		for (_STL::set<int>::iterator k = m_170.begin(); k != m_170.end(); ++k)
+		{
+			Object *member = TheGameLogic->findObjectByID((ObjectID)*k);
+			if (member && member->rva00290FBB())
+			{
+				delta.set(member->getPosition());
+				pos.set(&delta);
+				delta.sub(&center);
+				if (bestDist < 0.0f || delta.lengthSqr() < bestDist)
+				{
+					bestPos = pos;
+					bestDist = delta.lengthSqr();
+					layer = member->rva0028B511();
+				}
+			}
+		}
+		for (_STL::list<Object *>::const_iterator it = p.m04->begin(); it != p.m04->end(); ++it)
+		{
+			Object *member = *it;
+			pos.set(member->getPosition());
+			AIUpdateInterface *ai = obj->m_ai;
+			int surfaces = ((const LocomotorSetSurfacesView *)&ai->getLocomotorSet())->m_validLocomotorSurfaces;
+			if (TheAI->pathfinder()->IsValidMovementPositionForObject(&pos, obj->rva0028B511(), surfaces, obj))
+			{
+				delta.set(&pos);
+				delta.sub(&center);
+				if (bestDist < 0.0f || delta.lengthSqr() < bestDist)
+				{
+					bestPos = pos;
+					bestDist = delta.lengthSqr();
+					layer = member->rva0028B511();
+				}
+			}
+		}
+		((Thing *)obj)->setPosition(&bestPos);
+		obj->rva0028B4CE((PathfindLayerEnum)layer);
 	}
 }
 
