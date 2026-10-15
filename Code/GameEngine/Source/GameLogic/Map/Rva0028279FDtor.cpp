@@ -48,11 +48,16 @@ public:
     unsigned int m_index;
 };
 
+class Rva00282135
+{
+public:
+    void rva00282135();
+};
+
 class Rva0028279F : public Rva00281A15List
 {
 public:
     ~Rva0028279F();
-    void rva00282135();
 private:
     unsigned int m_word10;
     _STL::vector<Rva0027EA49, _STL::allocator<Rva0027EA49> > m_records14;
@@ -60,6 +65,6 @@ private:
 
 Rva0028279F::~Rva0028279F()
 {
-    rva00282135();
+    reinterpret_cast<Rva00282135 *>(this)->rva00282135();
     forEach(&Rva00281A15Listener::notify, this);
 }
