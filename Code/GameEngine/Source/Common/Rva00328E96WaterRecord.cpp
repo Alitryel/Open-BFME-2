@@ -15,7 +15,7 @@ extern "C" void _ReadWriteBarrier();
 #include "ascii_string.h"
 #include "Lib/Coord2D.h"
 #include "Lib/RGBColor.h"
-void Rva00030830GameFree(void*);
+namespace _STL { void free(void*); }
 class DataChunkInput 
 {
  public:AsciiString readAsciiString();
@@ -41,10 +41,9 @@ class Rva0030B9DD
 {
  public:Rva0030B9DD(int);
 // ?Rva0030B9DD::~Rva0030B9DD present-unmatched
- __forceinline ~Rva0030B9DD() 
+ ~Rva0030B9DD() 
  {
-  if(first)Rva00030830GameFree(first);
-  
+  if(first)_STL::free(first);
  }
  BfmeE8 *first,*finish,*capacity;
  char opaque0c[0x28-12];
@@ -95,7 +94,7 @@ class WaterTransparencySetting : public Rva001E35DFView
 ;
 template<class T>class OVERRIDE 
 {
- public:operator const T*()const 
+ public: __declspec(dllimport) __forceinline operator const T*()const 
  {
   if(!pointer)return 0;
   return (const T*)pointer->getFinalOverride();
