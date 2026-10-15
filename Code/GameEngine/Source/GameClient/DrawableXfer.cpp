@@ -7,6 +7,16 @@
 // Donor: BFME1 Drawable
 // (reference/open-bfme-1/game/GameEngine/Source/GameClient/DrawableXfer.cpp).
 
+// Preserve the vector growth comparison inline without emitting a competing
+// max<unsigned> copy under this unit's compiler settings.
+#include <stl/_algobase.h>
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+const unsigned int &max<unsigned int>(const unsigned int &a, const unsigned int &b)
+{
+	return a < b ? b : a;
+}
+}
 #include <vector>
 #include <string.h>
 // /D_CRTIMP= keeps free() direct (0x30830, as the vector<Waypoint *> fold
