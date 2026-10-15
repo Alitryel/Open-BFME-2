@@ -1,21 +1,22 @@
 // ?update@Eva@@UAEXXZ
-// partial score=0.8373 date=2026-10-14
-// ?update@Eva@@UAEXXZ
-// partial score=0.8227684346701164 date=2026-10-10
+// partial score=0.866911658740453 date=2026-10-15
 // Whole-home bank for Code/GameEngine/Source/GameClient/Eva.cpp.
-// Retail update1DE156..1DE2DA388B, WB primary Eva::update ACBEB0.
-// Donor575ba2b EvaUpdate.cpp supplies countdown/audio semantics only.
-// Retail supplies48/52B arrays, +68 list, +8C lifetime, +10 delayed tree,
-// audio slots6C/D0, frame40/world100, and mode-dependent cancellation.
-// Full private TU emits385B at O1/G7/SSE; score0.8227684346701164.
-// It preserves normal Code/ledger/pins. Canonical GameLogic header adopted
-// privately; relocation1DDF04 is a retail-proven private lead, not a pin.
-// Remaining differences: audio handle/pointer register scheduling;
-// countdown constant hoist and loop entry; report iterator temporary homes.
-// Restore this file at its stated home to resolve relative includes.
-// Scope includes older594 and173 helper banks; no new dependency closure.
-// Do not repeat the four tested shapes without new compiler/alias evidence.
-// cl: -O1 -arch:SSE -G7 -EHsc -DNDEBUG -MD -Ireference/shims/bfmelist -Ireference/shims/bfmealloc -D_CRTIMP= -D_STLP_USE_STATIC_LIB
+// Retail update1DE156..1DE2DA388B; WB Eva::update ACBEB0 supplies identity.
+// BFME1 575ba2b EvaUpdate.cpp supplies countdown/audio purpose, not target layout.
+// Retail establishes 48/52B arrays, +68 list, +8C lifetime, +10 delayed tree,
+// audio slots6C/D0, GameLogic frame40 and world frame100.
+// The timer reads mutable data VA DBA4FC, whose existing owner is g_00DBA4FC.
+// Native initial bytes 55550542 are 33.333332f. Use that owner's declaration,
+// not a literal or a second datum. Its current provider initializer differs
+// (Rva0005121FElapsed.cpp uses 0.033333335f); this bank does not repair it.
+// Typed audio dispatch preserves the exact opening block. An explicit delayed
+// tree member and the owned timestep reproduce retail's timer-loop shape.
+// Complete body383/native388, fitness .8669116587404525 vs prior .837347804581082.
+// Remaining: list base/register homes, world-frame home, delayed-tree entry
+// and iterator temporary scheduling. No unresolved calls; 1DDF04 now matched.
+// Source flags, member/iterator lifetimes and frame-order trials are recorded
+// in build/round36-eva-*. No production source, data, pin or ledger change.
+// cl: /I. -O1 -arch:SSE -G7 -EHsc -DNDEBUG -MD -Ireference/shims/bfmelist -Ireference/shims/bfmealloc -D_CRTIMP= -D_STLP_USE_STATIC_LIB
 // stlport
 // Existing 80-byte status clearer at 0x001DCD3C, moved here so Eva's
 // element reset loop can see its register effects. Retail writes the 0x34-byte
@@ -182,10 +183,11 @@ struct EvaWorldMapPlayer
 };
 
 // One event's status record (0x34 bytes).
+extern float g_00DBA4FC;
 class Rva001DCDAF
 {
 public:
-	void tick() { m_blockedTime-=1000.0f/30.0f; m_aboutToPlayTime-=1000.0f/30.0f; }
+	void tick() { m_blockedTime-=g_00DBA4FC; m_aboutToPlayTime-=g_00DBA4FC; }
 	Bool rva001DCDAF(const Arg001DCDAF *info, const Vec001DCDAF *pos, const Vec001DCDAF *pos2);	// 0x001DCDAF
 	void rva001DD7C1(Arg001DCDAF *info, const Vec001DCDAF *position);
 	EvaCoord getPlayPositionForEvent(const Arg001DCDAF *info, Player *localPlayerRTS, EvaWorldMapPlayer *localPlayerWorldMap) const;
@@ -244,6 +246,20 @@ typedef char EvaInfoRecordsWidth[(sizeof(EvaInfoRecords)==12)?1:-1];
 typedef char EvaEventTableWidth[(sizeof(EvaEventTable)==20)?1:-1];
 typedef char EvaListWidth[(sizeof(_STL::_List_base<int,_STL::allocator<int> >)==4)?1:-1];
 
+struct EvaTimedReportNode {
+    char links[16];
+    UnsignedInt frame;
+    EvaEventReport report;
+};
+struct EvaTimedReportHeader {
+    char links[8];
+    EvaTimedReportNode *first;
+};
+struct EvaTimedReportTree {
+    EvaTimedReportHeader *header;
+    UnsignedInt count;
+};
+
 class Eva
 {
 public:
@@ -257,7 +273,9 @@ public:
 	Bool getLastReallyPlayedFrameForEvaEvent(EvaEventID eventID, UnsignedInt *frame) const;
 
 private:
-	unsigned char m_pad00[0x1c-4];
+	unsigned char m_pad00[0x10-4];
+    EvaTimedReportTree m_delayedReports;
+    unsigned char m_pad18[4];
 	EvaVectorView<Arg001DCDAF> m_allEventInfos;		// +0x1C (WB name)
 	unsigned char m_pad28[0x5c - 0x28];
 	EvaVectorView<Rva001DCDAF> m_eventStatus;		// +0x5C
@@ -486,6 +504,62 @@ void Rva001DEE92Member::rva001DEE92(int count) {
 // are BFME2 retail observations, corroborated by WB Eva::update ACBEB0.
 class __single_inheritance AudioManager;
 extern AudioManager *TheAudio;
+class EvaAudioDispatch { public:
+virtual void slot0();
+virtual void slot1();
+virtual void slot2();
+virtual void slot3();
+virtual void slot4();
+virtual void slot5();
+virtual void slot6();
+virtual void slot7();
+virtual void slot8();
+virtual void slot9();
+virtual void slot10();
+virtual void slot11();
+virtual void slot12();
+virtual void slot13();
+virtual void slot14();
+virtual void slot15();
+virtual void slot16();
+virtual void slot17();
+virtual void slot18();
+virtual void slot19();
+virtual void slot20();
+virtual void slot21();
+virtual void slot22();
+virtual void slot23();
+virtual void slot24();
+virtual void slot25();
+virtual void slot26();
+virtual void remove(UnsignedInt);
+virtual void slot28();
+virtual void slot29();
+virtual void slot30();
+virtual void slot31();
+virtual void slot32();
+virtual void slot33();
+virtual void slot34();
+virtual void slot35();
+virtual void slot36();
+virtual void slot37();
+virtual void slot38();
+virtual void slot39();
+virtual void slot40();
+virtual void slot41();
+virtual void slot42();
+virtual void slot43();
+virtual void slot44();
+virtual void slot45();
+virtual void slot46();
+virtual void slot47();
+virtual void slot48();
+virtual void slot49();
+virtual void slot50();
+virtual void slot51();
+virtual Bool playing(UnsignedInt);
+};
+
 typedef _STL::list<int,_STL::allocator<int> > EvaLinkList;
 namespace _STL {
 template<> EvaLinkList::iterator EvaLinkList::erase(EvaLinkList::iterator);
@@ -496,19 +570,6 @@ typedef _STL::_Rb_tree<int,EvaErasePair,_STL::_Select1st<EvaErasePair>,_STL::les
 namespace _STL {
 template<> void EvaEraseTree::erase(EvaEraseTree::iterator);
 }
-struct EvaTimedReportNode {
-    char links[16];
-    UnsignedInt frame;
-    EvaEventReport report;
-};
-struct EvaTimedReportHeader {
-    char links[8];
-    EvaTimedReportNode *first;
-};
-struct EvaTimedReportTree {
-    EvaTimedReportHeader *header;
-    UnsignedInt count;
-};
 void Eva::update()
 {
     if(!(m_eventStatus.size()==m_allEventInfos.size()))return;
@@ -518,13 +579,13 @@ void Eva::update()
         typedef void (AudioManager::*Remove)(UnsignedInt);
         if(TheGameLogic->rva001DCD1C()) {
             if(m_78==0) {
-                (audio->**(Remove*)(*(char**)audio+0x6c))(handle);
+                ((EvaAudioDispatch*)audio)->remove(handle);
                 m_74=1;
                 ((Rva001DD70F*)((char*)this+0x10))->rva001DD846();
                 audio=TheAudio;
             }
         } else if(m_78==1) {
-            (audio->**(Remove*)(*(char**)audio+0x6c))(m_74);
+            ((EvaAudioDispatch*)audio)->remove(m_74);
             m_74=1;
             ((Rva001DD70F*)((char*)this+0x10))->rva001DD846();
                 audio=TheAudio;
@@ -541,7 +602,7 @@ void Eva::update()
     }
     if(m_7C && audio) {
         typedef Bool (AudioManager::*IsPlaying)(UnsignedInt);
-        if(!(audio->**(IsPlaying*)(*(char**)audio+0xd0))(m_74)) {
+        if(!((EvaAudioDispatch*)audio)->playing(m_74)) {
             GameLogic *logic=TheGameLogic;
             UnsignedInt frame=logic->rva001DCD1C()?TheLivingWorldLogic->m_frame:logic->getFrame();
             if(frame>2)rva001DDF04();
@@ -552,8 +613,8 @@ void Eva::update()
         status->tick();
         ++status;
     }
-    EvaTimedReportTree &reports=*(EvaTimedReportTree*)((char*)this+0x10);
-    while(reports.count) {
+    EvaTimedReportTree &reports=m_delayedReports;
+    while(m_delayedReports.count) {
         EvaTimedReportNode *first=reports.header->first;
         if(first->frame>TheGameLogic->getFrame())break;
         internalReportEvaEvent(&first->report);
