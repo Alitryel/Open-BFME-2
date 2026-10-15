@@ -1,20 +1,18 @@
 // ?rva0022D290@GameEngine@@QAEXXZ
-// partial score=0.99 date=2026-10-15
-// ?rva0022D290@GameEngine@@QAEXXZ
-// partial score=0.9717338543362639 date=2026-10-14
-// ?rva0022D290@GameEngine@@QAEXXZ
-// partial score=0.9717338543362639 date=2026-10-14
-// ?rva0022D290@GameEngine@@QAEXXZ
-// partial score=0.9686445964036327 date=2026-10-13
-// ?rva0022D290@GameEngine@@QAEXXZ
-// partial score=0.9685 date=2026-10-13
-// ?rva0022D290@GameEngine@@QAEXXZ
-// partial score=0.986 date=2026-10-10
-// ?rva0022D290@GameEngine@@QAEXXZ  NEAR (helper cv 2026-10-10): improves reverse/attempts/0x0022d290.cpp
-// change: limit numerator 1000.0f/(float)((double)m_maxFPS*LOGIC_SCALE) gives retail fdivr dword [1000.0f] (was qword)
-// remaining: 1387 vs 1388; retail copies elapsed (mov eax ecx) and uses the ternary sbb shape with a separate if test
+// partial score=0.999 date=2026-10-15
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG
-// BFME1 GameEngine_execute.cpp and ZH GameEngine::execute are primary guides.
+// d3 seat6 w2: EXACT in scratch (explain_mismatch "OK: bytes match", 1388/1388) as the home
+// file Code/GameEngine/Source/Common/GameEngineExecuteRva0022D290.cpp. Landing is blocked only by
+// the over-claimed 6-byte row ?Rva0022D537Get@@YAHXZ (0x0022D537, ConstIntGettersAddr.cpp): that
+// "mov eax,0x0062D53D; ret" is this function's catch-block continuation, inside its range.
+//
+// ?rva0022D290@GameEngine@@QAEXXZ, retail 0x0022D290..0x0022D7FC (1388 bytes):
+// GameEngine's execute loop body with the startup load, embedded catch handlers
+// and the frame pacing. BFME1 GameEngine_execute.cpp and ZH GameEngine::execute
+// are the semantic guides; offsets, globals and calls are from the retail body.
+// The pacing stores the elapsed time into EngineFrameElapsedTime before the
+// remaining-time ternary reads it back (retail's distinct EAX copy of elapsed),
+// and the network headroom test is a plain if (no early exit).
 // Native22D290..22D7FC includes startup load, embedded catch handlers and pacing.
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -360,6 +358,7 @@ struct Bfme939Helper
 }
 ;
 extern Bfme939Helper *g_bfme939Helper;
+class Rva000B3FD0 { public: void rva000B3FD0(); };
 class RecorderClass 
 
 {
@@ -384,8 +383,6 @@ class Watchdog
 }
 ;
 extern float g_Va00DBA2F8;
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
 extern int SavedClientFrame;
 unsigned EngineInitialFrameTime,EnginePreviousFrameTime,EngineFrameElapsedTime;
 unsigned EngineSleepTimeRemaining,EngineSleepTimeTotal;
@@ -507,7 +504,9 @@ void GameEngine::rva0022D290()
    
    {
     if(g_bfme939Helper && g_bfme939Helper->get()==0 && ((RecorderClass*)g_bfme939Helper)->isMultiplayer())
-    ((RecorderClass*)g_bfme939Helper)->cleanUpReplayFile();
+    // RecorderClass::cleanUpReplayFile (ZH: empty outside _DEBUG/_INTERNAL), ICF-folded
+    // onto the shared empty body 0x000B3FD0; called here by that address-named view.
+    ((Rva000B3FD0 *)g_bfme939Helper)->rva000B3FD0();
     
    }
    catch(...) 
@@ -540,10 +539,10 @@ void GameEngine::rva0022D290()
      EngineLimitFrameRate=true;
      int headroom=((EngineNetworkSlots*)TheNetwork)->getFrameHeadroom();
      if(headroom>10)headroom=10;
-     if(headroom<=5)goto pacing_done;
-     float desired=(10.0f-(float)headroom)*0.1f+0.5f;
-     _ReadWriteBarrier();
-     LOGIC_SCALE=(desired+oldScale)*0.5f;
+     if(headroom>5) {
+      float desired=(10.0f-(float)headroom)*0.1f+0.5f;
+      LOGIC_SCALE=(desired+oldScale)*0.5f;
+     }
      
     }
     else 
@@ -558,33 +557,26 @@ void GameEngine::rva0022D290()
    }
    
   }
-  pacing_done:
   if(LOGIC_SCALE!=1.0f)EngineLimitFrameRate=true;
   if((unsigned)SavedClientFrame+6>((EngineClientSlots*)TheGameClient)->getFrame())EngineLimitFrameRate=false;
   if(EngineLimitFrameRate) 
   
   {
    unsigned now=timeGetTime();
-   char limit=(int)(1000.0f/(float)((double)m_maxFPS*LOGIC_SCALE));
-   unsigned elapsed=now-EnginePreviousFrameTime;
-   EngineFrameElapsedTime=elapsed;
-   unsigned remaining=((now ? ((unsigned)limit-elapsed) : ((unsigned)limit-elapsed))) & ((unsigned)(elapsed>=(unsigned)limit)-1);
-   _ReadWriteBarrier();
+   int limit=(int)(1000.0f/(float)((double)m_maxFPS*LOGIC_SCALE));
+   EngineFrameElapsedTime=now-EnginePreviousFrameTime;
+   unsigned remaining=EngineFrameElapsedTime<(unsigned)limit ? (unsigned)limit-EngineFrameElapsedTime : 0;
    EngineSleepTimeTotal+=remaining;
-   _ReadWriteBarrier();
    EngineSleepTimeRemaining=remaining;
-   if(elapsed<(unsigned)limit) 
-   
+   unsigned elapsed=now-EnginePreviousFrameTime;
+   if(elapsed<(unsigned)limit)
    {
-    do 
-    
+    do
     {
      Sleep(0);
      now=timeGetTime();
-     
     }
     while(now-EnginePreviousFrameTime<(unsigned)limit);
-    
    }
    EnginePreviousFrameTime=now;
    
