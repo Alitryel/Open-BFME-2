@@ -158,6 +158,12 @@ SegLineRendererClass::~SegLineRendererClass(void)
 	if (Texture) Texture->Release_Ref();
 }
 
+// Keep the UV arithmetic local instead of emitting the header operator*.
+static __forceinline Vector2 segLineScaleUV(const Vector2 &value, float scale)
+{
+	return Vector2(value.X * scale, value.Y * scale);
+}
+
 void SegLineRendererClass::Init(const W3dEmitterLinePropertiesStruct & props)
 {
 	// translate the flags
@@ -185,7 +191,7 @@ void SegLineRendererClass::Init(const W3dEmitterLinePropertiesStruct & props)
 	Set_Noise_Amplitude(props.NoiseAmplitude);
 	Set_Merge_Abort_Factor(props.MergeAbortFactor);
 	Set_Texture_Tile_Factor(props.TextureTileFactor);
-	Set_UV_Offset_Rate(Vector2(props.UPerSec,props.VPerSec));
+	UVOffsetDeltaPerMS = segLineScaleUV(Vector2(props.UPerSec,props.VPerSec), 0.001f);
 }
 
 
@@ -242,22 +248,8 @@ void SegLineRendererClass::Reset_Line(void)
 
 
 
-void SegLineRendererClass::Render
-(	
-	RenderInfoClass & rinfo,
-	const Matrix3D & transform,
-	unsigned int num_points,
-	Vector3 * points,
-	const SphereClass & obj_sphere,
-	Vector4 * rgbas
-)
-{
-	// BFME match note: Render is the DX8/Direct3D render path (DynamicVBAccess,
-	// DX8Wrapper draw calls) — not reproducible with the byte-match toolchain, so
-	// its body is stubbed to let the 12 non-DX8 methods in this TU compile and
-	// locate. Render itself is intentionally left unmatched.
-}
-
+// The render path is declared by the shared header. Its earlier empty
+// placeholder was not a retail implementation and must not define a callee.
 
 // ?SegLineRendererClass::subdivision_util present-unmatched (addr 0x9602A0, size 1724; scheduling drift at +0x28 near Is_Freeze_Random; Vector3SolidBoxRandomizer callees unresolved)
 void SegLineRendererClass::subdivision_util(unsigned int point_cnt, const Vector3 *xformed_pts,
