@@ -63,6 +63,10 @@ struct BfmePod60 { int a[15]; };
 inline bool operator==(const BfmePod60 &x, const BfmePod60 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod60 &x, const BfmePod60 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod68 { int a[17]; };
+// bfme link decl-only BfmePod68
+namespace _STL { template <> BfmePod68 * vector<BfmePod68, allocator<BfmePod68> >::erase(BfmePod68 *, BfmePod68 *); }
+namespace _STL { template <> BfmePod68 * vector<BfmePod68, allocator<BfmePod68> >::erase(BfmePod68 *); }
+template BfmePod68 * _STL::__copy(BfmePod68 *, BfmePod68 *, BfmePod68 *, const _STL::random_access_iterator_tag &, ptrdiff_t *);
 inline bool operator==(const BfmePod68 &x, const BfmePod68 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod68 &x, const BfmePod68 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod76 { int a[19]; };
@@ -121,6 +125,7 @@ class CreateAHeroManager
 public:
     class CreateAHeroSubClass { public: int a[54]; };
 };
+namespace _STL { template <> void _Destroy(CreateAHeroManager::CreateAHeroSubClass *); }
 inline bool operator==(const CreateAHeroManager::CreateAHeroSubClass &x, const CreateAHeroManager::CreateAHeroSubClass &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const CreateAHeroManager::CreateAHeroSubClass &x, const CreateAHeroManager::CreateAHeroSubClass &y) { return x.a[0] < y.a[0]; }
 struct BfmePod248 { int a[62]; };
@@ -216,7 +221,10 @@ template class _STL::vector<BfmePod20, _STL::allocator<BfmePod20 > >;
 template class _STL::vector<BfmePod24, _STL::allocator<BfmePod24 > >;
 template class _STL::vector<BfmePod28, _STL::allocator<BfmePod28 > >;
 template class _STL::vector<BfmePod32, _STL::allocator<BfmePod32 > >;
-template class _STL::vector<BfmePod36, _STL::allocator<BfmePod36 > >;
+template void _STL::_Construct(BfmePod36 *, const BfmePod36 &);
+template BfmePod36 *_STL::__uninitialized_fill_n(BfmePod36 *, size_t, const BfmePod36 &, const _STL::__false_type &);
+template BfmePod36 *_STL::__uninitialized_copy(const BfmePod36 *, const BfmePod36 *, BfmePod36 *, const _STL::__false_type &);
+template BfmePod36 *_STL::uninitialized_fill_n(BfmePod36 *, size_t, const BfmePod36 &);
 template class _STL::vector<BfmePod40, _STL::allocator<BfmePod40 > >;
 template class _STL::vector<BfmePod44, _STL::allocator<BfmePod44 > >;
 template class _STL::vector<BfmePod48, _STL::allocator<BfmePod48 > >;
