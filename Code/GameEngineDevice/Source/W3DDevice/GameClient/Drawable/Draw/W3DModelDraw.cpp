@@ -105,11 +105,11 @@ inline void _Destroy(AsciiString * __first, AsciiString * __last)
 #include "WW3D2/MeshMdl.h"
 #include "Common/BitFlagsIO.h"
 
-// The ZH inline countIntersection body is a std::bitset popcount; retail keeps the
-// four-word SWAR body in BitFlags117CountInverseIntersection.cpp. Declare the
-// specialization so this TU references the provider instead of emitting a
-// competing non-retail COMDAT copy.
+// ZH's inline intersection counters use std::bitset; retail uses four-word
+// SWAR bodies in BitFlags117CountInverseIntersection.cpp (inverse: 0x0033AE53).
+// Reference those providers instead of emitting competing non-retail COMDATs.
 template<> int BitFlags<117>::countIntersection(const BitFlags<117> &that) const;
+template<> int BitFlags<117>::countInverseIntersection(const BitFlags<117> &that) const;
 
 // CRT imports (no COMDATs); used by the manual Y-rotation post-multiply below.
 extern "C" double __cdecl sin(double);

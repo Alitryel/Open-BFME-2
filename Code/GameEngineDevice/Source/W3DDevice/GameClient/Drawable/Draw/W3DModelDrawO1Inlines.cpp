@@ -41,10 +41,10 @@
 #include "WW3D2/MeshMdl.h"
 #include "Common/BitFlagsIO.h"
 
-// ZH inline countIntersection is a std::bitset fold; the rowed four-word SWAR
-// body is BitFlags117CountInverseIntersection.cpp's. Reference the provider
-// instead of emitting a competing non-retail COMDAT copy.
+// Use the rowed four-word SWAR intersection counters from
+// BitFlags117CountInverseIntersection.cpp (inverse: 0x0033AE53), not ZH COMDATs.
 template<> int BitFlags<117>::countIntersection(const BitFlags<117> &that) const;
+template<> int BitFlags<117>::countInverseIntersection(const BitFlags<117> &that) const;
 #ifdef _INTERNAL
 #endif
 
