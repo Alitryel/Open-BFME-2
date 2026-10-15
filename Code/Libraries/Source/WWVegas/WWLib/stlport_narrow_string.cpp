@@ -43,6 +43,10 @@ template <>
 basic_string<char, char_traits<char>, allocator<char> >&
 basic_string<char, char_traits<char>, allocator<char> >::erase(
         size_type, size_type);
+
+// Retail's body is emitted by stlport_narrow_string_insert_aux.cpp.
+template <>
+char *basic_string<char, char_traits<char>, allocator<char> >::_M_insert_aux(char *, char);
 }
 
 template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >;
@@ -55,3 +59,6 @@ template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator
 #pragma comment(linker, "/alternatename:?bfmeCallVMC@@YAXHHH@Z=?__copy_trivial@_STL@@YAPAXPBX0PAX@Z")
 #pragma comment(linker, "/alternatename:?bfmeAssignPL@BfmeThingPL@@QAEXPAD0@Z=?assign@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAEAAV12@PBD0@Z")
 #pragma comment(linker, "/alternatename:?rva0082C6E0CopyValues@@YAPAURva0082C6E0Value@@PAU1@00@Z=?__copy_trivial@_STL@@YAPAXPBX0PAX@Z")
+
+// Row 0x000199E0 (_Construct<char,char>) was previously instantiated through _M_insert_aux.
+template void _STL::_Construct<char, char>(char *, const char &);
