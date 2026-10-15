@@ -184,6 +184,7 @@ public:
 	Rva005AB7E5Template *m_04;	// +0x04
 	char m_pad008[0x38 - 8];
 	float m_pos[3];			// +0x38
+	const Coord3DBase *getPosition() const { return (const Coord3DBase *)m_pos; }
 	char m_pad044[0x258 - 0x44];
 	Rva005AB7E5AI *m_ai;		// +0x258
 	char m_pad25C[0x438 - 0x25C];
@@ -967,4 +968,36 @@ bool AIStructureCreepTactic::rva005AC294()
 	((Rva00573A00 *)m_order)->rva00573A00((const Coord3D *)&pos);
 	m_order->start(getOwner(), 0);
 	return true;
+}
+
+// AIStructureCreepTactic::moveDozerAway, retail 0x005AC40C (317 bytes, RET 0;
+// WB twin 0x01521E80 names it): idles the dozer, then orders it 500 units from
+// its position away along the direction from it to the record's reference point
+// (0x004EBF4B), in the getBuildPos statement shape (WWMath Vector3 -=,
+// Normalize, Scale by a vector). The destination is built in its own block
+// from the scaled direction plus a fresh copy of the dozer position, which
+// gives retail's shared 0x10 frame slot and its dir-register adds.
+void AIStructureCreepTactic::moveDozerAway()
+{
+	Object *dozer = TheGameLogic->findObjectByID(m_58);
+	if (dozer == 0)
+		return;
+	dozer->m_ai->m_commands.aiIdle(CMD_FROM_PLAYER);
+	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	BfmeVector3 dir = ((Rva004EBF4B *)record)->rva004EBF4B();
+	BfmeVector3 base = *dozer->getPosition();
+	dir -= base;
+	dir.Normalize();
+	dir.Scale(BfmeVector3(500.0f, 500.0f, 500.0f));
+	{
+		BfmeVector3 from = *dozer->getPosition();
+		dir.X += from.X;
+		dir.Y += from.Y;
+		dir.Z += from.Z;
+		Coord3D pos;
+		pos.x = dir.X;
+		pos.y = dir.Y;
+		pos.z = dir.Z;
+		dozer->m_ai->m_commands.aiMoveToPosition(&pos, CMD_FROM_PLAYER);
+	}
 }
