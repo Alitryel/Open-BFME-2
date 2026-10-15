@@ -35,7 +35,7 @@
 // the Additive2D Alpha2D ATestSprite and MultiplicativeSprite presets (Zero
 // Hour definition order around the ledger's AdditiveSprite 0x00DB624C and
 // AlphaSprite 0x00DB6254 plus their shader bits); 0x00DB6250 is a BFME-only
-// preset kept address-named.
+// type-2 preset, owned below under a descriptive bit-storage name.
 
 #include "ascii_string.h"
 
@@ -89,7 +89,10 @@ public:
 private:
 	unsigned int ShaderBits;
 };
-extern ShaderClass g_00DB6250;
+// Native complete4B mutable preset atDB6250, selected for particle type2.
+// Keep its unknown historical class/global spelling separate from the proved
+// word194033 and the common4B ShaderClass representation.
+unsigned int BfmeParticleType2ShaderBits = 0x00194033u;
 
 class TextureClass
 {
@@ -283,7 +286,7 @@ Int StreakDrawModule::doParticles(RenderInfoClass &rinfo, void *bounds, Int *par
 		ShaderClass shader = ShaderClass::_PresetAdditiveSpriteShader;
 		switch (getSystem()->m_shaderType)
 		{
-		case 2: shader = g_00DB6250; break;
+		case 2: shader = *reinterpret_cast<const ShaderClass *>(&BfmeParticleType2ShaderBits); break;
 		case 3: shader = ShaderClass::_PresetAlphaSpriteShader; break;
 		case 4: shader = ShaderClass::_PresetATestSpriteShader; break;
 		case 5: shader = ShaderClass::_PresetMultiplicativeSpriteShader; break;

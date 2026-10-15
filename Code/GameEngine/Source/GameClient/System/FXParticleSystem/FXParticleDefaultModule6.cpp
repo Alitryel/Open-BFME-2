@@ -66,7 +66,7 @@ public:
 private:
 	unsigned int ShaderBits;
 };
-extern ShaderClass g_00DB6250;
+extern unsigned int BfmeParticleType2ShaderBits;
 
 class TextureClass
 {
@@ -277,7 +277,7 @@ template<> Int DefaultModule<6>::doParticles(RenderInfoClass &rinfo, void *bound
    g_00E06098->Set_Flag(PointGroupClass::TRANSFORM,true);
    ShaderClass shader=ShaderClass::_PresetAdditiveSpriteShader;
    switch(getSystem()->m_shaderType) {
-    case 2: shader=g_00DB6250;break;
+    case 2: shader=*reinterpret_cast<const ShaderClass *>(&BfmeParticleType2ShaderBits);break;
     case 3: shader=ShaderClass::_PresetAlphaSpriteShader;break;
     case 4: shader=ShaderClass::_PresetATestSpriteShader;break;
     case 5: shader=ShaderClass::_PresetMultiplicativeSpriteShader;break;
