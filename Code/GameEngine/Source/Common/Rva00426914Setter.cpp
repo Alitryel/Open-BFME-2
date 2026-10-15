@@ -27,7 +27,6 @@ private:
 	_STL::vector<Rva004266A1Rec> m_04;
 };
 
-// ?rva004266A1@Rva004266A1@@QAE_NH@Z present-unmatched
 class Rva0033F15DDwordSlot
 {
 public:
