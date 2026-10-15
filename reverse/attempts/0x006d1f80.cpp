@@ -1,4 +1,6 @@
 // ?Load@AptLinker@@QAEXABVEAStringC@@V2@@Z
+// partial score=0.906 date=2026-10-15
+// ?Load@AptLinker@@QAEXABVEAStringC@@V2@@Z
 // partial score=0.6 date=2026-10-13
 // AptLinker::Load, retail 0x006D1F80 (1525B, RET8).
 // Target evidence: assert strings name AptLoad.cpp line 0x262
@@ -9,7 +11,7 @@
 // AptLinker::Load (AptLoad.cpp) is the semantic guide; offsets and layouts
 // come from retail (WB's CIH fields sit 4 bytes later). The callee classes
 // keep their ledger names, so one object appears under several views.
-// cl: /MD /EHsc
+// cl: /O2 /arch:SSE /G6 /MD /EHsc
 void __debugbreak();
 #pragma intrinsic(__debugbreak)
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
@@ -101,6 +103,22 @@ public:
 	BfmeRefVGO &bfmeAssignVGO(const BfmeRefVGO &);
 	Rva006D0280 *m_object;
 };
+
+int __cdecl Rva006CFDF0DecRef(int *p);
+void __cdecl bfmeDropVGO(void *p);
+class Rva00894D80Accessor { public: static unsigned int increment(unsigned int *p); };
+__declspec(noinline) inline BfmeRefVGO &BfmeRefVGO::bfmeAssignVGO(const BfmeRefVGO &o)
+{
+	if (&o != this)
+	{
+		if (m_object && Rva006CFDF0DecRef((int *)m_object) == 0)
+			bfmeDropVGO(m_object);
+		m_object = o.m_object;
+		if (m_object)
+			Rva00894D80Accessor::increment((unsigned int *)m_object);
+	}
+	return *this;
+}
 
 class BfmeHolderDB
 {
