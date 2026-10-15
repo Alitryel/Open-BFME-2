@@ -2,7 +2,7 @@
 // stlport
 // ?Rva00417FF0Parse@@YAXPAVINI@@PAX1PBX@Z @0x00417FF0 115B.
 // Chain lane: parses BonusForLevel record via INI::initFromINI with table
-// g_00C3A658 into Rva00417AB8 24B local, inserts pair<int,BfmePod24> into
+// BfmeBonusForLevelFieldTable into Rva00417AB8 24B local, inserts pair<int,BfmePod24> into
 // the map at the store arg via rowed insert_unique 0x00417D57, and throws
 // INIException on a duplicate MinLevel.
 // Evidence: caller init 0x00417AB8 (rowed), table VA 0x0083A658, format
@@ -43,7 +43,7 @@ bool less<int>::operator()(const int &a, const int &b) const
 }
 
 struct FieldParse;
-extern const FieldParse g_00C3A658[];
+extern const FieldParse BfmeBonusForLevelFieldTable[];
 
 class INI
 {
@@ -92,7 +92,7 @@ void __cdecl Rva00417FF0Parse(INI *ini, void *, void *store, const void *)
 {
 	BfmePod24 tmp;
 	((Rva00417AB8 *)&tmp)->rva00417AB8();
-	ini->initFromINI(&tmp, g_00C3A658);
+	ini->initFromINI(&tmp, BfmeBonusForLevelFieldTable);
 	_STL::pair<_STL::_Rb_tree<int, _STL::pair<const int, BfmePod24>, _STL::_Select1st<_STL::pair<const int, BfmePod24> >, _STL::less<int>, _STL::allocator<_STL::pair<const int, BfmePod24> > >::iterator, bool> res =
 		((_STL::map<int, BfmePod24> *)store)->insert(_STL::pair<const int, BfmePod24>(tmp.a[0], tmp));
 	if (!res.second) {

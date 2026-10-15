@@ -309,17 +309,38 @@ Rva00416072::Rva00416072() : m_00(-1), m_04(-1), m_08(0), m_0C(0), m_10(-1)
 // --- 0x00417AE9 (19B): field-parse callback reading the block into the
 // store through table 0x00C3A658 (the table the rowed 0x00417FF0 parse uses).
 struct FieldParse;
-extern const FieldParse g_00C3A658[];
+
 
 class INI
 {
 public:
 	void initFromINI(void *what, const FieldParse *table);	// 0x0002DE78
+	static void parseInt(INI *, void *, void *, const void *);
+	static void parsePercentToReal(INI *, void *, void *, const void *);
+};
+
+// Native BonusForLevel table C3A658..C3A6C8. The target supplies all six
+// field names, parser addresses and offsets in the 24-byte level record.
+struct FieldParse
+{
+ const char *token;
+ void (*parse)(INI *, void *, void *, const void *);
+ const void *userData;
+ int offset;
+};
+extern const FieldParse BfmeBonusForLevelFieldTable[] = {
+ { "MinLevel", INI::parseInt, 0, 0 },
+ { "MaximumUnitsAffected", INI::parseInt, 0, 4 },
+ { "Priority", INI::parseInt, 0, 8 },
+ { "WeaponMultiplier", INI::parsePercentToReal, 0, 12 },
+ { "ExperienceMultiplier", INI::parsePercentToReal, 0, 16 },
+ { "ArmorMultiplier", INI::parsePercentToReal, 0, 20 },
+ { 0, 0, 0, 0 }
 };
 
 void Rva00417AE9(INI *ini, void *instance, void *store, const void *userData)
 {
-	ini->initFromINI(store, g_00C3A658);
+	ini->initFromINI(store, BfmeBonusForLevelFieldTable);
 }
 
 // --- 0x0041B7F5 (12B): whether the +0x80 word is set.
