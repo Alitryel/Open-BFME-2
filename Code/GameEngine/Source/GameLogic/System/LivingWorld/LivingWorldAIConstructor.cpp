@@ -20,8 +20,9 @@ template<> inline void allocator<BfmeE16>::deallocate(BfmeE16 *p,unsigned int) c
 template<> _Vector_base<BfmeE16,allocator<BfmeE16> >::_Vector_base(const allocator<BfmeE16>&) throw();
 template<> _Deque_iterator_base<Rva00063333Element>::_Deque_iterator_base();
 }
-class Rva0050292B { public: ~Rva0050292B(); };
-class Rva00502C80 { public: Rva00502C80(); ~Rva00502C80() { reinterpret_cast<Rva0050292B *>(this)->~Rva0050292B(); } char bytes[0x50]; };
+// The member at+18 has the rowed121B constructor502C80 and93B destructor50292B.
+// A direct destructor declaration preserves both ordinary and unwind calls.
+class Rva00502C80 { public: Rva00502C80(); ~Rva00502C80(); char bytes[0x50]; };
 // Native constructor4FB3F2 and destructor4FB4D2 bind +FC to constructor4E35A3
 // and destructor59BE1A. Use its one rowed destructor directly so both native
 // state6 cleanups resolve to the same provider as the ordinary teardown path.
