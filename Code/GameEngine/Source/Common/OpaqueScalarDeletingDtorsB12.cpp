@@ -105,18 +105,8 @@ Rva005204EF::Rva005204EF(EmitVtableTag *)
 {
 }
 
-class Rva00521977
-{
-public:
-	Rva00521977(EmitVtableTag *);
-public:
-	virtual ~Rva00521977();
-};
-
-// ?<Rva00521977::Rva00521977> absent-from-retail
-Rva00521977::Rva00521977(EmitVtableTag *)
-{
-}
+// ??_GAptSkirmish (0x00521CE3) is emitted with the AptSkirmish vtable in
+// AptSkirmishDestructor.cpp.
 
 class Rva00524BB4
 {

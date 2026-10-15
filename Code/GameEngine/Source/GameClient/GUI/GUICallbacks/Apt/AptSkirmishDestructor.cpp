@@ -28,8 +28,8 @@ class BfmeAptWindowManager;
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 void _bfme_closeAptScreen(const AsciiString&);
 void __cdecl operator delete(void*);
-class Rva00521977 : public _bfme_AptGameWindow, public AptSkirmishSecondaryView, public Rva004444D2 {
-public: virtual ~Rva00521977();
+class AptSkirmish : public _bfme_AptGameWindow, public AptSkirmishSecondaryView, public Rva004444D2 {
+public: virtual ~AptSkirmish();
 private:
  AptMpGameSetup panel;
  Rva005C1A36 honors;
@@ -38,7 +38,7 @@ private:
  Rva0031455E profile;
  UnicodeString unusedName;
 };
-Rva00521977::~Rva00521977() {
+AptSkirmish::~AptSkirmish() {
  if ((void*)g_00E04930 == this) {
   GameInfo *info=(*(GameInfo * *)&TheSkirmishGameInfo);
   void *dead=info ? info->deleteObject(0) : 0;

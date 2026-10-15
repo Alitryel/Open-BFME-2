@@ -188,22 +188,24 @@ private:
 	unsigned char m_pad[0x668 - 0x288 - 4];
 };
 
-class Rva005C19B6
+// The +0x668 member is the rowed Rva005C1A36 (ctor 0x005C19B6, vtable 0x008743DC,
+// virtual dtor 0x005C1A36; Rva005C1A36Ctor.cpp / Rva005C1A36Dtor.cpp).
+class Rva005C1A36
 {
 public:
-	Rva005C19B6(Rva005248D0 *window, int arg);
-	~Rva005C19B6();
+	Rva005C1A36(void *owner, int kind);
+	virtual ~Rva005C1A36();
 private:
-	unsigned char m_pad[0x698 - 0x668];
+	unsigned char m_pad[0x698 - 0x668 - 4];
 };
 
 class SkirmishPreferences
 {
 public:
 	SkirmishPreferences(int arg);
-	~SkirmishPreferences();
+	virtual ~SkirmishPreferences();	// 0x0043C286 (SkirmishPreferences.cpp), vtable 0x00C3D658
 private:
-	unsigned char m_pad[0x6B8 - 0x698];
+	unsigned char m_pad[0x6B8 - 0x698 - 4];
 };
 
 // Input-route member: constructor 0x00521623, destructor 0x0052163E,
@@ -240,7 +242,7 @@ public:
 	void InitGadgets(const char *name, void *argument, GameWindow *window);
 private:
 	AptMpGameSetup m_setup; // +0x288
-	Rva005C19B6 m_668;
+	Rva005C1A36 m_668;
 	SkirmishPreferences m_preferences; // +0x698
 	int m_6B8;
 	int m_6BC;
