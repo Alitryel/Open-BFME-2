@@ -20,6 +20,14 @@
 // Field names for +2BC/+2A8/+294/+33E are donor inference; the map views
 // keep their rowed address-derived owners.
 #include <list>
+
+// Retail compares typed list nodes inline, as in NetPacket.cpp.
+namespace _STL {
+template <class T, class L, class R>
+static __forceinline bool operator!=(const _List_iterator<T, L> &a, const _List_iterator<T, R> &b)
+{ return a._M_node != b._M_node; }
+}
+
 #include <vector>
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include "reference/shims/moduledata/Common/Snapshot.h"

@@ -10,6 +10,14 @@
 // names stay address-derived.
 #include <cstdlib>
 #include <list>
+
+// Retail compares typed list nodes inline, as in NetPacket.cpp.
+namespace _STL {
+template <class T, class L, class R>
+static __forceinline bool operator!=(const _List_iterator<T, L> &a, const _List_iterator<T, R> &b)
+{ return a._M_node != b._M_node; }
+}
+
 #include <algorithm>
 #include <map>
 #include <string>
