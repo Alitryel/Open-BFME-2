@@ -1,15 +1,6 @@
-// ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
-// partial score=0.9912424362009998 date=2026-10-14
-// ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
-// partial score=0.9912 date=2026-10-14
-// ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
-// partial score=0.9 date=2026-10-14
-// ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
-// partial score=0.93 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /ICode/Libraries/Include/Lib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
 //
-// ?rva002814EF@TerrainLogic@@QAE_NPBUCoord3D@@0PAU2@@Z
 // retail 0x002814EF..0x0028170E (543 bytes), thiscall RET 0xC.
 //
 // TerrainLogic: where the segment p0..p1 meets a water area's surface.
@@ -153,13 +144,13 @@ Bool TerrainLogic::rva002814EF(const Coord3D *p0, const Coord3D *p1, Coord3D *ou
 		Real t = 0.0f;
 		if (plane.Compute_Intersection(Vector3(p0->x, p0->y, p0->z), Vector3(p1->x, p1->y, p1->z), &t))
 		{
-			*out = (out->z ? (*p1) : (*p1));
+			*out = (out->x ? (*p1) : (*p1));
 			out->x -= p0->x;
 			out->y -= p0->y;
 			out->z -= p0->z;
 			out->x *= (out->y ? t : t);
-			out->z *= t;
 			out->y *= t;
+			out->z *= t;
 			out->x += p0->x;
 			out->y += p0->y;
 			out->z += p0->z;
