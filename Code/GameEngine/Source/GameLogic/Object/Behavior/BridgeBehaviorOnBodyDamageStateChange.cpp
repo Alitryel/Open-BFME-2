@@ -64,8 +64,12 @@ extern TerrainRoadCollection *TheTerrainRoads;
 
 class Bridge
 {
+};
+
+class Anim2DTemplate
+{
 public:
-	AsciiString rva000AF1DD() const;
+	AsciiString getName() const;
 };
 
 class TerrainLogic
@@ -271,7 +275,7 @@ void BridgeBehavior::onBodyDamageStateChange( const DamageInfo* damageInfo,
 		return;
 
 	// get the bridge template name
-	AsciiString bridgeTemplateName = bridge->rva000AF1DD();
+	AsciiString bridgeTemplateName = ((const Anim2DTemplate *)bridge)->getName();
 
 	// find the bridge template
 	TerrainRoadType *bridgeTemplate = TheTerrainRoads->findBridge( bridgeTemplateName );

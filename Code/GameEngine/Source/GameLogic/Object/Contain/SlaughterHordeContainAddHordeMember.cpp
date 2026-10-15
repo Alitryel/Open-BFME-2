@@ -22,7 +22,7 @@ class MultiPlayMults{public:float getMoneyMult(int)const;};
 class GlobalData{public:char pad[0xec4];MultiPlayMults mults;};extern GlobalData *TheWritableGlobalData;
 class PlayerList{public:int rva002A7C0B(bool);};extern PlayerList *ThePlayerList;
 class BfmeGlob939D{public:char bfmeCall939D();};
-class ExperienceTracker{public:void rva0039B315(float,bool,bool,bool,int);};
+class ExperienceTracker{public:void rva0039B315(float,bool,bool,bool,bool);};
 class Rva0039ADF3{public:bool rva0039AE04()const;};
 class Rva0028D796{public:int rva0028D796();};
 class Drawable {public:void setDrawableHidden(bool);};
@@ -97,7 +97,7 @@ void SlaughterHordeContain::AddHordeMember(Object *member)
    pos.z+=GetGameClientRandomValueReal(10,20,file,256);
    unsigned int color=(unsigned)me->getControllingPlayer()->color|0xe6000000;TheInGameUI->floating(&moneyString,&pos,color);
    ExperienceTracker *tracker=me->tracker;
-   if(tracker && ((Rva0039ADF3*)tracker)->rva0039AE04())tracker->rva0039B315((float)REAL_TO_INT_CEIL(money),true,true,true,0);
+   if(tracker && ((Rva0039ADF3*)tracker)->rva0039AE04())tracker->rva0039B315((float)REAL_TO_INT_CEIL(money),true,true,true,false);
  }
  Drawable *draw=((Thing*)member)->getDrawable();if(draw && consumeMember)draw->setDrawableHidden(true);
  bool transfer=md->multiplier==0;
