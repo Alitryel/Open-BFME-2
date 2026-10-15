@@ -1,16 +1,16 @@
-// ?rva0042682B@Rva004266A1@@QAEXHE@Z
-// partial score=0.909 date=2026-10-15
-// ?rva0042682B@Rva004266A1@@QAEXHE@Z
-// partial score=0.92 date=2026-10-03
-// cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /arch:SSE /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Oa
+// cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /arch:SSE /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ?rva0042682B@Rva004266A1@@QAEXHE@Z @0x0042682B 203B evidence: same Rva004266A1 vector at +4 as rowed 0x4266A1 plus flag1 store +5 via callers 0x3BA7DF 0x3BD345 0x3BD367; TheAudio ThePlayerList plus BfmeAudioEventPrefix136 ctor 0x2D97D6 plus dword slot set 0x33F15D plus tail dtor 0x2D9A43 via prefix alias plus AudioManager slot 0x64
+// ?rva0042682B@Rva004266A1@@QAEXHE@Z, retail 0x0042682B (203 B): sets the
+// second flag of an 8-byte record (vector at +4, bounds check 0x004266A1) and,
+// when it turns on with audio present, plays the local player's event (+0x34
+// owner, handle at +0x1A8, player value +0x54). The WorldBuilder twin
+// (0x01335450) re-reads ThePlayerList->getLocalPlayer() for every use; with
+// the inline getter cl reloads the chain the same way retail does.
 #include <vector>
 
 #include "Common/BfmeAudioEventPrefix136.h"
 
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 
 struct Rva004266A1Rec
 {
@@ -55,6 +55,7 @@ public:
 class PlayerList
 {
 public:
+	Afield *getLocalPlayer() { return m_10; }
 	char m_pad[0x10];
 	Afield *m_10;
 };
@@ -94,24 +95,20 @@ public:
 
 extern AudioManager *TheAudio;
 
-// ?rva0042682B@Rva004266A1@@QAEXHE@Z present-unmatched
 void Rva004266A1::rva0042682B(int index, unsigned char value)
 {
 	if (!rva004266A1(index))
 		return;
 	unsigned char old = m_04[index].flag1;
 	m_04[index].flag1 = value;
-	_ReadWriteBarrier();
-	if (TheAudio == 0 || old != 0 || value == 0)
-		return;
-	if (ThePlayerList->m_10 == 0)
-		return;
-	if (ThePlayerList->m_10->m_34 == 0)
-		return;
-	if (ThePlayerList->m_10->m_34->m_ref.referent == 0)
-		return;
-	_ReadWriteBarrier();
-	BfmeAudioEventPrefix136 ev(ThePlayerList->m_10->m_34->m_ref, 2);
-	((Rva0033F15DDwordSlot *)&ev)->set(ThePlayerList->m_10->m_54);
-	TheAudio->audioEvent(&ev);
+	if (TheAudio && !old && value)
+	{
+		if (ThePlayerList->getLocalPlayer() && ThePlayerList->getLocalPlayer()->m_34
+			&& ThePlayerList->getLocalPlayer()->m_34->m_ref.referent != 0)
+		{
+			BfmeAudioEventPrefix136 ev(ThePlayerList->getLocalPlayer()->m_34->m_ref, 2);
+			((Rva0033F15DDwordSlot *)&ev)->set(ThePlayerList->getLocalPlayer()->m_54);
+			TheAudio->audioEvent(&ev);
+		}
+	}
 }
