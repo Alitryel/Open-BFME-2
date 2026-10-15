@@ -1,46 +1,21 @@
-// ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
-// partial score=0.972 date=2026-10-14
-// ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
-// partial score=0.9723 date=2026-10-14
-// ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
-// partial score=0.97 date=2026-10-14
-// ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
-// partial score=0.93 date=2026-10-13
-// ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ
-// partial score=0.8 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib
 // stlport
 //
-// The evacuate AI states' enter/exit overrides. Each class is identified by
-// its vtable's slot-2 name getter (the state's own name literal):
-//
-//   0x00C12D50 "AIMoveToAndEvacuateState" (getter 0x00342E11): slot 4
-//     onEnter 0x003500E6 (banked near miss, not here), slot 5 onExit
-//     0x0034C098 (28 B), slot 6 update 0x00354AB6 (not here). The same
-//     three slots fill 0x00C12DB8 "AIAttackMoveToAndEvacuateState" (getter 0x00342E2F), which therefore
-//     overrides none of them.
-//   0x00C13108 "AIMoveForBoarding" (getter 0x0034308F): slot 4 onEnter
-//     0x00350164 (23 B); slot 5 is the same onExit 0x0034C098.
-//   0x00C12E28 "AIFollowPathAndEvacuateState" (getter 0x00342E52): slot 4
-//     onEnter 0x0035014D (23 B), slot 5 onExit 0x0034C0B4 (28 B).
-//
-// Target evidence: the enter overrides call Rva0033FA64Do (0x0033FA64) on the
-// machine owner before the base onEnter (the pinned AIMoveToState::onEnter
-// 0x0034C7BD, or the rowed AIFollowPathState::onEnter 0x0034DEF8, as a tail
-// jump); the exit overrides call the base onExit (the rowed
-// AIInternalMoveToState::onExit 0x003473A4 directly, or
-// AIFollowPathState::onExit 0x00349D92) and then Rva0033FA79Do (0x0033FA79)
-// on the owner, as the matched AIFollowWaypointPathStateAndEvacuate pair
-// does. The class derivations are inferred from the shared slots and the
-// base calls.
-//
-// The two update slots, AIMoveToAndEvacuateState 0x00354AB6 (142 B) and
-// AIMoveForBoarding 0x00354CAD (96 B), run the pinned AIMoveToState::update
-// (0x00353A65) and then succeed once the point of the AI's path (+0x140) at
-// the owner's +0xB8 distance (times 0.9 for the evacuate state) fails the
-// pathfinder's cell test 0x002E996E; on success the evacuate state also
-// hands the owner and machine to the helper 0x003532BF with its slot-18
-// Bool. Callees pinned by address.
+// ?update@AIFollowPathAndEvacuateState@@UAE?AW4StateReturnType@@XZ @0x00354B44 295B.
+// Slot 6 of the AIFollowPathAndEvacuateState vtable 0x00C12E28 (its slot-2 name
+// getter 0x00342E52 returns the state's own literal; enter/exit 0x0035014D and
+// 0x0034C0B4 are rowed in AIStatesEvacuate.cpp). Target evidence: once the
+// pathfinder finds a point on land beside the owner it copies the owner AI's
+// command path (rowed 71B copy), drops the points already walked (m_pathIndex,
+// rowed erase), then for every contained unit ignores the transport as an
+// obstacle, clears DISABLED_HELD and hands it the path through one of two
+// command members chosen by template flag bit 0x20 of +0x115, and finally idles
+// the owner's AI; otherwise it runs the base AIFollowPathState::update. The
+// semantic spine (evacuate onto land) follows Zero Hour's evacuate states;
+// the class views and offsets come from target accesses.
+// Codegen: /EHs, not /EHsc - the inlined holder free must be able to throw so
+// retail's state -1 store before it is kept; testing the flag bit inline
+// (no named bool) keeps retail's test-byte form and its 0x20 frame.
 enum StateExitType
 
 {
@@ -456,11 +431,11 @@ class Object
  char pad08[0x38-8];
  Coord3D m_position;
  char pad44[0xB8-0x44];
- volatile float m_bfmeRealB8;
+ float m_bfmeRealB8;
  char padBC[0x250-0xBC];
  ContainModuleInterface *m_contain;
  char pad254[4];
- AIUpdateInterface *volatile m_ai;
+ AIUpdateInterface *m_ai;
  
 }
 ;
@@ -667,8 +642,7 @@ StateReturnType AIFollowPathAndEvacuateState::update()
    Object *unit=*it;
    unit->getAI()->ignoreObstacle(owner);
    unit->clearDisabled(DISABLED_HELD);
-   bool special=(unit->m_template->kind115 & 0x20)!=0;
-   if(special)
+   if((unit->m_template->kind115 & 0x20)!=0)
    unit->getAI()->m_command.rva00353168(owner,reinterpret_cast<const Rva0035149F &>(path),owner->getAI()->getSource());
    else
    unit->getAI()->m_command.rva00353080(owner,reinterpret_cast<const Rva0035149F &>(path),owner->getAI()->getSource());
