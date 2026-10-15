@@ -1,12 +1,20 @@
 // ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z
-// partial score=0.86 date=2026-10-14
-// ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z
-// partial score=0.8 date=2026-10-14
-// ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z
-// partial score=0.8 date=2026-10-08
-// ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z
-// partial score=0.8 date=2026-10-08
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
+// partial score=0.987046632124352 date=2026-10-15
+// AIPlayer scoring reconstruction, native 004F1256..004F13D8 (386 bytes).
+// 2026-10-15: full current AIPlayer home and BFME1 donor reviewed.
+// Real Object virtual-inheritance PMF layout and BOTH visible noinline iterator
+// providers reduce the old 410-byte home / 398-byte volatile bank to 386 bytes.
+// The 32-byte advance and 49-byte iterate_TeamMemberList providers independently
+// match their complete retail bodies and relocations. All 12 existing home rows
+// still match. Neither provider alone changes the old caller's 410-byte shape.
+// Remaining: five byte positions at +F2..+F6 exchange adjacent fdivp st(1) and
+// mov ecx,[esi+4]; frame/registers/calls/branches and the rest of the body match.
+// Focused factor/cost-read, G6/default scheduling and visible-cost-provider
+// trials do not close that ordering. No production row or new pin is claimed.
+// Object base/vbptr offsets follow the independently verified PMF provider
+// TeamIterateTeamMemberList.cpp and retail consumers; behavioral name comes
+// from the BFME1/Generals donor, with the BFME2 deltas documented below.
+// cl: /I. /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX
 //
 // BFME2 BuildListInfo desired-gatherers getter, transferred from the exact
 // BFME1 reconstruction (Code/GameEngine/Source/GameLogic/AI/AIPlayer.cpp).
@@ -57,6 +65,22 @@
 // (max radius 300) for special power types 0x7C and 0x7B, reading the type
 // at +0x1C of friend_getFinalOverride (0x00288609), and returns nothing
 // (retail never loads eax).
+//
+// AIPlayer::guardSupplyCenter (306B @0x004F2ABC) follows findSupplyCenter:
+// Zero Hour's body, non-virtual in BFME 2 (absent from the AIPlayer vtable),
+// with the check frame at +0x6C and the attacked centre at +0x70. It guards
+// 0.8 bounding radii short of the warehouse on the side facing the skirmish
+// enemy's structure bounds.
+//
+// AIPlayer::buildUpgrade (850B @0x004F2C14) closes the unit: Zero Hour's
+// body on BFME 2's factory search, which walks every object from
+// TheGameLogic->getFirstObject() through +0x8C and keeps those whose
+// controlling player is m_player instead of following the build list.
+// Status bits 2 and 0x13 are the under-construction and sold tests; the
+// money check is the pinned thiscall UpgradeCenter::rva0026F11A (player,
+// upgrade, no object, no reason); the command set comes from the rowed
+// Rva0031D5F8 lookup on TheControlBar keyed by Object::rva00290E67, and the
+// production interface from Object::rva0028BC58(0), whose slot 3 queues.
 
 typedef bool Bool;
 typedef int Int;
@@ -74,8 +98,10 @@ enum GameDifficulty
 	DIFFICULTY_HARD
 };
 
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// The header inlines below are only expanded here (no reloc to them); the COMDATs this unit still emits are not
+// retail's, so they get TU-local names instead of colliding with the rowed bodies.
+#define width width_RV
+#define height height_RV
 #include "ascii_string.h"
 
 
@@ -83,6 +109,7 @@ class NameKeyGenerator
 {
 public:
 	NameKeyType nameToKey(const char *name);
+	const AsciiString &keyToName(NameKeyType key);	// 0x00148C95
 };
 
 extern NameKeyGenerator *TheNameKeyGenerator;
@@ -94,35 +121,39 @@ class Module
 class Team;
 class Player;
 
-#include "../../../../Libraries/Include/Lib/Coord2D.h"
+#include "Code/Libraries/Include/Lib/Coord2D.h"
 
-struct Region2D
+#include "Code/Libraries/Include/Lib/Region2D.h"
+// Region2D::width()/height() of ZH BaseType.h, as TU helpers: the canonical
+// header carries the data layout only.
+inline Real regionWidth(const Region2D &r) { return r.hi.x - r.lo.x; }
+inline Real regionHeight(const Region2D &r) { return r.hi.y - r.lo.y; }
+
+// Coord3D: shared header/view; no private copy.
+#define COORD3D_VIEW_INLINE
+#include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
+
+enum ObjectID
 {
-	Coord2D lo;
-	Coord2D hi;
-	Real width() const { return hi.x - lo.x; }
-	Real height() const { return hi.y - lo.y; }
+	INVALID_ID = 0
 };
 
-struct Coord3D
+enum GuardMode
 {
-	float x;
-	float y;
-	float z;
-	Coord3D() {}
-	Coord3D(const Coord3D &that) : x(that.x), y(that.y), z(that.z) {}
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-	void set(float ax, float ay, float az)
-	{
-		x = ax;
-		y = ay;
-		z = az;
-	}
+	GUARDMODE_NORMAL
+};
+
+enum CommandSourceType
+{
+	CMD_FROM_PLAYER,
+	CMD_FROM_SCRIPT,
+	CMD_FROM_AI
+};
+
+class AIGroup
+{
+public:
+	void groupGuardPosition(const Coord3D *pos, GuardMode guardMode, CommandSourceType cmdSource);	// 0x003703CF
 };
 
 // What Object +0x04 points at: the KindOf mask at +0x108 (bit 7
@@ -132,17 +163,60 @@ class ThingTemplate
 {
 public:
 	Int rva0033A69A(const Player *player, Int a, Int b) const;	// 0x0033A69A
-	unsigned char m_pad000[0x108];
+	const AsciiString &getName() const { return m_nameString; }
+	unsigned char m_pad000[0x64];
+	AsciiString m_nameString;		// +0x64
+	unsigned char m_pad068[0x108 - 0x68];
 	unsigned char m_kindOf[0x1C];		// +0x108
 };
 
-class Object
+enum ObjectStatusTypes
+{
+	OBJECT_STATUS_UNDER_CONSTRUCTION = 2,
+	OBJECT_STATUS_SOLD = 0x13
+};
+
+class UpgradeTemplate;
+
+// Slot 3 of what Object::rva0028BC58(0) returns (ZH's
+// ProductionUpdateInterface::queueUpgrade).
+class ProductionUpdateInterface
+{
+public:
+	virtual void pu00(); virtual void pu01(); virtual void pu02();
+	virtual Bool queueUpgrade(const UpgradeTemplate *upgrade);	// +0x0C
+};
+
+class BfmeObjectVirtualTail { public: unsigned char m_vt[4]; };
+class BfmeObjectVbptrCarrier : public virtual BfmeObjectVirtualTail {
+public: unsigned char m_carrier[4];
+};
+class BfmeObjectVtbl { public: virtual void bfmeObjectSlot0(); };
+class Object;
+class BfmeObjectDlinkBase {
+public:
+    Object *dlink_next_TeamMemberList() const;
+protected:
+    const ThingTemplate *m_template;
+    unsigned char m_pad08[0x38-0x08];
+    Coord3D m_position;
+    unsigned char m_pad44[0x68-0x44];
+};
+class Object : public BfmeObjectVtbl, public BfmeObjectDlinkBase, public BfmeObjectVbptrCarrier
 {
 public:
 	bool isKindOfStructure() const { return (m_template->m_kindOf[0] & 0x80) != 0; }
 	bool isKindOfSupplySource() const { return (m_template->m_kindOf[10] & 0x40) != 0; }
 	const ThingTemplate *getTemplate() const { return m_template; }
 	Bool isSignificantlyAboveTerrain() const;	// 0x0030ADDC
+	Player *getControllingPlayer() const;	// 0x0028AFA9
+	Bool testStatus(ObjectStatusTypes status) const;	// 0x0004E536
+	const AsciiString *rva00290E67() const;	// 0x00290E67, the command set name
+	void *rva0028BC58(Int filter);	// 0x0028BC58
+	ProductionUpdateInterface *getProductionUpdateInterface()
+	{
+		return (ProductionUpdateInterface *)rva0028BC58(0);
+	}
 	const Coord3D *getPosition() const { return &m_position; }
 	Object *getNextObject() const { return m_next; }
 	Team *getTeam() const { return m_team; }
@@ -151,11 +225,7 @@ protected:
 	Module *findModule(NameKeyType key) const;
 	friend class AIPlayer;
 private:
-	void *m_vptr;
-	const ThingTemplate *m_template;	// +0x04
-	unsigned char m_pad08[0x38 - 0x08];
-	Coord3D m_position;			// +0x38
-	unsigned char m_pad44[0x8C - 0x44];
+	unsigned char m_pad70[0x8C - 0x70];
 	Object *m_next;				// +0x8C
 	unsigned char m_pad90[0xB8 - 0x90];
 	float m_boundingCircleRadius;		// +0xB8
@@ -166,7 +236,7 @@ private:
 class SupplyWarehouseDockUpdate : public Module
 {
 public:
-	Int getBoxesStored() const { return m_boxesStored; }
+	__declspec(dllimport) __forceinline Int getBoxesStored() const { return m_boxesStored; }
 private:
 	unsigned char m_pad[0x88];
 	Int m_boxesStored;			// +0x88
@@ -198,16 +268,16 @@ private:
 	GetNextFunc m_getNextFunc;
 };
 
-template <>
-class DLINK_ITERATOR<Object>
-{
+template <> class DLINK_ITERATOR<Object> {
 public:
-	void advance();				// 0x00263526
-	Bool done() const { return m_cur == 0; }
-	Object *cur() const { return m_cur; }
+    typedef Object *(Object::*GetNextFunc)() const;
+    DLINK_ITERATOR(Object *cur, GetNextFunc next):m_cur(cur),m_getNextFunc(next) {}
+    void advance();
+    bool done() const { return m_cur == 0; }
+    Object *cur() const { return m_cur; }
 private:
-	Object *m_cur;
-	unsigned char m_targetAbiState[20];
+    Object *m_cur;
+    GetNextFunc m_getNextFunc;
 };
 
 class MemoryPoolObject
@@ -216,12 +286,13 @@ public:
 	virtual ~MemoryPoolObject();
 };
 
-#include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
+#include "reference/shims/moduledata/Common/Snapshot.h"
 
 class Team : public MemoryPoolObject, public Snapshot
 {
 public:
 	Team *dlink_next_TeamInstanceList() const;
+	void getTeamAsAIGroup(AIGroup *group);	// 0x003A0F62
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const;	// 0x00263864
 };
 
@@ -249,6 +320,9 @@ class Player
 public:
 	Relationship getRelationship(const Team *team) const;	// 0x002AD0C6
 	Int getPlayerIndex() const { return m_playerIndex; }
+	NameKeyType getPlayerNameKey() const { return m_playerNameKey; }
+	Bool rva002AA8EF(const UpgradeTemplate *upgrade) const;	// 0x002AA8EF, hasUpgradeInProduction
+	Bool rva002AB87D(const UpgradeTemplate *upgrade) const;	// 0x002AB87D, hasUpgradeComplete
 
 	class PlayerTeamList
 	{
@@ -271,7 +345,8 @@ public:
 	};
 	const PlayerTeamList *getPlayerTeams() const { return &m_playerTeamPrototypes; }
 private:
-	unsigned char m_pad[0x54];
+	unsigned char m_pad[0x50];
+	NameKeyType m_playerNameKey;		// +0x50
 	Int m_playerIndex;			// +0x54
 	unsigned char m_pad58[0x32C - 0x58];
 	PlayerTeamList m_playerTeamPrototypes;	// +0x32C
@@ -330,6 +405,7 @@ class GameLogic
 {
 public:
 	Object *getFirstObject();	// 0x0023CAD2
+	Object *findObjectByID(ObjectID id);	// 0x00049DC5
 };
 extern GameLogic *TheGameLogic;
 
@@ -391,7 +467,8 @@ struct Rva00045411BitSet
 	Rva00045411BitSet(int unused, int bit) throw();	// 0x00045411
 	unsigned int m_bits[7];
 };
-extern unsigned char g_00DFEFA4StoragePrototype[28];
+template <int N> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
 
 // vftable 0x00BC2908, allow 0x002610DE: every kind of the first mask and
 // none of the second (ZH's PartitionFilterAcceptByKindOf).
@@ -460,6 +537,7 @@ class AI
 {
 public:
 	TAiData *getAiData() const { return m_aiData; }
+	AIGroup *createGroup();	// 0x002FEC4B
 
 private:
 	unsigned char m_pre[0x18];
@@ -469,6 +547,14 @@ private:
 // Matched DIR32 references in AIPlayer, Object and GettingBuiltBehavior place
 // TheAI at VA 0x00DFF0F8; the retail image's zero-filled slot starts null.
 extern class AI *TheAI;
+
+class ScriptEngine
+{
+public:
+	Player *getSkirmishEnemyPlayer();	// 0x00356F6E
+	void AppendDebugMessage(const AsciiString &msg, Bool shouldPause);	// 0x00205263
+};
+extern ScriptEngine *TheScriptEngine;
 
 class Player;
 
@@ -509,6 +595,9 @@ public:
 	virtual Player *getAiEnemy();				// +0x30
 	static void getPlayerStructureBounds(Region2D *bounds, Int playerIndex);	// 0x004F1B8C
 	bool isLocationSafe(const Coord3D *pos, const ThingTemplate *tmpl);
+	Bool isSupplySourceAttacked();	// 0x004F1138
+	void guardSupplyCenter(Team *team, Int minSupplies);
+	void buildUpgrade(const AsciiString &upgrade);
 
 protected:
 	static Int getPlayerSuperweaponValue(Coord3D *center, Int playerNdx, Real radius);
@@ -523,6 +612,9 @@ private:
 	GameDifficulty m_difficulty;				// +0x2C
 	unsigned char m_pad30[0x34 - 0x30];
 	Coord3D m_baseCenter;					// +0x34
+	unsigned char m_pad40[0x6C - 0x40];
+	unsigned int m_supplySourceAttackCheckFrame;		// +0x6C
+	ObjectID m_attackedSupplyCenter;			// +0x70
 };
 
 // ?checkForSupplyCenter@AIPlayer@@IAEXPAVBuildListInfo@@PAVObject@@@Z
@@ -568,7 +660,14 @@ void AIPlayer::checkForSupplyCenter(BuildListInfo *info, Object *bldg)
 	}
 }
 
-// ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z (0x004F1256)
+// ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z present-unmatched
+// 0x004F1256, 386 bytes; this body compiles to 410. Its logic and frame match
+// retail, but the aircraft KindOf test ahead of isSignificantlyAboveTerrain
+// makes VC7.1 keep &pObj->m_template in esi and rotate the member loop. The
+// near miss is banked in reverse/attempts/0x004f1256.cpp. The body stays here
+// because computeSuperweaponTarget (0x004F1D38) matches only when it can see
+// that this callee keeps no copy of the position address: that is what lets
+// VC7.1 hoist the pos.x and pos.z stores out of the inner grid loop.
 Int AIPlayer::getPlayerSuperweaponValue(Coord3D *searchCenter, Int playerIndex, Real searchRadius)
 {
 	if (searchRadius < 4 * 10.0f)
@@ -577,9 +676,8 @@ Int AIPlayer::getPlayerSuperweaponValue(Coord3D *searchCenter, Int playerIndex, 
 	Real cash = 0;
 	Real radSqr = searchRadius * searchRadius;
 
-	Player * t1_live_pPlayer_575 = ThePlayerList->getNthPlayer(playerIndex);
-	Player * volatile pPlayer = t1_live_pPlayer_575;
-	if (t1_live_pPlayer_575 == 0)
+	Player *pPlayer = ThePlayerList->getNthPlayer(playerIndex);
+	if (pPlayer == 0)
 		return 0;
 	for (it = pPlayer->getPlayerTeams()->begin(); it != pPlayer->getPlayerTeams()->end(); ++it)
 	{
@@ -592,7 +690,6 @@ Int AIPlayer::getPlayerSuperweaponValue(Coord3D *searchCenter, Int playerIndex, 
 			for (DLINK_ITERATOR<Object> members = team->iterate_TeamMemberList(); !members.done(); members.advance())
 			{
 				Object *pObj = members.cur();
-				_ReadWriteBarrier();
 				if ((pObj->getTemplate()->m_kindOf[1] & 0x10) != 0)	// KindOf bit 12
 				{
 					if (pObj->isSignificantlyAboveTerrain())
@@ -698,8 +795,8 @@ void AIPlayer::computeSuperweaponTarget(const SpecialPowerTemplate *power,
 		bounds.hi.y = bounds.lo.y = (bounds.hi.y + bounds.lo.y) / 2.0f;
 	}
 
-	xCount = REAL_TO_INT_CEIL(bounds.width() / weaponRadius) + 1;
-	yCount = REAL_TO_INT_CEIL(bounds.height() / weaponRadius) + 1;
+	xCount = REAL_TO_INT_CEIL(regionWidth(bounds) / weaponRadius) + 1;
+	yCount = REAL_TO_INT_CEIL(regionHeight(bounds) / weaponRadius) + 1;
 
 	if (xCount > 10) xCount = 10;
 	if (yCount > 10) yCount = 10;
@@ -711,8 +808,8 @@ void AIPlayer::computeSuperweaponTarget(const SpecialPowerTemplate *power,
 
 	for (i = 0; i < xCount; i++) {
 		for (j = 0; j < yCount; j++) {
-			pos.x = bounds.lo.x + (bounds.width() * i) / xCount;
-			pos.y = bounds.lo.y + (bounds.height() * j) / yCount;
+			pos.x = bounds.lo.x + (regionWidth(bounds) * i) / xCount;
+			pos.y = bounds.lo.y + (regionHeight(bounds) * j) / yCount;
 			pos.z = 0;
 			Int curCash = getPlayerSuperweaponValue(&pos, playerNdx, 2 * weaponRadius);
 			if (curCash > cash) {
@@ -810,7 +907,7 @@ Object *AIPlayer::findSupplyCenter(Int minimumCash)
 					Rva0026137EFilter f2(m_player, true);
 					supplyCenter = ThePartitionManager->getClosestObject(&center, radius, 1,
 						Rva0004584D(*(BfmeFixedStorage0004543D *)&Rva00045411BitSet(0, 34),
-							*(BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype)
+							*(BfmeFixedStorage0004543D *)&KINDOFMASK_NONE)
 							.link(f2.link(&filterMapStatus)));
 				}
 				if (supplyCenter)
@@ -850,4 +947,194 @@ bool AIPlayer::rva004F2BEE(int minimumCash)
 	if (supply == 0)
 		return true;
 	return isLocationSafe(supply->getPosition(), (const ThingTemplate *)supply->m_template);
+}
+
+void AIPlayer::guardSupplyCenter(Team *team, Int minSupplies)
+{
+	m_supplySourceAttackCheckFrame = 0;
+	Object *warehouse = 0;
+	if (isSupplySourceAttacked())
+		warehouse = TheGameLogic->findObjectByID(m_attackedSupplyCenter);
+	if (warehouse == 0)
+		warehouse = findSupplyCenter(minSupplies);
+	if (warehouse) {
+		AIGroup *theGroup = TheAI->createGroup();
+		if (!theGroup)
+			return;
+		team->getTeamAsAIGroup(theGroup);
+		Coord3D location = *warehouse->getPosition();
+		Region2D bounds;
+		Int enemyNdx = TheScriptEngine->getSkirmishEnemyPlayer()->getPlayerIndex();
+		getPlayerStructureBounds(&bounds, enemyNdx);
+		Coord3D offset;
+		offset.zero();
+		offset.x = location.x - (bounds.lo.x + bounds.hi.x) * 0.5f;
+		offset.y = location.y - (bounds.lo.y + bounds.hi.y) * 0.5f;
+		offset.normalize();
+		Real radius = warehouse->getBoundingCircleRadius() * 0.8f;
+		location.x -= offset.x * radius;
+		location.y -= offset.y * radius;
+		theGroup->groupGuardPosition(&location, GUARDMODE_NORMAL, CMD_FROM_SCRIPT);
+	}
+}
+
+class UpgradeTemplate
+{
+public:
+	Int getUpgradeType() const { return m_type; }
+	const AsciiString &getUpgradeName() const { return m_upgradeName; }
+private:
+	void *m_vptr;
+	Int m_type;				// +0x04
+	AsciiString m_upgradeName;		// +0x08
+};
+
+enum UpgradeType
+{
+	UPGRADE_TYPE_PLAYER,
+	UPGRADE_TYPE_OBJECT
+};
+
+class UpgradeCenter
+{
+public:
+	const UpgradeTemplate *findUpgrade(const AsciiString &name) const;	// 0x0026F26D
+	Bool rva0026F11A(Player *player, const UpgradeTemplate *upgrade,
+		Object *obj, Bool displayReason);	// 0x0026F11A, canAffordUpgrade
+};
+extern UpgradeCenter *TheUpgradeCenter;
+
+class CommandButton
+{
+public:
+	const AsciiString &getName() const { return m_name; }
+	const UpgradeTemplate *getUpgradeTemplate() const { return m_upgradeTemplate; }
+private:
+	unsigned char m_pad00[0x10];
+	AsciiString m_name;			// +0x10
+	unsigned char m_pad14[0x24 - 0x14];
+	const UpgradeTemplate *m_upgradeTemplate;	// +0x24
+};
+
+class CommandSet
+{
+public:
+	const CommandButton *getCommandButton(Int i) const;	// 0x00409EE8
+};
+
+class Rva0031D5F8
+{
+public:
+	void *rva0031D5F8(const AsciiString *key);	// 0x0031D5F8, findCommandSet
+};
+
+class ControlBar : public Rva0031D5F8
+{
+public:
+	const CommandSet *findCommandSet(const AsciiString *name)
+	{
+		return (const CommandSet *)rva0031D5F8(name);
+	}
+};
+extern ControlBar *TheControlBar;
+
+enum { MAX_COMMANDS_PER_SET = 32 };
+
+void AIPlayer::buildUpgrade(const AsciiString &upgrade)
+{
+	const UpgradeTemplate *curUpgrade = TheUpgradeCenter->findUpgrade(upgrade);
+	if (curUpgrade == 0) {
+		AsciiString msg = "Upgrade ";
+		msg.concat(upgrade);
+		reinterpret_cast<StringBase<char> *>(&msg)->concat(" does not exist.  Ignoring request.");
+		TheScriptEngine->AppendDebugMessage(msg, false);
+		return;
+	}
+	if (curUpgrade->getUpgradeType() == UPGRADE_TYPE_OBJECT) {
+		AsciiString msg = "Player build upgrade: Upgrade ";
+		msg.concat(upgrade);
+		reinterpret_cast<StringBase<char> *>(&msg)->concat(" is an object, not a player upgrade.  Ignoring request.");
+		TheScriptEngine->AppendDebugMessage(msg, false);
+		return;
+	}
+	// See if it is in progress.
+	if (m_player->rva002AA8EF(curUpgrade)) {
+		AsciiString msg = TheNameKeyGenerator->keyToName(m_player->getPlayerNameKey());
+		reinterpret_cast<StringBase<char> *>(&msg)->concat(" already has upgrade ");
+		msg.concat(upgrade);
+		reinterpret_cast<StringBase<char> *>(&msg)->concat(" queued.  Ignoring request.");
+		TheScriptEngine->AppendDebugMessage(msg, false);
+		return;
+	}
+	// See if it is in progress.
+	if (m_player->rva002AB87D(curUpgrade)) {
+		AsciiString msg = TheNameKeyGenerator->keyToName(m_player->getPlayerNameKey());
+		reinterpret_cast<StringBase<char> *>(&msg)->concat(" already has upgrade ");
+		msg.concat(upgrade);
+		reinterpret_cast<StringBase<char> *>(&msg)->concat(" completed.  Ignoring request.");
+		TheScriptEngine->AppendDebugMessage(msg, false);
+		return;
+	}
+
+	// No money.
+	if (TheUpgradeCenter->rva0026F11A(m_player, curUpgrade, 0, false) == false) {
+		AsciiString msg = TheNameKeyGenerator->keyToName(m_player->getPlayerNameKey());
+		reinterpret_cast<StringBase<char> *>(&msg)->concat(" lacks money to build upgrade ");
+		msg.concat(upgrade);
+		reinterpret_cast<StringBase<char> *>(&msg)->concat(" at this time.  Ignoring request.");
+		TheScriptEngine->AppendDebugMessage(msg, false);
+		return;
+	}
+	// Find a production queue.
+	for (Object *factory = TheGameLogic->getFirstObject(); factory; factory = factory->getNextObject())
+	{
+		if (factory->getControllingPlayer() != m_player)
+			continue;
+		if (factory->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))
+			continue;
+		if (factory->testStatus(OBJECT_STATUS_SOLD))
+			continue;
+		Bool canUpgradeHere = false;
+		const CommandSet *commandSet = TheControlBar->findCommandSet(factory->rva00290E67());
+		if (commandSet == 0) continue;
+		for (Int j = 0; j < MAX_COMMANDS_PER_SET; j++)
+		{
+			//Get the command button.
+			const CommandButton *commandButton = commandSet->getCommandButton(j);
+			if (commandButton == 0) continue;
+			if (((const StringBase<char> &)commandButton->getName()).isEmpty()) continue;
+			if (commandButton->getUpgradeTemplate() == 0) continue;
+			if (commandButton->getUpgradeTemplate()->getUpgradeName() == curUpgrade->getUpgradeName()) {
+				canUpgradeHere = true;
+			}
+		}
+		if (!canUpgradeHere) continue;
+		ProductionUpdateInterface *pu = factory->getProductionUpdateInterface();
+		// If it doesn't produce, continue.
+		if (!pu) continue;
+		// Try to queue it.
+		if (pu->queueUpgrade(curUpgrade)) {
+			AsciiString msg = TheNameKeyGenerator->keyToName(m_player->getPlayerNameKey());
+			reinterpret_cast<StringBase<char> *>(&msg)->concat(" queues ");
+			msg.concat(curUpgrade->getUpgradeName());
+			reinterpret_cast<StringBase<char> *>(&msg)->concat(" at ");
+			msg.concat(factory->getTemplate()->getName());
+			TheScriptEngine->AppendDebugMessage(msg, false);
+			return;
+		}
+	}
+
+	AsciiString msg = TheNameKeyGenerator->keyToName(m_player->getPlayerNameKey());
+	reinterpret_cast<StringBase<char> *>(&msg)->concat(" lacks factory to build upgrade ");
+	msg.concat(upgrade);
+	reinterpret_cast<StringBase<char> *>(&msg)->concat(" at this time.  Ignoring request.");
+	TheScriptEngine->AppendDebugMessage(msg, false);
+}
+
+inline __declspec(noinline) void DLINK_ITERATOR<Object>::advance() {
+    if (m_cur) m_cur=(m_cur->*m_getNextFunc)();
+}
+
+inline __declspec(noinline) DLINK_ITERATOR<Object> Team::iterate_TeamMemberList() const {
+    return DLINK_ITERATOR<Object>(*(Object *const *)((const char *)this+0x38), &Object::dlink_next_TeamMemberList);
 }
