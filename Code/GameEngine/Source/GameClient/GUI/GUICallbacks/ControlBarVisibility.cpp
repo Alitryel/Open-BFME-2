@@ -105,13 +105,16 @@ public:
 	void reverseAnimateWindow();
 };
 
+// Rowed under address-named owners: 0x0031AF54 and 0x0031AFDE take the
+// control bar as ECX.
+class Rva0031AF54 { public: void rva0031AF54(bool flag); };
+class Rva0031AFDE { public: Int rva0031AFDE(); };
+
 class ControlBar
 {
 public:
 	void hideSpecialPowerShortcut();
-	void animateSpecialPowerShortcut(Bool isOn);
 	void hidePurchaseScience();
-	Int rva0031AFDE();
 
 	char m_pad00[0x10];
 	AnimateWindowManager *m_controlBarAnimateWindowManager;   // +0x10
@@ -179,7 +182,7 @@ void HideControlBar(Bool immediate)
 		{
 			if (TheControlBar->m_controlBarAnimateWindowManager)
 				TheControlBar->m_controlBarAnimateWindowManager->reverseAnimateWindow();
-			TheControlBar->animateSpecialPowerShortcut(false);
+			((Rva0031AF54 *)TheControlBar)->rva0031AF54(false);
 		}
 
 		if (TheControlBar)
@@ -198,7 +201,7 @@ void ShowControlBar(Bool immediate)
 {
 	HideControlBar(true);
 	if (TheControlBar->m_29c == 0)
-		TheControlBar->rva0031AFDE();
+		((Rva0031AFDE *)TheControlBar)->rva0031AFDE();
 	switch (TheControlBar->m_29c)
 	{
 	case 1:
@@ -217,7 +220,7 @@ void ToggleControlBar(Bool immediate)
 	if (TheWindowManager)
 	{
 		HideControlBar(true);
-		switch (TheControlBar->rva0031AFDE())
+		switch (((Rva0031AFDE *)TheControlBar)->rva0031AFDE())
 		{
 		case 1:
 			ShowControlBar(true);
