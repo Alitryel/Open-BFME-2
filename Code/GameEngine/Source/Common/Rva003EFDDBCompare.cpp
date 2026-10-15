@@ -26,3 +26,23 @@ void Rva003EFDDBHolder::rva003EFDDB(int cmp, struct Rva003EFDDBOut *out)
 	else
 		out->m_flag = -1;
 }
+
+// Native 3F02D1..3F02E4 (19B, ret 8): caller 0x003F02DC above - compares the
+// +0x14 word of its first argument through rva003EFDDB on the same object,
+// storing into the second. Orphan .text hole with no surviving reference;
+// owner, argument and name are address-derived.
+struct Rva003F02D1Arg
+{
+	char m_pad[0x14];
+	int m_14;
+};
+
+struct Rva003F02D1Holder
+{
+	void rva003F02D1(const Rva003F02D1Arg *arg, struct Rva003EFDDBOut *out);
+};
+
+void Rva003F02D1Holder::rva003F02D1(const Rva003F02D1Arg *arg, struct Rva003EFDDBOut *out)
+{
+	((Rva003EFDDBHolder *)this)->rva003EFDDB(arg->m_14, out);
+}

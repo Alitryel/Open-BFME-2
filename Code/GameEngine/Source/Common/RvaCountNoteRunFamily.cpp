@@ -375,3 +375,19 @@ InsertRet003EF264 *Rva003EF264Sub::run(int resultAddress, int keyAddress)
     ++count;
     return result->set(node,this,1);
 }
+
+// Native 3EF3F7..3EF40B (20B, ret 8), after Rva003EF34AOwner::fwd: one more
+// level of the same hidden-result forwarding - pass both words to that fwd
+// on the same object and return the first (the result slot). Orphan .text
+// hole with no surviving reference; owner and name are address-derived.
+class Rva003EF3F7Owner
+{
+public:
+	int fwd(int a, int b);
+};
+
+int Rva003EF3F7Owner::fwd(int a, int b)
+{
+	((Rva003EF34AOwner *)this)->fwd(a, b);
+	return a;
+}

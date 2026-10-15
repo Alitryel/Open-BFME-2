@@ -54,6 +54,7 @@ class VersionBlockParser
 {
 public:
 	void rva00428B27(const char *key, const char *value);
+	void rva00428BF0(const _STL::basic_string<char> &key, const _STL::basic_string<char> &value);
 	static const void *findEntry(const void *found, const void *first, const void *last, const char *const *key, const void *match);
 private:
 	int m_size;
@@ -85,4 +86,13 @@ void VersionBlockParser::rva00428B27(const char *key, const char *value)
 	{
 		m_records.erase((_STL::vector<BfmeNarrowRecord00427F75>::iterator)found, (_STL::vector<BfmeNarrowRecord00427F75>::iterator)(unsigned)*(volatile unsigned *)&match);
 	}
+}
+
+// Native 428BF0..428C04 (20B, ret 8), right after rva00428B27: the string
+// overload of the record update, passing both strings' c_str() (STLport
+// _M_start) to rva00428B27. Orphan .text hole with no surviving reference;
+// address-derived name.
+void VersionBlockParser::rva00428BF0(const _STL::basic_string<char> &key, const _STL::basic_string<char> &value)
+{
+	rva00428B27(key.c_str(), value.c_str());
 }
