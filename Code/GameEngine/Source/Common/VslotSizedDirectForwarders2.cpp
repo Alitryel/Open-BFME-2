@@ -57,10 +57,11 @@ void Rva002D4680Forwarder::rva002D4680(Int a0)
 	m_target.rva002D3AB5(a0);
 }
 
-class Rva002D54E5Target
+class AptPalantir
 {
 public:
-	void rva002D54E5();
+	void init();
+	void update();
 };
 
 class Rva002D55CAForwarder
@@ -69,20 +70,16 @@ public:
 	void rva002D55CA();
 private:
 	char m_lead[0x10];
-	Rva002D54E5Target *m_target;
+	AptPalantir *m_target;
 };
 
 // vtable 0x00C02AA8#1 (??_7Rva002D3573@@6BGameEngineDeletingBase@@@): (+0x10)->rva002D54E5
 void Rva002D55CAForwarder::rva002D55CA()
 {
-	m_target->rva002D54E5();
+	m_target->init();
 }
 
-class Rva002D65F6Target
-{
-public:
-	void rva002D65F6();
-};
+
 
 class Rva002D6AE2Forwarder
 {
@@ -90,11 +87,11 @@ public:
 	void rva002D6AE2();
 private:
 	char m_lead[0x10];
-	Rva002D65F6Target *m_target;
+	AptPalantir *m_target;
 };
 
 // vtable 0x00C02AA8#10 (??_7Rva002D3573@@6BGameEngineDeletingBase@@@): (+0x10)->rva002D65F6
 void Rva002D6AE2Forwarder::rva002D6AE2()
 {
-	m_target->rva002D65F6();
+	m_target->update();
 }

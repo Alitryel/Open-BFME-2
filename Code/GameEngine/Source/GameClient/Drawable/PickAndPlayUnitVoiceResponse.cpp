@@ -713,16 +713,10 @@ class Rva004D97B0
 {
 public:
  Object *getObject() const { return m_obj; }
-	__declspec(noinline) void rva004D97B0(int index)
-	{
-		if (index != -1)
-			((Rva004D977D *)this)->rva004D977D(asStruct(m_drawable->rva0027675F(index)), asStruct(m_extra == 0 ? Rva002390CB() : m_extra->rva004D9750(index)));
-	}
-	__declspec(noinline) void rva004D9874(const AsciiString &name)
-	{
-		if (!name.isEmpty())
-			((Rva004D977D *)this)->rva004D977D(asStruct(m_drawable->rva00274CD8(name)), asStruct(m_extra == 0 ? (const Rva002390CB &)Rva002390CB() : ((Rva0041541B *)m_extra)->rva0041541B(name)));
-	}
+	// The record's two setters are owned by Rva004D97B0Record.cpp; declaring
+	// them here drops this TU's duplicate COMDATs and lets the owned body win.
+	void rva004D97B0(int index);
+	void rva004D9874(const AsciiString &name);
 	bool isFilled() { return ((Rva004D9596 *)this)->rva004D9596(); }
 	bool hasVoice() { return (char)((Rva004D9596 *)this)->rva004D9586() != 0; }
 	void setSounds(const Rva002390CB &a, const Rva002390CB &b) { ((Rva004D977D *)this)->rva004D977D(asStruct(a), asStruct(b)); }
