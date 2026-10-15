@@ -54,6 +54,7 @@ private:
 	char m_bytes[0x60];
 };
 
+class Rva00403055 { public: void clearItems(); };
 class Rva003FA26F
 {
 public:
@@ -85,7 +86,7 @@ Rva003FA26F::Rva003FA26F(const Rva003FA26F &other)
 
 Rva003FA26F::~Rva003FA26F()
 {
-	clearItems();
+	((Rva00403055 *)this)->clearItems();
 }
 
 Rva003FA26F &Rva003FA26F::operator=(const Rva003FA26F &other)
@@ -93,12 +94,12 @@ Rva003FA26F &Rva003FA26F::operator=(const Rva003FA26F &other)
 	if (this != &other)
 	{
 		m_name = other.m_name;
-		m_at10 = other.m_at10;
-		m_at14 = other.m_at14;
-		m_at18 = other.m_at18;
-		m_at1C = other.m_at1C;
-		m_at20 = other.m_at20;
-		m_at24 = other.m_at24;
+		((OpaqueRefElement4 *)&m_at10)->operator=((const OpaqueRefElement4 &)other.m_at10);
+		((OpaqueRefElement4 *)&m_at14)->operator=((const OpaqueRefElement4 &)other.m_at14);
+		((OpaqueRefElement4 *)&m_at18)->operator=((const OpaqueRefElement4 &)other.m_at18);
+		((OpaqueRefElement4 *)&m_at1C)->operator=((const OpaqueRefElement4 &)other.m_at1C);
+		((OpaqueRefElement4 *)&m_at20)->operator=((const OpaqueRefElement4 &)other.m_at20);
+		((OpaqueRefElement4 *)&m_at24)->operator=((const OpaqueRefElement4 &)other.m_at24);
 		m_28 = other.m_28;
 		m_2C = other.m_2C;
 		copyItems(other);
@@ -108,7 +109,7 @@ Rva003FA26F &Rva003FA26F::operator=(const Rva003FA26F &other)
 
 void Rva003FA26F::copyItems(const Rva003FA26F &other)
 {
-	clearItems();
+	((Rva00403055 *)this)->clearItems();
 	m_items.reserve(other.m_items.size());
 	_STL::vector<Rva003FA118 *>::const_iterator it = other.m_items.begin();
 	_STL::vector<Rva003FA118 *>::const_iterator end = other.m_items.end();

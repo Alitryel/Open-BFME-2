@@ -89,9 +89,9 @@ Rva00402D7E &Rva00402D7E::operator=(const Rva00402D7E &other)
 	if (this != &other)
 	{
 		m_name = other.m_name;
-		m_at10 = other.m_at10;
-		m_at14 = other.m_at14;
-		m_at18 = other.m_at18;
+		((OpaqueRefElement4 *)&m_at10)->operator=((const OpaqueRefElement4 &)other.m_at10);
+		((OpaqueRefElement4 *)&m_at14)->operator=((const OpaqueRefElement4 &)other.m_at14);
+		((OpaqueRefElement4 *)&m_at18)->operator=((const OpaqueRefElement4 &)other.m_at18);
 		copyItems(other);
 	}
 	return *this;
