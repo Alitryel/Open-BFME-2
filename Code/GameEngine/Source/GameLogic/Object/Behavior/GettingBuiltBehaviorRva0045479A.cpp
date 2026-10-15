@@ -57,12 +57,11 @@ public:
  virtual void slot0();virtual void start(bool);virtual void slot2();virtual void slot3();
  virtual void slot4();virtual void slot5();virtual bool active();
 };
+// 0x00453124 is the matched BfmeThingE63::isValid (BfmeConv815.cpp); called on this.
+class BfmeThingE63 { public: bool isValid(); };
 class GettingBuiltBehavior {
 public:
  void rva00453D92();bool rva00453DCF();void rva0045479A();
-private:
- bool rva00453124();
-public:
  void *vptr;const GettingBuiltBehaviorTickData *data;Object *object;
  unsigned char padC[0x20-0xc];GettingBuiltTickInterface iface;
  int state;float timer;unsigned char pad2c[0x35-0x2c];bool flag35;
@@ -84,7 +83,7 @@ void GettingBuiltBehavior::rva0045479A()
  }
  if (!(body->health()<body->maxHealth())) return;
  }
- if (rva00453124()) return;
+ if (reinterpret_cast<BfmeThingE63 *>(this)->isValid()) return;
  bool busy;
  {
  int out=0;

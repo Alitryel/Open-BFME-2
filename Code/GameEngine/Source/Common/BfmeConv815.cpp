@@ -31,13 +31,20 @@ struct BfmeThing171
 };
 
 
-class BfmeFinderD02
+// Native 0x00261353 calls the established Object shroud query at 0x0028D2A2.
+// Its enum result and player index use the same 32-bit ABI as the donor view.
+enum CellShroudStatus
+{
+	CELLSHROUD_CLEAR,
+	CELLSHROUD_FOGGED,
+	CELLSHROUD_SHROUDED,
+	CELLSHROUD_COUNT
+};
+class Object
 {
 public:
-	int find(int val);
+	CellShroudStatus getShroudStatusForPlayer(int playerIndex) const;
 };
-
-class Object;
 // Slot 1 (allow) of partition filter vftable 0x00C0716C.
 class Rva00261353Filter
 {
@@ -50,7 +57,7 @@ public:
 
 bool Rva00261353Filter::allow(Object *obj)
 {
-	return ((BfmeFinderD02 *)obj)->find(m_val8) == 1;
+	return obj->getShroudStatusForPlayer(m_val8) == CELLSHROUD_FOGGED;
 }
 
 class BfmeSub9BB
@@ -130,7 +137,15 @@ struct BfmeItemE63
 	bool checkValid();
 };
 
-BfmeItemE63* __cdecl bfmeFindItemE63(int id);
+// The call at 0x00453124 targets the existing static CastleMemberBehavior
+// lookup at 0x00395708. Retail passes the owner Object pointer stored at +8;
+// retain the donor field view and cast the returned Module only for its fields.
+class Module;
+class CastleBehavior
+{
+public:
+	static Module *rva000395708(Object *obj);
+};
 
 struct BfmeThingE63
 {
@@ -142,7 +157,7 @@ struct BfmeThingE63
 bool BfmeThingE63::isValid()
 {
 	int id = m_id;
-	BfmeItemE63 *item = bfmeFindItemE63(id);
+	BfmeItemE63 *item = (BfmeItemE63 *)CastleBehavior::rva000395708((Object *)id);
 	if (item && item->m_p14 && !item->m_flag24 && item->checkValid())
 		return true;
 	return false;

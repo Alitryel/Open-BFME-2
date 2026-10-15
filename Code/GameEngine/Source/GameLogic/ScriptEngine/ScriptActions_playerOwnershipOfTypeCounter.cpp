@@ -26,6 +26,21 @@
 #include "ascii_string.h"
 
 class ThingTemplate;
+class ModuleData;
+class Drawable;
+
+// Native 0x00376C50 is the existing 82-byte RET8 provider below. Its
+// receiver reads the same name-vector prefix at +8/+0xC. Both vector views
+// use STLport's begin/end/storage words and four-byte trivial elements:
+// the first receives ThingFactory pointers; the second is resized with zeros.
+// ModuleData/Drawable are the provider's physical fold names, not recovered
+// identities for the templates and integer counters used by this caller.
+class Rva00376C50Owner
+{
+public:
+	unsigned int rva00376C50(_STL::vector<const ModuleData *> &found,
+		_STL::vector<Drawable *> &slots);
+};
 
 class Parameter
 {
@@ -63,7 +78,6 @@ class ObjectTypes
 public:
 	ObjectTypes();
 	virtual ~ObjectTypes();
-	int prepForPlayerCounting(_STL::vector<const ThingTemplate *> &templates, _STL::vector<int> &counts);
 private:
 	AsciiString m_listName; // +0x04
 	_STL::vector<AsciiString> m_objectTypes; // +0x08
@@ -135,7 +149,9 @@ void ScriptActions::rva003C5F1B(ScriptAction *pAction, Parameter *pTypeParm, Par
 	ObjectTypesTemp types;
 	Script_objectTypesFromParam(pTypeParm, types.m_types);
 
-	int numObjs = types.m_types->prepForPlayerCounting(templates, counts);
+	int numObjs = (int)((Rva00376C50Owner *)types.m_types)->rva00376C50(
+		(_STL::vector<const ModuleData *> &)templates,
+		(_STL::vector<Drawable *> &)counts);
 	if (numObjs == 0)
 		return;
 

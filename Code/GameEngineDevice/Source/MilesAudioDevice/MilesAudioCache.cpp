@@ -3,6 +3,24 @@
 #include <set>
 #include <list>
 #include "ascii_string.h"
+// Keep this /G7 unit's STL helpers out of the link: every comparison and
+// int construction is inlined here, and retail keeps one copy of each
+// (_List_iterator_base::operator!= 0x006CFE40, the set<AsciiString>
+// insert_unique 0x00057F2A rowed in stlport_rb_tree_hint_asciistring_set.cpp).
+namespace _STL {
+template <class T, class TraitsA, class TraitsB>
+static inline bool operator!=(const _List_iterator<T, TraitsA>& a,
+                              const _List_iterator<T, TraitsB>& b)
+{ return a._M_node != b._M_node; }
+template <class T, class TraitsA, class TraitsB>
+static inline bool operator!=(const _Rb_tree_iterator<T, TraitsA>& a,
+                              const _Rb_tree_iterator<T, TraitsB>& b)
+{ return a._M_node != b._M_node; }
+static inline void _Construct(int *__p, const int &__val)
+{ new (__p) int(__val); }
+template <> pair<_Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::iterator, bool>
+_Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::insert_unique(const AsciiString &);
+}
 class File {
 public:
  virtual void slot00(); virtual void slot04(); virtual void slot08();
