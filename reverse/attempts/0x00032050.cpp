@@ -8,13 +8,14 @@
 // partial score=0.55 date=2026-10-03
 // no // cl: line: base flags -O2 -GR- -EHsc-
 // Banked attempt for ?rva00032050@GeneralAllocator@Allocator@EA@@QAEIPAXI@Z
-// retail 0x0032050 (140 bytes). All five size adjustments are decoded and the
-// arithmetic matches retail instruction-for-instruction; the miss is register
-// allocation only. Retail keeps this in edi, the lock in esi, the block in ebx
-// and spills the masked header to the +4 argument slot, leaving ebp unused.
-// This source lets MSVC 7.1 put the header in edi and the lock in ebp, so the
-// whole prologue/epilogue shifts by 5 bytes (135 vs 140). Semantics and the
-// term order are as decoded from retail.
+// Retail 0x00032050..0x000320DC (140 bytes). Current standalone and whole-home
+// builds both emit 140 bytes, with the first difference at +0x46: the order of
+// the five count adjustments. The first 70 bytes, including this in EDI,
+// lock in ESI, block in EBX and the masked-size spill into the argument slot,
+// already match. The older 135-byte allocation description no longer applies.
+// Explicit pointer-argument reuse retains 140 bytes but regresses the first
+// difference to +0x39; a native-order source expression emits 141 bytes.
+// The real 0x31F90 callee now has a pin, but its body remains unrowed.
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
