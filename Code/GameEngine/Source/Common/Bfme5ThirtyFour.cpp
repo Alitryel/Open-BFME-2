@@ -126,11 +126,20 @@ public:
 			bfmeDropVGO(m_bfmeP);
 	}
 };
+inline void rva006D1130RangeCheck(bool) {}
 struct Rva006D1130Iterator
 {
 	BfmeRefVGO *position;
 	BfmeRefVGO *begin;
 	BfmeRefVGO *end;
+	// Same release range check as Apt.cpp's PlaybackIterator (empty even in
+	// the WB debug build); spelling the loop test through it keeps retail's
+	// top-tested copy loop (0x006D05E0) instead of cl's rotated one.
+	bool operator!=(const Rva006D1130Iterator &other) const
+	{
+		rva006D1130RangeCheck(begin == other.begin && end == other.end);
+		return position != other.position;
+	}
 	Rva006D1130Iterator() {}
 	Rva006D1130Iterator(BfmeRefVGO *p, BfmeRefVGO *b, BfmeRefVGO *e) : position(p), begin(b), end(e) {}
 	int operator-(const Rva006D1130Iterator &other) const { return position - other.position; }
@@ -362,6 +371,33 @@ BfmeRefVGO *__cdecl Rva006D0460Copy(BfmeRefVGO *first,
    }
    ++first;
   } while(first!=last);
+ }
+ return result;
+}
+
+// Native 6D05E0..6D0656 RET0: the forward copy grow (0x006D1130) calls,
+// two three-word source iterators by value and a raw output pointer. The
+// post-incremented source copy is retail's two dead begin/end stores; each
+// element is released and retained as in 0x006D0460. Target facts: the
+// ABI, loop head (top test against last.position) and refcount sequence.
+// Original algorithm name unknown.
+BfmeRefVGO *__cdecl Rva006D05E0Copy(Rva006D1130Iterator first,
+ Rva006D1130Iterator last, BfmeRefVGO *result) {
+ while(first!=last) {
+  BfmeRefVGO *destination=result++;
+  Rva006D1130Iterator source=first++;
+  if(source.position!=destination) {
+   unsigned *old=destination->m_bfmeP;
+   if(old && --*old==0) {
+    Rva006D0280 *p=(Rva006D0280 *)destination->m_bfmeP;
+    if(p) {
+     p->~Rva006D0280();
+     g_pChainBlockAllocator->freeBlock(p,0x1c);
+    }
+   }
+   destination->m_bfmeP=source.position->m_bfmeP;
+   if(destination->m_bfmeP) ++*destination->m_bfmeP;
+  }
  }
  return result;
 }
