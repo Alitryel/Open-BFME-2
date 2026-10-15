@@ -56,6 +56,28 @@ static inline bool operator!=(const _Rb_tree_iterator<Value, Left> &a,
 #include "ascii_string.h"
 
 class ModuleData;
+struct BfmeStringRecord00568CE0;
+class Rva00568A20;
+// Keep native inline frees without publishing competing allocator helpers.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline void allocator<BfmeStringRecord00568CE0>::deallocate(BfmeStringRecord00568CE0 *p, size_t) const { if(p) Rva00030830FreeAllocation(p); }
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<BfmeStringRecord00568CE0 *,BfmeStringRecord00568CE0,allocator<BfmeStringRecord00568CE0> >::deallocate(BfmeStringRecord00568CE0 *p, size_t n) { __stl_alloc_rebind(static_cast<allocator<BfmeStringRecord00568CE0> &>(*this), (BfmeStringRecord00568CE0 *)0).deallocate(p,n); }
+template<> __declspec(dllimport) __forceinline void allocator<const ModuleData *>::deallocate(const ModuleData * *p, size_t) const { if(p) Rva00030830FreeAllocation(p); }
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<const ModuleData * *,const ModuleData *,allocator<const ModuleData *> >::deallocate(const ModuleData * *p, size_t n) { __stl_alloc_rebind(static_cast<allocator<const ModuleData *> &>(*this), (const ModuleData * *)0).deallocate(p,n); }
+template<> __declspec(dllimport) __forceinline void allocator<Rva00568A20>::deallocate(Rva00568A20 *p, size_t) const { if(p) Rva00030830FreeAllocation(p); }
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<Rva00568A20 *,Rva00568A20,allocator<Rva00568A20> >::deallocate(Rva00568A20 *p, size_t n) { __stl_alloc_rebind(static_cast<allocator<Rva00568A20> &>(*this), (Rva00568A20 *)0).deallocate(p,n); }
+}
+
+// The native allocator ignores the element count. Keep its null-guarded
+// free inline, including member cleanup, and leave whole-container owners
+// to their rowed units (vector69D63 and node creation568D95).
+namespace _STL {
+template<> __declspec(dllimport) __forceinline _Vector_base<BfmeStringRecord00568CE0,allocator<BfmeStringRecord00568CE0> >::~_Vector_base() { if(this->_M_start) Rva00030830FreeAllocation(this->_M_start); }
+template<> __declspec(dllimport) __forceinline _Vector_base<const ModuleData *,allocator<const ModuleData *> >::~_Vector_base() { if(this->_M_start) Rva00030830FreeAllocation(this->_M_start); }
+template<> vector<BfmeStringRecord00568CE0>::~vector();
+template<> __declspec(dllimport) __forceinline void vector<const ModuleData *>::_M_clear() { _Destroy(this->_M_start, this->_M_finish); this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start); }
+}
+
 
 // BFME 2's Coord2D (MathCoord2D.h), kept under the pair name the grid lookup
 // 0x005C8176 is pinned with.
@@ -83,6 +105,9 @@ struct Rva00568FE4Less {
 	}
 };
 typedef _STL::multiset<Rva00568FE4Key, Rva00568FE4Less, _STL::allocator<Rva00568FE4Key> > Rva00568FE4Multi;
+namespace _STL {
+template<> _Rb_tree_node<Rva00568FE4Key> *_Rb_tree<Rva00568FE4Key,Rva00568FE4Key,_Identity<Rva00568FE4Key>,Rva00568FE4Less,allocator<Rva00568FE4Key> >::_M_create_node(const Rva00568FE4Key &);
+}
 
 class Rva005C8176 { public: void *rva005C8176(FloatPair p); };
 struct Rva005C8876Position;struct Rva005C8876Grid;
@@ -239,7 +264,8 @@ struct Rva0056A378Source {
 };
 class LargeGroupAudioKeyMap {public: LargeGroupAudioKeyMap &operator=(const LargeGroupAudioKeyMap &);};
 struct OpaqueRefElement4 { void *m_referent; OpaqueRefElement4 &operator=(const OpaqueRefElement4 &);};
-class Rva005C8565 {public: void rva005C8565();};
+// Existing rowed adjustor destructor5C8565, called before scalar delete.
+class Rva005C8565 {public: ~Rva005C8565();};
 struct Rva00569F0CVec { void *m_begin,*m_end,*m_pad; void rva00569F0C(void *,void *,bool *);};
 class Rva005C865B {public: Rva005C865B(void *,float *); char opaque[0x1C];};
 class Rva005C81D8 {public: void rva005C81D8(Rva005C8176 *,Rva005C8176 *,Rva005C8176 *);};
@@ -456,7 +482,7 @@ void LargeGroupAudioSoundKeyPair::rva0056A378(Rva0056A378Source arg)
  arg.count=4;
  do {
   Rva005C8565 *s=*slot;
-  if(s){s->rva005C8565(); ::operator delete(s); *slot=0;}
+  if(s){s->~Rva005C8565(); ::operator delete(s); *slot=0;}
   ++slot;
  }while(--arg.count);
  reinterpret_cast<LargeGroupAudioKeyMap *>(this)->operator=(*reinterpret_cast<const LargeGroupAudioKeyMap *>(other));
