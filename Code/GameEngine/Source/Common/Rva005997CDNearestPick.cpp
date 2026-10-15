@@ -1,25 +1,22 @@
-// ?rva00599870@Rva005997CD@@QAE?AW4ObjectID@@PBUVec2@@_N@Z
-// partial score=0.890229447125561 date=2026-10-14
-// ?rva00599870@Rva005997CD@@QAE?AW4ObjectID@@PBUVec2@@_N@Z
-// partial score=0.93 date=2026-10-14
-// ?rva00599870@Rva005997CD@@QAE?AW4ObjectID@@PBUVec2@@_N@Z
-// partial score=0.94 date=2026-10-01
-// cl: /O1 /MD /GX- /arch:SSE2
-// ?rva00599870@Rva005997CD@@QAEW4ObjectID@@PBVVec2@@_N@Z present-unmatched
-// retail 0x00599870 186B. Closest-object search over the +0 list: walks the
-// sentinel list pushing each node's ObjectID at +8 through GameLogic
-// findObjectByID then filters via two virtuals and Object status 0x5A before
-// keeping the smallest XY distance squared from the input point. Caller and
-// layout evidence from the Rva005997CD dtor neighbours.
-enum ObjectID
-{
-    INVALID_OBJECT_ID = 0
-};
+// cl: /O1 /G7 /arch:SSE /MD /GX- /DNDEBUG
+//
+// ?rva00599870@Rva005997CD@@QAE?AW4ObjectID@@PBUVec2@@_N@Z, retail 0x00599870..0x0059992A
+// (186 bytes, EH-free, thiscall RET 8): the nearest-dozer search of Rva005997CD (its ctor
+// 0x00599784 and dtor 0x005997CD are rowed): walk the object-id list at +0, resolve each
+// id, skip objects whose AI filter result is valid, skip status 0x5A unless the flag is
+// set, and keep the id with the smallest squared 2D distance to the position (the first
+// candidate always wins). The position is read through a by-value Vec2 copy made with
+// retail's inline member-wise copy constructor (the Coord2D view of Lib/Coord2DCtorView.h):
+// that is what gives retail's xmm move pairs; the winner test is `best == 0` directly.
+// Evidence: native bytes; every callee rowed. Identity of the owner is address-derived.
+#include "GameLogicObjectLookupView.h"
 
 struct Vec2
 {
     float x;
     float y;
+    Vec2() {}
+    Vec2(const Vec2 &o) : x(o.x), y(o.y) {}
 };
 
 class Object;
@@ -29,12 +26,6 @@ class Object
 {
 public:
     bool testStatus(ObjectStatusTypes bit) const;
-};
-
-class GameLogic
-{
-public:
-    class Object *findObjectByID(ObjectID id);
 };
 
 extern GameLogic *TheGameLogic;
@@ -176,7 +167,6 @@ private:
     ListNode *m_list;
 };
 
-// ?rva00599870@Rva005997CD@@QAEW4ObjectID@@PBVVec2@@_N@Z present-unmatched
 ObjectID Rva005997CD::rva00599870(const Vec2 *pos, bool flag)
 {
     ListNode *head = m_list;
@@ -189,10 +179,11 @@ ObjectID Rva005997CD::rva00599870(const Vec2 *pos, bool flag)
             FilterResult *res = full->m_258->getResult();
             if (!res->isValid()) {
                 if (!obj->testStatus((ObjectStatusTypes)0x5A) || flag) {
-                    float dx = pos->x - full->m_x38;
-                    float dy = pos->y - full->m_y3C;
+                    Vec2 a(*pos);
+                    float dx = a.x - full->m_x38;
+                    float dy = a.y - full->m_y3C;
                     float d2 = dx * dx + dy * dy;
-                    if (bestDist > d2 || (obj ? (best == INVALID_OBJECT_ID) : (best == INVALID_OBJECT_ID))) {
+                    if (bestDist > d2 || best == INVALID_OBJECT_ID) {
                         bestDist = d2;
                         best = node->id;
                     }
