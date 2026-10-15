@@ -157,6 +157,7 @@ public:
  char m_data[0x28];
 };
 class Locomotor;
+class Rva001E7E25 { public: void rva001E7E25(); };
 class LocomotorSet {
 public:
  void clear(); void xferSelfAndCurLocoPtr(Xfer *, Locomotor **);
@@ -545,7 +546,7 @@ void AIUpdateInterface::xfer(Xfer *xfer)
  XferObjectID(xfer, &m_repulsor2);
  XferObjectID(xfer, &m_moveOutOfWay1);
  XferObjectID(xfer, &m_moveOutOfWay2);
- if (xfer->IsLoading()) { m_locomotorSet.clear(); m_curLocomotor = 0; }
+ if (xfer->IsLoading()) { ((Rva001E7E25 *)&m_locomotorSet)->rva001E7E25(); m_curLocomotor = 0; }
  m_locomotorSet.xferSelfAndCurLocoPtr(xfer, &m_curLocomotor);
  XferLocomotorSetType(xfer, &m_curLocomotorSet);
  xfer->XferRawBytes(&m_locomotorGoalType, 4);
