@@ -297,6 +297,14 @@ extern int BfmeLogicFramesPerSecond;
 #define COORD3D_DV_EQUALS
 #include "../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
 
+// Coord3D::equals (rowed 0x00003702 in coord3d.cpp), out of line but visible
+// here: update's operand order (the Object loaded into ECX before the frame
+// read, add ecx,0x38 after pushing &m_lastShotPosition) needs cl to see it.
+inline __declspec(noinline) bool Coord3D::equals(const Coord3DBase &that) const
+{
+	return x == that.x && y == that.y && z == that.z;
+}
+
 
 enum ModelConditionFlagType
 {
@@ -660,6 +668,37 @@ void FiringTracker::shotFired(const Weapon *weaponFired, ObjectID victimID, cons
 	}
 
 	setWakeFrame(getObject(), calcTimeToSleep());
+}
+
+//-------------------------------------------------------------------------------------------------
+UpdateSleepTime FiringTracker::update()
+{
+	UnsignedInt now = TheGameLogic->getFrame();
+
+	if (!getObject()->getPosition()->equals(m_lastShotPosition))
+		coolDown(true);
+
+	if (m_frameToForceReload != 0 && now >= m_frameToForceReload)
+	{
+		getObject()->reloadAllAmmo(false);
+		m_frameToForceReload = 0;
+	}
+
+	if (m_frameToStopLoopingSound != 0 && now >= m_frameToStopLoopingSound)
+	{
+		TheAudio->removeAudioEvent(m_audioHandle);
+		m_frameToStopLoopingSound = 0;
+		m_audioHandle = AHSV_NoSound;
+	}
+
+	if (m_frameToStartCooldown != 0 && now > m_frameToStartCooldown)
+	{
+		m_frameToStartCooldown = now + BfmeLogicFramesPerSecond;
+		coolDown(false);
+		return UPDATE_SLEEP(BfmeLogicFramesPerSecond);
+	}
+
+	return calcTimeToSleep();
 }
 
 //-------------------------------------------------------------------------------------------------
