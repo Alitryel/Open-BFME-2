@@ -171,18 +171,11 @@ struct Rva0010F149Handle
 };
 
 class Rva001DA2D5;
-class Rva00433390
-{
-public:
-	virtual ~Rva00433390();
-	Rva00433390(int);
-	char unknown[0xD0 - 4];
-};
-
 class Rva004333C0
 {
 public:
 	virtual ~Rva004333C0();
+	Rva004333C0(int);
 	Rva004333C0(const Rva001DA2D5 &, int);
 	char unknown[0xD0 - 4];
 };
