@@ -1,13 +1,6 @@
-// ?rva00460F90@Rva00460F90@@QAEXXZ
-// partial score=0.9711 date=2026-10-13
-// ?rva00460F90@Rva00460F90@@QAEXXZ
-// partial score=0.9218171367574 date=2026-10-11
-// ?rva00460F90@Rva00460F90@@QAEXXZ
-// partial score=0.85 date=2026-10-09
 // cl: /ICode /Ireference/shims/bfme2_ascii /O1 /G7 /EHsc /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ?rva00460F90@Rva00460F90@@QAEXXZ retail 0x00460F90..0x00461257 711B.
 // WorldBuilder twin 0x010AC140 is DynamicPortalBehaviour::createWaypoints
 // (DynamicPortalBehaviour.cpp asserts 202..238; string "#dynamicportal_wp").
 // The receiver keeps the existing address-derived spelling: its only native
@@ -27,24 +20,17 @@
 // Callees: Object::getMultiLogicalBonePosition 0x0028BF81; operator new
 // 0x0002FDA0; Waypoint ctor 0x00282212; Waypoint::addLink 0x00272306;
 // pathfinder AddPortal 0x002E8FE5; StringBase copies 0x000365F0/0x00037BA0.
-// NEAR: same length; differs in spill-slot choice for the first-run locals
-// and in the Link loop where retail keeps the copied vector's start in ESI
-// across addLink/AddPortal and frees it with no null test (this draft
-// reloads it from the frame and keeps the STLport null test).
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// Schedule note (W7-S2 r14): the three scheduling fences of the earlier drafts are replaced by ONE
+// volatile read of the object pointer. A fence pins every memory operation including the stores the
+// compiler creates itself (callee-save pushes, EH state, argument slots); the volatile read pins only
+// the load that retail issues late. Textual cast on purpose: a template helper changes the IR.
 #include "ascii_string.h"
 #include <vector>
 #include "GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
-// class-gate: allow Coord3D the bone-position array is built and torn down through BFME 2's out-of-line Coord3D constructor and destructor (the eh vector iterators push 0x0047A6A9 and 0x000B3FD0); the canonical data-only header cannot declare them; same three floats
-struct Coord3D
-{
-	float x, y, z;
-	Coord3D();
-	Coord3D(const Coord3D &that) { x = that.x; y = that.y; z = that.z; }
-	~Coord3D() {}
-};
+#define COORD3D_VIEW_DTOR
+#define COORD3D_VIEW_EXTERN_CTOR
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 void Rva00030830GameFree(void *);
 template<> inline _STL::_Vector_base<unsigned int, _STL::allocator<unsigned int> >::~_Vector_base() { Rva00030830GameFree(this->_M_start); }
@@ -136,7 +122,7 @@ private:
 void Rva00460F90::rva00460F90()
 {
 	Coord3D locations[16];
-	Object *obj = m_object;
+	Object *obj = (*(Object * volatile *)&(m_object));
 	const Rva00460F90Data *data = m_moduleData;
 	bool alreadyCreated = m_created;
 	if (!m_created)
@@ -168,13 +154,13 @@ void Rva00460F90::rva00460F90()
 	for (const DynamicPortalLinkList *lit = data->m_link.begin(); lit != data->m_link.end(); ++lit)
 	{
 		DynamicPortalLinkList link = *lit;
-		_ReadWriteBarrier();
+		
 		const unsigned int *start = link.begin();
 		int count = link.size();
-		_ReadWriteBarrier();
+		
 		unsigned int first = start[0];
 		unsigned int last = start[count - 1];
-		_ReadWriteBarrier();
+		
 		if (!alreadyCreated)
 			m_waypoints[first]->addLink(m_waypoints[last]);
 		(alreadyCreated ? TheAI->m_pathfinder : TheAI->m_pathfinder)->rva002E8FE5(m_waypoints[first]);
