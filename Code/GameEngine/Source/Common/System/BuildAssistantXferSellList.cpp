@@ -120,7 +120,7 @@ class ObjectSellInfo
 {
 public:
 	ObjectSellInfo() : m_id(INVALID_ID), m_sellFrame(0) {}
-	virtual ~ObjectSellInfo();
+	virtual ~ObjectSellInfo() {}
 
 	ObjectID m_id; // +0x04
 	unsigned int m_sellFrame; // +0x08
