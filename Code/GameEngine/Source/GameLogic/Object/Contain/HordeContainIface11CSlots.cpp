@@ -392,7 +392,8 @@ public:
 	unsigned char m_pad144[0x1CC - 0x144];
 	unsigned char m_1CC[0x1F0 - 0x1CC]; // +0x1CC (the LocomotorSet slot 4 hands the pathfinder)
 	Rva00468C37Holder *m_1F0; // +0x1F0
-	const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)m_1CC; }
+	// Keep the inline address calculation without emitting a competing private-view copy.
+	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)m_1CC; }
 	void rva0026594F(const Coord3D *a1, const Coord3D *a2, int a3, int layer, const Coord3D *a5, const Coord3D *a6);
 	// The rowed 0x0026594F under its row spelling, for the slot-111 caller.
 	void moveThroughPortalWithMicropath(const Coord3D *a1, const Coord3D *a2, int a3, PathfindLayerEnum layer, const Coord3D *a5, const Coord3D *a6);
