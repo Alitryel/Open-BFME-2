@@ -1,3 +1,5 @@
+// ?instantiateCharacter@AptDisplayList@@QAEXHPAUAptCharacter@@PAVEAStringC@@PAVAptCIH@@HHPAPAV4@PAH@Z
+// partial score=0.815 date=2026-10-15
 // AptDisplayList::instantiateCharacter
 // partial score=0.2081863091037403 date=2026-10-10
 /*

@@ -1,3 +1,5 @@
+// ?onComingOutOfShroud@Drawable@@QAEXXZ
+// partial score=0.804 date=2026-10-15
 // ?onComingOutOfShroud@Drawable@@AAEXXZ
 // partial score=0.87 date=2026-10-13
 // ?onComingOutOfShroud@Drawable@@AAEXXZ
