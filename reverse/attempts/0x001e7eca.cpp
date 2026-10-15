@@ -1,10 +1,5 @@
 // ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
-// partial score=0.9347 date=2026-10-14
-// ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
-// partial score=0.9 date=2026-10-14
-// ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
-// partial score=0.9189885324707414 date=2026-10-13
-// ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
+// partial score=0.9335 date=2026-10-15
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common /ICode
 // BF1 cee35b7d8 Locomotor.cpp handleBehaviorZ and clean ZH Locomotor.cpp2220
 // are the semantic guide. Native1E7ECA..1E84C1 is1527B plus36B jump table;
@@ -18,8 +13,11 @@
 // Reuse canonical PartitionRangeQueryCallView; filter64/mask28 lifetimes
 // and temporary base-vptr restore are target-observed. Existing FPS owner
 // g_Va00DBA4E4 is read in this bank only; no second datum or alias introduced.
-// Current1561 versus native1563 including table; frame88 and initial1E7F27
-// structure exact; branch scheduling argument homes and FP stores remain.
+// 2026-10-15 s1: getMaxSpeed call resolved to matched Locomotor::getMaxSpeed; model
+// bit 103 via ModelFlags words (as LocomotorHeight.cpp) and plain bool/no volatile
+// fix case 4/5 sete, case 7 and model-bit ops. Sole remaining delta: zero-constant CSE
+// (xor edi,edi + push edi) in case 1 (underwater/layer, 3 zeros) and case 6 (starts at
+// ground() zero); native pushes literal 0 there and keeps vptr in edi (no spill).
 #include "Coord3D.h"
 #include "PartitionRangeQueryCallView.h"
 class GameLogic;
@@ -66,6 +64,7 @@ struct LocoObjectTemplate
 }
 ;
 class Rva00373EC6;
+struct ModelFlags {unsigned words[20];unsigned test(int bit)const{return words[bit>>5]&(1U<<(bit&31));}void set(int bit){words[bit>>5]|=1U<<(bit&31);}void clear(int bit){words[bit>>5]&=~(1U<<(bit&31));}};
 class Object
 {
  public:
@@ -78,9 +77,9 @@ class Object
  LocoObjectTemplate *definition;
  char pad8[0x38-8];
  Coord3D pos;
- char pad44[0x118-0x44];
- unsigned char model118;
- char pad119[0x198-0x119];
+ char pad44[0x10c-0x44];
+ ModelFlags model10C;
+ char pad15c[0x198-0x15c];
  Coord3D future;
  char pad1a4[2];
  bool futureFlag;
@@ -259,6 +258,7 @@ class Locomotor
  public:
  bool rva001E7ECA(Object*,const Coord3D*);
  float rva001E6532(Object*,const Coord3D*,float);
+ float getMaxSpeed(Object*)const;
  __forceinline float surfaceAt(float x,float y)
  {
   typedef float(Locomotor::*Member)(float,float);
@@ -291,7 +291,7 @@ class Locomotor
 ;
 bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
 {
- volatile bool requires=true;
+ bool requires=true;
  int mode=data->behavior;
  if(mode==9)
  {
@@ -347,7 +347,7 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
    if(object->definition->flags11f&8)
    {
     float speed=speed40;
-    pos.z+=(speed/(((Rva001E46E1*)this)->rva001E46E1(object)+0.1f)+1.0f)*height48;
+    pos.z+=(speed/(getMaxSpeed(object)+0.1f)+1.0f)*height48;
     
    }
    else pos.z+=height48;
@@ -358,7 +358,7 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
   case 4:case 5:
   {
    requires=true;
-   volatile bool relative=data->behavior==4;
+   bool relative=data->behavior==4;
    float surface=relative?surfaceAt(pos.x,pos.y):0.0f;
    pos.z=height48+(relative?surface:0.0f);
    setTranslation(pos);
@@ -386,7 +386,7 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
   case 7:
   {
    requires=true;
-   if(height48!=0.0f || (object ? ((bool)((flags44>>3)&1)) : ((bool)((flags44>>3)&1))))
+   if(height48!=0.0f || (bool)((flags44>>3)&1))
    {
     int layer=object->rva0028B511();
     if(layer==1)layer=TheTerrainLogic->getHighestLayerForDestination((const Coord3D*)&pos,0);
@@ -424,9 +424,9 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
     }
     if(delta>0.5f)
     {
-     if(!(object->model118&0x80))
+     if(!object->model10C.test(103))
      {
-      object->model118|=0x80;
+      object->model10C.set(103);
       object->rva0028AE6D();
       
      }
@@ -434,9 +434,9 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
      if(stealth && ((LocoStealthView*)stealth)->active)((StealthUpdate*)stealth)->markAsDetected(0,1,0,true);
      
     }
-    else if(object->model118&0x80)
+    else if(object->model10C.test(103))
     {
-     object->model118&=0x7f;
+     object->model10C.clear(103);
      object->rva0028AE6D();
      
     }
