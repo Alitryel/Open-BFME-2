@@ -387,7 +387,13 @@ _Locale_impl::make_classic_locale()
 // first in link order (declared alone, it made cl stop inlining
 // istreambuf_iterator<wchar_t>::equal into the wide integer readers; see the
 // __get_integer declarations above, which avoid that).
-namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
+namespace _STL {
+template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int);
+template <> void basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >::reserve(unsigned int);
+template <> basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> > & basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> >::operator=(basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t> > const &);
+template <> ostreambuf_iterator<wchar_t, char_traits<wchar_t> > num_put<wchar_t, ostreambuf_iterator<wchar_t, char_traits<wchar_t> > >::do_put(ostreambuf_iterator<wchar_t, char_traits<wchar_t> >, ios_base &, wchar_t, const void *) const;
+template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &);
+}
 
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
