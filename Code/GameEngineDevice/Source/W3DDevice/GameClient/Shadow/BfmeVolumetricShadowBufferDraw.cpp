@@ -82,6 +82,8 @@ struct RenderStateStruct
 	float world[4][4];
 };
 
+class VertexMaterialClass;
+extern VertexMaterialClass *ScreenMaterial;
 class DX8Wrapper
 {
 	friend class W3DVolumetricShadowManagerV2;
@@ -95,8 +97,10 @@ public:
 	static __forceinline void Set_Material(VertexMaterialClass *material)
 	{
 		if (material) material->Add_Ref();
-		if (render_state.material) render_state.material->Release_Ref();
-		render_state.material = material;
+		// Same global the other Set_Material emitters name (ScreenMaterial), so
+		// this COMDAT copy is identical to theirs.
+		if (ScreenMaterial) ScreenMaterial->Release_Ref();
+		ScreenMaterial = material;
 		render_state_changed |= MATERIAL_CHANGED;
 	}
 	static __forceinline void Set_World_Identity()
