@@ -38,3 +38,8 @@ void BfmeStrVMT::bfmeFwdVMT(int a, int b)
 		call bfmeImplVMT
 	}
 }
+
+// The retail call in this body reads 0x0001B3E0, an address the ledger already
+// carries as ??$append@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@AAEAAV01@PBD0ABUforward_iterator_tag@1@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?bfmeImplVMT@BfmeStrVMT@@QAEXHH@Z=??$append@PBD@?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@AAEAAV01@PBD0ABUforward_iterator_tag@1@@Z")

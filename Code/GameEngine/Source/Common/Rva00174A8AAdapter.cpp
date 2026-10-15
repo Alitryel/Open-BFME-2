@@ -31,3 +31,8 @@ void Rva00174A8A::rva00174A8A(int n)
 {
 	((Rva0017480C *)this)->rva0017480C(n, BfmeAssignRecord32());
 }
+
+// The retail call in this body reads 0x0017480C, an address the ledger already
+// carries as ?resize@Rva0017480CVector@@QAEXIURva0017480CRecord@@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva0017480C@Rva0017480C@@QAEXHUBfmeAssignRecord32@@@Z=?resize@Rva0017480CVector@@QAEXIURva0017480CRecord@@@Z")

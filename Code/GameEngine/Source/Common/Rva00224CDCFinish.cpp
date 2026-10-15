@@ -61,3 +61,8 @@ Rva00224CDC::Rva00224CDC()
 {
 	((SubsystemInterface *)this)->setName("AptButtonTooltipMap");
 }
+
+// The retail call in this body reads 0x00224C76, an address the ledger already
+// carries as ??0?$hash_map@HURva00224C76Element@@U?$hash@H@_STL@@U?$equal_to@H@3@V?$allocator@U?$pair@$$CBHURva00224C76Element@@@_STL@@@3@@_STL@@QAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?dup_00224c76@@YAXXZ=??0?$hash_map@HURva00224C76Element@@U?$hash@H@_STL@@U?$equal_to@H@3@V?$allocator@U?$pair@$$CBHURva00224C76Element@@@_STL@@@3@@_STL@@QAE@XZ")

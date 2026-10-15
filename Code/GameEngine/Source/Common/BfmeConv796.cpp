@@ -14,8 +14,12 @@
 // through the established retail name, the same spelling the already-matched
 // call sites use (e.g. GameEngineClientSubsystems.cpp), rather than through
 // a second name for one address.
+// Target-side correction: the donor compares against its named string global
+// bfmeStrDYF, but retail's push reads VA 0x00BBC408, the narrow literal "true"
+// (the ledger's string-initializer evidence puts "true" at 0x00BBC408 and
+// "false" at 0x00BBC410). Spelling the literal directly keeps the same push
+// shape and gives this unit a definition for the operand, so it links.
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *a, const char *b);
-extern "C" unsigned char bfmeStrDYF[];
 
 // Retail's singleton at 0x012F4C5C is EA's Mouse *TheMouse (defined once in
 // GameEngine/Source/GameClient/Input/Mouse.cpp), so the extern must be spelled
@@ -30,5 +34,5 @@ extern Mouse *TheMouse;
 
 void bfmeGoDYF(const char *s)
 {
-	TheMouse->_bfme_setEngineVisibility(_strcmpi(s, (const char *)bfmeStrDYF) == 0);
+	TheMouse->_bfme_setEngineVisibility(_strcmpi(s, "true") == 0);
 }

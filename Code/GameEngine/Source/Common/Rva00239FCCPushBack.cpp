@@ -31,3 +31,8 @@ void GameClient::addIconLayer(int index, Drawable *value)
 {
 	((DrawableList *)((char *)this + 0xF8 + index * 4))->pushBack((const Drawable *&)value);
 }
+
+// The retail call in this body reads 0x00239E0B, an address the ledger already
+// carries as ?push_back@?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@QAEXABQAVDrawable@@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?pushBack@DrawableList@@QAEXAAPBVDrawable@@@Z=?push_back@?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@QAEXABQAVDrawable@@@Z")

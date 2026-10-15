@@ -21,3 +21,8 @@ void bfmeVectorDeleteAnchorE1072()
 {
 	new Rva00112291[2];
 }
+
+// The retail call in this body reads 0x00112291, an address the ledger already
+// carries as ??1Rva00112291TerrainOwner@@QAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??1Rva00112291@@UAE@XZ=??1Rva00112291TerrainOwner@@QAE@XZ")

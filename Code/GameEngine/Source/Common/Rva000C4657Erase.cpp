@@ -47,3 +47,8 @@ Rva000C4657Elem *Rva000C4657::erase(Rva000C4657Elem *position)
 	((Rva00142D70 *)m_finish)->~Rva00142D70();
 	return position;
 }
+
+// The retail call in this body reads 0x0007A401, an address the ledger already
+// carries as ??$copy@PBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@PAV12@@_STL@@YAPAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@0@PBV10@0PAV10@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??$__copy_ptrs@PBURva000C4657Elem@@PAU1@@_STL@@YAPAURva000C4657Elem@@PBU1@0PAU1@ABU__false_type@0@@Z=??$copy@PBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@PAV12@@_STL@@YAPAV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@0@PBV10@0PAV10@@Z")

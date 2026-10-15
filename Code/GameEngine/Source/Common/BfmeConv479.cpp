@@ -21,3 +21,9 @@ void BfmeThingBLA::bfmeGoBLA(void *what, bool flag)
 	if (flag)
 		bfmeDoBLA(1);
 }
+
+// Retail 0x002C94F5, the address this body's call reads off its call site, is
+// the ledger's ?cacheStatus@Weapon@@QBEXW4WeaponStatus@@@Z row. The donor's own
+// name for that callee is kept (its __stdcall view is what the verified call
+// bytes use) and bound to the rowed owner, so one address keeps one definition.
+#pragma comment(linker, "/alternatename:?bfmeDoBLA@@YGXH@Z=?cacheStatus@Weapon@@QBEXW4WeaponStatus@@@Z")

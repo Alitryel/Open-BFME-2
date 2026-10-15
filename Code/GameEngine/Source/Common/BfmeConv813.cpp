@@ -20,3 +20,8 @@ void BfmeThingEFC::bfmeUpdate(int val)
 	m_valC = val;
 	m_f8 = bfmeCalcEFC(val);
 }
+
+// The pin at 0x0039B145 names the address this call reads, but no unit defines
+// the donor spelling. The ledger's ?bfmeAt@Rva0039AE75@@QBEMH@Z row is that
+// address's definition, so bind the spelling to it instead of a second name.
+#pragma comment(linker, "/alternatename:?bfmeCalcEFC@@YGMH@Z=?bfmeAt@Rva0039AE75@@QBEMH@Z")
