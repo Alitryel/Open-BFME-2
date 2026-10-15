@@ -53,7 +53,7 @@ class WW3D
 {
 public:
 	static bool Prepare_Render_New_Frame(void);
-	static bool rva00118170(bool clear, bool clearz, const Vector3 &color, float destAlpha);
+	static bool Begin_Render(bool clear, bool clearz, const Vector3 &color, float destAlpha);
 	static bool End_Render(bool flipFrame);
 };
 
@@ -233,13 +233,13 @@ void W3DDisplay::rva00047D04(int mode)
 		return;
 	if (mode == 3)
 	{
-		if (WW3D::rva00118170(true, false, clearColor, 0.0f) == true)
+		if (WW3D::Begin_Render(true, false, clearColor, 0.0f) == true)
 		{
 			g_bfmeAptWindowManager->slot30();
 			WW3D::End_Render(true);
 		}
 	}
-	else if (WW3D::rva00118170(true, false, clearColor, 0.0f) == true)
+	else if (WW3D::Begin_Render(true, false, clearColor, 0.0f) == true)
 	{
 		((Display *)this)->DrawStaticImage(0, 1);
 		((Display *)this)->DrawStaticImage(1, 1);

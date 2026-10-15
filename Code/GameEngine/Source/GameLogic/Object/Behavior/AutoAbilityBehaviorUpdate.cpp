@@ -304,7 +304,7 @@ public:
 	Player *getControllingPlayer() const;	// 0x0028AFA9
 	void doCommandButton(const CommandButton *button, int source, bool flag);	// 0x00296749
 	void rva00297000(const CommandButton *button, Object *target, int a, int b);	// 0x00297000
-	void rva00297149(const CommandButton *button, const Coord3D *pos, int a, int b);	// 0x00297149
+	void doCommandButtonAtPosition(const CommandButton *button, const Coord3D *pos, int a, int b);	// 0x00297149
 	char m_pad00[0x38];
 	Coord3D m_position;	// +0x38
 	char m_pad44[0x10C - 0x44];
@@ -501,7 +501,7 @@ UpdateSleepTime AutoAbilityBehavior::update()
 		_ReadWriteBarrier();
 		unsigned char flagBit = (unsigned char)(buttonFlags >> 5);
 		if ((flagBit & 1) != 0)
-			obj->rva00297149(button, &dest, 2, 1);
+			obj->doCommandButtonAtPosition(button, &dest, 2, 1);
 		else if ((buttonFlags & 7) != 0)
 			obj->rva00297000(button, target, 2, 1);
 		else

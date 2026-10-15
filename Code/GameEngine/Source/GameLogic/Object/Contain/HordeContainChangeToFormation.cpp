@@ -181,7 +181,7 @@ public:
 class StancesBehavior
 {
 public:
-	void rva0045F084(Int stance);
+	Bool changeStance(Int stance);
 };
 NameKeyType Rva0045EE2CGet();
 
@@ -406,10 +406,10 @@ void HordeContain::changeToFormation(const ThingTemplate *newTemplate)
 	if (stances)
 	{
 		if (newHorde->slot60())
-			stances->rva0045F084(4);
+			stances->changeStance(4);
 		else
 		{
-			stances->rva0045F084(1);
+			stances->changeStance(1);
 			hordeObj->clearModelConditionFlagsForHorde((const int *)&Rva0028F59A(0, 0x71));
 		}
 	}

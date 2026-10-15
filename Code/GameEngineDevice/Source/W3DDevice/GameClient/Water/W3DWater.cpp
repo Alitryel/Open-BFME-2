@@ -196,7 +196,7 @@ Rva0082140::~Rva0082140() {
 // Native 0x0007F87C..0x0007F92A, 174B, RET8: the reflection pass. After the
 // mirror camera setup 0x0007F0FB, a live mirror camera (+0xFC) renders the
 // scene into the reflection texture (+0xF8): the render target is set with
-// an empty z texture holder, the frame begins cleared to black (WW3D
+// an empty z texture holder, the frame begins cleared to black (WW3D::Begin_Render
 // 0x00118170) and, when it begins, the scene is drawn through 0x00118660
 // and the frame ended; the camera projection override byte is cleared and
 // the default render target restored. WB 0x007492F0 (unnamed) has the same
@@ -204,7 +204,7 @@ Rva0082140::~Rva0082140() {
 class Vector3 {public: Vector3(float x,float y,float z):X(x),Y(y),Z(z){} float X,Y,Z;};
 class WW3D {
 public:
- static bool rva00118170(bool clear, bool clearZ, const Vector3 &color, float alpha);
+ static bool Begin_Render(bool clear, bool clearZ, const Vector3 &color, float alpha);
  static bool End_Render(bool flip);
 };
 bool Rva00118660Call(void *scene, void *camera);
@@ -217,7 +217,7 @@ void Rva0082140::rva0007F87C(void *scene, CameraClass *camera) {
    WaterTextureHandle zbuffer;
    DX8Wrapper::Set_Render_Target_With_Z((TextureClass*)&textureF8,(ZTextureClass*)&zbuffer);
   }
-  if(WW3D::rva00118170(true,true,Vector3(0.0f,0.0f,0.0f),0.0f)) {
+  if(WW3D::Begin_Render(true,true,Vector3(0.0f,0.0f,0.0f),0.0f)) {
    Rva00118660Call(scene,refFC.ptr);
    WW3D::End_Render(false);
   }
