@@ -13,7 +13,8 @@ class Vector3
 {
 public:
 	Vector3() {}
-	Vector3(const Vector3 &) {}
+	// The uninitialised by-value filler is inlined; do not export this empty copy.
+	__declspec(dllimport) __forceinline Vector3(const Vector3 &) {}
 	float X, Y, Z;
 };
 
