@@ -69,6 +69,11 @@ struct Elem003AF9E0
     Elem003AF9E0(const Elem003AF9E0 &);
     Elem003AF9E0 &operator=(const Elem003AF9E0 &);
 };
+// Range erase is supplied by its independently rowed native owner.
+namespace _STL {
+template <> Elem003AF9E0 *vector<Elem003AF9E0, allocator<Elem003AF9E0> >::erase(Elem003AF9E0 *, Elem003AF9E0 *);
+}
+
 class Rva0031A02AImpl
 {
 public:
@@ -81,10 +86,6 @@ struct Rva0031A02ASummary { char opaque00[0x1C]; int owner; };
 
 class ThingTemplate { public: int rva0033B479() const; };
 class Rva00319CED { public: bool rva00319CED(); void *rva004E23C1(); char pad00[0x4C]; int source4C; };
-struct Rva003F40EFRecord {
-    Rva003F40EFRecord &operator=(const Rva003F40EFRecord &);
-    char bytes[104];
-};
 class Rva0040CB2CIndexedField { public: int get(int) const; };
 class Rva0037DCA5 { public: void *rva0037DC52(); };
 class ExperienceLevelList;
@@ -145,7 +146,7 @@ class Rva002BA8F1Logic { public: Rva002E2903Player *find(int,unsigned int *); };
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 class Rva002E34A9 { public: void rva002E34A9(const Rva0040DD3ARef &,int); };
-class ArmySummary { public: ArmySummary(); void rva0040CC8F(); char footprint[0x68]; int AddArmyEntry(const Rva004F6093Holder &); Rva0040DD3ARef RemoveEntry(int); Rva0040DD3ARef rva0040E672(int); Rva0040DD3ARef rva0040E6A4(ArmySummaryEntry *); };
+class ArmySummary { public: ArmySummary &operator=(const ArmySummary &); ArmySummary(); void rva0040CC8F(); char footprint[0x68]; int AddArmyEntry(const Rva004F6093Holder &); Rva0040DD3ARef RemoveEntry(int); Rva0040DD3ARef rva0040E672(int); Rva0040DD3ARef rva0040E6A4(ArmySummaryEntry *); };
 struct HeroTemplateKindView { char pad00[0x113]; unsigned char kind113; };
 void __cdecl Rva00030830GameFree(void *);
 
@@ -388,7 +389,7 @@ void LivingWorldArmy::UseArmySummary(Rva00319CED *source)
     if (!TheCampaignManager) return;
     void *summary = source->rva004E23C1();
     if (!summary) return;
-    *reinterpret_cast<Rva003F40EFRecord *>(summary78.m_summary) = *static_cast<Rva003F40EFRecord *>(summary);
+    *reinterpret_cast<ArmySummary *>(summary78.m_summary) = *static_cast<ArmySummary *>(summary);
     summary78.m_summary->owner1C = owner20;
     int count = summary78.m_summary->size();
     for (int i = 0; i < count; ++i) {
