@@ -132,10 +132,10 @@ bool Rva00437EDCGet();
 extern "C" void __cdecl Rva00437F61(int type,
 	const UnicodeString &message, const UnicodeString &title,
 	CallbackStorage callback);
-extern "C" void __cdecl Rva00437FB3(int type,
-	const UnicodeString &message, const UnicodeString &title,
-	ScopedFunctor secondCallback,
-	ScopedFunctor firstCallback);
+struct TreeHintRef00217D4C;
+class AptMessageBox { public: static void Show(int, const UnicodeString &, const UnicodeString &, TreeHintRef00217D4C, TreeHintRef00217D4C); };
+// Preserve the native one-word callback copies and their existing cleanup sequence.
+typedef void (__cdecl *PromptShowCall)(int, const UnicodeString &, const UnicodeString &, ScopedFunctor, ScopedFunctor);
 extern "C" bool __cdecl Rva00438083(int type,
 	const UnicodeString &message, const UnicodeString &title,
 	ScopedFunctor secondCallback,
@@ -165,7 +165,7 @@ void __cdecl Rva00434EFA()
 				ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(AptSaveLoad::s_instance), reinterpret_cast<FunctorMethod>(&AptSaveLoad::rva00433D71))),
 				ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(AptSaveLoad::s_instance), reinterpret_cast<FunctorMethod>(&Rva00434337::rva00434337))));
 		else
-			Rva00437FB3(2, TheGameText->fetch("APT:SaveGameProgress", 0), TheGameText->fetch("APT:MultiplayerGameSaved", 0),
+			(reinterpret_cast<PromptShowCall>(&AptMessageBox::Show))(2, TheGameText->fetch("APT:SaveGameProgress", 0), TheGameText->fetch("APT:MultiplayerGameSaved", 0),
 				ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(AptSaveLoad::s_instance), reinterpret_cast<FunctorMethod>(&AptSaveLoad::rva00433D71))),
 				ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(AptSaveLoad::s_instance), reinterpret_cast<FunctorMethod>(&Rva00434337::rva00434337))));
 		((AptSaveLoadPromptScreen *)AptSaveLoad::s_instance)->m_state = 9;
@@ -195,7 +195,7 @@ void AptSaveLoad::rva00435224()
 {
 	if (TheGameState != 0 && !((const Rva002DC267 *)TheGameState)->rva002DC681())
 	{
-		Rva00437FB3(0, TheGameText->fetch("GUI:Error", 0), TheGameText->fetch("APT:SaveFileDiskFull", 0),
+		(reinterpret_cast<PromptShowCall>(&AptMessageBox::Show))(0, TheGameText->fetch("GUI:Error", 0), TheGameText->fetch("APT:SaveFileDiskFull", 0),
 			ScopedFunctor(),
 			ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(this), reinterpret_cast<FunctorMethod>(&Rva00434337::rva00434337))));
 		((AptSaveLoadPromptScreen *)this)->m_state = 0x17;
@@ -288,7 +288,7 @@ int AptSaveLoad::rva00437053()
 	}
 	else if (v->m_state == 4)
 	{
-		Rva00437FB3(4, TheGameText->fetch("APT:SaveGameProgress", 0), TheGameText->fetch("APT:SavingWait", 0),
+		(reinterpret_cast<PromptShowCall>(&AptMessageBox::Show))(4, TheGameText->fetch("APT:SaveGameProgress", 0), TheGameText->fetch("APT:SavingWait", 0),
 			ScopedFunctor(),
 			ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(this), reinterpret_cast<FunctorMethod>(&Rva00434337::rva00434337))));
 		v->m_state = 8;
@@ -297,7 +297,7 @@ int AptSaveLoad::rva00437053()
 		rva00435819();
 	else if (v->m_state == 5)
 	{
-		Rva00437FB3(4, TheGameText->fetch("APT:SaveGameProgress", 0), TheGameText->fetch("APT:SavingWaitOnMultiplayer", 0),
+		(reinterpret_cast<PromptShowCall>(&AptMessageBox::Show))(4, TheGameText->fetch("APT:SaveGameProgress", 0), TheGameText->fetch("APT:SavingWaitOnMultiplayer", 0),
 			ScopedFunctor(),
 			ScopedFunctor(MakeBinding(reinterpret_cast<FunctorTarget *>(this), reinterpret_cast<FunctorMethod>(&Rva00434337::rva00434337))));
 		v->m_state = 11;

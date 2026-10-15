@@ -54,7 +54,10 @@ public:
  __forceinline void setNextPosition(const Coord3D *p) { nextValid=true; nextPos=*p; }
  __forceinline void setCondition(int bit) { if (!flags.test(bit)) { flags.set(bit); rva0028AE6D(); } }
 };
-class WeaponTemplate { public: Coord3D *getAimPosition(Coord3D*,const Object*,const Object*,int); };
+struct TargetCoord;
+class WeaponTemplate { public: TargetCoord adjustTargetPositionOnVictim(Object *, Object *, bool); };
+// The rowed value return uses the same first stack argument as the native output pointer.
+typedef Coord3D *(WeaponTemplate::*AimPositionCall)(Coord3D *, const Object *, const Object *, int);
 class TerrainLogic {
 public:
  virtual void s0();virtual void s1();virtual void s2();virtual void s3();virtual void s4();virtual void s5();
@@ -155,7 +158,7 @@ UpdateSleepTime BezierProjectileBehavior::update()
 		{
 			BezCoord newPos;
 			Coord3D delta;
-			newPos = *weapon->getAimPosition(&delta, obj, target, 1);
+			newPos = *(weapon->*reinterpret_cast<AimPositionCall>(&WeaponTemplate::adjustTargetPositionOnVictim))(&delta, obj, target, 1);
 			delta.x = newPos.x - end.x;
 			delta.y = newPos.y - end.y;
 			delta.z = newPos.z - end.z;

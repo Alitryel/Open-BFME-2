@@ -11,17 +11,18 @@ struct Coord3D
 	float x, y, z;
 };
 
+struct TargetCoord;
 class WeaponTemplate
 {
 public:
-	Coord3D *getAimPosition(Coord3D *result, const Object *source,
-		const Object *victim, int weaponSlot);
+	TargetCoord adjustTargetPositionOnVictim(Object *, Object *, bool);
 };
 
 Coord3D::Coord3D(WeaponTemplate *weaponTemplate, const Object *source,
 	const Object *victim, int weaponSlot)
 {
-	weaponTemplate->getAimPosition(this, source, victim, weaponSlot);
+	typedef Coord3D *(WeaponTemplate::*AimPositionCall)(Coord3D *, const Object *, const Object *, int);
+	(weaponTemplate->*reinterpret_cast<AimPositionCall>(&WeaponTemplate::adjustTargetPositionOnVictim))(this, source, victim, weaponSlot);
 }
 
 class Weapon
