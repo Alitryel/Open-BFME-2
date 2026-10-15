@@ -46,6 +46,7 @@ class BuddyRequest
 {
 	char m_bfmeBody[0x2B8];
 };
+namespace _STL { template <> BfmePod52 *vector<BfmePod52, allocator<BfmePod52> >::erase(BfmePod52 *, BfmePod52 *); }
 template class _STL::vector<BfmePod28, _STL::allocator<BfmePod28 > >;
 template class _STL::vector<BfmePod32, _STL::allocator<BfmePod32 > >;
 template class _STL::vector<BfmePod40, _STL::allocator<BfmePod40 > >;

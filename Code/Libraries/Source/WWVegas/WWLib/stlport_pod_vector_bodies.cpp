@@ -221,6 +221,7 @@ template <> _STL::_Vector_base<char, _STL::allocator<char> >::_Vector_base(unsig
 // explicit instantiation below emits no competing copy.
 template <> void _STL::vector<char, _STL::allocator<char> >::resize(size_type);
 
+namespace _STL { template <> BfmePod52 *vector<BfmePod52, allocator<BfmePod52> >::erase(BfmePod52 *, BfmePod52 *); }
 template class _STL::vector<unsigned char, _STL::allocator<unsigned char> >;
 template class _STL::vector<char, _STL::allocator<char > >;
 template class _STL::vector<BfmePod20, _STL::allocator<BfmePod20 > >;
