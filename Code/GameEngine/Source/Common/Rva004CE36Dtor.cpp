@@ -21,18 +21,24 @@ class Rva001F9D98Secondary
 {
 public:
 	virtual void s0();
-private:
-	unsigned char m_pad04[0xAC - 0x0C - 4];
+protected:
+	unsigned char m_pad04[0x5C - 0x0C - 4];
+	int m_5C;	// +0x5C
+	unsigned char m_pad60[0xA8 - 0x60];
+	bool m_A8;	// +0xA8
+	unsigned char m_padA9[3];
 };
 
 class Rva001F9D98 : public Rva001F9D98Primary, public Rva001F9D98Secondary
 {
 public:
+	Rva001F9D98();
 	virtual ~Rva001F9D98();
 };
 
 struct Rva0004CDAFSlot
 {
+	Rva0004CDAFSlot();
 	~Rva0004CDAFSlot();
 	unsigned char m_data[0x0C];
 };
@@ -40,6 +46,7 @@ struct Rva0004CDAFSlot
 class Rva004CE36 : public Rva001F9D98
 {
 public:
+	Rva004CE36();
 	virtual ~Rva004CE36();
 private:
 	Rva0004CDAFSlot m_slots[2];	// +0xAC
@@ -47,4 +54,16 @@ private:
 
 Rva004CE36::~Rva004CE36()
 {
+}
+
+// ??0Rva004CE36@@QAE@XZ, retail 0x0004CDCD..0x0004CE28 (91 bytes, EH): the
+// matching constructor. It runs the unrowed base constructor 0x001FA69F
+// (address-named view of the 0x001F9D98 base, pinned there), installs the
+// same two tables, builds the two +0xAC records through the eh vector
+// constructor iterator (element ctor 0x00256646, cleanup 0x0004CDAF, both
+// pushed as addresses) and clears the base's +0x5C word and +0xA8 flag.
+Rva004CE36::Rva004CE36()
+{
+	m_5C = 0;
+	m_A8 = false;
 }
