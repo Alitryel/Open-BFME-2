@@ -19,6 +19,15 @@ public:
 	unsigned char m_tail[0x2cc - 0x1c];
 };
 
+// The 0x2CC node's constructor 0x0035B8AA is rowed as Rva0035BB4B's.
+class Rva0035BB4B
+{
+public:
+	Rva0035BB4B();
+private:
+	unsigned char m_bytes[0x2cc];
+};
+
 class Rva0031AB1EOwner
 {
 public:
@@ -29,7 +38,7 @@ public:
 
 Rva0031AB1ENode *Rva0031AB1EOwner::rva0031AB1E(const AsciiString *arg)
 {
-	Rva0031AB1ENode *fresh = new Rva0031AB1ENode();
+	Rva0031AB1ENode *fresh = (Rva0031AB1ENode *)new Rva0035BB4B();
 	fresh->m_10 = *arg;
 	Rva0031AB1ENode *old = m_2c;
 	fresh->m_18 = old;

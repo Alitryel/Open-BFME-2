@@ -88,6 +88,7 @@ private:
 
 typedef OVERRIDE<CrateTemplate> CrateTemplateOverride;
 
+class ModuleData;
 namespace _STL
 {
 template <class T> class allocator {};
@@ -182,7 +183,8 @@ CrateTemplate *CrateSystem::newCrateTemplate(AsciiString name)
 		}
 
 		ct->setName(name);
-		m_crateTemplateVector.push_back(entry);
+		// 0x004DFCB0 is rowed as vector<const ModuleData *>::push_back (folded).
+		((_STL::vector<const ModuleData *> *)&m_crateTemplateVector)->push_back(*(const ModuleData *const *)&entry);
 	}
 
 	return ct;
@@ -217,6 +219,15 @@ public:
 	unsigned char m_tail[0x2CC - 0x1C];
 };
 
+// 0x0035B8AA is rowed as the Rva0035BB4B constructor (Rva0035BB4BCtor.cpp).
+class Rva0035BB4B
+{
+public:
+	Rva0035BB4B();
+private:
+	unsigned char m_bytes[0x2CC];
+};
+
 class Rva0031EB96
 {
 public:
@@ -227,7 +238,7 @@ Rva0031AB1ENode *Rva0031EB96::rva0031EB96(Rva0031AB1ENode *source)
 {
 	if (source == 0)
 		return 0;
-	Rva0031AB1ENode *fresh = new Rva0031AB1ENode;
+	Rva0031AB1ENode *fresh = (Rva0031AB1ENode *)new Rva0035BB4B;
 	g_00E01EA8 = 1;
 	*reinterpret_cast<Rva0031E4BA *>(fresh) =
 		*reinterpret_cast<const Rva0031E4BA *>(source);
