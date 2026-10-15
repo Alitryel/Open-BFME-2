@@ -1,6 +1,8 @@
 // ?rva0030B232@Rva0030B92C@@QAEXPBM@Z
+// partial score=0.7832065188063245 date=2026-10-15
+// ?rva0030B232@Rva0030B92C@@QAEXPBM@Z
 // partial score=0.85 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /I.
 // stlport
 // ?rva0030B232@Rva0030B92C@@QAEXPBM@Z, retail 0x0030B232 (132 bytes, ret 4). Same owner layout as the rowed
 // Rva0030B1A7 (Scale): the 2D point vector at +0 and the changed flag at +0x24. Applies the first two rows of
@@ -27,7 +29,7 @@ void Rva0030B92C::rva0030B232(const float *matrix)
 		float x = p->x;
 		float y = p->y;
 		float newX = matrix[0] * x + matrix[1] * y + matrix[2] * z + matrix[3];
-		float newY = matrix[4] * x + matrix[5] * y + matrix[6] * z + matrix[7];
+		float newY = (z ? (matrix[4] * x + matrix[5] * y + matrix[6] * z + matrix[7]) : (matrix[4] * x + matrix[5] * y + matrix[6] * z + matrix[7]));
 		p->x = newX;
 		p->y = newY;
 	}
