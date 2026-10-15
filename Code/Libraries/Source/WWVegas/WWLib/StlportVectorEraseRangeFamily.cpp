@@ -124,7 +124,6 @@ public:
 	typedef _Tp *pointer;
 	typedef _Tp *iterator;
 	void push_back(const _Tp &);
-	void clear() { erase(_M_start, _M_finish); }
 
 	iterator erase(iterator __first, iterator __last)
 	{
