@@ -36,7 +36,7 @@ public:
 };
 
 extern MessageStream *MessageStreamSubsystem;
-extern const void *const g_00C3C97C[];
+extern "C" const void *const __identifier("??_7Rva004318FC@@6B@")[];
 
 struct Rva00431C35Helper
 {
@@ -92,7 +92,7 @@ void FormationTranslator::WaitForSecondButtonDownStateHandler::Restart(void *p)
 	{
 		h = (Rva00431C35Helper *)mem;
 		h->m_parent = m_04;
-		h->m_vptr = (void *)g_00C3C97C;
+		h->m_vptr = (void *)__identifier("??_7Rva004318FC@@6B@");
 	}
 	else
 	{
@@ -210,7 +210,7 @@ extern InGameUI *TheInGameUI;
 extern View *TheTacticalView;
 class GameClient;
 extern GameClient *TheGameClient;
-extern const void *const g_00C3C9A0[];
+extern "C" const void *const __identifier("??_7Rva004319C2@@6B@")[];
 
 class Rva0029AA3F
 {
@@ -290,7 +290,7 @@ int FormationTranslator::WaitForSecondButtonDownStateHandler::rva00431C9D(GameMe
 	{
 		h = (Rva00431C9DHelper *)mem;
 		h->m_parent = m_04;
-		h->m_vptr = (void *)g_00C3C9A0;
+		h->m_vptr = (void *)__identifier("??_7Rva004319C2@@6B@");
 	}
 	else
 	{
