@@ -1,4 +1,6 @@
 // ?rva00467AB8@Rva00467AB8@@QAEXPAVObject@@@Z
+// partial score=0.948449 date=2026-10-15
+// ?rva00467AB8@Rva00467AB8@@QAEXPAVObject@@@Z
 // partial score=0.9448 date=2026-10-14
 // ?rva00467AB8@Rva00467AB8@@QAEXPAVObject@@@Z
 // partial score=0.8695659229208925 date=2026-10-14
@@ -262,15 +264,15 @@ void Rva00467AB8::rva00467AB8(Object *rider)
  rider->clearCondition(89);
  const Rva00467AB8Data *module=data();
  Object *owner=object();
- const AsciiString &bone=module->exitBone();
+
  Drawable *ownerDrawable=owner->getDrawable();
- if (!reinterpret_cast<const StringBase<char> &>(bone).isEmpty()) 
+ if (!reinterpret_cast<const StringBase<char> &>((module->exitBone())).isEmpty()) 
  {
   Drawable *draw=object()->getDrawable();
   if (draw) 
   {
    Coord3D bonePosition,worldPosition;
-   if (draw->getPristineBonePositions(bone.str(),0,&bonePosition,0,1,0)==1) 
+   if (draw->getPristineBonePositions((module->exitBone()).str(),0,&bonePosition,0,1,0)==1) 
    {
     reinterpret_cast<Thing *>(object())->convertBonePosToWorldPos(&bonePosition,0,&worldPosition,0);
     reinterpret_cast<Thing *>(rider)->setPosition(&worldPosition);

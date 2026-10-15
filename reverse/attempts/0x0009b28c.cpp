@@ -1,4 +1,6 @@
 // ?rva0009B28C@Rva0009B28C@@QAEXPBUCoord2D@@@Z
+// partial score=0.990151 date=2026-10-15
+// ?rva0009B28C@Rva0009B28C@@QAEXPBUCoord2D@@@Z
 // partial score=0.9755330933259484 date=2026-10-14
 // ?rva0009B28C@Rva0009B28C@@QAEXPBUCoord2D@@@Z
 // partial score=0.9755330933259484 date=2026-10-14
@@ -10,6 +12,7 @@
 // partial score=0.9755330933 date=2026-10-12
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 #include <math.h>
+template<class T> static __forceinline T __cp(const T &x) { T t = x; return t; }
 struct Coord2D {float x,y;};
 class WWMath {public: static float __fastcall Inv_Sqrt(float);};
 struct Vector3 {
@@ -56,8 +59,8 @@ void Rva0009B28C::rva0009B28C(const Coord2D *angles) {
   Color9B28C color=((Light9B28CManagerView *)TheLivingWorldManager)->color;
   Vector3 direction;
   direction.X=sin((float)(angles->x*.017453292f+1.5707964f))*(float)cos(angles->y*.017453292f);
-  direction.Y=sin((float)(angles->x*.017453292f+1.5707964f))*(float)sin(angles->y*.017453292f);
-  direction.Z=cos((float)(angles->x*.017453292f+1.5707964f));
+  direction.Y=sin((float)__cp(angles->x*.017453292f+1.5707964f))*(float)sin(angles->y*.017453292f);
+  direction.Z=cos((float)__cp(angles->x*.017453292f+1.5707964f));
   position = -direction;
   position.Normalize();position.scale(10000.f);
   light->ambient.set(0.f,0.f,0.f);light->specular.set(0.f,0.f,0.f);light->diffuse.set(color.X,color.Y,color.Z);
