@@ -1,11 +1,5 @@
 // ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
-// partial score=0.9 date=2026-10-14
-// ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
-// partial score=0.8831712078770902 date=2026-10-10
-// ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
-// partial score=0.8831712078770902 date=2026-10-10
-// ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
-// partial score=0.8 date=2026-10-04
+// partial score=0.94 date=2026-10-15
 // cl: /O1 /DNDEBUG /MD /GX /arch:SSE /I.
 //
 // ArrowStormUpdate's target gathering 0x00490AC5, tail-called by its slot-15
@@ -117,6 +111,7 @@ struct Rva0029FB3BAlloc
 struct Rva0029FB3BIter
 {
 	Rva0029FB3BIter(Rva0029FB3BNode *node) : m_node(node) {}
+	Rva0029FB3BIter(const Rva0029FB3BIter &that) : m_node(that.m_node) {}
 	Rva0029FB3BNode *m_node;
 };
 
@@ -135,6 +130,7 @@ public:
 	}
 	Rva0029FB3BIter end() { return Rva0029FB3BIter(m_node); }
 	void push_back(const ObjectID &id);	// 0x002A1B6F
+	void pushBackInline(const ObjectID &id) { insert(end(), id); }
 	Rva0029FB3BIter insert(Rva0029FB3BIter pos, const ObjectID &id);	// 0x002A1316
 	void reset();	// 0x0026549E
 	Rva0029FB3BNode *m_node;
@@ -187,10 +183,10 @@ void ArrowStormUpdate::rva00490AC5()
 		m_88.push_back(id);
 		if (other->m_template->b.m_109 & 4) {
 			id = other->getID();
-			extra.insert(extra.end(), id);
+			extra.pushBackInline(id);
 		}
 	}
-	if ((other ? (m_88.size() != 0) : (m_88.size() != 0))) {
+	if (m_88.size() != 0) {
 		if (m_88.size() < data->m_D8) {
 			Rva0029FB3BMember &source = extra.empty() ? m_88 : extra;
 			Rva0029FB3BNode *it = source.m_node->m_next;
