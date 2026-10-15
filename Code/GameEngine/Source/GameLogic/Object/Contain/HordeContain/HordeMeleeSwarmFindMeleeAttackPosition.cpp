@@ -127,7 +127,7 @@ inline Object *GameLogic::findObjectByID(ObjectID id)
 		return 0;
 	return node->object;
 }
-extern Int g_Va00DBA4E4;			// LOGICFRAMES_PER_SECOND
+extern Int BfmeLogicFramesPerSecond;			// LOGICFRAMES_PER_SECOND
 
 int Rva002EDE5B(void *obj, Coord3D *pos);
 int Rva002E9B31Get(void *obj);
@@ -314,11 +314,11 @@ Bool HordeMeleeSwarm::findMeleeAttackPosition(Object *obj, Coord3D *result, Obje
 	{
 		*result = best;
 		if (bestGain / bestOffset < closeRatio)
-			*frames = g_Va00DBA4E4 * 2;
+			*frames = BfmeLogicFramesPerSecond * 2;
 	}
 	else
 	{
-		*frames = g_Va00DBA4E4 * 4;
+		*frames = BfmeLogicFramesPerSecond * 4;
 	}
 	return found;
 }

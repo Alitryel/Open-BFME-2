@@ -81,7 +81,7 @@ public:
 
 extern AI *TheAI;
 extern GameLogic *TheGameLogic;
-extern int g_Va00DBA4E4;
+extern int BfmeLogicFramesPerSecond;
 
 struct DynamicPortalWayPoint
 {
@@ -131,7 +131,7 @@ void Rva00460F90::rva00460F90()
 		unsigned int activationFrame = 0;
 		if (data->m_activationDelaySeconds > 0.0f)
 		{
-			activationFrame = (int)(g_Va00DBA4E4 * data->m_activationDelaySeconds);
+			activationFrame = (int)(BfmeLogicFramesPerSecond * data->m_activationDelaySeconds);
 			activationFrame += TheGameLogic->getFrame();
 		}
 		int ownerID = m_object->m_74;

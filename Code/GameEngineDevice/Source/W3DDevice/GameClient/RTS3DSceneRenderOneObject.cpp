@@ -323,7 +323,7 @@ private:
 
 extern GameLogic *TheGameLogic;
 
-extern Int g_Va00DBA4E4;	// logic frames per second
+extern Int BfmeLogicFramesPerSecond;	// logic frames per second
 extern Int LODTextureReduction;
 
 // Rowed Drawable helpers under placeholder names.
@@ -479,9 +479,9 @@ void RTS3DScene::renderOneObject(RenderInfoClass &rinfo, RenderObjClass *robj, I
 			}
 			else if (ss >= OBJECTSHROUD_FOGGED && draw->getShroudClearFrame() != 0)
 			{
-				UnsignedInt limit = 2 * g_Va00DBA4E4;
+				UnsignedInt limit = 2 * BfmeLogicFramesPerSecond;
 				if (obj->isEffectivelyDead())
-					limit += 3 * g_Va00DBA4E4;
+					limit += 3 * BfmeLogicFramesPerSecond;
 				if (TheGameLogic->getFrame() < limit + draw->getShroudClearFrame())
 					ss = OBJECTSHROUD_PARTIAL_CLEAR;
 			}

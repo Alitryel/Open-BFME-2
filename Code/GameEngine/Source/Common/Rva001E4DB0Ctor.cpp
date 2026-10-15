@@ -13,7 +13,7 @@
 // LocomotorTemplate constructor lead; retail/WB establish every field below.
 // Existing native Locomotor ctor 0x1E449A consumes template +58/+60/+C4/+C8.
 // The existing copy ctor 0x1E4DEB and dtor 0x1E4DB0 share this vtable/layout.
-// m_2C/m_44/m_50 are integer frame counts from g_00DBA4E4, NOT floats.
+// m_2C/m_44/m_50 are integer frame counts from BfmeLogicFramesPerSecond, NOT floats.
 // Retains existing vtable owner spelling pending home-unit reconciliation.
 // tools/explain_mismatch reports exact 754B. Not admitted by ./build.sh:
 // canonical Locomotor.cpp still compiles a different ZH class layout; its
@@ -21,7 +21,7 @@
 // A safe home-unit integration must reconcile that view and existing ctor pin
 // Rva001E3955, copy/dtor names, and consumers together. No claimed recovery.
 #include "ascii_string.h"
-extern int g_00DBA4E4;
+extern int BfmeLogicFramesPerSecond;
 class Rva001E3624 {
 public:
     Rva001E3624() : next(0), isOverride(false), key(-1) {}
@@ -136,14 +136,14 @@ Rva001E4DB0::Rva001E4DB0()
     m_20 = 0.0f;
     m_18 = 1.0f;
     m_1C = 0;
-    m_2C = g_00DBA4E4;
+    m_2C = BfmeLogicFramesPerSecond;
     m_34 = 0.0f;
     m_38 = 20.0f;
     m_3C = 0.2617993950843811f;
     m_40 = 3.1415927410125732f;
-    m_44 = g_00DBA4E4;
+    m_44 = BfmeLogicFramesPerSecond;
     m_48 = 0.0f;
-    m_50 = g_00DBA4E4;
+    m_50 = BfmeLogicFramesPerSecond;
     m_28 = 0.0f;
     m_54 = 99999.0f;
     m_70 = 0;

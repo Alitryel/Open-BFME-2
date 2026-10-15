@@ -37,7 +37,7 @@ public:
 typedef _STL::vector<AsciiString, _STL::allocator<AsciiString> > AsciiStringVector;
 
 extern unsigned int g_00DFE174;
-extern int g_Va00DBA4E4;
+extern int BfmeLogicFramesPerSecond;
 
 class LivingWorldLogic
 {
@@ -82,7 +82,7 @@ void ScriptEngine::rva0020A586(void *script, void *name)
 	int delay = view->m_delay;
 	if (delay > 0) {
 		if (!TheGameLogic->rva001DCD1C())
-			view->m_frameToEvaluate = TheGameLogic->getFrame() + delay * g_Va00DBA4E4;
+			view->m_frameToEvaluate = TheGameLogic->getFrame() + delay * BfmeLogicFramesPerSecond;
 		else
 			view->m_frameToEvaluate = TheLivingWorldLogic->m_frame + delay;
 	}
