@@ -112,7 +112,9 @@ class Rva001095B2 { public: Rva001095B2(EmitVtableTag *); virtual ~Rva001095B2()
 Rva001095B2::Rva001095B2(EmitVtableTag *) {}
 
 // ??_GRva0010F7EE@@UAEPAXI@Z @0x0010F7D2 28B; calls pinned ??1 at 0x0010F7EE
-class Rva0010F7EE { public: Rva0010F7EE(EmitVtableTag *); virtual ~Rva0010F7EE(); };
+// Retail BCFAB0 has two slots: 10F7D2 and the rowed handle forwarder 5D124D.
+// Match the factory's complete table instead of emitting a truncated copy.
+class Rva0010F7EE { public: Rva0010F7EE(EmitVtableTag *); virtual ~Rva0010F7EE(); virtual int rva005D124D(); };
 // ?<Rva0010F7EE::Rva0010F7EE> absent-from-retail
 Rva0010F7EE::Rva0010F7EE(EmitVtableTag *) {}
 
