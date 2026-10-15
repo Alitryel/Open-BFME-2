@@ -27,6 +27,15 @@ namespace _STL
 	};
 }
 
+// Normal teardown calls the tree backend at 0x001DDB8E; unwind calls its
+// separate 5-byte forwarder at 0x001DDEBE. This lifetime view preserves the
+// unadjusted receiver. Original wrapper type and inheritance remain unknown.
+typedef _STL::_Rb_tree<BfmeRecord001DD3BC, BfmeRecord001DD3BC, _STL::_Identity<BfmeRecord001DD3BC>, _STL::less<BfmeRecord001DD3BC>, _STL::allocator<BfmeRecord001DD3BC> > Rva001DDB8ETree;
+struct Rva001DDEBEMember : Rva001DDB8ETree
+{
+	~Rva001DDEBEMember() {}
+};
+
 extern "C" void __cdecl free(void *);
 
 struct Rva00414BDBElementBuffer
@@ -45,7 +54,7 @@ public:
 	~Rva00414BDBElement();
 private:
 	char m_pad00[0x14];
-	_STL::_Rb_tree<BfmeRecord001DD3BC, BfmeRecord001DD3BC, _STL::_Identity<BfmeRecord001DD3BC>, _STL::less<BfmeRecord001DD3BC>, _STL::allocator<BfmeRecord001DD3BC> > m_set; // +0x14
+	Rva001DDEBEMember m_set; // +0x14
 	Rva00414BDBElementBuffer m_buffer; // +0x20
 };
 
