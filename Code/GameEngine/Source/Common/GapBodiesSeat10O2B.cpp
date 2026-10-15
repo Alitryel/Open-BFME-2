@@ -312,6 +312,23 @@ bool Rva00614D80::rva00614D80() const
 	return m_00;
 }
 
+// ?rva00620270@Rva00620270@@QBEPAXXZ @0x00620270 6B: the +0 pointer moved 16
+// bytes in (a node's +0x10 field) - the shape of an STLport _Rb_tree_iterator
+// operator* / operator-> (value field at node +0x10), between this file's
+// 0x00620260 adjustment and the map<int,int> erase at 0x00620280; which
+// iterator it is is unproven, so the view keeps an address-derived name.
+class Rva00620270
+{
+public:
+	void *rva00620270() const;
+private:
+	char *m_00;
+};
+void *Rva00620270::rva00620270() const
+{
+	return m_00 + 0x10;
+}
+
 // ??0Rva0065E890@@QAE@XZ @0x0065E890 13B: default ctor zeroing two words and a byte.
 class Rva0065E890
 {
@@ -324,6 +341,20 @@ private:
 };
 Rva0065E890::Rva0065E890() : m_00(0), m_04(0), m_08(false)
 {
+}
+
+// ?rva0065E8A0@Rva0065E8A0@@QBE_JXZ @0x0065E8A0 6B: the 64-bit value at +0,
+// returned in EDX:EAX, just after the 0x0065E890 ctor above.
+class Rva0065E8A0
+{
+public:
+	__int64 rva0065E8A0() const;
+private:
+	__int64 m_00;
+};
+__int64 Rva0065E8A0::rva0065E8A0() const
+{
+	return m_00;
 }
 
 // ?rva006C5EB0@Rva006C5EB0@@QBENXZ @0x006C5EB0 4B: the double at +0x20.
