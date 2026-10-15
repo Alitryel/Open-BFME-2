@@ -1,15 +1,16 @@
-// ??0Rva0035BB4B@@QAE@XZ
-// partial score=0.9945 date=2026-10-13
-// ??0Rva0035BB4B@@QAE@XZ
-// partial score=0.9945 date=2026-10-13
-// ??0Rva0035BB4B@@QAE@XZ
-// partial score=0.9945 date=2026-10-10
-// ??0Rva0035BB4B@@QAE@XZ
-// partial score=0.9945370409679473 date=2026-10-10
-// ??0Rva0035BB4B@@QAE@XZ
-// partial score=0.98 date=2026-10-09
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
+//
+// ??0Rva0035BB4B@@QAE@XZ @0x0035B8AA 673B
+// Constructor of the large Common record whose virtual dtor 0x0035BB4B lives in
+// Rva0035BB4BDtor.cpp (vptr 0x00816204, base Rva001E3624). Member names follow
+// the Zero Hour CommandButton field order as a structural inference only; the
+// class identity stays address-named.
+// Target evidence: WB twin 0xEFE320 (offsets +4) stores the three words after
+// the name as plain zeros, then constructs the +0x20 member through a
+// one-pointer ctor with 0, then a plain zero at +0x24; modelling +0x20 as
+// Zero Hour's OVERRIDE<ThingTemplate> (body-assigning ctor) gives retail's store
+// schedule around the first vector-base ctor (bank 0.9945 -> exact).
 #include <vector>
 #include <bitset>
 #include <string.h>
@@ -27,10 +28,17 @@ class BfmeSlotVecG:public _STL::_Vector_base<int,_STL::allocator<int> > {public:
 enum ScienceType {SCIENCE_NONE=0};
 struct RawString {RawString():data(0){}void*data;};
 struct PairCapacity {PairCapacity():begin(0),size(32){}void*begin;unsigned size;};
-struct ButtonActionDefaults {int command;void*next;unsigned options;__forceinline ButtonActionDefaults():command(0),next(0),options(0){}};
+
+// Zero Hour Override.h spelling: WB twin 0xEFE320 constructs the +0x20 member
+// through an out-of-line one-pointer ctor called with 0 (WB 0xF00CF0, body
+// m_overridable = arg), which retail inlines.
+class ThingTemplate;
+template <class T> class OVERRIDE {public: OVERRIDE(const T *overridable = 0); const T *m_overridable;};
+template <class T> OVERRIDE<T>::OVERRIDE(const T *overridable){ m_overridable = overridable; }
+
 class Rva0035BB4B:public Rva001E3624 {public:
  Rva0035BB4B();virtual ~Rva0035BB4B();
- AsciiString name;ButtonActionDefaults action;void*thing,*upgrade;
+ AsciiString name;int command;void*next;unsigned options;OVERRIDE<ThingTemplate> thing;void*upgrade;
  BfmeSlotVecG buildUpgrades;bool field34;
  _STL::vector<AsciiString>textLabel;int field44;AsciiString cursor;int radiusCursor;AsciiString invalidCursor,field54;
  _STL::vector<AsciiString>description,purchasedDescription;
@@ -53,7 +61,7 @@ class Rva0035BB4B:public Rva001E3624 {public:
  Rva001EAE6FHelper field24C;
 };
 Rva0035BB4B::Rva0035BB4B():
- thing(0),upgrade(0),field34(false),field44(0),radiusCursor(0),
+ command(0),next(0),options(0),upgrade(0),field34(false),field44(0),radiusCursor(0),
  weaponSlot(0),toggle1(5),toggle2(5),toggle3(5),maxShots(0x7fffffff),border(0),flashCount(-1),
  audioTail2(0),audioTail3(0),doubleClick(false),radial(false),inPalantir(false),production(false),production2(false),clickable(true),show(true),requiresContainer(false),level(0),autoAbility(false),affectsAllies(false),presetRange(0),autoDelay(0),needDamagedTarget(false),field244(0)
 {
