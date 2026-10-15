@@ -1,31 +1,43 @@
 // cl: /DNDEBUG /MD /EHsc
-// ??1Rva00109C7F@@UAE@XZ @0x00109C7F 54B virtual dtor with StringClass member at +8.
-// Retail stores derived vtable then calls rowed Free_String at +8 then stores base vtable with no base call.
-// Evidence: pin ??1Rva00109C7F@@UAE@XZ; caller deleting dtor ??_GRva00109C7F@@UAEPAXI@Z at 0x00109C63 in OpaqueScalarDeletingDtorsB01.cpp; callee Free_String at 0x00610A40.
-// Layout: vptr +0 with int at +4 then StringClass at +8; base inline empty virtual dtor supplies second store.
+// Complete54B destructor109C7F belongs to the60B constructor109C27:
+// native BCFA0C is [deleting109C63, key30F45F]. Both use StringClass at+8
+// above the8B HashableClass base. Its full8B BCEF94 table is deletingEF9D6
+// then purecall; existing13B ctorEF9C2 and7B dtorEF9CF prove NextHash+4.
+// The inherited Hashable layout/semantics follow WWLib hash.h at BFME1
+// a7c38d3b2597121f178ab5190b3062478823257d; table and complete target
+// lifetimes independently prove that relationship. Derived identity stays
+// address-derived. Native key getter returns the buffer at+8 in4B.
+// Owner bytes, both deleting callback bytes and native EH graph are exact.
 class StringClass
 {
 	void Free_String();
 public:
 	__forceinline ~StringClass(void) { Free_String(); }
+    operator const char *() const { return m_Buffer; }
 private:
 	char *m_Buffer;
 };
-class Rva00109C7FBase
+class HashableClass
 {
 public:
-	virtual ~Rva00109C7FBase() {}
-};
-class Rva00109C7F : public Rva00109C7FBase
-{
-public:
-	virtual ~Rva00109C7F();
+    HashableClass() : NextHash(0) {}
+    virtual ~HashableClass() {}
+    virtual const char *Get_Key() = 0;
 private:
-	int m_04;
+    HashableClass *NextHash;
+};
+class Rva00109C27 : public HashableClass
+{
+public:
+	virtual ~Rva00109C27();
+    virtual const char *Get_Key();
+private:
 	StringClass m_str;
 };
-Rva00109C7F::~Rva00109C7F()
+Rva00109C27::~Rva00109C27()
 {
 }
 
 // Inline public teardown calls Free_String directly; the standalone destructor is 0x00065F5B.
+
+const char *Rva00109C27::Get_Key() { return m_str; }
