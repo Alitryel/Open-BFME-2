@@ -38,6 +38,8 @@ class Rva0027532F{public:bool rva0027532F(bool);};
 class Rva000B3C61{public:void rva000B3CCF(int,int);};
 class Rva000B3A68{public:unsigned char rva000B3A68();};
 struct Arg000B5A72;
+// BFE24 calls the recovered distance-opacity provider at B5A72. Its existing
+// neutral argument type names the ABI only; this view does not assert layout.
 class Rva000B5C41{public:void rva000B5C41();void rva000B5A72(Arg000B5A72*);}; // rva000B5A72 rowed 0x000B5A72
 class Rva000B7074{public:void rva000B7074();};
 class ModelConditionFlags{public:bool rva000B3EB3()const;private:unsigned bits[19];};
