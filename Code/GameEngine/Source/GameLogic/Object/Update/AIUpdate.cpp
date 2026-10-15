@@ -94,7 +94,9 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "Common/StateMachine.h" // Suppress unused legacy helpers before AIUpdate.h reads it.
 #undef lock
 #undef isInAttackState
+#define setFinalPosition __declspec(dllimport) __forceinline setFinalPosition
 #include "GameLogic/Module/AIUpdate.h"
+#undef setFinalPosition
 #include "GameLogic/Module/BodyModule.h"
 #include "GameLogic/Module/ContainModule.h"
 #include "GameLogic/Module/PhysicsUpdate.h"
