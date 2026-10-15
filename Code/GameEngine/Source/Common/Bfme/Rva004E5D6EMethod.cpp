@@ -5,6 +5,16 @@
 #include <algorithm>
 #include <vector>
 
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void *, allocator<void *> >::begin()
+{ return _M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *, allocator<void *> >::end()
+{ return _M_finish; }
+template <> void **vector<void *, allocator<void *> >::erase(void **, void **);
+}
+
 class Rva004E5A78;
 
 struct Rva004E5CB0Deleter

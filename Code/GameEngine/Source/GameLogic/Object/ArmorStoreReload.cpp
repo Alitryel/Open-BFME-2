@@ -49,6 +49,9 @@ static bool g_Va00DFDBC8;
 // has its own pinned ArmorTemplate spelling.
 enum NameKeyType { NAMEKEY_INVALID = 0, NAMEKEY_MAX = 1 << 23, FORCE_NAMEKEYTYPE_LONG = 0x7fffffff };
 namespace rts { template <class T> struct hash { size_t operator()(const T &value) const { return (size_t)value; } }; }
+// rts::hash<NameKeyType>::operator() otherwise emits a per-TU COMDAT that loses to
+// another unit's copy; this explicit dllimport+forceinline specialization keeps it inline.
+namespace rts { template <> __declspec(dllimport) __forceinline size_t hash<NameKeyType>::operator()(const NameKeyType &value) const { return (size_t)value; } }
 class NameKeyGenerator { public: NameKeyType nameToKey(const AsciiString &nameString); };
 extern NameKeyGenerator *TheNameKeyGenerator;
 class ModuleData;
@@ -57,6 +60,13 @@ class ObjectLookupMap { public: Object **findSlot(int *key); void eraseSlot(int 
 namespace _STL {
 template <> void vector<const ModuleData *>::push_back(const ModuleData * const &);
 template <> vector<void *>::iterator vector<void *>::erase(iterator first, iterator last);
+// vector<void*> begin/end/size/clear otherwise emit per-TU COMDATs that lose in link
+// order; these explicit dllimport+forceinline specializations keep them inline.
+template <> __declspec(dllimport) __forceinline void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline void *const *vector<void *>::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline void **vector<void *>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline unsigned int vector<void *>::size() const { return (unsigned int)(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline void vector<void *>::clear() { erase(begin(), end()); }
 }
 
 class ArmorTemplate

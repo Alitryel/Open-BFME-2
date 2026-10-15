@@ -17,9 +17,9 @@
 class WeaponTemplate
 {
 public:
-	float getMinTargetPitch() const { return m_minTargetPitch; }
-	float getMaxTargetPitch() const { return m_maxTargetPitch; }
-	int getShotsPerBarrel() const { return m_shotsPerBarrel; }
+	__declspec(dllimport) __forceinline float getMinTargetPitch() const { return m_minTargetPitch; }
+	__declspec(dllimport) __forceinline float getMaxTargetPitch() const { return m_maxTargetPitch; }
+	__declspec(dllimport) __forceinline int getShotsPerBarrel() const { return m_shotsPerBarrel; }
 private:
 	char m_pad00[0x88];
 	float m_minTargetPitch; // +0x88
@@ -32,7 +32,7 @@ class Weapon
 {
 public:
 	Weapon &operator=(const Weapon &that);
-	unsigned int getSuspendFXFrame() const { return m_suspendFXFrame; }
+	__declspec(dllimport) __forceinline unsigned int getSuspendFXFrame() const { return m_suspendFXFrame; }
 private:
 	char m_pad00[4];
 	const WeaponTemplate *m_template; // +0x04

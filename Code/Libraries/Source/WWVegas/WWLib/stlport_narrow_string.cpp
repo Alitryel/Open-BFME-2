@@ -31,6 +31,18 @@ basic_string<char, char_traits<char>, allocator<char> >::assign(
 template <>
 void basic_string<char, char_traits<char>, allocator<char> >::reserve(
         unsigned int);
+
+// Owners emit these retail-proven bodies (stlport_narrow_string_copy.cpp,
+// _erase_count.cpp); this unit's explicit instantiation must not.
+template <>
+basic_string<char, char_traits<char>, allocator<char> >::size_type
+basic_string<char, char_traits<char>, allocator<char> >::copy(
+        char*, size_type, size_type) const;
+
+template <>
+basic_string<char, char_traits<char>, allocator<char> >&
+basic_string<char, char_traits<char>, allocator<char> >::erase(
+        size_type, size_type);
 }
 
 template class _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >;

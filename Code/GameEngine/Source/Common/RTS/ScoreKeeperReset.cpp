@@ -17,6 +17,15 @@ long *vector<long>::begin()
 template <> __declspec(dllimport) __forceinline
 long *vector<long>::end()
 { return _M_finish; }
+template <> __declspec(dllimport) __forceinline
+unsigned *vector<unsigned>::begin()
+{ return _M_start; }
+template <> __declspec(dllimport) __forceinline
+unsigned *vector<unsigned>::end()
+{ return _M_finish; }
+template <> __declspec(dllimport) __forceinline
+bool less<unsigned>::operator()(const unsigned &x, const unsigned &y) const
+{ return x < y; }
 }
 template <int Bits> class ScoreMask {
  _STL::bitset<Bits> bits;
@@ -100,6 +109,8 @@ class Image;class ImageSubscriptMap{public:Image*&operator[](const unsigned&);};
 template<int N> class BitFlags {public:unsigned words[7];BitFlags(int,int);
  __forceinline bool test(int i)const{return (((const unsigned char*)words)[i>>3]&(1<<(i&7)))!=0;}
  bool testSetAndClear(const BitFlags&,const BitFlags&)const;};
+// BitFlags<116>::test otherwise emits a per-TU COMDAT that loses in link order.
+template<> __declspec(dllimport) __forceinline bool BitFlags<116>::test(int i)const{return (((const unsigned char*)words)[i>>3]&(1<<(i&7)))!=0;}
 // ?BitFlags<116>::testSetAndClear present-unmatched
 // Visible existing66B COMDAT makes MSVC cache the two template queries
 // without replacing the object register; its bytes are verified separately.

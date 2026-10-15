@@ -36,6 +36,9 @@ template <> vector<AsciiString, allocator<AsciiString> >::~vector();
 template <> _Vector_base<AsciiString, allocator<AsciiString> >::~_Vector_base();
 template <> void _STLP_alloc_proxy<AsciiString*, AsciiString, allocator<AsciiString> >::deallocate(AsciiString*, size_t);
 template <> void allocator<AsciiString>::deallocate(AsciiString*, size_t) const;
+template <> _Vector_base<float, allocator<float> >::~_Vector_base();
+template <> void _STLP_alloc_proxy<float*, float, allocator<float> >::deallocate(float*, size_t);
+template <> void allocator<float>::deallocate(float*, size_t) const;
 }
 
 extern unsigned char g_00DFEFA4StoragePrototype[28];
