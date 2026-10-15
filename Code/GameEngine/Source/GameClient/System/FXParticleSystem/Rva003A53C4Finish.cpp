@@ -76,3 +76,75 @@ WindModuleInfo::WindModuleInfo()
 	m44 = 0.0f;
 }
 }
+
+// ??0Rva005FEA50Base@FXParticleSystem@@QAE@AAV?$TrackingPtr@VParticleSystem@FXParticleSystem@@@1@PBX@Z
+// retail 0x003A5856 56B: the Wind module base the rowed 0x003A58A6 module
+// ctor calls. It builds the shared three-vtable default-module base through
+// the rowed 0x0055BEE9 (both arguments passed straight through), then the
+// WindModuleInfo at +0x1C through the rowed 0x003A53C4 above, then stores
+// its own four address points: the primary (0x00C1B5A8), the two
+// vtable-only bases at +0x14/+0x18 (both 0x00C1C780, ICF-folded tables)
+// and the WindModuleInfo point (0x00C1B598). The class view of the base
+// mirrors DefaultModuleBaseCopyCtors.cpp.
+class RvaSmartPtr12
+{
+public:
+	RvaSmartPtr12(const RvaSmartPtr12 &that);
+	~RvaSmartPtr12();
+
+private:
+	void *m_ptr;
+	int m_pad04;
+	int m_pad08;
+};
+
+class DefaultModuleHeadBase
+{
+public:
+	virtual ~DefaultModuleHeadBase();
+
+	RvaSmartPtr12 m_smart;
+	int m_int10;
+};
+
+class DefaultModuleSecondBase
+{
+public:
+	virtual ~DefaultModuleSecondBase();
+};
+
+class DefaultModuleThirdBase
+{
+public:
+	virtual ~DefaultModuleThirdBase();
+};
+
+class Rva003AEEB3 : public DefaultModuleHeadBase, public DefaultModuleSecondBase,
+	public DefaultModuleThirdBase
+{
+public:
+	Rva003AEEB3(const RvaSmartPtr12 &smart, int i);
+	virtual ~Rva003AEEB3();
+};
+
+namespace FXParticleSystem {
+
+class ParticleSystem;
+
+template <class T> class TrackingPtr : public RvaSmartPtr12
+{
+};
+
+class Rva005FEA50Base : public Rva003AEEB3, public WindModuleInfo
+{
+public:
+	Rva005FEA50Base(TrackingPtr<ParticleSystem> &system, const void *source);
+	virtual ~Rva005FEA50Base();
+};
+
+Rva005FEA50Base::Rva005FEA50Base(TrackingPtr<ParticleSystem> &system, const void *source)
+	: Rva003AEEB3(system, (int)source)
+{
+}
+
+}
