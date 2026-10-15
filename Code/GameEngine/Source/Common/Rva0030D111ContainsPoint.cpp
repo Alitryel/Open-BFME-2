@@ -5,9 +5,11 @@
 // extent establish behavior. Point-swap30B343..30B378 is a distinct out-of-line
 // helper; its copying constructor and aggregate assignment emit native53B.
 #include "../../../Libraries/Include/Lib/Coord2D.h"
+#include "../../../Libraries/Include/Lib/Coord3D.h"
+#include <math.h>
 class Rva0007E016 { public:int rva0007E016(int,int); };
 class Rva0007E02A { public:void *rva0007E02A(void *); };
-class Rva0030D111Shape { public:virtual int count(); };
+class Rva0030D111Shape { public:virtual int count(); virtual void pointLookup(); virtual int planeHeight(); };
 struct Rva0030D111Point : Coord2D {
  Rva0030D111Point() {}
  Rva0030D111Point(const Rva0030D111Point &r) { x=r.x;y=r.y; }
@@ -35,6 +37,39 @@ bool Rva0030D111Contains(Rva0030D111Shape *shape,const Coord2D *point) {
   if(lhs>=rhs) inside=!inside;
  }
  return inside;
+ }
+ return false;
+}
+
+// Native30D241..30D346 cdecl: intersects a ray with the shape's horizontal
+// plane (slot-2 integer height, normal 0,0,1), then checks the XY hit with the
+// containment worker above and copies the hit out. The threshold compares the
+// CRT fabs(double) result through a float local (retail fld dword 0.0001f pool
+// literal; a double compare folds it to a qword). Scoping that local and the
+// test result to a block keeps retail's SSE allocation for the hit point.
+// Owner and names remain address-derived.
+static inline float Rva0030D241Dot(const Coord3D &a,const Coord3D &b) {
+ float x=a.x*b.x;
+ float y=a.y*b.y;
+ float xy=x+y;
+ float z=a.z*b.z;
+ return xy+z;
+}
+bool Rva0030D241Intersect(Rva0030D111Shape *shape,const Coord3D *origin,
+                        const Coord3D *direction,Coord3D *output) {
+ float planeD=0.0f-static_cast<float>(shape->planeHeight());
+ Coord3D normal={0.0f,0.0f,1.0f};
+ float denominator=Rva0030D241Dot(normal,*direction);
+ bool parallel;
+ { float absDenominator=fabs(static_cast<double>(denominator)); parallel=!(absDenominator>0.0001f); }
+ if(!parallel) {
+  float distance=(Rva0030D241Dot(normal,*origin)+planeD)/denominator;
+  Coord3D intersection=*direction;
+  float scale=0.0f-distance;
+  intersection.x*=scale;intersection.y*=scale;intersection.z*=scale;
+  intersection.x+=origin->x;intersection.y+=origin->y;intersection.z+=origin->z;
+  Coord2D point;point.x=intersection.x;point.y=intersection.y;
+  if(Rva0030D111Contains(shape,&point)) {*output=intersection;return true;}
  }
  return false;
 }
