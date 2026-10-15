@@ -1,4 +1,6 @@
 // ?rva0020F832@Rva0020EE29@@QAE_NPAX0@Z
+// partial score=0.8936 date=2026-10-15
+// ?rva0020F832@Rva0020EE29@@QAE_NPAX0@Z
 // partial score=0.75 date=2026-10-14
 // ?rva0020F832@Rva0020EE29@@QAE_NPAX0@Z
 // partial score=0.85 date=2026-10-08
@@ -1081,7 +1083,7 @@ bool Rva0020EE29::rva0020F832(void *entry, void *state)
  ((Rva003F2A8C *)entry)->rva003F2A8C(((Rva0020F832State *)state)->value);
  Rva0020FB8BVec14 *source = &m_14;
  for (unsigned i = 0;(unsigned)(source->m_end - (i ? source : source)->m_begin) > i; ++i) {
-  if (((source->m_end ? ((entry ? ((Rva0020F832Node *)source->m_begin[i]) : ((Rva0020F832Node *)source->m_begin[i]))) : ((Rva0020F832Node *)source->m_begin[i])))->entry == entry) {
+  if (((source->m_end ? ((((Rva0020F832Node *)source->m_begin[i]))) : ((Rva0020F832Node *)source->m_begin[i])))->entry == entry) {
    ((Rva00DFE1C8Host *)TheLivingWorldManager)->rva00212655(
     ((Rva0020F832Node *)source->m_begin[i])->key);
    m_20.vecPushBack((void *&)source->m_begin[i]);

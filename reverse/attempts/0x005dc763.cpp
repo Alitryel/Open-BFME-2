@@ -1,4 +1,6 @@
 // ?checkTarget@AITacticOffensive@@QAEEPAX@Z
+// partial score=0.9167 date=2026-10-15
+// ?checkTarget@AITacticOffensive@@QAEEPAX@Z
 // partial score=0.75 date=2026-10-07
 // cl: /O1 /DNDEBUG /MD
 // ?checkTarget@AITacticOffensive@@QAEEPAX@Z retail 0x005DC763, 252 B: WB AITacticOffensive::checkTarget.
@@ -126,7 +128,7 @@ unsigned char AITacticOffensive::checkTarget(void *targetPtr)
 			bool canReach;
 			Object *structure = target->rva002C5DA6();
 			if (structure)
-				canReach = (i ? (TheAI->pathfinder()->QuickDoesPathExistToStructure(obj, &obj->m_pos, structure, 0)) : (TheAI->pathfinder()->QuickDoesPathExistToStructure(obj, &obj->m_pos, structure, 0)));
+				canReach = ((TheAI->pathfinder()->QuickDoesPathExistToStructure(obj, &obj->m_pos, structure, 0)));
 			else
 				canReach = TheAI->pathfinder()->QuickDoesPathExist(obj, &obj->m_pos, &target->m_pos, 0);
 			if (slot10() == canReach)

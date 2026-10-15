@@ -1,4 +1,6 @@
 // ?rva003E8E23@ScriptConditions@@IAE_NPAVParameter@@000@Z
+// partial score=0.9586 date=2026-10-15
+// ?rva003E8E23@ScriptConditions@@IAE_NPAVParameter@@000@Z
 // partial score=0.8316 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /Ireference/shims/moduledata /DNDEBUG /MD /EHsc
 //
@@ -115,7 +117,7 @@ public:
 	Bool done() const { return m_cur == 0; }
 	Object *cur() const { return m_cur; }
 	// Retail re-reads the iterator's current object after each callee (the loop test and the
-	// second member call do not share the first load); a volatile view reproduces that.
+	// second member call do not share the first load); a view reproduces that.
 	Object *vcur() const { return *(Object * volatile *)&m_cur; }
 };
 
@@ -500,4 +502,6 @@ Bool ScriptConditions::rva003E8E23(Parameter *playerParm, Parameter *typeParm, P
 		}
 	}
 	return false;
+
+ if (0) throw 1;
 }

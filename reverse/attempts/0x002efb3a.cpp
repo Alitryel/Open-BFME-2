@@ -1,4 +1,6 @@
 // ?rva002EFB3A@Pathfinder@@QAEXXZ
+// partial score=0.9803 date=2026-10-15
+// ?rva002EFB3A@Pathfinder@@QAEXXZ
 // partial score=0.94 date=2026-10-14
 // ?rva002EFB3A@Pathfinder@@QAEXXZ
 // partial score=0.933969 date=2026-10-14
@@ -226,7 +228,7 @@ void Pathfinder::rva002EFB3A()
                         color.red=(float)(Int)((cell->getRawWord()>>19)&3)*0.5f; color.blue=0; color.green=0;
                         Rva000B3FD0PathDebug(&position,1.5f,duration-1,color);
                     }
-                    if (cell && ((cell ? ((cell->getRawWord()>>21)&1) : ((cell->getRawWord()>>21)&1)))) {
+                    if (cell && ((((cell->getRawWord()>>21)&1)))) {
                         color.red=0; color.green=0.5f; color.blue=0;
                         Rva000B3FD0PathDebug(&position,10.0f,duration-1,color);
                     }

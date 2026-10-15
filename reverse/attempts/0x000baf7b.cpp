@@ -1,4 +1,6 @@
 // ?updateSubObjects@W3DModelDraw@@UAEXXZ
+// partial score=0.9875 date=2026-10-15
+// ?updateSubObjects@W3DModelDraw@@UAEXXZ
 // partial score=0.9503 date=2026-10-13
 // ?updateSubObjects@W3DModelDraw@@UAEXXZ
 // partial score=0.9193255395683454 date=2026-10-10
@@ -347,7 +349,7 @@ void W3DModelDraw::updateSubObjects()
      else
      
      {
-      const char * volatile dot = strchr(subName, '.');
+      const char * dot = strchr(subName, '.');
       if (dot && _strnicmp(it->m_name.str(), dot + 1, len) == 0)
       ((Rva000B3885 *)this)->rva000B3885(it, subObj, objIndex);
       

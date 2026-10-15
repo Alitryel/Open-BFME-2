@@ -1,4 +1,6 @@
 // ?rva000911F6@Rva007E3C20Vp6Stream@@UAEHH@Z
+// partial score=0.9668 date=2026-10-15
+// ?rva000911F6@Rva007E3C20Vp6Stream@@UAEHH@Z
 // partial score=0.9 date=2026-10-14
 // ?rva000911F6@Rva007E3C20Vp6Stream@@UAEHH@Z
 // partial score=0.94 date=2026-10-04
@@ -54,7 +56,7 @@ int Rva007E3C20Vp6Stream::rva000911F6( int arg )
 	}
 	if ( arg & 1 )
 		return ebx;
-	if ( (m_at48 ? m_at4c : m_at4c) == m_at48 )
+	if ( (m_at4c) == m_at48 )
 		return ebx;
 	v3();
 	m_at2c->v0();
