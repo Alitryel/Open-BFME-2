@@ -318,7 +318,8 @@ void AIUpgradeScienceBuilder::Register(Object *object, void *)
 					record->m_command = button;
 					// The folded conditional reproduces retail's register
 					// assignment and argument order.
-					record->m_name.set(i ? upgrade->m_name : upgrade->m_name);
+					// Native copy calls use the rowed StringBase<char> worker366F0.
+					record->m_name.setCopyInline(i ? upgrade->m_name : upgrade->m_name);
 					record->rva0059717F(upgrade->m_heuristic);
 					m_upgrades.push_back(reinterpret_cast<const ModuleData *const &>(item));
 				}
@@ -329,7 +330,7 @@ void AIUpgradeScienceBuilder::Register(Object *object, void *)
 				{
 					Rva0055B0CC *item = record;
 					record->m_command = button;
-					record->m_name.set(((const ScienceBuildTemplateView *)button->rva0035B570())->m_name);
+					record->m_name.setCopyInline(((const ScienceBuildTemplateView *)button->rva0035B570())->m_name);
 					record->m_delay = -1.0f;
 					record->m_position = object->m_position;
 					*(unsigned *)&record->m_angle = *(const unsigned *)&object->m_angle;
