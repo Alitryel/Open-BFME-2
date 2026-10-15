@@ -1,29 +1,24 @@
-// ?xfer@GameClient@@MAEXPAVXfer@@@Z
-// partial score=0.97768 date=2026-10-14
-// ?xfer@GameClient@@MAEXPAVXfer@@@Z
-// partial score=0.975 date=2026-10-14
-// ?xfer@GameClient@@MAEXPAVXfer@@@Z
-// partial score=0.9 date=2026-10-13
-// W7-SOL6 owner-port reproduced 1805B; all three stale callee names now use current ledger providers.
-// Port into current home TU requires preserving visible recursive getFinalOverride and NULL-preserving Snapshot side casts;
-// declaration-only override getter grows frame4B and changes first loop allocation; arithmetic-only Snapshot casts omit22B.
-// ?xfer@GameClient@@MAEXPAVXfer@@@Z
-// partial score=0.9 date=2026-10-08
 // cl: /I. /ICode/GameEngine/Source/GameClient /O1 /G7 /DNDEBUG /MD /EHs /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
-// R12 (W7-U1) residue: loop counter / EH object slot swap (ebp-0x10/-0x20) plus one extra mov ecx,ebx; ms_nd 2569 singles no gain.
 // stlport
 //
-// GameClient's drawable table of contents, after ZH GameClient.cpp
-// (findTOCEntryByName, findTOCEntryById, shouldSaveDrawable,
-// xferDrawableTOC). GameLogic::xferObjectTOC (GameLogicInit.cpp, 0x00245F79)
-// is the same code over the object list.
+// GameClient::xfer (0x0023B509, 1806 bytes, ret 4), after ZH GameClient.cpp
+// GameClient::xfer: version, frame, drawable TOC, the drawables, briefing
+// lines, then BFME 2's map dictionary real, object id, Eva, the scored-kill
+// announcer, a name and two flags, and the playing audio events and handles.
+// Split out of the GameClient unit (GameClientDrawableTOC.cpp, which rows
+// findTOCEntryByName/ById, xferDrawableTOC and shouldSaveDrawable); retail
+// calls shouldSaveDrawable with the drawable in EAX, so the file static is
+// repeated here.
 //
-// Target evidence: the TOC list sits at GameClient+0xF4 (both finds and the
-// xfer read it there); the xfer walks the drawable list from vslot 35
-// (ZH's virtual getDrawableList), next drawable at +0x104, thing template at
-// +4 and its name at +0x64; shouldSaveDrawable reads the status bits at
-// +0x114 and the object at +0xFC. Callers: GameClient::xfer at 0x0023B5D5
-// (name) and 0x0023B68C (id).
+// Target evidence: the TOC list at GameClient+0xF4; the drawable list from
+// vslot 35, next drawable at +0x104, template at +4, name at +0x64; the
+// audio vectors at +0x12C (events) and +0x120 (handles) as the Snapshot side
+// (this+0xC) addresses them; the event holder's setter 0x000A8CE5, clear
+// 0x000A8C9B, copy constructor 0x000A8C7C and push_back 0x0023AD91.
+// Retail keeps the new event's pointer in EBX through push_back and the name
+// destructor to the event's inlined destructor: cl only does that when the
+// setter, clear and copy constructor bodies are visible in the unit, so they
+// are defined here out of line (byte-identical to their retail bodies).
 
 #include <list>
 #include <vector>
@@ -285,7 +280,12 @@ class OpaqueRefCounted
 {
 public:
 	void Release_Ref();
+
+	void *m_vtbl;
+	long volatile m_references; // +0x04
 };
+
+extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile *value);
 
 class AudioEventInfoRef
 {
@@ -311,7 +311,26 @@ public:
 			m_ptr->Release_Ref();
 	}
 
-	void rva000A8CE5(OpaqueRefCounted *ptr);
+	// 0x000A8C9B and 0x000A8CE5, out of line but visible here, as in retail:
+	// cl then proves the event's address does not escape the loop body.
+	__declspec(noinline) void clear()
+	{
+		if (m_ptr)
+		{
+			m_ptr->Release_Ref();
+			m_ptr = 0;
+		}
+	}
+	__declspec(noinline) void rva000A8CE5(OpaqueRefCounted *value)
+	{
+		if (value != m_ptr)
+		{
+			clear();
+			m_ptr = value;
+			if (value)
+				InterlockedIncrement(&value->m_references);
+		}
+	}
 	operator const Rva0023AD91Record &() const { return *reinterpret_cast<const Rva0023AD91Record *>(this); }
 
 	OpaqueRefCounted *m_ptr;
@@ -319,18 +338,10 @@ public:
 
 class Rva001DA2D5;
 
-class Rva00433390
-{
-public:
-	Rva00433390(int val);
-
-private:
-	char m_data[0xD0];
-};
-
 class Rva004333C0
 {
 public:
+	Rva004333C0(int val);
 	Rva004333C0(const Rva001DA2D5 &src, int val);
 
 private:
@@ -386,29 +397,28 @@ class Rva0036CA00Str
 {
 public:
 	Rva0036CA00Str();
-	Rva0036CA00Str(const Rva0036CA00Str &);
+	// 0x000A8C7C, out of line but visible here (see Rva000A8C9B).
+	__declspec(noinline) Rva0036CA00Str(const Rva0036CA00Str &other) : m_ptr(other.m_ptr)
+	{
+		if (m_ptr)
+			InterlockedIncrement(&m_ptr->m_references);
+	}
 	~Rva0036CA00Str();
 	Rva0036CA00Str &operator=(const Rva0036CA00Str &);
 
 private:
-	void *m_data;
+	OpaqueRefCounted *m_ptr;
 };
 
-struct Rva0023AD91Record
+// The audio event vector's element, sharing the reference's copy
+// constructor (0x0023AD91 push_back -> 0x002393AA _Construct -> 0x000A8C7C).
+struct Rva0023AD91Record : Rva0036CA00Str
 {
-	Rva0023AD91Record();
-	Rva0023AD91Record(const Rva0023AD91Record &);
-	~Rva0023AD91Record();
-	Rva0023AD91Record &operator=(const Rva0023AD91Record &);
-
-private:
-	char bytes[4];
 };
 
 namespace _STL
 {
 template<> void vector<Rva0036CA00Str, allocator<Rva0036CA00Str> >::reserve(size_t n);
-template<> void vector<Rva0023AD91Record, allocator<Rva0023AD91Record> >::push_back(const Rva0023AD91Record &x);
 template<> void vector<const ModuleData *, allocator<const ModuleData *> >::reserve(size_t n);
 template<> void vector<const ModuleData *, allocator<const ModuleData *> >::push_back(const ModuleData *const &x);
 }
@@ -492,29 +502,8 @@ private:
 
 extern GameClient *TheGameClient;
 
-// Retail 0x00239C5E, 89 bytes.
-GameClient::DrawableTOCEntry *GameClient::findTOCEntryByName(AsciiString name)
-{
-	for (DrawableTOCListIterator it = m_drawableTOC.begin(); it != m_drawableTOC.end(); ++it)
-		if ((*it).name == name)
-			return &(*it);
-
-	return 0;
-}
-
-// Retail 0x002399EB, 37 bytes.
-GameClient::DrawableTOCEntry *GameClient::findTOCEntryById(unsigned short id)
-{
-	for (DrawableTOCListIterator it = m_drawableTOC.begin(); it != m_drawableTOC.end(); ++it)
-		if ((*it).id == id)
-			return &(*it);
-
-	return 0;
-}
-
 // Retail 0x00238F79, 24 bytes; as a file static cl passes the drawable in EAX.
-// Retail calls it from GameClient::xfer too (not in this unit yet), so it is
-// kept out of line here.
+// Repeated from GameClientDrawableTOC.cpp for GameClient::xfer's two calls.
 static __declspec(noinline) bool shouldSaveDrawable(const Drawable *draw)
 {
 	if (draw->testDrawableStatus(DRAWABLE_STATUS_NO_SAVE))
@@ -525,51 +514,6 @@ static __declspec(noinline) bool shouldSaveDrawable(const Drawable *draw)
 	return true;
 }
 
-// Retail 0x0023AC36, 347 bytes. As GameLogic::xferObjectTOC, BFME 2 opens
-// with Xfer::Version1 instead of xferVersion.
-void GameClient::xferDrawableTOC(Xfer *xfer)
-{
-	xfer->Version1();
-	((Rva00239D49List *)&m_drawableTOC)->clear();
-
-	unsigned int tocCount = 0;
-	if (xfer->IsStoring())
-	{
-		AsciiString templateName;
-		for (Drawable *draw = getDrawableList(); draw; draw = draw->getNextDrawable())
-		{
-			if (!shouldSaveDrawable(draw))
-				continue;
-
-			templateName = draw->getTemplate()->getName();
-			if (findTOCEntryByName(templateName) != 0)
-				continue;
-
-			((Rva0023AB78 *)this)->rva0023AB78(draw->getTemplate()->getName(), ++tocCount);
-		}
-		*xfer == tocCount;
-		for (DrawableTOCListIterator it = m_drawableTOC.begin(); it != m_drawableTOC.end(); ++it)
-		{
-			DrawableTOCEntry *tocEntry = &(*it);
-			*xfer == tocEntry->name;
-			*xfer == tocEntry->id;
-		}
-	}
-	else
-	{
-		AsciiString templateName;
-		unsigned short id;
-		*xfer == tocCount;
-		for (unsigned int i = 0; i < tocCount; ++i)
-		{
-			*xfer == templateName;
-			*xfer == id;
-			((Rva0023AB78 *)this)->rva0023AB78(templateName, id);
-		}
-	}
-}
-
-// Retail 0x0023B509, 1806 bytes: the client's snapshot, after ZH
 // GameClient::xfer (version 4 here). Past ZH's drawables and briefing
 // lines it keeps a map dictionary real, an object id, Eva and (version 4)
 // the scored-kill announcer, a name and two flags, and from version 3 the
@@ -731,16 +675,16 @@ void GameClient::xfer(Xfer *xfer)
 				*xfer == eventName;
 				AudioEventInfoRef info = TheAudio->findAudioEvent(eventName);
 				Rva000A8C9B event;
-				event.rva000A8CE5(info.m_info == 0
-					? (OpaqueRefCounted *)new Rva00433390(0)
-					: (OpaqueRefCounted *)new Rva004333C0(*(const Rva001DA2D5 *)info.m_info, 0));
+				if (info.m_info == 0)
+					event.rva000A8CE5((OpaqueRefCounted *)new Rva004333C0(0));
+				else
+					event.rva000A8CE5((OpaqueRefCounted *)new Rva004333C0(*(const Rva001DA2D5 *)info.m_info, 0));
 				{
 				AsciiString name;
 				*xfer == name;
-				OpaqueRefCounted *p = event.m_ptr;
-				((Rva004EC166 *)p)->rva00433403(name);
-				((DynamicAudioEventInfo *)p)->xferNoName(xfer);
-				TheAudio->vslot74(p);
+				((Rva004EC166 *)event.m_ptr)->rva00433403(name);
+				((DynamicAudioEventInfo *)event.m_ptr)->xferNoName(xfer);
+				TheAudio->vslot74(event.m_ptr);
 				((Rva0023AD91Vector *)&m_audioEvents)->push_back(event);
 				}
 			}
@@ -764,7 +708,8 @@ void GameClient::xfer(Xfer *xfer)
 				*xfer == eventName;
 				AsciiString name = *(AsciiString *)((char *)m_audioEvents[i].m_ptr + 8);
 				*xfer == name;
-				((DynamicAudioEventInfo *)m_audioEvents[i].m_ptr)->xferNoName(xfer);
+				DynamicAudioEventInfo *info = (DynamicAudioEventInfo *)m_audioEvents[i].m_ptr;
+				info->xferNoName(xfer);
 			}
 
 			count = m_audioHandles.size();
