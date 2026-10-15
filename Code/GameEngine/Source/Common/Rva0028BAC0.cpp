@@ -25,15 +25,18 @@ class FireLogicSystem
 public:
 	void UnregisterObject(Rva00287C21Other *o);
 };
-class Rva00333F37Host
+class Object;
+// Row spellings: 0x00333F37 is LuaDrawableState::rva00333F37(Object *),
+// 0x002A8F56 is Rva002A8F24::rva002A8F56(Object *).
+class LuaDrawableState
 {
 public:
-	void rva00333F37(void *p);
+	void rva00333F37(Object *p);
 };
-class Rva002A8F56Host
+class Rva002A8F24
 {
 public:
-	void rva002A8F56(void *p);
+	void rva002A8F56(Object *p);
 };
 // Bind to the existing data-ledger owner; keep the retail access view local.
 class PartitionManager;
@@ -88,9 +91,9 @@ void Object::rva0028BAC0()
 		if (((FireLogicSystem *)TheTriggerManager) != 0)
 			((FireLogicSystem *)TheTriggerManager)->UnregisterObject((Rva00287C21Other *)this);
 	}
-	if (((Rva00333F37Host *)TheLuaScriptEngine) != 0)
-		((Rva00333F37Host *)TheLuaScriptEngine)->rva00333F37(this);
-	if (((Rva002A8F56Host *)g_00DFEEF8) != 0)
-		((Rva002A8F56Host *)g_00DFEEF8)->rva002A8F56(this);
+	if (((LuaDrawableState *)TheLuaScriptEngine) != 0)
+		((LuaDrawableState *)TheLuaScriptEngine)->rva00333F37(this);
+	if (((Rva002A8F24 *)g_00DFEEF8) != 0)
+		((Rva002A8F24 *)g_00DFEEF8)->rva002A8F56(this);
 	m_454 = 0;
 }
