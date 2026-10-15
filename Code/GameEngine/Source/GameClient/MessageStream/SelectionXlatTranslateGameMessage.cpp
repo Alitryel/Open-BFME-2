@@ -266,7 +266,8 @@ class Object : public Thing, public Snapshot
   m_name = newName;
   
  }
- inline Team* getTeam() 
+ // Keep the inlined access without another accessor COMDAT.
+ __declspec(dllimport) __forceinline Team* getTeam()
  {
   return m_team;
   

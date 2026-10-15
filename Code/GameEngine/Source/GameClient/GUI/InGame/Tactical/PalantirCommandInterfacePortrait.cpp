@@ -73,7 +73,8 @@ class Object
 {
 public:
 	const ThingTemplate *getTemplate() const { return m_template; }
-	Team *getTeam() { return m_team; }
+	// The callers inline +0x304; do not emit a competing accessor COMDAT.
+	__declspec(dllimport) __forceinline Team *getTeam() { return m_team; }
 	ThingTemplate *rva002911B7();
 	const Image *getObjectSelectedPortraitImage();
 

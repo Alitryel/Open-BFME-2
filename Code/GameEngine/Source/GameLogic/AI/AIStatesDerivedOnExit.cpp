@@ -467,7 +467,8 @@ public:
 	Real rva0028AC7D() const;
 	void getUnitDirectionVector3D(Coord3D &dir) const { ((const Thing *)this)->getUnitDirectionVector3D(dir); }
 	AIUpdateInterface *getAI() { return m_ai; }
-	Team *getTeam() { return m_team; }
+	// The callers inline +0x304; do not emit a competing accessor COMDAT.
+	__declspec(dllimport) __forceinline Team *getTeam() { return m_team; }
 	Player *getControllingPlayer() const;
 	void rva0028AE6D();
 	// Zero Hour's Pathfinder::updateGoal for this object (goal, layer).

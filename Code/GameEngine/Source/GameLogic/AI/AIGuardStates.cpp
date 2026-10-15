@@ -209,7 +209,8 @@ public:
 	Object *getBfme274() const { return m_bfme274; }
 	BodyModuleInterface *getBodyModule() const { return m_body; }
 	const Coord3D *getPosition() const { return &m_position; }
-	Team *getTeam() { return m_team; }
+	// The callers inline +0x304; do not emit a competing accessor COMDAT.
+	__declspec(dllimport) __forceinline Team *getTeam() { return m_team; }
 	AIUpdateInterface *getAI() { return m_ai; }
 private:
 	unsigned char m_pad00[0x04];
