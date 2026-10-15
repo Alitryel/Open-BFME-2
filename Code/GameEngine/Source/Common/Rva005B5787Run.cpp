@@ -16,10 +16,10 @@ public:
 	void rva00407C17();
 };
 
-class Rva005B57C6Box
+class Rva005B566B
 {
 public:
-	void M54ed(int, char *, int);
+	void rva005B54ED(unsigned int, unsigned int, bool);	// row 0x005B54ED (on Rva005B566B)
 };
 
 class Rva005B5787Owner
@@ -48,6 +48,6 @@ void Rva005B5787Box::Run()
 {
 	m_owner->slot()->set(0);
 	if (m_owner->cursor() == m_owner->limit())
-		reinterpret_cast<Rva005B57C6Box *>(this)->M54ed(0, 0, 0);
+		reinterpret_cast<Rva005B566B *>(this)->rva005B54ED(0, 0, false);
 	m_owner->bits()->rva00407C17();
 }
