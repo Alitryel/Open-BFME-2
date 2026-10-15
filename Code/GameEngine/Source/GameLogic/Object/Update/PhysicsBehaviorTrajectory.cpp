@@ -10,7 +10,8 @@
 // points (Object::setPosition or a Vector3-normalised transform), hands the
 // next point to the Object and the pathfinder and finishes through 390FAF.
 #include <vector>
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#define COORD3D_VIEW_INLINE
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class PhysicsModelBits {
  unsigned int words[19];
@@ -20,15 +21,17 @@ public:
  __forceinline void set(int bit) { words[bit>>5] |= 1U<<(bit&31); }
  __forceinline void reset(int bit) { words[bit>>5] &= ~(1U<<(bit&31)); }
 };
+struct Rva00390557Template { unsigned char pad[0x115]; unsigned char flags115; };
 class Drawable { public: void rva00274176(bool); };
 class Object {
 public:
  void rva0028AE6D();
  Drawable *getDrawable() const;
- char pad00[0x38]; Coord3D position;
+ void rva0023D3AF(void *frame);
+ char pad00[4]; struct Rva00390557Template *tmpl; char pad08[0x38-8]; Coord3D position;
  char pad44[0x10C-0x44]; PhysicsModelBits conditions;
  char pad158[0x198-0x158]; Coord3D nextPosition;
- char pad1A4[2]; bool nextDirty; char pad1A7[0x438-0x1A7]; unsigned char status438;
+ char pad1A4[2]; bool nextDirty; char pad1A7[0x274-0x1A7]; Object *holder274; char pad278[0x438-0x278]; unsigned char status438;
  __forceinline void setNextPosition(const Coord3D *p) { nextDirty=true;nextPosition=*p; }
 };
 class WWMath { public: static float __fastcall Inv_Sqrt(float); };
@@ -68,6 +71,8 @@ class UpdateModuleInterface { public: virtual UpdateSleepTime update()=0; };
 class UpdateModule : public BehaviorModule,public UpdateModuleInterface {
 public:
  virtual ~UpdateModule();
+protected:
+ void setWakeFrame(Object *,UpdateSleepTime);
 private: unsigned nextWake; int indexInLogic,reserved1C;
 };
 class PhysicsBehavior : public UpdateModule {
@@ -78,6 +83,8 @@ public:
  void rva00390E61(bool);
  void rva00390CCA(bool);
  void rva00390629(bool);
+ void rva00390557(const Coord3D *,float,float,int,int);
+ bool rva003901DA(int,float);
  _STL::vector<Coord3D> points;
  Coord3D start,end; float at44,at48; int at4C,index,bounces,phaseTimer;
  bool active,repeat,dirty,at5F; int at60,at64;
@@ -115,6 +122,78 @@ void PhysicsBehavior::rva00390FAF()
  if(changed && obj->getDrawable()) obj->getDrawable()->rva00274176(0);
  if((repeat || d->at58) && bounces<d->maxBounces) { rva00390E61(false);return; }
  rva00390CCA(true);
+}
+
+class TerrainLogic { public:
+ virtual void slot0(); virtual void slot1(); virtual void slot2();
+ virtual void slot3(); virtual void slot4(); virtual void slot5();
+ virtual float getGroundHeight(float,float,Coord3D *);
+};
+extern TerrainLogic *TheTerrainLogic;
+#include "../../../Common/GameLogicObjectLookupView.h"
+extern GameLogic *TheGameLogic;
+// Visible copy of the rowed 0x00390557 body (PhysicsBehaviorRva00390601.cpp).
+inline __declspec(noinline) void PhysicsBehavior::rva00390557(const Coord3D *where,float strength,float value44,int value60,int value64)
+{
+ Object *obj=object;
+ Object *holder=obj->holder274;
+ if(holder && !(holder->tmpl->flags115&0x20)) {
+  setWakeFrame(obj,UPDATE_SLEEP_FOREVER);
+  return;
+ }
+ end=*where;
+ start=obj->position;
+ at44=value44;
+ if(rva003901DA(1,strength)) {
+  index=0;
+  if(value60) at60=value60;
+  if(value64) at64=value64;
+  static_cast<UpdateModuleInterface *>(this)->update();
+  object->rva0023D3AF(reinterpret_cast<void *>(TheGameLogic->getFrame()));
+  static_cast<UpdateModuleInterface *>(this)->update();
+  setWakeFrame(object,UPDATE_SLEEP_NONE);
+ }
+}
+// Rebound 0x00390E61..0x00390FAF (334 B, RET 4), called by the completion
+// 390FAF above. Target facts: WB twin 0x00F91440 gives the statement shape:
+// a Vector3 direction from the last two trajectory points with Z cleared
+// and normalised, a Coord3D copy of the end point minus the start with Z
+// cleared whose length is halved in a separate statement, and a Vector3
+// next point (the Object position plus direction times that distance, its
+// Z from the terrain ground height) handed to 390557 with the .35/.85
+// attenuated +48/+44 values. Retail shares one stack slot between the
+// delta and next points (disjoint scopes here). The visible 390557 copy
+// above (byte-identical to its row) gives cl its effect on this caller's
+// scheduling. Original method names remain unasserted.
+void PhysicsBehavior::rva00390E61(bool skipWake)
+{
+ Object *obj=object;
+ if(!skipWake) setWakeFrame(obj,UPDATE_SLEEP_NONE);
+ ++bounces;
+ int count=points.size();
+ if(count<2) { rva00390CCA(skipWake); return; }
+ Vector3 direction;
+ direction.X=points[count-1].x-points[count-2].x;
+ direction.Y=points[count-1].y-points[count-2].y;
+ direction.Z=0.0f;
+ direction.bfme_Normalize_05402();
+ const Coord3D *pos=&obj->position;
+ float distance;
+ {
+  Coord3D delta(end);
+  delta.sub(&start);
+  delta.z=0.0f;
+  distance=delta.length();
+ }
+ distance*=0.5f;
+ {
+  Vector3 next;
+  next.X=direction.X*distance+pos->x;
+  next.Y=direction.Y*distance+pos->y;
+  next.Z=TheTerrainLogic->getGroundHeight(next.X,next.Y,0);
+  rva00390557((const Coord3D *)&next,at48*0.35f,at44*0.85f,0,0);
+ }
+ dirty=true;
 }
 
 class GlobalData { public: char pad00[0xC4]; float gravity; };
