@@ -5141,7 +5141,7 @@ _current_time,,0x00656BB0,6,Code/GameEngine/Source/GameNetwork/GameSpy/nonport.c
 ??0?$ShareBufferClass@D@@QAE@HPBDH@Z,,0x00169A70,133,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?Cast_Ray@MeshGeometryClass@@QAE_NAAVRayCollisionTestClass@@@Z,,0x0016D7B0,34,Code/Libraries/Source/WWVegas/WW3D2/meshgeometry.cpp,matched,placed by masked whole-.text search after the MeshGeometryClass layout fix
 ?allow@PartitionFilterFlammable@@UAE_NPAVObject@@@Z,,0x0048B6D5,103,Code/GameEngine/Source/GameLogic/Object/Update/FireSpreadUpdate.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
-??0Matrix3D@@QAE@ABV0@@Z,,0x0006645C,98,Code/GameEngine/Source/GameLogic/Object/Update/FloatUpdate.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
+??0Matrix3D@@QAE@ABV0@@Z,,0x0006645C,98,Code/GameEngine/Source/GameLogic/Object/Update/FloatUpdateUpdate.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?doCollapseDoneStuff@StructureCollapseUpdate@@IAEXXZ,,0x004A4DBE,96,Code/GameEngine/Source/GameLogic/Object/Update/StructureCollapseUpdate.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?update@ProjectileStreamUpdate@@UAE?AW4UpdateSleepTime@@XZ,,0x0033F11F,45,Code/GameEngine/Source/GameLogic/Object/Update/ProjectileStreamUpdate.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?inList@@YA_NHHQBH@Z,,0x004A423A,34,Code/GameEngine/Source/GameLogic/Object/Update/StructureCollapseUpdate.cpp,matched,placed by masked whole-.text search of the compiled body - single hit

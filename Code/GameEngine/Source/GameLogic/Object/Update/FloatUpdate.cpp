@@ -95,51 +95,8 @@ FloatUpdate::~FloatUpdate( void )
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?FloatUpdate::update present-unmatched
-UpdateSleepTime FloatUpdate::update( void )
-{
-/// @todo srj use SLEEPY_UPDATE here
+// BFME2 update is owned by FloatUpdateUpdate.cpp.
 
-	// if we're not enabled, do nothing
-	if( m_enabled == TRUE )
-	{
-		// get object position
-		const Coord3D *pos = getObject()->getPosition();
-		
-		// get the height of the water here
-		Real waterZ;
-		TheTerrainLogic->isUnderwater( pos->x, pos->y, &waterZ );
-
-		// snap to the water surface
-		Coord3D newPos;
-		newPos.x = pos->x;
-		newPos.y = pos->y;
-		newPos.z = waterZ;
-		getObject()->setPosition( &newPos );
-
-	}
-
-	Drawable *draw = getObject()->getDrawable();
-	if (draw)
-	{
-
-		Real angle = INT_TO_REAL(TheGameLogic->getFrame());
-		Real yaw = sin(angle * 0.0291f) * 0.05f;
-		Real pitch = sin(angle * 0.0515f) * 0.05f;
-
-		Matrix3D mx = *draw->getInstanceMatrix();
-
-		Real zRot = mx.Get_Z_Rotation();
-		mx.Make_Identity();
-		mx.Rotate_Z(zRot);
-		mx.Rotate_Y(yaw);
-		mx.Rotate_X(pitch);
-		
-		draw->setInstanceMatrix(&mx);
-	}
-
-	return UPDATE_SLEEP_NONE;
-}  // end update
 
 // ------------------------------------------------------------------------------------------------
 /** CRC */
