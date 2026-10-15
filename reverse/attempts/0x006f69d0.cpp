@@ -1,61 +1,52 @@
-// ?rva006F69D0@Rva006F69D0@@QAEXPBUSrc006F69D0@@GI@Z
-// partial score=0.95 date=2026-10-04
-// ?rva006F69D0@Rva006F69D0@@QAEXPBUSrc006F69D0@@GI@Z
-// partial score=0.95 date=2026-09-30
-// ?rva006F69D0@Rva006F69D0@@QAEXPBUSrc006F69D0@@GI@Z
-// partial score=0.95 date=2026-09-30
-// cl: /O2 /DNDEBUG /MD /Op
-extern float BfmeZeroRange;
-struct Src006F69D0 {
-    char m_pad00[4];
-    unsigned int m_flags;
-    char m_pad08[8];
-    char m_field10[4];
-    char m_pad14[20];
-    char m_field28[4];
-    char m_pad2C[4];
-    float m_float30;
-    char m_pad34[4];
-    unsigned short m_word38;
-    char m_pad3A[2];
-    unsigned int m_ptr3C;
-};
-struct Dst006F69D0 {
-    unsigned int m_00;
-    void *m_04;
-    void *m_08;
-    void *m_0C;
-    float m_10;
-    unsigned int m_14;
-    unsigned short m_18;
-    unsigned short m_1A;
-};
-class Rva006F69D0 {
-public:
-    void rva006F69D0(const Src006F69D0 *src, unsigned short w, unsigned int d);
-};
-// ?rva006F69D0@Rva006F69D0@@QAEXPBUSrc006F69D0@@GPAU02@@Z present-unmatched
-void Rva006F69D0::rva006F69D0(const Src006F69D0 *src, unsigned short w, unsigned int d)
+// ??0Rva006F69D0@@QAE@PAXHH@Z
+// partial score=0.9397 date=2026-10-15
+// cl: /O2 /MD /DNDEBUG
+// Bank note: x87 float copies need an x87 TU (region default is SSE; a new TU needs a
+// flag_defaults.py propose override). Only residue: retail loads `second` into dx
+// before `mov eax,ecx` and gives the descriptor ecx; cl here moves this first.
+extern const float BfmeZeroRange;
+
+struct Rva006F69D0Descriptor
 {
-    Dst006F69D0 *dst = (Dst006F69D0 *)this;
-    dst->m_18 = w;
-    dst->m_14 = src->m_flags;
-    dst->m_00 = d;
-    dst->m_1A = src->m_word38;
-    if (src->m_flags & 4)
-        dst->m_04 = (void *)&src->m_field10;
-    else
-        dst->m_04 = 0;
-    if (src->m_flags & 8)
-        dst->m_08 = (void *)&src->m_field28;
-    else
-        dst->m_08 = 0;
-    if ((char)src->m_flags < 0)
-        dst->m_0C = (void *)src->m_ptr3C;
-    else
-        dst->m_0C = 0;
-    if (src->m_flags & 0x10)
-        dst->m_10 = (src->m_flags ? src->m_float30 : src->m_float30);
-    else
-        dst->m_10 = BfmeZeroRange;
+	int m_kind;
+	unsigned int m_flags;
+	char m_pad08[0x10 - 0x08];
+	char m_block10[0x28 - 0x10];
+	char m_block28[0x30 - 0x28];
+	float m_float30;
+	char m_pad34[0x38 - 0x34];
+	unsigned short m_word38;
+	char m_pad3A[0x3c - 0x3a];
+	void *m_ptr3C;
+};
+
+class Rva006F69D0
+{
+public:
+	Rva006F69D0(void *descriptor, int second, int fourth) throw();
+
+	int m_00;
+	void *m_04;
+	void *m_08;
+	void *m_0c;
+	float m_10;
+	unsigned int m_14;
+	unsigned short m_18;
+	unsigned short m_1a;
+};
+
+Rva006F69D0::Rva006F69D0(void *descriptor, int second, int fourth) throw()
+{
+	const Rva006F69D0Descriptor *d = (const Rva006F69D0Descriptor *)descriptor;
+	m_18 = (unsigned short)second;
+	m_14 = d->m_flags;
+	m_00 = fourth;
+	m_1a = d->m_word38;
+	if (d->m_flags & 4)
+		m_04 = (void *)d->m_block10;
+	else
+		m_04 = 0;
+	m_08 = (d->m_flags & 8) ? (void *)d->m_block28 : 0;
+	m_0c = (d->m_flags & 0x80) ? d->m_ptr3C : 0;
+	m_10 = (d->m_flags & 0x10) ? d->m_float30 : BfmeZeroRange;
 }
