@@ -111,12 +111,16 @@ public:
 // times the frame-rate word at 0x00DBA4E4 (+0x158). Member spellings follow
 // the rowed constructors; their identities are unproven.
 class Player;
-class AIBaseBuilder { public: AIBaseBuilder(void *player); ~AIBaseBuilder(); char m_data[0x34]; };
-class Rva00598E85 { public: Rva00598E85(void *player); ~Rva00598E85(); char m_data[0x58]; };
-class Rva0059A85C { public: Rva0059A85C(void *player); ~Rva0059A85C(); char m_data[0x24]; };
-class Rva004EA3B8 { public: Rva004EA3B8(void *player); ~Rva004EA3B8(); char m_data[0x30]; };
-class Rva004E9B46 { public: Rva004E9B46(int player); ~Rva004E9B46(); char m_data[0x18]; };
-class Rva005990DF { public: Rva005990DF(int player); ~Rva005990DF(); char m_data[0x30]; };
+// Native FuncInfo 0x0094500C binds these member cleanups to the same virtual
+// destructors used by AIBuilder.cpp. Account for each vptr in the opaque size.
+// The +0x38 constructor and destructor both install vtable VA 0x00C70D2C:
+// use the destructor owner's established class name for both operations.
+class AIBaseBuilder { public: AIBaseBuilder(void *player); virtual ~AIBaseBuilder(); char m_data[0x30]; };
+class Rva00598B2A { public: Rva00598B2A(void *player); virtual ~Rva00598B2A(); char m_data[0x54]; };
+class Rva0059A85C { public: Rva0059A85C(void *player); virtual ~Rva0059A85C(); char m_data[0x20]; };
+class Rva004EA3B8 { public: Rva004EA3B8(void *player); virtual ~Rva004EA3B8(); char m_data[0x2C]; };
+class Rva004E9B46 { public: Rva004E9B46(int player); virtual ~Rva004E9B46(); char m_data[0x14]; };
+class Rva005990DF { public: Rva005990DF(int player); virtual ~Rva005990DF(); char m_data[0x2C]; };
 class Rva00597693 { public: Rva00597693(void *player); char m_data[0x40]; };
 class Rva005997CD { public: Rva005997CD(int player); ~Rva005997CD(); char m_data[0x14]; };
 extern int BfmeLogicFramesPerSecond;
@@ -130,7 +134,7 @@ public:
 private:
 	Player *m_player;			// +0x00
 	AIBaseBuilder m_base;			// +0x04
-	Rva00598E85 m_38;
+	Rva00598B2A m_38;
 	Rva0059A85C m_90;
 	Rva004EA3B8 m_B4;
 	Rva004E9B46 m_E4;

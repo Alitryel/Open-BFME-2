@@ -1,8 +1,10 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ??0Rva00598E85@@QAE@PAX@Z, retail 0x00598E85..0x00598F08 (131 bytes, EH,
+// ??0Rva00598B2A@@QAE@PAX@Z, retail 0x00598E85..0x00598F08 (131 bytes, EH,
 // ret 4): the constructor AIBuilder's constructor (??0AIBuilder@@QAE@PAVPlayer@@@Z)
-// calls with its argument (pinned under this address name). Over the rowed
+// calls with its argument. The destructor owner at 0x00598CFD uses this
+// same class: both install vtable VA 0x00C70D2C, and the native AIBuilder
+// unwind map destroys the +0x38 member through that destructor. Over the rowed
 // Rva00506B1B base (ctor 0x00506B1B) it installs table 0x00C70D2C and builds
 // the members through the rowed STLport instantiations each call names: the
 // int-keyed map at +0x08 (0x0033C432), the observer list at +0x14 (list base
@@ -51,11 +53,11 @@ public:
 	bool m_04;
 };
 
-class Rva00598E85 : public Rva00506B1B
+class Rva00598B2A : public Rva00506B1B
 {
 public:
-	Rva00598E85(void *owner);
-	virtual ~Rva00598E85();
+	Rva00598B2A(void *owner);
+	virtual ~Rva00598B2A();
 	virtual void v1();
 
 private:
@@ -71,7 +73,7 @@ private:
 	_STL::vector<int> m_4C;								// +0x4C
 };
 
-Rva00598E85::Rva00598E85(void *owner)
+Rva00598B2A::Rva00598B2A(void *owner)
 	: m_2C(true), m_owner(owner), m_34(false), m_38(-1), m_48(-1)
 {
 }
