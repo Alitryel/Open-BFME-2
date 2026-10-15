@@ -1,4 +1,6 @@
 // ?DoXfer@Player@@QAEXPAVXfer@@@Z
+// partial score=0.9997 date=2026-10-15
+// ?DoXfer@Player@@QAEXPAVXfer@@@Z
 // partial score=0.99965 date=2026-10-15
 // ?DoXfer@Player@@QAEXPAVXfer@@@Z
 // Native 0x2B1522..0x2B212A 3080B; WB C205C0 Player::DoXfer.
@@ -8,8 +10,6 @@
 // Player::Xfer halves at 0x2AF236/0x2AF33B.
 // cl: /O1 /G7 /arch:SSE /GX /MD /DNDEBUG /Ireference/shims/bfme2_ascii
 // stlport
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // Native 2B1522..2B212A, 3080 bytes, WB C205C0 Player::DoXfer (Player.cpp
 // asserts 5614..6049 name m_ai, m_resourceGatheringManager, m_tunnelSystem,
 // m_objectFiterPercentProductionChangeList, m_specialPowerReadyTimerList and
@@ -22,7 +22,7 @@ extern "C" void _ReadWriteBarrier(void);
 // deallocation guard; native also allocates Squad and the bonus block without
 // one (nothrow constructors). The tracker is embedded at 738; the version
 // consists of format 1 and the transferred value 10.
-// Status: 3080/3080 instruction-for-instruction equal once the four call
+// Status (seat5 d2): list<int>::push_back visible (real STLport, no explicit-specialisation decl) fixes the new-temp slot; barrier removed; sole residue cmp word [count],0 vs bx at the upgrade-load loop guard.
 // slots resolve by name/address (pins 0x2AF236 / 0x2AF33B, rowed 0x39F72C).
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -179,7 +179,7 @@ public:
 namespace _STL {
  template<> ScienceType *vector<ScienceType>::erase(ScienceType*,ScienceType*);
  template<> void list<TeamPrototype*>::push_back(TeamPrototype*const&);
- template<> void list<int>::push_back(const int&);
+
  template<> void list<BfmeSpecialPowerTimer8>::push_back(const BfmeSpecialPowerTimer8&);
  template<> void vector<BfmeVectorRecord002AF478>::push_back(const BfmeVectorRecord002AF478&);
 }
@@ -222,7 +222,7 @@ void Player::DoXfer(Xfer *raw)
     if(!tmplate)badPlayerTransfer();
     upgrade=reinterpret_cast<PlayerUpgradeNode*>(rva002AE329(tmplate,UPGRADE_NATIVE_INVALID,0));
     xfer->snapshot(upgrade);
-   } _ReadWriteBarrier();
+   }
   }
   xfer->integer(&m_radarCount); xfer->boolean(&m_isPlayerDead);
   xfer->integer(&m_disableProofRadarCount); xfer->boolean(&m_radarDisabled);
