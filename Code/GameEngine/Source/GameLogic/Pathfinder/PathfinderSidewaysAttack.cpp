@@ -845,17 +845,30 @@ MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in
 }
 
 
-static const float PATHFINDER_CELL_INV = 1.0f / 10.0f;
-__declspec(noinline) ICoord2D* __cdecl Rva002E7875WorldToCell(ICoord2D* out, bool center, const Coord3D* pos)
+// Keep the converter's canonical floor/FISTP machinery from pathfinder.cpp.
+// A C++ float-to-int cast emits _ftol2 instead of retail's x87 store. The
+// converter stays visible for caller escape analysis, as in its owner unit.
+static __forceinline Int worldToCellFloor(float f)
+{
+	float floored = (float)floor((double)f);
+	long i;
+	__asm {
+		fld [floored]
+		fistp [i]
+	}
+	return i;
+}
+
+inline __declspec(noinline) ICoord2D* __cdecl Rva002E7875WorldToCell(ICoord2D* out, bool center, const Coord3D* pos)
 {
 	int ix;
 	int iy;
 	if (center) {
-		ix = realToIntFloor(pos->x * PATHFINDER_CELL_INV);
-		iy = realToIntFloor(pos->y * PATHFINDER_CELL_INV);
+		ix = worldToCellFloor(pos->x * (1.0f / 10.0f));
+		iy = worldToCellFloor(pos->y * (1.0f / 10.0f));
 	} else {
-		ix = realToIntFloor(pos->x * PATHFINDER_CELL_INV + 0.5f);
-		iy = realToIntFloor(pos->y * PATHFINDER_CELL_INV + 0.5f);
+		ix = worldToCellFloor(pos->x * (1.0f / 10.0f) + 0.5f);
+		iy = worldToCellFloor(pos->y * (1.0f / 10.0f) + 0.5f);
 	}
 	out->x = ix;
 	out->y = iy;
