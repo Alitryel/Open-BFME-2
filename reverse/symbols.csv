@@ -10089,7 +10089,6 @@ name,address,notes
 ?rva0035BD5D@Shell@@QAE_NXZ,0x0035BD5D,read from the REL32 at 0x0035C696 in the placed Shell::update (0x0035C566); Bool Shell member asking TheAudio (0x00DFE6E8) slot 0xD0 about the handle at Shell +0x68; opaque address name
 ?rva0035C2B9@Shell@@QAEXXZ,0x0035C2B9,read from the REL32 at 0x0035C6A1 in the placed Shell::update (0x0035C566); void Shell member run when the shell map is off and rva0035BD5D is false; Ghidra start 0x0035C2B9 266B; opaque address name
 ?rva00362192@Rva003623E5Member@@QAEXVRva00045411BitSet@@VBfmeFixedStorage0004543D@@@Z,0x00362192,method of the Rva003623E5Member filter record (sibling of the pinned initFromStorages 0x00362087): called on that member by the GarrisonContain 0x0047978F TunnelContain 0x0025797E and Castle 0x0039A14A data ctors with two flag sets by value
-?rva003626AD@Rva003626ADNullTarget@@QAEXHH@Z,0x003626AD,null-checked tail jmp target of 18B forwarder; original name unknown
 ?rva0036276F@Rva0036276F@@QAEXXZ,0x0036276F,"retail REL32 at 0x0036289B in notify 0x00362862 targets 0x0036276F (ecx=esi thiscall no args); same target as blocked Lever L/M trials; candidate not identity"
 ?rva00362862@Rva00362862Item@@QAEXHH@Z,0x00362862,"vector element notify helper called in loop at 0x00239300"
 ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z,0x003642DF,"AIUpdate+0x140 path member returning a node+position by value for a distance; REL32 in AIUpdate slot 141 0x0026345A; identity not recovered"
@@ -10442,7 +10441,6 @@ name,address,notes
 ?UnRegister@Rva0059614B@@QAE_NPAX@Z,0x0059614B,thiscall predicate callee of 0x004E0425 read from its REL32 displacement; Ghidra FUN_0099614b 139B; body unrowed
 ?rva00596B10@Rva00596B10@@QAEXXZ,0x00596B10,
 ?rva00599870@Rva00599825@@QAEPAXABUCoord3D@@H@Z,0x00599870,owner-record +0x140 object list: entry near a point; REL32 at 0x005AC079 in the StructureCreep slot 1
-?rva0059A153@Rva0059A153@@QAEXPAVTeamPrototype@@@Z,0x0059A153,tail jmp target of 11B forwarder 0x004EC07D at +0x90; original name unknown
 ?rva0059AED2@Rva0059AED2@@QAEXXZ,0x0059AED2,thiscall void callee of 0x004F6187 read from its REL32 displacement; body unrowed
 ?rva0059B428@Rva0059B428@@QAEXHHH@Z,0x0059B428,address-derived callee of matched slot 0x0059B420; retail jmp rel32 targets 0x0059B428; Ghidra FUN bounds 118 bytes; thiscall on the +0x04 object 3 arg(s) ret 12; callee body remains unclaimed; no named identity inferred
 ?rva0059E390@Rva0059E390@@QAEXPBVModuleData@@@Z,0x0059E390,"holder append reached by Rva0059E436Parse at 0x0059E436; abuts 0x0059E3A7"

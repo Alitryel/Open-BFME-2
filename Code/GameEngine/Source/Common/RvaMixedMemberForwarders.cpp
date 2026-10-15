@@ -25,9 +25,9 @@
 typedef int Int;
 class Rva003626ADNullTarget
 {
-public:
-	void rva003626AD(Int a0, Int a1);
 };
+// 0x003626AD is rowed as BuffManager::TurnOffBuff(int, bool).
+class BuffManager { public: void TurnOffBuff(Int a0, bool a1); };
 
 class Rva00271BCC
 {
@@ -41,7 +41,7 @@ private:
 void Rva00271BCC::rva00271BCC(Int a0, Int a1)
 {
 	if (m_member)
-		m_member->rva003626AD(a0, a1);
+		((BuffManager *)m_member)->TurnOffBuff(a0, *(bool *)&a1);
 }
 
 class Rva004F2C14NullTarget
@@ -90,7 +90,7 @@ public:
 
 class TeamPrototype;
 
-class Rva0059A153
+class Rva0059AC4D	// owner of the rowed 0x0059A153
 {
 public:
 	void rva0059A153(TeamPrototype *proto);
@@ -116,7 +116,7 @@ public:
 	void *rva004EC088(Int kind, void *list, const void *name);
 private:
 	char m_lead[0x90];
-	Rva0059A153 m_member;
+	Rva0059AC4D m_member;
 };
 
 void Rva002A8AB1Record::rva004EC07D(TeamPrototype *proto)
