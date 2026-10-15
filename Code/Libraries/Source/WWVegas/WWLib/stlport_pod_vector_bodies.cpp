@@ -215,6 +215,10 @@ template <> _STL::_Vector_base<char, _STL::allocator<char> >::_Vector_base(unsig
     _M_end_of_storage._M_data = tmp + __n;
 }
 
+// Rowed in stlport_byte_vector_resize_value.cpp; declared here so the
+// explicit instantiation below emits no competing copy.
+template <> void _STL::vector<char, _STL::allocator<char> >::resize(size_type);
+
 template class _STL::vector<unsigned char, _STL::allocator<unsigned char> >;
 template class _STL::vector<char, _STL::allocator<char > >;
 template class _STL::vector<BfmePod20, _STL::allocator<BfmePod20 > >;
