@@ -111,12 +111,6 @@ public:
 	void rva004B4DBF(float *first, float *second);
 };
 
-class Rva002B224BDwordField
-{
-public:
-	int get() const;
-};
-
 template <int N> class SubObjectsDrawSlots : public SubObjectsDrawSlots<N - 1>
 {
 public:
@@ -157,6 +151,12 @@ public:
 	void rva00272414(const _STL::vector<AsciiString> *arg);
 };
 
+class Rva002B224BDwordField
+{
+public:
+	int get() const;
+};
+
 
 class SubObjectsUpgrade : public UpgradeModule
 {
@@ -192,7 +192,7 @@ bool SubObjectsUpgrade::swapTextures(Drawable *drawable, int mode)
  case 1: textures=&empty;break;
  default: return false;
  }
- DrawModule **modules=drawable->getDrawModules();
+ DrawModule **modules=(DrawModule **)((const Rva002B224BDwordField *)drawable)->get();
  for (DrawModule **it=modules;*it;++it) {
   ObjectDrawInterface *objectDraw=(*it)->getObjectDrawInterface();
   if (objectDraw) objectDraw->swapTextures(*textures);

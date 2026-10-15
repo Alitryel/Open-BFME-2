@@ -25,6 +25,11 @@ class Drawable {
 public:
     DrawModule **getDrawModules();
 };
+
+class Rva002B224BDwordField {
+public:
+    int get() const;
+};
 class AnimatedParticleSysBoneClientUpdate {
 public:
     virtual void clientUpdate();
@@ -38,7 +43,7 @@ void AnimatedParticleSysBoneClientUpdate::clientUpdate()
     ++life;
     Drawable *draw = drawable;
     if (draw) {
-        for (DrawModule **dm = draw->getDrawModules(); *dm; ++dm) {
+        for (DrawModule **dm = (DrawModule **)((const Rva002B224BDwordField *)draw)->get(); *dm; ++dm) {
             ObjectDrawInterface *di = (*dm)->getObjectDrawInterface();
             if (di && di->updateBonesForClientParticleSystems(0))
                 break;

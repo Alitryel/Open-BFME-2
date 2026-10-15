@@ -181,6 +181,8 @@ class Drawable { public:
  const Coord3D* getPosition() const; DrawableID getID() const; DrawModule**getDrawModules();
  char unknown00[0xFC]; ObjectPositionView *parent; char unknown100[0x34A]; bool enabled;
 };
+
+class Rva002B224BDwordField { public: int get() const; };
 class AnimationSoundClientBehavior { public:
  void updateAnimationSounds(); void*vptr; const ModuleData*data; Drawable*drawable;
  void*secondary; float rangeSquared; void*next; void*prev;
@@ -204,7 +206,7 @@ void AnimationSoundClientBehavior::updateAnimationSounds()
   return;
  }
  AnimationSoundTree*tree=(AnimationSoundTree*)&data->tree;
- DrawModule**moduleList=d->getDrawModules();if(!moduleList)return;
+ DrawModule**moduleList=(DrawModule**)((const Rva002B224BDwordField*)d)->get();if(!moduleList)return;
  DrawModule* volatile*modules=moduleList;
  for(;*modules;++modules){
   ObjectDrawInterface*draw=(*modules)->getDrawInterface();if(!draw)continue;

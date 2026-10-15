@@ -56,6 +56,12 @@ class Drawable
 public:
     DrawModule **getDrawModules();
 };
+
+class Rva002B224BDwordField
+{
+public:
+    int get() const;
+};
 class Thing
 {
 public:
@@ -148,7 +154,7 @@ void GeometryUpgrade::rva004B6B29()
     rva004CE4A8();
     Object *object = m_object;
     TheAI->pathfinder->RemoveObjectFromPathfindMap(object);
-    GeometryDrawModule **modules = (GeometryDrawModule **)((const Thing *)object)->getDrawable()->getDrawModules();
+    GeometryDrawModule **modules = (GeometryDrawModule **)((const Rva002B224BDwordField *)((const Thing *)object)->getDrawable())->get();
     for (; modules[0]; ++modules)
     {
         modules[0]->reset(0);
@@ -200,7 +206,7 @@ void GeometryUpgrade::upgradeImplementation()
         const char *wall = predicates.wall ? data->wall.str() : 0;
         const char *ramp = predicates.ramp ? data->ramp.str() : 0;
         const char *name = predicates.name ? data->name.str() : 0;
-        GeometryDrawModule **modules = (GeometryDrawModule **)((const Thing *)object)->getDrawable()->getDrawModules();
+        GeometryDrawModule **modules = (GeometryDrawModule **)((const Rva002B224BDwordField *)((const Thing *)object)->getDrawable())->get();
         for (; modules[0]; ++modules)
         {
             if (wall)
