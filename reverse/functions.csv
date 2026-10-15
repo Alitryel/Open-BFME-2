@@ -90046,3 +90046,4 @@ uw_0079ce54,,0x0079CE54,10,Code/GameEngine/Source/Common/FrameDataManagerDtor.cp
 uw_0078475a,,0x0078475A,10,Code/GameEngine/Source/Common/GameEngineControl.cpp,matched,gen-funclet;parent=?Rva003FE7E6@@YA_NVRva00211E75Callback@@PAH@Z;object-symbol=$L457
 uw_0076fa6b,,0x0076FA6B,8,Code/GameEngine/Source/Common/GameEngineInit.cpp,matched,gen-funclet;parent=?init@GameEngine@@UAEXHQAPAD@Z;object-symbol=$L13954
 uw_007a0fe1,,0x007A0FE1,8,Code/GameEngine/Source/Common/GameSpyLoginPreferences.cpp,matched,gen-funclet;parent=?rva005CA07D@GameSpyLoginPreferences@@QAE?AV?$list@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@XZ;object-symbol=$L10614
+?onEnter@Rva00544EB1@@UAE?AW4StateReturnType@@XZ,,0x00544C62,473,Code/GameEngine/Source/GameLogic/AI/Rva00544EB1OnEnter.cpp,matched,state vftable 0x00C69E08 slot 4 onEnter: harvest target query and goal nudge; named volatile AI-pointer local keeps retail load order (W7-S2 r14)

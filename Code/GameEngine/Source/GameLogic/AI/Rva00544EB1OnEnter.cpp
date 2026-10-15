@@ -1,8 +1,8 @@
 // ?onEnter@Rva00544EB1@@UAE?AW4StateReturnType@@XZ
-// partial score=0.985 date=2026-10-15
 // ?onEnter@Rva00544EB1@@UAE?AW4StateReturnType@@XZ
-// partial score=0.985 date=2026-10-15
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include
+// Schedule note (W7-S2 r14): the object's AI pointer is read once through a named textual volatile local
+// (`aiForLocomotors`), which pins that load after the pathfinder call setup like retail; plain locals are CSE'd away.
 //
 // ?onEnter@Rva00544EB1@@UAE?AW4StateReturnType@@XZ, retail 0x00544C62, 473 bytes (RET 0):
 // slot 4 of the state vftable 0x00C69E08 (ctor 0x00544EB1, derived from AIInternalMoveToState with
@@ -278,8 +278,8 @@ StateReturnType Rva00544EB1::onEnter()
 			Coord3D probe = offset;
 			probe.x += m_goalPosition.x;
 			probe.y += m_goalPosition.y;
-			Object *owner = m_machine->getOwner();
-			if (ai->m_pathfinder->adjustDestination(owner, *(const LocomotorSet *)((char *)owner->m_ai + 0x1CC), &probe, 0)
+			Object *owner = m_machine->getOwner(); AIUpdateInterface * aiForLocomotors = *(AIUpdateInterface * volatile *)&(owner->m_ai);
+			if (ai->m_pathfinder->adjustDestination(owner, *(const LocomotorSet *)((char *)aiForLocomotors + 0x1CC), &probe, 0)
 				&& !__cp(TheAI->m_pathfinder)->IsPointOnWall((int)&probe, false)
 				&& !__cp(TheAI->m_pathfinder)->IsPointOnRamp(&probe))
 			{
