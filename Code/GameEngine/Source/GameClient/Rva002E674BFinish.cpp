@@ -34,6 +34,12 @@ struct AsciiStringHeader
 
 #include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
+// Declaration-only: push_back<AsciiString> is emitted by its owner (Upgrade.cpp, 0x0002DBE6);
+// this unit's copy pulled in _M_insert_overflow and allocator copies that lose to retail.
+namespace _STL {
+template <> void vector<AsciiString, allocator<AsciiString> >::push_back(const AsciiString &);
+}
+
 typedef _STL::vector<AsciiString> AsciiStringVec;
 
 struct StringLookUp

@@ -5,6 +5,11 @@
 // callee translate(const char*)6CB5F0 prove this identity independently.
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
+// StringBase<unsigned short>::StringBase() is otherwise emitted here as a
+// losing COMDAT (string_base_clear.cpp owns the kept copy); TU-local
+// dllimport+forceinline specialization of the same one-store body.
+template <> __declspec(dllimport) __forceinline
+StringBase<unsigned short>::StringBase() : m_data(0) {}
 #include "unicode_string.h"
 // LINK-COMDAT: StringBase<G> default ctor kept as /O1 (and) from
 // unicode_string.cpp; file is /O1 so the COMDAT matches, row below forced to

@@ -28,6 +28,13 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "vector3.h"
 #include "vector4.h"
 
+// VectorClass<T>::Resize otherwise emits a per-TU COMDAT that loses to the
+// retail-matched copy in the owner units; these declaration-only
+// specializations suppress this unit's copies and bind the calls to them.
+template <> bool VectorClass<Vector2>::Resize(int, const Vector2 *);
+template <> bool VectorClass<Vector3>::Resize(int, const Vector3 *);
+template <> bool VectorClass<Vector4>::Resize(int, const Vector4 *);
+
 class Rva00914860Sizer
 {
 public:

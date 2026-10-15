@@ -9,6 +9,16 @@ struct BfmeRecord001DD3BC {
 };
 bool operator<(const BfmeRecord001DD3BC &a, const BfmeRecord001DD3BC &b);
 typedef _STL::_Rb_tree<BfmeRecord001DD3BC, BfmeRecord001DD3BC, _STL::_Identity<BfmeRecord001DD3BC>, _STL::less<BfmeRecord001DD3BC>, _STL::allocator<BfmeRecord001DD3BC> > BfmeRecord001DD3BCSetTree;
+
+// Declaration-only: these helpers otherwise emit per-TU COMDAT copies that lose
+// to the retail-matched copies kept by the sibling dtor/erase/construct units; the
+// copy ctor body binds to those kept copies instead.
+namespace _STL {
+template <> void _Destroy<BfmeRecord001DD3BC>(BfmeRecord001DD3BC *);
+template <> void _Construct<BfmeRecord001DD3BC, BfmeRecord001DD3BC>(BfmeRecord001DD3BC *, const BfmeRecord001DD3BC &);
+}
+template <> BfmeRecord001DD3BCSetTree::~_Rb_tree();
+template <> void BfmeRecord001DD3BCSetTree::_M_erase(_STL::_Rb_tree_node<BfmeRecord001DD3BC> *);
 template BfmeRecord001DD3BCSetTree::_Rb_tree(const BfmeRecord001DD3BCSetTree &);
 
 // The outer set copy constructor at retail 0x001DE6B3 (18 bytes): forwards to the tree

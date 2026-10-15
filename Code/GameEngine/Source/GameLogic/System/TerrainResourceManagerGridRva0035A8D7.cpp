@@ -16,6 +16,11 @@ struct BfmePod8
 {
 	int a[2];
 };
+// vector<BfmePod8>::erase(first,last) otherwise emits a per-TU COMDAT that loses to the
+// owner's copy; this declaration-only specialization binds the call to the kept one.
+namespace _STL {
+template <> BfmePod8 *vector<BfmePod8, allocator<BfmePod8> >::erase(BfmePod8 *, BfmePod8 *);
+}
 
 struct RvaCell
 {

@@ -119,6 +119,9 @@ class W3DShadowTexture : public RefCountClass, public	HashableClass
 		Vector3		m_shadowUV[2];		///<world-space vectors defining the u and v texture coordinate axis.
 };
 
+// RefCountPtr<TextureClass>::~RefCountPtr is the out-of-line retail body; its owner row binds it.
+template <> RefCountPtr<TextureClass>::~RefCountPtr();
+
 // Retail 0x00108BB4..0x00108CA8 and WB 0x008D7020 establish this constructor
 // and the two base subobjects, the owned texture at +0x30, and the name at
 // +0x10. The donor supplies the math interfaces; retail orders their member

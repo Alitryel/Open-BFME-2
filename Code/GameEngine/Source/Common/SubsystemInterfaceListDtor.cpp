@@ -32,6 +32,12 @@ struct BfmePod8
 	Rva001B51C0Object *m_second;
 };
 
+// The rowed BfmePod8 erase (stlport_pod_vector_malloc_bodies.cpp owns the retail
+// body); a declaration-only specialization keeps this TU from emitting its own copy.
+namespace _STL {
+template <> BfmePod8 *vector<BfmePod8, allocator<BfmePod8> >::erase(BfmePod8 *, BfmePod8 *);
+}
+
 class SubsystemInterfaceList
 {
 public:

@@ -11,6 +11,9 @@
 struct Rva00540295Element {
 	unsigned char bytes[40];
 };
+// bfme link decl-only begin
+namespace _STL { template <> vector<Rva00540295Element, allocator<Rva00540295Element> >::vector(const vector<Rva00540295Element, allocator<Rva00540295Element> > &); }
+// bfme link decl-only end
 
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 // bfme link decl-only BfmeE16
@@ -20,6 +23,7 @@ class Rva00330757Member
 {
 public:
 	Rva00330757Member();
+	~Rva00330757Member();
 private:
 	_STL::vector<BfmeE16> m_items;
 	int m_flags;

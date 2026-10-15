@@ -28,7 +28,7 @@ struct Vector3
 
 struct TRoadPt
 {
-	TRoadPt()
+	__declspec(dllimport) __forceinline TRoadPt()
 	{
 		loc.X = 0.0f; loc.Y = 0.0f;
 		top.X = 0.0f; top.Y = 0.0f;
