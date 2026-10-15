@@ -1,4 +1,6 @@
 // ?rva0008DB18@W3DView@@QAEXXZ
+// partial score=0.96 date=2026-10-15
+// ?rva0008DB18@W3DView@@QAEXXZ
 // partial score=0.9568875281310514 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /I.
 // Complete retail 0x0008DB18..0x0008DE1C (772 bytes); WB 0x0099A350.
@@ -33,7 +35,7 @@ extern OrbitDisplay *g_Va00DFE9D8;
 struct OrbitInput { char pad[0x4f0c]; int x,y; };
 extern OrbitInput *g_Va00DFDCA0;
 struct OrbitDrawable { char pad[0xb0]; float opacity; };
-extern OrbitDrawable *g_Va00DE2078;
+static OrbitDrawable *g_Va00DE2078;
 extern bool g_Va00DB4580, g_Va00DE201C;
 extern float g_Va00DB4540,g_Va00DB4544,g_Va00DB4548;
 extern float g_Va00DB454C,g_Va00DB4550,g_Va00DB4560,g_Va00DB4564;
