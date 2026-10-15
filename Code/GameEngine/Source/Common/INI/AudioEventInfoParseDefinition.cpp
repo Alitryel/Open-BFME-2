@@ -1,7 +1,3 @@
-// ?helper001DA770@@YAXPAVINI@@HPAVAsciiString@@PBD@Z
-// partial score=0.93 date=2026-10-14
-// ?helper001DA770@@YAXPAVINI@@HPAVAsciiString@@PBD@Z
-// partial score=0.93 date=2026-10-07
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /EHsc /DNDEBUG /MD
 //
 // ?helper001DA770@@YAXPAVINI@@HPAVAsciiString@@PBD@Z @0x001DA770 528B.
@@ -10,7 +6,11 @@
 // strings "You cannot define or override a %s in map.ini",
 // "Control flag 'RANDOMSTART' is not valid for ",
 // ". Streaming sound types only, please.", TheAudio 0x009FE6E8,
-// theDebug 0x009E0880, field table g_00BD9D68, float g_00BDA3E4.
+// theDebug 0x009E0880, field table g_00BD9D68. WorldBuilder twin 0x00ABEF30
+// (AudioEventInfo::parseAudioEventInfoDefintion, Audio/AudioEventInfo.cpp)
+// reads every field through the event handle's operator->; the rowed handle
+// assignment 0x00239099 is defined here so cl sees the handle's address does
+// not escape and keeps the referent in ESI. Pitch clamps store -99.0f.
 #include "ascii_string.h"
 
 class INIException
@@ -37,13 +37,17 @@ private:
 };
 
 extern const struct FieldParse g_00BD9D68[];
-extern const float g_00BDA3E4;
+
+extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile *);
 
 class OpaqueRefCounted
 {
 public:
 	virtual ~OpaqueRefCounted();
+	void Add_Ref() { InterlockedIncrement(&refs); }
 	void Release_Ref();
+private:
+	long refs;
 };
 
 struct OpaqueRefElement4
@@ -52,7 +56,20 @@ struct OpaqueRefElement4
 	OpaqueRefElement4() : referent(0) {}
 	~OpaqueRefElement4() { if (referent) referent->Release_Ref(); }
 	OpaqueRefElement4 &operator=(const OpaqueRefElement4 &other);
+	class Rva001DA379 *operator->() const { return (class Rva001DA379 *)referent; }
 };
+
+inline __declspec(noinline) OpaqueRefElement4 &OpaqueRefElement4::operator=(const OpaqueRefElement4 &other)
+{
+	if (this != &other) {
+		if (other.referent)
+			other.referent->Add_Ref();
+		if (referent)
+			referent->Release_Ref();
+		referent = other.referent;
+	}
+	return *this;
+}
 
 class Rva001DA379
 {
@@ -144,44 +161,43 @@ void __cdecl helper001DA770(INI *ini, int kind, AsciiString *defName, const char
 	OpaqueRefElement4 track;
 	((StringBase<char> *)&name)->set(ini->getNextToken(0));
 	track = TheAudio->newAudioEventInfo(name, allow);
-	Rva001DA379 *info = (Rva001DA379 *)track.referent;
-	if (!info)
+	if (!track.referent)
 		return;
 	OpaqueRefElement4 defInfo = TheAudio->findAudioEventInfo(*defName);
 	if (defInfo.referent != 0) {
-		info->rva001DA379((const Rva001DA379 &)*(Rva001DA379 *)defInfo.referent);
-		info->m_type &= ~0x400;
+		track->rva001DA379((const Rva001DA379 &)*(Rva001DA379 *)defInfo.referent);
+		track->m_type &= ~0x400;
 	}
-	info->m_audioName = name;
-	info->m_soundType = kind;
-	ini->initFromINI(info, g_00BD9D68);
-	if (kind == 2 && (info->m_control & 4)) {
+	track->m_audioName = name;
+	track->m_soundType = kind;
+	ini->initFromINI(track.referent, g_00BD9D68);
+	if (kind == 2 && (track->m_control & 4)) {
 		if (bfmeRva000387C0()) {
 			_bfme_debugRecordCallsite(1);
 			theDebug->SkipNext();
 			(theDebug->CrashBegin(0, 0, 0) << "Control flag 'RANDOMSTART' is not valid for " << typeName << ". Streaming sound types only, please.").CrashDone(2);
 		}
-		info->m_control &= ~4;
+		track->m_control &= ~4;
 	}
-	if (info->m_control & 0x80)
-		info->m_control &= ~0x80;
-	if (info->m_delayMin < 0) {
-		info->m_delayMin = 0;
-		if ((g_00BDA3E4 ? info : info)->m_delayMax < 0)
-			info->m_delayMax = 0;
+	if (track->m_control & 0x80)
+		track->m_control &= ~0x80;
+	if (track->m_delayMin < 0) {
+		track->m_delayMin = 0;
+		if (track->m_delayMax < 0)
+			track->m_delayMax = 0;
 	}
-	if (info->m_pitchShiftMin <= -100.0f) {
-		(ini ? info : info)->m_pitchShiftMin = g_00BDA3E4;
-		if (info->m_pitchShiftMax <= -100.0f)
-			info->m_pitchShiftMax = g_00BDA3E4;
+	if (track->m_pitchShiftMin <= -100.0f) {
+		track->m_pitchShiftMin = -99.0f;
+		if (track->m_pitchShiftMax <= -100.0f)
+			track->m_pitchShiftMax = -99.0f;
 	}
-	if (info->m_pitchShift2Min <= -100.0f) {
-		(ini ? info : info)->m_pitchShift2Min = g_00BDA3E4;
-		if (info->m_pitchShift2Max <= -100.0f)
-			info->m_pitchShift2Max = g_00BDA3E4;
+	if (track->m_pitchShift2Min <= -100.0f) {
+		track->m_pitchShift2Min = -99.0f;
+		if (track->m_pitchShift2Max <= -100.0f)
+			track->m_pitchShift2Max = -99.0f;
 	}
-	if (info->m_volumeShift < -100.0f || info->m_volumeShift > 0.0f)
-		info->m_volumeShift = 0.0f;
-	if (info->m_volumeShift2 < -100.0f || info->m_volumeShift2 > 0.0f)
-		info->m_volumeShift2 = 0.0f;
+	if (track->m_volumeShift < -100.0f || track->m_volumeShift > 0.0f)
+		track->m_volumeShift = 0.0f;
+	if (track->m_volumeShift2 < -100.0f || track->m_volumeShift2 > 0.0f)
+		track->m_volumeShift2 = 0.0f;
 }
