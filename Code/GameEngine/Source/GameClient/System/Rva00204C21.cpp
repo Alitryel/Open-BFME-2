@@ -13,12 +13,13 @@ public:
 	void release();
 };
 
-class BFMERetailAsciiString
+#include "ascii_string.h"
+
+// The bfmeStopCW row takes its name as this AsciiString view; the canonical
+// AsciiString local's inline ctor/dtor emit the StringBase and
+// releaseBuffer calls.
+class BFMERetailAsciiString : public AsciiString
 {
-public:
-	BFMERetailAsciiString(const char *text);
-	~BFMERetailAsciiString();
-	void *m_bfmeBufCW;
 };
 
 class ParticleSystemManager
@@ -38,7 +39,7 @@ void Rva00204C21::rva00204C21(const char *name)
 {
 	release();
 	{
-		const BFMERetailAsciiString &text = BFMERetailAsciiString(name);
-		TheParticleSystemManager->bfmeStopCW(text);
+		AsciiString text(name);
+		TheParticleSystemManager->bfmeStopCW((const BFMERetailAsciiString &)text);
 	}
 }
