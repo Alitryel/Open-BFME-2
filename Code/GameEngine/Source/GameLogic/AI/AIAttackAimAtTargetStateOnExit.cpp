@@ -155,7 +155,7 @@ class StateMachine
 public:
 	Object *getOwner() const { return m_owner; }
 	Object *getGoalObject();
-	const Coord3D *getGoalPosition() const { return &m_goalPosition; }
+	__declspec(dllimport) __forceinline const Coord3D *getGoalPosition() const { return &m_goalPosition; }
 private:
 	unsigned char m_pad00[0x14];
 	Object *m_owner; // +0x14
