@@ -2,27 +2,32 @@
 //
 // ??0PolygonTrigger@@QAE@H@Z, retail 0x002e3eb8, 166 bytes. Banked partial (score 0.9) closed by tools/permute.py;
 // the body is the banked one up to statement/operand order and local types.
-// PARTIAL: native002E3EB8..002E3F5E, WB00AB9AE0. 166-byte instruction shape matches
-// apart from unresolved REL32 rva002E36B7; DIR32s remain unproven.
+// Native constructor 0x2E3EB8..0x2E3F5E; WB 0xAB9AE0.
 // Native secondary interface has one pure virtual at C1C780 and trivial destruction;
 // native derived entry C04C78 points to this-38 thunk002E37C3 ->002E37B1.
 // Primary vtable C04C7C has13 entries; this provisional base declaration is incomplete.
-// Do not ledger this constructor until all emitted tables and EH dependencies are verified.
 // Native 330C50..330CC2: primary vptr +0, vbptr +4, container +8,
 // flag +34, vtordisp +38, seven-slot virtual interface +3C.
 // The vbtable contains {-4, 0x38}; interface thunks 2E3E80..2E3EB0
 // each subtract the vtordisp before dispatching the corresponding member.
+#include "../../../Libraries/Include/Lib/Region2D.h"
+struct Rva0030B72CPoint {
+ Rva0030B72CPoint() {}
+ __forceinline Rva0030B72CPoint(const Rva0030B72CPoint &p):x(p.x),y(p.y) {}
+ float x,y;
+};
+
 class Rva00330C50Interface
 {
 public:
 	~Rva00330C50Interface() {}
-	virtual void slot0() = 0;
-	virtual void slot1() = 0;
-	virtual void slot2() = 0;
-	virtual void slot3() = 0;
-	virtual void slot4() = 0;
-	virtual void slot5() = 0;
-	virtual void slot6() = 0;
+	virtual int slot0() const = 0;
+	virtual Rva0030B72CPoint slot1(int index) const = 0;
+	virtual int slot2() const = 0;
+	virtual Region2D slot3() = 0;
+	virtual float slot4() const = 0;
+	virtual float slot5() const = 0;
+	virtual Rva0030B72CPoint slot6() const = 0;
 };
 
 class Rva0030B9DD
@@ -39,13 +44,13 @@ class Rva00330C50 : public virtual Rva00330C50Interface
 public:
 	Rva00330C50();
 	virtual ~Rva00330C50();
-	virtual void slot0();
-	virtual void slot1();
-	virtual void slot2();
-	virtual void slot3();
-	virtual void slot4();
-	virtual void slot5();
-	virtual void slot6();
+	virtual int slot0() const;
+	virtual Rva0030B72CPoint slot1(int index) const;
+	virtual int slot2() const;
+	virtual Region2D slot3();
+	virtual float slot4() const;
+	virtual float slot5() const;
+	virtual Rva0030B72CPoint slot6() const;
 private:
 	Rva0030B9DD container;
 	bool changed;
@@ -61,8 +66,6 @@ public:
  PolygonTrigger(int);
  virtual ~PolygonTrigger();
  virtual void slot();
- virtual void slot0(); virtual void slot1(); virtual void slot2();
- virtual void slot3(); virtual void slot4(); virtual void slot5(); virtual void slot6();
  void rva002E36B7(int);
 private:
  AsciiString name;
