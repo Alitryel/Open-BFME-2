@@ -543,7 +543,16 @@ VehicleCurveClass::Evaluate (float time, Vector3 *set_val)
 		set_val->X = arc_info0.center.X + (arc_info0.radius * ::WWMath::Sin (angle));
 		set_val->Y = arc_info0.center.Y + (arc_info0.radius * -::WWMath::Cos (angle));
 
-		m_Sharpness = WWMath::Clamp (WWMath::Fabs (arc_info0.angle_out_delta) / DEG_TO_RADF (15), 0, 1.0F);
+		// Inline Clamp without emitting a competing external copy.
+		float sharpness = WWMath::Fabs (arc_info0.angle_out_delta) / DEG_TO_RADF (15);
+		float clamped;
+		if (sharpness < 0.0F)
+			clamped = 0.0F;
+		else if (sharpness > 1.0F)
+			clamped = 1.0F;
+		else
+			clamped = sharpness;
+		m_Sharpness = clamped;
 		m_SharpnessPos.X = set_val->X;
 		m_SharpnessPos.Y = set_val->Y;
 		m_SharpnessPos.Z = Keys[index0].Point.Z + (Keys[index1].Point.Z - Keys[index0].Point.Z) * seg_time;
@@ -569,7 +578,15 @@ VehicleCurveClass::Evaluate (float time, Vector3 *set_val)
 		//set_val->X = arc_info0.point_out.X + (arc_info1.point_in.X - arc_info0.point_out.X) * percent;
 		//set_val->Y = arc_info0.point_out.Y + (arc_info1.point_in.Y - arc_info0.point_out.Y) * percent;
 
-		m_Sharpness = WWMath::Clamp (WWMath::Fabs (arc_info1.angle_out_delta) / DEG_TO_RADF (15), 0, 1.0F);
+		float sharpness = WWMath::Fabs (arc_info1.angle_out_delta) / DEG_TO_RADF (15);
+		float clamped;
+		if (sharpness < 0.0F)
+			clamped = 0.0F;
+		else if (sharpness > 1.0F)
+			clamped = 1.0F;
+		else
+			clamped = sharpness;
+		m_Sharpness = clamped;
 		m_SharpnessPos = arc_info1.point_in;
 		
 		m_LastTime = Keys[index0].Time + (Keys[index1].Time - Keys[index0].Time) * time2;
@@ -591,7 +608,15 @@ VehicleCurveClass::Evaluate (float time, Vector3 *set_val)
 		set_val->X = arc_info1.center.X + (arc_info1.radius * ::WWMath::Sin (angle));
 		set_val->Y = arc_info1.center.Y + (arc_info1.radius * -::WWMath::Cos (angle));		
 
-		m_Sharpness = WWMath::Clamp (WWMath::Fabs (arc_info1.angle_out_delta) / DEG_TO_RADF (15), 0, 1.0F);
+		float sharpness = WWMath::Fabs (arc_info1.angle_out_delta) / DEG_TO_RADF (15);
+		float clamped;
+		if (sharpness < 0.0F)
+			clamped = 0.0F;
+		else if (sharpness > 1.0F)
+			clamped = 1.0F;
+		else
+			clamped = sharpness;
+		m_Sharpness = clamped;
 		m_SharpnessPos.X = set_val->X;
 		m_SharpnessPos.Y = set_val->Y;
 		m_SharpnessPos.Z = Keys[index0].Point.Z + (Keys[index1].Point.Z - Keys[index0].Point.Z) * seg_time;

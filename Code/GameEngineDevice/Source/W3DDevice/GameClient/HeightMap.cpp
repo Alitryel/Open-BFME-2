@@ -230,7 +230,11 @@ UnsignedInt HeightMapRenderObjClass::doTheDynamicLight(VERTEX_FORMAT *vb, VERTEX
 				if (dist >= range) continue;
 				if (midRange < 0.1) continue;
 				factor = 1.0f - (dist - midRange) / (range - midRange);
-				factor = WWMath::Clamp(factor,0.0f,1.0f);
+				// Inline Clamp without emitting a competing external copy.
+				if (factor < 0.0f)
+					factor = 0.0f;
+				else if (factor > 1.0f)
+					factor = 1.0f;
 
 				// (gth) normalize here since we have the length
 				lightDirection /= dist;

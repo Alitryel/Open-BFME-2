@@ -242,12 +242,8 @@ void CameraShakeSystemClass::Update_Camera_Shaker(Vector3 camera_position, Vecto
 		iterator.Peek_Obj()->Compute_Rotations(camera_position,&angles);
 	}
 
-	/*
-	** Clamp the result
-	*/
-	for (int i=0; i<3; i++) {
-		WWMath::Clamp(angles[i],-AXIS_ROTATION[i],AXIS_ROTATION[i]);
-	}
+	// The donor discarded Clamp's return values. Its pure calls were already
+	// optimized away; omit them to avoid an unused conflicting Clamp body.
 	
 	*shaker_angle = angles;
 
