@@ -6,6 +6,8 @@
 // Matrix operations use pinned BF1 a7c38d3b WWMath; particle offsets and
 // helper calls are read independently from target. StreakDrawModuleDoParticles
 // is the target-verified sibling for the storage/culling/tracking-pointer ABI.
+// Preserve inline row access without emitting a competing Matrix3 indexer.
+#include "../../../../../../reference/shims/bfme_matrix3_owner_link/matrix3.h"
 #include "matrix3d.h"
 // Retain inline indexing without a competing external Matrix3 helper.
 #include "../../../../../../reference/shims/bfme_matrix3_owner_link/matrix3.h"
