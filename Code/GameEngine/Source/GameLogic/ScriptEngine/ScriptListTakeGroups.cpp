@@ -9,8 +9,9 @@
 // the source chain in a deque, then take each group from the back through
 // doTakeGroup. ?takeGroup@ScriptList@@... retail 0x003B8A9B (48 bytes, RET
 // 20): find the group in the chain and take it to the given slot (or the
-// fallback). doTakeGroup (0x003B89C9, 210 bytes) is not yet rowed; its WB
-// name is pinned.
+// fallback). doTakeGroup (0x003B89C9, 210 bytes, RET 12): capture the source
+// group record, take the group into this list's group set, then relink the
+// captured groups and scripts through takeGroups/takeScripts.
 #include <stl/_algobase.h>
 namespace _STL {
 static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
@@ -47,6 +48,48 @@ public:
     int unknown; ScriptGroupLink *groups; ScriptEntryLink *scripts;
     Rva003B573E groupSet; char scriptSet[32];
 };
+void ScriptList::doTakeGroup(ScriptList *source,ScriptGroupLink **from,ScriptGroupLink **to)
+{
+ ScriptList *volatile owner=this;
+ CapturedGroup *captured=(CapturedGroup*)((Rva003B40A1Holder*)source)->captureGroup(*from);
+ ScriptGroupLink **groupAddress=&captured->groups;
+ ScriptGroupLink *groups=*groupAddress;
+ *groupAddress=0;
+ ScriptEntryLink **scriptAddress=&captured->scripts;
+ ScriptEntryLink *scripts=*scriptAddress;
+ *scriptAddress=0;
+ int index=owner->groupSet.rva003B7F8E(&source->groupSet,(*from)->index);
+ if(index != -1) 
+ {
+  (*from)->index=index;
+  ScriptSetRecord *rs=owner->groupSet.records;
+  (*from)->link=rs[index].references;
+  ScriptGroupLink *next=(*from)->next;
+  (*from)->next=(*(ScriptGroupLink ** volatile *)&to)[0];
+  *to=*from;
+  ScriptList *target=owner;
+  *from=next;
+  target->takeGroups(source,&groups,groupAddress);
+  if(groups) 
+  {
+   ScriptGroupLink **end=&source->groups;
+   while(*end) end=&(*end)->next;
+   *end=groups;
+  }
+  owner->takeScripts(source,reinterpret_cast<BfmeNodeZK**>(&scripts),reinterpret_cast<BfmeNodeZK**>(scriptAddress));
+  if(scripts) 
+  {
+   ScriptEntryLink **end=&source->scripts;
+   while(*end) end=&(*end)->next;
+   *end=scripts;
+  }
+ }
+ else 
+ {
+  *groupAddress=groups;
+  *scriptAddress=scripts;
+ }
+}
 void ScriptList::takeGroup(ScriptList *source,ScriptGroupLink **head,ScriptGroupLink *group,ScriptGroupLink **fallback,ScriptGroupLink **where)
 {
     ScriptGroupLink **slot=head;
