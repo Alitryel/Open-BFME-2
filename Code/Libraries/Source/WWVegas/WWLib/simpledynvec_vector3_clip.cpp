@@ -60,9 +60,11 @@ public:
 	void rva00100362(const class PlaneClass &plane, SimpleDynVecClass<Vector3> &dest) const;
 	void rva00100568();
 	void rva001006f8(const Rva001006F8FrustumView &frustum, SimpleDynVecClass<Type> &dest) const;
-	void Delete_All(bool allow_shrink = true) { ActiveCount = 0; }
+	// This local view supplies the inlined non-shrinking path only. Keep
+	// callable helpers with their owners instead of emitting partial copies.
+	__declspec(dllimport) __forceinline void Delete_All(bool allow_shrink = true) { ActiveCount = 0; }
 	int Count() const { return ActiveCount; }
-	const Type &operator[](int i) const { return Vector[i]; }
+	__declspec(dllimport) __forceinline const Type &operator[](int i) const { return Vector[i]; }
 	Type *Vector;
 	int VectorMax;
 	int ActiveCount;
