@@ -1,21 +1,7 @@
-// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
-// partial score=0.99 date=2026-10-15
-// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
-// partial score=0.985 date=2026-10-14
-// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
-// partial score=0.985 date=2026-10-14
-// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
-// partial score=0.98 date=2026-10-14
-// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
-// partial score=0.781467 date=2026-10-14
-// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
-// partial score=0.752 date=2026-10-14
-// seat4 2026-10-15: hash_map find spelled as the inline iterator-returning
-// find over _M_find (iterator {cur, ht} local) gives retail's 0x14 frame and
-// slots; left: retail computes the color before the m_890 null test (ours
-// sinks it into the branch; an inline decal setColor wrapper is inert).
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include
+// ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z, retail 0x0029FD1B, 387 bytes.
+// Lever: the m_890 decal call is an equal-arm conditional on the member (m_890 ? call : call), which makes cl
+// compute the colour before the null test like retail.
 // @0x0029FD1B 387B, retail-guided InGameUI radius decal.
 class Object;
 class Player;
@@ -51,7 +37,7 @@ public:
 	void rva00330995(int color);
 };
 
-struct Coord3D { float x, y, z; };
+#include "Lib/Coord3D.h"
 
 class TextureClass;
 class MaterialPassClass
@@ -218,5 +204,5 @@ void InGameUI::rva0029FD1B(int id, MaterialPassClass *mp, Overridable *ov, int a
 
 	int color = (unsigned char)arg3 ? -1 : (int)0xFFFF1414;
 	if (m_890)
-		m_890->rva00330995(color);
+		(m_890) ? (m_890->rva00330995(color)) : (m_890->rva00330995(color));
 }
