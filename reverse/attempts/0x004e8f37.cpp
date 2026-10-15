@@ -29,16 +29,13 @@ private:
 
 bool Rva004E8F37::rva004E8F37(Player *player)
 {
+	if (m_begin == m_end) return true;
 	Rva004989D7 **end = m_end;
-	Rva004989D7 **it = m_begin;
-	if (it == end)
-		return true;
-	while (it != end)
+	for (Rva004989D7 **it = m_begin; it != end; ++it)
 	{
 		Rva004989D7 *entry = *it;
 		if (entry->rva004989D7() == player && entry->slot06())
 			return false;
-		++it;
 	}
 	return true;
 }

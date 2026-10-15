@@ -1,4 +1,6 @@
 // ?rva00232B7B@Keyboard@@QAEXXZ
+// partial score=0.908 date=2026-10-15
+// ?rva00232B7B@Keyboard@@QAEXXZ
 // partial score=0.93 date=2026-10-13
 // ?rva00232B7B@Keyboard@@QAEXXZ
 // partial score=0.93 date=2026-10-13
@@ -85,12 +87,10 @@ void Keyboard::rva00232B7B()
 	pod->erase(pod->begin(), pod->end());
 	for (;;)
 	{
-		slot40(&e);
-		if (e.m0 == 0xff)
+		while ((slot40(&e), e.m0 == 0xff))
 		{
-			pod->erase(pod->begin(), pod->end());
-			continue;
 			rva00232AE8();
+			pod->erase(pod->begin(), pod->end());
 		}
 		if (e.m0 == 0)
 			return;
