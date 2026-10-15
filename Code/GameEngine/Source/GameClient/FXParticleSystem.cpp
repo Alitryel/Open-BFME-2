@@ -210,6 +210,13 @@ public:
 template <int CATEGORY>
 inline CategoryModuleTemplate<CATEGORY>::CategoryModuleTemplate() {}
 
+// Keep the native24B implicit base destructor out of its deleting helper.
+// The derived cleanup is supplied by the existing exact factory provider.
+template <>
+__declspec(noinline) CategoryModuleTemplateBase<6>::~CategoryModuleTemplateBase();
+template <>
+CategoryModuleTemplate<6>::~CategoryModuleTemplate();
+
 // The retail instantiations are reached through derived module templates, so
 // nothing in this translation unit would emit their constructors on its own.
 // A file-scope instance of each is what forces them out.
