@@ -18,6 +18,7 @@ struct BfmeStringRecord00111ACF {
     struct FloatStorage { float values[4]; } middle;
     AsciiString second;
     BfmeStringRecord00111ACF &operator=(const BfmeStringRecord00111ACF &o);
+    ~BfmeStringRecord00111ACF();
 };
 BfmeStringRecord00111ACF &BfmeStringRecord00111ACF::operator=(const BfmeStringRecord00111ACF &o)
 {

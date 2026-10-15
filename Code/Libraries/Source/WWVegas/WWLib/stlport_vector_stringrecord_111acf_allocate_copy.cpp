@@ -20,6 +20,7 @@ struct BfmeStringRecord00111ACF {
     AsciiString second;
     BfmeStringRecord00111ACF();
     BfmeStringRecord00111ACF(const BfmeStringRecord00111ACF &);
+    ~BfmeStringRecord00111ACF();
 };
 namespace _STL {
 template <> void _Construct<BfmeStringRecord00111ACF, BfmeStringRecord00111ACF>(BfmeStringRecord00111ACF *, const BfmeStringRecord00111ACF &);

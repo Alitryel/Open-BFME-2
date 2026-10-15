@@ -79,7 +79,7 @@ inline bool operator==(const BfmeStringTailRecord156 &x, const BfmeStringTailRec
 // _Construct<BfmeStringTailRecord156> is the rowed copy construct at 0x004CC095: declare it so this
 // unit calls it rather than emitting the only other copy of that name.
 namespace _STL { template <> void _Construct<BfmeStringTailRecord156, BfmeStringTailRecord156>(BfmeStringTailRecord156 *__p, const BfmeStringTailRecord156 &__val); }
-struct BfmeStringTailRecord180 { int a[44]; AsciiString s; ~BfmeStringTailRecord180(); };
+struct BfmeStringTailRecord180 { int a[44]; AsciiString s; BfmeStringTailRecord180(); ~BfmeStringTailRecord180(); };
 inline bool operator==(const BfmeStringTailRecord180 &x, const BfmeStringTailRecord180 &y) { return x.s == y.s; }
 namespace _STL {
 // Declared only: defined by their owning TUs. Declaring these explicit
@@ -116,6 +116,7 @@ template void vector<BfmeStringHeadRecord184, allocator<BfmeStringHeadRecord184>
 }
 template class _STL::vector<BfmeAssignRecord40, _STL::allocator<BfmeAssignRecord40> >;
 template class _STL::vector<BfmeAssignRecord80, _STL::allocator<BfmeAssignRecord80> >;
+namespace _STL { template <> vector<BfmeAssignRecord104, allocator<BfmeAssignRecord104> >::~vector(); }
 template class _STL::vector<BfmeAssignRecord104, _STL::allocator<BfmeAssignRecord104> >;
 template class _STL::vector<BfmeAssignRecord172, _STL::allocator<BfmeAssignRecord172> >;
 namespace _STL {
