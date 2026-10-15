@@ -121,6 +121,8 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "GameLogic/ScriptEngine.h"		// For TheScriptEngine - jkmcd
 // bfme link decl-only begin
 namespace _STL { template <> _List_node<Drawable *> * list<Drawable *, allocator<Drawable *> >::_M_create_node(Drawable *const &); }
+namespace _STL { template <> void list<Drawable *, allocator<Drawable *> >::push_back(Drawable *const &); }
+namespace _STL { template <> list<Drawable *, allocator<Drawable *> >::iterator list<Drawable *, allocator<Drawable *> >::insert(list<Drawable *, allocator<Drawable *> >::iterator, Drawable *const &); }
 // bfme link decl-only end
 
 // ?erase@?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAEPAVAsciiString@@PAV3@0@Z
