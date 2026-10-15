@@ -16,6 +16,8 @@ class AsciiString { public: AsciiString(const AsciiString &); __forceinline ~Asc
 __forceinline AsciiString::AsciiString(const AsciiString &that) { ((::StringBase<char> *)this)->StringBase<char>::StringBase(*(const ::StringBase<char> *)&that); }
 __forceinline AsciiString::~AsciiString() { ((::StringBase<char> *)this)->releaseBuffer(); }
 struct BfmeStringRecord000B9534 {
+    // Use the existing shared record destructor instead of this private copy.
+    ~BfmeStringRecord000B9534();
     AsciiString text;
     unsigned char flag;
     unsigned int word0, word1, word2, word3;
