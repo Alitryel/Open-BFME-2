@@ -39,10 +39,10 @@ private:
 	unsigned char m_pad1C[0x30 - 0x1C];
 };
 
-class Rva002E3E51 : public virtual VBase00C6EE28
+class Rva00330C50 : public virtual VBase00C6EE28
 {
 public:
-	virtual ~Rva002E3E51();
+	virtual ~Rva00330C50();
 	virtual void s0();
 private:
 	void *m_08;
@@ -84,7 +84,7 @@ private:
 	int m_refs;
 };
 
-class Rva0030902E : public Rva0053805DBase, public Rva002E3E51, public Rva003089CFList
+class Rva0030902E : public Rva0053805DBase, public Rva00330C50, public Rva003089CFList
 {
 public:
 	virtual ~Rva0030902E();

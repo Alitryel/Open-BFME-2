@@ -2,7 +2,7 @@
 // ??1Rva002E4049@@UAE@XZ, retail 0x002E4049..0x002E40DB (146 bytes, EH):
 // the base-object destructor the rowed scalar deleting destructor
 // 0x002E424F calls (pinned there under a non-virtual spelling). Layout read
-// off the body: the rowed base Rva002E3E51 (vbptr at +4, non-virtual part
+// off the body: the rowed base Rva00330C50 (vbptr at +4, non-virtual part
 // 0x38 bytes, destructor 0x002E3E51), a second polymorphic base at +0x38,
 // a chain of owned objects at +0x3C (each unlinked and destroyed through a
 // global ::delete), two AsciiStrings at +0x40/+0x4C, and the virtual base
@@ -17,10 +17,10 @@ public:
 	~VBase00C6EE28() {}
 };
 
-class Rva002E3E51 : public virtual VBase00C6EE28
+class Rva00330C50 : public virtual VBase00C6EE28
 {
 public:
-	virtual ~Rva002E3E51();
+	virtual ~Rva00330C50();
 	virtual void s0();
 private:
 	void *m_08;
@@ -33,7 +33,7 @@ public:
 	virtual void s0();
 };
 
-class Rva002E4049 : public Rva002E3E51, public Rva002E4049Second
+class Rva002E4049 : public Rva00330C50, public Rva002E4049Second
 {
 public:
 	virtual ~Rva002E4049();

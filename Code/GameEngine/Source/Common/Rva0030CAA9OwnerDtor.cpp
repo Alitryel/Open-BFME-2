@@ -6,7 +6,7 @@
 // 0x00C08974 at +0x30, 0x00C08958 on the shared virtual base behind its
 // vtordisp), tells every listener through slot 0 (the generic vcall thunk),
 // and then its members and bases die: the +0x9C AsciiString, the listener
-// storage (GameFree), the secondary base (rowed Rva002E3E51 destructor) and
+// storage (GameFree), the secondary base (rowed Rva00330C50 destructor) and
 // the primary base (destructor body 0x00538133, pinned under this view).
 // Layout: primary base with its vbptr at +0x18, secondary base at +0x30
 // (vbptr +0x34), the listener list as a third base at +0x68 (retail's
@@ -40,10 +40,10 @@ private:
 	unsigned char m_pad1C[0x30 - 0x1C];
 };
 
-class Rva002E3E51 : public virtual VBase00C6EE28
+class Rva00330C50 : public virtual VBase00C6EE28
 {
 public:
-	virtual ~Rva002E3E51();
+	virtual ~Rva00330C50();
 	virtual void s0();
 private:
 	void *m_08;
@@ -70,7 +70,7 @@ private:
 	unsigned int m_index;
 };
 
-class Rva0030CAA9Owner : public Rva0053805DBase, public Rva002E3E51, public Rva0030CA8BList
+class Rva0030CAA9Owner : public Rva0053805DBase, public Rva00330C50, public Rva0030CA8BList
 {
 public:
 	virtual ~Rva0030CAA9Owner();

@@ -32,11 +32,12 @@ public:
 	virtual Rva0030B72CPoint slot6() const = 0;
 };
 
+namespace _STL { void free(void *); }
 class Rva0030B9DD
 {
 public:
 	Rva0030B9DD(int);
-	~Rva0030B9DD();
+	~Rva0030B9DD() { if (begin) _STL::free(begin); }
 private:
 	public:
  Rva0030B72CPoint *begin,*end,*capacity;
@@ -66,6 +67,13 @@ Rva00330C50::Rva00330C50() : container(0)
 {
 	changed = true;
 }
+
+// Native 2E3E51..2E3E80 uses the constructor's primary/virtual tables and
+// frees container.begin at +8. Real virtual inheritance supplies its vptr
+// and vtordisp stores. The compiler's scalar deleting destructor at
+// 2E422C..2E424F then restores the interface at +3C and conditionally deletes
+// this object. The original semantic class name remains unproven.
+Rva00330C50::~Rva00330C50() {}
 
 class AreaPolygonBase { public: void reserve(int); };
 // Native330AA6 is an8-byte terminal jump to rowed AreaPolygonBase::reserve
