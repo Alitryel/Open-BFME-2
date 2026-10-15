@@ -58,7 +58,8 @@ public:
  ParticleSystem *particle;void *previous,*next;
  RvaSmartPtr12(const RvaSmartPtr12&);
  ~RvaSmartPtr12();
- ParticleSystem *get() const{return particle?particle:Make001FCBD7();}
+ __forceinline ParticleSystem *get() const { return particle; }
+ ParticleSystem *operator->() const { return particle ? particle : Make001FCBD7(); }
 };
 class Rva0004CCFF {public:void *destroyDelete(unsigned int);};
 namespace _STL {static __forceinline void _Destroy(RvaSmartPtr12 *p){((Rva0004CCFF *)p)->destroyDelete(0);}}
@@ -98,19 +99,19 @@ void ParticleSystemDebugDisplay(DebugDisplayInterface *display, void *, _iobuf *
  _STL::map<AsciiString,int>::iterator countIt;
 
  for(ParticleDebugList::iterator it=list.begin();it!=list.end();++it) {
-  AsciiString templateName=it->get()->getTemplate()->getName();
+  AsciiString templateName=(*it)->getTemplate()->getName();
   mapIt=templateMap.find(templateName);
   if(mapIt==templateMap.end()) {
    templateMap.insert(_STL::make_pair(templateName,1));
-   templateMapParticleCount.insert(_STL::make_pair(templateName,it->get()->getParticleCount()));
-   if(timing()) templateMapCost.insert(_STL::make_pair(templateName,it->get()->getCost()));
+   templateMapParticleCount.insert(_STL::make_pair(templateName,(*it)->getParticleCount()));
+   if(timing()) templateMapCost.insert(_STL::make_pair(templateName,(*it)->getCost()));
   } else {
    ++mapIt->second;
    countIt=templateMapParticleCount.find(templateName);
-   if(countIt!=templateMapParticleCount.end()) countIt->second+=it->get()->getParticleCount();
+   if(countIt!=templateMapParticleCount.end()) countIt->second+=(*it)->getParticleCount();
    if(timing()) {
     costIt=templateMapCost.find(templateName);
-    if(costIt!=templateMapCost.end()) costIt->second+=it->get()->getCost();
+    if(costIt!=templateMapCost.end()) costIt->second+=(*it)->getCost();
    }
   }
  }
