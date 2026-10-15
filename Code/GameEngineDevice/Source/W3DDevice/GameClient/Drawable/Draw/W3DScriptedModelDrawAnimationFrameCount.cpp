@@ -40,6 +40,13 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include "ascii_string.h"
 
+// Retail's copies live in stlport_vector_asciistring_copy_backward.cpp.
+namespace _STL {
+template <> AsciiString *__uninitialized_fill_n<AsciiString *, unsigned int, AsciiString>(AsciiString *, unsigned int, const AsciiString &, const __false_type &);
+template <> AsciiString *__uninitialized_copy<AsciiString *, AsciiString *>(AsciiString *, AsciiString *, AsciiString *, const __false_type &);
+template <> void vector<AsciiString, allocator<AsciiString> >::_M_insert_overflow(AsciiString *, const AsciiString &, const __false_type &, unsigned int, bool);
+}
+
 class Team;enum Relationship{ENEMIES,NEUTRAL,ALLIES};
 class Player {public:Relationship getRelationship(const Team*)const;};
 class PlayerList{char prefix[16];public:Player *local;};extern PlayerList *ThePlayerList;
