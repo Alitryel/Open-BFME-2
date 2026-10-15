@@ -119,7 +119,7 @@ public:
 extern GameLogic *TheGameLogic;
 
 // Native lookup bodies are visible so the compiler knows they only read the
-// map and can retain TheGameLogic across both calls in Rva00334F2E.
+// map and can retain TheGameLogic across both calls in ObjectCapturingObjectPlayerSide.
 // Same verified traversal as ProjectileNuggetObjectEffect.cpp: native
 // _M_find2888D4 plus pinned STLport reference; 37B/47B COMDAT owners unchanged.
 struct LuaCapturingLookupNode { LuaCapturingLookupNode *next; ObjectID key; Object *object; };
@@ -193,7 +193,7 @@ fail:
 // ObjectCapturingObjectPlayerSide. Object capture ID is read at80; both
 // lookup calls use the same game-logic receiver. Controller28AFA9 and
 // player side holder58 match the neighboring player-side binding.
-int Rva00334F2E(lua_State *state) {
+int ObjectCapturingObjectPlayerSide(lua_State *state) {
     unsigned id=Rva00990030Lookup((Rva00990030Range*)state,1);
     if(!id && lua_type(state,1)!=1)goto fail;
     Object *object=TheGameLogic->findObjectByID((ObjectID)id);
@@ -212,7 +212,7 @@ fail:
 // Native334C9F..334D16,119B. Registration33875F / C0E4B8 names
 // ObjectChangeAllegianceFromNonPlayablePlayer. Lookup IDs 1/2, reject a
 // playable controller, then set AI+240 to the second object's team+34 player.
-int Rva00334C9F(lua_State *state) {
+int ObjectChangeAllegianceFromNonPlayablePlayer(lua_State *state) {
     unsigned firstID=Rva00990030Lookup((Rva00990030Range*)state,1);
     unsigned secondID=Rva00990030Lookup((Rva00990030Range*)state,2);
     if(secondID && firstID) {

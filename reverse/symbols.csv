@@ -5538,7 +5538,6 @@ name,address,notes
 ?Helper0056BCE5@@YA?AURvaF6Ret@@H@Z,0x0056BCE5,opaque value-return helper called by forwarder 0x005747F9; identity unproven; address-derived name
 ?HideControlBar@@YAX_N@Z,0x00402960,GameEngine::init 0x0022E2E4 complete 8808B recovery; target from native REL32 at corresponding exact instruction offset; subsystem constructor roles supported by adjacent registration literal and global; address-named types preserve unresolved original identity; see GameEngineInit.cpp and init evidence
 ?HideDisconnectWindow@@YAXXZ,0x00512C88,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-?HordeBroadcastEventToMembers@@YAHPAUlua_State@@@Z,0x00335A61,Lua callback: LuaScriptEngine registration at 0x00338317 passes this address to luaV_Cclosure then lua_setglobal("HordeBroadcastEventToMembers"); start follows a ret; name is the Lua global it is bound to
 ?Increase_Table_Size@?$IndexClass@HPAUINISection@@@@AAE_NH@Z,0x00616190,address read from the retail REL32 in INIClass::Load(Straw&) at 0x00617B10
 ?Init@?$CW2AEX@$0IA@@ATL@@AAEXPBGI@Z,0x000056D1,ATL 7.1 CW2AEX<> conversion initializer; retail target is the exact adjacent ATL Init body
 ?Init@BTCollisionStruct@@QAEXABVAABoxClass@@ABVVector3@@ABVTriClass@@1@Z,0x00724D40,address read from the retail REL32 in CollisionMath Collide AABox-Tri at 0x00726790
@@ -5622,8 +5621,6 @@ name,address,notes
 ?Needs_Vertex_Normals@MeshModelClass@@QAE_NXZ,0x00171850,address read from the retail REL32 in Define_FVF at 0x1442FC as a bare thiscall testing al with a second caller at 0x1454F2; body tests PRELIT_MASK bits at Flags+0x19 then consults CurMatDesc at +0x94
 ?Notify_Added@RenderObjClass@@UAEXPAVSceneClass@@@Z,0x0013BCD0,address read from the REL32 displacement at a placed body; stlport 4.5.3
 ?Notify_Removed@RenderObjClass@@UAEXPAVSceneClass@@@Z,0x0013BCE0,address read from the REL32 displacement at a placed body; stlport 4.5.3
-?ObjectCapturingObjectPlayerSide@@YAHPAUlua_State@@@Z,0x00334F2E,Lua callback: LuaScriptEngine registration at 0x00338317 passes this address to luaV_Cclosure then lua_setglobal("ObjectCapturingObjectPlayerSide"); start follows a ret; name is the Lua global it is bound to
-?ObjectChangeAllegianceFromNonPlayablePlayer@@YAHPAUlua_State@@@Z,0x00334C9F,Lua callback: LuaScriptEngine registration at 0x00338317 passes this address to luaV_Cclosure then lua_setglobal("ObjectChangeAllegianceFromNonPlayablePlayer"); start follows a ret; name is the Lua global it is bound to
 ?ObjectCreateAndFireTempWeapon@@YAHPAUlua_State@@@Z,0x0033541C,Lua callback: LuaScriptEngine registration at 0x00338317 passes this address to luaV_Cclosure then lua_setglobal("ObjectCreateAndFireTempWeapon"); start follows a ret; name is the Lua global it is bound to
 ?ObjectEnterFearState@@YAHPAUlua_State@@@Z,0x00337092,Lua callback: LuaScriptEngine registration at 0x00338317 passes this address to luaV_Cclosure then lua_setglobal("ObjectEnterFearState"); start follows a ret; name is the Lua global it is bound to
 ?ObjectEnterRampageState@@YAHPAUlua_State@@@Z,0x0033712B,Lua callback: LuaScriptEngine registration at 0x00338317 passes this address to luaV_Cclosure then lua_setglobal("ObjectEnterRampageState"); start follows a ret; name is the Lua global it is bound to

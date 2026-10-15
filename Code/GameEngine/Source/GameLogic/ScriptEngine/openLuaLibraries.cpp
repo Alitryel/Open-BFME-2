@@ -55,7 +55,6 @@ int ObjectBroadcastEventToEnemies(lua_State *state);
 int ObjectBroadcastEventToAllies(lua_State *state);
 int ObjectBroadcastEventToCivilians(lua_State *state);
 int ObjectBroadcastEventToUnits(lua_State *state);
-int HordeBroadcastEventToMembers(lua_State *state);
 int Rva00334E51(lua_State *state);
 int Rva00334EC4(lua_State *state);
 int ObjectCapturingObjectPlayerSide(lua_State *state);
@@ -95,6 +94,7 @@ public:
 	void LoadXML(const char *filename, bool reload);
 	void LoadScripts(const char *filename);
 	static int ObjectDescription(lua_State *state);
+	static int HordeBroadcastEventToMembers(lua_State *state);
 
 private:
 	char m_pad00[0x0C];
