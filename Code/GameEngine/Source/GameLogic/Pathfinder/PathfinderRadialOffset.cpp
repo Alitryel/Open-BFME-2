@@ -14,6 +14,9 @@
 // masks use established providers; inline destruction resets base BC26E0.
 typedef float Real;
 #include "Coord3D.h"
+#include "Coord2D.h"
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 struct Rva002E7A62Position : Coord3D
 {
 	Rva002E7A62Position(const Coord3D &r)
@@ -98,9 +101,23 @@ class Rva0004584D : public Rva000421C8
 };
 #include "../../Common/PartitionRangeQueryCallView.h"
 extern PartitionManager *ThePartitionManager;
+// Native 0x002F3392 uses a two-word callback context and PathNode +0x0C position.
+// The layer value is witnessed as 1; its original enumerator spelling is unknown.
+enum PathfindLayerEnum { PathfindLayerNativeOne = 1 };
+struct Rva002F1BD5Info { Object *theTallBuilding; unsigned int ignoreBuilding; };
+class PathNode {
+public:
+ const Coord3D *getPosition() const { return &pos; }
+ void setPosition(const Coord3D *p) { pos = *p; }
+private:
+ unsigned char pad[0x0C];
+ Coord3D pos;
+};
 class Pathfinder
 {
   public:
+	int iterateCellsAlongLine(const Coord3D *, const Coord3D *, PathfindLayerEnum, Rva002F1BD5Info *);
+	bool rva002F3392(PathNode *, PathNode *, unsigned int, Coord3D *, Coord3D *, Coord3D *);
 	bool CircleClipsTallBuilding(const Coord3D *, const Coord3D *, float, unsigned int, Coord3D *);
 };
 bool Pathfinder::CircleClipsTallBuilding(const Coord3D *from, const Coord3D *to, float circleRadius, unsigned int ignoreBuilding,
@@ -127,4 +144,65 @@ bool Pathfinder::CircleClipsTallBuilding(const Coord3D *from, const Coord3D *to,
 		return true;
 	}
 	return false;
+}
+
+// Native 002F3392..002F35AF, 541B; BF1/ZH tall-building segment detour semantics.
+// Target field accesses and all three insertion points are measured from retail.
+// Keep building-X/radius/endpoint-X reads in the native order; the first fence
+// retains the object web while textual volatile accesses order the scalar reads.
+bool Pathfinder::rva002F3392(PathNode *curNode, PathNode *nextNode, unsigned int ignoreBuilding,
+                            Coord3D *insertPos1, Coord3D *insertPos2, Coord3D *insertPos3)
+{
+    Rva002F1BD5Info info;
+    info.theTallBuilding = 0;
+    info.ignoreBuilding = ignoreBuilding;
+    Rva002E7A62Position fromPos(*curNode->getPosition());
+    Rva002E7A62Position toPos(*nextNode->getPosition());
+    for (int i = 0; i < 2; i++) {
+        int ret = iterateCellsAlongLine(&fromPos, &toPos, PathfindLayerNativeOne, &info);
+        if (ret != 0 && info.theTallBuilding) {
+            Object *tallBuilding = info.theTallBuilding;
+            _ReadWriteBarrier();
+            Coord3D bldgPos;
+            Coord2D delta;
+            float radius;
+            float tx, ty;
+            bldgPos.x = *(const volatile float *)&tallBuilding->position.x;
+            radius = *(const volatile float *)&tallBuilding->radius + 20.0f;
+            tx = *(const volatile float *)&toPos.x;
+            ty = toPos.y;
+            bldgPos.y = *(const volatile float *)&tallBuilding->position.y;
+            delta.x = tx - bldgPos.x;
+            delta.y = ty - bldgPos.y;
+            if (delta.length() <= radius * 0.98) {
+                if (delta.length() < 0.1) delta.x = 1;
+                delta.normalize();
+                float dx = ((const volatile Coord2D *)&delta)->x;
+                float dy = ((const volatile Coord2D *)&delta)->y;
+                dx *= radius;
+                dy *= radius;
+                toPos.x = bldgPos.x + dx;
+                toPos.y = bldgPos.y + dy;
+                nextNode->setPosition(&toPos);
+                continue;
+            }
+            delta.x = fromPos.x - bldgPos.x;
+            delta.y = fromPos.y - bldgPos.y;
+            if (delta.length() <= radius * 0.98) {
+                if (delta.length() < 0.1) delta.x = 1;
+                delta.normalize();
+                float dx = ((const volatile Coord2D *)&delta)->x;
+                float dy = ((const volatile Coord2D *)&delta)->y;
+                dx *= radius;
+                dy *= radius;
+                fromPos.x = bldgPos.x + dx;
+                fromPos.y = bldgPos.y + dy;
+            }
+            ComputeNormalRadialOffset(fromPos, *insertPos2, toPos, tallBuilding, radius);
+            ComputeNormalRadialOffset(fromPos, *insertPos1, *insertPos2, tallBuilding, radius);
+            ComputeNormalRadialOffset(*insertPos2, *insertPos3, toPos, tallBuilding, radius);
+            return true;
+        }
+    }
+    return false;
 }

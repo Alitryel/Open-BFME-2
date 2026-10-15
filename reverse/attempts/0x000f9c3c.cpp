@@ -1,4 +1,8 @@
 // ??0Rva000F9C3C@@QAE@XZ
+// partial score=0.925171821305842 date=2026-10-15
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
+// ??0Rva000F9C3C@@QAE@XZ
 // partial score=0.794 date=2026-10-15
 // ??0Rva000F9C3C@@QAE@XZ
 // partial score=0.96 date=2026-10-13
@@ -18,11 +22,12 @@ struct BfmeE16Vec : _STL::_Vector_base<BfmeE16, std::allocator<BfmeE16> > {
 	~BfmeE16Vec();
 };
 
+struct PrefixF9 { volatile int m04,m08,m0C,m10,m14; __forceinline PrefixF9(){m04=0;m08=0;m0C=0;m10=0;m14=0;}};
 class Rva000F9C3C {
 public:
 	virtual ~Rva000F9C3C();
 	Rva000F9C3C();
-	volatile int m04, m08, m0C, m10, m14, m18, m1C;
+	PrefixF9 m_head; volatile int m18,m1C;
 	float f20, f24, f28;
 	BfmeE16Vec v2C;
 	BfmeE16Vec v38;
@@ -30,4 +35,4 @@ public:
 };
 
 // ??0Rva000F9C3C@@QAE@XZ @0x000F9C3C 97B.
-Rva000F9C3C::Rva000F9C3C() : m04(0), m08(0), m0C(0), m10(0), m14(0), m18(0), m1C(0), f20(0.0f), f24(0.0f), f28(0.0f), v2C(), v38(), m44(0), m48(0), m4C(0), m50(0) {}
+Rva000F9C3C::Rva000F9C3C() : m_head(), m18(0), m1C(0), f20(0.0f), f24(0.0f), f28(0.0f), v2C(), v38(), m44(0), m48(0), m4C(0), m50(0) {}
