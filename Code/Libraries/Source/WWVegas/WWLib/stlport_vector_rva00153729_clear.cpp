@@ -21,6 +21,14 @@ struct Rva00153729
 };
 template void _STL::vector<Rva00153729>::_M_clear();
 
-// Whole-class instantiation: its members that are rowed were placed at retail
-// by masked search of this TU's emitted bodies plus REL32 callee agreement.
-template class _STL::vector<Rva00153729,_STL::allocator<Rva00153729> >;
+// Retail's copies of these live in StlportVectorEraseRangeFamily.cpp and
+// StlportConstructFamily.cpp.
+namespace _STL {
+template <> Rva00153729 *vector<Rva00153729, allocator<Rva00153729> >::erase(Rva00153729 *, Rva00153729 *);
+template <> void _Construct<Rva00153729, Rva00153729>(Rva00153729 *, const Rva00153729 &);
+template <> Rva00153729 *__copy<Rva00153729 *, Rva00153729 *, int>(Rva00153729 *, Rva00153729 *, Rva00153729 *, const random_access_iterator_tag &, int *);
+}
+// Only the members this file rows are instantiated; the whole-class form emitted
+// non-retail copies that win link order over the retail rows' copies.
+template void _STL::vector<Rva00153729>::clear();
+template Rva00153729 *_STL::uninitialized_fill_n<Rva00153729 *, unsigned int, Rva00153729>(Rva00153729 *, unsigned int, const Rva00153729 &);
