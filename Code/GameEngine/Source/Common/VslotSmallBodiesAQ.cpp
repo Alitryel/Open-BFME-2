@@ -92,3 +92,35 @@ Int Rva005CE125::rva005CE125(Int)
 {
 	return ((Rva005E57A2Callback *)this)->invoke();
 }
+
+// 0x005CDE69 (interface at +0x0C; slot at VA 0x00C750F4): tail-jumps with
+// its argument to the rowed +4 callback forwarder 0x005E6817 (ledger
+// spelling Rva005E6817Mid::fwd) on the complete object.
+class GameMessage;
+class Rva005E6817Mid
+{
+public:
+	int fwd(GameMessage *message);
+};
+class Rva005CDE69Primary
+{
+public:
+	virtual void primarySlot();
+private:
+	Int m_04;
+	Int m_08;
+};
+class Rva005CDE69Iface
+{
+public:
+	virtual Int rva005CDE69(GameMessage *message) = 0;
+};
+class Rva005CDE69 : public Rva005CDE69Primary, public Rva005CDE69Iface
+{
+public:
+	Int rva005CDE69(GameMessage *message);
+};
+Int Rva005CDE69::rva005CDE69(GameMessage *message)
+{
+	return ((Rva005E6817Mid *)this)->fwd(message);
+}
