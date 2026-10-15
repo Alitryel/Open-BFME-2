@@ -18,6 +18,9 @@ template <> __declspec(dllimport) __forceinline
 void **vector<void*>::begin()
 { return _M_start; }
 template <> __declspec(dllimport) __forceinline
+void *const *vector<void*>::begin() const
+{ return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
 void **vector<void*>::end()
 { return _M_finish; }
 template <> __declspec(dllimport) __forceinline
