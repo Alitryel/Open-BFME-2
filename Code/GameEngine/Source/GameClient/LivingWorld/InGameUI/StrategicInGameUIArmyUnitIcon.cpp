@@ -1,7 +1,8 @@
 // The complete native parents and associative EH code/data graphs prove
 // the naturally emitted handlers recorded with this unit. Each has one
 // primary owner and its full 10-byte extent.
-// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /Oy- /DNDEBUG /MD /EHsc
+// cl: /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /Oy- /DNDEBUG /MD /EHsc
+// stlport
 // AddUpgradeIcons: WB 1627540 names ArmyUnitIcon and this source (line189).
 // Native5F4917..5F49F0 is the complete217-byte RET0 body. Unit+8,
 // clip+C and upgrade list+10 agree with the factory and DoUpdate siblings.
@@ -13,6 +14,7 @@
 // or introduce another typed fold. Views describe accessed fields only.
 #include "ascii_string.h"
 #include "unicode_string.h"
+#include <vector>
 namespace _STL {
 template<unsigned int N> struct _Base_bitset {
  unsigned int words[N];
@@ -33,11 +35,16 @@ class Image;
 struct UpgradeView { char unknown00[0x90]; const Image *image; };
 class AptMovieClipFrame;
 namespace StrategicHUD { class ArmyUnitIconMovieClip { public: ArmyUnitIconMovieClip(AptMovieClipFrame *); void SetUpgradeIconImage(int,const Image *); private: char opaque[0x50]; }; class ArmyMemberIconMovieClip { public: void rva005FC9E0(const Image *); }; }
-class Rva0040E6D6Sub { public: void forward(int *); };
+// Only the existing four-byte storage ABI is used; upgrade IDs do not
+// acquire ScienceType semantics by calling this rowed vector provider.
+enum ScienceType { SCIENCE_INVALID = -1 };
+namespace _STL {
+template <> void vector<ScienceType, allocator<ScienceType> >::push_back(const ScienceType &);
+}
 struct UnitUpgradeList {
  int *begin,*end,*capacity;
  __forceinline unsigned size() const { return end-begin; }
- __forceinline void push_back(int &id) { ((Rva0040E6D6Sub *)this)->forward(&id); }
+ __forceinline void push_back(int &id) { reinterpret_cast<_STL::vector<ScienceType> *>(this)->push_back(reinterpret_cast<const ScienceType &>(id)); }
 };
 class Rva005F41AF { public: virtual void DoUpdate(); void rva005F41AF(); };
 struct UnitClipHolder { void *p; __forceinline void *get() const { return p; } __forceinline bool IsBound() const { return p!=0; } };
@@ -73,7 +80,7 @@ void StrategicInGameUI::ArmyUnitIcon::AddUpgradeIcons() {
 struct TargetRef00217D4C { void *vtable; int references; };
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 struct TreeHintRef00217D4C {
- __forceinline TreeHintRef00217D4C(TargetRef00217D4C *p):m_ptr(p) { if(m_ptr) ++m_ptr->references; }
+ __declspec(dllimport) __forceinline TreeHintRef00217D4C(TargetRef00217D4C *p):m_ptr(p) { if(m_ptr) ++m_ptr->references; }
  __forceinline TreeHintRef00217D4C(const TreeHintRef00217D4C &other):m_ptr(other.m_ptr) { if(m_ptr) ++m_ptr->references; }
  ~TreeHintRef00217D4C() { if(m_ptr) ReleaseTreeHintRef00217D4C(m_ptr); }
  TargetRef00217D4C *m_ptr;
