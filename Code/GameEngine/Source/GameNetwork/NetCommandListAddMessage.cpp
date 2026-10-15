@@ -1,23 +1,5 @@
-// ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
-// partial score=0.9 date=2026-10-15
-// ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
-// partial score=0.711 date=2026-10-14
-// ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
-// partial score=0.96 date=2026-10-13
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-// ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
-// partial score=0.95 date=2026-10-13
-// ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
-// partial score=0.93 date=2026-10-09
-// ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
-// Corrected bank 2026-10-09: native 58B3F0 and WB153A52E load m_first
-// for the traversal timestamp comparison; the previous bank used tempmsg.
-// Explicit comparator sequencing follows retail: queued pointer captured,
-// incoming sort call, queued sort call, signed greater-than comparison.
-// Still539B vs540: sort result spills instead of native EBX and stack slots differ.
-// ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
+// ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z
 //
 // NetCommandList::addMessage, retail 0x0058B2C6, 540 bytes. Sorted insert by
 // timestamp (+4), type (+0x14), player (+0xC) and sort-number virtual (+4).
@@ -83,7 +65,14 @@ private:
 	NetCommandRef *m_lastMessageInserted;
 };
 
-// ?addMessage@NetCommandList@@QAEPAVNetCommandRef@@PAVNetCommandMsg@@@Z present-unmatched
+// The traversal's last key compares the two commands' sort numbers through an
+// inline comparator; with it MSVC 7.1 calls the incoming command's virtual
+// first and keeps its result in EBX (reloading cmdMsg from its argument home),
+// as retail does. Spelled inline in the condition, the queued call comes first.
+static __forceinline bool sortGreater(NetCommandMsg *a, NetCommandMsg *b)
+{
+	return a->getSortNumber() > b->getSortNumber();
+}
 NetCommandRef *NetCommandList::addMessage(NetCommandMsg *cmdMsg)
 {
 	NetCommandRef *msg = 0;
@@ -120,7 +109,6 @@ NetCommandRef *NetCommandList::addMessage(NetCommandMsg *cmdMsg)
 				msg->setNext(m_lastMessageInserted->getNext());
 				msg->setPrev(m_lastMessageInserted);
 				m_lastMessageInserted->setNext(msg);
-				_ReadWriteBarrier();
 				m_lastMessageInserted = msg;
 				m_last = msg;
 			} else {
@@ -168,14 +156,12 @@ NetCommandRef *NetCommandList::addMessage(NetCommandMsg *cmdMsg)
 		return msg;
 	}
 
-	NetCommandMsg *queuedForSort;
-	int incomingSort;
 	NetCommandRef *tempmsg = m_first;
 	while ((tempmsg != 0) &&
 		((cmdMsg->getTimestamp() > m_first->getCommand()->getTimestamp()) ||
-		 ((incomingSort ? (cmdMsg->getNetCommandType()) : (cmdMsg->getNetCommandType())) > tempmsg->getCommand()->getNetCommandType()) ||
+		 (cmdMsg->getNetCommandType() > tempmsg->getCommand()->getNetCommandType()) ||
 		 (cmdMsg->getPlayerID() > tempmsg->getCommand()->getPlayerID()) ||
-		 ((queuedForSort = tempmsg->getCommand(), incomingSort = cmdMsg->getSortNumber(), incomingSort > queuedForSort->getSortNumber())))) {
+		 sortGreater(cmdMsg, tempmsg->getCommand()))) {
 		tempmsg = tempmsg->getNext();
 	}
 
