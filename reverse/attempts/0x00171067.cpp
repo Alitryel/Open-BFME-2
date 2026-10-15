@@ -1,4 +1,6 @@
 // ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
+// partial score=0.985 date=2026-10-15
+// ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
 // partial score=0.98 date=2026-10-14
 // ?rva00171067@Rva00171067@@QAEXABVAssetReference@@@Z
 // partial score=0.97 date=2026-10-14
@@ -22,7 +24,16 @@ public:
 	void Release_Ref();
 };
 
-class AssetReference;
+class AssetReference
+{
+public:
+	__declspec(noinline) AssetReference(const AssetReference &that) : m_object(that.m_object)
+	{
+		if (m_object)
+			++*(unsigned short *)((char *)m_object + 4);
+	}
+	TextureClass *m_object;
+};
 
 struct Rva00170999Data
 {
@@ -34,15 +45,18 @@ struct Rva00170999Data
 
 class Rva00170999
 {
-	TextureClass *m_ptr;
+	AssetReference m_asset;
 	Rva00170999Data m_data;
 public:
-	Rva00170999(const AssetReference &a, const Rva00170999Data &d);
-	Rva00170999(const Rva00170999 &that);
+	__declspec(noinline) Rva00170999(const AssetReference &a, const Rva00170999Data &d) : m_asset(a), m_data(d) {}
+	__declspec(noinline) Rva00170999(const Rva00170999 &that) : m_asset(that.m_asset), m_data(that.m_data) {}
 	~Rva00170999();
 };
 
-Rva00170999 Rva00170A58Get(const AssetReference &a, const Rva00170999Data &d);
+__declspec(noinline) inline Rva00170999 __cdecl Rva00170A58Get(const AssetReference &a, const Rva00170999Data &d)
+{
+	return Rva00170999(a, d);
+}
 
 struct Rva00170EFENode
 {
@@ -92,8 +106,8 @@ public:
 // ??1Rva00170999@@QAE@XZ present-unmatched
 Rva00170999::~Rva00170999()
 {
-	if (m_ptr) {
-		m_ptr->Release_Ref();
+	if (m_asset.m_object) {
+		m_asset.m_object->Release_Ref();
 	}
 }
 
