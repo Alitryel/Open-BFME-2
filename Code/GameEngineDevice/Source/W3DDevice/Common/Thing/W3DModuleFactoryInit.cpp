@@ -118,9 +118,12 @@ class W3DTornadoDraw { public: static Module *friend_newModuleInstance(Thing *, 
 class W3DTornadoDrawModuleData { public: static ModuleData *friend_newModuleData(INI *); };
 
 void Rva000CED4BUpdate(void *, AssetList *, int);
-void ModuleFactoryHookAt000C32C7(void *, int, void *);
-void ModuleFactoryHookAt000CA152(void *, int, void *);
-void ModuleFactoryHookAt000D1112(void *, int, void *);
+class Rva000C19C3;
+struct AssetList00208F90;
+struct GapNamedEntry;
+void Rva000C32C7(Rva000C19C3 *, void *, const bool *);
+void Rva000CA152(Rva000C19C3 *, void *, const bool *);
+AssetList00208F90 &rva000D1112(const GapNamedEntry *, AssetList00208F90 &);
 
 #define ADD_DRAW(instance, data, hook, name) \
 	reinterpret_cast<Rva002573EE *>(this)->rva002573EE((int)&instance, (int)&data, hook, MODULETYPE_DRAW, AsciiString(name), 0x400)
@@ -131,17 +134,17 @@ void W3DModuleFactory::init()
 
 	ADD_DRAW(W3DDefaultDraw::friend_newModuleInstance, W3DDebrisDraw::friend_newModuleData, 0, "W3DDefaultDraw");
 	ADD_DRAW(W3DDebrisDraw::friend_newModuleInstance, W3DDebrisDraw::friend_newModuleData, 0, "W3DDebrisDraw");
-	ADD_DRAW(W3DScriptedModelDraw::friend_newModuleInstance, W3DModelDraw::friend_newModuleData, (int)&ModuleFactoryHookAt000C32C7, "W3DScriptedModelDraw");
-	ADD_DRAW(W3DHordeModelDraw::friend_newModuleInstance, W3DHordeModelDrawModuleData::friend_newModuleData, (int)&ModuleFactoryHookAt000CA152, "W3DHordeModelDraw");
+	ADD_DRAW(W3DScriptedModelDraw::friend_newModuleInstance, W3DModelDraw::friend_newModuleData, (int)&Rva000C32C7, "W3DScriptedModelDraw");
+	ADD_DRAW(W3DHordeModelDraw::friend_newModuleInstance, W3DHordeModelDrawModuleData::friend_newModuleData, (int)&Rva000CA152, "W3DHordeModelDraw");
 	ADD_DRAW(W3DLaserDraw::friend_newModuleInstance, W3DLaserDraw::friend_newModuleData, 0, "W3DLaserDraw");
-	ADD_DRAW(W3DQuadrupedDraw::friend_newModuleInstance, W3DQuadrupedDraw::friend_newModuleData, (int)&ModuleFactoryHookAt000CA152, "W3DQuadrupedDraw");
+	ADD_DRAW(W3DQuadrupedDraw::friend_newModuleInstance, W3DQuadrupedDraw::friend_newModuleData, (int)&Rva000CA152, "W3DQuadrupedDraw");
 	ADD_DRAW(W3DRopeDraw::friend_newModuleInstance, W3DDebrisDraw::friend_newModuleData, 0, "W3DRopeDraw");
-	ADD_DRAW(W3DSupplyDraw::friend_newModuleInstance, W3DSupplyDraw::friend_newModuleData, (int)&ModuleFactoryHookAt000CA152, "W3DSupplyDraw");
-	ADD_DRAW(W3DTruckDraw::friend_newModuleInstance, W3DTruckDraw::friend_newModuleData, (int)&ModuleFactoryHookAt000CA152, "W3DTruckDraw");
-	ADD_DRAW(W3DTankDraw::friend_newModuleInstance, W3DTankDraw::friend_newModuleData, (int)&ModuleFactoryHookAt000CA152, "W3DTankDraw");
+	ADD_DRAW(W3DSupplyDraw::friend_newModuleInstance, W3DSupplyDraw::friend_newModuleData, (int)&Rva000CA152, "W3DSupplyDraw");
+	ADD_DRAW(W3DTruckDraw::friend_newModuleInstance, W3DTruckDraw::friend_newModuleData, (int)&Rva000CA152, "W3DTruckDraw");
+	ADD_DRAW(W3DTankDraw::friend_newModuleInstance, W3DTankDraw::friend_newModuleData, (int)&Rva000CA152, "W3DTankDraw");
 	ADD_DRAW(W3DTreeDraw::friend_newModuleInstance, W3DTreeDraw::friend_newModuleData, (int)&Rva000CED4BUpdate, "W3DTreeDraw");
-	ADD_DRAW(W3DFloorDraw::friend_newModuleInstance, W3DFloorDrawModuleData::friend_newModuleData, (int)&ModuleFactoryHookAt000D1112, "W3DFloorDraw");
-	ADD_DRAW(W3DPropDraw::friend_newModuleInstance, W3DPropDrawModuleData::friend_newModuleData, (int)&ModuleFactoryHookAt000D1112, "W3DPropDraw");
+	ADD_DRAW(W3DFloorDraw::friend_newModuleInstance, W3DFloorDrawModuleData::friend_newModuleData, (int)&rva000D1112, "W3DFloorDraw");
+	ADD_DRAW(W3DPropDraw::friend_newModuleInstance, W3DPropDrawModuleData::friend_newModuleData, (int)&rva000D1112, "W3DPropDraw");
 	ADD_DRAW(W3DLightDraw::friend_newModuleInstance, W3DLightDraw::friend_newModuleData, 0, "W3DLightDraw");
 	ADD_DRAW(W3DBuffDraw::friend_newModuleInstance, W3DBuffDrawModuleData::friend_newModuleData, 0, "W3DBuffDraw");
 	ADD_DRAW(W3DStreakDraw::friend_newModuleInstance, W3DStreakDrawModuleData::friend_newModuleData, 0, "W3DStreakDraw");
