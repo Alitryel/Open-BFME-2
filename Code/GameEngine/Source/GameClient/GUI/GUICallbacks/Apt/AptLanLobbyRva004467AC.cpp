@@ -20,6 +20,14 @@
 #include "ascii_string.h"
 #include <list>
 #include <map>
+// Keep the typed tree comparison local, as in W3DShroudInterpolate.cpp.
+// Its unused external base wrapper differs from the selected provider.
+namespace _STL {
+template <class Value, class Left, class Right>
+static inline bool operator!=(const _Rb_tree_iterator<Value, Left> &a,
+                              const _Rb_tree_iterator<Value, Right> &b)
+{ return a._M_node != b._M_node; }
+}
 #include <string.h>
 
 namespace _STL
