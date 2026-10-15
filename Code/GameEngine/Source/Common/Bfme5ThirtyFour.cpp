@@ -123,6 +123,14 @@ class Rva006D1130
 {
 public:
 	void grow(int capacity);
+	void insert(Rva006D1130Item *const &first, Rva006D1130Item *const &last,
+		const Rva006D1130Iterator &position);
+	void append(Rva006D1130Item *value);
+	Rva006D1130Iterator end()
+	{
+		Rva006D1130Iterator it = {m_begin + m_count, m_begin, m_begin + m_count};
+		return it;
+	}
 private:
 	unsigned m_count;
 	int m_capacity;
@@ -154,6 +162,19 @@ void Rva006D1130::grow(int capacity)
 	const Rva006D1130Item empty;
 	m_begin[m_count].bfmeAssignVGO(empty);
 	__assume(empty.m_bfmeP == 0);
+}
+
+// Native 6D13E0..6D141F RET4: append one element at end() through the
+// unrowed range insert 0x006D1230 (two element references plus the position
+// iterator), the 4-byte-element twin of the matched
+// Rva006CE660Vec::append 0x006CEA90 (PlaybackBufferResize.cpp, 8-byte
+// elements, insert 0x006CE890). Target facts: count at +0, data at +8, the
+// last = value + 1 reference built in the argument slot, the by-value end
+// iterator {data + count, data, data + count}. Names address-derived.
+void Rva006D1130::append(Rva006D1130Item *value)
+{
+	Rva006D1130Item *last = value + 1, *first = value;
+	insert(first, last, end());
 }
 
 // Target 6D07E0..6D085B: head at0; entry key at4; by-value counted
