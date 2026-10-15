@@ -36,7 +36,7 @@ public:
 	char m_pad00[0x18];
 	StateMachine *m_machine; // +0x18
 };
-void rva00343DD8(Rva00343F8A *st, void *arg);
+bool rva00343DD8(void *state, void *arg);
 bool rva0033FD98(Rva00343F8A *st, void *arg);
 
 void rva00343F8A(Rva00343F8A *st, void *arg2)
