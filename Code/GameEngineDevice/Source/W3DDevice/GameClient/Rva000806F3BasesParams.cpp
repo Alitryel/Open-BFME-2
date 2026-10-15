@@ -158,6 +158,45 @@ void Rva00080F95Mean2(ID3DXEffect *effect, D3DXHANDLE handle)
 	effect->SetVector(handle, &value);
 }
 
+// Rva000812E1Scale's body with the literal, expanded at each later call site
+// (Rva0008103AAdjust and the eight 217-byte callbacks below).
+static inline void Rva00080E30Scale(float *v)
+{
+	v[0] *= 1.6f;
+	v[1] *= 1.6f;
+	v[2] *= 1.6f;
+	v[3] *= 1.6f;
+}
+
+static inline float Rva0008103ASum(const Rva000806F3Vector4 &q)
+{
+	return q.x + q.y + q.z + q.w;
+}
+
+// The vector "Mean" (0x00080F95) passes in: subtract half of each X, Y and Z
+// track group sum (groups 0 and 1) from x, y and z, recentre x, y and z by
+// 0.5 and scale the vector. Retail's tail loads 0.5f (VA 0x00BC26F0) and
+// 1.6f (VA 0x00BC7078, the __real@3fcccccd literal) once and keeps them in
+// registers across the stores to v, so both are literals.
+void __cdecl Rva0008103AAdjust(float *v)
+{
+	Rva003093F6Bases *bases = W3DGCData00DE2000 ? ((Rva000806F3Owner *)W3DGCData00DE2000)->m_260 : 0;
+	if (!bases)
+		return;
+	float time = (WW3D::Get_Sync_Time() / 1000.0f) * BfmeClientFramesPerSecond;
+	bases->rva003093F6();
+	v[0] -= Rva0008103ASum(bases->rva00308325(time, 0)) * 0.5f;
+	v[0] -= Rva0008103ASum(bases->rva00308325(time, 1)) * 0.5f;
+	v[1] -= Rva0008103ASum(bases->rva00308417(time, 0)) * 0.5f;
+	v[1] -= Rva0008103ASum(bases->rva00308417(time, 1)) * 0.5f;
+	v[2] -= Rva0008103ASum(bases->rva00308509(time, 0)) * 0.5f;
+	v[2] -= Rva0008103ASum(bases->rva00308509(time, 1)) * 0.5f;
+	v[0] -= 0.5f;
+	v[1] -= 0.5f;
+	v[2] -= 0.5f;
+	Rva00080E30Scale(v);
+}
+
 void Rva00081242Bases03X2(ID3DXEffect *effect, D3DXHANDLE handle)
 {
 	Rva000806F3Vector4 value;
@@ -174,15 +213,6 @@ void Rva00081242Bases03X2(ID3DXEffect *effect, D3DXHANDLE handle)
 		Rva000812E1Scale(&value.x);
 	}
 	effect->SetVector(handle, &value);
-}
-
-// Rva000812E1Scale's body with the literal, expanded at each later call site.
-static inline void Rva00080E30Scale(float *v)
-{
-	v[0] *= 1.6f;
-	v[1] *= 1.6f;
-	v[2] *= 1.6f;
-	v[3] *= 1.6f;
 }
 
 #define RVA00080E30_BASES_PARAM( NAME, GETTER, GROUP )                    \
