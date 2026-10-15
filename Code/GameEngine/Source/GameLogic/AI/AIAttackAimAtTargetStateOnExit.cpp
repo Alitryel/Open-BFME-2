@@ -155,6 +155,7 @@ class StateMachine
 public:
 	Object *getOwner() const { return m_owner; }
 	Object *getGoalObject();
+	// Keep the inlined goal address without a competing standalone class-view copy.
 	__declspec(dllimport) __forceinline const Coord3D *getGoalPosition() const { return &m_goalPosition; }
 private:
 	unsigned char m_pad00[0x14];
