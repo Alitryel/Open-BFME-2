@@ -48,7 +48,6 @@ struct EvaEventRecord
 class Rva001DEF89Table
 {
 public:
-	void rva001DEF89(void *member28);
 	int size() const { return m_end - m_begin; }
 
 private:
@@ -57,10 +56,26 @@ private:
 	EvaEventRecord *m_capacityEnd; // +0x08
 };
 
-class Rva001DE3E3Member
+// Row spellings: 0x001DE3E3 is Rva001DE3E3::rva001DE3E3(Rva001DE3E3 *)
+// returning this, and 0x001DEF89 is vector<Rva001DEF89Record>::operator=.
+class Rva001DE3E3
 {
 public:
-	void rva001DE3E3(void *member48);
+	Rva001DE3E3 *rva001DE3E3(Rva001DE3E3 *other);
+};
+struct Rva001DEF89Record;
+namespace _STL {
+template <class T> class allocator;
+template <class T, class A> class vector
+{
+public:
+	vector &operator=(const vector &other);
+};
+}
+typedef _STL::vector<Rva001DEF89Record, _STL::allocator<Rva001DEF89Record> > Rva001DEF89Vector;
+
+class Rva001DE3E3Member
+{
 };
 
 class Rva001DEE92Member
@@ -97,8 +112,8 @@ void Eva::init()
 	ini.loadFile("Data\\INI\\Default\\Eva.ini", INI_LOAD_OVERWRITE, 0);
 	ini.loadFile("Data\\INI\\Eva.ini", INI_LOAD_OVERWRITE, 0);
 
-	m_events.rva001DEF89(m_member28);
+	*(Rva001DEF89Vector *)&m_events = *(const Rva001DEF89Vector *)m_member28;
 	Rva001DE3E3Member *member34 = &m_member34;
-	member34->rva001DE3E3(m_member48);
+	((Rva001DE3E3 *)member34)->rva001DE3E3((Rva001DE3E3 *)m_member48);
 	m_member5C.rva001DEE92(m_events.size());
 }
