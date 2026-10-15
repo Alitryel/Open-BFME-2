@@ -7,7 +7,8 @@
 // helper calls are read independently from target. StreakDrawModuleDoParticles
 // is the target-verified sibling for the storage/culling/tracking-pointer ABI.
 #include "matrix3d.h"
-#include "matrix3.h"
+// Retain inline indexing without a competing external Matrix3 helper.
+#include "../../../../../../reference/shims/bfme_matrix3_owner_link/matrix3.h"
 #include "../../../../../Libraries/Include/Lib/RGBColor.h"
 
 class RenderInfoClass;

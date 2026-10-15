@@ -10,7 +10,8 @@
 // Retail's OBBoxClass::Compute_Axis_Aligned_Extent is the speed-optimized copy
 // gridcull.cpp emits; this /O1 unit compiles obbox.h for speed so its copy agrees.
 #include "vector3.h"
-#include "matrix3.h"
+// Retain inline indexing without a competing external Matrix3 helper.
+#include "../../../../../reference/shims/bfme_matrix3_owner_link/matrix3.h"
 #include "matrix3d.h"
 #include "wwmath.h"
 #include "castres.h"
