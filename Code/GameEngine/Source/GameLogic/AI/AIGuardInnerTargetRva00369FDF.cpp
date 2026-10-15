@@ -202,7 +202,9 @@ struct TeamTemplateInfo
 
 struct TeamPrototype
 {
-	const TeamTemplateInfo *getTemplateInfo() const { return &m_info; }
+	// This target-specific view is inlined here; do not emit a standalone
+	// accessor competing with other class views at link time.
+	__declspec(dllimport) __forceinline const TeamTemplateInfo *getTemplateInfo() const { return &m_info; }
 	TeamTemplateInfo m_info;
 };
 
@@ -259,7 +261,7 @@ public:
 	const Coord3D *getPosition() const { return &m_pos; }
 	ObjectID getID() const { return m_id; }
 	AIUpdateInterface *getAI() { return m_ai; }
-	Team *getTeam() { return m_team; }
+	__declspec(dllimport) __forceinline Team *getTeam() { return m_team; }
 private:
 	void *m_vtable;
 	const ThingTemplate *m_template;	// +0x04
