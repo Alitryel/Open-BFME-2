@@ -11,7 +11,10 @@
 // GetGameClientRandomValueReal (0x00234111) with BFME 2's own source path
 // literal and lines 105, 111 and 117; cos and sin are the CRT imports. The
 // donor's names are carried, not independently re-derived.
+// Keep the inlined float wrappers local; retail's callable copies live elsewhere.
+#define inline static inline
 #include <math.h>
+#undef inline
 extern float GetGameClientRandomValueReal( float low, float high,
 char *file, int line );
 namespace FXParticleSystem
