@@ -156,7 +156,7 @@ public:
 	void rva00599825(int id);
 	void DoXfer(Xfer *xfer);
 	void rva00599EDC();
-	void rva00599D56();
+	void preEmptivelyBuildDozers();
 private:
 	_STL::list<int> m_ids;
 	unsigned char m_pad[0xC - sizeof(_STL::list<int>)];
@@ -221,8 +221,8 @@ void AIDozerManager::DoXfer(Xfer *xfer)
 // iteration; other nodes are erased while retaining their predecessor.
 // Target identity comes from this unit's manager list and GameLogic lookup;
 // WB 0x01530830 supplies the same iterator flow. Its subsequent call is named
-// preEmptivelyBuildDozers at WB 0x01530980; retain an address-derived name for
-// native 0x00599D56, whose no-argument receiver and RET are independently seen.
+// preEmptivelyBuildDozers at WB 0x01530980, and native 0x00599D56 is rowed
+// under that name in AIDozerManager.cpp.
 void AIDozerManager::rva00599EDC()
 {
     bool removeFirst = false;
@@ -242,5 +242,5 @@ void AIDozerManager::rva00599EDC()
     }
     if (removeFirst)
         m_ids.pop_front();
-    rva00599D56();
+    preEmptivelyBuildDozers();
 }

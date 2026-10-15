@@ -5,8 +5,6 @@
 // is visible in this unit; with it cl gives the outer and inner iterators EBX
 // and the factory EDI, as retail does. The 8-byte keyframe vector's push_back
 // is the ICF-folded body at 0x00539A2E (fold-proof pin from this unit).
-// The caller rva00599EDC still names this body through its placeholder pin
-// (rva00599D56 on AIDozerManager).
 // cl: /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /O1 /G7 /arch:SSE /MD /EHsc
 // stlport
 // Retail frees vector storage through the C++-linkage free (0x00030830),
