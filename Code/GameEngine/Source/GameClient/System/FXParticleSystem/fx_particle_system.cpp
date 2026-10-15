@@ -1,4 +1,8 @@
 // cl: /Ireference/shims/moduledata
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
 #include "Common/Snapshot.h"
 
 namespace FXParticleSystem
@@ -39,7 +43,10 @@ public:
 class EmissionVolumeInfo : public Snapshot
 {
 public:
-    virtual ~EmissionVolumeInfo();
+    virtual ~EmissionVolumeInfo() {}
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 
     bool m_flag;
 };

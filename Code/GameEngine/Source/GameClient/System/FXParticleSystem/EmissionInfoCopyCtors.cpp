@@ -10,6 +10,11 @@
 // Code/GameEngine/Source/GameClient/FXParticleSystemModules.cpp.
 
 class Xfer;
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 namespace FXParticleSystem
 {
@@ -21,12 +26,14 @@ struct GameClientRandomVariable
     float m_high;
 };
 
-class EmissionVelocityInfo
+class EmissionVelocityInfo : public Snapshot
 {
 public:
     EmissionVelocityInfo(const EmissionVelocityInfo &that);
-    virtual ~EmissionVelocityInfo();
-    virtual void DoXfer(Xfer &xfer);
+    virtual ~EmissionVelocityInfo() {}
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 };
 
 // BFME1 donor fx_particle_system.cpp:733 is an empty DoXfer override; target
@@ -76,11 +83,14 @@ OrthoEmissionVelocityInfo::OrthoEmissionVelocityInfo(const OrthoEmissionVelocity
 {
 }
 
-class EmissionVolumeInfo
+class EmissionVolumeInfo : public Snapshot
 {
 public:
     EmissionVolumeInfo(const EmissionVolumeInfo &that);
-    virtual ~EmissionVolumeInfo();
+    virtual ~EmissionVolumeInfo() {}
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 
     bool m_flag;
 };
@@ -137,3 +147,6 @@ SphericalEmissionVelocityInfo::SphericalEmissionVelocityInfo(const SphericalEmis
 #pragma comment(linker, "/alternatename:?construct_from@SphericalEmissionVelocityModuleTemplateSubCopyShim@FXParticleSystem@@QAEXPBX@Z=??0SphericalEmissionVelocityInfo@FXParticleSystem@@QAE@ABV01@@Z")
 #pragma comment(linker, "/alternatename:?construct_from@CylindricalEmissionVelocityModuleTemplateSubCopyShim@FXParticleSystem@@QAEXPBX@Z=??0CylindricalEmissionVelocityInfo@FXParticleSystem@@QAE@ABV01@@Z")
 #pragma comment(linker, "/alternatename:?construct_from@OutwardEmissionVelocityModuleTemplateSubCopyShim@FXParticleSystem@@QAEXPBX@Z=??0CylindricalEmissionVelocityInfo@FXParticleSystem@@QAE@ABV01@@Z")
+
+// Target exports identify the empty volume transfer as the same RET4 fold.
+void FXParticleSystem::EmissionVolumeInfo::DoXfer(Xfer &) {}

@@ -336,17 +336,18 @@ public:
     virtual ~Snapshot() {}
 };
 
-class EmissionVolumeInfo : public Snapshot
+class EmissionVolumeInfo : public ::Snapshot
 {
 public:
     EmissionVolumeInfo();
     EmissionVolumeInfo(const EmissionVolumeInfo &that);
 
     virtual ~EmissionVolumeInfo() {}
-    virtual void v1() = 0;
+    virtual void LoadPostProcess();
 
     bool m_flag;
     virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 };
 
 const char *EmissionVolumeInfo::GetSnapshotName()
@@ -475,15 +476,16 @@ typedef SphereEmissionVolumeInfo &(SphereEmissionVolumeInfo::*SphereEmissionVolu
 
 SphereEmissionVolumeAssign g_sphereEmissionVolumeAssign = &SphereEmissionVolumeInfo::operator=;
 
-class EmissionVelocityInfo : public Snapshot
+class EmissionVelocityInfo : public ::Snapshot
 {
 public:
     EmissionVelocityInfo();
     EmissionVelocityInfo(const EmissionVelocityInfo &that);
 
     virtual ~EmissionVelocityInfo() {}
-    virtual void v1() = 0;
+    virtual void LoadPostProcess();
     virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 };
 
 class CylindricalEmissionVelocityInfo : public EmissionVelocityInfo
@@ -962,13 +964,13 @@ CategoryModuleTemplate<7> *fxCopyWindCategoryModuleTemplate(void *storage,
 // Three more info classes read straight off their generated assignments: a
 // movsd run is a three-float group, a lone dword move is a loose float, and a
 // byte move is a flag.
-class DefaultPhysicsModuleInfo : public Snapshot
+class DefaultPhysicsModuleInfo : public ::Snapshot
 {
 public:
     DefaultPhysicsModuleInfo(const DefaultPhysicsModuleInfo &that);
 
     virtual ~DefaultPhysicsModuleInfo();
-    virtual void v1() = 0;
+    virtual void LoadPostProcess();
 
     FXCoord3D m_unknown04;
     float m_unknown10;
@@ -2301,4 +2303,11 @@ bool CPUParticle::update() {
     if(m_lifetimeLeft && --m_lifetimeLeft==0) return false;
     return !rva001F4E2D();
 }
+}
+
+// Native exported Snapshot post-load callbacks are empty and fold atB3FD0.
+namespace FXParticleSystem {
+void EmissionVolumeInfo::LoadPostProcess() {}
+void EmissionVelocityInfo::LoadPostProcess() {}
+void DefaultPhysicsModuleInfo::LoadPostProcess() {}
 }

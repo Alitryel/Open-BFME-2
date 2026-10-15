@@ -35,7 +35,7 @@ class EmissionVolumeInfo : public Snapshot
 {
 public:
     EmissionVolumeInfo() { m_flag = false; }
-    virtual ~EmissionVolumeInfo();
+    virtual ~EmissionVolumeInfo() {}
     virtual void LoadPostProcess();
     virtual const char *GetSnapshotName();
     virtual void DoXfer(Xfer &);

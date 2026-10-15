@@ -34,17 +34,20 @@ private:
 namespace FXParticleSystem
 {
 
-class EmissionVelocityInfo
+class EmissionVelocityInfo : public Snapshot
 {
 public:
-	virtual ~EmissionVelocityInfo();
+	virtual ~EmissionVelocityInfo() {}
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 };
 
 class SphericalEmissionVelocityInfo : public EmissionVelocityInfo
 {
 public:
 	SphericalEmissionVelocityInfo();
-	virtual ~SphericalEmissionVelocityInfo();
+	virtual ~SphericalEmissionVelocityInfo() {}
 
 private:
 	GameClientRandomVariable m_var0;
@@ -101,11 +104,14 @@ OrthoEmissionVelocityInfo::OrthoEmissionVelocityInfo()
 // so the bool lives in the base here. The virtual destructor is only
 // declared: it resolves to the folded 0x0049B47C family and supplies the
 // unwinding behind the EH frame.
-class EmissionVolumeInfo
+class EmissionVolumeInfo : public Snapshot
 {
 public:
 	EmissionVolumeInfo() : m_flag(false) {}
-	virtual ~EmissionVolumeInfo();
+	virtual ~EmissionVolumeInfo() {}
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
 
 protected:
 	bool m_flag;
