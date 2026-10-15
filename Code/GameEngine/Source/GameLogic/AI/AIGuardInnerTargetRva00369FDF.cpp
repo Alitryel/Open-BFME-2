@@ -109,8 +109,10 @@ public:
 	const PolygonTrigger *m_trigger;
 };
 
-// vftable 0x00C172A8, allow 0x00260E01: no members of its own.
-class Rva00260E01Filter : public Rva000421C8
+// Native C172A8 slot1 reaches260E01, the existing rowed
+// PartitionFilterIsFlying::allow (airborne-locomotor test). Fieldless
+// derived view and shared base/link layout are retained.
+class PartitionFilterIsFlying : public Rva000421C8
 {
 public:
 	virtual bool allow(Object *obj);
@@ -391,7 +393,7 @@ bool Rva00369FDFGuardMachine::lookForInnerTarget()
 			visionRange = area->getRadius();
 			area->getCenterPoint(&pos);
 		}
-		Rva00260E01Filter f3;
+		PartitionFilterIsFlying f3;
 		if (getGuardMode() == GUARDMODE_GUARD_FLYING_UNITS_ONLY)
 			f1.link(&f3);
 		Rva0026119DFilter f4;
@@ -436,7 +438,7 @@ bool Rva00369FDFGuardMachine::lookForInnerTarget()
 		Rva0004584D f5(*(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE,
 			*(const BfmeFixedStorage0004543D *)&Rva00045411BitSet(0, 0x36));
 		f1.link(&f5);
-		Rva00260E01Filter f3;
+		PartitionFilterIsFlying f3;
 		if (getGuardMode() == GUARDMODE_GUARD_FLYING_UNITS_ONLY)
 			f1.link(&f3);
 		target = ThePartitionManager->getClosestObject(&pos, 99999.0f, 1, &f1);

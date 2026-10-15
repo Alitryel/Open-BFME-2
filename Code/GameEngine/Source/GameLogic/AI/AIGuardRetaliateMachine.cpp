@@ -105,8 +105,10 @@ public:
 	int m_source;
 };
 
-// vftable 0x00C172A8, allow 0x00260E01: no members of its own.
-class Rva00260E01Filter : public Rva000421C8
+// Native C172A8 slot1 reaches260E01, the existing rowed
+// PartitionFilterIsFlying::allow (airborne-locomotor test). Fieldless
+// derived view and shared base/link layout are retained.
+class PartitionFilterIsFlying : public Rva000421C8
 {
 public:
 	virtual bool allow(Object *obj);
@@ -129,7 +131,7 @@ struct TeamTemplateInfo
 
 struct TeamPrototype
 {
-	const TeamTemplateInfo *getTemplateInfo() const { return &m_info; }
+	__declspec(dllimport) __forceinline const TeamTemplateInfo *getTemplateInfo() const { return &m_info; }
 	TeamTemplateInfo m_info;
 };
 
@@ -204,7 +206,7 @@ bool AIGuardRetaliateMachine::lookForInnerTarget()
 	Rva0004584D f8(*(BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype,
 		*(BfmeFixedStorage0004543D *)&Rva00045411BitSet(0, 0x82));
 	Rva002611BFFilter filterMapStatus(owner);
-	Rva00260E01Filter unused;
+	PartitionFilterIsFlying unused;
 	f1.link(f2.link(&filterMapStatus));
 	f1.link(&f3);
 	f1.link(&f8);
