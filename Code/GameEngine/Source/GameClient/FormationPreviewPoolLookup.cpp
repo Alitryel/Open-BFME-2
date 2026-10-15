@@ -6,6 +6,19 @@
 // Keep STLport's lookup and multimap wrapper visible: the former makes the
 // argument's lifetime visible, the latter copies the returned iterator.
 #include <map>
+// Keep typed iterator comparisons local; this unit's incidental tree-base
+// comparison COMDAT differs from the selected library provider.
+namespace _STL {
+template <class Value, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits> &a,
+                              const _Rb_tree_iterator<Value, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+// The unsigned comparator is fully inlined here. Retain its definition for
+// code generation without emitting another nonretail external copy.
+template <> __declspec(dllimport) __forceinline
+bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const
+{ return a < b; }
+}
 #include "reference/shims/bfme2_ascii/ascii_string.h"
 class ThingTemplate;
 class InGameUI { public: class FormationPreviewPoolObject; class FormationPreviewDecal; };

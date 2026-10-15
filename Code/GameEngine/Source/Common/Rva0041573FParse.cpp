@@ -10,6 +10,20 @@
 // address-derived.
 #include "Common/INIException.h"
 #include <map>
+// Keep typed iterator comparisons local; this unit's incidental tree-base
+// comparison COMDAT differs from the selected library provider.
+namespace _STL {
+template <class Value, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits> &a,
+                              const _Rb_tree_iterator<Value, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+// Tree stepping is fully inlined here. Keep its library implementation
+// visible without emitting a competing external iterator increment.
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator++()
+{ _M_node = _Rb_global_inst::_M_increment(_M_node); return *this; }
+}
 
 class INI;
 typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
