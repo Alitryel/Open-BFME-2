@@ -1,16 +1,10 @@
-// ?rva000347A0@GeneralAllocator@Allocator@EA@@QAEPAXPAXIH@Z
-// partial score=0.998 date=2026-10-15
 // cl: /O2 /MD /DNDEBUG
-// Seat5 2026-10-15 rebuild: 704/704 B, ONE byte differs (nd1). Levers that
-// closed the old 700 B bank: single exit `return newMem` with newMem
-// function-scope (split paths assign chunk2mem(newp), mmapped keep path assigns
-// oldMem) reproduces retail's dead EBP stores into the flags slot and the pop
-// order; the malloc failure as `else return 0;` moves out of line; computing
-// the remainder pointer BEFORE set_head_size(newp, nb) in the split branch lets
-// cl hoist the shared head & 0x80000007 load above the remainder<16 test.
-// Residue: the top-extend foot store encodes [ecx+eax] (89 0C 01) where retail
-// has [eax+ecx] (89 0C 08); statement permutations, char*/int/helper/next/newp
-// spellings and /G5 /G6 /G7 /Ox /Ob1 /Op /Oa leave it unchanged.
+//
+// The top-extend branch stores the new top into m_top and reads it back into the
+// local it initialises (retail keeps the stored register as the SIB base of the
+// foot store); a single exit `return newMem` with newMem function-scope gives the
+// dead EBP stores and pop order; computing the remainder pointer before
+// set_head_size(newp, nb) in the split branch hoists the shared head load.
 // ?rva000347A0@GeneralAllocator@Allocator@EA@@QAEPAXPAXIH@Z
 // Retail 0x000347A0..0x00034A60 (704 bytes including the eight-entry case
 // table at 0x00034A40) RET0C: the general allocator's reallocation,
@@ -90,9 +84,9 @@ void *EA::Allocator::GeneralAllocator::rva000347A0(void *oldMem, unsigned int by
 			Rva000347A0Chunk *next = (Rva000347A0Chunk *)((char *)oldp + oldSize);
 			if (next == m_top && (newSize = oldSize + (next->head & 0x7ffffff8)) >= nb + 16) {
 				oldp->head = (oldp->head & 0x80000007) | nb;
-				Rva000347A0Chunk *top = (Rva000347A0Chunk *)((char *)oldp + nb);
-				m_top = top;
+				m_top = (Rva000347A0Chunk *)((char *)oldp + nb);
 				unsigned int topSize = newSize - nb;
+				Rva000347A0Chunk *top = m_top;
 				top->bk = top;
 				top->fd = top;
 				top->head = topSize | 1;
