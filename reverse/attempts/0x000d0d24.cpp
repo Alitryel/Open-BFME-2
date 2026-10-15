@@ -1,4 +1,6 @@
 // ?doDrawModule@W3DBoatWakeModelDraw@@UAEXPBVMatrix3D@@@Z
+// partial score=0.9955637915543576 date=2026-10-15
+// ?doDrawModule@W3DBoatWakeModelDraw@@UAEXPBVMatrix3D@@@Z
 // partial score=0.99 date=2026-10-15
 // ?doDrawModule@W3DBoatWakeModelDraw@@UAEXPBVMatrix3D@@@Z
 // partial score=0.987 date=2026-10-15
@@ -78,6 +80,9 @@ private:
 	RenderObjClass *m_renderObject;		// +0x14
 };
 
+static __forceinline void translateWake(Matrix3D &mtx,float x,float y,float z){mtx[0][3]+=(mtx[0][0]*x)+((mtx[0][1]*y)+((*(const volatile float *)&(mtx[0][2]))*z));
+mtx[1][3]+=mtx[1][0]*x+mtx[1][1]*y+mtx[1][2]*z;
+mtx[2][3]+=mtx[2][0]*x+mtx[2][1]*y+mtx[2][2]*z;}
 void W3DBoatWakeModelDraw::doDrawModule(const Matrix3D *transformMtx)
 {
 	Vector3 offset = m_moduleData->m_wakeOffset;
@@ -95,7 +100,7 @@ void W3DBoatWakeModelDraw::doDrawModule(const Matrix3D *transformMtx)
 	Matrix3D mtx(true);
 	mtx.Translate(transformMtx->Get_Translation());
 	mtx.Rotate_Z(transformMtx->Get_Z_Rotation());
-	mtx.Translate(offset.X, offset.Y, offset.Z);
+	translateWake(mtx,offset.X,offset.Y,offset.Z);
 	mtx.Scale(speedRatio);
 	m_speedRatio = speedRatio;
 	if (m_renderObject)

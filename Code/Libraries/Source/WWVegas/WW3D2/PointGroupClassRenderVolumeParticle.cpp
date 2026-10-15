@@ -1,23 +1,14 @@
-// ?RenderVolumeParticle@PointGroupClass@@QAEXAAVRenderInfoClass@@IH@Z
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?RenderVolumeParticle@PointGroupClass@@QAEXAAVRenderInfoClass@@IPAX@Z
 // partial score=0.9887 date=2026-10-10
-// cl: /Ireference/shims/bfmestages /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/game/Libraries/Source/Compression /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/shims/sweep
-// Provenance: Open-BFME-1 game/Libraries/Source/WWVegas/WW3D2/PointGroupClassRender.cpp at
-// 10af19f44a (BFME1 byte-identical donor, b1 0x00917920, here 0x0017F1B0); include paths
-// repointed at the reference checkout. Render was first left out as differing
-// from BFME 1's; built /arch:SSE /G7 like its BFME2 siblings, the donor's Render
-// places exactly once at 0x0017F400 (the APT helper still matches under SSE).
-// BFME renamed GeneralsMD Matrix4x4 -> Matrix4 (see pointgr.cpp).
-// The compiler-generated vector constructor iterator (??_H) takes the
-// optimization state of the first function that needs it. Retail links one
-// copy, the /O1 body at 0x00001423; this unemitted anchor makes this unit's
-// copy that same body, so it no longer loses to retail's at link time.
-// It can also change how later array constructions here compile; checked to
-// change nothing else in this unit, but if a function added later that builds
-// an array will not match, try it without this block.
-struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
-#pragma optimize("gsy", on)
-static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
-#pragma optimize("", on)
+// cl: /O2 /G7 /arch:SSE /Ireference/shims/bfmestages /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/game/Libraries/Source/Compression /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/shims/sweep
+// PointGroupClass volume layers, native0x0017F6E0..0x0017FADF (1023B).
+// WB0x00A290C0 names this method in pointgr.cpp. The neighboring BFME1
+// PointGroupClassRender donor10af19f44a supplies the class/setup/helper model;
+// the volume-loop control flow and matrix order are independently retail-measured.
+// Keep the final payload opaque: caller55C81E passes system+0x88 as a pointer.
+// The helper below remains visible for its proven non-escaping output arguments.
 #define Matrix4x4 Matrix4
 
 // PointGroupClass::Render(RenderInfoClass &, int) at retail 0x00917B70 and the
@@ -90,7 +81,7 @@ public:
 	int Get_Flag(FlagsType flag) { return (Flags >> flag) & 0x1; }
 
 	void Render(RenderInfoClass &rinfo, int unknown);
-	void RenderVolumeParticle(RenderInfoClass &rinfo, unsigned int depth, int unknown);
+	void RenderVolumeParticle(RenderInfoClass &rinfo, unsigned int depth, void *unknown);
 
 	void prepare_shader(void);
 	void rva00917920(Vector3 **point_loc, Vector4 **point_diffuse, float **point_size,
@@ -141,7 +132,7 @@ private:
 // One APT compression step of 0x00917920. The buffer is a reference, so the
 // Resize call stays virtual as in retail.
 template <class T, class S>
-inline T *rva00917920_compress(VectorClass<T> &buffer, S *source, unsigned int *apt, int count)
+static inline T *rva00917920_compress(VectorClass<T> &buffer, S *source, unsigned int *apt, int count)
 {
 	if (source) {
 		if (buffer.Length() < count) {
@@ -153,7 +144,7 @@ inline T *rva00917920_compress(VectorClass<T> &buffer, S *source, unsigned int *
 	return NULL;
 }
 
-void PointGroupClass::rva00917920(Vector3 **point_loc, Vector4 **point_diffuse, float **point_size,
+inline __declspec(noinline) void PointGroupClass::rva00917920(Vector3 **point_loc, Vector4 **point_diffuse, float **point_size,
 	unsigned char **point_orientation, unsigned char **point_frame)
 {
 	if (APT) {
@@ -180,51 +171,11 @@ void PointGroupClass::rva00917920(Vector3 **point_loc, Vector4 **point_diffuse, 
 	}
 }
 
-void PointGroupClass::Render(RenderInfoClass &rinfo, int unknown)
-{
-	if (PointCount == 0) return;
-
-	prepare_shader();
-
-	Vector3 *current_loc = NULL;
-	Vector4 *current_diffuse = NULL;
-	float *current_size = NULL;
-	unsigned char *current_orient = NULL;
-	unsigned char *current_frame = NULL;
-	rva00917920(&current_loc, &current_diffuse, &current_size, &current_orient, &current_frame);
-
-	Matrix4x4 view;
-	DX8Wrapper::Get_Transform(D3DTS_VIEW, view);
-
-	if (Get_Flag(TRANSFORM) && Get_Flag(BILLBOARD)) {
-		if (compressed_loc.Length() < PointCount) {
-			compressed_loc.Resize(PointCount * 2);
-		}
-		Vector4 result;
-		for (int i = 0; i < PointCount; i++) {
-			result = view * current_loc[i];
-			compressed_loc[i][0] = result[0];
-			compressed_loc[i][1] = result[1];
-			compressed_loc[i][2] = result[2];
-		}
-		current_loc = &compressed_loc[0];
-	}
-
-	int count = PointCount;
-	int vnum;
-	rva00914860(count, PointLoc->Get_Count(), &vnum);
-	rva009148C0(current_loc, current_size, current_orient, count);
-	rva00916CD0(current_frame, count, unknown);
-	rva00912880(current_diffuse, count);
-	rva00913AF0(vnum, current_diffuse == NULL);
-}
-
-// RenderVolumeParticle at retail 0x0017F6E0 (1023 B): volume-particle layer loop,
-// adapted from the 0x0017F6E0 bank; view*temp association closes rows 1-2 sub-schedule.
-void PointGroupClass::RenderVolumeParticle(RenderInfoClass &rinfo, unsigned int depth, int unknown)
+// Retail matrix associations preserve all three native product schedules.
+void PointGroupClass::RenderVolumeParticle(RenderInfoClass &rinfo, unsigned int depth, void *unknown)
 {
 	if (depth <= 1 || !Get_Flag(TRANSFORM) || !Get_Flag(BILLBOARD)) {
-		Render(rinfo, unknown);
+		Render(rinfo, (int)unknown);
 		return;
 	}
 
@@ -247,7 +198,7 @@ void PointGroupClass::RenderVolumeParticle(RenderInfoClass &rinfo, unsigned int 
 	int vnum;
 	rva00914860(PointCount, PointLoc->Get_Count(), &vnum);
 	rva00912880(current_diffuse, PointCount);
-	rva00916CD0(current_frame, PointCount, unknown);
+	rva00916CD0(current_frame, PointCount, (int)unknown);
 
 	Matrix4x4 view;
 	DX8Wrapper::Get_Transform(D3DTS_VIEW, view);
@@ -273,13 +224,21 @@ void PointGroupClass::RenderVolumeParticle(RenderInfoClass &rinfo, unsigned int 
 			temp.Y = source_loc[i].Y + cameraToPointDelta.Y;
 			temp.Z = source_loc[i].Z + cameraToPointDelta.Z;
 			Vector4 result;
-			result = view * temp;
+			result = Vector4(
+                ((view[0][2] * temp.Z) + (view[0][1] * temp.Y)) + (view[0][0] * temp.X) + view[0][3],
+                (view[1][0] * temp.X) + ((view[1][1] * temp.Y) + (view[1][2] * temp.Z)) + view[1][3],
+                (view[2][0] * temp.X) + ((view[2][1] * temp.Y) + (view[2][2] * temp.Z)) + view[2][3],
+                0.0f);
 			transformed_loc[i][0] = result[0];
 			transformed_loc[i][1] = result[1];
 			transformed_loc[i][2] = result[2];
 		}
-		current_loc = &transformed_loc[0];
-		rva009148C0(current_loc, current_size, current_orient, PointCount);
+		// Separate the two actual pointer captures to retain native EBX/EDI reload order.
+        float *sizes = current_size;
+        _ReadWriteBarrier();
+        unsigned char *orient = current_orient;
+        current_loc = &transformed_loc[0];
+        rva009148C0(current_loc, sizes, orient, PointCount);
 		rva00913AF0(vnum, current_diffuse == NULL);
 	}
 }

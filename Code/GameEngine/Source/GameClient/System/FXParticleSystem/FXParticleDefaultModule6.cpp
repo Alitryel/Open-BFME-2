@@ -188,10 +188,10 @@ class PointGroupClass {public:
  void Set_Point_Mode(PointModeEnum);
  void Set_Arrays(ShareBufferClass<Vector3>*,ShareBufferClass<Vector4>*,ShareBufferClass<unsigned int>*,ShareBufferClass<float>*,ShareBufferClass<unsigned char>*,ShareBufferClass<unsigned char>*,int,float,float,float,float);
  void Render(RenderInfoClass&,int);
+ void RenderVolumeParticle(RenderInfoClass&,unsigned,void*);
 };
 extern PointGroupClass* g_00E06098;
 class Rva00179100 {public: void SetFlag(bool);};
-class Rva0017F6E0PointGroupVolume {public: void RenderVolumeParticle(RenderInfoClass&,int,void*);};
 namespace FXParticleSystem {
 template<int CATEGORY> class DefaultModule
 {
@@ -289,7 +289,7 @@ template<> Int DefaultModule<6>::doParticles(RenderInfoClass &rinfo, void *bound
    g_00E06098->Set_Arrays(g_00E065C8,g_00E065CC,0,g_00E065D0,g_00E065D4,0,count,0.0f,0.0f,0.0f,0.0f);
    ((Rva00179100*)g_00E06098)->SetFlag(!getSystem()->m_billboard);
    if(getSystem()->m_drawType==4)
-    ((Rva0017F6E0PointGroupVolume*)g_00E06098)->RenderVolumeParticle(rinfo,getDepth(),getSystem()->m_renderPayload);
+    g_00E06098->RenderVolumeParticle(rinfo,getDepth(),getSystem()->m_renderPayload);
    else g_00E06098->Render(rinfo,(int)getSystem()->m_renderPayload);
   }
  }
