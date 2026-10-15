@@ -405,6 +405,7 @@ typedef unsigned char UnsignedByte;
 class NetGameCommandMsg : public NetCommandMsg
 {
 public:
+	~NetGameCommandMsg();	// rowed out of line; this view must not emit its own
 	NetGameCommandMsg();
 private:
 	Int m_numArgs; // +0x1C

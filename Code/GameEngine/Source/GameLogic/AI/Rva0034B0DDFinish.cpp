@@ -37,6 +37,7 @@ public:
 class AIAttackState : public State, public NotifyWeaponFiredInterface
 {
 public:
+	~AIAttackState();	// rowed out of line; this view must not emit its own
 	AIAttackState(StateMachine *machine, bool follow, bool attackingObject, bool forceAttacking,
 		AttackExitConditionsInterface *attackParameters);
 	virtual bool isAttack() const;

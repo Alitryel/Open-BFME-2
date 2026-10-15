@@ -39,6 +39,7 @@ public:
 class SidesList : public Rva0032EC63
 {
 public:
+	~SidesList();	// rowed out of line; this view must not emit its own
 	SidesList();
 	void rva0032B7A7(SidesList *other);
 	bool rva0032F0AA(DataChunkInput &file, void *userData);

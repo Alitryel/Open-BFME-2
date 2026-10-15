@@ -383,6 +383,7 @@ private:
 class Rva0039ADF3 : public ExperienceTracker
 {
 public:
+	~Rva0039ADF3();	// rowed out of line; this view must not emit its own
 	Rva0039ADF3( Object *object );
 	bool rva0039AE04() const;
 protected:

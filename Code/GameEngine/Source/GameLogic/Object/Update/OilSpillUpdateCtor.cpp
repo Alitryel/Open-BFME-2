@@ -70,6 +70,7 @@ private:
 class OilSpillUpdate : public FireWeaponUpdate
 {
 public:
+	~OilSpillUpdate();	// rowed out of line; this view must not emit its own
 	OilSpillUpdate(Thing *thing, const ModuleData *moduleData);
 
 private:
