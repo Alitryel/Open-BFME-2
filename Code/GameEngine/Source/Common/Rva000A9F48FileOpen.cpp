@@ -40,6 +40,15 @@ static __declspec(noinline) __declspec(nothrow) File *openFile(const AsciiString
 	}
 }
 
+// Native A9F85..A9F98 19B: open through the EAX-argument helper above and
+// return readEntireAndClose's buffer (tail jump through slot 34) or NULL. cl
+// expands it into AA557 and still emits the private EAX-argument body, as
+// retail does (no direct caller remains in the image). Name address-derived.
+static char *Rva000A9F85ReadEntire(const AsciiString *fname)
+{
+	File *f = openFile(fname);
+	return f ? f->readEntireAndClose() : 0;
+}
 
 // NativeAA557..AA5B2 RET0: construct name+".apt", open with the private
 // EAX-argument61B helper, read the entire buffer through virtual34 and store at owner+4.
@@ -53,8 +62,7 @@ class Rva000AB910 {public:
 };
 void Rva000AB910::rva000AA557(){
  AsciiString path(name);reinterpret_cast<StringBase<char> *>(&path)->concat(".apt");
- File *input=openFile(&path);
- data=input?input->readEntireAndClose():0;
+ data=Rva000A9F85ReadEntire(&path);
 }
 
 #include "../../../GameEngineDevice/Source/W3DDevice/GameClient/BFME2ParticleTextureHandles.h"
