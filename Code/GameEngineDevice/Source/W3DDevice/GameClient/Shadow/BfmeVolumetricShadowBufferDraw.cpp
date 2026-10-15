@@ -59,18 +59,76 @@ public:
 
 struct IDirect3DDevice8;
 class W3DVolumetricShadowManagerV2;
+
+// Zero Hour vertmaterial.h's RefCountClass-derived material: Delete_This in
+// vtable slot 0, the reference count at +4.
+class VertexMaterialClass
+{
+public:
+	enum PresetType { PRELIT_NODIFFUSE = 0 };
+	static VertexMaterialClass *__cdecl Get_Preset(PresetType type);
+	virtual void Delete_This();
+	__forceinline void Add_Ref() { NumRefs++; }
+	__forceinline void Release_Ref() { NumRefs--; if (NumRefs == 0) Delete_This(); }
+	int NumRefs;
+};
+
+// The render-state block of dx8wrapper.h, only the fields used here.
+struct RenderStateStruct
+{
+	ShaderClass shader;
+	VertexMaterialClass *material;
+	unsigned char m_pad008[0x1EC - 0x008];
+	float world[4][4];
+};
+
 class DX8Wrapper
 {
 	friend class W3DVolumetricShadowManagerV2;
 public:
+	enum ChangedStates { WORLD_CHANGED = 1 << 0, MATERIAL_CHANGED = 1 << 14, WORLD_IDENTITY = 1 << 18 };
 	static void __cdecl Set_DX8_Render_State(unsigned long state, unsigned int value);
+	static void __cdecl Set_Shader(const ShaderClass &shader);
+	static void __cdecl Set_Vertex_Buffer(const VertexBufferClass *vb, unsigned stream);
+	static void __cdecl Set_Index_Buffer(const IndexBufferClass *ib, unsigned short index_base_offset);
+	static void __cdecl Apply_Render_State_Changes();
+	static __forceinline void Set_Material(VertexMaterialClass *material)
+	{
+		if (material) material->Add_Ref();
+		if (render_state.material) render_state.material->Release_Ref();
+		render_state.material = material;
+		render_state_changed |= MATERIAL_CHANGED;
+	}
+	static __forceinline void Set_World_Identity()
+	{
+		if (render_state_changed & WORLD_IDENTITY)
+			return;
+		render_state.world[0][0] = 1.0f; render_state.world[0][1] = 0.0f; render_state.world[0][2] = 0.0f; render_state.world[0][3] = 0.0f;
+		render_state.world[1][0] = 0.0f; render_state.world[1][1] = 1.0f; render_state.world[1][2] = 0.0f; render_state.world[1][3] = 0.0f;
+		render_state.world[2][0] = 0.0f; render_state.world[2][1] = 0.0f; render_state.world[2][2] = 1.0f; render_state.world[2][3] = 0.0f;
+		render_state.world[3][0] = 0.0f; render_state.world[3][1] = 0.0f; render_state.world[3][2] = 0.0f; render_state.world[3][3] = 1.0f;
+		render_state_changed |= WORLD_CHANGED | WORLD_IDENTITY;
+	}
 protected:
 	// dx8wrapper.cpp defines both protected (CurrentCaps@DX8Wrapper@@1PAVDX8Caps@@A and
 	// D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A).
 	static DX8Caps *CurrentCaps;
 	static IDirect3DDevice8 *D3DDevice;
+	static RenderStateStruct render_state;
+	static unsigned render_state_changed;
 };
+extern unsigned number_of_DX8_calls;
 
+class W3DShadowManager
+{
+public:
+	int getStencilShadowMask() const { return m_stencilShadowMask; }
+	char m_pad00[8];
+	int m_stencilShadowMask;
+};
+extern W3DShadowManager *TheW3DShadowManager;
+
+typedef long (__stdcall *BfmeDeviceSetDword)(IDirect3DDevice8 *, unsigned);
 typedef long (__stdcall *BfmeDrawIndexedPrimitive)(IDirect3DDevice8 *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 
 class W3DVolumetricShadowManagerV2
@@ -84,6 +142,7 @@ class W3DVolumetricShadowManagerV2
 	unsigned int m_indexCapacity;
 
 public:
+	void rva001076F6();
 	void drawAndRelease(int frontFace);
 };
 
@@ -139,4 +198,34 @@ bool Rva001076EE::rva001076EE()
 {
 	((W3DProjectedShadowManager *)this)->ReAcquireResources();
 	return true;
+}
+
+// 0x001076F6 (367 B): the V2 manager's one-time stencil setup that
+// W3DVolumetricShadowManagerV2Render.cpp calls before drawAndRelease. Shape
+// carried from Zero Hour's W3DVolumetricShadowManager::renderStencilShadows
+// preamble (preset material via Set_Material/REF_PTR_RELEASE, shader, buffers,
+// Set_World_Identity, Apply_Render_State_Changes, stencil render states,
+// DX8CALL counters); target facts: every callee is a rowed DX8Wrapper/
+// VertexMaterialClass body, the globals are dx8wrapper.cpp's render_state
+// (+4 material, +0x1EC world), render_state_changed and number_of_DX8_calls,
+// and TheW3DShadowManager's +8 mask. Original method name unknown.
+void W3DVolumetricShadowManagerV2::rva001076F6()
+{
+	VertexMaterialClass *vmat = VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_NODIFFUSE);
+	DX8Wrapper::Set_Material(vmat);
+	if (vmat) vmat->Release_Ref();
+	DX8Wrapper::Set_Shader(BfmeShadowVolumeStatsShader);
+	DX8Wrapper::Set_Vertex_Buffer(m_vertexBuffer, 0);
+	DX8Wrapper::Set_Index_Buffer(m_indexBuffer, 0);
+	DX8Wrapper::Set_World_Identity();
+	DX8Wrapper::Apply_Render_State_Changes();
+	DX8Wrapper::Set_DX8_Render_State(0x34, 1);
+	DX8Wrapper::Set_DX8_Render_State(0x38, 8);
+	unsigned int writeMask = ~TheW3DShadowManager->getStencilShadowMask();
+	DX8Wrapper::Set_DX8_Render_State(0x3A, 0xFFFFFFFF);
+	DX8Wrapper::Set_DX8_Render_State(0x3B, writeMask);
+	(*(BfmeDeviceSetDword **)DX8Wrapper::D3DDevice)[92](DX8Wrapper::D3DDevice, 0);
+	number_of_DX8_calls++;
+	(*(BfmeDeviceSetDword **)DX8Wrapper::D3DDevice)[89](DX8Wrapper::D3DDevice, 2);
+	number_of_DX8_calls++;
 }
