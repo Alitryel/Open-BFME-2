@@ -1,4 +1,6 @@
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
+// partial score=0.974 date=2026-10-15
+// ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.959259 date=2026-10-15
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.96 date=2026-10-14
@@ -8,6 +10,8 @@
 // partial score=0.844802 date=2026-10-10
 // cl: /O1 /G7 /Ob1 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /EHa
 // stlport
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 #include "ascii_string.h"
 #include "Lib/Coord3D.h"
@@ -56,6 +60,7 @@ int GetGameLogicRandomValue(int,int,char*,int);
 class Rva001F21E8 {public:void rva001F21E8(Coord3D*);private:char unknown[0x10c];StringBase<char>prefix;};
 struct Rva001F21E8Waypoint {char unknown[8];StringBase<char>name;Coord3D position;char unknown18[4];Object*next;};
 void Rva001F21E8::rva001F21E8(Coord3D*position){
+ _ReadWriteBarrier();
  _STL::vector<Object*>matches;
  for(Object*node=TheTerrainLogic->getFirstWaypoint();node;node=((Rva001F21E8Waypoint*)node)->next){
   if(((Rva001F21E8Waypoint*)node)->name.startsWith(prefix))matches.push_back(node);

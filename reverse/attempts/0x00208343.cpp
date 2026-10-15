@@ -1,4 +1,6 @@
 // ??0ScriptEngine@@QAE@XZ
+// partial score=0.983 date=2026-10-15
+// ??0ScriptEngine@@QAE@XZ
 // partial score=0.987 date=2026-10-13
 // ??0ScriptEngine@@QAE@XZ
 // partial score=0.9865894 date=2026-10-10
@@ -12,7 +14,7 @@
 // In particular9FE15C is already owned by g_00DFE15C;9FE15D is unowned;
 // st_CurrentFrame's ledger extent8 conflates scalar160 with unowned164.
 // No Code admission/pin/alias/full EH verification was performed for this bank.
-// cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /Ireference/shims/moduledata
+// cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/subsystem_bfme2 /Ireference/shims/moduledata /Oa
 // stlport
 #include <map>
 #include <list>

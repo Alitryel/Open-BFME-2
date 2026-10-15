@@ -1,4 +1,8 @@
 // ?slot38@TransportContain@@UAE_NPAVObject@@HH@Z
+// partial score=0.89 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?slot38@TransportContain@@UAE_NPAVObject@@HH@Z
 // partial score=0.85 date=2026-10-13
 // ?slot38@TransportContain@@UAE_NPAVObject@@HH@Z
 // partial score=0.85 date=2026-10-09
@@ -41,6 +45,7 @@ bool TransportContain::slot38(Object *rider,int checkCapacity,int trailing)
 {
     Rva00466EDEData *data=moduleData();
     if (!rider) {
+    	_ReadWriteBarrier();
 failed:
         return false;
     }

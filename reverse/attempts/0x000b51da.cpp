@@ -1,4 +1,6 @@
 // ?rva000B51DA@W3DModelDraw@@UAEXI@Z
+// partial score=0.966 date=2026-10-15
+// ?rva000B51DA@W3DModelDraw@@UAEXI@Z
 // partial score=0.95 date=2026-10-13
 // ?rva000B51DA@W3DModelDraw@@UAEXI@Z
 // partial score=0.9430134237806334 date=2026-10-10
@@ -123,10 +125,10 @@ void W3DModelDraw::rva000B51DA(unsigned key) {
  Rva00078AE3 *current=&state28;
  if(current->same(next))return;
  current->rva00078AE3(&next);
- ModelPrimaryView *primary=this;
- if(primary->s49()) {
+
+ if((this)->s49()) {
   unsigned first=word14,last=word18;
   word14=0;
-  primary->s64(first,0,last);
+  (this)->s64(first,0,last);
  }
 }

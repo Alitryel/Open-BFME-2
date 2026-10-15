@@ -1,6 +1,8 @@
 // ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z
 // partial score=0.93 date=2026-10-15
 // ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z
+// partial score=0.93 date=2026-10-15
+// ?setDisabledUntil@Object@@QAEXW4DisabledType@@I@Z
 // partial score=0.88779 date=2026-10-12
 // cl: /I. /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include
 // Regional O1/SSE/G7 preserved; /MD imports the native _isnan dependency.
@@ -105,6 +107,8 @@ public:
 	void makeDirty( void );
 };
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <float.h>
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
@@ -773,6 +777,7 @@ void Object::setDisabledUntil(DisabledType type, const unsigned int frame)
 			unsigned int bit = 1u << (529 & 31);
 			if ((m_condition14C & bit) == 0)
 			{
+				_ReadWriteBarrier();
 				m_condition14C |= bit;
 				rva0028AE6D();
 			}

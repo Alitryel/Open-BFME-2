@@ -1,4 +1,8 @@
 // ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
+// partial score=0.849 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
 // partial score=0.6 date=2026-10-15
 // ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
 // partial score=0.8276 date=2026-10-14
@@ -89,6 +93,7 @@ void Rva0026DF0D::f(Object *obj, int b, int c)
 			return;
 	}
 	unsigned count = *(unsigned *)((char *)this + 0x1a4);
+	_ReadWriteBarrier();
 	int key = *(int *)((char *)obj + 0x74);
 	int i = 0;
 	if (count > 0)
