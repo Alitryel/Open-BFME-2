@@ -151,7 +151,16 @@ bool Rva0054D3E1Prompt::prompt(int kind, const UnicodeString &title,
 
 // Native Ghidra [43802B,438083)88B cdecl; AptSaveLoad caller4355E2
 // passes kind2, a fetched title, message reference and counted callback.
-extern "C" bool Rva0043802B(int kind, const UnicodeString &title,
+// WB AptMessageBox::Change (score 2 callgraph); static cdecl overload of the rowed
+// three-pointer Change 0x00437EAC.
+class AptMessageBox
+{
+public:
+ static bool Change(int kind, const UnicodeString &title,
+  const UnicodeString &message, TreeHintRef00217D4C callback);
+};
+
+bool AptMessageBox::Change(int kind, const UnicodeString &title,
  const UnicodeString &message, TreeHintRef00217D4C callback)
 {
  return ((Rva0054D3E1Prompt *)g_Va00E032FC)->prompt(kind, title, message, callback);

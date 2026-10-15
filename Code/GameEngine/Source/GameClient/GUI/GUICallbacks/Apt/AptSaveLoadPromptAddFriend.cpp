@@ -129,18 +129,18 @@ public:
 };
 
 
-struct CallbackStorage;
+struct TreeHintRef00217D4C;
 extern "C" void __cdecl Rva00437F61(int type,
 	const UnicodeString &message, const UnicodeString &title,
-	CallbackStorage callback);
-extern "C" void __cdecl Rva0043802B(int type,
+	TreeHintRef00217D4C callback);
+class AptMessageBox { public: static bool Change(int type,
 	const UnicodeString &message, const UnicodeString &title,
-	CallbackStorage callback);
+	TreeHintRef00217D4C callback); };
 
-struct CallbackStorage {
+struct TreeHintRef00217D4C {
  Rva0023E8D8 holder;
- CallbackStorage(void*p):holder(p){}
- CallbackStorage(const CallbackStorage&r):holder(r.holder){}
+ TreeHintRef00217D4C(void*p):holder(p){}
+ TreeHintRef00217D4C(const TreeHintRef00217D4C&r):holder(r.holder){}
 };
 bool AptSaveLoad::PromptAddFriend()
 {
@@ -172,9 +172,9 @@ show_prompt:
 		if (AptSaveLoad::s_instance != 0)
 		{
 			void (__cdecl *callback)(int) = AptSaveLoad::AddFriendConfirmationHandler;
-			Rva0043802B(2, TheGameText->fetch("APT:AddFriendOnSaveTitle", 0),
+			AptMessageBox::Change(2, TheGameText->fetch("APT:AddFriendOnSaveTitle", 0),
 				message,
-				CallbackStorage(&callback));
+				TreeHintRef00217D4C(&callback));
 			((AptSaveLoad *)AptSaveLoad::s_instance)->m_state = 0x0C;
 		}
 		else
@@ -182,7 +182,7 @@ show_prompt:
 			void (__cdecl *callback)(int) = AptSaveLoad::AddFriendConfirmationHandler;
 			Rva00437F61(2, TheGameText->fetch("APT:AddFriendOnSaveTitle", 0),
 				message,
-				CallbackStorage(&callback));
+				TreeHintRef00217D4C(&callback));
 		}
 	return true;
 }
