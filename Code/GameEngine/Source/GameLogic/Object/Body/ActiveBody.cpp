@@ -180,7 +180,7 @@ class Drawable;
 class ParticleSystem
 {
 public:
-	ParticleSystemID getSystemID() const { return m_systemID; }
+	__declspec(dllimport) __forceinline ParticleSystemID getSystemID() const { return m_systemID; }
 	void setPosition(const Coord3D *pos)
 	{
 		((Rva001F3899Slot *)this)->set(*(const Rva001F3899Arg *)pos);

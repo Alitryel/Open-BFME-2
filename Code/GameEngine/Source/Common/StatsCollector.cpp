@@ -175,7 +175,7 @@ public:
 	Int getPlayerIndex() const { return m_playerIndex; }
 	__declspec(dllimport) __forceinline Money *getMoney() { return &m_money; }
 	ScoreKeeper *getScoreKeeper() { return &m_scoreKeeper; }
-	const AsciiString &getSide() const { return m_side; }
+	__declspec(dllimport) __forceinline const AsciiString &getSide() const { return m_side; }
 	__forceinline const char *getSideText() const { const char *text = *(const char *const *)(const void *)&m_side; return text ? text + 8 : ""; }
 
 private:
