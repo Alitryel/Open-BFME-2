@@ -57,3 +57,20 @@ void Rva00170D0F::rva00170D0F(const unsigned int &key)
 		m_cursorValid = true;
 	}
 }
+
+// ?erase@Rva00170B9C@@QAEXURva00170D0FIterator@@@Z, retail 0x00170B9C..0x00170BAC
+// (17B, RET4): the map-level erase(iterator) forwarding to the tree's erase
+// 0x00170AA9 on the same receiver (the tree sits at +0x00, ECX passes through),
+// copying the by-value iterator into the callee's argument slot. Owner unknown.
+class Rva00170B9C
+{
+public:
+	void erase(Rva00170D0FIterator position);
+private:
+	Rva00170D0FTree m_tree;			// +0x00
+};
+
+void Rva00170B9C::erase(Rva00170D0FIterator position)
+{
+	m_tree.rva00170AA9(position);
+}
