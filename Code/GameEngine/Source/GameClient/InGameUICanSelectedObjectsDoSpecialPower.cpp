@@ -77,6 +77,14 @@ public:
 extern ActionManager *TheActionManager;
 
 #include <list>
+// Keep the typed comparison local; the incidental base COMDAT differs from
+// the selected provider under this unit's compiler settings.
+namespace _STL {
+template <class _ListVal, class _ListLeft, class _ListRight>
+static inline bool operator!=(const _List_iterator<_ListVal, _ListLeft> &a,
+                              const _List_iterator<_ListVal, _ListRight> &b)
+{ return a._M_node != b._M_node; }
+}
 class DrawableList : public _STL::list<Drawable *> { public: ~DrawableList() throw(); };
 
 #define PAD_VIRTUALS10(p) \
