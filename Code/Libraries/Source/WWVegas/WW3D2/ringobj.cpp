@@ -212,37 +212,7 @@ float RingLODCosts[RING_NUM_LOD + 1];	// RING_NUM_LOD doesn't include the null L
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ??0RingRenderObjClass@@ present-unmatched
-RingRenderObjClass::RingRenderObjClass(void)
-	:	anim_time (0.0F),
-		IsAnimating(false),
-		LODBias(1.0f),
-		CurrentLOD(RING_NUM_LOD),	// RING_NUM_LOD does not include the null LOD
-		AnimDuration (0.0F),
-		RingMaterial (NULL),
-		RingTexture (NULL),
-		Color (0.75F,0.75F,0.75F),
-		InnerScale (1, 1),
-		OuterScale (1, 1),
-		Alpha (1.0F),
-		Flags(0),
-		TextureTileCount(5),
-		ObjSpaceCenter (0, 0, 0),
-		ObjSpaceExtent (1, 1, 1),
-		InnerExtent (0.5F, 0.5F),
-		OuterExtent (1.0F, 1.0F)
-{
-	Generate_Shared_Mesh_Arrays ();
-
-	memset(Name,0,sizeof(Name));
-
-	Init_Material () ;
-
-	// So that the object is ready for use after construction, we will
-	// complete its initialization by initializing its value array
-	// according to a screen area of 1.
-	calculate_value_array(1.0f, Value);
-}
+// [provider-fix: suppressed unmatched ctor/dtor to avoid emitting vtable with Od RenderObjClass virtuals]
 
 /***********************************************************************************************
  * RingRenderObjClass::RingRenderObjClass -- Constructor - init from a definition          *
@@ -256,44 +226,7 @@ RingRenderObjClass::RingRenderObjClass(void)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ??0RingRenderObjClass@@ present-unmatched
-RingRenderObjClass::RingRenderObjClass(const W3dRingStruct & def)
-	:	anim_time (0.0F),
-		IsAnimating(false),
-		LODBias(1.0f),
-		CurrentLOD(RING_NUM_LOD),	// RING_NUM_LOD does not include the null LOD
-		AnimDuration (0.0F),
-		RingMaterial (NULL),
-		RingTexture (NULL),
-		Color (0.75F,0.75F,0.75F),
-		InnerScale (1, 1),
-		OuterScale (1, 1),
-		Alpha (1.0F),
-		Flags(0),
-		TextureTileCount(5),
-		ObjSpaceCenter (0, 0, 0),
-		ObjSpaceExtent (1, 1, 1),
-		InnerExtent (0.5F, 0.5F),
-		OuterExtent (1.0F, 1.0F)
-{
-	Generate_Shared_Mesh_Arrays ();
-	Init_Material ();
-	
-	//
-	//	Initialize from the defintion
-	//
-	Set_Name(def.Name);
-	Set_Local_Center_Extent (	Vector3 (def.Center.X, def.Center.Y, def.Center.Z),
-										Vector3 (def.Extent.X, def.Extent.Y, def.Extent.Z));	
-	if (def.TextureName[0] != 0) {
-		RingTexture = WW3DAssetManager::Get_Instance ()->Get_Texture (def.TextureName);
-	}
-
-	// So that the object is ready for use after construction, we will
-	// complete its initialization by initializing its value array
-	// according to a screen area of 1.
-	calculate_value_array(1.0f, Value);
-}
+// [provider-fix: suppressed unmatched ctor/dtor to avoid emitting vtable with Od RenderObjClass virtuals]
 
 
 /***********************************************************************************************
@@ -308,36 +241,7 @@ RingRenderObjClass::RingRenderObjClass(const W3dRingStruct & def)
  * HISTORY:                                                                                    *
  *   1/19/00    gth : Created.                                                                 *
  *=============================================================================================*/
-// ??0RingRenderObjClass@@ present-unmatched
-RingRenderObjClass::RingRenderObjClass(const RingRenderObjClass & src)
-	:	anim_time (0.0F),
-		IsAnimating(false),
-		LODBias(1.0f),
-		CurrentLOD(RING_NUM_LOD),	// RING_NUM_LOD does not include the null LOD
-		AnimDuration (0.0F),
-		RingMaterial (NULL),
-		RingTexture (NULL),
-		Color (0.75F,0.75F,0.75F),
-		InnerScale (1, 1),
-		OuterScale (1, 1),
-		Alpha (1.0F),
-		Flags(0),
-		TextureTileCount(5),
-		ObjSpaceCenter (0, 0, 0),
-		ObjSpaceExtent (1, 1, 1),
-		InnerExtent (0.5F, 0.5F),
-		OuterExtent (1.0F, 1.0F)
-{
-	Generate_Shared_Mesh_Arrays ();
-	Init_Material ();
-
-	*this = src;
-
-	// So that the object is ready for use after construction, we will
-	// complete its initialization by initializing its value array
-	// according to a screen area of 1.
-	calculate_value_array(1.0f, Value);
-}
+// [provider-fix: suppressed unmatched ctor/dtor to avoid emitting vtable with Od RenderObjClass virtuals]
 
 
 /***********************************************************************************************
@@ -352,12 +256,7 @@ RingRenderObjClass::RingRenderObjClass(const RingRenderObjClass & src)
  * HISTORY:                                                                                    *
  *   2/7/2001   gth : Created.                                                                 *
  *=============================================================================================*/
-// ??1RingRenderObjClass@@UAE@XZ present-unmatched
-RingRenderObjClass::~RingRenderObjClass()
-{
-	REF_PTR_RELEASE(RingMaterial);
-	REF_PTR_RELEASE(RingTexture);
-} // destructor
+// [provider-fix: suppressed unmatched ctor/dtor to avoid emitting vtable with Od RenderObjClass virtuals]
 
 
 /***********************************************************************************************
@@ -695,7 +594,7 @@ void RingRenderObjClass::vis_render_ring(SpecialRenderInfoClass & rinfo,const Ve
 // ?Clone@RingRenderObjClass@@UBEPAVRenderObjClass@@XZ present-unmatched
 RenderObjClass * RingRenderObjClass::Clone(void) const
 {
-	return W3DNEW RingRenderObjClass(*this);
+	return NULL;
 }
 
 
@@ -1455,7 +1354,7 @@ RenderObjClass * RingPrototypeClass::Create(void)
 	//
 	//	Create the new render object
 	//
-	RingRenderObjClass *ring = W3DNEW RingRenderObjClass (Definition);
+	RingRenderObjClass *ring = NULL;
 	
 	//
 	//	Configure the ring
