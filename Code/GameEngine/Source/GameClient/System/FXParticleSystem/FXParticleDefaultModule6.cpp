@@ -53,7 +53,8 @@ class ShaderClass
 {
 public:
 	__declspec(dllimport) __forceinline ShaderClass(const ShaderClass &s) { ShaderBits = s.ShaderBits; }
-	ShaderClass &operator=(const ShaderClass &s) { ShaderBits = s.ShaderBits; return *this; }
+	// Keep the inline assignments without a competing standalone copy.
+	__declspec(dllimport) __forceinline ShaderClass &operator=(const ShaderClass &s) { ShaderBits = s.ShaderBits; return *this; }
 	void Enable_Fog(const char *source);
 
 	static ShaderClass _PresetAdditive2DShader;
