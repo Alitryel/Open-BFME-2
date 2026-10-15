@@ -22,9 +22,12 @@
 // The original names are not established; the name is address-derived.
 //
 // The leaf hash lookup 0x006C1850 is defined ahead of the caller (its real
-// body, copied from Rva006C1850Rva006C1920.cpp) so cl knows the address-taken
+// body, owned here) so cl knows the address-taken
 // out slot is not retained by it; retail hoists the slot reload above the
 // record stores.
+// Lookup evidence: retail 0x006C1850..0x006C1896, ret 8; bucket =
+// (key >> 3) % bucketCount, next at +8, key at +0, output node+4.
+// Retail callers include 0x006C259D, 0x006C268C, 0x006C3B6D and 0x006C4969.
 
 #include <string.h>
 
