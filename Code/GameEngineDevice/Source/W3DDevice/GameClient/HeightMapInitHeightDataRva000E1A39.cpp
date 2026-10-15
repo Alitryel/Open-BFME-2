@@ -21,7 +21,8 @@ void* __cdecl operator new[](unsigned int);
 void __cdecl operator delete[](void*);
 void __cdecl operator delete(void*);
 class Rva000AD9AB{public:void rva000AD9FE();char pad[8];int width,height;};
-class Rva0006D6D9{public:int rva0006D6D9(int,int,Rva000AD9AB*,void*);};
+class WorldHeightMap;
+class BaseHeightMapRenderObjClass{public:int initHeightData(int,int,WorldHeightMap*,void*);};
 class Rva00112291TerrainOwner{public:Rva00112291TerrainOwner();~Rva00112291TerrainOwner();char bytes[0xd4];};
 class Rva0011216CSlotQuartet{public:void rva00112197();};
 class Rva00113110Holder{public:void rva00113110(void*);};
@@ -32,7 +33,7 @@ char pad0[0x37c0];Rva000AD9AB*map;char pad1[0x3884-0x37c4];void**backup;Rva00112
 int Rva000E15D1::rva000E1A39(int x,int y,Rva000AD9AB*pMap,void*lights){
 int i,j;
 bool same=pMap==map;
-((Rva0006D6D9*)this)->rva0006D6D9(x,y,pMap,lights);
+((BaseHeightMapRenderObjClass*)this)->initHeightData(x,y,(WorldHeightMap*)pMap,lights);
 int numX=(pMap->width+14)/16;
 int numY=(pMap->height+14)/16;
 int num=numX*numY;

@@ -122,7 +122,7 @@ class BaseHeightMapRenderObjClass
 {
 public:
 	void rva0006B895(RenderInfoClass &rinfo);
-	void rva0006BBD9(RenderInfoClass &rinfo, bool flag);
+	void rva0006BBD9(int rinfo, int flag);
 };
 extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
 struct Rva0027070CData { float a, b, c; };
@@ -250,8 +250,8 @@ void RTS3DScene::Flush(RenderInfoClass &rinfo)
 	}
 	if (m_customPassMode == 0 && TheTerrainRenderObject)
 	{
-		TheTerrainRenderObject->rva0006BBD9(rinfo, true);
-		TheTerrainRenderObject->rva0006BBD9(rinfo, false);
+		TheTerrainRenderObject->rva0006BBD9((int)&rinfo, true);
+		TheTerrainRenderObject->rva0006BBD9((int)&rinfo, false);
 	}
 	if (m_customPassMode == 0 && m_polygonMode == 0)
 		rva00070F80(rinfo);

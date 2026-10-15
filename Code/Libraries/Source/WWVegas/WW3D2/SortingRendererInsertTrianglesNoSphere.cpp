@@ -17,16 +17,32 @@ class SortingRendererClass
 {
 public:
 	static void Insert_Triangles(
-		const SphereClass &bounding_sphere,
 		unsigned short start_index,
 		unsigned short polygon_count,
 		unsigned short min_vertex_index,
 		unsigned short vertex_count);
-	static void Insert_Triangles(
-		unsigned short start_index,
-		unsigned short polygon_count,
-		unsigned short min_vertex_index,
-		unsigned short vertex_count);
+};
+
+// The four-argument overload's own matched body at 0x0012FE00; retail's 0x009037D0
+// forwards the zeroed sphere view to it by the rowed spelling.
+struct TargetCenter3
+{
+public:
+	float X;
+	float Y;
+	float Z;
+	TargetCenter3() {}
+};
+
+class BfmeSortingDispatchAt0012FE00
+{
+public:
+	static void Insert(
+		const TargetCenter3 &bounding_sphere,
+		unsigned int start_index,
+		unsigned int polygon_count,
+		unsigned int min_vertex_index,
+		unsigned int vertex_count);
 };
 
 // ?Insert_Triangles@SortingRendererClass@@SAXGGGG@Z
@@ -40,5 +56,7 @@ void SortingRendererClass::Insert_Triangles(
 	sphere.X = 0.0f;
 	sphere.Y = 0.0f;
 	sphere.Z = 0.0f;
-	Insert_Triangles(sphere, start_index, polygon_count, min_vertex_index, vertex_count);
+	BfmeSortingDispatchAt0012FE00::Insert(*(const TargetCenter3 *)&sphere,
+		*(const unsigned int *)&start_index, *(const unsigned int *)&polygon_count,
+		*(const unsigned int *)&min_vertex_index, *(const unsigned int *)&vertex_count);
 }
