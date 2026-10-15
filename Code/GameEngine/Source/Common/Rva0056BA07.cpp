@@ -18,30 +18,19 @@ struct SubAC0056B89F
 	unsigned char m_flag5C;
 };
 
-class Rva005C41C9
+// Base of the icon sub-object chain.  The dtor spelling below is the rowed
+// provider ??1Rva005C4B1B@@UAE@XZ (OpaqueSingleInheritanceDtors.cpp, 0x5C4B1B);
+// the virtual dtor keeps the constructor's EH states identical to retail.
+// The constructor spelling below is the rowed provider
+// ??0Rva005C4B56@@QAE@ABUHelper005C4D4B@@_NPBH@Z
+// (LivingWorldIconSubObjectCtor.cpp).
+class Rva005C4B1B
 {
 public:
-	virtual ~Rva005C41C9();
-	virtual void v01();
-	virtual void v02();
-	virtual void v03();
-	virtual void v04();
-	virtual void v05();
-	virtual void v06();
-	virtual void v07();
-	virtual void v08();
-	virtual void v09();
-	virtual void v10();
-	virtual void v11();
-	virtual void v12();
-	virtual void v13();
-	virtual void v14();
-	virtual void v15();
-	virtual void v16();
-	virtual unsigned char v17();
+	virtual ~Rva005C4B1B();
 };
 
-class Rva005C4B56 : public Rva005C41C9
+class Rva005C4B56 : public Rva005C4B1B
 {
 public:
 	virtual void rva005C4B96(unsigned char);
@@ -52,7 +41,7 @@ public:
 	int m_b4;
 	int m_b8;
 
-	Rva005C4B56(const Helper005C4D4B &, int, int);
+	Rva005C4B56(const Helper005C4D4B &, bool, const int *);
 };
 
 // 0x002BFFD4 is rowed as Rva002BFF5A::rva002BFFD4 (Rva002BFF5A.cpp).
@@ -76,7 +65,7 @@ public:
 };
 
 LivingWorldArmyIconSubObject::LivingWorldArmyIconSubObject(void *arg0, void *arg1, int arg2)
-	: Rva005C4B56(Helper005C4D4B(arg0), 1, arg2)
+	: Rva005C4B56(Helper005C4D4B(arg0), true, (const int *)arg2)
 {
 	m_bc = -1;
 	m_c0 = 0;
