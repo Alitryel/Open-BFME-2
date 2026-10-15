@@ -90941,3 +90941,23 @@ __ehhandler$?rva002238E6@Rva00224CDC@@QAEXVAsciiString@@@Z,,0x0076F324,10,Code/G
 ?FindAttackPathSideways@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@02PAVRva002C9B80Owner@@@Z,,0x002FC9B1,1566,Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderSidewaysAttack.cpp,matched,WB-led sideways attack search; needs /Ow plus visible rva002F83F5 0x002F8B00 0x002E6BA1 bodies; volatile pair around BuildActualPath
 ??G@YA?AVMathCoord2D@@V0@ABV0@@Z,,0x001040AE,39,Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderSidewaysAttack.cpp,matched,
 ??H@YA?AVMathCoord2D@@V0@ABV0@@Z,,0x0007DEC8,39,Code/GameEngine/Source/GameLogic/Pathfinder/PathfinderSidewaysAttack.cpp,matched,
+uw_0075e7c1,,0x0075E7C1,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/BaseHeightMapRenderTreesShrubs.cpp,matched,gen-funclet;parent=?rva0006B895@BaseHeightMapRenderObjClass@@QAEXAAVRenderInfoClass@@@Z;object-symbol=$L540
+uw_007614a1,,0x007614A1,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DDebrisDrawXfer.cpp,matched,gen-funclet;parent=?xfer@W3DDebrisDraw@@MAEXPAVXfer@@@Z;object-symbol=$L1380
+uw_00762305,,0x00762305,10,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DLaserDrawBfmeConstructor.cpp,matched,gen-funclet;parent=??0W3DLaserDraw@@QAE@PAVThing@@PBVModuleData@@@Z;object-symbol=$L6909
+uw_007615ad,,0x007615AD,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawParticles.cpp,matched,gen-funclet;parent=?doStartOrStopParticleSys@W3DModelDraw@@AAEXXZ;object-symbol=$L395
+uw_00762959,,0x00762959,10,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DProjectileStreamDrawModule.cpp,matched,gen-funclet;parent=?makeOrUpdateLine@W3DProjectileStreamDraw@@IAEXPAVVector3@@IH@Z;object-symbol=$L1731
+uw_00762364,,0x00762364,10,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DRopeDraw.cpp,matched,gen-funclet;parent=?buildSegments@W3DRopeDraw@@AAEXXZ;object-symbol=$L5866
+uw_0076286b,,0x0076286B,10,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DStreakDrawConstructor.cpp,matched,gen-funclet;parent=??0W3DStreakDraw@@QAE@PAVThing@@PBVModuleData@@@Z;object-symbol=$L1574
+uw_00760dd1,,0x00760DD1,10,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DAptAuxPreDrawRva000A8F98.cpp,matched,gen-funclet;parent=?Rva000A8F98@@YAXXZ;object-symbol=$L348
+uw_007ab4f1,,0x007AB4F1,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DAptComponentView3D.cpp,matched,gen-funclet;parent=?AddRenderObj@W3DAptComponentView3D@@QAEXIABVAsciiString@@ABV?$StringBase@D@@@Z;object-symbol=$L1893
+uw_007ab4df,,0x007AB4DF,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DAptComponentView3DAnimInfo.cpp,matched,gen-funclet;parent=?Init@AnimInfo@W3DAptComponentView3D@@QAE_NABVAsciiString@@PAVRva00740AB4RefTarget@@H@Z;object-symbol=$L4983
+uw_0075fe37,,0x0075FE37,10,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontCharsCache.cpp,matched,gen-funclet;parent=?Rva0009017D@@YAPAXPBDM_NH@Z;object-symbol=$L1057
+uw_0075fe4b,,0x0075FE4B,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/GUI/W3DFontLibraryDestructor.cpp,matched,gen-funclet;parent=??1W3DFontLibrary@@UAE@XZ;object-symbol=$L391
+uw_007630d3,,0x007630D3,10,Code/GameEngineDevice/Source/W3DDevice/GameClient/HeightMapInitHeightDataRva000E1A39.cpp,matched,gen-funclet;parent=?rva000E1A39@Rva000E15D1@@QAEHHHPAVRva000AD9AB@@PAX@Z;object-symbol=$L644
+uw_007649f3,,0x007649F3,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/LookupTablePostEffectSlot3.cpp,matched,gen-funclet;parent=?rva00111D65@LookupTablePostEffect@@UAEXXZ;object-symbol=$L1432
+uw_0075ec48,,0x0075EC48,10,Code/GameEngineDevice/Source/W3DDevice/GameClient/RTS2DSceneCtor.cpp,matched,gen-funclet;parent=??0RTS2DScene@@QAE@XZ;object-symbol=$L1242
+uw_0075ec1e,,0x0075EC1E,10,Code/GameEngineDevice/Source/W3DDevice/GameClient/RTS3DSceneGetADynamicLight.cpp,matched,gen-funclet;parent=?rva0006F94A@RTS3DScene@@QAEPAVW3DDynamicLight@@XZ;object-symbol=$L372
+uw_0075fdeb,,0x0075FDEB,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0008F00DDtor.cpp,matched,gen-funclet;parent=??1Rva008F00D@@UAE@XZ;object-symbol=$L412
+uw_00760a1b,,0x00760A1B,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000A6176Finish.cpp,matched,gen-funclet;parent=?ReAcquireResources@W3DSmudgeManager@@UAEXXZ;object-symbol=$L462
+uw_0076325a,,0x0076325A,14,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000E3B41Dtor.cpp,matched,gen-funclet;parent=??1Rva000E3B41@@UAE@XZ;object-symbol=$L7250
+uw_007632ce,,0x007632CE,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000E473F.cpp,matched,gen-funclet;parent=?rva000E473F@W3DFloorBuffer@@QAEXXZ;object-symbol=$L5295
