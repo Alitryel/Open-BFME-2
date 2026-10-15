@@ -5,7 +5,7 @@ class Rva00567860
 {
 public:
 	Rva00567860(const Rva00567860 &that);
-	virtual void slot00();
+	virtual void slot00() = 0;
 };
 
 Rva00567860::Rva00567860(const Rva00567860 &that)

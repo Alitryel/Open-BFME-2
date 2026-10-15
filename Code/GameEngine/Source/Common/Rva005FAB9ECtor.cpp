@@ -5,7 +5,7 @@
 // Evidence: caller 0x005FACA8; vtable DIR32 filled by gate.
 #include "BattlePromptCallbackPayloadView.h"
 struct Rva005FAB9E {
-    virtual void _vf();
+    virtual void _vf() = 0;
     int m4;
     Payload005FAB9E m8;
     Rva005FAB9E(const Payload005FAB9E &o);

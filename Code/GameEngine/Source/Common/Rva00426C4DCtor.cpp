@@ -11,7 +11,7 @@ class Rva00426C4D
 {
 public:
 	Rva00426C4D();
-	virtual void s00();
+	virtual void s00() = 0;
 private:
 	_STL::vector<BfmeE16> m_04;
 };

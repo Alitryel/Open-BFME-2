@@ -4,7 +4,7 @@
 class Rva0014F401
 {
 public:
-	virtual void dummy();
+	virtual void dummy() = 0;
 	Rva0014F401(const Rva0014F401 &other);
 };
 

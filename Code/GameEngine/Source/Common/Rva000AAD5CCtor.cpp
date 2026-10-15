@@ -7,7 +7,7 @@ class Rva000AAD06
 public:
 	Rva000AAD06();
 protected:
-	virtual void _0();
+	virtual void _0() = 0;
 private:
 	int m_04;
 	char m_pad08[12];
@@ -17,7 +17,7 @@ class Rva000AAD5C : public Rva000AAD06
 public:
 	Rva000AAD5C();
 protected:
-	virtual void _0();
+	virtual void _0() = 0;
 private:
 	unsigned char m_14;
 	unsigned char m_15;
