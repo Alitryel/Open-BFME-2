@@ -1,7 +1,7 @@
 // cl: /MD
 //
-// ?rva00539281@Rva00539281@@QAEXHH@Z @0x00539281 65B
-// Evidence: virtual count via slot 0x34 plus per-index slot 0x3C plus element slot 0x38 with two int args; byte at +0x28 vs first arg; callers 0x003FE549; neighbours Rva005391FD.
+// ?rva00539281@Rva00539281@@QAEXEH@Z @0x00539281 65B
+// Evidence: virtual count via slot 0x34 plus per-index slot 0x3C plus element slot 0x38 with a byte and an int arg; byte at +0x28 vs first arg (the caller 0x003FE549 pushes 0x003FDD29's byte return unwidened, so the first parameter is a byte); callers 0x003FE549; neighbours Rva005391FD.
 class Rva00539281Elem
 {
 public:
@@ -19,7 +19,7 @@ public:
 	virtual void t11();
 	virtual void t12();
 	virtual void t13();
-	virtual void t14(int a0, int a1);
+	virtual void t14(unsigned char a0, int a1);
 };
 
 class Rva00539281
@@ -41,17 +41,17 @@ public:
 	virtual int u13();
 	virtual void u14();
 	virtual Rva00539281Elem *u15(int i);
-	void rva00539281(int a0, int a1);
+	void rva00539281(unsigned char a0, int a1);
 private:
 	char m_pad04[0x24];
 	unsigned char m_28;
 };
 
-void Rva00539281::rva00539281(int a0, int a1)
+void Rva00539281::rva00539281(unsigned char a0, int a1)
 {
-	if (m_28 == (unsigned char)a0)
+	if (m_28 == a0)
 		return;
-	m_28 = (unsigned char)a0;
+	m_28 = a0;
 	int count = u13();
 	for (int i = 0; i < count; ++i)
 	{

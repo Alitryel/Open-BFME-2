@@ -1,9 +1,7 @@
-// ??0Rva003FE58A@@QAE@PAX0@Z
-// partial score=0.95 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include/Lib /D_STLP_USE_STATIC_LIB /D_CRTIMP=
 // stlport
 //
-// ??0Rva003FE58A@@QAE@PAX0@Z partial score=0.95 date=2026-10-15
+// ??0Rva003FE58A@@QAE@PAX0@Z @0x003FE412 342B
 // Rva003FE58A constructor (LivingWorldArmyIcon), retail 0x003FE412..0x003FE566
 // (342 bytes, ret 8, WB 0x01072E30 names LivingWorldArmyIcon::LivingWorldArmyIcon).
 // Class and vtable (0x00C37E48) are the ones the matched destructor 0x003FE58A
@@ -18,6 +16,7 @@ typedef unsigned int UnsignedInt;
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
 #include "Coord2D.h"
+#include "RGBColor.h"
 
 class Vector3 { public: float X, Y, Z; Vector3(float a, float b, float c) { X=a; Y=b; Z=c; } };
 
@@ -57,9 +56,8 @@ public:
 };
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
-class RGBColor { public: Int getAsInt() const; };
 class Rva003FDD29 { public: unsigned char rva003FDD29(); };
-class Rva00539281 { public: void rva00539281(Int a, Int b); };
+class Rva00539281 { public: void rva00539281(unsigned char a, Int b); };
 class Rva003FE05E { public: void rva003FE05E(); };
 
 typedef _STL::vector<const ModuleData *, _STL::allocator<const ModuleData *> > SubObjectVector;
@@ -116,14 +114,13 @@ Rva003FE58A::Rva003FE58A(void *elements, void *owner)
 	}
 	Rva003FE412Elements *elems = (Rva003FE412Elements *)elements;
 	m_children.reserve((Int)(elems->m_end - elems->m_begin));
-	for (void **it = elems->m_begin; it != elems->m_end; ++it) {
+	for (void **it = elems->m_begin, **end = elems->m_end; it != end; ++it) {
 		LivingWorldArmyIconSubObject *sub = new LivingWorldArmyIconSubObject(*it, this, haveColor ? (Int)&color : 0);
 		m_children.push_back(reinterpret_cast<const ModuleData *>(sub));
 	}
 	if (m_owner) {
 		m_58 = *(float *)((char *)m_owner + 0x5C);
-		unsigned char r = ((Rva003FDD29 *)this)->rva003FDD29();
-		((Rva00539281 *)this)->rva00539281((Int)r, 1);
+		((Rva00539281 *)this)->rva00539281(((Rva003FDD29 *)this)->rva003FDD29(), 1);
 	}
 	((Rva003FE05E *)this)->rva003FE05E();
 }
