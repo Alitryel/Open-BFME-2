@@ -10,6 +10,17 @@
 // The nested picker branches follow WB; a flattened continue changes codegen.
 #include <map>
 #include <vector>
+// Keep comparisons inline without private copies of the shared STL members.
+// These overloads preserve STLport's node comparison and integer ordering.
+namespace _STL {
+template <class Value, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits> &a,
+                              const _Rb_tree_iterator<Value, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+template <> __declspec(dllimport) __forceinline
+bool less<int>::operator()(const int &a, const int &b) const
+{ return a < b; }
+}
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {
@@ -69,7 +80,7 @@ void Rva0059DD3F::rva0059DD3F(_STL::vector<BfmeE8>*out,int playerID,Rva004FF8DA*
  
  for(unsigned i=0;i<regions.size();++i) {
   const Rva0059D90CSource*source=(const Rva0059D90CSource*)((Rva004FF997Owner*)info)->rva004FF997(regions[i]);
-  if(source->second.size()+source->first.size()!=0) {
+  if(source->first.size()+source->second.size()!=0) {
    int armyCount=((Rva0059DA34*)this)->rva0059DA34(*(int*)source,playerID,false,2,info,tally);
    if(difficulty>2) {
     if(armyCount==0) { ((Rva0059D90C*)this)->rva0059D90C(out,source,types,budget,spent); }
