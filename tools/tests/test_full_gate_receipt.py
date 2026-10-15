@@ -89,3 +89,32 @@ def test_no_carry_across_a_tree_wide_baseline_change(repo):
     R.record(c2)
     # the exception-data and converged lists are re-audited by the hook instead
     assert R.find(commit(repo, "reverse/eh_baseline.csv", "shrunk")) == c2
+
+
+def test_cross_checks_byte_verify_what_they_had_to_rebuild(monkeypatch):
+    import build
+    import check_module_registry
+    a, b = build.ROOT / "Code" / "a.cpp", build.ROOT / "Code" / "b.cpp"
+    rows = [{"source": "Code/a.cpp"}, {"source": "Code/b.cpp"}]
+    stale = {"calls": 0}
+
+    def stale_sources(sources, outputs, workers=1, **kw):
+        stale["calls"] += 1
+        return [a] if stale["calls"] == 1 else []   # a was not current; the compile fixed it
+    verified = []
+    monkeypatch.setattr(build, "ensure_case_shims", lambda: None)
+    monkeypatch.setattr(build, "ensure_reference_current", lambda: None)
+    monkeypatch.setattr(build, "load_function_rows", lambda: rows)
+    monkeypatch.setattr(build, "stale_sources", stale_sources)
+    monkeypatch.setattr(build, "compile_rows", lambda rows, sources, **kw: None)
+    monkeypatch.setattr(build, "main", lambda only=None: verified.append(only))
+    monkeypatch.setattr(build, "verify_dir32_consistency", lambda rows: None)
+    monkeypatch.setattr(check_module_registry, "verify", lambda: None)
+    assert build.cross_source_checks() == 0
+    assert verified == [["Code/a.cpp"]]
+
+    def mismatch(only=None):
+        raise SystemExit(1)
+    stale["calls"] = 0
+    monkeypatch.setattr(build, "main", mismatch)
+    assert build.cross_source_checks() == 1

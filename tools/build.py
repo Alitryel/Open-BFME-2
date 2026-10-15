@@ -3678,12 +3678,24 @@ def cross_source_checks():
     ensure_reference_current()
     rows = load_function_rows()
     sources = list(dict.fromkeys(ROOT / row["source"] for row in rows))
+    compiled = [s for s in sources if s.suffix.lower() != LIB_SUFFIX]
+    outputs = {s: obj_path(s) for s in compiled}
+    rebuilt = stale_sources(compiled, outputs, _pool_size())
     compile_rows(rows, sources)
-    stale = stale_sources([s for s in sources if s.suffix.lower() != LIB_SUFFIX],
-                          {s: obj_path(s) for s in sources if s.suffix.lower() != LIB_SUFFIX}, _pool_size())
+    stale = stale_sources(rebuilt, outputs, _pool_size())
     if stale:
         print(f"cross-source checks: {len(stale)} object(s) not current, e.g. {stale[0].relative_to(ROOT)}")
         return 1
+    # An object rebuilt here was not verified by the carried push: its inputs moved
+    # outside git (a toolchain path, an ignored header) or it was never built in
+    # this worktree. Byte-verify it like any other; past --limit-sized scopes, all.
+    if rebuilt:
+        print(f"cross-source checks: {len(rebuilt):,} object(s) were not current; byte-verifying them")
+        try:
+            main(None if len(rebuilt) > 1024 else [s.relative_to(ROOT).as_posix() for s in rebuilt])
+        except SystemExit as exc:
+            if exc.code:
+                return 1
     failed = 0
     for label, check in (("dir32 consistency", lambda: verify_dir32_consistency(rows)),
                          ("module registry", check_module_registry.verify)):
