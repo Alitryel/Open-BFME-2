@@ -14,10 +14,15 @@
 // batch, separate TU to keep this callee declaration-only per the
 // fifth-pattern register-save rule).
 
-void __cdecl Rva0008A1FDDestroy(void *first, void *last, int tag);
+class Rva00087A93;
+// Rowed 0x0008A1FD takes the two range pointers; this caller also pushes the
+// tag slot, so it calls the rowed symbol through its three-argument view.
+void __cdecl Rva0008A1FDDestroy(Rva00087A93 *first, Rva00087A93 *last);
+typedef void (__cdecl *Rva0008A1FDDestroyRowed)(Rva00087A93 *, Rva00087A93 *);
+typedef void (__cdecl *Rva0008A1FDDestroyView)(void *, void *, int);
 
 void __cdecl Rva0008AFDCDestroy(void *first, void *last)
 {
 	char tag;
-	Rva0008A1FDDestroy(first, last, (int)&tag);
+	((Rva0008A1FDDestroyView)(Rva0008A1FDDestroyRowed)&Rva0008A1FDDestroy)(first, last, (int)&tag);
 }
