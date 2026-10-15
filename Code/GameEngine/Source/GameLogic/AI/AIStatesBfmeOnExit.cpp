@@ -308,7 +308,8 @@ public:
 		else
 			m_flags &= ~(1 << PRECISE_Z_POS);
 	}
-	void setAllowInvalidPosition(Bool b)
+	// Match the other state units: retain inline updates without an unused copy.
+	__declspec(dllimport) __forceinline void setAllowInvalidPosition(Bool b)
 	{
 		if (b)
 			m_flags |= (1 << ALLOW_INVALID_POSITION);
