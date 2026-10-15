@@ -13,7 +13,9 @@ struct BfmeEventPositionView
 {
 	float x, y, z;
 	BfmeEventPositionView() {}
-	BfmeEventPositionView(float a, float b, float c) : x(a), y(b), z(c) {}
+	// Inlined at its one use; suppress the out-of-line COMDAT, which this unit's
+	// /Oy- would frame differently from the other emitters' copies.
+	__declspec(dllimport) __forceinline BfmeEventPositionView(float a, float b, float c) : x(a), y(b), z(c) {}
 };
 
 class AudioEventRTS
