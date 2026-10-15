@@ -41,18 +41,21 @@ private:
 
 extern "C" const unsigned char __identifier("??_7Base@@6B@")[];
 
-class Snapshot
+class Rva00BC6F24Base
 {
 public:
-  virtual ~Snapshot();
+  virtual ~Rva00BC6F24Base();
 };
 
-inline Snapshot::~Snapshot()
+// Same one-slot cleanup view as Rva00150558Dtor.cpp: retail resets
+// vtable 0x00BC6F24, distinct from canonical Snapshot's 0x00BBB554.
+// ??1Rva00BC6F24Base@@UAE@XZ present-unmatched
+inline Rva00BC6F24Base::~Rva00BC6F24Base()
 {
 	*(const void **)this = (const void *)__identifier("??_7Base@@6B@");
 }
 
-class __declspec(novtable) Rva0014F699 : public Snapshot
+class __declspec(novtable) Rva0014F699 : public Rva00BC6F24Base
 {
 public:
 	Rva0014F699(const Rva0014F699 &other);

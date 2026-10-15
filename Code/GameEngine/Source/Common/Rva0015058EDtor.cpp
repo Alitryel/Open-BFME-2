@@ -1,17 +1,20 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ??1Rva0015058E@@UAE@XZ @0x0015058E 63B: dtor destroying Rva0014F699 at +0x10 then vector Rva00150209 at +4, restoring vtable 0x007C6F24 via inline Snapshot base. Evidence: rowed callees 0x0014D1E3 0x00150209, vtable data 0x007C6F24, callers 0x00150614 0x001510A9.
+// ??1Rva0015058E@@UAE@XZ @0x0015058E 63B: dtor destroying Rva0014F699 at +0x10 then vector Rva00150209 at +4, restoring vtable 0x007C6F24 via inline Rva00BC6F24Base base. Evidence: rowed callees 0x0014D1E3 0x00150209, vtable data 0x007C6F24, callers 0x00150614 0x001510A9.
 // Retail: mov eax handler / call __EH_prolog / lea ecx [esi+0x10] call ??1Rva0014F699 / lea ecx [esi+4] call ??1Rva00150209 / mov [esi] vtable / EH epilog.
 // Not established: owning class identity; address-derived name.
 
 extern "C" const unsigned char __identifier("??_7Base@@6B@")[];
 
-class Snapshot
+class Rva00BC6F24Base
 {
 public:
-	virtual ~Snapshot();
+	virtual ~Rva00BC6F24Base();
 };
 
-inline Snapshot::~Snapshot()
+// Same one-slot cleanup view as Rva00150558Dtor.cpp: retail resets
+// vtable 0x00BC6F24, distinct from canonical Snapshot's 0x00BBB554.
+// ??1Rva00BC6F24Base@@UAE@XZ present-unmatched
+inline Rva00BC6F24Base::~Rva00BC6F24Base()
 {
 	*(const void **)this = __identifier("??_7Base@@6B@");
 }
@@ -34,7 +37,7 @@ private:
 	int m_pad[18];
 };
 
-class __declspec(novtable) Rva0015058E : public Snapshot
+class __declspec(novtable) Rva0015058E : public Rva00BC6F24Base
 {
 public:
 	virtual ~Rva0015058E();

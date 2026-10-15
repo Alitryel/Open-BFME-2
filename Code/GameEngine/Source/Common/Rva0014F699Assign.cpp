@@ -5,7 +5,6 @@
 // Callers: 0x0014F76A 0x0014FA37 0x0014FAAC; callees: 0x000424D0.
 // Not established: owning class identity; names are address-derived.
 // ??1Rva0014F699@@UAE@XZ @0x0014D1E3 52B: dtor releasing RefCountPtr at +0x48 via Release_Ref and restoring vtable 0x007C6F24. Evidence: same 0x4C element; rowed Release_Ref 0x0061ED10; callers at 0x0014DC42 0x001505A9 0x00150A2F 0x00150BE3.
-// class-gate: allow Snapshot private single-virtual base for 0x0014D1E3 vtable 0x007C6F24; shared Snapshot.h is 4-slot BBB554 canonical base and gives wrong vtable and slots here.
 class TextureBaseClass
 {
 public:
@@ -33,18 +32,21 @@ private:
 
 extern "C" const unsigned char __identifier("??_7Base@@6B@")[];
 
-class Snapshot
+class Rva00BC6F24Base
 {
 public:
-  virtual ~Snapshot();
+  virtual ~Rva00BC6F24Base();
 };
 
-inline Snapshot::~Snapshot()
+// Same one-slot cleanup view as Rva00150558Dtor.cpp: retail resets
+// vtable 0x00BC6F24, distinct from canonical Snapshot's 0x00BBB554.
+// ??1Rva00BC6F24Base@@UAE@XZ present-unmatched
+inline Rva00BC6F24Base::~Rva00BC6F24Base()
 {
 	*(const void **)this = (const void *)__identifier("??_7Base@@6B@");
 }
 
-class __declspec(novtable) Rva0014F699 : public Snapshot
+class __declspec(novtable) Rva0014F699 : public Rva00BC6F24Base
 {
 public:
 	virtual ~Rva0014F699();
