@@ -1,55 +1,30 @@
 // ?addModifierToPool@AttributeModifierPoolUpdate@@QAE_NABVAsciiString@@H@Z
-// partial score=0.945 date=2026-10-15
-// ?addModifierToPool@AttributeModifierPoolUpdate@@QAE_NABVAsciiString@@H@Z
-// partial score=0.94 date=2026-10-13
-// W7-SOL2 r1 (2026-10-13): WB debug body shows max(0, duration<0 ? category->duration : duration) with
-// a temp zero and a bool category->exclusive local; named-local levers cut the normalised edit distance
-// vs retail from 75 to 22 instructions (size 1019 exact). Open: allocator/float temps sit in the dead
-// arg slots [ebp+0xb]/[ebp+8] in retail (ours +0xf/+0xc), edx vs ecx in the exclusive loop,
-// esi/edi swap in the final body-interface section, cmp-before-load order in the fx select.
-// ?addModifierToPool@AttributeModifierPoolUpdate@@QAE_NABVAsciiString@@H@Z
-// partial score=0.85 date=2026-10-09
-// BFME1 0bef414b applyAttributeModifier is the semantic/structural donor.
-// Native403E72..40426D RET8 and WB E916C0 independently name addModifierToPool.
 // cl: /O1 /EHsc /MD /arch:SSE /G7 /Ireference/shims/bfme2_ascii
 // stlport
-// Target 0040351C..0040360E; WB E90720 identifies the named FieldParse
-// callback and AttributeModifier.cpp source. Native +CC owns an 8-byte
-// upgrade pointer/delay pair. This is the same record cleanup established by
-// 004043FF; the original pair type name is unresolved. Native preserves a
-// 16-bit narrowed ceil result in the four-byte delay slot.
-// The parser family in INI_parseDurationUnsignedShort.cpp supplies the
-// already verified scale/import/unsigned conversion shape, not class identity.
+//
+// AttributeModifierPoolUpdate::addModifierToPool, retail 0x00403E72..0x0040426D
+// (1019 bytes, ret 8). WB E916C0 names it; BFME1 0bef414b
+// applyAttributeModifier is the semantic and structural donor (resolve the
+// category by name key, honour disabled categories, clamp the duration with
+// max(0, duration<0 ? category duration : duration), drop exclusive
+// competitors unless they outlast the new entry, refresh an existing entry's
+// expiration and FX, else apply the category masks, schedule or give the
+// delayed upgrade, play the FX, scale max health for attributes 14/15, push
+// the entry and count the category). Target facts: entry stride 16, object
+// +8 with body +0x254, category counts +0x6C, the 19-word masks and every
+// callee are rowed. Shape notes established against retail: the FX select
+// and the delayed-upgrade call read the owner object through block-local
+// copies, and the max-health scale reads the body through a local object
+// pointer, which is what gives retail's compare-before-load order and
+// register roles.
 #include "ascii_string.h"
 #include <string.h>
 #include <new>
-extern "C" __declspec(dllimport) double __cdecl ceil(double value);
-extern float g_parseDurationMsecScale;
 class UpgradeTemplate;
-class UpgradeCenter {
-public: const UpgradeTemplate *findUpgrade(const AsciiString &name) const;
-};
-extern UpgradeCenter *TheUpgradeCenter;
-class INI {
-public:
-    const char *getNextToken(const char *seps);
-    const char *getNextTokenOrNull(const char *seps);
-    unsigned scanUnsignedInt(const char *token);
-    const char *getSepsColon() const { return m_sepsColon; }
-private:
-    char m_pad[0x420]; const char *m_sepsColon;
-};
 struct DelayedModifierUpgrade {
     DelayedModifierUpgrade() : upgrade(0), delay(0) {}
     const UpgradeTemplate *upgrade;
     unsigned delay;
-};
-class AttributeModifierContainer {
-public:
-    static void parseDelayedUpgradeTemplate(INI *ini, void *instance, void *store, const void *userData);
-private:
-    char m_pad[0xCC];
-    DelayedModifierUpgrade *m_upgrade;
 };
 // Pool removal, native 00403744..00403927. The original method spelling is
 // not named by WB E92370; preserve an address name instead of the prior
@@ -107,7 +82,7 @@ extern GameLogic *TheGameLogic;
 struct ModifierFrameView { char prefix[0x40]; unsigned frame; };
 enum UpdateSleepTime { UPDATE_SLEEP_FOREVER=0x3fffffff };
 class UpdateModule { protected: void setWakeFrame(Object *, UpdateSleepTime); };
-struct BfmeE16 { unsigned char bytes[16]; };
+#include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 class ModifierPendingNames {
 public:
     __forceinline ModifierPendingNames(const _STL::allocator<BfmeE16> &a=_STL::allocator<BfmeE16>()) { ((_STL::_Vector_base<BfmeE16,_STL::allocator<BfmeE16> > *)this)->_STL::_Vector_base<BfmeE16,_STL::allocator<BfmeE16> >::_Vector_base(a); }
@@ -191,10 +166,8 @@ bool AttributeModifierPoolUpdate::addModifierToPool(const AsciiString &name,int 
             setWakeFrame(getObject(),(UpdateSleepTime)length);
         }
         const FXList *fx;
-        int fxIndex=it->index;
-        Object *fxObj=(Object *)object;
-        if(frame<it->expiration) fx=(const FXList *)TheAttributeModifierStore->rva002147A1(fxIndex,fxObj);
-        else fx=(const FXList *)TheAttributeModifierStore->getEndFX(fxIndex,fxObj);
+        if(frame<it->expiration) { Object *fxObj=(Object *)object; int fxIndex=it->index; fx=(const FXList *)TheAttributeModifierStore->rva002147A1(fxIndex,fxObj); }
+        else { Object *fxObj=(Object *)object; int fxIndex=it->index; fx=(const FXList *)TheAttributeModifierStore->getEndFX(fxIndex,fxObj); }
         if(fx) { Object *obj=(Object *)object; FXList::doFXObj(fx,obj,0); }
         return true;
     }
@@ -209,7 +182,7 @@ bool AttributeModifierPoolUpdate::addModifierToPool(const AsciiString &name,int 
     entry.expiration=expiration;
     DelayedModifierUpgrade *upgrade=(DelayedModifierUpgrade *)TheAttributeModifierStore->getDelayedUpgrade(index);
     if(upgrade && upgrade->upgrade) {
-        if(!upgrade->delay) ((Object *)object)->rva00293077(upgrade->upgrade);
+        if(!upgrade->delay) { Object *obj=(Object *)object; obj->rva00293077(upgrade->upgrade); }
         else entry.upgrade=frame+upgrade->delay;
     }
     unsigned next=((Rva0040314A *)&entry)->rva0040314A();
@@ -237,7 +210,8 @@ bool AttributeModifierPoolUpdate::addModifierToPool(const AsciiString &name,int 
     value=0;
     TheAttributeModifierStore->getModifier(entry.index,(void *)15,&value,0);
     if(value>0) {
-        ModifierBodyInterfaceView *body=object->body;
+        ModifierObjectView *obj=object;
+        ModifierBodyInterfaceView *body=obj->body;
         if(body) body->setMaxHealth(body->getMaxHealth()*value,1);
     }
     modifiers.push_back(*(Rva00297360Element *)&entry);
