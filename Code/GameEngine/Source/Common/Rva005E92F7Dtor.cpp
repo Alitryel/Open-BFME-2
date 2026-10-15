@@ -32,10 +32,13 @@ protected:
 	int m_04;
 };
 
-class Rva005F5C77Base0 : public Rva005E92F7Base
+// This record's base view destroys to Rva005E92F7Base's vtable. Other button
+// views named Rva005F5C77Base0 destroy to different tables; their original
+// relationship is unproven, so they cannot share this out-of-line destructor.
+class Rva005E92F7RecordBase : public Rva005E92F7Base
 {
 public:
-	virtual ~Rva005F5C77Base0() {}
+	virtual ~Rva005E92F7RecordBase() {}
 };
 
 struct Rva005E92F7Record
@@ -45,7 +48,7 @@ struct Rva005E92F7Record
 	const void *m_image;
 };
 
-class Rva005E92F7 : public Rva005F5C77Base0, public Rva005E12D1, public Rva005E92F7Record
+class Rva005E92F7 : public Rva005E92F7RecordBase, public Rva005E12D1, public Rva005E92F7Record
 {
 public:
 	Rva005E92F7(unsigned int owner, void *record);

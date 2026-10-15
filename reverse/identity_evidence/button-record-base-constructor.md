@@ -44,3 +44,14 @@ newly named but unconverted image helper, and differing complete/scalar
 deleting destructor copies for `Rva005F5C77Base0`. The hierarchy needed by
 this target destructor is not yet reconciled across that base's other units.
 These are open ownership/linking issues, not additional recovered bodies.
+
+Follow-up (2026-10-15): the private inferred base in Rva005E92F7Dtor.cpp
+is now named Rva005E92F7RecordBase. Its out-of-line destructor installs
+Rva005E92F7Base's vtable, whereas the other Rva005F5C77Base0 views install
+different tables. Sharing that out-of-line identity incorrectly selected
+another view's destructor. All target row bytes, table bindings and EH graphs
+still verify after the coherent private class rename; the full object proof
+and local link result are in
+reverse/attempt_support/button-base-link-20261015/readme.md. This resolves
+that unit's COMDAT conflict without establishing an original base-class
+identity or reconciling the other units' different private views.
