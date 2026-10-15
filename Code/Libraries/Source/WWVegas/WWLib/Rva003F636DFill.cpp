@@ -5,11 +5,15 @@ namespace _STL
 {
 	struct __false_type {};
 }
-void __cdecl dup_003f631b(void);
-typedef void (__cdecl *FillNFn)(BfmeStringRecord00111ACF *, unsigned int, const BfmeStringRecord00111ACF &, const _STL::__false_type &);
+struct Rva003F631BElement;
+namespace _STL
+{
+	template <class ForwardIter, class Size, class T>
+	ForwardIter __uninitialized_fill_n(ForwardIter first, Size n, const T &x, const __false_type &);
+}
 
 void Rva003F636DFill(void *first, unsigned int n, void *x)
 {
 	_STL::__false_type t;
-	((FillNFn)&dup_003f631b)((BfmeStringRecord00111ACF *)first, n, *(const BfmeStringRecord00111ACF *)x, t);
+	_STL::__uninitialized_fill_n((Rva003F631BElement *)first, n, *(const Rva003F631BElement *)x, t);
 }
