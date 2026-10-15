@@ -101,3 +101,22 @@ after `python3 tools/link_check.py --prepare-current <six sources>`.
 The proof reads saved objects directly for the paired data check and never
 replaces a live compiler cache or represents saved objects as current source.
 Acceptance transcripts are retained here beside the structured proof.
+
+
+## Publication rebase repair
+
+The first publication rebased the retained local batch onto
+`84775106ae4e5ee979cc981a7ac4fbf697ac8067`. Upstream repair
+`3bdafecc786d79f188be76583cada91d36b61189` had independently added the same
+typed iterator comparisons as the retained local horde-upgrade repair. The
+textual rebase left two definitions of each operator in
+HordeContainApplyUpgradeMask.cpp; pre-push correctly refused MSVC C2995.
+This is an actual merge interaction, not a verifier false reject.
+
+The follow-up removes only the duplicate first helper block. The entire file
+now equals the upstream source byte for byte. Existing local repair evidence
+is preserved. A new strict self receipt verifies 3/3 rows plus the complete
+STLport folded body; local legacy link preview remains clean at 411 existing
+bytes. EH is EXACT and ordinary/converged data checks have zero findings.
+No additional linked-byte or authored-byte gain is attributed to this cleanup.
+`rebase-repair.json` and `rebase-repair-checks.txt` record these checks.
