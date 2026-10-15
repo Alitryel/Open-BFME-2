@@ -90047,3 +90047,23 @@ uw_0078475a,,0x0078475A,10,Code/GameEngine/Source/Common/GameEngineControl.cpp,m
 uw_0076fa6b,,0x0076FA6B,8,Code/GameEngine/Source/Common/GameEngineInit.cpp,matched,gen-funclet;parent=?init@GameEngine@@UAEXHQAPAD@Z;object-symbol=$L13954
 uw_007a0fe1,,0x007A0FE1,8,Code/GameEngine/Source/Common/GameSpyLoginPreferences.cpp,matched,gen-funclet;parent=?rva005CA07D@GameSpyLoginPreferences@@QAE?AV?$list@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@XZ;object-symbol=$L10614
 ?onEnter@Rva00544EB1@@UAE?AW4StateReturnType@@XZ,,0x00544C62,473,Code/GameEngine/Source/GameLogic/AI/Rva00544EB1OnEnter.cpp,matched,state vftable 0x00C69E08 slot 4 onEnter: harvest target query and goal nudge; named volatile AI-pointer local keeps retail load order (W7-S2 r14)
+uw_00760170,,0x00760170,10,Code/GameEngine/Source/Common/Gen006E2310Ctor.cpp,matched,gen-funclet;parent=??0Gen006E2310@@QAE@XZ;object-symbol=$L473
+uw_00769797,,0x00769797,8,Code/GameEngine/Source/Common/INI/AudioEventInfoParseSoundLists.cpp,matched,gen-funclet;parent=?parseSubsoundsList@AudioEventInfo@@SAXPAVINI@@PAX1PBX@Z;object-symbol=$L5265
+uw_0078725a,,0x0078725A,10,Code/GameEngine/Source/Common/INI/EmotionSystem_createEmotion.cpp,matched,gen-funclet;parent=?createEmotion@EmotionSystem@@QAEPAVEmotion@@PAVEmotionTrackerUpdateEntry@@PAVObject@@@Z;object-symbol=$L312
+uw_00787191,,0x00787191,8,Code/GameEngine/Source/Common/INI/FormationTemplate.cpp,matched,gen-funclet;parent=??0LightPoint@@QAE@HII@Z;object-symbol=$L418
+uw_0077404d,,0x0077404D,10,Code/GameEngine/Source/Common/INI/INIBfmeBlockParsers.cpp,matched,gen-funclet;parent=?Rva00289265Parse@@YAXPAVINI@@@Z;object-symbol=$L1440
+uw_0076a772,,0x0076A772,10,Code/GameEngine/Source/Common/INI/INIMappedImage.cpp,matched,gen-funclet;parent=?parseMappedImageDefinition@INI@@SAXPAV1@@Z;object-symbol=$L1226
+uw_0076ad5a,,0x0076AD5A,10,Code/GameEngine/Source/Common/INI/INIMultiplayerSettings.cpp,matched,gen-funclet;parent=?parseMultiplayerSettingsDefinition@INI@@SAXPAV1@@Z;object-symbol=$L321
+uw_0076ba9e,,0x0076BA9E,14,Code/GameEngine/Source/Common/INI/INIParticleSystemDefinition.cpp,matched,gen-funclet;parent=?parseParticleSystemDefinition@INI@@SAXPAV1@@Z;object-symbol=$L1485
+uw_00779136,,0x00779136,10,Code/GameEngine/Source/Common/INI/Rva0014C090ParseNamedDefinition_Rva002FE9FC.cpp,matched,gen-funclet;parent=?parseDefinition@Rva0014C090@@SAXPAVINI@@PAX1PBX@Z;object-symbol=$L32747
+uw_00775877,,0x00775877,8,Code/GameEngine/Source/Common/INI/Rva002A92F2Parse.cpp,matched,gen-funclet;parent=?Rva002A92F2Parse@@YAXPAVINI@@@Z;object-symbol=$L1223
+uw_00769a00,,0x00769A00,8,Code/GameEngine/Source/Common/INI/Rva004255F0ParseRecordIntoMap.cpp,matched,gen-funclet;parent=?parseRecordIntoMap@Rva004255F0@@SAXPAVINI@@PAX1PBX@Z;object-symbol=$L924
+uw_0076df7a,,0x0076DF7A,20,Code/GameEngine/Source/Common/LivingWorldManagerDtor.cpp,matched,gen-funclet;parent=??1LivingWorldManager@@UAE@XZ;object-symbol=$L976
+uw_0076dfa2,,0x0076DFA2,11,Code/GameEngine/Source/Common/LivingWorldManagerDtor.cpp,matched,gen-funclet;parent=??1LivingWorldManager@@UAE@XZ;object-symbol=$L978
+uw_0076dfad,,0x0076DFAD,14,Code/GameEngine/Source/Common/LivingWorldManagerDtor.cpp,matched,gen-funclet;parent=??1LivingWorldManager@@UAE@XZ;object-symbol=$L979
+uw_0076dfbb,,0x0076DFBB,14,Code/GameEngine/Source/Common/LivingWorldManagerDtor.cpp,matched,gen-funclet;parent=??1LivingWorldManager@@UAE@XZ;object-symbol=$L980
+uw_0076e00f,,0x0076E00F,14,Code/GameEngine/Source/Common/LivingWorldManagerDtor.cpp,matched,gen-funclet;parent=??1LivingWorldManager@@UAE@XZ;object-symbol=$L986
+uw_0076e01d,,0x0076E01D,14,Code/GameEngine/Source/Common/LivingWorldManagerDtor.cpp,matched,gen-funclet;parent=??1LivingWorldManager@@UAE@XZ;object-symbol=$L987
+uw_0076e02b,,0x0076E02B,14,Code/GameEngine/Source/Common/LivingWorldManagerDtor.cpp,matched,gen-funclet;parent=??1LivingWorldManager@@UAE@XZ;object-symbol=$L988
+uw_0076e047,,0x0076E047,14,Code/GameEngine/Source/Common/LivingWorldManagerDtor.cpp,matched,gen-funclet;parent=??1LivingWorldManager@@UAE@XZ;object-symbol=$L990
+uw_0077c0b4,,0x0077C0B4,10,Code/GameEngine/Source/Common/LuaScriptEngineEvaluateCondition.cpp,matched,gen-funclet;parent=?EvaluateCondition@@YAHPAUlua_State@@@Z;object-symbol=$L1414
