@@ -107,3 +107,13 @@ inline void CComCritSecLock< TLock >::Unlock() throw()
 template class CComCritSecLock< CComCriticalSection >;
 
 }
+
+// Retail keeps the library object's out-of-line copies of CComCriticalSection's
+// inline Lock (0x00628C42) and Unlock (0x00628C4C); taking their addresses
+// emits them here.
+namespace ATL
+{
+typedef HRESULT (CComCriticalSection::*CComCriticalSectionOp)();
+CComCriticalSectionOp g_atlCritSecLockOp = &CComCriticalSection::Lock;
+CComCriticalSectionOp g_atlCritSecUnlockOp = &CComCriticalSection::Unlock;
+}
