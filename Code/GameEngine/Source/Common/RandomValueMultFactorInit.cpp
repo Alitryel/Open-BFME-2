@@ -1,6 +1,4 @@
-// ?rva007ADBFF@RandomValueMultFactorInit@@SAXXZ
-// partial score=0.6 date=2026-10-14
-// cl: /DNDEBUG /MD
+// cl: /DNDEBUG /MD /O1 /G7 /arch:SSE
 // ?rva007ADBFF@RandomValueMultFactorInit@@SAXXZ, retail 0x007ADBFF (47B):
 // the dynamic initializer of RandomValue.cpp's multiplier at VA 0x00DFE738
 // (the data ledger's _theMultFactor, which the three getValueReal units
