@@ -72,6 +72,24 @@ static const FieldParse s_particleSystemFieldParse[] =
 	{ 0, 0, 0, 0 }
 };
 
+// Native 1FD093..1FD0B4 (33B), just before parseParticleSystemDefinition: the
+// field-parse table build that function inlines (Rva001FD06EInit, then the
+// "System" entry and terminator copied in at +0x90), as an out-of-line
+// file-static with the table in EAX. No call to it survives in the image; the
+// anchor below only forces cl to emit it in that convention. Identity
+// unproven; address-derived names.
+static __declspec(noinline) void Rva001FD093(unsigned char *table)
+{
+	Rva001FD06EInit(table);
+	memcpy(table + 0x90, s_particleSystemFieldParse, sizeof(s_particleSystemFieldParse));
+}
+
+// ?Rva001FD093Anchor absent-from-retail
+void Rva001FD093Anchor(unsigned char *table)
+{
+	Rva001FD093(table);
+}
+
 void INI::parseParticleSystemDefinition(INI *ini)
 {
 	AsciiString name;
