@@ -67,7 +67,7 @@ extern const char *g_00DBD070;
 const char *g_00DBD070 = "L";
 extern const char *g_00DBD074;
 const char *g_00DBD074 = "X";
-extern const char g_00BBE09C[];
+// Native BBE09C is the shared backslash literal.
 
 AsciiString *Rva0030062CGet();
 
@@ -112,15 +112,15 @@ AsciiString GameState::portableMapPathToRealMapPath(const AsciiString &in) const
 		((StringBase<char> *)&prefix)->concat((const StringBase<char> &)getMapLeafName(in));
 	} else if (((const StringBase<char> &)in).startsWithNoCase(g_00DBD058)) {
 		((StringBase<char> *)&prefix)->set((const StringBase<char> &)((Rva00300489 *)TheMapCache)->Rva00300489::rva00300489());
-		((StringBase<char> *)&prefix)->concat(g_00BBE09C);
+		((StringBase<char> *)&prefix)->concat("\\");
 		((StringBase<char> *)&prefix)->concat((const StringBase<char> &)getMapLeafAndDirName(in));
 	} else if (((const StringBase<char> &)in).startsWithNoCase(g_00DBD05C)) {
 		((StringBase<char> *)&prefix)->set((const StringBase<char> &)((Rva00300D7A *)TheMapCache)->rva00300D7A());
-		((StringBase<char> *)&prefix)->concat(g_00BBE09C);
+		((StringBase<char> *)&prefix)->concat("\\");
 		((StringBase<char> *)&prefix)->concat((const StringBase<char> &)getMapLeafAndDirName(in));
 	} else if (((const StringBase<char> &)in).startsWithNoCase(g_00DBD060)) {
 		((StringBase<char> *)&prefix)->set((const StringBase<char> &)*Rva0030062CGet());
-		((StringBase<char> *)&prefix)->concat(g_00BBE09C);
+		((StringBase<char> *)&prefix)->concat("\\");
 		((StringBase<char> *)&prefix)->concat((const StringBase<char> &)getMapLeafAndDirName(in));
 	} else {
 		((StringBase<char> *)&prefix)->set((const StringBase<char> &)in);

@@ -74,7 +74,8 @@ public:
 
 extern AI *TheAI;
 extern GameLogic *TheGameLogic;
-extern int g_Va00DFED60;
+// Native reentry guard around nested melee victim evaluation.
+int BfmeMeleeVictimScanDepth = 0;
 
 class Object
 {
@@ -168,11 +169,11 @@ bool Object::rva00295CA6()
 			victim = obj;
 			if (obj->testStatus(RVA_OBJECT_STATUS_26))
 				continue;
-			if (g_Va00DFED60 == 0)
+			if (BfmeMeleeVictimScanDepth == 0)
 			{
-				g_Va00DFED60++;
+				BfmeMeleeVictimScanDepth++;
 				obj->rva00295F05(false);
-				g_Va00DFED60--;
+				BfmeMeleeVictimScanDepth--;
 			}
 		}
 	}

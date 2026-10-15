@@ -164,7 +164,8 @@ extern bool TheXShroudCRC;
 // g_00E02D80 is only an alias of the owned global TheXTaintCRC (ledger names column); this unit reads the owner through its own view type.
 extern bool TheXTaintCRC;
 #define g_00E02D80 (*(unsigned char *)&TheXTaintCRC)
-extern unsigned char g_00E02D81;
+// Native byte gate read by GameLogic::getCRC; original identifier unknown.
+unsigned char BfmeGameLogicCRCModeFlag = 0;
 // g_00E02D83 is only an alias of the owned global TheXPlayerCRC (ledger names column); this unit reads the owner through its own view type.
 extern bool TheXPlayerCRC;
 #define g_00E02D83 (*(unsigned char *)&TheXPlayerCRC)
@@ -218,7 +219,7 @@ unsigned int GameLogic::getCRC(int mode)
 		xfer->xferSnapshot(TheShroudManager);
 	if (TheLiteCRC != 0 || g_00E02D80 == 0)
 		xfer->xferSnapshot((TaintManager *)TheTaintManager);
-	if (TheLiteCRC != 0 || g_00E02D81 == 0)
+	if (TheLiteCRC != 0 || BfmeGameLogicCRCModeFlag == 0)
 		xfer->xferSnapshot(g_00DFEEF8);
 	if (TheLiteCRC != 0 || g_00E02D83 == 0)
 		xfer->xferSnapshot(ThePlayerList);

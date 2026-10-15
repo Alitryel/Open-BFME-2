@@ -99,10 +99,10 @@ int Rva003B9D23(char *args[], int)
 // family that raise one byte global and return 1. Their option strings are
 // not referenced from the image; the globals are the existing providers:
 // ShaderOverbrightEnabled (VA 0x00DB5F84, ShaderClassApply.cpp), the save
-// flag Rva002DBC97Get.cpp reads as g_00E02D7B, and
+// flag Rva002DBC97Get.cpp reads as BfmeSaveTransferOption, and
 // g_natTransportContextEnabled (VA 0x00E02D8C, NATUpdateBfme.cpp).
 extern bool ShaderOverbrightEnabled;
-extern bool g_00E02D7B;
+extern bool BfmeSaveTransferOption;
 extern bool g_natTransportContextEnabled;
 
 int Rva003B9A20(char *args[], int)
@@ -113,7 +113,7 @@ int Rva003B9A20(char *args[], int)
 
 int Rva003B9A9C(char *args[], int)
 {
-	g_00E02D7B = true;
+	BfmeSaveTransferOption = true;
 	return 1;
 }
 

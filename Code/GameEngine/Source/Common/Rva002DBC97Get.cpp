@@ -212,7 +212,8 @@ public:
 };
 
 // See the header comment: original name unknown.
-extern bool g_00E02D7B;
+// Native command-line option passed as the third save-transfer Open argument.
+bool BfmeSaveTransferOption = false;
 
 // Retail's initialized pointer cells target these UTF-16 strings. Reproduce
 // their contents locally; the literal addresses are not asserted to be shared.
@@ -296,7 +297,7 @@ int GameState::saveGame(UnicodeString filename, const UnicodeString &desc, int w
 	XferSave xferSave;
 	try
 	{
-		xferSave.Open((Xfer *)file, 1, g_00E02D7B);
+		xferSave.Open((Xfer *)file, 1, BfmeSaveTransferOption);
 	}
 	catch (...)
 	{
