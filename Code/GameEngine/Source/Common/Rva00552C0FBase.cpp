@@ -29,7 +29,8 @@ Rva00552C0FBase::Rva00552C0FBase()
 }
 
 // ??1Rva00552C0FBase@@UAE@XZ @0x00552C08 7B: the empty dtor, restoring the vtable (the
-// deleting dtor still expands it inline).
-Rva00552C0FBase::~Rva00552C0FBase()
+// deleting dtor still expands it inline). Fold with the identical inline
+// base cleanup emitted by Rva00557CCCDtor.cpp.
+inline Rva00552C0FBase::~Rva00552C0FBase()
 {
 }
