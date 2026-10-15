@@ -1,38 +1,43 @@
 // cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ??0Rva00597693@@QAE@PAX@Z @0x00597693 128B: ctor with EH prolog building Rva00506B1B at +0xc and three Vector_base<BfmeE16> at +0x18/+0x24/+0x30 via rowed 0x00506B1B and 0x00211E58; caller 0x004EC4B7
+// Native FuncInfo9532CC has one state:8B cleanup79D3F1 destroys the primary
+// base at this through the complete7B destructor4EA016. The C62888 table has
+// two pure callbacks then the deleting destructor4EA01D in slot2. Derived
+// C70C24 slots0/1 are Register597C58 and UnRegister59771B; slot2 is the
+// deleting callback597FA9. The complete25B base ctor4E9FFD initializes the
+// same two scalar fields from arguments; this owner supplies1 and2.
+// The secondary base's C63F9C table has its deleting destructor in slot0.
+// Unused method identities and the empty-vector payloads remain unspecified.
 #include <vector>
 
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 
-struct EmptyBase
-{
-	EmptyBase() {}
-	~EmptyBase();
-};
-
 class BaseA
 {
 public:
-	virtual void v0();
+	virtual void a0(void *, void *) = 0;
+	virtual void a1(void *) = 0;
+	virtual ~BaseA();
 	int m_04;
 	int m_08;
-	__declspec(dllimport) __forceinline BaseA() : m_04(1), m_08(2) {}
+	__forceinline BaseA(unsigned a, unsigned b) : m_04(a), m_08(b) {}
 };
 
 class Rva00506B1B
 {
 public:
 	Rva00506B1B();
-	virtual void v0();
-	virtual void v1();
+	virtual ~Rva00506B1B();
+	virtual void v1() = 0;
+	virtual void v2() = 0;
 	bool m_04;
 };
 
-class Rva00597693 : public BaseA, public EmptyBase, public Rva00506B1B
+class Rva00597693 : public BaseA, public Rva00506B1B
 {
 public:
-	virtual void v2();
+	virtual ~Rva00597693();
 	Rva00597693(void *p);
 private:
 	void *m_14;
@@ -43,7 +48,7 @@ private:
 };
 
 Rva00597693::Rva00597693(void *p)
-	: BaseA()
+	: BaseA(1, 2)
 	, Rva00506B1B()
 	, m_14(p)
 	, m_vec18(_STL::allocator<BfmeE16>())
