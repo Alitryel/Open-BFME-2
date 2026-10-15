@@ -5,6 +5,14 @@
 // Canonical default construction is supplied by retail7850.
 namespace _STL { template <> basic_string<char>::basic_string(); }
 #include <locale>
+// Use the independently verified bool reader at retail RVA 0x000091D0.
+namespace _STL {
+template <> istreambuf_iterator<char, char_traits<char> >
+num_get<char, istreambuf_iterator<char, char_traits<char> > >::do_get(
+    istreambuf_iterator<char, char_traits<char> >,
+    istreambuf_iterator<char, char_traits<char> >, ios_base &, int &, bool &) const;
+}
+
 // istreambuf_iterator<char>::equal is retail's 126-byte body at 0x0000FA00, owned by
 // stlport_narrow_istreambuf_iterator_equal.cpp. This unit's copy (with _M_getc out of
 // line) is not retail's and came before it in link order; the body still inlines
@@ -67,3 +75,8 @@ bool (*const bfmeNarrowFloatDigitAnchor)(char &, const char *) = &_STL::__get_fd
 // ctype<char>::id VA 0x00DA61E0, locale::_M_use_facet), an orphan .text hole
 // beside this unit's empty() copy at 0x00018070.
 template const _STL::ctype<char> &_STL::use_facet<_STL::ctype<char> >(const _STL::locale &);
+
+// Emission anchors for independently rowed helpers; not claimed retail data.
+_STL::string (_STL::numpunct<char>::*const bfmeNumGetTrueNameAnchor)() const = &_STL::numpunct<char>::truename;
+_STL::string (_STL::numpunct<char>::*const bfmeNumGetFalseNameAnchor)() const = &_STL::numpunct<char>::falsename;
+const char &(_STL::basic_string<char>::*const bfmeNumGetConstSubscriptAnchor)(size_t) const = &_STL::basic_string<char>::operator[];
