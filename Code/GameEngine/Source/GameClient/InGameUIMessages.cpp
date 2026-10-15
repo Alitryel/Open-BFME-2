@@ -189,7 +189,8 @@ __forceinline long fast_float2long_round( float f )
 	return i;
 }
 
-__forceinline float fast_float_floor( float f )
+// Inlined by retail; do not emit a competing standalone COMDAT.
+__declspec(dllimport) __forceinline float fast_float_floor( float f )
 {
 	return (float)floor( (double)f );
 }
@@ -875,9 +876,10 @@ void INI::parseInGameUIDefinition( INI *ini )
 }
 
 // isEmpty was header-defined: MSVC keeps the call out of line (0x00001E2F) but,
-// knowing the body, keeps TheGlobalLanguageData in edi across it.
+// knowing the body, keeps TheGlobalLanguageData in edi across it. The font
+// tests use the same StringBase view as AsciiString::isNotEmpty, avoiding
+// its surplus forwarding COMDAT while preserving the call to isEmpty.
 template <> inline bool StringBase<char>::isEmpty() const { return m_data == 0 || m_data->length == 0; }
-template <> inline bool StringBase<char>::isNotEmpty() const { return !isEmpty(); }
 
 void InGameUI::init()
 {
@@ -886,49 +888,49 @@ void InGameUI::init()
 	// override INI values with language localized values
 	if( TheGlobalLanguageData )
 	{
-		if( TheGlobalLanguageData->m_drawableCaptionFont.name.isNotEmpty() )
+		if( !((const StringBase<char> *)&TheGlobalLanguageData->m_drawableCaptionFont.name)->isEmpty() )
 		{
 			m_drawableCaptionFont = TheGlobalLanguageData->m_drawableCaptionFont.name;
 			m_drawableCaptionPointSize = TheGlobalLanguageData->m_drawableCaptionFont.size;
 			m_drawableCaptionBold = TheGlobalLanguageData->m_drawableCaptionFont.bold;
 		}
-		if( TheGlobalLanguageData->m_messageFont.name.isNotEmpty() )
+		if( !((const StringBase<char> *)&TheGlobalLanguageData->m_messageFont.name)->isEmpty() )
 		{
 			m_messageFont = TheGlobalLanguageData->m_messageFont.name;
 			m_messagePointSize = TheGlobalLanguageData->m_messageFont.size;
 			m_messageBold = TheGlobalLanguageData->m_messageFont.bold;
 		}
-		if( TheGlobalLanguageData->m_militaryCaptionTitleFont.name.isNotEmpty() )
+		if( !((const StringBase<char> *)&TheGlobalLanguageData->m_militaryCaptionTitleFont.name)->isEmpty() )
 		{
 			m_militaryCaptionTitleFont = TheGlobalLanguageData->m_militaryCaptionTitleFont.name;
 			m_militaryCaptionTitlePointSize = TheGlobalLanguageData->m_militaryCaptionTitleFont.size;
 			m_militaryCaptionTitleBold = TheGlobalLanguageData->m_militaryCaptionTitleFont.bold;
 		}
-		if( TheGlobalLanguageData->m_militaryCaptionFont.name.isNotEmpty() )
+		if( !((const StringBase<char> *)&TheGlobalLanguageData->m_militaryCaptionFont.name)->isEmpty() )
 		{
 			m_militaryCaptionFont = TheGlobalLanguageData->m_militaryCaptionFont.name;
 			m_militaryCaptionPointSize = TheGlobalLanguageData->m_militaryCaptionFont.size;
 			m_militaryCaptionBold = TheGlobalLanguageData->m_militaryCaptionFont.bold;
 		}
-		if( TheGlobalLanguageData->m_superweaponCountdownNormalFont.name.isNotEmpty() )
+		if( !((const StringBase<char> *)&TheGlobalLanguageData->m_superweaponCountdownNormalFont.name)->isEmpty() )
 		{
 			m_superweaponNormalFont = TheGlobalLanguageData->m_superweaponCountdownNormalFont.name;
 			m_superweaponNormalPointSize = TheGlobalLanguageData->m_superweaponCountdownNormalFont.size;
 			m_superweaponNormalBold = TheGlobalLanguageData->m_superweaponCountdownNormalFont.bold;
 		}
-		if( TheGlobalLanguageData->m_superweaponCountdownReadyFont.name.isNotEmpty() )
+		if( !((const StringBase<char> *)&TheGlobalLanguageData->m_superweaponCountdownReadyFont.name)->isEmpty() )
 		{
 			m_superweaponReadyFont = TheGlobalLanguageData->m_superweaponCountdownReadyFont.name;
 			m_superweaponReadyPointSize = TheGlobalLanguageData->m_superweaponCountdownReadyFont.size;
 			m_superweaponReadyBold = TheGlobalLanguageData->m_superweaponCountdownReadyFont.bold;
 		}
-		if( TheGlobalLanguageData->m_namedTimerCountdownNormalFont.name.isNotEmpty() )
+		if( !((const StringBase<char> *)&TheGlobalLanguageData->m_namedTimerCountdownNormalFont.name)->isEmpty() )
 		{
 			m_namedTimerNormalFont = TheGlobalLanguageData->m_namedTimerCountdownNormalFont.name;
 			m_namedTimerNormalPointSize = TheGlobalLanguageData->m_namedTimerCountdownNormalFont.size;
 			m_namedTimerNormalBold = TheGlobalLanguageData->m_namedTimerCountdownNormalFont.bold;
 		}
-		if( TheGlobalLanguageData->m_namedTimerCountdownReadyFont.name.isNotEmpty() )
+		if( !((const StringBase<char> *)&TheGlobalLanguageData->m_namedTimerCountdownReadyFont.name)->isEmpty() )
 		{
 			m_namedTimerReadyFont = TheGlobalLanguageData->m_namedTimerCountdownReadyFont.name;
 			m_namedTimerReadyPointSize = TheGlobalLanguageData->m_namedTimerCountdownReadyFont.size;

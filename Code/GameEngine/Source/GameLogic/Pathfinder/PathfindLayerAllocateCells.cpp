@@ -37,12 +37,13 @@ struct Coord2DView
 
 void *__cdecl operator new[](unsigned int size);
 
-__forceinline Real fast_float_floor(Real f)
+// Inline-only wrappers: retail calls the CRT imports from allocateCells.
+__declspec(dllimport) __forceinline Real fast_float_floor(Real f)
 {
 	return (Real)floor((double)f);
 }
 
-__forceinline Real fast_float_ceil(Real f)
+__declspec(dllimport) __forceinline Real fast_float_ceil(Real f)
 {
 	return (Real)ceil((double)f);
 }
