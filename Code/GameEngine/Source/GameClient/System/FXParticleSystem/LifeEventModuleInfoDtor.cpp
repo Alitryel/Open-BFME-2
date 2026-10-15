@@ -14,6 +14,10 @@ template <> StringBase<char>::~StringBase();
 #pragma comment(linker, "/alternatename:??1?$StringBase@D@@QAE@XZ=?releaseBuffer@?$StringBase@D@@AAEXXZ")
 
 
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
 #include "Common/Snapshot.h"
 
 namespace FXParticleSystem
@@ -31,4 +35,26 @@ private:
 
 FXParticleSystem::LifeEventModuleInfo::~LifeEventModuleInfo()
 {
+}
+
+// Retail exports fold TerrainCollision into the same48B primary cleanup.
+// Its independently verified ctor56459E places the owned narrow string at4;
+// the random-variable and trailing scalar fields are trivially destructible.
+// Like LifeEvent above, retail omits the transient derived-vptr store.
+namespace FXParticleSystem {
+class __declspec(novtable) TerrainCollisionModuleInfo : public Snapshot
+{
+public:
+    virtual ~TerrainCollisionModuleInfo();
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
+private:
+    StringBase<char> m_name;
+    int m_randomVariable[3];
+    bool m_flag14;
+    int m_18;
+};
+TerrainCollisionModuleInfo::~TerrainCollisionModuleInfo() {}
+void TerrainCollisionModuleInfo::LoadPostProcess() {}
 }

@@ -67,11 +67,20 @@ protected:
 	virtual void XferData(unsigned int type, void *data, unsigned int size) = 0;
 };
 
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 namespace FXParticleSystem {
-class TerrainCollisionModuleInfo
+class TerrainCollisionModuleInfo : public Snapshot
 {
 public:
-	void rva0056445E(Xfer *xfer);
+	virtual ~TerrainCollisionModuleInfo();
+	virtual void LoadPostProcess();
+	virtual const char *GetSnapshotName();
+	virtual void DoXfer(Xfer &);
 };
 }
 
@@ -84,7 +93,7 @@ public:
 void Rva005644A9::rva005644A9(Xfer *xfer)
 {
 	xfer->Version1();
-	((FXParticleSystem::TerrainCollisionModuleInfo *)((char *)this + 0x20))->rva0056445E(xfer);
+	((FXParticleSystem::TerrainCollisionModuleInfo *)((char *)this + 0x20))->FXParticleSystem::TerrainCollisionModuleInfo::DoXfer(*xfer);
 	*xfer == *(bool *)((char *)this + 0x1c);
 	*xfer == *(bool *)((char *)this + 0x1d);
 	*xfer == *(bool *)((char *)this + 0x34);

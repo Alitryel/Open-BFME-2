@@ -25,20 +25,23 @@ private:
 	float m_high;
 };
 
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 namespace FXParticleSystem
 {
-
-class Xfer;
-
-#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class TerrainCollisionModuleInfo : public Snapshot
 {
 public:
 	TerrainCollisionModuleInfo();
 	virtual ~TerrainCollisionModuleInfo();
-	virtual void v1() = 0;
+	virtual void LoadPostProcess();
 	virtual const char *GetSnapshotName();
+	virtual void DoXfer(::Xfer &);
 
 private:
 	AsciiString m_name;

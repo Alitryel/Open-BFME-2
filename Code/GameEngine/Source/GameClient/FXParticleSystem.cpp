@@ -682,16 +682,24 @@ ButterflyDrawModuleInfo::~ButterflyDrawModuleInfo() {}
 FX_DECLARED_ASSIGN_INFO(RenderObjectDrawModuleInfo)
 FX_DECLARED_ASSIGN_INFO(GpuDrawModuleInfo)
 FX_DECLARED_ASSIGN_INFO(LifeEventModuleInfo)
-FX_DECLARED_ASSIGN_INFO(TerrainCollisionModuleInfo)
+class TerrainCollisionModuleInfo : public ::Snapshot
+{
+public:
+    TerrainCollisionModuleInfo();
+    TerrainCollisionModuleInfo(const TerrainCollisionModuleInfo &);
+    TerrainCollisionModuleInfo &operator=(const TerrainCollisionModuleInfo &);
+    virtual ~TerrainCollisionModuleInfo();
+    virtual void LoadPostProcess();
+    virtual const char *GetSnapshotName();
+    virtual void DoXfer(::Xfer &);
+};
+const char *TerrainCollisionModuleInfo::GetSnapshotName()
+{
+    return "TerrainCollisionModuleInfo";
+}
 
 
 
-
-// ?TerrainCollisionModuleInfo::~TerrainCollisionModuleInfo present-unmatched
-// These four compile to the same seven bytes as ~SecondaryModuleBase above and
-// land in the same 139-way fold, so each is present in retail and none of them
-// can be told from the others by bytes alone.
-TerrainCollisionModuleInfo::~TerrainCollisionModuleInfo() {}
 
 // The module class itself. Every instantiation registers into two per-category
 // tables: the default slot at 0x00DFDD1C, written only when the first argument
