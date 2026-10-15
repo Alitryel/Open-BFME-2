@@ -5,6 +5,10 @@
 struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 #include "AreaSetEntryView.h"
+// The implicit Rva0027EA49 destructor owns the existing 13-byte retail body
+// at 0x0027EA49: release the retained pointer at +4 via fastcall 0x0007DEEF.
+// Its complete bytes and relocation equal the former standalone definition.
+// Keep the row beside this vector consumer, without a second strong copy.
 struct Rva0027EA49 { int m_00; AreaRefValueView m_04; };
 typedef _STL::vector<Rva0027EA49> AreaRecordVector;
 template <> AreaRecordVector::~vector();
