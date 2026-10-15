@@ -17,7 +17,8 @@ public:
 // Descriptive ABI-view label, not a recovered original data name. Native
 // mutable4B preset DB44B8 starts at198BB; BF1 donor uses shader012BBBA8.
 // Canonical _PresetAlphaShader is the different DB6234 datum (1198B3).
-extern ShaderClass gWaterSurfaceShader;
+// Native complete4B ShaderClass preset; exact initial bits are0x198BB.
+ShaderClass gWaterSurfaceShader = { 0x000198bbu };
 enum TimeOfDay { TOD_0, TOD_1, TOD_2, TOD_3, TOD_4 };
 enum WaterType { WATER_TYPE_0, WATER_TYPE_1, WATER_TYPE_2 };
 class WaterRenderObjClass {

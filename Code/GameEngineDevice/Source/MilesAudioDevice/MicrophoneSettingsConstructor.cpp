@@ -7,10 +7,13 @@
 // Existing data-ledger global carries signaling-NaN bits0x7FA00000. Read
 // its actual storage through volatile floats to preserve eighteen separate
 // native loads and avoid any numeric conversion of the NaN payload.
-extern float g_Va00BBDA2C;
+// Descriptive bit-storage name; the original global spelling is unknown.
+// Native readonly7BDA2C is the complete4B signaling-NaN payload7FA00000.
+// Store the representation as integer bits so no initializer can quiet it.
+extern const unsigned int AudioMicrophoneUnsetBits = 0x7fa00000u;
 class Rva0004149D {float values[18];public:Rva0004149D();};
 Rva0004149D::Rva0004149D() {
- volatile float &initial = g_Va00BBDA2C;
+ const volatile float &initial = *reinterpret_cast<const volatile float *>(&AudioMicrophoneUnsetBits);
  values[0]=initial;
  values[1]=initial;
  values[2]=initial;

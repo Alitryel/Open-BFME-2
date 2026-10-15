@@ -79,24 +79,27 @@ float Rva00050EA0Get(void)
 	return 3.4028235e+38f;
 }
 
-extern float g_Va00BBDA30;
+// Native readonly float representation atBBDA30; integer initialization
+// preserves positive infinity without a host floating conversion.
+extern const unsigned int PositiveFloatInfinityBits = 0x7f800000u;
 
 // ?Rva00050EA7Get@@YAMXZ @ 0x00050ea7 (7B) over 0x00BBDA30 (inf).
 // Adjacent after Rva00050EA0Get (pair proves both boundaries), no branch sources.
 // Opaque address-derived name.
 float Rva00050EA7Get(void)
 {
-	return g_Va00BBDA30;
+	return (*reinterpret_cast<const float *>(&PositiveFloatInfinityBits));
 }
 
-extern float g_Va00BBDA2C;
+// Same readonly sentinel owned by MicrophoneSettingsConstructor.cpp.
+extern const unsigned int AudioMicrophoneUnsetBits;
 
 // ?Rva00041457Get@@YAMXZ @ 0x00041457 (7B) over 0x00BBDA2C (NaN).
 // Follows a ret (prev C3); next is a frameless fn start; no direct callers,
 // no branch sources. Opaque address-derived name.
 float Rva00041457Get(void)
 {
-	return g_Va00BBDA2C;
+	return *reinterpret_cast<const float *>(&AudioMicrophoneUnsetBits);
 }
 
 extern float bfmeProjectionBias;

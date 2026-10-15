@@ -15,7 +15,9 @@ class AnimationSoundClientBehavior {public:
  char prefix[0x14];AnimationSoundClientBehavior *next,*previous;
 };
 struct AnimationSoundClientBehaviorGlobalSetting {float m_minMicrophoneDistanceToDirty;};
-extern AnimationSoundClientBehaviorGlobalSetting TheAnimationSoundClientBehaviorGlobalSetting;
+// Native complete4B setting atDC898C starts at50.0f; the manager reads
+// that one scalar for the squared-distance threshold.
+AnimationSoundClientBehaviorGlobalSetting TheAnimationSoundClientBehaviorGlobalSetting = { 50.0f };
 class AudioManager;extern AudioManager *TheAudio;
 template<int N>class AnimationListenerSlots:public AnimationListenerSlots<N-1>{public:virtual void gap(char(*)[N]);};
 template<>class AnimationListenerSlots<1>{public:virtual void gap(char(*)[1]);};
