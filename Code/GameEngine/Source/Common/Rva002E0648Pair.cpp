@@ -17,15 +17,26 @@ public:
 	AsciiString *find(AsciiString const &x);
 };
 
+template <class T> class StringBase
+{
+public:
+	void set(const StringBase &other);
+};
+
+struct Rva004FB303Target;
+class Rva004FB222Owner
+{
+public:
+	void rva004FB222(Rva004FB303Target *target, int value);
+};
+
 struct Rva002E0648M48
 {
-	void rva000366F0(void *a);
 	char m_pad[4]; // +0x48..+0x4C opaque
 };
 
 struct Rva002E0648M4C
 {
-	void rva004FB222(void *a, void *b);
 };
 
 extern class Rva002E18C3Lookup *Va00E03140Lookup;
@@ -43,8 +54,8 @@ private:
 // ?rva002E0648@Rva002E0648Owner@@QAEXPAX@Z
 void Rva002E0648Owner::rva002E0648(void *a)
 {
-	m_m4C.rva004FB222(this, a);
-	m_m48.rva000366F0(a);
+	((Rva004FB222Owner *)&m_m4C)->rva004FB222((Rva004FB303Target *)this, (int)a);
+	((StringBase<char> *)&m_m48)->set(*(const StringBase<char> *)a);
 }
 
 // ?rva002E07CC@Rva002E0648Owner@@QAEXXZ
