@@ -136,11 +136,12 @@ public:
 	virtual ~Rva00346D17();
 };
 // The conditions the tables reference (retail .rdata entries).
-Bool rva00343DD8(State *thisState, void *userData);	// outOfWeaponRangeObject
-Bool rva00343EFA(State *thisState, void *userData);	// wantToSquishTarget
-Bool rva0033FDEB(State *thisState, void *userData);	// cannotPossiblyAttackObject
-Bool rva0033FD98(State *thisState, void *userData);	// outOfWeaponRangePosition
-Bool rva00343EE5(State *thisState, void *userData);	// inWeaponRangeObject
+bool rva00343DD8(void *thisState, void *userData);	// outOfWeaponRangeObject
+class Rva00343F8A; struct Rva00343EFAState;
+bool rva00343EFA(Rva00343EFAState *thisState);	// wantToSquishTarget
+bool rva0033FDEB(Rva00343F8A *thisState, void *userData);	// cannotPossiblyAttackObject
+bool rva0033FD98(Rva00343F8A *thisState, void *userData);	// outOfWeaponRangePosition
+int rva00343EE5(void *thisState, void *userData);	// inWeaponRangeObject
 enum
 {
 	CHASE_TARGET = 100,
