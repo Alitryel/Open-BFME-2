@@ -9,10 +9,24 @@
 // placeholder sized by the retail accesses; the string member reuses the
 // proven StringBase layout. Returns the new object pointer in eax.
 
-class AsciiString
+template <class T> class StringBase
 {
 public:
-    void set(const AsciiString &other);
+    void set(const StringBase &other);
+};
+struct Rva00332217Record;
+namespace _STL {
+template <class T> class allocator;
+template <class T, class A> class vector
+{
+public:
+    vector &operator=(const vector &other);
+};
+}
+typedef _STL::vector<Rva00332217Record, _STL::allocator<Rva00332217Record> > Rva00332217RecordVector;
+
+class AsciiString
+{
 private:
     void *m_data;
 };
@@ -20,7 +34,6 @@ private:
 class Rva00332217Vec
 {
 public:
-    void assign(const Rva00332217Vec &other);
 private:
     unsigned char _data[12];
 };
@@ -39,7 +52,7 @@ private:
 // ??0Rva002E9E70@@QAE@ABV0@@Z
 Rva002E9E70::Rva002E9E70(const Rva002E9E70 &other)
 {
-    m_name.set(other.m_name);
+    ((StringBase<char> *)&m_name)->set(*(const StringBase<char> *)&other.m_name);
     m_flag4 = other.m_flag4;
-    m_vec.assign(other.m_vec);
+    *(Rva00332217RecordVector *)&m_vec = *(const Rva00332217RecordVector *)&other.m_vec;
 }
