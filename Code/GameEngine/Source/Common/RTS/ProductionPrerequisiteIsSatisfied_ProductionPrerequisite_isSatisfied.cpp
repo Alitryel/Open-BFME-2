@@ -117,7 +117,7 @@ class Player
 {
 public:
     bool hasScience(ScienceType science) const;
-    bool hasUpgradeComplete(const UpgradeTemplate *upgrade);
+    bool rva002AB87D(const UpgradeTemplate *upgrade) const;
 };
 
 bool ProductionPrerequisite::isSatisfied(const Player *player) const
@@ -138,7 +138,7 @@ bool ProductionPrerequisite::isSatisfied(const Player *player) const
         const UpgradeTemplate *upgrade = m_prereqUpgrades[i];
         if (upgrade->getUpgradeType() != UPGRADE_TYPE_PLAYER)
             return false;
-        if (!const_cast<Player *>(player)->hasUpgradeComplete(upgrade))
+        if (!player->rva002AB87D(upgrade))
             return false;
     }
 
@@ -240,7 +240,7 @@ UnicodeString ProductionPrerequisite::getRequiresList(const Player *player) cons
     bool hasUpgrades = true;
     for (i = 0; i < m_prereqUpgrades.size(); i++)
     {
-        if (!const_cast<Player *>(player)->hasUpgradeComplete(m_prereqUpgrades[i]))
+        if (!player->rva002AB87D(m_prereqUpgrades[i]))
             hasUpgrades = false;
     }
 
