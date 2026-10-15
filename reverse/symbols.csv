@@ -5591,7 +5591,6 @@ name,address,notes
 ?Lookup@Rva0059E647Factory@@QAEPAURva0059E647Entry@@PAH@Z,0x002B931C,wrapper-call spelling for the 0x59E647 factory token lookup (ecx+1 push no caller cleanup); target REL32 from retail call at 0x0059E68E
 ?LookupFocusChannelVolume@@YAMH@Z,0x0035D20C,float helper called with the channel index by AudioManager focus restore; read from the REL32 in regainFocus at 0x0035D2FC
 ?M3@Rva005B5C70Sub@@QAEXPAURva005B5C70Entry@@HH@Z,0x005B21DA,wrapper-call spelling for the 0x5B5C70 +0x27C sub-object triple consumer (thiscall 3 args callee cleanup); target REL32 from retail call at 0x005B5CB0
-?M54ed@Rva005B57C6Box@@QAEXHPADH@Z,0x005B54ED,wrapper-call spelling for the 0x5B57C6 scan forwarder (thiscall taking int char* int; true callee is the 382B dump body); target REL32 from retail call at 0x005B57F0
 ?MB5CE@Rva005BC474Box@@QAEXXZ,0x005BB5CE,wrapper-call spelling for the 0x5BC474 first flag call (thiscall 0 args); target REL32 from retail call at 0x005BC47D
 ?MBF15@Rva005BC474Box@@QAEXXZ,0x005BBF15,wrapper-call spelling for the 0x5BC474 second flag call (thiscall 0 args); target REL32 from retail call at 0x005BC48A
 ?Make001FCBD7@@YAPAVParticleSystem@@XZ,0x001FCBD7,null-slave factory for the ParticleSystem slave chain (BFME1 Make00001B18 role); called from ParticleSystem::destroy 0x1F4646 when the re-read slave slot is null

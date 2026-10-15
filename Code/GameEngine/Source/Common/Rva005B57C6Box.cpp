@@ -9,9 +9,11 @@
 
 // g_rva005B57C6Fmt was the retail address alias (RVA 0x007E3878) of the constant "%d %d"; the literal is the source.
 
+// 0x005B54ED is rowed as Rva005B566B::rva005B54ED(unsigned, unsigned, bool).
+class Rva005B566B { public: void rva005B54ED(unsigned int code, unsigned int value, bool flag); };
+
 struct Rva005B57C6Box
 {
-	void M54ed(int code, char *s, int flag);
 	void Run(char *s);
 };
 
@@ -19,5 +21,5 @@ void Rva005B57C6Box::Run(char *s)
 {
 	int local;
 	sscanf(s, "%d %d", &local, &s);
-	M54ed(local, s, 1);
+	((Rva005B566B *)this)->rva005B54ED(local, (unsigned int)s, true);
 }
