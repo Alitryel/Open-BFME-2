@@ -151,7 +151,7 @@ Gen007F47E0::Gen007F47E0() {}
 // FESL ariesudp datagram listener whose slot 2 is 0x00661650): its slot 0 is
 // the adjustor thunk 0x00661640 (sub ecx,4) into this ??_G, which the
 // two-base declaration below makes MSVC emit next to it.
-struct Gen007F4D00Owner
+struct __declspec(novtable) Gen007F4D00Owner
 {
 	virtual ~Gen007F4D00Owner();		// retail 0x00666BA0
 };
@@ -167,11 +167,19 @@ struct Gen007F4D00 : Gen007F4D00Owner, Gen007F4D00Listener
 	virtual ~Gen007F4D00();		// retail 0x007F4D20
 	void operator delete( void *p, unsigned int n );
 
-	char m_bfmePad[ 0x18 - 8 ];
+	int m_08;
+	int m_0C;
+	int m_10;
+	int m_14;
 };
 
-// ??0Gen007F4D00@@QAE@XZ present-unmatched   emitted only to force the vtable, and with it ??_G
-Gen007F4D00::Gen007F4D00() {}
+// Retail 0x00661400 (37B): the first base carries no vptr store of its own
+// (novtable), the listener base installs 0x00CE2BCC before the derived tables
+// 0x00CE2C1C/0x00CE2C10, and the four trailing dwords start at zero.
+Gen007F4D00::Gen007F4D00()
+	: m_08(0), m_0C(0), m_10(0), m_14(0)
+{
+}
 
 struct Gen007F86D0
 {
