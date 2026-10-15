@@ -21,16 +21,20 @@ public:
 };
 struct __false_type {};
 }
-void __cdecl dup_003F1A8C(void);
+struct Rva003F1A8CElement;
+namespace _STL
+{
+template <class ForwardIter, class Size, class T>
+ForwardIter __uninitialized_fill_n(ForwardIter first, Size n, const T &x, const __false_type &);
+}
 typedef _STL::vector<unsigned int, _STL::allocator<unsigned int> > FillUIntVec;
-typedef FillUIntVec *(__cdecl *UIntFillNFn)(FillUIntVec *, unsigned int, const FillUIntVec &, const _STL::__false_type &);
 namespace _STL
 {
 template <class ForwardIter, class Size, class T>
 ForwardIter uninitialized_fill_n(ForwardIter first, Size n, const T &x)
 {
 	__false_type tag;
-	return ((UIntFillNFn)&dup_003F1A8C)(first, n, x, tag);
+	return (ForwardIter)__uninitialized_fill_n((Rva003F1A8CElement *)first, n, (const Rva003F1A8CElement &)x, tag);
 }
 }
 template FillUIntVec *_STL::uninitialized_fill_n(FillUIntVec *, unsigned int, const FillUIntVec &);
