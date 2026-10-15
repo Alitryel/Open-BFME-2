@@ -32,7 +32,9 @@ enum CellShroudStatus
 	CELLSHROUD_SHROUDED = 2
 };
 
-class PartitionCell
+// This partial cell view reads the BFME2 shroud layout directly; the
+// donor PartitionCell method has a different layout and remains out of line.
+class PartitionDataShroudCellView
 {
 public:
 	CellShroudStatus getShroudStatusForPlayer(int playerIndex) const
@@ -48,7 +50,7 @@ public:
 
 struct CellAndObjectIntersection
 {
-	PartitionCell *m_cell;
+	PartitionDataShroudCellView *m_cell;
 	void *m_module;
 	void *m_prev;
 	void *m_next;
@@ -106,7 +108,7 @@ ObjectShroudStatus PartitionData::getShroudedStatus(int playerIndex)
 		CellAndObjectIntersection *end = m_coiArray + m_coiInUseCount;
 		for (CellAndObjectIntersection *coi = m_coiArray; coi != end; ++coi)
 		{
-			PartitionCell *cell = coi->m_cell;
+			PartitionDataShroudCellView *cell = coi->m_cell;
 			if (cell)
 			{
 				++total;
