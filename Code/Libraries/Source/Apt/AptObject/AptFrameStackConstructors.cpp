@@ -8,12 +8,15 @@
 inline AptValueGC::AptValueGC(AptVirtualFunctionTable_Indices t):AptValue(t){}
 // ?AptValueWithHash::AptValueWithHash present-unmatched
 inline AptValueWithHash::AptValueWithHash(AptVirtualFunctionTable_Indices t,int n):AptValueGC(t),mNativeHash(n){}
+class Rva006D2A60{public:void freeBlock(void *,int);};
+extern Rva006D2A60 *g_pChainBlockAllocatorF4;
 class Rva006FBC90Owner:public AptValueWithHash {
  AptValue *parent;
 public:
  Rva006FBC90Owner(AptValue *);
  Rva006FBC90Owner(AptValue *,int);
  virtual ~Rva006FBC90Owner();
+ static void operator delete(void *p,unsigned int size){g_pChainBlockAllocatorF4->freeBlock(p,size);}
  bool rva006FBBA0(const EAStringC *,AptValue *);
 };
 Rva006FBC90Owner::Rva006FBC90Owner(AptValue *p):AptValueWithHash((AptVirtualFunctionTable_Indices)20,4),parent(p){if(p)p->AddRef();}

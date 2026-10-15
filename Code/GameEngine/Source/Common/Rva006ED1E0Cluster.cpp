@@ -40,11 +40,21 @@ inline Rva006ED2A0Base::Rva006ED2A0Base()
     m_0C = 0;
     m_10 = 0;
 }
+class Rva006DB270
+{
+public:
+    void freeBlock(void *p, int size);
+};
+extern Rva006DB270 *g_pChainBlockAllocator;
 class Rva006ED2A0 : public Rva006ED2A0Base
 {
 public:
     Rva006ED2A0();
     virtual ~Rva006ED2A0();
+    static void operator delete(void *p, unsigned int size)
+    {
+        g_pChainBlockAllocator->freeBlock(p, size);
+    }
 private:
     EAStringC m_18;
     EAStringC m_1C;
