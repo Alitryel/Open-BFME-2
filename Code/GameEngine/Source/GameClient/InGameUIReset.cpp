@@ -40,6 +40,14 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 { return a._M_node != b._M_node; }
 }
 #include <map>
+// Retail inlines the typed node comparison. Keep that comparison local so
+// this unit does not emit a competing tree-base operator!= COMDAT.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include <vector>
 #undef free
 #include "ascii_string.h"

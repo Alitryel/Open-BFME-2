@@ -6,6 +6,14 @@
 // map<int,int> _M_find (0x00388F63) and map<int,void*> erase (0x005530A8) names, so the map
 // is reached through those two views; W3DScriptedModelDraw.cpp holds the rest of the class.
 #include <map>
+// Retail inlines the typed node comparison. Keep that comparison local so
+// this unit does not emit a competing tree-base operator!= COMDAT.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 typedef _STL::map<int, int> Rva000BC057FindView;
 typedef _STL::map<int, void *> Rva000BC057EraseView;
