@@ -1,18 +1,19 @@
 // ?rva005B59FD@Class@AptCreateAHero@@QAEXXZ
-// partial score=0.8404 date=2026-10-14
+// partial score=0.867337106752665 date=2026-10-15
+// ?rva005B59FD@Class@AptCreateAHero@@QAEXXZ
+// Native005B59FD..005B5AAF is the complete178-byte callback registration body.
+// WB0157BFF0 names AptCreateAHero::Class::OnMapLoaded and shows Exit and
+// OnMapClick bindings. Target strings, two descriptor constructions and
+// owner+21C calls independently establish the registration flow.
+// Declarations are carried from the matched AptCreateAHeroClassConstructor.cpp;
+// this bank is not the515-byte constructor described by its former header.
+// Reusing one descriptor restores retail's0x14-byte frame and shared -20/-1C
+// homes. The177-byte candidate still caches21C in EDI instead of retail's
+// two LEAs, with the extra saved register and dependent scheduling differences.
+// Round39:9 flag trials,12 descriptor shapes and4 lifetime trials. Production
+// compile_function/permute fitness rises .840400158 -> .867337107; no exact
+// byte, DIR32, EH or link claim. No new pins and no production-source changes.
 // cl: /O1 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /arch:SSE /G7
-//
-// ??0Class@AptCreateAHero@@QAE@PAURva005B3676Owner@@@Z, retail 0x005B57FA..0x005B59FD
-// (515 bytes, EH, ret 4). The create-a-hero class page (WB
-// AptCreateAHero::Class::Class; the class keeps its address name Rva005B5420
-// from its rowed dtor 0x005B5420, vtable 0x00C73450). Native evidence: stores
-// the owner at +4 (base), +0x14 flag, +0x18 word, +0x1C hero list (rowed ctor
-// 0x0040A530), binds CahClass::InitGadgets, the two translated descriptions
-// (APT:CahClassDescription / APT:CahTypeDescription), runs the rowed
-// CreateDefaultHeroes 0x005B566B, registers the NumClassTypes / NumClasses
-// extern handlers (rowed ExternFunc 0x005B5485) and the SetClassAndType
-// command (rowed Run 0x005B57C6). Callback targets and the InitGadgets slot
-// are DIR32 references. Pattern follows AptCreateAHeroPowers.cpp.
 #include "ascii_string.h"
 
 class Rva005B3676Owner;
@@ -32,6 +33,7 @@ struct DelegateDesc
 	{
 	}
 
+DelegateDesc() {}
 	AptDelegateTarget *m_object;
 	AptDelegateMethod m_method;
 };
@@ -42,13 +44,8 @@ template <class T, class M> __forceinline DelegateDesc MakeDelegate(T *object, M
 	return desc;
 }
 
-// Link: the AptRef lineage fork. The wrapper spelling used here emitted a
-// census-losing dtor copy (a jmp to an extern base dtor, digest e67a72158686);
-// retail keeps the majority TU's inline-release copy (digest 361dbf55f6ea).
-// Adopt the majority spelling (ArmyCommandPointsMovieClipConstructor.cpp):
-// trivial base (no declared dtor; the copy ctor stays declared so the implicit
-// AptRef copy ctor is non-trivial and the by-value temp convention is kept),
-// public ptr, inline release dtor. Only the COMDAT body changes to retail's.
+// Keep the matched constructor TU's existing inline-release AptRef view.
+// This bank does not establish a new canonical layout or COMDAT selection.
 class Rva00579E47 {public:Rva00579E47(const DelegateDesc&);Rva00579E47(const Rva00579E47 &other);void*ptr;};
 struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C*);
@@ -136,6 +133,7 @@ private:
 
 void AptCreateAHero::Class::rva005B59FD()
 {
-	{ AsciiString name("AptCreateAHero::Class::Exit"); m_owner->m_adder.AddCommandMap(name, AptRef<AptCommandMap>(MakeDelegate(this, &Class::rva005B5418))); }
-	{ AsciiString name("AptCreateAHero::Class::OnMapClick"); m_owner->m_adder.AddCommandMap(name, AptRef<AptCommandMap>(MakeDelegate(this, &Class::rva0047A69C))); }
+ DelegateDesc desc;
+	{ AsciiString name("AptCreateAHero::Class::Exit"); desc=MakeDelegate(this, &Class::rva005B5418); m_owner->m_adder.AddCommandMap(name, AptRef<AptCommandMap>(desc)); }
+	{ AsciiString name("AptCreateAHero::Class::OnMapClick"); desc=MakeDelegate(this, &Class::rva0047A69C); m_owner->m_adder.AddCommandMap(name, AptRef<AptCommandMap>(desc)); }
 }
