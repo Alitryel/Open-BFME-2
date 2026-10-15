@@ -1,4 +1,8 @@
 // ?rva0051DE3D@AptScoreScreen@@QAEXXZ
+// partial score=0.9 date=2026-10-15
+// ?rva0051DE3D@Rva0051DE3D@@QAEXXZ
+// partial score=0.9 date=2026-10-15
+// ?rva0051DE3D@AptScoreScreen@@QAEXXZ
 // partial score=0.9675 date=2026-10-14
 // ?Rva0051DE3D@@YAHPAVGameWindow@@IABVAsciiString@@@Z
 // partial score=0.9592 date=2026-10-13

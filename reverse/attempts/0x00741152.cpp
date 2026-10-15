@@ -1,4 +1,6 @@
 // ?Render@W3DAptComponentColorPicker@@UAEXHHHH@Z
+// partial score=0.9 date=2026-10-15
+// ?Render@W3DAptComponentColorPicker@@UAEXHHHH@Z
 // partial score=0.97 date=2026-10-14
 // ?Render@W3DAptComponentColorPicker@@UAEXHHHH@Z
 // partial score=0.9759 date=2026-10-11
