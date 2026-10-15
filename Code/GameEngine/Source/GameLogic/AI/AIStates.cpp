@@ -412,6 +412,7 @@ public:
 class Object : public Thing
 {
 public:
+	Bool rva0028CECF();	// thing-template gate, rowed 0x0028CECF
 	AIUpdateInterface *getObservedAI() { return m_ai; }
 	Object *getContainedBy() { return m_containedBy; }
 	Object *getOutermostContainer()
@@ -871,13 +872,6 @@ public:
 	virtual Rva003497E6Rider *slot31();
 };
 
-// Thing-template gate 0x0028CECF, pinned under this name.
-class Rva0028CECFOwner
-{
-public:
-	Bool rva0028CECF();
-};
-
 // AIAttackMeleeEngageState, vtable 0x00C12150 (computePath 0x003457AC rowed in
 // AIStatesBfmeComputePath.cpp).
 class AIAttackMeleeEngageState : public AIInternalMoveToState
@@ -931,7 +925,7 @@ StateReturnType AIAttackMeleeEngageState::updateInternal()
 
 	ai->setCurrentVictim(victim);
 	if (source->rva0029493F(victim, 2) && source->getTemplate()->m_5fd &&
-		((Rva0028CECFOwner *)source)->rva0028CECF())
+		source->rva0028CECF())
 		return STATE_SUCCESS;
 
 	if (m_retryPending)
