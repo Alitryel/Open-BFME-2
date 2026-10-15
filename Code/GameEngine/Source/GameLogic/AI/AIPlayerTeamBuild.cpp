@@ -199,7 +199,8 @@ public:
 	Int rva0033A69A(const Player *player, Int a, Int b) const;
 	const AsciiString &getName() const { return m_name; }
 	Real getBoundingCircleRadius() const { return m_boundingCircleRadius; }
-	ThingTemplate *friend_getNextTemplate() const { return m_nextThingTemplate; }
+	// Keep the factory-list walk inline; ThingFactory owns the retail outline.
+	__declspec(dllimport) __forceinline ThingTemplate *friend_getNextTemplate() const { return m_nextThingTemplate; }
 	unsigned char m_pad000[0x64];
 	AsciiString m_name;				// +0x64
 	unsigned char m_pad068[0xB0 - 0x68];
