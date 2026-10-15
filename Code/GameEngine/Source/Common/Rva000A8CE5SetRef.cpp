@@ -41,7 +41,9 @@ public:
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile *value);
 
-void Rva000A8C9B::rva000A8CE5(OpaqueRefCounted *value)
+// Keep the retail call while allowing the identical GameClientXfer copy to
+// share this definition at link time.
+inline __declspec(noinline) void Rva000A8C9B::rva000A8CE5(OpaqueRefCounted *value)
 {
 	if (value != m_ptr)
 	{
