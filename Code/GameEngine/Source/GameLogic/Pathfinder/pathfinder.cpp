@@ -84,6 +84,7 @@ public:
 	bool IsAtGoalPosition() const;
 	Bool canCrushOrSquishNoAlly(Object *other, Int test);
 	bool rva0028AFBB() const;
+	bool rva0028AC62() const;
 	float GetGoalAngle() const;
     __forceinline int getID() const { return *(const int *)((const char *)this+0x74); }
 	AIUpdateInterface *getAI() const { return reinterpret_cast<AIUpdateInterface *>(m_258); }
@@ -636,6 +637,8 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
  Path *FindSafePath(Object *,const LocomotorSet &,const Coord3D *,const Coord3D *,const Coord3D *,float);
  Path *PatchPath(Object *,const LocomotorSet &,Path *,Bool);
  Path *GetHordeUnitPath(Object *,const Coord3D *);
+ Bool rva002EF3EE(Object *,Coord3D *,Object *,Bool);
+ PathfindCell *Rva002EDF7C(struct ObjWithPos *,ICoord2D *);
     Path *GetAircraftPath(const Object *,const Coord3D *);
     int _GetOverlapUnits(Object *,const Coord3D *,int *);
     int GetOverlapGoalUnits(Object *,const Coord3D *,int *);
@@ -4733,4 +4736,104 @@ Bool Pathfinder::getClosestPointOnLand(const Coord3D *position, Object *object, 
   
  }
  
+}
+
+// ?rva002EF3EE@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@0_N@Z, retail
+// 0x002EF3EE..0x002EF663 (629B, RET16; WB D3C840). Clears the obstacle id,
+// takes the cell of the target Object (0x002EDF7C), builds the 0x30-byte
+// footprint check (0x002E7388 setter over the mover's movement info, layers
+// and radius) and tests the destination cell (0x002E916A). Failing that it
+// walks 15 samples t = i/16 from the destination toward the target, testing
+// each new cell; a hit moves the destination there on the destination layer
+// height. Without one the destination becomes the target cell centre
+// (0x002E8C4D) and the result is false.
+struct ObjWithPos;
+class Rva0028CECFOwner;
+struct Rva002E7388Pair;
+class Rva002E7388Owner
+{
+public:
+	Rva002E7388Owner *rva002E7388(int p1, Rva0028CECFOwner *p2, int p3, int p4,
+		int p5, Rva002E7388Pair *p6, int p7, int p8, int p9);
+	bool rva002E916A(int x, int y);
+private:
+	char m_pad[0x30];
+};
+// The movement-info value the 0x002E8BCF converting ctor builds (surfaces,
+// !template flag, AFBB, priority-1), filled inline with its last byte from the
+// mover (0x0028AC62). Retail homes the target cell directly after it (+0x10 of
+// one 0x18-byte local, info -0x44 / cell -0x34), so the cell lives here.
+struct Rva002EF3EEMoveInfo
+{
+	__forceinline void set(Int surfaces, Bool a, Int b, Bool c, Bool d)
+	{
+		m0 = surfaces;
+		m4 = a;
+		m5 = c;
+		m8 = b;
+		mC = d;
+	}
+	Int m0;
+	Bool m4, m5;
+	Int m8;
+	Bool mC;
+	ICoord2D targetCell;
+};
+// fast_float2long_round((float)floor(v)): the floor result handed by value to
+// the x87 round-to-integer store. The TU's realToIntFloor (floor inside the
+// helper) schedules fstp before the caller pop; retail pops first, as here.
+static __forceinline long Rva002EF3EERound(float f)
+{
+	long i;
+	__asm {
+		fld [f]
+		fistp [i]
+	}
+	return i;
+}
+Bool Pathfinder::rva002EF3EE(Object *obj, Coord3D *dest, Object *target, Bool flag)
+{
+	m_ignoreObstacleID = (ObjectID)0;
+	Rva002EF3EEMoveInfo info;
+	if (!Rva002EDF7C((ObjWithPos *)target, &info.targetCell))
+		return false;
+	Int priority = obj->m_template->priority;
+	Bool templateFlag = obj->m_template->flag;
+	Int surfaces = *(const Int *)(obj->m_258 + 0x1dc);
+	info.set(surfaces, !templateFlag, priority - 1, obj->rva0028AFBB(), obj->rva0028AC62());
+	Int radius;
+	Bool center;
+	Rva002EBCA7Split(obj, &radius, (unsigned char *)&center);
+	ICoord2D cell;
+	Rva002E7875WorldToCell(&cell, center, dest);
+	// The rowed setter types its unused 9th parameter int: retail pushes the
+	// flag argument's whole dword, so it is passed as that dword.
+	Rva002E7388Owner check;
+	check.rva002E7388((int)this, (Rva0028CECFOwner *)target, (int)&info, obj->rva0028B511(),
+		target->rva0028B511(), (Rva002E7388Pair *)&info.targetCell, radius, radius + (center ? 1 : 0), reinterpret_cast<int &>(flag));
+	if (check.rva002E916A(cell.x, cell.y))
+		return true;
+	ICoord2D last;
+	last.y = -1;
+	last.x = -1;
+	for (Int i = 1; i < 16; ++i) {
+		float t = i * (1.0f / 16.0f);
+		float x = dest->x * (1.0f - t) + target->position[0] * t;
+		float y = dest->y * (1.0f - t) + target->position[1] * t;
+		ICoord2D sample;
+		sample.x = center ? Rva002EF3EERound((float)floor(x * PATHFINDER_CELL_INV)) : Rva002EF3EERound((float)floor(x * PATHFINDER_CELL_INV + 0.5f));
+		sample.y = center ? Rva002EF3EERound((float)floor(y * PATHFINDER_CELL_INV)) : Rva002EF3EERound((float)floor(y * PATHFINDER_CELL_INV + 0.5f));
+		if (sample == *(const ICoord2DBase *)&last)
+			continue;
+		last = sample;
+		if (check.rva002E916A(sample.x, sample.y)) {
+			dest->x = x;
+			dest->y = y;
+			dest->z = TheTerrainLogic->getLayerHeight(dest->x, dest->y,
+				TheTerrainLogic->getLayerForDestination(obj, dest), 0, true);
+			return true;
+		}
+	}
+	*dest = adjustCellCenter(center, (Rva002E8C23Pair *)&info.targetCell, (PathfindLayerEnum)target->rva0028B511());
+	return false;
 }
