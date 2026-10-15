@@ -2018,7 +2018,6 @@ name,address,notes
 ??0InvisibilitySpecialPowerModuleData@@QAE@XZ,0x004C244D,address read from the REL32 displacement at a placed body
 ??0InvisibilityUpdateModuleData@@QAE@XZ,0x00255474,sole raw E8 caller is ModuleData factory 0x0025553A; ModuleData table 0x00C52468 extent 0x1DC
 ??0LANAPI@@QAE@XZ,0x00449AB8,unrowed 193B LANAPI constructor (Ghidra FUN_00849ab8); the LAN lobby start-up 0x004452A8 calls it on a fresh 0x60-byte operator new block and stores the result in TheLAN (0x00DFE958) exactly where its BFME1 donor initLanRva00517D00 runs new LANAPI(); name from that donor and Zero Hour LanLobbyMenuInit
-??0LargeGroupAudioUpdateModuleData@@QAE@XZ,0x004ABED8
 ??0LargeGroupBonusUpdateModuleData@@QAE@XZ,0x004901BD
 ??0LaserUpdate@@QAE@PAVThing@@PBVModuleData@@@Z,0x00362EEE,(Thing*;ModuleData*) ctor called by LaserUpdate::friend_newModuleInstance (0x0024D522); class from the ModuleFactory registration literal
 ??0LevelGrantSpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z,0x004C2B0E,(Thing*;ModuleData*) ctor called by LevelGrantSpecialPower::friend_newModuleInstance (0x00251A37); class from the ModuleFactory registration literal
@@ -4196,7 +4195,6 @@ name,address,notes
 ??1Rva0049B47C@@UAE@XZ,0x0049B47C,opaque fold-point dtor (25 dtors fold here incl FX infos plus Snapshot plus ObjectModule); 5 derived dtors tail-call it; identity unproven
 ??1Rva004A9DF3Element@@QAE@XZ,0x004A9DF3,element dtor thunk for the 2x4B array at ModuleTagString+0x0C; retail ehvec_dtor call at 0x006CE82A passes it; true type not recovered
 ??1Rva004ABE53Dtor@@QAE@XZ,0x004ABE53,dtor stub at 0x004ABE53 (target of thunk 0x007B89C1)
-??1Rva004ABFD9@@UAE@XZ,0x004ABFD9,opaque dtor called by the scalar deleting dtor at 0x004AC021 (vtable 0x00C549F8#0); identity unproven; address-derived name
 ??1Rva004AF17D@@QAE@XZ,0x004AF17D,destructor called by the vtable-referenced scalar deleting dtor 0x004AF161 (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name
 ??1Rva004BAEC8@@QAE@XZ,0x004BAEC8,destructor called by the vtable-referenced scalar deleting dtor 0x004BAF11 (REL32 at +4 of its 28B delete-flag wrapper); identity unproven; address-derived name
 ??1Rva004BF951@@UAE@XZ,0x004BF951,opaque MI base dtor (SEH); 7 derived MI dtors tail-call it; identity unproven
@@ -5031,7 +5029,6 @@ name,address,notes
 ??_7Rva00261D01Filter@@6B@,0x00835B28,"partition filter vftable stored inline at script condition 0x003EA764 (no members beyond the +0x04 link); slot 0 the shared deleting dtor 0x00395A19, slot 1 allow 0x00261D01, slot 2 0x0036CC7A"
 ??_7Rva00359290@@6B@,0x00815398,vtable installed by the 0x359290 dtor (mov [esi] at 0x003592A1)
 ??_7Rva0040EDB@@6B@,0x007C16B8
-??_7Rva004ABFD9@@6B@,0x008549F8,Rva004ABFD9 vtable installed by copy ctor 0x004ABF47 (mov [esi] imm at 0x004ABF6D); slot0 is rowed ??_GRva004ABFD9 0x004AC021
 ??_7Rva004ACDACFilter@@6B@,0x00854EB4,"partition filter vftable stored inline at 0x004AD1A1 in RousingSpeechUpdate 0x004AD176 (+0x08 a radius; +0x0C a centre); slot 0 the shared deleting dtor 0x00395A19, slot 1 allow 0x004ACDAC, slot 2 0x0036CC7A"
 ??_7Rva004E14E1FlashRecord@@6B@,0x008619A0
 ??_7Rva004E72C0@@6B@,0x007FCFF8,Rva004E72C0 vtable installed by its copy ctor 0x004E72C0

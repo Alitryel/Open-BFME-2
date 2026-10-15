@@ -172,19 +172,6 @@ int Rva00488D5C::rva00488906()
 	return 0;
 }
 
-class Rva004ABFD9
-{
-public:
-	Rva004ABFD9(EmitVtableTag *);
-public:
-	virtual ~Rva004ABFD9();
-};
-
-// ?<Rva004ABFD9::Rva004ABFD9> absent-from-retail
-Rva004ABFD9::Rva004ABFD9(EmitVtableTag *)
-{
-}
-
 class Rva004C6CC1
 {
 public:
