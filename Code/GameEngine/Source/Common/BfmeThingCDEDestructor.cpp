@@ -56,6 +56,8 @@ public:
  void rva0073CE90(int x,int y,int radius,int counter,int amount,int mask);
 };
 
+class CDEProvider;
+
 class CDEVirtualBase
 {
 public:
@@ -70,6 +72,7 @@ class CDELeading
 public:
 	virtual void f0();
 	virtual void f1();
+	virtual CDEProvider *f2();
 };
 
 class CDEProvider : public CDELeading, public virtual CDEVirtualBase
@@ -110,6 +113,7 @@ public:
 	void d_008f7990();
 	bool DoRectFill(float x,float y,float halfX,float halfY,float angle);
 	void d_008f7ec0();
+	BfmeThingCDE(void *what, void *owner, void *head);
 
 	void *m_owner;
 	CDEProvider *m_ptr4;
@@ -131,7 +135,49 @@ public:
 	int m_changeRadii[3]; // +F4
 	int m_changeMasks[3]; // +100
 	int m_changeAmounts[3]; // +10C
+	unsigned char m_flag118; // +118
 };
+
+// ??0BfmeThingCDE@@QAE@PAX00@Z @0x00739E60 227B: WB 0x017DF260 names this
+// ShroudManager::Data::Data (shroudmanager_data.cpp 32..54); the BFME1 donor
+// constructor runs the same initialisers 16 wide. The WB twin clears both
+// three-radius arrays with loops, which the native unrolls.
+BfmeThingCDE::BfmeThingCDE(void *what, void *owner, void *head)
+	: m_owner(owner),
+	  m_ptr4((CDEProvider *)what),
+	  m_ptr8(0),
+	  m_prev(0),
+	  m_next(0),
+	  m_array(0),
+	  m_count(0),
+	  m_cellX(0xdeadbeef),
+	  m_cellY(0x0badf00d),
+	  m_revealMask(0),
+	  m_rotation(0),
+	  m_flag118(0)
+{
+	unsigned int i;
+	for (i = 0; i < 3; ++i)
+		m_revealRadii[i] = -1;
+	CDELinkNode **link = (CDELinkNode **)head;
+	m_link0 = (CDELinkNode *)head;
+	m_link1 = *link;
+	if (m_link1 != 0)
+		m_link1->m_0c = (void *)&m_link1;
+	*link = (CDELinkNode *)this;
+	for (i = 0; i < 20; ++i)
+	{
+		m_slots[i] = 0;
+		m_values[i] = 0;
+		m_status[i] = 0;
+	}
+	for (i = 0; i < 3; ++i)
+		m_changeRadii[i] = -1;
+	m_ptr4->f3(this);
+	m_ptr8 = ((CDELeading *)m_ptr4)->f2();
+	if (m_ptr8 != 0)
+		m_ptr8->f3(this);
+}
 
 #pragma comment(linker, "/alternatename:?ArrayDeleteHelperBodyThunk@@YGXPAXII0@Z=??_M@YGXPAXIHP6EX0@Z@Z")
 
