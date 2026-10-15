@@ -1,13 +1,11 @@
-// ?newMap@ScriptEngine@@QAEXXZ
-// partial score=0.994279 date=2026-10-15
-// ?newMap@ScriptEngine@@QAEXXZ
-// partial score=0.995 date=2026-10-14
-// ?newMap@ScriptEngine@@QAEXXZ
-// partial score=0.9817 date=2026-10-13
-// ?newMap@ScriptEngine@@QAEXXZ
-// partial score=0.98169166 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii
 // stlport
+// WB ScriptEngine::newMap (B33F40): reset the per-map counters/flags/maps, the per-side
+// completed/triggered/midway/finished/upgrade lists and science vectors, then walk every
+// side's script list and re-check team-name conditions for each script.
+// SIB base/index orientation: the two entries addresses use separate named copies of
+// list->entries (eb for the payload word at +0x10, eb2 for the name at +8) with
+// separate byte-offset products; one shared copy flips only one site.
 #include <vector>
 #include "ascii_string.h"
 enum NameKeyType { NAMEKEY_INVALID=0 };
@@ -46,9 +44,9 @@ for(int i=0;i<TheSidesList->count;++i){
 currentPlayer=ThePlayerList->getNthPlayer(i);Rva002048A2 playerScope(&playerName,TheNameKeyGenerator->keyToName(currentPlayer->nameKey));
 ScriptList*list=&TheSidesList->getSideInfo(i)->scripts;
 if(list){for(int slot=list->first;slot!=-1;slot=list->entries[slot].next){
-int off=slot*0x14;int off2=slot*0x14;
-Script*script=(*(ScriptNodePayload**)((char*)list->entries+off2+0x10))->script();
-const AsciiString&name=*(const AsciiString*)((char*)list->entries+off+8);
+ScriptEntry*eb=list->entries;ScriptEntry*eb2=list->entries;int off=slot*0x14;int off2=slot*0x14;
+Script*script=(*(ScriptNodePayload**)((char*)eb+off2+0x10))->script();
+const AsciiString&name=*(const AsciiString*)((char*)eb2+off+8);
 checkConditionsForTeamNames(script,name);}}
 }
 firstUpdate=true;fadeMode=4;curFrame=0;minFade=1;maxFade=0;fadeIncrease=0;fadeHold=0;fadeDecrease=0;curFade=0;
