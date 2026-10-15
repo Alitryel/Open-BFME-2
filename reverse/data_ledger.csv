@@ -3432,8 +3432,8 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x007E6888,436,.rdata,global,_CreateAHeroSystemFieldParse,,unowned,,0,1
 0x007E6A3C,32,.rdata,string,??_C@_0BN@JFLFDCDN@BANNERUI?3SummaryUnitQuantity?$AA@,,literal,,0,1
 0x007E6A5C,8,.rdata,wstring,??_C@_15JOGBDECP@?$AA?0?$AA?5?$AA?$AA@,,literal,,0,1
-0x007E6A64,4,.rdata,global,?g_00BE6A64@@3QBQBXB,,unowned,,0,1
-0x007E6A68,4,.rdata,global,?g_00BE6A68@@3QBQBXB,,unowned,,0,1
+0x007E6A64,4,.rdata,global,?ArmySummaryTemplateVisitorTable@@3QBQ8Rva00220D1E@@AEHPBVThingTemplate@@@ZB,Code/GameEngine/Source/GameClient/ArmySummaryDescription.cpp,owned,,1,1
+0x007E6A68,4,.rdata,global,?ArmySummaryObjectVisitorTable@@3QBQ8Rva002206F9@@AE_NPAVRva0037DCA5@@@ZB,Code/GameEngine/Source/Common/Rva002206F9.cpp,owned,,1,1
 0x007E6A6C,24,.rdata,string,??_C@_0BH@FOLNJOC@ArmySummaryDescription?$AA@,,literal,,0,1
 0x007E6A84,56,.rdata,vtable,??_7Rva00220CD4@@6B@,,literal,,0,2
 0x007E6ABC,20,.rdata,string,??_C@_06IBDJIBGI@Filter?$AA@,,literal,,0,1

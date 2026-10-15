@@ -18,8 +18,12 @@ extern "C" const void *const __identifier("??_7?$CategoryModuleTemplate@$05@FXPa
 
 class Drawable;
 
-extern const void *const g_00BE6A68[];
-extern const void *const g_00BE6A64[];
+class __single_inheritance Rva002206F9;
+class __single_inheritance Rva00220D1E;
+class Rva0037DCA5;
+class ThingTemplate;
+extern bool (Rva002206F9::*const ArmySummaryObjectVisitorTable[1])(Rva0037DCA5 *);
+extern int (Rva00220D1E::*const ArmySummaryTemplateVisitorTable[1])(const ThingTemplate *);
 extern "C" char s_slot3E4first;
 extern void *g_00DFE490;
 
@@ -58,8 +62,8 @@ struct Base220B04 : public Root220B04 {
     ~Base220B04() {}
 	Base220B04()
 	{
-		m_v0 = (unsigned)g_00BE6A68;
-		m_v4 = (unsigned)g_00BE6A64;
+		m_v0 = (unsigned)ArmySummaryObjectVisitorTable;
+		m_v4 = (unsigned)ArmySummaryTemplateVisitorTable;
 	}
 };
 
@@ -209,7 +213,10 @@ UnicodeString GetArmySummaryDescription(Rva0040CFC7 *army,int rule)
     return result;
 }
 
-
-
-
-
+// Native BE6A64 is a single slot, 620D1E, followed by the object-visitor
+// table at BE6A68. A single-inheritance member pointer is the native code
+// address here; the secondary-interface receiver adjustment is already in
+// the object's +4 interface pointer, not in this table entry.
+int (Rva00220D1E::*const ArmySummaryTemplateVisitorTable[1])(const ThingTemplate *) = {
+    &Rva00220D1E::rva00220D1E
+};

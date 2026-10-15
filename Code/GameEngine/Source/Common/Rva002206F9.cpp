@@ -33,3 +33,9 @@ bool Rva002206F9::rva002206F9(Rva0037DCA5 *descriptor)
  }
  return true;
 }
+
+// The description constructor installs BE6A68 at complete-object +0.
+// Its sole retail entry is 6206F9; BE6A6C begins the description name string.
+extern bool (Rva002206F9::*const ArmySummaryObjectVisitorTable[1])(Rva0037DCA5 *) = {
+ &Rva002206F9::rva002206F9
+};
