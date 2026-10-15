@@ -124,6 +124,7 @@ void setFPMode(void);
 class SubsystemInterface
 {
 public:
+	SubsystemInterface(void);
 	virtual ~SubsystemInterface(void);
 	virtual void init(void) = 0;
 	virtual void s02(void); virtual void s03(void); virtual void s04(void);
@@ -595,7 +596,65 @@ struct Rva0024622FEntry
 class GameMessage;
 class BfmeThingEC;
 struct Rva00241529Record;
-struct PlayerLeaveStatus;
+struct PlayerLeaveStatus
+{
+	int m_status;
+	int m_quitFrame;
+	int m_defeatFrame;
+	int m_victoryFrame;
+	bool m_notPresent;
+	unsigned char m_unknown11[3];
+	int m_isHuman;
+	AsciiString m_playerName;
+};
+
+// Constructor members (native 0x002470AE). The 0x14-byte hash wrappers at
+// +0x10 and +0xB4 are built by the rowed 31B ctor 0x00246FD7; the map at +0x24
+// by the out-of-line default map constructor 0x0024613C; the pooled
+// Object* list at +0x108 by its list-base constructor 0x001EB984; the
+// Snapshot member at +0x184 by 0x0040E039. Type names are address views.
+class Rva00246FD7
+{
+public:
+	Rva00246FD7(void);
+	~Rva00246FD7(void);
+private:
+	char m_body[0x14];
+};
+struct BfmePod8 { int a[2]; };
+namespace _STL {
+template <> map<int, BfmePod8, less<int>, allocator<pair<const int, BfmePod8> > >::map();
+}
+template <class T> class Rva001EB984PoolAllocator { public: Rva001EB984PoolAllocator(void) {} };
+namespace _STL {
+template <> class _List_base<Object *, Rva001EB984PoolAllocator<Object *> >
+{
+public:
+	_List_base(const Rva001EB984PoolAllocator<Object *> &);
+	~_List_base(void);
+private:
+	void *m_node;
+};
+}
+// The pooled Object* list: like STLport's list(const allocator_type & =
+// allocator_type()), the default argument feeds the out-of-line base.
+class Rva001EB984ObjectList : public _STL::_List_base<Object *, Rva001EB984PoolAllocator<Object *> >
+{
+public:
+	__forceinline explicit Rva001EB984ObjectList(
+		const Rva001EB984PoolAllocator<Object *> &a = Rva001EB984PoolAllocator<Object *>())
+		: _STL::_List_base<Object *, Rva001EB984PoolAllocator<Object *> >(a)
+	{
+	}
+};
+class Rva0040DB52
+{
+public:
+	Rva0040DB52(void);
+	virtual ~Rva0040DB52(void);
+private:
+	char m_body[0x28];
+};
 class PlayerTemplate;
 
 enum KindOfType
@@ -646,9 +705,11 @@ template<> inline void vector<Rva0024622FEntry>::_M_insert_overflow(
 }
 }
 
-class GameLogic : public SubsystemInterface
+class GameLogic : public SubsystemInterface, public Snapshot
 {
 public:
+	GameLogic(void);
+	virtual ~GameLogic(void);
 	virtual void init(void);
 	virtual void v11(void); virtual void v12(void);
 	virtual void update(int phase);                                      // +0x34
@@ -713,13 +774,13 @@ private:
 
 public:
 
-	char m_pad00C[0x10 - 0x0c];
-	char m_10[0x24 - 0x10];
-	char m_24[0x30 - 0x24];
+	Rva00246FD7 m_10;
+	_STL::map<int, BfmePod8> m_24;
 	float m_width;
 	float m_height;
 	unsigned int m_38;
-	char m_pad03C[0x40 - 0x3c];
+	bool m_3c;
+	char m_pad03D[0x40 - 0x3d];
 	unsigned int m_40;
 	unsigned int getFrame(void) const { return m_40; }
 	bool m_44;
@@ -733,11 +794,19 @@ public:
 	AsciiString m_68;
 	bool m_6c;
 	bool m_6d;
-	char m_pad06E[0x70 - 0x6e];
+	bool m_6e;
+	bool m_6f;
 	bool m_70;
 	bool m_71;
 	bool m_72;
-	char m_pad073[0x94 - 0x73];
+	AsciiString m_74;
+	bool m_78;
+	AsciiString m_7c;
+	AsciiString m_80;
+	AsciiString m_84;
+	AsciiString m_88;
+	AsciiString m_8c;
+	int m_90;
 	int m_94;
 	bool m_98;
 	bool m_99;
@@ -752,12 +821,12 @@ public:
 	bool m_a8;
 	char m_pad0A9[0xac - 0xa9];
 	Object *m_objList;
-	char m_pad0B0[0xb4 - 0xb0];
-	char m_b4[0xc8 - 0xb4];
+	int m_b0;
+	Rva00246FD7 m_b4;
 	UpdateModuleList m_updates[4];                                       // +0xC8
 	UpdateModuleList m_sleeping;                                         // +0xF8
 	UpdateModule *m_104;
-	char m_pad108[0x10c - 0x108];
+	Rva001EB984ObjectList m_108;
 	int m_10c;
 	int m_110;
 	int m_114;
@@ -778,20 +847,22 @@ public:
 	Object *m_158;
 	Object *m_15c;
 	Object *m_160;
-	_STL::vector<void *> m_164;
+	// Retail builds it through the folded vector base constructor 0x00211E58
+	// and update() clears it through vector<UpdateModule*>::erase 0x0031BD55.
+	UpdateModuleList m_164;
 	Rva00359E13 *m_170;
 	Rva0043B660 *m_174;
 	Rva00243177 *m_178;
 	int m_17c;
 	int m_180;
-	Rva0040CA98 m_184;
+	Rva0040DB52 m_184;
 	int m_1b0;
 	int m_1b4;
 	int m_1b8;
 	bool m_1bc;
 	char m_pad1BD[0x1c0 - 0x1bd];
 	ObjectTOCList m_objectTOC;
-	char m_pad1C4[0x2a4 - 0x1c4];
+	PlayerLeaveStatus m_1c4[8];
 	int m_2a4;
 };
 
@@ -838,6 +909,38 @@ public:
 			TheGameLogic->m_1b4--;
 	}
 };
+
+// ??0GameLogic@@QAE@XZ @0x002470AE 714B (native 0x002470AE..0x00247378,
+// RET0 thiscall). WB CF06F0 is the same constructor with debug member order;
+// ZH GameLogic.cpp GameLogic::GameLogic is the semantic donor (scalar
+// initializers in declaration order, then the leave-status reset). Target
+// facts: SubsystemInterface 0x001B4E63 then Snapshot at +0x0C, the
+// "LoadingRing"/"TitleScreen" strings at +0x7C/+0x80, 4 vector update
+// buckets at +0xC8, eight 0x1C leave-status records at +0x1C4, the closing
+// list clear 0x0023DAA5 on +0x50, reset 0x0023D17D and +0x2A4 = 2.
+GameLogic::GameLogic(void)
+	: m_width(0.0f), m_height(0.0f), m_38(0), m_3c(false), m_40(0), m_44(false), m_48(0),
+	  m_64(), m_68(), m_6c(false), m_6d(false), m_6e(false), m_6f(false),
+	  m_70(false), m_71(false), m_72(false), m_78(false),
+	  m_7c("LoadingRing"), m_80("TitleScreen"), m_90(7), m_94(0),
+	  m_98(false), m_99(false), m_9a(false), m_9b(false),
+	  m_9c(false), m_9d(false), m_9e(false), m_9f(false),
+	  m_a0(0), m_a4(1), m_a8(false), m_objList(0), m_b0(0),
+	  m_104(0), m_10c(0), m_110(9), m_114(3), m_118(1000),
+	  m_11c(false), m_11d(false), m_120(0), m_124(false), m_125(false),
+	  m_126(true), m_127(true), m_150(false),
+	  m_154(0), m_158(0), m_15c(0), m_160(0),
+	  m_170(0), m_174(0), m_178(0), m_17c(0), m_180(0),
+	  m_1b4(0), m_1b8(0), m_1bc(false)
+{
+	for (int i = 0; i < 8; ++i) {
+		m_128[i] = false;
+		m_130[i] = 0;
+	}
+	m_50.clear();
+	rva0023D17D();
+	m_2a4 = 2;
+}
 
 void GameLogic::init(void)
 {
@@ -941,10 +1044,10 @@ void GameLogic::reset(void)
 {
 	Rva0004224C fpModeGuard;
 
-	((Rva000427195 *)m_10)->rva003A2A41();
-	((Rva00240CAB *)m_24)->rva0024191A();
-	((Rva004DFC20 *)m_b4)->clear();
-	((Rva0053F1ECSub *)m_b4)->note(0x2000);
+	((Rva000427195 *)&m_10)->rva003A2A41();
+	((Rva00240CAB *)&m_24)->rva0024191A();
+	((Rva004DFC20 *)&m_b4)->clear();
+	((Rva0053F1ECSub *)&m_b4)->note(0x2000);
 
 	m_11d = false;
 	m_124 = false;
@@ -4269,17 +4372,6 @@ void GameLogic::ProcessCRC(unsigned int crc, int player, unsigned int frame, Gam
 // (+0x6C) sit 4 bytes later, the leave-status accessor is out of line
 // (0x0023D1E3), the player template pointer is Player+0x34, the address check
 // is Player+0x3BC and the quit frame is stored at Player+0x4AC.
-struct PlayerLeaveStatus
-{
-	int m_status;
-	int m_quitFrame;
-	int m_defeatFrame;
-	int m_victoryFrame;
-	bool m_notPresent;
-	unsigned char m_unknown11[3];
-	int m_isHuman;
-	AsciiString m_playerName;
-};
 
 // Inside the 0x009FE7A8 data block: the last formatted player template name.
 extern char g_Va00DFE840[];
@@ -4753,7 +4845,7 @@ void GameLogic::update(int phase)
 		TheLocomotorStore->update();
 		g_00E03138->update();
 		TheDelayedExperienceLevelGrantSystem->update();
-		m_184.rva0040CA98();
+		((Rva0040CA98 *)&m_184)->rva0040CA98();
 		g_00DFEEF8->update();
 		((SubsystemInterface *)g_Va00E01EDC)->update();
 		TheTeamFactory->update();
