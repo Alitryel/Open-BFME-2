@@ -76,3 +76,32 @@ object/link/data order while scratch `build/horde-slots-iterator-link-20261015`
 snapshots and the frozen index are available. Saved JSON and receipt hashes
 retain the measurement without committing object files. The file claim is
 released after completion.
+
+## Preparation recovery, 2026-10-15
+
+Rebased the preserved work onto `06f23fdab4d185cf6a87083e7844a188a3da28dc`.
+Upstream `b98a4beb897970bd414bf72349cc648f725ebaf3` already contains this
+repair and the LAN/skirmish repairs. Upstream
+`7574cdb87942bc94cc6618529197c64d2b506290` already contains the weapon-provider
+repair. The replay of `e3f4529ab5` and `ae9ee98198` was therefore skipped;
+their source changes were not reintroduced. The horde commit replayed without
+a conflict but added a duplicate typed comparison. A follow-up recovery commit
+removes that duplicate, making the horde source identical to the upstream base.
+The evidence above describes the original paired experiment; it establishes
+no additional gain over the recovered upstream tree.
+
+Recovery acceptance: `check_csv.py` passes; explicit strict-current preparation
+byte-verifies all eight horde rows, two string references and the renumbered
+funclet. EH is EXACT 1, with no exceptions or missing objects. Enforced data
+checks report zero findings. The local legacy link check against receipt
+`825b86983f` still reports 21 independent findings (one unresolved, 16 COMDAT,
+four selected-provider), with LINKED 0 -> 0. No self-strict or closed-strict gain
+is claimed. The source has no undeclared definitions.
+
+Applied stash `4ab7099ea1a18f4d5967441a89c4ba914b583561` with `--index` after
+the rebase. It contains no tracked edits. All ten saved untracked files were
+restored and their Git blob hashes checked against its third parent: four
+assembly dumps and six ZH sweep artifacts. These unrelated files remain
+untracked and are not publication inputs. The stash and backup ref
+`refs/runner/preparation/1792071335373024098` remain intact, including the
+original skipped commits and their evidence. No new task was selected.

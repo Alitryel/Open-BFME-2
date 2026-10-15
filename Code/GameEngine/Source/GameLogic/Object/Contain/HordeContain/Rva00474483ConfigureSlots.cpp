@@ -29,16 +29,6 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 #include <new>
-// Compare typed nodes locally: retail inlines this test, while the inherited
-// base-iterator comparison emits a conflicting shared COMDAT under these flags.
-namespace _STL {
-template <class T, class L, class R>
-static inline bool operator!=(const _Rb_tree_iterator<T, L>& a,
-                             const _Rb_tree_iterator<T, R>& b)
-{
-    return a._M_node != b._M_node;
-}
-}
 // Keep integer construction inline; stlport_deque_int.cpp owns retail's
 // out-of-line _Construct<int, int> body at 0x00620140.
 namespace _STL {
