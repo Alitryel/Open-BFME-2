@@ -125,3 +125,52 @@ private:
 Rva005EA00D::Rva005EA00D(int a, int b) : m_04(a), m_08(b)
 {
 }
+
+// Native 48FF94..48FFB4 (32B): twin of the rowed file-static EAX-convention
+// module scan 0x004AC5F5 on slot 29 (+0x74) of the behaviour modules'
+// secondary interface (+0x0C) over the object's module array (+0x244): the
+// first non-zero answer, or 0. No call to it survives in the image; the
+// anchor below only forces cl to emit it with the object in EAX. Identity
+// unproven; address-derived names.
+class Rva0048FF94Interface
+{
+public:
+	virtual void s0(); virtual void s1(); virtual void s2(); virtual void s3();
+	virtual void s4(); virtual void s5(); virtual void s6(); virtual void s7();
+	virtual void s8(); virtual void s9(); virtual void s10(); virtual void s11();
+	virtual void s12(); virtual void s13(); virtual void s14(); virtual void s15();
+	virtual void s16(); virtual void s17(); virtual void s18(); virtual void s19();
+	virtual void s20(); virtual void s21(); virtual void s22(); virtual void s23();
+	virtual void s24(); virtual void s25(); virtual void s26(); virtual void s27();
+	virtual void s28();
+	virtual int slot29();	// +0x74
+};
+
+struct Rva0048FF94Module
+{
+	char m_pad[0xC];
+	Rva0048FF94Interface m_interface;	// +0x0C
+};
+
+struct Rva0048FF94Object
+{
+	char m_pad[0x244];
+	Rva0048FF94Module **m_modules;	// +0x244
+};
+
+static __declspec(noinline) int Rva0048FF94(Rva0048FF94Object *object)
+{
+	for (Rva0048FF94Module **m = object->m_modules; *m; ++m)
+	{
+		int r = (*m)->m_interface.slot29();
+		if (r)
+			return r;
+	}
+	return 0;
+}
+
+// ?Rva0048FF94Anchor absent-from-retail
+int Rva0048FF94Anchor(Rva0048FF94Object *object)
+{
+	return Rva0048FF94(object);
+}
