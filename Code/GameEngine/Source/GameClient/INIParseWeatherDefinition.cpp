@@ -39,7 +39,8 @@ public:
 	virtual ~Overridable();
 	Overridable *friend_getFinalOverride();
 
-	const Overridable *getFinalOverride() const
+	// Keep the retail inline walk without an extra competing outline.
+	__declspec(dllimport) __forceinline const Overridable *getFinalOverride() const
 	{
 		if (m_nextOverride)
 			return m_nextOverride->friend_getFinalOverride();
