@@ -27,5 +27,7 @@ virtual void slot16();
 virtual void slot17();
 virtual GameMessage*appendMessage(int);};
 extern MessageStream*TheMessageStream; // ledger alias of MessageStreamSubsystem at 0x00A00950
-class Rva00087973 {public:void rva00087973(int value);private:char pad[0x23cc];int state;};
-void Rva00087973::rva00087973(int value){if(value==state)return;if(TheMessageStream){GameMessage*m=TheMessageStream->appendMessage(0x452);m->appendIntegerArgument(value);}else state=value;}
+// The receiver is the W3DView object: the W3DView constructor 0x0008B7CF
+// ends by calling this body on its own this with 0.
+class W3DView {public:void rva00087973(int value);private:char pad[0x23cc];int state;};
+void W3DView::rva00087973(int value){if(value==state)return;if(TheMessageStream){GameMessage*m=TheMessageStream->appendMessage(0x452);m->appendIntegerArgument(value);}else state=value;}

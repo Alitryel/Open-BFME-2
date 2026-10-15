@@ -1,7 +1,7 @@
 // cl: /MD /EHsc /DNDEBUG
 // ??0Rva000851F3@@QAE@XZ, retail 0x000851F3, 71 bytes.
 // Ctor storing the real three-slot vtable BC745C at +0, then ParabolicEase
-// at +0x10 via rowed 0x0008517E
+// at +0x10 default-constructed through ParabolicEase's constructor 0x0008517E
 // with (0 0 1) then zeroing +4 +8 +0x20 +0x24 +0x28 +0x18 +0x1c.
 // Evidence: rowed ParabolicEase forward 0x0008517E; callers 0x0008990C 0x00312C95.
 // BC745C = {scalar-delete 85241, purecall 3B810, purecall 3B810}; its
@@ -14,7 +14,6 @@
 
 Rva000851F3::Rva000851F3()
 {
-	m_10.rva0008517E(0.0f, 0.0f, 1.0f);
 	m_04 = 0;
 	m_08 = 0;
 	m_20 = 0;

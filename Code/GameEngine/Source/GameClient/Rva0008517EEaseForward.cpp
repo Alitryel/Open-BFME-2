@@ -10,7 +10,7 @@ class ParabolicEase
 {
 public:
 	void rva0030E51F(Real easeInTime, Real easeOutTime, Real duration);
-	ParabolicEase *rva0008517E(Real easeInTime, Real easeOutTime, Real duration);
+	ParabolicEase(Real easeInTime = 0.0f, Real easeOutTime = 0.0f, Real duration = 1.0f);
 	Real operator()(Real param) const;
 private:
 	Real m_in;
@@ -19,10 +19,13 @@ private:
 
 // Target Ghidra8517E+40 / RET12: same this pointer forwards three float
 // values to30E51F and returns this inEAX. Reference header has a constructor
-// forwarding to its setter, but target has three inputs and the original
-// constructor-versus-initializer identity is unknown. Keep an address name.
-ParabolicEase *ParabolicEase::rva0008517E(Real easeInTime, Real easeOutTime, Real duration)
+// forwarding to its setter (ZH ParabolicEase(Real, Real) defaults 0/0). Target
+// evidence for the constructor identity: the W3DView constructor 0x0008B7CF
+// value-initializes its camera-move records (rep stosd zeroing, then a call
+// to each record's implicit constructor 0x00085858..0x000858C1), and those
+// implicit constructors reach this body with (0, 0, 1) as a member's default
+// construction does.
+ParabolicEase::ParabolicEase(Real easeInTime, Real easeOutTime, Real duration)
 {
 	rva0030E51F(easeInTime, easeOutTime, duration);
-	return this;
 }

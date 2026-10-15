@@ -8,7 +8,7 @@ typedef float Real;
 class ParabolicEase
 {
 public:
-	ParabolicEase *rva0008517E(Real easeInTime, Real easeOutTime, Real duration);
+	ParabolicEase(Real easeInTime = 0.0f, Real easeOutTime = 0.0f, Real duration = 1.0f);
 private:
 	Real m_in;
 	Real m_out;
@@ -35,5 +35,4 @@ private:
 
 Rva00085815::Rva00085815()
 {
-	m_68.rva0008517E(0.0f, 0.0f, 1.0f);
 }
