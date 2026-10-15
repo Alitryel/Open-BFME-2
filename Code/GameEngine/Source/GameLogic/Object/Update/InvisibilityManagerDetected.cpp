@@ -183,7 +183,7 @@ struct Rva00439862Element {char bytes[8];};
 typedef _STL::_Rb_tree<Rva00439862Element,Rva00439862Element,_STL::_Identity<Rva00439862Element>,_STL::less<Rva00439862Element>,_STL::allocator<Rva00439862Element> > InvisibilityEraseProvider;
 namespace _STL {template<> unsigned InvisibilityEraseProvider::erase(const Rva00439862Element&);}
 extern GameLogic *TheGameLogic;
-extern unsigned g_Va00DBA4E4;
+extern int BfmeLogicFramesPerSecond; // VA 0x00DBA4E4
 class Rva00243177 {public:void rva00439965();};
 
 // Native00439965..00439A22 is a complete EH-prologue/RET body. WB127FD30
@@ -196,7 +196,7 @@ void Rva00243177::rva00439965()
  Rva00439E0C *manager=(Rva00439E0C*)this;
  unsigned frame=TheGameLogic->getFrame();
  if(frame<manager->nextFrame)return;
- manager->nextFrame=frame+g_Va00DBA4E4;
+ manager->nextFrame=frame+BfmeLogicFramesPerSecond;
  _STL::vector<ObjectID> remove;
  InvisibilityRecordMap *records=&manager->records;
  DetectionTreeNode *node=(DetectionTreeNode*)((DetectionTreeNode*)*(void**)records)->left;
