@@ -1,4 +1,6 @@
 // ?rva00265514@Object@@QBEPAUCoord3D@@PAU2@PBV1@@Z
+// partial score=0.887 date=2026-10-15
+// ?rva00265514@Object@@QBEPAUCoord3D@@PAU2@PBV1@@Z
 // partial score=0.8771628371628372 date=2026-10-14
 // ?rva00265514@Object@@QBEPAUCoord3D@@PAU2@PBV1@@Z
 // partial score=0.9027016814660873 date=2026-10-13
@@ -15,6 +17,8 @@
 // MOVSD; member copy and scalar results still have different SSE register order.
 // Shared432 scalar-order trials plus O2/O1/Op variants:130 best.877162837;
 // corresponding119.672100840. No Code edit, no pins, no recovery asserted.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 template<class T> __forceinline volatile T &r1_vwrite(T &value) 
 {
@@ -56,6 +60,7 @@ Coord3D *Object::rva00265514(Coord3D *out,const Object *that)const
   float scale=(dist-radiusSum)/dist;
   y=dir.y*scale;
   z=dir.z*scale;
+  _ReadWriteBarrier();
   x=dir.x*scale;
   
  }

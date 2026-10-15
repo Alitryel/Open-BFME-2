@@ -1,4 +1,6 @@
 // ?_DumpFragmentation@MemoryPool@@YAXPAU_iobuf@@_NPBD@Z
+// partial score=0.913 date=2026-10-15
+// ?_DumpFragmentation@MemoryPool@@YAXPAU_iobuf@@_NPBD@Z
 // partial score=0.925 date=2026-10-13
 // ?_DumpFragmentation@MemoryPool@@YAXPAU_iobuf@@_NPBD@Z
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
@@ -239,8 +241,9 @@ void _DumpFragmentation(_iobuf *file, bool header, const char *label)
 			const char *text;
 			if (i != 0)
 			{
+				int shift = 0;
 				unsigned int id = g_heaps.m_records[i - 1].m_id;
-				for (int shift = 0; shift < 32; shift += 8)
+				for (; shift < 32; shift += 8)
 				{
 					unsigned int c = id >> shift;
 					if (c == 0)
@@ -277,6 +280,7 @@ void _DumpFragmentation(_iobuf *file, bool header, const char *label)
 		for (const EA::Allocator::BlockInfo *block = g_heaps.m_allocators[i]->rva00032F60(report, 0x1f); block != 0;
 			block = g_heaps.m_allocators[i]->rva00032F60(report, 0x1f))
 		{
+			char t_m_blockType = block->m_blockType;
 			if (block->m_blockType == 2)
 			{
 				blockBytes += block->m_blockSize;
@@ -288,14 +292,14 @@ void _DumpFragmentation(_iobuf *file, bool header, const char *label)
 					usedBytes += block->m_dataSize;
 				lastFree = 0;
 			}
-			else if (__vref(block->m_blockType) == 8)
+			else if (__vref(t_m_blockType) == 8)
 			{
 				++coreCount;
 				committed += block->m_blockSize;
 				reserved += block->m_dataSize;
 				lastFree = 0;
 			}
-			else if (block->m_blockType == 4)
+			else if (t_m_blockType == 4)
 			{
 				++freeCount;
 				wasted += block->m_blockSize;

@@ -1,4 +1,6 @@
 // ?reverseAnimateWindow@ProcessAnimateWindowSlideFromLeft@@UAE_NPAVAnimateWindow@@@Z
+// partial score=0.961 date=2026-10-15
+// ?reverseAnimateWindow@ProcessAnimateWindowSlideFromLeft@@UAE_NPAVAnimateWindow@@@Z
 // partial score=0.95 date=2026-10-13
 // ?reverseAnimateWindow@ProcessAnimateWindowSlideFromLeft@@UAE_NPAVAnimateWindow@@@Z
 // partial score=0.95 date=2026-10-13
@@ -73,8 +75,7 @@ Bool ProcessAnimateWindowSlideFromLeft::reverseAnimateWindow(AnimateWindow *anim
 	if (endPos.x - curPos.x <= m_slowDownThreshold)
 		slowedX = vel.x * m_speedUpRatio;
 	else
-		slowedX = -m_maxVel.x;
-	if (slowedX < -m_maxVel.x)
+	if ((slowedX = -m_maxVel.x, slowedX < -m_maxVel.x))
 		slowedX = -m_maxVel.x;
 	Coord2D slowedVel;
 	slowedVel.x = slowedX;

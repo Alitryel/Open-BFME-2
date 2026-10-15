@@ -1,4 +1,6 @@
 // ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
+// partial score=0.93 date=2026-10-15
+// ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
 // partial score=0.831 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -94,6 +96,7 @@ bool GeneralAllocator::rva00032830(const void *block, int addressType)
 	goto fail;
 found:
 	{
+		bool valid = true;
 		unsigned int start = cur->m_unk0;
 		unsigned int end = (*(const unsigned int *)(start + 4) & 0x7FFFFFF8) + start;
 		if (end < (unsigned int)block)
@@ -103,12 +106,12 @@ found:
 				if (end == start)
 					break;
 				unsigned int nextSize = *(const unsigned int *)(end + 4) & 0x7FFFFFF8;
-				start = end;
 				end += nextSize;
+				start = end;
+				_ReadWriteBarrier();
 			} while (end < (unsigned int)block);
 		}
 		unsigned int sz = *(const unsigned int *)(start + 4) & 0x7FFFFFF8;
-		bool valid = true;
 		if ((*(const unsigned char *)(sz + start + 4) & valid) == 0)
 			goto fail;
 		start += 8;
@@ -117,8 +120,8 @@ found:
 			bool eq = ((unsigned int)block == start);
 			if (lock != 0)
 			{
-				--lock->m_count;
 				_ReadWriteBarrier();
+				--lock->m_count;
 				LeaveCriticalSection(lock);
 			}
 			return eq;
