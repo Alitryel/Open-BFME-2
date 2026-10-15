@@ -180,7 +180,6 @@ class Drawable;
 class ParticleSystem
 {
 public:
-	__declspec(dllimport) __forceinline ParticleSystemID getSystemID() const { return m_systemID; }
 	void setPosition(const Coord3D *pos)
 	{
 		((Rva001F3899Slot *)this)->set(*(const Rva001F3899Arg *)pos);
@@ -190,7 +189,7 @@ public:
 		((Rva001F3C43Slot *)this)->set((const Rva001F3C43Arg *)obj);
 	}
 
-private:
+public: // Retail callers read the ID field directly; no standalone getter.
 	char m_pad00[0xA8];
 	ParticleSystemID m_systemID;	// +0xA8
 };
@@ -987,7 +986,7 @@ void ActiveBody::createParticleSystems(const AsciiString &boneBaseName,
 						particleSystem->attachToObject(us);
 
 						BodyParticleSystem *newEntry = new BodyParticleSystem;
-						newEntry->m_particleSystemID = particleSystem->getSystemID();
+						newEntry->m_particleSystemID = particleSystem->m_systemID;
 						newEntry->m_next = m_particleSystems;
 						m_particleSystems = newEntry;
 					}
