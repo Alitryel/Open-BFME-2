@@ -110,7 +110,8 @@ public:
 		MAINTAIN_POS_IS_VALID,
 		PRECISE_Z_POS
 	};
-	void setUsePreciseZPos(Bool b)
+	// Preserve inline flag updates without emitting a competing Locomotor view.
+	__declspec(dllimport) __forceinline void setUsePreciseZPos(Bool b)
 	{
 		if (b)
 			m_flags |= (1 << PRECISE_Z_POS);

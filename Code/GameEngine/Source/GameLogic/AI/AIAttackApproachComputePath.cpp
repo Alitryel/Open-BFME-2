@@ -250,7 +250,8 @@ public:
 		PRECISE_Z_POS
 	};
 	Real getMaxTurnRate(Object *obj) const;
-	void setUsePreciseZPos(Bool b)
+	// Preserve inline flag updates without emitting a competing Locomotor view.
+	__declspec(dllimport) __forceinline void setUsePreciseZPos(Bool b)
 	{
 		if (b)
 			m_flags |= (1 << PRECISE_Z_POS);
