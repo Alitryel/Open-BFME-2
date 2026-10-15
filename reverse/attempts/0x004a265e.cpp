@@ -1,8 +1,9 @@
 // ?update@SlavedUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.9 date=2026-10-14
+// partial score=0.988 date=2026-10-15
 // ?update@SlavedUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.85 date=2026-10-07
-// cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD /GX /ICode/GameEngine/Source/GameLogic/Object/Update /ICode
+// partial score=0.988 date=2026-10-15
+// BANK = the full current SlavedUpdateRepair.cpp merged with update (views for Team/Player/ScoreKeeper/Matrix3D/Path/isIdle slot 110/fade members; DEATH_NORMAL=0 DEATH_NONE=1; defect pinned as rva00298C76). To land: replace the home TU with this file, add_match update.
+// cl: /DBFME_COORD3D_INLINE_SCALE_LINK /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD /GX
 //
 // SlavedUpdate methods, Zero Hour SlavedUpdate.cpp transferred: endRepair
 // (retail 0x004A1C10, 73 bytes) and setRepairModelConditionStates (retail
@@ -62,55 +63,25 @@
 // the slaver, zeroes the guard offset and clears UNSELECTABLE (status 3,
 // through setStatus 0x0023DB0E) and DISABLED_HELD (3, clearDisabled
 // 0x00291CAC). RepairWhenBelowHealth% (+0x38) is an Int in that table.
+//
+// startSlavedEffects (0x004A1A69, 174 bytes, line 862) is Zero Hour's; BFME2
+// sets UNSELECTABLE only under MarkUnselectable (+0x6C in the INI parse
+// table) and passes the slave interface to Drawable 0x002710AE. The slave
+// interface overrides follow its vftable at 0x00851E30: onEnslave
+// (0x004A1BFD), onSlaverDie (0x004A1C05) and onSlaverDamage (0x004A1C59,
+// aiGoProne). They run on the +0x20 subobject, behind UpdateModule's 0x20
+// bytes (interface vptrs at +0x0C and +0x10).
 
 #include "Common/BfmeAudioEventPrefix136.h"
 
 typedef float Real;
-typedef int Int;
-typedef bool Bool;
 typedef unsigned int UnsignedInt;
 typedef unsigned char UnsignedByte;
+typedef int Int;
+typedef bool Bool;
 
-// class-gate: allow Coord3D the Zero Hour inline members (zero/set/add/sub/scale)
-// and the out-of-line ?normalize@Coord3D@@QAEXXZ (0x000035B6) these bodies call;
-// the variant-data canonical header declares only the fields.
-struct Coord3D
-{
-	Real x;
-	Real y;
-	Real z;
-	void zero()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-	void set(const Coord3D *p)
-	{
-		x = p->x;
-		y = p->y;
-		z = p->z;
-	}
-	void add(const Coord3D *a)
-	{
-		x += a->x;
-		y += a->y;
-		z += a->z;
-	}
-	void sub(const Coord3D *a)
-	{
-		x -= a->x;
-		y -= a->y;
-		z -= a->z;
-	}
-	void scale(Real s)
-	{
-		x *= s;
-		y *= s;
-		z *= s;
-	}
-	void normalize();
-};
+// Coord3D: shared header/view; no private copy.
+#include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
 
 template <class NUM> inline NUM sqr(NUM x)
 {
@@ -217,8 +188,8 @@ float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
 float Cos(float value);
 float Sin(float value);
 
-extern const int g_009BA4E4;
-#define LOGICFRAMES_PER_SECOND g_009BA4E4
+extern int BfmeLogicFramesPerSecond;
+#define LOGICFRAMES_PER_SECOND BfmeLogicFramesPerSecond
 
 // Zero Hour's DamageInfo as Rva00466C04Heal.cpp views it: the 0x7C record
 // built by the rowed constructor 0x00263895.
@@ -282,8 +253,6 @@ enum DeathType
 	DEATH_NONE = 1
 };
 
-// BodyModuleInterface: attemptHealing is slot 1; the health and max-health
-// getters update divides are slots 4 and 6.
 class BodyModuleInterface
 {
 public:
@@ -306,12 +275,28 @@ private:
 };
 
 // The 3D distance squared from an object's position, rowed at 0x001E435D
-// under its BFME 1 donor's names.
-class BfmeVec3EJ;
+// under its BFME 1 donor's names. Its body is visible here (the same inline
+// noinline COMDAT HordeDispatchSpecialPower.cpp emits): doGuardLogic's retail
+// code reads the guard wander range only after the call, which VC7.1 does
+// only when it can see the callee writes no memory.
+class BfmeVec3EJ
+{
+public:
+	Real x, y, z;
+};
 class Gen_000E5A50
 {
 public:
-	Real bfmeDistanceSquared(const BfmeVec3EJ *point) const;
+	inline __declspec(noinline) Real bfmeDistanceSquared(const BfmeVec3EJ *point) const
+	{
+		Real dx = x - point->x;
+		Real dy = y - point->y;
+		Real dz = z - point->z;
+		return dx * dx + dy * dy + dz * dz;
+	}
+private:
+	char m_pad[0x38];
+	Real x, y, z;
 };
 
 // The object's transform at +0x08: three rows of four.
@@ -334,6 +319,18 @@ class Thing
 {
 public:
 	Drawable *getDrawable() const;
+};
+
+// Drawable 0x002710AE takes the slaver and this module's slave interface:
+// when the interface's slot 5 (UseSlaverAsControlForEvaObjectSightedEvents,
+// module data +0x6D) is set it copies the slaver drawable's bytes +0x445 and
+// +0x446. Rowed under a placeholder name and parameter classes.
+class BuildListInfo;
+class Arg2;
+class Rva002710AE
+{
+public:
+	void rva002710AE(BuildListInfo *slaver, Arg2 *slavedInterface);
 };
 
 // The welding system's position and lifetime setters, rowed under placeholder
@@ -487,17 +484,21 @@ class Object : public Thing
 {
 public:
 	const Matrix3D *getTransformMatrix() const { return &m_transform; }
-	const Coord3D *getPosition() const { return &m_position; }
 	Team *getTeam() const { return m_team; }
 	Player *getControllingPlayer() const;
 	Bool isEffectivelyDead() const { return (m_privateStatus & EFFECTIVELY_DEAD) != 0; }
 	void kill(DamageType damageType = DAMAGE_UNRESISTABLE, DeathType deathType = DEATH_NORMAL);
-	void defect(Team *newTeam, UnsignedInt detectionTime);
-	// The layer getter and setter, rowed under placeholder names.
+	void rva00298C76(Team *newTeam, UnsignedInt detectionTime);	// 0x00298C76 Object::defect
 	Int rva0028B511() const;
 	void rva0028B4CE(PathfindLayerEnum layer);
 	PathfindLayerEnum getLayer() const { return (PathfindLayerEnum)rva0028B511(); }
 	void setLayer(PathfindLayerEnum layer) { rva0028B4CE(layer); }
+	void clearWeaponBonusCondition(WeaponBonusConditionType wbc)
+	{
+		m_weaponBonusCondition &= ~(1 << wbc);
+	}
+	ObjectID getID() const { return m_id; }
+	const Coord3D *getPosition() const { return &m_position; }
 	AIUpdateInterface *getAIUpdateInterface() const { return m_ai; }
 	BodyModuleInterface *getBodyModule() const { return m_body; }
 	Real getBoundingSphereRadius() const { return m_boundingSphereRadius; }
@@ -515,10 +516,6 @@ public:
 	void setWeaponBonusCondition(WeaponBonusConditionType wbc)
 	{
 		m_weaponBonusCondition |= (1 << wbc);
-	}
-	void clearWeaponBonusCondition(WeaponBonusConditionType wbc)
-	{
-		m_weaponBonusCondition &= ~(1 << wbc);
 	}
 	void rva0028AE6D();
 	__forceinline void setModelConditionState(ModelConditionFlagType flag)
@@ -541,7 +538,9 @@ private:
 	unsigned char m_pad000[0x08];
 	Matrix3D m_transform; // +0x08
 	Coord3D m_position; // +0x38
-	unsigned char m_pad044[0xBC - 0x44];
+	unsigned char m_pad044[0x74 - 0x44];
+	ObjectID m_id; // +0x74
+	unsigned char m_pad078[0xBC - 0x78];
 	Real m_boundingSphereRadius; // +0xBC
 	unsigned char m_pad0C0[0x10C - 0xC0];
 	ModelConditionFlags m_modelConditionFlags; // +0x10C
@@ -570,8 +569,7 @@ class BehaviorModuleInterface
 public:
 	virtual void behaviorModuleInterfaceSlot00();
 };
-// BehaviorModule's interface vptr is at +0x0C, UpdateModule's at +0x10;
-// update is that interface's first slot, so it runs on the +0x10 subobject.
+// BehaviorModule's interface vptr is at +0x0C, UpdateModule's at +0x10.
 class BehaviorModule : public ObjectModule, public BehaviorModuleInterface
 {
 };
@@ -606,14 +604,15 @@ enum LocomotorSetType
 };
 class Locomotor
 {
+ friend class SlavedUpdate;
 public:
 	enum LocoFlag
 	{
 		PRECISE_Z_POS = 3,
 		ULTRA_ACCURATE = 6
 	};
-	inline void setUsePreciseZPos(bool u) { setFlag(PRECISE_Z_POS, u); }
-	inline void setUltraAccurate(bool u) { setFlag(ULTRA_ACCURATE, u); }
+	__declspec(dllimport) __forceinline void setUsePreciseZPos(bool u) { setFlag(PRECISE_Z_POS, u); }
+	__declspec(dllimport) __forceinline void setUltraAccurate(bool u) { setFlag(ULTRA_ACCURATE, u); }
 private:
 	inline void setFlag(LocoFlag f, bool b) { if (b) m_flags |= (1 << f); else m_flags &= ~(1 << f); }
 	unsigned char m_pad[0x44];
@@ -643,9 +642,13 @@ class AICommandInterface
 public:
 	virtual void aiDoCommand(const AICommandParms *parms);
 	void aiIdle(CommandSourceType cmdSource);
+	// Zero Hour's aiGoProne (0x0036F400: AICMD 0x1D copying the DamageInfo
+	// into the command block at +0x3C), rowed under a placeholder whose
+	// parameter class Rva003427DD is that DamageInfo.
+	void rva0036F400(const class Rva003427DD *info, CommandSourceType cmdSource);
 	// Retail 0x0026C26D; visible here (as in BFME1's twin) so VC7.1 sees it
 	// does not retain the position.
-	__declspec(noinline) void aiMoveToPosition(const Coord3D *pos, Int cmdSource)
+	__declspec(noinline) void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource)
 	{
 		AICommandParms parms(AICMD_MOVE_TO_POSITION, (CommandSourceType)cmdSource);
 		parms.m_pos = *pos;
@@ -707,6 +710,10 @@ public:
 	Path *getPath() { return m_path; }
 	Locomotor *getCurLocomotor() { return m_curLocomotor; }
 	void aiIdle(CommandSourceType cmdSource) { m_commands.aiIdle(cmdSource); }
+	void aiGoProne(const DamageInfo *info, CommandSourceType cmdSource)
+	{
+		m_commands.rva0036F400((const Rva003427DD *)info, cmdSource);
+	}
 	void aiMoveToPosition(const Coord3D *pos, CommandSourceType cmdSource) { m_commands.aiMoveToPosition(pos, cmdSource); }
 	void aiAttackPosition(Coord3D *pos, Int maxShotsToFire, CommandSourceType cmdSource)
 	{
@@ -746,15 +753,19 @@ public:
 	AsciiString m_weldingFXBone; // +0x50
 	Bool m_stayOnSameLayerAsMaster; // +0x54
 	Bool m_dieOnMastersDeath; // +0x55
+	unsigned char m_pad56[0x58 - 0x56];
 	Coord3D m_guardPositionOffset; // +0x58
 	Int m_fadeOutRange; // +0x64
 	UnsignedInt m_fadeTime; // +0x68
+	Bool m_markUnselectable; // +0x6C
 };
 extern int g_Va00E03BBC; // SLAVED_UPDATE_RATE
 // g_Va00E03BBC: matched references place it at VA 0xe03bbc (zero-filled .bss).
 int g_Va00E03BBC;
-// SlavedUpdateInterface (vptr at +0x20). Slots 6 and 7 set and read the
-// byte at +0x44; update sleeps forever while it is set, hence the names.
+// SlavedUpdateInterface (vptr at +0x20), Zero Hour's slot order: retail
+// vftable 0x00851E30 holds getSlaverID, onEnslave 0x004A1BFD, onSlaverDie
+// 0x004A1C05, onSlaverDamage 0x004A1C59, isSelfTasking, then BFME2's
+// additions.
 class SlavedUpdateInterface
 {
 public:
@@ -772,6 +783,10 @@ class SlavedUpdate : public UpdateModule, public SlavedUpdateInterface
 {
 public:
 	virtual UpdateSleepTime update();
+	virtual void onEnslave(const Object *slaver);
+	virtual void onSlaverDie(const DamageInfo *info);
+	virtual void onSlaverDamage(const DamageInfo *info);
+	void startSlavedEffects(const Object *slaver);
 	void endRepair();
 	void setRepairModelConditionStates(ModelConditionFlagType flag);
 	void doAttackLogic(const Object *target);
@@ -928,6 +943,59 @@ void SlavedUpdate::doScoutLogic(const Coord3D *mastersDestination)
 	}
 }
 
+// We are ordered to guard a position (Zero Hour doGuardLogic, retail
+// 0x004A1FDC, 360 bytes, logic random line 543). BFME2 additions read from
+// retail: a returning slave (status 30) within the squared wander range drops
+// the status and model condition 342; idle guards issue aiIdle before the
+// move, otherwise the slave attacks the position with its current weapon's
+// shot count (Weapon +0x34) through the 0x00295A0F command.
+void SlavedUpdate::doGuardLogic(Coord3D *pinnedPosition, Bool idle)
+{
+	const SlavedUpdateModuleData *data = getSlavedUpdateModuleData();
+	Object *me = getObject();
+
+	if (me->testStatus(OBJECT_STATUS_SLAVE_RETURNING))
+	{
+		if (me->getDistanceSquared(pinnedPosition) <= sqr(data->m_guardWanderRange))
+
+		{
+			me->setStatus(OBJECT_STATUS_SLAVE_RETURNING, false);
+			me->clearModelConditionState(MODELCONDITION_SLAVE_RETURNING);
+		}
+	}
+
+	if (data->m_guardWanderRange)
+	{
+		// recalc where we want to be if we wander around
+		Real randomDirection = GameLogicRandomValueReal(0, 2 * PI, 543);
+		m_guardPointOffset.zero();
+		m_guardPointOffset.x += data->m_guardWanderRange * Cos(randomDirection);
+		m_guardPointOffset.y += data->m_guardWanderRange * Sin(randomDirection);
+
+		pinnedPosition->x += m_guardPointOffset.x;
+		pinnedPosition->y += m_guardPointOffset.y;
+		m_guardPointOffset.z = TheTerrainLogic->getGroundHeight(pinnedPosition->x, pinnedPosition->y);
+	}
+
+	AIUpdateInterface *ai = me->getAIUpdateInterface();
+	if (ai)
+	{
+		if (idle)
+		{
+			ai->aiIdle(CMD_FROM_AI);
+			ai->aiMoveToPosition(pinnedPosition, CMD_FROM_AI);
+		}
+		else
+		{
+			Int maxShotsToFire = 0;
+			const Weapon *weapon = getObject()->getCurrentWeapon();
+			if (weapon)
+				maxShotsToFire = weapon->getMaxShotCount();
+			ai->aiAttackPosition(pinnedPosition, maxShotsToFire, CMD_FROM_AI);
+		}
+	}
+}
+
 // We are ordered to repair our master
 void SlavedUpdate::doRepairLogic()
 {
@@ -978,7 +1046,7 @@ void SlavedUpdate::doRepairLogic()
 		Locomotor *locomotor = ai->getCurLocomotor();
 		if (locomotor)
 		{
-			locomotor->setUsePreciseZPos(closeEnoughForZPrecision);
+			locomotor->setFlag(Locomotor::PRECISE_Z_POS, closeEnoughForZPrecision);
 		}
 		Coord3D pos;
 		pos.set(master->getPosition());
@@ -1114,6 +1182,46 @@ void SlavedUpdate::stopSlavedEffects()
 	getObject()->clearDisabled(DISABLED_HELD);
 }
 
+void SlavedUpdate::onEnslave(const Object *slaver)
+{
+	startSlavedEffects(slaver);
+}
+
+void SlavedUpdate::onSlaverDie(const DamageInfo *info)
+{
+	stopSlavedEffects();
+}
+
+void SlavedUpdate::onSlaverDamage(const DamageInfo *info)
+{
+	// Only slaves with a ProneUpdate will even care.
+	AIUpdateInterface *ai = getObject()->getAIUpdateInterface();
+	if (ai)
+		ai->aiGoProne(info, CMD_FROM_AI);
+}
+
+void SlavedUpdate::startSlavedEffects(const Object *slaver)
+{
+	if (!slaver)
+		return;
+
+	m_slaver = slaver->getID();
+	const SlavedUpdateModuleData *data = getSlavedUpdateModuleData();
+
+	// Decide where our pinned stray point is
+	Real randomDirection = GameLogicRandomValueReal(0, 2 * PI, 862);
+	m_guardPointOffset.zero();
+	m_guardPointOffset.x += data->m_guardMaxRange * Cos(randomDirection);
+	m_guardPointOffset.y += data->m_guardMaxRange * Sin(randomDirection);
+
+	if (data->m_markUnselectable)
+		getObject()->setStatus(OBJECT_STATUS_UNSELECTABLE);
+
+	Drawable *draw = getObject()->getDrawable();
+	if (draw)
+		((Rva002710AE *)draw)->rva002710AE((BuildListInfo *)slaver, (Arg2 *)(SlavedUpdateInterface *)this);
+}
+
 const Real CLOSE_ENOUGH = 15;
 const Real CLOSE_ENOUGH_SQR = (CLOSE_ENOUGH * CLOSE_ENOUGH);
 const Real LOGICFRAMES_PER_MSEC_REAL = ((Real)30) / ((Real)1000);
@@ -1204,7 +1312,7 @@ UpdateSleepTime SlavedUpdate::update()
 	}
 	if (master->getTeam()->getRelationship(me->getTeam()) != ALLIES)
 	{
-		me->defect(master->getTeam(), 0);
+		me->rva00298C76(master->getTeam(), 0);
 		stopSlavedEffects();
 		return UPDATE_SLEEP_FOREVER;
 	}

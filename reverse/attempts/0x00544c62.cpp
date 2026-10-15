@@ -1,121 +1,293 @@
 // ?onEnter@Rva00544EB1@@UAE?AW4StateReturnType@@XZ
-// partial score=0.501057 date=2026-10-13
-// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /GX-
-// Complete native 00544C62..00544E3B (473B), WB 0134AC10/632.
-// Target vtable C69E08 slot4 is this body; slot2's getter returns C69E50,
-// the literal AIHarvestApproachSiteState. Existing constructor owner Rva00544EB1
-// installs that table, so its neutral spelling is retained pending owner rename.
-// BF1 cee35b7d8ca077d7255f1c39cb69e9fd9627aa85 clean donor:
-// game/GameEngine/Source/GameLogic/AI/AIHarvestApproachSiteState_onEnter.cpp.
-// Donor supplies the control-flow guide. Target separately proves machine18,
-// owner14, AI258/slot95, locomotor1CC, goal20 and record10/18/1C offsets.
-// Corrections to the earlier bank: 12-byte goal copy, no arguments at slot1C,
-// slot44 on the target receiver, destination Z initialized from the offset,
-// offset halved after every failed retry, and refreshed pathfinder per call.
-// Each of the six direct callees already has a matched target row. No new pins.
-// Current canonical Coord3D and normal O1/G7/SSE emit474B versus473: state/position
-// spill slots swap, scale scheduling and loop-register allocation differ.
-// Bounded return/guard/lifetime/compiler trials did not close it. Isolated
-// special-member diagnostics also left the mismatch; no shared header change.
-#include "Code/Libraries/Include/Lib/Coord3D.h"
-enum StateReturnType { STATE_CONTINUE=0, STATE_FAILURE=-2 };
-class HarvestTarget {
-public:
- virtual void slot00(); virtual void slot01(); virtual void slot02();
- virtual void slot03(); virtual void slot04(); virtual void slot05();
- virtual void slot06(); virtual float slot1C();
- virtual void slot08(); virtual void slot09(); virtual void slot10();
- virtual void slot11(int);
- virtual void slot12(); virtual void slot13(); virtual void slot14();
- virtual void slot15(); virtual void slot16(); virtual void slot44(int);
-};
-template<int N> class HarvestAISlots : public HarvestAISlots<N-1> {
-public: virtual void unused(char (*)[N]);
-};
-template<> class HarvestAISlots<0> {};
+// partial score=0.985 date=2026-10-15
+// ?onEnter@Rva00544EB1@@UAE?AW4StateReturnType@@XZ
+// partial score=0.985 date=2026-10-15
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include
+//
+// ?onEnter@Rva00544EB1@@UAE?AW4StateReturnType@@XZ, retail 0x00544C62, 473 bytes (RET 0):
+// slot 4 of the state vftable 0x00C69E08 (ctor 0x00544EB1, derived from AIInternalMoveToState with
+// hash 0x29E75AEF). BFME2-only (AIHarvest.cpp line 95 is the logic random's source line, WorldBuilder
+// 0x0134AC10 gives the statement order): the AI's slot-95 helper (the harvest interface) names a
+// position target through TheTerrainLogic's 0x0027F108 query (radius from helper slot 7, 0, 0) at
+// the machine's goal point; none found tells helper slot 11 (1) and the state fails with -2. The
+// found site's +0x10 word goes to helper slot 17, the machine's goal position becomes the state's
+// goal (+0x20) and, when the site's +0x18 flag is set, the goal is nudged: the site's +0x1C offset is
+// scaled by a random 0.5..5 and added to the goal up to five times, halving the offset after every
+// try the pathfinder refuses (adjustDestination, point on a wall or on a ramp); the first acceptable
+// point becomes the goal. Finally AIInternalMoveToState::onEnter runs.
+#define COORD3D_VIEW_INLINE
+#include "Lib/Coord3DCtorView.h"
+template<class T> static __forceinline T __cp(const T &x) { T t = x; return t; }
+
+class Object;
+class StateMachine;
+class Xfer;
 class LocomotorSet;
-class AIUpdateInterface : public HarvestAISlots<95> {
+
+enum StateReturnType
+{
+	STATE_CONTINUE = 0
+};
+
+class __declspec(novtable) State
+{
 public:
- virtual HarvestTarget *getHarvestTarget();
- LocomotorSet &getLocomotorSet() { return *(LocomotorSet *)((char *)this+0x1cc); }
+	State(StateMachine *machine, unsigned int hash);
+	virtual ~State();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void xfer(Xfer *xfer);
+	virtual StateReturnType onEnter();
+	virtual void slot05();
+	virtual StateReturnType update();
+	virtual void slot07();
+	virtual bool isIdle() const;
+	virtual void slot09();
+	virtual void slot10();
+	virtual void slot11();
+	virtual void slot12();
+	virtual void slot13();
+	int m_id;
+	int m_successStateID;
+	int m_failureStateID;
+	void *m_transitionsFirst;
+	void *m_transitionsLast;
+	StateMachine *m_machine;
+	bool m_tail1C;
+	unsigned char m_pad1D[0x20 - 0x1D];
 };
-class Object {
+
+// The goal point the base move state keeps at +0x20.
+class AIInternalMoveToState : public State
+{
 public:
- char unknown00[0x258]; AIUpdateInterface *ai;
- AIUpdateInterface *getAI() const { return ai; }
+	virtual StateReturnType onEnter();
+protected:
+	Coord3D m_goalPosition;	// +0x20
 };
-class StateMachine {
+
+class Rva00544EB1 : public AIInternalMoveToState
+{
 public:
- char unknown00[0x14]; Object *owner;
- Object *getOwner() const { return owner; }
+	virtual StateReturnType onEnter();
 };
-struct HarvestRecord {
- char unknown00[0x10]; int owner;
- char unknown14[4]; unsigned char adjust;
- char unknown19[3]; Coord3D offset;
+
+class StateMachine
+{
+public:
+	Object *getOwner() const { return m_owner; }
+	unsigned char m_pad00[0x14];
+	Object *m_owner;	// +0x14
+	unsigned char m_pad18[0x24 - 0x18];
+	Coord3D m_24;	// +0x24
 };
-class BfmeThingCME { public: int rva0027F108(void *,float,int,int); };
+
+class RetObj
+{
+public:
+	virtual void w00();
+	virtual void w01();
+	virtual void w02();
+	virtual void w03();
+	virtual void w04();
+	virtual void w05();
+	virtual void w06();
+	virtual float w07();
+	virtual int w08();
+	virtual void w09();
+	virtual void w10();
+	virtual void w11(int value);
+	virtual void w12();
+	virtual void w13();
+	virtual void w14();
+	virtual void w15();
+	virtual void w16();
+	virtual void w17(int value);
+};
+
+class AIUpdateInterface
+{
+public:
+	virtual void v00();
+	virtual void v01();
+	virtual void v02();
+	virtual void v03();
+	virtual void v04();
+	virtual void v05();
+	virtual void v06();
+	virtual void v07();
+	virtual void v08();
+	virtual void v09();
+	virtual void v10();
+	virtual void v11();
+	virtual void v12();
+	virtual void v13();
+	virtual void v14();
+	virtual void v15();
+	virtual void v16();
+	virtual void v17();
+	virtual void v18();
+	virtual void v19();
+	virtual void v20();
+	virtual void v21();
+	virtual void v22();
+	virtual void v23();
+	virtual void v24();
+	virtual void v25();
+	virtual void v26();
+	virtual void v27();
+	virtual void v28();
+	virtual void v29();
+	virtual void v30();
+	virtual void v31();
+	virtual void v32();
+	virtual void v33();
+	virtual void v34();
+	virtual void v35();
+	virtual void v36();
+	virtual void v37();
+	virtual void v38();
+	virtual void v39();
+	virtual void v40();
+	virtual void v41();
+	virtual void v42();
+	virtual void v43();
+	virtual void v44();
+	virtual void v45();
+	virtual void v46();
+	virtual void v47();
+	virtual void v48();
+	virtual void v49();
+	virtual void v50();
+	virtual void v51();
+	virtual void v52();
+	virtual void v53();
+	virtual void v54();
+	virtual void v55();
+	virtual void v56();
+	virtual void v57();
+	virtual void v58();
+	virtual void v59();
+	virtual void v60();
+	virtual void v61();
+	virtual void v62();
+	virtual void v63();
+	virtual void v64();
+	virtual void v65();
+	virtual void v66();
+	virtual void v67();
+	virtual void v68();
+	virtual void v69();
+	virtual void v70();
+	virtual void v71();
+	virtual void v72();
+	virtual void v73();
+	virtual void v74();
+	virtual void v75();
+	virtual void v76();
+	virtual void v77();
+	virtual void v78();
+	virtual void v79();
+	virtual void v80();
+	virtual void v81();
+	virtual void v82();
+	virtual void v83();
+	virtual void v84();
+	virtual void v85();
+	virtual void v86();
+	virtual void v87();
+	virtual void v88();
+	virtual void v89();
+	virtual void v90();
+	virtual void v91();
+	virtual void v92();
+	virtual void v93();
+	virtual void v94();
+	virtual RetObj *v95();
+	unsigned char m_pad[0x1CC - 0x17C - 4];
+	unsigned char m_locoSet[4];	// +0x1CC
+};
+
+class Object
+{
+public:
+	unsigned char m_pad000[0x258];
+	AIUpdateInterface *m_ai;	// +0x258
+};
+
+class BfmeX1035
+{
+public:
+	unsigned char m_pad00[0x10];
+	int m_10;
+	unsigned char m_pad14[4];
+	bool m_18;
+	unsigned char m_pad19[3];
+	Coord3D m_1c;
+};
+
+class BfmeThingCME
+{
+public:
+	int rva0027F108(void *pos, float radius, int a, int b);
+};
 class TerrainLogic;
 extern TerrainLogic *TheTerrainLogic;
-class Pathfinder {
+
+class Pathfinder
+{
 public:
- bool AdjustDestination(Object *,const LocomotorSet &,Coord3D *,const Coord3D *);
- bool IsPointOnWall(int,bool);
- bool IsPointOnRamp(const Coord3D *);
+	bool adjustDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest, const Coord3D *groupDest);
+	bool IsPointOnWall(int pos, bool flag);
+	bool IsPointOnRamp(const Coord3D *pos);
 };
-class AI;
+class AI
+{
+public:
+	unsigned char m_pad00[0x10];
+	Pathfinder *m_pathfinder;	// +0x10
+};
 extern AI *TheAI;
-struct HarvestAIView { char unknown00[0x10]; Pathfinder *pathfinder; };
-inline Pathfinder *getPathfinder() { return ((HarvestAIView *)TheAI)->pathfinder; }
-float GetGameLogicRandomValueReal(float,float,char *,int);
-class AIInternalMoveToState {
-public:
- virtual void slot00(); virtual void slot01(); virtual void slot02(); virtual void slot03();
- virtual StateReturnType onEnter();
-};
-class Rva00544EB1 : public AIInternalMoveToState {
-public:
- virtual StateReturnType onEnter();
- char unknown04[0x18-4]; StateMachine *machine;
- char unknown1c[4]; Coord3D goal;
- Object *getMachineOwner() const { return machine->getOwner(); }
-};
-inline void copyCoord(Coord3D &to,const Coord3D &from) {
- to.x=from.x; to.y=from.y; to.z=from.z;
-}
-inline void scaleCoord(Coord3D &value,float scale) {
- value.x*=scale; value.y*=scale; value.z*=scale;
-}
+
+float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
+#define GameLogicRandomValueReal(lo, hi, line) GetGameLogicRandomValueReal(lo, hi, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Ai\\AIHarvest.cpp", line)
+
 StateReturnType Rva00544EB1::onEnter()
 {
- HarvestTarget *targetPointer=machine->owner->ai->getHarvestTarget();
- if (!targetPointer) return STATE_FAILURE;
- HarvestTarget &target=*targetPointer;
- Coord3D *position=(Coord3D *)((char *)machine+0x24);
- if (!position) return STATE_FAILURE;
- HarvestRecord *record=(HarvestRecord *)((BfmeThingCME *)TheTerrainLogic)->rva0027F108(position,target.slot1C(),0,0);
- if (!record) { target.slot11(1); return STATE_FAILURE; }
- target.slot44(record->owner);
- goal=*position;
- if (!record->adjust) return AIInternalMoveToState::onEnter();
- Coord3D offset;
- copyCoord(offset,record->offset);
- float scale=GetGameLogicRandomValueReal(0.5f,5.0f,
-  "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Ai\\AIHarvest.cpp",95);
- scaleCoord(offset,scale);
- int attempt=0;
- for (;attempt<5;++attempt) {
-  Coord3D destination;
-  destination.z=offset.z;
-  destination.x=goal.x+offset.x;
-  destination.y=goal.y+offset.y;
-  if (getPathfinder()->AdjustDestination(getMachineOwner(),getMachineOwner()->getAI()->getLocomotorSet(),&destination,0)
-      && !getPathfinder()->IsPointOnWall((int)&destination,0)
-      && !getPathfinder()->IsPointOnRamp(&destination)) {
-   goal=destination;
-   return AIInternalMoveToState::onEnter();
-  }
-  offset.x*=0.5f; offset.y*=0.5f; offset.z*=0.5f;
- }
- return AIInternalMoveToState::onEnter();
+	RetObj *helper = m_machine->getOwner()->m_ai->v95();
+	if (helper == 0)
+		return (StateReturnType)-2;
+	Coord3D *goal = &m_machine->m_24;
+	if (goal == 0)
+		return (StateReturnType)-2;
+	BfmeX1035 *site = (BfmeX1035 *)((BfmeThingCME *)TheTerrainLogic)->rva0027F108(goal, helper->w07(), 0, 0);
+	if (site == 0)
+	{
+		helper->w11(1);
+		return (StateReturnType)-2;
+	}
+	helper->w17(site->m_10);
+	m_goalPosition = *goal;
+	if (site->m_18)
+	{
+		Coord3D offset = site->m_1c;
+		offset.scale(GameLogicRandomValueReal(0.5f, 5.0f, 95));
+		for (int i = 0; i < 5; i++)
+		{
+			AI *ai = TheAI;
+			Coord3D probe = offset;
+			probe.x += m_goalPosition.x;
+			probe.y += m_goalPosition.y;
+			Object *owner = m_machine->getOwner();
+			if (ai->m_pathfinder->adjustDestination(owner, *(const LocomotorSet *)((char *)owner->m_ai + 0x1CC), &probe, 0)
+				&& !__cp(TheAI->m_pathfinder)->IsPointOnWall((int)&probe, false)
+				&& !__cp(TheAI->m_pathfinder)->IsPointOnRamp(&probe))
+			{
+				m_goalPosition = probe;
+				break;
+			}
+			offset.scale(0.5f);
+		}
+	}
+	return AIInternalMoveToState::onEnter();
 }
