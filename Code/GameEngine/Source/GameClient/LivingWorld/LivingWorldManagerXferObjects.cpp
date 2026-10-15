@@ -17,6 +17,8 @@
 
 typedef int Int;
 
+class Snapshot;
+
 class Xfer
 {
 public:
@@ -33,7 +35,7 @@ public:
 	virtual void slot09();
 	virtual void slot10();
 	virtual void slot11();
-	virtual void slot12();
+	virtual void xferSnapshot(Snapshot *snapshot);		// slot 12
 	virtual void slot13();
 	virtual void slot14();
 	virtual void slot15();
@@ -48,7 +50,7 @@ public:
 	virtual void slot24();
 	virtual void slot25();
 	virtual void slot26();
-	virtual void slot27();
+	virtual void xferAsciiString(AsciiString *value);	// slot 27
 	virtual void slot28();
 	virtual void slot29();
 	virtual void slot30();
@@ -98,13 +100,119 @@ public:
 	void rva003FD690(const Coord *position);		// 0x003FD690
 };
 
+// The named-object table at +0x204 (an AsciiString-keyed hash table: nodes
+// {next +0, key +4, object +8}, element count +0x10), reached through its
+// rowed find 0x00056F61 and first/next cursor helpers 0x00427195/0x00411084.
+// The cursor type the rowed first-helper returns (AudioFileCacheDestructor.cpp).
+// The cursor helpers' bodies (byte-identical spellings of the rowed
+// 0x00427195 / 0x00411084 / 0x003F7925, as in PlayerUpdate.cpp) are defined
+// here, as the retail unit saw these template inlines: with them visible cl
+// knows the cursor never escapes, so the save walk keeps the node in edi
+// across the virtual xfer calls and pushes [node+8] directly, reloading the
+// cursor only after next(); declared only, the cursor needed a volatile.
+struct AudioCacheCursor
+{
+	struct { void *first, *second; } s;
+	AudioCacheCursor(void *a, void *b) { s.first = a; s.second = b; }
+	AudioCacheCursor(const AudioCacheCursor &v) { s.first = v.s.first; s.second = v.s.second; }
+};
+
+class Rva00056F61
+{
+public:
+	void *rva00056F61(const AsciiString *key);			// 0x00056F61
+};
+
+class Rva000427195
+{
+public:
+	__declspec(noinline) AudioCacheCursor rva00427195()	// 0x00427195
+	{
+		for (unsigned n = 0; n < m_buckets.size(); ++n)
+			if (m_buckets[n])
+				return AudioCacheCursor(m_buckets[n], this);
+		return AudioCacheCursor(0, this);
+	}
+	int bucketIndex(const AsciiString *name);			// 0x00223149
+	void *m_unused00;
+	_STL::vector<void *> m_buckets;
+};
+
+class Rva000411084
+{
+public:
+	__declspec(noinline) void *next()					// 0x00411084
+	{
+		void *node = *(void **)current;
+		if (node == 0)
+			node = advance();
+		current = node;
+		return this;
+	}
+	__declspec(noinline) void *advance()				// 0x003F7925
+	{
+		struct Table
+		{
+			void *m_unused00;
+			union {
+				void **m_beginBuckets;
+				void ** volatile m_beginBucketsVolatile;
+			};
+			void **m_endBuckets;
+		};
+		Table *table = (Table *)owner;
+		unsigned index = (unsigned)((Rva000427195 *)table)->bucketIndex((const AsciiString *)((char *)current + 4));
+		unsigned count = (unsigned)(((char *)table->m_endBuckets - (char *)table->m_beginBuckets) >> 2);
+		void *head = 0;
+		do {
+			++index;
+			if (index >= count)
+				break;
+			head = table->m_beginBucketsVolatile[index];
+		} while (head == 0);
+		return head;
+	}
+	void *current, *owner;
+};
+
+// A table object: a Snapshot with its name at +4.
+class Rva00213C6EObject
+{
+public:
+	void *m_vtbl;
+	AsciiString m_name;								// +0x04
+};
+
+struct Rva00213C6ENode
+{
+	Rva00213C6ENode *m_next;
+	AsciiString m_key;								// +0x04
+	Rva00213C6EObject *m_object;					// +0x08
+
+	Rva00213C6EObject *object() const { return m_object; }
+};
+
+// The object the load path creates for a name the table lacks (rowed ctor,
+// whose parameter the ledger spells int; it receives the name's address).
+class Rva00210EF1
+{
+public:
+	Rva00210EF1(int name);							// 0x00210EF1
+private:
+	unsigned char m_bytes[0x34];
+};
+
 class LivingWorldManager
 {
 public:
 	void rva0021219E(Rva00213D93Target *target);
+	void rva00213C6E(Rva00213D93Target *target);
 
 private:
-	unsigned char m_pad000[0x24C];
+	unsigned char m_pad000[0x204];
+	unsigned char m_table[0x10];					// +0x204
+	unsigned int m_tableCount;						// +0x214
+	unsigned char m_pad218[0x24C - 0x218];
 	_STL::vector<Rva003FD789 *> m_objects;			// +0x24C
 };
 
@@ -140,6 +248,46 @@ void LivingWorldManager::rva0021219E(Rva00213D93Target *target)
 			Rva003FD789 *object = m_objects[j];
 			if (object->m_11)
 				object->xfer(xfer);
+		}
+	}
+}
+
+// ?rva00213C6E@LivingWorldManager@@QAEXPAVRva00213D93Target@@@Z, retail
+// 0x00213C6E..0x00213D93 (293 bytes, EH, ret 4): the named-object block the
+// same xfer (0x00213D93) runs next. Loading reads a count and, per entry, a
+// name, then xfers the table's object of that name, or a new 0x34-byte
+// Rva00210EF1 built from the name when the table has none. Saving writes the
+// table's element count, then each object's name (+4) and the object.
+void LivingWorldManager::rva00213C6E(Rva00213D93Target *target)
+{
+	Xfer *xfer = (Xfer *)target;
+	if (xfer->isLoading())
+	{
+		Int count;
+		xfer->xferInt(&count);
+		for (Int i = 0; i < count; ++i)
+		{
+			AsciiString name;
+			xfer->xferAsciiString(&name);
+			Rva00213C6ENode *node = (Rva00213C6ENode *)((Rva00056F61 *)m_table)->rva00056F61(&name);
+			if (node == 0)
+				xfer->xferSnapshot((Snapshot *)new Rva00210EF1((int)&name));
+			else
+				xfer->xferSnapshot((Snapshot *)node->m_object);
+		}
+	}
+	else
+	{
+		Int count = m_tableCount;
+		xfer->xferInt(&count);
+		AudioCacheCursor it = ((Rva000427195 *)m_table)->rva00427195();
+		Rva00213C6ENode *node;
+		while ((node = (Rva00213C6ENode *)it.s.first) != 0)
+		{
+			AsciiString name(node->m_object->m_name);
+			xfer->xferAsciiString(&name);
+			xfer->xferSnapshot((Snapshot *)node->m_object);
+			((Rva000411084 *)&it)->next();
 		}
 	}
 }
