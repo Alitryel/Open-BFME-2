@@ -3,6 +3,30 @@
 // Change-notify setter: when the argument differs from +0xC, runs the
 // pinned 0x005E7855 pre-hook, stores it, then runs the pinned 0x005E7C56
 // post-hook. All identities unproven (address-derived).
+class Rva005E7855
+{
+public:
+	void rva005E7855();
+};
+
+class StrategicInGameUI
+{
+public:
+	class BuildQueueDetailsPanel
+	{
+	public:
+		class Impl
+		{
+		public:
+			class Icon
+			{
+			public:
+				void rva005E7C56();
+			};
+		};
+	};
+};
+
 class Rva005E7DD6
 {
 public:
@@ -19,7 +43,7 @@ void Rva005E7DD6::setRva005E7DD6(int v)
 {
 	if (v == m0c)
 		return;
-	preChange();
+	((Rva005E7855 *)this)->rva005E7855();
 	m0c = v;
-	postChange();
+	((StrategicInGameUI::BuildQueueDetailsPanel::Impl::Icon *)this)->rva005E7C56();
 }

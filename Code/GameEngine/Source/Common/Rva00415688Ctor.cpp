@@ -14,11 +14,11 @@ private:
 	char m_pad[0x1C0];
 };
 
-class Rva0024613CMember
+class Rva0025753F
 {
 public:
-	Rva0024613CMember();
-	~Rva0024613CMember();
+	Rva0025753F();
+	~Rva0025753F();
 private:
 	char m_pad[0x0C];
 };
@@ -29,7 +29,7 @@ public:
 	Rva00415688();
 private:
 	Rva00254FE4Member m_00;
-	Rva0024613CMember m_1C0;
+	Rva0025753F m_1C0;
 };
 
 Rva00415688::Rva00415688()

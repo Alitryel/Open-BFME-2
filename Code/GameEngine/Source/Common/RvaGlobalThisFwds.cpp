@@ -10,28 +10,28 @@
 // Global/callee identities unproven (opaque pins); the wrapper names are
 // address-derived. One ledger row per forward.
 
-class Rva00203AD5Run
+class Rva000203AD5ByteOneSetter
 {
 public:
-	void run();
+	void enable();
 };
 
-class Rva00203ADDRun
+class Rva000203ADDByteZeroSetter
 {
 public:
-	void run();
+	void disable();
 };
 
 extern class ScriptEngine *TheScriptEngine;
 
 void ScriptActions::Rva003BBEDE()
 {
-	(*(Rva00203AD5Run **)&TheScriptEngine)->run();
+	(*(Rva000203AD5ByteOneSetter **)&TheScriptEngine)->enable();
 }
 
 void ScriptActions::Rva003BBEE9()
 {
-	((Rva00203ADDRun *)(*(Rva00203AD5Run **)&TheScriptEngine))->run();
+	((Rva000203ADDByteZeroSetter *)(*(Rva000203AD5ByteOneSetter **)&TheScriptEngine))->disable();
 }
 
 // 0x003BBED3 (11B): mov ecx, [TheSnowManager 0x00DFE114], jmp 0x00203574,

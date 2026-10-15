@@ -20,11 +20,11 @@ private:
 	char m_pad[0x1C0];
 };
 
-class Rva0024613CMember
+class Rva0025753F
 {
 public:
-	Rva0024613CMember();
-	~Rva0024613CMember();
+	Rva0025753F();
+	~Rva0025753F();
 private:
 	char m_pad[0x0C];
 };
@@ -36,7 +36,7 @@ public:
 private:
 	Rva0042526Member m_00;
 	Rva00254FE4Member m_4C;
-	Rva0024613CMember m_20C;
+	Rva0025753F m_20C;
 	int m_218;
 	unsigned char m_21C;
 	char m_tail[3];

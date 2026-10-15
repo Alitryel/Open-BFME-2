@@ -15,12 +15,25 @@ private:
 	char m_134;
 };
 
+class VictorySystemGridUpdateView
+{
+public:
+	void rva00405094();
+	void rva00405258();
+};
+
+class Rva004053C2
+{
+public:
+	void rva00404A29();
+};
+
 void Rva00405315::rva00405315()
 {
 	if (m_134 != 0)
 	{
-		rva00405094();
-		rva00405258();
-		rva00404A29();
+		((VictorySystemGridUpdateView *)this)->rva00405094();
+		((VictorySystemGridUpdateView *)this)->rva00405258();
+		((Rva004053C2 *)this)->rva00404A29();
 	}
 }

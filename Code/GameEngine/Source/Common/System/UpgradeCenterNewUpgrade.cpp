@@ -44,6 +44,21 @@ private:
 	unsigned char m_pad3C[0x9C - 0x3C];
 };
 
+class Rva0026F684
+{
+public:
+	Rva0026F684();
+	Rva0026F684 &operator=(const Rva0026F684 &that);
+
+private:
+	unsigned char m_pad00[0x08];
+	AsciiString m_name; // +0x08
+	NameKeyType m_nameKey; // +0x0C
+	unsigned char m_pad10[0x38 - 0x10];
+	int m_maskBitIndex; // +0x38
+	unsigned char m_pad3C[0x9C - 0x3C];
+};
+
 class UpgradeCenter
 {
 public:
@@ -58,12 +73,12 @@ private:
 
 UpgradeTemplate *UpgradeCenter::newUpgrade(const AsciiString &name, bool assignMaskBit)
 {
-	UpgradeTemplate *newUpgrade = new UpgradeTemplate;
+	UpgradeTemplate *newUpgrade = (UpgradeTemplate *)new Rva0026F684;
 
 	// copy data from the default upgrade
 	const UpgradeTemplate *defaultUpgrade = findUpgrade("DefaultUpgrade");
 	if (defaultUpgrade)
-		*newUpgrade = *defaultUpgrade;
+		*(Rva0026F684 *)newUpgrade = *(const Rva0026F684 *)defaultUpgrade;
 
 	// assign name and starting data
 	newUpgrade->setUpgradeName(name);
