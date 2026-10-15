@@ -3,16 +3,22 @@
 // Matrix setup: initializes a 12-float buffer (identity-ish, 1.0 at
 // 0/5/10) then runs the 0x00713290 matrix method on a second buffer and
 // the same-this 0x0023A1BB helper.
-class Rva000713290
+// Row spellings: 0x00713290 is Matrix3D::Get_Inverse(Matrix3D &) const and
+// 0x0023A1BB is the virtual GameClient::init (called directly).
+class Matrix3D
 {
 public:
-	void rva000713290(void *buf);
+	void Get_Inverse(Matrix3D &inverse) const;
+};
+class GameClient
+{
+public:
+	virtual void init();
 };
 class Rva0004C99B
 {
 public:
 	void rva0004C99B();
-	void rva00023A1BB();
 private:
 	char m_pad[0];
 };
@@ -32,6 +38,6 @@ void Rva0004C99B::rva0004C99B()
 	buf1[9] = 0.0f;
 	buf1[10] = 1.0f;
 	buf1[11] = 0.0f;
-	((Rva000713290 *)buf2)->rva000713290(buf1);
-	rva00023A1BB();
+	((const Matrix3D *)buf2)->Get_Inverse(*(Matrix3D *)buf1);
+	((GameClient *)this)->GameClient::init();
 }
