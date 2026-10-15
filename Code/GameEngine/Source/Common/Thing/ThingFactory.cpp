@@ -105,14 +105,11 @@ ThingFactory *TheThingFactory = NULL;  ///< Thing manager singleton declaration
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??0ThingFactory@@ present-unmatched
-ThingFactory::ThingFactory()
-{
-	m_firstTemplate = NULL;
-	m_nextTemplateID = 1;	// not zero!
-
-	m_templateHashMap.resize( TEMPLATE_HASH_SIZE );
-}  // end ThingFactory
+// BFME2's complete85B constructor is recovered at002D0E14 in
+// Rva002D0E14Ctor.cpp. The unmatched ZH constructor formerly left here
+// also emitted a non-retail30B deleting destructor; keep that competing
+// construction/vtable copy out of the link. ThingFactoryDtor.cpp emits
+// the native28B deleting destructor with its verified71B out-of-line dtor.
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------

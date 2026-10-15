@@ -37,7 +37,8 @@ public:
 class ThingFactory : public SubsystemInterface
 {
 public:
-	virtual ~ThingFactory();
+	// Native deleting destructor2D09F5 calls this71B body out of line.
+	__declspec(noinline) virtual ~ThingFactory();
 private:
 	void freeDatabase();
 	void *m_firstTemplate;	// +0x0C
