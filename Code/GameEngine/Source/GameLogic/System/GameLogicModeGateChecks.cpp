@@ -16,11 +16,14 @@ bool GameLogic::rva0042219(void)
     return m_110 != 9 && m_110 != 4 && m_110 != 7;
 }
 
-// ?rva001DCD1C@GameLogic@@QAE_NXZ at retail 0x001DCD1C (32B).
-bool GameLogic::rva001DCD1C(void)
+// ?rva001DCD1C@GameLogic@@QAE_NXZ at retail 0x001DCD1C (32B). Inline (a COMDAT)
+// because ScriptEngineRva0020A586.cpp needs the body visible and emits the same
+// copy; taking its address keeps this unit's copy for its row (not retail data).
+inline bool GameLogic::rva001DCD1C(void)
 {
     return m_110 == 8 || (m_110 == 9 && m_114 != 3);
 }
+bool (GameLogic::*_bfmeInlineAnchor_GameLogicModeGateChecks_0)() = &GameLogic::rva001DCD1C;
 
 // Native2DB9AC loads the existing TheGameLogic pointer and clears byte+6F.
 // The byte's purpose and original operation name remain unknown.

@@ -1,8 +1,4 @@
-// ?rva0020A586@ScriptEngine@@QAEXPAX0@Z
-// partial score=0.9 date=2026-10-13
-// ?rva0020A586@ScriptEngine@@QAEXPAX0@Z
-// partial score=0.9 date=2026-10-10
-// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
 // ?rva0020A586@ScriptEngine@@QAEXPAX0@Z at 0x0020A586 121 bytes RET 8.
 // Called by the rowed walkNamed (0x0020A775) with a script record and its
@@ -18,16 +14,12 @@
 // executeSequentialScript (0x0020A073) over executeScript (0x00209E15).
 // Field names for +0x10/+0x20/+0x3C are target-observed offsets only.
 //
-// NEAR (score ~0.9): only the delay/GameLogic registers are mirrored (ours
-// delay edi and game ebx; retail delay ebx and game edi). Frame layout and
-// the this spill to ebp-4 match. Survived: game local vs none; ternary;
-// frame local; declaration order (top / game first / view first / game
-// hoisted before the test or the push_back); const and register; nested gate;
-// name reference local; self alias; free __forceinline helper (with and
-// without the game argument); __forceinline GameLogic member view; operand
-// orders; /G5 /G6 /G7 /arch:SSE /EHs /Os. class_gate silent.
+// The rowed mode gate 0x001DCD1C (GameLogicModeGateChecks.cpp) is visible here
+// as an inline COMDAT copy: knowing it leaves TheGameLogic alone, cl keeps the
+// pointer in EDI across the call and the delay in EBX, as retail does, from the
+// natural TheGameLogic reads.
 
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../Common/GameLogicObjectLookupView.h"
 
 class Script;
 class AsciiString;
@@ -76,17 +68,21 @@ public:
 	void executeScript(Script *script, const AsciiString &name);
 };
 
+inline bool GameLogic::rva001DCD1C(void)
+{
+	return m_110 == 8 || (m_110 == 9 && m_114 != 3);
+}
+
 void ScriptEngine::rva0020A586(void *script, void *name)
 {
 	if (!rva00203F0E(script))
 		return;
 	((AsciiStringVector *)&g_00DFE174)->push_back(*(const AsciiString *)name);
 	ScriptScheduleView *view = (ScriptScheduleView *)script;
-	GameLogic *game = TheGameLogic;
 	int delay = view->m_delay;
 	if (delay > 0) {
-		if (!game->rva001DCD1C())
-			view->m_frameToEvaluate = game->getFrame() + delay * g_Va00DBA4E4;
+		if (!TheGameLogic->rva001DCD1C())
+			view->m_frameToEvaluate = TheGameLogic->getFrame() + delay * g_Va00DBA4E4;
 		else
 			view->m_frameToEvaluate = TheLivingWorldLogic->m_frame + delay;
 	}
