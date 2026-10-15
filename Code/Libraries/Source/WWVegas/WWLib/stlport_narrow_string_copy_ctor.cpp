@@ -39,10 +39,8 @@ public:
 	{
 	}
 
-	__declspec(dllimport) __forceinline ~_String_base()
-	{
-		_M_deallocate_block();
-	}
+	// Native EH cleanup calls the rowed base destructor directly.
+	~_String_base();
 
 	void _M_deallocate_block();
 

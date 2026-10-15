@@ -104,14 +104,20 @@ class Rva005388AB
 {
 public:
 	Rva005388AB();
-	~Rva005388AB()
+protected:
+	void *m_data;
+	char m_pad04[0x24 - 0x04];
+};
+// The native constructor initializes this storage. Keep the parser's
+// observed cleanup local instead of publishing another owner's destructor.
+class RiverQuadStripStorage_RV : public Rva005388AB
+{
+public:
+	~RiverQuadStripStorage_RV()
 	{
 		if (m_data)
 			Rva00030830GameFree(m_data);
 	}
-private:
-	void *m_data;
-	char m_pad04[0x24 - 0x04];
 };
 class QuadStrip2D
 {
@@ -186,7 +192,7 @@ Bool RiverAreasDataChunkParser::parse(DataChunkInput &file, DataChunkInfo *info)
 			reinterpret_cast<Rva0030BBB4 *>(river.m_ptr)->rva0030BBB4(-1);
 		}
 		{
-			Rva005388AB strip;
+			RiverQuadStripStorage_RV strip;
 			reinterpret_cast<QuadStrip2D *>(&strip)->parse(file, 1);
 			reinterpret_cast<Rva0030C129Owner *>(river.m_ptr)->rva0030C157(reinterpret_cast<Rva005386B7 *>(&strip));
 		}

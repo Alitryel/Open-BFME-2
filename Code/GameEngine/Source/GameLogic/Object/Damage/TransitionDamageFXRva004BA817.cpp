@@ -59,12 +59,23 @@ private:
 	int m_argCount;
 };
 
+// The independently rowed initializer builds only the first sixteen bytes.
+// Its ManTheWalls owner has an Object-pointer vector, so the transition
+// record's AsciiString-vector lifetime needs a separate local view.
 class Rva004BA1B2
 {
 public:
 	Rva004BA1B2();
 	int m_objectID;
-	_STL::vector<AsciiString> m_subObjects;
+protected:
+	void *m_vectorStorage[3];
+};
+class TransitionNeighborRecord_RV : public Rva004BA1B2
+{
+public:
+	~TransitionNeighborRecord_RV() { subObjects().~vector(); }
+	__forceinline _STL::vector<AsciiString> &subObjects()
+	{ return *reinterpret_cast<_STL::vector<AsciiString> *>(m_vectorStorage); }
 	const void *m_ocl;
 	Coord3D m_neighborOffset;
 	Coord3D m_oclOffset;
@@ -88,7 +99,7 @@ public:
 
 void TransitionDamageFXModuleData::NeighborIDSubobjectNameDataAppend(INI *ini, void *instance, void *store, const void *)
 {
-	Rva004BA1B2 neighbor;
+	TransitionNeighborRecord_RV neighbor;
 	neighbor.m_objectID = 0;
 	neighbor.m_ocl = 0;
 	neighbor.m_neighborOffset.z = 0.0f;
@@ -120,7 +131,7 @@ void TransitionDamageFXModuleData::NeighborIDSubobjectNameDataAppend(INI *ini, v
 			else if (_strcmpi(token, "SubObject") == 0)
 			{
 				AsciiString subObject(ini->getNextToken(0));
-				neighbor.m_subObjects.push_back(subObject);
+				neighbor.subObjects().push_back(subObject);
 			}
 			else
 				throw INIException(3, "bad colon spacing, or unexpected token in TransitionDamageFXModuleData::NeighborIDSubobjectNameDataAppend");
