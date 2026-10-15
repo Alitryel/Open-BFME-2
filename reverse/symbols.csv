@@ -6798,7 +6798,6 @@ name,address,notes
 ?_adjustVariable@@YAXABVAsciiString@@H_N1@Z,0x002054FF,callee of ?Rva00341350AdjustVariableForwarder@@YGXABVAsciiString@@HD@Z at retail 0x00206559 read from its REL32 displacement; body unrowed
 ?_bfme_closeAptScreen@@YAXABVAsciiString@@@Z,0x0041149A,callee of ??1BfmeAptScreenCampaignReview@@UAE@XZ at retail 0x005128CF read from its REL32 displacement; donor helper closing the campaign review Apt screen; body unrowed
 ?_bfme_debugReportingEnabled@@YA_NXZ,0x000387C0,BFME1-attested name for the matched placeholder row; Debug singleton flag check gating the GameLODManager report path; resolves getAudioLODIndex at 0x202C76
-?_bfme_ro_set_98@RenderObjClass@@UAEXM@Z,0x00210C91,twin of dup row ICF true thiscall float setter used by 0x00433498
 ?_bfme_setEngineVisibility@Mouse@@QAEX_N@Z,0x001EE5BE,GameEngine slot 39 input-lock transition call target; BFME1 Mouse visibility analogue with the same bool argument
 ?_bfme_slotIsLocalOrLive@ConnectionManager@@QAE_NH@Z,0x004CEF58,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?_bfme_updateTimedOps@@YAIXZ,0x003FE74B,GameEngine slot 39 call target; returns timed-operation flags consumed for input-lock and mouse visibility handling

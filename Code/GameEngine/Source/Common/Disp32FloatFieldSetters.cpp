@@ -22,6 +22,10 @@
 BFME_DISP32_FLOAT_SETTER(Rva00167F15FloatField, 0xFC)
 BFME_DISP32_FLOAT_SETTER(Rva00167F37FloatField, 0x100)
 BFME_DISP32_FLOAT_SETTER(Rva001D972BFloatField, 0x94)
+// Native210C91..210CA2 stores a float at ECX+98 and returns with RET4.
+// Audio callers433498 and4331C6 select this SSE body, not RenderObjClass's
+// distinct integer-MOV body at E43E7. Original owner/field name unresolved.
+BFME_DISP32_FLOAT_SETTER(Rva00210C91FloatField, 0x98)
 BFME_DISP32_FLOAT_SETTER(Rva0029A767FloatField, 0x764)
 BFME_DISP32_FLOAT_SETTER(Rva002AA0CDFloatField, 0x6F8)
 

@@ -124,7 +124,7 @@ class Rva001D9709 {public: void rva001D9709(int);};
 class W3DRopeDraw {public: virtual void setRopeCurLen(float);};
 class Anim2D {public: void setAlpha(float);};
 class Rva001D972BFloatField {public: void set(float);};
-class RenderObjClass {public: virtual void _bfme_ro_set_98(float);};
+class Rva00210C91FloatField {public: void set(float);};
 enum AudioPriority {AP_LOWEST,AP_LOW,AP_NORMAL,AP_HIGH,AP_CRITICAL};
 class AudioEventInfo {public: void Rva0041FDEE(AudioPriority); private: char p00[0x44]; AudioPriority m_priority;};
 
@@ -160,6 +160,6 @@ void DynamicAudioEventInfo::xferNoName(Xfer *x) {
  if(test(3)){float v=at10; *x == v; ((W3DRopeDraw*)this)->W3DRopeDraw::setRopeCurLen(v);}
  if(test(4)){float v=at1c; *x == v; ((Anim2D*)this)->setAlpha(v);}
  if(test(5)){float v=at94; *x == v; ((Rva001D972BFloatField*)this)->set(v);}
- if(test(6)){float v=at98; *x == v; ((RenderObjClass*)this)->RenderObjClass::_bfme_ro_set_98(v);}
+ if(test(6)){float v=at98; *x == v; ((Rva00210C91FloatField*)this)->set(v);}
  if(test(7)){unsigned char v=priority; *x == v; ((AudioEventInfo*)this)->Rva0041FDEE((AudioPriority)v);}
 }
