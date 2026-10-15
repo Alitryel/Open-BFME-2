@@ -1,23 +1,12 @@
-// ?preEmptivelyBuildDozers@AIDozerManager@@QAEXXZ
-// partial score=0.9442 date=2026-10-14
-// ?preEmptivelyBuildDozers@AIDozerManager@@QAEXXZ
-// partial score=0.93 date=2026-10-13
-// ?preEmptivelyBuildDozers@AIDozerManager@@QAEXXZ 0x00599D56 (390 B)
 // Identity: WB twin 0x01530980 (AIDozerManager.cpp asserts 247/273); siblings
 // buildDozer 0x00599564, rva00599AE3 0x00599AE3, rva00599EDC 0x00599EDC.
-// Result under explain_mismatch: 390 bytes compiled, 22 diffs left:
-//  - EBX/EDI role swap through both loops: retail keeps the outer iterator in
-//    ebx (spilled [ebp-0x14]) and the inner iterator in ebx, factory in edi;
-//    ours is reversed. A probe adding a real extra factory use in the inner
-//    loop flips it (MSVC weight-based regalloc); ~30 code-neutral shapes and
-//    /Op /Ob1 /GX left 22.
-//  - push_back of the 8-byte Rva00599435Keyframe vector is ICF-folded at
-//    retail 0x00539A2E: land with a fold-proof pin (tools/pin_admission.py --add).
-// On landing rename the rva00599D56() declaration/call in
-// Code/GameEngine/Source/Common/Rva00599825ListAdd.cpp (rva00599EDC) to
-// preEmptivelyBuildDozers. Key fixes so far: C++-linkage free (98->41 was the
-// WB-shaped delta with inline sub/lengthSqrd2D; 41->22 the free trick).
-// Home path tried: Code/GameEngine/Source/GameLogic/SkirmishAI/AIDozerManager.cpp
+// The lookup chain (ObjectIdMap::find 0x002888D4 and GameLogic::findObjectByID
+// 0x00049DC5, both rowed COMDAT copies as in ProjectileNuggetObjectEffect.cpp)
+// is visible in this unit; with it cl gives the outer and inner iterators EBX
+// and the factory EDI, as retail does. The 8-byte keyframe vector's push_back
+// is the ICF-folded body at 0x00539A2E (fold-proof pin from this unit).
+// The caller rva00599EDC still names this body through its placeholder pin
+// (rva00599D56 on AIDozerManager).
 // cl: /Ireference/shims/bfmealloc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /O1 /G7 /arch:SSE /MD /EHsc
 // stlport
 // Retail frees vector storage through the C++-linkage free (0x00030830),
@@ -26,13 +15,36 @@
 #include <cstdlib>
 #undef free
 void free(void *);
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../Common/GameLogicObjectLookupView.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 #include <list>
 #include <vector>
 #include <algorithm>
 
 extern GameLogic *TheGameLogic;
+struct AIDozerLookupNode { AIDozerLookupNode *next; ObjectID key; Object *object; };
+struct AIDozerLookupBuckets {
+ AIDozerLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ AIDozerLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct AIDozerLookupMap { unsigned char hashEqual[4]; AIDozerLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ AIDozerLookupMap *map=(AIDozerLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ AIDozerLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 
 class Object
 {
