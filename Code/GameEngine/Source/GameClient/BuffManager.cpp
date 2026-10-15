@@ -19,10 +19,24 @@ public:
 	int m_state; // +0x08
 };
 
+// Embedded material prefix, shared with the rowed 0x00362499 predicate.
+class Rva00362499
+{
+public:
+	unsigned char rva00362499();
+private:
+	char m_00[4];
+	void *m_04;
+	void *m_08;
+	unsigned int m_0C;
+	unsigned int m_10;
+};
+
 class BuffInstance
 {
 public:
 	void TurnOff(bool immediate);
+	void Update(unsigned int frame);
 	bool MakeNormalBuff(int type, int subtype, void *thingTemplate, void *drawable, int duration);
 	bool MakeGlowOutlineBuff(int type, int subtype, void *drawable, int duration, int color, float intensity);
 
@@ -31,9 +45,11 @@ private:
 	bool m_active; // +0x04
 	char m_pad05[0x0C - 0x05];
 	int m_subType; // +0x0C
-	char m_pad10[0x18 - 0x10];
+	char m_pad10[4];
+	unsigned int m_frameLimit; // +0x14, unsigned comparison in retail
 	Rva00419BA5 *m_glow; // +0x18
-	char m_pad1C[0x44 - 0x1C];
+	char m_pad1C[0x30 - 0x1C];
+	Rva00362499 m_material; // +0x30, 0x14 bytes
 };
 
 class BuffManager
@@ -80,6 +96,21 @@ void BuffManager::TurnOffBuff(int type, bool immediate)
 {
 	if (type < 9 && type >= 1)
 		m_buffs[type].TurnOff(immediate);
+}
+
+// WB F14400 names Update and asserts m_buff == NULL on the active embedded
+// GlowMaterial branch (BuffManager.cpp:351). Retail 3627B8..3627F9 removes
+// that debug assertion but preserves the same three calls, offsets and RET4.
+// Native comparison proves unsigned frame ordering; original typedef unknown.
+void BuffInstance::Update(unsigned int frame)
+{
+	if (m_active && !m_material.rva00362499() && frame > m_frameLimit)
+		TurnOff(false);
+	if (m_glow != 0 && m_glow->m_state == 3)
+	{
+		m_glow->rva00419BA5();
+		m_glow = 0;
+	}
 }
 
 // WorldBuilder names this complete 70-byte retail body MakeGlowOutlineBuff.
