@@ -6,15 +6,22 @@
 // +0xE18 byte. Honest address-derived names; sub-object identities unproven
 // beyond the shared clear shape.
 
+namespace _STL {
+template <class T> class allocator;
+template <class T, class A> class _List_base
+{
+public:
+	void clear();
+};
+}
+
 struct Rva002DEE9A0E0C
 {
-	void clear();
 	char m_pad[4];
 };
 
 struct Rva002DEE9A0E10
 {
-	void clear();
 	char m_pad[8];
 };
 
@@ -39,8 +46,8 @@ private:
 // ?rva002DEE9A@Rva002DEE9AOwner@@QAEXXZ
 void Rva002DEE9AOwner::rva002DEE9A()
 {
-	m_s0E0C.clear();
-	m_s0E10.clear();
+	((_STL::_List_base<int, _STL::allocator<int> > *)&m_s0E0C)->clear();
+	((_STL::_List_base<int, _STL::allocator<int> > *)&m_s0E10)->clear();
 	((Rva002DE311Owner *)this)->rva002DE311();
 	m_b0E18 = 0;
 }
