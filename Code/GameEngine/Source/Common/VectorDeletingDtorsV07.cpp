@@ -49,6 +49,9 @@ public:
 class Xfer
 {
 public:
+	// The constructor stays Xfer.cpp's (0x000053DE): declared only, so this TU
+	// emits no competing copy of it.
+	Xfer();
 	virtual ~Xfer() {}
 };
 

@@ -79,15 +79,23 @@ CommandList *TheCommandList = NULL;
 /**
  * Constructor
  */
+// BFME 2's PlayerList keeps the local player at +0x10 and Player's index at
+// +0x54 (retail 0x0030F47A reads both inline); the Zero Hour headers place
+// them elsewhere, so the constructor reads them through these views.
+struct BfmeMessagePlayerView { char pad[0x54]; int index; };
+struct BfmeMessagePlayerListView { char pad[0x10]; BfmeMessagePlayerView *local; };
+
 // ??0GameMessage@@ present-unmatched
 GameMessage::GameMessage( GameMessage::Type type ) 
 { 
-	m_playerIndex = ThePlayerList->getLocalPlayer()->getPlayerIndex();
+	m_playerIndex = ((BfmeMessagePlayerListView *)ThePlayerList)->local->index;
 	m_type = type; 
 	m_argList = NULL;
 	m_argTail = NULL;
 	m_argCount = 0; 
 	m_list = 0; 
+	m_next = NULL;
+	m_prev = NULL;
 }
 
 

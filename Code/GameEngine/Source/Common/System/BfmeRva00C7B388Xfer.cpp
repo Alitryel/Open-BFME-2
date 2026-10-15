@@ -104,7 +104,7 @@ class Xfer
 public:
     class Version;
 
-    Xfer() {}
+    __declspec(dllimport) __forceinline Xfer() {}
     virtual ~Xfer() {}
 
     void Version1();

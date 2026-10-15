@@ -180,7 +180,7 @@ Xfer::Xfer()
 {
 }
 
-Xfer::~Xfer()
+inline Xfer::~Xfer()
 {
 }
 

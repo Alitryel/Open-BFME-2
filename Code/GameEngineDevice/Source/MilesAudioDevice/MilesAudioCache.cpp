@@ -76,7 +76,11 @@ public:
  __declspec(nothrow) Rva0041534BIter rva0041534B(const AsciiString *key);
 };
 // ?rva0041534B@Rva00056F61@@QAE?AURva0041534BIter@@PBVAsciiString@@@Z 0x0041534B 27B
-__declspec(nothrow) Rva0041534BIter Rva00056F61::rva0041534B(const AsciiString *key)
+// Inline (a selectany COMDAT, kept out of line) like the other units that
+// compile this find (MilesAudioManagerRva00059EAE.cpp,
+// ParticleSystemManagerRva001FCF11.cpp): an ordinary definition here made
+// link.exe report their identical copies as duplicates.
+__declspec(nothrow) __declspec(noinline) inline Rva0041534BIter Rva00056F61::rva0041534B(const AsciiString *key)
 {
  return Rva0041534BIter((AudioCacheFileNode *)rva00056F61(key), this);
 }
