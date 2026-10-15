@@ -33,7 +33,9 @@ class Object
 {
 public:
 	bool isSignificantlyAboveTerrain() const;
-	Real getOrientation() const { return m_orientation; }
+	// Keep the +0x1C0 load in this BFME layout view, without exporting a
+	// standalone getter shared with the other private Object layouts.
+	__declspec(dllimport) __forceinline Real getOrientation() const { return m_orientation; }
 	char m_pad00[0x1C0];
 	Real m_orientation;
 };

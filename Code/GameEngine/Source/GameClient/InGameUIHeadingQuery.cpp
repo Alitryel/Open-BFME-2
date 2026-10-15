@@ -24,7 +24,9 @@ class Object
 {
 public:
 	const Coord3D *getPosition() const { return &m_position; }
-	float getOrientation() const { return m_orientation; }
+	// Keep this BFME offset-specific view inlined; the other private Object
+	// layouts must not share its standalone getter.
+	__declspec(dllimport) __forceinline float getOrientation() const { return m_orientation; }
 private:
 	char m_pad000[0x38];
 	Coord3D m_position;			// +0x38
