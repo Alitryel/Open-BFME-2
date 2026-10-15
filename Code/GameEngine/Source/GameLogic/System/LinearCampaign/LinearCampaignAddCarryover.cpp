@@ -143,6 +143,7 @@ public:
 struct BfmeAssignRecord36;
 struct BfmeAssignRecord172 { int a[43]; };
 struct BfmePod172 { int a[43]; };
+namespace _STL { template <> BfmeAssignRecord172 *vector<BfmeAssignRecord172, allocator<BfmeAssignRecord172> >::erase(BfmeAssignRecord172 *, BfmeAssignRecord172 *); }
 struct Rva001EB8A4Elem;
 class Rva001EB8A4 { public: bool rva001EB8A4(const Rva001EB8A4Elem &e); };
 class Rva001EB3A6 { public: BfmeAssignRecord36 *rva001EB3A6(int index); };
