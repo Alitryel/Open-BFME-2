@@ -11,6 +11,18 @@
 #include <vector>
 #include <list>
 #include <set>
+// Retail inlines these typed node comparisons. Keep their helpers local so
+// this unit does not emit competing iterator-base operator!= COMDATs.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits> &a,
+                              const _List_iterator<T, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits> &a,
+                              const _Rb_tree_iterator<T, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+}
 class AsciiString;
 class UpgradeTemplate;
 class Object {public:bool affectedByUpgrade(const UpgradeTemplate *) const;void rva00293077(const void *);};
