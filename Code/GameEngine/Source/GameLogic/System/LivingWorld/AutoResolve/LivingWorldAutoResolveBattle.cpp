@@ -22,6 +22,17 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 #include <map>
+// Keep inlined node and integer comparisons without conflicting external
+// library copies, as in the LivingWorld tally and picker unit.
+namespace _STL {
+template <class Value, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits> &a,
+                              const _Rb_tree_iterator<Value, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+template <> __declspec(dllimport) __forceinline
+bool less<int>::operator()(const int &a, const int &b) const
+{ return a < b; }
+}
 struct Rva0040DC56Element {int a[1];};
 typedef _STL::vector<Rva0040DC56Element> EntryVector;
 namespace _STL {template<> EntryVector::~vector();}
