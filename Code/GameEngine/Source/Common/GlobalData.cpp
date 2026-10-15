@@ -76,10 +76,15 @@ struct GDRandomVar { int m_type; float m_low, m_high; GDRandomVar():m_type(0),m_
 struct GDPair { int a,b; GDPair(int x,int y):a(x),b(y){} };
 struct RvaGDColor:RGBColor { RvaGDColor(int v) {setFromInt(v);} };
 
-// The INI field parsers GlobalData's table names (all rowed elsewhere).
+// The INI field parsers GlobalData's table names (all rowed elsewhere),
+// plus the load type at +8 and initFromINI (0x0002DE78) that
+// parseGameDataDefinition uses.
+struct FieldParse;
 class INI
 {
 public:
+ int getLoadType() const { return m_loadType; }
+ void initFromINI(void *what, const FieldParse *parseTable);
  static void parseBool(INI *ini, void *instance, void *store, const void *userData);
  static void parseInt(INI *ini, void *instance, void *store, const void *userData);
  static void parseUnsignedByte(INI *ini, void *instance, void *store, const void *userData);
@@ -99,6 +104,8 @@ public:
  static void parseIndexList(INI *ini, void *instance, void *store, const void *userData);
  static void parseGameClientRandomVariable(INI *ini, void *instance, void *store, const void *userData);
  static void dup_002F0F7(INI *ini, void *instance, void *store, const void *userData);
+ char m_0000[8];
+ int m_loadType;
 };
 typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
 struct FieldParse { const char *token; INIFieldParseProc parse; const void *userData; int offset; };
@@ -146,7 +153,11 @@ public:
  virtual bool vslot04(int);
  virtual int vslot06();
  static const FieldParse s_GlobalDataFieldParseTable[];
- static GlobalData *newOverride();
+ // Zero Hour's GlobalData.h declares newOverride a member; retail's caller
+ // keeps TheWritableGlobalData in ECX across the call.
+ GlobalData *newOverride();
+ static void parseGameDataDefinition(INI *ini);
+ void applyOptionPreferences();
  AsciiString getPicturePath() const;
 private: static GlobalData *m_theOriginal;
  AsciiString m_000C;
@@ -1756,3 +1767,64 @@ m_116C[19]=0.1f;
 }
 
 typedef char S4GlobalDataSize[(sizeof(GlobalData)==0x1254)?1:-1];
+
+// GlobalData::parseGameDataDefinition, retail 0x00237AB1 (588 B). Zero Hour's
+// GlobalData.cpp gives the shape: a load-type 5 (INI_LOAD_MULTIFILE-style)
+// re-read keeps the map name and the +98 option across initFromINI; type 2
+// (override) pushes a new override through the member newOverride (0x00237A6B);
+// the first read constructs TheWritableGlobalData. BFME2 then clears the
+// picture/user-data paths, resolves the user-data leaf name
+// (getUserDataLeafName, 0x00234BEC) and creates the per-user folder under
+// CSIDL_APPDATA (0x1A) before applyOptionPreferences (0x0023576A). Field
+// names stay offset labels.
+UnicodeString getUserDataLeafName();
+static __forceinline bool emptyLeaf(const UnicodeString &leaf)
+{
+	const void *data = *(const void * const *)&leaf;
+	return !data || *(const unsigned short *)((const char *)data + 4) == 0;
+}
+void GlobalData::parseGameDataDefinition(INI *ini)
+{
+	if (TheWritableGlobalData)
+	{
+		if (ini->getLoadType() == 5)
+		{
+			AsciiString name = TheWritableGlobalData->m_000C;
+			bool enabled = false;
+			if (TheWritableGlobalData->m_0098 != 0.0f)
+				enabled = true;
+			ini->initFromINI(TheWritableGlobalData, s_GlobalDataFieldParseTable);
+			TheWritableGlobalData->m_000C = name;
+			TheWritableGlobalData->m_0098 = (float)enabled;
+			TheWritableGlobalData->applyOptionPreferences();
+			return;
+		}
+		if (ini->getLoadType() != 3 && ini->getLoadType() == 2)
+			TheWritableGlobalData->newOverride();
+	}
+	else
+	{
+		TheWritableGlobalData = new GlobalData;
+	}
+	ini->initFromINI(TheWritableGlobalData, s_GlobalDataFieldParseTable);
+	((StringBase<char> *)&TheWritableGlobalData->m_1240)->clear();
+	TheWritableGlobalData->m_1244.clear();
+	((StringBase<char> *)&TheWritableGlobalData->m_picturePath)->clear();
+	UnicodeString leaf = getUserDataLeafName();
+	if (emptyLeaf(leaf))
+		leaf.translate(TheWritableGlobalData->m_124C);
+	else
+		TheWritableGlobalData->m_124C.translate(leaf);
+	unsigned short path[260];
+	if (SHGetSpecialFolderPathW(0, path, 0x1a, 1))
+	{
+		if (path[wcslen(path) - 1] != L'\\')
+			wcscat(path, L"\\");
+		wcscat(path, leaf.str());
+		wcscat(path, L"\\");
+		CreateDirectoryW(path, 0);
+		TheWritableGlobalData->m_1244 = path;
+		TheWritableGlobalData->m_1240.translate(path);
+	}
+	TheWritableGlobalData->applyOptionPreferences();
+}
