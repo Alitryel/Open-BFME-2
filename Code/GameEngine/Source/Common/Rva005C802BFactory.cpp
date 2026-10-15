@@ -22,7 +22,17 @@ class Rva005C802B;
 
 struct Rva005C802BChild
 {
-	Rva005C802BChild(Rva005C802B *o, int a, int b);
+	char m_data[0x60];
+};
+// The 0x60 child's constructor 0x005C7D4A is rowed as
+// InGameCommandButtonMovieClip::Impl's; this factory calls it by that spelling.
+class InGameCommandButtonMovieClip { public: class Impl; };
+class AptMovieClipFrame;
+class AsciiString;
+class InGameCommandButtonMovieClip::Impl
+{
+public:
+	Impl(InGameCommandButtonMovieClip *owner, AptMovieClipFrame *frame, const AsciiString &name);
 	char m_data[0x60];
 };
 
@@ -37,7 +47,8 @@ private:
 
 Rva005C802B::Rva005C802B(int a, int b)
 {
-	m_04 = new Rva005C802BChild(this, a, b);
+	m_04 = (Rva005C802BChild *)new InGameCommandButtonMovieClip::Impl(
+		(InGameCommandButtonMovieClip *)this, (AptMovieClipFrame *)a, *(const AsciiString *)b);
 }
 
 class Rva005D19F8;

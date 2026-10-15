@@ -2440,7 +2440,6 @@ name,address,notes
 ??0Rva005C3A37Elem@@QAE@PAVRva005C3F02@@PAX1@Z,0x005C3F2C,Rva005C3A37Elem constructor called by Rva005C3F02::Rva005C3F02
 ??0Rva005C4B56@@QAE@ABUHelper005C4D4B@@HH@Z,0x005C4DE0,Rva005C4B56 constructor from Helper005C4D4B
 ??0Rva005C6D4D@@QAE@XZ,0x005C6D4D,address read from the REL32 displacement at byte-matched body 0x0053ED1A
-??0Rva005C802BChild@@QAE@PAVRva005C802B@@HH@Z,0x005C7D4A,child constructor taking owner and two ints: REL32 read at the new-trap-guarded call site in ctor 0x005C802B; owner identity unproven
 ??0Rva005C8624Element@@QAE@ABU0@@Z,0x005C9217,copy constructor read from retail REL32 in _Construct<Rva005C8624Element> 0x005C83CD (byte-exact modulo relocs in StlportConstructFamily.cpp); element identity unproven; address-derived name
 ??0Rva005CD257@@QAE@PAVRva005CD1A9@@PAX111@Z,0x005CD257,Rva005CD257 ctor (vtable 0x00C74F84) called at 0x005CD3DB
 ??0Rva005CD2A3@@QAE@PAVRva005CD1A9@@PAX111@Z,0x005CD2A3,Rva005CD2A3 ctor (vtable 0x00C74FA0) called at 0x005CD46E
