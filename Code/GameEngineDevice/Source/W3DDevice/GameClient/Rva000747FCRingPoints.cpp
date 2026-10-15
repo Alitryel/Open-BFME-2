@@ -1,5 +1,4 @@
 // ?rva000747FC@Rva000747FC@@QAEXPAVVector3@@HPBV2@M_N@Z
-// partial score=0.93 date=2026-10-15
 // cl: /O1 /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // Native 0x000747FC..0x000748DF, 227 B, RET 0x14: emits a ring of points.
 // For each of `count` steps the angle 2*i/count*PI gives the offset
@@ -23,11 +22,12 @@ void Rva000747FC::rva000747FC(Vector3 *points, int count, const Vector3 *center,
 {
 	for (int i = 0; i < count; i++)
 	{
-		// Residue: retail spills the double angle across the Cos call
-		// (fst qword) and converts at each call; cl here CSEs the float
-		// conversion (fst dword) in every spelling tried.
+		// Retail spills the double angle across the Cos call (fst qword) and
+		// converts it again for the Sin argument; a second named copy keeps cl
+		// from sharing one float conversion between the two calls.
 		const double angle = 2 * i / (float)count * 3.14159265358979323846;
-		Vector3 offset(Sin(angle), Cos(angle), 0.0f);
+		const double angle2 = angle;
+		Vector3 offset(Sin(angle2), Cos(angle), 0.0f);
 		offset = offset * radius + *center;
 		if (!skipOdd)
 			points[2 * i + 1] = offset;
