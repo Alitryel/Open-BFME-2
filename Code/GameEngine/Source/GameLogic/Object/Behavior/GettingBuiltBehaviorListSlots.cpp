@@ -1,6 +1,6 @@
-// cl: /DNDEBUG /MD
+// cl: /O1 /DNDEBUG /MD /arch:SSE /EHsc
 //
-// Three slots of the +0x20 interface vtable 0x00C403C8 that GettingBuiltBehavior's
+// Four slots of the +0x20 interface vtable 0x00C403C8 that GettingBuiltBehavior's
 // ctor 0x004542FA installs, over the work list at +0x40 (+0x20 from the
 // subobject this). Its 20-byte entries are Rva004530ED: an Object ID, a
 // position and a float (Rva004530EDFinish.cpp: the default ctor 0x004530D0
@@ -30,11 +30,19 @@ class Object;
 
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
+#include <string.h>
+#pragma intrinsic(memcpy)
 class Rva004530ED
 {
 public:
 	Rva004530ED();
-	Rva004530ED(const Rva004530ED &rhs);
+	// 0x004530ED, out of line but visible here.
+	__declspec(noinline) Rva004530ED(const Rva004530ED &rhs)
+	{
+		m_id = rhs.m_id;
+		memcpy(&m_pos, &rhs.m_pos, 12);
+		m_10 = rhs.m_10;
+	}
 	Rva004530ED &operator=(const Rva004530ED &rhs);
 	int m_id; // +0x00
 	Coord3D m_pos; // +0x04
@@ -52,12 +60,62 @@ struct Rva00453E5CTemplate
 	unsigned char m_11B; // +0x11B
 };
 
+enum DamageType
+{
+	DAMAGE_TYPE_NONE = 0
+};
+
+enum DeathType
+{
+	DEATH_TYPE_NONE = 0
+};
+
 class GettingBuiltBehaviorInterface;
+class Object;
+
+class ScoreKeeper
+{
+public:
+	void addObjectBuilt(Object *obj, int count);
+};
+
+class Rva0023DAA5List
+{
+public:
+	void clear();
+};
+
+class Rva0039B7AD
+{
+private:
+	unsigned char m_pad[4];
+};
+
+class Rva003B0D7C
+{
+public:
+	void rva003B0D7C(unsigned int amount, Rva0039B7AD *score, bool flag);
+private:
+	unsigned char m_pad[4];
+};
+
+class Player
+{
+public:
+	unsigned char m_pad000[0x90];
+	Rva003B0D7C m_money; // +0x90
+	unsigned char m_pad094[0x3BC - 0x94];
+	Rva0039B7AD m_3BC; // +0x3BC
+};
 
 class Object
 {
 public:
 	bool testStatus(ObjectStatusTypes bit) const;
+	void setStatus(ObjectStatusTypes bit, bool set);
+	Player *getControllingPlayer() const;
+	void kill(DamageType damageType, DeathType deathType);
+	void *rva0028BC58(int which);
 	void *rva0028BD17() const;
 	unsigned char m_pad000[0x04];
 	const Rva00453E5CTemplate *m_template; // +0x04
@@ -68,17 +126,45 @@ public:
 	int m_74; // +0x74 (ID)
 	unsigned char m_pad078[0x7C - 0x78];
 	int m_7C; // +0x7C (an Object ID)
-	unsigned char m_pad080[0x438 - 0x80];
+	unsigned char m_pad080[0x280 - 0x80];
+	float m_280; // +0x280
+	unsigned char m_pad284[0x324 - 0x284];
+	float m_324; // +0x324
+	unsigned char m_pad328[0x438 - 0x328];
 	unsigned char m_438; // +0x438
 };
 
-// Zero Hour's GameCommon.h spells the id an enum; retail's 0x00049DC5 row takes it.
-enum ObjectID { INVALID_ID = 0, FORCE_OBJECTID_TO_LONG_SIZE = 0x7ffffff };
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
+#include "../../../Common/GameLogicObjectLookupView.h"
+
+// The lookup chain is visible in this unit, as in AIUpgradeBuild.cpp: storage
+// and traversal from native _M_find 0x002888D4 and GameLogic::findObjectByID
+// 0x00049DC5 (both rowed; out-of-line COMDAT copies). Seeing that neither
+// touches the behavior lets slot 26 keep `this` at [ebp-4] and the entry ID
+// in EDI across the loop, as retail does.
+struct GettingBuiltLookupNode { GettingBuiltLookupNode *next; ObjectID key; Object *object; };
+struct GettingBuiltLookupBuckets {
+ GettingBuiltLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ GettingBuiltLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
 };
+struct GettingBuiltLookupMap { unsigned char hashEqual[4]; GettingBuiltLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ GettingBuiltLookupMap *map=(GettingBuiltLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ GettingBuiltLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 
 extern GameLogic *TheGameLogic;
 
@@ -93,8 +179,16 @@ template <class T> struct _List_node
 	T _M_data;
 };
 
+template <class T, class A> class _List_base
+{
+public:
+	void clear();
+protected:
+	_List_node<T> *m_node;
+};
+
 // STLport 4.5.3 list<T>: one pointer to the sentinel node.
-template <class T, class A> class list
+template <class T, class A> class list : public _List_base<T, A>
 {
 public:
 	typedef _List_node<T> *iterator;
@@ -108,9 +202,8 @@ public:
 			++n;
 		return n;
 	}
+	using _List_base<T, A>::m_node;
 	void push_back(const T &x);
-private:
-	_List_node<T> *m_node;
 };
 }
 
@@ -127,6 +220,13 @@ public:
 	virtual void gap(char (*)[1]) = 0;
 };
 
+// What Object::rva0028BC58 (0) hands back: slot 15 runs on it.
+class Rva00453BF1Module : public Rva00453B20Slots<15>
+{
+public:
+	virtual void rva00453BF1Slot15() = 0;
+};
+
 class GettingBuiltBehaviorInterface : public Rva00453B20Slots<14>
 {
 public:
@@ -139,6 +239,7 @@ public:
 	virtual void gap22() = 0; virtual void gap23() = 0;
 	virtual int rva00453B7B(int index, Rva004530ED *out) = 0;
 	virtual bool rva00453E5C() = 0;
+	virtual void rva00453BF1() = 0;
 };
 
 class GettingBuiltBehaviorHead
@@ -158,6 +259,7 @@ public:
 	virtual void rva00453B20(Object *obj);
 	virtual int rva00453B7B(int index, Rva004530ED *out);
 	virtual bool rva00453E5C();
+	virtual void rva00453BF1();
 private:
 	__forceinline bool anyLaterBuilding(int myId)
 	{
@@ -181,7 +283,8 @@ private:
 	{
 		return (GettingBuiltBehaviorInterface *)obj->rva0028BD17();
 	}
-	unsigned char m_pad24[0x40 - 0x24];
+	unsigned char m_pad24[0x3E - 0x24];
+	bool m_3E; // +0x3E
 	Rva00453B20List m_40; // +0x40
 };
 
@@ -232,4 +335,75 @@ bool GettingBuiltBehavior::rva00453E5C()
 	if (me->testStatus((ObjectStatusTypes)2) && !rva004543BE() && !rva004543C2() && !rva004543C6())
 		return true;
 	return anyLaterBuilding(myId);
+}
+
+// Slot 26, retail 0x00453BF1 (417 bytes): once slot 25 answers true, every
+// listed Object with a higher ID than the owner's +0x7C is settled: a dead
+// one (+0x438 bit 0) is destroyed, one whose template has bit 4 of +0x11B
+// and an ID above the owner's +0x74 runs its own slot 26, otherwise (unless
+// status 0x56 is already set) its module slot 15 runs, its +0x324 value is
+// deposited into the owner's player money (0x003B0D7C, +0x90) with the
+// +0x3BC score keeper, and it is destroyed or killed (8, 8) under status
+// 0x56 by its +0x280 float, then counted through addObjectBuilt(-1). The
+// +0x3E flag is cleared and the list emptied.
+// The deposit amount is unsigned (Zero Hour's Money::deposit takes
+// UnsignedInt): retail converts with fld/__ftol2, which a signed spelling
+// folds into cvttss2si; the unsigned spelling is the address-named pin
+// ?rva003B0D7C@Rva003B0D7C@@QAEXIPAVRva0039B7AD@@_N@Z. The copy ctor
+// 0x004530ED and GameLogic::findObjectByID 0x00049DC5 (with the ID map's
+// find 0x002888D4) are visible here, as in AIUpgradeBuild.cpp: cl then keeps
+// `this` at [ebp-4] and the entry ID in EDI across the loop, as retail does.
+void GettingBuiltBehavior::rva00453BF1()
+{
+	if (!rva00453E5C())
+		return;
+	Object *me = m_object;
+	if (!me)
+		return;
+	Player *player = me->getControllingPlayer();
+	if (!player)
+		return;
+	int myId = me->m_7C;
+	if (!myId)
+		return;
+	for (Rva00453B20List::iterator it = m_40.begin(); it != m_40.end(); it = it->_M_next)
+	{
+		Rva004530ED entry(it->_M_data);
+		if (entry.m_id <= myId)
+			continue;
+		Object *other = TheGameLogic->findObjectByID((ObjectID)entry.m_id);
+		if (!other)
+			continue;
+		if (other->m_438 & 1)
+		{
+			TheGameLogic->destroyObject(other);
+			continue;
+		}
+		GettingBuiltBehaviorInterface *gbi = interfaceOf(other);
+		if (gbi && (other->m_template->m_11B & 0x10) && entry.m_id > me->m_74)
+		{
+			gbi->rva00453BF1();
+			continue;
+		}
+		if (other->testStatus((ObjectStatusTypes)0x56))
+			continue;
+		if (m_3E && entry.m_id <= me->m_74)
+			continue;
+		Rva00453BF1Module *module = (Rva00453BF1Module *)other->rva0028BC58(0);
+		if (module)
+			module->rva00453BF1Slot15();
+		player->m_money.rva003B0D7C(other->m_324, &player->m_3BC, true);
+		other->setStatus((ObjectStatusTypes)0x56, true);
+		if (other->m_280 <= 0.075f)
+			TheGameLogic->destroyObject(other);
+		else
+		{
+			other->setStatus((ObjectStatusTypes)0x56, true);
+			other->kill((DamageType)8, (DeathType)8);
+			other->setStatus((ObjectStatusTypes)0x56, false);
+		}
+		((ScoreKeeper *)&player->m_3BC)->addObjectBuilt(other, -1);
+	}
+	m_3E = false;
+	((Rva0023DAA5List *)&m_40)->clear();
 }
