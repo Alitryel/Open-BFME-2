@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /G7 /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /ICode/GameEngine/Include /O1 /arch:SSE /G7 /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // Native 003FA781..003FA7D3 RET4 toggles byte +14 and resets float +18.
 // Turning off also forwards +10 and the resolved template's float +14 to
@@ -6,7 +6,7 @@
 // supplies this receiver and a word argument whose low byte is tested here.
 // The original owner/template names and meanings of the floats are open.
 // The folded OVERRIDE getter is used only for its proven pointer-chain ABI.
-#include "ascii_string.h"
+#include "Common/BfmeAudioEventPrefix136.h"
 #include <math.h>
 #include <algorithm>
 typedef float Real;
@@ -31,6 +31,7 @@ public:
  virtual ~Rva003FA835() {}
  void rva003FA781(int enabled);
  void rva003FA878();
+ BfmeEventPositionView rva003FA835();
  void rva003FA7D3(int enabled);
  void rva003FA705(void *target, float value);
 private:
@@ -169,4 +170,40 @@ void Rva003FA835::rva003FA878()
 		m_elapsed = 0.0f;
 		rva003FA705(target, getTemplate()->value);
 	}
+}
+
+class Rva003FA835Model
+{
+public:
+ virtual void s0(); virtual void s1(); virtual void s2(); virtual void s3();
+ virtual void s4(); virtual void s5(); virtual void s6(); virtual void s7();
+ virtual void s8(); virtual void s9(); virtual void s10(); virtual void s11();
+ virtual void s12(); virtual void s13(); virtual void s14(); virtual void s15();
+ virtual void s16(); virtual void s17(); virtual void s18(); virtual void s19();
+ virtual void refresh();
+ char pad4[0x20]; float x;
+ char pad28[0xc]; float y;
+ char pad38[0xc]; float z;
+};
+struct Rva003FA835Details { char pad0[8]; Rva003FA835Model *model; };
+
+// Native3FA835..3FA878 and WB1063020 establish the target->model +8,
+// transform validation vcall50 and translation components at24/34/44.
+// Owner/model names remain unknown. The local stages the first two source
+// components before copying them into their final coordinates, preserving
+// the native SSE register copy; it adds no target-layout claim.
+BfmeEventPositionView Rva003FA835::rva003FA835()
+{
+ Rva003FA835Model *model = ((Rva003FA835Details *)m_target)->model;
+ BfmeEventPositionView out(0.0f, 0.0f, 0.0f);
+ if (model)
+ {
+  model->refresh();
+  out.y = model->x;
+  out.z = model->y;
+  out.x = out.y;
+  out.y = out.z;
+  out.z = model->z;
+ }
+ return BfmeEventPositionView(out.x, out.y, out.z);
 }
