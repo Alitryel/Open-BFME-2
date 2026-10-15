@@ -13,7 +13,7 @@
 // found site's +0x10 word goes to helper slot 17, the machine's goal position becomes the state's
 // goal (+0x20) and, when the site's +0x18 flag is set, the goal is nudged: the site's +0x1C offset is
 // scaled by a random 0.5..5 and added to the goal up to five times, halving the offset after every
-// try the pathfinder refuses (adjustDestination, point on a wall or on a ramp); the first acceptable
+// try the pathfinder refuses (AdjustDestination, point on a wall or on a ramp); the first acceptable
 // point becomes the goal. Finally AIInternalMoveToState::onEnter runs.
 #define COORD3D_VIEW_INLINE
 #include "Lib/Coord3DCtorView.h"
@@ -237,7 +237,7 @@ extern TerrainLogic *TheTerrainLogic;
 class Pathfinder
 {
 public:
-	bool adjustDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest, const Coord3D *groupDest);
+	bool AdjustDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest, const Coord3D *groupDest);
 	bool IsPointOnWall(int pos, bool flag);
 	bool IsPointOnRamp(const Coord3D *pos);
 };
@@ -271,7 +271,7 @@ StateReturnType Rva00544EB1::onEnter()
 	if (site->m_18)
 	{
 		Coord3D offset = site->m_1c;
-		offset.scale(GameLogicRandomValueReal(0.5f, 5.0f, 95));
+		offset.scaleInlined(GameLogicRandomValueReal(0.5f, 5.0f, 95));
 		for (int i = 0; i < 5; i++)
 		{
 			AI *ai = TheAI;
@@ -279,14 +279,14 @@ StateReturnType Rva00544EB1::onEnter()
 			probe.x += m_goalPosition.x;
 			probe.y += m_goalPosition.y;
 			Object *owner = m_machine->getOwner(); AIUpdateInterface * aiForLocomotors = *(AIUpdateInterface * volatile *)&(owner->m_ai);
-			if (ai->m_pathfinder->adjustDestination(owner, *(const LocomotorSet *)((char *)aiForLocomotors + 0x1CC), &probe, 0)
+			if (ai->m_pathfinder->AdjustDestination(owner, *(const LocomotorSet *)((char *)aiForLocomotors + 0x1CC), &probe, 0)
 				&& !__cp(TheAI->m_pathfinder)->IsPointOnWall((int)&probe, false)
 				&& !__cp(TheAI->m_pathfinder)->IsPointOnRamp(&probe))
 			{
 				m_goalPosition = probe;
 				break;
 			}
-			offset.scale(0.5f);
+			offset.scaleInlined(0.5f);
 		}
 	}
 	return AIInternalMoveToState::onEnter();

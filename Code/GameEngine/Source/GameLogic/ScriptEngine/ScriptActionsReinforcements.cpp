@@ -82,7 +82,7 @@ class Object;
 class Pathfinder
 {
 public:
-	bool adjustDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest, const Coord3D *groupDest);
+	bool AdjustDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest, const Coord3D *groupDest);
 };
 
 class AICommandInterface
@@ -422,7 +422,7 @@ void ScriptActions::doCreateReinforcements(const AsciiString &team, const AsciiS
 					if (adjustToPathable && !needToMoveToDestination) {
 						AIUpdateInterface *ai = obj->getAIUpdateInterface();
 						if (ai) {
-							TheAI->pathfinder()->adjustDestination(obj, ai->getLocomotorSet(), &pos, 0);
+							TheAI->pathfinder()->AdjustDestination(obj, ai->getLocomotorSet(), &pos, 0);
 							obj->rva0028ACDC((int)&pos);
 						}
 					}

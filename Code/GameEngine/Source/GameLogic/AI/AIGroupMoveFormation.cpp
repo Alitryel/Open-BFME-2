@@ -266,7 +266,7 @@ class Pathfinder
   public:
     bool IsLineBlocked(void *, void *, PathfindLayerEnum, const Coord3D *, const Coord3D *);
     int AdjustGroundPathPosition(const Coord3D *, Coord3D *);
-    bool adjustDestination(Object *, const LocomotorSet &, Coord3D *, const Coord3D *);
+    bool AdjustDestination(Object *, const LocomotorSet &, Coord3D *, const Coord3D *);
 };
 struct FormationAIData
 {
@@ -509,7 +509,7 @@ void AIGroup::moveFormationToPos(const Coord3D *pos, CommandSourceType source, i
         dest.y += rotated.y;
         if (ground == true)
             TheAI->getPathfinder()->AdjustGroundPathPosition(&endPoint, &dest);
-        if (!TheAI->getPathfinder()->adjustDestination(unit, ai->getLocomotorSet(), &dest, 0))
+        if (!TheAI->getPathfinder()->AdjustDestination(unit, ai->getLocomotorSet(), &dest, 0))
         {
             FormationExtent extent;
             TheTerrainLogic->slot8(&extent);
@@ -517,7 +517,7 @@ void AIGroup::moveFormationToPos(const Coord3D *pos, CommandSourceType source, i
                   dest.y < extent.hi.y))
             {
                 dest = endPoint;
-                TheAI->getPathfinder()->adjustDestination(unit, ai->getLocomotorSet(), &dest, 0);
+                TheAI->getPathfinder()->AdjustDestination(unit, ai->getLocomotorSet(), &dest, 0);
             }
         }
         unit->rva0028ACEE((int)&dest, (int)LAYER_GROUND);
