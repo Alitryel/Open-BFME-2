@@ -105,7 +105,7 @@ class AIUpdateInterface : public AIUpdateSlots<137>
 {
 public:
 	virtual Bool isDoingGroundMovement(void) const = 0;
-	const LocomotorSet &getLocomotorSet(void) const { return *(const LocomotorSet *)m_locomotorSet; }
+	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet(void) const { return *(const LocomotorSet *)m_locomotorSet; }
 	void rva00262ACE(); // friend_startingMove
 	AIStateMachine *getStateMachine() const { return m_stateMachine; }
 	const Coord3D *friend_getGoalPathPosition(Int index) const { return m_stateMachine->getGoalPathPosition(index); }

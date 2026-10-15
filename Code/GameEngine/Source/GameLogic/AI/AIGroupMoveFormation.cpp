@@ -193,7 +193,7 @@ class AIUpdateInterface
                                                                         AIV(136)
 #undef AIV
                                                                             virtual bool slot137();
-    const LocomotorSet &getLocomotorSet() const
+    __declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet() const
     {
         return *reinterpret_cast<const LocomotorSet *>(reinterpret_cast<const char *>(this) +
                                                        0x1CC);

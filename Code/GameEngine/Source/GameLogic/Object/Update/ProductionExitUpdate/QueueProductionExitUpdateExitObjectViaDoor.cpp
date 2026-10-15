@@ -231,7 +231,7 @@ private:
 class AIUpdateInterface : public AIUpdateInterfaceBase, public AICommandInterface
 {
 public:
-	const LocomotorSet &getLocomotorSet() const { return m_locomotorSet; }
+	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet() const { return m_locomotorSet; }
 	ObjectID getIgnoredObstacleID() const;
 	void rva00262FEB(Int id);
 private:

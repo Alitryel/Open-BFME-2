@@ -474,7 +474,7 @@ public:
 	RadarObject *rva002630F5();
 	int rva00260DED() const;
 	void friend_setGoalObject(Object *obj);
-	const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)m_locomotorSet; }
+	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)m_locomotorSet; }
 	Path *getPath() const { return m_path; }
 	Bool isWaitingForPath() const { return m_bfmeFlag3B1; }
 	void setPathExtraDistance(Real dist);

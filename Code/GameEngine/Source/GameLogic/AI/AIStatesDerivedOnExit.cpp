@@ -354,7 +354,7 @@ public:
 		((Rva00352F9D *)m_commandInterface)->rva00352F9D(way, maxShotsToFire, cmdSource);
 	}
 	Bool isWaitingForPath() const { return m_isWaitingForPath; }
-	const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)m_locomotorSet; }
+	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)m_locomotorSet; }
 	void setPriorWaypointID(UnsignedInt id) { m_priorWaypointID = id; }
 	void setCurrentWaypointID(UnsignedInt id) { m_currentWaypointID = id; }
 	void setCompletedWaypoint(const Waypoint *way);

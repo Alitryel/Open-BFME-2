@@ -106,7 +106,7 @@ class AIUpdateInterface : public VSlots<137>
 public:
 	virtual Bool isDoingGroundMovement(void) const = 0;
 	void friend_setGoalObject(Object *obj);
-	const LocomotorSet &getLocomotorSet(void) const { return *(const LocomotorSet *)m_locomotorSet; }
+	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet(void) const { return *(const LocomotorSet *)m_locomotorSet; }
 private:
 	unsigned char m_pad004[0x1CC - 0x04];
 	unsigned char m_locomotorSet[4]; // +0x1CC

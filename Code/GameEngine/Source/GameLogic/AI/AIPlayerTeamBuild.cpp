@@ -413,7 +413,7 @@ class AIUpdateInterface
 public:
 	// The AICommandInterface base sits at +0x20.
 	AICommandInterface *getCommandInterface() { return (AICommandInterface *)((char *)this + 0x20); }
-	const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)((const char *)this + 0x1CC); }
+	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)((const char *)this + 0x1CC); }
 	Bool isMoving() const;
 	StateMachine *getStateMachine() const { return m_stateMachine; }
 	const Coord3D *getGoalPosition() const { return getStateMachine()->locomotorGoalPosition(); }

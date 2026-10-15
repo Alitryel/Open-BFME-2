@@ -169,7 +169,7 @@ class AIUpdateInterface
 public:
 	char m_pad000[0x1CC];
 	char m_locomotorSet[1];	// +0x1CC
-	const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)m_locomotorSet; }
+	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)m_locomotorSet; }
 };
 
 class Pathfinder
