@@ -287,7 +287,7 @@ template <>
 class RefCountPtr<TextureClass>
 {
 public:
-	RefCountPtr(const RefCountPtr &rhs) : m_asset(rhs.m_asset) {}
+	__declspec(dllimport) __forceinline RefCountPtr(const RefCountPtr &rhs) : m_asset(rhs.m_asset) {}
 
 private:
 	AssetReference m_asset;
