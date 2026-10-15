@@ -21,6 +21,15 @@
 // are defined here out of line (byte-identical to their retail bodies).
 
 #include <list>
+
+// Keep typed list comparisons local, as in PlayerTemplate.cpp. STLport's
+// base comparison tests the same node pointers but emits a conflicting COMDAT.
+namespace _STL {
+template <class T, class L, class R>
+static inline bool operator!=(const _List_iterator<T, L> &a,
+                              const _List_iterator<T, R> &b)
+{ return a._M_node != b._M_node; }
+}
 #include <vector>
 #include "ascii_string.h"
 #include "unicode_string.h"
