@@ -1,16 +1,17 @@
 // ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
-// partial score=0.6336 date=2026-10-14
-// ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z
-// partial score=0.585187 date=2026-10-14
+// partial score=0.613678 date=2026-10-15
 // cl: /O2 /G6 /MD /GX- /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib
-// ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z @0x006BEF80, 1079B.
+// ?getBestContactPoint@GeometryInfo@@QBE_NPAUCoord3D@@PBU2@PBDHH_N@Z @0x006BEF80, 1082B.
 // WB 0x6F91B0 identifies GeometryInfo::getBestContactPoint (Geometry.cpp:275).
 // Pin at this address spells the body void with six ints; retail returns Bool
 // (al clear/set on the false/true paths) and the landed 0x002904DC caller reads
 // the result. Repair of the r9 bank; donor shape from BFME1 575ba2b04 attempt
 // plus the target's own WB body and native offsets/shape stride 0x24.
-// Target 006BEF80..006BF3B7 RET24; WB 006F91B0 names GeometryInfo::getBestContactPoint.
-#include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
+// Target 006BEF80..006BF3BA exclusive: RET24 at 006BF3B7; WB 006F91B0 names GeometryInfo::getBestContactPoint.
+// Extent includes the three-byte RET omitted by the 1079-byte inventory.
+// Scratch alignment only: globals are not admitted or reconciled. E0C150
+// already has owner g_Va00E0C150; never bind GeometryContactProbe as a second datum.
+#include "Coord3DCtorView.h"
 #include "ascii_string.h"
 #include <float.h>
 extern "C" int fprintf(void*,const char*,...);
@@ -40,10 +41,11 @@ bool GeometryInfo::getBestContactPoint(Coord3D*out,const Coord3D*caller,const ch
  case 3:{
   int count=contactsEnd-contactsBegin;
   if(count>=2){
-   int index=seed%(count-1);float t=((seed>>8)&255)/255.0f;
+   int index=seed%(count-1);
    Coord3D first=contactsBegin[index].position;
-   first.x*=t;first.y*=t;first.z*=t;
    Coord3D second=contactsBegin[index+1].position;
+   float t=((seed>>8)&255)/255.0f;
+   first.x*=t;first.y*=t;first.z*=t;
    float inverse=1.0f-t;second.x*=inverse;second.y*=inverse;second.z*=inverse;
    first.x+=second.x;first.y+=second.y;first.z+=second.z;
    contactCopy(*out,first);
