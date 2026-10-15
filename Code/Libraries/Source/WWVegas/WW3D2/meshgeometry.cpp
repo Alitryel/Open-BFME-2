@@ -20,6 +20,20 @@
 // It can also change how later array constructions here compile; checked to
 // change nothing else in this unit, but if a function added later that builds
 // an array will not match, try it without this block.
+
+static inline void MeshGeom_Rotate_Vector(const Matrix3D &A, const Vector3 &in, Vector3 *out) {
+	Vector3 tmp = in;
+	out->X = (A[0][0] * tmp.X + A[0][1] * tmp.Y + A[0][2] * tmp.Z);
+	out->Y = (A[1][0] * tmp.X + A[1][1] * tmp.Y + A[1][2] * tmp.Z);
+	out->Z = (A[2][0] * tmp.X + A[2][1] * tmp.Y + A[2][2] * tmp.Z);
+}
+static inline void MeshGeom_Transform_Vector(const Matrix3D &A, const Vector3 &in, Vector3 *out) {
+	Vector3 tmp = in;
+	out->X = (A[0][0] * tmp.X + A[0][1] * tmp.Y + A[0][2] * tmp.Z + A[0][3]);
+	out->Y = (A[1][0] * tmp.X + A[1][1] * tmp.Y + A[1][2] * tmp.Z + A[1][3]);
+	out->Z = (A[2][0] * tmp.X + A[2][1] * tmp.Y + A[2][2] * tmp.Z + A[2][3]);
+}
+
 struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
@@ -825,9 +839,9 @@ bool MeshGeometryClass::Cast_World_Space_AABox(AABoxCollisionTestClass & boxtest
 		** coordinate system.
 		*/
 		if (hit) {
-			Matrix3D::Rotate_Vector(transform, obbox.Result->Normal, &(obbox.Result->Normal));
+			MeshGeom_Rotate_Vector(transform, obbox.Result->Normal, &(obbox.Result->Normal));
 			if (boxtest.Result->ComputeContactPoint) {
-				Matrix3D::Transform_Vector(transform, obbox.Result->ContactPoint, &(obbox.Result->ContactPoint));
+				MeshGeom_Transform_Vector(transform, obbox.Result->ContactPoint, &(obbox.Result->ContactPoint));
 			}
 		}
 	}
@@ -2076,7 +2090,7 @@ void MeshGeometryClass::get_deformed_vertices(Vector3 *dst_vert,const HTreeClass
 	uint16 * bonelink = VertexBoneLink->Get_Array();
 	for (int vi = 0; vi < Get_Vertex_Count(); vi++) {
 		const Matrix3D & tm = htree->Get_Transform(bonelink[vi]);
-		Matrix3D::Transform_Vector(tm, src_vert[vi], &(dst_vert[vi]));
+		MeshGeom_Transform_Vector(tm, src_vert[vi], &(dst_vert[vi]));
 	}
 }
 
