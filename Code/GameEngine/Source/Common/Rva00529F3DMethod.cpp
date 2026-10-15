@@ -49,6 +49,12 @@ public:
 	void bfmeShowDN(BfmeMsgDN *msg);
 };
 extern ControlBar *TheControlBar;
+class BfmeThingGX;
+class Rva00405A50
+{
+public:
+	void rva00405C04(BfmeThingGX *thing);
+};
 
 class Rva00529F3D
 {
@@ -71,7 +77,7 @@ void Rva00529F3D::rva00529F3D(int argument)
 				((Rva005C38EChecker *)ThePlayerList)->Check(object))
 			{
 				Rva004E7392 msg(m_30, 0);
-				TheControlBar->bfmeShowDN(reinterpret_cast<BfmeMsgDN *>(&msg));
+				((Rva00405A50 *)TheControlBar)->rva00405C04(reinterpret_cast<BfmeThingGX *>(&msg));
 			}
 		}
 	}
