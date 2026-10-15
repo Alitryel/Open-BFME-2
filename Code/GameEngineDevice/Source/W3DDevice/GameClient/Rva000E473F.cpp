@@ -287,6 +287,7 @@ template <>
 class RefCountPtr<TextureClass>
 {
 public:
+	// Keep the verified inline argument copy without emitting a competing owner.
 	__declspec(dllimport) __forceinline RefCountPtr(const RefCountPtr &rhs) : m_asset(rhs.m_asset) {}
 
 private:
