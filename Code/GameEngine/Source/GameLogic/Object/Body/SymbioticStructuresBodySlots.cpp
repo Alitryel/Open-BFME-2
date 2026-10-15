@@ -90,6 +90,7 @@ public:
 	int m_10C[19]; // +0x10C (a 0x4C-byte condition bit set)
 	void rva001E42F2(const Rva00265254 &bits);
 	void rva001E431E(const int *bits);
+	void rva0028FCD9(int a1, int a2);
 	void setStatus(ObjectStatusTypes bit, bool set);
 	void setEffectivelyDead(bool dead);
 	void rva0028ABFC(Real height);
@@ -180,6 +181,13 @@ class BfmeSubFCB
 {
 public:
 	void bfmeCallFCB(void *a1, int a2);
+};
+
+// The rowed 0x1E42F2 condition-clear owner spelling.
+class Rva001E42F2
+{
+public:
+	void rva001E42F2(const int *bits);
 };
 
 class BodyModuleInterface : public Rva004C0D13Slots<4>
@@ -392,7 +400,7 @@ void SymbioticStructuresBody::rva004C121B(void *a1)
 	Object *obj = m_object;
 	if (obj)
 	{
-		((BfmeSubFCB *)obj)->bfmeCallFCB(a1, 0);
+		obj->rva0028FCD9((int)a1, 0);
 		rva004C0C52();
 	}
 }
@@ -419,7 +427,7 @@ void SymbioticStructuresBody::rva004C123C(void *a1, bool doFX)
 	if (before == rva004C105A())
 	{
 		Object *obj = m_object;
-		obj->rva001E42F2(Rva00265254(0, 0x43, 0x44, 0x45));
+		((Rva001E42F2 *)obj)->rva001E42F2((const int *)&Rva00265254(0, 0x43, 0x44, 0x45));
 		m_object->setStatus((ObjectStatusTypes)2, false);
 		m_object->setStatus((ObjectStatusTypes)0x15, false);
 	}
