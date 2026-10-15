@@ -282,51 +282,7 @@ Bool GarrisonContain::isValidContainerFor(const Object* obj, Bool checkCapacity)
 /** Any objects that are sitting at the garrison points which no longer have targets need
 	* to be moved to the center of the building and taken off the garrison point */
 // ------------------------------------------------------------------------------------------------
-// ?GarrisonContain::removeInvalidObjectsFromGarrisonPoints present-unmatched
-void GarrisonContain::removeInvalidObjectsFromGarrisonPoints( void )
-{
-#if defined __DEBUG || defined _INTERNAL
-  const GarrisonContainModuleData *modData = getGarrisonContainModuleData();
-  DEBUG_ASSERTCRASH(modData->m_isEnclosingContainer, ("removeinvalidobjFromGarrisonPoint... SHOULD NOT GET HERE, since this container is non-enclosing") );
-#endif
-	Object *obj;
-
-	if (m_garrisonPointsInUse == 0)
-		return;	// my, that was easy
-
-	for( Int i = 0; i < MAX_GARRISON_POINTS; ++i )
-	{
-
-		obj = m_garrisonPointData[ i ].object;
-		if( obj )
-		{
-			AIUpdateInterface *ai = obj->getAIUpdateInterface();
-
-			Bool targetIsValid = true;	// assume true for now...
-			Object *goalObject = ai->getGoalObject();
-			if( goalObject )
-			{
-				Weapon *weapon = obj->getCurrentWeapon();
-				if( !weapon || !weapon->isWithinAttackRange( obj, goalObject ) )
-				{
-					//As a garrisoned member, if our target is out of range, 
-					//then get out of the space, because someone else might
-					//be able to shoot it.
-					targetIsValid = false;
-				}
-			}
-			
-			// note that we can be attacking a position, rather than an object...
-			if( !obj->testStatus(OBJECT_STATUS_IS_ATTACKING) || !targetIsValid ) 
-			{
-				removeObjectFromGarrisonPoint( obj, i );
-			}
-
-		}  // end if
-
-	}  // end for i
-
-}  // end removeInvalidObjectsFromGarrisonPoints
+// GarrisonContain::removeInvalidObjectsFromGarrisonPoints: defined in GarrisonContainRemoveInvalidObjects.cpp (its row's unit).
 
 // ------------------------------------------------------------------------------------------------
 /** Are there any objects in the center that have now obtained targets and need to move to
