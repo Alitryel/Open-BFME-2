@@ -8,10 +8,16 @@ struct Rva002EBC7FPair
 	int y;
 };
 bool __cdecl Rva002EBBFBIsOdd(void *p);
-void __cdecl rva002E79A8(int a1, unsigned char a2, int a3, int a4, int a5);
+struct PathfinderCellPoint { int x; int y; };
+enum PathfindLayerEnum { LAYER_INVALID = 0 };
+// Rowed 0x002E79A8 returns its cell point through the hidden first argument;
+// this caller forwards that buffer, so it calls the rowed symbol through the
+// five-slot cdecl view.
+PathfinderCellPoint __cdecl rva002E79A8(bool, int, int, PathfindLayerEnum);
+typedef void (__cdecl *Rva002E79A8View)(int, unsigned char, int, int, int);
 // ?rva002EBC7F@@YAPAXPAX0PAURva002EBC7FPair@@H@Z @0x002EBC7F 40B (name guess).
 void *rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4)
 {
-	rva002E79A8((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
+	((Rva002E79A8View)&rva002E79A8)((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
 	return a1;
 }
