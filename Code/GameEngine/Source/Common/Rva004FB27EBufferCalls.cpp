@@ -6,10 +6,21 @@
 
 extern unsigned int g_Va00E04508;
 
+namespace _STL { template <class T> class allocator; template <class T, class A> class vector; }
+struct BfmeE8;
+struct BfmeE16;
+class Rva004FF8DA;
+class Rva004FF5B7;
+struct Rva0059D089Template;
+class Rva0059CFAACallee;
+typedef _STL::vector<BfmeE8, _STL::allocator<BfmeE8> > Rva0059DD3FOutput;
+typedef _STL::vector<BfmeE16, _STL::allocator<BfmeE16> > Rva0059D2DAOutput;
+
+// Row spelling of 0x0059DD3F.
 class Rva0059DD3F
 {
 public:
-	void rva0059DD3F(void *, void *, void *, void *, int, int *, int);
+	void rva0059DD3F(Rva0059DD3FOutput *, int, Rva004FF8DA *, Rva004FF5B7 *, int, int *, int);
 };
 
 struct Rva004FB27EInput
@@ -39,16 +50,17 @@ void Rva004FB27E::rva004FB27E()
 	if (input)
 	{
 		int written = 0;
-		helper.rva0059DD3F(output, input->field14, context, &g_Va00E04508,
+		helper.rva0059DD3F((Rva0059DD3FOutput *)output, (int)input->field14, (Rva004FF8DA *)context, (Rva004FF5B7 *)&g_Va00E04508,
 			end - consumed, &written, field08);
 		consumed += written;
 	}
 }
 
-class Rva0059D2DA
+// 0x0059D2DA is rowed as LivingWorldAIBuilder::FillBuildingOrders.
+class LivingWorldAIBuilder
 {
 public:
-	void rva0059D2DA(void *, void *, void *, void *, int, int, int, int *);
+	void FillBuildingOrders(Rva0059D2DAOutput *, int, Rva0059D089Template *, Rva0059CFAACallee *, int, int, int, int *);
 };
 
 class Rva004FB2C1
@@ -64,7 +76,7 @@ private:
 	int field14;
 	char context[0x74 - 0x18];
 	char output[0xEC - 0x74];
-	Rva0059D2DA helper;
+	LivingWorldAIBuilder helper;
 };
 
 // Sibling 0x004FB2C1..0x004FB303: eight arguments to 0x0059D2DA
@@ -75,7 +87,7 @@ void Rva004FB2C1::rva004FB2C1()
 	if (input)
 	{
 		int written = 0;
-		helper.rva0059D2DA(output, input->field14, context, &g_Va00E04508,
+		helper.FillBuildingOrders((Rva0059D2DAOutput *)output, (int)input->field14, (Rva0059D089Template *)context, (Rva0059CFAACallee *)&g_Va00E04508,
 			begin, end, field14, &written);
 		end += written;
 	}
