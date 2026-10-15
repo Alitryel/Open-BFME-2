@@ -11,13 +11,17 @@ struct Rva0017368ATask;
 unsigned Rva0017368ACompare(const Rva0017368ATask &,const Rva0017368ATask &);
 
 // ?rva00174870@@YAXHHH@Z
-void rva00174870(int a, int b, int c);
+struct BfmeAssignRecord32;
+namespace _STL {
+template <class RandomIt, class Compare> void sort(RandomIt first, RandomIt last, Compare comp);
+}
+typedef bool (*BfmeAssignRecord32Less)(const BfmeAssignRecord32 &, const BfmeAssignRecord32 &);
 class Rva0017438B
 {
 public:
 	void rva0017438B(int a, int b);
 };
-class Rva0017437D
+class Rva00DF6F94GapFillerContext
 {
 public:
 	void rva0017437D();
@@ -37,7 +41,7 @@ void Rva00174A57::rva00174A57()
 {
 	if (m_18 == m_1C)
 		return;
-	::rva00174870(m_18, m_1C, (int)&Rva0017368ACompare);
+	_STL::sort<BfmeAssignRecord32 *, BfmeAssignRecord32Less>((BfmeAssignRecord32 *)m_18, (BfmeAssignRecord32 *)m_1C, (BfmeAssignRecord32Less)&Rva0017368ACompare);
 	((Rva0017438B *)this)->rva0017438B(m_18, m_1C);
-	return ((Rva0017437D *)this)->rva0017437D();
+	return ((Rva00DF6F94GapFillerContext *)this)->rva0017437D();
 }
