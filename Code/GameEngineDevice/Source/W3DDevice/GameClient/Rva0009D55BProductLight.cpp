@@ -8,7 +8,10 @@
 // the angles, layouts and call relationships are independently retail-derived.
 // Keep the trig expressions float-valued without an extra cast of their result:
 // that cast changes MSVC 7.1's x87 argument cleanup/normalization scheduling.
+// Keep MSVC's float overloads local; the matched trig operations inline.
+#define inline static inline
 #include <math.h>
+#undef inline
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
 
 class WWMath { public: static float __fastcall Inv_Sqrt(float); };
@@ -42,7 +45,8 @@ struct Vector3
 struct Matrix3D
 {
     float Row[3][4];
-    Matrix3D(bool)
+    // Retain inline initialization without emitting a competing constructor.
+    __declspec(dllimport) __forceinline Matrix3D(bool)
     {
         Row[0][0]=1.0f; Row[0][1]=0.0f; Row[0][2]=0.0f; Row[0][3]=0.0f;
         Row[1][0]=0.0f; Row[1][1]=1.0f; Row[1][2]=0.0f; Row[1][3]=0.0f;

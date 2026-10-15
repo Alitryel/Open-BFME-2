@@ -18,7 +18,10 @@
 // is kept at +0x54 and handed to PhysicsBehavior 0x00390557 with 0, 30.
 // Layout offsets are read from retail accesses; the module-data and crash
 // field names are structural inferences.
+// Keep MSVC's float overloads local; the matched trig operations inline.
+#define inline static inline
 #include <math.h>
+#undef inline
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 class DamageInfo;
 class ModuleData;
