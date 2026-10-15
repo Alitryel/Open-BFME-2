@@ -14,11 +14,17 @@ struct Rva0007F92AGlobalView
 	void *m_sub; // +0x37C0
 };
 
+class CameraClass;
+class Rva0082140
+{
+public:
+	void rva0007F87C(void *scene, CameraClass *camera);
+};
+
 class Rva0007F92AHost
 {
 public:
 	void rva0007F92A(int a, int b);
-	void rva0007F87C(int a, int b);
 };
 
 void Rva0007F92AHost::rva0007F92A(int a, int b)
@@ -28,5 +34,5 @@ void Rva0007F92AHost::rva0007F92A(int a, int b)
 		return;
 	if (g->m_sub == 0)
 		return;
-	return rva0007F87C(a, b);
+	((Rva0082140 *)this)->rva0007F87C((void *)a, (CameraClass *)b);
 }
