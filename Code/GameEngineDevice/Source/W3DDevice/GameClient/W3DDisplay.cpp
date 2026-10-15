@@ -134,8 +134,8 @@ extern GameLogic *TheGameLogic;
 // Address-derived globals: the last-packet frame stamp and the blink phase
 // byte flipped at the end of the page (same pair BFME 1 names 0x012F8054 /
 // 0x012F81A9), and the runtime LOGICFRAMES_PER_SECOND at 0x00DBA4E4.
-extern unsigned int g_Va00DE1B30;
-extern unsigned char g_Va00DE1C58;
+unsigned int BfmeNetworkRunAheadChangeFrame = 0;
+unsigned char BfmeNetworkStatsBlink = 0;
 extern int BfmeLogicFramesPerSecond;
 
 class W3DDisplay
@@ -195,7 +195,7 @@ void W3DDisplay::rva000438CB()
 				case 1: color = 0xff7878ff; break;
 				case 0: color = 0xff6e6eff; break;
 				default:
-					color = g_Va00DE1C58 ? -1 : 0xffff0000;
+					color = BfmeNetworkStatsBlink ? -1 : 0xffff0000;
 					flip = true;
 					break;
 				}
@@ -240,17 +240,17 @@ void W3DDisplay::rva000438CB()
 					case 8: color = 0xff7878ff; break;
 					case 9: color = 0xff6e6eff; break;
 					case 0:
-						if (g_Va00DE1B30 + BfmeLogicFramesPerSecond <
+						if (BfmeNetworkRunAheadChangeFrame + BfmeLogicFramesPerSecond <
 							(unsigned int)TheGameLogic->getFrame())
 							color = 0xffff0000;
 						else
 						{
-							color = g_Va00DE1C58 ? -1 : 0xffff0000;
+							color = BfmeNetworkStatsBlink ? -1 : 0xffff0000;
 							flip = true;
 						}
 						break;
 					default:
-						color = g_Va00DE1C58 ? -1 : 0xffff0000;
+						color = BfmeNetworkStatsBlink ? -1 : 0xffff0000;
 						flip = true;
 						break;
 					}
@@ -262,11 +262,11 @@ void W3DDisplay::rva000438CB()
 			}
 			else if (i == 9)
 			{
-				if (g_Va00DE1B30 + BfmeLogicFramesPerSecond <
+				if (BfmeNetworkRunAheadChangeFrame + BfmeLogicFramesPerSecond <
 					(unsigned int)TheGameLogic->getFrame())
 					color = -1;
 				else
-					color = g_Va00DE1C58 ? -1 : 0xffff0000;
+					color = BfmeNetworkStatsBlink ? -1 : 0xffff0000;
 			}
 			else if (i == 7)
 			{
@@ -288,7 +288,7 @@ void W3DDisplay::rva000438CB()
 	}
 
 	if (flip)
-		g_Va00DE1C58 = g_Va00DE1C58 ? 0 : 1;
+		BfmeNetworkStatsBlink = BfmeNetworkStatsBlink ? 0 : 1;
 }
 
 

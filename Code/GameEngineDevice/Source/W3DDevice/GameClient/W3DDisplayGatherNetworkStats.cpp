@@ -137,15 +137,15 @@ extern GameLogic *TheGameLogic;
 // Frame pacing statistics (GameEngine's zero-filled data). Their original
 // identifiers are unknown; the names follow the line they print.
 extern int SkippedClientFrames;			// VA 0x00DFE6F0
-extern UnsignedInt BfmeTotalSleptMS;		// VA 0x00DFE6F8
-extern Int BfmeLastSleptMS;			// VA 0x00DFE6FC
-extern Int BfmeLastFrameDeltaMS;		// VA 0x00DFE700
-extern UnsignedInt BfmeGameStartTime;		// VA 0x00DFE708
-extern Bool BfmeFramePacingLimited;		// VA 0x00DFE70C
+UnsignedInt BfmeTotalSleptMS = 0;		// VA 0x00DFE6F8
+Int BfmeLastSleptMS = 0;			// VA 0x00DFE6FC
+Int BfmeLastFrameDeltaMS = 0;		// VA 0x00DFE700
+UnsignedInt BfmeGameStartTime = 0;		// VA 0x00DFE708
+Bool BfmeFramePacingLimited = 0;		// VA 0x00DFE70C
 extern float g_Va00DBA2F8;			// VA 0x00DBA2F8, GameEngine.cpp's logic time scale
-extern Real BfmeAverageFPSRatio;		// VA 0x00DE1B2C
-extern Int BfmeLastRunAheadCeilingHits;		// VA 0x00DE1C9C
-extern unsigned int g_Va00DE1B30;		// VA 0x00DE1B30, frame of the last run-ahead change
+Real BfmeAverageFPSRatio = 0;		// VA 0x00DE1B2C
+Int BfmeLastRunAheadCeilingHits = 0;		// VA 0x00DE1C9C
+extern unsigned int BfmeNetworkRunAheadChangeFrame;		// VA 0x00DE1B30, frame of the last run-ahead change
 
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
 
@@ -315,7 +315,7 @@ void W3DDisplay::gatherNetworkStats()
 		if (BfmeLastRunAheadCeilingHits != TheNetwork->getRunAheadCeilingHits() && TheGameLogic->getFrame() > 5)
 		{
 			BfmeLastRunAheadCeilingHits = TheNetwork->getRunAheadCeilingHits();
-			g_Va00DE1B30 = TheGameLogic->getFrame();
+			BfmeNetworkRunAheadChangeFrame = TheGameLogic->getFrame();
 		}
 		unibuffer.format(L"No Run Ahead");
 		m_networkDebugString[4]->setText(unibuffer);
