@@ -6,6 +6,15 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 
+// Keep typed iterator comparisons local; TU flags otherwise emit an
+// incompatible external base comparison. STLport compares the same nodes.
+namespace _STL {
+template <class T, class L, class R>
+static inline bool operator!=(const _List_iterator<T, L> &a,
+                              const _List_iterator<T, R> &b)
+{ return a._M_node != b._M_node; }
+}
+
 // vector<int> fill/insert otherwise instantiates the _Construct<int,int>
 // COMDAT (one byte shape per TU flags); a file-static overload takes those
 // calls instead so this TU emits no external copy.
