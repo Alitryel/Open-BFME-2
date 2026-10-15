@@ -68,6 +68,14 @@ public:
 };
 extern Rva002872BA *TheTriggerManager;
 
+// 0x0028641F is rowed as a FireLogicSystem member taking the record's Coord3D.
+struct Coord3D;
+class FireLogicSystem
+{
+public:
+	void rva0028641F(unsigned int key, const Coord3D *pos);
+};
+
 class G00DFF080Obj;
 extern G00DFF080Obj *g_00DFF080;
 
@@ -135,7 +143,7 @@ void TerrainLogic::rva0028449F(const Coord3D *pos, const GeometryInfo &geom, Rea
 		{
 			unsigned int key = reinterpret_cast<Rva0028449FRecordView *>(*i)->key;
 			if (TheTriggerManager)
-				TheTriggerManager->rva0028641F(key, *i);
+				((FireLogicSystem *)TheTriggerManager)->rva0028641F(key, (const Coord3D *)*i);
 			(*i)->rva0027D098();
 			reinterpret_cast<Rva0028449FGlobalView *>(g_00DFF080)->slot58(key);
 			stamp = reinterpret_cast<Rva0028449FFrameView *>(TheGameLogic)->frame;
