@@ -1,4 +1,6 @@
 // ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
+// partial score=0.975 date=2026-10-15
+// ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
 // partial score=0.985 date=2026-10-15
 // ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
 // partial score=0.9899567303446856 date=2026-10-14
@@ -91,7 +93,8 @@ void AptShapeContainer::getRenderRegion(Coord2D &low,Coord2D &high)
     if(!solid) break;
     for(AptTriangle *triangle=solid->first;triangle!=solid->last;++triangle) 
     {
-     const Coord2D *p=triangle->point;
+     const Coord2D *p_c = triangle->point;
+     const Coord2D *p = p_c;
      aptMatrixMul(point,p[0],matrix);
      rva000A94F9(low,high,point);
      aptMatrixMul(point,p[2],matrix);

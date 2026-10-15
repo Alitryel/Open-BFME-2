@@ -1,4 +1,6 @@
 // ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
+// partial score=0.887 date=2026-10-15
+// ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
 // partial score=0.938 date=2026-10-15
 // ?rva00031010@Rva00031010@@QAEXPAURva00031010Node@@_N@Z @0x00031010 66B evidence EA GeneralAllocator large-bin insert beside GetLargeBinIndex plus caller 0x000333ED plus head at +0x440 plus bin at +0x30
 struct Rva00031010Node
@@ -122,19 +124,16 @@ Rva00031010Node *GeneralAllocator::rva000334A0(unsigned int size)
 		{
 			Chunk *fencepost = (Chunk *)((char *)core + core->m_size - 0x10);
 			chunk = fencepost;
-			if (fencepost->m_size & 1)
-			{
-				chunkSize = extend;
-				fencepost->m_size = extend | 1;
-			}
-			else
-			{
+			if (!(fencepost->m_size & 1)) {
 				chunk = (Chunk *)((char *)chunk - fencepost->m_priorSize);
 				chunk->m_prev->m_next = chunk->m_next;
 				chunk->m_next->m_prev = chunk->m_prev;
 				chunkSize = fencepost->m_priorSize + extend;
 				chunk->m_size = chunkSize | 1;
 				newTop = chunk == m_top;
+			} else {
+				chunkSize = extend;
+				fencepost->m_size = extend | 1;
 			}
 			Chunk *end = (Chunk *)((char *)chunk + chunkSize);
 			end->m_priorSize = chunkSize;

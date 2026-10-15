@@ -1,4 +1,6 @@
 // ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
+// partial score=0.98 date=2026-10-15
+// ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
 // partial score=0.93 date=2026-10-15
 // ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
 // partial score=0.928 date=2026-10-15
@@ -275,6 +277,7 @@ UpdateSleepTime AIUpdateInterface::rva0026A05D()
 
 	if (!slot110())
 		m_3C8 = true;
+		_ReadWriteBarrier();
 	m_isInUpdate = true;
 	m_completedWaypoint = 0;
 	int subMachineSleep = UPDATE_SLEEP_FOREVER;
@@ -344,7 +347,9 @@ UpdateSleepTime AIUpdateInterface::rva0026A05D()
 		sleep = tmp;
 
 	m_isInUpdate = false;
-	if (m_completedWaypoint != 0)
+	if (!(m_completedWaypoint == 0)) {
 		return UPDATE_SLEEP_NONE;
-	return (UpdateSleepTime)sleep;
+	} else {
+		return (UpdateSleepTime)sleep;
+	}
 }

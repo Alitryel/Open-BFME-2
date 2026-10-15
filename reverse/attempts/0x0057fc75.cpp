@@ -1,4 +1,6 @@
 // ?rva0057FC75@Rva0057F2DE@@QAE_NIII@Z
+// partial score=0.827 date=2026-10-15
+// ?rva0057FC75@Rva0057F2DE@@QAE_NIII@Z
 // partial score=0.9082 date=2026-10-14
 // ?rva0057FC75@Rva0057F2DE@@QAE_NIII@Z
 // partial score=0.93 date=2026-10-06
@@ -65,5 +67,5 @@ bool Rva0057F2DE::rva0057FC75(unsigned int msg, unsigned int data1, unsigned int
 	}
 	if (window == m_clanName)
 		return true;
-	return window == m_clanPlayers;
+	{ bool ret_c = window == m_clanPlayers; return ret_c; }
 }

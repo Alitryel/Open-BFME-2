@@ -1,4 +1,6 @@
 // ?rva00031E60@GeneralAllocator@Allocator@EA@@QAEHPBX@Z
+// partial score=0.179 date=2026-10-15
+// ?rva00031E60@GeneralAllocator@Allocator@EA@@QAEHPBX@Z
 // partial score=0.565 date=2026-10-15
 // ?rva00031E60@GeneralAllocator@Allocator@EA@@QAEHPBX@Z
 // partial score=0.5455 date=2026-10-14
@@ -95,8 +97,9 @@ int GeneralAllocator::rva00031E60(const void *block)
 	unsigned int masked = header & 0x7FFFFFF8;
 	score += (*(const unsigned char *)(masked + (unsigned int)block + 4) & 1);
 	score += ((header >> 1) & 1);
-	if ((unsigned int)block >= 0x10)
-	{
+	if (!((unsigned int)block >= 0x10)) {
+		score += ((unsigned int)block > 4);
+	} else {
 		score += ((((unsigned int)block) & 7) != 0);
 		score += ((((unsigned int)block) & 7) != 0);
 		score += (*(const unsigned int *)blockEnd != (unsigned int)block);
@@ -116,10 +119,6 @@ int GeneralAllocator::rva00031E60(const void *block)
 			score += (next != after);
 			score += (block != m_head440);
 		}
-	}
-	else
-	{
-		score += ((unsigned int)block > 4);
 	}
 	if (lock != 0)
 	{

@@ -1,4 +1,6 @@
 // ?onEnter@AIAttackPositionAimAtTargetState@@UAE?AW4StateReturnType@@XZ
+// partial score=0.785 date=2026-10-15
+// ?onEnter@AIAttackPositionAimAtTargetState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.88 date=2026-10-13
 // ?onEnter@AIAttackPositionAimAtTargetState@@UAE?AW4StateReturnType@@XZ
 // partial score=0.88 date=2026-10-13
@@ -1566,9 +1568,10 @@ StateReturnType AIAttackPositionAimAtTargetState::onEnter()
 		if (((const Rva002C9400ByteField *)weapon->getTemplate())->get() && !inFiringRange)
 			return STATE_FAILURE;
 	}
-	if (source->testStatus(OBJECT_STATUS_4B))
-		return STATE_SUCCESS;
+	if (!(source->testStatus(OBJECT_STATUS_4B))) {
 	source->setStatus(OBJECT_STATUS_19, true);
 	return rva0034A570(true);
+
+} else return STATE_SUCCESS;
 }
 

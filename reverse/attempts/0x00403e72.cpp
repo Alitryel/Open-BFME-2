@@ -1,4 +1,6 @@
 // ?addModifierToPool@AttributeModifierPoolUpdate@@QAE_NABVAsciiString@@H@Z
+// partial score=0.945 date=2026-10-15
+// ?addModifierToPool@AttributeModifierPoolUpdate@@QAE_NABVAsciiString@@H@Z
 // partial score=0.94 date=2026-10-13
 // W7-SOL2 r1 (2026-10-13): WB debug body shows max(0, duration<0 ? category->duration : duration) with
 // a temp zero and a bool category->exclusive local; named-local levers cut the normalised edit distance
@@ -156,17 +158,18 @@ private:
 inline const int &modifierMax(const int &a,const int &b) { return a<b?b:a; }
 bool AttributeModifierPoolUpdate::addModifierToPool(const AsciiString &name,int duration)
 {
+	int duration_c = duration;
     int index=TheAttributeModifierStore->rva00214713(TheNameKeyGenerator->nameToKey(name.str()));
     if(index<0) return false;
     ModifierCategoryView *category=(ModifierCategoryView *)TheAttributeModifierStore->GetCategoryContainer(index);
     if(!category) return false;
     if(category->enforceFrames && isCategoryDisabled(category->index)) return false;
-    int dur=duration;
+    int dur=duration_c;
     unsigned frame=((ModifierFrameView *)TheGameLogic)->frame;
     int zero=0;
     if(dur<0) dur=category->duration;
-    duration=dur;
-    unsigned length=modifierMax(zero,duration);
+    duration_c=dur;
+    unsigned length=modifierMax(zero,duration_c);
     unsigned expiration=length?frame+length:0x3fffffff;
     ModifierPendingNames pending;
     bool exclusive=category->exclusive;

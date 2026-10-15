@@ -1,4 +1,6 @@
 // ?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z
+// partial score=0.2 date=2026-10-15
+// ?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z
 // partial score=0.562 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -171,22 +173,17 @@ void Rva0009BF33::rva0009BF33(Rva0009BF33Point *screen, Vector3 *rayStart, Coord
  Int py;
  Real width;
  Real height;
- if (m_19)
- 
- {
-  px = screen->m_x - m_1b0;
-  py = screen->m_y - m_1b4;
-  width = (Real)m_1b8;
-  height = (Real)m_1bc;
-  
- }
- else
- 
- {
+ if (!(m_19)) {
   px = screen->m_x;
   py = screen->m_y;
   width = (Real)(unsigned int)TheDisplay->getWidth();
   height = (Real)(unsigned int)TheDisplay->getHeight();
+  
+ } else {
+  px = screen->m_x - m_1b0;
+  py = screen->m_y - m_1b4;
+  width = (Real)m_1b8;
+  height = (Real)m_1bc;
   
  }
  Real t0 = ((Real)px / width - 0.5f) * dx;
