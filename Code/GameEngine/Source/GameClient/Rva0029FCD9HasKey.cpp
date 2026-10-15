@@ -6,6 +6,15 @@
 // up through the shared int-keyed hash lookup (ICF 0x002888D4). Layout views are neutral.
 #include <hash_map>
 
+// The hash table's bucket-vector begin()/size() const copies here differed
+// from retail's; declared imported and force-inlined they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+size_t vector<void *>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+vector<void *>::const_iterator vector<void *>::begin() const { return this->_M_start; }
+}
+
 enum NameKeyType { NAMEKEY_INVALID = 0 };
 class NameKeyGenerator { public: NameKeyType nameToKey(const char *name); };
 extern NameKeyGenerator *TheNameKeyGenerator;
