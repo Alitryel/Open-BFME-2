@@ -115,7 +115,7 @@ UpdateSleepTime MonitorConditionUpdate::update()
 			return UPDATE_SLEEP_NONE;
 		current = obj->rva00290E67();
 		if (current->compare(d->m_statusCommandSet) != 0)
-			m_rememberedCommandSet.set(*obj->rva00290E67());
+			((StringBase<char> *)&m_rememberedCommandSet)->set(*(const StringBase<char> *)obj->rva00290E67());
 		obj->setCommandSetStringOverride(d->m_maskCommandSet);
 		TheControlBar->markUIDirty();
 	}
@@ -129,7 +129,7 @@ UpdateSleepTime MonitorConditionUpdate::update()
 			return UPDATE_SLEEP_NONE;
 		current = obj->rva00290E67();
 		if (current->compare(d->m_maskCommandSet) != 0)
-			m_rememberedCommandSet.set(*obj->rva00290E67());
+			((StringBase<char> *)&m_rememberedCommandSet)->set(*(const StringBase<char> *)obj->rva00290E67());
 		obj->setCommandSetStringOverride(d->m_statusCommandSet);
 		TheControlBar->markUIDirty();
 	}
@@ -140,7 +140,7 @@ UpdateSleepTime MonitorConditionUpdate::update()
 		if (m_rememberedCommandSet.compare(*obj->rva00290E67()) == 0)
 			return UPDATE_SLEEP_NONE;
 		obj->setCommandSetStringOverride(m_rememberedCommandSet);
-		m_rememberedCommandSet.set(AsciiString::TheEmptyString);
+		((StringBase<char> *)&m_rememberedCommandSet)->set(*(const StringBase<char> *)&AsciiString::TheEmptyString);
 		TheControlBar->markUIDirty();
 	}
 	}
