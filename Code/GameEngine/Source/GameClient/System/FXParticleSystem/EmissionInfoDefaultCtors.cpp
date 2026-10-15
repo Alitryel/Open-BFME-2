@@ -25,6 +25,12 @@ private:
 	float m_high;
 };
 
+#define BFME_SNAPSHOT_CAPITALIZED_SLOTS
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
+#define BFME_SNAPSHOT_REFERENCE_XFER
+#include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+
 namespace FXParticleSystem
 {
 
@@ -125,6 +131,48 @@ TerrainFireEmissionInfo::TerrainFireEmissionInfo()
 	m_var1.setRange(0.0f, 0.0f);
 	m_var2.setRange(0.0f, 0.0f);
 	m_unknown2C = 0.7f;
+}
+
+// DefaultPhysicsModuleInfo retail 0x0055EE5E, the out-of-line default the
+// DefaultModuleTemplate<3> constructor calls. The base is Snapshot: the
+// folded 0x0049B47C destructor stores its vtable 0x00BBB554, and the base's
+// unwind state is the one EH state retail sets. The WorldBuilder twin
+// (0x0141ED90) builds the +0x04 coordinate through its own inline default
+// (which leaves nothing behind in the release build), the random variable
+// through its zeroing default, then assigns +0x10, zeroes the coordinate,
+// sets the range and clears the two flags.
+class DefaultPhysicsModuleInfo : public Snapshot
+{
+public:
+	DefaultPhysicsModuleInfo();
+	virtual ~DefaultPhysicsModuleInfo();
+
+private:
+	struct PhysicsCoord
+	{
+		PhysicsCoord() {}
+		void zero() { x = 0.0f; y = 0.0f; z = 0.0f; }
+
+		float x;
+		float y;
+		float z;
+	};
+
+	PhysicsCoord m_unknown04;
+	float m_unknown10;
+	GameClientRandomVariable m_unknown14;
+	bool m_unknown20;
+	bool m_unknown21;
+};
+
+// ??0DefaultPhysicsModuleInfo@FXParticleSystem@@QAE@XZ @0x55EE5E
+__declspec(noinline) DefaultPhysicsModuleInfo::DefaultPhysicsModuleInfo()
+{
+	m_unknown10 = 0.0f;
+	m_unknown04.zero();
+	m_unknown14.setRange(0.0f, 0.0f);
+	m_unknown20 = false;
+	m_unknown21 = false;
 }
 
 }
