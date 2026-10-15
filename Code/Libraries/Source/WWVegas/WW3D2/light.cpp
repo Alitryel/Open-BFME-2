@@ -177,31 +177,7 @@ enum
  * HISTORY:                                                                                    *
  *   3/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ??0LightClass@@ present-unmatched
-LightClass::LightClass(LightType type) :
-	Type(type),	
-	Flags(0),
-	CastShadows(false),
-	Intensity(1.0f),
-	Ambient(1,1,1),
-	Diffuse(1,1,1),
-	Specular(1,1,1),
-	NearAttenStart(0.0f),
-	NearAttenEnd(0.0f),
-	FarAttenStart(50.0f),
-	FarAttenEnd(100.0f),
-	SpotAngle(DEG_TO_RADF(45.0f)),
-	SpotAngleCos(0.707f),
-	SpotExponent(1.0f),
-	SpotDirection(0,0,1)//,
-	//Donut (false)
-
-{
-	if (type == DIRECTIONAL) {
-		Set_Force_Visible(true);	// The light has no position so culling cant work.
-	}
-}
-
+// LightClass::LightClass(LightType): defined in LightClassCopyCtor.cpp (its row's unit).
 
 /***********************************************************************************************
  * LightClass::LightClass -- copy constructor                                                  *
@@ -230,31 +206,7 @@ LightClass::LightClass(LightType type) :
  * HISTORY:                                                                                    *
  *   3/21/98    GTH : Created.                                                                 *
  *=============================================================================================*/
-// ??4LightClass@@QAEAAV0@ABV0@@Z present-unmatched
-LightClass & LightClass::operator = (const LightClass & that)
-{
-	if (this != &that) {
-		RenderObjClass::operator = (that);
-
-		Type = that.Type;	
-		Flags = that.Flags;
-		CastShadows = that.CastShadows;
-		Intensity = that.Intensity;
-		Ambient = that.Ambient;
-		Diffuse = that.Diffuse;
-		Specular = that.Specular;
-		NearAttenStart = that.NearAttenStart;
-		NearAttenEnd = that.NearAttenEnd;
-		FarAttenStart = that.FarAttenStart;
-		FarAttenEnd = that.FarAttenEnd;
-		SpotAngle = that.SpotAngle;
-		SpotAngleCos = that.SpotAngleCos;
-		SpotExponent = that.SpotExponent;
-		SpotDirection = that.SpotDirection;
-	}
-	return * this;
-}
-
+// LightClass::operator=: defined in LightClassCopyCtor.cpp (its row's unit).
 
 /***********************************************************************************************
  * LightClass::~LightClass -- destructor                                                       *
