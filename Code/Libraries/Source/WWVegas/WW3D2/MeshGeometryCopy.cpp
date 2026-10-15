@@ -16,6 +16,8 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 ** BFME1 MeshGeometry assignment adapted to BFME2's verified vector slots,
 ** +0x54 ushort buffer, and +0x5C opaque release-only buffer.
 */
+// Preserve inline refcounts without unused competing external copies.
+#include "../../../../../reference/shims/bfme_mesh_refcount_link/refcount.h"
 #include "rendobj.h"
 // Keep aabtree.h from pulling the BFME1 MeshGeometryClass body into this view.
 #define MESHGEOMETRY_H
