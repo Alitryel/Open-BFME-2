@@ -1,7 +1,20 @@
-// cl: /O1 /Oy- /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /O1 /Oy- /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// stlport
+#include <algorithm>
 class Rva002104B6 { public: void *rva002104B6(void *); };
 struct Rva0059E647Arg { char unknown00[0x40]; int value40; };
-struct Rva0059E647Entry { bool Check(int); };
+// Native 0x002DFA43..0x002DFA7A RET4, called by OwnershipSet's building loop
+// and the existing template-store export helpers. The original predicate name
+// is unknown; retain the existing admitted Rva0059E647Entry::Check spelling.
+// Empty key ranges at +3C/+40 accept every key; otherwise search four-byte keys.
+struct Rva0059E647Entry
+{
+    unsigned char unknown00[0x3c];
+    int *begin;
+    int *end;
+    bool Check(int key);
+};
+
 class AsciiString;
 class Rva00056F61;
 struct Rva0041534BIter
@@ -142,4 +155,18 @@ void LivingWorldScenario::OwnershipSet::spawnArmiesInRegionsForPlayer(Rva0059E64
    }
   }
  }
+}
+
+// Defined beside its retail OwnershipSet consumer so the predicate retains
+// /Oy- without changing the tooltip unit's canonical string wrappers.
+bool Rva0059E647Entry::Check(int key)
+{
+    // Retail observes the range again after the empty-range branch.
+    if (*(int *volatile *)&begin == *(int *volatile *)&end)
+        return true;
+    int value = key;
+    // Preserve retail's independent load and store of the outgoing search key.
+    *(volatile int *)&key = value;
+    int *last = end;
+    return _STL::find(begin, last, key) != last;
 }
