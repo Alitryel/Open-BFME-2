@@ -58,6 +58,10 @@ namespace _STL {
 template <> _Rb_tree_node<pair<const unsigned, Image *> > *TreeImage::_M_create_node(const TreeImage::value_type &);
 template <> TreeImage::~_Rb_tree();
 template <> _Rb_tree_node<pair<const unsigned, Image *> > *allocator<_Rb_tree_node<pair<const unsigned, Image *> > >::allocate(size_t, const void *) const;
+
+// Use the shared constructor without emitting another differing copy.
+typedef _Rb_tree_base<pair<const unsigned, Image *>, allocator<pair<const unsigned, Image *> > > ImageTreeBase;
+template <> ImageTreeBase::_Rb_tree_base(const allocator_type &);
 }
 
 template class _STL::map<unsigned, Image *, _STL::less<unsigned>, _STL::allocator<_STL::pair<const unsigned, Image *> > >;
