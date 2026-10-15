@@ -159,9 +159,21 @@ public:
 	{
 		return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_54;
 	}
+	bool rva0029B6D9() const;
 	char m_pad00[0x54];
 	float m_54;	// +0x54
+	char m_pad58[1];
+	bool m_59;	// +0x59
 };
+
+// Native 29B6D9..29B6E2 (9B), just before the getRadius copy at 0x0029B6E2:
+// the final override's +0x59 flag, the same getFO() accessor shape. Which
+// Zero Hour flag it is (publicTimer, sharedNSync, shortcutPower...) is not
+// proven for BFME2's layout; address-derived name.
+bool SpecialPowerTemplate::rva0029B6D9() const
+{
+	return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_59;
+}
 
 class CurseSpecialPowerModuleData
 {

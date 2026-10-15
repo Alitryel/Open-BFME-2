@@ -245,3 +245,19 @@ void ScriptActions::Rva003BBE04(Bool immediate)
 
 // Member ABI proved at each native executeAction3CA4BE call site: ECX=this.
 // Canonical ScriptActions owner; address-derived verbs remain uncertain.
+
+// Native 3BBE32..3BBE3B and 3BBE3B..3BBE44 (9B each), between the rowed
+// ScriptActions::Rva003BBE04 and Rva003BBE44Set: the two control-bar halves
+// of Rva003BBE04 on their own - HideControlBar(true) and
+// ShowControlBar(false). Neither uses ECX, so they are written as free
+// functions; whether retail had them as argument-free ScriptActions members
+// is unproven. Address-derived names.
+void Rva003BBE32HideControlBar()
+{
+	HideControlBar(true);
+}
+
+void Rva003BBE3BShowControlBar()
+{
+	ShowControlBar(false);
+}

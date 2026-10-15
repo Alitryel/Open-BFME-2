@@ -127,3 +127,29 @@ void ScriptActions::Rva003BC47ADo(int val)
 
 // Member ABI proved at each native executeAction3CA4BE call site: ECX=this.
 // Canonical ScriptActions owner; address-derived verbs remain uncertain.
+
+// Native 3BC466..3BC470 and 3BC470..3BC47A (10B each), just before
+// Rva003BC47ADo: TheRadar's force-on byte (+0x11, Zero Hour Radar::
+// m_radarForceOn; the hidden byte is +0x10) set to true and back to false -
+// the shapes of Zero Hour's ScriptActions::doRadarForceEnable and
+// doRadarRevertNormal (inline Radar::forceOn). Neither uses ECX; they are
+// written as free functions under address-derived names because the
+// ScriptActions membership is not proven here.
+class Radar;
+extern Radar *TheRadar;
+
+struct Rva003BC466RadarView
+{
+	char m_pad[0x11];
+	bool m_radarForceOn;	// +0x11
+};
+
+void Rva003BC466RadarForceOn()
+{
+	((Rva003BC466RadarView *)TheRadar)->m_radarForceOn = true;
+}
+
+void Rva003BC470RadarRevertNormal()
+{
+	((Rva003BC466RadarView *)TheRadar)->m_radarForceOn = false;
+}
