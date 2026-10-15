@@ -101,7 +101,7 @@ public:
 	virtual ~PhysicsBehavior();
 	UpdateSleepTime rva00390601();
 	bool rva0039051E() const;
-	bool rva003901DA(int option, float strength);
+	bool calcFlightPath(bool option, float strength);	// row 0x003901DA
 	void rva00390557(const Coord3D *where, float strength, float value44, int value60, int value64);
 	void rva00390E36(int source, int weapon);
 private:
@@ -163,7 +163,7 @@ void PhysicsBehavior::rva00390557(const Coord3D *where, float strength,
 	m_bfme38 = *where;
 	m_bfme2C = object->m_position;
 	m_bfme44 = value44;
-	if (rva003901DA(1, strength))
+	if (calcFlightPath(true, strength))
 	{
 		m_bfme50 = 0;
 		if (value60) m_bfme60 = value60;

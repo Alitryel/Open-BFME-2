@@ -84,7 +84,7 @@ public:
  void rva00390CCA(bool);
  void rva00390629(bool);
  void rva00390557(const Coord3D *,float,float,int,int);
- bool rva003901DA(int,float);
+ bool calcFlightPath(bool,float); // row 0x003901DA
  _STL::vector<Coord3D> points;
  Coord3D start,end; float at44,at48; int at4C,index,bounces,phaseTimer;
  bool active,repeat,dirty,at5F; int at60,at64;
@@ -144,7 +144,7 @@ inline __declspec(noinline) void PhysicsBehavior::rva00390557(const Coord3D *whe
  end=*where;
  start=obj->position;
  at44=value44;
- if(rva003901DA(1,strength)) {
+ if(calcFlightPath(true,strength)) {
   index=0;
   if(value60) at60=value60;
   if(value64) at64=value64;
