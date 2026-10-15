@@ -55,7 +55,8 @@ private:
 class ThingTemplate
 {
 public:
-	UnsignedInt isKindOf(UnsignedInt mask) const { return m_kindOf & mask; }
+	// Keep the retail inline test without a competing external copy.
+	__declspec(dllimport) __forceinline UnsignedInt isKindOf(UnsignedInt mask) const { return m_kindOf & mask; }
 
 private:
 	char m_pad0[0x108];
@@ -92,7 +93,8 @@ class PathNode
 {
 public:
 	const Coord3D *getPosition() const { return &m_pos; }
-	PathNode *getNext() { return m_next; }
+	// Keep traversal inline without emitting another PathNode accessor body.
+	__declspec(dllimport) __forceinline PathNode *getNext() { return m_next; }
 
 private:
 	char m_pad0[8];
