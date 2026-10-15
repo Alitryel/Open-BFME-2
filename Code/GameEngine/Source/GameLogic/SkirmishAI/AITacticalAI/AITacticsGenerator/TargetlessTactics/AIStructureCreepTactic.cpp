@@ -443,6 +443,7 @@ struct Rva002A8AB1Record
 	AIDozerManager m_140;		// +0x140
 	char m_pad141[0x160 - 0x141];
 	Rva005AB7E5Names *m_160;	// +0x160
+	Rva005AB7E5Names *getNames() const { return m_160; }
 	Rva002C5FE8 *m_164;	// +0x164
 };
 
@@ -491,6 +492,8 @@ public:
 	bool m_21;		// +0x21
 	char m_pad22[0x28 - 0x22];
 	bool m_28;		// +0x28
+	void setTarget(ObjectID id) { m_08 = id; }
+	void setName(const AsciiString &n) { m_name = n; }
 	char m_pad29[0x40 - 0x29];
 };
 
@@ -524,6 +527,7 @@ public:
 	virtual ~AITacticOffensive();
 	char m_pad04[0x24 - 4];
 	Player *m_owner;		// +0x24
+	Player *getOwner() const { return m_owner; }
 	char m_pad28[4];AsciiString m_name;unsigned m_id;char m_pad34[0x58-0x34];
 };
 
@@ -927,4 +931,40 @@ void AIStructureCreepTactic::update()
 		end(true, false);
 		moveDozerAway();
 	}
+}
+
+// Retail 0x005AC294 (376 bytes, EH, RET 0; WB twin 0x01520AF0, unnamed):
+// picks the first build template name the zone accepts, then, with no order
+// pending and a build position found (getBuildPos 0x005ABCFE), creates the
+// build order (radius -1, flags, the name, the dozer +0x58, the position) and
+// starts it for the owner. Retail keeps zero in EBX across the body and
+// re-reads the record's +0x160 names per iteration; the WB twin's inline
+// accessor/setter temporaries (getNames, setName, setTarget, getOwner) give
+// that shape. Original method name unknown.
+bool AIStructureCreepTactic::rva005AC294()
+{
+	AsciiString name(AsciiString::TheEmptyString);
+	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	for (unsigned int i = 0; i < record->getNames()->m_names.size(); ++i) {
+		if (name.compare(AsciiString::TheEmptyString) != 0)
+			break;
+		AsciiString candidate = getBuildTemplateName();
+		if (validateTemplateName(candidate))
+			name = candidate;
+	}
+	if (m_order != 0 || name.compare(AsciiString::TheEmptyString) == 0)
+		return false;
+	Coord3DBase pos;
+	if (!rva005ABCFE(&pos, name))
+		return false;
+	m_order = new Rva00573B23;
+	m_order->m_radius = -1.0f;
+	m_order->m_21 = true;
+	m_order->m_20 = false;
+	m_order->setName(name);
+	m_order->setTarget(m_58);
+	m_order->m_28 = false;
+	((Rva00573A00 *)m_order)->rva00573A00((const Coord3D *)&pos);
+	m_order->start(getOwner(), 0);
+	return true;
 }
