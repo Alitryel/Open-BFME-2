@@ -503,7 +503,10 @@ public:
 #undef GAME_TEXT_SLOT
  virtual UnicodeString fetch(const AsciiString &label, bool *exists);
 };
-extern GameText *TheGameText;
+// The singleton at VA 0x00DFF0BC is owned by GameTextStringLookUpLess.cpp.
+// Keep the local slot view while referring to that existing global's type.
+class GameTextInterface;
+extern GameTextInterface *TheGameText;
 class Rva00224CDC {
 public:
  void rva002238E6(AsciiString name);
@@ -518,7 +521,7 @@ void Rva00224CDC::rva002238E6(AsciiString name)
  if (node)
   name = *(AsciiString *)((char *)node + 8);
  bool found = false;
- UnicodeString text = TheGameText->fetch("TOOLTIP:" + name, &found);
+ UnicodeString text = reinterpret_cast<GameText *>(TheGameText)->fetch("TOOLTIP:" + name, &found);
  if (!found)
   return;
  TheMouse->rva001EEA6D(text, -1, 0, 1.0f);
