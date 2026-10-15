@@ -2,7 +2,7 @@
 // ??0WindModuleInfo@FXParticleSystem@@QAE@XZ @0x003A53C4 186B: WindModuleInfo
 // default ctor. Vtable 0x00BE15A4; +0x04 int 1; the ten float slots and the
 // +0x3C bool and the two trailing zero floats are initialized in retail order.
-// Float loads use .rdata constants and two distinct writable .data globals.
+// The vtable store is the compiler's own (DIR32). Float loads use .rdata constants and two distinct writable .data globals.
 // Target .data: 0x00E02904 starts at 0.0f; 0x00DC0A9C starts at 5.4977874756f.
 // Each has only this constructor as a direct code reference. Names below are
 // address-derived; their original identities remain unknown. The readable
@@ -26,8 +26,6 @@
 // One `xorps xmm0,xmm0` supplies all four zeros (+0x14, +0x28, +0x40, +0x44);
 // xmm0 carries the first three globals and xmm1 the rest. That split falls out
 // of the assignment order rather than being requested.
-extern "C" const void *const vtbl_00BE15A4[];  // ??_7WindModuleInfo@FXParticleSystem@@6B@
-#pragma comment(linker, "/alternatename:_vtbl_00BE15A4=??_7WindModuleInfo@FXParticleSystem@@6B@")
 
 #include "Common/Snapshot.h"
 
@@ -56,7 +54,6 @@ float windDefault_00DC0A9C = 5.4977874755859375f;
 
 WindModuleInfo::WindModuleInfo()
 {
-	*(unsigned int *)this = ((unsigned int)vtbl_00BE15A4);
 	m04 = 1;
 	m08 = kG1;
 	m0C = kG2;
