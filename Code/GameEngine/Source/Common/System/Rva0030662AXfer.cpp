@@ -1,17 +1,14 @@
-// ?Rva0030662AXfer@@YAXPAVXfer@@ABVRva0036CA00Str@@@Z
-// partial score=0.8776915038984006 date=2026-10-15
-// ?Rva0030662AXfer@@YAXPAVXfer@@ABVRva0036CA00Str@@@Z
-// partial score=0.96 date=2026-10-13
-// ?Rva0030662AXfer@@YAXPAVXfer@@ABVRva0036CA00Str@@@Z
-// partial score=0.96 date=2026-10-03
 // cl: /Ireference/shims/bfme2_ascii /O1 /EHsc
-// ?Rva0030662AXfer@@YAXPAVXfer@@ABVRva0036CA00Str@@@Z present-unmatched
 // Retail 0x0030662A 217B: Xfer-string plus audio-tag helper next to 0x3064CB.
 // Evidence: Rva0036CA00Str copy row 0x000A8C7C, StringBase copy row 0x000365F0,
 // Xfer AsciiString slot 0x6C plus IsLoading slot 0x04, TheAudio ?TheAudio,
 // Opaque assign row 0x00239099 plus Release_Ref row 0x00050ED3,
 // releaseBuffer row 0x00036410, AsciiString::TheEmptyString,
-// g_Rva0107301CEmptyString, StringBase char* ctor row 0x00037BA0.
+// the pooled "" literal, StringBase char* ctor row 0x00037BA0.
+// Retail keeps the copied tag's referent in EDI from the copy through its
+// inlined destructor: cl only proves the copy does not escape when the copy
+// constructor (0x000A8C7C) body is visible, so it is defined here out of
+// line, byte-identical to its retail body.
 #include "ascii_string.h"
 class Xfer;
 class AsciiString;
@@ -81,6 +78,7 @@ class Xfer
  
 }
 ;
+extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile *value);
 class OpaqueRefCounted
 
 {
@@ -102,7 +100,12 @@ class Rva0036CA00Str : public OpaqueRefElement4
 
 {
  public:
- __declspec(nothrow) Rva0036CA00Str(const Rva0036CA00Str &other);
+ __declspec(noinline) Rva0036CA00Str(const Rva0036CA00Str &other)
+ {
+  referent = other.referent;
+  if (referent)
+   InterlockedIncrement((long volatile *)((char *)referent + 4));
+ }
  ~Rva0036CA00Str() 
  {
   if (referent) referent->Release_Ref();
@@ -113,7 +116,6 @@ class Rva0036CA00Str : public OpaqueRefElement4
 ;
 class AudioManager;
 extern AudioManager *TheAudio;
-extern const char g_Rva0107301CEmptyString[];
 class AudioManager
 
 {
@@ -213,7 +215,7 @@ void __cdecl Rva0030662AXfer(Xfer *xfer, const Rva0036CA00Str &tag)
  return;
 {
  char *t = *(char **)(void *)&xferStr;
- const char *audioChars = t ? t + 8 : g_Rva0107301CEmptyString;
+ const char *audioChars = t ? t + 8 : "";
  AsciiString audioStr(audioChars);
  ((OpaqueRefElement4 &)const_cast<Rva0036CA00Str &>(tag)) = (const OpaqueRefElement4 &)TheAudio->getAudio(audioStr);
 }
