@@ -15,6 +15,9 @@
 // stores need no extra states). /arch:SSE for movss float zeroing (DemoTrap
 // precedent: x87 fldz otherwise).
 
+extern "C" const void *const vtbl_00BF36C0[];  // ??_7Rva0025559B@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF36C0=??_7Rva0025559B@@6B@")
+
 template <typename T>
 class StringBase
 {
@@ -58,7 +61,7 @@ private:
 
 // ??0SpawnUnitBehaviorModuleData@@QAE@XZ @0x25598C
 inline SpawnUnitBehaviorModuleData::SpawnUnitBehaviorModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BF36C0))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00BF36C0)))
 {
 	m_unitName.set("");
 	m_unitCommand.set("");

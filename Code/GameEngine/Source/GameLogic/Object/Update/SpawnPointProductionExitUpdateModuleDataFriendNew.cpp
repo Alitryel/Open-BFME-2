@@ -16,6 +16,9 @@
 // SpawnPointBoneName field per ZH SpawnPointProductionExitUpdate.h) pushed
 // as the factory's proc immediate.
 
+extern "C" const void *const vtbl_00BF3740[];  // ??_7Rva0025558E@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF3740=??_7Rva0025558E@@6B@")
+
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
@@ -34,7 +37,7 @@ class SpawnPointProductionExitUpdateModuleData
 public:
 	SpawnPointProductionExitUpdateModuleData()
 	{
-		m_vtable = reinterpret_cast<void *>(0x00BF3740);
+		m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00BF3740));
 		_ReadWriteBarrier();
 		m_boneName = 0;
 	}
