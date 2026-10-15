@@ -42,18 +42,8 @@ private:
 	char m_pad[0xC - 4];
 };
 
-extern const void *const g_00BBB554[];
-
-// Secondary base at +0xC: the deleting-dtor thunk at 0x002DE585 proves it.
-// Inline dtor restores the Snapshot vtable (0x00BBB554), as retail does.
-class Rva002DE58DBaseC
-{
-public:
-	virtual ~Rva002DE58DBaseC() { *(const void **)this = g_00BBB554; }
-	virtual void crc() = 0;
-	virtual void xfer() = 0;
-	virtual void loadPostProcess() = 0;
-};
+// Native secondary-base vptr BBB554 and +0xC adjustment identify Snapshot.
+#include "Common/Snapshot.h"
 
 class Rva002DE311Owner
 {
@@ -61,7 +51,7 @@ public:
 	void rva002DE311();
 };
 
-class GameState : public SubsystemInterface, public Rva002DE58DBaseC
+class GameState : public SubsystemInterface, public Snapshot
 {
 public:
 	virtual ~GameState();

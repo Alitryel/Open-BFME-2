@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/shims/moduledata
 // ??1Rva00318637@@UAE@XZ retail 0x00318637 110B
 // Called by the rowed scalar deleting dtor 0x0031861B (vtable 0x00C0C734#0).
 // Own vptrs at +0 and +0x0C; the 8-byte record array at +0x30 (x5) runs the
@@ -7,6 +7,7 @@
 // at +0x1C, the inline Snapshot base vptr restore (0x00BBB554) at +0x0C and
 // the rowed base dtor ??1SubsystemInterface@@UAE@XZ 0x001B4E74.
 #include "ascii_string.h"
+#include "Common/Snapshot.h"
 
 class Rva00360D26Member
 {
@@ -33,19 +34,12 @@ private:
 	char m_pad04[8];
 };
 
-class Rva00318637Snapshot
-{
-public:
-	virtual ~Rva00318637Snapshot() {}
-private:
-	char m_pad04[0x1C - 0x10];
-};
-
-class Rva00318637 : public SubsystemInterface, public Rva00318637Snapshot
+class Rva00318637 : public SubsystemInterface, public Snapshot
 {
 public:
 	virtual ~Rva00318637();
 private:
+	char m_unknown10[0x0C]; // Native padding after the four-byte Snapshot base.
 	Rva00360D26Member m_filter1C; // +0x1C
 	AsciiString m_name20; // +0x20
 	char m_pad24[0x30 - 0x24];
