@@ -1,5 +1,10 @@
 // ?rva007092F0@AptActionInterpreter@@AAEXPAVAptCIH@@PAVAptValue@@11H1@Z
 // partial score=0.96 date=2026-10-15
+// Rechecked 2026-10-15 in the complete current home TU: default, /G6,
+// /EHs and /EHa all emit 491B with the same delayed ESI save; /G7 with
+// /EHsc or /EHs emits 490B and retains that mismatch. All six resolve
+// every call and have exact EH graphs. The earlier untested /G6 lead
+// is now exhausted for this draft; do not repeat without new evidence.
 // ?rva007092F0@AptActionInterpreter@@AAEXPAVAptCIH@@PAVAptValue@@11H1@Z
 // Banked 0x007092F0 attempt: unified diff against AptActionInterpreterConstantHandlers.cpp at 7ffe28d8bf (the no-/arch:SSE '-O2' override unit that also owns the caller 0x...1627 and rowed 0x007065E0); apply with patch --binary -l (file is CRLF; diff is CR-stripped).
 // 491/491 size-exact; only residue: retail pushes ESI at entry (pop after the name dtor), cl shrink-wraps it into the if(value) region (all later offsets shift by that push).
