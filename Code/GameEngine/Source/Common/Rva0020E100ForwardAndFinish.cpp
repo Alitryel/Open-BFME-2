@@ -11,6 +11,12 @@ public:
 	void bfmeCallFCB(void *value, int kind);
 };
 
+class Object
+{
+public:
+	void rva0028FCD9(int value, int kind);
+};
+
 class Rva0020E100Owner
 {
 public:
@@ -37,6 +43,6 @@ private:
 void Rva0020E100Owner::forwardAndFinish()
 {
 	BfmeSubFCB *helper = *reinterpret_cast<BfmeSubFCB **>(reinterpret_cast<char *>(this) - 8);
-	helper->bfmeCallFCB(m_value, m_kind);
+	reinterpret_cast<Object *>(helper)->rva0028FCD9(reinterpret_cast<int>(m_value), m_kind);
 	finish();
 }
