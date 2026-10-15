@@ -208,3 +208,37 @@ fail:
 		return 0;
 	}
 }
+
+// 0x00106781 145B: reads one checked range record. The record's first word is
+// copied out, then either the body is allocated and filled through the device
+// (mode set; the filled size must come back whole or the allocation is released)
+// or the cursor is checked against the limit and advanced past the body. A failed
+// read sets the stop byte. Callee names stay address-derived: 0x0009072B and
+// 0x00090714 are the gap allocator and its pointer-clearing release.
+void *Rva0009072BAlloc( int a, int b );
+void Rva00090714Free( void **pointer );
+
+bool BfmeB996Range::rva00106781( void **firstOut, int *first, unsigned int *second, char *stop, bool mode )
+{
+	*stop = 0;
+	*firstOut = 0;
+	if ( checkRange( (int)first, second, stop ) ) {
+		if ( mode ) {
+			void *body = Rva0009072BAlloc( *first, *second );
+			*firstOut = body;
+			// equal-arm (stop ? E : E): constant-wrap-class lever (structural inference) that puts the add before the push
+			if ( m_dev->classify( (stop ? ((int)body + 8) : ((int)body + 8)), *second - 8 ) != *second - 8 ) {
+				Rva00090714Free( firstOut );
+				goto fail;
+			}
+		} else {
+			if ( m_dev->cursor() + (int)(*second - 8) > m_limit )
+				goto fail;
+			m_dev->v5( *second - 8, 1 );
+		}
+		return true;
+fail:
+		*stop = 1;
+	}
+	return false;
+}
