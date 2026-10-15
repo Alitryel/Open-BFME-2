@@ -416,7 +416,8 @@ public:
 	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet() const { return *(const LocomotorSet *)((const char *)this + 0x1CC); }
 	Bool isMoving() const;
 	StateMachine *getStateMachine() const { return m_stateMachine; }
-	const Coord3D *getGoalPosition() const { return getStateMachine()->locomotorGoalPosition(); }
+	// Keep the proven inline view without a competing out-of-line getter.
+	__declspec(dllimport) __forceinline const Coord3D *getGoalPosition() const { return getStateMachine()->locomotorGoalPosition(); }
 
 	virtual void slot000();
 	virtual void slot004();
