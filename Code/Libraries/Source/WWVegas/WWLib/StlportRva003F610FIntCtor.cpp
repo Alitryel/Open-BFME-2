@@ -20,6 +20,9 @@ struct BfmeAssignRecord104
 	int a[26];
 };
 
+// Retail's reserve is the rowed copy in stlport_asciistring_record_bodies.cpp.
+namespace _STL { template <> void vector<BfmeAssignRecord104, allocator<BfmeAssignRecord104> >::reserve(size_t); }
+
 struct Rva003F610FElement
 {
 	int m_00;
