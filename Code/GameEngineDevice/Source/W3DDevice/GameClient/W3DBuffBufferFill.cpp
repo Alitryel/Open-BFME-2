@@ -153,7 +153,8 @@ public:
 
 	__forceinline Vector4(void) {}
 	__forceinline Vector4(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
-	__forceinline Vector4(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
+	// Keep the inline construction without a competing standalone helper.
+	__declspec(dllimport) __forceinline Vector4(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
 	__forceinline Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
 	__forceinline void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
 	__forceinline float &operator[](int i) { return (&X)[i]; }
@@ -617,7 +618,8 @@ private:
 class MeshModelClass
 {
 public:
-	ShaderClass Get_Shader(int pass, int stage) const { return CurMatDesc->Get_Shader(pass, stage); }
+	// This view is already inlined; the retail helper is owned elsewhere.
+	__declspec(dllimport) __forceinline ShaderClass Get_Shader(int pass, int stage) const { return CurMatDesc->Get_Shader(pass, stage); }
 	VertexMaterialClass *Peek_Material() const { return CurMatDesc->Peek_Material(); }
 	RefCountPtr<TextureClass> Peek_Single_Texture(int pass, int stage) const;
 private:

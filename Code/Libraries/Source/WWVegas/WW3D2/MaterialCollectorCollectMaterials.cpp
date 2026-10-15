@@ -95,7 +95,8 @@ public:
     VertexMaterialClass *Get_Single_Material(int pass) const {
         return CurMatDesc->Get_Single_Material(pass);
     }
-    ShaderClass Get_Shader(int index,int pass) const { return CurMatDesc->Get_Shader(index,pass); }
+    // This view is inlined; keep the standalone retail helper with its owner.
+    __declspec(dllimport) __forceinline ShaderClass Get_Shader(int index,int pass) const { return CurMatDesc->Get_Shader(index,pass); }
     ShaderClass Get_Single_Shader(int pass) const { return CurMatDesc->Shader[pass]; }
     RefCountPtr<TextureClass> Peek_Texture(int index,int pass,int stage) const;
     __declspec(noinline) RefCountPtr<TextureClass> Peek_Single_Texture(int pass,int stage) const { return CurMatDesc->Get_Single_Texture(pass,stage); }
