@@ -95,7 +95,7 @@ public:
 	/**
 		return the total number of players (including the neutral player).
 	*/
-	inline Int getPlayerCount() { return *(int *)((char *)this+0x14); }
+	__declspec(dllimport) __forceinline Int getPlayerCount() { return *(int *)((char *)this+0x14); }
 
 	/**
 		return the nth player. Note that players are in an arbitrary order.
@@ -120,7 +120,7 @@ public:
 		Return the "local" player (ie, the human playing the game).
 		This will never return null.
 	*/
-	inline Player *getLocalPlayer() { DEBUG_ASSERTCRASH(m_local != NULL, ("null m_local")); return *(Player **)((char *)this+0x10); }
+	__declspec(dllimport) __forceinline Player *getLocalPlayer() { DEBUG_ASSERTCRASH(m_local != NULL, ("null m_local")); return *(Player **)((char *)this+0x10); }
 
 	/**
 		Set the local player. You cannot set it to null; if you pass null, you'll
