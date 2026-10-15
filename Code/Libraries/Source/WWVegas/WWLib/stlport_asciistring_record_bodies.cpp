@@ -47,7 +47,7 @@ struct BfmeAssignRecord36 { AsciiString s; int a[8]; BfmeAssignRecord36 &operato
 inline bool operator==(const BfmeAssignRecord36 &x, const BfmeAssignRecord36 &y) { return x.s == y.s; }
 struct BfmeAssignRecord44 { AsciiString s; int a[10]; BfmeAssignRecord44 &operator=(const BfmeAssignRecord44 &); };
 inline bool operator==(const BfmeAssignRecord44 &x, const BfmeAssignRecord44 &y) { return x.s == y.s; }
-struct BfmeAssignRecord52 { AsciiString s; int a[12]; BfmeAssignRecord52 &operator=(const BfmeAssignRecord52 &); };
+struct BfmeAssignRecord52 { AsciiString s; int a[12]; BfmeAssignRecord52 &operator=(const BfmeAssignRecord52 &); ~BfmeAssignRecord52(); };
 inline bool operator==(const BfmeAssignRecord52 &x, const BfmeAssignRecord52 &y) { return x.s == y.s; }
 struct BfmePod8 { int a[2]; };
 struct BfmeAssignRecord84 { AsciiString s; int a[20]; BfmeAssignRecord84 &operator=(const BfmeAssignRecord84 &); };
@@ -79,7 +79,7 @@ inline bool operator==(const BfmeStringTailRecord156 &x, const BfmeStringTailRec
 // _Construct<BfmeStringTailRecord156> is the rowed copy construct at 0x004CC095: declare it so this
 // unit calls it rather than emitting the only other copy of that name.
 namespace _STL { template <> void _Construct<BfmeStringTailRecord156, BfmeStringTailRecord156>(BfmeStringTailRecord156 *__p, const BfmeStringTailRecord156 &__val); }
-struct BfmeStringTailRecord180 { int a[44]; AsciiString s; };
+struct BfmeStringTailRecord180 { int a[44]; AsciiString s; ~BfmeStringTailRecord180(); };
 inline bool operator==(const BfmeStringTailRecord180 &x, const BfmeStringTailRecord180 &y) { return x.s == y.s; }
 namespace _STL {
 // Declared only: defined by their owning TUs. Declaring these explicit
