@@ -349,7 +349,11 @@ def converged_facts(rows, unread):
 
     object_paths = {}
     objects, out, failed, changed_objects = {}, [], set(), set()
-    for index, row in enumerate(rows):
+    # Visit rows grouped by source: the ledger is append-only, so one source's
+    # rows recur far apart, and in ledger order the object layout cache (256)
+    # parsed each object again for each run of its rows. Facts keep ledger order.
+    for index in sorted(range(len(rows)), key=lambda at: rows[at]["source"]):
+        row = rows[index]
         selector = (row["source"], build.ledger_member(row)
                     if Path(row["source"]).suffix.lower() == build.LIB_SUFFIX else None)
         if selector not in object_paths:
@@ -391,7 +395,7 @@ def converged_facts(rows, unread):
             base = (effective - struct.unpack_from("<I", body, offset)[0]) & 0xFFFFFFFF
             if in_text(base) and in_text(effective):
                 continue
-            out.append((key, (row["source"], name, base, effective)))
+            out.append((index, key, (row["source"], name, base, effective)))
 
     remapped_objects = set()
     for obj, row in object_paths.values():
@@ -428,7 +432,7 @@ def converged_facts(rows, unread):
             for index, name in members:
                 if index not in failed:
                     unread.append((key[0], name, "object or build inputs changed during data audit"))
-    return [fact for key, fact in out if key not in rejected]
+    return [fact for _index, key, fact in sorted(out, key=lambda entry: entry[0]) if key not in rejected]
 
 
 def converged_rows_all():
