@@ -1,13 +1,15 @@
-// ?setModelState@W3DHordeModelDraw@@QAE_NPAUHordeModelState@@_NPAURva000C3886Obj@@@Z
-// partial score=0.9986485784534405 date=2026-10-14
-// ?setModelState@W3DHordeModelDraw@@QAE_NPAUHordeModelState@@_NPAURva000C3886Obj@@@Z
-// partial score=0.9986485784534405 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
 // WB91A090 names W3DHordeModelDraw::setModelState. Native7A847..7B261,
 // 2586 bytes and RET12, proves the field offsets, arguments and branch flow.
 // ZH W3DModelDraw::setModelState guides the render/shadow/track purpose;
 // the Horde replacement selection and BFME2 fields are target reconstruction.
+// The track bind: StringBase<char>::isEmpty (rowed 0x00001E2F, 20 B) is
+// visible here as a byte-identical noinline copy, so cl knows the call leaves
+// the module-data pointer alone: the data reloaded after it CSEs to the EBX
+// copy taken before it, and the bind arguments evaluate right, left, file
+// with retail's [ebp+0xC] spill of the right name instead of a spilled
+// &trackFile.
 #undef _CRTIMP
 #define _CRTIMP __declspec(dllimport)
 #include <string.h>
@@ -55,7 +57,7 @@ class Rva00270260 {public:bool rva00270260();};
 class HAnimClass {public:virtual void deleteThis();int refs;void ReleaseRef(){if(--refs==0)deleteThis();}};
 class AnimationAsset {public:static HAnimClass *GetAnim(const char*);};
 class RenderObjClass;
-RenderObjClass *Rva0013682BCreateRenderObj(const char*,float,const Rva0013101E&,Strings&,Strings&,Strings&);
+class RenderAsset {public:static RenderObjClass *CreateRenderObj(const char*,float,const Rva0013101E&,Strings&,Strings&,Strings&);};
 RenderObjClass *Rva00137364CreateRenderObj(const char*,float,const Rva0013101E&);
 class Shadow {public:
  struct ShadowTypeInfo {ShadowTypeInfo();~ShadowTypeInfo();AsciiString name0,name4;int type;float reals[6];unsigned char flags[4];};
@@ -337,6 +339,11 @@ public:
 class W3DHordeModelDraw:public W3DScriptedModelDraw {
 public:bool setModelState(HordeModelState *newState,bool force,Rva000C3886Obj *obj);
 };
+template <class CHAR>
+__declspec(noinline) bool StringBase<CHAR>::isEmpty() const throw()
+{
+    return m_data == 0 || m_data->length == 0;
+}
 static __forceinline bool HordeNamesDiffer(const AsciiString &a,const AsciiString &b) {return ((const StringBase<char>*)&a)->compare(*(const StringBase<char>*)&b)!=0;}
 bool W3DHordeModelDraw::setModelState(HordeModelState *newState,bool force,Rva000C3886Obj *obj)
 {
@@ -375,7 +382,7 @@ bool W3DHordeModelDraw::setModelState(HordeModelState *newState,bool force,Rva00
     text54=selected.text0.c_str();
     first.push_back(AsciiString(selected.text0.c_str()));
     if(!selected.text1.empty())second.push_back(AsciiString(selected.text1.c_str()));
-    render=Rva0013682BCreateRenderObj(name.str(),((Rva000788D3FloatField*)draw)->get(),options,empty,first,second);
+    render=RenderAsset::CreateRenderObj(name.str(),((Rva000788D3FloatField*)draw)->get(),options,empty,first,second);
    }
    else if(newTextures || !swaps.empty())
    {
@@ -394,14 +401,14 @@ bool W3DHordeModelDraw::setModelState(HordeModelState *newState,bool force,Rva00
      }
     }
     Strings empty;
-    render=Rva0013682BCreateRenderObj(name.str(),((Rva000788D3FloatField*)draw)->get(),options,originals,replacements,empty);
+    render=RenderAsset::CreateRenderObj(name.str(),((Rva000788D3FloatField*)draw)->get(),options,originals,replacements,empty);
    }
    else if(md->rva00079157()>0)
    {
     Strings replacements,originals;
     rva000C2CBF(md->rva00079157(),&originals,&replacements);
     Strings empty;
-    render=Rva0013682BCreateRenderObj(name.str(),((Rva000788D3FloatField*)draw)->get(),options,originals,replacements,empty);
+    render=RenderAsset::CreateRenderObj(name.str(),((Rva000788D3FloatField*)draw)->get(),options,originals,replacements,empty);
    }
    else if(!md->variants.empty())
    {
@@ -421,7 +428,7 @@ bool W3DHordeModelDraw::setModelState(HordeModelState *newState,bool force,Rva00
     text54=selected.text0.c_str();
     first.push_back(AsciiString(selected.text0.c_str()));
     if(!selected.text1.empty())second.push_back(AsciiString(selected.text1.c_str()));
-    if(found)render=Rva0013682BCreateRenderObj(name.str(),((Rva000788D3FloatField*)draw)->get(),options,empty,first,second);
+    if(found)render=RenderAsset::CreateRenderObj(name.str(),((Rva000788D3FloatField*)draw)->get(),options,empty,first,second);
     else render=Rva00137364CreateRenderObj(name.str(),((Rva000788D3FloatField*)draw)->get(),options);
    }
    else render=Rva00137364CreateRenderObj(name.str(),((Rva000788D3FloatField*)draw)->get(),options);
@@ -442,11 +449,10 @@ bool W3DHordeModelDraw::setModelState(HordeModelState *newState,bool force,Rva00
    RenderObjClass *trackRender=render;
    if(trackRender && ((HordeGlobalDataView*)TheWritableGlobalData)->tracks && !track && TheTerrainTracksRenderObjClassSystem)
    {
-    W3DHordeModelDrawModuleData *m=data;
-    if(!((const StringBase<char>*)&m->trackFile)->isEmpty())
+    if(!((const StringBase<char>*)&data->trackFile)->isEmpty())
     {
-     const char *right=m->right.str(); const char *file=m->trackFile.str(); const char *left=m->left.str();
-     track=((Rva00084C05System*)TheTerrainTracksRenderObjClassSystem)->bind((Rva00084B18RenderObj*)trackRender,10.0f,file,left,right);
+     W3DHordeModelDrawModuleData *m=data;
+     track=((Rva00084C05System*)TheTerrainTracksRenderObjClassSystem)->bind((Rva00084B18RenderObj*)trackRender,10.0f,m->trackFile.str(),m->left.str(),m->right.str());
      if(track)track->owner=draw;
     }
    }
