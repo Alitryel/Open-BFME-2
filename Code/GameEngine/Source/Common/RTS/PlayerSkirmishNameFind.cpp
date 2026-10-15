@@ -32,7 +32,8 @@ private:
 	const char *m_name;
 };
 
-extern Rva00148F5ECache TheKey_playerName;
+class StaticNameKey;
+extern const StaticNameKey TheKey_playerName;
 
 class Dict
 {
@@ -85,7 +86,7 @@ bool Player::rva002AC43F(int *index)
 	*index = 0;
 	for (int i = 0; i < count; i++) {
 		Dict *dict=TheSidesList->getSkirmishSideInfo(i)->getDict();
-		AsciiString name=dict->getAsciiString(TheKey_playerName.get());
+		AsciiString name=dict->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get());
 		if (name.compare(m_4c) == 0) {
 			*index = i;
 			return true;

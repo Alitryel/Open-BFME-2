@@ -47,7 +47,8 @@ private:
 	const char *m_name;
 };
 
-extern Rva00148F5ECache g_00DBDE24;	// "playerName"
+class StaticNameKey;
+extern const StaticNameKey TheKey_playerName;	// "playerName"
 class StaticNameKey;
 extern const StaticNameKey TheKey_teamOwner;	// "teamOwner"
 
@@ -110,7 +111,7 @@ void SidesList::removeSideAndTeams(int index)
 {
 	Dict *dict = m_sides[index].getDict();
 	bool exists;
-	AsciiString name = dict->getAsciiString(g_00DBDE24.get(), &exists);
+	AsciiString name = dict->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get(), &exists);
 	if (exists) {
 		int nextID;
 		for (int id = m_teamrec.getFirstTeamID(); id != 0; id = nextID) {

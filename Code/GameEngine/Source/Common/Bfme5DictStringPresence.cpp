@@ -37,8 +37,10 @@ public:
 };
 
 // Retail data at VA 0x00DBDE24 is {0, 0x00C09558}; the latter is
-// the literal "playerName". The existing SidesList units use this cache.
-Rva00148F5ECache g_00DBDE24 = { NAMEKEY_INVALID, "playerName" };
+// the literal "playerName". WorldHeightMap owns the existing well-known key;
+// use its exact global declaration and cast only the accessor view.
+class StaticNameKey;
+extern const StaticNameKey TheKey_playerName;
 
 // These opaque donor spellings have the one-pointer string ABI. Each call
 // resolves to the already matched worker independently read from retail.
@@ -62,5 +64,5 @@ bool Rva00329EE9::rva00329EE9(void) const
 	const Rva00329EE9Dict *dict = &m_dict;
 	bool initialized;
 	return dict != 0 &&
-		dict->getAsciiString(g_00DBDE24.get(), &initialized).isEmpty();
+		dict->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get(), &initialized).isEmpty();
 }

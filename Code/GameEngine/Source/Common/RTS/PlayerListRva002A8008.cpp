@@ -86,7 +86,8 @@ class Rva00148F5ECache
 public:
 	NameKeyType get();
 };
-extern Rva00148F5ECache TheKey_playerName;
+class StaticNameKey;
+extern const StaticNameKey TheKey_playerName;
 extern Rva00148F5ECache TheKey_playerIsHuman;
 extern Rva00148F5ECache TheKey_playerEnemies;
 extern Rva00148F5ECache TheKey_playerAllies;
@@ -157,7 +158,7 @@ void PlayerList::newGame()
 	for( i = 0; i < TheSidesList->getNumSides(); i++)
 	{
 		Dict *d = TheSidesList->getSideInfo(i)->getDict();
-		AsciiString pname = d->getAsciiString(TheKey_playerName.get());
+		AsciiString pname = d->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get());
 		if (pname.isEmpty())
 			continue;	// it's neutral, which we've already done, so skip it.
 
@@ -205,7 +206,7 @@ void PlayerList::newGame()
 	for( i = 0; i < TheSidesList->getNumSides(); i++)
 	{
 		Dict *d = TheSidesList->getSideInfo(i)->getDict();
-		Player* p = findPlayerWithNameKey(NAMEKEY(d->getAsciiString(TheKey_playerName.get())));
+		Player* p = findPlayerWithNameKey(NAMEKEY(d->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get())));
 
 		AsciiString tok;
 

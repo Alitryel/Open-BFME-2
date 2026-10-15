@@ -28,7 +28,8 @@ private:
 	const char *m_name;
 };
 
-extern Rva00148F5ECache g_00DBDE24;
+class StaticNameKey;
+extern const StaticNameKey TheKey_playerName;
 // VA 0x00DBD9F4 is the ledger global StaticNameKey TheKey_teamName.
 class StaticNameKey;
 extern const StaticNameKey TheKey_teamName;
@@ -81,7 +82,7 @@ private:
 SidesInfo *SidesList::findSideInfo(AsciiString name, int *index)
 {
 	for (int i = 0; i < m_numSides; i++) {
-		if (m_sides[i].getDict()->getAsciiString(g_00DBDE24.get()) == name) {
+		if (m_sides[i].getDict()->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get()) == name) {
 			if (index)
 				*index = i;
 			return &m_sides[i];
@@ -97,7 +98,7 @@ SidesInfo *SidesList::findSideInfo(AsciiString name, int *index)
 SidesInfo *SidesList::findSkirmishSideInfo(AsciiString name, int *index)
 {
 	for (int i = 0; i < m_numSkirmishSides; i++) {
-		if (m_skirmishSides[i].getDict()->getAsciiString(g_00DBDE24.get()) == name) {
+		if (m_skirmishSides[i].getDict()->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get()) == name) {
 			if (index)
 				*index = i;
 			return &m_skirmishSides[i];
@@ -120,7 +121,7 @@ bool SidesList::isPlayerDefaultTeam(TeamsInfo *t)
 		const char * volatile rest = tname.str() + 4;
 		for (int j = 0; j < m_numSides; j++)
 		{
-			AsciiString pname = m_sides[j].getDict()->getAsciiString(g_00DBDE24.get());
+			AsciiString pname = m_sides[j].getDict()->getAsciiString(((Rva00148F5ECache *)&TheKey_playerName)->get());
 			if (pname.compare(rest) == 0)
 			{
 				return true;
