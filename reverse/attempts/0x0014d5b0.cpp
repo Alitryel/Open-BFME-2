@@ -1,9 +1,5 @@
 // ?rva0014D5B0@SourceNamespace_AmbientLight@FXShaderParameterSourceNamespaceSAS@@QAEXPAUID3DXEffect@@PBD@Z
-// partial score=0.96 date=2026-10-14
-// ?rva0014D5B0@SourceNamespace_AmbientLight@FXShaderParameterSourceNamespaceSAS@@QAEXPAUID3DXEffect@@PBD@Z
-// partial score=0.95 date=2026-10-14
-// ?rva0014D5B0@SourceNamespace_AmbientLight@FXShaderParameterSourceNamespaceSAS@@QAEXPAUID3DXEffect@@PBD@Z
-// partial score=0.92 date=2026-10-13
+// partial score=0.96 date=2026-10-15
 // cl: /O1 /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
@@ -132,7 +128,7 @@ class Matrix4
 {
 public:
 	__declspec(dllimport) __forceinline Matrix4() {}
-	__forceinline Matrix4(const Matrix4 &m)
+	__declspec(dllimport) __forceinline Matrix4(const Matrix4 &m)
 	{
 		Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3];
 	}
@@ -318,11 +314,10 @@ class RefCountPtr
 {
 public:
 	RefCountPtr() : ptr(0) {}
-	RefCountPtr(const RefCountPtr &that) : ptr(that.ptr)
-	{
-		if (ptr)
-			ptr->Add_Ref();
-	}
+	RefCountPtr(const RefCountPtr &that);
+	enum InlineCopy { COPY_INLINE };
+	__declspec(dllimport) __forceinline RefCountPtr(const RefCountPtr &that, InlineCopy) : ptr(that.ptr)
+	{ if (ptr) ptr->Add_Ref(); }
 	~RefCountPtr()
 	{
 		if (ptr)
@@ -800,7 +795,7 @@ void FXShaderParameterSourceNamespaceSAS::SetShadowMapInfo(int shadowMapIndex, c
 {
 	if (shadowMapIndex < 0 || shadowMapIndex >= m_SourceNamespace_Shadow.GetSize())
 		return;
-	m_SourceNamespace_Shadow.rva0014F454(shadowMapIndex).rva0014DA92(worldToShadow, shadowMap);
+	m_SourceNamespace_Shadow.rva0014F454(shadowMapIndex).rva0014DA92(worldToShadow, RefCountPtr<TextureClass>(shadowMap, RefCountPtr<TextureClass>::COPY_INLINE));
 }
 
 // Retail 0x0014F7F2, 122 bytes (WorldBuilder 0x009F8870): an identity
@@ -951,22 +946,20 @@ void FXShaderParameterSourceNamespaceSAS::SourceNamespace_AmbientLight::ResolveB
 	}
 }
 
-// Retail 0x0014D5B0, 156 bytes: the ambient light's color (index 0 only).
 void FXShaderParameterSourceNamespaceSAS::SourceNamespace_AmbientLight::rva0014D5B0(ID3DXEffect *effect, D3DXHANDLE parameter)
 {
 	float color[4];
 	Rva0013F6F0LightEnv *env = (Rva0013F6F0LightEnv *)DX8Wrapper::Get_Light_Environment();
-	if ((m_index ? env : env) != 0 && m_index == 0)
+	if (env != 0 && m_index == 0)
 	{
-		const Rva0013F6F0LightEnv::Vector3 &ambient = env->Get_Equivalent_Ambient();
-		float ax = ambient.X;
-		float ay = ambient.Y;
-		float az = (parameter ? ambient.Z : ambient.Z);
-		color[0] = ax;
-		color[1] = ay;
-		color[2] = az;
+		
+		const Rva0013F6F0LightEnv::Vector3 &a0 = env->Get_Equivalent_Ambient(); float fy=a0.Y; float fx=a0.X; float fz=a0.Z;
+		color[2] = fz;
+		color[0] = fx;
+		color[1] = fy;
 		if (ShaderOverbrightEnabled)
 		{
+			
 			color[0] *= 2.0f;
 			color[1] *= 2.0f;
 			color[2] *= 2.0f;
