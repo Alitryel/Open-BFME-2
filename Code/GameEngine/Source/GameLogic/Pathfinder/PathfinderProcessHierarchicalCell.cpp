@@ -18,7 +18,7 @@ class MixFileInfoBuffer {
 public:
  char pad0[0xC];int previous;
  unsigned short totalCost,costSoFar;
- char pad14[0x2C-0x14];unsigned flags; int cell; MixFileInfoBuffer *next; MixFileInfoBuffer **prevNext; void bfmeUnlink();
+ char pad14[0x2C-0x14];unsigned flags; int cell; MixFileInfoBuffer *next; MixFileInfoBuffer **prevNext; private: void bfmeUnlink(); friend MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer**,int,In002E6BA1*);
 };
 extern int TheMixFileInfoPool;
 void Rva0052DBCDInit();
@@ -86,6 +86,7 @@ void Pathfinder::rva002F5022(const ICoord2D &scan,const ICoord2D &delta,Pathfind
 
 extern int TheMixFileInfoCount;
 extern "C" void * __cdecl memset(void*,int,unsigned int);
+#pragma intrinsic(memset)
 class Rva002E6BA1
 {
 public:

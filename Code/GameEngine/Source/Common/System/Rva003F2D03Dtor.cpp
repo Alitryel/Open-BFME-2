@@ -36,7 +36,12 @@ public:
 
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
 namespace _STL {
-template<>void allocator<BfmeE16>::deallocate(pointer p,size_type)const{free(p);}
+
+template<> __declspec(dllimport) __forceinline void allocator<BfmeE16>::deallocate(pointer p,size_type)const{free(p);}
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<BfmeE16*,BfmeE16,allocator<BfmeE16> >::deallocate(BfmeE16*p,size_t n){__stl_alloc_rebind(static_cast<allocator<BfmeE16>&>(*this),(BfmeE16*)0).deallocate(p,n);}
+template<> __declspec(dllimport) __forceinline void **vector<void*,allocator<void*> >::begin(){return _M_start;}
+template<> __declspec(dllimport) __forceinline void **vector<void*,allocator<void*> >::end(){return _M_finish;}
+
 template<>__declspec(nothrow) _Vector_base<BfmeE16,allocator<BfmeE16> >::_Vector_base(const allocator<BfmeE16>&);
 template<>__declspec(nothrow) _Vector_base<AsciiString,allocator<AsciiString> >::_Vector_base(const allocator<AsciiString>&);
 }

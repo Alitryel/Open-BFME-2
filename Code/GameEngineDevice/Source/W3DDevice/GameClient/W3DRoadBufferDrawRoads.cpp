@@ -33,10 +33,14 @@ public:
 	void Release_Ref();	// 0x0061ED10
 };
 
+// Native texture copies use the existing AssetReference conversion at424BB;
+// the distinct ordinary RefCountPtr copy at1494F0 retains its own identity.
+class AssetReference {public:void *m_object;};
 template <class T>
 class RefCountPtr
 {
 public:
+	template<class Native> __declspec(noinline) RefCountPtr(const Native &other) { Referent=(T*)other.m_object; if(Referent) ++*(unsigned short*)((char*)Referent+4); }
 	RefCountPtr(const RefCountPtr &rhs) : Referent(rhs.Referent)
 	{
 		if (Referent)
@@ -350,7 +354,7 @@ void W3DRoadBuffer::drawRoads(RenderInfoClass &rinfo, RefCountPtr<FXShader::Rend
 			if (hasNrm)
 				g_00DEBC60->setNormalTexture(reinterpret_cast<BfmeRoadTypeTexturesView &>(m_roadTypes[i]).rva000D6A57());
 			else
-				g_00DEBC60->setNormalTexture(m_fallbackTexture);
+				g_00DEBC60->setNormalTexture(RefCountPtr<TextureClass>(*(const AssetReference *)&m_fallbackTexture));
 			rinfo.Push_Rendering_Method(method);
 			Rva001688FFShift((Rva001688FFElement **)rinfo.Get_Rendering_Method_Stack().begin(), rinfo.Get_Rendering_Method_Stack().size());
 			RefCountPtr<FXShader::RenderingMethod> current = rinfo.Get_Rendering_Method_Stack()[0];

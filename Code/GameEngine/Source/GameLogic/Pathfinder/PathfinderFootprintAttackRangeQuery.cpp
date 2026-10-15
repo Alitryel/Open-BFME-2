@@ -58,17 +58,17 @@ static __forceinline int queryFloor(float f){float v=(float)floor(f);int i;__asm
  fistp [i]
  }return i;}
 class Pathfinder {public:bool rva002EC479(Object*,const Coord3D*,Object*);PathfindCell *getCell(PathfindLayerEnum,int,int);};
-static const float PATHFINDER_CELL_INV = 1.0f / 10.0f;
+
 inline __declspec(noinline) ICoord2D* __cdecl Rva002E7875WorldToCell(ICoord2D* out, bool center, const Coord3D* pos)
 {
 	int ix;
 	int iy;
 	if (center) {
-		ix = queryFloor(pos->x * PATHFINDER_CELL_INV);
-		iy = queryFloor(pos->y * PATHFINDER_CELL_INV);
+		ix = queryFloor(pos->x * (1.0f / 10.0f));
+		iy = queryFloor(pos->y * (1.0f / 10.0f));
 	} else {
-		ix = queryFloor(pos->x * PATHFINDER_CELL_INV + 0.5f);
-		iy = queryFloor(pos->y * PATHFINDER_CELL_INV + 0.5f);
+		ix = queryFloor(pos->x * (1.0f / 10.0f) + 0.5f);
+		iy = queryFloor(pos->y * (1.0f / 10.0f) + 0.5f);
 	}
 	out->x = ix;
 	out->y = iy;

@@ -72,6 +72,11 @@ public:
 	virtual Xfer &xferInt(int &value);
 };
 
+class ModuleData;
+
+namespace _STL {
+template<> void vector<const ModuleData *>::reserve(unsigned int);
+}
 class ModuleData
 {
 public:

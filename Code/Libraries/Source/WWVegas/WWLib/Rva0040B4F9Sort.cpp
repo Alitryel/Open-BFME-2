@@ -5,6 +5,14 @@
 #include <vector>
 #include <algorithm>
 
+namespace _STL {
+template<> __declspec(dllimport) __forceinline _OKToMemCpy<int,int> _IsOKToMemCpy<int,int>(int*,int*) { return _OKToMemCpy<int,int>(); }
+template<> __declspec(dllimport) __forceinline __true_type _OKToMemCpy<int,int>::_Ret() { return __true_type(); }
+template<> __declspec(dllimport) __forceinline __true_type _BothPtrType<int*,int*>::_Ret() {return __true_type();}
+template<> __declspec(dllimport) __forceinline int* __copy_backward_ptrs<int*,int*>(int* first,int* last,int* result,const __true_type&) { return (int*)__copy_trivial_backward(first,last,result); }
+template<> void __linear_insert<int*,int,less<int> >(int*,int*,int,less<int>);
+}
+
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline
 // specialization takes those calls inline so this TU emits no external copy.

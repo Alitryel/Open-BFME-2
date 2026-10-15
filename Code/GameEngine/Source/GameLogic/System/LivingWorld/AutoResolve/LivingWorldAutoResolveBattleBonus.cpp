@@ -35,6 +35,7 @@ class INIException
 public:
 	INIException(int argCount, const char *format, ...);	// 0x0002F681
 	INIException(const INIException &that);
+	~INIException();
 	char *mFailureMessage;
 	int mErrorCode;
 };

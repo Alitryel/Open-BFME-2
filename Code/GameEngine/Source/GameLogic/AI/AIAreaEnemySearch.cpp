@@ -56,6 +56,7 @@ class Rva002FE13DFilter : public Rva000421C8
 public:
 	Rva002FE13DFilter(const Object *obj) : m_obj(obj) {}
 	virtual bool allow(Object *obj);
+	virtual int getPlayerMask();
 	const Object *m_obj;
 };
 

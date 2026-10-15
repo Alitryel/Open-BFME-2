@@ -14,9 +14,14 @@
 // updateCliff is independently recovered atEF63F in TerrainTex.cpp.
 #include <vector>
 class TextureClass {public:void Release_Ref();};
+// Native owning conversion uses the existing MaterialInfoTextureHandles constructor at 424BB.
+// Its one-pointer representation and WORD refcount at +4 are established there;
+// the distinct ordinary RefCountPtr copy at1494F0 must retain its own identity.
+class AssetReference { public: void *m_object; };
 template<class T>class RefCountPtr {public:
  RefCountPtr(T*p=0):m_ptr(p){}
  RefCountPtr(const RefCountPtr&);
+ template<class Native> __declspec(noinline) RefCountPtr(const Native &other) { m_ptr=(T*)other.m_object; if(m_ptr) ++*(unsigned short*)((char*)m_ptr+4); }
  const RefCountPtr &operator=(const RefCountPtr&);
  ~RefCountPtr(){if(m_ptr)m_ptr->Release_Ref();}
  bool isValid()const{return m_ptr!=0;}
@@ -38,17 +43,17 @@ private:
 };
 RefCountPtr<TextureClass> WorldHeightMap::rva000AEAA6(int,int,int,int selector) {
  RefCountPtr<TextureClass> &cached=m_cached[selector];
- if(cached.isValid())return cached;
- if(selector==1 && !TheWritableGlobalData->m_flag49)return RefCountPtr<TextureClass>(0);
- if(m_records.size()<2)return RefCountPtr<TextureClass>(0);
+ if(cached.isValid())return RefCountPtr<TextureClass>(*(const AssetReference *)&cached);
+ if(selector==1 && !TheWritableGlobalData->m_flag49)return RefCountPtr<TextureClass>((TextureClass*)0);
+ if(m_records.size()<2)return RefCountPtr<TextureClass>((TextureClass*)0);
  int index=m_records[1].indexWord>>2;
  for(int i=0;i<m_numGrids;++i) {
   if(index>=m_grids[i].start && index<m_grids[i].start+m_grids[i].count) {
    Rva000EF902 texture(m_grids[i].width*64,m_grids[i].width*64,25);
    ((TerrainTextureClass*)&texture)->updateCliff(tileData,m_grids[i].start,m_grids[i].count,m_grids[i].width,selector);
    cached=texture;
-   return cached;
+   return RefCountPtr<TextureClass>(*(const AssetReference *)&cached);
   }
  }
- return RefCountPtr<TextureClass>(0);
+ return RefCountPtr<TextureClass>((TextureClass*)0);
 }

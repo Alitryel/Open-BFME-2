@@ -7,6 +7,10 @@
 
 #include "ascii_string.h"
 
+namespace _STL {
+template<> vector<AsciiString>::vector(const vector<AsciiString> &);
+}
+
 
 class Rva004BA1D0 {
 public:

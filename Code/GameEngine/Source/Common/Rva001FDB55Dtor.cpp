@@ -5,6 +5,9 @@
 #include "ascii_string.h"
 
 struct BfmeObject476 { ~BfmeObject476(); };
+namespace _STL {template<> void _Destroy<BfmeObject476*>(BfmeObject476*,BfmeObject476*);}
+namespace _STL {template<> vector<BfmeObject476>::~vector();}
+
 
 class Rva00072FE6
 {

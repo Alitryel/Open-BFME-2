@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD /GX
+// cl: /DBFME_COORD3D_INLINE_SCALE_LINK /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /DNDEBUG /MD /GX
 //
 // SlavedUpdate methods, Zero Hour SlavedUpdate.cpp transferred: endRepair
 // (retail 0x004A1C10, 73 bytes) and setRepairModelConditionStates (retail
@@ -514,14 +514,15 @@ enum LocomotorSetType
 };
 class Locomotor
 {
+ friend class SlavedUpdate;
 public:
 	enum LocoFlag
 	{
 		PRECISE_Z_POS = 3,
 		ULTRA_ACCURATE = 6
 	};
-	inline void setUsePreciseZPos(bool u) { setFlag(PRECISE_Z_POS, u); }
-	inline void setUltraAccurate(bool u) { setFlag(ULTRA_ACCURATE, u); }
+	__declspec(dllimport) __forceinline void setUsePreciseZPos(bool u) { setFlag(PRECISE_Z_POS, u); }
+	__declspec(dllimport) __forceinline void setUltraAccurate(bool u) { setFlag(ULTRA_ACCURATE, u); }
 private:
 	inline void setFlag(LocoFlag f, bool b) { if (b) m_flags |= (1 << f); else m_flags &= ~(1 << f); }
 	unsigned char m_pad[0x44];
@@ -857,7 +858,7 @@ void SlavedUpdate::doRepairLogic()
 		Locomotor *locomotor = ai->getCurLocomotor();
 		if (locomotor)
 		{
-			locomotor->setUsePreciseZPos(closeEnoughForZPrecision);
+			locomotor->setFlag(Locomotor::PRECISE_Z_POS, closeEnoughForZPrecision);
 		}
 		Coord3D pos;
 		pos.set(master->getPosition());

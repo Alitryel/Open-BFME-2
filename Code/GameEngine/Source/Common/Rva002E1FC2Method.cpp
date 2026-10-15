@@ -7,6 +7,14 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 #define _STLP_NO_EXCEPTIONS 1
 #include <map>
 
+namespace _STL {
+typedef _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > IntMapIterator;
+// ??E?$_Rb_tree_iterator@U?$pair@$$CBHH@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHH@_STL@@@2@@_STL@@QAEAAU01@XZ
+template <> __declspec(dllimport) __forceinline
+IntMapIterator &IntMapIterator::operator++()
+{ _M_node = _Rb_global_inst::_M_increment(_M_node); return *this; }
+}
+
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {
 template <class T, class LeftTraits, class RightTraits>

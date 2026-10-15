@@ -15,6 +15,13 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 
 #include "ascii_string.h"
 
+// Use the existing native list-node provider; its local implicit instantiation
+// emits unused allocator wrappers that conflict with other units.
+namespace _STL {
+template<> _List_node<AsciiString> *list<AsciiString>::_M_create_node(const AsciiString &);
+}
+
+
 typedef unsigned char UnsignedByte;
 typedef unsigned int UnsignedInt;
 typedef bool Bool;

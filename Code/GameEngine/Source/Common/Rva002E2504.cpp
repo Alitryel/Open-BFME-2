@@ -17,6 +17,11 @@ extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
 class ModuleData;
+
+namespace _STL {
+template<> void vector<const ModuleData *>::reserve(unsigned int);
+}
+class ModuleData;
 class Rva00318C32Ret;
 class Rva00318C79Owner
 {

@@ -26,7 +26,7 @@ namespace _STL
 {
 
 template <class ForwardIter1, class ForwardIter2>
-inline void iter_swap(ForwardIter1 left, ForwardIter2 right)
+__declspec(dllimport) __forceinline void iter_swap(ForwardIter1 left, ForwardIter2 right)
 {
 	S4SortElem8 temporary = *left;
 	*left = *right;

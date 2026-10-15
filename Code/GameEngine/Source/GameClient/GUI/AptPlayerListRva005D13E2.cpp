@@ -53,17 +53,17 @@ struct Rva005D137DKey
 	int m_index;
 };
 
-class Rva005EE014BaseView
+class Rva005EE05E
 {
 public:
-	Rva005EE014BaseView(int first, int second);
+	Rva005EE05E(int first, const AsciiString &name);
 
 private:
 	void *m_vtable;
 	void *m_delegate;
 };
 
-class Rva005D13BDStorage : public Rva005EE014BaseView
+class Rva005D13BDStorage : public Rva005EE05E
 {
 public:
 	Rva005D13BDStorage(StrategicInGameUI::RegionAwardDialog::Impl *owner, int first, int second);
@@ -91,6 +91,9 @@ public:
 	void rva005EE250(int count);
 };
 
+class Rva005ED5BB {public:void rva005ED5BB(int,int);};
+class Rva005ED849 {public:void rva005ED849(int,int);};
+class Rva005ED851 {public:void rva005ED851(int,int);};
 class Rva005ED976
 {
 public:
@@ -150,16 +153,16 @@ void StrategicInGameUI::RegionAwardDialog::Impl::SetupMovieClipPlayers()
 		m_rowView->rva005ED986(index, *(UnicodeString *)(entry + 0x1C));
 
 		int color = ((RGBColor *)(entry + 0x184))->getAsInt() | 0xFF000000;
-		m_rowView->rva005ED849(index, color);
+		((Rva005ED849*)m_rowView)->rva005ED849(index,color);
 
 		temps.currentView = m_rowView;
 		const AsciiString &imageName = *(AsciiString *)((char *)temps.imageInfo + 0x20);
 		const Image *image = TheMappedImageCollection->findImageByName(imageName);
-		temps.currentView->rva005ED5BB(index, image);
+		((Rva005ED5BB*)temps.currentView)->rva005ED5BB(index,(int)image);
 
 		temps.currentView = m_rowView;
 		int regions = ((LivingWorldPlayer *)entry)->GetNumRegionsOwned();
-		temps.currentView->rva005ED851(index, regions);
+		((Rva005ED851*)temps.currentView)->rva005ED851(index,regions);
 
 		temps.currentView = m_rowView;
 		int units = CountOwnedUnits((Rva002E0D02Arg *)entry);
@@ -187,7 +190,7 @@ Rva0020E89C *StrategicInGameUI::RegionAwardDialog::Impl::GetRegion()
 // the C++ class and original member names remain inferred.
 __declspec(noinline) Rva005D13BDStorage::Rva005D13BDStorage(
 	StrategicInGameUI::RegionAwardDialog::Impl *owner, int first, int second)
-	: Rva005EE014BaseView(first, second), m_owner(owner)
+	: Rva005EE05E(first, *(const AsciiString *)second), m_owner(owner)
 {
 	*(void **)this = (void *)vtbl_00C755C0;
 }

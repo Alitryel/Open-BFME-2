@@ -28,6 +28,15 @@
 #pragma optimize("", on)
 #include <algorithm>
 
+namespace _STL {
+template<> __declspec(dllimport) __forceinline _OKToMemCpy<int,int> _IsOKToMemCpy<int,int>(int*,int*) { return _OKToMemCpy<int,int>(); }
+template<> __declspec(dllimport) __forceinline __true_type _OKToMemCpy<int,int>::_Ret() { return __true_type(); }
+template<> __declspec(dllimport) __forceinline _OKToMemCpy<void*,void*> _IsOKToMemCpy<void*,void*>(void**,void**) { return _OKToMemCpy<void*,void*>(); }
+template<> __declspec(dllimport) __forceinline __true_type _OKToMemCpy<void*,void*>::_Ret() { return __true_type(); }
+template<> __declspec(dllimport) __forceinline __true_type _BothPtrType<int*,int*>::_Ret() {return __true_type();}
+template<> __declspec(dllimport) __forceinline int* __copy_backward_ptrs<int*,int*>(int* first,int* last,int* result,const __true_type&) { return (int*)__copy_trivial_backward(first,last,result); }
+}
+
 typedef bool (*VoidPtrValueLess)(void *, void *);
 typedef bool (*IntValueLess)(int, int);
 

@@ -201,11 +201,15 @@ struct BfmeGlobalRoadLimitsView
 // out-of-line operator= (0x000424D0); the temporary releases inline. The
 // buffers are BFME 2's DX8 vertex buffer (0x0013AC00, 0x20 bytes) and the
 // 0x18-byte index buffer.
+// Native texture copies use the existing AssetReference conversion at424BB;
+// the distinct ordinary RefCountPtr copy at1494F0 retains its own identity.
+class AssetReference {public:void *m_object;};
 template <class T>
 class RefCountPtr
 {
 public:
 	RefCountPtr() : m_ptr(0) {}
+	template<class Native> __declspec(noinline) RefCountPtr(const Native &other) { m_ptr=(T*)other.m_object; if(m_ptr) ++*(unsigned short*)((char*)m_ptr+4); }
 	RefCountPtr(const RefCountPtr &other);
 	const RefCountPtr &operator=(const RefCountPtr &other);
 	~RefCountPtr() { if (m_ptr) reinterpret_cast<W3DRoadBufferRef18Target *>(m_ptr)->Release_Ref(); }
@@ -251,13 +255,13 @@ struct BfmeRoadTypeTexturesView
 // ?rva000D6A3F@BfmeRoadTypeTexturesView@@QAE?AV?$RefCountPtr@VTextureClass@@@@XZ
 RefCountPtr<TextureClass> BfmeRoadTypeTexturesView::rva000D6A3F()
 {
-	return m_roadTexture;
+	return RefCountPtr<TextureClass>(*(const AssetReference *)&m_roadTexture);
 }
 
 // ?rva000D6A57@BfmeRoadTypeTexturesView@@QAE?AV?$RefCountPtr@VTextureClass@@@@XZ
 RefCountPtr<TextureClass> BfmeRoadTypeTexturesView::rva000D6A57()
 {
-	return m_roadTexture2;
+	return RefCountPtr<TextureClass>(*(const AssetReference *)&m_roadTexture2);
 }
 
 // BFME 2 GlobalData +0x49: load the _nrm companion road textures.

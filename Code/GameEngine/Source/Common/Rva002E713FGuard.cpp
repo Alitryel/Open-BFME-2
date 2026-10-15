@@ -6,9 +6,11 @@
 // pinned 0x00533BEC on this+0x460 with (&+0x14, &+0x60, +0x10). Honest
 // address-derived names; member/callee identities unproven.
 
+class PathfindCell; class PathfindLayer; struct IRegion2D;
+class PathfindZoneManager { public: void Update(PathfindCell**,PathfindLayer*,const IRegion2D&); };
+
 struct Rva002E713F460
 {
-	void rva00533BEC(void *a, void *b, void *c);
 	char m_pad[4];
 };
 
@@ -29,6 +31,7 @@ class PathfindLayer
 {
 public:
 	void ClassifyWallCells();
+ void ClassifyBridgeCells();
 };
 
 class Rva00366E2E
@@ -63,7 +66,7 @@ void Rva002E713FOwner::rva002E713F()
 		return;
 	if (m_b1BEB4 != 0 || m_b1BEB5 != 0)
 		rva0052F294();
-	m_s460.rva00533BEC(m_p10, &m_60, &m_14);
+	((PathfindZoneManager *)&m_s460)->Update((PathfindCell **)m_p10, (PathfindLayer *)&m_60, *(const IRegion2D *)&m_14);
 }
 
 // ?rva0052F294@Rva002E713FOwner@@QAEXXZ @0x0052F294 88B
@@ -81,7 +84,7 @@ void Rva002E713FOwner::rva0052F294()
 			if (*(int *)((char *)slot + 0x38) != 0)
 				((PathfindLayer *)slot)->ClassifyWallCells();
 			else
-				((Rva00366E2E *)slot)->rva00366E2E();
+				((PathfindLayer *)slot)->ClassifyBridgeCells();
 		}
 		slot = (Rva0036666B *)((char *)slot + 0x40);
 	}

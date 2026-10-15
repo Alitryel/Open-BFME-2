@@ -19,6 +19,10 @@ template <typename T> struct BfmeStringData;
 
 #include "ascii_string.h"
 
+namespace _STL {
+template<> vector<AsciiString>::vector(const vector<AsciiString> &);
+}
+
 struct Coord3D;
 
 template <int N> class BitFlags

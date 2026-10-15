@@ -3,6 +3,9 @@
 // Evidence: calls rowed ??0BfmeAptValue006DCD20@@QAE@H@Z (0x006DCCC0) with type 1 then stores vtable
 // 0x008EA358 then rowed ?clear@EAStringC@@QAEAAV1@XZ (0x006D2F90) on member at +8 then +0xC=0;
 // dtor twin 0x006D6D20 same vtable same EH handler 0x007A8838 destroys +8 plus base; size 0x10.
+class Rva006DB270 {public:void freeBlock(void*,int);};
+extern Rva006DB270 *g_pChainBlockAllocator;
+Rva006DB270 *g_pChainBlockAllocator;
 class EAStringC
 {
 public:
@@ -26,6 +29,8 @@ struct Rva006D6D20 : public BfmeAptValue006DCD20
     Rva006D6D20();
     Rva006D6D20(const char *s);
     virtual ~Rva006D6D20();
+    static void operator delete(void*p,unsigned int size){g_pChainBlockAllocator->freeBlock(p,size);}
+
 };
 Rva006D6D20::Rva006D6D20() : BfmeAptValue006DCD20(1), m_0C(0)
 {

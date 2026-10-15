@@ -2137,7 +2137,7 @@ private:
 	int m_30;
 };
 
-void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
+inline __declspec(noinline) void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
 {
 	m_30 = a;
 	m_00 = b->x;
@@ -2163,7 +2163,7 @@ public:
 
 // Rehomed 0x002E8B7A (33 B), original Rva002E8B7AInit.cpp: takes the pool
 // head, unlinks it (0x002E6BE2) and initializes it for the cell (0x002E6BA1).
-MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in)
+inline __declspec(noinline) MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in)
 {
 	MixFileInfoBuffer *node = *pp;
 	node->bfmeUnlink();
@@ -2549,7 +2549,7 @@ int Pathfinder::_GetOverlapUnits(Object *object,const Coord3D *position,int *out
 // Rehomed canonical converter: original PathfindShimWorldToCell.cpp,162B.
 // Reuses this TU's existing floor/fistp codegen helper; no new asm is added.
 static const float PATHFINDER_CELL_INV = 1.0f / 10.0f;
-__declspec(noinline) ICoord2D* __cdecl Rva002E7875WorldToCell(ICoord2D* out, bool center, const Coord3D* pos)
+inline __declspec(noinline) ICoord2D* __cdecl Rva002E7875WorldToCell(ICoord2D* out, bool center, const Coord3D* pos)
 {
 	int ix;
 	int iy;
@@ -2581,7 +2581,7 @@ struct Coord3D;
 struct ICoord2D *__cdecl Rva002E7875WorldToCell(struct ICoord2D *out, bool center, const struct Coord3D *pos);
 bool __cdecl Rva002EBBFBIsOdd(void *p);
 
-__declspec(noinline) struct ICoord2D *__cdecl Rva002EBC14Cell(struct ICoord2D *out, void *p, const struct Coord3D *pos)
+inline __declspec(noinline) struct ICoord2D *__cdecl Rva002EBC14Cell(struct ICoord2D *out, void *p, const struct Coord3D *pos)
 {
 	Rva002E7875WorldToCell(out, Rva002EBBFBIsOdd(p), pos);
 	return out;

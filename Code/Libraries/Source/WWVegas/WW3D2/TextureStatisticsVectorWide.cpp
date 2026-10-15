@@ -8,78 +8,34 @@
 // compiler still emits the array-constructor-iterator call. Fresh tags per
 // NEAR-TWIN policy; identity of the owning vector/class is NOT recovered.
 
+// Lifetime reconciliation: the first word owns a COM surface (176CB0), followed by eight payload words.
+// Assignment binds the existing 36-byte COM holder owner BfmeThingFT::bfmeTakeFT (154AF0).
+
 #include <new.h>
 
 extern void *__cdecl operator new[](size_t size);
 extern void __cdecl operator delete[](void *pointer);
 
-class TextureBaseClassWide
-{
+class W3DRadarResetSurface {
 public:
-	void Add_Ref();
-	void Release_Ref();
+ __declspec(dllimport) __forceinline W3DRadarResetSurface():m_surface(0){}
+ ~W3DRadarResetSurface();
+ bool operator==(const W3DRadarResetSurface &other)const{return m_surface==other.m_surface;}
+ bool operator!=(const W3DRadarResetSurface &other)const{return m_surface!=other.m_surface;}
+private:void *m_surface;
 };
 
-class TextureClassWide : public TextureBaseClassWide
-{
-};
-
-// ?TextureBaseClassWide::Add_Ref present-unmatched
-void TextureBaseClassWide::Add_Ref()
-{
-	++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
-}
-
-template<class T>
-class RefCountPtrWide
-{
-public:
-	RefCountPtrWide() : Referent(0) {}
-	RefCountPtrWide(RefCountPtrWide const &other) : Referent(other.Referent)
-	{
-		if (Referent != 0)
-			Referent->Add_Ref();
-	}
-	~RefCountPtrWide()
-	{
-		if (Referent != 0)
-		{
-			Referent->Release_Ref();
-			Referent = 0;
-		}
-	}
-	RefCountPtrWide const &operator=(RefCountPtrWide const &other)
-	{
-		if (other.Referent != 0)
-			other.Referent->Add_Ref();
-		if (Referent != 0)
-			Referent->Release_Ref();
-		Referent = other.Referent;
-		return *this;
-	}
-	void Clear()
-	{
-		if (Referent != 0)
-		{
-			Referent->Release_Ref();
-			Referent = 0;
-		}
-	}
-	bool operator==(RefCountPtrWide const &other) const { return Referent == other.Referent; }
-	bool operator!=(RefCountPtrWide const &other) const { return Referent != other.Referent; }
-
-private:
-	T *Referent;
-};
-
+class BfmeThingFT { public: BfmeThingFT &bfmeTakeFT(const BfmeThingFT *); };
 struct TextureStatisticsStructWide
 {
-	RefCountPtrWide<TextureClassWide> tex;
+	W3DRadarResetSurface tex;
 	int usage_count;
 	int change_count;
 	int unmodelled[6];
 
-	TextureStatisticsStructWide &operator=(TextureStatisticsStructWide const &other);
+	__declspec(dllimport) __forceinline TextureStatisticsStructWide &operator=(TextureStatisticsStructWide const &other) {
+ return *(TextureStatisticsStructWide *)&((BfmeThingFT *)this)->bfmeTakeFT((const BfmeThingFT *)&other);
+}
 	bool operator==(TextureStatisticsStructWide const &other) const
 	{
 		return tex == other.tex;

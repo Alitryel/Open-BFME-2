@@ -31,6 +31,9 @@ struct Coord3D {
     void set(const Coord3D *p) { x = p->x; y = p->y; z = p->z; }
     void add(const Coord3D *p) { x += p->x; y += p->y; z += p->z; }
     void sub(const Coord3D *p) { x -= p->x; y -= p->y; z -= p->z; }
+#ifdef BFME_COORD3D_INLINE_SCALE_LINK
+    __declspec(dllimport) __forceinline
+#endif
     void scale(float s) { x *= s; y *= s; z *= s; }
 #ifdef COORD3D_INLINE_ASSIGN
     Coord3D &operator=(const Coord3D &o) { x = o.x; y = o.y; z = o.z; return *this; }

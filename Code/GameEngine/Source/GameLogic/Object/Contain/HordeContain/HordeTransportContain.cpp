@@ -23,6 +23,12 @@ template <> __declspec(dllimport) __forceinline
 void **vector<void*>::end()
 { return _M_finish; }
 }
+// Bind the native erase provider and keep this clear operation inline only.
+namespace _STL {
+template<> void **vector<void*>::erase(void **,void **);
+template<> __declspec(dllimport) __forceinline void vector<void*>::clear() { erase(begin(),end()); }
+}
+
 extern "C" void *__cdecl memcpy(void *,const void *,unsigned int);
 #pragma intrinsic(memcpy)
 #include "../../../../../Include/GameLogic/ContainmentListView.h"

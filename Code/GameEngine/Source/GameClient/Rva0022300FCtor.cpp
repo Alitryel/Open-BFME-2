@@ -12,6 +12,11 @@ namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 
 class ModuleData;
 
+namespace _STL {
+template<> void vector<const ModuleData *>::reserve(unsigned int);
+}
+class ModuleData;
+
 class Rva0022300F
 {
 public:

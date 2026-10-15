@@ -13,6 +13,7 @@
 #include "vector2.h"
 #include "vector3.h"
 #include "Lib/Coord3D.h"
+__declspec(dllimport) __forceinline void trackCrossProduct(const Vector3 &a,const Vector3 &b,Vector3 *out) { assert(out != &a); out->X=a.Y*b.Z-a.Z*b.Y; out->Y=a.Z*b.X-a.X*b.Z; out->Z=a.X*b.Y-a.Y*b.X; }
 struct TrackVector { float x,y,z;
  TrackVector(){} TrackVector(float a,float b,float c):x(a),y(b),z(c){}
  TrackVector(const TrackVector&a):x(a.x),y(a.y),z(a.z){}
@@ -104,13 +105,14 @@ public:
 };
 extern TerrainLogic *TheTerrainLogic;
 class TerrainTracksRenderObjClassSystem {
-public: char prefix00[0x1C];int m_maxTankTrackEdges;
+public: char prefix00[0x1C];int m_maxTankTrackEdges; void ReAcquireResources();
 };
 extern TerrainTracksRenderObjClassSystem *TheTerrainTracksRenderObjClassSystem;
 static inline float sqr(float value) { return value*value; }
 struct TrackEdge {
  Vector3 endPointPos[2]; Vector2 endPointUV[2]; int timeAdded; float alpha;
 };
+class Rva0084096 { public: Rva0084096(); char storage[0x1328]; };
 class Rva00084206Track {
 public:
  Rva00084206Track();
@@ -189,12 +191,12 @@ Rva00084206Track *Rva00084C05System::bind(Rva00084B18RenderObj *obj,float length
 void Rva00084C05System::init(SceneClass *newScene) {
  const int numModules = ((TrackSystemGlobalView *)TheWritableGlobalData)->maxTerrainTracks;
  scene = newScene;
- ReAcquireResources();
+ ((TerrainTracksRenderObjClassSystem *)this)->ReAcquireResources();
  material = VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
  shader = ShaderClass::_PresetAlphaShader;
  if (free || used) return;
  for (int i = 0; i < numModules; ++i) {
-  Rva00084206Track *mod = new Rva00084206Track;
+  Rva00084206Track *mod = reinterpret_cast<Rva00084206Track *>(new Rva0084096);
   if (!mod) return;
   mod->prev = 0;
   mod->next = free;
@@ -216,7 +218,7 @@ void Rva00084C05System::setDetail() {
  maxTankTrackEdges = ((TrackSystemGlobalView *)TheWritableGlobalData)->maxTankTrackEdges;
  maxTankTrackOpaqueEdges = ((TrackSystemGlobalView *)TheWritableGlobalData)->maxTankTrackOpaqueEdges;
  maxTankTrackFadeDelay = ((TrackSystemGlobalView *)TheWritableGlobalData)->maxTankTrackFadeDelay;
- ReAcquireResources();
+ ((TerrainTracksRenderObjClassSystem *)this)->ReAcquireResources();
 }
 
 class WW3D {
@@ -412,7 +414,7 @@ void Rva00084206Track::addCapEdgeToTrack(float x, float y)
 	vDir.Normalize();
 
 	Vector3 vX;
-	Vector3::Cross_Product(vDir, vZ, &vX);
+	trackCrossProduct(vDir, vZ, &vX);
 
 	TrackEdge &topEdge = edges[topIndex];
 

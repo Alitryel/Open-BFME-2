@@ -46,6 +46,8 @@ template _STL::vector<BfmeAssignRecord172>::~vector();
 
 // ??1?$vector@UBfmeObject476@@V?$allocator@UBfmeObject476@@@_STL@@@_STL@@QAE@XZ @0x1fd882 (_Destroy at 0x1fd6a4)
 struct BfmeObject476 { public: ~BfmeObject476(); };
+namespace _STL {template<> void _Destroy<BfmeObject476*>(BfmeObject476*,BfmeObject476*);}
+
 template _STL::vector<BfmeObject476>::~vector();
 
 // ??1?$vector@UBfmeAssignRecord104@@V?$allocator@UBfmeAssignRecord104@@@_STL@@@_STL@@QAE@XZ @0x3b904b (_Destroy at 0x3b8e13)

@@ -26,10 +26,12 @@ public:
 	void Release_Ref();	// 0x0061ED10
 };
 
+class AssetReference { public: void *m_object; };
 template <class T>
 class RefCountPtr
 {
 public:
+ template<class Native> __declspec(noinline) RefCountPtr(const Native &other) { Referent=(T *)other.m_object; if(Referent) ++*(unsigned short *)((char *)Referent+4); }
 	RefCountPtr(const RefCountPtr &rhs) : Referent(rhs.Referent)
 	{
 		if (Referent)
@@ -212,7 +214,7 @@ extern Rva000E19A3Interface *g_00DEBC60;
 // the matched W3DTerrainBackgroundDrawVisiblePolys.cpp uses for the same
 // interface, which gives retail's argument-copy order.
 struct TextureArgumentView : public RefCountPtr<TextureClass> {
- __forceinline TextureArgumentView(const RefCountPtr<TextureClass>&other):RefCountPtr<TextureClass>(other){}
+ __forceinline TextureArgumentView(const RefCountPtr<TextureClass>&other):RefCountPtr<TextureClass>(*reinterpret_cast<const AssetReference *>(&other)){}
 };
 class Rva000E19A3TextureArgumentView {
 public:
@@ -332,11 +334,12 @@ void W3DBridge::renderBridge(FXShader::RenderingMethod *method)
 
 #define MAX_BRIDGES 200
 
+class RenderObjClass; template<class T> class RefMultiListIterator;
 class W3DBridgeBuffer
 {
 public:
 	void drawBridges(RenderInfoClass &rinfo, RefCountPtr<FXShader::RenderingMethod> method);
-	void rva000DF52C(Int pLightsIterator);	// loadBridgesInVertexAndIndexBuffers(NULL)
+	void loadBridgesInVertexAndIndexBuffers(RefMultiListIterator<RenderObjClass> *);	// loadBridgesInVertexAndIndexBuffers(NULL)
 private:
 	VertexBufferClass *m_vertexBridge;	// +0x00
 	IndexBufferClass *m_indexBridge;	// +0x04
@@ -373,7 +376,7 @@ void W3DBridgeBuffer::drawBridges(RenderInfoClass &rinfo, RefCountPtr<FXShader::
 			}
 		}
 		if (changed) {
-			rva000DF52C(0);
+			loadBridgesInVertexAndIndexBuffers(0);
 		}
 	}	else {
 		for (curBridge=0; curBridge<m_numBridges; curBridge++) {

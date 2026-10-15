@@ -29,6 +29,12 @@ class ThingTemplate;
 
 typedef _STL::pair<const ThingTemplate * const, int> ThingTemplateCountPair;
 
+namespace _STL {
+typedef _Rb_tree_node<ThingTemplateCountPair> ScoreCountNode;
+template <> __declspec(dllimport) __forceinline ScoreCountNode *allocator<ScoreCountNode>::allocate(size_t n,const void *)const { return n != 0 ? reinterpret_cast<ScoreCountNode *>(allocator<char>::allocate(n*sizeof(ScoreCountNode),0)):0; }
+template <> __declspec(dllimport) __forceinline ScoreCountNode *_STLP_alloc_proxy<ScoreCountNode *,ScoreCountNode,allocator<ScoreCountNode> >::allocate(size_t n) { return __stl_alloc_rebind(static_cast<allocator<ScoreCountNode>&>(*this),(ScoreCountNode*)0).allocate(n,0); }
+}
+
 typedef _STL::_Rb_tree<const ThingTemplate *, ThingTemplateCountPair,
 	_STL::_Select1st<ThingTemplateCountPair>, _STL::less<const ThingTemplate *>,
 	_STL::allocator<ThingTemplateCountPair> > ThingTemplateCountTree;

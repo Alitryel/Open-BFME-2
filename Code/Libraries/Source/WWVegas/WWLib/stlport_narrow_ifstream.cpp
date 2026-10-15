@@ -2,6 +2,10 @@
 // stlport
 
 #include <fstream>
+namespace _STL {
+template<> basic_filebuf<char,char_traits<char> > *basic_filebuf<char,char_traits<char> >::open(const char*,ios_base::openmode);
+}
+
 
 // Native allocation owner 0x00013F10 (189 bytes) supplies this helper.
 // BFME 1 FilebufInstantiations at f98983a7d3 likewise defers allocation.

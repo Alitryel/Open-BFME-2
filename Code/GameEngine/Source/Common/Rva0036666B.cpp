@@ -7,6 +7,7 @@ class PathfindLayer
 {
 public:
 	void ClassifyWallCells();
+ void ClassifyBridgeCells();
 };
 
 class Rva00366E2E
@@ -45,7 +46,7 @@ bool Rva0036666B::rva0036736E(bool b)
 	int sel = m_a34;
 	m_b30 = b;
 	if (sel != 0) {
-		((Rva00366E2E *)this)->rva00366E2E();
+		((PathfindLayer *)this)->ClassifyBridgeCells();
 	} else {
 		((PathfindLayer *)this)->ClassifyWallCells();
 	}

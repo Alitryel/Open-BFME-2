@@ -27,6 +27,10 @@ struct S4Cmp00625C10
 namespace _STL
 {
 
+template<> __declspec(dllimport) __forceinline void iter_swap<S4SortElem8*,S4SortElem8*>(S4SortElem8* left,S4SortElem8* right) {
+ S4SortElem8 temporary=*left; *left=*right; *right=temporary;
+}
+
 template void __introsort_loop<S4SortElem8 *, S4SortElem8, int,
 	S4Cmp00625C10>(S4SortElem8 *, S4SortElem8 *, S4SortElem8 *, int,
 	S4Cmp00625C10);

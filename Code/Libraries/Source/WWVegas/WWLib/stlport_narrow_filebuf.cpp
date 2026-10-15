@@ -2,6 +2,13 @@
 // stlport
 
 #include <fstream>
+
+namespace _STL {
+template<> basic_filebuf<char,char_traits<char> >::pos_type basic_filebuf<char,char_traits<char> >::seekoff(streamoff,ios_base::seekdir,ios_base::openmode);
+template<> int basic_filebuf<char,char_traits<char> >::overflow(int);
+template<> fpos<int> basic_filebuf<char,char_traits<char> >::_M_seek_return(long,int);
+}
+
 // bfme link decl-only begin
 namespace _STL { template <> int basic_filebuf<char, char_traits<char> >::_M_input_error(); }
 namespace _STL { template <> bool basic_filebuf<char, char_traits<char> >::_M_switch_to_output_mode(); }
@@ -37,3 +44,9 @@ template class _STL::basic_filebuf<char, _STL::char_traits<char> >;
 // Callers elsewhere reach bodies in this unit through other spellings; retail's
 // call sites in their matched rows land on these addresses (same ABI). Bind them.
 #pragma comment(linker, "/alternatename:??0Rva008947A0Elem@@QAE@XZ=?_M_initialize@_STLP_mutex_base@_STL@@QAEXXZ")
+
+template void _STL::fpos<int>::state(int);
+
+template class _STL::_Filebuf_Tmp_Buf<char>;
+template bool _STL::equal<char*,char*,_STL::_Eq_traits<_STL::char_traits<char> > >(char*,char*,char*,_STL::_Eq_traits<_STL::char_traits<char> >);
+template bool _STL::_Noconv_output<_STL::char_traits<char> >::_M_doit(_STL::basic_filebuf<char,_STL::char_traits<char> >*,char*,char*);

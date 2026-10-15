@@ -2,6 +2,13 @@
 // stlport
 
 #include <fstream>
+namespace _STL {
+template<> basic_filebuf<char,char_traits<char> >::pos_type basic_filebuf<char,char_traits<char> >::seekpos(pos_type,ios_base::openmode);
+template<> basic_filebuf<char,char_traits<char> >::pos_type basic_filebuf<char,char_traits<char> >::seekoff(streamoff,ios_base::seekdir,ios_base::openmode);
+template<> fpos<int> basic_filebuf<char,char_traits<char> >::_M_seek_return(long,int);
+template<> int basic_filebuf<char,char_traits<char> >::overflow(int);
+}
+
 // bfme link decl-only begin
 namespace _STL { template <> basic_filebuf<char, char_traits<char> > * basic_filebuf<char, char_traits<char> >::open(char const *, int); }
 // bfme link decl-only end

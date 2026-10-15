@@ -81,7 +81,7 @@ public:
 template <class T> class RefCountPtr
 {
 public:
-	__forceinline RefCountPtr(const RefCountPtr &that) : m_ptr(that.m_ptr)
+	__declspec(dllimport) __forceinline RefCountPtr(const RefCountPtr &that) : m_ptr(that.m_ptr)
 	{
 		if (m_ptr)
 			m_ptr->Add_Ref();

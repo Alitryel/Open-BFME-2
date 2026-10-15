@@ -28,6 +28,14 @@ class Rva00422CA8
 public:
 	bool operator()(int a, int b) const;
 };
+namespace _STL {
+template<> __declspec(dllimport) __forceinline _OKToMemCpy<int,int> _IsOKToMemCpy<int,int>(int*,int*) { return _OKToMemCpy<int,int>(); }
+template<> __declspec(dllimport) __forceinline __true_type _OKToMemCpy<int,int>::_Ret() { return __true_type(); }
+template<> __declspec(dllimport) __forceinline __true_type _BothPtrType<int*,int*>::_Ret() {return __true_type();}
+template<> __declspec(dllimport) __forceinline int* __copy_backward_ptrs<int*,int*>(int* first,int* last,int* result,const __true_type&) { return (int*)__copy_trivial_backward(first,last,result); }
+template<> void __introsort_loop<int*,int,int,Rva00422CA8>(int*,int*,int*,int,Rva00422CA8);
+}
+
 
 namespace _STL
 {

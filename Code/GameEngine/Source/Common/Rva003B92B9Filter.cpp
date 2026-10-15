@@ -33,6 +33,11 @@ public:
 
 class ModuleData;
 
+namespace _STL {
+template<> void vector<const ModuleData *>::reserve(unsigned int);
+}
+class ModuleData;
+
 class Rva003B8BAA
 {
 	char m_pad[0x14];

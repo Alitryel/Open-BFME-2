@@ -312,11 +312,10 @@ class RefCountPtr
 {
 public:
 	RefCountPtr() : ptr(0) {}
-	RefCountPtr(const RefCountPtr &that) : ptr(that.ptr)
-	{
-		if (ptr)
-			ptr->Add_Ref();
-	}
+	RefCountPtr(const RefCountPtr &that);
+	enum InlineCopy { COPY_INLINE };
+	__declspec(dllimport) __forceinline RefCountPtr(const RefCountPtr &that, InlineCopy) : ptr(that.ptr)
+	{ if (ptr) ptr->Add_Ref(); }
 	~RefCountPtr()
 	{
 		if (ptr)
@@ -794,7 +793,7 @@ void FXShaderParameterSourceNamespaceSAS::SetShadowMapInfo(int shadowMapIndex, c
 {
 	if (shadowMapIndex < 0 || shadowMapIndex >= m_SourceNamespace_Shadow.GetSize())
 		return;
-	m_SourceNamespace_Shadow.rva0014F454(shadowMapIndex).rva0014DA92(worldToShadow, shadowMap);
+	m_SourceNamespace_Shadow.rva0014F454(shadowMapIndex).rva0014DA92(worldToShadow, RefCountPtr<TextureClass>(shadowMap, RefCountPtr<TextureClass>::COPY_INLINE));
 }
 
 // Retail 0x0014F7F2, 122 bytes (WorldBuilder 0x009F8870): an identity

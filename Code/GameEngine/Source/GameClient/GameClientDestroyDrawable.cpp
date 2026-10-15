@@ -16,6 +16,16 @@
 #include <list>
 
 class Drawable;
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DBA5E0;
+namespace _STL {
+template<> __declspec(noinline) _List_node<Drawable*>* list<Drawable*>::_M_create_node(Drawable*const &value) {
+ _List_node<Drawable*>* node=(_List_node<Drawable*>*)g_freelistPool00DBA5E0.pop();
+ if(&node->_M_data!=0) node->_M_data=value;
+ return node;
+}
+}
+
 class Object;
 
 class InGameUI

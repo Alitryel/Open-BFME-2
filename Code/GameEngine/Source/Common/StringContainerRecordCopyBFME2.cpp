@@ -82,6 +82,10 @@ struct BfmeAsciiScalarValue8 {
     AsciiString text; unsigned int value;
     BfmeAsciiScalarValue8(const BfmeAsciiScalarValue8 &o) : text(o.text), value(o.value) {}
 };
+namespace _STL {
+template<> vector<BfmeAsciiScalarValue8>::vector(const vector<BfmeAsciiScalarValue8> &);
+}
+
 // Complete retail copy has three scalars before the owning eight-byte-element
 // vector, then two established WeaponTemplateSetHead storage members.
 struct BfmeContainerRecord000C0B85 {

@@ -124,9 +124,11 @@ public:
 inline bool operator==(const CreateAHeroManager::CreateAHeroSubClass &x, const CreateAHeroManager::CreateAHeroSubClass &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const CreateAHeroManager::CreateAHeroSubClass &x, const CreateAHeroManager::CreateAHeroSubClass &y) { return x.a[0] < y.a[0]; }
 struct BfmePod248 { int a[62]; };
+namespace _STL {template<> vector<BfmePod248,allocator<BfmePod248> >::~vector();}
 inline bool operator==(const BfmePod248 &x, const BfmePod248 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod248 &x, const BfmePod248 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod252 { int a[63]; };
+namespace _STL {template<> vector<BfmePod252,allocator<BfmePod252> >::~vector();}
 inline bool operator==(const BfmePod252 &x, const BfmePod252 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod252 &x, const BfmePod252 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod260 { int a[65]; };
@@ -239,8 +241,12 @@ template class _STL::vector<BfmePod160, _STL::allocator<BfmePod160 > >;
 template class _STL::vector<BfmePod172, _STL::allocator<BfmePod172 > >;
 template class _STL::vector<BfmePod180, _STL::allocator<BfmePod180 > >;
 template class _STL::vector<CreateAHeroManager::CreateAHeroSubClass, _STL::allocator<CreateAHeroManager::CreateAHeroSubClass > >;
-template class _STL::vector<BfmePod248, _STL::allocator<BfmePod248 > >;
-template class _STL::vector<BfmePod252, _STL::allocator<BfmePod252 > >;
+template _STL::vector<BfmePod248>::vector(const _STL::vector<BfmePod248>&);
+template void _STL::vector<BfmePod248>::push_back(const BfmePod248&);
+template BfmePod248* _STL::__uninitialized_fill_n<BfmePod248*,unsigned int,BfmePod248>(BfmePod248*,unsigned int,const BfmePod248&,const _STL::__false_type&);
+template _STL::vector<BfmePod252>::vector(const _STL::vector<BfmePod252>&);
+template void _STL::vector<BfmePod252>::push_back(const BfmePod252&);
+template BfmePod252* _STL::__uninitialized_fill_n<BfmePod252*,unsigned int,BfmePod252>(BfmePod252*,unsigned int,const BfmePod252&,const _STL::__false_type&);
 // Only allocation and plain assignment are claimed for this size-only view.
 template class _STL::allocator<BfmePod260>;
 template BfmePod260* _STL::__copy<BfmePod260*, BfmePod260*, int>(

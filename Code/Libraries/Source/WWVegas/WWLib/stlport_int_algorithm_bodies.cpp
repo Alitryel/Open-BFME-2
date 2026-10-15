@@ -7,6 +7,14 @@
 // signed 4-byte element; int stands for any such type folded with it. The
 // drivers below only make the compiler emit the helpers and carry no rows.
 #include <algorithm>
+
+namespace _STL {
+template<> __declspec(dllimport) __forceinline _OKToMemCpy<int,int> _IsOKToMemCpy<int,int>(int*,int*) { return _OKToMemCpy<int,int>(); }
+template<> __declspec(dllimport) __forceinline __true_type _OKToMemCpy<int,int>::_Ret() { return __true_type(); }
+template<> __declspec(dllimport) __forceinline __true_type _BothPtrType<int*,int*>::_Ret() {return __true_type();}
+template<> __declspec(dllimport) __forceinline int* __copy_backward_ptrs<int*,int*>(int* first,int* last,int* result,const __true_type&) { return (int*)__copy_trivial_backward(first,last,result); }
+template<> void __linear_insert<int*,int,less<int> >(int*,int*,int,less<int>);
+}
 #include <functional>
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()

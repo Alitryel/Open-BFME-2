@@ -30,4 +30,4 @@ _List_base<Drawable *, allocator<Drawable *> >::_List_base(const allocator<Drawa
 }
 }
 
-template class _STL::_List_base<Drawable *, _STL::allocator<Drawable *> >;
+template _STL::_List_base<Drawable *, _STL::allocator<Drawable *> >::_List_base(const _STL::allocator<Drawable *>&);

@@ -84,7 +84,7 @@ class GameLogic
 {
 public:
 	Object *findObjectByID(ObjectID id);
-	void deselectObject(Object *obj, unsigned int mask, int mode);
+	void deselectObject(Object *obj, unsigned int mask, bool mode);
 };
 
 extern GameLogic *TheGameLogic;
@@ -137,7 +137,7 @@ public:
 class SpecialAbilityUpdate
 {
 public:
-	virtual void rva0045108D();
+	virtual void triggerAbilityEffect();
 };
 
 class Rva0044E6AE
@@ -190,7 +190,7 @@ void Rva0044E6AE::rva0049CA2F()
 	if (m_flag88 != 0)
 		return;
 
-	((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::rva0045108D();
+	((SpecialAbilityUpdate *)this)->SpecialAbilityUpdate::triggerAbilityEffect();
 	Object *obj = m_obj08;
 	Object *found = TheGameLogic->findObjectByID(m_id40);
 	if (found == 0 || (found->m_privateStatus & 1) != 0

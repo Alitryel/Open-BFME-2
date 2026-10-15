@@ -1,4 +1,4 @@
-// cl: /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/inputs/reference/shims/terrainlogic /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
+// cl: /Ireference/shims/bfme_segline_laser_link /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/inputs/reference/shims/terrainlogic /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main
 // stlport
 // Ported from Open-BFME-1's game/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DLaserDrawBfmeDoDraw.cpp
 // (donor revision 6583b3c1ff21db4a561285717028fdafc780b7db) with /O1 /arch:SSE
@@ -25,6 +25,7 @@
 #include "GameLogic/TerrainLogic.h"
 #include "segline.h"
 #include <vector>
+void Rva002D2ACAGet(int, float *, float *, float *, float *);
 
 // BFME virtual ground-height entry is slot 6 (retail calls at +2D9/+303/+33D/+367).
 // The shared terrain shim has the older slot 5, so use a receiver-only ABI view.
@@ -69,6 +70,7 @@ public:
 
 // Address-derived ABI views for BFME methods absent from the shared header.
 // 94F960 adds E0 then tails to 960050, which dereferences its texture argument.
+__declspec(dllimport) __forceinline void bfmeScaleCoord(Coord3D *v, Real s) { v->x *= s; v->y *= s; v->z *= s; }
 class Rva0094F960 { public: void apply(TextureClass *const &); };
 class Rva0094FCF0 { public: void apply(Real, Real); };
 class Rva001048C0
@@ -145,7 +147,7 @@ void W3DLaserDraw::doDrawModule(const Matrix3D* transformMtx)
 				Coord3D lineMiddle;
 				lineMiddle.set( &lineStart );
 				lineMiddle.add( &lineEnd );
-				lineMiddle.scale( 0.5 );
+				bfmeScaleCoord(&lineMiddle, 0.5f);
 
 				//The half length is used to scale with the distance from middle to 
 				//get our cos( 0 to 0.25 PI) cos value
@@ -169,13 +171,13 @@ void W3DLaserDraw::doDrawModule(const Matrix3D* transformMtx)
 				//Calculate our start segment position on the *ground*.
 				Coord3D segmentStart, segmentEnd, vector;
 				vector.set( &lineVector );
-				vector.scale( startSegmentRatio );
+				bfmeScaleCoord(&vector, startSegmentRatio);
 				segmentStart.set( &lineStart );
 				segmentStart.add( &vector );
 
 				//Calculate our end segment position on the *ground*.
 				vector.set( &lineVector );
-				vector.scale( endSegmentRatio );
+				bfmeScaleCoord(&vector, endSegmentRatio);
 				segmentEnd.set( &lineStart );
 				segmentEnd.add( &vector );
 
@@ -218,8 +220,8 @@ void W3DLaserDraw::doDrawModule(const Matrix3D* transformMtx)
 
 			//Get the color components for calculation purposes.
 			Real innerRed, innerGreen, innerBlue, innerAlpha, outerRed, outerGreen, outerBlue, outerAlpha;
-			GameGetColorComponentsReal( data->m_innerColor, &innerRed, &innerGreen, &innerBlue, &innerAlpha );
-			GameGetColorComponentsReal( data->m_outerColor, &outerRed, &outerGreen, &outerBlue, &outerAlpha );
+			Rva002D2ACAGet( data->m_innerColor, &innerRed, &innerGreen, &innerBlue, &innerAlpha );
+			Rva002D2ACAGet( data->m_outerColor, &outerRed, &outerGreen, &outerBlue, &outerAlpha );
 
 			for( Int i = data->m_numBeams - 1; i >= 0; i-- )
 			{
@@ -258,7 +260,7 @@ void W3DLaserDraw::doDrawModule(const Matrix3D* transformMtx)
 					m_line3D[index]->Set_Texture_Tile_Factor(tileFactor);	//number of times to tile texture across each segment
 				}
 
-				reinterpret_cast<Rva0094FCF0 *>(m_line3D[index])->apply(width, m_at30);
+				m_line3D[index]->rva0015E2B0(width, m_at30);
 				m_line3D[ index ]->Set_Points( 2, &laserPoints[0] );
                 Real red, green, blue;
                 if (data->m_numBeams == 1) {
@@ -273,7 +275,7 @@ void W3DLaserDraw::doDrawModule(const Matrix3D* transformMtx)
                 }
                 m_envelope.update(&m_at2C, &m_at2C);
                 m_line3D[index]->Set_Color(Vector3(red*m_at2C, green*m_at2C, blue*m_at2C));
-                reinterpret_cast<Rva0094F960 *>(m_line3D[index])->apply(m_textures[m_at28]);
+                m_line3D[index]->Set_Texture(reinterpret_cast<TextureClass *>(&m_textures[m_at28]));
 			}
 		}
 	}

@@ -105,7 +105,7 @@ inline StringClass::StringClass(int initial_len, bool hint_temporary)
 class TextureClass
 {
 public:
-	void Add_Ref()
+	__declspec(dllimport) __forceinline void Add_Ref()
 	{
 		++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
 	}
@@ -180,7 +180,7 @@ class VectorClass
 {
 public:
 	int Length() const { return VectorMax; }
-	T &operator[](int index) { return Vector[index]; }
+	__declspec(dllimport) __forceinline T &operator[](int index) { return Vector[index]; }
 
 protected:
 	T *Vector;

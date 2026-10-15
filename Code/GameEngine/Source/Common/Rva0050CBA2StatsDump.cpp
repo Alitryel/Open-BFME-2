@@ -114,7 +114,7 @@ class ModuleInfo
 public:
     AsciiString getNthName(int index) const;
     const ModuleData *getNthData(int index) const;
-    int getCount() const { return m_finish - m_start; }
+    __declspec(dllimport) __forceinline int getCount() const { return m_finish - m_start; }
 private:
     ModuleInfoNugget *m_start;
     ModuleInfoNugget *m_finish;

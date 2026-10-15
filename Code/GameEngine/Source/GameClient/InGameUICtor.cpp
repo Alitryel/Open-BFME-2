@@ -128,6 +128,15 @@ extern GameWindow *m_replayWindow;
 // constructor (0x00239BB0) takes its nodes from a pool of their own.
 class Drawable;
 
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DBA5E0;
+namespace _STL {
+template<> __declspec(noinline) _List_base<Drawable*,allocator<Drawable*> >::_List_base(const allocator<Drawable*>&a)
+ : _M_node(allocator<_List_node<Drawable*> >(a), (_List_node<Drawable*>*)0) {
+ _List_node<Drawable*> *n=(_List_node<Drawable*>*)g_freelistPool00DBA5E0.pop();
+ n->_M_next=n;n->_M_prev=n;_M_node._M_data=n;
+}
+}
 // Retail 239AF4 clears through 239380 and returns its sentinel to the
 // existing Drawable node freelist at DBA5E8; only this element type differs
 // from generic STLport deallocation. Whole29B and all owner relocations exact.

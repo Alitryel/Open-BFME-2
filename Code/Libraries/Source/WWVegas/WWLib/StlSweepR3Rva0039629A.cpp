@@ -16,6 +16,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #pragma optimize("", on)
 
 #include <set>
+namespace _STL {
+typedef _Rb_tree<int,int,_Identity<int>,less<int>,allocator<int> > NativeIntTree;
+template <> __declspec(dllimport) __forceinline int &NativeIntTree::_S_value(_Rb_tree_node<int> *p) { return p->_M_value_field; }
+template <> __declspec(dllimport) __forceinline const int &NativeIntTree::_S_key(_Rb_tree_node<int> *p) { return _Identity<int>()(_S_value(p)); }
+}
+
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline

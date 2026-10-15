@@ -18,6 +18,13 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 
+
+namespace _STL {
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<unsigned short*,unsigned short,allocator<unsigned short> >::deallocate(unsigned short*p,size_t n){static_cast<allocator<unsigned short>&>(*this).deallocate(p,n);}
+template<> __declspec(dllimport) __forceinline void _String_base<unsigned short,allocator<unsigned short> >::_M_deallocate_block(){_M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start);}
+template<> __declspec(dllimport) __forceinline _String_base<unsigned short,allocator<unsigned short> >::~_String_base(){_M_deallocate_block();}
+}
+
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
 // overloads take those calls instead so this TU emits no external copy.
@@ -113,7 +120,7 @@ extern GameTextInterface *TheGameText;
 #undef V
 class BfmeObjELB {public:char prefix[0xd1];bool disconnected;char pad[10];bool fesl26ad;};
 extern BfmeObjELB *g_bfmeObjELB;
-struct Rva00416088 {int word0,word1;AsciiString text0,text1;~Rva00416088();};
+struct Rva00416088 {int word0,word1;AsciiString text0,text1;__declspec(dllimport) __forceinline Rva00416088():text0(),text1(){}~Rva00416088();};
 class BuddyInviteGameInfo {public:int profile;Rva00416088 data;int word14;BuddyInviteGameInfo():profile(-1){data.word0=-1;data.word1=-1;word14=-1;}void LocationFromString(const AsciiString &);};
 struct Rva00517048 {void rva00517CC9(const BuddyInviteGameInfo &);};
 extern Rva00517048 *g_Va00A04904;

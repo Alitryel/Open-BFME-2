@@ -24,6 +24,11 @@ template <typename T> struct BfmeStringData {
     T text[1];
 };
 #include "unicode_string.h"
+namespace _STL {
+typedef _Rb_tree_node<UnicodeString> UnicodeNode;
+template<> __declspec(dllimport) __forceinline UnicodeNode* allocator<UnicodeNode>::allocate(size_t n,const void*)const {return n!=0 ? reinterpret_cast<UnicodeNode*>(allocator<char>::allocate(n*sizeof(UnicodeNode),0)):0;}
+template<> __declspec(dllimport) __forceinline UnicodeNode* _STLP_alloc_proxy<UnicodeNode*,UnicodeNode,allocator<UnicodeNode> >::allocate(size_t n) {return __stl_alloc_rebind(static_cast<allocator<UnicodeNode>&>(*this),(UnicodeNode*)0).allocate(n,0);}
+}
 namespace rts {
     template <class T> struct less_than_nocase {
         bool operator()(const T &a, const T &b) const { return a.compareNoCase(b) < 0; }

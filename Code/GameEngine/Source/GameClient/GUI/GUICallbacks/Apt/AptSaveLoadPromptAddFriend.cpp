@@ -20,6 +20,10 @@
 // stlport
 #include <map>
 
+namespace _STL {
+template<> __declspec(dllimport) __forceinline bool less<int>::operator()(const int &a,const int &b) const { return a<b; }
+}
+
 // Compare typed nodes locally; retail inlines this comparison in the caller.
 namespace _STL {
 template <class T, class LeftTraits, class RightTraits>
