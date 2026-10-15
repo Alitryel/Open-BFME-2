@@ -1,6 +1,7 @@
 // ?doParticles@RenderObjectDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.8081085298196949 date=2026-10-14
+// partial score=0.992 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
+// ?doParticles@RenderObjectDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // Native 00562DDB..005634F7 (1820B), RET12. Vtable slot4 at RVA81C454,
 // table followed by RenderObjectDrawModule, and WB1428210 establish identity.
 // Types of the three parameters follow the shared category6 rendering slot.
@@ -55,9 +56,7 @@ extern TerrainLogic *TheTerrainLogic;
 class ParticleTerrainView:public ParticleSlots<6> {public:virtual float groundHeight(float,float,void*);};
 
 static __forceinline Matrix3 RenderRotationProduct(const Matrix3 &a,const Matrix3 &b) {
-#define RC(i,j) (a[i][0]*b[0][j]+a[i][2]*b[2][j]+a[i][1]*b[1][j])
- return Matrix3(Vector3(RC(0,0),RC(0,1),RC(0,2)),Vector3(RC(1,0),RC(1,1),RC(1,2)),Vector3(RC(2,0),RC(2,1),RC(2,2)));
-#undef RC
+ return Matrix3(Vector3((a[0][0]*b[0][0]+a[0][1]*b[1][0]+a[0][2]*b[2][0]),(a[0][0]*b[0][1]+a[0][1]*b[1][1]+a[0][2]*b[2][1]),(a[0][0]*b[0][2]+a[0][1]*b[1][2]+a[0][2]*b[2][2])),Vector3((a[1][0]*b[0][0]+a[1][1]*b[1][0]+a[1][2]*b[2][0]),(a[1][0]*b[0][1]+a[1][1]*b[1][1]+a[1][2]*b[2][1]),(a[1][0]*b[0][2]+a[1][1]*b[1][2]+a[1][2]*b[2][2])),Vector3((a[2][0]*b[0][0]+a[2][2]*b[2][0]+a[2][1]*b[1][0]),(a[2][0]*b[0][1]+a[2][1]*b[1][1]+a[2][2]*b[2][1]),(a[2][0]*b[0][2]+a[2][1]*b[1][2]+a[2][2]*b[2][2])));
 }
 namespace FXParticleSystem {
 class RenderObjectDrawModule {
@@ -99,18 +98,18 @@ int RenderObjectDrawModule::doParticles(RenderInfoClass&,void *bounds,int*) {
   else if(axis==5) {Vector3 direction(p->axis.X,-p->axis.Y,p->axis.Z);D3DXMatrixRotationAxis(&rotation,&direction,angle);}
   if(p->object) {
    Matrix3D transform(p->getSystem()->transform);
-   if(underground) transform[2][3]+=groundOffset;
+   if(underground) transform[2][3]=groundOffset+transform[2][3];
    else {
     if(axis!=1) {
      Matrix3 orientation(*(Matrix3D*)&rotation);
-     if(!p->getSystem()->independentRotation)orientation=RenderRotationProduct(Matrix3(transform),orientation);
+     if(!p->getSystem()->independentRotation){Matrix3 base(transform);orientation=RenderRotationProduct(base,orientation);}
      transform.Set_Rotation(orientation);
     }
     if(sx<0.0001f)sx=0.0001f;
     if(sy<0.0001f)sy=0.0001f;
     if(sz<0.0001f)sz=0.0001f;
     if(sx!=1.0f||sy!=1.0f||sz!=1.0f)transform.Scale(sx,sy,sz);
-    transform.Set_Translation(p->position);
+    transform.Set_Translation(Vector3(p->position.X,p->position.Y,p->position.Z));
    }
    ((ParticleTransformView*)p->object)->setTransform(transform);
    int shader=particleShader?p->shader:getSystem()->shader;
