@@ -1,5 +1,3 @@
-// ?ConstructHeroBlingList@CreateAHeroHero@@QAEXXZ
-// partial score=0.99 date=2026-10-15
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /EHsc /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // CreateAHeroHero::ConstructHeroBlingList, retail 0x00409A76..0x00409C3D
@@ -10,6 +8,8 @@
 // names a bling group the hero has and whose id that group lacks.
 // The sub-class group key is const, which is why retail keeps it in EBX
 // while the map lookup takes its address.
+// Split from CreateAHeroHero.cpp, whose CreateAHeroHero view types +0x74 as a
+// bare map-header pointer; this unit needs the real map<Int, vector> there.
 #include "ascii_string.h"
 #include <vector>
 #include <map>
@@ -68,6 +68,31 @@ extern Rva0040AAD5 *g_00E02F74;
 class Rva00406E7D { public: Int rva00406E7D(); };
 class Rva00406E8F { public: Int rva00406E8F(UnsignedInt index); };
 
+// 0x004079D5 (31 B, rowed in Rva004079D5.cpp): the hero's +0x74 map
+// lookup. Its body is visible here so cl proves the out-node's address does
+// not escape; with it retail shares that node slot with the first loop's
+// push_back temporary.
+class Rva004079D5Sub74
+{
+public:
+	int rva00388E63(int *out);
+	int m_0;
+};
+
+class Rva004079D5
+{
+public:
+	__declspec(noinline) char rva004079D5(int tmp, int *out)
+	{
+		int v = m_74.rva00388E63(&tmp);
+		*out = v;
+		return v != m_74.m_0;
+	}
+private:
+	char m_pad00[0x74];
+	Rva004079D5Sub74 m_74;
+};
+
 struct CreateAHeroBlingNode
 {
 	unsigned char m_pad00[0x14];
@@ -79,7 +104,6 @@ class CreateAHeroHero
 public:
 	void ConstructHeroBlingList();
 private:
-	Bool rva004079D5(Int groupKey, CreateAHeroBlingNode **node) const;	// 0x004079D5
 
 	unsigned char m_pad00[0x0C];
 	UnsignedInt m_classIndex;			// +0x0C
@@ -121,7 +145,7 @@ void CreateAHeroHero::ConstructHeroBlingList()
 			Int groupKey = 0;
 			CreateAHeroBlingNode *node = 0;
 			if (TheCreateAHeroManager->FindBlingByUpgradeName(upgradeName, (Int *)&blingId, &groupKey)
-				&& rva004079D5(groupKey, &node))
+				&& ((Rva004079D5 *)this)->rva004079D5(groupKey, (int *)&node))
 			{
 				_STL::vector<UnsignedInt> &ids = node->m_blingIds;
 				if (_STL::find(ids.begin(), ids.end(), blingId) == ids.end())
