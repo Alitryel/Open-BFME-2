@@ -121,45 +121,7 @@ void MaterialInfoClass::Process_Texture_Reduction(void)
 // MaterialInfoClass::Free is defined with its retail-matched body in Code/Libraries/Source/WWVegas/WW3D2/MaterialInfoFree.cpp (0x0016EE70).
 
 
-// ??0MaterialRemapperClass@@QAE@PAVMaterialInfoClass@@0@Z present-unmatched
-MaterialRemapperClass::MaterialRemapperClass(MaterialInfoClass * src,MaterialInfoClass * dest) :
-	TextureCount(0),
-	TextureRemaps(NULL),
-	VertexMaterialCount(0),
-	VertexMaterialRemaps(NULL),
-	LastSrcVmat(NULL),
-	LastDestVmat(NULL),
-	LastSrcTex(NULL),
-	LastDestTex(NULL)
-{
-	WWASSERT(src);
-	WWASSERT(dest);
-	WWASSERT(src->Texture_Count() == dest->Texture_Count());
-	WWASSERT(src->Vertex_Material_Count() == dest->Vertex_Material_Count());
-
-	SrcMatInfo = src;
-	SrcMatInfo->Add_Ref();
-	DestMatInfo = dest;
-	DestMatInfo->Add_Ref();
-
-	if (src->Vertex_Material_Count() > 0) {
-		VertexMaterialCount = src->Vertex_Material_Count();
-		VertexMaterialRemaps = W3DNEWARRAY VmatRemapStruct[VertexMaterialCount];
-		for (int i=0; i<src->Vertex_Material_Count(); i++) {
-			VertexMaterialRemaps[i].Src = src->Peek_Vertex_Material(i);
-			VertexMaterialRemaps[i].Dest = dest->Peek_Vertex_Material(i);
-		}
-	}
-
-	if (src->Texture_Count() > 0) {
-		TextureCount = src->Texture_Count();
-		TextureRemaps = W3DNEWARRAY TextureRemapStruct[TextureCount];
-		for (int i=0; i<src->Texture_Count(); i++) {
-			TextureRemaps[i].Src = src->Peek_Texture(i);
-			TextureRemaps[i].Dest = dest->Peek_Texture(i);
-		}
-	}
-}
+// MaterialRemapperClass ctor: rowed in MaterialRemapperClassCtor.cpp
 
 // Owned by MaterialRemapperClassDtor.cpp.
 
