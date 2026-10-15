@@ -268,6 +268,14 @@ void ShowUnderlyingGUIElements( Bool show, const char *layoutFilename, const cha
 
 #include <vector>
 #include <set>
+// Retail inlines the typed node comparison. Keep this unit from emitting
+// a conflicting external base-iterator comparison.
+namespace _STL {
+template <class T, class L, class R>
+static inline bool operator!=(const _Rb_tree_iterator<T, L>& a,
+                             const _Rb_tree_iterator<T, R>& b)
+{ return a._M_node != b._M_node; }
+}
 
 // Retail 0x00446EC9, 614B: BFME2 builds the availability vector with the
 // (count, true) constructor.
