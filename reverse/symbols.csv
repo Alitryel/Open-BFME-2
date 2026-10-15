@@ -15194,7 +15194,6 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?applyPhysicsXform@Drawable@@QAEXPAVMatrix3D@@@Z,0x0027BB65,callee of ?rva0027BED0@BfmeDrawableDrawTransform@@QAEXPAVMatrix3D@@@Z
 ?rva004FC0ED@RegionAwardDispute@@QAEXABV?$vector@HV?$allocator@H@_STL@@@_STL@@@Z,0x004FC0ED,callee of ?rva002B9A90@LivingWorldLogic@@QAEXHABV?$vector@HV?$allocator@H@_STL@@@_STL@@I@Z
 ??0Rva006003FCMember@@QAE@PAX00I@Z,0x00600352,callee of ??0Rva006003FC@@QAE@PAX00@Z
-??0Rva005E8908@@QAE@HHPAVRva00319CED@@@Z,0x005F8C48,callee of ?rva005E8B66@Rva005E8C54@@QAEXH@Z
 ??0Rva00212ED3@@QAE@XZ,0x00212AEF,callee of ??0Rva0022B12DSubsystem@@QAE@XZ
 ??0Rva002130CA@@QAE@XZ,0x00213E11,callee of ??0Rva0022B12DSubsystem@@QAE@XZ
 ??0Rva00212379@@QAE@XZ,0x00213E11,callee of ??0Rva0022B12DSubsystem@@QAE@XZ

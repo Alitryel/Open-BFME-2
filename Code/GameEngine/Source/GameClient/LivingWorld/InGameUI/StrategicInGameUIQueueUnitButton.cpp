@@ -139,14 +139,15 @@ public:
 	int m_4c;
 };
 
-// ??0Rva005F8C48@@QAE@HHPAVRva00319CED@@@Z, native 5F8C48..5F8CAE (104B,
+// ??0Rva005E8908@@QAE@HHPAVRva00319CED@@@Z, native 5F8C48..5F8CAE (104B,
 // RET 0xC; caller 0x005E8B66, the army spawn button list): a button record
 // holding its first argument and player id, the unit's button image
 // (GetButtonImage above), the unit's +0x4C and +0x48 words and its title
 // and description for that player. Address-derived names.
-struct Rva005F8C48
+class Rva005E8908
 {
-	Rva005F8C48(int value, int playerID, Rva00319CED *unit);
+public:
+	Rva005E8908(int value, int playerID, Rva00319CED *unit);
 
 	int m_value;					// +0x00
 	int m_playerID;					// +0x04
@@ -157,7 +158,7 @@ struct Rva005F8C48
 	UnicodeString m_description;	// +0x18
 };
 
-Rva005F8C48::Rva005F8C48(int value, int playerID, Rva00319CED *unit)
+Rva005E8908::Rva005E8908(int value, int playerID, Rva00319CED *unit)
 	: m_value(value), m_playerID(playerID),
 	  m_image(StrategicInGameUI::GetButtonImage(playerID, (SpawnArmy *)unit)),
 	  m_0c(unit->m_4c), m_10(unit->m_48),
