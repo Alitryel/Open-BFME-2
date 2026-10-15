@@ -10668,7 +10668,6 @@ name,address,notes
 ?rva0087E650@GeometryInfo@@QAEXPAURva0087E650Bounds@@@Z,0x006BDEE0,called at target 0x006BE782 from the Ghidra-start GeometryInfo method; B1 donor supplies the six-float bounds ABI
 ?rva0087ED00@GeometryShape@@QBEMXZ,0x006BE5A0,called at target 0x006BE72C from the Ghidra-start GeometryInfo method; B1 donor helper is 0x0087ED00
 ?rva0087ED70@GeometryShape@@QBEMXZ,0x006BE610,called at target 0x006BE74F from the Ghidra-start GeometryInfo method; B1 donor helper is 0x0087ED70
-?rva0089E2B0@Rva0089EFE0@@QAEHPBD0@Z,0x006D47F0,REL32 target of the call in the BFME1-identical wrapper at 0x006D5580 (BFME 1 0x0089E2B0); body unrowed
 ?rva008AF650Implementation@@YAXHHH@Z,0x006EE6C0
 ?rva008AF650Implementation@@YA_NPAVRva008AF650Object@@PAVBfmeStrVKI@@PAVAptValue@@@Z,0x0062929E,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?rva00906340VecCtor@@YGXPAXIHP6AX0@Z1@Z,0x00629512

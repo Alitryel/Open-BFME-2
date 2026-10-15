@@ -10,17 +10,7 @@ class Rva0089EFE0
 {
 public:
     int method(char value);
-    // Native body at BFME 1 RVA 0x0089E2B0 (game.dat 0x006D47F0): ECX
-    // receiver, two C strings, RET8, and an integral count in EAX.
-    int rva0089E2B0(const char *first, const char *second);
 };
-
-int Rva0089EFE0::method(char value)
-{
-    char text[2] = "*";
-    text[0] = value;
-    return rva0089E2B0(text, "");
-}
 
 // EAStringC is established by the existing ChangeBuffer and SetSize providers.
 // The assertion at retail 0x006D53F0 identifies this source and line 590.
@@ -58,8 +48,18 @@ public:
     __declspec(noinline) void rva006D53F0(const char *,va_list);
     void __cdecl rva006D62C0(const char *,...);
     void __cdecl rva006D5300(const char *,...);
+    // Rowed at 0x006D47F0 (EAStringCConcat.cpp): two C strings, RET8.
+    int rva006D47F0(const char *,const char *);
 
 };
+
+// The wrapper's ECX receiver is passed straight through to 0x006D47F0.
+int Rva0089EFE0::method(char value)
+{
+    char text[2] = "*";
+    text[0] = value;
+    return ((EAStringC *)this)->rva006D47F0(text, "");
+}
 void EAStringC::rva006D53F0(const char *format,va_list args)
 {
     if (!format) {
