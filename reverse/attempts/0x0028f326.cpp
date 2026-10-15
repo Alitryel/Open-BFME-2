@@ -1,7 +1,5 @@
 // ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
-// partial score=0.8855415106117354 date=2026-10-14
-// ?rva0028F326@Rva0028F326Owner@@QAEEIM@Z
-// partial score=0.673469387755102 date=2026-10-10
+// partial score=0.9432 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
 // Native 28F326..28F44C 294B RET8; complete WB CE75F0 twin.
 #include "Coord3DBase.h"
@@ -24,9 +22,6 @@ __declspec(noinline) inline float Coord3D::Normalize()
 	return len;
 }
 
-inline void subCoord(Coord3D*p,const Coord3D*a,const Coord3D*b){p->x=a->x-b->x;p->y=a->y-b->y;p->z=a->z-b->z;}
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
 struct Vec2 {float x,y;};
 extern bool Rva004DF8D8Test(const Vec2*,const Vec2*,const Vec2*,float,float,float,float);
 extern float Cos(float),Sin(float);
@@ -48,7 +43,7 @@ unsigned char Rva0028F326Owner::rva0028F326(unsigned targetWord,float range)
  if(!Rva004DF8D8Test((const Vec2*)targetPos,(const Vec2*)sourcePos,
     (const Vec2*)((const Thing*)this)->getUnitDirectionVector2D(),range,1.0f,1.0f,sourceRadius+targetRadius))return 0;
  if(type->visionAngle>=360.0f)return 1;
- Coord3D delta;subCoord(&delta,targetPos,sourcePos);delta.z=0;_ReadWriteBarrier();
+ Coord3D delta;delta.x=targetPos->x;delta.y=targetPos->y;delta.z=targetPos->z;delta.x-=sourcePos->x;delta.y-=sourcePos->y;delta.z-=sourcePos->z;delta.z=0.0f;
  delta.Normalize();
  FacingVector facing;
  facing.x=Cos(angle);

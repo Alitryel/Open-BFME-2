@@ -40,6 +40,22 @@ struct Rva0046BC30Offset : public Coord2D
 	}
 };
 
+
+// partial score=0.9121 date=2026-10-15
+// Home unit: Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainIface11CSlots.cpp
+// (this bank is a fragment of it; its // cl: flags apply). To rebuild:
+//  1. in Rva0046BB38Iface11C rename slot 50 `virtual void gap50() = 0;` to
+//     `virtual void rva0046BC30() = 0;`
+//  2. in class HordeContain add `virtual void rva0046BC30();` (after rva00468B5B)
+//  3. insert the code below before the rva00468B5B definition.
+// Measured there: 320/320 B, nd8 (rotation-product register roles only).
+// ?rva0046BC30@HordeContain@@UAEXXZ @0x0046BC30: slot 50 (iface +0xC8). Without a
+// pending order (+0x2A0), moves every live member to the goal position plus its
+// +0x188 record offset rotated by the goal angle, on the goal layer.
+struct Rva0046BC30Offset
+{
+	float x, y;
+};
 void HordeContain::rva0046BC30()
 {
 	if (m_2A0 != 0)
@@ -61,6 +77,23 @@ void HordeContain::rva0046BC30()
 		offset.x = src->x;
 		offset.y = src->y;
 		offset.Rotate(angle);
+
+		const Rva0046BC30Offset *src = (const Rva0046BC30Offset *)((const char *)&m_188Begin[index] + 4);
+		offset.x = src->x;
+		offset.y = src->y;
+		struct { float sine; float cosine; } trig;
+		trig.sine = (float)sin((double)angle);
+		trig.cosine = (float)cos((double)angle);
+		__asm
+		{
+			fld angle
+			fsincos
+			fstp trig.cosine
+			fstp trig.sine
+		}
+		float tx = offset.x;
+		offset.x = trig.cosine * tx - trig.sine * offset.y;
+		offset.y = trig.sine * tx + trig.cosine * offset.y;
 		Coord3D pos;
 		pos.x = goal.x + offset.x;
 		pos.y = goal.y + offset.y;
