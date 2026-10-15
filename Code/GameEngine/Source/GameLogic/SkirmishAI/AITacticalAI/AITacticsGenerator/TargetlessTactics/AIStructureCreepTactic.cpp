@@ -143,10 +143,7 @@ public:
 	unsigned char m_minimum;
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
+#include "../../../../../Common/GameLogicObjectLookupView.h"
 void XferObjectID(Xfer *xfer, ObjectID *id);
 
 struct Rva005AB7E5Template
@@ -169,7 +166,7 @@ class AICommandInterface
 {
 public:
 	void aiIdle(CommandSourceType source);			// 0x001E8A38
-	void aiMoveToPosition(const Coord3D *point, int source);	// move to the point
+	void aiMoveToPosition(const Coord3D *point, CommandSourceType source);	// 0x0026C26D
 };
 
 struct Rva005AB7E5AI
@@ -200,14 +197,32 @@ public:
 	Team *m_defaultTeam;		// +0x2EC
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
-	unsigned int getFrame() const { return m_40; }
-	char m_pad000[0x40];
-	unsigned int m_40;		// +0x40
+// The lookup chain is visible in this unit, as in AIUpgradeBuild.cpp: storage
+// and traversal from native _M_find 0x002888D4 and GameLogic::findObjectByID
+// 0x00049DC5 (both rowed; out-of-line COMDAT copies).
+struct CreepLookupNode { CreepLookupNode *next; ObjectID key; Object *object; };
+struct CreepLookupBuckets {
+ CreepLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ CreepLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
 };
+struct CreepLookupMap { unsigned char hashEqual[4]; CreepLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ CreepLookupMap *map=(CreepLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ CreepLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 extern GameLogic *TheGameLogic;
 
 
@@ -448,8 +463,11 @@ public:
 
 class Rva004E9378
 {
+	char m_pad[0x10];
+	int m_state;	// +0x10
 public:
-	bool rva004E9378();	// the order has finished
+	// 0x004E9378 (Rva004E9378.cpp), out of line but visible here.
+	__declspec(noinline) bool rva004E9378() { return m_state == 2 || m_state == 3; }	// the order has finished
 };
 
 class Rva00573B23
@@ -747,4 +765,77 @@ void AIStructureCreepTactic::run()
 	}
 	if (!m_running)
 		end(false, false);
+}
+
+// 0x005AC549: StructureCreep slot 7 update (WB AIStructureCreepTactic::update,
+// AIStructureCreepTactic.cpp; its statement shape is followed here). Until done
+// (+0x78): no site ends it; a lost dozer drops the site (0x002C60A9) and ends
+// the tactic; with no build order the dozer walks to the site (re-ordered every
+// g_00E06424 frames) or, once within 250, idles and places the structure via
+// rva005AC294; a finished, stale (status 0 past +0x64) or failed (3) order ends
+// it, a built one (2) counting on the site; otherwise every g_00E06420 frames
+// the site is rescanned for allied kind 3/90 non-kind-7 objects and it ends when
+// none is left. After that the dozer is sent away unless the order is still
+// running (1).
+// TheGameLogic is read through the global as WB does: with findObjectByID and
+// the order's 0x004E9378 predicate visible, cl keeps the global in EDI across
+// the calls and spills the site to [ebp-0x10], as retail does.
+void AIStructureCreepTactic::update()
+{
+	Player *owner = m_owner;
+	Rva005ABEA2Site *zone = getMyZone(owner, m_68);
+	Object *dozer = TheGameLogic->findObjectByID(m_58);
+	if (!m_78) {
+		if (zone == 0) {
+			m_78 = true;
+		} else if (dozer == 0) {
+			Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+			record->m_164->rva002C60A9(m_68);
+			end(false, false);
+		} else if (m_order == 0) {
+			const Coord3D *pos = &zone->m_pos;
+			float dx = pos->x - dozer->m_pos[0];
+			float dy = pos->y - dozer->m_pos[1];
+			float dz = pos->z - dozer->m_pos[2];
+			if (dz * dz + dy * dy + dx * dx > 62500.0f) {
+				if (TheGameLogic->getFrame() >= m_74 || m_74 == (unsigned int)-1) {
+					dozer->m_ai->m_commands.aiMoveToPosition(pos, CMD_FROM_PLAYER);
+					m_74 = TheGameLogic->getFrame() + g_00E06424;
+				}
+			} else {
+				dozer->m_ai->m_commands.aiIdle(CMD_FROM_PLAYER);
+				if (!rva005AC294())
+					m_78 = true;
+			}
+		} else if (((Rva004E9378 *)m_order)->rva004E9378()
+			|| (m_order->m_status == 0 && TheGameLogic->getFrame() > m_64)
+			|| m_order->m_status == 3) {
+			if (m_order->m_status == 2)
+				++zone->m_10;
+			m_78 = true;
+		} else {
+			if (TheGameLogic->getFrame() >= m_70 || m_70 == (unsigned int)-1) {
+				m_70 = g_00E06420 + TheGameLogic->getFrame();
+				Rva005ABEA2Mask mask;
+				mask.set(3);
+				mask.set(90);
+				BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&zone->m_pos,
+					zone->m_radius, 0,
+					Rva0026119DFilter().link(&Rva00261409Filter(m_owner, true, 2))
+						->link(&Rva003959FA(*(BfmeFixedStorage0004543D *)&mask))
+						->link(&PartitionFilterRejectByKindOf(*(BfmeFixedStorage0004543D *)&Rva00045411BitSet(0, 7),
+							*(BfmeFixedStorage0004543D *)g_00DFEFA4StoragePrototype)), 0);
+				if (hits.next() == 0)
+					m_78 = true;
+			}
+		}
+	} else if (m_order) {
+		if (m_order->m_status != 1) {
+			end(true, false);
+			moveDozerAway();
+		}
+	} else {
+		end(true, false);
+		moveDozerAway();
+	}
 }
