@@ -23,6 +23,13 @@ typedef unsigned int UnsignedInt;
 typedef bool Bool;
 
 #include "unicode_string.h"
+// Preserve the native inline free without emitting per-unit allocator copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void allocator<UnicodeString>::deallocate(UnicodeString *p, size_t) const { if(p) ::free(p); }
+template <> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<UnicodeString *,UnicodeString,allocator<UnicodeString> >::deallocate(UnicodeString *p, size_t n) { __stl_alloc_rebind(static_cast<allocator<UnicodeString> &>(*this), (UnicodeString *)0).deallocate(p,n); }
+}
+
+
 
 
 struct XferVersion
