@@ -81,7 +81,8 @@ template <class Pointer, class Value, class Alloc>
 class _STLP_alloc_proxy : public Alloc
 {
 public:
-    Value *allocate(size_t count)
+    // Keep the inlined allocation; do not emit this unused private copy.
+    __declspec(dllimport) __forceinline Value *allocate(size_t count)
     {
         return count != 0 ? (Value *)allocator<char>::allocate(count * sizeof(Value), 0) : 0;
     }

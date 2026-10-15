@@ -45,6 +45,9 @@ template <class CharT, class Alloc>
 class _String_base
 {
 public:
+	// This zeroing constructor is fully inlined here. Its unused out-of-line
+	// copy differs from the retail-proven constructor supplied by the owner TU.
+	__declspec(dllimport) __forceinline
 	_String_base(const Alloc &a) : _M_start(0), _M_finish(0), _M_end_of_storage(a, 0) {}
 	~_String_base();
 
