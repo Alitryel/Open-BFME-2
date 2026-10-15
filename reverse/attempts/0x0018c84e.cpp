@@ -1,6 +1,20 @@
 // ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
+// partial score=0.9935589632 date=2026-10-15
+// W7-D1 r10 checkpoint: whole 2333B body; raw instruction diff12; EH EXACT.
+// The former bank's dummy assign is replaced by the real 169B provider from
+// Code/GameEngine/Source/Common/Rva0018C705AllocateCopy.cpp at 646a9870ce19118752904649d4ffac99cb9677e9.
+// Visible vector-base/alloc-proxy constructors implement the vendored STLport
+// initialization; same-object full29B/11B and the base's proxy relocation equal
+// retail211E58 and its actual callee. Their short instantiation still needs
+// ordinary fold admission before landing this parent; no pins were invented.
+// Target frame10C and every slot are restored by one padding byte on the
+// inline IndexBuffer WriteLock wrapper. The nested dead AsciiString scope
+// after the VB lock reproduces the retail null-action EH state5.
+// Remaining: normal-X pointer-load order; 2-bone remap load/allocation order;
+// four SIB base/index orders. No nonmatching Code edit is retained.
+// ?Init@FXShaderGeometry@@QAE_NPAVMeshModelClass@@@Z
 // partial score=0.95 date=2026-10-14
-// cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc
+// cl: /I. /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc
 // Native18C131..18C262 RET16. Original helper name unknown. FXShaderGeometry::Init supplies this + four
 // stack arguments: effect, technique handle, FVF output and basis flag.
 // D3DXGetShaderInputSemantics is the owned stdcall12 PE thunk 62AFC2.
@@ -26,10 +40,11 @@ public:
 };
 // Init 18C84E..18D169 support views. Field offsets come from Init's own accesses.
 #include <string.h>
-#include "../../../../../reference/shims/wwmath/Vector2.h"
+#include "reference/shims/bfme2_ascii/ascii_string.h"
+#include "reference/shims/wwmath/Vector2.h"
 void free(void *);
 namespace _STL {
-template<class T> class allocator {public:allocator() {}};
+template<class T> class allocator {public:allocator() {} T *allocate(unsigned int,const void *) const;};
 template<class T> struct less {};
 struct input_iterator_tag {};
 struct forward_iterator_tag:input_iterator_tag {};
@@ -51,11 +66,17 @@ public:
 protected:
  T *current;
 };
+template<class Value,class T,class A> class _STLP_alloc_proxy:public A {
+public:
+ __declspec(noinline) _STLP_alloc_proxy(const A &a,Value p):A(a),_M_data(p) {}
+ Value _M_data;
+};
 template<class T,class A> class _Vector_base {
 public:
- _Vector_base(const A &);
+ __declspec(noinline) _Vector_base(const A &a):_M_start(0),_M_finish(0),_M_end_of_storage(a,0) {}
  ~_Vector_base() {if(_M_start) free(_M_start);}
- T *_M_start,*_M_finish,*_M_end_of_storage;
+ T *_M_start,*_M_finish;
+ _STLP_alloc_proxy<T*,T,A> _M_end_of_storage;
 };
 template<class T,class A=allocator<T> > class vector:public _Vector_base<T,A> {
 public:
@@ -69,12 +90,76 @@ public:
  void clear() {erase(begin(),end());}
 };
 }
+template _STL::_Vector_base<short,_STL::allocator<short> >::_Vector_base(const _STL::allocator<short>&);
 // Bone set: header +0, node count +4; destroyed by the owned 18C3E6.
 class Rva0018C262:public _STL::set<int,_STL::less<int>,_STL::allocator<int> > {public:~Rva0018C262();};
 class Rva0018C6D5 {public:void rva0018C6D5(const unsigned short *,const unsigned short *);};
-struct Rva005E59FCKeyIterator {_STL::_Rb_tree_node_base *node;};
-class Rva0018C73CWordVector {public:void assign(Rva005E59FCKeyIterator,Rva005E59FCKeyIterator,const _STL::forward_iterator_tag &);short *b;};
-__declspec(noinline) inline void Rva0018C73CWordVector::assign(Rva005E59FCKeyIterator first,Rva005E59FCKeyIterator,const _STL::forward_iterator_tag &) {b=(short*)first.node;}
+struct Rva0018C2E7Node { int unknown; void *parent; void *left; void *right; short value; };
+namespace _STL {struct __false_type {};}
+short *__cdecl Rva0018C3C9Copy(Rva0018C2E7Node *, Rva0018C2E7Node *, short *,const _STL::__false_type &);
+struct Rva0018C533Input;
+struct Rva0018C533Output;
+Rva0018C533Output *__cdecl Rva0018C533RangeForward(Rva0018C533Input *, Rva0018C533Input *, Rva0018C533Output *);
+void __cdecl Rva00030830GameFree(void *);
+namespace _STL {
+ template<class I> int __distance(const I &,const I &,const input_iterator_tag &);
+ template<class I,class D> void advance(I &,D);
+}
+// The existing generic tree cursor providers only advance/count the node
+// token. Their application key interpretation is not used in this unit.
+struct Rva005E59FCKeyIterator { _STL::_Rb_tree_node_base *node; };
+namespace _STL {
+template<class T> struct _Rb_global {static _Rb_tree_node_base *_M_increment(_Rb_tree_node_base *);};
+template<> __declspec(noinline) inline int __distance(const Rva005E59FCKeyIterator &first,const Rva005E59FCKeyIterator &last,const input_iterator_tag &) {
+ int result=0;
+ _Rb_tree_node_base *node=first.node;
+ while(node!=last.node){node=_Rb_global<bool>::_M_increment(node);++result;}
+ return result;
+}
+}
+short *__cdecl Rva0018C2E7Copy(Rva0018C2E7Node*,Rva0018C2E7Node*,short*,void*,int);
+inline __declspec(noinline) short *__cdecl Rva0018C3C9Copy(Rva0018C2E7Node *first,Rva0018C2E7Node *last,short *result,const _STL::__false_type &) {
+ char category;
+ return Rva0018C2E7Copy(first,last,result,&category,0);
+}
+static __forceinline short *copyTreeWords(Rva0018C2E7Node *first,Rva0018C2E7Node *last,short *result) {
+ return Rva0018C3C9Copy(first,last,result,_STL::__false_type());
+}
+struct Rva0018C73CStorage : _STL::allocator<short> {short *data;};
+class Rva0018C73CWordVector {
+public:
+ short *allocateCopy(unsigned int,Rva005E59FCKeyIterator,Rva005E59FCKeyIterator);
+ void assign(Rva005E59FCKeyIterator,Rva005E59FCKeyIterator,const _STL::forward_iterator_tag&);
+private:
+ short *begin;
+ short *end;
+ Rva0018C73CStorage storage;
+};
+inline __declspec(noinline) short *Rva0018C73CWordVector::allocateCopy(unsigned int n,Rva005E59FCKeyIterator first,Rva005E59FCKeyIterator last) {
+ short *result=storage.allocate(n,0);
+ Rva0018C3C9Copy((Rva0018C2E7Node*)first.node,(Rva0018C2E7Node*)last.node,result,_STL::__false_type());
+ return result;
+}
+inline __declspec(noinline) void Rva0018C73CWordVector::assign(Rva005E59FCKeyIterator first,Rva005E59FCKeyIterator last,const _STL::forward_iterator_tag &) {
+ unsigned int len=_STL::__distance(first,last,_STL::input_iterator_tag());
+ short *finish;
+ if(len>(unsigned int)(storage.data-begin)) {
+  short *fresh=allocateCopy(len,first,last);
+  if(begin) Rva00030830GameFree(begin);
+  begin=fresh;
+  finish=begin+len;
+  storage.data=finish;
+ } else if((unsigned int)(end-begin)>=len) {
+  finish=(short*)Rva0018C533RangeForward((Rva0018C533Input*)first.node,(Rva0018C533Input*)last.node,(Rva0018C533Output*)begin);
+ } else {
+  Rva005E59FCKeyIterator mid=first;
+  _STL::advance(mid,(unsigned int)(end-begin));
+  Rva0018C533RangeForward((Rva0018C533Input*)first.node,(Rva0018C533Input*)mid.node,(Rva0018C533Output*)begin);
+  finish=copyTreeWords((Rva0018C2E7Node*)mid.node,(Rva0018C2E7Node*)last.node,end);
+ }
+ end=finish;
+}
+
 struct Rva0018C7E5Vector {void resize(unsigned int,unsigned short);};
 class BfmeAwakenLog {
 public:
@@ -339,6 +424,7 @@ bool FXShaderGeometry::Init(MeshModelClass *mesh)
    m_VB=new BfmeDynamicNativeVB(0,(unsigned short)(m_Passes*mesh->Get_Vertex_Count()),0,desc.stride);
   }
   VertexBufferClass::WriteLockClass lock(m_VB,0);
+ if(0){ AsciiString dead; if(0){ AsciiString inner; } }
   char *vertices=(char *)lock.Get_Vertex_Array();
   const Vector3 *positions[2]={mesh->Get_Vertex_Array(0),0};
   const Vector3 *normals[2]={mesh->Get_Vertex_Normal_Array(false),0};
@@ -393,7 +479,7 @@ bool FXShaderGeometry::Init(MeshModelClass *mesh)
  }
  m_IB=new DX8IndexBufferClass(m_Passes*mesh->Get_Polygon_Count()*3,DX8IndexBufferClass::USAGE_DEFAULT);
  {
-  IndexBufferClass::WriteLockClass lock(m_IB,0);
+  struct PaddedLock1:public IndexBufferClass::WriteLockClass { unsigned char pad[1]; __forceinline PaddedLock1(IndexBufferClass *p,int f):IndexBufferClass::WriteLockClass(p,f) {} }; PaddedLock1 lock(m_IB,0);
   const TriIndex *polys=mesh->Poly->Array;
   unsigned short *indices=lock.Get_Index_Array();
   memcpy(indices,polys,mesh->PolyCount*sizeof(TriIndex));
