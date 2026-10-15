@@ -73,7 +73,6 @@ inline LanguageFilter::LanguageFilter()
 
 // ?LanguageFilter::~LanguageFilter present-unmatched
 inline LanguageFilter::~LanguageFilter() {
-	m_wordList.clear();
 }
 
 
@@ -82,14 +81,14 @@ void LanguageFilter::reset() {
 	init();
 }
 
+typedef _STL::pair<const UnicodeString, bool> _BfmeLangPair;
+typedef _STL::_Rb_tree_node<_BfmeLangPair> _BfmeLangNode;
+
+template _BfmeLangNode * _STL::allocator<_BfmeLangNode>::allocate(unsigned int, const void *) const;
+template _STL::pair<const UnicodeString, bool>::pair(const _STL::pair<const UnicodeString, bool> &);
+
 // ?LanguageFilter::update present-unmatched
 void LanguageFilter::update() {
-	// Keeps this TU emitting its two matched STL bodies (allocator allocate
-	// and pair copy ctor) after the duplicate LanguageFilter members became
-	// inline/extern for the link census. Uses the same LangMap type.
-	UnicodeString k(L"");
-	m_wordList[k] = true;
-	m_wordList.clear();
 }
 
 extern wchar_t ignoredChars[];
