@@ -1,28 +1,44 @@
-// ?rva00477BA2@HordeTransportContain@@QAEXPAVOldContain@@PAVObject@@@Z
-// partial score=0.9 date=2026-10-14
-// ?rva00477BA2@HordeTransportContain@@QAEXPAVOldContain@@PAVObject@@@Z
-// partial score=0.92 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/Libraries/Include /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
-// Native477BA2..477D61 RET8 447B; source literal HordeContain/HordeTransportContain.cpp at845F38. Matrix3D32 arrays and32 output indices; owner8, Object74 ID/25Cphysics, flagbit127; slots48 uses verified int-key map providers. Existing last-argument int ABI carries output-index-array address; exact parameter type remains to be reconciled in provider. No new alias or pin claimed.
+//
+// ?rva00477BA2@HordeTransportContain@@QAEXPAVOldContain@@PAVObject@@@Z,
+// retail 0x00477BA2..0x00477D61 (447 bytes, RET 8).
+// Target facts: the WorldBuilder twin 0x011A13C0 carries the
+// HordeTransportContain.cpp source file string (retail literal 0x00C45F38,
+// line 702), the 32-matrix/32-index bone query on the contain's owner
+// (+8, getMultiLogicalBonePosition then getSingleLogicalBonePosition), the
+// int-keyed slot map at +0x48 (end() cached before find(), then operator[]),
+// the old-contain removal slot 0xA8, the +0x20 interface slot 0xA4, the
+// setTransformMatrix call, and the fling: the transform's X column with Z
+// forced to 1, scaled by a random 3..8 magnitude, copied memberwise into a
+// Coord3D for the +0x25C physics consumer, around the model-condition bit
+// 127 set; the rider is then killed. Statement order and the separate
+// magnitude local follow the twin and the rowed sibling
+// HordeSiegeEngineContain::removeAndApplyForce (0x0047CE0C). The method's
+// original name and the exact type of the index-array argument (passed
+// through the pinned int ABI) remain unresolved; class views model only the
+// accessed prefixes and virtual slots.
 #include "ascii_string.h"
 #include "Lib/Coord3D.h"
 #include <map>
 struct Vector4 {float x,y,z,w; __declspec(noinline) Vector4() {} };
-class Matrix3D {public:__forceinline Matrix3D(){} Vector4 rows[3];};
-struct RvaVector {float x,y,z; RvaVector(float xx,float yy,float zz):x(xx),y(yy),z(zz){} RvaVector operator*(float n) const {return RvaVector(x*n,y*n,z*n);} };
+struct Rva00477BA2Vector;
+class Matrix3D {public:__forceinline Matrix3D(){} inline Rva00477BA2Vector Get_X_Vector() const; Vector4 rows[3];};
+struct Rva00477BA2Vector {float x,y,z; Rva00477BA2Vector(float xx,float yy,float zz):x(xx),y(yy),z(zz){} void operator*=(float n){x*=n;y*=n;z*=n;} };
+inline Rva00477BA2Vector Matrix3D::Get_X_Vector() const {return Rva00477BA2Vector(rows[0].x,rows[1].x,rows[2].x);}
 class Thing {public:void setTransformMatrix(const Matrix3D*);};
 enum DamageType{DAMAGE=8}; enum DeathType{DEATH=0};
 class Rva003909FAObj {public:void consume(void*,int,int);};
 class PhysicsBehavior {public:void rva00390629(bool);};
-class RvaFlags {public:unsigned int word[19];unsigned int test(unsigned int b)const{return word[b>>5]&(1U<<(b&31));}void set(unsigned int b){word[b>>5]|=1U<<(b&31);}};
+class Rva00477BA2Flags {public:unsigned int word[19];unsigned int test(unsigned int b)const{return word[b>>5]&(1U<<(b&31));}void set(unsigned int b){word[b>>5]|=1U<<(b&31);}};
 class Object: public Thing {public:
  int getMultiLogicalBonePosition(const char*,int,Coord3D*,Matrix3D*,bool,int)const;
  bool getSingleLogicalBonePosition(const char*,Coord3D*,Matrix3D*)const;
  void rva0028AE6D(); void kill(DamageType,DeathType);
+ const Matrix3D*getTransformMatrix()const{return &matrix;}
  char pad0[8]; Matrix3D matrix; Coord3D position; float orientation;
  char pad48[0x74-0x48]; int id;
- char pad78[0x10C-0x78]; RvaFlags flags;
+ char pad78[0x10C-0x78]; Rva00477BA2Flags flags;
  char pad158[0x25C-0x158]; PhysicsBehavior*physics;
 };
 int GetGameLogicRandomValue(int,int,char*,int);
@@ -118,26 +134,32 @@ virtual void n41(Object*,bool);
 };
 class HordeTransportContain {public:
  void rva00477BA2(OldContain*,Object*);
+ Object*getObject()const{return owner;}
  char pad0[8]; Object*owner;
  char padC[0x48-0xC]; _STL::map<int,int> slots;
 };
 void HordeTransportContain::rva00477BA2(OldContain*old,Object*object){
- Matrix3D matrices[32]; int indices[32]; int index=0;
+ Matrix3D matrices[32]; int indices[32];
+ int count=0; int index=0;
  AsciiString bone= reinterpret_cast<Rva00463235*>(this)->rva00463235(object);
- Object*container=owner;
- int count=container->getMultiLogicalBonePosition(bone.str(),32,0,matrices,true,reinterpret_cast<int>(indices));
- if(!count && container->getSingleLogicalBonePosition(bone.str(),0,&matrices[0]))count=1;
+ count=getObject()->getMultiLogicalBonePosition(bone.str(),32,0,matrices,true,reinterpret_cast<int>(indices));
+ if(count==0 && getObject()->getSingleLogicalBonePosition(bone.str(),0,&matrices[0]))count=1;
  int id=object->id;
- if(slots.end() != slots.find(id))index=slots[id];
+ _STL::map<int,int>::iterator end=slots.end();
+ _STL::map<int,int>::iterator it=slots.find(id);
+ if(it!=end)index=slots[id];
  if(index>=count)index=0;
  if(old)old->removing(object);
  reinterpret_cast<NotifyContain*>(reinterpret_cast<char*>(this)+0x20)->n41(object,false);
  object->setTransformMatrix(&matrices[index]);
  PhysicsBehavior*physics=object->physics;
  if(physics){
-  RvaVector direction((owner ? object->matrix : object->matrix).rows[0].x,(physics ? object->matrix.rows[1].x : object->matrix.rows[1].x),1.0f);
-  int r=GetGameLogicRandomValue(3,8,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeTransportContain.cpp",702);
-  RvaVector force=direction*(float)r;
+  const Matrix3D*m=object->getTransformMatrix();
+  Rva00477BA2Vector direction(m->rows[0].x,m->rows[1].x,m->rows[2].x);
+  direction.z=1.0f;
+  float magnitude=(float)GetGameLogicRandomValue(3,8,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeTransportContain.cpp",702);
+  direction*=magnitude;
+  Coord3D force; force.x=direction.x; force.y=direction.y; force.z=direction.z;
   physics->rva00390629(true);
   if(!object->flags.test(127)){object->flags.set(127);object->rva0028AE6D();}
   reinterpret_cast<Rva003909FAObj*>(physics)->consume(&force,0,0);
