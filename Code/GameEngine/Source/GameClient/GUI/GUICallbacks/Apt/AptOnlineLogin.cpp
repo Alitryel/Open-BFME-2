@@ -44,6 +44,14 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
                               const _List_iterator<_IterTp, _RightTraits> &b)
 { return a._M_node != b._M_node; }
 }
+// Compare tree nodes locally, as for the list iterators above, so this
+// unit emits no competing external tree-base comparison.
+namespace _STL {
+template <class Value, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits> &a,
+                              const _Rb_tree_iterator<Value, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+}
 #undef free
 extern template _STL::_List_base<AsciiString,_STL::allocator<AsciiString> >::~_List_base();
 bool operator<(const UnicodeString &,const UnicodeString &);

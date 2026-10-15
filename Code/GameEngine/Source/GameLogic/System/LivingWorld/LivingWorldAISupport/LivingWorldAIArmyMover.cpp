@@ -21,6 +21,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 #include <map>
+// Declare the typed comparison before any tree use, so early functions
+// also avoid emitting a competing external base comparison.
+namespace _STL {
+template<class V,class L,class R>
+static inline bool operator!=(const _Rb_tree_iterator<V,L>&a,
+                              const _Rb_tree_iterator<V,R>&b)
+{ return a._M_node!=b._M_node; }
+}
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {
@@ -265,7 +273,6 @@ class Rva002B82D5 {public:~Rva002B82D5();char trees[24];};
 class Rva0050055D:public Rva002B82D5 {public:Rva0050055D(const Rva0050055D&);IntTree&first(){return *(IntTree*)this;}};
 namespace _STL {
 template<> _STL::pair<IntTree::iterator,IntTree::iterator>IntTree::equal_range(const int&);
-template<class V,class L,class R>static inline bool operator!=(const _Rb_tree_iterator<V,L>&a,const _Rb_tree_iterator<V,R>&b){return a._M_node!=b._M_node;}
 }
 // ?rva0059C93C@LivingWorldAIArmyMover@@QAEXPAV?$vector@UBfmePod20@@V?$allocator@UBfmePod20@@@_STL@@@_STL@@HPAXPAVRva004FF5B7@@H@Z
 void LivingWorldAIArmyMover::rva0059C93C(_STL::vector<BfmePod20>*moves,int playerID,void*unused,Rva004FF5B7*info,int difficulty) {
