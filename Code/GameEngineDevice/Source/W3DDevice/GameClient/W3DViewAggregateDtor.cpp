@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc /Oy- /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /ICode/GameEngine/Include/GameClient /Ireference/shims/bfme2_ascii
+// cl: /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /ICode/GameEngine/Include/GameClient /Ireference/shims/bfme2_ascii
 // stlport
 // Reference-guided W3DView teardown: BFME1 revision874e38488c7dcf8cf3343452e8e5371bb3a0e64c
 // and GeneralsMD release the two cameras. Native8BD5E..8BE6B proves
