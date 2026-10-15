@@ -12,7 +12,8 @@ private:
 	int m_2C;
 };
 
-void __stdcall rva0040F497(int a, int b, int c); // pinned retail 0x0040F497
+// 0x0040F497 is rowed as ArmySummary::Load(bool, bool, int) on this.
+class ArmySummary { public: void Load(bool a, bool b, int c); };
 
 // ?CallArmyReinforcementIntoBattleByID@ArmySummarySystem@@QAEXH@Z @0x0040FAFE
 // 23B: WorldBuilder's twin 0x0108DAC0 bears the name (ArmySummary.cpp:1920) and
@@ -30,7 +31,7 @@ void BfmeY1038::rva0040F7E5()
 {
 	if (m_2C == 3) {
 		m_2C = 4;
-		rva0040F497(0, 0, 0);
+		((ArmySummary *)this)->Load(false, false, 0);
 	}
 }
 

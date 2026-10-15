@@ -10162,7 +10162,6 @@ name,address,notes
 ?rva0040A32F@Rva0040A3F9@@QAEPAVCreateAHeroData@@H@Z,0x0040A32F,unrowed 28B thiscall (Ghidra FUN_0080a32f; ret 4) on the CreateAHeroData pointer vector of Rva0040A3F9Find.cpp: the entry at an index or 0 past the end; called from 0x0043DD5D and 0x004414FF; address name
 ?rva0040CBD7@Rva0040CBD7Vec@@QAEXPAPAXH@Z,0x0040CBD7,thiscall lookup-or-null on +0x78 vector via rowed 0x40CB3A find and rowed 0x4F6093 copy ctor; out replaces pointer on hit and nulls on miss; Ghidra FUN_0080cbd7 55B
 ?rva0040DF77@Rva0040DF77@@QAEXXZ,0x0040DF77,address-derived callee of matched slot 0x0040E0C5; retail REL32 targets 0x0040DF77; Ghidra FUN bounds 180 bytes; thiscall no args; ret; callee body remains unclaimed; no named identity inferred
-?rva0040F497@@YGXHHH@Z,0x0040F497,3-zero-arg helper called by BfmeY1038::rva0040F7E5 0x0040F7E5; retail callee cleans 12 (stdcall) but the caller bytes only need the address
 ?rva00410997@Rva000427195@@QAEPAXPBX@Z,0x00410997,ICF twin of free NewNode 0x00410997 for table insert call with this; same 12B node and pair copy
 ?rva00410A86@Rva000427195@@QAEPAXPBX@Z,0x00410A86,ICF twin of free NewNode 0x00410A86 for table insert call with this; same 12B node and pair copy
 ?rva00410AAB@Rva00410AABHelper@@QAEXPAX@Z,0x00410AAB,alias pin: member-shaped call to the 28-byte body rowed as ?Rva00410AABFree@@YGXPAX@Z (it frees the node via dtor); REL32 at 0x00410DB7 in the chain clear 0x00410D96, whose other bytes match the rowed clear 0x00410A3D exactly
