@@ -3610,6 +3610,34 @@ class Rva003F1093 {public:void rva003F1CA2(CreateAHeroData*,bool);};
 class Rva003F1C56Plot;struct Rva003F1BD3TemplateView;
 class ArmorTemplate;
 class Rva002B6498 {public:ArmorTemplate *rva002B6498(NameKeyType);};
+// Native 2B5414..2B543D and 2B6F31..2B6F57: two more message-argument getters
+// of the getArmyFromMessage family in the same file-static convention (the
+// message in ECX, out pointer and argument index on the stack), without the
+// index validation: the player whose id is the argument (TheLivingWorldLogic
+// find 0x002B51F8) and the building template whose name key is the argument
+// (TheLivingWorldBuildingTemplateStore 0x002B6498). No call to either
+// survives in the image; the anchor below forces their emission. Identities
+// unproven; RVA-qualified names.
+static __declspec(noinline) Bool rva002B5414PlayerFromMessage(Rva002E2903Player **player, const GameMessage *msg, Int argIndex)
+{
+	Int playerID = msg->getArgument(argIndex)->integer;
+	*player = ((Rva002BA8F1Logic *)((Rva002B254F *)TheLivingWorldLogic))->find(playerID, 0);
+	return *player != 0;
+}
+
+static __declspec(noinline) Bool rva002B6F31TemplateFromMessage(ArmorTemplate **tmpl, const GameMessage *msg, Int argIndex)
+{
+	*tmpl = ((Rva002B6498 *)TheLivingWorldBuildingTemplateStore)->rva002B6498((NameKeyType)msg->getArgument(argIndex)->integer);
+	return *tmpl != 0;
+}
+
+// ?Rva002B5414Anchor absent-from-retail
+Bool Rva002B5414Anchor(const GameMessage *msg)
+{
+	Rva002E2903Player *player;
+	ArmorTemplate *tmpl;
+	return rva002B5414PlayerFromMessage(&player, msg, 0) && rva002B6F31TemplateFromMessage(&tmpl, msg, 1);
+}
 class Rva002BAF01 {public:void rva002BAF01(struct Rva002BAF01Region*,CreateAHeroData*);};
 class AptMessageBox {public:static void Show(void*,void*,void*);static void Change(void*,void*,void*);};
 static __forceinline void dispatchShow(int kind,const UnicodeString&title,const UnicodeString&body){AptMessageBox::Show((void*)kind,(void*)&title,(void*)&body);}
