@@ -1,9 +1,6 @@
 // cl: /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 // ??0Rva00136794@@QAE@PBD0MPBVRva0013101E@@ABV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@22@Z @0x00136794 (145B): chain ctor calls GenBase 0x0061ED40 then vtable 0x007D2970; StringBase private ctors 0x00037BA0 at +0x14/+0x18 from s1/s2; vector copies 0x000BC07E at +0x1C/+0x28/+0x34 from v1/v2/v3; float f at +0x40 via movss; Rva copy 0x0013101E at +0x44 from r; int 0 at +0x54; ret 0x1C (7 args).
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-
 class AsciiString;
 
 namespace _STL {
@@ -24,11 +21,20 @@ private:
 };
 }
 
+class BfmeThingUB
+{
+public:
+	void bfmeResetUB();
+};
+
 class __declspec(novtable) GenBase009EB7D0
 {
 public:
 	__declspec(noinline) GenBase009EB7D0();
-	virtual ~GenBase009EB7D0() { _ReadWriteBarrier(); }
+	// Native ctor unwind action 0x765A86 destroys the base through the
+	// 0x135E35 tail wrapper of bfmeResetUB (0x61ED80), as does the dtor
+	// unit's base cleanup. Keep their out-of-line destructor copies equal.
+	virtual ~GenBase009EB7D0() { ((BfmeThingUB *)this)->bfmeResetUB(); }
 	virtual void handle() {}
 private:
 	unsigned int m_flags;
