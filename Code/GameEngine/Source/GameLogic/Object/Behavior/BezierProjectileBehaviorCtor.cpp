@@ -18,9 +18,13 @@
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 #include <vector>
 
-// Declaration-only: the rowed vector<Coord3D> members are bound, this TU emits no per-flag copy.
+// The native erase call at +0x9A reaches 0x002A133B, the rowed twelve-byte
+// POD range erase. vector<Coord3D>::erase owns a different body at 0x00081A24.
+// Use the existing carrier only for this representation-preserving operation;
+// retain the Coord3D vector's construction, layout and lifetime below.
+struct Gen_p12pod { int a[3]; };
 namespace _STL {
-template <> Coord3D *vector<Coord3D, allocator<Coord3D> >::erase(Coord3D*, Coord3D*);
+template <> Gen_p12pod *vector<Gen_p12pod, allocator<Gen_p12pod> >::erase(Gen_p12pod*, Gen_p12pod*);
 }
 
 typedef bool Bool;
@@ -160,7 +164,8 @@ BezierProjectileBehavior::BezierProjectileBehavior(Thing *thing, const ModuleDat
 	m_victimID = 0;
 	m_at3C = 0;
 	m_at40 = 0;
-	m_flightPath.clear();
+	_STL::vector<Gen_p12pod> *path = reinterpret_cast<_STL::vector<Gen_p12pod> *>(&m_flightPath);
+	path->erase(path->begin(), path->end());
 	m_flightPathSegments = 0;
 	m_flightPathSpeed = 0;
 	zeroCoord(m_flightPathStart);
