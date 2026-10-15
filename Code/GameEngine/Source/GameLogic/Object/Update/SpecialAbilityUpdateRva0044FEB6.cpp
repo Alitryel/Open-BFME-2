@@ -13,6 +13,12 @@
 #include "ascii_string.h"
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 #include <list>
+// Keep integer construction inline; stlport_deque_int.cpp owns retail's
+// out-of-line _Construct<int, int> body at 0x00620140.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+void _Construct<int, int>(int *p, const int &value) { new (p) int(value); }
+}
 
 #pragma function(memset)
 extern "C" void *memset(void *dst, int value, unsigned int size);

@@ -4,6 +4,12 @@
 // UI body: retail2A0F19..2A1111 and WB DBEEE0/assert7972; original method spelling remains unknown.
 // stlport
 #include <list>
+// Keep integer construction inline; stlport_deque_int.cpp owns retail's
+// out-of-line _Construct<int, int> body at 0x00620140.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+void _Construct<int, int>(int *p, const int &value) { new (p) int(value); }
+}
 #include "GameClient/ClientRandomValue.h"
 #define _OPERATOR_NEW_DEFINED_
 #include "vector2.h"

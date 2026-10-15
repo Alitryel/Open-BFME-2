@@ -6,6 +6,12 @@ extern "C" void _ReadWriteBarrier(void);
 #include <vector>
 #include <set>
 #include <map>
+// Keep integer construction inline; stlport_deque_int.cpp owns retail's
+// out-of-line _Construct<int, int> body at 0x00620140.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+void _Construct<int, int>(int *p, const int &value) { new (p) int(value); }
+}
 // WorldBuilder ChatWindowsLan::GetLobbyPlayers and PopulatePlayerList (ChatWindowsLan.cpp).
 // Native 5D557F..5D5648 proves the complete EH body and list/address layout.
 // String record lifetime and vector append use their existing verified owners.

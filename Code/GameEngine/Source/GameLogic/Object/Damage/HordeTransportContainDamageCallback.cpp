@@ -16,6 +16,12 @@ static __forceinline void _Construct(int *where, const int &value)
 { new (where) int(value); }
 }
 #include <list>
+// Keep integer construction inline; stlport_deque_int.cpp owns retail's
+// out-of-line _Construct<int, int> body at 0x00620140.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+void _Construct<int, int>(int *p, const int &value) { new (p) int(value); }
+}
 #include "GameEngine/Source/Common/GameLogicObjectLookupView.h"
 // Keep the vendor inline bodies visible; existing units own emitted copies.
 namespace _STL {

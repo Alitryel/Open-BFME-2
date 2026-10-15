@@ -21,6 +21,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <map>
 #include <list>
 #include <new>
+// Keep integer construction inline; stlport_deque_int.cpp owns retail's
+// out-of-line _Construct<int, int> body at 0x00620140.
+namespace _STL {
+template<> __declspec(dllimport) __forceinline
+void _Construct<int, int>(int *p, const int &value) { new (p) int(value); }
+}
 #include "../../../../../../Libraries/Include/Lib/Coord2D.h"
 #include "ascii_string.h"
 class ThingTemplate;
