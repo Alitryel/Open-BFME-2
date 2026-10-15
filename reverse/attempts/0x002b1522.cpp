@@ -1,21 +1,15 @@
 // ?DoXfer@Player@@QAEXPAVXfer@@@Z
-// partial score=0.9997 date=2026-10-15
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// partial score=0.99965 date=2026-10-15
 // ?DoXfer@Player@@QAEXPAVXfer@@@Z
-// partial score=0.9918 date=2026-10-14
-// ?DoXfer@Player@@QAEXPAVXfer@@@Z
-// partial score=0.995 date=2026-10-12
-// ?DoXfer@Player@@QAEXPAVXfer@@@Z
-// 2026-10-12 (claude-opus-5-5): permute v3 found `char full` (not bool) for
-// the !lightCRC() flag, which removes most of the old diff; snapshotting
-// money/+0x90 before the upgrade count fixes the count loop (retail zero in
-// EBX, list head in EAX). 3079 of 3080 B. Left: retail's first load-loop test
-// is cmp word [count],0 where ours uses bx (1 byte), one stack home at
-// 0x2B1C23 ([ebp-0x54] vs [ebp-0x50]), and callees 0x2AF236 / 0x2AF33B are
-// unrowed banked partials that must land first (no pins).
+// Native 0x2B1522..0x2B212A 3080B; WB C205C0 Player::DoXfer.
+// Clean port of the 2026-10-15 bank (U1 r14 + W7-D1 r8): every instruction
+// byte-identical except the four REL32 call slots, which resolve through the
+// rowed TeamFactory::findTeamPrototypeByID and the pins for the two unrowed
+// Player::Xfer halves at 0x2AF236/0x2AF33B.
 // cl: /O1 /G7 /arch:SSE /GX /MD /DNDEBUG /Ireference/shims/bfme2_ascii
 // stlport
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // Native 2B1522..2B212A, 3080 bytes, WB C205C0 Player::DoXfer (Player.cpp
 // asserts 5614..6049 name m_ai, m_resourceGatheringManager, m_tunnelSystem,
 // m_objectFiterPercentProductionChangeList, m_specialPowerReadyTimerList and
@@ -28,9 +22,8 @@ extern "C" void _ReadWriteBarrier(void);
 // deallocation guard; native also allocates Squad and the bonus block without
 // one (nothrow constructors). The tracker is embedded at 738; the version
 // consists of format 1 and the transferred value 10.
-// Status: 3079/3080, instruction-for-instruction equal except (1) upgrade load
-// guard: retail cmp word [count],0 (imm) vs ours cmp word [count],bx; (2) the
-// state new-temp slot in the modifier loop: retail ebp-54 vs ours ebp-50.
+// Status: 3080/3080 instruction-for-instruction equal once the four call
+// slots resolve by name/address (pins 0x2AF236 / 0x2AF33B, rowed 0x39F72C).
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include <vector>
@@ -61,9 +54,8 @@ class UpgradeCenter { public: const UpgradeTemplate *findUpgrade(const AsciiStri
 extern UpgradeCenter *TheUpgradeCenter;
 class TeamPrototype;
 class Team { public: unsigned getID() const { return m_id; } char pad00[0x34]; unsigned m_id; };
-class TeamFactory { public: Team *findTeamByID(unsigned); };
+class TeamFactory { public: Team *findTeamByID(unsigned); TeamPrototype *findTeamPrototypeByID(unsigned); };
 extern TeamFactory *TheTeamFactory;
-class Rva0039FE6COwner { public: TeamPrototype *rva0039F72C(unsigned); };
 class Rva002AAC74PoolList { public: void clear(); };
 class Rva00291440;
 void rva003064CB(Xfer*,Rva00291440*);
@@ -249,7 +241,7 @@ void Player::DoXfer(Xfer *raw)
    reinterpret_cast<Rva002AAC74PoolList&>(m_playerTeamPrototypes).clear();
    for(unsigned short i=0;i<prototypeCount;++i) {
     xfer->word(&prototypeID);
-    TeamPrototype *prototype=reinterpret_cast<Rva0039FE6COwner*>(TheTeamFactory)->rva0039F72C(prototypeID);
+    TeamPrototype *prototype=TheTeamFactory->findTeamPrototypeByID(prototypeID);
     if(!prototype)badPlayerTransfer();
     m_playerTeamPrototypes.push_back(prototype);
    }
