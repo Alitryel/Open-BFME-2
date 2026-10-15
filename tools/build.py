@@ -2336,7 +2336,80 @@ def read_funclet(row, object_symbol, output, target):
         "does either, so this is the body that label names now")
 
 
-def compile_function(row, symbol_map, output):
+def proven_weak_dtor_default(row, name, address, output, symbol_map):
+    """Prove an MSVC vector-dtor weak reference to this unit's rowed scalar dtor.
+
+    This is an object-local linker fallback, never a new global name binding.
+    A real binding/definition wins. Only SEARCH_LIBRARY and the compiler's
+    same-class ??_E -> ??_G pair are supported; malformed/chained aliases fail.
+    The default must itself be a complete, independently rowed exact body in
+    this source, so ordinary unit-wide data/EH checks also cover its references.
+    """
+    if not name.startswith('??_E') or name in symbol_map:
+        return False
+    default = '??_G' + name[4:]
+    try:
+        stat = output.stat()
+        data, sections, symbols = _object_layout(str(output), stat.st_mtime_ns, stat.st_size)
+        named = [(i, s) for i, s in enumerate(symbols) if s['name'] == name]
+        if len(named) != 1:
+            return False
+        index, weak = named[0]
+        if (weak.get('storage') != 105 or weak['section'] != 0
+                or weak['value'] != 0 or weak['aux'] != 1):
+            return False
+        if index + 1 >= u32(data, 12):
+            return False
+        at = u32(data, 8) + (index + 1) * 18
+        tag, characteristic = struct.unpack_from('<II', data, at)
+        if characteristic != 2 or tag >= len(symbols):
+            return False
+        fallback = symbols[tag]
+        if fallback['name'] != default or fallback.get('storage') != 2:
+            return False
+        definitions = [s for s in symbols if s['name'] == default and s['section'] > 0]
+        if (len(definitions) != 1 or definitions[0].get('storage') != 2
+                or not definitions[0].get('type', 0) & 0x20):
+            return False
+        if not sections[definitions[0]['section'] - 1]['characteristics'] & 0x20:
+            return False
+        owners = [r for r in load_all_function_rows() if r['name'] == default]
+        if len(owners) != 1:
+            return False
+        owner = owners[0]
+        if (owner['source'] != row['source'] or owner['status'] != 'matched'
+                or int(owner['target_rva'], 16) != address
+                or ledger_object_symbol(owner) != default or is_alias_row(owner)
+                or 'gen-alias' in notes_tokens(owner) or is_scaffold_row(owner)
+                or address not in symbol_map.get(default, ())):
+            return False
+        body, relocs = read_object_symbol_bytes(output, default, code_only=True)
+        size = int(owner['target_size'])
+        # No prefix proof and no hidden trailing code. A separately emitted
+        # body with padding can be supported later with boundary evidence.
+        if len(body) != size:
+            return False
+        if any(t not in (6, 20) or o < 0 or o + 4 > size for o, t, _ in relocs):
+            return False
+        covered = set()
+        for offset, kind, _ in relocs:
+            sites = set(range(offset, offset + 4))
+            if covered.intersection(sites):
+                return False
+            covered.update(sites)
+            if kind == 20 and body[offset:offset + 4] != b'\0' * 4:
+                return False
+        # Disable weak fallback for the proof: cycles and chains cannot vouch
+        # for themselves. Existing strict call bindings still have to match.
+        patch = compile_function(owner, symbol_map, output, allow_weak=False)
+        return (not patch['unresolved'] and not patch['masked']
+                and patch['bytes'] == patch['target'])
+    except (OSError, ValueError, IndexError, KeyError, struct.error, SystemExit):
+        return False
+
+
+
+def compile_function(row, symbol_map, output, *, allow_weak=True):
     target_rva = int(row["target_rva"], 16)
     target_size = int(row["target_size"])
     target = read_target_bytes(target_rva, target_size)
@@ -2424,10 +2497,19 @@ def compile_function(row, symbol_map, output):
                             and compiled[offset:offset + 4] == b"\0" * 4):
                         proof = stlport_folds.prove(
                             sys.modules[__name__], sym_name, called, output, symbol_map)
-                    if proof is None:
+                    # Compiler adjustment thunks tail-jump through this
+                    # weak default. Keep ordinary calls/identity harvest out
+                    # of this narrowly proven fallback.
+                    weak = (allow_weak and proof is None and offset >= 1
+                            and compiled[offset - 1] == 0xE9
+                            and compiled[offset:offset + 4] == b"\0" * 4
+                            and proven_weak_dtor_default(
+                                row, sym_name, called, output, symbol_map))
+                    if proof is None and not weak:
                         unresolved.append(sym_name)
                     else:
-                        verified_folds.update(proof)
+                        if proof is not None:
+                            verified_folds.update(proof)
                         resolved[offset:offset + 4] = struct.pack(
                             "<i", called - target_rva - offset - 4)
 
