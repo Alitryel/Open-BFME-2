@@ -13,16 +13,21 @@ class Rva000AD6F4
 public:
     void clear();
 };
-class Rva00575674Sub
+class Object;
+class Rva00575674
 {
 public:
-    void rva00575674(void *value);
+    void rva00575674(Object *value);
+};
+class LinearCampaign
+{
+public:
+    void beginCampaign();
 };
 class Rva001EBAEA
 {
 public:
     Rva001EBAEA(int entry, int argument) throw();
-    void rva001ECDB3();
 private:
     char unknown00[0xC4];
 };
@@ -42,7 +47,7 @@ void Rva0023D607Holder::rva001ECF03(int index, int argument)
     if (index >= 0 && static_cast<unsigned int>(index) < entries.size())
     {
         Rva001EBAEA *state = new Rva001EBAEA(reinterpret_cast<int>(&entries[index]), argument);
-        reinterpret_cast<Rva00575674Sub *>(&current)->rva00575674(state);
-        current->rva001ECDB3();
+        reinterpret_cast<Rva00575674 *>(&current)->rva00575674(reinterpret_cast<Object *>(state));
+        reinterpret_cast<LinearCampaign *>(current)->beginCampaign();
     }
 }
