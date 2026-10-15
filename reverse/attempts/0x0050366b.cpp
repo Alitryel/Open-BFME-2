@@ -1,4 +1,6 @@
 // ?GatherWorldInformation@LWAIWorldInformation@@QAEXXZ
+// partial score=0.994673 date=2026-10-15
+// ?GatherWorldInformation@LWAIWorldInformation@@QAEXXZ
 // partial score=0.99467 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport

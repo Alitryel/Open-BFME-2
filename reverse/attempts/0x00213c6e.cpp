@@ -1,4 +1,6 @@
 // ?rva00213C6E@LivingWorldManager@@QAEXPAVRva00213D93Target@@@Z
+// partial score=0.9 date=2026-10-15
+// ?rva00213C6E@LivingWorldManager@@QAEXPAVRva00213D93Target@@@Z
 // partial score=0.93 date=2026-10-13
 // ?rva00213C6E@LivingWorldManager@@QAEXPAVRva00213D93Target@@@Z
 // partial score=0.9 date=2026-10-12

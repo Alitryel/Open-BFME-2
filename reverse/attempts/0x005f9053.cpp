@@ -1,4 +1,6 @@
 // ?rva005F9053@Rva005F8FEE@@QAEXPBD@Z
+// partial score=0.9 date=2026-10-15
+// ?rva005F9053@Rva005F8FEE@@QAEXPBD@Z
 // partial score=0.5 date=2026-10-10
 // cl: /O1 /Ireference/shims/bfme2_ascii /MD /EHsc
 // ??1Rva005F8FEE@@UAE@XZ @0x005F8FEE 101B: virtual dtor with derived vtable 0x00879D20 then base 0x007C6F20. Evidence: EH_prolog scopetable 0x007A5AC0; callees rowed ReleaseTreeHintRef 0x0007DEEF twice plus Rva0052413E dtor 0x0052413E plus releaseBuffer 0x00036410 via AsciiString; callers 0x005F9431 thunk 0x005FA141; siblings Rva005F8FCC Rva005F918D.
