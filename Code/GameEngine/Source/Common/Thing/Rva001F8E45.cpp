@@ -21,6 +21,17 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 
+// vector<void*> begin/end/clear are expanded inline here; their out-of-line copies
+// would differ from retail's. Declared imported and force-inlined, they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+void vector<void *>::clear() { erase(begin(), end()); }
+}
+
 class ModuleData;
 
 class Rva001F8E45Iface

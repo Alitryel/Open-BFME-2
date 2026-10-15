@@ -12,9 +12,18 @@
 #include <vector>
 #include <float.h>
 #include <math.h>
+// AsciiString dtor declaration-only: ??_GAsciiString calls the rowed out-of-line copy 0x0048BA39
+#define BFME_ASCII_DTOR_DECL
 #include "ascii_string.h"
 #include "Lib/Coord3D.h"
 #include "Common/PartitionRangeQueryCallView.h"
+// Declaration-only: the vector<AsciiString> copy/dtor and the __uninitialized_copy<AsciiString> copy
+// are emitted by their owner units (HelixContain.cpp, StlportAsciiStringVectorDtor.cpp, AsciiStringUninitializedCopy.cpp).
+namespace _STL {
+template <> AsciiString *__uninitialized_copy<const AsciiString *, AsciiString *>(const AsciiString *, const AsciiString *, AsciiString *, __false_type const &);
+template <> vector<AsciiString, allocator<AsciiString> >::~vector();
+template <> vector<AsciiString, allocator<AsciiString> >::vector(const vector<AsciiString, allocator<AsciiString> > &);
+}
 struct OCLDiffCoord:Coord3D {
  OCLDiffCoord() {}
 };

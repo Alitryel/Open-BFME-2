@@ -4,6 +4,23 @@
 // was ?rva00413FC1@Rva00413FC1@@QAEPAHH@Z @0x00413FC1 54B: floor lookup in map<int,int> at +0xC via lower_bound.
 // Evidence: unlock lane, rowed _M_lower_bound 0x00382A92 and rowed _M_decrement 0x000242C0, add eax+0x14 returns mapped value, callers at 0x002BCB4C and 0x004F68E5.
 #include <map>
+// map<int,int> empty, tree-iterator ++/-- and != are expanded inline here; their
+// out-of-line copies differ from retail's. Declared imported and force-inlined,
+// they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool _Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::empty() const { return _M_node_count == 0; }
+template <> __declspec(dllimport) __forceinline
+bool map<int, int, less<int>, allocator<pair<const int, int> > >::empty() const { return _M_t.empty(); }
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator++()
+{ _M_node = _Rb_global_inst::_M_increment(_M_node); return *this; }
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator--()
+{ _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; }
+}
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline

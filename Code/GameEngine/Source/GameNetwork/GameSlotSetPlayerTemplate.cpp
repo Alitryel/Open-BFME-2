@@ -13,6 +13,26 @@
 // and 0x401C19 gate the call on the inlined getPlayerTemplateCount
 // ([0xDFE0D0]+0x10-[0xDFE0D0]+0x0C)/0x1DC. No new pins.
 #include <map>
+// map<int,int> empty, tree-iterator ++/-- and != are expanded inline here; their
+// out-of-line copies differ from retail's. Declared imported and force-inlined,
+// they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool _Rb_tree<int, pair<const int, int>, _Select1st<pair<const int, int> >, less<int>, allocator<pair<const int, int> > >::empty() const { return _M_node_count == 0; }
+template <> __declspec(dllimport) __forceinline
+bool map<int, int, less<int>, allocator<pair<const int, int> > >::empty() const { return _M_t.empty(); }
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator++()
+{ _M_node = _Rb_global_inst::_M_increment(_M_node); return *this; }
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &
+_Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::operator--()
+{ _M_node = _Rb_global_inst::_M_decrement(_M_node); return *this; }
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits> &a, const _Rb_tree_iterator<T, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+}
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline

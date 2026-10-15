@@ -20,6 +20,17 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <vector>
 
+// vector<void*> const begin/end/size are expanded inline here; their out-of-line copies
+// would differ from retail's. Declared imported and force-inlined, they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *const *vector<void *>::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void *const *vector<void *>::end() const { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void *>::size() const { return size_t(this->_M_finish - this->_M_start); }
+}
+
 class ModuleData;
 
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"

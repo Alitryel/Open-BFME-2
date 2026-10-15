@@ -8,6 +8,17 @@
 // scalar operator delete 0x0002FD60 on the returned pointer.
 #include <vector>
 
+// vector<void*> begin/end/clear are expanded inline here; their out-of-line copies
+// would differ from retail's. Declared imported and force-inlined, they are not emitted.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+void vector<void *>::clear() { erase(begin(), end()); }
+}
+
 class Rva00427611Element
 {
 public:

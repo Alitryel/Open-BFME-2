@@ -616,56 +616,9 @@ void Player::setBuildList(BuildListInfo *pBuildList)
 
 //=============================================================================
 
-//=============================================================================
-// ?Player::update present-unmatched
-void Player::update()
-{
-	if (m_ai)
-		m_ai->update();
-
-	// Allow the teams this player owns to update themselves.
-	for( PlayerTeamList::iterator it = m_playerTeamPrototypes.begin(); it != m_playerTeamPrototypes.end(); ++it ) 
-	{
-		for( BfmeTeamIter iter = bfmeTeamInstances(*it); !iter.done(); iter.advance() ) 
-		{
-			Team *team = iter.cur();
-			if( !team ) 
-			{
-				continue;
-			}
-			team->updateGenericScripts();
-		}
-	}
-
-	if( m_energy.getPowerSabotagedTillFrame() != 0 && TheGameLogic->getFrame() > m_energy.getPowerSabotagedTillFrame() )
-	{
-		m_energy.setPowerSabotagedTillFrame( 0 ); //Tells us we're no longer sabotaged for above check.
-		onPowerBrownOutChange( !m_energy.hasSufficientPower() );
-	}
-
-	//Update the academy stats (this only checks applicable things that require a polling method)
-	getAcademyStats()->update();
-
-	//Kris: August 25, 2003 (DAY OF CODE LOCK -- NO NEW FEATURES, REALLY!)
-	if( ThePlayerList->getLocalPlayer() == this )
-	{
-		UnsignedInt now = TheGameLogic->getFrame();
-		//Only check and post the message once every second so we don't spam the message stream to account for lag.
-		if( now % LOGICFRAMES_PER_SECOND == 0 )
-		{
-			if( TheGlobalData->m_clientRetaliationModeEnabled != isLogicalRetaliationModeEnabled() )
-			{
-				//Post a logical message that will switch the retaliation mode on or off.
-				GameMessage *msg = TheMessageStream->appendMessage( GameMessage::MSG_ENABLE_RETALIATION_MODE );
-				if( msg )
-				{
-					msg->appendIntegerArgument( m_playerIndex );
-					msg->appendBooleanArgument( TheGlobalData->m_clientRetaliationModeEnabled );
-				}
-			}
-		}
-	}
-}
+// Player::update is defined with its retail-matched body in Code/GameEngine/Source/Common/RTS/PlayerUpdate.cpp (0x002AE770).
+// getAcademyStats (row 0x000B6464) was only emitted through the removed update body; keep this unit emitting it.
+static AcademyStats* (Player::*bfmePlayerAcademyStatsAnchor)() = &Player::getAcademyStats;
 
 // Player::newMap is recovered in PlayerNewMapBFME2.cpp from the native
 // slot-15 callee at 0x002B0D00. The previous unpinned BFME1-shaped body

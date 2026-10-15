@@ -18,6 +18,13 @@ bool istreambuf_iterator<char, char_traits<char> >::equal(const istreambuf_itera
 }
 
 #include <cstddef>
+// __get_monetary_value is retail 0x00011E30 (stlport_narrow_get_monetary_value.cpp); this unit only calls it.
+// bfme link decl-only begin
+namespace _STL { template <> bool __get_monetary_value<istreambuf_iterator<char, char_traits<char> >, back_insert_iterator<basic_string<char, char_traits<char>, allocator<char> > >, char>(istreambuf_iterator<char, char_traits<char> > &, istreambuf_iterator<char, char_traits<char> >, back_insert_iterator<basic_string<char, char_traits<char>, allocator<char> > >, ctype<char> const &, char, int, char, basic_string<char, char_traits<char>, allocator<char> > const &, bool &); }
+// back_insert_iterator<string>::operator= (row 0x00019160) was emitted only through the removed copy above.
+namespace _STL { typedef back_insert_iterator<basic_string<char, char_traits<char>, allocator<char> > > bfmeMoneyGetOutIt;
+static bfmeMoneyGetOutIt &(bfmeMoneyGetOutIt::*bfmeMoneyGetOutAssign)(const char &) = &bfmeMoneyGetOutIt::operator=; }
+// bfme link decl-only end
 // bfme link decl-only begin
 namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::_M_insert_aux(char *, char); }
 // bfme link decl-only end
