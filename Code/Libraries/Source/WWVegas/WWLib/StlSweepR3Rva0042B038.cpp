@@ -24,9 +24,24 @@ static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
 { return a._M_node != b._M_node; }
 }
 
-
-
 class Drawable;
+
+// Retail builds list<Drawable*> nodes from the pool at VA 0x00DBA5E0 (0x00239BD8,
+// 28B, the native body InGameUISelectDrawable.cpp and its siblings specialize).
+// Without this, the explicit instantiation emits a 29B bfmealloc-allocator copy
+// that is first in link order and wins over every consumer's retail-shaped one.
+class FreelistPool { public: void *pop(); };
+extern FreelistPool g_freelistPool00DBA5E0;
+namespace _STL
+{
+template <> __declspec(noinline) _List_node<Drawable *> *
+list<Drawable *>::_M_create_node(Drawable *const &value)
+{
+    _List_node<Drawable *> *node = (_List_node<Drawable *> *)g_freelistPool00DBA5E0.pop();
+    _Construct(&node->_M_data, value);
+    return node;
+}
+}
 
 
 // Instantiate the recovered member; retain only its required template dependencies.
