@@ -1,8 +1,17 @@
-// ??0View@@QAE@XZ
-// partial score=0.9812862414338428 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
-// ZH View constructor supplies class identity, ID allocation and fields through
-// camera controls. Native 25EDE6..25EEF5 proves target offsets and extra defaults.
+// BFME2 View::View, retail RVA 0x0025EDE6 (271 bytes, RET).
+// Target evidence: native 25EDE6..25EEF5 stores the View vftable 0x00BF6178,
+// takes the id from View::m_idNext (0x00DBA970) and post-increments it, and
+// zero/one-fills every field through +0xB0 (FOV 0.87266463 at +0x6C,
+// 1.0 at +0x9C..+0xA8, bytes +0x44/+0x75 set).
+// Donor: Zero Hour View::View supplies the class identity, the id allocation
+// and the field names through the camera controls; fields past ZH's layout
+// keep offset names. Structural inference from the WorldBuilder twin
+// 0x00AA09F0 (unnamed, same stores in offset order): the position (+0x0C),
+// guard-band bias (+0x78), the one-dword member at +0x80 and the triple at
+// +0x8C are each set through an inline member call. Those inline members
+// give retail's store schedule (the +0x8C address computed after the +0x80
+// store). The member types are structural views, not recovered names.
 class View {
 public:
  virtual ~View();
@@ -16,7 +25,9 @@ public:
  float m_defaultAngle,m_defaultPitchAngle,m_currentHeightAboveGround,m_terrainHeightUnderCamera;
  unsigned m_cameraLock;void *m_cameraLockDrawable;int m_lockType;float m_lockDist,m_heightAboveGround,m_FOV,m_unknown70;
  bool m_mouseLocked,m_okToAdjustHeight,m_snapImmediate;
- float m_guardBandBias[2];void *m_unknown80;bool m_unknown84;unsigned m_unknown88;
+ struct Bias {float x,y; void zero(){x=0;y=0;}} m_guardBandBias;
+ struct Handle {void *p; Handle &operator=(void *v){p=v;return *this;}} m_unknown80;
+ bool m_unknown84;unsigned m_unknown88;
  struct Triple {int x,y,z; void zero(){x=0;y=0;z=0;}} m_unknown8c;
  float m_unknown98,m_unknown9c,m_unknowna0,m_unknowna4,m_unknowna8,m_unknownac,m_unknownb0;
 };
@@ -29,6 +40,6 @@ View::View() {
  m_defaultAngle=0;m_defaultPitchAngle=0;m_currentHeightAboveGround=0;m_terrainHeightUnderCamera=0;
  m_cameraLock=0;m_cameraLockDrawable=0;m_lockType=0;m_lockDist=0;m_heightAboveGround=0;m_FOV=0.87266463f;m_unknown70=0;
  m_mouseLocked=false;m_okToAdjustHeight=true;m_snapImmediate=false;
- m_guardBandBias[0]=0;m_guardBandBias[1]=0;m_unknown80=0;m_unknown84=false;m_unknown88=0;
+ m_guardBandBias.zero();m_unknown80=0;m_unknown84=false;m_unknown88=0;
  m_unknown8c.zero();m_unknown98=0;m_unknown9c=1;m_unknowna0=1;m_unknowna4=1;m_unknowna8=1;m_unknownac=0;m_unknownb0=0;
 }

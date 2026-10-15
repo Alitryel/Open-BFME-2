@@ -1,8 +1,10 @@
+// ?parseCastleTemplateMaps@SidesList@@QAEXXZ
+// partial score=0.93 date=2026-10-15
 // ?rva0032F84F@Rva0032F84F@@QAEXXZ
 // partial score=0.9 date=2026-10-15
 // ?parseCastleTemplateMaps@SidesList@@QAEXXZ
 // partial score=0.8581 date=2026-10-14
-// cl: /EHsc /MD /DBFME_ASCII_DTOR_DECL /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
+// cl: /O1 /G7 /arch:SSE /EHsc /MD /DBFME_ASCII_DTOR_DECL /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 // stlport
 //
@@ -130,7 +132,7 @@ class ChunkInputStream
 class Rva00240000 : public ChunkInputStream
 {
 public:
-	Rva00240000();						// 0x00240000
+	Rva00240000() throw();						// 0x00240000
 	~Rva00240000();						// 0x0023F4F0
 	bool rva00308050(AsciiString path);	// 0x00308050, open
 
