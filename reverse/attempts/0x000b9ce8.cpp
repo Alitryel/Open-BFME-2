@@ -1,4 +1,6 @@
 // ?setTerrainDecal@W3DModelDraw@@UAEXW4TerrainDecalType@@@Z
+// partial score=0.8008421052631579 date=2026-10-15
+// ?setTerrainDecal@W3DModelDraw@@UAEXW4TerrainDecalType@@@Z
 // partial score=0.8066296330024587 date=2026-10-10
 // ?setTerrainDecal@W3DModelDraw@@UAEXW4TerrainDecalType@@@Z
 // partial score=0.7 date=2026-10-04
@@ -190,6 +192,6 @@ void W3DModelDraw::setTerrainDecal(TerrainDecalType type)
 		m_terrainDecal = TheProjectedShadowManager->addDecal(m_renderObject,&decalInfo,0,0);
 	if (m_terrainDecal)
 	{	m_terrainDecal->enableShadowInvisible(m_fullyObscuredByShroud);
-		m_terrainDecal->enableShadowRender(m_shadowEnabled && !m_bfme4B);
+		m_terrainDecal->enableShadowRender((1 ? (m_shadowEnabled && !m_bfme4B) : (m_shadowEnabled && !m_bfme4B)));
 	}
 }
