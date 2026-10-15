@@ -362,12 +362,15 @@ public:
 	virtual ~Rva0090088();
 };
 
-extern unsigned g_Va00DE2084;
+// Owned by W3DFontCharsCache.cpp; teardown keeps its rowed receiver view.
+class FontCharsClass;
+template <class T> class SimpleDynVecClass;
+extern SimpleDynVecClass<FontCharsClass *> BfmeFontCharsCache;
 
-// ?rva007B6C2A@@YAXXZ @ 0x007B6C2A (10B). Global Rva0090088 dtor thunk: ecx=&g_Va00DE2084 then tail-jmp to rowed ??1Rva0090088@@UAE@XZ (0x00090088).
+// ?rva007B6C2A@@YAXXZ @ 0x007B6C2A (10B). Font-cache dtor thunk: ecx=&BfmeFontCharsCache then tail-jmp to rowed ??1Rva0090088@@UAE@XZ (0x00090088).
 void __cdecl rva007B6C2A()
 {
-	Rva0090088 *p = (Rva0090088 *)&g_Va00DE2084;
+	Rva0090088 *p = (Rva0090088 *)&BfmeFontCharsCache;
 	return p->Rva0090088::~Rva0090088();
 }
 

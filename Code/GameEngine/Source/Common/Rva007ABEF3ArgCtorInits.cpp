@@ -135,7 +135,9 @@ extern unsigned g_Va00E06618;
 extern unsigned g_Va00E0661C;
 extern unsigned g_Va00DF2984;
 extern unsigned g_Va00E00944;
-extern unsigned g_Va00DE2084;
+// Owned by W3DFontCharsCache.cpp; the initializer uses the existing ABI view.
+class FontCharsClass;
+extern SimpleDynVecClass<FontCharsClass *> BfmeFontCharsCache;
 
 typedef DynamicVectorClass<Curve3DClass::KeyClass> KeyVector;
 typedef VectorClass<Vector3> Vector3Vector;
@@ -292,6 +294,6 @@ void Rva007ABEF3ArgCtorInits::rva007AE806()
 // 0x007AC0FA (24B): SimpleDynVecClass<BfmePod4>(0) on VA 0x00DE2084, atexit(0x007B6C2A -> its dtor 0x00090088)
 void Rva007ABEF3ArgCtorInits::rva007AC0FA()
 {
-	( (Pod4Vector *)&g_Va00DE2084 )->Pod4Vector::SimpleDynVecClass( 0 );
+	( (Pod4Vector *)&BfmeFontCharsCache )->Pod4Vector::SimpleDynVecClass( 0 );
 	atexit( rva007B6C2A );
 }

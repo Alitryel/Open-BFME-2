@@ -40,7 +40,9 @@ public:
 	virtual ~FontLibrary();
 };
 
-extern unsigned int g_Va00DE2084;
+// The cache worker owns this sixteen-byte object at VA 0x00DE2084.
+class FontCharsClass;
+extern SimpleDynVecClass<FontCharsClass *> BfmeFontCharsCache;
 
 class W3DFontLibrary : public FontLibrary
 {
@@ -52,7 +54,7 @@ public:
 // the anchor keeps the noinline body emitted.
 __declspec(noinline) inline W3DFontLibrary::~W3DFontLibrary()
 {
-	SimpleDynVecClass<BfmePod4> *fonts = (SimpleDynVecClass<BfmePod4> *)&g_Va00DE2084;
+	SimpleDynVecClass<BfmePod4> *fonts = (SimpleDynVecClass<BfmePod4> *)&BfmeFontCharsCache;
 	for (int i = 0; i < fonts->ActiveCount; ++i)
 	{
 		RefCountedFont *font = (RefCountedFont *)fonts->Vector[i].a[0];
