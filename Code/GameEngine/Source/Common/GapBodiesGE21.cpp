@@ -111,15 +111,16 @@ void *__cdecl operator new[](unsigned int size, const char *, int)
 	return __gameMemAllocatePtr(size, 2, 0);
 }
 
-// --- 0x0002FFA0 (25B): run the rowed resolver 0x00030730, register the
-// slot at VA 0x00DE040C with atexit, then tail-call the slot at VA 0x00DE0410.
-void Rva00030730Init();
+// --- 0x0002FFA0 (25B): run the resolver 0x00030730 (its WorldBuilder
+// identity MemoryPool::InitFunctionPointers), register the slot at
+// VA 0x00DE040C with atexit, then tail-call the slot at VA 0x00DE0410.
+namespace MemoryPool { void InitFunctionPointers(); }
 extern void *g_00DE040C;
 extern void *g_00DE0410;
 
 void rva0002FFA0()
 {
-	Rva00030730Init();
+	MemoryPool::InitFunctionPointers();
 	atexit((void (__cdecl *)(void))g_00DE040C);
 	((void (__cdecl *)(void))g_00DE0410)();
 }
