@@ -5738,7 +5738,6 @@ name,address,notes
 ?Rva0002FFC0Alloc@@YAPAXHH@Z,0x0002FFC0,EA-allocator-wrap-alloc-takes-size-and-ignored-arg-pushes-zero-calls-0x35080-default-for-FreelistPool-m_alloc-at-0x001EB1CB
 ?Rva0002FFE0Free@@YAXPAXH@Z,0x0002FFE0,EA-allocator-wrap-free-takes-ptr-and-ignored-arg-calls-0x338F0-default-for-FreelistPool-m_free-at-0x001EB1CB
 ?Rva00030830FreeAllocation@@YAXPAX@Z,0x00030830,"Native record dtor288BF9 calls rowed GameMemory _free30830/17. One cdecl pointer argument; C++ call route retains EH state transition seen in target. Alias binds existing verified _free provider. Original source spelling unknown."
-?Rva00031420Callback@@YAXPBD@Z,0x00031420,Target allocator ctor33B90 installs this callback at4C0 with this context4C4; callback forwards first stack argument to OutputDebugStringA then plain ret
 ?Rva000327D0Assertion@@YAXPBD@Z,0x000327D0,Target allocator ctor33B90 installs this callback at4B8 with this context4BC; callback forwards first stack argument to OutputDebugStringA then int3 and plain ret
 ?Rva00055864Free@Rva00056DA2@@AAEXPAURva00055864Node@@@Z,0x00055864,thiscall twin of rowed __stdcall Rva00055864Free at 0x55864; target caller 0x56DA2 loads ecx=this before the body that ignores it
 ?Rva00077140@@YAHHH@Z,0x0022CB03,callee of ??9Rva00077710Value@@QBE_NABV0@@Z at retail 0x0022CF4C read from its REL32 displacement; body rowed under this name in BigObfHookWrappers.cpp

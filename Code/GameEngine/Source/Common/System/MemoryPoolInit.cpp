@@ -37,7 +37,7 @@ template<int N> struct AllocatorZeroWords
     AllocatorZeroWords() { memset(words, 0, sizeof(words)); }
 };
 void Rva000327D0Assertion(const char *);
-void Rva00031420Callback(const char *);
+void rva00031420(const char *);
 
 // The lock the allocator creates on first setup: a CRITICAL_SECTION at +0
 // whose initialize/addref/release helpers are the rowed 0x30D90/0x30DD0/
@@ -115,7 +115,7 @@ Rva00033B90Allocator::Rva00033B90Allocator(
 {
     m_4b8 = Rva000327D0Assertion;
     m_4bc = this;
-    m_4c0 = Rva00031420Callback;
+    m_4c0 = rva00031420;
     m_4c4 = this;
     rva00033700(a, size, b, c, d, e);
 }
