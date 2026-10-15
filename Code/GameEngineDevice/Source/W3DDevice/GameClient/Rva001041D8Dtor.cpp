@@ -3,7 +3,7 @@
 // Destructor of the 0x88-byte object whose constructor is the rowed
 // ??0Rva0010461F@@QAE@XZ (0x0010461F; same vtables 0x00BCF770 / 0x00BCF760
 // stored here and there) and whose scalar deleting destructor 0x00104723
-// and -0xC thunk 0x001042C7 are rowed under Rva001041D8. Body: when both the
+// and -0xC thunk 0x001042C7 are rowed under Rva0010461F. Body: when both the
 // scene (+0x14) and the model (+0x1C) exist and the model is in a scene
 // (render object slot 123 = Is_In_Scene as in HLodClassDetachAdditional)
 // the scene removes it (slot 3); then the model (+0x1C) the +0x18 object and
@@ -119,10 +119,10 @@ private:
 	void *m_holder; // +0x10
 };
 
-class Rva001041D8 : public Rva002D3573
+class Rva0010461F : public Rva002D3573
 {
 public:
-	virtual ~Rva001041D8();
+	virtual ~Rva0010461F();
 
 private:
 	Rva001041D8Scene *m_scene; // +0x14
@@ -135,7 +135,7 @@ private:
 	Coord2D m_68[4];
 };
 
-Rva001041D8::~Rva001041D8()
+Rva0010461F::~Rva0010461F()
 {
 	if (m_scene != 0 && m_model != 0 && m_model->Is_In_Scene())
 		m_scene->Remove_Render_Object(m_model);

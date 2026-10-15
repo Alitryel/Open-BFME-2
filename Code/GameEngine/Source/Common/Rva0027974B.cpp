@@ -18,10 +18,10 @@ class Rva0036CA00Str {public:
  void assign(const Rva0036CA00Str&);
  OpaqueRefCounted*item;
 };
-class Rva00433390 {public:virtual ~Rva00433390();Rva00433390(int);char unknown[0xD0-4];};
+class Rva004333C0 {public:virtual ~Rva004333C0();Rva004333C0(int);char unknown[0xD0-4];};
 Rva0036CA00Str Rva00274DD4(){
  static Rva0036CA00Str value;
- if(!value.item)((Rva000A8C9B*)&value)->rva000A8CE5((OpaqueRefCounted*)new Rva00433390(0));
+ if(!value.item)((Rva000A8C9B*)&value)->rva000A8CE5((OpaqueRefCounted*)new Rva004333C0(0));
  return value;
 }
 struct OpaqueRefElement4 { OpaqueRefCounted *referent; OpaqueRefElement4 &operator=(const OpaqueRefElement4 &); };

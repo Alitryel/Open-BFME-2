@@ -1,11 +1,11 @@
 // cl: /MD
 // ??1Rva005E8EA1@@QAE@XZ @0x005E8EA1 8B
-// Non-virtual dtor holding rowed member Rva005F83DF at +8 via tail-jmp.
+// Non-virtual dtor holding rowed member Rva005F86FE at +8 via tail-jmp.
 // Same recipe as 0x005E888A with wider pad. No vptr and no EH frame.
-class Rva005F83DF
+class Rva005F86FE
 {
 public:
-	virtual ~Rva005F83DF();
+	virtual ~Rva005F86FE();
 
 private:
 	char m_pad04[8];
@@ -18,7 +18,7 @@ public:
 
 private:
 	char m_pad00[8];
-	Rva005F83DF m_08; // +8
+	Rva005F86FE m_08; // +8
 };
 
 Rva005E8EA1::~Rva005E8EA1()

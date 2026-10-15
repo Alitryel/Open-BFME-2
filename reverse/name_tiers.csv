@@ -2397,10 +2397,10 @@ _Rva0088E1A0ShowAssertCrashDialog,0x0003D880,address,placeholder
 ?Rva0010410FWrap@@YAMM@Z,0x0010410F,address,placeholder
 ?Rva0010414CGet@@YAMPAM@Z,0x0010414C,address,placeholder
 ?name@Rva001042C1Named@@QBEPBDXZ,0x001042C1,address,placeholder
-??_ERva001041D8@@WM@AEPAXI@Z,0x001042C7,address,placeholder
+??_ERva0010461F@@WM@AEPAXI@Z,0x001042C7,address,placeholder
 ??_GRva00740555@@UAEPAXI@Z,0x001042CF,address,placeholder
 ?rva001042EB@Rva002D3573@@QAEXXZ,0x001042EB,address,placeholder
-??_GRva001041D8@@UAEPAXI@Z,0x00104723,address,placeholder
+??_GRva0010461F@@UAEPAXI@Z,0x00104723,address,placeholder
 ??1Rva00104DB0@@UAE@XZ,0x00104DB0,address,placeholder
 ?rva00104DE6@Rva00104DE6@@QAEXPBURva00104DE6Font@@@Z,0x00104DE6,address,placeholder
 ??1Rva00104E03@@UAE@XZ,0x00104E03,address,placeholder
@@ -12011,7 +12011,7 @@ _rva0060E7F0,0x00211245,address,placeholder
 ?get@Rva00433199ShrNAnd32Field@@QBEHXZ,0x00433199,address,placeholder
 ?get@Rva004331A6ShrNAnd32Field@@QBEHXZ,0x004331A6,address,placeholder
 ?selectStorage@Rva000B56F0Object@@QAEPAXXZ,0x004331B3,address,placeholder
-??0Rva00433390@@QAE@H@Z,0x00433390,address,placeholder
+??0Rva004333C0@@QAE@H@Z,0x00433390,address,placeholder
 ??1Rva004333C0@@UAE@XZ,0x004333C0,address,placeholder
 ?rva004333FE@Rva004333FE@@QAEPAXXZ,0x004333FE,address,placeholder
 ?rva00433434@Rva00433434@@QAEX_N@Z,0x00433434,address,placeholder
@@ -19377,11 +19377,11 @@ _rva005DE059,0x005DE059,address,placeholder
 ?rva005F8376@Rva005F8376@@QBEXPAI@Z,0x005F8376,address,placeholder
 ?rva005F8388@Rva005F8388@@QAEXXZ,0x005F8388,address,placeholder
 ?rva005F83B9@Rva005F83B9@@QAEXXZ,0x005F83B9,address,placeholder
-??1Rva005F83DF@@UAE@XZ,0x005F83DF,address,placeholder
+??1Rva005F86FE@@UAE@XZ,0x005F83DF,address,placeholder
 ?rva005F83F4@Rva005F83F4@@QAEXABURva005F83F4Data@@@Z,0x005F83F4,address,placeholder
 ??1Rva005F8447@@QAE@XZ,0x005F8447,address,placeholder
 ?rva005F84F7@Rva005F84F7@@QAEXH@Z,0x005F84F7,address,placeholder
-??_GRva005F83DF@@UAEPAXI@Z,0x005F851A,address,placeholder
+??_GRva005F86FE@@UAEPAXI@Z,0x005F851A,address,placeholder
 ??4Rva005F8536@@QAEAAU0@ABU0@@Z,0x005F8536,address,placeholder
 ??_GRva005F8447@@QAEPAXI@Z,0x005F8557,address,placeholder
 ?Rva005F8573Copy@@YAPAURva005F8536@@PAU1@00@Z,0x005F8573,address,placeholder

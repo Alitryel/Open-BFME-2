@@ -57,16 +57,16 @@ void Rva00577936::rva00577966()
 	return (*(Rva005C65F1 **)m_member04.m_pad)->rva005C65F1();
 }
 
-class Rva005F83DF
+class Rva005F86FE
 {
 public:
-	virtual ~Rva005F83DF();
+	virtual ~Rva005F86FE();
 
 private:
 	Rva000AD6F4 m_member04;
 };
 
-Rva005F83DF::~Rva005F83DF()
+Rva005F86FE::~Rva005F86FE()
 {
 	m_member04.clear();
 }

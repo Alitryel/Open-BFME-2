@@ -1,4 +1,4 @@
-// Rva001041BDASlot1.cpp -- Palantir/Rva001041D8 vtable slot 1, retail 0x00104BDA (409B).
+// Rva001041BDASlot1.cpp -- Palantir/Rva0010461F vtable slot 1, retail 0x00104BDA (409B).
 // Landed 409/409 from the exact bank: the identity transform is passed as an
 // argument temporary (Matrix3D 12-float ctor) and the receiver is re-read through
 // self->m_model, so cl builds the argument slot first (retail's early lea),
@@ -7,8 +7,8 @@
 // Rva001041D8Dtor.cpp; this TU owns only slot 1.
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// ?rva00104BDA@Rva001041D8@@UAEXXZ @0x00104BDA 409B
-// vtable slot 1 of the 0x88-byte Rva001041D8 object whose dtor is
+// ?rva00104BDA@Rva0010461F@@UAEXXZ @0x00104BDA 409B
+// vtable slot 1 of the 0x88-byte Rva0010461F object whose dtor is
 // 0x001041D8 and whose ctor 0x0010461F is rowed (Rva001041D8Dtor.cpp).
 // Body: when the owned asset-registry pointer 0x00E099F8 is non-null, build a
 // pointer set containing the "palantir" receiver and hand it to the rowed
@@ -129,7 +129,7 @@ public:
 	void rva002D55CA();
 };
 
-class Rva001041D8
+class Rva0010461F
 {
 public:
 	virtual void rva00104BDA();
@@ -141,9 +141,9 @@ private:
 	RenderObjClass *m_model;
 };
 
-void Rva001041D8::rva00104BDA()
+void Rva0010461F::rva00104BDA()
 {
-	Rva001041D8 *self = this;
+	Rva0010461F *self = this;
 	const char *name = "palantir";
 	if (Rva0134FAA0 != 0)
 	{
