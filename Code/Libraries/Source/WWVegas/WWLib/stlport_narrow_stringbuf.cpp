@@ -2,25 +2,26 @@
 // stlport
 
 #include <sstream>
-
 #include <cstddef>
-// bfme link decl-only begin
-namespace _STL { template <> basic_stringbuf<char, char_traits<char>, allocator<char> >::basic_stringbuf(int); }
-namespace _STL { template <> basic_stringbuf<char, char_traits<char>, allocator<char> >::~basic_stringbuf(); }
-namespace _STL { template <> void basic_stringbuf<char, char_traits<char>, allocator<char> >::_M_append_buffer() const; }
-namespace _STL { template <> int basic_stringbuf<char, char_traits<char>, allocator<char> >::_M_xsputnc(char, int); }
-namespace _STL { template <> int basic_stringbuf<char, char_traits<char>, allocator<char> >::overflow(int); }
-namespace _STL { template <> fpos<int> basic_stringbuf<char, char_traits<char>, allocator<char> >::seekoff(long, int, int); }
-namespace _STL { template <> basic_streambuf<char, char_traits<char> > * basic_stringbuf<char, char_traits<char>, allocator<char> >::setbuf(char *, int); }
-namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > basic_stringbuf<char, char_traits<char>, allocator<char> >::str() const; }
-namespace _STL { template <> int basic_stringbuf<char, char_traits<char>, allocator<char> >::uflow(); }
-namespace _STL { template <> int basic_stringbuf<char, char_traits<char>, allocator<char> >::underflow(); }
-namespace _STL { template <> int basic_stringbuf<char, char_traits<char>, allocator<char> >::xsputn(char const *, int); }
-// bfme link decl-only end
-// Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL {
-template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(char*, size_t);
-template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
+
+template <typename T>
+struct BfmeStreambufHelper : public _STL::basic_streambuf<char, _STL::char_traits<char> > {
+    void emit(char *b, char *n, char *e, int k) {
+        setg(b, n, e);
+        setp(b, e);
+        pbump(k);
+    }
+};
+
+template struct BfmeStreambufHelper<int>;
+
+extern void (BfmeStreambufHelper<int>::*const g_streambufEmit)(char *, char *, char *, int);
+void (BfmeStreambufHelper<int>::*const g_streambufEmit)(char *, char *, char *, int) = &BfmeStreambufHelper<int>::emit;
+
+template <typename T>
+void bfmeEmitFpos(_STL::fpos<int> &f, long off, int c) {
+    f += off;
+    f = f - off;
+    (void)_STL::char_traits<char>::not_eof(c);
 }
-template class _STL::basic_stringbuf<char, _STL::char_traits<char>, _STL::allocator<char> >;
+template void bfmeEmitFpos<int>(_STL::fpos<int> &, long, int);
