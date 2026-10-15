@@ -14,6 +14,14 @@
 // - init, retail 0x002D54E5 (229 bytes; WB 0x00F43B70).
 // - the subsystem's reset of the palantir's flags, retail 0x002D55EF.
 #include <map>
+// Keep the typed node test local; this unit needs no competing external
+// STLport tree-base comparison compiled under its own settings.
+namespace _STL {
+template <class Value, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits> &a,
+                              const _Rb_tree_iterator<Value, RightTraits> &b)
+{ return a._M_node != b._M_node; }
+}
 #include <list>
 
 // Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
