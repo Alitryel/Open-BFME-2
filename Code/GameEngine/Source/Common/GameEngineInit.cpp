@@ -551,7 +551,17 @@ Watchdog *createWatchdog(Int a, Int b, Int c);
 extern class BfmeDfe6e4 *theBfmeDfe6e4;
 extern bool BFME2WatchdogEnabled;
 
-class Rva00077710Value { public: void rva0022D189(Int value); Int m_a; Int m_b; };
+class Rva00077710Value
+{
+public:
+	Rva00077710Value() {}
+	Rva00077710Value(const Rva00077710Value &that) { m_b = that.m_b; }
+	void rva0022D189(Int value);
+	Bool operator!=(const Rva00077710Value &other) const;		// 0x0022CF4C
+	Rva00077710Value *rva0022D89D(Rva00077710Value &result);	// 0x0022D89D
+	Int m_a;
+	Int m_b;
+};
 Int Rva0022CC0EHook(Int a, Int b);
 void Rva0002BBC9Update();
 void Rva00419CC8Init();
@@ -628,12 +638,18 @@ public:
 	void initTiming();
 	void initSubsystems(Int argc, char *argv[]);
 
+	GameEngine();
+	virtual ~GameEngine();
+
 	Int m_maxFPS;				// +0x0C
 	Bool m_quitting;			// +0x10
-	char m_11[0x34 - 0x11];
+	Bool m_11;					// +0x11
+	Int m_14;					// +0x14
+	Int m_18[7];				// +0x18
 	Int m_34;					// +0x34
 	Int m_38;					// +0x38
-	char m_3C[0x44 - 0x3C];
+	float m_3C;					// +0x3C
+	Bool m_40;					// +0x40
 	float m_44;					// +0x44
 	float m_48;					// +0x48
 	Int m_4C;					// +0x4C
@@ -690,6 +706,50 @@ Rva001D9670Store::Rva001D9670Store()
 	((ArmorTemplateMap *)&m_mapStorage)->clear();
 	m_ready.clear();
 	m_pending.clear();
+}
+
+// Retail 0x0022DA66 (195 B): the GameEngine constructor. Zero/one field
+// defaults, a 1 ms timer period, then every slot of the +0x18 table is cleared
+// by walking the obfuscated index from the first slot (setter 0x0022D189) to
+// its encoded end value 0xE0092DC0 through the rowed operators 0x0022CF4C /
+// 0x0022D89D. Retail returns the first slot by value into the loop variable;
+// the copy constructor copies only +4 and, with first/slot sharing one home,
+// remains as the self-copy `mov eax,[slot+4]; mov [slot+4],eax`. The volatile
+// store keeps that self-copy (a plain one is deleted). The constant equal-arm
+// wrap of the loop condition is the other half: it re-pairs the expression
+// temps so the frame has retail's three 8-byte homes. Layout and names of
+// +0x11..+0x40 are address-derived (not independently proven).
+extern "C" __declspec(dllimport) unsigned int __stdcall timeBeginPeriod(unsigned int period);
+
+GameEngine::GameEngine()
+{
+	m_maxFPS = 0;
+	m_quitting = false;
+	m_11 = false;
+	m_14 = 0;
+	m_34 = 0;
+	m_38 = 1;
+	m_3C = 0.0f;
+	m_40 = false;
+	m_44 = 1.0f;
+	m_48 = 0.0f;
+	m_4C = 0;
+	m_50 = 0;
+	m_54 = 0;
+	m_58 = 0.0f;
+	m_5C = 0;
+	timeBeginPeriod(1);
+	Rva00077710Value slot;
+	slot.rva0022D189(0);
+	*(volatile Int *)&slot.m_b = slot.m_b;
+	Rva00077710Value end;
+	end.m_b = (Int)0xE0092DC0;
+	while ((1 ? (slot != end) : (slot != end)))
+	{
+		m_18[Rva0022CC0EHook(slot.m_b, slot.m_b)] = 0;
+		Rva00077710Value next;
+		slot.rva0022D89D(next);
+	}
 }
 
 void GameEngine::init(Int argc, char *argv[])
