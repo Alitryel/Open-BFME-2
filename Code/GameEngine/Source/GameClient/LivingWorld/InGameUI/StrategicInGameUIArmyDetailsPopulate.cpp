@@ -25,6 +25,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 void __cdecl Rva00030830GameFree(void *);
 namespace _STL {
 template<> __declspec(dllimport) __forceinline void allocator<int>::deallocate(int *p,size_t) const {if(p)Rva00030830GameFree(p);}
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<int *, int, allocator<int> >::deallocate(int *p, size_t n) { __stl_alloc_rebind(static_cast<allocator<int> &>(*this), (int *)0).deallocate(p, n); }
 }
 struct TargetRef00217D4C {void *vtable;int count;};
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
