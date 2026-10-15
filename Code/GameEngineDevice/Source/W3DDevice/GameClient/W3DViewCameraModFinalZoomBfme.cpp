@@ -1,8 +1,11 @@
-// cl: /O1 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // Ported from Open-BFME-1 6583b3c1ff21db4a561285717028fdafc780b7db.
-// cameraModFinalZoom is target W3DView vftable VA 0x00BC756C slot 30.
+// The target member is W3DView vftable VA 0x00BC756C slot 30.
+// The cameraModFinalZoom name and algorithm follow the BFME1 donor; the
+// target boundary, member offsets and virtual call slots are independently read.
 // Retail 0x000865DB..0x00086702 is 295 bytes ending in RET 12.
-// Target deltas: zoom virtual at +0xEC; cameraOffsetZ at +0x23F0;
+// Target deltas: virtual +0xEC dispatches to 0x00088F38 (original name
+// unproved), not the separately rowed zoomCamera at +0xF0; offsetZ at +0x23F0;
 // cameraLimits at +0x24C8. The source algorithm is carried from the donor.
 // getHeightAroundPos is the file-static W3DView.cpp donor helper with
 // target sampling order and a configurable sample distance at GlobalData +0xDD8.
@@ -443,7 +446,7 @@ public:
 	BFME_W3D_SLOT(51) BFME_W3D_SLOT(52) BFME_W3D_SLOT(53)
 	BFME_W3D_SLOT(54) BFME_W3D_SLOT(55) BFME_W3D_SLOT(56)
 	BFME_W3D_SLOT(57) BFME_W3D_SLOT(58)
-	virtual void zoomCamera(Real finalZoom, Int milliseconds,
+	virtual void rva00088F38(Real finalZoom, Int milliseconds,
 		Real easeIn, Real easeOut);
 	virtual void cameraModFinalZoom(Real finalZoom, Real easeIn, Real easeOut);
 	virtual void lookAt(const Coord3D *o);
@@ -508,7 +511,6 @@ private:
 
 #undef BFME_W3D_SLOT
 
-// ?cameraModFinalZoom@W3DView@@UAEXMMM@Z present-unmatched
 void W3DView::cameraModFinalZoom(Real finalZoom, Real easeIn, Real easeOut)
 {
 	Real terrainHeightMax;
@@ -519,11 +521,13 @@ void W3DView::cameraModFinalZoom(Real finalZoom, Real easeIn, Real easeOut)
 	if (m_doingRotateCamera)
 	{
 		terrainHeightMax = getHeightAroundPos(m_pos.x, m_pos.y);
-		maxHeight = terrainHeightMax + m_cameraLimits.getMaximum();
+		// Keep the equal-arm expression: MSVC 7.1 otherwise schedules the
+		// argument-slot push before the frame-count add, unlike retail.
+		maxHeight = (true ? (terrainHeightMax + m_cameraLimits.getMaximum()) : (terrainHeightMax + m_cameraLimits.getMaximum()));
 		maxZoom = maxHeight / m_cameraOffsetZ;
 
 		time = (m_rcNumFrames + m_rcNumHoldFrames - m_rcCurFrame) * TheAnimationMsPerStep;
-		zoomCamera(finalZoom * maxZoom, time, time * easeIn, time * easeOut);
+		rva00088F38(finalZoom * maxZoom, time, time * easeIn, time * easeOut);
 	}
 	if (m_cameraMovementMode == 1)
 	{
@@ -537,7 +541,7 @@ void W3DView::cameraModFinalZoom(Real finalZoom, Real easeIn, Real easeOut)
 			maxHeight = terrainHeightMax + m_cameraLimits.getMaximum();
 			maxZoom = maxHeight / m_cameraOffsetZ;
 			time = *(Int *)((char *)this + 0x284) - *(Int *)((char *)this + 0x288);
-			zoomCamera(finalZoom * maxZoom, time, time * easeIn, time * easeOut);
+			rva00088F38(finalZoom * maxZoom, time, time * easeIn, time * easeOut);
 		}
 	}
 }
