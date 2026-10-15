@@ -144,6 +144,7 @@ struct AptLevelOverrideNode {void *next; AsciiString key; int index;};
 class AptPlayer
 {
 public:
+ void RemoveOverButtonHandler(int index, const AsciiString &key);
  void OnCustomRender(const char *name, int a, int b, int c, int d);
  static int GetLevelIndex(GameWindow *window);
  GameWindow *WinCreate(const AsciiString *name,AptLayoutInfoView *layout);
@@ -675,4 +676,14 @@ void AptPlayer::OnCustomRender(const char *name, int a, int b, int c, int d)
  if (!node)
   return;
  reinterpret_cast<Rva0022297BRef *>(static_cast<char *>(node) + 8)->invoke(a, b, c, d);
+}
+
+class Rva00223591 { public: int rva00223736(const AsciiString *key); };
+// WB B92650 names the indexed overload and asserts 14 levels. Native
+// 2245FF..22464C proves a copied key and the +DC table at stride 0x28.
+void AptPlayer::RemoveOverButtonHandler(int index, const AsciiString &key)
+{
+ AsciiString copy(key);
+ Rva00223591 *table = reinterpret_cast<Rva00223591 *>(m_levelData[index].m_pad10);
+ table->rva00223736(&copy);
 }

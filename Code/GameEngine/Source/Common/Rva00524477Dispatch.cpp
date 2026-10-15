@@ -44,8 +44,8 @@ public:
 }
 typedef _STL::vector<CameraMarker, _STL::allocator<CameraMarker> > CameraMarkerVector;
 
-// Row spelling: 0x002245FF is Rva002245FF::RemoveOverButtonHandler.
-class Rva002245FF
+// Row spelling: 0x002245FF is AptPlayer::RemoveOverButtonHandler.
+class AptPlayer
 {
 public:
 	void RemoveOverButtonHandler(int a1, const AsciiString &name);
@@ -63,7 +63,7 @@ struct Holder00524477
 
 void Holder00524477::Rva00524477(int a1, int a2)
 {
-	if ((*(Rva002245FF **)&g_bfmeAptWindowManager) == 0)
+	if ((*(AptPlayer **)&g_bfmeAptWindowManager) == 0)
 		return;
 	char buf[8];
 	Out00524477 *out = (Out00524477 *)buf;
@@ -74,6 +74,6 @@ void Holder00524477::Rva00524477(int a1, int a2)
 	((AsciiString *)(buf + 4))->~AsciiString();
 	if (rr == m_10)
 		return;
-	(*(Rva002245FF **)&g_bfmeAptWindowManager)->RemoveOverButtonHandler(a1, *(const AsciiString *)a2);
+	(*(AptPlayer **)&g_bfmeAptWindowManager)->RemoveOverButtonHandler(a1, *(const AsciiString *)a2);
 	((CameraMarkerVector *)&m_C)->erase((CameraMarker *)rr);
 }

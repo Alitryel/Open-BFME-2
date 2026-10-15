@@ -15,13 +15,9 @@ class AptPlayer
 {
 public:
 	void RemoveOverButtonHandler(const AsciiString &key);
-};
-
-class Rva002245FF
-{
-public:
 	void RemoveOverButtonHandler(int idx, const AsciiString &key);
 };
+
 
 class Rva002246B1
 {
@@ -75,7 +71,7 @@ void Rva00524021::rva00523F8C()
 		m_end1->clear();
 	}
 	while (m_begin2 != m_end2) {
-		((Rva002245FF *)(*(Rva00222A8BTarget **)&g_bfmeAptWindowManager))->RemoveOverButtonHandler(*(int *)((char *)m_end2 - 8), *(const AsciiString *)((char *)m_end2 - 4));
+		((AptPlayer *)(*(Rva00222A8BTarget **)&g_bfmeAptWindowManager))->RemoveOverButtonHandler(*(int *)((char *)m_end2 - 8), *(const AsciiString *)((char *)m_end2 - 4));
 		--m_end2;
 		m_end2->~CameraMarker();
 	}
