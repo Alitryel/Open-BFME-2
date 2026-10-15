@@ -1,17 +1,5 @@
 // ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
-// partial score=0.8 date=2026-10-14
-// ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
-// partial score=0.8 date=2026-10-14
-// W7-MP6 r10: first-line symbol corrected AND the factory call now uses the rowed by-value
-// ?Rva005CEC8FCreate@@YA?AVRva005CEC8F@@PBUPayload@Rva005CEAE6@@@Z (0x5CEC8F); the old
-// pointer-returning spelling had no pin, so the bank could never verify. Direct compile is
-// size-exact 525B with nd106 (the old 0.97 was Lab2 alias-binding, not a direct compile).
-// ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
-// partial score=0.9443093203093204 date=2026-10-13
-// ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
-// partial score=0.9443093203093204 date=2026-10-09
-// ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z
-// partial score=0.773 date=2026-10-09
+// partial score=0.9 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /Oy- /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 #include <vector>
@@ -194,7 +182,7 @@ extern Rva0022C0CDSubsystem *TheLivingWorldBuildingTemplateStore;
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 struct LivingWorldActivePlayerView {char gap[0x98];void *player;};
-struct LivingWorldPlayerKeyView {char gap[0x40];int key;};
+struct LivingWorldPlayerKeyView {char gap[0x40];int key;int getKey()const{return key;}};
 class Rva002E2903Player;
 class Rva002BA8F1Logic {public:Rva002E2903Player *find(int,unsigned*);};
 class Rva0042D6E6PtrChaseField {public:int get()const;};
@@ -250,8 +238,8 @@ Rva005CEF2F::Rva005CEF2F(Rva005CF22CBig*b,int value):Rva005CE8F5(b),selection(va
   if(button){
    _STL::vector<ScienceType> keys;
    void *player=((LivingWorldActivePlayerView*)TheLivingWorldLogic)->player;
+   ((Rva002E02F0*)TheLivingWorldBuildingTemplateStore)->rva002E02F0(((LivingWorldPlayerKeyView*)player)->getKey(),&keys);
    int slot=1;
-   ((Rva002E02F0*)TheLivingWorldBuildingTemplateStore)->rva002E02F0(((LivingWorldPlayerKeyView*)player)->key,&keys);
    _STL::vector<ScienceType>::iterator end=keys.end();
    for(_STL::vector<ScienceType>::iterator it=keys.begin();it!=end;++it){
     ArmorTemplate *building=((Rva002B6498*)TheLivingWorldBuildingTemplateStore)->rva002B6498((NameKeyType)*it);
