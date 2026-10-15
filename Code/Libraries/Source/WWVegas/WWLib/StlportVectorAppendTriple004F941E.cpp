@@ -21,7 +21,13 @@ public:
 };
 }
 
-void rva004F7767(void *a, void *b, bool c);
+struct Rva004F6966;
+struct Rva004F81DBGreater { bool m_flag; };
+namespace _STL
+{
+template <class RandomAccessIterator, class Compare>
+void push_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+}
 
 class Rva004F941E
 {
@@ -35,5 +41,5 @@ private:
 void Rva004F941E::rva004F941E(const Rva004F9018Element &e)
 {
 	m_vec.push_back(e);
-	rva004F7767(m_vec._M_start, m_vec._M_finish, m_C);
+	_STL::push_heap((Rva004F6966 *)m_vec._M_start, (Rva004F6966 *)m_vec._M_finish, *(Rva004F81DBGreater *)&m_C);
 }
