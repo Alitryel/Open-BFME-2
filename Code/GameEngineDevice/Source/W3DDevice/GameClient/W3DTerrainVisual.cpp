@@ -852,48 +852,7 @@ Int W3DTerrainVisual::getRawMapHeight(const ICoord2D *gridPos)
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-// ?W3DTerrainVisual::addFactionBib present-unmatched
-void W3DTerrainVisual::addFactionBib(Object *factionBuilding, Bool highlight, Real extra)
-{
-#ifdef DO_SEISMIC_SIMULATIONS
-	if (m_clientHeightMap) 
-#else
-	if (m_logicHeightMap) 
-#endif
-  {
-		const Matrix3D * mtx = factionBuilding->getTransformMatrix();
-		Vector3 corners[4];
-		Coord3D pos;
-		pos.set(0,0,0);
-		Real exitWidth = factionBuilding->getTemplate()->getFactoryExitWidth();
-		Real extraWidth = factionBuilding->getTemplate()->getFactoryExtraBibWidth() + extra;
-		// Bound by reference: copying would emit Zero Hour's implicit GeometryInfo
-		// copy ctor, which is not BFME 2's out-of-line 0x000929E8.
-		const GeometryInfo &info = factionBuilding->getGeometryInfo();
-		Real sizeX = info.getMajorRadius();
-		Real sizeY = info.getMinorRadius();
-		if (info.getGeomType() != GEOMETRY_BOX) {
-			sizeY = sizeX;
-		}
-		corners[0].Set(pos.x, pos.y, pos.z);
-		corners[0].X -= sizeX+extraWidth;
-		corners[0].Y -= sizeY+extraWidth;
-		corners[1].Set(pos.x, pos.y, pos.z);
-		corners[1].X += sizeX+exitWidth+extraWidth;
-		corners[1].Y -= sizeY+extraWidth;
-		corners[2].Set(pos.x, pos.y, pos.z);
-		corners[2].X += sizeX+exitWidth+extraWidth;
-		corners[2].Y += sizeY+extraWidth;
-		corners[3].Set(pos.x, pos.y, pos.z);
-		corners[3].X -= sizeX+extraWidth;
-		corners[3].Y += sizeY+extraWidth;
-		mtx->Transform_Vector(*mtx, corners[0], &corners[0]);
-		mtx->Transform_Vector(*mtx, corners[1], &corners[1]);
-		mtx->Transform_Vector(*mtx, corners[2], &corners[2]);
-		mtx->Transform_Vector(*mtx, corners[3], &corners[3]);
-		m_terrainRenderObject->addTerrainBib(corners, factionBuilding->getID(), highlight);
-	}
-}
+// W3DTerrainVisual::addFactionBib is rowed in W3DTerrainVisualAddFactionBibDrawable.cpp.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------

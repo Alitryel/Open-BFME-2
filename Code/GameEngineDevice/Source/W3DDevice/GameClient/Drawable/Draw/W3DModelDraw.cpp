@@ -1102,33 +1102,7 @@ void ModelConditionInfo::clear()
 
 //-------------------------------------------------------------------------------------------------
 // ??0W3DModelDrawModuleData@@ present-unmatched
-W3DModelDrawModuleData::W3DModelDrawModuleData() : 
-	m_validated(0),
-	m_okToChangeModelColor(false),
-  m_particlesAttachedToAnimatedBones(false),
-	m_animationsRequirePower(true),
-#ifdef CACHE_ATTACH_BONE
-	m_attachToDrawableBoneOffsetValid(false),
-#endif
-	m_minLODRequired(STATIC_GAME_LOD_LOW),
-	m_defaultState(-1)
-{
-	const Real MAX_SHIFT = 3.0f;			
-	const Real INITIAL_RECOIL_RATE = 2.0f;	
-	const Real RECOIL_DAMPING = 0.4f;	
-	const Real SETTLE_RATE = 0.065f;		
-
-	m_projectileBoneFeedbackEnabledSlots = 0;
-	m_initialRecoil = INITIAL_RECOIL_RATE;
-	m_maxRecoil = MAX_SHIFT;
-	m_recoilDamping = RECOIL_DAMPING;
-	m_recoilSettle = SETTLE_RATE;
-
-
-  m_receivesDynamicLights = TRUE;
-
-	// m_ignoreConditionStates defaults to all zero, which is what we want
-}
+// The W3DModelDrawModuleData ctor is rowed in W3DModelDrawModuleDataDtorRva000C8BE0.cpp.
 
 //-------------------------------------------------------------------------------------------------
 // ?validateStuffForTimeAndWeather@W3DModelDrawModuleData@@ present-unmatched
