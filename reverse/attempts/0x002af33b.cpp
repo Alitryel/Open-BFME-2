@@ -1,4 +1,6 @@
 // ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
+// partial score=0.98 date=2026-10-15
+// ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
 // partial score=0.9759 date=2026-10-14
 // ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
 // partial score=0.9759 date=2026-10-14
@@ -6,7 +8,13 @@
 // partial score=0.975902 date=2026-10-10
 // ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z
 // partial score=0.95 date=2026-10-09
-// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// seat4 2026-10-15: visible stub hashtable begin (0x00427195) and cursor
+// next/advance (0x00411084/0x003F7925) bodies (byte-identical spellings, see
+// PlayerUpdate.cpp) plus a scoped save count: frame 0x18 like retail; left
+// are slot-only differences (retail packs the begin() temp over the load
+// path key at -0x10 and keeps count/value adjacent at -0x18/-0x1c).
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// stlport
 //
 // ?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z, retail
 // 0x002AF33B..0x002AF438 (253B), thiscall ret 8 (this unused).
@@ -29,6 +37,7 @@
 // Float-valued twin 0x002AF236 (xferReal at +0x70) sits right above it.
 // The method name stays address-derived.
 #include "ascii_string.h"
+#include <vector>
 
 typedef int Int;
 typedef unsigned int UnsignedInt;
@@ -90,19 +99,57 @@ template <class V, class Tr, class K, class HF, class ExK, class EqK, class A>
 struct _Ht_iterator
 {
 	_Ht_iterator() {}
+	_Ht_iterator(void *cur, void *ht) : _M_cur(cur), _M_ht(ht) {}
+	_Ht_iterator(const _Ht_iterator &o) : _M_cur(o._M_cur), _M_ht(o._M_ht) {}
 	void *_M_cur;
 	void *_M_ht;
 };
 }
 typedef _STL::pair<GameWindow const *const, WindowVideo *> WVPair;
 typedef _STL::_Ht_iterator<WVPair, _STL::_Nonconst_traits<WVPair>, const GameWindow *, WindowVideoManager::hashConstGameWindowPtr, _STL::_Select1st<WVPair>, _STL::equal_to<const GameWindow *>, _STL::allocator<WVPair> > WVIter;
+class Rva000427195
+{
+public:
+	int bucketIndex(const AsciiString *name);	// 0x00223149
+};
 class Rva000411084
 {
 public:
 	Rva000411084() {}
 	Rva000411084 &operator=(const WVIter &o) { m_current = o._M_cur; m_owner = o._M_ht; return *this; }
 	Rva000411084(const WVIter &o) : m_current(o._M_cur), m_owner(o._M_ht) {}
-	void *next();
+	__declspec(noinline) void *next()					// 0x00411084
+	{
+		void *node = *(void **)m_current;
+		if (node == 0)
+			node = advance();
+		m_current = node;
+		return this;
+	}
+	__declspec(noinline) void *advance()				// 0x003F7925
+	{
+		struct Table
+		{
+			void *m_unused00;
+			union {
+				void **m_beginBuckets;
+				void ** volatile m_beginBucketsVolatile;
+			};
+			void **m_endBuckets;
+			int bucketIndex(const AsciiString *name);
+		};
+		Table *table = (Table *)m_owner;
+		unsigned index = (unsigned)((Rva000427195 *)table)->bucketIndex((const AsciiString *)((char *)m_current + 4));
+		unsigned count = (unsigned)(((char *)table->m_endBuckets - (char *)table->m_beginBuckets) >> 2);
+		void *head = 0;
+		do {
+			++index;
+			if (index >= count)
+				break;
+			head = table->m_beginBucketsVolatile[index];
+		} while (head == 0);
+		return head;
+	}
 
 	void *m_current;
 	void *m_owner;
@@ -114,7 +161,16 @@ template <class V, class K, class HF, class ExK, class EqK, class A>
 class hashtable
 {
 public:
-	_Ht_iterator<V, _Nonconst_traits<V>, K, HF, ExK, EqK, A> begin();
+	__declspec(noinline) _Ht_iterator<V, _Nonconst_traits<V>, K, HF, ExK, EqK, A> begin()	// 0x00427195
+	{
+		for (unsigned n = 0; n < m_buckets.size(); ++n)
+			if (m_buckets[n])
+				return _Ht_iterator<V, _Nonconst_traits<V>, K, HF, ExK, EqK, A>(m_buckets[n], this);
+		return _Ht_iterator<V, _Nonconst_traits<V>, K, HF, ExK, EqK, A>(0, this);
+	}
+	int bucketIndex(const AsciiString *name);
+	void *m_unused00;
+	vector<void *> m_buckets;
 };
 }
 typedef _STL::hashtable<WVPair, const GameWindow *, WindowVideoManager::hashConstGameWindowPtr, _STL::_Select1st<WVPair>, _STL::equal_to<const GameWindow *>, _STL::allocator<WVPair> > WVTable;
@@ -154,16 +210,18 @@ void Player::rva002AF33B(Xfer *xfer, Rva002AE4C5 *map)
 {
 	if (xfer->isSaving())
 	{
-		CountValue cv;cv.count=map->m_numElements;
-		xfer->xferUnsignedInt(cv.count);
+		{
+			UnsignedInt count = map->m_numElements;
+			xfer->xferUnsignedInt(count);
+		}
 		Rva000411084 it = ((WVMap *)map)->begin();
 		Rva002AF33BNode *node;
 		for (; (node = (Rva002AF33BNode *)it.m_current) != 0; it.next())
 		{
 			AsciiString key = node->m_key;
-			cv.value = node->m_value;
+			Int value = node->m_value;
 			xfer->xferAsciiString(key);
-			xfer->xferInt(cv.value);
+			xfer->xferInt(value);
 		}
 	}
 	else
