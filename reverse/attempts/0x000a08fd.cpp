@@ -1,4 +1,6 @@
 // ?drawStaticTextText@@YAXPAVGameWindow@@PAVWinInstanceData@@HH@Z
+// partial score=0.928724901585626 date=2026-10-15
+// ?drawStaticTextText@@YAXPAVGameWindow@@PAVWinInstanceData@@HH@Z
 // partial score=0.7 date=2026-10-14
 // ?drawStaticTextText@@YAXPAVGameWindow@@PAVWinInstanceData@@HH@Z
 // partial score=0.92 date=2026-10-06
@@ -178,7 +180,7 @@ static void drawStaticTextText( GameWindow *window, WinInstanceData *instData,
 	}
 	else
 	{
-		textPos.x = origin.x + 7;
+		textPos.x = (textHeight ? (origin.x + 7) : (origin.x + 7));
 	}
 
 	// vertical centering is unconditional in BFME

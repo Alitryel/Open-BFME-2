@@ -16,6 +16,9 @@
 // Bone at +8 plus ParachuteName at +0xC per ZH HijackerUpdate.h) pushed as
 // the factory's proc immediate.
 
+extern "C" const void *const vtbl_00BF36C0[];  // ??_7Rva0025559B@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF36C0=??_7Rva0025559B@@6B@")
+
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 
@@ -34,7 +37,7 @@ class HijackerUpdateModuleData
 public:
 	HijackerUpdateModuleData()
 	{
-		m_vtable = reinterpret_cast<void *>(0x00BF36C0);
+		m_vtable = reinterpret_cast<void *>(((unsigned int)vtbl_00BF36C0));
 		_ReadWriteBarrier();
 		m_attachBoneName = 0;
 		m_parachuteName = 0;

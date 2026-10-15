@@ -36,7 +36,9 @@ def _write(path, text):
 
 def verify(source):
     """True when ./build.sh byte-verifies every row of `source`."""
-    done = subprocess.run(["./build.sh", source], cwd=ROOT, capture_output=True, text=True)
+    command = ([sys.executable, str(ROOT / "tools" / "build.py"), source]
+               if sys.platform == "win32" else ["./build.sh", source])
+    done = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
     return done.returncode == 0 and "Functions: OK" in done.stdout
 
 

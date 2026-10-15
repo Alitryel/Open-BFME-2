@@ -20,6 +20,9 @@
 // 0x00BF2358 (AttachToTargetBone at +0x08, Envelope at +0x0C,
 // FollowTarget at +0x34). The rowed factory at 0x255601 news 0x38.
 
+extern "C" const void *const vtbl_00BF3740[];  // ??_7Rva0025558E@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00BF3740=??_7Rva0025558E@@6B@")
+
 class AsciiString
 {
 public:
@@ -79,7 +82,7 @@ void FadeAndDieOrnamentUpdateModuleData::buildFieldParse(MultiIniFieldParse &par
 
 // ??0FadeAndDieOrnamentUpdateModuleData@@QAE@XZ @0x002555AC
 inline FadeAndDieOrnamentUpdateModuleData::FadeAndDieOrnamentUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00BF3740))
+	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00BF3740)))
 	, m_attachToTargetBone()
 {
 	OrnamentData *envelope = &m_envelope;

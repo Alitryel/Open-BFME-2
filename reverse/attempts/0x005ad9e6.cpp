@@ -1,4 +1,6 @@
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
+// partial score=0.42681992337164754 date=2026-10-15
+// ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
 // partial score=0.6 date=2026-10-15
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
 // partial score=0.448 date=2026-10-15
@@ -36,10 +38,10 @@ int Rva005AD9E6::rva005AD9E6()
 {
 	Rva005AD9E6Node *head = m_head;
 	Rva005AD9E6Node *cur = head->m_next;
-	if (cur == head)
+	if ((head ? (cur == head) : (cur == head)))
 		return 0;
 	int n = 0;
-	while (((cur != head))) {
+	while ((1 ? (((cur != head))) : (((cur != head))))) {
 		
 		cur = (cur->m_next);
 		++n;

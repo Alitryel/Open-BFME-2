@@ -1,15 +1,18 @@
-// ?rva003B7C47@Rva003B573E@@QAEHABV?$StringBase@D@@@Z
-// partial score=0.93 date=2026-10-15
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// Native 0x003B7C47..0x003B7D90 329B: add-or-ref a key in the sorted string
-// record table (lower_bound 0x003B573E, rowed compare/set/push_back/reserve/
-// insert). Clean rebuild, no barrier/equal-arm hacks: frame, EH, position
-// spill [ebp-0x14], index spill [ebp-0x10] and the shared index*20 tail in EBX
-// all match retail. Only residue: retail passes &index's own slot to insert;
-// here the cast to the ModuleData* payload materialises a copy in [ebp+8]
-// (335B). A direct reference bind (reinterpret_cast / vector<long>) makes index
-// address-taken everywhere and the found path stores it (frame 0x18).
+// Native 003B7C47..003B7D90 full329B RET4; same receiver as rowed
+// search003B573E and transfer003B7F8E. WB AB2C80 labels the operation
+// ScriptSetBase<ScriptGroup>::allocateEntry and exposes integer indices,
+// indexPos and the sorted index vector. Original target specialization stays
+// uncertain; retain the established neutral ABI owner and record spelling.
+// Target-derived record: prev0 next4 name8 releasedC refsE payload10,
+// stride14, freeHead18 and tail1C. Native stores the allocated integer index
+// before set(name), then passes that exact stack slot to the folded 4-byte
+// insert provider. The pointer-element vector below is the existing ledger
+// provider's ABI view; its words carry integer indices, not object pointers.
+// Real inline insert/reserve definitions must stay visible: hiding them
+// forces an unnecessary address-escaped index home or a six-byte cast temp.
+// Whole329B and EH checked without aliases or new pins.
 #include <vector>
 #include "ascii_string.h"
 class ModuleData;
@@ -23,8 +26,8 @@ struct BfmeStringRecord003B3F78 {
 	BfmeStringRecord003B3F78() : word2(0) {}
 };
 namespace _STL {
-	template<> void vector<const ModuleData *>::reserve(unsigned int);
-	template<> vector<const ModuleData *>::iterator vector<const ModuleData *>::insert(vector<const ModuleData *>::iterator, const ModuleData *const &);
+
+
 	template<> void vector<BfmeStringRecord003B3F78>::push_back(const BfmeStringRecord003B3F78 &);
 }
 class Rva003B573E {
@@ -60,7 +63,7 @@ int Rva003B573E::rva003B7C47(const StringBase<char> &key)
 		index = m_freeHead;
 		BfmeStringRecord003B3F78 &record = m_records[index];
 		((StringBase<char> &)record.text).set(key);
-		m_sorted.insert(m_sorted.begin() + position, (const ModuleData *)index);
+		m_sorted.insert(m_sorted.begin() + position, *reinterpret_cast<const ModuleData*const*>(&index));
 		m_freeHead = record.word0;
 		if (m_tail != -1)
 			m_records[m_tail].word1 = index;

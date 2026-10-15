@@ -1,4 +1,6 @@
 // ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
+// partial score=0.952117507216845 date=2026-10-15
+// ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
 // partial score=0.887 date=2026-10-15
 // ?rva000334A0@GeneralAllocator@Allocator@EA@@QAEPAURva00031010Node@@I@Z
 // partial score=0.938 date=2026-10-15
@@ -27,7 +29,7 @@ void Rva00031010::rva00031010(Rva00031010Node *node, bool flag)
     node = *(Rva00031010Node * volatile *)&m_head;
     Rva00031010Node *bin;
     {
-        Rva00031010Node *next = *(Rva00031010Node * volatile *)&node->m_linkC;
+        Rva00031010Node *next = *(Rva00031010Node * *)&node->m_linkC;
         bin = (Rva00031010Node *)((char *)this + 0x30);
         node->m_link8 = next;
         if (old == bin)
