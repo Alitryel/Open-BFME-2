@@ -763,7 +763,8 @@ private:
 class Player
 {
 public:
-	Money *getMoney() { return &m_money; }
+	// Keep inline money access without emitting a competing standalone getter.
+	__declspec(dllimport) __forceinline Money *getMoney() { return &m_money; }
 	void countObjectsByThingTemplate(Int numTmplates, const ThingTemplate * const *things, Bool ignoreDead, Int *counts, Bool ignoreUnderConstruction) const;
 	Int iterateObjects(Int (*func)(Object *, void *), void *userData) const;
 	Team *getDefaultTeam() const { return m_defaultTeam; }
