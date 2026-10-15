@@ -104,7 +104,7 @@ public:
 
 // ??0AIBuilder@@QAE@PAVPlayer@@@Z retail 0x004EC430 (239 bytes, ret 4): the
 // player at +0 then each sub-builder built from it -- AIBaseBuilder
-// 0x005070E9 (+0x04), 0x00598E85 (+0x38, unrowed, pinned), 0x0059A85C
+// 0x005070E9 (+0x04), 0x00598E85 (+0x38), 0x0059A85C
 // (+0x90), 0x004EAAF3 (+0xB4), 0x004E9B46 (+0xE4), 0x00598F3F (+0xFC), a new
 // 0x40-byte 0x00597693 object (+0x12C), the module-data vector and id list,
 // the dozer manager 0x00599784 (+0x140), a cleared flag (+0x154) and thirty
