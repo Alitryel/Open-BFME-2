@@ -177,7 +177,7 @@ class Player
 {
 public:
 	Int getPlayerIndex() const { return m_playerIndex; }
-	Int getPlayerColor() const { return m_color; }
+	__declspec(dllimport) __forceinline Int getPlayerColor() const { return m_color; }
 	char m_pad000[0x54];
 	Int m_playerIndex;
 	char m_pad058[0x280 - 0x58];
