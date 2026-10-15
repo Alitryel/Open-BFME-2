@@ -41,14 +41,19 @@ struct Rva0030B72CPoint
 	float x, y;
 };
 
-class Rva0030B719Shape
+class AreaPolygonBase
+{
+public:
+	void rva0030B3D1();
+};
+
+class Rva0030B719Shape : public AreaPolygonBase
 {
 public:
 	Real getRadius() const;
 	Region2D rva0030B6E3();
 	Real rva0030B706() const;
 	Rva0030B72CPoint rva0030B72C() const;
-	void rva0030B3D1();
 private:
 	unsigned char m_pad00[0x0C];
 	Region2D m_region; // +0x0C
@@ -132,10 +137,10 @@ void MilesStreamRef::rva000A8AC0()
 		m_stream->rva0010FB64();
 }
 
-class Rva001ECE98
+class LinearCampaign
 {
 public:
-	void rva001ECE98();
+	void restartCurrentCampaignMission();
 };
 
 class Rva0023D607Holder
@@ -144,19 +149,19 @@ public:
 	void rva001ECEF6();
 private:
 	unsigned char m_pad00[0x10];
-	Rva001ECE98 *m_10;
+	LinearCampaign *m_10;
 };
 
 void Rva0023D607Holder::rva001ECEF6()
 {
 	if (m_10)
-		m_10->rva001ECE98();
+		m_10->restartCurrentCampaignMission();
 }
 
-class Rva002D335B
+class RadarEventRef
 {
 public:
-	void rva002D335B();
+	void release();
 };
 
 class Rva0004E4BD
@@ -164,13 +169,13 @@ class Rva0004E4BD
 public:
 	void rva0004E4BD();
 private:
-	Rva002D335B *m_ptr;
+	RadarEventRef *m_ptr;
 };
 
 void Rva0004E4BD::rva0004E4BD()
 {
 	if (m_ptr)
-		m_ptr->rva002D335B();
+		m_ptr->release();
 }
 
 class Rva0010FA6B
@@ -356,9 +361,10 @@ void Rva000A8C6E::rva000A8C6E(const Rva0010FFA2Packet *packet)
 		m_ptr->rva0010FFA2(packet);
 }
 
-class Rva001EB68A
+class Rva001EB6FE
 {
 public:
+	void rva001EB6FE();
 	void rva001EB68A();
 };
 
@@ -368,7 +374,7 @@ public:
 	void rva001EB72F();
 private:
 	unsigned char m_pad00[0x10];
-	Rva001EB68A *m_10;
+	Rva001EB6FE *m_10;
 };
 
 void Rva001EB72F::rva001EB72F()
@@ -376,12 +382,6 @@ void Rva001EB72F::rva001EB72F()
 	if (m_10)
 		m_10->rva001EB68A();
 }
-
-class Rva001EB6FE
-{
-public:
-	void rva001EB6FE();
-};
 
 class Rva001EB75C
 {
@@ -398,7 +398,7 @@ void Rva001EB75C::rva001EB75C()
 		m_10->rva001EB6FE();
 }
 
-class Rva0020E9A1
+class Rva0020E9A1Inner
 {
 public:
 	void rva0020E9A1();
@@ -410,7 +410,7 @@ public:
 	void rva0020EB41();
 private:
 	unsigned char m_pad00[8];
-	Rva0020E9A1 *m_8;
+	Rva0020E9A1Inner *m_8;
 };
 
 void Rva0020EB41::rva0020EB41()
@@ -443,10 +443,14 @@ void Rva0029B16A::setMissionHelpText(int a, int b)
 		m_7F4->Start(*reinterpret_cast<const UnicodeString *>(a), b);
 }
 
-class Rva004F2ABC
+class Team;
+class AsciiString;
+class AIPlayer
 {
 public:
-	void rva004F2ABC(int a, int b);
+	void guardSupplyCenter(Team *t, int v);
+	void aiPreTeamDestroy(const Team *t);
+	void buildUpgrade(const AsciiString &s);
 };
 
 class Rva002A9CDE
@@ -455,20 +459,14 @@ public:
 	void rva002A9CDE(int a, int b);
 private:
 	unsigned char m_pad00[0x2DC];
-	Rva004F2ABC *m_2DC;
+	AIPlayer *m_2DC;
 };
 
 void Rva002A9CDE::rva002A9CDE(int a, int b)
 {
 	if (m_2DC)
-		m_2DC->rva004F2ABC(a, b);
+		m_2DC->guardSupplyCenter((Team *)a, b);
 }
-
-class Rva004F0819
-{
-public:
-	void rva004F0819(int a);
-};
 
 class Rva002A9CF0
 {
@@ -476,20 +474,14 @@ public:
 	void rva002A9CF0(int a);
 private:
 	unsigned char m_pad00[0x2DC];
-	Rva004F0819 *m_2DC;
+	AIPlayer *m_2DC;
 };
 
 void Rva002A9CF0::rva002A9CF0(int a)
 {
 	if (m_2DC)
-		m_2DC->rva004F0819(a);
+		m_2DC->aiPreTeamDestroy((const Team *)a);
 }
-
-class Rva004F2C14
-{
-public:
-	void rva004F2C14(int a);
-};
 
 class Rva002A9DEC
 {
@@ -497,19 +489,19 @@ public:
 	void rva002A9DEC(int a);
 private:
 	unsigned char m_pad00[0x2DC];
-	Rva004F2C14 *m_2DC;
+	AIPlayer *m_2DC;
 };
 
 void Rva002A9DEC::rva002A9DEC(int a)
 {
 	if (m_2DC)
-		m_2DC->rva004F2C14(a);
+		m_2DC->buildUpgrade(*reinterpret_cast<const AsciiString *>(a));
 }
 
 struct GlobalA03314;
 extern GlobalA03314 *g_Va00A03314;
 
-class Rva0043CD3C
+class AptSpellStore
 {
 public:
 	void rva0043CD3C();
@@ -523,12 +515,12 @@ public:
 
 void Rva0043D15F::rva0043D15F()
 {
-	Rva0043CD3C *p = (Rva0043CD3C *)g_Va00A03314;
+	AptSpellStore *p = (AptSpellStore *)g_Va00A03314;
 	if (p)
 		p->rva0043CD3C();
 }
 
-class Rva004E0D19
+class Rva004E0B60
 {
 public:
 	void rva004E0D19(int a);
@@ -540,7 +532,7 @@ public:
 	void rva004FC176(int a);
 private:
 	unsigned char m_pad00[0x20];
-	Rva004E0D19 *m_20;
+	Rva004E0B60 *m_20;
 };
 
 void Rva004FC176::rva004FC176(int a)
