@@ -80,7 +80,7 @@ public:
 extern struct UnknownE03138 *g_00E03138;
 #define g_00E03138 (*(Rva00E03138 * *)&g_00E03138)
 
-class CreateAHeroData;
+class CreateAHeroData { public: bool WriteNamedHeroAtRva004074CF(); };
 
 // Both range-7 bodies use the registry at VA 0x00DFE358 through the already
 // matched _STL::find specialization at 0x0020E873. Their direct callees and
@@ -196,7 +196,7 @@ void CreateAHeroManager::rva0021A4E6()
 			} else {
 				((Rva0021937DTarget *)hero)->rva004089C7(manager->m_1AC, 1);
 			}
-			((Rva0021937DTarget *)*slot)->rva004074CF();
+			(*slot)->WriteNamedHeroAtRva004074CF();
 		}
 	clear:
 		*slot = 0;
@@ -221,7 +221,7 @@ void Rva0021A54A::rva0021A54A()
 			} else {
 				((Rva0021937DTarget *)hero)->rva004089C7(manager->m_1B0, 1);
 			}
-			((Rva0021937DTarget *)*slot)->rva004074CF();
+			(*slot)->WriteNamedHeroAtRva004074CF();
 		}
 	clear:
 		*slot = 0;
