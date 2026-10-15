@@ -26,6 +26,7 @@ class BfmeAptValue006DCD20
 {
 public:
 	bool isUndefined() const;
+    int rva006E0350() const;
 	bool isCIH(bool bUndefinedOK) const;
 };
 
@@ -378,4 +379,140 @@ int BfmeQuery1279::rva006F6CE0() const
 	for (BfmeQueryNode1279 *node = m_root; node; node = node->m_next)
 		++count;
 	return count;
+}
+
+// Native 0x006F8B70..0x006F8D61, RET0x30. WB 0x017928B0 identifies
+// AptDisplayList.cpp and the submit/assert/hash-walk structure. Retail stores
+// the transform at CIH+0x24 and color at +0x0C (WB's revision uses +4).
+// Keep the live item distinct from the address-taken output parameter: the
+// instantiate call writes item, while subsequent calls retain live in EBX.
+// A textual volatile read pins that initial copy; the outer positive guard
+// preserves retail's common null-return tail. The predicate's caller tests
+// AL even though its established ledger spelling returns int.
+class AptCIH
+{
+public:
+    void *rva006E1020() const;
+    void rva006E2EE0();
+};
+
+class Rva006F7E00
+{
+public:
+    void rva006F7E00(AptCIH *, int);
+};
+
+class Rva006DBB60ShrNAndField
+{
+public:
+    bool get() const;
+};
+
+class AsciiString;
+class AptNativeHashRoot
+{
+public:
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void *v03();
+};
+
+EAStringC *Rva0070B4F0GetString(int index);
+
+class AptActionInterpreter
+{
+public:
+    bool setVariable(AptValue *, AptValue *, const EAStringC *, AptValue *, int, int, int);
+};
+extern AptActionInterpreter g_aptDateInterpreter;
+
+class AptDisplayList
+{
+public:
+    void instantiateCharacter(int, int, int, int, int, int, void *, void *);
+};
+
+class BfmeSubmitter1283
+{
+public:
+    void *bfmeSubmit1283(AptCIH *item, int a1, int pCharacter, int a3, int a4, int a5, int a6,
+        float *copy0, int copy1, int v9, int v10, int hash);
+};
+
+struct BfmeSubmitCopy8
+{
+    int m_words[8];
+};
+struct BfmeSubmitCopy6
+{
+    int m_words[6];
+};
+
+void *BfmeSubmitter1283::bfmeSubmit1283(AptCIH *item, int a1, int pCharacter, int a3, int a4,
+    int a5, int a6, float *copy0, int copy1, int v9, int v10, int hash)
+{
+    AptCIH *live = *(AptCIH * volatile *)&item;
+    int created = 0;
+    AptDisplayList *list = (AptDisplayList *)this;
+    if (pCharacter == 0 && live == 0)
+    {
+        g_bfmeAptAssertAtE17734("pCharacter || pItem", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp", 0x37F);
+        if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+    }
+    if (live == 0) {
+        list->instantiateCharacter(a1, pCharacter, a3, a4, a5, a6, (void *)&item, &created);
+        live = item;
+    }
+    if (live != 0)
+    {
+        if (copy0 != 0)
+            *(BfmeSubmitCopy8 *)((char *)live + 0x24) = *(BfmeSubmitCopy8 *)copy0;
+        if (copy1 != 0)
+            *(BfmeSubmitCopy6 *)((char *)live + 0x0C) = *(BfmeSubmitCopy6 *)copy1;
+        if (v9 != 0)
+        {
+            if (!((Rva006CFCD0 *)live)->isSpriteInstBase())
+            {
+                g_bfmeAptAssertAtE17734("pItem->isSpriteInstBase()", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp", 0x391);
+                if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+            }
+            if (!((Rva006CFCD0 *)live)->isSpriteInstBase())
+            {
+                g_bfmeAptAssertAtE17734("isSpriteInstBase()", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h", 0x7D);
+                if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+            }
+            *(int *)((char *)(*(void **)((char *)live + 0x4C)) + 0x20) = v9;
+        }
+        if ((unsigned char)((BfmeAptValue006DCD20 *)live)->rva006E0350())
+        {
+            void *field = live->rva006E1020();
+            *(int *)((char *)field + 0x18) = v10;
+        }
+        if (created)
+            ((Rva006F7E00 *)list)->rva006F7E00((AptCIH *)live, 1);
+        if (((Rva006CFCD0 *)live)->isSpriteInstBase())
+        {
+            if (hash != 0)
+            {
+                if (((Rva006DBB60ShrNAndField *)hash)->get())
+                {
+                    void *root = ((AptNativeHashRoot *)hash)->v03();
+                    AptNativeHash *map = (AptNativeHash *)root;
+                    void *entry = map->rva0070AA40();
+                    while (entry != 0)
+                    {
+                        EAStringC *name = (EAStringC *)entry;
+                        if (!name->IsEqualTo(Rva0070B4F0GetString(0)) &&
+                            !name->IsEqualTo(Rva0070B4F0GetString(0x78)))
+                            g_aptDateInterpreter.setVariable((AptValue *)live, 0, name,
+                                *(AptValue **)((char *)entry + 4), 1, 1, 0);
+                        entry = map->rva0070AAA0((AptNativeHash::Entry *)entry);
+                    }
+                }
+            }
+            live->rva006E2EE0();
+        }
+    }
+    return live;
 }
