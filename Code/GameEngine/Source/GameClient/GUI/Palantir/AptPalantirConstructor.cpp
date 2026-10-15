@@ -246,11 +246,80 @@ private:
 	void *m_0;
 };
 
+// The save-game stream (vslots as used by AptPalantir::xfer).
+struct XferVersionFields
+{
+	unsigned char m_version;
+	unsigned char m_currentVersion;
+};
+
+union XferVersion
+{
+	XferVersionFields m_fields;
+	unsigned int m_value;
+};
+
+class Xfer
+{
+public:
+	virtual void slot00();
+	virtual bool isLoading();				// vslot 1
+	virtual bool isSaving();				// vslot 2
+	virtual bool isCRC();					// vslot 3
+	virtual void slot04(); virtual void slot05(); virtual void slot06();
+	virtual void slot07(); virtual void slot08(); virtual void slot09();
+	virtual void xferVersion(XferVersion *version);	// vslot 10
+#define V(n) virtual void slot##n();
+	V(11) V(12) V(13) V(14) V(15) V(16) V(17) V(18) V(19) V(20)
+	V(21) V(22) V(23) V(24) V(25) V(26) V(27) V(28) V(29) V(30)
+#undef V
+	virtual void xferInt(int *value);			// vslot 31
+	virtual void slot32(); virtual void slot33(); virtual void slot34(); virtual void slot35();
+	virtual void xferBool(bool *value);			// vslot 36
+};
+
+Xfer *Rva002D342AXfer20(Xfer *xfer, bool *flags);
+
+class Rva002D2D13
+{
+public:
+	void rva002D2D13(void *xfer, int version);
+};
+
+class Rva00525E00
+{
+public:
+	void rva00525E00(Xfer *xfer);
+};
+
+// The +0x11C int map's save record and insert (rowed 0x002D563D).
+struct Rva0046AC52Key
+{
+	int m_key;
+	bool m_value;
+};
+
+struct Rva0046AC52Pair
+{
+	void *m_node;
+	bool m_inserted;
+};
+
+class Rva0046AC52
+{
+public:
+	Rva0046AC52Pair rva002D563D(const Rva0046AC52Key &value);
+};
+
 class Rva002D5188ResourceBar
 {
 public:
 	Rva002D5188ResourceBar();
 	~Rva002D5188ResourceBar();
+	void xfer(void *xfer, int version)
+	{
+		reinterpret_cast<Rva002D2D13 *>(this)->rva002D2D13(xfer, version);
+	}
 
 private:
 	unsigned char m_pad[0x28];
@@ -439,6 +508,7 @@ public:
 	AptPalantir(Rva002D3573 *owner, int level);
 	virtual ~AptPalantir();
 	void init();
+	void xfer(Xfer *xfer);
 
 	void OnInitialized(const char *unused);
 	void OnClosed(const char *unused);
@@ -726,4 +796,67 @@ void AptPalantir::init()
 		m_moviePlayback = new Rva00524BB4(TreeHintRef00217D4C(MakeBinding(reinterpret_cast<FunctorMethod>(&Rva002D2E30::rva002D2E30), reinterpret_cast<FunctorTarget *>(this))));
 		m_moviePlayback->start();
 	}
+}
+
+struct Pad4_value { bool v; unsigned char pad[3]; };
+// Palantir::Impl::xfer, retail 0x002D6460..0x002D65EC (398 bytes; WB
+// 0x00F46EA0): version 4; the resource bar, the 20 button flags, +0xE4, the
+// +0xC0 member, then (version 3) the int->bool map and +0xE5 and (version 4)
+// +0x128, each defaulted when loading an older save. The map's loaded flag is
+// a 4-byte padded local: a bare bool takes a packed byte home, retail's is a
+// dword-aligned slot.
+void AptPalantir::xfer(Xfer *xfer)
+{
+	if (xfer->isCRC())
+		return;
+	XferVersion version;
+	version.m_fields.m_version = 1;
+	version.m_fields.m_currentVersion = 4;
+	xfer->xferVersion(&version);
+	m_resourceBar.xfer(xfer, version.m_fields.m_currentVersion);
+	Rva002D342AXfer20(xfer, m_d0);
+	xfer->xferBool(&m_e4);
+	reinterpret_cast<Rva00525E00 *>(&m_c0)->rva00525E00(xfer);
+	if (version.m_fields.m_currentVersion >= 3)
+	{
+		if (xfer->isSaving())
+		{
+			int count = m_11c.size();
+			xfer->xferInt(&count);
+			for (Rva002D394B::iterator it = m_11c.begin(); it != m_11c.end(); ++it)
+			{
+				int key = it->first;
+				xfer->xferInt(&key);
+				xfer->xferBool(reinterpret_cast<bool *>(&it->second));
+			}
+		}
+		else
+		{
+			m_11c.rva002D43C6();
+			int count;
+			xfer->xferInt(&count);
+			for (; count > 0; --count)
+			{
+				int key;
+				Pad4_value value;
+				value.v = false;
+				xfer->xferInt(&key);
+				xfer->xferBool(&value.v);
+				Rva0046AC52Key entry;
+				entry.m_key = key;
+				entry.m_value = value.v;
+				reinterpret_cast<Rva0046AC52 *>(&m_11c)->rva002D563D(entry);
+			}
+		}
+		xfer->xferBool(&m_e5);
+	}
+	else if (xfer->isLoading())
+	{
+		m_11c.rva002D43C6();
+		m_e5 = false;
+	}
+	if (version.m_fields.m_currentVersion >= 4)
+		xfer->xferBool(&m_128);
+	else if (xfer->isLoading())
+		m_128 = true;
 }
