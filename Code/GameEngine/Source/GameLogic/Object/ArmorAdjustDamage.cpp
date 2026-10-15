@@ -67,6 +67,8 @@ class ArmorStore : public Rva001D901B
 };
 extern ArmorStore *TheArmorStore;
 
+class WeaponTemplateSet;
+class Rva0033DCB8 { public: const WeaponTemplateSet *rva0033DCB8(const ArmorSetFlags &) const; };
 class ThingTemplate
 {
 public:
@@ -131,7 +133,7 @@ Real Armor::adjustDamage(const DamageInfoInput *input, const Object *obj, Bool f
 		return amount;
 
 	Real setScale = 1.0f;
-	const ArmorTemplateSet *set = obj->getTemplate()->findArmorTemplateSet(obj->getBody()->getArmorSetFlags());
+	const ArmorTemplateSet *set = (const ArmorTemplateSet *)((const Rva0033DCB8 *)obj->getTemplate())->rva0033DCB8(obj->getBody()->getArmorSetFlags());
 	if (set)
 	{
 		const ArmorTemplate *setArmor = TheArmorStore->rva001D901B(set->m_armorName);
