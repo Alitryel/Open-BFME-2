@@ -9,18 +9,22 @@
 // frame 0x124). Cleanup provider 0x12CA49 is a free cdecl function (its only
 // caller makes the call with no ECX setup).
 #include "ascii_string.h"
+#define __forceinline __declspec(dllimport) __forceinline
 #include "unicode_string.h"
+#undef __forceinline
 #include <stdio.h>
 #include <string.h>
-#include <winsock2.h>
+// The only Winsock surface used here is the native32-bit stdcall import.
+// Declare that ABI directly so this source does not need a Platform SDK header.
+extern "C" __declspec(dllimport) unsigned long __stdcall htonl(unsigned long);
 #undef _strcmpi
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *, const char *);
 extern AsciiString g_00DEE93C;
 extern bool AssetInitRunTextureBuilder; // native VA DB61E8
 extern bool AssetInitRunModelBuilder;   // native VA DB61E9
 extern bool AssetInitRunShaderBuilder;  // native VA DB61EA
-extern const char *AssetInitArchiveMagicF; // native DB61EC points BD22F0 BIGF
-extern const char *AssetInitArchiveMagic4; // native DB61F0 points BD22E8 BIG4
+const char *AssetInitArchiveMagicF = "BIGF"; // native DB61EC points BD22F0 BIGF
+const char *AssetInitArchiveMagic4 = "BIG4"; // native DB61F0 points BD22E8 BIG4
 void Create_Rva00972880_Prototype();
 bool Rva0012CAC3Run(); bool RunShaderAssetBuilder(); bool Rva0012CB15Run();
 bool Rva0012CB67(FILE *,bool);

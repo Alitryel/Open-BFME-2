@@ -70,7 +70,8 @@ GapCounted *Rva00111772::rva00111772()
 // --- 0x0012CA31 / 0x0012CA39 / 0x0012CA41 (8B each): clear the texture,
 // shader and model asset-builder run flags.
 extern bool AssetInitRunTextureBuilder;
-extern bool AssetInitRunShaderBuilder;
+// Native complete one-byte run flag atDB61EA starts enabled.
+bool AssetInitRunShaderBuilder = true;
 extern bool AssetInitRunModelBuilder;
 
 void rva0012CA31()

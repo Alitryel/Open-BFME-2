@@ -78,7 +78,9 @@ int AIUpdateInterface::rva0026417F(bool arg)
 	return v;
 }
 
-extern float g_00BF967C;
+// Native complete readonly4B relative-angle threshold, exactly3DD67750.
+// Descriptive bit-storage label; the original identifier remains unknown.
+extern const unsigned int AIPathRelativeAngleThresholdBits = 0x3dd67750u;
 
 unsigned char AIUpdateInterface::rva002641BA()
 {
@@ -92,5 +94,5 @@ unsigned char AIUpdateInterface::rva002641BA()
 		Rva003642DFResult result = m_path->rva00364521(m_field);
 		angle = m_object->GetRelativeAngle(&result.m_point);
 	}
-	return fabs(angle) > g_00BF967C;
+	return fabs(angle) > *reinterpret_cast<const volatile float *>(&AIPathRelativeAngleThresholdBits);
 }
