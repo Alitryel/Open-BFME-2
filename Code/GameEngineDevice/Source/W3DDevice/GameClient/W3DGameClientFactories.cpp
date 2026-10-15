@@ -13,7 +13,7 @@
 // named W3DMouse after that (inferred).
 //
 //   factory     new     ctor        vtable      product
-//   0x0004C45D  0x2B0  0x00049DEA  0x00BC3C80  Rva00049DEAProduct
+//   0x0004C45D  0x2B0  0x00049DEA  0x00BC3C80  W3DDisplay
 //   0x0004C492  0xAC0  0x0008EF3F  0x00BC7A88  Rva0008EF3FProduct
 //   0x0004C4C7  0x40  0x0008FC51  0x00BC7C90  Rva008FCA3
 //   0x0004C553  0x40  0x00090360  0x00BC7E20  Rva00090360
@@ -23,25 +23,25 @@
 //   0x0004C709  0x60A8  0x00098E69  0x00BC86D8  W3DMouse
 //   0x0004C8DD  0x1D4  0x0009D55B  0x00BC89C8  Rva0009D55BProduct
 
-class Rva00049DEAProduct
+class W3DDisplay
 {
 public:
-	Rva00049DEAProduct();
+	W3DDisplay();
 private:
 	char m_unmodelled[0x2B0];
 };
 
-class Rva0008B7CFProduct
+class W3DView
 {
 public:
-	Rva0008B7CFProduct();
+	W3DView();
 private:
 	char m_unmodelled[0x2508];
 };
 
 // Slot 118 of this product's vtable 0x00BC7A88 (0x0008EFD8) is itself a
 // factory of the same shape: new 0x2508 bytes and the constructor 0x0008B7CF
-// (pinned).
+// (rowed as the W3DView constructor).
 class Rva0008EF3FProduct
 {
 public:
@@ -53,7 +53,7 @@ private:
 
 void *Rva0008EF3FProduct::rva0008EFD8()
 {
-	return new Rva0008B7CFProduct;
+	return new W3DView;
 }
 
 class Rva008FCA3
@@ -151,7 +151,7 @@ public:
 
 void *Rva004C743::rva0004C45D()
 {
-	return new Rva00049DEAProduct;
+	return new W3DDisplay;
 }
 
 void *Rva004C743::rva0004C492()
