@@ -97,6 +97,11 @@ private:
 	T *m_finish;
 	T *m_endOfStorage;
 };
+// Keep these accesses inline without competing with the STLport providers.
+template <> __declspec(dllimport) __forceinline
+void **vector<void *, allocator<void *> >::begin() { return m_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *, allocator<void *> >::end() { return m_finish; }
 template <class T, class A>
 bool operator!=(const vector<T, A> &a, const vector<T, A> &b);
 }

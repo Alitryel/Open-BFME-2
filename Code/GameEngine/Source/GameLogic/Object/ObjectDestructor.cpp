@@ -117,6 +117,13 @@ public:
 	T *_M_finish;
 	T *_M_end_of_storage;
 };
+// These helpers inline into Object's body; keep the existing STLport providers.
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::begin() { return _M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void *>::end() { return _M_finish; }
+template <> __declspec(dllimport) __forceinline
+void vector<void *>::clear() { erase(begin(), end()); }
 }
 
 class AIGroup { public: bool remove(class Object *obj); };

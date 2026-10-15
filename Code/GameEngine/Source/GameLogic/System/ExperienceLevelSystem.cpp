@@ -37,6 +37,13 @@ namespace _STL
 		T *m_finish;
 		T *m_endOfStorage;
 	};
+
+    // Keep these header accesses inline without emitting competing copies of
+    // the rowed STLport vector<void *> providers.
+    template <> __declspec(dllimport) __forceinline
+    void **vector<void *>::begin() { return m_start; }
+    template <> __declspec(dllimport) __forceinline
+    void **vector<void *>::end() { return m_finish; }
 }
 
 class ExperienceScalarTable

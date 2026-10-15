@@ -31,6 +31,13 @@ namespace _STL
 		T *m_finish;
 		T *m_endOfStorage;
 	};
+	// Keep these accesses inline without competing with the STLport providers.
+	template <> __declspec(dllimport) __forceinline
+	void **vector<void *, allocator<void *> >::begin() { return m_start; }
+	template <> __declspec(dllimport) __forceinline
+	void **vector<void *, allocator<void *> >::end() { return m_finish; }
+	template <> __declspec(dllimport) __forceinline
+	void vector<void *, allocator<void *> >::clear() { erase(begin(), end()); }
 }
 
 class Rva00421242Entry

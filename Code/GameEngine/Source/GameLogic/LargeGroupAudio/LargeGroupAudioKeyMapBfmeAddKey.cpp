@@ -44,6 +44,16 @@ protected:
 	Type *m_wordsCapacity;
 };
 
+// These accesses inline into the matched callers. Keep their rowed STLport
+// providers instead of emitting competing copies from this private view.
+template <> __declspec(dllimport) __forceinline
+void **vector<void *, allocator<void *> >::begin() { return m_wordsBegin; }
+template <> __declspec(dllimport) __forceinline
+unsigned int vector<void *, allocator<void *> >::size() const
+{
+	return m_wordsEnd - m_wordsBegin;
+}
+
 }
 
 struct BfmeStringNoCaseLess
