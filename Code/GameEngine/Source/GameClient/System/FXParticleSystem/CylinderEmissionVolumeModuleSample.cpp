@@ -1,11 +1,4 @@
-// ?getPosition@CylinderEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@2@MMMM@Z
-// partial score=0.9883899371069182 date=2026-10-14
-// ?getPosition@CylinderEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@2@MMMM@Z
-// partial score=0.98 date=2026-10-13
-// ?getPosition@CylinderEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@2@MMMM@Z
-// partial score=0.98 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
-// ?getPosition@CylinderEmissionVolumeModule@FXParticleSystem@@UAE?AUCoord3D@2@MMMM@Z
 // retail 0x0055D741, 212 bytes, RET 0x14.
 //
 // Ported from the Open-BFME-1 donor
@@ -78,7 +71,8 @@ namespace FXParticleSystem
   float radius = m_hollow ? m_radius : GetGameClientRandomValueReal( 0.0f, m_radius, source, 111 );
   Coord3D result( 0.0f, 0.0f, 0.0f );
   result.x = radius * (float)cos( angle ) + m_centerX;
-  result.y = (source ? (radius * (float)sin( angle ) + m_centerY) : (radius * (float)sin( angle ) + m_centerY));
+  // Narrow the complete product before adding the centre, as in retail.
+  result.y = (float)(radius * sin(angle)) + m_centerY;
   float halfLength = m_length * 0.5f;
   float z = GetGameClientRandomValueReal( -halfLength, halfLength, source, 117 ) + m_centerZ;
   return Coord3D( result.x, result.y, z );
