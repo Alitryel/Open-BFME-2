@@ -291,6 +291,8 @@ repair succeeds, sweep BFME 2 units with the same supported cause, batch the
 compatible fixes and refresh the blockers; continue with independent candidates
 when a repair needs unrelated investigation.
 
+Strongly prefer accumulating verified linking repairs and pushing them in batches, rather than pushing each repair individually.
+
 **Reconcile classes, not just bodies.** Private per-unit views of one class cause
 most COMDAT and unresolved blockers. `python3 tools/class_views.py` ranks classes
 by private views (`--blockers`: by what the census holds against them; `--class X`
@@ -342,8 +344,7 @@ only if their evidence and verification still hold, otherwise reassess the batch
 3. Stage explicit paths only (`git add <paths>`, never `git add .`); check every
    new ledger source is tracked.
 4. Commit normally. **Never bypass hooks.**
-5. `git pull --rebase origin master`, `git push`, then pull --rebase again; on
-   rejection follow #7 before retrying.
+5. Publish according to #7: `git pull --rebase origin master`, `git push`, then pull --rebase again. On rejection, rebase and retry while respecting #7’s cooldown.
 6. **Never land a pull request with GitHub's merge button**: the byte gates run
    in local hooks, so a server-side merge publishes `matched` rows nothing
    verified, invisibly. Cherry-pick instead:
@@ -357,7 +358,7 @@ only if their evidence and verification still hold, otherwise reassess the batch
 
    Then comment on the PR with the landed SHAs, and that follow-up work should
    stack off `master`.
-7. Publication: prefer accumulating verified commits until the unpublished batch
+7. Publication: strongly prefer accumulating verified commits until the unpublished batch
    recovers **500 retail bytes** or more, then push together; keep substantive
    changes as separate commits; publish a smaller final batch when the work or
    session ends. Header, vendored-reference and shared-shim edits, and resolved
@@ -421,7 +422,7 @@ deferrals citing the body it landed — stage the log with your row.
 **Close, not exact? Bank the body:** `partial '<what is wrong>' --stash <your .cpp>
 --score <0..1>` keeps the candidate servable and starts the next agent from your
 body. Both flags are required (a `partial` without a banked body landed 5.1%
-against 7.5% for silence). No body, no `partial` — record `blocked`.
+against 7.5% for silence). No body, no `partial` — record `blocked`. Prefer batching smaller banked attempts and blocker notes into a single push.
 
 ## Placement and integrity
 
