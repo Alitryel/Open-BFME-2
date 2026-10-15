@@ -1,4 +1,6 @@
 // ?rva002AB894@Player@@QBE_NABURva002AB894List@@@Z
+// partial score=1.0 date=2026-10-15
+// ?rva002AB894@Player@@QBE_NABURva002AB894List@@@Z
 // partial score=0.85 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 // Bank for 0x002AB894 (60B): all-of over a pointer list via Player::rva002AB87D.
@@ -15,11 +17,14 @@ public:
 };
 bool Player::rva002AB894(const Rva002AB894List &list) const
 {
+	unsigned int i = 0;
 	unsigned int count = list.m_end - list.m_begin;
+	if (0 < count) {
 	const UpgradeTemplate **it = list.m_begin;
-	for (unsigned int i = 0; i < count; ++i, ++it) {
+	for (; i < count; ++i, ++it) {
 		if (!rva002AB87D(*it))
 			return false;
+	}
 	}
 	return true;
 }

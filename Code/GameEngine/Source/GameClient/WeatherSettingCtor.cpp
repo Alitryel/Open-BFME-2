@@ -1,15 +1,16 @@
-// ??0WeatherSetting@@QAE@XZ
-// partial score=0.997 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include /Ireference/shims/bfme2_ascii
 //
-// W7-MP6 r13: WeatherSetting default ctor 0x00201618 (503B) reconstruction.
-// A dedicated TU because the class view is private to this body; the volatile
-// Coord2D m_84 pair (x then y, no barrier) puts the two movss stores in
-// retail's x/y order, and the 20.0f literal is the pool value Float-ref
-// verifies by content. Bank: reverse/attempts/0x00201618.cpp.
+// WeatherSetting default constructor 0x00201618 (503 B, BFME 2 retail; the
+// object layout matches the view Snow.cpp and WeatherSettingAssign.cpp read).
+// A dedicated TU because the class view is private to this body. Codegen
+// levers (target-evidence, no donor): the volatile Coord2D m_84 pair stored x
+// then y puts the two movss stores in retail's order; the e20 local keeps the
+// 20.0f pool load; three back-to-back _ReadWriteBarrier() after the texture
+// assignment (one or two leave the 20.0f load hoisted) finish the schedule.
 //
 #include "ascii_string.h"
 #include "Lib/Coord2D.h"
+#include "Lib/RGBColor.h"
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 inline void setWeatherPair(Coord2D &v,float x,float y){v.x=x;v.y=y;}
@@ -35,16 +36,6 @@ public:
 	Rva00200D38(const AsciiString &name);
 private:
 	AsciiString m_name;
-};
-
-class RGBColor
-{
-public:
-	void setFromInt(int color);
-private:
-	float m_red;
-	float m_green;
-	float m_blue;
 };
 
 class WeatherSetting : public Overridable, public Rva00200D38
@@ -93,6 +84,9 @@ public:
 WeatherSetting::WeatherSetting() : Rva00200D38(AsciiString("Weather")), m_58(0), m_5C(0.0f), m_60(0.0f)
 {
 	m_snowTexture = "EXSnowFlake.tga";
+	_ReadWriteBarrier();
+	_ReadWriteBarrier();
+	_ReadWriteBarrier();
 	m_snowFrequencyScaleX = 0.0533f;
 	m_snowFrequencyScaleY = 0.0275f;
 	{
@@ -130,7 +124,7 @@ WeatherSetting::WeatherSetting() : Rva00200D38(AsciiString("Weather")), m_58(0),
 	m_9C.x = 300.0f;
 	m_98 = false;
 	m_9C.y = 1500.0f;
-	float t1_arg_149_1 = 660.0f;
-	setWeatherPair(m_A4,t1_arg_149_1, 660.0f);
+	float pairX = 660.0f;
+	setWeatherPair(m_A4,pairX, 660.0f);
 	setWeatherPair(m_AC, -0.012f, -0.018f);
 }
