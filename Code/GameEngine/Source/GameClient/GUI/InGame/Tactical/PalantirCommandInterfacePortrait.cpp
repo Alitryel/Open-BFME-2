@@ -14,13 +14,14 @@
 // portrait shared by every selectable drawable, else, for a non-empty
 // selection, the first drawable's controlling player template image
 // (0x001FD23F) or the "MultiPortrait" image. Its caller, the interface's
-// refresh 0x00529E3B, lives here too; the rank/timer panel update it calls
-// (0x00529B6E, also a walker user) is pinned and banked. The rest of
+// refresh 0x00529E3B, lives here too, as does the rank/timer panel update
+// it calls (0x00529B6E, also a walker user). The rest of
 // PalantirCommandInterface.cpp's native range stays in the units that
 // already row it; this one holds the selection-walk family.
 
 #include <list>
 #include "ascii_string.h"
+#include "unicode_string.h"
 
 // _List_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
@@ -139,11 +140,29 @@ extern GameLogic *TheGameLogic;
 // (0x00223A94) under their rowed address-derived spellings.
 class Rva002239B2 { public: void rva002239E2(const AsciiString &name, const Image *image); };
 class Rva00223A94 { public: int rva00223A94(const AsciiString *name); };
-class BfmeAptWindowManager;
+class BfmeAptWindowManager { public: void bfmeSetText(const AsciiString &, const UnicodeString &, bool); };
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 class Rva002BED91 { public: void clear(); };
-class Rva00529B6E { public: void rva00529B6E(Object *obj); private: char m_data[0x18]; };
+// The rank / timer panel (0x18 bytes) the interface keeps at +0x38; its
+// hide (0x00528B98), rank (0x00529130) and progress (0x00529A7B) setters are
+// rowed under these address-derived spellings.
+class Rva00528B98 { public: void rva00528B98(); };
+class Rva00529130 { public: void rva00529130(int rank); };
+class Rva00529A7B { public: void rva00529A7B(float progress); };
+class Rva00529B6E
+{
+public:
+	void rva00529B6E(Object *obj);
+private:
+	void hide() { ((Rva00528B98 *)this)->rva00528B98(); }
+	void *m_level;     // +0x00
+	bool m_shown;      // +0x04
+	int m_mode;        // +0x08
+	bool m_rankSet;    // +0x0C
+	int m_rank;        // +0x10
+	float m_progress;  // +0x14
+};
 class Rva0052914B { public: void rva0052914B(Object *obj); private: char m_data[0x10]; };
 
 class Rva0052936C { public: void UpdateButton(int index); };
@@ -246,6 +265,125 @@ const Image *PalantirCommandInterface::Impl::GetCurrentPortraitImage(Object *obj
 		}
 	}
 	return image;
+}
+
+// Native 0x00529B6E (571B, RET 4): the rank / timer panel update. The
+// selected object's progress record (or, without one, the record every
+// selectable drawable shares; mode none = 2 when they differ) from the rowed
+// 0x00528CEB; a mode change hides the panel, mode none keeps it hidden;
+// otherwise the panel is shown once (ShowRankInterface through the Apt
+// window manager's invoke 0x00222A8B), the rank set when it changed (rank
+// mode) or the time-remaining caption set on the first show (timer mode),
+// and the progress refreshed when it changed.
+struct Rva00528CEBResult
+{
+	Rva00528CEBResult() : mode(2), rank(0), progress(0.0f) {}
+
+	int mode;
+	int rank;
+	float progress;
+};
+Rva00528CEBResult rva00528CEB(Object *obj);
+
+// The record compare 0x00528B37 (Rva00528B37Compare.cpp), visible here as a
+// COMDAT copy of the rowed body: seeing that it keeps no copy of the
+// records' addresses lets cl hold the result's mode in a register across the
+// panel calls, as retail does.
+extern float g_Va00BC2424;
+extern "C" double __cdecl fabs(double v);
+struct Rva00528B37Key
+{
+	int m_a;
+	int m_b;
+	float m_f;
+};
+__declspec(noinline) inline int Rva00528B37Equal(const Rva00528B37Key *a, const Rva00528B37Key *b)
+{
+	if (a->m_a != b->m_a)
+		return false;
+	if (a->m_b != b->m_b)
+		return false;
+	if (fabs(a->m_f - b->m_f) < g_Va00BC2424)
+		return true;
+	return false;
+}
+
+class Rva00222A8BTarget { public: int invoke(void *, const char *, int, const char *, void *, void *, void *, void *); };
+class GameTextInterface
+{
+public:
+	virtual void slot00() = 0; virtual void slot04() = 0; virtual void slot08() = 0; virtual void slot0c() = 0;
+	virtual void slot10() = 0; virtual void slot14() = 0; virtual void slot18() = 0; virtual void slot1c() = 0;
+	virtual void slot20() = 0; virtual void slot24() = 0; virtual void slot28() = 0; virtual void slot2c() = 0;
+	virtual void slot30() = 0; virtual void slot34() = 0;
+	virtual UnicodeString fetch(const char *label, bool *exists = 0) = 0;			// +0x3C
+	virtual UnicodeString fetch(const AsciiString &label, bool *exists = 0) = 0;	// +0x38
+};
+extern GameTextInterface *TheGameText;
+
+void Rva00529B6E::rva00529B6E(Object *obj)
+{
+	Rva00528CEBResult result;
+	if (obj)
+	{
+		result = rva00528CEB(obj);
+	}
+	else
+	{
+		const DrawableList *list = TheInGameUI->getAllSelectedDrawables();
+		DrawableListCIt it = FindFirstNonIgnored(*list);
+		if (it != list->end())
+		{
+			Drawable *draw = *it;
+			result = rva00528CEB(draw->getObject());
+			if (result.mode != 2)
+			{
+				for (it = rva00529045(*list, it); it != list->end(); it = rva00529045(*list, it))
+				{
+					Rva00528CEBResult other = rva00528CEB((*it)->getObject());
+					if (!(unsigned char)Rva00528B37Equal((const Rva00528B37Key *)&other, (const Rva00528B37Key *)&result))
+					{
+						result.mode = 2;
+						break;
+					}
+				}
+			}
+		}
+	}
+	if (result.mode != m_mode)
+	{
+		hide();
+		m_mode = result.mode;
+	}
+	if (m_mode != 2)
+	{
+		bool wasShown = m_shown;
+		if (!wasShown)
+		{
+			((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(m_level, "ShowRankInterface", 0, 0, 0, 0, 0, 0);
+			m_shown = true;
+			m_rankSet = false;
+			m_progress = -1.0f;
+		}
+		if (m_mode == 0)
+		{
+			if (!m_rankSet || result.rank != m_rank)
+				((Rva00529130 *)this)->rva00529130(result.rank);
+		}
+		else if (m_mode == 1 && !wasShown)
+		{
+			static AsciiString heroRank("APT:HeroRank");
+			static AsciiString timeRemaining("APT:PalantirTimeRemaining");
+			UnicodeString text = TheGameText->fetch(timeRemaining);
+			g_bfmeAptWindowManager->bfmeSetText(heroRank, text, false);
+		}
+		if (result.progress != m_progress)
+			((Rva00529A7B *)this)->rva00529A7B(result.progress);
+	}
+	else
+	{
+		hide();
+	}
 }
 
 // Native 0x00529E3B..0x00529F3D: the interface's per-frame refresh. While
