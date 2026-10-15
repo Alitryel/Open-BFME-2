@@ -16,7 +16,12 @@
 extern "C" void *__cdecl memcpy(void *dst, const void *src, unsigned int count);
 #pragma intrinsic(memcpy)
 
-#include <string.h>
+// strstr is the statically linked CRT routine (retail calls 0x00629850
+// directly), so it is declared here rather than through the dllimport
+// <string.h> prototype.
+extern "C" unsigned int __cdecl strlen(const char *s);
+extern "C" char *__cdecl strstr(const char *s, const char *sub);
+#pragma intrinsic(strlen)
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 void __debugbreak();
@@ -55,6 +60,9 @@ public:
 	void setCapacityWord_Rva006D2E00(unsigned int value);
 	EAStringC operator+(const EAStringC &other) const;
 	EAStringC operator+(const char *other) const;
+	int rva006D47F0(const char *oldString, const char *newString);
+	char *buffer() const { return (char *)m_pData + sizeof(StringDataC); }
+	EAStringC &operator=(const EAStringC &s);
 };
 
 // The four existing native helpers must be visible together: the sized
@@ -182,4 +190,87 @@ EAStringC rva006D5160(const char *left, const EAStringC &right)
 	presult->SetSize(total);
 	presult->m_pData->m_uHash = 0;
 	return *presult;
+}
+
+// Native 6D47F0..6D4A9C (685 bytes incl. RET 8): non-overlapping substring
+// replacement returning the replacement count. Target evidence: the
+// "pStrOld != NULL" / "pStrNew != NULL" / "pStrOccurence != NULL" asserts
+// at EAString.cpp lines 0x3B4, 0x3B5 and 0x3E7, the only caller 0x006D5580
+// (Replace("<char>", "") on a one-character string), and the rowed sized
+// constructor 0x006D45F0 and FreeData 0x006D2EB0 calls. The EAString.inl
+// size install (line 0x5C, clearing the hash) and copy assignment (line
+// 0xE1) are inlined in retail. WB 0x01775230 guides the shape; the original
+// member name is not proven, so the address-derived name stays.
+#define STRING_FILE "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\string\\EAString.cpp"
+#define STRING_INL ".\\string\\EAString.inl"
+static __forceinline void aptAssert(const char *test, const char *file, int line)
+{
+	g_bfmeAptAssertAtE17734(test, file, line);
+	if (g_bfmeAptBreakOnAssertAtDDC01C) {
+		__asm int 3
+	}
+}
+static __forceinline void setSizeAndClearHash(EAStringC &s, unsigned int n)
+{
+	EAStringC::StringDataC *p = s.m_pData;
+	if (n > p->m_uMaxSize)
+		aptAssert("uSize <= GetInternalMaxSize()", STRING_INL, 0x5C);
+	p->m_uSize = (unsigned short)n;
+	p->m_uHash = 0;
+}
+inline EAStringC &EAStringC::operator=(const EAStringC &s)
+{
+	if (s.m_pData != &g_eaEmptyStringData && s.m_pData->m_uRefCount > 0xFFFE)
+		aptAssert("m_pData->m_uRefCount <= 0xfffe", STRING_INL, 0xE1);
+	++s.m_pData->m_uRefCount;
+	FreeData(m_pData);
+	m_pData = s.m_pData;
+	return *this;
+}
+int EAStringC::rva006D47F0(const char *oldString, const char *newString)
+{
+	if (!oldString)
+		aptAssert("pStrOld != NULL", STRING_FILE, 0x3B4);
+	if (!newString)
+		aptAssert("pStrNew != NULL", STRING_FILE, 0x3B5);
+	unsigned int oldLength = strlen(oldString);
+	if (!oldLength)
+		return 0;
+	unsigned int newLength = strlen(newString);
+	int count = 0;
+	const char *src = buffer();
+	const char *occurrence;
+	while ((occurrence = strstr(src, oldString)) != 0) {
+		++count;
+		src = occurrence + oldLength;
+	}
+	if (!count)
+		return 0;
+	int resultSize = m_pData->m_uSize + (newLength - oldLength) * count;
+	EAStringC result(resultSize);
+	src = buffer();
+	char *start;
+	char *dest = start = result.buffer();
+	for (int i = 0; i < count; ++i) {
+		occurrence = strstr(src, oldString);
+		if (!occurrence)
+			aptAssert("pStrOccurence != NULL", STRING_FILE, 0x3E7);
+		unsigned int prefix = occurrence - src;
+		if (prefix) {
+			memcpy(dest, src, prefix);
+			dest += prefix;
+		}
+		src = occurrence + oldLength;
+		memcpy(dest, newString, newLength);
+		dest += newLength;
+	}
+	unsigned int remaining = resultSize - (dest - start);
+	if (remaining) {
+		memcpy(dest, src, remaining);
+		dest += remaining;
+	}
+	*dest = 0;
+	setSizeAndClearHash(result, resultSize);
+	*this = result;
+	return count;
 }
