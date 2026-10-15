@@ -49,8 +49,13 @@ class Rva00171583 { public: bool rva00171583(const unsigned int &key, Vec2 *outS
 class Rva00171024
 {
 public:
-	void rva00171067(const BFME2ParticleTextureHandle &handle);
 	AssetReference rva00171625();
+};
+// 0x00171067 is rowed as TexturePacker::rva00171067 (Rva00171067FindOrCreate.cpp).
+class TexturePacker
+{
+public:
+	void rva00171067(const BFME2ParticleTextureHandle &handle);
 };
 
 class TextureReport
@@ -130,9 +135,9 @@ void W3DTreeBuffer::updateTexture()
 	((Rva00170EBC *)list68)->rva00170EBC(true);
 	int i;
 	for (i = 0; i < numTypes; ++i) {
-		((Rva00171024 *)list40)->rva00171067(TextureAsset::Get(types[i].nameC.str(), 0, 0));
+		((TexturePacker *)list40)->rva00171067(TextureAsset::Get(types[i].nameC.str(), 0, 0));
 		if (types[i].doShadow)
-			((Rva00171024 *)list68)->rva00171067(TextureAsset::Get(types[i].textureName.str(), 0, 0));
+			((TexturePacker *)list68)->rva00171067(TextureAsset::Get(types[i].textureName.str(), 0, 0));
 	}
 	for (i = 0; i < numTypes; ++i) {
 		((Rva00171583 *)list40)->rva00171583(handleKey(TextureAsset::Get(types[i].nameC.str(), 0, 0)),
