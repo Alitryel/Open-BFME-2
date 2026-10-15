@@ -18,6 +18,18 @@ class Object {public:bool affectedByUpgrade(const UpgradeTemplate *) const;void 
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {
+// Keep the inlined node comparisons local instead of emitting competing
+// out-of-line base-iterator definitions with this unit's /G7 settings.
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b) {
+    return a._M_node != b._M_node;
+}
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b) {
+    return a._M_node != b._M_node;
+}
 template <> const unsigned int &max<unsigned int>(const unsigned int &, const unsigned int &);
 }
 extern GameLogic *TheGameLogic;
