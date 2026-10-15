@@ -1,20 +1,21 @@
 // ?rva002F07F5@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
-// partial score=0.9563053716469866 date=2026-10-15
+// partial score=0.9741068869019179 date=2026-10-15
 // ?rva002F07F5@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
-// partial score=0.931716606375 date=2026-10-15
-// W7-D1 r11: native2F07F5..2F0A72 RET8; whole637B; raw/normalized27.
-// Destination phase block + shared lastX/lastY scalar bounds; remove both
-// stale equal-arm call hacks. Frame48 vs retail4C is still wrong. Remaining
-// instructions/registers/control flow agree except frame/home displacements.
-// Actual owner pathfinder.cpp declarations and Cell/Split/query predicate
-// providers stay visible. Do not port this standalone bank as a new TU.
-// Prior frame4C/nd42 bank is in parent git history. No Code or pins changed.
-// Exact32B by-value Cell provider was investigated with a real prvalue ctor,
-// but its caller (including empty dtor) was worse: not used in this bank.
-// Retail slot pairs: firstcell.y/destY; destinationcell.y/first lastX;
-// below/maincell; above/mainlayer; first+second Ybase at -8. Unions disturb
-// CSE and registers. Named bound reuse improves27; pairing remains unresolved.
-// No guessed aliases, canonical-class copies, or asm added.
+// W7-D1 r11: native2F07F5..2F0A72 RET8; whole637B/frame4C EXACT.
+// Raw/normalized16 vs r10's42 and first r11's27/frame48.
+// Group the existing layers[2] and origin ICoord2D in a local16B CoordStorage;
+// their member types and original real-definition order are unchanged.
+// This is an implementation storage adapter, not a target type/layout claim.
+// Keep destination phase scope and shared lastX/lastY; no old equal-arm calls.
+// Remaining16 are home displacements: above/mainlayer; both Ybase temps;
+// destination cell; firstcell.y/destY and below/maincell phase reuse.
+// First origin/layer/query homes now exactly match retail.
+// Preserve actual owner declarations and visible whole Cell/Split providers.
+// This is a bank; do not port the standalone context as a new Code TU.
+// Proven41B query ctor visibility leaves the parent unchanged; not included.
+// Proven32B prvalue factory, guarded bounds/union phases, placement storage,
+// early cell initialization and rank injections were worse; no new pin used.
+// No new asm, address globals, private canonical copies or escape hatches.
 // cl: /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /I.
 // stlport
 
@@ -1189,6 +1190,7 @@ struct Rva002F07F5ObjectView {void *vtable;PathfinderTemplateView *templ;char pa
 struct Rva002F07F5Node {Rva002F07F5Node *next;void *prev;Object *obj;};
 struct Rva002F07F5CellInfo {char pad00[0x14];Rva002F07F5Node *items;};
 struct Rva002F07F5CellView {Rva002F07F5CellInfo *info;char pad04[8];unsigned int flags;};
+struct CoordStorage {Int layers[2];ICoord2D origin;};
 Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
 {
  Rva002F07F5ObjectView *view=(Rva002F07F5ObjectView *)obj;
@@ -1197,19 +1199,19 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
  Int lastX; Int lastY;
  Int newCount=0;
  Int below; Int above;Rva002EBCD6Split(obj,&below,&above);
- Int layers[2];layers[0]=obj->rva0028B511();Int layerCount=1;
- if(!(unsigned char)Rva002E6E6CGet(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(obj,layers[0])) {
-  layers[1]=1;layerCount=2;
+ CoordStorage coords;coords.layers[0]=obj->rva0028B511();Int layerCount=1;
+ if(!(unsigned char)Rva002E6E6CGet(coords.layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(obj,coords.layers[0])) {
+  coords.layers[1]=1;layerCount=2;
  }
  Int oldCount=0;
  {
-  ICoord2D cell;Rva002EBC14Cell(&cell,obj,from);
-  Int x=cell.x-below; lastX=cell.x+above;
+  Rva002EBC14Cell(&coords.origin,obj,from);
+  Int x=coords.origin.x-below; lastX=coords.origin.x+above;
   for(;x<lastX;++x) {
-   Int y=cell.y-below; lastY=cell.y+above;
+   Int y=coords.origin.y-below; lastY=coords.origin.y+above;
    for(;y<lastY;++y)
     for(Int l=0;l<layerCount;++l) {
-     PathfindCell *c=getCell((PathfindLayerEnum)layers[l],x,y);
+     PathfindCell *c=getCell((PathfindLayerEnum)coords.layers[l],x,y);
      if(c && ((Rva002F07F5CellView *)c)->info)for(Rva002F07F5Node *n=((Rva002F07F5CellView *)c)->info->items;n;n=n->next)if(n->obj!=obj)++oldCount;
     }
   }
@@ -1223,7 +1225,7 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
   Int y=destY-below; lastY=destY+above;
   for(;y<lastY;++y)
    for(Int l=0;l<layerCount;++l) {
-    Int layer=layers[l];PathfindCell *c=getCell((PathfindLayerEnum)layer,x,y);
+    Int layer=coords.layers[l];PathfindCell *c=getCell((PathfindLayerEnum)layer,x,y);
     if(!c)continue;
     if(c->m_info & 0x10000) {
      static Int deltaX[]={-1,1,0,0};static Int deltaY[]={0,0,-1,1};
