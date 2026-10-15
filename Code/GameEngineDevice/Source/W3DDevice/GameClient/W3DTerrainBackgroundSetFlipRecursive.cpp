@@ -32,7 +32,9 @@ class WorldHeightMap
  public:char pad00[8];
  int width;
  int height;
- __forceinline unsigned short getHeight(int x,int y)
+ // Keep these wrappers inlined without emitting alternative external bodies.
+ // The caller has no relocations to either wrapper; see terrain-inline-link-20261015.
+ __declspec(dllimport) __forceinline unsigned short getHeight(int x,int y)
  {
   return (unsigned short)((BoundedShortGrid*)this)->rva00062A58(x,y);
   
@@ -47,7 +49,7 @@ class WorldHeightMap
   return ((Rva000ABD19*)this)->rva000ABD19(x,y);
   
  }
- __forceinline void setFlipState(int x,int y,bool b)
+ __declspec(dllimport) __forceinline void setFlipState(int x,int y,bool b)
  {
   ((Rva000AD9AB*)this)->rva000AD9AB(x,y,b);
   
