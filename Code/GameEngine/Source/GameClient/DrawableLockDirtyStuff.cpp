@@ -26,7 +26,8 @@ private:
 	static Int s_modelLockCount;
 	unsigned char m_pad00[0x104];
 	Drawable *m_nextDrawable;				// +0x104
-	DrawModule **m_drawModules;
+	unsigned char m_pad108[0x14C - 0x108];
+	DrawModule **m_drawModules;				// +0x14C
 };
 
 class GameClientView
