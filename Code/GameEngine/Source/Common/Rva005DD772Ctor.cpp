@@ -54,7 +54,6 @@ Rva005DD9F9::Rva005DD9F9(float v) : Rva005DD772() {
 // Base default inlines to and [esi],0; m04 via fild plus 2^32 adjust at 0x7C26EC;
 // base formatted via rowed UnicodeString::format 0x6CB5D0 with static wide fmt at 0x7C9260.
 // Callers 40+ in big parsers 0x5B8116/0x5DE100/0x5BEA70/0x5C1BDE pass int; neighbours share /O1 /EHsc.
-extern const Wide g_007C9260[];
 class Rva005DD822 : public UnicodeString {
 public:
     float m04;
@@ -62,7 +61,7 @@ public:
 };
 Rva005DD822::Rva005DD822(unsigned int v) {
     m04 = (float)v;
-    ((UnicodeString*)this)->format(g_007C9260, v);
+    ((UnicodeString*)this)->format(reinterpret_cast<const Wide *>(L"%d"), v);
 }
 
 // ?rva005DD88A@Rva005DD88A@@QAEHPAVGameWindow@@HHM@Z, retail 0x005DD88A, 86 bytes.
@@ -92,9 +91,6 @@ int Rva005DD88A::rva005DD88A(GameWindow *win, int a, int b, float f)
 	return idx;
 }
 
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?g_007C9260@@3QBGB=??_C@_15KNBIKKIN@?$AA?$CF?$AAd?$AA?$AA@")
 
 // Native 0x5DD8E0..0x5DD9F9, WB 0x15D6CA0: two-float display-record
 // constructor. Preserve the ratio at +4 and localize its decimal separator.
