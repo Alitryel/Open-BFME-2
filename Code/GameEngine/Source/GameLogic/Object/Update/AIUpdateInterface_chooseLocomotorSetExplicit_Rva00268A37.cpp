@@ -49,6 +49,14 @@ private:
 	char m_pad00[0x24];
 };
 
+// clear()'s rowed 0x001E7E25 body (the existing set.clear() spelling folds to
+// an address-named owner).
+class Rva001E7E25
+{
+public:
+	void rva001E7E25();
+};
+
 class Locomotor;
 
 class AIUpdateInterface
@@ -72,7 +80,7 @@ Bool AIUpdateInterface::chooseLocomotorSetExplicit(Int wst)
 	const LocomotorTemplateVector *set = (const LocomotorTemplateVector *)getObject()->getTemplate()->rva0033C288(wst);
 	if (set)
 	{
-		m_locomotorSet.clear();
+		((Rva001E7E25 *)&m_locomotorSet)->rva001E7E25();
 		m_curLocomotor = 0;
 		for (Int i = 0; i < set->size(); ++i)
 		{

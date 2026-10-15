@@ -59,7 +59,7 @@ private:
 	Bool m_isEnabled;
 };
 
-class TerrainTracksRenderObjClass
+class Rva00084206Track
 {
 public:
 	void addCapEdgeToTrack(Real x, Real y);
@@ -98,7 +98,7 @@ private:
 	unsigned char m_pad54[0x58 - 0x54];
 	Shadow *m_shadow;
 	Shadow *m_terrainDecal;
-	TerrainTracksRenderObjClass *m_trackRenderObject;
+	Rva00084206Track *m_trackRenderObject;
 	unsigned char m_pad64[0x28E - 0x64];
 	Bool m_unknown28E;
 };
