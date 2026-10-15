@@ -1,17 +1,23 @@
-// ?rva00332975@Rva0026E7C8Ctor@@QAEXPAVXfer@@@Z
-// partial score=0.867111 date=2026-10-15
-// ?rva00332975@Rva0026E7C8Ctor@@QAEXPAVXfer@@@Z
-// partial score=0.91 date=2026-10-06
 // cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 //
 // ?rva00332975@Rva0026E7C8Ctor@@QAEXPAVXfer@@@Z, retail 0x00332975, 378 bytes.
 //
-// Slot 3 (offset 0xC) of vtable 0x007FA3A4, class of ??0Rva0026E7C8Ctor.
-// Donor: BFME1/ZH xfer patterns plus PoisonedBehaviorXfer Xfer declaration.
-// Evidence: Version1 row 0x53EE, reserve/push_back rows for Rva003328B6Element,
-// keyToName pin, set row, nameToKey row, Rva00331EAD row, PoolMember release,
-// Rva0029FB3BMember reset, xferSTLObjectIDList row, TheNameKeyGenerator extern.
+// Target evidence: slot 3 (offset 0xC) of the table at VA 0x00BFA3A4 that
+// ??0Rva0026E7C8Ctor stores at +0. Xfer Version1 (0x53EE), then the +4
+// vector's element count (size / 12) through the int slot and reserve
+// (rowed 0x33259F); per element two AsciiStrings (the second homed in the
+// dead xfer argument slot). Storing: keyToName of the two element keys,
+// xfer both strings, xferSTLObjectIDList (0x331F2D) on the element's +8
+// list. Loading: xfer both strings, nameToKey both, push_back (0x3328B6) a
+// temporary built by the rowed Rva00331EAD(int,int) ctor (0x331EAD) whose
+// implicit destructor runs the pinned list destructor (0x268902), then
+// reset (0x26549E) and xferSTLObjectIDList on back()'s list. Neither mode:
+// only the string destructors run.
+// Structural inference: Rva00331EAD is modelled as a ctor-only derivation of
+// the 12-byte element and the list view derives from the
+// xferSTLObjectIDList parameter type, so the rowed names stay distinct
+// without pointer casts. Original class and member names are unproven.
 
 #include "ascii_string.h"
 #include <vector>
@@ -117,41 +123,29 @@ struct BridgeBehaviorObjectIDNode
 class BridgeBehaviorObjectIDList
 {
 public:
-	void push_back(const int &value);
 	BridgeBehaviorObjectIDNode *m_node;
 };
 
 Xfer *xferSTLObjectIDList(Xfer *xfer, BridgeBehaviorObjectIDList *list);
 
-class PoolMember
+class Rva0029FB3BMember : public BridgeBehaviorObjectIDList
 {
 public:
-	void Rva00268902();
-	~PoolMember();
-};
-
-class Rva0029FB3BMember : public PoolMember
-{
-public:
-	void *init(void *context);
+	~Rva0029FB3BMember();
 	void reset();
-};
-
-class Rva00331EAD
-{
-public:
-	int m_00;
-	int m_04;
-	Rva0029FB3BMember m_08;
-
-	Rva00331EAD(int a, int b);
 };
 
 struct Rva003328B6Element
 {
-	int m_key1;
-	int m_key2;
-	BridgeBehaviorObjectIDList m_list;
+	NameKeyType m_key1;
+	NameKeyType m_key2;
+	Rva0029FB3BMember m_list;
+};
+
+class Rva00331EAD : public Rva003328B6Element
+{
+public:
+	Rva00331EAD(int a, int b);
 };
 
 class Rva0026E7C8Ctor
@@ -165,47 +159,35 @@ private:
 	_STL::vector<Rva003328B6Element> m_vec;
 };
 
-// ?rva00332975@Rva0026E7C8Ctor@@QAEXPAVXfer@@@Z present-unmatched
 void Rva0026E7C8Ctor::rva00332975(Xfer *xfer)
 {
 	xfer->Version1();
 	int count = (int)m_vec.size();
 	*xfer == count;
 	m_vec.reserve(count);
-	int i = 0;
-	if (count <= 0)
-		return;
-	for (int off = 0; i < count; ++i, off += 12)
+	for (int i = 0; i < count; ++i)
 	{
 		AsciiString s1;
 		AsciiString s2;
-		Rva003328B6Element *e = (Rva003328B6Element *)((char *)m_vec.begin() + off);
-		BridgeBehaviorObjectIDList *plist = 0;
 		if (xfer->IsStoring())
 		{
-			s1.set(TheNameKeyGenerator->keyToName((NameKeyType)e->m_key1));
-			s2.set(TheNameKeyGenerator->keyToName((NameKeyType)e->m_key2));
+			Rva003328B6Element &e = m_vec[i];
+			s1 = TheNameKeyGenerator->keyToName(e.m_key1);
+			s2 = TheNameKeyGenerator->keyToName(e.m_key2);
 			*xfer == s1;
 			*xfer == s2;
-			plist = &e->m_list;
+			xferSTLObjectIDList(xfer, &e.m_list);
 		}
-		else if (!xfer->IsLoading())
-		{
-			continue;
-		}
-		else
+		else if (xfer->IsLoading())
 		{
 			*xfer == s1;
 			*xfer == s2;
 			NameKeyType k1 = TheNameKeyGenerator->nameToKey(s1);
 			NameKeyType k2 = TheNameKeyGenerator->nameToKey(s2);
-			Rva00331EAD tmp((int)k1, (int)k2);
-			m_vec.push_back(*(Rva003328B6Element *)&tmp);
-			tmp.m_08.Rva00268902();
-			Rva003328B6Element &back = m_vec.back();
-			plist = (BridgeBehaviorObjectIDList *)&back.m_list;
-			((Rva0029FB3BMember *)plist)->reset();
+			m_vec.push_back(Rva00331EAD(k1, k2));
+			Rva0029FB3BMember *list = &m_vec.back().m_list;
+			list->reset();
+			xferSTLObjectIDList(xfer, list);
 		}
-		xferSTLObjectIDList(xfer, plist);
 	}
 }
