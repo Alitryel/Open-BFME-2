@@ -42,6 +42,13 @@ class CameraClass;
 #include "sphere.h"
 #include "boxrobj.h"
 
+// Keep vector3.h's component comparison local: its unused external copy
+// differs from the retail provider. The transform body still inlines it.
+static __forceinline bool hlodOffsetsDiffer(const Vector3 &a, const Vector3 &b)
+{
+    return (a.X != b.X) || (a.Y != b.Y) || (a.Z != b.Z);
+}
+
 struct HlodTransformView
 {
     float X, Y, Z, W;
@@ -127,7 +134,7 @@ void HLodClass::Update_Sub_Object_Transforms(void)
 
 		Matrix3D transform;
 			treeMatrix(HTree,bone,transform);
-			if (offset != Vector3(0.0f,0.0f,0.0f)) transform.Translate(offset);
+			if (hlodOffsetsDiffer(offset, Vector3(0.0f,0.0f,0.0f))) transform.Translate(offset);
         robj->Set_Transform(transform);
         robj->_bfme_set_indexed_factor(0,reinterpret_cast<const HlodTreeView *>(HTree)->Pivot[bone].IndexedFactor);
 		robj->Set_Animation_Hidden(!reinterpret_cast<const HlodTreeView *>(HTree)->Pivot[bone].IsVisible);
