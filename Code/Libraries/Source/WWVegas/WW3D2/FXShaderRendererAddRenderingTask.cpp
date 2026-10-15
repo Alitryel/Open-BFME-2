@@ -1,8 +1,6 @@
-// ?Add_Rendering_Task@Rva00DF6F94GapFillerContext@@QAEXV?$RefCountPtr@VMeshClass@@@@ABV?$vector@V?$RefCountPtr@VRenderingMethod@FXShader@@@@V?$allocator@V?$RefCountPtr@VRenderingMethod@FXShader@@@@@_STL@@@_STL@@@Z
-// partial score=0.9 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// ?Add_Rendering_Task@Rva00DF6F94GapFillerContext@@QAEXV?$RefCountPtr@VMeshClass@@@@ABV?$vector@...@Z @0x00174AAD 249B
+// ?Add_Rendering_Task@Rva00DF6F94GapFillerContext@@...@Z, retail 0x00174AAD (249B, EH frame, RET 8).
 // FXShaderRenderer::Add_Rendering_Task (WorldBuilder assert string; the address-derived context class name
 // stays until the ledger rename lands): queues a mesh with its rendering-method stack. A stack of more than six
 // methods is dropped. Otherwise the mesh's light environment picks one of the context's three 32-byte-record
@@ -11,8 +9,9 @@
 // through the rowed grower 0x00174A8A and filled with the rowed holder assignment 0x00072A94. The by-value mesh
 // pointer is released on exit. Evidence: target bytes; callee MeshClass::Render 0x0014BB90 (MeshClassRender.cpp)
 // and the three-queue layout of Rva00DF6F94GapFillerContext (MeshGapFillerFlush.cpp). Field names are structural.
-// The rowed holder assignment is defined visibly (inline noinline, byte-identical to its row) so cl proves it
-// leaves the by-value mesh alone and drops the main-path null test of the mesh release, as retail does.
+// The queues are real STLport vectors of the 32-byte record (size()/back() inline, as retail reads them); the
+// rowed holder assignment is defined visibly here (inline noinline, byte-identical to its row), which is what
+// lets cl drop the main-path null test of the mesh release exactly as retail does.
 #include <vector>
 
 class RefCountClass
@@ -96,16 +95,13 @@ struct Rva00174AADRecord
 	Rva00072A94 methods[6];
 };
 
-
+// The rowed grower 0x00174A8A (resize to n with a default record).
 class Rva00174A8A
 {
 public:
-	int size() const { return (int)(m_end - m_begin); }
 	void rva00174A8A(int n);
-	Rva00174AADRecord *m_begin;
-	Rva00174AADRecord *m_end;
-	Rva00174AADRecord *m_limit;
 };
+typedef _STL::vector<Rva00174AADRecord, _STL::allocator<Rva00174AADRecord> > Rva00174AADQueue;
 
 class Rva00DF6F94GapFillerContext
 {
@@ -113,9 +109,9 @@ public:
 	void Add_Rendering_Task(RefCountPtr<MeshClass> mesh, const RenderingMethodStackType &renderingMethodStack);
 
 private:
-	Rva00174A8A m_plain;	// +0
-	Rva00174A8A m_second;	// +0xC
-	Rva00174A8A m_third;	// +0x18
+	Rva00174AADQueue m_plain;	// +0
+	Rva00174AADQueue m_second;	// +0xC
+	Rva00174AADQueue m_third;	// +0x18
 };
 
 void Rva00DF6F94GapFillerContext::Add_Rendering_Task(RefCountPtr<MeshClass> mesh, const RenderingMethodStackType &renderingMethodStack)
@@ -128,19 +124,19 @@ void Rva00DF6F94GapFillerContext::Add_Rendering_Task(RefCountPtr<MeshClass> mesh
 	{
 		if (*env->m_ptrBC)
 		{
-			m_second.rva00174A8A(m_second.size() + 1);
-			record = m_second.m_end - 1;
+			((Rva00174A8A *)&m_second)->rva00174A8A((int)m_second.size() + 1);
+			record = &m_second.back();
 		}
 		else
 		{
-			m_third.rva00174A8A(m_third.size() + 1);
-			record = m_third.m_end - 1;
+			((Rva00174A8A *)&m_third)->rva00174A8A((int)m_third.size() + 1);
+			record = &m_third.back();
 		}
 	}
 	else
 	{
-		m_plain.rva00174A8A(m_plain.size() + 1);
-		record = m_plain.m_end - 1;
+		((Rva00174A8A *)&m_plain)->rva00174A8A((int)m_plain.size() + 1);
+		record = &m_plain.back();
 	}
 	record->mesh = *(const Rva00072A94 *)&mesh;
 	record->count = (int)renderingMethodStack.size();
