@@ -1,4 +1,6 @@
 // ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
+// partial score=0.93 date=2026-10-15
+// ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
 // partial score=0.928 date=2026-10-15
 // ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
 // partial score=0.9284842080544793 date=2026-10-14
@@ -256,21 +258,23 @@ UpdateSleepTime AIUpdateInterface::rva0026A05D()
 			if (getStateMachine()->getCurrentStateID() == 13 || ((BfmeSub932C *)getStateMachine())->bfmeQuery932C())
 				return UPDATE_SLEEP_NONE;
 			getStateMachine()->setState(13);
+			getObject()->clearModelConditionState(61);
+			getObject()->clearModelConditionState(156);
+			return UPDATE_SLEEP_NONE;
 		} else {
 			if (getStateMachine()->getCurrentStateID() != 0) {
 				destroyPath();
 				setLocomotorGoalNone();
 			}
 			obj->rva0028AD32();
+			getObject()->clearModelConditionState(61);
+			getObject()->clearModelConditionState(156);
+			return UPDATE_SLEEP_NONE;
 		}
-		getObject()->clearModelConditionState(61);
-		getObject()->clearModelConditionState(156);
-		return UPDATE_SLEEP_NONE;
 	}
 
 	if (!slot110())
 		m_3C8 = true;
-		_ReadWriteBarrier();
 	m_isInUpdate = true;
 	m_completedWaypoint = 0;
 	int subMachineSleep = UPDATE_SLEEP_FOREVER;
