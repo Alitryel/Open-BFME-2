@@ -1,5 +1,7 @@
 // ?rva0051DE3D@AptScoreScreen@@QAEXXZ
 // partial score=0.9 date=2026-10-15
+// ?rva0051DE3D@AptScoreScreen@@QAEXXZ
+// partial score=0.9 date=2026-10-15
 // ?rva0051DE3D@Rva0051DE3D@@QAEXXZ
 // partial score=0.9 date=2026-10-15
 // ?rva0051DE3D@AptScoreScreen@@QAEXXZ
@@ -35,7 +37,6 @@ namespace _STL
 #include <vector>
 #include "unicode_string.h"
 #include "ascii_string.h"
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 extern "C" int __cdecl strcmp(const char *left, const char *right);
 extern "C" char *__cdecl strcpy(char *destination, const char *source);
 extern "C" __declspec(dllimport) int __cdecl sprintf(char *buffer, const char *format, ...);
@@ -895,7 +896,11 @@ bool AptScoreScreen::PopulatePersistentUnitsListbox()
 // templates' order, set the veterancy icons and the upgrade flags; in the
 // living world the region names the map, lists its bonuses, shows its
 // image, and in state 1 the persistent units list follows.
-struct Rva51DE3DBits { unsigned *sp; unsigned so; unsigned *fp; unsigned fo; };
+// seat2 d3: non-const end()-begin() (no volatile) gives retail's frame 0x38 and the
+// begin.p spill [ebp-0x20]; residue: cl folds end() to this+0x294/0x298 instead of
+// the vector register, which rotates ebx/esi/edi (this,vec,zero) globally (+6B).
+// Register-normalised the body otherwise equals retail. size()/refs/inline helpers
+// drop the spill (1055B).
 void AptScoreScreen::rva0051DE3D()
 
 {
@@ -945,9 +950,7 @@ void AptScoreScreen::rva0051DE3D()
  
  {
   AsciiString key;
-  Rva51DE3DBits *pb = (Rva51DE3DBits *)&m_heroUpgrades;
-  unsigned * volatile bp = pb->sp; unsigned bo = pb->so; unsigned eo = pb->fo; unsigned *ep = pb->fp;
-  key.format("SubMenus/HeroVeterancy/HeroSelection/HeroSelection%d/icon/Image", 32 * (ep - bp) - bo + eo + 1);
+  key.format("SubMenus/HeroVeterancy/HeroSelection/HeroSelection%d/icon/Image", m_heroUpgrades.end() - m_heroUpgrades.begin() + 1);
   TheRva00222A8BTarget->rva002239E2(key, heroes[k].image);
   m_heroUpgrades.push_back(heroes[k].upgraded);
   
