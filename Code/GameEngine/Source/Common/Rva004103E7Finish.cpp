@@ -8,7 +8,7 @@ class Rva0045EF90Base
 {
 public:
 	Rva0045EF90Base() : m_base((unsigned)-1) {}
-	virtual ~Rva0045EF90Base();
+	virtual ~Rva0045EF90Base() {}
 protected:
 	unsigned m_base;
 };
