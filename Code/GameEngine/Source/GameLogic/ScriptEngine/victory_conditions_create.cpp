@@ -11,5 +11,12 @@ public:
 private:
     char m_storage[0xc0];
 };
-Rva0004CDCD *Rva00041DFBCreateOwner() { return new Rva0004CDCD; }
+// The constructor 0x0004CDCD is rowed as ??0Rva004CE36; same 0xC4 allocation.
+class Rva004CE36 {
+public:
+    Rva004CE36();
+private:
+    char m_storage[0xc4];
+};
+Rva0004CDCD *Rva00041DFBCreateOwner() { return (Rva0004CDCD *)new Rva004CE36; }
 

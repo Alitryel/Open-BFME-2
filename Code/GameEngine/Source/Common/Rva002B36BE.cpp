@@ -1,6 +1,7 @@
 // cl: /O1 /MD
 // ?rva002B36BE@Rva002B36BE@@QAEXPAX0_N@Z @0x002B36BE 53B.
-class Rva0020F832Helper
+// 0x0020F832 is rowed on Rva0020EE29.
+class Rva0020EE29
 {
 public:
 	bool rva0020F832(void *a1, void *a2);
@@ -19,7 +20,7 @@ public:
 
 private:
 	unsigned char m_pad00[0xB0];
-	Rva0020F832Helper *m_b0;
+	Rva0020EE29 *m_b0;
 	int m_padB4;
 	int m_B8;
 	unsigned char m_padBC[0x2D];
