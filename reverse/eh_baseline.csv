@@ -15,7 +15,6 @@ name,target_rva,verdict
 ??0Rva0007517F@@QAE@XZ,0x0007517F,bytes_differ
 ??0Rva0007EBFB@@QAE@XZ,0x0007EBFB,bytes_differ
 ?initD3DAssets@W3DMouse@@AAEXXZ,0x00098FC1,bytes_differ
-??0DelayedLuaEventList@@QAE@XZ,0x000B6D8B,bytes_differ
 ?Record_Texture_End@@YAXXZ,0x00129E50,obj_only
 ??1SimpleSceneClass@@UAE@XZ,0x00141DF0,bytes_differ
 ?Resize@?$VectorClass@U_ENUM_VALUE@EnumParameterClass@@@@UAE_NHPBU_ENUM_VALUE@EnumParameterClass@@@Z,0x00155690,obj_only
