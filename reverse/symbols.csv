@@ -10156,7 +10156,6 @@ name,address,notes
 ?rva003FDE1A@Rva003FDE1AHelper@@QAEXH@Z,0x003FDE1A,callee of setter 0x00318BC6 read from its REL32 displacement; w3-g26
 ?rva003FE342@Rva003FE402Host@@QAEXXZ,0x003FE342,"member vtable slot 0x003FE402 calls first; opaque address name"
 ?rva003FF145@Rva003FF145@@QBE_NPBUBfmeNetAddress@@@Z,0x003FF145,alias pin: same body already rowed as ?rva003FF145@GameSlot@@QBEHPBUBfmeNetAddress@@@Z; it answers 0/1 in eax and the matched slot 0x003FF312 returns its al as bool; bool spelling binds the same bytes; no new identity inferred
-?rva00401E2F@Rva002D34FE@@QAE_NXZ,0x00001E2F,"address read from retail REL32 at 0x002D3501 in 0x002D34FE (E8 -> 0x401E2F); thiscall no stackargs bool return per test-al site; opaque address name, pin candidate-not-proof"
 ?rva00403382@AttributeModifierPoolUpdate@@QAE_NHPAMH@Z,0x00403382,REL32 read at the byte-verified Object::getShroudClearingRange 0x0028DE87: called on the found AttributeModifierPoolUpdate with (0x14 and a float out zeroed first and 0) and its bool result gates a (1 + value) range multiplier; identity unknown
 ?rva00403448@AttributeModifierPoolUpdate@@QAE_NHPAMHH@Z,0x00403448,REL32 read at the tail jmp of Object::rva0028C15E 0x0028C16E (after findAttributeModifierPoolUpdate returns the pool in ecx); native body 0x00403448..0x004034D4 ret 0x10 mirrors pinned sibling 0x00403382 but seeds *value with a constant and multiplies matches; identity unknown
 ?rva004047E3@Rva004047E3@@QAEXMM@Z,0x004047E3,float-pair probe on 0xA8-stride array called by 0x0056C21B fan-out; honest address-derived name
@@ -10604,7 +10603,6 @@ name,address,notes
 ?rva0070A8B0@Rva0070A840@@QAEXXZ,0x0070A8B0,Address-labelled thiscall bridge for native hash shutdown; bound through alternatename to matched AptNativeHash::DestroyGCPointers; full canonical20B hash object and no args
 ?rva0070AF90@Rva0070B380@@QAEPAXABVEAStringC@@@Z,0x0070AF90,"address-derived private-member callee of Rva0070B380::lookup at 0x0070B3A2; the hash-map lookup returning its +4 payload"
 ?rva0070DFE0@BfmeAptValue006DCD20@@QAEXXZ,0x0070DFE0,"address-derived AptArray clear-prep helper 0x0070DFE0 called with this in ecx and no stack args by the array clear 0x006D93D0; body unrowed; Ghidra 70DFE0 112B"
-?rva0071BE3C@Rva002D34FEHelper@@QAEHPAX@Z,0x0031BE3C,"address read from retail REL32 at 0x002D3511 in 0x002D34FE (E8 -> 0x71BE3C); thiscall this=dword_0xE01CFC arg=caller-this returns int per test-eax; opaque address name, pin candidate-not-proof"
 ?rva00739A30@Rva00739A30@@QAEXPAUPair00739BE0@@MH@Z,0x00739A30,REL32 at the byte-verified doNamedMapReveal 0x003577DA: TheShroudManager radius reveal (location/radius/mask) whose undo counterpart is the rowed 0x00739BE0
 ?rva0073CC60@Gen_008F7CD0@@QAEXPAUFloatRect0073CE30@@HI@Z,0x0073CC60,address-derived Gen_008F7CD0 rect-updater entry called by the 229B sibling at 0x00739AF0; ghidra boundary 0x0073CC60/96 and a prior attempt measured a 458B true extent; identity unproven
 ?rva0073ea90@@YAPAVXfer@@PAV1@PAG@Z,0x0073EA90,"N=2 twin of Rva0073EB00Xfer at 0x73EB00; legacy counter reader called by ShroudManagerImpl008FBA40Element::xfer 0x73EBB0; address-derived name"
@@ -10617,7 +10615,6 @@ name,address,notes
 ?rva007FBE70@Rva007FBC60Game@@QAEPADXZ,0x00668370
 ?rva007FBE80@Rva007FBC60Game@@QAE_NPBDPADI@Z,0x00668380
 ?rva007FBFB0@Rva007F5010Player@@QAE_NPBDPADI@Z,0x006684B0
-?rva00805DBC@Rva002D34FEHelper@@QAEXHPAX@Z,0x00405DBC,"address read from retail REL32 at 0x002D3523 in 0x002D34FE (E8 -> 0x805DBC); thiscall this=dword_0xE01CFC args=(prev-ret,0) void return; opaque address name, pin candidate-not-proof"
 ?rva00813A40@@YAXXZ,0x0067F940,op-table slot 8 of the CommTAPI factory at 0x0067ECD0 names this address; BFME1 Y4CommTapi names this op callee; 5B unclaimed
 ?rva00813CF0@@YAXXZ,0x0067FBF0,op-table slot 3 of the CommTAPI factory at 0x0067ECD0 names this address; BFME1 Y4CommTapi names this op callee; 5B unclaimed
 ?rva0082ADB0Fill@@YAXPAD0ABD@Z,0x000237C0

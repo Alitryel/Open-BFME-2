@@ -11,31 +11,37 @@
 // class is an unproven call-shape view; the dword at 0x00E01CFC is read as a
 // pointer per the two mov-ecx sites. Honest address-derived names.
 
-class Rva002D34FEHelper
+// Row spellings of the three callees: 0x00401E2F is StringBase<char>::isEmpty
+// on this, and 0x0071BE3C / 0x00805DBC are ControlBar::findCommandButton and
+// ControlBar::rva004C1B60 on the control bar.
+template <class T> class StringBase { public: bool isEmpty() const; };
+class AsciiString;
+class CommandButton;
+class GameWindow;
+class ControlBar
 {
 public:
-	int rva0071BE3C(void *arg);
-	void rva00805DBC(int a, void *b);
+	const CommandButton *findCommandButton(const AsciiString &name);
+	void rva004C1B60(GameWindow *window, void *data);
 };
 
 class Rva002D34FE
 {
 public:
-	bool rva00401E2F();
 	void rva002D34FE(int unused);
 };
 
 // N.B. pointee type at 0x00E01CFC is unproven; viewed as helper for the
 // observed thiscall shape only.
-extern class ControlBar *TheControlBar;
+extern ControlBar *TheControlBar;
 
 // ?rva002D34FE@Rva002D34FE@@QAEXH@Z
 void Rva002D34FE::rva002D34FE(int)
 {
-	if (rva00401E2F())
+	if (((const StringBase<char> *)this)->isEmpty())
 		return;
-	int r = (*(Rva002D34FEHelper **)&TheControlBar)->rva0071BE3C(this);
+	const CommandButton *r = TheControlBar->findCommandButton(*(const AsciiString *)this);
 	if (!r)
 		return;
-	(*(Rva002D34FEHelper **)&TheControlBar)->rva00805DBC(0, (void *)r);
+	TheControlBar->rva004C1B60(0, (void *)r);
 }
