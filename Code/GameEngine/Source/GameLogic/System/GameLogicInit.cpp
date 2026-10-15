@@ -3809,8 +3809,8 @@ extern Rva00148F5ECache TheKey_playerColor;
 extern Rva00148F5ECache TheKey_playerNightColor;
 extern Rva00148F5ECache TheKey_multiplayerStartIndex;
 extern const StaticNameKey TheKey_multiplayerIsLocal;
-extern Rva00148F5ECache TheKey_teamName;
-extern Rva00148F5ECache TheKey_teamOwner;
+extern const StaticNameKey TheKey_teamName;
+extern const StaticNameKey TheKey_teamOwner;
 extern Rva00148F5ECache TheKey_teamIsSingleton;
 
 // An inline key read is evaluated before a sibling argument's call; a direct
@@ -3839,8 +3839,8 @@ void GameLogic::rva0023E0C7(void)
 
 	TheSidesList->addSide(&d);
 	d.clear();
-	d.setAsciiString(TheKey_teamName.get(), "teamReplayObserver");
-	d.setAsciiString(TheKey_teamOwner.get(), "ReplayObserver");
+	d.setAsciiString(((Rva00148F5ECache *)&TheKey_teamName)->get(), "teamReplayObserver");
+	d.setAsciiString(((Rva00148F5ECache *)&TheKey_teamOwner)->get(), "ReplayObserver");
 	d.setBool(TheKey_teamIsSingleton.get(), true);
 	TheSidesList->addTeam(&d);
 	TheSidesList->rva0032E02B();
@@ -4030,8 +4030,8 @@ void GameLogic::CreateMPPlayers(bool isSkirmish, int progressCount)
 		teamName = "team";
 		teamName.concat(name);
 		d.clear();
-		d.setAsciiString(TheKey_teamName.get(), teamName);
-		d.setAsciiString(TheKey_teamOwner.get(), name);
+		d.setAsciiString(((Rva00148F5ECache *)&TheKey_teamName)->get(), teamName);
+		d.setAsciiString(((Rva00148F5ECache *)&TheKey_teamOwner)->get(), name);
 		d.setBool(TheKey_teamIsSingleton.get(), true);
 		TheSidesList->addTeam(&d);
 
@@ -4987,8 +4987,8 @@ void GameLogic::CreateWOTRMPPlayers()
   teamName="team";
   teamName.concat(name);
   d.clear();
-  d.setAsciiString(TheKey_teamName.get(),teamName);
-  d.setAsciiString(TheKey_teamOwner.get(),name);
+  d.setAsciiString(((Rva00148F5ECache *)&TheKey_teamName)->get(),teamName);
+  d.setAsciiString(((Rva00148F5ECache *)&TheKey_teamOwner)->get(),name);
   d.setBool(TheKey_teamIsSingleton.get(),true);
   TheSidesList->addTeam(&d);
  }
