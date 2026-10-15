@@ -27,6 +27,7 @@ class Xfer;
 class Rva001E3E43 : public Snapshot
 {
 public:
+	~Rva001E3E43();	// rowed out of line; this view must not emit its own
 	Rva001E3E43(const Rva001E3E43 &rhs);
 	Rva001E3E43 &operator=(const Rva001E3E43 &rhs);
 private:

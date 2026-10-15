@@ -24,6 +24,7 @@ public:
 class Rva00180B94_Prototype : public GenBase009EB7D0
 {
 public:
+	~Rva00180B94_Prototype();	// rowed out of line; this view must not emit its own
 	Rva00180B94_Prototype(const char *name, void *tree);
 	Rva00180B94_Prototype(const char *name, int arg1, int arg2);
 

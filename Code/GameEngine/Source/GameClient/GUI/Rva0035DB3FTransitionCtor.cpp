@@ -37,5 +37,5 @@ struct Rva0035DB3FFields {
     int m_3c;
 __forceinline Rva0035DB3FFields() {m_10=0;m_14=0;m_18=0;m_1c=0;_ReadWriteBarrier();m_20=-1;m_24=0;m_28=0;m_2c=0;m_30=0;m_34=0;m_38=0;m_3c=0;}
 };
-class Rva0035DA01 : public Rva001DBAA4 { public:Rva0035DA01();private:Rva0035DB3FFields fields;};
+class Rva0035DA01 : public Rva001DBAA4 { public:~Rva0035DA01();Rva0035DA01();private:Rva0035DB3FFields fields;};
 Rva0035DA01::Rva0035DA01() {m_C=0;m_4=6;m_9=true;}

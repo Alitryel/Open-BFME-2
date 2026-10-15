@@ -73,6 +73,7 @@ class Rva006003FC : public Rva0007DF07
 {
 public:
 	Rva006003FC(void *first, void *second, void *third);
+	virtual ~Rva006003FC();	// 0x006003FC, Rva006003FCDtor.cpp
 private:
 	Rva006003FCMember m_08;			// +0x08
 	Rva006003FCInputs m_14;			// +0x14

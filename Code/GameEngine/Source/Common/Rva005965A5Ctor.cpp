@@ -20,6 +20,7 @@ private:
 class Rva005965A5 : public Rva0025BFE3
 {
 public:
+	~Rva005965A5();	// rowed out of line; this view must not emit its own
 	Rva005965A5();
 private:
 	_STL::vector<BfmeE16> m_vec10;

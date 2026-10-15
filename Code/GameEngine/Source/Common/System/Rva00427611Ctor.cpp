@@ -45,6 +45,7 @@ private:
 class Rva00427611 : public BFME2NativeNetwork, public Snapshot
 {
 public:
+	~Rva00427611();	// rowed out of line; this view must not emit its own
 	Rva00427611();
 private:
 	_STL::vector<BfmeE16, _STL::allocator<BfmeE16> > m10;

@@ -16,6 +16,7 @@ private:
 class Rva001E125D : public Rva001DFEAABase
 {
 public:
+	~Rva001E125D();	// rowed out of line; this view must not emit its own
 	Rva001E125D();
 	virtual void dummy1();
 	virtual void dummy2();

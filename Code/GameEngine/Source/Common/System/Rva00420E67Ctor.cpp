@@ -34,6 +34,7 @@ class Rva00420E67 : public Rva00420E67Base, public Snapshot
 {
 public:
 	Rva00420E67();
+	virtual ~Rva00420E67();	// 0x00420E67, Rva00420E67Dtor.cpp
 private:
 	_STL::list<Coord3D> m_list10;
 	bool m_14;

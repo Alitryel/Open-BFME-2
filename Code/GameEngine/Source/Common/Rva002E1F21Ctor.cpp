@@ -35,6 +35,7 @@ private:
 class Rva002E1F42 : public BFME2NativeNetworkBase
 {
 public:
+	~Rva002E1F42();	// rowed out of line; this view must not emit its own
 	Rva002E1F42();
 private:
 	_STL::vector<BfmeE16> m_0c;

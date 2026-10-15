@@ -37,6 +37,7 @@ namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 class Rva004FAC21 : public Rva004FA830
 {
 public:
+	~Rva004FAC21();	// rowed out of line; this view must not emit its own
 	Rva004FAC21(const StringBase<char> &s);
 
 private:

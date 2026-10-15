@@ -1338,25 +1338,7 @@ Condition *Condition::duplicateAndQualify(const AsciiString& qualifier,
 	return pNew;
 }
 
-// ??1Condition@@MAE@XZ present-unmatched
-Condition::~Condition(void) 
-{
-	Int i;
-	for (i=0; i<m_numParms; i++) {
-		m_parms[i]->deleteInstance();
-		m_parms[i] = NULL;
-	}
-	if (m_nextAndCondition) {
-		Condition *cur = m_nextAndCondition;
-		Condition *next;
-		while (cur) {
-			next = cur->getNext();
-			cur->setNextCondition(NULL); // prevents recursion. 
-			cur->deleteInstance();
-			cur = next; 
-		}
-	}
-}
+// Condition::~Condition (0x003B4230) is defined in ScriptConditionActionDtors.cpp.
 
 
 

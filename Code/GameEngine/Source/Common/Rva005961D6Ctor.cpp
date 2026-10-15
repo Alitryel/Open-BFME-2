@@ -28,6 +28,7 @@ public:
 class Rva005961D6 : public Rva0025BFE3
 {
 public:
+	~Rva005961D6();	// rowed out of line; this view must not emit its own
 	Rva005961D6();
 	void rva00596269();
 
