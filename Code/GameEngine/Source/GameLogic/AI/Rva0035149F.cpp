@@ -12,22 +12,6 @@ struct BfmeE12
 	float x, y, z;
 };
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
-class Rva000E016A
-{
-public:
-	BfmeE12 *rva000E016A(unsigned int n, Coord3D *first, Coord3D *last);
-};
-extern "C" void __cdecl free(void *);
-namespace _STL
-{
-struct __false_type
-{
-};
-template <class InputIter, class OutputIter>
-OutputIter __copy_ptrs(InputIter first, InputIter last, OutputIter result, const __false_type &tag);
-template <class InputIter, class ForwardIter>
-ForwardIter __uninitialized_copy(InputIter first, InputIter last, ForwardIter result, const __false_type &tag);
-}
 class Rva0035149F
 {
 public:
@@ -36,37 +20,9 @@ public:
 	BfmeE12 *m_end;
 	Rva0035149F &rva0035149F(const Rva0035149F &other);
 };
-Rva0035149F &Rva0035149F::rva0035149F(const Rva0035149F &other)
-{
-	_STL::__false_type tag;
-	if (&other == this)
-		return *this;
-	unsigned int n = (unsigned int)(other.m_finish - other.m_start);
-	unsigned int cap = (unsigned int)(m_end - m_start);
-	if (n > cap)
-	{
-		BfmeE12 *fresh = ((Rva000E016A *)this)->rva000E016A(n, (Coord3D *)other.m_start, (Coord3D *)other.m_finish);
-		if (m_start)
-			free(m_start);
-		m_start = fresh;
-		m_end = fresh + n;
-	}
-	else
-	{
-		unsigned int sz = (unsigned int)(m_finish - m_start);
-		if (sz >= n)
-		{
-			_STL::__copy_ptrs(static_cast<const BfmeE12 *>(other.m_start), static_cast<const BfmeE12 *>(other.m_finish), m_start, tag);
-		}
-		else
-		{
-			_STL::__copy_ptrs(static_cast<const BfmeE12 *>(other.m_start), static_cast<const BfmeE12 *>(other.m_start + sz), m_start, tag);
-			_STL::__uninitialized_copy((Coord3D *)(other.m_start + (m_finish - m_start)), (Coord3D *)other.m_finish, (Coord3D *)m_finish, tag);
-		}
-	}
-	m_finish = m_start + n;
-	return *this;
-}
+// The existing retail-equal inline definition is owned by
+// AIGroupMoveFormation.cpp, whose callers need its body visible. Keep only
+// the declaration here so the forwarding wrapper uses that one provider.
 
 // ?rva00351759@Rva00351759@@QAEAAVRva0035149F@@ABV2@@Z @0x00351759 8B member-assign forwarder to rowed 0x0035149F.
 // Retail: add ecx 0x3c / jmp 0x35149F.
