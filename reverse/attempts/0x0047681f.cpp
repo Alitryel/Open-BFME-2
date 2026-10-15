@@ -1,6 +1,10 @@
 // ?_horseUpdatePosition@HorseHordeContain@@QAEXPAVObject@@PBUCoord3D@@M@Z
+// partial score=0.802 date=2026-10-15
+// ?_horseUpdatePosition@HorseHordeContain@@QAEXPAVObject@@PBUCoord3D@@M@Z
 // partial score=0.8029213121 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include <math.h>
 class Object;class Thing;class Locomotor;class Path;
@@ -189,6 +193,7 @@ void HorseHordeContain::_horseUpdatePosition(Object*obj,const Coord3D*destinatio
  if(!leaderAI||!unitAI)return;
  if(leaderAI->rva00260DED()==7)state121=true;
  Locomotor*unitLoco=unitAI->loco;Locomotor*leaderLoco=leaderAI->loco;
+ _ReadWriteBarrier();
  if(!unitLoco||!leaderLoco)return;
  if(Rva001E4194Get((Rva001E4194A*)obj)){obj->clear110(0x20000000);return;}
  Coord3D delta;delta.x=goal.x-current.x;delta.y=goal.y-current.y;delta.z=0;

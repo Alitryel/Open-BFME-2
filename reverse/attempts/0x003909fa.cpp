@@ -1,6 +1,10 @@
 // ?consume@Rva003909FAObj@@QAEXPAXHH@Z
+// partial score=0.84 date=2026-10-15
+// ?consume@Rva003909FAObj@@QAEXPAXHH@Z
 // partial score=0.94 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /ICode/Libraries/Include
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include <math.h>
 #include <string.h>
@@ -84,6 +88,7 @@ void Rva003909FAObj::consume(void *force,int source,int weapon) {
  duration+=frames;
  float count=(float)duration;
  float peak=(vertical*0.5f)*(count*0.5f);
+ _ReadWriteBarrier();
  if(peak<0.0f)peak=0.0f;
  Coord3D destination=obj->position;
  position.x=velocity->x*count;destination.x+=position.x;

@@ -1,4 +1,6 @@
 // ?rva006C3220@GeneralAllocatorDebug@@QAE_NH@Z
+// partial score=0.774 date=2026-10-15
+// ?rva006C3220@GeneralAllocatorDebug@@QAE_NH@Z
 // partial score=0.84 date=2026-10-10
 // ?rva006C3220@GeneralAllocatorDebug@@QAE_NH@Z @ 0x006C3220 (429B).
 // Reentrancy-guarded debug-allocator verifier. When the +0x484 guard flag is
@@ -127,7 +129,7 @@ bool ok = 1;
 		GeneralAllocatorChunk *sentinel = &m_delayedFree;
 		while (chunk != sentinel)
 		{
-			VerifyDelayedFreeFill(chunk);
+			VerifyDelayedFreeFill((*(GeneralAllocatorChunk * volatile *)&chunk));
 			chunk = chunk->m_next;
 		}
 		if (level > 1)

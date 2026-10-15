@@ -1,4 +1,6 @@
 // ?locoUpdate_maintainCurrentPosition@Locomotor@@QAE_NPAVObject@@@Z
+// partial score=0.845 date=2026-10-15
+// ?locoUpdate_maintainCurrentPosition@Locomotor@@QAE_NPAVObject@@@Z
 // partial score=0.85986 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /ICode/Libraries/Include
 // Locomotor::locoUpdate_maintainCurrentPosition, native 1E84E5..1E86D0:
@@ -66,7 +68,7 @@ bool Locomotor::locoUpdate_maintainCurrentPosition(Object *obj)
  default:
   speed=0.0f;((Rva001E6516*)this)->rva001E6516(obj);requiresConstantCalling=true;break;
  }
- if(((Rva001E46E1*)this)->rva001E7ECA(obj,&maintainPos)) requiresConstantCalling=true;
+ if(((Rva001E46E1*)this)->rva001E7ECA(obj,&maintainPos)) requiresConstantCalling=requiresConstantCalling;
  ((Thing*)obj)->setTransformMatrix(&savedTransform);
  return requiresConstantCalling;
 }

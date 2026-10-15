@@ -1,6 +1,8 @@
 // ?seekKeyFrame@?$CameraAnimationTrack@VRva00540D94@@@@QAE_NH@Z
 // partial score=0.93 date=2026-10-15
 // ?seekKeyFrame@?$CameraAnimationTrack@VRva00540D94@@@@QAE_NH@Z
+// partial score=0.93 date=2026-10-15
+// ?seekKeyFrame@?$CameraAnimationTrack@VRva00540D94@@@@QAE_NH@Z
 // partial score=0.8 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
 // stlport
@@ -162,7 +164,7 @@ bool CameraAnimationTrack<T>::seekKeyFrame(int frameNum)
 		|| (m_lastUsedKeyFrame > 0 && first[m_lastUsedKeyFrame].m_frame != frameNum))
 		--m_lastUsedKeyFrame;
 		_ReadWriteBarrier();
-	return first[m_lastUsedKeyFrame].m_frame == frameNum;
+	return frameNum == first[m_lastUsedKeyFrame].m_frame;
 }
 
 template bool CameraAnimationTrack<Rva00540D94>::seekKeyFrame(int frameNum);

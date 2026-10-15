@@ -1,4 +1,6 @@
 // ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
+// partial score=0.979 date=2026-10-15
+// ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.9335 date=2026-10-15
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common /ICode
 // BF1 cee35b7d8 Locomotor.cpp handleBehaviorZ and clean ZH Locomotor.cpp2220
@@ -357,7 +359,7 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
   }
   case 4:case 5:
   {
-   requires=true;
+   requires=requires;
    bool relative=data->behavior==4;
    float surface=relative?surfaceAt(pos.x,pos.y):0.0f;
    pos.z=height48+(relative?surface:0.0f);

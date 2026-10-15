@@ -1,4 +1,6 @@
 // ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
+// partial score=0.879 date=2026-10-15
+// ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
 // partial score=0.871 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -123,7 +125,7 @@ void HTreeClass::Base_Update(const Matrix3D &root)
 	for (int piv_idx = 1; piv_idx < NumPivots; piv_idx++) {
 		PivotClass *pivot = &Pivot[piv_idx];
 		const PivotTransform &parent = pivot->Parent->Transform;
-		pivot->Transform.Translation = parent.Translation + Rotate_Vector(pivot->BaseTransform.Translation, parent.Rotation);
+		pivot->Transform.Translation = Rotate_Vector(pivot->BaseTransform.Translation, parent.Rotation) + parent.Translation;
 		pivot->Transform.Rotation = parent.Rotation * pivot->BaseTransform.Rotation;
 		pivot->IsVisible = true;
 		pivot->m_bfme54 = 1.0f;

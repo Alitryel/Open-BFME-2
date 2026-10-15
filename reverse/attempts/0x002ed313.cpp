@@ -1,4 +1,6 @@
 // ?rva002ED313@Pathfinder@@QAE_NPAVObject@@@Z
+// partial score=0.749 date=2026-10-15
+// ?rva002ED313@Pathfinder@@QAE_NPAVObject@@@Z
 // partial score=0.78 date=2026-10-13
 // ?rva002ED313@Pathfinder@@QAE_NPAVObject@@@Z
 // partial score=0.753315 date=2026-10-09
@@ -50,7 +52,7 @@ bool Pathfinder::rva002ED313(Object *obj)
       Object *other=n->object;
       if(other->id!=id) {Object *reserved=info->find(other);if(reserved && (reserved->templ->flag122&0x10))return false;}
      }
-    } else if(((Rva0052DB11 *)c)->rva0052DB11(id))return false;
+    } else if(((Rva0052DB11 *)c)->rva0052DB11(obj->id))return false;
    }
   }
  }

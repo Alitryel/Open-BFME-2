@@ -1,4 +1,6 @@
 // ?rva00425842@@YAXPAVINI@@PAX1PBX@Z
+// partial score=0.838 date=2026-10-15
+// ?rva00425842@@YAXPAVINI@@PAX1PBX@Z
 // partial score=0.8 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /Ireference/shims/bfme2_ascii /Ireference/shims/ini
 // "FormationTemplate" INI block parser (retail 0x00425842, 818 B) and the
@@ -16,6 +18,8 @@
 // for this object (rowed dtors 0x004247E3 and LightPointDtor.cpp), the STL
 // views use the ledger's folded callee spellings, and no container code is
 // instantiated here.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include "Common/INIException.h"
 
@@ -237,6 +241,7 @@ void rva00425842(INI *ini, void *, void *, const void *)
 	int rows = data.m_rows.size();
 	int columns = data.m_rows.front().size();
 	LightPoint *formation = new LightPoint(data.m_key, rows, columns);
+	_ReadWriteBarrier();
 	_STL::vector<CameraMarker> &points = formation->m_points;
 	Rva00421CE9 seen;
 	for (int row = rows - 1; row >= 0; --row)

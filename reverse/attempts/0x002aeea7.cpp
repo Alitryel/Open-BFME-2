@@ -1,4 +1,6 @@
 // ?rva002AEEA7@Player@@QAEXH@Z
+// partial score=0.739 date=2026-10-15
+// ?rva002AEEA7@Player@@QAEXH@Z
 // partial score=0.7 date=2026-10-13
 // ?rva002AEEA7@Player@@QAEXH@Z
 // partial score=0.93 date=2026-10-13
@@ -292,7 +294,7 @@ void Player::rva002AEEA7(int val)
 						theBuilding = ((BfmeWideResult *)&hits)->next();
 					}
 				}
-				team = (team->*pmf)();
+				team = ((*(Team * volatile *)&team)->*pmf)();
 			} while (team != 0);
 		}
 	}

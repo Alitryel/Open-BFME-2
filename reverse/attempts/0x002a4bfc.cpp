@@ -1,4 +1,6 @@
 // ?rva002A4BFC@Rva002A3DD3@@QAEXPAVObject@@PAVThingTemplate@@PBUICoord2D@@URGBColor@@@Z
+// partial score=0.911 date=2026-10-15
+// ?rva002A4BFC@Rva002A3DD3@@QAEXPAVObject@@PAVThingTemplate@@PBUICoord2D@@URGBColor@@@Z
 // partial score=0.8273216979099332 date=2026-10-14
 // ?rva002A4BFC@Rva002A3DD3@@QAEXPAVObject@@PAVThingTemplate@@PBUICoord2D@@URGBColor@@@Z
 // partial score=0.8273216979099332 date=2026-10-14
@@ -338,9 +340,9 @@ void Rva002A3DD3::rva002A4BFC(Object *object,ThingTemplate *type,const ICoord2D 
   int remaining=total;
   FormationGroup **it=begin;
   for(it=begin; remaining>0 && it!=end; ++it) {
-   FormationGroup *group=*it;
+   FormationGroup *group=*begin;
    int length=group->last-group->first;
-   for(int i=0; remaining>0 && i<length; ++i) {
+   for(int i=0; remaining>0 && i<group->last-group->first; ++i) {
     --remaining; average.x+=group->first[i].x; average.y+=group->first[i].y;
    }
   }

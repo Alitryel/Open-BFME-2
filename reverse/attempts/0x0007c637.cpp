@@ -1,4 +1,6 @@
 // ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
+// partial score=0.851 date=2026-10-15
+// ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
 // partial score=0.8488948403842022 date=2026-10-14
 // cl: /O1 /Og /Oi /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_CRTIMP= /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
@@ -64,7 +66,7 @@ bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float ep
    if(i==current) continue;
    unsigned j;
    for(j=0;j<count;++j) {
-    if(j==i || j==current) continue;
+    if(j==i || current == j) continue;
     int a=current,b=i,c=j;
     bool flip=false;
     if(a>b){std::swap(a,b);flip=true;}

@@ -1,4 +1,6 @@
 // ?UnknownSlot3@BFME2Encoding0MotionChannel@@UAEXMPAMPAPAE@Z
+// partial score=0.94 date=2026-10-15
+// ?UnknownSlot3@BFME2Encoding0MotionChannel@@UAEXMPAMPAPAE@Z
 // partial score=0.79 date=2026-10-15
 // ?UnknownSlot3@BFME2Encoding0MotionChannel@@UAEXMPAMPAPAE@Z
 // partial score=0.9 date=2026-10-12
@@ -70,7 +72,7 @@ void BFME2Encoding0MotionChannel::UnknownSlot3(float frame, float *value, unsign
 	int idx = LocalFindIndex((unsigned int)frame, reinterpret_cast<int **>(cursor));
 	int index = idx;
 	int last = Count - 1;
-	if (idx == last || (TimeCodes[index + 1] & 0x8000)) {
+	if (last == idx || (TimeCodes[index + 1] & 0x8000)) {
 		*value = Samples[last * Components]; return;
 	}
 	float t0 = float(TimeCodes[index] & ~0x8000), t1 = float(TimeCodes[index + 1] & ~0x8000);

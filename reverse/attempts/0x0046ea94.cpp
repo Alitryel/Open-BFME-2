@@ -1,4 +1,6 @@
 // ?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z
+// partial score=0.836 date=2026-10-15
+// ?rva0046EA94@HordeContain@@UAE_NPAVObject@@@Z
 // partial score=0.766 date=2026-10-14
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /D_CRTIMP= /arch:SSE /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G7 /Ireference/shims/bfmelist /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
@@ -1391,7 +1393,7 @@ bool HordeContain::rva0046EA94(Object *obj)
 			return false;
 		return true;
 	}
-	if (!self || other == self)
+	if (!(*(Object * volatile *)&self) || other == self)
 		return false;
 	AsciiString name;
 	name = other->m_template->m_64;

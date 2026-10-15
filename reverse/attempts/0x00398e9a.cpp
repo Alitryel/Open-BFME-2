@@ -1,4 +1,6 @@
 // ?rva00398E9A@CastleBehavior@@QAEXXZ
+// partial score=0.898 date=2026-10-15
+// ?rva00398E9A@CastleBehavior@@QAEXXZ
 // partial score=0.870247 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /I.
 // stlport
@@ -57,7 +59,7 @@ void CastleBehavior::rva00398E9A(){
   players.insert(entry);
   int value=player->state==0?2:1;
   int index=player->index;
-  if(weights[index]<0)weights[index]=value;
+  if(weights[index]<0)weights[player->index]=value;
   weights[index]+=value;
   weights[index]+=value*candidate->type->weight;
  }

@@ -1,4 +1,6 @@
 // ?rva002A4A68@Rva002A4A68@@QAEXXZ
+// partial score=0.927 date=2026-10-15
+// ?rva002A4A68@Rva002A4A68@@QAEXXZ
 // partial score=0.91 date=2026-10-13
 // ?rva002A4A68@Rva002A4A68@@QAEXXZ
 // partial score=0.8952 date=2026-10-13
@@ -170,7 +172,7 @@ update:;
         Rva002D7127 *o2 = p->m_obj;
         o2->m_2c = v;
         o2->m_30 = v;
-        o2->rva002D6F80(p->m_4, p->m_8, TheWritableGlobalData->m_db4);
+        p->m_obj->rva002D6F80(p->m_4, p->m_8, TheWritableGlobalData->m_db4);
         cur = *(void * *)cur;
         if (cur != *(void * *)lst)
             continue;

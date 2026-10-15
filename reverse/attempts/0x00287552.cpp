@@ -1,4 +1,6 @@
 // ?rva00287552@FireLogicSystem@@QAEXPAURva00287C21Other@@H@Z
+// partial score=0.921 date=2026-10-15
+// ?rva00287552@FireLogicSystem@@QAEXPAURva00287C21Other@@H@Z
 // partial score=0.9173 date=2026-10-14
 // ?rva00287552@FireLogicSystem@@QAEXPAURva00287C21Other@@H@Z
 // partial score=0.9189 date=2026-10-09
@@ -1003,7 +1005,7 @@ void FireLogicSystem::rva00287552(Rva00287C21Other *obj, int add)
   p.y = pos.y;
   p.x = pos.x;
   p.z = pos.z;
-  const float c = Cos(angle);
+  const float c = Cos(obj->m_angle);
   float s = Sin(angle);
   shape->bfmeApplyVNB(&p, angle);
   switch (shape->m_type)
@@ -1048,7 +1050,7 @@ void FireLogicSystem::rva00287552(Rva00287C21Other *obj, int add)
       
      }
      rowX += rowStepX;
-     rowY += rowStepY;
+     (*(float volatile *)&sy) += rowStepY;
      
     }
     break;

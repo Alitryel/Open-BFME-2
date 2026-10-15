@@ -1,4 +1,6 @@
 // ?DoXfer@GeometryInfo@@UAEXAAVXfer@@@Z
+// partial score=0.849 date=2026-10-15
+// ?DoXfer@GeometryInfo@@UAEXAAVXfer@@@Z
 // partial score=0.94 date=2026-10-05
 // cl: /O2 /DNDEBUG /MD /GX- /Ob2 /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
@@ -206,7 +208,7 @@ void GeometryInfo::DoXfer(Xfer &xfer)
 		xfer == shape->m_minorRadius;
 		xfer == shape->m_offset;
 		if (version.m_minimum > 1)
-			xfer == shape->m_enabled;
+			xfer == shapes->m_begin->m_enabled;
 	}
 
 	xfer == self->m_boundingCircleRadius;

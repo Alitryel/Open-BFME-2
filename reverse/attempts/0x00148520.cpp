@@ -1,4 +1,6 @@
 // ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
+// partial score=0.904 date=2026-10-15
+// ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
 // partial score=0.910443 date=2026-10-15
 // ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
 // partial score=0.9 date=2026-10-14
@@ -68,7 +70,7 @@ void DX8SkinFVFCategoryContainer::Render() {
  DynamicVBAccessClass vb(sorting?3:2,5,maxVertexCount,0);
  unsigned renderedVertexCount=0;
  MeshClass*mesh=VisibleSkinHead;
- MeshClass*remainingMesh=VisibleSkinHead;
+ MeshClass*remainingMesh=mesh;
  while(renderedVertexCount<VisibleVertexCount){
   mesh=remainingMesh;
   {
@@ -81,7 +83,7 @@ void DX8SkinFVFCategoryContainer::Render() {
     if(vertex_offset+mesh_vertex_count>maxVertexCount || remainingMesh){mesh->Set_Base_Vertex_Offset(65535);if(!remainingMesh)remainingMesh=mesh;mesh=mesh->Peek_Next_Visible_Skin();continue;}
     if(mesh->Anchor && *mesh->Anchor){
      Debug_Statistics::Record_DX8_Skin_Polys_And_Vertices(mesh->Get_Num_Polys(),mesh_vertex_count);
-     mesh->Set_Base_Vertex_Offset((*mesh->Anchor)->Get_Base_Vertex_Offset());
+     mesh->Set_Base_Vertex_Offset((*(*(MeshClass* volatile *)&remainingMesh)->Anchor)->Get_Base_Vertex_Offset());
      renderedVertexCount+=mesh_vertex_count;mesh=mesh->Peek_Next_Visible_Skin();continue;
     }
     Debug_Statistics::Record_DX8_Skin_Polys_And_Vertices(mesh->Get_Num_Polys(),mesh_vertex_count);

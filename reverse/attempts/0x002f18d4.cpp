@@ -1,4 +1,6 @@
 // ?cellCallback@Rva002F18D4Info@@QAEHPAVPathfindCell@@0HH@Z
+// partial score=0.856 date=2026-10-15
+// ?cellCallback@Rva002F18D4Info@@QAEHPAVPathfindCell@@0HH@Z
 // partial score=0.823 date=2026-10-15
 // ?cellCallback@Rva002F18D4Info@@QAEHPAVPathfindCell@@0HH@Z
 // partial score=0.9 date=2026-10-09
@@ -85,7 +87,7 @@ int Rva002F18D4Info::cellCallback(PathfindCell*previous,PathfindCell*current,int
      float dx=op->x-fx,dy=op->y-fy,px=pp->x-fx,py=pp->y-fy;
      _ReadWriteBarrier();
      float od=dy*dy+dx*dx,pd=py*py+px*px;
-     if(pd>od)return 0;
+     if(od < pd)return 0;
     }
    }
   }else{

@@ -1,4 +1,6 @@
 // ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
+// partial score=0.903 date=2026-10-15
+// ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
 // partial score=0.896 date=2026-10-14
 // ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
 // partial score=0.8652393 date=2026-10-13
@@ -711,7 +713,7 @@ void SpecialAbilityUpdate::finishAbility()
 				Coord3D dir = {facing->x,facing->y,facing->z};
 				dir.normalize();
 				float range = data->m_fleeRangeAfterCompletion;
-				float y=dir.y,z=dir.z,x=dir.x;dir.x=x*range;dir.y=y*range;dir.z=z*range;
+				float y=dir.y,z=dir.z,x=dir.x;dir.x=x*range;dir.y=y*data->m_fleeRangeAfterCompletion;dir.z=z*range;
 				if (!(!(data->m_flipObjectAfterUnpacking || data->m_flipObjectAfterPacking)))
 				{
 					pos.x = pos.x + (dir.x);
