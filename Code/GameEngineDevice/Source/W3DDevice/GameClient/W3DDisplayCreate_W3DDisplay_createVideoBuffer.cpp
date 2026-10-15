@@ -96,7 +96,9 @@ public:
 	W3DDynamicLightPulseShim *getADynamicLight();
 };
 
-void __cdecl W3DRadarResetLock(void);
+// Retail's lock call is the existing BFME_DX8_Thread_Lock provider at
+// 0x0011F520. Use its real binding in the inline guard as other consumers do.
+void __cdecl BFME_DX8_Thread_Lock(void);
 bool __cdecl BFME_DX8_Thread_Assert(void);
 
 class BFMEDX8DeviceLock
@@ -105,7 +107,7 @@ public:
 	// Keep the inline lock without emitting a competing constructor copy.
 	__declspec(dllimport) __forceinline BFMEDX8DeviceLock(void)
 	{
-		W3DRadarResetLock();
+		BFME_DX8_Thread_Lock();
 	}
 
 	~BFMEDX8DeviceLock(void)
