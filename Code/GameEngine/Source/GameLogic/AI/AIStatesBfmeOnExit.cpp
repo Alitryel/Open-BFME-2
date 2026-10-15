@@ -268,10 +268,16 @@ enum KindOfType
 	KINDOF_BFME_84 = 0x84
 };
 
+// Call view for the existing folded fld [ecx+0x14]; ret provider at 0x0049CB57.
+class TerrainRoadType
+{
+public:
+	float getRoadWidth();
+};
+
 class WeaponTemplate
 {
 public:
-	Real rva0049CB57() const;
 	Real getAimDelta() const { return m_aimDelta; }
 private:
 	unsigned char m_pad00[0x2C];
@@ -893,7 +899,7 @@ Bool AIChargeTargetState::rva0034BF20()
 	delta.x -= victimPosition->x;
 	delta.y -= victimPosition->y;
 	delta.z -= victimPosition->z;
-	Real range = weapon->getTemplate()->rva0049CB57();
+	Real range = ((TerrainRoadType *)weapon->getTemplate())->getRoadWidth();
 	if (delta.x * delta.x + delta.y * delta.y + delta.z * delta.z < range * range)
 	{
 		Real angleThreshold = weapon->getTemplate()->getAimDelta();

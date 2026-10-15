@@ -19,17 +19,20 @@
 // weapon (when set) is fired from our Object at the other through
 // TheWeaponStore (the rowed rva002CE964) if the two positions are within the
 // weapon's range (its +0x14 float; the getter folds with the rowed
-// TerrainRoadType::getRoadWidth and is pinned for WeaponTemplate) by the rowed
+// TerrainRoadType::getRoadWidth, used here only as a call view) by the rowed
 // 0x004C20D5 distance test (reached as a member; pinned for this class).
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../Common/GameLogicObjectLookupView.h"
 #define _STLP_NO_EXCEPTIONS 1
 #include <hash_map>
-class WeaponTemplate
+// Call view for the existing folded fld [ecx+0x14]; ret provider at 0x0049CB57.
+class TerrainRoadType
 {
 public:
-	float rva0049CB57() const;
+	float getRoadWidth();
 };
+
+class WeaponTemplate;
 class Object;
 namespace {
 typedef _STL::hash_map<ObjectID, Object *, _STL::hash<int>, _STL::equal_to<ObjectID> > ObjectPtrHashVF;
@@ -171,7 +174,7 @@ void PorcupineFormationBodyModule::rva004C21A9(DamageInfo *damageInfo)
 				Object *target = TheGameLogic->findObjectByID(damageInfo->m_sourceID);
 				if (target != 0 && !target->test438Bit0() &&
 					!target->getTemplate()->testKindOf10BBit1() &&
-					this->Rva004C20D5IsWithin(weapon->rva0049CB57(), source->getPosition(), target->getPosition())) {
+					this->Rva004C20D5IsWithin(((TerrainRoadType *)weapon)->getRoadWidth(), source->getPosition(), target->getPosition())) {
 					TheWeaponStore->rva002CE964(data->m_reactionWeapon, source, target);
 				}
 			}
@@ -205,7 +208,7 @@ bool PorcupineFormationBodyModule::rva004C2127(Object *other)
 	const WeaponTemplate *weapon = data->m_weapon;
 	if (weapon == 0)
 		return false;
-	if (Rva004C20D5IsWithin(weapon->rva0049CB57(), self->getPosition(), other->getPosition()))
+	if (Rva004C20D5IsWithin(((TerrainRoadType *)weapon)->getRoadWidth(), self->getPosition(), other->getPosition()))
 		TheWeaponStore->rva002CE964(data->m_weapon, self, other);
 	return false;
 }

@@ -142,12 +142,28 @@ public:
 extern GameEngine *TheGameEngine;
 extern float BfmeClientFramesPerMillisecond;	// logic frames per millisecond (0.03)
 
+// Match the recovered 0x002CAB3A provider's hidden-result ABI.
+struct TargetCoord
+{
+	float x, y, z;
+	TargetCoord() {}
+	TargetCoord(float a, float b, float c) : x(a), y(b), z(c) {}
+	TargetCoord(const Coord3D &p) : x(p.x), y(p.y), z(p.z) {}
+};
+
+// 0x0049CB57 is the folded fld [ecx+0x14]; ret body. Use its existing
+// provider as a call view; this does not identify a weapon as a road type.
+class TerrainRoadType
+{
+public:
+	Real getRoadWidth();
+};
+
 class WeaponTemplate
 {
 public:
-	Coord3D *getAimPosition(Coord3D *out, const Object *proj, const Object *victim, Int flag);	// 0x002CAB3A
+	TargetCoord adjustTargetPositionOnVictim(Object *source, Object *victim, Bool flag);	// 0x002CAB3A
 	Real getMinimumAttackRange() const;	// 0x002C92FA
-	Real rva0049CB57() const;		// 0x0049CB57, getUnmodifiedAttackRange
 	__declspec(dllimport) __forceinline Real getWeaponSpeed() const { return m_weaponSpeed; }
 	__declspec(dllimport) __forceinline Real getMinWeaponSpeed() const { return m_minWeaponSpeed; }
 	Real getMaxWeaponSpeed() const { return m_maxWeaponSpeed; }
@@ -239,7 +255,7 @@ void BezierProjectileBehavior::projectileFireAtObjectOrPosition(Object *victim, 
 	if (victim)
 	{
 		Coord3D aim;
-		victimPosToUse = *m_weapon->getAimPosition(&aim, obj, victim, 1);
+		victimPosToUse = (const Coord3D &)m_weapon->adjustTargetPositionOnVictim(obj, victim, true);
 	}
 	else
 	{
@@ -257,7 +273,7 @@ void BezierProjectileBehavior::projectileFireAtObjectOrPosition(Object *victim, 
 		weaponSpeed = bezierMax(weaponSpeed, minWeaponSpeed);
 
 		Real minRange = m_weapon->getMinimumAttackRange();
-		Real maxRange = m_weapon->rva0049CB57();
+		Real maxRange = ((TerrainRoadType *)m_weapon)->getRoadWidth();
 		Real dx = obj->getPosition()->x - victimPosToUse.x;
 		Real dy = obj->getPosition()->y - victimPosToUse.y;
 		Real distSq = dx * dx + dy * dy;
