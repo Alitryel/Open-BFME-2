@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /Oy- /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // Retail 0x0020DA21..0x0020DA49: LargeGroupAudio's INI load helper.
 // The constructor at 0x0020DD59 installs primary table 0x00BE40A0;
 // its init slot is 0x0020DA49. Both init and slot 4 (0x0020DB09) pass

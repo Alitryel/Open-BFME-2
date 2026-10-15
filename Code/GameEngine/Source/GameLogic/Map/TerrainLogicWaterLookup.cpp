@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /Oy- /arch:SSE /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /O1 /G7 /arch:SSE /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 // Native28170E..2817F2 RET12 selects the first registered area with strictly
 // greater height than the running lower bound and containing (x,y). Target

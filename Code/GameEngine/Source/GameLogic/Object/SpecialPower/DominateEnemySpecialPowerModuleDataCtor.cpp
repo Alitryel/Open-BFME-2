@@ -1,4 +1,4 @@
-// cl: /MD /GX /DNDEBUG /Oy-
+// cl: /MD /GX /DNDEBUG
 //
 // ??0DominateEnemySpecialPowerModuleData@@QAE@XZ, retail 0x004CCA24, 122 bytes.
 // SpecialPower-side ModuleData for the DominateEnemy power. The class runs
