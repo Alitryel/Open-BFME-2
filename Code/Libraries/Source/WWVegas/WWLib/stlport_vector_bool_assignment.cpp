@@ -28,13 +28,14 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "PreRTS.h"
 
 #include <vector>
-// bfme link decl-only begin
-namespace _STL { template <> _Bit_reference vector<bool, allocator<bool> >::operator[](unsigned int); }
-namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> & _Bit_iter<_Bit_reference, _Bit_reference *>::operator++(); }
-namespace _STL { template <> void vector<bool, allocator<bool> >::resize(unsigned int, bool); }
-// bfme link decl-only end
+template unsigned int * _STL::allocator<unsigned int>::allocate(unsigned int, const void *) const;
 
-// RVA6D52A has a verified external provider; do not offer a wrong incidental copy.
-namespace _STL { template<> void vector<bool>::clear(); }
+extern void (_STL::_Bit_iterator_base::*const g_bumpDown)();
+void (_STL::_Bit_iterator_base::*const g_bumpDown)() = &_STL::_Bit_iterator_base::_M_bump_down;
 
-template class _STL::vector<bool>;
+
+template <typename T>
+void bfmeEmitBool(T *r) {
+    (void)(bool)*r;
+}
+template void bfmeEmitBool<_STL::_Bit_reference>(_STL::_Bit_reference *);
