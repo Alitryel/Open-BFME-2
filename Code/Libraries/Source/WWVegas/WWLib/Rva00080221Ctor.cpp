@@ -51,30 +51,8 @@ Rva00080221::Rva00080221(const int *arg)
 // Each impl is a class over the same ref-counted base. Owners keep their
 // addresses.
 // 0x0044BC76 and 0x005773DB live in their consumer units (MessageBox.cpp,
-// Rva005E62F1Constructor.cpp), which need the bodies visible.
-
-// ??0Rva00211E75@@QAE@PBH@Z @0x00211E75 53B, impl vtable VA 0xbe5128
-struct Impl00211E75 : Rva00080221RefImpl
-{
-	int m_value;
-	Impl00211E75(const int &value) : m_value(value) {}
-};
-
-class Rva00211E75
-{
-public:
-	Rva00211E75(const int *arg);
-private:
-	Impl00211E75 *m_impl;
-};
-
-Rva00211E75::Rva00211E75(const int *arg)
-{
-	Impl00211E75 *p = new Impl00211E75(*arg);
-	m_impl = p;
-	if (p != 0)
-		++p->m_ref;
-}
+// Rva005E62F1Constructor.cpp), which need the bodies visible; so does
+// 0x00211E75 (AptMainMenuUpdate.cpp).
 
 // ??0Rva002D4594@@QAE@PBH@Z @0x002D4594 53B, impl vtable VA 0xc02aec
 struct Impl002D4594 : Rva00080221RefImpl

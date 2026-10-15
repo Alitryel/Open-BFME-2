@@ -1,30 +1,8 @@
-// ?rva00515C64@AptMainMenu@@QAEHXZ
-// partial score=0.98 date=2026-10-13
-// ?rva00515C64@AptMainMenu@@QAEHXZ
-// partial score=0.985 date=2026-10-12
-// ?rva00515C64@AptMainMenu@@QAEHXZ
-// partial score=0.97 date=2026-10-09
-// cl: /I. /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD /Ireference/shims/bfme2_ascii
-// ?rva00515C64@AptMainMenu@@QAEHXZ
+// cl: /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD /Ireference/shims/bfme2_ascii
 // Retail 0x00515C64..0x00515F7B (791 bytes, followed by the 12-entry jump
 // table of the inner switch, which this build emits after the code as well).
-// 2026-10-12: naming the case-1 "0" string in its own block (found computed
-// inside it) aligns case 5/6 temporaries; 9 slot operands remain: retail
-// callback at -0x18 (shared with the case-6 spill), "0" string at -0x14 and the
-// ESP save alone at -0x2c; this build: callback -0x14, string+ESP save -0x18.
-// Callback at top / switch / own block, case 9 unbraced, outer-case reorder: no gain.
-// BANKED NEAR MISS (score ~0.97): every instruction and the frame size
-// (0x20) match; only the stack-slot assignment differs (18 operands):
-// retail puts the "0" save-name temporary at [ebp-0x14], the callback int at
-// [ebp-0x18] (shared with case 6's spilled fetch result) and the by-value
-// argument's ESP save at [ebp-0x2c]; this build puts the callback at
-// [ebp-0x14], the temporary at [ebp-0x18] and shares the ESP save with the
-// spill at [ebp-0x1c]. Tried: callback declared at function / case-9 /
-// per-case scope, forwarding by-value int ctor (frame grows to 0x24), the
-// found flag hoisted. Plus the three pins listed below.
-//
 // AptMainMenu's per-frame state machine (vtable entry 0x00865F24; returns 1):
-// 1 hides the shell and, when the "0" save state loads, resets the engine
+// 1 hides the shell and, when the "00000000.sav" save state loads, resets the engine
 // and leaves the restart (else waits in 2); 4 updates the credits roll and
 // asks the Apt movie level to "HideCredits" when it finished; 5 / 6 check the
 // firewall helper at +0x290 (rowed init 0x005B7107) and either show the
@@ -35,14 +13,16 @@
 // the LAN / online restarts registering callbacks 0x005148AA / 0x005148FD
 // through the rowed 0x003FE7E6 registry, skirmish after rowed
 // GameLogic::rva00376E92), then idles.
-// The callback temporary follows Rva00211FA8Registration.cpp's forwarding
-// constructor. Inner case bodies are written in retail's layout order.
-// PINS (all placeholder-named addresses):
-//   ?Rva00515BCA@@YAXD@Z -> 0x00515BCA  (retail passes the side byte as is)
-//   ?Rva00515C17@@YAXD@Z -> 0x00515C17
-//   ?rva00514E20@AptMainMenu@@QAEXXZ -> 0x00514E20  (called with the menu in ECX)
+// Inner case bodies are written in retail's layout order.
+// Address-named pins: ?Rva00515BCA@@YAXD@Z / ?Rva00515C17@@YAXD@Z (retail passes
+// the side byte as is: mov al,[esi+0x2A8]; push eax) and
+// ?rva00514E20@AptMainMenu@@QAEXXZ (0x00514E20 is entered with the menu in ECX).
+// Frame: the callback wrapper constructor 0x00211E75 is defined in this unit
+// (its row lives here) so cl sees that the callback int's address does not
+// escape it; that gives retail's 0x20 frame with the by-value argument's ESP
+// save alone at [ebp-0x2C]. The callback int is declared per case.
 #include "unicode_string.h"
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 class AptSaveLoad { public: static void OpenScreen(int mode, int screen, bool flag); };
 class AptOptions { public: static void OpenScreen(bool a, bool b, bool c, bool d); };
@@ -52,9 +32,20 @@ void Rva00515BCA(char side);	// 0x00515BCA
 void Rva00515C17(char side);	// 0x00515C17
 void Rva00437E84(int owner, const UnicodeString &title, const UnicodeString &message);	// AptMessageBox::Show
 
-// The callback wrapper (rowed ctor 0x00211E75) and its forwarding by-value
-// form, as in Rva00211FA8Registration.cpp.
-struct Impl00211E75;
+// The callback wrapper (rowed ctor 0x00211E75, 53B, impl vtable VA 0xBE5128;
+// moved here from Rva00080221Ctor.cpp) and its forwarding by-value form.
+void *__cdecl operator new(unsigned int size);
+struct Rva00080221RefImpl
+{
+	virtual ~Rva00080221RefImpl() {}
+	int m_ref;
+	Rva00080221RefImpl() : m_ref(0) {}
+};
+struct Impl00211E75 : Rva00080221RefImpl
+{
+	int m_value;
+	Impl00211E75(const int &value) : m_value(value) {}
+};
 class Rva00211E75
 {
 public:
@@ -64,11 +55,17 @@ public:
 private:
 	Impl00211E75 *m_impl;
 };
+Rva00211E75::Rva00211E75(const int *arg)
+{
+	Impl00211E75 *p = new Impl00211E75(*arg);
+	m_impl = p;
+	if (p != 0)
+		++p->m_ref;
+}
 class Rva00211E75Callback : public Rva00211E75
 {
 public:
 	~Rva00211E75Callback();
-	Rva00211E75Callback(int callback) : Rva00211E75(&callback) {}
 	Rva00211E75Callback(const int *callback) : Rva00211E75(callback) {}
 };
 bool Rva003FE7E6(Rva00211E75Callback callback, int *id);
@@ -156,11 +153,7 @@ int AptMainMenu::rva00515C64()
 	case 1:
 	{
 		TheShell->rva0035BF4C(true);
-		bool found;
-		{
-			UnicodeString name(L"0");
-			found = TheGameState->rva002DF2F6(name) != 0;
-		}
+		bool found = TheGameState->rva002DF2F6(UnicodeString(L"00000000.sav")) != 0;
 		if (found)
 		{
 			TheGameEngine->reset();
@@ -213,7 +206,6 @@ int AptMainMenu::rva00515C64()
 	case 9:
 	{
 		rva00514F2E();
-		int callback;
 		switch (m_next)
 		{
 		case 1: AptSaveLoad::OpenScreen(2, 11, false); break;
@@ -227,14 +219,14 @@ int AptMainMenu::rva00515C64()
 		case 6:
 		{
 			rva00514E20();
-			callback = (int)&Rva005148AA;
+			int callback = (int)&Rva005148AA;
 			Rva003FE7E6(Rva00211E75Callback(&callback), &g_00E02EC4);
 			break;
 		}
 		case 10:
 		{
 			rva00514E20();
-			callback = (int)&Rva005148FD;
+			int callback = (int)&Rva005148FD;
 			Rva003FE7E6(Rva00211E75Callback(&callback), &g_00E02EC4);
 			break;
 		}
