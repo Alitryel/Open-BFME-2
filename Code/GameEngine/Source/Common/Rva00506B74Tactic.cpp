@@ -143,6 +143,13 @@ class Rva00506FE9Hit;
 // Legacy vector spelling is an opaque pointer handle. Its existing container
 // ABI is retained; only AIBase objects are constructed and accessed through it.
 class Rva005ADA40;
+class ModuleData;
+// 0x005AD99C is rowed as Rva005AD99C::rva005AD99C over a vector<const ModuleData *>.
+class Rva005AD99C
+{
+public:
+	void rva005AD99C(const AsciiString &name, _STL::vector<const ModuleData *> *hits);
+};
 class AIBase
 {
 public:
@@ -150,7 +157,6 @@ public:
 	~AIBase();
 	void DoXfer(Xfer *xfer);
 	void loadBestFitTemplate(Coord3D *point, float angle, int more);
-	void rva005AD99C(const AsciiString &name, _STL::vector<Rva00506FE9Hit *> *hits);
 	void rva005ADC63();
 	Rva005AD9C0Hit *rva005AD9C0(void *arg);
 private:
@@ -343,7 +349,7 @@ void AIBaseBuilder::notifyBuildingDestroyed(Object *obj)
 		name = ((Rva00506FE9ObjectView *)obj)->m_template->m_name;
 	Rva005ADA40 **end = m_0C.end();
 	for (Rva005ADA40 **it = m_0C.begin(); it != end; ++it)
-		reinterpret_cast<AIBase *>(*it)->rva005AD99C(name, &hits);
+		reinterpret_cast<Rva005AD99C *>(*it)->rva005AD99C(name, (_STL::vector<const ModuleData *> *)&hits);
 	if (!hits.empty()) {
 		Rva002A8B59Data *data = g_00DFEEF8->rva002A8B59(m_08);
 		for (Rva00506FE9Hit **h = hits.begin(); h != hits.end(); ++h) {

@@ -10461,7 +10461,6 @@ name,address,notes
 ?rva005A9693@Rva005A9562@@QAEXXZ,0x005A9693,reset of the +0x04 Rva005A9562; REL32 at 0x005058FD
 ?rva005AA2D9@Rva0015334F@@QAEXPAURva005AA55DRecord@@PBUCoord3D@@1@Z,0x005AA2D9,FlankAttack route planner from a start to an end point; REL32 at 0x005AA5FB in the FlankAttack slot 6
 ?rva005AC294@Rva005AB7E5@@QAE_NXZ,0x005AC294,"StructureCreep: pick a creep structure name and start its build order at a free spot; REL32 in StructureCreep slot 7 0x005AC549 (body banked 0.85)"
-?rva005AD99C@AIBase@@QAEXABVAsciiString@@PAV?$vector@PAVRva00506FE9Hit@@V?$allocator@PAVRva00506FE9Hit@@@_STL@@@_STL@@@Z,0x005AD99C,element collect-by-name (rowed under Rva005AD99C); REL32 at 0x0050704B in Rva00506B74::rva00506FE9
 ?rva005AD9C0@AIBase@@QAEPAVRva005AD9C0Hit@@PAX@Z,0x005AD9C0,element lookup returning a polymorphic hit; REL32s at 0x00506C0F and 0x00506C49 in Rva00506B74 searches
 ?rva005AD9E6@Rva005AD9E6@@QAEIXZ,0x005AD9E6,unsigned list-size walk of the +0x140 list (retail 0x005AD9E6 walks the circular head to count); REL32 at 0x005ADB25 in Rva005ADA40::rva005ADAB2
 ?rva005ADC63@AIBase@@QAEXXZ,0x005ADC63,per-element update; REL32 at 0x00506BE8 in Rva00506B74 slot 1
