@@ -3631,12 +3631,56 @@ static __declspec(noinline) Bool rva002B6F31TemplateFromMessage(ArmorTemplate **
 	return *tmpl != 0;
 }
 
+// Native 2B2CA9..2B2DAD: the rest of the family between the rowed
+// validateMessageArgumentIndex and getBattleFromMessage, same convention
+// (the receiver in ECX). Two battle index validators (army index below the
+// side's army count 0x003F4DAE, unit index below the army's unit count
+// 0x003F4DCA; int results) and three message getters (the region's build
+// plot 0x003F088C, TheLivingWorldLogic rva002B2579 and the raw nonzero
+// integer). No call to any of them survives in the image. Identities
+// unproven; RVA-qualified names.
+static __declspec(noinline) Int rva002B2CA9ValidArmyIndex(Rva003F468D *battle, Int armyIndex, Int side)
+{
+	return armyIndex >= 0 && armyIndex < battle->rva003F4DAE(side);
+}
+
+static __declspec(noinline) Int rva002B2CC6ValidUnitIndex(Rva003F4DCA *battle, Int unitIndex, Int side, Int army)
+{
+	return unitIndex >= 0 && unitIndex < battle->rva003F4DCA(side, army);
+}
+
+static __declspec(noinline) Bool rva002B2D14PlotFromMessage(LivingWorldBuildPlot **plot, const GameMessage *msg, Int argIndex, LivingWorldRegion *region)
+{
+	*plot = region->rva003F088C(msg->getArgument(argIndex)->integer);
+	return *plot != 0;
+}
+
+static __declspec(noinline) Bool rva002B2D38ResultFromMessage(void **out, const GameMessage *msg, Int argIndex)
+{
+	*out = ((Rva002BA8F1Logic *)((Rva002B254F *)TheLivingWorldLogic))->rva002B2579(msg->getArgument(argIndex)->integer);
+	return *out != 0;
+}
+
+static __declspec(noinline) Bool rva002B2D92IntegerFromMessage(Int *value, const GameMessage *msg, Int argIndex)
+{
+	*value = msg->getArgument(argIndex)->integer;
+	return *value != 0;
+}
+
+// Retail keeps the helpers above without any surviving caller; this anchor
+// only forces cl to emit them in the unit's file-static convention.
 // ?Rva002B5414Anchor absent-from-retail
-Bool Rva002B5414Anchor(const GameMessage *msg)
+Bool Rva002B5414Anchor(const GameMessage *msg, void *battle, LivingWorldRegion *region)
 {
 	Rva002E2903Player *player;
 	ArmorTemplate *tmpl;
-	return rva002B5414PlayerFromMessage(&player, msg, 0) && rva002B6F31TemplateFromMessage(&tmpl, msg, 1);
+	LivingWorldBuildPlot *plot;
+	void *result;
+	Int value;
+	return rva002B5414PlayerFromMessage(&player, msg, 0) && rva002B6F31TemplateFromMessage(&tmpl, msg, 1)
+		&& rva002B2CA9ValidArmyIndex((Rva003F468D *)battle, 0, 1) && rva002B2CC6ValidUnitIndex((Rva003F4DCA *)battle, 0, 1, 2)
+		&& rva002B2D14PlotFromMessage(&plot, msg, 2, region) && rva002B2D38ResultFromMessage(&result, msg, 3)
+		&& rva002B2D92IntegerFromMessage(&value, msg, 4);
 }
 class Rva002BAF01 {public:void rva002BAF01(struct Rva002BAF01Region*,CreateAHeroData*);};
 class AptMessageBox {public:static void Show(void*,void*,void*);static void Change(void*,void*,void*);};
