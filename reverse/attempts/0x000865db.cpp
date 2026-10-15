@@ -1,6 +1,8 @@
 // ?cameraModFinalZoom@W3DView@@UAEXMMM@Z
 // partial score=0.999 date=2026-10-15
 // ?cameraModFinalZoom@W3DView@@UAEXMMM@Z
+// partial score=0.999 date=2026-10-15
+// ?cameraModFinalZoom@W3DView@@UAEXMMM@Z
 // partial score=0.99 date=2026-10-14
 // ?cameraModFinalZoom@W3DView@@UAEXMMM@Z
 // partial score=0.98 date=2026-10-13
@@ -156,7 +158,8 @@ void W3DView::cameraModFinalZoom(Real finalZoom, Real easeIn, Real easeOut)
 		maxZoom = maxHeight / m_cameraOffsetZ;
 
 		time = (m_rcNumFrames + m_rcNumHoldFrames - m_rcCurFrame) * TheAnimationMsPerStep;
-		zoomCamera(finalZoom * maxZoom, time, time * easeIn, time * easeOut);
+		Real finalZoom_c1 = finalZoom;
+		zoomCamera(finalZoom_c1 * maxZoom, time, time * easeIn, time * easeOut);
 	}
 	if (m_cameraMovementMode == 1)
 	{
