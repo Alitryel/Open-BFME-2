@@ -40,6 +40,11 @@
 #include "WW3D2/Mesh.h"
 #include "WW3D2/MeshMdl.h"
 #include "Common/BitFlagsIO.h"
+
+// ZH inline countIntersection is a std::bitset fold; the rowed four-word SWAR
+// body is BitFlags117CountInverseIntersection.cpp's. Reference the provider
+// instead of emitting a competing non-retail COMDAT copy.
+template<> int BitFlags<117>::countIntersection(const BitFlags<117> &that) const;
 #ifdef _INTERNAL
 #endif
 
