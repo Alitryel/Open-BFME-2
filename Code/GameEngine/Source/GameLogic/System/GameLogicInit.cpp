@@ -3805,9 +3805,9 @@ extern Rva00148F5ECache TheKey_playerDisplayName;
 extern Rva00148F5ECache TheKey_playerFaction;
 extern Rva00148F5ECache TheKey_playerAllies;
 extern Rva00148F5ECache TheKey_playerEnemies;
-extern Rva00148F5ECache TheKey_playerColor;
-extern Rva00148F5ECache TheKey_playerNightColor;
-extern Rva00148F5ECache TheKey_multiplayerStartIndex;
+extern const StaticNameKey TheKey_playerColor;
+extern const StaticNameKey TheKey_playerNightColor;
+extern const StaticNameKey TheKey_multiplayerStartIndex;
 extern const StaticNameKey TheKey_multiplayerIsLocal;
 extern const StaticNameKey TheKey_teamName;
 extern const StaticNameKey TheKey_teamOwner;
@@ -3832,9 +3832,9 @@ void GameLogic::rva0023E0C7(void)
 		d.setAsciiString(cacheKey(TheKey_playerFaction), TheNameKeyGenerator->keyToName(pt->getNameKey()));
 	d.setAsciiString(TheKey_playerAllies.get(), AsciiString::TheEmptyString);
 	d.setAsciiString(TheKey_playerEnemies.get(), AsciiString::TheEmptyString);
-	d.setInt(TheKey_playerColor.get(), TheMultiplayerSettings->getColor(0)->getColor());
-	d.setInt(TheKey_playerNightColor.get(), TheMultiplayerSettings->getColor(0)->getNightColor());
-	d.setInt(TheKey_multiplayerStartIndex.get(), 0);
+	d.setInt(((Rva00148F5ECache *)&TheKey_playerColor)->get(), TheMultiplayerSettings->getColor(0)->getColor());
+	d.setInt(((Rva00148F5ECache *)&TheKey_playerNightColor)->get(), TheMultiplayerSettings->getColor(0)->getNightColor());
+	d.setInt(((Rva00148F5ECache *)&TheKey_multiplayerStartIndex)->get(), 0);
 	d.setBool(((Rva00148F5ECache *)&TheKey_multiplayerIsLocal)->get(), false);
 
 	TheSidesList->addSide(&d);
@@ -3869,11 +3869,11 @@ struct Rva002B3740Item
 	int m_13c;                                                           // +0x13C
 };
 
-extern Rva00148F5ECache TheKey_playerIsSkirmish;
+extern const StaticNameKey TheKey_playerIsSkirmish;
 extern Rva00148F5ECache TheKey_playerSlot20;
-extern Rva00148F5ECache TheKey_playerStartMoney;
-extern Rva00148F5ECache TheKey_skirmishDifficulty;
-extern Rva00148F5ECache TheKey_playerIsPreorder;
+extern const StaticNameKey TheKey_playerStartMoney;
+extern const StaticNameKey TheKey_skirmishDifficulty;
+extern const StaticNameKey TheKey_playerIsPreorder;
 extern Rva00148F5ECache TheKey_playerAIType;
 
 void GameLogic::CreateMPPlayers(bool isSkirmish, int progressCount)
@@ -3949,7 +3949,7 @@ void GameLogic::CreateMPPlayers(bool isSkirmish, int progressCount)
 			d.setAsciiString(cacheKey(TheKey_playerFaction), TheNameKeyGenerator->keyToName(pt->getNameKey()));
 
 		if (game->isPlayerPreorder(i))
-			d.setBool(TheKey_playerIsPreorder.get(), true);
+			d.setBool(((Rva00148F5ECache *)&TheKey_playerIsPreorder)->get(), true);
 
 		AsciiString enemiesString;
 		AsciiString alliesString;
@@ -3988,14 +3988,14 @@ void GameLogic::CreateMPPlayers(bool isSkirmish, int progressCount)
 		d.setAsciiString(TheKey_playerAllies.get(), alliesString);
 		d.setAsciiString(TheKey_playerEnemies.get(), enemiesString);
 		d.setInt(TheKey_playerSlot20.get(), slot->m_bfme20);
-		d.setInt(TheKey_playerColor.get(), TheMultiplayerSettings->getColor(slot->getColor())->getColor());
-		d.setInt(TheKey_playerNightColor.get(), TheMultiplayerSettings->getColor(slot->getColor())->getNightColor());
-		d.setInt(TheKey_multiplayerStartIndex.get(), slot->getStartPos());
+		d.setInt(((Rva00148F5ECache *)&TheKey_playerColor)->get(), TheMultiplayerSettings->getColor(slot->getColor())->getColor());
+		d.setInt(((Rva00148F5ECache *)&TheKey_playerNightColor)->get(), TheMultiplayerSettings->getColor(slot->getColor())->getNightColor());
+		d.setInt(((Rva00148F5ECache *)&TheKey_multiplayerStartIndex)->get(), slot->getStartPos());
 		d.setBool(((Rva00148F5ECache *)&TheKey_multiplayerIsLocal)->get(), slot->isHuman() &&
 			slot->m_name.compare(game->getSlot(game->getLocalSlotNum())->getNameStr()) == 0);
 
 		if (game->m_54 >= 0)
-			d.setInt(TheKey_playerStartMoney.get(), game->m_54);
+			d.setInt(((Rva00148F5ECache *)&TheKey_playerStartMoney)->get(), game->m_54);
 
 		int startPos = slot->getStartPos();
 		if (startPos >= 0 && startPos < 8)
@@ -4011,13 +4011,13 @@ void GameLogic::CreateMPPlayers(bool isSkirmish, int progressCount)
 
 		if (isSkirmish)
 		{
-			d.setBool(TheKey_playerIsSkirmish.get(), true);
+			d.setBool(((Rva00148F5ECache *)&TheKey_playerIsSkirmish)->get(), true);
 			switch (slot->m_state)
 			{
-			case 2: d.setInt(TheKey_skirmishDifficulty.get(), 0); break;
-			case 3: d.setInt(TheKey_skirmishDifficulty.get(), 1); break;
-			case 4: d.setInt(TheKey_skirmishDifficulty.get(), 2); break;
-			case 5: d.setInt(TheKey_skirmishDifficulty.get(), 3); break;
+			case 2: d.setInt(((Rva00148F5ECache *)&TheKey_skirmishDifficulty)->get(), 0); break;
+			case 3: d.setInt(((Rva00148F5ECache *)&TheKey_skirmishDifficulty)->get(), 1); break;
+			case 4: d.setInt(((Rva00148F5ECache *)&TheKey_skirmishDifficulty)->get(), 2); break;
+			case 5: d.setInt(((Rva00148F5ECache *)&TheKey_skirmishDifficulty)->get(), 3); break;
 			}
 		}
 
@@ -4957,7 +4957,7 @@ void GameLogic::CreateWOTRMPPlayers()
   if(slot->getPlayerTemplate()>=0)pt=ThePlayerTemplateStore->getNthPlayerTemplate(slot->getPlayerTemplate());
   else pt=ThePlayerTemplateStore->findPlayerTemplate(TheNameKeyGenerator->nameToKey("FactionObserver"));
   if(pt)d.setAsciiString(cacheKey(TheKey_playerFaction),TheNameKeyGenerator->keyToName(pt->getNameKey()));
-  if(game->isPlayerPreorder(i))d.setBool(TheKey_playerIsPreorder.get(),true);
+  if(game->isPlayerPreorder(i))d.setBool(((Rva00148F5ECache *)&TheKey_playerIsPreorder)->get(),true);
   AsciiString enemiesString;
   AsciiString alliesString;
   int team=slot->getTeamNumber();
@@ -4977,8 +4977,8 @@ void GameLogic::CreateWOTRMPPlayers()
   d.setAsciiString(TheKey_playerAllies.get(),alliesString);
   d.setAsciiString(TheKey_playerEnemies.get(),enemiesString);
   d.setInt(TheKey_playerSlot20.get(),slot->m_bfme20);
-  d.setInt(TheKey_playerColor.get(),TheMultiplayerSettings->getColor(slot->getColor())->getColor());
-  d.setInt(TheKey_playerNightColor.get(),TheMultiplayerSettings->getColor(slot->getColor())->getNightColor());
+  d.setInt(((Rva00148F5ECache *)&TheKey_playerColor)->get(),TheMultiplayerSettings->getColor(slot->getColor())->getColor());
+  d.setInt(((Rva00148F5ECache *)&TheKey_playerNightColor)->get(),TheMultiplayerSettings->getColor(slot->getColor())->getNightColor());
   d.setBool(((Rva00148F5ECache *)&TheKey_multiplayerIsLocal)->get(),slot->isHuman()&&slot->m_name.compare(game->getSlot(game->getLocalSlotNum())->getNameStr())==0);
   d.setInt(((Rva00148F5ECache*)&TheKey_livingWorldPlayerID)->get(),slot->m_livingWorldPlayerID);
   TheSidesList->findSideInfo(name);
