@@ -20,6 +20,8 @@ public:
 	virtual ~Rva006D6470Owner();
 };
 
+class Rva006D2A60 { public: void freeBlock(void *, int); };
+extern Rva006D2A60 *g_pChainBlockAllocatorF4;
 class Rva006DA560 : public Rva006D6470Owner
 {
 public:
@@ -30,6 +32,8 @@ private:
 	void *mpValues;   // +0x20
 	int mnCapacity;   // +0x24
 	int mnLength;     // +0x28
+public:
+	static void operator delete(void *p, unsigned int size) { g_pChainBlockAllocatorF4->freeBlock(p, size); }
 };
 
 #define BFME_APT_ASSERT(expr)                                                  \

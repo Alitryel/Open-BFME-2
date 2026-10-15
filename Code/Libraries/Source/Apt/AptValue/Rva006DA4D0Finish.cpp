@@ -8,6 +8,8 @@
 extern "C" void *__cdecl memmove(void *, const void *, unsigned int);
 class BfmeAptValue006DCD20 { public: void rva006D9500(int); void rva006D8AD0(int, BfmeAptValue006DCD20 *); };
 class Rva006D6360 { public: Rva006D6360(int type, int size); virtual ~Rva006D6360(); char m_pad[0x18]; };
+class Rva006D2A60 { public: void freeBlock(void *, int); };
+extern Rva006D2A60 *g_pChainBlockAllocatorF4;
 class Rva006D6470Owner : public Rva006D6360
 {
 public:
@@ -18,6 +20,8 @@ public:
 	}
 	virtual ~Rva006D6470Owner();
 	unsigned int m_bits;
+public:
+	static void operator delete(void *p, unsigned int size) { g_pChainBlockAllocatorF4->freeBlock(p, size); }
 };
 class Rva006DA4D0 : public Rva006D6470Owner
 {

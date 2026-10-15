@@ -15,10 +15,23 @@ public:
 	virtual ~Rva006DE350();
 };
 
+class Rva006DB270
+{
+public:
+	void freeBlock(void *block, int blockSize);
+};
+
+extern Rva006DB270 *g_pChainBlockAllocator; // 0x00E176E8
+
 class Rva006D8510 : public Rva006DE350
 {
 public:
 	virtual ~Rva006D8510();
+	static void operator delete(void *p, unsigned int size)
+	{
+		g_pChainBlockAllocator->freeBlock(p, size);
+	}
+	char m_pad[8]; // +0x04..0x0B: sizeof 0xC for the sized delete
 };
 
 Rva006D8510::~Rva006D8510()
@@ -29,6 +42,11 @@ class Rva006D86F0 : public Rva006DE350
 {
 public:
 	virtual ~Rva006D86F0();
+	static void operator delete(void *p, unsigned int size)
+	{
+		g_pChainBlockAllocator->freeBlock(p, size);
+	}
+	char m_pad[8]; // +0x04..0x0B: sizeof 0xC for the sized delete
 };
 
 Rva006D86F0::~Rva006D86F0()
@@ -39,6 +57,11 @@ class Rva006D88B0 : public Rva006DE350
 {
 public:
 	virtual ~Rva006D88B0();
+	static void operator delete(void *p, unsigned int size)
+	{
+		g_pChainBlockAllocator->freeBlock(p, size);
+	}
+	char m_pad[8]; // +0x04..0x0B: sizeof 0xC for the sized delete
 };
 
 Rva006D88B0::~Rva006D88B0()
@@ -49,6 +72,11 @@ class Rva006FB9B0 : public Rva006DE350
 {
 public:
 	virtual ~Rva006FB9B0();
+	static void operator delete(void *p, unsigned int size)
+	{
+		g_pChainBlockAllocator->freeBlock(p, size);
+	}
+	char m_pad[8]; // +0x04..0x0B: sizeof 0xC for the sized delete
 };
 
 Rva006FB9B0::~Rva006FB9B0()
@@ -59,6 +87,11 @@ class Rva006FBA10 : public Rva006DE350
 {
 public:
 	virtual ~Rva006FBA10();
+	static void operator delete(void *p, unsigned int size)
+	{
+		g_pChainBlockAllocator->freeBlock(p, size);
+	}
+	char m_pad[8]; // +0x04..0x0B: sizeof 0xC for the sized delete
 };
 
 Rva006FBA10::~Rva006FBA10()

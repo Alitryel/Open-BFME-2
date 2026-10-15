@@ -51,6 +51,8 @@ public:
 	void ClearCIH(int arg);
 };
 
+class Rva006D2A60 { public: void freeBlock(void *, int); };
+extern Rva006D2A60 *g_pChainBlockAllocatorF4;
 class Rva006CBF40 : public Rva006DE350
 {
 public:
@@ -65,6 +67,8 @@ private:
 	void *m_54;                // +0x54, pNext
 	char m_pad58[0x5C - 0x58];
 	int m_5C;                  // +0x5C, flag word
+public:
+	static void operator delete(void *p, unsigned int size) { g_pChainBlockAllocatorF4->freeBlock(p, size); }
 };
 
 Rva006CBF40::~Rva006CBF40()

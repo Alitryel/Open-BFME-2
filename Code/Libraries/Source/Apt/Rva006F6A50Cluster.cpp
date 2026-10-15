@@ -332,6 +332,8 @@ public:
 
 	char m_pad18[4];
 	AptDisplayList m_holder;
+public:
+	static void operator delete(void *p, unsigned int size) { g_pChainBlockAllocator->freeBlock(p, size); }
 };
 
 // ??0Rva006F8D70@@QAE@XZ @0x006F8550 134B

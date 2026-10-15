@@ -19,6 +19,8 @@ public:
 	virtual ~Gen_008AC620();
 };
 
+class Rva006DB270 { public: void freeBlock(void *, int); };
+extern Rva006DB270 *g_pChainBlockAllocator;
 class Rva008A2C80 : public Gen_008AC620
 {
 public:
@@ -27,6 +29,8 @@ public:
 private:
 	unsigned char m_pad[0x34 - 4];
 	int *m_ptr;
+public:
+	static void operator delete(void *p, unsigned int size) { g_pChainBlockAllocator->freeBlock(p, size); }
 };
 
 // ??1Rva008A2C80@@UAE@XZ

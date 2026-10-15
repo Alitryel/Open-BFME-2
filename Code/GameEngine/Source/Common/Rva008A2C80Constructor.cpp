@@ -57,6 +57,8 @@ public:
     void *m_value0c;
     unsigned char m_unmodelled10[0x20];
 };
+class Rva006DB270 { public: void freeBlock(void *, int); };
+extern Rva006DB270 *g_pChainBlockAllocator;
 class Rva008A2C80 : public Gen_008AC620
 {
 public:
@@ -64,6 +66,8 @@ public:
     virtual ~Rva008A2C80();
     unsigned int m_value30;
     Rva008A2BA0Handle m_value34;
+public:
+	static void operator delete(void *p, unsigned int size) { g_pChainBlockAllocator->freeBlock(p, size); }
 };
 Rva008A2C80::Rva008A2C80(Rva008A2BA0Handle value)
 {
