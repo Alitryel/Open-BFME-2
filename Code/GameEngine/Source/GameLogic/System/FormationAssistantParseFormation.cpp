@@ -33,6 +33,9 @@ typedef _STL::deque<BfmeWordValue4> InnerDeque;
 typedef _STL::deque<InnerDeque> OuterDeque;
 typedef _STL::deque<OuterDeque> TripleDeque;
 namespace _STL {template<> OuterDeque::~deque();}
+// The verified /EHs provider owns retail's 123-byte growth helper. This
+// parser's /EHsc copy omits its final EH state store and must not compete.
+namespace _STL {template<> void OuterDeque::_M_push_back_aux_v(const InnerDeque &);}
 // Native helper ledger views preserve the independently proven 40-byte deque elements
 // and four-byte keys; casts select those existing specializations without new pins.
 struct Rva004226E2Element {char data[40];};
