@@ -118,7 +118,11 @@ void MeshClass::Render_Material_Pass(MaterialPassClass*pass,IndexBufferClass*ib)
   else DX8Wrapper::Set_World_Identity();
  } else DX8Wrapper::Set_Transform(256,Transform);
  pass->Install_Materials();
- MultiListIterator<DX8PolygonRendererClass> it(&Model->List);
+ struct LocalListIterator : public MultiListIterator<DX8PolygonRendererClass> {
+  LocalListIterator(MultiListClass<DX8PolygonRendererClass> *l) : MultiListIterator<DX8PolygonRendererClass>(l) {}
+  __forceinline void Next() { CurNode = CurNode->Next; }
+ };
+ LocalListIterator it(&Model->List);
  while(!it.Is_Done()) {if(it.Peek_Obj()->Pass==0) it.Peek_Obj()->Render(BaseVertexOffset);it.Next();}
  if(oldOpacity>=0) pass->Material->Set_Opacity(oldOpacity);
  if(oldEmissive.X>=0) pass->Material->Set_Emissive(oldEmissive);
