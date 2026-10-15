@@ -1,4 +1,6 @@
 // ?rva003FA835@Rva003FA835@@QAE?AUBfmeEventPositionView@@XZ
+// partial score=0.9314 date=2026-10-15
+// ?rva003FA835@Rva003FA835@@QAE?AUBfmeEventPositionView@@XZ
 // partial score=0.9051573263824241 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include
 // Native3FA835..3FA878 RET4, the whole67B value-returning worker.
@@ -19,7 +21,7 @@ private:char pad0[0x10];Rva003FA835Details*details;
 };
 BfmeEventPositionView Rva003FA835::rva003FA835() {
  Rva003FA835Model*model=details->model;
- float z=0.0f,y=0.0f,x=0.0f;
- if(model){model->refresh();x=model->x;y=model->y;z=model->z;}
+ float x=0.0f,y=0.0f,z=0.0f;
+ if(model){model->refresh();y=model->y;x=model->x;z=model->z;}
  return BfmeEventPositionView(x,y,z);
 }
