@@ -1,4 +1,6 @@
 // ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
+// partial score=0.9773335563733689 date=2026-10-15
+// ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
 // partial score=0.9655269320843091 date=2026-10-14
 // ?rva00294C1A@Object@@QAEXTObjectExperienceVictim@@TObjectExperienceFlag@@M@Z
 // partial score=0.9655269320843091 date=2026-10-10
@@ -213,13 +215,14 @@ void Object::rva00294C1A(ObjectExperienceVictim victim,ObjectExperienceFlag flag
   if (pool && pool->rva00403448(6,&flag.bonus,0,1)) points *= flag.bonus;
   ObjectVirtualView *receiver=(ObjectVirtualView*)rva0029439D();
   if (receiver) {
-_ReadWriteBarrier();
+
 
    scale=points;
    Object *related=rva002931F5(false);
-   if (related->getExperienceTracker()) scale=((Rva0039AF9B*)related->getExperienceTracker())->rva0039AF9B(points);
+   if ((*(ExperienceTracker * volatile *)&related->tracker)) scale=((Rva0039AF9B*)(*(ExperienceTracker * volatile *)&related->tracker))->rva0039AF9B(points);
    receiver->grant(this,scale);
   } else tracker->rva0039B315(points,true,true,true,false);
+
   if (points>0.0f) {
    experienceFlag |= tracker->flag;
    ObjectExpSink *sink=(ObjectExpSink*)Rva0047FDFEGet(this);

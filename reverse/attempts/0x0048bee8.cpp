@@ -1,4 +1,6 @@
 // ?update@FireWeaponUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.9729296296296296 date=2026-10-15
+// ?update@FireWeaponUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.9614777777777778 date=2026-10-13
 // ?update@FireWeaponUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.9614777777777778 date=2026-10-09
@@ -48,7 +50,6 @@ template <class T> inline const T &maxOf(const T &a, const T &b) { return a > b 
 class Thing;
 class ModuleData;
 
-// class-gate: allow Coord3D the canonical data-only header cannot declare the out-of-line lengthSqr (rowed 0x00065A1A) update calls; same three floats
 struct Coord3D
 {
 	Real x;
@@ -222,6 +223,7 @@ UpdateSleepTime FireWeaponUpdate::rva0048BA3E()
 // the single weapon when ready, else every due nugget entry whose weapon is
 // ready, at the object position plus its offset rotated by the object's
 // orientation; one-shot entries never fire again.
+struct FireAngles {float s,c;};
 UpdateSleepTime FireWeaponUpdate::update()
 {
 	const FireWeaponUpdateModuleData *data = getFireWeaponUpdateModuleData();
@@ -253,9 +255,8 @@ UpdateSleepTime FireWeaponUpdate::update()
 					Real angle = me->getOrientation();
 					Coord3D offset;
 					offset.set(entry->m_offset.x, entry->m_offset.y, 0.0f);
-					Real s = (Real)sin(angle);
-					Real c = (Real)cos(angle);
-					offset.rotate(s, c);
+					FireAngles sc;sc.s=(Real)sin(angle);sc.c=(Real)cos(angle);
+					offset.rotate(sc.s, sc.c);
 					pos.Add(offset, pos);
 				}
 				entry->m_weapon->forceFireWeapon(getObject(), &pos);
