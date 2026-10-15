@@ -17,4 +17,5 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > time_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, const tm *, char, char) const; }
 template class _STL::time_put<char, _STL::ostreambuf_iterator<char, _STL::char_traits<char> > >;
