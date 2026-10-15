@@ -23,6 +23,15 @@
 #include "../../../../../Include/GameLogic/ContainmentListView.h"
 #include "../../../../Common/GameLogicObjectLookupView.h"
 
+// Keep the node comparison local rather than emitting the conflicting
+// out-of-line list-base comparison alongside the already inlined loop test.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+
 typedef bool Bool;
 typedef float Real;
 

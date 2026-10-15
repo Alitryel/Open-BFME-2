@@ -14,6 +14,15 @@
 #include <list>
 #include "Common/BfmeAudioEventPrefix136.h"
 
+// Keep the node comparison local rather than emitting the conflicting
+// out-of-line list-base comparison alongside the already inlined loop test.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
+
 struct AudioEventRTS { char head[0xC]; int m_playingHandle; };
 struct PlayingEventRef { AudioEventRTS *m_ptr; AudioEventRTS *get() const { return m_ptr; } AudioEventRTS *operator->() const { return m_ptr; } };
 struct PlayingAudio { char head[0x1C]; PlayingEventRef m_event; };
