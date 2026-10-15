@@ -1,7 +1,3 @@
-// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@HV?$Rva002444BEAllocator@H@@@_STL@@@Z
-// partial score=0.992792 date=2026-10-15
-// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@HV?$Rva002444BEAllocator@H@@@_STL@@@Z
-// partial score=0.99 date=2026-10-15
 // cl: /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common
 // stlport
 //
@@ -25,16 +21,23 @@
 //
 // Selected IDs use the chat windows' scalar vector view (ChatWindowsInGame.cpp
 // SelectionIDs; copy 0x002CFAB9, push_back 0x004DFCB0 by pin).  The
-// declaration-only push_back specialization keeps this TU from emitting its
-// own copy, so the call binds the pinned folded body.
+// push_back is left to STLport (its pin binds the folded body), and
+// __copy_trivial is declared non-throwing as retail's STLport had it (the
+// copy ctor 0x002CFAB9 carries no EH frame): with both, cl knows the id copy
+// is not escaped across the copy and the push_back loop, so the empty test
+// loads begin into edi and threads the non-empty branch straight into the
+// walk's body as retail; with either missing begin goes through eax and the
+// walk re-tests at its head.
 #include <vector>
+namespace _STL {
+void *__copy_trivial(const void *__first, const void *__last, void *__result) throw();
+}
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "GameLogicObjectLookupView.h"
 
 template <class T> class Rva002444BEAllocator : public _STL::allocator<T> {};
 typedef _STL::vector<int, Rva002444BEAllocator<int> > SelectionIDs;
-template <> void SelectionIDs::push_back(const int &);
 
 enum NameKeyType
 {
