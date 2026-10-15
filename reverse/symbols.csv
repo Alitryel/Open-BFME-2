@@ -5787,7 +5787,6 @@ name,address,notes
 ?Rva002E17A0Copy@@YAPAVRva002E0D93@@PAV1@00PADH@Z,0x002E17A0,5-arg overload proven by caller 0x002E1E9A 5 pushes same bytes as 3-arg row
 ?Rva002EBEF0Intro@@YAXPAUS4SortElem20@@00HUS4Cmp002EB8E0@@@Z,0x00337D21,callee read from the retail REL32 in placed BFME1-donor body ?Rva002EBEF0@@YAXPAUS4SortElem20@@0US4Cmp002EB8E0@@@Z (0x00337DA9)
 ?Rva003063A9XferThingTemplate@@YAXPAVXfer@@PAPBVThingTemplate@@@Z,0x003063A9,"cdecl ThingTemplate* transfer: copies template name (+0x64) or the empty string, xfers it as AsciiString, and on load looks it up via the factory at 0xDFF000 (0x002D06CA); callers WorkOrder::xfer 0x4F073B and 0x468FC5"
-?Rva0030662AXfer@@YAXPAVXfer@@PAX@Z,0x0030662A,address-derived callee of matched slot 0x003FD1FA; retail REL32 targets 0x0030662A; Ghidra FUN bounds 217 bytes; cdecl (Xfer*; member address) ret; caller pops 8; callee body remains unclaimed; no named identity inferred
 ?Rva0032378@@YIHPAU_ListboxData@@@Z,0x00323F78,tail-call worker of GadgetListBoxGetTopVisibleEntry; BFME2 top-entry scan with ecx arg; true name unknown so address-derived fastcall
 ?Rva00323F9C@@YIHPAU_ListboxData@@@Z,0x00323F9C,opaque reg-arg bottom-entry worker called by IsFull with ecx; B1 static getListboxBottomEntry role; true name unknown so address-derived fastcall
 ?Rva00324807@@YAHPAVGameWindow@@@Z,0x00324807,opaque null-guarded bottom-entry delegate for listbox insert; wraps winGetUserData with tail jump to 0x323F9C; true name unknown so address-derived
@@ -5805,7 +5804,6 @@ name,address,notes
 ?Rva0038076DUpdate@@YAXXZ,0x0038076D,unrowed 61B (Ghidra FUN_0078076d); REL32 call from GameClient::update 0x0023C060 with no arguments; null-checked calls on the 0x00E032FC and 0x00E05FAC managers then virtual slot +0x14 calls; address name
 ?ShowToolTip@AptGuiFX@@SAXPAXPAVAsciiString@@HHH@Z,0x003808F0,Apt ShowToolTip firer called from Mouse tooltip update 0x001EF06F (text, font, size, bold, color args plus MoveToolTip positioning); Ghidra boundary 0x003808F0; original name unknown
 ?Rva00381900@@YAXH@Z,0x00381900,"cdecl helper forwarding its int to the object at VA 0x00E02310 (0x003818E3); LANAPI slot 33 0x00248E87 calls it with 1 then 0; identity not recovered"
-?Rva0038190FCall@@YAXHH@Z,0x0038190F,address-derived callee of matched slot 0x005AFA0E; retail REL32 targets 0x0038190F; Ghidra FUN bounds 440 bytes; cdecl two args ret; caller pops 8; callee body remains unclaimed; no named identity inferred
 ?Rva00381C82AddChatText@@YAXHABVUnicodeString@@H@Z,0x00381C82,cdecl chat-text helper taking window index plus text plus color; called from LANAPI::OnGameCreate arms at 0x002494C1/0x002494E5/0x0024950A with (1 text chatSystemColor) and from the 0x0024A323 chat path with (edi text -1); semantic identity unproven
 ?Rva00390911XferCoordVector@@YAXPAVXfer@@PAUAICommandCoordVector@@@Z,0x00390911,cdecl Coord3D-vector transfer: Version(1;1); count (size/12) via Xfer +0x2C chain; save loop Coord3D via +0x60; load reserve then push; XferException(4) when loading into a non-empty vector; callers 0x390E29 (PhysicsBehavior::xfer) 0x45CB3A 0x48E57C 0x48E5CF
 ?Rva00395D45CopyAux@@YAPAVRva0039597C@@PAV1@00PADH@Z,0x00395D45,twin 5-arg decl of rowed Copy 0x00395D45 for wrapper 0x00396260 passing local byte plus 0
@@ -9658,7 +9656,6 @@ name,address,notes
 ?rva00035210@GeneralAllocator@Allocator@EA@@QAEPAXIIH@Z,0x00035210,PPMalloc GeneralAllocator method called by the exported MemoryPool wrappers; address from their retail REL32 call sites; name is address-derived
 ?rva000353B0@GeneralAllocator@Allocator@EA@@QAEPAXPAXH_N0I@Z,0x000353B0,PPMalloc GeneralAllocator method called by MemoryPool::_Exit and _DumpFragmentation; address from the retail REL32 call sites; name is address-derived
 ?rva000366F0@Rva002E0648M48@@QAEXPAX@Z,0x000366F0,pin for 0x2E0648 thiscall void (void*) on +0x48
-?rva00041A83@Rva00041B85@@QAEXH@Z,0x00041A83,address-derived callee of matched slot 0x00041B85; retail REL32 targets 0x00041A83; Ghidra FUN bounds 81 bytes; thiscall on the caller object one arg ret 4; callee body remains unclaimed; no named identity inferred
 ?rva0004232F@Rva0004232FNullTarget@@QAEXXZ,0x0004232F,null-checked tail jmp target of 13B forwarder 0x005CCB23; original name unknown
 ?rva00047A69C@Rva0089971@@UAEXH@Z,0x0047A69C,BC74F4 slot1 independently points to complete3B RET4; only ABI word known; existing range alias copy without historical identity
 ?rva00051038@Rva0005F279Elem@@QAE_NXZ,0x00051038,dump range 1 tail target of 0x5106A
@@ -10486,7 +10483,6 @@ name,address,notes
 ?rva005C3453@Rva005C3453@@QAEXXZ,0x005C3453,address-derived callee of matched slot 0x005C3596; retail jmp rel32 targets 0x005C3453; Ghidra FUN bounds 74 bytes; thiscall on the +0x08 object 0 arg(s) ret; callee body remains unclaimed; no named identity inferred
 ?rva005C349D@Rva005C349D@@QAEXXZ,0x005C349D,address-derived callee of matched slot 0x005C359E; retail jmp rel32 targets 0x005C349D; Ghidra FUN bounds 118 bytes; thiscall on the +0x08 object 0 arg(s) ret; callee body remains unclaimed; no named identity inferred
 ?rva005C4B26@Rva005C41C9@@QAEEXZ,0x005C4B26,tail callee of Rva005C41C9::v17
-?rva005C4C69@Rva005C4C69@@QAEXXZ,0x005C4C69,address-derived callee of matched slot 0x005391A9; retail REL32 targets 0x005C4C69; Ghidra FUN bounds 44 bytes; thiscall no args ret; callee body remains unclaimed; no named identity inferred
 ?rva005C674A@Rva005C674A@@QAEXXZ,0x005C674A,address-derived callee of matched slot 0x0053EC3A; retail jmp rel32 targets 0x005C674A; Ghidra FUN bounds 758 bytes; thiscall no args ret; callee body remains unclaimed; no named identity inferred
 ?rva005C6D9C@Rva005C6D4D@@QAEXXZ,0x005C6D9C,address-derived secondary-base method scaffolding for Rva0053ED1A 0x0053EFAE tail call; identity unproven, used only as a call target
 ?rva005C80D1@@YAXPAXPAMMPAH2@Z,0x005C80D1,five-arg helper called by 0x00568991 on null slots; identity unproven; address-derived signature

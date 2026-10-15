@@ -42,13 +42,19 @@ public:
 class Mouse
 {
 public:
+	enum MouseCursor {};
 	void rva001EE5EE(unsigned char a, unsigned char *b);
+};
+// 0x00041A83 is rowed as the virtual Win32Mouse::setCursor; called directly.
+class Win32Mouse
+{
+public:
+	virtual void setCursor(Mouse::MouseCursor cursor);
 };
 class Rva00041B85 : public Mouse
 {
 public:
 	void rva00041B85(unsigned char a, unsigned char *b);
-	void rva00041A83(Int a);
 private:
 	char m_pad00[0x4FA4];
 	Int m_4FA4;
@@ -56,7 +62,7 @@ private:
 void Rva00041B85::rva00041B85(unsigned char a, unsigned char *b)
 {
 	rva001EE5EE(a, b);
-	rva00041A83(m_4FA4);
+	((Win32Mouse *)this)->Win32Mouse::setCursor((Mouse::MouseCursor)m_4FA4);
 }
 
 // 0x003FD1FA and 0x003FD321: overrides of the rowed xfer slot 0x003FD1FA
@@ -98,7 +104,8 @@ public:
 	virtual void v29();
 	virtual void xferUnsignedInt(UnsignedInt *value);
 };
-void Rva0030662AXfer(Xfer *xfer, void *value);
+class Rva0036CA00Str;
+void Rva0030662AXfer(Xfer *xfer, const Rva0036CA00Str &value);	// row 0x0030662A
 class ControlPointBlock
 {
 public:
@@ -124,7 +131,7 @@ private:
 void Rva003FD1FA::rva003FD1C5(Xfer *xfer)
 {
 	Rva003FD1C5::rva003FD1C5(xfer);
-	Rva0030662AXfer(xfer, &m_0C);
+	Rva0030662AXfer(xfer, *(const Rva0036CA00Str *)&m_0C);
 }
 class Rva003FD321 : public Rva003FD1C5
 {
@@ -274,7 +281,11 @@ void Rva00587057::rva00587057(UnsignedInt count)
 }
 
 // 0x005AFA0E: the pinned cdecl 0x0038190F with both arguments.
-void Rva0038190FCall(Int a, Int b);
+class UnicodeString;
+namespace _STL { template <class T> class allocator; template <class T, class A> class vector; }
+template <class T> class Rva002444BEAllocator;
+// Row 0x0038190F: ChatSystemInGameSendChat.cpp's Rva0038190FSendChat.
+bool Rva0038190FSendChat(const UnicodeString &text, const _STL::vector<int, Rva002444BEAllocator<int> > &selected);
 class Rva005AFA0E
 {
 public:
@@ -282,7 +293,7 @@ public:
 };
 void Rva005AFA0E::rva005AFA0E(Int a, Int b)
 {
-	Rva0038190FCall(a, b);
+	Rva0038190FSendChat(*(const UnicodeString *)a, *(const _STL::vector<int, Rva002444BEAllocator<int> > *)b);
 }
 
 // 0x005AFCEC (eight tables): the pinned 0x005AFCB4(1) when the argument
@@ -388,7 +399,7 @@ bool Rva0051483C::rva0051483C()
 // 0x005391A9 (one table, three callers): the pinned 0x005C4C69 on each of
 // the entries virtual slot 15 hands out for the count virtual slot 13
 // gives.
-class Rva005C4C69
+class Rva005C4B56	// owner of the rowed 0x005C4C69
 {
 public:
 	void rva005C4C69();
@@ -411,7 +422,7 @@ public:
 	virtual void v12();
 	virtual Int v13();
 	virtual void v14();
-	virtual Rva005C4C69 *v15(Int i);
+	virtual Rva005C4B56 *v15(Int i);
 	void rva005391A9();
 };
 void Rva005391A9::rva005391A9()
