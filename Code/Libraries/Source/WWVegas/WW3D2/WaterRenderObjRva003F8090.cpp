@@ -13,6 +13,8 @@ public:
 	void rva003F8090();
 	void *rva003F80C3();
 	void *rva003F80E1();
+	int rva003F80AF();
+	int rva003F7D41(int count);
 private:
 	char m_00[0xc];
 	Rva003F7F30 **m_0c;
@@ -108,4 +110,23 @@ void Rva003F8083::rva003F8083()
 void *Rva003F8090::rva003F80E1()
 {
 	return rva003F80C3();
+}
+
+// ?rva003F80AF@Rva003F8090@@QAEHXZ @0x003F80AF 20B: whether the cursor at +0x18
+// has a successor in [+0xC,+0x10) (unsigned index+1 below the count; int 0/1).
+// Evidence: orphan .text hole between rva003F8090 and rva003F80C3, same
+// offsets; no surviving reference. Name address-derived.
+int Rva003F8090::rva003F80AF()
+{
+	return (unsigned)(m_18 + 1) < (unsigned)(m_10 - m_0c);
+}
+
+// ?rva003F7D41@Rva003F8090@@QAEHH@Z @0x003F7D41 21B: whether the [+0xC,+0x10)
+// pointer range holds exactly the given count (int 0/1). Evidence: orphan
+// .text hole among the water render object helpers with this class's range
+// offsets; the owner class is inferred from those offsets only. Name
+// address-derived.
+int Rva003F8090::rva003F7D41(int count)
+{
+	return (int)(m_10 - m_0c) == count;
 }

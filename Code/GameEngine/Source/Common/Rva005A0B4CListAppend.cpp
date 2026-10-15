@@ -31,3 +31,19 @@ void Rva005A0B4CList::append(Rva002BA8F1Listener *p)
 	const ModuleData *q = (const ModuleData *)(void *)p;
 	m_vec.push_back(q);
 }
+
+// Native 1FA574..1FA584 (16B): a file-static forwarder in cl 7.1's register
+// convention (owner in ECX, caller-cleaned argument) appending a listener to
+// the list at owner+0xC4 through append above, then a plain ret. No call to
+// it survives in the image; the anchor below only forces cl to emit it in
+// that convention. Owner and name are address-derived.
+static __declspec(noinline) void Rva001FA574Append(char *owner, Rva002BA8F1Listener *p)
+{
+	((Rva005A0B4CList *)(owner + 0xC4))->append(p);
+}
+
+// ?Rva001FA574Anchor absent-from-retail
+void Rva001FA574Anchor(char *owner, Rva002BA8F1Listener *p)
+{
+	Rva001FA574Append(owner, p);
+}
