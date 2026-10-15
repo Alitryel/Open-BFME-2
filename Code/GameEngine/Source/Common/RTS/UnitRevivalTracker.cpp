@@ -167,7 +167,7 @@ class CreateAHeroManager { public:
  const AsciiString &GetButtonImageName(const CreateAHeroHero*);
 };
 extern CreateAHeroManager *TheCreateAHeroManager;
-class CreateAHeroHero { public: bool UpdateCommandSet(int); };
+class CreateAHeroHero { public: bool UpdateCommandSet(unsigned int); };
 class Drawable { public: void rva00274176(bool); };
 class Object
 {
@@ -439,9 +439,9 @@ struct UnitRevivalTrackerEntries {
 // and appends it to the tracker vector at +4. Retain the established caller
 // pointer ABI; the WB ownership assertion is absent in retail.
 void UnitRevivalTracker::addInitialBuildUnit(const ThingTemplate *thingTemplate, Player *player) {
-    Rva002E2D10Record entry(thingTemplate);
-    entry.rank = thingTemplate->rva0033B479();
-    reinterpret_cast<UnitRevivalTrackerEntries *>(this)->entries.push_back(entry);
+    UnitRevivalEntry entry(thingTemplate);
+    entry.m_rank = thingTemplate->rva0033B479();
+    reinterpret_cast<UnitRevivalTrackerEntries *>(this)->entries.push_back(reinterpret_cast<const Rva002E2D10Record &>(entry));
 }
 
 // Native 37E94A..37EACA, complete 386-byte constructor from Object*.

@@ -444,7 +444,9 @@ public:
 	virtual void startPreparation();
 	virtual void startPacking(bool success);
 protected:
-	Object *createSpecialObject();
+public:
+	Object *rva0044FEB6();
+protected:
 	bool initLaser(Object *specialObject, Object *target);
 public:
 	virtual void startUnpacking();
@@ -772,7 +774,7 @@ void SpecialAbilityUpdate::startPreparation()
 		Object *target = TheGameLogic->findObjectByID(m_targetID);
 		if (target)
 		{
-			Object *special = createSpecialObject();
+			Object *special = rva0044FEB6();
 			if (special && !initLaser(special, target))
 				return;
 		}
@@ -796,7 +798,7 @@ void SpecialAbilityUpdate::startPreparation()
 		{
 			if (m_object->getRelationship(target) == ALLIES)
 				return;
-			Object *special = createSpecialObject();
+			Object *special = rva0044FEB6();
 			if (special)
 			{
 				if (!initLaser(special, target))

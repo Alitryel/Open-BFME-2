@@ -218,6 +218,7 @@ private:
 	State *m_currentState; // +0x04
 };
 
+class Rva00263910 { public: void rva00265667(const Coord3D *, int); };
 class AIUpdateInterface
 {
 public:
@@ -338,7 +339,7 @@ Bool AIUpdateInterface::computePath(PathfindServicesInterface *pathServices, Coo
 		Bool ok = computeQuickPath(destination);
 		if (ok) {
 			m_canPathThrough = false;
-			setGoalPositionClipped(destination, CMD_FROM_AI);
+			((Rva00263910 *)this)->rva00265667(destination, CMD_FROM_AI);
 			CRITTER_TRACEDETAIL("CritterDesync:  computeQuickPath3 returned TRUE.");
 			return ok;
 		}
