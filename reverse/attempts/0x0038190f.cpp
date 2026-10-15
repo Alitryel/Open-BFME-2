@@ -1,4 +1,6 @@
 // ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@HV?$Rva002444BEAllocator@H@@@_STL@@@Z
+// partial score=0.992792 date=2026-10-15
+// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@HV?$Rva002444BEAllocator@H@@@_STL@@@Z
 // partial score=0.99 date=2026-10-15
 // cl: /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common
 // stlport

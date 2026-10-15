@@ -1,4 +1,6 @@
 // ?exitObjectViaDoor@HordeGarrisonContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
+// partial score=0.987633 date=2026-10-15
+// ?exitObjectViaDoor@HordeGarrisonContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.969 date=2026-10-15
 // ?exitObjectViaDoor@HordeGarrisonContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.97 date=2026-10-13
