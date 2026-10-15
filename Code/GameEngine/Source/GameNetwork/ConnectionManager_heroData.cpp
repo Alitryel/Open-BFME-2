@@ -109,7 +109,7 @@ class GameInfo
 {
 public:
 	GameSlot *getSlot(Int slotNum);
-	Int getSeed() const { return m_seed; }
+	__declspec(dllimport) __forceinline Int getSeed() const { return m_seed; }
 
 private:
 	char m_pad00[0x88];
@@ -158,7 +158,7 @@ class NetHeroCommandMsg : public NetCommandMsg
 {
 public:
 	NetHeroCommandMsg();
-	Int getSeed() const { return m_seed; }
+	__declspec(dllimport) __forceinline Int getSeed() const { return m_seed; }
 	void setSeed(Int seed) { m_seed = seed; }
 	UnsignedShort getSlot() const { return m_slot; }
 	void setSlot(UnsignedShort slot) { m_slot = slot; }
