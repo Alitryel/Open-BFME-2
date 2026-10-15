@@ -442,7 +442,9 @@ public:
 		number_of_DX8_calls++;
 		render_state_changes++;
 	}
-	static __forceinline void Set_DX8_Texture_Stage_State(unsigned stage, D3DTEXTURESTAGESTATETYPE state, unsigned value)
+	// Calls below use stages 0..2; keep the complete callable copy with its
+	// retail owner at 661DD, which also implements the uncached stage>=16 path.
+	static __declspec(dllimport) __forceinline void Set_DX8_Texture_Stage_State(unsigned stage, D3DTEXTURESTAGESTATETYPE state, unsigned value)
 	{
 		if (TextureStageStates[stage][state] == value) return;
 		if (WW3D::Is_Snapshot_Activated()) {

@@ -349,7 +349,9 @@ public:
 		render_state_changes++;
 	}
 
-	static __forceinline void Set_DX8_Texture_Stage_State(unsigned stage, D3DTEXTURESTAGESTATETYPE state, unsigned value)
+	// This renderer only uses stages 0 and 1. Keep these restricted inline
+	// paths here; the callable owners at 661DD and 75412 also handle stage>=16.
+	static __declspec(dllimport) __forceinline void Set_DX8_Texture_Stage_State(unsigned stage, D3DTEXTURESTAGESTATETYPE state, unsigned value)
 	{
 		if (TextureStageStates[stage][state] == value) return;
 		if (WW3D::Is_Snapshot_Activated()) {
@@ -362,7 +364,7 @@ public:
 		texture_stage_state_changes++;
 	}
 
-	static __forceinline void Set_DX8_Texture(unsigned int stage, IDirect3DBaseTexture8 *texture)
+	static __declspec(dllimport) __forceinline void Set_DX8_Texture(unsigned int stage, IDirect3DBaseTexture8 *texture)
 	{
 		if (Textures[stage] == texture) return;
 		if (Textures[stage]) Textures[stage]->Release();
