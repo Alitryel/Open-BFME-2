@@ -11794,7 +11794,6 @@ rva009C7380WeightPairs,0x009B84E0
 ?rva0033AA1F@ThingTemplate@@QBEHPBVPlayer@@HH@Z,0x0033AA1F,unrowed thiscall build-time helper on the ThingTemplate returned by ThingFactory::findTemplate (player then 0 then the entry +0x9C value; ret 0xC); call at 0x0037E255 in UnitRevivalEntry::revivalEntryCalcTimeToBuild; types inferred
 ?teamAttackMove@AITactic@@QAEXHPBUCoord3D@@@Z,0x004ED1FD,AITactic member taking an int and a point (move the team there); REL32 at 0x005A9F32 in the SimpleSiege slot 7
 ?rva004ED342@AITactic@@QAEXPAX@Z,0x004ED342,AITactic member taking a point; REL32 at 0x005AA66A in the SimpleAttack slot 6
-?rva004ED372@AITactic@@QAEXPAX@Z,0x004ED372,AITactic member taking a point (sibling of 0x004ED342); REL32 at 0x005A991E in the AIBasePenetrationTroopsTactic slot 6
 ?rva004ED372@AITactic@@QAEXPBUCoord3D@@@Z,0x004ED372,const Coord3D spelling of the AITactic point member pinned as rva004ED372(void *); REL32 at 0x005AB714 in ReturnTheRing 0x005AB6DC
 ?end@AITactic@@QAEXHH@Z,0x004ED748,AITactic stop/finish member (two ints); REL32 at 0x005AA691 in the SimpleAttack slot 7
 ?rva005ACDA9@AITactic@@QAE_NXZ,0x005ACDA9,"bool-returning view of the already-recovered 0x005ACDA9 body (rowed as ?rva005ACDA9@Rva004ECECD@@QAEHXZ, 13B). Rva005ACCE4::v7 0x005AD5DD tests the result with test al,al, so this unit declares the narrow width; binds to the same 13-byte body via the multi-pin resolver."
@@ -13837,7 +13836,6 @@ ___CxxFrameHandler,0x00629182,callee of __ehhandler$??1Rva005813E@@UAE@XZ
 ?notifyHeroEarnedAward@InGameUI@@QAEXPAVCreateAHeroHero@@H@Z,0x0029DCA9,callee of ?UpdateAwardEarnedFlags@CreateAHeroHero@@QAEXXZ
 ?CreateNewExpLevel@ExperienceLevelStore@@QAE_NABVAsciiString@@0000@Z,0x0028A473,callee of ?AddCommandButtonLevel@CreateAHeroHero@@QAE_NIABVAsciiString@@00@Z
 ?rva0041B603@Rva0041B790@@QAEXXZ,0x0041B603,callee of ??1Rva0041B790@@UAE@XZ
-?rva001B5018@SubsystemInterfaceList@@QAEXPAX@Z,0x001B5018,callee of ?init@LargeGroupAudio@@UAEXXZ
 ?rva00282135@Rva0028279F@@QAEXXZ,0x00282135,callee of ??1Rva0028279F@@QAE@XZ
 ?rva00599F74@Rva0059AC4D@@QAEPAVTeam@@PAVTeamPrototype@@@Z,0x00599F74,callee of ?rva0059ABC9@Rva0059AC4D@@QAEXPAX@Z
 ?rva0059A499@Rva0059AC4D@@QAEXPAVTeam@@PAHPAVTeamPrototype@@@Z,0x0059A499,callee of ?rva0059ABC9@Rva0059AC4D@@QAEXPAX@Z

@@ -115,7 +115,7 @@ class SubsystemInterfaceList
 public:
     // Target 0x001B5018 takes one pointer in a stack argument, this in ECX,
     // and returns with RET 4. Its source name remains unresolved.
-    void rva001B5018(void *subsystem);
+    void rva001B5018(class SubsystemInterface *subsystem);
 };
 
 extern SubsystemInterfaceList *TheSubsystemList;
@@ -127,7 +127,7 @@ void LargeGroupAudio::init()
     INI ini;
     rva0020DA21(&ini);
     m_flag38 = true;
-    TheSubsystemList->rva001B5018(this);
+    TheSubsystemList->rva001B5018((class SubsystemInterface *)this);
 }
 
 class InGameUI

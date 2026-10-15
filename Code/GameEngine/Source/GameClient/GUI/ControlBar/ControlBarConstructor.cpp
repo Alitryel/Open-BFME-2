@@ -89,7 +89,7 @@ protected:
 class SubsystemInterfaceList
 {
 public:
-	void rva001B5018(void *sys);
+	void rva001B5018(class SubsystemInterface *sys);
 };
 extern SubsystemInterfaceList *TheSubsystemList;
 
@@ -270,5 +270,5 @@ ControlBar::ControlBar() : m_0214(false)
 	m_02A0 = overlay;
 	((Rva0053ED1A_InitView *)overlay)->v01();
 	if (TheSubsystemList != 0)
-		TheSubsystemList->rva001B5018(this);
+		TheSubsystemList->rva001B5018((class SubsystemInterface *)this);
 }

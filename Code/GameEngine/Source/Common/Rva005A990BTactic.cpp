@@ -125,7 +125,7 @@ public:
 	virtual void v8();
 	virtual AITactic *create();
 	unsigned char rva004ED169();
-	void rva004ED372(void *point);
+	void rva004ED372(const struct Coord3D *point);	// row 0x004ED372 spelling
 	void end(bool a, bool b);
 };
 
@@ -180,7 +180,7 @@ void AIBasePenetrationTroopsTactic::cleanUp()
 
 void AIBasePenetrationTroopsTactic::run()
 {
-	rva004ED372(m_record->m_point0C);
+	rva004ED372((const struct Coord3D *)m_record->m_point0C);
 }
 
 void AIBasePenetrationTroopsTactic::update()
