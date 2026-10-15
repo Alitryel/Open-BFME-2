@@ -31,10 +31,9 @@ class __declspec(novtable) GenBase009EB7D0
 {
 public:
 	__declspec(noinline) GenBase009EB7D0();
-	// Native ctor unwind action 0x765A86 destroys the base through the
-	// 0x135E35 tail wrapper of bfmeResetUB (0x61ED80), as does the dtor
-	// unit's base cleanup. Keep their out-of-line destructor copies equal.
-	virtual ~GenBase009EB7D0() { ((BfmeThingUB *)this)->bfmeResetUB(); }
+	// Both native constructor/destructor cleanup funclets call 0x00135E35,
+	// the reset trampoline emitted by Rva00136794Dtor.cpp.
+	virtual ~GenBase009EB7D0();
 	virtual void handle() {}
 private:
 	unsigned int m_flags;
