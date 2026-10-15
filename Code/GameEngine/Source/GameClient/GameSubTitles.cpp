@@ -385,3 +385,29 @@ void GameSubTitle::rva0025FCBA(GameFont *font) {
  for(Int i=0;i<m_displayStringCount;++i)
   if(m_displayStrings[i])m_displayStrings[i]->setFont(font);
 }
+
+// Native 0x0025FE30..0x0025FF73 RET24 (WB 0x00DA5BE0; caller 0x00260787
+// bfmeDoKA): a filled rectangle whose alpha is the colour's clamped to the
+// +0x28 opacity, then a doubled-alpha outline offset by one and a grey one,
+// each grown by the border. Statement shape from the WB twin: the colour
+// argument is re-masked and re-or'ed in place, min returns by reference, and
+// the outline geometry is spelled inline in the calls.
+class Display;
+extern Display *TheDisplay;
+class Rva0004263F {public:void rva0004263F(float,float,float,float,Int);};
+class W3DDisplay {public:void rva0008EEF0(float,float,float,float,float,Int);};
+void BfmeItemKA::rva0025FE30(float x0,float y0,float x1,float y1,Int color,Int border) {
+ float width = x1 - x0;
+ float height = y1 - y0;
+ Int alpha = (unsigned)color >> 24;
+ alpha = bfmeMin(alpha, opacity);
+ color &= 0xffffff;
+ color |= alpha << 24;
+ ((Rva0004263F*)TheDisplay)->rva0004263F(x0, y0, width, height, color);
+ alpha <<= 1;
+ alpha = bfmeMin(alpha, opacity);
+ color &= 0xffffff;
+ color |= alpha << 24;
+ ((W3DDisplay*)TheDisplay)->rva0008EEF0(x0 - border + 1.0f, y0 - border + 1.0f, width + border*2, height + border*2, (float)border, color & 0xff000000);
+ ((W3DDisplay*)TheDisplay)->rva0008EEF0(x0 - border, y0 - border, width + border*2, height + border*2, (float)border, 0x7f7f7f7f);
+}
