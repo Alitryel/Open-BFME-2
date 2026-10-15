@@ -1,4 +1,8 @@
 // ?addHotKey@HotKeyManager@@QAE?AURva00359302Result@@ABUTreeHintRef00217D4C@@ABVAsciiString@@_N@Z
+// partial score=0.987954 date=2026-10-15
+// ?rva00359302@Rva00359302@@QAEXXZ
+// partial score=0.987954 date=2026-10-15
+// ?addHotKey@HotKeyManager@@QAE?AURva00359302Result@@ABUTreeHintRef00217D4C@@ABVAsciiString@@_N@Z
 // partial score=0.99 date=2026-10-13
 // ?addHotKey@HotKeyManager@@QAE?AURva00359302Result@@ABUTreeHintRef00217D4C@@ABVAsciiString@@_N@Z
 // partial score=0.99 date=2026-10-13

@@ -1,4 +1,8 @@
 // ??0Rva0042FD9E@@QAE@XZ
+// partial score=0.974751 date=2026-10-15
+// ?rva0042FD9E@Rva0042FD9E@@QAEXXZ
+// partial score=0.974751 date=2026-10-15
+// ??0Rva0042FD9E@@QAE@XZ
 // partial score=0.98 date=2026-10-13
 // R2 evidence: WB SelectionTranslator constructor and canonical singleton identify
 // this bank, but its provisional map/vtable spellings need owner reconciliation.
