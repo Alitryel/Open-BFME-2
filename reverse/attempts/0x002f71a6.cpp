@@ -1,18 +1,23 @@
 // ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
-// partial score=0.603724 date=2026-10-15
+// partial score=0.8119096975121662 date=2026-10-15
 // ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
-// partial score=0.8093740773907643 date=2026-10-14
-// ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
-// partial score=0.7925762250054933 date=2026-10-13
+// W7-D1 r11: native2F71A6..2F83A3 RET32; WB D4FAE0 semantic spine.
+// Whole4608B versus4605; native frame110 restored (old bank120).
+// Explicit HierarchyPoint copy constructor retains scalar copy of originalTo;
+// scope startCellNdx to release its8B slot; use actual low4-bit cell types,
+// rather than promoted unsigned-char remainder that cl7.1 compiled as idiv.
+// Remove two stale equal-arm workarounds after the frame repair.
+// Current65B/33B pool provider bodies are visible in the existing context.
+// Context's inherited assembler belongs to unrelated existing owner bodies;
+// no assembler or escape hatch was introduced or changed for this parent.
+// Diagnostic score.8119096975; normalized517/raw789 instruction differences.
+// Source/data identity for the manager global remains unadmitted; score is
+// provisional. Do not treat resolved calls or normalized bytes as a landing.
 // cl: /I. /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "reverse/attempt_evidence/pathfinder_hierarchy/owner_context.inc"
-
-// Native2F71A6..2F83A3 RET32,4605B; WB D4FAE0, pathfinder.cpp7421..7827.
-// Complete target reconstruction from the clean ZH/BF1 hierarchical search.
-// BF1 donor cee35b7d8ca077d7255f1c39cb69e9fd9627aa85, AIPathfind.cpp5852.
 Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  LocomotorSurfaceTypeMask surfaces,Object *obj,const Coord3D *from,
  const Coord3D *rawTo,Bool crusher,Bool closestOK,Coord3D *adjustedTo)
@@ -58,9 +63,9 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  PathfindCell *parentCell=rva002E8BF8(layer,&clipFrom);
  if(!parentCell)return 0;
  if(parentCell==goalCell) {goalCell->ReleaseInfo();return 0;}
- ICoord2D startCellNdx;
- parentCell->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&startCellNdx,true,&clipFrom));
- if((unsigned char)parentCell->m_info%16==4 &&
+ { ICoord2D startCellNdx;
+ parentCell->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&startCellNdx,true,&clipFrom)); }
+ if((parentCell->m_info & 15)==4 &&
     (parentCell->m_pathInfo?parentCell->m_pathInfo->obstacleID:(ObjectID)0)!=m_ignoreObstacleID) {
   goalCell->ReleaseInfo();parentCell->ReleaseInfo();return 0;
  }
@@ -72,7 +77,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  Rva002E99F9Sub460 *zones=(Rva002E99F9Sub460 *)&m_zoneManager;
  Int zone1=zones->rva0053241F(&options,parentCell->quickZone());
  Int zone2=zones->rva0053241F(&options,goalCell->quickZone());
- if((unsigned char)goalCell->m_info%16==4)zone2=zones->rva0053241F(&options,zones->rva00531FD4(&options,(unsigned short)zone2));
+ if((goalCell->m_info & 15)==4)zone2=zones->rva0053241F(&options,zones->rva00531FD4(&options,(unsigned short)zone2));
  if(!closestOK && !rva002F4115(obj,zone1,zone2,0)) {goalCell->ReleaseInfo();parentCell->ReleaseInfo();return 0;}
  parentCell->StartPathfind((Int)goalCell);
  parentCell->m_pathInfo->totalCost=(unsigned short)rva002F0A72(parentCell,goalCell);
@@ -133,7 +138,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
      }
      if(bridge->zone==goalBlockZone) {reachedGoal=true;break;}
      PathfindCell *end=getCell(PATHFIND_LAYER_GROUND,toNdx.x,toNdx.y);
-     if(!end || hierarchyClosed(end) || (parentCell->m_pathInfo->obstacleID ? (hierarchyOpen(end)) : (hierarchyOpen(end))))continue;
+     if(!end || hierarchyClosed(end) || hierarchyOpen(end))continue;
      PathfindCell *start=getCell(PATHFIND_LAYER_GROUND,ndx.x,ndx.y);
      if(!start || start==end)continue;
      if(start!=parentCell) {
@@ -175,7 +180,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
      ICoord2D toNdx;Rva002E7875WorldToCell(&toNdx,true,&link->location);
      HierarchyLayerView *bridge=(HierarchyLayerView *)&m_layers[i];
      if(ndx.x/16!=blockX || ndx.y/16!=blockY) {toNdx=bridge->start;ndx=bridge->end;}
-     if(ndx.x<0 || (parentCell->m_info ? (ndx.y<0) : (ndx.y<0)))continue;
+     if(ndx.x<0 || ndx.y<0)continue;
      if(toNdx.x<0 || toNdx.y<0)continue;
      _ReadWriteBarrier();
      if(ndx.x/16==blockX && ndx.y/16==blockY) {

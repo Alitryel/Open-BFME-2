@@ -1,12 +1,19 @@
 // ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z
-// partial score=0.9672573211576446 date=2026-10-15
-// cl: /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT 
+// partial score=0.9922685185185185 date=2026-10-15
+// cl: /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
-// ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z
-// partial score=0.976806 date=2026-10-15
-// ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z
-// partial score=0.9 date=2026-10-09
-// stlport
+// W7-D1 r11: native6045A2..6046B0 RET16; whole270B and frame44 exact.
+// insertFolder(const source_pair&) makes the const-key copy INSIDE an inline
+// void helper. It consumes make_pair's actual EAX return, removing r10's LEA.
+// Two remaining instruction bytes are first source-pair home -40 versus
+// retail -50; the matching destructor funclet is off by16 in one byte too.
+// The old273B/frame44/EH-exact alternative is preserved in
+// reverse/attempt_evidence/big_archive_r11_eh_exact.cpp.
+// All8 original call candidates plus17 transitive bodies/relocations/EH
+// were independently checked whole against retail. See r11_call_graph.json.
+// No candidate is an admitted production pin; owner-unit/fold admission is
+// still required before this parent can land. Never substitute the existing
+// 4B Rva00603A00Mapped placeholder for the native12B member descriptor.
 #include <map>
 // ?init@Win32BIGFileSystem@@UAEX_N@Z @0x00603944 188B: vslot 1 of vtable 0x0087A94C (class of ??0Win32BIGFileSystem@@QAE@XZ). Loads lang big files. Evidence: vtable slot 1; strings "%s*.big" "lang\" "lang\%sAudio.big" "EnglishAudio.big" "*.big" "apt\"; global TheArchiveFileSystem; buffers g_00DD509C g_Rva0107301CEmptyString.
 
@@ -112,8 +119,8 @@ void __cdecl operator delete[](void *) throw();
 // Native 6045A2,270B,RET16; caller6046B0 and shared header at this+4.
 // Nested map semantics and record words are target-derived; names of mapped
 // records and fields are descriptive views, not original-name claims.
-struct FirstMapPairPad { _STL::pair<const char*,BigMemberMap> value; unsigned char pad[15]; __forceinline FirstMapPairPad(const char* const &k,const BigMemberMap &m):value(_STL::make_pair(k,m)){}};
-struct SecondInfoPairPad { unsigned char pad[15]; BigMemberMap::value_type value; __forceinline SecondInfoPairPad(const char*k,const BigArchiveMemberInfo &i):value(k,i){} };
+static __forceinline void insertFolder(BigFolderMap&m,const _STL::pair<const char*,BigMemberMap>&v,BigFolderMap::iterator&out) { BigFolderMap::value_type copy(v);out=m.insert(copy).first; }
+struct SecondInfoPairPad { unsigned char pad[15]; BigMemberMap::value_type value; __forceinline SecondInfoPairPad(const char*k,const BigArchiveMemberInfo&i):value(k,i){} };
 bool Win32BIGFileSystem::rva006045A2(const char *folder, const char *name,
                                   BigArchiveMemberInfo *info, bool overwrite)
 {
@@ -123,7 +130,7 @@ bool Win32BIGFileSystem::rva006045A2(const char *folder, const char *name,
  Rva006054AF *pool = (Rva006054AF *)&g_Va00E06E60;
  if (parent == m_folders.end()) {
   folder = (const char *)pool->rva006054AF(folder);
-  parent = m_folders.insert(FirstMapPairPad(folder,BigMemberMap()).value).first;
+  insertFolder(m_folders,_STL::make_pair(folder,BigMemberMap()),parent);
  }
  BigMemberMap &members = parent->second;
  BigMemberMap::iterator entry = members.find(name);

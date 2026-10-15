@@ -1,17 +1,20 @@
 // ?rva002F07F5@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
+// partial score=0.9563053716469866 date=2026-10-15
+// ?rva002F07F5@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.931716606375 date=2026-10-15
-// W7-D1 r10: native2F07F5..2F0A72 RET8; whole637B;frame4C;raw diff42.
-// The real owner is pathfinder.cpp at e6bcefafac. Keep its declarations and
-// the Cell/Split/query-predicate bodies visible for output escape analysis.
-// Unrelated bodies are declaration-only; the legacy floor helper is also
-// declaration-only here. Port only the appended parent/declarations/views
-// into the actual owner rather than treating this bank as a new game TU.
-// Parent instruction/opcode/control-flow/register choices match; remaining
-// differences are stack-home displacements. No guessed aliases or new pins.
-// Initialize x/y before bound expressions and remove the found-y workaround.
-// Whole-call equal arms on newCount at getCell and oldCount at the later
-// helper improve homes. Removing temporary radius padding restores frame4C.
-// Canonical ICoord2D is included. No private copy or new asm is present.
+// W7-D1 r11: native2F07F5..2F0A72 RET8; whole637B; raw/normalized27.
+// Destination phase block + shared lastX/lastY scalar bounds; remove both
+// stale equal-arm call hacks. Frame48 vs retail4C is still wrong. Remaining
+// instructions/registers/control flow agree except frame/home displacements.
+// Actual owner pathfinder.cpp declarations and Cell/Split/query predicate
+// providers stay visible. Do not port this standalone bank as a new TU.
+// Prior frame4C/nd42 bank is in parent git history. No Code or pins changed.
+// Exact32B by-value Cell provider was investigated with a real prvalue ctor,
+// but its caller (including empty dtor) was worse: not used in this bank.
+// Retail slot pairs: firstcell.y/destY; destinationcell.y/first lastX;
+// below/maincell; above/mainlayer; first+second Ybase at -8. Unions disturb
+// CSE and registers. Named bound reuse improves27; pairing remains unresolved.
+// No guessed aliases, canonical-class copies, or asm added.
 // cl: /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /I.
 // stlport
 
@@ -1191,6 +1194,7 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
  Rva002F07F5ObjectView *view=(Rva002F07F5ObjectView *)obj;
  const Coord3D *from=&view->pos;
  if(!IsValidHordeMemberRegularMovement(obj,from,dest,from))return false;
+ Int lastX; Int lastY;
  Int newCount=0;
  Int below; Int above;Rva002EBCD6Split(obj,&below,&above);
  Int layers[2];layers[0]=obj->rva0028B511();Int layerCount=1;
@@ -1200,9 +1204,9 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
  Int oldCount=0;
  {
   ICoord2D cell;Rva002EBC14Cell(&cell,obj,from);
-  Int x=cell.x-below; Int lastX=cell.x+above;
+  Int x=cell.x-below; lastX=cell.x+above;
   for(;x<lastX;++x) {
-   Int y=cell.y-below; Int lastY=cell.y+above;
+   Int y=cell.y-below; lastY=cell.y+above;
    for(;y<lastY;++y)
     for(Int l=0;l<layerCount;++l) {
      PathfindCell *c=getCell((PathfindLayerEnum)layers[l],x,y);
@@ -1210,12 +1214,13 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
     }
   }
  }
+ {
  ICoord2D cell;ICoord2D *found=Rva002EBC14Cell(&cell,obj,dest);Int destX=found->x,destY=found->y;
  Int priority=view->templ->priority;Bool flag=view->templ->flag;AIUpdateInterface *ai=view->ai;
  Rva002E8BCF query((const Rva002E8BCFSrc *)((char *)ai+0x1CC),!flag,priority-1,obj->rva0028AFBB());
- Int x=destX-below; Int lastX=destX+above;
+ Int x=destX-below; lastX=destX+above;
  for(;x<lastX;++x) {
-  Int y=destY-below; Int lastY=destY+above;
+  Int y=destY-below; lastY=destY+above;
   for(;y<lastY;++y)
    for(Int l=0;l<layerCount;++l) {
     Int layer=layers[l];PathfindCell *c=getCell((PathfindLayerEnum)layer,x,y);
@@ -1223,7 +1228,7 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
     if(c->m_info & 0x10000) {
      static Int deltaX[]={-1,1,0,0};static Int deltaY[]={0,0,-1,1};
      for(Int i=0;i<4;++i) {
-      PathfindCell *neighbor=((newCount) ? (getCell((PathfindLayerEnum)layer,x+deltaX[i],y+deltaY[i])) : (getCell((PathfindLayerEnum)layer,x+deltaX[i],y+deltaY[i])));
+      PathfindCell *neighbor=getCell((PathfindLayerEnum)layer,x+deltaX[i],y+deltaY[i]);
       if(neighbor && ((neighbor->m_info>>4)&0x3F)!=layer)return false;
      }
     }
@@ -1234,7 +1239,7 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
       if(n->obj==obj)continue;
       ++newCount;
       if(newCount>=oldCount)return false;
-      Object *effective=((oldCount) ? (n->obj->rva002931F5(true)) : (n->obj->rva002931F5(true)));if(!effective)effective=n->obj;
+      Object *effective=n->obj->rva002931F5(true);if(!effective)effective=n->obj;
       AIUpdateInterface *other=((Rva002F07F5ObjectView *)effective)->ai;
       if(other && *(Int *)((char *)other+0x16C)>0)return false;
      }
@@ -1242,4 +1247,5 @@ Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
    }
  }
  return true;
+ }
 }

@@ -3430,6 +3430,7 @@ static __forceinline void hierarchySetParent(PathfindCell *cell,PathfindCell *pa
 static __forceinline bool hierarchyClosed(PathfindCell *cell) { return (unsigned char)((Rva002E6B06 *)cell)->rva002E6B06()!=0; }
 static __forceinline bool hierarchyOpen(PathfindCell *cell) { return (unsigned char)((Rva002E6AF3 *)cell)->get()!=0; }
 struct HierarchyPoint : public Coord3D {
+ HierarchyPoint(const HierarchyPoint &c) { x=c.x;y=c.y;z=c.z; }
  HierarchyPoint(const Coord3D &c) { x=c.x;y=c.y;z=c.z; }
  HierarchyPoint &operator=(const Coord3D &c) { *(Coord3D *)this=c;return *this; }
 };
@@ -3460,4 +3461,63 @@ void Pathfinder::rva002F5022(const ICoord2D &scan,const ICoord2D &delta,Pathfind
   next->m_pathInfo->totalCost=next->m_pathInfo->costSoFar+remainingCost;
   hierarchySetParent(next,parent);AddToOpenList(next);
  }
+}
+
+extern "C" void *__cdecl memset(void *, int, unsigned int);
+#pragma intrinsic(memset)
+extern int TheMixFileInfoCount;
+
+// Rehomed 0x002E6BA1 (65 B), original Rva002E6BA1Init.cpp: initializer
+// copying the cell position plus the owner at +0x30, zeroing +0x08/+0x0C,
+// the cost words and +0x14 x5, masking +0x2C, zeroing +0x28, counting.
+class Rva002E6BA1
+{
+public:
+	void rva002E6BA1(int a, In002E6BA1 *b);
+
+private:
+	int m_00;
+	int m_04;
+	int m_08;
+	int m_0C;
+	unsigned short m_10;
+	unsigned short m_12;
+	int m_14[5];
+	int m_28;
+	int m_2C;
+	int m_30;
+};
+
+inline __declspec(noinline) void Rva002E6BA1::rva002E6BA1(int a, In002E6BA1 *b)
+{
+	m_30 = a;
+	m_00 = b->x;
+	m_04 = b->y;
+	m_08 = 0;
+	m_0C = 0;
+	m_10 = 0;
+	m_12 = 0;
+	memset(m_14, 0, 20);
+	m_2C &= 0xffffffe0;
+	m_28 = 0;
+	++TheMixFileInfoCount;
+}
+
+class MixFileInfoBuffer
+{
+private:
+	void bfmeUnlink();
+	friend class Rva002E6BA1;
+public:
+	friend MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in);
+};
+
+// Rehomed 0x002E8B7A (33 B), original Rva002E8B7AInit.cpp: takes the pool
+// head, unlinks it (0x002E6BE2) and initializes it for the cell (0x002E6BA1).
+inline __declspec(noinline) MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in)
+{
+	MixFileInfoBuffer *node = *pp;
+	node->bfmeUnlink();
+	((Rva002E6BA1 *)node)->rva002E6BA1(a, in);
+	return node;
 }
