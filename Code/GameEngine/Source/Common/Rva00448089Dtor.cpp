@@ -23,3 +23,17 @@ private:
 Rva00448089::~Rva00448089()
 {
 }
+
+// Native 448D06..448D0F (9B), just before the BfmeStringRecord00448113
+// _Construct copy: STLport's _Destroy(T *) for this record, which loads the
+// pointer into ECX and tail-jumps to the destructor above. Orphan .text hole
+// with no surviving reference; the record type is inferred from the callee.
+namespace _STL
+{
+template <class _Tp>
+inline void _Destroy(_Tp *__pointer)
+{
+	__pointer->~_Tp();
+}
+template void _Destroy<Rva00448089>(Rva00448089 *);
+}
