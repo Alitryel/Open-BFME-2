@@ -1,4 +1,6 @@
 // ?rva001E385C@@YAMMMM@Z
+// partial score=1.0 date=2026-10-15
+// ?rva001E385C@@YAMMMM@Z
 // partial score=0.76494 date=2026-10-14
 // ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.8721671640448934 date=2026-10-14
@@ -8,7 +10,7 @@
 // partial score=0.866656 date=2026-10-09
 // ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
 // partial score=0.75 date=2026-10-09
-// cl: /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /O1 /G7 /arch:SSE /ICode/Libraries/Include /DNDEBUG /MD /Oi-
+// cl: /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /O1 /G7 /arch:SSE /ICode/Libraries/Include /DNDEBUG /MD /Oi- /I.
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 // Float getters of one object-module class whose shared worker is the
@@ -554,7 +556,7 @@ static __forceinline void rva6007Set(Object *obj,unsigned bit)
 {
  if(!obj->m_flags10C.test(bit)){obj->m_flags10C.set(bit);obj->rva0028AE6D();}
 }
-static inline float rva001E385C(float actualSpeed,float minSpeed,float braking){float delta=actualSpeed-minSpeed;if(delta<=0.0f)return 0.0f;float frames=1.0f+delta/braking;float avg=delta*0.5f+minSpeed;return frames*avg*1.05f;}
+static inline float rva001E385C(float actualSpeed,float minSpeed,float braking){float delta=actualSpeed-minSpeed;if(delta<=0.0f)return 0.0f;float frames=(1 ? (1.0f+delta/braking) : (1.0f+delta/braking));float avg=delta*0.5f+minSpeed;return frames*avg*1.05f;}
 struct MoveCoordinate:Coord3D {__forceinline MoveCoordinate(float a,float b,float c){x=a;y=b;z=c;}};
 void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,float desiredSpeed)
 {
