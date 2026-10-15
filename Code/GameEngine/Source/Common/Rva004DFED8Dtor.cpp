@@ -25,6 +25,12 @@ public:
 };
 }
 
+// Both members are pointer vectors whose retail unwind actions are the shared
+// free-first-pointer fold (same graph as twin 0x00283081), not the ledger's
+// ~vector<void*> at 0x00027370, so neither member is a vector<void*>.
+struct Rva004DFED8Entry4;
+struct Rva004DFED8Entry10;
+
 class Rva002827F3
 {
 public:
@@ -36,8 +42,8 @@ class Rva004DFED8
 public:
 	virtual ~Rva004DFED8();
 private:
-	_STL::vector<void *, _STL::allocator<void *> > m_vec4;
-	_STL::vector<void *, _STL::allocator<void *> > m_vec10;
+	_STL::vector<Rva004DFED8Entry4 *, _STL::allocator<Rva004DFED8Entry4 *> > m_vec4;
+	_STL::vector<Rva004DFED8Entry10 *, _STL::allocator<Rva004DFED8Entry10 *> > m_vec10;
 };
 
 Rva004DFED8::~Rva004DFED8()

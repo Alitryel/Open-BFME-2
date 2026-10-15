@@ -23,9 +23,11 @@ namespace _STL
 		T *begin() { return m_start; }
 		T *end() { return m_finish; }
 		T *erase(T *first, T *last);
+		// The rowed erase is the void* instantiation (0x0031BD55); every
+		// pointer vector clears through it.
 		void clear()
 		{
-			erase(begin(), end());
+			((vector<void *, allocator<void *> > *)this)->erase((void **)begin(), (void **)end());
 		}
 		T *m_start;
 		T *m_finish;
@@ -53,12 +55,12 @@ class Rva0041E4A3 : public SubsystemInterface
 protected:
 	virtual ~Rva0041E4A3();
 private:
-	_STL::vector<void *, _STL::allocator<void *> > m_entries; // +0x0C
+	_STL::vector<Rva0041E4A3Entry *, _STL::allocator<Rva0041E4A3Entry *> > m_entries; // +0x0C
 };
 
 Rva0041E4A3::~Rva0041E4A3()
 {
-	for (void **it = m_entries.begin(); it != m_entries.end(); ++it)
-		::delete static_cast<Rva0041E4A3Entry *>(*it);
+	for (Rva0041E4A3Entry **it = m_entries.begin(); it != m_entries.end(); ++it)
+		::delete *it;
 	m_entries.clear();
 }

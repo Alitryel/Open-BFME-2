@@ -23,9 +23,11 @@ namespace _STL
 		T *begin() { return m_start; }
 		T *end() { return m_finish; }
 		T *erase(T *first, T *last);
+		// The rowed erase is the void* instantiation (0x0031BD55); every
+		// pointer vector clears through it.
 		void clear()
 		{
-			erase(begin(), end());
+			((vector<void *, allocator<void *> > *)this)->erase((void **)begin(), (void **)end());
 		}
 		T *m_start;
 		T *m_finish;
@@ -50,12 +52,12 @@ class Rva000AADC1 : public Rva000AADC1Base
 public:
 	virtual ~Rva000AADC1();
 private:
-	_STL::vector<void *, _STL::allocator<void *> > m_entries; // +0x04
+	_STL::vector<Rva000AADC1Entry *, _STL::allocator<Rva000AADC1Entry *> > m_entries; // +0x04
 };
 
 Rva000AADC1::~Rva000AADC1()
 {
-	for (void **it = m_entries.begin(); it != m_entries.end(); ++it)
-		::delete static_cast<Rva000AADC1Entry *>(*it);
+	for (Rva000AADC1Entry **it = m_entries.begin(); it != m_entries.end(); ++it)
+		::delete *it;
 	m_entries.clear();
 }

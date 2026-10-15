@@ -7,9 +7,9 @@
 // the complete72B Rva004DFC20::clear view independently proves that ABI.
 // Automatic bucket cleanup reproduces the native unwind graph, with
 // exactly 57 B of code and the native EH cleanup at +4.
-// The cleanup references the existing vector<void*> destructor at 0x27370.
-// This TU also emits its optimized inline COMDAT copy; the retail owner
-// remains stlport_vector_voidptr_alloc.cpp, built with /Od. Full boundary and wrapper4DA13F are
+// The bucket member is typed off vector<void*> so this TU emits no competing
+// copy of the /Od ~vector<void*> that stlport_vector_voidptr_alloc.cpp owns.
+// Full boundary and wrapper4DA13F are
 // independently witnessed by retail and the live Ghidra xrefs.
 // This address owns a separate destructor from ArmorStore's3609BE and
 // ThreatFinderManager's3ED1BE. Retire the old ArmorTemplate object-symbol
@@ -26,10 +26,11 @@ public:
  __forceinline ~vector(){if(begin) _STL::free(begin);}
 };
 }
+struct Rva004D9FB9Node;
 class Rva004D9FB9ObjectIndex {
 public:
  unsigned m_functors;
- _STL::vector<void *,_STL::allocator<void *> > m_buckets;
+ _STL::vector<Rva004D9FB9Node *,_STL::allocator<Rva004D9FB9Node *> > m_buckets;
  unsigned m_num_elements;
  __declspec(noinline) ~Rva004D9FB9ObjectIndex();
 };
