@@ -6,6 +6,17 @@
 #define _BFME_RETAIL_TREE_INSERT_LAYOUT
 #include <set>
 struct Rva00568FE4Key { float x; float y; unsigned short w; unsigned short pad; };
+namespace _STL {
+// Nothing here calls the set's node deallocation out of line; its unreferenced
+// copies differed from the first ones in link order. Declared imported and
+// force-inlined, they are not emitted.
+template <> __declspec(dllimport) __forceinline
+void allocator<_Rb_tree_node<Rva00568FE4Key> >::deallocate(_Rb_tree_node<Rva00568FE4Key> *__p, size_t) const
+{ if (__p != 0) ::free((void *)__p); }
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_Rb_tree_node<Rva00568FE4Key> *, _Rb_tree_node<Rva00568FE4Key>, allocator<_Rb_tree_node<Rva00568FE4Key> > >::deallocate(_Rb_tree_node<Rva00568FE4Key> *__p, size_t __n)
+{ __stl_alloc_rebind(__STATIC_CAST(_Base&, *this),(_Rb_tree_node<Rva00568FE4Key>*)0).deallocate(__p, __n); }
+}
 struct Rva00568FE4Less {
   bool operator()(const Rva00568FE4Key &a, const Rva00568FE4Key &b) const {
     if (a.x < b.x) return false;

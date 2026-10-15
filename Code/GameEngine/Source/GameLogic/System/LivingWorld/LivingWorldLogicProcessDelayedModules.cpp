@@ -21,7 +21,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // return preserve XORzero plus distinct true/false unwind cleanup paths.
 template<> _STL::_Vector_base<int,_STL::allocator<int> >::_Vector_base(const _STL::allocator<int>&);
 void __cdecl Rva00030830FreeAllocation(void*);
-template<> __forceinline void _STL::allocator<int>::deallocate(int*p,unsigned)const {if(p)Rva00030830FreeAllocation(p);}
+// Declared imported, the deallocation helpers are inlined without emitting the
+// unreferenced copies that differed from the first ones in link order.
+template<> __declspec(dllimport) __forceinline void _STL::allocator<int>::deallocate(int*p,unsigned)const {if(p)Rva00030830FreeAllocation(p);}
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<int *, int, allocator<int> >::deallocate(int *__p, size_t __n)
+{ __stl_alloc_rebind(__STATIC_CAST(_Base&, *this),(int*)0).deallocate(__p, __n); }
+}
 class Glo012F1028Entry{public:virtual void*deleteInstance(int);virtual void s1();virtual void s2();virtual void s3();virtual bool process();virtual bool advance(bool);unsigned counter;__forceinline unsigned getRemaining()const{return counter;}};
 class Rva003FD1EB{public:unsigned rva003FD1EB();};
 class Rva002B5023Owner{public:void rva002B5023(Glo012F1028Entry*);};

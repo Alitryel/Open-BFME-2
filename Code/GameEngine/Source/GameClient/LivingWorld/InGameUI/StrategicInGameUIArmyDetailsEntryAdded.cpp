@@ -29,6 +29,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 void __cdecl Rva00030830GameFree(void *);
 namespace _STL {
 template<> __declspec(dllimport) __forceinline void allocator<int>::deallocate(int *p,size_t) const {if(p)Rva00030830GameFree(p);}
+// The proxy deallocate is only inlined here; its unreferenced copy differed
+// from the first one in link order.
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<int *, int, allocator<int> >::deallocate(int *__p, size_t __n)
+{ __stl_alloc_rebind(__STATIC_CAST(_Base&, *this),(int*)0).deallocate(__p, __n); }
 }
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class
