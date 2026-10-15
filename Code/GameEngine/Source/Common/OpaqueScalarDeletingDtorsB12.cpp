@@ -51,7 +51,8 @@ protected: virtual ~GameWindow();
 private: unsigned char unknown[0x218-4];
 };
 class Rva005248D0 {
-public: virtual ~Rva005248D0();
+public: Rva005248D0(); // Use the full registry constructor at 0x002D2C34.
+ virtual ~Rva005248D0();
 private: unsigned char unknown[0x58-4];
 };
 #include "ascii_string.h"

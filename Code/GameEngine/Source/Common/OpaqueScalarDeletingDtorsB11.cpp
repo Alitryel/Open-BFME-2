@@ -395,6 +395,8 @@ void _bfme_closeAptScreen(const AsciiString &name);
 class Rva005248D0
 {
 public:
+	// Use the full registry constructor at 0x002D2C34; this view only models destruction.
+	Rva005248D0();
 	virtual ~Rva005248D0();
 };
 
@@ -463,7 +465,7 @@ Rva00510D0C::Rva00510D0C(EmitVtableTag *)
 
 // Rva005125ED's two tables (data ledger): GameWindow at +0 and Rva005248D0 at +0x218, whose
 // slot 0 is a this-adjusting (sub ecx, 0x218) deleting-destructor thunk.
-class GameWindow { public: __declspec(dllimport) __forceinline GameWindow() {} protected: virtual ~GameWindow(); private: unsigned char m_unmodelled04[0x218 - 4]; };
+class GameWindow { public: GameWindow(); protected: virtual ~GameWindow(); private: unsigned char m_unmodelled04[0x218 - 4]; };
 class Rva005125ED : public GameWindow, public Rva005248D0
 {
 public:
