@@ -6,6 +6,7 @@ Code/GameEngine/Source/Common/Bfme5FiftyFour.cpp,,1,1,region default loses rows
 Code/GameEngine/Source/Common/Bfme5FiftyTwo.cpp,,1,1,region default loses rows
 Code/GameEngine/Source/Common/Bfme5SeventyFive.cpp,,1,1,region default loses rows
 Code/GameEngine/Source/Common/Bfme5SeventySix.cpp,,7,2,region default loses rows
+Code/GameEngine/Source/Common/Bfme5ThirtyFour.cpp,-O2,22,1,region default loses rows
 Code/GameEngine/Source/Common/Bfme5ThirtyTwo.cpp,,3,2,region default loses rows
 Code/GameEngine/Source/Common/Bfme5TinySix3.cpp,,2,2,region default loses rows
 Code/GameEngine/Source/Common/BfmeAllocRva.cpp,-Od,1,1,region default loses rows

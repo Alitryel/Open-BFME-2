@@ -1,4 +1,4 @@
-// cl: /MD /EHsc
+// cl: /O2 /MD /EHsc
 // A counted-handle getter and a doubly-linked unlink.
 //
 // BFME1 byte-identical donor (reference/open-bfme-1
@@ -95,6 +95,27 @@ public:
 	BfmeRefVGO &bfmeAssignVGO(const BfmeRefVGO &other);
 	unsigned *m_bfmeP;
 };
+// The ref-counted assign (rowed 0x006CDB10, BfmeConv1355.cpp) is visible
+// here as an out-of-line COMDAT copy of the same body: seeing that it never
+// writes its argument lets MSVC drop the empty handles' destructors in
+// insert (retail has no release call there) and keeps retail's slot choice.
+class Rva00894D80Accessor
+{
+public:
+	static unsigned int increment(unsigned int *p);
+};
+__declspec(noinline) inline BfmeRefVGO &BfmeRefVGO::bfmeAssignVGO(const BfmeRefVGO &o)
+{
+	if (&o != this)
+	{
+		if (m_bfmeP && bfmeDecVGO(m_bfmeP) == 0)
+			bfmeDropVGO(m_bfmeP);
+		m_bfmeP = o.m_bfmeP;
+		if (m_bfmeP)
+			Rva00894D80Accessor::increment(m_bfmeP);
+	}
+	return *this;
+}
 class Rva006D1130Item : public BfmeRefVGO
 {
 public:
@@ -110,6 +131,10 @@ struct Rva006D1130Iterator
 	BfmeRefVGO *position;
 	BfmeRefVGO *begin;
 	BfmeRefVGO *end;
+	Rva006D1130Iterator() {}
+	Rva006D1130Iterator(BfmeRefVGO *p, BfmeRefVGO *b, BfmeRefVGO *e) : position(p), begin(b), end(e) {}
+	int operator-(const Rva006D1130Iterator &other) const { return position - other.position; }
+	Rva006D1130Iterator operator+(int amount) const { return Rva006D1130Iterator(position + amount, begin, end); }
 	Rva006D1130Iterator operator++(int) {
 		Rva006D1130Iterator old=*this;
 		++position;
@@ -126,11 +151,8 @@ public:
 	void insert(Rva006D1130Item *const &first, Rva006D1130Item *const &last,
 		const Rva006D1130Iterator &position);
 	void append(Rva006D1130Item *value);
-	Rva006D1130Iterator end()
-	{
-		Rva006D1130Iterator it = {m_begin + m_count, m_begin, m_begin + m_count};
-		return it;
-	}
+	Rva006D1130Iterator begin() { return Rva006D1130Iterator(m_begin, m_begin, m_begin + m_count); }
+	Rva006D1130Iterator end() { return Rva006D1130Iterator(m_begin + m_count, m_begin, m_begin + m_count); }
 private:
 	unsigned m_count;
 	int m_capacity;
@@ -152,8 +174,7 @@ void Rva006D1130::grow(int capacity)
 	Rva006D1130Item *newData = (Rva006D1130Item *)
 		((void *(__cdecl *)(void *, int, int))Rva006CE3D0Cleanup)(0, 0, capacity + 1);
 	Rva006D1130Item *oldEnd = m_begin + m_count;
-	Rva006D1130Iterator first = {m_begin, m_begin, oldEnd};
-	Rva006D1130Iterator last = {oldEnd, m_begin, oldEnd};
+	Rva006D1130Iterator first(m_begin, m_begin, oldEnd), last(oldEnd, m_begin, oldEnd);
 	Rva006D05E0Copy(first, last, newData);
 	m_capacity = capacity;
 	if (m_begin != m_inline)
@@ -162,6 +183,54 @@ void Rva006D1130::grow(int capacity)
 	const Rva006D1130Item empty;
 	m_begin[m_count].bfmeAssignVGO(empty);
 	__assume(empty.m_bfmeP == 0);
+}
+
+BfmeRefVGO *__cdecl Rva006D0460Copy(BfmeRefVGO *first, BfmeRefVGO *last, BfmeRefVGO *result);
+BfmeRefVGO *__cdecl Rva006D04D0CopyBackward(Rva006D1130Iterator first, Rva006D1130Iterator last, BfmeRefVGO *result);
+Rva006D1130Iterator __cdecl Rva006D0540Copy(BfmeRefVGO *first, BfmeRefVGO *last, Rva006D1130Iterator result);
+
+// Native 6D1230..6D13D6 RET 0xC: range insert of [first, last) at position,
+// the 4-byte-element twin of the matched Rva006CE660Vec::insert 0x006CE890
+// (PlaybackBufferResize.cpp): in place when the capacity allows (copy at the
+// end, or shift the tail with the backward copy 0x006D04D0 and copy into the
+// gap with 0x006D0540, then store an empty terminator), otherwise grow to
+// max(2 * capacity, count + added) and retry at the same offset. Calls and
+// layout are target facts; the shape and names follow the sibling.
+void Rva006D1130::insert(Rva006D1130Item *const &first, Rva006D1130Item *const &last,
+	const Rva006D1130Iterator &position)
+{
+	int added = last - first;
+	if (!added)
+		return;
+	int want = m_count + added;
+	if (want < m_capacity)
+	{
+		Rva006D1130Item *end = m_begin + m_count;
+		if (position.position == end)
+		{
+			Rva006D0460Copy(first, last, end);
+			m_begin[want].bfmeAssignVGO(Rva006D1130Item());
+		}
+		else
+		{
+			BfmeRefVGO *begin = m_begin, *finish = end;
+			Rva006D1130Iterator tail(finish, begin, finish);
+			Rva006D04D0CopyBackward(position, tail, begin + ((position.position - begin) + added));
+			Rva006D0540Copy(first, last, position);
+			m_begin[want].bfmeAssignVGO(Rva006D1130Item());
+		}
+		m_count = want;
+	}
+	else
+	{
+		int next = (int)(2.0 * m_capacity);
+		if (next < want)
+			next = want;
+		int offset = position - begin();
+		grow(next);
+		Rva006D1130Iterator at = begin() + offset;
+		insert(first, last, at);
+	}
 }
 
 // Native 6D13E0..6D141F RET4: append one element at end() through the
