@@ -13,9 +13,15 @@ struct _Rva002EBB53Inner {
 struct _Rva002EBB53Wrap {
     _Rva002EBB53Inner *m_inner;
 };
-void Rva002EF27DPop(_Rva002EBB53Wrap **first, _Rva002EBB53Wrap **last, _Rva002EBB53Wrap **result, _Rva002EBB53Wrap *val, int comp, void *dist);
+struct Rva002EF27DElement { _Rva002EBB53Inner *m_inner; };
+namespace _STL
+{
+template <class T> struct less { int m_word; };
+template <class RandomAccessIterator, class T, class Compare, class Distance>
+void __pop_heap(RandomAccessIterator first, RandomAccessIterator last, RandomAccessIterator result, T value, Compare comp, Distance *);
+}
 void Rva002F0EE4Wrap(_Rva002EBB53Wrap **base, _Rva002EBB53Wrap **end, _Rva002EBB53Wrap **result, int extra)
 {
     _Rva002EBB53Wrap **last = end - 1;
-    Rva002EF27DPop(base, last, last, *last, extra, 0);
+    _STL::__pop_heap((Rva002EF27DElement *)base, (Rva002EF27DElement *)last, (Rva002EF27DElement *)last, *(Rva002EF27DElement *)last, *(_STL::less<Rva002EF27DElement> *)&extra, (int *)0);
 }
