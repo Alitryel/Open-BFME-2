@@ -1,4 +1,6 @@
 // ?defineUnitsNormal_old@AITeamBuilder@@QAE_NPAVTeamPrototype@@@Z
+// partial score=0.97 date=2026-10-15
+// ?defineUnitsNormal_old@AITeamBuilder@@QAE_NPAVTeamPrototype@@@Z
 // partial score=0.96 date=2026-10-13
 // ?defineUnitsNormal_old@AITeamBuilder@@QAE_NPAVTeamPrototype@@@Z
 // partial score=0.95 date=2026-10-08
@@ -68,8 +70,36 @@ Team* AITeamBuilder::getTeamForAIPrototype(TeamPrototype* prototype) {
 }
 
 #include "GameLogicObjectLookupView.h"
+// d3 seat1: hack-free (no volatile team read). The visible lookup chain plus an
+// inline Object::getTeam() accessor (WB twin shape) give retail's team/owner
+// compare; the sole residue is retail carrying ids._M_start in ESI through the
+// loop head (loaded at entry and in the latch, so the break and end exits
+// share it for the vector dtor), ours loads it into EAX in the exit block, and
+// the name address (obj->template+0x64) goes to ESI in retail, EAX in ours.
+struct VisLookupNode { VisLookupNode *next; ObjectID key; Object *object; };
+struct VisLookupBuckets {
+ VisLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ VisLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct VisLookupMap { unsigned char hashEqual[4]; VisLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ VisLookupMap *map=(VisLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ VisLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == 0)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 #include "Lib/Coord3D.h"
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 // Both rowed native query providers walk seven words. The existing
 // Thing::isAnyKindOf provider retains BitFlags<69> in its ABI spelling;
 // the actual requirement storage and any() instantiation are BitFlags<218>.
@@ -83,6 +113,7 @@ public:
  char pad00[4]; RecruitThingTemplate* objectTemplate;
  char pad08[0x38-8]; Coord3D position;
  char pad44[0x258-0x44]; AIUpdateInterface* ai;
+ Team* getTeam() const { return team; }
  char pad25c[0x304-0x25c]; Team* team;
  char pad308[0x438-0x308]; unsigned char flag438;
  char pad439[0x4c0-0x439]; unsigned int frame4c0;
@@ -151,7 +182,7 @@ bool AITeamBuilder::defineUnitsNormal_old(TeamPrototype* prototype) {
   for(const ObjectID* id=ids.begin();id!=ids.end();++id) {
    if((unsigned)((Rva0039D5A9*)((char*)prototype+0x12c))->rva0039D5A9()>=prototype->max2d0)break;
    Object* obj=TheGameLogic->findObjectByID(*id);
-   if(obj && __vref(obj->team)==owner14->defaultTeam && ((obj->objectTemplate->kind108&8)||(obj->objectTemplate->kind113&4)) && !obj->testStatus(STATUS_90)) {
+   if(obj && obj->getTeam()==owner14->defaultTeam && ((obj->objectTemplate->kind108&8)||(obj->objectTemplate->kind113&4)) && !obj->testStatus(STATUS_90)) {
     Rva0039EA9C record;
     record.first=1; record.second=1;
     record.name10=obj->objectTemplate->name;
