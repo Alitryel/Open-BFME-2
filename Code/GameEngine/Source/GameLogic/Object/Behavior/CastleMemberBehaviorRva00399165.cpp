@@ -50,7 +50,8 @@ class Object
 	friend class CastleMemberBehavior;
 
 public:
-	const AsciiString &getName() const { return m_name; }
+	// Keep the native +0x88 calculation inline without a competing COMDAT.
+	__declspec(dllimport) __forceinline const AsciiString &getName() const { return m_name; }
 	Object *getNextObject() const { return m_next; }
 
 protected:

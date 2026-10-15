@@ -615,7 +615,8 @@ public:
 	void *rva0028C197() const;
 	const ThingTemplate *getTemplate() const { return m_template; }
 	ObjectID getID() const { return m_id; }
-	const AsciiString &getName() const { return m_name; }
+	// Keep the native +0x88 calculation inline without a competing COMDAT.
+	__declspec(dllimport) __forceinline const AsciiString &getName() const { return m_name; }
 	ContainModuleInterface *getContain() const { return m_contain; }
 	BodyModuleInterface *getBodyModule() const { return m_body; }
 	AIUpdateInterface *getAIUpdateInterface() const { return m_ai; }
