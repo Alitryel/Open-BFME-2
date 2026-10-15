@@ -1,3 +1,5 @@
+// ?rva0047901B@Rva0047901B@@QAEXXZ
+// partial score=0.9 date=2026-10-15
 // ?loadGarrisonPoints@GarrisonContain@@IAEXXZ
 // partial score=0.9725 date=2026-10-14
 // ?loadGarrisonPoints@GarrisonContain@@IAEXXZ

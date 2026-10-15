@@ -1,3 +1,5 @@
+// ?rva00600FC9@Rva00600FC9@@QAEXPAX@Z
+// partial score=0.9 date=2026-10-15
 // ?getFileListInDirectory@FileSystem@@QBEXABVAsciiString@@0AAV?$set@VAsciiString@@UBfmeStringNoCaseLess@@V?$allocator@VAsciiString@@@_STL@@@_STL@@_N@Z
 // partial score=0.96 date=2026-10-13
 // ?getFileListInDirectory@FileSystem@@QBEXABVAsciiString@@0AAV?$set@VAsciiString@@UBfmeStringNoCaseLess@@V?$allocator@VAsciiString@@@_STL@@@_STL@@_N@Z
