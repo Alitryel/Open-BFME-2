@@ -28,8 +28,18 @@ template <> class VSlots<0>
 {
 };
 
+enum SlotState { SLOT_OPEN, SLOT_CLOSED, SLOT_EASY_AI, SLOT_MED_AI, SLOT_BRUTAL_AI, SLOT_AI_5, SLOT_PLAYER };
+struct GameSlotConnectInfo { GameSlotConnectInfo():ip(0),port(0){} unsigned int ip; unsigned short port; };
 class GameSlot {
 public:
+    GameSlot();
+    GameSlot(const GameSlot&);
+    virtual ~GameSlot();
+    void setState(SlotState,UnicodeString,const GameSlotConnectInfo*);
+    void unAccept();
+    void setMapAvailability(bool);
+    void setPlayerTemplate(int);
+    bool decodeHero(unsigned char);
     bool isHuman() const;
     bool isAI() const;
     unsigned char encodeHero() const;
@@ -42,7 +52,6 @@ public:
     int get_state() const { return state; }
     bool isAccepted() const { return accepted; }
     bool hasMapData() const { return hasMap; }
-    char pad0[4];
     int state;
     bool accepted, hasMap, muted;
     int color, startPos, field14, playerTemplate, team, field20;
@@ -52,10 +61,21 @@ public:
     unsigned int ip;
     unsigned short port;
     int field40;
+    char pad44[0x18];
+    int field5c;
+    char pad60[0x1ac-0x60];
 };
 class GameInfo
 {
 public:
+    GameSlot *getSlot(int);
+    void setSlot(int,GameSlot);
+    void setMap(AsciiString);
+    void setMapCRC(unsigned int);
+    void setMapSize(unsigned int);
+    void rva0033F898(int);
+    void setSeed(int);
+    void rva003FF1A7(int);
     AsciiString getMap() const;
     const GameSlot *getConstSlot(int) const;
     unsigned int get_mapMask() const { return mapMask; }
@@ -173,3 +193,175 @@ void GameInfoToByteBuffer(LANGameInfo *game,char *data,int size)
         else cursor=Rva00447891Write1(cursor,'X',limit);
     }
 }
+
+// ByteBufferToGameInfo, retail 0x00448423 (2275 bytes, native 448423..448D06).
+// Identity: WB 0x014A8BF0 ByteBufferToGameInfo (LANGameInfo.cpp asserts
+// 758..1060) and ParseGameOptionsString's buffer-branch call (pinned name).
+// ZH's text parser guides the semantic field roles; packet order, offsets,
+// branch letters and helper calls are native. field40 is NAT behavior from
+// WB line 944; unresolved field names stay neutral.
+// The network reader helpers below are byte-identical select-any copies of
+// their rowed bodies in Rva00447909Copy.cpp: with their bodies visible cl 7.1
+// knows the local addresses they receive do not escape, which gives retail's
+// stack-slot packing. The rules counter is signed (retail jl), the slot
+// counters unsigned (jb); both share one frame slot.
+char *NetworkBufferRead(char*,StringBase<char>*,char*);
+extern "C" __declspec(dllimport) unsigned long __stdcall htonl(unsigned long v);
+extern "C" __declspec(dllimport) unsigned short __stdcall htons(unsigned short v);
+inline __declspec(noinline) char *__cdecl NetworkBufferReadRaw(char *src, void *dst, unsigned int size, char *limit)
+{
+	if (limit != 0) {
+		if (src > limit)
+			return src;
+		if (src + size > limit)
+			return src;
+	}
+	memcpy(dst, src, size);
+	return src + size;
+}
+inline __declspec(noinline) char *__cdecl Rva0044799ACopy1(char *src, void *dst, char *limit)
+{
+	return NetworkBufferReadRaw(src, dst, 1, limit);
+}
+inline __declspec(noinline) char *__cdecl Rva0044793FReadU32(char *src, unsigned int *out, char *limit)
+{
+	char *next = NetworkBufferReadRaw(src, &src, 4, limit);
+	*out = htonl(*(unsigned int *)&src);
+	return next;
+}
+inline __declspec(noinline) char *__cdecl Rva0044796CReadU16(char *src, unsigned short *out, char *limit)
+{
+	char *next = NetworkBufferReadRaw(src, &src, 2, limit);
+	*out = htons(*(unsigned short *)&src);
+	return next;
+}
+void Rva0056BDA5Split(unsigned char,char,char,unsigned char*,unsigned char*);
+AsciiString _Rva00621350GameInfoMapPath(const AsciiString&,bool);
+class Rva003FF0E7DwordSlot { public: void set(int); };
+// The admitted GameInfo address-named setter reproduces native map-mask +4C.
+
+class MultiplayerSettings {
+    char pad[0x38]; int colorCount, field3c, numColors;
+public: int getNumColors(){ if(numColors==0) numColors=colorCount; return numColors; }
+};
+extern MultiplayerSettings *TheMultiplayerSettings;
+struct PlayerTemplateBody { char bytes[0x1dc]; };
+class PlayerTemplateStore {
+    char pad[0xc]; PlayerTemplateBody *start,*finish;
+public: int getPlayerTemplateCount(){return finish-start;}
+};
+extern PlayerTemplateStore *ThePlayerTemplateStore;
+
+// Each helper returns the old cursor on failure and the advanced cursor on success.
+#define LAN_READ(call) { next=(call); if(next<=cursor) return false; if(next>limit) return false; cursor=next; }
+bool ByteBufferToGameInfo(GameInfo *game,const void *data,int size)
+{
+    if(!game || !data) return false;
+    unsigned int i;
+    char *cursor=(char*)data; char *next=0; char *limit=(char*)data+size;
+    AsciiString map;
+    LAN_READ(NetworkBufferRead(cursor,reinterpret_cast<StringBase<char>*>(&map),limit));
+    map=_Rva00621350GameInfoMapPath(map,true);
+    if(!map.getLength()) return false;
+    short mask; unsigned int crc, mapSize, seed;
+    LAN_READ(Rva0044796CReadU16(cursor,reinterpret_cast<unsigned short*>(&mask),limit));
+    LAN_READ(Rva0044793FReadU32(cursor,&crc,limit));
+    LAN_READ(Rva0044793FReadU32(cursor,&mapSize,limit));
+    LAN_READ(Rva0044793FReadU32(cursor,&seed,limit));
+    int rules[10]={-1};
+    for(int j=0;j<10;++j) {
+        LAN_READ(Rva0044793FReadU32(cursor,reinterpret_cast<unsigned int*>(&rules[j]),limit));
+    }
+    unsigned int field88=0;
+    LAN_READ(Rva0044793FReadU32(cursor,&field88,limit));
+    unsigned int field5c=0;
+    LAN_READ(Rva0044793FReadU32(cursor,&field5c,limit));
+    char field58=-1;
+    LAN_READ(Rva0044799ACopy1(cursor,&field58,limit));
+    GameSlot slots[8];
+    for(i=0;i<8;++i) {
+        GameSlot *slot=&slots[i];
+        char state;
+        LAN_READ(Rva0044799ACopy1(cursor,&state,limit));
+        if(state=='P') {
+            {
+                UnicodeString name;
+                unsigned short text[11];
+                LAN_READ(NetworkBufferReadRaw(cursor,text,22,limit));
+                name+=text;
+                if(!name.getLength()) return false;
+                unsigned int ip; unsigned short port;
+                LAN_READ(Rva0044793FReadU32(cursor,&ip,limit));
+                LAN_READ(Rva0044796CReadU16(cursor,&port,limit));
+                GameSlotConnectInfo connect;
+                connect.ip=ip; connect.port=port;
+                slot->setState(SLOT_PLAYER,name,&connect);
+            }
+            unsigned char flags;
+            LAN_READ(Rva0044799ACopy1(cursor,&flags,limit));
+            bool accept=(flags&1)!=0, hasMap=((flags>>1)&1)!=0;
+            if(accept) slot->accepted=true; else slot->unAccept();
+            if(hasMap) slot->setMapAvailability(true); else slot->setMapAvailability(false);
+            unsigned char packed; char color, player;
+            LAN_READ(Rva0044799ACopy1(cursor,&packed,limit));
+            Rva0056BDA5Split(packed,-1,-2,reinterpret_cast<unsigned char*>(&color),reinterpret_cast<unsigned char*>(&player));
+            if(color<-1 || color>=TheMultiplayerSettings->getNumColors()) return false;
+            slot->color=color;
+            if(player<-2 || player>=ThePlayerTemplateStore->getPlayerTemplateCount()) return false;
+            slot->setPlayerTemplate(player);
+            char start,team,field20,field40;
+            LAN_READ(Rva0044799ACopy1(cursor,&start,limit));
+            if(start<-1) return false;
+            slot->startPos=start;
+            LAN_READ(Rva0044799ACopy1(cursor,&team,limit));
+            if(team<-1 || team>=4) return false;
+            slot->team=team;
+            LAN_READ(Rva0044799ACopy1(cursor,&field20,limit));
+            if(field20<-100 || field20>0 || field20%5!=0) return false;
+            slot->field20=field20;
+            LAN_READ(Rva0044799ACopy1(cursor,&field40,limit));
+            int natBehavior=field40;
+            if(natBehavior<0 || natBehavior>256) return false;
+            slot->field40=natBehavior;
+            unsigned char hero;
+            LAN_READ(Rva0044799ACopy1(cursor,&hero,limit));
+            reinterpret_cast<Rva003FF0E7DwordSlot*>(slot)->set(game->getSlot(i)->field5c);
+            if(!slot->decodeHero(hero)) return false;
+        } else if(state=='E' || state=='M' || state=='H' || state=='B') {
+            switch(state) {
+            case 'E': {GameSlotConnectInfo connect; slot->setState(SLOT_EASY_AI,UnicodeString::TheEmptyString,&connect); break;}
+            case 'M': {GameSlotConnectInfo connect; slot->setState(SLOT_MED_AI,UnicodeString::TheEmptyString,&connect); break;}
+            case 'H': {GameSlotConnectInfo connect; slot->setState(SLOT_BRUTAL_AI,UnicodeString::TheEmptyString,&connect); break;}
+            case 'B': {GameSlotConnectInfo connect; slot->setState(SLOT_AI_5,UnicodeString::TheEmptyString,&connect); break;}
+            default: return false;
+            }
+            unsigned char packed; char color,player;
+            LAN_READ(Rva0044799ACopy1(cursor,&packed,limit));
+            Rva0056BDA5Split(packed,-1,-2,reinterpret_cast<unsigned char*>(&color),reinterpret_cast<unsigned char*>(&player));
+            if(color<-1 || color>=TheMultiplayerSettings->getNumColors()) return false;
+            slot->color=color;
+            if(player<-2 || player>=ThePlayerTemplateStore->getPlayerTemplateCount()) return false;
+            slot->setPlayerTemplate(player);
+            char start,team,field20;
+            LAN_READ(Rva0044799ACopy1(cursor,&start,limit)); slot->startPos=start;
+            LAN_READ(Rva0044799ACopy1(cursor,&team,limit)); slot->team=team;
+            LAN_READ(Rva0044799ACopy1(cursor,&field20,limit));
+            if(field20<-100 || field20>0 || field20%5!=0) return false;
+            slot->field20=field20;
+            unsigned char hero;
+            LAN_READ(Rva0044799ACopy1(cursor,&hero,limit));
+            reinterpret_cast<Rva003FF0E7DwordSlot*>(slot)->set(game->getSlot(i)->field5c);
+            if(!slot->decodeHero(hero)) return false;
+        } else if(state=='O') {GameSlotConnectInfo connect; slot->setState(SLOT_OPEN,UnicodeString::TheEmptyString,&connect);}
+        else if(state=='C') {GameSlotConnectInfo connect; slot->setState(SLOT_CLOSED,UnicodeString::TheEmptyString,&connect);}
+        else return false;
+    }
+    for(i=0;i<8;++i) game->setSlot(i,slots[i]);
+    game->setMap(map);
+    game->setMapCRC(crc); game->setMapSize(mapSize);
+    game->rva0033F898(mask);
+    game->setSeed(seed); memcpy(game->rules,rules,sizeof(rules));
+    game->field88=field88; game->rva003FF1A7(field5c); game->field58=field58;
+    return true;
+}
+#undef LAN_READ
