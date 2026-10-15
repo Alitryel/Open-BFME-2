@@ -20,6 +20,12 @@ private:
     void *m_objectTypes[3];
 };
 
+class Rva00376A62
+{
+public:
+    void rva00376B50(const AsciiString &name);
+};
+
 enum ObjectID { INVALID_OBJECT_ID = 0 };
 
 class Rva0040D701ArmySummary
@@ -33,7 +39,7 @@ public:
 bool Rva0040D701ArmySummary::rva0040EC7C(const AsciiString &name)
 {
     ObjectTypes types;
-    types.addObjectType(name);
+    reinterpret_cast<Rva00376A62 *>(&types)->rva00376B50(name);
     return reinterpret_cast<ArmySummary*>(this)->HasDelayedCarryoverUnitOfTypes(&types);
 }
 
@@ -43,6 +49,6 @@ bool Rva0040D701ArmySummary::rva0040EC7C(const AsciiString &name)
 ObjectID Rva0040D701ArmySummary::rva0040E83A(const AsciiString &name)
 {
     ObjectTypes types;
-    types.addObjectType(name);
+    reinterpret_cast<Rva00376A62 *>(&types)->rva00376B50(name);
     return SpawnOneDelayedCarryoverUnit(&types);
 }
