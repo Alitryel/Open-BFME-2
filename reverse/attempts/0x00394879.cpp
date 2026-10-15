@@ -1,7 +1,5 @@
 // ?isLocationClearOfObjects@BuildAssistant@@UAE_NPBUCoord3D@@PBVThingTemplate@@MPAVObject@@IPAVPlayer@@_N@Z
-// partial score=0.85 date=2026-10-12
-// ?isLocationClearOfObjects@BuildAssistant@@UAE_NPBUCoord3D@@PBVThingTemplate@@MPAVObject@@IPAVPlayer@@_N@Z
-// partial score=0.85 date=2026-10-12 MP3: hybrid dir/if-inline (1853B, was 1868): dir for else-path, pt*inv inline for if-path (kills xmm spills across Inv_Sqrt). Left: frame 138 vs 11C (+7 slots), +0x424 region, bit-test homes.007 date=2026-10-09
+// partial score=0.9737 date=2026-10-15
 // cl: /G7 /I. /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /EHs /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP=
 // stlport
 // BuildAssistant.cpp -- BuildAssistant members recovered from WorldBuilder
@@ -1016,6 +1014,7 @@ class Vector3
 {
 public:
 	Vector3(float x, float y, float z) { X = x; Y = y; Z = z; }
+	void Normalize();
 	__forceinline void Rotate_Z(float angle) { Rotate_Z(sinf(angle), cosf(angle)); }
 	void Rotate_Z(float s_angle, float c_angle)
 	{
@@ -1508,7 +1507,7 @@ public:
 class PoolMember
 {
 public:
-	void Rva00268902();
+	void Rva00268902() throw();
 };
 struct Rva00394173Node
 {
@@ -1618,6 +1617,27 @@ inline Bool Object::testStatus( ObjectStatusTypes bit ) const
 {
 	return ( m_statusBits[(UnsignedInt)bit >> 5] & ( 1 << ( bit & 31 ) ) ) != 0;
 }
+__forceinline void Vector3::Normalize()
+{
+	float len2 = X * X + Y * Y + Z * Z;
+	if (len2 != 0.0f) {
+		float oolen = WWMath::Inv_Sqrt(len2);
+		X *= oolen;
+		Y *= oolen;
+		Z *= oolen;
+	}
+}
+__declspec(noinline) inline float Coord2D::length() const
+{
+    return (float)sqrt(x * x + y * y);
+}
+__declspec(noinline) inline float Coord3D::GetLength() const
+{
+    float x_value = x;
+    float y_value = y;
+    float z_value = z;
+    return (float)sqrt(x_value * x_value + y_value * y_value + z_value * z_value);
+}
 Bool BuildAssistant::isLocationClearOfObjects( const Coord3D *worldPos, const ThingTemplate *build, Real angle, Object *builderObject, UnsignedInt options, Player *player, Bool flag )
 {
 	Bool b20 = (options >> 5) & 1;
@@ -1720,20 +1740,10 @@ Bool BuildAssistant::isLocationClearOfObjects( const Coord3D *worldPos, const Th
 			{
 				pt = exitData->m_offset;
 				Vector3 dir( pt.x, pt.y, pt.z );
-				Real len2 = dir.X * dir.X + dir.Y * dir.Y + dir.Z * dir.Z;
-				if( len2 != 0.0f )
-				{
-					Real inv = WWMath::Inv_Sqrt( len2 );
-					pt.x += pt.x * inv * 20.0f;
-					pt.y += pt.y * inv * 20.0f;
-					pt.z += pt.z * inv * 20.0f;
-				}
-				else
-				{
-					pt.x += dir.X * 20.0f;
-					pt.y += dir.Y * 20.0f;
-					pt.z += dir.Z * 20.0f;
-				}
+				dir.Normalize();
+				pt.x += dir.X * 20.0f;
+				pt.y += dir.Y * 20.0f;
+				pt.z += dir.Z * 20.0f;
 				break;
 			}
 			const Rva00394879Door *doorData = md->rva00394879Door();
