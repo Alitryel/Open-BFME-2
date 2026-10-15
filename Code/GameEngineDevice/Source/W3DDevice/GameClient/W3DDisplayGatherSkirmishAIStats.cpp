@@ -1,5 +1,4 @@
 // ?gatherSkirmishAIStats@W3DDisplay@@QAEXXZ
-// partial score=0.97 date=2026-10-15
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG
 // W3DDisplay::gatherSkirmishAIStats, retail 0x0004AA4A..0x0004B180 (1846 B,
 // RET 0). WorldBuilder 0x00966C80 names it (W3DDevice/GameClient/W3DDisplay.cpp,
@@ -124,7 +123,28 @@ public:
 extern PlayerList *ThePlayerList;
 
 // The per-player economy record and unit list the AI stats come from.
-class Rva002BEDABCount { public: UnsignedInt rva002BEDAB() const; };	// 0x002BEDAB
+// 0x002BEDAB is the rowed hash_map<int,int>::bucket_count alias both holders call.
+namespace _STL
+{
+template <class A, class B> struct pair
+{
+};
+template <class T> struct hash
+{
+};
+template <class T> struct equal_to
+{
+};
+template <class T> class allocator
+{
+};
+template <class K, class V, class H, class E, class A> class hash_map
+{
+public:
+	unsigned int bucket_count() const;
+};
+}
+typedef _STL::hash_map<int, int, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, int> > > IntMap;
 class Rva0025BFF8 { public: Object *rva0025BFF8(Int index); };		// 0x0025BFF8
 struct Rva002A8F24Economy
 {
@@ -173,7 +193,7 @@ public:
 	Bool m_showAllAI;				// +0x860
 };
 extern Rva002A8F24 *g_00DFEEF8;
-extern Int g_00DB3BD8;		// the selected AI index
+extern Int g_bfmeSkirmishAIDebugIndex;	// the selected AI index
 extern const char *AITargetTypeNames[];
 
 class BfmeFixedStorage0004543D
@@ -256,7 +276,7 @@ void W3DDisplay::gatherSkirmishAIStats()
 		Player *player = ThePlayerList->getNthPlayer(i);
 		if (!player->rva002AA245())
 			continue;
-		if (player->m_playerType == 0 || aiIndex == g_00DB3BD8)
+		if (player->m_playerType == 0 || aiIndex == g_bfmeSkirmishAIDebugIndex)
 		{
 			UnicodeString line;
 			if (player->m_playerType == 1 || g_00DFEEF8->m_showAllAI)
@@ -281,7 +301,7 @@ void W3DDisplay::gatherSkirmishAIStats()
 				unibuffer.concat(line);
 				line.format(L"...Saved: %d\n", economy->m_saved);
 				unibuffer.concat(line);
-				line.format(L"...# of Farms: %d\n", ((Rva002BEDABCount *)economy)->rva002BEDAB());
+				line.format(L"...# of Farms: %d\n", ((IntMap *)economy)->bucket_count());
 				unibuffer.concat(line);
 
 				Rva0025BFF8 *units = eStats->m_units;
@@ -290,7 +310,7 @@ void W3DDisplay::gatherSkirmishAIStats()
 				Int hordeUnits = 0;
 				Int heroUnits = 0;
 				Int idleUnits = 0;
-				UnsignedInt unitCount = ((Rva002BEDABCount *)units)->rva002BEDAB();
+				UnsignedInt unitCount = ((IntMap *)units)->bucket_count();
 				for (UnsignedInt u = 0; u < unitCount; u++)
 				{
 					Object *unit = units->rva0025BFF8(u);
@@ -343,7 +363,9 @@ void W3DDisplay::gatherSkirmishAIStats()
 					{
 						AsciiString cell;
 						Rva002C589B *target = *it;
-						cell.format("%s(%d/%d)", AITargetTypeNames[target->m_type], target->rva0030F2C7(), target->m_count);
+						Int count = target->m_count;
+						Int type = target->m_type;
+						cell.format("%s(%d/%d)", AITargetTypeNames[type], target->rva0030F2C7(), count);
 						typeRow.concat(cell);
 						for (Int pad = 0; pad < columnPad(cell); pad++)
 							typeRow.concat(" ");
