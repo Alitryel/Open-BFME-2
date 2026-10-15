@@ -1,5 +1,8 @@
 // ?rva002949AE@Object@@QAEXHHM@Z
-// partial score=0.82 date=2026-10-10
+// Object::rva002949AE (0x002949AE, 303 B): apply a model condition to a random
+// fraction of the contained objects, or to this object when it has no contain.
+// The BitFlags-style helper with unsigned bit index keeps retail's in-place test
+// and the late lea for the set path.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 #ifndef max
 #define max(a,b) (((a) > (b)) ? (a) : (b))
@@ -64,6 +67,13 @@ public:
 	virtual Rva00291793 slot66();	// +0x108
 };
 
+struct Rva002949AEFlags
+{
+	unsigned int m_bits[(0x230 - 0x10C) / 4];
+	__forceinline bool test(unsigned int bit) const { return (m_bits[bit / 32] & (1u << (bit % 32))) != 0; }
+	__forceinline void set(unsigned int bit) { m_bits[bit / 32] |= (1u << (bit % 32)); }
+};
+
 class Object
 {
 public:
@@ -71,30 +81,21 @@ public:
 	void rva0028AE6D();
 	void rva002949AE(int status, int value, float fraction);
 
-	static __forceinline unsigned int maskBit(unsigned int bit) { return 1u << (bit % 32); }
-	__forceinline unsigned int &statusWord(unsigned int bit) { return m_status[bit / 32]; }
-	__forceinline bool testStatus(unsigned int bit) { return (statusWord(bit) & maskBit(bit)) != 0; }
-	__forceinline void setStatus(unsigned int bit) { statusWord(bit) |= maskBit(bit); }
-
 	__forceinline void applyRva002949AE(int status, int value)
 	{
 		if (value)
 			m_smcHelper->setModelConditionState((ModelConditionFlagType)status, value);
-		else
+		else if (!m_flags.test(status))
 		{
-			unsigned int mask = maskBit(status);
-			if (!(m_status[(unsigned int)status / 32] & mask))
-			{
-				statusWord(status) |= mask;
-				rva0028AE6D();
-			}
+			m_flags.set(status);
+			rva0028AE6D();
 		}
 	}
 
 private:
 	char m_pad000[0x10C];
-	unsigned int m_status[(0x230 - 0x10C) / 4];	// +0x10C
-	ObjectSMCHelper *m_smcHelper;			// +0x230
+	Rva002949AEFlags m_flags;	// +0x10C
+	ObjectSMCHelper *m_smcHelper;	// +0x230
 };
 
 void Object::rva002949AE(int status, int value, float fraction)
