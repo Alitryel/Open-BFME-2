@@ -1,9 +1,3 @@
-// ?rva00045213@W3DDisplay@@AAEXPADI@Z
-// partial score=0.85 date=2026-10-14
-// ?rva00045213@W3DDisplay@@AAEXPADI@Z
-// partial score=0.8 date=2026-10-14
-// ?rva00045213@W3DDisplay@@AAEXPADI@Z
-// partial score=0.8 date=2026-10-13
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
 // ?rva00045213@W3DDisplay@@AAEXPADI@Z @0x00045213 377B, thiscall ret 8.
 // W3DDisplay::captureScreen: copy the client area of the front buffer into a
@@ -18,7 +12,9 @@
 // ClientToScreen exactly as takeScreenShot does. BFME 2 clamps each row and
 // pixel against the surface description (8 words at the stack top).
 // Donor (structure only): BFME 1 W3DDisplayCaptureScreen.cpp, whose body has
-// no clamping and logs through a debug manager instead.
+// no clamping and logs through a debug manager instead. The row and source
+// pointers are taken per row (image + y * rowBytes), and the column/source/
+// destination steps sit in the loop increment, as retail schedules them.
 
 struct BfmeRect {
 	long left, top, right, bottom;
@@ -136,13 +132,12 @@ void W3DDisplay::rva00045213(char *image, unsigned int rowBytes)
 	unsigned int width = bounds.right - bounds.left;
 	unsigned int height = bounds.bottom - bounds.top;
 	for (unsigned int y = 0; y < height; ++y) {
-
+		char *dest = image + y * rowBytes;
 		const char *src = (const char *)locked.bits + y * locked.pitch;
-		if ((bounds.top + y) < 0 || (unsigned int)(bounds.top + y) >= desc.height) {
-			memset(image, 0, width * 3);
+		if ((int)(bounds.top + y) < 0 || (unsigned int)(bounds.top + y) >= desc.height) {
+			memset(dest, 0, width * 3);
 		} else {
-			char *dest = image;
-			for (unsigned int x = 0; x < width; ++x) {
+			for (unsigned int x = 0; x < width; ++x, src += 4, dest += 3) {
 				int column = bounds.left + x;
 				if (column >= 0 && (unsigned int)column < desc.width) {
 					dest[0] = src[0];
@@ -153,11 +148,8 @@ void W3DDisplay::rva00045213(char *image, unsigned int rowBytes)
 					dest[1] = 0;
 					dest[2] = 0;
 				}
-				src += 4;
-				dest += 3;
 			}
 		}
-		image += rowBytes;
 	}
 
 	front->Release();
