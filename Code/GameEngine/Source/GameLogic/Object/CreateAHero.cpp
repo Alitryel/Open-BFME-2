@@ -13,6 +13,14 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+// Keep native node comparisons local; the incidental tree-base copy
+// differs from the selected out-of-line provider.
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
+                              const _Rb_tree_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {
