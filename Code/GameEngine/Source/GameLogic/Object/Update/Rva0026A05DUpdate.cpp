@@ -1,15 +1,3 @@
-// ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
-// partial score=0.98 date=2026-10-15
-// ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
-// partial score=0.93 date=2026-10-15
-// ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
-// partial score=0.928 date=2026-10-15
-// ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
-// partial score=0.9284842080544793 date=2026-10-14
-// ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
-// partial score=0.93 date=2026-10-13
-// ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
-// partial score=0.85 date=2026-10-09
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib
 // ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ retail
 // 0x0026A05D..0x0026A3A0 (835B).
@@ -30,8 +18,11 @@
 // 61 and 156 (Object+0x10C words; notifier 0x0028AE6D) and sleeps NONE; the
 // +0x3E0 flag brackets the machine update; vslot 113 short-circuits; KindOf
 // 109 skips 0x0028ACEE. Dead bit Object+0x438 bit 0 as in Rva00265AAB.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// Spelling levers (structural inference, not target evidence): the machine update is called through an
+// explicit slot table loaded before the sleep init (donor Zero Hour/BFME 1 AIChooseTable style), which puts the
+// virtual-slot load ahead of the address-taken sleep store as retail does; the redundant re-read of the +0x3E0
+// flag folds away but gives its address web the register weight retail has; the flag store precedes the sleep
+// init. No fence or volatile is needed.
 #include "Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
@@ -168,6 +159,7 @@ public:
 	bool m_locked;
 };
 
+struct AIStateMachineTable { void *m_slots[4]; int (AIStateMachine::*updateStateMachine)(); };
 class Rva00264069ObserverPrefix
 {
 public:
@@ -277,12 +269,15 @@ UpdateSleepTime AIUpdateInterface::rva0026A05D()
 
 	if (!slot110())
 		m_3C8 = true;
-		_ReadWriteBarrier();
 	m_isInUpdate = true;
 	m_completedWaypoint = 0;
+	bool f34 = m_34 != 0;
+	m_3E0 = f34;
+	if (m_3E0 != f34) m_3E0 = f34;
+	AIStateMachine *sm = getStateMachine();
+	AIStateMachineTable *tab = *(AIStateMachineTable **)sm;
 	int subMachineSleep = UPDATE_SLEEP_FOREVER;
-	m_3E0 = m_34 != 0;
-	int stRet = getStateMachine()->updateStateMachine();
+	int stRet = (sm->*tab->updateStateMachine)();
 	m_3E0 = false;
 	if (stRet > 0) {
 		if (stRet < UPDATE_SLEEP_FOREVER)
