@@ -1,13 +1,23 @@
-// ?rva0005BBE2@Rva0005BBE2@@QAEXH@Z
-// partial score=0.78607 date=2026-10-15
-// ?rva0005BBE2@Rva0005BBE2@@QAEXH@Z
-// partial score=0.9 date=2026-10-09
 // cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /ICode/GameEngine/Include /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /DNDEBUG /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
+// Native 0x0005BBE2..0x0005BD20, RET4; WB 0x00798170 supplies the
+// music-track advance/previous flow. The retail vtable and accesses establish
+// the manager receiver and +0x678 view, +0x9D4 lock, +0xA48 stream list, and
+// +0xB3C active systems. Field names follow the rowed MilesAudioManager home.
+// The string precedes the null owning reference in WB; retail EH state 2
+// retains that reference at -0x18. The mutable iterator return is converted
+// to a const iterator, leaving its return temporary separate from the live node.
+// PlayingAudio +0x1C and event +0x0C are independently used by matched music
+// workers in MilesAudioManager.cpp. Callee names remain the established ledger
+// spellings; the event prefix uses its canonical header.
+
 #include <list>
 #include "Common/BfmeAudioEventPrefix136.h"
 
-class PlayingAudioRef { public: OpaqueRefElement4 *m_unused; };
+struct AudioEventRTS { char head[0xC]; int m_playingHandle; };
+struct PlayingEventRef { AudioEventRTS *m_ptr; AudioEventRTS *get() const { return m_ptr; } AudioEventRTS *operator->() const { return m_ptr; } };
+struct PlayingAudio { char head[0x1C]; PlayingEventRef m_event; };
+class PlayingAudioRef { public: PlayingAudio *m_ptr; PlayingAudio *operator->() const { return m_ptr; } };
 typedef _STL::list<PlayingAudioRef> PlayingAudioList;
 class MilesMutexGuard {
 public:
@@ -105,6 +115,7 @@ public:
     PlayingAudioList::iterator rva0005442A(int viewType, int musicSystem, int filter);
     AsciiString rva0005B19E(const AsciiString &key);
     AsciiString rva0005B1FA(const AsciiString &key);
+    void rva0005BBE2(int previous);
     char at04[0x678 - 4];
     int m_viewType;
     char at67C[0x9d4 - 0x67c];
@@ -115,30 +126,23 @@ public:
     int m_activeMusicSystem[3];
 };
 
-class Rva0005BBE2 {
-public:
-    void rva0005BBE2(int previous);
-};
-
-void Rva0005BBE2::rva0005BBE2(int previous)
+void MilesAudioManager::rva0005BBE2(int previous)
 {
-    MilesAudioManager *mgr = reinterpret_cast<MilesAudioManager *>(this);
+    MilesAudioManager *mgr = this;
     MilesMutexGuard guard(&mgr->m_mutex, 0);
-    AudioEventInfoRef unused;
     AsciiString trackName;
+    AudioEventInfoRef unused;
     int handle = 1;
-    PlayingAudioList::iterator it = mgr->rva0005442A(mgr->m_viewType, mgr->m_activeMusicSystem[mgr->m_viewType], 1);
+    PlayingAudioList::const_iterator it = mgr->rva0005442A(mgr->m_viewType, mgr->m_activeMusicSystem[mgr->m_viewType], 1);
     if (it != mgr->m_playingStreams.end()) {
-        trackName = *reinterpret_cast<const AsciiString *>(reinterpret_cast<Rva002D9AC3 *>(
-            *reinterpret_cast<char **>(*reinterpret_cast<char **>(reinterpret_cast<char *>(it._M_node) + 8) + 0x1c))->rva002D9AC3());
-        handle = *reinterpret_cast<int *>(
-            *reinterpret_cast<char **>(*reinterpret_cast<char **>(reinterpret_cast<char *>(it._M_node) + 8) + 0x1c) + 0xc);
+        trackName = *reinterpret_cast<const AsciiString *>(reinterpret_cast<Rva002D9AC3 *>((*it)->m_event.get())->rva002D9AC3());
+        handle = (*it)->m_event->m_playingHandle;
     }
     mgr->removeAudioEvent(handle);
-    if (previous)
-        trackName = mgr->rva0005B1FA(trackName);
-    else
+    if (previous == 0)
         trackName = mgr->rva0005B19E(trackName);
+    else
+        trackName = mgr->rva0005B1FA(trackName);
     AudioEventInfoRef info = mgr->findAudioEventInfo(trackName);
     BfmeAudioEventPrefix136 event(*reinterpret_cast<const OpaqueRefElement4 *>(&info), mgr->m_viewType);
     mgr->addAudioEvent(&event);
