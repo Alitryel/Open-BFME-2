@@ -1,11 +1,5 @@
 // ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
-// partial score=0.9793776763737313 date=2026-10-14
-// ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
-// partial score=0.95 date=2026-10-14
-// ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
-// partial score=0.99 date=2026-10-13
-// ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
-// partial score=0.97 date=2026-10-07
+// partial score=0.9613670988700406 date=2026-10-15
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /O1
 //
 // LANAPI message handlers, Zero Hour's GameNetwork/LANAPIhandlers.cpp, as
@@ -1154,7 +1148,7 @@ void LANAPI::handleRequestJoin( LANMessage *msg, const BfmeNetAddress *sender )
 				Rva00237E28 exeCRC;
 				TheWritableGlobalData->m_exeCRC.rva00237E28( &exeCRC );
 				Bool exeMatch = msg->GameToJoin.exeCRC.rva0038901D().compare( exeCRC.rva0038901D() ) == 0;
-				Bool iniMatch = (player ? (msg->GameToJoin.iniCRC) : (msg->GameToJoin.iniCRC)) == TheWritableGlobalData->m_iniCRC;
+				Bool iniMatch = msg->GameToJoin.iniCRC == TheWritableGlobalData->m_iniCRC;
 				Bool extraMatch = msg->GameToJoin.bfmeExtraCRC == TheWritableGlobalData->m_bfmeExtraCRC;
 				if( !exeMatch || !iniMatch || !extraMatch )
 				{
