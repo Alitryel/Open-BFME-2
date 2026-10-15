@@ -116,6 +116,39 @@ void Rva000B4BED::rva000B4AE4()
 		p->m_00F4 = 0;
 }
 
+// Native 0B4AFB..0B4B23 (40B), between rva000B4AE4 and rva000B4B23: a
+// file-static helper in cl 7.1's register convention (the range in EDI, the
+// key on the stack): whether any 0xFC-byte entry of the range compares equal
+// to the key through Rva00045473Equal. No call to it survives in the image;
+// the anchor below only forces cl to emit it in that convention. Identity
+// unproven; address-derived names.
+struct Rva000B4AFBEntry
+{
+	char m_bytes[0xFC];
+};
+
+struct Rva000B4AFBRange
+{
+	Rva000B4AFBEntry *m_begin;
+	Rva000B4AFBEntry *m_end;
+};
+
+static __declspec(noinline) bool Rva000B4AFB(const Rva000B4AFBRange *range, const void *key)
+{
+	for (Rva000B4AFBEntry *p = range->m_begin; p != range->m_end; ++p)
+	{
+		if (Rva00045473Equal(key, p))
+			return true;
+	}
+	return false;
+}
+
+// ?Rva000B4AFBAnchor absent-from-retail
+bool Rva000B4AFBAnchor(const Rva000B4AFBRange *range, const void *key)
+{
+	return Rva000B4AFB(range, key);
+}
+
 // ?rva000B4B23@Rva000B4B23@@QAEPAXABVModelConditionFlags@@@Z @0x000B4B23 202B.
 // Table lookup with ModelConditionFlags query: fast indexed return when the
 // query predicate is clear and m_index is valid, else subset search over
