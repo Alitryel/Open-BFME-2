@@ -1,4 +1,6 @@
 // ?rva005B977B@OnlineHome@AptOnline@@QAEXXZ
+// partial score=0.96 date=2026-10-15
+// ?rva005B977B@OnlineHome@AptOnline@@QAEXXZ
 // partial score=0.96 date=2026-10-08
 // cl: /O1 /G7 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 //

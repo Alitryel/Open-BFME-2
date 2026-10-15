@@ -1,4 +1,6 @@
 // ?onCurrentMissionWon@LinearCampaign@@QAEXXZ
+// partial score=0.995965 date=2026-10-15
+// ?onCurrentMissionWon@LinearCampaign@@QAEXXZ
 // partial score=0.996 date=2026-10-14
 // ?onCurrentMissionWon@LinearCampaign@@QAEXXZ
 // partial score=0.996 date=2026-10-13
