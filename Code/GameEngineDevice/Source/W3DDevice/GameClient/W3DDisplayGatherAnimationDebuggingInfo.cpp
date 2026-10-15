@@ -131,19 +131,27 @@ public:
 class Rva0004224C
 {
 public:
-	__declspec(noinline) Rva0004224C *rva0004224C()
+	__declspec(noinline) Rva0004224C *rva0004224C();
+	__declspec(noinline) Rva0004224C()
 	{
 		if (TheGameLogic)
 			((Rva000421FD *)TheGameLogic)->rva000421FD();
-		return this;
 	}
-	__forceinline Rva0004224C() { rva0004224C(); }
 	~Rva0004224C()
 	{
 		if (TheGameLogic)
 			--((GameLogicDepthView *)TheGameLogic)->m_logicDepth;
 	}
 };
+
+// Keep the separately rowed entry emitted; the constructor above has the
+// same complete native body instead of introducing a forwarding wrapper.
+Rva0004224C *Rva0004224C::rva0004224C()
+{
+	if (TheGameLogic)
+		((Rva000421FD *)TheGameLogic)->rva000421FD();
+	return this;
+}
 
 // Model condition flags: describe 0x000467B2, delta 0x00049BE8, equality 0x00045473.
 class Rva000467B2

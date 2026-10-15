@@ -33,7 +33,7 @@ struct TowerGameLogicView {char pad[0x110];int mode;char gap[0x1b4-0x114];int fp
 class Rva000421FD {public:void rva000421FD();};
 class Rva0004224C {public:
  __declspec(noinline) Rva0004224C *rva0004224C(){if(TheGameLogic)((Rva000421FD*)TheGameLogic)->rva000421FD();return this;}
- Rva0004224C(){rva0004224C();}
+ __declspec(noinline) Rva0004224C(){if(TheGameLogic)((Rva000421FD*)TheGameLogic)->rva000421FD();}
  ~Rva0004224C(){if(TheGameLogic)--((TowerGameLogicView*)TheGameLogic)->fpDepth;}
 };
 class TowerPoints:public _STL::vector<BfmeE8> {public:
