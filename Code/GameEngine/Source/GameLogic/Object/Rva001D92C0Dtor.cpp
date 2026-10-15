@@ -3,7 +3,7 @@
 // ??1Rva001D92C0@@UAE@XZ, retail 0x001D92C0..0x001D93B2 (242 bytes, EH):
 // the destructor of the armor template store whose scalar deleting
 // destructor is 0x001D93B2 (vtable 0x00BD9CB0; its slot 4 is the "RIF:
-// Armor reloaded" notice 0x001D8FAD). It deletes the ArmorTemplate held by
+// Armor reloaded" notice 0x001D8FAD). It deletes the ArmorTemplate_RV held by
 // every entry of its NameKeyType hash map at +0x0C and clears the map, then
 // deletes every template of its pointer vector at +0x20 by index and empties
 // it; then the +0x2C and +0x20 vectors' storage goes to GameFree, the map dies
@@ -37,7 +37,7 @@ template <typename T> struct hash
 };
 }
 
-class ArmorTemplate
+class ArmorTemplate_RV
 {
 private:
 	float m_head;				// +0x00
@@ -108,12 +108,12 @@ Rva001D92C0::~Rva001D92C0()
 	{
 		Rva00206DA4Table *table = reinterpret_cast<Rva00206DA4Table *>(&m_templates.m_table);
 		for (Rva00206DA4Table::iterator it = table->begin(); it._M_cur; ++it)
-			delete reinterpret_cast<ArmorTemplate *>(it._M_cur->_M_val.second);
+			delete reinterpret_cast<ArmorTemplate_RV *>(it._M_cur->_M_val.second);
 	}
 	reinterpret_cast<Rva00206DA4Table *>(&m_templates.m_table)->clear();
 	{
 		for (unsigned int i = 0; i < m_list.size(); ++i)
-			delete static_cast<ArmorTemplate *>(m_list[i]);
+			delete static_cast<ArmorTemplate_RV *>(m_list[i]);
 	}
 	m_list.clear();
 }
