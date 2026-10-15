@@ -1,11 +1,6 @@
-// ?Rva0044C3D4@@YA_NXZ
-// partial score=0.95 date=2026-10-14
-// ?Rva0044C3D4@@YA_NXZ
-// partial score=0.91 date=2026-10-13
-// ?Rva0044C3D4@@YA_NXZ
-// partial score=0.91 date=2026-10-11
-// ?Rva0044C3D4@@YA_NXZ
-// partial score=0.9 date=2026-10-11
+// ?Rva0044C3D4@@YA_NXZ (0x0044C3D4, 493 B): WB DoAnyHeroTransfer (HeroTransfer.cpp).
+// The slot switch follows WB: a doIt flag set per kind, with send copied from it
+// only in the case 1/3 arm, which gives retail's send home and unthreaded test.
 // cl: /O1 /G6 /arch:SSE /MD /DNDEBUG /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // R12 (W7-U1): middle loop declares its own counter (for(int i=0;...)) instead of the function-top i: retail keeps the ONE hoisted zero in EBP (ebx is the first loop counter, xor ebx,ebx later) -> nd 58 -> 34.
 // Residue (15 B): retail keeps `send` (bool) with a memory home [esp+0x12] (store at each def, reload `cmp byte [esp+0x12],0` in case 2) and does NOT jump-thread the else path of the
@@ -66,7 +61,7 @@ class HeroTransferNetworkCalls {public:
  virtual void endHeroTransfer();
  virtual void sendHero(const CreateAHeroData &,int,int,int);
 };
-void rva0044C2C6();
+void SelectRandomHero();
 bool Rva0044C277Wait();
 
 
@@ -75,22 +70,6 @@ class PlayerTemplateStore {public:const PlayerTemplate *getNthPlayerTemplate(int
 extern PlayerTemplateStore *ThePlayerTemplateStore;
 int GetGameClientRandomValue(int,int,char *,int);
 
-void rva0044C2C6() {
- if(!TheGameInfo)return;
- for(int i=0;i<8;++i) {
-  GameSlot *slot=TheGameInfo->getSlot(i);
-  if(!slot || slot->kind!=1 || !slot->isOccupied())continue;
-  if(i!=TheGameInfo->getLocalSlotNum() && !(TheGameInfo->amIHost() && slot->isAI()))continue;
-  std::vector<unsigned int> available;
-  const PlayerTemplate *playerTemplate=ThePlayerTemplateStore->getNthPlayerTemplate(slot->playerTemplate);
-  int faction=playerTemplate?playerTemplate->rva001FD234():-1;
-  TheCreateAHeroManager->GetAvailableHeroesForFaction(&available,faction);
-  if(available.size()>0) {
-   int selected=GetGameClientRandomValue(0,available.size()-1,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameNetwork\\HeroTransfer.cpp",65);
-   ((Rva003FF0E7DwordSlot*)slot)->set(available[selected]);
-  }
- }
-}
 
 static __forceinline bool heroTransferReady() { return TheGameInfo && TheCreateAHeroManager; }
 bool Rva0044C3D4() {
@@ -114,28 +93,35 @@ bool Rva0044C3D4() {
   }
   return true;
  }
- rva0044C2C6();
+ SelectRandomHero();
  if(TheNetwork)((HeroTransferNetworkCalls*)TheNetwork)->beginHeroTransfer();
  Rva0040A3F9 *heroes=TheCreateAHeroManager->rva0021F797();
  bool remote=false;
  for(int i=0;i<8;++i) {
   GameSlot *slot=TheGameInfo->getSlot(i);
   if(!slot || !slot->isOccupied())continue;
+  bool doIt=false;
   bool send=false;
   switch(slot->kind) {
    case 1:
    case 3:
-    if(i==TheGameInfo->getLocalSlotNum() || (TheGameInfo->amIHost() && slot->isAI()))send=true;
+    if(i==TheGameInfo->getLocalSlotNum())doIt=true;
+    else if(TheGameInfo->amIHost() && slot->isAI())doIt=true;
     else remote=true;
-    if(!send)break;
-   case 2: {
-    CreateAHeroData *data=heroes->rva0040A32F(slot->index);
-    if(data) {
-     TheCreateAHeroManager->rva0021A428(*data);
-     slot->rva0037AD8D(*data);
-     if(send && TheGameInfo)((HeroTransferNetworkCalls*)TheNetwork)->sendHero(*data,TheGameInfo->dispatchID,i,0xFF);
-    }
+    send=doIt;
     break;
+   case 2:
+    doIt=true;
+    break;
+   default:
+    doIt=false;
+  }
+  if(doIt) {
+   CreateAHeroData *data=heroes->rva0040A32F(slot->index);
+   if(data) {
+    TheCreateAHeroManager->rva0021A428(*data);
+    slot->rva0037AD8D(*data);
+    if(send && TheGameInfo)((HeroTransferNetworkCalls*)TheNetwork)->sendHero(*data,TheGameInfo->dispatchID,i,0xFF);
    }
   }
  }
