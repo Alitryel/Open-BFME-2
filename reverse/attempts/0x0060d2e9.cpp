@@ -1,4 +1,6 @@
 // ?rva0060D2E9@XferSave@@QAEXPBD@Z
+// partial score=0.985 date=2026-10-15
+// ?rva0060D2E9@XferSave@@QAEXPBD@Z
 // partial score=0.95 date=2026-10-15
 // cl: /O1 /G6 /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_CSTD_FUNCTION_IMPORTS
 // stlport
@@ -40,6 +42,7 @@ private:
  unsigned int previousNames;
 };
 
+struct Wmarker_4 { unsigned char v; unsigned char pad[3]; };
 void XferSave::rva0060D2E9(const char *name) {
  if(name==0 || *name==0) {
   unsigned char marker=0;
@@ -52,8 +55,8 @@ void XferSave::rva0060D2E9(const char *name) {
    found=((Rva0060CAEA*)names)->rva0060CAEA(key);
   }
   if(found) {
-   unsigned char marker=0xff;
-   if(stream->write(&marker,1)!=1) throw XferException(1,0);
+   Wmarker_4 marker; marker.v = 0xff;
+   if(stream->write(&marker.v,1)!=1) throw XferException(1,0);
    if(stream->write(&found->value,4)!=4) throw XferException(1,0);
   } else {
    length=strlen(name);

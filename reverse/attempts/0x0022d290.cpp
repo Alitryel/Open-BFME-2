@@ -1,4 +1,6 @@
 // ?rva0022D290@GameEngine@@QAEXXZ
+// partial score=0.99 date=2026-10-15
+// ?rva0022D290@GameEngine@@QAEXXZ
 // partial score=0.9717338543362639 date=2026-10-14
 // ?rva0022D290@GameEngine@@QAEXXZ
 // partial score=0.9717338543362639 date=2026-10-14
@@ -563,10 +565,11 @@ void GameEngine::rva0022D290()
   
   {
    unsigned now=timeGetTime();
-   int limit=(int)(1000.0f/(float)((double)m_maxFPS*LOGIC_SCALE));
+   char limit=(int)(1000.0f/(float)((double)m_maxFPS*LOGIC_SCALE));
    unsigned elapsed=now-EnginePreviousFrameTime;
-   unsigned remaining=((now ? ((unsigned)limit-elapsed) : ((unsigned)limit-elapsed))) & ((unsigned)(elapsed>=(unsigned)limit)-1);
    EngineFrameElapsedTime=elapsed;
+   unsigned remaining=((now ? ((unsigned)limit-elapsed) : ((unsigned)limit-elapsed))) & ((unsigned)(elapsed>=(unsigned)limit)-1);
+   _ReadWriteBarrier();
    EngineSleepTimeTotal+=remaining;
    _ReadWriteBarrier();
    EngineSleepTimeRemaining=remaining;

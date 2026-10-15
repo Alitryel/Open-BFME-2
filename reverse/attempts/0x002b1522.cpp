@@ -1,4 +1,8 @@
 // ?DoXfer@Player@@QAEXPAVXfer@@@Z
+// partial score=0.9997 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?DoXfer@Player@@QAEXPAVXfer@@@Z
 // partial score=0.9918 date=2026-10-14
 // ?DoXfer@Player@@QAEXPAVXfer@@@Z
 // partial score=0.995 date=2026-10-12
@@ -226,11 +230,11 @@ void Player::DoXfer(Xfer *raw)
     if(!tmplate)badPlayerTransfer();
     upgrade=reinterpret_cast<PlayerUpgradeNode*>(rva002AE329(tmplate,UPGRADE_NATIVE_INVALID,0));
     xfer->snapshot(upgrade);
-   }
+   } _ReadWriteBarrier();
   }
   xfer->integer(&m_radarCount); xfer->boolean(&m_isPlayerDead);
-  rva003064CB(raw,reinterpret_cast<Rva00291440*>(&m_upgradesInProgress));
   xfer->integer(&m_disableProofRadarCount); xfer->boolean(&m_radarDisabled);
+  rva003064CB(raw,reinterpret_cast<Rva00291440*>(&m_upgradesInProgress));
   rva003064CB(raw,reinterpret_cast<Rva00291440*>(&m_upgradesCompleted));
   xfer->snapshot(&m_energy); if(version.value>=9)xfer->boolean(&m_field33F);
   PlayerListView&prototypes=listView(m_playerTeamPrototypes);
