@@ -1,11 +1,5 @@
 // ?rva00375DFF@AerialPathfinder@@QAE_NPAVObject@@PAVRva00375A73Context@@MM@Z
-// partial score=0.5 date=2026-10-14
-// ?rva00375DFF@AerialPathfinder@@QAE_NPAVObject@@PAVRva00375A73Context@@MM@Z
-// partial score=0.97 date=2026-10-13
-// ?rva00375DFF@AerialPathfinder@@QAE_NPAVObject@@PAVRva00375A73Context@@MM@Z
-// partial score=0.97 date=2026-10-13
-// ?rva00375DFF@AerialPathfinder@@QAE_NPAVObject@@PAVRva00375A73Context@@MM@Z
-// partial score=0.9777 date=2026-10-12
+// partial score=0.97 date=2026-10-15
 // cl: /O1 /arch:SSE /G7 /MD /EHs
 // BFME1 donor f98983a7d: game/GameEngine/Source/GameLogic/AI/
 // AerialPathfinder_separationPush.cpp supplies the separation algorithm.
@@ -48,23 +42,17 @@ static __forceinline float nativeLength(const Coord3D*p) throw(){return p->lengt
 // ?nativeNormalize absent-from-retail - source-only nonthrowing call view
 static __forceinline void nativeNormalize(Coord3D*p) throw(){p->normalize();}
 extern PartitionManager* ThePartitionManager;
-struct Rva00375A73Coord;
-class Rva00375A73Context;
-class AerialPathfinder {public:bool rva00375C28(Object*,const Coord3D*,float*,Coord3D*);bool rva00375A73(Rva00375A73Context*,float,Rva00375A73Coord*);bool rva00375DFF(Object*,Rva00375A73Context*,float,float);};
-struct Rva00375A73Coord:Coord3D{};
-class Rva00375A73Context {public: char prefix[0x24];bool valid24;};
-class TerrainLogic
+struct Rva00375A73Coord : Coord3D {};
+class Rva00375A73Context { public: char prefix[0x24]; bool valid24; };
+class AerialTerrainView
 {
 public:
-    virtual void slot00();
-    virtual void slot01();
-    virtual void slot02();
-    virtual void slot03();
-    virtual void slot04();
-    virtual void slot05();
-    virtual float getGroundHeight(float x, float y, Coord3D *normal) const;
+	virtual void slot00(); virtual void slot01(); virtual void slot02();
+	virtual void slot03(); virtual void slot04(); virtual void slot05();
+	virtual float getGroundHeight(float x, float y, Coord3D *normal) const;
 };
-extern TerrainLogic *TheTerrainLogic;
+extern AerialTerrainView *TheTerrainLogic;
+class AerialPathfinder {public:bool rva00375C28(Object*,const Coord3D*,float*,Coord3D*);bool rva00375A73(Rva00375A73Context*,float,Rva00375A73Coord*);bool rva00375DFF(Object*,Rva00375A73Context*,float,float);};
 // ?TheAerialPathfinder@@3PAVAerialPathfinder@@A, zero-filled .data at 0x00A01F10.
 // Owner from the retail layout: zero-filled globals follow their TUs in link
 // order, and 0x00A01F10 comes right after the StealthUpdate statics (code
@@ -102,30 +90,23 @@ bool AerialPathfinder::rva00375C28(Object*obj,const Coord3D*pos,float*worstOverl
 }
 bool AerialPathfinder::rva00375DFF(Object *obj, Rva00375A73Context *context, float distance, float clearance)
 {
-    if (obj->ai && context->valid24)
-    {
-        Rva00375A73Coord pos;
-        if (rva00375A73(context, distance, &pos))
-        {
-            pos.z -= clearance * 0.5f;
-            float t = TheTerrainLogic->getGroundHeight(pos.x, pos.y, 0);
-            bool above = false;
-            bool hit = false;
-            if (pos.z > t)
-                above = true;
-            t = 0.0f;
-            Rva00375A73Coord where;
-            where.x = 0.0f;
-            where.y = 0.0f;
-            where.z = 0.0f;
-            if (TheAerialPathfinder->rva00375C28(obj, &pos, &t, &where))
-                hit = true;
-            if ((t ? ((above ? (above != true) : (above != true))) : (above != true)))
-                return false;
-            if (hit != true)
-                return false;
-            return true;
-        }
-    }
-    return true;
+	if (!obj->ai || !context->valid24)
+		return true;
+	Rva00375A73Coord pos;
+	if (!rva00375A73(context, distance, &pos))
+		return true;
+	pos.z -= clearance * 0.5f;
+	bool above = false;
+	bool clear = false;
+	float overlap = TheTerrainLogic->getGroundHeight(pos.x, pos.y, 0);
+	if (pos.z > overlap)
+		above = true;
+	overlap = 0.0f;
+	Coord3D push;
+	push.x = 0.0f;
+	push.y = 0.0f;
+	push.z = 0.0f;
+	if (TheAerialPathfinder->rva00375C28(obj, &pos, &overlap, &push))
+		clear = true;
+	return (above == true && clear == true) ? true : false;
 }
