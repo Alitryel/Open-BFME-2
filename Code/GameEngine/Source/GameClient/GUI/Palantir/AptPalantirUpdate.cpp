@@ -170,19 +170,13 @@ private:
 };
 
 // The 0x58-byte Apt callback registry base (vtable 0x00C02A80): constructor
-// 0x002D2C34 (pinned by address), destructor 0x005248D0. As in its other
-// users (AptRowListConstructor.cpp and siblings) the view is novtable: the
-// real constructor installs its own vtable, retail stores none before it.
-class Rva002D2C34
-{
-public:
-	void rva002D2C34();
-};
+// 0x002D2C34, destructor 0x005248D0. Use the matched constructor provider,
+// as in AptPalantirConstructor.cpp; it installs the registry vtable itself.
 
 class __declspec(novtable) Rva005248D0
 {
 public:
-	__forceinline Rva005248D0() { ((Rva002D2C34 *)this)->rva002D2C34(); }
+	Rva005248D0();
 	virtual ~Rva005248D0();
  int rva002D2C21() const;
 
