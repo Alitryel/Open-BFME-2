@@ -1,4 +1,6 @@
 // ??0SidesList@@QAE@ABV0@@Z
+// partial score=1.0 date=2026-10-15
+// ??0SidesList@@QAE@ABV0@@Z
 // partial score=0.989779 date=2026-10-15
 // ??0SidesList@@QAE@ABV0@@Z
 // partial score=0.55 date=2026-10-06
@@ -18,6 +20,12 @@
 #include <algorithm>
 #include <vector>
 #include "Common/Snapshot.h"
+#include <map>
+enum NameKeyType { NAMEKEY_INVALID = 0 };
+class ModuleFactory { public: class ModuleTemplate; };
+typedef _STL::map<NameKeyType, ModuleFactory::ModuleTemplate *,
+                  _STL::less<NameKeyType>,
+                  _STL::allocator<_STL::pair<const NameKeyType, ModuleFactory::ModuleTemplate *> > > MapType0032EF3E;
 
 class SubsystemInterface
 {
@@ -35,8 +43,6 @@ private:
 	char m_pad05[3];
 	char m_name[4];
 };
-
-#pragma comment(linker, "/alternatename:??1SubsystemInterface@@UAE@XZ=??1GameEngineDeletingBase@@UAE@XZ")
 
 class Rva00330757Member
 {
@@ -76,32 +82,8 @@ public:
 	~SidesListListField();
 };
 
-#pragma comment(linker, "/alternatename:??1SidesListListField@@QAE@XZ=??1Rva00207F08Dtor@@QAE@XZ")
-
-class Rva0032D3D3Map
-{
-public:
-	Rva0032D3D3Map();
-	~Rva0032D3D3Map();
-
-private:
-	char m_body[0x0C];
-};
-
-class Rva0032EAA1Map
-{
-public:
-	Rva0032EAA1Map();
-	~Rva0032EAA1Map();
-
-private:
-	char m_body[0x0C];
-};
-
-#pragma comment(linker, "/alternatename:??0Rva0032D3D3Map@@QAE@XZ=??0?$map@W4NameKeyType@@VModuleTemplate@ModuleFactory@@U?$less@W4NameKeyType@@@_STL@@V?$allocator@U?$pair@$$CBW4NameKeyType@@VModuleTemplate@ModuleFactory@@@_STL@@@5@@_STL@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??0Rva0032EAA1Map@@QAE@XZ=??0?$map@W4NameKeyType@@VModuleTemplate@ModuleFactory@@U?$less@W4NameKeyType@@@_STL@@V?$allocator@U?$pair@$$CBW4NameKeyType@@VModuleTemplate@ModuleFactory@@@_STL@@@5@@_STL@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1Rva0032D3D3Map@@QAE@XZ=??1Rva0032D3D3@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1Rva0032EAA1Map@@QAE@XZ=??1Rva0032EAA1@@QAE@XZ")
+typedef MapType0032EF3E Rva0032D3D3Map;
+typedef MapType0032EF3E Rva0032EAA1Map;
 
 class SidesInfo
 {
@@ -127,10 +109,6 @@ private:
 	char m_body[0x1C];
 };
 
-#pragma comment(linker, "/alternatename:??0TeamsInfoRec@@QAE@XZ=??0Rva0019A1D0Owner@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??0TeamsInfoRec@@QAE@ABV0@@Z=??0BfmeTmpACH@@QAE@PAX@Z")
-#pragma comment(linker, "/alternatename:??1TeamsInfoRec@@QAE@XZ=??1BfmeTmpACH@@QAE@XZ")
-
 struct Rva0032C0E3Element
 {
 	char m_body[0x80];
@@ -148,8 +126,6 @@ private:
 	std::vector<Rva0032C0E3Element> m_first;
 	std::vector<Rva0032C0E3Element> m_second;
 };
-
-#pragma comment(linker, "/alternatename:??1Rva0032C19D@@QAE@XZ=??1Rva001976F0@@QAE@XZ")
 
 class SidesList : public SubsystemInterface, public Snapshot, public SidesListNotifier
 {
