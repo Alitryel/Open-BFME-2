@@ -1,4 +1,5 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc
+// stlport
 //
 // AIAttackApproachTargetState::onEnter, retail 0x0034CD3A (783 bytes): slot 4
 // of vtable 0x00C12610 (slot-2 name getter "AIAttackApproachTargetState";
@@ -89,10 +90,12 @@
 // (slot 2 isWeaponSlotOkToFire, slot 0 notifyFired); update's three early
 // failures are separate statements in retail.
 
+#include <vector>
 #include "../../Common/GameLogicObjectLookupView.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../Libraries/Include/Lib/Coord2D.h"
 #include "../../Common/PartitionRangeQueryCallView.h"
+#include "../../Common/RTS/XYDistanceCallView.h"
 
 typedef bool Bool;
 typedef float Real;
@@ -285,11 +288,13 @@ public:
 enum MoodMatrixParameters
 {
 	MM_Controller_Player = 0x00000001,
+	MM_Controller_AI = 0x00000002,
 	MM_Mood_Sleep = 0x00000100,
 	MM_Mood_Passive = 0x00000200,
 	MM_Mood_Normal = 0x00000400,
 	MM_Mood_Alert = 0x00000800,
 	MM_Mood_Aggressive = 0x00001000,
+	MM_Mood_2000 = 0x00002000,
 	MM_Mood_Bitmask = (MM_Mood_Sleep | MM_Mood_Passive | MM_Mood_Normal | MM_Mood_Alert | MM_Mood_Aggressive)
 };
 
@@ -501,7 +506,7 @@ public:
 	Bool m_249; // +0x249
 	unsigned char m_pad24A[0x250 - 0x24A];
 	void *m_contain; // +0x250
-	unsigned char m_pad254[0x258 - 0x254];
+	class BodyModuleView *m_body; // +0x254
 	AIUpdateInterface *m_ai; // +0x258
 	void *m_physics; // +0x25C
 	unsigned char m_pad260[0x274 - 0x260];
@@ -510,6 +515,8 @@ public:
 	Team *m_team; // +0x304
 	unsigned char m_pad308[0x438 - 0x308];
 	UnsignedInt m_438; // +0x438
+	unsigned char m_pad43C[0x488 - 0x43C];
+	ObjectID m_lastVictimID; // +0x488
 };
 
 Bool rva00344EB2Gate(Object *obj, Thing *other);
@@ -570,6 +577,7 @@ public:
 	virtual Bool allow(Object *objOther) = 0;
 	virtual Int getPlayerMask(); // slot 2, 0x0036CC7A
 	Rva000421C8 *link(Rva000421C8 *next);
+	Bool allows(Object *obj); // 0x00625720, the chain test
 private:
 	Rva000421C8 *m_next; // +0x04
 };
@@ -642,6 +650,8 @@ private:
 	unsigned char m_pad30[0x38 - 0x30];
 public:
 	Bool m_locked; // +0x38 (ZH lock()/unlock() without the debug owner string)
+	unsigned char m_pad39[0x4C - 0x39];
+	class Gen_0018BC70 *m_goalSquad; // +0x4C
 };
 
 // StateMachine::isGoalObjectDestroyed (0x004D7ADD), rowed under this name.
@@ -2474,4 +2484,217 @@ StateReturnType AIAttackApproachTargetState::updateInternal()
 	code = AIInternalMoveToState::update();
 	}
 	return code;
+}
+
+// AIAttackSquadState::chooseVictim's views. The goal squad's live-object
+// vector (the rowed 0x004D6D4F under these placeholder names) is a real
+// STLport vector of objects.
+class BfmeVecAK : public std::vector<Object *>
+{
+};
+class Gen_0018BC70
+{
+public:
+	BfmeVecAK *bfmeCompact(bool flag);
+};
+
+// The body module (Object +0x254), slot 15 the last damage info; its source
+// ObjectID at +0x08.
+struct DamageInfoView
+{
+	unsigned char m_pad00[0x08];
+	ObjectID m_sourceID; // +0x08
+};
+class BodyModuleView : public VirtualSlots<15>
+{
+public:
+	virtual const DamageInfoView *getLastDamageInfo() const;
+};
+
+Bool rva003460DB(Object *obj);
+
+// The pathfinder's nearby-object ID query (0x002F2865), rowed under this name.
+class Rva002F2865Host
+{
+public:
+	Int rva002F2865(char *obj, int ids);
+};
+
+// The chain append PartitionFilter::And (0x00625790).
+class PartitionFilter
+{
+public:
+	PartitionFilter &And(PartitionFilter &rhs);
+};
+
+// vftable 0x00BFBC90, allow 0x00260EB1: +0x08 the object, +0x0C flags, +0x10 a flag.
+class Rva00260EB1Filter : public Rva000421C8
+{
+public:
+	Rva00260EB1Filter(const Object *obj, Int flags, Bool fromOther)
+		: m_obj(obj), m_flags(flags), m_fromOther(fromOther) {}
+	virtual Bool allow(Object *obj);
+	const Object *m_obj;
+	Int m_flags;
+	Bool m_fromOther;
+};
+
+// The out-of-line constructor 0x002611F2.
+class PartitionFilterRejectBuildings : public Rva000421C8
+{
+public:
+	PartitionFilterRejectBuildings(Object *obj);
+	virtual Bool allow(Object *obj);
+	Object *m_obj;
+	Bool m_flag;
+};
+
+// The 224-bit KindOf mask, the one-bit mask builder 0x00045411 and the KindOf
+// filter (ctor 0x0004584D, vftable 0x00BC2908).
+class BfmeFixedStorage0004543D
+{
+public:
+	BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other) throw();
+private:
+	unsigned char m_bytes[28];
+};
+struct Rva00045411BitSet : public BfmeFixedStorage0004543D
+{
+	Rva00045411BitSet(int unused, int bit) throw();
+};
+template <int NUMBITS> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
+class Rva0004584D : public Rva000421C8
+{
+public:
+	Rva0004584D(const BfmeFixedStorage0004543D &a, const BfmeFixedStorage0004543D &b) throw();
+	virtual Bool allow(Object *obj);
+	BfmeFixedStorage0004543D m_08;
+	BfmeFixedStorage0004543D m_24;
+};
+
+// Retail 0x00350D15, 912 bytes: AIAttackSquadState::chooseVictim (Zero Hour
+// AIStates.cpp; WorldBuilder twin 0x00E2ABE0 has the same call graph). BFME 2
+// keeps the owner's last victim (+0x488) while it is alive and still in the
+// goal squad (+0x4C, live objects 0x004D6D4F); the AI controller mood bits
+// keep ZH's sleep and passive (last damage source through the body module at
+// +0x254, slot 15) answers; then the closest squad member the owner may
+// attack (gate 0x003460DB, possible-to-attack filter vftable 0x00BF91B0)
+// wins, its distance (0x002615E3) quartered once the current weapon reaches
+// it and the view and chase gates allow it (0x002C9400, contact weapon,
+// 0x003430A3 and the ESI helper 0x00343FB0). With the +0x24 byte set and
+// nothing in range, the pathfinder's nearby IDs (0x002F2865) are filtered
+// through the BFME 2 chain (0x00BFBC90 head, possible-to-attack, same map
+// status, KindOf 0x82 rejection and reject buildings) for the closest one in
+// weapon range. The squad's objects are walked through the real STLport
+// vector iterators (Zero Hour's VecObjectPtr::const_iterator loops).
+Object *AIAttackSquadState::chooseVictim()
+{
+	StateMachine *machine = getMachine();
+	Gen_0018BC70 *victimSquad = machine->m_goalSquad;
+	if (!victimSquad)
+		return 0;
+
+	Object *owner = machine->getOwner();
+	AIUpdateInterface *ai = owner->getObservedAI();
+	UnsignedInt moodVal = ai->getMoodMatrixValue();
+
+	Object *lastVictim = TheGameLogic->findObjectByID(owner->m_lastVictimID);
+	if (lastVictim && !(lastVictim->m_438 & 1))
+	{
+		const BfmeVecAK &objects = *victimSquad->bfmeCompact(true);
+		for (std::vector<Object *>::const_iterator it = objects.begin(); it != objects.end(); ++it)
+		{
+			if (lastVictim == *it)
+				return lastVictim;
+		}
+	}
+	else
+	{
+		owner->m_lastVictimID = INVALID_OBJECT_ID;
+	}
+
+	if (moodVal & MM_Controller_AI)
+	{
+		if ((moodVal & MM_Mood_Sleep) || (moodVal & MM_Mood_2000))
+			return 0;
+		if (moodVal & MM_Mood_Passive)
+		{
+			BodyModuleView *bmi = owner->m_body;
+			if (!bmi)
+				return 0;
+			const DamageInfoView *di = bmi->getLastDamageInfo();
+			if (!di)
+				return 0;
+			return TheGameLogic->findObjectByID(di->m_sourceID);
+		}
+	}
+
+	Weapon *weapon = owner->getCurrentWeapon();
+	const BfmeVecAK &objects = *victimSquad->bfmeCompact(true);
+	Real bestDistSqr = 3.402823466e+38f;
+	Object *bestVictim = 0;
+	Bool inRange = false;
+	for (std::vector<Object *>::const_iterator it = objects.begin(); it != objects.end(); ++it)
+	{
+		Object *victim = *it;
+		if (!rva003460DB(victim))
+			continue;
+		PartitionFilterPossibleToAttack filter(ATTACK_NEW_TARGET, owner, 2);
+		if (!filter.allow(victim))
+			continue;
+		if (victim->m_438 & 1)
+			continue;
+		Real distSqr = ((Rva000CBA20 *)owner)->distSq((const Rva000CBA20Point *)victim->getPosition());
+		if (weapon && weapon->isWithinAttackRange((const Object *)owner, victim, 0.0f, 1))
+		{
+			if (!((const Rva002C9400ByteField *)weapon->getTemplate())->get() &&
+				!weapon->getTemplate()->isContactWeapon() &&
+				!rva003430A3(owner, victim, weapon) &&
+				!rva00343FB0(owner))
+				continue;
+			distSqr *= 0.25f;
+			inRange = true;
+		}
+		if (distSqr < bestDistSqr)
+		{
+			bestDistSqr = distSqr;
+			bestVictim = victim;
+		}
+	}
+
+	if (m_sawStatus1C && !inRange && weapon)
+	{
+		Rva00260EB1Filter filter(owner, 1, false);
+		PartitionFilterPossibleToAttack attackFilter(ATTACK_NEW_TARGET, owner, 2);
+		PartitionFilterRejectBuildings rejectBuildings(owner);
+		Rva0004584D kindFilter(*(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE, Rva00045411BitSet(0, 0x82));
+		PartitionFilterSameMapStatus sameMapStatus(owner);
+		((PartitionFilter &)filter).And((PartitionFilter &)attackFilter);
+		((PartitionFilter &)filter).And((PartitionFilter &)sameMapStatus);
+		((PartitionFilter &)filter).And((PartitionFilter &)kindFilter);
+		((PartitionFilter &)filter).And((PartitionFilter &)rejectBuildings);
+
+		ObjectID ids[16];
+		Int count = ((Rva002F2865Host *)TheAI->pathfinder())->rva002F2865((char *)owner, (int)ids);
+		for (Int i = 0; i < count; ++i)
+		{
+			Object *other = TheGameLogic->findObjectByID(ids[i]);
+			if (!other)
+				continue;
+			if (!filter.allows(other))
+				continue;
+			if (!(owner->getTemplate()->kindOfWord(3) & 0x2000) && (other->getTemplate()->kindOfWord(3) & 0x2000))
+				continue;
+			if (!weapon->isWithinAttackRange((const Object *)owner, other, 0.0f, 1))
+				continue;
+			Real distSqr = ((Rva000CBA20 *)owner)->distSq((const Rva000CBA20Point *)other->getPosition()) * 0.25f;
+			if (!(other->m_438 & 1) && distSqr < bestDistSqr)
+			{
+				bestDistSqr = distSqr;
+				bestVictim = other;
+			}
+		}
+	}
+	return bestVictim;
 }
