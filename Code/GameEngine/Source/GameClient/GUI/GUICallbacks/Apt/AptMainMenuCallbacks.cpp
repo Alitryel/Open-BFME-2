@@ -380,6 +380,7 @@ public:
 	virtual int rva00514950(int msg, int p1, int p2);
 	void rva00514F2E();
 	void rva00514FE9();
+	void rva00515980();
 	void rva005158A7();
 	// 0x00515633 (rowed as the free Rva00515633Delete; it ignores ECX but
 	// is called with the menu in it), pinned under this name.
@@ -950,4 +951,138 @@ void AptMainMenu::OnTutorial(const char *params) {
  message->appendIntegerArgument(0);
  TheShell->rva0035BF4C(true);
  ((TutorialShellView*)TheShell)->slot10();
+}
+
+// Retail 0x00515980..0x00515B0A (394 bytes, RET0; EH). Name unknown: the
+// screen's leave/shutdown step (WB 1457450 is its unnamed debug twin).
+// TheGameInfo is dropped and TheSkirmishGameInfo deleted; unless the menu
+// is leaving for "CreditsMenu" it backs out of the sub-menu (0x00514FE9) or
+// reverses the parchment fade, clears/sets the shell's +0x5D/+0x6C bytes and,
+// in state 8, asks for display-mode confirmation: a two-button message box
+// whose callbacks are 0x00514DC0 (records button 2) and 0x00514DDA, then
+// the 10-second timer 0x00437EC4 and the engine mouse shown again.
+class GameInfo
+{
+public:
+	virtual ~GameInfo();
+};
+extern GameInfo *TheGameInfo;
+extern GameInfo *TheSkirmishGameInfo;
+
+// TheGameText's vslot 15 fetch (Rva00515C64's view).
+class GameTextInterface
+{
+public:
+	virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
+	virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
+	virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
+	virtual void v12(); virtual void v13(); virtual void v14();
+	virtual UnicodeString fetch(const char *label, bool *exists = 0);	// +0x3C
+};
+extern GameTextInterface *TheGameText;
+
+// The Apt callback functors (as Rva0043F483PopulatePlayerCombo.cpp): a
+// binding of an object and an eight-byte member pointer (code pointer and
+// this-adjustment; both callbacks here are plain members, adjustment 0), the
+// refcounted holder rowed 0x0057BC63 builds from it, and AptMessageBox.cpp's
+// by-value reference the box releases through 0x0007DEEF.
+class __multiple_inheritance FunctorTarget;
+typedef void (FunctorTarget::*FunctorMethod)(void);
+struct FunctorBinding
+{
+	template <class T, class M> FunctorBinding(T *target, M method)
+		: m_target(reinterpret_cast<FunctorTarget *>(target)), m_method(reinterpret_cast<FunctorMethod>(method)) {}
+	FunctorTarget *m_target;
+	unsigned int m_pad;
+	FunctorMethod m_method;
+};
+// The generic member pointer is the eight-byte multiple-inheritance form; a
+// plain member converts to it through a derived class of that form.
+struct TargetRef00217D4C { virtual void *destroy(unsigned int); int references; };
+void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
+class FunctorWrapperHead
+{
+public:
+	FunctorWrapperHead() : m_refCount(0) {}
+	virtual void anchor();
+	int m_refCount; // +0x04
+};
+class Rva0057BC63FunctorWrapper : public FunctorWrapperHead
+{
+public:
+	Rva0057BC63FunctorWrapper(const FunctorBinding &binding) : m_binding(binding) {}
+	void invoke();
+	FunctorBinding m_binding;
+};
+void *__cdecl operator new(unsigned int size);
+// The holder constructor (row 0x0057BC63) is defined here inline (never
+// inlined), as AptOptionsConstructor.cpp does: retail's compiler saw that it
+// only reads its binding, so both callback bindings below share one slot
+// pair ([ebp-0x2c]/[ebp-0x3c]). Declared out of line, the second binding's
+// copy takes its own slot and the frame grows from 0x30 to 0x40.
+class Rva0057BC63FunctorHolder
+{
+public:
+	Rva0057BC63FunctorHolder(const FunctorBinding &binding)
+	{
+		m_ptr = (TargetRef00217D4C *)new Rva0057BC63FunctorWrapper(binding);
+		if (m_ptr != 0)
+			m_ptr->references++;
+	}
+	TargetRef00217D4C *m_ptr;
+};
+struct TreeHintRef00217D4C : public Rva0057BC63FunctorHolder
+{
+	TreeHintRef00217D4C(FunctorBinding binding) : Rva0057BC63FunctorHolder(binding) {}
+	TreeHintRef00217D4C(const TreeHintRef00217D4C &v) : Rva0057BC63FunctorHolder(v)
+	{
+		if (m_ptr)
+			++m_ptr->references;
+	}
+	~TreeHintRef00217D4C() { if (m_ptr) ReleaseTreeHintRef00217D4C(m_ptr); }
+};
+class AptMessageBox
+{
+public:
+	static void Show(int type, const UnicodeString &text, const UnicodeString &title, TreeHintRef00217D4C callback, TreeHintRef00217D4C callback2);
+};
+class Rva00514DDA
+{
+public:
+	void rva00514DDA(int button);
+private:
+	int m_unknown00;
+};
+void __cdecl Rva00437EC4Set(float seconds);
+// The generic member pointer is the eight-byte multiple-inheritance form; a
+// plain member converts to it through a derived class of that form.
+struct AptMainMenuWide : public AptMainMenu, public FunctorBinding {};
+struct Rva00514DDAWide : public Rva00514DDA, public FunctorBinding {};
+
+void AptMainMenu::rva00515980()
+{
+	TheGameInfo = 0;
+	if (TheSkirmishGameInfo)
+	{
+		::delete TheSkirmishGameInfo;
+		TheSkirmishGameInfo = 0;
+	}
+	if (m_2a4.compare("CreditsMenu") != 0)
+	{
+		if (m_27f)
+			rva00514FE9();
+		else if (m_280)
+			TheTransitionHandler->reverse(AsciiString("PreParchmentMapFade_StartNew"));
+		TheShell->m_5d = false;
+		TheShell->m_6c = true;
+		if (m_state == 8)
+		{
+			m_282 = false;
+			AptMessageBox::Show(2, TheGameText->fetch("GUI:ValidateDisplayModeTitle"), TheGameText->fetch("GUI:ValidateDisplayModeMessage"),
+				TreeHintRef00217D4C(FunctorBinding(this, static_cast<void (AptMainMenuWide::*)(int)>(&AptMainMenu::rva00514DC0))),
+				TreeHintRef00217D4C(FunctorBinding(this, static_cast<void (Rva00514DDAWide::*)(int)>(&Rva00514DDA::rva00514DDA))));
+			Rva00437EC4Set(10.0f);
+			TheMouse->_bfme_setEngineVisibility(true);
+		}
+	}
 }
