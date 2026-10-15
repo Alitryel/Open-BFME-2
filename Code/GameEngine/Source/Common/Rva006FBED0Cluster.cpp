@@ -51,17 +51,26 @@ public:
 class Rva006FBED0Root : public BfmeAptValue006DCD20
 {
 public:
-	// 0x006FBAA0: thiscall, one stack argument (the run at this+0x28); builds
-	// the single-run root. Unnamed body, address-derived.
-	Rva006FBED0Root(void *run);
-
-	// 0x006FBB10: thiscall, two stack arguments (count, run); builds the
-	// paired-run root. Unnamed body, address-derived.
-	Rva006FBED0Root(void *run, int count);
-
 	// Retail allocates exactly 0x20 bytes for the root, so the class is padded
 	// to that size: the new-expression passes sizeof(*this) to the pool.
 	char m_pad[0x1c];
+
+	static void *operator new(unsigned int size)
+	{
+		return g_pChainBlockAllocatorF4->allocBlock((int)size);
+	}
+};
+
+// The two constructors (0x006FBAA0 single run, 0x006FBB10 run plus count) are
+// rowed as Rva006FBC90Owner's; the root is built through that view and the
+// result stored as the root. Same 0x20 size and pool operator new.
+class AptValue;
+class Rva006FBC90Owner
+{
+public:
+	Rva006FBC90Owner(AptValue *run);
+	Rva006FBC90Owner(AptValue *run, int count);
+	char m_pad[0x20];
 
 	static void *operator new(unsigned int size)
 	{
@@ -92,9 +101,9 @@ void Rva8D0D80Result::rva006FBED0()
 	// The global is written on both arms and then read back for the virtual
 	// call, which is what keeps the allocation result in eax across the store.
 	if (m_count)
-		g_rva00A1835C = new Rva006FBED0Root(m_run, m_count);
+		g_rva00A1835C = (Rva006FBED0Root *)new Rva006FBC90Owner((AptValue *)m_run, m_count);
 	else
-		g_rva00A1835C = new Rva006FBED0Root(m_run);
+		g_rva00A1835C = (Rva006FBED0Root *)new Rva006FBC90Owner((AptValue *)m_run);
 
 	g_rva00A1835C->slot0();
 }

@@ -2488,8 +2488,6 @@ name,address,notes
 ??0Rva006ED060Base@@QAE@XZ,0x006ED060,base ctor called by the 18B derived ctor at 0x006F7140; SEH frame body; address read from the REL32 displacement of the sibling body; body not yet converted
 ??0Rva006F69D0@@QAE@PAXHH@Z,0x006F69D0,"descriptor interpretation ctor built by Rva006F6A50 0x006F6A50 when the descriptor kind is 3; 0x1C bytes; body unrowed"
 ??0Rva006FBDB0@@QAE@VEAStringC@@HH@Z,0x006FBD40,"address-derived AptDebugStack element ctor called by 0x00700090 with a by-value EAStringC plus two ints; 0x0C-byte element with dtor 0x006FBDB0; body unrowed"
-??0Rva006FBED0Root@@QAE@PAX@Z,0x006FBAA0,address-derived single-run Rva8D0D80Result gc-root ctor; thiscall one stack arg the run at owner+0x28; body unrowed; reached only from 0x006FBED0
-??0Rva006FBED0Root@@QAE@PAXH@Z,0x006FBB10,address-derived paired-run Rva8D0D80Result gc-root ctor; thiscall two stack args run and count; body unrowed; reached only from 0x006FBED0
 ??0Rva00740AE0Base@@QAE@XZ,0x000851F3,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Rva007849F0Handle@@QAE@ABV0@@Z,0x000424BB,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Rva007B12F0Base@@QAE@XZ,0x000EFA4E,base DEFAULT ctor callee of ??0Rva007B1380@@QAE@XZ at retail 0x00109D8C read from its REL32 displacement; body unrowed
