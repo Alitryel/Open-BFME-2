@@ -1,8 +1,10 @@
 // ?rva00420254@VictoryConditions@@QAEXABVAsciiString@@_N00@Z
-// partial score=0.9 date=2026-10-15
-// ?rva00420254@VictoryConditions@@QAEXABVAsciiString@@_N00@Z
-// partial score=0.8390705679862306 date=2026-10-10
-// cl: /O1 /Ob2 /G7 /arch:SSE /EHs /MD /Ireference/shims/bfme2_ascii
+// partial score=0.97 date=2026-10-15
+// cl: /O1 /EHsc /MD /arch:SSE /GF- /Ireference/shims/bfme2_ascii
+// d3 seat6 w2: /GF- (two "" uses compiled as separate literals: suffix stays in ECX,
+// state in EDI as retail) + the fetchName result passed as a temporary, equal-arm
+// name.str() hack removed: 254/255, only residue is cl packing the UnicodeString
+// temporary into the dead label home [ebp+8] where retail gives it its own slot [ebp-0x14].
 // ??1VictoryConditions@@UAE@XZ, retail 0x004201FA, 62 bytes. Derived dtor of
 // VictoryConditions over Rva0041FE0E over SubsystemInterface: installs derived
 // vtable 0x00C3BA28 then calls rowed this->rva00420110 0x00420110 then
@@ -101,14 +103,12 @@ extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime();
 void VictoryConditions::rva00420254(const AsciiString &label,bool defeat,const AsciiString &name,const AsciiString &extra)
 {
  if(g_pRva00224BC9 && !m_endGameShowing) {
-  { AsciiString key(":VictoryDefeat");
-    UnicodeString text=((VictoryTextPrefix *)TheGameText)->fetchName(&label,0);
-    ((BfmeAptWindowManager *)g_pRva00224BC9)->bfmeSetText(key,text,false); }
-  const char *suffix;
-  if (!extra.isEmpty()) suffix=extra.str();
-  else suffix="";
-  const char *state=defeat?"0":"1";
-  ((Rva00222A8BTarget *)g_pRva00224BC9)->invoke((void *)13,"ShowEndGame",3,state,(g_pRva00224BC9 ? ((void *)name.str()) : ((void *)name.str())),(void *)suffix,0,0);
+ { AsciiString key(":VictoryDefeat");
+    ((BfmeAptWindowManager *)g_pRva00224BC9)->bfmeSetText(key,((VictoryTextPrefix *)TheGameText)->fetchName(&label,0),false); }
+ const char *suffix;
+ if (!extra.isEmpty()) suffix=extra.str();
+ else suffix="";
+ ((Rva00222A8BTarget *)g_pRva00224BC9)->invoke((void *)13,"ShowEndGame",3,defeat?"0":"1",(void *)name.str(),(void *)suffix,0,0);
   m_endGameShowing=true;
   m_endGameShowTime=timeGetTime();
   *(bool *)((char *)TheDisplay+0x140)=false;
