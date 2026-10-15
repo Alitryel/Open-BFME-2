@@ -47,6 +47,12 @@ public:
 	Gen0002857E *m_target;
 };
 
+// Native A8684 and LoopBuffer constructors call this complete6B null
+// initializer at326BE6 for the same4B audio-file handle whose12B destructor
+// A8A37 and assignmentA8A43 are owned here. Keep its source in the provider
+// unit: callers retain their native potentially-throwing external call/EH.
+Rva00690FF0Handle::Rva00690FF0Handle() : m_target(0) {}
+
 // Retail 0x000A89E3: a new reference to the file once it is ready, else an
 // empty container. MilesAudioManager's loop-buffer refill passes the result
 // to putFileIntoLoopBuffer (0x0005ED1C and its siblings).
