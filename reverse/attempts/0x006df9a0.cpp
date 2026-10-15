@@ -1,8 +1,6 @@
 // ?findChild@AptValue@@QAEPAV1@PBVEAStringC@@PAV1@@Z
-// partial score=0.9269 date=2026-10-14
-// ?findChild@AptValue@@QAEPAV1@PBVEAStringC@@PAV1@@Z
-// partial score=0.99 date=2026-10-13
-// ?findChild@AptValue@@QAEPAV1@PBVEAStringC@@PAV1@@Z
+// partial score=0.9654 date=2026-10-15
+// cl: -I. -ICode/Libraries/Source/Apt
 // Native6DF9A0 lookup: owned gperf vocabulary proves the built-in cases;
 // getVariable caller proves AptValue::findChild name and two pointer arguments.
 // Final RET8 ends6DFD92, then13 targets and37 compact indices end6DFDED.
@@ -17,7 +15,7 @@
 class EAStringC { void *mpData; public: unsigned int rva006D3750() const; const char *rva00620090() const; };
 struct R4Word { const char *name; int value; };
 const R4Word *Rva00897FD0(const char *,unsigned int);
-class BfmeAptValue006DCD20 { public: int isCIH(bool=false) const; int isObject() const; int isPrototype() const; int rva006DCC60(bool=false) const; BfmeAptValue006DCD20 *rva006DCF60(bool=false); BfmeAptValue006DCD20 *rva006DD0E0(); BfmeAptValue006DCD20 *rva006DD120(); void *rva006E04A0() const; };
+class BfmeAptValue006DCD20 { public: bool isCIH(bool=false) const; int isObject() const; int isPrototype() const; int rva006DCC60(bool=false) const; BfmeAptValue006DCD20 *rva006DCF60(bool=false); BfmeAptValue006DCD20 *rva006DD0E0(); BfmeAptValue006DCD20 *rva006DD120(); void *rva006E04A0() const; };
 class Rva006DC9E0 { public: int rva006DC9E0(); };
 class BfmeN1034;
 class Rva0070A5C0 { public: BfmeN1034 *rva0070A5C0(int); };
@@ -29,7 +27,8 @@ struct FindChildFunctionView { char prefix[0x24]; AptValue *parentAnim; };
 struct FindChildCIHView { char prefix[0x48]; AptValue *parent; };
 struct FindChildObjectView { char prefix[0x1c]; unsigned int flags; };
 AptCIH *_AptGetAnimationAtLevel(int);
-extern AptValue *gpUndefinedValue;
+extern AptValue *g_bfmeAptDefaultValueAtE18078;
+#define gpUndefinedValue g_bfmeAptDefaultValueAtE18078
 extern AptValue *g_shutdownAtE18068,*g_shutdownAtE18070,*g_shutdownAtE180AC,*g_shutdownAtE180B8,*g_shutdownAtE180BC,*g_shutdownAtE18360;
 class Rva00898D60Target;
 extern Rva00898D60Target *g_Rva01337A20;
