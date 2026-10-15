@@ -125,7 +125,9 @@ virtual void slot10();
 virtual void slot11();
 virtual GameMessage*appendMessage(int);};
 extern MessageStream*TheMessageStream;
-static __declspec(noinline) void Rva005E5DF5SendSwapArmyMembers(int army1,const Rva005FSelectionView*first,int army2,const Rva005FSelectionView&second) {
+// WorldBuilder StrategicInGameUI::SendSwapArmyMembersMessage; rowed at 0x005E5DF5 in StrategicUiArmyDragDrop.cpp.
+namespace StrategicInGameUI {
+static __declspec(noinline) void SendSwapArmyMembersMessage(int army1,const Rva005FSelectionView*first,int army2,const Rva005FSelectionView&second) {
  GameMessage*message=TheMessageStream->appendMessage(0x6af);
  message->appendIntegerArgument(army1);
  message->appendIntegerArgument(first->members.size());
@@ -135,6 +137,7 @@ static __declspec(noinline) void Rva005E5DF5SendSwapArmyMembers(int army1,const 
  message->appendIntegerArgument(second.members.size());
  _STL::_Rb_tree_node_base*secondEnd=second.members.end()._M_node;
  for(_STL::_Rb_tree_node_base*n=secondEnd->_M_left;n!=secondEnd;n=_STL::_Rb_global<bool>::_M_increment(n))message->appendIntegerArgument(*(int*)((char*)n+16));
+}
 }
 
 // WB 1628960 calls strict-pointer operator-> (16295C0) four times,
@@ -149,5 +152,5 @@ void Rva005F53A2::rva005F53A2(){
  Rva005FArmyView*target=getContext()->target->army;
  Rva005FSelectionView&second=owner->target->selection;
  if(StrategicInGameUI::CanSwapArmyMembers(source,&first,target,&second))
-  Rva005E5DF5SendSwapArmyMembers(source->getID(),&first,target->getID(),second);
+  StrategicInGameUI::SendSwapArmyMembersMessage(source->getID(),&first,target->getID(),second);
 }
