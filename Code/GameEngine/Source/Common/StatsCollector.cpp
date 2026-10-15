@@ -175,14 +175,16 @@ public:
 	Int getPlayerIndex() const { return m_playerIndex; }
 	__declspec(dllimport) __forceinline Money *getMoney() { return &m_money; }
 	ScoreKeeper *getScoreKeeper() { return &m_scoreKeeper; }
-	__declspec(dllimport) __forceinline const AsciiString &getSide() const { return m_side; }
 	__forceinline const char *getSideText() const { const char *text = *(const char *const *)(const void *)&m_side; return text ? text + 8 : ""; }
 
 private:
 	void *m_vtable;
 	unsigned char m_pad04[ 0x54 - 4 ];
 	Int m_playerIndex;                  // +0x54
+public:
+	// collectUnitCountStats reads this field directly at retail 0x00437B83.
 	AsciiString m_side;                 // +0x58
+private:
 	unsigned char m_pad5C[ 0x90 - 0x5C ];
 	Money m_money;                      // +0x90
 	unsigned char m_pad9C[ 0x3BC - 0x9C ];
@@ -346,8 +348,11 @@ void StatsCollector::collectUnitCountStats()
 	for( Object *obj = static_cast<GameLogic *>( TheGameLogic )->getFirstObject(); obj; obj = obj->getNextObject() )
 	{
 		if( !(obj->isKindOf( 8 ) || obj->isKindOf( 9 )) ||
-			obj->isNeutralControlled() ||
-			obj->getControllingPlayer()->getSide().compare( "Civilian" ) == 0 )
+			obj->isNeutralControlled() )
+			continue;
+
+		const Player *player = obj->getControllingPlayer();
+		if( player->m_side.compare( "Civilian" ) == 0 )
 			continue;
 
 		if( obj->getControllingPlayer()->isLocalPlayer() )
