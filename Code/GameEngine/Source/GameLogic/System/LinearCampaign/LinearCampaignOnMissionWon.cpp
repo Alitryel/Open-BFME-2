@@ -24,6 +24,8 @@ class Object {public:char p0[0x8c]; Object* next;char p90[0x438-0x90];unsigned c
 #include "GameLogicObjectLookupView.h"
 extern GameLogic*TheGameLogic;
 enum ScienceType {SCIENCE_INVALID=-1};
+namespace _STL { template <> void vector<ScienceType, allocator<ScienceType> >::reserve(unsigned int); }
+
 struct Bits1024 {unsigned int words[32];__forceinline bool test(unsigned n)const {return (words[n/32] & (1U<<(n%32)))!=0;} __forceinline void set(unsigned n){words[n/32] |= 1U<<(n%32);} };
 class Player {public:char p0[0x14];int value14;char p18[0x5c-0x18];int value5C;char p60[0x13c-0x60];Bits1024 upgrades;char p1BC[0x2f0-0x1bc];_STL::vector<ScienceType>sciences;char p2FC[0x314-0x2fc];float value314;char p318[0x738-0x318];Rva0037E421 revival;};
 class PlayerList {public:Player* getNthPlayer(int);int rva002A7D30();Player*getEachPlayerFromMask(int&);char p0[0x14];int count;};extern PlayerList*ThePlayerList;
