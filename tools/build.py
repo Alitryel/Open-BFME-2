@@ -1875,7 +1875,8 @@ def _restore_object(source, output, fingerprint):
             continue
         output.parent.mkdir(parents=True, exist_ok=True)
         for src, dst in ((obj, output), (meta, _deps_sidecar(output))):
-            tmp = dst.with_name(dst.name + ".restore")
+            # Two builds sharing a cache may restore one output at once.
+            tmp = dst.with_name(f"{dst.name}.{os.getpid()}.{threading.get_ident()}.restore")
             shutil.copyfile(src, tmp)  # a fresh inode: never shared with the store
             os.replace(tmp, dst)
         if compile_is_current(source, output):
@@ -2947,6 +2948,21 @@ def _full_compile_lock_path():
     return Path.home() / ".cache" / "open-bfme-build.lock"
 
 
+def _restore_stale(sources, source_outputs, workers=1):
+    """The sources the object store could not restore (_restore_object), in order."""
+    def restored(source):
+        command, env = compiler_command(source, source_outputs[source])
+        try:
+            return _restore_object(source, source_outputs[source], _cmd_fingerprint(command, env))
+        except OSError:  # a concurrent writer: compile_source decides under the lock
+            return False
+    with concurrent.futures.ThreadPoolExecutor(max(1, workers)) as pool:
+        done = list(pool.map(restored, sources))
+    if any(done):
+        print(f"Object store: {sum(done)} of {len(sources)} stale TU(s) restored")
+    return [source for source, ok in zip(sources, done) if not ok]
+
+
 def compile_rows(rows, sources, *, input_proof=None, strict=False):
     """Compile every source whose object is not current; return {source: object}.
     The compile phase of verify_functions, callable on its own (link_census).
@@ -2988,6 +3004,12 @@ def compile_rows(rows, sources, *, input_proof=None, strict=False):
     # oversubscribe the cores into a stall. Only the full-suite periodic audit,
     # which runs alone, sets BUILD_POOL=8 to compile all 260+ TUs in parallel.
     pool_size = _pool_size()
+    # Restoring from the object store runs no compiler, so it never needs the
+    # lock below: restore first, and lock only for what is left to compile. A
+    # build whose stale units are all in the store (a rebase, a worktree at
+    # another commit, a fetched bundle) no longer waits behind a full build.
+    if len(to_compile) > 8 and recompile_only is None and not (strict or input_proof is not None):
+        to_compile = _restore_stale(to_compile, source_outputs, pool_size)
     # Full builds (>8 stale TUs) serialize writers to a native Windows cache,
     # or Wine processes across the host. Independent native worktrees can build
     # concurrently. Small per-file verifies retain their existing unlocked path.

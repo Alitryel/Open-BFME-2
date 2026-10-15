@@ -35,6 +35,8 @@ build.Path.home = classmethod(lambda cls: home)
 build.extract_lib_members = lambda rows: None
 build.stale_sources = lambda sources, *args, **kwargs: list(sources)
 build._pool_size = lambda: 1
+# The object store restores the first argv[7] sources (build._restore_stale).
+build._restore_stale = lambda sources, outputs, workers=1: list(sources)[int(sys.argv[7]):]
 first = True
 def compile_source(source, output, **kwargs):
     global first
@@ -50,14 +52,14 @@ print("done", flush=True)
 
 
 class _Compile:
-    def __init__(self, root, cache, home, policy, count=9):
+    def __init__(self, root, cache, home, policy, count=9, restored=0):
         root.mkdir(parents=True, exist_ok=True)
         env = dict(os.environ)
         env.pop("BUILD_RECOMPILE_ONLY", None)
         self.process = subprocess.Popen(
             [sys.executable, "-u", "-c", _CHILD,
              str(Path(build.__file__).parent), str(root), str(cache), str(home),
-             policy, str(count)],
+             policy, str(count), str(restored)],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT, text=True, env=env)
         self.lines = queue.Queue()
@@ -146,6 +148,24 @@ def test_small_verifies_do_not_wait_for_a_full_build(tmp_path):
         full.close()
         if small is not None:
             small.close()
+
+
+def test_a_build_the_object_store_restores_does_not_wait_for_a_full_build(tmp_path):
+    # 20 stale units, 15 restored from the store: 5 left to compile is a small
+    # build, so it compiles beside a full build holding the host lock.
+    home = tmp_path / "home"
+    full = _Compile(tmp_path / "full", tmp_path / "cache-a", home, "posix")
+    restored = None
+    try:
+        assert full.line() == "acquired"
+        restored = _Compile(tmp_path / "restored", tmp_path / "cache-b", home, "posix", count=20, restored=15)
+        assert restored.line() == "acquired"
+        restored.finish()
+        full.finish()
+    finally:
+        full.close()
+        if restored is not None:
+            restored.close()
 
 
 def test_native_scope_resolves_cache_aliases(tmp_path, monkeypatch):

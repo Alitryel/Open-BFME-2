@@ -214,3 +214,18 @@ def test_a_bundled_object_of_another_command_or_source_is_not_imported(hosts):
     host["command"] = ["@ROOT@/tc/cl.exe", "-O2", "Code/a.cpp"]
     source.write_text("int f() { return 2; }\n")
     assert build.import_objects(bundle) == 0
+
+
+def test_restore_stale_returns_only_what_the_store_cannot_restore(hosts):
+    source, header, output, host, bundle = hosts
+    build.export_objects([source], bundle)
+    output.unlink()
+    build._deps_sidecar(output).unlink()
+    host["command"] = [r"@ROOT@\tc\cl.exe", "-O2", "Code/a.cpp"]
+    build.import_objects(bundle)
+    assert build._restore_stale([source], {source: output}) == []
+    assert output.read_bytes() == b"OBJECT"
+    output.unlink()
+    build._deps_sidecar(output).unlink()
+    header.write_text("#define X 2\n")
+    assert build._restore_stale([source], {source: output}) == [source]
