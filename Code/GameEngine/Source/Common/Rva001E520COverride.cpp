@@ -18,6 +18,17 @@ private:
     bool m_override;
     char m_unknown09[0x154 - 9];
 };
+class Rva001E4DB0
+{
+public:
+    Rva001E4DB0() throw();
+private:
+    void *m_vptr;
+    Rva001E3955 *m_next;
+    bool m_override;
+    char m_unknown09[0x154 - 9];
+};
+
 class Rva001E520C
 {
 public:
@@ -28,7 +39,7 @@ Rva001E3955 *Rva001E520C::rva001E520C(Rva001E3955 *original)
 {
     if (!original)
         return 0;
-    Rva001E3955 *result = new Rva001E3955;
+    Rva001E3955 *result = (Rva001E3955 *)new Rva001E4DB0;
     g_00E01EA8 = 1;
     *result = *original;
     g_00E01EA8 = 0;

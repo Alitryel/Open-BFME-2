@@ -20,10 +20,10 @@ public:
 	virtual bool IsLightCRC() const;
 };
 
-class Locomotor
+class Rva00341E22
 {
 protected:
-	virtual ~Locomotor();
+	virtual ~Rva00341E22();
 	virtual void xfer(Xfer *xfer);
 };
 
@@ -33,7 +33,7 @@ public:
 	virtual void f();
 };
 
-class Rva000647D4 : public Locomotor, public Rva000647D4_B
+class Rva000647D4 : public Rva00341E22, public Rva000647D4_B
 {
 protected:
 	virtual void xfer(Xfer *xfer);
@@ -42,5 +42,5 @@ protected:
 void Rva000647D4::xfer(Xfer *xfer)
 {
 	xfer->Version1();
-	Locomotor::xfer(xfer);
+	Rva00341E22::xfer(xfer);
 }
