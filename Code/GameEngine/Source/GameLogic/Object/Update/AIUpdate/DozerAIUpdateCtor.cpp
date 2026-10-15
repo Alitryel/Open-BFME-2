@@ -173,7 +173,9 @@ list<Drawable *>::_M_create_node(Drawable *const &value)
 }
 #include "ascii_string.h"
 #include "unicode_string.h"
-template<> inline bool StringBase<unsigned short>::isEmpty() const { return !m_data || m_data->length == 0; }
+// The speed-built 22-byte wide isEmpty body is owned by string_base_inline.cpp.
+// The inline import view retains the caller's test and suppresses a local copy.
+template<> __declspec(dllimport) inline bool StringBase<unsigned short>::isEmpty() const { return !m_data || m_data->length == 0; }
 
 // Coord3D: shared header/view; no private copy.
 #define COORD3D_VIEW_INLINE

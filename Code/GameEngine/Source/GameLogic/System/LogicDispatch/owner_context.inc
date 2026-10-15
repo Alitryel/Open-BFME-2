@@ -1058,7 +1058,8 @@ extern "C" void _ReadWriteBarrier();
 
 // Canonical StringBase wide-empty body: native 00035740, used inline in
 // the dispatcher caption path (native 0037A580 tests buffer then length).
-template<> inline bool StringBase<unsigned short>::isEmpty() const throw()
+// The inline import view leaves the out-of-line copy to string_base_inline.cpp.
+template<> __declspec(dllimport) inline bool StringBase<unsigned short>::isEmpty() const throw()
 {
     return m_data == 0 || m_data->length == 0;
 }
