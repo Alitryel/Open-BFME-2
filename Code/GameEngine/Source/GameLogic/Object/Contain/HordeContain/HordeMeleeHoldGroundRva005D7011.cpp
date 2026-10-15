@@ -1,10 +1,4 @@
-// ?rva005D7011@Rva00583794@@QAE_NPAVObject@@@Z
-// partial score=0.985 date=2026-10-15
-// W7-G1 r14 bank: includes repaired to root-relative (the old ../ includes could not resolve from reverse/attempts, so Lab2 reported compile fail);
-// size-exact 377, nd1: _ReadWriteBarrier() after the victimContainer copy puts retail's copy BEFORE the test; only residue: test eax,eax vs retail test edi,edi.
-// ?rva005D7011@Rva00583794@@QAE_NPAVObject@@@Z
-// partial score=0.99 date=2026-10-15
-// cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_STLP_USE_STATIC_LIB  (region default /O1 /arch:SSE /G7)
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /EHsc /MD /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ?rva005D7011@Rva00583794@@QAE_NPAVObject@@@Z @0x005D7011 (377B, RET 4):
@@ -21,10 +15,13 @@
 // (unless its +0x140 test 0x001E3591 holds) is idled (slot 113 gate, then
 // aiIdle(2)), released (0x00295F05) and counts once engaged. Names stay
 // address-derived.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-#include "Code/GameEngine/Include/GameLogic/ContainmentListView.h"
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+// Codegen notes: the ObjectID lookup chain (ObjectIdMap::find and
+// GameLogic::findObjectByID 0x00049DC5, the rowed COMDAT copies as in
+// HordeMeleeSwarmFindMeleeAttackPosition.cpp) is visible in this unit, and the
+// victim's container is read through the accessor in both tests; together
+// they give retail's copy of that load into EDI before its null test.
+#include "../../../../../Include/GameLogic/ContainmentListView.h"
+#include "../../../../Common/GameLogicObjectLookupView.h"
 
 typedef bool Bool;
 typedef float Real;
@@ -95,6 +92,30 @@ private:
 };
 
 extern GameLogic *TheGameLogic;
+
+struct D7LookupNode { D7LookupNode *next; ObjectID key; Object *object; };
+struct D7LookupBuckets {
+ D7LookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ D7LookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct D7LookupMap { unsigned char hashEqual[4]; D7LookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ D7LookupMap *map=(D7LookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ D7LookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_OBJECT_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 
 class Rva0046247DDescriptor
 {
@@ -176,16 +197,14 @@ bool Rva00583794::rva005D7011(Object *target)
 				engaged = true;
 				break;
 			}
-			Object *victimHolder = victim->getContainedBy();
-			if (victimHolder == target)
+			if (victim->getContainedBy() == target)
 			{
 				engaged = true;
 				break;
 			}
 			if (targetContainer)
 			{
-				Object *victimContainer = victimHolder;
-				_ReadWriteBarrier();
+				Object *victimContainer = victim->getContainedBy();
 				if (!victimContainer && victim->testStatus(RVA_OBJECT_STATUS_26))
 				{
 					victimContainer = TheGameLogic->findObjectByID(victim->getContainerID());
