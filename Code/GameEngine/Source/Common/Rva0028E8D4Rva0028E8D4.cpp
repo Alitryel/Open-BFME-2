@@ -1,13 +1,33 @@
-// cl: /MD /Op
-//
-// ?rva0028E8D4@Rva0028E8D4@@QBEXPAM@Z, retail 0x0028e8d4, 41 bytes. Banked partial (score 0.9) closed by tools/permute.py;
-// the body is the banked one up to statement/operand order and local types.
-//
-// Chain from just-landed ?get@Rva002722AA@@QBEPAXXZ: calls the branched
-// matrix getter then copies its translation floats at +0xC/+0x1C/+0x2C to
-// the 3-float out pointer. Evidence: caller 0x0028E8FD passes a 12-byte
-// local and reads it with SSE; callee 0x002722AA now rowed.
+// Object motion history: native 0x0028E8FD..0x0028EA91, RET4, 404 bytes.
+// The crushing notifier at 0x004CE700 proves the three-float output. Native
+// accesses prove position+38, frame+188, previous+18C, planned+198 and the
+// three flags at +1A4..1A6; WB CE1A50 supplies the separate branch order.
+// MotionCoord is a local inline-copy adapter over canonical Coord3D, not an
+// original class-name claim. The 41-byte translation provider stays here;
+// its visible body prevents the temporary coordinate from escaping. Reading
+// its three components as one Coord3D preserves its SSE body under /O1.
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include /I.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+#include "Lib/Coord3D.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+extern GameLogic *TheGameLogic;
 
+struct MotionCoord:Coord3D{
+ __forceinline MotionCoord(){}
+ __forceinline MotionCoord(const Coord3D&r){x=r.x;y=r.y;z=r.z;}
+ __forceinline MotionCoord(const MotionCoord&r){x=r.x;y=r.y;z=r.z;}
+ __forceinline void add(const Coord3D&r){x+=r.x;y+=r.y;z+=r.z;}
+ __forceinline void sub(const Coord3D&r){x-=r.x;y-=r.y;z-=r.z;}
+ __forceinline void scale(float f){x*=f;y*=f;z*=f;}
+ __forceinline MotionCoord& operator=(const MotionCoord&r){x=r.x;y=r.y;z=r.z;return *this;}
+ __forceinline void divide(float f){float i=1.0f/f;x*=i;y*=i;z*=i;}
+};
+class Object{public:
+ char pad00[0x38];MotionCoord position;char pad44[0x188-0x44];unsigned frame;
+ MotionCoord previous,planned;bool flag1A4,flag1A5,flag1A6;
+ __forceinline unsigned lastFrame() const {return frame;}void rva0028E8FD(Coord3D*);
+};
 class Rva002722AA
 {
 public:
@@ -27,12 +47,44 @@ public:
 
 void Rva0028E8D4::rva0028E8D4(float *out) const
 {
-	const Rva0028E8D4Matrix *m =
-		(const Rva0028E8D4Matrix *)((const Rva002722AA *)this)->get();
-	const float x = m->m[3];
-	const float y = m->m[7];
-	const float z = m->m[11];
-	out[0] = x;
-	out[1] = y;
-	out[2] = z;
+ const Rva0028E8D4Matrix *m =
+  (const Rva0028E8D4Matrix *)((const Rva002722AA *)this)->get();
+ Coord3D v = {m->m[3],m->m[7],m->m[11]};
+ out[0]=v.x;
+ out[1]=v.y;
+ out[2]=v.z;
+}
+
+void Object::rva0028E8FD(Coord3D*out){
+    if(flag1A6){
+        MotionCoord delta(planned);
+        delta.sub(position);
+        out->y=delta.y;
+        out->z=delta.z;
+        out->x=delta.x;
+    }
+    else if(flag1A4 && lastFrame()<TheGameLogic->getFrame()){
+        MotionCoord translation;
+        ((const Rva0028E8D4*)this)->rva0028E8D4(&translation.x);
+        _ReadWriteBarrier();
+        // WB CE1B4E scales the translation before reading the elapsed frame.
+        translation.scale(-1.0f);
+        unsigned elapsed=TheGameLogic->getFrame()-lastFrame();
+        MotionCoord delta((out ? translation : translation));
+        delta.add(position);
+        *((MotionCoord*)out)=delta;
+        ((MotionCoord*)out)->divide((float)elapsed);
+    }
+    else if(flag1A5 && lastFrame()<=TheGameLogic->getFrame()){
+        unsigned elapsed=TheGameLogic->getFrame()-lastFrame()+1;
+        MotionCoord delta(position);
+        delta.sub(previous);
+        *((MotionCoord*)out)=delta;
+        ((MotionCoord*)out)->divide((float)elapsed);
+    }
+    else{
+        out->y=0.0f;
+        out->z=0.0f;
+        out->x=0.0f;
+    }
 }
