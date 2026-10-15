@@ -144,7 +144,8 @@ def find_candidates(exe, pe, text, body, relocs, symbol_map, call_sites, matched
         if rtype == 0x0014 and sym in symbol_map:            # known callee anchor
             for addr in symbol_map[sym]:
                 for site in call_sites.get(addr, ()):
-                    votes[site - off] += 5
+                    # Native sites name the opcode; COFF offsets name its operand.
+                    votes[site + 1 - off] += 5
         elif rtype == 0x0006 and sym.startswith("??_C@"):    # verified-string anchor
             try:
                 content = build.read_object_symbol_bytes(obj_path, sym)[0].rstrip(b"\x00")
