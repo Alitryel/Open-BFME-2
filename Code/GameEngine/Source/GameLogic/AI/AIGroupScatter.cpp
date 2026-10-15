@@ -6,6 +6,16 @@
 // The real move wrapper and Coord2D normalization are visible so MSVC
 // can prove that their coordinate addresses do not escape and reuse slots.
 #include <list>
+
+// Keep the typed node comparison local; these flags otherwise emit an
+// incompatible external STLport base-iterator comparison.
+namespace _STL {
+template <class T, class L, class R>
+static inline bool operator!=(const _List_iterator<T, L> &a,
+                              const _List_iterator<T, R> &b)
+{ return a._M_node != b._M_node; }
+}
+
 // Coord3D: shared header/view; no private copy.
 #include "../../../../Libraries/Include/Lib/Coord3DInline.h"
 #include "Coord2D.h"

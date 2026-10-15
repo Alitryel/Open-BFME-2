@@ -28,6 +28,15 @@ extern "C" void _ReadWriteBarrier(void);
 // removeInvalid/addValid/trackTargets sequence ZH commented out.
 #include "../../../../Include/GameLogic/ContainmentListView.h"
 
+// Keep the typed node comparison local; these flags otherwise emit an
+// incompatible external STLport base-iterator comparison.
+namespace _STL {
+template <class T, class L, class R>
+static inline bool operator!=(const _List_iterator<T, L> &a,
+                              const _List_iterator<T, R> &b)
+{ return a._M_node != b._M_node; }
+}
+
 enum UpdateSleepTime
 {
 	UPDATE_SLEEP_NONE = 1
