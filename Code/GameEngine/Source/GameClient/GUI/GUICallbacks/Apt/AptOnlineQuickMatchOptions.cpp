@@ -352,7 +352,7 @@ public:
   int v[4];
   void rva00237E28(Rva00237E28 *);
 };
-extern int g_00E0654C, g_009C0758, g_009C075C, g_Va00E02548, g_Va00E0254C;
+extern int g_00E0654C, g_009C0758, g_009C075C, BfmeOnlineLadderRank1v1, BfmeOnlineLadderRank2v2;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 struct NativeQuickMatchRequest {
@@ -465,10 +465,10 @@ void AptOnlineQuickMatch::rva005BBF15() {
   unsigned points;
   if (*(int *)((char *)this + 0x9c) == 1) {
     qm.points = g_009C0758;
-    points = g_Va00E02548;
+    points = BfmeOnlineLadderRank1v1;
   } else if (*(int *)((char *)this + 0x9c) == 2) {
     qm.points = g_009C075C;
-    points = g_Va00E0254C;
+    points = BfmeOnlineLadderRank2v2;
   } else {
     qm.points = -1;
     points = 0;

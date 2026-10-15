@@ -2575,8 +2575,10 @@ extern int g_Va00E0333C;
 class Rva005537BA { public: unsigned short rva005537BA(); };
 class Rva005537EB { public: unsigned short rva005537EB(); };
 class Rva00553D26 { public: unsigned char rva00553D26(); };
-extern Int g_Va00E02548;
-extern Int g_Va00E0254C;
+// Descriptive names: retail E02548/E0254C start at zero. Type-4 responses
+// write these values; the lobby publishes them as LadderRank1v1/LadderRank2v2.
+Int BfmeOnlineLadderRank1v1 = 0;
+Int BfmeOnlineLadderRank2v2 = 0;
 // Retail 0x005BDAC1 (1752 bytes): Zero Hour's HandlePersistentStorageResponses
 // (PopupPlayerInfo.cpp) over BFME2's seven persistent-storage response types.
 // It pops one response and: 1 reports the connection failure and closes the
@@ -2716,9 +2718,9 @@ void HandlePersistentStorageResponses()
 				break;
 			case 4:
 				if (resp.m_560 == 1)
-					g_Va00E02548 = resp.m_55C;
+					BfmeOnlineLadderRank1v1 = resp.m_55C;
 				else if (resp.m_560 == 2)
-					g_Va00E0254C = resp.m_55C;
+					BfmeOnlineLadderRank2v2 = resp.m_55C;
 				break;
 			case 5:
 				rva005B9717((const Rva005B9717Block *)resp.m_564[0], (const Rva005B9717Block *)resp.m_564[1],

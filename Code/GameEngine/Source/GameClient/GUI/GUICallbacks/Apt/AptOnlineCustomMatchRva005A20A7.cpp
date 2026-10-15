@@ -264,9 +264,9 @@ public:
 
 extern GameSpyPeerMessageQueueInterface *TheGameSpyPeerMessageQueue;
 
-// The players' ladder ranks sent to the host (no ledger names).
-extern int g_Va00E02548;
-extern int g_Va00E0254C;
+// Descriptive names for the players' ladder ranks sent to the host.
+extern int BfmeOnlineLadderRank1v1;
+extern int BfmeOnlineLadderRank2v2;
 
 class GameModePreferences
 {
@@ -462,10 +462,10 @@ void AptOnlineCustomMatch::rva005A20A7()
 		options.format("Ping=%s", TheGameSpyInfo->getPingString().str());
 		req.options = options.str();
 		TheGameSpyPeerMessageQueue->addRequest(req);
-		options.format("LadderRank1v1=%d", g_Va00E02548);
+		options.format("LadderRank1v1=%d", BfmeOnlineLadderRank1v1);
 		req.options = options.str();
 		TheGameSpyPeerMessageQueue->addRequest(req);
-		options.format("LadderRank2v2=%d", g_Va00E0254C);
+		options.format("LadderRank2v2=%d", BfmeOnlineLadderRank2v2);
 		req.options = options.str();
 		TheGameSpyPeerMessageQueue->addRequest(req);
 		game->setMapCRC(game->m_mapCRC);
