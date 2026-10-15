@@ -1,10 +1,4 @@
-// ?lookForInnerTarget@AITNGuardMachine@@QAE_NXZ
-// partial score=0.94 date=2026-10-13
-// ?lookForInnerTarget@AITNGuardMachine@@QAE_NXZ
-// partial score=0.9379894668760972 date=2026-10-10
-// ?lookForInnerTarget@AITNGuardMachine@@QAE_NXZ
-// partial score=0.9218 date=2026-10-05
-// cl: /I. /O1 /DNDEBUG /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /O1 /DNDEBUG /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 //
 // AITNGuardMachine::lookForInnerTarget, retail 0x005461A2 (395 bytes), ported
@@ -18,6 +12,10 @@
 // module's getLastDamageInfo / getLastDamageTimestamp are vslots 15 / 16 and
 // m_noEffect is DamageInfo +0x78; AbleToAttackType 4 (tunnel network guard)
 // and CMD_FROM_AI 2 go to the pinned Object::getAbleToAttackSpecificObject.
+// The lookup chain (ObjectIdMap::find 0x002888D4 and GameLogic::findObjectByID
+// 0x00049DC5, rowed COMDAT copies, as in AIDozerManager.cpp) is visible in
+// this unit; with it cl keeps this in EDI and the iterator in ESI, as retail
+// does, through Zero Hour's plain TheGameLogic spelling.
 #include <list>
 
 typedef bool Bool;
@@ -167,9 +165,32 @@ public:
 
 
 #define _GAME_TYPE_H_ 1
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../Common/GameLogicObjectLookupView.h"
 
 extern GameLogic *TheGameLogic;
+struct TnLookupNode { TnLookupNode *next; ObjectID key; Object *object; };
+struct TnLookupBuckets {
+ TnLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ TnLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct TnLookupMap { unsigned char hashEqual[4]; TnLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ TnLookupMap *map=(TnLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ TnLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 
 struct TAiData
 {
@@ -200,7 +221,6 @@ private:
 Bool AITNGuardMachine::lookForInnerTarget(void)
 {
 	Object* owner = getOwner();
-	GameLogic *gameLogic = TheGameLogic;
 
 	// Check if team auto targets same victim.
 	Object *teamVictim = NULL;
@@ -226,7 +246,7 @@ Bool AITNGuardMachine::lookForInnerTarget(void)
 	}
 	const _STL::list<ObjectID> *allTunnels = tunnels->getContainerList();
 	for( _STL::list<ObjectID>::const_iterator iter = allTunnels->begin(); iter != allTunnels->end(); iter++ ) {
-		Object *currentTunnel = gameLogic->findObjectByID( (gameLogic ? *iter : *iter) );
+		Object *currentTunnel = TheGameLogic->findObjectByID( *iter );
 		if( currentTunnel ) {
 			// Check for attacking.
 			if (currentTunnel->m_ai) {
@@ -244,10 +264,10 @@ Bool AITNGuardMachine::lookForInnerTarget(void)
 					if (info->out.m_noEffect) {
 						continue;
 					}
-					if (body->getLastDamageTimestamp() + TheAI->getAiData()->m_guardEnemyScanRate > gameLogic->getFrame()) {
+					if (body->getLastDamageTimestamp() + TheAI->getAiData()->m_guardEnemyScanRate > TheGameLogic->getFrame()) {
 						// winner.
 						ObjectID attackerID = info->in.m_sourceID;
-						Object *attacker = gameLogic->findObjectByID(attackerID);
+						Object *attacker = TheGameLogic->findObjectByID(attackerID);
 
 						if( attacker )
 						{
