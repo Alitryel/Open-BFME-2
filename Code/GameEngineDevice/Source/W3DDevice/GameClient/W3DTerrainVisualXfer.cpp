@@ -150,7 +150,7 @@ class WorldHeightMap
 public:
 	__declspec(dllimport) __forceinline Int getXExtent( void ) { return m_width; }
 	__declspec(dllimport) __forceinline Int getYExtent( void ) { return m_height; }
-	UnsignedByte *getDataPtr( void ) { return m_data; }
+	__declspec(dllimport) __forceinline UnsignedByte *getDataPtr( void ) { return m_data; }
 private:
 	char m_unrecovered00[ 0x08 ];
 	Int m_width;																															///< 0x08
