@@ -90026,3 +90026,23 @@ $L499,,0x00773B1B,25,Code/GameEngine/Source/Common/Rva002833A3C5.cpp,matched,
 ??4?$SimpleVecClass@VVector3@@@@QAEAAV0@ABV0@@Z,,0x0015E0F0,21,Code/Libraries/Source/WWVegas/WW3D2/segline.cpp,matched,
 ?rva00460F90@Rva00460F90@@QAEXXZ,,0x00460F90,711,Code/GameEngine/Source/GameLogic/Object/Behavior/DynamicPortalBehaviourCreateWaypoints.cpp,matched,createWaypoints (WB twin 0x010AC140): first-run bone positions to Waypoints plus link chaining; tail-called by 0x461257; one volatile object-pointer read replaces three scheduling fences (W7-S2 r14)
 ?rva00426914@Rva004266A1@@QAEXHE@Z,,0x00426914,227,Code/GameEngine/Source/Common/Rva00426914Setter.cpp,matched,vector at +4 of rowed 4266A1 plus flag2 store; two volatile field reads replace the scheduling fence (W7-S2 r14)
+uw_0079c9d5,,0x0079C9D5,8,Code/GameEngine/Source/Common/AptHeroPowerText.cpp,matched,gen-funclet;parent=??1Rva00582FC1@@UAE@XZ;object-symbol=$L2518
+uw_007a7510,,0x007A7510,8,Code/GameEngine/Source/Common/Bfme/Gen_009EBA60Target_bfmeInvoke.cpp,matched,gen-funclet;parent=?bfmeInvoke@Gen_009EBA60Target@@QAEXPAX0@Z;object-symbol=$L7207
+uw_007a3cba,,0x007A3CBA,8,Code/GameEngine/Source/Common/Bfme/Rva005E7529Dtor.cpp,matched,gen-funclet;parent=??1Rva005E7529@@QAE@XZ;object-symbol=$L1177
+uw_007a3f6c,,0x007A3F6C,10,Code/GameEngine/Source/Common/Bfme/Rva005E8AAFCtor.cpp,matched,gen-funclet;parent=?rva005E8ADF@@YAXPAVRva005F86FE@@ABVRva005E8908@@@Z;object-symbol=$L637
+uw_0079a702,,0x0079A702,10,Code/GameEngine/Source/Common/BfmeCellGridCtor.cpp,matched,gen-funclet;parent=??0CellGrid@@QAE@HHMM@Z;object-symbol=$L485
+uw_0077c517,,0x0077C517,8,Code/GameEngine/Source/Common/BfmeConv1766.cpp,matched,gen-funclet;parent=?bfmeMakeCF@@YAXPAX0@Z;object-symbol=$L296
+uw_007a7870,,0x007A7870,11,Code/GameEngine/Source/Common/BfmeConv1945.cpp,matched,gen-funclet;parent=?bfmeAddEQR@BfmeHostEQR@@QAEXPAVBfmeThingEQR@@@Z;object-symbol=$L332
+uw_007ab1d0,,0x007AB1D0,11,Code/GameEngine/Source/Common/BfmeOwnerCDECreate.cpp,matched,gen-funclet;parent=?rva008fa850@BfmeOwnerCDE@@QAEXPAX@Z;object-symbol=$L364
+uw_00772b08,,0x00772B08,8,Code/GameEngine/Source/Common/BfmeStrVM0Rva0025C4A4.cpp,matched,gen-funclet;parent=?rva0025C4A4@BfmeStrVM0@@QAEHH@Z;object-symbol=$L423
+uw_007ab0b0,,0x007AB0B0,11,Code/GameEngine/Source/Common/BfmeThingCDEInitializeArray.cpp,matched,gen-funclet;parent=?initializeArray@BfmeThingCDE@@QAEXH@Z;object-symbol=$L344
+uw_0077d533,,0x0077D533,8,Code/GameEngine/Source/Common/BfmeTwoStringVX.cpp,matched,gen-funclet;parent=??0Gen_00491580@@QAE@ABVAsciiStringVX@@0@Z;object-symbol=$L471
+uw_00790e8b,,0x00790E8B,14,Code/GameEngine/Source/Common/ConnectionManagerInit2.cpp,matched,gen-funclet;parent=??0ConnectionManager@@QAE@XZ;object-symbol=$L6675
+uw_00762008,,0x00762008,10,Code/GameEngine/Source/Common/Containers/Rva000C781ERecordGrowth.cpp,matched,gen-funclet;parent=?findOrCreateRecord@Rva000C8492RecordOwner@@QAEPAUBfmeVectorRecord000C0BEC@@ABVAsciiString@@@Z;object-symbol=$L5495
+uw_0076e8c2,,0x0076E8C2,8,Code/GameEngine/Source/Common/CreateAHeroParseBlingBinder.cpp,matched,gen-funclet;parent=?parseCreateAHeroBlingBinder@@YAXPAVINI@@PAX1PBX@Z;object-symbol=$L1326
+uw_0078622f,,0x0078622F,10,Code/GameEngine/Source/Common/CrowdResponseBlockParse.cpp,matched,gen-funclet;parent=?Rva00415D33Parse@@YAXPAVINI@@@Z;object-symbol=$L4995
+uw_00797450,,0x00797450,8,Code/GameEngine/Source/Common/FamilyDeletingDtors11.cpp,matched,gen-funclet;parent=??1Rva0053476A@@QAE@XZ;object-symbol=$L3897
+uw_0079ce54,,0x0079CE54,10,Code/GameEngine/Source/Common/FrameDataManagerDtor.cpp,matched,gen-funclet;parent=??0FrameDataManager@@QAE@_N@Z;object-symbol=$L361
+uw_0078475a,,0x0078475A,10,Code/GameEngine/Source/Common/GameEngineControl.cpp,matched,gen-funclet;parent=?Rva003FE7E6@@YA_NVRva00211E75Callback@@PAH@Z;object-symbol=$L457
+uw_0076fa6b,,0x0076FA6B,8,Code/GameEngine/Source/Common/GameEngineInit.cpp,matched,gen-funclet;parent=?init@GameEngine@@UAEXHQAPAD@Z;object-symbol=$L13954
+uw_007a0fe1,,0x007A0FE1,8,Code/GameEngine/Source/Common/GameSpyLoginPreferences.cpp,matched,gen-funclet;parent=?rva005CA07D@GameSpyLoginPreferences@@QAE?AV?$list@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@XZ;object-symbol=$L10614
