@@ -79,12 +79,41 @@ public:
 	unsigned char m_pad00[0x0C];
 	BehaviorModuleInterface m_interface;
 };
+// The lookup chain (ObjectIdMap::find 0x002888D4 and GameLogic::findObjectByID
+// 0x00049DC5, rowed COMDAT copies, as in GarrisonContainRemoveInvalidObjects.cpp)
+// is visible in this unit; with it cl keeps changeTeamOnAllConnectedCaves'
+// current cave in EBX and spills the cave list to [ebp-4] like retail.
+#include "../../../Common/GameLogicObjectLookupView.h"
+struct VisLookupNode { VisLookupNode *next; ObjectID key; Object *object; };
+struct VisLookupBuckets {
+ VisLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ VisLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct VisLookupMap { unsigned char hashEqual[4]; VisLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ VisLookupMap *map=(VisLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ VisLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == 0)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
+extern GameLogic *TheGameLogic;
 class TunnelTracker
 {
 public:
-	const _STL::list<int> *getContainerList() const { return &m_containerList; }
+	const _STL::list<ObjectID> *getContainerList() const { return &m_containerList; }
 	unsigned char m_pad00[0x08];
-	_STL::list<int> m_containerList;
+	_STL::list<ObjectID> m_containerList;
 };
 class CaveSystem
 {
@@ -444,6 +473,42 @@ void CaveContain::onRemoving( Object *obj )
 		{
 			bits.clear( 10 );
 			obj->rva0028AE6D();
+		}
+	}
+}
+
+// Retail 0x00466848, 148B: Zero Hour's CaveContain::changeTeamOnAllConnectedCaves
+// (ZH if/else original-team form), kept under its pinned placeholder spelling.
+static CaveInterface *findCave( Object *obj )
+{
+	for( BehaviorModule **i = obj->getBehaviorModules(); *i; ++i )
+	{
+		CaveInterface *c = (*i)->m_interface.getCaveInterface();
+		if( c != 0 )
+			return c;
+	}
+	return 0;
+}
+
+void CaveContain::rva00466848( Team *newTeam, Bool setOriginalTeams )
+{
+	TunnelTracker *myTracker = TheCaveSystem->getTunnelTrackerForCaveIndex( m_caveIndex );
+	const _STL::list<ObjectID> *allCaves = myTracker->getContainerList();
+	for( _STL::list<ObjectID>::const_iterator iter = allCaves->begin(); iter != allCaves->end(); iter++ )
+	{
+		// For each ID, look it up and change its team.  We all get captured together.
+		Object *currentCave = TheGameLogic->findObjectByID( *iter );
+		if( currentCave )
+		{
+			CaveInterface *caveModule = findCave( currentCave );
+			if( caveModule == 0 )
+				continue;
+			if( setOriginalTeams )
+				caveModule->setOriginalTeam( currentCave->getTeam() );
+			else
+				caveModule->setOriginalTeam( 0 );
+
+			currentCave->rva00298C76( newTeam, 0 );
 		}
 	}
 }

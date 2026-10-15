@@ -1,11 +1,3 @@
-// ?NotifyPathHasInvalidPortals@AIUpdateInterface@@QAEXXZ
-// partial score=0.98 date=2026-10-13
-// ?NotifyPathHasInvalidPortals@AIUpdateInterface@@QAEXXZ
-// partial score=0.98 date=2026-10-13
-// ?NotifyPathHasInvalidPortals@AIUpdateInterface@@QAEXXZ
-// partial score=0.978 date=2026-10-10
-// ?NotifyPathHasInvalidPortals@AIUpdateInterface@@QAEXXZ
-// partial score=0.9248446320271678 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /I. /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 // Native269566..2697FC RET0; WB E599C0 named AIUpdateInterface::NotifyPathHasInvalidPortals.
@@ -13,13 +5,39 @@
 // Horde bit109/template114, object model-condition bit122/base10C+word3,
 // AI path140/loco1F0 and Object AI258 established directly in target accesses.
 // Path-family/ZH provide data and service guides; horde-specific sequence follows WB and native.
-// Retail frame4C and calls match; first b-loop entry is five bytes longer.
-// Best score uses temporary self269566 and genuine ObjectID vector-swap candidate567ECD;
-// no pins written. The swap must be fully verified as a relocation twin on landing.
+// The self-recursive call resolves to this row; the ObjectID vector swap is the
+// genuine candidate 0x00567ECD (no pins written).
 // Integer nested flag test/SetBit restores TEST DWORD/OR DWORD versus scalar LEA/SHR.
 #include <vector>
 #include "Code/Libraries/Include/Lib/Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+// The lookup chain (ObjectIdMap::find 0x002888D4 and GameLogic::findObjectByID
+// 0x00049DC5, rowed COMDAT copies, as in GarrisonContainRemoveInvalidObjects.cpp)
+// is visible in this unit; with it the natural first loop test gives retail's
+// entry (mov ebx,begin / jmp to the bottom test) without the old equal-arm test.
+struct VisLookupNode { VisLookupNode *next; ObjectID key; Object *object; };
+struct VisLookupBuckets {
+ VisLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ VisLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct VisLookupMap { unsigned char hashEqual[4]; VisLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ VisLookupMap *map=(VisLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ VisLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == 0)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 void __cdecl Rva00030830FreeAllocation(void*);
 template<> __forceinline void _STL::allocator<ObjectID>::deallocate(ObjectID*p,unsigned)const{if(p)Rva00030830FreeAllocation(p);}
 class NotifyFlags {public: unsigned int bits[19];unsigned test(int bit)const{return bits[bit>>5]&(1u<<(bit&31));} void SetBit(int bit){bits[bit>>5]|=1u<<(bit&31);}};
@@ -57,7 +75,7 @@ void AIUpdateInterface::NotifyPathHasInvalidPortals(){
  if(obj->templ->getKinds()&0x2000){
   NotifyHorde*hci=(NotifyHorde*)obj->rva0028C197();if(!hci)return;
   _STL::vector<ObjectID> a,b,c;hci->slot135(&a,&b,&c);
-  for(_STL::vector<ObjectID>::iterator i=b.begin();(i?i:i)!=b.end();++i){Object*member=TheGameLogic->findObjectByID(*i);if(member){member->kill(DAMAGE_INVALID,DEATH_INVALID);if(!member->testCond())member->setCond();}}
+  for(_STL::vector<ObjectID>::iterator i=b.begin();i!=b.end();++i){Object*member=TheGameLogic->findObjectByID(*i);if(member){member->kill(DAMAGE_INVALID,DEATH_INVALID);if(!member->testCond())member->setCond();}}
   bool swapped=false;if(c.size()<a.size()){reinterpret_cast<_STL::vector<BfmeE12>&>(c).swap(reinterpret_cast<_STL::vector<BfmeE12>&>(a));swapped=true;}
   for(_STL::vector<ObjectID>::iterator i=a.begin();i!=a.end();++i){Object*member=TheGameLogic->findObjectByID(*i);if(member){member->kill(DAMAGE_INVALID,DEATH_INVALID);if(!member->testCond())member->setCond();}}
   for(_STL::vector<ObjectID>::iterator i=c.begin();i!=c.end();++i){Object*member=TheGameLogic->findObjectByID(*i);if(member&&member->ai)member->ai->destroyPath();}

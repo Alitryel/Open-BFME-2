@@ -451,12 +451,6 @@ int Rva00061983Get(void)
 	return 0x00461989;
 }
 
-// ?Rva0022D537Get@@YAHXZ @ 0x0022D537 (6B): returns 0x0062D53D.
-int Rva0022D537Get(void)
-{
-	return 0x0062D53D;
-}
-
 
 
 

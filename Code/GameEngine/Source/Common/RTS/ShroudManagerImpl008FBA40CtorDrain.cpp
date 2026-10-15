@@ -24,6 +24,14 @@ static inline void zeroInline(Coord3D &c) { c.x = 0.0f; c.y = 0.0f; c.z = 0.0f; 
 // ProcessPending record stride and the rowed E32 map helper prove the size.
 struct BfmeE32 { int a[8]; };
 
+// Retail's copies live in stlport_deque_e32_initmap.cpp.
+namespace _STL {
+template <> void _Deque_base<BfmeE32, allocator<BfmeE32> >::_M_initialize_map(size_t);
+template <> void _Deque_base<BfmeE32, allocator<BfmeE32> >::_M_destroy_nodes(BfmeE32 **, BfmeE32 **);
+template <> deque<BfmeE32, allocator<BfmeE32> >::~deque();
+template <> _Deque_base<BfmeE32, allocator<BfmeE32> >::~_Deque_base();
+}
+
 class ShroudManagerImpl;
 class ShroudManagerImpl008FBA40Node;
 class ShroudManagerImpl008FBA40Element;

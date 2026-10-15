@@ -1,11 +1,5 @@
 // ?rva0022D290@GameEngine@@QAEXXZ
-// partial score=0.999 date=2026-10-15
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG
-// d3 seat6 w2: EXACT in scratch (explain_mismatch "OK: bytes match", 1388/1388) as the home
-// file Code/GameEngine/Source/Common/GameEngineExecuteRva0022D290.cpp. Landing is blocked only by
-// the over-claimed 6-byte row ?Rva0022D537Get@@YAHXZ (0x0022D537, ConstIntGettersAddr.cpp): that
-// "mov eax,0x0062D53D; ret" is this function's catch-block continuation, inside its range.
-//
 // ?rva0022D290@GameEngine@@QAEXXZ, retail 0x0022D290..0x0022D7FC (1388 bytes):
 // GameEngine's execute loop body with the startup load, embedded catch handlers
 // and the frame pacing. BFME1 GameEngine_execute.cpp and ZH GameEngine::execute
@@ -19,15 +13,9 @@
 #include "Common/INIException.h"
 extern "C" __declspec(dllimport) unsigned __stdcall timeGetTime();
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned);
+extern "C" __declspec(dllimport) __declspec(noreturn) void __cdecl exit(int);
 extern "C" __declspec(dllimport) int __cdecl sprintf(char*,const char*,...);
-class Profile 
-
-{
- public: static void StartRange(const char*);
- static void StopRange(const char*);
- 
-}
-;
+#include "../../../Libraries/Source/profile/profile.h"
 void _bfme_debugRecordCallsite(int);
 struct BfmeSubobject0022CE19 
 
@@ -456,7 +444,7 @@ void GameEngine::rva0022D290()
    if(GLOBAL_DATA->autoExit) 
    
    {
-    if(!loaded)Sleep(666);
+    if(!loaded)exit(666);
     char text[100];
     sprintf(text,"%i0:debug.exit",((EngineLogicFrameView*)TheGameLogic)->frame+30);
     DEBUG_MANAGER->command(text);
@@ -477,10 +465,10 @@ void GameEngine::rva0022D290()
    Profile::StopRange(0);
    
   }
-  catch(INIException *e) 
+  catch(INIException &e) 
   
   {
-   char *failure=e->mFailureMessage;
+   char *failure=e.mFailureMessage;
    if(failure) 
    
    {
@@ -490,7 +478,7 @@ void GameEngine::rva0022D290()
     manager=DEBUG_MANAGER;
     CrashMessage *message=manager->getCrashMessage(0,0,0);
     message=message->setText("\n\n");
-    char *text=e->mFailureMessage;
+    char *text=e.mFailureMessage;
     message->setText(text)->show(true);
     
    }

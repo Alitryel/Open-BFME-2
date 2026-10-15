@@ -1,4 +1,6 @@
 // ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
+// partial score=0.98 date=2026-10-15
+// ?rva0027B18C@Drawable@@QAEXPAUDamageInfo@@@Z
 // partial score=0.93 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/GameEngine/Source/Common
 // Native 27B18C..27B47F RET4; unnamed WB CB7E40 supplies damage/EVA control flow.
@@ -113,6 +115,35 @@ class GameLogic
 }
 ;
 extern GameLogic*TheGameLogic;
+// d3 seat1: the ObjectIdMap::find / GameLogic::findObjectByID chain (0x002888D4 /
+// 0x00049DC5) visible in the unit, as in GarrisonContainRemoveInvalidObjects.cpp,
+// makes the body size-exact (755B) and fixes the attacker test; the sole residue
+// is retail loading templ=data (mov esi,[esi+4]) between the amount comiss and
+// its jbe, where cl sinks it to the report block.
+struct VisLookupNode { VisLookupNode *next; ObjectID key; Object *object; };
+struct VisLookupBuckets {
+ VisLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ VisLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
+};
+struct VisLookupMap { unsigned char hashEqual[4]; VisLookupBuckets buckets;
+ VisLookupNode *find(const ObjectID &id);
+};
+inline VisLookupNode *VisLookupMap::find(const ObjectID &id) {
+ unsigned int bucket=(unsigned int)id % buckets.size();
+ VisLookupNode *node;
+ for(node=buckets[bucket];node && node->key!=id;node=node->next) {}
+ return node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == 0)
+		return 0;
+	VisLookupNode *node = ((VisLookupMap *)((char *)this + 0xB4))->find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
 class Rva002D3756
 {
  public:void rva002D3756(void*);

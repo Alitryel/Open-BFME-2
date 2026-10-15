@@ -82,39 +82,44 @@ struct BfmeBitmapInfoHeader
 	unsigned int biClrImportant;
 };
 
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-// ?CreateBMPFile@@YAXPBDPADHH@Z present-unmatched
+// ZH spelling: the info block is filled through a BITMAPINFO pointer and read
+// back through a separate cast BITMAPINFOHEADER pointer; cl then reloads the
+// header fields after each file-header store, as retail does.
+struct BfmeRgbQuad { unsigned char b, g, r, x; };
+struct BfmeBitmapInfo { BfmeBitmapInfoHeader bmiHeader; BfmeRgbQuad bmiColors[1]; };
 static __declspec(noinline) void CreateBMPFile(const char *file, char *image, int width, int height)
 {
-	BfmeBitmapInfoHeader *info = (BfmeBitmapInfoHeader *)LocalAlloc(0x40, sizeof(BfmeBitmapInfoHeader));
-	info->biSize = sizeof(BfmeBitmapInfoHeader);
-	info->biWidth = width;
-	info->biHeight = height;
-	info->biPlanes = 1;
-	info->biBitCount = 24;
-	info->biCompression = 0;
-	info->biSizeImage = (info->biWidth + 7) / 8 * height * 24;
-	info->biClrImportant = 0;
-
+	BfmeBitmapFileHeader hdr;
+	BfmeBitmapInfoHeader *pbih;
+	BfmeBitmapInfo *pbmi = (BfmeBitmapInfo *)LocalAlloc(0x40, sizeof(BfmeBitmapInfoHeader));
+	pbmi->bmiHeader.biSize = sizeof(BfmeBitmapInfoHeader);
+	pbmi->bmiHeader.biWidth = width;
+	pbmi->bmiHeader.biHeight = height;
+	pbmi->bmiHeader.biPlanes = 1;
+	pbmi->bmiHeader.biBitCount = 24;
+	pbmi->bmiHeader.biCompression = 0;
+	pbmi->bmiHeader.biSizeImage = (pbmi->bmiHeader.biWidth + 7) / 8 * pbmi->bmiHeader.biHeight * 24;
+	pbmi->bmiHeader.biClrImportant = 0;
+	pbih = (BfmeBitmapInfoHeader *)pbmi;
+	char *lpBits = image;
 	File *out = TheFileSystem->openFile(file, 0x4A, 0);
-	if (out != NULL) {
-		BfmeBitmapFileHeader hdr;
-		hdr.bfType = 0x4D42; _ReadWriteBarrier();
-		hdr.bfSize = sizeof(BfmeBitmapFileHeader) + info->biSize + info->biClrUsed * 4 + info->biSizeImage; _ReadWriteBarrier();
-		hdr.bfReserved1 = 0;
-		hdr.bfReserved2 = 0;
-		hdr.bfOffBits = sizeof(BfmeBitmapFileHeader) + info->biSize + info->biClrUsed * 4;
-		if (out->write(&hdr, sizeof(BfmeBitmapFileHeader)) >= sizeof(BfmeBitmapFileHeader)) {
-			if (out->write(info, sizeof(BfmeBitmapInfoHeader) + info->biClrUsed * 4) >= sizeof(BfmeBitmapInfoHeader) + info->biClrUsed * 4) {
-				int imageBytes = info->biSizeImage;
-				if (out->write(image, imageBytes) >= imageBytes) {
-					out->close();
-					LocalFree(info);
-				}
-			}
-		}
-	}
+	if (out == NULL)
+		return;
+	hdr.bfType = 0x4D42;
+	hdr.bfSize = (unsigned int)(sizeof(BfmeBitmapFileHeader) + pbih->biSize + pbih->biClrUsed * 4 + pbih->biSizeImage);
+	hdr.bfReserved1 = 0;
+	hdr.bfReserved2 = 0;
+	hdr.bfOffBits = (unsigned int)sizeof(BfmeBitmapFileHeader) + pbih->biSize + pbih->biClrUsed * 4;
+	if (out->write(&hdr, sizeof(BfmeBitmapFileHeader)) < sizeof(BfmeBitmapFileHeader))
+		return;
+	if (out->write(pbih, sizeof(BfmeBitmapInfoHeader) + pbih->biClrUsed * 4) < sizeof(BfmeBitmapInfoHeader) + pbih->biClrUsed * 4)
+		return;
+	int cb = pbih->biSizeImage;
+	char *hp = lpBits;
+	if (out->write(hp, cb) < cb)
+		return;
+	out->close();
+	LocalFree(pbmi);
 }
 
 class W3DDisplay

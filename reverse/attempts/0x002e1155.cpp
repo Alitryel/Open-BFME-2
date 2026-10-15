@@ -1,7 +1,7 @@
 // ?rva002E1155@Rva002E112A@@QAE_NPAVRva00319CED@@@Z
+// partial score=0.965 date=2026-10-15
+// ?rva002E1155@Rva002E112A@@QAE_NPAVRva00319CED@@@Z
 // partial score=0.9157894736842105 date=2026-10-14
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // ?rva002E1155@Rva002E112A@@QAE_NPAVRva00319CED@@@Z
 // partial score=0.95 date=2026-10-09
 // ?rva002E1155@Rva002E112A@@QAE_NPAVRva00319CED@@@Z
@@ -46,6 +46,8 @@ class Rva002E112A
  private:
  char m_pad[0x298];
  int m_298;
+ public: bool fits(int cost) { return cost <= ((Rva002E0CD4 *)this)->get(); }
+ bool fitsC(const int &cost) { return cost <= ((Rva002E0CD4 *)this)->get(); }
  
 }
 ;
@@ -53,15 +55,8 @@ class Rva002E112A
 // Same shape as rva002E112A plus +0x298 member: (a+mem+b)<=c via setle.
 // Evidence: same three rowed callees; caller 0x004FA8B5 UNCLAIMED.
 bool Rva002E112A::rva002E1155(Rva00319CED *arg)
-
 {
- int a;
  int mem = m_298;
- int b;
- a = ((Rva002E0C68 *)this)->rva002E0C68();
- b = arg->rva004E1755();
- _ReadWriteBarrier();
- int c = ((Rva002E0CD4 *)this)->get();
- return (a + mem) + b <= c;
- 
+ int a = ((Rva002E0C68 *)this)->rva002E0C68();
+ return a + mem + arg->rva004E1755() <= ((Rva002E0CD4 *)this)->get();
 }

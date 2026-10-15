@@ -1,10 +1,6 @@
 // ?createWaypoint@MineshaftPortalBehaviour@@QAEXXZ
-// partial score=0.95 date=2026-10-13
-// ?createWaypoint@MineshaftPortalBehaviour@@QAEXXZ
-// partial score=0.93 date=2026-10-13
-// ?createWaypoint@MineshaftPortalBehaviour@@QAEXXZ
-// partial score=0.93 date=2026-10-10
-// cl: /Ireference/shims/bfme2_ascii /O1 /Oy- /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// partial score=0.985 date=2026-10-15
+// cl: /Ireference/shims/bfme2_ascii /O1 /Oy- /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 //
 // ?rva00372DFA@MineshaftPortalBehaviour@@QAEPAVWaypoint@@PBUCoord3D@@@Z,
 // retail 0x00372DFA..0x00372ED3 (217B), thiscall ret 4.
@@ -25,6 +21,14 @@
 // address-derived.
 // stlport
 #include "ascii_string.h"
+// vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
+// overload takes the call instead, so this TU emits no external max COMDAT.
+namespace _STL {
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{
+    return a < b ? b : a;
+}
+}
 #include <math.h>
 #include <map>
 #include <vector>
@@ -147,24 +151,44 @@ struct MineshaftPortalBehaviourModuleData
 	unsigned char m_119;		// +0x119
 };
 
+// createWaypoint's geometry bounds: the GeometryInfo helper 0x006BDEE0 fills
+// two corners; the first positive x extent wins.
 struct Rva0087E650Bounds { Coord3D lo, hi; };
 class GeometryInfo { public: void rva0087E650(Rva0087E650Bounds *bounds); };
-struct Vector3 {
+
+// Coord3D member-wise set, inlined at the use (WB F3CD30 builds pos from two
+// evaluated temporaries and a zero z before adding the object position).
+static __forceinline void setCoord(Coord3D *p, float x, float y, float z)
+{
+	p->x = x;
+	p->y = y;
+	p->z = z;
+}
+
+// WWMath Vector3 subset used by createWaypoint. WB F3CD30 names
+// Vector3::Rotate_Z (vector3.h): sin then cos as separate statements, then
+// the BFME 1 / WW3D two-argument rotate (X first).
+struct Vector3
+{
 	float x, y, z;
 	Vector3(float a, float b, float c) : x(a), y(b), z(c) {}
-	__forceinline void Rotate_Z(float angle) {
+	__forceinline void Rotate_Z(float angle)
+	{
 		float s = (float)sin((double)angle);
 		float c = (float)cos((double)angle);
 		Rotate_Z(s, c);
 	}
-	__forceinline void Rotate_Z(float s_angle, float c_angle) {
+	__forceinline void Rotate_Z(float s_angle, float c_angle)
+	{
 		float tmp_x = x;
 		float tmp_y = y;
-		y = s_angle * tmp_x + c_angle * tmp_y;
 		x = c_angle * tmp_x - s_angle * tmp_y;
+		y = s_angle * tmp_x + c_angle * tmp_y;
 	}
 };
-struct Rva003738F6Terrain {
+
+struct Rva003738F6Terrain
+{
 	virtual void slot0(); virtual void slot1(); virtual void slot2();
 	virtual void slot3(); virtual void slot4(); virtual void slot5();
 	virtual float groundHeight(float x, float y, void *normal);
@@ -315,6 +339,11 @@ void MineshaftPortalBehaviour::DoXfer(Xfer *xfer)
     }
 }
 
+// MineshaftPortalBehaviour::createWaypoint, retail 0x003738F6..0x00373A0F
+// (281 B). WB F3CD30 carries the name (MineshaftPortalBehaviour.cpp:188
+// asserts m_waypoint). Once per behaviour: place the private waypoint just
+// outside the geometry's x extent, rotated by the object's angle, on the
+// terrain, and register it with the portal network for the controlling player.
 void MineshaftPortalBehaviour::createWaypoint()
 {
 	if (!m_registered) {
@@ -325,9 +354,7 @@ void MineshaftPortalBehaviour::createWaypoint()
 		Vector3 offset(extent + g_Va00DC039C, 0.0f, 0.0f);
 		offset.Rotate_Z(angle);
 		Coord3D pos;
-		pos.x = offset.x;
-		pos.y = offset.y;
-		pos.z = 0.0f;
+		setCoord(&pos, offset.x, offset.y, 0.0f);
 		pos.x += m_object->x;
 		pos.y += m_object->y;
 		pos.z = ((Rva003738F6Terrain *)TheTerrainLogic)->groundHeight(pos.x, pos.y, 0);

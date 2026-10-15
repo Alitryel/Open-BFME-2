@@ -1,4 +1,6 @@
 // ?roam@AIRoamingDefenseTactic@@QAEXPAVObject@@@Z
+// partial score=0.985 date=2026-10-15
+// ?roam@AIRoamingDefenseTactic@@QAEXPAVObject@@@Z
 // partial score=0.94 date=2026-10-14
 // ?roam@AIRoamingDefenseTactic@@QAEXPAVObject@@@Z
 // partial score=0.9401 date=2026-10-13
@@ -41,9 +43,13 @@ struct RoamVector3 {
  float X,Y,Z;
  __forceinline RoamVector3(float x,float y,float z):X(x),Y(y),Z(z){}
  __forceinline float length2()const{return X*X+Y*Y+Z*Z;}
- __forceinline void rotate(float angle){float sn=(float)sin(angle),cs=(float)cos(angle);float x=X,y=Y;X=cs*x-sn*y;Y=sn*x+cs*y;}
+ __forceinline void rotate(float angle){float s=(float)sin((double)angle);float c=(float)cos((double)angle);rotate(s,c);}
+ __forceinline void rotate(float s_angle,float c_angle){float tmp_x=X;float tmp_y=Y;X=c_angle*tmp_x-s_angle*tmp_y;Y=s_angle*tmp_x+c_angle*tmp_y;}
+ __forceinline RoamVector3 &operator*=(float k){X=X*k;Y=Y*k;Z=Z*k;return *this;}
  __forceinline void scale(float f){X*=f;Y*=f;Z*=f;}
 };
+static __forceinline void RoamSet(Coord3D *p,float x,float y,float z){p->x=x;p->y=y;p->z=z;}
+static __forceinline void RoamAdd(Coord3D *p,const Coord3D *q){p->x+=q->x;p->y+=q->y;p->z+=q->z;}
 static __forceinline float RoamDistance2(const RoamVector3 &a,const RoamVector3 &b){RoamVector3 diff(0,0,0);diff.Z=a.Z-b.Z;diff.Y=a.Y-b.Y;diff.X=a.X-b.X;return diff.length2();}
 class AIRoamingDefenseTactic {public:void roam(Object *);char pad[0x24];Player *owner;};
 void AIRoamingDefenseTactic::roam(Object *obj)
@@ -80,11 +86,10 @@ void AIRoamingDefenseTactic::roam(Object *obj)
    float angle=(float)GetGameLogicRandomValue(0,6,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\SkirmishAI\\AITacticalAI\\AITacticsGenerator\\TargetlessTactics\\AIRoamingDefenseTactic.cpp",186);
    RoamVector3 relative(1.0f,0.0f,0.0f);
    relative.rotate(angle);
-   relative.scale(400.0f);
+   relative*=400.0f;
    Coord3D point;
-   point.x=building->position.x+relative.X;
-   point.y=building->position.y+relative.Y;
-   point.z=building->position.z+relative.Z;
+   RoamSet(&point,relative.X,relative.Y,relative.Z);
+   RoamAdd(&point,&building->position);
    obj->ai->commands.Rva00295A0FCommand(&point,0x7FFFFFFF,0);
   }
  }

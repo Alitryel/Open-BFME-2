@@ -1,10 +1,8 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /GX /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii
 // stlport
 //
-// FireWeaponUpdate (BFME 2): the sleep-time helper of update, xfer and the
+// FireWeaponUpdate (BFME 2): update, its sleep-time helper, xfer and the
 // entry builder.
-// update itself (0x0048BEE8, 432 B) is banked in
-// reverse/attempts/0x0048bee8.cpp.
 //
 // Target facts. The module data (ctor row 0x0048BC03, parse table 0xC4C210)
 // holds the FireWeaponNugget list at +0x08 and the HeroModeTrigger,
@@ -19,6 +17,9 @@
 
 #include <list>
 
+extern "C" double __cdecl sin(double);
+extern "C" double __cdecl cos(double);
+
 // __node_alloc<1,0>::allocate (STLport list/vector node path) otherwise emits a
 // per-TU COMDAT that loses to another unit's copy in link order; this explicit
 // dllimport+forceinline specialization keeps the body inline and emits none.
@@ -28,7 +29,19 @@ void *__node_alloc<true, 0>::allocate(size_t __n)
 { return (__n > (size_t)_MAX_BYTES) ? __stl_new(__n) : _M_allocate(__n); }
 }
 #include "ascii_string.h"
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+// class-gate: allow Coord3D update calls the out-of-line Coord3D::lengthSqr (rowed 0x00065A1A, WB 0x403FBC), absent from the canonical data-only header, and adds through the inline set/add; same three floats
+#define CANONICAL_COORD3D_H
+struct Coord3D
+{
+	float x;
+	float y;
+	float z;
+
+	float lengthSqr() const;
+	void set(const Coord3D *a) { x = a->x; y = a->y; z = a->z; }
+	void set(float ax, float ay, float az) { x = ax; y = ay; z = az; }
+	void add(const Coord3D *a) { x += a->x; y += a->y; z += a->z; }
+};
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 // _List_iterator comparisons otherwise instantiate the base-class
@@ -92,14 +105,56 @@ enum ObjectID
 	INVALID_ID = 0
 };
 
+// WWMath Vector3 subset (WB 0x11D15EE.. names Vector3::Rotate_Z, vector3.h):
+// sin then cos as statements, then the WW3D two-argument rotate, X first.
+struct Vector3
+{
+	float x, y, z;
+	Vector3(float a, float b, float c) : x(a), y(b), z(c) {}
+	__forceinline void Rotate_Z(float angle)
+	{
+		float s = (float)sin((double)angle);
+		float c = (float)cos((double)angle);
+		Rotate_Z(s, c);
+	}
+	__forceinline void Rotate_Z(float s_angle, float c_angle)
+	{
+		float tmp_x = x;
+		float tmp_y = y;
+		x = c_angle * tmp_x - s_angle * tmp_y;
+		y = s_angle * tmp_x + c_angle * tmp_y;
+	}
+};
+
 class Object
 {
 public:
 	ObjectID getID() const { return m_id; }
+	const Coord3D *getPosition() const { return &m_pos; }
+	Real getOrientation() const { return m_orientation; }
+	// Condition words at +0x11C and +0x124 tested for the hero-mode and
+	// charging triggers; bit names unknown.
+	Bool testFlag11C4() const { return (m_flags11C >> 4) & 1; }
+	Bool testFlag124_28() const { return (m_flags124 >> 28) & 1; }
+	Bool isEffectivelyDead() const { return (m_flags438 & 1) != 0; }
 
 private:
-	char m_unknown00[0x74];
+	char m_unknown00[0x38];
+	Coord3D m_pos; // +0x38
+	Real m_orientation; // +0x44
+	char m_unknown48[0x74 - 0x48];
 	ObjectID m_id; // +0x74
+	char m_unknown78[0x11C - 0x78];
+	UnsignedInt m_flags11C; // +0x11C
+	char m_unknown120[0x124 - 0x120];
+	UnsignedInt m_flags124; // +0x124
+	char m_unknown128[0x438 - 0x128];
+	unsigned char m_flags438; // +0x438
+};
+
+enum WeaponStatus
+{
+	READY_TO_FIRE = 0
 };
 
 // MSVC lists a virtual's overloads in reverse declaration order, so
@@ -165,6 +220,8 @@ class Weapon : public Snapshot
 {
 public:
 	UnsignedInt getPossibleNextShotFrame() const { return m_whenWeCanFireAgain; }
+	WeaponStatus getStatus() const;
+	Object *forceFireWeapon(const Object *source, const Coord3D *pos);
 	void loadAmmoNow(const Object *source);
 	void setOwnerID(ObjectID id) { m_ownerID = id; }
 
@@ -215,6 +272,9 @@ class FireWeaponUpdateModuleData
 public:
 	char m_unknown00[0x08];
 	_STL::list<FireWeaponNugget *> m_nuggets; // +0x08
+	Bool m_heroModeTrigger; // +0x0C
+	Bool m_chargingModeTrigger; // +0x0D
+	Bool m_aliveOnly; // +0x0E
 };
 
 // Coord3D::zero for the canonical data-only Coord3D. Spelled as a call, the
@@ -314,6 +374,58 @@ UpdateSleepTime FireWeaponUpdate::rva0048BA3E()
 	if (next <= now)
 		return UPDATE_SLEEP_NONE;
 	return (UpdateSleepTime)(next - now);
+}
+
+// ?update@FireWeaponUpdate@@UAE?AW4UpdateSleepTime@@XZ @0x0048BEE8 432B
+// (Ghidra boundary; slot of the +0x10 UpdateModuleInterface; OilSpillUpdate's
+// update calls it first). Skips firing when a set trigger flag is not met
+// (hero mode, charging) or the object is dead with AliveOnly; then fires the
+// single weapon when ready, else every due entry whose weapon is ready, at
+// the object position plus its offset rotated by the object's orientation
+// (WB 0x11D1500..: Vector3 offset, Rotate_Z(angle), a Coord3D delta added to
+// the position); one-shot entries never fire again.
+UpdateSleepTime FireWeaponUpdate::update()
+{
+	const FireWeaponUpdateModuleData *data = getFireWeaponUpdateModuleData();
+	if (data->m_heroModeTrigger && !getObject()->testFlag124_28())
+		return rva0048BA3E();
+	if (data->m_chargingModeTrigger && !getObject()->testFlag11C4())
+		return rva0048BA3E();
+	if (data->m_aliveOnly && getObject()->isEffectivelyDead())
+		return rva0048BA3E();
+
+	if (m_weapon)
+	{
+		if (m_weapon->getStatus() == READY_TO_FIRE)
+			m_weapon->forceFireWeapon(getObject(), getObject()->getPosition());
+	}
+	else
+	{
+		UnsignedInt now = TheGameLogic->getFrame();
+		for (_STL::list<Rva0048BDF8Entry *>::iterator it = m_entries.begin(); it != m_entries.end(); ++it)
+		{
+			Rva0048BDF8Entry *entry = *it;
+			if (now > entry->m_nextFireFrame && entry->m_weapon->getStatus() == READY_TO_FIRE)
+			{
+				Object *me = getObject();
+				Coord3D pos;
+				pos.set(me->getPosition());
+				if (entry->m_offset.lengthSqr() > 0.0f)
+				{
+					Real angle = me->getOrientation();
+					Vector3 offset(entry->m_offset.x, entry->m_offset.y, 0.0f);
+					offset.Rotate_Z(angle);
+					Coord3D delta;
+					delta.set(offset.x, offset.y, 0.0f);
+					pos.add(&delta);
+				}
+				entry->m_weapon->forceFireWeapon(getObject(), &pos);
+				if (entry->m_oneShot)
+					entry->m_nextFireFrame = 0xFFFFFFFF;
+			}
+		}
+	}
+	return rva0048BA3E();
 }
 
 // ?xfer@FireWeaponUpdate@@MAEXPAVXfer@@@Z @0x0048BAA7 332B (Ghidra boundary;
