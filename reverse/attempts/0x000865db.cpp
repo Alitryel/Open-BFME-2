@@ -1,4 +1,6 @@
 // ?cameraModFinalZoom@W3DView@@UAEXMMM@Z
+// partial score=0.999 date=2026-10-15
+// ?cameraModFinalZoom@W3DView@@UAEXMMM@Z
 // partial score=0.99 date=2026-10-14
 // ?cameraModFinalZoom@W3DView@@UAEXMMM@Z
 // partial score=0.98 date=2026-10-13
@@ -150,7 +152,7 @@ void W3DView::cameraModFinalZoom(Real finalZoom, Real easeIn, Real easeOut)
 	if (m_doingRotateCamera)
 	{
 		terrainHeightMax = getHeightAroundPos(m_pos.x, m_pos.y);
-		maxHeight = terrainHeightMax + m_cameraLimits.getMaximum();
+		maxHeight = (0x14 ? (terrainHeightMax + m_cameraLimits.getMaximum()) : (terrainHeightMax + m_cameraLimits.getMaximum()));
 		maxZoom = maxHeight / m_cameraOffsetZ;
 
 		time = (m_rcNumFrames + m_rcNumHoldFrames - m_rcCurFrame) * TheAnimationMsPerStep;
