@@ -13,6 +13,14 @@ void **vector<void*>::begin()
 template <> __declspec(dllimport) __forceinline
 void **vector<void*>::end()
 { return _M_finish; }
+// Preserve STLport's clear operation without emitting an unused competing
+// out-of-line copy in this unit.
+template <> __declspec(dllimport) __forceinline
+void vector<void*>::clear()
+{ erase(begin(), end()); }
+template <> __declspec(dllimport) __forceinline
+bool vector<void*>::empty() const
+{ return _M_start == _M_finish; }
 }
 
 // Native00283CE7..00283D70, 137B, RET4. TerrainLogic receiver from rowed
@@ -33,6 +41,14 @@ public:
     void rva0028641F(unsigned int key, Rva0027D098 *record);
 };
 extern Rva002872BA *TheTriggerManager;
+
+// 0x0028641F is rowed as a FireLogicSystem member taking the record's Coord3D.
+struct Coord3D;
+class FireLogicSystem
+{
+public:
+    void rva0028641F(unsigned int key, const Coord3D *pos);
+};
 class G00DFF080Obj;
 extern G00DFF080Obj *g_00DFF080;
 template<int N> class Rva00283CE7Slots : public Rva00283CE7Slots<N-1>
@@ -60,7 +76,6 @@ private:
     _STL::vector<void *> holders;
 };
 class Rva0027CE80 { public: void rva0027CE80(void); };
-class Rva0027D5AD { public: void rva0027D5AD(void); };
 class Rva00283002 { public: void rva00283002(void); };
 class Rva002827F3 { public: void rva002827F3(void) throw(); };
 class Rva0062AF7 { public: void Rva0027DA58(void); };
@@ -70,6 +85,8 @@ class TerrainLogic
 public:
     virtual void reset(void);
     void rva00283CE7(unsigned int key);
+protected:
+    void deleteBridges(void);
 private:
     char unknown00[0x574];
     Rva0027D098 **first, **last, **limit;
@@ -110,7 +127,7 @@ void TerrainLogic::reset(void)
     Rva00283567ResetView *view = (Rva00283567ResetView *)this;
     Rva0027CE80 *fullObject = (Rva0027CE80 *)((char *)this - 4);
     fullObject->rva0027CE80();
-    ((Rva0027D5AD *)fullObject)->rva0027D5AD();
+    ((TerrainLogic *)fullObject)->deleteBridges();
     view->triggers.rva00283002();
     Rva002E373CClear();
 
@@ -139,7 +156,7 @@ void TerrainLogic::rva00283CE7(unsigned int key)
         if (reinterpret_cast<Rva00283CE7RecordView *>(*i)->key == key)
         {
             if (TheTriggerManager)
-                TheTriggerManager->rva0028641F(key, *i);
+                ((FireLogicSystem *)TheTriggerManager)->rva0028641F(key, (const Coord3D *)*i);
             (*i)->rva0027D098();
             break;
         }
