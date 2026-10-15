@@ -1,4 +1,6 @@
 // ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.99 date=2026-10-15
+// ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.96 date=2026-10-15
 // ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.92 date=2026-10-15
@@ -166,8 +168,9 @@ UpdateSleepTime WoundArrowUpdate::update()
 				float length = sqrt(dir.y * dir.y + dir.x * dir.x);
 				float nx = dir.x / length;
 				float ny = dir.y / length;
-				dir.x = nx * data->m_distance;
-				dir.y = ny * data->m_distance;
+				float ox = nx * data->m_distance, oy = ny * data->m_distance;
+				dir.y = oy;
+				dir.x = ox;
 				dir.x += target->m_pos.x;
 				dir.y += target->m_pos.y;
 				ai->chooseLocomotorSet(LOCOMOTORSET_WOUNDED);
