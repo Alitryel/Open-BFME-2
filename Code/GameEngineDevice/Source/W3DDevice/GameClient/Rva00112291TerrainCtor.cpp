@@ -18,7 +18,11 @@ struct TerrainBackgroundBounds {
 class BfmeResetResource;
 class BfmeResetTextureRef {
 public:
-    BfmeResetTextureRef() : pointer(0) {}
+    // Keep the initialization visible without emitting another default-ctor
+    // copy under this unit's /G7 settings. The shared default ctor is owned
+    // elsewhere; this tag only selects the terrain's inline null init.
+    struct TerrainInit {};
+    BfmeResetTextureRef(TerrainInit) : pointer(0) {}
 private:
     BfmeResetResource *pointer;
 };
@@ -39,7 +43,9 @@ int m_A8,m_AC,m_B0,padB4,m_B8,padBC,m_C0,padC4,m_C8;
 float m_CC;
 int m_D0;
 };
-Rva00112291TerrainOwner::Rva00112291TerrainOwner() : m_24(0),m_28(0),m_2C(0),m_30(0) {
+Rva00112291TerrainOwner::Rva00112291TerrainOwner() : m_24(0),m_28(0),m_2C(0),m_30(0),
+    m_34(BfmeResetTextureRef::TerrainInit()),m_38(BfmeResetTextureRef::TerrainInit()),
+    m_3C(BfmeResetTextureRef::TerrainInit()),m_40(BfmeResetTextureRef::TerrainInit()) {
 
 m_44 = 1;
 m_48 = 0;

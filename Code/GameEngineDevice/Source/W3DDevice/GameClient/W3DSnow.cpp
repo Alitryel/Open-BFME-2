@@ -13,9 +13,18 @@
 // keeps the same +78 holder layout and matches all 444 bytes and bindings.
 // Reference reviewed: open-bfme-1 ba7ddda7e8f261163972ddbe23c7e7a12ac5b84f.
 class TextureClass { public: void Release_Ref(); };
-class BfmeResetTextureRef {public: TextureClass *Ptr; BfmeResetTextureRef():Ptr(0) {} void clear();};
+class BfmeResetTextureRef {
+public:
+ TextureClass *Ptr;
+ // A local null-init overload keeps the shared default ctor's /G7 copy out
+ // of this object, while leaving member initialization visible to callers.
+ struct SnowInit {};
+ BfmeResetTextureRef(SnowInit):Ptr(0) {}
+ void clear();
+};
 template<class T> class RefCountPtr:public BfmeResetTextureRef {
 public:
+ RefCountPtr():BfmeResetTextureRef(SnowInit()) {}
  const RefCountPtr &operator=(const RefCountPtr &other);
  ~RefCountPtr() {if(Ptr) Ptr->Release_Ref();}
 };
