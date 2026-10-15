@@ -1,6 +1,16 @@
 // cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHa /Oy-
 
+// Keep the standard placement operations visible for construction and unwind,
+// while suppressing the unused competing external placement-new copy.
+#define __PLACEMENT_NEW_INLINE
 #include <new>
+__declspec(dllimport) __forceinline void *__cdecl operator new(size_t, void *memory) throw()
+{
+	return memory;
+}
+inline void __cdecl operator delete(void *, void *) throw()
+{
+}
 
 extern void *DebugAllocMemory(unsigned size);
 
