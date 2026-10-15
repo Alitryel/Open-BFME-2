@@ -64,6 +64,13 @@ public:
 	int m_18;
 };
 
+struct Rva005042F2Key;
+class Rva005042F2
+{
+public:
+	bool rva005042F2(unsigned int time, Rva005042F2Key *out);
+};
+
 class Rva00064880Tree
 {
 public:
@@ -114,7 +121,7 @@ bool Rva003FD584::rva003FD584(bool advance)
 			m_index18 += 9;
 
 		Rva00064390 record;
-		m_tree0C.rva005042F2(m_index18, &record);
+		reinterpret_cast<Rva005042F2 *>(&m_tree0C)->rva005042F2(m_index18, reinterpret_cast<Rva005042F2Key *>(&record));
 		Rva002BE7DBValue position;
 		reinterpret_cast<Rva002BECCD *>(((Rva002D3627Host *)TheLivingWorld))->rva002BECCD(
 			reinterpret_cast<const RvaFloatPair &>(reinterpret_cast<const Rva002BE7DB *>(&record)->rva002BE7DB(position)),
