@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /GX /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
+// cl: /I. /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /GX /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 //
 // FoundationAIUpdate overrides. Two sit on vtables only its matched ctor 0x004551B3
 // and dtor ??1Rva00455050 install: the primary 0x00C40608 and the
@@ -39,12 +39,18 @@
 // 0x3ED with the owner's ID and passes the drawable to TheInGameUI slot 67.
 // Clearing the ID reverses the hiding (fade in over 30 frames).
 
+#include "ascii_string.h"
+enum NameKeyType { NK_UNKNOWN=0 };
+enum UpdateSleepTime { UPDATE_SLEEP_NONE=1 };
+class Module;
+class NameKeyGenerator { public: NameKeyType nameToKey(const char *); };
+extern NameKeyGenerator *TheNameKeyGenerator;
 class Matrix3D { public: float Get_Z_Rotation() const; };
 
 class ModuleData;
 class Team;
 class ThingTemplate;
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 enum GeometryType { GEOMETRY_SPHERE=0, GEOMETRY_CYLINDER=1, GEOMETRY_BOX=2 };
 class GeometryInfo { public:
@@ -68,6 +74,7 @@ enum ObjectID
 class Drawable
 {
 public:
+	bool isSelectable() const {return *(const bool *)((const char *)this+0x43C);}
 	void setSelectable(bool selectable);
 	void fadeOut(unsigned int frames);
 	void fadeIn(unsigned int frames);
@@ -101,7 +108,11 @@ class Player;
 class Object : public Thing
 {
 public:
-	ObjectID getID() const { return m_id; }
+	protected: Module *findModule(NameKeyType key) const;
+ friend class FoundationAIUpdate;
+public:
+ void setConstructionState00455477(const AsciiString &value) {m_constructionState=value;}
+ ObjectID getID() const { return m_id; }
  const ThingTemplate *getTemplate() const { return m_template; }
  const Matrix3D *getTransformMatrix() const { return reinterpret_cast<const Matrix3D *>(m_pad008); }
  const Coord3D *getPosition() const { return reinterpret_cast<const Coord3D *>(m_pad008 + 0x30); }
@@ -123,7 +134,9 @@ private:
 	const ThingTemplate *m_template; // +0x04
 	unsigned char m_pad008[0x74 - 0x08];
 	ObjectID m_id; // +0x74
- unsigned char m_pad078[0x438-0x78];
+ unsigned char m_pad078[0x424-0x78];
+ AsciiString m_constructionState;
+ unsigned char m_pad428[0x438-0x428];
  unsigned char m_privateStatus; // +0x438, bit 0 is effectively-dead
 };
 
@@ -195,12 +208,32 @@ private:
 	Team *m_defaultTeam; // +0x2EC
 };
 
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
- void destroyObject(Object *obj);
+#define _GAME_TYPE_H_
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+struct FoundationLookupNode { FoundationLookupNode *next; ObjectID key; Object *object; };
+struct FoundationLookupBuckets {
+ FoundationLookupNode **begin,**end,**capacity;
+ unsigned int size() const { return end-begin; }
+ FoundationLookupNode *const &operator[](unsigned int i) const { return begin[i]; }
 };
+struct FoundationLookupMap { unsigned char hashEqual[4]; FoundationLookupBuckets buckets; };
+inline ObjectIdNode *ObjectIdMap::find(const ObjectID &id) {
+ FoundationLookupMap *map=(FoundationLookupMap*)this;
+ unsigned int bucket=(unsigned int)id % map->buckets.size();
+ FoundationLookupNode *node;
+ for(node=map->buckets[bucket];node && node->key!=id;node=node->next) {}
+ return (ObjectIdNode*)node;
+}
+inline Object *GameLogic::findObjectByID(ObjectID id)
+{
+	if (id == INVALID_ID)
+		return 0;
+	ObjectIdNode *node = m_map.find(id);
+	if (node == 0)
+		return 0;
+	return node->object;
+}
+
 extern GameLogic *TheGameLogic;
 
 struct Rva002A8AB1Record
@@ -240,6 +273,12 @@ public:
 	virtual void gap7();
 	virtual void gap8();
 	virtual void rva00455B67(Player *oldOwner, Player *newOwner) = 0;
+ virtual void gap10();
+ virtual void gap11();
+ virtual void gap12();
+ virtual void gap13();
+ virtual void gap14();
+ virtual void gap15();
 protected:
 	const ModuleData *m_moduleData; // +0x04
 	Object *m_object; // +0x08
@@ -251,7 +290,7 @@ public:
 	virtual void rva00455B42(int value) = 0;
 };
 
-struct UpdateModuleInterface { virtual void f10(); };
+struct UpdateModuleInterface { virtual UpdateSleepTime update()=0; };
 
 class UpdateModule : public BehaviorModule, public BehaviorModuleInterface, public UpdateModuleInterface
 {
@@ -282,6 +321,8 @@ public:
 	virtual void rva00455B67(Player *oldOwner, Player *newOwner);
  bool isRemovableForConstruction(Object *obj);
  virtual void rva0045537F();
+ virtual UpdateSleepTime update();
+
 	virtual void rva00455B42(int value);
 	virtual Object *rva00456134(void *unused, const ThingTemplate *tmpl, const Coord3D *pos, float angle,
 		Player *owner, int a6);
@@ -415,7 +456,7 @@ public:
  virtual bool allow(Object *);
  char m_data[0x18];
 };
-#include "../../../Common/PartitionRangeQueryCallView.h"
+#include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
 extern PartitionManager *ThePartitionManager;
 
 // Native187B entry; ZH BuildAssistant removal search and filter are semantic
@@ -533,4 +574,53 @@ bool FoundationAIUpdate::rva00455C98(const ThingTemplate *tmpl, const Coord3D *p
   }
  }
  return !anyUnmovables;
+}
+
+// Native550B update; BFME1 donor 0d78ce459f supplied availability/setter
+// semantics. Offsets and separate UI paths come from BFME2 and WB1170FB0.
+// See reverse/identity_evidence/00455477-foundation-update.md.
+class CastleBehavior { public: static NameKeyType rva0003955DA(); char m_pad[0x38]; ObjectID m_38; };
+struct BfmeItemE63 { bool checkValid(); };
+struct CastleMemberView {
+ char m_pad[0x14]; ObjectID m_14; ObjectID m_18;
+ ObjectID pendingID00455477() const {return m_14;}
+ __forceinline bool availability00455477() {return !m_14 || reinterpret_cast<BfmeItemE63 *>(this)->checkValid();}
+};
+
+UpdateSleepTime FoundationAIUpdate::update()
+{
+ if (m_2C) {
+  rva0045537F();
+  m_2C = false;
+  static NameKeyType firstKey = TheNameKeyGenerator->nameToKey("CastleMemberBehavior");
+  CastleMemberView *member = reinterpret_cast<CastleMemberView *>(m_object->findModule(firstKey));
+  if (member && !member->m_14 && member->m_18 != INVALID_ID) {
+   Object *castleObject = TheGameLogic->findObjectByID(member->m_18);
+   if (castleObject) {
+    CastleBehavior *castle = reinterpret_cast<CastleBehavior *>(castleObject->findModule(CastleBehavior::rva0003955DA()));
+    if (castle) member->m_14 = castle->m_38;
+   }
+  }
+ }
+ Object *self = m_object;
+ if (self->isEffectivelyDead() && self->getTemplate()->constructionKind(150)) {
+  m_object->setConstructionState00455477(AsciiString("empty"));
+  Drawable *draw = self->getDrawable();
+  if (draw && draw->isSelectable()) TheInGameUI->slot67(draw);
+  return UPDATE_SLEEP_NONE;
+ }
+ if (m_28 != INVALID_ID && TheGameLogic->findObjectByID(m_28)) return UPDATE_SLEEP_NONE;
+ rva0045527A(INVALID_ID);
+ static NameKeyType secondKey = TheNameKeyGenerator->nameToKey("CastleMemberBehavior");
+ CastleMemberView *member = reinterpret_cast<CastleMemberView *>(m_object->findModule(secondKey));
+ if (!member) return UPDATE_SLEEP_NONE;
+ bool unavailable = member->pendingID00455477() && member->availability00455477();
+ if (!unavailable) {
+  m_object->setConstructionState00455477(AsciiString(""));
+ } else {
+  m_object->setConstructionState00455477(AsciiString("empty"));
+  Drawable *draw = self->getDrawable();
+  if (draw && draw->isSelectable()) TheInGameUI->slot67(draw);
+ }
+ return UPDATE_SLEEP_NONE;
 }
