@@ -64,9 +64,11 @@ typedef _Rb_tree_base<pair<const unsigned, Image *>, allocator<pair<const unsign
 template <> ImageTreeBase::_Rb_tree_base(const allocator_type &);
 }
 
-template class _STL::map<unsigned, Image *, _STL::less<unsigned>, _STL::allocator<_STL::pair<const unsigned, Image *> > >;
-
 typedef _STL::map<unsigned, Image *, _STL::less<unsigned>, _STL::allocator<_STL::pair<const unsigned, Image *> > > ImageNameMap;
+
+// Instantiate the recovered insert wrapper, rather than every container member.
+// The full map instantiation also emits an unused, competing tree-base ctor.
+template ImageNameMap::iterator ImageNameMap::insert(ImageNameMap::iterator, const ImageNameMap::value_type &);
 
 // ImageSubscriptMap shared worker (retail 0x002077D6 69B). Declaration-only
 // view over ImageNameMap per ImageCollectionFindImage.cpp; retail folds every
