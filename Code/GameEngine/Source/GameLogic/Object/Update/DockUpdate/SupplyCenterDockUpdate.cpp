@@ -125,7 +125,8 @@ public:
  virtual void s94();
  virtual SupplyTruckAIInterface *getSupplyTruckAIInterface();
 };
-class ExperienceTracker { public: bool rva0039AE04() const; void rva0039B315(float, bool, bool, bool, bool); };
+class Rva0039ADF3 { public: bool rva0039AE04() const; };
+class ExperienceTracker { public: void rva0039B315(float, bool, bool, bool, bool); };
 class Object {
 public:
  Player *getControllingPlayer() const; bool rva0028C15E(int, float *, int, int);
@@ -342,7 +343,7 @@ bool SupplyCenterDockUpdate::action(Object *docker, Object *drone)
 	ownerPlayerMoney->rva003B0D7C(finalValue, ownerPlayer->getScoreKeeper(), true);
 
 	ExperienceTracker *tracker = bfmeGetExperienceTracker(getObject());
-	if (tracker != 0 && tracker->rva0039AE04())
+	if (tracker != 0 && ((Rva0039ADF3 *)tracker)->rva0039AE04())
 	{
 		tracker->rva0039B315(value, true, true, true, false);
 	}
