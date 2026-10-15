@@ -1,4 +1,6 @@
 // ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
+// partial score=0.9109036297180907 date=2026-10-15
+// ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
 // partial score=0.93 date=2026-10-15
 // ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
 // partial score=0.831 date=2026-10-15
@@ -10,6 +12,8 @@ extern "C" void _ReadWriteBarrier(void);
 // partial score=0.96 date=2026-10-05
 // ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
 // partial score=0.96 date=2026-10-05
+// Native walk assigns start=old end before end+=nextSize; the previous
+// near-byte bank swapped these assignments and skipped a chunk boundary.
 // cl: /O2 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE
 // ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z @0x00032830 (227B):
 // bank score=0.96 date=2026-10-05 (228B emitted, exact through 0x32853). Residue: (1) sentinel lea-ecx-vs-add-esi rotation from 0x32853 (fleet cl emits lea whenever valid-carry range arms keep bl reserved; direct-return shape un-rotates to add-esi but blows the range +28B -- rotation driver is the range-arm bool liveness, not the sentinel spelling; 6 sentinel spellings exhausted); (2) addressType test mov-dl/test-dl (6B, volatile-byte view of int slot) vs retail cmp-byte-[esp+0x14],0 (5B) = the +1B -- volatile forces a true stack read but still load+test, never 80-form cmp; plain-int mov-edx/test-edx, bool-type mov-dl/test-dl all 6B (BV strong form FALSIFIED). Resolved vs prior 0.94 bank: flag mov-bl/test-mem-bl form (pair present, mov hoisted 2B before the sz-and under this allocation), compute-then-release with sete-bl eq arm, xor-bl range-fail, three release blocks, sz re-read, nop padding all match modulo reg names.
@@ -106,8 +110,8 @@ found:
 				if (end == start)
 					break;
 				unsigned int nextSize = *(const unsigned int *)(end + 4) & 0x7FFFFFF8;
-				end += nextSize;
 				start = end;
+				end += nextSize;
 				_ReadWriteBarrier();
 			} while (end < (unsigned int)block);
 		}

@@ -60,6 +60,7 @@ Bool ProcessAnimateWindowSlideFromLeft::reverseAnimateWindow( AnimateWindow *ani
 		slowedX = -m_maxVel.x;
 	Coord2D slowedVel;
 	slowedVel.x = slowedX;
+	_ReadWriteBarrier();
 	slowedVel.y = vel.y;
 	animWin->setVel(slowedVel);
 	return FALSE;

@@ -1,4 +1,6 @@
 // ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.9797027744815504 date=2026-10-15
+// ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.99 date=2026-10-15
 // ?update@WoundArrowUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.96 date=2026-10-15
@@ -21,10 +23,7 @@ extern "C" double __cdecl sqrt(double);
 #include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
-struct Coord3D
-{
-	float x, y, z;
-};
+#include "Code/Libraries/Include/Lib/Coord3D.h"
 
 class WoundArrowConditionBits
 {
