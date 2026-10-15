@@ -160,8 +160,8 @@ extern int BfmeLogicFramesPerSecond; // LOGICFRAMES_PER_SECOND
 Real normalizeAngle(Real angle);
 // The two .data tunables AIInternalMoveToState::update reads for AI state
 // 0x47: a repath-delay scale (10) and a repath distance (200.0).
-extern Int TheBfmeState47RepathDelayScale;
-extern Real TheBfmeState47RepathDistance;
+Int TheBfmeState47RepathDelayScale = 10;
+Real TheBfmeState47RepathDistance = 200.0f;
 enum
 {
 	AI_BFME_STATE_47 = 0x47
@@ -422,6 +422,8 @@ public:
 	void getUnitDirectionVector3D(Coord3D &dir) const;
 	void setOrientation(Real angle);
 };
+class Object;
+class StealthUpdate { public: void markAsDetected(unsigned int, int, Object *, bool); };
 class Rva00373EC6
 {
 public:
@@ -770,7 +772,7 @@ StateReturnType AIInternalMoveToState::update()
 				obj->setModelConditionState(setConditionFlag);
 				Rva00373EC6 *module = obj->rva0028F4BC();
 				if (module && module->m_bfme3C)
-					module->rva0037446E(0, 1, 0, 1);
+					((StealthUpdate *)module)->markAsDetected(0, 1, 0, true);
 			}
 		}
 	}
