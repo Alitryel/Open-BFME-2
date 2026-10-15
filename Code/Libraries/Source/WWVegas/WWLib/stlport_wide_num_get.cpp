@@ -51,3 +51,7 @@ namespace _STL {
 template <> char *_STLP_alloc_proxy<char*, char, allocator<char> >::allocate(size_t);
 }
 template class _STL::num_get<wchar_t, _STL::istreambuf_iterator<wchar_t, _STL::char_traits<wchar_t> > >;
+// Native 18050..1805F: the out-of-line use_facet<ctype<wchar_t> > (push
+// ctype<wchar_t>::id VA 0x00DA6200, locale::_M_use_facet), an orphan .text
+// hole beside this unit's size() copy at 0x00018040.
+template const _STL::ctype<wchar_t> &_STL::use_facet<_STL::ctype<wchar_t> >(const _STL::locale &);

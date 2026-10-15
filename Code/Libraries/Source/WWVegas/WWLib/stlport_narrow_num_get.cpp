@@ -62,3 +62,8 @@ template void _STL::basic_string<char>::_M_terminate_string_aux(const _STL::__tr
 void (*const bfmeNarrowFloatInitAnchor)(const _STL::ctype<char> &, char &, char &, char &, char &, char *) = &_STL::_Initialize_get_float;
 bool (*const bfmeNarrowFloatDigitSeparatorAnchor)(char &, char, const char *) = &_STL::__get_fdigit_or_sep;
 bool (*const bfmeNarrowFloatDigitAnchor)(char &, const char *) = &_STL::__get_fdigit;
+
+// Native 18060..1806F: the out-of-line use_facet<ctype<char> > (push
+// ctype<char>::id VA 0x00DA61E0, locale::_M_use_facet), an orphan .text hole
+// beside this unit's empty() copy at 0x00018070.
+template const _STL::ctype<char> &_STL::use_facet<_STL::ctype<char> >(const _STL::locale &);
