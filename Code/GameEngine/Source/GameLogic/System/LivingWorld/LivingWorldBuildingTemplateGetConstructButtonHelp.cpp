@@ -3,7 +3,10 @@
 // Lever (W7-MP3 r8): eq4 equal-arm on the CreateAHeroData* cast closes the body.
 // cl: /O1 /G7 /Oy- /EHsc /MD /Ireference/shims/bfme2_ascii /D_CRTIMP=
 #include "ascii_string.h"
+// Preserve canonical inline bodies without emitting competing copies.
+#define __forceinline __declspec(dllimport) __forceinline
 #include "unicode_string.h"
+#undef __forceinline
 class CreateAHeroData;
 class Rva003F1C22 {
 public:
