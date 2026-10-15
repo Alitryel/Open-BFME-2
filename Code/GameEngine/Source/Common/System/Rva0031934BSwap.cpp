@@ -29,10 +29,11 @@ public:
 
 class Rva0031934BOwner;
 
-class Rva003FE412Fresh
+// The 0x60 helper's constructor 0x003FE412 is rowed as Rva003FE58A(void *, void *).
+class Rva003FE58A
 {
 public:
-	Rva003FE412Fresh(void *payload, Rva0031934BOwner *owner);
+	Rva003FE58A(void *payload, void *owner);
 private:
 	unsigned char m_pad[0x60];
 };
@@ -58,7 +59,7 @@ void Rva0031934BOwner::rva0031934B(const AsciiString *key)
 	}
 	else
 	{
-		m_88 = (Rva0031934BHelper *)new Rva003FE412Fresh(payload, this);
+		m_88 = (Rva0031934BHelper *)new Rva003FE58A(payload, this);
 	}
 	rva00318EC0();
 }

@@ -13192,7 +13192,6 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ??1Rva004FF630Member@@QAE@XZ,0x004FF630,pinned placeholder dtor: REL32 target of the +0x1C member teardown in Rva00502D03 0x00502D03
 ?rva0040CB79@Rva0040CB79Helper@@QAEHH@Z,0x0040CB79,callee of forwarder 0x0031979C read from its REL32 displacement; w3-g26
 ?rva00319517@Rva0031979COwner@@QAEXH@Z,0x00319517,callee of forwarder 0x0031979C read from its REL32 displacement; w3-g26
-??0Rva003FE412Fresh@@QAE@PAXPAVRva0031934BOwner@@@Z,0x003FE412,unrowed ctor on the fresh 96B helper taking payload and owner (placement-new target); callee of gate 0x0031934B read from its REL32 displacement; address name
 ?rva00318EC0@Rva0031934BOwner@@QAEXXZ,0x00318EC0,sibling refresh ending gate 0x0031934B; callee read from its REL32 displacement; address name
 ?rva00318FA1@Rva00318FA1MainOwner@@QAEHXZ,0x00318FA1,banked wheel resolver reused by gate 0x003195C9; address from its REL32 displacement
 ?rva00318B83Free@@YGPBUTWheelInfo@@PAX@Z,0x00318B83,callee-cleanup free-form entry to the 17B getter taking the pushed arg without this (stale ecx at gate 0x00319831); same address as rowed getWheelInfo
