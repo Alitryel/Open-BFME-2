@@ -24,7 +24,8 @@ static inline const char *Rva002162CFStr(const AsciiString &s)
 	return ((const StringBase<char> *)&s)->str();
 }
 
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 AsciiString __cdecl Rva0022288EGet(unsigned int value);
 AsciiString __cdecl Rva002228E8Get(float value);
@@ -111,12 +112,12 @@ void Rva00522A91::rva00522A91()
 	case 2:
 		if (!m_busy)
 		{
-			TheRva00222A8BTarget->invoke(m_owner, "CloseProfilePopup", 0, 0, 0, 0, 0, 0);
+			((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(m_owner, "CloseProfilePopup", 0, 0, 0, 0, 0, 0);
 			((AptSkirmish *)this)->OnAddProfileAccept(0);
 		}
 		break;
 	case 4:
-		TheRva00222A8BTarget->invoke(m_owner, "CloseProfilePopup", 0, 0, 0, 0, 0, 0);
+		((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(m_owner, "CloseProfilePopup", 0, 0, 0, 0, 0, 0);
 		((AptSkirmish *)this)->OnChangeProfile(0);
 		break;
 	}
@@ -135,12 +136,12 @@ void Rva00522A91::rva00521841()
 	case 2:
 	case 3:
 	case 4:
-		TheRva00222A8BTarget->invoke(m_owner, "CloseProfilePopup", 0, 0, 0, 0, 0, 0);
+		((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(m_owner, "CloseProfilePopup", 0, 0, 0, 0, 0, 0);
 		((AptSkirmish *)this)->OnProfilePopupCancel(0);
 		break;
 	case 8:
 	case 9:
-		TheRva00222A8BTarget->invoke(m_owner, "CloseStats", 0, 0, 0, 0, 0, 0);
+		((Rva00222A8BTarget *)g_bfmeAptWindowManager)->invoke(m_owner, "CloseStats", 0, 0, 0, 0, 0, 0);
 		break;
 	default:
 		Rva00521643Enable();
