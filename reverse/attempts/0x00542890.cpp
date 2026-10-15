@@ -1,4 +1,6 @@
 // ?finish@XmlNameSlotList@@QAEHXZ
+// partial score=0.85 date=2026-10-15
+// ?finish@XmlNameSlotList@@QAEHXZ
 // partial score=0.8 date=2026-10-06
 // cl: /O1 /arch:SSE /G7 /MD
 //
@@ -27,14 +29,65 @@ public:
 class Rva005427F1
 {
 public:
-	void rva005427F1();							// 0x005427F1, flush pending text
+	void rva005427F1();
+private:
+	char m_pad[0x20];
+	char *m_out;
+	unsigned char m_ch;
 };
+
+void Rva005427F1::rva005427F1()
+{
+	if (m_out != 0) {
+		*m_out = (char)m_ch;
+		m_out = 0;
+		m_ch = 0;
+	}
+}
 
 class Rva0054273B
 {
 public:
-	bool rva0054273B();							// 0x0054273B, skip a comment
+	bool rva0054273B();
+private:
+	char *m_ptr;
 };
+
+bool Rva0054273B::rva0054273B()
+{
+	m_ptr += 2;
+	if (*m_ptr != '-')
+		return false;
+	++m_ptr;
+	if (*m_ptr != '-')
+		return false;
+	++m_ptr;
+	if (*m_ptr == 0)
+		return false;
+	for (;;) {
+		char *p = m_ptr;
+		while (*p != 0 && *p != '-')
+			++p;
+		m_ptr = p;
+		if (*p == 0)
+			return false;
+		++p;
+		m_ptr = p;
+		if (*p == 0)
+			return false;
+		if (*p != '-')
+			continue;
+		++p;
+		m_ptr = p;
+		if (*p == 0)
+			return false;
+		if (*p != '>')
+			continue;
+		++p;
+		m_ptr = p;
+		return true;
+	}
+}
 
 class Rva005424C4
 {
@@ -69,8 +122,10 @@ int XmlNameSlotList::finish()
 	((Rva005427F1 *)this)->rva005427F1();
 	if (m_pos == 0)
 		return ((BfmeLexEAN *)this)->bfmeFailEAN(-1);
-	for (m_pos = ((Rva005423F0 *)this)->rva005423F0(m_pos); *m_pos != 0;
-		m_pos = ((Rva005423F0 *)this)->rva005423F0(m_pos)) {
+	for (;;) {
+		m_pos = ((Rva005423F0 *)this)->rva005423F0(m_pos);
+		if (*m_pos == 0)
+			break;
 		if (*m_pos != '<')
 			return ((BfmeLexEAN *)this)->bfmeScanEAN();
 		if (m_pos[1] != '!')
