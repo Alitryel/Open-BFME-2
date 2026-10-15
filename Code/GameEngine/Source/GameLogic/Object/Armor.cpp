@@ -89,25 +89,8 @@ Real ArmorTemplate::adjustDamage(DamageType t, Real damage) const
 }
 
 //-------------------------------------------------------------------------------------------Static
-/*static*/ void ArmorTemplate::parseArmorCoefficients( INI* ini, void *instance, void* /* store */, const void* userData )
-{
-	ArmorTemplate* self = (ArmorTemplate*) instance;
+// ArmorTemplate::parseArmorCoefficients is owned by ArmorTemplateParse.cpp.
 
-	const char* damageName = ini->getNextToken();
-	Real pct = INI::scanPercentToReal(ini->getNextToken());
-
-	if (stricmp(damageName, "Default") == 0)
-	{
-		for (Int i = 0; i < DAMAGE_NUM_TYPES; i++)
-		{
-			self->m_damageCoefficient[i] = pct;
-		}
-		return;
-	}
-
-	DamageType dt = (DamageType)DamageTypeFlags::getSingleBitFromName(damageName);
-	self->m_damageCoefficient[dt] = pct;
-}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
