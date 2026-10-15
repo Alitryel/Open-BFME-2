@@ -58,7 +58,7 @@ extern GameLogic *TheGameLogic;
 class Pathfinder
 {
 public:
-	void queueForPath(ObjectID id);
+	bool queueForPath(ObjectID id);
 };
 
 class AI

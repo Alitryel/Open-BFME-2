@@ -111,7 +111,7 @@ protected:
  Module *findModule(NameKeyType) const;
  friend class ScriptConditions;
 public:
- const AsciiString &getCommandSetString() const;
+ const AsciiString *rva00290E67() const;
  
 }
 ;
@@ -156,7 +156,7 @@ bool ScriptConditions::evaluateNamedBaseUnpackableForPlayer(Parameter *baseParm,
  CastleBehavior *castle = (CastleBehavior *)base->findModule(baseModuleKey);
  if (castle && castle->canUnpack(true) && castle->rva00397F45(player, 1) && castle->rva0039718B(player))
  return true;
- CommandSet *commandSet = (CommandSet *)TheControlBar->rva0031D5F8(&base->getCommandSetString());
+ CommandSet *commandSet = (CommandSet *)TheControlBar->rva0031D5F8(base->rva00290E67());
  if (commandSet) 
  
  {

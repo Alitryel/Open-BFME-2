@@ -68,11 +68,16 @@ private:
 	unsigned int m_bucketCount;
 };
 
+class Rva006C1A50Owner
+{
+public:
+	void rva006C1A50(int record);
+};
+
 class Rva006C39F0Owner
 {
 public:
 	void *rva006C3940Alloc(unsigned int size);
-	void rva006C1A50Free(void *record);
 	bool rva006C39F0(unsigned int key, unsigned int size, unsigned int record, void *allowDuplicate);
 private:
 	unsigned char m_pad0[0x680];
@@ -100,7 +105,7 @@ bool Rva006C39F0Owner::rva006C39F0(unsigned int key, unsigned int size, unsigned
 				if (m_records.rva006C21C0(key, (void *)record))
 					result = true;
 				else if (created)
-					rva006C1A50Free((void *)record);
+					((Rva006C1A50Owner *)this)->rva006C1A50((int)record);
 			}
 		}
 	}
