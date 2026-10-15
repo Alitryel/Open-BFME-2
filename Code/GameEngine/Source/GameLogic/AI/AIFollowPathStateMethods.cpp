@@ -91,6 +91,7 @@ class AIStateMachine
 public:
 	const Coord3D *getGoalPathPosition(Int i) const;
 };
+class Rva00346FA5 { public: void *rva00346FA5(Int index) const; };
 class LocomotorSet;
 template <int N> class AIUpdateSlots : public AIUpdateSlots<N - 1>
 {
@@ -108,7 +109,7 @@ public:
 	__declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet(void) const { return *(const LocomotorSet *)m_locomotorSet; }
 	void rva00262ACE(); // friend_startingMove
 	AIStateMachine *getStateMachine() const { return m_stateMachine; }
-	const Coord3D *friend_getGoalPathPosition(Int index) const { return m_stateMachine->getGoalPathPosition(index); }
+	const Coord3D *friend_getGoalPathPosition(Int index) const { return (const Coord3D *)((const Rva00346FA5 *)m_stateMachine)->rva00346FA5(index); }
 	void friend_setCurrentGoalPathIndex(Int index) { m_currentGoalPathIndex = index; }
 	__declspec(dllimport) __forceinline void setCanPathThroughUnits(Bool b) { m_canPathThroughUnits = b; }
 	Locomotor *getCurLocomotor() { return m_curLocomotor; }
