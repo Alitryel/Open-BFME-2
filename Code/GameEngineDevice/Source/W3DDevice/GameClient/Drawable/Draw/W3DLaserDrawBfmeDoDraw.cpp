@@ -19,6 +19,7 @@
 #define Matrix4x4 Matrix4
 #define __PLACEMENT_VEC_NEW_INLINE
 #include "Lib/BaseType.h"
+#define NAMEKEY NAMEKEY_RV
 #include "Common/NameKeyGenerator.h"
 #include "GameClient/Drawable.h"
 #include "GameClient/Color.h"
