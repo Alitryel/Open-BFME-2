@@ -38,6 +38,15 @@ extern Coord3DBase Gen00DD0870;
 // Retail inlines this three-float copy; the canonical Coord3D::set is the out-of-line owner.
 static inline void inlineSet(Coord3D &c, const Coord3DBase *that) { c.x = that->x; c.y = that->y; c.z = that->z; }
 
+// Retail inlines this clamp. Keep its helper local rather than emitting a
+// competing WWMath::Clamp body with different compiler settings.
+static inline float inlineClamp(float val, float minimum, float maximum)
+{
+    if (val < minimum) return minimum;
+    if (val > maximum) return maximum;
+    return val;
+}
+
 class Rva005AD9C0Hit
 {
 public:
@@ -444,7 +453,7 @@ void AIBaseBuilder::rva0050722A(Coord3D *point)
 	dir.Normalize();
 	Vector3 xAxis;
 	xAxis.Set(1.0f, 0.0f, 0.0f);
-	float angle = ACos(WWMath::Clamp(Vector3::Dot_Product(dir, xAxis), -1.0f, 1.0f));
+	float angle = ACos(inlineClamp(Vector3::Dot_Product(dir, xAxis), -1.0f, 1.0f));
 	if (Vector3::Cross_Product_Z(dir, xAxis) > 0.0f)
 		angle *= -1.0f;
 	angle = normalizeAngle(angle - 1.5707964f);
