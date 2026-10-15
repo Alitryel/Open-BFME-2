@@ -27,7 +27,8 @@ struct Rva005E3967Template {
 class Rva0040CB3AIndexedField { public: int get(int) const; };
 struct Rva005E4300Context {
  char pad0[0x18]; AsciiString selectedName;
- char pad1[0x78-0x1c]; Rva0040CB3AIndexedField *index;
+ char pad1[0x54-0x1c]; int playerID;
+ char pad2[0x78-0x58]; Rva0040CB3AIndexedField *index;
 };
 namespace StrategicInGameUI {
 static __declspec(noinline) Rva005E3967Template *Rva005E3967(const Rva005E4300Entry *entry)
@@ -102,26 +103,17 @@ TreeHintRef00217D4C Rva005E6A23(const Rva005E4300Entry *entry) {
  return TreeHintRef00217D4C();
 }
 }
-class Rva0040CB2CIndexedField {public:int get(int) const;};
-class Rva0040CC0EIndexedField {public:int get(int) const;};
-struct HeroDetailsArmyEntry {int count;Rva005E4300Entry *entry;};
-struct HeroDetailsArmySummary {char pad[0x40];HeroDetailsArmyEntry *begin,*end;};
-struct HeroDetailsContext {char pad0[0x18];AsciiString selectedName;char pad1[0x54-0x1C];int playerID;char pad2[0x78-0x58];HeroDetailsArmySummary *summary;};
 struct HeroDetailsPair {HeroDetailsPair(){} HeroDetailsPair(const HeroDetailsPair &p):count(p.count),entry(p.entry){} HeroDetailsPair(const int &c,Rva005E4300Entry *const &e):count(c),entry(e){} int count;Rva005E4300Entry *entry;};
+// Assigns a returned (id, entry) pair through references to two members, the
+// shape WB 0x01600AB0 shows (two member addresses taken before the call).
+template <class A, class B> struct HeroDetailsTie {
+ HeroDetailsTie(A &a, B &b):first(a),second(b){}
+ template <class P> HeroDetailsTie &operator=(const P &p){first=p.count;second=p.entry;return *this;}
+ A &first; B &second;
+};
 namespace StrategicInGameUI {
-HeroDetailsPair Rva005E6CA1(HeroDetailsContext *context) {
- HeroDetailsArmySummary *summary=context->summary;
- int count=summary->end-summary->begin;
- int i=0;
- Rva005E4300Entry *entry;
- for(;i<count;++i) {
-  entry=(Rva005E4300Entry *)((Rva0040CB2CIndexedField *)summary)->get(i);
-  if(entry->name==context->selectedName)goto found;
- }
- return HeroDetailsPair(0,0);
- found:return HeroDetailsPair(((Rva0040CC0EIndexedField *)summary)->get(i),entry);
-
-}
+// Rowed in StrategicInGameUIHeroComparator.cpp (WB FindLeaderEntry).
+HeroDetailsPair Rva005E6CA1(Rva005E4300Context *context);
 }
 class Image;
 struct StrategicButtonImageView {int unknown;AsciiString templateName;};
@@ -159,12 +151,8 @@ public:
 class Rva005E6D0DBase
 {
 public:
-    Rva005E6D0DBase(void *slot):m_slot(slot){}
 	~Rva005E6D0DBase() {}
 	virtual void Rva005E6D0DSlot0();
-
-protected:
-    void *m_slot;
 };
 
 class Rva005E6D0D : public Rva005E6D0DBase
@@ -174,30 +162,34 @@ public:
 	~Rva005E6D0D();
 
 private:
+    void *m_slot;
 	Rva005CB265 *m_owner; // +0x08
-	HeroDetailsContext *m_details;
+	Rva005E4300Context *m_details;
 	Rva002B7250 *m_container; // +0x10
-	HeroDetailsPair m_pair;
+	int m_leaderEntryID; // +0x14
+	Rva005E4300Entry *m_leaderEntry; // +0x18
     TreeHintRef00217D4C m_held; // +0x1C
 };
 
 
-struct HeroDetailsInput {Rva005CB265 *owner;HeroDetailsContext *details;Rva002B7250 *container;};
+struct HeroDetailsInput {Rva005CB265 *owner;Rva005E4300Context *details;Rva002B7250 *container;};
 
-// The holder constructor (not yet matched) is the only caller of the static
-// ComputeRankProgress, whose register-argument convention needs a local caller.
-// ?Rva005E6D0D::Rva005E6D0D present-unmatched
-Rva005E6D0D::Rva005E6D0D(void *slot,HeroDetailsInput *input):Rva005E6D0DBase(slot),m_owner(input->owner),m_details(input->details),m_container(input->container),m_pair(0,0) {
- m_pair=StrategicInGameUI::Rva005E6CA1(m_details);
+// WB 0x01600AB0 StrategicInGameUI::HeroArmyDetailsPanel::Impl::Impl
+// (StrategicInGameUIHeroArmyDetailsPanel.cpp 176-177): leader entry id +0x14
+// and leader entry +0x18 are assigned together from FindLeaderEntry. The ctor
+// is the only caller of the static ComputeRankProgress, whose register-argument
+// convention needs this local caller.
+Rva005E6D0D::Rva005E6D0D(void *slot,HeroDetailsInput *input):m_slot(slot),m_owner(input->owner),m_details(input->details),m_container(input->container),m_leaderEntryID(0),m_leaderEntry(0) {
+ HeroDetailsTie<int,Rva005E4300Entry *>(m_leaderEntryID,m_leaderEntry)=StrategicInGameUI::Rva005E6CA1(m_details);
  void *button=m_slot;
- ((Rva005F62EE *)button)->rva005F62EE(StrategicInGameUI::GetButtonImage((const StrategicButtonImageView *)m_pair.entry,m_details->playerID));
- ((Rva005F62EE *)button)->rva005F62F6(Rva005F01D6Get((Rva005F01D6In *)m_pair.entry));
- ((Rva005F64C0 *)button)->rva005F64C0(m_pair.entry->rank);
- float progress=StrategicInGameUI::ComputeRankProgress(m_pair.entry);
+ ((Rva005F62EE *)button)->rva005F62EE(StrategicInGameUI::GetButtonImage((const StrategicButtonImageView *)m_leaderEntry,m_details->playerID));
+ ((Rva005F62EE *)button)->rva005F62F6(Rva005F01D6Get((Rva005F01D6In *)m_leaderEntry));
+ ((Rva005F64C0 *)button)->rva005F64C0(m_leaderEntry->rank);
+ float progress=StrategicInGameUI::ComputeRankProgress(m_leaderEntry);
  if(progress>=0.0f)((Rva005F64C0 *)button)->rva005F64C8(progress);
  else ((Rva005F6306 *)button)->rva005F6306();
  if(((Rva005F601BByteChaseField *)button)->get()) {
-  m_held=StrategicInGameUI::Rva005E6A23(m_pair.entry);
+  m_held=StrategicInGameUI::Rva005E6A23(m_leaderEntry);
   if(m_held.m_ptr)((Rva001FF3A9 *)m_owner)->rva001FF3A9(m_held);
  }
  ((Rva005A0B4CList *)m_container)->append((Rva002BA8F1Listener *)this);
