@@ -21,7 +21,10 @@ class Xfer;
 
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
-extern const char *const GeometryNames[];
+// Native9DBFE0..9DBFF0: three enum names followed by the null sentinel.
+// The parser's scanIndexList consumes the table; unrelated scalar defaults
+// begin at9DBFF0, establishing the complete16B extent.
+extern const char *const GeometryNames[] = { "SPHERE", "CYLINDER", "BOX", 0 };
 
 class INI
 {
