@@ -1,6 +1,16 @@
 // ?RecolorHouseColor@MeshClass@@UAEXABVRva0013101E@@PBD@Z
+// partial score=0.88 date=2026-10-15
+// ?RecolorHouseColor@MeshClass@@UAEXABVRva0013101E@@PBD@Z
 // partial score=0.85 date=2026-10-09
 // cl: /O2 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
+// Seat s2 findings (claude-sonnet-5-5): compiles with real names TextureAsset::Get (0x132D89) and
+// TextureAsset::RegisterRecolorForHouseColorDecal (0x132C28) and Peek_Single_Texture(0,1) in the recolored legacy path.
+// Prologue ebx/ebp constant caching closes with dot=dot+1;if(!_strcmpi(dot,x)) and block placement closes with an
+// inline Uses_FX() helper used for both setup||setupArray tests (stops CSE of the setup load). throw() on
+// Rva0007B9EE::rva0007B9EE and Rva00199FCC::rva00199FCC removes EH state stores retail lacks.
+// Remaining wall: output 2234B vs 2291; frame slots (retail holder esp+18, flags esp+1c; ours holder 0x20/flags 0x18),
+// retail duplicates guard-release tails on the texture/original null returns where ours shares one tail.
+// The // cl: O flags are overridden by region defaults (flag_defaults.py), so /O variants cannot be tried in-file.
 // stlport
 // WB9CC5B0 mesh.cpp1517..1627 names MeshClass::RecolorHouseColor.
 // Native MeshClass vtable7D35A8 slot126 points14C470; Recolor_Prototype
@@ -18,15 +28,15 @@ class TextureBaseClass{public:void Release_Ref();};
 class TextureClass:public TextureBaseClass{public:char pre[8];unsigned nameID;};
 template<class T>class RefCountPtr{public:T *p;~RefCountPtr(){if(p)p->Release_Ref();}};
 class BFME2ParticleTextureHandle{public:TextureClass *p;~BFME2ParticleTextureHandle(){if(p)p->Release_Ref();}};
-BFME2ParticleTextureHandle BFME2LoadParticleTexture(const char *,int,int);
+class TextureAsset{public:static BFME2ParticleTextureHandle Get(const char *,int,int);static void RegisterRecolorForHouseColorDecal(void *,void *,void *);};
 class AssetReference{public:AssetReference(const AssetReference&);TextureClass *p;~AssetReference(){if(p)p->Release_Ref();}};
-class Rva0007B9EE{public:AssetReference rva0007B9EE();};
+class Rva0007B9EE{public:AssetReference rva0007B9EE() throw();};
 class Rva0015148D{public:void *rva0015148D();};
 class Rva00132A93{public:bool rva00132A93(void *);};
 class Rva0013101E{public:AsciiString rva001360EA()const;unsigned flags;};
 bool Render_Obj_Exists(const char *);
 const char *Rva001363A1Get(unsigned);
-void Rva00132C28Register(void *,void *,void *);
+
 void BFME_DX8_Thread_Lock();bool BFME_DX8_Thread_Assert();
 class BFMEDX8DeviceLock{public:BFMEDX8DeviceLock(){BFME_DX8_Thread_Lock();}~BFMEDX8DeviceLock(){BFME_DX8_Thread_Assert();}};
 struct BfmeAssignRecord36{BfmeAssignRecord36(const char *,int);AsciiString name;int kind;AsciiString value;char pad[20];bool flag;char last[3];};
@@ -34,7 +44,7 @@ struct Rva0007BB16Record:BfmeAssignRecord36{Rva0007BB16Record(const char *n,int 
 namespace _STL{template<>vector<Rva0007BB16Record>::vector(const vector<Rva0007BB16Record>&);template<>vector<Rva0007BB16Record>::~vector();}
 struct Rva00082EB8Rec;
 class Rva00082EB8{public:void rva00082EB8(const Rva00082EB8Rec &);};
-class Rva00199FCC{public:void *rva00199FCC(const AsciiString &);};
+class Rva00199FCC{public:void *rva00199FCC(const AsciiString &) throw();};
 class FXShaderSetup{public:char head[12];_STL::vector<Rva0007BB16Record> params;bool UpdateParameterList(const _STL::vector<Rva0007BB16Record>&);};
 struct EffectDesc{const char *creator;unsigned parameters,techniques,functions;};
 struct ParameterDesc{const char *name,*semantic;unsigned cls,type,rows,cols,elements,annotations,members,flags,bytes;};
@@ -54,7 +64,7 @@ virtual long __stdcall GetInt(EffectHandle,int*)=0;
 };
 #undef SLOT
 class ShaderClass{public:ShaderClass(){}ShaderClass(const ShaderClass&s):bits(s.bits){}unsigned bits;};
-class MeshMatDescClass{public:int passes;char gap04[0x94];ShaderClass shader[4];char gapA8[0x10];FXShaderSetup *setup;char gapBC[0x4C];void *setupArray;void Set_Single_Texture(const RefCountPtr<TextureClass>&,int,int);void Set_Single_Shader(ShaderClass,int);};
+class MeshMatDescClass{public:int passes;char gap04[0x94];ShaderClass shader[4];char gapA8[0x10];FXShaderSetup *setup;char gapBC[0x4C];void *setupArray;bool Uses_FX()const{return setup||setupArray;}FXShaderSetup *Get_FX()const{return setup;}void Set_Single_Texture(const RefCountPtr<TextureClass>&,int,int);void Set_Single_Shader(ShaderClass,int);};
 class MeshModelClass{public:virtual void Delete_This();int refs;char gap08[0x8C];MeshMatDescClass *desc;void Release_Ref(){--refs;if(refs==0)Delete_This();}RefCountPtr<TextureClass> Peek_Single_Texture(int,int)const;};
 struct Rva00136090MeshHolder{MeshModelClass *pointer;~Rva00136090MeshHolder(){if(pointer)pointer->Release_Ref();}};
 Rva00136090MeshHolder Rva00136090MeshHold(MeshModelClass*);
@@ -186,24 +196,24 @@ virtual void RecolorHouseColor(const Rva0013101E &,const char *);
 };
 void MeshClass::RecolorHouseColor(const Rva0013101E &options,const char *exceptName)
 {
- if(exceptName){const char *name=Get_Name();if(name){const char *dot=strchr(name,'.');if(dot&&_strcmpi(dot+1,exceptName)==0)return;}}
+ if(exceptName){const char *name=Get_Name();if(name){const char *dot=strchr(name,'.');if(dot){dot=dot+1;if(!_strcmpi(dot,exceptName))return;}}}
  Rva00136090MeshHolder mesh=Rva00136090MeshHold(model);
  if(recolored){
-  if(mesh.pointer->desc->setup||mesh.pointer->desc->setupArray){
-   FXShaderSetup *setup=mesh.pointer->desc->setup;if(!setup)return;
+  if(mesh.pointer->desc->Uses_FX()){
+   FXShaderSetup *setup=mesh.pointer->desc->Get_FX();if(!setup)return;
    for(_STL::vector<Rva0007BB16Record>::iterator p=setup->params.begin();p!=setup->params.end();++p){
     if(p->kind==1){
-     BFME2ParticleTextureHandle texture=BFME2LoadParticleTexture(p->value.str(),0,0);
+     BFME2ParticleTextureHandle texture=TextureAsset::Get(p->value.str(),0,0);
      if(texture.p)reinterpret_cast<Rva00132A93*>(&texture)->rva00132A93(const_cast<Rva0013101E*>(&options));
     }
    }
   }else{
-   RefCountPtr<TextureClass> texture=mesh.pointer->Peek_Single_Texture(0,0);
+   RefCountPtr<TextureClass> texture=mesh.pointer->Peek_Single_Texture(0,1);
    if(texture.p)reinterpret_cast<Rva00132A93*>(&texture)->rva00132A93(const_cast<Rva0013101E*>(&options));
   }
  }else{
-  if(mesh.pointer->desc->setup||mesh.pointer->desc->setupArray){
-   BFMEDX8DeviceLock guard;FXShaderSetup *setup=mesh.pointer->desc->setup;
+  if(mesh.pointer->desc->Uses_FX()){
+   BFMEDX8DeviceLock guard;FXShaderSetup *setup=mesh.pointer->desc->Get_FX();
    if(setup&&reinterpret_cast<Rva0007B9EE*>(setup)->rva0007B9EE().p&&reinterpret_cast<Rva0015148D*>(&reinterpret_cast<Rva0007B9EE*>(setup)->rva0007B9EE())->rva0015148D()){
     RecolorEffect *effect=reinterpret_cast<RecolorEffect*>(reinterpret_cast<Rva0015148D*>(&reinterpret_cast<Rva0007B9EE*>(setup)->rva0007B9EE())->rva0015148D());
     if(effect->GetParameterByName(0,"HouseColorEnable")){
@@ -219,11 +229,11 @@ void MeshClass::RecolorHouseColor(const Rva0013101E &options,const char *exceptN
       if(effect->GetParameterDesc(handles[0],&source)<0||!source.name)return;
       Rva0007BB16Record *record=reinterpret_cast<Rva0007BB16Record*>(reinterpret_cast<Rva00199FCC*>(&setup->params)->rva00199FCC(AsciiString(source.name)));
       if(record&&record->kind==1){
-       BFME2ParticleTextureHandle texture=BFME2LoadParticleTexture(record->value.str(),0,0);if(!texture.p)return;
+       BFME2ParticleTextureHandle texture=TextureAsset::Get(record->value.str(),0,0);if(!texture.p)return;
        const char *original=Rva001363A1Get(texture.p->nameID);if(!original)return;
        AsciiString name;name.format("#%s#%s",original,options.rva001360EA().str());name.toLower();
-       if(!Render_Obj_Exists(name.str()))Rva00132C28Register(const_cast<char*>(original),const_cast<char*>(name.str()),const_cast<Rva0013101E*>(&options));
-       if(!BFME2LoadParticleTexture(name.str(),0,0).p)return;
+       if(!Render_Obj_Exists(name.str()))TextureAsset::RegisterRecolorForHouseColorDecal(const_cast<char*>(original),const_cast<char*>(name.str()),const_cast<Rva0013101E*>(&options));
+       if(!TextureAsset::Get(name.str(),0,0).p)return;
        ParameterDesc destination;
        if(effect->GetParameterDesc(handles[1],&destination)<0||!destination.name)return;
        Rva0007BB16Record newTexture(destination.name,1);reinterpret_cast<StringBase<char>*>(&newTexture.value)->set(reinterpret_cast<const StringBase<char>&>(name));
@@ -241,8 +251,8 @@ void MeshClass::RecolorHouseColor(const Rva0013101E &options,const char *exceptN
    const char *original=Rva001363A1Get(texture.p?texture.p->nameID:~0u);ShaderClass shader=mesh.pointer->desc->shader[0];
    if(original){
     AsciiString name;name.format("#%s#%s",original,options.rva001360EA().str());name.toLower();
-    if(!Render_Obj_Exists(name.str()))Rva00132C28Register(const_cast<char*>(original),const_cast<char*>(name.str()),const_cast<Rva0013101E*>(&options));
-    BFME2ParticleTextureHandle replacement=BFME2LoadParticleTexture(name.str(),0,0);
+    if(!Render_Obj_Exists(name.str()))TextureAsset::RegisterRecolorForHouseColorDecal(const_cast<char*>(original),const_cast<char*>(name.str()),const_cast<Rva0013101E*>(&options));
+    BFME2ParticleTextureHandle replacement=TextureAsset::Get(name.str(),0,0);
     mesh.pointer->desc->Set_Single_Texture(reinterpret_cast<RefCountPtr<TextureClass>&>(replacement),0,1);
     shader.bits=(shader.bits&0xFFBFFFFF)|0x1A00000;mesh.pointer->desc->Set_Single_Shader(shader,0);
    }
