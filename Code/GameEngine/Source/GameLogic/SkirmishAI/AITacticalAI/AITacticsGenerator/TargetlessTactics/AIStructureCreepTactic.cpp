@@ -229,6 +229,7 @@ extern GameLogic *TheGameLogic;
 // Coord3D: shared derived view (Coord3DBase base); no private copy.
 #define COORD3D_DV_CTOR_INLINE
 #define COORD3D_DV_DTOR_INLINE
+#define COORD3D_DV_COPY_INLINE
 #include "../../../../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
 
 
@@ -765,6 +766,94 @@ void AIStructureCreepTactic::run()
 	}
 	if (!m_running)
 		end(false, false);
+}
+
+// TheTerrainLogic slot 6 and TheBuildAssistant slot 16 views (as in
+// AIBuildableStructure.cpp).
+class TerrainLogic {
+public:
+	virtual void s0(); virtual void s1(); virtual void s2(); virtual void s3();
+	virtual void s4(); virtual void s5();
+	virtual float groundHeight(float x, float y, int normal);
+};
+extern TerrainLogic *TheTerrainLogic;
+class ThingTemplate;
+class BuildAssistantCallView {
+public:
+#define SLOT(n) virtual void s##n();
+	SLOT(0) SLOT(1) SLOT(2) SLOT(3) SLOT(4) SLOT(5) SLOT(6) SLOT(7) SLOT(8) SLOT(9) SLOT(10) SLOT(11) SLOT(12) SLOT(13) SLOT(14) SLOT(15)
+#undef SLOT
+	virtual int checkPosition(const Coord3D *pos, const ThingTemplate *thing, float angle, int options, Object *builder, Player *player);
+};
+class BuildAssistant;
+extern BuildAssistant *TheBuildAssistant;
+
+class WWMath
+{
+public:
+	static float __fastcall Inv_Sqrt(float value);
+};
+
+// Zero Hour's inline Coord3D::add.
+static inline void Coord3DAdd(Coord3D *c, const Coord3DBase *a)
+{
+	c->x += a->x;
+	c->y += a->y;
+	c->z += a->z;
+}
+
+// WWMath's inline Vector3 operations (operator-=, Length2, Normalize via
+// Inv_Sqrt, Scale by a vector).
+struct BfmeVector3
+{
+	BfmeVector3(float x,float y,float z){X = x; Y = y; Z = z;}
+	BfmeVector3(const Coord3DBase &c){X = c.x; Y = c.y; Z = c.z;}
+	BfmeVector3 &operator-=(const BfmeVector3 &b) { X -= b.X; Y -= b.Y; Z -= b.Z; return *this; }
+	void Scale(const BfmeVector3 &s) { X *= s.X; Y *= s.Y; Z *= s.Z; }
+	float Length2() const { return X * X + (Y * Y + Z * Z); }
+	__forceinline void Normalize()
+	{
+		float len2 = Length2();
+		if (len2 != 0.0f) {
+			double oolen=WWMath::Inv_Sqrt(len2);X*=oolen;Y*=oolen;Z*=oolen;
+		}
+	}
+	float X, Y, Z;
+};
+
+
+
+// Native 005ABCFE..005ABEA2, RET8 (WorldBuilder twin 0x015215B0 names it
+// AIStructureCreepTactic::getBuildPos). The candidate is the creep zone's
+// centre moved half the zone radius toward the record's reference point
+// (0x004EBF4B), dropped to the ground; it is accepted when the build
+// assistant's slot 16 check passes for the named template. Statement shape
+// from the WB twin (vector3.h operator-= / Normalize / Scale(Vector3) asserts,
+// then a Coord3D copy of the zone position plus the direction): with it cl
+// emits retail's component order and XMM coloring.
+bool AIStructureCreepTactic::rva005ABCFE(Coord3DBase *out, const AsciiString &name)
+{
+	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
+	Player *zoneOwner = m_owner;
+	Rva005ABEA2Site *site = getMyZone(zoneOwner, m_68);
+	BfmeVector3 dir = ((Rva004EBF4B *)record)->rva004EBF4B();
+	BfmeVector3 base = site->m_pos;
+	dir -= base;
+	dir.Normalize();
+	float half = site->m_radius * 0.5f;
+	dir.Scale(BfmeVector3(half, half, half));
+	Coord3D pos = site->m_pos;
+	Coord3DAdd(&pos, (const Coord3DBase *)&dir);
+	pos.z = TheTerrainLogic->groundHeight(pos.x, pos.y, 0);
+	Player *owner = m_owner;
+	const ThingTemplate *thing = (const ThingTemplate *)TheThingFactory->findTemplate(name);
+	BuildAssistantCallView*assistant=(BuildAssistantCallView*)TheBuildAssistant;
+	if (assistant->checkPosition(&pos, thing, 0.0f, 0x85,
+			TheGameLogic->findObjectByID(m_58), owner) == 0) {
+		*out = pos;
+		return true;
+	}
+	return false;
 }
 
 // 0x005AC549: StructureCreep slot 7 update (WB AIStructureCreepTactic::update,
