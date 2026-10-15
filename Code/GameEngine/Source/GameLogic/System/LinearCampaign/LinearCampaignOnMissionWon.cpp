@@ -1,16 +1,15 @@
-// ?onCurrentMissionWon@LinearCampaign@@QAEXXZ
-// partial score=0.995965 date=2026-10-15
-// ?onCurrentMissionWon@LinearCampaign@@QAEXXZ
-// partial score=0.996 date=2026-10-14
-// ?onCurrentMissionWon@LinearCampaign@@QAEXXZ
-// partial score=0.996 date=2026-10-13
-// ?onCurrentMissionWon@LinearCampaign@@QAEXXZ
-// partial score=0.996 date=2026-10-13
-// ?onCurrentMissionWon@LinearCampaign@@QAEXXZ
-// partial score=0.965 date=2026-10-11
-// ?onCurrentMissionWon@LinearCampaign@@QAEXXZ
-// cl: /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common
 // stlport
+//
+// ?onCurrentMissionWon@LinearCampaign@@QAEXXZ @0x001EC3B5 648B
+// WB 0x00AF6700 names LinearCampaign::onCurrentMissionWon
+// (LinearCampaignManager.cpp 337..488): mark the mission won, collect the
+// carry-over units of live objects and of every player's revival list, then
+// from the first human player copy the grantable sciences and the upgrades
+// whose template carries over. The WB twin tests and sets the 1024-bit
+// upgrade masks through BitFlags<1024,UpgradeID>::test/SetBit; spelling the
+// loop through those inline bit helpers on a reference to the player's mask
+// replaces the earlier bank's volatile index reads.
 #include <vector>
 #include <string.h>
 struct BfmePod172 {int a[43];};
@@ -22,9 +21,10 @@ class Rva00291198Host {public:void rva002910B7(Rva00291198Dest*);};
 class Rva0037EACC {public:void rva0037EACC(void*);};
 class Rva0037E421 {public:void* rva0037E421(int);};
 class Object {public:char p0[0x8c]; Object* next;char p90[0x438-0x90];unsigned char status;};
-class GameLogic {public:Object*getFirstObject();};extern GameLogic*TheGameLogic;
+#include "GameLogicObjectLookupView.h"
+extern GameLogic*TheGameLogic;
 enum ScienceType {SCIENCE_INVALID=-1};
-struct Bits1024 {unsigned int words[32];__forceinline bool test(unsigned n)const {return *(const unsigned int*)((const char*)words+((n/32)*4)) & (1U<<(n%32));} __forceinline void set(unsigned n){*(unsigned int*)((char*)words+((n/32)*4)) |= 1U<<(n%32);} };
+struct Bits1024 {unsigned int words[32];__forceinline bool test(unsigned n)const {return (words[n/32] & (1U<<(n%32)))!=0;} __forceinline void set(unsigned n){words[n/32] |= 1U<<(n%32);} };
 class Player {public:char p0[0x14];int value14;char p18[0x5c-0x18];int value5C;char p60[0x13c-0x60];Bits1024 upgrades;char p1BC[0x2f0-0x1bc];_STL::vector<ScienceType>sciences;char p2FC[0x314-0x2fc];float value314;char p318[0x738-0x318];Rva0037E421 revival;};
 class PlayerList {public:Player* getNthPlayer(int);int rva002A7D30();Player*getEachPlayerFromMask(int&);char p0[0x14];int count;};extern PlayerList*ThePlayerList;
 class ScienceStore {public:bool isScienceGrantable(ScienceType)const;};extern ScienceStore*TheScienceStore;
@@ -68,8 +68,8 @@ void LinearCampaign::onCurrentMissionWon(){
    sciences.reserve(ps.size());
    for(_STL::vector<ScienceType>::const_iterator it=ps.begin(),end=ps.end();it!=end;++it){ms.s=*it;if(TheScienceStore->isScienceGrantable(ms.s))sciences.push_back(ms.s);}
    memset(&upgrades,0,sizeof(upgrades));
-   const char *pw=(char *)player+0x13c;
-   for(int i=0;i<1024;++i){unsigned int mask=1U<<((*(volatile int*)&i)&31);unsigned int index=((unsigned)(*(volatile int*)&i)>>5)*4;if(*(unsigned int*)(pw+index)&mask){const UpgradeTemplate*t=TheUpgradeCenter->rva0026EEA0(i);if(t&&t->carryover)*(unsigned int*)(index+((char*)this+0x20))|=mask;}}
+   const Bits1024 &have=player->upgrades;
+   for(int i=0;i<1024;++i){if(have.test(i)){const UpgradeTemplate*t=TheUpgradeCenter->rva0026EEA0(i);if(t&&t->carryover)upgrades.set(i);}}
    valueA0=player->value314;
   }
  }
