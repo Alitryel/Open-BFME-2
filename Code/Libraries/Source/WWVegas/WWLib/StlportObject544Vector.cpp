@@ -21,4 +21,9 @@ struct BfmeObject544
     BfmeObject544(const BfmeObject544&);
 };
 
-template class _STL::vector<BfmeObject544, _STL::allocator<BfmeObject544> >;
+// Instantiate the recovered operations and their helpers. Whole-class
+// instantiation also emitted an unrelated vector destructor and assignment.
+template void _STL::vector<BfmeObject544, _STL::allocator<BfmeObject544> >::push_back(const BfmeObject544 &);
+template void _STL::vector<BfmeObject544, _STL::allocator<BfmeObject544> >::_M_clear();
+template void _STL::vector<BfmeObject544, _STL::allocator<BfmeObject544> >::_M_insert_overflow(BfmeObject544 *, const BfmeObject544 &, const _STL::__false_type &, unsigned int, bool);
+template BfmeObject544 *_STL::__uninitialized_copy(const BfmeObject544 *, const BfmeObject544 *, BfmeObject544 *, const _STL::__false_type &);
