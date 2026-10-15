@@ -1,6 +1,6 @@
-// ?rva00337DEF@LuaScriptEngine@@QAEPAURva00336283Element@@ABVAsciiString@@@Z
-// partial score=0.97 date=2026-10-08
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
+// stlport
+// ?rva00337DEF@LuaScriptEngine@@QAEPAURva00336283Element@@ABVAsciiString@@@Z
 // ?rva00337DEF@LuaScriptEngine@@QAEPAURva00336283Element@@ABVAsciiString@@@Z @0x00337DEF 187B.
 // Identity (target): a LuaScriptEngine member reached through the global
 // TheLuaScriptEngine (VA 0x00E01DBC) at 0x0039F18E (Team update) and from
@@ -95,7 +95,7 @@ Rva00336283Element *LuaScriptEngine::rva00337DEF(const AsciiString &name)
 	Rva003323AD key((const StringBase<char> &)name);
 	Rva00336283Element *it = _STL::lower_bound(m_records.begin(), m_records.end(), *(const Rva00336283Element *)&key,
 		_STL::less<Rva00336283Element>());
-	if (it == m_records.end() || ((const StringBase<char> &)it->name()).compare((const StringBase<char> &)name) != 0)
-		it = 0;
+	if (it == m_records.end() || ((const AsciiString &)it->name()).compare(name) != 0)
+		return 0;
 	return it;
 }
