@@ -1,4 +1,6 @@
 // ?rva001FCF11@ParticleSystemManager@@QAEXABVAsciiString@@PAVParticleSystemTemplate@FXParticleSystem@@@Z
+// partial score=0.936596 date=2026-10-15
+// ?rva001FCF11@ParticleSystemManager@@QAEXABVAsciiString@@PAVParticleSystemTemplate@FXParticleSystem@@@Z
 // partial score=0.88 date=2026-10-09
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // ?findTemplate@ParticleSystemManager@@QBEPAVParticleSystemTemplate@@ABVAsciiString@@@Z
