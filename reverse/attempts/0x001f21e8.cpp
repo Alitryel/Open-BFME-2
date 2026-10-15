@@ -1,4 +1,6 @@
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
+// partial score=0.96 date=2026-10-15
+// ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.974 date=2026-10-15
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.959259 date=2026-10-15
@@ -58,15 +60,19 @@ virtual Object*getFirstWaypoint();};
 extern TerrainLogic*TheTerrainLogic;
 int GetGameLogicRandomValue(int,int,char*,int);
 class Rva001F21E8 {public:void rva001F21E8(Coord3D*);private:char unknown[0x10c];StringBase<char>prefix;};
-struct Rva001F21E8Waypoint {char unknown[8];StringBase<char>name;Coord3D position;char unknown18[4];Object*next;};
+struct Rva001F21E8Waypoint {
+ char unknown[8];StringBase<char>name;Coord3D position;char unknown18[4];Rva001F21E8Waypoint*next;
+ const StringBase<char>&getName() const {return name;}
+ const Coord3D*getLocation() const {return &position;}
+ Rva001F21E8Waypoint*getNext() const {return next;}
+};
 void Rva001F21E8::rva001F21E8(Coord3D*position){
- _ReadWriteBarrier();
  _STL::vector<Object*>matches;
- for(Object*node=TheTerrainLogic->getFirstWaypoint();node;node=((Rva001F21E8Waypoint*)node)->next){
-  if(((Rva001F21E8Waypoint*)node)->name.startsWith(prefix))matches.push_back(node);
+ for(Object*node=TheTerrainLogic->getFirstWaypoint();node;node=(Object*)((Rva001F21E8Waypoint*)node)->getNext()){
+  if(((Rva001F21E8Waypoint*)node)->getName().startsWith(prefix))matches.push_back(node);
  }
  int count=matches.size();
  if(count>0){int index=GetGameLogicRandomValue(0,count-1,(char*)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\ObjectCreationList.cpp",1973);
-  *position=((Rva001F21E8Waypoint*)matches[index])->position;
+  *position=*((Rva001F21E8Waypoint*)matches[index])->getLocation();
  }
 }
