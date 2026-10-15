@@ -1,76 +1,43 @@
-// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
-// partial score=0.9 date=2026-10-14
-// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
-// partial score=0.88435 date=2026-10-14
-// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
-// partial score=0.95 date=2026-10-13
-// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
-// partial score=0.95 date=2026-10-13
-// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
-// partial score=0.8415 date=2026-10-05
-// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z
-// partial score=0.90 date=2026-09-30
-// cl: /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@HV?$Rva002444BEAllocator@H@@@_STL@@@Z
+// partial score=0.99 date=2026-10-15
+// cl: /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common
 // stlport
-// ?Rva0038190FSendChat@@YA_NABVUnicodeString@@ABV?$vector@IV?$allocator@I@_STL@@@_STL@@@Z @0x0038190F (440B)
-// Chat send via TheNetwork: builds recipient mask from slot list, formats via TheGameText fetch.
-// Evidence: chain from 0x002AA231 bfmeAskRV; strings APT:ObserverChat APT:GlobalChat APT:PrivateChat;
-// callees rowed vector copy 0x2CFAB9 push_back 0x4DFCB0 getSlot 0x3FF29F isHuman 0x3FF0F1
-// nameToKey 0x9FA65 findPlayer 0x2A7A41 format 0x6CB660 StringBase copy 0x37050 release 0x36E70 free 0x30830.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+//
+// In-game chat send, retail 0x0038190F..0x00381AC7 (440 B, cdecl, two
+// arguments).  The WorldBuilder twin 0x00F8D7D0 is ChatSystem::InGame::
+// SendMessageA in GameNetwork/ChatSystem.cpp (asserts at lines 146..179 name
+// TheNetwork, localPlayer, slot and player); the A suffix is windows.h's
+// SendMessage macro.  The original scope (namespace or nested class) is not
+// established, so the body keeps an address-derived name.  The only caller,
+// ChatWindowsInGame vslot 0x005AFA0E, forwards its (text, selected IDs)
+// arguments and returns the result.
+//
+// Behaviour (target bytes and the WB twin): no network or game mode 3 (+0x110
+// of TheGameLogic) or no local player (+0x10 of ThePlayerList) fails.  A local
+// player that is not active (bfmeAskRV false) speaks as an observer.  The
+// selected slot list is copied; when empty it gathers every human slot of the
+// eight.  Each listed slot whose player resolves by name key adds its bit to
+// the mask, except that an observer only reaches inactive players.  The text
+// is formatted with APT:ObserverChat, APT:GlobalChat (nothing selected) or
+// APT:PrivateChat and sent through TheNetwork's vslot 0x64.
+//
+// Selected IDs use the chat windows' scalar vector view (ChatWindowsInGame.cpp
+// SelectionIDs; copy 0x002CFAB9, push_back 0x004DFCB0 by pin).  The
+// declaration-only push_back specialization keeps this TU from emitting its
+// own copy, so the call binds the pinned folded body.
 #include <vector>
+#include "ascii_string.h"
+#include "unicode_string.h"
+#include "GameLogicObjectLookupView.h"
 
-typedef int Int;
-typedef bool Bool;
-typedef unsigned short Wide;
-typedef unsigned short WideChar;
+template <class T> class Rva002444BEAllocator : public _STL::allocator<T> {};
+typedef _STL::vector<int, Rva002444BEAllocator<int> > SelectionIDs;
+template <> void SelectionIDs::push_back(const int &);
 
-class AsciiString;
-class UnicodeString;
-
-template <class T>
-class StringBase
+enum NameKeyType
 {
-	friend class AsciiString;
-	friend class UnicodeString;
-	struct Header
-	{
-		int ref_count;
-		unsigned short length;
-		unsigned short capacity;
-		T data[1];
-	};
-	Header *m_data;
-	StringBase(const T *s);
-	StringBase(const StringBase<T> &that);
-	void releaseBuffer();
-public:
-	StringBase() : m_data(0) {}
-	~StringBase() { releaseBuffer(); }
-};
-
-class AsciiString : public StringBase<char>
-{
-public:
-	AsciiString() {}
-	AsciiString(const AsciiString &o) : StringBase<char>(o) {}
-	~AsciiString() {}
-};
-
-class UnicodeString : public StringBase<Wide>
-{
-public:
-	UnicodeString() {}
-	UnicodeString(const UnicodeString &o) : StringBase<Wide>(o) {}
-	~UnicodeString() {}
-	void __cdecl format(const UnicodeString *fmt, ...);
-	void __cdecl format(const Wide *fmt, ...);
-	const WideChar *str() const
-	{
-		static const WideChar TheNullChr = 0;
-		return m_data ? &m_data->data[0] : &TheNullChr;
-	}
+	NAMEKEY_INVALID = 0,
+	NAMEKEY_MAX = 1 << 23
 };
 
 class BfmeMemberRV
@@ -79,24 +46,16 @@ public:
 	bool bfmeAskRV();
 };
 
-class Player
-{
-public:
-	int dummy;
-};
-
-enum NameKeyType
-{
-	NAMEKEY_INVALID = 0,
-	NAMEKEY_MAX = 1 << 23
-};
+class Player;
 
 class PlayerList
 {
 public:
 	Player *findPlayerWithNameKey(NameKeyType key);
+
 private:
 	char m_pad00[0x10];
+
 public:
 	BfmeMemberRV *m_local10;
 };
@@ -111,10 +70,12 @@ class GameSlot
 {
 public:
 	bool isHuman() const;
+
 private:
 	void *m_vtable;
 	int m_state;
 	char m_pad08[0x34 - 0x08];
+
 public:
 	AsciiString m_name34;
 };
@@ -125,18 +86,10 @@ public:
 	GameSlot *getSlot(int i);
 };
 
-class GameLogic
-{
-public:
-	char m_pad[0x110];
-	int m_110;
-};
-
 class GameTextInterface
 {
 public:
 	virtual ~GameTextInterface() {}
-	virtual void slot00() = 0;
 	virtual void slot01() = 0;
 	virtual void slot02() = 0;
 	virtual void slot03() = 0;
@@ -152,14 +105,14 @@ public:
 	virtual void slot13() = 0;
 	virtual void slot14() = 0;
 	virtual void slot15() = 0;
-	virtual const UnicodeString &slot44(const char *label, bool *exists = 0) = 0;
+	virtual void slot16() = 0;
+	virtual const UnicodeString &fetch(const char *label, bool *exists = 0) = 0; // +0x44
 };
 
 class NetworkInterface
 {
 public:
 	virtual ~NetworkInterface() {}
-	virtual void n00() = 0;
 	virtual void n01() = 0;
 	virtual void n02() = 0;
 	virtual void n03() = 0;
@@ -184,7 +137,8 @@ public:
 	virtual void n22() = 0;
 	virtual void n23() = 0;
 	virtual void n24() = 0;
-	virtual void sendChat(UnicodeString text, int mask) = 0;
+	virtual void n25() = 0;
+	virtual void sendChat(UnicodeString text, int playerMask) = 0; // +0x68
 };
 
 extern NetworkInterface *TheNetwork;
@@ -194,70 +148,47 @@ extern GameInfo *TheGameInfo;
 extern NameKeyGenerator *TheNameKeyGenerator;
 extern GameTextInterface *TheGameText;
 
-class ModuleData
-{
-public:
-	int dummy;
-};
-
-bool Rva0038190FSendChat(const UnicodeString &msg, const _STL::vector<unsigned int> &selected)
+bool Rva0038190FSendChat(const UnicodeString &text, const SelectionIDs &selected)
 {
 	if (TheNetwork == 0)
 		return false;
 	if (TheGameLogic->m_110 == 3)
 		return false;
-	BfmeMemberRV *local = ThePlayerList->m_local10;
-	if (local == 0)
+	BfmeMemberRV *localPlayer = ThePlayerList->m_local10;
+	if (localPlayer == 0)
 		return false;
-	_STL::vector<unsigned int> list(selected);
-	bool notRV = !local->bfmeAskRV();
-	_ReadWriteBarrier();
-	unsigned int mask = 0;
-	if (list.begin() == list.end())
+	bool observer = !localPlayer->bfmeAskRV();
+	int playerMask = 0;
+	SelectionIDs ids(selected);
+	if (ids.empty())
 	{
 		for (int i = 0; i < 8; ++i)
 		{
 			GameSlot *slot = TheGameInfo->getSlot(i);
-			if (slot == 0)
-				continue;
-			if (!slot->isHuman())
-				continue;
-			((_STL::vector<const ModuleData *> *)&list)->push_back(*(const ModuleData *const *)&i);
+			if (slot && slot->isHuman())
+				ids.push_back(i);
 		}
 	}
-	for (_STL::vector<unsigned int>::iterator it = list.begin(); (it ? it : it) != list.end(); ++it)
+	for (SelectionIDs::iterator it = ids.begin(); it != ids.end(); ++it)
 	{
-		short idx = *it;
-		GameSlot *slot = TheGameInfo->getSlot(idx);
+		int id = *it;
+		GameSlot *slot = TheGameInfo->getSlot(id);
 		if (slot == 0)
 			continue;
-		NameKeyType key = TheNameKeyGenerator->nameToKey(slot->m_name34);
-		Player *player = ThePlayerList->findPlayerWithNameKey(key);
+		Player *player = ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(slot->m_name34));
 		if (player == 0)
 			continue;
-		if (notRV)
-		{
-			if (((BfmeMemberRV *)player)->bfmeAskRV())
-				continue;
-		}
-		mask |= 1u << idx;
+		if (observer && ((BfmeMemberRV *)player)->bfmeAskRV())
+			continue;
+		playerMask |= 1 << id;
 	}
-	UnicodeString chatText;
-	if (notRV)
-	{
-		chatText.format(&TheGameText->slot44("APT:ObserverChat", 0), msg.str());
-	}
+	UnicodeString message;
+	if (observer)
+		message.format(&TheGameText->fetch("APT:ObserverChat"), text.str());
+	else if (selected.empty())
+		message.format(&TheGameText->fetch("APT:GlobalChat"), text.str());
 	else
-	{
-		if (selected.begin() == selected.end())
-		{
-			chatText.format(&TheGameText->slot44("APT:GlobalChat", 0), msg.str());
-		}
-		else
-		{
-			chatText.format(&TheGameText->slot44("APT:PrivateChat", 0), msg.str());
-		}
-	}
-	TheNetwork->sendChat(chatText, mask);
+		message.format(&TheGameText->fetch("APT:PrivateChat"), text.str());
+	TheNetwork->sendChat(message, playerMask);
 	return true;
 }
