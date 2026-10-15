@@ -119,6 +119,12 @@ private:
 
 #include <vector>
 #include <list>
+// Compare typed nodes locally, as in NetPacket.cpp; retail inlines this test.
+namespace _STL {
+template <class T, class L, class R>
+static inline bool operator!=(const _List_iterator<T, L>& a, const _List_iterator<T, R>& b)
+{ return a._M_node != b._M_node; }
+}
 template<> void _STL::vector<RvaSmartPtr12>::push_back(const RvaSmartPtr12 &);
 template<> RvaSmartPtr12 *_STL::vector<RvaSmartPtr12>::erase(RvaSmartPtr12 *, RvaSmartPtr12 *);
 

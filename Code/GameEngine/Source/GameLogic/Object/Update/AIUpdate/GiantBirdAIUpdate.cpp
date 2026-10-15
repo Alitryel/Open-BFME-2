@@ -34,6 +34,13 @@
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../../Include/GameLogic/ContainmentListView.h"
 
+// Compare typed nodes locally, as in NetPacket.cpp; retail inlines this test.
+namespace _STL {
+template <class T, class L, class R>
+static inline bool operator!=(const _List_iterator<T, L>& a, const _List_iterator<T, R>& b)
+{ return a._M_node != b._M_node; }
+}
+
 namespace _STL {template<> _List_base<Rva0036ADF9Element,allocator<Rva0036ADF9Element> >::~_List_base();}
 
 typedef bool Bool;
