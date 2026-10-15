@@ -962,7 +962,7 @@ public:
 	virtual float rva00468B5B(float value) = 0;
 	virtual void rva00468C60(const Coord3D *pos) = 0;
 	virtual bool rva00468C7B(Coord3D *pos) = 0;
-	virtual void gap147() = 0;
+	virtual bool isFlankedBy(Object *attacker) = 0;
 	virtual void rva0046E2BC() = 0;
 	virtual void gap149() = 0;
 	virtual float rva0046F8DA() = 0;
@@ -1144,6 +1144,7 @@ public:
 	virtual bool rva0046BB38(Object *other);
 	virtual void rva0046FE99(_STL::list<Object *> &out);
 	virtual void ClassifyBeforeOnAfterInvalidPortal(_STL::vector<ObjectID> &before, _STL::vector<ObjectID> &on, _STL::vector<ObjectID> &after);
+	virtual bool isFlankedBy(Object *attacker);
 	virtual AsciiString rva0046D1AC();
 	virtual void rva0046F7C9(Object *obj);
 	virtual void rva00469F2F(Object *obj);
@@ -2681,6 +2682,62 @@ void HordeContain::rva0046E2BC()
 {
 	m_2E8 = true;
 	m_2DC.clear();
+}
+
+// ?isFlankedBy@HordeContain@@UAE_NPAVObject@@@Z @0x00473D55: slot 147 of the
+// +0x11C interface (WB HordeContain::isFlankedBy twin 0x010D1DC0). With a flank
+// arc (module data +0x25C, degrees) below 360, an attacker of kind 13 whose
+// +0x250 interface answers slot 149 flanks us while its map entry at +0x2DC
+// (an expiry frame) is still ahead of the current frame. Without an entry the
+// attacker's 2D direction is tested against the half-arc cosine for our facing
+// and each angle of the +0x2CC list: a hit records an expiry frame (now + module
+// data +0x264) and clears +0x2E8, a miss records 0. The direction is built from
+// a register copy of the attacker position (retail's Coord3D copies member by
+// member), so no component is stored before the subtraction.
+bool HordeContain::isFlankedBy(Object *attacker)
+{
+	const HordeContainModuleDataFields *data = fields();
+	if (data->m_25C >= 360.0f)
+		return false;
+	if (!attacker->hordeKindMask(13))
+		return false;
+	Rva0028C197Slot149 *other = (Rva0028C197Slot149 *)attacker->rva0028C197();
+	if (!other || !other->slot149())
+		return false;
+	_STL::map<int, Rva00462D35Mapped>::iterator it = m_2DC.find(attacker->getID());
+	if (it != m_2DC.end())
+		return TheGameLogic->m_frame < (*it).second.m_bits;
+	float halfArc = cos(data->m_25C * 3.141f / 360.0f);
+	const Coord3D *pos = attacker->getPosition();
+	const Coord3D *ourPos = m_object->getPosition();
+	Coord3D delta;
+	delta.set(pos);
+	delta.sub(ourPos);
+	Coord3D dir;
+	dir.set(delta.x, delta.y, 0.0f);
+	dir.Normalize();
+	const Coord3D *facing = ((const Thing *)m_object)->getUnitDirectionVector2D();
+	if (facing->x * dir.x + facing->z * dir.z + facing->y * dir.y < halfArc)
+	{
+		int id = attacker->getID();
+		unsigned int now = TheGameLogic->m_frame;
+		m_2DC[id].m_bits = now + data->m_264;
+		m_2E8 = false;
+		return true;
+	}
+	for (float *angle = m_2CCBegin; angle != m_2CCEnd; ++angle)
+	{
+		if (Cos(*angle) * dir.x + Sin(*angle) * dir.y < halfArc)
+		{
+			int id = attacker->getID();
+			unsigned int now = TheGameLogic->m_frame;
+			m_2DC[id].m_bits = now + data->m_264;
+			m_2E8 = false;
+			return true;
+		}
+	}
+	m_2DC[attacker->getID()].m_bits = 0;
+	return false;
 }
 
 // ?endMove@HordeContain@@UAEXXZ @0x0046A0B2: slot 154; while our Object's
