@@ -72,7 +72,8 @@ extern const void *const g_007CE338[];
 class __declspec(novtable) UVBufferClass : public ShareBufferClass<Vector2>
 {
 public:
-	UVBufferClass(int count, const char *msg) : ShareBufferClass<Vector2>(count, msg)
+	// Keep the inlined construction here; MatInfoUVBufferO1Inlines owns the retail body.
+	__declspec(dllimport) __forceinline UVBufferClass(int count, const char *msg) : ShareBufferClass<Vector2>(count, msg)
 	{
 		*(const void **)this = g_007CE338;
 		CRC = 0xFFFFFFFF;
