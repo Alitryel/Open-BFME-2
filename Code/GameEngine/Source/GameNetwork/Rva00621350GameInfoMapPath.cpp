@@ -37,7 +37,7 @@ static inline void concatStringBase(AsciiString &s, const AsciiString &value)
 class GameState
 {
 public:
-	AsciiString rva0010e580MapPathCode(const AsciiString &path) const;
+	AsciiString unpackPortableMapPath(const AsciiString &path) const;
 	AsciiString portableMapPathToRealMapPath(const AsciiString &path) const;
 };
 
@@ -55,7 +55,7 @@ AsciiString _Rva00621350GameInfoMapPath(const AsciiString &input, Bool option)
 {
 	AsciiString path = input;
 	if (option)
-		path = TheGameState->rva0010e580MapPathCode(path);
+		path = TheGameState->unpackPortableMapPath(path);
 
 	AsciiString actualpath;
 	AsciiString token;

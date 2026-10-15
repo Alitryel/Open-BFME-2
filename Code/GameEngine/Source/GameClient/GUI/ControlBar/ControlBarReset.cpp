@@ -154,7 +154,7 @@ extern GameWindowTransitionsHandler *TheTransitionHandler;
 class GameWindowTransitionsHandler
 {
 public:
-	void rva001DC42C(AsciiString groupName, bool skipPending);
+	void remove(AsciiString groupName, bool skipPending);
 };
 
 class HasResetV
@@ -313,7 +313,7 @@ void ControlBar::reset()
 	} while (remaining != 0);
 
 	if (TheTransitionHandler != 0)
-		TheTransitionHandler->rva001DC42C(AsciiString("ControlBarArrow"), 0);
+		TheTransitionHandler->remove(AsciiString("ControlBarArrow"), 0);
 	m_genArrow = 0;
 
 	m_lastFlashedAtPointValue |= -1;
