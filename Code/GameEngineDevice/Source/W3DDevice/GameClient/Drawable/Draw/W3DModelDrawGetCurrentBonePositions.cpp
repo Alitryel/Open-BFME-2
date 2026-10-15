@@ -145,14 +145,120 @@ private:
 	Matrix3D Transform;													// +0x18
 };
 
+// 0x000B51DA support. The 16-byte state copied by the rowed 0x00078AE3:
+// bit fields 0..2 / 3..29 / 30 and words +4/+8/+C (bit 31 preserved); the
+// rowed 0x000B4653 returns its looked-up entry. Original names unasserted.
+class CreateAHeroManager;
+extern CreateAHeroManager *TheCreateAHeroManager;
+struct CreateAHeroManagerView { char m_pad000[0x184]; bool m_at184; };
+class Rva000B4653 { public: void *rva000B4653(int index); };
+class Rva00078AE3
+{
+public:
+	unsigned int m_count : 3;
+	unsigned int m_middle : 27;
+	unsigned int m_flag30 : 1;
+	unsigned int m_reserved31 : 1;
+	unsigned int m_word4;
+	unsigned int m_word8;
+	unsigned int m_wordC;
+	Rva00078AE3 &rva00078AE3(const Rva00078AE3 *other);
+	__forceinline bool same(const Rva00078AE3 &b) const
+	{
+		if (m_count != b.m_count)
+			return false;
+		if (((Rva000B4653 *)this)->rva000B4653(0) != ((Rva000B4653 *)&b)->rva000B4653(0))
+			return false;
+		if (bool(m_flag30) != bool(b.m_flag30))
+			return false;
+		return true;
+	}
+	__forceinline Rva00078AE3(unsigned int key)
+	{
+		m_count = 0; m_middle = 0; m_flag30 = 0; m_word4 = 0; m_word8 = 0; m_wordC = 0;
+		if (key & 0xFFFFFF) {
+			m_count = 1; m_middle = 0; m_flag30 = 0; m_word4 = key; m_word8 = 0; m_wordC = 0;
+		}
+	}
+};
+
+// Primary vtable slots read by 0x000B51DA: +0xC4 (slot 49) and +0x100 (slot 64).
 class W3DModelDrawBase
 {
 public:
 	virtual void base00();
+	virtual void base01();
+	virtual void base02();
+	virtual void base03();
+	virtual void base04();
+	virtual void base05();
+	virtual void base06();
+	virtual void base07();
+	virtual void base08();
+	virtual void base09();
+	virtual void base10();
+	virtual void base11();
+	virtual void base12();
+	virtual void base13();
+	virtual void base14();
+	virtual void base15();
+	virtual void base16();
+	virtual void base17();
+	virtual void base18();
+	virtual void base19();
+	virtual void base20();
+	virtual void base21();
+	virtual void base22();
+	virtual void base23();
+	virtual void base24();
+	virtual void base25();
+	virtual void base26();
+	virtual void base27();
+	virtual void base28();
+	virtual void base29();
+	virtual void base30();
+	virtual void base31();
+	virtual void base32();
+	virtual void base33();
+	virtual void base34();
+	virtual void base35();
+	virtual void base36();
+	virtual void base37();
+	virtual void base38();
+	virtual void base39();
+	virtual void base40();
+	virtual void base41();
+	virtual void base42();
+	virtual void base43();
+	virtual void base44();
+	virtual void base45();
+	virtual void base46();
+	virtual void base47();
+	virtual void base48();
+	virtual int base49();
+	virtual void base50();
+	virtual void base51();
+	virtual void base52();
+	virtual void base53();
+	virtual void base54();
+	virtual void base55();
+	virtual void base56();
+	virtual void base57();
+	virtual void base58();
+	virtual void base59();
+	virtual void base60();
+	virtual void base61();
+	virtual void base62();
+	virtual void base63();
+	virtual void base64(unsigned int first, unsigned int zero, unsigned int last);
 
 protected:
-	void *m_moduleData;					// +0x04
-	void *m_drawable;					// +0x08
+	struct ModuleDataView { char m_pad00[0x68]; bool m_at68; };
+	struct ThingTemplateView { char m_pad00[0x11C]; unsigned int m_flags11C; };
+	struct ObjectView { char m_pad00[4]; ThingTemplateView *m_template; };
+	struct DrawableView { char m_pad00[0xFC]; ObjectView *m_object; };
+	ModuleDataView *m_moduleData;		// +0x04
+	DrawableView *m_drawable;			// +0x08
 };
 
 class W3DModelDrawInterface
@@ -163,15 +269,39 @@ public:
 	virtual void i02();
 	virtual void i03();
 	virtual Int getCurrentBonePositions(const char *boneNamePrefix, Int startIndex, Coord3D *positions, Matrix3D *transforms, Int maxBones) const;	// slot 4
+
+	virtual void i05();
+	virtual void i06();
+	virtual void i07();
+	virtual void i08();
+	virtual void i09();
+	virtual void i10();
+	virtual void i11();
+	virtual void i12();
+	virtual void i13();
+	virtual void i14();
+	virtual void i15();
+	virtual void i16();
+	virtual void i17();
+	virtual void i18();
+	virtual void i19();
+	virtual void i20();
+	virtual void rva000B51DA(unsigned int key) = 0;	// slot 21 (0x007CBBCC)
 };
 
 class W3DModelDraw : public W3DModelDrawBase, public W3DModelDrawInterface
 {
 public:
 	virtual Int getCurrentBonePositions(const char *boneNamePrefix, Int startIndex, Coord3D *positions, Matrix3D *transforms, Int maxBones) const;
+	virtual void rva000B51DA(unsigned int key);
 
 private:
-	char m_pad010[0x50 - 0x10];
+	unsigned int m_at10;				// +0x10
+	unsigned int m_at14;				// +0x14, first word handed to slot 64 (cleared)
+	unsigned int m_at18;				// +0x18, last word handed to slot 64
+	unsigned int m_at1C[3];				// +0x1C
+	Rva00078AE3 m_state;				// +0x28, compact 16-byte condition state
+	char m_pad038[0x50 - 0x38];
 	RenderObjClass *m_renderObject;		// +0x50
 };
 
@@ -228,4 +358,34 @@ Int W3DModelDraw::getCurrentBonePositions(const char *boneNamePrefix, Int startI
 	}
 
 	return posCount;
+}
+
+// ?rva000B51DA@W3DModelDraw@@UAEXI@Z, retail 0x000B51DA..0x000B52CD (243B),
+// thiscall RET 4 on the draw interface (+0x0C): slot 21 of 0x007CBB78 (also
+// 0x007CBF08 / 0x007CC598). Target facts: when module data +0x68 is set it
+// builds the new 16-byte state from the key (count 1 / word +4 when the low
+// 24 bits are non-zero), sets bit 30 when the drawable's object template has
+// flag 0x40000000 and TheCreateAHeroManager +0x184 is set, and if the state
+// at +0x28 differs (count bits, 0x000B4653 entry, bit 30) copies it through
+// 0x00078AE3; then, when primary slot 49 answers non-zero, clears +0x14 and
+// calls slot 64 (old +0x14, 0, +0x18). ZH's model-condition state update is
+// only a semantic lead; the method name stays address-derived.
+void W3DModelDraw::rva000B51DA(unsigned int key)
+{
+	if (!m_moduleData->m_at68)
+		return;
+	Rva00078AE3 next(key);
+	DrawableView *draw = m_drawable;
+	ObjectView *object = draw ? draw->m_object : 0;
+	if (object && (object->m_template->m_flags11C & 0x40000000) && ((CreateAHeroManagerView *)TheCreateAHeroManager)->m_at184)
+		next.m_flag30 = 1;
+	Rva00078AE3 *current = &m_state;
+	if (current->same(next))
+		return;
+	current->rva00078AE3(&next);
+	if (base49()) {
+		unsigned int first = m_at14, last = m_at18;
+		m_at14 = 0;
+		base64(first, 0, last);
+	}
 }
