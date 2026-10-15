@@ -110,7 +110,41 @@ public:
 };
 extern GlobalData *TheWritableGlobalData;
 
-extern const char *TheDamageNames[];
+// Retail RVA 0x009B8968: 27 damage names plus the null terminator.
+// ArmorTemplate::parseArmorCoefficients (0x001D8E99) scans this table;
+// Armor::adjustDamage (0x001D90A1) indexes it by the same damage type.
+// The existing caller spelling supplies the name; values/order and extent
+// come from retail. The following NORMAL/BECOME_UNDEAD table is separate.
+const char *TheDamageNames[] = {
+    "FORCE",
+    "CRUSH",
+    "SLASH",
+    "PIERCE",
+    "SIEGE",
+    "STRUCTURAL",
+    "FLAME",
+    "HEALING",
+    "UNRESISTABLE",
+    "WATER",
+    "PENALTY",
+    "FALLING",
+    "TOPPLING",
+    "REFLECTED",
+    "PASSENGER",
+    "MAGIC",
+    "CHOP",
+    "HERO",
+    "SPECIALIST",
+    "URUK",
+    "HERO_RANGED",
+    "FLY_INTO",
+    "UNDEFINED",
+    "LOGICAL_FIRE",
+    "CAVALRY",
+    "CAVALRY_RANGED",
+    "POISON",
+    0,
+};
 
 template <class T> inline const T &armorMin(const T &a, const T &b)
 {
