@@ -47,6 +47,73 @@ struct AptMatrix {
   m[2][0]=0.0f;m[2][1]=0.0f;m[2][2]=1.0f;m[2][3]=0.0f;
  }
 };
+#include "../../../../../../reference/shims/wwmath/Vector2.h"
+// CameraClass slots 0x40/0x44 in retail are getWidth/getHeight on the display;
+// this method's camera view supplies Set_Viewport/Set_Aspect_Ratio (nonvirtual
+// rowed members) and slot 0x54. Slot names are ABI placeholders.
+class CameraClass {
+public:
+	inline void Set_Viewport(const Vector2 &min, const Vector2 &max);
+	void Set_Aspect_Ratio(float);
+	virtual void cam00();
+	virtual void cam01();
+	virtual void cam02();
+	virtual void cam03();
+	virtual void cam04();
+	virtual void cam05();
+	virtual void cam06();
+	virtual void cam07();
+	virtual void cam08();
+	virtual void cam09();
+	virtual void cam10();
+	virtual void cam11();
+	virtual void cam12();
+	virtual void cam13();
+	virtual void cam14();
+	virtual void cam15();
+	virtual void cam16();
+	virtual void cam17();
+	virtual void cam18();
+	virtual void cam19();
+	virtual void cam20();
+	virtual void cam21(const AptMatrix &);
+};
+// CameraClass::Set_Viewport (rowed 0x0007E6A6, CameraSetViewportO1.cpp) is
+// visible here: its ViewportMin/ViewportMax (+0xC8/+0xD0) stores and
+// FrustumValid clear (+0xFC) let cl pack Render's dead display extents into
+// the viewport locals, as retail's frame does.
+struct CameraViewportFields { char pad[0xC8]; Vector2 ViewportMin; Vector2 ViewportMax; char padD8[0xFC - 0xD8]; bool FrustumValid; };
+inline void CameraClass::Set_Viewport(const Vector2 &min, const Vector2 &max)
+{
+	CameraViewportFields *f = (CameraViewportFields *)this;
+	f->ViewportMin = min;
+	f->ViewportMax = max;
+	f->FrustumValid = false;
+}
+// Display vtable slots 0x40/0x44 return the unsigned viewport extents.
+class Display {
+public:
+	virtual void d00();
+	virtual void d01();
+	virtual void d02();
+	virtual void d03();
+	virtual void d04();
+	virtual void d05();
+	virtual void d06();
+	virtual void d07();
+	virtual void d08();
+	virtual void d09();
+	virtual void d10();
+	virtual void d11();
+	virtual void d12();
+	virtual void d13();
+	virtual void d14();
+	virtual void d15();
+	virtual unsigned getWidth();
+	virtual unsigned getHeight();
+};
+extern Display *TheDisplay;
+bool Rva00118660Call(void *, void *);
 class LightClass;
 class AptRenderView {
 public:
@@ -101,7 +168,7 @@ public:
 	virtual int boneCount();
 	virtual const char *boneName(int);
 	virtual void slot50();
-	virtual void slot51();
+	virtual AptMatrix slot51(int);
 	virtual void slot52();
 	virtual void slot53();
 	virtual void slot54();
@@ -182,10 +249,13 @@ public:
   int second,first;
  };
  void AddRenderObj(unsigned unused,const AsciiString &name,const StringBase<char> &mode);
+ void Render(int x, int y, int width, int height);
  char unknown00[0xC];
  AptSceneView *scene;
- char unknown10[8];
- AptRenderView *camera;
+ CameraClass *camera;
+ bool aspect;
+ char pad15[3];
+ AptRenderView *cameraObj;
  int cameraBone;
  AnimInfo anim;
 };
@@ -203,11 +273,11 @@ void W3DAptComponentView3D::AddRenderObj(unsigned unused,const AsciiString &name
  for(int i=0;i<count;++i) {
   const char *bone=obj->boneName(i);
   if (!bone || !*bone) continue;
-  if (!camera && !_strcmpi(bone,"CAMERA")) {
+  if (!cameraObj && !_strcmpi(bone,"CAMERA")) {
    ++obj->refCount;
-   AptRenderView *old=camera;
+   AptRenderView *old=cameraObj;
    if (old && --old->refCount==0) old->release();
-   camera=obj;cameraBone=i;
+   cameraObj=obj;cameraBone=i;
   } else if (strstr(bone,"LIGHT")) {
    const char *suffix=strchr(bone,'_');
    if (suffix && *suffix) {
@@ -238,4 +308,33 @@ void W3DAptComponentView3D::AddRenderObj(unsigned unused,const AsciiString &name
  int modeIndex=Rva00740A60Get(mode);
  anim.Init(name,(Rva00740AB4RefTarget *)obj,modeIndex);
  if (--obj->refCount==0) obj->release();
+}
+// Native 0x007405A9..0x007406E1 RET16. W3DAptComponentView3D::Render view:
+// normalized viewport from the int rect against the unsigned display extents,
+// camera viewport/aspect, the camera bone transform and the WW3D scene render.
+// Shape follows the BFME 1 donor Rva00789900ViewportRender.cpp, with the
+// display extents read as one Vector2 (getHeight evaluated first).
+void W3DAptComponentView3D::Render(int x, int y, int width, int height) {
+ float w = (float)width;
+ float h = (float)height;
+ Vector2 screen((float)TheDisplay->getWidth(), (float)TheDisplay->getHeight());
+ float invw = 1.0f / screen.X;
+ Vector2 vMin;
+ vMin.X = x * invw;
+ float invh = 1.0f / screen.Y;
+ vMin.Y = y * invh;
+ Vector2 vMax(vMin.X + w * invw, vMin.Y + h * invh);
+ if (vMin.X < 0.0f) vMin.X = 0.0f;
+ if (vMin.Y < 0.0f) vMin.Y = 0.0f;
+ if (vMax.X > 1.0f) vMax.X = 1.0f;
+ if (vMax.Y > 1.0f) vMax.Y = 1.0f;
+ camera->Set_Viewport(vMin, vMax);
+
+ if (aspect)
+  camera->Set_Aspect_Ratio(w / h);
+ if (cameraObj) {
+  AptMatrix xf = cameraObj->slot51(cameraBone);
+  camera->cam21(xf);
+ }
+ Rva00118660Call(scene, camera);
 }
