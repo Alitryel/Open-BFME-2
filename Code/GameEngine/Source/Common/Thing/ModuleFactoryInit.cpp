@@ -469,6 +469,7 @@ class SpawnPointProductionExitUpdateModuleData { public: static ModuleData *frie
 class SpawnUnitBehavior { public: static Module *friend_newModuleInstance(Thing *,const ModuleData *); };
 class SpawnUnitBehaviorModuleData { public: static ModuleData *friend_newModuleData(INI *); };
 class SpawnedModelConditionCreate { public: static Module *friend_newModuleInstance(Thing *,const ModuleData *); };
+class SpawnedModelConditionCreateModuleData { public: static ModuleData *friend_newModuleData(INI *); };
 class SpecialAbilityUpdate { public: static Module *friend_newModuleInstance(Thing *,const ModuleData *); };
 class SpecialAbilityUpdateModuleData { public: static ModuleData *friend_newModuleData(INI *); };
 class SpecialDisguiseUpdate { public: static Module *friend_newModuleInstance(Thing *,const ModuleData *); };
@@ -602,7 +603,6 @@ ModuleData *ModuleFactoryDataAt00254857(INI *);
 ModuleData *ModuleFactoryDataAt00254DB3(INI *);
 ModuleData *ModuleFactoryDataAt00255440(INI *);
 ModuleData *ModuleFactoryDataAt00255ED8(INI *);
-ModuleData *ModuleFactoryDataAt00257C3B(INI *);
 void ModuleFactoryHookAt00467564(void *,int,void *);
 void ModuleFactoryHookAt00469B9F(void *,int,void *);
 void ModuleFactoryHookAt0047A6A4(void *,int,void *);
@@ -848,7 +848,7 @@ void ModuleFactory::init() {
  reinterpret_cast<Rva002573EE*>(this)->rva002573EE((int)&ActivateModuleSpecialPower::friend_newModuleInstance,(int)&ActivateModuleSpecialPowerModuleData::friend_newModuleData,0x0,(ModuleType)0,AsciiString("ActivateModuleSpecialPower"),1);
  reinterpret_cast<Rva002573EE*>(this)->rva002573EE((int)&LockWeaponCreate::friend_newModuleInstance,(int)&LockWeaponCreateModuleData::friend_newModuleData,0x0,(ModuleType)0,AsciiString("LockWeaponCreate"),8);
  reinterpret_cast<Rva002573EE*>(this)->rva002573EE((int)&PreorderCreate::friend_newModuleInstance,(int)&W3DDebrisDraw::friend_newModuleData,0x0,(ModuleType)0,AsciiString("PreorderCreate"),8);
- reinterpret_cast<Rva002573EE*>(this)->rva002573EE((int)&SpawnedModelConditionCreate::friend_newModuleInstance,(int)&ModuleFactoryDataAt00257C3B,0x0,(ModuleType)0,AsciiString("SpawnedModelConditionCreate"),8);
+ reinterpret_cast<Rva002573EE*>(this)->rva002573EE((int)&SpawnedModelConditionCreate::friend_newModuleInstance,(int)&SpawnedModelConditionCreateModuleData::friend_newModuleData,0x0,(ModuleType)0,AsciiString("SpawnedModelConditionCreate"),8);
  reinterpret_cast<Rva002573EE*>(this)->rva002573EE((int)&SupplyCenterCreate::friend_newModuleInstance,(int)&W3DDebrisDraw::friend_newModuleData,0x0,(ModuleType)0,AsciiString("SupplyCenterCreate"),8);
  reinterpret_cast<Rva002573EE*>(this)->rva002573EE((int)&SupplyWarehouseCreate::friend_newModuleInstance,(int)&W3DDebrisDraw::friend_newModuleData,0x0,(ModuleType)0,AsciiString("SupplyWarehouseCreate"),8);
  reinterpret_cast<Rva002573EE*>(this)->rva002573EE((int)&SpecialPowerCreate::friend_newModuleInstance,(int)&W3DDebrisDraw::friend_newModuleData,0x0,(ModuleType)0,AsciiString("SpecialPowerCreate"),8);
