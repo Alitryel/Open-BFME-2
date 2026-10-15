@@ -7,6 +7,13 @@
 #include <list>
 #include <vector>
 
+// Retail compares typed list nodes inline, as in NetPacket.cpp.
+namespace _STL {
+template <class T, class L, class R>
+static __forceinline bool operator!=(const _List_iterator<T, L> &a, const _List_iterator<T, R> &b)
+{ return a._M_node != b._M_node; }
+}
+
 #include <math.h>
 #include "Coord3D.h"
 inline float Coord3D::length() const { return (float)sqrt(x * x + y * y + z * z); }

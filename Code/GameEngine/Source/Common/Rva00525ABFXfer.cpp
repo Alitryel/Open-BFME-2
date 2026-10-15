@@ -11,6 +11,14 @@
 // 4-byte STL lists plus int, same as Rva00526275 ctor precedent.
 #include <list>
 
+// Retail compares these typed list nodes inline; avoid an incidental copy of
+// the shared base-iterator comparator (as in NetPacket.cpp).
+namespace _STL {
+template <class T, class L, class R>
+static __forceinline bool operator!=(const _List_iterator<T, L> &a, const _List_iterator<T, R> &b)
+{ return a._M_node != b._M_node; }
+}
+
 class AsciiString;
 class UnicodeString;
 class PooledString;
