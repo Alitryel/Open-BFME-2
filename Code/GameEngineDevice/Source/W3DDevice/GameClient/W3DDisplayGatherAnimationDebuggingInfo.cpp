@@ -84,9 +84,18 @@ public:
 	Int m_animDebugMode;		// +0x9CC, index into TheAnimDebugModeNames
 };
 extern GlobalData *TheWritableGlobalData;
-extern const char *TheAnimDebugModeNames[];	// VA 0x00DB3BB4
+// The indexed debug strings below own the complete null-terminated retail
+// tables at DB3BB4 (four pointers) and DBC7AC (eight pointers). The existing
+// gather body establishes their roles; data_rows verifies each literal and
+// pointer independently. These spellings retain its existing declarations.
+const char *TheAnimDebugModeNames[] = {
+	"ANIMATION_FILE", "MODEL_CONDITION_STATES", "MODEL_ANIM_STATE", 0
+};
 extern const char *TheWeaponSlotTypeNames[];
-extern const char *TheWeaponStatusNames[];	// VA 0x00DBC7AC
+const char *TheWeaponStatusNames[] = {
+	"READY_TO_FIRE", "OUT_OF_AMMO", "BETWEEN_FIRING_SHOTS", "RELOADING_CLIP",
+	"PRE_ATTACK", "FIRING", "IN_FOLLOW_THRU", 0
+};
 
 class Keyboard
 {
