@@ -38,6 +38,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 class Object;
 class ModuleData;
+// Use the rowed push_back owner at4DFCB0; it calls overflow2DFCF6.
+// This avoids competing copies of its allocator/clear dependencies.
+namespace _STL {
+template<> void vector<const ModuleData *>::push_back(const ModuleData *const &);
+}
+
 class Anim2DCollection;
 class Rva001DA2D5;
 struct Rva002D752DNode;
@@ -126,7 +132,7 @@ public:
 class Matrix3D
 {
 public:
-	__forceinline Matrix3D(const Matrix3D &m) : Row0(m.Row0), Row1(m.Row1), Row2(m.Row2) {}
+	__declspec(dllimport) __forceinline Matrix3D(const Matrix3D &m) : Row0(m.Row0), Row1(m.Row1), Row2(m.Row2) {}
 	Vector4 Row0, Row1, Row2;
 };
 
