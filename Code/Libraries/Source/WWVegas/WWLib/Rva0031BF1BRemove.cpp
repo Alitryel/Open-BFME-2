@@ -7,13 +7,16 @@
 // class identity is unproven, so the address-based class name is retained.
 // Donor: none.
 #define _STLP_NO_EXCEPTIONS 1
-#include <vector>
+#include <stl/_algobase.h>
 
-// Reuse the verified unsigned max body at 0x00013740; this unit
-// must not supply a conflicting out-of-line copy.
+// Retail's vector overflow provider at 0x002DFCF6 inlines this comparison.
+// Keep the overload local so it emits neither a max COMDAT nor an extra call.
 namespace _STL {
-template <> const unsigned int& max<unsigned int>(const unsigned int&, const unsigned int&);
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{ return a < b ? b : a; }
 }
+
+#include <vector>
 
 class ModuleData
 {
