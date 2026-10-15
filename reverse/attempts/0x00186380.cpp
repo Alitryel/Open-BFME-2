@@ -1,4 +1,6 @@
 // ?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z
+// partial score=0.68 date=2026-10-15
+// ?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.9 date=2026-10-14
 // ?Calculate_Texture_Matrix@ScreenMapperClass@@UAEXAAVMatrix4@@@Z
 // partial score=0.88 date=2026-10-13
@@ -46,7 +48,7 @@ void ScreenMapperClass::Calculate_Texture_Matrix(Matrix4 &tex_matrix)
 
 	// multiply by projection matrix
 	// followed by scale and translation
-	tex_matrix = g_mapperProjectionUpload_009EDBF0.Transpose();
+	tex_matrix = (1 ? (g_mapperProjectionUpload_009EDBF0.Transpose()) : (g_mapperProjectionUpload_009EDBF0.Transpose()));
 	tex_matrix[0] *= Scale.X; // entire row since we're pre-multiplying
 	float ky=Scale.Y;
  tex_matrix[1].X=ky*tex_matrix[1].X;

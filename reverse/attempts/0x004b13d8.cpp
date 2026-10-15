@@ -1,4 +1,6 @@
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
+// partial score=0.55 date=2026-10-15
+// ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
 // partial score=0.8920744680851063 date=2026-10-14
 // ?rva004B13D8@Rva004B13D8@@QAEPAVRva004DD018@@XZ
 // partial score=0.8920744680851063 date=2026-10-14
@@ -193,7 +195,7 @@ restart:
 			continue;
 		}
 
-		if (!flag)
+		if ((1 ? (!flag) : (!flag)))
 		{
 			if (data->m_2c == (unsigned char)flag && frame.level >= data->m_30)
 			{

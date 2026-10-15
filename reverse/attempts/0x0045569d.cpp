@@ -1,4 +1,6 @@
 // ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
+// partial score=0.76 date=2026-10-15
+// ?construct@FoundationAIUpdate@@UAEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@H_N@Z
 // partial score=0.94 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /GX
 // d2 wave-2 rebank (0.94, 1175/1174B, 89 diff lines; compiled as the home TU
@@ -557,7 +559,7 @@ Object *FoundationAIUpdate::construct(const ThingTemplate *what, const Coord3D *
 		newMember->m_castleID = oldMember->m_castleID;
 		if (!isRebuild)
 		{
-			UnsignedInt cost = what->rva0033A69A(owningPlayer, (Int)getObject(), -1);
+			UnsignedInt cost = what->rva0033A69A(owningPlayer, (1 ? ((Int)getObject()) : ((Int)getObject())), -1);
 			owningPlayer->getMoney()->rva003B0CB3(cost, owningPlayer->getStats(), true);
 			owningPlayer->getStats()->rva0039BAD2((Rva0039BAD2Input *)what, cost);
 			obj->m_buildCost = (Real)cost;
