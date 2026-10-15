@@ -33,9 +33,6 @@ class Object
 {
 public:
 	bool isSignificantlyAboveTerrain() const;
-	// Keep the +0x1C0 load in this BFME layout view, without exporting a
-	// standalone getter shared with the other private Object layouts.
-	__declspec(dllimport) __forceinline Real getOrientation() const { return m_orientation; }
 	char m_pad00[0x1C0];
 	Real m_orientation;
 };
@@ -157,7 +154,7 @@ void W3DModelDraw::reactToTransformChange(const Matrix3D *oldMtx, const Coord3D 
 				if (TheInGameUI)
 					angle = TheInGameUI->rva0029B3C1(obj);
 				else
-					angle = obj->getOrientation();
+					angle = obj->m_orientation;
 				mtx.Rotate_Z(angle);
 			}
 		}

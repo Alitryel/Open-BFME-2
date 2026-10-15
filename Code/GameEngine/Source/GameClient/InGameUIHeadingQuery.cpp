@@ -24,10 +24,8 @@ class Object
 {
 public:
 	const Coord3D *getPosition() const { return &m_position; }
-	// Keep this BFME offset-specific view inlined; the other private Object
-	// layouts must not share its standalone getter.
-	__declspec(dllimport) __forceinline float getOrientation() const { return m_orientation; }
 private:
+	friend class InGameUI;
 	char m_pad000[0x38];
 	Coord3D m_position;			// +0x38
 	char m_pad044[0x1C0 - 0x44];
@@ -48,12 +46,12 @@ private:
 float InGameUI::rva0029B3C1(const Object *obj) const
 {
 	if (!m_overrideHeading)
-		return obj->getOrientation();
+		return obj->m_orientation;
 	Coord3D dir;
 	dir.set(&m_headingTarget);
 	dir.sub(obj->getPosition());
 	if (lengthSqr2D(dir) < 1.0f)
-		return obj->getOrientation();
+		return obj->m_orientation;
 	else {
 		dir.Normalize2D();
 		if (dir.y < 0.0f)

@@ -1,0 +1,2 @@
+Code/GameEngine/Source/GameClient/InGameUIHeadingQuery.cpp
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDrawReactToTransformChange.cpp
