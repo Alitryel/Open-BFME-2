@@ -18,6 +18,17 @@
 #include <map>
 #include <vector>
 
+// Keep the already-inlined node comparison local instead of emitting the
+// incompatible shared _Rb_tree_base_iterator::operator!= COMDAT.
+namespace _STL {
+template<class Value, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits>& left,
+                              const _Rb_tree_iterator<Value, RightTraits>& right)
+{
+	return left._M_node != right._M_node;
+}
+}
+
 template <class T> __forceinline volatile T &r1_vwrite(T &value) { return *(volatile T *)&value; }
 
 enum NameKeyType
