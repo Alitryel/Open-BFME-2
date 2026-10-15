@@ -1,8 +1,11 @@
 // ?rva00053A1F@MilesAudioManager@@QAEMPAVAudioEventRTS@@@Z
+// partial score=0.995 date=2026-10-15
+// ?rva00053A1F@MilesAudioManager@@QAEMPAVAudioEventRTS@@@Z
 // partial score=0.95 date=2026-10-15
 // ?rva00053A1F@MilesAudioManager@@QAEMPAVAudioEventRTS@@@Z 0x53A1F 219B: lines added to Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp
 // (AudioSettings +0x70 int before m_at74, class decl after Rva0005160FGet, then the tail below).
-// Size-exact 219B; only diff: retail hoists mov eax,[edi+8]/test [eax+0x48],8 above an all-loads-then-subss delta block.
+// r18 (W7-U1): size-exact 219B nd 2. Three float temps + _ReadWriteBarrier() before the stores give retail's loads-then-subss-then-stores delta block; the info pointer load
+// plus a barrier before the delta puts the info load first. ONLY diff left: retail's `test byte [eax+0x48],8` sits right after the info load (before the delta loads), ours after the stores.
 #if 0
     char at6C[0x70 - 0x6C];
     int m_at70;                          // +0x70, near distance of global sounds (0x53A1F)
@@ -10,6 +13,8 @@
 
 // Native owner position query (0x002DA1CC, rowed under the event prefix name).
 class BfmeAudioEventPrefix136 { public: BfmeEventPositionView rva002DA1CC(bool &valid); };
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 
 // WorldBuilder twin 0x007A3EE0 copies the listener (+0x18) and subtracts the
 // event position through a Coord3D member before reading the info.
@@ -29,9 +34,14 @@ float MilesAudioManager::rva00053A1F(AudioEventRTS *event)
     bool valid;
     BfmeEventPositionView pos = reinterpret_cast<BfmeAudioEventPrefix136 *>(event)->rva002DA1CC(valid);
     if (valid) {
-        Coord3D delta;
-        rva00053A1FSet(delta, m_micPos.x - pos.x, m_micPos.y - pos.y, m_micPos.z - pos.z);
         const AudioEventInfo *info = event->getAudioEventInfo();
+        _ReadWriteBarrier();
+        Coord3D delta;
+        float dx = m_micPos.x - pos.x;
+        float dy = m_micPos.y - pos.y;
+        float dz = m_micPos.z - pos.z;
+        _ReadWriteBarrier();
+        delta.x = dx; delta.y = dy; delta.z = dz;
         float nearDistance;
         float farDistance;
         if (info->m_type & 8) {
