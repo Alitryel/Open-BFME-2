@@ -1028,7 +1028,6 @@ address_global	Code/GameEngine/Source/Common/Rva005FC8FDApt.cpp	g_Rva0107301CEmp
 address_global	Code/GameEngine/Source/Common/Rva005FD788Apt.cpp	g_Va0087A290	2
 address_global	Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp	g_Va0087A290	1
 address_global	Code/GameEngine/Source/Common/Rva005FD8E5Apt.cpp	g_Va009FE4CC	1
-address_global	Code/GameEngine/Source/Common/Rva005FF207Unicode.cpp	g_Va007C9260	3
 address_global	Code/GameEngine/Source/Common/Rva005FFCCBAppend.cpp	g_Rva0107301CEmptyString	3
 address_global	Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp	g_Va00DBA4E4	2
 address_global	Code/GameEngine/Source/Common/Rva0062AF7Rva0027D815.cpp	g_Va00DBB710	2
@@ -2981,7 +2980,6 @@ alternatename	Code/GameEngine/Source/Common/Rva005F0647Deleting.cpp	?Rva005F0C39
 alternatename	Code/GameEngine/Source/Common/Rva005F8920.cpp	?g_009FE720@@3PAVRva0025CEEFHost@@A	1
 alternatename	Code/GameEngine/Source/Common/Rva005F8E37.cpp	_vtbl_00C79CF8	1
 alternatename	Code/GameEngine/Source/Common/Rva005F8E5A.cpp	_vtbl_00C79D0C	1
-alternatename	Code/GameEngine/Source/Common/Rva005FF207Unicode.cpp	?g_Va007C9260@@3QBGB	1
 alternatename	Code/GameEngine/Source/Common/Rva0060061ADtor.cpp	?G00A06E54@@3PAVRva0060061AHelper@@A	1
 alternatename	Code/GameEngine/Source/Common/Rva00600676Get.cpp	?G00A06E5C@@3PAVRva00600676Target@@A	1
 alternatename	Code/GameEngine/Source/Common/Rva006012EDInsert.cpp	??RRva006038D4Less@@QBE_NPBD0@Z	1
