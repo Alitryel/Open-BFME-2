@@ -577,8 +577,12 @@ private:
 // by-name one (0x000A7EFA) clamps its priority argument to 0..2.
 class AudioFileCache {
 public:
+    // Rowed constructor 0x000A8531 (0x54 bytes) takes the manager's mutex.
+    AudioFileCache(void *mutex);
     Rva00690FF0Handle requestFile(const BfmePoolRef10 &event, int shortSound);
     Rva00690FF0Handle requestFile(const AsciiString &fileName, int priority);
+private:
+    char m_body[0x54];                   // native operator new(0x54) at 0x0005D3DA
 };
 // The file handle's ready (+0x44) and failed (+0x4C) checks, rowed at
 // 0x00050DBD and 0x00050DD0 under address-derived names.
@@ -684,6 +688,7 @@ class Rva0005276C {
 public:
     Rva0005276C();
     ~Rva0005276C() {}
+    AudioAreaCorner &operator[](int i) { return reinterpret_cast<AudioAreaCorner *>(slots)[i]; }
 private:
     Rva00051CA2 slots[5];
 };
@@ -997,11 +1002,12 @@ public:
 };
 
 // hash map of event infos by name at +0xBC; its operator[] is 0x00059FBB.
-class Rva00059FBBMap {
+// Built by the folded hash-container constructor 0x0005B505 like every
+// other 0x14-byte table of the manager.
+class Rva00059FBBMap : public _STL::hash_map<AsciiString, AudioEventInfo *,
+	rts::hash<AsciiString>, rts::equal_to<AsciiString> > {
 public:
     AudioEventInfo *&rva00059FBB(const AsciiString &name);
-private:
-    char opaque[0x14];
 };
 
 // Address-derived callee view for the tree lookup used at 0x0005B1C2.
@@ -1031,8 +1037,44 @@ private:
     AsciiString m_name;
 };
 
-class MilesAudioManager : public SubsystemInterface, public Snapshot {
+// Native base constructor 0x0005107D: SubsystemInterface 0x001B4E63, then
+// the Snapshot and the abstract base's own vftables (BC5148/BC5138) -- Zero
+// Hour's AudioManager, which MilesAudioManager derives from.
+class AudioManager : public SubsystemInterface, public Snapshot {
 public:
+    AudioManager();
+};
+// Coord3D members the constructor initializes in place (WB 0x7803C0 stores
+// x, y, z before the corner records are built).
+struct MilesCtorCoord3D : public Coord3D {
+    MilesCtorCoord3D(float ax, float ay, float az) { x = ax; y = ay; z = az; }
+};
+// Per-view volume record (0x1C4 bytes): eh-vector constructed through
+// ctor 0x0005A2E6 / dtor 0x0005925E; methods use the GlobalVolumeData view.
+class Rva006ABC60 { public: Rva006ABC60(); ~Rva006ABC60(); int m_myViewFocus; private: char m_body[0x1C0]; };
+// The manager's mutex at +0x9D4, built by the rowed Mutex(1, 0, 0) 0x00040F1E.
+class Mutex { public: Mutex(int, const char *, void *); ~Mutex(); private: void *m_handle; int m_04; };
+// Objects the constructor allocates: 0x204-byte settings (ctor 0x00041589)
+// and the 0xF4-byte record at +0x14 (ctor 0x001ED70C).
+// The +0xB90 stream owner: zero-initialized in place and destroyed on unwind
+// (the constructor's EH map gives it its own state); readers take the pointer.
+class MilesStreamOwnerRef {
+public:
+    MilesStreamOwnerRef() : m_owner(0) {}
+    ~MilesStreamOwnerRef();
+    operator void *() const { return m_owner; }
+private:
+    void *m_owner;
+};
+class Rva000416E7 { public: Rva000416E7(); private: char m_body[0x204]; };
+class Rva001ED70C { public: Rva001ED70C(); private: char m_body[0xF4]; };
+class Image;
+typedef _STL::map<unsigned int, Image *> Rva0005B256HandleMap;
+extern "C" __declspec(dllimport) __int64 __cdecl _time64(__int64 *);
+
+class MilesAudioManager : public AudioManager {
+public:
+    MilesAudioManager();
     // Virtual slots 0..74 are not named here; slot 75 (+0x12C) looks an
     // event info up by name.
     virtual void init(); virtual void slot02(); virtual void slot03(); virtual void slot04();
@@ -1285,30 +1327,31 @@ public:
     virtual void xfer(Xfer *transfer);
 private:
     AudioSettings *m_audioSettings;      // +0x10 (Zero Hour name)
-    char at14[0x18 - 0x14];
-    Coord3D m_micPos;                    // +0x18, Miles listener position
-    Coord3D m_micDir;                    // +0x24, Miles listener facing
-    Coord3D m_cameraPos;                 // +0x30, camera at the last recalculation
-    AudioAreaCorner m_corners[5];        // +0x3C, entries 1..4 used by 0x53854
+    Rva001ED70C *m_at14;
+    MilesCtorCoord3D m_micPos;           // +0x18, Miles listener position
+    MilesCtorCoord3D m_micDir;           // +0x24, Miles listener facing
+    MilesCtorCoord3D m_cameraPos;        // +0x30, camera at the last recalculation
+    Rva0005276C m_corners;             // +0x3C, entries 1..4 used by 0x53854
     float m_at8C;                        // +0x8C, distance occlusion scale
     float m_at90;                        // +0x90, zeroed by every xfer
     int m_at94;                          // +0x94, zeroed by 0x61C87
     Rva00051107AudioRequestList m_audioRequests;    // +0x98
     Rva00051107AudioRequestSet m_requestSet;        // +0x9C
-    char atB0[0xBC - 0xB0];
+    _STL::set<AsciiString> m_atB0;      // +0xB0, cleared by the constructor
     Rva00059FBBMap m_allAudioEventInfo;  // +0xBC
     unsigned int m_nextHandle;           // +0xD0, next playing handle (0x0005B256)
     // Zero Hour's inline AudioManager::allocateNewHandle.
     unsigned int allocateNewHandle(void) { return m_nextHandle++; }
-    char atD4[0xE0 - 0xD4];
+    _STL::vector<int> m_atD4;          // +0xD4
     QueuedAudioEvents m_queuedEvents[3];  // +0xE0, per view type (0x60123)
     // Native handle-map operations establish these two 20-byte tables.
     MilesKeyAliases m_handleAliases;       // +0x104
     MilesPhysicalHandles m_physicalHandles; // +0x118
     // Per-view GlobalVolumeData records, 0x1C4 apart in retail (0x61C87).
-    char m_volumeData[3][0x1C4];         // +0x12C
+    Rva006ABC60 m_volumeData[3];         // +0x12C
     int m_at678;                         // +0x678, compared with event view types
-    char at67C[0x684 - 0x67C];
+    int m_at67C;
+    int m_at680;
     int m_num2DSamplesPlaying;           // +0x684, counted up by playAudioEvent
     int m_num3DSamplesPlaying;           // +0x688, counted up by playAudioEvent
     int m_at68C;                         // +0x68C, zeroed by 0x60309
@@ -1316,7 +1359,7 @@ private:
     unsigned int m_at694;                // +0x694, view types whose music is paused for affect bit 0x20 (0x583BA)
     unsigned int m_at698;                // +0x698, per-view-type bits processAudioCompletion clears
     unsigned short m_maxAmbientStreams;  // +0x69C
-    char at69E[0x6A4 - 0x69E];
+    bool m_at69E, m_at69F, m_at6A0, m_at6A1, m_at6A2, m_at6A3;
     bool m_at6A4;                        // +0x6A4
     bool m_at6A5;                        // +0x6A5, marks a view-type change (0x5DAFC, xfer)
     bool m_forceHeadphones;             // +0x6A6, provider speaker override
@@ -1336,10 +1379,10 @@ private:
     ProviderInfo m_provider3D[64];       // +0x6CC
     unsigned int m_providerCount;        // +0x9CC
     unsigned int m_selectedProvider;     // +0x9D0, -1 when none
-    void *m_mutex;                       // +0x9D4
-    char at9D8[0x9E0 - 0x9D8];
+    Mutex m_mutex;                       // +0x9D4
+    int m_at9DC;
     void *m_listener;                    // +0x9E0 (Zero Hour name), unselectProvider closes it
-    char at9E4[0x9E8 - 0x9E4];
+    int m_at9E4;
     MilesFileTextMap m_fileText;         // +0x9E8
     _STL::vector<UnicodeString> m_pendingFileText;  // +0x9FC
     _STL::vector<AsciiString> m_unknownFileNames;   // +0xA08
@@ -1354,10 +1397,10 @@ private:
     PlayingAudioRef m_playingMusic[3];   // +0xB48, the active system's stream per view type
     _STL::vector<AudioTriggerArea> m_triggerAreas;  // +0xB54, scanned by 0x55C5D
     _STL::vector<AudioTriggerAreaSave> m_savedTriggerAreas;  // +0xB60, resolved by loadPostProcess
-    char atB6C[0xB78 - 0xB6C];           // +0xB6C, cleared through the rowed 0x00054B9A
-    char atB78[0xB8C - 0xB78];           // +0xB78, cleared through the rowed 0x00056DA2
+    Rva0005B256HandleMap atB6C;           // +0xB6C, cleared through the rowed 0x00054B9A
+    MilesHandleMap atB78;           // +0xB78, cleared through the rowed 0x00056DA2
     AudioFileCache *m_audioFileCache;    // +0xB8C (WorldBuilder requestFile receiver)
-    void *m_atB90;                       // +0xB90, handed to the stream opener 0x000A8D0B
+    MilesStreamOwnerRef m_atB90;         // +0xB90, handed to the stream opener 0x000A8D0B
     PlayingAudioList m_completedAudio;   // +0xB94, filled by the EOS handlers
     MilesHandleMap m_sampleMap;          // +0xB98
     MilesHandleMap m_3DSampleMap;        // +0xBAC
@@ -1375,6 +1418,43 @@ private:
     __int64 m_atBF8;                     // +0xBF8, _time64 of the last device open
     bool m_atC00;                        // +0xC00, view type 2 is transferred when set (version 3+)
 };
+
+namespace _STL {
+template <> set<AsciiString, less<AsciiString>, allocator<AsciiString> >::set();
+}
+
+// ??0MilesAudioManager@@QAE@XZ @0x0005CF5F 1214B (native 0x0005CF5F..
+// 0x0005D41D, RET0; the served 0x0005CF69 is interior, after the EH prolog).
+// WB 0x007803C0 is the same constructor (members in declaration order);
+// Zero Hour's MilesAudioManager/AudioManager constructors are the semantic
+// guide: listener orientation (0,1,0), provider index -1, the settings and
+// misc-audio allocations and the file cache sharing the manager mutex.
+MilesAudioManager::MilesAudioManager()
+    : m_audioSettings(0), m_at14(0), m_micPos(0.0f, 0.0f, 0.0f), m_micDir(0.0f, 1.0f, 0.0f),
+      m_cameraPos(0.0f, 0.0f, 0.0f), m_at8C(0.0f), m_at90(g_00DBA4FC), m_at94(0),
+      m_nextHandle(5), m_at678(2), m_at67C(0), m_at680(0),
+      m_num2DSamplesPlaying(0), m_num3DSamplesPlaying(0), m_at68C(0), m_at690(0), m_at694(0), m_at698(0),
+      m_maxAmbientStreams(2), m_at69E(true), m_at69F(true), m_at6A0(true), m_at6A1(true), m_at6A2(true),
+      m_at6A3(false), m_at6A4(false), m_at6A5(false), m_forceHeadphones(false), m_at6A7(false),
+      m_at6A8(false), m_at6A9(false), m_at6AA(false), m_at6AB(true), m_at6AC(false), m_at6B0(0),
+      m_providerCount(0), m_selectedProvider((unsigned int)-1), m_mutex(1, 0, 0),
+      m_at9DC(0), m_listener(0), m_at9E4(0),
+      m_audioFileCache(0),
+      m_loopBuffers(0), m_numLoopBuffers(0), m_loopBufferThread(0), m_atBE0(false), m_atBE4(0),
+      m_subTitleWindow(0), m_atBEC(7), m_selectedSpeakerType(0), m_atBF8(_time64(0)), m_atC00(false)
+{
+    m_atB0.clear();
+    for (int i = 0; i < 3; ++i) {
+        GlobalVolumeData *volume = reinterpret_cast<GlobalVolumeData *>(&m_volumeData[i]);
+        m_activeMusicSystem[i] = MUSIC_SYSTEM_0;
+        volume->m_myViewFocus = i;
+        m_at6B4[i] = 0;
+        m_at6C0[i] = 0;
+    }
+    m_audioSettings = reinterpret_cast<AudioSettings *>(new Rva000416E7());
+    m_at14 = new Rva001ED70C();
+    m_audioFileCache = new AudioFileCache(&m_mutex);
+}
 
 // Rowed under address-derived names at 0x00051038 (pinned) and 0x00050FE3;
 // the destructor below hands its Miles handles back through them.
@@ -2161,7 +2241,7 @@ void MilesAudioManager::rva00061C87(unsigned int viewMask)
     m_atBEC |= viewMask;
     for (int i = 0; i < 3; ++i) {
         if (viewMask & (1 << i)) {
-            reinterpret_cast<GlobalVolumeData *>(m_volumeData[i])->reset();
+            reinterpret_cast<GlobalVolumeData *>(&m_volumeData[i])->reset();
             m_atA14[i].clear();
             m_activeMusicSystem[i] = MUSIC_SYSTEM_0;
             m_at6B4[i] = 0;
@@ -2570,8 +2650,6 @@ struct Rva0010FFA2Packet {
 // Saved-handle -> live-handle map at +0xB6C, viewed as the folded
 // map<unsigned int, Image *> instantiation whose insert_unique is rowed at
 // 0x004D795B.
-class Image;
-typedef _STL::map<unsigned int, Image *> Rva0005B256HandleMap;
 
 // Retail 0x0005B256 (676 bytes; WorldBuilder twin 0x007AA3A0 unnamed;
 // callers are the manager's xfer 0x0005E3E5 per saved stream): xfers one
@@ -2607,7 +2685,7 @@ void MilesAudioManager::rva0005B256(Xfer *xfer, PlayingAudioRef &playing, int *u
         playing->m_at4C = 1;
         unsigned int handle = m_nextHandle++;
         _STL::pair<Rva0005B256HandleMap::iterator, bool> result =
-            reinterpret_cast<Rva0005B256HandleMap *>(atB6C)->insert(
+            reinterpret_cast<Rva0005B256HandleMap *>(&atB6C)->insert(
                 Rva0005B256HandleMap::value_type(savedHandle, reinterpret_cast<Image *>(handle)));
         if (!result.second) {
             handle = reinterpret_cast<unsigned int>(result.first->second);
@@ -4131,7 +4209,7 @@ void MilesAudioManager::rva0005634C(int handle, float volume, int mode)
 void MilesAudioManager::rva0005E377(const AsciiString &key, int viewType)
 {
     MilesMutexGuard guard(&m_mutex, 0);
-    reinterpret_cast<GlobalVolumeData *>(m_volumeData[viewType])->m_at1B8.rva0005B633(key);
+    reinterpret_cast<GlobalVolumeData *>(&m_volumeData[viewType])->m_at1B8.rva0005B633(key);
     rva0005BE59(const_cast<AsciiString *>(&key), -1.0f, reinterpret_cast<void *>(viewType));
 }
 
@@ -4335,8 +4413,8 @@ void MilesAudioManager::loadPostProcess(void)
         m_triggerAreas.push_back(area);
     }
     m_savedTriggerAreas.clear();
-    ((Rva00053DC5 *)atB6C)->rva00054B9A();
-    ((Rva00056DA2 *)atB78)->rva00056DA2();
+    ((Rva00053DC5 *)&atB6C)->rva00054B9A();
+    ((Rva00056DA2 *)&atB78)->rva00056DA2();
 }
 
 // Transfer helpers MilesAudioManager::xfer calls, rowed in their own units.
@@ -4376,7 +4454,7 @@ void MilesAudioManager::xfer(Xfer *transfer)
         if (viewType == 2 && version.m_currentVersion >= 3 && !m_atC00)
             continue;
         Rva00050C91Dispatch(reinterpret_cast<AudioReceiver *>(transfer), &m_activeMusicSystem[viewType]);
-        reinterpret_cast<GlobalVolumeData *>(m_volumeData[viewType])->rva0005CE7E(transfer);
+        reinterpret_cast<GlobalVolumeData *>(&m_volumeData[viewType])->rva0005CE7E(transfer);
         Rva00058DC6Xfer(transfer, &m_atA14[viewType]);
         if (version.m_currentVersion >= 4)
             XferAudioAffect(transfer, &m_at6B4[viewType]);
@@ -5379,15 +5457,15 @@ void MilesAudioManager::rva00062690()
                 rva0006179C(1);
         }
     }
-    ((Rva00056DA2 *)atB78)->rva00056DA2();
+    ((Rva00056DA2 *)&atB78)->rva00056DA2();
     m_at90 = slot109();
     if (m_at6AA || (!m_triggerAreas.empty() && TheGameEngine && TheGameEngine->rva00225D38()))
         m_at6A9 = true;
     if (m_at6AB)
         recalculateMicrophone();
-    reinterpret_cast<GlobalVolumeData *>(m_volumeData[2])->rva000521F4(m_at90);
+    reinterpret_cast<GlobalVolumeData *>(&m_volumeData[2])->rva000521F4(m_at90);
     if (m_at678 != 2 && TheGameLogic && !TheGameLogic->isGamePaused())
-        reinterpret_cast<GlobalVolumeData *>(m_volumeData[m_at678])->rva000521F4(m_at90);
+        reinterpret_cast<GlobalVolumeData *>(&m_volumeData[m_at678])->rva000521F4(m_at90);
     rva0005E0A4();
     ((Rva0005F279Host *)this)->rva0005F279();
     processRequestList();
@@ -5401,7 +5479,7 @@ void MilesAudioManager::rva00062690()
     m_at6A9 = false;
     m_at6AA = false;
     for (int i = 0; i < 3; ++i)
-        reinterpret_cast<GlobalVolumeData *>(m_volumeData[i])->rva000520C6();
+        reinterpret_cast<GlobalVolumeData *>(&m_volumeData[i])->rva000520C6();
     SubTitleWindow *subTitles = m_subTitleWindow;
     if (subTitles && !subTitles->rva00045837()) {
         delete subTitles;
@@ -5619,10 +5697,10 @@ void MilesAudioManager::recalculateMicrophone(void)
     slot105(&cameraPos);
     Rva0005276C corners;
     slot106(&corners);
-    if (m_cameraPos == cameraPos && ((Rva00051CF1 *)m_corners)->rva00051CF1((Rva00051CF1 &)corners))
+    if (m_cameraPos == cameraPos && ((Rva00051CF1 *)&m_corners)->rva00051CF1((Rva00051CF1 &)corners))
         return;
-    *(Rva0005276C *)m_corners = corners;
-    m_cameraPos = cameraPos;
+    m_corners = corners;
+    (Coord3D &)m_cameraPos = cameraPos;
 
     MicVec lookDir(cameraPos);
     lookDir.sub(m_corners[0].m_pos);
@@ -5653,7 +5731,7 @@ void MilesAudioManager::recalculateMicrophone(void)
             m_micPos.y = (m_corners[0].m_pos.y - mic.y) * settings->m_at18 + mic.y;
             m_micPos.z = mic.z;
         } else {
-            m_micPos = mic;
+            (Coord3D &)m_micPos = mic;
         }
     }
     if (lookDir.x != 0.0f || lookDir.y != 0.0f) {
@@ -5672,7 +5750,7 @@ void MilesAudioManager::recalculateMicrophone(void)
         delta.x = cameraPos.x - m_micPos.x;
         delta.y = cameraPos.y - m_micPos.y;
         delta.z = cameraPos.z - m_micPos.z;
-        reinterpret_cast<GlobalVolumeData *>(m_volumeData[m_at678])->rva0005213E(settings, &delta);
+        reinterpret_cast<GlobalVolumeData *>(&m_volumeData[m_at678])->rva0005213E(settings, &delta);
     }
 
     float shortest = g_Va00BBDA30;
@@ -5957,7 +6035,7 @@ void MilesAudioManager::processAmbientStreams(PlayingAudioList::iterator *stream
             } else {
                 if (!playing->m_at44)
                     volume *= reinterpret_cast<Rva0005117B *>(this)->rva0005117B(playing->m_at30);
-                volume *= reinterpret_cast<GlobalVolumeData *>(m_volumeData[m_at678])->rva0005910F(playing->m_event.get());
+                volume *= reinterpret_cast<GlobalVolumeData *>(&m_volumeData[m_at678])->rva0005910F(playing->m_event.get());
                 reinterpret_cast<Rva000A8AEE *>(&playing->m_at0C)->rva000A8AEE(volume);
                 if (m_at6A8)
                     rva00052FA0(playing);
@@ -5991,7 +6069,7 @@ void MilesAudioManager::processAmbientStreams(PlayingAudioList::iterator *stream
             rva0005DB6C(filename);
             if (0) { AsciiString dbg(filename); rva0005DB6C(dbg); }
             float volume = reinterpret_cast<Rva0005117B *>(this)->rva0005117B(playing->m_at30) * bestVolume[candidate];
-            volume *= reinterpret_cast<GlobalVolumeData *>(m_volumeData[m_at678])->rva0005910F(playing->m_event.get());
+            volume *= reinterpret_cast<GlobalVolumeData *>(&m_volumeData[m_at678])->rva0005910F(playing->m_event.get());
             volume *= reinterpret_cast<Rva002D94E4 *>(playing->m_event.get())->rva002D94E4();
             reinterpret_cast<Rva000A8AEE *>(&playing->m_at0C)->rva000A8AEE(volume);
             reinterpret_cast<Rva000A8AD8 *>(&playing->m_at0C)->rva000A8AD8(
@@ -6194,7 +6272,7 @@ void MilesAudioManager::friend_xferSubAudioEventRTS(Xfer *xfer, BfmePoolRef10 *e
     if (present) {
         unsigned int id = reinterpret_cast<unsigned int>(eventRef->get());
         xfer->xferInt(reinterpret_cast<int *>(&id));
-        MilesHandleMap *loaded = reinterpret_cast<MilesHandleMap *>(atB78);
+        MilesHandleMap *loaded = reinterpret_cast<MilesHandleMap *>(&atB78);
         {
             MilesHandleMap::iterator found = loaded->find(id);
             // Compare the nodes directly, avoiding an unused external iterator wrapper.
@@ -6212,7 +6290,7 @@ void MilesAudioManager::friend_xferSubAudioEventRTS(Xfer *xfer, BfmePoolRef10 *e
             if (xfer->isLoading()) {
                 reinterpret_cast<GameMessage *>(eventRef->get())->friend_setList(reinterpret_cast<GameMessageList *>(allocateNewHandle()));
                 _STL::pair<Rva0005B256HandleMap::iterator, bool> result =
-                    reinterpret_cast<Rva0005B256HandleMap *>(atB6C)->insert(
+                    reinterpret_cast<Rva0005B256HandleMap *>(&atB6C)->insert(
                         Rva0005B256HandleMap::value_type(savedHandle, reinterpret_cast<Image *>((*eventRef)->m_playingHandle)));
                 if (!result.second)
                     reinterpret_cast<GameMessage *>(eventRef->get())->friend_setList(reinterpret_cast<GameMessageList *>(result.first->second));
@@ -6355,7 +6433,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
             AIL_stop_sample(get2DSampleHandleForPlayingAudio(&playing));
             it = reinterpret_cast<OpaqueRefList &>(m_playingSounds).erase(it);
         } else {
-            if (reinterpret_cast<GlobalVolumeData *>(m_volumeData[audio->m_event->getViewType()])->rva000520F4(*reinterpret_cast<const AudioEventInfoRef *>(&audio->m_event->m_info), 0)
+            if (reinterpret_cast<GlobalVolumeData *>(&m_volumeData[audio->m_event->getViewType()])->rva000520F4(*reinterpret_cast<const AudioEventInfoRef *>(&audio->m_event->m_info), 0)
                 || m_at6A5 || fading || audio->m_at4F)
                 adjustPlayingVolume(&playing);
             if (m_at6A8)
@@ -6477,7 +6555,7 @@ void MilesAudioManager::processPlayingList(Rva00052B3D *streams)
         } else {
             if (m_at6A8)
                 rva00052FA0(playing);
-            if (reinterpret_cast<GlobalVolumeData *>(m_volumeData[audio->m_event->getViewType()])->rva000520F4(*reinterpret_cast<const AudioEventInfoRef *>(&audio->m_event->m_info), 0)
+            if (reinterpret_cast<GlobalVolumeData *>(&m_volumeData[audio->m_event->getViewType()])->rva000520F4(*reinterpret_cast<const AudioEventInfoRef *>(&audio->m_event->m_info), 0)
                 || fading || m_at6A5 || audio->m_at4F)
                 adjustPlayingVolume(&playing);
             ++it;
