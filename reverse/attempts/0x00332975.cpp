@@ -1,4 +1,6 @@
 // ?rva00332975@Rva0026E7C8Ctor@@QAEXPAVXfer@@@Z
+// partial score=0.867111 date=2026-10-15
+// ?rva00332975@Rva0026E7C8Ctor@@QAEXPAVXfer@@@Z
 // partial score=0.91 date=2026-10-06
 // cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
@@ -125,6 +127,7 @@ class PoolMember
 {
 public:
 	void Rva00268902();
+	~PoolMember();
 };
 
 class Rva0029FB3BMember : public PoolMember

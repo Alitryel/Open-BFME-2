@@ -1,4 +1,6 @@
 // ?Rva004177D5@@YAXH@Z
+// partial score=0.843261 date=2026-10-15
+// ?Rva004177D5@@YAXH@Z
 // partial score=0.97 date=2026-10-14
 // ?Rva004177D5@@YAXH@Z
 // partial score=0.97 date=2026-10-13
@@ -215,7 +217,6 @@ void Rva00416589(BfmeStringRecord00415F34 record)
 // besides the request records.
 void Rva004177D5(int profile)
 {
- UnicodeString text;
  BuddyRequest req;
  req.type=7;
  req.profile=profile;
@@ -225,6 +226,7 @@ void Rva004177D5(int profile)
  BuddyRequest add;
  add.type=5;
  add.profile=profile;
+ UnicodeString text;
  text=TheGameText->fetch("GUI:BuddyAddReq");
  wcsncpy((unsigned short *)add.unknown,text.str(),128);
  ((unsigned short *)add.unknown)[127]=0;
