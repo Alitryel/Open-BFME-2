@@ -297,8 +297,8 @@ public:
 
 class TeamPrototype
 {
+friend class Team;
 public:
-	const AsciiString &getName() const { return m_name; }
 	const TeamTemplateInfo *getTemplateInfo() const { return &m_teamTemplate; }
 private:
 	char m_00[0x10];
@@ -314,7 +314,6 @@ public:
 	bool rva0039E0D0();
 	Object *rva0039E8EB();
 	DLINK_ITERATOR<Object> iterate_TeamMemberList() const { return DLINK_ITERATOR<Object>(m_head, &Object::dlink_next_TeamMemberList); }
-	const AsciiString &getName() const { return !m_proto ? AsciiString::TheEmptyString : m_proto->getName(); }
 
 private:
 	char m_pad00[0x30];
@@ -353,7 +352,7 @@ void Team::updateState()
 		m_5F = true;
 
 		if (!isEmpty(pInfo->m_scriptOnCreate))
-			TheScriptEngine->rva0020C140(getName(), pInfo->m_scriptOnCreate, this);
+			TheScriptEngine->rva0020C140(!m_proto ? AsciiString::TheEmptyString : m_proto->m_name, pInfo->m_scriptOnCreate, this);
 
 		if (!isEmpty(pInfo->m_luaOnCreate))
 		{
@@ -423,9 +422,9 @@ void Team::updateState()
 		if (m_prevSeeEnemy != m_seeEnemy)
 		{
 			if (m_seeEnemy)
-				TheScriptEngine->rva0020C140(getName(), pInfo->m_scriptOnEnemySighted, this);
+				TheScriptEngine->rva0020C140(!m_proto ? AsciiString::TheEmptyString : m_proto->m_name, pInfo->m_scriptOnEnemySighted, this);
 			else
-				TheScriptEngine->rva0020C140(getName(), pInfo->m_scriptOnAllClear, this);
+				TheScriptEngine->rva0020C140(!m_proto ? AsciiString::TheEmptyString : m_proto->m_name, pInfo->m_scriptOnAllClear, this);
 		}
 	}
 
@@ -446,7 +445,7 @@ void Team::updateState()
 		}
 		if (m_curUnits != prevUnits && m_curUnits <= m_destroyThreshold)
 		{
-			TheScriptEngine->rva0020C140(getName(), pInfo->m_scriptOnDestroyed, this);
+			TheScriptEngine->rva0020C140(!m_proto ? AsciiString::TheEmptyString : m_proto->m_name, pInfo->m_scriptOnDestroyed, this);
 			m_destroyThreshold = -1;
 		}
 	}
@@ -467,7 +466,7 @@ void Team::updateState()
 				isIdle = false;
 		}
 		if (anyAliveInTeam && isIdle && m_wasIdle)
-			TheScriptEngine->rva0020C140(getName(), pInfo->m_scriptOnIdle, this);
+			TheScriptEngine->rva0020C140(!m_proto ? AsciiString::TheEmptyString : m_proto->m_name, pInfo->m_scriptOnIdle, this);
 		m_wasIdle = isIdle;
 	}
 }

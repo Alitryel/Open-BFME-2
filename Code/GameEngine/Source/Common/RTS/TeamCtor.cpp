@@ -65,7 +65,6 @@ class Team;
 class TeamPrototype
 {
 public:
-	const AsciiString &getName() const { return m_name; }
 	void prependTo_TeamInstanceList(Team *team);
 private:
 	char m_00[0x10];
@@ -173,7 +172,7 @@ Team::Team(TeamPrototype *proto, int id) :
 			m_checkEnemySighted = true;
 		}
 
-		AsciiString teamName = proto->getName();
+		AsciiString teamName = proto->m_name;
 		reinterpret_cast<StringBase<char> *>(&teamName)->concat("/");
 		teamName.concat(proto->m_14);
 		reinterpret_cast<StringBase<char> *>(&teamName)->concat(" - creating team instance.");
