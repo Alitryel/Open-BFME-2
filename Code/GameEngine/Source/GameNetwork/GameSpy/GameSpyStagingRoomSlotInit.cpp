@@ -865,7 +865,7 @@ private:
 class Player
 {
 public:
-	const PlayerTemplate *getPlayerTemplate(void) const { return m_playerTemplate; }
+	__declspec(dllimport) __forceinline const PlayerTemplate *getPlayerTemplate(void) const { return m_playerTemplate; }
 private:
 	UnsignedByte m_pre34[0x34];
 	const PlayerTemplate *m_playerTemplate;		// +0x34

@@ -58,7 +58,7 @@ public:
 class Player
 {
 public:
-	const PlayerTemplate *getPlayerTemplate() const { return m_playerTemplate; }
+	__declspec(dllimport) __forceinline const PlayerTemplate *getPlayerTemplate() const { return m_playerTemplate; }
 
 	unsigned char m_unreconstructed_000[0x34];
 	const PlayerTemplate *m_playerTemplate;
