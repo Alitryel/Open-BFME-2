@@ -471,7 +471,9 @@ class GameClient;extern GameClient*TheGameClient;
 class Rva00A00958Obj;extern Rva00A00958Obj*g_Rva00A00958;
 extern unsigned char g_Rva00A02D86;
 extern bool TheLiteCRC;
-extern const char*TheRelationshipNames[];
+// Native dumpCommandHistory indexes VA 0x00DBA4D4: the three relationship
+// literals in ZH GameCommon.cpp's order, followed by the retail null sentinel.
+const char *TheRelationshipNames[] = { "ENEMIES", "NEUTRAL", "ALLIES", 0 };
 template<class T>__forceinline T&field0037BE15(const void*p,int offset){return*(T*)((char*)p+offset);}
 template<class T>__forceinline T read0037BE15(const void*p,int offset){return*(const T*)((const char*)p+offset);}
 __forceinline void write0037BE15(CommandDumpFile0037BE15*file,const AsciiString&text){file->write(text.str(),text.getLength());}
