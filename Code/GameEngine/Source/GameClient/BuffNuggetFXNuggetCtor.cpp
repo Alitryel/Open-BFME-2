@@ -79,8 +79,8 @@ BuffNuggetFXNugget::BuffNuggetFXNugget()
 	, m_buffMonsterTemplate("INVALID_THING")
 	, m_extrusion(1.0f)
 {
-	m_color.red = *reinterpret_cast<volatile const float *>(0x00BC4DD8);
-	m_color.green = *reinterpret_cast<volatile const float *>(0x00BCAE8C);
-	m_color.blue = *reinterpret_cast<volatile const float *>(0x00BBB8D8);
+	m_color.red = 0.2f;
+	m_color.green = 0.4f;
+	m_color.blue = 1.0f;
 	m_member.clear();
 }
