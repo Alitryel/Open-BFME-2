@@ -87,11 +87,13 @@ private:
 extern int BfmeLogicFramesPerSecond;
 extern const BfmeFixedStorage0004543D g_defaultStorage009FEFA4;
 
-class Rva003B1101Ref
+// +0x34/+0x38 members: the ctor unwind actions release them through the
+// rowed 0x0010F149 handle dtor.
+class Rva0010F149Handle
 {
 public:
-	Rva003B1101Ref() : m_ptr(0) {}
-	~Rva003B1101Ref();
+	Rva0010F149Handle() : m_ptr(0) {}
+	~Rva0010F149Handle();
 private:
 	void *m_ptr;
 };
@@ -108,8 +110,8 @@ private:
 	Int m_20; // +0x20
 	_STL::vector<ScienceType, _STL::allocator<ScienceType> > m_24; // +0x24
 	Int m_30; // +0x30
-	Rva003B1101Ref m_34; // +0x34
-	Rva003B1101Ref m_38; // +0x38
+	Rva0010F149Handle m_34; // +0x34
+	Rva0010F149Handle m_38; // +0x38
 	AsciiString m_3c; // +0x3C
 	AsciiString m_40; // +0x40
 	Int m_44; // +0x44
