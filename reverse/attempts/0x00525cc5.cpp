@@ -1,4 +1,6 @@
 // ?Rva00525CC5@Holder00526309@@QAEXPAUObj00526309@@@Z
+// partial score=0.756 date=2026-10-15
+// ?Rva00525CC5@Holder00526309@@QAEXPAUObj00526309@@@Z
 // partial score=0.7 date=2026-10-14
 // stlport
 // cl: /O1 /G7 /MD /EHsc /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
@@ -10,6 +12,8 @@
 // entry whose object has a higher rank at template +0x638 (early game frames,
 // counter at the game logic +0x40 below 6) or appends it, then notifies the
 // listeners with the new node through the rowed 0x005258F8.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <list>
 
 namespace _STL {
@@ -60,6 +64,7 @@ void Holder00526309::Rva00525CC5(Obj00526309 *arg)
 	HeroButtonInfo record;
 	record.unknown = ComputeObjectRank(obj);
 	record.flash = 0;
+	_ReadWriteBarrier();
 	record.id = id;
 	HeroInfoList::iterator where;
 	if (reinterpret_cast<GameLogicFrameView *>(TheGameLogic)->counter < 6)

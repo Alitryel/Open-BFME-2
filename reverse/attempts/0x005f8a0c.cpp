@@ -1,4 +1,6 @@
 // ?Rva005F8A0C@@YA?AU__m128@@HHH@Z
+// partial score=0.623 date=2026-10-15
+// ?Rva005F8A0C@@YA?AU__m128@@HHH@Z
 // partial score=0.65 date=2026-10-06
 // cl: /O1 /arch:SSE /DNDEBUG /MD
 // ?Rva005F8A0C@@YA?AU__m128@@HHH@Z @0x005F8A0C 114B evidence: __cdecl search QED
@@ -11,6 +13,8 @@
 // -1); idx>0 returns _mm_setzero_ps, idx<0 returns 1.0, idx==0 with b>0
 // returns _mm_div_ss(_mm_cvt_si2ss(count), _mm_cvt_si2ss(b)) else zero.
 // Result-view classes are TU-local (slots honest, dummies structural).
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <xmmintrin.h>
 
 class Rva005F8A0CVec
@@ -84,6 +88,7 @@ __m128 __cdecl Rva005F8A0C(int a, int b, int c)
 	__m128 fc;
 	fb = _mm_cvt_si2ss(fb, c);
 	fc = _mm_cvt_si2ss(fc, count);
+	_ReadWriteBarrier();
 	r = _mm_div_ss(fc, fb);
 	return r;
 }

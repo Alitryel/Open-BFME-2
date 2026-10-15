@@ -1,4 +1,8 @@
 // ?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z
+// partial score=0.562 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z
 // partial score=0.561548 date=2026-10-14
 // ?rva0009BF33@Rva0009BF33@@QAEXPAVRva0009BF33Point@@PAVVector3@@PAVCoord3D@@@Z
 template<class T> inline volatile T &__vref(T &x)
@@ -157,6 +161,7 @@ class Rva0009BF33
 void Rva0009BF33::rva0009BF33(Rva0009BF33Point *screen, Vector3 *rayStart, Coord3D *rayEnd)
 
 {
+	_ReadWriteBarrier();
  m_camera->slot20();
  Vector2 min, max;
  m_camera->Get_View_Plane(min, max);

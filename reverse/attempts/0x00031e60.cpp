@@ -1,8 +1,12 @@
 // ?rva00031E60@GeneralAllocator@Allocator@EA@@QAEHPBX@Z
+// partial score=0.565 date=2026-10-15
+// ?rva00031E60@GeneralAllocator@Allocator@EA@@QAEHPBX@Z
 // partial score=0.5455 date=2026-10-14
 // Shared GeneralAllocator view: sibling member offsets from the banked
 // siblings 0x00032B00/0x00031E60/0x000334A0 (bin +0x30, head +0x440,
 // core-list sentinel +0x448, granularity +0x4DC, lock +0x4E4).
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <string.h>
 extern "C" __declspec(dllimport) void *__stdcall VirtualAlloc(void *address, unsigned int size, unsigned long type, unsigned long protect);
 extern "C" __declspec(dllimport) int __stdcall VirtualQuery(const void *address, void *information, unsigned long informationSize);
@@ -100,6 +104,7 @@ int GeneralAllocator::rva00031E60(const void *block)
 		if (block != m_head440)
 		{
 			unsigned int fence = *(const unsigned int *)((const char *)blockEnd + 4) & 0x7FFFFFF8;
+			_ReadWriteBarrier();
 			score += ((*(const unsigned char *)(fence + blockEnd + 4) & 1) == 0);
 		}
 		void *next = *(void **)((const char *)block + 8);

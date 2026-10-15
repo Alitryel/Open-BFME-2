@@ -1,4 +1,8 @@
 // ?rva007586F0@Rva007586F0@@QAEXXZ
+// partial score=0.699 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva007586F0@Rva007586F0@@QAEXXZ
 // partial score=0.69872 date=2026-10-14
 // cl: /O2 /G6 /MD
 // Unverified reconstruction of retail 0x007586F0 (460B), WB 0x1802EC0.
@@ -69,6 +73,7 @@ void Rva007586F0::rva007586F0()
                     destination.append(picked);
                 }
                 output^=1;
+                _ReadWriteBarrier();
             }
             run<<=1;
         }

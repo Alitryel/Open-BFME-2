@@ -1,8 +1,12 @@
 // _PlaneAddNoise_C
+// partial score=0.816 date=2026-10-15
+// _PlaneAddNoise_C
 // partial score=0.8 date=2026-10-14
 // _PlaneAddNoise_C
 // partial score=0.8 date=2026-10-13
 // cl: /O2 /G6 /DNDEBUG /MD
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <stdlib.h>
 #include <math.h>
 
@@ -41,6 +45,7 @@ extern "C" void __cdecl PlaneAddNoise_C(unsigned char *start, unsigned width, un
 		noise[i] = dist[rand() & 0xff];
 	signed char first = dist[0];
 	signed char negFirst = -first;
+	_ReadWriteBarrier();
 	for (row = start, rows = height; rows; rows--) {
 		unsigned char *src = row;
 		unsigned char *noisePtr = &noise[rand() & 0xff];

@@ -1,4 +1,8 @@
 // ?rva0010473F@Rva001040D5@@QAEXHHHH@Z
+// partial score=0.878 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva0010473F@Rva001040D5@@QAEXHHHH@Z
 // partial score=0.8591948238677211 date=2026-10-13
 // ?rva0010473F@Rva001040D5@@QAEXHHHH@Z
 // partial score=0.8591948238677211 date=2026-10-10
@@ -59,6 +63,8 @@ extern float g_cameraDistance;
 bool __cdecl Rva00118660Call(void*,void*);
 class Rva001040D5 {public:void rva0010473F(int x,int y,int width,int height);private:char unknown[0x14];void*render;CameraClass*camera;unsigned active;};
 void Rva001040D5::rva0010473F(int x,int y,int width,int height){if(active){
+	_ReadWriteBarrier();
+	_ReadWriteBarrier();
  Matrix3D transform(true);transform.Rotate_X(-1.5707963705062866f);transform.Translate_Z(g_cameraDistance);camera->Set_Transform(transform);
  Vector2 scale(0,0);scale.Y=(float)TheDisplay->getHeight();scale.X=(float)TheDisplay->getWidth();float iw=1.0f/scale.X,ih=1.0f/scale.Y;Vector2 low((float)x*iw,(float)y*ih);Vector2 high((float)width*iw+low.X,(float)height*ih+low.Y);
  camera->Set_Viewport(low,high);camera->Set_View_Plane(0.87266463f,-1.0f);Rva00118660Call(render,camera);

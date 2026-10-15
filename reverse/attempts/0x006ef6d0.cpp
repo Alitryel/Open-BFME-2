@@ -1,4 +1,6 @@
 // ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
+// partial score=0.886 date=2026-10-15
+// ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
 // partial score=0.85526 date=2026-10-14
 void __debugbreak();
 #pragma intrinsic(__debugbreak)
@@ -64,5 +66,6 @@ AptValue *Rva006EF6D0TextFormat(AptValue *context,int argc){
  }else{EAStringC tmp("");value->font=tmp;}
  value->align=text(context)->align;
  value->size=text(context)->size;
+ _ReadWriteBarrier();
  return (AptValue*)value;
 }

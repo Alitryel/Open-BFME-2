@@ -1,4 +1,8 @@
 // ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
+// partial score=0.871 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
 // partial score=0.86647 date=2026-10-14
 // ?Base_Update@HTreeClass@@QAEXABVMatrix3D@@@Z
 // partial score=0.8 date=2026-09-23
@@ -106,6 +110,7 @@ private:
 
 void HTreeClass::Base_Update(const Matrix3D &root)
 {
+	_ReadWriteBarrier();
 	Pivot[0].Transform.Rotation = Build_Quaternion(root);
 	Pivot[0].Transform.Translation.X = root.Row[0][3];
 	Pivot[0].Transform.Translation.Y = root.Row[1][3];

@@ -1,8 +1,12 @@
 // ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
+// partial score=0.857 date=2026-10-15
+// ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
 // partial score=0.8405 date=2026-10-14
 // ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
 // partial score=0.6132989794 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/GameEngineDevice/Source/W3DDevice/GameClient
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "BFME2ParticleTextureHandles.h"
 extern "C" float __cdecl atan2f(float,float);
 extern "C" double __cdecl tan(double);
@@ -57,6 +61,7 @@ void W3DDisplay::Rva000471AD(const Image*image,float startX,float startY,float e
  render->Add_Tri(center,next,previous,centerUV,nextUV,previousUV,color);if(done)return;
  previous=next;previousUV=nextUV;
  const double t=tan((double)(twoPi-angle));next.X=center.X+halfHeight*t;nextUV.X=centerUV.X+halfU*t*ratioHeightWidth;
+ _ReadWriteBarrier();
  render->Add_Tri(center,next,previous,centerUV,nextUV,previousUV,color);
 
  if (0) throw 1;

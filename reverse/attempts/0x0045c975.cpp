@@ -1,4 +1,8 @@
 // ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
+// partial score=0.842 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
 // partial score=0.83 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /GX /DNDEBUG /MD
 //
@@ -191,6 +195,7 @@ void BezierProjectileBehavior::rva0045C975(int)
 	ObjectAI *ai = obj->m_ai258;
 	if (d->m_command38 > 0)
 	{
+		_ReadWriteBarrier();
 		if (ai)
 			ai->m_ai.rva0045003E(d->m_command38, COMMAND_SOURCE_2);
 	}

@@ -1,4 +1,6 @@
 // ?rva0046C4C0@HordeContain@@UAEXXZ
+// partial score=0.805 date=2026-10-15
+// ?rva0046C4C0@HordeContain@@UAEXXZ
 // partial score=0.85 date=2026-10-04
 // 2026-10-08 retry (t=30): local base pointer, forceinline/inline free and
 // member per-object helpers, m_110 vs m_conditionWords spellings of the bit-29
@@ -19,6 +21,8 @@
 // that gives the direct setne.
 // Retail 0x0046D1AC (75 bytes), slot 9: the only name of the AsciiString list at
 // module data +0xA4, else AsciiString::TheEmptyString, returned by value.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include <list>
 #include <map>
@@ -1812,6 +1816,9 @@ void HordeContain::rva0046C4C0()
 		{
 			if (!obj->m_ai->isMoving() && obj->test110(29) && obj->testCondition(1 * 32 + 29))
 			{
+				_ReadWriteBarrier();
+				_ReadWriteBarrier();
+				_ReadWriteBarrier();
 				obj->clearCondition(1 * 32 + 29);
 				obj->rva0028AE6D();
 			}

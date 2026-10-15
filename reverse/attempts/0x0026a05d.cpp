@@ -1,4 +1,6 @@
 // ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
+// partial score=0.928 date=2026-10-15
+// ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
 // partial score=0.9284842080544793 date=2026-10-14
 // ?rva0026A05D@AIUpdateInterface@@QAE?AW4UpdateSleepTime@@XZ
 // partial score=0.93 date=2026-10-13
@@ -24,6 +26,8 @@
 // 61 and 156 (Object+0x10C words; notifier 0x0028AE6D) and sleeps NONE; the
 // +0x3E0 flag brackets the machine update; vslot 113 short-circuits; KindOf
 // 109 skips 0x0028ACEE. Dead bit Object+0x438 bit 0 as in Rva00265AAB.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Coord3D.h"
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
@@ -266,6 +270,7 @@ UpdateSleepTime AIUpdateInterface::rva0026A05D()
 
 	if (!slot110())
 		m_3C8 = true;
+		_ReadWriteBarrier();
 	m_isInUpdate = true;
 	m_completedWaypoint = 0;
 	int subMachineSleep = UPDATE_SLEEP_FOREVER;

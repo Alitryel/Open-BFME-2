@@ -1,4 +1,6 @@
 // ?rva003469F5@AIBurningDeathState@@QAE?AUCoord3D@@XZ
+// partial score=0.785 date=2026-10-15
+// ?rva003469F5@AIBurningDeathState@@QAE?AUCoord3D@@XZ
 // partial score=0.7835 date=2026-10-14
 // ?rva003469F5@AIBurningDeathState@@QAE?AUCoord3D@@XZ
 // partial score=0.8 date=2026-10-09
@@ -20,6 +22,8 @@
 // (AIStates.cpp); StateReturnType values follow Zero Hour (CONTINUE 0,
 // SUCCESS -1, FAILURE -2). Structural inference: +0x20/+0x24 are the base
 // move's goal x/y.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
 
 typedef unsigned int UnsignedInt;
@@ -171,6 +175,7 @@ Coord3D AIBurningDeathState::rva003469F5()
  offset.y=(float)(GetGameLogicRandomValue(-delta,delta,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\AI\\AIStates.cpp",0x4542)*10);
  Coord3D result;
  result.x=m_origin.x+offset.x;
+ _ReadWriteBarrier();
  result.y=m_origin.y+offset.y;
  result.z=offset.z;
  return result;

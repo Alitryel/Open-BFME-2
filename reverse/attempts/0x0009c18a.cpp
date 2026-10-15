@@ -1,4 +1,6 @@
 // ?rva0009C18A@Rva0009D55BProduct@@QAEXXZ
+// partial score=0.92 date=2026-10-15
+// ?rva0009C18A@Rva0009D55BProduct@@QAEXXZ
 // partial score=0.9041229309 date=2026-10-12
 // ?rva0009C18A@Rva0009D55BProduct@@QAEXXZ
 // partial score=0.8 date=2026-10-11
@@ -27,6 +29,8 @@
 // (inline Release_Ref, Delete_This slot 0) and clears each, then unwinds
 // the +0x1D0 texture reference (Release_Ref 0x0021ED10) and the +0x1C0
 // vector before the LivingWorld destructor 0x002BFB2D.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 #include "ascii_string.h"
 // The +0x1C0 vector's storage is freed inline through the game free
@@ -499,6 +503,8 @@ void Rva0009D55BProduct::rva0009C18A()
 	double tanX = tan(0.4363323152065277);
 	distance[0] = (m_170.hi.x - m_120) / tanX;
 	double tanY = tan(0.4363323152065277);
+	_ReadWriteBarrier();
+	_ReadWriteBarrier();
 	distance[1] = (m_170.hi.y - m_120) * 1.333f / tanY;
 	Matrix3D tm(true);
 	float drop = m_170.lo.getZ() - m_170.hi.getZ();

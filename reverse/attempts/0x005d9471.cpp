@@ -1,4 +1,8 @@
 // ?rva005D9471@Rva005EE816@@QAE_NPAVObject@@@Z
+// partial score=0.867 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva005D9471@Rva005EE816@@QAE_NPAVObject@@@Z
 // partial score=0.85 date=2026-10-04
 // cl: /O1 /MD /GX /arch:SSE
 //
@@ -105,6 +109,7 @@ bool Rva005EE816::rva005D9471(Object *target)
 	if (other != 0) {
 		const Coord3D *otherPos = &other->m_pos;
 		Rva005D95CFVec d(otherPos->x - pos->x, (pos ? otherPos->y : otherPos->y) - pos->y, otherPos->z - pos->z);
+		_ReadWriteBarrier();
 		if (d.lengthSqr() >= (radius * 0.8f) * (radius * 0.8f))
 			return rva005EE8DD(otherPos, target);
 	}

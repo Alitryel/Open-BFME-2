@@ -1,4 +1,8 @@
 // ?rva0004A462@W3DDisplay@@QAE_NI@Z
+// partial score=0.736 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva0004A462@W3DDisplay@@QAE_NI@Z
 // partial score=0.6 date=2026-10-14
 // ?rva0004A462@Rva0004A462@@QAE_NI@Z
 // partial score=0.6 date=2026-10-14
@@ -241,6 +245,7 @@ bool W3DDisplay::rva0004A462(unsigned int arg)
                         ((W3DDisplay *)this)->rva0025D205();
                         ((Region2D *)this)->~Region2D();
                         unsigned char *list = *(unsigned char **)((char *)m_38 + 8);
+                        _ReadWriteBarrier();
                         void *node = *(void **)(list + 0x18);
                         if (node != 0)
                         {

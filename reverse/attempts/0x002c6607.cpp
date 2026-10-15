@@ -1,4 +1,6 @@
 // ?updateInterestZones@TacticalAI@@QAEXXZ
+// partial score=0.939 date=2026-10-15
+// ?updateInterestZones@TacticalAI@@QAEXXZ
 // partial score=0.90125 date=2026-10-14
 // ?updateInterestZones@TacticalAI@@QAEXXZ
 // partial score=0.91 date=2026-10-13
@@ -286,6 +288,7 @@ void TacticalAI::updateInterestZones() {
    for(;!objects.done() && !found;objects.advance()) {
     Rva002C6607ObjectView *obj=(Rva002C6607ObjectView*)objects.cur();
     if(((unsigned char)obj->tmpl[0x108]&8) || ((unsigned char)obj->tmpl[0x113]&4)) {
+    	_ReadWriteBarrier();
      Object *victim=obj->ai ? obj->ai->getCurrentVictim() : 0;
      if(victim) {
       Rva002C6607ObjectView *target=(Rva002C6607ObjectView*)victim;

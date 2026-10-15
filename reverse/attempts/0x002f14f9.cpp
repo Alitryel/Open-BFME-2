@@ -1,4 +1,6 @@
 // ?rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z
+// partial score=0.896 date=2026-10-15
+// ?rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z
 // partial score=0.8938 date=2026-10-14
 // ?rva002F14F9@Pathfinder@@QAEPAVObject@@PAV2@0@Z
 // partial score=0.884140089824434 date=2026-10-10
@@ -15,6 +17,8 @@
 // callee pin is supported by its selected-layer callsite and the GeneralsMD
 // PathfindLayer::setDestroyed(Bool) donor. Target arithmetic gives 64-byte
 // layers at +0x60 and the final manager-like subobject at +0x460.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <vector>
 #include <new>
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
@@ -1219,6 +1223,7 @@ Object *Pathfinder::rva002F14F9(Object *obj,Object *target)
  }
  volatile int range = realToIntFloor(weapon->getAttackRange(obj)/10.0f+0.1f);
  Object *best=0;
+ _ReadWriteBarrier();
  float bestDistance=1e10f;
  while(range-->=0) 
  {

@@ -1,4 +1,8 @@
 // ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
+// partial score=0.381 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
 // partial score=0.38 date=2026-10-14
 // ?rva000321F0@GeneralAllocator@Allocator@EA@@QAEHH@Z
 // partial score=0.4 date=2026-10-14
@@ -308,6 +312,8 @@ unlock_return:
         lock->m_ref = lock->m_ref - 1;
         LeaveCriticalSection(lock);
     }
+    _ReadWriteBarrier();
+    _ReadWriteBarrier();
     return errors;
 }
 

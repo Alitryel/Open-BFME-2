@@ -1,4 +1,8 @@
 // ?Rva0073BFE0Raster@@YADPAH0HVRva0073BAA0@@@Z
+// partial score=0.551 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?Rva0073BFE0Raster@@YADPAH0HVRva0073BAA0@@@Z
 // partial score=0.54189 date=2026-10-13
 // ?Rva0073BFE0Raster@@YADPAH0HVRva0073BAA0@@@Z
 // partial score=0.54189 date=2026-10-10
@@ -75,4 +79,5 @@ char __cdecl Rva0073BFE0Raster(int *ys,int *xs,int n,Rva0073BAA0 updater)
   }
   if(!updater.rva0073BAA0(leftEdge.rounded(),rightEdge.rounded(),y)) return 0;
  }
+ _ReadWriteBarrier();
 }

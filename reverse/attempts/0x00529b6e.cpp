@@ -1,4 +1,6 @@
 // ?rva00529B6E@Rva00529B6E@@QAEXPAVObject@@@Z
+// partial score=0.888 date=2026-10-15
+// ?rva00529B6E@Rva00529B6E@@QAEXPAVObject@@@Z
 // partial score=0.85 date=2026-10-10
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // stlport
@@ -19,6 +21,8 @@
 // PalantirCommandInterface.cpp's native range stays in the units that
 // already row it; this one holds the selection-walk family.
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <list>
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -274,6 +278,7 @@ void Rva00529B6E::rva00529B6E(Object *obj)
 					}
 				}
 			}
+			_ReadWriteBarrier();
 		}
 	}
 	if (result.mode != m_mode)

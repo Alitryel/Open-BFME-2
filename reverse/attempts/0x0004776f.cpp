@@ -1,4 +1,8 @@
 // ?rva0044776F@Rva0044776F@@QAEXPAXMMMMKH@Z
+// partial score=0.414 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva0044776F@Rva0044776F@@QAEXPAXMMMMKH@Z
 // partial score=0.4 date=2026-10-14
 // ?rva0044776F@Rva0044776F@@QAEXPAXMMMMKH@Z
 // partial score=0.4 date=2026-10-14
@@ -108,6 +112,7 @@ void Rva0044776F::rva0044776F(void *texture, float x1, float y1, float x2, float
         p3.X = u1; p3.Y = v0;
         p4.X = u0; p4.Y = v0;
         p5.X = u1; p5.Y = v1;
+        _ReadWriteBarrier();
     }
     else
     {

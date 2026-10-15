@@ -1,4 +1,6 @@
 // ?instantiateCharacter@AptDisplayList@@QAEXHPAUAptCharacter@@PAVEAStringC@@PAVAptCIH@@HHPAPAV4@PAH@Z
+// partial score=0.816 date=2026-10-15
+// ?instantiateCharacter@AptDisplayList@@QAEXHPAUAptCharacter@@PAVEAStringC@@PAVAptCIH@@HHPAPAV4@PAH@Z
 // partial score=0.815 date=2026-10-15
 // AptDisplayList::instantiateCharacter
 // partial score=0.2081863091037403 date=2026-10-10
@@ -146,6 +148,7 @@ void AptDisplayList::instantiateCharacter(int depth,AptCharacter*character,EAStr
   }
   if(type==13 || type==14) {
    CHECK(g_bfmeAptPtrAtE176D0->count<g_bfmeAptPtrAtE176D0->capacity,"gpPool->nNewInsts < gpPool->GetMaxNewMovieClips()",0x2f3);
+   _ReadWriteBarrier();
    g_bfmeAptPtrAtE176D0->newInsts[g_bfmeAptPtrAtE176D0->count]=current;
    ++g_bfmeAptPtrAtE176D0->count;
    current->AddRef();

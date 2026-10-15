@@ -1,4 +1,6 @@
 // ?cellCallback@Rva002F18D4Info@@QAEHPAVPathfindCell@@0HH@Z
+// partial score=0.823 date=2026-10-15
+// ?cellCallback@Rva002F18D4Info@@QAEHPAVPathfindCell@@0HH@Z
 // partial score=0.9 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common
 // Semantic guide BF1 f98983a7d PathfindObstacleCallbackDebb0.cpp and ZH
@@ -7,6 +9,8 @@
 // obstacle ID +28, contained-by +274 and payload accesses 0..18. BF2 adds
 // template kind masks and owner/partner squared distance comparison; purpose
 // and class identity remain inferred from reference and native call graph.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Coord3D.h"
 #include "GameLogicObjectLookupView.h"
 class ThingTemplate {
@@ -79,6 +83,7 @@ int Rva002F18D4Info::cellCallback(PathfindCell*previous,PathfindCell*current,int
      float fx=(float)(x*10),fy=(float)(y*10);
      const Coord3D*op=m_obj->getPosition();const Coord3D*pp=m_other->getPosition();
      float dx=op->x-fx,dy=op->y-fy,px=pp->x-fx,py=pp->y-fy;
+     _ReadWriteBarrier();
      float od=dy*dy+dx*dx,pd=py*py+px*px;
      if(pd>od)return 0;
     }

@@ -1,4 +1,8 @@
 // ?rva000332D0@GeneralAllocator@Allocator@EA@@QAE_NPAXI_N100@Z
+// partial score=0.922 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva000332D0@GeneralAllocator@Allocator@EA@@QAE_NPAXI_N100@Z
 // partial score=0.92 date=2026-10-15
 // ?rva00031010@Rva00031010@@QAEXPAURva00031010Node@@_N@Z @0x00031010 66B evidence EA GeneralAllocator large-bin insert beside GetLargeBinIndex plus caller 0x000333ED plus head at +0x440 plus bin at +0x30
 struct Rva00031010Node
@@ -163,6 +167,7 @@ bool GeneralAllocator::rva000332D0(void *core, unsigned int size, bool freeCore,
 			chunk[1] = ((unsigned int)block - (unsigned int)chunk + size) | 1;
 			chunk[0] = 0;
 			rva000332D0AddDoubleFencepost(chunk, 0);
+			_ReadWriteBarrier();
 			((Rva00031010 *)this)->rva00031010((Rva00031010Node *)chunk, m_top != &m_bin);
 			if (lock != 0)
 			{

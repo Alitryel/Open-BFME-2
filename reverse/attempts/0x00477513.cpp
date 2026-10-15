@@ -1,4 +1,6 @@
 // ?rva00477513@HordeTransportContain@@QAEXXZ
+// partial score=0.947 date=2026-10-15
+// ?rva00477513@HordeTransportContain@@QAEXXZ
 // partial score=0.95 date=2026-10-15
 // ?rva00477513@HordeTransportContain@@QAEXXZ
 // partial score=0.94 date=2026-10-13
@@ -209,6 +211,7 @@ void HordeTransportContain::rva00477513()
  for (IntList::iterator i=outer.objects->begin();i!=outer.objects->end();++i) 
  {
   int element=*i;
+  _ReadWriteBarrier();
   Object *object=(Object *)element;
   if (object->templateView->flags115 & 0x20) 
   {

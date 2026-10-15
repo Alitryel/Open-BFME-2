@@ -1,4 +1,8 @@
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
+// partial score=0.448 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
 // partial score=0.633 date=2026-10-14
 // ?rva005AD9E6@Rva005AD9E6@@QAEHXZ
 // partial score=0.91 date=2026-10-01
@@ -34,6 +38,7 @@ int Rva005AD9E6::rva005AD9E6()
 		return 0;
 	int n = 0;
 	while ((cur->m_next ? (cur != head) : (cur != head))) {
+		_ReadWriteBarrier();
 		cur = (cur ? cur->m_next : cur->m_next);
 		++n;
 	}

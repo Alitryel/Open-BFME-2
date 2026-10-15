@@ -1,6 +1,8 @@
 // ?rva0042682B@Rva004266A1@@QAEXHE@Z
+// partial score=0.909 date=2026-10-15
+// ?rva0042682B@Rva004266A1@@QAEXHE@Z
 // partial score=0.92 date=2026-10-03
-// cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /arch:SSE /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /arch:SSE /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Oa
 // stlport
 // ?rva0042682B@Rva004266A1@@QAEXHE@Z @0x0042682B 203B evidence: same Rva004266A1 vector at +4 as rowed 0x4266A1 plus flag1 store +5 via callers 0x3BA7DF 0x3BD345 0x3BD367; TheAudio ThePlayerList plus BfmeAudioEventPrefix136 ctor 0x2D97D6 plus dword slot set 0x33F15D plus tail dtor 0x2D9A43 via prefix alias plus AudioManager slot 0x64
 #include <vector>
@@ -99,6 +101,7 @@ void Rva004266A1::rva0042682B(int index, unsigned char value)
 		return;
 	unsigned char old = m_04[index].flag1;
 	m_04[index].flag1 = value;
+	_ReadWriteBarrier();
 	if (TheAudio == 0 || old != 0 || value == 0)
 		return;
 	if (ThePlayerList->m_10 == 0)

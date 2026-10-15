@@ -1,4 +1,8 @@
 // ?rva006F7720Sub@AptAnimationPoolData@@QAEXPAXH@Z
+// partial score=0.814 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva006F7720Sub@AptAnimationPoolData@@QAEXPAXH@Z
 // partial score=0.85 date=2026-10-14
 // ?rva006F7720Sub@AptAnimationPoolData@@QAEXPAXH@Z
 // partial score=0.8 date=2026-10-09
@@ -54,6 +58,7 @@ void AptAnimationPoolData::rva006F7720Sub(void *context,int mode)
       if(masks.get(last)->info->clipDepth>=item->depth)break;
       visit(context,masks.get(last),-1);
       masks.rva006F7600(last);maskCount=masks.count;
+      _ReadWriteBarrier();
      }
      visit(context,item,mode);
     }

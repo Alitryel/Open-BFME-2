@@ -1,4 +1,8 @@
 // ?rva00033ED0@Rva006C1F60@@QAEPAXIH@Z
+// partial score=0.55 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva00033ED0@Rva006C1F60@@QAEPAXIH@Z
 // partial score=0.53 date=2026-10-14
 // ?rva00033ED0@Rva006C1F60@@QAEPAXIH@Z
 // partial score=0.45 date=2026-10-14
@@ -245,6 +249,7 @@ retry:
                 next->m_prev = c;
 
                 c = unsorted->m_next;
+                _ReadWriteBarrier();
                 if (c == unsorted)
                     break;
             }

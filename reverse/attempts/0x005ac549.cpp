@@ -1,4 +1,6 @@
 // ?update@AIStructureCreepTactic@@UAEXXZ
+// partial score=0.863 date=2026-10-15
+// ?update@AIStructureCreepTactic@@UAEXXZ
 // partial score=0.93 date=2026-10-13
 // ?update@AIStructureCreepTactic@@UAEXXZ
 // partial score=0.89 date=2026-10-13
@@ -808,6 +810,9 @@ void AIStructureCreepTactic::update()
 			Rva005ABEA2Mask mask;
 			mask.set(3);
 			mask.set(90);
+			_ReadWriteBarrier();
+			_ReadWriteBarrier();
+			_ReadWriteBarrier();
 			BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&site->m_pos,
 				site->m_radius, 0,
 				Rva0026119DFilter().link(&Rva00261409Filter(m_owner, true, 2))

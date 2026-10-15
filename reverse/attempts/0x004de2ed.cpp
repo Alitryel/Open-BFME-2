@@ -1,4 +1,6 @@
 // ?rva004DE2ED@Rva004DD843@@QAE_NXZ
+// partial score=0.801 date=2026-10-15
+// ?rva004DE2ED@Rva004DD843@@QAE_NXZ
 // partial score=0.7946 date=2026-10-09
 // ?rva004DE2ED@Rva004DD843@@QAE_NXZ
 // partial score=0.85 date=2026-10-09
@@ -190,6 +192,8 @@ __declspec(noinline) int __cdecl Rva004DD6CFGet(float angle)
 // the operation and branch semantics. Template KindOf and Object status/AI
 // offsets below are native; opaque virtual slots preserve the observed ABI.
 // Slot +0C is the path layer; +10 is the node-list category used by removal.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "Coord3D.h"
 struct ICoord2DBase { int x,y; };
 struct ICoord2D : ICoord2DBase { bool operator==(const ICoord2DBase &) const; };
@@ -416,6 +420,7 @@ void Rva004DD843::rva004DE24B(int position)
 int Rva002E6E8AGet(int);
 bool Rva004DD843::rva004DE2ED()
 {
+	_ReadWriteBarrier();
  int mode=3;
  if(m_object->m_template->flags114 & 0x2000) ++mode;
  if (m_object->m_status & 1)

@@ -1,10 +1,14 @@
 // ?rva00547CB6@MoveToFormationGroupOrder@@QAEXXZ
+// partial score=0.829 date=2026-10-15
+// ?rva00547CB6@MoveToFormationGroupOrder@@QAEXXZ
 // partial score=0.85 date=2026-10-13
 // ?rva00547CB6@MoveToFormationGroupOrder@@QAEXXZ
 // partial score=0.8183079482499636 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /I.
 // stlport
 // NEW 00547CB6..00547DE9, 307B: populate formation group-order positions.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <list>
 #include <hash_map>
 #include <string>
@@ -32,6 +36,7 @@ class MoveToFormationGroupOrder{public:void rva00547CB6();
  char pad0[4];ObjectID*first,*last;char padC[0x18-0xc];int kind;Coord3D origin;float angle;bool flag2C;char pad2D[3];ObjectCoord3DMap positions;bool flag44;
 };
 void MoveToFormationGroupOrder::rva00547CB6(){
+	_ReadWriteBarrier();
  _STL::list<Object*>objects;
  for(ObjectID*p=first;p!=last;++p){Object*object=TheGameLogic->findObjectByID(*p);if(object)objects.insert(objects.end(),object);}
  if(!objects.empty()){

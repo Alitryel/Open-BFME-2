@@ -1,4 +1,6 @@
 // ?rva0046D2C3@HordeContain@@UAEPAVObject@@H@Z
+// partial score=0.902 date=2026-10-15
+// ?rva0046D2C3@HordeContain@@UAEPAVObject@@H@Z
 // partial score=0.88 date=2026-10-13
 // ?rva0046D2C3@HordeContain@@UAEPAVObject@@H@Z
 // partial score=0.88 date=2026-10-08
@@ -17,6 +19,8 @@
 // that gives the direct setne.
 // Retail 0x0046D1AC (75 bytes), slot 9: the only name of the AsciiString list at
 // module data +0xA4, else AsciiString::TheEmptyString, returned by value.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include <list>
 #include <map>
@@ -950,6 +954,7 @@ bool HordeContain::rva0046BB38(Object *other)
 }
 Object *HordeContain::rva0046D2C3(int kind)
 {
+	_ReadWriteBarrier();
 	Rva0046247DPair p;
 	rva0046D27ASlot70(p);
 	Rva0046D2C3ListNode *head = *(Rva0046D2C3ListNode **)p.m04;

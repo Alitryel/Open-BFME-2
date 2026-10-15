@@ -1,4 +1,8 @@
 // ?rva001076F6@W3DVolumetricShadowManagerV2@@QAEXXZ
+// partial score=0.88 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva001076F6@W3DVolumetricShadowManagerV2@@QAEXXZ
 // partial score=0.8804 date=2026-10-14
 // ?rva001076F6@W3DVolumetricShadowManagerV2@@QAEXXZ
 // partial score=0.859196 date=2026-10-14
@@ -75,6 +79,7 @@ void W3DVolumetricShadowManagerV2::rva001076F6()
 	((void (__stdcall *)(void *, int))vt[0x170 / 4])(obj, 0);
 	++*(int *)0x00DEDA98;
 	obj = *(void **)0x00DEDA34;
+	_ReadWriteBarrier();
 	vt = (m_indexBuffer ? (*(int **)obj) : (*(int **)obj));
 	((void (__stdcall *)(void *, int))vt[0x164 / 4])(obj, 2);
 	++*(int *)0x00DEDA98;

@@ -1,4 +1,8 @@
 // ?rva00032B00@GeneralAllocator@Allocator@EA@@QAEPAXI@Z
+// partial score=0.899 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva00032B00@GeneralAllocator@Allocator@EA@@QAEPAXI@Z
 // partial score=0.85 date=2026-10-14
 // ?rva00032B00@GeneralAllocator@Allocator@EA@@QAEPAXI@Z
 // partial score=0.85 date=2026-10-13
@@ -98,6 +102,7 @@ void *GeneralAllocator::rva00032B00(unsigned int size)
 		unsigned int *fencepost = (unsigned int *)((char *)chunk + fencepostOffset);
 		fencepost[0] = fencepostOffset;
 		fencepost[1] = 8;
+		_ReadWriteBarrier();
 		fencepost[2] = 8;
 		fencepost[3] = 9;
 		return chunk;

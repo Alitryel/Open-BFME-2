@@ -1,4 +1,8 @@
 // ?mergeState@AptDisplayList@@QAEXPAVAptPseudoDisplayList@@PAVAptNativeHash@@_N@Z
+// partial score=0.742 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?mergeState@AptDisplayList@@QAEXPAVAptPseudoDisplayList@@PAVAptNativeHash@@_N@Z
 // partial score=0.64033 date=2026-10-14
 void __debugbreak();
 #pragma intrinsic(__debugbreak)
@@ -305,6 +309,7 @@ void AptDisplayList::mergeState(AptPseudoDisplayList *incoming,AptNativeHash *ha
  while(current){
   if(current->GetDepth()>=16384){
    while(control && control->depth<current->GetDepth()){if(control->control->type==3)AddToDisplayList(hash,control,incoming->parent);control=control->next;}
+   _ReadWriteBarrier();
    DL_CHECK(control==0,0x6c7,"pNewControl == NULL");break;
   }
   if(control && control->depth==current->GetDepth()){

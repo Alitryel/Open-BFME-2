@@ -1,4 +1,6 @@
 // ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
+// partial score=0.872 date=2026-10-15
+// ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
 // partial score=0.8675 date=2026-10-13
 // W7-MP6 r10: first-line symbol corrected to the emitted body (the old name passed the wrong stack bytes for this RVA)
 // ?rva00473212@HordeContain@@UAEPAVObject@@PAV2@PBV2@_N@Z
@@ -11,6 +13,8 @@
 // creates the new horde, merges upgrades and transfers the surviving carrier.
 // Original method spelling unknown. LatchRestore<bool> is the ZH reference
 // guard: native BC5314 slot0 is the already-owned 00051A46 destructor.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include <list>
 #include <algorithm>
@@ -575,6 +579,7 @@ Object *HordeContain::rva00473212(Object *object,const Object *source,bool flag)
     reinterpret_cast<_STL::list<Object*>*>(&members)->erase(found);
     
    }
+   _ReadWriteBarrier();
    if (!members.empty()) firstMember=members.front();
    
   }

@@ -1,4 +1,6 @@
 // ?rva006C26F0@GeneralAllocatorDebug@@QAEXTGeneralAllocatorMetricBlockArg@@_N@Z
+// partial score=0.908 date=2026-10-15
+// ?rva006C26F0@GeneralAllocatorDebug@@QAEXTGeneralAllocatorMetricBlockArg@@_N@Z
 // partial score=0.5 date=2026-10-14
 // ?rva006C26F0@GeneralAllocatorDebug@@QAEXTGeneralAllocatorMetricBlockArg@@_N@Z
 // partial score=0.684 date=2026-10-11
@@ -76,6 +78,8 @@ int Rva006C1F60::rva006C1F60(unsigned int v)
 //    (kind 0xB) as in the rowed VerifyGuardFill 0x006C3020.
 // The fills are the intrinsic memset. Method name address-derived.
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <string.h>
 #pragma intrinsic(memset)
 #pragma intrinsic(memcpy)
@@ -351,6 +355,7 @@ void GeneralAllocatorDebug::rva006C26F0(GeneralAllocatorMetricBlockArg arg, bool
   unsigned int overhead=prev+8;
   unsigned int debugSize=rva006C2510((char *)block+8,0,0);
   size=size-debugSize-8;
+  _ReadWriteBarrier();
   if(allocation) {
    m_lastAllocation=GetTickCount()/1000;
    ++m_metrics[0].currentCount;

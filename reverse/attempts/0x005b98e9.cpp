@@ -1,4 +1,6 @@
 // ?rva005B98E9@OnlineHome@AptOnline@@QAEXXZ
+// partial score=0.771 date=2026-10-15
+// ?rva005B98E9@OnlineHome@AptOnline@@QAEXXZ
 // partial score=0.773 date=2026-10-14
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // stlport
@@ -7,6 +9,8 @@
 // "\AARRGGBB" prefix selects the colour (grabHexInt on four byte pairs; otherwise the palette entry 27
 // of GameSpyColor, 0x00DB9204), and the line is added to the list box at +0x60. Same flow as BFME 1's
 // OnlineHomeMessageOfTheDay.cpp; WorldBuilder 0x015855D0.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "unicode_string.h"
 #include "ascii_string.h"
 #include <string>
@@ -72,6 +76,7 @@ private:
 
 void OnlineHome::rva005B98E9()
 {
+	_ReadWriteBarrier();
 	if (m_motd && TheGameSpyInfo)
 	{
 		GadgetListBoxReset(m_motd);

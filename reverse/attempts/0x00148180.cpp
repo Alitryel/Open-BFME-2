@@ -1,4 +1,6 @@
 // ?Add_Mesh@DX8RigidFVFCategoryContainer@@UAEXPAVMeshModelClass@@@Z
+// partial score=0.809 date=2026-10-15
+// ?Add_Mesh@DX8RigidFVFCategoryContainer@@UAEXPAVMeshModelClass@@@Z
 // partial score=0.42 date=2026-10-14
 // ?Add_Mesh@DX8RigidFVFCategoryContainer@@UAEXPAVMeshModelClass@@@Z
 // partial score=0.8 date=2026-10-12
@@ -329,6 +331,7 @@ void DX8RigidFVFCategoryContainer::Add_Mesh(MeshModelClass* mmc_)
  _ReadWriteBarrier();
  const S2FVFInfo fi=(vertex_buffer ? vertex_buffer : vertex_buffer)->FVF_Info();
  unsigned char *vb=(unsigned char*)l.Get_Vertex_Array();
+ _ReadWriteBarrier();
  unsigned int i;
  const unsigned *specular=split_table.Get_Color_Array(1);
  const Vector3 *norms=split_table.Get_Vertex_Normal_Array();

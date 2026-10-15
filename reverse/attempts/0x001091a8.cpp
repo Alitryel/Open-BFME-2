@@ -1,4 +1,8 @@
 // ?rva001091A8@Rva00108660ResourceManager@@QAEXPAX@Z
+// partial score=0.748 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva001091A8@Rva00108660ResourceManager@@QAEXPAX@Z
 // partial score=0.8 date=2026-10-11
 // cl: -O1 -arch:SSE -G7 -DNDEBUG -MD
 // Reference lead: BFME 1 1399ad37d42ea52a63829e417c46a1ba9ed2cd20,
@@ -142,6 +146,7 @@ void Rva00108660ResourceManager::rva001091A8(void *shadowArg)
         int elapsed = shadow->m_elapsed;
         int total = elapsed == -1 ? shadow->m_total : shadow->m_total - elapsed;
         int v48 = shadow->m_48;
+        _ReadWriteBarrier();
         int v54 = shadow->m_54;
         ((Rva00330A37 *)shadow)->rva00330A37(0, total, v40, 0, v48, 0, total, v54);
         return;

@@ -1,4 +1,6 @@
 // ?queueCreateUnit@ProductionUpdate@@UAE_NPBVThingTemplate@@HW4ProductionID@@H_NABVAsciiString@@2@Z
+// partial score=0.788 date=2026-10-15
+// ?queueCreateUnit@ProductionUpdate@@UAE_NPBVThingTemplate@@HW4ProductionID@@H_NABVAsciiString@@2@Z
 // partial score=0.7827 date=2026-10-13
 // ?queueCreateUnit@ProductionUpdate@@UAE_NPBVThingTemplate@@HW4ProductionID@@H_NABVAsciiString@@2@Z
 // partial score=0.7827 date=2026-10-13
@@ -49,6 +51,8 @@
 // hand-written list view puts the dummy list's allocator temporary in a new
 // frame slot, where retail reuses the dead parameter slot.
 
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 
 typedef bool Bool;
@@ -1373,6 +1377,7 @@ Bool ProductionUpdate::queueCreateUnit( const ThingTemplate *unitType, Int reviv
 		}
 		else
 		{
+			_ReadWriteBarrier();
 			production->m_type = PRODUCTION_HORDE_UNIT;
 			if( !reinterpret_cast<UnitRevivalTracker *>(&player->m_revivalTracker)->productionSystemQueueCreateUnit( revivalIndex, production->m_productionID, &production->m_buttonImage ) )
 			{

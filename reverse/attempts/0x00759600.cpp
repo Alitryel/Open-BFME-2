@@ -1,4 +1,8 @@
 // ?UpdateSort@CollisionManagerImpl@@QAEXXZ
+// partial score=0.787 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?UpdateSort@CollisionManagerImpl@@QAEXXZ
 // partial score=0.78 date=2026-10-14
 // ?UpdateSort@CollisionManagerImpl@@QAEXXZ
 // partial score=0.78 date=2026-10-14
@@ -296,6 +300,7 @@ void CollisionManagerImpl::UpdateSort()
 				}
 
 				Rva009A3AD0Endpoint *next = cur->m_next;
+				_ReadWriteBarrier();
 				if (cur->m_prev != 0)
 					cur->m_prev->m_next = cur->m_next;
 				else

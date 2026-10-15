@@ -1,4 +1,6 @@
 // ?rva006D17F0@AptLinker@@QAEXXZ
+// partial score=0.601 date=2026-10-15
+// ?rva006D17F0@AptLinker@@QAEXXZ
 // partial score=0.6 date=2026-10-14
 // ?rva006D17F0@AptLinker@@QAEXXZ
 // partial score=0.6 date=2026-10-14
@@ -7,6 +9,8 @@
 // the EA Apt {count,capacity,data} vector at this+4 and the {value,next} node
 // chain at this+0. Unrowed data globals are extern-only placeholders.
 // cl: /O2 /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <new>
 
 class EAStringC
@@ -285,6 +289,7 @@ void AptLinker::rva006D17F0()
 				}
 				if (g_rva00891FA0Ready != 0)
 				{
+					_ReadWriteBarrier();
 					EAStringC *name = (EAStringC *)((char *)elem + 8);
 					unsigned int len = name->rva006D3750();
 					char record[0x120];
