@@ -145,6 +145,7 @@ class AptPlayer
 {
 public:
  void RemoveOverButtonHandler(int index, const AsciiString &key);
+ void RemoveOverButtonHandler(const AsciiString &key);
  void OnCustomRender(const char *name, int a, int b, int c, int d);
  static int GetLevelIndex(GameWindow *window);
  GameWindow *WinCreate(const AsciiString *name,AptLayoutInfoView *layout);
@@ -686,4 +687,12 @@ void AptPlayer::RemoveOverButtonHandler(int index, const AsciiString &key)
  AsciiString copy(key);
  Rva00223591 *table = reinterpret_cast<Rva00223591 *>(m_levelData[index].m_pad10);
  table->rva00223736(&copy);
+}
+
+// WB B920E0 names the non-indexed overload at AptPlayer.cpp:699.
+// Native 22453E..224584 proves the copied key and the +A4 handler map.
+void AptPlayer::RemoveOverButtonHandler(const AsciiString &key)
+{
+ AsciiString copy(key);
+ reinterpret_cast<Rva00223591 *>(m_overButtonMap)->rva00223736(&copy);
 }
