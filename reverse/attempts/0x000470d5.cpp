@@ -1,4 +1,6 @@
 // ?Rva000470D5GetTexture@@YA?AVBFME2ParticleTextureHandle@@PBURva000470D5Source@@@Z
+// partial score=0.93 date=2026-10-15
+// ?Rva000470D5GetTexture@@YA?AVBFME2ParticleTextureHandle@@PBURva000470D5Source@@@Z
 // partial score=0.929 date=2026-10-15
 // ?Rva000470D5GetTexture@@YA?AVBFME2ParticleTextureHandle@@PBURva000470D5Source@@@Z
 // partial score=0.9062378167641326 date=2026-10-14
@@ -70,8 +72,7 @@ struct Rva000470D5Source
 BFME2ParticleTextureHandle Rva000470D5GetTexture(const Rva000470D5Source *src)
 {
 	unsigned int flags = src->m_flags30;
-	_ReadWriteBarrier();
-	if (flags & 2) {
+	if ((flags & 2) != 0) {
 		BFME2ParticleTextureHandle tex(*src->m_texture2C);
 		((ShroudTexture *)&tex)->getFilter()->m_10 = 1;
 		((ShroudTexture *)&tex)->getFilter()->m_0C = 1;
