@@ -35,10 +35,13 @@ public:
  Payload m_data; // +8
 };
 
-RvaCloneResult<Rva00574ABB> Rva00574BA5Create(const Rva00574ABB::Payload *src)
+__declspec(noinline) inline RvaCloneResult<Rva00574ABB> Rva00574BA5Create(const Rva00574ABB::Payload *src)
 {
  return RvaCloneResult<Rva00574ABB>(new Rva00574ABB(src));
 }
+// Select-any like Rva00574EE9Method.cpp's copy; the anchor keeps it emitted.
+// ?bfmeAnchorRva00574BA5Create absent-from-retail
+RvaCloneResult<Rva00574ABB> bfmeAnchorRva00574BA5Create(const Rva00574ABB::Payload *src) { return Rva00574BA5Create(src); }
 
 // Native factory 0x005CDC18 calls constructor 0x005CDB8F;
 // its allocation is 28 bytes, with a 20-byte payload at +8.
@@ -171,10 +174,13 @@ public:
  Payload m_data; // +8
 };
 
-RvaCloneResult<Rva005E9742> Rva005E98FDCreate(const Rva005E9742::Payload *src)
+__declspec(noinline) inline RvaCloneResult<Rva005E9742> Rva005E98FDCreate(const Rva005E9742::Payload *src)
 {
  return RvaCloneResult<Rva005E9742>(new Rva005E9742(src));
 }
+// Select-any like StrategicInGameUILocalPlayerData.cpp's identical copy; the anchor keeps it emitted.
+// ?bfmeAnchorRva005E98FDCreate absent-from-retail
+RvaCloneResult<Rva005E9742> bfmeAnchorRva005E98FDCreate(const Rva005E9742::Payload *src) { return Rva005E98FDCreate(src); }
 
 // Native factory 0x005E992F calls constructor 0x005E97B8;
 // its allocation is 20 bytes, with a 12-byte payload at +8.
