@@ -794,7 +794,7 @@ extern "C" __declspec(dllimport) void __stdcall AIL_set_3D_sample_loop_count(voi
 extern "C" __declspec(dllimport) void __stdcall AIL_start_3D_sample(void *sample);
 extern "C" __declspec(dllimport) void __stdcall AIL_set_3D_sample_playback_rate(void *sample, int rate);
 extern float g_00DBA4FC;
-extern const unsigned int PositiveFloatInfinityBits;
+#include <limits>
 
 struct Rva0005A084Element { int m_value; };
 typedef _STL::vector<Rva0005A084Element> Rva0005A084Vector;
@@ -2792,7 +2792,7 @@ void MilesAudioManager::rva0005AA72(PlayingAudioRef &playing)
     playing->m_event->rva002D9ADC();
     if (playing->m_event->hasMoreLoops()) {
         playing->m_event->advanceNextPlayPortion();
-        ((Rva002D9BDC *)playing->m_event.operator->())->rva002D9BDC(g_00DBA4FC + 1.0f, (*reinterpret_cast<const float *>(&PositiveFloatInfinityBits)));
+        ((Rva002D9BDC *)playing->m_event.operator->())->rva002D9BDC(g_00DBA4FC + 1.0f, _STL::_LimG<bool>::_F_inf.val);
         playing->m_event->m_at4B = true;
         rva00059CE6(playing);
     }
@@ -3342,7 +3342,7 @@ void MilesAudioManager::setOcclusionLevels(PlayingAudioRef &playing, const Coord
 float MilesAudioManager::rva00053854(const Coord3D *pos)
 {
     int nearest = 5;
-    float best = (*reinterpret_cast<const float *>(&PositiveFloatInfinityBits));
+    float best = _STL::_LimG<bool>::_F_inf.val;
     for (int i = 1; i < 5; ++i) {
         if (m_corners[i].m_valid) {
             Coord2D delta(*pos);
@@ -3354,7 +3354,7 @@ float MilesAudioManager::rva00053854(const Coord3D *pos)
         }
     }
     if (nearest == 5)
-        return (*reinterpret_cast<const float *>(&PositiveFloatInfinityBits));
+        return _STL::_LimG<bool>::_F_inf.val;
 
     int next = nearest + 1;
     if (next == 5)
@@ -5773,7 +5773,7 @@ void MilesAudioManager::recalculateMicrophone(void)
         reinterpret_cast<GlobalVolumeData *>(&m_volumeData[m_at678])->rva0005213E(settings, &delta);
     }
 
-    float shortest = (*reinterpret_cast<const float *>(&PositiveFloatInfinityBits));
+    float shortest = _STL::_LimG<bool>::_F_inf.val;
     for (int i = 1; i < 5; ++i) {
         int next = i + 1;
         if (next == 5)

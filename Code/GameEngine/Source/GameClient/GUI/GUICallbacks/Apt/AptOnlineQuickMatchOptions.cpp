@@ -360,7 +360,7 @@ public:
   int v[4];
   void rva00237E28(Rva00237E28 *);
 };
-extern int g_00E0654C, g_009C0758, g_009C075C, BfmeOnlineLadderRank1v1, BfmeOnlineLadderRank2v2;
+extern int OnlineQuickMatchMaxPingEntries, g_009C0758, g_009C075C, BfmeOnlineLadderRank1v1, BfmeOnlineLadderRank2v2;
 class GlobalData;
 extern GlobalData *TheWritableGlobalData;
 struct NativeQuickMatchRequest {
@@ -387,7 +387,7 @@ void AptOnlineQuickMatch::rva005BBF15() {
   GadgetComboBoxGetSelectedPos(*(GameWindow **)((char *)this + 0x8c), &val);
   if (val < 0)
     val = 0;
-  if (val >= g_00E0654C - 1)
+  if (val >= OnlineQuickMatchMaxPingEntries - 1)
     qm.maxPing = TheGameSpyConfig->getPingTimeoutInMs();
   else
     qm.maxPing = (val + 1) * 100;

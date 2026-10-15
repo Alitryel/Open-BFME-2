@@ -93,7 +93,8 @@ class Rva0005E13CHost {public:bool helper(const Rva0005E13CInner1*);};
 class Rva002D9BDC {public:void rva002D9BDC(float,float);};
 class AudioFileCache {public:Rva00690FF0Handle requestFile(const BfmePoolRef10&,int);};
 struct AudioSettings {char pad0[0x74];int globalRange;char pad78[0x3c];int cacheThreshold;};
-extern float g_00DBA4FC;extern const unsigned int PositiveFloatInfinityBits;
+extern float g_00DBA4FC;
+#include <limits>
 class MilesAudioManager {public:
  virtual ~MilesAudioManager();
  virtual void slot1();
@@ -374,7 +375,7 @@ bool MilesAudioManager::addAudioEventSound(BfmePoolRef10&event,int requestType,i
    if(multisoundTarget(event)->hasMoreLoops()) {
     multisoundTarget(event)->advanceNextPlayPortion();
     multisoundTarget(event)->m_loopRestart=true;
-    reinterpret_cast<Rva002D9BDC*>(multisoundTarget(event))->rva002D9BDC(g_00DBA4FC+1.0f,(*reinterpret_cast<const float *>(&PositiveFloatInfinityBits)));
+    reinterpret_cast<Rva002D9BDC*>(multisoundTarget(event))->rva002D9BDC(g_00DBA4FC+1.0f,_STL::_LimG<bool>::_F_inf.val);
    }
   }
   float secondDelay=multisoundTarget(event)->getDelay();

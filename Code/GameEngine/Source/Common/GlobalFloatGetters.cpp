@@ -1,4 +1,7 @@
-// cl: /GX-
+// cl: /GX- /D_STLP_USE_STATIC_LIB
+// stlport
+#define _STLP_EXPOSE_GLOBALS_IMPLEMENTATION
+#include <limits>
 // Global float getters (twin-free TU).
 //
 // Seven-byte free functions with one shape:
@@ -79,27 +82,22 @@ float Rva00050EA0Get(void)
 	return 3.4028235e+38f;
 }
 
-// Native readonly float representation atBBDA30; integer initialization
-// preserves positive infinity without a host floating conversion.
-extern const unsigned int PositiveFloatInfinityBits = 0x7f800000u;
-
 // ?Rva00050EA7Get@@YAMXZ @ 0x00050ea7 (7B) over 0x00BBDA30 (inf).
 // Adjacent after Rva00050EA0Get (pair proves both boundaries), no branch sources.
 // Opaque address-derived name.
 float Rva00050EA7Get(void)
 {
-	return (*reinterpret_cast<const float *>(&PositiveFloatInfinityBits));
+	return _STL::_LimG<bool>::_F_inf.val;
 }
 
-// Same readonly sentinel owned by MicrophoneSettingsConstructor.cpp.
-extern const unsigned int AudioMicrophoneUnsetBits;
+// Same STLport special-value owner as MicrophoneSettingsConstructor.cpp.
 
 // ?Rva00041457Get@@YAMXZ @ 0x00041457 (7B) over 0x00BBDA2C (NaN).
 // Follows a ret (prev C3); next is a frameless fn start; no direct callers,
 // no branch sources. Opaque address-derived name.
 float Rva00041457Get(void)
 {
-	return *reinterpret_cast<const float *>(&AudioMicrophoneUnsetBits);
+	return _STL::_LimG<bool>::_F_qNaN.val;
 }
 
 extern float bfmeProjectionBias;
