@@ -48,3 +48,6 @@ template<> _Vector_base<Object*,allocator<Object*> >::_Vector_base(unsigned int 
 }
 }
 template _STL::_Vector_base<Object*,_STL::allocator<Object*> >::_Vector_base(unsigned int,const _STL::allocator<Object*>&);
+
+// Native1F206E returns the empty Object allocator through retail21983A.
+template _STL::allocator<Object*> _STL::vector<Object*>::get_allocator() const;
