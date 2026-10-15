@@ -6,9 +6,9 @@
 // AsciiString from its literal through the out-of-line AsciiString(const
 // char *) at 0x0000654A. Each is the compiler-generated initializer of one
 // translation unit's file-scope object; the owning TUs are unrecovered, so
-// each keeps an honest address name and its global an address name. The
-// globals no other name covers are defined here, as the unit that constructs
-// them: zero-filled 4-byte .bss slots in retail (the AsciiString's pointer).
+// each initializer keeps its address name. Globals with no recovered owner
+// are defined here: zero-filled 4-byte slots holding the AsciiString pointer.
+// The live camera mode slot has a descriptive name; its original name is unknown.
 
 #include "ascii_string.h"
 
@@ -41,7 +41,8 @@ void __cdecl rva007B9680();
 void __cdecl rva007B968A();
 void __cdecl rva007B9B40();
 
-unsigned g_Va00DEC290;
+// VA 0x00DEC290: zero-initialized AsciiString storage, explicitly constructed below.
+unsigned BfmeLiveCameraModeNameStorage;
 extern unsigned g_Va00DEC3B8;
 unsigned g_Va00DFF030;
 unsigned g_Va00E022E8;
@@ -94,7 +95,7 @@ void Rva007AB85CAtexitInits::rva007AC25C()
 // ?rva007ACAAA@Rva007AB85CAtexitInits@@SAXXZ @ 0x007ACAAA (27B): AsciiString at VA 0x00DEC290 = literal at VA 0x00BCF6DC, then atexit(0x007B6F5C)
 void Rva007AB85CAtexitInits::rva007ACAAA()
 {
-	( (AsciiString *)&g_Va00DEC290 )->AsciiString::AsciiString( "Zoom" );
+	( (AsciiString *)&BfmeLiveCameraModeNameStorage )->AsciiString::AsciiString( "Zoom" );
 	atexit( rva007B6F5C );
 }
 #pragma inline_depth()

@@ -108,7 +108,7 @@ public:
 
 extern View *TheTacticalView;
 extern GameLogic *TheGameLogic;
-extern unsigned int g_Va00DEC290;	// live camera mode name (AsciiString)
+extern unsigned int BfmeLiveCameraModeNameStorage;	// live camera mode name (AsciiString)
 
 class W3DCamTransform
 {
@@ -123,7 +123,7 @@ private:
 
 static __forceinline const AsciiString &liveModeName()
 {
-	return *(const AsciiString *)&g_Va00DEC290;
+	return *(const AsciiString *)&BfmeLiveCameraModeNameStorage;
 }
 
 void W3DCamTransform::transitionLiveMode(Vector3 *pos, Vector3 *target, View *view)

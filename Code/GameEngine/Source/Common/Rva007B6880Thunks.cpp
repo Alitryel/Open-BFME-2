@@ -1000,7 +1000,7 @@ void __cdecl rva007B6FAC()
 }
 
 extern unsigned g_Va00DEAF20;
-extern unsigned g_Va00DEC290;
+extern unsigned BfmeLiveCameraModeNameStorage;
 extern unsigned g_Va00DEC3B8;
 extern unsigned g_Va00DEE93C;
 
@@ -1011,10 +1011,10 @@ void __cdecl rva007B6D09()
 	return p->~AsciiString();
 }
 
-// ?rva007B6F5C@@YAXXZ @ 0x007B6F5C (10B). Global AsciiString dtor thunk: ecx=&g_Va00DEC290 then tail-jmp to rowed ??1AsciiString@@QAE@XZ (0x0048BA39).
+// ?rva007B6F5C@@YAXXZ @ 0x007B6F5C (10B). Global AsciiString dtor thunk: ecx=&BfmeLiveCameraModeNameStorage then tail-jmp to rowed ??1AsciiString@@QAE@XZ (0x0048BA39).
 void __cdecl rva007B6F5C()
 {
-	AsciiString *p = (AsciiString *)&g_Va00DEC290;
+	AsciiString *p = (AsciiString *)&BfmeLiveCameraModeNameStorage;
 	return p->~AsciiString();
 }
 
