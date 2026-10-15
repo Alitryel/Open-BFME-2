@@ -28,14 +28,19 @@ extern "C" void _ReadWriteBarrier(void);
 // Callees retail calls on m_map are rowed under other spellings at the same
 // addresses (same ABI); reverse/symbols.csv pins the WorldHeightMap spellings.
 
+// The m_map cell queries are rowed under the addresses' owner spellings
+// (reverse/functions.csv); call them through their owner views.
+class Rva0006AB49BitPlane { public: bool test(int xIndex, int yIndex) const; };
+class Rva0006AB98 { public: unsigned char rva0006AB98(int xIndex, int yIndex); };
+class BfmeGridWM { public: unsigned char rva000AE18D(int xIndex, int yIndex); };
+class Gen_0074BB30 { public: bool bfmeBitA(int xIndex, int yIndex) const; };
+class Rva000AE234 { public: char rva000AE234(int xIndex, int yIndex); };
+class Gen_0074BA50 { public: bool bfmeBitA(int xIndex, int yIndex) const; };
+
 class WorldHeightMap
 {
 public:
 	bool getCliffState(int xIndex, int yIndex) const;
-	unsigned char rva000AE18D(int xIndex, int yIndex);
-	unsigned char rva000AE234(int xIndex, int yIndex);
-	bool rva0006AB49(int xIndex, int yIndex) const;
-	unsigned char rva0006AB98(int xIndex, int yIndex);
 	bool rva000AE1DC(int xIndex, int yIndex) const;
 	int getXExtent() const { return m_width; }
 	int getYExtent() const { return m_height; }
@@ -75,7 +80,7 @@ bool BaseHeightMapRenderObjClass::isCliffCell(float x, float y)
 	if (iY < 0) iY = 0;
 	if (iX >= m_map->getXExtent() - 1) iX = m_map->getXExtent() - 2;
 	if (iY >= m_map->getYExtent() - 1) iY = m_map->getYExtent() - 2;
-	return m_map->getCliffState(iX, iY);
+	return ((Gen_0074BA50 *)m_map)->bfmeBitA(iX, iY);
 }
 
 bool BaseHeightMapRenderObjClass::rva00067298(float x, float y)
@@ -88,7 +93,7 @@ bool BaseHeightMapRenderObjClass::rva00067298(float x, float y)
 	if (iY < 0) iY = 0;
 	if (iX >= m_map->getXExtent() - 1) iX = m_map->getXExtent() - 2;
 	if (iY >= m_map->getYExtent() - 1) iY = m_map->getYExtent() - 2;
-	return m_map->rva000AE1DC(iX, iY);
+	return ((Gen_0074BB30 *)m_map)->bfmeBitA(iX, iY);
 }
 
 unsigned char BaseHeightMapRenderObjClass::rva00067225(float x, float y)
@@ -101,7 +106,7 @@ unsigned char BaseHeightMapRenderObjClass::rva00067225(float x, float y)
 	if (iY < 0) iY = 0;
 	if (iX >= m_map->getXExtent() - 1) iX = m_map->getXExtent() - 2;
 	if (iY >= m_map->getYExtent() - 1) iY = m_map->getYExtent() - 2;
-	return m_map->rva000AE18D(iX, iY);
+	return ((BfmeGridWM *)m_map)->rva000AE18D(iX, iY);
 }
 
 unsigned char BaseHeightMapRenderObjClass::rva0006730B(float x, float y)
@@ -114,7 +119,7 @@ unsigned char BaseHeightMapRenderObjClass::rva0006730B(float x, float y)
 	if (iY < 0) iY = 0;
 	if (iX >= m_map->getXExtent() - 1) iX = m_map->getXExtent() - 2;
 	if (iY >= m_map->getYExtent() - 1) iY = m_map->getYExtent() - 2;
-	return m_map->rva000AE234(iX, iY);
+	return (unsigned char)((Rva000AE234 *)m_map)->rva000AE234(iX, iY);
 }
 
 bool BaseHeightMapRenderObjClass::rva0006B114(float x, float y)
@@ -127,7 +132,7 @@ bool BaseHeightMapRenderObjClass::rva0006B114(float x, float y)
 	if (iY < 0) iY = 0;
 	if (iX >= m_map->getXExtent() - 1) iX = m_map->getXExtent() - 2;
 	if (iY >= m_map->getYExtent() - 1) iY = m_map->getYExtent() - 2;
-	return m_map->rva0006AB49(iX, iY);
+	return ((Rva0006AB49BitPlane *)m_map)->test(iX, iY);
 }
 
 unsigned char BaseHeightMapRenderObjClass::rva0006B187(float x, float y)
@@ -140,7 +145,7 @@ unsigned char BaseHeightMapRenderObjClass::rva0006B187(float x, float y)
 	if (iY < 0) iY = 0;
 	if (iX >= m_map->getXExtent() - 1) iX = m_map->getXExtent() - 2;
 	if (iY >= m_map->getYExtent() - 1) iY = m_map->getYExtent() - 2;
-	return m_map->rva0006AB98(iX, iY);
+	return ((Rva0006AB98 *)m_map)->rva0006AB98(iX, iY);
 }
 
 float BaseHeightMapRenderObjClass::getMaxCellHeight(float x, float y) const
