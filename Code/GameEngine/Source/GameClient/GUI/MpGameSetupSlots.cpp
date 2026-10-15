@@ -668,6 +668,8 @@ public:
 	int rva0057C57B(int window);
 	// Rowed 0x0057CD66: reselects the strategic scenario campaign.
 	void rva0057CD66();
+	// Rowed 0x0057C71F: the scenario's entry (forced team at +0x04) for a slot, or 0.
+	void *GetStartPositionInfoForSlot(int slot);
 };
 
 // The +0x60 member's next selectable slot from a start (rowed 0x0057CA78
@@ -2995,4 +2997,64 @@ unsigned int AptMpGameSetup::rva0043DF22()
 		++count;
 	}
 	return count;
+}
+
+void AptMpGameSetup::rva0043F244(int slot, bool reset)
+{
+	int mode = m_60.m_mode;
+	bool mode1 = mode == 1;
+	int count = 2 + 2 * !mode1;
+	UnicodeString text;
+	int startTeam = -1;
+	if (Rva0057C71FEntry *entry = (Rva0057C71FEntry *)((AptMapPreview *)&m_60)->GetStartPositionInfoForSlot(slot))
+		startTeam = entry->m_team;
+	int selected;
+	int selectedData = -1;
+	GadgetComboBoxGetSelectedPos(m_team[slot], &selected);
+	if (selected >= 0)
+		selectedData = (int)GadgetComboBoxGetItemData(m_team[slot], selected);
+	GadgetComboBoxReset(m_team[slot]);
+	MultiplayerColorDefinition *color = TheMultiplayerSettings->getColor(-1);
+	if (!mode1 && (reset || startTeam < 0))
+	{
+		selected = GadgetComboBoxAddEntry(m_team[slot], TheGameText->fetch("Team:0"), color->m_color);
+		GadgetComboBoxSetItemData(m_team[slot], selected, (void *)-1);
+		if (reset)
+		{
+			GadgetComboBoxSetSelectedPos(m_team[slot], 0, false);
+			return;
+		}
+	}
+	int selectPos = -1;
+	for (int team = 0; team < count; ++team)
+	{
+		if (startTeam >= 0 && startTeam != team)
+			continue;
+		AsciiString num;
+		num.format("Team:%d", team + 1);
+		text = TheGameText->fetch(num.str());
+		selected = GadgetComboBoxAddEntry(m_team[slot], text, color->m_color);
+		GadgetComboBoxSetItemData(m_team[slot], selected, (void *)team);
+		if (team == selectedData)
+			selectPos = selected;
+	}
+	if (selectPos == -1)
+	{
+		selectPos = 0;
+		if (mode1 && slot == 1 && GadgetComboBoxGetLength(m_team[1]) >= 2)
+			selectPos = 1;
+	}
+	GadgetComboBoxSetSelectedPos(m_team[slot], selectPos, false);
+	// A locked game keeps the slot's own team selected (the guard is the
+	// early-return form: with the body nested under the lock test instead cl
+	// lays the block out differently).
+	GameInfo *game = (GameInfo *)m_game->rva0043DA65();
+	if (!(game && game->m_8c))
+		return;
+	GameSlot *gameSlot = game->getSlot(slot);
+	if (gameSlot)
+	{
+		int team = gameSlot->m_team;
+		GadgetComboBoxSetSelectedPos(m_team[slot], team, false);
+	}
 }

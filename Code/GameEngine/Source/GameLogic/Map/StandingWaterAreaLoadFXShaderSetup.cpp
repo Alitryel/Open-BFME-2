@@ -1,14 +1,11 @@
-// ?loadFXShaderSetup@StandingWaterArea@@QAEXXZ
-// partial score=0.9846594152588136 date=2026-10-14
-// ?loadFXShaderSetup@StandingWaterArea@@QAEXXZ
-// partial score=0.98466 date=2026-10-14
-// ?loadFXShaderSetup@StandingWaterArea@@QAEXXZ
-// partial score=0.962 date=2026-10-13
-// ?loadFXShaderSetup@StandingWaterArea@@QAEXXZ
-// partial score=0.962 date=2026-10-12
-// ?loadFXShaderSetup@StandingWaterArea@@QAEXXZ
-// partial score=0.962 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /Ireference/shims/bfme2_ascii
+//
+// StandingWaterArea::loadFXShaderSetup (0x00308C31, 447 B): derive the water FX
+// shader name (shaderName minus its four-character extension), pick the first
+// existing "<name>L"/"<name>M" LOD variant starting at the game's water LOD,
+// build the water model and take its material's shader, then hand the shader the
+// LOD level. Written with the early return for the empty-name case (the nested
+// "if (!base.isEmpty()) { ... }" form lays the blocks out differently).
 #include "ascii_string.h"
 struct AsciiStringRef {const AsciiString *m_string;};
 class Rva000B3F84Pair {public:Rva000B3F84Pair(){}const char *m_ptr;int m_len;};
@@ -54,7 +51,8 @@ void StandingWaterArea::loadFXShaderSetup() {
  if(!base.isEmpty()) {
   for(int i=0;i<4;++i)base.removeLastChar();
  }
- if(!base.isEmpty()) {
+ if (base.isEmpty())
+  return;
   int lod=((WaterLODView*)TheGameLODManager)->level;
   const char *suffix=WaterNoShaderSuffix;
   for(;lod<4;++lod) {
@@ -75,5 +73,5 @@ void StandingWaterArea::loadFXShaderSetup() {
     }
    }
   }
- }
+ 
 }
