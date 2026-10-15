@@ -1,9 +1,13 @@
-// ??0SidesList@@QAE@ABV0@@Z
-// partial score=1.0 date=2026-10-15
-// ??0SidesList@@QAE@ABV0@@Z
-// partial score=0.989779 date=2026-10-15
-// ??0SidesList@@QAE@ABV0@@Z
-// partial score=0.55 date=2026-10-06
+// ??0SidesList@@QAE@ABV0@@Z, retail 0x0032EF3E (364 B), EH EXACT.
+// BFME2 SidesList copy constructor, byte-verified against retail. The class
+// model follows the canonical SidesList view in SidesListCtor.cpp (base order
+// SubsystemInterface, Snapshot, Rva00330757Member) and the BFME2 offsets retail
+// proves: notifier subobject +0x10, list/maps +0x20/+0x24/+0x30, counts and
+// SidesInfo arrays +0x3C/+0x40/+0x7C0/+0x7C4, TeamsInfoRec +0xF44/+0xF60,
+// cleared byte +0xF7C and the 20 28-byte FactionBuildLists records at +0xF80.
+// The array copies call the rowed std::copy providers (SidesInfo 0x32E8F9,
+// SidesList::FactionBuildLists 0x32DD66) and the map constructors the rowed
+// STLport instantiations at 0x413727.
 // cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /Ireference/shims/bfmealloc
 // stlport
 //
@@ -21,11 +25,10 @@
 #include <vector>
 #include "Common/Snapshot.h"
 #include <map>
-enum NameKeyType { NAMEKEY_INVALID = 0 };
-class ModuleFactory { public: class ModuleTemplate; };
-typedef _STL::map<NameKeyType, ModuleFactory::ModuleTemplate *,
-                  _STL::less<NameKeyType>,
-                  _STL::allocator<_STL::pair<const NameKeyType, ModuleFactory::ModuleTemplate *> > > MapType0032EF3E;
+struct BfmePod128 { ~BfmePod128(); int a[32]; };
+struct BfmeE8 { int a[2]; };
+typedef _STL::map<int, _STL::vector<BfmePod128> > MapType0032EF3E;
+typedef _STL::map<int, _STL::vector<_STL::vector<BfmeE8> > > MapType0032EF3E_B;
 
 class SubsystemInterface
 {
@@ -83,7 +86,7 @@ public:
 };
 
 typedef MapType0032EF3E Rva0032D3D3Map;
-typedef MapType0032EF3E Rva0032EAA1Map;
+typedef MapType0032EF3E_B Rva0032EAA1Map;
 
 class SidesInfo
 {
@@ -130,6 +133,13 @@ private:
 class SidesList : public SubsystemInterface, public Snapshot, public SidesListNotifier
 {
 public:
+	struct FactionBuildLists
+	{
+		int m_value;
+		_STL::vector<Rva0032C0E3Element> m_first;
+		_STL::vector<Rva0032C0E3Element> m_second;
+	};
+public:
 	SidesList(const SidesList &that);
 	virtual ~SidesList();
 	virtual void init();
@@ -152,10 +162,9 @@ private:
 	TeamsInfoRec m_skirmishTeamrec;		// +0xF60
 	bool m_cleared;							// +0xF7C
 	char m_pad[3];
-	Rva0032C19D m_extra[20];				// +0xF80
+	FactionBuildLists m_extra[20];				// +0xF80
 };
 
-// ?SidesList::SidesList present-unmatched
 SidesList::SidesList(const SidesList &that)
 	: SubsystemInterface(that),
 	  SidesListNotifier(that),
@@ -168,7 +177,7 @@ SidesList::SidesList(const SidesList &that)
 	  m_skirmishTeamrec(that.m_skirmishTeamrec),
 	  m_cleared(that.m_cleared)
 {
-	std::copy(that.m_sides, that.m_sides + that.m_numSides, m_sides);
-	std::copy(that.m_skirmishSides, that.m_skirmishSides + that.m_numSkirmishSides, m_skirmishSides);
-	std::copy(that.m_extra, that.m_extra + 20, m_extra);
+	std::copy(const_cast<SidesInfo *>(that.m_sides), const_cast<SidesInfo *>(that.m_sides) + that.m_numSides, m_sides);
+	std::copy(const_cast<SidesInfo *>(that.m_skirmishSides), const_cast<SidesInfo *>(that.m_skirmishSides) + that.m_numSkirmishSides, m_skirmishSides);
+	std::copy(const_cast<FactionBuildLists *>(that.m_extra), const_cast<FactionBuildLists *>(that.m_extra) + 20, m_extra);
 }
