@@ -1,4 +1,6 @@
 // ?rva0021F5F8@CreateAHeroManager@@QAEXXZ
+// partial score=0.9662 date=2026-10-15
+// ?rva0021F5F8@CreateAHeroManager@@QAEXXZ
 // partial score=0.9662 date=2026-10-13
 // ?rva0021F5F8@CreateAHeroManager@@QAEXXZ
 // partial score=0.97 date=2026-10-13
@@ -158,7 +160,7 @@ Rva0021F19B::Rva0021F19B()
 // (415 bytes, EH; caller the screen destructor 0x00513BAB): reconciles the
 // hero files with the manager's heroes. For each listed file whose
 // suffix-stripped name (0x0021C12F, pinned) the hero list (+0x174) does not
-// know, it writes the save directory plus the file name to the debugger;
+// know, it deletes that save file (save directory plus file name, DeleteFileW);
 // then each hero that is not a system hero (+0x48, unless the 0x009FE34C
 // flag is set) and has a name (+0x4C) is saved under its file name
 // (0x0021A651) through 0x004098BE. The list is destroyed through its rowed
@@ -202,7 +204,7 @@ public:
 	const UnicodeString *m_left;
 	const UnicodeString *m_right;
 };
-extern "C" __declspec(dllimport) void __stdcall OutputDebugStringW(const unsigned short *text);
+extern "C" __declspec(dllimport) int __stdcall DeleteFileW(const unsigned short *path);
 
 class CreateAHeroManager
 {
@@ -220,9 +222,9 @@ void CreateAHeroManager::rva0021F5F8()
 		AsciiString name = Rva0021C12FStripName(it->first);
 		if (!m_heroes.rva0040A5CF(name))
 		{
-			UnicodeString message((const UnicodeString &)(UnicodeString)BFME2WideConcatPair(
+			UnicodeString path((const UnicodeString &)(UnicodeString)BFME2WideConcatPair(
 				((const Rva002DC267 *)TheGameState)->rva002DC267(), UnicodeString(it->first)));
-			OutputDebugStringW(message.str());
+			DeleteFileW(path.str());
 		}
 	}
 	unsigned int count = m_heroes.m_end - m_heroes.m_begin;
