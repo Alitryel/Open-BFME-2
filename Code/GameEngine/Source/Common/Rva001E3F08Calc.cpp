@@ -1,8 +1,9 @@
 // cl: /MD
 //
-// ?rva001E3F08@Rva001E3F08@@QAEMPAURva001E3F08Arg@@@Z, retail 0x001E3F08, 31 bytes.
-// Float product: [esp+4]->+0x258->+0x1f8 times [this+4]->+0x28 times
-// global 0x00DBA4F8. x87 fld/fmul shape. Called at 0x001E407C etc.
+// The 0x001E3F08 helper is owned by Rva001E4073Ratio.cpp, where its
+// caller needs the visible definition for register-use analysis.
+// The retained 0x001E3F2E sibling computes [esp+4]->+0x258->+0x1f8
+// times [this+4]->+0x54 times global 0x00DBA4F8 in x87 instructions.
 // Owner identity unproven, honest Rva name.
 
 extern float g_secondsPerLogicFrame;
@@ -30,17 +31,11 @@ struct Rva001E3F08Arg
 class Rva001E3F08
 {
 public:
-	float rva001E3F08(Rva001E3F08Arg *p);
 	float rva001E3F2E(Rva001E3F08Arg *p);
 private:
 	int m_pad00; // +0x00
 	Rva001E3F08MidA *m_p04; // +0x04
 };
-
-float Rva001E3F08::rva001E3F08(Rva001E3F08Arg *p)
-{
-	return p->m_p258->m_val1F8 * m_p04->m_val28 * g_secondsPerLogicFrame;
-}
 
 // ?rva001E3F2E@Rva001E3F08@@QAEMPAURva001E3F08Arg@@@Z, retail 0x001E3F2E,
 // 31 bytes: the same product over the [this+4]->+0x54 field (sibling after

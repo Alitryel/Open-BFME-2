@@ -38,6 +38,8 @@ private:
 	Rva001E3F08MidA *m_p04; // +0x04
 };
 
+// This unit owns the existing 0x001E3F08 row; the redundant definition in
+// Rva001E3F08Calc.cpp was removed.
 // Retail keeps this 31-byte body as a call, so the definition here is noinline;
 // its /O1 register shape (EAX/ECX, EDX preserved) is what the caller relies on.
 __declspec(noinline) float Rva001E3F08::rva001E3F08(Rva001E3F08Arg *p)
