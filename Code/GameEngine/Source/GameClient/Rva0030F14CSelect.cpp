@@ -72,7 +72,8 @@ class Player
 class PlayerList
 {
  public:
- Player *getLocalPlayer() 
+ // Keep retail's inlined +0x10 access without a competing external copy.
+ __declspec(dllimport) __forceinline Player *getLocalPlayer()
  {
   return m_local;
  }
