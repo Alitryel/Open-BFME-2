@@ -65,7 +65,7 @@ public:
 class BfmeAptValue006DCD20
 {
 public:
-    bool rva006E02B0() const; // 0x006E02B0 isTextInst
+    int rva006E02B0() const; // rowed provider at 0x006E02B0; callers test AL
 };
 class AptCIH : public AptValue
 {
@@ -78,9 +78,10 @@ public:
         APT_ASSERT(this, "this", APT_CIH_H, 0xB5)
         return ((const Rva006DBB30SarDwordField *)this)->get() == 14 && !isUndefined();
     }
-    __forceinline bool isTextInst() const
+    // Keep the AL-test adapter inline without a competing external definition.
+    __declspec(dllimport) __forceinline bool isTextInst() const
     {
-        return ((const BfmeAptValue006DCD20 *)this)->rva006E02B0();
+        return (unsigned char)((const BfmeAptValue006DCD20 *)this)->rva006E02B0();
     }
     __forceinline AptCIH *c_characterInst()
     {

@@ -10594,7 +10594,6 @@ name,address,notes
 ?rva006DD6C0@BfmeAptValue006DCD20@@QAEXAAVEAStringC@@@Z,0x006DD6C0,"address-derived AptValue-to-EAStringC converter (Ghidra FUN_00add6c0 1430B) called by 0x006D74E0 and 0x006D7C80; body unrowed; naming pin only"
 ?rva006DD6C0@BfmeAptValue006DCD20@@QAEXPAVEAStringC@@@Z,0x006DD6C0,"Apt EAStringC key builder called by the array sort 0x006DA0C0; unrowed 1430B body with SEH (blocked in re_attempts for 0x006DE400/0x006DE870); address-derived name"
 ?rva006DEB70@Rva006DED60RoadBuffer@@QAEXXZ,0x000D3A17,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-?rva006E02B0@BfmeAptValue006DCD20@@QBE_NXZ,0x006E02B0,"bool-returning declaration of the type-15 predicate; 15 callers test al, so the type-15 predicate is bool while the existing QBEH row has the same body bytes; called by rva006E1540 0x006E1540"
 ?rva006E1540@AptCIH@@QAEXXZ,0x006E1540,"address-derived AptCIH child-list teardown called by BfmeWrapper1279 walk 0x006F76B0; asserts isSpriteInstBase then recurses into [this+0x4C]+0x24; body unrowed"
 ?rva006E1C40@AptCIH@@QAEXPAX0@Z,0x006E1C40,address-derived member target called from AptCIH rva006E1DD0 (AptCIH.cpp pRect init); body unrowed
 ?rva006E1E30@Rva006E1E30@@QAEXPAURva006F9FC0Rect@@@Z,0x006E1E30,address-derived rect-filling method called by BfmePicker neighbour 0x6F9FC0; body unrowed

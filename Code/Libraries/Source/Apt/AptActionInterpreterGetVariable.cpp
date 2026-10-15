@@ -79,7 +79,7 @@ public:
 class BfmeAptValue006DCD20
 {
 public:
-    bool rva006E02B0() const; // 0x006E02B0 isTextInst
+    int rva006E02B0() const; // rowed provider at 0x006E02B0; callers test AL
 };
 struct AptNativeHash
 {
@@ -117,7 +117,7 @@ AptValue *AptActionInterpreter::getVariable(AptValue *pCurrentContext, AptValue 
     EAStringC name;
     APT_ASSERT(!pCurrentContext || !pCurrentContext->isCIH() || pCurrentContext->c_cih()->isButtonInst()
                    || pCurrentContext->c_cih()->IsSpriteInstBase() || pCurrentContext->c_cih()->IsLevelInst()
-                   || ((BfmeAptValue006DCD20 *)pCurrentContext->c_cih())->rva006E02B0(),
+                   || (unsigned char)((BfmeAptValue006DCD20 *)pCurrentContext->c_cih())->rva006E02B0(),
                "!pCurrentContext || !pCurrentContext->isCIH() || pCurrentContext->c_cih()->isButtonInst() || pCurrentContext->c_cih()->isSpriteInstBase() || pCurrentContext->c_cih()->isLevelInst() || pCurrentContext->c_cih()->isTextInst()",
                APT_INTERP_CPP, 0x718)
     if (*pName->rva00620090() == '$') {
