@@ -8,6 +8,10 @@ class TextureClass {public:void Release_Ref();};
 struct Rva0007311BTexture {TextureClass *ptr;~Rva0007311BTexture(){if(ptr)ptr->Release_Ref();}};
 struct Rva0007311BRef {RefCountClass *ptr;~Rva0007311BRef(){if(ptr)ptr->Release_Ref();}};
 struct Rva00072FE6 {~Rva00072FE6();char pad[0x18];};
+// Normal teardown calls the 56-byte tree backend at 0x000730DE; unwind
+// calls its separate 5-byte forwarder at 0x00073116. This view preserves the
+// unadjusted receiver; the original wrapper type and inheritance are unknown.
+struct Rva00073116Member : Rva00072FE6 { ~Rva00073116Member() {} };
 class Rva000728E2 {public: void rva000728E2();};
 class Rva0007311B {
 public: ~Rva0007311B();void *rva00066667(unsigned flags);
@@ -20,7 +24,7 @@ private:
  char *p38,*p3c;
  Rva0007311BRef object;
  char unknown44[8];
- Rva00072FE6 map;
+ Rva00073116Member map;
 };
 Rva0007311B::~Rva0007311B()
 {
