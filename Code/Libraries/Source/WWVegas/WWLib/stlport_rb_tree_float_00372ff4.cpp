@@ -22,3 +22,11 @@ template Tree00372FF4::iterator Tree00372FF4::insert_equal(const TreeValue00372F
 template void Tree00372FF4::_M_erase(Tree00372FF4::_Link_type);
 template void Tree00372FF4::clear();
 template _STL::pair<Tree00372FF4::iterator, bool> Tree00372FF4::insert_unique(const TreeValue00372FF4 &);
+// map<float,opaque>::insert @ 0x005AD22F 20B: the STLport map wrapper that
+// forwards the hidden pair<iterator,bool> result and the value to the rowed
+// insert_unique 0x005AD1A7 (push [esp+8] twice, call, return the result
+// pointer, RET 8). Retail target evidence: the body sits directly after that
+// insert_unique in the float-tree region and its only call is that body; no
+// direct caller remains in the image.
+typedef _STL::map<float, TreeOpaqueMapped00372FF4> Map00372FF4;
+template _STL::pair<Map00372FF4::iterator, bool> Map00372FF4::insert(const Map00372FF4::value_type &);
