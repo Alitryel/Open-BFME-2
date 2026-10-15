@@ -17,7 +17,9 @@ public:
 	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
 	virtual void s08(); virtual void s09(); virtual void s10();
 };
-extern Host10 *g_00E099F8;
+// The nativeA099F8 registry pointer has one existing owner in W3DDisplayDtor.
+class Rva009EB960;
+extern Rva009EB960 *Rva0134FAA0;
 
 class ScriptEngine
 {
@@ -38,7 +40,8 @@ public:
 	char m_pad00[0xC8];
 	unsigned char m_c8;
 };
-extern ClientFrameSubsystem *TheGameClient;
+class GameClient;
+extern GameClient *TheGameClient;
 
 class Debug
 {
@@ -113,16 +116,16 @@ void GameEngine::_bfme_updateClientFrameRatio(void)
 
 void GameEngine::update()
 {
-	g_00E099F8->s10();
+	((Host10 *)Rva0134FAA0)->s10();
 	TheScriptEngine->_bfme_updateClientDebugFrame();
 	bool flag = ((Rva00203B08 *)TheScriptEngine)->rva00203B08();
 	s39();
 	if (flag) {
-		TheGameClient->m_c8 = 0;
+		((ClientFrameSubsystem *)TheGameClient)->m_c8 = 0;
 		theDebug->d37();
 		return;
 	}
-	TheGameClient->m_c8 = 1;
+	((ClientFrameSubsystem *)TheGameClient)->m_c8 = 1;
 	int period = m_clientFramePeriod;
 	if (period == 6 && m_40 != 0) {
 		m_clientFrameCounter = BfmeClientFramesPerSecond / BfmeLogicFramesPerSecond;
@@ -154,7 +157,7 @@ void GameEngine::update()
 		m_clientFramePeriod = 1;
 		_bfme_updateClientFrameRatio();
 		s38(1);
-		if (TheGameClient->m_c8 != 0) {
+		if (((ClientFrameSubsystem *)TheGameClient)->m_c8 != 0) {
 			m_40 = 1;
 		} else {
 			m_clientFramePeriod = savedPeriod;
