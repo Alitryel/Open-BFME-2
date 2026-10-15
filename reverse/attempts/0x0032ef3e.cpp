@@ -1,4 +1,6 @@
 // ??0SidesList@@QAE@ABV0@@Z
+// partial score=0.989779 date=2026-10-15
+// ??0SidesList@@QAE@ABV0@@Z
 // partial score=0.55 date=2026-10-06
 // cl: /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /Ireference/shims/bfmealloc
 // stlport
@@ -39,7 +41,8 @@ private:
 class Rva00330757Member
 {
 public:
-	Rva00330757Member();
+	__declspec(nothrow) Rva00330757Member();
+	~Rva00330757Member();
 
 private:
 	char m_body[0x10];
@@ -189,8 +192,7 @@ SidesList::SidesList(const SidesList &that)
 	  m_skirmishTeamrec(that.m_skirmishTeamrec),
 	  m_cleared(that.m_cleared)
 {
-	std::copy(that.m_sides, that.m_sides + m_numSides, m_sides);
-	std::copy(that.m_skirmishSides, that.m_skirmishSides + m_numSkirmishSides, m_skirmishSides);
-	for (int i = 0; i < 20; ++i)
-		m_extra[i] = that.m_extra[i];
+	std::copy(that.m_sides, that.m_sides + that.m_numSides, m_sides);
+	std::copy(that.m_skirmishSides, that.m_skirmishSides + that.m_numSkirmishSides, m_skirmishSides);
+	std::copy(that.m_extra, that.m_extra + 20, m_extra);
 }
