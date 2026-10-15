@@ -1,4 +1,6 @@
 // ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
+// partial score=0.910443 date=2026-10-15
+// ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
 // partial score=0.9 date=2026-10-14
 // ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
 // partial score=0.5 date=2026-10-12
