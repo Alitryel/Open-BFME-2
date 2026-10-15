@@ -17026,3 +17026,4 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?rva00357180@Rva00170D0FTree@@QBEPAURva00170D0FNode@@ABI@Z,0x00357180,callee of ?rva00170D0F@Rva00170D0F@@QAEXABI@Z
 ?rva00170AA9@Rva00170D0FTree@@QAEXURva00170D0FIterator@@@Z,0x00170AA9,callee of ?rva00170D0F@Rva00170D0F@@QAEXABI@Z
 ?generateNewParticleStartValues@ParticleSystem@FXParticleSystem@@QAEXPAVRva001F376E@@HH@Z,0x001F55A8,callee of ?rva001F9BA4@ParticleSystem@FXParticleSystem@@QAEXPAXH@Z
+?rva001B4E21@SubsystemInterfaceList@@QAEEPAVSubsystemInterface@@PAE@Z,0x001B4E21,callee of ?rva001B505F@SubsystemInterfaceList@@QAEEXZ
