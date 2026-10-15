@@ -14,7 +14,7 @@
 // body; 0x004501CD and 0x00492095 call it directly.
 // ?BeginDefectedStateMachine@AIUpdateInterface@@QAEXXZ, retail 0x0026336D, 73 bytes.
 
-#include "../../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 #define VM10(p) \
 	virtual void p##0(); virtual void p##1(); virtual void p##2(); virtual void p##3(); virtual void p##4(); \
@@ -120,6 +120,13 @@ public:
 	virtual AIStateMachine *makeStateMachine(); // slot 150 -> offset 0x258
 };
 
+// Native 0x00262E24 takes a hidden Coord3D result pointer, witnessed by WB's
+// return construction and native RET4. Path returns a separate node/position pair.
+struct Rva003642DFNode;
+struct Rva003642DFResult { Rva003642DFNode *m_node; Coord3D m_pos; };
+class Path { public: Rva003642DFResult rva003642DF(float dist); };
+class Thing { public: const Coord3D *getUnitDirectionVector2D() const; };
+
 class AIUpdateInterface : public AIUpdateInterfaceBase
 {
 	char m_pad04[4];
@@ -133,11 +140,17 @@ class AIUpdateInterface : public AIUpdateInterfaceBase
 	char m_pad50[0x54 - 0x50];
 	int m_guardTargetType; // +0x54
 	Coord3D m_guardPos; // +0x58
-	char m_pad64[0x198 - 0x64];
+	char m_pad64[0x140 - 0x64];
+	Path *m_path140; // +0x140
+	char m_pad144[0x198 - 0x144];
 	unsigned int m_field198; // +0x198
 	unsigned int m_field19C; // +0x19C
 	float m_guardAngle; // +0x1A0
+	char m_pad1A4[0x1FC - 0x1A4];
+	int m_field1FC; // +0x1FC
+	Coord3D m_coord200; // +0x200
 public:
+	Coord3D rva00262E24();
 	void rva00262D40(int mode);
 	virtual bool rva00262D7B() const;
 	virtual bool rva00262D8F() const;
@@ -240,3 +253,32 @@ void AIUpdateInterface::BeginDefectedStateMachine()
 	}
 }
 
+
+// Native 0x00262E24..0x00262EFF, 219B. WB 0x00E502F0 supplies the
+// by-value return structure; target loads establish modes and member offsets.
+// The shared member-wise Coord3D constructor keeps all direction components
+// live before the scale, then returns the value through the hidden result.
+Coord3D AIUpdateInterface::rva00262E24()
+{
+    Object *obj = m_obj;
+    int mode = m_field1FC;
+    if (mode != 2 && mode != 4) {
+        if (mode == 1) {
+            Path *path = m_path140;
+            if (path != 0) {
+                Rva003642DFResult tmp = path->rva003642DF(40.0f);
+                return tmp.m_pos;
+            }
+        }
+        const Coord3D *dir = ((Thing *)obj)->getUnitDirectionVector2D();
+        Coord3D d(*dir);
+        d.x *= 40.0f;
+        d.y *= 40.0f;
+        d.z *= 40.0f;
+        d.x += obj->m_position.x;
+        d.y += obj->m_position.y;
+        d.z += obj->m_position.z;
+        return d;
+    }
+    return m_coord200;
+}

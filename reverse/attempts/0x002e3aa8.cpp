@@ -1,4 +1,6 @@
 // ?adjustCameraMovement@PolygonTrigger@@QAE_NPBUCoord3D@@0PAU2@_N@Z
+// partial score=0.9946953055080954 date=2026-10-15
+// ?adjustCameraMovement@PolygonTrigger@@QAE_NPBUCoord3D@@0PAU2@_N@Z
 // partial score=0.9894 date=2026-10-13
 // ?adjustCameraMovement@PolygonTrigger@@QAE_NPBUCoord3D@@0PAU2@_N@Z
 // partial score=0.9893906110161907 date=2026-10-10
@@ -36,7 +38,7 @@ bool PolygonTrigger::adjustCameraMovement(const Coord3D*from,const Coord3D*to,Co
  }
  if(!rva002E3A39(candidate)){*out=*start;return false;}
  if(slide){
-  Coord3D along;along.x=previous.x-current.x;along.y=previous.y-current.y;along.z=0.0f;
+  Coord3D along;along.x=(*(const volatile float *)&(previous.x))-(*(const volatile float *)&(current.x));along.y=(*(const volatile float *)&(previous.y))-(*(const volatile float *)&(current.y));along.z=0.0f;
   if((*(const volatile float*)&delta.x)*along.x+(*(const volatile float*)&delta.y)*along.y<0.0f){along.x*=-1.0f;along.y*=-1.0f;along.z*=-1.0f;}
   float remaining=delta.length();{Coord3D used;used.x=candidate.x-start->x;used.y=candidate.y-start->y;used.z=0.0f-start->z;remaining-=used.length();}
   if(remaining>0.1f){remaining*=0.4f;along.normalize();float x=(*(const volatile float*)&remaining)*along.x;_ReadWriteBarrier();float z=(*(const volatile float*)&along.z)*remaining;float bx=(*(const volatile float*)&candidate.x);float y=(*(const volatile float*)&remaining)*along.y;Coord3D next;next.x=bx+x;next.y=(*(const volatile float*)&candidate.y)+y;next.z=z;if(rva002E3A39(next))candidate=next;}
