@@ -7,6 +7,7 @@
 // Owner map-holder sits at this+8 (same layout as Rva004E35D5Notify).
 // Chain of Rva004E35D5Notify (160B); retail pushes 0, arg+0x54, string.
 #include <map>
+#include <vector>
 
 typedef int Int;
 
@@ -503,4 +504,61 @@ void Rva003EEDD6::rva003EEDD6(int value)
             ((Rva004E35AF*)effects)->rva004E35AF(g_Rva00E02E64,0);
         }
     }
+}
+
+// ?rva003EEBEF@Rva003EEBEF@@QAEXH@Z retail 0x003EEBEF 116B. Walks the
+// 0x14-byte records of the vector at arg+0x3C: each record's index (+4) is
+// resolved through the living-world logic's +0xB0 table (rowed 0x0020EAF6)
+// and handed with the record's +8 payload to this TU's 0x003EE84A. Skipped
+// when the table's holder (+8) has no gate base (holder+0x2C, null-adjusted
+// pointer conversion). Record, holder and owner names are address-derived.
+class Rva0020E89C;
+class Rva003EEBEFHolderLead { char m_pad[0x2c]; };
+class Rva003EEBEFGate { int m_gate; };
+class Rva003EEBEFHolder : public Rva003EEBEFHolderLead, public Rva003EEBEFGate {};
+class Rva0020EAF6View
+{
+public:
+	Rva0020E89C *rva0020EAF6(int index);
+	char m_pad00[8];
+	Rva003EEBEFHolder *m_holder; // +0x08
+};
+class Rva002BA8F1Logic
+{
+public:
+	char m_pad00[0xB0];
+	Rva0020EAF6View *m_B0; // +0xB0
+	Rva0020EAF6View *getLookup() const { return m_B0; }
+};
+class LivingWorldLogic;
+extern LivingWorldLogic *TheLivingWorldLogic;
+struct Rva003EEBEFRecord
+{
+	Int m_key;     // +0x00
+	Int m_index;   // +0x04
+	Int m_payload; // +0x08
+	Int m_0C;
+	Int m_10;
+};
+struct Rva003EEBEFArg
+{
+	char m_pad00[0x3c];
+	_STL::vector<Rva003EEBEFRecord> m_records; // +0x3C
+};
+class Rva003EEBEF
+{
+public:
+	void rva003EEBEF(Int p);
+};
+void Rva003EEBEF::rva003EEBEF(Int p)
+{
+	Rva003EEBEFGate *gate = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->m_B0->m_holder;
+	if (gate == 0)
+		return;
+	Rva003EEBEFArg *arg = (Rva003EEBEFArg *)p;
+	int count = arg->m_records.size();
+	for (int i = 0; i < count; ++i) {
+		Rva0020E89C *found = ((Rva002BA8F1Logic *)TheLivingWorldLogic)->getLookup()->rva0020EAF6(arg->m_records[i].m_index);
+		((Rva003EE84A *)this)->rva003EE84A((Int)found, (Int)&arg->m_records[i].m_payload);
+	}
 }
