@@ -1,4 +1,6 @@
 // ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
+// partial score=0.603724 date=2026-10-15
+// ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
 // partial score=0.8093740773907643 date=2026-10-14
 // ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
 // partial score=0.7925762250054933 date=2026-10-13
@@ -18,6 +20,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  if(rawTo->x==0.0f && rawTo->y==0.0f)return 0;
  if(!m_isMapReady)return 0;
  HierarchyPoint adjustTo(*rawTo);
+ _ReadWriteBarrier();
  Coord3D *to=&adjustTo;
  HierarchyPoint clipFrom(*from);
  rva002E75A3(&clipFrom,&adjustTo);
@@ -250,6 +253,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  }
  if(closestOK && closestCell && closestCell!=initialCell) {
   m_isTunneling=false;
+  _ReadWriteBarrier();
   Coord3D closest;
   *adjustedTo=*(Coord3D *)Rva002E8C4DCall((Int)&closest,1,(Rva002E8C23Pair *)closestCell->m_pathInfo,1);
   Path *path=(Path *)MakeHierarchicalPathPassable((void *)from,(Rva002E6C79 *)closestCell,((((const unsigned int *)obj->m_template->kinds)[5]>>31)&1)!=0);

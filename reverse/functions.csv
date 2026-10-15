@@ -89893,3 +89893,4 @@ uw_0079d478,,0x0079D478,8,Code/GameEngine/Source/GameLogic/SkirmishAI/AIUpgrade/
 ??0Rva005CEF2F@@QAE@PAURva005CF22CBig@@H@Z,,0x005CF4A8,525,Code/GameEngine/Source/Common/Rva005CF4A8SelectionCtor.cpp,matched,selection command ctor; equal-arm conditional on iterator in building lookup keeps ebx iterator and frame slot order
 ?rva0029FD1B@InGameUI@@QAEXHPAVMaterialPassClass@@PAVOverridable@@H@Z,,0x0029FD1B,387,Code/GameEngine/Source/GameClient/InGameUIRva0029FD1B.cpp,matched,radius decal; equal-arm conditional on m_890 member call orders colour before null test; hash_map find iterator local
 ?rva0056AB35@Rva0056ACC5@@QAEXH@Z,,0x0056AB35,83,Code/GameEngine/Source/Common/Rva0056AB35Method.cpp,matched,vslot 2 of 0x0086D0FC; volatile-cast store+receiver-load pair keeps retail order around the x87 fstp (W7-S2 r14 lever)
+$L3985,,0x0075D58E,10,Code/GameEngine/Source/Common/Rva0004F84ESnapshotFactory.cpp,matched,
