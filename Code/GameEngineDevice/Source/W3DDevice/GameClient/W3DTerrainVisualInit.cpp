@@ -80,8 +80,11 @@ public:
 	V(100) V(101) V(102) V(103) V(104) V(105) V(106) V(107) V(108) V(109)
 	V(110) V(111) V(112) V(113) V(114) V(115) V(116) V(117) V(118) V(119)
 	V(120)
-#undef V
 	virtual void slot121(int a, int b);
+	V(122) V(123) V(124) V(125) V(126) V(127) V(128) V(129)
+	V(130) V(131) V(132) V(133) V(134) V(135) V(136) V(137)
+#undef V
+	virtual void reset();				// slot 138
 private:
 	unsigned char m_pad04[0x393C - 4];
 };
@@ -112,6 +115,7 @@ class W3DShadowManager
 public:
 	W3DShadowManager();
 	bool rva0009A254();
+	void rva0009A2CD();
 private:
 	unsigned char m_data[0x18];
 };
@@ -145,6 +149,7 @@ public:
 	W3DSmudgeManager();
 	virtual void v0();
 	virtual void init();				// slot 1
+	virtual void reset();				// slot 2
 private:
 	unsigned char m_pad04[0x44 - 4];
 };
@@ -179,14 +184,45 @@ struct Rva00091AEAGlobalView
 	WaterType m_waterType;				// +0x80
 };
 
+// TerrainVisual::reset clears the base's +0x0C filename string; its body
+// is the shared 8-byte string-release forwarder 0x0004F82B.
+class Rva0004F82B
+{
+public:
+	void rva0004F82B();
+};
+
+class Rva00083CE9Host
+{
+public:
+	void rva00084002();
+};
+
+class Rva00082B08
+{
+public:
+	void rva00082B08();
+};
+
+// The counted object at +0x18 (count at +4, slot 0 deletes it).
+class Rva00091CA7Counted
+{
+public:
+	virtual void deleteThis();
+	void releaseRef() { if (--m_refs == 0) deleteThis(); }
+	int m_refs;					// +0x04
+};
+
 class W3DTerrainVisual
 {
 public:
 	virtual void init();
+	virtual void reset();
 private:
 	unsigned char m_pad04[0x10 - 4];
 	Rva000E3BFE *m_terrainRenderObject;		// +0x10
 	Rva0082140 *m_waterRenderObject;		// +0x14
+	Rva00091CA7Counted *m_18;			// +0x18
 };
 
 void W3DTerrainVisual::init()
@@ -220,4 +256,34 @@ void W3DTerrainVisual::init()
 
 	if (!g_00DFE7A8 && ((Rva00091AEAGlobalView *)TheWritableGlobalData)->m_waterType != 1 && m_waterRenderObject)
 		((Rva00091AEAScene *)W3DDisplay::m_3DScene)->Add_Render_Object(&m_waterRenderObject->m_renderObj);
+}
+
+// ?reset@W3DTerrainVisual@@UAEXXZ, retail 0x00091CA7..0x00091D0D (102 bytes),
+// slot 9 of the W3DTerrainVisual vtable 0x007C8068 (slot 1 is init above).
+// Zero Hour's W3DTerrainVisual::reset without the skybox-texture loop: the
+// base TerrainVisual::reset, the height-map render object's reset (slot 138),
+// TheW3DShadowManager's Reset (0x0009A2CD), the smudge manager's slot 2, the
+// terrain tracks system's Reset (rowed 0x00084002) and the water render
+// object's reset (rowed 0x00082B08); BFME 2 then releases the counted object at
+// +0x18 and clears it. Retail passes ECX=this to 0x0004F82B and 0x0009A2CD,
+// whose rows are other spellings, so they are reached through address-named
+// member pins.
+void W3DTerrainVisual::reset()
+{
+	((Rva0004F82B *)this)->rva0004F82B();
+	if (m_terrainRenderObject)
+		m_terrainRenderObject->reset();
+	if (TheW3DShadowManager)
+		TheW3DShadowManager->rva0009A2CD();
+	if (g_bfmeB991)
+		((W3DSmudgeManager *)g_bfmeB991)->reset();
+	if (TheTerrainTracksRenderObjClassSystem)
+		((Rva00083CE9Host *)TheTerrainTracksRenderObjClassSystem)->rva00084002();
+	if (m_waterRenderObject)
+		((Rva00082B08 *)m_waterRenderObject)->rva00082B08();
+	if (m_18)
+	{
+		m_18->releaseRef();
+		m_18 = 0;
+	}
 }

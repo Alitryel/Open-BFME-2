@@ -17024,3 +17024,5 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?rva00477513@HordeTransportContain@@QAEXXZ,0x00477513,callee of ?rva0047D33A@HordeSiegeEngineContain@@QAEXXZ
 ?hasEntries@Rva00256AB0Owner@@QBE_NXZ,0x004DF49C,callee of ?rva0028BC3B@Rva0028BC3B@@QBE_NXZ
 ?rva00031660@GeneralAllocator@Allocator@EA@@QAEXPAX@Z,0x00031660,callee of ?rva00033D50@GeneralAllocator@Allocator@EA@@QAE_NXZ
+?rva0004F82B@Rva0004F82B@@QAEXXZ,0x0004F82B,callee of ?reset@W3DTerrainVisual@@UAEXXZ
+?rva0009A2CD@W3DShadowManager@@QAEXXZ,0x0009A2CD,callee of ?reset@W3DTerrainVisual@@UAEXXZ
