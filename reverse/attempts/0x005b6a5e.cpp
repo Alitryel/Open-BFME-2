@@ -1,3 +1,5 @@
+// ?rva005B6A5E@Rva005B566B@@QAEXII_N@Z
+// partial score=0.96 date=2026-10-15
 // ?rva005B6A5E@Rva005B6A5E@@QAEXH@Z
 // partial score=0.93 date=2026-10-14
 // cl: /Ob2 /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB
