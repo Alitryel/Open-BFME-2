@@ -1,4 +1,6 @@
 // ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
+// partial score=0.9 date=2026-10-15
+// ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
 // partial score=0.886 date=2026-10-15
 // ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
 // partial score=0.85526 date=2026-10-14
@@ -62,10 +64,9 @@ AptValue *Rva006EF6D0TextFormat(AptValue *context,int argc){
  if(!cih->IsCharacterInst())aptAssert("isCharacterInst()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0xA5);
  NativeFrameList *frames=(NativeFrameList*)(cih->character->definition->frameList+8);
  if(text(context)->definition->fontIndex<frames->count && text(context)->definition->fontIndex!=-1 && frames->items[text(context)->definition->fontIndex]->type==3){
-  EAStringC tmp((context ? frames->items[text(context)->definition->fontIndex]->font : frames->items[text(context)->definition->fontIndex]->font));value->font=tmp;
+  EAStringC tmp(frames->items[text(context)->definition->fontIndex]->font);value->font=tmp;
  }else{EAStringC tmp("");value->font=tmp;}
  value->align=text(context)->align;
  value->size=text(context)->size;
- _ReadWriteBarrier();
  return (AptValue*)value;
 }
