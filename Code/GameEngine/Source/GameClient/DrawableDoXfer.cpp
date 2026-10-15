@@ -238,8 +238,7 @@ public:
 };
 Rva0036CA00Str Rva00274DD4();
 
-class Rva00433390 { public: Rva00433390(int); unsigned char m_data[0xD0]; };
-class Rva004333C0 { public: Rva004333C0(const Rva001DA2D5 &base, int); unsigned char m_data[0xD0]; };
+class Rva004333C0 { public: Rva004333C0(int); Rva004333C0(const Rva001DA2D5 &base, int); unsigned char m_data[0xD0]; };
 class DynamicAudioEventInfo { public: void xferNoName(Xfer *xfer); };
 class Rva000B56F0Object { public: void *selectStorage(); };
 
@@ -623,7 +622,7 @@ void Drawable::DoXfer(Xfer *xfer)
 				bool success = true;
 				if (!baseInfo.item)
 				{
-					((Rva000A8C9B *)&info)->rva000A8CE5((OpaqueRefCounted *)new Rva00433390(0));
+					((Rva000A8C9B *)&info)->rva000A8CE5((OpaqueRefCounted *)new Rva004333C0(0));
 					success = false;
 				}
 				else
