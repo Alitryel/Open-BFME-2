@@ -23,6 +23,13 @@ template<> __declspec(dllimport) __forceinline
 void _Construct<int, int>(int *p, const int &value) { new (p) int(value); }
 }
 #include "GameEngine/Source/Common/GameLogicObjectLookupView.h"
+// Keep integer placement construction local: the shared STLport copy at
+// 0x00620140 has a different compiler shape. The callback inlines this store.
+#include <new>
+namespace _STL {
+static __forceinline void _Construct(int *where, const int &value)
+{ new (where) int(value); }
+}
 // Keep the vendor inline bodies visible; existing units own emitted copies.
 namespace _STL {
 template<> __declspec(dllimport) __forceinline _List_iterator<Object*,_Nonconst_traits<Object*> >::_List_iterator(_List_node<Object*> *node):_List_iterator_base(node) {}
