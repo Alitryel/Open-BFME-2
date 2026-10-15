@@ -208,7 +208,8 @@ class W3DShroud { public: RefCountPtr<FXShader::RenderingMethod> rva0006F1FE(voi
 class BaseHeightMapRenderObjClass
 {
 public:
-	W3DShroud *getShroud(void) { return m_shroud; }
+	// Keep the inlined field access without a competing external helper copy.
+	__declspec(dllimport) __forceinline W3DShroud *getShroud(void) { return m_shroud; }
 private:
 	char m_pad[0x3878];
 	W3DShroud *m_shroud;	// +0x3878
