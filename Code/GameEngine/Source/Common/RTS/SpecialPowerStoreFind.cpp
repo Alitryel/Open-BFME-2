@@ -42,7 +42,9 @@ class SpecialPowerTemplate : public Overridable
 {
 public:
 	const AsciiString &getName() const { return getFO()->m_name; }
-	UnsignedInt getID() const { return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_id; }
+	// Retail inlines the override-aware lookup here; keep its body visible
+	// without emitting a competing standalone accessor.
+	__declspec(dllimport) __forceinline UnsignedInt getID() const { return ((const SpecialPowerTemplate *)friend_getFinalOverride())->m_id; }
 private:
 	const SpecialPowerTemplate *getFO() const { return (const SpecialPowerTemplate *)friend_getFinalOverride(); }
 	unsigned char m_pad0C[4];
