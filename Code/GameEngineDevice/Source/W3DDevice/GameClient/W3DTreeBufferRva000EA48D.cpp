@@ -75,6 +75,7 @@ public:
     Bool rva000EA48D(void *key, const Coord3D *direction, Real height);
     Bool rva000EA644(void *key);
     void rva000EA2C0(void *key);
+    Bool rva000EA6A7(void *key);
 
     __forceinline Rva000EA48DRecord *find(void *key)
     {
@@ -87,13 +88,15 @@ public:
     }
 
 private:
-    unsigned char pad000[0x5c0];
+    unsigned char pad000[0x5bc];
+    Real frameScale5bc;
     Rva000EA48DRecord records[1200];
     Int count;
     unsigned char dirty44544;
     unsigned char changed;
     unsigned char pad44546[0x44558 - 0x44546];
     Rva000EA48DType types[64];
+    Int numTypes;
 };
 
 Bool W3DTreeBuffer::rva000EA48D(void *key, const Coord3D *direction, Real height)
@@ -179,4 +182,39 @@ void W3DTreeBuffer::rva000EA2C0(void *key)
             dirty44544 = 1;
         }
     }
+}
+
+// Native 000EA6A7..000EA746 (159 bytes, ret 4): for a drawable key's tree
+// record with a valid type (0 <= +0x40 < type count +0x45C58) and no +0xC8
+// guard, sets the +0xC0 frame count from the type data's unsigned +0x40 count
+// scaled by +0x5BC and marks +0xC4. Reached from the guarded forwarder
+// 0x000681FB. Identity unproven.
+Bool W3DTreeBuffer::rva000EA6A7(void *key)
+{
+    if (!key)
+        return false;
+
+    Rva000EA48DRecord *record = 0;
+    for (Int i = 0; i < count; ++i)
+    {
+        if (records[i].key == key)
+        {
+            record = records + i;
+            break;
+        }
+    }
+    if (!record)
+        return false;
+    if (record->type < 0)
+        return false;
+    if (record->type >= numTypes)
+        return false;
+    if (record->guardc8)
+        return false;
+
+    Real scaled = (Real)types[record->type].data->frames40;
+    scaled *= frameScale5bc;
+    record->framesc0 = (Int)scaled;
+    record->startedc4 = true;
+    return true;
 }
