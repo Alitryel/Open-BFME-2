@@ -120,15 +120,16 @@ _STL::pair<const int, Rva00501656>::pair(const _STL::pair<const int, Rva00501656
 {
 }
 
-struct Rva005564EBSub
+class PSPlayerAllStats
 {
-	Rva005564EBSub(const Rva005564EBSub &o);
+public:
+	PSPlayerAllStats(const PSPlayerAllStats &o);
 };
 
 struct Rva00557C90Element
 {
 	int m_00;
-	Rva005564EBSub m_04;
+	PSPlayerAllStats m_04;
 	Rva00557C90Element(const Rva00557C90Element &o);
 };
 
