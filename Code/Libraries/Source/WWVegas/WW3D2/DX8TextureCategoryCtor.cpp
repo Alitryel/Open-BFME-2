@@ -74,7 +74,8 @@ class TextureClass
 {
 public:
 	virtual void Delete_This() = 0;
-	void Add_Ref() { ++NumRefs; }
+	// Preserve inline increments without emitting a competing external copy.
+	__declspec(dllimport) __forceinline void Add_Ref() { ++NumRefs; }
 	unsigned short NumRefs;
 	void Release_Ref();
 };

@@ -35,7 +35,8 @@ protected:
 class TextureClass : public TextureBaseClass
 {
 public:
-	void Add_Ref(void) { m_refs++; }
+	// Preserve inline increments without emitting a competing external copy.
+	__declspec(dllimport) __forceinline void Add_Ref(void) { m_refs++; }
 };
 
 class VertexMaterialClass;
