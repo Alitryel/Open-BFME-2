@@ -25,6 +25,11 @@
 #include <new>
 #include "../../../Common/GameLogicObjectLookupView.h"
 
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree<int, pair<const int, void *>, _Select1st<pair<const int, void *> >, less<int>, allocator<pair<const int, void *> > >::~_Rb_tree()
+{ clear(); }
+}
 struct TreeOpaqueMapped00372FF4 { unsigned int m_bits; };
 typedef _STL::pair<const float, TreeOpaqueMapped00372FF4> TreeValue00372FF4;
 typedef _STL::_Rb_tree<float, TreeValue00372FF4, _STL::_Select1st<TreeValue00372FF4>, _STL::less<float>, _STL::allocator<TreeValue00372FF4> > Tree00372FF4;
