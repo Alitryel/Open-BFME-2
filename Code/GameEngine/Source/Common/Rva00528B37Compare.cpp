@@ -11,7 +11,7 @@ struct Rva00528B37Key
 	float m_f;
 };
 
-int Rva00528B37Equal(const Rva00528B37Key *a, const Rva00528B37Key *b)
+__declspec(noinline) inline int Rva00528B37Equal(const Rva00528B37Key *a, const Rva00528B37Key *b)
 {
 	if (a->m_a != b->m_a)
 		return false;
@@ -21,6 +21,9 @@ int Rva00528B37Equal(const Rva00528B37Key *a, const Rva00528B37Key *b)
 		return true;
 	return false;
 }
+// Select-any like PalantirCommandInterfacePortrait.cpp's copy; the anchor keeps it emitted.
+// ?bfmeAnchorRva00528B37Equal absent-from-retail
+int bfmeAnchorRva00528B37Equal(const Rva00528B37Key *a, const Rva00528B37Key *b) { return Rva00528B37Equal(a, b); }
 
 // ?g_Va00BC2424@@3MA: matched references place it at VA 0xbc2424; also referenced as _INV.
 float g_Va00BC2424 = 0.1f;

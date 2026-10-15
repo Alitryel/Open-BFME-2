@@ -86,11 +86,14 @@ private:
 	Rva003081C7Aux *m_ptr80;
 };
 
-unsigned char Rva003081C7::rva003081C7()
+__declspec(noinline) inline unsigned char Rva003081C7::rva003081C7()
 {
 	int v = m_ptr80 ? m_ptr80->m_word04 : 0;
 	return (unsigned char)(v > 0);
 }
+// Select-any like StandingWaterAreaLoadFXShaderSetup.cpp's in-class copy; the anchor keeps it emitted.
+// ?bfmeAnchorRva003081C7 absent-from-retail
+unsigned char bfmeAnchorRva003081C7(Rva003081C7 *p) { return p->rva003081C7(); }
 
 //
 // ?rva003081FB@Rva003081FB@@QAEEXZ retail 0x003081FB 24 bytes.

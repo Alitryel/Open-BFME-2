@@ -150,7 +150,7 @@ bool PhysicsBehavior::rva0039051E() const
 // words. Slot0 at the UpdateModuleInterface subobject +0x10 is called twice;
 // frame recording and wake use their existing byte-verified target providers.
 // The method name, optional word meanings and template flag remain opaque.
-void PhysicsBehavior::rva00390557(const Coord3D *where, float strength,
+__declspec(noinline) inline void PhysicsBehavior::rva00390557(const Coord3D *where, float strength,
                                 float value44, int value60, int value64)
 {
 	Object *object = m_object;
@@ -174,6 +174,9 @@ void PhysicsBehavior::rva00390557(const Coord3D *where, float strength,
 		setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 	}
 }
+// Select-any like PhysicsBehaviorTrajectory.cpp's copy; the anchor keeps it emitted.
+// ?bfmeAnchorRva00390557 absent-from-retail
+void bfmeAnchorRva00390557(PhysicsBehavior *p, const Coord3D *where) { p->rva00390557(where, 0.0f, 0.0f, 0, 0); }
 
 // BFME1 c1f3b5af79's PhysicsBehaviorApplyZeroMotiveForce.cpp supplies the
 // zero-vector wrapper as a semantic lead. BFME2's native 00390E36..00390E61

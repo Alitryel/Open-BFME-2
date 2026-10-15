@@ -22,7 +22,10 @@ private:
 	unsigned int m_vals[1];
 };
 
-unsigned char AttributeModifierPoolUpdate::isCategoryDisabled(int index)
+__declspec(noinline) inline unsigned char AttributeModifierPoolUpdate::isCategoryDisabled(int index)
 {
 	return TheGameLogic->m_40 < m_vals[index];
 }
+// Select-any like AttributeModifierPoolUpdateAdd.cpp's in-class copy; the anchor keeps it emitted.
+// ?bfmeAnchorIsCategoryDisabled absent-from-retail
+unsigned char bfmeAnchorIsCategoryDisabled(AttributeModifierPoolUpdate *p, int index) { return p->isCategoryDisabled(index); }
