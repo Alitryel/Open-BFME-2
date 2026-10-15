@@ -21,6 +21,15 @@
 // +0x0C holder/AI virtuals (+0x18 provider, +0x1C grant, +0x20 int sink,
 // +0x3C float sink), the +0x114/+0x40 GameLogic words and the +0x28 byte are
 // retail facts whose application identities stay unresolved.
+// Keep vector growth inline without a competing unused max<unsigned> body.
+#include <stl/_algobase.h>
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+const unsigned int &max<unsigned int>(const unsigned int &a, const unsigned int &b)
+{
+	return a < b ? b : a;
+}
+}
 #include <vector>
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 #include "Common/Snapshot.h"
@@ -31,6 +40,14 @@ enum ScienceType
 };
 
 namespace _STL {
+	// Preserve STLport's inline cleanup; suppress its unused external copy.
+	template <> __declspec(dllimport) __forceinline
+	_Vector_base<ScienceType, allocator<ScienceType> >::~_Vector_base()
+	{
+		if (_M_start != 0)
+			_M_end_of_storage.deallocate(_M_start, _M_end_of_storage._M_data - _M_start);
+	}
+
 	template <class _InputIter, class _Tp>
 	_InputIter find(_InputIter __first, _InputIter __last, const _Tp &__val);
 }
