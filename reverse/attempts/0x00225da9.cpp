@@ -1,4 +1,8 @@
 // ?rva00225DA9@GameEngine@@QAEXXZ
+// partial score=0.994 date=2026-10-15
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+// ?rva00225DA9@GameEngine@@QAEXXZ
 // partial score=0.999 date=2026-10-14
 // ?rva00225DA9@GameEngine@@QAEXXZ
 // partial score=0.9911 date=2026-10-12
@@ -18,7 +22,6 @@ extern int BfmeClientFramesPerSecond;
 extern int BfmeLogicFramesPerSecond;
 
 extern float g_00BC26EC;
-extern double g_bfmeFactorBW;
 
 class Host10
 {
@@ -155,8 +158,9 @@ void GameEngine::rva00225DA9(void)
 		if (m_50 % 25 == 0) {
 			unsigned int t = timeGetTime();
 			unsigned int dt = t - m_54;
-			double ext19 = ((double)(float)dt * g_bfmeFactorBW);
+			double ext19 = ((double)(float)dt * 0.001);
 			float den = (float)ext19;
+			_ReadWriteBarrier();
 			float a = (float)m_50;
 			m_50 = 0;
 			float b = (float)m_5c;
