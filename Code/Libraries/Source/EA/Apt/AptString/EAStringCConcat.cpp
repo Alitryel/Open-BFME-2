@@ -62,7 +62,7 @@ public:
 	EAStringC operator+(const char *other) const;
 	int rva006D47F0(const char *oldString, const char *newString);
 	char *buffer() const { return (char *)m_pData + sizeof(StringDataC); }
-	EAStringC &operator=(const EAStringC &s);
+	__declspec(dllimport) __forceinline EAStringC &operator=(const EAStringC &s);
 };
 
 // The four existing native helpers must be visible together: the sized
@@ -218,7 +218,9 @@ static __forceinline void setSizeAndClearHash(EAStringC &s, unsigned int n)
 	p->m_uSize = (unsigned short)n;
 	p->m_uHash = 0;
 }
-inline EAStringC &EAStringC::operator=(const EAStringC &s)
+// Keep the native inlined assignment, without emitting a competing external
+// copy of the separately recovered 0x006D3030 assignment in EAStringCRefCount.
+__forceinline EAStringC &EAStringC::operator=(const EAStringC &s)
 {
 	if (s.m_pData != &g_eaEmptyStringData && s.m_pData->m_uRefCount > 0xFFFE)
 		aptAssert("m_pData->m_uRefCount <= 0xfffe", STRING_INL, 0xE1);

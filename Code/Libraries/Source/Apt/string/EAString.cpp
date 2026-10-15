@@ -53,13 +53,16 @@ public:
 
 };
 
-// The wrapper's ECX receiver is passed straight through to 0x006D47F0.
+// The call at retail 0x006D559A reaches the recovered EAStringC member
+// 0x006D47F0 with the unchanged ECX receiver, two C strings and RET8.
+// Keep the wrapper's address-derived identity; only its callee is established.
 int Rva0089EFE0::method(char value)
 {
     char text[2] = "*";
     text[0] = value;
-    return ((EAStringC *)this)->rva006D47F0(text, "");
+    return reinterpret_cast<EAStringC *>(this)->rva006D47F0(text, "");
 }
+
 void EAStringC::rva006D53F0(const char *format,va_list args)
 {
     if (!format) {
