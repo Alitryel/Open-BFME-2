@@ -72,7 +72,10 @@ bool less<int>::operator()(const int &a, const int &b) const
 // reaches) stay placeholders.
 struct Rva00470041Less : public _STL::less<unsigned short> {};
 // Coord3D: shared header/view; no private copy.
+// Preserve inline multiplies without emitting a nonretail scale copy.
+#define BFME_COORD3D_INLINE_SCALE_LINK
 #include "../../../../../Libraries/Include/Lib/Coord3DInline.h"
+#undef BFME_COORD3D_INLINE_SCALE_LINK
 #include "../../../../../Libraries/Include/Lib/RGBColor.h"
 #include "../../../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
 // The float triple whose length is the address-owned copy 0x00003571.
