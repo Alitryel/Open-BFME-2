@@ -9,6 +9,8 @@
 // stlport
 #include <list>
 #include <map>
+#include <vector>
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 // map<int,int> find otherwise instantiates the less<int>::operator() COMDAT
 // (one byte shape per TU flags); an explicit dllimport+forceinline
 // specialization takes those calls inline so this TU emits no external copy.
@@ -35,7 +37,8 @@ struct DetectionTreeNode {unsigned color;void *parent,*left,*right;int key;Rva00
 struct Rva004389DBInfo;
 class Rva00438389 {public:Object *detector;unsigned char allied;char pad5[31];Rva00438389 &rva00438389();};
 class Xfer;
-class Rva00439E0C {public:void *vtable;InvisibilityRecordMap records;
+class Rva00439E0C {public:void *vtable;InvisibilityRecordMap records;unsigned word10,nextFrame;
+ bool rva0043979D(Object*,Rva004393D6*);
  void rva00439F3F(Xfer*);
  bool rva00439E0C(Object*,Object*,int,int);
  void rva0043822E(Rva004393D6*,unsigned int);
@@ -110,10 +113,6 @@ public:
 	virtual void slot35();
 	virtual Xfer &xferSlot90(int *value);
 };
-enum ObjectID
-{
-	INVALID_ID = 0
-};
 void XferObjectID(Xfer *xfer, ObjectID *objectID);
 
 class Rva00438758Interface;
@@ -167,4 +166,49 @@ void Rva00439E0C::rva00439F3F(Xfer *xfer)
 		}
 		--n;
 	}
+}
+
+// Use the established four-byte vector providers. These ABI views carry
+// ObjectIDs, as proven by the lookup call; no new folded identity is pinned.
+// The vector's empty-base constructor (0x00211E58) and push_back (0x002E01C6)
+// are left to STLport (not declared-only specializations): with their bodies
+// in the unit cl knows the gathered id vector never escapes, so the erase loop
+// keeps its begin in edi for the final free and is pre-tested as in retail;
+// declared only, the begin was reloaded and the loop bottom-tested.
+void __cdecl Rva00030830GameFree(void *);
+namespace _STL {
+ template<> inline _Vector_base<ObjectID,allocator<ObjectID> >::~_Vector_base() {if(_M_start)Rva00030830GameFree(_M_start);}
+}
+struct Rva00439862Element {char bytes[8];};
+typedef _STL::_Rb_tree<Rva00439862Element,Rva00439862Element,_STL::_Identity<Rva00439862Element>,_STL::less<Rva00439862Element>,_STL::allocator<Rva00439862Element> > InvisibilityEraseProvider;
+namespace _STL {template<> unsigned InvisibilityEraseProvider::erase(const Rva00439862Element&);}
+extern GameLogic *TheGameLogic;
+extern unsigned g_Va00DBA4E4;
+class Rva00243177 {public:void rva00439965();};
+
+// Native00439965..00439A22 is a complete EH-prologue/RET body. WB127FD30
+// independently confirms the frame gate and gather-then-erase traversal.
+// Manager +4 tree, +14 next frame, node +10 ObjectID and +14 record are
+// target accesses. Established provider spellings do not resolve the original
+// manager name or the erase provider's donor-derived element type.
+void Rva00243177::rva00439965()
+{
+ Rva00439E0C *manager=(Rva00439E0C*)this;
+ unsigned frame=TheGameLogic->getFrame();
+ if(frame<manager->nextFrame)return;
+ manager->nextFrame=frame+g_Va00DBA4E4;
+ _STL::vector<ObjectID> remove;
+ InvisibilityRecordMap *records=&manager->records;
+ DetectionTreeNode *node=(DetectionTreeNode*)((DetectionTreeNode*)*(void**)records)->left;
+ while(node!=*(DetectionTreeNode**)records) {
+  Object *object=TheGameLogic->findObjectByID((ObjectID)node->key);
+  Rva004393D6 *record=&node->record;
+  if(!object || !manager->rva0043979D(object,record))remove.push_back((const ObjectID&)node->key);
+  node=(DetectionTreeNode*)_STL::_Rb_global<bool>::_M_increment((_STL::_Rb_tree_node_base*)node);
+ }
+ ObjectID *id=remove.begin();
+ if(id!=remove.end())do {
+  ((InvisibilityEraseProvider*)records)->erase((const Rva00439862Element&)*id);
+  ++id;
+ }while(id!=remove.end());
 }
