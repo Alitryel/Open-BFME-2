@@ -2,6 +2,8 @@
 // The shared headers declare these members with the access/virtual spelling
 // the referring objects use; this TU emits the paired definition spelling.
 // Same function, same address: bind the header spelling here.
+struct EmitVtableTag;
+
 #pragma comment(linker, "/alternatename:??1Rva00B6CF1@@QAE@XZ=??1Rva00B6CF1@@UAE@XZ")
 
 // InGameCommandButtonMovieClip::Impl (WorldBuilder name of its destructor
@@ -17,10 +19,11 @@ public:
 // destructors found by sweeping the image for the
 // push-esi/mov-esi,ecx/call/test-[esp+8],1 pattern. Each dtor is pinned
 // opaquely (evidence: the ??_G call site plus the body bytes at the pinned
-// address); the dtor bodies themselves stay unclaimed. The emitting classes
-// below use a three-vptr MI model so the in-class destructor is too big to
-// inline and the ??_G calls out through the pin (a single-vptr dtor would
-// inline into the ??_G instead). Operator delete resolves via the pinned ??3.
+// address); the dtor bodies themselves stay unclaimed. Each class only
+// declares its destructor, so the ??_G calls out through the pin, and an
+// absent-from-retail tag constructor makes this TU emit the vtable (an
+// in-class placeholder destructor would emit a ??1 copy the census proves
+// wrong against the rowed body). Operator delete resolves via the pinned ??3.
 // Owner identities are unproven (opaque Rva names). One ledger row per
 // destructor, landed one commit at a time.
 
@@ -39,46 +42,32 @@ public:
 	virtual void f1();
 };
 
-class Rva0072892_B2
+class Rva0072892
 {
 public:
-	virtual void f2();
+	Rva0072892(EmitVtableTag *);
+	virtual ~Rva0072892();
 };
 
-class Rva0072892 : public Rva0049B47C, public MiBase1, public Rva0072892_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva0072892::Rva0072892> absent-from-retail
+Rva0072892::Rva0072892(EmitVtableTag *)
 {
-public:
-	virtual ~Rva0072892()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva0072892_Anchor(Rva0072892 *p)
-{
-	p->Rva0072892::~Rva0072892();
 }
 
-class Rva005333F_B2
+class Rva005333F
 {
 public:
-	virtual void f2();
+	Rva005333F(EmitVtableTag *);
+	virtual ~Rva005333F();
 };
 
-class Rva005333F : public Rva0049B47C, public MiBase1, public Rva005333F_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva005333F::Rva005333F> absent-from-retail
+Rva005333F::Rva005333F(EmitVtableTag *)
 {
-public:
-	virtual ~Rva005333F()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva005333F_Anchor(Rva005333F *p)
-{
-	p->Rva005333F::~Rva005333F();
 }
 
 class Rva00065288
@@ -98,109 +87,62 @@ Rva00065288 *Rva0065288_Anchor(int)
 	return new Rva00065288(0);
 }
 
-class Rva00751EF_B2
+// ??_GRva00751EF@@UAEPAXI@Z is emitted (retail-identical) and rowed in Rva00751EFDtor.cpp.
+
+class Rva0089851
 {
 public:
-	virtual void f2();
+	Rva0089851(EmitVtableTag *);
+	virtual ~Rva0089851();
 };
 
-class Rva00751EF : public Rva0049B47C, public MiBase1, public Rva00751EF_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva0089851::Rva0089851> absent-from-retail
+Rva0089851::Rva0089851(EmitVtableTag *)
 {
-public:
-	virtual ~Rva00751EF()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva00751EF_Anchor(Rva00751EF *p)
-{
-	p->Rva00751EF::~Rva00751EF();
 }
 
-class Rva0089851_B2
+class Rva0090771
 {
 public:
-	virtual void f2();
+	Rva0090771(EmitVtableTag *);
+	virtual ~Rva0090771();
 };
 
-class Rva0089851 : public Rva0049B47C, public MiBase1, public Rva0089851_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva0090771::Rva0090771> absent-from-retail
+Rva0090771::Rva0090771(EmitVtableTag *)
 {
-public:
-	virtual ~Rva0089851()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva0089851_Anchor(Rva0089851 *p)
-{
-	p->Rva0089851::~Rva0089851();
 }
 
-class Rva0090771_B2
+class Rva0090840
 {
 public:
-	virtual void f2();
+	Rva0090840(EmitVtableTag *);
+	virtual ~Rva0090840();
 };
 
-class Rva0090771 : public Rva0049B47C, public MiBase1, public Rva0090771_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva0090840::Rva0090840> absent-from-retail
+Rva0090840::Rva0090840(EmitVtableTag *)
 {
-public:
-	virtual ~Rva0090771()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva0090771_Anchor(Rva0090771 *p)
-{
-	p->Rva0090771::~Rva0090771();
 }
 
-class Rva0090840_B2
+class Rva009D6FA
 {
 public:
-	virtual void f2();
+	Rva009D6FA(EmitVtableTag *);
+	virtual ~Rva009D6FA();
 };
 
-class Rva0090840 : public Rva0049B47C, public MiBase1, public Rva0090840_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva009D6FA::Rva009D6FA> absent-from-retail
+Rva009D6FA::Rva009D6FA(EmitVtableTag *)
 {
-public:
-	virtual ~Rva0090840()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva0090840_Anchor(Rva0090840 *p)
-{
-	p->Rva0090840::~Rva0090840();
-}
-
-class Rva009D6FA_B2
-{
-public:
-	virtual void f2();
-};
-
-class Rva009D6FA : public Rva0049B47C, public MiBase1, public Rva009D6FA_B2
-{
-public:
-	virtual ~Rva009D6FA()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva009D6FA_Anchor(Rva009D6FA *p)
-{
-	p->Rva009D6FA::~Rva009D6FA();
 }
 
 class Rva00785FD0Renderer
@@ -216,46 +158,32 @@ void Rva0011018B_Anchor(Rva00785FD0Renderer *p)
 	delete p;
 }
 
-class Rva002C0C0_B2
+class Rva002C0C0
 {
 public:
-	virtual void f2();
+	Rva002C0C0(EmitVtableTag *);
+	virtual ~Rva002C0C0();
 };
 
-class Rva002C0C0 : public Rva0049B47C, public MiBase1, public Rva002C0C0_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva002C0C0::Rva002C0C0> absent-from-retail
+Rva002C0C0::Rva002C0C0(EmitVtableTag *)
 {
-public:
-	virtual ~Rva002C0C0()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva002C0C0_Anchor(Rva002C0C0 *p)
-{
-	p->Rva002C0C0::~Rva002C0C0();
 }
 
-class Rva00119D00_B2
+class Rva00119D00
 {
 public:
-	virtual void f2();
+	Rva00119D00(EmitVtableTag *);
+	virtual ~Rva00119D00();
 };
 
-class Rva00119D00 : public Rva0049B47C, public MiBase1, public Rva00119D00_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva00119D00::Rva00119D00> absent-from-retail
+Rva00119D00::Rva00119D00(EmitVtableTag *)
 {
-public:
-	virtual ~Rva00119D00()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva00119D00_Anchor(Rva00119D00 *p)
-{
-	p->Rva00119D00::~Rva00119D00();
 }
 
 class SubTitleWindow
@@ -379,25 +307,18 @@ Rva0072AED *Rva0072AED_Anchor(int)
 	return new Rva0072AED(0);
 }
 
-class Rva0078B83_B2
+class Rva0078B83
 {
 public:
-	virtual void f2();
+	Rva0078B83(EmitVtableTag *);
+	virtual ~Rva0078B83();
 };
 
-class Rva0078B83 : public Rva0049B47C, public MiBase1, public Rva0078B83_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva0078B83::Rva0078B83> absent-from-retail
+Rva0078B83::Rva0078B83(EmitVtableTag *)
 {
-public:
-	virtual ~Rva0078B83()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva0078B83_Anchor(Rva0078B83 *p)
-{
-	p->Rva0078B83::~Rva0078B83();
 }
 
 class WaterTracksRenderSystem
@@ -413,67 +334,22 @@ void Rva00FF4D6_Anchor(WaterTracksRenderSystem *p)
 	delete p;
 }
 
-class Rva0081FDD_B2
+// ??_GRva0081FDD@@UAEPAXI@Z is emitted (retail-identical) and rowed in Rva00082EF5Ctor.cpp.
+
+// ??_GRva008291D@@UAEPAXI@Z is emitted (retail-identical) and rowed in Rva00082EF5Ctor.cpp.
+
+class Rva009A500
 {
 public:
-	virtual void f2();
+	Rva009A500(EmitVtableTag *);
+	virtual ~Rva009A500();
 };
 
-class Rva0081FDD : public Rva0049B47C, public MiBase1, public Rva0081FDD_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva009A500::Rva009A500> absent-from-retail
+Rva009A500::Rva009A500(EmitVtableTag *)
 {
-public:
-	virtual ~Rva0081FDD()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva0081FDD_Anchor(Rva0081FDD *p)
-{
-	p->Rva0081FDD::~Rva0081FDD();
-}
-
-class Rva008291D_B2
-{
-public:
-	virtual void f2();
-};
-
-class Rva008291D : public Rva0049B47C, public MiBase1, public Rva008291D_B2
-{
-public:
-	virtual ~Rva008291D()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva008291D_Anchor(Rva008291D *p)
-{
-	p->Rva008291D::~Rva008291D();
-}
-
-class Rva009A500_B2
-{
-public:
-	virtual void f2();
-};
-
-class Rva009A500 : public Rva0049B47C, public MiBase1, public Rva009A500_B2
-{
-public:
-	virtual ~Rva009A500()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva009A500_Anchor(Rva009A500 *p)
-{
-	p->Rva009A500::~Rva009A500();
 }
 
 class W3DVolumetricShadowManager
@@ -866,25 +742,18 @@ Rva00AB15D *Rva00AB15D_Anchor(int)
 	return new Rva00AB15D(0);
 }
 
-class Rva00B6CF1_B2
+class Rva00B6CF1
 {
 public:
-	virtual void f2();
+	Rva00B6CF1(EmitVtableTag *);
+	virtual ~Rva00B6CF1();
 };
 
-class Rva00B6CF1 : public Rva0049B47C, public MiBase1, public Rva00B6CF1_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva00B6CF1::Rva00B6CF1> absent-from-retail
+Rva00B6CF1::Rva00B6CF1(EmitVtableTag *)
 {
-public:
-	virtual ~Rva00B6CF1()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva00B6CF1_Anchor(Rva00B6CF1 *p)
-{
-	p->Rva00B6CF1::~Rva00B6CF1();
 }
 
 class Rva0073EE55
@@ -921,26 +790,7 @@ Rva00AAD26 *Rva00AAD26_Anchor(int)
 	return new Rva00AAD26(0);
 }
 
-class Rva00B0028_B2
-{
-public:
-	virtual void f2();
-};
-
-class Rva00B0028 : public Rva0049B47C, public MiBase1, public Rva00B0028_B2
-{
-public:
-	virtual ~Rva00B0028()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva00B0028_Anchor(Rva00B0028 *p)
-{
-	p->Rva00B0028::~Rva00B0028();
-}
+// ??_GRva00B0028@@UAEPAXI@Z is emitted (retail-identical) and rowed in Rva00B0028Dtor.cpp.
 
 class EventParameter
 {
@@ -976,46 +826,32 @@ Rva00A86CE *Rva00A86CE_Anchor(int)
 	return new Rva00A86CE(0);
 }
 
-class Rva00A897D_B2
+class Rva00A897D
 {
 public:
-	virtual void f2();
+	Rva00A897D(EmitVtableTag *);
+	virtual ~Rva00A897D();
 };
 
-class Rva00A897D : public Rva0049B47C, public MiBase1, public Rva00A897D_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva00A897D::Rva00A897D> absent-from-retail
+Rva00A897D::Rva00A897D(EmitVtableTag *)
 {
-public:
-	virtual ~Rva00A897D()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva00A897D_Anchor(Rva00A897D *p)
-{
-	p->Rva00A897D::~Rva00A897D();
 }
 
-class Rva0084CEF_B2
+class Rva0084CEF
 {
 public:
-	virtual void f2();
+	Rva0084CEF(EmitVtableTag *);
+	virtual ~Rva0084CEF();
 };
 
-class Rva0084CEF : public Rva0049B47C, public MiBase1, public Rva0084CEF_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva0084CEF::Rva0084CEF> absent-from-retail
+Rva0084CEF::Rva0084CEF(EmitVtableTag *)
 {
-public:
-	virtual ~Rva0084CEF()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva0084CEF_Anchor(Rva0084CEF *p)
-{
-	p->Rva0084CEF::~Rva0084CEF();
 }
 
 class ObjectModule_B2
@@ -1043,25 +879,18 @@ void ObjectModule_Anchor(ObjectModule *p)
 	p->ObjectModule::~ObjectModule();
 }
 
-class Rva004D7B93_B2
+class Rva004D7B93
 {
 public:
-	virtual void f2();
+	Rva004D7B93(EmitVtableTag *);
+	virtual ~Rva004D7B93();
 };
 
-class Rva004D7B93 : public Rva0049B47C, public MiBase1, public Rva004D7B93_B2
+// The tag constructor (no retail counterpart) makes this TU emit the vtable
+// and with it the scalar deleting destructor; the destructor is only declared here.
+// ?<Rva004D7B93::Rva004D7B93> absent-from-retail
+Rva004D7B93::Rva004D7B93(EmitVtableTag *)
 {
-public:
-	virtual ~Rva004D7B93()
-	{
-	}
-};
-
-// Anchor: forces out-of-line emission of the in-class destructor COMDAT,
-// including the scalar deleting destructor.
-void Rva004D7B93_Anchor(Rva004D7B93 *p)
-{
-	p->Rva004D7B93::~Rva004D7B93();
 }
 
 // Guarded-delete clear() batch: each owner below holds a heap element at

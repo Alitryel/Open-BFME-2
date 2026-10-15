@@ -3,9 +3,10 @@
 // which emits the scalar deleting destructor in this TU; the dtor call inside
 // resolves through that destructor's own row (same pattern as spec_gdtor).
 
+struct EmitVtableTag;
+
 // ??_GPassiveAreaEffectBehaviorModuleData@@UAEPAXI@Z @0x484e8d
-class PassiveAreaEffectBehaviorModuleData { public: __declspec(noinline) virtual ~PassiveAreaEffectBehaviorModuleData(); private: int m_famgen;
-  friend void famgenDelete(PassiveAreaEffectBehaviorModuleData *p); };
-PassiveAreaEffectBehaviorModuleData::~PassiveAreaEffectBehaviorModuleData() { m_famgen = 0; }
-void famgenDelete(PassiveAreaEffectBehaviorModuleData *p) { delete p; }
+class PassiveAreaEffectBehaviorModuleData { public: PassiveAreaEffectBehaviorModuleData(EmitVtableTag *); virtual ~PassiveAreaEffectBehaviorModuleData(); };
+// ?<PassiveAreaEffectBehaviorModuleData::PassiveAreaEffectBehaviorModuleData> absent-from-retail
+PassiveAreaEffectBehaviorModuleData::PassiveAreaEffectBehaviorModuleData(EmitVtableTag *) {}
 

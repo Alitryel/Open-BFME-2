@@ -12,17 +12,17 @@
 // The noinline empty destructor is an unmatched compilation scaffold; the
 // verified wrapper call resolves to the retail destructor through its pin.
 
+struct EmitVtableTag;
+
 // ??_GAnimationSoundClientBehaviorModuleData@@UAEPAXI@Z @0x004CA74C 28B: slot 0 of vtable 0x00C5EED0; calls ??1 at 0x004CA768.
 // Owner evidence (audited 2026-09-26): retail registration AnimationSoundClientBehavior -> data factory RVA 0x00252BC2 -> ctor RVA 0x004CA70D; primary vptr store RVA 0x004CA725.
-class AnimationSoundClientBehaviorModuleData { public: __declspec(noinline) virtual ~AnimationSoundClientBehaviorModuleData(); };
-// ??1AnimationSoundClientBehaviorModuleData@@UAE@XZ present-unmatched
-AnimationSoundClientBehaviorModuleData::~AnimationSoundClientBehaviorModuleData() {}
-void AnimationSoundClientBehaviorModuleData_Delete(AnimationSoundClientBehaviorModuleData *p) { delete p; }
+class AnimationSoundClientBehaviorModuleData { public: AnimationSoundClientBehaviorModuleData(EmitVtableTag *); virtual ~AnimationSoundClientBehaviorModuleData(); };
+// ?<AnimationSoundClientBehaviorModuleData::AnimationSoundClientBehaviorModuleData> absent-from-retail
+AnimationSoundClientBehaviorModuleData::AnimationSoundClientBehaviorModuleData(EmitVtableTag *) {}
 
 // ??_GUpgradeSoundSelectorClientBehaviorModuleData@@UAEPAXI@Z @0x004CBACE 28B: slot 0 of vtable 0x00C5F250; calls ??1 at 0x004CBAEA.
 // Owner evidence (audited 2026-09-26): retail registration UpgradeSoundSelectorClientBehavior -> data factory RVA 0x00252C64 -> ctor RVA 0x004CB9F3; primary vptr store RVA 0x004CB9FF.
-class UpgradeSoundSelectorClientBehaviorModuleData { public: __declspec(noinline) virtual ~UpgradeSoundSelectorClientBehaviorModuleData(); };
-// ??1UpgradeSoundSelectorClientBehaviorModuleData@@UAE@XZ present-unmatched
-UpgradeSoundSelectorClientBehaviorModuleData::~UpgradeSoundSelectorClientBehaviorModuleData() {}
-void UpgradeSoundSelectorClientBehaviorModuleData_Delete(UpgradeSoundSelectorClientBehaviorModuleData *p) { delete p; }
+class UpgradeSoundSelectorClientBehaviorModuleData { public: UpgradeSoundSelectorClientBehaviorModuleData(EmitVtableTag *); virtual ~UpgradeSoundSelectorClientBehaviorModuleData(); };
+// ?<UpgradeSoundSelectorClientBehaviorModuleData::UpgradeSoundSelectorClientBehaviorModuleData> absent-from-retail
+UpgradeSoundSelectorClientBehaviorModuleData::UpgradeSoundSelectorClientBehaviorModuleData(EmitVtableTag *) {}
 

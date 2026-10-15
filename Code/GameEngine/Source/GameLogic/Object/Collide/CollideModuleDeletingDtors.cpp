@@ -12,9 +12,10 @@
 // The noinline empty destructor is an unmatched compilation scaffold; the
 // verified wrapper call resolves to the retail destructor through its pin.
 
+struct EmitVtableTag;
+
 // ??_GSalvageCrateCollideModuleData@@UAEPAXI@Z @0x002563D3 28B: slot 0 of vtable 0x00BF3A40; calls ??1 at 0x002563EF.
 // Owner evidence (audited 2026-09-26): retail registration SalvageCrateCollide -> data factory RVA 0x00255BD2 -> ctor RVA 0x00255B7E; primary vptr store RVA 0x00255BA3.
-class SalvageCrateCollideModuleData { public: __declspec(noinline) virtual ~SalvageCrateCollideModuleData(); };
-// ??1SalvageCrateCollideModuleData@@UAE@XZ present-unmatched
-SalvageCrateCollideModuleData::~SalvageCrateCollideModuleData() {}
-void SalvageCrateCollideModuleData_Delete(SalvageCrateCollideModuleData *p) { delete p; }
+class SalvageCrateCollideModuleData { public: SalvageCrateCollideModuleData(EmitVtableTag *); virtual ~SalvageCrateCollideModuleData(); };
+// ?<SalvageCrateCollideModuleData::SalvageCrateCollideModuleData> absent-from-retail
+SalvageCrateCollideModuleData::SalvageCrateCollideModuleData(EmitVtableTag *) {}

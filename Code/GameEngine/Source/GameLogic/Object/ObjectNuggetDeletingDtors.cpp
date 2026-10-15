@@ -9,24 +9,16 @@
 //
 // These minimal declarations emit the wrappers, not complete class layouts.
 // No bases, member layout, or destructor implementation are claimed here.
-// The noinline empty destructor is an unmatched compilation scaffold; the
-// verified wrapper call resolves to the retail destructor through its pin.
+// The destructor is only declared; the verified wrapper call resolves to the
+// retail destructor through its row or pin.
+
+struct EmitVtableTag;
 
 // ??_GAttackNugget@@UAEPAXI@Z @0x001F0606 28B: slot 0 of vtable 0x00BE0FF4; calls ??1 at 0x001F0622.
 // Owner evidence (audited 2026-09-26): retail Attack OCL parse entry -> parser RVA 0x001F0D96 -> ctor RVA 0x001F05C1; primary vptr store RVA 0x001F05D9; AttackNugget spelling from donor.
-class AttackNugget { public: __declspec(noinline) virtual ~AttackNugget(); };
-// ??1AttackNugget@@UAE@XZ present-unmatched
-inline AttackNugget::~AttackNugget() {}
-void AttackNugget_Delete(AttackNugget *p) { delete p; }
+class AttackNugget { public: AttackNugget(EmitVtableTag *); virtual ~AttackNugget(); };
+// ?<AttackNugget::AttackNugget> absent-from-retail
+AttackNugget::AttackNugget(EmitVtableTag *) {}
 
-// ??1AttackNugget@@UAE@XZ is owned by Code/GameEngine/Source/GameLogic/Object/AttackNuggetDtor.cpp (row at 0x001F0622):
-// a strong definition here was a duplicate in the linked build, so this copy
-// is select-any. This anchor only makes this unit emit its copy for the
-// ledger row; it is not retail code.
-#pragma inline_depth(0)
-// ?bfmeEmitObjectNuggetDeletingDtors@@YAXPAVAttackNugget@@@Z present-unmatched
-void bfmeEmitObjectNuggetDeletingDtors(AttackNugget *p)
-{
-	p->AttackNugget::~AttackNugget();
-}
-#pragma inline_depth()
+// ??1AttackNugget@@UAE@XZ is owned by Code/GameEngine/Source/GameLogic/Object/AttackNuggetDtor.cpp (row at 0x001F0622);
+// this unit only declares it, and the tag constructor emits the vtable and its deleting wrapper.

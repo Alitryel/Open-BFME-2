@@ -12,9 +12,10 @@
 // The noinline empty destructor is an unmatched compilation scaffold; the
 // verified wrapper call resolves to the retail destructor through its pin.
 
+struct EmitVtableTag;
+
 // ??_GSoundFXNugget@@UAEPAXI@Z @0x001E0DEB 28B: slot 0 of vtable 0x00BDD768; calls ??1 at 0x001E0E07.
 // Owner evidence (audited 2026-09-26): retail Sound FXList parse entry -> parser RVA 0x001E1329 -> ctor RVA 0x001E00A3; primary vptr store RVA 0x001E00AB; SoundFXNugget spelling from donor.
-class SoundFXNugget { public: __declspec(noinline) virtual ~SoundFXNugget(); };
-// ??1SoundFXNugget@@UAE@XZ present-unmatched
-SoundFXNugget::~SoundFXNugget() {}
-void SoundFXNugget_Delete(SoundFXNugget *p) { delete p; }
+class SoundFXNugget { public: SoundFXNugget(EmitVtableTag *); virtual ~SoundFXNugget(); };
+// ?<SoundFXNugget::SoundFXNugget> absent-from-retail
+SoundFXNugget::SoundFXNugget(EmitVtableTag *) {}

@@ -7,7 +7,8 @@
 // Evidence: vtable slot plus ??1 row plus retail call bytes; BFME1 donor none;
 // pattern follows FamilyDeletingDtors_0021C7e.cpp siblings.
 
-class Rva004E16D9Record { public: __declspec(noinline) virtual ~Rva004E16D9Record(); private: int m_famgen;
-  friend void famgenDelete(Rva004E16D9Record *p); };
-Rva004E16D9Record::~Rva004E16D9Record() { m_famgen = 0; }
-void famgenDelete(Rva004E16D9Record *p) { delete p; }
+struct EmitVtableTag;
+
+class Rva004E16D9Record { public: Rva004E16D9Record(EmitVtableTag *); virtual ~Rva004E16D9Record(); };
+// ?<Rva004E16D9Record::Rva004E16D9Record> absent-from-retail
+Rva004E16D9Record::Rva004E16D9Record(EmitVtableTag *) {}

@@ -18,30 +18,28 @@
 // InstantDeathBehaviorModuleData's wrapper likewise comes from its ctor unit,
 // which emits the class's vtable.
 
+struct EmitVtableTag;
+
 // ??_GCastleBehavior@@UAEPAXI@Z @0x00399354 28B: slot 0 of vtable 0x00C1A780; calls ??1 at 0x0039857D.
 // Owner evidence (audited 2026-09-26): retail slot 4 -> RVA 0x00398538 uses class-name string "CastleBehavior".
-class CastleBehavior { public: __declspec(noinline) virtual ~CastleBehavior(); };
-// ??1CastleBehavior@@UAE@XZ present-unmatched
-CastleBehavior::~CastleBehavior() {}
-void CastleBehavior_Delete(CastleBehavior *p) { delete p; }
+class CastleBehavior { public: CastleBehavior(EmitVtableTag *); virtual ~CastleBehavior(); };
+// ?<CastleBehavior::CastleBehavior> absent-from-retail
+CastleBehavior::CastleBehavior(EmitVtableTag *) {}
 
 // ??_GStancesBehavior@@UAEPAXI@Z @0x0045F068 28B: slot 0 of vtable 0x00C424DC; calls ??1 at 0x0045F001.
 // Owner evidence (audited 2026-09-26): retail slot 4 -> RVA 0x0045EFBC uses class-name string "StancesBehavior".
-class StancesBehavior { public: __declspec(noinline) virtual ~StancesBehavior(); };
-// ??1StancesBehavior@@UAE@XZ present-unmatched
-StancesBehavior::~StancesBehavior() {}
-void StancesBehavior_Delete(StancesBehavior *p) { delete p; }
+class StancesBehavior { public: StancesBehavior(EmitVtableTag *); virtual ~StancesBehavior(); };
+// ?<StancesBehavior::StancesBehavior> absent-from-retail
+StancesBehavior::StancesBehavior(EmitVtableTag *) {}
 
 // ??_GPropagandaTowerBehaviorModuleData@@UAEPAXI@Z @0x00481BB2 28B: slot 0 of vtable 0x00C49288; calls ??1 at 0x00481BCE.
 // Owner evidence (audited 2026-09-26): retail registration PropagandaTowerBehavior -> data factory RVA 0x0024C21B -> ctor RVA 0x0048197C; primary vptr store RVA 0x00481988.
-class PropagandaTowerBehaviorModuleData { public: __declspec(noinline) virtual ~PropagandaTowerBehaviorModuleData(); };
-// ??1PropagandaTowerBehaviorModuleData@@UAE@XZ present-unmatched
-PropagandaTowerBehaviorModuleData::~PropagandaTowerBehaviorModuleData() {}
-void PropagandaTowerBehaviorModuleData_Delete(PropagandaTowerBehaviorModuleData *p) { delete p; }
+class PropagandaTowerBehaviorModuleData { public: PropagandaTowerBehaviorModuleData(EmitVtableTag *); virtual ~PropagandaTowerBehaviorModuleData(); };
+// ?<PropagandaTowerBehaviorModuleData::PropagandaTowerBehaviorModuleData> absent-from-retail
+PropagandaTowerBehaviorModuleData::PropagandaTowerBehaviorModuleData(EmitVtableTag *) {}
 
 // ??_GSlaveWatcherBehaviorModuleData@@UAEPAXI@Z @0x004846DE 28B: slot 0 of vtable 0x00C4A298; calls ??1 at 0x004846FA.
 // Owner evidence (audited 2026-09-26): retail registration SlaveWatcherBehavior -> data factory RVA 0x0024C660 -> ctor RVA 0x004846C7; primary vptr store RVA 0x004846CB.
-class SlaveWatcherBehaviorModuleData { public: __declspec(noinline) virtual ~SlaveWatcherBehaviorModuleData(); };
-// ??1SlaveWatcherBehaviorModuleData@@UAE@XZ present-unmatched
-SlaveWatcherBehaviorModuleData::~SlaveWatcherBehaviorModuleData() {}
-void SlaveWatcherBehaviorModuleData_Delete(SlaveWatcherBehaviorModuleData *p) { delete p; }
+class SlaveWatcherBehaviorModuleData { public: SlaveWatcherBehaviorModuleData(EmitVtableTag *); virtual ~SlaveWatcherBehaviorModuleData(); };
+// ?<SlaveWatcherBehaviorModuleData::SlaveWatcherBehaviorModuleData> absent-from-retail
+SlaveWatcherBehaviorModuleData::SlaveWatcherBehaviorModuleData(EmitVtableTag *) {}

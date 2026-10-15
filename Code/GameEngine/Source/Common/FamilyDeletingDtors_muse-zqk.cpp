@@ -1,13 +1,15 @@
 // cl: /MD
 // ??_GCivilianSpawnCollideModuleData@@UAEPAXI@Z @0x004BD70E
-class CivilianSpawnCollideModuleData { public: __declspec(noinline) virtual ~CivilianSpawnCollideModuleData(); private: int m_famgen; };
-CivilianSpawnCollideModuleData::~CivilianSpawnCollideModuleData() { m_famgen = 0; }
-void famgenDelete(CivilianSpawnCollideModuleData *p) { delete p; }
+struct EmitVtableTag;
+
+class CivilianSpawnCollideModuleData { public: CivilianSpawnCollideModuleData(EmitVtableTag *); virtual ~CivilianSpawnCollideModuleData(); };
+// ?<CivilianSpawnCollideModuleData::CivilianSpawnCollideModuleData> absent-from-retail
+CivilianSpawnCollideModuleData::CivilianSpawnCollideModuleData(EmitVtableTag *) {}
 // ??_GRankInfo@@UAEPAXI@Z @0x0020021A
-class RankInfo { public: __declspec(noinline) virtual ~RankInfo(); private: int m_famgen; };
-RankInfo::~RankInfo() { m_famgen = 0; }
-void famgenDelete(RankInfo *p) { delete p; }
+class RankInfo { public: RankInfo(EmitVtableTag *); virtual ~RankInfo(); };
+// ?<RankInfo::RankInfo> absent-from-retail
+RankInfo::RankInfo(EmitVtableTag *) {}
 // ??_GSpecialDisguiseUpdateModuleData@@UAEPAXI@Z @0x004B044C
-class SpecialDisguiseUpdateModuleData { public: __declspec(noinline) virtual ~SpecialDisguiseUpdateModuleData(); private: int m_famgen; };
-SpecialDisguiseUpdateModuleData::~SpecialDisguiseUpdateModuleData() { m_famgen = 0; }
-void famgenDelete(SpecialDisguiseUpdateModuleData *p) { delete p; }
+class SpecialDisguiseUpdateModuleData { public: SpecialDisguiseUpdateModuleData(EmitVtableTag *); virtual ~SpecialDisguiseUpdateModuleData(); };
+// ?<SpecialDisguiseUpdateModuleData::SpecialDisguiseUpdateModuleData> absent-from-retail
+SpecialDisguiseUpdateModuleData::SpecialDisguiseUpdateModuleData(EmitVtableTag *) {}

@@ -5,6 +5,8 @@
 // ??_GDownloadManager@@UAEPAXI@Z @0x005E0AF3 28B: slot 5 of vtable 0x00877944;
 // calls the rowed ??1DownloadManager@@UAE@XZ at 0x005E0994 then rowed operator
 // delete 0x0002FD60 on flag.
+struct EmitVtableTag;
+
 class CDownload
 {
 public:
@@ -13,13 +15,7 @@ public:
 
 void CDownload_Delete(CDownload *p) { delete p; }
 
-class DownloadManager
-{
-public:
-	__declspec(noinline) virtual ~DownloadManager();
-private:
-	int m_famgen;
-};
+class DownloadManager { public: DownloadManager(EmitVtableTag *); virtual ~DownloadManager(); };
+// ?<DownloadManager::DownloadManager> absent-from-retail
+DownloadManager::DownloadManager(EmitVtableTag *) {}
 
-DownloadManager::~DownloadManager() { m_famgen = 0; }
-void DownloadManager_Delete(DownloadManager *p) { delete p; }

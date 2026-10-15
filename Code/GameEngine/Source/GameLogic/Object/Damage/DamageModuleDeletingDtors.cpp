@@ -12,9 +12,10 @@
 // The noinline empty destructor is an unmatched compilation scaffold; the
 // verified wrapper call resolves to the retail destructor through its pin.
 
+struct EmitVtableTag;
+
 // ??_GCallHelpOnDamage@@UAEPAXI@Z @0x004BB4B5 28B: slot 0 of vtable 0x00C59FDC; calls ??1 at 0x004BB4D1.
 // Owner evidence (audited 2026-09-26): retail slot 4 -> RVA 0x004BB470 uses class-name string "CallHelpOnDamage".
-class CallHelpOnDamage { public: __declspec(noinline) virtual ~CallHelpOnDamage(); };
-// ??1CallHelpOnDamage@@UAE@XZ present-unmatched
-CallHelpOnDamage::~CallHelpOnDamage() {}
-void CallHelpOnDamage_Delete(CallHelpOnDamage *p) { delete p; }
+class CallHelpOnDamage { public: CallHelpOnDamage(EmitVtableTag *); virtual ~CallHelpOnDamage(); };
+// ?<CallHelpOnDamage::CallHelpOnDamage> absent-from-retail
+CallHelpOnDamage::CallHelpOnDamage(EmitVtableTag *) {}
