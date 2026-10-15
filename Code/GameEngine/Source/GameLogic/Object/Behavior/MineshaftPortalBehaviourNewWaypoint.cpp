@@ -1,4 +1,10 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /Oy- /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
+//
+// Link repair: retail native methods retain frames; delayed STLport instances
+// use /O1 frame omission and the verified bfmealloc provider. The complete
+// scalar ObjectID vector cleanup folds to 0x0007FAB3 (14B including free REL32);
+// its former 0x005F120F pin described a different 30B nontrivial-element clear.
+// Pin admission verifies every owner relocation, not only the masked bytes.
 //
 // ?rva00372DFA@MineshaftPortalBehaviour@@QAEPAVWaypoint@@PBUCoord3D@@@Z,
 // retail 0x00372DFA..0x00372ED3 (217B), thiscall ret 4.
@@ -170,6 +176,13 @@ private:
     bool m_39;
 };
 
+// Emit the already-used enum-vector operations with their verified provider flags.
+template void _STL::vector<ObjectID>::push_back(const ObjectID &);
+template void _STL::vector<ObjectID>::_M_insert_overflow(ObjectID *,
+    const ObjectID &, const _STL::__false_type &, unsigned int, bool);
+
+// Retain the retail frames only for the native methods below.
+#pragma optimize("y", off)
 Waypoint *MineshaftPortalBehaviour::rva00372DFA(const Coord3D *pos)
 {
 	const MineshaftPortalBehaviourModuleData *data = m_moduleData;
@@ -284,3 +297,6 @@ void MineshaftPortalBehaviour::DoXfer(Xfer *xfer)
         }
     }
 }
+
+// MSVC emits delayed template instances after the native methods.
+#pragma optimize("", on)
