@@ -10,7 +10,7 @@
 // plus three pushes to 0x00524EF4, neighbours Disp32Clearer plus Rva0059EF62Set,
 // callers 0x0059EF29 0x005A27DC 0x005A62CF 0x005A655B.
 class Rva00222A8BTarget;
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 int __cdecl Rva00524EF4AptCall(Rva00222A8BTarget *t, void *a1, const char *a2, const char *a3);
 
 class GameSlot
@@ -127,12 +127,12 @@ void AptOnlineCustomMatch::rva0059EE96(unsigned char a0, unsigned char a1)
 	if (a0)
 	{
 		lvl = m_mid58->m_level274;
-		Rva00524EF4AptCall(TheRva00222A8BTarget, lvl, f10(), "EnableButtonPlayGame");
+		Rva00524EF4AptCall((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), lvl, f10(), "EnableButtonPlayGame");
 	}
 	else
 	{
 		lvl = m_mid58->m_level274;
-		Rva00524EF4AptCall(TheRva00222A8BTarget, lvl, f10(), "DisableButtonPlayGame");
+		Rva00524EF4AptCall((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), lvl, f10(), "DisableButtonPlayGame");
 	}
 }
 

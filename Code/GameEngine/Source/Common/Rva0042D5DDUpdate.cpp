@@ -7,7 +7,7 @@ class Rva00222A8BTarget
 public:
 	void invoke(void *owner, const char *name, int flag, const char *value, void *a4, void *a5, void *a6, void *a7);
 };
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 #pragma comment(linker, "/alternatename:?TheRva00222A8BTarget@@3PAVRva00222A8BTarget@@A=?g_bfmeAptWindowManager@@3PAVBfmeAptWindowManager@@A")
 
 void Rva00516F21Invoke(Rva00222A8BTarget *target, void *owner, const char *name, const char *value);
@@ -41,11 +41,11 @@ void StrategicHUD::HUD::Show()
 	int c = m_impl->m_08;
 	if (c != 0) {
 		if (c > 2 && c <= 4) {
-			Rva00516F21Invoke(TheRva00222A8BTarget, m_impl->m_04, "SetState", "_fadeIn");
+			Rva00516F21Invoke((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), m_impl->m_04, "SetState", "_fadeIn");
 			m_impl->m_08 = 2;
 		}
 		return;
 	}
-	((AptPlayer *)TheRva00222A8BTarget)->ShowLevel((int)m_impl->m_04);
+	((AptPlayer *)(*(Rva00222A8BTarget **)&g_bfmeAptWindowManager))->ShowLevel((int)m_impl->m_04);
 	m_impl->m_08 = 1;
 }

@@ -47,7 +47,7 @@ class BfmeTracker4310
 public:
 	void bfmeDrop(BfmeObj4310 *obj);
 };
-BfmeTracker4310 * g_00E176F8;	// retail RVA 0x00A176F8 (.data, 4 bytes), defined here: nothing else owns it
+extern class AptLinker *g_bfmeAptLinkerAtE176F8;	// retail RVA 0x00A176F8 (.data, 4 bytes), defined here: nothing else owns it
 unsigned char g_00E18348;	// retail RVA 0x00A18348 (.data, 4 bytes), defined here: nothing else owns it
 
 class BfmeNestedBE;
@@ -77,7 +77,7 @@ extern Rva006E34D0 *g_bfmeAptPtrAtE176D0;
 
 void BfmeNode1279::bfmeFinish1279()
 {
-	g_00E176F8->bfmeDrop((BfmeObj4310 *)this);
+	(*(BfmeTracker4310 **)&g_bfmeAptLinkerAtE176F8)->bfmeDrop((BfmeObj4310 *)this);
 	if (g_bfmeAptPtrAtE176D0->m_6c == this) {
 		g_bfmeAptPtrAtE176D0->m_6c->Release();
 		g_bfmeAptPtrAtE176D0->m_6c = 0;

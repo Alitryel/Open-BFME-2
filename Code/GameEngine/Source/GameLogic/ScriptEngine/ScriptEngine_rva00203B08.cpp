@@ -6,7 +6,7 @@
 // 0x0004250D and 0x00225DCD test al,al for bool; unlock lane.
 
 typedef int HMODULE;
-extern HMODULE g_00DFE158;
+extern int st_DebugDLL;
 extern unsigned char g_00DFE15C;
 unsigned char g_00DFE15D;	// retail RVA 0x009FE15D (.data, 3 bytes), defined here: nothing else owns it
 
@@ -23,7 +23,7 @@ bool Rva00203B08::rva00203B08()
 {
 	if (!m_flag)
 	{
-		if (g_00DFE158 != 0)
+		if (st_DebugDLL != 0)
 			return g_00DFE15C == 0;
 	}
 	return false;
@@ -33,7 +33,7 @@ bool Rva00203B08::rva00203AE5()
 {
 	if (m_flag)
 	{
-		if (g_00DFE158 != 0)
+		if (st_DebugDLL != 0)
 			return g_00DFE15D == 0;
 	}
 	return false;

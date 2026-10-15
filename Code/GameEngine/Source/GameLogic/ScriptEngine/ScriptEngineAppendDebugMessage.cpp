@@ -18,7 +18,7 @@ typedef int Int;
 typedef int HMODULE;
 // The existing ScriptEngine_appGate.cpp definition and this retail DLL load
 // both identify the same zero-filled global at VA 0x00DFE158.
-extern HMODULE g_00DFE158;
+extern int st_DebugDLL;
 typedef int (__stdcall *FARPROC)();
 
 extern "C" __declspec(dllimport) FARPROC __stdcall GetProcAddress(
@@ -48,7 +48,7 @@ public:
 extern GameLogic *TheGameLogic;
 
 #define TheRva00DFEF10 (*(void **)&(*(Rva002BA8F1Logic **)&TheLivingWorldLogic))
-#define TheScriptDebugWindowDLL g_00DFE158
+#define TheScriptDebugWindowDLL st_DebugDLL
 #define ScriptDebugMessagesDisabled BFME2ScriptDebugLiteMode
 
 class ScriptEngine

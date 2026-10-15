@@ -101,7 +101,7 @@ public:
 extern InGameUI *TheInGameUI;
 
 class Rva0025CEEFHost;
-extern Rva0025CEEFHost *g_009FE720;
+extern class Keyboard *TheKeyboard;
 
 class Keyboard
 {
@@ -123,7 +123,7 @@ int __cdecl doSetRallyPointCommand(void *a, ICoord2D *b)
 	GameMessage *msg = TheMessageStream->createMessage(0x413);
 	msg->appendObjectIDArgument(ret->m_fc->m_id);
 	msg->appendLocationArgument(pos);
-	bool active = ((Keyboard *)g_009FE720)->isShift();
+	bool active = ((Keyboard *)(*(Rva0025CEEFHost **)&TheKeyboard))->isShift();
 	msg->appendBooleanArgument(active);
 	msg->appendObjectIDArgument(OBJECTID_NONE);
 	return 1;

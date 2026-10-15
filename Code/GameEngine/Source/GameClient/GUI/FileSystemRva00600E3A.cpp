@@ -49,7 +49,7 @@ extern FilePathGate *TheFilePathGate;
 extern bool BFME2PreferLocalFiles;
 extern ArchiveFileSystem *TheArchiveFileSystem;
 extern char TheLangDir[];
-extern Rva0060061AHelper *G00A06E54;
+extern class LocalFileSystem *TheLocalFileSystem;
 char g_00DD509C[188] = "English";
 
 bool FileSystem::getFileInfo(const char *a, FileInfo *b) const
@@ -84,8 +84,8 @@ bool FileSystem::getFileInfo(const char *a, FileInfo *b) const
 			return true;
 	}
 try_local:
-	if (G00A06E54) {
-		if (G00A06E54->doesFileExist(a, b))
+	if ((*(Rva0060061AHelper **)&TheLocalFileSystem)) {
+		if ((*(Rva0060061AHelper **)&TheLocalFileSystem)->doesFileExist(a, b))
 			return true;
 	}
 	if (TheArchiveFileSystem != 0) {

@@ -35,7 +35,7 @@ public:
 	virtual GameMessage *v19(int a, int b);
 };
 
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 extern "C" const void *const __identifier("??_7Rva004318FC@@6B@")[];
 
 struct Rva00431C35Helper
@@ -82,7 +82,7 @@ void FormationTranslator::WaitForSecondButtonDownStateHandler::Restart(void *p)
 {
 	Rva00431C35Param *par = (Rva00431C35Param *)p;
 	int v = par->m_08;
-	GameMessage *msg = MessageStreamSubsystem->v19(m_08, v);
+	GameMessage *msg = TheMessageStream->v19(m_08, v);
 	msg->appendPixelArgument(m_0C);
 	msg->appendIntegerArgument(m_14);
 	msg->appendIntegerArgument(m_18);

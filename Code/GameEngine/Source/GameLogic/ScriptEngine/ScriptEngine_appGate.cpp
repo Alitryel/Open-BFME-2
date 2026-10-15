@@ -13,7 +13,7 @@ extern class GlobalData *TheWritableGlobalData;
 typedef int HMODULE;
 
 // g_00DFE158: VA 0x00dfe158 (.data/bss); retail zero-filled.
-HMODULE g_00DFE158;
+extern int st_DebugDLL;
 // g_00DFE168: VA 0x00dfe168 (.data/bss); retail zero-filled.
 unsigned char g_00DFE168;
 
@@ -27,7 +27,7 @@ public:
 extern GameLogic *TheGameLogic;
 
 #define TheGlobalData (*(unsigned char **)&TheWritableGlobalData)
-#define TheAppModule g_00DFE158
+#define TheAppModule st_DebugDLL
 #define AppFastLatch g_00DFE168
 
 class Rva00203B47Host

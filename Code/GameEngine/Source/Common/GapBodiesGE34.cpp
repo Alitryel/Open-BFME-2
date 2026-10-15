@@ -34,18 +34,18 @@ public:
 	void OpenConnectionScreen(bool show);					// 0x0059F37C
 };
 
-extern int g_Va00E063EC;
+extern int g_currentAptOnlineCustomMatch;
 
 void Rva0059F9D7()
 {
-	if (g_Va00E063EC)
-		((AptOnlineCustomMatch *)g_Va00E063EC)->OpenConnectionScreen(true);
+	if (g_currentAptOnlineCustomMatch)
+		((AptOnlineCustomMatch *)g_currentAptOnlineCustomMatch)->OpenConnectionScreen(true);
 }
 
 void Rva0059F9E9()
 {
-	if (g_Va00E063EC)
-		((AptOnlineCustomMatch *)g_Va00E063EC)->OpenConnectionScreen(false);
+	if (g_currentAptOnlineCustomMatch)
+		((AptOnlineCustomMatch *)g_currentAptOnlineCustomMatch)->OpenConnectionScreen(false);
 }
 
 // --- 0x005A683C (19B) / 0x005A6869 (22B): store a slot below 8 at +0x0C;

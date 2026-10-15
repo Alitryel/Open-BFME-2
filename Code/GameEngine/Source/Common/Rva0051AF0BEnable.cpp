@@ -15,7 +15,7 @@ struct GlobalA01E48 { char pad[0x54]; unsigned char flag; };
 class Shell;
 extern Shell *TheShell;
 class Rva00222479ByteOneSetter { public: void enable(); };
-extern Rva00222479ByteOneSetter *g_Va009FE4CC;
+extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 void __cdecl Rva0051AF0BEnable(int val)
 {
 	GlobalA04910 *p = (*(GlobalA04910 * *)&TheAptQuitMenu);
@@ -26,7 +26,7 @@ void __cdecl Rva0051AF0BEnable(int val)
 	p->flag = 1;
 	(*(GlobalA04910 * *)&TheAptQuitMenu)->val = val;
 	((GlobalA01E48 *)TheShell)->flag = 1;
-	g_Va009FE4CC->enable();
+	(*(Rva00222479ByteOneSetter **)&g_bfmeAptWindowManager)->enable();
 }
 
 // ?Rva0051B11CEnable@@YAXXZ @0x0051B11C 9B.

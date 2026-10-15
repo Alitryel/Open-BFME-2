@@ -1297,7 +1297,7 @@ extern SnowManager *TheSnowManager;
 extern Rva0027070CGlobal *g_00DFE1E4;                   // TheCloudEffectManager
 extern CloudBreakEffectManager *TheCloudBreakEffectManager;
 extern FireManager *TheFireManager;
-extern MessageStream *MessageStreamSubsystem;           // TheMessageStream
+extern class MessageStream *TheMessageStream;           // TheMessageStream
 extern GlobalLanguage *TheGlobalLanguageData;
 extern float g_00DBA4FC;                                // client frame rate
 extern void *g_00E03210;                                // the Rva0042CBB6 translator
@@ -1443,7 +1443,7 @@ GameClient::~GameClient()
 
 	// destroy all translators
 	for (unsigned int i = 0; i < m_numTranslators; i++)
-		MessageStreamSubsystem->removeTranslator(m_translators[i]);
+		TheMessageStream->removeTranslator(m_translators[i]);
 	m_numTranslators = 0;
 	m_commandTranslator = 0;
 
@@ -1517,22 +1517,22 @@ void GameClient::init()
 	g_004C9DC9Container->setName(AsciiString("TheAnimationSoundModuleManager"));
 
 	// register message translators
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new Rva002390F8, 4);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new Rva00432987, 5);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new Rva002390F8Mode1, 10);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new MetaEventTranslator, 20);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new HotKeyTranslator, 25);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new Rva0042CBB6, 27);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new PlaceEventTranslator, 30);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new FormationTranslator, 35);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new Rva005B1A00, 40);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new SelectionTranslator, 50);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new BfmeOwnVVD, 60);
-	m_translators[m_numTranslators] = MessageStreamSubsystem->attachTranslator(new Rva005A7A90, 70);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva002390F8, 4);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva00432987, 5);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva002390F8Mode1, 10);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new MetaEventTranslator, 20);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new HotKeyTranslator, 25);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva0042CBB6, 27);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new PlaceEventTranslator, 30);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new FormationTranslator, 35);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new Rva005B1A00, 40);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new SelectionTranslator, 50);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new BfmeOwnVVD, 60);
+	m_translators[m_numTranslators] = TheMessageStream->attachTranslator(new Rva005A7A90, 70);
 	// we keep a pointer to the command translator because it's useful
-	m_commandTranslator = (CommandTranslator *)MessageStreamSubsystem->findTranslator(m_translators[m_numTranslators++]);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new HintSpyTranslator, 100);
-	m_translators[m_numTranslators++] = MessageStreamSubsystem->attachTranslator(new GameClientMessageDispatcher, 999999999);
+	m_commandTranslator = (CommandTranslator *)TheMessageStream->findTranslator(m_translators[m_numTranslators++]);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new HintSpyTranslator, 100);
+	m_translators[m_numTranslators++] = TheMessageStream->attachTranslator(new GameClientMessageDispatcher, 999999999);
 
 	// create the font library
 	TheFontLibrary = createFontLibrary();

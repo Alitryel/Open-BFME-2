@@ -14,7 +14,7 @@ extern LivingWorldLogic *TheLivingWorldLogic;
 extern class GameClient *TheGameClient;
 
 typedef int HMODULE;
-extern HMODULE g_00DFE158;
+extern int st_DebugDLL;
 
 extern "C" __declspec(dllimport) void *__stdcall GetProcAddress(HMODULE module, const char *name);
 
@@ -34,7 +34,7 @@ public:
 	int m_frameNumber;
 };
 
-#define TheAppModule g_00DFE158
+#define TheAppModule st_DebugDLL
 
 void rva00203C21();
 

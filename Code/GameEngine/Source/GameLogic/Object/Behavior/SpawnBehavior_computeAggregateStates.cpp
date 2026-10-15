@@ -75,7 +75,7 @@ public:
 #undef MS_SLOT
 	virtual GameMessage *appendMessage(Int type);
 };
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 
 class Drawable
 {
@@ -316,7 +316,7 @@ void SpawnBehavior::computeAggregateStates()
 
 	if (SomebodyIsSelected && (!obj->getDrawable()->isSelected() || SomebodyIsNotSelected))
 	{
-		GameMessage *teamMsg = MessageStreamSubsystem->appendMessage(MSG_CREATE_SELECTED_GROUP);
+		GameMessage *teamMsg = TheMessageStream->appendMessage(MSG_CREATE_SELECTED_GROUP);
 		teamMsg->appendBooleanArgument(false); // not creating new team so pass false
 
 		if (SomebodyIsNotSelected) // lets select everybody

@@ -33,7 +33,7 @@ public:
 	virtual void v19();
 	virtual int v20(AsciiString a, AsciiString b, int c, int d);
 };
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 class BfmeAptWindowManager;
 extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 class AptPlayer
@@ -51,7 +51,7 @@ public:
 Rva0042D8D4::Rva0042D8D4()
 {
 	m_0 = -1;
-	m_0 = TheRva00222A8BTarget->v20(AsciiString("Apt\\"), AsciiString("StrategicHUD.apt"), 0, 0);
+	m_0 = (*(Rva00222A8BTarget **)&g_bfmeAptWindowManager)->v20(AsciiString("Apt\\"), AsciiString("StrategicHUD.apt"), 0, 0);
 }
 Rva0042D8D4::~Rva0042D8D4()
 {

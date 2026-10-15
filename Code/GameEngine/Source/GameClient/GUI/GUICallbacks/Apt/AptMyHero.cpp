@@ -31,7 +31,7 @@ class CreateAHeroHero {public: void ConstructHeroBlingList();};
 struct BlingBinder {int key;AsciiString label;int pad08;unsigned int slot;int category;};
 struct BlingBinderList {unsigned int size() const {return last-first;}BlingBinder *first,*last,*capacity;};
 class Rva00222A8BTarget;
-extern Rva00222A8BTarget *TheRva00222A8BTarget;
+extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
 int __cdecl Rva0043DB23(Rva00222A8BTarget *,void *,const char *);
 class AptPlayer {public: const Image *FindRenderImage(const char *,const char *);};
 class Rva002239B2 {public: void rva002239E2(const AsciiString &,const Image *);};
@@ -592,5 +592,5 @@ void AptMyHero::BuildBlingData(){
   SetBling(category,slot,value);
  }
  slot14();
- Rva0043DB23(TheRva00222A8BTarget,*(void **)((char *)holder140+0x274),"UpdateHeroBaseAttributes");
+ Rva0043DB23((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager),*(void **)((char *)holder140+0x274),"UpdateHeroBaseAttributes");
 }

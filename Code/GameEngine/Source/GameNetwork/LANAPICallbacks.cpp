@@ -547,7 +547,7 @@ public:
 	virtual void v16(); virtual void v17();
 	virtual GameMessage *appendMessage( Int type );	// slot 18 (+0x48)
 };
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 
 extern Int g_Va00E0333C;
 
@@ -987,7 +987,7 @@ void LANAPI::OnGameStart( void )
 		m_currentGame->startGame( 0 );
 		TheWritableGlobalData->m_pendingFile = m_currentGame->getMap();
 
-		GameMessage *msg = MessageStreamSubsystem->appendMessage( 0x1E );
+		GameMessage *msg = TheMessageStream->appendMessage( 0x1E );
 		msg->appendIntegerArgument( 1 );
 		TheGameLogic->m_bfme9D = true;
 
@@ -1050,7 +1050,7 @@ void LANAPI::OnWOTRGameStart( void )
 		TheGameLogic->rva00376E92( false, false );
 		((Rva002D3627Host *)TheLivingWorld)->rva10( 1 );
 
-		GameMessage *msg = MessageStreamSubsystem->appendMessage( 0x1F );
+		GameMessage *msg = TheMessageStream->appendMessage( 0x1F );
 		if( msg && g_Va00E0333C )
 		{
 			msg->appendIntegerArgument( m_currentGame->m_bfme58 );

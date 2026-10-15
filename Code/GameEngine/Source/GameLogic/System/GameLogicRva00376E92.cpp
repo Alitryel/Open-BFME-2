@@ -70,7 +70,7 @@ public:
     VS(10) VS(11) VS(12) VS(13) VS(14) VS(15) VS(16) VS(17)
     virtual GameMessage *slot18(int);
 };
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 class InGameUI {
 public:
     VS(0) VS(1) VS(2) VS(3) VS(4) VS(5) VS(6) VS(7) VS(8) VS(9)
@@ -120,7 +120,7 @@ void GameLogic::rva00376E92(bool showScoreScreen, bool arg2)
             TheWritableGlobalData->previousFile.releaseBuffer();
         } else TheGameEngine->slot20(true);
     }
-    GameMessage *msg=MessageStreamSubsystem->slot18(0x3EC);
+    GameMessage *msg=TheMessageStream->slot18(0x3EC);
     msg->appendBooleanArgument(true);
     TheInGameUI->slot68();
     TheControlBar->slot10();

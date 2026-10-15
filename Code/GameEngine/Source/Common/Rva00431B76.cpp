@@ -22,7 +22,7 @@ public:
 	virtual GameMessage *v19(int a, int b);
 };
 
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 extern "C" const void *const __identifier("??_7Rva004318FC@@6B@")[];
 
 struct Rva00431B76Helper
@@ -63,7 +63,7 @@ void FormationTranslator::WaitForSecondButtonDownStateHandler::Update()
 {
 	if (IsFirstButtonStillDown())
 		return;
-	GameMessage *msg = MessageStreamSubsystem->createMessage(m_08);
+	GameMessage *msg = TheMessageStream->createMessage(m_08);
 	msg->appendPixelArgument(m_0C);
 	msg->appendIntegerArgument(m_14);
 	msg->appendIntegerArgument(m_18);

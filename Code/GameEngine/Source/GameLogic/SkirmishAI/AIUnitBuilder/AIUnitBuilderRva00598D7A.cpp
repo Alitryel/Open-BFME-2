@@ -21,6 +21,16 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <map>
 #include <vector>
 #include "ascii_string.h"
+// Keep the native int-node allocation operations without per-unit copies.
+namespace _STL {
+typedef pair<const int,int> SVIntPair;
+typedef _Rb_tree_node<SVIntPair> SVIntNode;
+template<> __declspec(dllimport) __forceinline SVIntNode *allocator<SVIntNode>::allocate(size_t n, const void *) const { return n ? reinterpret_cast<SVIntNode *>(allocator<char>::allocate(n * sizeof(SVIntNode),0)) : 0; }
+template<> __declspec(dllimport) __forceinline void allocator<SVIntNode>::deallocate(SVIntNode *p, size_t) const { if(p) ::free(p); }
+template<> __declspec(dllimport) __forceinline SVIntNode *_STLP_alloc_proxy<SVIntNode *,SVIntNode,allocator<SVIntNode> >::allocate(size_t n) { return __stl_alloc_rebind(static_cast<allocator<SVIntNode> &>(*this), (SVIntNode *)0).allocate(n,0); }
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<SVIntNode *,SVIntNode,allocator<SVIntNode> >::deallocate(SVIntNode *p, size_t n) { __stl_alloc_rebind(static_cast<allocator<SVIntNode> &>(*this), (SVIntNode *)0).deallocate(p,n); }
+}
+
 
 // vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte
 // shape per TU flags); explicit dllimport+forceinline specializations take
@@ -98,6 +108,7 @@ public:
 };
 
 enum NameKeyType { NAMEKEY_INVALID=0 };
+namespace _STL { template<> void vector<NameKeyType>::push_back(const NameKeyType &); }
 class Rva005983EE;
 class NameKeyGenerator {
 public:
@@ -379,7 +390,9 @@ bool AIUnitBuilder::Rva00598738(const AsciiString *name)
   Rva00598C3AItem *item=*i;
   if (item->state10==0) {
    Object *object=Rva005982EA(&item->name0C,&excluded,false);
-   if (object) { ObjectID id=object->id74; excluded.push_back(id); }
+   // Native calls enum push2E01C6: the existing NameKey emitter view
+   // copies the same four-byte ObjectID payload and grows through148D00.
+   if (object) { ObjectID id=object->id74; ((_STL::vector<NameKeyType> *)&excluded)->push_back((const NameKeyType &)id); }
   }
  }
  return Rva005982EA(name,&excluded,false)!=0;
@@ -391,8 +404,11 @@ class ArmorTemplate;
 namespace rts { template<class T> struct hash; template<class T>struct equal_to; }
 namespace _STL {
 template<class V> struct _Hashtable_node;
+template<class V,class K,class H,class X,class E,class A> class hashtable;
 template<class V,class Traits,class K,class H,class X,class E,class A> struct _Ht_iterator {
- void *node;void *table;
+ typedef hashtable<V,K,H,X,E,A> Table;
+ _Hashtable_node<V> *node; Table *table;
+ _Ht_iterator(_Hashtable_node<V> *n,Table *t):node(n),table(t) {}
  _Ht_iterator &operator++();
 };
 template<class T> struct hash;
@@ -423,8 +439,7 @@ typedef _STL::hashtable<ArmyLookupProviderValue,NameKeyType,rts::hash<NameKeyTyp
 namespace _STL {
 template<class V,class K,class H,class X,class E,class A> template<class T>
 typename hashtable<V,K,H,X,E,A>::iterator hashtable<V,K,H,X,E,A>::find(const T &key) {
- iterator result={((const ArmyLookupProvider*)this)->_M_find(*(const NameKeyType*)&key),this};
- return result;
+ return iterator(this->_M_find(key),this);
 }
 }
 struct ArmyPercentageNodeView {void *next;NameKeyType key;float percentage;};

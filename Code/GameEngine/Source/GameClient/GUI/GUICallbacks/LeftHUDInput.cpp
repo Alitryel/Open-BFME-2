@@ -212,7 +212,7 @@ extern Radar *TheRadar;
 extern Mouse *TheMouse;
 extern InGameUI *TheInGameUI;
 extern GameClient *TheGameClient;
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 extern View *TheTacticalView;
 extern GlobalData *TheWritableGlobalData;
 #define TheGlobalData TheWritableGlobalData
@@ -351,7 +351,7 @@ WindowMsgHandledType LeftHUDInput( GameWindow *window, UnsignedInt msg,
 				}
 				else if( command && command->getCommandType() == 0x0A )
 				{
-					GameMessage *msg = MessageStreamSubsystem->appendMessage( GameMessage::MSG_DO_ATTACKMOVETO );
+					GameMessage *msg = TheMessageStream->appendMessage( GameMessage::MSG_DO_ATTACKMOVETO );
 					msg->appendLocationArgument( world );
 
 					PickAndPlayInfo info;
@@ -361,7 +361,7 @@ WindowMsgHandledType LeftHUDInput( GameWindow *window, UnsignedInt msg,
 				}
 				else
 				{
-					GameMessage *newMsg = MessageStreamSubsystem->appendMessage( GameMessage::MSG_DO_MOVETO );
+					GameMessage *newMsg = TheMessageStream->appendMessage( GameMessage::MSG_DO_MOVETO );
 					newMsg->appendLocationArgument( world );
 
 					PickAndPlayInfo info;

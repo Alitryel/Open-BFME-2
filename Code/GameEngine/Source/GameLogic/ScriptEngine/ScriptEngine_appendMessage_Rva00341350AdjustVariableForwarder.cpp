@@ -439,8 +439,8 @@ extern "C" __declspec(dllimport) int __cdecl sprintf(char *buffer,
 // Zero Hour's st_DebugDLL is the global the data ledger defines at
 // 0x00DFE158: update() keeps its read after the byte store at +0x1A4D8,
 // which a file static whose address is never taken would let cl hoist.
-extern int g_00DFE158;
-#define TheScriptDebugWindowDLL ((HMODULE)g_00DFE158)
+extern int st_DebugDLL;
+#define TheScriptDebugWindowDLL ((HMODULE)st_DebugDLL)
 // File static as in the Zero Hour ScriptEngine.cpp.
 static int st_CurrentFrame;					// 0x00DFE160
 extern GlobalData *TheWritableGlobalData;			// 0x00DFE758
