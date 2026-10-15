@@ -17,10 +17,12 @@ public:
 	bool rva00363AD7();
 };
 
+// 0x00269566 is rowed as AIUpdateInterface::NotifyPathHasInvalidPortals.
+class AIUpdateInterface { public: void NotifyPathHasInvalidPortals(); };
+
 class Rva00269566Owner
 {
 public:
-	void rva00269566();
 private:
 	char m_pad00[0x140];
 	Rva003638BA *m_p140; // +0x140
@@ -64,7 +66,7 @@ void Rva004618D4Caller::rva002E7023()
 		if (item != 0) {
 			Rva003638BA *view = item->getView();
 			if (view != 0 && view->rva00363AD7())
-				item->rva00269566();
+				((AIUpdateInterface *)item)->NotifyPathHasInvalidPortals();
 		}
 		node = node->getNext();
 	} while (node != 0);

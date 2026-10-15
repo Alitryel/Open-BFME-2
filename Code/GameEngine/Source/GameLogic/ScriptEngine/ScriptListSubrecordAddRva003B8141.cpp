@@ -14,10 +14,10 @@
 #include "ascii_string.h"
 
 
-class Rva003B417E
+class Script	// ctor 0x003B417E is rowed as ??0Script
 {
 public:
-	Rva003B417E() throw();
+	Script() throw();
 	char m_data[0x54];
 };
 
@@ -28,7 +28,7 @@ public:
 	Rva003B8141Node() : m_next(0) {}
 
 	Rva003B8141Node *m_next;	// +0x00
-	Rva003B417E m_payload;		// +0x04
+	Script m_payload;		// +0x04
 };
 
 struct Rva003B675BRecord

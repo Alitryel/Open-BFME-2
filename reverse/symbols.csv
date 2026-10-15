@@ -2351,7 +2351,6 @@ name,address,notes
 ??0Rva003AEA42@@QAE@ABV0@@Z,0x003AEA42,retail 0x3AEA42/97 calls rowed base 0x3AEEB3 plus rep copy 128B; caller outer 0x3AEA15; Rva owner for unclaimed middle (prior partial 0.97 stash)
 ??0Rva003B0344@@QAE@ABVRvaSmartPtr12@@@Z,0x003B0454,264B EH ctor of the 0x00C1D9B0 class (pinned dtor 0x003B00D6-family 0x003B0344); base-constructs Rva003B00D6; ObjectCreationList/vector layout reconciliation still open
 ??0Rva003B31ADMember@@QAE@XZ,0x003B31AD,alias of the rowed Rva003B31ADMember construct; PassiveAreaEffectBehaviorModuleDataCtor TU default-init spelling
-??0Rva003B417E@@QAE@XZ,0x003B417E,member default ctor decoded from target call bytes of chained ctor 0x003B44DC; identity unproven
 ??0Rva003B7DC0Record@@QAE@XZ,0x004E15FB,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Rva003BA5F0Tree@@QAE@XZ,0x005011C1,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ??0Rva003BA660Record@@QAE@XZ,0x004E32D5,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
@@ -4520,7 +4519,6 @@ name,address,notes
 ??1Rva006F7BD@@UAE@XZ,0x006F7BD,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0x6FB2F; identity unproven, address-derived name
 ??1Rva006F8460Base@@UAE@XZ,0x006F8460,TU-private base view (Rva006F8DA0Cluster.cpp) of the class rowed as ??1Rva006F8460: the unwind funclet 0x007AA110 of the rowed parent destroys the base by jumping here; original class name unknown
 ??1Rva006F84C0@@UAE@XZ,0x006F8460,twin of rowed ??1Rva006F8460 for pooled deleting dtor 0x006F84C0 size 0x1C
-??1Rva006F84F0@@QAE@XZ,0x006F84F0,"member dtor of the sub-object at +0x24 destroyed by Rva006ED150 dtor 0x006ED150; seat 1 recovery target; address-derived name"
 ??1Rva006F8D70@@UAE@XZ,0x006F8DA0,"complete dtor call target of scalar deleting dtor 0x006F8D70; body unrowed"
 ??1Rva006F8D70Base@@UAE@XZ,0x006F8460,TU-private base view (Rva006F6A50Cluster.cpp) of the class rowed as ??1Rva006F8460: the unwind funclet 0x007AA080 of the rowed parent destroys the base by jumping here; original class name unknown
 ??1Rva006FBDB0@@QAE@XZ,0x006FBDB0,address-derived element destructor called by 0x00706330; zeroes +4 then tail-jumps the EAStringC destructor at 0x006D3010
@@ -9891,7 +9889,6 @@ name,address,notes
 ?rva002606E6@BfmeItemKA@@AAEXXZ,0x002606E6,native body start read from REL32 in 0x00260787; thiscall ret0; refreshes text ring at+34/+3C; no donor semantic name asserted
 ?rva00262176@Rva003638BA@@QAE_NXZ,0x00262176,pinned for AIUpdateInterface
 ?rva00262FEB@AIUpdateInterface@@QAEXH@Z,0x00262FEB,out-of-line AIUpdateInterface setter of +0x164 (mov [ecx+0x164] arg; body ICF-shared with the ParticleEmitterDefClass::Set_Burst_Size alias row); REL32 with 0 from AIFollowPathState::onExit 0x00349DBA with ECX the owner AI
-?rva00269566@Rva00269566Owner@@QAEXXZ,0x00269566,pin for 0x2E7023 thiscall void callee on +0x258 object; target opens with EH then walks +0x8
 ?rva0026EF50@UpgradeTemplate@@QBEIPAVPlayer@@PAVObject@@@Z,0x0026EF50,"UpgradeTemplate cost for a player and an object (the same body the ZH calcCostToBuild spelling pins); REL32 in AIWall.cpp 0x004EBA27 with ecx the button +0x24 upgrade"
 ?rva0026c90@@YAPADPAD000D@Z,0x0026C90,address-derived range-search worker called from 0x00027540 Rva00028B90Thing::bfmeDoPF; body unrowed
 ?rva00271BCC@Rva00271BCC@@QAEXHH@Z,0x00271BCC,REL32 read at the byte-verified Object::onDestroy 0x0028FC1D: called on the Object +0x84 pointer with (slot 1..8 and 1); forwards to its +0x450 member when present; owner class and identity unknown
@@ -10215,7 +10212,6 @@ name,address,notes
 ?rva00450AE9CallView@GiveUpgradeUpdate@@QAEXXZ,0x00450AE9,"auto-pin (permute --pins): REL32 call target read from retail in 0x0049c8e9, whose banked body is byte-exact once this call resolves"
 ?rva00450D9A@SpecialAbilityUpdate@@UAEXXZ,0x00450D9A,slot 15 of the SpecialAbilityUpdate vtable 0x00C3FBA8 (matched ??_GSpecialAbilityUpdate/xfer/pool key in slots 0/3/4); called directly as the base implementation by the GloriousChargeUpdate slot-15 override 0x004AD554; address from that REL32; slot name not established
 ?rva00451B92@SpecialAbilityUpdate@@UAEXXZ,0x00451B92,"SpecialAbilityUpdate primary slot-19 base (EH, plain ret): the slot-19 entry of 26 special-ability vtables, SpecialAbilityUpdate's own 0x00C3FBA8 among them; EvacuateGarrisonSpecialPower slot 19 0x004CDCB4 calls it first"
-?rva00453124@GettingBuiltBehavior@@AAE_NXZ,0x00453124,"callee of GettingBuiltBehavior +0x20 slot 8 0x004533B2 at retail 0x0045341C (ecx the primary this) read from its REL32 displacement; ICF alias onto the matched ?isValid@BfmeThingE63@@QAE_NXZ (CastleBehavior lookup on the owner Object +8)"
 ?rva004541AB@GettingBuiltBehavior@@AAE_NXZ,0x004541AB,"GettingBuiltBehavior member on the primary this (tests +0x30 and the owner via 0x00453124, then the Object named by the owner Object +0x7C); called by primary slot 8 0x00454501 right after it raises +0x30; body unrowed"
 ?rva0045527A@FoundationAIUpdate@@AAEXW4ObjectID@@@Z,0x0045527A,callee of ?rva00455374@FoundationAIUpdate (0x00455379; this-0x20 = full object; push 0) read from the REL32 displacement; setter that returns early when its argument equals +0x28 and otherwise stores it there (unrowed)
 ?rva00459B68@SiegeDockingBehavior@@ABEXXZ,0x00459B68,"called on [this-0x20] by the +0x20 subobject body 0x00459C58 (rel32 read at 0x00459C74) and by 0x0045A1CD / 0x00459CEA, the same +0x20 subobject; body walks the dock-slot vector at +0x24..+0x28 and clears slot +0x20. One name one address: no other pin, name unused before this row"

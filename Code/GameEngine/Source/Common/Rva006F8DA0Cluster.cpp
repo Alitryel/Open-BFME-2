@@ -28,10 +28,10 @@ public:
 // Existing Apt pool provider; retail callers load this global at VA 0x00E176E8.
 extern Rva006DB270 *g_pChainBlockAllocator;
 
-class Rva006F84F0
+class AptDisplayList	// dtor 0x006F84F0 is rowed as ??1AptDisplayList
 {
 public:
-	~Rva006F84F0();
+	~AptDisplayList();
 };
 
 class Rva006F8460Base
@@ -58,7 +58,7 @@ public:
 
 private:
 	char m_pad14[0x8];
-	Rva006F84F0 m_1c;
+	AptDisplayList m_1c;
 };
 
 Rva006F8D70::~Rva006F8D70()
