@@ -1,8 +1,18 @@
 // ?rva00453BF1@GettingBuiltBehavior@@UAEXXZ
-// partial score=0.87 date=2026-10-11
-// ?rva00453BF1@GettingBuiltBehavior@@UAEXXZ
-// partial score=0.85 date=2026-10-04
+// partial score=0.925 date=2026-10-15
 // cl: /O1 /DNDEBUG /MD /arch:SSE /EHsc
+// d2 rebank (home TU GettingBuiltBehaviorListSlots.cpp, region /O1 /arch:SSE /G7):
+// (1) the copy ctor 0x004530ED is a visible noinline body, so cl proves the
+//     entry's address does not escape and keeps entry.m_id in EDI across the
+//     loop and `this` at [ebp-4], as retail; the home TU's three rows still match;
+// (2) the money call 0x003B0D7C takes an UNSIGNED amount (ZH Money::deposit):
+//     with the rowed int spelling cl folds (int)(unsigned)float into
+//     cvttss2si; the unsigned spelling gives retail's fld/__ftol2 but needs an
+//     address-named pin ?rva003B0D7C@Rva003B0D7C@@QAEXIPAVRva0039B7AD@@_N@Z=0x003B0D7C;
+// (3) ScoreKeeper::addObjectBuilt is the rowed name at 0x0039CBCE;
+// (4) equal-arm (me ? x : x) hack removed.
+// Residue (413/417B): this ESI vs EDI and me/myId EDI vs ESI swapped, and the
+// post-loop this reload (retail: ecx=[ebp-4]+0x20 per iteration, edi reload at exit).
 //
 // Three slots of the +0x20 interface vtable 0x00C403C8 that GettingBuiltBehavior's
 // ctor 0x004542FA installs, over the work list at +0x40 (+0x20 from the
@@ -37,11 +47,19 @@ struct Coord3D
 	float x, y, z;
 };
 
+#include <string.h>
+#pragma intrinsic(memcpy)
 class Rva004530ED
 {
 public:
 	Rva004530ED();
-	Rva004530ED(const Rva004530ED &rhs);
+	// 0x004530ED, out of line but visible here.
+	__declspec(noinline) Rva004530ED(const Rva004530ED &rhs)
+	{
+		m_id = rhs.m_id;
+		memcpy(&m_pos, &rhs.m_pos, 12);
+		m_10 = rhs.m_10;
+	}
 	Rva004530ED &operator=(const Rva004530ED &rhs);
 	int m_id; // +0x00
 	Coord3D m_pos; // +0x04
@@ -72,10 +90,10 @@ enum DeathType
 class GettingBuiltBehaviorInterface;
 class Object;
 
-class Rva0039CBCE
+class ScoreKeeper
 {
 public:
-	void rva0039CBCE(Object *obj, int count);
+	void addObjectBuilt(Object *obj, int count);
 };
 
 class Rva0023DAA5List
@@ -93,7 +111,7 @@ private:
 class Rva003B0D7C
 {
 public:
-	void rva003B0D7C(int amount, Rva0039B7AD *score, bool flag);
+	void rva003B0D7C(unsigned int amount, Rva0039B7AD *score, bool flag);
 private:
 	unsigned char m_pad[4];
 };
@@ -364,9 +382,9 @@ void GettingBuiltBehavior::rva00453BF1()
 		Rva00453BF1Module *module = (Rva00453BF1Module *)other->rva0028BC58(0);
 		if (module)
 			module->rva00453BF1Slot15();
-		player->m_money.rva003B0D7C((int)(unsigned int)other->m_324, &player->m_3BC, true);
+		player->m_money.rva003B0D7C(other->m_324, &player->m_3BC, true);
 		other->setStatus((ObjectStatusTypes)0x56, true);
-		if ((me ? other->m_280 : other->m_280) <= 0.075f)
+		if (other->m_280 <= 0.075f)
 			TheGameLogic->destroyObject(other);
 		else
 		{
@@ -374,7 +392,7 @@ void GettingBuiltBehavior::rva00453BF1()
 			other->kill((DamageType)8, (DeathType)8);
 			other->setStatus((ObjectStatusTypes)0x56, false);
 		}
-		((Rva0039CBCE *)&player->m_3BC)->rva0039CBCE(other, -1);
+		((ScoreKeeper *)&player->m_3BC)->addObjectBuilt(other, -1);
 	}
 	m_3E = false;
 	((Rva0023DAA5List *)&m_40)->clear();
