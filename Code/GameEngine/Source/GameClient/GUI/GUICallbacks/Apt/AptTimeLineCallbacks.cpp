@@ -116,7 +116,9 @@ void Rva00433D3CClear();
 // +0x9C reference), as AptMainMenuCallbacks.cpp's view.
 struct AptTimeLineMiscAudio
 {
-	unsigned char m_pad00[0x9C];
+	unsigned char m_pad00[0x94];
+	OpaqueRefElement4 m_open; // +0x94, the sound OpenScreen plays
+	unsigned char m_pad98[0x9C - 0x98];
 	OpaqueRefElement4 m_continue; // +0x9C
 };
 
@@ -426,4 +428,84 @@ void AptTimeLine::rva0051ED7E()
             ((Rva00222479ByteOneSetter *)g_bfmeAptWindowManager)->enable();
         }
     }
+}
+
+// AptTimeLine::OpenScreen (WB 0x013DB420, AptTimeLine.cpp; static bool),
+// retail 0x00520F7D (367 bytes), kept under the address name the rowed caller
+// GameLogic 0x00376E92 already calls. Unless the screen is up, it picks the
+// time-line mode: 5 for a replay playback, 1 for the 0x0023C666 game, then from
+// the game type (TheGameLogic +0x114) and TheLivingWorldLogic's selection
+// lock 8, 6 or 7, else from the game mode (+0x110) 4, 3 or 2 (any other mode
+// opens nothing). It plays the misc-audio +0x94 sound, pushes TimeLine.apt
+// and hands the mode to the new screen (+0x284) before 0x00520CD1.
+// WB reads TheGameLogic at every use; visible noinline copies of the two small
+// rowed predicates let cl 7.1 keep it (and the game type) in registers across
+// those calls, as retail does.
+enum RecorderModeType { RECORDERMODETYPE_RECORD, RECORDERMODETYPE_PLAYBACK };
+class RecorderClass { public: RecorderModeType getMode(); };	// 0x0030F2C7
+extern RecorderClass *TheRecorder;
+
+class Rva0023C666 { public: bool rva0023C666(); };
+
+// ?get@Rva00210C66CmpBoolField@@QBE_NXZ, rowed 0x00210C66 (LivingWorldLogic.cpp)
+class Rva00210C66CmpBoolField
+{
+public:
+	__declspec(noinline) bool get() const { int value = *(const int *)((const char *)this + 0x114); return value == 1 || value == 2; }
+};
+
+// ?isSelectionLocked@BfmeSelectionState@@QBE_NXZ, rowed 0x0004253A
+class BfmeSelectionState
+{
+public:
+	__declspec(noinline) bool isSelectionLocked() const { return m_first != 0 && m_second != 0; }
+private:
+	unsigned char m_pad[0xB4];
+	unsigned char m_first;
+	unsigned char m_second;
+};
+
+struct AptTimeLineGameLogicView { unsigned char m_pad[0x110]; int m_mode; int m_gameType; };
+
+class Shell { public: void push(AsciiString name, bool flag); };
+
+class AptTimeLineScreen { public: void rva00520CD1(); };
+
+bool rva00520F7D()
+{
+	if (!Rva005202C8::s_instance)
+	{
+		int mode;
+		if (TheRecorder && TheRecorder->getMode() == RECORDERMODETYPE_PLAYBACK)
+			mode = 5;
+		else if (((Rva0023C666 *)TheGameLogic)->rva0023C666())
+			mode = 1;
+		else if (((AptTimeLineGameLogicView *)TheGameLogic)->m_gameType != 3
+			&& !((BfmeSelectionState *)TheLivingWorldLogic)->isSelectionLocked())
+			mode = 8;
+		else if (((AptTimeLineGameLogicView *)TheGameLogic)->m_gameType == 0
+			&& ((BfmeSelectionState *)TheLivingWorldLogic)->isSelectionLocked())
+			mode = 6;
+		else if (((Rva00210C66CmpBoolField *)TheGameLogic)->get()
+			&& ((BfmeSelectionState *)TheLivingWorldLogic)->isSelectionLocked())
+			mode = 7;
+		else if (((AptTimeLineGameLogicView *)TheGameLogic)->m_mode == 5)
+			mode = 4;
+		else if (((AptTimeLineGameLogicView *)TheGameLogic)->m_mode == 1)
+			mode = 3;
+		else if (((AptTimeLineGameLogicView *)TheGameLogic)->m_mode == 2)
+			mode = 2;
+		else
+			return false;
+
+		BfmeAudioEventPrefix136 sound(((AptTimeLineAudioView *)TheAudio)->getMiscAudio()->m_open, 2);
+		((Weapon *)&sound)->setLeechRangeActive(true);
+		((AptTimeLineAudioView *)TheAudio)->addAudioEvent(&sound);
+		TheShell->push(AsciiString("TimeLine.apt"), false);
+		if (!Rva005202C8::s_instance)
+			return false;
+		((AptTimeLineScoreScreen *)Rva005202C8::s_instance)->m_mode = mode;
+		((AptTimeLineScreen *)Rva005202C8::s_instance)->rva00520CD1();
+	}
+	return true;
 }
