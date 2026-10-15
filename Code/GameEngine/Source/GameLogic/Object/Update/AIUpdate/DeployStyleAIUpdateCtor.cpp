@@ -237,7 +237,7 @@ protected:
 class Rva0026AFDAMember
 {
 public:
-	void initMember();
+	Rva0026AFDAMember *initMember();	// row 0x0026AFDA returns this
 
 private:
 	unsigned char m_pad[0xC4];

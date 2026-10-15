@@ -25,6 +25,7 @@ public:
 };
 
 class Matrix3D;struct Coord3D;class Object;
+class Rva000BFDFE { public: void rva000C0386(); }; // rowed 0x000C0386
 class ModelConditionFlags;
 class Drawable {public:void rva002761F3(const int*,const int*);
  const Matrix3D*getTransformMatrix()const;
@@ -178,7 +179,7 @@ struct Rva000B8F5AOuter:public Rva000BF9FCHeader,public Rva000BF9FCModelInterfac
 {
  bool rva000BF9FC(void *entry,bool force,int options);
  void rva000BEE25(void*,float,int,int,int);
- void rva000BFB51(float);void rva000C0386();
+ void rva000BFB51(float);
 
 };
 
@@ -323,7 +324,7 @@ void W3DScriptedModelDraw::rva000BFD9F()
 // leading non-null +0x104 entries (3 x 0x1C, testing the first pointer).
 int W3DScriptedModelDraw::rva000C144A()
 {
-	((Rva000B8F5AOuter *)((char *)this - 12))->rva000C0386();
+	((Rva000BFDFE *)((char *)this - 12))->rva000C0386();
 	unsigned n = 0;
 	Rva000C144AEntry *e = m_entries104;
 	do
@@ -342,7 +343,7 @@ int W3DScriptedModelDraw::rva000C144A()
 // slot-3 virtual (or null when out of range or empty).
 void *W3DScriptedModelDraw::getPlayingAnimationNameKey(int i)
 {
-	((Rva000B8F5AOuter *)((char *)this - 12))->rva000C0386();
+	((Rva000BFDFE *)((char *)this - 12))->rva000C0386();
 	if (i < 0 || (unsigned)i >= 3)
 		return 0;
 	Rva000C144AEntry *e = &m_entries104[i];
@@ -362,7 +363,7 @@ void *W3DScriptedModelDraw::getPlayingAnimationNameKey(int i)
 // WorldBuilder W3DScriptedModelDraw::getPlayingAnimationName, WB VA 0x00930240 (align lead, score 2; ret 8 with the hidden result).
 AsciiString W3DScriptedModelDraw::getPlayingAnimationName(int i)
 {
-	((Rva000B8F5AOuter *)((char *)this - 12))->rva000C0386();
+	((Rva000BFDFE *)((char *)this - 12))->rva000C0386();
 	if (i >= 0 && (unsigned)i < 3)
 	{
 		if (m_entries104[i].m_ptr00 != 0)
@@ -596,7 +597,7 @@ void Rva000BFB76Interface::rva000BFB76(const ModelConditionFlags&conditions,bool
 struct Rva000C15F1Range {float first,second;};
 // WorldBuilder W3DScriptedModelDraw::getPlayingAnimationFrameRanges, WB VA 0x00930BA0 (align lead, score 1.8; ret 0xC); vtable 0x007CBBB4 slot beside getPlayingAnimationName/NameKey.
 void W3DScriptedModelDraw::getPlayingAnimationFrameRanges(int i,float*first,float*second){
- ((Rva000B8F5AOuter*)((char*)this-12))->rva000C0386();
+ ((Rva000BFDFE*)((char*)this-12))->rva000C0386();
  if(i<0 || (unsigned)i>=3 || !m_entries104[i].m_ptr00){
   first[0]=0.0f;first[1]=0.0f;
   *(Rva000C15F1Range*)second=*(const Rva000C15F1Range*)first;return;

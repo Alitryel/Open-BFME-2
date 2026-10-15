@@ -33,7 +33,7 @@ protected:
 class Rva0026AFDAMember
 {
 public:
-	void initMember();
+	Rva0026AFDAMember *initMember();
 
 	int m_headState;			// +0x3E4 (predicate 0x48E61F reads -1)
 	unsigned char m_pad[0xC4 - 4];

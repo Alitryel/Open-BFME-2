@@ -37,9 +37,9 @@ class Rva000B4BED{public:void*rva000B4BED(const void*);};
 class Rva0027532F{public:bool rva0027532F(bool);};
 class Rva000B3C61{public:void rva000B3CCF(int,int);};
 class Rva000B3A68{public:unsigned char rva000B3A68();};
-class Rva000B5C41{public:void rva000B5C41();};
+struct Arg000B5A72;
+class Rva000B5C41{public:void rva000B5C41();void rva000B5A72(Arg000B5A72*);}; // rva000B5A72 rowed 0x000B5A72
 class Rva000B7074{public:void rva000B7074();};
-class Rva000B5A72{public:void rva000B5A72(void*);};
 class ModelConditionFlags{public:bool rva000B3EB3()const;private:unsigned bits[19];};
 struct ModelStateView{int pad;ModelConditionFlags flags;char rest[0x5c-0x50];unsigned stateFlags;};
 struct ModelDataView{char pad[0x6b];bool requirePower;};
@@ -55,7 +55,7 @@ class W3DScriptedModelDraw{public:void processAnimations();__forceinline Rva0027
 void W3DScriptedModelDraw::processAnimations(){
  if(!render || !state)return;
  ModelDataView*module=data;
- ((Rva000B5A72*)this)->rva000B5A72(module);
+ ((Rva000B5C41*)this)->rva000B5A72((Arg000B5A72*)module);
  if(!slots[0].motion && !slots[1].motion){
   if(transition){void*next=((Rva000B4BED*)module)->rva000B4BED(signature);if(next){pending=false;((Rva000B8F5AOuter*)this)->rva000BF9FC(next,0,0);}transition=false;nextState=0;}return;
  }
