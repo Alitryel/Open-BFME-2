@@ -27,6 +27,10 @@ enum ParticleSystemID
 };
 
 namespace _STL {
+// Reuse the byte-exact BoneFXUpdate_eraseParticleSystemID.cpp provider.
+template <> vector<ParticleSystemID>::iterator
+vector<ParticleSystemID>::erase(iterator first, iterator last);
+
 template <> __declspec(noinline) _Vector_base<BfmeE16, allocator<BfmeE16> >::_Vector_base(const allocator<BfmeE16> &a)
 	: _M_start(0), _M_finish(0), _M_end_of_storage(a, (BfmeE16 *)0)
 {

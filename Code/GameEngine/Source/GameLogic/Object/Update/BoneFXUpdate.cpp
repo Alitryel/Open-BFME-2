@@ -58,6 +58,13 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "GameLogic/Module/BoneFXUpdate.h"
 #include "GameLogic/Module/BoneFXDamage.h"
 
+// Use the retail range-erase provider in BoneFXUpdate_eraseParticleSystemID.cpp.
+// This unit's compiler settings otherwise emit a different out-of-line copy.
+namespace _STL {
+template <> vector<ParticleSystemID>::iterator
+vector<ParticleSystemID>::erase(iterator first, iterator last);
+}
+
 const Int MAX_IDX = 32;
 
 //-------------------------------------------------------------------------------------------------
