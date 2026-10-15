@@ -7,6 +7,8 @@
 // Callers: RenderObjectUpdateModuleTemplate ctor at 0x003A80D7, FUN_009624de at 0x00562506.
 // Callee: GameClientRandomVariable::setRange at rowed 0x002341E7.
 
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
 #include "Common/Snapshot.h"
 
 class GameClientRandomVariable
@@ -33,7 +35,10 @@ class RenderObjectUpdateModuleInfo : public Snapshot
 {
 public:
 	RenderObjectUpdateModuleInfo();
-	virtual ~RenderObjectUpdateModuleInfo();
+	__declspec(noinline) virtual ~RenderObjectUpdateModuleInfo();
+	virtual const char *GetSnapshotName();
+	protected:
+	virtual void xfer(Xfer *);
 
 private:
 	GameClientRandomVariable m_var0;

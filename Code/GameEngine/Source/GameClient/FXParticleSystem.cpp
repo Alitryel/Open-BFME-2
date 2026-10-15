@@ -45,6 +45,8 @@ const UpgradeTemplate *UpgradeCenter::rva001DB0A8() const
 	return m_0C;
 }
 
+class Xfer;
+
 namespace FXParticleSystem
 {
 
@@ -1071,6 +1073,7 @@ public:
     FXCoord3D m_unknown50;
     FXCoord3D m_unknown5C;
     virtual const char *GetSnapshotName();
+    virtual void xfer(::Xfer *);
 };
 
 const char *DefaultUpdateModuleInfo::GetSnapshotName()
@@ -1125,6 +1128,7 @@ public:
     FXCoord3D m_unknown88;
     float m_unknown94;
     virtual const char *GetSnapshotName();
+    protected: virtual void xfer(::Xfer *);
 };
 
 const char *RenderObjectUpdateModuleInfo::GetSnapshotName()
@@ -1906,7 +1910,7 @@ DefaultColorModuleInfo::~DefaultColorModuleInfo() {}
 
 DefaultPhysicsModuleInfo::~DefaultPhysicsModuleInfo() {}
 
-DefaultUpdateModuleInfo::~DefaultUpdateModuleInfo() {}
+__declspec(noinline) inline DefaultUpdateModuleInfo::~DefaultUpdateModuleInfo() {}
 
 void fxDestroyInfoEmissionVelocityInfo(EmissionVelocityInfo *p) { p->~EmissionVelocityInfo(); }
 
@@ -1920,7 +1924,7 @@ void fxDestroyInfoLineEmissionVolumeInfo(LineEmissionVolumeInfo *p) { p->~LineEm
 
 inline OrthoEmissionVelocityInfo::~OrthoEmissionVelocityInfo() {}
 
-RenderObjectUpdateModuleInfo::~RenderObjectUpdateModuleInfo() {}
+__declspec(noinline) inline RenderObjectUpdateModuleInfo::~RenderObjectUpdateModuleInfo() {}
 
 void fxDestroyInfoSphereEmissionVolumeInfo(SphereEmissionVolumeInfo *p) { p->~SphereEmissionVolumeInfo(); }
 

@@ -7,6 +7,8 @@
 // Callers: DefaultModuleTemplate<$01> ctor at 0x003A98D8, FUN_0095f9b4 at 0x0055F9DC.
 // Callee: GameClientRandomVariable::setRange at rowed 0x002341E7.
 
+#define BFME_SNAPSHOT_NAME_SLOT
+#define BFME_SNAPSHOT_NONCONST_NAME_SLOT
 #include "Common/Snapshot.h"
 
 class GameClientRandomVariable
@@ -33,7 +35,9 @@ class DefaultUpdateModuleInfo : public Snapshot
 {
 public:
 	DefaultUpdateModuleInfo();
-	virtual ~DefaultUpdateModuleInfo();
+	__declspec(noinline) virtual ~DefaultUpdateModuleInfo();
+	virtual const char *GetSnapshotName();
+	virtual void xfer(Xfer *);
 
 private:
 	GameClientRandomVariable m_var0;
