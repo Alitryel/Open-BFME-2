@@ -245,3 +245,6 @@ void Rva00396E4A::rva00396C43(Object *obj)
 	int id = obj->m_key74;
 	((_STL::set<int> *)&m_map8c)->insert(id);
 }
+
+// MSVC uses the final state when emitting delayed template instances.
+#pragma optimize("", on)
