@@ -1,5 +1,5 @@
 // ?Rva006ED810@@YAPAVAptValue@@PAVBfmeAptValue006DCD20@@H@Z
-// partial score=0.8 date=2026-10-15
+// partial score=0.96 date=2026-10-15
 // cl: /O2 /G6 /arch:SSE /DNDEBUG /MD /EHsc
 // scratch transcription of retail 0x006ED810 (953B, AptCharacter.cpp per the
 // WB debug body's assert strings) for byte-matching; not part of the tree.
@@ -54,7 +54,7 @@ public:
 
 static __forceinline void *getCharacterInst(BfmeAptValue006DCD20 *v)
 {
-	APT_CHECK(v->isCharacterInst(), "isCharacterInst()", 0xa5);
+	APT_CHECK((unsigned char)v->isCharacterInst(), "isCharacterInst()", 0xa5);
 	return *(void **)((char *)v + 0x4C);
 }
 
@@ -68,6 +68,7 @@ static __forceinline bool isSpriteInstBase(BfmeAptValue006DCD20 *v)
 
 static __forceinline void *getSpriteInstBase(BfmeAptValue006DCD20 *v)
 {
+	APT_CHECK(v != 0, "this", 0xe2);
 	APT_CHECK(isSpriteInstBase(v), "isSpriteInstBase()", 0x7D);
 	return *(void **)((char *)v + 0x4C);
 }
@@ -97,6 +98,8 @@ public:
 class Rva006E9A40List
 {
 public:
+	unsigned short mnElements, mnMaxElements;
+	void **maElements;
 	void add(AptValue *element);
 	void add(AptCIH *element);
 };
@@ -131,6 +134,31 @@ struct Rva006ED810Clip
 	unsigned int m_flags74;		// +0x74
 };
 
+struct Rva006ED810Sprite
+{
+	unsigned char m_pad00[0x24];
+	unsigned int m_24;			// +0x24
+	unsigned char m_pad28[0x30 - 0x28];
+	unsigned int m_30;			// +0x30
+	unsigned int m_34;			// +0x34
+	unsigned char m_pad38[0x3C - 0x38];
+	unsigned int m_3C;			// +0x3c
+	unsigned char m_pad40[0x44 - 0x40];
+	unsigned int m_44;			// +0x44
+	unsigned int m_48;			// +0x48
+	unsigned char m_pad4C[0x50 - 0x4C];
+	unsigned int m_50;			// +0x50
+	unsigned int m_54;			// +0x54
+	unsigned int m_58;			// +0x58
+	unsigned int m_5C;			// +0x5c
+	unsigned int m_60;			// +0x60
+	unsigned int m_64;			// +0x64
+	unsigned char m_pad68[0x6C - 0x68];
+	unsigned int m_6C;			// +0x6c
+	unsigned char m_pad70[0x74 - 0x70];
+	unsigned int m_74;			// +0x74
+};
+
 struct Rva006ED810Labels
 {
 	unsigned char m_pad00[0x14];
@@ -138,8 +166,12 @@ struct Rva006ED810Labels
 	void **m_items;		// +0x18
 };
 
-extern "C" void *Rva006ED810Submit(void *thisPtr, int a1, int a2, void *a3, void *a4,
-	void *a5, int a6, int a7, int a8, int a9, int a10, int a11, int a12);
+class BfmeSubmitter1283
+{
+public:
+	void *bfmeSubmit1283(BfmeAptValue006DCD20 *item, int a1, int pCharacter, int a3, int a4,
+		int a5, int a6, float *copy0, int copy1, int v9, int v10, int hash);
+};
 
 AptValue *Rva006ED810(BfmeAptValue006DCD20 *arg0, int arg1)
 {
@@ -190,19 +222,20 @@ AptValue *Rva006ED810(BfmeAptValue006DCD20 *arg0, int arg1)
 
 	{
 		AptCIH *character = arg0->rva006DCF60(false);
-		getCharacterInst(character);
-		void *q = *(void **)((char *)character + 0x4C);
-		clip->m_matrix = *(void **)((char *)q + 4);
+		void *q = getCharacterInst(character);
+		clip->m_matrix = *(void **)(*(char **)((char *)q + 0xC) + 4);
 	}
 
 	{
 		AptCIH *character = arg0->rva006DCF60(false);
-		getCharacterInst(character);
-		void *q = *(void **)((char *)character + 0x4C);
-		Rva006ED810Labels *labels = (Rva006ED810Labels *)*(void **)((char *)q + 0xC);
-		for (int i = 0; i < labels->m_count; ++i)
+		void *q = getCharacterInst(character);
+		Rva006ED810Labels *labels = (Rva006ED810Labels *)*(void **)(*(char **)((char *)q + 0xC) + 4);
+		int i = 0;
+		int n = labels->m_count;
+		void **it = labels->m_items;
+		for (; i < n; ++i, ++it)
 		{
-			if (*(int *)labels->m_items[i] == 3)
+			if (*(int *)*it == 3)
 			{
 				clip->m_labelIndex = i;
 				break;
@@ -210,32 +243,36 @@ AptValue *Rva006ED810(BfmeAptValue006DCD20 *arg0, int arg1)
 		}
 	}
 
-	APT_CHECK(arg0 != 0, "this", 0xe2);
-	getSpriteInstBase(arg0);
+	void *spriteInst = getSpriteInstBase(target);
 
-	void *submit = Rva006ED810Submit((char *)target->rva006CFF40() + 0x24,
-		0, i1 + 0x4000, clip, &name, arg0, 1, -1, 0, 0, 0, 0, 0);
+	void *submit = ((BfmeSubmitter1283 *)((char *)spriteInst + 0x24))->bfmeSubmit1283(
+		(BfmeAptValue006DCD20 *)0, i1 + 0x4000, (int)clip, (int)&name, (int)target, 1, -1,
+		0, 0, 0, 0, 0);
 	AptCIH *created = (AptCIH *)submit;
 	APT_CHECK(created != 0, "this", 0xc4);
-	if (!created->rva006E02B0())
+	if (created->rva006DBB30get() != 0x0F)
+		goto done;
+	if (created->isUndefined())
 		goto done;
 
 	{
-		Rva006ED810Clip *spriteClip = (Rva006ED810Clip *)created->rva006E0F40();
-		spriteClip->m_flags74 |= 1;
-		spriteClip->m_flags74 &= ~2;
-		spriteClip->m_flags74 &= ~4;
-		spriteClip->m_34 = 0xFF000000;
-		spriteClip->m_30 = 0xFFFFFFFF;
-		spriteClip->m_3C = clip->m_radius;
-		spriteClip->m_28 = clip->m_08;
-		spriteClip->m_2C = clip->m_0C;
-		spriteClip->m_38 = clip->m_20;
-		spriteClip->m_1C = 0;
-		spriteClip->m_20 = 0;
-		spriteClip->m_scale = 0x41400000u;
-		spriteClip->m_3C = clip->m_1C;
-		spriteClip->m_38 = clip->m_labelIndex;
+		Rva006ED810Sprite *sprite = (Rva006ED810Sprite *)created->rva006E0F40();
+		sprite->m_74 |= 1;
+		sprite->m_74 &= ~2;
+		sprite->m_74 &= ~4;
+		sprite->m_34 = 0xFF000000;
+		sprite->m_30 = 0xFFFFFFFF;
+		sprite->m_5C = clip->m_height;
+		sprite->m_50 = clip->m_08;
+		sprite->m_58 = clip->m_radius;
+		sprite->m_54 = clip->m_0C;
+		sprite->m_44 = 0;
+		sprite->m_48 = 0;
+		sprite->m_24 = 0;
+		sprite->m_60 = 0x41400000u;
+		sprite->m_3C = clip->m_1C;
+		sprite->m_64 = clip->m_labelIndex;
+		sprite->m_6C = 6;
 		created->factorySetProperty(0, f2, 0);
 		created->factorySetProperty(1, f3, 0);
 		if (g_00E1771C)
@@ -246,7 +283,5 @@ AptValue *Rva006ED810(BfmeAptValue006DCD20 *arg0, int arg1)
 	}
 
 done:
-	EAStringC *sp = &name;
-	sp->~EAStringC();
 	return (AptValue *)(*(BfmeAptValue006DCD20 * *)&gpUndefinedValue);
 }
