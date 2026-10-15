@@ -97,11 +97,7 @@ class Rva0005CB9F3DwordImmSetter
 public:
 	void apply();
 };
-class Rva00574815
-{
-public:
-	void rva005CBB4A(int first, int second, int third);
-};
+class Rva005CBB4A { public: void rva005CBB4A(void *map, int point, int mode); }; // rowed 0x005CBB4A
 class Rva0057709A
 {
 public:
@@ -160,7 +156,7 @@ int StrategicInGameUI::PlanRetreatsPhaseBehavior::Impl::OnMouseLeftClick(const I
 	ICoord2D point;
 	point.x = region.lo.x;
 	point.y = region.lo.y;
-	((Rva00574815 *)&selector)->rva005CBB4A((int)m_viewer, (int)&point, 0);
+	((Rva005CBB4A *)&selector)->rva005CBB4A((void *)m_viewer, (int)&point, 0);
 	// WB reads +0x14 into its own slot before comparing; comparing the member
 	// directly schedules the compare differently from retail.
 	Rva005D1F45 *current = m_planner;
