@@ -8,6 +8,13 @@
 // ZH TransportContain provides the container/contained-object relationship;
 // target horde damage redistribution is a BFME-specific extension. No donor
 // name, inherited layout, or success enum is inferred from matching bytes.
+#include <new>
+// Keep integer node construction local: the inlined retail operation does
+// not need this unit's distinct external _Construct<int, int> COMDAT.
+namespace _STL {
+static __forceinline void _Construct(int *where, const int &value)
+{ new (where) int(value); }
+}
 #include <list>
 #include "GameEngine/Source/Common/GameLogicObjectLookupView.h"
 // Keep the vendor inline bodies visible; existing units own emitted copies.
