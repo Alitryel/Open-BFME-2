@@ -17027,3 +17027,5 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ??0?$_Vector_base@PAVUpdateModule@@V?$allocator@PAVUpdateModule@@@_STL@@@_STL@@QAE@ABV?$allocator@PAVUpdateModule@@@1@@Z,0x00211E58,ICF-folded STLport base ctor called by GameLogic ctor 0x002470AE fold-proof=Code/GameEngine/Source/GameLogic/System/GameLogicInit.cpp
 ??0?$_List_base@UObjectTOCEntry@@V?$Rva00245F79Allocator@UObjectTOCEntry@@@@@_STL@@QAE@ABV?$Rva00245F79Allocator@UObjectTOCEntry@@@@@Z,0x0035C9A6,ICF-folded STLport base ctor called by GameLogic ctor 0x002470AE fold-proof=Code/GameEngine/Source/GameLogic/System/GameLogicInit.cpp
 ?testDefeat@VictoryConditions@@QAE_NPAVPlayer@@@Z,0x004207D4,callee of ?hasSinglePlayerBeenDefeated@VictoryConditions@@UAE_NPAVPlayer@@@Z
+?rva002AF236@Player@@QAEXPAVXfer@@PAVRva001FDE3F@@@Z,0x002AF236,
+?rva002AF33B@Player@@QAEXPAVXfer@@PAVRva002AE4C5@@@Z,0x002AF33B,
