@@ -1,4 +1,4 @@
-// cl: /ICode/GameEngine/Include /ICode/GameEngine/Source/Common /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB
+// cl: /ICode/GameEngine/Include /ICode/GameEngine/Source/Common /Ireference/shims/bfme2_ascii /O1 /GF- /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // BFME2's time line (post-game graph) screen Apt callbacks
@@ -254,6 +254,7 @@ public:
 	void rva0051E3C3(const char *unused);
 	void GraphFocus(int index, const char *value, bool set);
 	void PlayerColor(int index, char *value, bool set);
+	void PlayerFaction(int index, char *value, bool set);
 	void CaHAwardNumber(const char *value);
  void CollectAllPlayerData();
 
@@ -308,6 +309,22 @@ void AptTimeLine::PlayerColor(int index, char *value, bool set)
 		return;
 	if (index >= 0 && (unsigned int)index < m_players.size())
 		sprintf(value, "%#x", m_players[index].m_color & 0xFFFFFF);
+}
+
+// Retail 0x0051EC4E, 117 bytes: "TimeLine:PlayerFaction:%d" for each player,
+// an Apt variable read as the player's faction name ("" when out of range).
+// The unit is built without string pooling (/GF-): retail pushes the first
+// "" literal and materialises str()'s empty-string arm separately instead of
+// keeping one pooled "" address in EDI.
+void AptTimeLine::PlayerFaction(int index, char *value, bool set)
+{
+	if (set)
+		return;
+	strcpy(value, "");
+	if (m_players.empty())
+		return;
+	if (index >= 0 && (unsigned int)index < m_players.size())
+		strcpy(value, m_players[index].m_faction.str());
 }
 
 // Retail 0x0051EAD3, 350 bytes: "AptTimeLine::CaHAwardNumber" shows the
