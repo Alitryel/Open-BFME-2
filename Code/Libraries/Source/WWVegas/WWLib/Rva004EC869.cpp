@@ -2,10 +2,12 @@
 // Evidence: calls rowed 0x005996FF Rva005996FFListErase plus rowed predicate 0x004E9378 plus rowed list<int> erase 0x00438539 plus rowed vector<ModuleData*> push_back 0x004DFCB0; caller 0x004EC8F4.
 // cl: /Ireference/shims/bfmelist /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
-// Use the verified unsigned max provider at retail RVA 0x00013740.
+// Retail's vector overflow provider at 0x002DFCF6 inlines this comparison.
+// Keep the overload local so it emits neither a max COMDAT nor an extra call.
 #include <stl/_algobase.h>
 namespace _STL {
-template <> const unsigned int& max<unsigned int>(const unsigned int&, const unsigned int&);
+static inline const unsigned int &max(const unsigned int &a, const unsigned int &b)
+{ return a < b ? b : a; }
 }
 
 #include <list>
