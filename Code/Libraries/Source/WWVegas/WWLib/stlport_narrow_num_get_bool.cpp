@@ -99,6 +99,13 @@ public:
     string _M_name;
 };
 typedef char _LocaleImplStorage[(sizeof(_Locale_impl)==24)?1:-1];
+// Keep the copy used by getloc identical to the verified locale owner at 0x7130.
+inline locale::locale(const locale &that) _STLP_NOTHROW {
+    _M_impl = 0;
+    _Locale_impl *impl = that._M_impl;
+    impl->_M_incr();
+    _M_impl = impl;
+}
 inline locale::~locale() _STLP_NOTHROW { _M_impl->_M_decr(); }
 
 }
