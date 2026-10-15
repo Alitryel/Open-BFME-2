@@ -134,7 +134,12 @@ NS = (os.environ.get("BFME_CLAIM_NS")
                         capture_output=True, text=True, env=_git_env(ROOT)).stdout.strip()
       or "refs/claims/")
 # -----------------------------------------------------------------------------
-SEEN = "refs/claims-seen/"          # local mirror; never pushed
+# Git keeps refs/worktree/ private to the current checkout. Ordinary refs are
+# shared by every linked worktree: concurrent claim fetches then race their
+# expected-old-SHA updates and report an available origin as unreachable.
+# Only the fetched snapshots are private; refs/claims/ on origin still fences
+# every worker against the same authoritative claim.
+SEEN = "refs/worktree/claims-seen/"  # local mirror; never pushed
 TTL_HOURS = float(os.environ.get("BFME_CLAIM_TTL_HOURS", "4"))
 REMOTE = os.environ.get("BFME_CLAIM_REMOTE", "origin")
 PENDING = Path("build") / "claims" / "landed_pending.jsonl"
@@ -264,7 +269,7 @@ def _names(who, root=None):
 
 
 def _mirror(rva, sha, root=None):
-    """Record in refs/claims-seen/ a claim write origin just accepted."""
+    """Record in this worktree's mirror a claim write origin just accepted."""
     seen = SEEN + ref_of(rva)[len(NS):]
     _git(*(("update-ref", seen, sha) if sha else ("update-ref", "-d", seen)), cwd=root)
 
@@ -367,8 +372,11 @@ def configured(root=None):
 
 
 def fetch(root=None):
-    """Mirror origin's claims locally (refs/claims-seen/*); False on failure."""
-    got = _git("fetch", "-q", "--prune", "--no-tags", REMOTE, f"+{NS}*:{SEEN}*", cwd=root, timeout=120)
+    """Mirror origin's claims in this worktree's refs; False on failure."""
+    # A claim marker has no submodule inputs. An inherited submodule.recurse
+    # setting must not make this coordination operation fetch donor sources.
+    got = _git("fetch", "-q", "--prune", "--no-tags", "--recurse-submodules=no",
+               REMOTE, f"+{NS}*:{SEEN}*", cwd=root, timeout=120)
     return got.returncode == 0
 
 
@@ -423,7 +431,7 @@ active.cache_clear = _active.cache_clear
 # `git config bfme.claimMirror upstream`, bodies upstream's workers hold are
 # skipped here too (their result arrives through the merge). Nothing is ever
 # written to that remote.
-MIRROR_SEEN = "refs/claims-mirror-seen/"
+MIRROR_SEEN = "refs/worktree/claims-mirror-seen/"
 
 
 def mirrored(root=None):
@@ -436,7 +444,7 @@ def _mirrored(root):
     remote = _git("config", "--get", "bfme.claimMirror", cwd=root).stdout.strip()
     if not remote:
         return {}
-    got = _git("fetch", "-q", "--prune", "--no-tags", remote,
+    got = _git("fetch", "-q", "--prune", "--no-tags", "--recurse-submodules=no", remote,
                f"+refs/claims/*:{MIRROR_SEEN}*", cwd=root, timeout=15)
     if got.returncode:
         return {}

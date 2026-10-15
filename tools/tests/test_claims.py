@@ -62,6 +62,76 @@ def test_a_claim_is_exclusive_across_hosts(hosts):
     assert claims.active()[0x300]["owner"] == "b"
 
 
+@pytest.mark.parametrize("upstream", [False, True])
+def test_fetch_snapshots_are_private_to_each_worktree(hosts, tmp_path, upstream):
+    primary = hosts("a")
+    _git(primary, "commit", "-q", "--allow-empty", "-m", "worktree fixture")
+    sibling = tmp_path / "sibling"
+    _git(primary, "worktree", "add", "-q", "--detach", str(sibling), "HEAD")
+    hosts("b")
+    assert claims.claim([0x100]) == ([0x100], [])
+
+    seen = claims.MIRROR_SEEN if upstream else claims.SEEN
+    if upstream:
+        _git(primary, "config", "bfme.claimMirror", "origin")
+
+    def refresh(root):
+        if upstream:
+            claims.mirrored.cache_clear()
+            return claims.mirrored(root)
+        assert claims.fetch(root)
+        return claims._read_local(root)
+
+    assert set(refresh(primary)) == {0x100}
+    assert set(refresh(sibling)) == {0x100}
+    before = claims._read_local(sibling, seen)
+    assert claims.claim([0x200]) == ([0x200], [])
+    assert set(refresh(primary)) == {0x100, 0x200}
+    # The old shared refs/claims-seen mirror changed the sibling's refs here.
+    # Concurrent fetches could then fail their expected-old-SHA ref update.
+    assert claims._read_local(sibling, seen) == before
+    assert set(refresh(sibling)) == {0x100, 0x200}
+
+    assert claims.release([0x100]) == [0x100]
+    assert set(refresh(primary)) == {0x200}
+    assert set(claims._read_local(sibling, seen)) == {0x100, 0x200}
+    assert set(refresh(sibling)) == {0x200}
+
+
+def test_worktrees_still_contend_for_the_same_remote_claim(hosts, tmp_path):
+    primary = hosts("a")
+    _git(primary, "commit", "-q", "--allow-empty", "-m", "worktree fixture")
+    sibling = tmp_path / "sibling"
+    _git(primary, "worktree", "add", "-q", "--detach", str(sibling), "HEAD")
+    assert claims.claim([0x100], root=primary, who="primary") == ([0x100], [])
+    assert claims.claim([0x100], root=sibling, who="sibling") == ([], [0x100])
+    assert claims.active(sibling)[0x100]["owner"] == "primary"
+
+
+@pytest.mark.parametrize("upstream", [False, True])
+def test_claim_fetch_does_not_fetch_submodules(hosts, tmp_path, upstream):
+    primary = hosts("a")
+    dependency = tmp_path / "dependency"
+    dependency.mkdir()
+    _git(dependency, "init", "-q")
+    _git(dependency, "-c", "user.name=fixture", "-c", "user.email=fixture@example.com",
+         "commit", "-q", "--allow-empty", "-m", "dependency fixture")
+    _git(primary, "-c", "protocol.file.allow=always", "submodule", "add", "-q",
+         str(dependency), "dependency")
+    _git(primary, "commit", "-q", "-m", "submodule fixture")
+    assert claims.claim([0x100]) == ([0x100], [])
+    _git(primary, "config", "submodule.recurse", "true")
+    _git(primary / "dependency", "remote", "set-url", "origin", str(tmp_path / "missing.git"))
+    # A claim fetch must not depend on an unrelated vendored source remote.
+    if upstream:
+        _git(primary, "config", "bfme.claimMirror", "origin")
+        claims.mirrored.cache_clear()
+        assert set(claims.mirrored(primary)) == {0x100}
+    else:
+        assert claims.fetch(primary)
+        assert set(claims._read_local(primary)) == {0x100}
+
+
 def test_only_the_owner_releases(hosts):
     hosts("a")
     claims.claim([0x100])
