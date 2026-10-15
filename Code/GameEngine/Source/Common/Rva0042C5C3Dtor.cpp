@@ -53,15 +53,34 @@ private:
 	void *m_ptr;
 };
 
+class Rva0057417E { public: ~Rva0057417E(); };
+void __cdecl operator delete(void *);
+
 class Rva0042C1DF
 {
 public:
 	Rva0042C1DF() : m_ptr(0) {}
-	~Rva0042C1DF() { clear(); }
+	__declspec(noinline) ~Rva0042C1DF();
 	void clear();
 private:
-	void *m_ptr;
+	Rva0057417E *m_ptr;
 };
+
+// The native normal and exceptional member lifetimes both call the complete
+// 26-byte cleanup at42C1DF. Emit that same cleanup as the destructor rather
+// than inventing a separate five-byte forwarding entry. The existing reset
+// owner proves both calls and their relocation targets; original types remain
+// address-derived. Keeping the body out of line preserves the native parent.
+Rva0042C1DF::~Rva0042C1DF()
+{
+	Rva0057417E *p = m_ptr;
+	m_ptr = 0;
+	if (p)
+	{
+		p->Rva0057417E::~Rva0057417E();
+		::operator delete(p);
+	}
+}
 
 class Rva0042DFF5
 {
