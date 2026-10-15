@@ -47,6 +47,13 @@ static inline bool operator!=(const _List_iterator<T, Traits>& a,
 { return a._M_node != b._M_node; }
 }
 #include <map>
+// Keep typed node comparisons local; no competing external tree-base copy.
+namespace _STL {
+template <class Value, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits>& a,
+                              const _Rb_tree_iterator<Value, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include <vector>
 #undef free
 #include "ascii_string.h"
