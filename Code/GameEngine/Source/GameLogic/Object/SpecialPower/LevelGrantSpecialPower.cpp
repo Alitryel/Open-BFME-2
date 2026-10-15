@@ -392,7 +392,7 @@ protected:
 class LevelGrantSpecialPower : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva0045108D();
+	virtual void triggerAbilityEffect();
 	void rva004C2C7B(Object *obj);
 	void rva004C2D2B(Object *obj, std::vector<ObjectID> &seen);
 private:
@@ -472,7 +472,7 @@ void LevelGrantSpecialPower::rva004C2D2B(Object *obj, std::vector<ObjectID> &see
 	rva004C2C7B(obj);
 }
 
-void LevelGrantSpecialPower::rva0045108D()
+void LevelGrantSpecialPower::triggerAbilityEffect()
 {
 	SpecialAbilityUpdate::triggerAbilityEffect();
 	Object *obj = m_object;

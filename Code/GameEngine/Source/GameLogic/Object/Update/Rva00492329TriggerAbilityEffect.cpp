@@ -65,7 +65,7 @@ public:
 class SpecialAbilityUpdate
 {
 public:
-	virtual void rva0045108D();
+	virtual void triggerAbilityEffect();
 
 protected:
 	const Rva00492179ModuleData *m_moduleData;
@@ -81,7 +81,7 @@ public:
 
 void Rva00492179::rva00492329()
 {
-	SpecialAbilityUpdate::rva0045108D();
+	SpecialAbilityUpdate::triggerAbilityEffect();
 	const Rva00492179ModuleData *data = m_moduleData;
 	Object *object = m_object;
 	if (data->m_idleAI)

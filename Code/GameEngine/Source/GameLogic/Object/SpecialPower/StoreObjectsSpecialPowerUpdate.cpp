@@ -181,7 +181,7 @@ class Rva0044E633 {public:void*rva0044E633();};
 class SpecialAbilityUpdate
 {
 public:
-	virtual void rva0045108D();	// slot 17 (0x0045108D)
+	virtual void triggerAbilityEffect();	// slot 17 (0x0045108D)
 		// 0x0044E633
 protected:
 	const void *m_moduleData;	// +0x04
@@ -191,7 +191,7 @@ protected:
 class StoreObjectsSpecialPower : public SpecialAbilityUpdate
 {
 public:
-	virtual void rva0045108D();
+	virtual void triggerAbilityEffect();
 private:
 	const StoreObjectsSpecialPowerModuleData *getStoreObjectsSpecialPowerModuleData() const
 	{
@@ -203,9 +203,9 @@ private:
 	_STL::vector<ObjectID, _STL::allocator<ObjectID> > m_88;	// +0x88
 };
 
-void StoreObjectsSpecialPower::rva0045108D()
+void StoreObjectsSpecialPower::triggerAbilityEffect()
 {
-	SpecialAbilityUpdate::rva0045108D();
+	SpecialAbilityUpdate::triggerAbilityEffect();
 	const StoreObjectsSpecialPowerModuleData *data = getStoreObjectsSpecialPowerModuleData();
 	Object *owner = m_object;
 	const void *filter = ((Rva004CDA49Power*)((Rva0044E633*)this)->rva0044E633())->getSpecialPowerTemplate()->getObjectFilter();
