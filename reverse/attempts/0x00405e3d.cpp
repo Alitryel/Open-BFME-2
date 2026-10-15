@@ -1,4 +1,18 @@
 // ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
+// partial score=0.955 date=2026-10-15
+// W7-G1 r14 RECIPE (nn10 / 3292 B vs bank 3287 nn10; residue = 3 hunks, see below). Stack of levers on the previous bank:
+//  (1) bool requireAll / Player *payer locals with the assignment inside the call/comma (W7-ASTRA recipe): fixes the push-memory hunks;
+//  (2) hero-science loop as guarded do/while (no entry jmp);
+//  (3) NEW: the `_ReadWriteBarrier()` after `upgrade = m_commandButton->m_upgrade` is REMOVED and every m_sciences size() test is spelled
+//      `(unsigned)(m_commandButton->m_sciences.end() - m_commandButton->m_sciences.begin())` (site 1, loop pretest guard, ==1 site):
+//      the barrier only existed to stop cl materialising &m_commandButton->m_sciences (`add eax,0xa4`, `mov edi,0xa4`); the direct end-begin spelling
+//      folds [eax+0xa8]/[eax+0xa4] like retail and fixes the extra `mov eax,[esi+0xc]` reload after the upgrade load (retail keeps eax = button);
+//  (4) the loop is a manual do/while whose bottom test keeps `.size()` (retail's `add eax,0xa4; sub ecx,[eax]` this-form).
+// RESIDUE: (a) loop pretest / ==1 site: ours copies the button to ecx (`mov ecx,eax; mov eax,[ecx+0xa8]`) and keeps the count in eax, retail keeps
+// button in eax and the count in ecx (toy: build/g1/toys/z11.cpp reproduces it; declaration order/spelling grids inert); (b) hero loop begin:
+// retail `mov eax,[begin]; cmp eax,[end]; ...; mov ebx,eax`, ours reloads `mov ebx,[ebp-0x5c]` because a barrier is needed to keep the guard
+// (any guard without the fence is dropped by cl and the loop becomes jmp-to-test).
+// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
 // partial score=0.9543031778078934 date=2026-10-14
 // ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
 // partial score=0.9543031778078934 date=2026-10-13
@@ -404,11 +418,12 @@ TreeHintRef00217D4C OldSchoolHelpBoxContentSource::createContent()
 		const ThingTemplate *thing = m_commandButton->rva0035B570();
 		ScienceType science = SCIENCE_INVALID;
 		const UpgradeTemplate *upgrade = m_commandButton->m_upgrade;
-_ReadWriteBarrier();
 
-		if (m_commandButton->m_sciences.size() > 1)
+		if ((unsigned)(m_commandButton->m_sciences.end() - m_commandButton->m_sciences.begin()) > 1)
 		{
-			for (int i = 0; i < m_commandButton->m_sciences.size(); ++i)
+			int i = 0;
+			if ((unsigned)(m_commandButton->m_sciences.end() - m_commandButton->m_sciences.begin()) > 0u)
+			do
 			{
 				science = m_commandButton->m_sciences[i];
 				if (m_commandButton->m_commandType != 0x19)
@@ -420,9 +435,10 @@ _ReadWriteBarrier();
 				}
 				if (player && !player->hasScience(science))
 					break;
-			}
+				++i;
+			} while (i < m_commandButton->m_sciences.size());
 		}
-		else if (m_commandButton->m_sciences.size() == 1)
+		else if ((unsigned)(m_commandButton->m_sciences.end() - m_commandButton->m_sciences.begin()) == 1)
 		{
 			science = m_commandButton->m_sciences[0];
 		}
@@ -453,20 +469,23 @@ _ReadWriteBarrier();
 		description.clear();
 
 		Rva0029FCB4 *hero;
+		bool requireAll;Player *payer;
  if (localPlayer && m_commandButton->m_commandType == 0x26 && (hero=m_commandButton->m_createAHero))
 		{
 			_STL::vector<ScienceType> sciences = hero->rva0029FCB4();
 			if (sciences.begin()!=sciences.end()) {
 _ReadWriteBarrier();
 			ScienceType heroScience = SCIENCE_INVALID;
-			for (_STL::vector<ScienceType>::iterator it = sciences.begin(); it != sciences.end(); ++it)
+			_STL::vector<ScienceType>::iterator it = sciences.begin();
+			do
 			{
 				if (localPlayer->hasScience(*it))
 				{
 					heroScience = *it;
 					break;
 				}
-			}
+				++it;
+			} while (it != sciences.end());
 			if (heroScience != SCIENCE_INVALID)
 			{
 				if (localPlayer->rva002AB82D((CreateAHeroData *)heroScience)
@@ -490,7 +509,7 @@ _ReadWriteBarrier();
 					description.concat(L"\n\n");
 					description.concat(TheGameText->fetchC("TOOLTIP:TooltipCannotPurchaseBecauseQueueFull", 0));
 				}
-				else if (!TheUpgradeCenter->rva0026F11A(ThePlayerList->m_local, upgrade, obj, false))
+				else if (payer = ThePlayerList->m_local, !TheUpgradeCenter->rva0026F11A(payer, upgrade, obj, false))
 				{
 					description.concat(L"\n\n");
 					description.concat(TheGameText->fetchC("TOOLTIP:TooltipNotEnoughMoneyToBuild", 0));
@@ -555,7 +574,7 @@ _ReadWriteBarrier();
 			if (!hasUpgrade && obj)
 			{
 				if ((m_commandButton->m_options & 0x40) && !obj->rva00290D2B(upgrade)
-					&& !allRequiredUpgradesComplete(obj, &m_commandButton->m_requiredUpgrades, m_commandButton->m_requireAll))
+					&& !allRequiredUpgradesComplete(obj, &m_commandButton->m_requiredUpgrades, (requireAll = m_commandButton->m_requireAll)))
 				{
 					lacksPrereq = true;
 				}

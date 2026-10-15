@@ -1,4 +1,8 @@
 // ?rva005D7011@Rva00583794@@QAE_NPAVObject@@@Z
+// partial score=0.985 date=2026-10-15
+// W7-G1 r14 bank: includes repaired to root-relative (the old ../ includes could not resolve from reverse/attempts, so Lab2 reported compile fail);
+// size-exact 377, nd1: _ReadWriteBarrier() after the victimContainer copy puts retail's copy BEFORE the test; only residue: test eax,eax vs retail test edi,edi.
+// ?rva005D7011@Rva00583794@@QAE_NPAVObject@@@Z
 // partial score=0.99 date=2026-10-15
 // cl: /Ireference/shims/bfme2_ascii /EHsc /MD /D_STLP_USE_STATIC_LIB  (region default /O1 /arch:SSE /G7)
 // stlport
@@ -17,8 +21,10 @@
 // (unless its +0x140 test 0x001E3591 holds) is idled (slot 113 gate, then
 // aiIdle(2)), released (0x00295F05) and counts once engaged. Names stay
 // address-derived.
-#include "../../../../../Include/GameLogic/ContainmentListView.h"
-#include "../../../../Common/GameLogicObjectLookupView.h"
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+#include "Code/GameEngine/Include/GameLogic/ContainmentListView.h"
+#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 
 typedef bool Bool;
 typedef float Real;
@@ -179,6 +185,7 @@ bool Rva00583794::rva005D7011(Object *target)
 			if (targetContainer)
 			{
 				Object *victimContainer = victimHolder;
+				_ReadWriteBarrier();
 				if (!victimContainer && victim->testStatus(RVA_OBJECT_STATUS_26))
 				{
 					victimContainer = TheGameLogic->findObjectByID(victim->getContainerID());
