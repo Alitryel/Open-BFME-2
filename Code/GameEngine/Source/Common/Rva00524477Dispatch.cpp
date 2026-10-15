@@ -7,7 +7,7 @@
 // the shim inline dtor = rowed releaseBuffer 0x00036410), forwards the
 // result triple through the int-returning spelling of rowed 0x005243FA
 // (pinned; the body forwards 0x0052408B's eax), and on a changed m_10
-// runs the singleton's pinned 0x002245FF plus m_C's pinned 0x00523EC8.
+// runs the singleton's rowed 0x002245FF plus m_C's rowed 0x00523EC8.
 // Link: declare ~AsciiString only (the shim's documented per-unit switch) so this TU calls the out-of-line
 // retail destructor instead of emitting a non-retail ??_GAsciiString copy; the // cl: line is untouched.
 #ifndef BFME_ASCII_DTOR_DECL
@@ -30,12 +30,25 @@ int Rva005243FA(int a, int b, int c);
 struct C00524477
 {
 	int m_0;
-	void Rva00523EC8(int value);
 };
 
-struct G00524477
+// Row spelling: 0x00523EC8 is vector<CameraMarker>::erase(iterator) over m_C.
+struct CameraMarker;
+namespace _STL {
+template <class T> class allocator;
+template <class T, class A> class vector
 {
-	void Rva002245FF(int a1, int a2);
+public:
+	T *erase(T *position);
+};
+}
+typedef _STL::vector<CameraMarker, _STL::allocator<CameraMarker> > CameraMarkerVector;
+
+// Row spelling: 0x002245FF is Rva002245FF::RemoveOverButtonHandler.
+class Rva002245FF
+{
+public:
+	void RemoveOverButtonHandler(int a1, const AsciiString &name);
 };
 
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
@@ -50,7 +63,7 @@ struct Holder00524477
 
 void Holder00524477::Rva00524477(int a1, int a2)
 {
-	if ((*(G00524477 **)&g_bfmeAptWindowManager) == 0)
+	if ((*(Rva002245FF **)&g_bfmeAptWindowManager) == 0)
 		return;
 	char buf[8];
 	Out00524477 *out = (Out00524477 *)buf;
@@ -61,6 +74,6 @@ void Holder00524477::Rva00524477(int a1, int a2)
 	((AsciiString *)(buf + 4))->~AsciiString();
 	if (rr == m_10)
 		return;
-	(*(G00524477 **)&g_bfmeAptWindowManager)->Rva002245FF(a1, a2);
-	m_C.Rva00523EC8(rr);
+	(*(Rva002245FF **)&g_bfmeAptWindowManager)->RemoveOverButtonHandler(a1, *(const AsciiString *)a2);
+	((CameraMarkerVector *)&m_C)->erase((CameraMarker *)rr);
 }
