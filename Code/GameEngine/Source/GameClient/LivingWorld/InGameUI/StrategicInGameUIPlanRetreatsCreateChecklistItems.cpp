@@ -86,17 +86,17 @@ class Rva002BA8F1Logic { public: void rva002B85EC(Rva002B85ECFilter *,_STL::vect
 class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 struct RetreatWorldView { char unknown[0x98]; Rva002B85ECFilter *localPlayer; };
-class Rva00576FD3 {
+class Rva005770F2 {
 public:
- Rva00576FD3(StrategicInGameUI::PlanRetreatsPhaseBehavior::Impl *,const ModuleData *);
+ Rva005770F2(StrategicInGameUI::PlanRetreatsPhaseBehavior::Impl *,const ModuleData *);
  char nativeStorage[28];
 };
 struct TargetRef00217D4C;
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *);
 namespace StrategicInGameUI {
 struct ChecklistItemRef {
- Rva00576FD3 *ptr;
- ChecklistItemRef(Rva00576FD3 *p):ptr(p) { if(p) ++*(int *)((char *)p+4); }
+ Rva005770F2 *ptr;
+ ChecklistItemRef(Rva005770F2 *p):ptr(p) { if(p) ++*(int *)((char *)p+4); }
  ~ChecklistItemRef() { if(ptr) ReleaseTreeHintRef00217D4C((TargetRef00217D4C *)ptr); }
 };
 class Checklist { public: void AddItem(const ChecklistItemRef &); };
@@ -108,7 +108,7 @@ void StrategicInGameUI::PlanRetreatsPhaseBehavior::Impl::CreateChecklistItems() 
  const ModuleData **end=armies.end();
  for(const ModuleData **it=armies.begin();it!=end;++it) {
   const ModuleData *army=*it;
-  StrategicInGameUI::ChecklistItemRef item(new Rva00576FD3(this,army));
+  StrategicInGameUI::ChecklistItemRef item(new Rva005770F2(this,army));
   ((StrategicInGameUI::Checklist *)((char *)this+4))->AddItem(item);
  }
 }
