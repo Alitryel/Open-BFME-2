@@ -14,6 +14,15 @@
 #define _STLP_NO_EXCEPTIONS 1
 #include <hash_map>
 
+// Keep the inline accessors without emitting per-unit COMDAT copies (retail's
+// one out-of-line vector<void*> size/begin is the /Od body at 0x00023BC0/0x00023B90).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *const *vector<void*>::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const { return size_t(this->_M_finish - this->_M_start); }
+}
+
 #include "../../../Common/GameLogicObjectLookupView.h"
 
 struct IdRange
