@@ -8,8 +8,6 @@
 // evidence is the retail "(char *)pData != s_EmptyInternalData" message.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
-void __debugbreak();
-#pragma intrinsic(__debugbreak)
 #pragma intrinsic(memcmp)
 
 extern "C" int __cdecl memcmp(const void *left, const void *right, unsigned int count);
@@ -18,6 +16,7 @@ extern "C" unsigned int __cdecl strlen(const char *str);
 extern "C" void *__cdecl memset(void *dst, int value, unsigned int count);
 extern "C" int __cdecl strcmp(const char *left, const char *right);
 extern "C" int __cdecl _strcmpi(const char *left, const char *right);
+extern "C" char *__cdecl strchr(const char *text, int character);
 #pragma intrinsic(memcpy)
 #pragma intrinsic(strlen)
 #pragma intrinsic(memset)
@@ -74,6 +73,8 @@ public:
 	EAStringC(const EAStringC &other);
 	EAStringC();
 	EAStringC Left(int count) const;
+	EAStringC Mid(int start) const;
+	EAStringC &rva006D59F0(const char *text);
 	EAStringC(const char *text);
 	EAStringC(unsigned int nSize);
 	EAStringC(unsigned int nSize, unsigned int fillChar);
@@ -116,13 +117,13 @@ void EAStringC::FreeData(StringDataC *data)
 {
 	if (!(data->m_uRefCount >= 1)) {
 		g_bfmeAptAssertAtE17734("pData->m_uRefCount >= 1", ".\\string\\EAString.inl", 0xF9);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
 	}
 	if (--data->m_uRefCount != 0)
 		return;
 	if (data == &g_eaEmptyStringData) {
 		g_bfmeAptAssertAtE17734("(char *)pData != s_EmptyInternalData", ".\\string\\EAString.inl", 0xFD);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
 	}
 	g_pChainBlockAllocator->freeBlock(data, (int)(data->m_uMaxSize + 9));
 }
@@ -146,7 +147,7 @@ __declspec(noinline) inline EAStringC::EAStringC(const EAStringC &other)
 	if (otherData != &g_eaEmptyStringData) {
 		if (!(otherData->m_uRefCount <= 0xFFFE)) {
 			g_bfmeAptAssertAtE17734("m_pData->m_uRefCount <= 0xfffe", ".\\string\\EAString.inl", 0xE1);
-			if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+			if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
 		}
 	}
 	m_pData->m_uRefCount++;
@@ -163,7 +164,7 @@ EAStringC &EAStringC::operator=(const EAStringC &other)
 	if (src->m_pData != &g_eaEmptyStringData) {
 		if (!(src->m_pData->m_uRefCount <= 0xFFFE)) {
 			g_bfmeAptAssertAtE17734("m_pData->m_uRefCount <= 0xfffe", ".\\string\\EAString.inl", 0xE1);
-			if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+			if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
 		}
 	}
 	src->m_pData->m_uRefCount++;
@@ -195,12 +196,12 @@ __declspec(noinline) inline void EAStringC::Reserve(int size)
 	EAStringC *self = this;
 	if (!((unsigned)size > 0u)) {
 		g_bfmeAptAssertAtE17734("uSize > 0", ".\\string\\EAString.inl", 0x4CB);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
 	}
 	int rounded = (size + 12) & ~3;
 	if (!((unsigned)rounded < 0xFFFFu)) {
 		g_bfmeAptAssertAtE17734("uAllocateSize < 0xffff", ".\\string\\EAString.inl", 0x4D2);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
 	}
 	StringDataC *data = (StringDataC *)(*(Rva006DB160 * *)&g_pChainBlockAllocator)->allocBlock(rounded);
 	self->m_pData = data;
@@ -305,7 +306,7 @@ void EAStringC::Assign(const char *text)
 	if (text == 0) {
 		g_bfmeAptAssertAtE17734("pStrText != NULL",
 			"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\string\\EAString.cpp", 0x82F);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
 	}
 	if (*text == 0) {
 		m_pData = &g_eaEmptyStringData;
@@ -403,7 +404,7 @@ bool EAStringC::rva006D3490(const char *text) const
 {
 	if (!(text != 0)) {
 		g_bfmeAptAssertAtE17734("pStrText != NULL", ".\\string\\EAString.inl", 0x3A6);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
 	}
 	const char *a = (const char *)m_pData + 8;
 	return strcmp(a, text) == 0;
@@ -511,7 +512,7 @@ bool EAStringC::rva006D3510(const char *text) const
 {
 	if (!(text != 0)) {
 		g_bfmeAptAssertAtE17734("pStrText != NULL", ".\\string\\EAString.inl", 0x3D1);
-		if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
 	}
 	const char *a = (const char *)m_pData + 8;
 	return _strcmpi(a, text) == 0;
@@ -679,4 +680,31 @@ EAStringC *EAStringC::initializeEmpty_Rva006D2FA0(unsigned int)
     m_pData = &g_eaEmptyStringData;
     ++g_eaEmptyStringData.m_uRefCount;
     return this;
+}
+
+// ?rva006D59F0@EAStringC@@QAEAAV1@PBD@Z, retail 0x006D59F0 (348B).
+// EAString donor semantics and retail call graph: trim leading characters
+// found in the supplied set (the scan counts the prefix whose characters
+// strchr finds, then keeps Mid(count)); callers at 0x006D5CC1 and 0x00708A77.
+// Every assert break in this unit is spelled __asm int 3 (as rva006D2F40 and
+// SetInternalRefCount already were): with the __debugbreak intrinsic in the
+// helpers inlined here (FreeData through ~EAStringC and operator=) cl gives
+// this body's string temporaries other frame slots; all other rows verify
+// with either spelling.
+EAStringC &EAStringC::rva006D59F0(const char *text)
+{
+	if (!text) {
+		g_bfmeAptAssertAtE17734("pStrText != NULL", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\string\\EAString.cpp", 0x56E);
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
+	}
+	unsigned i, size = m_pData->m_uSize;
+	const char *buffer = (const char *)(m_pData + 1);
+	for (i = 0; i < size; ++i) {
+		char c = *buffer++;
+		if (strchr(text, c) == 0) break;
+	}
+	EAStringC result;
+	result = Mid(i);
+	*this = result;
+	return *this;
 }

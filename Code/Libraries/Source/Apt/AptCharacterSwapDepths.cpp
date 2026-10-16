@@ -1,5 +1,3 @@
-// ?Rva006EDBD0SwapDepths@@YAPAVAptValue@@PAV1@H@Z
-// partial score=0.9902112196 date=2026-10-14
 // cl: /O2 /DNDEBUG /MD /EHsc
 // Native 6EDBD0..6EDF11 RET0; following15CC bytes are padding.
 // AptCharacter callback: resolves a depth/CIH/name argument then swaps the
@@ -7,6 +5,8 @@
 // query/unlink/insert providers and parent+48/instance+4C layout are shared
 // with AptCharacterByteCounts.cpp and AptDisplayList.cpp. Original callback
 // name is not asserted. Preserve native's unusual count/CIH guard polarity.
+// The sprite() assert break is __asm int 3 (the owner AptCharacter units'
+// spelling): the __debugbreak intrinsic plus barriers left the body 0.99.
 class EAStringC {
 public:class StringDataC {public:unsigned short refs,size,capacity,hash;};
 private:StringDataC *data;
@@ -38,12 +38,10 @@ public:
 class Rva006CFCD0 {public:bool isSpriteInstBase()const;};
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *,const char *,int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
-void __debugbreak();
-#pragma intrinsic(__debugbreak)
 static __forceinline SwapSprite *sprite(AptCIH *p) {
  if(!((Rva006CFCD0 *)p)->isSpriteInstBase()) {
   g_bfmeAptAssertAtE17734("isSpriteInstBase()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0x7d);
-  if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();
+  if(g_bfmeAptBreakOnAssertAtDDC01C){__asm int 3}
  }
  return p->instance;
 }
