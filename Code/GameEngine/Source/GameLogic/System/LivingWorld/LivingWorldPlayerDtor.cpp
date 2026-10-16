@@ -255,3 +255,22 @@ void Rva002E2AAE::xfer(Xfer *xfer) {
   Rva002E208AXfer(xfer,reinterpret_cast<std::set<int>*>(&set29C)); Rva002E208AXfer(xfer,reinterpret_cast<std::set<int>*>(&set2A8));
  }
 }
+
+// --- 0x002E25D9 (57 B, RET 0): the science-vector transfer block of
+// Rva002E2AAE::xfer above as its own file-static helper (version 1,1; clear on
+// load; Rva001ECA2DXfer). Retail passes the Xfer in ESI and the vector in EDI,
+// the private convention cl 7.1 picks for a file-static noinline function; no
+// retail call reaches this copy (its caller was folded away), so a source-only
+// caller emits it.
+static __declspec(noinline) void Rva002E25D9XferScienceVec(Xfer *xfer, std::vector<ScienceType> *sciences)
+{
+ Xfer::Version version(1,1); *xfer == version;
+ if(xfer->IsLoading()) sciences->erase(sciences->begin(),sciences->end());
+ Rva001ECA2DXfer(xfer,sciences);
+}
+
+// ?Rva002E25D9XferScienceVecCaller absent-from-retail
+void Rva002E25D9XferScienceVecCaller(Xfer *xfer, std::vector<ScienceType> *sciences)
+{
+ Rva002E25D9XferScienceVec(xfer,sciences);
+}
