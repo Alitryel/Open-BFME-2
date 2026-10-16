@@ -92,3 +92,42 @@ bool Rva00541579::rva00541579(int key)
         --hint;
     return b[hint].key == key;
 }
+
+// ?rva00541641@Rva005418CB@@QAE_NH@Z retail 0x00541641 (200 bytes): the same
+// locator over the 20-byte keys, through rva0054150A above.
+struct KeyVector20
+{
+    unsigned int size() const { return m_end - m_begin; }
+    bool empty() const { return m_begin == m_end; }
+    BfmePod20 *m_begin, *m_end, *m_capacity;
+};
+class Rva005418CB
+{
+public:
+    bool rva00541641(int key);
+private:
+    char m_pad00[0x10];
+    KeyVector20 m_keys;
+    int m_hint1C;
+};
+bool Rva005418CB::rva00541641(int key)
+{
+    int h = m_hint1C;
+    if (h >= 0 && (unsigned)h < m_keys.size()) {
+        BfmePod20 *b = m_keys.m_begin;
+        int cur = b[h].key;
+        if (key >= cur && ((unsigned)(h + 1) >= (unsigned)(m_keys.m_end - b) || key < b[h + 1].key))
+            return cur == key;
+    }
+    if (m_keys.empty())
+    {
+        m_hint1C = -1;
+        return false;
+    }
+    int &hint = m_hint1C;
+    BfmePod20 *b = m_keys.m_begin;
+    hint = rva0054150A(b, m_keys.m_end, *reinterpret_cast<const BfmePod20 *>(&key)) - b;
+    if ((unsigned)hint >= (unsigned)(m_keys.m_end - b) || (hint > 0 && b[hint].key != key))
+        --hint;
+    return b[hint].key == key;
+}
