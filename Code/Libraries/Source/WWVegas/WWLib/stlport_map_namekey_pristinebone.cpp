@@ -17,7 +17,12 @@
 // explicit anchor as _bfmePristineBoneAnchor's map() call in
 // W3DModelDrawO1Inlines.cpp; unblocks 0x004261B8, 0x000C6A4D, 0x00385FE1.
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
+// Native tree teardownBB65C frees through C++ allocator30830.
+#include <stdlib.h>
+namespace _STL { void __cdecl free(void *block) throw(...); }
+#define free _STL::free
 #include <map>
+#undef free
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {
@@ -38,4 +43,9 @@ struct PristineBoneInfo
 	unsigned char m_data[52];
 };
 
+typedef _STL::map<NameKeyType, PristineBoneInfo> PristineBoneMap;
+typedef _STL::_Rb_tree<NameKeyType, PristineBoneMap::value_type, _STL::_Select1st<PristineBoneMap::value_type>, _STL::less<NameKeyType>, PristineBoneMap::allocator_type> PristineBoneTree;
+// Preserve the existing instantiated map operations and emit native destruction.
 template class _STL::map<NameKeyType, PristineBoneInfo>;
+template PristineBoneTree::~_Rb_tree();
+template PristineBoneMap::~map();
