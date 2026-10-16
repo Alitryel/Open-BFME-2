@@ -181,7 +181,7 @@ Rva005CC656::~Rva005CC656()
 //   0x002563CE  0x00255A42  Rva002563CE -> UpgradeModuleData
 //   0x002DB8BA  0x00131BE5  Rva002DB8BA -> Rva00131BE5
 //   0x003A972D  0x003A5817  Rva0055F98A -> Rva003AEEB3
-//   0x003ACB6F  0x003ABC0B  Rva003ACB6F -> Rva003ABC0B
+//   0x003ACB6F  0x003ABC0B  Rva003ACB6F -> FXParticleSystem::Rva005FEA50Base
 //   0x003ACB74  0x003ABC21  Rva003ACB74 -> Rva005E2D20
 //   0x003ACED6  0x003AB9FF  Rva003ACED6 -> Rva003AB9FF
 //   0x003ACEF7  0x003ABA4C  Rva003ACEF7 -> Rva003ABA4C
@@ -430,13 +430,15 @@ Rva0055F98A::~Rva0055F98A()
 {
 }
 
-class Rva003ABC0B
+namespace FXParticleSystem {
+class Rva005FEA50Base
 {
 public:
-	virtual ~Rva003ABC0B();
+	virtual ~Rva005FEA50Base();
 };
+}
 
-class __declspec(novtable) Rva003ACB6F : public Rva003ABC0B
+class __declspec(novtable) Rva003ACB6F : public FXParticleSystem::Rva005FEA50Base
 {
 public:
 	virtual ~Rva003ACB6F();
