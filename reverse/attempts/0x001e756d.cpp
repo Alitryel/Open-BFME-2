@@ -1,4 +1,6 @@
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
+// partial score=0.9588173627150627 date=2026-10-16
+// ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.9578922598050313 date=2026-10-14
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.9588 date=2026-10-13
@@ -9,7 +11,7 @@
 // partial score=0.993 date=2026-10-13 (W7-S4: whole normal path wrapped in a block)
 // ?moveTowardsPositionHorde@Locomotor@@QAEXPAVObject@@ABUCoord3D@@MM@Z
 // partial score=0.98 date=2026-10-10
-// cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /ICode/Libraries/Include
 // stlport
 //
 // NEAR DRAFT (not landable as is): replacement for
@@ -61,7 +63,7 @@
 // address-named because their real types are unproven.
 #include <vector>
 #include "Lib/Coord3D.h"
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../Common/GameLogicObjectLookupView.h"
 typedef float Real;
 enum PathfindLayerEnum
 
@@ -149,7 +151,7 @@ class Path
  Rva003642DFResult rva00364521(const Rva0008BB38FloatField *arg);
  void AdvancePastPortal(ScienceType st, _STL::vector<ScienceType, _STL::allocator<ScienceType> > *vec);
  Rva003642DFResult rva003642DF(Real dist);
- bool DoAdvanceAlongPath(Coord3D *pos, bool flag);
+ bool DoAdvanceAlongPath(const Coord3D *pos, bool flag);
  int GetNextPortalID();
  
 }
@@ -460,7 +462,7 @@ class Rva0030A3E4
 
 {
  public:
- void rva0030A3E4(const Matrix3D *mtx);
+ void _setTransformMatrix(const Matrix3D *mtx);
 // 0x0030A3E4
  
 }
@@ -658,7 +660,7 @@ struct Rva001E7389Transform
 }
 ;
 extern GameLogic *TheGameLogic;
-extern int g_Va00DBA4E4;
+extern int BfmeLogicFramesPerSecond;
 class Locomotor
 
 {
@@ -670,6 +672,7 @@ class Locomotor
   
  }
  ;
+ Real getMaxSpeed(Object *) const;
  bool moveTowardsPositionHordeOnClimbPortal(Object *obj, Waypoint *way);
  void moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Real onPathDistToGoal, Real desiredSpeed);
  Real getMaxTurnRate(Object *obj) const;
@@ -737,7 +740,7 @@ bool Locomotor::moveTowardsPositionHordeOnClimbPortal(Object *obj, Waypoint *way
   obj->rva0028B4CE((PathfindLayerEnum)((Rva001E34FA *)&result)->rva001E34FA());
   hordeContain->slot111(&goalPos, &((Rva001E34B2 *)&result)->rva001E34B2(),
   ((Rva001E3511 *)&result)->rva001E3511(), ((Rva001E34FA *)&result)->rva001E34FA());
-  m_hordeClimbFrame = TheGameLogic->getFrame() + g_Va00DBA4E4 * 12;
+  m_hordeClimbFrame = TheGameLogic->getFrame() + BfmeLogicFramesPerSecond * 12;
   return true;
   
  }
@@ -837,7 +840,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
       path = (Path *)Rva001E3FFDGet((Rva001E3FFDOuter *)obj);
       if (!path)
       return;
-      result = path->rva003642DF(((Rva001E46E1 *)this)->rva001E46E1(obj) * 3.0f);
+      result = path->rva003642DF(getMaxSpeed(obj) * 3.0f);
       m_transform.setTranslation(&result.m_pos);
       path->DoAdvanceAlongPath(&result.m_pos, true);
       m_9A = 1;
@@ -915,7 +918,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
  }
  
  {
-  Real maxSpeed = ((Rva001E46E1 *)this)->rva001E46E1(obj);
+  Real maxSpeed = getMaxSpeed(obj);
   Real maxTurnRate = getMaxTurnRate(obj);
   if (desiredSpeed > maxSpeed)
   desiredSpeed = maxSpeed;
@@ -961,7 +964,7 @@ void Locomotor::moveTowardsPositionHorde(Object *obj, const Coord3D &goalPos, Re
   {
    hordeContain->slot15();
    rva001E41FA(desiredAngle);
-   ((Rva0030A3E4 *)obj)->rva0030A3E4((const Matrix3D *)&m_transform);
+   ((Rva0030A3E4 *)obj)->_setTransformMatrix((const Matrix3D *)&m_transform);
    hordeContain->slot16();
    
   }

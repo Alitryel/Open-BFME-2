@@ -1,9 +1,11 @@
 // ?readTiles@WorldHeightMap@@SA_NPAVInputStream@@0PAPAVTileData@@H@Z
+// partial score=0.8438387991843012 date=2026-10-16
+// ?readTiles@WorldHeightMap@@SA_NPAVInputStream@@0PAPAVTileData@@H@Z
 // partial score=0.82 date=2026-10-14
 // ?readTiles@WorldHeightMap@@SA_NPAVInputStream@@0PAPAVTileData@@H@Z
 // partial score=0.8450573945053876 date=2026-10-10
 // ?readTiles@WorldHeightMap@@SA_NPAVInputStream@@0PAPAVTileData@@H@Z
-// cl: /O1 /Oy- /MD /EHsc /DNDEBUG /G7
+// cl: /O1 /Oy- /MD /EHsc /DNDEBUG /G6
 // Reference reviewed at pinned BFME1 575ba2b04.
 // Semantic guide: ZH WorldHeightMap::readTiles; target BFME2 adds normal
 // input, block reads and direct mip resampling. Native ABEA0..AC296.
@@ -23,7 +25,7 @@ struct TTargaHeader {
  short colorMapOrigin,colorMapLength;
  unsigned char colorMapDepth;
  short xOrigin,yOrigin,imageWidth,imageHeight;
- unsigned char pixelDepth,imageDescriptor;
+ unsigned char pixelDepth,flags;
 };
 #pragma pack(pop)
 class InputStream {public: virtual int read(void*,int)=0;};
@@ -40,7 +42,7 @@ class TileData {public:
  __forceinline TileData*companion(){return (TileData*)((Rva00111784DwordField*)this)->get();}
  __forceinline void Release_Ref(){if(--refs==0)Delete_This();}
 };
-class WorldHeightMap {public:static bool readTiles(InputStream*,InputStream*,TileData**,int);};
+class WorldHeightMap {public:static int countTiles(InputStream*,bool*);static bool readTiles(InputStream*,InputStream*,TileData**,int);};
 static unsigned char defaultNormals[256];
 bool WorldHeightMap::readTiles(InputStream*pStr,InputStream*nStr,TileData**tiles,int numRows)
 {
@@ -106,12 +108,12 @@ bool WorldHeightMap::readTiles(InputStream*pStr,InputStream*nStr,TileData**tiles
   }
   unsigned char*pBuf=buf; unsigned char*pNormal=nbuf;
   _ReadWriteBarrier();
-  for(unsigned short i=0,width=64;i<numRows;i++,width+=64,pBuf+=256,pNormal+=256){
+  for(unsigned short i=0,width=64;i<numRows;i++,width+=64,pBuf+=256){
    if(width>hdr.imageWidth)break;
    tiles[i]->rva00111A05(pBuf,hdr.imageWidth*4);
    if(tiles[i]->companion()){
     const unsigned char*p;int stride;
-    if(nbuf){p=pNormal;stride=hdr.imageWidth*4;}
+    if(nbuf){p=nbuf+i*256;stride=hdr.imageWidth*4;}
     else{
      if(!defaultNormals[1]){
       for(int j=0;j<64;j++){defaultNormals[j*4+2]=127;defaultNormals[j*4+1]=127;}
@@ -126,4 +128,44 @@ bool WorldHeightMap::readTiles(InputStream*pStr,InputStream*nStr,TileData**tiles
  }
  operator delete[](nbuf);operator delete[](buf);
  return true;
+}
+
+typedef int Int;typedef bool Bool;
+#define TILE_PIXEL_EXTENT 64
+Int WorldHeightMap::countTiles(InputStream *pStr, Bool *halfTile)
+{
+	TTargaHeader hdr;
+	if (halfTile) {
+		*halfTile = false;
+	}
+	Int len = pStr->read(&hdr,sizeof(hdr));
+	if (len!=sizeof(hdr)) return(0);
+	Int tileWidth = hdr.imageWidth/TILE_PIXEL_EXTENT;
+	Int tileHeight = hdr.imageHeight/TILE_PIXEL_EXTENT;
+
+	if (hdr.colorMapType != 0) {
+		return(0); // we don't do indexed at this time. jba.
+	}
+	if (hdr.imageType != 0x2 && hdr.imageType != 0xA) {
+		return(0); // we don't do indexed at this time. jba.
+	}
+
+	if (hdr.pixelDepth < 24) return(false);
+	if (hdr.pixelDepth > 32) return(false);
+	// 4x4 gives 16,
+	// 3x3 gives 9,
+	// 2x2 gives 4,
+	// 1x1 gives 1,
+	// else 0;
+	if (tileWidth>16 || tileHeight>16) return(0);  // don't do huge images, or bad files.
+	Int width;
+	for (width = 16; width > 0; width--) {
+		if (tileWidth >= width && tileHeight >= width) {
+			return width*width;
+		}
+	}
+	if (halfTile && hdr.imageHeight==TILE_PIXEL_EXTENT/2 && hdr.imageWidth==TILE_PIXEL_EXTENT/2) {
+		return (*halfTile = true);
+	}
+	return(0);
 }

@@ -1,24 +1,128 @@
 // ?parseSubtitleText@@YAXPAVINI@@PAX1PBX@Z
-// partial score=0.75 date=2026-10-12
-// Retail 0x00688B10, 1,578 bytes. The beta error strings identify the
-// subtitle label, color, style, alignment, line, and frame checks. Retail's
-// SubtitleManager FieldParse table registers this callback under "SubTitle".
-// The target calls the already matched SubtitleManager::addSubtitle body.
-// cl: /Ireference/shims/iniexception /O2 /DNDEBUG /MD /EHsc
+// partial score=0.781863091410866 date=2026-10-16
+// cl: /Ireference/shims/iniexception /Ireference/shims/bfme2_ascii /EHsc /MD /D_STLP_USE_STATIC_LIB
+// stlport
+// ?addSubtitle@SubtitleManager@@QAEXABVAsciiString@@IHHHHH@Z, retail 0x00688AA0 (105B).
+// Ported from Open-BFME-1 Code/GameEngine/Source/GameClient/SubtitleManagerAccessors.cpp
+// (BFME1 0x0081DDD0). Creates the entry through the manager's factory hook and
+// pushes it on the entry vector. The donor defines 7 further siblings the sweep
+// did not place, so only the placed body is defined here; the rest stay
+// declared-only.
+
+#include <vector>
+
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+
+#include "ascii_string.h"
+
+
+union SubtitleEntryBulk
+{
+	int words[10];
+	struct
+	{
+		unsigned int color;
+		char middle[0x14];
+		bool displayed;
+		char rest[0x0B];
+	} fields;
+};
+
+class SubtitleEntry
+{
+public:
+	SubtitleEntry(const SubtitleEntry &that);
+	AsciiString getText() const;
+	SubtitleEntry &operator=(const SubtitleEntry &that)
+	{
+		m_text = that.m_text;
+		m_label = that.m_label;
+		m_bulk = that.m_bulk;
+		m_tailFirst = that.m_tailFirst;
+		m_tailSecond = that.m_tailSecond;
+		return *this;
+	}
+
+	AsciiString m_text;
+	AsciiString m_label;
+	SubtitleEntryBulk m_bulk;
+	int m_tailFirst;
+	int m_tailSecond;
+};
+
+typedef SubtitleEntry *(__cdecl *CreateSubtitleEntry)(AsciiString *, int,
+	const AsciiString &, unsigned int, int, int, int, int, int);
+
+class INI;
+class SubtitleManager
+{
+ friend void parseSubtitleText(INI*,void*,void*,const void*);
+public:
+	SubtitleManager(CreateSubtitleEntry createEntry, int second, const AsciiString &name);
+	void addSubtitle(const AsciiString &label, unsigned int color, int style,
+		int alignment, int line, int startFrame, int endFrame);
+	bool hasBeenDisplayed(int index) const;
+	AsciiString getText(int index) const;
+	void setDisplayedStats(int index);
+	unsigned int getColor(int index) const;
+	int getStartFrame(int index) const;
+private:
+	CreateSubtitleEntry m_createEntry;
+	int m_second;
+	AsciiString m_name;
+	AsciiString m_secondaryName;
+	int m_count;
+	_STL::vector<SubtitleEntry *> m_entries;
+	int m_startFrame;
+	int m_state[15];
+	bool m_enabled;
+};
+
+void SubtitleManager::addSubtitle(const AsciiString &label, unsigned int color,
+	int style, int alignment, int line, int startFrame, int endFrame)
+{
+	SubtitleEntry *entry = m_createEntry(&m_secondaryName, m_count, label, color,
+		style, alignment, line, startFrame, endFrame);
+	m_entries.push_back(entry);
+}
+
+// ??0SubtitleManager@@QAE@P6APAVSubtitleEntry@@PAVAsciiString@@HABV2@IHHHHH@ZH1@Z
+// retail 0x00688750 (107B). Placed by masked whole-.text search of the compiled
+// donor body (single hit on unclaimed ground).
+SubtitleManager::SubtitleManager(CreateSubtitleEntry createEntry, int second,
+	const AsciiString &name) :
+	m_createEntry(createEntry),
+	m_second(second),
+	m_name(name),
+	m_secondaryName(),
+	m_count(0),
+	m_entries(),
+	m_enabled(false)
+{
+	m_startFrame = 0x7FFFFFFF;
+	// Keep the sentinel visible before the remaining state is cleared, as retail does.
+	_ReadWriteBarrier();
+	m_state[0] = 0;
+	m_state[1] = 0;
+	m_state[2] = 0;
+	m_state[3] = 0;
+	m_state[4] = 0;
+	m_state[5] = 0;
+	m_state[6] = 0;
+	m_state[7] = 0;
+	m_state[8] = 0;
+	m_state[9] = 0;
+	m_state[10] = 0;
+	m_state[11] = 0;
+	m_state[12] = 0;
+	m_state[13] = 0;
+	m_state[14] = 0;
+}
 
 typedef int Int;
 typedef unsigned char Bool;
 typedef unsigned int UnsignedInt;
-
-class AsciiString
-{
-public:
-	AsciiString() : m_data(0) {}
-	~AsciiString();
-	bool empty() const { return m_data == 0 || *(const unsigned short *)((const char *)m_data + 4) == 0; }
-
-	void *m_data;
-};
 
 class INI
 {
@@ -73,20 +177,6 @@ extern VideoPlayerInterface *TheVideoPlayer;
 
 #include "Common/INIException.h"
 
-typedef void *(__cdecl *CreateSubtitleEntry)(AsciiString *, Int,
-	const AsciiString &, UnsignedInt, Int, Int, Int, Int, Int);
-typedef Bool (__cdecl *ResolveSubtitleLabel)(const char *, AsciiString *);
-
-class SubtitleManager
-{
-public:
-	CreateSubtitleEntry m_createEntry;
-	ResolveSubtitleLabel m_resolveLabel;
-
-	void addSubtitle(const AsciiString &label, UnsignedInt color, Int style,
-		Int alignment, Int line, Int startFrame, Int endFrame);
-};
-
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *, const char *);
 
 static const char *const subtitleStyles[] = {
@@ -105,7 +195,7 @@ void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void 
 	if (manager == 0 || fieldContext == 0)
 	{
 		AsciiString filename = ini->getFilename();
-		throw INIException(9, "Could not locate SubTitleManager for %s", filename.m_data);
+		throw INIException(9, "Could not locate SubTitleManager for %s", *(void **)&filename);
 	}
 
 	AsciiString label;
@@ -118,14 +208,14 @@ void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void 
 	const char *token = ini->getNextTokenOrNull(ini->m_defaultSeparators);
 	while (token != 0)
 	{
-		if (_strcmpi(token, "Label") == 0 && label.empty())
+		if (_strcmpi(token, "Label") == 0 && label.isEmpty())
 		{
-			const char *value = ini->getNextTokenOrNull(ini->m_defaultSeparators);
-			if (value == 0 || !manager->m_resolveLabel(value, &label))
+			const char *value = ini->getNextTokenOrNull(ini->m_colonSeparators);
+			if (value == 0 || !label.isEmpty() || !((unsigned char (__cdecl *)(const char *,AsciiString *))manager->m_second)(value, &label))
 			{
 				AsciiString filename = ini->getFilename();
 				throw INIException(8, "Invalid text label while parsing %s on line %d",
-					filename.m_data, ini->getLineNum());
+					*(void **)&filename, ini->getLineNum());
 			}
 		}
 		else if (_strcmpi(token, "Color") == 0 && color == 0)
@@ -141,7 +231,7 @@ void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void 
 					AsciiString filename = ini->getFilename();
 					throw INIException(3,
 						"color value %s=%i out of range (0..255) in %s on line %d",
-						channels[channel], component, filename.m_data, ini->getLineNum());
+						channels[channel], component, *(void **)&filename, ini->getLineNum());
 				}
 				color = (color << 8) | component;
 			}
@@ -154,7 +244,7 @@ void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void 
 			{
 				AsciiString filename = ini->getFilename();
 				throw INIException(8, "Expected subtitle style type not found in %s on line %d",
-					filename.m_data, ini->getLineNum());
+					*(void **)&filename, ini->getLineNum());
 			}
 			style = ini->scanIndexList(value, subtitleStyles);
 		}
@@ -165,7 +255,7 @@ void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void 
 			{
 				AsciiString filename = ini->getFilename();
 				throw INIException(8, "Expected subtitle alignment type not found in %s on line %d",
-					filename.m_data, ini->getLineNum());
+					*(void **)&filename, ini->getLineNum());
 			}
 			alignment = ini->scanIndexList(value, subtitleAlignments);
 		}
@@ -177,7 +267,7 @@ void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void 
 				AsciiString filename = ini->getFilename();
 				throw INIException(8,
 					"Expected subtitle line value for Line: not found in %s on line %d",
-					filename.m_data, ini->getLineNum());
+					*(void **)&filename, ini->getLineNum());
 			}
 			line = ini->scanInt(value) - 1;
 			if (line < 0 || line > 14)
@@ -185,7 +275,7 @@ void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void 
 				AsciiString filename = ini->getFilename();
 				throw INIException(3,
 					"Subtitle Line value %d out of range (%d..%d) in %s on line %d",
-					line, 1, 15, filename.m_data, ini->getLineNum());
+					line, 1, 15, *(void **)&filename, ini->getLineNum());
 			}
 		}
 		else if (_strcmpi(token, "StartFrame") == 0 && startFrame == 0x7fffffff)
@@ -196,7 +286,7 @@ void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void 
 				AsciiString filename = ini->getFilename();
 				throw INIException(8,
 					"Expected subtitle StartFrame value for StartFrame: not found in %s on line %d",
-					filename.m_data, ini->getLineNum());
+					*(void **)&filename, ini->getLineNum());
 			}
 			startFrame = ini->scanInt(value);
 			if (startFrame < 0)
@@ -204,7 +294,7 @@ void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void 
 				AsciiString filename = ini->getFilename();
 				throw INIException(3,
 					"Subtitle StartFrame must be greater than 0 in %s on line %d",
-					filename.m_data, ini->getLineNum());
+					*(void **)&filename, ini->getLineNum());
 			}
 		}
 		else if (_strcmpi(token, "EndFrame") == 0 && endFrame == 0x7fffffff)
@@ -215,7 +305,7 @@ void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void 
 				AsciiString filename = ini->getFilename();
 				throw INIException(8,
 					"Expected subtitle EndFrame value for EndFrame: not found in %s on line %d",
-					filename.m_data, ini->getLineNum());
+					*(void **)&filename, ini->getLineNum());
 			}
 			endFrame = ini->scanInt(value);
 			if (endFrame < 0)
@@ -223,7 +313,7 @@ void parseSubtitleText(INI *ini, void *instance, void *fieldContext, const void 
 				AsciiString filename = ini->getFilename();
 				throw INIException(3,
 					"Subtitle EndFrame must be greater than 0 in %s on line %d",
-					filename.m_data, ini->getLineNum());
+					*(void **)&filename, ini->getLineNum());
 			}
 		}
 		else

@@ -1,4 +1,8 @@
 // ?Render@W3DAptComponentColorPicker@@UAEXHHHH@Z
+// partial score=0.9781818181818183 date=2026-10-16
+// ?Render@W3DAptComponentColorPicker@@UAEXHHHH@Z
+// partial score=0.9781818181818183 date=2026-10-16
+// ?Render@W3DAptComponentColorPicker@@UAEXHHHH@Z
 // partial score=0.976 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // Target evidence: WorldBuilder identifies Init (17EF830) and ExternFunc
@@ -21,7 +25,7 @@ struct ColorIntPoint {int x,y; ColorIntPoint(int a,int b):x(a),y(b){} };
 class Image {public:char pad[8];AsciiString filename;ColorIntPoint size;ColorFloatPoint uv;const ColorIntPoint *Get_Size() const{return &size;}const ColorFloatPoint *Get_UV() const{return &uv;}char pad1C[8];int width,height;};
 
 class ImageCollection {public:const Image *findImageByName(const AsciiString&);};
-extern ImageCollection *TheImageCollection;
+extern ImageCollection *TheMappedImageCollection;
 bool Rva004128F0GetParam(const char*,const char*,AsciiString&);
 int Rva000A8F58Get();int Rva000A8F5EGet();
 class __multiple_inheritance FunctorTarget;
@@ -69,12 +73,12 @@ void W3DAptComponentColorPicker::Init(const AsciiString&name,const char*params) 
  Rva004128F0GetParam(params,"_path",owner);
  AsciiString imageName;
  Rva004128F0GetParam(params,"_imageName",imageName);
- image=TheImageCollection->findImageByName(imageName);
+ image=TheMappedImageCollection->findImageByName(imageName);
  if(!image)return;
  cursorX=image->width;cursorY=image->height;
- AsciiString callbackName(name);callbackName.concat("Cursor");
+ AsciiString callbackName(name);reinterpret_cast<StringBase<char> *>(&callbackName)->concat("Cursor");
  externHandlers.AddExternHandler(callbackName,0,MakeBinding(reinterpret_cast<FunctorMethod>(&W3DAptComponentColorPicker::ExternFunc),reinterpret_cast<FunctorTarget*>(this)));
- callbackName=name;callbackName.concat("Color");
+ callbackName=name;reinterpret_cast<StringBase<char> *>(&callbackName)->concat("Color");
  externHandlers.AddExternHandler(callbackName,1,MakeBinding(reinterpret_cast<FunctorMethod>(&W3DAptComponentColorPicker::ExternFunc),reinterpret_cast<FunctorTarget*>(this)));
 }
 void W3DAptComponentColorPicker::ExternFunc(int slot,char*value,bool write) {

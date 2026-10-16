@@ -1,16 +1,17 @@
 // ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.797808 date=2026-10-14
-// ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.7872030653 date=2026-10-10
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
-// ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.7711756993006993 date=2026-10-10
-// cl: /ICode/Libraries/Include/Lib /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ob2
+// partial score=0.8239538373516954 date=2026-10-16
+// cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ob2
+// Primary clean donor: BFME1 LightningDrawModuleCtor005F4E90.cpp at 575ba2b04.
+// Target 561C34..561D31 RET8 and named LightningDraw publisher/getInstance
+// establish the constructor's family. Native calls ParticleModule55C86D and
+// LightningInfo56142E; its two iterators independently prove 90 12-byte points
+// at48 and480. Measured scalar/axis tail begins8B8 and ends8E0.
+// The original array point typedef is unproven: the neutral point inherits
+// canonical Coord3D storage. Its empty ctor is a whole3B relocation-free
+// twin of the owned47A6A9 coordinate ctor; the alias adds no unique bytes.
+// Actual C++ bases supply all three vtable stores and two EH cleanup states.
 #include "Coord3D.h"
-
 #include "ascii_string.h"
-
 typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef float Real;
@@ -82,7 +83,7 @@ public:
 	}
 	TextureClass *Ptr;
 };
-BFME2ParticleTextureHandle BFME2LoadParticleTexture(const char *name, int a, int b);
+class TextureAsset {public: static BFME2ParticleTextureHandle Get(const char *name, int a, int b);};
 
 class StreakLineClass
 {
@@ -176,24 +177,30 @@ static inline float StreakFabs(float val)
 
 class GameClientRandomVariable { public:float getValue()const; };
 class WWMath { public:static float Random_Float(); };
-class DefaultModuleHeadBase {public:virtual ~DefaultModuleHeadBase();protected: ::ParticleSystem* m_system;unsigned int storage[3];};
+
+struct Rva00561C34Point:Coord3D { Rva00561C34Point(); };
+class DefaultModuleHeadBase {public:virtual ~DefaultModuleHeadBase();protected: ::ParticleSystem *m_system;unsigned int storage[3];};
 namespace FXParticleSystem {class Rva003AA228Slice {public:virtual void unusedVirtual();};class Rva003AA228:public DefaultModuleHeadBase,public Rva003AA228Slice {public:Rva003AA228(void*,void*);};}
 class ParticleModule005F2CA0:public FXParticleSystem::Rva003AA228 {public:ParticleModule005F2CA0(void*,void*);virtual void moduleSlot();virtual void slot2();virtual void slot3();};
 struct Rva00561C34RandomVariable {unsigned distribution;float minimum,maximum;};
+class RenderInfoClass;
 namespace FXParticleSystem {
 class LightningDrawModuleInfoBase {public:virtual ~LightningDrawModuleInfoBase();};
 class LightningDrawModuleInfo:public LightningDrawModuleInfoBase {public:LightningDrawModuleInfo();virtual ~LightningDrawModuleInfo();virtual const char* GetSnapshotName();virtual void LoadPostProcess();virtual void DoXfer(class Xfer&);Rva00561C34RandomVariable a,b,c;float value;unsigned char flag;};
 class ParticleSystem;template<class T>class TrackingPtr{};
 class LightningDrawModuleTemplate {public:char pad[12];Rva00561C34RandomVariable a,b,c;float value;unsigned char flag;};
-class LightningDrawModule:public ParticleModule005F2CA0,public LightningDrawModuleInfo {public:LightningDrawModule(TrackingPtr<ParticleSystem>&,const LightningDrawModuleTemplate*);virtual ~LightningDrawModule();virtual int doParticles(RenderInfoClass&,void*,int*);private: ::ParticleSystem* getSystem()const{return m_system?m_system:Make001FCBD7();}Vector3 pointsA[3][30];Vector3 pointsB[3][30];int count;struct Vec{float x,y,z;void Set(float a,float b,float c){x=a;y=b;z=c;}void normalize(){((Coord3D*)this)->normalize();}} axisA,axisB,axisC;int tail;};
+class LightningDrawModule:public ParticleModule005F2CA0,public LightningDrawModuleInfo {public:LightningDrawModule(TrackingPtr<ParticleSystem>&,const LightningDrawModuleTemplate*);virtual ~LightningDrawModule();virtual int doParticles(::RenderInfoClass&,void*,int*);private: ::ParticleSystem* getSystem()const{return m_system?m_system:Make001FCBD7();}Rva00561C34Point pointsA[3][30];Rva00561C34Point pointsB[3][30];int count;struct Vec{float x,y,z;void Set(float a,float b,float c){x=a;y=b;z=c;}void normalize(){((Coord3D*)this)->normalize();}} axisA,axisB,axisC;int tail;};
 LightningDrawModule::LightningDrawModule(TrackingPtr<ParticleSystem>& system,const LightningDrawModuleTemplate* source):ParticleModule005F2CA0(&system,(void*)source),LightningDrawModuleInfo(){
  a=source->a;b=source->b;c=source->c;value=source->value;flag=source->flag;
  count=1;axisA.Set(1,0,0);axisB.Set(0,1,0);axisC.Set(0,1,0);tail=0;
 }
 }
 
-Vector3::Vector3() {}
+Rva00561C34Point::Rva00561C34Point() {}
 
+Vector3::Vector3() {}
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
 int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,void* bounds,int* particleCount) {
  if(WW3D::IsCurrentlyRenderingShadowMap)return 0;
  int n=0;
@@ -221,7 +228,7 @@ int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,vo
  }
  }
  if(g_00E0626C && n>=2){
-  BFME2ParticleTextureHandle texture=BFME2LoadParticleTexture(getSystem()->m_textureName.str(),0,0);
+  BFME2ParticleTextureHandle texture=TextureAsset::Get(getSystem()->m_textureName.str(),0,0);
   if(refresh){
    axisA.Set(locs[n-1].X-locs[0].X,locs[n-1].Y-locs[0].Y,locs[n-1].Z-locs[0].Z);axisA.normalize();
    axisC.Set(0,0,1);
@@ -232,35 +239,36 @@ _ReadWriteBarrier();
    axisC.x=axisB.z*axisA.y-axisA.z*axisB.y;
    axisC.y=axisA.z*axisB.x-axisB.z*axisA.x;
    axisC.z=axisA.x*axisB.y-axisB.x*axisA.y;
-   for(int j=0;j<count;j++)for(int i=0;i<n;i++){
+   for(int j=0;j<count;j++){ Rva00561C34Point *out=pointsA[j]; Rva00561C34Point *offset=pointsB[j]; for(int i=0;i<n;i++){
     if(i!=0 && i!=n-1){
      float v0=((GameClientRandomVariable*)&a)->getValue();
      float v1=((GameClientRandomVariable*)&b)->getValue();
      float v2=((GameClientRandomVariable*)&c)->getValue();
-     pointsB[j][i].X=v2*axisA.x+v0*axisB.x+v1*axisC.x;
-     pointsB[j][i].Y=(n ? (v2*axisA.y+v0*axisB.y+v1*axisC.y) : (v2*axisA.y+v0*axisB.y+v1*axisC.y));
-     pointsB[j][i].Z=v2*axisA.z+v0*axisB.z+v1*axisC.z;
-     pointsA[j][i].X=locs[i].X+pointsB[j][i].X;
-     pointsA[j][i].Y=locs[i].Y+pointsB[j][i].Y;
-     pointsA[j][i].Z=locs[i].Z+pointsB[j][i].Z;
+     offset[i].x=v2*axisA.x+v0*axisB.x+v1*axisC.x;
+     offset[i].y=v2*axisA.y+v0*axisB.y+v1*axisC.y;
+     offset[i].z=v2*axisA.z+v0*axisB.z+v1*axisC.z;
+     out[i].x=locs[i].X+offset[i].x;
+     out[i].y=locs[i].Y+offset[i].y;
+     out[i].z=locs[i].Z+offset[i].z;
     }else{
-     pointsB[j][i].X=pointsA[j][i].X=locs[i].X;
-     pointsB[j][i].Y=pointsA[j][i].Y=locs[i].Y;
-     pointsB[j][i].Z=pointsA[j][i].Z=locs[i].Z;
+     offset[i].x=out[i].x=locs[i].X;
+     offset[i].y=out[i].y=locs[i].Y;
+     offset[i].z=out[i].z=locs[i].Z;
     }
    }
-  }else{
-   for(int j=0;j<count;j++)for(int i=0;i<n;i++){
+  }}else{
+   for(int j=0;j<count;j++){ Rva00561C34Point *out=pointsA[j]; Rva00561C34Point *offset=pointsB[j]; for(int i=0;i<n;i++){
     if(i!=0 && i!=n-1){
-     pointsA[j][i].X=pointsB[j][i].X+locs[i].X;
-     pointsA[j][i].Y=pointsB[j][i].Y+locs[i].Y;
-     pointsA[j][i].Z=pointsB[j][i].Z+locs[i].Z;
+     out[i].x=offset[i].x+locs[i].X;
+     out[i].y=offset[i].y+locs[i].Y;
+     out[i].z=offset[i].z+locs[i].Z;
     }else{
-     pointsA[j][i].X=pointsB[j][i].X;
-     pointsA[j][i].Y=pointsB[j][i].Y;
-     pointsA[j][i].Z=pointsB[j][i].Z;
+     out[i].x=offset[i].x;
+     out[i].y=offset[i].y;
+     out[i].z=offset[i].z;
     }
    }
+  }
   }
   g_00E0626C->Set_Texture((TextureClass*)&texture);g_00E0626C->Reset_Line();
   ShaderClass shader=ShaderClass::_PresetAdditiveSpriteShader;

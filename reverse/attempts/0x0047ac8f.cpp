@@ -1,4 +1,6 @@
 // ?rva0047AC8F@AODHordeContain@@UAEPAUCoord3D@@PAU2@PAVObject@@H@Z
+// partial score=0.8600036247786373 date=2026-10-16
+// ?rva0047AC8F@AODHordeContain@@UAEPAUCoord3D@@PAU2@PAVObject@@H@Z
 // partial score=0.865 date=2026-10-14
 // ?rva0047AC8F@AODHordeContain@@UAEPAUCoord3D@@PAU2@PAVObject@@H@Z
 // partial score=0.865 date=2026-10-14
@@ -101,7 +103,7 @@ class Rva001E46E1
  
 }
 ;
-class Locomotor;
+class Locomotor {public:float getMaxSpeed(Object *) const;};
 class AIUpdateInterface
 
 {
@@ -412,7 +414,7 @@ Coord3D *AODHordeContain::rva0047AC8F(Coord3D *out,Object *obj,int word)
  
  {
   Locomotor *loco = me->m_ai->m_curLocomotor;
-  speedRatio = reinterpret_cast<Rva0008BB38FloatField *>(loco)->get() / reinterpret_cast<Rva001E46E1 *>(loco)->rva001E46E1(me);
+  speedRatio = reinterpret_cast<Rva0008BB38FloatField *>(loco)->get() / loco->getMaxSpeed(me);
   
  }
  float t = md->m_284;
