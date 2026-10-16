@@ -24,16 +24,21 @@ public:
 	virtual void f1();
 };
 
+enum UpdateSleepTime { UPDATE_SLEEP_INVALID = 0 };
+
+// The update interface at +0x10: retail's DestroyEnvironmentUpdate table there (0x00C54D58)
+// holds DestroyEnvironmentUpdate::update (rowed) in slot 0.
 class DestroyEnvironmentUpdate_B2
 {
 public:
-	virtual void f2();
+	virtual UpdateSleepTime update() = 0;
 };
 
 class DestroyEnvironmentUpdate : public UpdateModule, public MiBase1, public DestroyEnvironmentUpdate_B2
 {
 public:
 	virtual ~DestroyEnvironmentUpdate();
+	virtual UpdateSleepTime update();
 	void rva004AC722();
 private:
 	char m_pad14[0x0C];

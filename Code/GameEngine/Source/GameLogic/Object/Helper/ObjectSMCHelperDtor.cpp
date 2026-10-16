@@ -55,10 +55,14 @@ public:
 	virtual void f1();
 };
 
+enum UpdateSleepTime { UPDATE_SLEEP_INVALID = 0 };
+
+// The update interface at +0x10: retail's ObjectSMCHelper table there (0x00BFC07C)
+// holds ObjectSMCHelper::update (rowed) in slot 0.
 class Rva004DF7C2_B2
 {
 public:
-	virtual void f2();
+	virtual UpdateSleepTime update() = 0;
 };
 
 class Rva004DF7C2 : public Rva0024A797, public MiBase1, public Rva004DF7C2_B2
@@ -71,6 +75,7 @@ class ObjectSMCHelper : public Rva004DF7C2
 {
 public:
 	virtual ~ObjectSMCHelper();
+	virtual UpdateSleepTime update();
 
 private:
 	unsigned char m_pad14_20[0x20 - 0x14];

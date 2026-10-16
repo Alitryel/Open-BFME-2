@@ -23,10 +23,14 @@ public:
 	virtual void f1();
 };
 
+enum UpdateSleepTime { UPDATE_SLEEP_INVALID = 0 };
+
+// The update interface at +0x10: retail's AIGateUpdate table there
+// (0x00C56474) holds AIGateUpdate::update (rowed) in slot 0.
 class AIGateUpdate_B2
 {
 public:
-	virtual void f2();
+	virtual UpdateSleepTime update() = 0;
 private:
 	int m_14;
 	int m_18;
@@ -56,6 +60,7 @@ class AIGateUpdate : public UpdateModule, public MiBase1, public AIGateUpdate_B2
 {
 public:
 	virtual ~AIGateUpdate();
+	virtual UpdateSleepTime update();
 private:
 	int m_20;
 	int m_24;
