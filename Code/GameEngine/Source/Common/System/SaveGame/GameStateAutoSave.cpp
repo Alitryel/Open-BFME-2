@@ -82,12 +82,11 @@ struct SYSTEMTIME
 UnicodeString Rva002DBFAD(SYSTEMTIME date);	// date text (GetDateFormat)
 UnicodeString Rva002DC081(SYSTEMTIME time, int flags);	// time text (GetTimeFormat)
 
-// Indirect cdecl slot at VA 0x00BBA4EC, called as _wsplitpath(path, 0, 0,
-// fname, 0) with a 256-character name buffer; the slot's own identity is
-// unresolved (see its symbols.csv pin).
-typedef void (__cdecl *Rva007BA4ECProc)(const WideChar *path, WideChar *drive,
+// MSVCR71 _wsplitpath through its import slot at VA 0x00BBA4EC (.rdata+0x4EC):
+// the slot's unbound hint/name entry at RVA 0x00A7429C reads "_wsplitpath",
+// between wcsncpy and wcstok. Called with a 256-character name buffer.
+extern "C" __declspec(dllimport) void __cdecl _wsplitpath(const WideChar *path, WideChar *drive,
 		WideChar *dir, WideChar *fname, WideChar *ext);
-extern "C" Rva007BA4ECProc rva007BA4EC;
 
 // BFME 2 SaveGameInfo (0xDE8 bytes; layout from its copy constructor and
 // xfer in SaveGameInfoCopyBFME2.cpp, where its rows keep the opaque class
@@ -350,7 +349,7 @@ void GameState::populateSaveGameListbox(GameWindow *listbox, GameWindow *autoSav
 			continue;
 
 		WideChar fileName[256];
-		rva007BA4EC(info->filename.str(), 0, 0, fileName, 0);
+		_wsplitpath(info->filename.str(), 0, 0, fileName, 0);
 		UnicodeString displayName(fileName);
 		GameWindow *list = save->isAutoSave == 1 ? autoSaveListbox : listbox;
 		if (!list)

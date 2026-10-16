@@ -12,10 +12,10 @@
 class GameWindow;
 void GadgetTextEntrySetText(GameWindow *textEntry, UnicodeString text);
 
-typedef int (__cdecl *Rva007BA4ECProc)(const unsigned short *source,
-		int sourceOffset, int sourceLength, unsigned short *destination,
-		int flags);
-extern "C" Rva007BA4ECProc rva007BA4EC;
+// MSVCR71 _wsplitpath (import slot VA 0x00BBA4EC; hint/name at RVA 0x00A7429C).
+extern "C" __declspec(dllimport) void __cdecl _wsplitpath(const unsigned short *path,
+		unsigned short *drive, unsigned short *dir, unsigned short *fname,
+		unsigned short *ext);
 
 UnicodeString __cdecl Rva0037D55EGet();
 
@@ -50,7 +50,7 @@ void AptSaveLoad::SetDefaultFileName()
 	{
 		const unsigned short *source = ((UnicodeString *)selected)->str();
 		unsigned short nameBuffer[0x100];
-		rva007BA4EC(source, 0, 0, nameBuffer, 0);
+		_wsplitpath(source, 0, 0, nameBuffer, 0);
 		UnicodeString name(nameBuffer);
 		GadgetTextEntrySetText(m_fileName, name);
 		return;
