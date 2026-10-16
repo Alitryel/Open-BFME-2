@@ -331,3 +331,30 @@ Rva001FD458::Rva001FD458(const Rva001FD458 &that)
 {
 	rva001FD952(that);
 }
+
+// ?rva001E385C@@YAMMMM@Z, retail 0x001E385C..0x001E3896 (58 B): the
+// locomotor slow-down distance helper. cl gives this file-static function a
+// private convention (actual speed in XMM1, minimum speed and braking on the
+// stack, result in XMM0, plain ret); its only retail caller is the unrowed
+// movement update 0x001E6007. Native: no slow-down when the speed is at or
+// below the minimum; otherwise (delta / braking + 1) frames at the average of
+// the two speeds, times 1.05. The BFME 1 Locomotor slow-down formula is the
+// semantic lead; the name stays address-derived.
+__declspec(noinline) static float rva001E385C(float actualSpeed, float minSpeed, float braking)
+{
+	float delta = actualSpeed - minSpeed;
+	if (delta <= 0.0f)
+		return 0.0f;
+	float frames = delta / braking;
+	frames += 1.0f;
+	float avg = delta * 0.5f + minSpeed;
+	return frames * avg * 1.05f;
+}
+
+// The retail caller is not in this unit; this anchor makes cl emit the helper
+// with that private convention.
+// ?rva001E385CAnchor absent-from-retail
+float rva001E385CAnchor(float actualSpeed, float minSpeed, float braking)
+{
+	return rva001E385C(actualSpeed, minSpeed, braking);
+}
