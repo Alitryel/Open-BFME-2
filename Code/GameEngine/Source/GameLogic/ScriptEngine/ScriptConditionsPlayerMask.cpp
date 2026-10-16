@@ -260,3 +260,11 @@ Bool ScriptConditions::evaluatePlayerDestroyedNOrMoreBuildings(
 }
 
 
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   2784201 reads ?getEachPlayerFromMask@PlayerList@@QAEPAVPlayer@@AAH@Z
+#pragma comment(linker, "/alternatename:?getEachPlayerFromMask@PlayerList@@QAEPAVPlayer@@AAG@Z=?getEachPlayerFromMask@PlayerList@@QAEPAVPlayer@@AAH@Z")
+//   3505026 reads ?rva00357B82@ScriptEngine@@QAEHPAVParameter@@@Z
+#pragma comment(linker, "/alternatename:?unidentified_0034DB40@ScriptEngine@@QAEGPAVParameter@@@Z=?rva00357B82@ScriptEngine@@QAEHPAVParameter@@@Z")

@@ -32,3 +32,13 @@ void rva0052B634()
 	((Rva0052B5C6Registration *)&g_Va00E065B8)->rva0052B5C6(AsciiString::TheEmptyString);
 	((Rva0052B5FD *)&g_Va00E065BC)->rva0052B5FD(AsciiString::TheEmptyString);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   5221529 reads ?Rva004FAC99Create@@YGPAVRva004FAC21@@ABV?$StringBase@D@@@Z
+#pragma comment(linker, "/alternatename:?rva004FAC99@Rva004FAC99Registration@@QAEPAXABVAsciiString@@@Z=?Rva004FAC99Create@@YGPAVRva004FAC21@@ABV?$StringBase@D@@@Z")
+//   5420431 reads ?rva0052B58F@@YGPAXPBX@Z
+#pragma comment(linker, "/alternatename:?rva0052B58F@Rva0052B58FRegistration@@QAEPAXABVAsciiString@@@Z=?rva0052B58F@@YGPAXPBX@Z")
+//   5420486 reads ?rva0052B5C6@@YGPAXPBX@Z
+#pragma comment(linker, "/alternatename:?rva0052B5C6@Rva0052B5C6Registration@@QAEPAXABVAsciiString@@@Z=?rva0052B5C6@@YGPAXPBX@Z")

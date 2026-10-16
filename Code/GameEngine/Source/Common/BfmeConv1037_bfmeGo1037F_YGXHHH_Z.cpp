@@ -27,3 +27,11 @@ void HordeContain::rva00468E79(int a, int b, bool c)
 	if (g != 0)
 		g->bfmeDo1037(b, c);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   4812293 reads ?rva00496E05@BannerCarrierUpdate@@QAEXPAX_N@Z
+#pragma comment(linker, "/alternatename:?bfmeDo1037@BfmeG1037@@QAEXH_N@Z=?rva00496E05@BannerCarrierUpdate@@QAEXPAX_N@Z")
+//   4623910 reads ?Rva00468E26Get@@YGPAVModule@@PAVObject@@@Z
+#pragma comment(linker, "/alternatename:?bfmeFind1037F@@YGPAVBfmeG1037@@H@Z=?Rva00468E26Get@@YGPAVModule@@PAVObject@@@Z")

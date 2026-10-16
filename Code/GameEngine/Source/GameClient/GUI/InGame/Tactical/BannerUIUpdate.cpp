@@ -218,3 +218,17 @@ void BannerUI::rva002167A3()
 		m_summaryIndex = (unsigned int)-1;
 	}
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   2186916 reads ?GetStateString@BannerUI@@YAPBDH@Z
+#pragma comment(linker, "/alternatename:?GetStateString@Rva00215EA4BannerState@@SAPBDH@Z=?GetStateString@BannerUI@@YAPBDH@Z")
+//   4217860 reads ?rva00405C04@Rva00405A50@@QAEXPAVBfmeThingGX@@@Z
+#pragma comment(linker, "/alternatename:?bfmeShowDN@ControlBar@@QAEXPAUBfmeMsgDN@@@Z=?rva00405C04@Rva00405A50@@QAEXPAVBfmeThingGX@@@Z")
+//   2347125 reads ?rva0023D075@GameLogic@@QAEHH@Z
+#pragma comment(linker, "/alternatename:?rva0023D075@GameLogicFwd@@QAEHH@Z=?rva0023D075@GameLogic@@QAEHH@Z")
+//   2347158 reads ?rva0023D096@GameLogic@@QAEMH@Z
+#pragma comment(linker, "/alternatename:?rva0023D096@GameLogicFwd@@QAEMH@Z=?rva0023D096@GameLogic@@QAEMH@Z")
+//   2347180 reads ?rva0023D0AC@GameLogic@@QAEHH@Z
+#pragma comment(linker, "/alternatename:?rva0023D0AC@GameLogicFwd@@QAEHH@Z=?rva0023D0AC@GameLogic@@QAEHH@Z")
