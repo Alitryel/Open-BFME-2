@@ -49,6 +49,6 @@ W3DTankDrawModuleData::W3DTankDrawModuleData()
 	// Body assignments (not mem-inits) keep the global-float loads as
 	// movss pairs exactly as retail.
 	m_treadAnimationRate = 0.0f;
-	m_treadPivotSpeedFraction = *reinterpret_cast<volatile const float *>(0x00BC4DD0);
-	m_treadDriveSpeedFraction = *reinterpret_cast<volatile const float *>(0x00BCCB3C);
+	m_treadPivotSpeedFraction = 0.6f;
+	m_treadDriveSpeedFraction = 0.3f;
 }
