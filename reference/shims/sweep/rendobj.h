@@ -591,8 +591,11 @@ public:
 	virtual void					Set_Collision_Type(int type)												{ Bits &= ~COLL_TYPE_MASK; Bits |= (type & COLL_TYPE_MASK) | COLL_TYPE_ALL; }
    virtual bool					Is_Complete(void)																{ return false; }
 	virtual bool					Is_In_Scene(void)																{ return Scene != NULL; }
-	virtual float					Get_Native_Screen_Size(void) const										{ return NativeScreenSize; }
-	virtual void					Set_Native_Screen_Size(float screensize)								{ NativeScreenSize = screensize; }
+	// BFME: retail's RenderObjClass vtable has no native-screen-size slots
+	// (Is_In_Scene at slot 123 is followed by Create_Decal), as in the
+	// bfme2renderobj shim; non-virtual and declared only.
+	float								Get_Native_Screen_Size(void) const;
+	void								Set_Native_Screen_Size(float screensize);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Render Object Interface - Decals
@@ -672,29 +675,36 @@ protected:
 	char								_bfme_pre_transform_pad[4];
 	Matrix3D							Transform;
  	float						ObjectScale;					//user applied scaling factor inside Transform matrix.
-	unsigned int				ObjectColor;					//user applied coloring to the asset/prototype used to make this robj. - For Generals -MW
 	mutable SphereClass			CachedBoundingSphere;
 	mutable AABoxClass			CachedBoundingBox;
-	float								NativeScreenSize;		// The screen size at which the object was designed to be viewed (used in texture resizing).
+	// BFME offsets from retail RenderObjClass accessors (bfme2renderobj agrees):
+	// Get_Bounding_Sphere 0x0006D028 / Get_Bounding_Box 0x0006D03E return
+	// this+0x4C / +0x5C, Is_In_Scene 0x0006D01F tests Scene@0x78,
+	// Get/Set_User_Data 0x0030C8A7 / 0x0006CEB2 use User_Data@0x80, Set_Visible
+	// 0x0013B710 stores its token at 0x88. Retail has no ObjectColor before the
+	// sphere; NativeScreenSize@0x84 (retail slots 70/71 get/set a float there)
+	// and ObjectColor@0xA0 (in the former tail pad) are inferred placements.
 	mutable bool					IsTransformIdentity;
 
 	SceneClass *					Scene;
 	RenderObjClass *				Container;
 	void *							User_Data;
+	float								NativeScreenSize;		// The screen size at which the object was designed to be viewed (used in texture resizing).
+	unsigned long					_bfme_unk_88;			// scene token stored by retail Set_Visible (0x0013B710)
 
-	// BFME: retail has four members between User_Data@0x88 and RenderHook@0x9C —
-	// the 0x8C and 0x98 float-pair targets above, plus 0x90 (written by retail
-	// Set_Visible) and 0x94.  RenderHook@0x9C is pinned by the retail dtor.
+	// BFME: retail members between the Set_Visible token@0x88 and RenderHook@0x9C:
+	// the 0x8C and 0x98 float-pair targets above, plus 0x90 and 0x94.  RenderHook@0x9C is pinned by the retail dtor.
 	float								_bfme_unk_8c;
 	unsigned long					_bfme_unk_90;
 	unsigned long					_bfme_unk_94;
 	float								_bfme_unk_98;
 
 	RenderHookClass *				RenderHook;
+	unsigned int				ObjectColor;					//user applied coloring to the asset/prototype used to make this robj. - For Generals -MW
 
-	// End pad keeps sizeof(RenderObjClass) stable at 0xC8 (validated for Camera
-	// FrustumValid@0x100 on the sweep-shim path).
-	char								_bfme_base_pad[0x24];
+	// End pad keeps sizeof(RenderObjClass) at 0xC4 (Camera FrustumValid@0x100
+	// on the sweep-shim path).
+	char								_bfme_base_pad[0x20];
 
 	friend class SceneClass;
 	friend class RenderObjProxyClass;
