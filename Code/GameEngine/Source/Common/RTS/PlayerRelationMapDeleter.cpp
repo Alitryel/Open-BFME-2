@@ -22,6 +22,10 @@ public:
 	PlayerRelationMap(EmitVtableTag *);
 protected:
 	virtual ~PlayerRelationMap();
+public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
 };
 
 // ?<PlayerRelationMap::PlayerRelationMap> absent-from-retail

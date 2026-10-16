@@ -34,6 +34,10 @@ private:
 	int m_10;
 	int m_14;
 	int m_18;
+public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
 };
 
 class Rva003B0152 : public Rva003B00D6

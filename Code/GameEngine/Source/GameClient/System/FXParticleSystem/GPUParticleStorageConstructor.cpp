@@ -39,7 +39,11 @@ class Rva003B0412{public:__declspec(noinline)Rva003B0412();_STL::vector<Rva003B0
 class Rva003B0433{public:__declspec(noinline)Rva003B0433();_STL::vector<const ModuleData*>c;_STL::greater<int>comp;__declspec(noinline) void rva003B0433(const ModuleData*&);};Rva003B0433::Rva003B0433(){}
 class BfmeDynamicNativeVB{public:BfmeDynamicNativeVB(unsigned,unsigned short,unsigned,unsigned);char data[32];};
 class VertexBufferClass{public:class WriteLockClass{public:WriteLockClass(VertexBufferClass*,int);~WriteLockClass();void*VertexBuffer;void*Vertices;int extra;void*Get_Vertex_Array(){return Vertices;}};};
-class Rva003B0344:public Rva003B00D6{public:Rva003B0344(const RvaSmartPtr12&);virtual ~Rva003B0344();BfmeDynamicNativeVB*vb;unsigned vertices;Rva003B0412 expiry;Rva003B0433 slots;};
+class Rva003B0344:public Rva003B00D6{public:Rva003B0344(const RvaSmartPtr12&);virtual ~Rva003B0344();BfmeDynamicNativeVB*vb;unsigned vertices;Rva003B0412 expiry;Rva003B0433 slots;public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
+};
 Rva003B0344::Rva003B0344(const RvaSmartPtr12 &src) : Rva003B00D6(src)
 {
     DX8ThreadLock thread;

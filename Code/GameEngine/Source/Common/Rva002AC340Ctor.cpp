@@ -17,6 +17,10 @@ protected:
 private:
 	int m_int;
 	_STL::vector<BfmeE16> m_vec;
+public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
 };
 
 Rva002AC340::Rva002AC340() : m_int(0), m_vec()

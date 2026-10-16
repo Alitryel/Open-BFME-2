@@ -39,6 +39,8 @@ private:
 	_STL::vector<BfmeObject476> m_vec;
 	Rva00072FE6 m_set;
 	int m_state24;
+public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
 };
 
 inline PlayerTemplateStore::~PlayerTemplateStore()

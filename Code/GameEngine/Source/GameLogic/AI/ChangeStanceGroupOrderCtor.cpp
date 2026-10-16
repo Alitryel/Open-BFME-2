@@ -33,6 +33,10 @@ public:
 
 private:
 	int m_stance;
+public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
 };
 
 ChangeStanceGroupOrder::ChangeStanceGroupOrder()

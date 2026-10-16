@@ -71,6 +71,10 @@ struct Rva00382FA7 : public EmptyBase
 	IntBlock4 m_cc;
 
 	Rva00382FA7(const Rva00382FA7 &other);
+public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
 };
 
 Rva00382FA7::Rva00382FA7(const Rva00382FA7 &other)

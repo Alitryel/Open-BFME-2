@@ -6,6 +6,10 @@
 struct EmitVtableTag;
 
 // ??_GRespawnUpdateModuleData@@UAEPAXI@Z @0x004AFBE3 present-unmatched
-class RespawnUpdateModuleData { public: RespawnUpdateModuleData(EmitVtableTag *); virtual ~RespawnUpdateModuleData(); };
+class RespawnUpdateModuleData { public: RespawnUpdateModuleData(EmitVtableTag *); virtual ~RespawnUpdateModuleData(); public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
+};
 // ?<RespawnUpdateModuleData::RespawnUpdateModuleData> absent-from-retail
 RespawnUpdateModuleData::RespawnUpdateModuleData(EmitVtableTag *) {}

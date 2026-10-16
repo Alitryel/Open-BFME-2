@@ -53,6 +53,10 @@ private:
     _STL::vector<BfmePod44, _STL::allocator<BfmePod44> > m_vec1C;
     int m_28;
     int m_2C;
+public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
 };
 
 // ??0Rva004147CF@@QAE@ABV0@@Z @0x004147CF

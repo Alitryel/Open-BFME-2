@@ -22,6 +22,10 @@ public:
 	TeamRelationMap(EmitVtableTag *);
 protected:
 	virtual ~TeamRelationMap();
+public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
 };
 
 // ?<TeamRelationMap::TeamRelationMap> absent-from-retail

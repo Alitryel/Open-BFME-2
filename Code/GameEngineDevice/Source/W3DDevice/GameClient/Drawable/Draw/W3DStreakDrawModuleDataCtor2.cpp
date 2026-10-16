@@ -53,6 +53,10 @@ private:
 	int m_numSegments;	// +0x20 NumSegments
 	AsciiString m_texture;	// +0x24 Texture
 	_STL::vector<BfmeE16> m_weatherTexture;	// +0x28 WeatherTexture
+public:
+	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
 };
 
 W3DStreakDrawModuleData::W3DStreakDrawModuleData()
