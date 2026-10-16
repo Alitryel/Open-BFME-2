@@ -75,3 +75,11 @@ StealthDetectorUpdate::StealthDetectorUpdate(Thing *thing, const ModuleData *mod
 		wake = UPDATE_SLEEP_FOREVER;
 	setWakeFrame(*(Object **)((char *)this + 8), (UpdateSleepTime)wake);
 }
+
+// ??1StealthDetectorUpdate@@UAE@XZ @0x004A2BD1: vftable 0x00851FC0 slot 0 is its deleting dtor
+// 0x004A2D2D (formerly the placeholder Rva004A2BD1 in Rva0024A797Derived.cpp).
+StealthDetectorUpdate::~StealthDetectorUpdate()
+{
+	m_p0C = &s_dummy0C;
+	m_p10 = &s_dummy10;
+}
