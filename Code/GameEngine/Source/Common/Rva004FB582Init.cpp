@@ -3,13 +3,14 @@
 // 0x004FB582 (126B): channel-driven init. One-time init of the channel
 // object at 0x00E04508 (its first byte is the done flag), three channel
 // queries off the target's +0x14 field into +0x0C/+0x10/+0x14, then a
-// by-value slot call on each of the +0x68/+0x74/+0x80 subobjects. All
-// seven callees are pinned, not recovered; identities unproven.
+// by-value slot call on each of the +0x68/+0x74/+0x80 subobjects. The
+// channel init is GatherWorldInformation; three callees are pinned.
 
-class Rva0050366B
+// 0x0050366B is rowed as LWAIWorldInformation::GatherWorldInformation.
+class LWAIWorldInformation
 {
 public:
-	void rva0050366B();
+	void GatherWorldInformation();
 };
 
 class Rva00501DF1
@@ -30,38 +31,45 @@ public:
 	int rva00501844(int v);
 };
 
-struct Rva004FB582Slot
+// The three slot calls are range erases (begin, end) of the rowed vectors
+// at 0x003FA4DB, 0x002BF70F and 0x005B129F.
+struct BfmePod8;
+struct BfmePod16;
+struct Rva005B09D8Record;
+namespace _STL
 {
-	int m_a;	// +0x00
-	int m_b;	// +0x04
-};
-
-class Rva003FA4DB
-{
-public:
-	void rva003FA4DB(Rva004FB582Slot v);
-
-public:
-	Rva004FB582Slot m_slot;	// +0x00
-};
-
-class Rva002BF70F
+template <class _Tp> class allocator;
+template <class _Tp, class _Alloc> class vector;
+template <>
+class vector<BfmePod8, allocator<BfmePod8> >
 {
 public:
-	void rva002BF70F(Rva004FB582Slot v);
-
-public:
-	Rva004FB582Slot m_slot;	// +0x00
+	BfmePod8 *erase(BfmePod8 *first, BfmePod8 *last);
+	void clear() { erase(_M_start, _M_finish); }
+	BfmePod8 *_M_start;
+	BfmePod8 *_M_finish;
 };
-
-class Rva005B129F
+template <>
+class vector<BfmePod16, allocator<BfmePod16> >
 {
 public:
-	void rva005B129F(Rva004FB582Slot v);
-
-public:
-	Rva004FB582Slot m_slot;	// +0x00
+	BfmePod16 *erase(BfmePod16 *first, BfmePod16 *last);
+	void clear() { erase(_M_start, _M_finish); }
+	BfmePod16 *_M_start;
+	BfmePod16 *_M_finish;
 };
+}
+class Rva005B129FVector
+{
+public:
+	Rva005B09D8Record *erase(Rva005B09D8Record *first, Rva005B09D8Record *last);
+	void clear() { erase(_M_start, _M_finish); }
+	Rva005B09D8Record *_M_start;
+	Rva005B09D8Record *_M_finish;
+};
+typedef _STL::vector<BfmePod8, _STL::allocator<BfmePod8> > Rva003FA4DB;
+typedef _STL::vector<BfmePod16, _STL::allocator<BfmePod16> > Rva002BF70F;
+typedef Rva005B129FVector Rva005B129F;
 
 struct Rva00E04508Channel
 {
@@ -101,7 +109,7 @@ void Rva004FB582Owner::rva004FB582()
 	Rva00E04508Channel *channel = (Rva00E04508Channel *)&g_Va00E04508;
 	if (!channel->m_initialized)
 	{
-		((Rva0050366B *)channel)->rva0050366B();
+		((LWAIWorldInformation *)channel)->GatherWorldInformation();
 		channel->m_initialized = 1;
 	}
 	if (m_00)
@@ -110,9 +118,9 @@ void Rva004FB582Owner::rva004FB582()
 		m_10 = ((Rva00501813 *)channel)->rva00501813(m_00->val14);
 		m_14 = ((Rva00501844 *)channel)->rva00501844(m_00->val14);
 	}
-	m_68.rva003FA4DB(m_68.m_slot);
-	m_74.rva002BF70F(m_74.m_slot);
-	m_80.rva005B129F(m_80.m_slot);
+	m_68.clear();
+	m_74.clear();
+	m_80.clear();
 }
 
 // 0x004FB8A8 (124B): re-runs the channel init unconditionally, then for each
@@ -159,13 +167,13 @@ public:
 
 void rva004FB8A8()
 {
-	((Rva0050366B *)&g_Va00E04508)->rva0050366B();
+	((LWAIWorldInformation *)&g_Va00E04508)->GatherWorldInformation();
 	for (int i = 0; i < ((Rva004FB8A8Players *)TheLivingWorldLogic)->m_players.size(); ++i)
 	{
 		Rva004FB8A8Slots *slots = (Rva004FB8A8Slots *)((char *)((Rva002BA8F1Logic *)TheLivingWorldLogic)->rva002B52A8(i) + 0x4C);
 		slots->m_04 = 0;
-		slots->m_80.rva005B129F(slots->m_80.m_slot);
-		slots->m_68.rva003FA4DB(slots->m_68.m_slot);
-		slots->m_74.rva002BF70F(slots->m_74.m_slot);
+		slots->m_80.clear();
+		slots->m_68.clear();
+		slots->m_74.clear();
 	}
 }

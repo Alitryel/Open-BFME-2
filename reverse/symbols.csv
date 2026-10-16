@@ -13101,10 +13101,6 @@ _D3DXCreateEffectFromFileA@32,0x0062AFAA,callee of ?Load@Impl@FXShaderAsset@@QAE
 ??0Rva003AF8C7@@QAE@ABV0@@Z,0x003AF8C7,intermediate copy ctor for derived copy 0x003AF89A: REL32 at 0x003AF8A1
 ?rva002ADC03@Player@@QAEXPAVRva004B5A65Owner@@H@Z,0x002ADC03,Player worker called by secondary apply 0x004B5A65 (and primary 0x004B5AC0); remove path with owner and target int
 ?rva002B3325@Rva002B3325@@QAE_NPAUArg54@@0@Z,0x002B3325,bool check on the 0x00DFEF10 global taking sub-view plus element field; same 2-arg shape as rowed 0x002B2672; called from 0x004FAE34 per 0x58-stride element
-?rva0050366B@Rva0050366B@@QAEXXZ,0x0050366B,channel one-time init callee of 0x004FB582 read from REL32 at 0x004FB596; no-arg thiscall on the 0x00E04508 channel object
-?rva003FA4DB@Rva003FA4DB@@QAEXURva004FB582Slot@@@Z,0x003FA4DB,by-value slot callee of 0x004FB582 (+0x68 subobject) read from REL32 at 0x004FB5DB; address holds rowed vector erases (ICF shared body)
-?rva002BF70F@Rva002BF70F@@QAEXURva004FB582Slot@@@Z,0x002BF70F,by-value slot callee of 0x004FB582 (+0x74 subobject) read from REL32 at 0x004FB5E8; address holds rowed vector erases (ICF shared body)
-?rva005B129F@Rva005B129F@@QAEXURva004FB582Slot@@@Z,0x005B129F,by-value slot callee of 0x004FB582 (+0x80 subobject) read from REL32 at 0x004FB5F8
 ?rva005048B5@Rva005048B5@@QAEXPBX@Z,0x005048B5,address-arg thiscall callee of 0x00504DF8 (+0x08 subobject) read from REL32 at 0x00504E10
 ?rva0050492F@Rva0050492F@@QAEXPAVRva00504DF8Owner@@@Z,0x0050492F,owner-temp thiscall callee of 0x00504E38 read from REL32 at 0x00504E52
 ??0SpawnArmy@@QAE@H@Z,0x004E30D5,SpawnArmy int-ctor: vtable 0x861F28 store plus member zeroing; 0x004FA9B1 builds its SpawnArmy temp (rowed dtor 0x004E3184) through this ctor pushing one int 0
