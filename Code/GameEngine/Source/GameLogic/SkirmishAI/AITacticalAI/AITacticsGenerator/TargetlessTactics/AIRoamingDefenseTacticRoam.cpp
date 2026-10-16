@@ -1,12 +1,17 @@
-// ?roam@AIRoamingDefenseTactic@@QAEXPAVObject@@@Z
-// partial score=0.985 date=2026-10-15
-// ?roam@AIRoamingDefenseTactic@@QAEXPAVObject@@@Z
-// partial score=0.94 date=2026-10-14
-// ?roam@AIRoamingDefenseTactic@@QAEXPAVObject@@@Z
-// partial score=0.9401 date=2026-10-13
-// ?roam@AIRoamingDefenseTactic@@QAEXPAVObject@@@Z
-// partial score=0.9401215346010823 date=2026-10-10
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /I. /ICode/Libraries/Include /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+//
+// AIRoamingDefenseTactic::roam (retail 0x005AAE3F..0x005AB085, 582 B).
+// WB 0x151CEE0 carries the name (AIRoamingDefenseTactic.cpp:164/186 random
+// calls). With live targets near the owner's centre (distance^2 < 810000)
+// the object is sent to a random one; otherwise it is sent 400 units from the
+// first bit-4 building, rotated by a random 0..6 angle.
+//
+// Evidence (target): native body and its rowed callees (player-AI lookup
+// 0x002A8F24/0x002A8AB1, centre 0x004EBF4B, ID-set fields 0x005C4AD1,
+// GameLogic::findObjectByID, the AI command 0x00295A0F). Vector3::Rotate_Z is
+// spelled as the WB twin shows (s = sinf(angle), c = cosf(angle) as two
+// statements, then the X-first two-argument rotate). Field and helper names
+// stay address-derived where the original is unknown.
 // stlport
 #include <stdlib.h>
 namespace _STL {void __cdecl free(void *); }
@@ -16,7 +21,7 @@ namespace _STL {void __cdecl free(void *); }
 
 #include <functional>
 #include "Lib/Coord3D.h"
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 namespace _STL {
  template<class T>struct hash;
@@ -35,15 +40,14 @@ struct RoamAI {char pad[0x20];Rva00295A0FCommands commands;};
 struct RoamObjectTemplate{char pad[0x120];unsigned int bits;};
 class Object{public:char pad0[4];RoamObjectTemplate *objectTemplate;char pad8[0x38-8];Coord3D position;char pad44[0x258-0x44];RoamAI *ai;};
 int GetGameLogicRandomValue(int,int,char *,int);
-extern "C" double __cdecl sin(double);
-extern "C" double __cdecl cos(double);
+#include <math.h>
 // Arithmetic follows Zero Hour WWMath vector3.h; WB independently names
 // Vector3 Distance2/Length2/Rotate_Z in the target caller.
 struct RoamVector3 {
  float X,Y,Z;
  __forceinline RoamVector3(float x,float y,float z):X(x),Y(y),Z(z){}
  __forceinline float length2()const{return X*X+Y*Y+Z*Z;}
- __forceinline void rotate(float angle){float s=(float)sin((double)angle);float c=(float)cos((double)angle);rotate(s,c);}
+ __forceinline void rotate(float angle){float s=sinf(angle);float c=cosf(angle);rotate(s,c);}
  __forceinline void rotate(float s_angle,float c_angle){float tmp_x=X;float tmp_y=Y;X=c_angle*tmp_x-s_angle*tmp_y;Y=s_angle*tmp_x+c_angle*tmp_y;}
  __forceinline RoamVector3 &operator*=(float k){X=X*k;Y=Y*k;Z=Z*k;return *this;}
  __forceinline void scale(float f){X*=f;Y*=f;Z*=f;}
