@@ -171,7 +171,22 @@ public:
 	virtual Bool queueUpgrade(const UpgradeTemplate *upgrade);	// +0x0C
 };
 
-class Object
+class BfmeObjectVirtualTail { public: unsigned char m_vt[4]; };
+class BfmeObjectVbptrCarrier : public virtual BfmeObjectVirtualTail {
+public: unsigned char m_carrier[4];
+};
+class BfmeObjectVtbl { public: virtual void bfmeObjectSlot0(); };
+class Object;
+class BfmeObjectDlinkBase {
+public:
+    Object *dlink_next_TeamMemberList() const;
+protected:
+    const ThingTemplate *m_template;
+    unsigned char m_pad08[0x38-0x08];
+    Coord3D m_position;
+    unsigned char m_pad44[0x68-0x44];
+};
+class Object : public BfmeObjectVtbl, public BfmeObjectDlinkBase, public BfmeObjectVbptrCarrier
 {
 public:
 	bool isKindOfStructure() const { return (m_template->m_kindOf[0] & 0x80) != 0; }
@@ -194,11 +209,7 @@ protected:
 	Module *findModule(NameKeyType key) const;
 	friend class AIPlayer;
 private:
-	void *m_vptr;
-	const ThingTemplate *m_template;	// +0x04
-	unsigned char m_pad08[0x38 - 0x08];
-	Coord3D m_position;			// +0x38
-	unsigned char m_pad44[0x8C - 0x44];
+	unsigned char m_pad70[0x8C - 0x70];
 	Object *m_next;				// +0x8C
 	unsigned char m_pad90[0xB8 - 0x90];
 	float m_boundingCircleRadius;		// +0xB8
@@ -241,16 +252,16 @@ private:
 	GetNextFunc m_getNextFunc;
 };
 
-template <>
-class DLINK_ITERATOR<Object>
-{
+template <> class DLINK_ITERATOR<Object> {
 public:
-	void advance();				// 0x00263526
-	Bool done() const { return m_cur == 0; }
-	Object *cur() const { return m_cur; }
+    typedef Object *(Object::*GetNextFunc)() const;
+    DLINK_ITERATOR(Object *cur, GetNextFunc next):m_cur(cur),m_getNextFunc(next) {}
+    void advance();
+    bool done() const { return m_cur == 0; }
+    Object *cur() const { return m_cur; }
 private:
-	Object *m_cur;
-	unsigned char m_targetAbiState[20];
+    Object *m_cur;
+    GetNextFunc m_getNextFunc;
 };
 
 class MemoryPoolObject
@@ -360,7 +371,7 @@ public:
 extern TerrainLogic *TheTerrainLogic;
 
 extern "C" __declspec(dllimport) double __cdecl ceil(double);
-extern "C" double __cdecl sqrt(double);
+#include <math.h>
 
 __forceinline long fast_float2long_round(Real f)
 {
@@ -633,14 +644,10 @@ void AIPlayer::checkForSupplyCenter(BuildListInfo *info, Object *bldg)
 	}
 }
 
-// ?getPlayerSuperweaponValue@AIPlayer@@KAHPAUCoord3D@@HM@Z present-unmatched
-// 0x004F1256, 386 bytes; this body compiles to 410. Its logic and frame match
-// retail, but the aircraft KindOf test ahead of isSignificantlyAboveTerrain
-// makes VC7.1 keep &pObj->m_template in esi and rotate the member loop. The
-// near miss is banked in reverse/attempts/0x004f1256.cpp. The body stays here
-// because computeSuperweaponTarget (0x004F1D38) matches only when it can see
-// that this callee keeps no copy of the position address: that is what lets
-// VC7.1 hoist the pos.x and pos.z stores out of the inner grid loop.
+// 0x004F1256: sqrt comes from <math.h>, so the float overload rounds the
+// distance as retail does (fdivp before the next member load). The iterator
+// providers stay visible noinline below: computeSuperweaponTarget (0x004F1D38)
+// matches only when it sees this callee keep no copy of the position address.
 Int AIPlayer::getPlayerSuperweaponValue(Coord3D *searchCenter, Int playerIndex, Real searchRadius)
 {
 	if (searchRadius < 4 * 10.0f)
@@ -1102,4 +1109,12 @@ void AIPlayer::buildUpgrade(const AsciiString &upgrade)
 	msg.concat(upgrade);
 	reinterpret_cast<StringBase<char> *>(&msg)->concat(" at this time.  Ignoring request.");
 	TheScriptEngine->AppendDebugMessage(msg, false);
+}
+
+inline __declspec(noinline) void DLINK_ITERATOR<Object>::advance() {
+    if (m_cur) m_cur=(m_cur->*m_getNextFunc)();
+}
+
+inline __declspec(noinline) DLINK_ITERATOR<Object> Team::iterate_TeamMemberList() const {
+    return DLINK_ITERATOR<Object>(*(Object *const *)((const char *)this+0x38), &Object::dlink_next_TeamMemberList);
 }
