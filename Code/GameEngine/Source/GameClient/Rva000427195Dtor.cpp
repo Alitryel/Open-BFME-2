@@ -86,3 +86,78 @@ Rva002CFF2D::~Rva002CFF2D()
 {
 	((Rva000427195 *)this)->rva003A2A41();
 }
+
+// ??1Rva001F8D70Map@@QAE@XZ @0x001F8D70 57B: byte-identical to ~Rva000427195 above except its own EH handler
+// (formerly the alias dup_001f8d70); its callers bind it through a pin by this name.
+struct Rva001F8D70Map
+{
+	~Rva001F8D70Map();
+	void *m_unused00;
+	Rva000427195BucketHandle m_buckets;
+	unsigned int m_numElements;
+};
+
+Rva001F8D70Map::~Rva001F8D70Map()
+{
+	((Rva000427195 *)this)->rva003A2A41();
+}
+
+// ??1Rva00242E71@@QAE@XZ @0x00242E71 57B: byte-identical to ~Rva000427195 above except its own EH handler
+// (formerly the alias dup_00242e71); its callers bind it through a pin by this name.
+struct Rva00242E71
+{
+	~Rva00242E71();
+	void *m_unused00;
+	Rva000427195BucketHandle m_buckets;
+	unsigned int m_numElements;
+};
+
+Rva00242E71::~Rva00242E71()
+{
+	((Rva000427195 *)this)->rva003A2A41();
+}
+
+// ??1Rva002BB281Member08@@QAE@XZ @0x002BAD1C 57B: byte-identical to ~Rva000427195 above except its own EH handler
+// (formerly the alias dup_002bad1c); its callers bind it through a pin by this name.
+struct Rva002BB281Member08
+{
+	~Rva002BB281Member08();
+	void *m_unused00;
+	Rva000427195BucketHandle m_buckets;
+	unsigned int m_numElements;
+};
+
+Rva002BB281Member08::~Rva002BB281Member08()
+{
+	((Rva000427195 *)this)->rva003A2A41();
+}
+
+// ??1Rva0031C79DMap@@QAE@XZ @0x0031C79D 57B: byte-identical to ~Rva000427195 above except its own EH handler
+// (formerly the alias dup_0031c79d); its callers bind it through a pin by this name.
+struct Rva0031C79DMap
+{
+	~Rva0031C79DMap();
+	void *m_unused00;
+	Rva000427195BucketHandle m_buckets;
+	unsigned int m_numElements;
+};
+
+Rva0031C79DMap::~Rva0031C79DMap()
+{
+	((Rva000427195 *)this)->rva003A2A41();
+}
+
+// ??1Rva002129DD@@QAE@XZ @0x002129DD 57B: byte-identical to ~Rva000427195 above except its own EH handler
+// (formerly the alias dup_002129dd); its callers bind it through a pin by this name.
+struct Rva002129DD
+{
+	~Rva002129DD();
+	void *m_unused00;
+	Rva000427195BucketHandle m_buckets;
+	unsigned int m_numElements;
+};
+
+Rva002129DD::~Rva002129DD()
+{
+	((Rva000427195 *)this)->rva003A2A41();
+}

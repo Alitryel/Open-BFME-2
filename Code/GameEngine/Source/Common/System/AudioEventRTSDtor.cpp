@@ -28,3 +28,31 @@ public:
 Shadow::ShadowTypeInfo::~ShadowTypeInfo()
 {
 }
+
+// ??1Rva0030AF8FAudioEventRTS@@QAE@XZ @0x0030AF8F 53B: byte-identical to ~ShadowTypeInfo above except its own EH handler
+// (formerly the alias dup_0030af8f); its callers bind it through a pin by this name.
+struct Rva0030AF8FAudioEventRTS
+{
+	~Rva0030AF8FAudioEventRTS();
+
+	AsciiString m_first;
+	AsciiString m_second;
+};
+
+Rva0030AF8FAudioEventRTS::~Rva0030AF8FAudioEventRTS()
+{
+}
+
+// ??1Rva0046AA69Record@@QAE@XZ @0x00469DCE 53B: byte-identical to ~ShadowTypeInfo above except its own EH handler
+// (formerly the alias dup_00469dce); its callers bind it through a pin by this name.
+struct Rva0046AA69Record
+{
+	~Rva0046AA69Record();
+
+	AsciiString m_first;
+	AsciiString m_second;
+};
+
+Rva0046AA69Record::~Rva0046AA69Record()
+{
+}

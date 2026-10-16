@@ -160,3 +160,16 @@ std::auto_ptr<BfmeThingGX> Rva00405B60::clone()
 	std::auto_ptr<BfmeThingGX> copy(new Rva00405B60(*this));
 	return copy;
 }
+
+// ??4Rva000AD6F4@@QAEAAV0@U?$auto_ptr@VBfmeThingGX@@@_STL@@@Z @0x00405AC9 65B: takes ownership
+// from the by-value auto_ptr, then runs the previous object's slot-0 teardown with flag 0 and
+// frees what it returns; byte-identical to Rva0042C1F9::rva0042C1F9 (0x0042C1F9) except its own
+// EH handler (formerly the alias dup_00405ac9).
+struct Rva00405AC9Slot0 { virtual void *slot0(int flags); };
+Rva000AD6F4 &Rva000AD6F4::operator=(std::auto_ptr<BfmeThingGX> ptr)
+{
+	BfmeThingGX *old = m_ptr;
+	m_ptr = ptr.release();
+	::operator delete(old ? ((Rva00405AC9Slot0 *)old)->slot0(0) : 0);
+	return *this;
+}
