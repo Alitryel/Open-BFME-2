@@ -15459,3 +15459,4 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?b_0031c79d@@YAXXZ,0x0031C79D,gen-thunk body
 ?b_004d9fb9@@YAXXZ,0x004D9FB9,gen-thunk body
 ?rva005424C4@XmlNameSlotList@@QAEHXZ,0x005424C4,XmlNameSlotList element scanner tail-jumped to by finish 0x00542890 at 0x005428FD (REL32 read from retail); native 5424C4..5426DB unrowed; address-derived name
+?rva000F83FA@Rva007DB820@@QAEXPAVDynamicIBAccessClass@@HPAVDynamicVBAccessClass@@HHHMMMMPAVCoord2D@@@Z,0x000F83FA,REL32 read at 0x000F94BC in the byte-verified postRender 0x000F88E8 (grid helper; body banked)

@@ -1,17 +1,20 @@
-// ?postRender@Rva007DB820@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z
-// partial score=0.999 date=2026-10-16
-// ?postRender@Rva007DB820@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z
-// Retail 0x000F88E8..0x000F9989 (4257 B, RET 0x10), postRender of the sibling
-// filter Rva007DB820 (shutdown F884C, set F9989 rowed). Intended home: this
-// whole unit as ScreenFilterRva007DB820PostRender.cpp. Compiles BYTE-EXACT with
-// exact EH; blocked only on its unrowed grid callee 0xF83FA (identical to
-// 0xF6DB0 modulo addresses, same nd5 loop-tail residue). Levers beyond the
-// 0xF7187 ones: function-local static glow flag (m_58 > 1), FVF 0x444 draw,
-// and explicit scrollY/spread/scrollX locals declared in that order before
-// the UV loop (declaration order decides both the xmm coloring and cl's
-// association of u*2 + scrollX + spread).
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include
-#include <math.h>
+//
+// ?postRender@Rva007DB820@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z,
+// retail 0x000F88E8..0x000F9989 (4257 bytes, thiscall ret 0x10): slot 3 of
+// the Rva007DB820 filter vtable, whose shutdown 0x000F884C and set 0x000F9989
+// are rowed in Rva007DB820FilterShutdown.cpp. Same shape as the twin
+// filter's postRender 0x000F7187.
+//
+// It sets the mode, runs one or two glow passes, drifts the scroll and spread
+// offsets, draws a first-pass quad over the tactical view, then has the grid
+// helper 0x000F83FA (pinned; its body is banked) fill a 10x10 dynamic grid and
+// draws that with the second-pass shader while the draw strength is positive.
+//
+// Levers: the glow flag is a function-local static (m_58 > 1), and scrollY,
+// spread and scrollX are locals declared in that order before the UV loop
+// (declaration order decides both the xmm coloring and cl's association of
+// u*2 + scrollX + spread).
 #include <string.h>
 #include "Lib/Coord2D.h"
 #include "Lib/RGBColor.h"
@@ -208,26 +211,8 @@ class DynamicIBAccessClass
 public:
 	DynamicIBAccessClass(unsigned short type, unsigned short index_count);
 	~DynamicIBAccessClass();
-	class WriteLockClass
-	{
-	public:
-		WriteLockClass(DynamicIBAccessClass *ib_access);
-		~WriteLockClass();
-		unsigned short *Get_Index_Array() { return Indices; }
-	private:
-		DynamicIBAccessClass *DynamicIBAccess;
-		unsigned short *Indices;
-		int m_08;
-	};
 private:
 	char m_storage[0x0C];
-};
-
-struct VertexFormatXYZRHWDUV4
-{
-	float x, y, z, rhw;
-	unsigned diffuse;
-	float u0, v0, u1, v1, u2, v2, u3, v3;
 };
 
 class DynamicVBAccessClass
@@ -235,28 +220,13 @@ class DynamicVBAccessClass
 public:
 	DynamicVBAccessClass(unsigned type, unsigned fvf, unsigned short vertex_count, unsigned declaration);
 	~DynamicVBAccessClass();
-	class WriteLock
-	{
-	public:
-		WriteLock(DynamicVBAccessClass *vb_access);
-		~WriteLock();
-		VertexFormatXYZRHWDUV4 *Get_Formatted_Vertex_Array() { return Vertices; }
-	private:
-		DynamicVBAccessClass *DynamicVBAccess;
-		VertexFormatXYZRHWDUV4 *Vertices;
-		int m_08;
-	};
 private:
 	char m_storage[0x18];
 };
 
-struct GridSettings { char m_pad00[0x54]; float m_scale; };
 int Rva00309E65Get(void);
 
 extern float g_Va00DB457C;
-static float GridPhase0, GridPhase1;
-static float GridWave0Amplitude = 0.2f, GridWave0Frequency = 12.566370964f, GridWave0Phase = 2.0f;
-static float GridWave1Amplitude = 0.5f, GridWave1Frequency = 12.566370964f, GridWave1Phase = 2.0f;
 
 // The filter settings record returned by 0x309E7F (VA 0x00DBD918).
 struct Rva007DB820Settings
@@ -311,52 +281,6 @@ private:
 	IDirect3DSurface8 *m_50;	// +0x50
 };
 
-void Rva007DB820::rva000F83FA(DynamicIBAccessClass *ib, int a, DynamicVBAccessClass *vb, int b, int columns, int rows,
-	float left, float top, float width, float height, Coord2D *dims)
-{
-	++columns; ++rows;
-	float scale = g_Va00DB457C * 0.0125f;
-	if (scale > 6.0f) scale = 6.0f;
-	if (scale < 0.6f) scale = 0.6f;
-	float amplitude = scale * ((GridSettings *)Rva00309E65Get())->m_scale;
-	{
-		DynamicIBAccessClass::WriteLockClass lock(ib);
-		unsigned short *p = lock.Get_Index_Array();
-		for (int y = 0; y < rows - 1; ++y) {
-			for (int x = 0; x < columns - 1; ++x) {
-				p[0] = y * columns + x; p[1] = (y + 1) * columns + x + 1; p[2] = (y + 1) * columns + x;
-				p[3] = y * columns + x; p[4] = y * columns + x + 1; p[5] = (y + 1) * columns + x + 1;
-				p += 6;
-			}
-		}
-	}
-	GridPhase0 += 0.05f; GridPhase1 += 0.05f;
-	{
-		DynamicVBAccessClass::WriteLock lock(vb);
-		VertexFormatXYZRHWDUV4 *p = lock.Get_Formatted_Vertex_Array();
-		float invRows = 1.0f / (rows - 1);
-		float invColumns = 1.0f / (columns - 1);
-		for (int y = 0; y < rows; ++y) {
-			float fy = y * invRows;
-			float screenY = (fy * height + top) - 0.5f;
-			for (int x = 0; x < columns; ++x, ++p) {
-				float fx = x * invColumns;
-				p->x = fx * width + left - 0.5f; p->y = screenY; p->z = 0; p->rhw = 1; p->diffuse = 0x64ffffff;
-				p->u0 = (fx * width + left) / dims->x; p->v0 = (fy * height + top) / dims->y;
-				p->u1 = fx * amplitude * 2 + m_scrollX; p->v1 = fy * amplitude + m_scrollY;
-				float u1 = p->u1; float v1 = p->v1;
-				p->v2 = v1 + m_spread; p->u2 = u1 - m_spread; p->u1 += m_spread;
-				p->u3 = (0.5f - 0.5f * sin((fx + fy) * GridWave0Frequency + GridPhase0 * GridWave0Phase)) * GridWave0Amplitude;
-				float wave = (0.5f - 0.5f * sin((fx + fy) * GridWave1Frequency + GridPhase1 * GridWave1Phase)) * GridWave1Amplitude;
-				p->v3 = 0;
-				p->u1 += wave; p->u2 += wave;
-			}
-		}
-	}
-}
-
-// Retail 0x000F7187..0x000F816E (4071 B, thiscall RET 0x10): slot 3 of the
-// Rva007DB820 filter vtable.
 Bool Rva007DB820::postRender(FilterModes mode, Coord2D &scrollDelta, Bool &doExtraRender, Coord2D *displaySize)
 {
 	DX8Wrapper::Set_Render_Target(0, true);
