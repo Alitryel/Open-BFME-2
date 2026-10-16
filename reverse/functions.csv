@@ -17513,8 +17513,6 @@ uw_0075f2dc,,0x0075F2DC,11,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;obj
 uw_0075f2f1,,0x0075F2F1,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L5801
 uw_0075f321,,0x0075F321,8,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L3350
 uw_0075f33d,,0x0075F33D,8,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2235
-uw_0075f34f,,0x0075F34F,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4620
-uw_0075f357,,0x0075F357,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4593
 uw_0075f369,,0x0075F369,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4791
 uw_0075f374,,0x0075F374,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4782
 uw_0075f37f,,0x0075F37F,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4773
@@ -18457,8 +18455,6 @@ uw_00764655,,0x00764655,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;obje
 uw_0076465d,,0x0076465D,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4083
 uw_00764675,,0x00764675,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4083
 uw_0076467d,,0x0076467D,8,Code/gen_small/uw_gen_006.cpp,matched,gen-funclet;object-symbol=$L4083
-uw_0076468f,,0x0076468F,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5920
-uw_0076469a,,0x0076469A,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L5659
 uw_007646af,,0x007646AF,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
 uw_007646da,,0x007646DA,8,Code/gen_small/uw_gen_003.cpp,matched,gen-funclet;object-symbol=$L305
 uw_007646e2,,0x007646E2,8,Code/gen_small/uw_gen_002.cpp,matched,gen-funclet;object-symbol=$L293
@@ -18878,12 +18874,8 @@ uw_00768af5,,0x00768AF5,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;obje
 uw_00768afd,,0x00768AFD,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4521
 uw_00768b05,,0x00768B05,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4521
 uw_00768b0d,,0x00768B0D,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4521
-uw_00768b15,,0x00768B15,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6525
-uw_00768b1d,,0x00768B1D,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L793
 uw_00768b25,,0x00768B25,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4539
-uw_00768b35,,0x00768B35,8,Code/gen_small/uw_gen_004.cpp,matched,gen-funclet;object-symbol=$L793
 uw_00768b3d,,0x00768B3D,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4521
-uw_00768b45,,0x00768B45,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4539
 uw_00768b4d,,0x00768B4D,8,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L4440
 uw_00768e80,,0x00768E80,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L6263
 uw_00768ec0,,0x00768EC0,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L6263
@@ -94432,3 +94424,15 @@ $L35207,,0x007664EE,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,match
 $L35241,,0x007664F9,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
 $L35275,,0x00766504,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
 $L35382,,0x0076650F,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+uw_00768b15,,0x00768B15,8,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescFXShaderConversion.cpp,matched,gen-funclet;parent=?rva00199FFB@Rva00199FFB@@SA_NPAVMeshMatDescClass@@PAVMeshModelClass@@@Z;object-symbol=$L5655; verified parent EH graph places this unwind cleanup here
+uw_00768b1d,,0x00768B1D,8,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescFXShaderConversion.cpp,matched,gen-funclet;parent=?rva00199FFB@Rva00199FFB@@SA_NPAVMeshMatDescClass@@PAVMeshModelClass@@@Z;object-symbol=$L5656; verified parent EH graph places this unwind cleanup here
+uw_00768b35,,0x00768B35,8,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescFXShaderConversion.cpp,matched,gen-funclet;parent=?rva00199FFB@Rva00199FFB@@SA_NPAVMeshMatDescClass@@PAVMeshModelClass@@@Z;object-symbol=$L5659; verified parent EH graph places this unwind cleanup here
+uw_00768b45,,0x00768B45,8,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescFXShaderConversion.cpp,matched,gen-funclet;parent=?rva00199FFB@Rva00199FFB@@SA_NPAVMeshMatDescClass@@PAVMeshModelClass@@@Z;object-symbol=$L5662; verified parent EH graph places this unwind cleanup here
+uw_0076468f,,0x0076468F,11,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowDecalHelpers.cpp,matched,gen-funclet;parent=?queueDualDecal@W3DProjectedShadowManager@@QAEXPAVW3DDualProjectedShadow@@@Z;object-symbol=$L4687; verified parent EH graph places this unwind cleanup here
+uw_0076469a,,0x0076469A,11,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowDecalHelpers.cpp,matched,gen-funclet;parent=?queueDualDecal@W3DProjectedShadowManager@@QAEXPAVW3DDualProjectedShadow@@@Z;object-symbol=$L4688; verified parent EH graph places this unwind cleanup here
+uw_0075f34f,,0x0075F34F,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowMapConvexHull.cpp,matched,gen-funclet;parent=?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z;object-symbol=$L8818; verified parent EH graph places this unwind cleanup here
+uw_0075f357,,0x0075F357,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowMapConvexHull.cpp,matched,gen-funclet;parent=?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z;object-symbol=$L8819; verified parent EH graph places this unwind cleanup here
+$L5638,,0x00768AA5,8,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescFXShaderConversion.cpp,matched,gen-funclet;parent=?rva00199FFB@Rva00199FFB@@SA_NPAVMeshMatDescClass@@PAVMeshModelClass@@@Z; verified parent EH graph places this unwind cleanup here
+$L5658,,0x00768B2D,8,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescFXShaderConversion.cpp,matched,gen-funclet;parent=?rva00199FFB@Rva00199FFB@@SA_NPAVMeshMatDescClass@@PAVMeshModelClass@@@Z; verified parent EH graph places this unwind cleanup here
+__ehhandler$?rva00199FFB@Rva00199FFB@@SA_NPAVMeshMatDescClass@@PAVMeshModelClass@@@Z,,0x00768B55,10,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescFXShaderConversion.cpp,matched,Compiler-emitted C++ EH handler of the rowed parent 0x00199FFB
+__ehhandler$?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z,,0x0075F35F,10,Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowMapConvexHull.cpp,matched,Compiler-emitted C++ EH handler of the rowed parent 0x0007C637
