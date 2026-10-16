@@ -265,7 +265,6 @@ TextureClass *ground=NULL;
 #define V_COUNT  (4*4)	//4 vertices per cell
 #define I_COUNT  (4*6)	//6 indices per cell
 #define TILE_HEIGHT	10.1f
-#define TILE_DIFFUSE 0x00b4b0a5
 
 enum BlendDirection
 {	B_A,	//visible on all sides
