@@ -38,8 +38,9 @@ class char_traits
 template <class _CharT, class _Traits>
 class basic_ios
 {
+protected:
+	basic_ios(); // STLport's protected default ctor (rowed ??0...IAE@XZ)
 public:
-	basic_ios();
 	virtual ~basic_ios();
 };
 
