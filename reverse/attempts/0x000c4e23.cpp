@@ -1,5 +1,9 @@
 // ?setModelState@W3DScriptedModelDraw@@QAE_NPBUModelConditionInfo@@_NPAX@Z
 // partial score=0.96 date=2026-10-16
+// ?setModelState@W3DScriptedModelDraw@@QAE_NPBUModelConditionInfo@@_NPAX@Z
+// partial score=0.96 date=2026-10-16
+// ?setModelState@W3DScriptedModelDraw@@QAE_NPBUModelConditionInfo@@_NPAX@Z
+// partial score=0.96 date=2026-10-16
 // W9-O1 bank r2: W3DScriptedModelDraw::setModelState 0xC4E23 (3553 B): 3550 B, nn 40/1110, EH table EXACT, all callees
 // resolve (rename row 0xB22B3 Rva000B22B3StateView::rva000B22B3 to bool QBE_NXZ when landing; caller tests AL).
 // Host: W3DScriptedModelDrawTurretNames.cpp (turretNamesDiffer private EDI/EBX ABI) replacing its source-only caller.
