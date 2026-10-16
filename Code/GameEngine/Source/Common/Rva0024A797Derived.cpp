@@ -463,13 +463,13 @@ public:
 	virtual void f2();
 };
 
-class Rva004B89C4 : public UpdateModule, public MiBase1, public Rva004B89C4_B2
+class OathbreakersFadeAwayBehavior : public UpdateModule, public MiBase1, public Rva004B89C4_B2
 {
 public:
-	virtual ~Rva004B89C4();
+	virtual ~OathbreakersFadeAwayBehavior();
 };
 
-Rva004B89C4::~Rva004B89C4()
+OathbreakersFadeAwayBehavior::~OathbreakersFadeAwayBehavior()
 {
 }
 

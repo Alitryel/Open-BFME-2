@@ -1,8 +1,8 @@
 // cl: /MD
 //
-// ?xfer@Rva004B89C4@@MAEXPAVXfer@@@Z, retail 0x004B8A28, 81 bytes. Virtual
+// ?xfer@OathbreakersFadeAwayBehavior@@MAEXPAVXfer@@@Z, retail 0x004B8A28, 81 bytes. Virtual
 // slot 3 (offset 0x0C) of vtable 0x0085928C (class of rowed dtor
-// ??1Rva004B89C4@@UAE@XZ in Rva0024A797Derived.cpp): Version(1,3) via Xfer
+// ??1OathbreakersFadeAwayBehavior@@UAE@XZ in Rva0024A797Derived.cpp): Version(1,3) via Xfer
 // slot 0x28 then version-gated base UpdateModule xfer via rowed 0x44DF9F
 // (min>=2) then version-gated float at +0x24 via Xfer slot 0x70 (min>=3)
 // then bool at +0x20 via Xfer slot 0x90. Layout is UpdateModule base 0x20
@@ -122,7 +122,7 @@ private:
 	int m_updateState;
 };
 
-class Rva004B89C4 : public UpdateModule
+class OathbreakersFadeAwayBehavior : public UpdateModule
 {
 protected:
 	virtual void xfer(Xfer *xfer);
@@ -132,7 +132,7 @@ private:
 	float m_24;
 };
 
-void Rva004B89C4::xfer(Xfer *xfer)
+void OathbreakersFadeAwayBehavior::xfer(Xfer *xfer)
 {
 	Xfer::Version version(1, 3);
 	*xfer == version;

@@ -1,10 +1,10 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //
-// The update slots of the module whose destructor is rowed as Rva004B89C4
+// The update slots of the module whose destructor is rowed as OathbreakersFadeAwayBehavior
 // (Rva0024A797Derived.cpp; xfer 0x004B8A28 gives the bool at +0x20 and the
 // float at +0x24). Address-derived names; this view emits no vtables.
 //
-// ?update@Rva004B89C4@@UAE?AW4UpdateSleepTime@@XZ, retail 0x004B8B41
+// ?update@OathbreakersFadeAwayBehavior@@UAE?AW4UpdateSleepTime@@XZ, retail 0x004B8B41
 // (205 bytes): slot 0 of the +0x10 update table 0x00859280, so `this` is the
 // module +0x10. For an Object of kind 0xD7 the first update runs the rowed
 // 0x004B8B0F (AI command 0x31, unselectable) and marks it done; then the
@@ -15,7 +15,7 @@
 // destroyed; otherwise the fraction is copied to the drawable's +0xB0. Either
 // way it tail-calls the sleep helper below.
 //
-// ?rva004B8AE1@Rva004B89C4@@QAE?AW4UpdateSleepTime@@XZ, retail 0x004B8AE1
+// ?rva004B8AE1@OathbreakersFadeAwayBehavior@@QAE?AW4UpdateSleepTime@@XZ, retail 0x004B8AE1
 // (46 bytes): sleep forever once the Object is effectively dead (+0x438 bit
 // 0), every frame while it is of kind 0xD7, else one logic second
 // (BfmeLogicFramesPerSecond frames).
@@ -129,7 +129,7 @@ public:
 	virtual UpdateSleepTime update() = 0;
 };
 
-class Rva004B89C4 : public Rva004B89C4Primary, public Rva004B89C4Mi1, public Rva004B89C4UpdateIface
+class OathbreakersFadeAwayBehavior : public Rva004B89C4Primary, public Rva004B89C4Mi1, public Rva004B89C4UpdateIface
 {
 public:
 	virtual UpdateSleepTime update();
@@ -140,7 +140,7 @@ private:
 	Real m_fraction;	// +0x24
 };
 
-UpdateSleepTime Rva004B89C4::rva004B8AE1()
+UpdateSleepTime OathbreakersFadeAwayBehavior::rva004B8AE1()
 {
 	if (m_object->m_privateStatus & 1)
 		return UPDATE_SLEEP_FOREVER;
@@ -149,7 +149,7 @@ UpdateSleepTime Rva004B89C4::rva004B8AE1()
 	return (UpdateSleepTime)BfmeLogicFramesPerSecond;
 }
 
-UpdateSleepTime Rva004B89C4::update()
+UpdateSleepTime OathbreakersFadeAwayBehavior::update()
 {
 	const Rva004B89C4ModuleData *data = m_moduleData;
 	Object *obj = m_object;
