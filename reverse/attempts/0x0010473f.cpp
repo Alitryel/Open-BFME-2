@@ -1,4 +1,12 @@
 // ?rva0010473F@Rva001040D5@@QAEXHHHH@Z
+// partial score=0.97 date=2026-10-16
+// ?rva0010473F@Rva001040D5@@QAEXHHHH@Z
+// W9-O2 (2026-10-16): size-exact 535 B, nd 8 (was 49): frame 0x40 exact once the matrix, the display
+// scale and the viewport corners each sit in their own { } block (retail packs scale/low/high and the
+// Rotate_X s/c locals into the 16 bytes above the matrix). Residue: Rotate_X's first fld -pi/2 and the
+// fst c are scheduled one slot earlier than retail (the two leading _ReadWriteBarrier() calls are still
+// needed for the rest), and retail's scale float/int-temp homes are -0xC/-4 where ours are -4/-0xC.
+// ?rva0010473F@Rva001040D5@@QAEXHHHH@Z
 // partial score=0.878 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -65,7 +73,7 @@ class Rva001040D5 {public:void rva0010473F(int x,int y,int width,int height);pri
 void Rva001040D5::rva0010473F(int x,int y,int width,int height){if(active){
 	_ReadWriteBarrier();
 	_ReadWriteBarrier();
- Matrix3D transform(true);transform.Rotate_X(-1.5707963705062866f);transform.Translate_Z(g_cameraDistance);camera->Set_Transform(transform);
- Vector2 scale(0,0);scale.Y=(float)TheDisplay->getHeight();scale.X=(float)TheDisplay->getWidth();float iw=1.0f/scale.X,ih=1.0f/scale.Y;Vector2 low((float)x*iw,(float)y*ih);Vector2 high((float)width*iw+low.X,(float)height*ih+low.Y);
- camera->Set_Viewport(low,high);camera->Set_View_Plane(0.87266463f,-1.0f);Rva00118660Call(render,camera);
+ {Matrix3D transform(true);transform.Rotate_X(-1.5707963705062866f);transform.Translate_Z(g_cameraDistance);camera->Set_Transform(transform);}
+ float iw,ih;{Vector2 scale(0,0);scale.Y=(float)TheDisplay->getHeight();scale.X=(float)TheDisplay->getWidth();iw=1.0f/scale.X;ih=1.0f/scale.Y;}{Vector2 low((float)x*iw,(float)y*ih);Vector2 high((float)width*iw+low.X,(float)height*ih+low.Y);
+ camera->Set_Viewport(low,high);}camera->Set_View_Plane(0.87266463f,-1.0f);Rva00118660Call(render,camera);
 }}
