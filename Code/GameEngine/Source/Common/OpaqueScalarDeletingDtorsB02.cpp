@@ -193,16 +193,20 @@ class Rva003ABC0BBase1C
 public:
 	virtual ~Rva003ABC0BBase1C();
 };
-class Rva003ABC0B : public Rva003ABC0BBase0, public Rva003ABC0BBase1C
+// FXParticleSystem::Rva005FEA50Base (dtor 0x003ABC0B; ctor 0x003A5856
+// installs these two tables).
+namespace FXParticleSystem {
+class Rva005FEA50Base : public Rva003ABC0BBase0, public Rva003ABC0BBase1C
 {
 public:
-	Rva003ABC0B(EmitVtableTag *);
+	Rva005FEA50Base(EmitVtableTag *);
 public:
-	virtual ~Rva003ABC0B();
+	virtual ~Rva005FEA50Base();
 };
+}
 
-// ?<Rva003ABC0B::Rva003ABC0B> absent-from-retail
-Rva003ABC0B::Rva003ABC0B(EmitVtableTag *)
+// ?<FXParticleSystem::Rva005FEA50Base::Rva005FEA50Base> absent-from-retail
+FXParticleSystem::Rva005FEA50Base::Rva005FEA50Base(EmitVtableTag *)
 {
 }
 
