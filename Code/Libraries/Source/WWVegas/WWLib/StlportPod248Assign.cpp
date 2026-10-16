@@ -90,15 +90,11 @@ public:
 
 
 namespace _STL {
-template <> void _Destroy<Rva000BB491 *>(Rva000BB491 *first, Rva000BB491 *last) {
- for (; first != last; ++first) first->~Rva000BB491();
-}
+template <> void _Destroy<Rva000BB491 *>(Rva000BB491 *first, Rva000BB491 *last);
 }
 
 namespace _STL {
-template <> void _Destroy<Rva000BB4AC *>(Rva000BB4AC *first, Rva000BB4AC *last) {
- for (; first != last; ++first) first->~Rva000BB4AC();
-}
+template <> void _Destroy<Rva000BB4AC *>(Rva000BB4AC *first, Rva000BB4AC *last);
 }
 
 struct BfmePod248

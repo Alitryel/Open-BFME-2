@@ -1,4 +1,6 @@
-// cl: /MD
+// cl: /MD /D_STLP_USE_STATIC_LIB
+// stlport
+#include <memory>
 //
 // ??0Rva000BB491@@QAE@ABV0@@Z retail 0x000BB491 27B
 // Derived copy constructor over the rowed Rva000B9074 base at +0 via its
@@ -18,7 +20,8 @@ class StringBase
 	Header *m_data;
 
 	StringBase(const StringBase &o);
-	~StringBase();
+	void releaseBuffer();
+	~StringBase() { releaseBuffer(); }
 	friend class Rva000B9074;
 };
 
@@ -51,4 +54,7 @@ Rva000BB491::Rva000BB491(const Rva000BB491 &o)
 }
 
 // Native copy layout above and25B rangeBDD08 bind this string-only lifetime.
-Rva000BB491::~Rva000BB491() {}
+__declspec(noinline) inline Rva000BB491::~Rva000BB491() {}
+
+// Native typed range teardown requires the real element destructor out of line.
+template void _STL::_Destroy<Rva000BB491 *>(Rva000BB491 *, Rva000BB491 *);

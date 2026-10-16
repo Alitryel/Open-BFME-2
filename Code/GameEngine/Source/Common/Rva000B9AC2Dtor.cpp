@@ -1,4 +1,6 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHs
+// cl: /Ireference/shims/bfme2_ascii /O1 /MD /EHs /D_STLP_USE_STATIC_LIB
+// stlport
+#include <memory>
 //
 // ??1Rva00B9AC2@@QAE@XZ, retail 0x000B9AC2, 61B, under the name its 3
 // matched callers use. Target evidence: when the +0x14 pointer is set, the
@@ -63,8 +65,11 @@ public: Rva000BB4AC(const Rva000BB4AC &); ~Rva000BB4AC();
 private: Rva000BB4ACRef *m_ptr14;
 };
 typedef char Pod248RefRecordSize[sizeof(Rva000BB4AC)==24?1:-1];
-Rva000BB4AC::~Rva000BB4AC()
+__declspec(noinline) inline Rva000BB4AC::~Rva000BB4AC()
 {
  if (m_ptr14)
   ReleaseTreeHintRef00217D4C(reinterpret_cast<TargetRef00217D4C *>(reinterpret_cast<char *>(m_ptr14)+0x28));
 }
+
+// Native typed range teardown requires the real element destructor out of line.
+template void _STL::_Destroy<Rva000BB4AC *>(Rva000BB4AC *, Rva000BB4AC *);
