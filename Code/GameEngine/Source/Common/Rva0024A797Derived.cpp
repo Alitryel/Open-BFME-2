@@ -313,22 +313,6 @@ DemoTrapUpdate::~DemoTrapUpdate()
 {
 }
 
-class Rva0049669A_B2
-{
-public:
-	virtual void f2();
-};
-
-class Rva0049669A : public UpdateModule, public MiBase1, public Rva0049669A_B2
-{
-public:
-	virtual ~Rva0049669A();
-};
-
-Rva0049669A::~Rva0049669A()
-{
-}
-
 class Rva004969FF_B2
 {
 public:

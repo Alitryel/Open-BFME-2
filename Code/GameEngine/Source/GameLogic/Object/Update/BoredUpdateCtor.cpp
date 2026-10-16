@@ -65,3 +65,11 @@ BoredUpdate::BoredUpdate(Thing *thing, const ModuleData *moduleData)
 	m_scanTimer = 0;
 	m_scanTimer += GetGameLogicRandomValue(0, owner->m_maxScanDistance, const_cast<char *>(s_boredUpdateFile), 70);
 }
+
+// ??1BoredUpdate@@UAE@XZ @0x0049669A: vftable 0x0084F55C slot 0 is its deleting dtor
+// 0x004967F3 (formerly the placeholder Rva0049669A in Rva0024A797Derived.cpp).
+BoredUpdate::~BoredUpdate()
+{
+	m_p0C = &s_dummy0C;
+	m_p10 = &s_dummy10;
+}
