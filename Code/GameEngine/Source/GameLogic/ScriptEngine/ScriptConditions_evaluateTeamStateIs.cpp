@@ -1523,17 +1523,22 @@ bool ScriptConditions::evaluateTeamReachedWaypointsEnd(Parameter *pTeamParm, Par
 	return anyAtEnd;
 }
 
-class TransportStatus
+// Zero Hour's TransportStatus node. Its out-of-line destructor and scalar
+// deleting destructor are rowed under the address name Rva003E3C39
+// (0x003E3C39 / 0x003E54F7, vtable 0x00835B34), so the class carries that name
+// here and links to those rows; TransportStatus stays the source spelling.
+class Rva003E3C39
 {
 public:
-	TransportStatus *m_nextStatus;
+	Rva003E3C39 *m_nextStatus;
 	ObjectID m_objID;
 	unsigned int m_frameNumber;
 	int m_unitCount;
 public:
-	TransportStatus() : m_objID(INVALID_OBJECT_ID), m_frameNumber(0), m_unitCount(0), m_nextStatus(NULL) {}
-	virtual ~TransportStatus();
+	Rva003E3C39() : m_objID(INVALID_OBJECT_ID), m_frameNumber(0), m_unitCount(0), m_nextStatus(NULL) {}
+	virtual ~Rva003E3C39();
 };
+typedef Rva003E3C39 TransportStatus;
 
 static TransportStatus *s_transportStatuses;
 
