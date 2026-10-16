@@ -55,6 +55,10 @@ class BfmeLexEAN
 {
 public:
 	char *getTailEAN();
+
+private:
+	char m_pad00[0x1C];
+	char *m_tail;
 };
 
 // One event handler: key / Lua function name / single-step flag (12 bytes).
@@ -211,4 +215,13 @@ void LuaScriptEngine::ProcessEventList(BfmeLexEAN *parser)
 		}
 	}
 	m_eventLists.push_back(record);
+}
+
+// ?getTailEAN@BfmeLexEAN@@QAEPADXZ
+// retail 0x0030F2C7 (4 bytes): the shared this+0x1C dword getter, ICF-folded
+// with the rowed NetWrapperCommandMsg::getData; defined out of line here so the
+// unit links the spelling its caller uses.
+__declspec(noinline) char *BfmeLexEAN::getTailEAN()
+{
+	return m_tail;
 }

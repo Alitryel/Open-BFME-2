@@ -94,7 +94,10 @@ extern unsigned g_Va00DEBE24;
 extern unsigned g_Va00DF94D0;
 extern unsigned g_Va00DF94B0;
 extern unsigned g_Va00DF708C;
-extern unsigned g_Va00E01E08;
+// VA 0x00E01E08: the 16-byte Rva00346BC0 record rva007AEBB7 constructs at
+// static-init time; defined here, its initializer's unit, so the burning-death
+// state (AIBurningDeathStateUpdate.cpp) that passes it on resolves it.
+unsigned g_Va00E01E08;
 extern unsigned g_Va00E02D64;
 // The two GameSpy rank-weight tables this unit's arg-ctor bodies build and the
 // default rank table beside them. Retail's storage for all three is the zero
