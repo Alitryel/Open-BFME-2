@@ -25,6 +25,18 @@ public:
 	unsigned int m_bfmeField10;
 };
 
+extern "C" int __cdecl printf(const char *format, ...);
+
+// Retail 0x006587B0 (13 bytes, int3-bracketed): overwrites its first stack
+// argument with the "%s" literal (0x00BBE494) and tail-jumps to the printf
+// import thunk 0x00629B14, i.e. printf("%s", text) for a (context, text)
+// callback. Its only reference is the +4 store of the constructor below.
+// Address-derived name: the owning library and callback type are unproven.
+void Rva006587B0Print(void *context, const char *text)
+{
+	printf("%s", text);
+}
+
 // Retail 0x006587C0 installs the same vftable address as the matched
 // BfmeThingTQD::bfmeDelTQD at 0x006587E0. That destructor reads +0xC and frees
 // a 0x14-byte object, independently supporting this class and the field
@@ -37,7 +49,7 @@ public:
 BfmeThingTQD::BfmeThingTQD()
 {
 	m_bfmeVft = &vftable_01129D30;
-	m_bfmeField4 = reinterpret_cast<void *>(0x00A587B0);
+	m_bfmeField4 = reinterpret_cast<void *>(&Rva006587B0Print);
 	m_bfmeField8 = 0;
 	m_bfmeItem = 0;
 	m_bfmeField10 = 0;

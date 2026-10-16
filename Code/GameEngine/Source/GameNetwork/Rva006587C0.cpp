@@ -3,6 +3,11 @@
 // Retail establishes these fields and values directly; the owning class
 // remains unidentified, so this uses an address-derived layout view.
 
+// The vftable at VA 0x00CE157C and the 13-byte printf("%s") callback at
+// 0x006587B0 are the globals the matched rows already name.
+extern int vftable_01129D30;
+void Rva006587B0Print(void *context, const char *text);
+
 struct Rva006587C0View
 {
 	void *m_vtable;
@@ -14,8 +19,8 @@ struct Rva006587C0View
 
 Rva006587C0View::Rva006587C0View()
 {
-	m_vtable = reinterpret_cast<void *>( 0x00CE157C );
-	m_callback = reinterpret_cast<void (*)(void)>( 0x00A587B0 );
+	m_vtable = &vftable_01129D30;
+	m_callback = reinterpret_cast<void (*)(void)>( &Rva006587B0Print );
 	m_fields[ 0 ] = 0;
 	m_fields[ 1 ] = 0;
 	m_fields[ 2 ] = 0;
