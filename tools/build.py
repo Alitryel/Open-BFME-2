@@ -2312,7 +2312,10 @@ def funclet_eh_locations(path, mtime, size, parent, ledger_path, ledger_mtime, l
     if len(parents) != 1 or is_funclet_row(parents[0], ledger_object_symbol(parents[0])):
         return {}
     obj = funclet_eh_object(path, mtime, size)
-    if parent not in obj.by_name:
+    # Existing ledger aliases keep their logical name in parent=, while both
+    # the body proof and the EH graph must use the actual emitted symbol.
+    parent_symbol = ledger_object_symbol(parents[0])
+    if parent_symbol not in obj.by_name:
         return {}
     symbol_map = funclet_parent_symbol_map(ledger_path, ledger_mtime, ledger_size,
                                            pin_path, pin_mtime, pin_size)
@@ -2320,7 +2323,7 @@ def funclet_eh_locations(path, mtime, size, parent, ledger_path, ledger_mtime, l
     if patch["masked"] or patch["unresolved"] or patch["bytes"] != patch["target"]:
         return {}
     return eh_verify.verified_funclet_locations(
-        funclet_retail_image(), obj, parent, int(parents[0]["target_rva"], 16))
+        funclet_retail_image(), obj, parent_symbol, int(parents[0]["target_rva"], 16))
 
 
 def located_funclet(row, output, target):

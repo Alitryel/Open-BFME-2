@@ -324,3 +324,50 @@ def test_bare_label_cannot_borrow_another_sources_parent(tmp_path, monkeypatch):
     monkeypatch.setattr(build, "funclet_eh_locations", forbidden)
     with pytest.raises(SystemExit, match="exact same-source parent EH location"):
         build.compile_function(local_row(), {}, obj)
+
+
+@pytest.fixture
+def aliased_parent_graph(tmp_path, monkeypatch):
+    """A real COFF parent whose old ledger spelling is not its emitted name."""
+    from test_eh_verify import FUNC, OURS, Retail, obj
+
+    compiled = obj(tmp_path, OURS)
+    compiled.symbols[99] = {"name": "$L123", "section": 2, "value": 10, "storage": 3}
+    image = Retail(OURS)
+    parent = {"name": PARENT, "target_rva": hex(FUNC), "target_size": "6",
+              "source": "Code/x.cpp", "status": "matched", "notes": "object-symbol=_f"}
+    parents = [parent]
+    monkeypatch.setattr(build, "funclet_parent_rows", lambda *_: {PARENT: parents})
+    monkeypatch.setattr(build, "funclet_eh_object", lambda *_: compiled)
+    monkeypatch.setattr(build, "funclet_retail_image", lambda: image)
+    monkeypatch.setattr(build, "funclet_parent_symbol_map", lambda *_: {})
+    monkeypatch.setattr(build, "read_target_bytes", lambda rva, size: image.bytes[rva:rva + size])
+    build.funclet_eh_locations.cache_clear()
+    return compiled, image, parents, tmp_path / "t.obj"
+
+
+def alias_locations(path):
+    return build.funclet_eh_locations(str(path), 1, 1, PARENT,
+                                      "ledger", 1, 1, "pins", 1, 1)
+
+
+def test_existing_parent_object_alias_supplies_exact_eh_identity(aliased_parent_graph):
+    from test_eh_verify import THUNK
+
+    assert alias_locations(aliased_parent_graph[3]) == {"$L123": THUNK + 10}
+
+
+@pytest.mark.parametrize("damage", ["body", "eh", "missing", "duplicate"])
+def test_parent_alias_still_requires_exact_unique_parent(aliased_parent_graph, damage):
+    from test_eh_verify import FUNC, FUNCINFO
+
+    _, image, parents, path = aliased_parent_graph
+    if damage in ("body", "eh"):
+        data = bytearray(image.bytes)
+        data[FUNC + 5 if damage == "body" else FUNCINFO + 4] ^= 1
+        image.bytes = bytes(data)
+    elif damage == "missing":
+        parents[0]["notes"] = "object-symbol=_absent"
+    else:
+        parents.append(dict(parents[0]))
+    assert alias_locations(path) == {}
