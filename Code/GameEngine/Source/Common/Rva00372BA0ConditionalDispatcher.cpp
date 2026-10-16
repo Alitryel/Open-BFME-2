@@ -6,34 +6,27 @@
 //   ?Rva00372BA0ConditionalDispatcher@@YAXPAX0_N@Z 0x00397CEB (31B)
 // Callee addresses are read off retail call sites (reverse/symbols.csv).
 
-void j_00045c7d();
-void j_00041eca();
+class Object;
 
-typedef void (__stdcall *Rva00372BA0TrueHandler)(void *);
-
-class Rva00371090Owner
+// 0x00396C43 and 0x00396E4A are the rowed enter/remove pair of one owner.
+class Rva00396E4A
 {
 public:
-	void remove(void *value);
+	void rva00396C43(Object *obj);
+	void rva00396E4A(Object *obj);
 };
-
-typedef void (Rva00371090Owner::*Rva00372BA0FalseHandler)(void *);
 
 void Rva00372BA0ConditionalDispatcher(void *first, void *second, bool enabled)
 {
 	void *firstValue = first;
-	Rva00371090Owner *secondValue = (Rva00371090Owner *)second;
+	Rva00396E4A *secondValue = (Rva00396E4A *)second;
 	if (secondValue)
 	{
 		if (enabled)
 		{
-			void *value = firstValue;
-			((Rva00372BA0TrueHandler)j_00045c7d)(value);
+			secondValue->rva00396C43((Object *)firstValue);
 			return;
 		}
-
-		union { void *asVoid; Rva00372BA0FalseHandler asMember; } removeCast;
-		removeCast.asVoid = (void *)j_00041eca;
-		(secondValue->*removeCast.asMember)(firstValue);
+		secondValue->rva00396E4A((Object *)firstValue);
 	}
 }

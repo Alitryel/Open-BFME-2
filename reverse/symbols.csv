@@ -9145,10 +9145,8 @@ name,address,notes
 ?j_0002a969@Glo012F1024Item@@QAEXXZ,0x00565344
 ?j_0003c281@@YAXXZ,0x00325635,callee of ?dispatch@Rva00791F70CallbackHost@@QAEXHHH@Z at retail 0x000A2688 read from its REL32 displacement; ICF alias onto ?GadgetListBoxInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z (pinned)
 ?j_0003ed33@@YAXXZ,0x00337EAA,callee of ?rva002EC770ParseToken@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z at retail 0x0033822B read from its REL32 displacement; BFME1 donor ILT 0x0003ED33 placeholder name for the EventList handler body; body unrowed
-?j_00041eca@@YAXXZ,0x00396E4A,callee read from the retail REL32 in placed BFME1-donor body ?Rva00372BA0ConditionalDispatcher@@YAXPAX0_N@Z (0x00397CEB)
 ?j_00043135@@YAXXZ,0x0028FCD9,callee of ?bfmeGoFCB@BfmeThingFCB@@QAEXPAX@Z at retail 0x004C121B read from its REL32 displacement; ICF alias onto ?bfmeCallFCB@BfmeSubFCB@@QAEXPAXH@Z
 ?j_00045a52@@YAXXZ,0x004E588D,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
-?j_00045c7d@@YAXXZ,0x00396C43,callee read from the retail REL32 in placed BFME1-donor body ?Rva00372BA0ConditionalDispatcher@@YAXPAX0_N@Z (0x00397CEB)
 ?j_00046e89@@YAXXZ,0x0058D747,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?j_0004a37c@@YAXXZ,0x002B37B4,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?j_00800660@@YAXXZ,0x0066CA80
