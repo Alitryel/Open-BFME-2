@@ -13,6 +13,17 @@
 // +0x20, flag +0x11, per the rowed ctor and xfer). Identities beyond these
 // addresses are not established.
 #include <vector>
+// Keep vector<void*> accessors inline without emitting this unit's /O1 COMDAT
+// copies: retail's out-of-line ones are the /Od bodies (0x00023B90 begin,
+// 0x00023BC0 size, 0x00023C20 operator[]).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void*>::operator[](size_t __n) { return *(begin() + __n); }
+}
 #include "ascii_string.h"
 
 typedef int Int;
