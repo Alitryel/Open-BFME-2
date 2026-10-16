@@ -376,129 +376,15 @@ void SpecialPowerModule::triggerSpecialPower( const Coord3D *location )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ?aboutToDoSpecialPower@SpecialPowerModule@@IAEXPBUCoord3D@@@Z present-unmatched
-void SpecialPowerModule::aboutToDoSpecialPower( const Coord3D *location )
+// SpecialPowerModule::aboutToDoSpecialPower is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/SpecialPower/SpecialPowerModuleTrigger.cpp (0x004939AB); a second definition here would not link.
+
+// The ZH body above was the only caller here of the header-inline
+// SpecialPowerTemplate::getSpecialPowerType, rowed at 0x002AAE3D from this
+// unit; this helper (no retail address) keeps cl emitting that copy.
+// ?SpecialPowerTemplateTypeEmissionAnchor absent-from-retail
+SpecialPowerType SpecialPowerTemplateTypeEmissionAnchor( const SpecialPowerTemplate *specialPowerTemplate )
 {
-	// Tell the scripting engine!
-	TheScriptEngine->notifyOfTriggeredSpecialPower(
-		getObject()->getControllingPlayer()->getPlayerIndex(), 
-		getSpecialPowerModuleData()->m_specialPowerTemplate->getName(),
-		getObject()->getID());
-
-	// Let EVA do her thing
-	SpecialPowerType type = getSpecialPowerModuleData()->m_specialPowerTemplate->getSpecialPowerType();
-
-  Player *localPlayer = ThePlayerList->getLocalPlayer();
-
-  // Only play the EVA sounds if this is not the local player, and the local player doesn't consider the 
-	// person an enemy.
-	// Kris: Actually, all players need to hear these warnings.
-  // Ian: But now there are different Eva messages depending on who launched
-	//if (localPlayer != getObject()->getControllingPlayer() && localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES) 
-  {
-		if( type == SPECIAL_PARTICLE_UPLINK_CANNON || type == SUPW_SPECIAL_PARTICLE_UPLINK_CANNON || type == LAZR_SPECIAL_PARTICLE_UPLINK_CANNON )
-    {
-      if ( localPlayer == getObject()->getControllingPlayer() )
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Own_ParticleCannon);
-      }
-      else if ( localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES )
-      {
-        // Note: counting relationship NEUTRAL as ally. Not sure if this makes a difference???
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Ally_ParticleCannon);
-      }
-      else
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Enemy_ParticleCannon);
-      }
-    }
-    else if( type == SPECIAL_NEUTRON_MISSILE || type == NUKE_SPECIAL_NEUTRON_MISSILE || type == SUPW_SPECIAL_NEUTRON_MISSILE )
-    {
-      if ( localPlayer == getObject()->getControllingPlayer() )
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Own_Nuke);
-      }
-      else if ( localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES )
-      {
-        // Note: counting relationship NEUTRAL as ally. Not sure if this makes a difference???
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Ally_Nuke);
-      }
-      else
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Enemy_Nuke);
-      }
-    }
-		else if (type == SPECIAL_SCUD_STORM)
-    {
-      if ( localPlayer == getObject()->getControllingPlayer() )
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Own_ScudStorm);
-      }
-      else if ( localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES )
-      {
-        // Note: counting relationship NEUTRAL as ally. Not sure if this makes a difference???
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Ally_ScudStorm);
-      }
-      else
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Enemy_ScudStorm);
-      }
-    }
-		else if (type == SPECIAL_GPS_SCRAMBLER || type == SLTH_SPECIAL_GPS_SCRAMBLER )
-    {
-			// This is Ghetto.  Voices should be ini lines in the special power entry.  You shouldn't have to 
-			// add to an enum to get a new voice
-      if ( localPlayer == getObject()->getControllingPlayer() )
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Own_GPS_Scrambler);
-      }
-      else if ( localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES )
-      {
-        // Note: counting relationship NEUTRAL as ally. Not sure if this makes a difference???
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Ally_GPS_Scrambler);
-      }
-      else
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Enemy_GPS_Scrambler);
-      }
-    }
-		else if (type == SPECIAL_SNEAK_ATTACK)
-    {
-      if ( localPlayer == getObject()->getControllingPlayer() )
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Own_Sneak_Attack);
-      }
-      else if ( localPlayer->getRelationship(getObject()->getTeam()) != ENEMIES )
-      {
-        // Note: counting relationship NEUTRAL as ally. Not sure if this makes a difference???
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Ally_Sneak_Attack);
-      }
-      else
-      {
-        TheEva->setShouldPlay(EVA_SuperweaponLaunched_Enemy_Sneak_Attack);
-      }
-    }
-	}
-
-	// get module data
-	const SpecialPowerModuleData *modData = getSpecialPowerModuleData();
-
-	// play our initiate sound if we have one
-	AudioEventRTS audioEvent = *modData->m_specialPowerTemplate->getInitiateSound();
-	audioEvent.setObjectID(getObject()->getID());
-	TheAudio->addAudioEvent( &audioEvent );
-
-	// play sound at target location if specified
-	if( location )
-	{
-
-		AudioEventRTS soundAtLocation = *modData->m_specialPowerTemplate->getInitiateAtTargetSound();
-		soundAtLocation.setPosition( location );
-		soundAtLocation.setPlayerIndex(getObject()->getControllingPlayer()->getPlayerIndex());
-		TheAudio->addAudioEvent( &soundAtLocation );
-
-	}  // end if
-
+	return specialPowerTemplate->getSpecialPowerType();
 }
 
 //-------------------------------------------------------------------------------------------------
