@@ -1,7 +1,6 @@
 // ?RenderStreak@StreakRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAVVector4@@PAMABVSphereClass@@PAI@Z
-// partial score=0.8935037042518802 date=2026-10-14
-// ?RenderStreak@StreakRendererClass@@QAEXAAVRenderInfoClass@@ABVMatrix3D@@IPAVVector3@@PAVVector4@@PAMABVSphereClass@@PAI@Z
-// partial score=0.8935037042518802 date=2026-10-14
+// partial score=0.90438 date=2026-10-16
+// R5: BFME2 Clamp_Color "<= 0 ? 0 : (> 1 ? 1 : v)" form; modelview columns declare b2,b1,b0; residue = projection SSE regs at 744793/7449ca.
 // R4: identity-view copy and in-place UV scaling; exact frame/EH, body 14001/14036.
 // cl: /I. /DBFME_WWSTRING_NATIVE_CSTR_ASSIGN /Ireference/shims/wwstring_teardown/zhmd /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
@@ -780,10 +779,10 @@ WWINLINE unsigned int DX8Wrapper::Convert_Color(const Vector4& color)
 WWINLINE void DX8Wrapper::Clamp_Color(Vector4& color)
 {
 	if (!CPUDetectClass::Has_CMOV_Instruction()) {
-		{float f=(color[0]<0.0f)?0.0f:color[0]; color[0]=(f>1.0f)?1.0f:f;}
-		{float f=(color[1]<0.0f)?0.0f:color[1]; color[1]=(f>1.0f)?1.0f:f;}
-		{float f=(color[2]<0.0f)?0.0f:color[2]; color[2]=(f>1.0f)?1.0f:f;}
-		{float f=(color[3]<0.0f)?0.0f:color[3]; color[3]=(f>1.0f)?1.0f:f;}
+		color[0] = color[0] <= 0.0f ? 0.0f : (color[0] > 1.0f ? 1.0f : color[0]);
+		color[1] = color[1] <= 0.0f ? 0.0f : (color[1] > 1.0f ? 1.0f : color[1]);
+		color[2] = color[2] <= 0.0f ? 0.0f : (color[2] > 1.0f ? 1.0f : color[2]);
+		color[3] = color[3] <= 0.0f ? 0.0f : (color[3] > 1.0f ? 1.0f : color[3]);
 		return;
 	}
 	__asm
@@ -1196,32 +1195,32 @@ const float a01=view2[0][1];
 const float a02=view2[0][2];
 const float a03=view2[0][3];
 {
-float b1=transform[1][0];
 float b2=transform[2][0];
+float b1=transform[1][0];
 float b0=transform[0][0];
 modelview[0][0] = a02 * b2 + a01 * b1 + a00 * b0;
 modelview[1][0] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0;
 modelview[2][0] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0;
 }
 {
-float b1=transform[1][1];
 float b2=transform[2][1];
+float b1=transform[1][1];
 float b0=transform[0][1];
 modelview[0][1] = a02 * b2 + a01 * b1 + a00 * b0;
 modelview[1][1] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0;
 modelview[2][1] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0;
 }
 {
-float b1=transform[1][2];
 float b2=transform[2][2];
+float b1=transform[1][2];
 float b0=transform[0][2];
 modelview[0][2] = a02 * b2 + a01 * b1 + a00 * b0;
 modelview[1][2] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0;
 modelview[2][2] = view2[2][2] * b2 + view2[2][1] * b1 + view2[2][0] * b0;
 }
 {
-float b1=transform[1][3];
 float b2=transform[2][3];
+float b1=transform[1][3];
 float b0=transform[0][3];
 modelview[0][3] = a02 * b2 + a01 * b1 + a00 * b0 + a03;
 modelview[1][3] = view2[1][2] * b2 + view2[1][1] * b1 + view2[1][0] * b0 + view2[1][3];
