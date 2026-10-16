@@ -79,6 +79,7 @@ namespace _STL {
 // The owned FX tree destructor uses its verified EHs provider.
 // Keep that cleanup out of this EHsc constructor unit.
 template<> NoCaseTree::~_Rb_tree();
+template<> SoundRecordTree::~_Rb_tree();
 template<> vector<Rva002D0EDCElement,allocator<Rva002D0EDCElement> >::~vector();
 template<> _Vector_base<Rva002D0EDCElement,allocator<Rva002D0EDCElement> >::~_Vector_base();
 template<> vector<BfmeStringRecord002CF4C6,allocator<BfmeStringRecord002CF4C6> >::~vector();
