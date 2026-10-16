@@ -34,7 +34,7 @@ Code/GameEngine/Source/Common/Audio/AudioManagerAdjustPriorityAndVolume.cpp,no,3
 Code/GameEngine/Source/Common/Audio/BfmeAudioEventOwnerConstructors.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Audio/BfmeAudioEventOwnerCtorTag4.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/Common/Audio/BfmeAudioEventOwnerCtorTag5.cpp,no,1,0,0,0,0
-Code/GameEngine/Source/Common/Audio/BfmeAudioEventOwnerPosition.cpp,no,0,0,1,0,0
+Code/GameEngine/Source/Common/Audio/BfmeAudioEventOwnerPosition.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Audio/BfmeAudioEventPrefix136.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Audio/BfmeAudioEventPrefix136Ctor2.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Audio/BfmeStringTailRecord144Ctor.cpp,yes,0,0,0,0,0
@@ -835,7 +835,7 @@ Code/GameEngine/Source/Common/CommandLineFile.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/CommandLineFullVersion.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/CommandLineLocalFiles.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/CommandLineMapPath.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/CommandLineMod.cpp,no,0,0,1,0,0
+Code/GameEngine/Source/Common/CommandLineMod.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/CommandLineNoAudio.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/CommandLineRandomSeed.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/CommandLineResolution.cpp,yes,0,0,0,0,0
@@ -1657,7 +1657,7 @@ Code/GameEngine/Source/Common/PlayerTemplateGetName.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/PlayerTemplateImageGetters.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/PlayerTemplateStoreFactionLookup.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/PointerFieldForwarders.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/PolygonTriggerParserParse.cpp,no,10,7,2,0,2
+Code/GameEngine/Source/Common/PolygonTriggerParserParse.cpp,no,9,7,2,0,2
 Code/GameEngine/Source/Common/PoolDeleteDeletingDtors01.cpp,no,0,0,2,0,2
 Code/GameEngine/Source/Common/ProfilePreferences.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/PtrChaseNullOrZeroGetters.cpp,yes,0,0,0,0,0
@@ -3578,7 +3578,7 @@ Code/GameEngine/Source/Common/Rva002B34E5.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002B359DSet.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002B35F7Method.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002B3669Method.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva002B36BE.cpp,no,1,0,0,0,0
+Code/GameEngine/Source/Common/Rva002B36BE.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002B3753.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002B37B4.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/Common/Rva002B38A3.cpp,yes,0,0,0,0,0
@@ -3750,7 +3750,7 @@ Code/GameEngine/Source/Common/Rva002D2DF6Init.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002D2E30Callback.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002D2E57Get.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002D317CCalls.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva002D34FEChain.cpp,no,3,0,0,0,0
+Code/GameEngine/Source/Common/Rva002D34FEChain.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002D363EForward.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002D373EForward.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002D37BDSet.cpp,yes,0,0,0,0,0
@@ -3871,8 +3871,7 @@ Code/GameEngine/Source/Common/Rva002E3A39Pair.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002E3A80Call.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002E3A8DFinish.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002E3DE3Ctor.cpp,no,3,0,0,0,0
-Code/GameEngine/Source/Common/Rva002E3E51Dtor.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva002E3EB8Permuted.cpp,no,4,0,2,0,1
+Code/GameEngine/Source/Common/Rva002E3EB8Permuted.cpp,no,3,0,2,0,1
 Code/GameEngine/Source/Common/Rva002E4049Dtor.cpp,no,2,0,0,0,0
 Code/GameEngine/Source/Common/Rva002E53FAFinish.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva002E5611Compare.cpp,yes,0,0,0,0,0
@@ -3943,8 +3942,8 @@ Code/GameEngine/Source/Common/Rva00308765IndexedAssign.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00308A12.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00308AA4Notifiers.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00308B38Write.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva0030902ECtor.cpp,no,12,0,1,0,1
-Code/GameEngine/Source/Common/Rva0030902EDtor.cpp,no,2,0,1,0,0
+Code/GameEngine/Source/Common/Rva0030902ECtor.cpp,no,11,0,1,0,1
+Code/GameEngine/Source/Common/Rva0030902EDtor.cpp,no,2,0,2,0,0
 Code/GameEngine/Source/Common/Rva0030A120Dtor.cpp,no,0,0,1,0,1
 Code/GameEngine/Source/Common/Rva0030AE42Slot.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0030AEA6Copy.cpp,yes,0,0,0,0,0
@@ -3989,8 +3988,8 @@ Code/GameEngine/Source/Common/Rva0030C97E.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0030CA53Set.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0030CA65Finish.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0030CAA9Notifiers.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva0030CAA9OwnerCtor.cpp,no,10,0,1,0,1
-Code/GameEngine/Source/Common/Rva0030CAA9OwnerDtor.cpp,no,2,0,1,0,0
+Code/GameEngine/Source/Common/Rva0030CAA9OwnerCtor.cpp,no,9,0,1,0,1
+Code/GameEngine/Source/Common/Rva0030CAA9OwnerDtor.cpp,no,2,0,2,0,0
 Code/GameEngine/Source/Common/Rva0030CAF8Chain.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0030D111ContainsPoint.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0030D8B1.cpp,yes,0,0,0,0,0
@@ -4095,7 +4094,7 @@ Code/GameEngine/Source/Common/Rva003306B0Remove.cpp,no,2,0,2,0,0
 Code/GameEngine/Source/Common/Rva0033070EFind.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0033073CClear.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00330789Dtor.cpp,no,0,0,8,0,0
-Code/GameEngine/Source/Common/Rva00330C50Ctor.cpp,no,1,2,1,0,1
+Code/GameEngine/Source/Common/Rva00330C50Ctor.cpp,no,0,2,1,0,1
 Code/GameEngine/Source/Common/Rva00330E4CAngularRate.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00331682Test.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva003317B0Check.cpp,no,0,0,0,0,1
@@ -4762,7 +4761,7 @@ Code/GameEngine/Source/Common/Rva00402F28ItemDtor.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00403055CopyCtor.cpp,no,1,0,2,0,1
 Code/GameEngine/Source/Common/Rva004030EFFind.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0040314AMin.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva004031DD.cpp,no,0,1,0,0,0
+Code/GameEngine/Source/Common/Rva004031DD.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva004031F3.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0040327BGet.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0040334BLoop.cpp,yes,0,0,0,0,0
@@ -4883,7 +4882,7 @@ Code/GameEngine/Source/Common/Rva0040E02BClear.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0040E0B7Clear.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0040E534.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0040E6D6Forward.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva0040F7E5Advance.cpp,no,1,0,0,0,0
+Code/GameEngine/Source/Common/Rva0040F7E5Advance.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0040F7FDAutoSummon.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0040F9DEvent.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva0040FB1A.cpp,yes,0,0,0,0,0
@@ -5940,7 +5939,7 @@ Code/GameEngine/Source/Common/Rva00528349Fade.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00528582Method.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00528AC3Factories.cpp,no,2,0,0,0,0
 Code/GameEngine/Source/Common/Rva00528B06Ctor.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva00528B37Compare.cpp,no,0,1,0,0,0
+Code/GameEngine/Source/Common/Rva00528B37Compare.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00528B72Init.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00528BDDFirer.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00528C0CFirer.cpp,yes,0,0,0,0,0
@@ -6368,7 +6367,7 @@ Code/GameEngine/Source/Common/Rva00574CC1Dtor.cpp,no,6,1,0,0,0
 Code/GameEngine/Source/Common/Rva00574E0E.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00574E2E.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva00574EA2Method.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva00574EE9Method.cpp,no,1,1,2,0,0
+Code/GameEngine/Source/Common/Rva00574EE9Method.cpp,no,1,0,2,0,0
 Code/GameEngine/Source/Common/Rva00575038PerFrame.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005750CFCtor.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/Common/Rva00575125Ctor.cpp,no,0,0,1,0,0
@@ -6704,7 +6703,7 @@ Code/GameEngine/Source/Common/Rva005B64B5Pop.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005B6521Pop.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005B6543Final.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005B65ADPop.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/Common/Rva005B692FBox.cpp,no,3,0,0,0,0
+Code/GameEngine/Source/Common/Rva005B692FBox.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005B6967Box.cpp,no,4,0,0,0,0
 Code/GameEngine/Source/Common/Rva005B6E32Box.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/Rva005B72E7Dtor.cpp,yes,0,0,0,0,0
@@ -7969,7 +7968,7 @@ Code/GameEngine/Source/Common/RvaMixedMemberForwarders.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/RvaMorphInitFamily.cpp,no,5,0,1,0,0
 Code/GameEngine/Source/Common/RvaNullReleaseMemberDtors.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/RvaPairCopyCallFamily.cpp,no,1,0,0,0,0
-Code/GameEngine/Source/Common/RvaPayloadValueFactories.cpp,no,0,2,0,0,0
+Code/GameEngine/Source/Common/RvaPayloadValueFactories.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/Common/RvaPayloadValueReturns.cpp,no,3,0,4,0,0
 Code/GameEngine/Source/Common/RvaPinnedCallWrappers.cpp,no,4,0,0,0,0
 Code/GameEngine/Source/Common/RvaPlus4MemberForwarders.cpp,yes,0,0,0,0,0
@@ -9478,7 +9477,7 @@ Code/GameEngine/Source/GameClient/GUI/AptMessageBoxUpdateDispatch.cpp,yes,0,0,0,
 Code/GameEngine/Source/GameClient/GUI/AptMessengerCreateChatWindows.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/AptMovieGameWindowInit.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/AptMpGameSetupRefreshMapList.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameClient/GUI/AptMpGameSetupRva0043DC40.cpp,no,0,1,0,0,0
+Code/GameEngine/Source/GameClient/GUI/AptMpGameSetupRva0043DC40.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/AptMpGameSetupRva00440BDF.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/AptParameterParsing.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/AptPlayer.cpp,yes,0,0,0,0,0
@@ -9749,7 +9748,7 @@ Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadCallbackRva004
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadCallbacks.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadDeleteFile.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadListEvent.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadOnButtonSave.cpp,no,0,0,1,0,0
+Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadOnButtonSave.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadPromptAddFriend.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadPromptForward.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00433DFE.cpp,yes,0,0,0,0,0
@@ -9757,7 +9756,7 @@ Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00433F7F.cp
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00434220.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva0043448C.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00434AAE.cpp,no,1,0,0,0,0
-Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00435819.cpp,no,0,0,1,0,0
+Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00435819.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva00435DE7Dtor.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadRva0043684C.cpp,no,2,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/AptSaveLoadSavePrompt.cpp,yes,0,0,0,0,0
@@ -10142,7 +10141,7 @@ Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/InGameToggleStanceCommandB
 Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/ObjectRankValues.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/Palantir.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirCommandInterface.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirCommandInterfacePortrait.cpp,no,0,1,0,0,0
+Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirCommandInterfacePortrait.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirCostModifierUpgrade.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirObjectProgress.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/InGame/Tactical/PalantirRadarPingUpdate.cpp,yes,0,0,0,0,0
@@ -10165,7 +10164,7 @@ Code/GameEngine/Source/GameClient/GUI/MapMetaData_getDescriptionFirstLine.cpp,ye
 Code/GameEngine/Source/GameClient/GUI/MapMetaData_getDisplayName.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/MpGameSetupAdjustSlots.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/MpGameSetupOnInitGadget.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameClient/GUI/MpGameSetupSlots.cpp,no,20,1,10,0,4
+Code/GameEngine/Source/GameClient/GUI/MpGameSetupSlots.cpp,no,20,0,10,0,4
 Code/GameEngine/Source/GameClient/GUI/OnlineCustomMatchPrefs.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/OnlineLoginIntegerRange.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/GUI/OnlineLoginTextFilter.cpp,yes,0,0,0,0,0
@@ -10478,7 +10477,7 @@ Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIGetSelec
 Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIGetTypeImage.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIHeroArmySelectionHandler.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIHeroComparator.cpp,no,0,0,0,0,1
-Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUILocalPlayerData.cpp,no,1,2,1,0,0
+Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUILocalPlayerData.cpp,no,1,1,1,0,0
 Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIManualPhaseEnder.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIPlanRetreatChecklistItem.cpp,no,6,0,2,0,0
 Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/StrategicInGameUIPlanRetreatsCreateChecklistItems.cpp,no,1,0,3,0,0
@@ -10577,7 +10576,7 @@ Code/GameEngine/Source/GameClient/MessageStream/PlaceEventTranslator.cpp,no,1,0,
 Code/GameEngine/Source/GameClient/MessageStream/SelectionXlat.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/MessageStream/SelectionXlatCtor.cpp,no,1,0,1,0,0
 Code/GameEngine/Source/GameClient/MessageStream/SelectionXlatSelectFriends.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameClient/MessageStream/SelectionXlatTranslateGameMessage.cpp,no,3,0,28,0,4
+Code/GameEngine/Source/GameClient/MessageStream/SelectionXlatTranslateGameMessage.cpp,no,2,0,28,0,4
 Code/GameEngine/Source/GameClient/MessageStream/SelectionXlat_areAllSelected.cpp,no,0,0,19,0,0
 Code/GameEngine/Source/GameClient/MessageStream/SelectionXlat_selectFriendsWrapper.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/MessageStream/WindowXlat.cpp,yes,0,0,0,0,0
@@ -10793,7 +10792,7 @@ Code/GameEngine/Source/GameClient/Rva0030EFD5Flags.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/Rva0030F14CSelect.cpp,no,0,0,5,0,1
 Code/GameEngine/Source/GameClient/Rva0031D5F8Lookup.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/Rva00330A37Frames.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameClient/Rva00330B2EMemberCall.cpp,no,0,1,0,0,0
+Code/GameEngine/Source/GameClient/Rva00330B2EMemberCall.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/Rva00330B50Assign.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/Rva00358D62Clear.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/Rva00358DC2Erase.cpp,yes,0,0,0,0,0
@@ -10901,7 +10900,7 @@ Code/GameEngine/Source/GameClient/Rva00BCF670CameraSettings.cpp,no,14,0,0,0,0
 Code/GameEngine/Source/GameClient/ScreenFilterRenderTarget.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/ScreenFilterRva000F8348Ctor.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/GameClient/ScreenFilterRva000F9C3CCtor.cpp,no,1,0,0,0,0
-Code/GameEngine/Source/GameClient/SelectionInfo.cpp,no,3,0,9,0,2
+Code/GameEngine/Source/GameClient/SelectionInfo.cpp,no,2,0,9,0,2
 Code/GameEngine/Source/GameClient/SelectionInfoContextCommand.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/Shadow_setOpacity.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameClient/SmoothCameraHeightField.cpp,yes,0,0,0,0,0
@@ -11759,7 +11758,7 @@ Code/GameEngine/Source/GameLogic/Map/LibraryMapsParserParse.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Map/OldPolygonTrigger.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/GameLogic/Map/PolygonTrigger.cpp,no,0,2,0,0,0
 Code/GameEngine/Source/GameLogic/Map/PolygonTriggerCenter.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameLogic/Map/PolygonTriggerCtor.cpp,no,10,1,1,0,2
+Code/GameEngine/Source/GameLogic/Map/PolygonTriggerCtor.cpp,no,9,1,1,0,2
 Code/GameEngine/Source/GameLogic/Map/PolygonTrigger_pointInTrigger.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserParse.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Map/RiverAreasDataChunkParserSave.cpp,no,1,0,0,0,0
@@ -11816,8 +11815,9 @@ Code/GameEngine/Source/GameLogic/Map/SidesList_getSideInfo.cpp,no,0,1,0,0,0
 Code/GameEngine/Source/GameLogic/Map/SidesList_getSkirmishSideInfo.cpp,no,0,0,0,0,1
 Code/GameEngine/Source/GameLogic/Map/SidesList_sidesInfo.cpp,no,3,0,0,0,1
 Code/GameEngine/Source/GameLogic/Map/StandingWaterAreaDepthColoring.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameLogic/Map/StandingWaterAreaLoadFXShaderSetup.cpp,no,0,1,0,0,0
-Code/GameEngine/Source/GameLogic/Map/StandingWaterAreaLoadPCA.cpp,yes,0,0,0,0,0
+Code/GameEngine/Source/GameLogic/Map/StandingWaterAreaLoadFXShaderSetup.cpp,yes,0,0,0,0,0
+Code/GameEngine/Source/GameLogic/Map/StandingWaterAreaLoadPCA.cpp,no,0,0,20,0,3
+Code/GameEngine/Source/GameLogic/Map/StandingWaterAreaReleasePCA.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Map/StandingWaterAreasDataChunkParserParse.cpp,no,2,0,0,0,0
 Code/GameEngine/Source/GameLogic/Map/StandingWaveAreasDataChunkParserParse.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/GameLogic/Map/TerrainLogicAmbientColorRva0027DA6A.cpp,yes,0,0,0,0,0
@@ -12191,7 +12191,7 @@ Code/GameEngine/Source/GameLogic/Object/Behavior/PhysicsBehaviorFriendNew.cpp,ye
 Code/GameEngine/Source/GameLogic/Object/Behavior/PhysicsBehaviorModuleDataCtor.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Behavior/PhysicsBehaviorModuleDataFriendNew.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Behavior/PhysicsBehaviorPoolKey.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameLogic/Object/Behavior/PhysicsBehaviorRva00390601.cpp,no,1,1,0,0,0
+Code/GameEngine/Source/GameLogic/Object/Behavior/PhysicsBehaviorRva00390601.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Behavior/PhysicsBehaviorRva00390629.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Behavior/PhysicsBehaviorRva00390CCA.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Behavior/PillageModuleCtor.cpp,yes,0,0,0,0,0
@@ -14237,7 +14237,7 @@ Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierAuraUpdateParseA
 Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierAuraUpdatePoolKey.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierAuraUpdateUpdate.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierAuraUpdateXfer.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierPoolUpdateAdd.cpp,no,0,1,0,0,0
+Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierPoolUpdateAdd.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierPoolUpdateCategory.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierPoolUpdateCtor.cpp,no,2,0,4,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/AttributeModifierPoolUpdateFriendNew.cpp,yes,0,0,0,0,0
@@ -14767,7 +14767,7 @@ Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRebuild.cpp,y
 Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateRva004AC9FA.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateUpdate.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/PartTheHeavensUpdateXfer.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameLogic/Object/Update/PhysicsBehaviorTrajectory.cpp,no,0,1,0,0,0
+Code/GameEngine/Source/GameLogic/Object/Update/PhysicsBehaviorTrajectory.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/PhysicsBehaviorXfer.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/PhysicsUpdate.cpp,no,19,0,14,0,2
 Code/GameEngine/Source/GameLogic/Object/Update/PickupStuffUpdateCtor.cpp,yes,0,0,0,0,0
@@ -15218,8 +15218,8 @@ Code/GameEngine/Source/GameLogic/Object/Update/ToggleMountedSpecialAbilityCreate
 Code/GameEngine/Source/GameLogic/Object/Update/ToggleMountedSpecialAbilityEffect.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/ToggleMountedSpecialAbilityUpdateCtor.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/ToggleMountedSpecialAbilityUpdateFriendNew.cpp,yes,0,0,0,0,0
-Code/GameEngine/Source/GameLogic/Object/Update/ToggleMountedSpecialAbilityUpdateModuleDataCtor.cpp,no,0,1,0,0,0
-Code/GameEngine/Source/GameLogic/Object/Update/ToggleMountedSpecialAbilityUpdateModuleDataDeleter.cpp,no,0,1,1,0,0
+Code/GameEngine/Source/GameLogic/Object/Update/ToggleMountedSpecialAbilityUpdateModuleDataCtor.cpp,yes,0,0,0,0,0
+Code/GameEngine/Source/GameLogic/Object/Update/ToggleMountedSpecialAbilityUpdateModuleDataDeleter.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/ToggleMountedSpecialAbilityUpdateModuleDataDtor.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/ToggleMountedSpecialAbilityUpdatePoolKey.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/Object/Update/ToggleMountedSpecialPowerTimers.cpp,yes,0,0,0,0,0
@@ -15623,7 +15623,7 @@ Code/GameEngine/Source/GameLogic/ScriptEngine/DelayedLuaEventListConstructor.cpp
 Code/GameEngine/Source/GameLogic/ScriptEngine/DelayedLuaEventListCopy.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/ScriptEngine/DelayedLuaEventListXfer.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/ScriptEngine/DelayedLuaEventUpdateModuleDataCtorThunk.cpp,no,1,0,0,0,0
-Code/GameEngine/Source/GameLogic/ScriptEngine/Gen0035B3A0Cleanup.cpp,no,1,0,0,0,0
+Code/GameEngine/Source/GameLogic/ScriptEngine/Gen0035B3A0Cleanup.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/ScriptEngine/Gen0035F050Poll.cpp,no,1,0,0,0,0
 Code/GameEngine/Source/GameLogic/ScriptEngine/KindOfGetNameFromSingleBit.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/ScriptEngine/LuaGetFrameRva00332CFB.cpp,yes,0,0,0,0,0
@@ -16285,7 +16285,7 @@ Code/GameEngine/Source/GameLogic/ScriptEngine/XferListInt.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/ScriptEngine/XferVectorBool.cpp,no,0,0,7,0,5
 Code/GameEngine/Source/GameLogic/ScriptEngine/iniParseObjectFilter.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/ScriptEngine/openLuaLibraries.cpp,no,0,0,0,0,1
-Code/GameEngine/Source/GameLogic/ScriptEngine/victory_conditions_create.cpp,no,1,0,0,0,0
+Code/GameEngine/Source/GameLogic/ScriptEngine/victory_conditions_create.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/SkirmishAI/AIBaseBuilder/AIBase.cpp,no,7,0,0,0,0
 Code/GameEngine/Source/GameLogic/SkirmishAI/AIBaseBuilder/AIBaseTemplate.cpp,yes,0,0,0,0,0
 Code/GameEngine/Source/GameLogic/SkirmishAI/AIBaseBuilder/BaseTemplateLibraryParseBaseTemplateFiles.cpp,no,0,0,1,0,1
@@ -17927,7 +17927,7 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0006D0D7Dtor.cpp,no,3,0,1,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000747FCRingPoints.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000787BAOpen.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0007882FGet.cpp,yes,0,0,0,0,0
-Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000806F3BasesParams.cpp,no,1,0,0,0,0
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva000806F3BasesParams.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00086761CameraMove.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva00087973Notify.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Rva0008EF3FProductCtor.cpp,no,57,0,0,0,0
@@ -18022,7 +18022,7 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/ScreenHilightFilterPreRender.c
 Code/GameEngineDevice/Source/W3DDevice/GameClient/ScreenHilightFilterShutdown.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/ScreenMotionBlurFilterPostRender.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/BfmeShadowBufferOwnerBaseDtor.cpp,yes,0,0,0,0,0
-Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/BfmeVolumetricShadowBufferDraw.cpp,no,0,0,1,0,0
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/BfmeVolumetricShadowBufferDraw.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0009DA3BAddShadows.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva000EFA4EBase.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva000F0F2BFinish.cpp,no,1,0,0,0,0
@@ -18062,7 +18062,7 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowManagerReAcqui
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowManagerToggleLists.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowManagerV2Ctor.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowMapManagerRenderBorder.cpp,yes,0,0,0,0,0
-Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowMapManagerTextureMatrix.cpp,no,2,0,0,0,0
+Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowMapManagerTextureMatrix.cpp,no,1,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowMapManagerUpdateShadowMap.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowTextureDestructor.cpp,no,0,0,1,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DShadowTextureUpdateBounds.cpp,yes,0,0,0,0,0
@@ -18132,7 +18132,7 @@ Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeGetModelVerticesFixed
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeInit.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBridgeLoad.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBuffBuffer.cpp,no,0,0,0,0,1
-Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBuffBufferFill.cpp,no,1,0,1,0,0
+Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DBuffBufferFill.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DCamTransform.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DCloudModeSet.cpp,yes,0,0,0,0,0
 Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplay.cpp,yes,0,0,0,0,0
@@ -19308,7 +19308,7 @@ Code/Libraries/Source/WWVegas/WW3D2/MaterialPassClassDestructor.cpp,yes,0,0,0,0,
 Code/Libraries/Source/WWVegas/WW3D2/MaterialPassInstallMaterials.cpp,no,0,1,5,0,1
 Code/Libraries/Source/WWVegas/WW3D2/MaterialRemapMesh.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/MaterialRemapTexture.cpp,yes,0,0,0,0,0
-Code/Libraries/Source/WWVegas/WW3D2/MaterialRemapperClassCtor.cpp,no,0,1,0,0,0
+Code/Libraries/Source/WWVegas/WW3D2/MaterialRemapperClassCtor.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/MaterialRemapperClassDtor.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/MaterialTextureGetter.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/Matrix4FromMatrix3DO1.cpp,yes,0,0,0,0,0
@@ -19606,7 +19606,6 @@ Code/Libraries/Source/WWVegas/WW3D2/Rva0018046DFactory.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/Rva001805AEAssign.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/Rva00180649Ctor.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/Rva001977D0Finish.cpp,no,0,1,1,0,2
-Code/Libraries/Source/WWVegas/WW3D2/Rva00199FCCFind.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/Rva0019B4A0PackedSize.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/Rva001A1BF0Cluster.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/Rva001A44D0ReadByte.cpp,yes,0,0,0,0,0
@@ -19831,7 +19830,7 @@ Code/Libraries/Source/WWVegas/WW3D2/line3d.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/linegrp.cpp,no,0,1,1,0,1
 Code/Libraries/Source/WWVegas/WW3D2/linegrp_float_setters.cpp,yes,0,0,0,0,0
 Code/Libraries/Source/WWVegas/WW3D2/mapper.cpp,no,2,0,3,0,2
-Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp,no,1,9,14,0,9
+Code/Libraries/Source/WWVegas/WW3D2/matinfo.cpp,no,1,8,13,0,9
 Code/Libraries/Source/WWVegas/WW3D2/matpass.cpp,no,0,1,4,0,1
 Code/Libraries/Source/WWVegas/WW3D2/mesh.cpp,no,3,0,16,0,7
 Code/Libraries/Source/WWVegas/WW3D2/mesh_get_shade_indices.cpp,yes,0,0,0,0,0
