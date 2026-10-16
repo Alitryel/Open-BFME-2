@@ -19,7 +19,9 @@ class Rva006D07E0Key
 {
 public:
 	Rva006D07E0Key(void *value) : m_value(value) {}
-	Rva006D07E0Key(const Rva006D07E0Key &other) : m_value(other.m_value)
+	// Inlined by the rowed caller; dllimport keeps cl from emitting a stray
+	// out-of-line copy that differs from retail's 0x006CFE80 (no reference uses it).
+	__declspec(dllimport) __forceinline Rva006D07E0Key(const Rva006D07E0Key &other) : m_value(other.m_value)
 	{
 		if (m_value)
 			Rva00894D80Accessor::increment((unsigned int *)m_value);
