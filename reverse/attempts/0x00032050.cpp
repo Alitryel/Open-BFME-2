@@ -1,4 +1,6 @@
 // ?rva00032050@GeneralAllocator@Allocator@EA@@QAEIPAXI@Z
+// partial score=0.9 date=2026-10-15
+// ?rva00032050@GeneralAllocator@Allocator@EA@@QAEIPAXI@Z
 // partial score=0.9 date=2026-10-14
 // ?rva00032050@GeneralAllocator@Allocator@EA@@QAEIPAXI@Z
 // partial score=0.8975 date=2026-10-13
