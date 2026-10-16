@@ -1,15 +1,9 @@
 // ?Update@Rva002B74DE@@QAEHXZ
-// partial score=0.998244 date=2026-10-15
 // ?Update@Rva002B74DE@@QAEHXZ
-// partial score=0.998244 date=2026-10-15
 // ?Update@Rva002B74DE@@QAEHXZ
-// partial score=0.998 date=2026-10-15
 // ?Update@Rva002B74DE@@QAEHXZ
-// partial score=0.9867 date=2026-10-13
 // ?Update@Rva002B74DE@@QAEHXZ
-// partial score=0.98674 date=2026-10-13
 // ?Update@Rva002B74DE@@QAEHXZ
-// partial score=0.98674 date=2026-10-13
 // ?Update@Rva002B74DE@@QAEHXZ
 // seat2 2026-10-15: STLport auto_ptr_ref transfer (ref holds the source; release() clears it inside the receiving ctor) closes the sret esp capture; winner test as owned->isWinner(record.side2c) restores the players-then-winner load order; residue: cmp ecx,[rec+2c] vs native cmp [rec+2c],ecx (1 byte).
 // cl: /O1 /G7 /DNDEBUG /MD /EHs /arch:SSE /D_CRTIMP=
@@ -91,7 +85,7 @@ Int Rva002B74DE::Update(){
   Bool found=false;
   int count=((Rva003F468D*)m_battle)->rva003F4DAE(side);
   for(int army=0;army<count;++army,++index){
-   if(((ResolverSimHeader*)owned.m_ptr)->isWinner(((ResolverPlayerRecord*)result->players)[index].side2c)){
+   if((1 ? ((ResolverPlayerRecord*)result->players)[index].side2c : 0)==*(volatile int*)&((ResolverSimHeader*)owned.m_ptr)->winner78){
     if(!found){m_battle->m_side=side;found=true;}
    }else{
     struct Rva002B89BBInfo *a=(struct Rva002B89BBInfo*)((Rva003F468D*)m_battle)->rva003F468D(side,army);
