@@ -102,15 +102,15 @@ private:
 	Rva006C1850 m_records;
 };
 
-class Rva006C3AB0Guard
+class Rva00030DD0Guard
 {
 public:
-	Rva006C3AB0Guard(Rva00030DD0Lock *lock) : m_lock(lock)
+	Rva00030DD0Guard(Rva00030DD0Lock *lock) : m_lock(lock)
 	{
 		if (m_lock != 0)
 			Rva00030DD0AddRef(m_lock);
 	}
-	~Rva006C3AB0Guard()
+	~Rva00030DD0Guard()
 	{
 		if (m_lock != 0)
 			Rva00030DF0Release(m_lock);
@@ -121,7 +121,7 @@ private:
 
 void *GeneralAllocatorDebug::rva006C3AB0(void *block, unsigned short id, const void *data, unsigned length, int location)
 {
-	Rva006C3AB0Guard guard(m_lock);
+	Rva00030DD0Guard guard(m_lock);
 	void *result = 0;
 
 	if (location == 2) {

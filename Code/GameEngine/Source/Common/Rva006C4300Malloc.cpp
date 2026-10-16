@@ -88,15 +88,15 @@ protected:
 	Rva006C4300Chunk m_delayed;
 };
 
-class Rva006C4300Guard
+class Rva00030DD0Guard
 {
 public:
-	Rva006C4300Guard(Rva00030DD0Lock *lock) : m_lock(lock)
+	Rva00030DD0Guard(Rva00030DD0Lock *lock) : m_lock(lock)
 	{
 		if (m_lock != 0)
 			Rva00030DD0AddRef(m_lock);
 	}
-	~Rva006C4300Guard()
+	~Rva00030DD0Guard()
 	{
 		if (m_lock != 0)
 			Rva00030DF0Release(m_lock);
@@ -166,7 +166,7 @@ void *Rva006C40C0::rva006C40C0(void *a, void *b)
 	if (total < size)
 		return 0;
 
-	Rva006C4300Guard guard(m_lock);
+	Rva00030DD0Guard guard(m_lock);
 	void *p;
 	for (;;) {
 		p = mallocMarked(total, flags);
@@ -198,7 +198,7 @@ int Rva006C4460::rva006C4300(int a, int b, int c, int d)
 	if (m_lock != 0)
 		Rva00030DF0Release(m_lock);
 
-	Rva006C4300Guard guard(m_lock);
+	Rva00030DD0Guard guard(m_lock);
 	void *p = ((EA::Allocator::GeneralAllocator *)this)->rva000344A0(total, b, c, d);
 	for (;;) {
 		if (p != 0) {
@@ -231,7 +231,7 @@ void *Rva006C4530::rva006C4530(void *a, void *b, void *c)
 	if (m_lock != 0)
 		Rva00030DF0Release(m_lock);
 
-	Rva006C4300Guard guard(m_lock);
+	Rva00030DD0Guard guard(m_lock);
 	void *p = ((EA::Allocator::GeneralAllocator *)this)->rva00034A60(1, total, flags);
 	for (;;) {
 		if (p != 0) {
