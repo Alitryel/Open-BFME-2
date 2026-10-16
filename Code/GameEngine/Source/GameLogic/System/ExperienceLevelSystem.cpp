@@ -646,6 +646,13 @@ class INI {
 public:
     const char *getNextToken(const char * = 0);
     void initFromINI(void *, const struct FieldParse *);
+    static void parseInt(INI *, void *, void *, const void *);
+    static void parseReal(INI *, void *, void *, const void *);
+    static void parseBool(INI *, void *, void *, const void *);
+    static void parseRGBColor(INI *, void *, void *, const void *);
+    static void parseAsciiStringVector(INI *, void *, void *, const void *);
+    static void parseObjectCreationList(INI *, void *, void *, const void *);
+    static void Rva002890D1_ParseUpgradeList(INI *, void *, void *, const void *);
     char pad00[8];
     int loadType08;
     int getLoadType() const { return loadType08; }
@@ -664,12 +671,44 @@ class ExperienceLevelSystem;
 ExperienceLevelSystem *TheExperienceLevelSystem = 0;
 void *operator new(unsigned int);
 void operator delete(void *);
-struct Rva00289FBCRecord { Rva00289FBCRecord &operator=(const Rva00289FBCRecord &); };
-// Native and WB both pass this ExperienceLevel FieldParse table. Its
-// contents remain retail data; this code establishes only the table address,
-// not a recovered data definition.
-extern "C" const char g_00BFBAC0[];
-static const FieldParse *const experienceLevelFieldParse = reinterpret_cast<const FieldParse *>(g_00BFBAC0);
+// ExperienceLevel copy assignment, rowed at 0x00289902 under its address name.
+class Rva00289902 { public: Rva00289902 &rva00289902(const Rva00289902 &); };
+// Native and WB both pass this ExperienceLevel FieldParse table (VA
+// 0x00BFBAC0, .rdata). Its 22 16-byte entries and zero terminator were read
+// from the retail image; every parser pointer resolves to a rowed body. The
+// table name is descriptive (no donor or retail name is known).
+typedef void (*ExperienceLevelFieldParser)(INI *, void *, void *, const void *);
+struct FieldParse { const char *token; ExperienceLevelFieldParser parse; const void *userData; int offset; };
+class RadiusDecalTemplate { public: static void parseRadiusDecalTemplate(INI *, void *, void *, const void *); };
+class EmotionNuggetTemplate { public: static void IniParseEmotionType(INI *, void *, void *, const void *); };
+void Rva00289C24Parse(INI *, void *, void *, const void *);
+void Rva00288739Parse(INI *, void *, void *, const void *);
+extern const FieldParse BfmeExperienceLevelFields[] =
+{
+    { "RequiredExperience",          &INI::parseInt,                            0, 0x18 },
+    { "ExperienceAward",             &INI::parseInt,                            0, 0x1C },
+    { "ExperienceAwardOwnGuysDie",   &INI::parseInt,                            0, 0x20 },
+    { "TargetNames",                 &INI::parseAsciiStringVector,              0, 0x24 },
+    { "AttributeModifiers",          &INI::parseAsciiStringVector,              0, 0x30 },
+    { "LevelUpFx",                   &Rva00289C24Parse,                         0, 0x00 },
+    { "LevelUpOCL",                  &INI::parseObjectCreationList,             0, 0x48 },
+    { "Upgrades",                    &INI::Rva002890D1_ParseUpgradeList,        0, 0x00 },
+    { "ModelConditionState",         &Rva00288739Parse,                         0, 0x00 },
+    { "SelectionDecal",              &RadiusDecalTemplate::parseRadiusDecalTemplate, 0, 0xA4 },
+    { "ShowLevelUpTint",             &INI::parseBool,                           0, 0xD8 },
+    { "LevelUpTintColor",            &INI::parseRGBColor,                       0, 0xDC },
+    { "LevelUpTintPreColorTime",     &INI::parseInt,                            0, 0xE8 },
+    { "LevelUpTintPostColorTime",    &INI::parseInt,                            0, 0xEC },
+    { "LevelUpTintSustainColorTime", &INI::parseInt,                            0, 0xF0 },
+    { "LevelUpTintFrequency",        &INI::parseReal,                           0, 0xF4 },
+    { "LevelUpTintAmplitude",        &INI::parseReal,                           0, 0xF8 },
+    { "Rank",                        &INI::parseInt,                            0, 0xFC },
+    { "InformUpdateModule",          &INI::parseBool,                           0, 0x100 },
+    { "EmotionType",                 &EmotionNuggetTemplate::IniParseEmotionType, 0, 0x104 },
+    { "SinglePlayerOnly",            &INI::parseBool,                           0, 0x101 },
+    { "MultiPlayerOnly",             &INI::parseBool,                           0, 0x102 },
+    { 0, 0, 0, 0 }
+};
 // WB 0x00BEBDE0 names this callback. BFME1 874e3848 parser at 0x00382460
 // supplies the source guide; BFME2 native evidence establishes the 0x108
 // layout, +0x0C override index, name key and additional load-type-5 reload
@@ -685,16 +724,16 @@ void ExperienceLevelStore::friend_parseExperienceLevelDefinition(INI *ini)
         Rva002894A2 *created = new Rva002894A2;
         if (existing->next04)
             existing = (Rva002894A2 *)((Overridable *)existing->next04)->friend_getFinalOverride();
-        reinterpret_cast<Rva00289FBCRecord *>(created)->operator=(reinterpret_cast<const Rva00289FBCRecord &>(*existing));
+        reinterpret_cast<Rva00289902 *>(created)->rva00289902(reinterpret_cast<const Rva00289902 &>(*existing));
         existing->next04 = created;
         created->override08 = true;
-        ini->initFromINI(created, experienceLevelFieldParse);
+        ini->initFromINI(created, BfmeExperienceLevelFields);
         ((ExperienceLevelStore *)TheExperienceLevelSystem)->rva002891DB(created);
     } else {
         Rva002894A2 level;
         level.name10 = name;
         level.key14 = TheNameKeyGenerator->nameToKey(name);
-        ini->initFromINI(&level, experienceLevelFieldParse);
+        ini->initFromINI(&level, BfmeExperienceLevelFields);
         if (ini->loadType08 != 5) {
             ((ExperienceLevelStore *)TheExperienceLevelSystem)->AddExperienceLevel(((ExperienceLevelStore *)TheExperienceLevelSystem)->m_levelLists, (const BfmePod264 *)&level);
             ((Rva0028881C *)((char *)TheExperienceLevelSystem + 0x28))->rva002889BB();
