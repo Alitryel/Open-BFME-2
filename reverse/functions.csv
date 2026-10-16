@@ -39484,7 +39484,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?rva0036DDCD@AIGroup@@QAEXH@Z,,0x0036DDCD,37,Code/GameEngine/Source/GameLogic/AI/AIGroupAttackTeam.cpp,matched,same loop as setAttitude plus rowed rva0028C20F broadcast
 ?rva0036D805@AIGroup@@QAEXH@Z,,0x0036D805,50,Code/GameEngine/Source/GameLogic/AI/AIGroupRemove.cpp,matched,member broadcast plus nullchecked provider slot34 plus 0x250 offset
 ?Rva00306151Xfer@@YAPAVXfer@@PAV1@PAM@Z,,0x00306151,50,Code/GameEngine/Source/Common/System/XferEnumHelpers.cpp,matched,return Xfer star per triple caller eax forwarding
-?Rva003062FEXfer@@YAXPAVXfer@@PAM@Z,,0x003062FE,41,Code/GameEngine/Source/Common/System/XferEnumHelpers.cpp,matched,triple 4-float row via nested Xfer star helper
+?Rva003062FEXfer@@YAPAVXfer@@PAV1@PAM@Z,,0x003062FE,41,Code/GameEngine/Source/Common/System/XferEnumHelpers.cpp,matched,triple 4-float row via nested Xfer star helper
 ?failBuild@Rva0055ADD8@@QAEHH@Z,,0x0055ADD8,10,Code/GameEngine/Source/Common/Rva0055ADD8Thunk.cpp,matched,thunk const 3 to vslot 7 callers 0x573CED; wb-lead 2/align: WB 13BB820 AIBuildable::failBuild (AIBuildable.cpp:157 build-error assert; vslot 0x1C as retail)
 ?xferUnicodeStringVector@@YAPAVXfer@@PAV1@PAV?$vector@VUnicodeString@@V?$allocator@VUnicodeString@@@_STL@@@_STL@@@Z,,0x0005CD41,241,Code/GameEngine/Source/Common/System/XferUnicodeStringVector.cpp,matched,chain via push_back 5CBE7 donor BFME1 XferUnicodeStringVector with BFME2 push-then-xfer order
 ??1Rva002AC340@@MAE@XZ,,0x002AC366,60,Code/GameEngine/Source/Common/Rva002AC340Dtor.cpp,matched,Rva002AC340 dtor via vector free and Snapshot base 0xBBB554 same as ctor 0x002AC340
@@ -39522,7 +39522,7 @@ _Rva00020AC0,,0x00020AC0,39,Code/Libraries/Source/WWVegas/WWLib/Rva0084D890CodeP
 ?Rva001F84A7Put@@YAAAV?$basic_ostream@DV?$char_traits@D@_STL@@@_STL@@AAV12@ABUTreeHintPayload001F8ACB@@@Z,,0x001F84A7,22,Code/Libraries/Source/WWVegas/WWLib/Rva001F84A7Put.cpp,matched,ostream TreeHintPayload put via rowed put_num 0x1F60AA caller 0x1F8BD0
 ?rva002D35F2@RadarWindowOverrideSource@@QAEXXZ,,0x002D35F2,23,Code/GameEngine/Source/Common/System/RadarWindowOverride.cpp,matched,gap inner78 flag01 push500 via caller
 ?Rva00528B37Equal@@YAHPBURva00528B37Key@@0@Z,,0x00528B37,59,Code/GameEngine/Source/Common/Rva00528B37Compare.cpp,matched,ints plus fabs float lt 0.1f at 0x7C2424 caller 0x529C1D
-?Rva002D337FHide@@YAXXZ,,0x002D337F,10,Code/GameEngine/Source/Common/System/Rva002D337FThunk.cpp,matched,leaf call then jmp via callers
+?rva002D337F@RadarWindowOverrideSource@@QAEXXZ,,0x002D337F,10,Code/GameEngine/Source/Common/System/Rva002D337FThunk.cpp,matched,thiscall member (sole caller 0x002BF462 sets ECX; was free Rva002D337FHide); leaf call then jmp via callers
 ?doTeamGuardForFramecount@ScriptActions@@IAEXABVAsciiString@@H_N@Z,,0x003C9363,161,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptActions_doTeamGuardForFramecount.cpp,matched,team guard iterate aiGuard sequential timer
 ?Rva003C90B1Exit@ScriptActions@@QAEXPAVParameter@@@Z,,0x003C90B1,44,Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003C90B1Exit.cpp,matched,unit named then aiExit null script; receiver repair: dispatcher3CA4BE restores ScriptActions this in ECX; RET alone did not prove stdcall; canonical header retains parameter contract
 ?rva00528309@Rva00528309@@QAEXXZ,,0x00528309,64,Code/GameEngine/Source/Common/Rva00528309Clear.cpp,matched,pop loop count 0xD8 stride 12 clears 0xAD6F4 0x2BED91 or -1

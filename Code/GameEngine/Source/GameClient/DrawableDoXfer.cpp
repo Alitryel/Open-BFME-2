@@ -112,7 +112,7 @@ void XferDrawableID(Xfer *xfer, int *id);
 void XferObjectID(Xfer *xfer, ObjectID *id);
 void XferStealthLookType(Xfer *xfer, int *value);
 void XferWaypointID(Xfer *xfer, int *id);
-void Rva003062FEXfer(Xfer *xfer, float *value);
+Xfer *Rva003062FEXfer(Xfer *xfer, float *value);
 void Rva0030612AXfer(Xfer *xfer, float *value);
 
 template <int NUMBITS> class BitFlags

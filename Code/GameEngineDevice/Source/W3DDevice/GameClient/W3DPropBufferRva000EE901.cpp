@@ -142,7 +142,7 @@ public:
 };
 
 void Rva0030612AXfer(Xfer *xfer, Real *value);
-void Rva003062FEXfer(Xfer *xfer, Real *value);
+Xfer *Rva003062FEXfer(Xfer *xfer, Real *value);
 
 #define PAD_VIRTUALS10(p) \
 	virtual void p##0(); virtual void p##1(); virtual void p##2(); virtual void p##3(); virtual void p##4(); \

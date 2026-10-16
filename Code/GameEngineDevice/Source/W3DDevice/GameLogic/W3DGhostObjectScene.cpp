@@ -161,7 +161,7 @@ protected:
 };
 
 // The rowed 0x003062FE (Zero Hour xferMatrix3D) sends the three rows of four floats.
-void Rva003062FEXfer(Xfer *xfer, float *vals);
+Xfer *Rva003062FEXfer(Xfer *xfer, float *vals);
 
 enum DrawableID
 {

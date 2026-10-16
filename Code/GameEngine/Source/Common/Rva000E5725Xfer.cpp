@@ -142,7 +142,7 @@ public:
 };
 
 void XferDrawableID(Xfer *xfer, int *value);
-void Rva003062FEXfer(Xfer *xfer, float *vals);
+Xfer *Rva003062FEXfer(Xfer *xfer, float *vals);
 
 class Rva000E5725
 {

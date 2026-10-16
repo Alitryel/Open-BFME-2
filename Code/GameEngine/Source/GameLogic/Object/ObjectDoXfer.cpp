@@ -156,7 +156,7 @@ enum
 
 void XferObjectID(Xfer *xfer, ObjectID *id);
 void XferDrawableID(Xfer *xfer, int *id);
-void Rva003062FEXfer(Xfer *xfer, float *values);
+Xfer *Rva003062FEXfer(Xfer *xfer, float *values);
 class Rva00291440;
 void xferUpgradeMask(Xfer *xfer, Rva00291440 *mask);
 Xfer *XferPathfindLayerEnum(Xfer *xfer, int *layer);

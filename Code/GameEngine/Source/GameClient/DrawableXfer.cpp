@@ -131,7 +131,7 @@ void XferObjectID(Xfer *xfer, ObjectID *objectID);
 void XferDrawableID(Xfer *xfer, int *value);
 void XferStealthLookType(Xfer *xfer, int *value);
 void XferWaypointID(Xfer *xfer, int *value);
-void Rva003062FEXfer(Xfer *xfer, float *vals);
+Xfer *Rva003062FEXfer(Xfer *xfer, float *vals);
 void Rva0030612AXfer(Xfer *xfer, float *vals);
 
 extern const char *TheDrawableIconNames[];

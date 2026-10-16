@@ -75,9 +75,10 @@ public:
 	virtual void s29(); virtual void s30();
 	virtual XferChain *xferInt(int *value);			// +0x7C
 };
-// Retail 0x003062FE (rowed void Rva003062FEXfer(Xfer *, float *)) leaves the
-// chained Xfer in EAX, and this caller continues the chain from it.
-XferChain *Rva003062FEXferChain(XferChain *xfer, float *vals);
+// Retail 0x003062FE (rowed Xfer *Rva003062FEXfer(Xfer *, float *)) returns
+// the chained Xfer, and this caller continues the chain from it.
+class Xfer;
+Xfer *Rva003062FEXfer(Xfer *xfer, float *vals);
 
 void Rva000C1788::rva000C1788(void *arg)
 {
@@ -100,6 +101,6 @@ void Rva000C1788::rva000C1788(void *arg)
 		s10.set(m_104->b02());
 		value = m_108;
 	}
-	Rva003062FEXferChain(((XferChain *)arg)->xferInt(&flag)->xferAsciiString(&s18), block)
+	((XferChain *)Rva003062FEXfer((Xfer *)((XferChain *)arg)->xferInt(&flag)->xferAsciiString(&s18), block))
 		->xferAsciiString(&s10)->xferReal(&value);
 }

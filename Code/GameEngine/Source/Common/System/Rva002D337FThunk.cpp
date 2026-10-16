@@ -1,9 +1,17 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?Rva002D337FHide@@YAXXZ @ 0x002D337F 10B: call setHideScroll then tail-jmp hideSpellBook
-// Evidence: leaf packet calls rowed 0x003FE8EB and 0x003FE99C, caller 0x002BF462.
+// ?rva002D337F@RadarWindowOverrideSource@@QAEXXZ @ 0x002D337F 10B: call
+// setHideScroll then tail-jmp hideSpellBook (was the free Rva002D337FHide).
+// Evidence: leaf packet calls rowed 0x003FE8EB and 0x003FE99C; its one caller
+// 0x002BF462 (LivingWorld::rva002BF391) loads theRadarWindowOverrideSource
+// into ECX first, so it is a member that does not use this.
 void __cdecl setHideScroll();
 void __cdecl hideSpellBook();
-void Rva002D337FHide(void)
+class RadarWindowOverrideSource
+{
+public:
+	void rva002D337F();
+};
+void RadarWindowOverrideSource::rva002D337F()
 {
 	setHideScroll();
 	hideSpellBook();

@@ -700,10 +700,11 @@ Xfer *Rva00306151Xfer(Xfer *xfer, float *vals)
 // (a 48-byte triple row) through Rva00306151Xfer at +0x00/+0x10/+0x20.
 // Callers pass edi+0x50 (0x000E5725), row triples in xfer bodies listed in the
 // packet; evidence is the three E8 calls to 0x00306151 with the push/pop
-// reuse shape (nested calls forward Xfer* in eax).
-void Rva003062FEXfer(Xfer *xfer, float *vals)
+// reuse shape (nested calls forward Xfer* in eax). It returns the last
+// call's Xfer (EAX survives the pops), which 0x000C1788 chains from.
+Xfer *Rva003062FEXfer(Xfer *xfer, float *vals)
 {
-	Rva00306151Xfer(Rva00306151Xfer(Rva00306151Xfer(xfer, vals), vals + 4), vals + 8);
+	return Rva00306151Xfer(Rva00306151Xfer(Rva00306151Xfer(xfer, vals), vals + 4), vals + 8);
 }
 
 // Fifteen more helpers of the XferSlotState shape: the same 24 bytes with their

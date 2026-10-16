@@ -96,7 +96,7 @@ enum ObjectID { INVALID_ID=0 };
 void XferParticleSystemID(Xfer*, int*);
 void XferDrawableID(Xfer*, int*);
 void XferObjectID(Xfer*, ObjectID*);
-void Rva003062FEXfer(Xfer*, float*);
+Xfer *Rva003062FEXfer(Xfer*, float*);
 void Rva0030612AXfer(Xfer*, float*);
 class Rva001FA80F { public: void rva001FA80F(int); };
 namespace FXParticleSystem {

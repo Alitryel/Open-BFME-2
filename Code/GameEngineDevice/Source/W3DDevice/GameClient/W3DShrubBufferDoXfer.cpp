@@ -122,7 +122,7 @@ class Xfer { public:
 };
 class Rva000E63DCObj;void __stdcall Rva000E63DCDo(Rva000E63DCObj *);
 void Rva0030612AXfer(Xfer *,float *);
-void Rva003062FEXfer(Xfer *,float *);
+Xfer *Rva003062FEXfer(Xfer *,float *);
 void XferDrawableID(Xfer *,int *);
 class ThingTemplate; class ThingFactory {public:const ThingTemplate*findTemplate(const AsciiString&);};extern ThingFactory *TheThingFactory;
 class ModuleData {public:

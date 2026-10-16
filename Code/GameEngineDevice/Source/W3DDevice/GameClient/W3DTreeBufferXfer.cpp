@@ -91,7 +91,7 @@ public:
 class Rva000E63DCObj;
 void __stdcall Rva000E63DCDo(Rva000E63DCObj *obj);
 void Rva0030612AXfer(Xfer *xfer, float *vals);
-void Rva003062FEXfer(Xfer *xfer, float *vals);
+Xfer *Rva003062FEXfer(Xfer *xfer, float *vals);
 void XferDrawableID(Xfer *xfer, int *value);
 class Rva000EA1DBTarget;
 void __cdecl Rva000EA1DBTopple(Rva000EA1DBTarget *obj, int val);

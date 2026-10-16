@@ -7,11 +7,18 @@
 
 #include "../../../Libraries/Source/profile/profile.h"
 
+// 0x002259F3 is rowed as this const int getter (Disp8ByteFieldGetters.cpp);
+// retail consumes only its low byte (movzx eax,al), as the bool it is.
+class Rva002259F3
+{
+public:
+	int rva002259F3() const;
+};
+
 class GameLogic
 {
 public:
 	__declspec(noinline) unsigned char isGamePaused(void);
-	bool rva002259F3(void);						// 0x002259F3, pinned
 	virtual void slot00(void);
 	virtual void slot01(void);
 	virtual void slot02(void);
@@ -256,7 +263,7 @@ void GameEngine::_bfme_updateNetworkAndLogic(int phase)
 			{
 				TheNetwork->beginUpdate();
 				NetworkInterface *network = TheNetwork;
-				network->update(TheGameLogic->rva002259F3());
+				network->update((unsigned char)((Rva002259F3 *)TheGameLogic)->rva002259F3());
 				TheNetwork->endUpdate();
 				ready = true;
 				if (!TheNetwork->isPacketRouter())
