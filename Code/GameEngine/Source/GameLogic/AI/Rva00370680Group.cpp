@@ -13,8 +13,52 @@
 // Visible getCenter, Coord2D helpers and real STLport vector constructor preserve
 // retail's stack reuse; their emitted bodies match their existing owner rows.
 #include "Coord2D.h"
-#define COORD3D_VIEW_DTOR
-#include "Coord3DCtorView.h"
+#include "Coord3D.h"
+struct Coord3DCopy : Coord3D
+{
+    Coord3DCopy() {}
+    Coord3DCopy(const Coord3D &r)
+    {
+        x = r.x;
+        y = r.y;
+        z = r.z;
+    }
+    Coord3DCopy(const Coord3DCopy &r)
+    {
+        x = r.x;
+        y = r.y;
+        z = r.z;
+    }
+    ~Coord3DCopy() {}
+    Coord3DCopy &operator=(const Coord3D &r)
+    {
+        static_cast<Coord3D &>(*this) = r;
+        return *this;
+    }
+    Coord3DCopy &Sub(const Coord3D &r)
+    {
+        x -= r.x;
+        y -= r.y;
+        z -= r.z;
+        return *this;
+    }
+    Coord3DCopy &Add(const Coord3D &r)
+    {
+        x += r.x;
+        y += r.y;
+        z += r.z;
+        return *this;
+    }
+    Coord3DCopy &Scale(float s)
+    {
+        x *= s;
+        y *= s;
+        z *= s;
+        return *this;
+    }
+    float lengthSqr() const { return x * x + y * y + z * z; }
+};
+
 typedef int Int;
 typedef bool Bool;
 typedef float Real;
@@ -44,6 +88,13 @@ namespace _STL {template<class T,class L,class R> static __forceinline bool oper
 namespace _STL {
 template<> void _Construct<Coord3D,Coord3D>(Coord3D*,const Coord3D&);
 }
+namespace _STL {
+template <class I, class O> O __copy_ptrs(I, I, O, const __false_type &);
+template <> Coord3D *__uninitialized_copy(Coord3D *, Coord3D *, Coord3D *, const __false_type &);
+// Use the existing retail overflow worker; this TU owns the movement caller.
+template<> void vector<Coord3D, allocator<Coord3D> >::push_back(const Coord3D &);
+template<> void vector<Coord3D, allocator<Coord3D> >::_M_insert_overflow(Coord3D *, const Coord3D &, const __false_type &, unsigned int, bool);
+}
 template _STL::_Vector_base<Coord3D,_STL::allocator<Coord3D> >::_Vector_base(const _STL::allocator<Coord3D>&);
 class Rva0035149F;
 class LocomotorSet;
@@ -52,11 +103,11 @@ class Rva00373EC6 { public: void rva00374815(); };
 class PathNode
 {
  public:
- PathNode *getNextOptimized() const 
+ PathNode *getNextOptimized() const
  {
   return m_nextOpti;
  }
- const Coord3D *getPosition() const 
+ const Coord3D *getPosition() const
  {
   return &m_pos;
  }
@@ -72,11 +123,11 @@ class Path
 {
  public:
  ~Path();
- PathNode *getFirstNode() const 
+ PathNode *getFirstNode() const
  {
   return m_path;
  }
- PathNode *getLastNode() const 
+ PathNode *getLastNode() const
  {
   return m_pathTail;
  }
@@ -114,19 +165,19 @@ class AIUpdateInterface
  virtual void c6();
  virtual Bool isDoingGroundMovement() const;
 // slot 137
- AICommandInterface *getCommandInterface() 
+ AICommandInterface *getCommandInterface()
  {
   return (AICommandInterface *)m_command;
  }
- Int getTmpValue() const 
+ Int getTmpValue() const
  {
   return m_tmpInt;
  }
- void setTmpValue(Int val) 
+ void setTmpValue(Int val)
  {
   m_tmpInt = val;
  }
- const LocomotorSet &getLocomotorSet() const 
+ __declspec(dllimport) __forceinline const LocomotorSet &getLocomotorSet() const
  {
   return *(const LocomotorSet *)m_locomotorSet;
  }
@@ -147,7 +198,7 @@ class ThingTemplate
  public:
  Int isInfantry() const {return m_kindOf109 & 1;}
  Int isMobNexus() const {return m_kindOf10D & 0x40;}
- Int isVehicle() const 
+ Int isVehicle() const
  {
   return m_kindOf109 & 0x02;
  }
@@ -165,19 +216,19 @@ class Object
  public:
  bool isMobile() const;
  Rva00373EC6 *rva0028F4BC();
- const ThingTemplate *getTemplate() const 
+ const ThingTemplate *getTemplate() const
  {
   return m_template;
  }
- const Coord3D *getPosition() const 
+ const Coord3D *getPosition() const
  {
   return &m_pos;
  }
- AIUpdateInterface *getAI() const 
+ AIUpdateInterface *getAI() const
  {
   return m_ai;
  }
- Int isDisabledHeld() const 
+ Int isDisabledHeld() const
  {
   return m_disabled1C8 & 0x08;
  }
@@ -224,7 +275,7 @@ class Pathfinder
 class AI
 {
  public:
- Pathfinder *pathfinder() const 
+ Pathfinder *pathfinder() const
  {
   return m_pathfinder;
  }
@@ -335,11 +386,11 @@ Bool AIGroup::moveInfantryToPos(const Coord3D *pos, CommandSourceType cmdSource)
  Int numColumns = 3;
  Int halfNumColumns = numColumns / 2;
  Real dx, dy;
- Coord3D center;
+ Coord3DCopy center;
  if (m_groundPath == 0) return false;
  if (!getCenter(&center)) return false;
 // Get the start & end vectors for the path.
- Coord3D startPoint;
+ Coord3DCopy startPoint;
  copyCoord(startPoint, m_groundPath->getFirstNode()->getPosition());
  Real farEnoughSqr = (PATH_DIAMETER_IN_CELLS * PATHFIND_CELL_SIZE_F) * (PATH_DIAMETER_IN_CELLS * PATHFIND_CELL_SIZE_F);
  PathNode *startNode = 0;
@@ -354,7 +405,7 @@ Bool AIGroup::moveInfantryToPos(const Coord3D *pos, CommandSourceType cmdSource)
    break;
   }
  }
- Coord3D endPoint;
+ Coord3DCopy endPoint;
  copyCoord(endPoint, m_groundPath->getLastNode()->getPosition());
  PathNode *endNode = 0;
  for (node = m_groundPath->getFirstNode(); node; node = node->getNextOptimized())
@@ -403,7 +454,7 @@ Bool AIGroup::moveInfantryToPos(const Coord3D *pos, CommandSourceType cmdSource)
   continue;
   if ((*i)->getTemplate()->isMobNexus())
   return false;
-  Coord3D unitPos;
+  Coord3DCopy unitPos;
   copyCoord(unitPos, (*i)->getPosition());
   (*i)->rva0028AD32();
   dx = unitPos.x - center.x;
@@ -434,7 +485,7 @@ Bool AIGroup::moveInfantryToPos(const Coord3D *pos, CommandSourceType cmdSource)
   iter->rva0054B414();
   for (theUnit = iter2->first(); theUnit; theUnit = iter2->next())
   {
-   Coord3D unitPos;
+   Coord3DCopy unitPos;
    copyCoord(unitPos, theUnit->getPosition());
    dx = unitPos.x - center.x;
    dy = unitPos.y - center.y;
@@ -469,12 +520,12 @@ Bool AIGroup::moveInfantryToPos(const Coord3D *pos, CommandSourceType cmdSource)
  }
  iter2->sort(ITER_SORTED_FAR_TO_NEAR);
 // Even out columns.
- Int column3[3] = 
+ Int column3[3] =
  {
   0, 0, 0
  }
  ;
- Int column5[5] = 
+ Int column5[5] =
  {
   0, 0, 0, 0, 0
  }
@@ -535,7 +586,7 @@ Bool AIGroup::moveInfantryToPos(const Coord3D *pos, CommandSourceType cmdSource)
   ai->setTmpValue((fiveColumnDelta << 16) | (columnDelta & 0x00ffff));
  }
  curIndex = 0;
- Int columnFactor[5] = 
+ Int columnFactor[5] =
  {
   0, 0, 0, 0, 0
  }
@@ -552,11 +603,11 @@ Bool AIGroup::moveInfantryToPos(const Coord3D *pos, CommandSourceType cmdSource)
   _STL::vector<Coord3D> path;
   PathNode *node = startNode;
   PathNode *previousNode = m_groundPath->getFirstNode();
-  Coord3D prevPos;
+  Coord3DCopy prevPos;
   copyCoord(prevPos, theUnit->getPosition());
   while (node)
   {
-   Coord3D dest;
+   Coord3DCopy dest;
    const Coord3D *p = node->getPosition();
    float x=p->x,y=p->y,z=p->z;
    PathNode *tmpNode=node->getNextOptimized();
@@ -613,7 +664,7 @@ Bool AIGroup::moveInfantryToPos(const Coord3D *pos, CommandSourceType cmdSource)
    }
   }
   {
-  Coord3D dest;
+  Coord3DCopy dest;
   copyCoord(dest, pos);
   if (fiveColumnDelta < -2) fiveColumnDelta = -2;
   if (fiveColumnDelta > 2) fiveColumnDelta = 2;
