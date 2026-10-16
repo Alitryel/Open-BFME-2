@@ -34,6 +34,13 @@ struct TreeHintRef00217D4C {
  TreeHintRef00217D4C(const TreeHintRef00217D4C &o):ptr(o.ptr) { if(ptr) ++ptr->refs; }
  ~TreeHintRef00217D4C() { if(ptr) ReleaseTreeHintRef00217D4C(ptr); }
 };
+// The units-by-side vectors: retail destroys them through the vector dtor 0x005EC919
+// (its row's element spelling, Rva004F77E0Element), not the twin 0x000806B4 that
+// vector<TreeHintRef00217D4C> names. Same one-pointer element and release.
+struct Rva004F77E0Element {
+ TargetRef00217D4C *ptr;
+ ~Rva004F77E0Element() { if(ptr) ReleaseTreeHintRef00217D4C(ptr); }
+};
 struct S4SortElem8B { void *first; const ThingTemplate *second; };
 struct BfmeE8 { int a, b; };
 class Rva005ECD8C { public: void rva005ECD8C(_STL::vector<S4SortElem8B> *,int); };
@@ -62,11 +69,11 @@ StrategicVeterancy::Data::AutoResolve::AutoResolve(void *a,void *b,void *c) {
   if(p->player30==player) { selected=p->selected2C;break; }
   ++index;
  }
- _STL::vector<TreeHintRef00217D4C> units[2];
+ _STL::vector<Rva004F77E0Element> units[2];
  ((Rva004F92E3 *)c)->rva004F92E3(units);
- _STL::vector<TreeHintRef00217D4C> &selectedUnits=units[selected];
- for(TreeHintRef00217D4C *p=selectedUnits.begin();p!=selectedUnits.end();++p) {
-  TreeHintRef00217D4C ref=*p;
+ _STL::vector<Rva004F77E0Element> &selectedUnits=units[selected];
+ for(Rva004F77E0Element *p=selectedUnits.begin();p!=selectedUnits.end();++p) {
+  TreeHintRef00217D4C ref=*(TreeHintRef00217D4C *)p;
   if(ref.ptr->index30!=index) continue;
   void *army=ref.ptr->payload;
   const ThingTemplate *thing=TheThingFactory->findTemplate(*(AsciiString *)((char *)army+4));
