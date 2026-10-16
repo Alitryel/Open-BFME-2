@@ -1,4 +1,4 @@
-// cl: /O1 /arch:SSE /G7 /MD /EHsc
+// cl: /O1 /arch:SSE /G7 /MD /EHsc /ICode/Libraries/Include
 // stlport
 // BFME1 f98983a7 FlatHeightMap.cpp / ZH Render tile loop supplies the
 // semantic tile traversal and output-bounds guide. BFME2 adds the FX pass
@@ -10,6 +10,14 @@
 // The tile helper and limiting field names remain address-derived views.
 // The rendering method's stack/refcounts and seven slots come from the
 // matched road renderer; no donor-only layout is asserted as target fact.
+// rva000E2FBD (E2FBD..E3A8D): the terrain-system coordinator. Target facts:
+// its thirteen profile scopes (DoTerrainSystems ... RenderProps, all "Frame"),
+// the system buffer slots 3850..3870 read by native code, the light built
+// from GlobalData +0x49/+0x8FC/+0x920/+0x944/+0x988 (the matched doTheLight
+// view) and the world transform written to render_state.world. BFME 1's
+// FlatHeightMap Render supplies the road/scorch/bridge/track/waypoint/bib
+// order and the closing texture/shader/material reset; buffer member names
+// follow its donor where the callee identity is rowed.
 #include <vector>
 
 typedef int Int;
@@ -107,8 +115,18 @@ class ShaderClass
 {
 public:
 	static ShaderClass _PresetOpaque2DShader;
+	static void Invalidate() { ShaderDirty = true; }
 	unsigned int ShaderBits;
 	static bool ShaderDirty;
+};
+
+class VertexMaterialClass
+{
+public:
+	virtual void Delete_This();
+	void Add_Ref() { NumRefs++; }
+	void Release_Ref() { NumRefs--; if (NumRefs == 0) Delete_This(); }
+	int NumRefs;
 };
 
 class TextureBaseClass
@@ -150,15 +168,94 @@ struct IDirect3DDevice8
 
 extern unsigned number_of_DX8_calls;
 
+class Vector4
+{
+public:
+	__forceinline Vector4() {}
+	__forceinline Vector4(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; }
+	__forceinline Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
+	__forceinline Vector4(Real x, Real y, Real z, Real w) { X = x; Y = y; Z = z; W = w; }
+	__forceinline Real &operator[](int i) { return (&X)[i]; }
+	__forceinline const Real &operator[](int i) const { return (&X)[i]; }
+	Real X, Y, Z, W;
+};
+
+class Vector3
+{
+public:
+	__forceinline Vector3() {}
+	__forceinline Vector3(Real x, Real y, Real z) { X = x; Y = y; Z = z; }
+	__forceinline Vector3(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; }
+	__forceinline Vector3 &operator=(const Vector3 &v) { X = v.X; Y = v.Y; Z = v.Z; return *this; }
+	Real X, Y, Z;
+};
+
+#include "Lib/RGBColor.h"
+
+class Matrix3D
+{
+public:
+	__forceinline Matrix3D() {}
+	__forceinline void Set(const Vector3 &x, const Vector3 &y, const Vector3 &z, const Vector3 &pos)
+	{
+		Row[0].X = x.X; Row[0].Y = y.X; Row[0].Z = z.X; Row[0].W = pos.X;
+		Row[1].X = x.Y; Row[1].Y = y.Y; Row[1].Z = z.Y; Row[1].W = pos.Y;
+		Row[2].X = x.Z; Row[2].Y = y.Z; Row[2].Z = z.Z; Row[2].W = pos.Z;
+	}
+	__forceinline const Vector4 &operator[](int i) const { return Row[i]; }
+	Vector4 Row[3];
+};
+
+class Matrix4x4
+{
+public:
+	Vector4 Row[4];
+	__forceinline Matrix4x4(const Matrix4x4 &m) { Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3]; }
+	__forceinline Matrix4x4 &operator=(const Matrix4x4 &m) { Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; Row[3] = m.Row[3]; return *this; }
+	__forceinline explicit Matrix4x4(const Matrix3D &m) { Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3] = Vector4(0.0f, 0.0f, 0.0f, 1.0f); }
+	__forceinline Matrix4x4(const Vector4 &r0, const Vector4 &r1, const Vector4 &r2, const Vector4 &r3) { Row[0] = r0; Row[1] = r1; Row[2] = r2; Row[3] = r3; }
+	__forceinline Matrix4x4 Transpose() const
+	{
+		return Matrix4x4(
+			Vector4(Row[0][0], Row[1][0], Row[2][0], Row[3][0]),
+			Vector4(Row[0][1], Row[1][1], Row[2][1], Row[3][1]),
+			Vector4(Row[0][2], Row[1][2], Row[2][2], Row[3][2]),
+			Vector4(Row[0][3], Row[1][3], Row[2][3], Row[3][3]));
+	}
+};
+
+// DX8Wrapper::render_state (VA 0x00DEE5D8): shader, material (0x00DEE5DC),
+// then the world transform at +0x1EC (0x00DEE7C4).
 struct RenderStateStruct
 {
 	ShaderClass shader;
+	VertexMaterialClass *material;
+	unsigned char m_pad08[0x1EC - 0x08];
+	Matrix4x4 world;
 };
 
 class DX8Wrapper
 {
 public:
 	static void Set_Light_Environment(LightEnvironmentClass *light_env);
+	static void Apply_Render_State_Changes();
+	static __forceinline void Set_Material(const VertexMaterialClass *material)
+	{
+		VertexMaterialClass *mat = const_cast<VertexMaterialClass *>(material);
+		if (mat)
+			mat->Add_Ref();
+		if (render_state.material)
+			render_state.material->Release_Ref();
+		render_state.material = mat;
+		render_state_changed |= 0x4000;
+	}
+	static __forceinline void Set_World_Transform(const Matrix3D &m)
+	{
+		Matrix4x4 m2(m);
+		render_state.world = m2.Transpose();
+		render_state_changed |= 1u;
+		render_state_changed &= ~0x40000u;
+	}
 	static void Draw_Triangles(unsigned start_index, unsigned polygon_count, unsigned min_vertex_index, unsigned vertex_count);
 	static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
 
@@ -207,6 +304,8 @@ class BaseHeightMapRenderObjClass
 public:
 	virtual void ReleaseResources(void);
 	virtual void ReAcquireResources(void);
+	void drawScorches(void);
+	void rva000685E2(void);
 };
 extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
 class BfmeTerrainRenderView
@@ -218,20 +317,194 @@ public:
 	virtual void s12(); virtual void s13(); virtual void s14(); virtual void s15();
 	virtual void s16(); virtual void s17();
 	virtual BfmeTerrainRenderState *getRenderState();	// slot 18
+	virtual void s19(); virtual void s20(); virtual void s21(); virtual void s22(); virtual void s23();
+	virtual void s24(); virtual void s25(); virtual void s26(); virtual void s27(); virtual void s28();
+	virtual void s29(); virtual void s30(); virtual void s31(); virtual void s32(); virtual void s33();
+	virtual void s34(); virtual void s35(); virtual void s36(); virtual void s37(); virtual void s38();
+	virtual void s39(); virtual void s40(); virtual void s41(); virtual void s42(); virtual void s43();
+	virtual void s44(); virtual void s45(); virtual void s46(); virtual void s47(); virtual void s48();
+	virtual void s49(); virtual void s50(); virtual void s51(); virtual void s52(); virtual void s53();
+	virtual void s54(); virtual void s55(); virtual void s56(); virtual void s57(); virtual void s58();
+	virtual void s59(); virtual void s60(); virtual void s61(); virtual void s62(); virtual void s63();
+	virtual void s64(); virtual void s65(); virtual void s66(); virtual void s67(); virtual void s68();
+	virtual void s69(); virtual void s70(); virtual void s71(); virtual void s72(); virtual void s73();
+	virtual void s74(); virtual void s75(); virtual void s76(); virtual void s77(); virtual void s78();
+	virtual void s79(); virtual void s80(); virtual void s81(); virtual void s82(); virtual void s83();
+	virtual void s84(); virtual void s85(); virtual void s86(); virtual void s87(); virtual void s88();
+	virtual void s89(); virtual void s90(); virtual void s91(); virtual void s92(); virtual void s93();
+	virtual void s94(); virtual void s95(); virtual void s96(); virtual void s97(); virtual void s98();
+	virtual void s99();
+	virtual void *rvaSlot100();	// slot 100: non-null skips the terrain systems
+	virtual void s101(); virtual void s102(); virtual void s103(); virtual void s104(); virtual void s105();
+	virtual void s106(); virtual void s107(); virtual void s108(); virtual void s109(); virtual void s110();
+	virtual void s111(); virtual void s112(); virtual void s113(); virtual void s114(); virtual void s115();
+	virtual void s116(); virtual void s117(); virtual void s118(); virtual void s119(); virtual void s120();
+	virtual void s121(); virtual void s122(); virtual void s123(); virtual void s124(); virtual void s125();
+	virtual void s126(); virtual void s127(); virtual void s128(); virtual void s129(); virtual void s130();
+	virtual void s131(); virtual void s132(); virtual void s133(); virtual void s134(); virtual void s135();
+	virtual void s136(); virtual void s137(); virtual void s138(); virtual void s139(); virtual void s140();
+	virtual void s141(); virtual void s142(); virtual void s143(); virtual void s144(); virtual void s145();
+	virtual void s146();
+	virtual Int getRenderingMode();	// slot 147
 };
 
 
 class Rva000E0EDD { public:bool rva000E0EDD(int cameraIndex); };
 class W3DTerrainBackground { public:void rva0011580A(RenderInfoClass&,bool,FXShader::RenderingMethod*); };
 struct TerrainTileView { char unknown00[0x64];float distance;char unknown68[0xD4-0x68]; };
+// Terrain-system callees of the render coordinator (all rowed).
+class RenderObjClass;
+template <class ObjectType> class RefMultiListIterator
+{
+public:
+	RefMultiListIterator(void *list) : List(list), CurNode(((void **)list)[2]) {}
+private:
+	void *List;
+	void *CurNode;
+};
+typedef RefMultiListIterator<RenderObjClass> RefRenderObjListIterator;
+class RTS3DScene
+{
+public:
+	void *getDynamicLights() { return m_dynamicLightList; }
+private:
+	char m_pad000[0x114];
+	char m_dynamicLightList[0x10];	// +0x114
+};
+class W3DTreeBuffer { public: void setIsTerrain() { m_isTerrainPass = true; } private: char m_pad[0x44555]; Bool m_isTerrainPass; };
+class W3DShrubBuffer { public: void setIsTerrain() { m_isTerrainPass = true; } private: char m_pad[0x4FB6D]; Bool m_isTerrainPass; };
+class W3DPropBuffer { public: void drawProps(RenderInfoClass &rinfo); };
+class W3DBibBuffer { public: void renderBibs(void); };
+class W3DFloorBuffer { public: void drawFloors(RenderInfoClass &rinfo, RefCountPtr<FXShader::RenderingMethod> method); };
+class W3DWaypointBuffer { public: void drawWaypoints(RenderInfoClass &rinfo); };
+class RenderContext;
+class Rva000E0856 { public: void render(RenderContext *context); };
+class W3DRoadBuffer { public: void drawRoads(RenderInfoClass &rinfo, RefCountPtr<FXShader::RenderingMethod> method, Int minX, Int maxX, Int minY, Int maxY, RefRenderObjListIterator *pDynamicLightsIterator); };
+class W3DBridgeBuffer { public: void drawBridges(RenderInfoClass &rinfo, RefCountPtr<FXShader::RenderingMethod> method); };
+class TerrainTracksRenderObjClassSystem { public: void flush(void); };
+extern TerrainTracksRenderObjClassSystem *TheTerrainTracksRenderObjClassSystem;
+class Rva00069DB1 { public: void draw(void); };
+void Rva0004CB5FSet(int);
+class WorldHeightMap
+{
+public:
+	Int getXExtent(void) { return m_width; }
+	Int getYExtent(void) { return m_height; }
+	Int getBorderSizeInline(void) const { return m_borderSize; }
+private:
+	char m_pad00[8];
+	Int m_width;	// +0x08
+	Int m_height;	// +0x0C
+	Int m_borderSize;	// +0x10
+};
+
+class BFME2ScopedRenderEvent
+{
+	char Label[256];
+	char Group[64];
+public:
+	BFME2ScopedRenderEvent(const char *label, const char *group, unsigned color);
+	~BFME2ScopedRenderEvent();
+};
+
+class LightClass
+{
+public:
+	enum LightType { POINT = 0, DIRECTIONAL, SPOT };
+	LightClass(LightType type);
+	virtual void Delete_This();
+	virtual void s1(); virtual void s2(); virtual void s3(); virtual void s4();
+	virtual void s5(); virtual void s6(); virtual void s7(); virtual void s8(); virtual void s9();
+	virtual void s10(); virtual void s11(); virtual void s12(); virtual void s13(); virtual void s14();
+	virtual void s15(); virtual void s16(); virtual void s17(); virtual void s18(); virtual void s19();
+	virtual void s20();
+	virtual void Set_Transform(const Matrix3D &m);	// slot 21
+	void Release_Ref() { NumRefs--; if (NumRefs == 0) Delete_This(); }
+	void Set_Ambient(const Vector3 &color) { Ambient = color; }
+	void Set_Diffuse(const Vector3 &color) { Diffuse = color; }
+private:
+	int NumRefs;	// +0x04
+	char m_pad08[0xD4 - 0x08];
+	Vector3 Ambient;	// +0xD4
+	Vector3 Diffuse;	// +0xE0
+	Vector3 Specular;	// +0xEC
+	char m_padF8[0x120 - 0xF8];
+};
+
+class LightEnvironmentClass
+{
+public:
+	LightEnvironmentClass(void);
+	~LightEnvironmentClass(void);
+	void Add_Light(const LightClass &light);
+private:
+	char m_storage[0x228];
+};
+
+class GlobalData;
+extern GlobalData *TheWritableGlobalData;
+struct TerrainLightingGlobals
+{
+	char m_pad000[0x3E];
+	Bool m_drawRoads3E;			// +0x3E, name not recovered
+	char m_pad03F[0x49 - 0x3F];
+	Bool m_useTerrainNormalMap;		// +0x49
+	char m_pad04A[0x8FC - 0x4A];
+	RGBColor m_terrainDiffuse[3];		// +0x8FC
+	Vector3 m_terrainLightPos[3];		// +0x920
+	RGBColor m_terrainLightScale;		// +0x944
+	char m_pad950[0x988 - 0x950];
+	Int m_numGlobalLights;			// +0x988
+};
+#define TheGlobalLighting ((TerrainLightingGlobals *)TheWritableGlobalData)
+
+class Rva0027070CGlobal;
+extern Rva0027070CGlobal *g_00DFE1E4;
+class CloudDimmingView
+{
+public:
+	virtual void s00(); virtual void s01(); virtual void s02(); virtual void s03();
+	virtual void s04(); virtual void s05(); virtual void s06(); virtual void s07();
+	virtual void s08(); virtual void s09(); virtual void s10(); virtual void s11();
+	virtual void s12(); virtual void s13(); virtual void s14();
+	virtual Bool isActive();			// slot 15
+	virtual void s16(); virtual void s17();
+	virtual Vector3 getDimming();			// slot 18
+};
+#define TheCloudDimming ((CloudDimmingView *)g_00DFE1E4)
+
+class WW3D { public: static bool Is_Currently_Rendering_Shadow_Map() { return IsCurrentlyRenderingShadowMap; } private: static bool IsCurrentlyRenderingShadowMap; };
+extern bool bfmeOnlyEmissiveDraws;
+extern bool bfmeCameraProjectionOverride;
+extern unsigned char g_00DFE7A8;
+
 class FlatHeightMapRenderObjClass : public BfmeTerrainRenderView {
 public:
  void renderTerrain(RenderInfoClass&rinfo,int *minX,int *maxX,int *minY,int *maxY);
  void rva000E1C1A(RenderInfoClass&rinfo,bool untextured,int *minX,int *maxX,int *minY,int *maxY,FXShader::RenderingMethod*method);
+ void rva000E2FBD(RenderInfoClass &rinfo);
  virtual void ReleaseResources(void);
  virtual void ReAcquireResources(void);
 private:
- char unknown04[0x3888-4];
+ char unknown04[0x18-4];
+ Matrix3D Transform;	// +0x18
+ char unknown48[0x78-0x48];
+ RTS3DScene *Scene;	// +0x78
+ char unknown7C[0x37C0-0x7C];
+ WorldHeightMap *m_map;	// +0x37C0
+ char unknown37C4[0x3850-0x37C4];
+ W3DTreeBuffer *m_treeBuffer;	// +0x3850
+ W3DShrubBuffer *m_shrubBuffer;	// +0x3854
+ W3DPropBuffer *m_propBuffer;	// +0x3858
+ W3DBibBuffer *m_bibBuffer;	// +0x385C
+ W3DFloorBuffer *m_floorBuffer;	// +0x3860
+ W3DWaypointBuffer *m_waypointBuffer;	// +0x3864
+ Rva000E0856 *m_orderBuffer;	// +0x3868
+ W3DRoadBuffer *m_roadBuffer;	// +0x386C
+ W3DBridgeBuffer *m_bridgeBuffer;	// +0x3870
+ char unknown3874[0x3880-0x3874];
+ Bool m_disableTerrainSystems;	// +0x3880
+ char unknown3881[0x3888-0x3881];
  struct TerrainTileView *m_tiles; int m_numTiles,m_tilesWidth,m_tilesHeight;
  char unknown3898[16];bool m_partial;char unknown38A9[3];int m_currentTile;float m_distanceLimit;
  _STL::vector<void*> m_cameras;
@@ -296,4 +569,159 @@ void FlatHeightMapRenderObjClass::ReleaseResources(void)
 void FlatHeightMapRenderObjClass::ReAcquireResources(void)
 {
 	reinterpret_cast<BaseHeightMapRenderObjClass *>(this)->BaseHeightMapRenderObjClass::ReAcquireResources();
+}
+
+// Retail 0x000E2FBD..0x000E3A8D (2768 bytes, RET 4): BFME 2's terrain-system
+// render coordinator. The BFME 1 Render's tail (roads, scorches, bridges,
+// tracks, waypoints, bibs and the closing texture/shader/material reset)
+// survives around a per-system profile scope; BFME 2 adds the prop, floor,
+// tree-shadow, terrain-particle and order passes, the terrain light
+// environment and the shadow-map / projection-override guards.
+void FlatHeightMapRenderObjClass::rva000E2FBD(RenderInfoClass &rinfo)
+{
+	if (m_disableTerrainSystems)
+		return;
+	BFME2ScopedRenderEvent doTerrainSystems("DoTerrainSystems", "Frame", 0);
+	if (rvaSlot100())
+		return;
+	if (bfmeOnlyEmissiveDraws)
+		return;
+	if (m_treeBuffer)
+		m_treeBuffer->setIsTerrain();
+	if (m_shrubBuffer)
+		m_shrubBuffer->setIsTerrain();
+
+	if (g_00DFE7A8) {
+		BFME2Set_Texture(0, BFME2TextureRef(0));
+		BFME2Set_Texture(1, BFME2TextureRef(0));
+		reinterpret_cast<BaseHeightMapRenderObjClass *>(this)->rva000685E2();
+		ShaderClass::Invalidate();
+		DX8Wrapper::Set_Material(0);
+		if (m_propBuffer)
+			m_propBuffer->drawProps(rinfo);
+		BFME2Set_Texture(0, BFME2TextureRef(0));
+		BFME2Set_Texture(1, BFME2TextureRef(0));
+		reinterpret_cast<BaseHeightMapRenderObjClass *>(this)->rva000685E2();
+		ShaderClass::Invalidate();
+		DX8Wrapper::Set_Material(0);
+		return;
+	}
+
+	LightEnvironmentClass lightEnv;
+	if (TheGlobalLighting->m_useTerrainNormalMap && TheGlobalLighting->m_numGlobalLights > 0) {
+		LightClass *light = new LightClass(LightClass::DIRECTIONAL);
+		light->Set_Ambient(Vector3(0.0f, 0.0f, 0.0f));
+		Vector3 terrainDiffuse(TheGlobalLighting->m_terrainDiffuse[0].red, TheGlobalLighting->m_terrainDiffuse[0].green, TheGlobalLighting->m_terrainDiffuse[0].blue);
+		if (getRenderingMode() < 1) {
+			terrainDiffuse.X *= TheGlobalLighting->m_terrainLightScale.red;
+			terrainDiffuse.Y *= TheGlobalLighting->m_terrainLightScale.green;
+			terrainDiffuse.Z *= TheGlobalLighting->m_terrainLightScale.blue;
+		}
+		if (TheCloudDimming && TheCloudDimming->isActive()) {
+			terrainDiffuse.X *= 1.0f - TheCloudDimming->getDimming().X;
+			terrainDiffuse.Y *= 1.0f - TheCloudDimming->getDimming().Y;
+			terrainDiffuse.Z *= 1.0f - TheCloudDimming->getDimming().Z;
+		}
+		light->Set_Diffuse(terrainDiffuse);
+		Matrix3D mtx;
+		Vector3 lightDir(TheGlobalLighting->m_terrainLightPos[0]);
+		mtx.Set(Vector3(1.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), lightDir, Vector3(0.0f, 0.0f, 0.0f));
+		light->Set_Transform(mtx);
+		lightEnv.Add_Light(*light);
+		light->Release_Ref();
+	}
+	rinfo.light_environment = &lightEnv;
+
+	DX8Wrapper::Set_World_Transform(Transform);
+
+	Int yCoordMax = 0;
+	Int yCoordMin = m_map->getXExtent();
+	Int xCoordMax = 0;
+	Int xCoordMin = m_map->getYExtent();
+	{
+		BFME2ScopedRenderEvent ev("RenderTerrain", "Frame", 0);
+		renderTerrain(rinfo, &xCoordMin, &xCoordMax, &yCoordMin, &yCoordMax);
+	}
+	DX8Wrapper::Set_Vertex_Shader(0);
+	DX8Wrapper::Set_Pixel_Shader(0);
+	reinterpret_cast<BaseHeightMapRenderObjClass *>(this)->rva000685E2();
+	BFME2Set_Texture(0, BFME2TextureRef(0));
+	BFME2Set_Texture(1, BFME2TextureRef(0));
+	ShaderClass::Invalidate();
+
+	if (!WW3D::Is_Currently_Rendering_Shadow_Map() && !bfmeCameraProjectionOverride) {
+		if (TheGlobalLighting->m_drawRoads3E && Scene) {
+			RTS3DScene *pMyScene = Scene;
+			RefRenderObjListIterator pDynamicLightsIterator(pMyScene->getDynamicLights());
+			if (m_roadBuffer) {
+				BFME2ScopedRenderEvent ev("RenderRoads", "Frame", 0);
+				m_roadBuffer->drawRoads(rinfo, m_method,
+					xCoordMin - m_map->getBorderSizeInline(), xCoordMax - m_map->getBorderSizeInline(),
+					yCoordMin - m_map->getBorderSizeInline(), yCoordMax - m_map->getBorderSizeInline(),
+					&pDynamicLightsIterator);
+			}
+		}
+		{
+			BFME2ScopedRenderEvent ev("RenderFloors", "Frame", 0);
+			m_floorBuffer->drawFloors(rinfo, m_method);
+		}
+		BFME2Set_Texture(0, BFME2TextureRef(0));
+		BFME2Set_Texture(1, BFME2TextureRef(0));
+		reinterpret_cast<BaseHeightMapRenderObjClass *>(this)->rva000685E2();
+		ShaderClass::Invalidate();
+		{
+			BFME2ScopedRenderEvent ev("RenderScorches", "Frame", 0);
+			reinterpret_cast<BaseHeightMapRenderObjClass *>(this)->drawScorches();
+		}
+		{
+			BFME2ScopedRenderEvent ev("RenderTreeShadows", "Frame", 0);
+			reinterpret_cast<Rva00069DB1 *>(this)->draw();
+		}
+		{
+			BFME2ScopedRenderEvent ev("RenderTerrainParticles", "Frame", 0);
+			Rva0004CB5FSet((int)&rinfo);
+		}
+	}
+
+	m_bridgeBuffer->drawBridges(rinfo, m_method);
+	BFME2Set_Texture(0, BFME2TextureRef(0));
+	BFME2Set_Texture(1, BFME2TextureRef(0));
+	reinterpret_cast<BaseHeightMapRenderObjClass *>(this)->rva000685E2();
+	ShaderClass::Invalidate();
+	DX8Wrapper::Apply_Render_State_Changes();
+
+	if (!WW3D::Is_Currently_Rendering_Shadow_Map()) {
+		if (TheTerrainTracksRenderObjClassSystem) {
+			BFME2ScopedRenderEvent ev("RenderTerrainTracks", "Frame", 0);
+			TheTerrainTracksRenderObjClassSystem->flush();
+		}
+		ShaderClass::Invalidate();
+		DX8Wrapper::Apply_Render_State_Changes();
+		if (m_waypointBuffer) {
+			BFME2ScopedRenderEvent ev("RenderWaypoints", "Frame", 0);
+			m_waypointBuffer->drawWaypoints(rinfo);
+			DX8Wrapper::Set_World_Transform(Transform);
+			DX8Wrapper::Apply_Render_State_Changes();
+		}
+		if (m_orderBuffer) {
+			BFME2ScopedRenderEvent ev("RenderOrders", "Frame", 0);
+			m_orderBuffer->render((RenderContext *)&rinfo);
+		}
+		{
+			BFME2ScopedRenderEvent ev("RenderBibs", "Frame", 0);
+			m_bibBuffer->renderBibs();
+		}
+	}
+	rinfo.light_environment = 0;
+	if (m_propBuffer) {
+		BFME2ScopedRenderEvent ev("RenderProps", "Frame", 0);
+		m_propBuffer->drawProps(rinfo);
+	}
+
+	// We do some custom blending, so tell the shader class to reset everything.
+	BFME2Set_Texture(0, BFME2TextureRef(0));
+	BFME2Set_Texture(1, BFME2TextureRef(0));
+	reinterpret_cast<BaseHeightMapRenderObjClass *>(this)->rva000685E2();
+	ShaderClass::Invalidate();
+	DX8Wrapper::Set_Material(0);
 }
