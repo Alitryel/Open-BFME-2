@@ -60,7 +60,8 @@ public:
 
 GameSlot *__cdecl Rva00506C82Find(const Rva00506C82Arg *arg);
 
-extern AsciiString g_00E063D4;
+// Owned here (its only reader); retail .data zero-initializes it (VA 0x00E063D4, BSS tail).
+AsciiString g_00E063D4;
 
 class Rva00598CBC
 {

@@ -5,7 +5,8 @@
 // Evidence: fabs 0x629210 row plus global 0x00BC28F8 plus 2 callers in
 // 0x1E7CDF; shape matches Rva00528B37Compare fabs compare precedent.
 
-extern float g_00BC28F8;
+// Owned here (its only reader); retail .rdata holds 0.001f (VA 0x00BC28F8).
+float g_00BC28F8 = 0.001f;
 extern "C" double __cdecl fabs(double v);
 
 int __cdecl Rva001E3896Check(float x)

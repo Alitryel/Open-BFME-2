@@ -3,7 +3,8 @@
 // VSlot 1 of vtable 0x008752DC (Rva005CFA87): time-guarded setter.
 // Evidence: vtable slot via donor Rva005CF9FFFlagNotifyDtors plus IAT timeGetTime plus global g_00E06640 plus new 8B vtable g_00C752A8 plus rowed 0x00575674 setter.
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
-extern unsigned int g_00E06640;
+// Owned here (its only reader); retail .data zero-initializes it (VA 0x00E06640, BSS tail).
+unsigned int g_00E06640 = 0;
 extern "C" const void *const __identifier("??_7Rva005CF925@@6B@")[];
 void *__cdecl operator new(unsigned int size);
 class Object;
