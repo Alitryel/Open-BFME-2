@@ -1,24 +1,13 @@
 // ??1?$_Vector_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ
-// partial score=0.5730462519936204 date=2026-10-15
-// ??1?$_Vector_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ
-// partial score=0.5730462519936204 date=2026-10-14
-// ??1?$_Vector_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ
-// partial score=0.5730462519936204 date=2026-10-14
-// ??1?$_Vector_base@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@XZ
-// partial score=0.5730462519936204 date=2026-10-14
-// Native 001F1609..001F1634; WB B09640 has the same pointer-triple/free spine.
-// This diagnostic body is 14B; retail retains a 43B EH frame/state for empty
-// allocator cleanup at this+8. Object* is a consumer-view inference.
-// No matched row or independent original template identity is asserted.
-// cl: /O1 /G7 /MD /EHsc
-void __cdecl Rva00030830GameFree(void *);
+// partial score=0.86 date=2026-10-16
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /O1 /arch:SSE /G7 /MD /EHa /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// stlport
+// Diagnostic bank: STLport vector<Object*>::~vector (debug twin WB B09640 shows _Destroy
+// locals + one-byte tag, then the inlined _Vector_base body under one EH state). /EHa is the
+// only flag found that keeps an EH frame here (43/43B, 6 bytes: our state 0 protects the base
+// subobject and is reset to -1 at the inlined base dtor; retail sets state 0 there for the
+// _M_end_of_storage proxy at this+8, funclet jmp to the empty ret B3FD0). /EHa is otherwise
+// used only by debug-library units, so the flag is a lead, not a fact.
+#include <vector>
 class Object;
-namespace _STL {
-
-template<class T> class allocator {public:~allocator();};
-template<class P,class T,class A> struct _STLP_alloc_proxy: A {P _M_data; };
-template<class T,class A> struct _Vector_base {T *_M_start,*_M_finish;_STLP_alloc_proxy<T*,T,A> _M_end_of_storage; __declspec(noinline) ~_Vector_base();};
-template<class T,class A> _Vector_base<T,A>::~_Vector_base(){if(_M_start)Rva00030830GameFree(_M_start);}
-
-template struct _Vector_base<Object*,allocator<Object*> >;
-}
+template class _STL::vector<Object *>;
