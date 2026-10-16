@@ -1,4 +1,6 @@
 // ?rva002EDFF9@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@@Z
+// partial score=0.86 date=2026-10-16
+// ?rva002EDFF9@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@@Z
 // partial score=0.838990894163308 date=2026-10-14
 // ?rva002EDFF9@Pathfinder@@QAE_NPAVObject@@PAUCoord3D@@@Z
 // partial score=0.84 date=2026-10-13
@@ -89,9 +91,27 @@ bool rva002EDFF9(Object *obj, Coord3D *out);
 PathfindCell *getCell(PathfindLayerEnum layer, int cellX, int cellY);
 };
 
-void __cdecl Rva002EBCD6Split(void *p, int *outHalf, int *outRest);
-ICoord2D *__cdecl Rva002EBC14Cell(ICoord2D *out, void *obj, const Coord3D *pos);
-void *__cdecl rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4);
+int __cdecl Rva002E9B31Get(void *p);
+__declspec(noinline) inline void __cdecl Rva002EBCD6Split(void *p, int *outHalf, int *outRest)
+{
+	int v = Rva002E9B31Get(p);
+	int h = v / 2;
+	*outHalf = h;
+	*outRest = v - h;
+}
+bool __cdecl Rva002EBBFBIsOdd(void *p);
+ICoord2D *__cdecl Rva002E7875WorldToCell(ICoord2D *out, bool center, const Coord3D *pos);
+__declspec(noinline) inline ICoord2D *__cdecl Rva002EBC14Cell(ICoord2D *out,void *p,const Coord3D *pos) {
+ Rva002E7875WorldToCell(out,Rva002EBBFBIsOdd(p),pos);return out;
+}
+struct PathfinderCellPoint { int x; int y; };
+PathfinderCellPoint __cdecl rva002E79A8(bool, int, int, PathfindLayerEnum);
+typedef void (__cdecl *Rva002E79A8View)(int, unsigned char, int, int, int);
+__declspec(noinline) inline void *__cdecl rva002EBC7F(void *a1, void *a2, Rva002EBC7FPair *a3, int a4)
+{
+	((Rva002E79A8View)&rva002E79A8)((int)a1, Rva002EBBFBIsOdd(a2), a3->x, a3->y, a4);
+	return a1;
+}
 
 bool Pathfinder::rva002EDFF9(Object *obj, Coord3D *out)
 {
