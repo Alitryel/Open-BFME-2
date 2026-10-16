@@ -22,12 +22,60 @@ static inline int decrement(int *p) { return --*p; }
 class ShaderVertexBufferRef { public: virtual void Delete_This(); int NumRefs; void Release_Ref() { decrement(&NumRefs); if(NumRefs==0) Delete_This(); } };
 struct ShaderComResourceRef { void **VTable; };
 typedef unsigned long (__stdcall *ReleaseResource)(ShaderComResourceRef*);
-class TextureBaseClass { public: void Release_Ref(); void Add_Ref(); };
-class ShaderTextureHandle { public:
- TextureBaseClass *ptr;
- ShaderTextureHandle(TextureBaseClass *p):ptr(p) { if(ptr) ptr->Add_Ref(); }
- ~ShaderTextureHandle() { if(ptr) ptr->Release_Ref(); }
- ShaderTextureHandle &operator=(const ShaderTextureHandle &o) { if(o.ptr) o.ptr->Add_Ref(); if(ptr) ptr->Release_Ref(); ptr=o.ptr; return *this; }
+// The texture-slot handles are RefCountPtr<TextureClass>; their assignment is
+// the rowed 0x000424D0, spelled as its owning unit (TextureStatisticsVector.cpp)
+// spells it so this unit's COMDAT copy is the same body.
+class TextureBaseClass
+{
+public:
+	void Add_Ref();
+	void Release_Ref();
+};
+inline void TextureBaseClass::Add_Ref()
+{
+	++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(this) + 4);
+}
+class TextureClass : public TextureBaseClass
+{
+};
+template<class T>
+class RefCountPtr
+{
+public:
+	__declspec(dllimport) __forceinline RefCountPtr() : Referent(0) {}
+	~RefCountPtr()
+	{
+		if (Referent != 0)
+		{
+			Referent->Release_Ref();
+		}
+	}
+	RefCountPtr const &operator=(RefCountPtr const &other)
+	{
+		if (other.Referent != 0)
+			other.Referent->Add_Ref();
+		if (Referent != 0)
+			Referent->Release_Ref();
+		Referent = other.Referent;
+		return *this;
+	}
+	T *Referent;
+};
+struct IDirect3DSurface8;
+struct IDirect3DTexture8;
+// W3DShaderManager's statics under their owners' names (W3DShaderManager.cpp,
+// Rva00075A23Draw.cpp); this unit reads them through its own view types.
+class W3DShaderManager
+{
+public:
+	static void shutdown();
+	static IDirect3DSurface8 *m_oldRenderSurface;
+	static IDirect3DTexture8 *m_renderTexture;
+protected:
+	static int m_currentShader;
+	static int m_currentFilter;
+	static unsigned long m_dwGlowPixelShader;
+	static unsigned long m_dwGlowVertexShader;
 };
 // rva012F9D1C is only an alias of the owned global g_vb (ledger names column); this unit reads the owner through its own view type.
 extern class VertexBufferClass *g_vb;
@@ -35,7 +83,12 @@ extern class VertexBufferClass *g_vb;
 // rva012F9D20 is only an alias of the owned global g_quadIndex (ledger names column); this unit reads the owner through its own view type.
 extern int g_quadIndex;
 #define rva012F9D20 (*(unsigned *)&g_quadIndex)
-extern ShaderComResourceRef *rva012F9D0C, *rva012F9D04, *rva012F9D08, *rva012F9D10;
+// 0x009E1F64..0x009E1F70: the render-to-texture surfaces, under their owners' names.
+extern unsigned int g_Va009E1F6C;
+#define rva012F9D0C (*(ShaderComResourceRef **)&g_Va009E1F6C)
+#define rva012F9D04 (*(ShaderComResourceRef **)&W3DShaderManager::m_oldRenderSurface)
+#define rva012F9D08 (*(ShaderComResourceRef **)&W3DShaderManager::m_renderTexture)
+extern ShaderComResourceRef *rva012F9D10;
 // The native eight-slot table is owned by W3DShroudMaterialPass.cpp.
 extern void *g_shaderTextureSlots[8];
 class BfmeShaderShutdown { public: static void releaseDependentResources(); };
@@ -46,7 +99,7 @@ void BfmeShaderShutdown::releaseDependentResources() {
  if(rva012F9D04) { ((ReleaseResource)rva012F9D04->VTable[2])(rva012F9D04); rva012F9D04=0; }
  if(rva012F9D08) { ((ReleaseResource)rva012F9D08->VTable[2])(rva012F9D08); rva012F9D08=0; }
  if(rva012F9D10) { ((ReleaseResource)rva012F9D10->VTable[2])(rva012F9D10); rva012F9D10=0; }
- for(unsigned i=0;i<8;++i) ((ShaderTextureHandle *)g_shaderTextureSlots)[i]=0;
+ for(unsigned i=0;i<8;++i) ((RefCountPtr<TextureClass> *)g_shaderTextureSlots)[i]=RefCountPtr<TextureClass>();
 }
 
 // ?shutdown@W3DShaderManager@@SAXXZ
@@ -80,7 +133,7 @@ public:
 	virtual int shutdown();
 };
 
-class FilterInterface
+class W3DFilterInterface
 {
 public:
 	virtual void unused0();
@@ -88,23 +141,19 @@ public:
 };
 
 // Target operands at 0x768BD and 0x768D1 span VA 0xDE1F24..0xDE1F2C,
-// proving two shader pointers. The BFME 1 donor has seventeen.
-static ShaderInterface *W3DShaders[2];
-static FilterInterface *W3DFilters[10];
+// proving two shader pointers. The BFME 1 donor has seventeen. Both tables
+// are defined by W3DShaderManager.cpp.
+extern ShaderInterface *W3DShaders[2];
+extern W3DFilterInterface *W3DFilters[10];
 
-class W3DShaderManager
-{
-public:
-	static void shutdown();
-
-protected:
-	static int m_currentShader;
-	static int m_currentFilter;
-	static ShaderVertexBuffer *m_vertexBuffer012F9D1C;
-	static ShaderComResourceRef *m_resource012F9D14;
-	static ShaderComResourceRef *m_resource012F9D18;
-	static ShaderComResourceRef *m_resource012F9D24;
-};
+// The quad vertex buffer (0x009E1F7C), the glow shader handles
+// (0x009E1F74/0x009E1F78) and the vertex shader (0x009E1F84), released as
+// COM resources here, under their owners' names.
+extern unsigned g_fvfShader;
+#define m_vertexBuffer012F9D1C (*(ShaderVertexBuffer **)&g_vb)
+#define m_resource012F9D14 (*(ShaderComResourceRef **)&m_dwGlowPixelShader)
+#define m_resource012F9D18 (*(ShaderComResourceRef **)&m_dwGlowVertexShader)
+#define m_resource012F9D24 (*(ShaderComResourceRef **)&g_fvfShader)
 
 void W3DShaderManager::shutdown()
 {
