@@ -22,3 +22,9 @@ public:
 Rva005CC5E5::Rva005CC5E5()
 {
 }
+
+// Retail slot 0 of vtable 0x00874E6C is the shared one-byte RET at
+// 0x000B3FD0 (identical-code-folded empty virtual).
+void Rva005CC5E5::slot0()
+{
+}
