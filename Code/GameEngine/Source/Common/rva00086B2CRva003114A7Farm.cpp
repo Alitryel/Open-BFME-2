@@ -1,6 +1,7 @@
 // ?rva00086B2C@Rva008B77D@@UAEXHHMMHH@Z
-// partial score=0.986 date=2026-10-06
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // ?rva00086B2C@Rva008B77D@@UAEXHHMMHH@Z @0x003114A7 144B
 // Slot 2 (offset 0x8) of vtable 0x007C7514 (class of ??1Rva008B77D@@UAE@XZ).
@@ -49,10 +50,12 @@ void Rva008B77D::rva00086B2C(int value, int duration, Real first, Real second, i
 	m_0C = stored;
 	if ((unsigned char)flag)
 		m_38 = 0.0f;
+	bool tmp46b = (m_0C != 0);
 	m_40 = 0;
 	m_45 = 0;
 	m_3C = 0.0f;
-	m_46 = stored != 0;
+	_ReadWriteBarrier();
+	m_46 = (1 ? tmp46b : tmp46b);
 	m_48 = 0.0f;
 	m_4C = 0.0f;
 	m_50 = 0.0f;
