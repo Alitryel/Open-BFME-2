@@ -94266,3 +94266,4 @@ $L923,,0x007A8E96,15,Code/Libraries/Source/Apt/AptValue/AptValueConstructBuiltIn
 ?dissolveComboHordeIfNeeded@HordeContain@@QAE_NXZ,,0x0046AD8B,391,Code/GameEngine/Source/GameLogic/Object/Contain/HordeContainDissolveComboHorde.cpp,matched,banked horde dissolve check; view destructor flag and inline getters
 ?rva00271898@Rva00271826@@QAEPBURva00271898Color@@XZ,,0x00271898,147,Code/GameEngine/Source/GameClient/rva00271898Rva00271898Farm.cpp,matched,
 ?Update@Rva002B74DE@@QAEHXZ,,0x002BB7D6,623,Code/GameEngine/Source/Common/UpdateRva002BB7D6Farm.cpp,matched,
+?slot38@TransportContain@@UAE_NPAVObject@@HH@Z,,0x00466EDE,258,Code/GameEngine/Source/GameLogic/Object/Contain/slot38Rva00466EDEFarm.cpp,matched,

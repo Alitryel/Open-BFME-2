@@ -1,5 +1,4 @@
 // ?slot38@TransportContain@@UAE_NPAVObject@@HH@Z
-// partial score=0.95 date=2026-10-15
 // cl: /O1 /G7 /MD /DNDEBUG /Oy- /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 #include <list>
@@ -58,16 +57,17 @@ bool TransportContain::slot38(Object *rider,int checkCapacity,int trailing)
         if (!reinterpret_cast<OpenContain *>(this)->OpenContain::isValidContainerFor(rider,*reinterpret_cast<bool *>(&checkCapacity),*reinterpret_cast<bool *>(&trailing)))
             return false;
         if ((rider->type[0x118]&0x10) && moduleData()->flag13D) {
-            unsigned used=count();
-            return used<maximum();
+            unsigned used2=count();
+            unsigned max2=maximum();
+            return used2<max2;
         }
         unsigned slots=static_cast<unsigned>(rider->rva0028FBBE());
         if (slots==0)
             return false;
         if (*reinterpret_cast<const unsigned char *>(&checkCapacity)) {
-            unsigned used=count()+m_extraSlotsInUse;
-            used+=slots;
-            return maximum()>=used;
+            unsigned cnt=count();
+            slots+=(1 ? cnt : cnt)+m_extraSlotsInUse;
+            return maximum()>=(1 ? slots : slots);
         }
         return true;
     }
