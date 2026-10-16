@@ -14,13 +14,32 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Keep vector<void*> accessors inline without emitting this unit's COMDAT
+// copies: retail's out-of-line ones are the /Od bodies at 0x00023B90-0x00023C20.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void *const *vector<void*>::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void*>::operator[](size_t __n) { return *(begin() + __n); }
+template <> __declspec(dllimport) __forceinline
+void *const &vector<void*>::operator[](size_t __n) const { return *(begin() + __n); }
+}
 #include "../../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 class Player;
 class AsciiString;
 template<class C> class StringBase { public: void set(const StringBase &); void *data; };
 class Object { public: const AsciiString *rva00290E67() const; int rva00294ADD(int); char pad[0x74]; unsigned int id; };
-class UpgradeTemplate { public: unsigned int rva0026EF50(Player *,Object *) const; char pad[8]; StringBase<char> name; };
+// 0x0026EF50 is rowed ?calcCostToBuild@UpgradeTemplate@@QBEIPAVPlayer@@I@Z
+// (UpgradeTemplateCalcCostToBuild.cpp); its second argument is the requesting
+// object, carried in that row's unsigned parameter.
+class UpgradeTemplate { public: unsigned int calcCostToBuild(Player *,unsigned int) const; char pad[8]; StringBase<char> name; };
 class CommandButton { public: char pad[0x24]; UpgradeTemplate *upgrade; };
 class CommandSet { public: const CommandButton *getCommandButton(int) const; };
 class Rva0031D5F8 { public: void *rva0031D5F8(const AsciiString *); };
@@ -49,7 +68,7 @@ void AIUnitUpgrader::Register(Object *object, void *)
    if (!upgrade) continue;
    Rva002A8AB1Record *ai=g_00DFEEF8->rva002A8AB1(owner);
    Rva005DAFD7 *record=new Rva005DAFD7;
-   record->cost=upgrade->rva0026EF50(owner,object);
+   record->cost=upgrade->calcCostToBuild(owner,(unsigned int)object);
    record->id=object->id;
    record->command=command;
    record->name.set(upgrade->name);
