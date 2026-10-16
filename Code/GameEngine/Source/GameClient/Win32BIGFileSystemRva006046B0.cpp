@@ -1,9 +1,8 @@
-// ?addArchiveFile@Win32BIGFileSystem@@UAE_NPBD_N@Z
-// partial score=1.0 date=2026-10-15
-// ?addArchiveFile@Win32BIGFileSystem@@UAE_NPBD_N@Z
-// ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z
-// partial score=0.9922685185185185 date=2026-10-15
 // cl: /Ireference/shims/bfmealloc /O1 /arch:SSE /G7 /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+//
+// ?addArchiveFile@Win32BIGFileSystem@@UAE_NPBD_N@Z, retail 0x006046b0, 314 bytes. Banked partial (score 1.0) closed by tools/permute.py;
+// the body is the banked one up to statement/operand order and local types.
+// ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z
 // stlport
 // W7-D1 r11: native6045A2..6046B0 RET16; whole270B and frame44 exact.
 // insertFolder(const source_pair&) makes the const-key copy INSIDE an inline
@@ -125,6 +124,7 @@ void __cdecl operator delete[](void *) throw();
 // records and fields are descriptive views, not original-name claims.
 static __forceinline void insertFolder(BigFolderMap&m,const _STL::pair<const char*,BigMemberMap>&v,BigFolderMap::iterator&out) { BigFolderMap::value_type copy(v);out=m.insert(copy).first; }
 struct SecondInfoPairPad { unsigned char pad[15]; BigMemberMap::value_type value; __forceinline SecondInfoPairPad(const char*k,const BigArchiveMemberInfo&i):value(k,i){} };
+// ?rva006045A2@Win32BIGFileSystem@@QAE_NPBD0PAUBigArchiveMemberInfo@@_N@Z present-unmatched
 bool Win32BIGFileSystem::rva006045A2(const char *folder, const char *name,
                                   BigArchiveMemberInfo *info, bool overwrite)
 {
