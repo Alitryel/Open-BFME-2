@@ -1,5 +1,5 @@
 // ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NPAVHAnimClass@@HMABVMatrix3D@@PAV3@@Z
-// partial score=0.9612220526 date=2026-10-16
+// partial score=0.9963081356 date=2026-10-16
 // cl: /O2 /Ireference/shims/bfme2htree /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /D_STLP_USE_STATIC_LIB /D_CRTIMP= /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /DBFME_MODULE_NO_MPO /DZH_EMIT_POOL_GLUE /Ireference/shims/bfmerendobj /Ireference/shims/debugvtable /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/bfmeanimobj /Ireference/shims/indexbuffercount /Ireference/shims/bfmecaps /Ireference/shims/bfmehcanim /Ireference/shims/bfmevector /Ireference/shims/bfmemapper /Ireference/shims/meshmatdesclayout /Ireference/shims/bfmeshader /Ireference/shims/bfmecpudetect /Ireference/shims/bfmepool /Ireference/open-bfme-1/Code/GameEngine/Include/Precompiled /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/GameNetwork /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWAudio /Ireference/shims/bfmealloc /Ireference/shims/bfmehashtable /Ireference/shims/bfmelist /Ireference/shims/asciistring_downloadmanager /Ireference/shims/stlp_nodealloc /Ireference/shims/asciistring_thin /ICode/GameEngine/Source/Common /Ireference/shims/w3droadbuffer /Ireference/shims/bfmeterraintracks /ICode/Libraries/Include/Lib
 // The compiler-generated vector constructor iterator (??_H) takes the
 // optimization state of the first function that needs it. Retail links one
@@ -96,7 +96,6 @@ bool HTreeClass::read_pivots(ChunkLoadClass &cload, bool pre30)
     reinterpret_cast<Bfme2HTreePivot *>(Pivot)[0].PivotFade = 1.0f;
     return true;
 }
-
 // Animated compact-pivot evaluation; see bank 0x00161700 for target evidence.
 struct S2CompactTransform {
  Quaternion Q; Vector3 Position;
@@ -129,8 +128,22 @@ static __forceinline void compose(const S2CompactTransform&a,const S2CompactTran
  result.Q=a.Q*b.Q;
 }
 
+static __forceinline void rotate2(const Quaternion &q,const Vector3&v,Vector3*out){
+ float x=(q.Y*v.Z-q.Z*v.Y)+q.W*v.X;
+ float y=-(q.X*v.Z-q.Z*v.X)+q.W*v.Y;
+ float z=(q.X*v.Y-q.Y*v.X)+q.W*v.Z;
+ float w=0.0f-(q.X*v.X+q.Y*v.Y+q.Z*v.Z);
+ out->X=(q.Y*z-y*q.Z)+(q.W*x-q.X*w);
+ out->Y=(q.W*y-q.Y*w)-(q.X*z-q.Z*x);
+ out->Z=((1 ? (q.X*y) : (q.X*y))-q.Y*x)+(q.W*z-q.Z*w);
+}
+static __forceinline void compose2(const S2CompactTransform&a,const S2CompactTransform&b,S2CompactTransform&result){
+ Vector3 r;rotate2(a.Q,b.Position,&r);result.Position=r+a.Position;
+ result.Q=a.Q*b.Q;
+}
+
 static __forceinline Matrix3D &S2PivotMatrix(const S2CompactTransform &q,Matrix3D &m) {
- const float xx=q.Q.X*q.Q.X*2.0f,xy=q.Q.X*q.Q.Y*2.0f,xz=q.Q.Z*q.Q.X*2.0f,wx=q.Q.W*q.Q.X*2.0f;
+ const float xx=q.Q.X*q.Q.X*2.0f,xy=q.Q.Y*(q.Q.X*2.0f),xz=q.Q.Z*q.Q.X*2.0f,wx=q.Q.W*q.Q.X*2.0f;
  const float yy=q.Q.Y*q.Q.Y*2.0f,yz=q.Q.Z*q.Q.Y*2.0f,wy=q.Q.W*q.Q.Y*2.0f;
  const float zz=q.Q.Z*q.Q.Z*2.0f,wz=q.Q.W*q.Q.Z*2.0f;
  m[0][0]=1.0f-yy-zz;m[0][1]=xy-wz;m[0][2]=xz+wy;
@@ -149,7 +162,7 @@ bool HTreeClass::Simple_Evaluate_Pivot(HAnimClass *motion,int pivot_index,float 
   ((S2CompactAnimView*)motion)->rva_vt28(anim,p->Index,frame);
   anim.Position*=ScaleFactor;
   S2CompactTransform current;compose(p->Base,anim,current);
-  compose(current,total,total);
+  compose2(current,total,total);
  }
  S2PivotMatrix(total,*end_tm);
  end_tm->preMul(obj_tm);
