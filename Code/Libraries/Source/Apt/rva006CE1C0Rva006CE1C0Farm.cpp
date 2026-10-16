@@ -1,7 +1,5 @@
 // ?rva006CE1C0@@YAXH@Z
-// partial score=0.937885 date=2026-10-14
 // ?rva006CE1C0@@YAXH@Z
-// partial score=0.9157625002 date=2026-10-09
 // cl: /O2 /MD /EHsc
 // Native CE1C0..CE37A sweep and WB174FD80 independently establish the
 // reverse vector iteration, CIH flags5C, name8, animation4C, file-ref34,
@@ -32,7 +30,7 @@ class Rva006CE1C0Ref {public:Rva006CE1C0File *value;
  Rva006CE1C0Ref():value(0){}
  ~Rva006CE1C0Ref(){if(value && !Rva006CFDF0DecRef((int *)value))bfmeDropVGO(value);}
  Rva006CE1C0Ref &operator=(const Rva006CE1C0Ref &other) {
-  if(this!=&other){if(value && !Rva006CFDF0DecRef((int *)value))bfmeDropVGO(value);value=other.value;}
+  if(&other!=this){if(value && !Rva006CFDF0DecRef((int *)value))bfmeDropVGO(value);value=other.value;}
   return *this;
  }
 };
@@ -43,15 +41,18 @@ void Rva006CC110Log(int,const char *,...);
 void rva006CE1C0(int force) {
  if(!g_aptOptionalValueVector)return;
  for(int i=g_aptOptionalValueVector->GetNumValues()-1;i>=0;--i) {
-  AptValue *value=(i ? g_aptOptionalValueVector : g_aptOptionalValueVector)->at(i);
+  AptValue *value=(1 ? g_aptOptionalValueVector : g_aptOptionalValueVector)->at(i);
   if(value) {
    Rva006CE1C0CIH *cih=(Rva006CE1C0CIH *)((BfmeAptValue006DCD20 *)value)->rva006DCF60(true);
    if((cih->flags&0xc0000)==0x40000 && ((unsigned char)force || !(cih->flags&0xffff))) {
     Rva006CE1C0State *state=(Rva006CE1C0State *)((Rva006CD650 *)cih)->rva006CD650();
     g_aptOptionalValueVector->rva006CC0A0(i);
-    cih->flags&=0xfff3ffff;
-    Rva006CE1C0File *file=state->file.value;file->state=4;
-    if(file->refs>2 && !(unsigned char)force)
+    unsigned f=(1 ? cih->flags : cih->flags);
+    f&=0xfff3ffff;
+    cih->flags=f;
+    Rva006CE1C0File *file=state->file.value;
+    file->state=4;
+    if(!(unsigned char)force && *(volatile int*)&state->file.value->refs>2)
      Rva006CC110Log(3,"WARNING :: ZOMBIE SPRITE[name = %s  file = %s.swf  size = %d bytes] NO LONGER HAS EXTERNAL FUNCTION REFERENCES, REMOVING SPRITE FROM MEMORY NOW\n",cih->name.rva00620090(),state->file.value->name.rva00620090(),(state->file.value->size ? state->file.value->size : state->file.value->size));
     else
      Rva006CC110Log(3,"WARNING :: ANIMATION[name = %s  file = %s.swf  size = %d bytes] NO LONGER HAS EXTERNAL FUNCTION REFERENCES, REMOVING FILE FROM MEMORY NOW\n",cih->name.rva00620090(),state->file.value->name.rva00620090(),(state->file.value->size ? state->file.value->size : state->file.value->size));
