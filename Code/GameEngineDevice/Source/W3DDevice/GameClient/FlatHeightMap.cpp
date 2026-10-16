@@ -113,10 +113,13 @@ private:
 
 class ShaderClass
 {
+	friend class DX8Wrapper;
 public:
 	static ShaderClass _PresetOpaque2DShader;
 	static void Invalidate() { ShaderDirty = true; }
 	unsigned int ShaderBits;
+protected:
+	// shader.h: protected, DX8Wrapper a friend (ShaderClassApply.cpp ?ShaderDirty@ShaderClass@@1_NA).
 	static bool ShaderDirty;
 };
 

@@ -286,6 +286,9 @@ public:
 class DX8Wrapper
 {
 public:
+	// dx8wrapper.cpp's protected statics (@@1), read through dx8wrapper.h's accessors.
+	__declspec(dllimport) __forceinline static bool Get_Fog_Enable() { return FogEnable; }
+protected:
 	static bool FogEnable;
 };
 
@@ -451,7 +454,7 @@ void RTS3DScene::renderOneObject(RenderInfoClass &rinfo, RenderObjClass *robj, I
 	}
 
 	Real foggedLightFrac = (Real)TheWritableGlobalData->m_clearAlpha / (Real)TheWritableGlobalData->m_fogAlpha;
-	if (DX8Wrapper::FogEnable)
+	if (DX8Wrapper::Get_Fog_Enable())
 		rinfo.fogColor = m_fogColor;
 
 	Vector3 ambient = Get_Ambient_Light();
@@ -598,7 +601,7 @@ void RTS3DScene::renderOneObject(RenderInfoClass &rinfo, RenderObjClass *robj, I
 		if (ss == OBJECTSHROUD_FOGGED)
 		{
 			rinfo.light_environment = &m_foggedLightEnv;
-			if (DX8Wrapper::FogEnable)
+			if (DX8Wrapper::Get_Fog_Enable())
 			{
 				Vector3 fogged(m_fogColor.X * foggedLightFrac, m_fogColor.Y * foggedLightFrac, m_fogColor.Z * foggedLightFrac);
 				rinfo.fogColor.X = fogged.X;

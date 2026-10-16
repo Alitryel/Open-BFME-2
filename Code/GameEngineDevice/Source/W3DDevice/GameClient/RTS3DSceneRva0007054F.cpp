@@ -139,7 +139,8 @@ class RefRenderObjListIterator{public:RefRenderObjListIterator(GenericMultiListC
 class PlayerList;extern PlayerList*ThePlayerList;struct ScenePlayerView{char gap[0x54];int index;};struct ScenePlayerListView{char gap[0x10];ScenePlayerView*local;};
 class TerrainLogic;extern TerrainLogic*TheTerrainLogic;struct SceneTerrainView{char gap[0x1914];bool preview;};
 class GlobalData;extern GlobalData*TheWritableGlobalData;struct SceneGlobalView{char gap[0xd34];bool modeD34;char gapD35[15];bool skipTerrain;};
-class DX8Wrapper{public:static bool FogEnable;};extern bool bfmeCameraProjectionOverride,bfmeOnlyEmissiveDraws;// Neutral modeling name for the unowned bool at native DE1EB8; original identity unknown.
+class DX8Wrapper{public:__declspec(dllimport) __forceinline static bool Get_Fog_Enable() { return FogEnable; } protected:static bool FogEnable;}; // FogEnable: dx8wrapper.cpp's protected static (@@1)
+extern bool bfmeCameraProjectionOverride,bfmeOnlyEmissiveDraws;// Neutral modeling name for the unowned bool at native DE1EB8; original identity unknown.
 extern bool SceneModeOverride;
 class WW3D{static bool IsCurrentlyRenderingShadowMap;public:static bool Is_Rendering_Shadow_Map(){return IsCurrentlyRenderingShadowMap;}};
 extern int Rva00309E4BGet();struct SceneWaterView{char gap[0x20];bool active;};
@@ -181,7 +182,7 @@ void RTS3DScene::rva0007054F(RenderInfoClass&rinfo)
  RenderObjClass*terrainObject=0,*robj;
  translucentCount=0;occludedCount=0;
  int localPlayerIndex=ThePlayerList?((ScenePlayerListView*)ThePlayerList)->local->index:0;
- if(DX8Wrapper::FogEnable)rinfo.FogColor=FogColor;
+ if(DX8Wrapper::Get_Fog_Enable())rinfo.FogColor=FogColor;
  if(customPassMode==0)Visibility_Check(rinfo.camera);
  int preview=0;if(TheTerrainLogic)preview=((SceneTerrainView*)TheTerrainLogic)->preview;
  if(customPassMode==0){

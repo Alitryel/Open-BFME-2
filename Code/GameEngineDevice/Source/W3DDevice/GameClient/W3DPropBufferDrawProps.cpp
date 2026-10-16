@@ -141,9 +141,13 @@ class Rva0013BEB0DwordSlot { public: void set(Int value); };
 
 class DX8Wrapper
 {
-public:
+protected:
+	// dx8wrapper.cpp's protected statics (@@1, 0x009EDA21/24), read through dx8wrapper.h's accessors.
 	static bool FogEnable;
 	static unsigned long FogColor;
+public:
+	__declspec(dllimport) __forceinline static bool Get_Fog_Enable() { return FogEnable; }
+	__declspec(dllimport) __forceinline static unsigned long Get_Fog_Color() { return FogColor; }
 	static __forceinline Vector3 Convert_Color(unsigned color)
 	{
 		Vector3 col;
@@ -319,8 +323,8 @@ void W3DPropBuffer::drawProps(RenderInfoClass &rinfo)
 		if (m_props[i].ss <= OBJECTSHROUD_INVALID) {
 			continue;
 		}
-		if (DX8Wrapper::FogEnable) {
-			rinfo.FogColor = DX8Wrapper::Convert_Color(DX8Wrapper::FogColor);
+		if (DX8Wrapper::Get_Fog_Enable()) {
+			rinfo.FogColor = DX8Wrapper::Convert_Color(DX8Wrapper::Get_Fog_Color());
 		}
 		if (TheTerrainRenderObject->getShroud() && m_props[i].ss != OBJECTSHROUD_CLEAR) {
 			rinfo.Push_Material_Pass(m_propShroudMaterialPass);
