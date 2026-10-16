@@ -31,7 +31,7 @@ enum StateExitType
 	EXIT_NORMAL = 0
 };
 
-#include "../../../../Libraries/Include/Lib/Coord3D.h"
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 #include "../../Common/GameLogicObjectLookupView.h"
 
 class BfmeSubBGB
@@ -181,4 +181,77 @@ StateReturnType AIBurningDeathState::onEnter()
     m_goalPosition.x = goal.x;
     m_goalPosition.y = goal.y;
     return AIInternalMoveToState::onEnter();
+}
+
+// 0x003469F5 (376 bytes, RET4 with the hidden Coord3D result): the burning
+// unit's next wander goal around its death position. Target facts: the
+// owner's AI (+0x258) current locomotor (+0x1F0) template (+4) radius (+0xFC)
+// and circular flag (+0x100); circular rotates (radius, 0, 0) by a random
+// angle in [0, 2pi), otherwise a +-REAL_TO_INT_FLOOR(radius / 10 + 0.5)
+// (default 3) cell offset of 10 units; the z of that offset is never set.
+// Lead facts: WorldBuilder twin 0xE33D80 (AIStates.cpp lines 0x4535..0x4542)
+// shows a Vector3 rotated by Vector3::Rotate_Z(angle) (sin then cos as
+// statements, then the two-argument rotate) and the result built from the
+// rotated vector and the death position. Member names are structural.
+#include <math.h>
+float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
+int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
+static __forceinline float burningFloorf(float x) { return (float)floor((double)x); }
+static __forceinline long fast_float2long_round(float f)
+{
+	long i;
+	__asm {
+		fld [f]
+		fistp [i]
+	}
+	return i;
+}
+#define REAL_TO_INT_FLOOR(x) (fast_float2long_round(burningFloorf(x)))
+
+struct BurningVector3
+{
+	float X, Y, Z;
+	BurningVector3() {}
+	BurningVector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
+	__forceinline void Rotate_Z(float angle)
+	{
+		float s = sinf(angle);
+		float c = cosf(angle);
+		Rotate_Z(s, c);
+	}
+	__forceinline void Rotate_Z(float s_angle, float c_angle)
+	{
+		float tmp_x = X;
+		float tmp_y = Y;
+		X = c_angle * tmp_x - s_angle * tmp_y;
+		Y = s_angle * tmp_x + c_angle * tmp_y;
+	}
+};
+struct BurningLocomotorTemplate { char m_pad00[0xFC]; float m_radius; bool m_circular; };
+struct BurningLocomotor { char m_pad00[4]; const BurningLocomotorTemplate *m_template; };
+struct BurningAI { char m_pad000[0x1F0]; BurningLocomotor *m_curLocomotor; };
+
+Coord3D AIBurningDeathState::rva003469F5()
+{
+	BurningAI *ai = (BurningAI *)getMachineOwner()->getAI();
+	int delta = 3;
+	if (ai->m_curLocomotor)
+	{
+		float radius = ai->m_curLocomotor->m_template->m_radius;
+		if (ai->m_curLocomotor->m_template->m_circular)
+		{
+			BurningVector3 pivot(radius, 0.0f, 0.0f);
+			pivot.Rotate_Z(GetGameLogicRandomValueReal(0.0f, 6.2831855f, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\AI\\AIStates.cpp", 0x4535));
+			Coord3D result;
+			result.x = m_deathPosition.x + pivot.X;
+			result.y = m_deathPosition.y + pivot.Y;
+			result.z = m_deathPosition.z;
+			return result;
+		}
+		delta = REAL_TO_INT_FLOOR(radius / 10.0f + 0.5f);
+	}
+	BurningVector3 offset;
+	offset.X = GetGameLogicRandomValue(-delta, delta, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\AI\\AIStates.cpp", 0x4541) * 10 + m_deathPosition.x;
+	offset.Y = GetGameLogicRandomValue(-delta, delta, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\AI\\AIStates.cpp", 0x4542) * 10 + m_deathPosition.y;
+	return Coord3D(offset.X, offset.Y, offset.Z);
 }
