@@ -18,13 +18,5 @@ bool FileSystem::getFileInfo(const AsciiString &a, FileInfo *b) const
 	return getFileInfo(a.str(), b);
 }
 
-// Legacy separately rowed 17-byte catch at 0x00077CFE. Its immediate is
-// the native continuation VA. The sibling catch at 0x00077F5E belongs
-// inside Rva00077E05Load and is emitted by its actual C++ try/catch.
-extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA( const char *text );
-
-int Rva00077CFE()
-{
-	OutputDebugStringA( "Error opening file \n" );
-	return 0x00477CE6;
-}
+// The 17-byte catch at 0x00077CFE is Rva00077C19Load's own catch(...) block
+// (W3DShaderManager.cpp), rowed with its parent.
