@@ -12,7 +12,7 @@
 // cleared words +0x24..+0x2C, a vector at +0x30, 1 at +0x48, an AsciiString
 // at +0x4C, four owning holders +0x50..+0x5C each given a new 0x20-byte
 // Rva002834C4 (rowed ctor; holder dtor 0x002833E7), the beacon-path list at
-// +0x64, the int-keyed map at +0x56C, a vector at +0x578. The body clears the
+// +0x64, the waypoint-ID cache at +0x56C, a vector at +0x578. The body clears the
 // remaining words, zeroes the 64 records at +0x68, fills the 1250-word table
 // at +0x588 with -1, registers the two listener bases with the +0x54 and +0x58
 // objects (rowed append 0x005A0B4C) and creates the +0x584 Rva00283081
@@ -61,18 +61,9 @@ public:
 	~TerrainLogicListenerB();
 };
 
-struct Rva00501875Count
-{
-	int m_count;
-};
-
-// Bind EH cleanup to the byte-verified count-tree destructor in
-// Rva00501875KeyPresence.cpp rather than emit this TU's competing copy.
-namespace _STL {
-template <> _Rb_tree<int, pair<const int, Rva00501875Count>,
-    _Select1st<pair<const int, Rva00501875Count> >, less<int>,
-    allocator<pair<const int, Rva00501875Count> > >::~_Rb_tree();
-}
+// Native getWaypointByID28333F stores Waypoint pointers keyed by unsigned ID
+// at +56C; xfer clears that same cache through280AB6.
+class Waypoint;
 
 // Native buildBeacons283E9C accesses +64 as a list of coordinate lists.
 // Node copy282843 and clear283002 confirm nested value ownership.
@@ -157,7 +148,7 @@ private:
 	_STL::list<TerrainBeaconPath> m_64;				// +0x64
 	TerrainLogicRecord m_records[64];					// +0x68
 	Int m_568;											// +0x568
-	_STL::map<Int, Rva00501875Count> m_56C;				// +0x56C
+	_STL::map<unsigned int, Waypoint *> m_56C;				// +0x56C
 	_STL::vector<Int> m_578;							// +0x578
 	Rva00283081 *m_584;									// +0x584
 	Int m_588[1250];									// +0x588
@@ -228,7 +219,7 @@ Rva00062A7EProduct::Rva00062A7EProduct() : m_mapMinZ(0), m_mapMaxZ(1)
 
 // Native getWaypointByID28333F and xfer identify the +56C waypoint-ID cache.
 // Its ctor chain is 33C432 -> 1F068F -> 1F0534; retain the typed providers
-// here while reconciling the constructor member and its teardown chain.
+// here with the constructor member and its native teardown chain.
 class Waypoint;
 typedef _STL::pair<const unsigned int, Waypoint *> TerrainWaypointPair;
 typedef _STL::_Rb_tree_base<TerrainWaypointPair, _STL::allocator<TerrainWaypointPair> > TerrainWaypointTreeBase;
