@@ -50,7 +50,7 @@ class StrategicHUD::BuildQueueDetailsMovieClip::Impl::QueuedIconSlot{public:Queu
 class StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot{public:InProgressIconSlot(Impl*);char bytes[0x2c];};
 struct Rva005F74BA{Rva005F74BA(void*p=0):ptr(p){}~Rva005F74BA();void*ptr;};
 
-class Rva005F74A0{public:Rva005F74A0(StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot*p):ptr(p){}void clear();__forceinline ~Rva005F74A0(){clear();}void*ptr;};
+class Rva005F74A0{public:Rva005F74A0(StrategicHUD::BuildQueueDetailsMovieClip::Impl::InProgressIconSlot*p):ptr(p){}void clear();~Rva005F74A0();void*ptr;};	// dtor rowed at 0x005F74A0 (Rva005F75C9Dtor.cpp; clear() is the same body)
 class Rva005F74D4{public:void rva005F74D4(StrategicHUD::BuildQueueDetailsMovieClip::Impl::QueuedIconSlot*);};
 class Rva005F830AHeap{public:Rva005F830AHeap(void*,void*,void*,void*,void*);void*owner;int level;AsciiString name;UnicodeString title;void*word10;AptCommandMapAdder maps;Rva005242D7 images;Rva00524265 renderers;Rva005F74A0 progress;Rva005F74BA queued[7];UnicodeString ptr58;int word5C,word60;bool f64,f65,f66,f67;};
 template<class T>static __forceinline DelegateDesc MakeBinding(T*o,void(T::*m)(void*)){DelegateDesc d(o,m);return d;}
