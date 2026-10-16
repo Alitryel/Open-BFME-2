@@ -449,6 +449,8 @@ class Rva005FED52
 public:
 	Rva005FED52(EmitVtableTag *);
 public:
+	// Retail vftable 0x00837064: invoke (0x003F5BBB) first, then the deleting dtor.
+	virtual bool invoke(int);
 	virtual ~Rva005FED52();
 };
 
