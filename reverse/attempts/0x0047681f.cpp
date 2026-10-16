@@ -1,5 +1,5 @@
 // ?_horseUpdatePosition@HorseHordeContain@@QAEXPAVObject@@PBUCoord3D@@M@Z
-// partial score=0.9890384529 date=2026-10-16
+// partial score=0.9963 date=2026-10-16
 // cl: /DNDEBUG /MD /D_STLP_NO_EXCEPTIONS
 
 //
@@ -282,13 +282,15 @@ void HorseHordeContain::_horseUpdatePosition(Object*obj,const Coord3D*destinatio
  Locomotor*unitLoco=unitAI->loco;Locomotor*leaderLoco=leaderAI->loco;
  if(!unitLoco||!leaderLoco)return;
  if(unitLoco->rva001E4194(obj)){obj->clear110(0x20000000);return;}
- float distance;{Coord3D delta;delta.x=goal.x-current.x;delta.y=goal.y-current.y;delta.z=0;
- distance=delta.length();}
- float extendedDistance=distance;
+ // delta's block encloses the path temp (retail: frame 0x4c, delta/near-desired at -0x30, pathtemp -0x4c);
+ // residue: far-desired shares current's slot (-0x3c), retail puts it inside pathtemp's (-0x48).
+ float distance,extendedDistance;{Coord3D delta;delta.x=goal.x-current.x;delta.y=goal.y-current.y;delta.z=0;
+ distance=delta.length();
+ extendedDistance=distance;
  if(leaderAI->path){
   extendedDistance+=((Rva00363D20*)&leaderAI->path->rva00364521((const Rva0008BB38FloatField*)leaderAI->loco))->rva00363D20();
   extendedDistance-=((const Rva0008BB38FloatField*)leaderLoco)->get();
- }
+ }}
  bool shouldIdle=false,shouldSpecial=false;
  if(mode==0){
   if(!(unitAI->s1BC()&&leaderAI->s1BC())&&(leaderAI->isMoving()||unitAI->s1B8())){
