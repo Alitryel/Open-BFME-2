@@ -200,6 +200,7 @@ public:
 };
 
 
+struct TintDrawable { char pad[0x118]; unsigned int m_tintStatus; __forceinline void setTintStatus(unsigned int b) { m_tintStatus |= b; } };
 class Rva001E4A4E {public:int rva001E4A4E(int);};
 class Rva00270619 {public:void Rva00270619Clear(int);};
 class Object
@@ -236,6 +237,8 @@ public:
 private:
  __forceinline const ObjectCrushLevelsView *getTemplate() const { return m_template; }
  AttributeModifierPoolUpdate *findAttributeModifierPoolUpdate() const;
+ __forceinline unsigned int isKindOfB(int k) const { return reinterpret_cast<const unsigned char *>((const char *)m_template+0x108)[k>>3] & (1u<<(k&7)); }
+ __forceinline unsigned int isKindOf(int k) const { return reinterpret_cast<const unsigned int *>((const char *)m_template+0x108)[k>>5] & (1u<<(k&31)); }
  // Primary vptr at +0; all accessed fields are witnessed in retail.
  const ObjectCrushLevelsView *m_template; // +0x04
  unsigned char m_pad08[0x38-8];
@@ -247,7 +250,9 @@ private:
  Thing *drawable; // +0x84
  unsigned char m_pad88[0x124-0x88];
  unsigned int mountedFlags; // +0x124, target bit22 selects alternate level
- unsigned char m_pad128[0x1C4-0x128];
+ unsigned char m_pad128[0x14C-0x128];
+ unsigned int m_condition14C;
+ unsigned char m_pad150[0x1C4-0x150];
  float initialZ; // +0x1C4
  BitFlags<11> disabledMask;
  unsigned int disabledTill[11];
@@ -697,4 +702,92 @@ no_sound:
  rva00290357();
  if(!mask.any())rva0028B8A6(false);
  return true;
+}
+
+// The generic setter owned at B3FA5 computes the word from the index and
+// accesses only that word. This caller bounds its disabled index to 0..10,
+// so its one-word mask uses the same witnessed prefix operation. No alias
+// name or alternate callee pin is introduced.
+class ModelConditionFlags
+{
+public:
+ void rva000B3FA5(int bit, int value);
+};
+// Reference semantic lead: BF1 cee35b7d8 ObjectSetDisabledUntil.cpp and ZH
+// Object::setDisabledUntil; native290114..290357 independently gives timer,
+// condition, tint and audio offsets. The old bank's unowned generic setter
+// now has a verified owner. Native RET8 begins at 290354; the earlier 576B extent clipped it.
+struct BfmeCondBits529 {
+ unsigned int test(int bit) const{return words[bit>>5]&(1U<<(bit&0x1f));}
+ void set(int bit){words[bit>>5]|=1U<<(bit&0x1f);}
+ unsigned int words[20];
+};
+// KINDOF 7 is tested on its byte and KINDOF 11 on its dword (MSVC narrows that
+// to the same byte test, after global constant CSE). Spelled on the byte, the
+// 8 mask is shared with the tint exclusion `type != 8`, and that shared constant
+// tips the register allocator into holding &disabledMask in EDI across the
+// condition-bit and drawable checks; retail keeps the drawable in EDI and
+// recomputes the lea at each call (traced with c2's Color/StackPacking input).
+void Object::setDisabledUntil(DisabledType type, const unsigned int frame)
+{
+	unsigned int now = TheGameLogic->getFrame();
+	if (frame > now)
+	{
+	bool edgeCase = !disabledMask.any();
+
+	if (type < 0 || type >= 11)
+		return;
+
+	if (type == (DisabledType)5 && !isKindOfB(73))
+	{
+		BfmeAudioEventPrefix136 sound(*reinterpret_cast<const OpaqueRefElement4*>((char*)reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->getMiscAudio()+0x50), 0);
+		((Rva002D9508 *)&sound)->rva002D9508((&position));
+		reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->addAudioEvent(&sound);
+	}
+	else if (type == (DisabledType)6 || type == (DisabledType)2)
+	{
+		if ((disabledMask.m_bits[0] & 0x44) == 0)
+		{
+			if (isKindOfB(7))
+			{
+				BfmeAudioEventPrefix136 sound(*reinterpret_cast<const OpaqueRefElement4*>((char*)reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->getMiscAudio()+0x40), 0);
+				((Rva002D9508 *)&sound)->rva002D9508((&position));
+				reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->addAudioEvent(&sound);
+			}
+			else if (isKindOf(11))
+			{
+				BfmeAudioEventPrefix136 sound(*reinterpret_cast<const OpaqueRefElement4*>((char*)reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->getMiscAudio()+0x48), 0);
+				((Rva002D9508 *)&sound)->rva002D9508((&position));
+				reinterpret_cast<ObjectDisabledAudio*>(TheAudio)->addAudioEvent(&sound);
+			}
+		}
+	}
+
+	if (disabledTill[type] != frame)
+	{
+		if (type != (DisabledType)3 && !(unsigned char)((Rva001E4A4E *)this)->rva001E4A4E(type))
+			rva0028B292(1);
+
+		disabledTill[type] = frame;
+		reinterpret_cast<ModelConditionFlags *>(&disabledMask)->rva000B3FA5(type, frame > TheGameLogic->getFrame());
+
+		if (type == (DisabledType)1)
+		{
+			if (!reinterpret_cast<BfmeCondBits529 *>((char *)this + 0x10C)->test(529)) { reinterpret_cast<BfmeCondBits529 *>((char *)this + 0x10C)->set(529); rva0028AE6D(); }
+		}
+
+		TintDrawable *draw = (TintDrawable *)drawable;
+		if (draw && disabledMask.any() && type != (DisabledType)3 && type != (DisabledType)9 && type != (DisabledType)5 && type != (DisabledType)4 && type != (DisabledType)1 && type != (DisabledType)8) draw->setTintStatus(1);
+		ObjectDisabledContain *container = reinterpret_cast<ObjectDisabledContain *>(contain);
+		if (container)
+		{
+			Object *rider = (Object *)container->getRider();
+			if (rider)
+				rider->setDisabledUntil(type, frame);
+		}
+	}
+
+	if (edgeCase)
+		rva0028B8A6(true);
+	}
 }
