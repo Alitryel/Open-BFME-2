@@ -1,4 +1,3 @@
 target_rva,target_size,zh_source,alternates,confidence,ghidra_name,anchor
 0x0019DB50,2501,hlod.cpp,0,high,FUN_0059db50,BOUNDINGBOX
 0x003B5EA5,1818,Scripts.h,0,high,FUN_007b5ea5,BUILD_BASE_BUILDING_PER_TACTICAL_MARKER
-0x0022D53F,67,GameEngine.cpp,0,high,FUN_0062d53f,Uncaught Exception in GameEngine::update
