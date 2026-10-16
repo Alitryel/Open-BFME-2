@@ -85,6 +85,12 @@ public:
 };
 
 
+namespace _STL {
+template <> void _Destroy<Rva000BB491 *>(Rva000BB491 *first, Rva000BB491 *last) {
+ for (; first != last; ++first) first->~Rva000BB491();
+}
+}
+
 struct BfmePod248
 {
 	AsciiString m_s00;
