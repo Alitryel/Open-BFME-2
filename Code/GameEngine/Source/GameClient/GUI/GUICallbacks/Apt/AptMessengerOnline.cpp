@@ -17,6 +17,7 @@ void Rva00030830FreeAllocation(void *);
 struct BfmeE8 {void *p;unsigned char flag;char pad[3];};
 namespace _STL {
 template<> __declspec(dllimport) __forceinline void allocator<int>::deallocate(int *p,size_t) const {if(p)::Rva00030830FreeAllocation(p);}
+template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<int *, int, allocator<int> >::deallocate(int *p, size_t n) {static_cast<const allocator<int> &>(*this).deallocate(p, n);}
 }
 class PlayerInfo {public: bool isIgnored();};
 class GameSpyInfoInterface {public:
