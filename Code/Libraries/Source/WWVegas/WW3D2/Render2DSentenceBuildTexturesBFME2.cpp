@@ -36,7 +36,8 @@ template<class T> class RefCountPtr {
 public:
  __declspec(dllimport) __forceinline RefCountPtr():texture(0) {}
  ~RefCountPtr(){if(texture)texture->Release_Ref();}
- RefCountPtr &operator=(const RefCountPtr &p){
+ // dllimport: inlined at every use; no unit-local copy (it differed from the first in link order).
+ __declspec(dllimport) __forceinline RefCountPtr &operator=(const RefCountPtr &p){
   if(p.texture)++*reinterpret_cast<unsigned short *>(reinterpret_cast<char *>(p.texture)+4);
   if(texture)texture->Release_Ref();texture=p.texture;return *this;
  }
@@ -126,8 +127,15 @@ public:
  virtual void __stdcall slot74();
  virtual long __stdcall UpdateSurface(BfmeFontSurfaceResource *,const void *,BfmeFontSurfaceResource *,const void *);
 };
-class IDirect3DDevice8;
-class DX8Wrapper { public: static IDirect3DDevice8 *D3DDevice; };
+struct IDirect3DDevice8;
+// dx8wrapper.cpp's protected static (?D3DDevice@DX8Wrapper@@1PAUIDirect3DDevice8@@A), read through
+// dx8wrapper.h's accessor; dllimport keeps the accessor inline-only.
+class DX8Wrapper {
+public:
+ __declspec(dllimport) __forceinline static IDirect3DDevice8 *_Get_D3D_Device8() { return D3DDevice; }
+protected:
+ static IDirect3DDevice8 *D3DDevice;
+};
 extern unsigned number_of_DX8_calls;
 class Rva00154FD0 {
 public:
@@ -153,7 +161,7 @@ void Rva00154FD0::rva00154FD0()
   new_texture.Get_Filter()->MinFilter=2;
   new_texture.Get_Filter()->MagFilter=2;
   reinterpret_cast<_STL::ios_base *>(new_texture.Get_Filter())->_M_clear_nothrow(2);
-  reinterpret_cast<BfmeFontD3DDevice *>(DX8Wrapper::D3DDevice)->UpdateSurface(curr_surface.surface,0,texture_surface.surface,0);
+  reinterpret_cast<BfmeFontD3DDevice *>(DX8Wrapper::_Get_D3D_Device8())->UpdateSurface(curr_surface.surface,0,texture_surface.surface,0);
   ++number_of_DX8_calls;
   for(int renderer_index=0;renderer_index<surface_info.renderers.count;++renderer_index)
    surface_info.renderers.items[renderer_index]->Set_Texture(new_texture);
