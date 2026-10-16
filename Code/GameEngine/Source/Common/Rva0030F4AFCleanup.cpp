@@ -1,11 +1,10 @@
 // cl: /O1 /MD
-// ?rva0030F4AF@Rva0030F47A@@QAEXXZ, retail 0x0030F4AF (59 bytes). Teardown of the rowed Rva0030F47A
-// (ctor 0x0030F47A, vtable 0x00C09840 at +0, listener at +0x0C, owned node list head at +0x1C): restore
-// the base vtable, free the node chain through the null-tolerant deleteInstance(0) plus operator delete
-// path, clear the head, and tell the listener (its slot 0x40) that this object is gone. Whether this is the
-// destructor proper is unproven, so it stays a plain member with an address name.
-extern "C" const void *const __identifier("??_7GameMessage@@6B@")[];
-
+// ??1GameMessage@@UAE@XZ, retail 0x0030F4AF (59 bytes): GameMessage's virtual destructor.
+// Identity: it restores vtable 0x00C09840 (the one the GameMessage ctor 0x0030F47A and the
+// copy ctor 0x00311097 install) and is what the scalar deleting dtor 0x0030F8E3 in that
+// vtable's slot 0 calls. Zero Hour's ~GameMessage order: free the argument list through the
+// null-tolerant deleteInstance(0) plus operator delete path, clear the head, and remove the
+// message from its owning list (the list's slot 0x40, removeMessage).
 class Rva0030F4AFNode
 {
 public:
@@ -35,13 +34,12 @@ public:
 	virtual void gone(void *object);	// slot 0x40
 };
 
-class Rva0030F47A
+class GameMessage
 {
 public:
-	void rva0030F4AF();
+	virtual ~GameMessage();
 
 private:
-	void *m_vft;
 	int m_04;
 	int m_08;
 	Rva0030F4AFListener *m_listener;	// +0x0C
@@ -51,9 +49,8 @@ private:
 	Rva0030F4AFNode *m_nodes;		// +0x1C
 };
 
-void Rva0030F47A::rva0030F4AF()
+GameMessage::~GameMessage()
 {
-	*(const void **)this = __identifier("??_7GameMessage@@6B@");
 	if (m_nodes) {
 		Rva0030F4AFNode *node = m_nodes;
 		do {
