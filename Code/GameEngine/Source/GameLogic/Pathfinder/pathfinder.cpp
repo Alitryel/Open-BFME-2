@@ -86,6 +86,7 @@ public:
 	Bool canCrushOrSquishNoAlly(Object *other, Int test);
 	bool rva0028AFBB() const;
 	bool rva0028AC62() const;
+	Object *rva002931F5(Bool);
 	float GetGoalAngle() const;
     __forceinline int getID() const { return *(const int *)((const char *)this+0x74); }
 	AIUpdateInterface *getAI() const { return reinterpret_cast<AIUpdateInterface *>(m_258); }
@@ -633,6 +634,8 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
  void SnapClosestGoalPosition(Object *,Coord3D *);
  Bool CheckForAdjust(Object *,const LocomotorSet &,Bool,Int,Int,PathfindLayerEnum,Int,Bool,Coord3D *,const Coord3D *,float,Int *,Int);
  Bool QuickDoesPathExist(Object *,const Coord3D *,const Coord3D *,Int);
+ Bool IsValidHordeMemberRegularMovement(Object *,const Coord3D *,const Coord3D *,const Coord3D *);
+ Bool rva002F07F5(Object *,const Coord3D *);
  Bool IsValidMovementPositionForObject(const Coord3D *,Int,Int,const Object *);
  Bool rva002F4115(Object *,Int,Int,LocomotorSet *);
  Bool rva002F4AC1(const ICoord2D *,Int,Int,Object *,PathfindLayerEnum,Int,Rva002E7261Info *,void *,void *);
@@ -2718,6 +2721,73 @@ int Pathfinder::_GetAdjacentUnits(Object *object,const Coord3D *position,int *ou
   }
  }
  return count;
+}
+
+
+// WB D61460 / native2F07F5..2F0A72 RET8: a horde member may move to dest only
+// when its destination footprint holds fewer other objects than its current
+// one, every destination cell passes the locomotor query and flagged cells'
+// neighbours stay on the same layer. The twin reuses one origin cell for both
+// footprints (assigned from a returned temporary) and one column counter.
+Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
+{
+ if(!IsValidHordeMemberRegularMovement(obj,obj->getPosition(),dest,obj->getPosition()))return false;
+ Int newCount=0;
+ Int below,above;
+ Rva002EBCD6Split(obj,&below,&above);
+ Int layers[2];
+ layers[0]=obj->rva0028B511();
+ Int numLayers=1;
+ if (!(unsigned char)Rva002E6E6CGet(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(obj,layers[0])) {
+  layers[1]=1; numLayers=2;
+ }
+ Int oldCount=0;
+ ICoord2D origin;
+ Rva002EBC14Cell(&origin,obj,obj->getPosition());
+ Int x;
+ for(x=origin.x-below;x<origin.x+above;++x)
+  for(Int y=origin.y-below;y<origin.y+above;++y)
+   for(Int k=0;k<numLayers;++k) {
+    PathCollisionCell *c=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[k],x,y));
+    if(!c || !c->info) continue;
+    for(PathCollisionNode *node=c->info->occupants;node;node=node->next) {
+     if(node->object==obj) continue;
+     ++oldCount;
+    }
+   }
+ {ICoord2D destCell;origin=*Rva002EBC14Cell(&destCell,obj,dest);}
+ Int priority=obj->m_template->priority;
+ Bool flag=obj->m_template->flag;
+ char *ai=obj->m_258;
+ Rva002E8BCF info((const Rva002E8BCFSrc *)(ai+0x1cc),!flag,priority-1,obj->rva0028AFBB());
+ for(x=origin.x-below;x<origin.x+above;++x)
+  for(Int y=origin.y-below;y<origin.y+above;++y)
+   for(Int k=0;k<numLayers;++k) {
+    PathfindCell *cell=getCell((PathfindLayerEnum)layers[k],x,y);
+    if(!cell) continue;
+    if(cell->m_info & 0x10000) {
+     static Int deltaX[]={-1,1,0,0};
+     static Int deltaY[]={0,0,-1,1};
+     for(Int i=0;i<4;++i) {
+      PathfindCell *neighbor=getCell((PathfindLayerEnum)layers[k],x+deltaX[i],y+deltaY[i]);
+      if(!neighbor) continue;
+      if(((neighbor->m_info>>4)&0x3f)!=layers[k]) return false;
+     }
+    }
+    PathCollisionInfo *cellInfo=reinterpret_cast<PathCollisionCell *>(cell)->info;
+    if(!cellInfo) continue;
+    if(!((Rva002E6DC4 *)this)->rva002E6DC4(&info,cell)) return false;
+    for(PathCollisionNode *node=cellInfo->occupants;node;node=node->next) {
+     if(node->object==obj) continue;
+     ++newCount;
+     if(newCount>=oldCount) return false;
+     Object *member=node->object->rva002931F5(true);
+     if(!member) member=node->object;
+     char *memberAI=member->m_258;
+     if(memberAI && *(Int *)(memberAI+0x16c)>0) return false;
+    }
+   }
+ return true;
 }
 
 
