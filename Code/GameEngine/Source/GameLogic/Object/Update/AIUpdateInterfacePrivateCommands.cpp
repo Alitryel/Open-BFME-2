@@ -787,7 +787,7 @@ public:
 	// Zero Hour's getMoveAwayFromPath (0x002F9DBA) and moveAllies
 	// (0x002F3C09, which BFME2 hands a third, Bool argument): the calls
 	// privateMoveAwayFromUnit makes at Zero Hour's points. Names donor-carried.
-	Path *getMoveAwayFromPath(Object *obj, Object *otherObj, Path *pathToAvoid, Object *otherObj2, Path *pathToAvoid2);
+	Path *GetMoveAwayFromPath(Object *obj, Object *otherObj, Path *pathToAvoid, Object *otherObj2, Path *pathToAvoid2);
 	void moveAllies(Object *obj, Path *path, Bool flag);
 	// The two pathfinder calls AIUpdate slot 139 (0x0026412B) makes: one
 	// taking the owner, then one taking the owner and a destination and
@@ -2447,11 +2447,11 @@ void AIUpdateInterface::privateMoveAwayFromUnit(Object *unit, const Coord3D *pos
 		unitPath = unit->getAI()->getPath();
 
 	m_bfmeFindingMoveAwayPath = true;
-	Path *newPath = TheAI->pathfinder()->getMoveAwayFromPath(getObject(), unit, unitPath, obj2, path2);
+	Path *newPath = TheAI->pathfinder()->GetMoveAwayFromPath(getObject(), unit, unitPath, obj2, path2);
 	if (newPath == 0 && !m_canPathThroughUnits)
 	{
 		m_canPathThroughUnits = true;
-		newPath = TheAI->pathfinder()->getMoveAwayFromPath(getObject(), unit, unitPath, obj2, path2);
+		newPath = TheAI->pathfinder()->GetMoveAwayFromPath(getObject(), unit, unitPath, obj2, path2);
 	}
 	m_bfmeFindingMoveAwayPath = false;
 

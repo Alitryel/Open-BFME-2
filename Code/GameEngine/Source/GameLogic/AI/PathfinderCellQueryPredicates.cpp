@@ -16,7 +16,7 @@ public:
 	int IsNonPinchedCliffCell(int a, int b);
 	bool IsPointOnWall(int a, bool b);
 	bool IsImpassableCell(int a, int b);
-	bool IsBuildRestrictedCell(int a, bool b, bool c, int d);
+	bool IsBuildRestrictedCell(const Coord3D *pos, bool b, bool c, int d);
 	void GetCellType(int a1, void *a2, void *a3, void *a4, int a5);
 private:
 	char m_pad000[0x10];
@@ -40,13 +40,12 @@ int Pathfinder::GetGroundLayer(const Coord3D *pos)
 	}
 	return 1;
 }
-// ?IsBuildRestrictedCell@Pathfinder@@QAE_NH_N_NH@Z @0x002E996E 79B: 4-arg combined
+// ?IsBuildRestrictedCell@Pathfinder@@QAE_NPBUCoord3D@@_N1H@Z @0x002E996E 79B: 4-arg combined
 // query: null->true; flag=(tag==2); unless b, flag|=tag in {1,7}; unless c,
 // flag|=tag==5.
-// ?Pathfinder::IsBuildRestrictedCell present-unmatched
-bool Pathfinder::IsBuildRestrictedCell(int a, bool b, bool c, int d)
+bool Pathfinder::IsBuildRestrictedCell(const Coord3D *pos, bool b, bool c, int d)
 {
-	Rva001E3647Result *rec = (Rva001E3647Result *)rva001E3647Pos(d, (const Coord3D *)a);
+	Rva001E3647Result *rec = (Rva001E3647Result *)rva001E3647Pos(d, pos);
 	bool out;
 	if (rec == 0)
 		out = true;

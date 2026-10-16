@@ -21,7 +21,7 @@ class LocomotorSet {};
 class Pathfinder
 {
 public:
-    bool adjustDestination(Object *object,
+    bool AdjustDestination(Object *object,
         const LocomotorSet &locomotorSet,
         Coord3D *destination,
         const Coord3D *groupDestination);
@@ -160,7 +160,7 @@ void HordeContain::rva0046A10D()
         it->object->rva0028AD32();
     Pathfinder *pathfinder =
         *(Pathfinder **)((char *)TheAI + 0x10);
-    pathfinder->adjustDestination(owner, ai->getLocomotorSet(), &original, 0);
+    pathfinder->AdjustDestination(owner, ai->getLocomotorSet(), &original, 0);
     {
         Coord3D delta;
         delta.x = owner->m_position.x;

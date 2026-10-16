@@ -281,7 +281,7 @@ public:
 	bool IsBuildRestrictedCell(const Coord3D *pos, bool flagA, bool flagB, int layer);
 	Bool AdjustDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest,
 		const Coord3D *groupDest);
-	void snapClosestGoalPosition(Object *obj, Coord3D *pos);
+	void SnapClosestGoalPosition(Object *obj, Coord3D *pos);
 	// Zero Hour's setIgnoreObstacleID (out of line, folded with a +0x48 store).
 	void rva003E3BFB(ObjectID objID);
 	// (position, layer) as the rowed name's two ints.
@@ -1177,7 +1177,7 @@ StateReturnType AIInternalMoveToState::onEnter()
 		if (!pathfinder->AdjustDestination(obj, ai->getLocomotorSet(), &m_goalPosition, 0))
 		{
 			CRITTER_DESYNC_GOAL_LOG("CritterDesync: AIInternalMoveToState::onEnter() AdjustDestination failed, snap pos. m_goalPosition=%g,%g,%g")
-			pathfinder->snapClosestGoalPosition(obj, &m_goalPosition);
+			pathfinder->SnapClosestGoalPosition(obj, &m_goalPosition);
 			CRITTER_DESYNC_GOAL_LOG("CritterDesync: AIInternalMoveToState::onEnter() post-SnapClosestGoalPosition. m_goalPosition=%g,%g,%g")
 		}
 		else

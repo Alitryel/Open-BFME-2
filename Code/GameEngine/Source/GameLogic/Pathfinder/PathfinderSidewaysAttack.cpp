@@ -486,7 +486,7 @@ class Pathfinder
 public:
 Path *FindAttackPathSideways(Object *,const LocomotorSet &,const Coord3D *,Object *,const Coord3D *,Rva002C9B80Owner *);
  Int ExamineNeighboringCellsForSidewaysAttack(PathfindCell *,const ICoord2D *,Int,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
- Bool isAttackViewBlockedByObstacle(const Object *,const Coord3D *,const Object *,const Coord3D *);
+ Bool isAttackViewBlockedByObstacle(const Object *,const Coord3D &,const Object *,const Coord3D &);
 
 PathfinderCellIndex Rva002E7917(Bool,const Coord3D *);
 Int rva002F83F5(PathfindCell *,PathfindCell *,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
@@ -1021,7 +1021,7 @@ Path *Pathfinder::FindAttackPathSideways(Object *obj, const LocomotorSet &locos,
 			{
 				Bool blocked = false;
 				if (checkLOS)
-					blocked = isAttackViewBlockedByObstacle(obj, &cellCenter, victim, victimPos);
+					blocked = isAttackViewBlockedByObstacle(obj, cellCenter, victim, *victimPos);
 				if (startCell == parent)
 				{
 					blocked = true;
