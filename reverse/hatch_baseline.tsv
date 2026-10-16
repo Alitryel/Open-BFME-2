@@ -34493,8 +34493,8 @@ pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/Rva002972DEAcquir
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Update/Rva002972DEAcquire.cpp	"t",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Upgrade/BaseUpgradeModuleDataCtor.cpp	"",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Upgrade/BaseUpgradeModuleDataCtor.cpp	"sy",on	1
-pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	"",on	3
-pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	"s",on	2
+pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	"",on	2
+pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	"s",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	"sp",on	1
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	"t",off	2
 pragma_optimize	Code/GameEngine/Source/GameLogic/Object/WeaponRva002CE849Parse.cpp	"",on	1
@@ -38840,7 +38840,6 @@ present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	0WeaponTemp
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	1WeaponStore@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	1WeaponTemplate@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	4Weapon@@QAEAAV0@ABV0@@Z	1
-present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	computeApproachTarget@Weapon@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	crc@Weapon@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	createLaser@Weapon@@	1
 present_unmatched	Code/GameEngine/Source/GameLogic/Object/Weapon.cpp	dealDamageInternal@WeaponTemplate@@	1
