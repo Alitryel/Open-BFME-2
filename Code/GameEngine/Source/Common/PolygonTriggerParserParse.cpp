@@ -124,7 +124,7 @@ PolygonTrigger::PolygonTrigger(int identifier,int count):id(identifier)
  rva002E36B7(count);
  
 }
-__declspec(noinline) void PolygonTrigger::rva002E36B7(int count)
+__declspec(noinline) inline void PolygonTrigger::rva002E36B7(int count)
 
 {
  rva00330AA6(count);

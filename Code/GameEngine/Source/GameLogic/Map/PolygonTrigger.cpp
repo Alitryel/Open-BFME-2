@@ -141,7 +141,7 @@ public:
  Rva002E3E2AOut rva002E3E2A();
  Rva002E3E2AObject *pointer;
 };
-Rva002E3E2AOut Rva000AD6F4::rva002E3E2A()
+__declspec(noinline) inline Rva002E3E2AOut Rva000AD6F4::rva002E3E2A()
 {
  Rva002E3E2AOut temporary(pointer);
  pointer=0;
@@ -150,7 +150,7 @@ Rva002E3E2AOut Rva000AD6F4::rva002E3E2A()
 
 // WBAB9AA0 and native2E36B7..2E36D5 reset the trigger's editor flags
 // after reserving its polygon's initial point capacity.
-void PolygonTrigger::rva002E36B7(int count)
+__declspec(noinline) inline void PolygonTrigger::rva002E36B7(int count)
 {
  reinterpret_cast<Rva00330C50*>(this)->rva00330AA6(count);
  flag48=false;
@@ -158,3 +158,6 @@ void PolygonTrigger::rva002E36B7(int count)
  field54=0;
  field58=0;
 }
+// Select-any: PolygonTriggerParserParse.cpp and Rva00328DE4Add.cpp compile copies of these names; the anchor keeps the rowed bodies emitted.
+// ?bfmeAnchorPolygonTrigger absent-from-retail
+void bfmeAnchorPolygonTrigger(PolygonTrigger *p, Rva000AD6F4 *q, int n) { p->rva002E36B7(n); q->rva002E3E2A(); }

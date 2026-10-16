@@ -215,7 +215,7 @@ private:
     static const Image *s_emptyAmmo;
 };
 
-void Drawable::rva00273755()
+__declspec(noinline) inline void Drawable::rva00273755()
 {
 	if (m_354 == 0)
 		return;
@@ -240,7 +240,7 @@ void Drawable::rva00273755()
 // full/empty images, 28AEF5 ammo pair, 460 left edge, and UI/View/Display slots.
 // Target offsets DC/F8/9BD differ from donor GlobalData. The actual writable
 // singleton is used; the position aggregate keeps the donor scalar-copy shape.
-void Drawable::drawAmmo()
+__declspec(noinline) inline void Drawable::drawAmmo()
 {
     const Object *obj = m_object;
     if (!TheWritableGlobalData->m_showObjectHealth) return;

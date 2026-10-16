@@ -645,7 +645,7 @@ __forceinline FunctorMethod StdcallMethod(const void *function)
 	return *reinterpret_cast<FunctorMethod *>(&raw);
 }
 
-AptPalantir::AptPalantir(Rva002D3573 *owner, int level)
+__declspec(noinline) inline AptPalantir::AptPalantir(Rva002D3573 *owner, int level)
 	: m_owner(owner),
 	  m_level(level),
 	  m_60b0(false),
@@ -742,7 +742,7 @@ private:
 // Retail 0x002D55EF..0x002D563D (78 bytes; WB 0x00F48780): clear the
 // palantir's 20 button flags, its +0xE4/+0xE5 flags and its +0x11C map
 // (the rowed STLport clear 0x002D43C6).
-void RadarWindowOverrideSource::rva002D55EF()
+__declspec(noinline) inline void RadarWindowOverrideSource::rva002D55EF()
 {
 	_STL::fill(impl()->m_d0, impl()->m_d0 + 20, false);
 	impl()->m_e4 = false;
@@ -771,7 +771,7 @@ struct AptPalantirListener
 	AptPalantir *m_owner;			// +0x08
 };
 
-AptPalantir::~AptPalantir()
+__declspec(noinline) inline AptPalantir::~AptPalantir()
 {
 	reinterpret_cast<AptPlayer *>(g_bfmeAptWindowManager)->RemoveLevel(m_level);
 	reinterpret_cast<Rva00224BC9Owner *>(g_bfmeAptWindowManager)->check();
@@ -787,7 +787,7 @@ AptPalantir::~AptPalantir()
 // Palantir::Impl::init, retail 0x002D54E5..0x002D55CA (229 bytes; WB
 // 0x00F43B70, Palantir.cpp): with the Apt window manager up, create the
 // palantir's input window (-128 bounds, LeftHUDInput) and its movie playback.
-void AptPalantir::init()
+__declspec(noinline) inline void AptPalantir::init()
 {
 	if (g_bfmeAptWindowManager)
 	{
@@ -868,3 +868,6 @@ void AptPalantir::xfer(Xfer *xfer)
 	else if (xfer->isLoading())
 		m_128 = true;
 }
+// Select-any: another unit compiles a copy of the same names; the anchor keeps the rowed bodies emitted.
+// ?bfmeAnchorAptPalantir absent-from-retail
+void bfmeAnchorAptPalantir(AptPalantir *p, Rva002D3573 *o, int l, RadarWindowOverrideSource *r) { p->AptPalantir::AptPalantir(o, l); p->init(); p->AptPalantir::~AptPalantir(); r->rva002D55EF(); }

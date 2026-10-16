@@ -258,7 +258,7 @@ private:
     static const Image *s_pipOverlay;
 };
 
-void Drawable::rva00273755()
+__declspec(noinline) inline void Drawable::rva00273755()
 {
 	if (m_354 == 0)
 		return;
@@ -283,7 +283,7 @@ void Drawable::rva00273755()
 // full/empty images, 28AEF5 ammo pair, 460 left edge, and UI/View/Display slots.
 // Target offsets DC/F8/9BD differ from donor GlobalData. The actual writable
 // singleton is used; the position aggregate keeps the donor scalar-copy shape.
-void Drawable::drawAmmo()
+__declspec(noinline) inline void Drawable::drawAmmo()
 {
     const Object *obj = m_object;
     if (!TheWritableGlobalData->m_showObjectHealth) return;
@@ -430,3 +430,6 @@ void Drawable::rva00277669()
         posx += boxWidth + 1;
     }
 }
+// Select-any: another unit compiles a copy of the same names; the anchor keeps the rowed bodies emitted.
+// ?bfmeAnchorDrawableRva00273755 absent-from-retail
+void bfmeAnchorDrawableRva00273755(Drawable *p) { p->rva00273755(); p->drawAmmo(); }

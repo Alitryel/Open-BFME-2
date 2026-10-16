@@ -107,7 +107,7 @@ public:
 // with their bodies in view cl packs the owner into the dead record argument
 // slot and the returned temporary into the dead link argument slot.
 class Rva000AD6F4Base { public: virtual void *virt0(int flags); };
-__declspec(noinline) Rva002E3E2AOut Rva000AD6F4::rva002E3E2A()
+__declspec(noinline) inline Rva002E3E2AOut Rva000AD6F4::rva002E3E2A()
 {
 	Rva002E3E2AOut temporary(reinterpret_cast<Rva002E3E2AObject *>(m_ptr));
 	m_ptr = 0;
