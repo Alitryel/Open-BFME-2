@@ -11,7 +11,6 @@ name,target_rva,verdict
 ??0__Named_exception@_STL@@QAE@ABV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@1@@Z,0x00024C40,retail_only
 ?bfmeSmallAllocPR@@YAPAXI@Z,0x000279A0,bytes_differ
 ?initD3DAssets@W3DMouse@@AAEXXZ,0x00098FC1,bytes_differ
-?Record_Texture_End@@YAXXZ,0x00129E50,obj_only
 ??1SimpleSceneClass@@UAE@XZ,0x00141DF0,bytes_differ
 ?Rva001F949DConvert@@YA?AV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@ABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@D@Z,0x001F949D,bytes_differ
 ?init@ScriptEngine@@UAEXXZ,0x00205AFD,bytes_differ

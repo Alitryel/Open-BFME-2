@@ -287,3 +287,75 @@ def test_scattered_rows_parse_each_object_once(tmp_path, monkeypatch):
     assert results == {("?f", "0x1"): ("bytes_differ", "b.obj", "b.cpp"),
                        ("?g", "0x2"): ("bytes_differ", "b.obj", "b.cpp"),
                        ("?h", "0x3"): ("bytes_differ", "a.obj", "a.cpp")}
+
+
+def scheduled_global_frame(retail):
+    # Record_Texture_End (0x129E50) saves the previous chain before reading
+    # counters, then installs its complete three-word frame at bytes 43..49.
+    address = struct.pack("<I", BASE + GUARD)
+    prolog = (bytes.fromhex("64a1000000008b0d") + address
+              + bytes.fromhex("8b15") + address + bytes.fromhex("6aff68")
+              + struct.pack("<I", BASE + THUNK) + bytes.fromhex("50a1") + address
+              + bytes.fromhex("890d") + address + bytes.fromhex("8b0d") + address
+              + bytes.fromhex("64892500000000"))
+    assert len(prolog) == 50
+    image = bytearray(retail.bytes)
+    image[FUNC:FUNC + len(prolog)] = prolog
+    retail.bytes = bytes(image)
+    return retail
+
+
+def test_global_counters_scheduled_around_eh_frame_install():
+    assert scheduled_global_frame(Retail(OURS)).frame_funcinfo(FUNC) == (THUNK, FUNCINFO)
+
+
+def test_scheduled_global_frame_requires_complete_preserved_chain():
+    for offset, replacement in (
+        (2, b"\x04"),              # Must save fs:[0].
+        (7, b"\x05"),              # Must not overwrite saved eax.
+        (13, b"\x25"),             # Must not clobber esp before pushes.
+        (18, b"\x6a\x00"),          # Initial state is -1.
+        (21, struct.pack("<I", BASE + GUARD)),  # Not a handler thunk.
+        (25, b"\x51"),             # Must push the saved previous chain.
+        (26, b"\x50"),             # No extra push before FS installation.
+        (31, b"\x90\x90"),          # Only the witnessed absolute store.
+        (38, b"\x25"),             # Must not clobber the stack pointer.
+        (43, b"\x90" * 7),          # Must install the completed frame.
+        (45, b"\x15"),             # Install esp, not a counter register.
+        (49, b"\x01"),             # Destination must remain fs:[0].
+    ):
+        retail = scheduled_global_frame(Retail(OURS))
+        image = bytearray(retail.bytes)
+        image[FUNC + offset:FUNC + offset + len(replacement)] = replacement
+        retail.bytes = bytes(image)
+        assert retail.frame_funcinfo(FUNC) is None
+
+
+def test_scheduled_global_frame_still_requires_funcinfo_magic():
+    retail = scheduled_global_frame(Retail(OURS))
+    image = bytearray(retail.bytes)
+    image[FUNCINFO:FUNCINFO + 4] = bytes(4)
+    retail.bytes = bytes(image)
+    assert retail.frame_funcinfo(FUNC) is None
+
+
+def test_scheduled_global_frame_still_verifies_whole_eh_graph(tmp_path):
+    retail = scheduled_global_frame(Retail(OURS))
+    compiled = obj(tmp_path, OURS)
+    frame = bytearray(retail.bytes[FUNC:FUNC + 50])
+    frame[21:25] = bytes(4)
+    compiled.sections[0]["data"] = bytes(frame)
+    compiled.sections[0]["relocs"] = [(21, 2, 6)]
+    assert eh_verify.verify_row(retail, compiled, "_f", FUNC) == ("EXACT", "")
+    changed = bytearray(compiled.sections[2]["data"])
+    changed[4] = 2
+    compiled.sections[2]["data"] = bytes(changed)
+    assert eh_verify.verify_row(retail, compiled, "_f", FUNC)[0] == "bytes_differ"
+
+
+def test_late_global_handler_push_without_saved_chain_is_not_a_frame():
+    retail = scheduled_global_frame(Retail(OURS))
+    image = bytearray(retail.bytes)
+    image[FUNC:FUNC + 18] = b"\x90" * 18
+    retail.bytes = bytes(image)
+    assert retail.frame_funcinfo(FUNC) is None

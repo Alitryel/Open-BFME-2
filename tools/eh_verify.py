@@ -75,7 +75,7 @@ class Image:
 
     def frame_funcinfo(self, rva):
         """(thunk_rva, funcinfo_rva) when retail's function sets up a C++ EH frame."""
-        head = self.bytes[rva:rva + 48]
+        head = self.bytes[rva:rva + 64]
         offsets = [1] if head[:1] == b"\xb8" else []          # mov eax,thunk; call __EH_prolog
         push = head.find(b"\x6a\xff\x68")                    # push -1; push thunk
         if 0 <= push <= 12:
@@ -105,6 +105,19 @@ class Image:
                 and head[17:20] == b"\x6a\xff\x68" \
                 and head[24:32] == b"\x50\x64\x89\x25\0\0\0\0":
             offsets.append(20)
+        # Record_Texture_End saves the old chain in eax, reads two global
+        # counters, then pushes state / handler / saved chain. More counter
+        # moves are scheduled before the FS installation at bytes 43..49.
+        # Require that complete sequence: eax survives until it is pushed,
+        # and nothing subsequently changes esp before it becomes fs:[0].
+        if len(head) >= 50 and head[:8] == b"\x64\xa1\0\0\0\0\x8b\x0d" \
+                and head[12:14] == b"\x8b\x15" \
+                and head[18:21] == b"\x6a\xff\x68" \
+                and head[25:27] == b"\x50\xa1" \
+                and head[31:33] == b"\x89\x0d" \
+                and head[37:39] == b"\x8b\x0d" \
+                and head[43:50] == b"\x64\x89\x25\0\0\0\0":
+            offsets.append(21)
         for offset in offsets:
             thunk = struct.unpack_from("<I", head, offset)[0] - self.base
             if 0 <= thunk < self.size - 10 and self.bytes[thunk] == 0xB8 \
