@@ -1,9 +1,5 @@
 // ?UnknownSlot3@BFME2Encoding0MotionChannel@@UAEXMPAMPAPAE@Z
-// partial score=0.94 date=2026-10-15
-// ?UnknownSlot3@BFME2Encoding0MotionChannel@@UAEXMPAMPAPAE@Z
-// partial score=0.79 date=2026-10-15
-// ?UnknownSlot3@BFME2Encoding0MotionChannel@@UAEXMPAMPAPAE@Z
-// partial score=0.9 date=2026-10-12
+// partial score=0.9068 date=2026-10-16
 // cl: /O1 /G7 /arch:SSE /EHsc /DNDEBUG /MD
 // UnknownSlot3/4/5 of BFME2Encoding0MotionChannel, retail 0x001B2FEF (362B),
 // 0x001B3159 (442B), 0x001B3313 (376B): vtable 0x007D7648 slots 3..5.
@@ -69,15 +65,16 @@ static __forceinline float lerpMotion(float a, float b, float t) { return (b - a
 
 void BFME2Encoding0MotionChannel::UnknownSlot3(float frame, float *value, unsigned char **cursor)
 {
+	// Retail 1B3141 reads Samples[Components*idx] (edx=idx on both entries), so the
+	// step-flag case uses idx, not Count-1. Residue: retail copies idx to edx
+	// (mov edx,eax) after the cursor writeback; this body keeps it in eax.
 	int idx = LocalFindIndex((unsigned int)frame, reinterpret_cast<int **>(cursor));
-	int index = idx;
-	int last = Count - 1;
-	if (last == idx || (TimeCodes[index + 1] & 0x8000)) {
-		*value = Samples[last * Components]; return;
+	if (idx == Count - 1 || (TimeCodes[idx + 1] & 0x8000)) {
+		*value = Samples[idx * Components]; return;
 	}
-	float t0 = float(TimeCodes[index] & ~0x8000), t1 = float(TimeCodes[index + 1] & ~0x8000);
+	float t0 = float(TimeCodes[idx] & ~0x8000), t1 = float(TimeCodes[idx + 1] & ~0x8000);
 	float ratio = (frame - t0) / (t1 - t0);
-	float *samples = Samples + Components * index;
+	float *samples = Samples + Components * idx;
 	*value = lerpMotion(samples[0], samples[Components], ratio);
 }
 
