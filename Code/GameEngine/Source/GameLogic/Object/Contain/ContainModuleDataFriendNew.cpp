@@ -267,3 +267,23 @@ ModuleData *ProductionQueueHordeContainModuleData::friend_newModuleData(INI *ini
 		ini->initFromINIMultiProc(data, ProductionQueueHordeContainModuleData::buildFieldParse);
 	return reinterpret_cast<ModuleData *>(data);
 }
+
+// Native complete dtor 47A724..47A729 forwards this unchanged to 475942.
+// Constructor 24B9BA calls HordeContainModuleData 475C9A and installs C465F8;
+// table slot 0 is deleting dtor 25361E, whose direct call proves this owner.
+// Derived identity and any extra trivial storage remain unknown. This is a
+// destructor-only view: novtable models the witnessed absence of a vptr store,
+// not a claim that the original constructor omitted its vptr initialization.
+// The separate OpaqueScalarDeletingDtorsB05.cpp still emits its vtable and ??_G.
+// The existing 0x274 factory base view supplies the proven primary-base prefix.
+// Compiler-context pattern: BF1 3ce339fbfa AIDockStateDestructors.cpp; target
+// ownership, primary-base relationship and full 5B body are independently proved.
+class __declspec(novtable) Rva0047A724 : public HordeContainModuleData
+{
+public:
+    virtual ~Rva0047A724();
+};
+
+Rva0047A724::~Rva0047A724()
+{
+}
