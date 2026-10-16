@@ -62815,3 +62815,4 @@ $L56831	0x0075E368	14	landed	add_match verified Code/GameEngineDevice/Source/Mil
 $L56807	0x0075E1D9	14	landed	add_match verified Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp 14B; gen-funclet;parent=??1MilesAudioManager@@UAE@XZ; verified parent EH graph places this unwind cleanup here
 $L56804	0x0075E1B2	11	landed	add_match verified Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp 11B; gen-funclet;parent=??1MilesAudioManager@@UAE@XZ; verified parent EH graph places this unwind cleanup here
 ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z	0x00032830	227	landed	add_match verified Code/GameEngine/Source/Common/System/rva00032830Rva00032830Farm.cpp 227B
+?setTerrainDecal@W3DModelDraw@@UAEXW4TerrainDecalType@@@Z	0x000B9CE8	241	landed	add_match verified Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/setTerrainDecalRva000B9CE8Farm.cpp 241B

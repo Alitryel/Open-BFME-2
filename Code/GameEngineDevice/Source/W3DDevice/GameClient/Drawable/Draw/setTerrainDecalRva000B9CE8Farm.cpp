@@ -1,9 +1,5 @@
 // ?setTerrainDecal@W3DModelDraw@@UAEXW4TerrainDecalType@@@Z
-// partial score=0.8008421052631579 date=2026-10-15
 // ?setTerrainDecal@W3DModelDraw@@UAEXW4TerrainDecalType@@@Z
-// partial score=0.8066296330024587 date=2026-10-10
-// ?setTerrainDecal@W3DModelDraw@@UAEXW4TerrainDecalType@@@Z
-// partial score=0.7 date=2026-10-04
 // cl: /Ireference/shims/bfme2_ascii    /MD /DNDEBUG /EHsc /O1 /G7 /arch:SSE
 //
 // W3DModelDraw::setTerrainDecalSize (retail 0x000B314B, 32 bytes) and
@@ -188,10 +184,19 @@ void W3DModelDraw::setTerrainDecal(TerrainDecalType type)
 	decalInfo.m_sizeY = tmplate->getShadowSizeY();
 	decalInfo.m_offsetX = tmplate->getShadowOffsetX();
 	decalInfo.m_offsetY = tmplate->getShadowOffsetY();
-	if (TheProjectedShadowManager)
+	if (TheProjectedShadowManager != NULL)
 		m_terrainDecal = TheProjectedShadowManager->addDecal(m_renderObject,&decalInfo,0,0);
-	if (m_terrainDecal)
-	{	m_terrainDecal->enableShadowInvisible(m_fullyObscuredByShroud);
-		m_terrainDecal->enableShadowRender((1 ? (m_shadowEnabled && !m_bfme4B) : (m_shadowEnabled && !m_bfme4B)));
+	if (m_terrainDecal != NULL)
+	{
+		m_terrainDecal->enableShadowInvisible(m_fullyObscuredByShroud);
+		Bool en;
+		if (m_shadowEnabled && !m_bfme4B)
+			en = TRUE;
+		else if (m_shadowEnabled)
+			en = FALSE;
+		else
+			en = FALSE;
+		Shadow *renderDecal = m_terrainDecal;
+		renderDecal->enableShadowRender(en);
 	}
 }
