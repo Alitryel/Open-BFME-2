@@ -23,6 +23,21 @@ template <> __declspec(dllimport) __forceinline _Rb_tree<int,pair<const int,int>
 template <> __declspec(dllimport) __forceinline less<int> map<int,int>::key_comp() const {return _M_t.key_comp();}
 template <> __declspec(dllimport) __forceinline map<int,int>::iterator map<int,int>::end() {return _M_t.end();}
 }
+// The comparators, the pair constructor and the base-iterator != only inline
+// here; their out-of-line copies lose to the kept/retail ones, so keep the
+// template members inline-only (bodies verbatim) and compare typed tree/list
+// iterators through TU-local overloads (CaveContainOnRemoving.cpp precedent).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline bool less<int>::operator()(const int &__x, const int &__y) const { return __x < __y; }
+template <> __declspec(dllimport) __forceinline bool less<unsigned int>::operator()(const unsigned int &__x, const unsigned int &__y) const { return __x < __y; }
+template <> __declspec(dllimport) __forceinline pair<const int, int>::pair(const int &__a, const int &__b) : first(__a), second(__b) {}
+template <class T, class L, class R>
+static inline bool operator!=(const _Rb_tree_iterator<T, L> &a, const _Rb_tree_iterator<T, R> &b)
+{ return a._M_node != b._M_node; }
+template <class T, class Traits>
+static inline bool operator!=(const _List_iterator<T, Traits> &a, const _List_iterator<T, Traits> &b)
+{ return a._M_node != b._M_node; }
+}
 extern template class _STL::map<int,int>;
 extern template class _STL::_Rb_tree<int,_STL::pair<const int,int>,_STL::_Select1st<_STL::pair<const int,int> >,_STL::less<int>,_STL::allocator<_STL::pair<const int,int> > >;
 
