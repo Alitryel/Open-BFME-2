@@ -197,10 +197,15 @@ public:
 	static bool Has_Stencil();
 	static unsigned Convert_Color(const Vector3 &color, float alpha);
 	static void Set_Fog(bool enable, const Vector3 &color, float start, float end);
+protected:
+	// dx8wrapper.cpp defines these as protected statics (@@1, data ledger 0x009EDA21/24).
 	static bool FogEnable;
 	static unsigned long FogColor;
-	static float FogStart, FogEnd;
 };
+// The fog range globals keep the ledger's spellings (owners fxshadernamespaceww3d.cpp
+// 0x009EDA28 and GlobalFloatGetters.cpp 0x009EDA2C), as in Rva0006F0BBSetFog.cpp.
+extern float g_Va00DEDA28;
+extern float g_Va00DEDA2C;
 // dx8wrapper.h's x87 colour packing, as in RTS3DSceneFlushTranslucent.cpp.
 __forceinline unsigned DX8Wrapper::Convert_Color(const Vector3 &color, float alpha)
 {
@@ -263,8 +268,8 @@ __forceinline void DX8Wrapper::Set_Fog(bool enable, const Vector3 &color, float 
 {
 	DX8Wrapper::FogEnable = enable;
 	DX8Wrapper::FogColor = DX8Wrapper::Convert_Color(color, 0.0f);
-	DX8Wrapper::FogStart = start;
-	DX8Wrapper::FogEnd = end;
+	g_Va00DEDA28 = start;
+	g_Va00DEDA2C = end;
 	ShaderClass::Invalidate();
 	DX8Wrapper::Set_DX8_Render_State(36, *(unsigned *)(&start));
 	DX8Wrapper::Set_DX8_Render_State(37, *(unsigned *)(&end));
