@@ -1,19 +1,18 @@
-// ?v3@Rva005A9CB3@@UAE_NPAVRva003A0D62@@H@Z
-// partial score=0.6 date=2026-10-15
-// ?v3@Rva005A9CB3@@UAE_NPAVRva003A0D62@@H@Z
-// partial score=0.8 date=2026-10-04
-// cl: /O1 /MD /GX /DNDEBUG /arch:SSE /Ireference/shims/bfme2_ascii
+// ?initializeTeamTemplate@AISimpleSiegeTactic@@UAE_NPAVTeamPrototype@@H@Z
+// partial score=0.85 date=2026-10-16
+// W9-O3 2026-10-16: whole owner TU Rva005A9CB3Tactic.cpp + initializeTeamTemplate (slot 3) appended (declare it in AISimpleSiegeTactic). Retail semantics: skip!=0 -> return true (shared mov al,1 exit), so the body is 'if (!skip) { loop; if (!obj) return false; } return true;' (the farm best returned false for skip and was 8 B short). 218 vs 214, nd 31: only residue = cl hoists constant 1 into EBX (shared by the two order stores and the true return: mov al,bl) and spills this to [ebp-0x10]; retail keeps this in EDI, objects in EBX and rematerialises xor eax,eax/inc eax per order. Inert: continue-chain, chained/forwarded stores, store order, return 1, return obj!=0, self alias.
+// cl: /MD /GX /DNDEBUG /Ireference/shims/bfme2_ascii
 //
 // The "SimpleSiege" skirmish-AI tactic (vtable 0x00871E6C; ctor 0x005A9D33 in
 // Rva004ECECDTacticCtors.cpp, dtor 0x005A9CB3 and ??_G in
 // Rva005DC87BDerived.cpp, slot 9 in Rva004ECECDTacticCreate.cpp). Base chain,
-// all address-derived: Rva005DC87B (ctor 0x005DC85F) over Rva005DC73C over
-// the AITactic.cpp object Rva004ECECD. +0x5C is the siege stage (0..3).
+// all address-derived: AITacticSiege (ctor 0x005DC85F) over AITacticOffensive over
+// the AITactic.cpp object AITactic. +0x5C is the siege stage (0..3).
 //
 //   0x005A9CBE  slot 1: the owner's TheSkirmishAIManager record answers
 //               0x002C6ACB, the base test passes, the request carries no
 //               +0x04, and the 0x005DC8A2 search finds a gate
-//   0x005A9F70  slot 3: unless told otherwise, queue one order per gate
+//   0x005A9F70  slot 3 (not here yet): unless told otherwise, queue one order per gate
 //               object (kind 7) the owner holds on the given order list
 //   0x005A9D06  slot 5: xfer: the base's, then the stage
 //   0x005A9EC9  slot 7: while running, step the stage machine
@@ -28,10 +27,7 @@ struct Coord3DBase
 	float z;
 };
 
-struct Coord3D : public Coord3DBase
-{
-	float Normalize();
-};
+#include "../../../Libraries/Include/Lib/Coord3D.h"
 
 // BFME2's Xfer: operator== overloads, grouped by cl at the first overload
 // slot in reverse declaration order (Rva004E0513Xfer.cpp has the same view).
@@ -215,10 +211,10 @@ public:
 	int m_14;
 };
 
-class Rva003A0D62
+class TeamPrototype
 {
 public:
-	void rva003A0D62(const Rva0039D769 &order);
+	void addUnitInfo(const Rva0039D769 &order);
 };
 
 struct Rva005A9CB3Request
@@ -227,31 +223,31 @@ struct Rva005A9CB3Request
 	void *m_04;		// +0x04
 };
 
-class Rva004ECECD
+class AITactic
 {
 public:
-	virtual ~Rva004ECECD();
-	virtual bool appliesTo(void *request);
-	virtual void v2();
-	virtual bool v3(Rva003A0D62 *orders, int skip);
+	virtual ~AITactic();
+	virtual bool canRun(void *request);
+	virtual void cleanUp();
+	virtual bool initializeTeamTemplate(TeamPrototype *orders, int skip);
 	virtual void v4();
 	virtual void xfer(Xfer *xfer);
-	virtual void v6();
-	virtual void v7();
+	virtual void run();
+	virtual void update();
 	virtual void v8();
-	virtual Rva004ECECD *create();
+	virtual AITactic *create();
 	Team *rva004ECECD(int index);
-	bool rva004ED134(int index);
-	void rva004ED1A1(int a, Object *target);
-	void rva004ED1FD(int a, const Coord3D *point);
-	void rva004ED748(int a, int b);
+	bool isTeamIdle(int index);
+	void teamAttackObject(int a, Object *target);
+	void teamAttackMove(int a, const Coord3D *point);
+	void end(bool a, bool b);
 };
 
-class Rva005DC73C : public Rva004ECECD
+class AITacticOffensive : public AITactic
 {
 public:
-	virtual ~Rva005DC73C();
-	unsigned char rva005DC763(void *request);
+	virtual ~AITacticOffensive();
+	unsigned char checkTarget(void *request);
 	char m_pad04[0x10 - 4];
 	bool m_running;			// +0x10
 	char m_pad11[0x20 - 0x11];
@@ -260,53 +256,53 @@ public:
 	char m_pad28[0x58 - 0x28];
 };
 
-class Rva005DC87B : public Rva005DC73C
+class AITacticSiege : public AITacticOffensive
 {
 public:
-	virtual ~Rva005DC87B();
+	virtual ~AITacticSiege();
 	virtual void xfer(Xfer *xfer);
-	bool rva005DC8A2();
-	bool rva005DC93B();
-	bool rva005DC9C8();
+	bool sideHasIdleSiegeWeapons();
+	bool isWallBreached();
+	bool findWallTarget();
 	Object *rva005DCAE5();
 	int m_58;
 };
 
-class Rva005A9CB3 : public Rva005DC87B
+class AISimpleSiegeTactic : public AITacticSiege
 {
 public:
-	virtual ~Rva005A9CB3();
-	virtual bool appliesTo(void *request);
-	virtual bool v3(Rva003A0D62 *orders, int skip);
+	virtual ~AISimpleSiegeTactic();
+	virtual bool canRun(void *request);
+	virtual bool initializeTeamTemplate(TeamPrototype *orders, int skip);
 	virtual void xfer(Xfer *xfer);
-	virtual void v7();
+	virtual void update();
 	bool rva005A9DD4();
 private:
 	unsigned int m_stage;	// +0x5C
 };
 
-bool Rva005A9CB3::appliesTo(void *request)
+bool AISimpleSiegeTactic::canRun(void *request)
 {
 	if (g_00DFEEF8->rva002A8AB1(m_owner)->rva002C6ACB()
-		&& rva005DC763(request)
+		&& checkTarget(request)
 		&& !((Rva005A9CB3Request *)request)->m_04)
-		return rva005DC8A2();
+		return sideHasIdleSiegeWeapons();
 	return false;
 }
 
-void Rva005A9CB3::xfer(Xfer *xfer)
+void AISimpleSiegeTactic::xfer(Xfer *xfer)
 {
-	Rva005DC87B::xfer(xfer);
+	AITacticSiege::xfer(xfer);
 	unsigned int stage = m_stage;
 	*xfer == stage;
 	m_stage = stage;
 }
 
-bool Rva005A9CB3::rva005A9DD4()
+bool AISimpleSiegeTactic::rva005A9DD4()
 {
-	if (rva005DC9C8()) {
+	if (findWallTarget()) {
 		Object *target = rva005DCAE5();
-		rva004ED1A1(0, target);
+		teamAttackObject(0, target);
 		const Coord3D *from = rva004ECECD(0)->rva0039E8EB()->getPosition();
 		Coord3D dest;
 		dest.x = from->x;
@@ -322,22 +318,22 @@ bool Rva005A9CB3::rva005A9DD4()
 		dest.x = target->getPosition()->x + dest.x;
 		dest.y = target->getPosition()->y + dest.y;
 		dest.z = target->getPosition()->z + dest.z;
-		rva004ED1FD(1, &dest);
+		teamAttackMove(1, &dest);
 		return true;
 	}
 	return false;
 }
 
-void Rva005A9CB3::v7()
+void AISimpleSiegeTactic::update()
 {
 	if (!m_running)
 		return;
 	if (m_record->m_18) {
-		rva004ED748(1, 0);
+		end(1, 0);
 		return;
 	}
 	if (!rva004ECECD(1) || !rva004ECECD(0)) {
-		rva004ED748(0, 0);
+		end(0, 0);
 		return;
 	}
 	switch (m_stage) {
@@ -345,43 +341,46 @@ void Rva005A9CB3::v7()
 		if (rva005A9DD4())
 			m_stage = 1;
 		else
-			rva004ED748(0, 0);
+			end(0, 0);
 		break;
 	case 1:
-		if (rva005DC93B())
+		if (isWallBreached())
 			m_stage = 2;
 		break;
 	case 2:
-		rva004ED1FD(1, &m_record->m_point0C);
+		teamAttackMove(1, &m_record->m_point0C);
 		m_stage = 3;
 		break;
 	case 3:
-		if (rva004ED134(1))
-			rva004ED748(1, 0);
+		if (isTeamIdle(1))
+			end(1, 0);
 		break;
 	}
 }
 
-bool Rva005A9CB3::v3(Rva003A0D62 *orders, int skip)
+// Retail 0x005A9F70..0x005AA046 (vtable slot 3): with skip set the tactic
+// accepts the template as is; otherwise every object of the owner's side
+// whose template kind (+0x520) is 7 is queued as a {1, 1, name, -1} unit
+// order, and the result is whether the last object walked was valid.
+bool AISimpleSiegeTactic::initializeTeamTemplate(TeamPrototype *orders, int skip)
 {
-	if (skip)
-		return true;
-	Rva0025BFF8 *objects = *(Rva0025BFF8 **)g_00DFEEF8->rva002A8F24(m_owner);
-	Object *obj = 0;
-	for (unsigned int i = 0; i < ((IntMap *)objects)->bucket_count(); ++i) {
-		obj = objects->rva0025BFF8((int)i);
+	if (!skip) {
+		Object *obj = 0;
+		Rva0025BFF8 *objects = *(Rva0025BFF8 **)g_00DFEEF8->rva002A8F24(m_owner);
+		for (unsigned int idx = 0; idx < ((IntMap *)objects)->bucket_count(); ++idx) {
+			obj = objects->rva0025BFF8(idx);
+			if (obj && obj->m_304 == m_owner->m_2EC
+				&& ((Rva005A9CB3Template *)obj->m_04)->m_520 == 7) {
+				Rva0039EA9C order;
+				order.m_00 = 1;
+				order.m_04 = 1;
+				order.m_10 = ((Rva005A9CB3Template *)obj->m_04)->m_name;
+				order.m_14 = -1;
+				orders->addUnitInfo(*(Rva0039D769 *)&order);
+			}
+		}
 		if (!obj)
-			continue;
-		if (obj->m_304 != m_owner->m_2EC)
-			continue;
-		if (((Rva005A9CB3Template *)obj->m_04)->m_520 != 7)
-			continue;
-		Rva0039EA9C order;
-		order.m_00 = 1;
-		order.m_04 = 1;
-		order.m_10 = ((Rva005A9CB3Template *)obj->m_04)->m_name;
-		order.m_14 = -1;
-		orders->rva003A0D62(*(Rva0039D769 *)&order);
+			return false;
 	}
-	return obj != 0;
+	return true;
 }

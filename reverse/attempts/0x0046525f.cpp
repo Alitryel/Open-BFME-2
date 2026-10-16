@@ -1,4 +1,7 @@
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
+// partial score=0.985 date=2026-10-16
+// W9-O3 2026-10-16: farm best + hatch fixes: g_00E03624 -> rowed datum BfmeAIExitDoorFlag (data_rows), rva0028ACDC row is QAEXH (int) -> (int)&coord cast (was unresolved). Size 1154 vs 1152, nd 12: (1) ai=exitObj->ai load one slot early in branch 1; (2) scale block: retail 'movaps t,50; mulss t,[delta.x/y]' after the target movsd copy, ours loads delta.x/y above the copy (+2 B). Inert: 50*x / x*50 / s local / const-ref s / direct target+=50*d / z-first orders.
+// ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.985 date=2026-10-15
 // ?exitObjectViaDoor@OpenContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
 // partial score=0.95 date=2026-10-14
@@ -28,7 +31,7 @@ enum PathfindLayerEnum {LAYER_GROUND=0};
 enum ExitDoorType {DOOR_1=0};
 enum CommandSourceType {CMD_FROM_AI=2};
 double Rva000422A0Atan2(float,float);
-extern bool g_00E03624;
+extern bool BfmeAIExitDoorFlag;
 class Rva0035149F;
 class Matrix3D;
 class LocomotorSet;
@@ -48,7 +51,7 @@ public:
  int rva0028B511() const;
  void rva0028B4CE(PathfindLayerEnum);
  void rva0028AD7C();
- void rva0028ACDC(const Coord3D*);
+ void rva0028ACDC(int);
  bool rva002931BA();
  const Coord3D *getPosition() const{return &position;}
  void *vtable;unsigned char *thingTemplate;char pad8[0x38-8];Coord3D position;float orientation;
@@ -119,8 +122,8 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
   exitObj->setPosition(&startPosition);
   exitObj->setOrientation(exitAngle);
   exitObj->rva0028B4CE((PathfindLayerEnum)me->rva0028B511());
-  TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
   ai=exitObj->ai;
+  TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
   if(ai){
    ai->ignoreObstacle(exitObj);
    ai->ignoreCollisionUntil=TheGameLogic->getFrame()+BfmeLogicFramesPerSecond;
@@ -135,7 +138,7 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
    exitPath.push_back(rallyPoint);
   if(ai){
    ai->commands.rva0036EE16((const Rva0035149F*)&exitPath,me,CMD_FROM_AI);
-   exitObj->rva0028ACDC(&endPosition);
+   exitObj->rva0028ACDC((int)&endPosition);
   }
  }else{
   if(me->thingTemplate[0x11f]&0x80){
@@ -144,11 +147,11 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
    float exitAngle;
    {
    const Coord3D *pos=&me->position;
-   AI *theAI=TheAI;
-   Pathfinder *pf=theAI->pathfinder;
    startPosition.x=pos->x;
    startPosition.y=pos->y;
    startPosition.z=pos->z;
+   AI *theAI=TheAI;
+   Pathfinder *pf=theAI->pathfinder;
    _ReadWriteBarrier();
    if(!pf->getClosestPointOnLand(pos,me,&startPosition))goto done;
    ai=exitObj->ai;
@@ -189,13 +192,13 @@ void OpenContain::exitObjectViaDoor(Object *exitObj,ExitDoorType exitDoor)
       exitPath.push_back(target);
       exitPath.push_back(target);
       exitPath.push_back(savedGoal);
-      if(g_00E03624)
+      if(BfmeAIExitDoorFlag)
        ai->commands.rva0036EF09((const Rva0035149F*)&exitPath,me,exitAngle,CMD_FROM_AI);
       else
        ai->commands.rva0036EE16((const Rva0035149F*)&exitPath,me,CMD_FROM_AI);
       target=savedGoal;
      }
-     exitObj->rva0028ACDC(&target);
+     exitObj->rva0028ACDC((int)&target);
   }
 done:
   TheAI->pathfinder->AddObjectToPathfindMap(exitObj);

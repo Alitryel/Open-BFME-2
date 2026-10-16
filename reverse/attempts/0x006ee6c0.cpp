@@ -1,4 +1,7 @@
 // ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
+// partial score=0.9957 date=2026-10-16
+// W9-O3 2026-10-16: nd 23 -> 4, size exact; only the 4 rel32 jnp targets of the cases 9/10 early 'return true' differ (retail 0x6EEDF8 = case-1 return copy; ours the 201-block join 0x6EF2C6; goto/break/post-switch/if-else spellings all retarget). Closed: owner-file '__asm int 3' assert break (no barrier; stops cl cross-jumping the 0x859/0x862 assert tails), rowed rva006E02B0 is int (QBEHXZ) -> (unsigned char) cast, case 11 inline call(context->c_cih(false)->parent) arg (fixed reg rotation over cases 11-13), const_cast non-volatile parent read in the case-12 walk, WB early returns in 9/10. All farm equal-arm hacks removed (no byte change). Toy finding: cl sends early-return jcc to the FIRST return copy unless a call+branch precedes the switch, then to the LAST join copy (toy12/16 vs toy11/18).
+// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
 // partial score=0.98899 date=2026-10-14
 void __debugbreak();
 #pragma intrinsic(__debugbreak)
@@ -396,8 +399,7 @@ static __forceinline void aptAssert(const char *test,const char *file,int line)
  g_bfmeAptAssertAtE17734(test,file,line);
  if(g_bfmeAptBreakOnAssertAtDDC01C)
  {
-  __debugbreak();
-  
+  __asm int 3
  }
  
 }
@@ -411,7 +413,7 @@ class BfmeAptValue006DCD20
  bool isUndefined()const;
  BfmeAptValue006DCD20 *checkedString();
  int toInteger()const;
- bool rva006E02B0()const;
+ int rva006E02B0()const;
  void *rva006E0F40()const;
  
 }
@@ -580,7 +582,7 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
     case 1:
     {
      EAStringC s;
-     (value?value:value)->toString(s);
+     value->toString(s);
      s.MakeLower();
      if(text->autoSize==3 && (s.rva006D30D0(Rva0070B4F0GetString(0x34)) || s.rva006D30D0(Rva0070B4F0GetString(0x61)))) text->dirty|=8;
      else text->dirty|=0x10;
@@ -592,29 +594,28 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
      return true;
      
     }
-    case 2:text->background=((BfmeAptValue006DCD20*)(value?value:value))->toInteger();
+    case 2:text->background=((BfmeAptValue006DCD20*)value)->toInteger();
     text->dirty=(text->dirty&~1u)|0x20;
     return true;
-    case 3:text->backgroundColor=((BfmeAptValue006DCD20*)(value?value:value))->toInteger()|0xFF000000;
+    case 3:text->backgroundColor=((BfmeAptValue006DCD20*)value)->toInteger()|0xFF000000;
     text->dirty=(text->dirty&~1u)|0x40;
     return true;
-    case 4:text->border=((BfmeAptValue006DCD20*)(value?value:value))->toInteger();
+    case 4:text->border=((BfmeAptValue006DCD20*)value)->toInteger();
     text->dirty=(text->dirty&~1u)|0x80;
     return true;
-    case 5:text->borderColor=((BfmeAptValue006DCD20*)(value?value:value))->toInteger()|0xFF000000;
+    case 5:text->borderColor=((BfmeAptValue006DCD20*)value)->toInteger()|0xFF000000;
     text->dirty=(text->dirty&~1u)|0x100;
     return true;
     case 6:case 8:case 16:return true;
-    case 10:text->definition->multiline=((BfmeAptValue006DCD20*)(value?value:value))->toInteger();
+    case 10:text->definition->multiline=((BfmeAptValue006DCD20*)value)->toInteger();
     break;
     case 11:
     {
-     int n=((BfmeAptValue006DCD20*)(value?value:value))->toInteger();
-     int old=(text?text:text)->scroll;
+     int n=((BfmeAptValue006DCD20*)value)->toInteger();
+     int old=text->scroll;
      if(text->dirty&4)
      {
-      AptCIH *parent=context->c_cih(false)->parent;
-      ((Rva006E1260*)context->c_cih(false))->call(parent);
+      ((Rva006E1260*)context->c_cih(false))->call(context->c_cih(false)->parent);
       
      }
      text->scroll=n;
@@ -627,14 +628,14 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
     case 12:
     {
      EAStringC s;
-     (value?value:value)->toString(s);
+     value->toString(s);
      if(text->text.rva006D30D0(&s))
      {
       text->text=s;
       if(!text->variable.IsEmpty())
       {
        AptCIH *parent=context->c_cih(false);
-       while(parent && !parent->rva006CFCD0() && parent->parent)parent=parent->parent;
+       while(parent && !parent->rva006CFCD0() && const_cast<AptCIH*&>(parent->parent))parent=const_cast<AptCIH*&>(parent->parent);
        AptString *created=AptString::Create();
        created->value()=s;
        g_aptDateInterpreter.setVariable((AptValue*)parent,0,&text->variable,created,1,1,0);
@@ -646,14 +647,13 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
      return true;
      
     }
-    case 13:text->textColor=((BfmeAptValue006DCD20*)(value?value:value))->toInteger()|0xFF000000;
-    _ReadWriteBarrier();
+    case 13:text->textColor=((BfmeAptValue006DCD20*)value)->toInteger()|0xFF000000;
     text->dirty=(text->dirty&~1u)|0x400;
     return true;
     case 17:
     {
      EAStringC s;
-     (value?value:value)->toString(s);
+     value->toString(s);
      if(text->variable.rva006D30D0(&s))
      {
       text->variable=s;
@@ -665,12 +665,12 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
      return true;
      
     }
-    case 18:text->definition->wordWrap=((BfmeAptValue006DCD20*)(value?value:value))->toInteger();
+    case 18:text->definition->wordWrap=((BfmeAptValue006DCD20*)value)->toInteger();
     text->dirty=(text->dirty&~1u)|0x1004;
     return true;
     case 19:
     {
-     float n=(value?value:value)->toFloat();
+     float n=value->toFloat();
      if(n<0)return true;
      text->bottom=n+text->top;
      text->dirty=(text->dirty&~1u)|0x2004;
@@ -679,7 +679,7 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
     }
     case 20:
     {
-     float n=(value?value:value)->toFloat();
+     float n=value->toFloat();
      if(n<0)return true;
      text->right=n+text->left;
      text->dirty=(text->dirty&~1u)|0x4004;
@@ -688,7 +688,7 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
     }
     case 21:
     {
-     int n=((BfmeAptValue006DCD20*)(value?value:value))->toInteger();
+     int n=((BfmeAptValue006DCD20*)value)->toInteger();
      text->mouseWheel=n;
      if(n==1)
      {
@@ -710,51 +710,51 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
   }
   
  }
- if(context->c_cih(false)->rva006CFCD0() || isButton(context->c_cih(false)) || ((BfmeAptValue006DCD20*)context->c_cih(false))->rva006E02B0())
+ if(context->c_cih(false)->rva006CFCD0() || isButton(context->c_cih(false)) || (unsigned char)((BfmeAptValue006DCD20*)context->c_cih(false))->rva006E02B0())
  {
   const R4Word *word=Rva008D48F0(name->rva00620090(),name->rva006D3750());
   if(word)
   {
    cih=context->c_cih(false);
-   switch((word->id ? word->id : word->id))
+   switch(word->id)
    {
-    case 1:if((value?value:value)->isUndefined())return false;
-    number=(value?value:value)->toFloat();
+    case 1:if(value->isUndefined())return false;
+    number=value->toFloat();
     cih->factorySetProperty(0,number,true);
     return true;
-    case 2:if((value?value:value)->isUndefined())return false;
-    number=(value?value:value)->toFloat();
+    case 2:if(value->isUndefined())return false;
+    number=value->toFloat();
     cih->factorySetProperty(1,number,true);
     return true;
     case 11:
     {
-     number=((cih ? (value?value:value) : (value?value:value)))->toFloat();
+     number=value->toFloat();
      if(number>180.0f)number-=360.0f;
      cih->factorySetProperty(6,number,true);
      return true;
      
     }
-    case 7:number=(value?value:value)->toFloat();
+    case 7:number=value->toFloat();
     cih->factorySetProperty(7,number,true);
     return true;
-    case 3:number=(value?value:value)->toFloat();
+    case 3:number=value->toFloat();
     cih->factorySetProperty(2,number,true);
     return true;
-    case 4:number=(value?value:value)->toFloat();
+    case 4:number=value->toFloat();
     cih->factorySetProperty(3,number,true);
     return true;
-    case 8:number=(value?value:value)->toFloat();
+    case 8:number=value->toFloat();
     cih->factorySetProperty(11,number,false);
     return true;
     case 9:
     {
-     number=(value?value:value)->toFloat();
+     number=value->toFloat();
      if(number<0)return true;
      if(number==0)number=.0001f;
      Rect r;
      cih->rva006E1DD0(&r);
      float extent=r.right-r.left;
-     if(extent!=0)
+     if(extent==0) return true;
      {
       cih->factoryEnsureProperties();
       float scale;
@@ -775,13 +775,13 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
     }
     case 10:
     {
-     number=(value?value:value)->toFloat();
+     number=value->toFloat();
      if(number<0)return true;
      if(number==0)number=.0001f;
      Rect r;
      cih->rva006E1DD0(&r);
      float extent=r.bottom-r.top;
-     if(extent!=0)
+     if(extent==0) return true;
      {
       cih->factoryEnsureProperties();
       float scale;
@@ -802,22 +802,22 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
     }
     case 200:case 203:case 207:case 217:
     {
-     if(((BfmeAptValue006DCD20*)context->c_cih(false))->rva006E02B0())return false;
+     if((unsigned char)((BfmeAptValue006DCD20*)context->c_cih(false))->rva006E02B0())return false;
      int mask=eventMasks[word->id-200];
      AptNativeHash *hash=cih->slot3();
      hash->Set(name,value);
-     if(!value || (value?value:value)->isUndefined())cih->RemoveEventHandler(mask);
+     if(!value || value->isUndefined())cih->RemoveEventHandler(mask);
      else cih->SetEventHandler(mask);
      return true;
      
     }
     case 201:case 202:case 204:case 205:case 208:case 209:case 210:case 211:case 212:case 213:case 214:case 215:
     {
-     if(((BfmeAptValue006DCD20*)context->c_cih(false))->rva006E02B0())return false;
+     if((unsigned char)((BfmeAptValue006DCD20*)context->c_cih(false))->rva006E02B0())return false;
      int mask=eventMasks[word->id-200];
      AptNativeHash *hash=cih->slot3();
      hash->Set(name,value);
-     if(!value || (value?value:value)->isUndefined())
+     if(!value || value->isUndefined())
      {
       cih->RemoveEventHandler(mask);
       if(context->c_cih(false)->IsSpriteInst(false) && !cih->rva006E1F90(0xBFCF8))
@@ -847,7 +847,6 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
     {
      Rva006CC110Log(3,"AptCharacterInst (MovieClip): Incorrect case for '%s'.\n",name->rva00620090());
      aptAssert("0",CHARACTER_FILE,0x859);
-     _ReadWriteBarrier();
      
     }
     return false;
