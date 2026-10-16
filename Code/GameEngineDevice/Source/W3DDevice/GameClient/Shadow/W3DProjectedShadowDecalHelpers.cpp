@@ -351,11 +351,12 @@ public:
 };
 class BaseHeightMapRenderObjClass { public: char m_pad[0x37c0]; WorldHeightMap *m_map; };
 extern BaseHeightMapRenderObjClass *TheTerrainRenderObject;
-extern int g_Va00DEC2E4, g_Va00DEC2E8, g_Va00DEC2DC, g_Va00DEC2E0;
-#define drawStartX	g_Va00DEC2E4
-#define drawStartY	g_Va00DEC2E8
-#define drawEdgeX	g_Va00DEC2DC
-#define drawEdgeY	g_Va00DEC2E0
+// Terrain draw extents for decals (file statics of W3DProjectedShadow.cpp in ZH;
+// retail 0xDEC2DC/E0/E4/E8, set by the shadow render pass).
+static Int drawEdgeX = 0;
+static Int drawEdgeY = 0;
+static Int drawStartX = 0;
+static Int drawStartY = 0;
 
 class W3DProjectedShadowManager
 {
