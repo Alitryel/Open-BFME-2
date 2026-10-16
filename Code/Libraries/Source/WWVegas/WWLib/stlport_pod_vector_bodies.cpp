@@ -80,6 +80,8 @@ inline bool operator<(const BfmePod80 &x, const BfmePod80 &y) { return x.a[0] < 
 struct BfmePod88 { int a[22]; };
 // bfme link decl-only BfmePod88
 namespace _STL { template <> vector<BfmePod88, allocator<BfmePod88> >::~vector(); }
+// _Construct<BfmePod88> is rowed at 0x004E3706 in stlport_construct_pod88_rva.cpp
+namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod88, BfmePod88>(BfmePod88 *__p, const BfmePod88 &__val); }
 inline bool operator==(const BfmePod88 &x, const BfmePod88 &y) { return x.a[0] == y.a[0]; }
 inline bool operator<(const BfmePod88 &x, const BfmePod88 &y) { return x.a[0] < y.a[0]; }
 struct BfmePod92 { int a[23]; };
