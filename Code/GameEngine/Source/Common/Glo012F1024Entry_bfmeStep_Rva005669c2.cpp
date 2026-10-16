@@ -235,10 +235,6 @@ public:
 	void j_00036124(void);
 	void j_00010bcc(void);
 
-	// BFME 2 bfmeEnter steps without a row (pinned at their addresses).
-	void rva00564EC0(void);
-	void rva005666C5(void);
-	void rva00565106(void);
 	void run(void);
 	void rva005652F7(void);
 
@@ -370,8 +366,39 @@ public:
 class LivingWorldCampaignAct
 {
 public:
+	void rva00564EC0(void);
+	void rva00565106(void);
 	void SetPlayerControlOfArmies(void);
 	void MoveArmies(void);
+};
+
+// SpawnArmies 0x005666C5, rowed on the campaign-act view Rva0056616B.
+class Rva0056616B
+{
+public:
+	void rva005666C5(void);
+};
+
+// j_00019eca's callees, rowed under these views: the campaign manager's
+// record lookup by name 0x003B8D4D, the record's by-value name getter
+// 0x00564DF2, and the shared empty RET 4 0x0047A69C that TheLivingWorldLogic
+// receives the act name through (as CallActSubroutine 0x003B8D71 does).
+class Rva00564DF2NameView
+{
+public:
+	AsciiString rva00564DF2(void) const;
+};
+
+class LivingWorldCampaignManager
+{
+public:
+	Rva00564DF2NameView *rva003B8D4D(const AsciiString &name);
+};
+
+class LivingWorldLogic
+{
+public:
+	void rva0047A69C(const AsciiString &name);
 };
 
 // The manager behind bfmeGoDGH (0x00212183): the caller loads ECX from
@@ -400,9 +427,9 @@ void Glo012F1024Item::rva005652F7(void)
 void Glo012F1024Item::bfmeEnter(void)
 {
 	((Rva00564E43 *)this)->rva00564E43();
-	rva00564EC0();
-	rva005666C5();
-	rva00565106();
+	((LivingWorldCampaignAct *)this)->rva00564EC0();
+	((Rva0056616B *)this)->rva005666C5();
+	((LivingWorldCampaignAct *)this)->rva00565106();
 	run();
 	j_00019eca();
 	rva005652F7();
@@ -416,11 +443,12 @@ void Glo012F1024Item::j_00019eca(void)
 {
 	for (unsigned int index = 0; index < m_bfmeNames.bfmeSize(); ++index)
 	{
-		User *user = ((BfmeGlobal_012f1024 *)TheCampaignManager)->getUser(m_bfmeNames.bfmeBegin() + index);
-		if (user != 0)
+		Rva00564DF2NameView *record = ((LivingWorldCampaignManager *)TheCampaignManager)->rva003B8D4D(
+			*(const AsciiString *)(m_bfmeNames.bfmeBegin() + index));
+		if (record != 0)
 		{
-			((Gen_003bcb40 *)TheLivingWorldLogic)->m(user->GetName());
-			user->bfmeEnter();
+			TheLivingWorldLogic->rva0047A69C(record->rva00564DF2());
+			((Glo012F1024Item *)record)->bfmeEnter();
 		}
 	}
 }

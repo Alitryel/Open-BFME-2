@@ -8030,7 +8030,6 @@ name,address,notes
 ?bfmeResizeERF@BfmeVecERF@@QAEXIUBfmeItemERF@@@Z,0x003F6EA1,callee of ?resize@Rva00427130Vector@@QAEXI@Z at retail 0x003F701F read from its REL32 displacement; body unrowed
 ?bfmeRun1073@BfmeR1073@@QAEXPAVBfmeX1073@@PADH11111@Z,0x00222A8B,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeRunCF@BfmeTmpCF@@QAEXPAX0@Z,0x001EA3AE,callee of ?bfmeMakeCF@@YAXPAX0@Z at retail 0x0033A5DC read from its REL32 displacement; donor-reconstruction name; body unrowed
-?bfmeRunDGH@BfmeSubDGH@@QAEXPAX@Z,0x003FD690,callee of ?bfmeGoDGH@@YGXPAX0@Z at retail 0x00212183 read from its REL32 displacement; ICF alias onto ?rva003FD690@Rva003FD690@@QAEXPBUCoord@@@Z (matched)
 ?bfmeRunEYE@BfmeNodeEYE@@QAEXXZ,0x0030DEAE,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeRunRE@BfmeThingRE@@QAEXPAX@Z,0x006574A0,caller at 0x00664AB6 forwards the explicit stack argument; the matched 44B helper at this RVA is byte-identical to BFME1 0x007EA4F0 and tail-jumps through vtable slot 5 without cleaning it establishing this ICF signature alias
 ?bfmeRunVIR@BfmeMsgVIR@@QAEXXZ,0x00655B50
@@ -10226,7 +10225,6 @@ name,address,notes
 ?rva00210D1D@Rva00210D1D@@QAEXPAURva002130CFOwner@@@Z,0x00210D1D,base step REL32 callee at 0x002130D8 in attach override 0x002130CF (ret 4); identity unproven; address-derived name
 ?rva00210E5B@Rva00DFE1C8Host@@QAEXHH@Z,0x00210E5B,Rva00DFE1C8Host method called by Rva005C4B56::rva005C4C69 and rva005C4C95
 ?rva00210E9D@Rva00210E9DTarget@@QAEXXZ,0x00210E9D,"method a vtable-slot forwarder tail-jumps to (ret 0); opaque address name"
-?rva002120C2@@YGPAVBfmeSubDGH@@PAX@Z,0x002120C2,callee of ?bfmeGoDGH@@YGXPAX0@Z at retail 0x00212183 read from its REL32 displacement; walks this+0x24C pointer array testing each +0x1C via 0x004069D6; body unrowed
 ?rva00212354@Rva000427195@@QAEPAXPBX@Z,0x00212354,ICF twin of free NewNode for table insert call with this; same 12B node and pair copy
 ?rva00212655@Rva00DFE1C8Host@@QAEXH@Z,0x00212655,singleton notify with the +0x30 entry field; call sites 0x0020F795 0x0020F832 0x0020FB8B all pass this=[0x00DFE1C8] plus one pushed dword
 ?rva00212858@Rva0052B7F8@@QAEHI@Z,0x00212858,reserve-like grower: REL32 read at the count+1 call site in 0x0052B7F8; alias pin sharing bytes with the Rva003EF34A spelling; owner identity unproven
@@ -14865,7 +14863,6 @@ _D3DXLoadVolumeFromFileInMemory@36,0x0062AF8C,Native1318F0 in-image JMP IAT veri
 ?rva005652F7@Glo012F1024Item@@QAEXXZ,0x005652F7,callee of ?bfmeEnter@Glo012F1024Item@@QAEXXZ
 ?rva004098BE@CreateAHeroHero@@QAE_NABVAsciiString@@_N@Z,0x004098BE,callee of ?rva0021A428@CreateAHeroManager@@QAEXABVCreateAHeroData@@@Z
 ?rva00355472@AiOrdersManager@@QAEPAXABUCoord3D@@HPAVGroupOrder@@@Z,0x00355472,callee of ?rva00355664@AiOrdersManager@@QAEXABUCoord3D@@HPAVGroupOrder@@@Z
-?rva00212183@LivingWorldManager@@QAEXPAX0@Z,0x00212183,callee of ?rva005652F7@Glo012F1024Item@@QAEXXZ
 ??0GameSpyConfig@@QAE@VAsciiString@@@Z,0x0054E8DC,callee of ?create@GameSpyConfigInterface@@SAPAV1@VAsciiString@@@Z
 ?searchHotKey@Rva00E01E28Owner@@QAE?AVAsciiString@@ABVUnicodeString@@@Z,0x00358B9E,REL32 callee of W3DDisplayString 0x0010631E (hot key text lookup on [0x00E01E28] with getText(); Zero Hour HotKeyManager::searchHotKey shape); unrowed
 ?Draw_Sentence@Render2DSentenceClass@@QAEXHHHH@Z,0x00155B00,REL32 callee of W3DDisplayString::draw 0x001064A9/0x001064ED/0x00106548: four-colour Draw_Sentence on the 0x14/0xD8 renderers (Zero Hour draws one colour)

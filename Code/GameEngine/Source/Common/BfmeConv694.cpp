@@ -1,31 +1,39 @@
 // cl: -Ireference/open-bfme-1/game/GameEngine/Source/Common
 //
-// ?bfmeGoDGH@@YGXPAX0@Z, retail 0x00212183, 27 bytes. The free function at
-// 0x002120C2 is pinned as ?rva002120C2@Rva002120C2@@YGPAXPAX@Z from this body's
-// own REL32 displacement; it walks this+0x24C, a pointer array, and tests each
-// element's +0x1C against the key. The second callee 0x003FD690 is already
-// rowed as ?rva003FD690@Rva003FD690@@QAEXPBUCoord@@@Z and is pinned under the
-// donor's spelling for this TU.
+// ?rva00212183@LivingWorldManager@@QAEXPAX0@Z, retail 0x00212183, 27 bytes.
+// The BFME 1 donor (BfmeConv694.cpp) spelled this as a stdcall free function,
+// but the body is a thiscall member: it hands its unchanged ECX to the rowed
+// member 0x002120C2 (Rva002120A4::rva002120C2, which walks this+0x24C), and
+// its only caller 0x005652F7 loads ECX from TheLivingWorldManager. The entry
+// that lookup returns runs the rowed 0x003FD690 with the second argument.
+// Both arguments are passed through as the caller's addresses of its record's
+// first two words.
 
-class BfmeSubDGH
+class AsciiString;
+struct Coord;
+struct Rva002120C2Entry;
+
+class Rva002120A4
 {
 public:
-	void bfmeRunDGH(void *b);
+	Rva002120C2Entry *rva002120C2(const AsciiString &key);
 };
 
-BfmeSubDGH *__stdcall rva002120C2(void *a);
-
-void __stdcall bfmeGoDGH(void *a, void *b)
+class Rva003FD690
 {
-	BfmeSubDGH *s = rva002120C2(a);
-	if (s != 0)
-		s->bfmeRunDGH(b);
-}
+public:
+	void rva003FD690(const Coord *value);
+};
 
-// Each retail call in this body reads an address the ledger already carries
-// under the rowed name below. Bind the donor spelling to that owner so one
-// address keeps one definition and the unit links.
-//   0x003FD690 reads ?rva003FD690@Rva003FD690@@QAEXPBUCoord@@@Z
-#pragma comment(linker, "/alternatename:?bfmeRunDGH@BfmeSubDGH@@QAEXPAX@Z=?rva003FD690@Rva003FD690@@QAEXPBUCoord@@@Z")
-//   0x002120C2 reads ?rva002120C2@Rva002120A4@@QAEPAURva002120C2Entry@@ABVAsciiString@@@Z
-#pragma comment(linker, "/alternatename:?rva002120C2@@YGPAVBfmeSubDGH@@PAX@Z=?rva002120C2@Rva002120A4@@QAEPAURva002120C2Entry@@ABVAsciiString@@@Z")
+class LivingWorldManager
+{
+public:
+	void rva00212183(void *key, void *value);
+};
+
+void LivingWorldManager::rva00212183(void *key, void *value)
+{
+	Rva003FD690 *entry = (Rva003FD690 *)((Rva002120A4 *)this)->rva002120C2(*(const AsciiString *)key);
+	if (entry != 0)
+		entry->rva003FD690((const Coord *)value);
+}
