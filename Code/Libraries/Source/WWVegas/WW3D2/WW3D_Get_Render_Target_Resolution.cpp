@@ -20,11 +20,11 @@ typedef bool Bool;
 void BFME_DX8_Thread_Lock(void); // retail 0x0011F520
 bool BFME_DX8_Thread_Assert(void); // retail 0x00120F50
 
-class BfmeDX8DeviceGuard
+class BFMEDX8DeviceLock
 {
 public:
-	BfmeDX8DeviceGuard() { BFME_DX8_Thread_Lock(); }
-	~BfmeDX8DeviceGuard() { BFME_DX8_Thread_Assert(); }
+	BFMEDX8DeviceLock() { BFME_DX8_Thread_Lock(); }
+	~BFMEDX8DeviceLock() { BFME_DX8_Thread_Assert(); }
 };
 
 struct BfmeDisplayModeInfo
@@ -78,7 +78,7 @@ void DX8Wrapper::Get_Render_Target_Resolution(Int &width, Int &height, Int &bitD
 {
 	if (TheBfmeRenderDevice != NULL)
 	{
-		BfmeDX8DeviceGuard guard;
+		BFMEDX8DeviceLock guard;
 		BfmeDisplayModeInfo info;
 
 		TheBfmeRenderDevice->bfmeGetModeInfo(&info);
