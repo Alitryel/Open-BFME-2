@@ -519,9 +519,11 @@ public:
 #endif
 	virtual int						Is_Not_Hidden_At_All(void)													{ return ((Bits & IS_NOT_HIDDEN_AT_ALL) == IS_NOT_HIDDEN_AT_ALL); }
 	virtual int						Is_Visible(void) const														{ return (Bits & IS_VISIBLE); }
-	// BFME: retail Set_Visible takes a second parameter (stored at member 0x90);
-	// defaulted here so ZH call sites still compile.
-  virtual void					Set_Visible(int onoff, int unk = 0)										{ if (onoff) { Bits |= IS_VISIBLE; } else { Bits &= ~IS_VISIBLE; } }
+	// BFME: retail Set_Visible takes a second parameter, defaulted here so ZH
+	// call sites still compile. Declared only: retail's body (0x0013B710) keeps
+	// just the scene token and is emitted by RenderObjSceneAndCost.cpp, so the
+	// vtables here reference that copy instead of emitting the ZH bit setter.
+  virtual void					Set_Visible(int onoff, int unk = 0);
 
 // The cheatSpy has been put on ice until later... perhaps the next patch? - M Lorenzen
   //	virtual int						Is_VisibleWithCheatSpy(void) const								{ return ((Bits&=~0x80) & (IS_VISIBLE); }
