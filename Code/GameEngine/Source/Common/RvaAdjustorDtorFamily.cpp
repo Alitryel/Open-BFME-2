@@ -71,11 +71,45 @@ private:
 	Rva002B0B32Dtor m_inner;
 };
 
-class Rva00425756Dtor
+// The +8/+8/+4 members of 0x0042581E, 0x005C8565 and 0x00603C57 are the
+// rowed STLport containers whose dtors they tail-jump to.
+struct BfmeWordValue4;
+struct Rva005C847BRecord;
+struct Rva00603A00Mapped;
+namespace _STL
+{
+template <class _Tp> class allocator;
+template <class _Tp, class _Alloc> class deque;
+template <class _Tp, class _Alloc> class vector;
+template <class _T1, class _T2> struct pair;
+template <class _Pair> struct _Select1st;
+template <class _Tp> struct less;
+template <class _Key, class _Value, class _KeyOfValue, class _Compare, class _Alloc> class _Rb_tree;
+typedef deque<BfmeWordValue4, allocator<BfmeWordValue4> > BfmeWordDeque1;
+typedef deque<BfmeWordDeque1, allocator<BfmeWordDeque1> > BfmeWordDeque2;
+template <>
+class deque<BfmeWordDeque2, allocator<BfmeWordDeque2> >
 {
 public:
-	~Rva00425756Dtor();
+	~deque();
 };
+template <>
+class vector<Rva005C847BRecord, allocator<Rva005C847BRecord> >
+{
+public:
+	~vector();
+};
+typedef pair<const char *const, Rva00603A00Mapped> Rva00603A00Pair;
+template <>
+class _Rb_tree<const char *, Rva00603A00Pair, _Select1st<Rva00603A00Pair>, less<const char *>, allocator<Rva00603A00Pair> >
+{
+public:
+	~_Rb_tree();
+};
+}
+typedef _STL::deque<_STL::BfmeWordDeque2, _STL::allocator<_STL::BfmeWordDeque2> > Rva00425756Dtor;
+typedef _STL::vector<Rva005C847BRecord, _STL::allocator<Rva005C847BRecord> > Rva005C8494Dtor;
+typedef _STL::_Rb_tree<const char *, _STL::Rva00603A00Pair, _STL::_Select1st<_STL::Rva00603A00Pair>, _STL::less<const char *>, _STL::allocator<_STL::Rva00603A00Pair> > Rva00603AA8Dtor;
 
 class Rva0042581E
 {
@@ -103,12 +137,6 @@ private:
 	Rva00501656 m_inner;
 };
 
-class Rva005C8494Dtor
-{
-public:
-	~Rva005C8494Dtor();
-};
-
 class Rva005C8565
 {
 public:
@@ -117,12 +145,6 @@ public:
 private:
 	char m_pad[8];
 	Rva005C8494Dtor m_inner;
-};
-
-class Rva00603AA8Dtor
-{
-public:
-	~Rva00603AA8Dtor();
 };
 
 class Rva00603C57
