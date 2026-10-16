@@ -53,8 +53,6 @@ public:
 };
 extern GlobalData *TheWritableGlobalData;
 
-// Function-local static of the original (initialised to 1), at VA 0x00DB3BFC.
-extern int g_Va00DB3BFC;
 
 #pragma pack(push, 2)
 struct BfmeBitmapFileHeader
@@ -130,6 +128,8 @@ private:
 
 void W3DDisplay::rva00047BC0(char *image, unsigned int width, unsigned int height, const char *filename)
 {
+	// Zero Hour's function-local frame counter, initialised to 1 (VA 0x00DB3BFC).
+	static int frame_number = 1;
 	char leafname[256];
 	char pathname[1024];
 
@@ -139,7 +139,7 @@ void W3DDisplay::rva00047BC0(char *image, unsigned int width, unsigned int heigh
 			_mbscpy(leafname, filename);
 			done = true;
 		} else {
-			sprintf(leafname, "sshot%.4d", g_Va00DB3BFC++);
+			sprintf(leafname, "sshot%.4d", frame_number++);
 		}
 		_mbscat(leafname, ".bmp");
 		_mbscpy(pathname, TheWritableGlobalData->getPicturePath().str());
