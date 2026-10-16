@@ -25,6 +25,8 @@
 #include <vector>
 #include "Common/Snapshot.h"
 #include <map>
+#include <list>
+#include "ascii_string.h"
 struct BfmePod128 { ~BfmePod128(); int a[32]; };
 struct BfmeE8 { int a[2]; };
 typedef _STL::map<int, _STL::vector<BfmePod128> > MapType0032EF3E;
@@ -62,27 +64,6 @@ class SidesListNotifier : public Rva00330757Member
 public:
 	__forceinline SidesListNotifier() : Rva00330757Member() {}
 	__forceinline SidesListNotifier(const SidesListNotifier &) : Rva00330757Member() {}
-};
-
-namespace _STL
-{
-template <class T, class Alloc> class _List_base
-{
-public:
-	_List_base(const Alloc &alloc);
-	~_List_base();
-
-private:
-	void *m_node;
-};
-}
-
-class SidesListListField : public _STL::_List_base<int, _STL::allocator<int> >
-{
-public:
-	__forceinline SidesListListField()
-		: _STL::_List_base<int, _STL::allocator<int> >(_STL::allocator<int>()) {}
-	~SidesListListField();
 };
 
 typedef MapType0032EF3E Rva0032D3D3Map;
@@ -151,7 +132,7 @@ public:
 	virtual void loadPostProcess();
 
 private:
-	SidesListListField m_list;				// +0x20
+	_STL::list<AsciiString> m_list;				// +0x20
 	Rva0032D3D3Map m_map1;					// +0x24
 	Rva0032EAA1Map m_map2;					// +0x30
 	int m_numSides;							// +0x3C
