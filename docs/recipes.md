@@ -85,6 +85,15 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   0x002FA2DC). Try it first when a bank's slots and registers differ and the
   body copies a struct.
 
+- **XMM numbering follows how each value was spelled.** cl numbers named
+  locals (and inline parameters) ahead of a CSE'd constant such as 2.0f.
+  Values it carries itself, such as a load read straight into an array and then
+  forwarded to `color[i] *= 2.0f`, come after the constant. A uniform rotation
+  (ours x0 y1 z2 k3, retail k0 x1 y2 z3) means retail had no named locals.
+  Reading straight into an address-taken array keeps each load behind the
+  previous store. Retail had loads first because each branch had its own array
+  and call; cl shares the slot and merges the two calls, and the loads then
+  hoist. Sas.AmbientLight Color 0x0014D5B0, about 30 earlier attempts.
 - **Null-check spelling decides the order of the next block's loads.** After
   `p = call(); if (!p) continue;` cl interleaved each load with its subtract
   (`movss; subss; movss; subss`); `if (p) { ... } else continue;` gives the
