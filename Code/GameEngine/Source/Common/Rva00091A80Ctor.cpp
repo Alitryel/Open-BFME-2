@@ -4,7 +4,8 @@
 class SnapBase
 {
 public:
-	virtual void keep();
+	// Pure, as retail's base table 0x00BBB554 holds __purecall (Snapshot).
+	virtual void keep() = 0;
 	virtual ~SnapBase();
 };
 class SubsystemInterface
