@@ -10,17 +10,23 @@
 // SetActiveBattleID(0, 0), and a non-empty copy of the entry's +0x6C script
 // string is run through CallActSubroutine (returning false), else true.
 // Structural: the two vectors are real STLport vectors (size()/operator[]
-// re-derived per use); the push_back/erase calls go through the existing
-// address-named view pins; owner and field names are role-derived.
+// re-derived per use); owner and field names are role-derived. The
+// push_back/erase calls name the ICF-shared rows they reach (vector<const
+// ModuleData *>::push_back 0x004DFCB0, vector<void *>::erase 0x001FF51F),
+// declared only so this unit emits no copy.
 #include <vector>
 #include "ascii_string.h"
+
+class ModuleData;
+namespace _STL {
+template <> void vector<const ModuleData *>::push_back(const ModuleData *const &x);
+template <> void **vector<void *>::erase(void **pos);
+}
 
 class Rva003F2A8C { public: void rva003F2A8C(int value); };
 struct Rva0020F832Entry { char pad[0x6c]; AsciiString script; };
 struct Rva0020F832State { char pad[0x14]; int value; };
 struct Rva0020F832Node { char pad[0x24]; void *entry; char pad28[8]; int key; };
-struct Rva0020FB8BVec14 { void **vecErase(void **pos); };
-struct Rva0020FB8BVec20 { void vecPushBack(void *&p); };
 class Rva00DFE1C8Host { public: void rva00212655(int key); };
 class LivingWorldManager;
 extern LivingWorldManager *TheLivingWorldManager;
@@ -47,8 +53,8 @@ bool Rva0020EE29::rva0020F832(void *entry, void *state)
 	for (unsigned i = 0; i < m_14.size(); ++i) {
 		if (m_14[i]->entry == entry) {
 			((Rva00DFE1C8Host *)TheLivingWorldManager)->rva00212655(m_14[i]->key);
-			((Rva0020FB8BVec20 *)&m_20)->vecPushBack((void *&)m_14[i]);
-			((Rva0020FB8BVec14 *)&m_14)->vecErase((void **)&m_14[i]);
+			((_STL::vector<const ModuleData *> *)&m_20)->push_back((const ModuleData *const &)m_14[i]);
+			((_STL::vector<void *> *)&m_14)->erase((void **)&m_14[i]);
 			break;
 		}
 	}

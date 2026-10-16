@@ -8,8 +8,10 @@
 //    list, forwarding the flag; reached through the forwarders 0x0020F2F1
 //    and 0x0020F309. The pinned spelling passes the player and the flag as
 //    plain words.
-//  - rva0020ED8E, retail 0x0020ED8E (71 B): removes every entry of the
-//    object's +0xD4 list; called from the battle hand-over 0x0020F832.
+//  - Rva0020EE29::rva0020ED8E, retail 0x0020ED8E (71 B): removes every entry
+//    of the object's +0xD4 list; called from the battle hand-over 0x0020F832,
+//    which loads ECX=this (mov ecx,ebx) for it: a thiscall member of the
+//    region manager that never reads ECX.
 #include <vector>
 
 // The walkers read the vector's size() and begin() const inline; their unreferenced
@@ -46,8 +48,15 @@ void __stdcall rva0020ED51(void *list, int player, int flag)
 	}
 }
 
-void __stdcall rva0020ED8E(Rva0020ED8EUpgradeOwner *owner, Rva002E15BC *player)
+class Rva0020EE29
 {
+public:
+	void rva0020ED8E(void *owner, void *player);
+};
+
+void Rva0020EE29::rva0020ED8E(void *ownerWord, void *player)
+{
+	Rva0020ED8EUpgradeOwner *owner = (Rva0020ED8EUpgradeOwner *)ownerWord;
 	const _STL::vector<void *> &upgrades = owner->m_upgrades;
 	for (unsigned int i = 0; i < upgrades.size(); ++i)
 	{
