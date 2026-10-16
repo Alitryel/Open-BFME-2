@@ -1,34 +1,31 @@
 // ?PopulateColorCombo@AptMpGameSetup@@QAE_NH@Z
-// partial score=0.863 date=2026-10-14
-// ?PopulateColorCombo@AptMpGameSetup@@QAE_NH@Z
-// partial score=0.879286 date=2026-10-14
-// ?PopulateColorCombo@AptMpGameSetup@@QAE_NH@Z
-// partial score=0.87 date=2026-10-08
-// cl: /O1 /G7 /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfme2_ascii
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
+// retail 0x0044009D, 1039 bytes; WB AptMpGameSetup::PopulateColorCombo.
+// cl: /O1 /G7 /MD /EHs /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
 // stlport
-// Full WB/retail body 44009D..4404AC,1039B. BFME1 ba7ddda7e8f261163972ddbe23c7e7a12ac5b84f
-// SkirmishScreenStateRebuildColorCombo.cpp is the semantic reference. Target
-// deltas: offered-color vector copy+count, local/host-AI edit permission,
-// exclude other human nonobserver colors, optional random entry, and mode dirty.
-// Native calls and fields shown here were read independently from both images.
-// The random-entry tint is a 4-byte global at native VA DC8D48 with value
-// FFFFFFFF and 9 read references; its original name remains unknown.
-// AptLobbyRandomColorTint is only a descriptive unresolved external in this
-// bank. Before landing, reconcile its ownership and the compiler static guard
-// (E03350), already owned by GlobalFlagClearers_E033xx.cpp. Never add a second
-// data owner for that flag or whitelist the conflict. Cached images E0334C/48
-// are natural static locals, not hand-addressed globals. Native strings agree.
-// GameWindow combo copy/dtor and all helpers use existing proven providers;
-// no new pin. Throwing STL free30830 gives the exact native EH state resets.
-// Current output1041B vs1039B; info/slot EBX/EDI allocation exchanged, frame50
-// vs54, mode test/load and editable flag memory/register placement differ.
+//
+// Rebuilds one lobby slot's colour combo from the offered colours, less the
+// colours other human non-observer slots hold, and repopulates it only when
+// that set differs from the list box's current item data. Semantic reference:
+// BFME 1 SkirmishScreenStateRebuildColorCombo.cpp (ba7ddda7e8). Target deltas
+// read from retail and the WB twin: offered-colour vector copy and count,
+// local/host-AI edit permission, optional random entry, mode dirty flag. The
+// WB twin reads mode through an inline getter (its temp local_100), which
+// gives retail's load-then-compare and register choice.
+//
+// rva0043F14D (retail 0x0043F14D, 87 bytes) is STLport 4.5.3's vector<bool>
+// operator== body: the same TU's out-of-line instantiation compiles to the
+// same bytes. Its body has to be visible here, as in BFME 1's donor, so MSVC
+// sees that neither vector escapes and keeps the listed vector's begin in
+// registers across the list-box calls. The address name is kept.
+//
+// AptLobbyRandomColorTint (native DC8D48) is owned by
+// Rva0043F483PopulatePlayerCombo.cpp. The static guard E03350 is this
+// function's; its unwind clearers are still rowed in
+// GlobalFlagClearers_E033xx.cpp. /EHs with plain free keeps retail's unwind
+// states (commit 2d39596721).
 #include <stdlib.h>
-namespace _STL {void __cdecl free(void*);}
-#define free _STL::free
 #include <vector>
-#undef free
+#include <algorithm>
 #include "ascii_string.h"
 class GameSlot {public: bool isHuman() const; bool isObserver() const; bool isAI() const;
  char pad[4];int state;char pad8[4];int color;};
@@ -54,11 +51,12 @@ class Rva00323619 {public:void rva00323642();void rva00323619(int);};
 class Rva003235B8 {public:int rva003235B8(const Image*,int,int,int);};
 class Rva003236A0 {public:void rva003236A0(int,int);};
 class BfmeThing925D {public:void bfmeGo925D(void*);};
-int Rva003253BEGet(GameWindow*,int,int);
+void*GadgetListBoxGetItemData(GameWindow*,int,int);
 int GadgetListBoxGetNumEntries(GameWindow*);
 int Rva0043DDF8(int);
-bool rva0043F14D(const _STL::vector<bool>&,const _STL::vector<bool>&);
-class AptMpGameSetup {public:bool PopulateColorCombo(int);
+__declspec(noinline) bool rva0043F14D(const _STL::vector<bool>&first,const _STL::vector<bool>&second){
+ return first.size()==second.size()&&_STL::equal(first.begin(),first.end(),second.begin());}
+class AptMpGameSetup {public:bool PopulateColorCombo(int);int getMode()const{return mode;}
  char pad00[0x58];ColorSetupOwner*owner;Rva0043DA65*game;
  char pad60[0x7c-0x60];int mode;char pad80[0x2be-0x80];bool dirty;
  char pad2bf[0x2f4-0x2bf];MpGameSetupComboRef combos[8];
@@ -72,25 +70,26 @@ bool AptMpGameSetup::PopulateColorCombo(int index) {
  _STL::vector<bool>available(offered);
  int count=availableCount;
  int numColors=available.size();
- _ReadWriteBarrier();
- bool changed=(mode==1);
+ bool changed=(getMode()==1);
  bool editable=(info->v13()==index);
  if(owner->amIHost()&&cur->isAI())editable=true;
- if(editable)for(int i=0;i<8;++i){
-  GameSlot*slot=info->getSlot(i);
-  if(slot&&slot->color>=0&&slot->color<numColors&&i!=index&&slot->isHuman()&&!slot->isObserver()){
-   available[slot->color]=false;--count;
+ if(editable){
+  for(int i=0;i<8;++i){
+   GameSlot*slot=info->getSlot(i);
+   if(slot&&slot->color>=0&&slot->color<numColors&&i!=index&&slot->isHuman()&&!slot->isObserver()){
+    available[slot->color]=false;--count;
+   }
   }
  }
  if(optional)++count;
  MpGameSetupComboRef combo(combos[index]);
  GameWindow*list=*(GameWindow**)((char*)combo.window->winGetUserData()+8);
- if(list){int entries=GadgetListBoxGetNumEntries(list);
+ if(list){
+  int entries=GadgetListBoxGetNumEntries(list);
   if(entries==count){
    _STL::vector<bool>listed(available.size(),false);
-   for(int row=0;row<(info ? entries : entries);++row){
-    _ReadWriteBarrier();
-    volatile int c = Rva003253BEGet(list,row,0);
+   for(int row=0;row<entries;++row){
+    int c=(int)GadgetListBoxGetItemData(list,row,0);
     if(c<0)continue;
     if(c>=listed.size())break;
     listed[c]=true;
@@ -100,17 +99,16 @@ bool AptMpGameSetup::PopulateColorCombo(int index) {
  }
  bool wasObserver=(((Rva003236E8*)&combo)->rva003236E8()==1);
  ((Rva00323619*)&combo)->rva00323642();
- MultiplayerColorDefinition*def=TheMultiplayerSettings->getColor(-1);
+ TheMultiplayerSettings->getColor(-1);
  if(optional||cur->state==1){
   static const Image*randomImage=TheMappedImageCollection->findImageByName(AsciiString("AptRandomColor"));
   int entry=((Rva003235B8*)&combo)->rva003235B8(randomImage,20,20,AptLobbyRandomColorTint);
   ((Rva003236A0*)&combo)->rva003236A0(entry,-1);
   if(cur->isObserver()||cur->state==1)((BfmeThing925D*)&combo)->bfmeGo925D(0);
  }
- for(int c=0;(c ? c : c)<numColors;++c){
-  def=TheMultiplayerSettings->getColor(c);
-  _ReadWriteBarrier();
-  if(!def||(index ? (!available[c]) : (!available[c])))continue;
+ for(int c=0;c<numColors;++c){
+  MultiplayerColorDefinition*def=TheMultiplayerSettings->getColor(c);
+  if(!def||!available[c])continue;
   static const Image*colorImage=TheMappedImageCollection->findImageByName(AsciiString("AptWhiteBox"));
   int entry=((Rva003235B8*)&combo)->rva003235B8(colorImage,20,20,def->color);
   ((Rva003236A0*)&combo)->rva003236A0(entry,c);
