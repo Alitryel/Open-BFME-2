@@ -1,5 +1,5 @@
 // ?UpdateShadowCamera@W3DShadowMapManager@@QAEXXZ
-// partial score=0.84 date=2026-10-16
+// partial score=0.85 date=2026-10-16
 // cl: /O1 /Og /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
 // Native shadow map helper 0007C637..0007C8AE. WorldBuilder7EF110 embeds
@@ -106,7 +106,7 @@ template<> inline __declspec(noinline) _Vector_base<Coord3D, allocator<Coord3D> 
 template<> inline __declspec(noinline) vector<Coord3D>::vector(size_t __n, const Coord3D &__val, const allocator<Coord3D> &__a)
 	: _Vector_base<Coord3D, allocator<Coord3D> >(__n, __a) { this->_M_finish = uninitialized_fill_n(this->_M_start, __n, __val); }
 template<> Region2D *vector<Region2D>::erase(Region2D *, Region2D *);
-template<> void vector<BfmeFloat4Record00469C61>::push_back(const BfmeFloat4Record00469C61 &);
+template<> inline __declspec(noinline) void vector<BfmeFloat4Record00469C61>::push_back(const BfmeFloat4Record00469C61 &__x) { if (this->_M_finish != this->_M_end_of_storage._M_data) { _Construct(this->_M_finish, __x); ++this->_M_finish; } else _M_insert_overflow(this->_M_finish, __x, _IsPODType(), 1UL, true); }
 }
 
 class PlaneClass
