@@ -1,28 +1,33 @@
-// ?rva0047A895@HordeContain@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
-// partial score=0.6 date=2026-10-16
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG /ICode/Libraries/Include
 //
-// ?rva0047A895@HordeContain@@QAEXPAVObject@@PBUCoord3D@@M_N@Z, retail 0x0047A895 (1018 B, RET 0x10)
+// ?rva0047A895@HordeContain@@QAEXPAVObject@@PBUCoord3D@@M_N@Z, retail 0x0047A895 (1018 B, RET 0x10):
+// moves one horde member towards pos. Kind 0xDA members defer to HordeContain::updatePosition
+// (0x00474842); a member whose AI slot 0x1BC holds only clears its model condition 61; with a
+// +0x2A0 owner the full HordeContain::_updatePosition (0x00471464) runs. Otherwise the member's
+// formation slot key picks the rank angle, its locomotor caps the step (max speed x1.25) and the
+// turn (max turn rate, when the module data's +0x124 bit 23 asks to face pos), the data's two
+// flags toggle model conditions 61 and 215, and the member gets the rotated transform, the
+// position and its next position.
 //
-// W9-O2 first C++ draft (2026-10-16). Target facts: native 0x47A895..0x47AC8F and WB 0x0115F9B0
-// (debug: Object.h clear/setModelConditionState at lines 862/873, BitFlags test/set/clear,
-// HordeContain::updatePosition = 0x474842, HordeContain::_updatePosition = 0x471464,
-// Locomotor::getMaxSpeed/getMaxTurnRate, Object::GetRelativeAngle, Coord3D GetLength/normalize,
-// cos/sin, Thing::setTransformMatrix/setPosition, Object::setNextPosition inlined (+0x198/+0x1A6)).
-// A HordeContain member update that, for kind 0xDA, defers to updatePosition; for an AI whose slot
-// 0x1BC holds, clears one model condition; otherwise moves the member towards pos clamped by its
-// locomotor speed (x1.25) and turn rate, picks the rank angle by the formation slot's key, toggles
-// model conditions 29 / 0xB7 from the module data's flags and sets its transform.
-// Residue (nd ~130, 1028 B): obj set-path bit test loads the word (retail test/or memory with the
-// mask in EAX); frame 0x4C vs 0x48 (retail overlaps the slot int, the 0x0046A5B1 result temp and
-// delta); member-wise position copy register order; the inlined Rotate_Z x87/SSE split.
+// Target facts: native 0x0047A895..0x0047AC8F; WB 0x0115F9B0 (debug build: Object.h
+// clear/setModelConditionState at lines 862/873 over BitFlags test/set/clear, the callees named
+// above plus Locomotor::getMaxSpeed/getMaxTurnRate, Object::GetRelativeAngle, Coord3D
+// GetLength/normalize/Scale/Add, cos/sin, Thing::setTransformMatrix/setPosition and an inlined
+// Object::setNextPosition at +0x198/+0x1A6). Carried from donors: the WWMath Matrix3D inlines
+// (identity, Set_Translation, Rotate_Z) as the matched W3DPropBufferUpdatePropPosition.cpp
+// spells them, Zero Hour's Coord3D sub/scale/add, and the model-condition BitFlags spelling of
+// the matched RousingSpeechUpdateRva004ACF1D.cpp (test returns the masked word; words from
+// Object +0x10C). Class, field and method names not listed are address-derived.
 #include <math.h>
-#include "Lib/Coord3D.h"
+#define COORD3D_VIEW_INLINE
+#include "Lib/Coord3DCtorView.h"
 #include "Lib/Coord2D.h"
 
 class Vector3
 {
 public:
+	__forceinline Vector3() {}
+	__forceinline Vector3(float x, float y, float z) { X = x; Y = y; Z = z; }
 	float &operator[](int i) { return (&X)[i]; }
 	const float &operator[](int i) const { return (&X)[i]; }
 	float X;
@@ -217,6 +222,16 @@ public:
 	void setPosition(const Coord3D *pos);		// 0x0030AA80
 };
 
+class Rva0047A895ConditionBits
+{
+public:
+	unsigned int test(int bit) const { return m_words[bit >> 5] & (1U << (bit & 0x1f)); }
+	void set(int bit) { m_words[bit >> 5] |= 1U << (bit & 0x1f); }
+	void clear(int bit) { m_words[bit >> 5] &= ~(1U << (bit & 0x1f)); }
+private:
+	unsigned int m_words[7];
+};
+
 class Object : public Thing
 {
 public:
@@ -229,8 +244,8 @@ public:
 	float m_orientation;			// +0x44
 	char m_pad048[0x74 - 0x48];
 	int m_id;				// +0x74
-	char m_pad078[0x110 - 0x78];
-	unsigned int m_modelConditions[6];	// +0x110
+	char m_pad078[0x10C - 0x78];
+	Rva0047A895ConditionBits m_conditionBits;	// +0x10C
 	char m_pad128[0x198 - 0x128];
 	Coord3D m_198;				// +0x198
 	char m_pad1A4[0x1A6 - 0x1A4];
@@ -292,33 +307,36 @@ private:
 	int m_rankCount;			// +0x8DC
 };
 
-// Model-condition bits as BitFlags words: (word index, mask).
+// The module data's flags read through a plain bit test (retail shifts and tests AL).
 static inline bool flagTest(unsigned int w, int bit) { return (w & (1u << (bit & 31))) != 0; }
-static inline bool mcTestFn(const unsigned int *w, int b) { return (w[b >> 5] & (1u << (b & 31))) != 0; }
-static inline void mcSetFn(unsigned int *w, int b) { w[b >> 5] |= 1u << (b & 31); }
-#define MC_WORD(b) ((b) >> 5)
-#define MC_MASK(b) (1u << ((b) & 31))
-#define mcTest(w, b) ((((const unsigned char *)(w))[(b) >> 3] & (1u << ((b) & 7))) != 0)
-#define mcTestW(w, b) (((w)[MC_WORD(b)] & MC_MASK(b)) != 0)
-#define mcSet(w, b) ((w)[MC_WORD(b)] |= MC_MASK(b))
-#define mcClear(w, b) ((w)[MC_WORD(b)] &= ~MC_MASK(b))
+
+static __forceinline void clearModelConditionBit(Object *object, int bit)
+{
+	if (object->m_conditionBits.test(bit) != 0)
+	{
+		object->m_conditionBits.clear(bit);
+		object->rva0028AE6D();
+	}
+}
+static __forceinline void setModelConditionBit(Object *object, int bit)
+{
+	if (object->m_conditionBits.test(bit) == 0)
+	{
+		object->m_conditionBits.set(bit);
+		object->rva0028AE6D();
+	}
+}
 
 void HordeContain::rva0047A895(Object *obj, const Coord3D *pos, float angle, bool flag)
 {
 	if (obj->isKindOf(KINDOF_RVA0047A895_DA)) {
 		((Rva00474842 *)this)->rva00474842(obj, pos, angle, flag);
-		if (mcTest(obj->m_modelConditions, 0xBA)) {
-			mcClear(obj->m_modelConditions, 0xBA);
-			obj->rva0028AE6D();
-		}
+		clearModelConditionBit(obj, 6 * 32 + 26);
 		return;
 	}
 	Rva0047A895AI *ai = obj->m_258;
 	if (ai && ai->rva0047A895Slot111()) {
-		if (mcTest(obj->m_modelConditions, 0x1D)) {
-			mcClear(obj->m_modelConditions, 0x1D);
-			obj->rva0028AE6D();
-		}
+		clearModelConditionBit(obj, 1 * 32 + 29);
 		return;
 	}
 	if (m_2A0 != 0) {
@@ -327,74 +345,62 @@ void HordeContain::rva0047A895(Object *obj, const Coord3D *pos, float angle, boo
 	}
 	float maxMove;
 	{
-	int slot = ((Rva0046ACF6 *)this)->rva0046ACF6(obj->m_id);
-	float key = m_slots[slot].m_04;
-	int i;
-	for (i = m_rankCount - 1; i > 0; --i) {
-		if (m_ranks[i].m_threshold == key)
-			break;
-	}
-	if (i < 0)
-		i = 0;
-	angle = m_ranks[i].m_angle;
-	maxMove = 9999.0f;
-	float maxTurn = 3.1415927f;
-	Locomotor *loco = (Locomotor *)obj->rva0028AC4E();
-	if (loco) {
-		maxMove = loco->getMaxSpeed(obj) * 1.25f;
-		maxTurn = loco->getMaxTurnRate(obj);
-	}
-	if (flagTest(m_data->m_110, 29)) {
-		if (!mcTestFn(obj->m_modelConditions, 0x1D)) {
-			mcSetFn(obj->m_modelConditions, 0x1D);
-			obj->rva0028AE6D();
+		int slot = ((Rva0046ACF6 *)this)->rva0046ACF6(obj->m_id);
+		float key = m_slots[slot].m_04;
+		int i;
+		for (i = m_rankCount - 1; i > 0; --i) {
+			if (m_ranks[i].m_threshold == key)
+				break;
 		}
-	} else if (mcTest(obj->m_modelConditions, 0x1D)) {
-		mcClear(obj->m_modelConditions, 0x1D);
-		obj->rva0028AE6D();
-	}
-	if (flagTest(m_data->m_124, 23)) {
-		if (!mcTestFn(obj->m_modelConditions, 0xB7)) {
-			mcSetFn(obj->m_modelConditions, 0xB7);
-			obj->rva0028AE6D();
+		if (i < 0)
+			i = 0;
+		angle = m_ranks[i].m_angle;
+		maxMove = 9999.0f;
+		float maxTurn = 3.1415927f;
+		Locomotor *loco = (Locomotor *)obj->rva0028AC4E();
+		if (loco) {
+			maxMove = loco->getMaxSpeed(obj) * 1.25f;
+			maxTurn = loco->getMaxTurnRate(obj);
 		}
-		Coord2D offset;
-		rva0046A5B1(&offset, slot);
-		float rel = obj->GetRelativeAngle(pos);
-		if (rel > maxTurn)
-			rel = maxTurn;
-		else if (-maxTurn > rel)
-			rel = -maxTurn;
-		angle = obj->m_orientation + rel;
-	} else if (mcTest(obj->m_modelConditions, 0xB7)) {
-		mcClear(obj->m_modelConditions, 0xB7);
-		obj->rva0028AE6D();
+		if (flagTest(m_data->m_110, 29))
+			setModelConditionBit(obj, 1 * 32 + 29);
+		else
+			clearModelConditionBit(obj, 1 * 32 + 29);
+		if (flagTest(m_data->m_124, 23)) {
+			setModelConditionBit(obj, 6 * 32 + 23);
+			{
+				// The slot's formation offset; only the debug build uses it.
+				Coord2D offset;
+				rva0046A5B1(&offset, slot);
+			}
+			float rel = obj->GetRelativeAngle(pos);
+			if (rel > maxTurn)
+				rel = maxTurn;
+			else if (-maxTurn > rel)
+				rel = -maxTurn;
+			angle = obj->m_orientation + rel;
+		} else {
+			clearModelConditionBit(obj, 6 * 32 + 23);
+		}
 	}
-	}
-	Coord3D newPos;
-	newPos.x = obj->m_pos.x;
-	newPos.y = obj->m_pos.y;
-	newPos.z = obj->m_pos.z;
+	Coord3D newPos(obj->m_pos);
 	{
-	Coord3D delta;
-	delta.x = pos->x - newPos.x;
-	delta.y = pos->y - newPos.y;
-	delta.z = pos->z - newPos.z;
-	if (delta.GetLength() > maxMove) {
-		delta.normalize();
-		newPos.x += delta.x * maxMove;
-		newPos.y += delta.y * maxMove;
-		newPos.z += delta.z * maxMove;
-	} else {
-		newPos = *pos;
-	}
+		Coord3D delta(*pos);
+		delta.sub(&newPos);
+		if (delta.GetLength() > maxMove) {
+			delta.normalize();
+			delta.scale(maxMove);
+			newPos.add(&delta);
+		} else {
+			newPos = *pos;
+		}
 	}
 	Matrix3D mtx(true);
-	mtx.Set_Translation(*(const Vector3 *)&newPos);
+	mtx.Set_Translation(Vector3(newPos.x, newPos.y, newPos.z));
 	mtx.Rotate_Z(angle);
 	obj->setTransformMatrix(&mtx);
 	obj->setPosition(&newPos);
-	obj->m_1A6 = true;
+	obj->m_1A6 = true;		// setNextPosition
 	obj->m_198 = newPos;
 	if (obj->m_physics)
 		obj->m_physics->rva00390629(false);
