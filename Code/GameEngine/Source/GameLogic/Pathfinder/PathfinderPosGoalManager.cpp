@@ -15,7 +15,9 @@ class PathfindCell {
 public:
     void ReleaseInfo();
     Rva004DD8FAInfo *m_info;
-    unsigned char m_rest[12];
+    unsigned char m_rest[8];
+    unsigned int m_flags;
+    int layer() const { return (m_flags >> 4) & 63; }
 };
 struct Rva004DD8FANode {
     Rva004DD8FANode *m_next;
@@ -64,6 +66,7 @@ public:
     void rva004DD8FA(Rva004DD843Slot *slot);
     void SetGoal(int position, float angle, int layer);
     void rva004DDF51(Rva004DD843Slot *slot);
+    bool rva004DE2ED();
     Object *m_object;
     Rva004DD843Slot m_position;
     Rva004DD843Slot m_goal;
@@ -187,13 +190,16 @@ __declspec(noinline) int __cdecl Rva004DD6CFGet(float angle)
 #include "../../../../Libraries/Include/Lib/ICoord2DBase.h"
 template<int N> class NativeSlots : public NativeSlots<N-1> { public: virtual void gap(char (*)[N])=0; };
 template<> class NativeSlots<0> {};
-class AIUpdateInterface : public NativeSlots<137> { public: virtual bool isDoingGroundMovement() const=0; bool isAircraftThatAdjustsDestination() const; };
+class AIUpdateInterface : public NativeSlots<137> { public: virtual bool isDoingGroundMovement() const=0; virtual bool bfmeSlot138() const=0; bool isAircraftThatAdjustsDestination() const; };
 class NativeGoalContain : public NativeSlots<50> { public: virtual void slot50()=0; };
-struct NativeGoalTemplate { char pad[0x115]; unsigned char kind115; char gap[6]; union { unsigned kind11C; unsigned char kindBytes[4]; }; };
+struct NativeGoalTemplate { char pad[0x114]; union { unsigned flags114; struct {unsigned char kind114,kind115,kind116,kind117;}; }; char gap[4]; union { unsigned kind11C; unsigned char kindBytes[4]; }; };
+enum PathfindLayerEnum { PATHFIND_LAYER_GROUND=0 };
 class Object { public:
+ int rva0028B511() const;
+ void rva0028B4CE(PathfindLayerEnum);
  void *rva0028C197() const;
  char prefix[4]; NativeGoalTemplate *m_template;
- char gap08[0x44-8]; float m_angle;
+ char gap08[0x38-8]; Coord3D m_position; float m_angle;
  char gap48[0x250-0x48]; void *m_contain;
  char gap254[4]; AIUpdateInterface *m_ai;
  char gap25C[0x438-0x25c]; unsigned char m_status;
@@ -247,7 +253,6 @@ class NativeContain28 : public NativeSlots<28> { public: virtual int slot28()=0;
 class NativeContain31 : public NativeSlots<31> { public: virtual void *slot31()=0; };
 class NativeContain69 : public NativeSlots<69> { public: virtual unsigned int slot69(int)=0; };
 class Rva004DD9E3 { public: int rva004DD9E3(int,int,int); Rva004DD843Slot *slot; int category; Object *object; int layer,secondary; };
-enum PathfindLayerEnum { PATHFIND_LAYER_GROUND=0 };
 class Rva002E9D09 { public: int rva002E9D09(Object *,int,int); };
 class Rva002E7E26 { public: int rva002E7E26(Object *,int,int); int owner; Coord3D source,closest;float cost;bool found; };
 class Pathfinder {
@@ -257,8 +262,12 @@ public:
     int rva002EB4DF(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva002E7E26 *);
     int rva002E8773(int *,int *,int,int,Rva002E7E26 *);
     PathfindCell *getCell(PathfindLayerEnum,int,int);
+    void *rva001E3647Pos(int,const Coord3D *);
+    bool enabled() const { return m_enabled; }
     int rva004DDDA4(const ICoord2DBase *,const ICoord2DBase *,float,int,Rva004DD9E3 *);
     int rva004DDA9A(int *,int *,int,int,Rva004DD9E3 *);
+private:
+    unsigned char pad00[8]; bool m_enabled;
 };
 class AI { public: char pad[16]; Pathfinder *map; }; extern AI *TheAI;
 class TerrainLogic : public NativeSlots<44> { public: virtual bool slot44(Object *,int)=0; }; extern TerrainLogic *TheTerrainLogic;
@@ -378,3 +387,56 @@ int Pathfinder::rva002EED80(const ICoord2DBase *center,const ICoord2DBase *diame
 // LNK2005 duplicates of its select-any copies, and this TU's /Oy- frame made
 // the local point helpers COMDAT losers against its first link-order copy
 // (link census 2026-10-15 12:36).
+
+
+// Native004DE2ED..004DE47E, 401B, bool in AL (Object::setTriggerAreaFlagsForChange-
+// InPosition tests it). Template+114 bit 0x2000 picks list category 4/3; held
+// objects (status bit 1) refresh their path layer from the +04 cell layer bits
+// through 0x001E3647 and 0x0028B4CE; otherwise ground movers re-register their
+// position slot when cell, angle bin or layer changed. Pathfinder byte +08 gates
+// the update; AI slot 138 is an opaque native virtual. Offsets are target facts.
+int Rva002E6E8AGet(int);
+bool Rva004DD843::rva004DE2ED()
+{
+ int mode=(m_object->m_template->flags114 & 0x2000) ? 4 : 3;
+ if (m_object->m_status & 1)
+ {
+  int oldLayer=m_object->rva0028B511();
+  Pathfinder *map=TheAI->map;
+  PathfindCell *cell=(PathfindCell *)map->rva001E3647Pos(oldLayer,&m_object->m_position);
+  if (!cell) return false;
+  int newLayer=cell->layer();
+  if (newLayer==1) { m_object->rva0028B4CE((PathfindLayerEnum)newLayer); return false; }
+  if (newLayer!=oldLayer)
+  {
+   if (newLayer!=16 && !(unsigned char)Rva002E6E8AGet(newLayer))
+    m_object->rva0028B4CE((PathfindLayerEnum)1);
+   else
+    m_object->rva0028B4CE((PathfindLayerEnum)newLayer);
+  }
+  if(m_position.m_value!=-666666) rva004DD8FA(&m_position);
+  return false;
+ }
+ if (!TheAI->map->enabled()) return false;
+ AIUpdateInterface *ai=m_object->m_ai;
+ if (!ai || !ai->isDoingGroundMovement()) return false;
+ if (ai->bfmeSlot138())
+ {
+  if(m_position.m_value!=-666666) rva004DD8FA(&m_position);
+  return false;
+ }
+ int bin;
+ if (!(m_object->m_template->kind11C & 0x4000000)) bin=0;
+ else bin=Rva004DD6CFGet(m_object->m_angle);
+ ICoord2D cell;
+ Rva002EBC14Cell(&cell,m_object,&m_object->m_position);
+ int layer=m_object->rva0028B511();
+ Rva004DD843Slot *slot=&m_position;
+ if (cell==*(ICoord2DBase *)slot && bin==m_position.m_angle && layer==m_position.m_pathLayer) return false;
+ if(slot->m_value!=-666666) rva004DD8FA(slot);
+ if (!TheAI->map->getCell((PathfindLayerEnum)layer,cell.x,cell.y)) return false;
+ slot->m_value=cell.x; slot->m_y=cell.y;
+ m_position.m_angle=bin; m_position.m_pathLayer=layer; m_position.m_listKind=mode;
+ rva004DDF51(slot);
+ return true;
+}
