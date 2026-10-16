@@ -62402,3 +62402,4 @@ $L518	0x0076E4A5	11	landed	add_match verified Code/GameEngine/Source/GameClient/
 ?cellCallback@Rva002F18D4Info@@QAEHPAVPathfindCell@@0HH@Z	0x002F18D4	544	landed	add_match verified Code/GameEngine/Source/GameLogic/AI/cellCallbackRva002F18D4Farm.cpp 544B
 ?rva004B959C@InheritUpgradeCreate@@QAEXXZ	0x004B959C	269	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/Update/rva004B959CRva004B959CFarm.cpp 269B
 ?GatherWorldInformation@LWAIWorldInformation@@QAEXXZ	0x0050366B	1706	landed	add_match verified Code/Libraries/Source/WWVegas/WWLib/GatherWorldInformationRva0050366BFarm.cpp 1706B
+?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z	0x00759490	363	landed	add_match verified Code/GameEngine/Source/GameNetwork/rva00759490Rva00759490Farm.cpp 363B

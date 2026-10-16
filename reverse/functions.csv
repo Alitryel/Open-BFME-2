@@ -94208,3 +94208,4 @@ $L518,,0x0076E4A5,11,Code/GameEngine/Source/GameClient/GUI/FontLibraryFontList.c
 ?cellCallback@Rva002F18D4Info@@QAEHPAVPathfindCell@@0HH@Z,,0x002F18D4,544,Code/GameEngine/Source/GameLogic/AI/cellCallbackRva002F18D4Farm.cpp,matched,
 ?rva004B959C@InheritUpgradeCreate@@QAEXXZ,,0x004B959C,269,Code/GameEngine/Source/GameLogic/Object/Update/rva004B959CRva004B959CFarm.cpp,matched,
 ?GatherWorldInformation@LWAIWorldInformation@@QAEXXZ,,0x0050366B,1706,Code/Libraries/Source/WWVegas/WWLib/GatherWorldInformationRva0050366BFarm.cpp,matched,
+?rva00759490@Rva009A3540PairOwner@@QAEXPAURva009A3540OpaqueOwner@@0@Z,,0x00759490,363,Code/GameEngine/Source/GameNetwork/rva00759490Rva00759490Farm.cpp,matched,
