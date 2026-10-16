@@ -213,6 +213,11 @@ protected:
 
 DEFINE_AUTO_POOL(PolyRenderTaskClass, 256);
 
+// The pool's allocator body is MatPassTaskPoolAllocateObjectMemory.cpp's row (0x001440C0).
+// Instantiated here under this unit's /O2 it emitted a different external copy that,
+// first in link order, won the link; declared only, this unit calls the row's body.
+template<> PolyRenderTaskClass *ObjectPoolClass<PolyRenderTaskClass, 256>::Allocate_Object_Memory(void);
+
 /**
 ** MatPassTaskClass
 ** This is the record of a material pass that needs to be rendered on
