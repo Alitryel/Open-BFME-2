@@ -19,6 +19,12 @@ typedef _STL::_Rb_tree<TemplateCountKey,CountValue,_STL::_Select1st<CountValue>,
 
 
 
+// bfme link decl-only begin
+// Retail's tree dtor (0x0053BCED, with the extra unwind-state store) is
+// ControlBarCommandCountMap.cpp's row; this unit never calls it.
+namespace _STL { template <> CountTree::~_Rb_tree(); }
+// bfme link decl-only end
+
 template CountMap::map();
 
 
