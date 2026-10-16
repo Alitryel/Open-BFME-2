@@ -5,7 +5,8 @@
 // proves class AudioEventInfo and verb parseVolumeSliderMultiplier plus Slider/Multiplier token flow,
 // 8-byte {int slider, float multiplier} entry with -1/1.0 defaults and vector push_back.
 // BFME2 deltas retail-measured: INI sepsColon at +0x420, member scanIndexList/dup_002EE10 via ecx,
-// _strcmpi through IAT, name list theArmorBlockParse+0x78. REF slot 0x007D9EFC neighbours
+// _strcmpi through IAT, name list 0x00DB8AEC (theSubmixSliderNames, the
+// SubmixSlider list AudioEventInfoParseDefinition.cpp defines; it was spelled theArmorBlockParse+0x78). REF slot 0x007D9EFC neighbours
 // VolumeSliderMultiplier; strings Slider/Multiplier plus both INIException formats.
 typedef const char *ConstCharPtr;
 typedef const ConstCharPtr *ConstCharPtrArray;
@@ -22,12 +23,7 @@ public:
 	const char *m_sepsColon;
 };
 
-struct BlockParse
-{
-	char m_pad[0x78];
-	const char *m_names[1];
-};
-extern BlockParse theArmorBlockParse;
+extern const char *theSubmixSliderNames[];
 
 struct BfmeE8
 {
@@ -78,7 +74,7 @@ void AudioEventInfo::parseVolumeSliderMultiplier(INI *ini, void *, void *store, 
 		goto slider_error;
 	if (_strcmpi(token, "Slider") == 0) {
 		const char *slider = ini->getNextToken(ini->m_sepsColon);
-		entry.m_slider = ini->scanIndexList(slider, theArmorBlockParse.m_names);
+		entry.m_slider = ini->scanIndexList(slider, theSubmixSliderNames);
 		token = ini->getNextTokenOrNull(ini->m_sepsColon);
 		if (token != 0 && _strcmpi(token, "Multiplier") == 0) {
 			entry.m_multiplier = ini->dup_002EE10(ini->getNextToken(ini->m_sepsColon));

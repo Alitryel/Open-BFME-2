@@ -24,10 +24,25 @@ public:
 };
 
 struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 
 class INI
 {
 public:
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parsePercentToReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseIndexList(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBitString32(INI *ini, void *instance, void *store, const void *userData);
+
 	int getLoadType() { return m_loadType; }
 	const char *getNextToken(const char *seps = 0);
 	void initFromINI(void *what, const struct FieldParse *table);
@@ -37,6 +52,93 @@ private:
 };
 
 extern const struct FieldParse g_00BD9D68[];
+
+// AudioEventInfo's INI field tables (.rdata 0x00BD9D58..0x00BD9F4B) and the
+// name lists they index (.data 0x00DB8A80..0x00DB8B07), read from retail.
+// Both tables sit together with their userData ints, so one unit owned them;
+// they are defined here beside the audio-event parser that uses the first
+// (parseMultisoundDefinition, AudioEventInfoParseMultisound.cpp, uses the
+// second). Entry order, tokens, parsers and offsets are retail's; the list
+// names follow Zero Hour's AudioEventInfo.cpp where it has the same list.
+void parsePitchShift(INI *ini, void *instance, void *store, const void *userData);
+void parseDelay(INI *ini, void *instance, void *store, const void *userData);
+
+class AudioEventInfo
+{
+public:
+	static void parseSoundsList(INI *ini, void *instance, void *store, const void *userData);
+	static void parseSubsoundsList(INI *ini, void *instance, void *store, const void *userData);
+	static void parseVolumeSliderMultiplier(INI *ini, void *instance, void *store, const void *userData);
+};
+
+static const char *theAudioPriorityNames[] =
+{
+	"LOWEST", "LOW", "NORMAL", "HIGH", "CRITICAL", 0
+};
+
+static const char *theSoundTypeNames[] =
+{
+	"UI", "WORLD", "SHROUDED", "GLOBAL", "VOICE", "PLAYER", "ALLIES",
+	"ENEMIES", "EVERYONE", "FAKE", "DEFAULT", 0
+};
+
+static const char *theAudioControlNames[] =
+{
+	"LOOP", "SEQUENTIAL", "RANDOMSTART", "INTERRUPT", "FADE_ON_KILL",
+	"FADE_ON_START", "\not used by INI files", "PLAY_ONE", 0
+};
+
+// Also the slider list parseVolumeSliderMultiplier scans.
+extern const char *theSubmixSliderNames[] =
+{
+	"SOUNDFX", "VOICE", "MUSIC", "AMBIENT", "MOVIE", "NONE", 0
+};
+
+// parseSoundsList's userData: offsets 0x5C / 0x6C / 0x7C.
+static const int theSoundsListOffset = 0x5C;
+static const int theAttackListOffset = 0x6C;
+static const int theDecayListOffset = 0x7C;
+
+extern const FieldParse g_00BD9D68[] =
+{
+	{ "Filename", INI::parseAsciiString, 0, 0x0C },
+	{ "Volume", INI::parsePercentToReal, 0, 0x10 },
+	{ "VolumeShift", INI::parsePercentToReal, 0, 0x14 },
+	{ "PerFileVolumeShift", INI::parsePercentToReal, 0, 0x18 },
+	{ "MinVolume", INI::parsePercentToReal, 0, 0x1C },
+	{ "PitchShift", parsePitchShift, 0, 0x20 },
+	{ "PerFilePitchShift", parsePitchShift, 0, 0x28 },
+	{ "PlayPercent", INI::parsePercentToReal, 0, 0x30 },
+	{ "Delay", parseDelay, 0, 0x34 },
+	{ "Limit", INI::parseInt, 0, 0x3C },
+	{ "Priority", INI::parseIndexList, theAudioPriorityNames, 0x44 },
+	{ "Type", INI::parseBitString32, theSoundTypeNames, 0x48 },
+	{ "Control", INI::parseBitString32, theAudioControlNames, 0x4C },
+	{ "Sounds", AudioEventInfo::parseSoundsList, &theSoundsListOffset, 0x50 },
+	{ "Attack", AudioEventInfo::parseSoundsList, &theAttackListOffset, 0x60 },
+	{ "Decay", AudioEventInfo::parseSoundsList, &theDecayListOffset, 0x70 },
+	{ "MinRange", INI::parseReal, 0, 0x94 },
+	{ "MaxRange", INI::parseReal, 0, 0x98 },
+	{ "LowPassCutoff", INI::parsePercentToReal, 0, 0x90 },
+	{ "ZoomedInOffscreenVolumePercent", INI::parsePercentToReal, 0, 0x9C },
+	{ "ZoomedInOffscreenMinVolumePercent", INI::parsePercentToReal, 0, 0xA0 },
+	{ "ZoomedInOffscreenOcclusionPercent", INI::parsePercentToReal, 0, 0xA4 },
+	{ "ReverbEffectLevel", INI::parsePercentToReal, 0, 0xA8 },
+	{ "DryLevel", INI::parsePercentToReal, 0, 0xAC },
+	{ "SubmixSlider", INI::parseIndexList, theSubmixSliderNames, 0xB4 },
+	{ "VolumeSliderMultiplier", AudioEventInfo::parseVolumeSliderMultiplier, 0, 0xB8 },
+	{ 0, 0, 0, 0 }
+};
+
+// parseSubsoundsList's userData: the total-weight offset 0x8C.
+static const int theSubsoundsWeightOffset = 0x8C;
+
+extern const FieldParse g_00BD9F1C[] =
+{
+	{ "Control", INI::parseBitString32, theAudioControlNames, 0x4C },
+	{ "Subsounds", AudioEventInfo::parseSubsoundsList, &theSubsoundsWeightOffset, 0x80 },
+	{ 0, 0, 0, 0 }
+};
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile *);
 
