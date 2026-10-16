@@ -12,11 +12,14 @@
 // types its row carries.
 
 // Keep shared copy helpers at their verified speed/frame-omission settings.
-// The unsigned max body remains supplied by its canonical owner.
+// The unsigned max inlines but is never emitted here (imported-forceinline):
+// its out-of-line body remains supplied by its canonical owner, and the
+// vector<const ModuleData *> growth copy stays retail's (0x002DFCF6).
 #pragma optimize("ty", on)
 #include <stl/_algobase.h>
 namespace _STL {
-template <> const unsigned &max<unsigned>(const unsigned &a, const unsigned &b);
+template <> __declspec(dllimport) __forceinline
+const unsigned &max<unsigned>(const unsigned &__a, const unsigned &__b) { return __a < __b ? __b : __a; }
 }
 #include <vector>
 #pragma optimize("", on)
