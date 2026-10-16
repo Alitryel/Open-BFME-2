@@ -184,19 +184,22 @@ struct Rva005FDE81Entry
 	char m_data[12];
 };
 
-class Rva005FDE81
+// The battle-prompt player tabs movie clip (AptBattlePromptTabsConstructor.cpp:
+// its ctor 0x005FE640 binds "_level%u.<prefix>_OnTabClicked" to this body, and
+// its 12-byte tab vector is at +0x28).
+class Rva005FE750
 {
 public:
 	virtual void s0(); virtual void s1(); virtual void s2(); virtual void s3();
 	virtual void s4(unsigned int index);
-	void rva005FDE81(const char *text);
+	void OnTabClicked(const char *text);
 private:
 	char m_pad[0x28 - 4];
 	Rva005FDE81Entry *m_begin;
 	Rva005FDE81Entry *m_end;
 };
 
-void Rva005FDE81::rva005FDE81(const char *text)
+void Rva005FE750::OnTabClicked(const char *text)
 {
 	if (text && isdigit(*text))
 	{

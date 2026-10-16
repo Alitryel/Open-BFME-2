@@ -81,7 +81,8 @@ class GettingBuiltBehaviorInterface
 {
 public:
 	GettingBuiltBehaviorInterface();
-	virtual void slot();
+	// Retail vtable 0x00C40020 holds _purecall in every slot.
+	virtual void slot() = 0;
 };
 // ??0GettingBuiltBehaviorInterface@@QAE@XZ @0x00453111 9B: the default constructor, storing the
 // class's own vtable (VA 0x00C40020) and returning this.

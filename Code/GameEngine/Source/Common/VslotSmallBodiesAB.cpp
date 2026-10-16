@@ -59,7 +59,6 @@ class Rva0020E39D
 {
 public:
 	bool rva0020E39D(Rva003F409F *arg);
-	bool rva0020E779(Rva003F409F *arg);
 private:
 	Int m_00;
 	Rva003F409F *m_04;
@@ -69,15 +68,10 @@ bool Rva0020E39D::rva0020E39D(Rva003F409F *arg)
 	arg->rva003F409F(false);
 	return true;
 }
-bool Rva0020E39D::rva0020E779(Rva003F409F *arg)
-{
-	arg->rva003F409F(arg->m_34 == m_04->m_34);
-	return true;
-}
 
 // ??0Rva0020E767@@QAE@PAVRva003F409F@@@Z, retail 0x0020E767 (18B, RET4):
 // the constructor of the functor whose vtable 0x00BE433C holds 0x0020E779
-// above in slot 0 (the same store recurs inline at 0x0020EC4A/0x0020EC64).
+// (call, below) in slot 0 (the same store recurs inline at 0x0020EC4A/0x0020EC64).
 // It installs that vtable and keeps the compared object at +4, the m_04
 // slot 0x0020E779 reads. Twin skeleton of ??0Rva005CB22A (0x005CB22A).
 // Class name address-derived; slots 1..3 are 0x003F71D4 twice and 0x0047A69C.
@@ -92,6 +86,15 @@ private:
 Rva0020E767::Rva0020E767(Rva003F409F *other)
 	: m_04(other)
 {
+}
+
+// ?call@Rva0020E767@@UAE_NPAVRva003F409F@@@Z, retail 0x0020E779 (27B), slot 0
+// of the functor's vtable 0x00BE433C: marks the argument by whether its +0x34
+// equals the compared object's +0x34 (0x003F409F), answers true.
+bool Rva0020E767::call(Rva003F409F *arg)
+{
+	arg->rva003F409F(arg->m_34 == m_04->m_34);
+	return true;
 }
 
 // 0x002B8644 (two callers): appends the argument to the +0x10C vector

@@ -2,7 +2,7 @@
 class CreateAHeroData;
 class Rva002B7250 {public:void rva002B7250(CreateAHeroData *);};
 struct Rva005E5FObserverOwner {char prefix[8];Rva002B7250 observers;};
-class Rva005E5FObserver {public:virtual void notify();~Rva005E5FObserver() {}};
+class Rva005E5FObserver {public:virtual void notify(void *);~Rva005E5FObserver() {}};
 class Rva0042D69DPtrChaseField {public:int get() const;};
 class Rva0042D6FDPtrChaseField {public:int get() const;};
 class Rva0042D703PtrChaseField {public:int get() const;};
@@ -36,3 +36,10 @@ Rva005E5FFB::~Rva005E5FFB() {
 // opaque. All owner/member/interface names remain target-neutral.
 // ?Rva005E5FFBDeleteAnchor absent-from-retail
 void Rva005E5FFBDeleteAnchor(Rva005E5FFB *value){delete value;}
+
+// ?notify@Rva005E5FObserver@@UAEXPAX@Z, retail 0x0047A69C (3B, ret 4): slot 0
+// of the observer base vftable 0x00C3702C the dtor restores is the shared
+// empty one-argument body (ICF-rowed as EmissionVelocityInfo::DoXfer).
+void Rva005E5FObserver::notify(void *)
+{
+}
