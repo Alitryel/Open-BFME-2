@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /EHsc /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /EHs /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // Native4FB3F2..4FB4D1 is an ordinary224-byte constructor, also called
 // on LivingWorldPlayer+4C at2E27D5. WB1319960 independently witnesses each
@@ -16,7 +16,7 @@ struct Rva00063333Element { char bytes[1]; };
 // call628F98; specialize only this proven POD storage deallocation route.
 void Rva00030830FreeAllocation(void *);
 namespace _STL {
-template<> inline void allocator<BfmeE16>::deallocate(BfmeE16 *p,unsigned int) const { if(p) Rva00030830FreeAllocation(p); }
+template<> inline void allocator<BfmeE16>::deallocate(BfmeE16 *p,unsigned int) const { if(p) ::free(p); }
 template<> _Vector_base<BfmeE16,allocator<BfmeE16> >::_Vector_base(const allocator<BfmeE16>&) throw();
 template<> _Deque_iterator_base<Rva00063333Element>::_Deque_iterator_base();
 }

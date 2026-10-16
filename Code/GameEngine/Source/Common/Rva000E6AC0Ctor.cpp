@@ -1,4 +1,4 @@
-// cl: /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // Fix over the banked attempt, from the retail unwind map (ten states): state 0
 // is a polymorphic base with an out-of-line virtual dtor (folded 7-byte
 // 0x0049B47C); states 1-4 the four vectors; state 5 the Rva00087A93 at +0x34
@@ -71,7 +71,7 @@ private:
 // kept between the four frees, so it is not nothrow).
 void Rva00030830FreeAllocation(void *);
 namespace _STL {
- template<> inline void allocator<BfmeE16>::deallocate(BfmeE16 *p, size_type) const { if (p) Rva00030830FreeAllocation(p); }
+ template<> inline void allocator<BfmeE16>::deallocate(BfmeE16 *p, size_type) const { if (p) ::free(p); }
 }
 
 // Coord3D: shared header/view; no private copy.

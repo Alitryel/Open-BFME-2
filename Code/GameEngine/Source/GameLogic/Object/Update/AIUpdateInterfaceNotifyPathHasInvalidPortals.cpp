@@ -39,7 +39,7 @@ inline Object *GameLogic::findObjectByID(ObjectID id)
 	return node->object;
 }
 void __cdecl Rva00030830FreeAllocation(void*);
-template<> __forceinline void _STL::allocator<ObjectID>::deallocate(ObjectID*p,unsigned)const{if(p)Rva00030830FreeAllocation(p);}
+template<> __forceinline void _STL::allocator<ObjectID>::deallocate(ObjectID*p,unsigned)const{if(p)::free(p);}
 class NotifyFlags {public: unsigned int bits[19];unsigned test(int bit)const{return bits[bit>>5]&(1u<<(bit&31));} void SetBit(int bit){bits[bit>>5]|=1u<<(bit&31);}};
 class AIUpdateInterface;
 class ThingTemplate {public:char pad[0x114];unsigned int hordeKinds;unsigned getKinds()const{return hordeKinds;}};
