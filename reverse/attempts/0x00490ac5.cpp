@@ -1,5 +1,8 @@
 // ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
-// partial score=0.945 date=2026-10-15
+// partial score=0.96 date=2026-10-16
+// ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
+// partial score=0.96 date=2026-10-16
+// W9-O3 2026-10-16: both list calls now resolve: push_back -> the pinned BridgeBehaviorObjectIDList::push_back (0x2A1B6F) view, the inline insert -> the pinned private Rva002A1B6FNativeList::insert (0x2A1316, member/aggregate-result ABI) through a friend view (no alternatename). Size exact nd 19: (1) three 4-byte frame homes rotated (retail data -0x1c, extra -0x18, id temp -0x20; ours -0x20/-0x1c/-0x18); (2) size() walks keep head in ECX/cursor EAX where retail has EAX/ECX. Inert/worse: p != m_node, first/last distance forms, iterator pair.
 // ?rva00490AC5@ArrowStormUpdate@@QAEXXZ
 // partial score=0.94 date=2026-10-15
 // cl: /O1 /DNDEBUG /MD /GX /arch:SSE /I.
@@ -117,6 +120,24 @@ struct Rva0029FB3BIter
 	Rva0029FB3BNode *m_node;
 };
 
+struct Rva002A1316Iterator
+{
+	explicit Rva002A1316Iterator(void *p) : node(p) {}
+	Rva002A1316Iterator(const Rva002A1316Iterator &other) : node(other.node) {}
+	void *node;
+};
+class BridgeBehaviorObjectIDList
+{
+public:
+	void push_back(const ObjectID &id);	// 0x002A1B6F
+};
+class Rva0029FB3BMember;
+class Rva002A1B6FNativeList
+{
+	friend class Rva0029FB3BMember;
+	Rva002A1316Iterator insert(Rva002A1316Iterator pos, void *const &value);	// 0x002A1316
+};
+
 class Rva0029FB3BMember
 {
 public:
@@ -131,9 +152,8 @@ public:
 		return n;
 	}
 	Rva0029FB3BIter end() { return Rva0029FB3BIter(m_node); }
-	void push_back(const ObjectID &id);	// 0x002A1B6F
-	void pushBackInline(const ObjectID &id) { insert(end(), id); }
-	Rva0029FB3BIter insert(Rva0029FB3BIter pos, const ObjectID &id);	// 0x002A1316
+	__forceinline void push_back(const ObjectID &id) { ((BridgeBehaviorObjectIDList *)this)->push_back(id); }
+	__forceinline void pushBackInline(const ObjectID &id) { ((Rva002A1B6FNativeList *)this)->insert(Rva002A1316Iterator(m_node), *(void *const *)&id); }
 	void reset();	// 0x0026549E
 	Rva0029FB3BNode *m_node;
 };

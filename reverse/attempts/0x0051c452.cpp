@@ -1,4 +1,10 @@
 // ?rva0051C452@AptScoreScreen@@QAEHHII@Z
+// partial score=0.96 date=2026-10-16
+// ?rva0051C452@AptScoreScreen@@QAEHHII@Z
+// partial score=0.96 date=2026-10-16
+// w9-o3: farm best + ThingFactory::findTemplate rename, WB else-if, single m_tooltip join, direct m_movie; 891/890 B, one regalloc residue (tmpl vs customName ebx)
+// farm best: 15 instruction differences (retail 890 B); key d7809eb8b83832c5842a
+// ?rva0051C452@AptScoreScreen@@QAEHHII@Z
 // partial score=0.9528538495088165 date=2026-10-15
 // ?rva0051C452@AptScoreScreen@@QAEHHII@Z
 // partial score=0.90708 date=2026-10-14
@@ -143,15 +149,16 @@ struct Rva002D06CATemplate
  
 }
 ;
-class Rva002D06CA
+class ThingTemplate;
+class ThingFactory
 
 {
  public:
- void *rva002D06CA(const AsciiString *key);
+ const ThingTemplate *findTemplate(const AsciiString &key);
  
 }
 ;
-extern Rva002D06CA *TheThingFactory;
+extern ThingFactory *TheThingFactory;
 // A persistent unit's list box item data: its template name at +4 and the
 // player's name for it at +0xA0.
 struct AptScorePersistentUnit
@@ -361,7 +368,6 @@ int AptScoreScreen::rva0051C452(int message, unsigned int wParam, unsigned int l
     
     {
      AsciiString label("APT:NULL");
- if (0) { AsciiString t1_dead0(label); t1_dead0=AsciiString(label.str()+1); }
      TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
      m_tooltip = label;
      
@@ -374,17 +380,30 @@ int AptScoreScreen::rva0051C452(int message, unsigned int wParam, unsigned int l
      if (m_renaming)
      
      {
-      Rva002D06CATemplate *unitTemplate;
-      if (TheThingFactory
-      && (unitTemplate = (Rva002D06CATemplate *)TheThingFactory->rva002D06CA(&m_renaming->m_templateName)) != 0
-      && (unitTemplate->m_113 & 4))
-      label = "TOOLTIP:YouMayNotRenameAHero";
+      Rva002D06CATemplate *unitTemplate = 0;
+      if (TheThingFactory)
+      
+      {
+       unitTemplate = (Rva002D06CATemplate *)TheThingFactory->findTemplate(m_renaming->m_templateName);
+      }
+      if (unitTemplate && (unitTemplate->m_113 & 4))
+      
+      {
+       label = "TOOLTIP:YouMayNotRenameAHero";
+       TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
+      
+      }
       else
-      label = "TOOLTIP:ClickToRenameThisUnit";
-      TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
+      
+      {
+       label = "TOOLTIP:ClickToRenameThisUnit";
+       TheMouse->rva001EEA6D(TheGameText->fetch(label), -1, 0, 1.0f);
+      
+      }
       
      }
      m_tooltip = label;
+
      
     }
     
@@ -413,7 +432,7 @@ int AptScoreScreen::rva0051C452(int message, unsigned int wParam, unsigned int l
    if (TheThingFactory)
    
    {
-    unitTemplate = (Rva002D06CATemplate *)TheThingFactory->rva002D06CA(&m_renaming->m_templateName);
+    unitTemplate = (Rva002D06CATemplate *)TheThingFactory->findTemplate(m_renaming->m_templateName);
     if (unitTemplate && (unitTemplate->m_113 & 4))
     
     {
@@ -425,12 +444,13 @@ int AptScoreScreen::rva0051C452(int message, unsigned int wParam, unsigned int l
     
    }
    UnicodeString name;
-   UnicodeString &customName = m_renaming->m_customName;
+   AptScorePersistentUnit *renaming = m_renaming;
+   UnicodeString &customName = renaming->m_customName;
    if (!customName.isEmpty())
    name = customName;
    else if (unitTemplate)
- if (0) { AsciiString t1_dead; }
    name = unitTemplate->m_displayName;
+   if (0) { AsciiString t1_dead; }
    GadgetTextEntrySetText(m_rename, name);
    TheWindowManager->winSetFocus(m_rename);
    m_units->winEnable(false);

@@ -618,6 +618,11 @@ struct TCheckMovementInfo;
 class HierarchicalPath;
 class Rva002E7E26;
 class Rva002E7DF5;
+// The rowed 0x002E6F8B clear of a water-scan result and the rowed atan2
+// helper 0x000422A0 used by rva002ED535.
+struct Rva002E6F92Info { Coord3D position; Bool found; };
+class Rva002E6F8B { public: Rva002E6F8B *rva002E6F8B(); };
+double Rva000422A0Atan2(float,float);
 class Pathfinder
 {
 public:
@@ -654,6 +659,9 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
 	Bool rva002EB11B(const ICoord2D *,Int,ICoord2D *,void *);
 	Bool rva002F379E(ICoord2D *,Int,void *);
 	Bool AdjustDestination(Object *,const LocomotorSet &,Coord3D *,const Coord3D *);
+	Bool rva002ED535(Object *,Coord3D *);
+	Bool IsWaterCell(Int,Int);
+	Int rva002EAE20(const Coord3D *,const Coord3D *,PathfindLayerEnum,Rva002E6F92Info *);
 	Bool AdjustHordeMeleeDestination(Object *,void *,Coord3D *);
 	Int CheckPathCost(Object *,const LocomotorSet &,const Coord3D *,const Coord3D *);
 	Bool rva002F8E2D(const ICoord2D *,Int,ICoord2D *,void *);
@@ -967,6 +975,68 @@ Pathfinder_IsCheckForAdjust::Pathfinder_IsCheckForAdjust(Pathfinder *pathfinder,
 	m_layer = TheTerrainLogic->getLayerForDestination(obj, &m_goal);
 	if (m_layerPos)
 		m_layer = TheTerrainLogic->getLayerForDestination(0, m_layerPos);
+}
+
+// Retail 0x002ED535 (502 bytes, RET 8), between the two adjust checks above:
+// a unit of kind 191 whose destination is not a water cell is moved to the
+// first scan result (the rowed 0x002EAE20) found toward it, else to one found
+// along a quarter-turn fan of pi/16 steps on either side, at twice the
+// distance. WorldBuilder 0xD438C0 is the unnamed debug body. The step is a
+// writable .data float (0x009BD360, read only here).
+static float s_waterScanAngleStep = 0.19634954f;
+Bool Pathfinder::rva002ED535(Object *obj, Coord3D *dest)
+{
+	if (!obj->m_template->hasKind(191) || IsWaterCell((Int)dest, 1))
+		return true;
+	Coord3D start;
+	copyCoord3D(&start, (Coord3D *)obj->position);
+	Rva002E6F92Info info;
+	((Rva002E6F8B *)&info)->rva002E6F8B();
+	rva002EAE20(&start, dest, PATHFIND_LAYER_GROUND, &info);
+	if (info.found)
+	{
+		*dest = info.position;
+		dest->z = start.z;
+		return true;
+	}
+	float radius;
+	float angle;
+	{
+		Coord3D delta;
+		copyCoord3D(&delta, dest);
+		delta.x -= start.x;
+		delta.y -= start.y;
+		delta.z -= start.z;
+		radius = delta.length() * 2;
+		angle = Rva000422A0Atan2(delta.x, delta.y) + s_waterScanAngleStep;
+	}
+	float end = angle + 1.5707963705062866f;
+	for (; end > angle; angle = (s_waterScanAngleStep + angle) + s_waterScanAngleStep)
+	{
+		if (info.found)
+			break;
+		float cosine = (float)cos(angle);
+		float sine = (float)sin(angle);
+		float dx = cosine * radius;
+		Coord3D next;
+		next.x = start.x + dx;
+		float dy = sine * radius;
+		next.y = start.y + dy;
+		next.z = dest->z;
+		rva002EAE20(&start, &next, PATHFIND_LAYER_GROUND, &info);
+		if (!info.found)
+		{
+			next.x = start.x - dx;
+			next.y = start.y - dy;
+			rva002EAE20(&start, &next, PATHFIND_LAYER_GROUND, &info);
+		}
+		if (info.found)
+		{
+			*dest = info.position;
+			dest->z = start.z;
+		}
+	}
+	return true;
 }
 
 // Pathfinder::CheckForTarget, retail 0x002F2FA4 (123 bytes). Name from
