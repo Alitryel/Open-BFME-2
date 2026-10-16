@@ -410,9 +410,11 @@ enforces this in both hooks; the push hook scans your whole outgoing range, so a
 blocked push may name a historical lift. Never `--no-verify`.
 
 Ghidra boundaries, xrefs and vtables are identity evidence; decompiled C is not
-byte-match proof. After several failed shapes or ~30 minutes without byte
-progress take a fresh candidate, never leaving a nonmatching reconstruction in
-`Code/`. Record the verdict with
+byte-match proof. After ~30 minutes without meaningful progress, reassess. Continue while testing
+a new evidence-backed hypothesis; identity, layout, dependency and compiler
+discoveries count as progress. Bank and switch when viable hypotheses are
+exhausted or a concrete prerequisite blocks further work. Do not repeat
+disproven trials or leave a nonmatching reconstruction in `Code/`. Record the verdict with
 `python3 tools/re_log.py record <symbol> <rva> <size> <status> <evidence>` (never
 hand-edit `reverse/re_attempts.log`), citing the real boundary, `t=<minutes>` and
 your model. Walled only by a missing function? Add `blocked-on=0x<rva>`: the queue
