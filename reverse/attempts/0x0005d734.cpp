@@ -1,11 +1,5 @@
 // ?addOrResumeAudioEvent@MilesAudioManager@@QAEIPAVAudioEventRTS@@HHHH@Z
-// partial score=0.9907451353 date=2026-10-14
-// ?addOrResumeAudioEvent@MilesAudioManager@@QAEIPAVAudioEventRTS@@HHHH@Z
-// partial score=0.97 date=2026-10-14
-// ?addOrResumeAudioEvent@MilesAudioManager@@QAEIPAVAudioEventRTS@@HHHH@Z
-// partial score=0.993 date=2026-10-12
-// ?addOrResumeAudioEvent@MilesAudioManager@@QAEIPAVAudioEventRTS@@@Z
-// partial score=0.993 date=2026-10-10
+// partial score=0.99 date=2026-10-16
 // cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // addOrResumeAudioEvent (0x0005D734 903B) appended to the MilesAudioMultisound.cpp unit.
@@ -743,7 +737,7 @@ unsigned MilesAudioManager::addOrResumeAudioEvent(AudioEventRTS *event,int reque
      
     }
     bool remove=true;
-    Rva00051107AudioRequest *req=(activeViews ? *it : *it);
+    Rva00051107AudioRequest *req=*it;
     if(req->file.target) 
     {
      Rva00690FF0Handle file(req->file);

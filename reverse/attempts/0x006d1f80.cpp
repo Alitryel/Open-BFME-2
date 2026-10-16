@@ -415,12 +415,14 @@ void AptLinker::Load(const EAStringC &file, EAStringC target)
 	((BfmeAptValue006DCD20 *)cih)->setTypeAt006DBBC0(0x13);
 	cih->m_4c = 0;
 	((AptValue *)cih)->setIsDefined(true);
-	BfmeNodeVMU *it = find(cih);
-	if (!it) {
+	BfmeNodeVMU *node = m_head;
+	while (node && node->entry->GetTarget() != cih)
+		node = node->next;
+	if (!node) {
 		if (loaded.m_object)
 			add(loaded, cih);
 	} else {
-		BfmeNodeVMU *erase = it;
+		BfmeNodeVMU *erase = node;
 		((BfmeListVMU *)this)->bfmeEraseVMU(&erase);
 		if (loaded.m_object)
 			add(loaded, cih);
