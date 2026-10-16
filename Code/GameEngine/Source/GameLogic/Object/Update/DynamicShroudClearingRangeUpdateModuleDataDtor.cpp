@@ -4,7 +4,7 @@
 // 48 bytes. ModuleData-side dtor completing the DynamicShroud file-unit
 // (ctor rowed at 0x48B5C6 installs vtable 0xC4BEF8, factory 0x24CE44 news
 // 0x5C, table 0xC4BE20). Destroys the RadiusDecalTemplate member at +0x28
-// through the pinned 0xB6CF1 body (two-AsciiString teardown, same offset
+// through the rowed 0xB6CF1 body (two-AsciiString teardown, same offset
 // the ctor builds via rowed 0x330E5D), then restores the Snapshot base
 // vtable 0xBBB554. Shape follows LargeGroupBonusUpdateModuleDataDtor
 // (TU-local Snapshot with inline BBB554-restoring dtor, novtable
@@ -19,10 +19,11 @@ class Xfer;
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 
-class Rva00B6CF1
+// 0xB6CF1 is rowed as BfmeStringRecord000B94D2's dtor.
+class BfmeStringRecord000B94D2
 {
 public:
-	virtual ~Rva00B6CF1();
+	~BfmeStringRecord000B94D2();
 
 private:
 	unsigned char m_data[0x34];
@@ -44,7 +45,7 @@ private:
 	int m_growInterval; // +0x20
 	bool m_doSpySatFX; // +0x24
 	unsigned char m_pad25[3];
-	Rva00B6CF1 m_gridDecalTemplate; // +0x28
+	BfmeStringRecord000B94D2 m_gridDecalTemplate; // +0x28
 };
 
 // ??1DynamicShroudClearingRangeUpdateModuleData@@UAE@XZ @0x0048B634
