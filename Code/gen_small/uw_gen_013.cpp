@@ -18,6 +18,7 @@ struct Gen_uwm_0048bd11 { int m; Gen_uwm_0048bd11(int); ~Gen_uwm_0048bd11(); };
 struct Gen_uwm_0048d003 { int m; Gen_uwm_0048d003(int); ~Gen_uwm_0048d003(); };
 struct Gen_uwm_0049334f { int m; Gen_uwm_0049334f(int); ~Gen_uwm_0049334f(); };
 struct Gen_uwm_00494be4 { int m; Gen_uwm_00494be4(int); ~Gen_uwm_00494be4(); };
+struct Gen_uwm_004962ab { int m; Gen_uwm_004962ab(int); ~Gen_uwm_004962ab(); };
 struct Gen_uwm_0049a64b { int m; Gen_uwm_0049a64b(int); ~Gen_uwm_0049a64b(); };
 struct Gen_uwm_0049b47c { int m; Gen_uwm_0049b47c(int); ~Gen_uwm_0049b47c(); };
 struct Gen_uwm_0049c38a { int m; Gen_uwm_0049c38a(int); ~Gen_uwm_0049c38a(); };
@@ -31,25 +32,53 @@ struct Gen_uwm_004bf951 { int m; Gen_uwm_004bf951(int); ~Gen_uwm_004bf951(); };
 struct Gen_uwm_004c3d4c { int m; Gen_uwm_004c3d4c(int); ~Gen_uwm_004c3d4c(); };
 struct Gen_uwm_004c9f38 { int m; Gen_uwm_004c9f38(int); ~Gen_uwm_004c9f38(); };
 struct Gen_uwm_004cee78 { int m; Gen_uwm_004cee78(int); ~Gen_uwm_004cee78(); };
+struct Gen_uwm_004d7597 { int m; Gen_uwm_004d7597(int); ~Gen_uwm_004d7597(); };
 struct Gen_uwm_004d759c { int m; Gen_uwm_004d759c(int); ~Gen_uwm_004d759c(); };
 struct Gen_uwm_004d7b93 { int m; Gen_uwm_004d7b93(int); ~Gen_uwm_004d7b93(); };
 struct Gen_uwm_004df7c2 { int m; Gen_uwm_004df7c2(int); ~Gen_uwm_004df7c2(); };
+struct Gen_uwm_004dfce1 { int m; Gen_uwm_004dfce1(int); ~Gen_uwm_004dfce1(); };
+struct Gen_uwm_004e7d24 { int m; Gen_uwm_004e7d24(int); ~Gen_uwm_004e7d24(); };
 struct Gen_uwm_004e84a4 { int m; Gen_uwm_004e84a4(int); ~Gen_uwm_004e84a4(); };
+struct Gen_uwm_004e95cf { int m; Gen_uwm_004e95cf(int); ~Gen_uwm_004e95cf(); };
 struct Gen_uwm_004ea016 { int m; Gen_uwm_004ea016(int); ~Gen_uwm_004ea016(); };
 struct Gen_uwm_004ec395 { int m; Gen_uwm_004ec395(int); ~Gen_uwm_004ec395(); };
 struct Gen_uwm_004edff8 { int m; Gen_uwm_004edff8(int); ~Gen_uwm_004edff8(); };
 struct Gen_uwm_004edfff { int m; Gen_uwm_004edfff(int); ~Gen_uwm_004edfff(); };
 struct Gen_uwm_004ee006 { int m; Gen_uwm_004ee006(int); ~Gen_uwm_004ee006(); };
 struct Gen_uwm_004fa830 { int m; Gen_uwm_004fa830(int); ~Gen_uwm_004fa830(); };
+struct Gen_uwm_004fcd5e { int m; Gen_uwm_004fcd5e(int); ~Gen_uwm_004fcd5e(); };
+struct Gen_uwm_004fcd63 { int m; Gen_uwm_004fcd63(int); ~Gen_uwm_004fcd63(); };
+struct Gen_uwm_00502926 { int m; Gen_uwm_00502926(int); ~Gen_uwm_00502926(); };
+struct Gen_uwm_0050292b { int m; Gen_uwm_0050292b(int); ~Gen_uwm_0050292b(); };
 struct Gen_uwm_00506b28 { int m; Gen_uwm_00506b28(int); ~Gen_uwm_00506b28(); };
 struct Gen_uwm_00507823 { int m; Gen_uwm_00507823(int); ~Gen_uwm_00507823(); };
 struct Gen_uwm_0050c4e8 { int m; Gen_uwm_0050c4e8(int); ~Gen_uwm_0050c4e8(); };
+struct Gen_uwm_0050f6ad { int m; Gen_uwm_0050f6ad(int); ~Gen_uwm_0050f6ad(); };
+struct Gen_uwm_0050faec { int m; Gen_uwm_0050faec(int); ~Gen_uwm_0050faec(); };
+struct Gen_uwm_00510d07 { int m; Gen_uwm_00510d07(int); ~Gen_uwm_00510d07(); };
+struct Gen_uwm_0051211c { int m; Gen_uwm_0051211c(int); ~Gen_uwm_0051211c(); };
+struct Gen_uwm_005125ed { int m; Gen_uwm_005125ed(int); ~Gen_uwm_005125ed(); };
+struct Gen_uwm_005126f5 { int m; Gen_uwm_005126f5(int); ~Gen_uwm_005126f5(); };
 struct Gen_uwm_0052012b { int m; Gen_uwm_0052012b(int); ~Gen_uwm_0052012b(); };
+struct Gen_uwm_0052163e { int m; Gen_uwm_0052163e(int); ~Gen_uwm_0052163e(); };
+struct Gen_uwm_0052413e { int m; Gen_uwm_0052413e(int); ~Gen_uwm_0052413e(); };
+struct Gen_uwm_005242d7 { int m; Gen_uwm_005242d7(int); ~Gen_uwm_005242d7(); };
 struct Gen_uwm_005243bb { int m; Gen_uwm_005243bb(int); ~Gen_uwm_005243bb(); };
+struct Gen_uwm_00524436 { int m; Gen_uwm_00524436(int); ~Gen_uwm_00524436(); };
+struct Gen_uwm_005248d0 { int m; Gen_uwm_005248d0(int); ~Gen_uwm_005248d0(); };
 struct Gen_uwm_00524f5a { int m; Gen_uwm_00524f5a(int); ~Gen_uwm_00524f5a(); };
 struct Gen_uwm_005277b3 { int m; Gen_uwm_005277b3(int); ~Gen_uwm_005277b3(); };
+struct Gen_uwm_00528ce6 { int m; Gen_uwm_00528ce6(int); ~Gen_uwm_00528ce6(); };
+struct Gen_uwm_00529009 { int m; Gen_uwm_00529009(int); ~Gen_uwm_00529009(); };
+struct Gen_uwm_0052ccc4 { int m; Gen_uwm_0052ccc4(int); ~Gen_uwm_0052ccc4(); };
+struct Gen_uwm_0052cde1 { int m; Gen_uwm_0052cde1(int); ~Gen_uwm_0052cde1(); };
+struct Gen_uwm_00531235 { int m; Gen_uwm_00531235(int); ~Gen_uwm_00531235(); };
+struct Gen_uwm_00531d36 { int m; Gen_uwm_00531d36(int); ~Gen_uwm_00531d36(); };
+struct Gen_uwm_005320c1 { int m; Gen_uwm_005320c1(int); ~Gen_uwm_005320c1(); };
 struct Gen_uwm_00535776 { int m; Gen_uwm_00535776(int); ~Gen_uwm_00535776(); };
 struct Gen_uwm_00538c5f { int m; Gen_uwm_00538c5f(int); ~Gen_uwm_00538c5f(); };
+struct Gen_uwm_0053947d { int m; Gen_uwm_0053947d(int); ~Gen_uwm_0053947d(); };
+struct Gen_uwm_0053fb33 { int m; Gen_uwm_0053fb33(int); ~Gen_uwm_0053fb33(); };
 struct Gen_uwm_00542c19 { int m; Gen_uwm_00542c19(int); ~Gen_uwm_00542c19(); };
 struct Gen_uwm_00548948 { int m; Gen_uwm_00548948(int); ~Gen_uwm_00548948(); };
 struct Gen_uwm_00549c6d { int m; Gen_uwm_00549c6d(int); ~Gen_uwm_00549c6d(); };
@@ -59,26 +88,24 @@ struct Gen_uwm_0054f508 { int m; Gen_uwm_0054f508(int); ~Gen_uwm_0054f508(); };
 struct Gen_uwm_0054f91b { int m; Gen_uwm_0054f91b(int); ~Gen_uwm_0054f91b(); };
 struct Gen_uwm_0054faac { int m; Gen_uwm_0054faac(int); ~Gen_uwm_0054faac(); };
 struct Gen_uwm_00550576 { int m; Gen_uwm_00550576(int); ~Gen_uwm_00550576(); };
+struct Gen_uwm_0055076f { int m; Gen_uwm_0055076f(int); ~Gen_uwm_0055076f(); };
+struct Gen_uwm_00550995 { int m; Gen_uwm_00550995(int); ~Gen_uwm_00550995(); };
+struct Gen_uwm_00551983 { int m; Gen_uwm_00551983(int); ~Gen_uwm_00551983(); };
 struct Gen_uwm_00552c08 { int m; Gen_uwm_00552c08(int); ~Gen_uwm_00552c08(); };
+struct Gen_uwm_00553d5e { int m; Gen_uwm_00553d5e(int); ~Gen_uwm_00553d5e(); };
+struct Gen_uwm_00557cbd { int m; Gen_uwm_00557cbd(int); ~Gen_uwm_00557cbd(); };
+struct Gen_uwm_00557cc2 { int m; Gen_uwm_00557cc2(int); ~Gen_uwm_00557cc2(); };
+struct Gen_uwm_00557cc7 { int m; Gen_uwm_00557cc7(int); ~Gen_uwm_00557cc7(); };
 struct Gen_uwm_0055b0cc { int m; Gen_uwm_0055b0cc(int); ~Gen_uwm_0055b0cc(); };
 struct Gen_uwm_005676f4 { int m; Gen_uwm_005676f4(int); ~Gen_uwm_005676f4(); };
+struct Gen_uwm_005694c8 { int m; Gen_uwm_005694c8(int); ~Gen_uwm_005694c8(); };
 struct Gen_uwm_0056ac26 { int m; Gen_uwm_0056ac26(int); ~Gen_uwm_0056ac26(); };
+struct Gen_uwm_0056dc6b { int m; Gen_uwm_0056dc6b(int); ~Gen_uwm_0056dc6b(); };
 struct Gen_uwm_00574265 { int m; Gen_uwm_00574265(int); ~Gen_uwm_00574265(); };
 struct Gen_uwm_0057428c { int m; Gen_uwm_0057428c(int); ~Gen_uwm_0057428c(); };
 struct Gen_uwm_00574293 { int m; Gen_uwm_00574293(int); ~Gen_uwm_00574293(); };
+struct Gen_uwm_005746d2 { int m; Gen_uwm_005746d2(int); ~Gen_uwm_005746d2(); };
 struct Gen_uwm_00575395 { int m; Gen_uwm_00575395(int); ~Gen_uwm_00575395(); };
-struct Gen_uwm_005753e2 { int m; Gen_uwm_005753e2(int); ~Gen_uwm_005753e2(); };
-struct Gen_uwm_0057571c { int m; Gen_uwm_0057571c(int); ~Gen_uwm_0057571c(); };
-struct Gen_uwm_00576456 { int m; Gen_uwm_00576456(int); ~Gen_uwm_00576456(); };
-struct Gen_uwm_00577936 { int m; Gen_uwm_00577936(int); ~Gen_uwm_00577936(); };
-struct Gen_uwm_0057851b { int m; Gen_uwm_0057851b(int); ~Gen_uwm_0057851b(); };
-struct Gen_uwm_00578c23 { int m; Gen_uwm_00578c23(int); ~Gen_uwm_00578c23(); };
-struct Gen_uwm_00579656 { int m; Gen_uwm_00579656(int); ~Gen_uwm_00579656(); };
-struct Gen_uwm_0057a235 { int m; Gen_uwm_0057a235(int); ~Gen_uwm_0057a235(); };
-struct Gen_uwm_0057a23c { int m; Gen_uwm_0057a23c(int); ~Gen_uwm_0057a23c(); };
-struct Gen_uwm_0057a243 { int m; Gen_uwm_0057a243(int); ~Gen_uwm_0057a243(); };
-struct Gen_uwm_0057bcec { int m; Gen_uwm_0057bcec(int); ~Gen_uwm_0057bcec(); };
-struct Gen_uwm_0057c03b { int m; Gen_uwm_0057c03b(int); ~Gen_uwm_0057c03b(); };
 
 struct Gen_uwh4_0048ba39 { Gen_uwm_0048ba39 a0; Gen_uwm_0048ba39 a1; Gen_uwm_0048ba39 a2; Gen_uwm_0048ba39 a3; Gen_uwm_0048ba39 a4; Gen_uwm_0048ba39 a5; Gen_uwm_0048ba39 a6; Gen_uwm_0048ba39 a7; Gen_uwm_0048ba39 a8; Gen_uwm_0048ba39 a9; Gen_uwm_0048ba39 a10; Gen_uwm_0048ba39 a11; Gen_uwm_0048ba39 a12; Gen_uwm_0048ba39 a13; Gen_uwm_0048ba39 a14; Gen_uwm_0048ba39 a15; Gen_uwm_0048ba39 a16; Gen_uwm_0048ba39 a17; Gen_uwm_0048ba39 a18; Gen_uwm_0048ba39 a19; Gen_uwm_0048ba39 a20; Gen_uwm_0048ba39 a21; Gen_uwm_0048ba39 a22; Gen_uwm_0048ba39 a23; Gen_uwm_0048ba39 a24; Gen_uwm_0048ba39 a25; Gen_uwm_0048ba39 a26; Gen_uwm_0048ba39 a27; Gen_uwm_0048ba39 a28; Gen_uwm_0048ba39 a29; Gen_uwm_0048ba39 a30; Gen_uwm_0048ba39 a31; Gen_uwm_0048ba39 a32; Gen_uwm_0048ba39 a33; Gen_uwm_0048ba39 a34; Gen_uwm_0048ba39 a35; Gen_uwm_0048ba39 a36; Gen_uwm_0048ba39 a37; Gen_uwm_0048ba39 a38; Gen_uwm_0048ba39 a39; Gen_uwm_0048ba39 a40; Gen_uwm_0048ba39 a41; Gen_uwm_0048ba39 a42; Gen_uwm_0048ba39 a43; Gen_uwm_0048ba39 a44; Gen_uwm_0048ba39 a45; Gen_uwm_0048ba39 a46; Gen_uwm_0048ba39 a47; Gen_uwm_0048ba39 a48; char q49[4]; Gen_uwm_0048ba39 a49; Gen_uwm_0048ba39 a50; char q51[4]; Gen_uwm_0048ba39 a51; Gen_uwm_0048ba39 a52; char q53[4]; Gen_uwm_0048ba39 a53; char q54[8]; Gen_uwm_0048ba39 a54; char q55[8]; Gen_uwm_0048ba39 a55; char q56[8]; Gen_uwm_0048ba39 a56; char q57[4]; Gen_uwm_0048ba39 a57; Gen_uwm_0048ba39 a58; Gen_uwm_0048ba39 a59; Gen_uwm_0048ba39 a60; Gen_uwm_0048ba39 a61; char q62[8]; Gen_uwm_0048ba39 a62; Gen_uwm_0048ba39 a63; Gen_uwm_0048ba39 a64; Gen_uwm_0048ba39 a65; Gen_uwm_0048ba39 a66; Gen_uwm_0048ba39 a67; Gen_uwm_0048ba39 a68; Gen_uwm_0048ba39 a69; char q70[4]; Gen_uwm_0048ba39 a70; char q71[4]; Gen_uwm_0048ba39 a71; Gen_uwm_0048ba39 a72; Gen_uwm_0048ba39 a73; Gen_uwm_0048ba39 a74; Gen_uwm_0048ba39 a75; Gen_uwm_0048ba39 a76; Gen_uwm_0048ba39 a77; Gen_uwm_0048ba39 a78; Gen_uwm_0048ba39 a79; Gen_uwm_0048ba39 a80; Gen_uwm_0048ba39 a81; char q82[8]; Gen_uwm_0048ba39 a82; Gen_uwm_0048ba39 a83; Gen_uwm_0048ba39 a84; char q85[28]; Gen_uwm_0048ba39 a85; Gen_uwm_0048ba39 a86; Gen_uwm_0048ba39 a87; char q88[4]; Gen_uwm_0048ba39 a88; Gen_uwm_0048ba39 a89; Gen_uwm_0048ba39 a90; Gen_uwm_0048ba39 a91; char q92[8]; Gen_uwm_0048ba39 a92; Gen_uwm_0048ba39 a93; char q94[8]; Gen_uwm_0048ba39 a94; Gen_uwm_0048ba39 a95; char q96[80]; Gen_uwm_0048ba39 a96; char q97[4]; Gen_uwm_0048ba39 a97; char q98[64]; Gen_uwm_0048ba39 a98; char q99[4]; Gen_uwm_0048ba39 a99; char q100[24]; Gen_uwm_0048ba39 a100; char q101[12]; Gen_uwm_0048ba39 a101; char q102[68]; Gen_uwm_0048ba39 a102; char q103[8]; Gen_uwm_0048ba39 a103; Gen_uwm_0048ba39 a104; char q105[4]; Gen_uwm_0048ba39 a105; char q106[248]; Gen_uwm_0048ba39 a106; Gen_uwm_0048ba39 a107; Gen_uwm_0048ba39 a108; char q109[108]; Gen_uwm_0048ba39 a109; char q110[692]; Gen_uwm_0048ba39 a110; char q111[7404]; Gen_uwm_0048ba39 a111; Gen_uwm_0048ba39 a112; char q113[5084]; Gen_uwm_0048ba39 a113; Gen_uwm_0048ba39 a114; char q115[4]; Gen_uwm_0048ba39 a115; Gen_uwm_0048ba39 a116; char q117[8]; Gen_uwm_0048ba39 a117; Gen_uwm_0048ba39 a118; char q119[4]; Gen_uwm_0048ba39 a119; Gen_uwm_0048ba39 a120; char q121[92348]; Gen_uwm_0048ba39 a121; Gen_uwm_0048ba39 z; Gen_uwh4_0048ba39(); };
 // ??0Gen_uwh4_0048ba39@@QAE@XZ absent-from-retail
@@ -88,9 +115,9 @@ struct Gen_uwh8_0048ba39 { Gen_uwm_0048ba39 a0; Gen_uwm_0048ba39 a1; Gen_uwm_004
 // ??0Gen_uwh8_0048ba39@@QAE@XZ absent-from-retail
 Gen_uwh8_0048ba39::Gen_uwh8_0048ba39() : a0(0), a1(1), a2(2), a3(3), a4(4), a5(5), a6(6), a7(7), a8(8), a9(9), a10(10), a11(11), a12(12), a13(13), a14(14), a15(15), a16(16), a17(17), a18(18), a19(19), a20(20), a21(21), a22(22), a23(23), a24(24), a25(25), a26(26), a27(27), a28(28), a29(29), a30(30), a31(31), a32(32), a33(33), a34(34), a35(35), a36(36), a37(37), a38(38), a39(39), a40(40), a41(41), a42(42), a43(43), a44(44), a45(45), a46(46), a47(47), a48(48), a49(49), a50(50), a51(51), a52(52), a53(53), a54(54), a55(55), z(0) { char pad[8]; gen_uw_sink(pad); }
 
-struct Gen_uwh12_0048ba39 { Gen_uwm_0048ba39 a0; char q1[4]; Gen_uwm_0048ba39 a1; Gen_uwm_0048ba39 a2; char q3[12]; Gen_uwm_0048ba39 a3; char q4[1804]; Gen_uwm_0048ba39 a4; char q5[8]; Gen_uwm_0048ba39 a5; char q6[64]; Gen_uwm_0048ba39 a6; char q7[12]; Gen_uwm_0048ba39 a7; char q8[12]; Gen_uwm_0048ba39 a8; char q9[12]; Gen_uwm_0048ba39 a9; char q10[12]; Gen_uwm_0048ba39 a10; char q11[12]; Gen_uwm_0048ba39 a11; char q12[12]; Gen_uwm_0048ba39 a12; char q13[76]; Gen_uwm_0048ba39 a13; char q14[40]; Gen_uwm_0048ba39 a14; char q15[8]; Gen_uwm_0048ba39 a15; char q16[360]; Gen_uwm_0048ba39 a16; char q17[4]; Gen_uwm_0048ba39 a17; char q18[4]; Gen_uwm_0048ba39 a18; char q19[4]; Gen_uwm_0048ba39 a19; Gen_uwm_0048ba39 z; Gen_uwh12_0048ba39(); };
+struct Gen_uwh12_0048ba39 { Gen_uwm_0048ba39 a0; char q1[4]; Gen_uwm_0048ba39 a1; Gen_uwm_0048ba39 a2; char q3[12]; Gen_uwm_0048ba39 a3; Gen_uwm_0048ba39 z; Gen_uwh12_0048ba39(); };
 // ??0Gen_uwh12_0048ba39@@QAE@XZ absent-from-retail
-Gen_uwh12_0048ba39::Gen_uwh12_0048ba39() : a0(0), a1(1), a2(2), a3(3), a4(4), a5(5), a6(6), a7(7), a8(8), a9(9), a10(10), a11(11), a12(12), a13(13), a14(14), a15(15), a16(16), a17(17), a18(18), a19(19), z(0) { char pad[12]; gen_uw_sink(pad); }
+Gen_uwh12_0048ba39::Gen_uwh12_0048ba39() : a0(0), a1(1), a2(2), a3(3), z(0) { char pad[12]; gen_uw_sink(pad); }
 
 struct Gen_uwh16_0048ba39 { Gen_uwm_0048ba39 a0; Gen_uwm_0048ba39 a1; char q2[12]; Gen_uwm_0048ba39 a2; char q3[816]; Gen_uwm_0048ba39 a3; Gen_uwm_0048ba39 a4; char q5[264]; Gen_uwm_0048ba39 a5; Gen_uwm_0048ba39 z; Gen_uwh16_0048ba39(); };
 // ??0Gen_uwh16_0048ba39@@QAE@XZ absent-from-retail
@@ -172,6 +199,10 @@ struct Gen_uwh0_00494be4 { Gen_uwm_00494be4 a0; Gen_uwm_00494be4 z; Gen_uwh0_004
 // ??0Gen_uwh0_00494be4@@QAE@XZ absent-from-retail
 Gen_uwh0_00494be4::Gen_uwh0_00494be4() : a0(0), z(0) {  }
 
+struct Gen_uwh4_004962ab { char q0[20]; Gen_uwm_004962ab a0; Gen_uwm_004962ab z; Gen_uwh4_004962ab(); };
+// ??0Gen_uwh4_004962ab@@QAE@XZ absent-from-retail
+Gen_uwh4_004962ab::Gen_uwh4_004962ab() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
 struct Gen_uwh0_0049a64b { Gen_uwm_0049a64b a0; Gen_uwm_0049a64b z; Gen_uwh0_0049a64b(); };
 // ??0Gen_uwh0_0049a64b@@QAE@XZ absent-from-retail
 Gen_uwh0_0049a64b::Gen_uwh0_0049a64b() : a0(0), z(0) {  }
@@ -187,10 +218,6 @@ Gen_uwh4_0049b47c::Gen_uwh4_0049b47c() : a0(0), a1(1), a2(2), a3(3), a4(4), a5(5
 struct Gen_uwh8_0049b47c { Gen_uwm_0049b47c a0; char q1[8]; Gen_uwm_0049b47c a1; char q2[80]; Gen_uwm_0049b47c a2; Gen_uwm_0049b47c z; Gen_uwh8_0049b47c(); };
 // ??0Gen_uwh8_0049b47c@@QAE@XZ absent-from-retail
 Gen_uwh8_0049b47c::Gen_uwh8_0049b47c() : a0(0), a1(1), a2(2), z(0) { char pad[8]; gen_uw_sink(pad); }
-
-struct Gen_uwh12_0049b47c { char q0[12]; Gen_uwm_0049b47c a0; Gen_uwm_0049b47c z; Gen_uwh12_0049b47c(); };
-// ??0Gen_uwh12_0049b47c@@QAE@XZ absent-from-retail
-Gen_uwh12_0049b47c::Gen_uwh12_0049b47c() : a0(0), z(0) { char pad[12]; gen_uw_sink(pad); }
 
 struct Gen_uwh16_0049b47c { Gen_uwm_0049b47c a0; char q1[92]; Gen_uwm_0049b47c a1; Gen_uwm_0049b47c z; Gen_uwh16_0049b47c(); };
 // ??0Gen_uwh16_0049b47c@@QAE@XZ absent-from-retail
@@ -252,6 +279,10 @@ struct Gen_uwh8_004cee78 { Gen_uwm_004cee78 a0; Gen_uwm_004cee78 z; Gen_uwh8_004
 // ??0Gen_uwh8_004cee78@@QAE@XZ absent-from-retail
 Gen_uwh8_004cee78::Gen_uwh8_004cee78() : a0(0), z(0) { char pad[8]; gen_uw_sink(pad); }
 
+struct Gen_uwh0_004d7597 { char q0[8]; Gen_uwm_004d7597 a0; Gen_uwm_004d7597 z; Gen_uwh0_004d7597(); };
+// ??0Gen_uwh0_004d7597@@QAE@XZ absent-from-retail
+Gen_uwh0_004d7597::Gen_uwh0_004d7597() : a0(0), z(0) {  }
+
 struct Gen_uwh0_004d759c { Gen_uwm_004d759c a0; Gen_uwm_004d759c z; Gen_uwh0_004d759c(); };
 // ??0Gen_uwh0_004d759c@@QAE@XZ absent-from-retail
 Gen_uwh0_004d759c::Gen_uwh0_004d759c() : a0(0), z(0) {  }
@@ -263,6 +294,14 @@ Gen_uwh0_004d7b93::Gen_uwh0_004d7b93() : a0(0), z(0) {  }
 struct Gen_uwh0_004df7c2 { Gen_uwm_004df7c2 a0; Gen_uwm_004df7c2 z; Gen_uwh0_004df7c2(); };
 // ??0Gen_uwh0_004df7c2@@QAE@XZ absent-from-retail
 Gen_uwh0_004df7c2::Gen_uwh0_004df7c2() : a0(0), z(0) {  }
+
+struct Gen_uwh0_004dfce1 { char q0[20]; Gen_uwm_004dfce1 a0; Gen_uwm_004dfce1 z; Gen_uwh0_004dfce1(); };
+// ??0Gen_uwh0_004dfce1@@QAE@XZ absent-from-retail
+Gen_uwh0_004dfce1::Gen_uwh0_004dfce1() : a0(0), z(0) {  }
+
+struct Gen_uwh0_004e7d24 { char q0[12]; Gen_uwm_004e7d24 a0; Gen_uwm_004e7d24 z; Gen_uwh0_004e7d24(); };
+// ??0Gen_uwh0_004e7d24@@QAE@XZ absent-from-retail
+Gen_uwh0_004e7d24::Gen_uwh0_004e7d24() : a0(0), z(0) {  }
 
 struct Gen_uwh0_004e84a4 { Gen_uwm_004e84a4 a0; char q1[32]; Gen_uwm_004e84a4 a1; Gen_uwm_004e84a4 z; Gen_uwh0_004e84a4(); };
 // ??0Gen_uwh0_004e84a4@@QAE@XZ absent-from-retail
@@ -283,6 +322,10 @@ Gen_uwh12_004e84a4::Gen_uwh12_004e84a4() : a0(0), z(0) { char pad[12]; gen_uw_si
 struct Gen_uwh56_004e84a4 { char q0[4]; Gen_uwm_004e84a4 a0; Gen_uwm_004e84a4 z; Gen_uwh56_004e84a4(); };
 // ??0Gen_uwh56_004e84a4@@QAE@XZ absent-from-retail
 Gen_uwh56_004e84a4::Gen_uwh56_004e84a4() : a0(0), z(0) { char pad[56]; gen_uw_sink(pad); }
+
+struct Gen_uwh4_004e95cf { Gen_uwm_004e95cf a0; Gen_uwm_004e95cf z; Gen_uwh4_004e95cf(); };
+// ??0Gen_uwh4_004e95cf@@QAE@XZ absent-from-retail
+Gen_uwh4_004e95cf::Gen_uwh4_004e95cf() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
 
 struct Gen_uwh0_004ea016 { Gen_uwm_004ea016 a0; Gen_uwm_004ea016 z; Gen_uwh0_004ea016(); };
 // ??0Gen_uwh0_004ea016@@QAE@XZ absent-from-retail
@@ -320,6 +363,22 @@ struct Gen_uwh0_004fa830 { Gen_uwm_004fa830 a0; Gen_uwm_004fa830 z; Gen_uwh0_004
 // ??0Gen_uwh0_004fa830@@QAE@XZ absent-from-retail
 Gen_uwh0_004fa830::Gen_uwh0_004fa830() : a0(0), z(0) {  }
 
+struct Gen_uwh4_004fcd5e { char q0[80]; Gen_uwm_004fcd5e a0; Gen_uwm_004fcd5e z; Gen_uwh4_004fcd5e(); };
+// ??0Gen_uwh4_004fcd5e@@QAE@XZ absent-from-retail
+Gen_uwh4_004fcd5e::Gen_uwh4_004fcd5e() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh4_004fcd63 { char q0[92]; Gen_uwm_004fcd63 a0; Gen_uwm_004fcd63 z; Gen_uwh4_004fcd63(); };
+// ??0Gen_uwh4_004fcd63@@QAE@XZ absent-from-retail
+Gen_uwh4_004fcd63::Gen_uwh4_004fcd63() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh4_00502926 { char q0[56]; Gen_uwm_00502926 a0; Gen_uwm_00502926 z; Gen_uwh4_00502926(); };
+// ??0Gen_uwh4_00502926@@QAE@XZ absent-from-retail
+Gen_uwh4_00502926::Gen_uwh4_00502926() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh0_0050292b { char q0[24]; Gen_uwm_0050292b a0; Gen_uwm_0050292b z; Gen_uwh0_0050292b(); };
+// ??0Gen_uwh0_0050292b@@QAE@XZ absent-from-retail
+Gen_uwh0_0050292b::Gen_uwh0_0050292b() : a0(0), z(0) {  }
+
 struct Gen_uwh0_00506b28 { Gen_uwm_00506b28 a0; char q1[8]; Gen_uwm_00506b28 a1; Gen_uwm_00506b28 z; Gen_uwh0_00506b28(); };
 // ??0Gen_uwh0_00506b28@@QAE@XZ absent-from-retail
 Gen_uwh0_00506b28::Gen_uwh0_00506b28() : a0(0), a1(1), z(0) {  }
@@ -336,13 +395,69 @@ struct Gen_uwh0_0050c4e8 { Gen_uwm_0050c4e8 a0; Gen_uwm_0050c4e8 z; Gen_uwh0_005
 // ??0Gen_uwh0_0050c4e8@@QAE@XZ absent-from-retail
 Gen_uwh0_0050c4e8::Gen_uwh0_0050c4e8() : a0(0), z(0) {  }
 
+struct Gen_uwh0_0050f6ad { char q0[36]; Gen_uwm_0050f6ad a0; Gen_uwm_0050f6ad z; Gen_uwh0_0050f6ad(); };
+// ??0Gen_uwh0_0050f6ad@@QAE@XZ absent-from-retail
+Gen_uwh0_0050f6ad::Gen_uwh0_0050f6ad() : a0(0), z(0) {  }
+
+struct Gen_uwh8_0050faec { Gen_uwm_0050faec a0; Gen_uwm_0050faec z; Gen_uwh8_0050faec(); };
+// ??0Gen_uwh8_0050faec@@QAE@XZ absent-from-retail
+Gen_uwh8_0050faec::Gen_uwh8_0050faec() : a0(0), z(0) { char pad[8]; gen_uw_sink(pad); }
+
+struct Gen_uwh0_00510d07 { char q0[636]; Gen_uwm_00510d07 a0; Gen_uwm_00510d07 z; Gen_uwh0_00510d07(); };
+// ??0Gen_uwh0_00510d07@@QAE@XZ absent-from-retail
+Gen_uwh0_00510d07::Gen_uwh0_00510d07() : a0(0), z(0) {  }
+
+struct Gen_uwh4_0051211c { char q0[652]; Gen_uwm_0051211c a0; Gen_uwm_0051211c z; Gen_uwh4_0051211c(); };
+// ??0Gen_uwh4_0051211c@@QAE@XZ absent-from-retail
+Gen_uwh4_0051211c::Gen_uwh4_0051211c() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh4_005125ed { Gen_uwm_005125ed a0; Gen_uwm_005125ed z; Gen_uwh4_005125ed(); };
+// ??0Gen_uwh4_005125ed@@QAE@XZ absent-from-retail
+Gen_uwh4_005125ed::Gen_uwh4_005125ed() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh0_005126f5 { Gen_uwm_005126f5 a0; Gen_uwm_005126f5 z; Gen_uwh0_005126f5(); };
+// ??0Gen_uwh0_005126f5@@QAE@XZ absent-from-retail
+Gen_uwh0_005126f5::Gen_uwh0_005126f5() : a0(0), z(0) {  }
+
 struct Gen_uwh0_0052012b { char q0[648]; Gen_uwm_0052012b a0; Gen_uwm_0052012b z; Gen_uwh0_0052012b(); };
 // ??0Gen_uwh0_0052012b@@QAE@XZ absent-from-retail
 Gen_uwh0_0052012b::Gen_uwh0_0052012b() : a0(0), z(0) {  }
 
+struct Gen_uwh4_0052163e { char q0[1708]; Gen_uwm_0052163e a0; Gen_uwm_0052163e z; Gen_uwh4_0052163e(); };
+// ??0Gen_uwh4_0052163e@@QAE@XZ absent-from-retail
+Gen_uwh4_0052163e::Gen_uwh4_0052163e() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh0_0052413e { char q0[12]; Gen_uwm_0052413e a0; Gen_uwm_0052413e z; Gen_uwh0_0052413e(); };
+// ??0Gen_uwh0_0052413e@@QAE@XZ absent-from-retail
+Gen_uwh0_0052413e::Gen_uwh0_0052413e() : a0(0), z(0) {  }
+
+struct Gen_uwh0_005242d7 { char q0[24]; Gen_uwm_005242d7 a0; Gen_uwm_005242d7 z; Gen_uwh0_005242d7(); };
+// ??0Gen_uwh0_005242d7@@QAE@XZ absent-from-retail
+Gen_uwh0_005242d7::Gen_uwh0_005242d7() : a0(0), z(0) {  }
+
+struct Gen_uwh4_005242d7 { char q0[52]; Gen_uwm_005242d7 a0; Gen_uwm_005242d7 z; Gen_uwh4_005242d7(); };
+// ??0Gen_uwh4_005242d7@@QAE@XZ absent-from-retail
+Gen_uwh4_005242d7::Gen_uwh4_005242d7() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh20_005242d7 { char q0[40]; Gen_uwm_005242d7 a0; Gen_uwm_005242d7 z; Gen_uwh20_005242d7(); };
+// ??0Gen_uwh20_005242d7@@QAE@XZ absent-from-retail
+Gen_uwh20_005242d7::Gen_uwh20_005242d7() : a0(0), z(0) { char pad[20]; gen_uw_sink(pad); }
+
 struct Gen_uwh0_005243bb { char q0[12]; Gen_uwm_005243bb a0; Gen_uwm_005243bb z; Gen_uwh0_005243bb(); };
 // ??0Gen_uwh0_005243bb@@QAE@XZ absent-from-retail
 Gen_uwh0_005243bb::Gen_uwh0_005243bb() : a0(0), z(0) {  }
+
+struct Gen_uwh0_00524436 { char q0[20]; Gen_uwm_00524436 a0; char q1[4]; Gen_uwm_00524436 a1; Gen_uwm_00524436 z; Gen_uwh0_00524436(); };
+// ??0Gen_uwh0_00524436@@QAE@XZ absent-from-retail
+Gen_uwh0_00524436::Gen_uwh0_00524436() : a0(0), a1(1), z(0) {  }
+
+struct Gen_uwh4_00524436 { char q0[28]; Gen_uwm_00524436 a0; Gen_uwm_00524436 z; Gen_uwh4_00524436(); };
+// ??0Gen_uwh4_00524436@@QAE@XZ absent-from-retail
+Gen_uwh4_00524436::Gen_uwh4_00524436() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh0_005248d0 { Gen_uwm_005248d0 a0; Gen_uwm_005248d0 z; Gen_uwh0_005248d0(); };
+// ??0Gen_uwh0_005248d0@@QAE@XZ absent-from-retail
+Gen_uwh0_005248d0::Gen_uwh0_005248d0() : a0(0), z(0) {  }
 
 struct Gen_uwh0_00524f5a { Gen_uwm_00524f5a a0; Gen_uwm_00524f5a z; Gen_uwh0_00524f5a(); };
 // ??0Gen_uwh0_00524f5a@@QAE@XZ absent-from-retail
@@ -360,6 +475,34 @@ struct Gen_uwh8_005277b3 { Gen_uwm_005277b3 a0; Gen_uwm_005277b3 z; Gen_uwh8_005
 // ??0Gen_uwh8_005277b3@@QAE@XZ absent-from-retail
 Gen_uwh8_005277b3::Gen_uwh8_005277b3() : a0(0), z(0) { char pad[8]; gen_uw_sink(pad); }
 
+struct Gen_uwh0_00528ce6 { char q0[56]; Gen_uwm_00528ce6 a0; Gen_uwm_00528ce6 z; Gen_uwh0_00528ce6(); };
+// ??0Gen_uwh0_00528ce6@@QAE@XZ absent-from-retail
+Gen_uwh0_00528ce6::Gen_uwh0_00528ce6() : a0(0), z(0) {  }
+
+struct Gen_uwh0_00529009 { char q0[8]; Gen_uwm_00529009 a0; Gen_uwm_00529009 z; Gen_uwh0_00529009(); };
+// ??0Gen_uwh0_00529009@@QAE@XZ absent-from-retail
+Gen_uwh0_00529009::Gen_uwh0_00529009() : a0(0), z(0) {  }
+
+struct Gen_uwh0_0052ccc4 { char q0[108]; Gen_uwm_0052ccc4 a0; Gen_uwm_0052ccc4 z; Gen_uwh0_0052ccc4(); };
+// ??0Gen_uwh0_0052ccc4@@QAE@XZ absent-from-retail
+Gen_uwh0_0052ccc4::Gen_uwh0_0052ccc4() : a0(0), z(0) {  }
+
+struct Gen_uwh0_0052cde1 { char q0[120]; Gen_uwm_0052cde1 a0; char q1[8]; Gen_uwm_0052cde1 a1; Gen_uwm_0052cde1 z; Gen_uwh0_0052cde1(); };
+// ??0Gen_uwh0_0052cde1@@QAE@XZ absent-from-retail
+Gen_uwh0_0052cde1::Gen_uwh0_0052cde1() : a0(0), a1(1), z(0) {  }
+
+struct Gen_uwh0_00531235 { char q0[113160]; Gen_uwm_00531235 a0; char q1[16]; Gen_uwm_00531235 a1; Gen_uwm_00531235 z; Gen_uwh0_00531235(); };
+// ??0Gen_uwh0_00531235@@QAE@XZ absent-from-retail
+Gen_uwh0_00531235::Gen_uwh0_00531235() : a0(0), a1(1), z(0) {  }
+
+struct Gen_uwh0_00531d36 { Gen_uwm_00531d36 a0; Gen_uwm_00531d36 z; Gen_uwh0_00531d36(); };
+// ??0Gen_uwh0_00531d36@@QAE@XZ absent-from-retail
+Gen_uwh0_00531d36::Gen_uwh0_00531d36() : a0(0), z(0) {  }
+
+struct Gen_uwh0_005320c1 { char q0[96012]; Gen_uwm_005320c1 a0; Gen_uwm_005320c1 z; Gen_uwh0_005320c1(); };
+// ??0Gen_uwh0_005320c1@@QAE@XZ absent-from-retail
+Gen_uwh0_005320c1::Gen_uwh0_005320c1() : a0(0), z(0) {  }
+
 struct Gen_uwh0_00535776 { Gen_uwm_00535776 a0; Gen_uwm_00535776 z; Gen_uwh0_00535776(); };
 // ??0Gen_uwh0_00535776@@QAE@XZ absent-from-retail
 Gen_uwh0_00535776::Gen_uwh0_00535776() : a0(0), z(0) {  }
@@ -367,6 +510,18 @@ Gen_uwh0_00535776::Gen_uwh0_00535776() : a0(0), z(0) {  }
 struct Gen_uwh0_00538c5f { Gen_uwm_00538c5f a0; Gen_uwm_00538c5f z; Gen_uwh0_00538c5f(); };
 // ??0Gen_uwh0_00538c5f@@QAE@XZ absent-from-retail
 Gen_uwh0_00538c5f::Gen_uwh0_00538c5f() : a0(0), z(0) {  }
+
+struct Gen_uwh0_0053947d { Gen_uwm_0053947d a0; Gen_uwm_0053947d z; Gen_uwh0_0053947d(); };
+// ??0Gen_uwh0_0053947d@@QAE@XZ absent-from-retail
+Gen_uwh0_0053947d::Gen_uwh0_0053947d() : a0(0), z(0) {  }
+
+struct Gen_uwh4_0053947d { Gen_uwm_0053947d a0; Gen_uwm_0053947d z; Gen_uwh4_0053947d(); };
+// ??0Gen_uwh4_0053947d@@QAE@XZ absent-from-retail
+Gen_uwh4_0053947d::Gen_uwh4_0053947d() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh0_0053fb33 { Gen_uwm_0053fb33 a0; Gen_uwm_0053fb33 z; Gen_uwh0_0053fb33(); };
+// ??0Gen_uwh0_0053fb33@@QAE@XZ absent-from-retail
+Gen_uwh0_0053fb33::Gen_uwh0_0053fb33() : a0(0), z(0) {  }
 
 struct Gen_uwh0_00542c19 { Gen_uwm_00542c19 a0; Gen_uwm_00542c19 z; Gen_uwh0_00542c19(); };
 // ??0Gen_uwh0_00542c19@@QAE@XZ absent-from-retail
@@ -412,9 +567,41 @@ struct Gen_uwh0_00550576 { Gen_uwm_00550576 a0; Gen_uwm_00550576 z; Gen_uwh0_005
 // ??0Gen_uwh0_00550576@@QAE@XZ absent-from-retail
 Gen_uwh0_00550576::Gen_uwh0_00550576() : a0(0), z(0) {  }
 
+struct Gen_uwh4_0055076f { char q0[36]; Gen_uwm_0055076f a0; Gen_uwm_0055076f z; Gen_uwh4_0055076f(); };
+// ??0Gen_uwh4_0055076f@@QAE@XZ absent-from-retail
+Gen_uwh4_0055076f::Gen_uwh4_0055076f() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh8_0055076f { char q0[36]; Gen_uwm_0055076f a0; Gen_uwm_0055076f z; Gen_uwh8_0055076f(); };
+// ??0Gen_uwh8_0055076f@@QAE@XZ absent-from-retail
+Gen_uwh8_0055076f::Gen_uwh8_0055076f() : a0(0), z(0) { char pad[8]; gen_uw_sink(pad); }
+
+struct Gen_uwh0_00550995 { char q0[168]; Gen_uwm_00550995 a0; Gen_uwm_00550995 z; Gen_uwh0_00550995(); };
+// ??0Gen_uwh0_00550995@@QAE@XZ absent-from-retail
+Gen_uwh0_00550995::Gen_uwh0_00550995() : a0(0), z(0) {  }
+
+struct Gen_uwh0_00551983 { char q0[60]; Gen_uwm_00551983 a0; Gen_uwm_00551983 z; Gen_uwh0_00551983(); };
+// ??0Gen_uwh0_00551983@@QAE@XZ absent-from-retail
+Gen_uwh0_00551983::Gen_uwh0_00551983() : a0(0), z(0) {  }
+
 struct Gen_uwh0_00552c08 { Gen_uwm_00552c08 a0; Gen_uwm_00552c08 z; Gen_uwh0_00552c08(); };
 // ??0Gen_uwh0_00552c08@@QAE@XZ absent-from-retail
 Gen_uwh0_00552c08::Gen_uwh0_00552c08() : a0(0), z(0) {  }
+
+struct Gen_uwh0_00553d5e { char q0[92]; Gen_uwm_00553d5e a0; Gen_uwm_00553d5e z; Gen_uwh0_00553d5e(); };
+// ??0Gen_uwh0_00553d5e@@QAE@XZ absent-from-retail
+Gen_uwh0_00553d5e::Gen_uwh0_00553d5e() : a0(0), z(0) {  }
+
+struct Gen_uwh0_00557cbd { char q0[20]; Gen_uwm_00557cbd a0; Gen_uwm_00557cbd z; Gen_uwh0_00557cbd(); };
+// ??0Gen_uwh0_00557cbd@@QAE@XZ absent-from-retail
+Gen_uwh0_00557cbd::Gen_uwh0_00557cbd() : a0(0), z(0) {  }
+
+struct Gen_uwh0_00557cc2 { char q0[60]; Gen_uwm_00557cc2 a0; Gen_uwm_00557cc2 z; Gen_uwh0_00557cc2(); };
+// ??0Gen_uwh0_00557cc2@@QAE@XZ absent-from-retail
+Gen_uwh0_00557cc2::Gen_uwh0_00557cc2() : a0(0), z(0) {  }
+
+struct Gen_uwh0_00557cc7 { char q0[144]; Gen_uwm_00557cc7 a0; Gen_uwm_00557cc7 z; Gen_uwh0_00557cc7(); };
+// ??0Gen_uwh0_00557cc7@@QAE@XZ absent-from-retail
+Gen_uwh0_00557cc7::Gen_uwh0_00557cc7() : a0(0), z(0) {  }
 
 struct Gen_uwh0_0055b0cc { Gen_uwm_0055b0cc a0; Gen_uwm_0055b0cc a1; Gen_uwm_0055b0cc z; Gen_uwh0_0055b0cc(); };
 // ??0Gen_uwh0_0055b0cc@@QAE@XZ absent-from-retail
@@ -428,6 +615,10 @@ struct Gen_uwh8_005676f4 { Gen_uwm_005676f4 a0; Gen_uwm_005676f4 z; Gen_uwh8_005
 // ??0Gen_uwh8_005676f4@@QAE@XZ absent-from-retail
 Gen_uwh8_005676f4::Gen_uwh8_005676f4() : a0(0), z(0) { char pad[8]; gen_uw_sink(pad); }
 
+struct Gen_uwh0_005694c8 { char q0[32]; Gen_uwm_005694c8 a0; Gen_uwm_005694c8 z; Gen_uwh0_005694c8(); };
+// ??0Gen_uwh0_005694c8@@QAE@XZ absent-from-retail
+Gen_uwh0_005694c8::Gen_uwh0_005694c8() : a0(0), z(0) {  }
+
 struct Gen_uwh0_0056ac26 { Gen_uwm_0056ac26 a0; Gen_uwm_0056ac26 z; Gen_uwh0_0056ac26(); };
 // ??0Gen_uwh0_0056ac26@@QAE@XZ absent-from-retail
 Gen_uwh0_0056ac26::Gen_uwh0_0056ac26() : a0(0), z(0) {  }
@@ -435,6 +626,18 @@ Gen_uwh0_0056ac26::Gen_uwh0_0056ac26() : a0(0), z(0) {  }
 struct Gen_uwh4_0056ac26 { Gen_uwm_0056ac26 a0; Gen_uwm_0056ac26 z; Gen_uwh4_0056ac26(); };
 // ??0Gen_uwh4_0056ac26@@QAE@XZ absent-from-retail
 Gen_uwh4_0056ac26::Gen_uwh4_0056ac26() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh0_0056dc6b { Gen_uwm_0056dc6b a0; Gen_uwm_0056dc6b z; Gen_uwh0_0056dc6b(); };
+// ??0Gen_uwh0_0056dc6b@@QAE@XZ absent-from-retail
+Gen_uwh0_0056dc6b::Gen_uwh0_0056dc6b() : a0(0), z(0) {  }
+
+struct Gen_uwh4_0056dc6b { Gen_uwm_0056dc6b a0; Gen_uwm_0056dc6b z; Gen_uwh4_0056dc6b(); };
+// ??0Gen_uwh4_0056dc6b@@QAE@XZ absent-from-retail
+Gen_uwh4_0056dc6b::Gen_uwh4_0056dc6b() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
+
+struct Gen_uwh36_0056dc6b { Gen_uwm_0056dc6b a0; Gen_uwm_0056dc6b z; Gen_uwh36_0056dc6b(); };
+// ??0Gen_uwh36_0056dc6b@@QAE@XZ absent-from-retail
+Gen_uwh36_0056dc6b::Gen_uwh36_0056dc6b() : a0(0), z(0) { char pad[36]; gen_uw_sink(pad); }
 
 struct Gen_uwh0_00574265 { char q0[16]; Gen_uwm_00574265 a0; Gen_uwm_00574265 z; Gen_uwh0_00574265(); };
 // ??0Gen_uwh0_00574265@@QAE@XZ absent-from-retail
@@ -452,74 +655,10 @@ struct Gen_uwh0_00574293 { char q0[16]; Gen_uwm_00574293 a0; Gen_uwm_00574293 z;
 // ??0Gen_uwh0_00574293@@QAE@XZ absent-from-retail
 Gen_uwh0_00574293::Gen_uwh0_00574293() : a0(0), z(0) {  }
 
+struct Gen_uwh0_005746d2 { Gen_uwm_005746d2 a0; Gen_uwm_005746d2 z; Gen_uwh0_005746d2(); };
+// ??0Gen_uwh0_005746d2@@QAE@XZ absent-from-retail
+Gen_uwh0_005746d2::Gen_uwh0_005746d2() : a0(0), z(0) {  }
+
 struct Gen_uwh0_00575395 { Gen_uwm_00575395 a0; Gen_uwm_00575395 z; Gen_uwh0_00575395(); };
 // ??0Gen_uwh0_00575395@@QAE@XZ absent-from-retail
 Gen_uwh0_00575395::Gen_uwh0_00575395() : a0(0), z(0) {  }
-
-struct Gen_uwh0_005753e2 { char q0[20]; Gen_uwm_005753e2 a0; Gen_uwm_005753e2 z; Gen_uwh0_005753e2(); };
-// ??0Gen_uwh0_005753e2@@QAE@XZ absent-from-retail
-Gen_uwh0_005753e2::Gen_uwh0_005753e2() : a0(0), z(0) {  }
-
-struct Gen_uwh0_0057571c { Gen_uwm_0057571c a0; Gen_uwm_0057571c z; Gen_uwh0_0057571c(); };
-// ??0Gen_uwh0_0057571c@@QAE@XZ absent-from-retail
-Gen_uwh0_0057571c::Gen_uwh0_0057571c() : a0(0), z(0) {  }
-
-struct Gen_uwh0_00576456 { char q0[12]; Gen_uwm_00576456 a0; Gen_uwm_00576456 z; Gen_uwh0_00576456(); };
-// ??0Gen_uwh0_00576456@@QAE@XZ absent-from-retail
-Gen_uwh0_00576456::Gen_uwh0_00576456() : a0(0), z(0) {  }
-
-struct Gen_uwh0_00577936 { Gen_uwm_00577936 a0; Gen_uwm_00577936 z; Gen_uwh0_00577936(); };
-// ??0Gen_uwh0_00577936@@QAE@XZ absent-from-retail
-Gen_uwh0_00577936::Gen_uwh0_00577936() : a0(0), z(0) {  }
-
-struct Gen_uwh0_0057851b { Gen_uwm_0057851b a0; Gen_uwm_0057851b z; Gen_uwh0_0057851b(); };
-// ??0Gen_uwh0_0057851b@@QAE@XZ absent-from-retail
-Gen_uwh0_0057851b::Gen_uwh0_0057851b() : a0(0), z(0) {  }
-
-struct Gen_uwh36_0057851b { Gen_uwm_0057851b a0; Gen_uwm_0057851b z; Gen_uwh36_0057851b(); };
-// ??0Gen_uwh36_0057851b@@QAE@XZ absent-from-retail
-Gen_uwh36_0057851b::Gen_uwh36_0057851b() : a0(0), z(0) { char pad[36]; gen_uw_sink(pad); }
-
-struct Gen_uwh36_00578c23 { char q0[4]; Gen_uwm_00578c23 a0; char q1[16]; Gen_uwm_00578c23 a1; Gen_uwm_00578c23 z; Gen_uwh36_00578c23(); };
-// ??0Gen_uwh36_00578c23@@QAE@XZ absent-from-retail
-Gen_uwh36_00578c23::Gen_uwh36_00578c23() : a0(0), a1(1), z(0) { char pad[36]; gen_uw_sink(pad); }
-
-struct Gen_uwh0_00579656 { Gen_uwm_00579656 a0; Gen_uwm_00579656 z; Gen_uwh0_00579656(); };
-// ??0Gen_uwh0_00579656@@QAE@XZ absent-from-retail
-Gen_uwh0_00579656::Gen_uwh0_00579656() : a0(0), z(0) {  }
-
-struct Gen_uwh4_00579656 { Gen_uwm_00579656 a0; Gen_uwm_00579656 z; Gen_uwh4_00579656(); };
-// ??0Gen_uwh4_00579656@@QAE@XZ absent-from-retail
-Gen_uwh4_00579656::Gen_uwh4_00579656() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
-
-struct Gen_uwh0_0057a235 { Gen_uwm_0057a235 a0; Gen_uwm_0057a235 z; Gen_uwh0_0057a235(); };
-// ??0Gen_uwh0_0057a235@@QAE@XZ absent-from-retail
-Gen_uwh0_0057a235::Gen_uwh0_0057a235() : a0(0), z(0) {  }
-
-struct Gen_uwh4_0057a235 { char q0[8]; Gen_uwm_0057a235 a0; Gen_uwm_0057a235 z; Gen_uwh4_0057a235(); };
-// ??0Gen_uwh4_0057a235@@QAE@XZ absent-from-retail
-Gen_uwh4_0057a235::Gen_uwh4_0057a235() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
-
-struct Gen_uwh0_0057a23c { Gen_uwm_0057a23c a0; Gen_uwm_0057a23c z; Gen_uwh0_0057a23c(); };
-// ??0Gen_uwh0_0057a23c@@QAE@XZ absent-from-retail
-Gen_uwh0_0057a23c::Gen_uwh0_0057a23c() : a0(0), z(0) {  }
-
-struct Gen_uwh0_0057a243 { Gen_uwm_0057a243 a0; Gen_uwm_0057a243 a1; Gen_uwm_0057a243 z; Gen_uwh0_0057a243(); };
-// ??0Gen_uwh0_0057a243@@QAE@XZ absent-from-retail
-Gen_uwh0_0057a243::Gen_uwh0_0057a243() : a0(0), a1(1), z(0) {  }
-
-struct Gen_uwh4_0057a243 { Gen_uwm_0057a243 a0; Gen_uwm_0057a243 a1; Gen_uwm_0057a243 z; Gen_uwh4_0057a243(); };
-// ??0Gen_uwh4_0057a243@@QAE@XZ absent-from-retail
-Gen_uwh4_0057a243::Gen_uwh4_0057a243() : a0(0), a1(1), z(0) { char pad[4]; gen_uw_sink(pad); }
-
-struct Gen_uwh0_0057bcec { Gen_uwm_0057bcec a0; Gen_uwm_0057bcec z; Gen_uwh0_0057bcec(); };
-// ??0Gen_uwh0_0057bcec@@QAE@XZ absent-from-retail
-Gen_uwh0_0057bcec::Gen_uwh0_0057bcec() : a0(0), z(0) {  }
-
-struct Gen_uwh4_0057bcec { Gen_uwm_0057bcec a0; Gen_uwm_0057bcec z; Gen_uwh4_0057bcec(); };
-// ??0Gen_uwh4_0057bcec@@QAE@XZ absent-from-retail
-Gen_uwh4_0057bcec::Gen_uwh4_0057bcec() : a0(0), z(0) { char pad[4]; gen_uw_sink(pad); }
-
-struct Gen_uwh0_0057c03b { Gen_uwm_0057c03b a0; Gen_uwm_0057c03b z; Gen_uwh0_0057c03b(); };
-// ??0Gen_uwh0_0057c03b@@QAE@XZ absent-from-retail
-Gen_uwh0_0057c03b::Gen_uwh0_0057c03b() : a0(0), z(0) {  }

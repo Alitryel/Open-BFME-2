@@ -1281,3 +1281,16 @@ $L1384,0x007A9560,"Renamed to $L1385 at the same address: an edit to AptKeyLooku
 $L1386,0x007A957E,"Renamed to $L1387 at the same address: an edit to AptKeyLookup.cpp renumbered the compiler-local EH labels and the verified parent EH data places $L1387 there; the old label now names a different funclet."
 $L1388,0x007A959C,"Renamed to $L1389 at the same address: an edit to AptKeyLookup.cpp renumbered the compiler-local EH labels and the verified parent EH data places $L1389 there; the old label now names a different funclet."
 $L1390,0x007A95BA,"Renamed to $L1391 at the same address: an edit to AptKeyLookup.cpp renumbered the compiler-local EH labels and the verified parent EH data places $L1391 there; the old label now names a different funclet."
+uw_0078c1f0,0x0078C1F0,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x0078C1F0 (68d03f4b006a...) match no funclet shape this generator emits
+uw_0078c208,0x0078C208,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x0078C208 (68d03f4b006a...) match no funclet shape this generator emits
+uw_0078c254,0x0078C254,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x0078C254 (68d03f4b006a...) match no funclet shape this generator emits
+uw_0078c26c,0x0078C26C,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x0078C26C (68d03f4b006a...) match no funclet shape this generator emits
+uw_0078c284,0x0078C284,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x0078C284 (68d03f4b006a...) match no funclet shape this generator emits
+uw_0078c406,0x0078C406,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x0078C406 (68d03f4b006a...) match no funclet shape this generator emits
+uw_0078e1d9,0x0078E1D9,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x0078E1D9 (68d03f4b006a...) match no funclet shape this generator emits
+uw_0078f3fc,0x0078F3FC,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x0078F3FC (68987997006a...) match no funclet shape this generator emits
+uw_0078f414,0x0078F414,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x0078F414 (68987997006a...) match no funclet shape this generator emits
+uw_0078f42c,0x0078F42C,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x0078F42C (6870cc42006a...) match no funclet shape this generator emits
+uw_0078f444,0x0078F444,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x0078F444 (6870cc42006a...) match no funclet shape this generator emits
+uw_00790e29,0x00790E29,gen_uw re-derived its population and no longer emits this funclet: the 24 retail bytes at 0x00790E29 (68321d8d006a...) match no funclet shape this generator emits
+uw_0079397c,0x0079397C,gen_uw re-derived its population and no longer emits this funclet: the 27 retail bytes at 0x0079397C (68982378006a...) match no funclet shape this generator emits

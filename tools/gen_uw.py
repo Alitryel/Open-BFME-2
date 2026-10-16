@@ -1061,6 +1061,20 @@ def emit_and_write(ledger, on_ladder, snapshot):
     functions_eol = ledger_io.lf_terminator(functions_raw, "functions.csv")
     symbols_eol = ledger_io.lf_terminator(SYMBOLS.read_bytes(), "symbols.csv")
 
+    # One retail operator delete reached with several class sizes (a base class's sized delete
+    # inherited by derived classes) cannot be told apart by per-size invented names: leave those
+    # funclets unclaimed instead of pinning one address under several operator names.
+    sizes = collections.defaultdict(set)
+    for f in on_ladder:
+        if f.kind == "S":
+            sizes[f.target].add(f.extra)
+    shared = {t for t, s in sizes.items() if len(s) > 1}
+    if shared:
+        held = [f for f in on_ladder if f.kind == "S" and f.target in shared]
+        print("  leaving %d sized-delete funclet(s) unclaimed: their delete(s) %s are reached with "
+              "several class sizes" % (len(held), ", ".join("0x%08X" % t for t in sorted(shared))))
+        on_ladder = [f for f in on_ladder if not (f.kind == "S" and f.target in shared)]
+
     files = plan(on_ladder)
     by_key = collections.defaultdict(list)
     for funclet in on_ladder:
@@ -1120,9 +1134,20 @@ def emit_and_write(ledger, on_ladder, snapshot):
              for target, size in sorted(sized_deletes)]
     pins += [("??3@YAXPAXPAUGen_uwt_%08x@@@Z" % t, t) for t in sorted(placement_targets)]
     pins = sorted(set(pins), key=lambda pin: (pin[1], pin[0]))
-    redundant = [pin for pin in pins if ledger.resolves(*pin)]
+    # A row that already carries the name at that address resolves it without a pin (a seat
+    # landed the real body under the generated name): skip that pin rather than abort the run.
+    have = set()
+    for line in SYMBOLS.read_text(encoding="utf-8", errors="replace").splitlines()[1:]:
+        f = line.split(",", 2)
+        if len(f) >= 2 and not line.endswith(PIN_NOTE):   # our own pins are rewritten below
+            try:
+                have.add((f[0], int(f[1], 16)))
+            except ValueError:
+                pass
+    redundant = [pin for pin in pins if ledger.resolves(*pin) or pin in have]
     if redundant:
-        raise SystemExit("pin duplicates a row that already carries it: %s" % redundant[:4])
+        print("  skipping %d pin(s) a row already carries: %s" % (len(redundant), redundant[:4]))
+        pins = [pin for pin in pins if pin not in redundant]
     # A destructor and its member twin legitimately share an address: they are
     # two invented TYPES whose destructor is the same retail function. An
     # operator delete is not a type -- two delete pins at one address say those
