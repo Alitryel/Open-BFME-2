@@ -421,11 +421,16 @@ class ShaderInterface;
 class ShaderComResourceRef;
 class VertexBufferClass;
 extern unsigned int g_Va009E1F6C;
-extern ShaderComResourceRef *rva012F9D10;
+ShaderComResourceRef *rva012F9D10;
 extern VertexBufferClass *g_vb;
 extern int g_quadIndex;
-extern ShaderInterface *W3DShaders[2];
-extern int W3DShadersPassCount[2];
+ShaderInterface *W3DShaders[2];
+int W3DShadersPassCount[2];
+
+// Zero Hour's current shader/filter (VA 0x00DE1F54/0x00DE1F5C), defined here
+// with the class's other statics.
+int W3DShaderManager::m_currentShader;
+int W3DShaderManager::m_currentFilter;
 
 W3DShaderManager::W3DShaderManager()
 {

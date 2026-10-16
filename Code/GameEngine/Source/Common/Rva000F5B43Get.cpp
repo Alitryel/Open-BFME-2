@@ -3,17 +3,19 @@
 // Retail: xor eax,eax / inc eax / mov [0x00DE1F28],0x00DB5A34 / mov [0x00DE1F20],eax / ret.
 // Target facts: sets data 0x009E1F28 to data 0x009B5A34 and data 0x009E1F20 to 1 then returns 1.
 // Callers: none; callees: none.
-// Not established: owning TU/class and global identities; names are address-derived.
-extern unsigned int g_Va00DE1F28;
-// g_Va00DE1F28: matched references place it at VA 0xde1f28 (zero-filled .bss).
-unsigned int g_Va00DE1F28;
-extern unsigned int g_Va00DE1F20;
-// g_Va00DE1F20: matched references place it at VA 0xde1f20 (zero-filled .bss).
-unsigned int g_Va00DE1F20;
+// The two stored slots are W3DShaders[1] (VA 0x00DE1F28) and
+// W3DShadersPassCount[1] (VA 0x00DE1F20), the tables W3DShaderManager.cpp
+// defines (its ctor 0x00075480 zeroes both); the stored value is the shroud
+// texture shader instance (ShroudTextureShaderSet.cpp: this is that shader's
+// init slot), which no unit defines yet, so it stays a literal.
+// Not established: owning class name; the function name is address-derived.
+class ShaderInterface;
+extern ShaderInterface *W3DShaders[2];
+extern int W3DShadersPassCount[2];
 
 int Rva000F5B43Get(void)
 {
-	g_Va00DE1F28 = 0x00DB5A34;
-	g_Va00DE1F20 = 1;
+	*(unsigned int *)&W3DShaders[1] = 0x00DB5A34;
+	W3DShadersPassCount[1] = 1;
 	return 1;
 }
