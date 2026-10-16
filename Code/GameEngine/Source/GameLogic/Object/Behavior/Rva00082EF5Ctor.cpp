@@ -1,11 +1,11 @@
-// cl: /Ireference/shims/bfme2_ascii /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // ??0Rva00082EF5@@QAE@PAX@Z @0x00082EF5 117B: MI ctor with second base at +8 plus vector float bool plus list append and init call. Evidence: vtable stores plus vector base row plus append row plus pin 0x82D6A plus callers 0x82F81 0x8355E.
 #include <vector>
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 void Rva00030830FreeAllocation(void*);
 namespace _STL {
- template<> inline void allocator<BfmeE16>::deallocate(BfmeE16 *p,size_type) const { if(p) Rva00030830FreeAllocation(p); }
+ template<> inline void allocator<BfmeE16>::deallocate(BfmeE16 *p,size_type) const { if(p) ::free(p); }
 }
 
 
