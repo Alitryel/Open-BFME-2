@@ -27,7 +27,8 @@ private:
 	bool m_20;
 };
 
-Rva002E7DF5::Rva002E7DF5(int a, const _Rva002E7DF5Cell &cell)
+// Select-any: pathfinder.cpp keeps a visible noinline inline copy.
+__declspec(noinline) inline Rva002E7DF5::Rva002E7DF5(int a, const _Rva002E7DF5Cell &cell)
 {
 	float f = g_Va00BBB8E0;
 	m_00 = a;
@@ -37,3 +38,7 @@ Rva002E7DF5::Rva002E7DF5(int a, const _Rva002E7DF5Cell &cell)
 	m_1C = f;
 	m_20 = false;
 }
+
+// The anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva002E7DF5@@YAXXZ absent-from-retail
+void bfmeAnchorRva002E7DF5() { _Rva002E7DF5Cell c = { 0, 0, 0 }; Rva002E7DF5 r(0, c); }
