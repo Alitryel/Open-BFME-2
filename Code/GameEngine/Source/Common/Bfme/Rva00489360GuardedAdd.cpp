@@ -215,7 +215,7 @@ public:
 	char m_pad00[0x64];
 	int m_64;
 };
-AudioManager *theBfmeDfdc14;
+extern class GameWindowTransitionsHandler *TheTransitionHandler;
 
 // ?rva001DC164@Rva001DBDA4@@QAEXXZ @0x001DC164 59B: Zero Hour's
 // TransitionGroup::init shape (frame 0 at +0x08, direction 1 at +0x04, init
@@ -229,5 +229,5 @@ void Rva001DBDA4::rva001DC164()
 	m_04 = 1;
 	for( Node001DBDA4 *n = m_head->m_next; n != m_head; n = n->m_next )
 		n->m_value->rva001DBD24();
-	theBfmeDfdc14->m_64 = rva001DBDA4() + 3;
+	(*(AudioManager **)&TheTransitionHandler)->m_64 = rva001DBDA4() + 3;
 }

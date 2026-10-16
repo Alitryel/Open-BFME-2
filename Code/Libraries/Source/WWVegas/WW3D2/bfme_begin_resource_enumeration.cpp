@@ -10,10 +10,10 @@ public:
 	void Begin(unsigned tag);
 };
 
-BfmeResourceEnumerator *TheResourceEnumerator;
+extern class Q1Receiver0134FAAC *TheQ1Receiver;
 
 void bfmeBeginResourceEnumeration(unsigned tag)
 {
-	if (TheResourceEnumerator)
-		TheResourceEnumerator->Begin(tag);
+	if ((*(BfmeResourceEnumerator **)&TheQ1Receiver))
+		(*(BfmeResourceEnumerator **)&TheQ1Receiver)->Begin(tag);
 }
