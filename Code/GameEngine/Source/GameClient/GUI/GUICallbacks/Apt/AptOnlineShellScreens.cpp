@@ -72,7 +72,6 @@ struct AptOnlineScreenEntry
 	int mode;
 };
 
-extern AptOnlineScreenEntry g_Va00DD1568[];
 
 
 // The sub-screens the shell's table makes, each by its constructor taking
@@ -106,22 +105,15 @@ private:
 class BfmeObjELB;
 extern BfmeObjELB *g_bfmeObjELB;
 
-class Rva005B9BBC
-{
-public:
-	Rva005B9BBC(AptOnline *shell);
-
-private:
-	unsigned char m_pad[0x68];
-};
-
 // Opaque singleton state owned by ColdGlobalDwordGetters.cpp; used only as a zero test.
 extern int g_Va00E06480;
 
-class Rva005BA1FD
+// The OpenPlay (0x005BA1FD) and Strategic (0x005BA28E) constructors are
+// rowed taking the shell as an int (Rva005BA1FDCtor.cpp).
+class AptOnlineOpenPlay
 {
 public:
-	Rva005BA1FD(AptOnline *shell);
+	AptOnlineOpenPlay(int shell);
 
 private:
 	unsigned char m_pad[0x4E0];
@@ -130,19 +122,10 @@ private:
 class Rva005BA28E
 {
 public:
-	Rva005BA28E(AptOnline *shell);
+	Rva005BA28E(int shell);
 
 private:
 	unsigned char m_pad[0x4E0];
-};
-
-class Rva005BAB7E
-{
-public:
-	Rva005BAB7E(AptOnline *shell);
-
-private:
-	unsigned char m_pad[0xA0];
 };
 
 extern int g_Va00E06550;
@@ -161,6 +144,9 @@ extern GameSpyInfoInterface *TheGameSpyInfo;
 class AptOnline
 {
 public:
+	class OnlineHome;
+	class OnlineQuickMatch;
+
 	void ShellUnloadScreen(const char *name);
 	void ShellLoadScreen(const char *name);
 	void rva00517207(int query, char *value, bool set);
@@ -174,6 +160,52 @@ private:
 	AsciiString m_currentName; // +0x294
 	unsigned char m_pad298[0x2B4 - 0x298];
 	int m_mode; // +0x2B4
+};
+
+// The Home (0x005B9BBC) and QuickMatch (0x005BAB7E) constructors are rowed
+// under these nested names (AptOnlineHomeConstructor.cpp,
+// AptOnlineQuickMatchConstructor.cpp).
+class AptOnline::OnlineHome
+{
+public:
+	OnlineHome(AptOnline *shell);
+
+private:
+	unsigned char m_pad[0x68];
+};
+
+class AptOnline::OnlineQuickMatch
+{
+public:
+	OnlineQuickMatch(AptOnline *shell);
+
+private:
+	unsigned char m_pad[0xA0];
+};
+
+// The table's factories, defined below; the table precedes its walker.
+class AptOnlineHome
+{
+public:
+	static AptOnlineSubScreen *Create(AptOnline *shell);
+};
+AptOnlineSubScreen *__cdecl Rva00516D09(AptOnline *shell);
+AptOnlineSubScreen *__cdecl Rva00516DD2(AptOnline *shell);
+AptOnlineSubScreen *__cdecl Rva00516E10(AptOnline *shell);
+AptOnlineSubScreen *__cdecl Rva00516E4E(AptOnline *shell);
+// 0x00DD1568: the shell's sub-screen table, seven 12-byte entries ending in
+// a null name, as retail's .data holds them (names 0x00C663B0/A4/90/80/70
+// and 0x00BE6390, factories 0x00516D4D/91, 0x00516E4E, 0x00516DD2,
+// 0x00516E10 and 0x00516D09, modes 0/4/3/1/2/5). No other unit defines it.
+AptOnlineScreenEntry g_Va00DD1568[] =
+{
+	{ "OnlineLogin", &AptOnlineLogin::Create, 0 },
+	{ "OnlineHome", &AptOnlineHome::Create, 4 },
+	{ "OnlineQuickMatch", &Rva00516E4E, 3 },
+	{ "OnlineOpenPlay", &Rva00516DD2, 1 },
+	{ "OnlineStrategic", &Rva00516E10, 2 },
+	{ "Stats", &Rva00516D09, 5 },
+	{ 0, 0, 0 }
 };
 
 // Retail 0x005171A3, 100 bytes: "AptOnline::ShellUnloadScreen" deletes the
@@ -286,29 +318,24 @@ AptOnlineSubScreen *AptOnlineLogin::Create(AptOnline *shell)
 }
 
 // Retail 0x00516D91, 65 bytes: the shell table's factory for a new "OnlineHome" sub-screen unless one is up (0x00E06480).
-class AptOnlineHome
-{
-public:
-	static AptOnlineSubScreen *Create(AptOnline *shell);
-};
 // WorldBuilder AptOnlineHome::Create, WB VA 0x0145AED0 (callgraph lead, score 1.0).
 AptOnlineSubScreen *__cdecl AptOnlineHome::Create(AptOnline *shell)
 {
 	if (g_Va00E06480)
 		return 0;
-	return (AptOnlineSubScreen *)new Rva005B9BBC(shell);
+	return (AptOnlineSubScreen *)new AptOnline::OnlineHome(shell);
 }
 
 // Retail 0x00516DD2, 56 bytes: the shell table's factory for a new "OnlineOpenPlay" sub-screen.
 AptOnlineSubScreen *__cdecl Rva00516DD2(AptOnline *shell)
 {
-	return (AptOnlineSubScreen *)new Rva005BA1FD(shell);
+	return (AptOnlineSubScreen *)new AptOnlineOpenPlay((int)shell);
 }
 
 // Retail 0x00516E10, 56 bytes: the shell table's factory for a new "OnlineStrategic" sub-screen.
 AptOnlineSubScreen *__cdecl Rva00516E10(AptOnline *shell)
 {
-	return (AptOnlineSubScreen *)new Rva005BA28E(shell);
+	return (AptOnlineSubScreen *)new Rva005BA28E((int)shell);
 }
 
 // Retail 0x00516E4E, 68 bytes: the shell table's factory for a new "OnlineQuickMatch" sub-screen unless one is up (0x00E06550).
@@ -316,5 +343,6 @@ AptOnlineSubScreen *__cdecl Rva00516E4E(AptOnline *shell)
 {
 	if (g_Va00E06550)
 		return 0;
-	return (AptOnlineSubScreen *)new Rva005BAB7E(shell);
+	return (AptOnlineSubScreen *)new AptOnline::OnlineQuickMatch(shell);
 }
+
