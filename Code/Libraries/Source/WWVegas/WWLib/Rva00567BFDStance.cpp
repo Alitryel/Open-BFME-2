@@ -24,7 +24,11 @@ struct StanceEntry
 	const char *name;
 };
 extern StanceEntry g_00E062BC[3];
+// Owned here (its only reader); retail .bss zero-initializes it (VA 0x00E062BC).
+StanceEntry g_00E062BC[3] = {};
 extern int g_00E062D4;
+// Owned here (its only reader); retail .bss zero-initializes it (VA 0x00E062D4).
+int g_00E062D4 = 0;
 
 const CommandButton *GetSetStanceCommandButton(int stance)
 {
