@@ -93,7 +93,8 @@ AptStrategicPlayerStatus::~AptStrategicPlayerStatus()
 	}
 }
 
-// Existing address-derived destructor owner from scalar-delete51265C and
+// AptMessenger::~AptMessenger (WorldBuilder name lead for 0x005125ED; the
+// body clears AptMessenger::s_instance) from scalar-delete51265C and
 // tableC659A0. Native111 consumes singletonE046B8, vector28C and free280.
 // Primary/secondary table stores remain at0/218 through the real base view.
 class Rva0051211C
@@ -101,18 +102,18 @@ class Rva0051211C
 public: ~Rva0051211C();
 private: unsigned char consumed[12];
 };
-class AptMessenger { public: static AptMessenger *s_instance; };
-class Rva005125ED : public _bfme_AptGameWindow
+class AptMessenger : public _bfme_AptGameWindow
 {
-public: virtual ~Rva005125ED();
+public: virtual ~AptMessenger();
+ static AptMessenger *s_instance;
 private:
  unsigned char unknown27C[4];
  AutoFreePtr m_280;
  unsigned char unknown284[8];
  Rva0051211C m_28C;
 };
-Rva005125ED::~Rva005125ED()
+AptMessenger::~AptMessenger()
 {
- if ((AptMessenger*)this == AptMessenger::s_instance)
+ if (this == AptMessenger::s_instance)
   AptMessenger::s_instance = 0;
 }

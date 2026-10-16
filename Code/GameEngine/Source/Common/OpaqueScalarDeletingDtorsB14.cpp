@@ -88,16 +88,16 @@ Rva005AE30A::Rva005AE30A(EmitVtableTag *)
 {
 }
 
-class Rva005AE66B
+class AptMessengerOnline
 {
 public:
-	Rva005AE66B(EmitVtableTag *);
+	AptMessengerOnline(EmitVtableTag *);
 public:
-	virtual ~Rva005AE66B();
+	virtual ~AptMessengerOnline();
 };
 
-// ?<Rva005AE66B::Rva005AE66B> absent-from-retail
-Rva005AE66B::Rva005AE66B(EmitVtableTag *)
+// ?<AptMessengerOnline::AptMessengerOnline> absent-from-retail
+AptMessengerOnline::AptMessengerOnline(EmitVtableTag *)
 {
 }
 
