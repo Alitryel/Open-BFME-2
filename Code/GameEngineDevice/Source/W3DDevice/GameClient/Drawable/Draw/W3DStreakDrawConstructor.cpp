@@ -71,7 +71,9 @@ struct Rva00138GlobalView { char head[0x138]; int m_weather; };
 class ShaderClass
 {
 public:
-	ShaderClass(const ShaderClass &s) { m_bits = s.m_bits; }
+	// Imported-forceinline: this /O1 unit's out-of-line copy (edx/ecx register
+	// swap) would differ from the /O2 units' first copy in link order.
+	__declspec(dllimport) __forceinline ShaderClass(const ShaderClass &s) { m_bits = s.m_bits; }
 	int m_bits;
 	static ShaderClass _PresetAdditiveShader;
 	static ShaderClass _PresetAlphaShader;
