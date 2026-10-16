@@ -122,10 +122,14 @@ public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
 };
 
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 0 };
+template <int NUMBITS> class BitFlags;
+// Slot shapes from OpenContain.cpp, whose ??_7OpenContain@@6BUpdateModule@@@ this unit must reproduce.
 class UpdateModuleInterface
 {
 public:
-	virtual void update();
+	virtual UpdateSleepTime update() = 0;
+	virtual BitFlags<13> getDisabledTypesToProcess() const = 0;
 };
 
 class UpdateModule : public BehaviorModule, public UpdateModuleInterface
@@ -133,6 +137,7 @@ class UpdateModule : public BehaviorModule, public UpdateModuleInterface
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
 	virtual ~UpdateModule();
+	virtual BitFlags<13> getDisabledTypesToProcess() const;
 protected:
 	void setWakeFrame(Object *obj, unsigned int frame);
 private:
@@ -161,6 +166,7 @@ class OpenContain : public UpdateModule, public ContainIface20, public ContainIf
 public:
 	OpenContain(Thing *thing, const ModuleData *moduleData);
 	virtual ~OpenContain();
+	virtual UpdateSleepTime update();
 private:
 	int m_bfme38;
 	_STL::map<int, void *> m_riderMapA;
