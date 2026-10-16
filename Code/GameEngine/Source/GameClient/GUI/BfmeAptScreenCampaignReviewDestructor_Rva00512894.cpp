@@ -1,9 +1,13 @@
 // cl: -DNDEBUG -DWIN32 -D_WINDOWS -MD -EHsc -Ireference/open-bfme-1/game/GameEngine/Source/GameClient/GUI
 #include "../../../Include/GameClient/BfmeAptScreenBaseLayout.h"
 //
-// BfmeAptScreenCampaignReview destructor, retail 0x0050DBD0 (159 bytes).
+// AptCampaignReview destructor, retail 0x00512894 (125 bytes); BFME 1
+// donor class BfmeAptScreenCampaignReview (b1 0x0050DBD0, 159 bytes).
 // The CampaignReview constructor and callback name identify this cleanup
 // body, which resets both interface vtables before it closes the screen.
+// The class carries the WorldBuilder name the constructor unit
+// (AptCampaignReview.cpp) and its rowed members use, so that unit's
+// virtual destructor reference resolves here.
 
 #include "../../../../../reference/shims/bfme2_ascii/ascii_string.h"
 
@@ -36,14 +40,14 @@ extern const void *BfmeAptScreenCampaignReviewSecondaryVftable[];
 extern Shell *TheShell;
 extern void *g_obj12F495C;
 
-class __multiple_inheritance BfmeAptScreenCampaignReview
+class __multiple_inheritance AptCampaignReview
 	: public _bfme_AptGameWindow, public BfmeAptFunctorMarker
 {
 public:
-	virtual ~BfmeAptScreenCampaignReview();
+	virtual ~AptCampaignReview();
 };
 
-BfmeAptScreenCampaignReview::~BfmeAptScreenCampaignReview()
+AptCampaignReview::~AptCampaignReview()
 {
 	_bfme_closeAptScreen(AsciiString("AptCampaignReview::InitGadgets"));
 
