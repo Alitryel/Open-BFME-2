@@ -2443,16 +2443,10 @@ FloatingTextData::~FloatingTextData(void)
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
-WorldAnimationData::WorldAnimationData( void )
-{
-
-	m_anim = NULL;
-	m_worldPos.zero();
-	m_expireFrame = 0;
-	m_options = WORLD_ANIM_NO_OPTIONS;
-	m_zRisePerSecond = 0.0f;
-
-}  // end WorldAnimationData
+// WorldAnimationData::WorldAnimationData (retail 0x0029AF82) is rowed in
+// InGameUIAddWorldAnimation.cpp, whose addWorldAnimation inlines it and
+// emits the out-of-line copy; a second, non-inline definition here
+// collided with that copy at link.
 
 // NOTE (link lane): InGameUI::addWorldAnimation was defined here as a
 // second out-of-line copy, but the rowed home is InGameUIAddWorldAnimation.cpp
