@@ -1,13 +1,8 @@
 // ??0LargeGroupAudioUpdateModuleData@@QAE@XZ
-// partial score=0.9909 date=2026-10-15
 // ??0LargeGroupAudioUpdateModuleData@@QAE@XZ
-// partial score=0.9909 date=2026-10-15
 // ??0LargeGroupAudioUpdateModuleData@@QAE@XZ
-// partial score=0.969595 date=2026-10-15
 // ??0LargeGroupAudioUpdateModuleData@@QAE@XZ
-// partial score=0.995 date=2026-10-13
 // ??0LargeGroupAudioUpdateModuleData@@QAE@XZ
-// partial score=0.99 date=2026-10-08
 // cl: /G7 /O1 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/moduledata
 // stlport
 #include <vector>
@@ -36,7 +31,12 @@ private:
     int m_min; int m_variance; unsigned short m_weight;
 };
 LargeGroupAudioUpdateModuleData::LargeGroupAudioUpdateModuleData() :
-    m_keys(), m_min((int)ceil((double)(float)((double)g_parseDurationMsecScale * 500.0f))), m_variance(1), m_weight(1)
+    m_keys()
 {
+    float f = g_parseDurationMsecScale * 500.0f;
+    double d = (double)f;
+    m_min = (int)ceil(d);
+    m_variance = 1;
+    m_weight = 1;
     g_00E03CE0.Rva004ABEAE((Rva001408C0Target *)this);
 }
