@@ -82,14 +82,12 @@ public:
 	virtual void init();
 	virtual void update();
 	virtual void createStreamMessages();
-
-protected:
-	void initKeyNames();						///< pinned 0x002306B8 (ZH name)
-
-private:
-	void rva00232B7B();							///< pinned 0x00232B7B
+	// Public, as the rows at 0x002306B8, 0x00232B7B and 0x00232A42 spell them.
+	void initKeyNames();
+	void rva00232B7B();
 	void rva00232A42();
 
+private:
 	unsigned char m_unmodelled_04[0x10 - 0x04];
 	KeyboardIO *m_keysBegin;					// +0x10, the key vector
 	KeyboardIO *m_keysEnd;						// +0x14

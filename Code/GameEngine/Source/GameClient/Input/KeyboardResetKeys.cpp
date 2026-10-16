@@ -9,8 +9,8 @@ class Keyboard
 {
 public:
     void resetKeys();
+    void rva00232B7B(); // public, as its row spells it
 private:
-    void rva00232B7B();
     void rva00232AE8();
 };
 
