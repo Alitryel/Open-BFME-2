@@ -24,7 +24,9 @@ bool operator<(const AsciiString &, const AsciiString &);
 struct BfmeStringRecord002CF550 { AsciiString key; char rest[8]; BfmeStringRecord002CF550(const BfmeStringRecord002CF550 &); ~BfmeStringRecord002CF550(); };
 inline bool operator<(const BfmeStringRecord002CF550 &a, const BfmeStringRecord002CF550 &b) { return a.key < b.key; }
 struct NoCaseTreeValue4 { public: unsigned char m_data[4]; };
-struct BfmeStringNoCaseLess { bool operator()(const AsciiString &a, const AsciiString &b) const { return a < b; } };
+// The comparator only exists inline here (the bodies call operator< directly);
+// imported force-inline, so this unit emits no copy of the rowed 0x0002C63C name.
+struct BfmeStringNoCaseLess { __declspec(dllimport) __forceinline bool operator()(const AsciiString &a, const AsciiString &b) const { return a < b; } };
 typedef _STL::_Rb_tree<BfmeStringRecord002CF550, BfmeStringRecord002CF550, _STL::_Identity<BfmeStringRecord002CF550>, _STL::less<BfmeStringRecord002CF550>, _STL::allocator<BfmeStringRecord002CF550> > TreeR;
 typedef _STL::pair<const AsciiString, NoCaseTreeValue4> NCV;
 typedef _STL::_Rb_tree<AsciiString, NCV, _STL::_Select1st<NCV>, BfmeStringNoCaseLess, _STL::allocator<NCV> > TreeN;
