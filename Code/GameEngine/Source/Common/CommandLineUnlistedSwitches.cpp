@@ -197,8 +197,14 @@ int Rva003B9F83Parse(char *args[],int num) {
 // next two arguments, unguarded, into the file-scope strings at VA
 // 0x00E02D90 and 0x00E02D94 (no other users are named; address-derived).
 extern bool g_00E02D8B;
+// Owned here (its only reader); retail .bss zero-initializes it (VA 0x00E02D8B).
+bool g_00E02D8B = false;
 extern StringBase<char> g_Va00E02D90;
+// Owned here (one of its readers); retail .bss zero-initializes it (VA 0x00E02D90).
+StringBase<char> g_Va00E02D90;
 extern StringBase<char> g_Va00E02D94;
+// Owned here (one of its readers); retail .bss zero-initializes it (VA 0x00E02D94).
+StringBase<char> g_Va00E02D94;
 int Rva003B9F8CParse(char *args[],int num) {
     g_00E02D8B=true;
     g_Va00E02D90.set(args[1]);
