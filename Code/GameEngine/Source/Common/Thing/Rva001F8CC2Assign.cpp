@@ -89,3 +89,18 @@ Rva001F8CC2 &Rva001F8CC2::operator=(const Rva001F8CC2 &other)
 		::delete *p;
 	return *this;
 }
+
+// The complete 18-byte body at 0x001F90C3 ends at the next entry 0x001F90D5.
+// It forwards the same this and reference argument to the verified assignment
+// at 0x001F8CC2, then returns the original this. There are no surviving callers
+// or original class names; this zero-offset base view is a structural inference.
+class Rva001F90C3 : public Rva001F8CC2
+{
+public:
+	Rva001F90C3 &operator=(const Rva001F90C3 &other);
+};
+Rva001F90C3 &Rva001F90C3::operator=(const Rva001F90C3 &other)
+{
+	Rva001F8CC2::operator=(other);
+	return *this;
+}
