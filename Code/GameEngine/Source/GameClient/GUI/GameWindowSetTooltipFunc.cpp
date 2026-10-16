@@ -21,8 +21,13 @@ private:
 	GameWinTooltipFunc m_tooltip;
 };
 
-int GameWindow::winSetTooltipFunc(GameWinTooltipFunc tooltip)
+// Select-any: GameWindow.cpp keeps a class-inline copy of the same setter.
+__declspec(noinline) inline int GameWindow::winSetTooltipFunc(GameWinTooltipFunc tooltip)
 {
 	m_tooltip = tooltip;
 	return 0;
 }
+
+// The anchor keeps the rowed body emitted.
+// ?bfmeAnchorWinSetTooltipFunc@@YAXPAVGameWindow@@@Z absent-from-retail
+void bfmeAnchorWinSetTooltipFunc(GameWindow *p) { p->winSetTooltipFunc(0); }
