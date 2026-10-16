@@ -10,7 +10,6 @@
 class Thing;
 class ModuleData;
 class Object;
-class DamageInfo;
 
 template <typename T>
 class StringBase
@@ -42,10 +41,12 @@ public:
 	BehaviorModule(Thing *thing, const ModuleData *moduleData);
 };
 
+enum UpdateSleepTime { UPDATE_SLEEP_NONE = 0 };
+
 class UpdateModuleInterface
 {
 public:
-	virtual void update();
+	virtual UpdateSleepTime update();
 };
 
 class Rva0044EF5E : public BehaviorModule, public UpdateModuleInterface
@@ -60,13 +61,33 @@ protected:
 	int m_bfmeReserved;
 };
 
-class DamageModuleInterface
+class SpecialPowerTemplate;
+class Waypoint;
+struct Coord3D;
+
+class SpecialPowerUpdateInterface
 {
 public:
-	virtual void onDamage(DamageInfo *damageInfo);
+	virtual void initiateIntentToDoSpecialPower(const SpecialPowerTemplate *specialPowerTemplate,
+		const Object *targetObj, const Coord3D *targetPos, unsigned int commandOptions,
+		const Waypoint *way);
 };
 
-class GiveOrRestoreUpgradeSpecialPower : public Rva0044EF5E, public DamageModuleInterface
+// The dtor tail-calls the rowed ??1SpecialAbilityUpdate (0x00451F45), and
+// retail's +0x10 and +0x20 tables (0x0084DEE8, 0x008552A4) keep
+// SpecialAbilityUpdate::update (0x00451FA2) and
+// SpecialAbilityUpdate::initiateIntentToDoSpecialPower (0x004500A3) in slot 0.
+class SpecialAbilityUpdate : public Rva0044EF5E, public SpecialPowerUpdateInterface
+{
+public:
+	virtual ~SpecialAbilityUpdate();
+	virtual UpdateSleepTime update();
+	virtual void initiateIntentToDoSpecialPower(const SpecialPowerTemplate *specialPowerTemplate,
+		const Object *targetObj, const Coord3D *targetPos, unsigned int commandOptions,
+		const Waypoint *way);
+};
+
+class GiveOrRestoreUpgradeSpecialPower : public SpecialAbilityUpdate
 {
 public:
 	virtual ~GiveOrRestoreUpgradeSpecialPower();
