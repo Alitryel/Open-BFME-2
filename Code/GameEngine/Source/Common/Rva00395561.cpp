@@ -1,6 +1,7 @@
 // cl: /O1 /G7 /arch:SSE /MD
 
-// ?rva00395561@Rva00395561@@QAEXXZ @0x00395561 34B
+// ??1Rva00395561@@QAE@XZ @0x00395561 34B (the guard's destructor: retail's EH unwind
+// funclets in the map-load/EVA callers call it as the local's dtor)
 // Chain: calls 0x000421FD; drains int at +0 while calling global counter.
 // Global 0x00DFE78C is TheGameLogic counter owner. Prev stlport list, next disp8.
 
@@ -19,10 +20,10 @@ class Rva00395561
 	int m_00;
 public:
 	Rva00395561();
-	void rva00395561();
+	~Rva00395561();
 };
 
-void Rva00395561::rva00395561()
+Rva00395561::~Rva00395561()
 {
 	if (TheCounter)
 	{

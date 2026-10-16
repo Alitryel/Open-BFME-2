@@ -295,8 +295,7 @@ class Rva00395561 {
  int count;
 public:
  Rva00395561();
- void rva00395561();
- ~Rva00395561() { rva00395561(); }
+ ~Rva00395561();
 };
 class Rva0039585A { public: void mapLoadPostProcess(int context); };
 void Rva0039585A::mapLoadPostProcess(int context) {

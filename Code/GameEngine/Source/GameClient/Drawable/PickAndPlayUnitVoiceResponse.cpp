@@ -971,8 +971,7 @@ class Rva00395561
 	int m_count;
 public:
 	Rva00395561();
-	void rva00395561();
-	~Rva00395561() { rva00395561(); }
+	~Rva00395561();
 };
 
 class Rva004D9539

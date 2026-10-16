@@ -9239,7 +9239,7 @@ _rva0060E7F0,0x00211245,address,placeholder
 ??_GRva0039225E@@UAEPAXI@Z,0x00392DA4,address,placeholder
 ?get@Rva00394173Field@@QBE?AVRva00394173Member@@XZ,0x00394173,address,placeholder
 ?rva00394191@Rva00394191@@QAEXPBUCoord3D@@W4CommandSourceType@@@Z,0x00394191,address,placeholder
-?rva00395561@Rva00395561@@QAEXXZ,0x00395561,address,placeholder
+??1Rva00395561@@QAE@XZ,0x00395561,address,placeholder
 ?rva0039561F@Rva0039561F@@QAEHPAVThingTemplate@@@Z,0x0039561F,address,placeholder
 ?rva00395686@Rva00395686@@QAE_NPAVPlayer@@PAVThingTemplate@@@Z,0x00395686,address,placeholder
 ?rva003956C3@Rva003956C3@@QAEPAXXZ,0x003956C3,address,placeholder
