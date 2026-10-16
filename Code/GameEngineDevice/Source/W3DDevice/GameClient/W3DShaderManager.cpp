@@ -418,7 +418,7 @@ W3DFilterInterface *W3DFilters[10];
 // spellings; the shader and pass-count tables take Zero Hour's names (the
 // rowed init 0x000F5B43 sets W3DShaders[1] and W3DShadersPassCount[1]).
 class ShaderInterface;
-class ShaderComResourceRef;
+struct ShaderComResourceRef;
 class VertexBufferClass;
 extern unsigned int g_Va009E1F6C;
 ShaderComResourceRef *rva012F9D10;
