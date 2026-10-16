@@ -330,8 +330,10 @@ char *Rva0084EF30(LocaleCodePageObject_0084EED0 *object)
 // Rva00850560 (retail 0x000236F0, 159B): locale long-date/time formatter.
 // The BFME1 donor supplies the operation order; retail proves its locale type,
 // conversion calls, buffer addresses and appended separator. The output is
-// the existing FndLang storage at its retail address.
-extern char __FndLang[];
+// a 0x104-byte .data buffer at 0x009DEFC0 (BFME 1 donor name
+// locale_output_00850560); STLport's own __FndLang is the static pointer just
+// before it (0x009DEFBC, stlport_LocaleFacets.cpp).
+char locale_output_00850560[0x104];
 extern char *Rva0084ED20Tail(LocaleCodePageObject_0084EED0 *object);
 char *Rva00850560(LocaleCodePageObject_0084EED0 *object)
 {
@@ -340,19 +342,20 @@ char *Rva00850560(LocaleCodePageObject_0084EED0 *object)
     {
         char *buffer = locale_buffer_0084ECE0;
         __ConvertFromACP(buffer, 0x50, object->codePage);
-        strcpy(__FndLang, Rva0084DE40Tail(buffer));
-        strcat(__FndLang, " ");
-        strcat(__FndLang, Rva0084ED20Tail(object));
-        return __FndLang;
+        strcpy(locale_output_00850560, Rva0084DE40Tail(buffer));
+        strcat(locale_output_00850560, " ");
+        strcat(locale_output_00850560, Rva0084ED20Tail(object));
+        return locale_output_00850560;
     }
 }
 
 // Rva008504C0 (retail 0x00023650, 159B): locale long-date/time formatter,
 // twin of Rva00850560 above. Same BFME1 donor operation order
 // (game/stlport/LocaleCodePageQueries.c Rva008504C0); retail proves locale
-// type 0x1f, input buffer locale_buffer_0084ECA0 and output FndLCID storage.
+// type 0x1f, input buffer locale_buffer_0084ECA0 and a 0x104-byte output
+// buffer at 0x009DF220 (BFME 1 donor name locale_output_008504C0).
 // Caller 0x000195A6 in stlport_X4TimeFacets _Init_timeinfo. LINK leaf.
-extern char __FndLCID[];
+char locale_output_008504C0[0x104];
 char *Rva008504C0(LocaleCodePageObject_0084EED0 *object)
 {
     LCID locale = object->locale;
@@ -360,10 +363,10 @@ char *Rva008504C0(LocaleCodePageObject_0084EED0 *object)
     {
         char *buffer = locale_buffer_0084ECA0;
         __ConvertFromACP(buffer, 0x50, object->codePage);
-        strcpy(__FndLCID, Rva0084DE40Tail(buffer));
-        strcat(__FndLCID, " ");
-        strcat(__FndLCID, Rva0084ED20Tail(object));
-        return __FndLCID;
+        strcpy(locale_output_008504C0, Rva0084DE40Tail(buffer));
+        strcat(locale_output_008504C0, " ");
+        strcat(locale_output_008504C0, Rva0084ED20Tail(object));
+        return locale_output_008504C0;
     }
 }
 
