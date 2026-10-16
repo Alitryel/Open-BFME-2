@@ -43,12 +43,19 @@ public:
 	Bool m_270;
 };
 
+// 0x004D0AA9 is rowed as BFMEConnectionManager::sendFrameInfo(bool).
+class BFMEConnectionManager
+{
+public:
+	void sendFrameInfo(bool flag);
+};
+
 // The 0x2000-byte per-slot records at ConnectionManager+0x24; the method the
 // slot query calls is the ICF-folded `xor eax,eax; ret` at 0x000D43D0.
 class Rva0025DE76Slot
 {
 public:
-	Int rva000D43D0();
+	__declspec(noinline) Int rva000D43D0();
 private:
 	char m_pad[0x2000];
 };
@@ -68,7 +75,6 @@ public:
 	virtual void rva0025DBAESlot(Bool flag, Int value);
 
 	void rva004CF90D(Int slot);
-	void rva004D0AA9(Int value);
 
 	char m_pad04[0x20];
 	Rva0025DE76Slot m_slots[9];			// +0x24
@@ -209,5 +215,12 @@ void Rva0025E4CD::rva0025E20F(Int slot)
 void Rva0025E4CD::rva0025E28E()
 {
 	if (m_conMgr)
-		m_conMgr->rva004D0AA9(0);
+		((BFMEConnectionManager *)m_conMgr)->sendFrameInfo(false);
+}
+
+// The slot query is the shared `xor eax,eax; ret` 0x000D43D0 (rowed as an
+// identical-code-folded alias).
+Int Rva0025DE76Slot::rva000D43D0()
+{
+	return 0;
 }
