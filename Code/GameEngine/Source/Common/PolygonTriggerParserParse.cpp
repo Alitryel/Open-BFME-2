@@ -118,12 +118,8 @@ class PolygonTrigger : public Rva00330C50, public PolygonSecondary
  
 }
 ;
-PolygonTrigger::PolygonTrigger(int identifier,int count):id(identifier)
-
-{
- rva002E36B7(count);
- 
-}
+// PolygonTrigger::PolygonTrigger is rowed in PolygonTriggerCtor.cpp (0x002E3FAB);
+// this unit's copy was not retail's and the link kept it.
 __declspec(noinline) inline void PolygonTrigger::rva002E36B7(int count)
 
 {

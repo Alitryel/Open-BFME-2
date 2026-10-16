@@ -78,7 +78,7 @@ private:
 	Rva000AD6F4Base *m_ptr;
 };
 
-void Rva000AD6F4::clear()
+__declspec(noinline) inline void Rva000AD6F4::clear()
 {
 	Rva000AD6F4Base *p = m_ptr;
 	m_ptr = 0;
@@ -90,10 +90,13 @@ void Rva000AD6F4::clear()
 	::operator delete(q);
 }
 
+// Both bodies are select-any like the copies Rva00328DE4Add.cpp and
+// PolygonTriggerParserParse.cpp emit (an exclusive definition here would
+// duplicate theirs at link time); the anchor below keeps them emitted.
 // ??1Rva000AD6F4@@QAE@XZ: the destructor releases the held pointer exactly as clear()
 // does; retail's linker folded the two identical 29-byte bodies at 0x000AD6F4 (the
 // HUD::Impl dtor 0x0042D92E and 40+ EH unwind entries reference it as the dtor).
-Rva000AD6F4::~Rva000AD6F4()
+__declspec(noinline) inline Rva000AD6F4::~Rva000AD6F4()
 {
 	Rva000AD6F4Base *p = m_ptr;
 	m_ptr = 0;
@@ -103,4 +106,11 @@ Rva000AD6F4::~Rva000AD6F4()
 	else
 		q = 0;
 	::operator delete(q);
+}
+
+// ?bfmeAnchorRva000AD6F4 absent-from-retail
+void bfmeAnchorRva000AD6F4(Rva000AD6F4 *p)
+{
+	p->clear();
+	p->~Rva000AD6F4();
 }

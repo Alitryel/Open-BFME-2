@@ -113,7 +113,7 @@ __declspec(noinline) inline Rva002E3E2AOut Rva000AD6F4::rva002E3E2A()
 	m_ptr = 0;
 	return temporary;
 }
-__declspec(noinline) Rva000AD6F4::~Rva000AD6F4()
+__declspec(noinline) inline Rva000AD6F4::~Rva000AD6F4()
 {
 	Rva000AD6F4Base *p = reinterpret_cast<Rva000AD6F4Base *>(m_ptr);
 	m_ptr = 0;
