@@ -1,33 +1,25 @@
-// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
-// partial score=0.9957 date=2026-10-16
-// W9-O3 2026-10-16: nd 23 -> 4, size exact; only the 4 rel32 jnp targets of the cases 9/10 early 'return true' differ (retail 0x6EEDF8 = case-1 return copy; ours the 201-block join 0x6EF2C6; goto/break/post-switch/if-else spellings all retarget). Closed: owner-file '__asm int 3' assert break (no barrier; stops cl cross-jumping the 0x859/0x862 assert tails), rowed rva006E02B0 is int (QBEHXZ) -> (unsigned char) cast, case 11 inline call(context->c_cih(false)->parent) arg (fixed reg rotation over cases 11-13), const_cast non-volatile parent read in the case-12 walk, WB early returns in 9/10. All farm equal-arm hacks removed (no byte change). Toy finding: cl sends early-return jcc to the FIRST return copy unless a call+branch precedes the switch, then to the LAST join copy (toy12/16 vs toy11/18).
-// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
-// partial score=0.98899 date=2026-10-14
-void __debugbreak();
-#pragma intrinsic(__debugbreak)
-// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
-// partial score=0.9889924218835513 date=2026-10-14
-// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
-// partial score=0.9889924218835513 date=2026-10-14
-// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
-// partial score=0.9889924218835513 date=2026-10-14
-// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
-// partial score=0.9881152477314004 date=2026-10-14
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z
-// partial score=0.9142912937368378 date=2026-10-10
-void __debugbreak();
-#pragma intrinsic(__debugbreak)
 // cl: /O2 /DNDEBUG /MD /EHsc
-// Target 0x006EE3B0 (393B) and 0x006EE540 (373B), with entry/return boundaries
-// confirmed in game.dat. reverse/string_xrefs.tsv names their callback slots
-// gAptFuncs.pfnGetBytesTotal and gAptFuncs.pfnGetBytesLoaded; the matching
-// ActionScript property names are also in R4PerfectHashWordSets.cpp. The
-// target calls through those slots with a String path and converts the
-// returned byte count to an Apt float. Slot identity is table evidence; the
-// address-derived global names below do not claim an original source name.
-// The +0x34 resource pointer and +8 EAStringC field follow the target loads.
+//
+// ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z,
+// retail 0x006EE6C0..0x006EF405 (3749 bytes, cdecl, C++ EH frame) followed by
+// its switch tables 0x006EF408..0x006EF564: the AptCharacter.cpp
+// property-set worker (assert strings name AptCharacter.cpp, lines 0x669,
+// 0x859, 0x862). WB 0x017838A0 is a semantic and structure guide only; all
+// offsets below are measured from native accesses, not WB's +4 CIH view.
+//
+// A text instance takes the text-field words (text, html, border, colors,
+// variable, scroll, autoSize, ...). A movie clip, button or flagged instance
+// takes the transform words through AptCIH::factorySetProperty, the
+// width/height words through the bounds rectangle, and the event-handler
+// words through its native hash; anything else returns false.
+//
+// Lever: movie-clip word 1 (factory property 0) ends with break and the function
+// returns true after the switch. cl keeps the LAST return-true in source order
+// as the shared target of the early returns in the _width/_height cases, so
+// that post-switch return puts their four jnp targets on the word-1 return
+// copy as retail does; written in place, they land on the event-case join.
+// The asserts break through an inline __asm int 3, which keeps cl from
+// cross-jumping the 0x859/0x862 assert tails.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char *, const char *, int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 class AptCIH;
@@ -132,104 +124,9 @@ class Rva006CD650
 ;
 // Retail preserves the unsigned-address addition before the resource load.
 // Using direct pointer arithmetic folds these two instructions in MSVC 7.1.
-static __forceinline EAStringC &rva006EECharacterUrl(void *character)
-
-{
- unsigned int address = (unsigned int)character;
- address += 0x34;
- void *resource = *(void **)address;
- return *(EAStringC *)((char *)resource + 8);
- 
-}
-extern int (__cdecl *g_rva00A177BC)(const char *, int);
-extern int (__cdecl *g_rva00A177C0)(const char *, int);
 AptValue *__cdecl Rva008A4EA0MakeFloat(float value);
-static __forceinline bool rva006EEIsDefinedMovieClip(AptCIH *cih)
-
-{
- if (!cih) 
- {
-  g_bfmeAptAssertAtE17734(
-"this",
-"c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",
-  0xD3);
-  if (g_bfmeAptBreakOnAssertAtDDC01C)
-  __debugbreak();
-  
- }
- const AptValue *value = (const AptValue *)cih;
- return value->getVtblIndex() == 0x12 && !value->isUndefined();
- 
-}
 // ?rva006ee3b0@@YAPAVAptValue@@PAV1@@Z @0x006EE3B0, 393B.
-AptValue *__cdecl rva006ee3b0(AptValue *value)
-
-{
- EAStringC url;
- AptCIH *initial = value->c_cih(false);
- if (!initial->member4C)
- return Rva008A4EA0MakeFloat(0.0f);
- if (value->isCIH(false)) 
- {
-  AptCIH *cih = value->c_cih(false);
-  if (rva006EEIsDefinedMovieClip(cih)) 
-  {
-   cih = value->c_cih(false);
-   url.Rva006D4F00Append(rva006EECharacterUrl(
-   ((Rva006CD650 *)cih)->rva006CD650()));
-   
-  }
-  
- }
- if (!g_rva00A177BC) 
- {
-  g_bfmeAptAssertAtE17734("gAptFuncs.pfnGetBytesTotal",
-"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptCharacter.cpp",
-  0x636);
-  if (g_bfmeAptBreakOnAssertAtDDC01C)
-  __debugbreak();
-  
- }
- float byteCount = 0.0f;
- AptCIH *cih = value->c_cih(false);
- if (rva006EEIsDefinedMovieClip(cih))
- byteCount = (float)g_rva00A177BC(url.rva00620090(), 0);
- return Rva008A4EA0MakeFloat(byteCount);
- 
-}
 // ?rva006ee540@@YAPAVAptValue@@PAV1@@Z @0x006EE540, 373B.
-AptValue *__cdecl rva006ee540(AptValue *value)
-
-{
- EAStringC url;
- if (value->isCIH(false)) 
- {
-  AptCIH *cih = value->c_cih(false);
-  if (rva006EEIsDefinedMovieClip(cih)) 
-  {
-   cih = value->c_cih(false);
-   url.Rva006D4F00Append(rva006EECharacterUrl(
-   ((Rva006CD650 *)cih)->rva006CD650()));
-   
-  }
-  
- }
- if (!g_rva00A177C0) 
- {
-  g_bfmeAptAssertAtE17734("gAptFuncs.pfnGetBytesLoaded",
-"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptCharacter.cpp",
-  0x64B);
-  if (g_bfmeAptBreakOnAssertAtDDC01C)
-  __debugbreak();
-  
- }
- float byteCount = 0.0f;
- AptCIH *cih = value->c_cih(false);
- if (rva006EEIsDefinedMovieClip(cih))
- byteCount = (float)g_rva00A177C0(url.rva00620090(), 0);
- return Rva008A4EA0MakeFloat(byteCount);
- 
-}
 class AptInteger 
 {
  public:static AptValue *Create(int);
@@ -250,7 +147,6 @@ struct AptActionInterpreter
 }
 ;
 extern AptActionInterpreter g_aptDateInterpreter;
-static int (__cdecl *pointHitTestCallback)(float,float,void*);
 // 006ECA70: target gAptFuncs.pfnPointHitTest assertion identifies the callback
 // slot; its retail data word is initially zero. This is a private typed view
 // of that unclaimed slot, not a claim about the original global's scope.
@@ -263,56 +159,6 @@ struct Rect
  
 }
 ;
-AptValue *__cdecl Rva006ECA70PointHitTest(void *self,int count)
-
-{
- struct 
- {
-  Rect otherRect,ownRect;
-  
- }
- bounds;
- if(count==1)
- {
-  AptValue *other=g_aptDateInterpreter.stack.At(0);
-  if(other->isCIH(true))
-  {
-   AptCIH *cih=other->c_cih(false);
-   ((AptValue*)self)->c_cih(false)->rva006E1DD0(&bounds.ownRect);
-   cih->rva006E1DD0(&bounds.otherRect);
-   if(bounds.otherRect.left<=bounds.ownRect.right && bounds.otherRect.right>=bounds.ownRect.left && bounds.otherRect.bottom>=bounds.ownRect.top && bounds.otherRect.top<=bounds.ownRect.bottom)return AptInteger::Create(1);
-   
-  }
-  
- }
- else if(count>1)
- {
-  float x=g_aptDateInterpreter.stack.At(0)->toFloat();
-  float y=g_aptDateInterpreter.stack.At(1)->toFloat();
-  int shape=0;
-  if(count>2)shape=g_aptDateInterpreter.stack.At(2)->toInteger();
-  if(shape)
-  {
-   if(!pointHitTestCallback)
-   {
-    g_bfmeAptAssertAtE17734("gAptFuncs.pfnPointHitTest","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptCharacter.cpp",0x58C);
-    if(g_bfmeAptBreakOnAssertAtDDC01C)
-    {
-     __debugbreak();
-     
-    }
-    
-   }
-   return AptInteger::Create(pointHitTestCallback(x,y,self));
-   
-  }
-  ((AptValue*)self)->c_cih(false)->rva006E1DD0(&bounds.ownRect);
-  if(x>=bounds.ownRect.left && x<=bounds.ownRect.right && y>=bounds.ownRect.top && y<=bounds.ownRect.bottom)return AptInteger::Create(1);
-  
- }
- return AptInteger::Create(0);
- 
-}
 class Rva008A4570Owner 
 {
  public:bool nameEquals(const char*);
@@ -334,61 +180,14 @@ class Rva006EB4B0
  
 }
 ;
-Rva006EB4B0::Rva006EB4B0(AptValue *fontValue,float sizeValue,int colorValue,int bold,int italic,int underline,int unused6,int unused7,AptValue *alignValue,int leftValue,int rightValue,int indentValue,int unused12)
-: size(sizeValue),color(colorValue)
-
-{
- flags=0;
- if(bold==0)flags|=0x10000;
- if(bold==1)flags|=0x10001;
- if(italic==0)flags|=0x100000;
- if(italic==1)flags|=0x100010;
- if(underline==0)flags|=0x1000000;
- if(underline==1)flags|=0x1000100;
- indent=indentValue;
- left=leftValue;
- right=rightValue;
- if(!fontValue->isUndefined())fontValue->toString(font);
- if(!alignValue->isUndefined())
- {
-  EAStringC str;
-  alignValue->toString(str);
-  Rva008A4570Owner *s=(Rva008A4570Owner*)&str;
-  if(s->nameEquals("left")||s->nameEquals("true"))align=0;
-  else if(s->nameEquals("center"))align=2;
-  else if(s->nameEquals("right"))align=1;
-  else align=3;
-  
- }
- else align=3;
- 
-}
 // Native C6F0..C72A: signed17-bit depth at CIH+58 biased by0x4000.
 // WB1782970 confirms the same operation with its independent +5C layout.
 // Callback identity remains address-derived; no inferred original name.
 extern AptValue *gpUndefinedValue;
-AptValue *Rva006EC6F0Depth(AptValue *context,int unusedArgumentCount)
-{
- if(context->isCIH(false))return AptInteger::Create(context->c_cih(false)->depth-0x4000);
- return gpUndefinedValue;
- 
-}
 // Native CE30..CEB4 copies the same32B format state; -1 leaves three
 // destination fields untouched exactly as native. Reference signature is
 // structural inference; all field reads/writes and conditional copies are
 // target facts, and the constructor name remains address-derived.
-Rva006EB4B0::Rva006EB4B0(const Rva006EB4B0 &other)
-{
- align=other.align;
- color=other.color;
- font=other.font;
- size=other.size;
- flags=other.flags;
- if(other.indent!=-1)indent=other.indent;
- if(other.left!=-1)left=other.left;
- if(other.right!=-1)right=other.right;
- 
-}
 // AptCharacter.cpp property-set worker. Target EE6C0..EF404, then native
 // switch tables EF408..EF564. WB17838A0 is a semantic/structure guide only.
 // All offsets below are measured from native accesses, not WB's +4 CIH view.
@@ -564,7 +363,6 @@ class Rva00144010Opaque
  
 }
 ;
-extern BfmeAptValue006DCD20 *g_aptUndefinedAtE18078;
 bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value)
 
 {
@@ -721,7 +519,7 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
     case 1:if(value->isUndefined())return false;
     number=value->toFloat();
     cih->factorySetProperty(0,number,true);
-    return true;
+    break;
     case 2:if(value->isUndefined())return false;
     number=value->toFloat();
     cih->factorySetProperty(1,number,true);
@@ -852,6 +650,7 @@ bool __cdecl rva006EE6C0(AptValue *context,const EAStringC *name,AptValue *value
     return false;
     
    }
+   return true;
    
   }
   if(name->rva006D3510("this"))aptAssert("NOT_REACHED",CHARACTER_FILE,0x862);
