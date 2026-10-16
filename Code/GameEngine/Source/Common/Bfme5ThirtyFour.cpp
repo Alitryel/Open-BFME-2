@@ -150,7 +150,8 @@ struct Rva006D1130Iterator
 		return old;
 	}
 };
-void __cdecl Rva006CE3D0Cleanup(void *, int, int);
+class Rva004A9DF3Element;
+Rva004A9DF3Element *__cdecl Rva006CE3D0Resize(Rva004A9DF3Element *, int, int);
 BfmeRefVGO *__cdecl Rva006D05E0Copy(Rva006D1130Iterator first,
 	Rva006D1130Iterator last, BfmeRefVGO *result);
 class Rva006D1130
@@ -178,16 +179,16 @@ void Rva006D1130::grow(int capacity)
 		m_capacity = capacity;
 		return;
 	}
-	// Existing pin uses the cleanup spelling. Its allocator mode returns
-	// the pointer in EAX when called with (0, 0, capacity+1).
+	// The rowed ref-array resizer also allocates an empty array when called
+	// with (0, 0, capacity+1), and destroys one when the last two args are 0.
 	Rva006D1130Item *newData = (Rva006D1130Item *)
-		((void *(__cdecl *)(void *, int, int))Rva006CE3D0Cleanup)(0, 0, capacity + 1);
+		Rva006CE3D0Resize(0, 0, capacity + 1);
 	Rva006D1130Item *oldEnd = m_begin + m_count;
 	Rva006D1130Iterator first(m_begin, m_begin, oldEnd), last(oldEnd, m_begin, oldEnd);
 	Rva006D05E0Copy(first, last, newData);
 	m_capacity = capacity;
 	if (m_begin != m_inline)
-		Rva006CE3D0Cleanup(m_begin, 0, 0);
+		Rva006CE3D0Resize((Rva004A9DF3Element *)m_begin, 0, 0);
 	m_begin = newData;
 	const Rva006D1130Item empty;
 	m_begin[m_count].bfmeAssignVGO(empty);
@@ -278,7 +279,7 @@ struct Rva006D0280 {
  ~Rva006D0280();
  __forceinline Rva006D0280(const EAStringC*name):m_useCount(0),name8(*name),typeC(1),object14(0),buffer18(0){}
  __forceinline int increaseCount(){return ++m_useCount;}
- __forceinline int decreaseCount(){return --m_useCount;}
+ __forceinline int decreaseCount(){int &p=m_useCount;return --p;}
  __forceinline static void*operator new(unsigned int n){return ((Rva006DB160*)g_pChainBlockAllocator)->allocBlock(n);}
  __forceinline static void operator delete(void*p,unsigned int n){Rva006D8680Free(p,n);}
  int m_useCount;
@@ -297,10 +298,10 @@ public:
   if(m_object) m_object->increaseCount();
  }
  ~Rva006D07E0Key() {
-  Rva006D0280 *p=m_object;
-  if(p && p->decreaseCount()==0) {
-   p->~Rva006D0280();
-   g_pChainBlockAllocator->freeBlock(p,0x1c);
+  Rva006D0280 *r=m_object;
+  if(r && r->decreaseCount()==0) {
+   Rva006D0280 *p=m_object;
+   if(p) { p->~Rva006D0280(); g_pChainBlockAllocator->freeBlock(p,0x1c); }
   }
  }
  Rva006D0280 *m_object;
@@ -515,3 +516,24 @@ Rva006D07E0Key Rva006CE110(const char*name){
 // these fields independently of donor names. Returning updated counts through
 // inline helpers gives native register cleanup; all11 existing home rows
 // stay exact. Borrowed string pointer ABI is expressed as a const reference.
+
+// Complete native 6D1450..6D151F RET4: register a counted owner unless its
+// pointer is already in the vector at +4. The 6D1520 caller supplies the Apt
+// linker global, establishing the owner; the original method name is unknown.
+// The argument is released on both paths. Native leaves no stable pointer
+// result in EAX, so the old pointer-return pin is replaced by this void view.
+// The iterator's existing range check preserves the top-tested search and
+// separate found-path release. The count reference above and reloaded owner
+// in the key destructor preserve both retail decrement sequences and all
+// earlier bodies in this unit; the complete exception graph is also exact.
+class AptLinker {
+public:
+ unsigned char m_beforeEntries[4];
+ Rva006D1130 entries;
+ void rva006D1450(Rva006D07E0Key key);
+};
+void AptLinker::rva006D1450(Rva006D07E0Key key) {
+ Rva006D1130Iterator p=entries.begin(),last=entries.end();
+ for(;p!=last;p++) if(p.position->m_bfmeP==(unsigned*)key.m_object) return;
+ entries.append((Rva006D1130Item*)&key);
+}
