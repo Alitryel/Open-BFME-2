@@ -121,14 +121,14 @@ public:
 	};
 };
 
-NameKeyGenerator::KeyToBucketMap::insert_result
+__declspec(noinline) inline NameKeyGenerator::KeyToBucketMap::insert_result
 NameKeyGenerator::KeyToBucketMap::insert(const value_type &value)
 {
 	resize(m_count + 1);
 	return do_insert(value);
 }
 
-NameKeyGenerator::KeyToBucketMap::insert_result
+__declspec(noinline) inline NameKeyGenerator::KeyToBucketMap::insert_result
 NameKeyGenerator::KeyToBucketMap::do_insert(const value_type &value)
 {
 	const unsigned n = bkt_num(value);
@@ -150,7 +150,7 @@ NameKeyGenerator::KeyToBucketMap::do_insert(const value_type &value)
 	return insert_result(tmp, this, true);
 }
 
-void *NameKeyGenerator::KeyToBucketMap::allocateNode(const value_type &value)
+__declspec(noinline) inline void *NameKeyGenerator::KeyToBucketMap::allocateNode(const value_type &value)
 {
 	Bucket *node = (Bucket *)BucketAlloc::allocate(sizeof(Bucket), 0);
 	node->next = 0;

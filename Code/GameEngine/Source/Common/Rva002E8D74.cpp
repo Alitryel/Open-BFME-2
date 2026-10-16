@@ -21,7 +21,7 @@ private:
 	Rva002E8D74Pt *m_28;
 };
 
-float Rva002E8D74::rva002E8D74(int a, int b)
+__declspec(noinline) inline float Rva002E8D74::rva002E8D74(int a, int b)
 {
 	int x = a * 10;
 	int y = b * 10;
@@ -29,3 +29,6 @@ float Rva002E8D74::rva002E8D74(int a, int b)
 	float dy = (float)y - m_28->m_3C;
 	return dx * dx + dy * dy;
 }
+// Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva002E8D74 absent-from-retail
+float bfmeAnchorRva002E8D74(Rva002E8D74 *p, int a, int b) { return p->rva002E8D74(a, b); }

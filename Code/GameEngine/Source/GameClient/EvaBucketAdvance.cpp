@@ -51,7 +51,7 @@ struct EvaMessageNameNode
 };
 
 // ?advance@Rva000411084@@QAEPAXXZ
-void *Rva000411084::advance()
+__declspec(noinline) inline void *Rva000411084::advance()
 {
 	EvaMessageNameNode *node = (EvaMessageNameNode *)m_current;
 	Rva000427195 *table = (Rva000427195 *)m_owner;
@@ -66,3 +66,6 @@ void *Rva000411084::advance()
 	} while (head == 0);
 	return head;
 }
+// Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva000411084Advance absent-from-retail
+void *bfmeAnchorRva000411084Advance(Rva000411084 *p) { return p->advance(); }

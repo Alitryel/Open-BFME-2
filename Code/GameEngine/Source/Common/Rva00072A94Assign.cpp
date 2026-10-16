@@ -30,7 +30,7 @@ public:
 private:
 	RefCountClass *m_ptr;
 };
-Rva00072A94 &Rva00072A94::operator=(const Rva00072A94 &other)
+__declspec(noinline) inline Rva00072A94 &Rva00072A94::operator=(const Rva00072A94 &other)
 {
 	if (this != &other) {
 		if (other.m_ptr)

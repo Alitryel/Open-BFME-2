@@ -32,8 +32,11 @@ private:
 	bool m_14;
 };
 
-Rva002AC3BE::Rva002AC3BE(void *a)
+__declspec(noinline) inline Rva002AC3BE::Rva002AC3BE(void *a)
 	: m_00(a)
 {
 	m_14 = false;
 }
+// Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva002AC3BECtor absent-from-retail
+void bfmeAnchorRva002AC3BECtor(Rva002AC3BE *p, void *a) { p->Rva002AC3BE::Rva002AC3BE(a); }

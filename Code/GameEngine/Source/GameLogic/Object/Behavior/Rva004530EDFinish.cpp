@@ -33,9 +33,12 @@ Rva004530ED::Rva004530ED()
 	m_10 = 0.0f;
 }
 
-Rva004530ED::Rva004530ED(const Rva004530ED &rhs)
+__declspec(noinline) inline Rva004530ED::Rva004530ED(const Rva004530ED &rhs)
 {
 	m_00 = rhs.m_00;
 	memcpy(m_04, rhs.m_04, 12);
 	m_10 = rhs.m_10;
 }
+// Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva004530EDCopy absent-from-retail
+void bfmeAnchorRva004530EDCopy(Rva004530ED *p, const Rva004530ED *q) { p->Rva004530ED::Rva004530ED(*q); }

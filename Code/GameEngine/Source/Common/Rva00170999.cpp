@@ -67,19 +67,19 @@ private:
 	Rva00170999Data m_data;
 };
 
-Rva00170999::Rva00170999(const AssetReference &a, const Rva00170999Data &d)
+__declspec(noinline) inline Rva00170999::Rva00170999(const AssetReference &a, const Rva00170999Data &d)
 	: m_asset(a)
 	, m_data(d)
 {
 }
 
-Rva00170999::Rva00170999(const Rva00170999 &that)
+__declspec(noinline) inline Rva00170999::Rva00170999(const Rva00170999 &that)
 	: m_asset(that.m_asset)
 	, m_data(that.m_data)
 {
 }
 
-Rva00170999 __cdecl Rva00170A58Get(const AssetReference &a, const Rva00170999Data &d)
+__declspec(noinline) inline Rva00170999 __cdecl Rva00170A58Get(const AssetReference &a, const Rva00170999Data &d)
 {
 	return Rva00170999(a, d);
 }
@@ -143,3 +143,6 @@ namespace _STL
 template <class _T1> void _Destroy(_T1 *__pointer) { __pointer->~_T1(); }
 }
 template void _STL::_Destroy<Rva00151DAB>(Rva00151DAB *);
+// Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva00170999 absent-from-retail
+void bfmeAnchorRva00170999(Rva00170999 *p, const AssetReference *a, const Rva00170999Data *d) { p->Rva00170999::Rva00170999(*a, *d); Rva00170A58Get(*a, *d); }

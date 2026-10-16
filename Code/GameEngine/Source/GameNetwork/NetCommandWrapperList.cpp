@@ -99,10 +99,13 @@ NetCommandWrapperListNode::~NetCommandWrapperListNode() {
 	}
 }
 
-Bool NetCommandWrapperListNode::isComplete() {
+__declspec(noinline) inline Bool NetCommandWrapperListNode::isComplete() {
 	return m_numChunksPresent == m_numChunks;
 }
 
+// Select-any like NetCommandWrapperList_getReadyCommands.cpp's in-class copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorNetCommandWrapperListNodeIsComplete absent-from-retail
+Bool bfmeAnchorNetCommandWrapperListNodeIsComplete(NetCommandWrapperListNode *n) { return n->isComplete(); }
 // A value of 100 means every chunk arrived. Partial transfers are capped at
 // 99 even when the floating-point percentage rounds up. Retail uses the normal
 // C++ x87-to-int conversion helper; no assembly escape hatch is needed.
@@ -122,12 +125,12 @@ Int NetCommandWrapperListNode::getPercentComplete()
 }
 
 // ?getCommandID@NetCommandWrapperListNode@@QAEGXZ present-unmatched
-UnsignedShort NetCommandWrapperListNode::getCommandID() {
+inline UnsignedShort NetCommandWrapperListNode::getCommandID() {
 	return m_commandID;
 }
 
 // ?getRawDataLength@NetCommandWrapperListNode@@QAEIXZ present-unmatched
-UnsignedInt NetCommandWrapperListNode::getRawDataLength() {
+inline UnsignedInt NetCommandWrapperListNode::getRawDataLength() {
 	return m_dataLength;
 }
 
@@ -157,7 +160,7 @@ void NetCommandWrapperListNode::copyChunkData(NetWrapperCommandMsg *msg) {
 }
 
 // ?getRawData@NetCommandWrapperListNode@@QAEPAEXZ present-unmatched
-UnsignedByte * NetCommandWrapperListNode::getRawData() {
+inline UnsignedByte * NetCommandWrapperListNode::getRawData() {
 	return m_data;
 }
 

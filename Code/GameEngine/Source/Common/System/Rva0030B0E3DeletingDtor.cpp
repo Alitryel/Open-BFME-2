@@ -27,7 +27,7 @@ public:
 };
 // ??0Rva00074626@@QAE@XZ @0x0030B04C 9B: the default constructor, storing the
 // class's own vtable (VA 0x00BC65A8) and returning this.
-Rva00074626::Rva00074626()
+__declspec(noinline) inline Rva00074626::Rva00074626()
 {
 }
 

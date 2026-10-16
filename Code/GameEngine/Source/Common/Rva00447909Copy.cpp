@@ -9,7 +9,7 @@ extern "C" void *__cdecl memcpy(void *dest, const void *src, unsigned int count)
 extern "C" __declspec(dllimport) unsigned long __stdcall htonl(unsigned long v);
 extern "C" __declspec(dllimport) unsigned short __stdcall htons(unsigned short v);
 // WorldBuilder NetworkBufferReadRaw, WB VA 0x014A8760 (callsite lead, score 1.0).
-char *__cdecl NetworkBufferReadRaw(char *src, void *dst, unsigned int size, char *limit)
+__declspec(noinline) inline char *__cdecl NetworkBufferReadRaw(char *src, void *dst, unsigned int size, char *limit)
 {
 	if (limit != 0) {
 		if (src > limit)
@@ -23,7 +23,7 @@ char *__cdecl NetworkBufferReadRaw(char *src, void *dst, unsigned int size, char
 // ?Rva0044799ACopy1@@YAPADPADPAX0@Z, retail 0x0044799A, 23 bytes.
 // Fixed-size-1 checked copy: forwards to NetworkBufferReadRaw. Evidence: chain lane
 // calls 0x00447909 which this session landed; callers in 0x00448423.
-char *__cdecl Rva0044799ACopy1(char *src, void *dst, char *limit)
+__declspec(noinline) inline char *__cdecl Rva0044799ACopy1(char *src, void *dst, char *limit)
 {
 	return NetworkBufferReadRaw(src, dst, 1, limit);
 }
@@ -31,7 +31,7 @@ char *__cdecl Rva0044799ACopy1(char *src, void *dst, char *limit)
 // Checked 4-byte read with htonl: copies via NetworkBufferReadRaw into the src slot
 // then byte-swaps to *out. Evidence: chain lane calls 0x00447909; IAT htonl;
 // callers in 0x00448423.
-char *__cdecl Rva0044793FReadU32(char *src, unsigned int *out, char *limit)
+__declspec(noinline) inline char *__cdecl Rva0044793FReadU32(char *src, unsigned int *out, char *limit)
 {
 	char *next = NetworkBufferReadRaw(src, &src, 4, limit);
 	*out = htonl(*(unsigned int *)&src);
@@ -41,9 +41,17 @@ char *__cdecl Rva0044793FReadU32(char *src, unsigned int *out, char *limit)
 // Checked 2-byte read with htons: copies via NetworkBufferReadRaw into the src slot
 // then byte-swaps to *out. Evidence: chain lane calls 0x00447909; IAT htons;
 // callers at 0x004484BE 0x004486CB.
-char *__cdecl Rva0044796CReadU16(char *src, unsigned short *out, char *limit)
+__declspec(noinline) inline char *__cdecl Rva0044796CReadU16(char *src, unsigned short *out, char *limit)
 {
 	char *next = NetworkBufferReadRaw(src, &src, 2, limit);
 	*out = htons(*(unsigned short *)&src);
 	return next;
+}
+// Select-any like GenerateGameOptionsString.cpp's copies; the anchor keeps them emitted.
+// ?bfmeAnchorRva00447909Copy absent-from-retail
+void bfmeAnchorRva00447909Copy(char *p, unsigned int *u, unsigned short *s)
+{
+	Rva0044799ACopy1(p, p, p);
+	Rva0044793FReadU32(p, u, p);
+	Rva0044796CReadU16(p, s, p);
 }

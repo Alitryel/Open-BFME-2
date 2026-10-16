@@ -21,7 +21,7 @@ public:
 };
 
 // ?bfmeAssignVGO@BfmeRefVGO@@QAEAAV1@ABV1@@Z, retail 0x006CDB10 (66B).
-BfmeRefVGO &BfmeRefVGO::bfmeAssignVGO(const BfmeRefVGO &o)
+__declspec(noinline) inline BfmeRefVGO &BfmeRefVGO::bfmeAssignVGO(const BfmeRefVGO &o)
 {
 	if (&o != this)
 	{
@@ -45,3 +45,6 @@ void __stdcall Rva006CDB60ClearWord(unsigned int *slot)
 {
     *slot = 0;
 }
+// Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorBfmeRefVGOAssign absent-from-retail
+void bfmeAnchorBfmeRefVGOAssign(BfmeRefVGO *p) { p->bfmeAssignVGO(*p); }

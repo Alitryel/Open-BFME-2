@@ -78,7 +78,10 @@ Rva0060CAEANode *Rva0060CAEA::rva0060CAEA(const _STL::string &key) const
 	return first;
 }
 
-Rva0060CAEAIterator Rva0060CAEA::rva0060CB61(const _STL::string &key)
+__declspec(noinline) inline Rva0060CAEAIterator Rva0060CAEA::rva0060CB61(const _STL::string &key)
 {
 	return Rva0060CAEAIterator(rva0060CAEA(key), this);
 }
+// Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva0060CB61 absent-from-retail
+Rva0060CAEAIterator bfmeAnchorRva0060CB61(Rva0060CAEA *p, const _STL::string *k) { return p->rva0060CB61(*k); }

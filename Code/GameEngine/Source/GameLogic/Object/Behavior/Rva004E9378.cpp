@@ -14,7 +14,10 @@ public:
 	bool rva004E9378();
 };
 
-bool Rva004E9378::rva004E9378()
+__declspec(noinline) inline bool Rva004E9378::rva004E9378()
 {
 	return m_state == 2 || m_state == 3;
 }
+// Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva004E9378 absent-from-retail
+bool bfmeAnchorRva004E9378(Rva004E9378 *p) { return p->rva004E9378(); }

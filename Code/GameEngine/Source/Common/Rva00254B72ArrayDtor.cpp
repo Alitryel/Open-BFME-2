@@ -8,4 +8,7 @@
 class OpaqueRefCounted;
 class Rva002390CB {void*unknown00;OpaqueRefCounted*owner04;public:~Rva002390CB();};
 class Rva00254B72 {Rva002390CB records[56];public:~Rva00254B72();};
-Rva00254B72::~Rva00254B72(){}
+__declspec(noinline) inline Rva00254B72::~Rva00254B72(){}
+// Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva00254B72Dtor absent-from-retail
+void bfmeAnchorRva00254B72Dtor(Rva00254B72 *p) { p->~Rva00254B72(); }

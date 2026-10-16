@@ -18,6 +18,9 @@ public:
 	virtual ~Rva00740555();
 };
 
-Rva00740555::Rva00740555()
+__declspec(noinline) inline Rva00740555::Rva00740555()
 {
 }
+// Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
+// ?bfmeAnchorRva00740555Ctor absent-from-retail
+void bfmeAnchorRva00740555Ctor(Rva00740555 *p) { p->Rva00740555::Rva00740555(); }
