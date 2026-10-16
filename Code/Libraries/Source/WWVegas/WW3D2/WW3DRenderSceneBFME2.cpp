@@ -70,7 +70,13 @@ class DX8Wrapper
 {
 public:
 	static void Set_DX8_Render_State(unsigned long state, unsigned value);
-	static unsigned Convert_Color(const Vector3 &color, float alpha);
+	// dllimport: inlined at every use, so no out-of-line copy competes with retail's
+	// Convert_Color (0x0006E1C0) or Set_Ambient (0x00117F50, DX8SetAmbient.cpp).
+	__declspec(dllimport) static unsigned Convert_Color(const Vector3 &color, float alpha);
+	__declspec(dllimport) static void Set_Ambient(const Vector3 &color);
+protected:
+	// dx8wrapper.cpp's protected static at VA 0x00DEDC70.
+	static Vector3 Ambient_Color;
 };
 
 class DX8MeshRendererClass
@@ -91,8 +97,8 @@ class Rva00DF6F94GapFillerContext { public: void rva174ba6(); };
 extern Rva00DF6F94GapFillerContext *TheMeshGapFillerContext;
 
 // The +0x87 static flush: the callee reads only the global 0x00DEC4F4 and an
-// SSE constant, so it takes no this and is __cdecl. Pinned address name.
-extern void __cdecl rva0012F190(void);
+// SSE constant: the rowed static SortingRendererClass::Flush (SortingRendererBFME1.cpp).
+class SortingRendererClass { public: static void Flush(void); };	// 0x0012F190
 
 class StaticSortListClass
 {
@@ -194,7 +200,13 @@ not_changed:
 }
 
 
-extern Vector3 g_Va00DEDC70;
+// ZH dx8wrapper.h Set_Ambient, inlined here as in Zero Hour's WW3D::Render.
+__forceinline void DX8Wrapper::Set_Ambient(const Vector3 &color)
+{
+	Ambient_Color=color;
+	Set_DX8_Render_State(139,Convert_Color(color,0.0f));
+}
+
 bool Rva001182A0(void *owner, RenderInfoClass &rinfo)
 {
     if (!WW3D::IsInitted) return true;
@@ -206,9 +218,7 @@ bool Rva001182A0(void *owner, RenderInfoClass &rinfo)
     case 1: DX8Wrapper::Set_DX8_Render_State(8,2); break;
     case 2: DX8Wrapper::Set_DX8_Render_State(8,3); break;
     }
-    const Vector3 &color=scene->Get_Ambient_Light();
-    g_Va00DEDC70=color;
-    DX8Wrapper::Set_DX8_Render_State(139,DX8Wrapper::Convert_Color(color,0.0f));
+    DX8Wrapper::Set_Ambient(scene->Get_Ambient_Light());
     TheDX8MeshRenderer->Set_Camera(rinfo.Camera);
     scene->Render(rinfo);
     TheDX8MeshRenderer->Flush();
@@ -217,7 +227,7 @@ bool Rva001182A0(void *owner, RenderInfoClass &rinfo)
     WW3D::AreStaticSortListsEnabled=false;
     WW3D::CurrentStaticSortLists->Render_And_Clear(rinfo);
     WW3D::AreStaticSortListsEnabled=old_enable;
-    rva0012F190();
+    SortingRendererClass::Flush();
     TheDX8MeshRenderer->Clear_Pending_Delete_Lists();
     return true;
 }

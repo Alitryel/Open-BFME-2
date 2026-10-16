@@ -15,8 +15,13 @@ public:
 class DX8Wrapper {
 public:
     static void Set_DX8_Render_State(unsigned long state,unsigned value);
-    static unsigned Convert_Color(const Vector3 &color,float alpha);
+    // dllimport: every use inlines it, so this unit emits no out-of-line copy to compete with
+    // retail's one body (DX8ConvertColorVector3O1.cpp, 0x0006E1C0).
+    __declspec(dllimport) static unsigned Convert_Color(const Vector3 &color,float alpha);
     static void Set_Ambient(const Vector3 &color);
+protected:
+    // dx8wrapper.cpp's protected static (VA 0x00DEDC70), ZH Set_Ambient's Ambient_Color.
+    static Vector3 Ambient_Color;
 };
 
 __forceinline unsigned DX8Wrapper::Convert_Color(const Vector3 &color, float alpha)
@@ -78,14 +83,13 @@ not_changed:
 // to VA00DEDC70, pack with alpha0, then set D3DRS_AMBIENT (139) through the
 // independently matched wrapper at 0006615F. This complete target behaviour
 // supports the ZH dx8wrapper.h Set_Ambient identity and ABI. The ambient
-// vector's original data symbol is not pinned; retain its measured address.
-extern Vector3 g_Va00DEDC70;
+// vector is ZH's DX8Wrapper::Ambient_Color, defined in dx8wrapper.cpp.
 
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
 __declspec(noinline) inline void DX8Wrapper::Set_Ambient(const Vector3 &color)
 {
-    g_Va00DEDC70 = color;
+    Ambient_Color = color;
     Set_DX8_Render_State(139, Convert_Color(color, 0.0f));
 }
 
