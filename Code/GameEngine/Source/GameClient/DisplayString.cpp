@@ -44,7 +44,7 @@ public:
 	virtual ~DisplayString( void );
 
 	virtual void setText( UnicodeString text );
-	virtual UnicodeString getText( void );
+	virtual UnicodeString getText( void ) { return m_textString; }  // ZH DisplayString.h inline; ICF-folded into 0x0022C4DF
 	virtual Int getTextLength( void );
 	virtual void notifyTextChanged( void ) {}
 	virtual void reset( void );
