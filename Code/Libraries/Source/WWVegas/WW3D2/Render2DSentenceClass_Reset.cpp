@@ -21,11 +21,12 @@ public:
 	SurfaceOps *ops;
 };
 
-// pinned dtor at 0x00119D00 (opaque SEH dtor); true identity likely Render2DClass dtor via RendererDataStruct.
-class Rva00119D00
+// The renderer dtor 0x00119D00 is rowed as Render2DClass::~Render2DClass
+// (RendererDataStruct's renderer); the call below is a direct one.
+class Render2DClass
 {
 public:
-	virtual ~Rva00119D00();
+	~Render2DClass();
 };
 
 void __cdecl operator delete(void *p);
@@ -44,7 +45,7 @@ public:
 // same layout as Gen_0093E730 whose erase (rva001558D0) retail reuses here.
 struct RendererDataStruct
 {
-	Rva00119D00 *Renderer;
+	Render2DClass *Renderer;
 	SurfaceClass *Surface;
 };
 
@@ -129,9 +130,9 @@ void Render2DSentenceClass::Reset()
 		m_curSurface = 0;
 	}
 	while (m_renderers.Count() > 0) {
-		Rva00119D00 *renderer = m_renderers[0].Renderer;
+		Render2DClass *renderer = m_renderers[0].Renderer;
 		if (renderer != 0) {
-			renderer->Rva00119D00::~Rva00119D00();
+			renderer->Render2DClass::~Render2DClass();
 			::operator delete(renderer);
 		}
 		m_renderers.rva001558D0(0);

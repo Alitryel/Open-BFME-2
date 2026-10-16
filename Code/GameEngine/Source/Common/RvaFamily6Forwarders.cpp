@@ -22,7 +22,9 @@ struct RvaF6Ret
 RvaF6Ret Helper0056BCE5(int v);
 RvaF6Ret Helper0056BABF(int v);
 RvaF6Ret Helper0056BB8C(int v);
-RvaF6Ret Helper0056BC3D(int v);
+// 0x0056BC3D is rowed as StrategicInGameUI::CreateHelpFor.
+class Rva005E2338Elem;
+namespace StrategicInGameUI { RvaF6Ret CreateHelpFor(const Rva005E2338Elem *elem); }
 
 class Rva005747F9
 {
@@ -102,7 +104,7 @@ private:
 
 RvaF6Ret Rva005CEC10::method()
 {
-	return Helper0056BC3D(m_00);
+	return StrategicInGameUI::CreateHelpFor((const Rva005E2338Elem *)m_00);
 }
 
 class Rva005CEBF6
