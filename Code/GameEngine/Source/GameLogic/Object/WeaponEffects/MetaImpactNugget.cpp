@@ -8,8 +8,8 @@
 // Slot 15 (0x3C) of Made002CC8A4 vtable 0x008649A0 (MetaImpactNugget).
 // Evidence: vtable slot 15; callers none; callees rowed findObjectByID,
 // isValid, getControllingPlayer, kill, rva0028C149, GetGameLogicRandomValueReal,
-// testStatus; pins bfmeHas1026, report, attemptDamage; TheGameLogic,
-// BfmeZeroRange, g_00C6499C, string literal.
+// testStatus and Rva2225E0Filter::accepts; report and attemptDamage; TheGameLogic,
+// BfmeZeroRange, MetaImpactRandomUpperBound, string literal.
 
 #include "Code/Libraries/Include/Lib/Coord3DInline.h"
 #include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
@@ -37,10 +37,9 @@ class ObjectFilter
 public:
 	bool isValid() const;
 };
-class BfmeTab1026
+struct Rva2225E0Filter
 {
-public:
-	char bfmeHas1026(int a, int b);
+	bool accepts(Object *obj, Player *context);
 };
 class Player
 {
@@ -67,7 +66,7 @@ inline bool Object::testStatus(ObjectStatusTypes bit) const
 {
 	return (m_statusBits[(unsigned int)bit >> 5] & (1 << (bit & 31))) != 0;
 }
-extern float g_00C6499C;
+extern const float MetaImpactRandomUpperBound;
 float __cdecl GetGameLogicRandomValueReal(float a, float b, char *name, int line);
 
 class Rva00263653
@@ -238,7 +237,7 @@ void Made002CC8A4::rva0050A1E9(void *a, Object *shooter)
 		char *base = (char *)this + 0x160;
 		if (!((ObjectFilter *)base)->isValid())
 			goto doAttr;
-		if (!((BfmeTab1026 *)base)->bfmeHas1026((int)shooter, (int)found->getControllingPlayer()))
+		if (!((Rva2225E0Filter *)base)->accepts(shooter, found->getControllingPlayer()))
 			goto doAttr;
 		shooter->kill(DT_8, DT_0);
 		return;
@@ -249,7 +248,7 @@ doAttr:
 		shooter->rva0028C149(0xA, &v, 0);
 		if (!(v > 0.0f))
 			goto checkBit;
-		float r = GetGameLogicRandomValueReal(0.0f, g_00C6499C, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\WeaponEffects\\MetaImpactNugget.cpp", 0x19B);
+		float r = GetGameLogicRandomValueReal(0.0f, MetaImpactRandomUpperBound, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\WeaponEffects\\MetaImpactNugget.cpp", 0x19B);
 		if (!(r > v))
 			return;
 	}
@@ -258,7 +257,7 @@ checkBit:
 		void *vp = (void *)*(int *)((char *)shooter + 4);
 		if (*(unsigned char *)((char *)vp + 0x113) & 4)
 		{
-			float r2 = GetGameLogicRandomValueReal(0.0f, g_00C6499C, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\WeaponEffects\\MetaImpactNugget.cpp", 0x1A4);
+			float r2 = GetGameLogicRandomValueReal(0.0f, MetaImpactRandomUpperBound, (char *)"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\WeaponEffects\\MetaImpactNugget.cpp", 0x1A4);
 			if (r2 < m_150)
 				return;
 		}
@@ -407,3 +406,7 @@ void Made002CC8A4::rva0050A4A2(void *source, const Coord3D *pos)
 		((SelfIface *)this)->v15(source, obj);
 	}
 }
+
+// Retail VA00C6499C owns exact float bits3F7FBE77. Both native slot15
+// random calls use this read-only upper bound; original identifier unknown.
+extern const float MetaImpactRandomUpperBound = 0.999f;
