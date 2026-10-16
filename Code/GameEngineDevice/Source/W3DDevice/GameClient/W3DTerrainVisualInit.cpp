@@ -287,3 +287,11 @@ void W3DTerrainVisual::reset()
 		m_18 = 0;
 	}
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x0004F82B -> ??1GeometryRecord@@QAE@XZ
+#pragma comment(linker, "/alternatename:?rva0004F82B@Rva0004F82B@@QAEXXZ=??1GeometryRecord@@QAE@XZ")
+//   0x0009A2CD -> ?Rva0009A2CDRun@@YAXXZ
+#pragma comment(linker, "/alternatename:?rva0009A2CD@W3DShadowManager@@QAEXXZ=?Rva0009A2CDRun@@YAXXZ")

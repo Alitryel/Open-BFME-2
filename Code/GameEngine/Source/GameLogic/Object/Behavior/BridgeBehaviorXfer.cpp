@@ -320,3 +320,9 @@ void BridgeBehavior::xfer( Xfer *xfer )
 	*xfer == m_bfmeFlagFC;
 
 }  // end xfer
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x002A1B6F -> ?append@Rva002A1B6FNativeList@@QAEXABQAX@Z
+#pragma comment(linker, "/alternatename:?push_back@BridgeBehaviorObjectIDList@@QAEXABW4ObjectID@@@Z=?append@Rva002A1B6FNativeList@@QAEXABQAX@Z")

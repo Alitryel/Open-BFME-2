@@ -131,3 +131,9 @@ _Rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::_M_copy(Node *x, Node *p)
 template LocomotorMapTree::Node *LocomotorMapTree::_M_copy(Node *x, Node *p);
 
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x0053444F -> ?_M_clone_node@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBHH@_STL@@@2@PAU32@@Z
+#pragma comment(linker, "/alternatename:?rva0053444F@Rva004FFD09@@QAEPAURva004FFD09Node@@PAU2@@Z=?_M_clone_node@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@IAEPAU?$_Rb_tree_node@U?$pair@$$CBHH@_STL@@@2@PAU32@@Z")

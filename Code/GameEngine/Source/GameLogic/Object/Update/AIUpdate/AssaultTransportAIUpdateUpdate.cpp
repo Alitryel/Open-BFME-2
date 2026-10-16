@@ -415,3 +415,11 @@ UpdateSleepTime AssaultTransportAIUpdate::update( void )
 	AIUpdateInterface::update();
 	return UPDATE_SLEEP_NONE;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x00295A0F -> ?Rva00295A0FCommand@Rva00295A0FCommands@@QAEXPAXHH@Z
+#pragma comment(linker, "/alternatename:?rva00295A0F@AICommandInterface@@QAEXPBUCoord3D@@HW4CommandSourceType@@@Z=?Rva00295A0FCommand@Rva00295A0FCommands@@QAEXPAXHH@Z")
+//   0x0048F472 -> ?Rva0048F472IsEqual@@YG_NPAX@Z
+#pragma comment(linker, "/alternatename:?rva0048F472@AssaultTransportAIUpdate@@QBE_NPBVObject@@@Z=?Rva0048F472IsEqual@@YG_NPAX@Z")

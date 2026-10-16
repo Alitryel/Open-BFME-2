@@ -81,3 +81,13 @@ _STL::vector<Type, Allocator> &_STL::vector<Type, Allocator>::operator=(const ve
 template _STL::vector<Rva0032C0E3Element, _STL::allocator<Rva0032C0E3Element> > &
 _STL::vector<Rva0032C0E3Element, _STL::allocator<Rva0032C0E3Element> >::operator=(
 	const _STL::vector<Rva0032C0E3Element, _STL::allocator<Rva0032C0E3Element> > &);
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x0032A3E1 -> ??$_M_allocate_and_copy@PBUBfmePod128@@@?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@IAEPAUBfmePod128@@IPBU2@0@Z
+#pragma comment(linker, "/alternatename:??$_M_allocate_and_copy@PAURva0032C0E3Element@@@?$vector@URva0032C0E3Element@@V?$allocator@URva0032C0E3Element@@@_STL@@@_STL@@IAEPAURva0032C0E3Element@@IPAU2@0@Z=??$_M_allocate_and_copy@PBUBfmePod128@@@?$vector@UBfmePod128@@V?$allocator@UBfmePod128@@@_STL@@@_STL@@IAEPAUBfmePod128@@IPBU2@0@Z")
+//   0x0032A40E -> ??$copy@PAVBuildListInfo@@PAV1@@_STL@@YAPAVBuildListInfo@@PAV1@00@Z
+#pragma comment(linker, "/alternatename:??$__copy_ptrs@PAURva0032C0E3Element@@PAU1@@_STL@@YAPAURva0032C0E3Element@@PAU1@00ABU__false_type@0@@Z=??$copy@PAVBuildListInfo@@PAV1@@_STL@@YAPAVBuildListInfo@@PAV1@00@Z")
+//   0x0032A37A -> ??$__uninitialized_copy@PBUBfmePod128@@PAU1@@_STL@@YAPAUBfmePod128@@PBU1@0PAU1@ABU__false_type@0@@Z
+#pragma comment(linker, "/alternatename:??$__uninitialized_copy@PAURva0032C0E3Element@@PAU1@@_STL@@YAPAURva0032C0E3Element@@PAU1@00ABU__false_type@0@@Z=??$__uninitialized_copy@PBUBfmePod128@@PAU1@@_STL@@YAPAUBfmePod128@@PBU1@0PAU1@ABU__false_type@0@@Z")

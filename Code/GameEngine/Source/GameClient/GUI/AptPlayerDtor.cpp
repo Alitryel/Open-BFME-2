@@ -116,3 +116,9 @@ AptPlayer::~AptPlayer()
 {
     rva0022274A();
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x0022274A -> ?rva0022274A@Rva00062908Host@@QAEXXZ
+#pragma comment(linker, "/alternatename:?rva0022274A@AptPlayer@@QAEXXZ=?rva0022274A@Rva00062908Host@@QAEXXZ")

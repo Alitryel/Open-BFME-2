@@ -1309,3 +1309,9 @@ struct BfmeShortcutPlayerList
 // ControlBar::hideSpecialPowerShortcut moved to ControlBarFields.cpp: it
 // needs the reconstructed-offset shim (inputs/reference/shims/controlbar), which
 // this TU does not use (see ControlBarFields.cpp for why).
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x0035AFE4 -> ?rva0035AFE4@Rva0035AFE4@@QAE_NH@Z
+#pragma comment(linker, "/alternatename:?isValidRelationshipTarget@CommandButton@@QBE_NW4Relationship@@@Z=?rva0035AFE4@Rva0035AFE4@@QAE_NH@Z")

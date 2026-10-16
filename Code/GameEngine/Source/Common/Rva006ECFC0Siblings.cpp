@@ -114,3 +114,9 @@ Rva006ECFC0Owner::Rva006ECFC0Owner(const Rva006EB4B0 &other)
 }
 
 Rva006ECFC0Owner::~Rva006ECFC0Owner() {}
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x006D6470 -> ??1Rva006D6470Owner@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva006D6360@@UAE@XZ=??1Rva006D6470Owner@@UAE@XZ")
