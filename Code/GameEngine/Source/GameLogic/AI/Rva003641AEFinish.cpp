@@ -1,6 +1,6 @@
 // cl: /DNDEBUG /MD
 //
-// ?Rva003641AEClamp@@YGHMM@Z @0x003641AE (68B).
+// ?rva003641AE@Path@@QAEHMM@Z @0x003641AE (68B).
 // Clamp a scaled product into [1,128]: the product of the two float factors
 // and the two globals is rounded to nearest via an x87 fld/fistp helper, then
 // clamped.  Evidence: callers 0x00364FBA and 0x0036596A; globals 0x00BC9D14
@@ -25,7 +25,10 @@ __forceinline long fast_float2long_round(float f)
 	return i;
 }
 
-int __stdcall Rva003641AEClamp(float a, float b)
+// Retail caller 0x00364FAD and WB F24175 both set ECX to Path this.
+class Path { public: int rva003641AE(float a, float b); };
+
+int Path::rva003641AE(float a, float b)
 {
 	double d = b;
 	b = (float)ceil((a * (d * g_00BC9D14)) * g_00C17274);
