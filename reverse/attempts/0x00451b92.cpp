@@ -1,4 +1,7 @@
 // ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
+// partial score=0.95 date=2026-10-16
+// W9-O2: farm best plus ZH dir.set/normalize/scale/add/sub spelling via Lib/Coord3DCtorView.h (COORD3D_VIEW_INLINE): flee site exact
+// ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
 // partial score=0.903 date=2026-10-15
 // ?finishAbility@SpecialAbilityUpdate@@UAEXXZ
 // partial score=0.896 date=2026-10-14
@@ -21,7 +24,8 @@
 
 #include <list>
 #include "Common/BfmeAudioEventPrefix136.h"
-#include "Code/Libraries/Include/Lib/Coord3D.h"
+#define COORD3D_VIEW_INLINE
+#include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
 
 enum ModelConditionFlagType
 {
@@ -704,28 +708,20 @@ void SpecialAbilityUpdate::finishAbility()
 	const bool validTarget = m_targetPos.x || m_targetPos.y || m_targetPos.z || 0 != m_targetID;
 	if (data->m_fleeRangeAfterCompletion && validTarget)
 	{
-		Coord3D pos = { m_object->m_position.x, m_object->m_position.y, m_object->m_position.z };
+		Coord3D pos;
+		pos.set(&m_object->m_position);
 		AIUpdateInterface *ai = (AIUpdateInterface *)m_object->m_ai;
 		if (ai)
 		{
 			{
-				const Coord3D *facing=m_object->getUnitDirectionVector2D();
-				Coord3D dir = {facing->x,facing->y,facing->z};
+				Coord3D dir;
+				dir.set(m_object->getUnitDirectionVector2D());
 				dir.normalize();
-				float range = data->m_fleeRangeAfterCompletion;
-				float y=dir.y,z=dir.z,x=dir.x;dir.x=x*range;dir.y=y*data->m_fleeRangeAfterCompletion;dir.z=z*range;
-				if (!(!(data->m_flipObjectAfterUnpacking || data->m_flipObjectAfterPacking)))
-				{
-					pos.x = pos.x + (dir.x);
-					pos.y = pos.y + (dir.y);
-					pos.z += dir.z;
-				}
+				dir.scale(data->m_fleeRangeAfterCompletion);
+				if (data->m_flipObjectAfterUnpacking || data->m_flipObjectAfterPacking)
+					pos.add(&dir);
 				else
-				{
-					pos.z = pos.z - (dir.z);
-					pos.y = pos.y - (dir.y);
-					pos.x = pos.x - (dir.x);
-				}
+					pos.sub(&dir);
 			}
 			Object *obj = m_object;
 			if (obj)
@@ -742,11 +738,9 @@ void SpecialAbilityUpdate::finishAbility()
 						dir.y = pos.y - mine->m_position.y;
 						dir.z = 0.0f;
 						dir.normalize();
-						const float range = (data->m_fleeRangeAfterCompletion?data->m_fleeRangeAfterCompletion:data->m_fleeRangeAfterCompletion);
+						dir.scale(data->m_fleeRangeAfterCompletion);
 						pos = mine->m_position;
-						pos.x += dir.x * range;
-						pos.z += dir.z * range;
-						pos.y += dir.y * range;
+						pos.add(&dir);
 					}
 				}
 			}
