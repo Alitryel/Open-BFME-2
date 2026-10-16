@@ -7633,7 +7633,6 @@ name,address,notes
 ?bfmeResetC0600@Rva006C0600Registry@@QAEXXZ,0x002D2457,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeResetVJO@BfmeCVJO@@QAEXPAVBfmeXVJO@@@Z,0x0066D830
 ?bfmeResizeERF@BfmeVecERF@@QAEXIUBfmeItemERF@@@Z,0x003F6EA1,callee of ?resize@Rva00427130Vector@@QAEXI@Z at retail 0x003F701F read from its REL32 displacement; body unrowed
-?bfmeRetainMembers@@YAXPAVLargeGroupAudioKeyMap@@@Z,0x003ED498,callee read from the retail REL32 in placed BFME1-donor body ??4LargeGroupAudioKeyMap@@QAEAAV0@ABV0@@Z (0x003ED989)
 ?bfmeRun1073@BfmeR1073@@QAEXPAVBfmeX1073@@PADH11111@Z,0x00222A8B,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeRunCF@BfmeTmpCF@@QAEXPAX0@Z,0x001EA3AE,callee of ?bfmeMakeCF@@YAXPAX0@Z at retail 0x0033A5DC read from its REL32 displacement; donor-reconstruction name; body unrowed
 ?bfmeRunDGH@BfmeSubDGH@@QAEXPAX@Z,0x003FD690,callee of ?bfmeGoDGH@@YGXPAX0@Z at retail 0x00212183 read from its REL32 displacement; ICF alias onto ?rva003FD690@Rva003FD690@@QAEXPBUCoord@@@Z (matched)
@@ -9135,7 +9134,6 @@ name,address,notes
 ?j_0000ca59@Glo012F1024Item@@QAE_NXZ,0x00565436
 ?j_00012396@@YAXXZ,0x00029380
 ?j_00015d7a@@YAXXZ,0x0006BF2A,address read from the REL32 displacement at a placed body
-?j_000163ba@@YAXXZ,0x0026F4F4,callee read from the retail REL32 in placed BFME1-donor body ??4LargeGroupAudioKeyMap@@QAEAAV0@ABV0@@Z (0x003ED989)
 ?j_0001bbd5@@YAXXZ,0x0058D7B6,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?j_0001cdcd@@YAXXZ,0x00357CD9,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?j_00023b14@@YAXXZ,0x000ADCE3,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1

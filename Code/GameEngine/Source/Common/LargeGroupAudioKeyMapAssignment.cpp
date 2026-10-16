@@ -10,13 +10,24 @@
 // 45 bytes. It releases the current key references, copies the three-dword
 // map storage, then retains every selected key in the copy.
 
-extern void j_000163ba();
+struct Rva0026F4F4Element;
+namespace _STL
+{
+template <class _Tp> class allocator;
+template <class _Tp, class _Alloc> class vector;
+// 0x0026F4F4 is rowed as this vector's copy assignment.
+template <>
+class vector<Rva0026F4F4Element, allocator<Rva0026F4F4Element> >
+{
+public:
+	vector &operator=(const vector &other);
+};
+}
+typedef _STL::vector<Rva0026F4F4Element, _STL::allocator<Rva0026F4F4Element> > Rva0026F4F4Vector;
 
 class LGA_MemberObj;
 
 void bfmeClearMembers(LGA_MemberObj *map);
-
-class Rva0039C830Mid {};
 
 class LargeGroupAudioKeyMap
 {
@@ -24,7 +35,8 @@ public:
 	LargeGroupAudioKeyMap &operator=(const LargeGroupAudioKeyMap &other);
 };
 
-void bfmeRetainMembers(LargeGroupAudioKeyMap *map);
+// 0x003ED498 is rowed as the free Rva003ED498Count walker.
+void __cdecl Rva003ED498Count(void const *arg);
 
 // ??4LargeGroupAudioKeyMap@@QAEAAV0@ABV0@@Z
 LargeGroupAudioKeyMap &LargeGroupAudioKeyMap::operator=(
@@ -33,13 +45,8 @@ LargeGroupAudioKeyMap &LargeGroupAudioKeyMap::operator=(
 	if (&other != this)
 	{
 		bfmeClearMembers((LGA_MemberObj *)this);
-		typedef Rva0039C830Mid &(Rva0039C830Mid::*Assign)(
-			const Rva0039C830Mid &);
-		union { void (__cdecl *raw)(); Assign member; } call;
-		call.raw = j_000163ba;
-		(((Rva0039C830Mid *)this)->*call.member)(
-			*(const Rva0039C830Mid *)&other);
-		bfmeRetainMembers(this);
+		*(Rva0026F4F4Vector *)this = *(const Rva0026F4F4Vector *)&other;
+		Rva003ED498Count(this);
 	}
 
 	return *this;
