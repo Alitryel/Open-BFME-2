@@ -121,6 +121,10 @@ private:
 	Rva00072FE6 m_162C;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<AsciiString,pair<AsciiString const ,PlayerInfo>,_Select1st<pair<AsciiString const ,PlayerInfo> >,AsciiComparator,allocator<pair<AsciiString const ,PlayerInfo> > >::~_Rb_tree(); }
+namespace _STL { template <> pair<AsciiString const ,PlayerInfo>::~pair(); }
+// bfme link decl-only end
 Rva00386374::~Rva00386374()
 {
 	if (TheGameInfo == (GameInfo *)TheGameSpyGame)

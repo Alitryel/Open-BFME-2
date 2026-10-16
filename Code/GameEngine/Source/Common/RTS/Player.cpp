@@ -1378,93 +1378,15 @@ void Player::preTeamDestroy( const Team *team )
 //-------------------------------------------------------------------------------------------------
 /// a structure that was under construction has become completed
 //-------------------------------------------------------------------------------------------------
-// byte-exact reconstruction: Code/GameEngine/Source/Common/Player_onStructureConstructionComplete_Thunk.cpp
-// ?onStructureConstructionComplete@Player@@QAEXPAVObject@@0_N@Z present-unmatched
-void Player::onStructureConstructionComplete( Object *builder, Object *structure, Bool isRebuild )
+// Player::onStructureConstructionComplete is rowed with its retail body in Rva002A9BF2Get.cpp (0x002A9D02).
+// The ZH body that stood here was this unit's only out-of-line caller of
+// Object::getTeam, rowed from this unit; this helper (no retail address)
+// keeps cl emitting that copy.
+// ?PlayerObjectTeamEmissionAnchor absent-from-retail
+Team *PlayerObjectTeamEmissionAnchor( Object *object )
 {
-	// When a a structure is completed, it becomes "real" as far as scripting is 
-	// concerned. jba.
-	TheScriptEngine->notifyOfObjectCreationOrDestruction();
-
-	// Update the pathfind footprint.  Sometimes when rubble has to be removed
-	// to build, the initial footprint while building is goofy.  jba.
-	TheAI->pathfinder()->removeObjectFromPathfindMap(structure);
-	TheAI->pathfinder()->addObjectToPathfindMap(structure);
-
-	// increment our scorekeeper
-	if (isRebuild == FALSE) {
-		m_scoreKeeper.addObjectBuilt(structure);
-		m_scoreKeeper.addMoneySpent(structure->getTemplate()->calcCostToBuild(this));
-	}
-
-	structure->friend_adjustPowerForPlayer(TRUE);
-
-	// ai notification callback
-	if( m_ai )
-		m_ai->onStructureProduced( builder, structure );
-
-	// the GUI needs to re-evaluate the information being displayed to the user now
-	if( TheControlBar )
-		TheControlBar->markUIDirty();
-	
-	// This object may require us to play some EVA sounds.
-	Player *localPlayer = ThePlayerList->getLocalPlayer();
-
-	if( structure->hasSpecialPower( SPECIAL_PARTICLE_UPLINK_CANNON ) || 
-			structure->hasSpecialPower( SUPW_SPECIAL_PARTICLE_UPLINK_CANNON ) ||
-			structure->hasSpecialPower( LAZR_SPECIAL_PARTICLE_UPLINK_CANNON ) )
-  {
-    if ( localPlayer == structure->getControllingPlayer() )
-    {
-		  TheEva->setShouldPlay(EVA_SuperweaponDetected_Own_ParticleCannon);
-    }
-    else if ( localPlayer->getRelationship(structure->getTeam()) != ENEMIES )
-    {
-      // Note: treating NEUTRAL as ally. Is this correct?
-      TheEva->setShouldPlay(EVA_SuperweaponDetected_Ally_ParticleCannon);
-    }
-    else
-    {
-      TheEva->setShouldPlay(EVA_SuperweaponDetected_Enemy_ParticleCannon);
-    }
-  }
-
-	if( structure->hasSpecialPower( SPECIAL_NEUTRON_MISSILE ) || 
-			structure->hasSpecialPower( NUKE_SPECIAL_NEUTRON_MISSILE ) || 
-			structure->hasSpecialPower( SUPW_SPECIAL_NEUTRON_MISSILE ) )
-  {
-    if ( localPlayer == structure->getControllingPlayer() )
-    {
-      TheEva->setShouldPlay(EVA_SuperweaponDetected_Own_Nuke);
-    }
-    else if ( localPlayer->getRelationship(structure->getTeam()) != ENEMIES )
-    {
-      // Note: treating NEUTRAL as ally. Is this correct?
-      TheEva->setShouldPlay(EVA_SuperweaponDetected_Ally_Nuke);
-    }
-    else
-    {
-      TheEva->setShouldPlay(EVA_SuperweaponDetected_Enemy_Nuke);
-    }
-  }
-  
-	if (structure->hasSpecialPower(SPECIAL_SCUD_STORM))
-  {
-    if ( localPlayer == structure->getControllingPlayer() )
-    {
-      TheEva->setShouldPlay(EVA_SuperweaponDetected_Own_ScudStorm);
-    }
-    else if ( localPlayer->getRelationship(structure->getTeam()) != ENEMIES )
-    {
-      // Note: treating NEUTRAL as ally. Is this correct?
-      TheEva->setShouldPlay(EVA_SuperweaponDetected_Ally_ScudStorm);
-    }
-    else
-    {
-      TheEva->setShouldPlay(EVA_SuperweaponDetected_Enemy_ScudStorm);
-    }
-  }
-}  // end onStructureConstructionComplete
+	return object->getTeam();
+}
 
 //=============================================================================
 // BFME 2 dropped the score keeper's removal: the native caller

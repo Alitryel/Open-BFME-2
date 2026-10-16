@@ -13325,7 +13325,6 @@ _Rva001117E3Downsample,0x001117E3,callee of ?updateMips@TileData@@QAEXXZ
 ?updateOptimalExtrusionPadding@W3DVolumetricShadow@@IAEXXZ,0x000F1212,callee of ?Update@W3DVolumetricShadow@@QAEX_N@Z
 ?rva002BED69@Rva002D3627Host@@QAEHXZ,0x002BED69,caller 0x00539411 and target callee bytes show increment and return of host+0x88 dword
 ?rva00274CD8@Drawable@@QAE?AVRva002390CB@@ABVAsciiString@@@Z,0x00274CD8,callee of ?update@DozerActionDoActionState@@UAE?AW4StateReturnType@@XZ
-?onStructureConstructionComplete@Player@@QAEXPAVObject@@0_N@Z,0x002A9D02,callee of ?update@DozerActionDoActionState@@UAE?AW4StateReturnType@@XZ
 ??0Rva000CF475FireFX@@QAE@ABU0@@Z,0x000CF475,callee of ?tryToIgnite@FlammableUpdate@@QAEXXZ
 ?rva004FD699@Rva004FD8A8Set@@QAEXHPAV?$vector@PAVRva0020E89C@@V?$allocator@PAVRva0020E89C@@@_STL@@@_STL@@@Z,0x004FD699,callee of AptMapPreview::rva0057D709 (REL32 at 0x0057D73C on the living-world info's +0x1C start-region set with the region and the cleared list); Ghidra FUN_008fd699 96B; address name
 ?rva003F15D1@Rva0020E89C@@QAE?AVUnicodeString@@XZ,0x003F15D1,callee of ?rva0057D746@AptMapPreview@@QAEXPAVRva0020E89C@@0@Z (REL32 at 0x0057D800 on the current region with a hidden UnicodeString return appended after its name and a newline); Ghidra FUN_007f15d1 454B EH; address name

@@ -280,7 +280,6 @@ extern TerrainLogic *TheTerrainLogic;
 struct NetworkObjectPrefix {char pad[0x88];AsciiString name;char pad8C[0xB8-0x8C];float radius,width;float getWidth()const{return width;}};
 class Rva00395A60 {public:float rva00395A60();};
 class CastleBehavior {public:static NameKeyType rva0003955DA();};
-class Rva002A9BF2 {public:void rva002A9D02(int,Object*,int);};
 // WorldBuilder placeNetworkBuildingsForPlayer, WB VA 0x00CFABB0 (strings lead, score 2.0).
 void placeNetworkBuildingsForPlayer(int slotNum,const GameSlot *slot,Player *player,const PlayerTemplate *pt) {
  int startPos=slot->startPos;
@@ -308,7 +307,7 @@ void placeNetworkBuildingsForPlayer(int slotNum,const GameSlot *slot,Player *pla
   if(castle)radius=reinterpret_cast<Rva00395A60*>(castle)->rva00395A60();
   AsciiString name;name.format("BASE_FLAG_%d",startPos+1);view->name=name;
   player->onStructureCreated(0,object);
-  reinterpret_cast<Rva002A9BF2*>(player)->rva002A9D02(0,object,0);
+  player->onStructureConstructionComplete(0,object,false);
   pos.y-=view->getWidth()/2.0f;
   pos.z=TheTerrainLogic->getGroundHeight(pos.x,pos.y,0);
  }

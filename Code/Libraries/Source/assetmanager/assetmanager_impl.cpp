@@ -597,10 +597,25 @@ extern void __cdecl Rva00030830FreeAllocation(void *);
 #include <vector>
 
 // Retail clears EH state before the opaque buffer release at 0x30830.
+// The allocator<unsigned> and proxy members are imported force-inline: every
+// use here is inlined, and without dllimport this unit also emitted its own
+// non-retail copies of them, the first ones in link order.
 namespace _STL {
-template <> __forceinline void allocator<unsigned int>::deallocate(unsigned int *p, size_t) const
+template <> __declspec(dllimport) __forceinline void allocator<unsigned int>::deallocate(unsigned int *p, size_t) const
 {
 	if (p != 0) Rva00030830FreeAllocation(p);
+}
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<unsigned int *, unsigned int, allocator<unsigned int> >::deallocate(unsigned int *__p, size_t __n)
+{ __stl_alloc_rebind(static_cast<allocator<unsigned int>&>(*this), (unsigned int *)0).deallocate(__p, __n); }
+template <> __declspec(dllimport) __forceinline
+unsigned int *_STLP_alloc_proxy<unsigned int *, unsigned int, allocator<unsigned int> >::allocate(size_t __n)
+{ return __stl_alloc_rebind(static_cast<allocator<unsigned int>&>(*this), (unsigned int *)0).allocate(__n, 0); }
+template <> __declspec(dllimport) __forceinline
+void vector<unsigned int, allocator<unsigned int> >::_M_clear()
+{
+	_Destroy(this->_M_start, this->_M_finish);
+	this->_M_end_of_storage.deallocate(this->_M_start, this->_M_end_of_storage._M_data - this->_M_start);
 }
 }
 

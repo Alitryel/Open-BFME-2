@@ -53959,7 +53959,7 @@ _Rva003B8B44CopyDispatch,,0x003B8B44,29,Code/Libraries/Source/WWVegas/WWLib/Stlp
 ?rva00578532@Rva005D25F2@@QAEPAXI@Z,,0x00578532,28,Code/GameEngine/Source/Common/Rva005D25F2Dtor.cpp,matched,native scalar cleanup28 at00578532; calls nonvirtual25F2 then delete if flags&1 and returns owner; separate from five native virtual slots; exact C++ flags-based teardown
 ?rva004D05D7@Rva004D05D7@@QAEXVUnicodeString@@@Z,,0x004D05D7,52,Code/GameEngine/Source/Common/Rva004D05D7Set.cpp,matched,unlock via rowed set plus releaseBuffer plus caller
 ??_GRva00510CC3@@QAEPAXI@Z,,0x00510CA7,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_Rva00510CC3.cpp,matched,scalar deleting dtor via family pattern rowed base dtor
-?rva002A9D02@Rva002A9BF2@@QAEXHPAVObject@@H@Z,,0x002A9D02,135,Code/GameEngine/Source/Common/RTS/Rva002A9BF2Get.cpp,matched,same 0x2DC window plus rowed callees and globals
+?onStructureConstructionComplete@Player@@QAEXPAVObject@@0_N@Z,,0x002A9D02,135,Code/GameEngine/Source/Common/RTS/Rva002A9BF2Get.cpp,matched,ZH Player::onStructureConstructionComplete sequence with m_ai at +0x2DC; formerly rva002A9D02; same 0x2DC window plus rowed callees and globals
 ??1Rva005E129B@@UAE@XZ,,0x005E129B,54,Code/GameEngine/Source/Common/Rva005E129B.cpp,matched,chain via 0x005E1246 base g_00BC6F20 derived caller 0x005E12D1
 ?rva003E6AA9@ScriptConditions@@IAE_NPAVParameter@@0@Z,,0x003E6AA9,174,Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptConditions_Rva003E6AA9.cpp,matched,ScriptConditions team bool via dispatcher 0x003EAE15 getTeamNamed flag mask loop
 ?rva00290DBB@Object@@QAEXPAVPlayer@@0@Z,,0x00290DBB,103,Code/GameEngine/Source/GameLogic/Object/ObjectRva00290DBB.cpp,matched,Object dual-dict plus 250-list self recursion unlocks 3 callers

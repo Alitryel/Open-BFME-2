@@ -31,7 +31,6 @@ class Rva002A9BF2
 public:
 	void *rva002A9BF2();
 	void rva002A9CCA(int val);
-	void rva002A9D02(int a1, Object *obj, int a3);
 };
 
 void *Rva002A9BF2::rva002A9BF2()
@@ -49,7 +48,7 @@ void Rva002A9BF2::rva002A9CCA(int val)
 		w->m_unk1C = val;
 }
 
-// ?rva002A9D02@Rva002A9BF2@@QAEXHPAVObject@@H@Z @0x002A9D02 135B: this+0x2DC GameWindow plus ScriptEngine/AI globals plus Object calls. Evidence: same 0x2DC as Rva002A9BF2 siblings; callees rowed 0x002039B6 0x002E718A 0x002E7178 0x0028D99A 0x0028BD17 0x0028DA67; globals TheScriptEngine TheAI g_bfmeWorldRV; callers 0x002411DF 0x00241E17 0x003954B9 0x0048AC99.
+// ?onStructureConstructionComplete@Player@@QAEXPAVObject@@0_N@Z @0x002A9D02 135B: ZH Player::onStructureConstructionComplete step for step (notify the script engine of object creation, remove then re-add the structure in the pathfind map, friend_adjustPowerForPlayer(TRUE), forward builder and structure to the player AI at +0x2DC slot 8, flag the control bar dirty); isRebuild is unread. Formerly rowed as the address-named view below. Evidence: same 0x2DC as Rva002A9BF2 siblings; callees rowed 0x002039B6 0x002E718A 0x002E7178 0x0028D99A 0x0028BD17 0x0028DA67; globals TheScriptEngine TheAI g_bfmeWorldRV; callers 0x002411DF 0x00241E17 0x003954B9 0x0048AC99.
 class Rva002039B6Host
 {
 public:
@@ -114,18 +113,28 @@ public:
 	virtual void w3(int a1);
 };
 
-void Rva002A9BF2::rva002A9D02(int a1, Object *obj, int a3)
+class Player
 {
+	char _pad[0x2DC];
+	GameWindow *m_ai;	// +0x2DC
+public:
+	void onStructureConstructionComplete(Object *builder, Object *structure, bool isRebuild);
+};
+
+void Player::onStructureConstructionComplete(Object *builder, Object *structure, bool isRebuild)
+{
+	int a1 = (int)builder;
+	Object *obj = structure;
 	((Rva002039B6Host *)TheScriptEngine)->rva002039B6();
 	TheAI->m_shim->RemoveObjectFromPathfindMap(obj);
 	TheAI->m_shim->AddObjectToPathfindMap(obj);
 	obj->friend_adjustPowerForPlayer(true);
-	if (m_window)
-		((GameWindowVirt *)m_window)->v8(a1, obj);
+	if (m_ai)
+		((GameWindowVirt *)m_ai)->v8(a1, obj);
 	if ((*(BfmeWorldRV **)&TheControlBar))
 		(*(BfmeWorldRV **)&TheControlBar)->m_28 = 1;
 	if (obj->rva0028BD17())
 		((SecondVirt *)obj->rva0028BD17())->w3(a1);
 	obj->rva0028DA67();
-	(void)a3;
+	(void)isRebuild;
 }
