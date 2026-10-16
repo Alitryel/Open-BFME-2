@@ -1,5 +1,5 @@
 // cl: /MD
-// ??1Rva005F1CE8@@UAE@XZ @0x005F1CE8 14B: virtual dtor sets vtable g_00C79138 then tail-jmps to rowed holder clear 0x005F1B90.
+// ??1RegionDetailsTerritoryMovieClip@StrategicHUD@@UAE@XZ @0x005F1CE8 14B (was Rva005F1CE8): virtual dtor sets vtable g_00C79138 then tail-jmps to rowed holder clear 0x005F1B90.
 // Evidence: vtable store plus add ecx 4 plus jmp to rowed 0x005F1B90; caller deleting dtor 0x005F1D2B plus thunk 0x005E3585.
 class Rva005F1B90
 {
@@ -9,15 +9,20 @@ private:
 	void *m_00;
 };
 extern const void *const g_00C79138[];
-class Rva005F1CE8
+// Vtable 0x00C79138 is the one RegionDetailsTerritoryMovieClip's ctor
+// 0x005F207C stores, so this is that clip's destructor; its +4 member is the
+// ctor's Impl holder.
+namespace StrategicHUD {
+class RegionDetailsTerritoryMovieClip
 {
 public:
-	__declspec(noinline) virtual ~Rva005F1CE8();
+	__declspec(noinline) virtual ~RegionDetailsTerritoryMovieClip();
 private:
 	Rva005F1B90 m_04;
 };
+}
 
-Rva005F1CE8::~Rva005F1CE8()
+StrategicHUD::RegionDetailsTerritoryMovieClip::~RegionDetailsTerritoryMovieClip()
 {
 	m_04.rva005F1B90();
 }
@@ -27,5 +32,5 @@ Rva005F1CE8::~Rva005F1CE8()
 class Rva005E3585 { public: ~Rva005E3585(); };
 Rva005E3585::~Rva005E3585()
 {
-    reinterpret_cast<Rva005F1CE8 *>(this)->Rva005F1CE8::~Rva005F1CE8();
+    reinterpret_cast<StrategicHUD::RegionDetailsTerritoryMovieClip *>(this)->StrategicHUD::RegionDetailsTerritoryMovieClip::~RegionDetailsTerritoryMovieClip();
 }
