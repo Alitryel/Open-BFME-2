@@ -28,7 +28,11 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "PreRTS.h"
 
 #include <vector>
-template unsigned int * _STL::allocator<unsigned int>::allocate(unsigned int, const void *) const;
+// 0x00142CA0 is a 31-byte /O2 allocate for a 4-byte element whose type is unknown:
+// no code or data in game.dat references it. It is not allocator<unsigned int>::allocate,
+// which retail's _M_bit_alloc (0x00069F75) calls at the folded 0x00068E15.
+struct Rva00142CA0Element { unsigned int value; };
+template Rva00142CA0Element * _STL::allocator<Rva00142CA0Element>::allocate(unsigned int, const void *) const;
 
 extern void (_STL::_Bit_iterator_base::*const g_bumpDown)();
 void (_STL::_Bit_iterator_base::*const g_bumpDown)() = &_STL::_Bit_iterator_base::_M_bump_down;
