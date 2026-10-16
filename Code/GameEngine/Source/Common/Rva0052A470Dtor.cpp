@@ -52,7 +52,10 @@ Rva0052A470::~Rva0052A470()
 
 namespace AptUtils { AsciiString DotPath2SlashPath(const char *); }
 class AptPlayer { public: void RemoveOverButtonHandler(const AsciiString &); };
-extern "C" AptPlayer *g_pRva00224BC9;
+// Global 0x009FE4CC (the window manager registered as "TheAptPlayer"),
+// read here through its AptPlayer view.
+class BfmeAptWindowManager;
+extern BfmeAptWindowManager *g_bfmeAptWindowManager;
 
 // Retail 0x0052A66A..0x0052A765 reads the same +8 name owned by
 // this class's destructor. Original method and owner identities are unknown.
@@ -62,7 +65,7 @@ void Rva0052A470::rva0052A66A()
     {
         m_at0C = false;
         rva0052A4B5();
-        if (g_pRva00224BC9)
+        if (g_bfmeAptWindowManager)
         {
             AsciiString prefix;
             prefix.format("Palantir/%s/Spell%%d/", AptUtils::DotPath2SlashPath(m_08.str()).str());
@@ -72,7 +75,7 @@ void Rva0052A470::rva0052A66A()
                 const char *format = prefix.str();
                 ++i;
                 path.format(format, i);
-                g_pRva00224BC9->RemoveOverButtonHandler(path);
+                ((AptPlayer *)g_bfmeAptWindowManager)->RemoveOverButtonHandler(path);
             }
         }
         m_08.clear();
