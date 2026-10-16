@@ -70,3 +70,19 @@ Rva000427195 &Rva000427195::operator=(const Rva000427195 &other)
 	}
 	return *this;
 }
+
+// ??1Rva002CFF2D@@QAE@XZ @0x002CFF2D 57B: byte-identical to ~Rva000427195 above except its own
+// EH handler (formerly matched as the alias dup_002cff2d); ThingFactoryDtor.cpp calls it by this
+// name. Same layout; the clear is the same rowed 0x003A2A41 body.
+struct Rva002CFF2D
+{
+	~Rva002CFF2D();
+	void *m_unused00;
+	Rva000427195BucketHandle m_buckets;
+	unsigned int m_numElements;
+};
+
+Rva002CFF2D::~Rva002CFF2D()
+{
+	((Rva000427195 *)this)->rva003A2A41();
+}

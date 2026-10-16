@@ -66,3 +66,22 @@ Rva0073F708::Rva0073F708(void *a1, int priority)
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?v1@Rva0073F778@@UAE_NXZ=?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")
+
+// ??0Rva000A8893Worker@@QAE@PAXH@Z @0x000A8893 112B: byte-identical to Rva0073F708's constructor
+// above except its own EH handler (formerly matched as the alias dup_000a8893); Rva00A897DDtor.cpp
+// constructs it by this name. Same members: owner pointer, thread holder and event.
+class Rva000A8893Worker
+{
+public:
+	Rva000A8893Worker(void *a1, int priority);
+private:
+	void *m_a1;
+	Rva000A880F m_thread;
+	Rva0040F9D m_event;
+};
+
+Rva000A8893Worker::Rva000A8893Worker(void *a1, int priority)
+	: m_a1(a1), m_thread(new Rva0073F778), m_event(1, 0, 0, 0)
+{
+	m_thread.get()->rva0073F778(Rva0073F6FCCb, this, 1, 0, priority, 0);
+}

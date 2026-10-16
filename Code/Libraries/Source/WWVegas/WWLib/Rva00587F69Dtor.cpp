@@ -26,3 +26,21 @@ Rva00587F69::~Rva00587F69()
 	if (m_08)
 		free(m_08);
 }
+
+// ??1HordeMeleeSwarm@@UAE@XZ @0x00584502 59B: byte-identical to ~Rva00587F69 above except its
+// own EH handler (formerly matched as the alias dup_00584502). Rva005843DACtor.cpp holds the
+// full view (Rva005D6FCC base, vector<Rva00583CE0Elem> at +8); this destructor needs only the
+// +8 storage pointer the vector frees, so the view here keeps that layout.
+class __declspec(novtable) HordeMeleeSwarm : public Rva005D6FCC
+{
+public:
+	virtual ~HordeMeleeSwarm();
+private:
+	char *m_08;
+};
+
+HordeMeleeSwarm::~HordeMeleeSwarm()
+{
+	if (m_08)
+		free(m_08);
+}
