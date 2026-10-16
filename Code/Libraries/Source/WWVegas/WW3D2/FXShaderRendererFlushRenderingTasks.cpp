@@ -36,13 +36,16 @@ unsigned Rva001736A7Compare(const Rva0017368ATask &a, const Rva0017368ATask &b)
 // worker's existing address-derived two-word declaration is retained;
 // WB names that worker FXShaderRenderer::PerformRendering. No original
 // name or complete renderer layout is claimed for this receiver view.
-void rva00174870(int, int, int);
+// 0x00174870 is rowed as the STLport sort over these 32-byte records with a
+// function-pointer comparator; declared only, so the call keeps that name.
 class Rva0017438B {public:void rva0017438B(int,int);};
 struct BfmeAssignRecord32 {char unknown[32];};
 namespace _STL {
 template<class T>class allocator {};
 template<class T,class A>class vector {public:T*erase(T*,T*);};
+template<class It,class Cmp> void sort(It first,It last,Cmp comp);
 }
+typedef bool (*BfmeAssignRecord32Less)(const BfmeAssignRecord32 &,const BfmeAssignRecord32 &);
 class Rva001748B3 {
 public:void rva001748B3();
 private:int start,finish,limit;
@@ -51,7 +54,7 @@ private:int start,finish,limit;
 void Rva001748B3::rva001748B3()
 {
     if(start==finish)return;
-    rva00174870(start,finish,(int)&Rva0017368ACompare);
+    _STL::sort((BfmeAssignRecord32*)start,(BfmeAssignRecord32*)finish,(BfmeAssignRecord32Less)&Rva0017368ACompare);
     ((Rva0017438B*)this)->rva0017438B(start,finish);
     ((_STL::vector<BfmeAssignRecord32,_STL::allocator<BfmeAssignRecord32> >*)this)->erase((BfmeAssignRecord32*)start,(BfmeAssignRecord32*)finish);
 }

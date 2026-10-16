@@ -13,15 +13,16 @@ public:
 
 void bfmeDropVGO(void *p);
 
-class Gen_008AC620
+// The base dtor this chains to (0x006ED150) is rowed as Rva006ED150's.
+class Rva006ED150
 {
 public:
-	virtual ~Gen_008AC620();
+	virtual ~Rva006ED150();
 };
 
 class Rva006DB270 { public: void freeBlock(void *, int); };
 extern Rva006DB270 *g_pChainBlockAllocator;
-class Rva008A2C80 : public Gen_008AC620
+class Rva008A2C80 : public Rva006ED150
 {
 public:
 	virtual ~Rva008A2C80();
