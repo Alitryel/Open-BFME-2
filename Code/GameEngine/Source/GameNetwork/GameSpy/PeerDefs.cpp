@@ -1714,3 +1714,9 @@ PlayerInfoMap::iterator Rva003839D9::rva003839D9(const AsciiString &key)
 {
 	return m_map.lower_bound(key);
 }
+
+// 0x00384E89, 5 bytes: map<Int, AsciiString>::erase(const key_type&), the
+// STLport forwarder `return _M_t.erase(x);` as a tail jump to the rowed tree
+// erase 0x00383F53. savedIgnoreMap erase above inlines it; retail keeps this
+// unreferenced out-of-line copy right after the 0x00384E77 map assign.
+template SavedIgnoreMap::size_type SavedIgnoreMap::erase(const Int &);
