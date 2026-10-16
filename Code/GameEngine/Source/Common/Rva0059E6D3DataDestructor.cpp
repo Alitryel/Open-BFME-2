@@ -1,4 +1,4 @@
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ??1Rva0059E6D3Data@@UAE@XZ, retail 0x0059E5AE..0x0059E647 (153 bytes, EH);
@@ -9,12 +9,9 @@
 // and the string at +0x28 (and the two buffers). Class name address-derived;
 // the two pointer vectors are 4-byte POD stand-ins.
 #include <stdlib.h>
-// Retail releases container buffers through the throwing allocation releaser,
-// which preserves the native unwind states (as in AptCreateAHeroPowers.cpp).
-void Rva00030830FreeAllocation(void *);
-#define free Rva00030830FreeAllocation
+// Retail releases container buffers through free with the native unwind
+// states around the call: /EHs treats the extern "C" free as throwing.
 #include <vector>
-#undef free
 #include "ascii_string.h"
 // bfme link decl-only begin
 namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
