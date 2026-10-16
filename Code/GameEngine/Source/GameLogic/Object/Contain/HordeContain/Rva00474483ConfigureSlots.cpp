@@ -79,17 +79,10 @@ struct Rva00541021 { int m_field0; char m_rest[0x18]; };
 // 8-byte conditional descriptor returned by the rowed 46247D pair out-copy twin.
 #include "../../../../../Include/GameLogic/ContainmentListView.h"
 class Rva0046247DDescriptor { public: Rva0036AE51ListView rva0046247D(); };
-// Native 4746E5/474713: the returned conditional descriptor is a GUARDED
+// Native 4746E5/474713: the returned conditional descriptor is a guarded
 // temporary - retail writes the constructed flag ([ebp-0x18] |= 1 before the
-// call, test/clear after the full condition) and keeps a spare frame slot for
-// it. The layout-only canonical view is trivial, so the guard the bytes prove
-// is carried by this empty-bodied temporary in the same full expression.
-struct Rva00474519CondGuard {
- // ?Rva00474519CondGuard::Rva00474519CondGuard present-unmatched
- __forceinline Rva00474519CondGuard() {}
- // ?Rva00474519CondGuard::~Rva00474519CondGuard present-unmatched
- __forceinline ~Rva00474519CondGuard() {}
-};
+// call, test/clear after the full condition); the view's empty destructor
+// (ContainmentListView.h) gives it.
 // 12-byte rank->first-record map view. Native 474597/4745D6 construct and
 // subscript it through the rowed tree members; the 47482C destruction is the
 // rowed 0022C612 container destructor (clear 0022999F, header free 00030830).
@@ -156,7 +149,7 @@ void Rva00474431::rva00474519(int arg)
    else record.partner=-1;
    recordList.push_back(*(const Rva00064640Record*)&record);
    }
-   if(arg || ((Rva00474519CondGuard(), ((const _STL::list<void*> *)((Rva0046247DDescriptor *)this)->rva0046247D().b)->empty()) && field174==0)) {
+   if(arg || (((const _STL::list<void*> *)((Rva0046247DDescriptor *)this)->rva0046247D().b)->empty() && field174==0)) {
     _STL::map<int,int>::iterator it=occupied.begin();
     for(;it!=occupied.end();++it) if(it->second==recordList.size()-1) break;
     if(it==occupied.end()) available.push_back(recordList.size()-1);
