@@ -1,7 +1,5 @@
 // ?Load@AptLinker@@QAEXABVEAStringC@@V2@@Z
-// partial score=0.906 date=2026-10-15
-// ?Load@AptLinker@@QAEXABVEAStringC@@V2@@Z
-// partial score=0.6 date=2026-10-13
+// partial score=0.955 date=2026-10-16
 // AptLinker::Load, retail 0x006D1F80 (1525B, RET8).
 // Target evidence: assert strings name AptLoad.cpp line 0x262
 // "(*i)->GetTarget() != (*j)->GetTarget()" and the inlined AptCIH.h:0x7D
@@ -62,8 +60,8 @@ public:
 	Rva006D07E0Key(const class BfmeRefVGO &o);
 	~Rva006D07E0Key()
 	{
-		Rva006D0280 *p = m_object;
-		if (p && dec(&p->m_useCount) == 0) {
+		if (m_object && dec(&m_object->m_useCount) == 0) {
+			Rva006D0280 *p = m_object;
 			p->~Rva006D0280();
 			g_pChainBlockAllocator->freeBlock(p, 0x1c);
 		}
@@ -100,6 +98,20 @@ public:
 		}
 		return cur;
 	}
+	__forceinline BfmeRefVGO &operator=(const Rva006D07E0Key &o)
+	{
+		if ((const void *)&o != this) {
+			if (m_object && dec(&m_object->m_useCount) == 0) {
+				Rva006D0280 *p = m_object;
+				p->~Rva006D0280();
+				g_pChainBlockAllocator->freeBlock(p, 0x1c);
+			}
+			m_object = o.m_object;
+			if (m_object)
+				++m_object->m_useCount;
+		}
+		return *this;
+	}
 	BfmeRefVGO &bfmeAssignVGO(const BfmeRefVGO &);
 	Rva006D0280 *m_object;
 };
@@ -126,8 +138,8 @@ public:
 	BfmeHolderDB(const BfmeHolderDB &o) : m_object(o.m_object) { if (m_object) ++m_object->m_useCount; }
 	~BfmeHolderDB()
 	{
-		Rva006D0280 *p = m_object;
-		if (p && dec(&p->m_useCount) == 0) {
+		if (m_object && dec(&m_object->m_useCount) == 0) {
+			Rva006D0280 *p = m_object;
 			p->~Rva006D0280();
 			g_pChainBlockAllocator->freeBlock(p, 0x1c);
 		}
@@ -159,12 +171,15 @@ public:
 	Rva006D07E0Key key;
 	void *target;
 	bool flag;
+	__forceinline void *GetTarget() const { return target; }
 };
 
 class Rva006D0790Ref
 {
 public:
 	Rva006D0790Ref(Rva006D0790 *p) : ptr(p) { if (p) ++p->count; }
+	Rva006D0790Ref(const Rva006D0790Ref &o) : ptr(o.ptr) { if (ptr) ++ptr->count; }
+	__forceinline Rva006D0790 *operator->() const { return ptr; }
 	~Rva006D0790Ref()
 	{
 		Rva006D0790 *p = ptr;
@@ -183,10 +198,29 @@ public:
 	Rva006D0790 *ptr;
 };
 
-class BfmeNodeVMU { public: Rva006D0790 *entry; BfmeNodeVMU *next; };
+class BfmeNodeVMU { public: Rva006D0790Ref entry; BfmeNodeVMU *next; };
 class BfmeListVMU { public: void bfmeEraseVMU(BfmeNodeVMU **); BfmeNodeVMU *head; };
-class Rva006D15B0Stack { public: void rva006D15B0(int *const *); };
-class Rva006D1450 { public: void intern(Rva006D07E0Key); };
+struct Rva006D15B0Node
+{
+	Rva006D15B0Node(int *const *handle)
+	{
+		m_count = *handle;
+		if (m_count != 0)
+			++*m_count;
+		m_next = 0;
+	}
+	static void *operator new(unsigned int size) { return (*(Rva006DB160 **)&g_pChainBlockAllocator)->allocBlock((int)size); }
+	static void operator delete(void *, unsigned int) {}
+	int *m_count;
+	Rva006D15B0Node *m_next;
+};
+class Rva006D15B0Stack { public: void rva006D15B0(int *const *); Rva006D15B0Node *m_head; };
+__declspec(noinline) inline void Rva006D15B0Stack::rva006D15B0(int *const *handle)
+{
+	Rva006D15B0Node *node = new Rva006D15B0Node(handle);
+	node->m_next = m_head;
+	m_head = node;
+}
 
 class AptValue { public: void setIsDefined(bool); };
 class AptActionInterpreter
@@ -201,7 +235,7 @@ class BfmeAptValue006DCD20
 {
 	friend class AptLinker;
 public:
-	int isCIH(bool) const;
+	bool isCIH(bool) const;
 	BfmeAptValue006DCD20 *rva006DCF60(bool);
 	void setGCRootCount(unsigned);
 private:
@@ -210,10 +244,11 @@ private:
 
 class AptNativeHash { public: void Set(const EAStringC *const, AptValue *const); };
 class AptDisplayList { public: void bfmeProcess1279(void *); };
+class AptCIH;
 class BfmeSubmitter1283
 {
 public:
-	void bfmeSubmit1283(int, int, int, int, int, int, int, float *, int, int, int, int);
+	void *bfmeSubmit1283(AptCIH *, int, int, int, int, int, int, float *, int, int, int, int);
 };
 class Rva006CFCD0 { public: bool isSpriteInstBase() const; };
 class BfmeNestedBE;
@@ -264,7 +299,7 @@ public:
 	unsigned m_flags5c : 18;
 	unsigned m_kind : 2;
 	unsigned m_rest5c : 12;
-	void rva006E2690(int);
+	void ClearCIH(int);
 	__forceinline void relink()
 	{
 		if (m_prev)
@@ -287,12 +322,25 @@ class AptLinker
 {
 public:
 	void rva006D17F0();
+	void rva006D1450(Rva006D07E0Key);
 	void Load(const EAStringC &file, EAStringC target);
 private:
+	struct Iter
+	{
+		BfmeNodeVMU *node;
+		__forceinline Iter(BfmeNodeVMU *n) : node(n) {}
+	};
+	__forceinline Iter findIter(void *target)
+	{
+		for (BfmeNodeVMU *node = m_head; node; node = node->next)
+			if (node->entry.ptr->target == target)
+				return Iter(node);
+		return Iter(0);
+	}
 	__forceinline BfmeNodeVMU *find(void *target)
 	{
 		for (BfmeNodeVMU *node = m_head; node; node = node->next)
-			if (node->entry->target == target)
+			if (node->entry.ptr->target == target)
 				return node;
 		return 0;
 	}
@@ -307,7 +355,7 @@ private:
 void AptLinker::Load(const EAStringC &file, EAStringC target)
 {
 	AptValue *value = g_aptDateInterpreter.getVariable((AptValue *)_AptGetAnimationAtLevel(0), 0, &target, 1, 1, 0);
-	if (!value || !(unsigned char)((BfmeAptValue006DCD20 *)value)->isCIH(false)) {
+	if (!value || !((BfmeAptValue006DCD20 *)value)->isCIH(false)) {
 		Rva006CC110Log(4, "target ('%s') for '%s' is undefined; not loading\n", target.rva00620090(), file.rva00620090());
 		return;
 	}
@@ -315,26 +363,25 @@ void AptLinker::Load(const EAStringC &file, EAStringC target)
 	for (BfmeNodeVMU *i = m_head; i; i = i->next)
 		for (BfmeNodeVMU *j = m_head; j; j = j->next)
 			if (i != j)
-				CHECK(i->entry->target != j->entry->target, "(*i)->GetTarget() != (*j)->GetTarget()", APTLOAD_CPP, 0x262);
+				CHECK(i->entry->GetTarget() != j->entry->GetTarget(), "(*i)->GetTarget() != (*j)->GetTarget()", APTLOAD_CPP, 0x262);
 
-	Rva006D0280 *special = 0;
-	BfmeRefVGO loaded(special);
+	BfmeRefVGO loaded(0);
 	if (!file.isEmpty()) {
-		special = loaded.assign(((Rva006D0A30List *)g_rva00893030Manager)->findSpecial(&file), special);
-		if (!special)
+		loaded = ((Rva006D0A30List *)g_rva00893030Manager)->findSpecial(&file);
+		if (!loaded.m_object)
 			loaded.bfmeAssignVGO((const BfmeRefVGO &)((Rva006D0A30List *)g_rva00893030Manager)->rva006D0B40(file));
 		else
-			((Rva006D1450 *)this)->intern(Rva006D07E0Key(special));
+			rva006D1450(Rva006D07E0Key(loaded));
 	}
 
 	AptCIH *cih = (AptCIH *)((BfmeAptValue006DCD20 *)value)->rva006DCF60(false);
-	cih->rva006E2690(1);
+	cih->ClearCIH(1);
 	if (cih->m_kind == 1) {
-		BfmeNodeVMU *it = find(cih);
-		Rva006D0790Ref link(it->entry);
+		Iter it = findIter(cih);
+		Rva006D0790Ref link(it.node->entry);
 		Rva006D0280 *owner = ((Gen_00895650 *)link.ptr)->bfmeGet().m_object;
 		if (owner->typeC != 5) {
-			((BfmeListVMU *)this)->bfmeEraseVMU(&it);
+			((BfmeListVMU *)this)->bfmeEraseVMU(&it.node);
 			owner->typeC = 5;
 		}
 
@@ -349,7 +396,7 @@ void AptLinker::Load(const EAStringC &file, EAStringC target)
 			copy->relink();
 			cih->destroy();
 			((BfmeSubmitter1283 *)&copy->m_parent->getSpriteInst()->m_displayList)->bfmeSubmit1283(
-				(int)copy, copy->m_depth, 0, (int)&copy->m_name, (int)copy->m_parent, 1, -1,
+				copy, copy->m_depth, 0, (int)&copy->m_name, (int)copy->m_parent, 1, -1,
 				(float *)&copy->m_24, (int)&copy->m_c, 0, 0, 0);
 			((AptValue *)cih)->setIsDefined(true);
 			copy->m_parent->release();

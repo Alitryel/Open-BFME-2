@@ -9,7 +9,8 @@
 // through pinned rva00057B74, then rva0005BE59 with (slot, g_00BBB9AC -1.0f,
 // TheEmptyString at 0xDE0878). The g_ spellings mirror the landed TUs that
 // verified them. Address-derived names; identities unproven.
-class Rva00057B74
+// The +0x1B8 member is the rowed tree-clear owner Rva00056CF8 (0x00057B74).
+class Rva00056CF8
 {
 public:
 	void rva00057B74();
@@ -20,7 +21,7 @@ private:
 struct Rva0005CAElem
 {
 	char m_pad00[0x1B8];
-	Rva00057B74 m_sub1B8;
+	Rva00056CF8 m_sub1B8;
 	char m_pad1BC[0x1C4 - 0x1B8 - 4];
 };
 
