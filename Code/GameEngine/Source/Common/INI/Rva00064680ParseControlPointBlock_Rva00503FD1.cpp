@@ -44,11 +44,15 @@ public:
 extern const FieldParse Rva00064680FieldParseTable[];
 extern const Real Rva00064680NegativeScale;
 
-// Retail 0x00064020 (31 bytes): the rescale as its own file static; the parser
-// inlines it, but VC7.1 still emits a copy that takes the value in EAX.
-static unsigned int rva00064020Rescale( unsigned int value )
+// Retail 0x00503E4F (39 bytes): the millisecond-to-frame rescale as its own
+// file static (value * frames-per-second global 0x00DBA4E8 * 0.001, then
+// _ftol2). It takes the value in EAX, the private convention cl 7.1 picks
+// for a file static; identical copies in the 0x003FD1xx constructor units
+// were ICF-folded onto this one.
+extern int BfmeClientFramesPerSecond;
+static unsigned int msecToFramesRva00503E4F( unsigned int value )
 {
-	return (unsigned int)( value * Rva00064680NegativeScale );
+	return (unsigned int)( (Real)BfmeClientFramesPerSecond * (Real)value * 0.001f );
 }
 
 typedef void ( *Rva00064680Callback )( void *instance, Rva00064390 *record );
@@ -66,7 +70,7 @@ void Rva00064680::parseControlPointBlock( INI *ini, void *instance, void *, cons
 	{
 		Rva00064390 record;
 		ini->initFromINI( &record, Rva00064680FieldParseTable );
-		record.m_18 = rva00064020Rescale( record.m_18 );
+		record.m_18 = msecToFramesRva00503E4F( record.m_18 );
 		Rva00064680Callback callback = (Rva00064680Callback)userData;
 		if( callback )
 			callback( instance, &record );
