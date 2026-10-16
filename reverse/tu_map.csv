@@ -20989,13 +20989,13 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x002DACF4,37,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,S,S=Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp N=Code/GameEngine/Source/GameClient/Terrain/TerrainRoadType.cpp,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
 0x002DAD19,52,code-unledgered,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DACF4..0x002DAD4D,
 0x002DAD4D,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,S,S=Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp N=Code/GameEngine/Source/GameClient/Terrain/TerrainRoadType.cpp,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
-0x002DAD81,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DADB5,Code/Libraries/Source/WWVegas/WWLib/Rva002DAD81Set.cpp
-0x002DADB5,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DADE9,Code/Libraries/Source/WWVegas/WWLib/Rva002DADB5Set.cpp
-0x002DADE9,52,code-unledgered,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DAE1D,
-0x002DAE1D,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DAE51,Code/Libraries/Source/WWVegas/WWLib/Rva002DAE1DSet.cpp
-0x002DAE51,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DAE85,Code/Libraries/Source/WWVegas/WWLib/Rva002DAE51Set.cpp
-0x002DAE85,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DAEB9,Code/GameEngine/Source/Common/StringSetterByValueRva002DAE85.cpp
-0x002DAEB9,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DAEED,Code/Libraries/Source/WWVegas/WWLib/Rva002DAEB9Set.cpp
+0x002DAD81,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DADB5,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
+0x002DADB5,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DADE9,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
+0x002DADE9,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DAE1D,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
+0x002DAE1D,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DAE51,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
+0x002DAE51,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DAE85,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
+0x002DAE85,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DAEB9,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
+0x002DAEB9,52,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DAD4D..0x002DAEED,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
 0x002DAEED,62,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,S,S=Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp N=Code/GameEngine/Source/GameClient/Terrain/TerrainRoadType.cpp,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
 0x002DAF2B,65,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,S,S=Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp N=Code/GameEngine/Source/GameClient/Terrain/TerrainRoadType.cpp,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
 0x002DAF6C,64,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,S,S=Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp N=Code/GameEngine/Source/GameClient/Terrain/TerrainRoadType.cpp,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
@@ -21004,8 +21004,8 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x002DB0DB,238,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp S=Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp N=Code/GameEngine/Source/GameClient/Terrain/TerrainRoadType.cpp,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
 0x002DB1CA,327,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp S=Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp N=Code/GameEngine/Source/Common/TerrainRoadType.cpp,Code/GameEngine/Source/Common/Rva002DB311Ctor.cpp
 0x002DB311,318,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,Z,Z=Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp S=Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp N=Code/GameEngine/Source/Common/TerrainRoadType.cpp,Code/GameEngine/Source/Common/Rva002DB311Dtor.cpp
-0x002DB44F,20,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DB311..0x002DB463,Code/GameEngine/Source/Common/Rva002DB44FSetter.cpp
-0x002DB463,23,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DB311..0x002DB496,Code/GameEngine/Source/Common/Rva002DB44FSetter.cpp
+0x002DB44F,20,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DB311..0x002DB463,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
+0x002DB463,23,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DB311..0x002DB496,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp
 0x002DB47A,28,code,,displaced,-,N=Code/GameEngine/Source/Common/TerrainRoadType.cpp,Code/GameEngine/Source/Common/Rva002DB311Dtor.cpp
 0x002DB496,68,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DB311..0x002DB4DA,Code/GameEngine/Source/Common/Rva002DB496Finish.cpp
 0x002DB4DA,68,code,Code/GameEngine/Source/GameClient/Terrain/TerrainRoads.cpp,approved,C,C=0x002DB311..0x002DB51E,Code/GameEngine/Source/Common/Rva002DB4DAFinish.cpp

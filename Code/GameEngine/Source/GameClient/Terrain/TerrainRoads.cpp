@@ -97,6 +97,15 @@ public:
 	~INIException();
 };
 
+// BFME 2 keeps the bridge sound slots as 4-byte reference records assigned
+// through the rowed operator= 0x00239099 (the audio-token parser fills them).
+struct OpaqueRefElement4
+{
+	struct OpaqueRefCounted *referent;
+	~OpaqueRefElement4();
+	OpaqueRefElement4 &operator=(const OpaqueRefElement4 &other);
+};
+
 // BFME 2 layout: the road allocation/INI paths establish name +4, bridge +8,
 // ID +0xC, next +0x10, widths +0x14/+0x18 and texture +0x38. Other prefix
 // fields remain opaque. Existing transition-table accessor offsets are retained.
@@ -112,6 +121,15 @@ public:
     void friend_setNext(TerrainRoadType *next) { m_next = next; }
     void friend_setRoadWidth(float width) { m_roadWidth = width; }
     void friend_setRoadWidthInTexture(float width) { m_roadWidthInTexture = width; }
+    void friend_setBridgeModelName(AsciiString name);
+    void friend_setBridgeModelNameDamaged(AsciiString name);
+    void friend_setBridgeModelNameReallyDamaged(AsciiString name);
+    void friend_setBridgeModelNameBroken(AsciiString name);
+    void friend_setTextureDamaged(AsciiString texture);
+    void friend_setTextureReallyDamaged(AsciiString texture);
+    void friend_setTextureBroken(AsciiString texture);
+    void friend_setDamageToSoundString(BodyDamageType state, const OpaqueRefElement4 &sound);
+    void friend_setRepairedToSoundString(BodyDamageType state, const OpaqueRefElement4 &sound);
     const AsciiString &getName() const { return m_name; }
     TerrainRoadType *friend_getNext() { return m_next; }
     const AsciiString &getTexture() const { return m_texture; }
@@ -137,9 +155,19 @@ protected:
 	TerrainRoadType *m_next;                     ///< 0x10
 	float m_roadWidth;                           ///< 0x14
 	float m_roadWidthInTexture;                  ///< 0x18
-	char m_unrecovered1C[0x1C];
+	float m_bridgeScale;                        ///< 0x1C
+	AsciiString m_scaffoldObjectName;           ///< 0x20
+	AsciiString m_scaffoldSupportObjectName;    ///< 0x24
+	float m_radarColor[3];                      ///< 0x28
+	AsciiString m_bridgeModelName;              ///< 0x34
 	AsciiString m_texture;                      ///< 0x38
-	char m_unrecovered3C[0x28];
+	AsciiString m_bridgeModelNameDamaged;       ///< 0x3C
+	AsciiString m_textureDamaged;               ///< 0x40
+	AsciiString m_bridgeModelNameReallyDamaged; ///< 0x44
+	AsciiString m_textureReallyDamaged;         ///< 0x48
+	AsciiString m_bridgeModelNameBroken;        ///< 0x4C
+	AsciiString m_textureBroken;                ///< 0x50
+	AsciiString m_towerObjectName[4];           ///< 0x54
 	AsciiString m_damageToSoundString[ BODYDAMAGETYPE_COUNT ];								///< 0x64
 	AsciiString m_damageToOCLString[ BODYDAMAGETYPE_COUNT ][ MAX_BRIDGE_BODY_FX ];		///< 0x74
 	AsciiString m_damageToFXString[ BODYDAMAGETYPE_COUNT ][ MAX_BRIDGE_BODY_FX ];		///< 0xA4
@@ -207,6 +235,52 @@ void TerrainRoadType::friend_setTexture(AsciiString texture)
     slot = texture;
 }
 
+// The seven by-value bridge name/texture setters follow at 0x002DAD81..
+// 0x002DAEB9, 52 bytes each, in Zero Hour's declaration order; each stores the
+// field the bridge parse table names at its offset, and newBridge 0x002DB64E
+// calls them in that order with the default bridge's values.
+void TerrainRoadType::friend_setBridgeModelName(AsciiString name)
+{
+    AsciiString &slot = m_bridgeModelName;
+    slot = name;
+}
+
+void TerrainRoadType::friend_setBridgeModelNameDamaged(AsciiString name)
+{
+    AsciiString &slot = m_bridgeModelNameDamaged;
+    slot = name;
+}
+
+void TerrainRoadType::friend_setBridgeModelNameReallyDamaged(AsciiString name)
+{
+    AsciiString &slot = m_bridgeModelNameReallyDamaged;
+    slot = name;
+}
+
+void TerrainRoadType::friend_setBridgeModelNameBroken(AsciiString name)
+{
+    AsciiString &slot = m_bridgeModelNameBroken;
+    slot = name;
+}
+
+void TerrainRoadType::friend_setTextureDamaged(AsciiString texture)
+{
+    AsciiString &slot = m_textureDamaged;
+    slot = texture;
+}
+
+void TerrainRoadType::friend_setTextureReallyDamaged(AsciiString texture)
+{
+    AsciiString &slot = m_textureReallyDamaged;
+    slot = texture;
+}
+
+void TerrainRoadType::friend_setTextureBroken(AsciiString texture)
+{
+    AsciiString &slot = m_textureBroken;
+    slot = texture;
+}
+
 // Select-any like every other TU's copy (a strong definition would duplicate theirs at link time);
 // the anchor keeps the noinline body emitted.
 __declspec(noinline) inline AsciiString TerrainRoadType::getDamageToOCLString( BodyDamageType state, Int index )
@@ -238,6 +312,19 @@ void TerrainRoadType::friend_setRepairedToOCLString( BodyDamageType state, Int i
 void TerrainRoadType::friend_setRepairedToFXString( BodyDamageType state, Int index, AsciiString str )
 {
 	m_repairedToFXString[ state ][ index ] = str;
+}
+
+// 0x002DB44F / 0x002DB463: Zero Hour's inline sound-string setters, out of
+// line in BFME 2 over the 4-byte sound records at +0x64 and +0xD4 (newBridge
+// 0x002DB7B8 / 0x002DB7C3).
+void TerrainRoadType::friend_setDamageToSoundString( BodyDamageType state, const OpaqueRefElement4 &sound )
+{
+	((OpaqueRefElement4 *)m_damageToSoundString)[ state ] = sound;
+}
+
+void TerrainRoadType::friend_setRepairedToSoundString( BodyDamageType state, const OpaqueRefElement4 &sound )
+{
+	((OpaqueRefElement4 *)m_repairedToSoundString)[ state ] = sound;
 }
 
 // ------------------------------------------------------------------------------------------------

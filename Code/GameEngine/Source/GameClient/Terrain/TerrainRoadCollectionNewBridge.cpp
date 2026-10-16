@@ -175,13 +175,16 @@ public:
 };
 
 
-// Three of the default bridge's by-value name getters are ICF-folded bodies
-// already rowed under other owners (0x002041E1 Script::getConditionTeamName,
-// 0x0023E943 GameInfo::getMap, 0x0027F5A6 Waypoint::getPathLabel1); those
-// spellings are the only ones the REL32 resolver accepts for them.
+// Most of the default bridge's by-value name getters are ICF-folded bodies
+// already rowed under other owners: 0x000DE59C (+0x34), 0x004DC8E7 (+0x3C),
+// 0x002041E1 Script::getConditionTeamName (+0x44), 0x0023E943 GameInfo::getMap
+// (+0x40), 0x000DE5B7 (+0x48) and 0x0027F5A6 (+0x50); the calls name those rows.
 class Script { public: AsciiString getConditionTeamName() const; };
 class GameInfo { public: AsciiString getMap() const; };
-class Waypoint { public: AsciiString getPathLabel1() const; };
+class Rva000DE59C { public: AsciiString rva000DE59C(); };
+class Rva004DC8E7AsciiField { public: AsciiString get() const; };
+class Rva000DE5B7 { public: AsciiString rva000DE5B7(); };
+class Rva0027F5A6 { public: AsciiString rva0027F5A6(); };
 
 //-------------------------------------------------------------------------------------------------
 /** Allocate a new bridge type, linked to the bridge list, with defaults from "DefaultBridge" */
@@ -206,13 +209,13 @@ TerrainRoadType *TerrainRoadCollection::newBridge( AsciiString name )
 		
 		bridge->friend_setTexture( defaultBridge->getTexture() );
 		bridge->friend_setBridgeScale( defaultBridge->getBridgeScale() );
-		bridge->friend_setBridgeModelName( defaultBridge->getBridgeModel() );
-		bridge->friend_setBridgeModelNameDamaged( defaultBridge->getBridgeModelNameDamaged() );
+		bridge->friend_setBridgeModelName( ((Rva000DE59C *)defaultBridge)->rva000DE59C() );
+		bridge->friend_setBridgeModelNameDamaged( ((const Rva004DC8E7AsciiField *)defaultBridge)->get() );
 		bridge->friend_setBridgeModelNameReallyDamaged( ((const Script *)defaultBridge)->getConditionTeamName() );
 		bridge->friend_setBridgeModelNameBroken( defaultBridge->getBridgeModelNameBroken() );
 		bridge->friend_setTextureDamaged( ((const GameInfo *)defaultBridge)->getMap() );
-		bridge->friend_setTextureReallyDamaged( defaultBridge->getTextureReallyDamaged() );
-		bridge->friend_setTextureBroken( ((const Waypoint *)defaultBridge)->getPathLabel1() );
+		bridge->friend_setTextureReallyDamaged( ((Rva000DE5B7 *)defaultBridge)->rva000DE5B7() );
+		bridge->friend_setTextureBroken( ((Rva0027F5A6 *)defaultBridge)->rva0027F5A6() );
 
 		bridge->friend_setTransitionEffectsHeight( defaultBridge->getTransitionEffectsHeight() );
 		bridge->friend_setNumFXPerType( defaultBridge->getNumFXPerType() );
