@@ -3,8 +3,8 @@
 // emitting /O2 copies that compete with retail's owners (0x0004C91A, 0x0006645C).
 #include "../../../../../../../reference/shims/bfme_matrix3d_copy_link/matrix3d_copy_link.h"
 // stlport
-// Ported verbatim from the Generals Zero Hour reference
-// (GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp); this unit had no counterpart under Code/.
+// Ported verbatim from the Generals Zero Hour reference (GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/W3DModelDraw.cpp); this unit had no counterpart under Code/.
+#include "../../../../../../../reference/shims/bfme_namekey_inline_link/namekey_inline_link.h"  // NAMEKEY inline-only link view
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
