@@ -1,7 +1,3 @@
-// ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
-// partial score=0.851 date=2026-10-15
-// ?Rva0007C637@@YA_NAAV?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@0M@Z
-// partial score=0.8488948403842022 date=2026-10-14
 // cl: /O1 /Og /Oi /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /D_CRTIMP= /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
 // Native shadow map helper 0007C637..0007C8AE. WorldBuilder7EF110 embeds
@@ -12,7 +8,7 @@
 #include <algorithm>
 #define _OPERATOR_NEW_DEFINED_
 #include "wwmath.h"
-struct BfmeE8 {float X,Y;};
+struct BfmeE8 {float X,Y; BfmeE8(){} BfmeE8(float x,float y):X(x),Y(y){}};
 void Rva00030830FreeAllocation(void*);
 namespace _STL {template<> inline void allocator<BfmeE8>::deallocate(BfmeE8*p,size_t)const{if(p)Rva00030830FreeAllocation(p);}template<> inline void allocator<int>::deallocate(int*p,size_t)const{if(p)Rva00030830FreeAllocation(p);}}
 struct BfmePod8 {int a[2];};
@@ -20,7 +16,7 @@ class ModuleData;
 namespace _STL {
 template<> inline __declspec(noinline) void vector<BfmeE8>::push_back(const BfmeE8&v){if(_M_finish!=_M_end_of_storage._M_data){_Construct(_M_finish,v);++_M_finish;}else _M_insert_overflow(_M_finish,v,_IsPODType(),1UL,true);}
 template<> __declspec(noinline) BfmePod8 *vector<BfmePod8>::erase(BfmePod8 *,BfmePod8 *);
-template<> __declspec(noinline) void vector<const ModuleData *>::push_back(const ModuleData *const &);
+template<> inline __declspec(noinline) void vector<const ModuleData *>::push_back(const ModuleData *const &v){if(_M_finish!=_M_end_of_storage._M_data){_Construct(_M_finish,v);++_M_finish;}else _M_insert_overflow(_M_finish,v,__true_type(),1UL,true);}
 template<> int *find<int *,int>(int *,int *,const int &);
 }
 struct Rva0007B734Item {char m_pad[8];};
@@ -39,21 +35,23 @@ static inline float PointDistance(const BfmeE8 &a,const BfmeE8 &b) {
  float sum=x*x+y*y;
  return WWMath::Sqrt(sum);
 }
-static inline float Perp(const BfmeE8 &a,const BfmeE8 &b,const BfmeE8 &c) {
- float x1=b.X-a.X,y1=b.Y-a.Y;
- float x2=c.X-a.X,y2=c.Y-a.Y;
- return y1*x2-x1*y2;
+static inline BfmeE8 operator-(const BfmeE8 &a,const BfmeE8 &b) {
+ return BfmeE8(a.X-b.X,a.Y-b.Y);
+}
+static inline float Perp_Dot_Product(const BfmeE8 &a,const BfmeE8 &b) {
+ return a.X*-b.Y+a.Y*b.X;
 }
 bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float epsilon)
 {
  ClearPoints(output);
  std::vector<BfmeE8> points;
- int i;
- for(i=0;i<input.size();++i) {
-  unsigned j, size=points.size();
-  for(j=0;j<size;++j)
-   if(PointDistance(points[j],input[i])<epsilon) break;
-  if(j==size) points.push_back(input[i]);
+ {
+ for(int n=0;n<input.size();++n) {
+  unsigned j;
+  for(j=0;j<points.size();++j)
+   if(PointDistance(points[j],input[n])<epsilon) break;
+  if(j==points.size()) points.push_back(input[n]);
+ }
  }
  unsigned count=points.size();
  if(count<3) return false;
@@ -61,19 +59,22 @@ bool Rva0007C637(std::vector<BfmeE8> &input,std::vector<BfmeE8> &output,float ep
 
  PushIndex(hull,((BfmeE8 *)Rva0007B734Find((Rva0007B734Item *)points.begin(),(Rva0007B734Item *)points.end(),(Rva0007B734Pred)Rva0007B701Cmp)-points.begin()));
  for(;;) {
+  int i;
   int current=hull.back();
   for(i=0;i<count;++i) {
    if(i==current) continue;
    unsigned j;
    for(j=0;j<count;++j) {
-    if(j==i || current == j) continue;
+    if(j==i || j==current) continue;
     int a=current,b=i,c=j;
     bool flip=false;
-    if(a>b){std::swap(a,b);flip=true;}
-    if(b>c){std::swap(b,c);flip=!flip;}
-    if(a>b){std::swap(a,b);flip=!flip;}
-    float side=Perp(points[a],points[b],points[c]);
-    if(flip ? side>epsilon : side<-epsilon) break;
+    if(a>b){int t=a;a=b;b=t;flip=!flip;}
+    if(b>c){int t=b;b=c;c=t;flip=!flip;}
+    if(a>b){int t=a;a=b;b=t;flip=!flip;}
+    BfmeE8 e1=points[b]-points[a];
+    BfmeE8 e2=points[c]-points[a];
+    if(flip){if(Perp_Dot_Product(e1,e2)>epsilon)break;}
+    else{if(Perp_Dot_Product(e1,e2)< -epsilon)break;}
    }
    if(j==count) break;
   }
