@@ -1,9 +1,6 @@
 // ?updateScorches@BaseHeightMapRenderObjClass@@QAEXXZ
-// partial score=0.9491 date=2026-10-14
 // ?updateScorches@BaseHeightMapRenderObjClass@@QAEXXZ
-// partial score=0.9559 date=2026-10-13
 // ?updateScorches@BaseHeightMapRenderObjClass@@QAEXXZ
-// partial score=0.8 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
 // ?updateScorches@BaseHeightMapRenderObjClass@@QAEXXZ, retail 0x000678BB..
@@ -33,13 +30,7 @@ struct VertexFormatXYZDUV1
  
 }
 ;
-struct RGBColor
-
-{
- Real red, green, blue;
- 
-}
-;
+#include "../../../Libraries/Include/Lib/RGBColor.h"
 class GlobalData
 
 {
@@ -288,11 +279,11 @@ void BaseHeightMapRenderObjClass::updateScorches()
   if (maxX > m_map->m_xExtent - borderSize) { Int e = m_map->m_xExtent; maxX = e - borderSize; }
   if (maxY > m_map->m_yExtent - borderSize) { Int e = m_map->m_yExtent; maxY = e - borderSize; }
   Int startVertex = m_curNumScorchVertices;
-  Int yOffset = maxX - minX;
-  Real width = (yOffset - 1) * BFME_MAP_XY_FACTOR;
-  Real top = minY * BFME_MAP_XY_FACTOR;
-  Real left = minX * BFME_MAP_XY_FACTOR;
+  Real width = (1 ? (maxX - minX - 1) * BFME_MAP_XY_FACTOR : (maxX - minX - 1) * BFME_MAP_XY_FACTOR);
   Real height = (maxY - minY - 1) * BFME_MAP_XY_FACTOR;
+  Real left = minX * BFME_MAP_XY_FACTOR;
+  Real top = minY * BFME_MAP_XY_FACTOR;
+  Int yOffset = maxX - minX;
   Int i, j;
   for (j = minY; j < maxY; j++) 
   {
@@ -332,8 +323,8 @@ void BaseHeightMapRenderObjClass::updateScorches()
      *curIb++ = startVertex + j * yOffset + i + yOffset;
      *curIb++ = startVertex + j * yOffset + i;
      *curIb++ = startVertex + j * yOffset + i + 1;
-     *curIb++ = startVertex + j * yOffset + i + yOffset;
      *curIb++ = startVertex + j * yOffset + i + 1 + yOffset;
+     *curIb++ = startVertex + j * yOffset + i + yOffset;
      
     }
     else 
