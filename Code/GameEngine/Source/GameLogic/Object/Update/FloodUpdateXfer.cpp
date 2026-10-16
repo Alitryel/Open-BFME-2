@@ -152,7 +152,7 @@ struct AICommandCoordVector
 };
 
 void XferObjectID(Xfer *xfer, ObjectID *id);
-void Rva00390911XferCoordVector(Xfer *xfer, AICommandCoordVector *vec);
+Xfer *Rva00390911XferCoordVector(Xfer *xfer, AICommandCoordVector *vec); // returns xfer, as rowed
 
 class Rva0048E16C
 {
