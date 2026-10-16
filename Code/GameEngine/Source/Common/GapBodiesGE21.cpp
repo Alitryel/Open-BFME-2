@@ -228,6 +228,44 @@ void Rva00013290Slots::rva00013290()
 	slot10();
 }
 
+// 0x00013380, 0x00013390, 0x000133A0: slots 4, 5 and 7, three CC-padded
+// forwarders in the STLport fstream run. Lead only: slots 4/5/7 of the
+// codecvt vftables (0x007BBB08, 0x007BBB2C) are do_encoding,
+// do_always_noconv and do_max_length, so these read as codecvt's encoding(),
+// always_noconv() and max_length(); the char and wchar_t instantiations are
+// byte-identical and nothing references these copies, so the owner stays an
+// address-derived view.
+class Rva00013380Slots
+{
+public:
+	virtual void slot00();
+	virtual void slot01();
+	virtual void slot02();
+	virtual void slot03();
+	virtual void slot04();
+	virtual void slot05();
+	virtual void slot06();
+	virtual void slot07();
+	void rva00013380();
+	void rva00013390();
+	void rva000133A0();
+};
+
+void Rva00013380Slots::rva00013380()
+{
+	slot04();
+}
+
+void Rva00013380Slots::rva00013390()
+{
+	slot05();
+}
+
+void Rva00013380Slots::rva000133A0()
+{
+	slot07();
+}
+
 // 0x000184E0: slot 8.
 class Rva000184E0Slots
 {
