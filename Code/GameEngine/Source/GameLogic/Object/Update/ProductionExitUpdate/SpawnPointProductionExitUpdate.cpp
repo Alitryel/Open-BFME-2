@@ -171,14 +171,14 @@ void SpawnPointProductionExitUpdate::unreserveDoorForExit( ExitDoorType exitDoor
 // ------------------------------------------------------------------------------------------------
 /** CRC */
 // ------------------------------------------------------------------------------------------------
-// ?crc@SpawnPointProductionExitUpdate@@MAEXPAVXfer@@@Z present-unmatched
-void SpawnPointProductionExitUpdate::crc( Xfer *xfer )
-{
+// Zero Hour's SpawnPointProductionExitUpdate::crc (it only extends the base-class crc) has no BFME 2
+// counterpart: BFME 2's module vtables (BoneFXUpdate 0x00C4B170, FireSpreadUpdate
+// 0x00C4BF90, StructureCollapseUpdate, SlowDeathBehavior, OpenContain) run
+// deleting dtor, loadPostProcess, name, xfer, module key with no crc slot, so
+// the ZH body is dropped (blank lines keep later __LINE__ values unchanged).
 
-	// extend base class
-	UpdateModule::crc( xfer );
 
-}  // end crc
+
 
 // ------------------------------------------------------------------------------------------------
 /** Xfer method
