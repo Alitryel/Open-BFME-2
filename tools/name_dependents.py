@@ -175,6 +175,12 @@ def bare_identifier(name):
     match = re.match(r"\?([A-Za-z_][A-Za-z0-9_]*)@", name)
     if match:
         return match.group(1)
+    match = re.fullmatch(r"\$(L\d+)", name)
+    if match:
+        # A compiler-local EH label: only the compiler spells it, so a source
+        # that names it at all writes `$L1311`, which `\bL1311\b` finds. Without
+        # a word every objectless source in the tree was listed for one rename.
+        return match.group(1)
     if name.startswith("??"):
         # A function template (??$name@...) names itself; special members
         # (??0 ctor, ??1 dtor, ??_G ...) are named by their class, which may

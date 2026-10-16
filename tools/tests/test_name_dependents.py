@@ -319,7 +319,9 @@ def test_a_source_with_uncommitted_edits_is_judged_on_the_committed_text(tmp_pat
     ("??$?8DV?$char_traits@D@_STL@@@_STL@@YA_NPBD0@Z", None),
     # An EH handler is named by the function it unwinds.
     ("__ehhandler$?rva0059EB90@@YAXPAVINI@@PAUGen_00489270@@@Z", "rva0059EB90"),
-    ("__ehhandler$??1AptMpGameSetup@@UAE@XZ", "AptMpGameSetup")])
+    ("__ehhandler$??1AptMpGameSetup@@UAE@XZ", "AptMpGameSetup"),
+    # A compiler-local EH label is looked for as the text it is spelled with.
+    ("$L1311", "L1311")])
 def test_bare_identifier(name, word):
     assert nd.bare_identifier(name) == word
 
@@ -335,6 +337,18 @@ def test_a_lost_name_without_an_identifier_widens_every_objectless_source(tmp_pa
     objects = {"Code/silent.cpp": [tmp_path / "none.obj"], "Code/current.cpp": [current]}
     assert nd.dependents({OLD: {0x1000}}, objects, tmp_path) == set()
     assert nd.dependents({OLD: {0x1000}, operator: {0x2000}}, objects, tmp_path) == {"Code/silent.cpp"}
+
+
+def test_a_lost_compiler_label_widens_only_objectless_sources_that_spell_it(tmp_path):
+    # Renaming a renumbered $L row must not list every objectless source in the
+    # tree, but a source whose text names the label is still judged a dependent.
+    code = tmp_path / "Code"
+    code.mkdir()
+    (code / "silent.cpp").write_text("void f() { int L13110 = 0; }\n")
+    (code / "spells.cpp").write_text("extern \"C\" void $L1311();\n")
+    objects = {"Code/silent.cpp": [tmp_path / "none.obj"],
+               "Code/spells.cpp": [tmp_path / "none.obj"]}
+    assert nd.dependents({"$L1311": {0x1000}}, objects, tmp_path) == {"Code/spells.cpp"}
 
 
 @pytest.mark.parametrize("newline", [b"\n", b"\r\n"])
