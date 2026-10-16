@@ -1,7 +1,5 @@
 // ?update@Eva@@UAEXXZ
-// partial score=0.96 date=2026-10-16
-// ?update@Eva@@UAEXXZ
-// partial score=0.866911658740453 date=2026-10-15
+// partial score=0.99 date=2026-10-16
 // Whole-home bank for Code/GameEngine/Source/GameClient/Eva.cpp.
 // Retail update1DE156..1DE2DA388B; WB Eva::update ACBEB0 supplies identity.
 // BFME1 575ba2b EvaUpdate.cpp supplies countdown/audio purpose, not target layout.
@@ -13,11 +11,17 @@
 // verified millisecond value; reverse/data_rows.csv enforces all four bytes.
 // Typed audio dispatch preserves the exact opening block. An explicit delayed
 // tree member and the owned timestep reproduce retail's timer-loop shape.
-// Complete body383/native388, fitness .8669116587404525 vs prior .837347804581082.
-// Remaining: list base/register homes, world-frame home, delayed-tree entry
-// and iterator temporary scheduling. No unresolved calls; 1DDF04 now matched.
-// Source flags, member/iterator lifetimes and frame-order trials are recorded
-// in build/round36-eva-*. No production source, data, pin or ledger change.
+// Complete body388/native388, 385 of 388 bytes equal (2026-10-16): the
+// reconciliation of two parallel banks. Real _STL::map<int,void*> member at +10
+// makes the delayed-tree loop exact (bank .91507); the reset branch is exact
+// with an EvaLinkList *locations=&m_queue alias for end()/erase plus
+// m_queuePosition=m_queue.end() on this->m_queue (bank .96, nd 45->7).
+// Only remaining delta: the world-frame ternary result. Retail coalesces it into
+// edi (mov edi,[eax+100] / mov edi,[edi+40] / cmp edi,2); this body uses eax.
+// Disproved for that delta (bank .96): no logic local, if/else frame, static
+// inline frame helper. Earlier reset-branch spellings that CSE the header into
+// an ebp frame (395B) or eax (387B) are recorded in reverse/re_attempts.log.
+// No production source, data, pin or ledger change.
 // cl: /I. -O1 -arch:SSE -G7 -EHsc -DNDEBUG -MD -Ireference/shims/bfmelist -Ireference/shims/bfmealloc -D_CRTIMP= -D_STLP_USE_STATIC_LIB
 // stlport
 // Existing 80-byte status clearer at 0x001DCD3C, moved here so Eva's
@@ -87,6 +91,7 @@ template<> struct _EvaResizeArgument<BfmePod52> { typedef BfmePod52 type; };
 #include "reference/shims/eva_vector/EvaVectorABI.h"
 #include <hash_map>
 #include <list>
+#include <map>
 
 namespace _STL {
 template<> vector<BfmePod52, allocator<BfmePod52> >::iterator vector<BfmePod52, allocator<BfmePod52> >::erase(iterator first, iterator last);
@@ -276,13 +281,12 @@ public:
 
 private:
 	unsigned char m_pad00[0x10-4];
-    EvaTimedReportTree m_delayedReports;
-    unsigned char m_pad18[4];
+    _STL::map<int,void*> m_delayedReports; // +0x10
 	EvaVectorView<Arg001DCDAF> m_allEventInfos;		// +0x1C (WB name)
 	unsigned char m_pad28[0x5c - 0x28];
 	EvaVectorView<Rva001DCDAF> m_eventStatus;		// +0x5C
-	_STL::list<int, _STL::allocator<int> > m_queue; // +0x68
-	_STL::list<int, _STL::allocator<int> >::iterator m_queuePosition; // +0x6C
+	_STL::list<int> m_queue; // +0x68
+	_STL::list<int>::iterator m_queuePosition; // +0x6C
 	int m_70;
 	int m_74;
 	int m_78;
@@ -615,14 +619,9 @@ void Eva::update()
         status->tick();
         ++status;
     }
-    EvaTimedReportTree &reports=m_delayedReports;
-    while(m_delayedReports.count) {
-        EvaTimedReportNode *first=reports.header->first;
-        if(first->frame>TheGameLogic->getFrame())break;
-        internalReportEvaEvent(&first->report);
-        // Existing canonical erase only unlinks and frees the node; neither
-        // payload value nor node allocation size is read by this body.
-        typedef _STL::map<int,void*,_STL::less<int>,_STL::allocator<EvaErasePair> > EvaEraseMap;
-        ((EvaEraseMap*)&reports)->erase(((EvaEraseMap*)&reports)->begin());
+    while(!m_delayedReports.empty()) {
+        if((UnsignedInt)m_delayedReports.begin()->first>TheGameLogic->getFrame())break;
+        internalReportEvaEvent((const EvaEventReport*)&m_delayedReports.begin()->second);
+        m_delayedReports.erase(m_delayedReports.begin());
     }
 }
