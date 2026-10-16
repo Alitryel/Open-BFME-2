@@ -580,54 +580,8 @@ _STL::vector<Rva002F35AFHop> m_1C1CC; Int m_searchWord,m_destMineshaft;	// +0x1C
 
 
 
-Pathfinder_FuncTightenPath::Pathfinder_FuncTightenPath(Pathfinder *pathfinder,
-Object *obj, const LocomotorSet &locomotorSet, PathfindLayerEnum layer,
-const Coord3D &goal)
-{
-m_pathfinder = pathfinder;
-m_obj = obj;
-m_locomotorSet = &locomotorSet;
-m_layer = layer;
-copyCoord3D(&m_goal, &goal);
-zeroCoord3D(&m_destPos);
-Rva002EBCA7Split(m_obj, &m_radius, &m_center);
-m_foundDest = false;
-}
-
-
-Pathfinder_IsCheckForMeleeHordeAdjust::Pathfinder_IsCheckForMeleeHordeAdjust(
-Pathfinder *pathfinder, Object *obj, void *arg, const Coord3D &goal,
-float range)
-{
-m_pathfinder = pathfinder;
-m_obj = obj;
-m_08 = arg;
-m_range = range;
-m_24 = 0;
-copyCoord3D(&m_goal, &goal);
-m_isHuman = (m_obj->getControllingPlayer() && m_obj->getControllingPlayer()->m_playerType == 1) ? 0 : 1;
-Rva002EBCA7Split(m_obj, &m_radius, &m_center);
-m_layer = TheTerrainLogic->getLayerForDestination(obj, &goal);
-}
-
-Pathfinder_IsCheckForAdjust::Pathfinder_IsCheckForAdjust(Pathfinder *pathfinder,
-Object *obj, void *arg, const Coord3D &goal, const Coord3D *layerPos,
-float range, Int arg6)
-{
-m_pathfinder = pathfinder;
-m_obj = obj;
-m_08 = arg;
-m_layerPos = layerPos;
-m_range = range;
-m_28 = 0;
-m_2C = arg6;
-copyCoord3D(&m_goal, &goal);
-m_isHuman = (m_obj->getControllingPlayer() && m_obj->getControllingPlayer()->m_playerType == 1) ? 0 : 1;
-Rva002EBCA7Split(m_obj, &m_radius, &m_center);
-m_layer = TheTerrainLogic->getLayerForDestination(obj, &m_goal);
-if (m_layerPos)
-m_layer = TheTerrainLogic->getLayerForDestination(0, m_layerPos);
-}
+// The three search-functor ctors (0x002EE43A, 0x002ED72B, 0x002ED484) are
+// owned by pathfinder.cpp; this unit only declares them.
 
 
 
@@ -638,7 +592,6 @@ m_layer = TheTerrainLogic->getLayerForDestination(0, m_layerPos);
 
 
 struct Rva002EBCF6 : GeometryShape { Rva002EBCF6(); };
-Rva002EBCF6::Rva002EBCF6() {}
 
 struct PathfinderDebugColor { float red,green,blue; };
 void Rva000B3FD0PathDebug(const Coord3D *,float,Int,PathfinderDebugColor);
@@ -836,7 +789,8 @@ public:
 
 // Rehomed 0x002E8B7A (33 B), original Rva002E8B7AInit.cpp: takes the pool
 // head, unlinks it (0x002E6BE2) and initializes it for the cell (0x002E6BA1).
-MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in)
+// Select-any like the visible copy in pathfinder.cpp, which owns the row.
+inline __declspec(noinline) MixFileInfoBuffer *Rva002E8B7AInit(MixFileInfoBuffer **pp, Int a, In002E6BA1 *in)
 {
 	MixFileInfoBuffer *node = *pp;
 	node->bfmeUnlink();
