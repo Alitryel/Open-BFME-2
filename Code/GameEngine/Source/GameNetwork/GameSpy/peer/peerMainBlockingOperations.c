@@ -1920,3 +1920,10 @@ __declspec(noinline) void piDisconnect(PEER peer)
 	piDisconnectCleanup(peer);
 	piThink(peer, -1);
 }
+
+void piSendNatNegotiateCookie(PEER peer, unsigned int ip, unsigned short port, int cookie);
+
+void peerSendNatNegotiateCookie(PEER peer, unsigned int ip, unsigned short port, int cookie)
+{
+	piSendNatNegotiateCookie(peer, ip, port, cookie);
+}

@@ -63054,3 +63054,4 @@ __ehhandler$?postRender@Rva007DB820@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z
 ?rva006C07F0@BfmeTaintManager@@QAEXXZ	0x006C07F0	8	landed	add_match verified Code/GameEngine/Source/Common/Bfme5SeventySix.cpp 8B; tail jmp via plus10 grid to pinned Gen_008812D0::bfmeReset 0x0069E440; BfmeTaintManager primary vtable 0x00CE7B84 slot 10
 ??FRva006CFEF0@@QAEAAV0@XZ	0x006CFF00	6	landed	add_match verified Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp 6B
 _ghttpSetRequestProxy	0x006BA5E0	5	landed	add_match verified Code/GameEngine/Source/GameNetwork/GameSpy/ghttp/ghttpMain.c 5B
+_peerSendNatNegotiateCookie	0x00698B60	5	landed	add_match verified Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c 5B
