@@ -1,9 +1,3 @@
-// ?doDrawModule@W3DBoatWakeModelDraw@@UAEXPBVMatrix3D@@@Z
-// partial score=0.9955637915543576 date=2026-10-15
-// ?doDrawModule@W3DBoatWakeModelDraw@@UAEXPBVMatrix3D@@@Z
-// partial score=0.99 date=2026-10-15
-// ?doDrawModule@W3DBoatWakeModelDraw@@UAEXPBVMatrix3D@@@Z
-// partial score=0.987 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug
 //
 // ?doDrawModule@W3DBoatWakeModelDraw@@UAEXPBVMatrix3D@@@Z, retail
@@ -19,6 +13,10 @@
 // rotation, offset and scaled by the ratio. Matrix3D/Vector3 inlines are the
 // real Zero Hour WWMath headers. Locomotor and render object views keep the
 // rowed address-derived spellings.
+//
+// The speed-ratio test calls fabsf directly. The C++ fabs(float) overload
+// inlines through fabsf to the same call, but its extra inline level makes
+// cl issue the first argument pop after the fxch instead of before it.
 #include "always.h"
 #include "vector3.h"
 #include "matrix3d.h"
@@ -90,7 +88,7 @@ void W3DBoatWakeModelDraw::doDrawModule(const Matrix3D *transformMtx)
 	const Rva0028AC4EEntry *locomotor = obj->rva0028AC4E();
 	Real speedRatio = ((const Rva0008BB38FloatField *)locomotor)->get()
 		/ ((const Locomotor *)locomotor)->getMaxSpeed(obj);
-	if (fabs(speedRatio - m_speedRatio) > g_Va00DB52E8)
+	if (fabsf(speedRatio - m_speedRatio) > g_Va00DB52E8)
 	{
 		if (speedRatio > m_speedRatio)
 			speedRatio = m_speedRatio + g_Va00DB52E8;
