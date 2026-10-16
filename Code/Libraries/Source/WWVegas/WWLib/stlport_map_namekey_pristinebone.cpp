@@ -48,4 +48,5 @@ typedef _STL::_Rb_tree<NameKeyType, PristineBoneMap::value_type, _STL::_Select1s
 // Preserve the existing instantiated map operations and emit native destruction.
 template class _STL::map<NameKeyType, PristineBoneInfo>;
 template PristineBoneTree::~_Rb_tree();
-template PristineBoneMap::~map();
+// Instantiate the normal map range teardown so MSVC emits its implicit destructor.
+template void _STL::_Destroy<PristineBoneMap *>(PristineBoneMap *, PristineBoneMap *);
