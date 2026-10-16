@@ -5,7 +5,7 @@
 // walk 0x0043966A and, when 0x00438E5B accepts it, the feedback 0x004389DB.
 // Body carried from the banked attempt (score 0.96), callee spellings now bound
 // to the rowed/pinned members of the Rva00439E0C view.
-// cl: /I. /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfmelist /D_STLP_USE_MALLOC /D_BFME_RETAIL_TREE_INSERT_LAYOUT /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /I. /O1 /D_STLP_NO_EXCEPTIONS /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfmelist /D_STLP_USE_MALLOC /D_BFME_RETAIL_TREE_INSERT_LAYOUT /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 #include <list>
 #include <map>
