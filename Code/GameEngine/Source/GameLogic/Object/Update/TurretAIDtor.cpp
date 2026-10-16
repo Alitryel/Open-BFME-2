@@ -23,7 +23,7 @@ public:
 class TurretAINotifyBase
 {
 public:
-	virtual void onWeaponFired() = 0;
+	virtual void notifyFired() = 0;
 };
 
 class TurretAI : public TurretAISnapshotBase, public TurretAINotifyBase
@@ -33,7 +33,7 @@ protected:
 
 public:
 	void rva004D82F6();
-	virtual void onWeaponFired();
+	virtual void notifyFired();
 
 private:
 	unsigned char m_pad08[0x14 - 8];

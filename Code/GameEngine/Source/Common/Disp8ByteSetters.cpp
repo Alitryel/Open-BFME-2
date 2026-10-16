@@ -31,7 +31,6 @@ BFME_DISP8_BYTE_SETTER(Rva00421744ByteSetter, disable, 0x34, 0x0)
 BFME_DISP8_BYTE_SETTER(Rva0046191DByteSetter, disable, 0xD, 0x0)
 BFME_DISP8_BYTE_SETTER(Rva004A808CByteSetter, disable, 0x22, 0x0)
 BFME_DISP8_BYTE_SETTER(Rva004D3765ByteSetter, enable, 0x48, 0x1)
-BFME_DISP8_BYTE_SETTER(Rva004D81D2ByteSetter, enable, 0x37, 0x1)
 BFME_DISP8_BYTE_SETTER(Rva005975F2ByteSetter, enable, 0x34, 0x1)
 
 // Same clean BF1 9cb R1MemberValueReads.cpp donor and /O1 /arch:SSE /G7

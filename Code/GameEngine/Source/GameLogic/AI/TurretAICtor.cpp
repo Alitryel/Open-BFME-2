@@ -75,7 +75,7 @@ public:
 class TurretAINotifyBase
 {
 public:
-	virtual void onWeaponFired() = 0;
+	virtual void notifyFired() = 0;
 };
 
 class TurretAI : public TurretAISnapshotBase, public TurretAINotifyBase
@@ -85,7 +85,7 @@ public:
 protected:
 	virtual ~TurretAI();
 public:
-	virtual void onWeaponFired();
+	virtual void notifyFired();
 	float getNaturalTurretAngle() const { return m_data->m_naturalTurretAngle; }
 	float getNaturalTurretPitch() const { return m_data->m_naturalTurretPitch; }
 private:
@@ -137,4 +137,13 @@ TurretAI::TurretAI(Object *owner, const TurretAIData *data, WhichTurretType tur)
 	m_pitch = getNaturalTurretPitch();
 	m_turretStateMachine = new TurretStateMachine(this, m_owner, 0xA503DF7E);
 	m_turretStateMachine->initDefaultState();
+}
+
+// ?notifyFired@TurretAI@@UAEXXZ retail 0x004D81D2 (5B): Zero Hour's
+// NotifyWeaponFiredInterface::notifyFired override, m_didFire = TRUE. It is
+// slot 0 of the interface vtable 0x00C60D64 the ctor installs at +4, so it
+// runs with ECX at that subobject and sets +0x3B through [ecx+0x37].
+void TurretAI::notifyFired()
+{
+	m_didFire = true;
 }
