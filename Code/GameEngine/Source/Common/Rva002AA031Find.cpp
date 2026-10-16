@@ -1,29 +1,42 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
-// ?find@Rva002AA031Holder@@QAEPAURva002AA031Node@@H@Z @ 0x002AA031 (27B):
+// ?findUpgrade@Player@@QAEPAVUpgrade@@PBVUpgradeTemplate@@@Z @ 0x002AA031 (27B):
 // list search (mov eax,[ecx+0x9c] / jmp test / mov ecx,[eax+4] / cmp ecx,[esp+4]
-// / je ret / mov eax,[eax+0xc] / test eax,eax / jne loop / ret 4). Callers at
-// 0x002ADAD2 and 0x002AE33C unlink via +0xc/+0x10 like an Upgrade list, but the
-// Player::findUpgrade donor in RTS/Player.cpp uses +0x40/+0x08/+0x10, so the
-// layout differs and identity stays opaque address-derived. Prev 0x002A9F0F
-// (// cl: /O1) and next 0x002AA08E (// cl: /O1 /DNDEBUG /MD) share /O1.
-struct Rva002AA031Node
-{
-	int m_pad0;
-	int m_key;
-	int m_pad8;
-	Rva002AA031Node *m_next;
-};
-class Rva002AA031Holder
+// / je ret / mov eax,[eax+0xc] / test eax,eax / jne loop / ret 4).
+// Player::findUpgrade, ZH's walk of m_upgradeList comparing each upgrade's
+// template, in BFME 2's layout: Player::addUpgrade (0x002AE329) and the
+// upgrade-removal sibling 0x002ADAC3 call it with the Player in ecx and the
+// UpgradeTemplate pushed, then unlink the result through Upgrade's +0x0C/+0x10
+// next/prev; both units already spell the upgrade list at Player+0x9C and
+// Upgrade's template at +0x04. ZH's own offsets (+0x40/+0x08/+0x10) do not
+// apply. Formerly rowed as the address-named Rva002AA031Holder::find.
+// Prev 0x002A9F0F (// cl: /O1) and next 0x002AA08E (// cl: /O1 /DNDEBUG /MD)
+// share /O1.
+class UpgradeTemplate;
+
+class Upgrade
 {
 public:
-	Rva002AA031Node *find(int key);
-	char m_pad[0x9c];
-	Rva002AA031Node *m_head;
+	void *m_vtbl;
+	const UpgradeTemplate *m_template;	// +0x04
+	int m_status;						// +0x08
+	Upgrade *m_next;					// +0x0C
+	Upgrade *m_prev;					// +0x10
 };
-Rva002AA031Node *Rva002AA031Holder::find(int key)
+
+class Player
 {
-	for (Rva002AA031Node *n = m_head; n; n = n->m_next)
-		if (n->m_key == key)
-			return n;
+public:
+	Upgrade *findUpgrade(const UpgradeTemplate *upgradeTemplate);
+
+private:
+	char m_pad[0x9C];
+	Upgrade *m_upgradeList;				// +0x9C
+};
+
+Upgrade *Player::findUpgrade(const UpgradeTemplate *upgradeTemplate)
+{
+	for (Upgrade *upgrade = m_upgradeList; upgrade; upgrade = upgrade->m_next)
+		if (upgrade->m_template == upgradeTemplate)
+			return upgrade;
 	return 0;
 }

@@ -47,13 +47,7 @@ private:
 };
 
 // The rowed list find's node type is the Upgrade above.
-struct Rva002AA031Node;
 
-class Rva002AA031Holder
-{
-public:
-	Rva002AA031Node *find(Int key);
-};
 
 class UpgradeMaskType
 {
@@ -70,10 +64,7 @@ class Player
 public:
 	Upgrade *rva002AE329(const UpgradeTemplate *upgradeTemplate, UpgradeStatusType status, Int x);
 	void rva002AD93A(const UpgradeTemplate *upgradeTemplate, Int x);
-	Upgrade *findUpgrade(const UpgradeTemplate *upgradeTemplate)
-	{
-		return (Upgrade *)((Rva002AA031Holder *)this)->find((Int)upgradeTemplate);
-	}
+	Upgrade *findUpgrade(const UpgradeTemplate *upgradeTemplate);	// rowed 0x002AA031 (Rva002AA031Find.cpp)
 
 private:
 	char m_pad[0x9C];
