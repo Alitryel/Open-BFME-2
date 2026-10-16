@@ -19,6 +19,12 @@
 // registers StrategicConflictResultsTimer through the folded 0x0050B5F1.
 // The retail destructor 0x005EB8D6 (Rva005EB8D6Dtor.cpp) undoes these members.
 #include <map>
+// Declaration-only: the constructor's unwind funclet calls the rowed map<int,void*>
+// tree destructor (0x00286852, stlport_map_int_ptr_tree_dtor.cpp) rather than this
+// /O1 unit emitting a differing 52-byte copy.
+namespace _STL {
+template <> _Rb_tree<int, pair<const int, void *>, _Select1st<pair<const int, void *> >, less<int>, allocator<pair<const int, void *> > >::~_Rb_tree();
+}
 #include "ascii_string.h"
 
 class StrategicConflictResults
@@ -35,7 +41,25 @@ public:
 	void Continue(const char *unused);			// 0x005EC100
 	void ExternPlayerColor(int index, char *value, bool set);	// 0x005EB955
 	void ExternFunc(int index, char *value, bool set);	// 0x005EB77D
+
+private:
+	void *m_owner;		// +0x00
+	int m_level;		// +0x04
+	int m_state;		// +0x08
 };
+
+// The two button handlers store the screen state at +0x08, as the constructor
+// below clears it. Retail folds them with StrategicVeterancy's handlers of the
+// same shape (0x005EC0F6 state 4, 0x005EC100 state 5).
+void StrategicConflictResults::Impl::OnFadeOut(const char *unused)
+{
+	m_state = 4;
+}
+
+void StrategicConflictResults::Impl::Continue(const char *unused)
+{
+	m_state = 5;
+}
 
 // The folded empty-state OnInitialized body shared with StrategicHUD's
 // (0x0042D493: state 1 becomes 2).
