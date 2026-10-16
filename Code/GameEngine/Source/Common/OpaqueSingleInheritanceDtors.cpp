@@ -263,21 +263,8 @@ Rva003FA776::~Rva003FA776()
 {
 }
 
-class Rva0061ED80
-{
-public:
-	virtual ~Rva0061ED80();
-};
-
-class Rva00180EA0 : public Rva0061ED80
-{
-public:
-	virtual ~Rva00180EA0();
-};
-
-Rva00180EA0::~Rva00180EA0()
-{
-}
+// Rva00180EA0::~Rva00180EA0 (0x00180EA0) moved to WWLib/FamilyDeletingDtorsO2.cpp
+// beside its /O2 deleting dtor.
 
 class Rva000A8903AudioDevice;
 class Rva0073EE55

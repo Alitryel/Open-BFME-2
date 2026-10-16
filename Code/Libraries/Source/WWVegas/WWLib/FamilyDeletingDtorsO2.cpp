@@ -24,9 +24,12 @@ class BfmeOwnVVE { public: ~BfmeOwnVVE(); };
 void famgenDelete(BfmeOwnVVE *p) { delete p; }
 
 // ??_GRva00180EA0@@UAEPAXI@Z @0x180e80
-class Rva00180EA0 { public: Rva00180EA0(EmitVtableTag *); virtual ~Rva00180EA0(); };
-// ?<Rva00180EA0::Rva00180EA0> absent-from-retail
-Rva00180EA0::Rva00180EA0(EmitVtableTag *) {}
+// ??1Rva00180EA0@@UAE@XZ @0x180ea0: the complete dtor lives here too, so the
+// /O2 deleting dtor is emitted beside it (moved from the /O1
+// OpaqueSingleInheritanceDtors.cpp, whose 28 B copy was not retail's).
+class Rva0061ED80 { public: virtual ~Rva0061ED80(); };
+class Rva00180EA0 : public Rva0061ED80 { public: virtual ~Rva00180EA0(); };
+Rva00180EA0::~Rva00180EA0() {}
 
 // ??_GGen_dtor_009f2600@@UAEPAXI@Z @0x6252d0
 class Gen_dtor_009f2600 { public: Gen_dtor_009f2600(EmitVtableTag *); virtual ~Gen_dtor_009f2600(); };
