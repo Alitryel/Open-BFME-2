@@ -18,6 +18,8 @@ class StringBase
 	Header *m_data;
 
 	StringBase(const StringBase &o);
+	~StringBase();
+	friend class Rva000B9074;
 };
 
 class Rva000B9074
@@ -37,6 +39,7 @@ class Rva000BB491 : public Rva000B9074
 {
 public:
 	Rva000BB491(const Rva000BB491 &o);
+	~Rva000BB491();
 private:
 	int m_14;
 };
@@ -46,3 +49,6 @@ Rva000BB491::Rva000BB491(const Rva000BB491 &o)
 	, m_14(o.m_14)
 {
 }
+
+// Native copy layout above and25B rangeBDD08 bind this string-only lifetime.
+Rva000BB491::~Rva000BB491() {}

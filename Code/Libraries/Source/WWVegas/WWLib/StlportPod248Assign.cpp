@@ -53,7 +53,6 @@ class Rva000BB491 : public Rva000B9074 {
 public: Rva000BB491(const Rva000BB491 &); ~Rva000BB491();
 private: int m_tail14;
 };
-Rva000BB491::~Rva000BB491() {}
 typedef char Pod248Element24Size[sizeof(Rva000BB491)==24?1:-1];
 class Rva000BB4AC { char m[24]; public: Rva000BB4AC(const Rva000BB4AC &); ~Rva000BB4AC(); };
 struct BfmeStringRecord000B950F { char m[24]; BfmeStringRecord000B950F(const BfmeStringRecord000B950F &); ~BfmeStringRecord000B950F(); };
