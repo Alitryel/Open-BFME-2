@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD
+// cl: /DNDEBUG /MD /Oy-
 //
 // ?rva00565898@Rva00565898@@QAEPAVRva00564B1A@@PAV2@0@Z @0x00565898 (51B).
 // Erase-like thiscall ret 8: new_finish = Copy(last m_finish first extra) then
@@ -30,7 +30,6 @@ private:
 	Rva00564B1A *m_finish;
 };
 
-#pragma optimize("y", off)
 Rva00564B1A *Rva00565898::rva00565898(Rva00564B1A *first, Rva00564B1A *last)
 {
 	char *extra = (char *)&first + 3;
@@ -39,4 +38,3 @@ Rva00564B1A *Rva00565898::rva00565898(Rva00564B1A *first, Rva00564B1A *last)
 	m_finish = new_finish;
 	return first;
 }
-#pragma optimize("", on)

@@ -1,5 +1,4 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
-#pragma optimize("y", off)
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Oy-
 //
 // Real OptionPreferences::getVolume, retail 0x002E4B2D (154 bytes).
 // Dedicated TU: BFME2's indexed volume getter generalises BFME1's

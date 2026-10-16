@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD
+// cl: /DNDEBUG /MD /Oy-
 // ?rva0047BA69@Rva0047BA69@@QAE_NPAVObject@@HH@Z, retail 0x0047BA69, 126 bytes.
 // Evidence: leaf lane called from 0x0047E530 thunk; callees Object::testStatus 0x0004E536,
 // Object::getControllingPlayer 0x0028AFA9, BfmeTab1026::bfmeHas1026 pin 0x00362437,
@@ -38,7 +38,6 @@ public:
 	bool rva0047BA69(Object *obj, int a2, int a3);
 };
 
-#pragma optimize("y", off)
 bool Rva0047BA69::rva0047BA69(Object *obj, int a2, int a3)
 {
 	if (obj->testStatus(STATUS_62))
@@ -67,4 +66,3 @@ bool Rva0047BA69::rva0047BA69(Object *obj, int a2, int a3)
 fail:
 	return ((TransportContain *)this)->TransportContain::slot38(obj, a2, a3);
 }
-#pragma optimize("", on)

@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Oy-
 //
 // Debug::CheckBegin, retail 0x0003A750 (333 bytes, ret 0x10).
 // Ported from Open-BFME-1 WWDebug/Debug_CheckBegin_0088B3E0.cpp (334B,
@@ -44,7 +44,6 @@
 //   the bodies alive. This TU leaves CheckBegin non-virtual like the BFME1
 //   TU: no body bytes depend on it.
 
-#pragma optimize("y", off)
 
 extern "C" __declspec(dllimport) unsigned long __stdcall GetTimeFormatA(
 	unsigned long, unsigned long, const void *, const char *, char *, int);

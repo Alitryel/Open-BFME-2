@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD
+// cl: /DNDEBUG /MD /Oy-
 // ?rva0047CA4D@Rva0047CA4D@@QAE_NPAVObject@@HH@Z, retail 0x0047CA4D, 142 bytes.
 // Evidence: slot38-shape leaf like the matched 0x0047BA69 row (Object::testStatus
 // 0x0004E536 STATUS_62 refusal, this-0x18 Object / this-0x1c table base,
@@ -50,7 +50,6 @@ public:
 	bool rva0047CA4D(Object *obj, int a2, int a3);
 };
 
-#pragma optimize("y", off)
 bool Rva0047CA4D::rva0047CA4D(Object *obj, int a2, int a3)
 {
 	if (obj->testStatus(STATUS_62))
@@ -77,4 +76,3 @@ bool Rva0047CA4D::rva0047CA4D(Object *obj, int a2, int a3)
  failOther:
 	return ((HordeTransportContain *)this)->HordeTransportContain::isValidContainerFor(obj, *(bool *)&a2, *(bool *)&a3);
 }
-#pragma optimize("", on)

@@ -13,7 +13,6 @@ extern "C" __declspec(dllimport) char *__cdecl _strlwr(char *str);
 
 extern void *DebugAllocMemory(unsigned int size);
 
-#pragma optimize("y", off)
 
 class Debug
 {

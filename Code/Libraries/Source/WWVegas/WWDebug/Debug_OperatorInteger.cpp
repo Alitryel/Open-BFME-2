@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Oy-
 //
 // Debug::operator<<(int) at retail 0x0003B3D0 and Debug::operator<<(unsigned)
 // at 0x0003B420 (79 bytes each, ret 4). Ported from Open-BFME-1
@@ -13,7 +13,6 @@
 // directly and the digits go out through the virtual operator<<(const
 // char *) at slot 0x38.
 
-#pragma optimize("y", off)
 
 extern "C" unsigned int strlen(const char *text);
 extern "C" __declspec(dllimport) char *__cdecl _itoa(int value, char *buffer, int radix);

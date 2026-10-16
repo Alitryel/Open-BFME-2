@@ -11,7 +11,6 @@
 // position at +0x38 and the private status byte at +0x438; the in-region test
 // inlines to four SSE compares.
 
-#pragma optimize("y", off)
 
 typedef float Real;
 typedef int Int;

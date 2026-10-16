@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Oy-
 //
 // Debug::CrashBegin, retail 0x0003AD80 (329 bytes, ret 0x0C).
 // Ported from Open-BFME-1 WWDebug/Debug_CrashBegin_0088BA10.cpp (2-arg
@@ -48,7 +48,6 @@
 //   reference is what keeps the body alive. This TU leaves CrashBegin
 //   non-virtual like the BFME1 TU: no body bytes depend on it.
 
-#pragma optimize("y", off)
 
 extern "C" __declspec(dllimport) unsigned long __stdcall GetTimeFormatA(
 	unsigned long, unsigned long, const void *, const char *, char *, int);

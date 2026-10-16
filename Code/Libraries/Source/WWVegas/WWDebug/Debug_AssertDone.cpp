@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Oy-
 //
 // Debug::AssertDone, retail 0x0003A8A0 (948 bytes incl. its switch table,
 // ret 4). Debug vtable (RVA 0x7BE810) slot 0x44.
@@ -23,7 +23,6 @@
 // - The exit path releases the Debug critical section and decrements
 //   disableAssertsEtc with InterlockedDecrement.
 
-#pragma optimize("y", off)
 
 extern "C" __declspec(dllimport) int __cdecl wsprintfA(char *out, const char *fmt, ...);
 extern "C" __declspec(dllimport) int __stdcall MessageBoxA(void *owner, const char *text,

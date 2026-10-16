@@ -1,6 +1,5 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Oy-
 // ?clipCursorToClient@@YAXXZ, retail 0x000430C8, 98 bytes.
-#pragma optimize("y", off)
 // Ported from Open-BFME-1
 // (Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DDisplayClipCursor.cpp,
 // their matched 113B row). Retail-measured deltas: the application window

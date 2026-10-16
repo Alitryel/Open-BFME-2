@@ -1,3 +1,4 @@
+// cl: /Oy-
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 // Open-BFME5: ATL 7.1 CAtlBaseModule::RemoveResourceInstance.
 //
@@ -114,7 +115,6 @@ public:
 	bool RemoveResourceInstance(HINSTANCE hInst) throw();
 };
 
-#pragma optimize("y", off)
 bool CAtlBaseModule::RemoveResourceInstance(HINSTANCE hInst) throw()
 {
 	CComCritSecLock<CComCriticalSection> lock(m_csResource, false);
@@ -133,5 +133,4 @@ bool CAtlBaseModule::RemoveResourceInstance(HINSTANCE hInst) throw()
 	}
 	return false;
 }
-#pragma optimize("", on)
 }

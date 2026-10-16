@@ -1,4 +1,4 @@
-// cl: /O1 /EHs /MD /D_CRTIMP= /DBFME_ASCII_DTOR_DECL /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
+// cl: /O1 /EHs /MD /D_CRTIMP= /DBFME_ASCII_DTOR_DECL /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Oy-
 // stlport
 //
 // ??1Rva0054F434@@UAE@XZ @0x0054F434 123B
@@ -69,9 +69,7 @@ private:
 	AsciiString m_str64;
 };
 
-#pragma optimize("y", off)
 _STL::list<AsciiString, _STL::allocator<AsciiString> > Rva0054F434::rva0054F3E2()
 {
 	return *(_STL::list<AsciiString, _STL::allocator<AsciiString> > *)&m_list04;
 }
-#pragma optimize("", on)

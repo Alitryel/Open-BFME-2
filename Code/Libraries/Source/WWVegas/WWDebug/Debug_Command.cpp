@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD /EHsc
+// cl: /DNDEBUG /MD /EHsc /Oy-
 //
 // Debug::Command, retail 0x0003B640 (47 bytes, ret 4). Debug vtable (RVA
 // 0x7BE810) slot 0x8C, the slot profile_cmd_run_result_functions.cpp calls
@@ -10,7 +10,6 @@
 // ExecCommand body at 0x00039E20 returns bool too: its two exits load
 // `xor al, al` and a saved byte into al before `ret 8`.
 
-#pragma optimize("y", off)
 
 extern "C" unsigned int strlen(const char *text);
 
