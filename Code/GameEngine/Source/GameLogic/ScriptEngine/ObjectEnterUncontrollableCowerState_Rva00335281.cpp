@@ -17,9 +17,22 @@
 #define _STLP_NO_EXCEPTIONS 1
 #include <hash_map>
 
+// Keep the bucket vector's const accessors inline without emitting this unit's
+// COMDAT copies: retail's out-of-line ones are the /Od bodies (0x00023BC0 size,
+// 0x00023B90 begin).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void *const *vector<void*>::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const { return size_t(this->_M_finish - this->_M_start); }
+}
+
 struct lua_State;
 extern "C" int lua_type(lua_State *state, int index);
-unsigned Rva00990030Lookup(lua_State *state, int index);
+// Rowed 0x00747190 (Rva00990030RecordLookup.cpp) over its view of the Lua
+// state's stack range; called by that row's name.
+struct Rva00990030Range;
+unsigned Rva00990030Lookup(Rva00990030Range *state, int index);
 
 // Lua 4.0.1 lua.h
 const int LUA_TNIL = 1;
@@ -27,7 +40,8 @@ const int LUA_TNIL = 1;
 class Object
 {
 public:
-	void bfmeApplySpecialModelCondition(int condition, const void *value, int enabled);
+	// Rowed 0x0028EC68 (ObjectRva0028EBDA.cpp); called by that row's name.
+	void rva0028EC68(int condition, void *value, int enabled);
 };
 
 typedef int ObjectID;
@@ -61,17 +75,17 @@ extern GameLogic *TheGameLogic;
 
 int ObjectEnterUncontrollableCowerState(lua_State *state)
 {
-	unsigned objectID = Rva00990030Lookup(state, 1);
+	unsigned objectID = Rva00990030Lookup((Rva00990030Range *)state, 1);
 	if (!objectID && lua_type(state, 1) != LUA_TNIL)
 		return 0;
 	// Retail checks argument 1 again here, not argument 2.
-	unsigned otherID = Rva00990030Lookup(state, 2);
+	unsigned otherID = Rva00990030Lookup((Rva00990030Range *)state, 2);
 	if (!otherID && lua_type(state, 1) != LUA_TNIL)
 		return 0;
 
 	Object *object = TheGameLogic->findObjectByID(objectID);
 	Object *other = TheGameLogic->findObjectByID(otherID);
 	if (object && other)
-		object->bfmeApplySpecialModelCondition(5, other, 1);
+		object->rva0028EC68(5, other, 1);
 	return 0;
 }
