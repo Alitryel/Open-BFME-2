@@ -1,4 +1,4 @@
-// cl: /MD
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ??0Rva00577F77@@QAE@PAXH@Z @0x00577F77 48B: ctor calls base 0x005C6D4D then stores args to +0x3c/+0x40 then sets vtable g_00C6EA28 then constructs vector<BfmeE16> at +0x44. Evidence: unlock packet calls pin-only base plus rowed Vector_base plus caller 0x005782F4 pushes parent plus int.
 #include <vector>
@@ -12,11 +12,6 @@ public:
 #include "../../../Libraries/Include/Lib/BfmeE16.h"
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
-// Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL {
-template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
-}
 
 extern const void *const g_00C6EA28[];
 
