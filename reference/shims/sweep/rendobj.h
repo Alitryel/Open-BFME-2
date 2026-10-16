@@ -335,13 +335,19 @@ public:
 	// BFME: unidentified retail float get/set pair on member 0x98.
 	virtual void					_bfme_ro_set_98(float v)													{ _bfme_unk_98 = v; }
 	virtual float					_bfme_ro_get_98(void) const												{ return _bfme_unk_98; }
+	// BFME: retail slot 25 (0x0013BC60, RenderObjSceneAndCost.cpp) before
+	// Notify_Added, as in bfme2renderobj; declared only.
+	virtual float					_bfme_get_factor_product(void) const;
 
 	virtual void					Notify_Added(SceneClass * scene);
 	virtual void					Notify_Removed(SceneClass * scene);
 
 	virtual int						Get_Num_Sub_Objects(void) const											{ return 0; }
+	// BFME: retail slot 28 (0x0006CE95, RenderObjO1Inlines.cpp); declared only.
+	virtual int						_bfme_ro_v28(void) const;
 	virtual RenderObjClass *	Get_Sub_Object(int index) const											{ return NULL; }
-	virtual int						Add_Sub_Object(RenderObjClass * subobj)								{ return 0; }
+	// BFME: Add_Sub_Object is not virtual in retail (slot 30 is Remove only).
+	int								Add_Sub_Object(RenderObjClass * subobj)								{ return 0; }
 	virtual int						Remove_Sub_Object(RenderObjClass * robj)								{ return 0; }
 	virtual RenderObjClass *	Get_Sub_Object_By_Name(const char * name, int *index=NULL) const;
 
@@ -358,6 +364,10 @@ public:
 	// BFME: retail Remove_Sub_Objects_From_Bone overloads are swapped vs ZH.
 	virtual int						Remove_Sub_Objects_From_Bone(const char * bname);
 	virtual int						Remove_Sub_Objects_From_Bone(int boneindex);
+
+	// BFME: retail slot 40 (bare ret at 0x006CF420) ahead of
+	// Update_Sub_Object_Transforms, as in bfme2renderobj.
+	virtual void					_bfme_ro_v40(void)														{ }
 
 	// This is public only so objects can recursively call this on their sub-objects
 	virtual void					Update_Sub_Object_Transforms(void);
@@ -390,8 +400,6 @@ public:
 
 	virtual HAnimClass *			Peek_Animation( void )														{ return NULL; }
 	virtual int						Get_Num_Bones(void)															{ return 0; }
-	// BFME: unidentified retail slot between Get_Num_Bones and Get_Bone_Name.
-	virtual int						_bfme_ro_v45(void) const													{ return 0; }
 	virtual const char *			Get_Bone_Name(int bone_index)												{ return NULL; }
 	virtual int						Get_Bone_Index(const char * bonename)									{ return 0; }
 	virtual const Matrix3D &	Get_Bone_Transform(const char * bonename)    						{ return Get_Transform(); }
