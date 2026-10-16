@@ -27,6 +27,55 @@ class INI
 public:
 	AsciiString getNextQuotedAsciiString();
 	void initFromINI(void *what, const FieldParse *parseTable);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseIndexList(INI *ini, void *instance, void *store, const void *userData);
+};
+
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+// Rowed field parsers of the BuildingNugget and AvailableTo tokens.
+void Rva002E012DParse(INI *ini, void *instance, void *store, const void *userData);
+void Rva002E2612Parse(INI *ini, void *instance, void *store, const void *userData);
+
+// The Type index list at 0x00C042F8 and the building field table right after
+// it at 0x00C04310, from retail's bytes (data rows). The list's name is
+// descriptive; the original is unknown.
+extern const char *const LivingWorldBuildingTypeNames[6] =
+{
+	"NONE",
+	"FORTRESS",
+	"ARMORY",
+	"RESOURCE",
+	"BARRACKS",
+	0
+};
+
+extern const FieldParse Rva002E048CFieldParseTable[14] =
+{
+	{ "BuildingNugget",					&Rva002E012DParse,			0, 0x30 },
+	{ "AvailableTo",					&Rva002E2612Parse,			0, 0x3C },
+	{ "CanDefendTerritory",				&INI::parseBool,			0, 0x08 },
+	{ "CreateUnitDuringAutoResolve",	&INI::parseBool,			0, 0x09 },
+	{ "BattleThingTemplate",			&INI::parseAsciiString,		0, 0x0C },
+	{ "BuildingIcon",					&INI::parseAsciiString,		0, 0x10 },
+	{ "ConstructButtonImage",			&INI::parseAsciiString,		0, 0x14 },
+	{ "ConstructButtonTitle",			&INI::parseAsciiString,		0, 0x18 },
+	{ "ConstructButtonHelp",			&INI::parseAsciiString,		0, 0x1C },
+	{ "TurnsToBuild",					&INI::parseInt,				0, 0x28 },
+	{ "Type",							&INI::parseIndexList,		LivingWorldBuildingTypeNames, 0x2C },
+	{ "DisplayNameTag",					&INI::parseAsciiString,		0, 0x20 },
+	{ "DisplayDescriptionTag",			&INI::parseAsciiString,		0, 0x24 },
+	{ 0, 0, 0, 0 }
 };
 
 // The 72-byte building record (LivingWorldBuilding template); its out-of-line
@@ -88,7 +137,6 @@ public:
 };
 
 extern Rva0022C0CDSubsystem *TheLivingWorldBuildingTemplateStore;
-extern const FieldParse Rva002E048CFieldParseTable[];
 
 struct INIException
 {
