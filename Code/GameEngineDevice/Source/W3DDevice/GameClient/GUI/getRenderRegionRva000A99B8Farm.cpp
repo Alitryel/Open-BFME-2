@@ -1,15 +1,12 @@
 // ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
-// partial score=0.975 date=2026-10-15
 // ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
-// partial score=0.985 date=2026-10-15
 // ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
-// partial score=0.9899567303446856 date=2026-10-14
 // ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
-// partial score=0.99 date=2026-10-13
 // ?getRenderRegion@AptShapeContainer@@QAEXAAVCoord2D@@0@Z
-// partial score=0.97 date=2026-10-10
 // cl: /I. /O1 /G7 /arch:SSE /EHsc /MD
-#include "Code/Libraries/Include/Lib/Coord2D.h"
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+#include "../../../../../Libraries/Include/Lib/Coord2D.h"
 struct AptTriangle 
 {
  Coord2D point[3];
@@ -62,7 +59,7 @@ static void rva000A94F9(Coord2D &low,Coord2D &high,const Coord2D &point)
  else if (point.y > high.y) high.y = point.y;
  
 }
-static inline void aptMatrixMul(Coord2D&out,const Coord2D&point,const AptRenderTransform&matrix){out.x=(point.y*matrix.c)+(point.x*matrix.a)+matrix.tx;out.y=(point.y*matrix.d)+(point.x*matrix.b)+matrix.ty;}
+static inline void aptMatrixMul(Coord2D&out,const Coord2D&point,const AptRenderTransform&matrix){float x2=point.x*matrix.a;float y2=point.y*matrix.c;out.x=y2+x2+matrix.tx;out.y=(point.y*matrix.d)+(point.x*matrix.b)+matrix.ty;}
 class AptShapeContainer 
 {
  public:
@@ -81,6 +78,7 @@ void AptShapeContainer::getRenderRegion(Coord2D &low,Coord2D &high)
  low.y=99999.0f;
  high.x=-99999.0f;
  high.y=-99999.0f;
+ { Coord2D reserved = {0.0f, 0.0f}; (void)reserved; }
  Coord2D point;
  for(AptShape **it=first;it!=last;++it) 
  {
@@ -97,8 +95,10 @@ void AptShapeContainer::getRenderRegion(Coord2D &low,Coord2D &high)
      const Coord2D *p = p_c;
      aptMatrixMul(point,p[0],matrix);
      rva000A94F9(low,high,point);
+     float secondX = p[2].x;
      aptMatrixMul(point,p[2],matrix);
      rva000A94F9(low,high,point);
+     _ReadWriteBarrier();
      aptMatrixMul(point,p[1],matrix);
      rva000A94F9(low,high,point);
      
