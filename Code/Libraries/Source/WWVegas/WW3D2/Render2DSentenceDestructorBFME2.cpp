@@ -14,7 +14,7 @@ void operator delete[](void *block);
 
 void W3DRadarResetLock();
 char bfmeUnlock1179();
-class BfmeSentenceDeviceLock { public: BfmeSentenceDeviceLock(){W3DRadarResetLock();} ~BfmeSentenceDeviceLock(){bfmeUnlock1179();} };
+class BFMEDX8DeviceLock { public: BFMEDX8DeviceLock(){W3DRadarResetLock();} ~BFMEDX8DeviceLock(){bfmeUnlock1179();} };
 
 // REF_PTR_RELEASE, copied from WWLib/refcount.h (NULL spelled 0: identical
 // codegen, keeps this TU include-free).
@@ -259,7 +259,7 @@ public:
 Render2DSentenceClass::~Render2DSentenceClass()
 {
 	REF_PTR_RELEASE(m_font);
-	BfmeSentenceDeviceLock lock;
+	BFMEDX8DeviceLock lock;
 	Render2DSentenceClass::Reset();
 	m_renderers.Clear();
 }
