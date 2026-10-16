@@ -9,9 +9,22 @@
 // view names do not establish original class names or undocumented slots.
 #include <stdlib.h>
 #include "ascii_string.h"
-// Reuse the existing opaque 12-byte empty-set constructor ABI. Its source
-// name is an established view, not an identity claim for the asset keys.
-class Rva002EE9B7 { public: Rva002EE9B7(); private: unsigned storage[3]; };
+// The 12-byte empty-set constructor is the folded 0x000D3A71, rowed as
+// set<AsciiString>::set() (the NetworkGetCommandsFromCommandList view); the
+// name is the link spelling, not an identity claim for the asset keys.
+namespace _STL
+{
+template <class T> struct less;
+template <class T> class allocator;
+template <class K, class C, class A> class set
+{
+public:
+	set();
+private:
+	unsigned storage[3];
+};
+}
+typedef _STL::set<AsciiString, _STL::less<AsciiString>, _STL::allocator<AsciiString> > Rva002EE9B7;
 void j_00015d7a();
 // The registry already uses this 20-byte lifetime view and the same verified
 // member-call projection of the tree destructor; no new template is emitted.
