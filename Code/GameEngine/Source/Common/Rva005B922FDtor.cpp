@@ -2,7 +2,7 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 //
-// ??1AptOnlineHome@@UAE@XZ @0x005B922F 221B
+// ??1OnlineHome@AptOnline@@UAE@XZ @0x005B922F 221B
 // AptOnlineHome's destructor: WorldBuilder names it (AptOnlineHome.cpp:180
 // s_instance assert) and retail closes the screen through the same
 // "AptOnlineHome::InitGadgets" literal.
@@ -51,17 +51,29 @@ inline Rva0056DC6B::~Rva0056DC6B()
 {
 }
 
-class AptOnlineHome : public Rva0056DC6B
+// WorldBuilder spells the class AptOnlineHome (assert names
+// AptOnlineHome::AptOnlineHome / ::~AptOnlineHome); the tree's rowed
+// constructor 0x005B9BBC (AptOnlineHomeConstructor.cpp) and Apt callbacks
+// spell it AptOnline::OnlineHome, after the "AptOnline::OnlineHome::..."
+// command strings. The destructor takes the constructor's spelling so that
+// unit's virtual destructor reference resolves to this body.
+class AptOnline
 {
 public:
-	virtual ~AptOnlineHome();
+	class OnlineHome;
+};
+
+class AptOnline::OnlineHome : public Rva0056DC6B
+{
+public:
+	virtual ~OnlineHome();
 
 private:
 	char m_pad[0x64 - 0x58];
 	UnicodeString m_64;
 };
 
-AptOnlineHome::~AptOnlineHome()
+AptOnline::OnlineHome::~OnlineHome()
 {
 	if ((int)this == g_Va00E06480) {
 		{
