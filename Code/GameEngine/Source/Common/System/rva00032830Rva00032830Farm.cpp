@@ -1,19 +1,11 @@
 // ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
-// partial score=0.9483588463069518 date=2026-10-15
 // ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
-// partial score=0.9109036297180907 date=2026-10-15
 // ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
-// partial score=0.93 date=2026-10-15
-// ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
-// partial score=0.831 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 // ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
-// partial score=0.8086238268530933 date=2026-10-14
 // ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
-// partial score=0.96 date=2026-10-05
 // ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z
-// partial score=0.96 date=2026-10-05
 // Native walk assigns start=old end before end+=nextSize; the previous
 // near-byte bank swapped these assignments and skipped a chunk boundary.
 // cl: /O2 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE
@@ -76,7 +68,6 @@ private:
 	Lock *m_4E4;
 };
 
-// ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z present-unmatched
 bool GeneralAllocator::rva00032830(const void *block, int addressType)
 {
 	GeneralAllocator *self = this;
@@ -93,7 +84,7 @@ bool GeneralAllocator::rva00032830(const void *block, int addressType)
 	{
 		if ((unsigned int)block >= (unsigned int)cur)
 		{
-			unsigned int end = (((unsigned int)cur + cur->m_size));
+			unsigned int end = (unsigned int)cur + cur->m_size;
 			if ((unsigned int)block < end)
 				goto found;
 		}
@@ -104,6 +95,7 @@ found:
 	{
 		bool valid = true;
 		unsigned int start = cur->m_unk0;
+		_ReadWriteBarrier();
 		unsigned int end = (*(const unsigned int *)(start + 4) & 0x7FFFFFF8) + start;
 		if (end < (unsigned int)block)
 		{
@@ -121,7 +113,7 @@ found:
 		if ((*(const unsigned char *)(sz + start + 4) & valid) == 0)
 			goto fail;
 		start += 8;
-		if (*(volatile unsigned char *)&addressType != 0)
+		if (*(const unsigned char *)&addressType != 0)
 		{
 			bool eq = ((unsigned int)block == start);
 			if (lock != 0)
@@ -134,7 +126,9 @@ found:
 		}
 		else
 		{
-			if ((unsigned int)block < start || (unsigned int)block >= end)
+			if ((unsigned int)block >= start && (unsigned int)block < end)
+				valid = true;
+			else
 				valid = false;
 			if (lock != 0)
 			{
