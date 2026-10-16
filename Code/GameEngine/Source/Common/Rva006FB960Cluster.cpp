@@ -8,10 +8,11 @@
 //   constant (4 and 8), stores the int argument at +8 and installs its own
 //   vtable (0x00CED808 / 0x00CED844, masked DIR32).
 // 0x006FBBE0 (43B): linked-list lookup; walks +0x1C next pointers and calls the
-//   rowed BfmeTab1034::bfmeFind1034F 0x0070B380 on the embedded table at +8.
+//   rowed hash lookup ?lookup@Rva0070B380 0x0070B380 on the embedded table at +8.
 //   The sibling 0x006FBE80, which wraps this over a global plus a +0x28 list,
 //   is banked as a 60/66 partial (see reverse/re_attempts.log).
-// 0x006FC130 (95B): subclass ctor built on Rva006D6360Base (base type 0x1E,
+// 0x006FC130 (95B): subclass ctor built on a private Rva006FC130Base view of
+//   Rva006D6360 (vtable 0x00CEA228; base type 0x1E,
 //   AptNativeHash at +8 sized 8) plus a non-polymorphic bits base at +0x1C,
 //   then its own vtable.  The EH frame comes from the AptNativeHash member's
 //   destructor being in scope while the base ctor runs.
@@ -19,11 +20,22 @@
 // Class identities beyond the rowed base/tab callees are unproven; the classes
 // are address-named after their body RVAs.
 
-class BfmeAptValue006DCD20
+// The real AptValue: retail's base vtable 0x00CEAED0 (and the unchanged copies
+// 0x00CED808 / 0x00CED844 the two small subclasses install) holds the rowed
+// AddRef (0x006DCAC0), Release (0x006DCB20) and ForceDelete (0x006CBCD0) in
+// slots 0-2.
+class AptValue
+{
+public:
+	virtual void AddRef();
+	virtual void Release();
+	virtual void ForceDelete();
+};
+
+class BfmeAptValue006DCD20 : public AptValue
 {
 public:
 	BfmeAptValue006DCD20(int type);
-	virtual void vtableSlot0();
 	virtual ~BfmeAptValue006DCD20();
 	unsigned int m_flags;
 };
@@ -32,7 +44,6 @@ class Rva006FB960 : public BfmeAptValue006DCD20
 {
 public:
 	Rva006FB960(int value);
-	virtual void vtableSlot0();
 
 private:
 	int m_value;	// +0x08
@@ -47,7 +58,6 @@ class Rva006FB9C0 : public BfmeAptValue006DCD20
 {
 public:
 	Rva006FB9C0(int value);
-	virtual void vtableSlot0();
 
 private:
 	int m_value;	// +0x08
@@ -59,11 +69,14 @@ Rva006FB9C0::Rva006FB9C0(int value) : BfmeAptValue006DCD20(8)
 }
 
 class BfmeN1034;
+class EAStringC;
 
-class BfmeTab1034
+// The rowed hash lookup 0x0070B380 (?lookup@Rva0070B380); the key is passed
+// as the reference it takes.
+class Rva0070B380
 {
 public:
-	BfmeN1034 *bfmeFind1034F(int key);
+	void *lookup(const EAStringC &key);
 
 private:
 	char m_pad[0x14];	// embedded table occupies +0x08..+0x1B
@@ -74,7 +87,7 @@ struct Rva006FBBE0
 	BfmeN1034 *find(int key);
 
 	char m_pad00[8];
-	BfmeTab1034 m_table;		// +0x08
+	Rva0070B380 m_table;		// +0x08
 	Rva006FBBE0 *m_next;		// +0x1C
 };
 
@@ -82,7 +95,7 @@ BfmeN1034 *Rva006FBBE0::find(int key)
 {
 	Rva006FBBE0 *node = this;
 	while (node != 0) {
-		BfmeN1034 *found = node->m_table.bfmeFind1034F(key);
+		BfmeN1034 *found = (BfmeN1034 *)node->m_table.lookup(*(const EAStringC *)key);
 		if (found != 0)
 			return found;
 		node = node->m_next;
@@ -103,13 +116,13 @@ public:
 	~AptNativeHash();
 };
 
-class Rva006D6360Base : public BfmeAptValue006DCD20
+class Rva006FC130Base : public BfmeAptValue006DCD20
 {
 public:
 	AptNativeHash m_hash;	// 0x14 bytes, so the bits base lands at +0x1C
 
-	__declspec(dllimport) __forceinline Rva006D6360Base(int type, int size) : BfmeAptValue006DCD20(type), m_hash(size) {}
-	virtual ~Rva006D6360Base();
+	__declspec(dllimport) __forceinline Rva006FC130Base(int type, int size) : BfmeAptValue006DCD20(type), m_hash(size) {}
+	virtual ~Rva006FC130Base() {}
 };
 
 class Rva006DBits
@@ -125,14 +138,13 @@ public:
 	}
 };
 
-class Rva006FC130 : public Rva006D6360Base, public Rva006DBits
+class Rva006FC130 : public Rva006FC130Base, public Rva006DBits
 {
 public:
 	Rva006FC130();
-	virtual ~Rva006FC130();
 };
 
-Rva006FC130::Rva006FC130() : Rva006D6360Base(0x1e, 8), Rva006DBits()
+Rva006FC130::Rva006FC130() : Rva006FC130Base(0x1e, 8), Rva006DBits()
 {
 }
 
