@@ -1,16 +1,13 @@
-// cl: /O1 /G7 /arch:SSE /EHsc /MD /DBFME_ASCII_DTOR_DECL /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
+// cl: /O1 /G7 /arch:SSE /EHs /MD /DBFME_ASCII_DTOR_DECL /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
 // BFME1 donor874e38488 SidesListCtorThunk.cpp supplies the constructor
 // structure; retail32EE24..32EF22 independently establishes BFME2 offsets,
 // arrays20 of60B, 28B teams and 28B auxiliary records. Snapshot and subsystem
 // base layouts agree with existing target xfer/clear/copy bodies.
 #include <stdlib.h>
-namespace _STL { void __cdecl free(void *) throw(...); }
-#define free _STL::free
 #include <vector>
 #include <map>
 #include <list>
-#undef free
 #include "ascii_string.h"
 #include "Common/Snapshot.h"
 class SubsystemInterface {

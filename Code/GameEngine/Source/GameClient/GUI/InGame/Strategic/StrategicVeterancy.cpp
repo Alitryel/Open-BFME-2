@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_CSTD_FUNCTION_IMPORTS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_CSTD_FUNCTION_IMPORTS /Ireference/shims/bfmealloc
 // stlport
 // StrategicVeterancy.cpp -- StrategicVeterancy members at their WorldBuilder
 // home (reverse/wb_name_leads.csv: WB's debug build names the file and each
@@ -8,7 +8,6 @@
 // which keeps the Apt level at +0x04, the display state at +0x08 (0 hidden,
 // 1 shown, 2 fading in, 3-4 later states) and an enable word at +0x0C.
 
-namespace _STL { void __cdecl free(void *); }
 #include "ascii_string.h"
 #include "unicode_string.h"
 extern "C" __declspec(dllimport) int __cdecl _snprintf(char *, unsigned int, const char *, ...);
@@ -368,10 +367,10 @@ protected: virtual ~Rva005ED152();
 // and removes the observed cleanup-state stores under /EHsc.
 namespace _STL {
 template<> inline void allocator<BfmeE8>::deallocate(pointer p,size_type) const {
- if(p) _STL::free((void *)p);
+ if(p) ::free((void *)p);
 }
 template<> inline void allocator<TacticalArmyView *>::deallocate(pointer p,size_type) const {
- if(p) _STL::free((void *)p);
+ if(p) ::free((void *)p);
 }
 }
 

@@ -1,4 +1,4 @@
-// cl: /ICode/Libraries/Include/Lib /O1 /arch:SSE /G7 /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_NO_EXCEPTIONS /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc
+// cl: /ICode/Libraries/Include/Lib /O1 /arch:SSE /G7 /MD /EHs /Ireference/shims/bfme2_ascii /D_STLP_NO_EXCEPTIONS /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc
 // stlport
 // The game C++ free linkage preserves native EH state resets before
 // local vector destruction; complete existing vector proofs remain exact.
@@ -11,10 +11,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <stdlib.h>
-namespace _STL { void __cdecl free(void *); }
-#define free _STL::free
 #include <vector>
-#undef free
 #include "ascii_string.h"
 #include "Coord3D.h"
 // Existing bfmealloc shim and no-exception STL configuration reproduce the

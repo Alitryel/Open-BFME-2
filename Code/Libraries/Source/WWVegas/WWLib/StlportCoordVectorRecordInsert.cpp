@@ -1,5 +1,5 @@
 // stlport
-// cl: /O1 /G7 /arch:SSE /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /O1 /G7 /arch:SSE /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // Native2B8ED2..2B8F27 RET8 builds the20B record copied by owned2B72C9.
 // Target calls ICoord2D equality4CAD at prefix0 and its payload vector8
 // uses the independently owned four-byte push4DFCB0. Original type/name

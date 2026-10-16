@@ -1,6 +1,6 @@
 // ??1Rva004FC4D1@@UAE@XZ
 // partial score=0.85 date=2026-10-10
-// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Ireference/shims/moduledata /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Ireference/shims/moduledata /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ??1Rva004FC4D1@@UAE@XZ, retail 0x004FC4D1..0x004FC55D (140 bytes, EH);
@@ -15,10 +15,7 @@
 // the polymorphic interface out at +4 yet constructs it last). Class name address-derived; the list is a 4-byte
 // POD stand-in whose buffer retail frees.
 #include <stdlib.h>
-void Rva00030830FreeAllocation(void *);
-#define free Rva00030830FreeAllocation
 #include <vector>
-#undef free
 #include "Common/Snapshot.h"
 
 enum ObjectID { INVALID_ID = 0 };

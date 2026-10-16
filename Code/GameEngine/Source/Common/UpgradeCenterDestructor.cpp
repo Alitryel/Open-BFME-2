@@ -1,5 +1,5 @@
 // ??1UpgradeCenter@@UAE@XZ
-// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ??1UpgradeCenter@@UAE@XZ, retail 0x0026F445..0x0026F4F4 (175 bytes, EH);
@@ -12,10 +12,7 @@
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include <stdlib.h>
-void Rva00030830FreeAllocation(void *);
-#define free Rva00030830FreeAllocation
 #include <vector>
-#undef free
 
 enum ObjectID { INVALID_ID = 0 };
 

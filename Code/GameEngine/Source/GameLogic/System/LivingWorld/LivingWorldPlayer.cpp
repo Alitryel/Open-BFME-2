@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfmealloc /D_CRTIMP= /Ireference/shims/bfme2_ascii /Ireference/shims/iniexception /O1 /G7 /EHsc /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /ICode/Libraries/Source/WWVegas/WWLib
+// cl: /Ireference/shims/bfmealloc /D_CRTIMP= /Ireference/shims/bfme2_ascii /Ireference/shims/iniexception /O1 /G7 /EHs /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /ICode/Libraries/Source/WWVegas/WWLib
 // stlport
 // LivingWorldPlayer.cpp -- LivingWorldPlayer members recovered from
 // WorldBuilder leads (reverse/wb_name_leads.csv): WB's debug build names the
@@ -22,10 +22,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <stdlib.h>
-namespace _STL { void __cdecl free(void *); }
-#define free _STL::free
 #include <vector>
-#undef free
 #include <algorithm>
 #include "FixedStorage128.h"
 #include "ascii_string.h"

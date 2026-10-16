@@ -1,4 +1,4 @@
-// cl: /O1 /EHsc /MD /D_CRTIMP=
+// cl: /O1 /EHs /MD /D_CRTIMP=
 // STLport 4.5.3 _tree.h destructor; PeerStatMapTreeDestructor.cpp supplies
 // the verified sibling compiler shape. Native Ghidra 0x2B80CE..0x2B8106
 // calls the existing map<int,AsciiString> clear at 0x2B70B3, then frees its

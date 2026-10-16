@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
 //
 // InGameUI::reset (0x002A5EE6, vftable 0x7FD410 slot 9, SubsystemInterface's
@@ -27,8 +27,6 @@
 // 47 setGUICommand, 55 placeBuildAvailable, 88 stopMovie (0x0029B4C4),
 // 117 resetIdleWorker (0x0029D777).
 #include <stdlib.h>
-namespace _STL { void __cdecl free(void *block); }
-#define free _STL::free
 #include <list>
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base
@@ -49,7 +47,6 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 #include <vector>
-#undef free
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "../Common/GameLogicObjectLookupView.h"

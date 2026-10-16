@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 // WB1380A80 names AIWallBuilder::DoXfer; native4E9EA1..4E9F52 proves
 // version1/1, pointer vector+C and each wall's ID at+44. Save captures the
@@ -6,8 +6,6 @@
 // only nonnull results. No donor source identity is asserted. The native
 // append is independently rowed49B4DFCB0; its shared pointer-storage ABI is
 // consumed below without identifying wall objects as ModuleData.
-namespace _STL { void __cdecl free(void *); }
-#define free _STL::free
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
 namespace _STL {
@@ -17,7 +15,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
-#undef free
 #include "ascii_string.h"
 // Retail Version stores minimum/current bytes and has an inline constructor;
 // that constructor form also reproduces the independent stack homes in DoXfer.

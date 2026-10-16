@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
 // stlport
 //
 // InGameUI's save-game snapshot: InGameUI::xfer (0x002A6AC2) and
@@ -34,8 +34,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <stdlib.h>
-namespace _STL { void __cdecl free(void *block); }
-#define free _STL::free
 #include <list>
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base
@@ -55,7 +53,6 @@ static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits>& a,
 { return a._M_node != b._M_node; }
 }
 #include <vector>
-#undef free
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "Common/Snapshot.h"
@@ -322,7 +319,7 @@ enum ScienceType { SCIENCE_INVALID = -1 };
 namespace _STL {
 template <> __declspec(dllimport) __forceinline
 void allocator<ScienceType>::deallocate(ScienceType *__p, size_t) const
-{ if (__p != 0) ::_STL::free((void *)__p); }
+{ if (__p != 0) ::free((void *)__p); }
 template <> __declspec(dllimport) __forceinline
 void _STLP_alloc_proxy<ScienceType *, ScienceType, allocator<ScienceType> >::deallocate(ScienceType *__p, size_t __n)
 { __stl_alloc_rebind(__STATIC_CAST(_Base&, *this),(ScienceType*)0).deallocate(__p, __n); }

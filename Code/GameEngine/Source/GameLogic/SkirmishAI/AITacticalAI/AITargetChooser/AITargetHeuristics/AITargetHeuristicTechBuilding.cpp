@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common /ICode/Libraries/Include
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/GameEngine/Source/Common /ICode/Libraries/Include
 // stlport
 //
 // ?findBestTarget@AITargetHeuristicTechBuilding@@QAEXPAVAITarget@@PAVPlayer@@1@Z, retail 0x00572EFF, 512 bytes.
@@ -17,9 +17,7 @@ namespace _STL
  void __cdecl free(void*);
  
 }
-#define free _STL::free
 #include <vector>
-#undef free
 enum Relationship
 
 {

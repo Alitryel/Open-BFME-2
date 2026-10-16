@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
 //
 // InGameUI::~InGameUI (0x002A5B30, vftable 0x7FD410 slot 0's destructor).
@@ -23,12 +23,9 @@
 // member destructors run in reverse from +0x9E8 down to +0x18, EH states 0x29
 // to 2, the two DrawableLists' throw() destructors without state stores.
 #include <stdlib.h>
-namespace _STL { void __cdecl free(void *block); }
-#define free _STL::free
 #include <list>
 #include <map>
 #include <vector>
-#undef free
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "Common/Snapshot.h"

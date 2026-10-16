@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ??1Rva003F8E20@@UAE@XZ, retail 0x003F8E20..0x003F8EA2 (130 bytes, EH);
@@ -12,10 +12,7 @@
 // through the folded buffer destructor 0x0007FAB3). Class name
 // address-derived.
 #include <stdlib.h>
-void Rva00030830FreeAllocation(void *);
-#define free Rva00030830FreeAllocation
 #include <vector>
-#undef free
 
 enum ObjectID { INVALID_ID = 0 };
 

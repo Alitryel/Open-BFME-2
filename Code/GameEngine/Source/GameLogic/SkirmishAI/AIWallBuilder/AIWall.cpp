@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /O1 /arch:SSE /G7 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /O1 /arch:SSE /G7 /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // AIWall.cpp. Named WB137E130/137E4D0 and the complete native bodies
@@ -18,8 +18,6 @@
 #include "../../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 // Use the same witnessed retail allocator cleanup as the matched builder.
-namespace _STL { void __cdecl free(void *); }
-#define free _STL::free
 // Reuse CastleBehavior's established growth-helper repair: inline the local
 // unsigned maximum so the unit emits no divergent generic max COMDAT.
 namespace _STL {
@@ -27,7 +25,6 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 { return a < b ? b : a; }
 }
 #include <vector>
-#undef free
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../../Libraries/Include/Lib/Coord2D.h"
 #include <math.h>
@@ -294,7 +291,7 @@ int wallTriggerSerial;
 // treatment as CastleBehavior's less<int> repair. The native growth body
 // expands these calls; suppress their otherwise divergent unused COMDATs.
 namespace _STL {
-template<> __declspec(dllimport) __forceinline void allocator<PolygonTrigger *>::deallocate(PolygonTrigger **p,size_t n)const {if(p) _STL::free(p);}
+template<> __declspec(dllimport) __forceinline void allocator<PolygonTrigger *>::deallocate(PolygonTrigger **p,size_t n)const {if(p) ::free(p);}
 template<> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<PolygonTrigger **,PolygonTrigger *,allocator<PolygonTrigger *> >::deallocate(PolygonTrigger **p,size_t n){static_cast<allocator<PolygonTrigger *> &>(*this).deallocate(p,n);}
 template<> __declspec(dllimport) __forceinline void vector<PolygonTrigger *,allocator<PolygonTrigger *> >::_M_clear(){_Destroy(_M_start,_M_finish);_M_end_of_storage.deallocate(_M_start,_M_end_of_storage._M_data-_M_start);}
 }

@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB
 // stlport
 //
 // ??0Rva003FA62B@@QAE@PAURva003FA62BOwner@@@Z, retail 0x003FA6B4..0x003FA6FF
@@ -10,10 +10,7 @@
 // out-of-line copy is the unwinding target 0x004EDFFF). Class name
 // address-derived.
 #include <stdlib.h>
-void Rva00030830FreeAllocation(void *);
-#define free Rva00030830FreeAllocation
 #include <vector>
-#undef free
 
 enum ObjectID { INVALID_ID = 0 };
 

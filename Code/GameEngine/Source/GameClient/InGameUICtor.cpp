@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
+// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/moduledata
 // stlport
 //
 // InGameUI::InGameUI (0x002A61A9) and the +0x8D4 holder's constructor
@@ -27,12 +27,9 @@
 // +0x8D4 holder 0x3C and the idle worker lists STLport list<Object *>).
 #include <stdlib.h>
 #include <string.h>
-namespace _STL { void __cdecl free(void *block); }
-#define free _STL::free
 #include <list>
 #include <map>
 #include <vector>
-#undef free
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "Common/Snapshot.h"
