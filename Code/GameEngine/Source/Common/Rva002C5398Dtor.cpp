@@ -3,7 +3,7 @@
 // Own vptr BFF658; under EH state 1 this object runs the rowed
 // ?winDestroyAll@GameWindowManager@@UAEHXZ 0x002C124C and
 // ?freeStaticStrings@GameWindowManager@@UAEXXZ 0x00315ACC as qualified
-// (non-virtual) calls, then the 0x00DFDC14 singleton theBfmeDfdc14 is deleted
+// (non-virtual) calls, then the 0x00DFDC14 singleton TheTransitionHandler (WinMain.cpp) is deleted
 // through its slot-0 deleting dtor with the global ??3@YAXPAX@Z and cleared;
 // then the STLport list base at +0x30 (rowed 0x004EC395) and the rowed base
 // dtor ??1GameEngineDeletingBase@@UAE@XZ 0x001B4E74. Names address-derived.
@@ -26,8 +26,8 @@ namespace _STL
 	};
 }
 
-class AudioManager;
-extern AudioManager *theBfmeDfdc14;
+class GameWindowTransitionsHandler;
+extern GameWindowTransitionsHandler *TheTransitionHandler;
 
 class Rva002C5398Owned
 {
@@ -97,6 +97,6 @@ Rva002C5398::~Rva002C5398()
 {
 	reinterpret_cast<GameWindowManager *>(this)->GameWindowManager::winDestroyAll();
 	reinterpret_cast<GameWindowManager *>(this)->GameWindowManager::freeStaticStrings();
-	::delete reinterpret_cast<Rva002C5398Owned *>(theBfmeDfdc14);
-	theBfmeDfdc14 = 0;
+	::delete reinterpret_cast<Rva002C5398Owned *>(TheTransitionHandler);
+	TheTransitionHandler = 0;
 }
