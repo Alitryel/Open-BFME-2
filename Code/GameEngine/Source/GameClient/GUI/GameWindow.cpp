@@ -61,6 +61,9 @@ void GadgetComboBoxSetHiliteTextColors(GameWindow *, int, int);
 void GadgetComboBoxSetIMECompositeTextColors(GameWindow *, int, int);
 
 typedef WindowMsgHandledType (*GameWinInputFunc)(GameWindow *, UnsignedInt, WindowMsgData, WindowMsgData);
+class WinInstanceData;
+typedef void (*GameWinDrawFunc)(GameWindow *, WinInstanceData *);
+typedef void (*GameWinTooltipFunc)(GameWindow *, WinInstanceData *, UnsignedInt);
 
 class GameWindowChild
 {
@@ -99,6 +102,11 @@ public:
 	GameWindow *winPointInAnyChild(Int x, Int y, bool ignoreHidden, bool ignoreEnableCheck);
 	UnsignedInt winClearStatus(UnsignedInt status);
 	Int winSetInputFunc(GameWinInputFunc input);
+	Int winSetDrawFunc(GameWinDrawFunc draw);
+	// Out of line in GameWindowSetTooltipFunc.cpp (0x0031416D); inline here, as
+	// retail winSetCallbacks expands it.
+	Int winSetTooltipFunc(GameWinTooltipFunc tooltip) { m_tooltipFunc = tooltip; return WIN_ERR_OK; }
+	Int winSetCallbacks(GameWinInputFunc input, GameWinDrawFunc draw, GameWinTooltipFunc tooltip);
 	Int winGetScreenPosition(Int *x, Int *y);
 	Int winGetSize(Int *width, Int *height);
 	Int winGetPosition(Int *x, Int *y);
@@ -133,8 +141,11 @@ private:
 	int m_imecompositeColor;
 	int m_imecompositeBorderColor;
 	unsigned char m_pad1AC[0x1E0 - 0x1AC];
-	GameWinInputFunc m_inputFunc;
-	unsigned char m_pad1E4[0x1F8 - 0x1E4];
+	GameWinInputFunc m_inputFunc;	// +0x1E0
+	unsigned char m_pad1E4[0x1E8 - 0x1E4];
+	GameWinDrawFunc m_drawFunc;	// +0x1E8
+	GameWinTooltipFunc m_tooltipFunc;	// +0x1EC
+	unsigned char m_pad1F0[0x1F8 - 0x1F0];
 	GameWindow *m_next;
 	GameWindow *m_prev;
 	GameWindow *m_parent;
@@ -170,6 +181,29 @@ Int GameWindow::winSetInputFunc(GameWinInputFunc input)
 {
 	if (input)
 		m_inputFunc = input;
+
+	return WIN_ERR_OK;
+}
+
+// ?winSetDrawFunc@GameWindow@@QAEHP6AXPAV1@PAVWinInstanceData@@@Z@Z, retail 0x0031415A (19B).
+// Formerly rowed as a placeholder ?apply@Rva00478E90@@QAEHPAX@Z; its only
+// caller is winSetCallbacks below.
+Int GameWindow::winSetDrawFunc(GameWinDrawFunc draw)
+{
+	if (draw)
+		m_drawFunc = draw;
+
+	return WIN_ERR_OK;
+}
+
+// ZH GameWindow::winSetCallbacks, retail 0x00314189 (33B, RET 12). Retail keeps
+// `this` in ECX across both calls: cl knows the two setters above clobber only
+// EAX because their bodies are visible in this unit.
+Int GameWindow::winSetCallbacks(GameWinInputFunc input, GameWinDrawFunc draw, GameWinTooltipFunc tooltip)
+{
+	winSetInputFunc(input);
+	winSetDrawFunc(draw);
+	winSetTooltipFunc(tooltip);
 
 	return WIN_ERR_OK;
 }
