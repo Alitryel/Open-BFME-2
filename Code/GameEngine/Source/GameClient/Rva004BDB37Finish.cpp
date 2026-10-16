@@ -82,3 +82,8 @@ void Rva004BDB37::rva004BDB37()
 	}
 	v10();
 }
+
+// The retail call in this body reads 0x0028FCD9, an address the ledger already
+// carries as ?rva0028FCD9@Object@@QAEXHH@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?bfmeCallFCB@BfmeSubFCB@@QAEXPAXH@Z=?rva0028FCD9@Object@@QAEXHH@Z")

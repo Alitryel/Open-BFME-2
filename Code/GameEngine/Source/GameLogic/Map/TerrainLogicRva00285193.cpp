@@ -61,3 +61,8 @@ void TerrainLogic::rva00285193(Object *argument)
         rva00284DD2(&view->position, orientation, &view->geometry, &object, true, false);
     }
 }
+
+// The retail call in this body reads 0x00284DD2, an address the ledger already
+// carries as ?iterateTreesNearAPoint@TerrainLogic@@QAEXPBUCoord3D@@MPAVGeometryInfo@@PAVBfmeT1035@@_NH@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva00284DD2@TerrainLogic@@QAEXPBUCoord3D@@MPBXPAPAVObject@@_N3@Z=?iterateTreesNearAPoint@TerrainLogic@@QAEXPBUCoord3D@@MPAVGeometryInfo@@PAVBfmeT1035@@_NH@Z")

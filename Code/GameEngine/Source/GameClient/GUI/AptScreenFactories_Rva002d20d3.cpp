@@ -87,3 +87,8 @@ void * __stdcall createAptScreenQuickMatchMenu( void *context )
 {
 	return new BfmeAptScreenQuickMatchMenu( context );
 }
+
+// The retail call in this body reads 0x00436259, an address the ledger already
+// carries as ??0AptSaveLoad@@QAE@PAX@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??0BfmeAptScreenQuickMatchMenu@@QAE@PAX@Z=??0AptSaveLoad@@QAE@PAX@Z")

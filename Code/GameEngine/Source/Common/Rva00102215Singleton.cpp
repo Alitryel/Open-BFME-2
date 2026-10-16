@@ -55,3 +55,8 @@ void Rva001022C4Shutdown()
     delete g_00DEC268;
     g_00DEC268 = 0;
 }
+
+// The retail call in this body reads 0x00102188, an address the ledger already
+// carries as ??1Rva00102188@@UAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??1Rva001021F7@@QAE@XZ=??1Rva00102188@@UAE@XZ")

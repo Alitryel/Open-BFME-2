@@ -56,3 +56,8 @@ void bfmeVectorDeleteAnchor0000234D(Rva0000234DElem *a, Rva00001E13 *b)
 	delete[] a;
 	delete[] b;
 }
+
+// The retail call in this body reads 0x00001DAC, an address the ledger already
+// carries as ?dtor@Rva00001DACClass@@QAEXXZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??1Rva0000234DElem@@QAE@XZ=?dtor@Rva00001DACClass@@QAEXXZ")

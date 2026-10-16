@@ -56,3 +56,8 @@ void Rva00583794::rva005839F5(int count)
 {
 	m_08.resize(count, Rva005839A7Id());
 }
+
+// The retail call in this body reads 0x005839A7, an address the ledger already
+// carries as ?resize@?$vector@W4ObjectID@@V?$allocator@W4ObjectID@@@_STL@@@_STL@@QAEXIW4ObjectID@@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?resize@?$vector@URva005839A7Id@@V?$allocator@URva005839A7Id@@@_STL@@@_STL@@QAEXIURva005839A7Id@@@Z=?resize@?$vector@W4ObjectID@@V?$allocator@W4ObjectID@@@_STL@@@_STL@@QAEXIW4ObjectID@@@Z")

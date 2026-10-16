@@ -250,3 +250,8 @@ Object* Player::findNaturalCommandCenter()
 // unit leaves out of line (retail 0x001DBC2D, called from 0x001DC54A).
 extern void (BuildListInfo::*const g_bfmeBuildListSetTemplateNameAnchor)(AsciiString);
 void (BuildListInfo::*const g_bfmeBuildListSetTemplateNameAnchor)(AsciiString) = &BuildListInfo::setTemplateName;
+
+// The retail call in this body reads 0x002AB08B, an address the ledger already
+// carries as ?iterateObjects@Player@@QBEHP6AHPAVObject@@PAX@Z1@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?iterateObjects@Player@@QBEXP6AXPAVObject@@PAX@Z1@Z=?iterateObjects@Player@@QBEHP6AHPAVObject@@PAX@Z1@Z")

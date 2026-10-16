@@ -28,3 +28,8 @@ private:
 SalvageCrateCollideModuleData::~SalvageCrateCollideModuleData()
 {
 }
+
+// The retail call in this body reads 0x00255A42, an address the ledger already
+// carries as ??1UpgradeModuleData@@UAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??1CrateCollideModuleData@@UAE@XZ=??1UpgradeModuleData@@UAE@XZ")

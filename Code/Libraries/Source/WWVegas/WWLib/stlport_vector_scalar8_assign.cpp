@@ -110,3 +110,8 @@ void bfmeEmitstlport_vector_scalar8_assign(_STL::vector<BfmeAsciiScalarValue8, _
   p->operator=(x);
 }
 #pragma inline_depth()
+
+// The retail call in this body reads 0x0031BD77, an address the ledger already
+// carries as ??$_M_allocate_and_copy@PBVRva002390CB@@@?$vector@VRva002390CB@@V?$allocator@VRva002390CB@@@_STL@@@_STL@@IAEPAVRva002390CB@@IPBV2@0@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??$_M_allocate_and_copy@PBUBfmeAsciiScalarValue8@@@?$vector@UBfmeAsciiScalarValue8@@V?$allocator@UBfmeAsciiScalarValue8@@@_STL@@@_STL@@IAEPAUBfmeAsciiScalarValue8@@IPBU2@0@Z=??$_M_allocate_and_copy@PBVRva002390CB@@@?$vector@VRva002390CB@@V?$allocator@VRva002390CB@@@_STL@@@_STL@@IAEPAVRva002390CB@@IPBV2@0@Z")

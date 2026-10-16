@@ -208,3 +208,8 @@ void GameLogic::rva0023D03E()
 {
 	((ArmySummarySystem *)((char *)this + 0x184))->rva0040D2C3();
 }
+
+// The retail call in this body reads 0x0040FAFE, an address the ledger already
+// carries as ?CallArmyReinforcementIntoBattleByID@ArmySummarySystem@@QAEXH@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?method@Rva0040FAFESub@@QAEHH@Z=?CallArmyReinforcementIntoBattleByID@ArmySummarySystem@@QAEXH@Z")
