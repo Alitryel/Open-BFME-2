@@ -40,8 +40,6 @@ class Rva00108E33Pair
 public:
     float X, Y;
     WWINLINE Rva00108E33Pair(float x, float y) { X=x; Y=y; }
-    WWINLINE Rva00108E33Pair &operator=(const Rva00108E33Pair &v)
-    { X=v.X; Y=v.Y; return *this; }
 };
 class Rva00108E7AMatrix
 {
@@ -95,6 +93,51 @@ static Rva00108E33Pair minMax4Rva00108E33(float a, float b, float c, float d)
 			hi = c;
 	}
 	return Rva00108E33Pair(lo, hi);
+}
+// Native projected-range body 0x108FBD..0x109129 (364B, RET 0): ZH queueDecal's
+// box-corner extents for the dual decal (queueDualDecal 0x10A736 and 0x10C841
+// call it). Axis inputs arrive in ECX/EAX, the x/y range outputs in EDX/ESI,
+// size and offset pairs on the stack; cl derives that private convention from
+// the same-unit caller below. The extrema are the minMax4 logic inlined, the
+// ranges are 8-byte pair copies (integer moves through a stack temporary).
+static __forceinline Rva00108E33Pair minMax4Inline(float a, float b, float c, float d)
+{
+	float lo, hi;
+	if (a < b) {
+		lo = a;
+		hi = b;
+	} else {
+		lo = b;
+		hi = a;
+	}
+	if (c < d) {
+		if (c < lo)
+			lo = c;
+		if (d > hi)
+			hi = d;
+	} else {
+		if (d < lo)
+			lo = d;
+		if (c > hi)
+			hi = c;
+	}
+	return Rva00108E33Pair(lo, hi);
+}
+
+static WWINLINE Rva00108E7AVector operator+(const Rva00108E7AVector&a,const Rva00108E7AVector&b){return Rva00108E7AVector(a.X+b.X,a.Y+b.Y,a.Z+b.Z);}
+static void projectRangesRva00108FBD(const Rva00108E7AVector &axisA, const Rva00108E7AVector &axisB, float sizeA, float sizeB,
+	float offA, float offB, Rva00108E33Pair &xr, Rva00108E33Pair &yr)
+{
+	Rva00108E7AVector a0(axisA.X * (-((offA + 0.5f) * sizeA)), axisA.Y * (-((offA + 0.5f) * sizeA)), 0.0f);
+	Rva00108E7AVector a1(axisA.X * ((0.5f - offA) * sizeA), axisA.Y * ((0.5f - offA) * sizeA), 0.0f);
+	Rva00108E7AVector b0(axisB.X * (-((offB + 0.5f) * sizeB)), axisB.Y * (-((offB + 0.5f) * sizeB)), 0.0f);
+	Rva00108E7AVector b1(axisB.X * ((0.5f - offB) * sizeB), axisB.Y * ((0.5f - offB) * sizeB), 0.0f);
+	Rva00108E7AVector c0 = b0 + a0;
+	Rva00108E7AVector c1 = b0 + a1;
+	Rva00108E7AVector c2 = b1 + a1;
+	Rva00108E7AVector c3 = b1 + a0;
+	xr = minMax4Inline(c0.X, c1.X, c2.X, c3.X);
+	yr = minMax4Inline(c0.Y, c1.Y, c2.Y, c3.Y);
 }
 
 class Object {public:int rva0028B511()const;};
@@ -216,4 +259,5 @@ void Rva00108E33EmissionPattern(const Rva00108E7AMatrix &m, Rva00108E7AVector &u
     out[0] = minMax4Rva00108E33(a, b, c, d);
     out[1] = minMax4Rva00108E33(b, c, d, a);
     *height=layerHeightRva001086EC(robj,u,v);
+    projectRangesRva00108FBD(u, v, a, b, c, d, out[2], out[3]);
 }
