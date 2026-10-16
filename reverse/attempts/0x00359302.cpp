@@ -1,5 +1,8 @@
 // ?addHotKey@HotKeyManager@@QAE?AURva00359302Result@@ABUTreeHintRef00217D4C@@ABVAsciiString@@_N@Z
-// partial score=0.987954 date=2026-10-15
+// partial score=0.995 date=2026-10-16
+// ?addHotKey@HotKeyManager@@QAE?AURva00359302Result@@ABUTreeHintRef00217D4C@@ABVAsciiString@@_N@Z
+// partial score=0.995 date=2026-10-16
+// W9-O3 2026-10-16: all calls resolve now (bank had 3 stale names): factory called by its row Rva00358C60Factory through a function-pointer view returning Rva00358B65; Rva00358B65 derives from pair<const AsciiString,TreeHintRef> so the value copy calls the rowed pair copy ctor 0x358B43 and both temps die through ~Rva00358B65 0x358B65. Size exact, residue = epilogue only: retail 'pop esi; mov fs:0,ecx; pop ebx', ours 'pop esi; pop ebx; mov fs:0,ecx'. Inert: Result ctor body/order, flag token order, NRVO local, single-return goto (worse).
 // ?rva00359302@Rva00359302@@QAEXXZ
 // partial score=0.987954 date=2026-10-15
 // ?addHotKey@HotKeyManager@@QAE?AURva00359302Result@@ABUTreeHintRef00217D4C@@ABVAsciiString@@_N@Z
@@ -43,29 +46,6 @@ private:
 	unsigned char m_data[0xc];
 };
 
-// make_pair's (key, action) pair; destroyed out of line by 0x00358B65.
-struct Rva00358B65
-{
-	~Rva00358B65();
-
-	AsciiString first;
-	TreeHintRef00217D4C second;
-};
-
-// _STL::make_pair(key, action), retail 0x00358C60 (unrowed).
-Rva00358B65 rva00358C60(const AsciiString &key, const TreeHintRef00217D4C &action);
-
-// The map's value pair: converted from make_pair's by 0x00358B43 and
-// destroyed by the folded 0x00358B65.
-struct Rva00359032Value
-{
-	Rva00359032Value(const Rva00358B65 &that);
-	~Rva00359032Value();
-
-	AsciiString first;
-	TreeHintRef00217D4C second;
-};
-
 // The shared AsciiString-keyed tree find worker (0x001F8437): the key's
 // node, or the header when it is absent.
 class Rva001F8437
@@ -88,6 +68,7 @@ template <class _Value, class _Traits> struct _Rb_tree_iterator
 template <class _T1, class _T2> struct pair
 {
 	pair() {}
+	pair(const pair &that);
 
 	_T1 first;
 	_T2 second;
@@ -101,6 +82,21 @@ public:
 	pair<iterator, bool> insert_unique(const _Value &value);
 };
 }
+
+// The key/action pair (copy constructor 0x00358B43). The factory 0x00358C60
+// returns one and the map's value is copied from it; both temporaries are
+// destroyed by 0x00358B65, which ICF shares between the two pair types.
+typedef _STL::pair<const AsciiString, TreeHintRef00217D4C> HotKeyPair;
+HotKeyPair Rva00358C60Factory(const AsciiString &key, const TreeHintRef00217D4C &action);
+struct Rva00358B65 : public HotKeyPair
+{
+	~Rva00358B65();
+};
+typedef Rva00358B65 (*Rva00358C60FactoryView)(const AsciiString &, const TreeHintRef00217D4C &);
+struct Rva00359032Value : public Rva00358B65
+{
+	Rva00359032Value(const Rva00358B65 &that) : Rva00358B65(that) {}
+};
 
 class HotKeyMap : public _STL::_Rb_tree<Rva00359032Value, Rva00359032Value,
 	_STL::_Identity<Rva00359032Value>, _STL::less<Rva00359032Value>,
@@ -156,7 +152,7 @@ Rva00359302Result HotKeyManager::addHotKey(const TreeHintRef00217D4C &action, co
 		if (upper != map->end())
 			return Rva00359302Result(map->end(), alt);
 	}
-	_STL::pair<HotKeyMap::iterator, bool> inserted = map->insert_unique(rva00358C60(name, action));
+	_STL::pair<HotKeyMap::iterator, bool> inserted = map->insert_unique(((Rva00358C60FactoryView)&Rva00358C60Factory)(name, action));
 	return Rva00359302Result(inserted.first._M_node, alt);
 }
 

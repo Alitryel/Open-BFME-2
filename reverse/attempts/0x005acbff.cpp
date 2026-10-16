@@ -1,5 +1,8 @@
 // ?update@AIRingHeroTactic@@UAEXXZ
-// partial score=0.97 date=2026-10-14
+// partial score=0.985 date=2026-10-16
+// ?update@AIRingHeroTactic@@UAEXXZ
+// partial score=0.985 date=2026-10-16
+// W9-O3 2026-10-16: 0x352ECA call now uses its row AICommandInterface::aiMoveToObject(Object*,CommandSourceType) (was unresolved). Size exact nd 6: only callee-saved push order (retail push edi before the m_running je and ebx after; ours ebx then edi after the je; matching pops) and the end(false,false) arg/ecx order. Inert: hero/it/obj early-init at function scope, split decl.
 // ?update@AIRingHeroTactic@@UAEXXZ
 // partial score=0.98 date=2026-10-11
 // cl: /MD /GX /DNDEBUG /Ireference/shims/bfme2_ascii /Os
@@ -51,6 +54,7 @@ public:
 class AICommandInterface
 {
 public:
+	void aiMoveToObject(Object *target, CommandSourceType source);
 	void rva0026C347(Object *target, CommandSourceType source);
 };
 
@@ -389,7 +393,7 @@ void AIRingHeroTactic::update()
 					for (ObjectID *it = ids->m_begin; it != ids->m_end; ++it) {
 						Object *obj = TheGameLogic->findObjectByID(*it);
 						if (obj && (obj->m_04->m_120 & 4) && !(obj->m_94 & 1) && !(obj->m_438 & 1)) {
-							((Rva00352ECA *)&hero->m_ai->m_commands)->rva00352ECA(obj, CMD_FROM_PLAYER);
+							hero->m_ai->m_commands.aiMoveToObject((Object *)obj, CMD_FROM_PLAYER);
 							m_escort = obj;
 							m_escorting = true;
 						}

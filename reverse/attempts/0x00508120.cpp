@@ -1,5 +1,8 @@
 // ?rva00508120@Made002CC5E1@@AAE_NPAXPAVObject@@PAVDamageInfo@@_NPBUCoord3D@@@Z
-// partial score=0.993050658076125 date=2026-10-13
+// partial score=0.996 date=2026-10-16
+// ?rva00508120@Made002CC5E1@@AAE_NPAXPAVObject@@PAVDamageInfo@@_NPBUCoord3D@@@Z
+// partial score=0.996 date=2026-10-16
+// W9-O3 2026-10-16: both stale callees fixed: distSq via its row view Rva000CBA20::distSq, rva0028C15E row is (int,float*,int,int) -> called through a bool-last member-pointer view (retail pushes the bool param slot [ebp+0x18] as the dword: an int signature adds movzx). Size exact nd 4 = two x87-window swaps only: retail loads info into EDI before 'fstp [esp+4]' and fld maxRadius130 before the post-clamp 'add esp,0xc'. Inert: IR-load-count snippets at 4 sites, info/amount aliases, clamp result local (+40 B), barrier moves (the barrier after distance is load-bearing).
 // cl: /O1 /DNDEBUG /MD /I. /ICode/Libraries/Include /ICode/Libraries/Include/Lib /ICode/GameEngine/Include /ICode/GameEngine/Source/Common /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfmelist
 // stlport
 //
@@ -15,6 +18,8 @@ struct DamageOffset : Coord3D {
  void set(const Coord3D *other){ x=other->x; y=other->y; z=other->z; }
  void sub(const Coord3D *other){ x-=other->x; y-=other->y; z-=other->z; }
 };
+class Rva000CBA20Point;
+class Rva000CBA20 { public: float distSq(const Rva000CBA20Point *point); };
 class DamageInfo
 {
 public:
@@ -67,7 +72,10 @@ public:
  void attemptHealing(float amount, const Object *source);
  Player *getControllingPlayer() const;
  bool rva0028C149(int attribute, float *value, int arg);
- bool rva0028C15E(int attribute, float *value, int arg, bool arg2);
+ bool rva0028C15E(int attribute, float *value, int arg, int arg2);
+ typedef bool (Object::*BoolLastScale)(int, float *, int, bool);
+ __forceinline bool scaleBy(int attribute, float *value, int arg, bool arg2)
+ { return (this->*reinterpret_cast<BoolLastScale>(&Object::rva0028C15E))(attribute, value, arg, arg2); }
  float rva002615E3(const Coord3D *position) const;
  bool rva0028F44C(const Object *other) const;
  unsigned char pad00[4];
@@ -181,7 +189,7 @@ bool Made002CC5E1::rva00508120(void *weapon, Object *target, DamageInfo *info, b
   return false;
  if (minDamage12C != -1.0f && position)
  {
-  float distance = (float)sqrt(target->rva002615E3(position));
+  float distance = (float)sqrt(((Rva000CBA20 *)target)->distSq((const Rva000CBA20Point *)position));
 _ReadWriteBarrier();
   float damage = damage128;
   info->amount20 = damage - (damage - minDamage12C) * ((clamp(minRadius134, distance, maxRadius130) - minRadius134) / (maxRadius130 - minRadius134));
@@ -217,13 +225,13 @@ _ReadWriteBarrier();
  float multiplier = 1.0f;
  bool scaled;
  if (damageType158 == 15)
-  scaled = source->rva0028C15E(11, &multiplier, 0, true);
+  scaled = source->scaleBy(11, &multiplier, 0, true);
  else
  {
   bool flag171 = false;
   if (view->template04)
    flag171 = view->template04->flag171;
-  scaled = source->rva0028C15E(3, &multiplier, 0, flag171);
+  scaled = source->scaleBy(3, &multiplier, 0, flag171);
  }
  if (scaled)
   info->amount20 *= multiplier;
