@@ -29,12 +29,15 @@ public:
 	NameKeyType key() const;
 	operator NameKeyType() const { return key(); }
 
-private:
+	// Public so the key below can be statically initialised as retail's
+	// .data holds it; the layout is unchanged.
 	mutable NameKeyType m_key;
 	const char *m_name;
 };
 
-extern const StaticNameKey TheKey_objectBaseName;
+// VA 0x00DBDD14, retail .data {NAMEKEY_INVALID, "objectBaseName"} (between
+// TheKey_objectIsABase and TheKey_objectPowered); no unit defined it.
+extern const StaticNameKey TheKey_objectBaseName = { NAMEKEY_INVALID, "objectBaseName" };
 
 class Dict
 {

@@ -300,12 +300,12 @@ void Rva00085265::rva00085265(float value)
 	m_B0 = value;
 }
 
-extern int g_00DFF490;
+extern int g_screenFilterPass;	// VA 0x00DFF490 (ByteFillNO1.cpp)
 
 void rva00085276(int value)
 {
 	if (value != -1)
-		g_00DFF490 = value;
+		g_screenFilterPass = value;
 }
 
 // --- 0x0008552B (16B): copy three words in.

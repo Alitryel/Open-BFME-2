@@ -85,9 +85,15 @@ struct DrawableInfo
 	Drawable *m_drawable; // +0x04
 };
 
-// Identity 3x4 at VA 0x00DDD9D0 (value-verified 1,0,0,0,...); role and value
-// match Matrix3D::Identity, pinned here under an address-derived name.
-extern const Matrix3D Rva00DDD9D0Identity;
+// Identity 3x4 at VA 0x00DDD9D0 (value-verified 1,0,0,0,...): the first of
+// the ten 48-byte static matrices (480 bytes: Identity, RotateX90 ...
+// RotateZ270) that matrix3d.cpp defines in that order, so it is
+// Matrix3D::Identity.
+class Matrix3D
+{
+public:
+	static const Matrix3D Identity;
+};
 
 struct W3DShadowGeometryMesh
 {
@@ -155,7 +161,7 @@ void W3DVolumetricShadow::RenderVolume(int meshIndex, int lightIndex)
 	mesh->Validate_Transform();
 	const Matrix3D *meshXform = mesh->Get_Transform();
 	if (meshInfo->m_unmodelled30 && mesh->Class_ID() == RenderObjClass::CLASSID_MESH)
-		meshXform = &Rva00DDD9D0Identity;
+		meshXform = &Matrix3D::Identity;
 
 	void *shadowVolume = m_shadowVolume[meshIndex];
 	if (shadowVolumeFlags(shadowVolume) & SHADOW_DYNAMIC)

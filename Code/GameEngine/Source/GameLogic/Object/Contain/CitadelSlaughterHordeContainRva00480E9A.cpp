@@ -187,7 +187,10 @@ public:
 #include "../../../Common/PartitionRangeQueryCallView.h"
 extern PartitionManager *ThePartitionManager;
 
+// The closest-enemy search range (.data VA 0x00DC9EB4, retail value 9999.0f);
+// no unit defined it, so its only user does.
 extern float g_00DC9EB4;
+float g_00DC9EB4 = 9999.0f;
 
 struct CitadelSlaughterHordeContainModuleData
 {

@@ -51,15 +51,18 @@ unsigned char *(*const g_bfmeByteFillNAnchor)(unsigned char *, unsigned int, con
 // VA 0x00DBD788. The table is owned and proven as GlobalLightingChunkVectors
 // in GlobalLightingDataChunk.cpp (three {Coord3D,float} slots); this TU
 // mirrors its name and 16-byte shape so the reference binds the same bytes.
-// Index -1 selects the current screen-filter pass at VA 0x00DFF490.
-extern int g_00DFF490;
+// Index -1 selects the current screen-filter pass at VA 0x00DFF490
+// (g_screenFilterPass, the name W3DViewDraw.cpp gives it; zero-filled .bss,
+// defined here since no unit did).
+extern int g_screenFilterPass;
+int g_screenFilterPass;
 struct Rva000ABBEFVecCoord { float x, y, z; };
 struct LightingChunkVectorStorage { Rva000ABBEFVecCoord components; float reserved; };
 extern LightingChunkVectorStorage GlobalLightingChunkVectors[3];
 void rva000ABBEF(float *x, float *y, float *z, int index)
 {
 	if (index == -1)
-		index = g_00DFF490;
+		index = g_screenFilterPass;
 	*x = GlobalLightingChunkVectors[index].components.x;
 	*y = GlobalLightingChunkVectors[index].components.y;
 	*z = GlobalLightingChunkVectors[index].components.z;
@@ -72,7 +75,7 @@ void rva000ABBEF(float *x, float *y, float *z, int index)
 void rva000ABBB3(float x, float y, float z, int index)
 {
 	if (index == -1)
-		index = g_00DFF490;
+		index = g_screenFilterPass;
 	GlobalLightingChunkVectors[index].components.x = x;
 	GlobalLightingChunkVectors[index].components.y = y;
 	GlobalLightingChunkVectors[index].components.z = z;

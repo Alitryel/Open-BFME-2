@@ -33,7 +33,6 @@ typedef unsigned short WideChar;
 #define NULL 0
 #include "../../../../../../reference/shims/bfme2_ascii/unicode_string.h"
 
-extern const WideChar g_00C03F94[];
 
 extern "C" __declspec(dllimport) Int __stdcall GetDiskFreeSpaceExW(
 	const WideChar *dir, void *freeAvail, void *totalBytes, void *totalFree);
@@ -47,7 +46,7 @@ public:
 
 bool Rva002DC267::rva002DC681() const
 {
-	UnicodeString path(g_00C03F94);
+	UnicodeString path(L"C:\\");	// retail literal VA 0x00C03F94
 	bool has = !rva002DC267().isEmpty();
 	if (has) {
 		path.set(rva002DC267());
