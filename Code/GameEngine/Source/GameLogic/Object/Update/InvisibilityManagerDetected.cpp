@@ -10,6 +10,12 @@
 #include <list>
 #include <map>
 #include <vector>
+// max<unsigned> only inlines here; keep it inline-only (retail 0x00013740).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b)
+{ return __a < __b ? __b : __a; }
+}
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
 // map<int,int> find otherwise instantiates the less<int>::operator() COMDAT
 // (one byte shape per TU flags); an explicit dllimport+forceinline
@@ -177,7 +183,7 @@ void Rva00439E0C::rva00439F3F(Xfer *xfer)
 // declared only, the begin was reloaded and the loop bottom-tested.
 void __cdecl Rva00030830GameFree(void *);
 namespace _STL {
- template<> inline _Vector_base<ObjectID,allocator<ObjectID> >::~_Vector_base() {if(_M_start)Rva00030830GameFree(_M_start);}
+ template<> __declspec(dllimport) __forceinline _Vector_base<ObjectID,allocator<ObjectID> >::~_Vector_base() {if(_M_start)Rva00030830GameFree(_M_start);}
 }
 struct Rva00439862Element {char bytes[8];};
 typedef _STL::_Rb_tree<Rva00439862Element,Rva00439862Element,_STL::_Identity<Rva00439862Element>,_STL::less<Rva00439862Element>,_STL::allocator<Rva00439862Element> > InvisibilityEraseProvider;
