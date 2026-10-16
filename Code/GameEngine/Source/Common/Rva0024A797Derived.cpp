@@ -201,22 +201,6 @@ Rva0045ADC1::~Rva0045ADC1()
 {
 }
 
-class Rva0045B134_B2
-{
-public:
-	virtual void f2();
-};
-
-class Rva0045B134 : public UpdateModule, public MiBase1, public Rva0045B134_B2
-{
-public:
-	virtual ~Rva0045B134();
-};
-
-Rva0045B134::~Rva0045B134()
-{
-}
-
 class Rva0047F92D_B2
 {
 public:

@@ -80,6 +80,13 @@ AimWeaponBehavior::AimWeaponBehavior(Thing *thing, const ModuleData *moduleData)
 	setWakeFrame(const_cast<Object*>(getObject()), UPDATE_SLEEP_NONE);
 }
 
+// ??1AimWeaponBehavior@@UAE@XZ @0x0045B134 (formerly the placeholder
+// Rva0045B134 in Rva0024A797Derived.cpp: vftable 0x00C418CC slot 0 is its
+// deleting dtor 0x0045B27B, which calls 0x0045B134).
+AimWeaponBehavior::~AimWeaponBehavior()
+{
+}
+
 // Placeholder virtuals in this unit's vftables: in retail, every vftable that holds
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
