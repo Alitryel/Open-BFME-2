@@ -61,6 +61,9 @@ class Rva001DA2D5 : public Rva001DA2D5Base
 {
 public:
 	virtual ~Rva001DA2D5();
+	// Second vftable slot (retail vftable 0x007DA270 -> 0x005C4AD5, the 4-byte
+	// lea-field getter folded there), as Rva001DA2D5Ctor.cpp declares it.
+	virtual const AsciiString &getAudioName() const { return m_str08; }
 private:
 	char m_pad04[4];
 	AsciiString m_str08;
