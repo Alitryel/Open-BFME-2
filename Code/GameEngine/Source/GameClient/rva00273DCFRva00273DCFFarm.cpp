@@ -246,66 +246,8 @@ private:
     static const Image *s_emptyAmmo;
 };
 
-void Drawable::rva00273755()
-{
-	if (m_354 == 0)
-		return;
-	if (((Rva00270BA8 *)this)->rva00270BA8()->m_items[10] == 0)
-		return;
-	unsigned int cur = TheGameLogic->getFrame();
-	unsigned int v = ((Rva00270BA8 *)this)->rva00270BA8()->m_vals[10];
-	if (v >= cur) {
-		int dw = m_468 - m_460;
-		int w = ((Rva00270BA8 *)this)->rva00270BA8()->m_items[10]->getCurrentFrameWidth();
-		int h = ((Rva00270BA8 *)this)->rva00270BA8()->m_items[10]->getCurrentFrameHeight();
-		int y = m_46c - h;
-		int x = (int)((float)dw * 0.5f + (float)m_460 - (float)w * 0.5f);
-		((Rva00270BA8 *)this)->rva00270BA8()->m_items[10]->rva002D7127(x, y, w, h);
-	} else {
-		rva002736A8();
-	}
-}
-
-// BFME1 cee35b7d8 Drawable_drawAmmo.cpp and ZH Drawable.cpp are semantic
-// guides. Target 273808..2739D1 independently shows the 43C gate, FC Object,
-// full/empty images, 28AEF5 ammo pair, 460 left edge, and UI/View/Display slots.
-// Target offsets DC/F8/9BD differ from donor GlobalData. The actual writable
-// singleton is used; the position aggregate keeps the donor scalar-copy shape.
-void Drawable::drawAmmo()
-{
-    const Object *obj = m_object;
-    if (!TheWritableGlobalData->m_showObjectHealth) return;
-    if (!m_selected) {
-        InGameUI *ui = TheInGameUI;
-        if (!ui) return;
-        Int drawableID = m_id;
-        if (ui->getMousedOverDrawableID() != drawableID) return;
-    }
-    Player *localPlayer = ThePlayerList->getLocalPlayer();
-    if (obj->getControllingPlayer() != localPlayer) return;
-    Int numTotal, numFull;
-    if (!obj->rva0028AEF5(reinterpret_cast<void **>(&numTotal), reinterpret_cast<unsigned *>(&numFull))) return;
-    if (!s_fullAmmo) return;
-    const Image *emptyAmmo = s_emptyAmmo;
-    if (!emptyAmmo) return;
-    Real scale = 1.0f;
-    Int boxWidth = (Int)((Real)emptyAmmo->getImageWidth()*scale);
-    Int boxHeight = (Int)((Real)emptyAmmo->getImageHeight()*scale);
-    ICoord2D screenCenter;
-    Coord3D pos = {obj->getPosition()->x, obj->getPosition()->y, obj->getPosition()->z};
-    pos.x += TheWritableGlobalData->m_ammoPipWorldOffset.x;
-    pos.y += TheWritableGlobalData->m_ammoPipWorldOffset.y;
-    pos.z += TheWritableGlobalData->m_ammoPipWorldOffset.z + obj->getGeometryInfo().getMaxHeightAbovePosition();
-    if (TheTacticalView->worldToScreen(&pos, &screenCenter) != 0) return;
-    Real bounding = obj->getGeometryInfo().m_boundingSphereRadius*scale;
-    Int posx = m_460;
-    Int posy = screenCenter.y + (Int)(TheWritableGlobalData->m_ammoPipScreenOffset.y*bounding);
-    for (Int i=0; i<numTotal; ++i) {
-        TheDisplay->drawImage(i<numFull ? s_fullAmmo : s_emptyAmmo, posx, posy+1,
-            posx+boxWidth, posy+1+boxHeight, -1, 2);
-        posx += boxWidth + 1;
-    }
-}
+// Drawable::rva00273755 (0x00273755) and Drawable::drawAmmo (0x00273808) are
+// rowed in Drawable_rva00273755.cpp; this unit never calls them.
 
 
 // ZH Drawable::drawHealing guide. Native template byte10D/bit4 and status19
