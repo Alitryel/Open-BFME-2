@@ -1,4 +1,4 @@
-// cl: /MD /D_CRTIMP= /GX /DNDEBUG /Oy- /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /MD /D_CRTIMP= /GX /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0EmotionTrackerUpdateModuleData@@QAE@XZ, retail 0x004B115A (299 bytes).
@@ -44,11 +44,6 @@ private:
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
-// Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL {
-template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
-}
 
 class UpdateModuleData
 {
