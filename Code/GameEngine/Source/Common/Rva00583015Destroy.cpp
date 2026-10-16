@@ -9,10 +9,10 @@ void __cdecl operator delete(void *p);
 void *__cdecl operator new(unsigned int size);
 void __cdecl Rva00437E9C(int value);
 
-class Rva00583015Obj
+class Rva00582FC1
 {
 public:
-	Rva00583015Obj(void *argument);
+	Rva00582FC1(void *argument);
 	virtual void *s0(int x);
 
 private:
@@ -21,20 +21,19 @@ private:
 	unsigned char m_pad5C[0x20];
 };
 
-extern Rva00583015Obj *g_Va00A06398;
+// The open file transfer popup (VA 0x00E06398).
+extern int g_Va00E06398;
 
 void __cdecl Rva00583015Destroy(void)
 {
-	Rva00583015Obj *p = g_Va00A06398;
+	Rva00582FC1 *p = (Rva00582FC1 *)g_Va00E06398;
 	if (p != 0)
 	{
 		void *q = p->s0(0);
 		::operator delete(q);
-		g_Va00A06398 = 0;
+		g_Va00E06398 = 0;
 	}
 }
-// ?g_Va00A06398@@3PAVRva00583015Obj@@A: the global at VA 0xe06398 is ?g_Va00E06398@@3HA.
-#pragma comment(linker, "/alternatename:?g_Va00A06398@@3PAVRva00583015Obj@@A=?g_Va00E06398@@3HA")
 
 // Target facts: this one-argument initializer returns 0 when the global is
 // already set and otherwise stores the new 0x7C-byte object and returns 1.
@@ -43,10 +42,10 @@ void __cdecl Rva00583015Destroy(void)
 // ?Rva005836B5Initialize@@YA_NPAX@Z
 bool __cdecl Rva005836B5Initialize(void *argument)
 {
-	if (g_Va00A06398 == 0)
+	if (g_Va00E06398 == 0)
 	{
 		Rva00437E9C(0);
-		g_Va00A06398 = new Rva00583015Obj(argument);
+		g_Va00E06398 = (int)new Rva00582FC1(argument);
 		return true;
 	}
 	return false;

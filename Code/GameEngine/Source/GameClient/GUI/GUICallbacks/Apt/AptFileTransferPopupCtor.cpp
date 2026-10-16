@@ -1,6 +1,6 @@
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHs
 //
-// ??0Rva00583015Obj@@QAE@PAX@Z @0x00583359 860B: BFME2's map file transfer
+// ??0Rva00582FC1@@QAE@PAX@Z @0x00583359 860B: BFME2's map file transfer
 // popup constructor (0x7C bytes; allocated by the rowed initializer
 // 0x005836B5 and destroyed by 0x00583015 through the singleton VA 0x00E06398).
 // Target evidence: pinned base ctor 0x002D2C34 (unwind state 0 runs the rowed
@@ -15,7 +15,8 @@
 // The first instance announces FileTransferPopUpOpen (owner 13) through the
 // rowed invoke 0x00222A8B. WorldBuilder's twin 0x0156B1E0 is
 // AptFileTransferPopup::AptFileTransferPopup (assert "Should only be one!");
-// the row keeps the pinned address name.
+// the row keeps the pinned address name, spelled after the rowed dtor
+// ??1Rva00582FC1 (0x00582FC1) that the vtable 0x00C6FA9C slot 0 reaches.
 
 #include "ascii_string.h"
 #include "unicode_string.h"
@@ -160,11 +161,11 @@ public:
 	void ProcessProgress(int player, int percent, UnicodeString text);
 };
 
-class Rva00583015Obj : public Rva005248D0
+class Rva00582FC1 : public Rva005248D0
 {
 public:
-	Rva00583015Obj(void *argument);
-	virtual ~Rva00583015Obj();
+	Rva00582FC1(void *argument);
+	virtual ~Rva00582FC1();
 
 private:
 	GameInfo *m_game; // +0x58
@@ -172,7 +173,7 @@ private:
 };
 
 #pragma pointers_to_members(full_generality, multiple_inheritance)
-Rva00583015Obj::Rva00583015Obj(void *argument)
+Rva00582FC1::Rva00582FC1(void *argument)
 	: m_game((GameInfo *)argument)
 {
 	if (g_Va00E06398 != 0)
