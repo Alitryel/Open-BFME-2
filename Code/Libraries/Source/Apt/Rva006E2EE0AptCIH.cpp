@@ -109,7 +109,7 @@ struct AptCharacterSpriteInstBase
 	int mode;			// +0x2C
 };
 
-class Rva006D2A60 { public: void *allocBlock(int); };
+class Rva006D2A60 { public: void *allocBlock(int); void freeBlock(void *,int); };
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
 
 class Rva006DE1A0
@@ -117,7 +117,8 @@ class Rva006DE1A0
 public:
 	Rva006DE1A0();
 	static void *operator new(unsigned size) { return g_pChainBlockAllocatorF4->allocBlock(size); }
-	static void operator delete(void *, unsigned);
+	// The unwind funclet frees through the shared 22-byte forwarder 0x006F12F0.
+	static void operator delete(void *p, unsigned int n) { g_pChainBlockAllocatorF4->freeBlock(p, n); }
 private:
 	unsigned char m_data[0x20];
 };
@@ -170,7 +171,9 @@ struct Rva006E34D0Animations
 	unsigned char m_pad00[0x28];
 	Rva006E9A40List clips;		// +0x28
 };
-extern Rva006E34D0Animations *g_bfmeAptPtrAtE176D0;
+// The pool pointer at 0x00A176D0 is the ledger's Rva006E34D0 global; read it through this view.
+class Rva006E34D0;
+extern Rva006E34D0 *g_bfmeAptPtrAtE176D0;
 
 class Rva006E0AC0 { public: int rva006E0AC0(); };
 
@@ -264,7 +267,7 @@ void AptCIH::rva006E2EE0()
 		}
 		if (((Rva006E0AC0 *)this)->rva006E0AC0())
 		{
-			Rva006E9A40List &clips = g_bfmeAptPtrAtE176D0->clips;
+			Rva006E9A40List &clips = ((Rva006E34D0Animations *)g_bfmeAptPtrAtE176D0)->clips;
 			for (int j = 0; j < clips.mnMaxElements; j++)
 				if (clips.maElements[j] == this)
 					return;
