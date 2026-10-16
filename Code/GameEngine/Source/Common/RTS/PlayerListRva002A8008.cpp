@@ -142,7 +142,8 @@ private:
 	Player *m_players[20];	// +0x18
 };
 
-__declspec(noinline) SidesInfo *SidesList::getSideInfo(Int i){return(i>=0 && i<m_numSides)?&m_sides[i]:0;}
+// Select-any copy of the body rowed in SidesList_getSideInfo.cpp.
+__declspec(noinline) inline SidesInfo *SidesList::getSideInfo(Int i){return(i>=0 && i<m_numSides)?&m_sides[i]:0;}
 __declspec(noinline) Player *PlayerList::getNthPlayer(Int i){if(i<0 || i>=20)return 0;return m_players[i];}
 void PlayerList::newGame()
 {
@@ -239,3 +240,6 @@ void PlayerList::newGame()
 	}
 
 }
+
+// ?bfmeAnchorGetSideInfoCopy@@YAXPAVSidesList@@@Z absent-from-retail
+void bfmeAnchorGetSideInfoCopy(SidesList *p) { p->getSideInfo(0); }

@@ -28,7 +28,12 @@ private:
 };
 
 // ?getSideInfo@SidesList@@QAEPAVSidesInfo@@H@Z
-SidesInfo *SidesList::getSideInfo(int i)
+// Select-any: PlayerListRva002A8008.cpp compiles a copy of the same body.
+__declspec(noinline) inline SidesInfo *SidesList::getSideInfo(int i)
 {
 	return (i >= 0 && i < m_numSides) ? &m_sides[i] : 0;
 }
+
+// The anchor keeps the rowed body emitted.
+// ?bfmeAnchorGetSideInfo@@YAXPAVSidesList@@@Z absent-from-retail
+void bfmeAnchorGetSideInfo(SidesList *p) { p->getSideInfo(0); }
