@@ -205,7 +205,7 @@ public:
 	Bool adjustToPossibleDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest);
 	// The rowed Int body at 0x002F1BA2 (PathfinderCoordLineWalk.cpp); its callers
 	// test only al, so this TU calls it through a Bool view.
-	Bool Rva002F1BA2(void *obj, void *surfaces, PathfindLayerEnum layer, const Coord3D *from, const Coord3D *to);
+	Bool IsHordeMeleeLinePassable(void *obj, void *surfaces, PathfindLayerEnum layer, const Coord3D *from, const Coord3D *to);
 	Bool IsLineBlocked(void *obj, void *surfaces, PathfindLayerEnum layer, const Coord3D *from, const Coord3D *to);
 	Bool AdjustHordeMeleeDestination(Object *obj, void *arg, Coord3D *dest);
 };
@@ -1000,7 +1000,7 @@ Bool AIAttackMeleeHordeApproachTargetState::rva00344D60(Coord3D *goal, Object *s
 	direction.scale(10.0f);
 	for (int i = 0; i < count; ++i)
 	{
-		if (TheAI->pathfinder()->Rva002F1BA2(source, ai->getValidLocomotorSurfaces(),
+		if (TheAI->pathfinder()->IsHordeMeleeLinePassable(source, ai->getValidLocomotorSurfaces(),
 				(PathfindLayerEnum)source->rva0028B511(), &candidate, &candidate))
 		{
 			*goal = candidate;

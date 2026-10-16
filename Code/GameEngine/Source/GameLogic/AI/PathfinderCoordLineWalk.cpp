@@ -74,7 +74,7 @@ public:
 	Int IsLinePassable(void *a8, void *ac, PathfindLayerEnum a10, const Coord3D *a14, const Coord3D *a18, void *a1c, Int a20, Int a24);
 	Bool IsLineBlocked(void *a8, void *ac, PathfindLayerEnum a10, const Coord3D *a14, const Coord3D *a18);
 	Int IsLinePassableForOptimize(void *a8, void *ac, PathfindLayerEnum a10, const Coord3D *a14, const Coord3D *a18, void *a1c);
-	Int IsHordeMeleeLinePassable(void *a8, void *ac, PathfindLayerEnum a10, const Coord3D *a14, const Coord3D *a18);
+	Bool IsHordeMeleeLinePassable(void *a8, void *ac, PathfindLayerEnum a10, const Coord3D *a14, const Coord3D *a18);
 private:
 	Int iterateCellsAlongLine(const ICoord2D *startCell, const ICoord2D *destinationCell, PathfindLayerEnum layer, Rva002ED15AInfo *callbackInfo);
 	Int iterateCellsAlongLine(const ICoord2D *startCell, const ICoord2D *destinationCell, PathfindLayerEnum layer, Rva002ECE6AInfo *callbackInfo);
@@ -148,7 +148,7 @@ Int Pathfinder::IsLinePassableForOptimize(void *a8, void *ac, PathfindLayerEnum 
 }
 
 // 0x002F1BA2 51B: 5-arg wrapper, helper1 0x002ED0CC, !logic.
-Int Pathfinder::IsHordeMeleeLinePassable(void *a8, void *ac, PathfindLayerEnum a10, const Coord3D *a14, const Coord3D *a18)
+Bool Pathfinder::IsHordeMeleeLinePassable(void *a8, void *ac, PathfindLayerEnum a10, const Coord3D *a14, const Coord3D *a18)
 {
 	Rva002ED15AInfo info;
 	return !iterateCellsAlongLine(a14, a18, a10, info.init(this, a8, ac));
