@@ -188,3 +188,25 @@ struct BfmePod340
 	BfmePod340(const BfmePod340 &that);
 };
 template void _STL::_Construct<BfmePod340, BfmePod340>(BfmePod340 *, const BfmePod340 &);
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x0040E96D -> ??0ArmySummary@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:??0BfmePod104@@QAE@ABU0@@Z=??0ArmySummary@@QAE@ABV0@@Z")
+//   0x001E4DEB -> ??0Rva001E4DB0@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:??0BfmePod340@@QAE@ABU0@@Z=??0Rva001E4DB0@@QAE@ABV0@@Z")
+//   0x001DE878 -> ??0Rva001DF2D3Element@@QAE@ABU0@@Z
+#pragma comment(linker, "/alternatename:??0Rva001DF3F1Element@@QAE@ABU0@@Z=??0Rva001DF2D3Element@@QAE@ABU0@@Z")
+//   0x00332106 -> ??0?$list@PAURva00332106PointerTarget@@V?$allocator@PAURva00332106PointerTarget@@@_STL@@@_STL@@QAE@ABV01@@Z
+#pragma comment(linker, "/alternatename:??0Rva00394173Member@@QAE@ABV0@@Z=??0?$list@PAURva00332106PointerTarget@@V?$allocator@PAURva00332106PointerTarget@@@_STL@@@_STL@@QAE@ABV01@@Z")
+//   0x0040B707 -> ??0Rva0040B707@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:??0Rva0040C0C7Element@@QAE@ABU0@@Z=??0Rva0040B707@@QAE@ABV0@@Z")
+//   0x00414093 -> ??0Rva00414093@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:??0Rva00414258Element@@QAE@ABU0@@Z=??0Rva00414093@@QAE@ABV0@@Z")
+//   0x0055AB99 -> ??0ScoredKillTracker@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:??0Rva00414BA4Element@@QAE@ABU0@@Z=??0ScoredKillTracker@@QAE@ABV0@@Z")
+//   0x004E2C66 -> ??0Rva004E2C66@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:??0Rva004E3E5AElement@@QAE@ABU0@@Z=??0Rva004E2C66@@QAE@ABV0@@Z")
+//   0x004334D7 -> ??0?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@QAE@ABV01@@Z
+#pragma comment(linker, "/alternatename:??0Rva005668E9Element@@QAE@ABU0@@Z=??0?$vector@UBfmeE8@@V?$allocator@UBfmeE8@@@_STL@@@_STL@@QAE@ABV01@@Z")

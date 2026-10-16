@@ -141,3 +141,11 @@ template<> void _STL::__push_heap<CopyRecord8Iterator,int,BfmeCopyRecord8,BfmeCo
  BfmeCopyRecord8 *dest=read_key_heap_cursor(first+hole);
  dest->a=static_cast<const volatile BfmeCopyRecord8 &>(value).a;dest->b_bits=value.b_bits;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x00549DCB -> ?rva00549DCB@Rva00549DCB@@QBE_NABQAUFoo00549DCB@@0@Z
+#pragma comment(linker, "/alternatename:??RBfmeCopyRecord8KeyAscending@@QBE_NABUBfmeCopyRecord8@@0@Z=?rva00549DCB@Rva00549DCB@@QBE_NABQAUFoo00549DCB@@0@Z")
+//   0x00549DF2 -> ?Rva00549DF2Cmp@@YGIPAX0@Z
+#pragma comment(linker, "/alternatename:??RBfmeCopyRecord8KeyDescending@@QBE_NABUBfmeCopyRecord8@@0@Z=?Rva00549DF2Cmp@@YGIPAX0@Z")
