@@ -15,6 +15,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Keep vector<void*>::end inline without emitting this unit's /O1 COMDAT copy:
+// retail's one out-of-line end is the /Od body at 0x00023BA0.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end() { return this->_M_finish; }
+}
 #include "ascii_string.h"
 // Retail Version stores minimum/current bytes and has an inline constructor;
 // that constructor form also reproduces the independent stack homes in DoXfer.
