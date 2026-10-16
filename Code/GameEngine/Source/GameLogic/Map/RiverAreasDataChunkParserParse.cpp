@@ -25,7 +25,9 @@
 //   - parses a quad strip (rowed constructor 0x005388AB and
 //     QuadStrip2D::parse) and hands it to the area (rowed 0x0030C157);
 //   - inserts the area under its id (rowed RiverAreaSetView::insert).
-// The table's original name is unknown; it is modelled file-static here.
+// The table's original name is unknown; it is defined here under the data
+// ledger's address name, which the save side (RiverAreasDataChunkParserSave)
+// also reads.
 #include "ascii_string.h"
 #include "AreaSetEntryView.h"
 #include "Lib/RGBColor.h"
@@ -144,7 +146,7 @@ public:
 	void insert(Int id, AreaRefValueView area);
 };
 
-static const char *s_riverLevelNames[] = { "Low", "Medium", "High", "UltraHigh" };
+const char *g_00DB9650[] = { "Low", "Medium", "High", "UltraHigh" };
 
 class RiverAreasDataChunkParser
 {
@@ -179,7 +181,7 @@ Bool RiverAreasDataChunkParser::parse(DataChunkInput &file, DataChunkInfo *info)
 			Int level = -1;
 			for (unsigned int j = 0; j < 4; ++j)
 			{
-				if (name.compare(s_riverLevelNames[j]) == 0)
+				if (name.compare(g_00DB9650[j]) == 0)
 				{
 					level = j;
 					break;

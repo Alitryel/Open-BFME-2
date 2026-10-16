@@ -7,7 +7,7 @@
 // second sample scaled by radians-per-degree is stored at child +0x20 (negated
 // on the second child), and the third sample scaled by 255 becomes setOpacity.
 
-extern "C" float RADS_PER_DEGREE;
+static const float RADS_PER_DEGREE = 0.017453292f;	// __real@3c8efa35, as Rva00214F14Init.cpp spells it
 
 class FCurve
 {

@@ -15,6 +15,9 @@
 enum ModelConditionFlagType { MODELCONDITION_014E = 0x14E };
 enum KindOfType { KINDOF_04 = 4, KINDOF_45 = 0x45 };
 extern const int g_Va00BFBF34[];
+// Defined here: nothing else in the tree did. Retail .rdata VA 0x00BFBF34
+// (RVA 0x007FBF34) holds -1, 3, 4, 5, 0 up to the next literal at 0x007FBF48.
+extern const int g_Va00BFBF34[] = { -1, 3, 4, 5, 0 };
 extern int BfmeLogicFramesPerSecond;
 class GameLogic; extern GameLogic *TheGameLogic;
 

@@ -84,6 +84,9 @@ public:
 };
 
 extern char *g_Rva012C3A18;
+// Defined here: nothing else in the tree did. Retail .data RVA 0x009D8170
+// holds VA 0x00CE2A60, the literal "1.4" (the client version string).
+char *g_Rva012C3A18 = (char *)"1.4";
 class Rva007E8810Message;
 class Rva007F45E0Aries
 {

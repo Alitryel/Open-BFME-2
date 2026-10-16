@@ -54,6 +54,10 @@ public:
 };
 
 extern unsigned g_Va00E0631C;	// the StatsDisplay instance at 0x00E0631C
+// Defined here: nothing else in the tree did. Retail's 56-byte zero-filled
+// .bss object (RVA 0x00A0631C), constructed in place by the 0x007AC6DD
+// initializer; its referencing units spell it as this scalar.
+unsigned g_Va00E0631C;
 
 class Rva003FE20FBase
 {
