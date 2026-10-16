@@ -1,5 +1,5 @@
 // ?rva000F6DB0@Rva007D6B70@@QAEXPAVDynamicIBAccessClass@@HPAVDynamicVBAccessClass@@HHHMMMMPAVCoord2D@@@Z
-// partial score=0.879 date=2026-10-16
+// partial score=0.975 date=2026-10-16
 // ?rva000F6DB0@Rva007D6B70@@QAEXPAVDynamicIBAccessClass@@HPAVDynamicVBAccessClass@@HHHMMMMPAVCoord2D@@@Z
 // Retail 0x000F6DB0..0x000F70EB (827 B, thiscall RET 0x2C): the screen-filter
 // grid update of filter class Rva007D6B70 (its rowed shutdown follows at
@@ -100,22 +100,19 @@ void Rva007D6B70::rva000F6DB0(DynamicIBAccessClass *ib, int a, DynamicVBAccessCl
 		float invColumns = 1.0f / (columns - 1);
 		for (int y = 0; y < rows; ++y) {
 			float fy = y * invRows;
-			float py = fy * height + top;
-			float screenY = py - 0.5f;
-			for (int x = 0; x < columns; ++x) {
+			float screenY = (fy * height + top) - 0.5f;
+			for (int x = 0; x < columns; ++x, ++p) {
 				float fx = x * invColumns;
-				float px = fx * width + left;
-				p->x = px - 0.5f; p->y = screenY; p->z = 0; p->rhw = 1; p->diffuse = 0x64ffffff;
-				p->u0 = px / dims->x; p->v0 = py / dims->y;
-				float u1 = fx * amplitude * 2 + m_scrollX;
-				p->u1 = u1;
-				p->v1 = fy * amplitude + m_scrollY;
-				p->v2 = p->v1 + m_spread; p->u2 = u1 - m_spread; p->u1 = u1 + m_spread;
+				p->x = fx * width + left - 0.5f; p->y = screenY; p->z = 0; p->rhw = 1; p->diffuse = 0x64ffffff;
+				p->u0 = (fx * width + left) / dims->x; p->v0 = (fy * height + top) / dims->y;
+				p->u1 = fx * amplitude * 2 + m_scrollX; p->v1 = fy * amplitude + m_scrollY;
+				float u1 = p->u1; float v1 = p->v1;
+				p->v2 = v1 + m_spread; p->u2 = u1 - m_spread; p->u1 += m_spread;
 				p->u3 = (0.5f - 0.5f * sin((fx + fy) * GridWave0Frequency + GridPhase0 * GridWave0Phase)) * GridWave0Amplitude;
 				float wave = (0.5f - 0.5f * sin((fx + fy) * GridWave1Frequency + GridPhase1 * GridWave1Phase)) * GridWave1Amplitude;
 				p->v3 = 0;
 				p->u1 += wave; p->u2 += wave;
-				++p;
+			next_vertex:;
 			}
 		}
 	}
