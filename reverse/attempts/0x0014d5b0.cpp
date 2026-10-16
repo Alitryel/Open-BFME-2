@@ -1,4 +1,12 @@
 // ?rva0014D5B0@SourceNamespace_AmbientLight@FXShaderParameterSourceNamespaceSAS@@QAEXPAUID3DXEffect@@PBD@Z
+// partial score=0.97 date=2026-10-16
+// ?rva0014D5B0@SourceNamespace_AmbientLight@FXShaderParameterSourceNamespaceSAS@@QAEXPAUID3DXEffect@@PBD@Z
+// W9-O2 (2026-10-16): whole owner TU with a plain 0x0014D5B0 body (x, y, z locals from the ambient
+// reference, stores, optional x2, color[3] = 0 in both arms): size-exact 156 B, nd 13, and the ONLY
+// residue is XMM numbering - ours y0 z1 x2 2.0f->3, retail x1 y2 z3 with 2.0f (and the join zero) in
+// XMM0. Inert for numbering: x/y/z declaration orders, const/plain scale local, 2.0f*x, zero local,
+// inverted if, chained else stores. Sole link blocker of an 11.5 KB unit (link_rank).
+// ?rva0014D5B0@SourceNamespace_AmbientLight@FXShaderParameterSourceNamespaceSAS@@QAEXPAUID3DXEffect@@PBD@Z
 // partial score=0.96 date=2026-10-15
 // cl: /O1 /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
@@ -952,17 +960,16 @@ void FXShaderParameterSourceNamespaceSAS::SourceNamespace_AmbientLight::rva0014D
 	Rva0013F6F0LightEnv *env = (Rva0013F6F0LightEnv *)DX8Wrapper::Get_Light_Environment();
 	if (env != 0 && m_index == 0)
 	{
-		
-		const Rva0013F6F0LightEnv::Vector3 &a0 = env->Get_Equivalent_Ambient(); float fy=a0.Y; float fx=a0.X; float fz=a0.Z;
-		color[2] = fz;
-		color[0] = fx;
-		color[1] = fy;
+		const Rva0013F6F0LightEnv::Vector3 &a0 = env->Get_Equivalent_Ambient();
+		float x = a0.X, y = a0.Y, z = a0.Z;
+		color[0] = x;
+		color[1] = y;
+		color[2] = z;
 		if (ShaderOverbrightEnabled)
 		{
-			
-			color[0] *= 2.0f;
-			color[1] *= 2.0f;
-			color[2] *= 2.0f;
+			color[0] = x * 2.0f;
+			color[1] = y * 2.0f;
+			color[2] = z * 2.0f;
 		}
 		color[3] = 0.0f;
 	}
