@@ -16,15 +16,7 @@ class HTreeClass {
  CapturedBone *Begin,*End,*Capacity;
 public: void Control_Bone(int,const Matrix3D &,bool); void Get_Bone_Control(int,Matrix3D &) const;
 };
-void HTreeClass::Control_Bone(int boneindex,const Matrix3D &relative_tm,bool world_space_translation)
-{
- CapturedBone *bone=Begin;
- while(bone!=End && bone->Index<boneindex) ++bone;
- if(bone==End || bone->Index!=boneindex) return;
- bone->WorldSpaceTranslation=world_space_translation;
- bone->Rotation=Build_Quaternion(relative_tm);
- ((const HTreeTranslationView &)relative_tm).Get_Translation(&bone->Translation);
-}
+// HTreeClass::Control_Bone (0x00162060) is rowed in htree_control.cpp.
 
 void HTreeClass::Get_Bone_Control(int index,Matrix3D &out) const
 {

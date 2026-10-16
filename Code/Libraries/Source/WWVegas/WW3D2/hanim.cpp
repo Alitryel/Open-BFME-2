@@ -160,7 +160,7 @@ HAnimComboDataClass::~HAnimComboDataClass(void)
 }
 
 
-void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
+__declspec(noinline) inline void HAnimComboDataClass::Set_HAnim(HAnimClass *motion)
 {
 	if ( motion != NULL ) {
 		motion->Add_Ref();
