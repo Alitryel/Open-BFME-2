@@ -4,10 +4,12 @@ struct Rva0028F2F8Aux
 	unsigned char m_pad[0x11F];
 	unsigned char m_11F;
 };
+// The rowed lookup ?rva002197A6@CreateAHeroManager@@QAEPAVCreateAHeroData@@H@Z.
+class CreateAHeroData;
 class CreateAHeroManager
 {
 public:
-	void *rva002197A6(int v);
+	CreateAHeroData *rva002197A6(int v);
 };
 extern CreateAHeroManager *TheCreateAHeroManager;
 class Object

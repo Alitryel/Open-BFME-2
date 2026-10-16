@@ -39,10 +39,12 @@ public:
 	int m_heroKey;
 };
 class CreateAHeroHero;
+// The rowed lookup ?rva002197A6@CreateAHeroManager@@QAEPAVCreateAHeroData@@H@Z.
+class CreateAHeroData;
 class CreateAHeroManager
 {
 public:
-	void *rva002197A6(int);
+	CreateAHeroData *rva002197A6(int);
 	const AsciiString &GetButtonImageName(const CreateAHeroHero *);
 };
 class ImageCollection
@@ -93,7 +95,7 @@ const Image *RespawnUpdate::getDeadImage()
 	const AsciiString &name = data->m_deadImageName;
 	if (!name.isEmpty()) {
 		if (object->getTemplate()->m_kindOfByte & 0x40) {
-			CreateAHeroHero *hero = static_cast<CreateAHeroHero *>(
+			CreateAHeroHero *hero = (CreateAHeroHero *)(
 				TheCreateAHeroManager->rva002197A6(object->m_heroKey));
 			if (hero) {
 				m_deadImage = TheMappedImageCollection->findImageByName(
