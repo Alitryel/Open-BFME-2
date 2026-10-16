@@ -1,4 +1,10 @@
 // ?rva001EFD9C@Rva001EFD9C@@QAE_NVUnicodeString@@_NPBUSelPair@@@Z
+// partial score=0.9 date=2026-10-16
+// ?rva001EFD9C@Rva001EFD9C@@QAE_NVUnicodeString@@_NPBUSelPair@@@Z
+// partial score=0.9 date=2026-10-16
+// w9-o3: farm best (nd 10) with the 1?: empty test replaced by message.isEmpty(); still needs the (ok ? end : end) read for retail regalloc; residue: retail constructs names after the sels test (inside the else) - inner scope moves zero reg to ebx and shrink-wraps esi/edi (nd 126)
+// farm best: 12 instruction differences (retail 554 B); key 2c169cb56a95a5104f6b
+// ?rva001EFD9C@Rva001EFD9C@@QAE_NVUnicodeString@@_NPBUSelPair@@@Z
 // partial score=0.55 date=2026-10-14
 // ?rva001EFD9C@Rva001EFD9C@@QAE_NVUnicodeString@@_NPBUSelPair@@@Z
 // partial score=0.204 date=2026-10-13
@@ -123,13 +129,12 @@ bool Rva001EFD9C::rva001EFD9C(UnicodeString message, bool isAction, const SelPai
 	bool ok;
 	getCurrentGroupRoom();
 	message.trim();
-	const void *bits = *reinterpret_cast<const void * const *>(&message);
-	if (0 == bits
-		|| *reinterpret_cast<const unsigned short *>(reinterpret_cast<const char *>(bits) + 4) == 0)
+	if (message.isEmpty())
 		ok = false;
 	else {
 		PeerRequest rec;
 		rec.unknown_10 = message.str();
+		AsciiString names;
 		if (sels == 0
 			|| (((reinterpret_cast<const char *>((ok ? sels->end : sels->end)) - reinterpret_cast<const char *>(sels->begin)) & ~3) == 0))
 		{
@@ -140,7 +145,6 @@ bool Rva001EFD9C::rva001EFD9C(UnicodeString message, bool isAction, const SelPai
 		}
 		else
 		{
-			AsciiString names;
 			PlayerInfo *found = TheGameSpyInfo->rva00382CCE(TheGameSpyInfo->getLocalName().str());
 			if (found)
 				names.format("%s", found->m_name.str());
@@ -161,7 +165,7 @@ bool Rva001EFD9C::rva001EFD9C(UnicodeString message, bool isAction, const SelPai
 				rec.unknown_04 = names.str();
 				rec.msgAction.action = isAction;
 				rec.unknown_00 = 2;
-			TheGameSpyPeerMessageQueue->addRequest(&rec);
+				TheGameSpyPeerMessageQueue->addRequest(&rec);
 			}
 			ok = true;
 		}

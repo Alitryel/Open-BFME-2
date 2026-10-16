@@ -1,8 +1,16 @@
 // ?rva00294471@Object@@QAE_NPAXH@Z
+// partial score=0.97 date=2026-10-16
+// ?rva00294471@Object@@QAE_NPAXH@Z
+// partial score=0.97 date=2026-10-16
+// w9-o3: hack-free WB --gd rewrite (ALLIES/ENEMIES tests restored, sub-contain scan, count()==countFor(0) gate); 570/570 B nd 6: retail keeps the FIRST return-false copy (after the ALLIES test) as the shared block, ours keeps the inactive-path copy
+// farm best: 11 instruction differences (retail 570 B); key 1d915f48fe8032795484
+// ?rva00294471@Object@@QAE_NPAXH@Z
 // partial score=0.8888972431077695 date=2026-10-14
 // ?rva00294471@Object@@QAE_NPAXH@Z
 // partial score=0.889067405355494 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // Native294471..2946AB RET8; owned Object callers and neutral existing pin
 // establish Object receiver and pointer-word formals. Player pointer role is
 // native getRelationship(Team) usage; original method and mode names unknown.
@@ -31,32 +39,86 @@ class Object {public:
  Player*getControllingPlayer()const;bool rva0028F518();bool testStatus(ObjectStatusTypes)const;int rva002933CD();Rva00373EC6*rva0028F4BC();bool rva00294471(void*,int);
  char p[4];const ThingTemplate*tmpl;char q[0x250-8];ContainView*contain;
 };
-bool Object::rva00294471(void*arg,int mode){
- Player*player=arg?(Player*)arg:(Player*)arg;ObjectListView view;
- if(mode==1){Player*owner=getControllingPlayer();if(owner && player->getRelationship(owner->team)==ALLIES)return false;}
- {
- if(!rva0028F518() && (!testStatus(STATUS15) || testStatus(STATUS17))){
-  if(mode==1){Player*owner=getControllingPlayer();if(!owner || player->getRelationship(owner->team)!=ENEMIES)return false;}
-  if(tmpl->b115&0x20){
-   ContainView*base=contain;if(base){ContainView*sub=base->child();if(sub){
-    sub->listA(&view);bool any=false;
-    ObjectNode*endNode=view.list->head;for(ObjectNode*n=endNode->next;(player ? n : n)!=endNode;n=n->next){
-     Object*obj=n->value;if(obj){if(!obj->rva0028F518() || !obj->testStatus(STATUS15) || (unsigned char)obj->rva002933CD() || obj->testStatus(STATUS17))goto accept;any=true;}
-    }
-    if(any)return false;goto accept;
-   }}
-  }
-  ContainView*current=contain;if(!current)goto accept;
-  Player*owner=current->playerFor(player);int n=current->countFor(0);if(current->count()!=n)goto accept;
-  current->listB(&view);ObjectNode*first=view.list->head->next;if(first==view.list->head)goto accept;
-  Object*obj=first->value;if(!obj || (unsigned char)obj->rva002933CD() || obj->testStatus(STATUS17))goto accept;
-  if(owner && player->getRelationship(owner->team)==ENEMIES)return false;
-  goto accept;
- }
- if(!(tmpl->b113&1))return false;
- Rva00373EC6*effect=rva0028F4BC();if(effect && effect->active){Player*owner=ThePlayerList->getNthPlayer(effect->playerIndex);if(player && owner)return (unsigned char)(player->getRelationship(owner->team)==ENEMIES);}
- if(mode==1){Player*owner=getControllingPlayer();if(!owner || player->getRelationship(owner->team)!=ENEMIES)return false;}
- goto accept;
- }
-accept:return true;
+bool Object::rva00294471(void *arg, int mode)
+{
+	Player *player = (Player *)arg;
+	if (mode == 1)
+	{
+		Player *owner = getControllingPlayer();
+		if (owner && player->getRelationship(owner->team) == ALLIES)
+			return false;
+	}
+	if (rva0028F518() || (testStatus(STATUS15) && !testStatus(STATUS17)))
+	{
+		if (!(tmpl->b113 & 1))
+			return false;
+		Rva00373EC6 *effect = rva0028F4BC();
+		if (effect && effect->active)
+		{
+			Player *owner = ThePlayerList->getNthPlayer(effect->playerIndex);
+			if (player && owner)
+				return (unsigned char)(player->getRelationship(owner->team) == ENEMIES);
+		}
+		if (mode == 1)
+		{
+			Player *owner = getControllingPlayer();
+			if (!owner || player->getRelationship(owner->team) != ENEMIES)
+				return false;
+		}
+		return true;
+	}
+	if (mode == 1)
+	{
+		Player *owner = getControllingPlayer();
+		if (!owner || player->getRelationship(owner->team) != ENEMIES)
+			return false;
+	}
+	if (tmpl->b115 & 0x20)
+	{
+		ContainView *base = contain;
+		if (base)
+		{
+			ContainView *sub = base->child();
+			if (sub)
+			{
+				ObjectListView view;
+				sub->listA(&view);
+				bool any = false;
+				ObjectNode *endNode = view.list->head;
+				for (ObjectNode *n = endNode->next; n != endNode; n = n->next)
+				{
+					Object *obj = n->value;
+					if (obj)
+					{
+						if (!obj->rva0028F518() || !obj->testStatus(STATUS15))
+							return true;
+						if ((unsigned char)obj->rva002933CD() || obj->testStatus(STATUS17))
+							return true;
+						any = true;
+					}
+				}
+				if (any)
+					return false;
+				return true;
+			}
+		}
+	}
+	ContainView *current = contain;
+	if (current)
+	{
+		Player *owner = current->playerFor(player);
+		if (current->count() == current->countFor(0))
+		{
+			ObjectListView view;
+			current->listB(&view);
+			ObjectNode *first = view.list->head->next;
+			if (first != view.list->head)
+			{
+				Object *obj = first->value;
+				if (obj && !(unsigned char)obj->rva002933CD() && !obj->testStatus(STATUS17) && owner && player->getRelationship(owner->team) == ENEMIES)
+					return false;
+			}
+		}
+	}
+	return true;
 }
