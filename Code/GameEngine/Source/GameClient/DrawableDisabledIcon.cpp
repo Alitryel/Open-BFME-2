@@ -50,8 +50,9 @@ struct DrawableDisabledObjectView
 struct Rva002D752DNode;
 class Drawable
 {
-public:
+    friend class Rva00275F3FHost;
     // Existing definition in Common/Rva00270190.cpp; no new data alias.
+    // Private, as there and in the other Drawable units (ZH Drawable.h).
     static Rva002D752DNode **s_animationTemplates;
 };
 extern Anim2DCollection *TheAnim2DCollection;
