@@ -94398,3 +94398,4 @@ $L8754,,0x00779FA2,10,Code/GameEngine/Source/GameLogic/Map/StandingWaterAreaLoad
 ?rva002E8D74@Rva002E8D74@@QAEMHH@Z,,0x002E8D74,54,Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp,matched,x87 scaled squared distance via fild dance and G7 imul; row moved home from Rva002E8D74.cpp
 ?rva00232B7B@Keyboard@@QAEXXZ,,0x00232B7B,76,Code/GameEngine/Source/GameClient/Input/rva00232B7BRva00232B7BFarm.cpp,matched,
 ?rva00086B2C@Rva008B77D@@UAEXHHMMHH@Z,,0x003114A7,144,Code/GameEngine/Source/Common/rva00086B2CRva003114A7Farm.cpp,matched,
+?rva00365E98@Path@@QAEXPAVObject@@PBUCoord3D@@H_N@Z,,0x00365E98,739,Code/GameEngine/Source/GameLogic/Pathfinder/rva00365E98Rva00365E98Farm.cpp,matched,

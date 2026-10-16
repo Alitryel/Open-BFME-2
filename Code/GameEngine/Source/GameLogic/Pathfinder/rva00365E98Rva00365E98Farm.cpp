@@ -1,15 +1,9 @@
 // ?rva00365E98@Path@@QAEXPAVObject@@PBUCoord3D@@H_N@Z
-// partial score=0.9952 date=2026-10-14
 // ?rva00365E98@Path@@QAEXPAVObject@@PBUCoord3D@@H_N@Z
-// partial score=0.995 date=2026-10-13
 // ?rva00365E98@Path@@QAEXPAVObject@@PBUCoord3D@@H_N@Z
-// partial score=0.98 date=2026-10-13
 // ?rva00365E98@Path@@QAEXPAVObject@@PBUCoord3D@@H_N@Z
-// partial score=0.98 date=2026-10-13
 // ?rva00365E98@Path@@QAEXPAVObject@@PBUCoord3D@@H_N@Z
-// partial score=0.98 date=2026-10-13
 // ?rva00365E98@Path@@QAEXPAVObject@@PBUCoord3D@@H_N@Z
-// partial score=0.98 date=2026-10-11
 // ?rva00365E98@Path@@QAEXPAVObject@@PBUCoord3D@@H_N@Z
 // partial date=2026-10-11 round5: non-call diffs 17 -> 4. Scoping only the Coord2D delta
 // into its own block around the 0x363BC7 call puts delta at -0x18 and segment/slow at -0x14 as
@@ -75,6 +69,7 @@ void Path::rva00365E98(Object *obj,const Coord3D *input,Int surfaces,Bool blocke
  if(reversed && longSegment)rva00365B8A(obj,original,current,input,longSpeed);
  else if(turn>0.0f) {
   DirectionOptions options;options.value4=turn;float radius=((const DirectionEntryView *)entry)->settings->word84;options.flag0=true;options.flag1=false;options.flag8=false;
+  *(volatile float *)&radius=radius;
   if(((Rva001E46E1 *)entry)->rva001E543F(obj)) {
    float lower=((const DirectionEntryView *)entry)->settings->word40;
    radius=directionMin(lower,radius);
