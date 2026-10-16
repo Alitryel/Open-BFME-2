@@ -16,7 +16,7 @@ streamsize basic_streambuf<char, char_traits<char> >::_M_xsputnc(char_type c, st
 		if (_FILE_O_avail(_M_put) > 0)
 		{
 			size_t chunk = (min)((size_t)_FILE_O_avail(_M_put), (size_t)(n - result));
-			traits_type::assign(_FILE_O_next(_M_put), chunk, c);
+			traits_type::assign((char *)_M_put->_ptr, chunk, c);
 			result += chunk;
 			_FILE_O_bump(_M_put, (int)chunk);
 		}
