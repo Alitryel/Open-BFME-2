@@ -1,7 +1,5 @@
 // ?rva00271898@Rva00271826@@QAEPBURva00271898Color@@XZ
-// partial score=0.874 date=2026-10-15
 // ?rva00271898@Rva00271826@@QAEPBURva00271898Color@@XZ
-// partial score=0.8 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //
 // ?rva00271898@Rva00271826@@QAEPBURva00271898Color@@XZ retail 0x00271898 147B.
@@ -52,13 +50,12 @@ const Rva00271898Color *Rva00271826::rva00271898()
 		pulse->red = m_28.red;
 		pulse->green = m_28.green;
 		pulse->blue = m_28.blue;
-		float scale = (float)sin(((Rva00271898Logic *)TheGameLogic)->m_frame * m_40) * m_3C * 0.5f + 0.5f;
+		float rate = (float)(double)(((Rva00271898Logic *)TheGameLogic)->m_frame * m_40);
 		_ReadWriteBarrier();
-		_ReadWriteBarrier();
-		_ReadWriteBarrier();
-		pulse->red *= scale;
-		m_44.green *= scale;
-		m_44.blue *= scale;
+		float scale = (0.5f * ((float)sin(rate)) * m_3C) + 0.5f;
+		*(volatile float *)&pulse->red = pulse->red * scale;
+		m_44.green = m_44.green * scale;
+		m_44.blue = m_44.blue * scale;
 		return pulse;
 	}
 	return &m_28;
