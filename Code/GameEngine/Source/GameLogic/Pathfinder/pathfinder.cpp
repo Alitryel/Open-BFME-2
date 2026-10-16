@@ -2604,7 +2604,7 @@ inline __declspec(noinline) struct ICoord2D *__cdecl Rva002EBC14Cell(struct ICoo
 // ?Rva002EBCD6Split@@YAXPAXPAH1@Z @0x002EBCD6 32B unlock 9 callers
 // Evidence: sibling Split at 0x002EBCA7 in Rva002EBBFBIsOdd.cpp; retail calls rowed Get then cdq-sub-sar half store then remainder store.
 int __cdecl Rva002E9B31Get(void *p);
-__declspec(noinline) void __cdecl Rva002EBCD6Split(void *p, int *outHalf, int *outRest)
+__declspec(noinline) inline void __cdecl Rva002EBCD6Split(void *p, int *outHalf, int *outRest)
 {
 	int v = Rva002E9B31Get(p);
 	int h = v / 2;
@@ -3298,7 +3298,7 @@ public:
  void rva002E7964(ICoord2D*,unsigned char,const Coord3D*);
  char pad[0x14];IRegion2D extent;
 };
-void Rva002E7964::rva002E7964(ICoord2D *out,unsigned char center,const Coord3D *pos){
+__declspec(noinline) inline void Rva002E7964::rva002E7964(ICoord2D *out,unsigned char center,const Coord3D *pos){
  ICoord2D tmp;
  typedef ICoord2D *(__cdecl *CellCall)(ICoord2D*,unsigned char,const Coord3D*);
  reinterpret_cast<CellCall>(Rva002E7875WorldToCell)(&tmp,center,pos);
