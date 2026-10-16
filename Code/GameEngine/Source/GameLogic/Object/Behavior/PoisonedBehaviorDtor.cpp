@@ -67,6 +67,10 @@ public:
 
 class PoisonedBehavior : public UpdateModule, public DamageModuleInterface
 {
+public:
+	// Rowed in PoisonedBehaviorUpdate.cpp (0x004830FB); retail's
+	// DamageModuleInterface table 0x00C497E8 holds it in slot 0.
+	virtual void onDamage(DamageInfo *damageInfo);
 protected:
 	virtual ~PoisonedBehavior();
 private:
