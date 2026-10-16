@@ -1,4 +1,4 @@
-// cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
+// cl: /EHs /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 //
 // LevelGrantSpecialPower (vftable 0x0085C920, deleting dtor 0x004C2C5A) helpers
@@ -46,16 +46,20 @@ enum ObjectID
 	INVALID_ID = 0
 };
 
-// This TU's vector<ObjectID> frees through the game allocator wrapper at 0x30830.
-void Rva00030830FreeAllocation(void *);
-#pragma comment(linker, "/alternatename:?Rva00030830FreeAllocation@@YAXPAX@Z=_free")
+// This TU's vector<ObjectID> frees through the game free at 0x30830; /EHs
+// keeps the EH state stores retail has around the inlined call.
 namespace _STL {
 template <> inline void allocator<ObjectID>::deallocate(pointer p, size_type) const
 {
 	if (p)
-		::Rva00030830FreeAllocation(p);
+		::free(p);
 }
 }
+// bfme link decl-only begin
+namespace _STL { template <> void vector<ObjectID, allocator<ObjectID> >::_M_insert_overflow(ObjectID *, const ObjectID &, const __false_type &, size_t, bool); }
+namespace _STL { template <> ObjectID *allocator<ObjectID>::allocate(size_t, const void *) const; }
+namespace _STL { template <> void vector<ObjectID, allocator<ObjectID> >::push_back(const ObjectID &); }
+// bfme link decl-only end
 
 class Object;
 class Player;

@@ -1,4 +1,4 @@
-// cl: /D_STLP_USE_MALLOC /O1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /D_STLP_USE_MALLOC /O1 /G7 /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ?rva0050010D@Rva004FF8DA@@QAE_NHH@Z retail 0x0050010D 319B (RET8, EH).
 // WB 0x012FC560 names it LivingWorldAIBuildingTypes::HasUnitToFightType
@@ -16,11 +16,15 @@
 // second-then-first copy out of the call's return slot.
 // The key/element types of the inner map and the vector stay opaque: the
 // call views use the existing rowed (ICF-folded) instantiations.
-#define free bfmeUnusedCRTFree
 #include <cstdlib>
-#undef free
-void free(void *);
 #include <vector>
+// max<unsigned> inlines everywhere here; keep it inline-only so this unit
+// emits no copy against retail's 0x00013740 (body verbatim).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b)
+{ return __a < __b ? __b : __a; }
+}
 
 class Rva004FF8DA;
 class ModuleData;
