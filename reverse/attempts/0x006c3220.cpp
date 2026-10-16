@@ -1,4 +1,14 @@
 // ?rva006C3220@GeneralAllocatorDebug@@QAE_NH@Z
+// partial score=0.95 date=2026-10-16
+// W9-O2 (2026-10-16, claude-opus-5.5): clean rewrite, no volatile/barrier/equal-arm hacks: size-exact
+// 429 B, nd 18 (farm best 22). The final call is rva000329E0(level) (the farm's validateLevel=0 was the
+// EH-state store at [esp+0x24]); the record walk is a plain nested for. Residue: retail materialises
+// true once (mov al,1 -> ok [esp+0xb], m_inVerify store, and the already-verifying return path reuses
+// AL) and loads m_inVerify into CL; ours stores immediates, loads into AL and reloads ok, and the
+// following scratch temps swap EAX/ECX (&outLen/data/recSize, EDX for level). Inert: m_inVerify as
+// uchar/char/signed char/volatile bool, m_inVerify = ok, named wasVerifying (both orders), == false,
+// /G6 /G7 /EHsc /GX and token order; early 'if (m_inVerify) return ok/true' is worse (ebx = 1, 459 B).
+// ?rva006C3220@GeneralAllocatorDebug@@QAE_NH@Z
 // partial score=0.774 date=2026-10-15
 // ?rva006C3220@GeneralAllocatorDebug@@QAE_NH@Z
 // partial score=0.84 date=2026-10-10
@@ -118,72 +128,52 @@ private:
 
 bool GeneralAllocatorDebug::rva006C3220(int level)
 {
-bool ok = 1;
+	bool ok = true;
 	if (!m_inVerify)
 	{
-	m_inVerify = true;
-	int validateLevel = 0;
-	{
-		GeneralAllocatorDebugLockGuard guard(m_lock);
-		GeneralAllocatorChunk *chunk = m_delayedFree.m_next;
-		GeneralAllocatorChunk *sentinel = &m_delayedFree;
-		while (chunk != sentinel)
+		m_inVerify = true;
 		{
-			VerifyDelayedFreeFill((*(GeneralAllocatorChunk * volatile *)&chunk));
-			chunk = chunk->m_next;
-		}
-		if (level > 1)
-		{
-			void *walk = rva000353B0(0, 2, false, 0, 0);
-			for (const EA::Allocator::BlockInfo *info = rva00032F60(walk, 2); info; info = rva00032F60(walk, 2))
+			GeneralAllocatorDebugLockGuard guard(m_lock);
+			for (GeneralAllocatorChunk *chunk = m_delayedFree.m_next; chunk != &m_delayedFree; chunk = chunk->m_next)
+				VerifyDelayedFreeFill(chunk);
+			if (level > 1)
 			{
-				GeneralAllocatorChunk *core = (GeneralAllocatorChunk *)info->mpCore;
-				if (!(core->m_size & 4))
+				void *walk = rva000353B0(0, 2, false, 0, 0);
+				for (const EA::Allocator::BlockInfo *info = rva00032F60(walk, 2); info; info = rva00032F60(walk, 2))
 				{
-					char *data = (char *)core + 8;
-					unsigned int outLen;
-					char *run = (char *)rva006C25F0Run6(data, 0xB, 0, 0, &outLen, 0);
-					if (run)
+					GeneralAllocatorChunk *core = (GeneralAllocatorChunk *)info->mpCore;
+					if (!(core->m_size & 4))
 					{
-						unsigned int len = outLen;
-						if (len >= 0x40)
-							len = 0x40;
-						char *end = run + len;
-						if (!rva00030E20Fill(run, end - run, m_fillGuard))
+						unsigned int outLen;
+						char *run = (char *)rva006C25F0Run6((char *)core + 8, 0xB, 0, 0, &outLen, 0);
+						if (run)
 						{
-							((Rva006C2D20Sink *)this)->rva006C2FB0((const char *)core, "GeneralAllocatorDebug::VerifyGuardFill failure.");
-							ok = false;
+							unsigned int len = outLen;
+							if (len >= 0x40)
+								len = 0x40;
+							char *end = run + len;
+							if (!rva00030E20Fill(run, end - run, m_fillGuard))
+							{
+								((Rva006C2D20Sink *)this)->rva006C2FB0((const char *)core, "GeneralAllocatorDebug::VerifyGuardFill failure.");
+								ok = false;
+							}
 						}
 					}
 				}
+				rva00033E90(walk);
 			}
-			rva00033E90(walk);
-		}
-		if (m_680)
-		{
-			unsigned int count = m_records.m_count;
-			unsigned int index = 0;
-			if (count > 0)
+			if (m_680)
 			{
-				do
+				for (unsigned int index = 0; index < m_records.m_count; ++index)
 				{
-					GeneralAllocatorChunk *record = ((GeneralAllocatorChunk **)m_records.m_array)[index];
-					if (record)
-					{
-						do
-						{
-							rva00031F90(record->m_size - 8);
-							record = record->m_next;
-						} while (record);
-					}
-					++index;
-				} while (index < m_records.m_count);
+					for (GeneralAllocatorChunk *record = ((GeneralAllocatorChunk **)m_records.m_array)[index]; record; record = record->m_prev)
+						rva00031F90(record->m_size - 8);
+				}
 			}
 		}
-	}
-	m_inVerify = false;
-	if (!rva000329E0(validateLevel))
-		return false;
+		m_inVerify = false;
+		if (!rva000329E0(level))
+			return false;
 	}
 	return ok;
 }
