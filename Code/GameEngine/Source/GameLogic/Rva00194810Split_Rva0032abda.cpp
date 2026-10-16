@@ -29,6 +29,17 @@ class StringBase
 	Header *m_data;
 };
 
+// Rva00194810 calls getCharAt out of line (0x00035720). Retail keeps the
+// speed-built copy there (string_base_inline.cpp); this unit's /O1 copy would
+// tail-merge the returns and be the copy the link keeps, so the body is built
+// for speed.
+#pragma optimize("t", on)
+template<> inline char StringBase<char>::getCharAt(int index) const
+{
+	return m_data ? m_data->data[index] : 0;
+}
+#pragma optimize("", on)
+
 class BfmeWordEL : private StringBase<char>
 {
 public:
