@@ -29,10 +29,23 @@ void Rva0035A97E::rva0035A97E(void *a, void *b)
 
 // --- 0x004E81DE (33B): when the flag is set, pass the +0x08 word, the first
 // argument and the float to the +0x04 object's 0x004E7FCA (ret 0xC).
-class Rva004E7FCA
+// 0x004E7FCA is rowed as TerrainResourceClaimFeedback::Impl::
+// updateClaimedDecalForClaimant(list<ClaimedDecal> *, ObjectID, Real).
+struct ClaimedDecal;
+enum ObjectID { INVALID_ID = 0 };
+namespace _STL
+{
+template <class T> class allocator;
+template <class T, class A> class list;
+}
+class TerrainResourceClaimFeedback
 {
 public:
-	void rva004E7FCA(void *owner, void *a, float value);	// 0x004E7FCA
+	class Impl
+	{
+	public:
+		void updateClaimedDecalForClaimant(_STL::list<ClaimedDecal, _STL::allocator<ClaimedDecal> > *pending, ObjectID id, float radius);
+	};
 };
 
 class Rva004E81DE
@@ -40,14 +53,14 @@ class Rva004E81DE
 public:
 	virtual void rva004E81DE(void *a, float value, bool on);
 private:
-	Rva004E7FCA *m_target;									// +0x04
+	TerrainResourceClaimFeedback::Impl *m_target;			// +0x04
 	void *m_08;												// +0x08
 };
 
 void Rva004E81DE::rva004E81DE(void *a, float value, bool on)
 {
 	if (on)
-		m_target->rva004E7FCA(m_08, a, value);
+		m_target->updateClaimedDecalForClaimant((_STL::list<ClaimedDecal, _STL::allocator<ClaimedDecal> > *)m_08, (ObjectID)(int)a, value);
 }
 
 // --- 0x005AF117 (24B): dispatch on the 0x00E046BC mode word: 0 runs the
