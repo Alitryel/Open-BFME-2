@@ -57,8 +57,9 @@ class AerialPathfinder {public:bool rva00375C28(Object*,const Coord3D*,float*,Co
 // order, and 0x00A01F10 comes right after the StealthUpdate statics (code
 // 0x00373CCA..0x00373F59) among the 0x0037xxxx units, next to this class's
 // members (0x00375A73..0x00375ED7), not the Locomotor units at 0x001Exxxx.
-AerialPathfinder *TheAerialPathfinder;
-bool AerialPathfinder::rva00375C28(Object*obj,const Coord3D*pos,float*worstOverlap,Coord3D*push){
+extern AerialPathfinder *TheAerialPathfinder;	// defined in AerialPathfinder.cpp
+// Select-any: the owner and AerialPathfinderSeparationPush.cpp compile the same body.
+__declspec(noinline) inline bool AerialPathfinder::rva00375C28(Object*obj,const Coord3D*pos,float*worstOverlap,Coord3D*push){
  bool clear=true;
  AerialAI* ai=obj->ai;
  float radius=obj->geometry.radius;
@@ -109,3 +110,6 @@ bool AerialPathfinder::rva00375DFF(Object *obj, Rva00375A73Context *context, flo
 		clear = true;
 	return (above == true && clear == true) ? true : false;
 }
+
+// ?bfmeAnchorAerialRva00375C28Copy@@YAXPAVAerialPathfinder@@@Z absent-from-retail
+void bfmeAnchorAerialRva00375C28Copy(AerialPathfinder *p) { p->rva00375C28(0, 0, 0, 0); }
