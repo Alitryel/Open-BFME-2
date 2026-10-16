@@ -30,6 +30,7 @@ class BfmeLexEAN
 public:
 	BfmeLexEAN(char *text, char *buffer, Int limit);
 	~BfmeLexEAN();
+	char *getTailEAN();	// 0x0030F2C7, the shared this+0x1C dword getter
 
 	char *m_bfmePosEAN;
 	char *m_bfmeLineEAN;
@@ -50,40 +51,22 @@ class __declspec(novtable) LuaScriptEngine
 public:
 	void ProcessSageElement(BfmeLexEAN *parser);
 	void ProcessEventsElement(BfmeLexEAN *parser);
+	void ProcessEventList(BfmeLexEAN *parser);	// 0x00337EAA
 
 private:
 	char m_pad00B4[0xB4];
 	unsigned char m_keepOpen;
 };
 
-// getTailEAN (ILT 0x000262BA) and the EventList handler (ILT 0x0003ED33) are
-// reached through their five-byte thunks, called as thiscall members.
-extern void j_000262ba(void);
-extern void j_0003ed33(void);
-
-typedef char *(BfmeLexEAN::*BfmeGetTailThunk)(void);
-typedef void (LuaScriptEngine::*LuaEventListThunk)(BfmeLexEAN *parser);
-
-union BfmeGetTailCast
-{
-	void (*raw)(void);
-	BfmeGetTailThunk member;
-};
-
-union LuaEventListCast
-{
-	void (*raw)(void);
-	LuaEventListThunk member;
-};
+// getTailEAN (0x0030F2C7, rowed by LuaScriptEngineProcessEventList.cpp) and
+// the EventList handler ProcessEventList (0x00337EAA) are called directly.
 
 #pragma comment(linker, "/alternatename:?finish@XmlNameSlotList@@QAEHXZ=?j_00049ae4@@YAXXZ")
 
 // ?ProcessSageElement@LuaScriptEngine@@QAEXPAVBfmeLexEAN@@@Z
 void LuaScriptEngine::ProcessSageElement(BfmeLexEAN *parser)
 {
-	BfmeGetTailCast tailCall;
-	tailCall.raw = &::j_000262ba;
-	char *tail = (parser->*tailCall.member)();
+	char *tail = parser->getTailEAN();
 	int cmp = strcmp(tail, "SageLuaScriptSection");
 	if (cmp != 0)
 		return;
@@ -94,7 +77,7 @@ void LuaScriptEngine::ProcessSageElement(BfmeLexEAN *parser)
 		if (--status != 0)
 			return;
 
-		const char *tag = (parser->*tailCall.member)();
+		const char *tag = parser->getTailEAN();
 		int cmpEvents = strcmp(tag, "Events");
 		if (cmpEvents == 0)
 		{
@@ -105,9 +88,7 @@ void LuaScriptEngine::ProcessSageElement(BfmeLexEAN *parser)
 			int cmpEventList = strcmp(tag, "EventList");
 			if (cmpEventList != 0)
 				return;
-			LuaEventListCast eventList;
-			eventList.raw = &::j_0003ed33;
-			(this->*eventList.member)(parser);
+			ProcessEventList(parser);
 		}
 		status = ((XmlNameSlotList *)parser)->finish();
 	}
