@@ -6,7 +6,8 @@
 // Zero Hour's INI::parseGameClientRandomVariable (Common/INI/INI.cpp): low and
 // high reals, then an optional distribution name that defaults to UNIFORM. In
 // BFME2 scanReal and scanIndexList are INI members (they take ecx). The name
-// table is retail's at 0x00DBA3E8; only its address is emitted.
+// table is retail's at 0x00DBA3E8 (.data, Zero Hour's six names); no unit
+// defined it, so it is defined here.
 
 class GameClientRandomVariable
 {
@@ -14,6 +15,11 @@ public:
 	enum DistributionType { CONSTANT, UNIFORM, GAUSSIAN, TRIANGULAR, LOW_BIAS, HIGH_BIAS };
 	static const char *DistributionTypeNames[];
 	void setRange(float low, float high, DistributionType type);
+};
+
+const char *GameClientRandomVariable::DistributionTypeNames[] =
+{
+	"CONSTANT", "UNIFORM", "GAUSSIAN", "TRIANGULAR", "LOW_BIAS", "HIGH_BIAS", 0
 };
 
 class INI
