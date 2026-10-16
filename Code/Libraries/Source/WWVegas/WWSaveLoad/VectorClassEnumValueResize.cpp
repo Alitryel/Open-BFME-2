@@ -46,7 +46,10 @@ class EnumParameterClass
 public:
 	struct _ENUM_VALUE
 	{
-		_ENUM_VALUE();
+		// The element ctor __ehvec_ctor receives (0x00155701 pushes VA
+		// 0x00554300): only the surface pointer at +4 is cleared, a body
+		// /OPT:ICF folds with the rowed ??0TimeAndLocationInfo 0x00154300.
+		_ENUM_VALUE() {}
 		~_ENUM_VALUE();
 
 		_ENUM_VALUE &operator=(const _ENUM_VALUE &that)
