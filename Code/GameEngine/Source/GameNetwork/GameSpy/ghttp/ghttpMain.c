@@ -1102,6 +1102,15 @@ GHTTPBool ghttpSetProxy
 	return ghiSetProxy(server);
 }
 
+GHTTPBool ghttpSetRequestProxy
+(
+	GHTTPRequest request,
+	const char * server
+)
+{
+	return ghiSetRequestProxy(request, server);
+}
+
 void ghttpSetThrottle
 (
 	GHTTPRequest request,
