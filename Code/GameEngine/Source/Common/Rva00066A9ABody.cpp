@@ -12,21 +12,29 @@ class Rva00066A9ASub
 {
 public:
 	void headB();
-	void tailA();
-	void tailB();
+};
+
+// The two tail callees are rowed as Rva000E6FC8's rva000EA1F3 (0x000EA1F3)
+// and rva000E6FC8 (0x000E6FC8).
+class Rva000E6FC8
+{
+public:
+	void rva000EA1F3();
+	void rva000E6FC8();
 };
 
 // GeneralsMD's W3DShaderManager (W3DShaderManager.h); retail 0x00077F80 is
 // its static init (the W3DDisplay::init callee pinned at 0x00046F3B), which
 // this host calls first.
-struct ShaderComResourceRef;
+// The glow shader handles are W3DShaderManager.cpp's m_dwGlowPixelShader
+// (0x009E1F74) and m_dwGlowVertexShader (0x009E1F78).
 class W3DShaderManager
 {
 public:
 	static void init(void);
 protected:
-	static ShaderComResourceRef *m_resource012F9D14;
-	static ShaderComResourceRef *m_resource012F9D18;
+	static unsigned long m_dwGlowPixelShader;
+	static unsigned long m_dwGlowVertexShader;
 };
 
 class Rva00066A9AHost
@@ -35,8 +43,8 @@ public:
 	void rva00066A9A();
 
 	char m_pad[0x3850];
-	Rva00066A9ASub *m_3850; // +0x3850
-	Rva00066A9ASub *m_3854; // +0x3854
+	Rva000E6FC8 *m_3850; // +0x3850
+	Rva000E6FC8 *m_3854; // +0x3854
 };
 
 void Rva00066A9AHost::rva00066A9A()
@@ -46,9 +54,9 @@ void Rva00066A9AHost::rva00066A9A()
 	if (g)
 		g->headB();
 	if (m_3850)
-		m_3850->tailA();
+		m_3850->rva000EA1F3();
 	if (m_3854)
-		m_3854->tailB();
+		m_3854->rva000E6FC8();
 }
 
 // W3DShaderManager::init in GeneralsMD walks the master shader and filter
@@ -149,10 +157,10 @@ void W3DShaderManager::init(void)
 	}
 
 	if (Rva00077C19Load("shaders\\Glow.vso",
-		(unsigned *)&W3DShaderManager::m_resource012F9D18) < 0)
-		W3DShaderManager::m_resource012F9D18 = 0;
+		(unsigned *)&W3DShaderManager::m_dwGlowVertexShader) < 0)
+		W3DShaderManager::m_dwGlowVertexShader = 0;
 
 	if (Rva00077D0FLoad("shaders\\Glow.pso",
-		(unsigned long *)&W3DShaderManager::m_resource012F9D14) < 0)
-		W3DShaderManager::m_resource012F9D14 = 0;
+		&W3DShaderManager::m_dwGlowPixelShader) < 0)
+		W3DShaderManager::m_dwGlowPixelShader = 0;
 }
