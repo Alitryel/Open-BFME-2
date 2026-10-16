@@ -1,10 +1,23 @@
 // ?Rva004EACF5DistSqToSegment@@YAMPBUCoord2D@@00@Z
 // partial score=0.6 date=2026-10-16
+// W9-O1 joint bank for 0x4EADBA (227 B caller, virtual polyline min distance, RET 4) + 0x4EACF5 (197 B file-static helper).
+// The caller compiles EXACT apart from the helper argument registers (retail lea edx,cur / lea eax,prev / lea ecx,p;
+// ours edx=p, ecx=cur) because the helper convention cl picks gives b=ECX p=EDX where retail has b=EDX p=ECX.
+// Toy rules measured (build/o1/rr3-rr5 in ws/o1): most-used pointer -> EAX; then more uses (after CSE) -> ECX; equal uses ->
+// the one used in the then-branch -> ECX; parameter order only breaks exact ties. 128 spelling combos + goto/inverted
+// branch forms kept b=ECX. Constants: best init -1.0f, test best < 1.0f. Owner class/identity unknown (names neutral).
 // cl: /O1 /G7 /arch:SSE /MD /DNDEBUG
-// W9-O1 bank 0x4EACF5 (197 B): squared distance from p to segment a-b, file-static noinline -> private EAX=a EDX=b ECX=p + xmm0 float return IS emittable (old "unemittable" verdict is wrong).
-// This body gives retail structure exactly (52 insns, same blocks/order) but mirrored registers: ours b=ECX p=EDX and x/y xmm roles swapped. Param order is inert; the reg choice follows body usage (most-used param a=EAX; b/p tie).
-struct Coord2D { float x, y; };
-static __declspec(noinline) float Rva004EACF5DistSqToSegment(const Coord2D *a, const Coord2D *b, const Coord2D *p)
+struct Coord2D { float x, y; Coord2D() {} Coord2D(float ax, float ay) : x(ax), y(ay) {} };
+struct Coord3D { float x, y, z; };
+class PointSource
+{
+public:
+	virtual void s0(); virtual void s1(); virtual void s2(); virtual void s3();
+	virtual void s4(); virtual void s5(); virtual void s6(); virtual void s7();
+	virtual void s8(); virtual void s9(); virtual void s10(); virtual void s11(); virtual void s12();
+	virtual Coord3D getPosition() const;	// +0x34
+};
+static __declspec(noinline) float distSqToSegment(const Coord2D *a, const Coord2D *b, const Coord2D *p)
 {
 	float dx = b->x;
 	float dy = b->y;
@@ -20,7 +33,9 @@ static __declspec(noinline) float Rva004EACF5DistSqToSegment(const Coord2D *a, c
 	}
 	else
 	{
-		float len2 = (b->x - a->x) * (b->x - a->x) + (b->y - a->y) * (b->y - a->y);
+		float ex = b->x - a->x;
+		float ey = b->y - a->y;
+		float len2 = ex * ex + ey * ey;
 		if (dot >= len2)
 		{
 			cx = b->x; cy = b->y;
@@ -36,6 +51,29 @@ static __declspec(noinline) float Rva004EACF5DistSqToSegment(const Coord2D *a, c
 	float x = cx - p->x;
 	float y = cy - p->y;
 	return x * x + y * y;
+
 }
-// ?Rva004EACF5DistSqToSegmentCaller absent-from-retail
-float Rva004EACF5DistSqToSegmentCaller(const Coord2D *a, const Coord2D *b, const Coord2D *p) { return Rva004EACF5DistSqToSegment(a, b, p); }
+class Polyline
+{
+public:
+	virtual float distanceSq(const Coord2D *pt) const;
+	PointSource *m_start;		// +4
+	PointSource **m_begin;		// +8
+	PointSource **m_end;		// +0xC
+};
+float Polyline::distanceSq(const Coord2D *pt) const
+{
+	float best = -1.0f;
+	Coord2D p(pt->x, pt->y);
+	Coord2D prev(m_start->getPosition().x, m_start->getPosition().y);
+	PointSource **end = m_end;
+	for (PointSource **it = m_begin; it != end; ++it)
+	{
+		Coord2D cur((*it)->getPosition().x, (*it)->getPosition().y);
+		float d = distSqToSegment(&prev, &cur, &p);
+		if (best < 1.0f || d < best)
+			best = d;
+		prev = cur;
+	}
+	return best;
+}
