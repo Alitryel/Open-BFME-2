@@ -411,17 +411,17 @@ void Rva005772BF::rva00577324(const void *buf, int len)
 	((Rva005753AC *)this)->rva005753AC(buf, len);
 }
 
-class Rva00577FA7 : public Rva005C6C7B
+class Rva00577F77 : public Rva005C6C7B
 {
 public:
-	virtual ~Rva00577FA7();
+	virtual ~Rva00577F77();
 
 private:
 	char m_unmodelled_04[0x40];
 	Rva00577EB2 m_member;	// +0x44
 };
 
-Rva00577FA7::~Rva00577FA7()
+Rva00577F77::~Rva00577F77()
 {
 }
 

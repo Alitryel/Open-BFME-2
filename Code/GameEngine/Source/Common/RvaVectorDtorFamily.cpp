@@ -730,7 +730,7 @@ struct TreeHintRef00217D4C;
 
 // ??1Rva00577EB2@@QAE@XZ @0x00577EB2 63B -> ??$_Destroy@PAUTreeHintRef00217D4C@@@_STL@@YAXPAUTreeHintRef00217D4C@@0@Z
 // Vector dtor shape (destroy [start finish) then free with EH): member at +0x44
-// of Rva00577FA7 (MemberBaseDtorsB01.cpp caller 0x00577FC5); callees rowed
+// of Rva00577F77 (MemberBaseDtorsB01.cpp caller 0x00577FC5); callees rowed
 // 0x005F97BC and 0x00030830.
 struct Rva00577EB2 : RvaVectorFamilyBase<TreeHintRef00217D4C>
 {
