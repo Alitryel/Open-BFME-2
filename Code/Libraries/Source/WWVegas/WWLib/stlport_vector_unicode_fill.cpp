@@ -17,6 +17,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 #include "unicode_string.h"
+// bfme link decl-only/import-inline begin: stop this unit emitting non-retail STL copies
+namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<UnicodeString>::deallocate(UnicodeString * __a0, unsigned int __a1) const { if (__a0 != 0) ::free((void*)__a0); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<UnicodeString *,UnicodeString,allocator<UnicodeString> >::deallocate(UnicodeString * __a0, unsigned int __a1) { __stl_alloc_rebind(static_cast<allocator<UnicodeString>&>(*this), (UnicodeString*)0).deallocate(__a0, __a1); } }
+namespace _STL { template <> _Vector_base<UnicodeString,allocator<UnicodeString> >::~_Vector_base(); }
+// bfme link decl-only/import-inline end
 // bfme link decl-only begin
 namespace _STL { template <> UnicodeString * vector<UnicodeString, allocator<UnicodeString> >::erase(UnicodeString *, UnicodeString *); }
 namespace _STL { template <> vector<UnicodeString, allocator<UnicodeString> >::~vector(); }

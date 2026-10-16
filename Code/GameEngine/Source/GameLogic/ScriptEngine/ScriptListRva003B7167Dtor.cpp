@@ -11,6 +11,10 @@
 void Rva00030830FreeAllocation(void *block);
 #define free Rva00030830FreeAllocation
 #include <vector>
+// bfme link decl-only/import-inline begin: stop this unit emitting non-retail STL copies
+namespace _STL { template <> __declspec(dllimport) __forceinline void allocator<unsigned int>::deallocate(unsigned int * __a0, unsigned int __a1) const { if (__a0 != 0) ::free((void*)__a0); } }
+namespace _STL { template <> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<unsigned int *,unsigned int,allocator<unsigned int> >::deallocate(unsigned int * __a0, unsigned int __a1) { __stl_alloc_rebind(static_cast<allocator<unsigned int>&>(*this), (unsigned int*)0).deallocate(__a0, __a1); } }
+// bfme link decl-only/import-inline end
 
 struct BfmeStringRecord003B3F78;
 namespace _STL {template<> vector<BfmeStringRecord003B3F78>::~vector();}
