@@ -33,7 +33,6 @@ void __cdecl GadgetListBoxReset(GameWindow *window);
 void __cdecl GadgetTextEntrySetValidationFlags(GameWindow *window, int value);
 void __cdecl GadgetTextEntrySetMaxChars(BfmeKeyLC *k, unsigned short w);
 extern "C" int __cdecl strcmp(const char *a, const char *b);
-void __cdecl Rva005A08C8Tooltip(GameWindow *window, WinInstanceData *data, unsigned int flags);
 
 class GameWindow
 {
@@ -55,6 +54,8 @@ class AptOnlineCustomMatch
 public:
 	void rva005A083C();
 	void InitGadgets(const char *a1, int a2, GameWindow *a3);
+	// Rowed 0x005A08C8 in AptOnlineCustomMatch.cpp.
+	static void GamesListTooltipFunc(GameWindow *window, WinInstanceData *data, unsigned int flags);
 private:
 	char m_pad[0x48C];
 	GameWindow *m_48C;
@@ -77,7 +78,7 @@ void AptOnlineCustomMatch::InitGadgets(const char *a1, int a2, GameWindow *a3)
 		Rva005A0C6EUserData *ud = (Rva005A0C6EUserData *)a3->winGetUserData();
 		ud->m_12 = 1;
 		a3->winSetUserData(ud);
-		a3->winSetTooltipFunc(Rva005A08C8Tooltip);
+		a3->winSetTooltipFunc(GamesListTooltipFunc);
 		return;
 	}
 	if (strcmp(a1, "Lobbies") == 0) {

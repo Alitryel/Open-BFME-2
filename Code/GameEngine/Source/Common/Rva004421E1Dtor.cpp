@@ -69,6 +69,9 @@ struct Elem4
 	int m_x;
 	~Elem4();
 };
+// The +0x2F4 array's element dtor: retail pushes 0x004B3FD0 (the shared
+// one-byte empty RET) to the eh vector destructor iterator 0x00629110.
+Elem4::~Elem4() {}
 
 struct Holder5C
 {
