@@ -427,10 +427,13 @@ public:
 };
 extern AptActionInterpreter g_aptDateInterpreter;
 
+// Rowed at 0x006F85E0 (Rva006F6A50Cluster.cpp) under its real signature;
+// the submit forwards its raw words through unchanged.
+struct AptCharacter;
 class AptDisplayList
 {
 public:
-    void instantiateCharacter(int, int, int, int, int, int, void *, void *);
+    void instantiateCharacter(int, AptCharacter *, EAStringC *, AptCIH *, int, int, AptCIH **, int *);
 };
 
 class BfmeSubmitter1283
@@ -461,7 +464,7 @@ void *BfmeSubmitter1283::bfmeSubmit1283(AptCIH *item, int a1, int pCharacter, in
         if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
     }
     if (live == 0) {
-        list->instantiateCharacter(a1, pCharacter, a3, a4, a5, a6, (void *)&item, &created);
+        list->instantiateCharacter(a1, (AptCharacter *)pCharacter, (EAStringC *)a3, (AptCIH *)a4, a5, a6, &item, &created);
         live = item;
     }
     if (live != 0)
