@@ -10829,7 +10829,6 @@ name,address,notes
 ?state2@Rva002E2903Player@@QAEXXZ,0x002E0675,Target REL32 from verified-shape RVA 002BA8F1; address-qualified TU view; Ghidra boundary and direct call target checked; semantics provisional
 ?stencil@Rva00785FD0Renderer@@QAEXXZ,0x001103D6,callee of ?rva00785FD0Flush@@YAXXZ at retail 0x000AA5E1 read from its REL32 displacement; body unrowed
 ?step1@BfmeSubVfn1A6@@QAEXXZ,0x0033FCC8,callee of ?doAction@BfmeThing1A6@@QAEXPAX0@Z at retail 0x00264B86 read from its REL32 displacement; ICF alias onto ?rva0033FCC8@Rva0033FCC8@@QAEXXZ (matched)
-?step@Gen0035F050@@QAEHXZ,0x00542890,"Gen0035F050::step, read off the REL32 displacement of ?poll@Gen0035F050@@QAE_NHHHHH@Z at 0x0054297E"
 ?step@Rva005E590FCaller@@QAEXXZ,0x005E590F,opaque alias: same body as rowed step 0x005E590F; first phase of step 0x005CDDF0 (separate type blocks same-TU inlining)
 ?step@U1CallReceiver_005C5BD0@@QAEXH@Z,0x001F6537,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?stop@Rva006105F0@@QAEXXZ,0x006105F0,target endThread call at 0x3890B2 passes ECX=m_thread with no stack args; aliases the already matched ThreadClass::Stop body using an address-derived name because the donor header exposes a different overload
