@@ -140,3 +140,17 @@ AptValue *AptValue::findChild(const EAStringC *name,AptValue *context)
  if(value) return value;
  return (AptValue *)((Rva0070A5C0 *)GLOBAL)->rva0070A5C0((int)name);
 }
+
+// Native51B base teardown6DE350: the canonical PDB class owns the flag
+// word at+4 and destroyed-GC bit3; retail resets CEAED0 before the assertion.
+// Keep this body out of the GC-wrapper TU so that wrapper retains its native
+// five-byte call boundary. The assertion path and literal are target evidence.
+AptValue::~AptValue()
+{
+    unsigned int f = mnValueData;
+    bool destroyed = ((f >> 3) & 1) != 0;
+    if (!destroyed) {
+        g_bfmeAptAssertAtE17734("IsDestroyedGC() == true", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptValue/AptValue.inl", 0x91);
+        if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
+    }
+}

@@ -71,7 +71,8 @@ protected:
     virtual ~AptValue();
     unsigned int mnValueData;
 };
-class AptValueGC : public AptValue
+// Native GC destructor6D6340 tail-calls the base without resetting a GC vptr.
+class __declspec(novtable) AptValueGC : public AptValue
 {
 public:
     virtual bool IsGarbageCollected() const;
