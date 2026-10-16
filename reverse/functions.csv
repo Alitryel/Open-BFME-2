@@ -93604,3 +93604,6 @@ $L7964,,0x00773CCD,14,Code/GameEngine/Source/GameLogic/Map/TerrainLogicCtor.cpp,
 ?j_004da13f@@YAXXZ,,0x004DA13F,5,Code/gen_small/thunks_000_admitted.cpp,matched,gen-thunk;target=FUN_008d9fb9
 ?moveVehicleToPos@AIGroup@@QAE_NPBUCoord3D@@W4CommandSourceType@@@Z,,0x00371AE2,2518,Code/GameEngine/Source/GameLogic/AI/Rva00370680Group.cpp,matched,WB EE20A0 independently names AIGroup::moveVehicleToPos; ZH friend_moveVehicleToPos at BFME1 c20abf172 semantic donor; target two/three-column balancing and Object goal calls; real STL plus visible exact helpers; preserve normal scalar loads and column local order; full2518 exact
 ?rva0057FC75@Rva0057F2DE@@QAE_NIII@Z,,0x0057FC75,234,Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Apt/rva0057FC75Rva0057FC75Farm.cpp,matched,
+uw_007921a9,,0x007921A9,11,Code/GameEngine/Source/Common/Rva004E6A9BDtor.cpp,matched,gen-funclet;parent=??1Rva004E6A9B@@QAE@XZ;object-symbol=$L438
+uw_007921b4,,0x007921B4,11,Code/GameEngine/Source/Common/Rva004E6A9BDtor.cpp,matched,gen-funclet;parent=??1Rva004E6A9B@@QAE@XZ;object-symbol=$L439
+uw_0079b44d,,0x0079B44D,8,Code/GameEngine/Source/Common/Rva005765D1Ctor.cpp,matched,gen-funclet;parent=??0Rva005765D1@@QAE@PAXHH@Z;object-symbol=$L403
