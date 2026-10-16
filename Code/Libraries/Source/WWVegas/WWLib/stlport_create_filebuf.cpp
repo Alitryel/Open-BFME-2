@@ -48,6 +48,12 @@ namespace _STL {
 template <> void __node_alloc<true, 0>::_M_deallocate(void *, size_t);
 }
 
+// Likewise _M_allocate: retail's is the 162-byte build at 0x00027A90, owned by
+// STL_new_alloc_allocateThunk.cpp; this unit's 122-byte stock copy came first.
+namespace _STL {
+template <> void * __node_alloc<true, 0>::_M_allocate(size_t);
+}
+
 
 #ifndef _STLP_USE_NAMESPACES
 # define cin _STLP_cin
