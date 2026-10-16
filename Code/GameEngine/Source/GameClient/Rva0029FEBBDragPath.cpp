@@ -1,17 +1,18 @@
 // ?rva0029FEBB@Rva0029FEBB@@QAEXUICoord2D@@@Z
-// partial score=0.98 date=2026-10-15
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /ICode/Libraries/Include /ICode/GameEngine/Source/Common
 // stlport
 // ?rva0029FEBB@Rva0029FEBB@@QAEXUICoord2D@@@Z retail 0x0029FEBB 324B (RET 8)
 // d3 seat7 rebuild from WB twin 0xDB6240: by-value ICoord2D argument copied to a local pos (that alone fixes
 // the 0x1c frame and the EDI/EBX/ESI register map earlier banks missed), list<ICoord2D> at +0x910, IRegion-like
 // lo/hi ints at +0x914..+0x920, TheMouse drag tolerance (+0x12e8) / 3, length/normalize rowed, scale inlined.
-// Residue: retail loads TheMouse->m_dragTolerance BEFORE the vec.x store; cl keeps it after (alias order). 2 insns.
-// Landing also needs a fold-proof pin ?push_back@?$list@UICoord2D@@...=0x004DE74D (insert/_M_create_node
-// for ICoord2D are already pinned at 0x0036E30E/0x002DBEDD).
+// The rowed Coord3D::length (0x00003571) and ::normalize (0x000035B6) are defined below, visible and out
+// of line (bodies as AIAttackApproachComputePath.cpp; the length copy is retail's): with them cl loads the
+// drag tolerance before the vec.x store as retail does. The list's push_back is ICF-folded with the rowed
+// list<BfmeSpecialPowerTimer8>::push_back (0x004DE74D, same 8-byte element), which this unit calls.
 #include <list>
 #include "Lib/Coord3D.h"
 #include "Lib/ICoord2D.h"
+#include "BfmeSpecialPowerTimer8.h"
 
 class Mouse
 {
@@ -33,6 +34,23 @@ private:
 	int m_hiX; // +0x91c
 	int m_hiY; // +0x920
 };
+
+#include <math.h>
+__declspec(noinline) inline float Coord3D::length() const
+{
+	return (float)sqrt(x * x + y * y + z * z);
+}
+
+__declspec(noinline) inline void Coord3D::normalize()
+{
+	float len = length();
+	if (len != 0.0f) {
+		float scale = 1.0f / len;
+		x *= scale;
+		y *= scale;
+		z *= scale;
+	}
+}
 
 void Rva0029FEBB::rva0029FEBB(ICoord2D in)
 {
@@ -74,5 +92,5 @@ void Rva0029FEBB::rva0029FEBB(ICoord2D in)
 		else if (pos.y > m_hiY)
 			m_hiY = pos.y;
 	}
-	m_points.push_back(pos);
+	reinterpret_cast<_STL::list<BfmeSpecialPowerTimer8> &>(m_points).push_back(reinterpret_cast<const BfmeSpecialPowerTimer8 &>(pos));
 }
