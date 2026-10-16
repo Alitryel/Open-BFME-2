@@ -1,4 +1,6 @@
 // ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
+// partial score=0.9103003663003664 date=2026-10-16
+// ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
 // partial score=0.904 date=2026-10-15
 // ?Render@DX8SkinFVFCategoryContainer@@UAEXXZ
 // partial score=0.910443 date=2026-10-15
@@ -25,7 +27,27 @@ struct S2MaterialDesc {
   if(b)return (Vector2*)b->Data;return 0;
  }
 };
-struct MeshModelClass {char pad[0x28];int vertex_count;char gap[0x68];S2MaterialDesc*descriptor;};
+struct MeshPolygonCount
+{
+    int Count;
+};
+
+class MeshModelClass
+{
+public:
+    unsigned char pad[0x24];
+    int PassCount;
+    int VertexCount;
+    unsigned char pad1[0x94 - 0x2C];
+    MeshPolygonCount *PolygonCount;S2MaterialDesc *descriptor;
+    int Get_Vertex_Count() const
+    { return VertexCount; }
+    int Get_Pass_Count() const
+    { return PassCount; }
+    int Get_Polygon_Count() const
+    { return PolygonCount->Count; }
+};
+
 class MeshClass {
 public:
  virtual void vt0();virtual void vt4();virtual void vt8();virtual void vtC();virtual void vt10();virtual void vt14();virtual void vt18();virtual void vt1C();virtual void vt20();virtual void vt24();
@@ -43,12 +65,23 @@ public:
  class WriteLock {public:void*owner;VertexFormatXYZNDUV2 *vertices;char lock;WriteLock(DynamicVBAccessClass*);~WriteLock();VertexFormatXYZNDUV2*Get_Formatted_Vertex_Array()const{return vertices;}};
 };
 class VertexBufferClass;
-class IndexBufferClass;
+class IndexBufferClass
+{
+public:
+    unsigned char pad[0x0C];
+    unsigned index_count;
+    unsigned Get_Index_Count() const
+    { return index_count; }
+};
+
+
 class DX8Wrapper {public:static void Set_Vertex_Buffer(const VertexBufferClass*,unsigned);static void Set_Vertex_Buffer(const DynamicVBAccessClass&);static void Set_Index_Buffer(const IndexBufferClass*,unsigned short);};
 namespace Debug_Statistics {void Record_DX8_Skin_Polys_And_Vertices(int,int);}
 class DX8TextureCategoryClass:public MultiListObjectClass {public:void Render();};
+class MaterialPassClass;
 class DX8FVFCategoryContainer {
 public:
+ void Add_Visible_Material_Pass(MaterialPassClass*,MeshClass*);
  virtual ~DX8FVFCategoryContainer();char pad[4];MultiListClass<DX8TextureCategoryClass> lists[4],visible[4];void *mathead,*mattail;IndexBufferClass*index_buffer;unsigned used_indices,FVF,passes;unsigned dynamic_fvf_type;bool sorting,AnythingToRender;
 protected:
  bool Render_Procedural_Material_Passes();
@@ -57,6 +90,7 @@ class DX8SkinFVFCategoryContainer:public DX8FVFCategoryContainer {
 public:
  unsigned VisibleVertexCount,rva_ec;MeshClass*VisibleSkinHead,*VisibleSkinTail;bool rva_f8;
  virtual void Render();
+ virtual bool Check_If_Mesh_Fits(MeshModelClass*);virtual void Add_Delayed_Visible_Material_Pass(MaterialPassClass*,MeshClass*);void Add_Visible_Skin(MeshClass*);private:void clearVisibleSkinList();
 };
 typedef char BaseSize[(sizeof(DX8FVFCategoryContainer)==0xe8)?1:-1];
 typedef char MeshSize[(sizeof(MeshClass)==0x314)?1:-1];
@@ -79,11 +113,11 @@ void DX8SkinFVFCategoryContainer::Render() {
    unsigned vertex_offset=0;
    remainingMesh=0;
    while(mesh){
-    MeshModelClass*mmc=mesh->Peek_Model();int mesh_vertex_count=mmc->vertex_count;
+    MeshModelClass*mmc=mesh->Peek_Model();int mesh_vertex_count=mmc->VertexCount;
     if(vertex_offset+mesh_vertex_count>maxVertexCount || remainingMesh){mesh->Set_Base_Vertex_Offset(65535);if(!remainingMesh)remainingMesh=mesh;mesh=mesh->Peek_Next_Visible_Skin();continue;}
     if(mesh->Anchor && *mesh->Anchor){
      Debug_Statistics::Record_DX8_Skin_Polys_And_Vertices(mesh->Get_Num_Polys(),mesh_vertex_count);
-     mesh->Set_Base_Vertex_Offset((*(*(MeshClass* volatile *)&remainingMesh)->Anchor)->Get_Base_Vertex_Offset());
+     mesh->Set_Base_Vertex_Offset((*mesh->Anchor)->Get_Base_Vertex_Offset());
      renderedVertexCount+=mesh_vertex_count;mesh=mesh->Peek_Next_Visible_Skin();continue;
     }
     Debug_Statistics::Record_DX8_Skin_Polys_And_Vertices(mesh->Get_Num_Polys(),mesh_vertex_count);
@@ -118,4 +152,57 @@ void DX8SkinFVFCategoryContainer::Render() {
  for(unsigned pass=0;pass<passes;++pass)while(visible[pass].Remove_Head()){}
  while(VisibleSkinHead){MeshClass*next=VisibleSkinHead->NextVisibleSkin;VisibleSkinHead->NextVisibleSkin=0;VisibleSkinHead=next;}
  VisibleSkinHead=0;VisibleSkinTail=0;VisibleVertexCount=0;rva_ec=0;
+}
+
+void DX8SkinFVFCategoryContainer::clearVisibleSkinList()
+{
+    while (VisibleSkinHead != NULL) {
+        MeshClass *next = VisibleSkinHead->Peek_Next_Visible_Skin();
+        VisibleSkinHead->Set_Next_Visible_Skin(NULL);
+        VisibleSkinHead = next;
+    }
+    VisibleSkinHead = NULL;
+    VisibleSkinTail = NULL;
+    VisibleVertexCount = 0;
+    rva_ec = 0;
+}
+
+void DX8SkinFVFCategoryContainer::Add_Visible_Skin(MeshClass *mesh)
+{
+    if (mesh->Peek_Next_Visible_Skin() != NULL || mesh == VisibleSkinTail)
+        return;
+    if (VisibleSkinHead == NULL)
+        VisibleSkinTail = mesh;
+    mesh->Set_Next_Visible_Skin(VisibleSkinHead);
+    VisibleSkinHead = mesh;
+    VisibleVertexCount += mesh->Peek_Model()->Get_Vertex_Count();
+}
+
+// ?Check_If_Mesh_Fits@DX8SkinFVFCategoryContainer@@UAE_NPAVMeshModelClass@@@Z
+// Retail 0x00143C20, 54 bytes: slot 4 of the container vtable 0x007D3544, in
+// Zero Hour's DX8FVFCategoryContainer order (~, Render, Add_Mesh, Log,
+// Check_If_Mesh_Fits, then the two Delayed passes; the rigid container's table
+// just before it has the same shape). Aligning that table against lotrbfme.exe
+// names this slot DX8SkinFVFCategoryContainer::Check_If_Mesh_Fits, and the body
+// sits right before the rowed clearVisibleSkinList. It is Zero Hour's body
+// minus the gap-filler branch, which BFME's skin container does not have
+// (BFME1 matched the same shape at 55 bytes).
+bool DX8SkinFVFCategoryContainer::Check_If_Mesh_Fits(MeshModelClass* mmc)
+{
+    if (!index_buffer) return true;	// No IB created - mesh will fit as a new ib will be created when inserting
+    int required_polygons=mmc->Get_Polygon_Count();
+
+    if ((required_polygons*3*mmc->Get_Pass_Count())<=index_buffer->Get_Index_Count()-used_indices) {
+        return true;
+    }
+    return false;
+}
+
+// ?Add_Delayed_Visible_Material_Pass@DX8SkinFVFCategoryContainer@@UAEXPAVMaterialPassClass@@PAVMeshClass@@@Z
+// retail 0x001460B0, 5 bytes: slot 5 of the class's vtable. Zero Hour's
+// dx8renderer.h defines it inline: skins route delayed passes straight into
+// Add_Visible_Material_Pass (a tail jump).
+void DX8SkinFVFCategoryContainer::Add_Delayed_Visible_Material_Pass(MaterialPassClass *pass, MeshClass *mesh)
+{
+    Add_Visible_Material_Pass(pass, mesh);
 }
