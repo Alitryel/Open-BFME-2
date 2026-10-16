@@ -103,7 +103,7 @@ TargetCoord WeaponTemplate::adjustTargetPositionOnVictim(Object *source, Object 
 	if (flag)
 	{
 		victim->getWorldspaceBestContactPoint(&pos, &source->m_position, 0, 3,
-			GetGameLogicRandomValue(0, 0xBC614E,
+			GetGameLogicRandomValue(0, 12345678,
 			"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Weapon.cpp",
 			0x6D5), false);
 	}
