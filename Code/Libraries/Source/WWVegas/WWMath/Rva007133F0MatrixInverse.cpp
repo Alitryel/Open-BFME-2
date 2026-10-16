@@ -14,15 +14,28 @@
 // TU-scoped Matrix4 view (as Rva00715E90Cluster.cpp does) instead of taking
 // the header's inline definition. Class and method names are address-derived;
 // the original name is unproven in both games.
-#include "vector4.h"
-#include "matrix3d.h"
+
+struct Vector4
+{
+	float X, Y, Z, W;
+	__forceinline Vector4 &operator=(const Vector4 &v) { X = v.X; Y = v.Y; Z = v.Z; W = v.W; return *this; }
+	__forceinline void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
+	float &operator[](int i) { return (&X)[i]; }
+	const float &operator[](int i) const { return (&X)[i]; }
+};
+
+class Matrix3D
+{
+public:
+	Vector4 &operator[](int i) { return Row[i]; }
+	const Vector4 &operator[](int i) const { return Row[i]; }
+protected:
+	Vector4 Row[3];
+};
 
 class Matrix4
 {
 public:
-	Matrix4(void) {}
-	// Widen after default construction so this /O2 unit does not publish the
-	// competing Matrix3D constructor. camera.cpp owns the out-of-line Init.
 	__declspec(dllimport) __forceinline void Init(const Matrix3D &m)
 	{
 		Row[0] = m[0]; Row[1] = m[1]; Row[2] = m[2]; Row[3].Set(0.0f, 0.0f, 0.0f, 1.0f);
@@ -32,6 +45,7 @@ public:
 	const Vector4 &operator[](int i) const { return Row[i]; }
 	Vector4 Row[4];
 };
+
 class Rva007133F0MatrixInverse : public Matrix3D
 {
 public:
