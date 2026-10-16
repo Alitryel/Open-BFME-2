@@ -43,6 +43,9 @@ struct Rva005E626DListener
 	virtual void notify(void *);
 	~Rva005E626DListener() {}
 };
+// The base table 0x00C3702C's slot 0 is 0x0047A69C, the shared folded
+// 'ret 4': the listener's default notify is empty.
+void Rva005E626DListener::notify(void *) {}
 
 struct Rva002BA8F1Listener; // borrowed list-entry representation
 class Rva005A0B4CList
