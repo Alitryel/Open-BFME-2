@@ -356,11 +356,13 @@ public:
 	// BFME: retail has the two Get_Sub_Object_Bone_Index overloads swapped vs ZH.
 	virtual int						Get_Sub_Object_Bone_Index(int LodIndex, int ModelIndex)	const 		{ return 0; }
 	virtual int						Get_Sub_Object_Bone_Index(RenderObjClass * subobj)	const 		{ return 0; }
-	// BFME: retail Add_Sub_Object_To_Bone takes a third parameter (defaulted
-	// here for ZH call sites) and the (const char *) overload precedes the
-	// (int) overload.
-	virtual int						Add_Sub_Object_To_Bone(RenderObjClass * subobj,const char * bname, bool unk = false);
-	virtual int						Add_Sub_Object_To_Bone(RenderObjClass * subobj,int bone_index, bool unk = false)	{ return 0; }
+	// BFME: retail Add_Sub_Object_To_Bone takes a third parameter, a Vector3
+	// offset (defaulted here for ZH call sites); the by-name body 0x0013B9E0
+	// sits at vtable +0x94 ahead of the index overload. cl lays an overload
+	// group out in reverse declaration order, so the (int) overload comes
+	// first, as in bfme2renderobj.
+	virtual int						Add_Sub_Object_To_Bone(RenderObjClass * subobj,int bone_index, const Vector3 * offset = NULL)	{ return 0; }
+	virtual int						Add_Sub_Object_To_Bone(RenderObjClass * subobj,const char * bname, const Vector3 * offset = NULL);
 	// BFME: retail Remove_Sub_Objects_From_Bone overloads are swapped vs ZH.
 	virtual int						Remove_Sub_Objects_From_Bone(const char * bname);
 	virtual int						Remove_Sub_Objects_From_Bone(int boneindex);
@@ -595,7 +597,8 @@ public:
 #else
 	virtual void					_bfme_ro_flag116(int onoff);
 #endif
-	virtual int						Get_Collision_Type(void) const											{ return (Bits & COLL_TYPE_MASK); }
+	// BFME: retail Get_Collision_Type (0x0006D014) returns (Bits & 0xFFE) | 1.
+	virtual int						Get_Collision_Type(void) const											{ return (Bits & 0xFFE) | 1; }
 	virtual void					Set_Collision_Type(int type)												{ Bits &= ~COLL_TYPE_MASK; Bits |= (type & COLL_TYPE_MASK) | COLL_TYPE_ALL; }
    virtual bool					Is_Complete(void)																{ return false; }
 	virtual bool					Is_In_Scene(void)																{ return Scene != NULL; }
