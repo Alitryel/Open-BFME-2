@@ -1,7 +1,5 @@
 // ?init@AIWall@@QAE_NXZ
-// partial score=0.84 date=2026-10-13
 // ?init@AIWall@@QAE_NXZ
-// partial score=0.82 date=2026-10-09
 // Named WB137B990/405 and complete native4EBEB7..4EBF4B establish AIWall::init.
 // Actual STLport vector operations eliminate the old bank's invented volatile
 // field qualifiers. This complete trial emits146B against native148B: frame,
@@ -73,12 +71,17 @@ bool AIWall::init()
  {
   _STL::sort(orders08.begin(), orders08.end(), Rva004EBE74Cmp());
   unsigned count = orders08.size();
-  _ReadWriteBarrier();
-  selected04 = orders08[count / 2];
+  Rva004EBE74Item **beginp = &orders08[0];
+  Rva004EBE74Item **endp = orders08.end();
+  *(volatile Rva004EBE74Item **)(beginp + (count >> 1)) = *(beginp + (count >> 1));
+  Rva004EBE74Item ** volatile *medianSlot = (Rva004EBE74Item ** volatile *)&orders08;
+  Rva004EBE74Item **medianBegin = *medianSlot;
+  selected04 = *(medianBegin + (count >> 1));
+  beginp = &orders08[0];
+  count = orders08.size();
   bool valid = true;
   unsigned index = (unsigned)-1;
-  _STL::vector<Rva004EBE74Item *>::iterator end = orders08.end();
-  for (_STL::vector<Rva004EBE74Item *>::iterator p = orders08.begin(); p != end && valid; ++p) 
+  for (Rva004EBE74Item **p = beginp; p != endp && valid; ++p) 
   {
    if ((*p)->getKey() != ++index)
    valid = false;
