@@ -918,7 +918,17 @@ void *Rva00314D11::rva00314D11(NameKeyType key, FunctionLexicon::TableIndex inde
 // ---- third group ---------------------------------------------------------
 
 template <typename T> class StringBase { public: void set(const StringBase<T> &other); };
-class ControlBar { public: int rva00539997(int a, int b); };
+enum CBCommandStatus { CBC_COMMAND_NOT_USED = 0, CBC_COMMAND_USED = 1 };
+enum GadgetGameMessage { GGM_NONE = 0 };
+class GameWindow;
+class ControlBar
+{
+public:
+	int rva00539997(int a, int b);
+	CBCommandStatus rva0053B1CF(GameWindow *button, unsigned int gadgetMessage);
+	CBCommandStatus processContextSensitiveButtonClick(GameWindow *button, GadgetGameMessage gadgetMessage);
+	CBCommandStatus processContextSensitiveButtonTransition(GameWindow *button, GadgetGameMessage gadgetMessage);
+};
 class ResourceEntryCollector { public: void rva004E551E(); };
 struct Rva0030B6A6Range;
 struct Rva0030BFE8Range;
@@ -944,9 +954,18 @@ protected:
 class Rva001FD2C5 { public: void rva001FD2C5(const StringBase<char> &other); };
 void Rva001FD2C5::rva001FD2C5(const StringBase<char> &other) { ((StringBase<char> *)this)->set(other); }
 
-// 0x0031ABD4 (5B) -> ControlBar::rva00539997 0x00539997.
-class Rva0031ABD4 { public: int rva0031ABD4(int a, int b); };
-int Rva0031ABD4::rva0031ABD4(int a, int b) { return ((ControlBar *)this)->rva00539997(a, b); }
+// 0x0031ABCF / 0x0031ABD4 (5B each): the incremental-link entries for
+// ControlBar::processContextSensitiveButtonClick and ...Transition (pinned in
+// symbols.csv; the GUI system callbacks ControlBarSystem / GeneralsExpPoints
+// call these addresses), tail jumps to the bodies 0x0053B1CF and 0x00539997.
+CBCommandStatus ControlBar::processContextSensitiveButtonClick(GameWindow *button, GadgetGameMessage gadgetMessage)
+{
+	return rva0053B1CF(button, gadgetMessage);
+}
+CBCommandStatus ControlBar::processContextSensitiveButtonTransition(GameWindow *button, GadgetGameMessage gadgetMessage)
+{
+	return (CBCommandStatus)rva00539997((int)button, gadgetMessage);
+}
 
 // 0x0029A384 (5B) -> ResourceEntryCollector::rva004E551E 0x004E551E.
 class Rva0029A384 { public: void rva0029A384(); };
