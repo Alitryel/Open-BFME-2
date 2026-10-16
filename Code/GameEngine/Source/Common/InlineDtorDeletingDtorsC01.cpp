@@ -568,12 +568,15 @@ void *bfmeAnchorC01Rva003EE711(void *where)
 
 
 // The class whose vtable is VA 0x00C38B8C: its deleting dtor 0x00406B1D calls
-// the empty Rva00215E42 dtor 0x004059AC (the two empty dtors fold), and its
-// default constructor 0x00406B14 (9B) and copy constructor 0x00406B5F (11B,
-// ret 4) only store its own vtable - the same shapes as Rva00215E42's
-// 0x0029A287 and 0x004059B3 above. Modelled as its own vptr-only view; the
-// destructor stays declared (its row is the folded provider).
-class Rva00406B14
+// the empty Rva00215E42 dtor 0x004059AC, and its default constructor
+// 0x00406B14 (9B) and copy constructor 0x00406B5F (11B, ret 4) only store its
+// own vtable - the same shapes as Rva00215E42's 0x0029A287 and 0x004059B3
+// above. Derived from Rva00215E42: the base members expand inline here, the
+// base vptr store dies under the derived one in both constructors, and the
+// empty derived destructor reduces to the base's restore of VA 0x00BE5838 -
+// byte for byte the 0x004059AC body, so the linker folded the two (its row
+// is an ICF alias of ~Rva00215E42).
+class Rva00406B14 : public Rva00215E42
 {
 public:
 	Rva00406B14();
@@ -586,5 +589,11 @@ Rva00406B14::Rva00406B14()
 }
 
 Rva00406B14::Rva00406B14(const Rva00406B14 &)
+{
+}
+
+// ??1Rva00406B14@@UAE@XZ @0x004059AC 7B: ICF-folded with ~Rva00215E42 (the
+// deleting dtor 0x00406B1D calls it there).
+Rva00406B14::~Rva00406B14()
 {
 }
