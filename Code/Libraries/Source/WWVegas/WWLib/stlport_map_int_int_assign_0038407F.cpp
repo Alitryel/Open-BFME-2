@@ -100,3 +100,21 @@ _Rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::rva0038407F(const _Rb_tree &x)
 template IntIntTree &IntIntTree::rva0038407F(const IntIntTree &);
 
 }
+
+// 0x00384E77, 18 bytes: the map<int,int> assignment wrapper around the tree
+// assign above (its caller at 0x00384E7E); `_M_t = x._M_t; return *this;`.
+// map<int,int>::operator= is already spent on the rowed copy at 0x002CF9CA,
+// whose tree assign is a different body, so this copy keeps an
+// address-derived owner. No retail reference reaches it.
+class Rva00384E77IntIntMap
+{
+public:
+	Rva00384E77IntIntMap &rva00384E77(const Rva00384E77IntIntMap &x);
+	_STL::IntIntTree _M_t;
+};
+
+Rva00384E77IntIntMap &Rva00384E77IntIntMap::rva00384E77(const Rva00384E77IntIntMap &x)
+{
+	_M_t.rva0038407F(x._M_t);
+	return *this;
+}
