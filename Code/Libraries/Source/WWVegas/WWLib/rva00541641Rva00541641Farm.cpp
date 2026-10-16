@@ -1,11 +1,7 @@
 // ?rva00541641@Rva005418CB@@QAE_NH@Z
-// partial score=0.982 date=2026-10-13
 // ?rva00541641@Rva005418CB@@QAE_NH@Z
-// partial score=0.9787 date=2026-10-13
 // ?rva00541641@Rva005418CB@@QAE_NH@Z
-// partial score=0.93 date=2026-10-10
 // ?rva00541641@Rva005418CB@@QAE_NH@Z
-// partial score=0.9 date=2026-10-09
 // cl: /O1 /Oy- /G7 /MD /DNDEBUG
 // ?rva00541641@Rva005418CB@@QAE_NH@Z retail 0x00541641..0x00541709 (200 bytes)
 // NEAR: the fast hint path (0x00541641..0x0054169B) and the empty/lower_bound
@@ -18,7 +14,16 @@
 // their hint-register wall. `*(volatile int*)&key` on the final compare gets
 // the tail but flips the fast path registers (hint edi instead of ecx).
 struct BfmePod20 { int key; char frame[16]; };
-BfmePod20 *rva0054150A(BfmePod20 *first, BfmePod20 *last, const BfmePod20 &key);
+inline BfmePod20 *rva0054150A(BfmePod20 *first, BfmePod20 *last, const BfmePod20 &key)
+{
+	while (first != last)
+	{
+		BfmePod20 *mid = first + (last - first) / 2;
+		if (mid->key < key.key) first = mid + 1;
+		else last = mid;
+	}
+	return first;
+}
 struct KeyVector
 {
 	unsigned int size() const { return m_end - m_begin; }
@@ -55,8 +60,9 @@ if ((m_keys.m_end != 0 || m_keys.m_end == 0)) {
 	int &hint = m_hint1C;
 	BfmePod20 *b = m_keys.m_begin;
 	hint = rva0054150A(b, m_keys.m_end, *reinterpret_cast<const BfmePod20 *>(&key)) - b;
-	if ((unsigned)hint >= (unsigned)(m_keys.m_end - b) || (hint > 0 && b[hint].key != key))
+	int kv = key;
+	if ((unsigned)hint >= (unsigned)(m_keys.m_end - b) || (hint > 0 && b[hint].key != kv))
 		--hint;
-	return b[hint].key == (hint ? *(volatile int *)&key : *(volatile int *)&key);
+	return b[hint].key == kv;
 }
 }
