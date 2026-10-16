@@ -30,6 +30,14 @@ public:
 	}
 };
 
+// The multiple-allocation worker 0x00034B30 is rowed under its own view
+// (Rva00034B30MallocMultiple.cpp), returning the chunk-pointer array.
+class Rva00034B30
+{
+public:
+    void **rva00034B30(unsigned int count, unsigned int sizesCount, const unsigned int *sizes, void **out, int flags);
+};
+
 namespace EA
 {
 namespace Allocator
@@ -39,7 +47,6 @@ class GeneralAllocator
 {
 public:
     void *rva000344A0(unsigned int size, unsigned int alignment, unsigned int offset, int flags);
-    void *rva00034B30(unsigned int count, unsigned int sizesCount, const unsigned int *sizes, void **out, int flags);
     void *rva00035100(unsigned int size, unsigned int alignment, unsigned int offset, int flags);
     void *rva00035290(unsigned int count, unsigned int size, void **out, int flags);
     void *rva00035320(unsigned int count, const unsigned int *sizes, void **out, int flags);
@@ -57,13 +64,13 @@ void *GeneralAllocator::rva00035100(unsigned int size, unsigned int alignment, u
 void *GeneralAllocator::rva00035290(unsigned int count, unsigned int size, void **out, int flags)
 {
     Rva00035080Lock lock(m_pLock);
-    return rva00034B30(count, 1, &size, out, flags);
+    return ((Rva00034B30 *)this)->rva00034B30(count, 1, &size, out, flags);
 }
 
 void *GeneralAllocator::rva00035320(unsigned int count, const unsigned int *sizes, void **out, int flags)
 {
     Rva00035080Lock lock(m_pLock);
-    return rva00034B30(count, count, sizes, out, flags);
+    return ((Rva00034B30 *)this)->rva00034B30(count, count, sizes, out, flags);
 }
 }
 }
