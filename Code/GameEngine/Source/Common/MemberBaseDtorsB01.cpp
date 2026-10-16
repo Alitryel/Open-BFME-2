@@ -31,14 +31,23 @@ public:
 	virtual ~SubsystemInterface();
 };
 
-class Rva0022DC9B
+// Member destructors 0x0022DC9B and 0x005F85E1 are rowed STLport ~vector
+// instantiations (StlportVectorDtorFamily.cpp); declared, not defined here.
+struct Rva00413B16Element;
+struct Rva005F8620Element;
+namespace _STL {
+template <class T> class allocator {};
+template <class T, class A = allocator<T> > class vector
 {
 public:
-	~Rva0022DC9B();
+	~vector();
 
 private:
-	void *m_value;
+	T *m_start;
+	T *m_finish;
+	T *m_end;
 };
+}
 
 class Rva0022DCDA
 {
@@ -64,10 +73,12 @@ private:
 	void *m_value;
 };
 
-class Rva00575395
+// Base destructor 0x00575395: Rva00575383's (constructor 0x00575383, table
+// 0x00C6E5B4), rowed in Disp0DwordImmSetters.cpp.
+class Rva00575383
 {
 public:
-	virtual ~Rva00575395();
+	virtual ~Rva00575383();
 };
 
 class Rva00577010
@@ -101,10 +112,17 @@ public:
 	void *m_field04;
 };
 
+// Member destructor rowed as Rva005CF363::clear (OwnedPointerResets.cpp); the
+// holder is a unit-local view so the inline by-product gets a local name.
 class Rva005CF363
 {
 public:
-	~Rva005CF363();
+	void clear();
+};
+class Rva005CF363Holder
+{
+public:
+	~Rva005CF363Holder() { ((Rva005CF363 *)this)->clear(); }
 
 private:
 	void *m_value;
@@ -116,10 +134,17 @@ public:
 	virtual ~Rva00539926Base();
 };
 
+// Member destructor rowed as Rva005E1E81::clear (OwnedPointerResets.cpp); the
+// holder is a unit-local view so the inline by-product gets a local name.
 class Rva005E1E81
 {
 public:
-	~Rva005E1E81();
+	void clear();
+};
+class Rva005E1E81Holder
+{
+public:
+	~Rva005E1E81Holder() { ((Rva005E1E81 *)this)->clear(); }
 
 private:
 	void *m_value;
@@ -147,10 +172,17 @@ private:
 };
 }
 
+// Member destructor rowed as Rva005F64DB::clear (OwnedPointerResets.cpp); the
+// holder is a unit-local view so the inline by-product gets a local name.
 class Rva005F64DB
 {
 public:
-	~Rva005F64DB();
+	void clear();
+};
+class Rva005F64DBHolder
+{
+public:
+	~Rva005F64DBHolder() { ((Rva005F64DB *)this)->clear(); }
 
 private:
 	void *m_value;
@@ -162,14 +194,6 @@ public:
 	virtual ~Rva00577936();
 };
 
-class Rva005F85E1
-{
-public:
-	~Rva005F85E1();
-
-private:
-	void *m_value;
-};
 
 class Object;
 
@@ -183,10 +207,17 @@ public:
 	void rva006003A5(Object *value);
 };
 
+// Member destructor rowed as Rva005FAFB2::clear (OwnedPointerResets.cpp); the
+// holder is a unit-local view so the inline by-product gets a local name.
 class Rva005FAFB2
 {
 public:
-	~Rva005FAFB2();
+	void clear();
+};
+class Rva005FAFB2Holder
+{
+public:
+	~Rva005FAFB2Holder() { ((Rva005FAFB2 *)this)->clear(); }
 
 	void *m_value;
 };
@@ -200,7 +231,7 @@ public:
 
 private:
 	char m_unmodelled_04[0x8];
-	Rva0022DC9B m_member;	// +0xC
+	_STL::vector<Rva00413B16Element> m_member;	// +0xC
 };
 
 Rva00413A24::~Rva00413A24()
@@ -237,7 +268,7 @@ Rva005685EE::~Rva005685EE()
 {
 }
 
-class Rva00575D45 : public Rva00575395
+class Rva00575D45 : public Rva00575383
 {
 public:
 	virtual ~Rva00575D45();
@@ -253,7 +284,7 @@ Rva00575D45::~Rva00575D45()
 {
 }
 
-class Rva00576B5E : public Rva00575395
+class Rva00576B5E : public Rva00575383
 {
 public:
 	virtual ~Rva00576B5E();
@@ -291,10 +322,12 @@ void Rva00576B5E::rva00576B99(int a)
 	((Rva00577302 *)this)->rva005753A4(a);
 }
 
-class Rva004FBED6Call
+// 0x004FBED6 is rowed as RegionAwardDispute::GetResolvableBy
+// (LivingWorldRegionAwardDispute.cpp): thiscall, no arguments, returns int.
+class RegionAwardDispute
 {
 public:
-	void *rva004FBED6();
+	int GetResolvableBy();
 };
 class Rva005768CBCall
 {
@@ -317,13 +350,13 @@ void Rva00576B5E::rva00576ACB(void *unused, void *lookup)
 	(void)unused;
 	Rva00576ACBExpected *expected = *(Rva00576ACBExpected **)((char *)this + 0xC);
 	void *expected_value = expected->m_expected;
-	if (((Rva004FBED6Call *)lookup)->rva004FBED6() == expected_value)
+	if (((RegionAwardDispute *)lookup)->GetResolvableBy() == (int)expected_value)
 		((Rva005768CBCall *)((char *)this - 0xC))->rva005768CB(lookup);
 }
 
 class GameMessage;
 
-class Rva005772BF : public Rva00575395
+class Rva005772BF : public Rva00575383
 {
 public:
 	virtual ~Rva005772BF();
@@ -431,7 +464,7 @@ public:
 	virtual ~Rva005CF7BF();
 
 private:
-	Rva005CF363 m_member;	// +0x8
+	Rva005CF363Holder m_member;	// +0x8
 };
 
 Rva005CF7BF::~Rva005CF7BF()
@@ -445,7 +478,7 @@ public:
 
 private:
 	char m_unmodelled_04[0x8];
-	Rva005E1E81 m_member;	// +0xC
+	Rva005E1E81Holder m_member;	// +0xC
 };
 
 Rva005E1FBC::~Rva005E1FBC()
@@ -474,7 +507,7 @@ public:
 	virtual ~Rva005F64F5();
 
 private:
-	Rva005F64DB m_member;	// +0x8
+	Rva005F64DBHolder m_member;	// +0x8
 };
 
 Rva005F64F5::~Rva005F64F5()
@@ -488,7 +521,7 @@ public:
 
 private:
 	char m_unmodelled_04[0x1C];
-	Rva005F85E1 m_member;	// +0x20
+	_STL::vector<Rva005F8620Element> m_member;	// +0x20
 };
 
 Rva005F86C3::~Rva005F86C3()
@@ -506,7 +539,7 @@ public:
 
 private:
 	char m_unmodelled_04[0x1C];
-	Rva005FAFB2 m_member;	// +0x20
+	Rva005FAFB2Holder m_member;	// +0x20
 };
 
 Rva005FB1AD::~Rva005FB1AD()
@@ -629,16 +662,21 @@ public:
 	int rva005D1F45(IRegion2D *region, int value);
 	int rva005D1FD3(GameMessage *message);
 };
-class Rva005CD8F7Call
+// The +0x18 and +0x28 translators are rowed as
+// StrategicInGameUI::ManualPhaseEnder::Translate (0x005CD8F7) and
+// StrategicInGameUI::PlayerStatusDisplayer::rva005CD690 (0x005CD690).
+namespace StrategicInGameUI {
+class ManualPhaseEnder
 {
 public:
-	int rva005CD8F7(void *arg);
+	GameMessageDisposition Translate(const GameMessage *msg);
 };
-class Rva005CD690Call
+class PlayerStatusDisplayer
 {
 public:
-	int rva005CD690(void *arg);
+	GameMessageDisposition rva005CD690(const GameMessage *msg);
 };
+}
 
 // Target evidence: adjacent Rva005772BF methods and its vtable support the
 // class association. This body reads +0x14/+0x18/+0x28 and short-circuits on
@@ -648,8 +686,8 @@ int Rva005772BF::rva005771F4(GameMessage *message)
 {
 	Rva005D1F45 *dispatcher = *(Rva005D1F45 **)((char *)this + 0x14);
 	if ((!dispatcher || dispatcher->rva005D1FD3(message) != 1)
-		&& ((Rva005CD8F7Call *)((char *)this + 0x18))->rva005CD8F7(message) != 1
-		&& ((Rva005CD690Call *)((char *)this + 0x28))->rva005CD690(message) != 1)
+		&& ((StrategicInGameUI::ManualPhaseEnder *)((char *)this + 0x18))->Translate(message) != DESTROY_MESSAGE
+		&& ((StrategicInGameUI::PlayerStatusDisplayer *)((char *)this + 0x28))->rva005CD690(message) != DESTROY_MESSAGE)
 		return ((UserInputTranslator *)this)->UserInputTranslator::translateGameMessage(message);
 	return 1;
 }

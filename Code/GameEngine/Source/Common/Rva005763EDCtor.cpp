@@ -7,6 +7,9 @@
 // type name is address-derived; its layout and both argument meanings remain
 // unresolved. The subordinate constructor is now recovered with its rowed
 // destructor spelling in Rva00575F38Dtor.cpp; the opaque constructor pin is gone.
+// ??1Rva00575383@@UAE@XZ retail 0x00575395 7B: the inline base destructor
+// this unit emits for its unwind funclet (vptr reset to 0x00C6E5B4); the
+// MemberBaseDtorsB01.cpp destructors call the same body.
 class Rva00575383
 {
 public:
