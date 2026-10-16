@@ -1,22 +1,26 @@
 // ?rva00364AA2@Path@@QAEXPAVPathNode@@00M@Z
-// partial score=0.34 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/shims/sweep /ICode/Libraries/Include/Lib
-// NEAR (instruction ratio ~0.34): structural draft of retail 0x00364AA2 (2029
-// bytes, thiscall ret 0x10) from WB twin 0xF221B0 (14881-byte debug body).
-// Path corner rounding: two LineSegClass legs prev->cur->next, radius clamp to
-// 0.75 of the shorter leg (x1.75 below 0.7225663 rad), node id +0x20 must be
-// 0x7FFFFFFF and the turn at most 1.7278761 rad else 0x003649B1(cur); offset
-// legs by the leg directions rotated -PI/2 then Find_Intersection gives the
-// arc centre; arc points go through appendNode 0x002655E3 (layer +0x18 and
-// 0x7FFFFFFF) and the last one becomes cur's position (movsd into cur+0xC).
-// Differences left: retail frame 0x138 vs 0x16C here (stack packing and the
-// copies of prev/next positions); scheduling of the vector temporaries.
-// Callee 0x003641AE is called as a thiscall member (ecx=this loaded before the
-// call) but its row is ?Rva003641AEClamp@@YGHMM@Z (stdcall free): it needs a
-// thiscall pin such as ?rva003641AE@Path@@QAEHMM@Z.
+// partial score=0.6606047434 date=2026-10-16
+// cl: /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/shims/sweep /ICode/Libraries/Include/Lib
+
+#define NULL 0
+
+// Path node reclamation and teardown (GameLogic AI pathfinding). Nodes live
+// in the Rva pool behind the global at 0x00E01E94 and are returned through
+// its rowed FreeObject body; the local node type carries its next link at
+// +0x0 (matching the rowed PathNode layout).
+
+struct Rva00065964ObjectPool
+{
+	void FreeObject(void *obj);
+};
+
+// g_pathNodePool: matched references place it at VA 0xe01e94 (zero-filled; a plain-data view).
+Rva00065964ObjectPool g_pathNodePool;
+
 #include "vector3.h"
 #include "Coord2D.h"
-#include "Coord3D.h"
+#define COORD3D_VIEW_DTOR
+#include "Coord3DCtorView.h"
 
 class LineSegClass
 {
@@ -46,33 +50,95 @@ public:
 	void setPosition(const Coord3D *pos) { m_pos = *pos; }
 	PathfindLayerEnum getLayer(void) const { return m_layer; }
 
-	char m_pad00[0x0C];
+	PathNode *m_next;
+	char m_pad04[8];
 	Coord3D m_pos;
 	PathfindLayerEnum m_layer;
 	int m_1c;
 	int m_id20;
 };
 
+
 class Path
 {
+	void *m_unknown00;
+	PathNode *m_head04;
+
 public:
+	~Path();
+
 	void rva002655E3(const Coord3D *pos, PathfindLayerEnum layer, int portal);
 	void rva003649B1(const PathNode *node);
 	int rva003641AE(float angle, float radius);
 	void rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radius);
 };
+
+// ?FreePooledNode@@YAXPAX@Z, retail 0x00265488, 22 bytes. Null-checked
+// pool free: drops nulls, otherwise returns the node to the path pool.
+void __cdecl FreePooledNode(void *node)
+{
+	if (node == NULL)
+		return;
+	g_pathNodePool.FreeObject(node);
+}
+
+// ??1Path@@QAE@XZ, retail 0x00364A89, 25 bytes. Walks the node list
+// returning each node to the path pool.
+Path::~Path()
+{
+	PathNode *node = m_head04;
+	if (node == NULL)
+		return;
+	PathNode *next;
+	do
+	{
+		next = node->m_next;
+		FreePooledNode(node);
+		node = next;
+	} while (next != NULL);
+}
+
+class Rva00364A37
+{
+public:
+	~Rva00364A37();
+};
+
+class Rva003652FF
+{
+public:
+	void rva003652FF();
+};
+
+void Rva003652FF::rva003652FF()
+{
+	((Rva00364A37 *)this)->~Rva00364A37();
+}
+
+class Rva00364A60
+{
+public:
+	~Rva00364A60();
+};
+
+class Rva00365304
+{
+public:
+	void rva00365304();
+};
+
+void Rva00365304::rva00365304()
+{
+	((Rva00364A60 *)this)->~Rva00364A60();
+}
+
 void Path::rva00364AA2(PathNode *prev, PathNode *cur, PathNode *next, float radius)
 {
-	Coord3D prevPos;
-	prevPos.x = prev->getPosition()->x;
-	prevPos.y = prev->getPosition()->y;
-	Coord3D curPos;
-	curPos.x = cur->getPosition()->x;
-	curPos.y = cur->getPosition()->y;
-	curPos.z = cur->getPosition()->z;
-	Coord3D nextPos;
-	nextPos.x = next->getPosition()->x;
-	nextPos.y = next->getPosition()->y;
+	Coord3D prevPos(*prev->getPosition());
+	Coord3D curPos(*cur->getPosition());
+	Coord3D nextPos(*next->getPosition());
+	prevPos.z=curPos.z;
+	nextPos.z=curPos.z;
 	LineSegClass seg1(Vector3(prevPos.x, prevPos.y, 0), Vector3(curPos.x, curPos.y, 0));
 	LineSegClass seg2(Vector3(curPos.x, curPos.y, 0), Vector3(nextPos.x, nextPos.y, 0));
 	float minLen = seg1.Get_Length();
