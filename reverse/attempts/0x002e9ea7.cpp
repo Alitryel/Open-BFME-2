@@ -1,17 +1,13 @@
 // ?rva002E9EA7@Pathfinder@@QAE_NPAVObject@@HHW4PathfindLayerEnum@@HHPAH@Z
-// partial score=0.8241 date=2026-10-16
+// partial score=0.8308 date=2026-10-16
 // cl: /O1 /DNDEBUG /MD
-// Pathfinder::rva002E9EA7 @0x002E9EA7 531B, RET 0x1C. Semantic guide: ZH
-// Pathfinder::checkDestination and BFME 1 PathfindCheckDestination.cpp
-// (donor facts): numCellsAbove = radius, +1 when centred; ignoreId/objID
-// from the AI interface (+0x258, getter 0x6E009) and object id (+0x74);
-// i/j rectangle walk with getCell, an obstacle cell continuing to j++ when
-// IsObstaclePresent(ignoreId). BFME 2 additions (target bytes): a template
-// kind-of override (+0x115 bit 0x20, layer 1 terrain probe through 0x2E79A8
-// and TheTerrainLogic slot 50) forcing radius 1 centred, a second override
-// (+0x113 bit 4, +0x109 bit 1, layer != 1) forcing radius 1 uncentred, and
-// two occupant lists counting into *count. ignoreId and j reuse the dead
-// iRadius/centerInCell parameters, which reproduces retail's frame slots.
+// Dump lane range 13: ?rva002E9EA7 @0x002E9EA7 531B. Pathfinder
+// bool query over a cell rectangle: flag/divisor setup from the Object
+// inner (m_115 bit 0x20 gate with a TheTerrainLogic slot-50 probe, m_113
+// bit 4 + m_109 bit 1 override), plus-one framing, then a getCell grid
+// walk with tag-nibble dispatch, Object relationship/bool filters over
+// two occupant lists, and a hit counter. Identity unproven beyond the
+// rowed callees; names address-derived.
 void __cdecl rva002E79A8(int a1, unsigned char a2, int a3, int a4, int a5);
 
 struct Rva002E8BCFSrc
@@ -94,18 +90,12 @@ struct Rva002E9EA7Occ2
 	Object *m_obj;
 };
 
-enum ObjectID
-{
-	INVALID_ID = 0
-};
-
 class PathfindCell
 {
 public:
-	bool IsObstaclePresent(ObjectID id) const;
 	PathfindCell *m_0;
 	char _04[8];
-	unsigned int m_C;
+	int m_C;
 	char _10[0x10];
 	Rva002E9EA7Occ2 *m_20;
 };
@@ -117,6 +107,11 @@ public:
 	bool rva002E9EA7(Object *a1, int a2, int a3, PathfindLayerEnum a4, int a5i, int a5b, int *a6);
 };
 
+class Rva002E6C23
+{
+public:
+	bool rva002E6C23(int v);
+};
 
 // TheTerrainLogic vtable slot 50 (+0xC8) bool probe over the 0x1C-byte
 // 0x2E79A8 output. Earlier slots unmodelled.
@@ -178,92 +173,117 @@ public:
 
 extern TerrainLogic *TheTerrainLogic;
 
-bool Pathfinder::rva002E9EA7(Object *obj, int cellX, int cellY, PathfindLayerEnum layer, int iRadius, int centerInCell, int *count)
+// ?rva002E9EA7@Pathfinder@@QAE_NPAVObject@@HHW4PathfindLayerEnum@@HEPAH@Z @0x002E9EA7 531B.
+bool Pathfinder::rva002E9EA7(Object *a1, int a2, int a3, PathfindLayerEnum a4, int a5i, int a5b, int *a6)
 {
 	Rva002E79A8Out tmp;
-	int radius;
-	unsigned char center;
-	if ((obj->m_04->m_115 & 0x20) != 0 && (layer != 1 || (rva002E79A8((int)&tmp, 1, cellX, cellY, 1), TheTerrainLogic->rva002E9EA7Slot50(&tmp))))
+	int u;
+	unsigned char flag;
+	int dv;
+	if ((a1->m_04->m_115 & 0x20) != 0)
 	{
-		radius = 1;
-		center = 1;
+		u = 1;
+		if (a4 != u || (rva002E79A8((int)&tmp, 1, a2, a3, 1), TheTerrainLogic->rva002E9EA7Slot50(&tmp)))
+		{
+			dv = u;
+			flag = 1;
+		}
+		else
+		{
+			flag = a5b;
+			dv = a5i;
+		}
 	}
 	else
 	{
-		radius = iRadius;
-		center = (unsigned char)centerInCell;
+		u = 1;
+		flag = a5b;
+		dv = a5i;
 	}
-	if ((obj->m_04->m_113 & 4) != 0 && (obj->m_04->m_109 & 1) != 0 && layer != 1)
+	if (((((Object *volatile&)a1)->m_04->m_113 & 4) != 0) && ((a1->m_04->m_109 & 1) != 0) && (a4 != u))
 	{
-		radius = 1;
-		center = 0;
+		dv = u;
+		flag = 0;
 	}
-	int numCellsAbove = radius;
-	if (center)
-		numCellsAbove++;
-	*count = 0;
-	iRadius = INVALID_ID;
-	int objID = 0;
-	if (obj->m_258 != 0)
+	u = (flag != 0) ? dv + 1 : dv;
+	*a6 = 0;
+	a5i = 0;
+	int v1 = 0;
+	if (a1->m_258 != 0)
 	{
-		iRadius = ((Rva0006E009DwordField *)obj->m_258)->get();
-		objID = obj->m_74;
+		a5i = ((Rva0006E009DwordField *)a1->m_258)->get();
+		v1 = a1->m_74;
 	}
-	for (int i = cellX - radius; i < cellX + numCellsAbove; i++)
+	int e = a2 - dv;
+	int xEnd = a2 + u;
+	a2 = e;
+	if (e >= xEnd)
+		return true;
+	int e2 = a3 + u;
+	a3 = a3 - dv;
+	for (;;)
 	{
-		for (centerInCell = cellY - radius; centerInCell < cellY + numCellsAbove; centerInCell++)
+		a5b = a3;
+		if (a5b < e2)
 		{
-			PathfindCell *cell = getCell(layer, i, centerInCell);
-			if (cell == 0)
-				return false;
-			unsigned int tag = cell->m_C;
-			if ((tag & 15) == 5)
-				return false;
-			if ((((unsigned char)(tag >> 18) & 1) != 0) && obj->rva0028AFBB())
-				return false;
-			unsigned int tag2 = cell->m_C;
-			int k = tag2 & 15;
-			if (k == 2)
-				return false;
-			if (k == 4)
+			do
 			{
-				if (cell->IsObstaclePresent((ObjectID)iRadius))
-					continue;
-				return false;
-			}
-			if (k == 5 || k == 6)
-				return false;
-			if ((((unsigned char)(tag2 >> 18) & 1) != 0) && obj->rva0028AFBB())
-				return false;
-			void *n1 = cell->m_0;
-			Rva002E9EA7Occ1 *b = n1 ? ((Rva002E9EA7Head1 *)n1)->m_14 : 0;
-			while (b != 0)
-			{
-				Object *o = b->m_obj;
-				if (o->m_74 != objID && o->m_74 != iRadius && o->m_274 != obj)
+				PathfindCell *cell = getCell(a4, a2, a5b);
+				if (cell == 0)
+					return false;
+				unsigned int tag = cell->m_C;
+				if ((tag & 15) == 5)
+					return false;
+				if ((((unsigned char)(tag >> 18) & 1) != 0) && a1->rva0028AFBB())
+					return false;
+				unsigned int tag2 = cell->m_C;
+				int k = tag2 & 15;
+				if (k == 2)
+					return false;
+				if (k == 4)
 				{
-					if (obj->getRelationship(o) == REL_2)
-						(*count)++;
-					else if (o->IsAtGoalPosition())
-						return false;
+					if (((Rva002E6C23 *)cell)->rva002E6C23(a5i))
+						continue;
+					return false;
 				}
-				b = b->m_next;
-			}
-			cell = (PathfindCell *)cell->m_0;
-			Rva002E9EA7Occ2 *s = cell ? cell->m_20 : 0;
-			while (s != 0)
-			{
-				Object *o = s->m_obj;
-				if (o->m_74 != objID && o->m_274 != obj)
+				if (k == 5 || k == 6)
+					return false;
+				if ((((unsigned char)(tag2 >> 18) & 1) != 0) && a1->rva0028AFBB())
+					return false;
+				void *n1 = cell->m_0;
+				Rva002E9EA7Occ1 *b = n1 ? ((Rva002E9EA7Head1 *)n1)->m_14 : 0;
+				while (b != 0)
 				{
-					if (obj->getRelationship(o) == REL_2)
-						*count += 3;
-					else
-						(*count)++;
+					Object *o = b->m_obj;
+					if (o->m_74 != v1 && o->m_74 != a5i && o->m_274 != a1)
+					{
+						if (a1->getRelationship(o) == REL_2)
+							(*a6)++;
+						else if (o->IsAtGoalPosition())
+							return false;
+					}
+					b = b->m_next;
 				}
-				s = s->m_next;
-			}
+				cell = (PathfindCell *)cell->m_0;
+				Rva002E9EA7Occ2 *s = cell ? cell->m_20 : 0;
+				while (s != 0)
+				{
+					Object *o = s->m_obj;
+					if (o->m_74 != v1 && o->m_274 != a1)
+					{
+						if (a1->getRelationship(o) == REL_2)
+							*a6 += 3;
+						else
+							(*a6)++;
+					}
+					s = s->m_next;
+				}
+				a5b++;
+			} while (a5b < e2);
 		}
+		a2++;
+		if (a2 >= xEnd)
+			break;
 	}
 	return true;
 }
