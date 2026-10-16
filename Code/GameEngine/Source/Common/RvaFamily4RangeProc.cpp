@@ -5,14 +5,33 @@
 // the tail helper over the rest, returning the tail/head result. The b and c
 // parameters are volatile-qualified: that is what keeps the compiler pushing
 // them from memory instead of staging them in preserved registers. Helpers
-// are opaque address-named pins; range, helper and function identities are
-// unproven.
-int Copy0021D289(void *a, void * volatile b, volatile int c);
-int Copy0021D2B6(void *a, void * volatile b, volatile int c);
-int Copy002B833C(void *a, void * volatile b, volatile int c);
-int Copy002B6351(void *a, void * volatile b, volatile int c);
-int Copy003C6437(void *a, void * volatile b, volatile int c);
-int Copy003C3AB0(void *a, void * volatile b, volatile int c);
+// are the rowed STLport insertion sorts; the processors are their
+// __final_insertion_sort callers.
+// The helpers are the rowed STLport __insertion_sort and
+// __unguarded_insertion_sort instantiations of three sort families; they
+// are called through the (pointer, pointer, int) shape the bodies were
+// matched with.
+enum Rva0021B68DKey;
+struct Rva0021B68DCmp { int m_state; };
+class Rva004F6093Holder;
+struct Rva002BBC1CCmp { int m_state; };
+struct Rva003C3AB0Item;
+struct Rva003C3AB0Cmp { int m_state; };
+namespace _STL
+{
+template <class _RandomAccessIter, class _Compare>
+void __insertion_sort(_RandomAccessIter first, _RandomAccessIter last, _Compare comp);
+template <class _RandomAccessIter, class _Compare>
+void __unguarded_insertion_sort(_RandomAccessIter first, _RandomAccessIter last, _Compare comp);
+}
+typedef int (*RangeHelper)(void *a, void * volatile b, volatile int c);
+#define SORT_HELPER(fn, It, Cmp) 	((RangeHelper)(void (*)(It, It, Cmp))&_STL::fn<It, Cmp>)
+#define Copy0021D289 SORT_HELPER(__insertion_sort, Rva0021B68DKey *, Rva0021B68DCmp)
+#define Copy0021D2B6 SORT_HELPER(__unguarded_insertion_sort, Rva0021B68DKey *, Rva0021B68DCmp)
+#define Copy002B833C SORT_HELPER(__insertion_sort, Rva004F6093Holder *, Rva002BBC1CCmp)
+#define Copy002B6351 SORT_HELPER(__unguarded_insertion_sort, Rva004F6093Holder *, Rva002BBC1CCmp)
+#define Copy003C6437 SORT_HELPER(__insertion_sort, Rva003C3AB0Item **, Rva003C3AB0Cmp)
+#define Copy003C3AB0 SORT_HELPER(__unguarded_insertion_sort, Rva003C3AB0Item **, Rva003C3AB0Cmp)
 
 int Proc0021D905(void *a, void * volatile b, volatile int c)
 {
