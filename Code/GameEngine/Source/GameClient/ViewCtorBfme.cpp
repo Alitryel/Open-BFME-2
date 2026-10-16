@@ -16,7 +16,9 @@ class View {
 public:
  virtual ~View();
  View();
- static unsigned m_idNext;
+protected:
+ static unsigned m_idNext; // Zero Hour's protected static, defined in View.cpp
+public:
  View *m_next;unsigned m_id;
  struct Position {float x,y,z; void set(){x=0;y=0;z=0;}} m_pos;
  int m_width,m_height,m_originX,m_originY;
