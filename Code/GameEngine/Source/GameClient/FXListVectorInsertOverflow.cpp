@@ -14,7 +14,9 @@
 // allocate), _Construct<FXList> is declared but not defined so the copies
 // call its matched body, and explicit member instantiation keeps the other
 // vector members out of this TU. FXList is reduced to its 8-byte footprint
-// with the out-of-line copy ctor and dtor.
+// (vptr plus nugget list) with the out-of-line copy ctor and the virtual dtor
+// GameClient/FXList.h declares: retail _M_clear 0x005659CA destroys each
+// element through 0x0052BF33, a vtable slot 0 call with a zero flag.
 //
 // push_back (retail 0x0056625E) and the copy ctor (retail 0x0052CAC9) are
 // instantiated here too: they are the only unowned callers of the
@@ -34,11 +36,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 class FXList
 {
-	char _m[8];
+	char _m[4];
 
 public:
 	FXList(const FXList &that);
-	~FXList();
+	virtual ~FXList();
 };
 
 namespace _STL
