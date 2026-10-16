@@ -1,8 +1,6 @@
 // ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
-// partial score=0.7977 date=2026-10-16
+// partial score=0.8986 date=2026-10-16
 // cl: /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /O1 /G7 /arch:SSE /ICode/Libraries/Include /DNDEBUG /MD /Oi-
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // Float getters of one object-module class whose shared worker is the
 // unrowed 356-byte 0x001E46E1 (pinned by address from these call sites; it
 // reads the Object's +0x254 and +0x258 and calls the rowed check at
@@ -546,7 +544,7 @@ static __forceinline void rva6007Set(Object *obj,unsigned bit)
 {
  if(!obj->m_flags10C.test(bit)){obj->m_flags10C.set(bit);obj->rva0028AE6D();}
 }
-static inline float rva6007SlowDown(float actualSpeed,float minSpeed,float braking){float delta=actualSpeed-minSpeed;if(delta<=0.0f)return 0.0f;float frames=delta/braking+1.0f;float dist=(delta*0.5f+minSpeed)*frames;const float FUDGE=1.05f;return dist*FUDGE;}
+static __forceinline float rva6007SlowDown(float actualSpeed,float minSpeed,float braking){float delta=actualSpeed-minSpeed;if(delta<=0.0f)return 0.0f;return (delta/braking+1.0f)*(delta*0.5f+minSpeed)*1.05f;}
 struct MoveCoordinate:Coord3D {__forceinline MoveCoordinate(float a,float b,float c){x=a;y=b;z=c;}};
 void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,float desiredSpeed)
 {
@@ -565,6 +563,7 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
   goalSpeed=m_40-rva001E488A(obj);
   if(goalSpeed<braking)goalSpeed=braking;
  }
+ MoveCoordinate target(goal->x,goal->y,goal->z);
  if(goalSpeed>m_40 && !getFlag(0))m_40+=rva001E4845(obj);
  if(m_40>goalSpeed){m_40-=braking;if(m_40<goalSpeed)m_40=goalSpeed;}
  Coord3D pos;pos.x=goal->x;pos.y=goal->y;pos.z=goal->z;
@@ -578,13 +577,11 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
   path->DoAdvanceAlongPath(&pos,true);
   result=path->rva00364521((const Rva0008BB38FloatField*)this);
   if(path->m_count)--path->m_count;
-  MoveCoordinate pathPos(result.m_pos.x,result.m_pos.y,result.m_pos.z);
-  obj->m_198=pathPos;obj->m_1A6=true;
+  obj->m_198=MoveCoordinate(result.m_pos.x,result.m_pos.y,result.m_pos.z);obj->m_1A6=true;
  } else {
-  MoveCoordinate newGoal(goal->x,goal->y,goal->z);
-  newGoal.x-=obj->m_pos38.x;newGoal.y-=obj->m_pos38.y;newGoal.z=0.0f;
-  pos=*obj->getPosition();
-  _ReadWriteBarrier();
+  const Coord3D *objPos=obj->getPosition();
+  MoveCoordinate newGoal(target.x-objPos->x,target.y-objPos->y,0.0f);
+  pos=*objPos;
   float len=newGoal.length();
   float minMove=10.0f/g_Va00DBA4E4;
   if(speed<minMove)speed=minMove;
@@ -593,9 +590,8 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
  }
  pos.z=obj->m_pos38.z;
  const Coord3D *destination=(const Coord3D*)((Rva001E434A*)obj)->rva001E434A();
- MoveCoordinate nextPos(destination->x,destination->y,destination->z);nextPos.z=obj->m_pos38.z;
- obj->m_198=nextPos;obj->m_1A6=true;
- m_matrix68[0][3]=pos.x;m_matrix68[1][3]=pos.y;m_matrix68[2][3]=pos.z;
+ obj->m_198=MoveCoordinate(destination->x,destination->y,obj->m_pos38.z);obj->m_1A6=true;
+ m_matrix68.Set_Translation(*(const Vector3*)&pos);
  float acceleration=m_40-actualSpeed;
  float threshold=m_data->m_7C*maxSpeed;
  if(acceleration>rva001E4845(obj)*0.4f && actualSpeed<threshold){
