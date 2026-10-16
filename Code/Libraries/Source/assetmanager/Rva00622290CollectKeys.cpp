@@ -68,14 +68,14 @@ struct Rva00622290SetGroup
 	}
 };
 
-struct Rva00622290LocalSet
+struct Q1ReceiverLocalSet
 {
 	Rva001408C0Set m_tree;
 	unsigned int m_count;
 	bool m_active;
 	unsigned char m_padding[3];
 
-	Rva00622290LocalSet() { clear(); }
+	Q1ReceiverLocalSet() { clear(); }
 
 	void clear()
 	{
@@ -86,14 +86,14 @@ struct Rva00622290LocalSet
 
 typedef _STL::hash_map<int, int> ScalarHashMap622290;
 
-class Rva00622290Lock
+class Q1ReceiverLockGuard
 {
 public:
-	explicit Rva00622290Lock(CRITICAL_SECTION *lock) : m_lock(lock)
+	explicit Q1ReceiverLockGuard(CRITICAL_SECTION *lock) : m_lock(lock)
 	{
 		EnterCriticalSection(m_lock);
 	}
-	~Rva00622290Lock()
+	~Q1ReceiverLockGuard()
 	{
 		LeaveCriticalSection(m_lock);
 	}
@@ -114,8 +114,8 @@ private:
 
 Rva00622290SetGroup Rva00622290::collectKeys()
 {
-	Rva00622290Lock lock(&m_lock34);
-	Rva00622290LocalSet keys;
+	Q1ReceiverLockGuard lock(&m_lock34);
+	Q1ReceiverLocalSet keys;
 	ScalarHashMap622290::iterator it;
 	for (it = m_map4c.begin(); it != m_map4c.end(); ++it)
 	{
