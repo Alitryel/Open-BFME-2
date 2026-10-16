@@ -10,6 +10,9 @@
 // 0x0023DAA5 ICF alias.
 
 #include <list>
+// bfme link decl-only begin
+namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned int); }
+// bfme link decl-only end
 
 enum CommandSourceType
 {

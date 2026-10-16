@@ -8,6 +8,9 @@
 // slots with the same no-code helper pattern as BasicStringNarrowSizeCtor.cpp;
 // this changes only stack allocation, without extra loads, stores or calls.
 #include <string>
+// bfme link decl-only begin
+namespace _STL { template <> void _String_base<char,_STL::allocator<char> >::_M_throw_out_of_range() const; }
+// bfme link decl-only end
 namespace _STL {
 // ?eraseFrameSlot absent-from-retail
 template <class T> __forceinline void eraseFrameSlot(T *) {}

@@ -18,6 +18,9 @@ class UnicodeString;
 struct UnicodeStringLessThan;
 
 #include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > * allocator<_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > >::allocate(unsigned int,void const *) const; }
+// bfme link decl-only end
 
 
 struct UnicodeStringLessThan

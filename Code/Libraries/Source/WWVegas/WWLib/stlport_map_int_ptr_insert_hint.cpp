@@ -7,6 +7,11 @@
 // Called once by the unclaimed operator[]-style worker at 0x00534A2A via 0x00534A7B.
 // Flags copy the sibling map<unsigned void*> TU stlport_map_int_ptr_lower.cpp.
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_Rb_tree_iterator<_STL::pair<unsigned int const,void *>,_STL::_Nonconst_traits<_STL::pair<unsigned int const,void *> > > _Rb_tree<unsigned int,_STL::pair<unsigned int const,void *>,_STL::_Select1st<_STL::pair<unsigned int const,void *> >,_STL::less<unsigned int>,_STL::allocator<_STL::pair<unsigned int const,void *> > >::_M_insert(_STL::_Rb_tree_node_base *,_STL::_Rb_tree_node_base *,_STL::pair<unsigned int const,void *> const &,_STL::_Rb_tree_node_base *); }
+namespace _STL { template <> _STL::_Rb_tree_iterator<_STL::pair<unsigned int const,void *>,_STL::_Nonconst_traits<_STL::pair<unsigned int const,void *> > > _Rb_tree<unsigned int,_STL::pair<unsigned int const,void *>,_STL::_Select1st<_STL::pair<unsigned int const,void *> >,_STL::less<unsigned int>,_STL::allocator<_STL::pair<unsigned int const,void *> > >::insert_unique(_STL::_Rb_tree_iterator<_STL::pair<unsigned int const,void *>,_STL::_Nonconst_traits<_STL::pair<unsigned int const,void *> > >,_STL::pair<unsigned int const,void *> const &); }
+namespace _STL { template <> _STL::pair<_STL::_Rb_tree_iterator<_STL::pair<unsigned int const,void *>,_STL::_Nonconst_traits<_STL::pair<unsigned int const,void *> > >,bool> _Rb_tree<unsigned int,_STL::pair<unsigned int const,void *>,_STL::_Select1st<_STL::pair<unsigned int const,void *> >,_STL::less<unsigned int>,_STL::allocator<_STL::pair<unsigned int const,void *> > >::insert_unique(_STL::pair<unsigned int const,void *> const &); }
+// bfme link decl-only end
 
 // map/set<unsigned> internals otherwise instantiate the less<unsigned>::operator()
 // COMDAT (one byte shape per TU flags); a declaration-only specialization

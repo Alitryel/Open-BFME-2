@@ -4,6 +4,9 @@
 // Evidence: caller 0x003BD062 passes Player as this and void* from Rva002D06CAGet;
 // this+0x700 is _STL::list<short> and arg+0x5d8 is short; calls rowed list<short>::remove.
 #include <list>
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_List_iterator<short,_STL::_Nonconst_traits<short> > list<short,_STL::allocator<short> >::insert(_STL::_List_iterator<short,_STL::_Nonconst_traits<short> >,short const &); }
+// bfme link decl-only end
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {

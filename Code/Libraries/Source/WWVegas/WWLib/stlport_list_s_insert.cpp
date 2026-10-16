@@ -5,6 +5,9 @@
 // Evidence: identical 37B shape to list<int>::insert at 0x005925E2 calling rowed _M_create_node;
 // here calls rowed short _M_create_node at 0x002AAC55 then list hook insertion; caller 0x002AC01D.
 #include <list>
+// bfme link decl-only begin
+namespace _STL { template <> list<short,_STL::allocator<short> >::list(unsigned int); }
+// bfme link decl-only end
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {

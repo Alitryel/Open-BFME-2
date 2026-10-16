@@ -30,4 +30,13 @@ struct BfmeStringRecord000B9534 {
       : text(o.text), flag(o.flag), word0(o.word0), word1(o.word1), word2(o.word2), word3(o.word3) {}
 };
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> BfmeStringRecord000B9534 * __copy<BfmeStringRecord000B9534 *,BfmeStringRecord000B9534 *,int>(BfmeStringRecord000B9534 *,BfmeStringRecord000B9534 *,BfmeStringRecord000B9534 *,_STL::random_access_iterator_tag const &,int *); }
+namespace _STL { template <> BfmeStringRecord000B9534 * __copy<BfmeStringRecord000B9534 const *,BfmeStringRecord000B9534 *,int>(BfmeStringRecord000B9534 const *,BfmeStringRecord000B9534 const *,BfmeStringRecord000B9534 *,_STL::random_access_iterator_tag const &,int *); }
+namespace _STL { template <> BfmeStringRecord000B9534 * __copy_backward<BfmeStringRecord000B9534 *,BfmeStringRecord000B9534 *,int>(BfmeStringRecord000B9534 *,BfmeStringRecord000B9534 *,BfmeStringRecord000B9534 *,_STL::random_access_iterator_tag const &,int *); }
+namespace _STL { template <> void fill<BfmeStringRecord000B9534 *,BfmeStringRecord000B9534>(BfmeStringRecord000B9534 *,BfmeStringRecord000B9534 *,BfmeStringRecord000B9534 const &); }
+namespace _STL { template <> BfmeStringRecord000B9534 * fill_n<BfmeStringRecord000B9534 *,unsigned int,BfmeStringRecord000B9534>(BfmeStringRecord000B9534 *,unsigned int,BfmeStringRecord000B9534 const &); }
+namespace _STL { template <> BfmeStringRecord000B9534 * vector<BfmeStringRecord000B9534,_STL::allocator<BfmeStringRecord000B9534> >::erase(BfmeStringRecord000B9534 *,BfmeStringRecord000B9534 *); }
+namespace _STL { template <> BfmeStringRecord000B9534 * vector<BfmeStringRecord000B9534,_STL::allocator<BfmeStringRecord000B9534> >::insert(BfmeStringRecord000B9534 *,BfmeStringRecord000B9534 const &); }
+// bfme link decl-only end
 template class _STL::vector<BfmeStringRecord000B9534, _STL::allocator<BfmeStringRecord000B9534> >;

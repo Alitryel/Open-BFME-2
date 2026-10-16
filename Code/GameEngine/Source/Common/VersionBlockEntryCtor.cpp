@@ -10,6 +10,13 @@
 // matches the rowed dtor at 0x00238580 freeing [esi] then [esi+0xC].
 #include <string>
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char,_STL::allocator<char> >::_String_base(_STL::allocator<char> const &); }
+namespace _STL { template <> basic_string<char,_STL::char_traits<char>,_STL::allocator<char> >::basic_string(); }
+namespace _STL { template <> _String_base<char,_STL::allocator<char> >::~_String_base(); }
+namespace _STL { template <> basic_string<char,_STL::char_traits<char>,_STL::allocator<char> >::~basic_string(); }
+namespace _STL { template <> void _String_base<char,_STL::allocator<char> >::_M_deallocate_block(); }
+// bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> allocate copy (family2-LK3 row 30):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

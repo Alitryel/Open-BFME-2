@@ -27,6 +27,12 @@ extern "C" void _ReadWriteBarrier(void);
 // removal/occlusion loop and the m_mobileGarrison test. BFME 2 adds the
 // removeInvalid/addValid/trackTargets sequence ZH commented out.
 #include "../../../../Include/GameLogic/ContainmentListView.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<Rva0036ADF9Element,_STL::allocator<Rva0036ADF9Element> >::~_List_base(); }
+namespace _STL { template <> void _List_base<Rva0036ADF9Element,_STL::allocator<Rva0036ADF9Element> >::clear(); }
+namespace _STL { template <> void _STLP_alloc_proxy<_STL::_List_node<Rva0036ADF9Element> *,_STL::_List_node<Rva0036ADF9Element>,_STL::allocator<_STL::_List_node<Rva0036ADF9Element> > >::deallocate(_STL::_List_node<Rva0036ADF9Element> *,unsigned int); }
+namespace _STL { template <> void allocator<_STL::_List_node<Rva0036ADF9Element> >::deallocate(_STL::_List_node<Rva0036ADF9Element> *,unsigned int) const; }
+// bfme link decl-only end
 
 // Keep the typed node comparison local; these flags otherwise emit an
 // incompatible external STLport base-iterator comparison.

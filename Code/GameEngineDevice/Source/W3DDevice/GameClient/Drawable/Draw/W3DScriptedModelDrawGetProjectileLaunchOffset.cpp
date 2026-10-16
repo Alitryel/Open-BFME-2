@@ -21,6 +21,10 @@
 #include <vector>
 #include <stdlib.h>
 #include <string.h>
+// bfme link decl-only begin
+namespace _STL { template <> void * __node_alloc<1,0>::allocate(unsigned int); }
+namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned int); }
+// bfme link decl-only end
 // Declaration-only: retail keeps one _STL::max<unsigned int> (17-byte jae
 // shape); this TU's flags would emit a private copy.
 namespace _STL {

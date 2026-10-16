@@ -13,6 +13,15 @@
 #include "ascii_string.h"
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 #include <list>
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_List_node<int> * list<int,_STL::allocator<int> >::_M_create_node(int const &); }
+namespace _STL { template <> _STL::_List_node<int> * _STLP_alloc_proxy<_STL::_List_node<int> *,_STL::_List_node<int>,_STL::allocator<_STL::_List_node<int> > >::allocate(unsigned int); }
+namespace _STL { template <> void * __node_alloc<1,0>::allocate(unsigned int); }
+namespace _STL { template <> _STL::_List_node<int> * allocator<_STL::_List_node<int> >::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<_STL::_List_node<int> *,_STL::_List_node<int>,_STL::allocator<_STL::_List_node<int> > >::deallocate(_STL::_List_node<int> *,unsigned int); }
+namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned int); }
+namespace _STL { template <> void allocator<_STL::_List_node<int> >::deallocate(_STL::_List_node<int> *,unsigned int) const; }
+// bfme link decl-only end
 // Keep integer construction inline; stlport_deque_int.cpp owns retail's
 // out-of-line _Construct<int, int> body at 0x00620140.
 namespace _STL {

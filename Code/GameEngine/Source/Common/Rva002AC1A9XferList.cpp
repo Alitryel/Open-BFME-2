@@ -4,6 +4,9 @@
 // Evidence: leaf lane every callee rowed or pinned; same skeleton as rowed xferListInt 0x00206861 194B and Rva00460216XferList 0x00460216 194B; count via 0x78 saving element via 0x80; caller 0x002B203B; prev Rva002AC04EAlloc next Rva002AC340Ctor.
 #define _STLP_NO_EXCEPTIONS 1
 #include <list>
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_List_iterator<short,_STL::_Nonconst_traits<short> > list<short,_STL::allocator<short> >::insert(_STL::_List_iterator<short,_STL::_Nonconst_traits<short> >,short const &); }
+// bfme link decl-only end
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {

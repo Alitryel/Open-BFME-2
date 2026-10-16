@@ -79,6 +79,19 @@ template <typename T> struct hash
 // Coord3D: shared header/view; no private copy.
 #define COORD3D_VIEW_DTOR
 #include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
+// bfme link decl-only begin
+namespace _STL { template <> void swap<_STL::_STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> > >(_STL::_STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> > &,_STL::_STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> > &); }
+namespace _STL { template <> _Vector_base<void *,_STL::allocator<void *> >::_Vector_base(unsigned int,_STL::allocator<void *> const &); }
+namespace _STL { template <> vector<void *,_STL::allocator<void *> >::vector(unsigned int,void * const &,_STL::allocator<void *> const &); }
+namespace _STL { template <> _STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *,_STL::allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
+namespace _STL { template <> vector<void *,_STL::allocator<void *> >::~vector(); }
+namespace _STL { template <> void * * _STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> >::allocate(unsigned int); }
+namespace _STL { template <> void * * allocator<void *>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> _STL::allocator<void *> vector<void *,_STL::allocator<void *> >::get_allocator() const; }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::swap(_STL::vector<void *,_STL::allocator<void *> > &); }
+// bfme link decl-only end
 
 typedef std::hash_map<
 	ObjectID,

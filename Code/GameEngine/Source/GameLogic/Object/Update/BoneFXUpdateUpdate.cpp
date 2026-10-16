@@ -22,6 +22,10 @@
 // returns the 12-byte particle-system handle (see SlavedUpdateRepair.cpp).
 #include <vector>
 #include "Lib/Coord3D.h"
+// bfme link decl-only begin
+namespace _STL { template <> void * __node_alloc<1,0>::allocate(unsigned int); }
+namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned int); }
+// bfme link decl-only end
 // LINK: file-static unsigned max overload takes vector-internal max(size,n)
 // calls instead (identical inlined bytes), so this TU emits no external
 // ??$max@I COMDAT (retail-wrong here). Same proven pattern as
