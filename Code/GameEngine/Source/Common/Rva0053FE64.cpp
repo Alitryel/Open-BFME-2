@@ -1,7 +1,7 @@
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
-// ?rva0053FE64@Rva0053FE64@@SAPAXPAXM0H0H0H0H@Z retail 0x0053FE64..
+// ?Rva0053FE64Get@@YA?AVRva0053FDE6@@MPAV1@H0H0H0H@Z retail 0x0053FE64..
 // 0x0053FF1D (185B) cdecl.
 //
 // Camera animation channel evaluator: builds the interpolated frame from four
@@ -12,7 +12,8 @@
 // CameraAnimationFrameData::doInterpolate 0x005C70DB; the quaternion at +0x10
 // through 0x005C7098 and the Vector3 at +0x04 through 0x005C71AD (both return
 // by value through a hidden slot); the frame is then built through
-// 0x0053FE2A (position quaternion value key) with the second key's type.
+// the 0x0053FE2A constructor (position quaternion value key) with the second
+// key's type, straight into the result slot.
 // Arguments of the final call are evaluated right to left: the key word is
 // pushed first then float then quaternion then vector channel.
 // WorldBuilder twin 0xA9C950 (unnamed) has the same call sequence.
@@ -23,10 +24,13 @@ struct S12;
 struct S16;
 class Quaternion;
 
-class Rva0053FE2A
+// The free camera's 0x24-byte frame (constructors 0x0053FDE6 and 0x0053FE2A).
+class Rva0053FDE6
 {
 public:
-	Rva0053FE2A &rva0053FE2A(S12 *a1, S16 *a2, float f, int d);
+	Rva0053FDE6(S12 *position, S16 *orientation, float value, int type);
+	int m_00;
+	char m_04[0x20];
 };
 
 class CameraAnimationFrameData
@@ -66,13 +70,8 @@ struct Rva0053FE64Quat
 	float q[4];
 };
 
-class Rva0053FE64
-{
-public:
-	static void *rva0053FE64(void *result, float t, void *key0, int t0, void *key1, int t1, void *key2, int t2, void *key3, int t3);
-};
-
-void *Rva0053FE64::rva0053FE64(void *result, float t, void *key0, int t0, void *key1, int t1, void *key2, int t2, void *key3, int t3)
+Rva0053FDE6 Rva0053FE64Get(float t, Rva0053FDE6 *key0, int t0, Rva0053FDE6 *key1, int t1,
+	Rva0053FDE6 *key2, int t2, Rva0053FDE6 *key3, int t3)
 {
 	Rva0053FE64Frame *p0 = (Rva0053FE64Frame *)key0;
 	Rva0053FE64Frame *p1 = (Rva0053FE64Frame *)key1;
@@ -80,7 +79,7 @@ void *Rva0053FE64::rva0053FE64(void *result, float t, void *key0, int t0, void *
 	Rva0053FE64Frame *p3 = (Rva0053FE64Frame *)key3;
 	Rva0053FE64Quat orientation;
 	Rva0053FE64Vec position;
-	((Rva0053FE2A *)result)->rva0053FE2A(
+	return Rva0053FDE6(
 		(S12 *)((Rva005C71ADView *)p1)->rva005C71AD(&position, t,
 			p0->m_position, (void *)t0, p1->m_position, (void *)t1,
 			p2->m_position, (void *)t2, p3->m_position, (void *)t3),
@@ -90,5 +89,4 @@ void *Rva0053FE64::rva0053FE64(void *result, float t, void *key0, int t0, void *
 		((CameraAnimationFrameData *)p1)->doInterpolate(t, &p0->m_value, t0,
 			&p1->m_value, t1, &p2->m_value, t2, &p3->m_value, t3),
 		p1->m_type);
-	return result;
 }

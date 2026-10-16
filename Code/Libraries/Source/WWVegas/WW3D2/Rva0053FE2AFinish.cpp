@@ -1,10 +1,10 @@
-// ?rva0053FE2A@Rva0053FE2A@@QAEAAV1@PAUS12@@PAUS16@@MH@Z
-// partial score=0.94 date=2026-10-04
+// ??0Rva0053FDE6@@QAE@PAUS12@@PAUS16@@MH@Z
 // cl: /Ob0
-// ?rva0053FE2A@Rva0053FE2A@@QAEAAV1@PAUS12@@PAUS16@@MH@Z @0x0053FE2A 58B
-// Four-arg reference-returning setter: dword arg4 to +0, three dwords from arg1
-// to +4/+8/+0xC, 16 bytes from arg2 to +0x10 via movsd x4, float arg3 to +0x20.
-// Retail leaves `this` in eax at the return, so the function returns *this.
+// ??0Rva0053FDE6@@QAE@PAUS12@@PAUS16@@MH@Z @0x0053FE2A 58B
+// Four-arg constructor of the camera frame Rva0053FDE6: dword arg4 to +0, three
+// dwords from arg1 to +4/+8/+0xC, 16 bytes from arg2 to +0x10 via movsd x4, float
+// arg3 to +0x20. Retail leaves `this` in eax at the return (constructor return).
+// The by-value evaluator 0x0053FE64 builds its result slot through it directly.
 // Evidence: ret 0x10 four stack args; movss xmm0 early plus movsd x4;
 // caller at 0x0053FF10; follows the rowed Rva0053FDE6 ctor (0x53FDE6+0x44).
 //
@@ -24,10 +24,10 @@ struct S16
 	int c;
 	int d;
 };
-class Rva0053FE2A
+class Rva0053FDE6
 {
 public:
-	Rva0053FE2A &rva0053FE2A(S12 *a1, S16 *a2, float f, int d);
+	Rva0053FDE6(S12 *a1, S16 *a2, float f, int d);
 	int m_00;
 	int m_04;
 	int m_08;
@@ -35,7 +35,7 @@ public:
 	S16 m_10;
 	float m_20;
 };
-Rva0053FE2A &Rva0053FE2A::rva0053FE2A(S12 *a1, S16 *a2, float f, int d)
+Rva0053FDE6::Rva0053FDE6(S12 *a1, S16 *a2, float f, int d)
 {
 	m_00 = d;
 	int *dst = &m_04;
@@ -45,5 +45,4 @@ Rva0053FE2A &Rva0053FE2A::rva0053FE2A(S12 *a1, S16 *a2, float f, int d)
 	dst[2] = src[2];
 	m_10 = *a2;
 	m_20 = f;
-	return *this;
 }
