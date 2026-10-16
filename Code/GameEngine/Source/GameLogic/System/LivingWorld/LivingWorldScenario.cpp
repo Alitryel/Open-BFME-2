@@ -205,7 +205,7 @@ class INI { public: void initFromINI(void *what, const FieldParse *parseTable); 
 #include "../../../../../../reference/shims/iniexception/Common/INIException.h"
 // The scenario object ParseINI allocates (0xB0 bytes); its constructor keeps
 // the address-derived name of the banked 0x004FD0DA attempt.
-class Rva004FD0DA { public: Rva004FD0DA(); private: char unknown00[0xB0]; };
+class Rva004FD1BC { public: Rva004FD1BC(); private: char unknown00[0xB0]; };
 extern const FieldParse g_00C63870[];
 
 class LivingWorldScenario::Scenario {
@@ -266,7 +266,7 @@ void LivingWorldScenario::Scenario::ParseINI(INI *ini, ScenarioOwnerView *owner)
 {
     if (!ini || !owner)
         throw INIException(3, "Invalid data in Scenario::ParseINI");
-    Rva004FD0DA *scenario = new Rva004FD0DA;
+    Rva004FD1BC *scenario = new Rva004FD1BC;
     ini->initFromINI(scenario, g_00C63870);
     owner->replaceScenario(reinterpret_cast<ScenarioOwnedObjectView *>(scenario));
 }

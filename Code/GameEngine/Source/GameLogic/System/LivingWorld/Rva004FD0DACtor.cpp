@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme_stlport_int_dealloc_link
 // stlport
-// ??0Rva004FD0DA@@QAE@XZ, retail 0x004FD0DA..0x004FD1BC (226 bytes, EH,
+// ??0Rva004FD1BC@@QAE@XZ (class named by its dtor 0x004FD1BC, vtable 0x00863564 slot 0 deletes through it), retail 0x004FD0DA..0x004FD1BC (226 bytes, EH,
 // ret 0): the constructor of the 0xB0-byte scenario object Scenario::ParseINI
 // (0x004FD94E) allocates (pinned under this address name). It installs table
 // 0x00C63564; the EH state numbering (0x0A..0x0C stored before the three maps)
@@ -26,11 +26,11 @@ template <> _Rb_tree<int, pair<const int, Rva00501875Count>,
     allocator<pair<const int, Rva00501875Count> > >::~_Rb_tree();
 }
 
-class Rva004FD0DA
+class Rva004FD1BC
 {
 public:
-	Rva004FD0DA();
-	virtual ~Rva004FD0DA();
+	Rva004FD1BC();
+	virtual ~Rva004FD1BC();
 
 private:
 	AsciiString m_04;
@@ -56,6 +56,6 @@ private:
 	_STL::vector<int> m_A4;
 };
 
-Rva004FD0DA::Rva004FD0DA() : m_20(6), m_24(2)
+Rva004FD1BC::Rva004FD1BC() : m_20(6), m_24(2)
 {
 }
