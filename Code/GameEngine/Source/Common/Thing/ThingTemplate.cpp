@@ -109,7 +109,10 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 // unit calls it rather than leading link order with its own copy.
 namespace _STL {
 template <> void vector<ProductionPrerequisite, allocator<ProductionPrerequisite> >::push_back(const ProductionPrerequisite &);
+template <> void _Construct<WeaponTemplateSet, WeaponTemplateSet>(WeaponTemplateSet *, const WeaponTemplateSet &);
 }
+
+template <> bool SparseMatchFinder<WeaponTemplateSet, BitFlags<17> >::MapHelper::operator()(const BitFlags<17> &, const BitFlags<17> &) const;
 
 #ifdef _INTERNAL
 // for occasional debugging...
@@ -1259,5 +1262,6 @@ bool Rva00331578::rva00331578(const Rva00331578 &other)
 // Preserve this unit's existing vector allocation helper after moving the
 // unfinished copyFrom caller. This member pointer only retains emission;
 // it is a compile anchor and makes no retail data or assignment-body claim.
-extern ThingTemplate &(ThingTemplate::*const _bfmeInlineAnchorTemplateAssignment)(const ThingTemplate &) =
-    &ThingTemplate::operator=;
+namespace _STL {
+template _Vector_base<ScienceType, allocator<ScienceType> >::_Vector_base(size_t, const allocator<ScienceType> &);
+}
