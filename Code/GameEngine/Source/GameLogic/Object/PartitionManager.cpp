@@ -100,6 +100,9 @@ template unsigned char *allocator<unsigned char>::allocate(unsigned int, const v
 #ifdef PM_CACHE_TERRAIN_HEIGHT
 #include "common/mapobject.h"
 // bfme link decl-only begin
+namespace _STL { template <> void _Bvector_base<allocator<bool> >::_M_deallocate(); }
+namespace _STL { template <> _Bvector_base<allocator<bool> >::~_Bvector_base(); }
+namespace _STL { template <> vector<bool, allocator<bool> >::~vector(); }
 namespace _STL { template <> _Bit_reference vector<bool, allocator<bool> >::operator[](unsigned int); }
 namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> & _Bit_iter<_Bit_reference, _Bit_reference *>::operator++(); }
 namespace _STL { template <> bool bitset<45>::_Unchecked_test(unsigned int) const; }
