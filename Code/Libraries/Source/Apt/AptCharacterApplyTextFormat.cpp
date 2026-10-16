@@ -12,7 +12,9 @@ public:
  EAStringC font;union {float size;unsigned sizeBits;};int color,align;unsigned flags;int indent,left,right;
  Rva006EB4B0(const Rva006EB4B0&);
  static void *operator new(unsigned n){return ((Rva006DB160*)g_pChainBlockAllocator)->allocBlock(n);}
- static void operator delete(void *p,unsigned n){Rva006D8680Free(p,n);}
+ // Declared only: the new-expression cleanup calls the rowed 0x006D8680 copy
+ // (Rva006EF920TextFormat.cpp) instead of emitting a differing tail-jump one.
+ static void operator delete(void *p,unsigned n);
 };
 class Rva006EB650 {public:void rva006EB650(const Rva006EB650&);};
 struct TextInstance {
