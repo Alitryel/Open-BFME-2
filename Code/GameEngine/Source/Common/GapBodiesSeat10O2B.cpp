@@ -377,12 +377,19 @@ class Rva006CFEF0
 {
 public:
 	int rva006CFEF0(const Rva006CFEF0 &other) const;
+	// ??FRva006CFEF0@@QAEAAV0@XZ @0x006CFF00 6B: pre-decrement by one word.
+	Rva006CFEF0 &operator--();
 private:
 	int *m_cur;
 };
 int Rva006CFEF0::rva006CFEF0(const Rva006CFEF0 &other) const
 {
 	return m_cur - other.m_cur;
+}
+Rva006CFEF0 &Rva006CFEF0::operator--()
+{
+	--m_cur;
+	return *this;
 }
 
 // ?rva006FE960@Rva006FE960@@QAEXH@Z @0x006FE960 5B: rowed
