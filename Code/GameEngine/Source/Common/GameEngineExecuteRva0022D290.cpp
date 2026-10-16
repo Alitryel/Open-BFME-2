@@ -345,7 +345,10 @@ struct Bfme939Helper
  
 }
 ;
-extern Bfme939Helper *g_bfme939Helper;
+// The helper object is TheRecorder, cast to its view as the other
+// Bfme939Helper::get callers do (BfmeConv939Call939D.cpp).
+class RecorderClass;
+extern RecorderClass *TheRecorder;
 class Rva000B3FD0 { public: void rva000B3FD0(); };
 class RecorderClass 
 
@@ -375,7 +378,10 @@ extern int SavedClientFrame;
 unsigned EngineInitialFrameTime,EnginePreviousFrameTime,EngineFrameElapsedTime;
 unsigned EngineSleepTimeRemaining,EngineSleepTimeTotal;
 bool EngineLimitFrameRate;
-extern bool TheDeepCRC,TheLiteCRC;
+// TheDeepCRC's byte (VA 0x00E02D86) is defined by Rva0023E7D9Clear.cpp under
+// its address-derived name.
+extern unsigned char g_Rva00A02D86;
+extern bool TheLiteCRC;
 class GameEngine 
 
 {
@@ -491,10 +497,10 @@ void GameEngine::rva0022D290()
    try 
    
    {
-    if(g_bfme939Helper && g_bfme939Helper->get()==0 && ((RecorderClass*)g_bfme939Helper)->isMultiplayer())
+    if(TheRecorder && ((Bfme939Helper *)TheRecorder)->get()==0 && TheRecorder->isMultiplayer())
     // RecorderClass::cleanUpReplayFile (ZH: empty outside _DEBUG/_INTERNAL), ICF-folded
     // onto the shared empty body 0x000B3FD0; called here by that address-named view.
-    ((Rva000B3FD0 *)g_bfme939Helper)->rva000B3FD0();
+    ((Rva000B3FD0 *)TheRecorder)->rva000B3FD0();
     
    }
    catch(...) 
@@ -512,7 +518,7 @@ void GameEngine::rva0022D290()
   if(GLOBAL_DATA->fastMode)EngineLimitFrameRate=false;
   oldScale=LOGIC_SCALE;
   EngineNetworkSlots *network=(EngineNetworkSlots*)TheNetwork;
-  if(!network || TheDeepCRC || TheLiteCRC) LOGIC_SCALE=1.0f;
+  if(!network || g_Rva00A02D86 || TheLiteCRC) LOGIC_SCALE=1.0f;
   else if(m_clientFramePeriod==1) 
   
   {
