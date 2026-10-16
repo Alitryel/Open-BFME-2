@@ -1,17 +1,15 @@
 // ?setModelState@W3DScriptedModelDraw@@QAE_NPBUModelConditionInfo@@_NPAX@Z
-// partial score=0.9 date=2026-10-16
-// W9-O1 bank: W3DScriptedModelDraw::setModelState 0xC4E23 (3553 B), first full reconstruction from retail + WB 0x932CA0.
-// Host: the TU that already holds turretNamesDiffer (W3DScriptedModelDrawTurretNames.cpp) - the private EDI/EBX
-// helper must stay in the same unit; replace its source-only caller. Rename row 0xB22B3 to bool (QBE_NXZ; caller tests AL).
-// State: 3570 B vs 3553, nn~98/1110, all callees resolve, EH graph shape right (block source order A,E,B,C,D per EH
-// state numbers). Residue: (1) draw local spilled in case A (ours CSEs constant 0x8c into EDI, str in EDI, then
-// restores EDI after case A/C; retail keeps draw in EDI, str in EBX, and tail-merges the case-A cleanup into case B);
-// (2) slot order draw(-0x2c)/originals vec(-0x28) swapped (follows from 1: draw ref count); (3) x87 operand order
-// fld g / fmul state->m_ec; (4) register picks in shadow/terrain-track blocks; (5) m_1C9 store scheduling.
-// Levers that worked: visible inline noinline _Vector_base ctor (allocator temp into dead param home +0xF),
-// __declspec(nothrow) on it, namesDiffer(a,b) forceinline (IPRA edx across B4A9F), visible B4A9F body, inner
-// scope for the extras vector (destroyed before the null check), named local for the setTerrainDecal arg,
-// (Bool)((x>>31)&1) bit test, double casts for the x87 frame conversions, _strnicmp import via macro rename.
+// partial score=0.96 date=2026-10-16
+// W9-O1 bank r2: W3DScriptedModelDraw::setModelState 0xC4E23 (3553 B): 3550 B, nn 40/1110, EH table EXACT, all callees
+// resolve (rename row 0xB22B3 Rva000B22B3StateView::rva000B22B3 to bool QBE_NXZ when landing; caller tests AL).
+// Host: W3DScriptedModelDrawTurretNames.cpp (turretNamesDiffer private EDI/EBX ABI) replacing its source-only caller.
+// Sibling guide: W3DHordeModelDrawSetModelState.cpp (0x7A847 matched) - same source family.
+// Remaining residue (all register/scheduling): (1) md->m_record8C.text0 test: retail this-form add eax,0x8c (empty()),
+// but empty() makes cl CSE the 0x8c constant into EDI and spill the drawable (begin()!=end() used instead, 2 lines);
+// (2) debug "not found in drawable" arg scheduling; (3) 2nd C3886 call pushes [edi+0x364] vs retail mov ecx/push ecx;
+// (4) track bind: retail md in eax + lea ecx,[eax+0x3c]; 3rd str() result eax vs ours lea edx; (5) shadow block:
+// retail info=EDX zero=EAX, ours info=EAX zero=EDX (~14 lines); (6) x87 fld g/fmul field order; (7) m_1C9 store sinks.
+// Tried inert: no-local/WB spelling of the shadow test, inverted if, barrier/swap mutation sweep (75), decl moves.
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii
 // stlport
 //
@@ -290,6 +288,9 @@ public:
 	unsigned char m_05;
 	char m_pad06[0x30 - 6];
 	unsigned char m_30;
+	void enableShadowRender(Bool b) { m_04 = b; }
+	void enableShadowInvisible(Bool b) { m_05 = b; }
+	void setFlag30(unsigned char b) { m_30 = b; }
 };
 class Rva00330A37 { public: void rva00330A37(Int a, Int b, Int c, Int d, Int e, Int f, Int g, Int h); };
 class Rva000B22B3StateView { public: bool rva000B22B3() const; };
@@ -478,8 +479,9 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 		&& !turretNamesDiffer(newState, m_curState)
 		&& !forceReset)
 	{
-		((Rva000C3886 *)newState)->rva000C3886(m_renderObject, ((const Rva000788D3FloatField *)m_drawable)->get(),
-			(Rva000C3886Range *)m_moduleData->m_30, (Rva000C3886Obj *)arg, (void *)m_drawable->m_364);
+		void *last = (void *)m_drawable->m_364;
+		Rva000C3886Range *range = (Rva000C3886Range *)m_moduleData->m_30;
+		((Rva000C3886 *)newState)->rva000C3886(m_renderObject, ((const Rva000788D3FloatField *)m_drawable)->get(), range, (Rva000C3886Obj *)arg, last);
 	}
 	else
 	{
@@ -503,7 +505,7 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 		{
 			m_renderObject = 0;
 		}
-		else if ((Bool)((m_drawable->m_26C >> 31) & 1) && !m_moduleData->m_record8C.text0.empty())
+		else if ((Bool)((m_drawable->m_26C >> 31) & 1) && m_moduleData->m_record8C.text0.begin() != m_moduleData->m_record8C.text0.end())
 		{
 			AsciiStringVec originals;
 			AsciiStringVec replacements;
@@ -651,8 +653,8 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 				m_shadow = TheW3DShadowManager->addShadow(robj, (Shadow::ShadowTypeInfo *)shadowInfo, (Drawable *)draw);
 				if (m_shadow)
 				{
-					m_shadow->m_05 = m_49;
-					m_shadow->m_04 = m_4A && !m_4B;
+					m_shadow->enableShadowInvisible(m_49);
+					m_shadow->enableShadowRender(m_4A && !m_4B);
 					m_shadow->m_30 = 1;
 					if (((Rva000B22B3StateView *)m_shadow)->rva000B22B3())
 					{
@@ -678,16 +680,16 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 			info.m_offsetX = tmpl->m_shadowOffsetX;
 			info.m_offsetY = tmpl->m_shadowOffsetY;
 			info.m_1C = tmpl->m_shadow500;
-			info.m_20 = tmpl->m_shadow504;
 			info.m_24 = tmpl->m_5ED;
 			info.m_25 = 0;
 			info.m_26 = 1;
+			info.m_20 = tmpl->m_shadow504;
 			m_shadow = TheW3DShadowManager->addShadow(m_renderObject, &info, (Drawable *)draw);
 			if (m_shadow)
 			{
-				m_shadow->m_05 = m_49;
-				m_shadow->m_04 = m_4A && !m_4B;
-				m_shadow->m_30 = tmpl->m_5EF;
+				m_shadow->enableShadowInvisible(m_49);
+				m_shadow->enableShadowRender(m_4A && !m_4B);
+				m_shadow->setFlag30(tmpl->m_5EF);
 				if (tmpl->m_5EE)
 					m_shadow->rva00330995((Int)((Rva000B4653 *)m_28)->rva000B4653(0));
 				Int opacity;
@@ -714,7 +716,8 @@ Bool W3DScriptedModelDraw::setModelState(const ModelConditionInfo *newState, Boo
 			if (m_moduleData->m_128)
 			{
 				((RenderObjView *)m_renderObject)->slot1CC(1);
-				((RenderObjView *)m_renderObject)->slot1D4(m_moduleData->m_129);
+				Int setting = m_moduleData->m_129;
+				((RenderObjView *)m_renderObject)->slot1D4(setting);
 			}
 			rva000B5FE6();
 			((Rva000B3E82 *)this)->rva000B3E82(m_moduleData->m_15C);
