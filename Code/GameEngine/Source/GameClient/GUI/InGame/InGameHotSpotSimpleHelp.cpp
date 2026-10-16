@@ -55,21 +55,27 @@ public:
 	virtual bool rva005CC208();
 };
 
-class Rva0086E330Base
+// Retail's base vftable 0x00C6E330 (and this class's 0x00C77960 up to slot 3)
+// holds the shared empty one-argument body 0x0047A69C, not a destructor: the
+// destructors are not virtual. Other units' views of Rva0086E330Base give it
+// a virtual destructor (their vftable COMDAT holds it), so this unit spells
+// the same base under its own name to keep its vftable copy distinct.
+class Rva0086E330BaseSlots
 {
 public:
-	virtual ~Rva0086E330Base() {}
+	virtual void slot0(void *);
+	~Rva0086E330BaseSlots() {}
 };
 
 class InGameHelpBox;
 class InGameHotSpot;
 
-class InGameHotSpotSimpleHelp : public Rva0086E330Base
+class InGameHotSpotSimpleHelp : public Rva0086E330BaseSlots
 {
 public:
 	InGameHotSpotSimpleHelp(InGameHelpBox *helpBox, InGameHotSpot *hotSpot,
 		const UnicodeString &first, const UnicodeString &second);
-	virtual ~InGameHotSpotSimpleHelp();
+	~InGameHotSpotSimpleHelp();
 	virtual void OnHotSpotRollOver(InGameHotSpot *&hotSpot);
 
 private:
@@ -101,4 +107,10 @@ void InGameHotSpotSimpleHelp::OnHotSpotRollOver(InGameHotSpot *&hotSpot)
 		(TargetRef00217D4C *)new InGameSimpleHelp(m_string0, m_string1);
 	m_hint.set(hint);
 	((Rva001FF3A9 *)m_helpBox)->rva001FF3A9((const TreeHintRef00217D4C &)m_hint);
+}
+
+// ?slot0@Rva0086E330BaseSlots@@UAEXPAX@Z, retail 0x0047A69C (3B, ret 4): slot 0
+// of the base vftable 0x00C6E330 (ICF-rowed as EmissionVelocityInfo::DoXfer).
+void Rva0086E330BaseSlots::slot0(void *)
+{
 }

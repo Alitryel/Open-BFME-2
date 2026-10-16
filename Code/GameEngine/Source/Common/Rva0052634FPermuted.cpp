@@ -49,7 +49,7 @@ public:
 class Rva0052634F_Base
 {
 public:
-    virtual void v00();
+    virtual void v00(void *);
     ~Rva0052634F_Base() {}
 };
 
@@ -85,4 +85,11 @@ Rva0052634F::~Rva0052634F()
             ((Rva00E01E28Owner *)TheHotKeyManager)->rva003591F4(m_recD0);
     }
     m_ptr10->rva002B7250((CreateAHeroData *)this);
+}
+
+// ?v00@Rva0052634F_Base@@UAEXPAX@Z, retail 0x0047A69C (3B, ret 4): slot 0 of
+// the base vftable 0x00C67E3C the dtor restores is the shared empty
+// one-argument body (ICF-rowed as EmissionVelocityInfo::DoXfer).
+void Rva0052634F_Base::v00(void *)
+{
 }
