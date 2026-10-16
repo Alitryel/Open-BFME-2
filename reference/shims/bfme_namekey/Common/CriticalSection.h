@@ -43,11 +43,18 @@ public:
 		Lock();
 	}
 
-	__forceinline ~ScopedCriticalSection()
-	{
-		if (m_locked)
-			Unlock();
-	}
+	__forceinline ~ScopedCriticalSection();
 };
 
 #pragma optimize("s", on)
+
+// Defined after size optimization is restored: the EH funclets call this
+// destructor out of line, and retail's one copy (0x0004122F) is the /O1 body
+// (cmp byte ptr [ecx+4],0). Inside the speed region above it compiled to a
+// mov/test copy that no retail body has, which the census kept as the first
+// copy in link order.
+__forceinline ScopedCriticalSection::~ScopedCriticalSection()
+{
+	if (m_locked)
+		Unlock();
+}
