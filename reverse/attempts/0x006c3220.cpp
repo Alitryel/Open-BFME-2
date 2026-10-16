@@ -1,4 +1,13 @@
 // ?rva006C3220@GeneralAllocatorDebug@@QAE_NH@Z
+// partial score=0.97 date=2026-10-16
+// ?rva006C3220@GeneralAllocatorDebug@@QAE_NH@Z
+// W9-O2 r2 (2026-10-16): size-exact 429 B, nd 10, every call resolves. 'ok = false' when the closing
+// rva000329E0(level) check fails (instead of 'return false') gives retail's mov al,1 materialisation
+// (ok, m_inVerify and the already-verifying return share AL) and the AL-returning false path; the
+// 0x00031F90 call uses its pinned base-class spelling int GeneralAllocator::rva00031F90(void *).
+// Residue: three scratch registers for call arguments (retail &outLen in ECX and core+8 in EAX,
+// record size in EAX, level in ECX; ours EAX/ECX, ECX, EDX).
+// ?rva006C3220@GeneralAllocatorDebug@@QAE_NH@Z
 // partial score=0.95 date=2026-10-16
 // W9-O2 (2026-10-16, claude-opus-5.5): clean rewrite, no volatile/barrier/equal-arm hacks: size-exact
 // 429 B, nd 18 (farm best 22). The final call is rva000329E0(level) (the farm's validateLevel=0 was the
@@ -52,6 +61,7 @@ public:
 	const BlockInfo *rva00032F60(void *handle, int types);
 	void rva00033E90(void *handle);
 	bool rva000329E0(int level);
+	int rva00031F90(void *p);
 };
 }}
 
@@ -105,7 +115,6 @@ public:
 	bool VerifyDelayedFreeFill(void *block);
 	void *rva006C25F0Run6(void *runBlock, int kind, int zero3, int zero2,
 		unsigned int *outLen, int zero1);
-	int rva00031F90(int size);
 private:
 	unsigned char m_base000[0x448];
 	GeneralAllocatorCore m_coreSentinel; // +0x448
@@ -167,13 +176,13 @@ bool GeneralAllocatorDebug::rva006C3220(int level)
 				for (unsigned int index = 0; index < m_records.m_count; ++index)
 				{
 					for (GeneralAllocatorChunk *record = ((GeneralAllocatorChunk **)m_records.m_array)[index]; record; record = record->m_prev)
-						rva00031F90(record->m_size - 8);
+						rva00031F90((void *)(record->m_size - 8));
 				}
 			}
 		}
 		m_inVerify = false;
 		if (!rva000329E0(level))
-			return false;
+			ok = false;
 	}
 	return ok;
 }
