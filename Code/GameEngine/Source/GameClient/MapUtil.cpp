@@ -397,11 +397,8 @@ AsciiString MapCache::getUserMapDir() const
 	return tmp;
 }
 
-// ?getMapExtension@MapCache@@ present-unmatched
-AsciiString MapCache::getMapExtension() const
-{
-	return AsciiString("map");
-}
+// MapCache::getMapExtension is rowed at 0x003004A5 in
+// Common/RvaAsciiStringNameGetters.cpp.
 
 
 

@@ -21,14 +21,16 @@ AsciiString Rva00300489::rva00300489() const
 	return AsciiString("Maps");
 }
 
-// ?rva003004A5@Rva003004A5@@UBE?AVAsciiString@@XZ @0x003004A5 28B: "map"
-class Rva003004A5
+// ?getMapExtension@MapCache@@QBE?AVAsciiString@@XZ @0x003004A5 28B: "map".
+// MapCache::getMapExtension (ZH MapUtil.cpp returns AsciiString("map")); the
+// GameInfo map-path builder 0x00621350 calls this address by that name.
+class MapCache
 {
 public:
-	virtual AsciiString rva003004A5() const;
+	AsciiString getMapExtension() const;
 };
 
-AsciiString Rva003004A5::rva003004A5() const
+AsciiString MapCache::getMapExtension() const
 {
 	return AsciiString("map");
 }
