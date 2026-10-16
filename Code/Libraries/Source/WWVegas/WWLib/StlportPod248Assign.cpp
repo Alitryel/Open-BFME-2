@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /EHsc /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /EHsc /Ireference/shims/bfmealloc /DBFME_ASCII_DTOR_DECL
 // stlport
 //
 // ??4BfmePod248@@QAEAAU0@ABU0@@Z @0x000C6C54 240B.
@@ -42,7 +42,19 @@ struct PristineBoneInfo
 };
 
 struct BfmeVectorRecord000BDF17 { char m[64]; BfmeVectorRecord000BDF17(const BfmeVectorRecord000BDF17 &); ~BfmeVectorRecord000BDF17(); };
-class Rva000BB491 { char m[24]; public: Rva000BB491(const Rva000BB491 &); ~Rva000BB491(); };
+// Native copyB9074/47B and derived copyBB491/27B prove the20B base
+// with its string at10 plus a trivial int tail at14. Array destroyBDD08
+// calls the8B string-at10 teardownB9AAA for each24B element.
+class Rva000B9074 {
+public: Rva000B9074(const Rva000B9074 &);
+private: unsigned m_words[3]; unsigned char m_flag; char m_pad[3]; AsciiString m_str10;
+};
+class Rva000BB491 : public Rva000B9074 {
+public: Rva000BB491(const Rva000BB491 &); ~Rva000BB491();
+private: int m_tail14;
+};
+Rva000BB491::~Rva000BB491() {}
+typedef char Pod248Element24Size[sizeof(Rva000BB491)==24?1:-1];
 class Rva000BB4AC { char m[24]; public: Rva000BB4AC(const Rva000BB4AC &); ~Rva000BB4AC(); };
 struct BfmeStringRecord000B950F { char m[24]; BfmeStringRecord000B950F(const BfmeStringRecord000B950F &); ~BfmeStringRecord000B950F(); };
 struct BfmeFixedObject60 { char m[60]; BfmeFixedObject60(const BfmeFixedObject60 &); ~BfmeFixedObject60(); };
@@ -71,6 +83,7 @@ public:
 	}
 	WeaponTemplateSetHead(const WeaponTemplateSetHead &);
 };
+
 
 struct BfmePod248
 {
