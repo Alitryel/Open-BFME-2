@@ -1,19 +1,13 @@
 // ?createGadget@@YAPAVGameWindow@@PADPAXPAVGadgetCreateView@@PAV1@@Z
-// partial score=0.87 date=2026-10-14
-// ?createGadget@@YAPAVGameWindow@@PADPAXPAVGadgetCreateView@@PAV1@@Z
-// partial score=0.865124057 date=2026-10-10
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
-// ?createGadget@@YAPAVGameWindow@@PADPAXPAVGadgetCreateView@@PAV1@@Z
-// partial score=0.8642263912 date=2026-10-09
-// ?createGadget@@YAPAVGameWindow@@PADPAXPAVGadgetCreateView@@PAV1@@Z
-// partial score=0.8206 date=2026-10-05
-// cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /ICode/GameEngine/Source/GameClient/GUI
+// partial score=0.8737752014291443 date=2026-10-16
+// cl: /G7 /arch:SSE /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /ICode/GameEngine/Source/GameClient/GUI
 // ?createGadget@@YAPAVGameWindow@@PADPAXPAVGadgetCreateView@@PAV1@@Z at retail 0x00316518 (1722B).
 // BFME1 donor GameWindowManagerScriptCreateGadget.cpp (four-arg descriptor ABI,
 // WinInstanceData +0x0c style +0x14 owner +0x184 font +0x18c decorated name).
 // BFME2 manager vtable is donor +0x14 (5 slots); callers and LINK BONUS prove
 // the cdecl createGadget name; copyGadgetDrawData and gadget getters are rowed.
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
 #include <string.h>
 
@@ -154,6 +148,29 @@ struct ComboData
 };
 
 class BfmeKeyLC;void *bfmeGo925A(BfmeKeyLC*);
+class Rva00314046LeaField
+{
+public:
+	void *get() const;
+};
+
+
+
+void copyGadgetDrawData_Rva003157BE(GameWindow *dst, GameWindow *src, void *enabled, void *disabled, void *hilite)
+{
+	if (!dst)
+		return;
+	char *instA = (char *)((Rva00314046LeaField *)dst)->get();
+	char *instB;
+	if (src)
+		instB = (char *)((Rva00314046LeaField *)src)->get();
+	else
+		instB = 0;
+	memcpy(instA + 0x18, instB ? instB + 0x18 : (char *)enabled, 0x6C);
+	memcpy(instA + 0x84, instB ? instB + 0x84 : (char *)disabled, 0x6C);
+	memcpy(instA + 0xF0, instB ? instB + 0xF0 : (char *)hilite, 0x6C);
+}
+
 GameWindow *createGadget(char *type, void *data, GadgetCreateView *record, GameWindow *source)
 {
 	GameWindow *window = 0;
