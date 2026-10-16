@@ -1,6 +1,10 @@
-// ?rva00474842@Rva00474842@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
-// partial score=0.9217273307790549 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /ICode/Libraries/Include /I.
+// ?rva00474842@Rva00474842@@QAEXPAVObject@@PBUCoord3D@@M_N@Z
+// rva00474842 (WorldBuilder 0x010B8C80 names it HordeContain::updatePosition), retail
+// 0x00474842 (783 bytes). WB statement shapes used here: the member delta is a Coord3D copy of
+// the object position minus the target with z cleared and its GetLengthSqrd(); the distance
+// threshold squares a copy of the definition's distance; the moving model-condition bit 29 at
+// +0x110 is tested in its word and cleared in its byte (retail's two separate memory operations).
 // Semantic guide: Open-BFME-1 f98983a7d3bb405f1a4ba94bb6a2a168062a819d,
 // game/GameEngine/Source/GameLogic/Object/Contain/HordeContain/MemberTurnAndGoal0024E310.cpp.
 // Native474842..474B51 RET16 and WB10B8C80 identify HordeContain member-position
@@ -8,22 +12,6 @@
 // owner2A0 target, definition240/244, formation flags120/121. Donor provides
 // moving/turning/goal relationship; retail differs in terrain and flags paths.
 #include "Lib/Coord3D.h"
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
-struct Rva474842Coordinate : Coord3D 
-{
-// ?Rva474842Coordinate::Rva474842Coordinate present-unmatched
- __forceinline Rva474842Coordinate() 
- {
-  
- }
-// ?Rva474842Coordinate::~Rva474842Coordinate present-unmatched
- __forceinline ~Rva474842Coordinate() 
- {
-  
- }
- 
-}
-;
 enum ObjectStatusTypes 
 {
  Rva474842Status75=75 
@@ -231,7 +219,7 @@ class Object
  {
   if (modelFlags[0] & 0x20000000) 
   {
-   modelFlags[0] &= ~0x20000000;
+   ((unsigned char *)modelFlags)[3] &= ~0x20;
    rva0028AE6D();
    
   }
@@ -482,6 +470,10 @@ static __forceinline const float &rva474842Min(const float &a,const float &b)
  return a<b?a:b;
  
 }
+static __forceinline void hcCopy(Coord3D &c,const Coord3D *a){c.x=a->x;c.y=a->y;c.z=a->z;}
+static __forceinline void hcSub(Coord3D &c,const Coord3D *a){c.x-=a->x;c.y-=a->y;c.z-=a->z;}
+static __forceinline float hcLengthSqrd(const Coord3D &c){return c.x*c.x+c.y*c.y+c.z*c.z;}
+static __forceinline float sqr(float v){return v*v;}
 void Rva00474842::rva00474842(Object *obj,const Coord3D *position,float orientation,bool flag)
 
 {
@@ -493,17 +485,17 @@ void Rva00474842::rva00474842(Object *obj,const Coord3D *position,float orientat
  if(selfAI->isMoving() && !target) 
  {
   float distance=self->rva00263763(obj);
-  Rva474842Coordinate delta;
-  delta.x=obj->position.x-position->x;
-  delta.y=obj->position.y-position->y;
+  Coord3D delta;
+  hcCopy(delta,&obj->position);
+  hcSub(delta,position);
   delta.z=0;
-  float length=(delta.x*delta.x)+(delta.y*delta.y);
+  float length=hcLengthSqrd(delta);
   distance=rva474842Min(distance,length);
-  if(distance>data->distance*__vref(data->distance) && !ai->slot113())
+  if(distance>sqr(data->distance) && !ai->slot113())
   ai->command.rva0045003E(0,Rva474842AI);
   
  }
- if((obj ? (ai->slot111()) : (ai->slot111()))) 
+ if(ai->slot111()) 
  {
   bool held=obj->testStatus(Rva474842Status75);
   if(!selfAI->isMoving() || !held) 
@@ -557,7 +549,7 @@ void Rva00474842::rva00474842(Object *obj,const Coord3D *position,float orientat
   return;
   
  }
- Rva474842Coordinate dest;
+ Coord3D dest;
  dest.x=position->x;
  dest.y=position->y;
  dest.z=position->z;
