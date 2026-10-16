@@ -13,12 +13,8 @@
 // here). The BfmePod160 layout mirrors the home TU declaration.
 struct BfmePod160 { int a[40]; };
 #include <memory>
-// allocator::construct would otherwise emit a second copy of _Construct<BfmePod160>, whose
-// body is the pinned copy construct at 0x003A454E; declare it as the home TU does.
-namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod160, BfmePod160>(BfmePod160 *__p, const BfmePod160 &__val); }
-template class _STL::allocator<BfmePod160>;
-
-// The retail call in this body reads 0x003A454E, an address the ledger already
-// carries as ??$_Construct@UBfmeContainerRecord003A451B@@U1@@_STL@@YAXPAUBfmeContainerRecord003A451B@@ABU1@@Z. Bind the donor spelling to that rowed owner so one
-// address keeps one definition and the unit links.
-#pragma comment(linker, "/alternatename:??$_Construct@UBfmePod160@@U1@@_STL@@YAXPAUBfmePod160@@ABU1@@Z=??$_Construct@UBfmeContainerRecord003A451B@@U1@@_STL@@YAXPAUBfmeContainerRecord003A451B@@ABU1@@Z")
+// Only allocate (the rowed body) is instantiated: a whole-class
+// instantiation also emits allocator::construct, which references
+// _Construct<BfmePod160> (no definer under that spelling; an /alternatename
+// to another type's row did not reach the census), so the unit could not link.
+template BfmePod160 *_STL::allocator<BfmePod160>::allocate(unsigned int, const void *) const;

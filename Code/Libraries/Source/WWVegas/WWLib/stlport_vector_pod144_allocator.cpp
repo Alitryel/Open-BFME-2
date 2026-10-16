@@ -12,12 +12,8 @@
 // POD-PLACEHOLDER LAW (element construction never passes through here).
 struct BfmePod144 { int a[36]; };
 #include <memory>
-// allocator::construct would otherwise emit a second copy of _Construct<BfmePod144>, whose
-// body is the pinned copy construct at 0x00053DFE; declare it as the home TU does.
-namespace _STL { template <> __declspec(nothrow) void _Construct<BfmePod144, BfmePod144>(BfmePod144 *__p, const BfmePod144 &__val); }
-template class _STL::allocator<BfmePod144>;
-
-// The retail call in this body reads 0x00053DFE, an address the ledger already
-// carries as ??$_Construct@UBfmeStringTailRecord144@@U1@@_STL@@YAXPAUBfmeStringTailRecord144@@ABU1@@Z. Bind the donor spelling to that rowed owner so one
-// address keeps one definition and the unit links.
-#pragma comment(linker, "/alternatename:??$_Construct@UBfmePod144@@U1@@_STL@@YAXPAUBfmePod144@@ABU1@@Z=??$_Construct@UBfmeStringTailRecord144@@U1@@_STL@@YAXPAUBfmeStringTailRecord144@@ABU1@@Z")
+// Only allocate (the rowed body) is instantiated: a whole-class
+// instantiation also emits allocator::construct, which references
+// _Construct<BfmePod144> (no definer under that spelling; an /alternatename
+// to another type's row did not reach the census), so the unit could not link.
+template BfmePod144 *_STL::allocator<BfmePod144>::allocate(unsigned int, const void *) const;
