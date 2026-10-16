@@ -5,6 +5,8 @@
 // evidence: vtable 0x00C1AE70 TeamTemplateInfo plus loadFromDict 0x0039FEBB plus 7x0x18 records plus 32 scripts plus counters plus 0.5f plus Dict arg
 #include "ascii_string.h"
 #include "Lib/Coord3D.h"
+// Slot 2 of TeamTemplateInfo's vtable 0x00C1AE70 is retail's class-name getter.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 struct TeamHomeLocation : Coord3D { TeamHomeLocation() { x=0.0f; y=0.0f; z=0.0f; } };
 
@@ -38,7 +40,7 @@ public:
 	TeamTemplateInfo(Dict *dict);
 	virtual ~TeamTemplateInfo();
 	void loadFromDict(Dict *dict);
-protected: virtual void crc(Xfer*); virtual void xfer(Xfer*); virtual void loadPostProcess();
+protected: virtual const char *GetSnapshotName() const; virtual void xfer(Xfer*); virtual void loadPostProcess();
 public:
 	Rva0039EA9C m_unitsInfo[7];
 	int m_numUnitsInfo;
@@ -114,4 +116,16 @@ TeamTemplateInfo::TeamTemplateInfo(Dict *dict)
 	, m_unknown1B0(0)
 {
 	loadFromDict(dict);
+}
+
+// Vtable 0x00C1AE70: slot 1 is the shared empty RET 0x000B3FD0 (Zero Hour's
+// TeamTemplateInfo::loadPostProcess is empty); slot 2 returns the class-name
+// string 0x00C1AE80 (0x003A2875); slot 3 is xfer 0x0039D5C1.
+void TeamTemplateInfo::loadPostProcess()
+{
+}
+
+const char *TeamTemplateInfo::GetSnapshotName() const
+{
+	return "TeamTemplateInfo";
 }

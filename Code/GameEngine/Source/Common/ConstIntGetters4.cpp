@@ -618,22 +618,6 @@ int Rva0038374DGet(void)
 	return (int)"GameSpyStagingRoom";
 }
 
-// ?Rva003A2875Get@@YAHXZ @ 0x003a2875 (6B): returns 0x00C1AE80.
-// Follows a ret-4 (prev C2-04-00), carried by 1 .rdata vtable slot,
-// no direct callers, no branch sources. Opaque address-derived name.
-int Rva003A2875Get(void)
-{
-	return (int)"TeamTemplateInfo";
-}
-
-// ?Rva003A33A1Get@@YAHXZ @ 0x003a33a1 (6B): returns 0x00C1AEA4.
-// Follows a ret-28 (prev C2-1C-00), carried by 1 .rdata vtable slot,
-// no direct callers, no branch sources. Opaque address-derived name.
-int Rva003A33A1Get(void)
-{
-	return (int)"TeamPrototype";
-}
-
 // ?Rva003ECCD0Get@@YAHXZ @ 0x003eccd0 (6B): returns 0x00BF4E94.
 // Follows a ret-8 (prev C2-08-00), carried by 1 .rdata vtable slot,
 // no direct callers, no branch sources. Opaque address-derived name.

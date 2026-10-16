@@ -7,6 +7,8 @@
 // identity. Target owner/name strings10/14; flags18; script namesAC[32];
 // template12C size1EC; frame320; coordinate328 and instance head334.
 #include "ascii_string.h"
+// Slot 2 of TeamPrototype's vtable 0x00C1AE94 is retail's class-name getter.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 #include "Lib/Coord3D.h"
 #include <string.h>
@@ -27,7 +29,7 @@ public:
  TeamPrototype(TeamFactory*,const AsciiString&,const AsciiString&,Player*,bool,Dict*,int);
  void addToLists();
 protected:
- virtual ~TeamPrototype();virtual void crc(Xfer*);virtual void xfer(Xfer*);virtual void loadPostProcess();
+ virtual ~TeamPrototype();virtual const char *GetSnapshotName() const;virtual void xfer(Xfer*);virtual void loadPostProcess();
 private:
  TeamFactory *m_factory;Player*m_owningPlayer;int m_id;
  AsciiString m_ownerName,m_name;int m_flags;bool m_productionConditionAlwaysFalse;
@@ -38,6 +40,18 @@ private:
  TeamInitialCoordinate m_coordinate328;Team *m_teamInstanceList;
 };
 typedef char TeamPrototypeSizeCheck[sizeof(TeamPrototype)==0x338?1:-1];
+
+// Vtable 0x00C1AE94: slot 1 is the shared empty RET 0x000B3FD0 (Zero Hour's
+// TeamPrototype::loadPostProcess is empty); slot 2 returns the class-name
+// string 0x00C1AEA4 (0x003A33A1); slot 3 is xfer 0x003A3E74.
+void TeamPrototype::loadPostProcess()
+{
+}
+
+const char *TeamPrototype::GetSnapshotName() const
+{
+ return "TeamPrototype";
+}
 TeamPrototype::TeamPrototype(TeamFactory*tf,const AsciiString&owner,const AsciiString&name,Player*player,bool singleton,Dict*d,int id):
  m_factory(tf),m_owningPlayer(player),m_id(id),m_ownerName(owner),m_name(name),m_flags(singleton?1:0),
  m_productionConditionAlwaysFalse(false),m_productionConditionScript(0),m_retrievedGenericScripts(false),

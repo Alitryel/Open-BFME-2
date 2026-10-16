@@ -17,6 +17,8 @@
 struct EmitVtableTag;
 
 #include "ascii_string.h"
+// Slot 2 of TeamTemplateInfo's vtable 0x00C1AE70 is retail's class-name getter.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 
 class Rva0039EA9C
@@ -43,7 +45,7 @@ public:
 	TeamTemplateInfo(EmitVtableTag *);
 	virtual ~TeamTemplateInfo();
 protected:
-	virtual void crc(Xfer *xfer);
+	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 	virtual void loadPostProcess();
 private:
