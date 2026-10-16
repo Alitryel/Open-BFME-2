@@ -158,3 +158,6 @@ AptValue::~AptValue()
 // Native CEAED0 vtable slot(s) 3 and5; canonical PDB name and ABI.
 AptNativeHash *AptValue::GetNativeHashVirtual() { return 0; }
 int AptValue::getHasClass() const { return 0; }
+
+// Native CEAED0 vtable slot(s) 4; canonical PDB name and ABI.
+bool AptValue::ContainsNativeHashVirtual() const { return false; }
