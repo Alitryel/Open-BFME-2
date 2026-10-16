@@ -179,6 +179,9 @@ class CreateAHeroManager;
 extern CreateAHeroManager *TheCreateAHeroManager;
 extern int g_00E06450;
 extern unsigned char g_rva005B5C02Flag;
+// Defined here: nothing else in the tree did. Retail VA 0x00DFE34C
+// (RVA 0x009FE34C), zero-filled .bss byte read by seven matched units.
+unsigned char g_rva005B5C02Flag;
 
 struct Rva005B03B4Manager
 {
