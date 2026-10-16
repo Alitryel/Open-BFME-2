@@ -7,7 +7,11 @@
 // called with the second arg. Called from W3DShroudMaterialPass install.
 
 extern int g_00DE1F54;
+// Owned here (its only reader); retail .bss zero-initializes it (VA 0x00DE1F54).
+int g_00DE1F54 = 0;
 extern int g_00DE1F18;
+// Owned here (its only reader); retail .bss zero-initializes it (VA 0x00DE1F18).
+int g_00DE1F18 = 0;
 
 struct ShaderSlotObj
 {
@@ -15,6 +19,8 @@ struct ShaderSlotObj
 };
 
 extern ShaderSlotObj * volatile g_00DE1F24[];
+// Owned here (its only reader); retail .bss zero-initializes it (VA 0x00DE1F24).
+ShaderSlotObj * volatile g_00DE1F24[1] = { 0 };
 
 class Rva00075655
 {
