@@ -1,23 +1,27 @@
 // cl: /O1 /DNDEBUG /MD /EHsc
 //
 // 0x004FF28E (50B): five-int init storing vtable 0xC63B34 plus +0x28,
-// forwarding three ints to pinned 0x4FBC4D and one int to the 0x20E449
-// copy body via a placeholder int alias (same address, no EH).
+// forwarding three ints to the rowed 0x4FBC4D ctor and one int to the
+// 0x20E449 copy ctor.
 // Returns this as int. Identities unproven.
 
 extern "C" const void *const vtbl_00C63B34[];  // ??_7Rva004FF2C0@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C63B34=??_7Rva004FF2C0@@6B@")
 
-class Rva004FBC4D
+// 0x004FBC4D is the rowed Rva004FBCBE constructor and 0x0020E449 the rowed
+// Rva0020E449 copy constructor; both are called in place on raw storage.
+class UnicodeString;
+
+class Rva004FBCBE
 {
 public:
-	void rva004FBC4D(int a, int b, int c);
+	Rva004FBCBE(const UnicodeString &a, const UnicodeString &b, int c);
 };
 
-class Rva0020E449Caller
+class Rva0020E449
 {
 public:
-	void rva0020E449Copy(int src);
+	Rva0020E449(const Rva0020E449 &other);
 };
 
 class Rva004FF28EOwner
@@ -34,9 +38,10 @@ private:
 
 int Rva004FF28EOwner::rva004FF28E(int a0, int a1, int a2, int a3, int a4)
 {
-	((Rva004FBC4D *)this)->rva004FBC4D(a2, a3, a4);
+	((Rva004FBCBE *)this)->Rva004FBCBE::Rva004FBCBE(
+		*(const UnicodeString *)a2, *(const UnicodeString *)a3, a4);
 	*(int *)this = ((unsigned int)vtbl_00C63B34);
 	m_28 = a0;
-	((Rva0020E449Caller *)m_2C)->rva0020E449Copy(a1);
+	((Rva0020E449 *)m_2C)->Rva0020E449::Rva0020E449(*(const Rva0020E449 *)a1);
 	return (int)this;
 }
