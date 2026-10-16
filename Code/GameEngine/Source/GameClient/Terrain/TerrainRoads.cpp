@@ -67,7 +67,25 @@ public:
 	const char *getNextSubToken(const char *expected);
 	Int scanIndexList(const char *token, const char *const *nameList);
 	Int scanInt(const char *token);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseRGBColor(INI *ini, void *instance, void *store, const void *userData);
 };
+
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+// BFME 2 parses the bridge sound tokens through the audio-token parser rowed
+// in INIAudioTokenParsers.cpp, not ZH's INI::parseAsciiString.
+void Rva00339900Parse(INI *ini, void *instance, void *store, const void *userData);
 
 class INIException
 {
@@ -102,6 +120,9 @@ public:
 	static void parseTransitionToOCL( INI *ini, void *instance, void *store, const void *userData );
 	static void parseTransitionToFX( INI *ini, void *instance, void *store, const void *userData );
 
+	static const FieldParse m_terrainRoadFieldParseTable[];		///< retail 0x00C039E8
+	static const FieldParse m_terrainBridgeFieldParseTable[];	///< retail 0x00C03A28
+
 	AsciiString getDamageToOCLString( BodyDamageType state, Int index );
 
 	void friend_setDamageToOCLString( BodyDamageType state, Int index, AsciiString str );
@@ -127,6 +148,46 @@ protected:
 	AsciiString m_repairedToFXString[ BODYDAMAGETYPE_COUNT ][ MAX_BRIDGE_BODY_FX ];	///< 0x114
 	float m_transitionEffectsHeight;            ///< 0x144
 	Int m_numFXPerType;                         ///< 0x148
+};
+
+// Zero Hour's TerrainRoads.cpp field tables, as retail holds them: the road
+// table at 0x00C039E8 (read by INI::parseTerrainRoadDefinition) and the bridge
+// table at 0x00C03A28 (INI::parseTerrainBridgeDefinition). Tokens, parsers and
+// offsets are retail's; BFME 2 adds the transition height and FX count and
+// moves the damaged/repaired sounds to the audio-token parser.
+const FieldParse TerrainRoadType::m_terrainRoadFieldParseTable[] =
+{
+	{ "Texture",				&INI::parseAsciiString,	0, 0x38 },	// m_texture
+	{ "RoadWidth",				&INI::parseReal,		0, 0x14 },	// m_roadWidth
+	{ "RoadWidthInTexture",		&INI::parseReal,		0, 0x18 },	// m_roadWidthInTexture
+	{ 0, 0, 0, 0 }
+};
+
+const FieldParse TerrainRoadType::m_terrainBridgeFieldParseTable[] =
+{
+	{ "BridgeScale",					&INI::parseReal,			0, 0x1C },
+	{ "ScaffoldObjectName",				&INI::parseAsciiString,		0, 0x20 },
+	{ "ScaffoldSupportObjectName",		&INI::parseAsciiString,		0, 0x24 },
+	{ "RadarColor",						&INI::parseRGBColor,		0, 0x28 },
+	{ "TransitionEffectsHeight",		&INI::parseReal,			0, 0x144 },	// m_transitionEffectsHeight
+	{ "NumFXPerType",					&INI::parseInt,				0, 0x148 },	// m_numFXPerType
+	{ "BridgeModelName",				&INI::parseAsciiString,		0, 0x34 },
+	{ "Texture",						&INI::parseAsciiString,		0, 0x38 },	// m_texture
+	{ "BridgeModelNameDamaged",			&INI::parseAsciiString,		0, 0x3C },
+	{ "TextureDamaged",					&INI::parseAsciiString,		0, 0x40 },
+	{ "BridgeModelNameReallyDamaged",	&INI::parseAsciiString,		0, 0x44 },
+	{ "TextureReallyDamaged",			&INI::parseAsciiString,		0, 0x48 },
+	{ "BridgeModelNameBroken",			&INI::parseAsciiString,		0, 0x4C },
+	{ "TextureBroken",					&INI::parseAsciiString,		0, 0x50 },
+	{ "TowerObjectNameFromLeft",		&INI::parseAsciiString,		0, 0x54 },
+	{ "TowerObjectNameFromRight",		&INI::parseAsciiString,		0, 0x58 },
+	{ "TowerObjectNameToLeft",			&INI::parseAsciiString,		0, 0x5C },
+	{ "TowerObjectNameToRight",			&INI::parseAsciiString,		0, 0x60 },
+	{ "DamagedToSound",					&Rva00339900Parse,			0, 0x68 },	// m_damageToSoundString[BODY_DAMAGED]
+	{ "RepairedToSound",				&Rva00339900Parse,			0, 0xD8 },	// m_repairedToSoundString[BODY_DAMAGED]
+	{ "TransitionToOCL",				&TerrainRoadType::parseTransitionToOCL,	0, 0 },
+	{ "TransitionToFX",					&TerrainRoadType::parseTransitionToFX,	0, 0 },
+	{ 0, 0, 0, 0 }
 };
 
 // Native newRoad/newBridge calls prove this by-value name setter at 0x002DAD19.

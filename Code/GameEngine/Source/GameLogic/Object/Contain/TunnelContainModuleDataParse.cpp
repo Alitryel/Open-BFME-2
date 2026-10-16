@@ -11,7 +11,31 @@
 // under "TunnelContain". Row supersedes the parse pin.
 
 class MultiIniFieldParse;
-struct FieldParse;
+
+class INI
+{
+public:
+	static void parseDurationReal(INI *ini, void *instance, void *store, const void *userData);
+};
+
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+// The own table at 0x00BEEAF8 (data row): one field, TimeForFullHeal through
+// the rowed INI::parseDurationReal 0x00738B0A into +0xD4, then the null
+// terminator. Zero Hour's TunnelContainModuleData parses the same token.
+extern const FieldParse TunnelContainModuleDataFieldParse[2] =
+{
+	{ "TimeForFullHeal", &INI::parseDurationReal, 0, 0xD4 },
+	{ 0, 0, 0, 0 }
+};
 
 class MultiIniFieldParse
 {
@@ -35,7 +59,7 @@ public:
 inline void TunnelContainModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	HordeGarrisonContainModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00BEEAF8), 0);
+	parse.add(TunnelContainModuleDataFieldParse, 0);
 }
 
 #pragma inline_depth(0)

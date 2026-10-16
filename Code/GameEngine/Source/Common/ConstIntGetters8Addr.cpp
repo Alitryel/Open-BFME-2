@@ -1,7 +1,7 @@
 // The members of the ConstIntGetters8.cpp family whose constant is an image address
 // originally had no provider to name, split out so the rest of the family
 // links. The color and skybox tables now bind to their existing providers;
-// the address returned by Rva001FF282Get still has no known provider.
+// the road field table returned by Rva001FF282Get now has its definition too.
 //
 // Cold-slice B8-imm32 const-int returners (twin-free TU).
 //
@@ -27,11 +27,19 @@ int Rva001EF348Get(void)
 	return (int)MultiplayerColorDefinition::m_colorFieldParseTable;
 }
 
-// ?Rva001FF282Get@@YAHXZ @ 0x001ff282 (6B): returns 0x00c039e8.
+// ?Rva001FF282Get@@YAHXZ @ 0x001ff282 (6B): returns 0x00c039e8, the road
+// field table TerrainRoads.cpp defines (data row).
 // Follows a ret (pop edi/esi/ebx/ecx / ret). Opaque address-derived name.
+// Declaration-only static-data view; no instance layout is asserted.
+class TerrainRoadType
+{
+public:
+    static const FieldParse m_terrainRoadFieldParseTable[];
+};
+
 int Rva001FF282Get(void)
 {
-	return 0x00c039e8;
+	return (int)TerrainRoadType::m_terrainRoadFieldParseTable;
 }
 
 // ?Rva0020D4DDGet@@YAHXZ @ 0x0020d4dd (6B): returns 0x00c082f0.
