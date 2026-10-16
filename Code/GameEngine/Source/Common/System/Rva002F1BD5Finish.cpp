@@ -1,6 +1,8 @@
 // cl: /MD
 //
-// ?rva002F1BD5@Rva002F1BD5@@QAEHHPAURva002F1BD5Arg@@HH@Z, retail 0x002F1BD5, 80 bytes.
+// ?cellCallback@Rva002F1BD5Info@@QAEHPAVPathfindCell@@0HH@Z, retail 0x002F1BD5, 80 bytes.
+// Cell-line walk callback (previous cell, current cell, x, y) of the walker
+// 0x002F203F in PathfinderCellLineWalks.cpp, which calls it by this pinned name.
 // Evidence: caller 0x002F203F; callee findObjectByID rowed 0x00049DC5 via global
 // TheGameLogic 0x009FE78C; arg tag at +0xC low nibble 4 with payload ptr at +0
 // and ObjectID at +0x28; Object +4 -> flag byte at +0x110 bit 2 and +0x74 vs this+4.
@@ -10,6 +12,7 @@ enum ObjectID
 };
 
 class Object;
+class PathfindCell;
 
 struct ObjectIdNode
 {
@@ -62,17 +65,18 @@ public:
 	int m_74;
 };
 
-class Rva002F1BD5
+class Rva002F1BD5Info
 {
 	Object *m_00;
 	int m_04;
 
 public:
-	int rva002F1BD5(int a1, Rva002F1BD5Arg *a2, int a3, int a4);
+	int cellCallback(PathfindCell *previous, PathfindCell *current, int a3, int a4);
 };
 
-int Rva002F1BD5::rva002F1BD5(int a1, Rva002F1BD5Arg *a2, int a3, int a4)
+int Rva002F1BD5Info::cellCallback(PathfindCell *previous, PathfindCell *current, int a3, int a4)
 {
+	Rva002F1BD5Arg *a2 = (Rva002F1BD5Arg *)current;
 	if ((a2->m_0C & 15) != 4)
 		return 0;
 	Rva002F1BD5Data *p = a2->m_00;
