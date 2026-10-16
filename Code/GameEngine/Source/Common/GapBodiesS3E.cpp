@@ -262,3 +262,82 @@ float Rva005742B3Anchor(Rva002E0C2B *owner)
 {
 	return Rva005742B3(owner);
 }
+
+// --- 0x005CB29A (56B) / 0x005CB2D2 (47B), RET 0: two file-static helpers
+// that feed a LivingWorld region's numbers to a display object through its
+// virtual slots. Retail passes the display in ESI (0x005CB29A) or EDI
+// (0x005CB2D2) and the region on the stack, the private convention cl 7.1
+// picks for a file-static noinline function; no retail call reaches either
+// copy (their callers were folded away), so source-only callers emit them.
+// 0x005CB29A: the local player's upgradeable troops in the region (rowed
+// LivingWorldLogic::GetNumUpgradeableTroopsInRegionForPlayer) as (total -
+// first, total) to slot 5. 0x005CB2D2: two per-player region values
+// (rowed LivingWorldRegion 0x003EFD6F / 0x003F0189) of the logic's +0x98
+// player to slot 6. Names are address-derived.
+class Rva003F287F;
+class Rva002E2903Player;
+class LivingWorldLogic
+{
+public:
+	void GetNumUpgradeableTroopsInRegionForPlayer(Rva003F287F *region, int player, int *first, int *total);
+};
+extern LivingWorldLogic *TheLivingWorldLogic;
+class Rva002B2B66
+{
+public:
+	int rva002B2B66();
+};
+struct Rva005CB2D2LogicView
+{
+	char m_pad00[0x98];
+	Rva002E2903Player *m_player98;	// +0x98
+};
+class Rva005CB29ADisplay
+{
+public:
+	virtual void slot0();
+	virtual void slot1();
+	virtual void slot2();
+	virtual void slot3();
+	virtual void slot4();
+	virtual void setPair(int a, int b);	// +0x14
+	virtual void setPair6(int a, int b);	// +0x18
+};
+class LivingWorldRegion;
+static __declspec(noinline) void Rva005CB2D2(Rva005CB29ADisplay *display, LivingWorldRegion *region);
+class LivingWorldRegion
+{
+	friend void Rva005CB2D2(Rva005CB29ADisplay *display, LivingWorldRegion *region);
+private:
+	int rva003EFD6F(Rva002E2903Player *owner) const;
+public:
+	int rva003F0189(Rva002E2903Player *owner) const;
+};
+
+static __declspec(noinline) void Rva005CB29A(Rva005CB29ADisplay *display, Rva003F287F *region)
+{
+	int first, total;
+	int player = ((Rva002B2B66 *)TheLivingWorldLogic)->rva002B2B66();
+	TheLivingWorldLogic->GetNumUpgradeableTroopsInRegionForPlayer(region, player, &first, &total);
+	display->setPair(total - first, total);
+}
+
+static __declspec(noinline) void Rva005CB2D2(Rva005CB29ADisplay *display, LivingWorldRegion *region)
+{
+	Rva002E2903Player *player = ((Rva005CB2D2LogicView *)TheLivingWorldLogic)->m_player98;
+	int value = region->rva003EFD6F(player);
+	int other = region->rva003F0189(player);
+	display->setPair6(other, value);
+}
+
+// ?Rva005CB29ACaller absent-from-retail
+void Rva005CB29ACaller(Rva005CB29ADisplay *display, Rva003F287F *region)
+{
+	Rva005CB29A(display, region);
+}
+
+// ?Rva005CB2D2Caller absent-from-retail
+void Rva005CB2D2Caller(Rva005CB29ADisplay *display, LivingWorldRegion *region)
+{
+	Rva005CB2D2(display, region);
+}

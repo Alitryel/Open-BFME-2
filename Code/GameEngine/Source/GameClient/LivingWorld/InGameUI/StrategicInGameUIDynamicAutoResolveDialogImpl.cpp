@@ -606,3 +606,21 @@ void DynamicAutoResolveDialog::Impl::OnLivingWorldAutoResolveBattleCompleted(Liv
 		m_battlePlayers = 0;
 	}
 }
+
+// --- 0x005EAC5D (31 B, RET 0): whether one battle player receives
+// reinforcements in some round at or after `round` (the rounds map's
+// lower_bound against its end). Retail passes the player index in EAX and the
+// battle in ECX with the round on the stack: the private convention cl 7.1
+// picks for a file-static noinline helper. No retail call reaches this copy
+// (its caller was folded away), so a source-only caller emits it.
+static __declspec(noinline) bool hasReinforcementRoundFrom(const DynamicAutoResolveBattlePlayers *battle, Int battlePlayerID, Int round)
+{
+	const _STL::map<Int, Int> &rounds = battle->m_playerData[battlePlayerID].m_reinforcementRounds;
+	return rounds.lower_bound(round) != rounds.end();
+}
+
+// ?hasReinforcementRoundFromCaller absent-from-retail
+bool hasReinforcementRoundFromCaller(const DynamicAutoResolveBattlePlayers *battle, Int battlePlayerID, Int round)
+{
+	return hasReinforcementRoundFrom(battle, battlePlayerID, round);
+}

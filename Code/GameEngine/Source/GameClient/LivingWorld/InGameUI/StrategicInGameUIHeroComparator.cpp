@@ -253,3 +253,20 @@ int Rva005E69D0::rva005E69D0() {
  }
  return total;
 }
+
+// Native005E42EE..005E4300 (18B, RET0): whether an entry is the context's
+// selected one (entry+4 name against context+18), the test the comparator
+// above spells inline. Retail passes the context in EAX and the entry in ECX,
+// the private convention cl 7.1 picks for a file-static noinline helper; no
+// retail call reaches this copy, so a source-only caller emits it.
+namespace StrategicInGameUI {
+static __declspec(noinline) bool Rva005E42EE(const Rva005E4300Context *context,const Rva005E4300Entry *entry)
+{
+ return entry->name.compare(context->selectedName)==0;
+}
+}
+// ?Rva005E42EECaller absent-from-retail
+bool Rva005E42EECaller(const Rva005E4300Context *context,const Rva005E4300Entry *entry)
+{
+ return StrategicInGameUI::Rva005E42EE(context,entry);
+}
