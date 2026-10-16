@@ -83,12 +83,22 @@ public:
 class Rva004F599E : public Snapshot {public:Rva004F599E();virtual ~Rva004F599E();virtual void loadPostProcess();virtual const char*GetSnapshotName()const;virtual void xfer(Xfer*);int words[42];};
 struct Rva001FEAB2Element {char bytes[1];};
 struct Rva002AF625Element {char bytes[8];Rva002AF625Element();Rva002AF625Element(const Rva002AF625Element&);~Rva002AF625Element(){} };
-class Rva002AC340 {public:Rva002AC340() throw();~Rva002AC340();private: unsigned words[5];};
+#include "Code/Libraries/Include/Lib/BfmeE16.h"
+// Native ctor2AC340/dtor2AC366: Snapshot vptr, int+4, BfmeE16 vector+8.
+class Rva002AC340 : public Snapshot {
+ friend class Player;
+public: Rva002AC340() throw();
+protected: virtual ~Rva002AC340();
+ virtual void loadPostProcess(); virtual const char *GetSnapshotName() const; virtual void xfer(Xfer *);
+private: int m_int; _STL::vector<BfmeE16> m_vec;
+};
+// Native pool-list lifetime wrapper2AC007 destroys the sentinel from init2AC026.
+class Rva002AAC74PoolList { public: void destroy() throw(); };
 class Rva002AC026Member {
 public:
  void*head;void*init(void*);
  Rva002AC026Member(const _STL::allocator<int>&a){init((void*)&a);}
- ~Rva002AC026Member();
+ ~Rva002AC026Member(){((Rva002AAC74PoolList*)this)->destroy();}
 };
 class Rva0029FB3BMember {
 public:
@@ -96,6 +106,9 @@ public:
  Rva0029FB3BMember(const _STL::allocator<int>&a){init((void*)&a);}
  ~Rva0029FB3BMember();
 };
+// Destructor2B11A7 and vector cleanup2B0EDF establish the +3B0 record vector.
+struct BfmeVectorRecord002AF478 { ~BfmeVectorRecord002AF478(); char bytes[36]; };
+namespace _STL { template <> vector<BfmeVectorRecord002AF478>::~vector(); }
 class ScoreKeeper {public:ScoreKeeper();virtual ~ScoreKeeper();private:unsigned words[0x330/4];};
 struct ReadyTimer {int power,ready;};
 struct ProductionCostModifier;
@@ -124,7 +137,7 @@ public:
  Rva002AC026Member prototypes;void*playerRelations,*teamRelations;
  bool canBuildBase,canBuildUnits,observer,flag33B,listInScoreScreen,unitsHunt,flag33E,flag33F;
  bool attackedBy[20];int attackedFrame;unsigned attackFrames[20];int unknown3A8,unknown3AC;
- _STL::vector<unsigned>v3B0;
+ _STL::vector<BfmeVectorRecord002AF478>v3B0;
  ScoreKeeper score;int unknown6F0;
  _STL::list<ProductionCostModifier*>modifiers;float unknown6F8;int unknown6FC;
  _STL::list<int>unknown700;
