@@ -54,14 +54,14 @@ struct Rva001408C0Target;
 typedef Rva001408C0Target *Rva001408C0Key;
 typedef _STL::set<Rva001408C0Key> Rva001408C0Set;
 
-struct Rva009F2140AssetSetGroup
+struct Q1ReceiverLocalSet
 {
 	Rva001408C0Set m_tree;
 	volatile unsigned int m_count;
 	volatile bool m_active;
 	unsigned char m_padding[3];
 
-	Rva009F2140AssetSetGroup() { clear(); }
+	Q1ReceiverLocalSet() { clear(); }
 
 	void clear()
 	{
@@ -116,10 +116,10 @@ private:
 	GenHashMap14C0::iterator m_iterator60;
 	CRITICAL_SECTION m_lock68;
 	GenDeque m_deques80[7];
-	Rva009F2140AssetSetGroup m_set198;
-	Rva009F2140AssetSetGroup m_set1ac;
-	Rva009F2140AssetSetGroup m_set1c0;
-	Rva009F2140AssetSetGroup m_set1d4;
+	Q1ReceiverLocalSet m_set198;
+	Q1ReceiverLocalSet m_set1ac;
+	Q1ReceiverLocalSet m_set1c0;
+	Q1ReceiverLocalSet m_set1d4;
 	unsigned int m_field1e8;
 	unsigned int m_field1ec;
 	unsigned char m_pad1f0[4];
