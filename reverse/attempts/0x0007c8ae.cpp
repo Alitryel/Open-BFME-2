@@ -18,7 +18,7 @@ struct BfmePod8 {int a[2];};
 class ModuleData;
 namespace _STL {
 template<> inline __declspec(noinline) void vector<BfmeE8>::push_back(const BfmeE8&v){if(_M_finish!=_M_end_of_storage._M_data){_Construct(_M_finish,v);++_M_finish;}else _M_insert_overflow(_M_finish,v,_IsPODType(),1UL,true);}
-template<> __declspec(noinline) BfmePod8 *vector<BfmePod8>::erase(BfmePod8 *,BfmePod8 *);
+template<> inline __declspec(noinline) BfmePod8 *vector<BfmePod8>::erase(BfmePod8 *__first,BfmePod8 *__last){pointer __i=__copy_ptrs(__last,this->_M_finish,__first,_TrivialAss());_Destroy(__i,this->_M_finish);this->_M_finish=__i;return __first;}
 template<> inline __declspec(noinline) void vector<const ModuleData *>::push_back(const ModuleData *const &v){if(_M_finish!=_M_end_of_storage._M_data){_Construct(_M_finish,v);++_M_finish;}else _M_insert_overflow(_M_finish,v,__true_type(),1UL,true);}
 template<> int *find<int *,int>(int *,int *,const int &);
 }
@@ -443,11 +443,10 @@ void W3DShadowMapManager::UpdateShadowCamera()
 	Rva0007C637(points, hull, 0.0001f);
 
 	unsigned count = hull.size();
-	const BfmeE8 *hullData = hull.begin();
 	Coord3D blank;
 	PointList hullPts(count, blank);
 	for (unsigned i = 0; i < count; i++)
-		Matrix3D::Transform_Vector(lightTm, Vector3(hullData[i].X, hullData[i].Y, 0.0f), (Vector3 *)&hullPts[i]);
+		Matrix3D::Transform_Vector(lightTm, Vector3(hull[i].X, hull[i].Y, 0.0f), (Vector3 *)&hullPts[i]);
 	PointList groundPts(hullPts.size(), blank);
 	PointList ceilingPts(hullPts.size(), blank);
 	for (unsigned i = 0; i < count; i++) {
