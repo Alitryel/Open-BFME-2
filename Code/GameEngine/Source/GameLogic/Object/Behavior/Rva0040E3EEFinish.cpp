@@ -7,6 +7,7 @@
 #include <vector>
 #include "ascii_string.h"
 extern "C" const void *const __identifier("??_7ArmySummary@@6B@")[];
+extern "C" const void *const __identifier("??_7Snapshot@@6B@")[];
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
@@ -25,6 +26,14 @@ public:
 	Rva0040E3EEBase() {}
 	~Rva0040E3EEBase();
 };
+// The base is retail's Snapshot: the ctor's unwind funclet 0x007857FC
+// destroys it through 0x0049B47C, the folded Snapshot destructor that
+// restores the Snapshot table 0x00BBB554 and returns. This view keeps the
+// vptr as ArmySummary's first member, so the restore is spelled by hand.
+Rva0040E3EEBase::~Rva0040E3EEBase()
+{
+	*(const void *const **)this = __identifier("??_7Snapshot@@6B@");
+}
 class ArmySummary : public Rva0040E3EEBase
 {
 public:
