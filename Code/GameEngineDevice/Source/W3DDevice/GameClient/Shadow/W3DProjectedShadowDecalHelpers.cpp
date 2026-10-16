@@ -345,7 +345,8 @@ class WorldHeightMap
 public:
 	UnsignedShort getHeight(Int x, Int y) { return ((BoundedShortGrid *)this)->rva00062A58(x, y); }
 	Real getDisplayHeight(Int x, Int y) { return getHeight(x, y) * MAP_HEIGHT_SCALE; }
-	Bool getFlipState(Int x, Int y) const { return ((const Gen_0074B410 *)this)->bfmeBitA(x, y); }
+	// getFlipState is the bounds-checked bit-plane body rowed at 0x000ADF41
+	// (Gen_0074B410::bfmeBitA); retail's decal batch calls it directly.
 	char m_pad00[0x10];
 	Int m_borderSize;					// +0x10
 };
@@ -597,7 +598,7 @@ void W3DProjectedShadowManager::queueDualDecal(W3DDualProjectedShadow *shadow)
 	{
 		for (Int i = rowStart, k = startX; k < endX; i++, k++)
 		{
-			if (hmap->getFlipState(k, j))
+			if (((const Gen_0074B410 *)hmap)->bfmeBitA(k, j))
 			{
 				pvIndices[0] = i + 1 + m_numDecalVertsInBatch;
 				pvIndices[1] = i + vertsPerRow + m_numDecalVertsInBatch;
