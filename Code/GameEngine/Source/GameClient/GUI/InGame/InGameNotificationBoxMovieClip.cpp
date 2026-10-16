@@ -53,7 +53,14 @@ public:
  Rva004E6935 *m_ptr;
  Rva004E6A1D(Rva004E6935*p=0):m_ptr(p){}
  Rva004E6935*operator->(){return m_ptr;}
- ~Rva004E6A1D(){clear();}
+ // Native Open and the constructor's EH graph call the full owning reset
+ // at 0x004E6A1D. Its 26 bytes match the existing clear provider, including
+ // pointee destruction and game delete; a wrapper only emits a 5-byte jump.
+ ~Rva004E6A1D(){
+  Rva004E6935 *p=m_ptr;
+  m_ptr=0;
+  if(p){p->Rva004E6935::~Rva004E6935();::operator delete(p);}
+ }
  void clear();
  Rva004E6A37 rva004E6BF6();
 };
