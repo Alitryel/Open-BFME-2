@@ -68,3 +68,11 @@ RampageBehavior::RampageBehavior(Thing *thing, const ModuleData *moduleData)
 	m_20 = 99999.0f;
 	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 }
+
+// ??1RampageBehavior@@UAE@XZ @0x00458AAE: vftable 0x00840DA8 slot 0 is its deleting dtor
+// 0x00458BC5 (formerly the placeholder Rva00458AAE in Rva0024A797Derived.cpp).
+RampageBehavior::~RampageBehavior()
+{
+	m_p0C = &s_secondary0C;
+	m_p10 = &s_secondary10;
+}
