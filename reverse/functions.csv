@@ -94585,3 +94585,4 @@ __ehhandler$?postRender@Rva007DB820@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z
 ??FRva006CFEF0@@QAEAAV0@XZ,,0x006CFF00,6,Code/GameEngine/Source/Common/GapBodiesSeat10O2B.cpp,matched,
 _ghttpSetRequestProxy,,0x006BA5E0,5,Code/GameEngine/Source/GameNetwork/GameSpy/ghttp/ghttpMain.c,matched,
 _peerSendNatNegotiateCookie,,0x00698B60,5,Code/GameEngine/Source/GameNetwork/GameSpy/peer/peerMainBlockingOperations.c,matched,
+?rva0054034A@Rva0054034A@@QAE_NH@Z,,0x0054034A,200,Code/GameEngine/Source/Common/Rva0054034ALocate.cpp,matched,hinted sorted-key locator (WB 455B00; template twin of 0x541641): real key-vector member plus visible STLport __lower_bound body give retail's begin and key reloads
