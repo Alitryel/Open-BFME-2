@@ -249,3 +249,8 @@ case 107:
  }
  return 0;
 }
+
+// Native6D6340 is the empty canonical GC-base destructor, tail-calling
+// the51B AptValue teardown at6DE350. The exact analog-object constructor
+// EH action7A92AF and PDB inheritance independently establish this lifetime.
+AptValueGC::~AptValueGC() {}
