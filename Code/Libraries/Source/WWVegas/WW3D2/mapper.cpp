@@ -125,15 +125,18 @@ GridTextureMapperClass::GridTextureMapperClass(const INIClass &ini, const char *
 	initialize(fps, gridwidth_log2);
 }
 
+// BFME2 also copies the rate at +0x0C first (row 0x00184420,
+// GridTextureMapperClassCopyCtor.cpp), so the members are assigned in its order.
 inline GridTextureMapperClass::GridTextureMapperClass(const GridTextureMapperClass & src) :
-	TextureMapperClass(src),	
-	Sign(src.Sign),
-	MSPerFrame(src.MSPerFrame),
-	OOGridWidth(src.OOGridWidth),
-	GridWidthLog2(src.GridWidthLog2),
-	LastFrame(src.LastFrame),
-	Offset(src.Offset)
+	TextureMapperClass(src)
 {
+	*reinterpret_cast<int *>(_bfme_unk_grid_head) = *reinterpret_cast<const int *>(src._bfme_unk_grid_head);
+	Sign = src.Sign;
+	MSPerFrame = src.MSPerFrame;
+	OOGridWidth = src.OOGridWidth;
+	GridWidthLog2 = src.GridWidthLog2;
+	LastFrame = src.LastFrame;
+	Offset = src.Offset;
 	Reset();
 }
 
@@ -162,6 +165,9 @@ inline void GridTextureMapperClass::initialize(float fps, unsigned int gridwidth
 	LastUsedSyncTime = WW3D::Get_Sync_Time();
 	GridWidthLog2 = gridwidth_log2;
 	OOGridWidth = 1.0f / (float)(grid_width);
+	// BFME2 keeps the rate at +0x0C (the shim's unnamed grid head), as the
+	// out-of-line row 0x00182480 does.
+	*reinterpret_cast<float *>(_bfme_unk_grid_head) = fps;
 	if (fps == 0.0f) {
 		// Value of MSPerFrame does not matter as long as it is not 0 - sign will multiply results,
 		// zeroing them out.
