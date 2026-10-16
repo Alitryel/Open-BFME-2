@@ -36,6 +36,23 @@ void rva0060D594Caller(BfmeRva0060D594Stream *stream)
 	}
 }
 
+// Retail 0x0060D5D8 (26B, RET 0): the companion indent helper of the tagged
+// text dump (0x0060DFB5 calls it before each value line): `depth` tabs through
+// the stream slot 4 write. The stream arrives in ESI and the depth in EAX, the
+// private convention cl 7.1 picks for a file-static noinline function; its
+// only caller is still unmatched, so a source-only caller emits it.
+static __declspec(noinline) void rva0060D5D8TabIndent(BfmeRva0060D594Stream *stream, int depth)
+{
+	while (depth-- != 0)
+		stream->Write("\t", 1);
+}
+
+// ?rva0060D5D8TabIndentCaller absent-from-retail
+void rva0060D5D8TabIndentCaller(BfmeRva0060D594Stream *stream, int depth)
+{
+	rva0060D5D8TabIndent(stream, depth);
+}
+
 class Gen009D6330
 {
 public:
