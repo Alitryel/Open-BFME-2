@@ -63,3 +63,8 @@ Rva009F5970State::Rva009F5970State()
 	typedef void (T_009f59d0::*SecondCall)(unsigned);
 	(second->*(SecondCall)&T_009f59d0::m)(0);
 }
+
+// The retail call in this body reads 0x00627E40, an address the ledger already
+// carries as ?SetTreeDepth@PartitionManagerImpl@@QAEXI@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?m@T_009f59d0@@QAEXXZ=?SetTreeDepth@PartitionManagerImpl@@QAEXI@Z")

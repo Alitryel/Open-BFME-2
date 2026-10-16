@@ -24,3 +24,8 @@ Rva005F8E37 *__fastcall rva005F8E37Init(Rva005F8E37 *o, int fwd, int a, int b, i
 	((void **)o)[0] = (void *)vtbl_00C79CF8;
 	return o;
 }
+
+// The retail call in this body reads 0x005FE7A7, an address the ledger already
+// carries as ??0Rva005FE7FA@@QAE@HABVAsciiString@@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva005FE7A7@@YIXPAVRva005FE7A7Obj@@HHH@Z=??0Rva005FE7FA@@QAE@HABVAsciiString@@@Z")

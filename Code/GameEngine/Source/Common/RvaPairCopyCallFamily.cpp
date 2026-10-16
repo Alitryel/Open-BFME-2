@@ -39,3 +39,8 @@ public:
 
 // Rva000427195::rva003A37DC is defined with its retail-matched body in Code/GameEngine/Source/GameClient/GUI/ControlBar/ControlBarVideoMapErase.cpp (0x003A37DC).
 
+
+// The retail call in this body reads 0x002BFA86, an address the ledger already
+// carries as ?erase@?$hashtable@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@URva002BFA86Record@@U?$hash@URva002BFA86Record@@@2@U?$_Select1st@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@@2@U?$equal_to@URva002BFA86Record@@@2@V?$allocator@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@@2@@_STL@@QAEXABU?$_Ht_iterator@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@U?$_Const_traits@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@@2@URva002BFA86Record@@U?$hash@URva002BFA86Record@@@2@U?$_Select1st@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@@2@U?$equal_to@URva002BFA86Record@@@2@V?$allocator@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@@2@@2@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?helper@Rva002BFCF5@@AAEXPBUTwoInts002BFCF5@@@Z=?erase@?$hashtable@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@URva002BFA86Record@@U?$hash@URva002BFA86Record@@@2@U?$_Select1st@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@@2@U?$equal_to@URva002BFA86Record@@@2@V?$allocator@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@@2@@_STL@@QAEXABU?$_Ht_iterator@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@U?$_Const_traits@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@@2@URva002BFA86Record@@U?$hash@URva002BFA86Record@@@2@U?$_Select1st@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@@2@U?$equal_to@URva002BFA86Record@@@2@V?$allocator@U?$pair@$$CBURva002BFA86Record@@U1@@_STL@@@2@@2@@Z")

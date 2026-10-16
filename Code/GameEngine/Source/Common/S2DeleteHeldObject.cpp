@@ -28,3 +28,7 @@
 	}
 
 BFME_DELETE_ARGUMENT( Rva007889D0, Gen0002AB5D )
+// The retail call in this body reads 0x000AAE59, an address the ledger already
+// carries as ??1Rva00787C20@@QAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??1Gen0002AB5D@@QAE@XZ=??1Rva00787C20@@QAE@XZ")

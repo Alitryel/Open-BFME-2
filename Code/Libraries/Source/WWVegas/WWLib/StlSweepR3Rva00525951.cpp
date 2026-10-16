@@ -34,3 +34,8 @@ struct Rva00525951Record { unsigned char bytes[1]; bool operator==(const Rva0052
 
 // Instantiate the recovered member; retain only its required template dependencies.
 template void _STL::_S_merge<Rva00525951Record, _STL::allocator<Rva00525951Record>, _STL::less<Rva00525951Record> >(_STL::list<Rva00525951Record, _STL::allocator<Rva00525951Record> > &, _STL::list<Rva00525951Record, _STL::allocator<Rva00525951Record> > &, _STL::less<Rva00525951Record>);
+
+// The retail call in this body reads 0x00525119, an address the ledger already
+// carries as ?rva00525119@Rva00525119@@QAEHPAV1@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??MRva00525951Record@@QBE_NABU0@@Z=?rva00525119@Rva00525119@@QAEHPAV1@@Z")

@@ -44,3 +44,8 @@ void Rva0051BF47Run()
     (*(Rva00222A8BTarget **)&g_bfmeAptWindowManager)->v10();
     Rva0051ED7ETail();
 }
+
+// The retail call in this body reads 0x0051ED7E, an address the ledger already
+// carries as ?rva0051ED7E@AptTimeLine@@QAEXXZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?Rva0051ED7ETail@@YAXXZ=?rva0051ED7E@AptTimeLine@@QAEXXZ")

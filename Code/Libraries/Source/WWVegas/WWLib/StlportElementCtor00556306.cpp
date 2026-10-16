@@ -24,3 +24,8 @@ Rva00556306::Rva00556306(const int &a, const Rva005564EBSub &b)
 	, m_04(b)
 {
 }
+
+// The retail call in this body reads 0x0038630B, an address the ledger already
+// carries as ??0PSPlayerAllStats@@QAE@ABV0@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??0Rva005564EBSub@@QAE@ABU0@@Z=??0PSPlayerAllStats@@QAE@ABV0@@Z")

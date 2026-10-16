@@ -42,3 +42,8 @@ void *Rva005ECFE4::rva005ED15D(void *arg0, void *arg1, void *arg2)
 {
 	return new Rva005ECFE4(arg0, arg1, arg2);
 }
+
+// The retail call in this body reads 0x005ECE81, an address the ledger already
+// carries as ??0AutoResolve@Data@StrategicVeterancy@@QAE@PAX00@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??0Rva005ECFE4@@QAE@PAX00@Z=??0AutoResolve@Data@StrategicVeterancy@@QAE@PAX00@Z")

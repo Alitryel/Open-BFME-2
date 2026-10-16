@@ -32,3 +32,8 @@ void _STL::vector<Rva00475F2AElement>::_M_clear()
 	if (start)
 		free(start);
 }
+
+// The retail call in this body reads 0x00470398, an address the ledger already
+// carries as ??$__destroy_aux@PAURva001EB940@@@_STL@@YAXPAURva001EB940@@0ABU__false_type@0@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??$_Destroy@PAURva004758F4Element@@@_STL@@YAXPAURva004758F4Element@@0@Z=??$__destroy_aux@PAURva001EB940@@@_STL@@YAXPAURva001EB940@@0ABU__false_type@0@@Z")

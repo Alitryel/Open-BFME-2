@@ -42,3 +42,8 @@ void Rva002EBEF0(S4SortElem20 *first,
 		_STL::__final_insertion_sort(first, last, comp);
 	}
 }
+
+// The retail call in this body reads 0x00337D21, an address the ledger already
+// carries as ??$__introsort_loop@PAURva00337D21Record@@U1@HU?$less@URva00337D21Record@@@_STL@@@_STL@@YAXPAURva00337D21Record@@00HU?$less@URva00337D21Record@@@0@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?Rva002EBEF0Intro@@YAXPAUS4SortElem20@@00HUS4Cmp002EB8E0@@@Z=??$__introsort_loop@PAURva00337D21Record@@U1@HU?$less@URva00337D21Record@@@_STL@@@_STL@@YAXPAURva00337D21Record@@00HU?$less@URva00337D21Record@@@0@@Z")

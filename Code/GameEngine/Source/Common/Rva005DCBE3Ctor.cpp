@@ -21,3 +21,8 @@ public:
 Rva005DCBE3::Rva005DCBE3(const AsciiString &s, int n) : AITactic(s, n)
 {
 }
+
+// The retail call in this body reads 0x004ED3D1, an address the ledger already
+// carries as ??0AITactic@@QAE@ABVAsciiString@@_N@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??0AITactic@@QAE@ABVAsciiString@@H@Z=??0AITactic@@QAE@ABVAsciiString@@_N@Z")

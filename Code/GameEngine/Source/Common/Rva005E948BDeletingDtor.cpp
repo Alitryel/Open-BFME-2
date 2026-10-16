@@ -22,3 +22,8 @@ void Rva005E92F7_DeleteAnchor(Rva005E92F7 *p)
 {
 	delete p;
 }
+
+// The retail call in this body reads 0x005E92F7, an address the ledger already
+// carries as ??1Rva005E92F7@@UAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??1Rva005E92F7@@QAE@XZ=??1Rva005E92F7@@UAE@XZ")

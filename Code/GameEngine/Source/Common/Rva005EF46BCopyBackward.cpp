@@ -21,3 +21,8 @@ namespace _STL
 }
 
 template Rva005EEFD2 *_STL::copy_backward<Rva005EEFD2 *, Rva005EEFD2 *>(Rva005EEFD2 *, Rva005EEFD2 *, Rva005EEFD2 *);
+
+// The retail call in this body reads 0x005EF000, an address the ledger already
+// carries as ?Rva005EF000CopyBackward@@YAPAVRva005EEFD2@@PAV1@00@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??$__copy_backward@PAVRva005EEFD2@@H@_STL@@YAPAVRva005EEFD2@@PAV1@00ABUrandom_access_iterator_tag@0@PAH@Z=?Rva005EF000CopyBackward@@YAPAVRva005EEFD2@@PAV1@00@Z")

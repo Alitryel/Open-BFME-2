@@ -41,3 +41,8 @@ Rva005E1753Result Rva005E8E80::rva005E8E80()
 {
 	return ((Rva005E8E80Base0 *)((char *)this - 8))->v08()->GetResult();
 }
+
+// The retail call in this body reads 0x005E1753, an address the ledger already
+// carries as ?CreateHelp@StandardCommandButtonSettings@StrategicHUD@@QBE?AUTreeHintRef00217D4C@@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?GetResult@Rva005E1753Class@@QAE?AURva005E1753Result@@XZ=?CreateHelp@StandardCommandButtonSettings@StrategicHUD@@QBE?AUTreeHintRef00217D4C@@XZ")

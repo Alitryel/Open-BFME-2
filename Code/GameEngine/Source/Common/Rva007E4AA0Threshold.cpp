@@ -23,3 +23,8 @@ bool Rva007E4AA0Threshold::isBelowTransformed(int value) const
 {
 	return m_threshold < rva000190ABTransform(value);
 }
+
+// The retail call in this body reads 0x00090FE0, an address the ledger already
+// carries as ?rva00090FE0@Rva00090FE0@@QAEHI@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva000190ABTransform@@YGHH@Z=?rva00090FE0@Rva00090FE0@@QAEHI@Z")

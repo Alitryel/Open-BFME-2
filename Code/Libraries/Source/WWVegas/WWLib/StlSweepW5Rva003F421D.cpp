@@ -8,3 +8,8 @@ struct Rva003F421DElement { Rva003F421DElement();Rva003F421DElement(const Rva003
 
 // Instantiate the recovered operation and its required template dependencies.
 template Rva003F421DElement * _STL::__copy<Rva003F421DElement *, Rva003F421DElement *, int>(Rva003F421DElement *, Rva003F421DElement *, Rva003F421DElement *, _STL::random_access_iterator_tag const &, int *);
+
+// The retail call in this body reads 0x0040EAED, an address the ledger already
+// carries as ??4ArmySummary@@QAEAAV0@ABV0@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??4Rva003F421DElement@@QAEAAU0@ABU0@@Z=??4ArmySummary@@QAEAAV0@ABV0@@Z")

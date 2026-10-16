@@ -107,3 +107,8 @@ template MapIntIntTree::Node *MapIntIntTree::_M_copy(Node *x, Node *p);
 template MapIntIntTree::Node *MapIntIntTree::_M_clone_node_for_copy(Node *x);
 
 }
+
+// The retail call in this body reads 0x004ABCC9, an address the ledger already
+// carries as ?_M_create_node@?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@IAEPAU?$_Rb_tree_node@H@2@ABH@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?_M_create_node@?$_Rb_tree@HU?$pair@$$CBHH@_STL@@U?$_Select1st@U?$pair@$$CBHH@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHH@_STL@@@2@@_STL@@AAEPAU?$_Rb_tree_node@U?$pair@$$CBHH@_STL@@@2@ABU?$pair@$$CBHH@2@@Z=?_M_create_node@?$_Rb_tree@HHU?$_Identity@H@_STL@@U?$less@H@2@V?$allocator@H@2@@_STL@@IAEPAU?$_Rb_tree_node@H@2@ABH@Z")
