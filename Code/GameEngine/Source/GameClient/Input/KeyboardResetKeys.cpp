@@ -19,3 +19,9 @@ void Keyboard::resetKeys()
     rva00232B7B();
     rva00232AE8();
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x00232B7B -> ?rva00232B7B@Keyboard@@QAEXXZ (defined by Code/GameEngine/Source/GameClient/Input/rva00232B7BRva00232B7BFarm.cpp)
+#pragma comment(linker, "/alternatename:?rva00232B7B@Keyboard@@AAEXXZ=?rva00232B7B@Keyboard@@QAEXXZ")

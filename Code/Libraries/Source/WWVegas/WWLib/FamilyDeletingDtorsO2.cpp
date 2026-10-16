@@ -41,3 +41,9 @@ Rva00666BA0::Rva00666BA0(EmitVtableTag *) {}
 // ??_GGen_008AC620@@QAEPAXI@Z @0x6efb70
 class Gen_008AC620 { public: ~Gen_008AC620(); };
 void famgenDelete(Gen_008AC620 *p) { delete p; }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x006ED150 -> ??1Rva006ED150@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Gen_008AC620@@QAE@XZ=??1Rva006ED150@@UAE@XZ")

@@ -40,3 +40,9 @@ DefaultModuleTemplate<N>::DefaultModuleTemplate()
 
 template DefaultModuleTemplate<7>::DefaultModuleTemplate();
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x001F448D -> ??0?$CategoryModuleTemplate@$06@FXParticleSystem@@QAE@XZ
+#pragma comment(linker, "/alternatename:?construct@DefaultModuleTemplate7CtorShim@FXParticleSystem@@QAEXXZ=??0?$CategoryModuleTemplate@$06@FXParticleSystem@@QAE@XZ")

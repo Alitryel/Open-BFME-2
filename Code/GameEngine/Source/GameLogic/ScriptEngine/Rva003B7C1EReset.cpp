@@ -31,3 +31,9 @@ void Rva003B7C1E::rva003B7C1E()
 {
 	Rva003B761E().swapWith(this);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x003B766B -> ??1Rva003B872ASet@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva003B761E@@QAE@XZ=??1Rva003B872ASet@@QAE@XZ")

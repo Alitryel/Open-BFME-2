@@ -76,3 +76,9 @@ Rva0033BFA6Iter Rva0033BFA6::rva0033BFA6(Rva0033BFA6Node *x, Rva0033BFA6Node *y,
 	it.node = z;
 	return it;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x002CF84D -> ?Rva002CF84DCreate@@YGPAXPBURva002CF120@@@Z
+#pragma comment(linker, "/alternatename:?_M_create_node@Rva0033BFA6@@QAEPAURva0033BFA6Node@@ABURva0033BFA6Key@@@Z=?Rva002CF84DCreate@@YGPAXPBURva002CF120@@@Z")

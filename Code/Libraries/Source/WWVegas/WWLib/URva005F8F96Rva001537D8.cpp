@@ -98,3 +98,9 @@ inline _STL::vector<Rva005F8F96, _STL::allocator<Rva005F8F96> > &_STL::vector<Rv
 	return *this;
 }
 template _STL::vector<Rva005F8F96, _STL::allocator<Rva005F8F96> > &_STL::vector<Rva005F8F96, _STL::allocator<Rva005F8F96> >::operator=(const vector &);
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x001534B6 -> ?Rva001534B6Copy@@YAPAURva00153252@@PAU1@00@Z
+#pragma comment(linker, "/alternatename:?Rva001534B6Copy@@YAPAURva00153252@@PAU1@00ABUTag@@@Z=?Rva001534B6Copy@@YAPAURva00153252@@PAU1@00@Z")

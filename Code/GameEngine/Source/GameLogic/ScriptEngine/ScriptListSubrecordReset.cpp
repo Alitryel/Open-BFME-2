@@ -40,3 +40,9 @@ void Rva003B56A5::rva003B7647(void)
 	((Rva003B56A5*)tmp)->swap(this);
 	((Rva003B761E*)storage)->rva003B7167();
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x003B7167 -> ??1Rva003B8802Set@@QAE@XZ
+#pragma comment(linker, "/alternatename:?rva003B7167@Rva003B761E@@QAEXXZ=??1Rva003B8802Set@@QAE@XZ")

@@ -23,3 +23,9 @@ void Rva00062928::rva00062928()
     reinterpret_cast<unsigned char *>(TheWritableGlobalData)[0x3C] = flag;
     ShaderOverbrightEnabled = overbright;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x000A9071 -> ?PostDraw@W3DAptAux@@SAXXZ
+#pragma comment(linker, "/alternatename:?Rva000A9071@@YAXXZ=?PostDraw@W3DAptAux@@SAXXZ")

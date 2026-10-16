@@ -327,3 +327,11 @@ void Rva00439CF7::rva00439CF7(Object *object,int duration,const void *data) {
  ((_STL::list<Rva004390F7Element>*)record)->push_back(*(const Rva004390F7Element*)&entry);
  rva0043979D(object,record);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x00438FA7 -> ??0Rva00438FA7@@QAE@XZ
+#pragma comment(linker, "/alternatename:??0Rva004393D6@@QAE@XZ=??0Rva00438FA7@@QAE@XZ")
+//   0x0043979D -> ?rva0043979D@Rva00439E0C@@QAE_NPAVObject@@PAURva004393D6@@@Z
+#pragma comment(linker, "/alternatename:?rva0043979D@Rva00439CF7@@QAE_NPAVObject@@PAURva004393D6@@@Z=?rva0043979D@Rva00439E0C@@QAE_NPAVObject@@PAURva004393D6@@@Z")

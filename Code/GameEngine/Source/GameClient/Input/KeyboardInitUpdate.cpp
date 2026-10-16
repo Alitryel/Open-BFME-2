@@ -137,3 +137,13 @@ void Keyboard::createStreamMessages()
 		key->setUsed();
 	}
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x002306B8 -> ?initKeyNames@Keyboard@@QAEXXZ
+#pragma comment(linker, "/alternatename:?initKeyNames@Keyboard@@IAEXXZ=?initKeyNames@Keyboard@@QAEXXZ")
+//   0x00232A42 -> ?rva00232A42@Keyboard@@QAEXXZ
+#pragma comment(linker, "/alternatename:?rva00232A42@Keyboard@@AAEXXZ=?rva00232A42@Keyboard@@QAEXXZ")
+//   0x00232B7B -> ?rva00232B7B@Keyboard@@QAEXXZ (defined by Code/GameEngine/Source/GameClient/Input/rva00232B7BRva00232B7BFarm.cpp)
+#pragma comment(linker, "/alternatename:?rva00232B7B@Keyboard@@AAEXXZ=?rva00232B7B@Keyboard@@QAEXXZ")

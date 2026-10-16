@@ -151,3 +151,13 @@ Rva0050245DElement::Rva0050245DElement(const int &a, const Rva005020AFSub &b)
 	, m_04(b)
 {
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x001F206E -> ??0?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@ABV01@@Z
+#pragma comment(linker, "/alternatename:??0Rva004C7330Sub@@QAE@ABU0@@Z=??0?$vector@PAVObject@@V?$allocator@PAVObject@@@_STL@@@_STL@@QAE@ABV01@@Z")
+//   0x004F69D6 -> ??0?$vector@URva004F69D6Record@@V?$allocator@URva004F69D6Record@@@_STL@@@_STL@@QAE@ABV01@@Z
+#pragma comment(linker, "/alternatename:??0Rva004F802CSub@@QAE@ABU0@@Z=??0?$vector@URva004F69D6Record@@V?$allocator@URva004F69D6Record@@@_STL@@@_STL@@QAE@ABV01@@Z")
+//   0x00501B33 -> ??0?$_Rb_tree@URva00501B33Element@@U1@U?$_Identity@URva00501B33Element@@@_STL@@U?$less@URva00501B33Element@@@3@V?$allocator@URva00501B33Element@@@3@@_STL@@QAE@ABV01@@Z
+#pragma comment(linker, "/alternatename:??0Rva005020AFSub@@QAE@ABU0@@Z=??0?$_Rb_tree@URva00501B33Element@@U1@U?$_Identity@URva00501B33Element@@@_STL@@U?$less@URva00501B33Element@@@3@V?$allocator@URva00501B33Element@@@3@@_STL@@QAE@ABV01@@Z")

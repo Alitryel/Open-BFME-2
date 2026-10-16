@@ -126,3 +126,9 @@ void GameClient::destroyDrawable(Drawable *draw)
 	removeDrawableFromLookupTable(draw);
 	m_drawablesToDelete.push_back(draw);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x00270234 -> ?rva00270234@Rva00270234@@QAEXXZ
+#pragma comment(linker, "/alternatename:?rva00270234@Drawable@@QAEXXZ=?rva00270234@Rva00270234@@QAEXXZ")

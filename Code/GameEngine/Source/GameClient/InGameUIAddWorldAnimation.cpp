@@ -134,3 +134,9 @@ void InGameUI::addWorldAnimation(Anim2DTemplate *animTemplate, const Coord3D *po
 	// add to list
 	m_worldAnimationList.push_front(reinterpret_cast<const int &>(wad));
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x002D6D63 -> ??0Anim2D@@QAE@PAVAnim2DTemplate@@PAVAnim2DCollection@@@Z
+#pragma comment(linker, "/alternatename:??0Anim2D@@QAE@PAURva002D752DNode@@PAVRva002D752D@@@Z=??0Anim2D@@QAE@PAVAnim2DTemplate@@PAVAnim2DCollection@@@Z")

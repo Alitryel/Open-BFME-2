@@ -82,3 +82,9 @@ public:
 Rva006FC240::Rva006FC240() : Rva006D6360(0x29, 8), Rva006FC240BitsHack(), m_s20("Error"), m_s24("Error")
 {
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x006D6470 -> ??1Rva006D6470Owner@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva006D6360@@UAE@XZ=??1Rva006D6470Owner@@UAE@XZ")

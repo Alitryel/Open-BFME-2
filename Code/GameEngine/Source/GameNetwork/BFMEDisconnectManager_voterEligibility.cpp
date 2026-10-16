@@ -46,3 +46,9 @@ Bool BFMEDisconnectManager::hasPlayerConnectionTimedOut(int slot, void *connecti
 	return true;
 }
 
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x004CEF58 -> ?rva004CEF58@BFMEConnectionManager@@QAEEH@Z
+#pragma comment(linker, "/alternatename:?_bfme_slotIsLocalOrLive@ConnectionManager@@QAE_NH@Z=?rva004CEF58@BFMEConnectionManager@@QAEEH@Z")
