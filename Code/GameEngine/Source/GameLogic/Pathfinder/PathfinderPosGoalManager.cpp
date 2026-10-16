@@ -372,77 +372,9 @@ int Pathfinder::rva002EED80(const ICoord2DBase *center,const ICoord2DBase *diame
  return rva002EB7B4(x,y,4,layer,visitor);
 }
 
-// ?rva002EB4DF@Pathfinder@@QAEHPBUICoord2DBase@@0MHPAVRva002E7E26@@@Z @0x002EB4DF (406B): instruction-for-instruction twin of rva002EED80 above with its own visitor (0x002E7E26) and polygon worker (0x002E8773); same fsincos block.
-int Pathfinder::rva002EB4DF(const ICoord2DBase *center,const ICoord2DBase *diameter,float angle,int layer,Rva002E7E26 *visitor)
-{
- if (diameter->x==1 && diameter->y==1) {
-   PathfindCell *cell=getCell((PathfindLayerEnum)layer,center->x,center->y);
-   return cell ? visitor->rva002E7E26((Object *)cell,center->x,center->y) : 0;
- }
- int x[4],y[4];
- if (angle!=0.0f) {
-   float sine,cosine;
-   __asm { fld angle
-           fsincos
-           fstp cosine
-           fstp sine }
-   float hx=diameter->x*0.5f,hy=diameter->y*0.5f;
-   float cx=(float)center->x,cy=(float)center->y;
-   x[0]=(int)(cx-hx*cosine+hy*sine);
-   y[0]=(int)(cy-hy*cosine-hx*sine);
-   x[1]=(int)(cx+hx*cosine+hy*sine);
-   y[1]=(int)(cy-hy*cosine+hx*sine);
-   x[2]=(int)(cx+hx*cosine-hy*sine);
-   y[2]=(int)(cy+hy*cosine+hx*sine);
-   x[3]=(int)(cx-hx*cosine-hy*sine);
-   y[3]=(int)(cy+hy*cosine-hx*sine);
- } else {
-   int hx=diameter->x/2,hy=diameter->y/2;
-   x[0]=x[3]=center->x-hx;
-   y[0]=y[1]=center->y-hy;
-   x[1]=x[2]=center->x+diameter->x-hx-1;
-   y[2]=y[3]=center->y+diameter->y-hy-1;
- }
- return rva002E8773(x,y,4,layer,visitor);
-}
-
-// Native002E7E26..002E7ED6 RET12; callee of owned406B rectangle walker2EB4DF.
-// Independent constructor49B2E7DF5 establishes source+04 cost+1C flag+20.
-// Cell kind low four bits at0C and the 10-unit coordinate grid are target facts.
-// Preserve the existing address-derived visitor ABI, original class uncertain.
-// Local point set/sub follow BFME1 Coord3D operations (575ba2b047) and
-// the independently verified Paralyze family shape in c5315e6371 (N1).
-// Geometry/layout identity here is supported by this retail body and ctor49,
-// independently of that compiler-shape lead.
-enum LandCellKind { LandClear=0, LandWater=1, LandSolid=7 };
-struct LandWordView {
-    int a,b,c;
-    unsigned packed;
-    __forceinline LandCellKind getKind() const {
-        return (LandCellKind)(packed&15);
-    }
-};
-struct LandLocalPoint : Coord3D {
-    __forceinline void set(const float *p) { x=p[0]; y=p[1]; z=p[2]; }
-    __forceinline void set(float a,float b,float c) { x=a; y=b; z=c; }
-    __forceinline void sub(const float *p) { x-=p[0]; y-=p[1]; z-=p[2]; }
-    __forceinline float squared() const { return x*x+y*y+z*z; }
-};
-int Rva002E7E26::rva002E7E26(Object *object,int x,int y)
-{
-    if (((LandWordView *)object)->getKind()==LandSolid) return 0;
-    if (((LandWordView *)object)->getKind()==LandWater) return 0;
-    if (((LandWordView *)object)->getKind()!=LandClear) return 0;
-    LandLocalPoint point;
-    point.set((float)(x*10),(float)(y*10),source.z);
-    LandLocalPoint delta;
-    delta.set(&source.x);
-    delta.sub(&point.x);
-    float distance=delta.squared();
-    if (cost>distance) {
-        closest=point;
-        cost=distance;
-        found=true;
-    }
-    return 0;
-}
+// 0x002EB4DF (406B, twin of rva002EED80 above with visitor 0x002E7E26 and
+// worker 0x002E8773) and the 176B 0x002E7E26 body are compiled inline by
+// pathfinder.cpp, which owns their rows: this TU's /Gy out-of-line copies were
+// LNK2005 duplicates of its select-any copies, and this TU's /Oy- frame made
+// the local point helpers COMDAT losers against its first link-order copy
+// (link census 2026-10-15 12:36).
