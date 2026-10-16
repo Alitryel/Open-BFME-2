@@ -11,9 +11,9 @@
 // All bytes except unresolved REL32 B62D4 match; the companion157B helper
 // is banked at reverse/attempts/0x000b62d4.cpp. Proper Code destination:
 // Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/W3DScriptedModelDraw.cpp.
-// Before landing: recover B3FA5/43, C3D00/218 model callback; define the
-// native FieldParse at VA BCA790 (Bone->INI::parseAsciiString offset0;
-// Offset->INI::parseCoord3D offset4; Model->C3D00 offset0; null terminator).
+// The native FieldParse at VA BCA790 (Bone->INI::parseAsciiString offset0;
+// Offset->INI::parseCoord3D offset4; Model->C3D00 offset0; null terminator)
+// is defined below.
 // Pass actual providers/consumers, full bytes, EH, strings and normal linking.
 #include "ascii_string.h"
 #include "Common/INIException.h"
@@ -37,9 +37,38 @@ template<class T, class A=allocator<T> > class vector { public: void push_back(c
 }
 struct FieldParse;
 extern const FieldParse AttachModelFieldParse[];
-class INI { public: void initFromINI(void *,const FieldParse *); };
+class INI {
+public:
+	void initFromINI(void *,const FieldParse *);
+	static void parseAsciiString(INI *, void *, void *, const void *);
+	static void parseCoord3D(INI *, void *, void *, const void *);
+};
 void parseModelConditionFlags(INI *, WeaponTemplateSetHead *, WeaponTemplateSetHead *);
-class W3DScriptedModelDrawModuleData { public: static void parseAttachModel(INI *,void *,void *,const void *); };
+class W3DScriptedModelDrawModuleData {
+public:
+	static void parseAttachModel(INI *,void *,void *,const void *);
+	struct AttachModelStruct { static void parseModel(INI *, void *, void *, const void *); };
+};
+
+// Zero Hour's FieldParse record (INI.h).
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
+
+// Retail's table at VA 0x00BCA790 (RVA 0x007CA790): Bone and Offset fill the
+// record's AsciiString (+0) and Coord3D (+4); Model goes to the rowed
+// AttachModelStruct::parseModel 0x000C3D00; null terminator.
+extern const FieldParse AttachModelFieldParse[] =
+{
+	{ "Bone", INI::parseAsciiString, 0, 0 },
+	{ "Offset", INI::parseCoord3D, 0, 4 },
+	{ "Model", W3DScriptedModelDrawModuleData::AttachModelStruct::parseModel, 0, 0 },
+	{ 0, 0, 0, 0 }
+};
 
 void W3DScriptedModelDrawModuleData::parseAttachModel(INI *ini, void *instance, void *, const void *)
 {
