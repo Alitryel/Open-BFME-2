@@ -118,14 +118,6 @@ int Rva0056DD5EGet(void)
 	return 0x00DC4B60;
 }
 
-// ?Rva00381452Get@@YAHXZ @ 0x00381452 (6B): returns 0x00E02310.
-// Prev C3 with a frame-style function after. 4 direct E8 callers, no
-// Ghidra entry (dead emission), no branch sources. Opaque name.
-int Rva00381452Get(void)
-{
-	return 0x00E02310;
-}
-
 // ?Rva003EFE9AGet@@YAHXZ @ 0x003EFE9A (6B): returns 0x00DC34A4.
 // Prev C3 with a movzx-style function after. 4 direct E8 callers,
 // Ghidra-6, no branch sources. Opaque name.
@@ -221,22 +213,6 @@ int Rva00433B18Get(void)
 int Rva0056A983Get(void)
 {
 	return 0x00C6CFD0;
-}
-
-// ?Rva002856F7Get@@YAHXZ @ 0x002856F7 (6B): returns 0x00DFEA50. Opens a
-// contiguous pair (F7 then FD) after a ret. Carried at 0x7FB708 and
-// 0x7FB70C, no direct callers, no branch sources. Opaque name.
-int Rva002856F7Get(void)
-{
-	return 0x00DFEA50;
-}
-
-// ?Rva002856FDGet@@YAHXZ @ 0x002856FD (6B): returns 0x00DFE794. Closes
-// the pair (a movzx-style function follows). Carried at 0x7FB710 and
-// 0x7FB714, no direct callers, no branch sources. Opaque name.
-int Rva002856FDGet(void)
-{
-	return 0x00DFE794;
 }
 
 // ?Rva003ABD55Get@@YAHXZ @ 0x003ABD55 (6B): returns 0x00C1C59C.
@@ -392,15 +368,6 @@ int Rva005C9880Get(void)
 	return 0x009C9886;
 }
 
-// ?Rva00201095Get@@YAHXZ @ 0x00201095 (6B): returns 0x00BE2C10.
-// Follows a tail-jmp/ret (0x20108F-94) with a frame-style function
-// after. Carried at 0x7E306C, no direct callers, no branch sources.
-// Opaque address-derived name.
-int Rva00201095Get(void)
-{
-	return 0x00BE2C10;
-}
-
 // ?Rva004EE155Get@@YAHXZ @ 0x004EE155 (6B): returns 0x00C62A38.
 // Follows a mov-word/ret (0x4EE14F-54) with a frame-style function
 // after. Carried at 0x862A30, no direct callers, no branch sources.
@@ -417,18 +384,6 @@ int Rva004EE155Get(void)
 int Rva00655114Get(void)
 {
 	return 1;
-}
-
-// ?Rva0033A495Get@@YAHXZ @ 0x0033A495 (6B): returns 0x00C100C0.
-// A leave/ret-8 pair ends at 0x33A490 with a 4-byte jmp fragment between it
-// and this getter; no branch targets this address (phase-scanned
-// 0x339000-0x33B000, only 4 direct E8 callers at 0x415231/0x4CB0A1/0x4CB642
-// 0x4CBC1B, all pushing an extraOffset then feeding eax to a FieldParse
-// add). The value is the VoiceSelect-led response table at 0xC100C0.
-// Opaque address-derived name.
-int Rva0033A495Get(void)
-{
-	return 0x00C100C0;
 }
 
 // ?Rva0002CF5EGet@@YAHXZ @ 0x0002CF5E (6B): returns 0x0042CF5A.

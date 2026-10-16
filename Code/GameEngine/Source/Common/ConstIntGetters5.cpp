@@ -319,3 +319,139 @@ int Rva0020049BGet(void)
 {
 	return reinterpret_cast<int>(ShellMenuSchemeManager::m_shellMenuSchemeFieldParseTable);
 }
+
+// Moved back from ConstIntGetters5Addr.cpp: their constants now name the globals the
+// ledger defines there (declaration-only views; no layout is asserted).
+extern const FieldParse TheFXListFieldParse[];
+extern const FieldParse CombatChainDefinitionFieldParse[];
+extern const FieldParse BrutalDifficultyCheatsFieldParse[];
+extern const FieldParse DifficultyTuningFieldParse[];
+extern const FieldParse BfmeBonusForLevelFieldTable[];
+extern const FieldParse Rva00418AC6FieldParseTable[];
+extern const FieldParse FieldTable002CC8A4[];
+extern const FieldParse g_00C3BC20[];
+class Rva00534E13
+{
+public:
+    static const FieldParse fieldTable[];
+};
+class WaterSetting
+{
+public:
+    static const FieldParse m_waterSettingFieldParseTable[];
+};
+struct SaveDate;
+extern SaveDate BfmeINIReadTimestamp;
+struct _GUID;
+extern _GUID g_bfmeIidTSA;
+class Dict;
+class MapObject
+{
+public:
+    static Dict TheWorldDict;
+};
+
+// ?Rva001DFAA0Get@@YAHXZ @ 0x001dfaa0 (6B): returns 0x00bdc720.
+// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
+// no branch sources. Opaque address-derived name.
+int Rva001DFAA0Get(void)
+{
+	return (int)TheFXListFieldParse;
+}
+
+// ?Rva002A8922Get@@YAHXZ @ 0x002a8922 (6B): returns 0x00bfd804.
+// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
+// no branch sources. Opaque address-derived name.
+int Rva002A8922Get(void)
+{
+	return (int)CombatChainDefinitionFieldParse;
+}
+
+// ?Rva002A893FGet@@YAHXZ @ 0x002a893f (6B): returns 0x00bfd85c.
+// Follows a near ret (BrutalDifficultyCheats ctor tail), no .rdata vtable
+// slot, no direct callers, no branch sources. Opaque address-derived name.
+// The constant is the BrutalDifficultyCheats sub-table also pushed as an
+// immediate by the rowed parser at 0x002a898a.
+int Rva002A893FGet(void)
+{
+	return (int)BrutalDifficultyCheatsFieldParse;
+}
+
+// ?Rva002A88BBGet@@YAHXZ @ 0x002a88bb (6B): returns 0x00bfd768.
+// Abuts the probability parser at 0x002a8845 (ends +118) and a twin getter
+// below. Opaque address-derived name. The constant is the DifficultyTuning
+// sub-table also pushed as an immediate by the rowed parser at 0x002a89d2.
+int Rva002A88BBGet(void)
+{
+	return (int)DifficultyTuningFieldParse;
+}
+
+// ?Rva00417AE3Get@@YAHXZ @ 0x00417ae3 (6B): returns 0x00c3a658.
+// Follows an SSE-store plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva00417AE3Get(void)
+{
+	return (int)BfmeBonusForLevelFieldTable;
+}
+
+// ?Rva004186DAGet@@YAHXZ @ 0x004186da (6B): returns 0x00c3a8b0.
+// Follows a leave plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva004186DAGet(void)
+{
+	return (int)Rva00418AC6FieldParseTable;
+}
+
+// ?Rva00509DA5Get@@YAHXZ @ 0x00509da5 (6B): returns 0x00c64810.
+// Follows a leave plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva00509DA5Get(void)
+{
+	return (int)FieldTable002CC8A4;
+}
+
+// ?Rva00420965Get@@YAHXZ @ 0x00420965 (6B): returns 0x00c3bc20.
+// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
+// no branch sources. Opaque address-derived name.
+int Rva00420965Get(void)
+{
+	return (int)g_00C3BC20;
+}
+
+// ?Rva00534B22Get@@YAHXZ @ 0x00534b22 (6B): returns 0x00c68ae8.
+// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
+// no branch sources. Opaque address-derived name.
+int Rva00534B22Get(void)
+{
+	return (int)Rva00534E13::fieldTable;
+}
+
+// ?Rva00200BB4Get@@YAHXZ @ 0x00200bb4 (6B): returns 0x00c07fe0.
+// Follows a leave plus ret tail. No direct callers. Opaque
+// address-derived name.
+int Rva00200BB4Get(void)
+{
+	return (int)WaterSetting::m_waterSettingFieldParseTable;
+}
+
+// ?Rva0002BBC3Get@@YAHXZ @ 0x0002bbc3 (6B): returns 0x00ddf5b8.
+// Follows a ret tail, next function starts with mov ecx plus call.
+// No direct callers. Opaque address-derived name.
+int Rva0002BBC3Get(void)
+{
+	return (int)&BfmeINIReadTimestamp;
+}
+
+// ?Rva00176E30Get@@YAHXZ @ 0x00176e30 (6B): returns 0x00bd4e3c.
+// int3-padded both sides, no direct callers. Opaque address-derived name.
+int Rva00176E30Get(void)
+{
+	return (int)&g_bfmeIidTSA;
+}
+
+// ?Rva0008514EGet@@YAHXZ @ 0x0008514e (6B): returns 0x00e00944.
+// Follows a ret tail. No direct callers. Opaque address-derived name.
+int Rva0008514EGet(void)
+{
+	return (int)&MapObject::TheWorldDict;
+}

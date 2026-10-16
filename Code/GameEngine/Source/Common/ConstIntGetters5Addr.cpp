@@ -38,28 +38,12 @@ int Rva001DB686Get(void)
 	return 0x00c0cd88;
 }
 
-// ?Rva001DFAA0Get@@YAHXZ @ 0x001dfaa0 (6B): returns 0x00bdc720.
-// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
-// no branch sources. Opaque address-derived name.
-int Rva001DFAA0Get(void)
-{
-	return 0x00bdc720;
-}
-
 // ?Rva0026EDB1Get@@YAHXZ @ 0x0026edb1 (6B): returns 0x00bfa6e8.
 // Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
 // no branch sources. Opaque address-derived name.
 int Rva0026EDB1Get(void)
 {
 	return 0x00bfa6e8;
-}
-
-// ?Rva002A8922Get@@YAHXZ @ 0x002a8922 (6B): returns 0x00bfd804.
-// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
-// no branch sources. Opaque address-derived name.
-int Rva002A8922Get(void)
-{
-	return 0x00bfd804;
 }
 
 // ?Rva003B0FA0Get@@YAHXZ @ 0x003b0fa0 (6B): returns 0x00dc0e78.
@@ -94,47 +78,12 @@ int Rva0041F310Get(void)
 	return 0x00c3b050;
 }
 
-// ?Rva00420965Get@@YAHXZ @ 0x00420965 (6B): returns 0x00c3bc20.
-// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
-// no branch sources. Opaque address-derived name.
-int Rva00420965Get(void)
-{
-	return 0x00c3bc20;
-}
-
 // ?Rva004FF2EEGet@@YAHXZ @ 0x004ff2ee (6B): returns 0x00e04544.
 // Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
 // no branch sources. Opaque address-derived name.
 int Rva004FF2EEGet(void)
 {
 	return 0x00e04544;
-}
-
-// ?Rva00534B22Get@@YAHXZ @ 0x00534b22 (6B): returns 0x00c68ae8.
-// Follows a ret-4 (prev C2-04-00), no .rdata vtable slot, no direct callers,
-// no branch sources. Opaque address-derived name.
-int Rva00534B22Get(void)
-{
-	return 0x00c68ae8;
-}
-
-// ?Rva002A893FGet@@YAHXZ @ 0x002a893f (6B): returns 0x00bfd85c.
-// Follows a near ret (BrutalDifficultyCheats ctor tail), no .rdata vtable
-// slot, no direct callers, no branch sources. Opaque address-derived name.
-// The constant is the BrutalDifficultyCheats sub-table also pushed as an
-// immediate by the rowed parser at 0x002a898a.
-int Rva002A893FGet(void)
-{
-	return 0x00bfd85c;
-}
-
-// ?Rva002A88BBGet@@YAHXZ @ 0x002a88bb (6B): returns 0x00bfd768.
-// Abuts the probability parser at 0x002a8845 (ends +118) and a twin getter
-// below. Opaque address-derived name. The constant is the DifficultyTuning
-// sub-table also pushed as an immediate by the rowed parser at 0x002a89d2.
-int Rva002A88BBGet(void)
-{
-	return 0x00bfd768;
 }
 
 // ?Rva002A88C1Get@@YAHXZ @ 0x002a88c1 (6B): returns 0x00bfd7c0.
@@ -153,14 +102,6 @@ int Rva00016AC0Get(void)
 	return (int)" ";
 }
 
-// ?Rva0002BBC3Get@@YAHXZ @ 0x0002bbc3 (6B): returns 0x00ddf5b8.
-// Follows a ret tail, next function starts with mov ecx plus call.
-// No direct callers. Opaque address-derived name.
-int Rva0002BBC3Get(void)
-{
-	return 0x00ddf5b8;
-}
-
 
 // ?Rva0011C460Get@@YAHXZ @ 0x0011c460 (6B): returns 0x00dec5e8.
 // int3-padded both sides, no direct callers. Opaque address-derived name.
@@ -175,20 +116,6 @@ int Rva0011C460Get(void)
 int Rva002A8A0FGet(void)
 {
 	return 0x00bfda50;
-}
-
-// ?Rva0008514EGet@@YAHXZ @ 0x0008514e (6B): returns 0x00e00944.
-// Follows a ret tail. No direct callers. Opaque address-derived name.
-int Rva0008514EGet(void)
-{
-	return 0x00e00944;
-}
-
-// ?Rva00176E30Get@@YAHXZ @ 0x00176e30 (6B): returns 0x00bd4e3c.
-// int3-padded both sides, no direct callers. Opaque address-derived name.
-int Rva00176E30Get(void)
-{
-	return 0x00bd4e3c;
 }
 
 // ?Rva001DAEB2Get@@YAHXZ @ 0x001daeb2 (6B): returns 0x00c03a28.
@@ -244,14 +171,6 @@ int Rva001E392EGet(void)
 int Rva002009F5Get(void)
 {
 	return 0x00c0c3a8;
-}
-
-// ?Rva00200BB4Get@@YAHXZ @ 0x00200bb4 (6B): returns 0x00c07fe0.
-// Follows a leave plus ret tail. No direct callers. Opaque
-// address-derived name.
-int Rva00200BB4Get(void)
-{
-	return 0x00c07fe0;
 }
 
 // ?Rva00201992Get@@YAHXZ @ 0x00201992 (6B): returns 0x00be3098.
@@ -354,28 +273,12 @@ int Rva0040C344Get(void)
 	return 0x00c18d18;
 }
 
-// ?Rva00417AE3Get@@YAHXZ @ 0x00417ae3 (6B): returns 0x00c3a658.
-// Follows an SSE-store plus ret tail. No direct callers. Opaque
-// address-derived name.
-int Rva00417AE3Get(void)
-{
-	return 0x00c3a658;
-}
-
 // ?Rva00418060Get@@YAHXZ @ 0x00418060 (6B): returns 0x00c3a730.
 // Follows a leave plus ret tail. No direct callers. Opaque
 // address-derived name.
 int Rva00418060Get(void)
 {
 	return 0x00c3a730;
-}
-
-// ?Rva004186DAGet@@YAHXZ @ 0x004186da (6B): returns 0x00c3a8b0.
-// Follows a leave plus ret tail. No direct callers. Opaque
-// address-derived name.
-int Rva004186DAGet(void)
-{
-	return 0x00c3a8b0;
 }
 
 // ?Rva0041901DGet@@YAHXZ @ 0x0041901d (6B): returns 0x00c3a9a8.
@@ -400,14 +303,6 @@ int Rva00419663Get(void)
 int Rva0041F71AGet(void)
 {
 	return 0x00c3b5e8;
-}
-
-// ?Rva00509DA5Get@@YAHXZ @ 0x00509da5 (6B): returns 0x00c64810.
-// Follows a leave plus ret tail. No direct callers. Opaque
-// address-derived name.
-int Rva00509DA5Get(void)
-{
-	return 0x00c64810;
 }
 
 
