@@ -1,15 +1,12 @@
 // ?refresh@Q1Receiver0134FAAC@@QAEXXZ
-// partial score=0.7708 date=2026-10-09
-// ?refresh@Q1Receiver0134FAAC@@QAEXXZ
-// partial score=0.998 date=2026-09-28
-// ?refresh@Q1Receiver0134FAAC@@QAEXXZ
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/sweep   
+// partial score=0.93 date=2026-10-16
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_STLP_NO_CSTD_FUNCTION_IMPORTS /Ireference/shims/bfmealloc /Ireference/shims/sweep   
 // stlport
 //
-// Retail RVA 0x009EFF50, 3186 bytes (ret at +0xC71). Identity: the address pin
+// BFME 1 donor 0x009EFF50 (3186 B); BFME 2 retail 0x006227E0, 3244 B. Identity: the address pin
 // plus five matched callers (m009F0BD0, m009F0CC0, m009F19E0, m009F1A60 and
 // Gen009F1510::handle) call it as refresh on the g_theAssetRegistry receiver.
-// Layout from the matched siblings: lock +0x60, hash_map<int,Element*> +0x44,
+// BFME 1 layout (BFME 2 shifts every field past +0x20 by 8, the __int64 pair): lock +0x60, hash_map<int,Element*> +0x44,
 // seven deque<Element*> from +0x78, four 0x14-byte set wrappers from +0x190.
 //
 // Body: under the +0x60 lock, normalise the +0x190/+0x1A4 wrappers through
@@ -17,13 +14,16 @@
 // sweep deques 0..6 marking bit 25 and moving entries whose key membership
 // disagrees with (q < 4): queue 3 entries (bit 26 clear) go into a multimap
 // keyed by the entry's +0x10 word, queue 4 entries go back to queue 3 (adding
-// their slot-0x38 cost to +0x20), queue 0 entries become queue 7. Then evict
-// multimap entries to queue 4 while +0x20 >= +0x24, park the rest in queue 3,
+// their slot-0x38 cost to the __int64 at +0x20), queue 0 entries become queue
+// 7. Then evict multimap entries to queue 4 while cost >= the __int64 budget at
+// +0x28 or the budget is below 2, park the rest in queue 3,
 // and twice build a key set (pass 0: +0x1A4 then 0x009EC770 with +0x190 plus
 // +0x1B8; pass 1: +0x190 minus +0x1A4) whose queue-7 entries return to queue 0,
 // recording the deque 0..2 totals at +0x1E0 / +0x1E4.
 //
-// Codegen evidence: the q==3 test is one conjunction (a nested bit-26 test
+// Codegen evidence: retail adds/subtracts the cost with adc/sbb 0 and compares
+// +0x20 against +0x28 as signed 64-bit values (as the matched Q1ReceiverDrain
+// and Rva0061EEE0Destructor layouts declare, class size 0x200); the q==3 test is one conjunction (a nested bit-26 test
 // makes MSVC spend its inline budget on queue 3 instead of queue 4, where
 // retail inlines _M_advance); the two size sums are separate expressions
 // (retail hoists only their node terms); pass 0 adds +0x1B8 through the
@@ -42,6 +42,9 @@
 struct Rva001408C0Target;
 typedef Rva001408C0Target *Rva001408C0Key;
 typedef _STL::set<Rva001408C0Key> Rva001408C0Set;
+namespace _STL {
+template <> _Rb_tree<Rva001408C0Key, Rva001408C0Key, _Identity<Rva001408C0Key>, less<Rva001408C0Key>, allocator<Rva001408C0Key> >::~_Rb_tree();
+}
 
 struct Gen_t_009ee8e0_k4
 {
@@ -129,7 +132,7 @@ public:
 	virtual void slot2C();
 	virtual void slot30();
 	virtual void slot34();
-	virtual int slot38();
+	virtual unsigned int slot38();
 
 	union
 	{
@@ -153,6 +156,9 @@ struct Rva009EDBE0Value
 	Rva009EF0D0Element *m_entry;
 };
 
+namespace _STL {
+template <> _Rb_tree<unsigned int, pair<const unsigned int, Rva009EDBE0Value>, _Select1st<pair<const unsigned int, Rva009EDBE0Value> >, less<unsigned int>, allocator<pair<const unsigned int, Rva009EDBE0Value> > >::~_Rb_tree();
+}
 typedef _STL::multimap<unsigned int, Rva009EDBE0Value> Q1ReceiverPending;
 typedef _STL::pair<const unsigned int, Rva009EDBE0Value> Q1ReceiverPendingPair;
 typedef _STL::hash_map<int, Rva009EF0D0Element *> Q1ReceiverAssetHash;
@@ -181,10 +187,10 @@ public:
 
 private:
 	unsigned int m_thread;
-	unsigned char m_unmodelled_004[0x24];
-	int m_field20;
-	int m_field24;
-	unsigned int m_field28;
+	unsigned char m_unmodelled_004[0x1C];
+	__int64 m_cost20;
+	__int64 m_budget28;
+	unsigned int m_field30;
 	CRITICAL_SECTION m_lock2c;
 	Q1ReceiverAssetHash m_map44;
 	unsigned char m_unmodelled_058[8];
@@ -199,7 +205,7 @@ private:
 	unsigned char m_unmodelled_1e8[0x0C];
 };
 
-typedef char Q1ReceiverRefreshSizeCheck[sizeof(Q1Receiver0134FAAC) == 0x1fc ? 1 : -1];
+typedef char Q1ReceiverRefreshSizeCheck[sizeof(Q1Receiver0134FAAC) == 0x200 ? 1 : -1];
 
 void Q1Receiver0134FAAC::refresh()
 {
@@ -233,7 +239,7 @@ void Q1Receiver0134FAAC::refresh()
 			else if (q == 4)
 			{
 				entry->m_queue = 3;
-				m_field20 += entry->slot38();
+				m_cost20 += entry->slot38();
 				m_deques78[entry->m_queue].push_back(m_deques78[4][i]);
 				m_deques78[4][i] = m_deques78[4][m_deques78[4].size() - 1];
 				m_deques78[4].pop_back();
@@ -249,15 +255,15 @@ void Q1Receiver0134FAAC::refresh()
 		}
 	}
 
-	while (m_field20 >= m_field24 && pending.size() != 0)
+	while ((m_cost20 >= m_budget28 || m_budget28 < 2) && pending.size() != 0)
 	{
 		Rva009EF0D0Element *entry = pending.begin()->second.m_entry;
 		pending.erase(pending.begin());
 		entry->m_queue = 4;
-		m_field20 -= entry->slot38();
+		m_cost20 -= entry->slot38();
 		m_deques78[entry->m_queue].push_back(entry);
-		if (m_field20 < 0)
-			m_field20 = 0;
+		if (m_cost20 < 0)
+			m_cost20 = 0;
 	}
 
 	for (Q1ReceiverPending::iterator it = pending.begin(); it != pending.end(); ++it)
