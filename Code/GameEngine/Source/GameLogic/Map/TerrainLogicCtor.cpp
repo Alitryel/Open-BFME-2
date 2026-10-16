@@ -29,6 +29,22 @@ namespace _STL { void __cdecl free(void *) throw(...); }
 #include "ascii_string.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
+// As in the verified buildBeacons unit, keep deallocation inlined. The
+// integer vector uses the same null-checked game free. This avoids
+// competing out-of-line allocator copies without changing caller bytes.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void allocator<int>::deallocate(int *p, size_t) const
+{ if (p != 0) _STL::free((void *)p); }
+template <> __declspec(dllimport) __forceinline
+void allocator<_List_node<Coord3D> >::deallocate(_List_node<Coord3D> *p, size_t) const
+{ if (p != 0) _STL::free((void *)p); }
+template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<_List_node<Coord3D> *, _List_node<Coord3D>, allocator<_List_node<Coord3D> > >::deallocate(_List_node<Coord3D> *p, size_t n)
+{ allocator<_List_node<Coord3D> >::deallocate(p, n); }
+}
+
+
 typedef int Int;
 typedef float Real;
 
