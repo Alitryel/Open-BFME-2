@@ -509,7 +509,8 @@ public:
 	virtual Object *construct(const ThingTemplate *what, const Coord3D *pos, Real angle, Player *owningPlayer, Bool isRebuild, Int flags); // vslot 126 (+0x1F8)
 	virtual void v127(); virtual void v128(); virtual void v129(); virtual void v130();
 	virtual void v131(); virtual void v132(); virtual void v133(); virtual void v134(); virtual void v135(); virtual void v136(); virtual void v137(); virtual void v138(); virtual void v139(); virtual void v140();
-	virtual void v141(); virtual void v142(); virtual void v143(); virtual void v144(); virtual void v145(); virtual void v146(); virtual void v147();
+	virtual void v141(); virtual void v142(); virtual void v143(); virtual void v144(); virtual void v145(); virtual void v146();
+	virtual void rva00488CF0(); // vslot 147 (+0x24C), empty in the base (0x000B3FD0)
 	virtual Bool isAllowedToRespondToAiCommands(const AICommandParms *parms) const; // vslot 148 (+0x250)
 	virtual void aiDoCommand(const AICommandParms *parms);
 	Bool isPathAvailable(const Coord3D *destination) const;
@@ -651,9 +652,13 @@ enum NameKeyType
 	NAMEKEY_INVALID = 0
 };
 
+enum DamageType { DAMAGE_08 = 8 };
+enum DeathType { DEATH_NORMAL = 0 };
+
 class Object : public Thing
 {
 public:
+	void kill(DamageType damageType, DeathType deathType); // 0x002984D4
 	void rva0028BAC0(); // 0x0028BAC0
 	ObjectID getID() const { return m_id; }
 	void rva0028AFE7(Object *builder);
@@ -862,6 +867,7 @@ public:
 	virtual void rva00489D09();
 	virtual Object *rva00489DD1();
 	virtual void notifyConstructionComplete();
+	virtual void rva00488CF0();
 	virtual void newTask(DozerTask task, Object *target);
 	virtual void cancelTask(DozerTask task);
 	virtual void internalTaskCompleteOrCancelled(DozerTask task);
@@ -1663,6 +1669,25 @@ void DozerAIUpdate::notifyConstructionComplete()
 	Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(getObject()->getControllingPlayer());
 	if (record)
 		reinterpret_cast<AIBuilder *>(record)->rva004EC2D4(getObject()->getID());
+}
+
+// Primary vslot 147 (+0x24C of vtable 0x0084B848; the AIUpdateInterface
+// base slot is the empty 0x000B3FD0), retail 0x00488CF0..0x00488D1F, 47
+// bytes, unnamed. With a phantom structure id at +0x4A4 it tail-calls dozer
+// interface vslot 27 (rowed 0x00489D09, WorldBuilder's
+// destroyPhantomStructure); otherwise it kills the goal object of the
+// machine at +0x400 (pinned StateMachine::getGoalObject 0x004D7726, rowed
+// Object::kill 0x002984D4 with damage type 8, death type 0).
+void DozerAIUpdate::rva00488CF0()
+{
+	if (m_4A4)
+	{
+		rva00489D09();
+		return;
+	}
+	Object *goal = m_dozerMachine->getGoalObject();
+	if (goal)
+		goal->kill(DAMAGE_08, DEATH_NORMAL);
 }
 
 class GlobalData

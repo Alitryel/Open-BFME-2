@@ -507,30 +507,6 @@ Rva004874F4::Rva004874F4() : m_00(0), m_04(0), m_08(0.0f), m_0C(0.0f)
 {
 }
 
-// --- 0x00488D04 (27B): kill the +0x400 turret machine's goal object (damage
-// 8, death 0).
-class TurretStateMachine
-{
-public:
-	Object *getGoalObject();								// 0x004D7726
-};
-
-class Rva00488D04
-{
-public:
-	void rva00488D04();
-private:
-	char m_pad[0x400];
-	TurretStateMachine *m_machine;
-};
-
-void Rva00488D04::rva00488D04()
-{
-	Object *goal = m_machine->getGoalObject();
-	if (goal)
-		goal->kill(DAMAGE_08, DEATH_00);
-}
-
 // --- 0x0048BBF3 (16B): append the value to the +0x08 list (rowed
 // list<int>::push_back 0x0005548F).
 class Rva0048BBF3
