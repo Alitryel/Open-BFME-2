@@ -455,3 +455,17 @@ int Rva0008514EGet(void)
 {
 	return (int)&MapObject::TheWorldDict;
 }
+
+// Also moved back: the terrain bridge field table TerrainRoads.cpp defines.
+class TerrainRoadType
+{
+public:
+    static const FieldParse m_terrainBridgeFieldParseTable[];
+};
+
+// ?Rva001DAEB2Get@@YAHXZ @ 0x001daeb2 (6B): returns 0x00c03a28.
+// Preceded by int3 padding. No direct callers. Opaque address-derived name.
+int Rva001DAEB2Get(void)
+{
+	return (int)TerrainRoadType::m_terrainBridgeFieldParseTable;
+}

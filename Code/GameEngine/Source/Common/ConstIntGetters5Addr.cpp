@@ -118,13 +118,6 @@ int Rva002A8A0FGet(void)
 	return 0x00bfda50;
 }
 
-// ?Rva001DAEB2Get@@YAHXZ @ 0x001daeb2 (6B): returns 0x00c03a28.
-// Preceded by int3 padding. No direct callers. Opaque address-derived name.
-int Rva001DAEB2Get(void)
-{
-	return 0x00c03a28;
-}
-
 // ?Rva001DAF77Get@@YAHXZ @ 0x001daf77 (6B): returns 0x00c15468.
 // Follows an SEH epilogue plus leave plus ret. No direct callers.
 // Opaque address-derived name.
