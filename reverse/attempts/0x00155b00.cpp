@@ -1,109 +1,116 @@
 // ?Draw_Sentence@Render2DSentenceClass@@QAEXKKKK@Z
-// partial score=0.85 date=2026-10-09
-// cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHsc
-// NEAR (helper draft; target Code/Libraries/Source/WWVegas/WW3D2/, the existing
-// render2dsentence.cpp holds the Zero Hour Draw_Sentence as present-unmatched):
-// compiles to 2061 of 2187 bytes. Same blocks and calls, but cl gives `this`
-// EDI (retail ESI), pushes EBX up front (retail pushes it only at the main
-// loop, after the scale prepass), resets DrawExtents through a lea'd pointer
-// and allocates the renderer bookkeeping temps differently. Layout, field
-// meanings and every callee are established from retail; needs the pin
-// ??1SurfaceClass@@QAE@XZ=0x00176CB0 (the ICF body rowed as
-// ??1W3DRadarResetSurface@@QAE@XZ; BFME2's SurfaceClass is the one-pointer
-// handle that ctor 0x001165D0 builds).
-//
-// ?Draw_Sentence@Render2DSentenceClass@@QAEXKKKK@Z, retail 0x00155B00 (2187 bytes),
-// thiscall RET 0x10; callers 0x00104D9F (one colour four times), 0x001052A8,
-// 0x001052DE, 0x001064A9, 0x001064ED, 0x00106548.
-//
-// Zero Hour's Render2DSentenceClass::Draw_Sentence (WW3D2 render2dsentence.cpp)
-// in its BFME 2 form: four corner colours go to the rowed four-colour
-// Render2DClass::Add_Quad 0x00042719; when a target size (+0xBC/+0xC0) is
-// set the draw extents of the unscaled chunks first give the scale (default
-// +0xB4/+0xB8); each chunk is scaled about its own left/top, moved by the
-// location (+0x58) and rounded with floor(x + 0.5); the uv rectangle is
-// normalised by the surface's width and height separately. New renderers
-// cover the DX8 resolution (DX8Wrapper ResolutionWidth/Height read unsigned).
-// BFME 2's SurfaceClass is a one-pointer D3D surface handle (ctor 0x001165D0
-// stores the created surface at +0); copies AddRef/Release it and its
-// destructor is the ICF body 0x00176CB0. Other names follow Zero Hour.
+// partial score=0.9026288151577504 date=2026-10-16
+// cl: /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 
+void __cdecl operator delete[](void *) throw();
+#include "vector.h"
+#include "vector2i.h"
+#include "vector2.h"
+#include "../../../../../reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath/rect.h"
+#include <math.h>
 typedef unsigned long uint32;
 
-extern "C" double __cdecl floor(double x);
+// Donor BFME1 9cbfb551fe20 Render2DSentenceClass_Allocate_New_Surface.cpp.
+// BFME2 native 158C60..158E87/551B: no leading Unlock; spacing uses loadCharacterData.
+// Target class fields and complete COM surface and PendingSurface lifecycle match donor.
+// Target sentence layout/font pointer4C and resource operations attest owner.
+// Font record layout is carried from BFME1 source; native width/extra and
+// 68/6C texture-offset clears independently support use. Retail constructs
+// PendingSurfaceStruct with the owned integer-vector table at VA00BBB5AC,
+// whereas the donor's pointer-vector table is VA00BD6C24 in BFME2.
 
-class D3DSurfaceView
+class BfmeSurfaceResource
 {
 public:
-	virtual long __stdcall QueryInterface(const void *iid, void **object);
+	virtual void slot00();
 	virtual unsigned long __stdcall AddRef();
 	virtual unsigned long __stdcall Release();
 };
 
+class W3DRadarResetSurface
+{
+public:
+	__declspec(dllimport) __forceinline W3DRadarResetSurface() : m_surface(0) {}
+	~W3DRadarResetSurface();
+
+	W3DRadarResetSurface &operator=(const W3DRadarResetSurface &that)
+	{
+		if (that.m_surface)
+			that.m_surface->AddRef();
+		if (m_surface)
+			m_surface->Release();
+		m_surface = that.m_surface;
+		return *this;
+	}
+
+	BfmeSurfaceResource *m_surface;
+};
+
+struct FontCharsClassCharDataStruct
+{
+	unsigned short Value;
+	short Width;
+	short ExtraSpacing;
+};
+
+// The callsite sets ecx to this font object, pushes one WCHAR, and the body
+// returns a character-record pointer with RET 4.  This name and ABI are
+// already pinned independently by the matching font-spacing thunk.
+class FontCharsClass
+{
+public:
+	const FontCharsClassCharDataStruct *loadCharacterData(unsigned short character);
+
+	__forceinline int Get_Char_Height() const
+	{
+		return char_height;
+	}
+
+	__forceinline int Get_Char_Spacing(unsigned short character)
+	{
+		const FontCharsClassCharDataStruct *data = loadCharacterData(character);
+		if (data != 0 && data->Width != 0) {
+			if ((character >= 0x0e01 && character <= 0x0e3a)
+				|| (character >= 0x0e3f && character <= 0x0e5b)) {
+				return data->Width + data->ExtraSpacing;
+			}
+			return data->Width - pixel_overlap - char_overhang;
+		}
+		return 0;
+	}
+
+private:
+	char fields00[0x2c];
+	int char_height;
+	char fields30[4];
+	int char_overhang;
+	int pixel_overlap;
+};
+
+enum WW3DFormat
+{
+	// The retail constructor receives 0x15; the semantic format name is
+	// intentionally neutral pending an enum witness.
+	WW3D_FORMAT_008FC560 = 0x15
+};
+
+enum _D3DPOOL
+{
+	D3DPOOL_SYSTEMMEM = 2
+};
+typedef _D3DPOOL D3DPOOL;
+
+// SurfaceClass is the one-pointer native wrapper whose constructor writes
+// the COM resource at offset zero.  Its implicit destructor invokes the
+// native W3DRadarResetSurface base destructor for the temporary lifetime.
 class SurfaceClass
+	: public W3DRadarResetSurface
 {
 public:
-	struct SurfaceDescription
-	{
-		int Format;
-		unsigned int Width;
-		unsigned int Height;
-	};
-
-	SurfaceClass() : D3DSurface(0) {}
-	~SurfaceClass();
-	SurfaceClass &operator=(const SurfaceClass &that)
-	{
-		if (that.D3DSurface)
-			that.D3DSurface->AddRef();
-		if (D3DSurface)
-			D3DSurface->Release();
-		D3DSurface = that.D3DSurface;
-		return *this;
-	}
-	bool operator==(const SurfaceClass &that) const { return D3DSurface == that.D3DSurface; }
-	bool operator!=(const SurfaceClass &that) const { return D3DSurface != that.D3DSurface; }
-	void Get_Description(SurfaceDescription &desc);
-
-	D3DSurfaceView *D3DSurface;
-};
-
-class Vector2
-{
-public:
-	float X;
-	float Y;
-};
-
-class RectClass
-{
-public:
-	RectClass() {}
-	RectClass(float left, float top, float right, float bottom) : Left(left), Top(top), Right(right), Bottom(bottom) {}
-	float Width() const { return Right - Left; }
-	float Height() const { return Bottom - Top; }
-	void Set(float left, float top, float right, float bottom) { Left = left; Top = top; Right = right; Bottom = bottom; }
-	RectClass &operator+=(const RectClass &r)
-	{
-		Left = (Left < r.Left) ? Left : r.Left;
-		Top = (Top < r.Top) ? Top : r.Top;
-		Right = (Right > r.Right) ? Right : r.Right;
-		Bottom = (Bottom > r.Bottom) ? Bottom : r.Bottom;
-		return *this;
-	}
-	RectClass &operator+=(const Vector2 &o)
-	{
-		Left += o.X;
-		Right += o.X;
-		Top += o.Y;
-		Bottom += o.Y;
-		return *this;
-	}
-
-	float Left;
-	float Top;
-	float Right;
-	float Bottom;
+	SurfaceClass(unsigned width, unsigned height, WW3DFormat format, D3DPOOL pool);
+	void Unlock();
+ struct SurfaceDescription { int Format; unsigned Width, Height; };
+ void Get_Description(SurfaceDescription &desc);
 };
 
 class Render2DClass
@@ -128,136 +135,162 @@ protected:
 	static int ResolutionHeight;
 };
 
-template <class T> class VectorClass
-{
-public:
-	virtual ~VectorClass();
-	virtual bool operator==(const VectorClass<T> &other) const;
-	virtual bool Resize(int newsize, T const *array = 0);
-	virtual void Clear();
-	virtual int ID(T const *ptr);
 
-	T &operator[](int index) { return Vector[index]; }
-	int Length() const { return VectorMax; }
-
-protected:
-	T *Vector;
-	int VectorMax;
-	bool IsValid;
-	bool IsAllocated;
-};
-
-template <class T> class DynamicVectorClass : public VectorClass<T>
-{
-public:
-	int Count() const { return ActiveCount; }
-	__forceinline bool Add(T const &object)
-	{
-		if (ActiveCount >= this->Length())
-		{
-			if ((this->IsAllocated || !this->VectorMax) && GrowthStep > 0)
-			{
-				if (!this->Resize(this->Length() + GrowthStep))
-					return false;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		(*this)[ActiveCount++] = object;
-		return true;
-	}
-
-protected:
-	int ActiveCount;
-	int GrowthStep;
-};
 
 class Render2DSentenceClass
 {
 public:
-	void Draw_Sentence(uint32 color1, uint32 color2, uint32 color3, uint32 color4);
-
-private:
-	struct SentenceDataStruct
+	struct SentenceDataStruct : public W3DRadarResetSurface
 	{
-		SurfaceClass Surface;
-		RectClass ScreenRect;
-		RectClass UVRect;
+		bool operator==(const SentenceDataStruct &) { return false; }
+		bool operator!=(const SentenceDataStruct &) { return true; }
+		RectClass ScreenRect, UVRect;
 	};
 
-	struct PendingSurfaceStruct
+	struct PendingSurfaceStruct : public W3DRadarResetSurface
 	{
-		SurfaceClass Surface;
-		DynamicVectorClass<Render2DClass *> Renderers;
+		// Retail destruction uses the shared four-byte scalar base table BBB5AC.
+		// This is an ABI view; the renderer-pointer element type is donor
+		// provenance and has not been established independently in the target.
+		DynamicVectorClass<int> rendererStorage;
+
+		bool operator==(const PendingSurfaceStruct &) { return false; }
+		bool operator!=(const PendingSurfaceStruct &) { return true; }
 	};
 
-	struct RendererDataStruct
-	{
-		Render2DClass *Renderer;
-		SurfaceClass Surface;
-	};
+	struct RendererDataStruct { Render2DClass *Renderer; W3DRadarResetSurface Surface; bool operator==(const RendererDataStruct &) { return false; } bool operator!=(const RendererDataStruct &) { return true; } };
+ void Draw_Sentence(uint32,uint32,uint32,uint32);
+	virtual void reset();
+	private:
+	void Allocate_New_Surface(const unsigned short *text, bool justCalcExtents);
 
-	void *m_vtable;
-	DynamicVectorClass<SentenceDataStruct> SentenceData; // +0x04
-	DynamicVectorClass<PendingSurfaceStruct> PendingSurfaces; // +0x1C
-	DynamicVectorClass<RendererDataStruct> Renderers; // +0x34
-	unsigned char m_pad4C[0x58 - 0x4C];
-	Vector2 Location; // +0x58
-	unsigned char m_pad60[0x8C - 0x60];
-	RectClass ClipRect; // +0x8C
-	RectClass DrawExtents; // +0x9C
-	bool IsClippedEnabled; // +0xAC
-	unsigned char m_padAD[0xB4 - 0xAD];
-	float DefaultScaleX; // +0xB4
-	float DefaultScaleY; // +0xB8
-	float TargetWidth; // +0xBC
-	float TargetHeight; // +0xC0
+	DynamicVectorClass<Render2DSentenceClass::SentenceDataStruct> sentence_data;
+	DynamicVectorClass<Render2DSentenceClass::PendingSurfaceStruct> pending_surfaces;
+	DynamicVectorClass<RendererDataStruct> renderers;
+	FontCharsClass *font;
+	float base_location_x;
+	float base_location_y;
+	Vector2 Location;
+	float cursor_x;
+	float cursor_y;
+	Vector2i texture_offset;
+	int texture_start_x;
+	int current_texture_size;
+	int texture_size_hint;
+	W3DRadarResetSurface cur_surface;
+	char remaining_fields[0x0C];
+ RectClass ClipRect, DrawExtents;
+	bool IsClippedEnabled; char padAD[3];
+ unsigned short *locked_ptr;
+ Vector2 DefaultScale; float TargetWidth, TargetHeight;
 };
+
+// Keep the native PendingSurfaceStruct Add body out-of-line at its already
+// matched address; the generic header definition is otherwise small enough
+// for this TU to inline it into the caller.
+template <>
+bool DynamicVectorClass<Render2DSentenceClass::PendingSurfaceStruct>::Add(
+	const Render2DSentenceClass::PendingSurfaceStruct &object);
+
+typedef char rva00941a00_surface_wrapper_must_be_4[(sizeof(W3DRadarResetSurface) == 4) ? 1 : -1];
+typedef char rva00941a00_pending_surface_must_be_1c[
+	(sizeof(Render2DSentenceClass::PendingSurfaceStruct) == 0x1c) ? 1 : -1];
+typedef char rva00941a00_pending_vector_must_be_18[
+	(sizeof(DynamicVectorClass<Render2DSentenceClass::PendingSurfaceStruct>) == 0x18) ? 1 : -1];
+
+void Render2DSentenceClass::Allocate_New_Surface(
+	const unsigned short *text, bool justCalcExtents)
+{
+
+	int text_width = 0;
+	for (int index = 0; text[index] != 0; index++) {
+		text_width += font->Get_Char_Spacing(text[index]);
+	}
+
+	int char_height = font->Get_Char_Height();
+
+	current_texture_size = 256;
+	int best_tex_mem_usage = 999999999;
+	for (int pow2 = 6; pow2 <= 8; pow2++) {
+		int size = 1 << pow2;
+		int row_count = (text_width / size) + 1;
+		int rows_per_texture = size / (char_height + 1);
+
+		if (rows_per_texture > 0) {
+			int texture_count = row_count / rows_per_texture;
+			texture_count = max(texture_count, 1);
+			int texture_mem_usage = texture_count * size * size;
+			if (texture_mem_usage < best_tex_mem_usage) {
+				current_texture_size = size;
+				best_tex_mem_usage = texture_mem_usage;
+			}
+		}
+	}
+
+	current_texture_size = max(texture_size_hint, current_texture_size);
+
+	if (!justCalcExtents)
+	{
+		if (cur_surface.m_surface) {
+			cur_surface.m_surface->Release();
+			cur_surface.m_surface = 0;
+		}
+
+		cur_surface = SurfaceClass(current_texture_size, current_texture_size,
+			WW3D_FORMAT_008FC560, D3DPOOL_SYSTEMMEM);
+
+		Render2DSentenceClass::PendingSurfaceStruct surface_info;
+		static_cast<W3DRadarResetSurface &>(surface_info) = cur_surface;
+		pending_surfaces.Add(surface_info);
+	}
+
+	texture_offset.Set(0,0);
+	texture_start_x = 0;
+}
 
 void Render2DSentenceClass::Draw_Sentence(uint32 color1, uint32 color2, uint32 color3, uint32 color4)
 {
 	Render2DClass *curr_renderer = 0;
-	SurfaceClass curr_surface;
+	W3DRadarResetSurface curr_surface;
 
-	float scaleX = DefaultScaleX;
-	float scaleY = DefaultScaleY;
+	Vector2 scale(DefaultScale);
 	DrawExtents.Set(0, 0, 0, 0);
 
 	int index;
 	if (TargetWidth > 0 && TargetHeight > 0)
 	{
-		for (index = 0; index < SentenceData.Count(); index++)
+		for (index = 0; index < sentence_data.Count(); index++)
 		{
-			SentenceDataStruct &data = SentenceData[index];
+			SentenceDataStruct &data = sentence_data[index];
 			if (DrawExtents.Width() == 0)
 				DrawExtents = data.ScreenRect;
 			else
 				DrawExtents += data.ScreenRect;
 		}
-		if (DrawExtents.Width() != 0)
-			scaleX = TargetWidth / DrawExtents.Width();
-		if (DrawExtents.Height() != 0)
-			scaleY = TargetHeight / DrawExtents.Height();
+		float width = DrawExtents.Width();
+		if (width != 0)
+			scale.X = TargetWidth / width;
+		float height = DrawExtents.Height();
+		if (height != 0)
+			scale.Y = TargetHeight / height;
 		DrawExtents.Set(0, 0, 0, 0);
 	}
 
-	for (index = 0; index < SentenceData.Count(); index++)
+	for (index = 0; index < sentence_data.Count(); index++)
 	{
-		SentenceDataStruct &data = SentenceData[index];
+		SentenceDataStruct &data = sentence_data[index];
 
-		if (data.Surface != curr_surface)
+		if (data.m_surface != curr_surface.m_surface)
 		{
-			curr_surface = data.Surface;
+			curr_surface = data;
 
 			bool found = false;
-			for (int renderer_index = 0; renderer_index < Renderers.Count(); renderer_index++)
+			for (int renderer_index = 0; renderer_index < renderers.Count(); renderer_index++)
 			{
-				if (Renderers[renderer_index].Surface == curr_surface)
+				if (renderers[renderer_index].Surface.m_surface == curr_surface.m_surface)
 				{
 					found = true;
-					curr_renderer = Renderers[renderer_index].Renderer;
+					curr_renderer = renderers[renderer_index].Renderer;
 					break;
 				}
 			}
@@ -270,23 +303,24 @@ void Render2DSentenceClass::Draw_Sentence(uint32 color1, uint32 color2, uint32 c
 				RendererDataStruct render_info;
 				render_info.Renderer = curr_renderer;
 				render_info.Surface = curr_surface;
-				Renderers.Add(render_info);
+				renderers.Add(render_info);
 
-				for (int surface_index = 0; surface_index < PendingSurfaces.Count(); surface_index++)
+				for (int surface_index = 0; surface_index < pending_surfaces.Count(); surface_index++)
 				{
-					PendingSurfaceStruct &surface_info = PendingSurfaces[surface_index];
-					if (surface_info.Surface == curr_surface)
-						surface_info.Renderers.Add(curr_renderer);
+					PendingSurfaceStruct &surface_info = pending_surfaces[surface_index];
+					if (surface_info.m_surface == curr_surface.m_surface)
+						surface_info.rendererStorage.Add((int)curr_renderer);
 				}
 			}
 		}
 
+		RectClass screen_rect = data.ScreenRect;
 		RectClass uv_rect = data.UVRect;
-		RectClass screen_rect;
-		screen_rect.Left = data.ScreenRect.Left * scaleX;
-		screen_rect.Top = data.ScreenRect.Top * scaleY;
-		screen_rect.Right = data.ScreenRect.Width() * scaleX + screen_rect.Left;
-		screen_rect.Bottom = data.ScreenRect.Height() * scaleY + screen_rect.Top;
+		Vector2 size(screen_rect.Width(), screen_rect.Height());
+		screen_rect.Left *= scale.X;
+		screen_rect.Top *= scale.Y;
+		screen_rect.Right = size.X * scale.X + screen_rect.Left;
+		screen_rect.Bottom = size.Y * scale.Y + screen_rect.Top;
 		screen_rect += Location;
 		screen_rect.Left = floor(screen_rect.Left + 0.5f);
 		screen_rect.Top = floor(screen_rect.Top + 0.5f);
@@ -325,7 +359,7 @@ void Render2DSentenceClass::Draw_Sentence(uint32 color1, uint32 color2, uint32 c
 		}
 
 		SurfaceClass::SurfaceDescription desc;
-		curr_surface.Get_Description(desc);
+		((SurfaceClass *)&curr_surface)->Get_Description(desc);
 
 		float inv_width = 1.0f / (float)desc.Width;
 		uv_rect.Left *= inv_width;

@@ -1,56 +1,18 @@
 // ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
-// partial score=0.9118649184213938 date=2026-10-14
-// ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
-// partial score=0.995 date=2026-10-14
-// ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
-// partial score=0.99 date=2026-10-14
-// ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
-// partial score=0.99 date=2026-10-13
-// ?DoXfer@GameLogicSnapshot@@QAEXPAVXfer@@@Z
-// partial score=0.99 date=2026-10-13
-// r7 2026-10-14: the buildable-override loop is now the real STLport iterator in
-// assignment form (`BuildableMap::iterator it; for (it = m.begin(); it != m.end();
-// ++it)`): begin() returns into a temp that is copied into `it` exactly like retail
-// (mov ebx,[tmp]; mov eax,[tmp+4]; mov [it],ebx; mov [it+4],eax) and _M_cur stays in
-// ebx across the calls; the old Rva000411084 POD view lost that caching. With the
-// string_base.h compare throw() shim: 2195 B = retail, frame 0x70 = retail, 49 diffs,
-// all stack-slot displacements. Remaining wall: cl places `it` high ([ebp-0x1c]/-0x18,
-// sharing with the else-branch defaultTeam) and the begin temp at -0x3c/-0x38 over the
-// guard; retail has id at -0x1c, objectCount at -0x20, the temp at -0x34/-0x30 and
-// `it` at -0x3c/-0x38. No change (49): `it` declared at function top, before the
-// guard, in the storing block or an inner block; a named first temp; it++; (*it).first;
-// BuildableStatus status; !(it == end); const_iterator. while form: 52. WB twin: it =
-// local_98/94, name local_9c, status local_a0, empty local_90, id local_18. Landing
-// also needs pins for hashtable<pair<const AsciiString,BuildableStatus>,...>::begin
-// (retail 0x00427195) and _Ht_iterator<...>::operator++ (retail 0x00411084), each
-// admitted with fold-proof= if folded.
-// r6 2026-10-14: the AsciiString::compare(const char*) throw() shim that landed
-// for 0x32B1E1 does not touch this body; the needed declaration is
-// StringBase<T>::compare(const StringBase<T>&) throw() in string_base.h. With it
-// the body is 2197 B (was 2208) and the ONLY residue is still the frame: retail
-// sub esp,0x70 puts it at [ebp-0x3c]/[ebp-0x38] where the empty Rva0004224C guard
-// (ctor out-of-line 0x4224c, this=[ebp-0x38], inlined dtor) shares [ebp-0x38];
-// ours reserves the guard slot and puts it at [ebp-0x40]/[ebp-0x3c], 349-350
-// diffs. Re-tested declaration order (it before/after guard, it at top, it in
-// branch, guard after it): no change. Dropping the `first` temp (first(&it)
-// directly) gives frame 0x70 but loses retail's -0x34/-0x30 copy and moves the
-// guard to -0x34 (350 diffs). cl 7.1 free-places this empty guard only onto an
-// unused slot, never over a live local; not reproducible from source shape.
-// NOTE: needs reference/shims/bfme2_ascii/string_base.h `int compare(const StringBase<T> &str) const throw();` (not landed: shim edit = full gate) so the compare temp has no EH state.
-// With that shim: 2197 B vs 2195, 343 diffs, all from one frame wall. Retail frame
-// sub esp,0x70 puts the hash iterator `it` at [ebp-0x3c] so its second word shares
-// [ebp-0x38] with the empty FP guard (Rva0004224C, EH state 3, live to the end);
-// ours gives the guard its own slot (it at [ebp-0x40], frame 0x74), shifting every
-// slot below and swapping ebx/eax in `it=first`. No change (343 each): guard ctor
-// inline in-class (GameLogicInit.cpp model, free-places onto [ebp+8] in 0x248558,
-// but here [ebp+8] holds i/AsciiString/esp save), noinline inline, declared-only,
-// visible rva000421FD + setFPMode, /EHs, reference-bound temporary guard. Toy TUs:
-// cl 7.1 free-places the empty guard only onto an unused slot (an enregistered
-// param home), never over a live local. WB 0x00D097E0 has no guard object (inline
-// m_1b8 ++/--). Fixed here: TheGameLogic declared as the converged real global;
-// m_158 typed vector<Rva00243B52DestroyEntry *> so clear() calls retail's 0x31BD55
-// (the void* erase pin resolves to 0x27400).
-// cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmelist
+// partial score=0.9732493272630317 date=2026-10-16
+#if 0
+W9-A1 owner integration prerequisite (isolated declaration-only copy; do not edit shared header):
+python3 - <<'PYCODE'
+from pathlib import Path
+h=Path('Code/GameEngine/Source/Common/GameLogicObjectLookupView.h').read_text()
+h=h.replace('class GameLogic\n{','struct ObjectTOCEntry;\nclass GameLogic\n{',1).replace('\tvoid prepareLogicForObjectLoad();','\tunsigned int getObjectCount();\n\tvoid xferObjectTOC(Xfer*);\n\tObjectTOCEntry*findTOCEntryByName(AsciiString);\n\tvoid prepareLogicForObjectLoad();',1)
+p=Path('build/w9-a1/24797e/GameLogicView.h');p.parent.mkdir(parents=True,exist_ok=True);p.write_text(h)
+PYCODE
+#endif
+// W9-A1: current canonical GameLogic/Coord3DBase owner integration; actual wide
+// compare chain42+63+43+52B all exact. Parent2195/frame70; unresolved typed
+// BuildableMap begin/increment and stack-slot permutation still prevent landing.
+// cl: /I. /ICode/Libraries/Include /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmelist
 // stlport
 //
 // GameLogic::DoXfer, retail 0x0024797E (2195 B, RET 4; WB 0x00D097E0, GameLogic.cpp 7168..7472).
@@ -77,7 +39,7 @@ struct XferVersionInfo
 	unsigned char m_a, m_b;
 };
 
-struct Coord3DBase { float x, y, z; };
+#include "Lib/Coord3DBase.h"
 
 class Xfer
 {
@@ -113,7 +75,7 @@ public:
 	virtual Xfer &xferBool(bool *value);
 };
 
-enum ObjectID { INVALID_ID = 0 };
+#include "build/w9-a1/24797e/GameLogicView.h"
 void XferObjectID(Xfer *xfer, ObjectID *id);
 void XferBuildableStatus(Xfer *xfer, int *value);
 void XferGameDifficulty(Xfer *xfer, int *value);
@@ -269,15 +231,6 @@ typedef _STL::hash_map<AsciiString, BuildableStatus, rts::hash<AsciiString>,
 	rts::equal_to<AsciiString>, _STL::allocator<BuildableStatusPair> > BuildableMap;
 
 
-// GameLogic as the logic-relative calls see it.
-class GameLogic
-{
-public:
-	unsigned int getObjectCount();
-	void prepareLogicForObjectLoad();
-	void xferObjectTOC(Xfer *xfer);
-	ObjectTOCEntry *findTOCEntryByName(AsciiString name);
-};
 class Rva0023E7B4 { public: void *rva0023E7B4(unsigned short key); };
 
 struct ObjectView
@@ -303,6 +256,21 @@ static __forceinline void throwXferException()
 	bfmeFormatText(&tmp, 5, (const char *)0);
 	_CxxThrowException(&tmp, (const _s__ThrowInfo *)&g_guardTargetTypeThrowInfo);
 	__assume(0);
+}
+
+// Visible definitions from the verified wide string comparison provider chain.
+struct WideCharCompare {char m_unused;int compare(const wchar_t*,const wchar_t*,int)const;};
+int WideCharCompare::compare(const wchar_t*a,const wchar_t*b,int len)const {
+ while(len>0){if(*a!=*b)return *a-*b;++a;++b;--len;}return 0;
+}
+int compareRange(const wchar_t*a,int alen,const wchar_t*b,int blen,WideCharCompare tag){
+ const int len=alen<blen?alen:blen;const int result=tag.compare(a,b,len);if(result!=0)return result;return alen-blen;
+}
+template<> int StringBase<wchar_t>::compare(const wchar_t*str,int len)const {
+ return compareRange(m_data?&m_data->data[0]:L"",m_data?m_data->length:0,str,len,WideCharCompare());
+}
+template<> int StringBase<wchar_t>::compare(const StringBase<wchar_t>&str)const {
+ const int len=str.m_data?str.m_data->length:0;const wchar_t*data=str.m_data?&str.m_data->data[0]:L"";return compare(data,len);
 }
 
 static __forceinline bool differs(const UnicodeString &a, const UnicodeString &b) throw() { return a.compare(b) != 0; }
@@ -541,4 +509,16 @@ void GameLogicSnapshot::DoXfer(Xfer *xfer)
 	if (version.m_b >= 8)
 		xfer->xferSnapshot(snapshotAt(TheDelayedExperienceLevelGrantSystem, 0x0C));
 	m_158.clear();
+}
+
+// The shared GameLogic view leaves +0x24 unmodelled; the override map lives there.
+struct GameLogicControlBarOverrides
+{
+	unsigned char m_pad00[0x24];
+	ControlBarOverrideMap m_controlBarOverrides;	// +0x24
+};
+
+void GameLogic::setControlBarOverride(const AsciiString &commandSetName, int slot, const CommandButton *commandButton)
+{
+	((GameLogicControlBarOverrides *)this)->m_controlBarOverrides[(const TreeKey00242F5E &)_STL::make_pair(slot, commandSetName)].m_bits = (unsigned int)commandButton;
 }

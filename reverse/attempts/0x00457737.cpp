@@ -1,11 +1,12 @@
 // ?createScaffolding@BridgeBehavior@@UAEXXZ
-// partial score=0.81 date=2026-10-14
-// ?createScaffolding@BridgeBehavior@@UAEXXZ
-// partial score=0.6 date=2026-10-09
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /ICode/Libraries/Include /Ireference/shims/bfme2_ascii
+// partial score=0.8130978755323712 date=2026-10-16
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /DWIN32 /D_WINDOWS /ICode/Libraries/Include /Ireference/shims/bfme2_ascii /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug
+// W9-A1 round2: canonical Coord3D/Coord2D and local ScaffoldCoord copy lifetime;
+// existing WWMath conversion; real338B setScaffoldData visible; no private coordinate
+// classes, new assembly, volatile experiment or artificial ID temp retained.
 // W7-G1 r6 (2026-10-14): rebuilt from the ZH body, sizes/targets re-derived against retail.
 // Levers found: (1) Coord3D needs an INLINE COPY CONSTRUCTOR (member-wise copy) while assignment stays
-// a block copy: ZH `Coord3D supportRiseToPos = *riseToPos;` then yields retail's scalar copies in the
+// a block copy: ZH `ScaffoldCoord supportRiseToPos = *riseToPos;` then yields retail's scalar copies in the
 // left half and movsd block copies in the right half (assignments). (2) cl evaluates `Above()+Below()`
 // by member-declaration order, not source order: declare GeometryInfo::getMaxHeightBelowPosition BEFORE
 // getMaxHeightAbovePosition and the ZH expression calls Above first like retail. (3) Score with the
@@ -32,59 +33,23 @@
 // through the admitted TerrainType::getTexture pin as in
 // BridgeBehaviorAreaEffects.cpp.
 #include "ascii_string.h"
-// class-gate: allow Coord3D BFME 2 copy-initializes Coord3D member-wise (inline copy constructor) while assignment stays a block copy; same three floats
-struct Coord3D 
-{
- float x;
- float y;
- float z;
- Coord3D() 
- {
-  
- }
- Coord3D(const Coord3D &o) : x(o.x), y(o.y), z(o.z) 
- {
-  
- }
- float length() const;
- void normalize();
- 
-}
-;
+#include "Lib/Coord3D.h"
+#include "Lib/Coord2D.h"
+struct ScaffoldCoord:Coord3D {
+ ScaffoldCoord(){}
+ ScaffoldCoord(const Coord3D&o){x=o.x;y=o.y;z=o.z;}
+
+};
 #include <math.h>
 #include <string.h>
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 typedef float Real;
 typedef int Int;
 typedef unsigned int UnsignedInt;
 typedef bool Bool;
 #define TWO_PI 6.28318530718f
-__forceinline long fast_float2long_round(Real f)
-
-{
- long i;
- __asm 
- {
-  fld [f]
-  fistp [i]
-  
- }
- return i;
- 
-}
-#define REAL_TO_INT_CEIL(x) (fast_float2long_round((Real)ceil(x)))
+#include "wwmath.h"
+#define REAL_TO_INT_CEIL(x) WWMath::Float_To_Long((Real)ceil(x))
 #define INT_TO_REAL(x) ((Real)(x))
-// class-gate: allow Coord2D the canonical data-only header lacks the rowed out-of-line toAngle (0x00005923) this body calls; same two floats
-class Coord2D
-
-{
- public:
- Real x;
- Real y;
- Real toAngle() const;
- 
-}
-;
 class Team;
 class GeometryInfo
 
@@ -121,7 +86,8 @@ class ThingTemplate
 }
 ;
 typedef UnsignedInt ObjectID;
-class Object
+class Thing {public:void setPosition(const Coord3D*);void setOrientation(Real);};
+class Object:public Thing
 
 {
  public:
@@ -344,6 +310,7 @@ class Rva002A1B6FNativeList
  
 }
 ;
+struct BridgeBehaviorModuleData {char pad[8];Real m_lateralScaffoldSpeed,m_verticalScaffoldSpeed;};
 class BridgeBehaviorBase
 
 {
@@ -354,8 +321,8 @@ class BridgeBehaviorBase
   return m_object;
   
  }
- private:
- void *m_moduleData;
+ protected:
+ BridgeBehaviorModuleData *m_moduleData;
 // +0x04
  Object *m_object;
 // +0x08
@@ -393,6 +360,67 @@ class BridgeBehavior : public BridgeBehaviorBase, public BridgeBehaviorInterface
 /** Start the bridge repair scaffolding.  If we already have scaffolding this call
 	* is ignored */
 // ------------------------------------------------------------------------------------------------
+class BridgeScaffoldBehaviorInterface
+{
+public:
+	virtual void setPositions(const Coord3D *sunkenPosition,
+		const Coord3D *risePosition, const Coord3D *buildPosition);
+	virtual void setMotion(int motion);
+	virtual int getCurrentMotion() const;
+	virtual void reverseMotion();
+	virtual void setLateralSpeed(Real speed);
+	virtual void setVerticalSpeed(Real speed);
+};
+
+class BridgeScaffoldBehavior
+{
+public:
+	static BridgeScaffoldBehaviorInterface *getBridgeScaffoldBehaviorInterfaceFromObject(Object *object);
+};
+
+
+extern const Real g_00BC2A10;
+void BridgeBehavior::setScaffoldData(Object *object, Real *angle,
+	Real *sunkenHeight, const Coord3D *risePosition,
+	const Coord3D *buildPosition, const Coord3D *bridgeCenter)
+{
+	if (!object)
+		return;
+	if (!angle)
+		return;
+	if (!risePosition)
+		return;
+	if (!buildPosition)
+		return;
+
+	BridgeBehaviorModuleData *moduleData = m_moduleData;
+	BridgeScaffoldBehaviorInterface *scaffold =
+		BridgeScaffoldBehavior::getBridgeScaffoldBehaviorInterfaceFromObject(object);
+	Coord3D sunkenPosition;
+	sunkenPosition.x = risePosition->x;
+	sunkenPosition.y = risePosition->y;
+	sunkenPosition.z = risePosition->z - *sunkenHeight - g_00BC2A10;
+	object->setPosition(&sunkenPosition);
+	scaffold->setPositions(&sunkenPosition, risePosition, buildPosition);
+	scaffold->setMotion(1);
+	((Thing *)object)->setOrientation(*angle);
+
+	Real lateralSpeed = moduleData->m_lateralScaffoldSpeed;
+	Coord3D buildToCenter;
+	buildToCenter.x = buildPosition->x - risePosition->x;
+	buildToCenter.y = buildPosition->y - risePosition->y;
+	buildToCenter.z = buildPosition->z - risePosition->z;
+	Coord3D riseToCenter;
+	riseToCenter.x = bridgeCenter->x - risePosition->x;
+	riseToCenter.y = bridgeCenter->y - risePosition->y;
+	riseToCenter.z = bridgeCenter->z - risePosition->z;
+	Real buildDistance = buildToCenter.length();
+	Real riseDistance = riseToCenter.length();
+	scaffold->setLateralSpeed(lateralSpeed * (buildDistance / riseDistance));
+	Real verticalSpeed = moduleData->m_verticalScaffoldSpeed;
+	scaffold->setVerticalSpeed(verticalSpeed);
+}
+
 void BridgeBehavior::createScaffolding( void )
 
 {
@@ -477,15 +505,15 @@ void BridgeBehavior::createScaffolding( void )
   m_scaffoldObjectIDList.append( (void *)obj->getID() );
 // supports under the left piece
   Real offset = riseToPos->z;
-  Coord3D supportDestinationPos = destinationPos;
-  Coord3D supportRiseToPos = *riseToPos;
-  Coord3D supportBridgeCenter = *center;
+  ScaffoldCoord supportDestinationPos = destinationPos;
+  ScaffoldCoord supportRiseToPos = *riseToPos;
+  ScaffoldCoord supportBridgeCenter = *center;
   while( offset >= 0.0f )
   
   {
    supportRiseToPos.z -= scaffoldSupportHeight;
    supportDestinationPos.z -= scaffoldSupportHeight;
-   __vref(supportBridgeCenter.z) -= scaffoldSupportHeight;
+   supportBridgeCenter.z -= scaffoldSupportHeight;
    CreateMask supportMask;
    memset( &supportMask, 0, sizeof( supportMask ) );
    obj = TheThingFactory->newObject( scaffoldSupportTemplate, us->getTeam(), &supportMask, false );
@@ -510,12 +538,11 @@ void BridgeBehavior::createScaffolding( void )
    destinationPos.z = rightVector.z * (spacing * i) + riseToPos->z;
    setScaffoldData( obj, angle, &scaffoldHeight, riseToPos, &destinationPos, center );
    scaffoldObjectsCreated++;
-   void * t1_arg_expr_497_0 = (void *)obj->getID();
-   m_scaffoldObjectIDList.append(t1_arg_expr_497_0);
+   m_scaffoldObjectIDList.append((void*)obj->getID());
    offset = riseToPos->z;
-   supportRiseToPos = *riseToPos;
-   supportDestinationPos = destinationPos;
-   supportBridgeCenter = *center;
+   (Coord3D&)supportRiseToPos = *riseToPos;
+   (Coord3D&)supportDestinationPos = destinationPos;
+   (Coord3D&)supportBridgeCenter = *center;
    while( offset >= 0.0f )
    
    {

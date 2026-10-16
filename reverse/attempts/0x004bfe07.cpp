@@ -1,19 +1,23 @@
 // ?attemptDamage@ActiveBody@@UAEXPAVDamageInfo@@@Z
-// partial score=0.8 date=2026-10-07
-// cl: /O1 /EHsc /MD /arch:SSE /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include
-// stlport
-// ActiveBody.cpp -- ActiveBody members recovered from WorldBuilder leads
-// (reverse/wb_name_leads.csv): WB's debug build names the function (vtable
-// pairing); retail supplies the bytes. Zero Hour's setDamageState
-// (GameLogic/Object/Body/ActiveBody.cpp) as a switch over the state with the
-// thresholds held in the body itself.
-//
-// Layout (target evidence, matching Body/ActiveBodyDamageState.cpp): the body
-// module interface is the second base at +0x10, so this body runs with ecx at
-// +0x10; health +0x18, max health +0x20, damaged and really-damaged ratios
-// +0x24/+0x28. The health change is interface slot 32 (+0x80); the final
-// call is slot 21 (+0x54) of the primary vtable with a zero argument.
+// partial score=0.8504100587141394 date=2026-10-16
+// cl: /O1 /EHs /MD /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include
 
+
+
+
+
+
+
+
+
+
+
+
+// stlport
+#include <vector>
+#include <algorithm>
+
+namespace _STL { template <> __declspec(dllimport) __forceinline const unsigned int &max<unsigned int>(const unsigned int &a, const unsigned int &b) { return a < b ? b : a; } }
 #include <string.h>
 #include <list>
 #include "ascii_string.h"
@@ -45,13 +49,9 @@ enum ObjectStatusTypes
 	OBJECT_STATUS_83 = 0x53
 };
 
-// class-gate: allow Coord3D the bone-position array is built and torn down through BFME 2's out-of-line empty Coord3D constructor and destructor (the eh vector iterators push 0x0047A6A9 and 0x000B3FD0); the canonical data-only header cannot declare them; same three floats
-struct Coord3D
-{
-	float x, y, z;
-	Coord3D();
-	~Coord3D();
-};
+
+#define COORD3D_VIEW_DTOR
+#include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
 class Matrix3D;
 class ParticleSystemTemplate;
@@ -75,10 +75,10 @@ class RGBAColorReal;
 class RGBAColorInt;
 class Snapshot;
 
-// Xfer as the matched BFME 2 xfer bodies view it (BodyModuleXfer.cpp,
-// ProductionUpdateQueue.cpp): MSVC groups the operator== overloads in reverse,
-// so Version is +0x28, AsciiString +0x6C, float +0x70, unsigned int +0x78,
-// int +0x7C, unsigned short +0x80 and bool +0x90.
+
+
+
+
 class Xfer
 {
 public:
@@ -145,7 +145,7 @@ public:
 class XferException
 {
 public:
-	XferException(int tag, const char *format, ...);	// 0x0060C36E
+	XferException(int tag, const char *format, ...);
 	XferException(const XferException &that);
 	~XferException();
 
@@ -153,16 +153,16 @@ public:
 	int tag;
 };
 
-// The cdecl enum and ID transfers, rowed at 0x00305E12, 0x00305E2A,
-// 0x00305EBA, 0x0030600A and 0x003060B2.
+
+
 void XferBodyDamageType(Xfer *xfer, Int *value);
 void XferBodySideDestroyedType(Xfer *xfer, Int *value);
 void XferDamageFXType(Xfer *xfer, Int *value);
 void XferParticleSystemID(Xfer *xfer, Int *value);
 void XferObjectID(Xfer *xfer, ObjectID *value);
 
-// The particle system's setters, rowed under placeholder names: position copy
-// 0x001F3899 and attached object 0x001F3C43.
+
+
 struct Rva001F3899Arg
 {
 	int m_00;
@@ -186,7 +186,6 @@ class Drawable;
 class ParticleSystem
 {
 public:
-	ParticleSystemID getSystemID() const { return m_systemID; }
 	void setPosition(const Coord3D *pos)
 	{
 		((Rva001F3899Slot *)this)->set(*(const Rva001F3899Arg *)pos);
@@ -196,14 +195,14 @@ public:
 		((Rva001F3C43Slot *)this)->set((const Rva001F3C43Arg *)obj);
 	}
 
-private:
+public:
 	char m_pad00[0xA8];
-	ParticleSystemID m_systemID;	// +0xA8
+	ParticleSystemID m_systemID;
 };
 ParticleSystem *Make001FCBD7();
 
-// The 12-byte handle: the out-of-line unlink is 0x0004CBC0, which the handle's
-// destructor calls only for a live system.
+
+
 class RvaSmartPtr12
 {
 public:
@@ -242,87 +241,87 @@ extern Int GetGameClientRandomValue(Int lo, Int hi, char *file, Int line);
 #define GameClientRandomValue(lo, hi) \
 	GetGameClientRandomValue((lo), (hi), __FILE__, __LINE__)
 
-// BodyParticleSystem: BFME 2 drops Zero Hour's memory pool, so the 12-byte
-// entry is a plain new with a vptr (vtable VA 0x00C5AEB0, whose only slot is
-// the rowed scalar deleting destructor 0x004BDA0C named after its address).
+
+
+
 class Rva004BDA0C
 {
 public:
-	virtual ~Rva004BDA0C();
+	__declspec(dllimport) __forceinline virtual ~Rva004BDA0C() {}
 
-	ParticleSystemID m_particleSystemID;	// +0x04
-	Rva004BDA0C *m_next;			// +0x08
+	ParticleSystemID m_particleSystemID;
+	Rva004BDA0C *m_next;
 };
 typedef Rva004BDA0C BodyParticleSystem;
 
 class FXList
 {
 public:
-	static void doFXObj(const FXList *fx, const Object *primary, const Object *secondary);	// 0x000B2235
+	static void doFXObj(const FXList *fx, const Object *primary, const Object *secondary);
 };
 
 class DamageInfoInput
 {
 public:
-	UnsignedInt m_field00;			// +0x00
-	ObjectID m_sourceID;			// +0x04
-	UnsignedInt m_field08;			// +0x08
-	DamageType m_damageType;		// +0x0C
-	Int m_damageFXType;			// +0x10
+	UnsignedInt m_field00;
+	ObjectID m_sourceID;
+	UnsignedInt m_field08;
+	DamageType m_damageType;
+	Int m_damageFXType;
 	unsigned char m_pad14[0x20 - 0x14];
-	Bool m_kill;				// +0x20
+	Bool m_kill;
 	unsigned char m_pad21[0x28 - 0x21];
-	Int m_creationType;			// +0x28
+	Int m_creationType;
 };
 
-// DamageInfo is 0x7C bytes (constructor 0x00263895); its vtable 0x00BF9200
-// holds one slot, the xfer rowed at 0x004D6F86.
+
+
 class DamageInfo
 {
 public:
-	virtual void xfer(Xfer *xfer);		// slot 0
-	DamageInfoInput in;			// +0x04
+	virtual void xfer(Xfer *xfer);
+	DamageInfoInput in;
 	unsigned char m_pad30[0x70 - 0x30];
-	Real m_actualDamageDealt;		// +0x70
-	Real m_actualDamageClipped;		// +0x74
+	Real m_actualDamageDealt;
+	Real m_actualDamageClipped;
 	unsigned char m_pad78[4];
 };
 
 class DamageModuleInterface
 {
 public:
-	virtual void onDamage(DamageInfo *damageInfo);					// +0x00
-	virtual void onHealing(DamageInfo *damageInfo);					// +0x04
-	virtual void onBodyDamageStateChange(DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState);	// +0x08
+	virtual void onDamage(DamageInfo *damageInfo);
+	virtual void onHealing(DamageInfo *damageInfo);
+	virtual void onBodyDamageStateChange(DamageInfo *damageInfo, BodyDamageType oldState, BodyDamageType newState);
 };
 
 class BehaviorModuleInterface
 {
 public:
 	virtual void b00(); virtual void b01(); virtual void b02(); virtual void b03();
-	virtual DamageModuleInterface *getDamage();	// +0x10
+	virtual DamageModuleInterface *getDamage();
 };
 
 class BehaviorModule
 {
 public:
 	unsigned char m_pad00[0x0C];
-	BehaviorModuleInterface m_iface;	// +0x0C
+	BehaviorModuleInterface m_iface;
 };
 
 class GeometryInfo
 {
 public:
-	Real getMaxHeightAbovePosition() const;	// 0x006BD7C0
+	Real getMaxHeightAbovePosition() const;
 };
 
-// The Object's geometry (+0xA8) as the rowed BFME 1 donor helpers view it:
-// the shape at an index (0x006BD980) over 0x24-byte shapes named at +0x1C,
-// and the named-shape flag update (0x006BF450).
+
+
+
 struct BfmeShapeE15
 {
 	unsigned char m_pad00[0x1C];
-	AsciiString m_name;			// +0x1C
+	AsciiString m_name;
 	unsigned char m_pad20[4];
 };
 class BfmeObjE15
@@ -332,8 +331,8 @@ public:
 	Int getNumShapes() const { return m_finish - m_start; }
 
 	unsigned char m_pad00[0x2C];
-	BfmeShapeE15 *m_start;			// +0x2C
-	BfmeShapeE15 *m_finish;			// +0x30
+	BfmeShapeE15 *m_start;
+	BfmeShapeE15 *m_finish;
 };
 class BfmeStrF9;
 class BfmeObjF9
@@ -351,13 +350,13 @@ public:
 	Real getStructureRubbleHeight() const { return (Real)m_structureRubbleHeight; }
 
 	unsigned char m_pad000[0xA0];
-	GeometryInfo m_geometryInfo;		// +0xA0
+	GeometryInfo m_geometryInfo;
 	unsigned char m_pad0A1[0x108 - 0xA1];
-	UnsignedInt m_kindOf[0x10];		// +0x108
+	UnsignedInt m_kindOf[0x10];
 	unsigned char m_pad148[0x5F7 - 0x148];
-	signed char m_structureRubbleHeight;	// +0x5F7
+	signed char m_structureRubbleHeight;
 	unsigned char m_pad5F8[0x632 - 0x5F8];
-	Bool m_byte632;				// +0x632
+	Bool m_byte632;
 };
 
 class BodyModuleInterface;
@@ -376,9 +375,9 @@ enum CommandSourceType { CMD_FROM_PLAYER, CMD_FROM_SCRIPT, CMD_FROM_AI };
 enum DisabledType { DISABLED_8 = 8 };
 enum NameKeyType { NAMEKEY_INVALID = 0 };
 
-// The AICommandInterface base at AIUpdateInterface +0x20: its idle command
-// (an AICommandParms 0x53 through slot 0) is emitted out of line from this
-// unit at 0x004BFD27 and rowed under that address.
+
+
+
 class Rva004BFD27
 {
 public:
@@ -416,34 +415,34 @@ public:
 	virtual void a100(); virtual void a101(); virtual void a102(); virtual void a103();
 	virtual void a104(); virtual void a105(); virtual void a106(); virtual void a107();
 	virtual void a108(); virtual void a109();
-	virtual Bool isIdle() const;			// +0x1B8
+	virtual Bool isIdle() const;
 
-	// The state-machine test 0x002632C7 is rowed returning int; callers test al.
+
 	int rva002632C7() const;
 	unsigned char rva002632C7Bool() const { return (unsigned char)rva002632C7(); }
-	void rva002632E1();				// 0x002632E1
+	void rva002632E1();
 	Rva004BFD27 *getCommandInterface() { return (Rva004BFD27 *)&m_commandInterface; }
 
 	unsigned char m_pad04[0x20 - 0x04];
-	void *m_commandInterface;		// +0x20: AICommandInterface vptr
+	void *m_commandInterface;
 	unsigned char m_pad24[0x34 - 0x24];
-	Int m_field34;				// +0x34
+	Int m_field34;
 };
 
-// The pieces of the containing object's contain module that attemptDamage
-// reaches: slot 26 passes the damage on, slot 31 returns a helper whose slot
-// 14 runs when the damage was clipped, slot 69 counts (with a zero argument).
+
+
+
 class Rva004BFE07ContainHelper : public VSlots<14>
 {
 public:
-	virtual void onClippedDamage(Object *obj);	// +0x38
+	virtual void onClippedDamage(Object *obj);
 };
 class ContainModuleInterface : public VSlots<26>
 {
 public:
-	virtual void onContainedDamage(Object *obj, ActiveBody *body, DamageInfo *damageInfo);	// +0x68
+	virtual void onContainedDamage(Object *obj, ActiveBody *body, DamageInfo *damageInfo);
 	virtual void c27(); virtual void c28(); virtual void c29(); virtual void c30();
-	virtual Rva004BFE07ContainHelper *getDamageHelper();	// +0x7C
+	virtual Rva004BFE07ContainHelper *getDamageHelper();
 	virtual void c32(); virtual void c33(); virtual void c34(); virtual void c35();
 	virtual void c36(); virtual void c37(); virtual void c38(); virtual void c39();
 	virtual void c40(); virtual void c41(); virtual void c42(); virtual void c43();
@@ -454,26 +453,26 @@ public:
 	virtual void c60(); virtual void c61(); virtual void c62(); virtual void c63();
 	virtual void c64(); virtual void c65(); virtual void c66(); virtual void c67();
 	virtual void c68();
-	virtual UnsignedInt getContainCount(Int arg);	// +0x114
+	virtual UnsignedInt getContainCount(Int arg);
 };
 
-// What Object 0x0028C1A9 returns (for the object 0x002931F5 resolves from a
-// damager with status 65): slot 3 decides whether the damage kills, slot 8
-// is then told about the victim.
+
+
+
 class Rva0028C1A9Result
 {
 public:
 	virtual void r0(); virtual void r1(); virtual void r2();
-	virtual Bool shouldKill(Object *victim);	// +0x0C
+	virtual Bool shouldKill(Object *victim);
 	virtual void r4(); virtual void r5(); virtual void r6(); virtual void r7();
-	virtual void onKill(Object *victim);		// +0x20
+	virtual void onKill(Object *victim);
 };
 
 class Rva004BFE07Flagged
 {
 public:
 	unsigned char m_pad00[0x5C];
-	Bool m_byte5C;				// +0x5C
+	Bool m_byte5C;
 };
 
 class Player
@@ -482,7 +481,7 @@ public:
 	Int getPlayerIndex() const { return m_playerIndex; }
 
 	unsigned char m_pad00[0x54];
-	Int m_playerIndex;			// +0x54
+	Int m_playerIndex;
 };
 
 class Module;
@@ -490,70 +489,70 @@ class Module;
 class Object
 {
 public:
-	Bool isKindOf(KindOfType kindOf) const;	// 0x0006F039
-	Bool testStatus(ObjectStatusTypes bit) const;	// 0x0004E536
-	void setEffectivelyDead(Bool dead);		// 0x0028D2FB
-	Bool rva0028F518();				// 0x0028F518
-	void setStatus(ObjectStatusTypes bit, Bool set);	// 0x0023DB0E
-	void rva0028AB75(Bool flag);			// 0x0028AB75
-	void rva0028ABFC(Real z);			// 0x0028ABFC: the geometry's height
-	void rva0029895A(BfmeCopyElementA *geom);	// 0x0029895A: copy in a geometry
-	Bool addAttributeModifierToPool(const AsciiString &name, Int duration);	// 0x0028EA91
-	void removeAttributeModifierFromPool(const AsciiString &name);		// 0x0028EB42
+	Bool isKindOf(KindOfType kindOf) const;
+	Bool testStatus(ObjectStatusTypes bit) const;
+	void setEffectivelyDead(Bool dead);
+	Bool rva0028F518();
+	void setStatus(ObjectStatusTypes bit, Bool set);
+	void rva0028AB75(Bool flag);
+	void rva0028ABFC(Real z);
+	void rva0029895A(BfmeCopyElementA *geom);
+	Bool addAttributeModifierToPool(const AsciiString &name, Int duration);
+	void removeAttributeModifierFromPool(const AsciiString &name);
 	AIUpdateInterface *getAI() const { return m_ai; }
 	Bool testStatusBit(Int bit) const { return (m_status >> bit) & 1; }
 	Int getMultiLogicalBonePosition(const char *boneNamePrefix, Int maxBones, Coord3D *positions,
-		Matrix3D *transforms, Bool convertToWorld, Int extra) const;	// 0x0028BF81
+		Matrix3D *transforms, Bool convertToWorld, Int extra) const;
 	const ThingTemplate *getTemplate() const { return m_template; }
 	Int getID() const { return m_id; }
 	Bool testStatusBit6() const { return (m_status >> 6) & 1; }
 	BehaviorModule **getBehaviorModules() const { return m_behaviors; }
 	BodyModuleInterface *getBodyModule() const { return m_body; }
-	Drawable *getDrawable() const;			// 0x005508E2
+	Drawable *getDrawable() const;
 	Object *getContainedBy() const { return m_containedBy; }
 	ContainModuleInterface *getContain() const { return m_contain; }
-	Object *rva002931F5(Bool flag);			// 0x002931F5
-	void *rva0028C1A9() const;			// 0x0028C1A9
-	Bool rva0028D491() const;			// 0x0028D491
-	void rva0028B1D4(Int damageInfo, Int victim) const;	// 0x0028B1D4
-	Player *getControllingPlayer() const;		// 0x0028AFA9
-	void setDisabledUntil(DisabledType type, UnsignedInt frame);	// 0x00290114
-	void rva00298517(DamageInfo *damageInfo);	// 0x00298517: onDie
+	Object *rva002931F5(Bool flag);
+	void *rva0028C1A9() const;
+	Bool rva0028D491() const;
+	void rva0028B1D4(Int damageInfo, Int victim) const;
+	Player *getControllingPlayer() const;
+	void setDisabledUntil(DisabledType type, UnsignedInt frame);
+	void onDie(DamageInfo *damageInfo);
 protected:
 	friend class ActiveBody;
-	Module *findModule(NameKeyType key) const;	// 0x0028B6D6
+	Module *findModule(NameKeyType key) const;
 public:
 	const Coord3D *getPosition() const { return (const Coord3D *)m_cachedPos; }
 
 	void *m_vptr;
-	const ThingTemplate *m_template;	// +0x04
-	Real m_transform[3][4];			// +0x08: rows, translation in column 3
-	Real m_cachedPos[3];			// +0x38
+	const ThingTemplate *m_template;
+	Real m_transform[3][4];
+	Real m_cachedPos[3];
 	unsigned char m_pad44[0x74 - 0x44];
-	Int m_id;			// +0x74
+	Int m_id;
 	unsigned char m_pad78[0x94 - 0x78];
-	UnsignedInt m_status;			// +0x94
+	UnsignedInt m_status;
 	unsigned char m_pad98[0xA8 - 0x98];
-	BfmeObjE15 m_geometry;			// +0xA8
+	BfmeObjE15 m_geometry;
 	unsigned char m_padDC[0x10C - 0xDC];
-	unsigned char m_kindOfMask[0x4C];	// +0x10C
+	unsigned char m_kindOfMask[0x4C];
 	unsigned char m_pad158[0x244 - 0x158];
-	BehaviorModule **m_behaviors;		// +0x244
+	BehaviorModule **m_behaviors;
 	unsigned char m_pad248[0x250 - 0x248];
-	ContainModuleInterface *m_contain;	// +0x250
-	BodyModuleInterface *m_body;		// +0x254
-	AIUpdateInterface *m_ai;		// +0x258
-	Rva004BFE07Flagged *m_field25C;		// +0x25C
+	ContainModuleInterface *m_contain;
+	BodyModuleInterface *m_body;
+	AIUpdateInterface *m_ai;
+	Rva004BFE07Flagged *m_field25C;
 	unsigned char m_pad260[0x274 - 0x260];
-	Object *m_containedBy;			// +0x274
+	Object *m_containedBy;
 	unsigned char m_pad278[0x280 - 0x278];
-	Int m_field280;				// +0x280
+	Int m_field280;
 	unsigned char m_pad284[0x438 - 0x284];
-	UnsignedInt m_flags438;			// +0x438
+	UnsignedInt m_flags438;
 };
 
-// The promotion sound references of a Drawable (keyed lookups rowed in
-// DrawableKeyedLookups.cpp) and the Object a Drawable belongs to (+0xFC).
+
+
 class Rva002390CB
 {
 public:
@@ -565,35 +564,35 @@ public:
 class Drawable
 {
 public:
-	Rva002390CB rva004BE152();		// key 0x31
-	Rva002390CB rva004BE16B();		// key 0x32
-	Rva002390CB rva004BE184();		// key 0x33
-	Rva002390CB rva004BE120();		// the damaged sound
-	Rva002390CB rva004BE139();		// the really-damaged sound
+	Rva002390CB rva004BE152();
+	Rva002390CB rva004BE16B();
+	Rva002390CB rva004BE184();
+	Rva002390CB rva004BE120();
+	Rva002390CB rva004BE139();
 	Object *getObject() const { return m_object; }
 
 	unsigned char m_pad00[0xFC];
-	Object *m_object;			// +0xFC
+	Object *m_object;
 };
 
-// Audio event setters rowed by address: 0x002D9C2F assigns the sound
-// reference, 0x002D9531 the Object ID.
+
+
 class Rva002D9C2F { public: OpaqueRefElement4 &rva002D9C2F(const OpaqueRefElement4 &other); };
 class Rva002D9531 { public: void rva002D9531(int v); };
 
 class AudioManager : public VSlots<25>
 {
 public:
-	virtual int addAudioEvent(const BfmeAudioEventPrefix136 *eventToAdd) = 0;	// +0x64
+	virtual int addAudioEvent(const BfmeAudioEventPrefix136 *eventToAdd) = 0;
 };
 extern AudioManager *TheAudio;
 
 class InGameUI : public VSlots<70>
 {
 public:
-	virtual Int getSelectCount();				// +0x118
+	virtual Int getSelectCount();
 	virtual void u71(); virtual void u72(); virtual void u73(); virtual void u74();
-	virtual Drawable *getFirstSelectedDrawable();		// +0x12C
+	virtual Drawable *getFirstSelectedDrawable();
 };
 extern InGameUI *TheInGameUI;
 
@@ -603,40 +602,40 @@ public:
 	void markUIDirty() { m_UIDirty = true; }
 
 	unsigned char m_pad00[0x28];
-	Bool m_UIDirty;				// +0x28
+	Bool m_UIDirty;
 };
 extern ControlBar *TheControlBar;
 
 class DOTManager
 {
 public:
-	UnsignedInt rva0043B72D(Int id);	// 0x0043B72D
+	UnsignedInt rva0043B72D(Int id);
 };
 
 class GameLogic
 {
 public:
 	UnsignedInt getFrame() const { return m_frame; }
-	Object *findObjectByID(ObjectID id);	// 0x00049DC5
+	Object *findObjectByID(ObjectID id);
 
 	unsigned char m_pad00[0x40];
-	UnsignedInt m_frame;			// +0x40
+	UnsignedInt m_frame;
 	unsigned char m_pad44[0x174 - 0x44];
-	DOTManager *m_dotManager;		// +0x174
+	DOTManager *m_dotManager;
 };
 extern GameLogic *TheGameLogic;
 
 class Pathfinder
 {
 public:
-	void AddObjectToPathfindMap(Object *obj);	// 0x002E7178
-	void RemoveObjectFromPathfindMap(Object *obj);	// 0x002E718A
+	void AddObjectToPathfindMap(Object *obj);
+	void RemoveObjectFromPathfindMap(Object *obj);
 };
 class AIData
 {
 public:
 	unsigned char m_pad00[0x64];
-	Bool m_enableRepulsors;			// +0x64
+	Bool m_enableRepulsors;
 };
 class AI
 {
@@ -645,9 +644,9 @@ public:
 	const AIData *getAiData() const { return m_aiData; }
 
 	unsigned char m_pad00[0x10];
-	Pathfinder *m_pathfinder;		// +0x10
+	Pathfinder *m_pathfinder;
 	unsigned char m_pad14[4];
-	AIData *m_aiData;			// +0x18
+	AIData *m_aiData;
 };
 extern AI *TheAI;
 
@@ -655,17 +654,17 @@ class GlobalData
 {
 public:
 	unsigned char m_pad000[0xAD4];
-	Real m_healthBonus[4];			// +0xAD4: by veterancy level
-	Real m_defaultStructureRubbleHeight;	// +0xAE4
+	Real m_healthBonus[4];
+	Real m_defaultStructureRubbleHeight;
 };
 extern GlobalData *TheWritableGlobalData;
 
-// The damage state for the current health, rowed at 0x004BDA29 under an
-// address name: Zero Hour's calcDamageState order (rubble at zero health,
-// then the really-damaged and damaged ratios of max health) on the body's own
-// fields, without the division. Its only caller is setCorrectDamageState
-// below, which keeps ecx across the call: MSVC does that only for a callee
-// already compiled in the same unit, so the calc is defined here.
+
+
+
+
+
+
 class Rva004BDA29
 {
 public:
@@ -674,14 +673,14 @@ public:
 private:
 	void *m_vptr;
 	unsigned char m_pad04[0x14];
-	Real m_health;				// +0x18
+	Real m_health;
 	unsigned char m_pad1C[4];
-	Real m_maxHealth;			// +0x20
-	Real m_damagedThresh;			// +0x24
-	Real m_reallyDamagedThresh;		// +0x28
+	Real m_maxHealth;
+	Real m_damagedThresh;
+	Real m_reallyDamagedThresh;
 };
 
-// The rubble-state object reset (0x004BDA67), rowed under an address name.
+
 class Rva004BDA67
 {
 public:
@@ -691,42 +690,45 @@ public:
 class DamageFX
 {
 public:
-	Bool rva003608DF(Int damageType, Real amount, const Object *source, const Object *victim);	// 0x003608DF
+	Bool rva003608DF(Int damageType, Real amount, const Object *source, const Object *victim);
 };
 
-class Rva003605D5	// DamageFX throttle-time lookup (Zero Hour getDamageFXThrottleTime)
+class Rva003605D5
 {
 public:
-	Int rva003605D5(Int damageType, Int source);	// 0x003605D5
+	Int rva003605D5(Int damageType, Int source);
 };
 
 class ObjectCreationList
 {
 public:
-	void create(void *primary, void *secondary, void *lifetime);	// 0x001F08D3
+	void create(void *primary, void *secondary, void *lifetime);
 };
 
 struct DamageCreation
 {
-	ObjectCreationList *m_ocl;		// +0x00
-	Int m_type;				// +0x04
-	Int m_stage;				// +0x08: 0, or the damage stage 1-4
+	ObjectCreationList *m_ocl;
+	Int m_type;
+	Int m_stage;
 };
 
 class Armor
 {
 public:
-	Real adjustDamage(const DamageInfoInput *input, const Object *obj, Bool flag) const;	// 0x001D90A1
+	Real adjustDamage(const DamageInfoInput *input, const Object *obj, Bool flag) const;
 
 private:
 	void *m_name;
 };
 
-// attemptDamage's helpers, rowed or pinned under these names: the damage
-// record copy (0x003427DD), the kill report on the damager (0x00294D61), the
-// damage-dealt report (0x0028B749), the attacked-by flag on the victim's
-// player (0x002AA1E4) and the empty Object hook at 0x0047A69C (the shared
-// 3-byte ret 4 folded under many names).
+
+
+struct BfmeBodyDataPair8 { float value; unsigned word; BfmeBodyDataPair8() {} __forceinline BfmeBodyDataPair8(const BfmeBodyDataPair8 &that): value(that.value), word(that.word) {} };
+
+
+
+
+
 class Rva003427DD { public: Rva003427DD &operator=(const Rva003427DD &other); };
 class Rva00294D61 { public: void report(Object *victim, Int flag); };
 class Rva0028B749Host { public: void rva0028B749(Int victim, Real ratio); };
@@ -740,10 +742,10 @@ public:
 };
 extern NameKeyGenerator *TheNameKeyGenerator;
 
-// The static masks: a KindOfMaskType (0x4C bytes; three-bit constructor
-// 0x00265254, intersection test 0x00263546) and an ObjectStatusMaskType
-// (0x10 bytes; three-bit init 0x0044EAF3, rowed as a this-returning member,
-// and any-bit test 0x00331682).
+
+
+
+
 class Rva00265254
 {
 public:
@@ -776,8 +778,8 @@ public:
 	Bool testForAny(const void *bits) const { return ((const Rva00331682Holder *)this)->test(bits); }
 };
 
-// The one-drawable list handed to the unit voice response (its destructor
-// is the shared pointer-list destructor 0x00239AF4, called out of line).
+
+
 class DrawableList : public _STL::list<Drawable *>
 {
 public:
@@ -789,21 +791,21 @@ class GameMessage
 public:
 	enum Type { MSG_BFME2_0x7E0 = 0x7E0 };
 };
-void pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
+bool pickAndPlayUnitVoiceResponse(const DrawableList *list, GameMessage::Type messageType,
 	PickAndPlayInfo *info);
 
 struct BfmeDelayedLuaEvent
 {
 	unsigned char m_pad00[0x0C];
-	Int m_value;				// +0x0C
+	Int m_value;
 	unsigned char m_pad10[4];
-	Int m_type;				// +0x14
+	Int m_type;
 };
-struct BfmeDelayedLuaEventList
+struct BfmeDelayedLuaEventList;
+struct DelayedLuaEventList
 {
-	BfmeDelayedLuaEventList();
-	~BfmeDelayedLuaEventList();
-	void *m_vtable;
+	DelayedLuaEventList();
+	virtual ~DelayedLuaEventList();
 	BfmeDelayedLuaEvent m_events[3];
 };
 class BfmeObjectEventDispatch
@@ -818,24 +820,25 @@ class ActiveBodyModuleData
 {
 public:
 	unsigned char m_pad00[0x1C];
-	UnsignedInt m_damagedDisableFrames;		// +0x1C
-	UnsignedInt m_reallyDamagedDisableFrames;	// +0x20
-	UnsignedInt m_damageDelayFrames;		// +0x24
+	UnsignedInt m_damagedDisableFrames;
+	UnsignedInt m_reallyDamagedDisableFrames;
+	UnsignedInt m_damageDelayFrames;
 	unsigned char m_pad28[0x30 - 0x28];
-	AsciiString m_damagedAttributeModifier;		// +0x30
-	AsciiString m_reallyDamagedAttributeModifier;	// +0x34
-	unsigned char m_pad38[0x48 - 0x38];
-	const FXList *m_healingFX;		// +0x48
+	AsciiString m_damagedAttributeModifier;
+	AsciiString m_reallyDamagedAttributeModifier;
+	unsigned char m_pad38[0x40 - 0x38];
+	BfmeBodyDataPair8 m_pair40;
+	const FXList *m_healingFX;
 	unsigned char m_pad4C[0x51 - 0x4C];
-	Bool m_byte51;				// +0x51
+	Bool m_byte51;
 	unsigned char m_pad52[0x54 - 0x52];
-	const FXList *m_clippedDamageFX;	// +0x54
+	const FXList *m_clippedDamageFX;
 };
 
-// The armor-set flags are BitFlags<21> in BFME 2: its setBitByName is rowed
-// at 0x004BE0F1; the set-bit count (0x0028F528), the name of a set bit
-// (0x004BE0C7) and the CRC transfer of the raw bits (0x004BE722) are rowed
-// under address names.
+
+
+
+
 class Rva0028F528
 {
 public:
@@ -856,11 +859,15 @@ template <int NUMBITS> class BitFlags
 {
 public:
 	enum { NUMWORDS = (NUMBITS + 31) / 32 };
+	BitFlags() {}
+	__forceinline BitFlags(const BitFlags &that) { memcpy(m_bits, that.m_bits, sizeof(m_bits)); }
 
 	Int count() { return ((Rva0028F528 *)this)->rva0028F528(); }
 	const char *getBitNameIfSet(Int i) { return (const char *)((Rva004BE0C7 *)this)->rva004BE0C7(i); }
 	Bool setBitByName(const char *token);
 	void clear() { memset(m_bits, 0, sizeof(m_bits)); }
+	void set(unsigned bit) { m_bits[bit >> 5] |= 1U << (bit & 31); }
+	void reset(unsigned bit) { m_bits[bit >> 5] &= ~(1U << (bit & 31)); }
 	void xfer(Xfer *xfer);
 
 private:
@@ -868,82 +875,89 @@ private:
 };
 typedef BitFlags<21> ArmorSetFlags;
 
-// BodyModule: the primary base (BehaviorModule then the damage scalar at
-// +0x14); its xfer is primary slot 3, rowed at 0x0058B043.
+
+
 class BodyModule
 {
 public:
 	virtual void m00(); virtual void m01(); virtual void m02();
 protected:
-	virtual void xfer(Xfer *xfer);				// +0x0C
+	virtual void xfer(Xfer *xfer);
 public:
 	virtual void m04(); virtual void m05(); virtual void m06(); virtual void m07();
-	virtual void onDelete();				// +0x20
+	virtual void onDelete();
 	virtual void m09(); virtual void m10(); virtual void m11();
 	virtual void m12();
-	virtual void rva004BE69C();				// +0x34
+	virtual void rva004BE69C();
 	virtual void m14(); virtual void m15();
 	virtual void m16();
-	virtual void validateArmorAndDamageFX() const;		// +0x44
-	virtual void doDamageFX(const DamageInfo *damageInfo) = 0;	// +0x48
+	virtual void validateArmorAndDamageFX() const;
+	virtual void doDamageFX(const DamageInfo *damageInfo) = 0;
 	virtual void m19();
-	virtual void deleteAllParticleSystems();		// +0x50
-	virtual void rvaSlot21(Int arg);			// +0x54
-	virtual void rva004BF9ED();				// +0x58
+	virtual void deleteAllParticleSystems();
+	virtual void rvaSlot21(Int arg);
+	virtual void rva004BF9ED();
 
 protected:
-	const ActiveBodyModuleData *m_moduleData;	// +0x04
-	Object *m_object;				// +0x08
+	const ActiveBodyModuleData *m_moduleData;
+	Object *m_object;
 	void *m_vptr0C;
 };
 
 class BodyModuleInterface
 {
 public:
-	virtual void attemptDamage(DamageInfo *damageInfo);	// +0x00
-	virtual void attemptHealing(DamageInfo *damageInfo);	// +0x04
-	virtual Real estimateDamage(DamageInfoInput &damageInfo) const;	// +0x08
+	virtual void attemptDamage(DamageInfo *damageInfo);
+	virtual void attemptHealing(DamageInfo *damageInfo);
+	virtual Real estimateDamage(DamageInfoInput &damageInfo) const;
 	virtual void i03();
-	virtual Real getHealth() const;				// +0x10
-	virtual Real getHealthRatio() const;			// +0x14
-	virtual Real getMaxHealth() const;			// +0x18
+	virtual Real getHealth() const;
+	virtual Real getHealthRatio() const;
+	virtual Real getMaxHealth() const;
 	virtual void i07();
 	virtual void i08();
-	virtual void setDamageState(BodyDamageType newState);	// +0x24
+	virtual void setDamageState(BodyDamageType newState);
 	virtual void i10();
-	virtual void onVeterancyLevelChanged(VeterancyLevel oldLevel, VeterancyLevel newLevel);	// +0x2C
-	virtual void setArmorSetFlag(ArmorSetType ast);		// +0x30
-	virtual void clearArmorSetFlag(ArmorSetType ast);	// +0x34
-	virtual void i14(); virtual void i15();
-	virtual void i16(); virtual void i17(); virtual void i18(); virtual void i19();
-	virtual void i20();
-	virtual void setInitialHealth(Real initialPercent, Bool directional);	// +0x54
-	virtual void setMaxHealth(Real maxHealth, MaxHealthChangeType healthChangeType);	// +0x58
+	virtual void onVeterancyLevelChanged(VeterancyLevel oldLevel, VeterancyLevel newLevel);
+	virtual void setArmorSetFlag(ArmorSetType ast);
+	virtual void clearArmorSetFlag(ArmorSetType ast);
+	virtual ArmorSetFlags rva004BF8F5(); virtual void i15();
+	virtual void i16(); virtual void i17(); virtual ObjectID rva004BF897(); virtual void i19();
+	virtual Bool getBackCrushed() const;
+	virtual void setInitialHealth(Real initialPercent, Bool directional);
+	virtual void setMaxHealth(Real maxHealth, MaxHealthChangeType healthChangeType);
 	virtual void i23();
 	virtual void i24(); virtual void i25(); virtual void i26(); virtual void i27();
-	virtual void i28(); virtual void i29(); virtual void i30(); virtual void i31();
-	virtual void internalChangeHealth(Real delta, DamageInfo *damageInfo);	// +0x80
+	virtual void i28(); virtual void i29(); virtual void i30(); virtual BfmeBodyDataPair8 rva004BDC56();
+	virtual void internalChangeHealth(Real delta, DamageInfo *damageInfo);
 	virtual void i33(); virtual void i34(); virtual void i35();
-	virtual void rvaSlot36();				// +0x90
+	virtual void rvaSlot36();
 	virtual void i37(); virtual void i38();
-	virtual void rvaSlot39(BodyDamageType state);		// +0x9C
-	virtual void rvaSlot40(Real health, Bool healing);	// +0xA0
+	virtual void rvaSlot39(BodyDamageType state);
+	virtual void rvaSlot40(Real health, Bool healing);
 };
 
 class ActiveBody : public BodyModule, public BodyModuleInterface
 {
 public:
+	virtual void setInitialHealth(Real initialPercent, Bool directional);
 	virtual void attemptDamage(DamageInfo *damageInfo);
 	virtual void attemptHealing(DamageInfo *damageInfo);
 	virtual Real estimateDamage(DamageInfoInput &damageInfo) const;
 	virtual void setDamageState(BodyDamageType newState);
 	virtual void onVeterancyLevelChanged(VeterancyLevel oldLevel, VeterancyLevel newLevel);
 	virtual void internalChangeHealth(Real delta, DamageInfo *damageInfo);
+	virtual ArmorSetFlags rva004BF8F5();
+	virtual ObjectID rva004BF897();
+	virtual Bool getBackCrushed() const;
+	virtual BfmeBodyDataPair8 rva004BDC56();
+	virtual void setArmorSetFlag(ArmorSetType ast);
+	virtual void clearArmorSetFlag(ArmorSetType ast);
 
 	virtual void rva004BE69C();
 	virtual void onDelete();
 	void setCorrectDamageState(Bool arg);
-	void rva004BFB1C(Real amount, const Coord3D *pos);	// 0x004BFB1C
+	void rva004BFB1C(Real amount, const Coord3D *pos);
 	void rva004BFCD4(Real amount, DamageInfo *damageInfo);
 
 protected:
@@ -957,56 +971,945 @@ private:
 	const ActiveBodyModuleData *getActiveBodyModuleData() const { return m_moduleData; }
 	Object *getObject() const { return m_object; }
 
-	Real m_damageScalar;			// +0x14
-	Real m_currentHealth;			// +0x18
-	Real m_prevHealth;			// +0x1C
-	Real m_maxHealth;			// +0x20
-	Real m_damagedRatio;			// +0x24
-	Real m_reallyDamagedRatio;		// +0x28
-	Real m_initialHealth;			// +0x2C
-	BodyDamageType m_curDamageState;	// +0x30
-	Int m_field34;				// +0x34
-	UnsignedInt m_nextDamageFXTime;		// +0x38
-	Int m_lastDamageFXDone;			// +0x3C
-	DamageInfo m_lastDamageInfo;		// +0x40
-	UnsignedInt m_lastDamageTimestamp;	// +0xBC
-	UnsignedInt m_lastHealingTimestamp;	// +0xC0
-	Bool m_frontCrushed;			// +0xC4
-	Bool m_backCrushed;			// +0xC5
-	Bool m_lastDamageCleared;		// +0xC6
-	Bool m_indestructible;			// +0xC7
-	BodyParticleSystem *m_particleSystems;	// +0xC8
-	Real m_damageStateValues[4];		// +0xCC
-	Bool m_damageStateFlags[4];		// +0xDC
-	DamageCreation *m_damageCreationBegin;	// +0xE0
-	DamageCreation *m_damageCreationEnd;	// +0xE4
+	Real m_damageScalar;
+	Real m_currentHealth;
+	Real m_prevHealth;
+	Real m_maxHealth;
+	Real m_damagedRatio;
+	Real m_reallyDamagedRatio;
+	Real m_initialHealth;
+	BodyDamageType m_curDamageState;
+	Int m_field34;
+	UnsignedInt m_nextDamageFXTime;
+	Int m_lastDamageFXDone;
+	DamageInfo m_lastDamageInfo;
+	UnsignedInt m_lastDamageTimestamp;
+	UnsignedInt m_lastHealingTimestamp;
+	Bool m_frontCrushed;
+	Bool m_backCrushed;
+	Bool m_lastDamageCleared;
+	Bool m_indestructible;
+	BodyParticleSystem *m_particleSystems;
+	Real m_damageStateValues[4];
+	Bool m_damageStateFlags[4];
+	DamageCreation *m_damageCreationBegin;
+	DamageCreation *m_damageCreationEnd;
 	unsigned char m_padE8[4];
-	ObjectID m_linkedObjectID;		// +0xEC
-	ArmorSetFlags m_curArmorSetFlags;	// +0xF0
-	const void *m_curArmorSet;		// +0xF4
-	Armor m_curArmor;			// +0xF8
-	DamageFX *m_curDamageFX;		// +0xFC
+	ObjectID m_linkedObjectID;
+	ArmorSetFlags m_curArmorSetFlags;
+	const void *m_curArmorSet;
+	Armor m_curArmor;
+	DamageFX *m_curDamageFX;
 };
 
-static inline const Real &healthMin(const Real &a, const Real &b)
+
+
+
+
+Real ActiveBody::estimateDamage(DamageInfoInput &damageInfo) const
 {
-	return b < a ? b : a;
+	validateArmorAndDamageFX();
+	return m_curArmor.adjustDamage(&damageInfo, getObject(), true);
 }
 
-// ActiveBody::attemptDamage, retail 0x004BFE07 (2107B): BodyModuleInterface
-// slot 0. Zero Hour's order (validate the armor, sanity and indestructible
-// early outs, clear the outputs, skip the effectively dead, armor-adjust,
-// healing goes to attemptHealing, damage scalar unless unresistable, change
-// health, record the damage, damage modules, damage-state change, death,
-// damage FX, repulsors) with the BFME 2 additions the bytes show: kind 0x14A
-// and status 60 early outs, the containing object's contain module told
-// first, a damager with status 65 able to turn the hit into a kill, damage
-// types 6 and 23 clipped to leave one health point unless the object is
-// masked out (the static kind and status masks), the directional branch for
-// type 4, the disable timers and Drawable damage sounds on a state change,
-// the unit voice response (message 0x7E0) on dropping under 35%, the
-// RespawnUpdate check before onDie, the linked object dying along, the
-// damage-dealt report on the damager and the Lua object event.
+
+
+
+
+void ActiveBody::onDelete()
+{
+	Object *obj = getObject();
+	if (!(obj->m_flags438 & 1) && !obj->getTemplate()->testKindOf(25) && !obj->getTemplate()->testKindOf(89))
+		rva004BF9ED();
+	deleteAllParticleSystems();
+}
+
+
+void ActiveBody::setDamageState(BodyDamageType newState)
+{
+	switch (newState)
+	{
+	case BODY_PRISTINE:
+		internalChangeHealth(m_maxHealth - m_currentHealth, 0);
+		break;
+	case BODY_DAMAGED:
+		internalChangeHealth(m_damagedRatio * m_maxHealth - m_currentHealth, 0);
+		break;
+	case BODY_REALLYDAMAGED:
+		internalChangeHealth(m_reallyDamagedRatio * m_maxHealth - m_currentHealth, 0);
+		break;
+	case BODY_RUBBLE:
+		internalChangeHealth(0.0f - m_currentHealth, 0);
+		break;
+	}
+	rvaSlot21(0);
+}
+
+
+
+
+
+
+
+
+
+
+
+void ActiveBody::attemptHealing(DamageInfo *damageInfo)
+{
+	validateArmorAndDamageFX();
+
+	const ActiveBodyModuleData *md = getActiveBodyModuleData();
+	Object *obj = getObject();
+	if (md->m_byte51 && obj->isKindOf(KINDOF_220))
+		return;
+
+	if (damageInfo == 0)
+		return;
+
+	if (damageInfo->in.m_damageType != DAMAGE_HEALING)
+	{
+		attemptDamage(damageInfo);
+		return;
+	}
+
+	const ThingTemplate *tmpl = obj->getTemplate();
+	if (!tmpl->m_byte632 && !tmpl->testKindOf(150) && !tmpl->testKindOf(22) && !tmpl->testKindOf(24)
+		&& (obj->m_flags438 & 1))
+		return;
+
+	damageInfo->m_actualDamageDealt = 0.0f;
+	damageInfo->m_actualDamageClipped = 0.0f;
+
+	Real amount = m_curArmor.adjustDamage(&damageInfo->in, getObject(), false);
+	if (amount > 0.0f)
+	{
+		BodyDamageType oldState = m_curDamageState;
+		internalChangeHealth(amount, damageInfo);
+
+		damageInfo->m_actualDamageDealt = amount;
+		damageInfo->m_actualDamageClipped = m_prevHealth - m_currentHealth;
+		m_lastHealingTimestamp = TheGameLogic->getFrame();
+
+		if (m_currentHealth > m_prevHealth)
+		{
+			for (BehaviorModule **m = obj->getBehaviorModules(); *m; ++m)
+			{
+				DamageModuleInterface *d = (*m)->m_iface.getDamage();
+				if (d)
+					d->onHealing(damageInfo);
+			}
+
+			if (!obj->getTemplate()->testKindOf(7) && md->m_healingFX && !obj->testStatusBit6())
+				FXList::doFXObj(md->m_healingFX, obj, 0);
+
+			TheGameLogic->m_dotManager->rva0043B72D(obj->getID());
+		}
+
+		if (m_curDamageState != oldState)
+		{
+			for (BehaviorModule **m = obj->getBehaviorModules(); *m; ++m)
+			{
+				DamageModuleInterface *d = (*m)->m_iface.getDamage();
+				if (d)
+					d->onBodyDamageStateChange(damageInfo, oldState, m_curDamageState);
+			}
+
+			if (m_linkedObjectID)
+			{
+				Object *linked = TheGameLogic->findObjectByID(m_linkedObjectID);
+				if (linked && linked->getBodyModule())
+					linked->getBodyModule()->rvaSlot39(m_curDamageState);
+			}
+		}
+	}
+
+	doDamageFX(damageInfo);
+}
+
+
+
+
+
+
+
+
+void ActiveBody::doDamageFX(const DamageInfo *damageInfo)
+{
+	DamageFX *fx = m_curDamageFX;
+	Int type = damageInfo->in.m_damageFXType;
+	if (fx)
+	{
+		UnsignedInt now = TheGameLogic->getFrame();
+		if (type == m_lastDamageFXDone && m_nextDamageFXTime > now)
+			return;
+		Object *source = TheGameLogic->findObjectByID(damageInfo->in.m_sourceID);
+		if (fx->rva003608DF(type, damageInfo->m_actualDamageDealt, source, getObject()))
+		{
+			m_lastDamageFXDone = type;
+			m_nextDamageFXTime = ((Rva003605D5 *)m_curDamageFX)->rva003605D5(type, (Int)source) + now;
+		}
+	}
+
+	for (DamageCreation *it = m_damageCreationBegin; it != m_damageCreationEnd; ++it)
+	{
+		DamageCreation c = *it;
+		if (c.m_type == damageInfo->in.m_creationType && c.m_stage == 0 && c.m_ocl)
+			c.m_ocl->create(getObject(), 0, 0);
+	}
+}
+
+
+
+
+
+void ActiveBody::createParticleSystems(const AsciiString &boneBaseName,
+	const ParticleSystemTemplate *systemTemplate, Int maxSystems)
+{
+	Object *us = getObject();
+	if (systemTemplate == 0)
+		return;
+
+	enum { MAX_BONES = 16 };
+	Coord3D bonePositions[MAX_BONES];
+	Int numBones = us->getMultiLogicalBonePosition(boneBaseName.str(), MAX_BONES, bonePositions, 0, false, 0);
+	if (numBones == 0)
+		return;
+	if (numBones < maxSystems)
+		maxSystems = numBones;
+
+	Bool usedBoneIndices[MAX_BONES] = {};
+	for (Int i = 0; i < maxSystems; ++i)
+	{
+#line 1514 "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Body\\ActiveBody.cpp"
+		Int boneIndex = GameClientRandomValue(0, numBones - 1);
+		for (Int j = 0; j < numBones; ++j)
+		{
+			if (usedBoneIndices[boneIndex] != true)
+			{
+				const Coord3D *pos = &bonePositions[boneIndex];
+				usedBoneIndices[boneIndex] = true;
+				if (pos)
+				{
+					BfmeParticleSystemHandle particleSystem =
+						TheParticleSystemManager->createParticleSystem(systemTemplate, true);
+					if (particleSystem)
+					{
+						particleSystem->setPosition(pos);
+						particleSystem->attachToObject(us);
+
+						BodyParticleSystem *newEntry = new BodyParticleSystem;
+						newEntry->m_particleSystemID = particleSystem->m_systemID;
+						newEntry->m_next = m_particleSystems;
+						m_particleSystems = newEntry;
+					}
+				}
+				break;
+			}
+			boneIndex = (boneIndex + 1) % numBones;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+void ActiveBody::onVeterancyLevelChanged(VeterancyLevel oldLevel, VeterancyLevel newLevel)
+{
+	if (oldLevel == newLevel)
+		return;
+
+	if (oldLevel < newLevel)
+	{
+		Drawable *draw = getObject()->getDrawable();
+		if (draw)
+		{
+			BfmeAudioEventPrefix136 veterancyChanged((const OpaqueRefElement4 &)BfmePoolRef08(), 0);
+			switch (newLevel)
+			{
+			case LEVEL_VETERAN:
+				((Rva002D9C2F *)&veterancyChanged)->rva002D9C2F(draw->rva004BE152().m_04);
+				break;
+			case LEVEL_ELITE:
+				((Rva002D9C2F *)&veterancyChanged)->rva002D9C2F(draw->rva004BE16B().m_04);
+				break;
+			case LEVEL_HEROIC:
+				((Rva002D9C2F *)&veterancyChanged)->rva002D9C2F(draw->rva004BE184().m_04);
+				break;
+			}
+			((Rva002D9531 *)&veterancyChanged)->rva002D9531(getObject()->getID());
+			TheAudio->addAudioEvent(&veterancyChanged);
+		}
+
+		Object *obj = getObject();
+		Drawable *selected = TheInGameUI->getFirstSelectedDrawable();
+		if (selected)
+		{
+			Object *checkFrontObj = selected->getObject();
+			if (checkFrontObj == obj)
+			{
+				TheControlBar->markUIDirty();
+			}
+			else
+			{
+				const Object *containObj = obj->getContainedBy();
+				if (containObj && TheInGameUI->getSelectCount() == 1)
+				{
+					if (checkFrontObj == containObj)
+						TheControlBar->markUIDirty();
+				}
+			}
+		}
+	}
+
+	Real oldBonus = TheWritableGlobalData->m_healthBonus[oldLevel];
+	Real newBonus = TheWritableGlobalData->m_healthBonus[newLevel];
+	Real mult = newBonus / oldBonus;
+	setMaxHealth(m_maxHealth * mult, PRESERVE_RATIO);
+
+	switch (newLevel)
+	{
+	case LEVEL_REGULAR:
+		clearArmorSetFlag(ARMORSET_VETERAN);
+		clearArmorSetFlag(ARMORSET_ELITE);
+		clearArmorSetFlag(ARMORSET_HERO);
+		break;
+	case LEVEL_VETERAN:
+		setArmorSetFlag(ARMORSET_VETERAN);
+		clearArmorSetFlag(ARMORSET_ELITE);
+		clearArmorSetFlag(ARMORSET_HERO);
+		break;
+	case LEVEL_ELITE:
+		clearArmorSetFlag(ARMORSET_VETERAN);
+		setArmorSetFlag(ARMORSET_ELITE);
+		clearArmorSetFlag(ARMORSET_HERO);
+		break;
+	case LEVEL_HEROIC:
+		clearArmorSetFlag(ARMORSET_VETERAN);
+		clearArmorSetFlag(ARMORSET_ELITE);
+		setArmorSetFlag(ARMORSET_HERO);
+		break;
+	}
+}
+
+static inline const Real &healthMax(const Real &a, const Real &b)
+{
+	return a > b ? a : b;
+}
+
+
+
+
+
+
+
+
+void ActiveBody::internalChangeHealth(Real delta, DamageInfo *damageInfo)
+{
+	m_prevHealth = m_currentHealth;
+	m_currentHealth += delta;
+
+	Real maxHealth = m_maxHealth;
+	if (m_currentHealth > maxHealth)
+	{
+		m_currentHealth = maxHealth;
+		for (Int i = 0; i < 4; ++i)
+			m_damageStateValues[i] = 0.0f;
+	}
+	else if (m_prevHealth == 0.0f)
+	{
+		Real v = getMaxHealth() * 0.25f;
+		v = v * 0.75f - 1.0f;
+		for (Int i = 0; i < 4; ++i)
+			m_damageStateValues[i] = v;
+	}
+	else if (delta > 0.0f)
+	{
+		Real reduce = delta * 0.25f;
+		reduce *= 0.75f;
+		for (Int i = 0; i < 4; ++i)
+		{
+			m_damageStateValues[i] -= reduce;
+			m_damageStateValues[i] = healthMax(0.0f, m_damageStateValues[i]);
+		}
+	}
+
+	if (m_currentHealth < 0.0f)
+		m_currentHealth = 0.0f;
+
+	BodyDamageType oldState = m_curDamageState;
+	Int oldField34 = m_field34;
+	rvaSlot21(0);
+
+	Object *us = getObject();
+	if (m_curDamageState != oldState || m_field34 != oldField34)
+	{
+		if (m_currentHealth <= 0.0f || !us->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))
+			rvaSlot36();
+	}
+
+	us->setEffectivelyDead(m_currentHealth <= 0.0f);
+
+	if (m_linkedObjectID)
+	{
+		Object *other = TheGameLogic->findObjectByID(m_linkedObjectID);
+		if (other)
+		{
+			BodyModuleInterface *body = other->getBodyModule();
+			if (body)
+			{
+				body->rvaSlot40(m_currentHealth, delta > 0.0f);
+				other->m_field280 = getObject()->m_field280;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+Bool ActiveBody::shouldRetaliate(Object *obj)
+{
+	const ThingTemplate *tmpl = obj->getTemplate();
+	if (tmpl->testKindOf(173))
+		return false;
+	if (tmpl->testKindOf(2))
+		return false;
+
+	AIUpdateInterface *ai = obj->getAI();
+	if (ai != 0 && ai->m_field34 != 0)
+		return false;
+	AIUpdateInterface *aiForIdle = obj->getAI();
+	if (aiForIdle == 0 || !aiForIdle->isIdle())
+		return false;
+
+	if (obj->rva0028F518())
+		return false;
+
+	if (obj->testStatusBit(15) && !obj->testStatusBit(17))
+		return false;
+
+	if (obj->testStatus(OBJECT_STATUS_24))
+		return false;
+	return true;
+}
+
+
+
+
+
+void ActiveBody::rva004BE69C()
+{
+	const ActiveBodyModuleData *md = getActiveBodyModuleData();
+	switch (m_curDamageState)
+	{
+	case BODY_DAMAGED:
+		if (!((const StringBase<char> &)md->m_damagedAttributeModifier).isEmpty())
+			getObject()->addAttributeModifierToPool(md->m_damagedAttributeModifier, -1);
+		break;
+	case BODY_REALLYDAMAGED:
+		if (!((const StringBase<char> &)md->m_damagedAttributeModifier).isEmpty())
+			getObject()->removeAttributeModifierFromPool(md->m_damagedAttributeModifier);
+		if (!((const StringBase<char> &)md->m_reallyDamagedAttributeModifier).isEmpty())
+			getObject()->addAttributeModifierToPool(md->m_reallyDamagedAttributeModifier, -1);
+		return;
+	default:
+		if (!((const StringBase<char> &)md->m_damagedAttributeModifier).isEmpty())
+			getObject()->removeAttributeModifierFromPool(md->m_damagedAttributeModifier);
+		break;
+	}
+	if (!((const StringBase<char> &)md->m_reallyDamagedAttributeModifier).isEmpty())
+		getObject()->removeAttributeModifierFromPool(md->m_reallyDamagedAttributeModifier);
+}
+
+
+
+
+
+
+template <int NUMBITS>
+void BitFlags<NUMBITS>::xfer(Xfer *xfer)
+{
+	Xfer::Version version(1, 1);
+	*xfer == version;
+
+	if (xfer->IsLightCRC())
+	{
+		((Rva004BE722 *)this)->rva004BE722(xfer);
+	}
+	else if (xfer->IsStoring())
+	{
+		Int c = count();
+		*xfer == c;
+		for (Int i = 0; i < NUMBITS; ++i)
+		{
+			const char *bitName = getBitNameIfSet(i);
+			if (bitName == 0)
+				continue;
+			AsciiString bitNameA = bitName;
+			*xfer == bitNameA;
+			--c;
+		}
+	}
+	else
+	{
+		clear();
+		Int c;
+		*xfer == c;
+		AsciiString string;
+		for (Int i = 0; i < c; ++i)
+		{
+			*xfer == string;
+			Bool ok = setBitByName(string.str());
+			if (ok == false)
+				throw XferException(0, 0);
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+void ActiveBody::xfer(Xfer *xfer)
+{
+	BodyModule::xfer(xfer);
+	if (xfer->IsLightCRC())
+		return;
+
+	Xfer::Version version(1, 1);
+	*xfer == version;
+
+	*xfer == m_currentHealth;
+	*xfer == m_prevHealth;
+	*xfer == m_maxHealth;
+	*xfer == m_damagedRatio;
+	*xfer == m_reallyDamagedRatio;
+	*xfer == m_initialHealth;
+	XferBodyDamageType(xfer, (Int *)&m_curDamageState);
+	XferBodySideDestroyedType(xfer, &m_field34);
+	*xfer == m_nextDamageFXTime;
+	XferDamageFXType(xfer, &m_lastDamageFXDone);
+	DamageInfo *lastDamageInfo = &m_lastDamageInfo;
+	lastDamageInfo->xfer(xfer);
+	*xfer == m_lastDamageTimestamp;
+	*xfer == m_lastHealingTimestamp;
+	*xfer == m_frontCrushed;
+	*xfer == m_backCrushed;
+	*xfer == m_lastDamageCleared;
+	*xfer == m_indestructible;
+
+	if (!xfer->IsCRC())
+	{
+		BodyParticleSystem *system;
+		UnsignedShort particleSystemCount = 0;
+		for (system = m_particleSystems; system; system = system->m_next)
+			particleSystemCount++;
+		*xfer == particleSystemCount;
+
+		if (xfer->IsStoring())
+		{
+			for (system = m_particleSystems; system; system = system->m_next)
+				XferParticleSystemID(xfer, (Int *)&system->m_particleSystemID);
+		}
+		else
+		{
+			ParticleSystemID particleSystemID;
+			if (m_particleSystems != 0)
+				throw XferException(5, 0);
+			for (UnsignedShort i = 0; i < particleSystemCount; ++i)
+			{
+				XferParticleSystemID(xfer, (Int *)&particleSystemID);
+				BodyParticleSystem *newEntry = new BodyParticleSystem;
+				newEntry->m_particleSystemID = particleSystemID;
+				newEntry->m_next = m_particleSystems;
+				m_particleSystems = newEntry;
+			}
+		}
+	}
+
+	for (Int i = 0; i < 4; ++i)
+	{
+		*xfer == m_damageStateValues[i];
+		*xfer == m_damageStateFlags[i];
+	}
+	m_curArmorSetFlags.xfer(xfer);
+	XferObjectID(xfer, &m_linkedObjectID);
+}
+
+
+
+
+
+
+
+
+Int Rva004BDA29::rva004BDA29() const
+{
+	if (m_health == 0.0f)
+		return 3;
+	else if (m_reallyDamagedThresh * m_maxHealth >= m_health)
+		return 2;
+	else if (m_damagedThresh * m_maxHealth >= m_health)
+		return 1;
+	else
+		return 0;
+}
+
+void ActiveBody::setCorrectDamageState(Bool arg)
+{
+	BodyDamageType oldState = m_curDamageState;
+	m_curDamageState = (BodyDamageType)((const Rva004BDA29 *)this)->rva004BDA29();
+	if (m_curDamageState != oldState)
+		rva004BE69C();
+
+	Object *obj = getObject();
+	if (obj->getTemplate()->testKindOf(60))
+	{
+		if (m_curDamageState < BODY_RUBBLE)
+		{
+			if (oldState == BODY_RUBBLE)
+				obj->rva0029895A((BfmeCopyElementA *)&obj->getTemplate()->getTemplateGeometryInfo());
+		}
+		else
+		{
+			obj->rva0028ABFC(TheWritableGlobalData->m_defaultStructureRubbleHeight);
+		}
+
+		if (m_curDamageState > oldState && m_curDamageState == BODY_RUBBLE)
+		{
+			TheAI->pathfinder()->RemoveObjectFromPathfindMap(getObject());
+			getObject()->setStatus(OBJECT_STATUS_4, true);
+			getObject()->setStatus(OBJECT_STATUS_77, true);
+			BfmeObjE15 &geom = getObject()->m_geometry;
+			Int count = geom.getNumShapes();
+			for (Int i = 0; i < count; ++i)
+			{
+				BfmeShapeE15 *shape = geom.bfmeAtE15(i);
+				if (((const StringBase<char> &)shape->m_name).compare("Bookend") == 0)
+				{
+					((BfmeObjF9 &)geom).rva0087FA50((const BfmeStrF9 &)AsciiString("Bookend"), 0);
+					m_curDamageState = BODY_PRISTINE;
+					getObject()->rva0028AB75(true);
+					m_curDamageState = BODY_RUBBLE;
+					getObject()->setStatus(OBJECT_STATUS_83, true);
+					break;
+				}
+			}
+		}
+		else if (m_curDamageState < oldState && m_curDamageState == BODY_PRISTINE)
+		{
+			TheAI->pathfinder()->RemoveObjectFromPathfindMap(getObject());
+			getObject()->setStatus(OBJECT_STATUS_77, false);
+			getObject()->setStatus(OBJECT_STATUS_83, false);
+			TheAI->pathfinder()->AddObjectToPathfindMap(getObject());
+		}
+		else if (m_curDamageState < oldState && oldState == BODY_RUBBLE)
+		{
+			getObject()->setStatus(OBJECT_STATUS_77, true);
+			getObject()->setStatus(OBJECT_STATUS_83, false);
+			TheAI->pathfinder()->RemoveObjectFromPathfindMap(getObject());
+			BfmeObjE15 &geom = getObject()->m_geometry;
+			((BfmeObjF9 &)geom).rva0087FA50((const BfmeStrF9 &)AsciiString("Bookend"), 1);
+			getObject()->rva0028AB75(true);
+			getObject()->setStatus(OBJECT_STATUS_4, false);
+		}
+		m_field34 = 0;
+	}
+	else if (getObject()->getTemplate()->testKindOf(7))
+	{
+		if (m_curDamageState > oldState && m_curDamageState == BODY_RUBBLE)
+		{
+			BfmeObjE15 &geom = obj->m_geometry;
+			Int count = geom.getNumShapes();
+			for (Int i = 0; i < count; ++i)
+			{
+				BfmeShapeE15 *shape = geom.bfmeAtE15(i);
+				if (((const StringBase<char> &)shape->m_name).compare("Bookend") == 0)
+				{
+					((BfmeObjF9 &)geom).rva0087FA50((const BfmeStrF9 &)AsciiString("Bookend"), 0);
+					m_curDamageState = BODY_PRISTINE;
+					getObject()->rva0028AB75(true);
+					m_curDamageState = BODY_RUBBLE;
+					getObject()->setStatus(OBJECT_STATUS_83, true);
+					break;
+				}
+			}
+		}
+		if (m_curDamageState < BODY_RUBBLE && oldState == BODY_RUBBLE)
+		{
+			obj->rva0028ABFC(getObject()->getTemplate()->getTemplateGeometryInfo().getMaxHeightAbovePosition());
+			TheAI->pathfinder()->AddObjectToPathfindMap(obj);
+			obj->setStatus(OBJECT_STATUS_4, false);
+		}
+		else if (m_curDamageState == BODY_RUBBLE)
+		{
+			Real rubbleHeight = getObject()->getTemplate()->getStructureRubbleHeight();
+			if (rubbleHeight <= 0.0f)
+				rubbleHeight = TheWritableGlobalData->m_defaultStructureRubbleHeight;
+			obj->rva0028ABFC(rubbleHeight);
+			TheAI->pathfinder()->RemoveObjectFromPathfindMap(obj);
+			TheAI->pathfinder()->AddObjectToPathfindMap(obj);
+			((Rva004BDA67 *)this)->rva004BDA67();
+			obj->setStatus(OBJECT_STATUS_4, true);
+			m_field34 = 0;
+			return;
+		}
+	}
+
+	if (!getObject()->isKindOf(KINDOF_4))
+		return;
+	if (oldState != m_curDamageState && !arg)
+		return;
+
+	Real threshold = 0.75f * (getMaxHealth() * 0.25f);
+	if (!m_damageStateFlags[0] && m_damageStateValues[0] >= threshold)
+	{
+		m_field34 = 1;
+		m_damageStateFlags[0] = true;
+	}
+	else if (!m_damageStateFlags[1] && m_damageStateValues[1] >= threshold)
+	{
+		m_field34 = 2;
+		m_damageStateFlags[1] = true;
+	}
+	else if (!m_damageStateFlags[2] && m_damageStateValues[2] >= threshold)
+	{
+		m_field34 = 3;
+		m_damageStateFlags[2] = true;
+	}
+	else if (!m_damageStateFlags[3] && m_damageStateValues[3] >= threshold)
+	{
+		m_field34 = 4;
+		m_damageStateFlags[3] = true;
+	}
+	else
+	{
+		return;
+	}
+	if (!arg)
+	{
+		for (DamageCreation *it = m_damageCreationBegin; it != m_damageCreationEnd; ++it)
+		{
+			DamageCreation c = *it;
+			if (c.m_stage == m_field34 && c.m_ocl)
+				c.m_ocl->create(getObject(), 0, 0);
+		}
+	}
+}
+
+
+
+
+struct ActiveBodySidePoint
+{
+	Real x, y, z;
+	ActiveBodySidePoint() {}
+	ActiveBodySidePoint(const ActiveBodySidePoint &r)
+	{ x = r.x; y = r.y; z = r.z; }
+	~ActiveBodySidePoint() {}
+};
+struct ActiveBodyDamageVector
+{
+	Real x, y, z;
+	ActiveBodyDamageVector(Real a, Real b, Real c) : x(a), y(b), z(c) {}
+};
+
+extern Real GetGameLogicRandomValueReal(Real low, Real high, char *file, Int line);
+#define GameLogicRandomValueReal(lo, hi) \
+	GetGameLogicRandomValueReal((lo), (hi), __FILE__, __LINE__)
+
+
+
+
+void ActiveBody::rva004BFCD4(Real amount, DamageInfo *damageInfo)
+{
+	Object *source = TheGameLogic->findObjectByID(damageInfo->in.m_sourceID);
+	if (source)
+	{
+		ActiveBodySidePoint pos;
+		pos.x = source->m_transform[0][3];
+		pos.y = source->m_transform[1][3];
+		pos.z = source->m_transform[2][3];
+		rva004BFB1C(amount, (const Coord3D *)&pos);
+	}
+}
+
+
+
+
+
+void ActiveBody::setInitialHealth(Real initialPercent, Bool directional)
+{
+	if (initialPercent > 100.0f)
+		m_maxHealth = m_maxHealth * initialPercent * 0.01f;
+	Real factor = initialPercent * 0.01f;
+	if (directional)
+	{
+		m_prevHealth = m_currentHealth;
+		m_currentHealth += m_maxHealth * (initialPercent * 0.01f) - m_currentHealth;
+		ActiveBodySidePoint pos(*(const ActiveBodySidePoint *)getObject()->getPosition());
+#line 1279 "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Body\\ActiveBody.cpp"
+		pos.x += GameLogicRandomValueReal(-1.0f, 1.0f);
+		pos.y += GameLogicRandomValueReal(-1.0f, 1.0f);
+		pos.z += GameLogicRandomValueReal(-1.0f, 1.0f);
+		ActiveBodyDamageVector jittered(pos.x, pos.y, pos.z);
+		rva004BFB1C((1.0f - initialPercent * 0.01f) * m_maxHealth, (const Coord3D *)&jittered);
+	}
+	else
+	{
+		internalChangeHealth(factor * m_initialHealth - m_currentHealth, 0);
+	}
+}
+
+
+
+
+
+
+ArmorSetFlags ActiveBody::rva004BF8F5() { return m_curArmorSetFlags; }
+ObjectID ActiveBody::rva004BF897() { if (m_lastDamageCleared) return INVALID_ID; m_lastDamageCleared=true; return m_lastDamageInfo.in.m_sourceID; }
+Bool ActiveBody::getBackCrushed() const { return m_backCrushed; }
+BfmeBodyDataPair8 ActiveBody::rva004BDC56() { return getActiveBodyModuleData()->m_pair40; }
+
+
+
+
+
+
+
+void ActiveBody::setArmorSetFlag(ArmorSetType ast) { m_curArmorSetFlags.set((unsigned)ast); }
+void ActiveBody::clearArmorSetFlag(ArmorSetType ast) { m_curArmorSetFlags.reset((unsigned)ast); }
+
+
+
+
+
+
+
+
+class Vector3
+{
+public:
+	float X, Y, Z;
+	Vector3() {}
+	Vector3(const Vector3 &r) { X = r.X; Y = r.Y; Z = r.Z; }
+	Vector3(float x, float y, float z) { X = x; Y = y; Z = z; }
+	Vector3 &operator=(const Vector3 &r)
+	{ X = r.X; Y = r.Y; Z = r.Z; return *this; }
+	Vector3 operator-() const { return Vector3(-X, -Y, -Z); }
+	static float Dot_Product(const Vector3 &a, const Vector3 &b)
+	{ return a.X * b.X + a.Y * b.Y + a.Z * b.Z; }
+};
+inline Vector3 operator-(const Vector3 &a, const Vector3 &b)
+{ return Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z); }
+
+class Vector4
+{
+public:
+	float X, Y, Z, W;
+	Vector4() {}
+	Vector4(const Vector4 &r) { X = r.X; Y = r.Y; Z = r.Z; W = r.W; }
+	__forceinline Vector4 &operator=(const Vector4 &r)
+	{ X = r.X; Y = r.Y; Z = r.Z; W = r.W; return *this; }
+	float &operator[](int i) { return (&X)[i]; }
+	const float &operator[](int i) const { return (&X)[i]; }
+};
+
+class Matrix3D
+{
+public:
+	Vector4 Row[3];
+	__forceinline Matrix3D(const Matrix3D &m)
+	{ Row[0] = m.Row[0]; Row[1] = m.Row[1]; Row[2] = m.Row[2]; }
+	Vector3 Get_X_Vector() const
+	{ return Vector3(Row[0][0], Row[1][0], Row[2][0]); }
+	Vector3 Get_Y_Vector() const
+	{ return Vector3(Row[0][1], Row[1][1], Row[2][1]); }
+	Vector3 Get_Translation() const
+	{ return Vector3(Row[0][3], Row[1][3], Row[2][3]); }
+};
+
+
+
+
+
+
+
+
+void ActiveBody::rva004BFB1C(Real amount, const Coord3D *pos)
+{
+	const Matrix3D matrix = *(const Matrix3D *)getObject()->m_transform;
+	Vector3 forward = matrix.Get_X_Vector();
+	Vector3 dir(matrix.Row[0][3] - pos->x,
+		matrix.Row[1][3] - pos->y, matrix.Row[2][3] - pos->z);
+	Real sides[4];
+	sides[0] = Vector3::Dot_Product(-forward, dir);
+	sides[1] = Vector3::Dot_Product(matrix.Get_Y_Vector(), dir);
+	sides[2] = -sides[0];
+	sides[3] = -sides[1];
+
+	_STL::vector<long> order;
+	for (long i = 0; i < 4; ++i)
+	{
+		Bool inserted = false;
+		for (_STL::vector<long>::iterator it = order.begin(); it != order.end(); ++it)
+		{
+			Int other = *it;
+			if (sides[i] > sides[other])
+			{
+				order.insert(it, i);
+				inserted = true;
+				break;
+			}
+		}
+		if (!inserted)
+			order.push_back(i);
+	}
+
+	Real maxPerSide = getMaxHealth() * 0.25f;
+	maxPerSide *= 0.75f;
+	Real remaining = amount;
+	for (Int k = 0; remaining > 0.0f; ++k)
+	{
+		if (k >= 4)
+			break;
+		Real &health = m_damageStateValues[order[k]];
+		Real room = maxPerSide - health;
+		Real take = _STL::min(remaining, room);
+		if (take > 0.0f)
+		{
+			health = health + take;
+			remaining -= take;
+		}
+	}
+}
+
+static inline const Real &healthMin(const Real &a,const Real &b) { return b<a?b:a; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void ActiveBody::attemptDamage(DamageInfo *damageInfo)
 {
 	validateArmorAndDamageFX();
@@ -1212,14 +2115,14 @@ void ActiveBody::attemptDamage(DamageInfo *damageInfo)
 					if (contained && outerObj->getContain() && outerObj->getContain()->getContainCount(0) < 2)
 						contained = false;
 
-					obj->rva00298517(damageInfo);
+					obj->onDie(damageInfo);
 
 					if (m_linkedObjectID)
 					{
 						Object *linked = TheGameLogic->findObjectByID(m_linkedObjectID);
 						if (linked)
 						{
-							linked->rva00298517(damageInfo);
+							linked->onDie(damageInfo);
 							linked->setEffectivelyDead(true);
 						}
 					}
@@ -1240,13 +2143,13 @@ void ActiveBody::attemptDamage(DamageInfo *damageInfo)
 				((Rva0028B749Host *)damager)->rva0028B749((Int)obj, ratio);
 		}
 
-		BfmeDelayedLuaEventList events;
+		DelayedLuaEventList events;
 		if (srcObj)
 		{
 			events.m_events[0].m_value = srcObj->getID();
 			events.m_events[0].m_type = 3;
 		}
-		((BfmeObjectEventDispatch *)TheLuaScriptEngine)->rva003360D2(0, obj, &events);
+		((BfmeObjectEventDispatch *)TheLuaScriptEngine)->rva003360D2(0, obj, (BfmeDelayedLuaEventList *)&events);
 	}
 
 	doDamageFX(damageInfo);
