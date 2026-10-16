@@ -275,6 +275,11 @@ void StrategicHUD::ArmyDetailsMovieClip::Impl::ShowCommandPoints(int val)
 	}
 }
 
+// ArmyDetailsMovieClip vtable 0x00C7936C slots 1 and 2: the base class's
+// notify hooks are empty; both entries are the shared RET at 0x000B3FD0.
+void StrategicHUD::ArmyDetailsMovieClip::notifyBackButtonClicked() {}
+void StrategicHUD::ArmyDetailsMovieClip::notifyIconListBackgroundClicked() {}
+
 // The four small callbacks the Impl ctor 0x005F39D6 binds as
 // "<_level%u.><name>_OnBackButtonClicked / _OnBackButtonRollOver /
 // _OnBackButtonRollOut / _OnIconListBackgroundClicked" (retail strings).
