@@ -18,8 +18,8 @@
 extern "C" const void *const vtbl_00BEFF90[];  // folded, 80 classes; via ??_7AIGateUpdate@@6BBehaviorModuleOther@@@
 #pragma comment(linker, "/alternatename:_vtbl_00BEFF90=??_7AIGateUpdate@@6BBehaviorModuleOther@@@")
 
-extern "C" const void *const vtbl_00C59280[];  // ??_7Rva004B89C4@@6BRva004B89C4_B2@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C59280=??_7Rva004B89C4@@6BRva004B89C4_B2@@@")
+extern "C" const void *const vtbl_00C59280[];  // ??_7OathbreakersFadeAwayBehavior@@6BRva004B89C4_B2@@@
+#pragma comment(linker, "/alternatename:_vtbl_00C59280=??_7OathbreakersFadeAwayBehavior@@6BRva004B89C4_B2@@@")
 
 class Thing;
 class ModuleData;
