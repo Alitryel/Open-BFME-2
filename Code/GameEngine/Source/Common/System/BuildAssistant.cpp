@@ -803,7 +803,9 @@ class ObjectSellInfo
 {
 public:
 	ObjectSellInfo( void ) : m_id( INVALID_OBJECT_ID ), m_sellFrame( 0 ) {}
-	virtual ~ObjectSellInfo( void );
+	// Empty, as rowed in BuildAssistantXfer.cpp (0x003916A4): visible here so the
+	// scalar deleting dtor this unit emits inlines it like retail's 0x003919D9.
+	virtual ~ObjectSellInfo( void ) {}
 	__forceinline void deleteInstance() { ::delete this; }
 
 	ObjectID m_id;				// +0x04

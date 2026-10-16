@@ -29,8 +29,16 @@ namespace _STL {
 // (retail 0x6CFE10 form) and differ from the /O1 ecx form every other tree
 // copy carries (retail 0x27EA56 form). The size profile keeps them identical.
 template <> inline _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > >::_Rb_tree_iterator(const _Rb_tree_iterator<pair<const int, int>, _Nonconst_traits<pair<const int, int> > > &__it) { _M_node = __it._M_node; }
-template <> __forceinline void allocator<_Rb_tree_node<pair<const int, int> > >::deallocate(_Rb_tree_node<pair<const int, int> > *p, size_t) const { if (p != 0) free(p); }
+template <> __declspec(dllimport) __forceinline void allocator<_Rb_tree_node<pair<const int, int> > >::deallocate(_Rb_tree_node<pair<const int, int> > *p, size_t) const { if (p != 0) free(p); }
 #pragma optimize("", on)
+// Every node allocation here is inlined; imported force-inline stock bodies keep this
+// unit from emitting its own (first in link order, non-majority) allocator copies.
+template <> __declspec(dllimport) __forceinline _Rb_tree_node<pair<const int, int> > *allocator<_Rb_tree_node<pair<const int, int> > >::allocate(size_t __n, const void *) const
+{ return __n != 0 ? reinterpret_cast<_Rb_tree_node<pair<const int, int> > *>(__sgi_alloc::allocate(__n * sizeof(_Rb_tree_node<pair<const int, int> >))) : 0; }
+template <> __declspec(dllimport) __forceinline _Rb_tree_node<pair<const int, int> > *_STLP_alloc_proxy<_Rb_tree_node<pair<const int, int> > *, _Rb_tree_node<pair<const int, int> >, allocator<_Rb_tree_node<pair<const int, int> > > >::allocate(size_t __n)
+{ return __stl_alloc_rebind(static_cast<allocator<_Rb_tree_node<pair<const int, int> > >&>(*this), (_Rb_tree_node<pair<const int, int> > *)0).allocate(__n, 0); }
+template <> __declspec(dllimport) __forceinline void _STLP_alloc_proxy<_Rb_tree_node<pair<const int, int> > *, _Rb_tree_node<pair<const int, int> >, allocator<_Rb_tree_node<pair<const int, int> > > >::deallocate(_Rb_tree_node<pair<const int, int> > *__p, size_t __n)
+{ __stl_alloc_rebind(static_cast<allocator<_Rb_tree_node<pair<const int, int> > >&>(*this), (_Rb_tree_node<pair<const int, int> > *)0).deallocate(__p, __n); }
 }
 
 class GameWindow;
