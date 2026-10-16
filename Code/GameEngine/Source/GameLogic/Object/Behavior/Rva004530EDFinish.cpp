@@ -17,6 +17,7 @@ class Rva004530ED
 public:
 	Rva004530ED();
 	Rva004530ED(const Rva004530ED &rhs);
+	Rva004530ED &operator=(const Rva004530ED &rhs);
 private:
 	int m_00;
 	float m_04[3];
@@ -39,6 +40,17 @@ __declspec(noinline) inline Rva004530ED::Rva004530ED(const Rva004530ED &rhs)
 	memcpy(m_04, rhs.m_04, 12);
 	m_10 = rhs.m_10;
 }
+// The entry's operator= compiles to the same 32 bytes as the copy ctor and is
+// identical-code-folded onto it: GettingBuiltBehavior's slot 24 (0x00453BD6)
+// calls 0x004530ED on an existing out-parameter with no EH state.
+Rva004530ED &Rva004530ED::operator=(const Rva004530ED &rhs)
+{
+	m_00 = rhs.m_00;
+	memcpy(m_04, rhs.m_04, 12);
+	m_10 = rhs.m_10;
+	return *this;
+}
+
 // Select-any: another unit compiles an identical copy; the anchor keeps the rowed body emitted.
 // ?bfmeAnchorRva004530EDCopy absent-from-retail
 void bfmeAnchorRva004530EDCopy(Rva004530ED *p, const Rva004530ED *q) { p->Rva004530ED::Rva004530ED(*q); }

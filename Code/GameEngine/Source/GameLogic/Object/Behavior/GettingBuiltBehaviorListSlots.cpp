@@ -94,7 +94,7 @@ private:
 class Rva003B0D7C
 {
 public:
-	void rva003B0D7C(unsigned int amount, Rva0039B7AD *score, bool flag);
+	void rva003B0D7C(int amount, Rva0039B7AD *score, bool flag);	// rowed int signature
 private:
 	unsigned char m_pad[4];
 };
@@ -348,8 +348,9 @@ bool GettingBuiltBehavior::rva00453E5C()
 // +0x3E flag is cleared and the list emptied.
 // The deposit amount is unsigned (Zero Hour's Money::deposit takes
 // UnsignedInt): retail converts with fld/__ftol2, which a signed spelling
-// folds into cvttss2si; the unsigned spelling is the address-named pin
-// ?rva003B0D7C@Rva003B0D7C@@QAEXIPAVRva0039B7AD@@_N@Z. The copy ctor
+// folds into cvttss2si, so the call goes through an unsigned member-pointer
+// view of the rowed int-signature row (as SlaughterHordeContainAddHordeMember
+// and DevastateSpecialPower do). The copy ctor
 // 0x004530ED and GameLogic::findObjectByID 0x00049DC5 (with the ID map's
 // find 0x002888D4) are visible here, as in AIUpgradeBuild.cpp: cl then keeps
 // `this` at [ebp-4] and the entry ID in EDI across the loop, as retail does.
@@ -392,7 +393,8 @@ void GettingBuiltBehavior::rva00453BF1()
 		Rva00453BF1Module *module = (Rva00453BF1Module *)other->rva0028BC58(0);
 		if (module)
 			module->rva00453BF1Slot15();
-		player->m_money.rva003B0D7C(other->m_324, &player->m_3BC, true);
+		typedef void (Rva003B0D7C::*UnsignedDeposit)(unsigned int, Rva0039B7AD *, bool);
+		(player->m_money.*reinterpret_cast<UnsignedDeposit>(&Rva003B0D7C::rva003B0D7C))(other->m_324, &player->m_3BC, true);
 		other->setStatus((ObjectStatusTypes)0x56, true);
 		if (other->m_280 <= 0.075f)
 			TheGameLogic->destroyObject(other);
