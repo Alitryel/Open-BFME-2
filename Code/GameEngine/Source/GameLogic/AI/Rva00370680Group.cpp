@@ -313,6 +313,7 @@ class AIGroup
 {
  public:
  void groupOneRing();
+ Bool moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource);
  Bool moveInfantryToPos(const Coord3D *pos, CommandSourceType cmdSource);
  Bool getCenter(Coord3D *center);
  private:
@@ -716,4 +717,337 @@ void AIGroup::groupOneRing()
   if(ai) ai->getCommandInterface()->aiIdle(CMD_FROM_AI);
   module->rva00374815();
  }
+}
+
+Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
+{
+ if (m_groundPath == 0) return false;
+ Real dx, dy;
+ Coord3DCopy center;
+ if (!getCenter(&center)) return false;
+ if (!m_groundPath)
+ return false;
+ Int numColumns = 2;
+// Get the start & end vectors for the path.
+ Coord3DCopy startPoint;
+ copyCoord(startPoint, m_groundPath->getFirstNode()->getPosition());
+ Real farEnoughSqr = (PATH_DIAMETER_IN_CELLS * PATHFIND_CELL_SIZE_F) * (PATH_DIAMETER_IN_CELLS * PATHFIND_CELL_SIZE_F);
+ PathNode *startNode = 0;
+ PathNode *node;
+ for (node = m_groundPath->getFirstNode(); node; node = node->getNextOptimized())
+ {
+  Real dx = node->getPosition()->x - startPoint.x;
+  Real dy = node->getPosition()->y - startPoint.y;
+  if (dx * dx + dy * dy > farEnoughSqr)
+  {
+   startNode = node;
+   break;
+  }
+ }
+ Coord3DCopy endPoint;
+ copyCoord(endPoint, m_groundPath->getLastNode()->getPosition());
+ PathNode *endNode = 0;
+ for (node = m_groundPath->getFirstNode(); node; node = node->getNextOptimized())
+ {
+  Real dx = node->getPosition()->x - endPoint.x;
+  Real dy = node->getPosition()->y - endPoint.y;
+  if (dx * dx + dy * dy > farEnoughSqr)
+  endNode = node;
+ }
+ if (endNode == m_groundPath->getFirstNode())
+ endNode = 0;
+ if (startNode == 0 || endNode == 0)
+ {
+  delete m_groundPath;
+  m_groundPath = 0;
+  return false;
+ }
+ Coord2D startVector;
+ startVector.x = startNode->getPosition()->x - startPoint.x;
+ startVector.y = startNode->getPosition()->y - startPoint.y;
+ startVector.normalize();
+ Coord2D endVector;
+ endVector.x = endPoint.x - endNode->getPosition()->x;
+ endVector.y = endPoint.y - endNode->getPosition()->y;
+ endVector.normalize();
+ Coord2D startVectorNormal;
+ startVectorNormal.x = -startVector.y;
+ startVectorNormal.y = startVector.x;
+ startVectorNormal.normalize();
+ Coord2D endVectorNormal;
+ endVectorNormal.x = -endVector.y;
+ endVectorNormal.y = endVector.x;
+ endVectorNormal.normalize();
+ Int unitsToPath = 0;
+ Bool useEndVector = false;
+// Move.
+ SimpleObjectIterator *iter = new SimpleObjectIterator;
+ SimpleObjectIterator *iter2 = new SimpleObjectIterator;
+ std::list<Object*>::iterator i;
+ for (i = m_memberList.begin(); i != m_memberList.end(); ++i)
+ {
+  if ((*i)->isDisabledHeld())
+  continue;
+// don't bother telling the occupants to move.
+  if (!(*i)->getTemplate()->isVehicle())
+  continue;
+  if ((*i)->getAI() == 0)
+  continue;
+  if (!(*i)->getAI()->isDoingGroundMovement())
+  continue;
+  Coord3DCopy unitPos;
+  copyCoord(unitPos, (*i)->getPosition());
+  (*i)->rva0028AD32();
+  Real dx, dy;
+  dx = unitPos.x - center.x;
+  dy = unitPos.y - center.y;
+// Sort by the dot product of normal.
+  iter->insert((int)(*i), dx * startVectorNormal.x + dy * startVectorNormal.y);
+  unitsToPath++;
+// If units are closer to the end vector than the start vector, use the end vector.
+  Real distToEndSqr;
+  Real distToStartSqr;
+  dx = unitPos.x - endPoint.x;
+  dy = unitPos.y - endPoint.y;
+  distToEndSqr = dx * dx + dy * dy;
+  dx = unitPos.x - startPoint.x;
+  dy = unitPos.y - startPoint.y;
+  distToStartSqr = dx * dx + dy * dy;
+  if (distToStartSqr > distToEndSqr)
+  useEndVector = true;
+ }
+ Object *theUnit;
+ if (useEndVector)
+ {
+// resort unsing the end vector.
+  startVector = endVector;
+  startVectorNormal = endVectorNormal;
+  for (theUnit = iter->first(); theUnit; theUnit = iter->next())
+  iter2->insert((int)theUnit);
+  iter->rva0054B414();
+  for (theUnit = iter2->first(); theUnit; theUnit = iter2->next())
+  {
+   Coord3DCopy unitPos;
+   copyCoord(unitPos, theUnit->getPosition());
+   dx = unitPos.x - center.x;
+   dy = unitPos.y - center.y;
+// Sort by the dot product of normal.
+   // Retail loads both normal components before multiplying the deltas.
+   iter->insert((int)theUnit, dx * (*(const volatile float *)&startVectorNormal.x) + dy * (*(const volatile float *)&startVectorNormal.y));
+  }
+  iter2->rva0054B414();
+ }
+ iter->sort(ITER_SORTED_FAR_TO_NEAR);
+ Int curIndex = 0;
+ for (theUnit = iter->first(); theUnit; theUnit = iter->next())
+ {
+  AIUpdateInterface *ai = theUnit->getAI();
+  Int divisor = ((unitsToPath + 1) / numColumns);
+  if (divisor < 1) divisor = 1;
+  Int columnDelta = 1 - (curIndex / divisor);
+
+// 0, 1 from left to right across column.
+  if (columnDelta == 0) columnDelta = -1;
+  divisor = ((unitsToPath + 1) / 3);
+  if (divisor < 1) divisor = 1;
+  Int threeColumnDelta = (curIndex / divisor);
+// 0, 1, 2 from left to right across column.
+  threeColumnDelta = 1 - threeColumnDelta;
+// 1, 0, -1
+  if (threeColumnDelta < -1) threeColumnDelta = -1;
+  if (unitsToPath < 5)
+  threeColumnDelta = columnDelta;
+  ai->setTmpValue((threeColumnDelta << 16) | (columnDelta & 0x00ffff));
+// Sort next pass by the dot product of start vector.
+  Real dx, dy;
+  dx = theUnit->getPosition()->x - center.x;
+  dy = theUnit->getPosition()->y - center.y;
+  // Retail loads both normal components before multiplying the deltas.
+   iter2->insert((int)theUnit, dx * (*(const volatile float *)&startVector.x) + dy * (*(const volatile float *)&startVector.y));
+  curIndex++;
+ }
+ iter2->sort(ITER_SORTED_FAR_TO_NEAR);
+// Even out columns.
+ Int column2[3] =
+ {
+  0, 0, 0
+ }
+ ;
+ Int column3[3] =
+ {
+  0, 0, 0
+ }
+ ;
+ for (theUnit = iter2->first(); theUnit; theUnit = iter2->next())
+ {
+  AIUpdateInterface *ai = theUnit->getAI();
+  Int tmp = ai->getTmpValue();
+  Int threeColumnDelta = tmp >> 16;
+  Int columnDelta = (Short)(tmp & 0xFFFF);
+  Int i;
+  Int min2 = 10000;
+  Int min3 = 10000;
+  for (i = 0; i < 3; i += 2) if (column2[i] < min2) min2 = column2[i];
+  for (i = 0; i < 3; i++) if (column3[i] < min3) min3 = column3[i];
+  Int delta = 10000;
+  Int best = -1;
+  for (i = 0; i < 3; i += 2)
+  {
+   if (column2[i] == min2)
+   {
+    Int dx = (1 + columnDelta) - i;
+    if (dx < 0) dx = -dx;
+    if (dx < delta)
+    {
+     delta = dx;
+     best = i;
+    }
+   }
+  }
+  if (best >= 0)
+  {
+   column2[best]++;
+   columnDelta = best - 1;
+  }
+  delta = 10000;
+  best = -1;
+  for (i = 0; i < 3; i++)
+  {
+   if (column3[i] == min3)
+   {
+    Int dx = (1 + threeColumnDelta) - i;
+    if (dx < 0) dx = -dx;
+    if (dx < delta)
+    {
+     delta = dx;
+     best = i;
+    }
+   }
+  }
+  if (best >= 0)
+  {
+   column3[best]++;
+   threeColumnDelta = best - 1;
+  }
+  if (unitsToPath < 5)
+  threeColumnDelta = columnDelta;
+  ai->setTmpValue((threeColumnDelta << 16) | (columnDelta & 0x00ffff));
+ }
+ curIndex = 0;
+ Int columnFactor[5] =
+ {
+  0, 0, 0, 0, 0
+ }
+ ;
+ PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(0, pos);
+ for (theUnit = iter2->first(); theUnit; theUnit = iter2->next())
+ {
+  AIUpdateInterface *ai = theUnit->getAI();
+  Int tmp = ai->getTmpValue();
+  Int threeColumnDelta = tmp >> 16;
+  Int columnDelta = (Short)(tmp & 0xFFFF);
+  Int factor = columnFactor[threeColumnDelta + 2];
+  columnFactor[threeColumnDelta + 2] = factor + 1;
+  _STL::vector<Coord3D> path;
+  PathNode *node = startNode;
+  PathNode *previousNode = m_groundPath->getFirstNode();
+  Coord3DCopy prevPos;
+  copyCoord(prevPos, theUnit->getPosition());
+  while (node)
+  {
+   Coord3DCopy dest;
+   const Coord3D *p = node->getPosition();
+   float x=p->x,y=p->y,z=p->z;
+   PathNode *tmpNode=node->getNextOptimized();
+   dest.x=x; dest.y=y; dest.z=z;
+
+   PathNode *nextNode = 0;
+   for (; tmpNode; tmpNode = tmpNode->getNextOptimized())
+   {
+    Real dx = tmpNode->getPosition()->x - dest.x;
+    Real dy = tmpNode->getPosition()->y - dest.y;
+    if (dx * dx + dy * dy > farEnoughSqr)
+    {
+     nextNode = tmpNode;
+     break;
+    }
+   }
+   if (nextNode == 0) break;
+   Coord2D cornerVectorNormal;
+   cornerVectorNormal.y = nextNode->getPosition()->x - previousNode->getPosition()->x;
+   cornerVectorNormal.x = -(nextNode->getPosition()->y - previousNode->getPosition()->y);
+   cornerVectorNormal.normalize();
+   Coord2D cornerVector;
+   cornerVector.x = nextNode->getPosition()->x - previousNode->getPosition()->x;
+   cornerVector.y = nextNode->getPosition()->y - previousNode->getPosition()->y;
+   Real offset = PATHFIND_CELL_SIZE_F * 1.5f;
+   dest.x += offset * columnDelta * cornerVectorNormal.x;
+   dest.y += offset * columnDelta * cornerVectorNormal.y;
+   if (factor & 1)
+   {
+    dest.x += 0.5f * PATHFIND_CELL_SIZE_F * cornerVectorNormal.x;
+    dest.y += 0.5f * PATHFIND_CELL_SIZE_F * cornerVectorNormal.y;
+   }
+   else
+   {
+    dest.x -= 0.5f * PATHFIND_CELL_SIZE_F * cornerVectorNormal.x;
+    dest.y -= 0.5f * PATHFIND_CELL_SIZE_F * cornerVectorNormal.y;
+   }
+   Coord2D curVector;
+   curVector.x = dest.x - prevPos.x;
+   curVector.y = dest.y - prevPos.y;
+// Make sure that this dest is going in the same direction as the vector.
+   if (cornerVector.x * curVector.x + cornerVector.y * curVector.y > 0)
+   {
+    path.push_back(dest);
+    prevPos = dest;
+   }
+   node = node->getNextOptimized();
+   for (tmpNode = previousNode->getNextOptimized(); tmpNode && tmpNode != node; tmpNode = tmpNode->getNextOptimized())
+   {
+    Real dx = tmpNode->getPosition()->x - node->getPosition()->x;
+    Real dy = tmpNode->getPosition()->y - node->getPosition()->y;
+    if (dx * dx + dy * dy > farEnoughSqr)
+    previousNode = tmpNode;
+   }
+  }
+  Coord3DCopy dest;
+  copyCoord(dest, pos);
+  if (threeColumnDelta < -3) threeColumnDelta = -3;
+  if (threeColumnDelta > 3) threeColumnDelta = 3;
+  Real offset = PATHFIND_CELL_SIZE_F * 3.2f;
+  if (unitsToPath < 5)
+  offset = PATHFIND_CELL_SIZE_F * 1.5f;
+  dest.x += offset * threeColumnDelta * endVectorNormal.x;
+  dest.y += offset * threeColumnDelta * endVectorNormal.y;
+  if (factor & 1)
+  {
+   dest.x += PATHFIND_CELL_SIZE_F * endVectorNormal.x;
+   dest.y += PATHFIND_CELL_SIZE_F * endVectorNormal.y;
+  }
+  dest.x -= factor * offset * endVector.x;
+  dest.y -= factor * offset * endVector.y;
+  dest.z = TheTerrainLogic->getLayerHeight(dest.x, dest.y, layer, 0, true);
+  while (path.size() > 0)
+  {
+   Coord2D curVector;
+   prevPos = path[path.size() - 1];
+   curVector.x = dest.x - prevPos.x;
+   curVector.y = dest.y - prevPos.y;
+// Make sure that this dest is going in the same direction as the vector.
+   if (endVector.x * curVector.x + endVector.y * curVector.y <= 0)
+   path.pop_back();
+   else
+   break;
+  }
+  TheAI->pathfinder()->AdjustDestination(theUnit, ai->getLocomotorSet(), &dest, 0);
+  theUnit->rva0028ACEE((int)&dest, LAYER_GROUND);
+  path.push_back(dest);
+  ai->getCommandInterface()->rva0036EE16((const Rva0035149F *)&path, 0, cmdSource);
+ }
+ ::delete iter;
+
+ ::delete iter2;
+ if(0)throw 1;
+ return true;
 }

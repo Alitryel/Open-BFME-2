@@ -93602,3 +93602,4 @@ $L7964,,0x00773CCD,14,Code/GameEngine/Source/GameLogic/Map/TerrainLogicCtor.cpp,
 ?j_0030a0fc@@YAXXZ,,0x0030A0FC,5,Code/gen_small/thunks_000_admitted.cpp,matched,gen-thunk;target=FUN_0070a083
 ?j_0031c838@@YAXXZ,,0x0031C838,5,Code/gen_small/thunks_000_admitted.cpp,matched,gen-thunk;target=FUN_0071c79d
 ?j_004da13f@@YAXXZ,,0x004DA13F,5,Code/gen_small/thunks_000_admitted.cpp,matched,gen-thunk;target=FUN_008d9fb9
+?moveVehicleToPos@AIGroup@@QAE_NPBUCoord3D@@W4CommandSourceType@@@Z,,0x00371AE2,2518,Code/GameEngine/Source/GameLogic/AI/Rva00370680Group.cpp,matched,WB EE20A0 independently names AIGroup::moveVehicleToPos; ZH friend_moveVehicleToPos at BFME1 c20abf172 semantic donor; target two/three-column balancing and Object goal calls; real STL plus visible exact helpers; preserve normal scalar loads and column local order; full2518 exact
