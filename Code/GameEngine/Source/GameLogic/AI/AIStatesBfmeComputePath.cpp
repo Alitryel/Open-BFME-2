@@ -135,6 +135,7 @@ struct WeaponTemplateView
 	int m_bfmeDuration7C; // +0x7C
 };
 
+class Object;
 class Weapon
 {
 public:
@@ -142,6 +143,9 @@ public:
 	const WeaponTemplateView *m_template04() const { return m_template; }
 	unsigned int m_bfmeFrame2C() const { return m_frame; }
 	WeaponSlotType getWeaponSlot() const { return m_wslot; }
+	// Rowed at 0x002CB35C (WeaponRva002CB2D1Range.cpp).
+	bool isWithinAttackRange(Object *source, const Coord3D *pos, Object *victim,
+		const Coord3D *victimPos, float bonus, bool checkMinimum);
 private:
 	unsigned char m_pad00[0x04];
 	const WeaponTemplateView *m_template; // +0x04
@@ -725,12 +729,6 @@ extern AI *TheAI;
 extern int BfmeLogicFramesPerSecond;
 
 // Opaque callees, named by body address with their pinned signatures.
-class Rva002CB35CObj
-{
-public:
-	Bool rva002CB35C(int source, void *goalPos, void *victim, void *victimPos,
-		Real extra, int flag);
-};
 class Rva002F23A6
 {
 public:
@@ -839,8 +837,8 @@ Bool AIAttackMeleeEngageState::computePath()
 		}
 		if (TheGameLogic->getBfmeDebugLevel() > 0 && !forceRepath)
 			debugTrace("masiwar called by AIAttackMeleeEngageState::computePath [1]");
-		if (!forceRepath && ((Rva002CB35CObj *)weapon)->rva002CB35C((int)source,
-			&m_goalPosition, victim, &m_prevVictimPos, 0.0f, 1))
+		if (!forceRepath && const_cast<Weapon *>(weapon)->isWithinAttackRange(source,
+			&m_goalPosition, victim, &m_prevVictimPos, 0.0f, true))
 			return true;
 		if (TheGameLogic->getBfmeDebugLevel() > 0)
 		{
