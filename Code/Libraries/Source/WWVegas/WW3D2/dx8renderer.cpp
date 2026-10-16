@@ -1457,42 +1457,52 @@ public:
 // Matrix storage the transform paths fill completely (no element constructors).
 struct TCRMatrixStorage { float m[12]; };
 
-WWINLINE void DX8Wrapper::Set_DX8_Render_State(D3DRENDERSTATETYPE state, unsigned value)
+// dx8wrapper.h's Set_DX8_Render_State / Set_Material / Set_Shader, inlined into Render below.
+// They live in this derived helper rather than as DX8Wrapper:: definitions: an inline
+// definition of the header's out-of-line declaration made this /O2 unit emit external
+// COMDAT copies that differ from the one retail body of each (0x0006615F, 0x000662B1,
+// 0x000662E5) and win the link for every caller. Render_Decal_Meshes keeps calling
+// DX8Wrapper::Set_DX8_Render_State out of line. ShaderClass base: ShaderDirty is protected.
+class TCRRenderStates : public DX8Wrapper, public ShaderClass
 {
-	if (RenderStates[state]==value) return;
+public:
+	static WWINLINE void Set_DX8_Render_State(D3DRENDERSTATETYPE state, unsigned value)
+	{
+		if (RenderStates[state]==value) return;
 #ifdef MESH_RENDER_SNAPSHOT_ENABLED
-	if (WW3D::Is_Snapshot_Activated()) {
-		StringClass value_name(0,true);
-		Get_DX8_Render_State_Value_Name(value_name,state,value);
-		SNAPSHOT_SAY(("DX8 - SetRenderState(state: %s, value: %s)\n",
-			Get_DX8_Render_State_Name(state),
-			value_name));
-	}
+		if (WW3D::Is_Snapshot_Activated()) {
+			StringClass value_name(0,true);
+			Get_DX8_Render_State_Value_Name(value_name,state,value);
+			SNAPSHOT_SAY(("DX8 - SetRenderState(state: %s, value: %s)\n",
+				Get_DX8_Render_State_Name(state),
+				value_name));
+		}
 #endif
-	RenderStates[state]=value;
-	DX8CALL(SetRenderState( state, value ));
-	DX8_RECORD_RENDER_STATE_CHANGE();
-}
-
-WWINLINE void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
-{
-	REF_PTR_SET(render_state.material,const_cast<VertexMaterialClass*>(material));
-	render_state_changed|=MATERIAL_CHANGED;
-	SNAPSHOT_SAY(("DX8Wrapper::Set_Material(%s)\n",material ? material->Get_Name() : "NULL"));
-}
-
-WWINLINE void DX8Wrapper::Set_Shader(const ShaderClass& shader)
-{
-	if (!ShaderClass::ShaderDirty && ((unsigned&)shader==(unsigned&)render_state.shader)) {
-		return;
+		RenderStates[state]=value;
+		DX8CALL(SetRenderState( state, value ));
+		DX8_RECORD_RENDER_STATE_CHANGE();
 	}
-	render_state.shader=shader;
-	render_state_changed|=SHADER_CHANGED;
+
+	static WWINLINE void Set_Material(const VertexMaterialClass* material)
+	{
+		REF_PTR_SET(render_state.material,const_cast<VertexMaterialClass*>(material));
+		render_state_changed|=0x4000;	// DX8Wrapper::MATERIAL_CHANGED (private enumerator)
+		SNAPSHOT_SAY(("DX8Wrapper::Set_Material(%s)\n",material ? material->Get_Name() : "NULL"));
+	}
+
+	static WWINLINE void Set_Shader(const ShaderClass& shader)
+	{
+		if (!ShaderClass::ShaderDirty && ((unsigned&)shader==(unsigned&)render_state.shader)) {
+			return;
+		}
+		render_state.shader=shader;
+		render_state_changed|=0x8000;	// DX8Wrapper::SHADER_CHANGED (private enumerator)
 #ifdef MESH_RENDER_SNAPSHOT_ENABLED
-	StringClass str;
+		StringClass str;
 #endif
-	SNAPSHOT_SAY(("DX8Wrapper::Set_Shader(%s)\n",shader.Get_Description(str)));
-}
+		SNAPSHOT_SAY(("DX8Wrapper::Set_Shader(%s)\n",shader.Get_Description(str)));
+	}
+};
 
 void DX8TextureCategoryClass::Render(void)
 {
@@ -1502,17 +1512,17 @@ void DX8TextureCategoryClass::Render(void)
 	}
 
 	VertexMaterialClass *vmaterial=(VertexMaterialClass *)Peek_Material();
-	DX8Wrapper::Set_Material(vmaterial);
+	TCRRenderStates::Set_Material(vmaterial);
 
 	ShaderClass theShader = Get_Shader();
-	DX8Wrapper::Set_Shader(theShader);
+	TCRRenderStates::Set_Shader(theShader);
 
 	if (m_gForceMultiply && theShader.Get_Dst_Blend_Func() == ShaderClass::DSTBLEND_ZERO) {
 		theShader.Set_Dst_Blend_Func(ShaderClass::DSTBLEND_SRC_COLOR);
 		theShader.Set_Src_Blend_Func(ShaderClass::SRCBLEND_ZERO);
-		DX8Wrapper::Set_Shader(theShader);
+		TCRRenderStates::Set_Shader(theShader);
 		DX8Wrapper::Apply_Render_State_Changes();
-		DX8Wrapper::Set_DX8_Render_State(D3DRS_SRCBLEND,D3DBLEND_DESTCOLOR);
+		TCRRenderStates::Set_DX8_Render_State(D3DRS_SRCBLEND,D3DBLEND_DESTCOLOR);
 	}
 
 	bool renderTasksRemaining=false;
@@ -1537,11 +1547,11 @@ void DX8TextureCategoryClass::Render(void)
 			if (mesh->HardwareFog) {
 				if (theShader.Get_Fog_Func() == ShaderClass::FOG_DISABLE) {
 					theShader.Enable_Fog("HardwareFog");
-					DX8Wrapper::Set_Shader(theShader);
+					TCRRenderStates::Set_Shader(theShader);
 				}
 			} else if (theShader.Get_Fog_Func() != ShaderClass::FOG_DISABLE) {
 				theShader.Set_Fog_Func(ShaderClass::FOG_DISABLE);
-				DX8Wrapper::Set_Shader(theShader);
+				TCRRenderStates::Set_Shader(theShader);
 			}
 		}
 
@@ -1604,7 +1614,7 @@ void DX8TextureCategoryClass::Render(void)
 		}
 
 		if (mesh->ObjectScale != 1.0f)
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_NORMALIZENORMALS, TRUE);
+			TCRRenderStates::Set_DX8_Render_State(D3DRS_NORMALIZENORMALS, TRUE);
 
 		int oldInherited = G00DEDA78;
 		G00DEDA78 = (int)((BFME2RenderObjInheritedDataView *)mesh)->Get_Inherited_Render_Data();
@@ -1624,7 +1634,7 @@ void DX8TextureCategoryClass::Render(void)
 				float alpha = mesh->Get_Alpha_Override();
 				if (sortedAlpha && alpha < 0.5f)
 					theAlphaShader.Set_Depth_Mask(ShaderClass::DEPTH_WRITE_DISABLE);
-				DX8Wrapper::Set_Shader(theAlphaShader);
+				TCRRenderStates::Set_Shader(theAlphaShader);
 				DX8Wrapper::Apply_Render_State_Changes();
 
 				bool stageModulates = TCRStageStates::Get(1,D3DTSS_ALPHAOP) == D3DTOP_MODULATE;
@@ -1640,17 +1650,17 @@ void DX8TextureCategoryClass::Render(void)
 						TCRStageStates::Set(1,D3DTSS_COLOROP,D3DTOP_SELECTARG1);
 					}
 				}
-				DX8Wrapper::Set_DX8_Render_State(D3DRS_TEXTUREFACTOR,((int)(alpha*255.0f))<<24);
-				DX8Wrapper::Set_DX8_Render_State(D3DRS_ALPHAREF,(int)((float)0x60*alpha));
+				TCRRenderStates::Set_DX8_Render_State(D3DRS_TEXTUREFACTOR,((int)(alpha*255.0f))<<24);
+				TCRRenderStates::Set_DX8_Render_State(D3DRS_ALPHAREF,(int)((float)0x60*alpha));
 				{
 					int offset = mesh->BaseVertexOffset;
 					renderer->Render(offset);
 				}
-				DX8Wrapper::Set_DX8_Render_State(D3DRS_ALPHAREF,0x60);
-				DX8Wrapper::Set_Shader(theShader);
+				TCRRenderStates::Set_DX8_Render_State(D3DRS_ALPHAREF,0x60);
+				TCRRenderStates::Set_Shader(theShader);
 				ShaderClass::Invalidate();
-				DX8Wrapper::Set_Material(NULL);
-				DX8Wrapper::Set_Material(vmaterial);
+				TCRRenderStates::Set_Material(NULL);
+				TCRRenderStates::Set_Material(vmaterial);
 			}
 			else {
 				int offset = mesh->BaseVertexOffset;
@@ -1661,7 +1671,7 @@ void DX8TextureCategoryClass::Render(void)
 		G00DEDA78 = oldInherited;
 
 		if (mesh->ObjectScale != 1.0f)
-			DX8Wrapper::Set_DX8_Render_State(D3DRS_NORMALIZENORMALS, FALSE);
+			TCRRenderStates::Set_DX8_Render_State(D3DRS_NORMALIZENORMALS, FALSE);
 
 		PolyRenderTaskClass * next_prt = prt->Get_Next_Visible();
 
