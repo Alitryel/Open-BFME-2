@@ -177,16 +177,16 @@ void Rva0035E00F::Rva0035E0F7(int index)
 	m_28 = index;
 }
 
-class Rva0035E2CF : public Rva001DBAC3Base { public: virtual ~Rva0035E2CF(); int m_pad[2]; int m_field; };
-Rva0035E2CF::~Rva0035E2CF() { m_field = 0; }
-void famgenDelete(Rva0035E2CF *p) { delete p; }
+class Rva0035E2E6 : public Rva001DBAC3Base { public: virtual ~Rva0035E2E6(); int m_pad[2]; int m_field; };
+Rva0035E2E6::~Rva0035E2E6() { m_field = 0; }
+void famgenDelete(Rva0035E2E6 *p) { delete p; }
 
-class Rva0035E378 : public Rva001DBAC3Base { public: virtual ~Rva0035E378(); int m_pad[2]; int m_field; };
-Rva0035E378::~Rva0035E378() { m_field = 0; }
-void famgenDelete(Rva0035E378 *p) { delete p; }
+class Rva0035E60B : public Rva001DBAC3Base { public: virtual ~Rva0035E60B(); int m_pad[2]; int m_field; };
+Rva0035E60B::~Rva0035E60B() { m_field = 0; }
+void famgenDelete(Rva0035E60B *p) { delete p; }
 
 // ?init@ButtonFlashTransition@@UAEXPAVGameWindow@@@Z @ 0x0035E97E (135B):
-// slot 1 offset 0x4 of vtable 0x008165F0 (class of ??1Rva0035E378@@UAE@XZ).
+// slot 1 offset 0x4 of vtable 0x008165F0 (class of ??1Rva0035E60B@@UAE@XZ).
 // Direct reuse of open-bfme-1 ButtonFlashTransition::init
 // (GameWindowTransitionsStyles.cpp + ButtonFlashTransition_init_Thunk.cpp):
 // winGetSize/Position into +0x18/+0x1C/+0x10/+0x14, update(0) via slot 2,
@@ -255,17 +255,17 @@ void ButtonFlashTransition::init(GameWindow *win)
 	m_gradient = TheMappedImageCollection->findImageByName(gradient);
 }
 
-class Rva0035ED92 : public Rva001DBAC3Base { public: virtual ~Rva0035ED92(); int m_pad[2]; int m_field; };
-Rva0035ED92::~Rva0035ED92() { m_field = 0; }
-void famgenDelete(Rva0035ED92 *p) { delete p; }
+class Rva0035EE66 : public Rva001DBAC3Base { public: virtual ~Rva0035EE66(); int m_pad[2]; int m_field; };
+Rva0035EE66::~Rva0035EE66() { m_field = 0; }
+void famgenDelete(Rva0035EE66 *p) { delete p; }
 
 class Rva0035F1D0 : public Rva001DBAC3Base { public: virtual ~Rva0035F1D0(); int m_pad[2]; int m_field; };
 Rva0035F1D0::~Rva0035F1D0() { m_field = 0; }
 void famgenDelete(Rva0035F1D0 *p) { delete p; }
 
-class Rva0035F42E : public Rva001DBAC3Base { public: virtual ~Rva0035F42E(); int m_pad[2]; int m_field; };
-Rva0035F42E::~Rva0035F42E() { m_field = 0; }
-void famgenDelete(Rva0035F42E *p) { delete p; }
+class Rva0035F4A6 : public Rva001DBAC3Base { public: virtual ~Rva0035F4A6(); int m_pad[2]; int m_field; };
+Rva0035F4A6::~Rva0035F4A6() { m_field = 0; }
+void famgenDelete(Rva0035F4A6 *p) { delete p; }
 
 class Rva0035FA2A : public Rva001DBAC3Base { public: virtual ~Rva0035FA2A(); int m_pad[2]; int m_field; };
 Rva0035FA2A::~Rva0035FA2A() { m_field = 0; }
