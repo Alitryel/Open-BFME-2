@@ -1,5 +1,6 @@
 // ?Load@AptLinker@@QAEXABVEAStringC@@V2@@Z
-// partial score=0.96 date=2026-10-16
+// partial score=0.985 date=2026-10-17
+// d7 seat1 lever 16: erase hoisted into its own if(node){...} before if(!node){add}else{add} gives retail block layout AND EH states 7/9; only residue: 4 address-register picks (bfmeGet return slot lea ecx vs edx and push before mov ebx,5; 0x6D21D8 edx vs eax; erase arg edx vs ecx; 0x6D2488 ecx vs edx).
 // AptLinker::Load, retail 0x006D1F80 (1525B, RET8).
 // Target evidence: assert strings name AptLoad.cpp line 0x262
 // "(*i)->GetTarget() != (*j)->GetTarget()" and the inlined AptCIH.h:0x7D
@@ -418,14 +419,16 @@ void AptLinker::Load(const EAStringC &file, EAStringC target)
 	BfmeNodeVMU *node = m_head;
 	while (node && node->entry->GetTarget() != cih)
 		node = node->next;
-	if (!node) {
-		if (loaded.m_object)
-			add(loaded, cih);
-	} else {
+	if (node) {
 		{
 			BfmeNodeVMU *erase = node;
 			((BfmeListVMU *)this)->bfmeEraseVMU(&erase);
 		}
+	}
+	if (!node) {
+		if (loaded.m_object)
+			add(loaded, cih);
+	} else {
 		if (loaded.m_object)
 			add(loaded, cih);
 	}
