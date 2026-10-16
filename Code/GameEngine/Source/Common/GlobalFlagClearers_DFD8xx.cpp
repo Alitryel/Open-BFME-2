@@ -19,9 +19,6 @@ unsigned int g_Va00DFDC50;
 extern unsigned int g_Va00DFDCD8;
 // g_Va00DFDCD8: matched references place it at VA 0xdfdcd8 (zero-filled .bss).
 unsigned int g_Va00DFDCD8;
-extern unsigned int g_Va00DFDCF4;
-// g_Va00DFDCF4: matched references place it at VA 0xdfdcf4 (zero-filled .bss).
-unsigned int g_Va00DFDCF4;
 extern unsigned int g_Va00DFE014;
 // g_Va00DFE014: matched references place it at VA 0xdfe014 (zero-filled .bss).
 unsigned int g_Va00DFE014;
@@ -51,18 +48,11 @@ unsigned int Rva0076B063ClearFlag(void)
 	return g_Va00DFDCD8 &= 0xFFFFFFFEu;
 }
 
-unsigned int Rva0076B21CClearFlag(void)
-{
-	return g_Va00DFDCF4 &= 0xFFFFFFFBu;
-}
-
-unsigned int Rva0076B229ClearFlag(void)
-{
-	return g_Va00DFDCF4 &= 0xFFFFFFF7u;
-}
-
 // The76B248 action belongs to positional GenericObjectCreationNugget::create.
 // Its native parent now emits the guard cleanup and owns the sole guard datum.
+// The 76B21C/76B229 actions (and 76B1DF/76B20F, formerly in
+// GlobalFlagClearers_DFxx.cpp) belong to GenericObjectCreationNugget::doStuffToObj,
+// whose native parent emits them and owns the guard datum at 0x00DFDCF4.
 
 unsigned int Rva0076B9FFClearFlag(void)
 {

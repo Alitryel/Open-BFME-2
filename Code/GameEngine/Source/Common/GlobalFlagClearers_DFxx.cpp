@@ -36,7 +36,6 @@ unsigned int g_Va00DFD934;
 extern unsigned int g_Va00DFDCE0;
 // g_Va00DFDCE0: matched references place it at VA 0xdfdce0 (zero-filled .bss).
 unsigned int g_Va00DFDCE0;
-extern unsigned int g_Va00DFDCF4;
 extern unsigned int g_Va00DFE014;
 extern unsigned int g_Va00DFE484;
 // g_Va00DFE484: matched references place it at VA 0xdfe484 (zero-filled .bss).
@@ -122,11 +121,6 @@ unsigned int Rva0076B135ClearFlag(void)
 	return g_Va00DFDCE0 &= 0xFFFFFFFEu;
 }
 
-unsigned int Rva0076B20FClearFlag(void)
-{
-	return g_Va00DFDCF4 &= 0xFFFFFFFDu;
-}
-
 unsigned int Rva0076B9EAClearFlag(void)
 {
 	return g_Va00DFE014 &= 0xFFFFFFFEu;
@@ -190,11 +184,6 @@ unsigned int Rva007774DDClearFlag(void)
 unsigned int Rva00779416ClearFlag(void)
 {
 	return g_Va00DFF158 &= 0xFFFFFFFEu;
-}
-
-unsigned int Rva0076B1DFClearFlag(void)
-{
-	return g_Va00DFDCF4 &= 0xFFFFFFFEu;
 }
 
 unsigned int Rva007700C2ClearFlag(void)

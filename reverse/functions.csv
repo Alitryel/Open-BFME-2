@@ -19359,9 +19359,9 @@ uw_0076b17e,,0x0076B17E,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;obj
 uw_0076b189,,0x0076B189,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L4156
 uw_0076b19e,,0x0076B19E,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L6467
 uw_0076b1ca,,0x0076B1CA,11,Code/gen_small/uw_gen_009.cpp,matched,gen-funclet;object-symbol=$L2809
-uw_0076b1ec,,0x0076B1EC,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L3815
-uw_0076b1f4,,0x0076B1F4,8,Code/gen_small/uw_gen_013.cpp,matched,gen-funclet;object-symbol=$L3825
-uw_0076b1fc,,0x0076B1FC,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L2982
+uw_0076b1ec,,0x0076B1EC,8,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetDoStuffToObj.cpp,matched,gen-funclet;parent=?doStuffToObj@GenericObjectCreationNugget@@IBEXPAVObject@@ABVAsciiString@@PBUCoord3D@@PBVMatrix3D@@MPBV2@IH@Z;object-symbol=$L7386
+uw_0076b1f4,,0x0076B1F4,8,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetDoStuffToObj.cpp,matched,gen-funclet;parent=?doStuffToObj@GenericObjectCreationNugget@@IBEXPAVObject@@ABVAsciiString@@PBUCoord3D@@PBVMatrix3D@@MPBV2@IH@Z;object-symbol=$L7387
+uw_0076b1fc,,0x0076B1FC,11,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetDoStuffToObj.cpp,matched,gen-funclet;parent=?doStuffToObj@GenericObjectCreationNugget@@IBEXPAVObject@@ABVAsciiString@@PBUCoord3D@@PBVMatrix3D@@MPBV2@IH@Z;object-symbol=$L7456
 uw_0076b255,,0x0076B255,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L2955
 uw_0076b26a,,0x0076B26A,8,Code/gen_small/uw_gen_010.cpp,matched,gen-funclet;object-symbol=$L6427
 uw_0076b272,,0x0076B272,11,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L2880
@@ -33396,8 +33396,6 @@ _VP6_DecodeMacroBlock,,0x001C66B0,705,Code/Libraries/Source/VP6/DecodeMacroBlock
 ?Rva00769BDDClearFlag@@YAIXZ,,0x00769BDD,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFD8xx.cpp,matched,B2-native clearer in DFD8-DCDF run; rdata table slot; /G7 narrowing
 ?Rva00769BF4ClearFlag@@YAIXZ,,0x00769BF4,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFD8xx.cpp,matched,B2-native clearer in DFD8-DCDF run; rdata table slot; /G7 narrowing
 ?Rva0076B063ClearFlag@@YAIXZ,,0x0076B063,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFD8xx.cpp,matched,B2-native clearer in DFD8-DCDF run; rdata table slot; /G7 narrowing
-?Rva0076B21CClearFlag@@YAIXZ,,0x0076B21C,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFD8xx.cpp,matched,B2-native clearer in DFD8-DCDF run; rdata table slot; /G7 narrowing
-?Rva0076B229ClearFlag@@YAIXZ,,0x0076B229,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFD8xx.cpp,matched,B2-native clearer in DFD8-DCDF run; rdata table slot; /G7 narrowing
 ?Rva0076B9FFClearFlag@@YAIXZ,,0x0076B9FF,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFD8xx.cpp,matched,B2-native clearer in DFD8-DCDF run; rdata table slot; /G7 narrowing
 ?get@Rva000B4272DivAvgField@@QBEHXZ,,0x000B4272,12,Code/GameEngine/Source/Common/Disp8DivAvgDwordGetters.cpp,matched,Disp8 div-avg getter /O1 push-imm8 shape phase-proven no-branch-to-addr
 ?get@Rva0014DB51DivAvgField@@QBEHXZ,,0x0014DB51,12,Code/GameEngine/Source/Common/Disp8DivAvgDwordGetters.cpp,matched,Disp8 div-avg getter /O1 push-imm8 shape phase-proven no-branch-to-addr
@@ -34305,7 +34303,6 @@ _duck_mem_set_allocator,,0x001B6380,10,Code/Libraries/Source/VP6/DuckMem.cpp,mat
 ?Rva00769290ClearFlag@@YAIXZ,,0x00769290,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva007693B0ClearFlag@@YAIXZ,,0x007693B0,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva0076B135ClearFlag@@YAIXZ,,0x0076B135,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
-?Rva0076B20FClearFlag@@YAIXZ,,0x0076B20F,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva0076B9EAClearFlag@@YAIXZ,,0x0076B9EA,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva0076ED89ClearFlag@@YAIXZ,,0x0076ED89,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva0076ED96ClearFlag@@YAIXZ,,0x0076ED96,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
@@ -34349,7 +34346,6 @@ _duck_mem_set_allocator,,0x001B6380,10,Code/Libraries/Source/VP6/DuckMem.cpp,mat
 ?Rva0078FE76ClearFlag@@YAIXZ,,0x0078FE76,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E041xx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva0078FF3DClearFlag@@YAIXZ,,0x0078FF3D,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E041xx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva0078FFBFClearFlag@@YAIXZ,,0x0078FFBF,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E041xx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
-?Rva0076B1DFClearFlag@@YAIXZ,,0x0076B1DF,13,Code/GameEngine/Source/Common/GlobalFlagClearers_DFxx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva00790304ClearFlag@@YAIXZ,,0x00790304,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E042xx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva0079031BClearFlag@@YAIXZ,,0x0079031B,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E042xx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
 ?Rva00790385ClearFlag@@YAIXZ,,0x00790385,13,Code/GameEngine/Source/Common/GlobalFlagClearers_E042xx.cpp,matched,B2-native scattered clearer with rdata table slot under /G7 narrowing
@@ -94271,3 +94267,9 @@ $L923,,0x007A8E96,15,Code/Libraries/Source/Apt/AptValue/AptValueConstructBuiltIn
 ?rva006CE1C0@@YAXH@Z,,0x006CE1C0,443,Code/Libraries/Source/Apt/rva006CE1C0Rva006CE1C0Farm.cpp,matched,
 ?rva00273DCF@Drawable@@QAEXXZ,,0x00273DCF,421,Code/GameEngine/Source/GameClient/rva00273DCFRva00273DCFFarm.cpp,matched,
 ?render@Rva000E0856@@QAEXPAVRenderContext@@@Z,,0x000E0856,621,Code/GameEngine/Source/Common/renderRva000E0856Farm.cpp,matched,
+?doStuffToObj@GenericObjectCreationNugget@@IBEXPAVObject@@ABVAsciiString@@PBUCoord3D@@PBVMatrix3D@@MPBV2@IH@Z,,0x001F22A8,3075,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetDoStuffToObj.cpp,matched,WB B06AE0 ObjectCreationList.cpp 1199-1564 order and module keys; ZH semantic guide; eight-argument BFME2 contract (radial index); nugget offsets from ctor 1F0E32 / dtor 1F31C6; visible same-unit calcRandomForce 1F0247 (non-escaping force slot) and opaque adjustVector 1F2EAB; STLport begin()+n AnimSet indexing; inline orientation accessor; all 3075 B with native EH
+$L7384,,0x0076B1DF,13,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetDoStuffToObj.cpp,matched,gen-funclet;parent=?doStuffToObj@GenericObjectCreationNugget@@IBEXPAVObject@@ABVAsciiString@@PBUCoord3D@@PBVMatrix3D@@MPBV2@IH@Z; verified parent EH graph places this state-to-previous cleanup here: clears the LifetimeUpdate key bit0 of the function-static NameKey guard (VA 0x00DFDCF4); replaces the standalone address-derived clearer ?Rva0076B1DFClearFlag@@YAIXZ
+$L7390,,0x0076B20F,13,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetDoStuffToObj.cpp,matched,gen-funclet;parent=?doStuffToObj@GenericObjectCreationNugget@@IBEXPAVObject@@ABVAsciiString@@PBUCoord3D@@PBVMatrix3D@@MPBV2@IH@Z; verified parent EH graph places this state-to-previous cleanup here: clears the SpawnedModelConditionCreate key bit1 of the function-static NameKey guard (VA 0x00DFDCF4); replaces the standalone address-derived clearer ?Rva0076B20FClearFlag@@YAIXZ
+$L7391,,0x0076B21C,13,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetDoStuffToObj.cpp,matched,gen-funclet;parent=?doStuffToObj@GenericObjectCreationNugget@@IBEXPAVObject@@ABVAsciiString@@PBUCoord3D@@PBVMatrix3D@@MPBV2@IH@Z; verified parent EH graph places this state-to-previous cleanup here: clears the FadeAndDieOrnamentUpdate key bit2 of the function-static NameKey guard (VA 0x00DFDCF4); replaces the standalone address-derived clearer ?Rva0076B21CClearFlag@@YAIXZ
+$L7392,,0x0076B229,13,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetDoStuffToObj.cpp,matched,gen-funclet;parent=?doStuffToObj@GenericObjectCreationNugget@@IBEXPAVObject@@ABVAsciiString@@PBUCoord3D@@PBVMatrix3D@@MPBV2@IH@Z; verified parent EH graph places this state-to-previous cleanup here: clears the FloatUpdate key bit3 of the function-static NameKey guard (VA 0x00DFDCF4); replaces the standalone address-derived clearer ?Rva0076B229ClearFlag@@YAIXZ
+$L7389,,0x0076B207,8,Code/GameEngine/Source/GameLogic/Object/GenericObjectCreationNuggetDoStuffToObj.cpp,matched,gen-funclet;parent=?doStuffToObj@GenericObjectCreationNugget@@IBEXPAVObject@@ABVAsciiString@@PBUCoord3D@@PBVMatrix3D@@MPBV2@IH@Z; verified parent EH graph places the particle-system handle temporary cleanup here
