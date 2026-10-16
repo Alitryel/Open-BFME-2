@@ -225,6 +225,13 @@ AptCampaignReview::AptCampaignReview(void *context)
 	((Rva00224BC9Owner *)g_bfmeAptWindowManager)->check();
 }
 
+// Retail 0x000D1407 (3 bytes, ret 0Ch): the empty InitGadgets screen callback
+// the constructor binds; identical code folding shares the body with the other
+// empty three-argument thiscall members (RenderObjClass::Set_Animation's row).
+void AptCampaignReview::rva000D1407(const char *name, void *argument, GameWindow *window)
+{
+}
+
 // Retail 0x00512948, 356 bytes: "APT:CmpgnRevResult" names the campaign
 // result, total victory, victory or survived, and is empty without a living
 // world or for any other result.
