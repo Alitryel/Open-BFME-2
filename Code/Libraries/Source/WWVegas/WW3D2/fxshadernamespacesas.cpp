@@ -944,6 +944,42 @@ void FXShaderParameterSourceNamespaceSAS::SourceNamespace_AmbientLight::ResolveB
 	}
 }
 
+// Retail 0x0014D5B0, 156 bytes: the ambient light's color. Each arm has its
+// own color array and SetVector call; cl gives both arrays one slot and merges
+// the two calls. With one function-scope array (the directional light's form
+// below) the ambient loads stay behind the color stores, and named x/y/z
+// locals hoist them but number the XMM registers from the components instead
+// of from the 2.0f constant.
+void FXShaderParameterSourceNamespaceSAS::SourceNamespace_AmbientLight::rva0014D5B0(ID3DXEffect *effect, D3DXHANDLE parameter)
+{
+	Rva0013F6F0LightEnv *env = (Rva0013F6F0LightEnv *)DX8Wrapper::Get_Light_Environment();
+	if (env != 0 && m_index == 0)
+	{
+		const Rva0013F6F0LightEnv::Vector3 &ambient = env->Get_Equivalent_Ambient();
+		float color[4];
+		color[0] = ambient.X;
+		color[1] = ambient.Y;
+		color[2] = ambient.Z;
+		if (ShaderOverbrightEnabled)
+		{
+			color[0] *= 2.0f;
+			color[1] *= 2.0f;
+			color[2] *= 2.0f;
+		}
+		color[3] = 0.0f;
+		effect->SetVector(parameter, color);
+	}
+	else
+	{
+		float color[4];
+		color[0] = 0.0f;
+		color[1] = 0.0f;
+		color[2] = 0.0f;
+		color[3] = 0.0f;
+		effect->SetVector(parameter, color);
+	}
+}
+
 // Retail 0x0014D66F, 179 bytes: the indexed directional light's diffuse.
 void FXShaderParameterSourceNamespaceSAS::SourceNamespace_DirectionalLight::rva0014D66F(ID3DXEffect *effect, D3DXHANDLE parameter)
 {
