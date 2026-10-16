@@ -28,4 +28,11 @@ template <> void _Construct<BfmeStringRecord00568CE0, BfmeStringRecord00568CE0>(
 namespace _STL {
 template <> BfmeStringRecord00568CE0 *allocator<BfmeStringRecord00568CE0>::allocate(unsigned int, const void *) const;
 }
-template class _STL::vector<BfmeStringRecord00568CE0, _STL::allocator<BfmeStringRecord00568CE0> >;
+// Only the members whose bodies are rowed here (and the helpers they emit)
+// are instantiated: a whole-class instantiation also emits resize() and the
+// count ctor, which reference the record's default ctor (no row, no
+// definer).
+typedef _STL::vector<BfmeStringRecord00568CE0, _STL::allocator<BfmeStringRecord00568CE0> > BfmeStringRecord00568CE0Vector;
+template void BfmeStringRecord00568CE0Vector::push_back(const BfmeStringRecord00568CE0 &);
+template BfmeStringRecord00568CE0Vector &BfmeStringRecord00568CE0Vector::operator=(const BfmeStringRecord00568CE0Vector &);
+template void BfmeStringRecord00568CE0Vector::_M_clear();
