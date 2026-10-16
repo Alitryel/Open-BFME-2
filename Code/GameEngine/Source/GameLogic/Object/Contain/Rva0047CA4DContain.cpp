@@ -6,7 +6,7 @@
 // over tab+0x18c with the limit at +0x190, same-controller pass-through). Deltas:
 // the count member reads at +0x10c (not +0x100), the count gate is an && early
 // return (jb-to-eval layout), and the tab/limit refusals delegate to the sibling
-// slot38-shape body at 0x004771EB (address-named Rva004771EB::slot38 pin) while
+// slot38-shape body at 0x004771EB (rowed HordeTransportContain::isValidContainerFor) while
 // count/player refusals fall back to TransportContain::slot38 pin 0x00466EDE.
 // Honest address name; the owning class is unproven (a HordeSiegeEngineContain
 // slot is suspected from the matched slot53 row at the next address 0x0047CADB).
@@ -38,10 +38,11 @@ class TransportContain
 public:
 	virtual bool slot38(Object *obj, int a, int b);
 };
-class Rva004771EB
+// 0x004771EB is rowed as HordeTransportContain::isValidContainerFor.
+class HordeTransportContain
 {
 public:
-	virtual bool slot38(Object *obj, int a, int b);
+	virtual bool isValidContainerFor(Object *obj, bool a, bool b);
 };
 class Rva0047CA4D
 {
@@ -74,6 +75,6 @@ bool Rva0047CA4D::rva0047CA4D(Object *obj, int a2, int a3)
 		}
 	}
  failOther:
-	return ((Rva004771EB *)this)->Rva004771EB::slot38(obj, a2, a3);
+	return ((HordeTransportContain *)this)->HordeTransportContain::isValidContainerFor(obj, *(bool *)&a2, *(bool *)&a3);
 }
 #pragma optimize("", on)
