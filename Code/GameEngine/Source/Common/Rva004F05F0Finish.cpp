@@ -1,5 +1,5 @@
 // cl: /O1 /DNDEBUG /MD /GX /Ireference/shims/moduledata
-// ??1Rva00161220@@UAE@XZ at 0x004F05F0 102B: ModuleData-style dtor with list teardown.
+// ??1TeamInQueue@@UAE@XZ at 0x004F05F0 102B: TeamInQueue dtor (work-order list at +0x14, team at +0x1C).
 // Evidence: vptr 0x862B78 at +0 then Snapshot restore 0xBBB554; list at +0x14 via virtual slot0(0) plus operator delete 0x2FD60; flag bytes at +0x5D/+0x5E via +0x1C; layout matches Rva00161220Ctor TU; precedent PillageModuleDataDtor.
 
 void __cdecl operator delete(void *p);
@@ -22,10 +22,10 @@ struct Rva004F05F0Flags
 	unsigned char m_5E;
 };
 
-class Rva00161220 : public Snapshot
+class TeamInQueue : public Snapshot
 {
 public:
-	virtual ~Rva00161220();
+	virtual ~TeamInQueue();
 
 private:
 	unsigned char m_pad04[0x10]; // +04..+13
@@ -34,7 +34,7 @@ private:
 	Rva004F05F0Flags *m_flags; // +1C
 };
 
-Rva00161220::~Rva00161220()
+TeamInQueue::~TeamInQueue()
 {
 	Rva004F05F0Node *cur = m_listHead;
 	while (cur != 0)

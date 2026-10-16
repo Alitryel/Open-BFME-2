@@ -9341,7 +9341,7 @@ _VerticalBand_1_2_Scale_C,,0x001BA360,56,Code/Libraries/Source/VP6/ScaleC.cpp,ma
 ?find@Rva008951B0Owner@@QAE?AVRva008951B0Handle@@PAX@Z,,0x006D0190,52,Code/GameEngine/Source/Common/Rva008951B0Find.cpp,matched,BFME1 byte-identical donor; b1 0x008951B0
 ??0Rva00802680Owner@@QAE@XZ,,0x0066E880,51,Code/GameEngine/Source/GameNetwork/Rva00802640FeslCtor.cpp,matched,BFME1 byte-identical donor; b1 0x00802640
 ?set@Rva007F4980@@QAEXPAXH@Z,,0x00661430,51,Code/GameEngine/Source/GameNetwork/Rva007F4980Slot.cpp,matched,BFME1 byte-identical donor; b1 0x007F4980
-??0Rva00161220@@QAE@XZ,,0x004EF5CE,50,Code/GameEngine/Source/Common/Rva00161220Ctor.cpp,matched,BFME1 donor with vtable-literal repair; b1 0x00161220
+??0TeamInQueue@@QAE@XZ,,0x004EF5CE,50,Code/GameEngine/Source/Common/Rva00161220Ctor.cpp,matched,BFME1 donor with vtable-literal repair; b1 0x00161220
 _duck_memset,,0x001B6420,49,Code/Libraries/Source/VP6/MemShim.cpp,matched,Clean-room spec 001b6420; duck_memset: cdecl EA shim returning memset of the block (intrinsic); same retail extent as the replaced placeholder; implemented from reverse/vp6_cleanroom/specs/001b6420.md and retail only
 ?apply@Rva007F91A0Host@@QAEXH@Z,,0x00665740,48,Code/GameEngine/Source/GameNetwork/Rva007F91A0Log.cpp,matched,BFME1 byte-identical donor; b1 0x007F91A0
 ?Rva0005D6D0DisableImmTextFrameService@@YAXXZ,,0x00001CF0,47,Code/GameEngine/Source/Common/Rva0005D6D0DisableImmTextFrameService.cpp,matched,BFME1 byte-identical donor; b1 0x0005D6D0
@@ -48805,7 +48805,7 @@ _rva006D9D70Comparator,,0x006D9D70,203,Code/Libraries/Source/Apt/AptValue/Rva006
 ?rva0015B8C0@MeshMatDescClass@@QAEXXZ,,0x0015B8C0,157,Code/Libraries/Source/WWVegas/WW3D2/MeshMatDescUniqueArrays.cpp,matched,MeshMatDesc loop 4 at +0xb8 via RefPtr callee 0x15B110
 ?rva003971BF@Rva003971BF@@QAE_NPAUArg3971BF@@@Z,,0x003971BF,121,Code/GameEngine/Source/Common/Rva003971BFFinish.cpp,matched,ObjectID +0x50/+0x74 range check; unsigned n>0 reproduces retail sar-vs-test range test; lands 121B
 ?rva004036B1@Rva004036B1@@QAE_NPAXPAMPBV?$StringBase@D@@@Z,,0x004036B1,92,Code/GameEngine/Source/Common/Rva004036B1Finish.cpp,matched,0x14-stride key range find; unsigned n<=0 reproduces retail sar-vs-test pointer-count check; lands 92B
-??1Rva00161220@@UAE@XZ,,0x004F05F0,102,Code/GameEngine/Source/Common/Rva004F05F0Finish.cpp,matched,ModuleData-style virtual dtor; compiler-emitted derived vptr store orders EH state as retail; lands 102B
+??1TeamInQueue@@UAE@XZ,,0x004F05F0,102,Code/GameEngine/Source/Common/Rva004F05F0Finish.cpp,matched,ModuleData-style virtual dtor; compiler-emitted derived vptr store orders EH state as retail; lands 102B
 ??0Rva00224CDC@@QAE@XZ,,0x00224CDC,83,Code/GameEngine/Source/Common/Rva00224CDCFinish.cpp,matched,subsystem ctor baseConstruct plus EH-state tracked ArmorTemplateMap twin call via rowed dup 0x224C76 plus setName AptButtonTooltipMap
 ?doDisplayText@ScriptActions@@IAEXABVAsciiString@@@Z,,0x003BFD88,35,Code/GameEngine/Source/GameLogic/ScriptEngine/Rva003BFD88Finish.cpp,matched,DISPLAY_TEXT handler forwards by-value AsciiString to InGameUI slot 0x3C through StringBase copy ctor 0x365F0; donor body from BFME1 0x2F3BA0 plus target action template 78 evidence
 ??RBfmeCopyRecord8CmpDescending@@QBE_NABUBfmeCopyRecord8@@0@Z,,0x00549CAE,29,Code/Libraries/Source/WWVegas/WWLib/stlport_deque_copyrecord8_sort.cpp,matched,STLport deque sort body over BfmeCopyRecord8 the unit instantiates; placed where its masked bytes equal retail at the address the retail call chain from the introsort loop 0x0054C01E (third caller of the folded median 0x005A9215) fixes
@@ -50237,7 +50237,7 @@ _GetThisFrameReconPtr,,0x001B6330,11,Code/Libraries/Source/VP6/PbAccessors.cpp,m
 ?update@ControlBarArrowTransition@@UAEXH@Z,,0x0035D75D,36,Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsStylesO1.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ?reverse@CountUpTransition@@UAEXXZ,,0x0035F618,35,Code/GameEngine/Source/GameClient/GUI/GameWindowTransitionsStylesO1.cpp,matched,placed by masked whole-.text search of the compiled body - single hit
 ??_GRva001F4C67@@UAEPAXI@Z,,0x001F61C9,28,Code/GameEngine/Source/Common/Rva001F4C67Finish.cpp,matched,scalar deleting dtor; vftable slot 0 of 0xBE173C; calls rowed dtor 0x1F4C67
-??_GRva00161220@@UAEPAXI@Z,,0x004EF606,28,Code/GameEngine/Source/Common/Rva004F05F0Finish.cpp,matched,scalar deleting dtor; vftable slot 0 of 0xC62B78; calls rowed dtor 0x4F05F0
+??_GTeamInQueue@@UAEPAXI@Z,,0x004EF606,28,Code/GameEngine/Source/Common/Rva004F05F0Finish.cpp,matched,scalar deleting dtor; vftable slot 0 of 0xC62B78; calls rowed dtor 0x4F05F0
 ??_GRva00575E4E@@UAEPAXI@Z,,0x00576041,28,Code/GameEngine/Source/Common/Rva00575E4EDtor.cpp,matched,scalar deleting dtor; vftable slot 0 of 0xC6E688; calls rowed dtor 0x575E4E
 ??_GRva005C33D2@@UAEPAXI@Z,,0x005C352D,28,Code/GameEngine/Source/Common/RvaDerivedDtorTails.cpp,matched,scalar deleting dtor; vftable slot 0 of 0xC74434; calls rowed dtor 0x5C33D2
 ?rva003079ED@Rva003079ED@@QAEXXZ,,0x003079ED,63,Code/Libraries/Source/WWVegas/WWLib/Rva003079EDFinish.cpp,matched,finish from 0.93 bank BfmeE12 swap retails to ICF twin 0x3079C1

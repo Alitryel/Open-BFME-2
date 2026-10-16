@@ -5,7 +5,9 @@
 // anchor stands in (mov-imm-DIR32, patched from retail).
 static int Rva00161220VTableAnchor;
 
-class Rva00161220
+// TeamInQueue (ZH AIPlayer.h): queueDozer 0x004F2931 and AIPlayer::xfer construct it on
+// new(0x30) and prepend it to the build/ready queues; its dtor is 0x004F05F0.
+class TeamInQueue
 {
 	void *m_vptr;
 	int m_04;
@@ -23,10 +25,10 @@ class Rva00161220
 	int m_2C;
 
 public:
-	Rva00161220();
+	TeamInQueue();
 };
 
-Rva00161220::Rva00161220()
+TeamInQueue::TeamInQueue()
 {
 	m_vptr = (void *)&Rva00161220VTableAnchor;
 	m_04 = 0;

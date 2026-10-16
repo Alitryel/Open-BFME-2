@@ -130,10 +130,11 @@ public:
 	int m_value;
 };
 
-class Rva00161220
+// TeamInQueue: the build-queue record ctor 0x004EF5CE (new 0x30).
+class TeamInQueue
 {
 public:
-	Rva00161220() throw();
+	TeamInQueue() throw();
 private:
 	void *m_vptr;
 	char m_pad[0x30 - 4];
@@ -226,7 +227,7 @@ void AIPlayer::xfer(Xfer *xfer)
 		if (m_teamBuildQueue != 0)
 			throw XferException(5, 0);
 		for (UnsignedShort i = 0; i < teamBuildQueueCount; ++i) {
-			void *p = new Rva00161220;
+			void *p = new TeamInQueue;
 			prependTo_TeamBuildQueue((TeamInQueue *)p);
 			*xfer == *(Snapshot *)p;
 		}
@@ -253,7 +254,7 @@ void AIPlayer::xfer(Xfer *xfer)
 		if (m_teamReadyQueue != 0)
 			throw XferException(5, 0);
 		for (UnsignedShort i = 0; i < teamReadyQueueCount; ++i) {
-			void *p = new Rva00161220;
+			void *p = new TeamInQueue;
 			prependTo_TeamReadyQueue((TeamInQueue *)p);
 			*xfer == *(Snapshot *)p;
 		}
