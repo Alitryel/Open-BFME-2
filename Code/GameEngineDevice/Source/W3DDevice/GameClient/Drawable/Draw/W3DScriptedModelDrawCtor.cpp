@@ -26,6 +26,7 @@ class ModuleData;
 class ObjectCreationList;
 struct Rva00B6CF1;
 struct BfmePod20;
+struct BridgeBehaviorListValue12;
 struct Rva000B2BE5Src;
 
 namespace _STL {
@@ -85,6 +86,27 @@ private:
 	void *m_tree[3];
 };
 }
+
+// Native member64 uses ctor453ADD but its destructor calls BD218,
+// whose real C++ provider destroys the string tail in every node.
+// Only the header ABI is claimed; the actual element type is unresolved.
+class Rva000C0DD8ListHeader
+{
+    typedef _STL::_List_base<BfmePod20, _STL::allocator<BfmePod20> > ConstructView;
+    typedef _STL::_List_base<BridgeBehaviorListValue12, _STL::allocator<BridgeBehaviorListValue12> > DestroyView;
+    void *m_node;
+public:
+    __forceinline Rva000C0DD8ListHeader()
+    {
+        reinterpret_cast<ConstructView *>(this)->ConstructView::_List_base(_STL::allocator<BfmePod20>());
+    }
+    ~Rva000C0DD8ListHeader()
+    {
+        reinterpret_cast<DestroyView *>(this)->DestroyView::~_List_base();
+    }
+};
+
+typedef char ScriptedModelListHeaderSizeCheck[sizeof(Rva000C0DD8ListHeader) == 4 ? 1 : -1];
 
 // Pointer-chain handle at +0x1C: unlinked through 0x0004CBC0 when set.
 // 0x0004CBC0 is the handle unlink (row ?rva0004CBC0@RvaSmartPtr12@@QAEXXZ); the dtor is the inline null test around it.
@@ -296,7 +318,7 @@ private:
 	int m_58;
 	int m_5c;
 	int m_60;
-	_STL::list<BfmePod20> m_64;
+	Rva000C0DD8ListHeader m_64;
 	Rva000C04D4 m_68;
 	Rva000C04D4 m_74;
 	bool m_80;
