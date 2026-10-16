@@ -1,17 +1,21 @@
-// ?postRender@Rva007D6B70@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z
-// partial score=0.999 date=2026-10-16
-// ?postRender@Rva007D6B70@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z
-// Retail 0x000F7187..0x000F816E (4071 B, RET 0x10), slot 3 of the Rva007D6B70
-// filter vtable (shutdown F70EB, set F816E, reset F8735 rowed). This whole
-// unit (grid helper 0xF6DB0 + postRender) is the intended home
-// ScreenFilterRva007D6B70Grid.cpp. postRender compiles BYTE-EXACT with exact
-// EH; its only blocker is the unrowed grid callee 0xF6DB0 (bank nd5, loop-tail
-// scheduling). Levers: 1.0f/viewport divisions written as plain divisions (cl
-// emits one reciprocal), two function-scope D3DXVECTOR4 constants built from a
-// by-value RGBColor helper (temps share the vertex-temp slot), inline
-// Set_Pixel_Shader wrapper, u = m_scrollX + (u*2 + m_spread).
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include
-#include <math.h>
+//
+// ?postRender@Rva007D6B70@@UAE_NW4FilterModes@@AAVCoord2D@@AA_NPAV3@@Z,
+// retail 0x000F7187..0x000F816E (4071 bytes, thiscall ret 0x10): slot 3 of
+// the Rva007D6B70 filter vtable, whose shutdown 0x000F70EB, set 0x000F816E
+// and reset 0x000F8735 are rowed. Twin of the Rva007DB820 postRender
+// 0x000F88E8 (ScreenFilterRva007DB820PostRender.cpp).
+//
+// It sets the mode, runs the glow pass when enabled, drifts the scroll and
+// spread offsets, draws a first-pass quad over the tactical view, then has the
+// grid helper 0x000F6DB0 (pinned; its body is banked) fill a 10x10 dynamic
+// grid and draws that with the second-pass shader while the draw strength is
+// positive.
+//
+// Levers: the 1/viewport divisions are written as plain divisions (cl emits
+// one reciprocal), the two function-scope D3DXVECTOR4 constants come from a
+// by-value RGBColor helper (their temps share the vertex-temp slot),
+// Set_Pixel_Shader is an inline wrapper, and u = m_scrollX + (u*2 + m_spread).
 #include <string.h>
 #include "Lib/Coord2D.h"
 #include "Lib/RGBColor.h"
@@ -243,13 +247,9 @@ private:
 	char m_storage[0x18];
 };
 
-struct GridSettings { char m_pad00[0x54]; float m_scale; };
 int Rva00309E7FGet(void);
 
 extern float g_Va00DB457C;
-static float GridPhase0, GridPhase1;
-static float GridWave0Amplitude = 0.2f, GridWave0Frequency = 12.566370964f, GridWave0Phase = 2.0f;
-static float GridWave1Amplitude = 0.5f, GridWave1Frequency = 12.566370964f, GridWave1Phase = 2.0f;
 
 // The filter settings record returned by 0x309E7F (VA 0x00DBD918).
 struct Rva007D6B70Settings
@@ -301,50 +301,6 @@ private:
 	IDirect3DSurface8 *m_glowSurface;	// +0x40
 	IDirect3DSurface8 *m_44;	// +0x44
 };
-
-void Rva007D6B70::rva000F6DB0(DynamicIBAccessClass *ib, int a, DynamicVBAccessClass *vb, int b, int columns, int rows,
-	float left, float top, float width, float height, Coord2D *dims)
-{
-	++columns; ++rows;
-	float scale = g_Va00DB457C * 0.0125f;
-	if (scale > 6.0f) scale = 6.0f;
-	if (scale < 0.6f) scale = 0.6f;
-	float amplitude = scale * ((GridSettings *)Rva00309E7FGet())->m_scale;
-	{
-		DynamicIBAccessClass::WriteLockClass lock(ib);
-		unsigned short *p = lock.Get_Index_Array();
-		for (int y = 0; y < rows - 1; ++y) {
-			for (int x = 0; x < columns - 1; ++x) {
-				p[0] = y * columns + x; p[1] = (y + 1) * columns + x + 1; p[2] = (y + 1) * columns + x;
-				p[3] = y * columns + x; p[4] = y * columns + x + 1; p[5] = (y + 1) * columns + x + 1;
-				p += 6;
-			}
-		}
-	}
-	GridPhase0 += 0.05f; GridPhase1 += 0.05f;
-	{
-		DynamicVBAccessClass::WriteLock lock(vb);
-		VertexFormatXYZRHWDUV4 *p = lock.Get_Formatted_Vertex_Array();
-		float invRows = 1.0f / (rows - 1);
-		float invColumns = 1.0f / (columns - 1);
-		for (int y = 0; y < rows; ++y) {
-			float fy = y * invRows;
-			float screenY = (fy * height + top) - 0.5f;
-			for (int x = 0; x < columns; ++x, ++p) {
-				float fx = x * invColumns;
-				p->x = fx * width + left - 0.5f; p->y = screenY; p->z = 0; p->rhw = 1; p->diffuse = 0x64ffffff;
-				p->u0 = (fx * width + left) / dims->x; p->v0 = (fy * height + top) / dims->y;
-				p->u1 = fx * amplitude * 2 + m_scrollX; p->v1 = fy * amplitude + m_scrollY;
-				float u1 = p->u1; float v1 = p->v1;
-				p->v2 = v1 + m_spread; p->u2 = u1 - m_spread; p->u1 += m_spread;
-				p->u3 = (0.5f - 0.5f * sin((fx + fy) * GridWave0Frequency + GridPhase0 * GridWave0Phase)) * GridWave0Amplitude;
-				float wave = (0.5f - 0.5f * sin((fx + fy) * GridWave1Frequency + GridPhase1 * GridWave1Phase)) * GridWave1Amplitude;
-				p->v3 = 0;
-				p->u1 += wave; p->u2 += wave;
-			}
-		}
-	}
-}
 
 // Retail 0x000F7187..0x000F816E (4071 B, thiscall RET 0x10): slot 3 of the
 // Rva007D6B70 filter vtable.
