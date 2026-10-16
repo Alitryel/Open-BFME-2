@@ -37,6 +37,9 @@ template <> __declspec(dllimport) __forceinline
 void allocator<int>::deallocate(int *p, size_t) const
 { if (p != 0) _STL::free((void *)p); }
 template <> __declspec(dllimport) __forceinline
+void _STLP_alloc_proxy<int *, int, allocator<int> >::deallocate(int *p, size_t n)
+{ allocator<int>::deallocate(p, n); }
+template <> __declspec(dllimport) __forceinline
 void allocator<_List_node<Coord3D> >::deallocate(_List_node<Coord3D> *p, size_t) const
 { if (p != 0) _STL::free((void *)p); }
 template <> __declspec(dllimport) __forceinline
