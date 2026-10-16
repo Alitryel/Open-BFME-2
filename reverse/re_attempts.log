@@ -62539,3 +62539,4 @@ _AnyRatioFrameScale	0x001BAF30	606	partial	W9-A1 r2 clean-room spec001baf30 plus
 ?rva00271898@Rva00271826@@QAEPBURva00271898Color@@XZ	0x00271898	147	landed	add_match verified Code/GameEngine/Source/GameClient/rva00271898Rva00271898Farm.cpp 147B
 ?Update@Rva002B74DE@@QAEHXZ	0x002BB7D6	623	landed	add_match verified Code/GameEngine/Source/Common/UpdateRva002BB7D6Farm.cpp 623B
 ?slot38@TransportContain@@UAE_NPAVObject@@HH@Z	0x00466EDE	258	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/Contain/slot38Rva00466EDEFarm.cpp 258B
+?rva005E4116@Rva005E4116@@QAEHXZ	0x005E4116	65	landed	add_match verified Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/rva005E4116Rva005E4116Farm.cpp 65B

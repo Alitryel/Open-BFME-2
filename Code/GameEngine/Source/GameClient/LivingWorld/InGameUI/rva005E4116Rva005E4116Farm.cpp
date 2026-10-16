@@ -1,5 +1,4 @@
 // ?rva005E4116@Rva005E4116@@QAEHXZ
-// partial score=0.95 date=2026-10-14
 // cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /MD /DNDEBUG /EHsc
 // Native005E6B3E..005E6B8F obtains archetype at template+5C4 for the
 // selected entry+18 and sends its Unicode tooltip to the owned Mouse API.
@@ -234,10 +233,13 @@ class Rva005E4116 {public:int rva005E4116();
 int Rva005E4116::rva005E4116() {
  int total=0;
  Rva005E4116Iterator end=keys->end();
- for(Rva005E4116Iterator it=keys->begin();it!=end;++it) {
+ Rva005E4116Iterator it=keys->begin();
+ for(;it!=end;++it) {
   int key=*it;
   Rva0040CB3AIndexedField *index=context->index;
-  total+=StrategicInGameUI::Rva005E3967((const Rva005E4300Entry*)index->get(key))->cost;
+  const Rva005E4300Entry *entry=(const Rva005E4300Entry*)index->get(key);
+  Rva005E3967Template *t=StrategicInGameUI::Rva005E3967(entry);
+  total+=t->cost;
  }
  return total;
 }
