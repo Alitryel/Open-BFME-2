@@ -40,7 +40,13 @@ public:
 	Bool bfme_is_off_map() const { return (m_privateStatus & OFF_MAP) != 0; }
 
 private:
-	unsigned char m_unmodelled_00[0x304];
+	unsigned char m_unmodelled_00[0x04];
+
+public:
+	const struct Rva00271B3COwner *m_04;		// +0x04 (read by 0x00271B3C)
+
+private:
+	unsigned char m_unmodelled_08[0x304 - 0x08];
 	Team *m_team;								// +0x304
 	unsigned char m_unmodelled_308[0x438 - 0x308];
 	unsigned char m_privateStatus;				// +0x438
@@ -278,3 +284,27 @@ Bool Rva0026149CFilter::allow(Object *objOther)
 	return m_match == TheScriptEngine->rva00357AF8(objOther);
 }
 
+// vftable 0x00BFAF88, slot 1 at VA 0x00BFAF8C (base getPlayerMask): what
+// has a +0x04 owner whose +0x580 id equals the filter's +0x08 target.
+// PartitionFilterCtorCopies.cpp declares the class (out-of-line ctor copy
+// 0x00271B26) and reaches this body only through the vftable. Was rowed as
+// the free-standing Rva00271B3C::rva00271B3C view in VslotSmallBodiesD.cpp.
+struct Rva00271B3COwner
+{
+	unsigned char m_unmodelled_00[0x580];
+	int m_580;									// +0x580
+};
+
+class Rva00271B3CFilter : public Rva000421C8
+{
+public:
+	virtual Bool allow(Object *obj);
+
+private:
+	int m_target;								// +0x08
+};
+
+Bool Rva00271B3CFilter::allow(Object *obj)
+{
+	return obj->m_04 && obj->m_04->m_580 == m_target;
+}

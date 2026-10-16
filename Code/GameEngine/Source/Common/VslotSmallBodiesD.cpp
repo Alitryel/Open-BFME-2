@@ -9,32 +9,8 @@
 typedef int Int;
 typedef bool Bool;
 
-// slot at VA 0x00BFAF8C: true when the argument's +0x04 object has its
-// +0x580 field equal to this +0x08.
-struct Rva00271B3CInner
-{
-	char m_pad00[0x580];
-	Int m_580;
-};
-struct Rva00271B3CArg
-{
-	char m_pad00[0x04];
-	Rva00271B3CInner *m_04;
-};
-class Rva00271B3C
-{
-public:
-	Int rva00271B3C(const Rva00271B3CArg *arg);
-private:
-	char m_pad00[0x08];
-	Int m_08;
-};
-Int Rva00271B3C::rva00271B3C(const Rva00271B3CArg *arg)
-{
-	if (arg->m_04 && arg->m_04->m_580 == m_08)
-		return 1;
-	return 0;
-}
+// slot at VA 0x00BFAF8C (0x00271B3C): Rva00271B3CFilter::allow, now in
+// GameLogic/Object/PartitionFilterAllowSlots.cpp.
 
 // slots at VA 0x00BFD00C and 0x00BFD024: a function-local static id taken
 // from the running counter at VA 0x00DFEE18 on first use.
