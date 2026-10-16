@@ -13,16 +13,16 @@
 //   0x000682FA +0x3874 -> Rva000D3A17::rva000D3A17 (0 arg)
 //   0x002722F4 +0x354 -> Rva00270025::rva0027006C (1 arg)
 //   0x001EC98E +0x10 -> LinearCampaign::addCarryoverStuffToMap (0 arg)
-//   0x00068061 +0x3854 -> Rva000E7734NullTarget::rva000E7734 (1 arg)
-//   0x00068283 +0x3850 -> Rva000EA2C0NullTarget::rva000EA2C0 (1 arg)
-//   0x00068395 +0x3860 -> Rva000E6005NullTarget::rva000E6005 (5 arg)
-//   0x005CD9F2 +0x1C -> Rva005E58EDNullTarget::rva005E58ED (0 arg)
-//   0x005CDD25 +0x24 -> Rva005E58EDNullTarget::rva005E58ED (0 arg)
+//   0x00068061 +0x3854 -> W3DShrubBuffer::rva000E7734 (1 arg)
+//   0x00068283 +0x3850 -> W3DTreeBuffer::rva000EA2C0 (1 arg)
+//   0x00068395 +0x3860 -> W3DFloorBuffer::rva000E6005 (5 arg)
+//   0x005CD9F2 +0x1C -> Rva005E58ED::rva005E58ED (0 arg)
+//   0x005CDD25 +0x24 -> Rva005E58ED::rva005E58ED (0 arg)
 //   0x005CE9F7 +0x10 -> Rva005E88DDNullTarget::rva005E88DD (0 arg)
-//   0x005CEA04 +0x10 -> Rva005E8F49NullTarget::rva005E8F49 (0 arg)
-//   0x00068385 +0x3858 -> Rva000EE198NullTarget::rva000EE198 (0 arg)
+//   0x005CEA04 +0x10 -> Rva005E8F49Owner::rva005E8F49 (0 arg)
+//   0x00068385 +0x3858 -> Rva000EE198Owner::rva000EE198 (0 arg)
 //   0x00068D43 +0x3850 -> Rva000EDB47NullTarget::rva000EDB47 (0 arg)
-//   0x0007E17B +0x100 -> Rva0010004DNullTarget::rva0010004D (1 arg)
+//   0x0007E17B +0x100 -> WaterTracksRenderSystem::rva0010004D (1 arg)
 
 typedef int Int;
 
@@ -131,10 +131,11 @@ void Rva0023D6D5Callee::thru()
 		m_member->addCarryoverStuffToMap();
 }
 
-class Rva000E7734NullTarget
+class Thing;
+class W3DShrubBuffer
 {
 public:
-	void rva000E7734(Int a0);
+	void rva000E7734(Thing *a0);
 };
 
 class Rva00068061NullTarget
@@ -143,19 +144,19 @@ public:
 	void rva00068061(Int a0);
 private:
 	char m_lead[0x3854];
-	Rva000E7734NullTarget *m_member;
+	W3DShrubBuffer *m_member;
 };
 
 void Rva00068061NullTarget::rva00068061(Int a0)
 {
 	if (m_member)
-		m_member->rva000E7734(a0);
+		m_member->rva000E7734((Thing *)a0);
 }
 
-class Rva000EA2C0NullTarget
+class W3DTreeBuffer
 {
 public:
-	void rva000EA2C0(Int a0);
+	void rva000EA2C0(void *a0);
 };
 
 class Rva00068283NullTarget
@@ -164,16 +165,16 @@ public:
 	void rva00068283(Int a0);
 private:
 	char m_lead[0x3850];
-	Rva000EA2C0NullTarget *m_member;
+	W3DTreeBuffer *m_member;
 };
 
 void Rva00068283NullTarget::rva00068283(Int a0)
 {
 	if (m_member)
-		m_member->rva000EA2C0(a0);
+		m_member->rva000EA2C0((void *)a0);
 }
 
-class Rva005E58EDNullTarget
+class Rva005E58ED
 {
 public:
 	void rva005E58ED();
@@ -185,7 +186,7 @@ public:
 	void rva005CD9F2();
 private:
 	char m_lead[0x1C];
-	Rva005E58EDNullTarget *m_member;
+	Rva005E58ED *m_member;
 };
 
 void Rva005CD9F2NullForwarder::rva005CD9F2()
@@ -200,7 +201,7 @@ public:
 	void rva005CDD25();
 private:
 	char m_lead[0x24];
-	Rva005E58EDNullTarget *m_member;
+	Rva005E58ED *m_member;
 };
 
 void Rva005CDD25NullForwarder::rva005CDD25()
@@ -230,7 +231,7 @@ void Rva005CE9F7NullForwarder::rva005CE9F7()
 		m_member->rva005E88DD();
 }
 
-class Rva005E8F49NullTarget
+class Rva005E8F49Owner
 {
 public:
 	void rva005E8F49();
@@ -242,7 +243,7 @@ public:
 	void rva005CEA04();
 private:
 	char m_lead[0x10];
-	Rva005E8F49NullTarget *m_member;
+	Rva005E8F49Owner *m_member;
 };
 
 void Rva005CEA04NullForwarder::rva005CEA04()
@@ -251,7 +252,7 @@ void Rva005CEA04NullForwarder::rva005CEA04()
 		m_member->rva005E8F49();
 }
 
-class Rva000EE198NullTarget
+class Rva000EE198Owner
 {
 public:
 	void rva000EE198();
@@ -263,7 +264,7 @@ public:
 	void rva00068385();
 private:
 	char m_lead[0x3858];
-	Rva000EE198NullTarget *m_member;
+	Rva000EE198Owner *m_member;
 };
 
 void Rva00068385NullForwarder::rva00068385()
@@ -288,10 +289,11 @@ private:
 };
 
 
-class Rva0010004DNullTarget
+class RenderInfoClass;
+class WaterTracksRenderSystem
 {
 public:
-	void rva0010004D(Int a0);
+	void flush(RenderInfoClass &a0);
 };
 
 class Rva0007E17BNullForwarder
@@ -300,13 +302,13 @@ public:
 	void rva0007E17B(Int a0);
 private:
 	char m_lead[0x100];
-	Rva0010004DNullTarget *m_member;
+	WaterTracksRenderSystem *m_member;
 };
 
 void Rva0007E17BNullForwarder::rva0007E17B(Int a0)
 {
 	if (m_member)
-		m_member->rva0010004D(a0);
+		m_member->flush(*(RenderInfoClass *)a0);
 }
 
 // Two more with a ret 4 tail: 0x000B22E4 +0x4 -> rowed Shadow::rva00330995
@@ -398,10 +400,11 @@ bool Rva001EC9AC::rva001EC9AC(Int a0, Int a1, Int a2)
 
 class AsciiString;
 
-class Rva000E6005NullTarget
+class Gen_uw_000e5033;
+class W3DFloorBuffer
 {
 public:
-	void rva000E6005(Int a0, AsciiString *a1, AsciiString *a2, bool a3, bool a4);
+	Gen_uw_000e5033 *addFloor(Int a0, AsciiString *a1, AsciiString *a2, bool a3, bool a4);
 };
 
 class BaseHeightMapRenderObjClass
@@ -410,11 +413,11 @@ public:
 	void rva00068395(Int a0, AsciiString *a1, AsciiString *a2, bool a3, bool a4);
 private:
 	char m_lead[0x3860];
-	Rva000E6005NullTarget *m_member;
+	W3DFloorBuffer *m_member;
 };
 
 void BaseHeightMapRenderObjClass::rva00068395(Int a0, AsciiString *a1, AsciiString *a2, bool a3, bool a4)
 {
 	if (m_member)
-		m_member->rva000E6005(a0, a1, a2, a3, a4);
+		m_member->addFloor(a0, a1, a2, a3, a4);
 }

@@ -9702,16 +9702,12 @@ name,address,notes
 ?rva000D43D0@Rva0025DE76Slot@@QAEHXZ,0x000D43D0,"ICF-folded xor eax,eax/ret the network slot query 0x0025DE76 calls on a 0x2000-byte ConnectionManager+0x24 record; opaque address name, no identity inferred"
 ?rva000E0298@Rva000E0536@@QAEXII@Z,0x000E0298,indexed set: REL32 read at the two-arg call site in 0x000E0536; owner identity unproven
 ?rva000E5EE5@Rva000E5EE5@@QAEXPBVRva0055A88BDwordField@@VAsciiString@@@Z,0x000E5EE5,twin of rowed StringBase spelling for AsciiString caller 0x0006B76C
-?rva000E7734@Rva000E7734NullTarget@@QAEXH@Z,0x000E7734,null-checked tail jmp target of forwarder 0x00068061; original name unknown
 ?rva000E7C20SciencePrereqMemo@ScienceStore@@ABE_NPBVPlayer@@W4ScienceType@@PAX@Z,0x001FFAA1,address read from the REL32 displacement at a placed body
-?rva000EA2C0@Rva000EA2C0NullTarget@@QAEXH@Z,0x000EA2C0,null-checked tail jmp target of forwarder 0x00068283; original name unknown
 ?rva000EA644@Rva000EA644NullTarget@@QAE_NH@Z,0x000EA644,"method a null-checked vtable-slot forwarder tail-jumps to (ret 4); opaque address name"
 ?rva000EDB47@Rva000EDB47@@QAEXXZ,0x000EDB47,tail-call target of the byte-verified Rva00068D43::rva00068D43 0x00068D43 on its +0x3850 member read from its REL32 displacement; name unknown
-?rva000EE198@Rva000EE198NullTarget@@QAEXXZ,0x000EE198,null-checked tail jmp target of forwarder 0x00068385; original name unknown
 ?rva000F0A75@W3DVolumetricShadowManager@@QAEXPAX@Z,0x000F0A75,"W3DVolumetricShadowManager member taking an owner, called from vtable slot 0x000F168B; opaque address name"
 ?rva000F4017@Rva000F42F7Host@@QAEXH@Z,0x000F4017,"member a vtable slot 0x000F42F7 calls with a constant argument; opaque address name"
 ?rva000FF5E6@Rva0007E90ECallee@@QAEXH@Z,0x000FF5E6,dump range 1 marker callee for 0x7E90E
-?rva0010004D@Rva0010004DNullTarget@@QAEXH@Z,0x0010004D,null-checked tail jmp target of forwarder 0x0007E17B; original name unknown
 ?rva00106970@Rva00106C79Holder@@QAE_NHH@Z,0x00106970,"retail REL32 at 0x00106C91 in 0x00106C79 targets 0x00106970 (ecx=esi Holder thiscall 2 stack args a1 a2; 150B Ghidra FUN); opaque candidate not identity"
 ?rva0010713A@W3DProjectedShadowManager@@QAEXPAX@Z,0x0010713A,"W3DProjectedShadowManager member taking an owner, called from vtable slot 0x001074C8; opaque address name"
 ?rva00108895@Rva0010BA2COwner@@QAEXXZ,0x00108895,ordinary no-argument thiscall from native ctor0x10BA2C and reinitializer0x10BA61; resource-owner layout and vtable refute former VictoryConditions reset identity; original method name unknown
@@ -10479,11 +10475,9 @@ name,address,notes
 ?rva005E2180@Rva005E2180@@QAEXXZ,0x005E2180,jump target of 17B forwarder 0x005E2226; original name unknown
 ?rva005E254C@Rva005E254C@@QAEXXZ,0x005E254C,jump target of 17B forwarder 0x005E25DE; original name unknown
 ?rva005E589E@Rva005E589E@@QAEXXZ,0x005E589E,jump target of 17B forwarder 0x005E590F; original name unknown
-?rva005E58ED@Rva005E58EDNullTarget@@QAEXXZ,0x005E58ED,null-checked tail jmp target of forwarder 0x005CD9F2; original name unknown
 ?rva005E6836@Rva005E6836@@QAEXHH@Z,0x005E6836,pin for 0x005E58ED second void-int-int; address-derived
 ?rva005E6AD8@Rva005E6AD8@@QAEXXZ,0x005E6AD8,jump target of 17B forwarder 0x005E6BB4; original name unknown
 ?rva005E88DD@Rva005E88DDNullTarget@@QAEXXZ,0x005E88DD,null-checked tail jmp target of forwarder 0x005CE9F7; original name unknown
-?rva005E8F49@Rva005E8F49NullTarget@@QAEXXZ,0x005E8F49,null-checked tail jmp target of forwarder 0x005CEA04; original name unknown
 ?rva005ED5BB@Rva005ED976@@QAEXHPBVImage@@@Z,0x005ED5BB,address-derived image delegate; Ghidra 8-byte thunk loads this+4 then jumps to 0x005ED385; caller 0x005D13E2 passes row index and ImageCollection result; original owner and setter label unknown
 ?rva005ED849@Rva005ED976@@QAEXHH@Z,0x005ED849,address-derived two-int delegate; Ghidra 8-byte thunk loads this+4 then jumps to 0x005ED6B9; caller 0x005D13E2 passes row index and packed RGBColor; original owner and label unknown
 ?rva005ED851@Rva005ED976@@QAEXHH@Z,0x005ED851,address-derived region-count delegate; target 8-byte thunk loads this+4 then jumps to rowed NumRegions setter 0x005ED708; caller 0x005D13E2 passes the row index and Rva002E1001 result; original owner name unknown
@@ -13811,7 +13805,6 @@ _D3DXFilterTexture@16,0x0062AF62,PE-named d3dx9_27.dll D3DXFilterTexture import 
 _D3DXLoadSurfaceFromMemory@40,0x0062AF68,PE-named d3dx9_27.dll D3DXLoadSurfaceFromMemory import thunk FF25 through IAT VA00BBAA14; native EF5F7 and SDK stdcall40 agree
 ?getTexture@Rva0010BC90ShadowManager@@QAEPAVW3DShadowTexture@@PBD@Z,0x0010BC90,Native10C5CE REL32 and WB8D61F0->8D6CE0 prove same-owner texture lookup taking char pointer; provider remains unrowed and has complete C++ bank
 ?create@Rva0010BB11ShadowFactory@@QAEPAVW3DProjectedShadow@@PAVW3DShadowTexture@@PAVRenderObjClass@@HEMMMMMPAXEHE@Z,0x0010BB11,Native10C6B9 REL32 to383B boundary; caller pushes13 words and WB8D5330 ret52 agrees; texture/object/type and five float arguments traced from10C578; factory identity stays address-derived
-?rva000E6005@Rva000E6005NullTarget@@QAEXHPAVAsciiString@@0_N1@Z,0x000E6005,callee of ?rva00068395@BaseHeightMapRenderObjClass@@QAEXHPAVAsciiString@@0_N1@Z
 ?rva003F8FB2@Rva003F8090@@QAEXXZ,0x003F8FB2,tail callee of 0x003F8FF3
 ?rva002BF61B@Rva002BF6A7@@QAEXH@Z,0x002BF61B,callees of 0x002BF6A7/0x005F83A9 forwarders
 ??0Rva005D1DCB@@QAE@PAXPAVLivingWorldPendingBattle@@@Z,0x005D1DCB,Native visitor callback5766D3 call at57670C: ECX allocation24 and two pointer arguments with callee RET8; WB15B6700 constructor ResolveBattleChecklistItem maps by strings and call graph; opaque first pointer and address-derived class preserve unresolved original ABI types
