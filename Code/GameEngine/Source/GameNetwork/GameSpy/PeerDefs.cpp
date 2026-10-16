@@ -191,6 +191,9 @@ typedef _STL::map<Int, GameSpyGroupRoom> GroupRoomMap;
 typedef _STL::map<Int, GameSpyStagingRoom *> StagingRoomMap;
 typedef _STL::map<Int, BuddyInfo> BuddyInfoMap;
 typedef _STL::map<AsciiString, PlayerInfo, AsciiComparator> PlayerInfoMap;
+// bfme link decl-only: operator[] is the /O1 row 0x00385F29
+// (PeerDefsPlayerInfoMapOperator.cpp); this /Od unit's own copy is not retail's body.
+namespace _STL { template <> PlayerInfo &PlayerInfoMap::operator[](const AsciiString &); }
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
 
 class UserPreferences : public PreferenceMap
