@@ -109,8 +109,10 @@ public:
 
     void Version1();
 
-    virtual bool IsStoring() const;
+    // Slot 2 is IsStoring: XferSave (0x0087B010) and XferSaveAsText
+    // (0x0087B388) both put a return-true body there.
     virtual bool IsLoading() const;
+    virtual bool IsStoring() const;
     virtual bool IsCRC() const;
     virtual bool IsLightCRC() const;
 
