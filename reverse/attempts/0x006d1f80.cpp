@@ -1,5 +1,5 @@
 // ?Load@AptLinker@@QAEXABVEAStringC@@V2@@Z
-// partial score=0.955 date=2026-10-16
+// partial score=0.96 date=2026-10-16
 // AptLinker::Load, retail 0x006D1F80 (1525B, RET8).
 // Target evidence: assert strings name AptLoad.cpp line 0x262
 // "(*i)->GetTarget() != (*j)->GetTarget()" and the inlined AptCIH.h:0x7D
@@ -422,8 +422,10 @@ void AptLinker::Load(const EAStringC &file, EAStringC target)
 		if (loaded.m_object)
 			add(loaded, cih);
 	} else {
-		BfmeNodeVMU *erase = node;
-		((BfmeListVMU *)this)->bfmeEraseVMU(&erase);
+		{
+			BfmeNodeVMU *erase = node;
+			((BfmeListVMU *)this)->bfmeEraseVMU(&erase);
+		}
 		if (loaded.m_object)
 			add(loaded, cih);
 	}
