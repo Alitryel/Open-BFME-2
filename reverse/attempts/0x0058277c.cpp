@@ -1,5 +1,14 @@
 // ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
+// partial score=0.9613670988700406 date=2026-10-16
+// ?handleRequestJoin@LANAPI@@IAEXPAULANMessage@@PBUBfmeNetAddress@@@Z
 // partial score=0.9613670988700406 date=2026-10-15
+// W9-O2 (2026-10-16, claude-opus-5.5): bank residue is ONLY the serial-loop rotation (retail top cmp [ebp-0x10],8/jge + inc/jmp back).
+// The ZH spelling `for (player = 0; canJoin && player < MAX_SLOTS; ++player)` (no if(canJoin) wrapper) reproduces the retail serial loop
+// exactly (canJoin test threaded to one entry test) but then cl hoists constant 5 into EBX for the NAME loop (push 5/pop ebx on the deny path
+// and the loop exit) and spills the name-loop slot to [ebp-0x1c] (1849 B). Inert on that: while-form, if(canJoin) wrapper + ZH cond, nested
+// ifs/continue in the name loop, shared/zero-initialised slot locals, Int player = 0, named strncmp result, ZH anonymous-enum LANMessageType,
+// equal-arm slot uses, goto-out deny blocks (serial and name), separate serial counter. Probe: name-deny type 7 instead of 5 -> nd 1, i.e.
+// the ZH body is exact except that cl keeps the serial-deny 5 live in EBX into the name loop (PRE onto the loop-exit edge). No break restructures.
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /O1
 //
 // LANAPI message handlers, Zero Hour's GameNetwork/LANAPIhandlers.cpp, as

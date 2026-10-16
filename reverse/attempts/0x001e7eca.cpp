@@ -1,7 +1,16 @@
 // ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
+// partial score=0.975 date=2026-10-16
+// ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.979 date=2026-10-15
 // ?rva001E7ECA@Locomotor@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.9335 date=2026-10-15
+// W9-O2 (2026-10-16, claude-opus-5.5): case 4/5 is `requires=true;` (retail stores [ebp-0xd]=1 at 0x1E8100; the old
+// `requires=requires` dropped that 4-byte store and hid the size delta). Now 1567/1563 B, residue = zero-constant CSE only.
+// Probes (value changes, not landable): layer's normal arg 0 -> 4 makes case 1 retail-exact (2 underwater zeros alone form no
+// web, vptr gets EDI); ground's normal arg 0 -> 4 makes case 6 retail-exact (web starts at the BitSet push). So retail treats
+// exactly the two Coord3D* normal NULL args as non-members of the zero web. Inert: default args (=0), local Coord3D *n = 0,
+// (Coord3D*)0 / 0L / static/reinterpret casts / false / '\0', bool/enum/short/char/float param types, inline wrappers, ternary,
+// named bool, braces, statement order in case 6, member getSurfaceHtAtPt instead of the union adapter.
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common /ICode
 // BF1 cee35b7d8 Locomotor.cpp handleBehaviorZ and clean ZH Locomotor.cpp2220
 // are the semantic guide. Native1E7ECA..1E84C1 is1527B plus36B jump table;
@@ -359,7 +368,7 @@ bool Locomotor::rva001E7ECA(Object*object,const Coord3D*goal)
   }
   case 4:case 5:
   {
-   requires=requires;
+   requires=true;
    bool relative=data->behavior==4;
    float surface=relative?surfaceAt(pos.x,pos.y):0.0f;
    pos.z=height48+(relative?surface:0.0f);
