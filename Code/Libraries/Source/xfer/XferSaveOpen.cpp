@@ -68,6 +68,11 @@ private:
     FXListMap m_fx;
     ArmorMap m_armor;
 };
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<_STL::pair<NameKeyType const,FXList> >(_STL::pair<NameKeyType const,FXList> *); }
+namespace _STL { template <> void hashtable<_STL::pair<NameKeyType const,FXList>,NameKeyType,rts::hash<NameKeyType>,_STL::_Select1st<_STL::pair<NameKeyType const,FXList> >,rts::equal_to<NameKeyType>,_STL::allocator<_STL::pair<NameKeyType const,FXList> > >::_M_delete_node(_STL::_Hashtable_node<_STL::pair<NameKeyType const,FXList> > *); }
+namespace _STL { template <> void hashtable<_STL::pair<NameKeyType const,FXList>,NameKeyType,rts::hash<NameKeyType>,_STL::_Select1st<_STL::pair<NameKeyType const,FXList> >,rts::equal_to<NameKeyType>,_STL::allocator<_STL::pair<NameKeyType const,FXList> > >::clear(); }
+// bfme link decl-only end
 unsigned char XferSave::Open(Xfer *stream, int arg2, bool arg3)
 {
     if (m_stream != 0)

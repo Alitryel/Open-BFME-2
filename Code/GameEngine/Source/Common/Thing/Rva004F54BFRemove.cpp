@@ -38,6 +38,11 @@ private:
 	int m_count;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void _STLP_alloc_proxy<_STL::_List_node<ObjectID> *,_STL::_List_node<ObjectID>,_STL::allocator<_STL::_List_node<ObjectID> > >::deallocate(_STL::_List_node<ObjectID> *,unsigned int); }
+namespace _STL { template <> void allocator<_STL::_List_node<ObjectID> >::deallocate(_STL::_List_node<ObjectID> *,unsigned int) const; }
+namespace _STL { template <> _STL::_List_iterator<ObjectID,_STL::_Nonconst_traits<ObjectID> > list<ObjectID,_STL::allocator<ObjectID> >::erase(_STL::_List_iterator<ObjectID,_STL::_Nonconst_traits<ObjectID> >); }
+// bfme link decl-only end
 void TunnelTracker::removeFromContain(ObjectID val, int dummy)
 {
 	_STL::list<ObjectID>::iterator it = _STL::find(m_list.begin(), m_list.end(), val);

@@ -30,6 +30,16 @@ private:
 	char m_pad00[0x60];
 	_STL::vector<Rva004E32F2> m_vec60;
 };
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<Rva004E32F2 *>(Rva004E32F2 *,Rva004E32F2 *); }
+namespace _STL { template <> void _Destroy<Rva004E32F2>(Rva004E32F2 *); }
+namespace _STL { template <> void __destroy<Rva004E32F2 *,Rva004E32F2>(Rva004E32F2 *,Rva004E32F2 *,Rva004E32F2 *); }
+namespace _STL { template <> void __destroy_aux<Rva004E32F2 *>(Rva004E32F2 *,Rva004E32F2 *,_STL::__false_type const &); }
+namespace _STL { template <> Rva004E32F2 * __uninitialized_copy<Rva004E32F2 *,Rva004E32F2 *>(Rva004E32F2 *,Rva004E32F2 *,Rva004E32F2 *,_STL::__false_type const &); }
+namespace _STL { template <> Rva004E32F2 * __uninitialized_fill_n<Rva004E32F2 *,unsigned int,Rva004E32F2>(Rva004E32F2 *,unsigned int,Rva004E32F2 const &,_STL::__false_type const &); }
+namespace _STL { template <> void vector<Rva004E32F2,_STL::allocator<Rva004E32F2> >::_M_insert_overflow(Rva004E32F2 *,Rva004E32F2 const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> void vector<Rva004E32F2,_STL::allocator<Rva004E32F2> >::push_back(Rva004E32F2 const &); }
+// bfme link decl-only end
 void Rva00566D7B::rva00566D7B(const Rva004E32F2 &v)
 {
 	m_vec60.push_back(v);

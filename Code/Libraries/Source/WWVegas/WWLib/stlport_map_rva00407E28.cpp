@@ -8,6 +8,18 @@
 // Evidence: unlock lane; two maps at +0x14/+0x20 insert 0/-1 returns bool; callers 0x00408C11 0x005B1B5E.
 // Evidence: unlock lane; map<int int> at +0x14 via rowed _M_find 0x00388F63 and operator[] 0x0028932C; callers 0x005B05E8 0x005B07C1 0x005B0EE6 0x005B1B5E; prev-next Rb_tree hint same flags.
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> pair<int const,int>::pair(int const &,int const &); }
+namespace _STL { template <> pair<_STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > >,bool>::pair(_STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > > const &,bool const &); }
+namespace _STL { template <> _STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > > & _Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > >::operator++(); }
+namespace _STL { template <> _STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > > & _Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > >::operator--(); }
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<int const,int> > * _Rb_tree<int,_STL::pair<int const,int>,_STL::_Select1st<_STL::pair<int const,int> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,int> > >::_M_create_node(_STL::pair<int const,int> const &); }
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<int const,int> > * _STLP_alloc_proxy<_STL::_Rb_tree_node<_STL::pair<int const,int> > *,_STL::_Rb_tree_node<_STL::pair<int const,int> >,_STL::allocator<_STL::_Rb_tree_node<_STL::pair<int const,int> > > >::allocate(unsigned int); }
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<int const,int> > * allocator<_STL::_Rb_tree_node<_STL::pair<int const,int> > >::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> _STL::pair<_STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > >,bool> _Rb_tree<int,_STL::pair<int const,int>,_STL::_Select1st<_STL::pair<int const,int> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,int> > >::insert_unique(_STL::pair<int const,int> const &); }
+namespace _STL { template <> _STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > > _Rb_tree<int,_STL::pair<int const,int>,_STL::_Select1st<_STL::pair<int const,int> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,int> > >::insert_unique(_STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > >,_STL::pair<int const,int> const &); }
+namespace _STL { template <> int & map<int,int,_STL::less<int>,_STL::allocator<_STL::pair<int const,int> > >::operator[](int const &); }
+// bfme link decl-only end
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

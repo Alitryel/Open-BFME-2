@@ -21,6 +21,10 @@ private:
 	_STL::list<BfmeFloat4Record00469C61, _STL::allocator<BfmeFloat4Record00469C61> > m_list; // +0
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<BfmeFloat4Record00469C61,BfmeFloat4Record00469C61>(BfmeFloat4Record00469C61 *,BfmeFloat4Record00469C61 const &); }
+namespace _STL { template <> _STL::_List_node<BfmeFloat4Record00469C61> * list<BfmeFloat4Record00469C61,_STL::allocator<BfmeFloat4Record00469C61> >::_M_create_node(BfmeFloat4Record00469C61 const &); }
+// bfme link decl-only end
 void Rva00357E14::rva00357E14(const BfmeFloat4Record00469C61 &rec)
 {
 	m_list.insert(m_list.begin(), rec);

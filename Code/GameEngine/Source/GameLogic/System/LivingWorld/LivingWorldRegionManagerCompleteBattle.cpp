@@ -57,6 +57,14 @@ private:
 	_STL::vector<const ModuleData *> m_doneBattles;	// +0x20
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void vector<ModuleData const *,_STL::allocator<ModuleData const *> >::_M_clear(); }
+namespace _STL { template <> void vector<ModuleData const *,_STL::allocator<ModuleData const *> >::_M_insert_overflow(ModuleData const * *,ModuleData const * const &,_STL::__true_type const &,unsigned int,bool); }
+namespace _STL { template <> void _STLP_alloc_proxy<ModuleData const * *,ModuleData const *,_STL::allocator<ModuleData const *> >::deallocate(ModuleData const * *,unsigned int); }
+namespace _STL { template <> void allocator<ModuleData const *>::deallocate(ModuleData const * *,unsigned int) const; }
+namespace _STL { template <> void vector<ModuleData const *,_STL::allocator<ModuleData const *> >::reserve(unsigned int); }
+namespace _STL { template <> void vector<ModuleData const *,_STL::allocator<ModuleData const *> >::push_back(ModuleData const * const &); }
+// bfme link decl-only end
 void LivingWorldRegionManager::rva0020FB8B(LivingWorldBattle *battle)
 {
 	for (unsigned int i = 0; i < m_pendingBattles.size(); ++i)

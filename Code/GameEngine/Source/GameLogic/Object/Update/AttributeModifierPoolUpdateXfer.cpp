@@ -209,6 +209,17 @@ private:
 	unsigned int m_poolCounts[15];
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> Rva00297360Element * __uninitialized_copy<Rva00297360Element *,Rva00297360Element *>(Rva00297360Element *,Rva00297360Element *,Rva00297360Element *,_STL::__false_type const &); }
+namespace _STL { template <> Rva00297360Element * __uninitialized_fill_n<Rva00297360Element *,unsigned int,Rva00297360Element>(Rva00297360Element *,unsigned int,Rva00297360Element const &,_STL::__false_type const &); }
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &,unsigned int const &); }
+namespace _STL { template <> void vector<Rva00297360Element,_STL::allocator<Rva00297360Element> >::_M_clear(); }
+namespace _STL { template <> void vector<Rva00297360Element,_STL::allocator<Rva00297360Element> >::_M_insert_overflow(Rva00297360Element *,Rva00297360Element const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> Rva00297360Element * allocator<Rva00297360Element>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<Rva00297360Element *,Rva00297360Element,_STL::allocator<Rva00297360Element> >::deallocate(Rva00297360Element *,unsigned int); }
+namespace _STL { template <> void allocator<Rva00297360Element>::deallocate(Rva00297360Element *,unsigned int) const; }
+namespace _STL { template <> void vector<Rva00297360Element,_STL::allocator<Rva00297360Element> >::push_back(Rva00297360Element const &); }
+// bfme link decl-only end
 void AttributeModifierPoolUpdate::xfer(Xfer *xfer)
 {
 	int storeCount;

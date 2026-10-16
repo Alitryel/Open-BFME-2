@@ -29,6 +29,17 @@ private:
 	_STL::vector<ObjectCreationNugget *> m_vec5C;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void vector<ObjectCreationNugget *,_STL::allocator<ObjectCreationNugget *> >::_M_clear(); }
+namespace _STL { template <> void vector<ObjectCreationNugget *,_STL::allocator<ObjectCreationNugget *> >::_M_insert_overflow(ObjectCreationNugget * *,ObjectCreationNugget * const &,_STL::__true_type const &,unsigned int,bool); }
+namespace _STL { template <> ObjectCreationNugget * * _STLP_alloc_proxy<ObjectCreationNugget * *,ObjectCreationNugget *,_STL::allocator<ObjectCreationNugget *> >::allocate(unsigned int); }
+namespace _STL { template <> void * __node_alloc<1,0>::allocate(unsigned int); }
+namespace _STL { template <> ObjectCreationNugget * * allocator<ObjectCreationNugget *>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<ObjectCreationNugget * *,ObjectCreationNugget *,_STL::allocator<ObjectCreationNugget *> >::deallocate(ObjectCreationNugget * *,unsigned int); }
+namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned int); }
+namespace _STL { template <> void allocator<ObjectCreationNugget *>::deallocate(ObjectCreationNugget * *,unsigned int) const; }
+namespace _STL { template <> void vector<ObjectCreationNugget *,_STL::allocator<ObjectCreationNugget *> >::push_back(ObjectCreationNugget * const &); }
+// bfme link decl-only end
 void Rva0020F77C::rva0020F77C(ObjectCreationNugget *x)
 {
 	ObjectCreationNugget *y = x;

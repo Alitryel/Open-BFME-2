@@ -36,6 +36,15 @@ public:
     void QueueForNotifyPathfindCellChanged(Object *obj);
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void vector<Object *,_STL::allocator<Object *> >::_M_clear(); }
+namespace _STL { template <> void vector<Object *,_STL::allocator<Object *> >::_M_insert_overflow(Object * *,Object * const &,_STL::__true_type const &,unsigned int,bool); }
+namespace _STL { template <> void * __node_alloc<1,0>::allocate(unsigned int); }
+namespace _STL { template <> void _STLP_alloc_proxy<Object * *,Object *,_STL::allocator<Object *> >::deallocate(Object * *,unsigned int); }
+namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned int); }
+namespace _STL { template <> void allocator<Object *>::deallocate(Object * *,unsigned int) const; }
+namespace _STL { template <> void vector<Object *,_STL::allocator<Object *> >::push_back(Object * const &); }
+// bfme link decl-only end
 void GameLogic::QueueForNotifyPathfindCellChanged(Object *obj)
 {
     if (!obj)

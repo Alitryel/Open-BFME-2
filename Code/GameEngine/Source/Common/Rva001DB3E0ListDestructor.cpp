@@ -37,6 +37,17 @@ private:
 	void rva004DE683(int key, void *value);
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void vector<Rva004DFCB0Element,_STL::allocator<Rva004DFCB0Element> >::_M_clear(); }
+namespace _STL { template <> void vector<Rva004DFCB0Element,_STL::allocator<Rva004DFCB0Element> >::_M_insert_overflow(Rva004DFCB0Element *,Rva004DFCB0Element const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> Rva004DFCB0Element * _STLP_alloc_proxy<Rva004DFCB0Element *,Rva004DFCB0Element,_STL::allocator<Rva004DFCB0Element> >::allocate(unsigned int); }
+namespace _STL { template <> void * __node_alloc<1,0>::allocate(unsigned int); }
+namespace _STL { template <> Rva004DFCB0Element * allocator<Rva004DFCB0Element>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<Rva004DFCB0Element *,Rva004DFCB0Element,_STL::allocator<Rva004DFCB0Element> >::deallocate(Rva004DFCB0Element *,unsigned int); }
+namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned int); }
+namespace _STL { template <> void allocator<Rva004DFCB0Element>::deallocate(Rva004DFCB0Element *,unsigned int) const; }
+namespace _STL { template <> void vector<Rva004DFCB0Element,_STL::allocator<Rva004DFCB0Element> >::push_back(Rva004DFCB0Element const &); }
+// bfme link decl-only end
 Rva001DB3E0List::~Rva001DB3E0List()
 {
 	while (m_head != 0)

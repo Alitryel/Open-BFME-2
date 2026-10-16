@@ -5,6 +5,14 @@
 #include <list>
 #include <string>
 #include <cstddef>
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char,_STL::allocator<char> >::~_String_base(); }
+namespace _STL { template <> basic_string<char,_STL::char_traits<char>,_STL::allocator<char> >::~basic_string(); }
+namespace _STL { template <> void _String_base<char,_STL::allocator<char> >::_M_deallocate_block(); }
+namespace _STL { template <> void _STLP_alloc_proxy<_STL::_List_node<_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> > > *,_STL::_List_node<_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> > >,_STL::allocator<_STL::_List_node<_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> > > > >::deallocate(_STL::_List_node<_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> > > *,unsigned int); }
+namespace _STL { template <> void allocator<_STL::_List_node<_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> > > >::deallocate(_STL::_List_node<_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> > > *,unsigned int) const; }
+namespace _STL { template <> void _List_base<_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> >,_STL::allocator<_STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> > > >::clear(); }
+// bfme link decl-only end
 // Suppress this TU's non-retail proxy<char> deallocate copy (family2-LK3 row 28):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

@@ -65,6 +65,10 @@ private:
 	Rva002827F3 *m_worker;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void vector<Rva004DFCB0Element,_STL::allocator<Rva004DFCB0Element> >::_M_insert_overflow(Rva004DFCB0Element *,Rva004DFCB0Element const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> void vector<Rva004DFCB0Element,_STL::allocator<Rva004DFCB0Element> >::push_back(Rva004DFCB0Element const &); }
+// bfme link decl-only end
 void Rva002834E6Owner::rva002834E6(void *key)
 {
 	Rva004DFCB0Element const &element = *(Rva004DFCB0Element const *)&key;

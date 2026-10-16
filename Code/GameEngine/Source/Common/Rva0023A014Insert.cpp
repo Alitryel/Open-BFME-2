@@ -11,6 +11,10 @@ class Rva0023A014
 public:
 	void rva0023A014(const BfmeStringRecord00239B46 *arg);
 };
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<BfmeStringRecord00239B46,BfmeStringRecord00239B46>(BfmeStringRecord00239B46 *,BfmeStringRecord00239B46 const &); }
+namespace _STL { template <> _STL::_List_node<BfmeStringRecord00239B46> * list<BfmeStringRecord00239B46,_STL::allocator<BfmeStringRecord00239B46> >::_M_create_node(BfmeStringRecord00239B46 const &); }
+// bfme link decl-only end
 void Rva0023A014::rva0023A014(const BfmeStringRecord00239B46 *arg)
 {
 	m_list.insert(m_list.end(), *arg);

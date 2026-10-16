@@ -217,6 +217,15 @@ private:
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
+// bfme link decl-only begin
+namespace _STL { template <> void vector<ParticleSystemID,_STL::allocator<ParticleSystemID> >::_M_clear(); }
+namespace _STL { template <> void vector<ParticleSystemID,_STL::allocator<ParticleSystemID> >::_M_insert_overflow(ParticleSystemID *,ParticleSystemID const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> ParticleSystemID * _STLP_alloc_proxy<ParticleSystemID *,ParticleSystemID,_STL::allocator<ParticleSystemID> >::allocate(unsigned int); }
+namespace _STL { template <> ParticleSystemID * allocator<ParticleSystemID>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<ParticleSystemID *,ParticleSystemID,_STL::allocator<ParticleSystemID> >::deallocate(ParticleSystemID *,unsigned int); }
+namespace _STL { template <> void allocator<ParticleSystemID>::deallocate(ParticleSystemID *,unsigned int) const; }
+namespace _STL { template <> void vector<ParticleSystemID,_STL::allocator<ParticleSystemID> >::push_back(ParticleSystemID const &); }
+// bfme link decl-only end
 void BoneFXUpdate::xfer( Xfer *xfer )
 {
 

@@ -41,6 +41,9 @@ class Rva00289218 {
 public:
     void rva00289218(const ModuleData *p);
 };
+// bfme link decl-only begin
+namespace _STL { template <> ModuleData const * * allocator<ModuleData const *>::allocate(unsigned int,void const *) const; }
+// bfme link decl-only end
 void Rva00289218::rva00289218(const ModuleData *p)
 {
     m_vec.push_back(p);

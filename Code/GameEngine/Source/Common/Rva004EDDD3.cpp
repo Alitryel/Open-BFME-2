@@ -19,6 +19,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 #include "../../../Libraries/Include/Lib/Coord3D.h"
+// bfme link decl-only begin
+namespace _STL { template <> Coord3D * __uninitialized_copy<Coord3D *,Coord3D *>(Coord3D *,Coord3D *,Coord3D *,_STL::__false_type const &); }
+namespace _STL { template <> Coord3D * __uninitialized_fill_n<Coord3D *,unsigned int,Coord3D>(Coord3D *,unsigned int,Coord3D const &,_STL::__false_type const &); }
+namespace _STL { template <> void vector<Coord3D,_STL::allocator<Coord3D> >::_M_insert_overflow(Coord3D *,Coord3D const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> void vector<Coord3D,_STL::allocator<Coord3D> >::push_back(Coord3D const &); }
+// bfme link decl-only end
 
 // Declaration-only _Construct: retail's push_back calls the pinned out-of-line
 // helper (0x002CA82C) instead of inlining the element copy (row 35 family-LK3).

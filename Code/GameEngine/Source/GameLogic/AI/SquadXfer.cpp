@@ -193,6 +193,9 @@ private:
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
+// bfme link decl-only begin
+namespace _STL { template <> ObjectID * allocator<ObjectID>::allocate(unsigned int,void const *) const; }
+// bfme link decl-only end
 void Squad::xfer( Xfer *xfer )
 {
 	if( xfer->IsLightCRC() )

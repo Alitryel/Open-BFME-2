@@ -79,6 +79,14 @@ protected:
     LanguageFilterMap m_wordList;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > * _Rb_tree<UnicodeString,_STL::pair<UnicodeString const,bool>,_STL::_Select1st<_STL::pair<UnicodeString const,bool> >,UnicodeStringLessThan,_STL::allocator<_STL::pair<UnicodeString const,bool> > >::_M_create_node(_STL::pair<UnicodeString const,bool> const &); }
+namespace _STL { template <> void _Rb_tree<UnicodeString,_STL::pair<UnicodeString const,bool>,_STL::_Select1st<_STL::pair<UnicodeString const,bool> >,UnicodeStringLessThan,_STL::allocator<_STL::pair<UnicodeString const,bool> > >::_M_erase(_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > *); }
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > * allocator<_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > >::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > *,_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> >,_STL::allocator<_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > > >::deallocate(_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > *,unsigned int); }
+namespace _STL { template <> void allocator<_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > >::deallocate(_STL::_Rb_tree_node<_STL::pair<UnicodeString const,bool> > *,unsigned int) const; }
+namespace _STL { template <> _STL::pair<_STL::_Rb_tree_iterator<_STL::pair<UnicodeString const,bool>,_STL::_Nonconst_traits<_STL::pair<UnicodeString const,bool> > >,bool> _Rb_tree<UnicodeString,_STL::pair<UnicodeString const,bool>,_STL::_Select1st<_STL::pair<UnicodeString const,bool> >,UnicodeStringLessThan,_STL::allocator<_STL::pair<UnicodeString const,bool> > >::insert_unique(_STL::pair<UnicodeString const,bool> const &); }
+// bfme link decl-only end
 void LanguageFilter::init()
 {
     m_wordList.clear();

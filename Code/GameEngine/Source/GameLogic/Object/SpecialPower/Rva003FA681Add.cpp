@@ -51,6 +51,12 @@ public:
 	void rva003FA681(int science, const int &amount);
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<CashHackSpecialPowerModuleData::Upgrades,CashHackSpecialPowerModuleData::Upgrades>(CashHackSpecialPowerModuleData::Upgrades *,CashHackSpecialPowerModuleData::Upgrades const &); }
+namespace _STL { template <> void vector<CashHackSpecialPowerModuleData::Upgrades,_STL::allocator<CashHackSpecialPowerModuleData::Upgrades> >::_M_insert_overflow(CashHackSpecialPowerModuleData::Upgrades *,CashHackSpecialPowerModuleData::Upgrades const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> CashHackSpecialPowerModuleData::Upgrades * allocator<CashHackSpecialPowerModuleData::Upgrades>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void vector<CashHackSpecialPowerModuleData::Upgrades,_STL::allocator<CashHackSpecialPowerModuleData::Upgrades> >::push_back(CashHackSpecialPowerModuleData::Upgrades const &); }
+// bfme link decl-only end
 void Rva003FA681::rva003FA681(int science, const int &amount)
 {
 	if (((Rva003FA430 *)this)->rva003FA430(science))

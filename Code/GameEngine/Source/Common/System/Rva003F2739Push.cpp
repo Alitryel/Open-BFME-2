@@ -33,6 +33,17 @@ private:
 	_STL::vector<ScienceType> m_vec; // +0x164
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void vector<ScienceType,_STL::allocator<ScienceType> >::_M_clear(); }
+namespace _STL { template <> void vector<ScienceType,_STL::allocator<ScienceType> >::_M_insert_overflow(ScienceType *,ScienceType const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> ScienceType * _STLP_alloc_proxy<ScienceType *,ScienceType,_STL::allocator<ScienceType> >::allocate(unsigned int); }
+namespace _STL { template <> void * __node_alloc<1,0>::allocate(unsigned int); }
+namespace _STL { template <> ScienceType * allocator<ScienceType>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<ScienceType *,ScienceType,_STL::allocator<ScienceType> >::deallocate(ScienceType *,unsigned int); }
+namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned int); }
+namespace _STL { template <> void allocator<ScienceType>::deallocate(ScienceType *,unsigned int) const; }
+namespace _STL { template <> void vector<ScienceType,_STL::allocator<ScienceType> >::push_back(ScienceType const &); }
+// bfme link decl-only end
 void Rva003F2739::rva003F2739(ScienceType v)
 {
 	m_vec.push_back(v);

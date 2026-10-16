@@ -115,6 +115,19 @@ private:
 	_STL::vector<Rva0020A227Element> m_vec;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> Rva0020A227Element * __uninitialized_copy<Rva0020A227Element *,Rva0020A227Element *>(Rva0020A227Element *,Rva0020A227Element *,Rva0020A227Element *,_STL::__false_type const &); }
+namespace _STL { template <> Rva0020A227Element * __uninitialized_fill_n<Rva0020A227Element *,unsigned int,Rva0020A227Element>(Rva0020A227Element *,unsigned int,Rva0020A227Element const &,_STL::__false_type const &); }
+namespace _STL { template <> void vector<Rva0020A227Element,_STL::allocator<Rva0020A227Element> >::_M_clear(); }
+namespace _STL { template <> void vector<Rva0020A227Element,_STL::allocator<Rva0020A227Element> >::_M_insert_overflow(Rva0020A227Element *,Rva0020A227Element const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> Rva0020A227Element * _STLP_alloc_proxy<Rva0020A227Element *,Rva0020A227Element,_STL::allocator<Rva0020A227Element> >::allocate(unsigned int); }
+namespace _STL { template <> void * __node_alloc<1,0>::allocate(unsigned int); }
+namespace _STL { template <> Rva0020A227Element * allocator<Rva0020A227Element>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<Rva0020A227Element *,Rva0020A227Element,_STL::allocator<Rva0020A227Element> >::deallocate(Rva0020A227Element *,unsigned int); }
+namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned int); }
+namespace _STL { template <> void allocator<Rva0020A227Element>::deallocate(Rva0020A227Element *,unsigned int) const; }
+namespace _STL { template <> void vector<Rva0020A227Element,_STL::allocator<Rva0020A227Element> >::push_back(Rva0020A227Element const &); }
+// bfme link decl-only end
 void ScriptEngine::rva0020A7C9()
 {
 	_STL::vector<FXBoneInfo> &fv = (_STL::vector<FXBoneInfo> &)m_vec;

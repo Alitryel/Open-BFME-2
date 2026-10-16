@@ -6,6 +6,13 @@
 #include <list>
 #include <map>
 #include "Bfme/PlaceTerrainResourceClaimantFeedbackView.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int,_STL::pair<int const,void *>,_STL::_Select1st<_STL::pair<int const,void *> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,void *> > >::~_Rb_tree(); }
+namespace _STL { template <> void _STLP_alloc_proxy<_STL::_List_node<Coord3D> *,_STL::_List_node<Coord3D>,_STL::allocator<_STL::_List_node<Coord3D> > >::deallocate(_STL::_List_node<Coord3D> *,unsigned int); }
+namespace _STL { template <> void allocator<_STL::_List_node<Coord3D> >::deallocate(_STL::_List_node<Coord3D> *,unsigned int) const; }
+namespace _STL { template <> void _List_base<Coord3D,_STL::allocator<Coord3D> >::clear(); }
+namespace _STL { template <> _List_base<Coord3D,_STL::allocator<Coord3D> >::~_List_base(); }
+// bfme link decl-only end
 
 // Native 4E6745..4E678B RET12 allocates its 32-byte Impl, passing this,
 // the UI's feedback settings, its preview drawable and the resource module.

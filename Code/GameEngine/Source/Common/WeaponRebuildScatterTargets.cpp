@@ -30,6 +30,14 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 typedef long ScatterIndex;
 
 #include "../../../Libraries/Include/Lib/Coord2D.h"
+// bfme link decl-only begin
+namespace _STL { template <> void vector<long,_STL::allocator<long> >::_M_clear(); }
+namespace _STL { template <> void vector<long,_STL::allocator<long> >::_M_insert_overflow(long *,long const &,_STL::__true_type const &,unsigned int,bool); }
+namespace _STL { template <> long * allocator<long>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<long *,long,_STL::allocator<long> >::deallocate(long *,unsigned int); }
+namespace _STL { template <> void allocator<long>::deallocate(long *,unsigned int) const; }
+namespace _STL { template <> void vector<long,_STL::allocator<long> >::push_back(long const &); }
+// bfme link decl-only end
 
 class WeaponTemplate
 {

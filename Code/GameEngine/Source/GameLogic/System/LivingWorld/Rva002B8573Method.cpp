@@ -40,6 +40,12 @@ private:
 	Rva002B8573Filter *m_flt08;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void vector<Object *,_STL::allocator<Object *> >::_M_insert_overflow(Object * *,Object * const &,_STL::__true_type const &,unsigned int,bool); }
+namespace _STL { template <> Object * * _STLP_alloc_proxy<Object * *,Object *,_STL::allocator<Object *> >::allocate(unsigned int); }
+namespace _STL { template <> Object * * allocator<Object *>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void vector<Object *,_STL::allocator<Object *> >::push_back(Object * const &); }
+// bfme link decl-only end
 bool Rva002B8573::rva002B8573(Rva003190A5 *a)
 {
 	Object *obj = a->m_78;

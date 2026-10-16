@@ -2,6 +2,15 @@
 // stlport
 // ?Rva00473FD4Xfer@@YAPAVXfer@@PAV1@PAV?$map@H_NU?$less@H@_STL@@V?$allocator@U?$pair@$$CBH_N@_STL@@@2@@_STL@@@Z 0x00473FD4 217B evidence: map<int bool> Xfer twin of rowed map<int int> Rva00470222Xfer 0x00470222; version {1,1} via slot 0x28 typename std::map via slot 0x2c count via slot 0x78 isSaving via slot 8; save loop via rowed _M_increment 0x00024250 with per-item Rva00469103Xfer 0x00469103; load throws Map must be empty on load via bfmeFormatText 0x0060C36E then per-item operator[] 0x00470353; caller 0x00474EA8
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<int const,bool> > * _Rb_tree<int,_STL::pair<int const,bool>,_STL::_Select1st<_STL::pair<int const,bool> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,bool> > >::_M_create_node(_STL::pair<int const,bool> const &); }
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<int const,bool> > * _STLP_alloc_proxy<_STL::_Rb_tree_node<_STL::pair<int const,bool> > *,_STL::_Rb_tree_node<_STL::pair<int const,bool> >,_STL::allocator<_STL::_Rb_tree_node<_STL::pair<int const,bool> > > >::allocate(unsigned int); }
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<int const,bool> > * allocator<_STL::_Rb_tree_node<_STL::pair<int const,bool> > >::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<_STL::_Rb_tree_node<_STL::pair<int const,bool> > *,_STL::_Rb_tree_node<_STL::pair<int const,bool> >,_STL::allocator<_STL::_Rb_tree_node<_STL::pair<int const,bool> > > >::deallocate(_STL::_Rb_tree_node<_STL::pair<int const,bool> > *,unsigned int); }
+namespace _STL { template <> void allocator<_STL::_Rb_tree_node<_STL::pair<int const,bool> > >::deallocate(_STL::_Rb_tree_node<_STL::pair<int const,bool> > *,unsigned int) const; }
+namespace _STL { template <> _STL::pair<_STL::_Rb_tree_iterator<_STL::pair<int const,bool>,_STL::_Nonconst_traits<_STL::pair<int const,bool> > >,bool> _Rb_tree<int,_STL::pair<int const,bool>,_STL::_Select1st<_STL::pair<int const,bool> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,bool> > >::insert_unique(_STL::pair<int const,bool> const &); }
+namespace _STL { template <> bool & map<int,bool,_STL::less<int>,_STL::allocator<_STL::pair<int const,bool> > >::operator[](int const &); }
+// bfme link decl-only end
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

@@ -21,6 +21,12 @@ struct Rva00501776
 	Rva00501776(const Rva00501776 &that);
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<Rva00501E3FElement,Rva00501E3FElement>(Rva00501E3FElement *,Rva00501E3FElement const &); }
+namespace _STL { template <> vector<Rva00501E3FElement,_STL::allocator<Rva00501E3FElement> >::~vector(); }
+namespace _STL { template <> Rva00501E3FElement * __uninitialized_copy<Rva00501E3FElement const *,Rva00501E3FElement *>(Rva00501E3FElement const *,Rva00501E3FElement const *,Rva00501E3FElement *,_STL::__false_type const &); }
+namespace _STL { template <> vector<Rva00501E3FElement,_STL::allocator<Rva00501E3FElement> >::vector(_STL::vector<Rva00501E3FElement,_STL::allocator<Rva00501E3FElement> > const &); }
+// bfme link decl-only end
 Rva00501776::Rva00501776(const Rva00501776 &that)
 	: m_00(that.m_00)
 	, m_04(that.m_04)

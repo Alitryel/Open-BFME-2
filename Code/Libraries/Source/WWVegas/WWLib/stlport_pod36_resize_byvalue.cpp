@@ -46,6 +46,11 @@ public:
 	void resize(unsigned int n);
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void vector<BfmePod36,_STL::allocator<BfmePod36> >::_M_insert_overflow(BfmePod36 *,BfmePod36 const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> BfmePod36 * allocator<BfmePod36>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void vector<BfmePod36,_STL::allocator<BfmePod36> >::_M_fill_insert(BfmePod36 *,unsigned int,BfmePod36 const &); }
+// bfme link decl-only end
 void BfmePod36Vector::resize(unsigned int n, BfmePod36 x)
 {
 	if (n < size())

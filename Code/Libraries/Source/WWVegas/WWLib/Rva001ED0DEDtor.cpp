@@ -35,6 +35,12 @@ private:
 	_STL::vector<Rva001EC349, _STL::allocator<Rva001EC349> > m_18;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<Rva001EC349 *>(Rva001EC349 *,Rva001EC349 *); }
+namespace _STL { template <> void __destroy<Rva001EC349 *,Rva001EC349>(Rva001EC349 *,Rva001EC349 *,Rva001EC349 *); }
+namespace _STL { template <> void __destroy_aux<Rva001EC349 *>(Rva001EC349 *,Rva001EC349 *,_STL::__false_type const &); }
+namespace _STL { template <> vector<Rva001EC349,_STL::allocator<Rva001EC349> >::~vector(); }
+// bfme link decl-only end
 Rva001ED0DE::~Rva001ED0DE()
 {
 }

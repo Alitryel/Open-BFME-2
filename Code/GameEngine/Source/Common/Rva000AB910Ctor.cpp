@@ -26,6 +26,17 @@ private:
 	_STL::hash_map<int, Rva000AB8F1Element> m_second;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> hashtable<_STL::pair<int const,Rva000AB8F1Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<int const,Rva000AB8F1Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva000AB8F1Element> > >::hashtable(unsigned int,_STL::hash<int> const &,_STL::equal_to<int> const &,_STL::allocator<_STL::pair<int const,Rva000AB8F1Element> > const &); }
+namespace _STL { template <> hashtable<_STL::pair<int const,Rva000AB8F1Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<int const,Rva000AB8F1Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva000AB8F1Element> > >::~hashtable(); }
+namespace _STL { template <> void hashtable<_STL::pair<int const,Rva000AB8F1Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<int const,Rva000AB8F1Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva000AB8F1Element> > >::_M_delete_node(_STL::_Hashtable_node<_STL::pair<int const,Rva000AB8F1Element> > *); }
+namespace _STL { template <> void hashtable<_STL::pair<int const,Rva000AB8F1Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<int const,Rva000AB8F1Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva000AB8F1Element> > >::_M_initialize_buckets(unsigned int); }
+namespace _STL { template <> unsigned int hashtable<_STL::pair<int const,Rva000AB8F1Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<int const,Rva000AB8F1Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva000AB8F1Element> > >::_M_next_size(unsigned int) const; }
+namespace _STL { template <> void hashtable<_STL::pair<int const,Rva000AB8F1Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<int const,Rva000AB8F1Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva000AB8F1Element> > >::clear(); }
+namespace _STL { template <> void _STLP_alloc_proxy<unsigned int,_STL::_Hashtable_node<_STL::pair<int const,Rva000AB8F1Element> >,_STL::allocator<_STL::_Hashtable_node<_STL::pair<int const,Rva000AB8F1Element> > > >::deallocate(_STL::_Hashtable_node<_STL::pair<int const,Rva000AB8F1Element> > *,unsigned int); }
+namespace _STL { template <> void allocator<_STL::_Hashtable_node<_STL::pair<int const,Rva000AB8F1Element> > >::deallocate(_STL::_Hashtable_node<_STL::pair<int const,Rva000AB8F1Element> > *,unsigned int) const; }
+namespace _STL { template <> hash_map<int,Rva000AB8F1Element,_STL::hash<int>,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva000AB8F1Element> > >::hash_map(); }
+// bfme link decl-only end
 Rva000AB910::Rva000AB910(const AsciiString &name)
 :
 	m_name(name),

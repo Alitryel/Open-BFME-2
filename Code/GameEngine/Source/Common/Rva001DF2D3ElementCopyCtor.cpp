@@ -56,6 +56,12 @@ private:
 
 typedef char Rva001DF2D3ElementSizeCheck[sizeof(Rva001DF2D3Element) == 0x30 ? 1 : -1];
 
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<BfmeRecord001DD3BC,BfmeRecord001DD3BC>(BfmeRecord001DD3BC *,BfmeRecord001DD3BC const &); }
+namespace _STL { template <> void _Destroy<BfmeRecord001DD3BC>(BfmeRecord001DD3BC *); }
+namespace _STL { template <> _Rb_tree<BfmeRecord001DD3BC,BfmeRecord001DD3BC,_STL::_Identity<BfmeRecord001DD3BC>,_STL::less<BfmeRecord001DD3BC>,_STL::allocator<BfmeRecord001DD3BC> >::~_Rb_tree(); }
+namespace _STL { template <> void _Rb_tree<BfmeRecord001DD3BC,BfmeRecord001DD3BC,_STL::_Identity<BfmeRecord001DD3BC>,_STL::less<BfmeRecord001DD3BC>,_STL::allocator<BfmeRecord001DD3BC> >::_M_erase(_STL::_Rb_tree_node<BfmeRecord001DD3BC> *); }
+// bfme link decl-only end
 Rva001DF2D3Element::Rva001DF2D3Element(const Rva001DF2D3Element &that)
 	: m_word0(that.m_word0)
 	, m_word1(that.m_word1)

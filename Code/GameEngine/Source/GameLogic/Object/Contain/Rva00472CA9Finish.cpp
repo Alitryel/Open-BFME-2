@@ -1,6 +1,23 @@
 // cl: /MD /Oa
 // stlport
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<_STL::pair<int const,int>,_STL::pair<int const,int> >(_STL::pair<int const,int> *,_STL::pair<int const,int> const &); }
+namespace _STL { template <> pair<int const,int>::pair(int const &,int const &); }
+namespace _STL { template <> pair<int const,int>::pair(_STL::pair<int const,int> const &); }
+namespace _STL { template <> pair<_STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > >,bool>::pair(_STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > > const &,bool const &); }
+namespace _STL { template <> _STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > > & _Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > >::operator++(); }
+namespace _STL { template <> _STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > > & _Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > >::operator--(); }
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<int const,int> > * _Rb_tree<int,_STL::pair<int const,int>,_STL::_Select1st<_STL::pair<int const,int> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,int> > >::_M_create_node(_STL::pair<int const,int> const &); }
+namespace _STL { template <> _STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > > _Rb_tree<int,_STL::pair<int const,int>,_STL::_Select1st<_STL::pair<int const,int> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,int> > >::_M_insert(_STL::_Rb_tree_node_base *,_STL::_Rb_tree_node_base *,_STL::pair<int const,int> const &,_STL::_Rb_tree_node_base *); }
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<int const,int> > * _STLP_alloc_proxy<_STL::_Rb_tree_node<_STL::pair<int const,int> > *,_STL::_Rb_tree_node<_STL::pair<int const,int> >,_STL::allocator<_STL::_Rb_tree_node<_STL::pair<int const,int> > > >::allocate(unsigned int); }
+namespace _STL { template <> _STL::_Rb_tree_node<_STL::pair<int const,int> > * allocator<_STL::_Rb_tree_node<_STL::pair<int const,int> > >::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<_STL::_Rb_tree_node<_STL::pair<int const,int> > *,_STL::_Rb_tree_node<_STL::pair<int const,int> >,_STL::allocator<_STL::_Rb_tree_node<_STL::pair<int const,int> > > >::deallocate(_STL::_Rb_tree_node<_STL::pair<int const,int> > *,unsigned int); }
+namespace _STL { template <> void allocator<_STL::_Rb_tree_node<_STL::pair<int const,int> > >::deallocate(_STL::_Rb_tree_node<_STL::pair<int const,int> > *,unsigned int) const; }
+namespace _STL { template <> _STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > > _Rb_tree<int,_STL::pair<int const,int>,_STL::_Select1st<_STL::pair<int const,int> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,int> > >::insert_unique(_STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > >,_STL::pair<int const,int> const &); }
+namespace _STL { template <> _STL::pair<_STL::_Rb_tree_iterator<_STL::pair<int const,int>,_STL::_Nonconst_traits<_STL::pair<int const,int> > >,bool> _Rb_tree<int,_STL::pair<int const,int>,_STL::_Select1st<_STL::pair<int const,int> >,_STL::less<int>,_STL::allocator<_STL::pair<int const,int> > >::insert_unique(_STL::pair<int const,int> const &); }
+namespace _STL { template <> int & map<int,int,_STL::less<int>,_STL::allocator<_STL::pair<int const,int> > >::operator[](int const &); }
+// bfme link decl-only end
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline

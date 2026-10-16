@@ -41,6 +41,14 @@ private:
 	_STL::vector<ObjectID> m_ids;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void vector<ObjectID,_STL::allocator<ObjectID> >::_M_clear(); }
+namespace _STL { template <> void vector<ObjectID,_STL::allocator<ObjectID> >::_M_insert_overflow(ObjectID *,ObjectID const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> ObjectID * allocator<ObjectID>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<ObjectID *,ObjectID,_STL::allocator<ObjectID> >::deallocate(ObjectID *,unsigned int); }
+namespace _STL { template <> void allocator<ObjectID>::deallocate(ObjectID *,unsigned int) const; }
+namespace _STL { template <> void vector<ObjectID,_STL::allocator<ObjectID> >::push_back(ObjectID const &); }
+// bfme link decl-only end
 bool Rva001DDBE0Holder::addObject(Object *objectToAdd)
 {
 	m_ids.push_back(objectToAdd->getID());

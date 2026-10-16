@@ -82,6 +82,16 @@ private:
 };
 
 // ??0BannerCarrierUpdateModuleData@@QAE@XZ @0x496FA5
+// bfme link decl-only begin
+namespace _STL { template <> _Vector_base<BfmeExpLevelDraw *,_STL::allocator<BfmeExpLevelDraw *> >::~_Vector_base(); }
+namespace _STL { template <> _Vector_base<BfmeMorphCondition *,_STL::allocator<BfmeMorphCondition *> >::~_Vector_base(); }
+namespace _STL { template <> vector<BfmeExpLevelDraw *,_STL::allocator<BfmeExpLevelDraw *> >::~vector(); }
+namespace _STL { template <> vector<BfmeMorphCondition *,_STL::allocator<BfmeMorphCondition *> >::~vector(); }
+namespace _STL { template <> void _STLP_alloc_proxy<BfmeExpLevelDraw * *,BfmeExpLevelDraw *,_STL::allocator<BfmeExpLevelDraw *> >::deallocate(BfmeExpLevelDraw * *,unsigned int); }
+namespace _STL { template <> void _STLP_alloc_proxy<BfmeMorphCondition * *,BfmeMorphCondition *,_STL::allocator<BfmeMorphCondition *> >::deallocate(BfmeMorphCondition * *,unsigned int); }
+namespace _STL { template <> void allocator<BfmeExpLevelDraw *>::deallocate(BfmeExpLevelDraw * *,unsigned int) const; }
+namespace _STL { template <> void allocator<BfmeMorphCondition *>::deallocate(BfmeMorphCondition * *,unsigned int) const; }
+// bfme link decl-only end
 BannerCarrierUpdateModuleData::BannerCarrierUpdateModuleData()
 	: m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C4F870)))
 	, m_upgradeRequired(0)

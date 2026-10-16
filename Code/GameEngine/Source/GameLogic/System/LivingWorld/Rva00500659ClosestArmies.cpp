@@ -102,6 +102,12 @@ private:
 	_STL::map<int, Rva00500659Value> m_map;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> vector<ObjectID,_STL::allocator<ObjectID> >::vector(_STL::vector<ObjectID,_STL::allocator<ObjectID> > const &); }
+namespace _STL { template <> void vector<ObjectID,_STL::allocator<ObjectID> >::_M_insert_overflow(ObjectID *,ObjectID const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> ObjectID * vector<ObjectID,_STL::allocator<ObjectID> >::erase(ObjectID *,ObjectID *); }
+namespace _STL { template <> void vector<ObjectID,_STL::allocator<ObjectID> >::push_back(ObjectID const &); }
+// bfme link decl-only end
 _STL::vector<ObjectID> Rva0059CFAACallee::rva00500659(int playerId, int *territory, int *count)
 {
 	Rva00500659IntMap::iterator from = ((Rva00500659IntMap *)&g_Va00E04544)->find(*territory);

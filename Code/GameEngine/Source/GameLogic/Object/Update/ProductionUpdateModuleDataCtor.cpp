@@ -154,6 +154,9 @@ private:
 };
 
 // ??0ProductionUpdateModuleData@@QAE@XZ @0x49F7DB
+// bfme link decl-only begin
+namespace _STL { template <> vector<QuantityModifier,_STL::allocator<QuantityModifier> >::~vector(); }
+// bfme link decl-only end
 ProductionUpdateModuleData::ProductionUpdateModuleData()
 	: UpdateModuleData()
 	, m_vtable(reinterpret_cast<const void *>(((unsigned int)vtbl_00C515F0)))

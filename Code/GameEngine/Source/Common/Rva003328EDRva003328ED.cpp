@@ -70,6 +70,18 @@ private:
 	_STL::vector<Rva003328B6Element> m_vec;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<Rva003328B6Element,Rva003328B6Element>(Rva003328B6Element *,Rva003328B6Element const &); }
+namespace _STL { template <> void _Destroy<Rva003328B6Element *>(Rva003328B6Element *,Rva003328B6Element *); }
+namespace _STL { template <> void _Destroy<Rva003328B6Element>(Rva003328B6Element *); }
+namespace _STL { template <> void __destroy<Rva003328B6Element *,Rva003328B6Element>(Rva003328B6Element *,Rva003328B6Element *,Rva003328B6Element *); }
+namespace _STL { template <> void __destroy_aux<Rva003328B6Element *>(Rva003328B6Element *,Rva003328B6Element *,_STL::__false_type const &); }
+namespace _STL { template <> Rva003328B6Element * __uninitialized_copy<Rva003328B6Element *,Rva003328B6Element *>(Rva003328B6Element *,Rva003328B6Element *,Rva003328B6Element *,_STL::__false_type const &); }
+namespace _STL { template <> Rva003328B6Element * __uninitialized_fill_n<Rva003328B6Element *,unsigned int,Rva003328B6Element>(Rva003328B6Element *,unsigned int,Rva003328B6Element const &,_STL::__false_type const &); }
+namespace _STL { template <> void vector<Rva003328B6Element,_STL::allocator<Rva003328B6Element> >::_M_clear(); }
+namespace _STL { template <> void vector<Rva003328B6Element,_STL::allocator<Rva003328B6Element> >::_M_insert_overflow(Rva003328B6Element *,Rva003328B6Element const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> void vector<Rva003328B6Element,_STL::allocator<Rva003328B6Element> >::push_back(Rva003328B6Element const &); }
+// bfme link decl-only end
 void Rva003328ED::rva003328ED(void *x, int k1, int k2)
 {
 	Rva003328B6Element *p = m_vec.begin();
