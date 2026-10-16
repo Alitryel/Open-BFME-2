@@ -1,4 +1,6 @@
 // ?update@Eva@@UAEXXZ
+// partial score=0.96 date=2026-10-16
+// ?update@Eva@@UAEXXZ
 // partial score=0.866911658740453 date=2026-10-15
 // Whole-home bank for Code/GameEngine/Source/GameClient/Eva.cpp.
 // Retail update1DE156..1DE2DA388B; WB Eva::update ACBEB0 supplies identity.
@@ -279,8 +281,8 @@ private:
 	EvaVectorView<Arg001DCDAF> m_allEventInfos;		// +0x1C (WB name)
 	unsigned char m_pad28[0x5c - 0x28];
 	EvaVectorView<Rva001DCDAF> m_eventStatus;		// +0x5C
-	_STL::_List_base<int, _STL::allocator<int> > m_queue; // +0x68
-	int m_queuePosition; // +0x6C
+	_STL::list<int, _STL::allocator<int> > m_queue; // +0x68
+	_STL::list<int, _STL::allocator<int> >::iterator m_queuePosition; // +0x6C
 	int m_70;
 	int m_74;
 	int m_78;
@@ -481,7 +483,7 @@ void Eva::rva001DF1A4()
   m_74 = 1;
  m_7C = true;
  m_queue.clear();
- m_queuePosition = *reinterpret_cast<int *>(&m_queue);
+ m_queuePosition = m_queue.end();
  m_70 = 0;
 }
 
@@ -591,13 +593,13 @@ void Eva::update()
                 audio=TheAudio;
         }
     }
-    EvaLinkList &locations=*(EvaLinkList*)&m_queue;
-    while(!locations.empty()) {
-        EvaLinkList::iterator first=locations.end();
+    EvaLinkList *locations=&m_queue;
+    while(!m_queue.empty()) {
+        EvaLinkList::iterator first=locations->end();
         --first;
         if((UnsignedInt)*first+m_locationLifetime>=TheGameLogic->getFrame())break;
-        if(m_queuePosition==(int)first._M_node)m_queuePosition=(int)locations.end()._M_node;
-        locations.erase(first);
+        if(m_queuePosition==first)m_queuePosition=m_queue.end();
+        locations->erase(first);
         audio=TheAudio;
     }
     if(m_7C && audio) {
@@ -620,6 +622,7 @@ void Eva::update()
         internalReportEvaEvent(&first->report);
         // Existing canonical erase only unlinks and frees the node; neither
         // payload value nor node allocation size is read by this body.
-        ((EvaEraseTree*)&reports)->erase(EvaEraseTree::iterator((_STL::_Rb_tree_node<EvaErasePair>*)reports.header->first));
+        typedef _STL::map<int,void*,_STL::less<int>,_STL::allocator<EvaErasePair> > EvaEraseMap;
+        ((EvaEraseMap*)&reports)->erase(((EvaEraseMap*)&reports)->begin());
     }
 }
