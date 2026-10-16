@@ -9774,7 +9774,6 @@ name,address,notes
 ?rva0017480C@Rva0017480C@@QAEXHUBfmeAssignRecord32@@@Z,0x0017480C,"100B grower true signature (int plus by-value 32B record); 0x174A8A passes it in place"
 ?rva00174870@@YAXHHH@Z,0x00174870,cdecl (int;int;int); sort helper called from 0x174A57 with (a;b;0x57368A)
 ?rva0018C73C@Rva0018C73C@@QAEXHHPAD@Z,0x0018C73C,thiscall callee of the F22 ebp-frame forwarders; takes the wrapper's first two args plus (char*)&arg2+3 in a vestigial third slot; name unknown
-?rva00199FFB@Rva00199FFB@@SAXPAVMeshMatDescClass@@PAVMeshModelClass@@@Z,0x00199FFB,"cdecl helper taking (MeshMatDescClass*, MeshModelClass*) called from MeshModelClass::Register_For_Rendering 0x0017328A; identity unproven, address-derived. Respelled from the YAXXPAV0@PAV0@Z placeholder to the MeshMatDescClass/MeshModelClass-typed static spelling that Code/Libraries/Source/WWVegas/WW3D2/Rva00173230Finish.cpp actually mangles to, so the caller REL32 site resolves."
 ?rva0019C0A0@Rva0019C0A0NullTarget@@QAEHXZ,0x0019C0A0,"method a null-checked vtable-slot forwarder tail-jumps to (ret 0); opaque address name"
 ?rva001A3930@Rva001A3930NullTarget@@QAEHXZ,0x001A3930,"method a null-checked vtable-slot forwarder tail-jumps to (ret 0); opaque address name"
 ?rva001B2210@BFME2Encoding1MotionChannel@@QAEXPAIIIPAM1@Z,0x001B2210,"REL32 at +0x3C and +0x87 of the byte-true BFME2Encoding1MotionChannel::UnknownSlot3 0x001B28FA (thiscall decoder: state/from/frame/value0/value1; RET 0x14); reads this+0x18 and Data +0x28; 0x001B2599 is the encoding-2 twin; unrowed"

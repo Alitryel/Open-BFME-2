@@ -42,7 +42,7 @@ public:
 };
 class Rva001735F9 { public: void rva001735F9(MeshModelClass *mesh); };
 class Rva00145C30 { public: int rva00145C30(MeshModelClass *mesh); };
-class Rva00199FFB { public: static void rva00199FFB(MeshMatDescClass *, MeshModelClass *); };
+class Rva00199FFB { public: static bool rva00199FFB(MeshMatDescClass *, MeshModelClass *); };
 
 // The globals this body reads. LODMeshCacheSetting, TheMeshGapFillerContext
 // and TheDX8MeshRenderer bind to their existing providers. The two remaining
