@@ -117,6 +117,7 @@ class TerrainTextureClass : public TextureClass
 {
 public:
 	void setLOD(Int LOD);
+ int updateFlat(WorldHeightMap*,int,int,int,int,int);
  int updateCliff(TileData**,int,int,int,int);
 	Int updateFlatDXT1(WorldHeightMap *htMap, Int xCell, Int yCell,
 		Int cellWidth, Int pixelsPerCell, Int tileKind);
@@ -220,6 +221,102 @@ Int TerrainTextureClass::updateCliff(TileData **tiles, Int firstTile, Int tileCo
 			}
 		}
 	}
+
+	surface_level->UnlockRect();
+	surface_level->Release();
+	BFME_DX8_ErrorCode(D3DXFilterTexture(reinterpret_cast<IDirect3DTexture8 *>(self->Peek_D3D_Base_Texture()), NULL, 0, 5));
+	return surface_desc.Height;
+}
+
+int TerrainTextureClass::updateFlat(WorldHeightMap *htMap, Int xCell, Int yCell, Int cellWidth, Int pixelsPerCell, Int tileKind)
+{
+	SurfaceResource *surface_level;
+	Rva006D5750SurfaceStorage surface_storage;
+	Rva006D53A0SurfaceDesc &surface_desc = surface_storage.desc;
+	D3DLOCKED_RECT locked_rect;
+	TerrainTextureClass *self = this;
+	BFME_DX8_ErrorCode(reinterpret_cast<BfmeD3DTexture *>(self->Peek_D3D_Base_Texture())->GetSurfaceLevel(0, &surface_level));
+	BFME_DX8_ErrorCode(surface_level->GetDesc(&surface_desc));
+	if (surface_desc.Width != cellWidth * pixelsPerCell) {
+		return false;
+	}
+
+	BFME_DX8_ErrorCode(surface_level->LockRect(&locked_rect, NULL, 0));
+    if (surface_desc.Format == D3DFMT_A1R5G5B5) {
+        for (int cellY=0; cellY<cellWidth; ++cellY) {
+            for (int cellX=0; cellX<cellWidth; ++cellX) {
+                unsigned short *destination = reinterpret_cast<unsigned short*>(locked_rect.pBits)
+                    + ((cellWidth-cellY-1)*pixelsPerCell+pixelsPerCell-1)*surface_desc.Width
+                    + cellX*pixelsPerCell;
+                unsigned char *source = reinterpret_cast<Rva000AED2EWorldHeightMapView*>(htMap)->rva000AED2E(
+                    xCell+cellX,yCell+cellY,pixelsPerCell,tileKind,reinterpret_cast<int>(destination),-static_cast<int>(surface_desc.Width));
+                if (!source) continue;
+                // Retail and unoptimized WB retain this identical hand-written
+                // four-pixel conversion loop (EF39F..EF43E / 8C4F74..8C5013).
+                // AH/AX partial writes and nested register saves are not emitted
+                // by the tested C++ expression; only this proven blocker is asm.
+                __asm {
+                    mov esi, source
+                    mov edi, destination
+                    mov edx, pixelsPerCell
+                terrain_row:
+                    push edx
+                    push edi
+                    mov ecx, pixelsPerCell
+                    shr ecx, 2
+                terrain_group:
+                    mov eax, dword ptr [esi+0]
+                    mov ebx, eax
+                    shr ah, 3
+                    shr ebx, 19
+                    shr ax, 3
+                    shl ebx, 10
+                    or eax, 8000h
+                    or eax, ebx
+                    mov edx, dword ptr [esi+4]
+                    mov ebx, edx
+                    shr dh, 3
+                    shr ebx, 19
+                    shr dx, 3
+                    shl ebx, 10
+                    or edx, 8000h
+                    or edx, ebx
+                    shl edx, 16
+                    mov dx, ax
+                    mov dword ptr [edi+0], edx
+                    mov eax, dword ptr [esi+8]
+                    mov ebx, eax
+                    shr ah, 3
+                    shr ebx, 19
+                    shr ax, 3
+                    shl ebx, 10
+                    or eax, 8000h
+                    or eax, ebx
+                    mov edx, dword ptr [esi+12]
+                    mov ebx, edx
+                    shr dh, 3
+                    shr ebx, 19
+                    shr dx, 3
+                    shl ebx, 10
+                    or edx, 8000h
+                    or edx, ebx
+                    shl edx, 16
+                    mov dx, ax
+                    mov dword ptr [edi+4], edx
+                    add esi, 16
+                    add edi, 8
+                    dec ecx
+                    jnz terrain_group
+                    pop edi
+                    pop edx
+                    sub edi, surface_storage.desc.Width
+                    sub edi, surface_storage.desc.Width
+                    dec edx
+                    jnz terrain_row
+                }
+            }
+        }
+    }
 
 	surface_level->UnlockRect();
 	surface_level->Release();
