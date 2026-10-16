@@ -36,9 +36,15 @@ class Rva006DBB30SarDwordField
 public:
 	int get() const;
 };
+// The real AptValue: its first three vftable slots are the rowed AddRef
+// (0x006DCAC0), Release (0x006DCB20) and ForceDelete (0x006CBCD0) that the
+// base constructor's vtable 0x008EAED0 holds.
 class AptValue
 {
 public:
+	virtual void AddRef();
+	virtual void Release();
+	virtual void ForceDelete();
 	unsigned int getRefCount() const;
 };
 class Rva006DBDB0DwordOrSetter
@@ -51,10 +57,9 @@ class Rva006DB270
 public:
 	void freeBlock(void *block, int blockSize);
 };
-class BfmeAptValue006DCD20
+class BfmeAptValue006DCD20 : public AptValue
 {
 public:
-	virtual void vtableSlot0();
 	BfmeAptValue006DCD20(int type);
 	unsigned int m_flags;
 	virtual ~BfmeAptValue006DCD20();
