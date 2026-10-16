@@ -10,11 +10,15 @@
 class XmlNameSlotList {public:int count();int finish();const char *tagAt(int);const char *nameAt(int);};
 struct Rva00336BE4Key {
  unsigned key;
- __declspec(noinline) Rva00336BE4Key();
+ __declspec(noinline) Rva00336BE4Key();	// Rva00336BE4KeyCtor.cpp (0x00326BE6)
 };
 
 struct EventFlagEntry {void setKeyFromName(const char *);};
-extern template void _STL::vector<Rva00336BE4Key>::push_back(const Rva00336BE4Key &);
+// The 4-byte key vector's push_back is the shared body at 0x002E01C6, rowed
+// as vector<NameKeyType>::push_back (the key is set from a name); declared
+// only, so this unit emits no copy.
+enum NameKeyType { NAMEKEY_INVALID = 0 };
+namespace _STL { template <> void vector<NameKeyType>::push_back(const NameKeyType &); }
 class LuaScriptEngine {public:
  void ProcessScriptedEvent(XmlNameSlotList *);
  char pad[0xA0];_STL::vector<Rva00336BE4Key> scriptedEvents;
@@ -28,7 +32,7 @@ void LuaScriptEngine::ProcessScriptedEvent(XmlNameSlotList *xml) {
     const char *value=xml->nameAt(i);
     Rva00336BE4Key record;
     ((EventFlagEntry *)&record)->setKeyFromName(value);
-    scriptedEvents.push_back(record);
+    ((_STL::vector<NameKeyType> *)&scriptedEvents)->push_back((const NameKeyType &)record);
    }
    ++i;
   }while(i<xml->count());
