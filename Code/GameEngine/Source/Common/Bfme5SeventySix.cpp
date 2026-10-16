@@ -112,6 +112,7 @@ public:
 	void bfmeApplyCircleWorld(const BfmePointFC *point, Real radius, int amount, bool absolute, int mode);
 	int rva006C0850(const BfmePointFC *point, int *extra);
 	unsigned char rva006C0840(int x, int y);
+	void rva006C07F0();
 
 private:
 	unsigned char m_bfmeHead[0x10 - 4];				// +0x04
@@ -179,6 +180,15 @@ int BfmeTaintManager::rva006C0850(const BfmePointFC *point, int *extra)
 unsigned char BfmeTaintManager::rva006C0840(int x, int y)
 {
 	return m_bfmeGrid->rva006C0E70(x, y);
+}
+
+// ?rva006C07F0@BfmeTaintManager@@QAEXXZ @ 0x006C07F0 8B
+// Honest address name: tail-jmp thunk loading grid at +0x10 then jumping to
+// pinned Gen_008812D0::bfmeReset (0x0069E440). Evidence: mov ecx,[ecx+0x10]
+// plus jmp shape, BfmeTaintManager primary vtable 0x00CE7B84 slot 10.
+void BfmeTaintManager::rva006C07F0()
+{
+	m_bfmeGrid->bfmeReset();
 }
 
 struct BfmeFlagPair
