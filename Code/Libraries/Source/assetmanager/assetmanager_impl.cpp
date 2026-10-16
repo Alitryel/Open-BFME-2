@@ -71,6 +71,16 @@ typedef _STL::set<Gen_t_009ee8e0_k4> Q1ReceiverSet;
 struct Rva001408C0Target;
 typedef Rva001408C0Target *Q1ReceiverKey;
 typedef _STL::set<Q1ReceiverKey> Q1ReceiverPtrSet;
+// Every empty() test on the pointer set is inlined; imported force-inline stock
+// bodies keep this unit from emitting its own first-in-link-order copies.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool _Rb_tree<Q1ReceiverKey, Q1ReceiverKey, _Identity<Q1ReceiverKey>, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> >::empty() const
+{ return _M_node_count == 0; }
+template <> __declspec(dllimport) __forceinline
+bool set<Q1ReceiverKey, less<Q1ReceiverKey>, allocator<Q1ReceiverKey> >::empty() const
+{ return _M_t.empty(); }
+}
 
 void j_00015d7a();
 
