@@ -5,9 +5,17 @@
 // Predicate-gated erase walk over vector<void*> at +0x18 (end cached, refreshed
 // after each erase): per element call rowed bool predicate 0x004E9378 ([+0x10]==2/3);
 // when true delete (elem ? elem->v00(0) : 0) via rowed scalar delete 0x0002FD60 and
-// erase via rowed vector<void*>::erase 0x001FF51F; when false call helper 0x00596B10
-// if elem[+0x10]==1 then advance. Same this as caller 0x004E9710 (provisional pin class).
+// erase via rowed vector<void*>::erase 0x001FF51F; when false call the rowed
+// AIMoneyLender::update 0x00596B10 if elem[+0x10]==1 then advance. Same this as caller 0x004E9710 (provisional pin class).
 #include <vector>
+// Keep vector<void*> begin/end inline without emitting this unit's /O1 COMDAT
+// copies: retail's out-of-line ones are the /Od bodies (0x00023B90, 0x00023BA0).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end() { return this->_M_finish; }
+}
 
 class Rva004E9378
 {
@@ -15,10 +23,10 @@ public:
 	bool rva004E9378();
 };
 
-class Rva00596B10
+class AIMoneyLender
 {
 public:
-	void rva00596B10();
+	void update();
 };
 
 struct Rva004E9446Elem
@@ -55,7 +63,7 @@ void Rva004E94FB::rva004E9446()
 		else
 		{
 			if (e->m_10 == 1)
-				((Rva00596B10 *)e)->rva00596B10();
+				((AIMoneyLender *)e)->update();
 			++it;
 		}
 	}
