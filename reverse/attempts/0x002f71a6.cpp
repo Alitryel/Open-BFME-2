@@ -1,4 +1,6 @@
 // ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
+// partial score=0.88601 date=2026-10-16
+// ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
 // partial score=0.8847884124981439 date=2026-10-15
 // ?internal_findHierarchicalPath@Pathfinder@@IAEPAVPath@@_NHPAVObject@@PBUCoord3D@@200PAU4@@Z
 // partial score=0.8119096975121662 date=2026-10-15
@@ -12,8 +14,13 @@
 // NOT claims of original target classes. Candidate switches from waypoint to
 // closest-cell only after its waypoint phase dies; every read follows a write.
 // Query/point/block goal retain independently established member types/layouts.
-// parentZone Int is a local codegen choice; values remain ushort-range and
-// no external type/ABI is changed. Separate min-distance and initial-cell defs.
+// parentZone is unsigned short: retail stores/compares it as a word
+// (2F781C/2F7841/2F7D73); zone helper returns ushort. Plain rawTo zero check.
+// Separate min-distance and initial-cell defs. Residue (opus r12): entry keeps
+// this in ecx (retail rawTo esi, from edi); waypoint loop not inverted and not
+// cached in edi (retail edi + home slot 2C); no xor-edi zero reg after loop;
+// stack slot permutation. Disproved r12: ICoord2D block, scalar way/closestCell,
+// dropping entry barrier, named location pointer in waypoint loop.
 // Existing sole datum owner g_Va00E01EDC replaces an unadmitted second name;
 // data_ledger owner GameStateInit.cpp, role from GameEngineInit registration.
 // Root audit:139 REL32 sites/42 names, all already admitted; no new pins.
@@ -30,7 +37,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  const Coord3D *rawTo,Bool crusher,Bool closestOK,Coord3D *adjustedTo)
 {
  union CandidateStorage {Waypoint *waypoint;PathfindCell *cell;};CandidateStorage candidate;
- if((from?rawTo->x:rawTo->x)==0.0f && rawTo->y==0.0f)return 0;
+ if(rawTo->x==0.0f && rawTo->y==0.0f)return 0;
  if(!m_isMapReady)return 0;
  struct SearchStorage {HierarchyPoint point;HierarchySearchOptions query;ICoord2D blockGoal;__forceinline SearchStorage(const Coord3D&p):point(p){} };SearchStorage storage(*rawTo);HierarchyPoint &adjustTo=storage.point;
  _ReadWriteBarrier();
@@ -119,7 +126,7 @@ Path *Pathfinder::internal_findHierarchicalPath(Bool isHuman,
  PathfindCell *initialCell=parentCell;
  while((parentCell=rva002F36E5())!=0) {
   parentCell->PutOnClosedList(&m_closedList);
-  Int parentZone;
+  unsigned short parentZone;
   if((unsigned char)Rva002E6E6CGet(parentCell->getLayer()))
    parentZone=zones->rva00532041((Int)&options,parentCell->getXIndex(),parentCell->getYIndex(),(Rva00532041Record **)m_unknown10);
   else parentZone=parentCell->quickZone();
