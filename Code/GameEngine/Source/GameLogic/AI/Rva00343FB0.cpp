@@ -379,7 +379,7 @@ private:
 
 Bool Rva0034311ECheck(Object *obj);
 
-Bool rva003430A3(Object *source, Object *victim, Weapon *weapon)
+__declspec(noinline) inline Bool rva003430A3(Object *source, Object *victim, Weapon *weapon)
 {
 	if (weapon && victim && !((const Rva002C9400ByteField *)weapon->getTemplate())->get() &&
 		!weapon->getTemplate()->isContactWeapon() &&
@@ -460,7 +460,7 @@ static Bool rva00343FB0(Object *obj)
 	return false;
 }
 
-StateReturnType AIAttackApproachTargetState::onEnter()
+__declspec(noinline) inline StateReturnType AIAttackApproachTargetState::onEnter()
 {
 	Object *source = getMachineOwner();
 	AIUpdateInterface *ai = source->getAI();
@@ -565,3 +565,6 @@ StateReturnType AIAttackApproachTargetState::onEnter()
 	setAdjustsDestination(true);
 	return ret;
 }
+// Select-any: other units compile copies of onEnter; the anchor keeps this unit's rowed bodies emitted.
+// ?bfmeAnchorRva00343FB0OnEnter absent-from-retail
+StateReturnType bfmeAnchorRva00343FB0OnEnter(AIAttackApproachTargetState *s) { return s->AIAttackApproachTargetState::onEnter(); }

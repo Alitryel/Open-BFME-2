@@ -1013,7 +1013,7 @@ public:
 
 
 
-Bool rva003430A3(Object *source, Object *victim, Weapon *weapon)
+__declspec(noinline) inline Bool rva003430A3(Object *source, Object *victim, Weapon *weapon)
 {
 	if (weapon && victim && !((const Rva002C9400ByteField *)weapon->getTemplate())->get() &&
 		!weapon->getTemplate()->isContactWeapon() &&
@@ -1119,7 +1119,7 @@ static Bool canPursue(Object *source, Weapon *weapon, Object *victim)
 	return true;
 }
 
-StateReturnType AIAttackApproachTargetState::onEnter()
+__declspec(noinline) inline StateReturnType AIAttackApproachTargetState::onEnter()
 {
 	Object *source = getMachineOwner();
 	AIUpdateInterface *ai = source->getObservedAI();
