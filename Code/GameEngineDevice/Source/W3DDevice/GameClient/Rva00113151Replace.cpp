@@ -21,10 +21,10 @@ private:
 	friend class Rva00113110Holder;
 };
 
-class Rva00112AD1
+class W3DTerrainBackground
 {
 public:
-	bool rva00112AD1(int arg0, int arg1, int arg2, float arg3);
+	void setFlipRecursive(int arg0, int arg1, int arg2, float arg3);	// rowed 0x00112AD1
 };
 
 class Rva00113110Holder
@@ -53,6 +53,6 @@ void Rva00113110Holder::rva00113151(void *incoming, float value)
 		m_resource = (Rva00113151Resource *)incoming;
 	}
 	if (m_refresh != 0) {
-		((Rva00112AD1 *)this)->rva00112AD1(0, 0, m_callbackContext, value);
+		((W3DTerrainBackground *)this)->setFlipRecursive(0, 0, m_callbackContext, value);
 	}
 }
