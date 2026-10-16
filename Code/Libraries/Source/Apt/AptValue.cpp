@@ -167,3 +167,6 @@ void AptValue::setHasClass(int) {}
 
 // Native CEAED0 vtable slot(s) 7; canonical PDB name and ABI.
 AptValue *AptValue::objectMemberLookup(AptValue *const, const EAStringC *const) const { return 0; }
+
+// Native CEAED0 vtable slot(s) 8; canonical PDB name and ABI.
+bool AptValue::objectMemberSet(AptValue *const, const EAStringC *const, AptValue *const) { return false; }
