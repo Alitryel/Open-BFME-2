@@ -94399,3 +94399,4 @@ $L8754,,0x00779FA2,10,Code/GameEngine/Source/GameLogic/Map/StandingWaterAreaLoad
 ?rva00232B7B@Keyboard@@QAEXXZ,,0x00232B7B,76,Code/GameEngine/Source/GameClient/Input/rva00232B7BRva00232B7BFarm.cpp,matched,
 ?rva00086B2C@Rva008B77D@@UAEXHHMMHH@Z,,0x003114A7,144,Code/GameEngine/Source/Common/rva00086B2CRva003114A7Farm.cpp,matched,
 ?rva00365E98@Path@@QAEXPAVObject@@PBUCoord3D@@H_N@Z,,0x00365E98,739,Code/GameEngine/Source/GameLogic/Pathfinder/rva00365E98Rva00365E98Farm.cpp,matched,
+?allow@Rva0027231F@@UAE_NPAVObject@@@Z,,0x00261176,21,Code/GameEngine/Source/Common/Rva00599AE3Crowded.cpp,matched,gen-alias; slot 1 of the one-mask filter vftable 0x00BFAF94 is the 21B negated Thing::isAnyKindOf at 0x261176; byte twin

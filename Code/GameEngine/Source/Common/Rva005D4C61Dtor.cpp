@@ -36,12 +36,6 @@ public:
 	Rva00330757Member storage;
 };
 
-class DummyCb1
-{
-public:
-	void cb(void *);
-};
-
 class Rva005D4913
 {
 public:
@@ -78,8 +72,9 @@ private:
 
 Rva005D4C61::~Rva005D4C61()
 {
-	typedef void (Rva005D4C01Listener::*Notify_t)(void *);
-	forEach((Notify_t)&DummyCb1::cb, this);
+	// Retail pushes 0x001FF3A9, the slot-0 vcall thunk (mov eax,[ecx];
+	// jmp [eax]): a member pointer to the listener's first virtual.
+	forEach(&Rva005D4C01Listener::notify, this);
 }
 
 Rva005D4C61::Rva005D4C61(int level,const AsciiString &name):m_14(new Rva005D4913(this,level,name)) {}

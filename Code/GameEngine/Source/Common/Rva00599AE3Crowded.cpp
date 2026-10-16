@@ -73,6 +73,23 @@ Rva0027231F::Rva0027231F(const BfmeFixedStorage0004543D &mask)
 {
 }
 
+// ?allow@Rva0027231F@@UAE_NPAVObject@@@Z, retail 0x00261176 (21 bytes), slot 1
+// of vftable 0x00BFAF94: none of the mask's kinds (the rowed
+// Thing::isAnyKindOf 0x0030ADC7 negated). The same bytes are rowed as
+// Rva001DCD30::isNotAnyKindOf (ICF); defined here, where the vftable is
+// emitted, so the slot resolves.
+template <int N> class BitFlags {};
+class Thing
+{
+public:
+	bool isAnyKindOf(const BitFlags<69> &) const;
+};
+
+bool Rva0027231F::allow(Object *obj)
+{
+	return !((const Thing *)obj)->isAnyKindOf(*(const BitFlags<69> *)&m_08);
+}
+
 // vftable 0x00C004D8: the player's relationship to the object against flags.
 class Rva00261409Filter : public Rva000421C8
 {

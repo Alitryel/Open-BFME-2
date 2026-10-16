@@ -101,7 +101,11 @@ private:
 	char m_pad31[ 3 ];
 };
 
-void __cdecl Rva006620A0Callback( void *a, void *b );
+// The reply callback retail pushes (0x006620A0) is the rowed queue callback.
+class Rva007E8810Message;
+struct Rva007F5900Context;
+void __cdecl rva007F5900QueueCallback( Rva007E8810Message *message, Rva007F5900Context *context );
+typedef void (__cdecl *Rva006638A0Callback)( void *, void * );
 
 class Rva006638A01C
 {
@@ -308,5 +312,5 @@ found:
 	if( sel == 0 )
 		sel = (int)m_28val;
 	m_10->send( &msg, a1, key2, sel );
-	m_14ptr->send( &msg, Rva006620A0Callback, slot, (int)m_6dc );
+	m_14ptr->send( &msg, (Rva006638A0Callback)rva007F5900QueueCallback, slot, (int)m_6dc );
 }

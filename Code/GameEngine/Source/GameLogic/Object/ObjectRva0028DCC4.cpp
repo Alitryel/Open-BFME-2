@@ -3,8 +3,8 @@
 // Shroud, partition and collision handles are Object subobjects at 0x64/0x6C/0x70.
 // Native data reads prove template kind words 0x108..0x114, Object flag 0x454,
 // partition data 0x4C4 and AI data 0x18 / enable flag 0xB9. The boolean read
-// uses the first byte of the existing address-named global g_Va00DFE7A8;
-// its purpose remains unknown. Existing provider ABI spellings are retained.
+// reads the timing-log enable byte g_00DFE7A8 (owned by Rva003B9EC4.cpp);
+// its role here remains unknown. Existing provider ABI spellings are retained.
 // Reference lead: ZH Object.cpp registration and kind-of exclusion semantics;
 // the split ShroudManager/CollisionManager and Lua registrations are BFME2.
 // cl: /O1 /G7 /arch:SSE /MD
@@ -30,7 +30,8 @@ class LuaScriptEngine;
 extern LuaScriptEngine *TheLuaScriptEngine;
 // Sole data-ledger owner of the registry pointer at VA 0x00DFEEF8.
 extern Rva002A8F24 *g_00DFEEF8;
-extern unsigned g_Va00DFE7A8;
+// The timing-log enable byte (VA 0x00DFE7A8), defined by Rva003B9EC4.cpp.
+extern unsigned char g_00DFE7A8;
 class AIData {public:char pad[0xb9];bool enabled;};
 class AI {public:char pad[0x18];AIData *data;};
 extern AI *TheAI;
@@ -52,7 +53,7 @@ void Object::rva0028DCC4(){
    (*(FireLogicSystem **)&TheTriggerManager)->RegisterObject((Rva00287C21Other*)this);
   }
   bool eligible = !(type->kind[0] & (1u<<30));
-  if(*(bool*)&g_Va00DFE7A8) eligible=false;
+  if(g_00DFE7A8) eligible=false;
   if((type->kind[3] & (1u<<13)) && !TheAI->data->enabled)eligible=false;
   if(eligible && TheCollisionManager)((Rva00758230*)TheCollisionManager)->rva00758230((Rva009A29A0Window*)collision);
   if(TheLuaScriptEngine)((LuaDrawableState*)TheLuaScriptEngine)->rva00333E5B(this);
