@@ -1,4 +1,6 @@
 // ?update@AutoHealBehavior@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.9174716944687991 date=2026-10-16
+// ?update@AutoHealBehavior@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.936512486917015 date=2026-10-14
 // ?update@AutoHealBehavior@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.88 date=2026-10-09
@@ -59,7 +61,7 @@ class ModuleData;
 class Matrix3D;
 class FXList;
 extern GameLogic *TheGameLogic;
-extern Int g_Va00DBA4E4;
+extern Int BfmeLogicFramesPerSecond;
 // logic frames per second
 enum UpdateSleepTime
 
@@ -780,7 +782,7 @@ static Bool Rva004524E5ShouldHeal(Object *testObj, const AutoHealPlayerScanHelpe
    {
     body = helper->m_theHealer->getBodyModule();
     now = TheGameLogic->getFrame();
-    if (body->getLastDamageTimestamp() + g_Va00DBA4E4 > now)
+    if (body->getLastDamageTimestamp() + BfmeLogicFramesPerSecond > now)
     return false;
     
    }
@@ -802,7 +804,7 @@ static Bool Rva004524E5ShouldHeal(Object *testObj, const AutoHealPlayerScanHelpe
 }
 // ?Rva00452795CollectContained@@YAXPAVObject@@PAX@Z @0x00452795
 // Gathers the hurt units of a container, descending into hordes.
-static void Rva00452795CollectContained(Object *obj, void *userData)
+void Rva00452795CollectContained(Object *obj, void *userData)
 
 {
  if (obj->isKindOf(KINDOF_HORDE))
@@ -812,7 +814,7 @@ static void Rva00452795CollectContained(Object *obj, void *userData)
  
 }
 // ?checkForAutoHeal@@YAHPAVObject@@PAX@Z @0x004527E5
-static Int checkForAutoHeal(Object *testObj, void *userData)
+Int checkForAutoHeal(Object *testObj, void *userData)
 
 {
  AutoHealPlayerScanHelper *helper = (AutoHealPlayerScanHelper *)userData;
@@ -853,7 +855,7 @@ UpdateSleepTime AutoHealBehavior::update()
   UnsignedInt delay = d->m_startHealingDelay;
   if (delay > 0)
   return (UpdateSleepTime)delay;
-  return (UpdateSleepTime)g_Va00DBA4E4;
+  return (UpdateSleepTime)BfmeLogicFramesPerSecond;
   
  }
  Int healAmount;
@@ -948,7 +950,7 @@ UpdateSleepTime AutoHealBehavior::update()
      helper.m_healOnlyIfNotUnderAttack = d->m_healOnlyIfNotUnderAttack;
      helper.m_healOnlyIfNotInCombat = d->m_healOnlyIfNotInCombat;
      helper.m_healOnlyOthers = d->m_healOnlyOthers;
-     if ((Rva004524E5ShouldHeal(other, &helper)) && helper.m_objectList == helper.m_objectList && helper.m_objectList == helper.m_objectList)
+     if ((Rva004524E5ShouldHeal(other, &helper)))
      
      {
       rva004526C6(other, true);
@@ -986,7 +988,7 @@ UpdateSleepTime AutoHealBehavior::update()
    && !other->testStatus(OBJECT_STATUS_UNDER_CONSTRUCTION))
    
    {
-    HordeRespawnInterface * volatile horde = (HordeRespawnInterface *)other->rva0028C197();
+    HordeRespawnInterface *horde = (HordeRespawnInterface *)other->rva0028C197();
     if (horde && horde->rvaSlot98() < horde->rvaSlot95())
     
     {

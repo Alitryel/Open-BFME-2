@@ -1,26 +1,75 @@
 // ?rva00507D84@Made002CC5E1@@UAEXPAXPBUCoord3D@@@Z
-// partial score=0.975 date=2026-10-13
-// ?rva00507D84@Made002CC5E1@@UAEXPAXPBUCoord3D@@@Z
-// partial score=0.9 date=2026-10-12
-// ?rva00507D84@Made002CC5E1@@UAEXPAXPBUCoord3D@@@Z
-// partial score=0.9 date=2026-10-09
-// cl: /O1 /DNDEBUG /MD /EHsc /arch:SSE
+// partial score=0.902559092512687 date=2026-10-16
+// cl: /O1 /arch:SSE /ICode/GameEngine/Source/Common /Ireference/shims/bfme2_ascii /MD /EHsc /DNDEBUG
+// stlport
 //
-// Retail 0x00507D84 (924B, ret 8): Made002CC5E1 (DamageNugget) vtable 0x00864048
-// slot 6, the position effect that slot 5 (0x00507991) hands the target's
-// +0x38 position to. WorldBuilder's debug build names it
-// DamageNugget::doEffectPosition (DamageNugget.cpp).
-// Target body: radius = max(+0x130, 1); source = the weapon's +0x08 object id.
-// Partition mode 1 when +0x1A0 is set, else 4 for radius >= 10 unless the
-// source has template bytes +0x11D&8 and +0x10A&0x20 and a contain, else 3.
-// Objects in range through the rowed kind-of filter 0x0004584D (none-mask
-// 0x009FEFA4, bits 0x59/0x36 from 0x0006EE7A) are skipped outside the +0x138
-// cone around source->position (the transform X axis when the position
-// coincides; +0x13C inverts the test, PI disables it), when slot 1 refuses,
-// when they stand more than +0x140 above the source or +0x144 above terrain
-// (-1 disables each), or inside +0x134; slot 14 (0x005084FC) applies the
-// damage and a hit stops the walk when TheGlobalData +0xB40 >= radius.
-// Offsets/slots/constants from the native body; meanings are readings.
+// ??0Made002CC5E1@@QAE@XZ retail 0x00507C2D 343B
+// DamageNugget ctor over rowed base Rva00507823 0x0050775B (vtable 0x00864010
+// then derived vtable 0x00864048). Derived floats at +0x128/+0x130/+0x134
+// zero plus -1.0f at +0x12C/+0x140/+0x144 via 0x00BBB9AC plus pi at +0x138
+// via 0x00BC7468 plus 1.0f at +0x150/+0x198 via 0x00BBB8D8 plus ints
+// 0x16 at +0x158 and 0x1D at +0x160 plus vector at +0x168 via rowed
+// Vector_base 0x00211E58 plus 0x1C member at +0x178 via rowed 0x0024C7B3
+// plus filter at +0x19C via pinned 0x003623E5 plus duplicate memset 0x1C
+// at +0x178 plus two FixedStorage temps from 0x009FEFA4 via rowed copy
+// 0x0004543D consumed by pinned initFromStorages 0x00362087. Evidence:
+// base rowed 0x0050775B plus derived vtables 0x00864048/0x00864C38/
+// 0x008650B8 plus callers parseDamageNugget 0x002CC606 plus derived
+// Made002CCA37 0x0050B1FF and Made002CCCF3 0x0050BF92 call here.
+#include <vector>
+#include <string.h>
+
+class Rva001EAE6FHelper
+{
+public:
+	Rva001EAE6FHelper() { clear80(); }
+	Rva001EAE6FHelper *clear80();
+private:
+	char m_pad[0x80];
+};
+
+extern unsigned char g_00DFEFA4StoragePrototype[28];
+
+class BfmeFixedStorage0004543D
+{
+public:
+	__declspec(nothrow) BfmeFixedStorage0004543D(const BfmeFixedStorage0004543D &other);
+	BfmeFixedStorage0004543D(int,int,int);
+private:
+	unsigned char m_bytes[28];
+};
+
+class Rva003623E5Member
+{
+public:
+	Rva003623E5Member();
+	~Rva003623E5Member();
+	void initFromStorages(BfmeFixedStorage0004543D first, BfmeFixedStorage0004543D second);
+private:
+	int m_x;
+};
+
+class Rva0024C7B3Member
+{
+public:
+	Rva0024C7B3Member();
+private:
+	unsigned char m_data[0x1C];
+};
+
+#include "ascii_string.h"
+
+
+// "DamageScalar" entries (Made002CC5E1DamageScalar.cpp): a filter handle
+// plus a Real; the 8-byte stride is read off push_back 0x0050882B.
+struct Made002CC5E1DamageScalar
+{
+	Rva003623E5Member filter;
+	float scalar;
+};
+
+// Current canonical GameLogic view; no duplicate converged datum.
+#include "GameLogicObjectLookupView.h"
 typedef float Real;
 typedef bool Bool;
 typedef int Int;
@@ -70,8 +119,6 @@ inline Real Dot_Product(const Vector3 &a, const Vector3 &b)
 
 Real Cos(Real angle);
 
-enum ObjectID { INVALID_ID = 0 };
-
 class Rva00507D84TemplateView
 {
 public:
@@ -84,29 +131,32 @@ public:
 class Thing
 {
 public:
-	Real getHeightAboveTerrain() const;
+ virtual Real calculateHeightAboveTerrain() const;
+ Real getHeightAboveTerrain() const;
+ Rva00507D84TemplateView *m_template;
+ Real m_transform[3][4];
+ Coord3D m_position;
+ unsigned char pad44[0x54-0x44];
+ mutable float m_cachedAltitudeAboveTerrain;
+ float m_cachedAltitudeAboveTerrainOrWater;
+ mutable int m_cacheFlags;
 };
-
+inline Real Thing::getHeightAboveTerrain() const
+{
+ if (!(m_cacheFlags & 2)) {
+  m_cachedAltitudeAboveTerrain=calculateHeightAboveTerrain();
+  m_cacheFlags|=2;
+ }
+ return m_cachedAltitudeAboveTerrain;
+}
 class Object : public Thing
 {
 public:
-	Real rva002615E3(const Coord3D *position) const;
-	const Coord3D *getPosition() const { return &m_position; }
-	unsigned char pad00[4];
-	Rva00507D84TemplateView *m_template;	// +0x04
-	Real m_transform[3][4];			// +0x08
-	Coord3D m_position;			// +0x38
-	unsigned char pad44[0x250 - 0x44];
-	void *m_contain;			// +0x250
-};
-
-class GameLogic
-{
-public:
-	Object *findObjectByID(ObjectID id);
+ const Coord3D *getPosition() const {return &m_position;}
+ unsigned char pad60[0x250-0x60];
+ void *m_contain;
 };
 extern GameLogic *TheGameLogic;
-
 class GlobalData
 {
 public:
@@ -123,15 +173,9 @@ public:
 	Rva000421C8 *m_next;
 };
 
-class BfmeFixedStorage0004543D
-{
-public:
-	BfmeFixedStorage0004543D(Int unused, Int bit1, Int bit2);
-private:
-	unsigned char m_bytes[28];
-};
-extern const BfmeFixedStorage0004543D g_defaultStorage009FEFA4;
-
+class Rva0006EE7A { public: Rva0006EE7A(int,int,int); private: unsigned char bytes[28]; };
+static inline const BfmeFixedStorage0004543D &damageStorage(const Rva0006EE7A &v) {return reinterpret_cast<const BfmeFixedStorage0004543D &>(v);}
+#include "RTS/XYDistanceCallView.h"
 class Rva0004584D : public Rva000421C8
 {
 public:
@@ -162,15 +206,26 @@ struct Rva00507D84WeaponView
 	ObjectID sourceID08;
 };
 
+
 class Rva00507823
 {
 public:
 	virtual ~Rva00507823();
+	Rva00507823();
+private:
+	Rva001EAE6FHelper m_bits04;
+	Rva001EAE6FHelper m_bits84;
+	int m_104;
+	_STL::vector<AsciiString> m_vec108;
+	_STL::vector<AsciiString> m_vec114;
+	Rva003623E5Member m_filter120;
+	bool m_124;
 };
 
 class Made002CC5E1 : public Rva00507823
 {
 public:
+	Made002CC5E1();
 	virtual Bool v1(void *weapon, Object *target);
 	virtual void v2();
 	virtual void v3();
@@ -185,41 +240,84 @@ public:
 	virtual void v12();
 	virtual void v13();
 	virtual Bool v14(void *weapon, Object *target, const Coord3D *position);
+
 private:
-	unsigned char pad04[0x130 - 4];
-	Real m_radius130;
-	Real m_minRange134;
-	Real m_coneAngle138;
-	Bool m_invertCone13C;
-	unsigned char pad13D[3];
-	Real m_maxHeightAbove140;
-	Real m_maxAltitude144;
-	unsigned char pad148[0x1A0 - 0x148];
-	Bool m_flag1A0;
+	float m_128;
+	float m_12C;
+	float m_130;
+	float m_134;
+	float m_138;
+	bool m_13C;
+	char m_pad13D[3];
+	float m_140;
+	float m_144;
+	bool m_148;
+	char m_pad149[3];
+	float m_14C;
+	float m_150;
+	int m_154;
+	int m_158;
+	int m_15C;
+	int m_160;
+	int m_164;
+	_STL::vector<Made002CC5E1DamageScalar> m_vec168;
+	float m_174;
+	Rva0024C7B3Member m_178;
+	bool m_194;
+	char m_pad195[3];
+	float m_198;
+	Rva003623E5Member m_19C;
+	bool m_1A0;
 };
 
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
+Made002CC5E1::Made002CC5E1()
+	: m_128(0.0f)
+	, m_12C(-1.0f)
+	, m_130(0.0f)
+	, m_134(0.0f)
+	, m_138(3.1415927f)
+	, m_13C(false)
+	, m_140(-1.0f)
+	, m_144(-1.0f)
+	, m_148(true)
+	, m_14C(0.0f)
+	, m_150(1.0f)
+	, m_154(0)
+	, m_158(0x16)
+	, m_15C(0)
+	, m_160(0x1D)
+	, m_164(0)
+	, m_174(0.0f)
+	, m_194(false)
+	, m_198(1.0f)
+	, m_1A0(false)
+{
+	memset(&m_178, 0, 0x1C);
+	m_19C.initFromStorages(
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)),
+		BfmeFixedStorage0004543D(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype)));
+}
+
 void Made002CC5E1::rva00507D84(void *weapon, const Coord3D *position)
 {
-	Real radius = m_radius130;
+	Real radius = m_130;
 	if (1.0f > radius)
 		radius = 1.0f;
 	Object *source = TheGameLogic->findObjectByID(static_cast<Rva00507D84WeaponView *>(weapon)->sourceID08);
 	Int mode = 3;
-	if (m_flag1A0)
+	if (m_1A0)
 		mode = 1;
 	else if (radius >= 10.0f)
 	{
 		if (!(source->m_template->kind11D & 8) || !(source->m_template->kind10A & 0x20) || !source->m_contain)
 			mode = 4;
 	}
-	Rva0004584D filter(g_defaultStorage009FEFA4, BfmeFixedStorage0004543D(0, 0x59, 0x36));
+	Rva0004584D filter(*reinterpret_cast<const BfmeFixedStorage0004543D *>(g_00DFEFA4StoragePrototype), damageStorage(Rva0006EE7A(0, 0x59, 0x36)));
 	BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(position, radius, mode, &filter, 0);
 	Object *obj;
 	while ((obj = iter.next()) != 0)
 	{
-		if (m_coneAngle138 < 3.14159265359f)
+		if (m_138 < 3.14159265359f)
 		{
 			Coord3D toObj; toObj.set(obj->m_position); toObj.sub(*position);
 			Coord3D delta; delta.set(*position); delta.sub(source->m_position);
@@ -230,33 +328,33 @@ void Made002CC5E1::rva00507D84(void *weapon, const Coord3D *position)
 			facing.Normalize();
 			dir.Normalize();
 			Real dot = Dot_Product(dir, facing);
-			if (!(dot >= Cos(m_coneAngle138)))
+			if (!(dot >= Cos(m_138)))
 			{
-				if (!m_invertCone13C)
+				if (!m_13C)
 					continue;
 			}
-			else if (m_invertCone13C)
+			else if (m_13C)
 				continue;
 		}
 		if (!v1(weapon, obj))
 			continue;
-		if (m_maxHeightAbove140 != -1.0f)
+		if (m_140 != -1.0f)
 		{
-			Real sourceZ = (obj ? (source->getPosition()->z) : (source->getPosition()->z));
-_ReadWriteBarrier();
-			if ((source ? (obj->getPosition()->z - sourceZ) : (obj->getPosition()->z - sourceZ)) > m_maxHeightAbove140)
+			Real sourceZ = source->getPosition()->z;
+
+			if ((obj->getPosition()->z - sourceZ) > m_140)
 				continue;
 		}
-		if ((source ? m_maxAltitude144 : m_maxAltitude144) != -1.0f)
+		if (m_144 != -1.0f)
 		{
 			obj->getHeightAboveTerrain();
-			if (obj->getHeightAboveTerrain() > m_maxAltitude144)
+			if (obj->getHeightAboveTerrain() > m_144)
 				continue;
 		}
-		if (m_minRange134 > 0.0f)
+		if (m_134 > 0.0f)
 		{
-			Real minRange = m_minRange134;
-			if (obj->rva002615E3(position) < minRange * minRange)
+			Real minRange = m_134;
+			if (reinterpret_cast<Rva000CBA20 *>(obj)->distSq(reinterpret_cast<const Rva000CBA20Point *>(position)) < minRange * minRange)
 				continue;
 		}
 		if (!v14(weapon, obj, position))
