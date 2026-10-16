@@ -256,7 +256,9 @@ public:
 	RenderObjClass(void);
 	RenderObjClass(const RenderObjClass & src);
 	RenderObjClass & RenderObjClass::operator = (const RenderObjClass &);
-	virtual ~RenderObjClass(void)																					{ if (RenderHook) delete RenderHook; }
+	// BFME: retail's destructor (0x0013BE20, RenderObjCopy.cpp) does not delete
+	// RenderHook; its body only runs the base destructors.
+	virtual ~RenderObjClass(void)																					{ }
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
