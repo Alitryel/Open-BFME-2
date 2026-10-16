@@ -10,7 +10,10 @@ public:
 	Rva00051C6C(const Rva00051C6C &other);
 };
 namespace _STL {
-template <typename T1, typename T2> void _Construct(T1 *, const T2 &) throw();
+// The Rva00051C6C copy-construct body is owned by
+// StlportConstructCopySiblings.cpp (explicit throw() specialization);
+// declare it so this unit references that copy instead of emitting its own.
+template<> void _Construct<Rva00051C6C, Rva00051C6C>(Rva00051C6C *, const Rva00051C6C &);
 }
 struct Rva00054E8BNode
 {
