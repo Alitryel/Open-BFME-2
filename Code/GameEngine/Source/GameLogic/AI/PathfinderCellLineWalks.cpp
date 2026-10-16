@@ -232,7 +232,7 @@ public:
 };
 
 // ?rva002E6CFE@Rva002E6CFE@@QAEXHHH@Z @0x002E6CFE 49B
-void Rva002E6CFE::rva002E6CFE(int a, int b, int c)
+__declspec(noinline) inline void Rva002E6CFE::rva002E6CFE(int a, int b, int c)
 {
 	m_08 = c;
 	if (c > 0) {
@@ -242,7 +242,8 @@ void Rva002E6CFE::rva002E6CFE(int a, int b, int c)
 }
 
 // ?rva002E6D2F@Rva002E6CFE@@QAE_NXZ @0x002E6D2F 19B
-bool Rva002E6CFE::rva002E6D2F()
+// Select-any like 0x002E6CFE: pathfinder.cpp keeps visible copies of both.
+inline bool Rva002E6CFE::rva002E6D2F()
 {
 	m_00 += m_04;
 	return --m_08 > 0;
@@ -458,7 +459,9 @@ Int Pathfinder::rva002E8251(const ICoord2D *startCell, const ICoord2D *destinati
 #define nextIndex(i, n) ((i) + 1 == (n) ? 0 : (i) + 1)
 #define prevIndex(i, n) ((i) != 0 ? (i) - 1 : (n) - 1)
 
-Int Pathfinder::rva002E8773( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor )
+// Select-any: pathfinder.cpp keeps a visible inline copy of this body for
+// getClosestPointOnLand / rva002EB4DF (same name), so both copies are COMDATs.
+__declspec(noinline) inline Int Pathfinder::rva002E8773( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva002E7E26 *visitor )
 {
 	Int i;
 	Int j = 1;
@@ -537,6 +540,13 @@ Int Pathfinder::rva002E8773( Int *xPts, Int *yPts, Int numEdges, Int layer, Rva0
 	}
 	return 0;
 }
+
+// The anchors keep the rowed select-any bodies emitted (0x002E6D2F is
+// auto-inlined into its caller, so only its address keeps a copy).
+// ?bfmeAnchorRva002E8773@@YAXPAVPathfinder@@@Z absent-from-retail
+void bfmeAnchorRva002E8773(Pathfinder *p) { p->rva002E8773(0, 0, 0, 0, 0); }
+// ?bfmeAnchorRva002E6D2F@@YAP8Rva002E6CFE@@AE_NXZXZ absent-from-retail
+bool (Rva002E6CFE::*bfmeAnchorRva002E6D2F())() { return &Rva002E6CFE::rva002E6D2F; }
 
 
 // Native 002EB7B4..002EBA88 and 004DDA9A..004DDD6E: 724B RET20.

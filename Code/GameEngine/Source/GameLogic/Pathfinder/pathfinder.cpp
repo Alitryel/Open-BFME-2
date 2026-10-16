@@ -4513,7 +4513,7 @@ class Rva002E6CFE
 }
 ;
 // ?rva002E6CFE@Rva002E6CFE@@QAEXHHH@Z @0x002E6CFE 49B
-void Rva002E6CFE::rva002E6CFE(int a, int b, int c)
+__declspec(noinline) inline void Rva002E6CFE::rva002E6CFE(int a, int b, int c)
 
 {
  m_08 = c;
@@ -4526,7 +4526,7 @@ void Rva002E6CFE::rva002E6CFE(int a, int b, int c)
  
 }
 // ?rva002E6D2F@Rva002E6CFE@@QAE_NXZ @0x002E6D2F 19B
-bool Rva002E6CFE::rva002E6D2F()
+inline bool Rva002E6CFE::rva002E6D2F()
 
 {
  m_00 += m_04;
