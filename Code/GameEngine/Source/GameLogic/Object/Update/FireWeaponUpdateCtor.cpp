@@ -7,28 +7,15 @@
 // ctor as its caller; FireWeaponUpdate poolkey rowed at 0x48BDB3; ModuleData
 // proc 0x48C0B4 is the opaque Hero-side base link).
 //
-// Shape: EH prolog plus UpdateModule base call 0x253390 plus three explicit
-// vtable installs (+0/+0xC/+0x10) plus a runtime watch list plus setWakeFrame
-// tail (frame literal 1). The vtable installs must precede the list-base
-// row (0x4EC36C), but body statements run after all member inits, so the
-// TU uses an empty UpdateModule base (inline-empty ctor plus
-// declared-only dtor, bracketing EH states with zero code) with every data
-// member redeclared in declaration order on the derived class and
-// initialized in the init-list: the RMW-and of m_20 hoists to the front
-// (PassiveAreaEffect precedent), the vtable stores keep init-list position
-// ahead of the implicit list construction, and the list resolves through
-// the rowed _List_base int spelling (the four alias pins at 0x4EC36C prove
-// the fold; element type follows the PassiveAreaEffect watch-list
-// precedent). Member names are behavior-state inferred from the zero-init
-// layout; no donor names them. Row supersedes the ctor pin (surgical
-// delete, same commit); the single-caller 0x48BDF8 helper rides as an
-// opaque Rva pin (do-not-name note).
+// Shape: EH prolog plus UpdateModule base call 0x253390, then the compiler
+// installs the three tables (+0/+0xC/+0x10) ahead of the member inits (the
+// RMW-and of m_20 hoists to the front), the runtime watch list resolves
+// through the rowed _List_base int spelling, and the setWakeFrame tail
+// passes frame literal 1. Member names are behavior-state inferred from the
+// zero-init layout; no donor names them. The single-caller 0x48BDF8 helper
+// rides as an opaque Rva pin (do-not-name note).
 
-// Retail folds this BehaviorModuleOther table across 80 classes.
-extern "C" const void *__identifier("??_7AIGateUpdate@@6BBehaviorModuleOther@@@")[];
 
-// The behavior destructor emits this primary table.
-extern "C" const void *__identifier("??_7FireWeaponUpdate@@6B@")[];
 
 #include <list>
 
@@ -75,31 +62,58 @@ enum UpdateSleepTime
 	UPDATE_SLEEP_FOREVER = 0x3FFFFFFF
 };
 
-class UpdateModule
+template <int NUMBITS> class BitFlags;
+
+// Zero Hour's UpdateModule shape, with the interface views CreateCrateDie.cpp
+// and FireWeaponUpdate.cpp declare: ObjectModule at +0, BehaviorModuleInterface
+// at +0xC (retail's folded table) and UpdateModuleInterface at +0x10, whose
+// table 0x00C4C18C is the rowed update 0x0048BEE8 then UpdateModule's rowed
+// getDisabledTypesToProcess 0x00253376 and 0x0044DF8D. The compiler installs
+// all three after the pinned UpdateModule ctor.
+class ObjectModule
+{
+public:
+	virtual void objectModuleAnchor();
+protected:
+	const ModuleData *m_moduleData;		// +4
+	Object *m_object;					// +8
+};
+
+class BehaviorModuleInterface
+{
+public:
+	virtual void behaviorModuleInterfaceAnchor();
+};
+
+class UpdateModuleInterface
+{
+public:
+	virtual UpdateSleepTime update() = 0;
+	virtual BitFlags<11> getDisabledTypesToProcess() const = 0;
+	virtual void rva0044DF8D(UpdateSleepTime frame) = 0;
+};
+
+class UpdateModule : public ObjectModule, public BehaviorModuleInterface, public UpdateModuleInterface
 {
 public:
 	UpdateModule(Thing *thing, const ModuleData *moduleData);
-	~UpdateModule();
-
+	virtual ~UpdateModule();
+	virtual BitFlags<11> getDisabledTypesToProcess() const;
+	virtual void rva0044DF8D(UpdateSleepTime frame);
 protected:
 	void setWakeFrame(Object *object, UpdateSleepTime frame);
+	unsigned int m_nextCallFrameAndPhase;	// +0x14
+	int m_indexInLogic;					// +0x18
+	int m_reserved1C;					// +0x1C
 };
-
 class FireWeaponUpdate : public UpdateModule
 {
 public:
 	FireWeaponUpdate(Thing *thing, const ModuleData *moduleData);
+	virtual ~FireWeaponUpdate();
+	virtual UpdateSleepTime update();
 	void Rva0048BDF8Helper(void);
-
 private:
-	const void *m_vtable;				// +0
-	const ModuleData *m_moduleData;		// +4
-	Object *m_object;					// +8
-	const void *m_secondary0C;			// +0xC
-	const void *m_secondary10;			// +0x10
-	unsigned int m_nextCallFrameAndPhase;	// +0x14
-	int m_indexInLogic;					// +0x18
-	int m_reserved1C;					// +0x1C
 	int m_weaponState;					// +0x20
 	_STL::list<int> m_trackedIds;		// +0x24, runtime watch list
 	unsigned char m_weaponsReady;		// +0x28
@@ -108,9 +122,6 @@ private:
 // ??0FireWeaponUpdate@@QAE@PAVThing@@PBVModuleData@@@Z @0x0048C0C5
 FireWeaponUpdate::FireWeaponUpdate(Thing *thing, const ModuleData *moduleData)
 	: UpdateModule(thing, moduleData)
-	, m_vtable(reinterpret_cast<const void *>(((unsigned int)__identifier("??_7FireWeaponUpdate@@6B@"))))
-	, m_secondary0C(reinterpret_cast<const void *>(((unsigned int)__identifier("??_7AIGateUpdate@@6BBehaviorModuleOther@@@"))))
-	, m_secondary10(reinterpret_cast<const void *>(0x00C4C18C))
 	, m_weaponState(0)
 	, m_weaponsReady(0)
 {
