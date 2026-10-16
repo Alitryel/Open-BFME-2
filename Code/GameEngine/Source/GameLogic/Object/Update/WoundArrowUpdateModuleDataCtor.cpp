@@ -14,7 +14,39 @@ extern "C" const void *const vtbl_00C5F778[];  // folded, 3 classes; via ??_7Eva
 #pragma comment(linker, "/alternatename:_vtbl_00C5F778=??_7EvacuateGarrisonSpecialPowerModuleData@@6B@")
 
 class MultiIniFieldParse;
-struct FieldParse;
+
+class INI
+{
+public:
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBitString32(INI *ini, void *instance, void *store, const void *userData);
+};
+
+typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
+
+struct FieldParse
+{
+	const char *token;
+	INIFieldParseProc parse;
+	const void *userData;
+	int offset;
+};
+
+// The own table at 0x00C5DEAC and the ForbiddenConditions bit names at
+// 0x00DCE9DC (.data) it alone points to, from retail's bytes (data rows;
+// descriptive names, the originals are unknown).
+const char *WoundArrowForbiddenConditionNames[2] =
+{
+	"MOUNTED",
+	0
+};
+
+extern const FieldParse WoundArrowUpdateModuleDataFieldParse[3] =
+{
+	{ "FleeDistance",			&INI::parseReal,		0, 0xC8 },
+	{ "ForbiddenConditions",	&INI::parseBitString32,	WoundArrowForbiddenConditionNames, 0xCC },
+	{ 0, 0, 0, 0 }
+};
 
 class MultiIniFieldParse
 {
@@ -62,5 +94,5 @@ WoundArrowUpdateModuleData::WoundArrowUpdateModuleData()
 void WoundArrowUpdateModuleData::buildFieldParse(MultiIniFieldParse &parse)
 {
 	SpecialAbilityUpdateModuleData::buildFieldParse(parse);
-	parse.add(reinterpret_cast<const FieldParse *>(0x00C5DEAC), 0);
+	parse.add(WoundArrowUpdateModuleDataFieldParse, 0);
 }
