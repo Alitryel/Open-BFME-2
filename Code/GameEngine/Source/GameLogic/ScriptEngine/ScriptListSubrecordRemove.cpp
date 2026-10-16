@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /D_STLP_NO_EXCEPTIONS /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // vector::_M_insert_overflow inlines max(size(), n). A file-static unsigned
 // overload takes the call instead, so this TU emits no external max COMDAT.
@@ -14,6 +14,22 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// Keep vector<void*> accessors inline without emitting this unit's COMDAT
+// copies: retail's out-of-line ones are the /Od bodies at 0x00023B90-0x00023C20.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void *const *vector<void*>::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void*>::operator[](size_t __n) { return *(begin() + __n); }
+template <> __declspec(dllimport) __forceinline
+void *const &vector<void*>::operator[](size_t __n) const { return *(begin() + __n); }
+}
 // Reuse the non-owning x86 address word and its verified deque providers from
 // BfmeOwnerZKRelink.cpp. Here each word holds a node address, not ownership.
 struct BfmeScriptSlotAddress { unsigned int address; };
