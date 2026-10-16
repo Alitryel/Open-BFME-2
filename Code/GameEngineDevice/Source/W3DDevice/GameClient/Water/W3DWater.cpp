@@ -113,7 +113,12 @@ class WaterTracksRenderSystem {public: ~WaterTracksRenderSystem();};
 class Rva0007E12F {public: void rva0007E12F();};
 void BFME_DX8_Thread_Lock();
 void BFME_DX8_Thread_Assert();
-struct WaterDestructorGuard {~WaterDestructorGuard(){BFME_DX8_Thread_Assert();}};
+// Native destructor EH cleanup 75F6F6 uses the existing device-lock
+// destructor 42F8C, paired with lock 11F520 and release 120F50.
+struct BFMEDX8DeviceLock {
+ BFMEDX8DeviceLock(){BFME_DX8_Thread_Lock();}
+ ~BFMEDX8DeviceLock(){BFME_DX8_Thread_Assert();}
+};
 class WaterSetting;
 extern WaterSetting WaterSettings[];
 struct WaterSettingClearView {
@@ -180,8 +185,7 @@ Rva0082140::~Rva0082140() {
   rivers114->rva002B7250(reinterpret_cast<CreateAHeroData*>(static_cast<WaterAreaObserver<1>*>(this)));rivers114=0;
   waves124->rva002B7250(reinterpret_cast<CreateAHeroData*>(static_cast<WaterAreaObserver<2>*>(this)));waves124=0;
  }
- BFME_DX8_Thread_Lock();
- WaterDestructorGuard guard;
+ BFMEDX8DeviceLock guard;
  for(int i=0;i<6;++i) {
   reinterpret_cast<WaterSettingClearView*>(WaterSettings)[i].sky.clear();
   reinterpret_cast<WaterSettingClearView*>(WaterSettings)[i].water.clear();

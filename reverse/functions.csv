@@ -93579,3 +93579,4 @@ $L45932,,0x00798593,11,Code/GameEngine/Source/GameNetwork/GameSpy/LadderDefs.cpp
 ?j_006c1d50@@YAXXZ,,0x006C1D50,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x000338D0
 ?j_006e31e0@@YAXXZ,,0x006E31E0,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x006CD440
 ?j_006fe970@@YAXXZ,,0x006FE970,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x006FE050
+$L5402,,0x0075F6F6,8,Code/GameEngineDevice/Source/W3DDevice/GameClient/Water/W3DWater.cpp,matched,gen-funclet;parent=??1Rva0082140@@UAE@XZ;Native439B parent82140 and full exact EH graph bind this8B cleanup to rowed device-lock destructor42F8C. Use the established repository guard for lock11F520 and release120F50; private guard name reconciled without a new pin. All14 existing source rows and4 EH graphs exact; independent Ghidra extent. Original guard name unknown. t=6 model=gpt-6
