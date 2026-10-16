@@ -31,6 +31,7 @@ class Player
 public:
 	int iterateObjects(ObjectIterateFunc func, void *userData) const;
 	int rva002ABD1D(int kind, int limit);
+	void onStructureCreated(Object *builder, Object *structure);
 };
 
 struct Rva002ABD1DContext
@@ -54,7 +55,10 @@ int __cdecl Rva002AA531(Object *obj, void *userData)
 	return 1;
 }
 
-// Retail 0x002AA559 (136 bytes): stdcall (ret 8) over two Object pointers. The
+// Retail 0x002AA559 (136 bytes): Player::onStructureCreated (ret 8 over two
+// Object pointers; `this` is never read). WorkerAIUpdate::construct calls it
+// at 0x004AA16C with the owning player in ecx after addObjectToPathfindMap,
+// ZH's call site of Player::onStructureCreated(builder, structure). The
 // first object's thing flags at +0x114 (bit 0x100) and +0x109 (bit 0x40) gate the
 // work. The second object's dispatch at 0x28BD17 supplies the target whose slots
 // 0x28 and 0x04 are called with 1; the first object's 0x28BCF4 result takes slot
@@ -73,7 +77,7 @@ public:
 	virtual void slot00(int); virtual void slot04(int); virtual void slot08(int);
 };
 
-void __stdcall Rva002AA559(Object *a, Object *b)
+void Player::onStructureCreated(Object *a, Object *b)
 {
 	if (a == 0 || b == 0)
 		return;

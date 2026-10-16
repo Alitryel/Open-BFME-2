@@ -1373,11 +1373,7 @@ void Player::preTeamDestroy( const Team *team )
 //-------------------------------------------------------------------------------------------------
 /// a structuer was just created, but is under construction
 //-------------------------------------------------------------------------------------------------
-// ?onStructureCreated@Player@@QAEXPAVObject@@0@Z present-unmatched
-void Player::onStructureCreated( Object *builder, Object *structure )
-{
-
-}  // end onStructureCreated
+// Player::onStructureCreated is rowed with its retail body in PlayerRva002ABD1D.cpp (0x002AA559).
 
 //-------------------------------------------------------------------------------------------------
 /// a structure that was under construction has become completed
