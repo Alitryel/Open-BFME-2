@@ -266,8 +266,17 @@ struct Rva0047A895Rank				// 0x18 bytes at +0x6FC
 {
 	float m_threshold;
 	float m_angle;
-	char m_pad08[0x18 - 0x08];
+	Coord3D m_pos;				// +0x08
+	float m_pad14;
 };
+
+struct Rva0047A413Point				// 0x10 bytes at +0x338
+{
+	Coord3D m_pos;
+	float m_angle;				// +0x0C
+};
+
+float normalizeAngle(float angle);		// 0x00238954
 
 struct Rva0047A895Data
 {
@@ -292,6 +301,7 @@ public:
 class HordeContain
 {
 public:
+	void rva0047A413();
 	void rva0047A895(Object *obj, const Coord3D *pos, float angle, bool flag);
 	void _updatePosition(Object *obj, const Coord3D *pos, float angle);	// 0x00471464
 	Coord2D *rva0046A5B1(Coord2D *out, int slot);	// 0x0046A5B1
@@ -302,7 +312,9 @@ private:
 	Rva0047A895Slot *m_slots;		// +0x188
 	char m_pad18C[0x2A0 - 0x18C];
 	int m_2A0;				// +0x2A0
-	char m_pad2A4[0x6FC - 0x2A4];
+	char m_pad2A4[0x338 - 0x2A4];
+	Rva0047A413Point m_points[(0x6F8 - 0x338) / 0x10];	// +0x338
+	int m_pointCount;			// +0x6F8
 	Rva0047A895Rank m_ranks[(0x8DC - 0x6FC) / 0x18];	// +0x6FC
 	int m_rankCount;			// +0x8DC
 };
@@ -404,4 +416,73 @@ void HordeContain::rva0047A895(Object *obj, const Coord3D *pos, float angle, boo
 	obj->m_198 = newPos;
 	if (obj->m_physics)
 		obj->m_physics->rva00390629(false);
+}
+
+// ?rva0047A413@HordeContain@@QAEXXZ, retail 0x0047A413 (608 B, RET 0; caller 0x0047A841, WB 0x0115F550):
+// lays the ranks along the path points (+0x338, 0x10 each: position and angle). Each rank sits at its
+// distance behind the first rank's, measured along the path; its position is the point reached there
+// and its angle turns towards the path's interpolated heading by at most 10 degrees a call. The WB body
+// gives the shape (while (true) with the placement and break inside, Coord3D sub/scale/add, the turn
+// limit as a local constant, the reused delta).
+//
+// The rowed Coord3D::length (0x00003571), visible and out of line: cl then knows the call does not write
+// dir, keeps dir.z's zero in XMM0 across it and drops the initial z store, as retail does. Its copy here
+// is retail's body.
+__declspec(noinline) inline float Coord3D::length() const
+{
+	return (float)sqrt(x * x + y * y + z * z);
+}
+
+void HordeContain::rva0047A413()
+{
+	const float maxTurn = 0.17453294f;
+	float first = m_ranks[0].m_threshold;
+	float traveled = 0.0f;
+	int seg = 0;
+	Coord3D dir;
+	dir.x = -1.0f;
+	dir.y = 0.0f;
+	dir.z = 0.0f;
+	float cur = 0.0f;
+	for (int i = 0; i < m_rankCount; ++i) {
+		float remaining = first - m_ranks[i].m_threshold - traveled;
+		while (true) {
+			float segLen = 0.0f;
+			if (seg < m_pointCount - 1) {
+				dir = m_points[seg + 1].m_pos;
+				dir.sub(&m_points[seg].m_pos);
+				dir.z = 0.0f;
+				segLen = dir.length();
+			} else {
+				segLen = 99999.9f;
+			}
+			if (segLen > remaining) {
+				Coord3D d(dir);
+				d.normalize();
+				d.scale(remaining);
+				d.add(&m_points[seg].m_pos);
+				m_ranks[i].m_pos = d;
+				float a0 = m_points[seg].m_angle;
+				float a1 = a0;
+				if (seg < m_pointCount - 1)
+					a1 = m_points[seg + 1].m_angle;
+				float ratio = remaining / segLen;
+				float delta = normalizeAngle(a1 - a0) * ratio;
+				float target = normalizeAngle(a0 + delta);
+				cur = m_ranks[i].m_angle;
+				delta = normalizeAngle(target - cur);
+				if (delta > maxTurn)
+					m_ranks[i].m_angle = cur + maxTurn;
+				else if (-maxTurn > delta)
+					m_ranks[i].m_angle = cur - maxTurn;
+				else
+					m_ranks[i].m_angle = target;
+				m_ranks[i].m_angle = normalizeAngle(m_ranks[i].m_angle);
+				break;
+			}
+			remaining -= segLen;
+			traveled += segLen;
+			++seg;
+		}
+	}
 }
