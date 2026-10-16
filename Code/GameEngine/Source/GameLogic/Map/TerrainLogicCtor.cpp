@@ -18,9 +18,14 @@
 // objects (rowed append 0x005A0B4C) and creates the +0x584 Rva00283081
 // (rowed ctor) with 100.0f and the identity callback 0x000D1D26 (defined and
 // rowed here). Member meanings beyond these offsets are not established.
+// Match the game deallocator and its EH contract, as in buildBeacons.
+#include <stdlib.h>
+namespace _STL { void __cdecl free(void *) throw(...); }
+#define free _STL::free
 #include <map>
 #include <list>
 #include <vector>
+#undef free
 #include "ascii_string.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 
@@ -220,3 +225,11 @@ Rva00062A7EProduct::Rva00062A7EProduct() : m_mapMinZ(0), m_mapMaxZ(1)
 {
 	m_18 = 0;
 }
+
+// Native getWaypointByID28333F and xfer identify the +56C waypoint-ID cache.
+// Its ctor chain is 33C432 -> 1F068F -> 1F0534; retain the typed providers
+// here while reconciling the constructor member and its teardown chain.
+class Waypoint;
+typedef _STL::pair<const unsigned int, Waypoint *> TerrainWaypointPair;
+typedef _STL::_Rb_tree_base<TerrainWaypointPair, _STL::allocator<TerrainWaypointPair> > TerrainWaypointTreeBase;
+template TerrainWaypointTreeBase::_Rb_tree_base(const _STL::allocator<TerrainWaypointPair> &);
