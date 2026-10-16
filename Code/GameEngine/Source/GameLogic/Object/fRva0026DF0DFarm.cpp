@@ -1,11 +1,8 @@
 // ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
-// partial score=0.849 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 // ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
-// partial score=0.6 date=2026-10-15
 // ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
-// partial score=0.8276 date=2026-10-14
 // ?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD
 //
@@ -34,8 +31,7 @@ private:
 	char m_pad078[0x274 - 0x78];
 	Object *m_274;			// +0x274
 };
-
-class GameLogic { public: char m_pad00[0x40]; unsigned m_frame; };
+#include "../../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 extern unsigned char g_00DFE7A8;
 
@@ -62,7 +58,7 @@ void Rva0026DF0D::f(Object *obj, int b, int c)
 		return;
 	if (*(unsigned char *)((char *)this + 0x397) != 0)
 		return;
-	if (*(unsigned *)((char *)this + 0x154) > TheGameLogic->m_frame)
+	if (*(unsigned *)((char *)this + 0x154) > TheGameLogic->getFrame())
 		return;
 	Object *self = *(Object **)((char *)this - 0x1c);
 	if (self->rva002931BA())
@@ -92,11 +88,9 @@ void Rva0026DF0D::f(Object *obj, int b, int c)
 		if (*(Object **)((char *)self + 0x274) == rel)
 			return;
 	}
-	unsigned count = *(unsigned *)((char *)this + 0x1a4);
-	_ReadWriteBarrier();
 	int key = *(int *)((char *)obj + 0x74);
 	int i = 0;
-	if (count > 0)
+	if (*(unsigned *)((char *)this + 0x1a4) > 0)
 	{
 		int *p = (int *)((char *)this + 0x184);
 		do
@@ -105,18 +99,18 @@ void Rva0026DF0D::f(Object *obj, int b, int c)
 				break;
 			++i;
 			++p;
-		} while (i < *(unsigned *)((char *)this + 0x1a4));
+		} while (i < *(volatile unsigned *)((char *)this + 0x1a4));
 	}
-	if (i < (int)count)
+	if ((unsigned)i < *(unsigned *)((char *)this + 0x1a4))
 	{
 		int *slot = (int *)((char *)this + 0x194 + i * 4);
-		if (*slot + 1 == TheGameLogic->m_frame)
+		if (*slot + 1 == TheGameLogic->getFrame())
 		{
 			*slot = *slot + 1;
 			return;
 		}
-		*slot = *(int *)((char *)this + 0x190 + count * 4);
-		*(int *)((char *)this + 0x184 + i * 4) = *(int *)((char *)this + 0x180 + count * 4);
+		*slot = *(int *)((char *)this + 0x190 + *(unsigned *)((char *)this + 0x1a4) * 4);
+		*(int *)((char *)this + 0x184 + i * 4) = *(int *)((char *)this + 0x180 + *(unsigned *)((char *)this + 0x1a4) * 4);
 		(*(unsigned *)((char *)this + 0x1a4))--;
 	}
 	AIUpdateInterface *ai = (AIUpdateInterface *)((char *)this - 0x24);

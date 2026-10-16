@@ -94172,3 +94172,4 @@ uw_007a8bf8,,0x007A8BF8,15,Code/Libraries/Source/Apt/AptObject/AptArrayConstruct
 uw_007A8C07,,0x007A8C07,15,Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp,matched,gen-funclet;parent=?objectMemberLookup@AptArray@@UBEPAVAptValue@@QAV2@QBVEAStringC@@@Z;object-symbol=$L1907
 uw_007A8C16,,0x007A8C16,15,Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp,matched,gen-funclet;parent=?objectMemberLookup@AptArray@@UBEPAVAptValue@@QAV2@QBVEAStringC@@@Z;object-symbol=$L1908
 uw_007A8C25,,0x007A8C25,15,Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp,matched,gen-funclet;parent=?objectMemberLookup@AptArray@@UBEPAVAptValue@@QAV2@QBVEAStringC@@@Z;object-symbol=$L1909
+?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z,,0x0026DF0D,359,Code/GameEngine/Source/GameLogic/Object/fRva0026DF0DFarm.cpp,matched,

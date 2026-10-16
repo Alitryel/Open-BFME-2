@@ -62311,3 +62311,4 @@ uw_007a8bf8	0x007A8BF8	15	landed	add_match verified Code/Libraries/Source/Apt/Ap
 uw_007A8C07	0x007A8C07	15	landed	add_match verified Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp 15B; gen-funclet;parent=?objectMemberLookup@AptArray@@UBEPAVAptValue@@QAV2@QBVEAStringC@@@Z;object-symbol=$L1907
 uw_007A8C16	0x007A8C16	15	landed	add_match verified Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp 15B; gen-funclet;parent=?objectMemberLookup@AptArray@@UBEPAVAptValue@@QAV2@QBVEAStringC@@@Z;object-symbol=$L1908
 uw_007A8C25	0x007A8C25	15	landed	add_match verified Code/Libraries/Source/Apt/AptObject/AptArrayConstructor.cpp 15B; gen-funclet;parent=?objectMemberLookup@AptArray@@UBEPAVAptValue@@QAV2@QBVEAStringC@@@Z;object-symbol=$L1909
+?f@Rva0026DF0D@@QAEXPAVObject@@HH@Z	0x0026DF0D	359	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/fRva0026DF0DFarm.cpp 359B
