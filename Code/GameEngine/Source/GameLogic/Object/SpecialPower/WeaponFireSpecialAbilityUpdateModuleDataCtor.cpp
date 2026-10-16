@@ -14,6 +14,9 @@
 // anchors the first zero below the vtable store (else the store sinks
 // last) while the xor-zero setup still hoists above it.
 
+// Vtable 0x00C4E108: the table whose slot 0 is ??_GWeaponFireSpecialAbilityUpdateModuleData (vftable_map); bound to the ??_7 the ledger's deleting-dtor unit emits.
+extern "C" const void *__identifier("??_7WeaponFireSpecialAbilityUpdateModuleData@@6B@")[];
+
 class SpecialAbilityUpdateModuleData
 {
 public:
@@ -50,7 +53,7 @@ private:
 WeaponFireSpecialAbilityUpdateModuleData::WeaponFireSpecialAbilityUpdateModuleData()
 {
 	int *specialWeapon = &m_specialWeapon;
-	m_vtable = reinterpret_cast<void *>(0x00C4E108);
+	m_vtable = (void *)__identifier("??_7WeaponFireSpecialAbilityUpdateModuleData@@6B@");
 	*specialWeapon = 0;
 	m_whichSpecialWeapon = 0;
 	m_skipContinue = false;

@@ -10,6 +10,9 @@
 // the W3DSailModelDraw data factory (news 0x194, sole caller at 0x64FF7).
 // Row supersedes the ctor pin.
 
+// Vtable 0x00BC6870: the table whose slot 0 is ??_GRva000D089D (vftable_map); bound to the ??_7 the ledger's deleting-dtor unit emits.
+extern "C" const void *__identifier("??_7Rva000D089D@@6B@")[];
+
 class MultiIniFieldParse;
 class INI;
 typedef void (*INIFieldParseProc)(INI *ini, void *instance, void *store, const void *userData);
@@ -79,7 +82,7 @@ W3DSailModelDrawModuleData::W3DSailModelDrawModuleData()
 	float cap05 = 0.05f;
 	m_zero188 = fzero;
 	m_cap18C = cap25;
-	*(unsigned int *)this = 0x00BC6870;
+	*(unsigned int *)this = (unsigned int)__identifier("??_7Rva000D089D@@6B@");
 	m_cap190 = cap05;
 }
 

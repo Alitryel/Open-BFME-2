@@ -12,6 +12,9 @@
 // shifted +0x2C for the 0x188 base. Factory at 0x64EBB news 0x1C4 sole caller.
 // Row supersedes the ctor pin.
 
+// Vtable 0x00BC6870: the table whose slot 0 is ??_GRva000D089D (vftable_map); bound to the ??_7 the ledger's deleting-dtor unit emits.
+extern "C" const void *__identifier("??_7Rva000D089D@@6B@")[];
+
 class __declspec(novtable) W3DModelDrawModuleData
 {
 public:
@@ -54,7 +57,7 @@ W3DHordeModelDrawModuleData::W3DHordeModelDrawModuleData()
 	float f15 = 15.0f;
 	float f8 = 8.0f;
 	float f05 = 0.5f;
-	*(unsigned int *)this = 0x00BC6870;
+	*(unsigned int *)this = (unsigned int)__identifier("??_7Rva000D089D@@6B@");
 	m_allow0 = false;
 	m_maxTex0 = 1;
 	m_maxAnim0 = 1;

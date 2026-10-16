@@ -13,6 +13,9 @@
 // stores (vtable, grab strings, cheer 200, remove/burning zeros) run in
 // init-list order; post-vector stores follow retail body order.
 
+// Vtable 0x00C5AFB8: the table whose slot 0 is ??_GActiveBodyModuleData (vftable_map); bound to the ??_7 the ledger's deleting-dtor unit emits.
+extern "C" const void *__identifier("??_7ActiveBodyModuleData@@6B@")[];
+
 #include <vector>
 
 #include "../../../../../../Libraries/Include/Lib/BfmeE16.h"
@@ -95,7 +98,7 @@ private:
 
 // ??0ActiveBodyModuleData@@QAE@XZ @0x4BF59F
 ActiveBodyModuleData::ActiveBodyModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C5AFB8))
+	: m_vtable(reinterpret_cast<const void *>(__identifier("??_7ActiveBodyModuleData@@6B@")))
 	, m_grabObject()
 	, m_damagedAttr()
 	, m_reallyDamagedAttr()

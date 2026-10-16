@@ -19,6 +19,9 @@
 // (fold-equivalent and byte-correct, BattlePlanUpdate precedent) and the
 // row carries the identity.
 
+// Vtable 0x00C4F108: the table whose slot 0 is ??_GAutoPickUpUpdateModuleData (vftable_map); bound to the ??_7 the ledger's deleting-dtor unit emits.
+extern "C" const void *__identifier("??_7AutoPickUpUpdateModuleData@@6B@")[];
+
 extern int BfmeLogicFramesPerSecond;
 
 #include <vector>
@@ -82,7 +85,7 @@ private:
 
 // ??0AutoPickUpUpdateModuleData@@QAE@XZ @0x496308
 AutoPickUpUpdateModuleData::AutoPickUpUpdateModuleData()
-	: m_vtable(reinterpret_cast<const void *>(0x00C4F108))
+	: m_vtable(reinterpret_cast<const void *>(__identifier("??_7AutoPickUpUpdateModuleData@@6B@")))
 	, m_scanDelayTime(LogicFramesPerSecond)
 	, m_scanDistance(300.0f)
 {
