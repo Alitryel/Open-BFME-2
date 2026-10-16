@@ -33,6 +33,7 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
     return a < b ? b : a;
 }
 }
+#include <math.h>
 #include <map>
 #include <vector>
 enum ObjectID { INVALID_OBJECT_ID = 0 };
@@ -41,7 +42,7 @@ template<> __declspec(dllimport) __forceinline
 bool less<int>::operator()(const int& a,const int& b) const { return a < b; }
 }
 
-struct Coord3D;
+#include "../../../../../Libraries/Include/Lib/Coord3D.h"
 class UnicodeString;
 class PooledString;
 struct XferUnknown11;
@@ -154,16 +155,69 @@ struct MineshaftPortalBehaviourModuleData
 	unsigned char m_119;		// +0x119
 };
 
+// createWaypoint's geometry bounds: the rowed GeometryInfo helper 0x006BDEE0
+// fills two corners; the first positive x extent wins.
+struct Rva0087E650Bounds { Coord3D lo, hi; };
+class GeometryInfo { public: void rva0087E650(Rva0087E650Bounds *bounds); };
+
+// Coord3D member-wise set, inlined at the use (WB F3CD30 builds pos from two
+// evaluated temporaries and a zero z before adding the object position).
+static __forceinline void setCoord(Coord3D *p, float x, float y, float z)
+{
+	p->x = x;
+	p->y = y;
+	p->z = z;
+}
+
+// WWMath Vector3 subset used by createWaypoint (WB F3CD30 names
+// Vector3::Rotate_Z, vector3.h). As in the BFME 1 vector3.h donor, the angle
+// form forwards sinf(angle), cosf(angle) (the CRT inline float wrappers; sin
+// is called first) to the X-first two-argument rotate.
+struct Vector3
+{
+	float x, y, z;
+	Vector3(float a, float b, float c) : x(a), y(b), z(c) {}
+	__forceinline void Rotate_Z(float angle)
+	{
+		Rotate_Z(sinf(angle), cosf(angle));
+	}
+	__forceinline void Rotate_Z(float s_angle, float c_angle)
+	{
+		float tmp_x = x;
+		float tmp_y = y;
+		x = c_angle * tmp_x - s_angle * tmp_y;
+		y = s_angle * tmp_x + c_angle * tmp_y;
+	}
+};
+
+struct Rva003738F6Terrain
+{
+	virtual void slot0(); virtual void slot1(); virtual void slot2();
+	virtual void slot3(); virtual void slot4(); virtual void slot5();
+	virtual float groundHeight(float x, float y, void *normal);
+};
+// The 10.0f pad beyond the geometry's x extent: a four-byte .data float at
+// VA 0x00DC039C read only by createWaypoint (data_xrefs). Descriptive name;
+// the original identifier is unknown.
+float BfmeMineshaftPortalWaypointPad = 10.0f;
+
 struct Rva00372DFAObject
 {
-	unsigned char m_pad00[0x74];
+	unsigned char m_pad00[0x38];
+	float x, y;			// +0x38, +0x3C
+	unsigned char m_pad40[4];
+	float angle;			// +0x44
+	unsigned char m_pad48[0x74 - 0x48];
 	int m_74;			// +0x74
+	unsigned char m_pad78[0x104 - 0x78];
+	GeometryInfo *geometry;		// +0x104
 };
 
 class MineshaftPortalBehaviour
 {
 public:
 	Waypoint *rva00372DFA(const Coord3D *pos);
+	void createWaypoint();
     virtual void DoXfer(Xfer *xfer);
 
 private:
@@ -296,6 +350,32 @@ void MineshaftPortalBehaviour::DoXfer(Xfer *xfer)
             m_pending.push_back(id);
         }
     }
+}
+
+// MineshaftPortalBehaviour::createWaypoint, retail 0x003738F6..0x00373A0F
+// (281 B). WB F3CD30 carries the name (MineshaftPortalBehaviour.cpp:188
+// asserts m_waypoint). Once per behaviour: place the private waypoint just
+// outside the geometry's x extent, rotated by the object's angle, on the
+// terrain, and register it with the portal network for the controlling player.
+void MineshaftPortalBehaviour::createWaypoint()
+{
+	if (!m_registered) {
+		float angle = m_object->angle;
+		Rva0087E650Bounds bounds;
+		m_object->geometry->rva0087E650(&bounds);
+		float extent = bounds.lo.x > 0.0f ? bounds.lo.x : bounds.hi.x;
+		Vector3 offset(extent + BfmeMineshaftPortalWaypointPad, 0.0f, 0.0f);
+		offset.Rotate_Z(angle);
+		Coord3D pos;
+		setCoord(&pos, offset.x, offset.y, 0.0f);
+		pos.x += m_object->x;
+		pos.y += m_object->y;
+		pos.z = ((Rva003738F6Terrain *)TheTerrainLogic)->groundHeight(pos.x, pos.y, 0);
+		m_waypoint = rva00372DFA(&pos);
+		((MineshaftPortalNetworkManager *)g_Va00E01EDC)->addWaypoint(
+			m_waypoint, ((Object *)m_object)->getControllingPlayer());
+		m_registered = true;
+	}
 }
 
 // MSVC emits delayed template instances after the native methods.
