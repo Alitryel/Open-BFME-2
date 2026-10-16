@@ -11,7 +11,7 @@
 // (unwind 0x004EE006). Members, in the order retail builds them: three
 // cleared words +0x24..+0x2C, a vector at +0x30, 1 at +0x48, an AsciiString
 // at +0x4C, four owning holders +0x50..+0x5C each given a new 0x20-byte
-// Rva002834C4 (rowed ctor; holder dtor 0x002833E7), the observer list at
+// Rva002834C4 (rowed ctor; holder dtor 0x002833E7), the beacon-path list at
 // +0x64, the int-keyed map at +0x56C, a vector at +0x578. The body clears the
 // remaining words, zeroes the 64 records at +0x68, fills the 1250-word table
 // at +0x588 with -1, registers the two listener bases with the +0x54 and +0x58
@@ -22,6 +22,7 @@
 #include <list>
 #include <vector>
 #include "ascii_string.h"
+#include "../../../../Libraries/Include/Lib/Coord3D.h"
 
 typedef int Int;
 typedef float Real;
@@ -68,7 +69,9 @@ template <> _Rb_tree<int, pair<const int, Rva00501875Count>,
     allocator<pair<const int, Rva00501875Count> > >::~_Rb_tree();
 }
 
-struct Rva004FA1FObserver;
+// Native buildBeacons283E9C accesses +64 as a list of coordinate lists.
+// Node copy282843 and clear283002 confirm nested value ownership.
+typedef _STL::list<Coord3D> TerrainBeaconPath;
 struct Rva002BA8F1Listener;
 
 class Rva005A0B4CList
@@ -146,7 +149,7 @@ private:
 	Rva002833E7Holder m_58;								// +0x58
 	Rva002833E7Holder m_5C;								// +0x5C
 	bool m_60;											// +0x60
-	_STL::list<Rva004FA1FObserver *> m_64;				// +0x64
+	_STL::list<TerrainBeaconPath> m_64;				// +0x64
 	TerrainLogicRecord m_records[64];					// +0x68
 	Int m_568;											// +0x568
 	_STL::map<Int, Rva00501875Count> m_56C;				// +0x56C
