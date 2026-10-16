@@ -112,3 +112,17 @@ Rva006609D0::~Rva006609D0()
 {
 	bfmeClearVHX();
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0054FF17 reads ??1?$deque@UBfmePod16@@V?$allocator@UBfmePod16@@@_STL@@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00660470Deque@@QAE@XZ=??1?$deque@UBfmePod16@@V?$allocator@UBfmePod16@@@_STL@@@_STL@@QAE@XZ")
+//   0x0054FF17 reads ??1?$deque@UBfmePod16@@V?$allocator@UBfmePod16@@@_STL@@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00660610Deque@@QAE@XZ=??1?$deque@UBfmePod16@@V?$allocator@UBfmePod16@@@_STL@@@_STL@@QAE@XZ")
+//   0x0038A48B reads ??1?$_Rb_tree@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@H@2@U?$_Select1st@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@H@_STL@@@2@U?$less@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@H@_STL@@@2@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva0064C290Tree@@QAE@XZ=??1?$_Rb_tree@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@H@2@U?$_Select1st@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@H@_STL@@@2@U?$less@V?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@H@_STL@@@2@@_STL@@QAE@XZ")
+//   0x00613A20 reads ??1MutexClass@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1GameResultsCounter@@QAE@XZ=??1MutexClass@@QAE@XZ")
+//   0x0054FC14 reads ?rva0054FC14@Rva0054FC14@@QAEXXZ
+#pragma comment(linker, "/alternatename:?bfmeClearVHX@Rva006609D0@@AAEXXZ=?rva0054FC14@Rva0054FC14@@QAEXXZ")

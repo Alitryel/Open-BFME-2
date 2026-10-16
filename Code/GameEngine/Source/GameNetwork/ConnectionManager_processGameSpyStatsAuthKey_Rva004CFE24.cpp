@@ -85,3 +85,17 @@ void BFMEConnectionManager::processGameSpyStatsAuthKeyCommand( void *command )
 		}
 	}
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x004CFBC2 reads ?rva004CFBC2@Rva004CFBC2AsciiField@@QAEXVAsciiString@@@Z
+#pragma comment(linker, "/alternatename:?setLocale@GameSpyGameSlot@@QAEXV?$StringBase@D@@@Z=?rva004CFBC2@Rva004CFBC2AsciiField@@QAEXVAsciiString@@@Z")
+//   0x002D9BC1 reads ?get@Rva002D9BC1AsciiField@@QBE?AVAsciiString@@XZ
+#pragma comment(linker, "/alternatename:?getText20@BFMENetGameSpyStatsAuthKeyCommandMsg@@QAE?AV?$StringBase@D@@XZ=?get@Rva002D9BC1AsciiField@@QBE?AVAsciiString@@XZ")
+//   0x004CFB8B reads ?rva004CFB8B@Rva004CFB6DAsciiField@@QAEXVAsciiString@@@Z
+#pragma comment(linker, "/alternatename:?setLoginName@GameSpyGameSlot@@QAEXV?$StringBase@D@@@Z=?rva004CFB8B@Rva004CFB6DAsciiField@@QAEXVAsciiString@@@Z")
+//   0x002D9BA6 reads ?getPath@CDDrive@@UAE?AVAsciiString@@XZ
+#pragma comment(linker, "/alternatename:?getText1C@BFMENetGameSpyStatsAuthKeyCommandMsg@@QAE?AV?$StringBase@D@@XZ=?getPath@CDDrive@@UAE?AVAsciiString@@XZ")
+//   0x004CFB6D reads ?get@Rva004CFB6DAsciiField@@QBE?AVAsciiString@@XZ
+#pragma comment(linker, "/alternatename:?getLoginName@GameSpyGameSlot@@QBE?AV?$StringBase@D@@XZ=?get@Rva004CFB6DAsciiField@@QBE?AVAsciiString@@XZ")

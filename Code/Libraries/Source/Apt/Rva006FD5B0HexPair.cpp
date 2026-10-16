@@ -25,3 +25,11 @@ unsigned char Rva006FD5B0(char hi, char lo)
 	buf[2] = 0;
 	return (unsigned char)rva006291C0(buf, 0, 16);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x006291C0 reads ?ji_006291c0@@YAXXZ
+#pragma comment(linker, "/alternatename:?rva006291C0@@YAKPBDPAXH@Z=?ji_006291c0@@YAXXZ")
+//   0x00629B6E reads ?ji_00629b6e@@YAXXZ
+#pragma comment(linker, "/alternatename:?rva00629B6E@@YAHH@Z=?ji_00629b6e@@YAXXZ")

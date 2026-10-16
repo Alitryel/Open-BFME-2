@@ -66,3 +66,11 @@ void Rva0008B4CD::rva0008B4CD()
 	((Rva0008B470 *)this)->~Rva0008B470();
 }
 
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0008AFDC reads ?Rva0008AFDCDestroy@@YAXPAX0@Z
+#pragma comment(linker, "/alternatename:??$_Destroy@PAURva0008B4AFElement@@@_STL@@YAXPAURva0008B4AFElement@@0@Z=?Rva0008AFDCDestroy@@YAXPAX0@Z")
+//   0x005C847B reads ??$__destroy_aux@PAURva005C847BRecord@@@_STL@@YAXPAURva005C847BRecord@@0ABU__false_type@0@@Z
+#pragma comment(linker, "/alternatename:??$_Destroy@PAURva005C84D3Element@@@_STL@@YAXPAURva005C84D3Element@@0@Z=??$__destroy_aux@PAURva005C847BRecord@@@_STL@@YAXPAURva005C847BRecord@@0ABU__false_type@0@@Z")

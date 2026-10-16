@@ -96,3 +96,11 @@ void rva0033E102(void *arg1, ThingTemplate *t)
 	t->m_vec370.push_back((const BfmeContainerRecord002CF46E &)rec);
 	t->m_tree37c.rva002CF7DE();
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x00036410 reads ??1?$StringBase@D@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva0033B84ETok@@QAE@XZ=??1?$StringBase@D@@QAE@XZ")
+//   0x000C059B reads ?erase@?$vector@URva000B435F@@V?$allocator@URva000B435F@@@_STL@@@_STL@@QAEPAURva000B435F@@PAU3@0@Z
+#pragma comment(linker, "/alternatename:?erase@?$vector@UBfmeContainerRecord002CF46E@@V?$allocator@UBfmeContainerRecord002CF46E@@@_STL@@@_STL@@QAEXPAUBfmeContainerRecord002CF46E@@0@Z=?erase@?$vector@URva000B435F@@V?$allocator@URva000B435F@@@_STL@@@_STL@@QAEPAURva000B435F@@PAU3@0@Z")

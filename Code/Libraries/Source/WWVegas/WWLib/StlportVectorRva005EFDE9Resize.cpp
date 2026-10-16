@@ -11,3 +11,11 @@ void _STL::vector<Rva005EFDE9Element,_STL::allocator<Rva005EFDE9Element> >::resi
 }
 // Native005EFE6E..005EFE87 RET4; invoked by icon slot-count005EFE87.
 void _STL::vector<Rva005EFDE9Element,_STL::allocator<Rva005EFDE9Element> >::resize(size_type n) { resize(n,Rva005EFDE9Element()); }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x005EFC30 reads ?_M_fill_insert@?$vector@URva005EFD53Element@@V?$allocator@URva005EFD53Element@@@_STL@@@_STL@@QAEXPAURva005EFD53Element@@IABU3@@Z
+#pragma comment(linker, "/alternatename:?_M_fill_insert@?$vector@URva005EFDE9Element@@V?$allocator@URva005EFDE9Element@@@_STL@@@_STL@@QAEXPAURva005EFDE9Element@@IABU3@@Z=?_M_fill_insert@?$vector@URva005EFD53Element@@V?$allocator@URva005EFD53Element@@@_STL@@@_STL@@QAEXPAURva005EFD53Element@@IABU3@@Z")
+//   0x005EF8FA reads ?erase@?$vector@URva005EF8FAElement@@V?$allocator@URva005EF8FAElement@@@_STL@@@_STL@@QAEPAURva005EF8FAElement@@PAU3@0@Z
+#pragma comment(linker, "/alternatename:?erase@?$vector@URva005EFDE9Element@@V?$allocator@URva005EFDE9Element@@@_STL@@@_STL@@QAEPAURva005EFDE9Element@@PAU3@0@Z=?erase@?$vector@URva005EF8FAElement@@V?$allocator@URva005EF8FAElement@@@_STL@@@_STL@@QAEPAURva005EF8FAElement@@PAU3@0@Z")

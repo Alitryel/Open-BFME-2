@@ -24,3 +24,13 @@ void Rva00204D6B_DeleteAnchor(Rva00204D6B *p) { delete p; }
 void Rva002109F8_DeleteAnchor(Rva002109F8 *p) { delete p; }
 void Rva00210CF1_DeleteAnchor(Rva00210CF1 *p) { delete p; }
 void Rva002146F7_DeleteAnchor(Rva002146F7 *p) { delete p; }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x001FBF4D reads ??1ParticleSystemTemplate@FXParticleSystem@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva001FC036@@QAE@XZ=??1ParticleSystemTemplate@FXParticleSystem@@UAE@XZ")
+//   0x00204C16 reads ??1Rva0020453CHolderBase@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00204D6B@@QAE@XZ=??1Rva0020453CHolderBase@@QAE@XZ")
+//   0x003FA14B reads ??1Rva003FA26F@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00210CF1@@QAE@XZ=??1Rva003FA26F@@QAE@XZ")

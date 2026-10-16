@@ -166,3 +166,13 @@ CrateSystem::~CrateSystem()
 	}
 	m_crateTemplateVector.clear();
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0031BD55 reads ?erase@?$vector@EV?$allocator@E@_STL@@@_STL@@QAEPAEPAE0@Z
+#pragma comment(linker, "/alternatename:?erase@?$vector@PAVCrateTemplate@@V?$allocator@PAVCrateTemplate@@@_STL@@@_STL@@QAEPAPAVCrateTemplate@@PAPAV3@0@Z=?erase@?$vector@EV?$allocator@E@_STL@@@_STL@@QAEPAEPAE0@Z")
+//   0x001FF51F reads ?erase@?$vector@PAVIconSlot@Impl@ArmyDetailsMovieClip@StrategicHUD@@V?$allocator@PAVIconSlot@Impl@ArmyDetailsMovieClip@StrategicHUD@@@_STL@@@_STL@@QAEPAPAVIconSlot@Impl@ArmyDetailsMovieClip@StrategicHUD@@PAPAV3456@@Z
+#pragma comment(linker, "/alternatename:?erase@?$vector@PAVCrateTemplate@@V?$allocator@PAVCrateTemplate@@@_STL@@@_STL@@QAEPAPAVCrateTemplate@@PAPAV3@@Z=?erase@?$vector@PAVIconSlot@Impl@ArmyDetailsMovieClip@StrategicHUD@@V?$allocator@PAVIconSlot@Impl@ArmyDetailsMovieClip@StrategicHUD@@@_STL@@@_STL@@QAEPAPAVIconSlot@Impl@ArmyDetailsMovieClip@StrategicHUD@@PAPAV3456@@Z")
+//   0x00211E58 reads ??0?$_Vector_base@HV?$allocator@H@_STL@@@_STL@@QAE@ABV?$allocator@H@1@@Z
+#pragma comment(linker, "/alternatename:??0?$_Vector_base@PAVCrateTemplate@@V?$allocator@PAVCrateTemplate@@@_STL@@@_STL@@QAE@ABV?$allocator@PAVCrateTemplate@@@1@@Z=??0?$_Vector_base@HV?$allocator@H@_STL@@@_STL@@QAE@ABV?$allocator@H@1@@Z")

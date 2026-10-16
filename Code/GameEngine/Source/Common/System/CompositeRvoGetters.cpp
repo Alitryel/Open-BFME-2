@@ -104,3 +104,15 @@ Rva00394173Member Rva00394173Field::get() const
 {
 	return m_value;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x00332106 reads ??0?$list@PAURva00332106PointerTarget@@V?$allocator@PAURva00332106PointerTarget@@@_STL@@@_STL@@QAE@ABV01@@Z
+#pragma comment(linker, "/alternatename:??0Rva00394173Member@@QAE@ABV0@@Z=??0?$list@PAURva00332106PointerTarget@@V?$allocator@PAURva00332106PointerTarget@@@_STL@@@_STL@@QAE@ABV01@@Z")
+//   0x0038630B reads ??0PSPlayerAllStats@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:??0Rva003862EDMember@@QAE@ABV0@@Z=??0PSPlayerAllStats@@QAE@ABV0@@Z")
+//   0x005559FC reads ??0Rva003844D7@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:??0Rva00389DF1Member@@QAE@ABV0@@Z=??0Rva003844D7@@QAE@ABV0@@Z")
+//   0x00555616 reads ??0Rva0038454E@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:??0Rva00389E0FMember@@QAE@ABV0@@Z=??0Rva0038454E@@QAE@ABV0@@Z")

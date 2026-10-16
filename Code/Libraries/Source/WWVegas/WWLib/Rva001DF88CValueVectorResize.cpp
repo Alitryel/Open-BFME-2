@@ -24,3 +24,11 @@ void Rva001DF88CVector::resize(unsigned n,Rva001DF88CEntry value) {
 #pragma comment(linker, "/alternatename:?erase@?$vector@URva001DF88CEntry@@V?$allocator@URva001DF88CEntry@@@_STL@@@_STL@@QAEPAURva001DF88CEntry@@PAU3@0@Z=?erase@?$vector@URva001DEF38Element@@V?$allocator@URva001DEF38Element@@@_STL@@@_STL@@QAEPAURva001DEF38Element@@PAU3@0@Z")
 
 #pragma comment(linker, "/alternatename:??0Rva001DF88CEntry@@QAE@XZ=??0Rva001DE6E1@@QAE@XZ")
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x001DDEC3 reads ??1Rva00414BDBElement@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva001DF88CEntry@@QAE@XZ=??1Rva00414BDBElement@@QAE@XZ")
+//   0x001DF2D3 reads ?_M_fill_insert@?$vector@URva001DF2D3Element@@V?$allocator@URva001DF2D3Element@@@_STL@@@_STL@@QAEXPAURva001DF2D3Element@@IABU3@@Z
+#pragma comment(linker, "/alternatename:?_M_fill_insert@?$vector@URva001DF88CEntry@@V?$allocator@URva001DF88CEntry@@@_STL@@@_STL@@QAEXPAURva001DF88CEntry@@IABU3@@Z=?_M_fill_insert@?$vector@URva001DF2D3Element@@V?$allocator@URva001DF2D3Element@@@_STL@@@_STL@@QAEXPAURva001DF2D3Element@@IABU3@@Z")

@@ -39,3 +39,11 @@ void Rva005E58ED::rva005E58ED()
 		return;
 	((Rva005E6836 *)this)->rva005E6836(r, *(int *)((unsigned char *)m_8 + 0x18));
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x00318C32 reads ?rva00318C32@Rva00318C79Owner@@QAEPAVRva00318C32Ret@@XZ
+#pragma comment(linker, "/alternatename:?rva00318C32@Rva00318C32@@QAEHXZ=?rva00318C32@Rva00318C79Owner@@QAEPAVRva00318C32Ret@@XZ")
+//   0x005E6836 reads ?fwd@Rva005E6836Mid@@QAEXXZ
+#pragma comment(linker, "/alternatename:?rva005E6836@Rva005E6836@@QAEXHH@Z=?fwd@Rva005E6836Mid@@QAEXXZ")

@@ -145,3 +145,13 @@ void TeamsInfoRec::clear()
 	m_numActive = 0;
 	m_freeHead = 0;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0032C3A3 reads ??1Rva0032C3A3@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1?$vector@VBfmeThingUBB@@V?$allocator@VBfmeThingUBB@@@_STL@@@_STL@@QAE@XZ=??1Rva0032C3A3@@QAE@XZ")
+//   0x00567ECD reads ?swap@?$vector@UBfmeE12@@V?$allocator@UBfmeE12@@@_STL@@@_STL@@QAEXAAV12@@Z
+#pragma comment(linker, "/alternatename:?swap@?$vector@VBfmeThingUBB@@V?$allocator@VBfmeThingUBB@@@_STL@@@_STL@@QAEXAAV12@@Z=?swap@?$vector@UBfmeE12@@V?$allocator@UBfmeE12@@@_STL@@@_STL@@QAEXAAV12@@Z")
+//   0x0032BDE7 reads ??0?$vector@URva00196D90Element@@V?$allocator@URva00196D90Element@@@_STL@@@_STL@@QAE@I@Z
+#pragma comment(linker, "/alternatename:??0?$vector@VBfmeThingUBB@@V?$allocator@VBfmeThingUBB@@@_STL@@@_STL@@QAE@I@Z=??0?$vector@URva00196D90Element@@V?$allocator@URva00196D90Element@@@_STL@@@_STL@@QAE@I@Z")

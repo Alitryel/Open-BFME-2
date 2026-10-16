@@ -34,3 +34,15 @@ void Rva00150C74Vector::resize(unsigned n,Rva00150D42Entry value) {
  if (n<v->size()) v->erase(v->begin()+n,v->end());
  else v->insert(v->end(),n-v->size(),value);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x00150959 reads ?rva00150959@Rva00150959@@QAEXPAURva001504A1Record@@IABVRva0014F699@@@Z
+#pragma comment(linker, "/alternatename:?_M_fill_insert@?$vector@URva00150D42Entry@@V?$allocator@URva00150D42Entry@@@_STL@@@_STL@@QAEXPAURva00150D42Entry@@IABU3@@Z=?rva00150959@Rva00150959@@QAEXPAURva001504A1Record@@IABVRva0014F699@@@Z")
+//   0x0014D1E3 reads ??1Rva0014F699@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00150D42Entry@@QAE@XZ=??1Rva0014F699@@UAE@XZ")
+//   0x0015068C reads ?rva0015068C@Rva0015068C@@QAEPAVRva0014F699@@PAV2@0@Z
+#pragma comment(linker, "/alternatename:?erase@?$vector@URva00150D42Entry@@V?$allocator@URva00150D42Entry@@@_STL@@@_STL@@QAEPAURva00150D42Entry@@PAU3@0@Z=?rva0015068C@Rva0015068C@@QAEPAVRva0014F699@@PAV2@0@Z")
+//   0x0014DB9F reads ??0SourceNamespace_Shadow@FXShaderParameterSourceNamespaceSAS@@QAE@XZ
+#pragma comment(linker, "/alternatename:??0Rva00150D42Entry@@QAE@XZ=??0SourceNamespace_Shadow@FXShaderParameterSourceNamespaceSAS@@QAE@XZ")

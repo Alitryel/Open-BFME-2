@@ -22,3 +22,11 @@ void Rva0009A200_DeleteAnchor(Rva0009A200 *p) { delete p; }
 void Rva000FE9C7_DeleteAnchor(Rva000FE9C7 *p) { delete p; }
 void Rva001732C6_DeleteAnchor(Rva001732C6 *p) { delete p; }
 void Rva001F097A_DeleteAnchor(Rva001F097A *p) { delete p; }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x000FE290 reads ?bfmeResetSH@BfmeThingSH@@QAEXXZ
+#pragma comment(linker, "/alternatename:??1Rva000FE9C7@@QAE@XZ=?bfmeResetSH@BfmeThingSH@@QAEXXZ")
+//   0x001F077D reads ??1Rva001F077D@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva001F097A@@QAE@XZ=??1Rva001F077D@@QAE@XZ")

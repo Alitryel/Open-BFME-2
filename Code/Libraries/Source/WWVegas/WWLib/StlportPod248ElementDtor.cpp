@@ -186,3 +186,13 @@ BfmePod248::~BfmePod248()
 	ev90.erase(ev90.begin(), ev90.end());
 	m_f68 = 0;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x002FECBC reads ??1?$_List_base@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva000C6D44ListProxy74@@QAE@XZ=??1?$_List_base@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@QAE@XZ")
+//   0x0007FAB3 reads ??1?$Rva005F11D0Storage@URva005F0647@@@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva000C6D44Slot12@@QAE@XZ=??1?$Rva005F11D0Storage@URva005F0647@@@@QAE@XZ")
+//   0x00239D49 reads ?clear@?$_List_base@URva00239D49Element@@V?$allocator@URva00239D49Element@@@_STL@@@_STL@@QAEXXZ
+#pragma comment(linker, "/alternatename:?clear@Rva000C6D44ListProxy74@@QAEXXZ=?clear@?$_List_base@URva00239D49Element@@V?$allocator@URva00239D49Element@@@_STL@@@_STL@@QAEXXZ")

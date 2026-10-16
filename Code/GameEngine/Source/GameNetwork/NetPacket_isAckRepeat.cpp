@@ -103,3 +103,13 @@ bool NetPacket::isAckRepeat(NetCommandRef *msg)
 	}
 	return false;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0058D7B6 reads ?isAckStage1Repeat@NetPacket@@IAE_NPAVNetCommandRef@@@Z
+#pragma comment(linker, "/alternatename:?j_0001bbd5@@YAXXZ=?isAckStage1Repeat@NetPacket@@IAE_NPAVNetCommandRef@@@Z")
+//   0x0058D7B6 reads ?isAckStage1Repeat@NetPacket@@IAE_NPAVNetCommandRef@@@Z
+#pragma comment(linker, "/alternatename:?j_00004935@@YAXXZ=?isAckStage1Repeat@NetPacket@@IAE_NPAVNetCommandRef@@@Z")
+//   0x0058D747 reads ?isAckBothRepeat@NetPacket@@IAE_NPAVNetCommandRef@@@Z
+#pragma comment(linker, "/alternatename:?j_00046e89@@YAXXZ=?isAckBothRepeat@NetPacket@@IAE_NPAVNetCommandRef@@@Z")

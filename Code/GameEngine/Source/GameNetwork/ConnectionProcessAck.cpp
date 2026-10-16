@@ -51,3 +51,11 @@ NetCommandRef * Connection::processAck(NetCommandMsg *msg) {
 
 	return NULL;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0058BD4F reads ?rva0058BD4F@Connection@@QAEPAVNetCommandRef@@PAX@Z
+#pragma comment(linker, "/alternatename:?processAck@Connection@@QAEPAVNetCommandRef@@PAVNetAckBothCommandMsg@@@Z=?rva0058BD4F@Connection@@QAEPAVNetCommandRef@@PAX@Z")
+//   0x0058BD4F reads ?rva0058BD4F@Connection@@QAEPAVNetCommandRef@@PAX@Z
+#pragma comment(linker, "/alternatename:?processAck@Connection@@QAEPAVNetCommandRef@@PAVNetAckStage1CommandMsg@@@Z=?rva0058BD4F@Connection@@QAEPAVNetCommandRef@@PAX@Z")

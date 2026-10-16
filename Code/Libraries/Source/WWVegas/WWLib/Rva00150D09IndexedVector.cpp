@@ -67,3 +67,11 @@ void Rva00150C4BVector::resize(unsigned n,Rva00150D09Entry value) {
 // By-value resize: native 86B ret0C body, 8B stride, erase and fill
 // callees read from this target. Inline vtable cleanup keeps EH unwind
 // registration while dead stores disappear on the normal return path.
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0015087B reads ?_M_fill_insert@?$vector@URva0015087BElement@@V?$allocator@URva0015087BElement@@@_STL@@@_STL@@QAEXPAURva0015087BElement@@IABU3@@Z
+#pragma comment(linker, "/alternatename:?_M_fill_insert@?$vector@URva00150D09Entry@@V?$allocator@URva00150D09Entry@@@_STL@@@_STL@@QAEXPAURva00150D09Entry@@IABU3@@Z=?_M_fill_insert@?$vector@URva0015087BElement@@V?$allocator@URva0015087BElement@@@_STL@@@_STL@@QAEXPAURva0015087BElement@@IABU3@@Z")
+//   0x00150659 reads ?erase@?$vector@URva00150659Element@@V?$allocator@URva00150659Element@@@_STL@@@_STL@@QAEPAURva00150659Element@@PAU3@0@Z
+#pragma comment(linker, "/alternatename:?erase@?$vector@URva00150D09Entry@@V?$allocator@URva00150D09Entry@@@_STL@@@_STL@@QAEPAURva00150D09Entry@@PAU3@0@Z=?erase@?$vector@URva00150659Element@@V?$allocator@URva00150659Element@@@_STL@@@_STL@@QAEPAURva00150659Element@@PAU3@0@Z")

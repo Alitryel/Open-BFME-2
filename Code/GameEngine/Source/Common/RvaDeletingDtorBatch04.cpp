@@ -25,3 +25,17 @@ void Rva002C5F72_DeleteAnchor(Rva002C5F72 *p) { delete p; }
 void Rva002C5F8E_DeleteAnchor(Rva002C5F8E *p) { delete p; }
 void Rva002D28FF_DeleteAnchor(Rva002D28FF *p) { delete p; }
 void Rva002D339F_DeleteAnchor(Rva002D339F *p) { delete p; }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x002BF0D6 reads ??1?$pair@$$CBVAsciiString@@UTreeHintRef002BF0D6@@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva002BF17C@@QAE@XZ=??1?$pair@$$CBVAsciiString@@UTreeHintRef002BF0D6@@@_STL@@QAE@XZ")
+//   0x00505BBA reads ??1Rva00506909@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva002C5F72@@QAE@XZ=??1Rva00506909@@QAE@XZ")
+//   0x0050549A reads ??1AITargetChooser@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva002C5F8E@@QAE@XZ=??1AITargetChooser@@QAE@XZ")
+//   0x002D284F reads ??1?$DLNodeClass@USmudge@@@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva002D28FF@@QAE@XZ=??1?$DLNodeClass@USmudge@@@@QAE@XZ")
+//   0x0052710C reads ??1Rva0052710C@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva002D339F@@QAE@XZ=??1Rva0052710C@@QAE@XZ")

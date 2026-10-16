@@ -437,3 +437,21 @@ void AITargetChooser::xfer(Xfer *xfer)
 	unsigned int others = m_14.size();
 	*xfer == others;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0030F2C7 reads ?get@Bfme939Helper@@QBEHXZ
+#pragma comment(linker, "/alternatename:?rva0030F2C7@Rva002C589B@@QBEHXZ=?get@Bfme939Helper@@QBEHXZ")
+//   0x000796BC reads ??1?$pair@$$CBW4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva005A9562@@QAE@XZ=??1?$pair@$$CBW4LocomotorSetType@@V?$vector@PBVLocomotorTemplate@@V?$allocator@PBVLocomotorTemplate@@@_STL@@@_STL@@@_STL@@QAE@XZ")
+//   0x002A8F24 reads ?rva002A8F24@Rva002A8F24@@QAEPAXPAVPlayer@@@Z
+#pragma comment(linker, "/alternatename:?rva002A8F24@Rva002A8F24@@QAEPAPAURva0050535AStore@@PAX@Z=?rva002A8F24@Rva002A8F24@@QAEPAXPAVPlayer@@@Z")
+//   0x002A8F24 reads ?rva002A8F24@Rva002A8F24@@QAEPAXPAVPlayer@@@Z
+#pragma comment(linker, "/alternatename:?rva002A8F24Record@Rva002A8F24@@QAEPAURva002A8F24Record@@PAX@Z=?rva002A8F24@Rva002A8F24@@QAEPAXPAVPlayer@@@Z")
+//   0x005055DE reads ?rva005055DE@Rva005055DE@@QAEXXZ
+#pragma comment(linker, "/alternatename:?rva005055DE@AITargetChooser@@AAEXXZ=?rva005055DE@Rva005055DE@@QAEXXZ")
+//   0x005A9693 reads ?rva005A9693@Rva005A9693Owner@@QAEXXZ
+#pragma comment(linker, "/alternatename:?rva005A9693@Rva005A9562@@QAEXXZ=?rva005A9693@Rva005A9693Owner@@QAEXXZ")
+//   0x005A910E reads ?rva005A910E@Rva005A910E@@QAEPAVPlayer@@XZ
+#pragma comment(linker, "/alternatename:?rva005A910E@Rva005A9562@@QAEPAURva0050542BTarget@@XZ=?rva005A910E@Rva005A910E@@QAEPAVPlayer@@XZ")

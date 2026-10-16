@@ -46,3 +46,15 @@ void Rva004C77C4::overflow(Rva004C77C4Pair *position,const Rva004C77C4Pair &valu
     finish=new_finish;
     storage.end=new_start+length;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x004C73A0 reads ??$__uninitialized_fill_n@PAURva004C7878Record@@IU1@@_STL@@YAPAURva004C7878Record@@PAU1@IABU1@ABU__false_type@0@@Z
+#pragma comment(linker, "/alternatename:?Rva004C73A0Fill@@YAPAURva004C77C4Pair@@PAU1@IABU1@ABURva004C77C4Tag@@@Z=??$__uninitialized_fill_n@PAURva004C7878Record@@IU1@@_STL@@YAPAURva004C7878Record@@PAU1@IABU1@ABU__false_type@0@@Z")
+//   0x004C734D reads ??$_Construct@URva004C734DElement@@U1@@_STL@@YAXPAURva004C734DElement@@ABU1@@Z
+#pragma comment(linker, "/alternatename:?Rva004C734DConstruct@@YAXPAURva004C77C4Pair@@ABU1@@Z=??$_Construct@URva004C734DElement@@U1@@_STL@@YAXPAURva004C734DElement@@ABU1@@Z")
+//   0x004C737A reads ??$__uninitialized_copy@PAURva004C7878Record@@PAU1@@_STL@@YAPAURva004C7878Record@@PAU1@00ABU__false_type@0@@Z
+#pragma comment(linker, "/alternatename:?Rva004C737ACopy@@YAPAURva004C77C4Pair@@PAU1@00ABURva004C77C4Tag@@@Z=??$__uninitialized_copy@PAURva004C7878Record@@PAU1@@_STL@@YAPAURva004C7878Record@@PAU1@00ABU__false_type@0@@Z")
+//   0x002226BE reads ?allocate@?$allocator@UBfmeE16@@@_STL@@QBEPAUBfmeE16@@IPBX@Z
+#pragma comment(linker, "/alternatename:?allocate@Rva004C77C4Storage@@QAEPAURva004C77C4Pair@@IPBX@Z=?allocate@?$allocator@UBfmeE16@@@_STL@@QBEPAUBfmeE16@@IPBX@Z")
