@@ -83,7 +83,7 @@ public:
 class UpdateModuleInterface
 {
 public:
-	virtual void updateSlot();
+	virtual UpdateSleepTime update() = 0;
 };
 
 class UpdateModule : public ObjectModule, public BehaviorModuleInterface, public UpdateModuleInterface
@@ -118,6 +118,9 @@ class LifetimeUpdate : public UpdateModule
 {
 public:
 	LifetimeUpdate(Thing *thing, const ModuleData *moduleData);
+	// Rowed in LifetimeUpdateSetLifetimeRange.cpp (0x003A4BFD): slot 0 of
+	// retail's UpdateModuleInterface table 0x00C1B02C.
+	virtual UpdateSleepTime update();
 
 private:
 	UnsignedInt calcSleepDelay(UnsignedInt minFrames, UnsignedInt maxFrames);
