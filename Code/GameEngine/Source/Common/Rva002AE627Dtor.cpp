@@ -23,15 +23,15 @@ public:
 	~Rva002A73B8();
 };
 
-class __declspec(novtable) Rva002AE627 : public Snapshot
+class __declspec(novtable) Rva002AE5EB : public Snapshot
 {
 public:
-	virtual ~Rva002AE627();
+	virtual ~Rva002AE5EB();
 private:
 	unsigned char m_pad04[0x20 - 4]; // +0x04..+0x1F
 	_STL::vector<Rva002A73B8> m_vec20; // +0x20
 };
 
-Rva002AE627::~Rva002AE627()
+Rva002AE5EB::~Rva002AE5EB()
 {
 }

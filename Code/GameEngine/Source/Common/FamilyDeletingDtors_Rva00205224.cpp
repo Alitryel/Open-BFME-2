@@ -5,6 +5,6 @@
 
 struct EmitVtableTag;
 
-class Rva00205224 { public: Rva00205224(EmitVtableTag *); virtual ~Rva00205224(); };
-// ?<Rva00205224::Rva00205224> absent-from-retail
-Rva00205224::Rva00205224(EmitVtableTag *) {}
+class Rva0020479E { public: Rva0020479E(EmitVtableTag *); virtual ~Rva0020479E(); };
+// ?<Rva0020479E::Rva0020479E> absent-from-retail
+Rva0020479E::Rva0020479E(EmitVtableTag *) {}

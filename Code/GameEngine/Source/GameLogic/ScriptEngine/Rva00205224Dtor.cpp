@@ -6,16 +6,16 @@
 
 #include "Common/Snapshot.h"
 
-class __declspec(novtable) Rva00205224 : public Snapshot
+class __declspec(novtable) Rva0020479E : public Snapshot
 {
 public:
-	virtual ~Rva00205224();
+	virtual ~Rva0020479E();
 private:
 	char m_pad[0x0C - 4];
 	AsciiString m_C; // +0x0C
 	AsciiString m_10; // +0x10
 };
 
-Rva00205224::~Rva00205224()
+Rva0020479E::~Rva0020479E()
 {
 }

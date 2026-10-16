@@ -147,10 +147,10 @@ public:
 	unsigned m_numElements;
 };
 
-class Rva002AE627
+class Rva002AE5EB
 {
 public:
-	virtual ~Rva002AE627();
+	virtual ~Rva002AE5EB();
 private:
 	char m_pad[48 - 4];
 };
@@ -229,7 +229,7 @@ private:
 	char m_pad50[0x58 - 0x4C - 4];
 	AsciiString m_58;
 	char m_pad5c[0x60 - 0x58 - 4];
-	Rva002AE627 m_60;
+	Rva002AE5EB m_60;
 	S3Money at90;
 	char m_pad9c[0xB8 - 0x9C];
 	void *m_b8;

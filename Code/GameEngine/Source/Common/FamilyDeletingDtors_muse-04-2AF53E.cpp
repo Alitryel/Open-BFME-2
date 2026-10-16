@@ -6,6 +6,6 @@
 struct EmitVtableTag;
 
 // ??_GRva002AE627@@UAEPAXI@Z @0x002AF53E present-unmatched
-class Rva002AE627 { public: Rva002AE627(EmitVtableTag *); virtual ~Rva002AE627(); };
-// ?<Rva002AE627::Rva002AE627> absent-from-retail
-Rva002AE627::Rva002AE627(EmitVtableTag *) {}
+class Rva002AE5EB { public: Rva002AE5EB(EmitVtableTag *); virtual ~Rva002AE5EB(); };
+// ?<Rva002AE5EB::Rva002AE5EB> absent-from-retail
+Rva002AE5EB::Rva002AE5EB(EmitVtableTag *) {}
