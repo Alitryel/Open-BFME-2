@@ -45,7 +45,8 @@ BFME_LITERAL_NAME_GETTER(Rva0039C3A6Named, "ScoreKeeper")
 BFME_LITERAL_NAME_GETTER(Rva003A25ABNamed, "TeamRelationMap")
 BFME_LITERAL_NAME_GETTER(Rva003A261ENamed, "TeamFactory")
 BFME_LITERAL_NAME_GETTER(Rva003B03EDNamed, "GPUParticleSystemStorageModule")
-BFME_LITERAL_NAME_GETTER(Rva003B3662Named, "Script")
+// Rva003B3662 "Script" is Script::GetSnapshotName, rowed under its real
+// name from Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptDtor.cpp.
 BFME_LITERAL_NAME_GETTER(Rva003B40FANamed, "ScriptGroup")
 BFME_LITERAL_NAME_GETTER(Rva003B7745Named, "ScriptList")
 BFME_LITERAL_NAME_GETTER(Rva003B9124Named, "LivingWorldCampaignManager")
