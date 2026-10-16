@@ -7,19 +7,43 @@
 // NETCOMMANDTYPE_FRAMEINFO, set by NetFrameCommandMsg's ctor, and a BFME 1 donor
 // body compiled /O1 places its NetFrameCommandMsg ctor call at this address.
 // Formerly rowed as Rva004CEEC3.
-class NetCommandMsg {
+class AsciiString;
+
+// NetCommandMsg as NetCommandMsgCtor.cpp declares it (retail vtable 0x860130:
+// deleting dtor, getSortNumber, the folded bool slot, getContentsAsAsciiString).
+class NetCommandMsg
+{
 public:
-    NetCommandMsg();
-};
-class NetFrameCommandMsg : public NetCommandMsg {
+	NetCommandMsg();
+protected:
+	virtual ~NetCommandMsg() {}
 public:
-    NetFrameCommandMsg();
+	virtual int getSortNumber();
+	virtual bool vslot08() { return false; }
+	virtual AsciiString getContentsAsAsciiString();
+protected:
+	unsigned int m_timestamp;
+	unsigned int m_executionFrame;
+	unsigned int m_playerID;
+	unsigned short m_id;
+	int m_commandType;
+	int m_referenceCount;
 };
+
+// Its vtable 0x00860140 overrides slot 3 with the rowed
+// NetFrameCommandMsg::getContentsAsAsciiString 0x004D5C2B; the compiler
+// installs it.
+class NetFrameCommandMsg : public NetCommandMsg
+{
+public:
+	NetFrameCommandMsg();
+	virtual AsciiString getContentsAsAsciiString();
+};
+
 NetFrameCommandMsg::NetFrameCommandMsg() : NetCommandMsg()
 {
     *(unsigned int *)((char *)this + 0x1C) = 0;
     *(unsigned int *)((char *)this + 0x20) = 0;
     *(unsigned int *)((char *)this + 0x24) = (unsigned int)-1;
-    *(unsigned int *)this = 0x00C60140;
     *(unsigned int *)((char *)this + 0x14) = 3;
 }

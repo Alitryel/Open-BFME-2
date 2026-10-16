@@ -1,10 +1,9 @@
 // cl: /O2 /MD /GX /DNDEBUG /arch:SSE
 //
 // ??0DeployStyleAIUpdateModuleData@@QAE@XZ, retail 0x00255154 (42 bytes).
-// Frameless ctor over the pinned Transport base (0x0026E5D7): installs the
-// explicit vtable 0x00BF3440 first (Defector precedent: pointer-cast write,
-// no virtuals declared anywhere so no vtable is emitted here; the address is
-// unique image-wide with this ctor its sole installer), then zeroes the
+// Frameless ctor over the pinned Transport base (0x0026E5D7): the compiler
+// installs the class's own vftable (0x00BF3440, slot 0 the rowed deleting
+// dtor 0x00255F54; the dtor is declared, rowed elsewhere), then zeroes the
 // unpack time at +0x64 plus the pack time at +0x68, clears the three turret
 // bools at +0x6C/+0x6D/+0x6E, sets must-deploy-to-attack at +0x6F, and nulls
 // the deployed attribute modifier at +0x70. Flat classes throughout (no
@@ -38,6 +37,7 @@ class DeployStyleAIUpdateModuleData : public TransportAIUpdateModuleData
 {
 public:
 	DeployStyleAIUpdateModuleData();
+	virtual ~DeployStyleAIUpdateModuleData();
 
 private:
 	int m_unpackTime;							// +0x64
@@ -55,7 +55,6 @@ inline DeployStyleAIUpdateModuleData::DeployStyleAIUpdateModuleData()
 {
 	int *unpackTime = &m_unpackTime;
 	void **attributeModifier = &m_deployedAttributeModifier;
-	*(unsigned int *)this = 0x00BF3440;
 	*attributeModifier = 0;
 	*unpackTime = 0;
 	m_packTime = 0;
