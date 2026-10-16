@@ -67,7 +67,8 @@ void Rva000E585A::rva000E585A(Rva000E488F *arg)
 }
 
 // ??_GVegetationFXShaderParameterSourceNamespace@@UAEPAXI@Z @0x000E63C0 28B; calls pinned ??1 at 0x000E6387
-class VegetationFXShaderParameterSourceNamespace { public: VegetationFXShaderParameterSourceNamespace(EmitVtableTag *); virtual ~VegetationFXShaderParameterSourceNamespace(); };
+class FXShaderParameterBinder;
+class VegetationFXShaderParameterSourceNamespace { public: VegetationFXShaderParameterSourceNamespace(EmitVtableTag *); virtual ~VegetationFXShaderParameterSourceNamespace(); virtual void ResolveBindings(const char *name, const char *handle, FXShaderParameterBinder *registry); };
 // ?<VegetationFXShaderParameterSourceNamespace::VegetationFXShaderParameterSourceNamespace> absent-from-retail
 VegetationFXShaderParameterSourceNamespace::VegetationFXShaderParameterSourceNamespace(EmitVtableTag *) {}
 
