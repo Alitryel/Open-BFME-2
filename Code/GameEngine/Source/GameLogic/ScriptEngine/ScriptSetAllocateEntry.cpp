@@ -14,6 +14,13 @@
 // forces an unnecessary address-escaped index home or a six-byte cast temp.
 // Whole329B and EH checked without aliases or new pins.
 #include <vector>
+// max<unsigned> only inlines here; keep it inline-only so this unit emits
+// no copy against retail's 0x00013740 (body verbatim).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+const unsigned int &max<unsigned int>(const unsigned int &__a, const unsigned int &__b)
+{ return __a < __b ? __b : __a; }
+}
 #include "ascii_string.h"
 class ModuleData;
 struct BfmeStringRecord003B3F78 {
