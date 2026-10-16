@@ -93,6 +93,18 @@ void RGB_To_HSV(Vector3 &, const Vector3 &);
 void HSV_To_RGB(Vector3 &, const Vector3 &);
 
 #include "WW3D2/shdlib.h"
+// Imported-forceinline: this unit inlines RefMultiListClass<RenderObjClass>::Remove
+// and must not emit its 48-byte COMDAT copy, which was first in link order and
+// differs from retail's 47-byte body (rowed 0x0006EF4E, RefMultiListRenderObjRemove.cpp).
+template <> __declspec(dllimport) __forceinline
+bool RefMultiListClass<RenderObjClass>::Remove(RenderObjClass *obj)
+{
+	bool result = Internal_Remove(obj);
+	if (result) {
+		obj->Release_Ref();
+	}
+	return result;
+}
 #ifdef _INTERNAL
 // for occasional debugging...
 //#pragma optimize("", off)
