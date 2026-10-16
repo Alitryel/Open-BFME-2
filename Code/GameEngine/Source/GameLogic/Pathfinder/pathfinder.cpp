@@ -76,6 +76,7 @@ public:
  Bool testStatus(ObjectStatusTypes) const;
 	Relationship getRelationship(const Object *) const;
     int rva0028B511() const;
+    Object *rva002931F5(Bool);
 void rva0028C2DD(Coord3D*)const;
 const Coord3D *getPosition()const{return (const Coord3D*)position;}
 protected:Module *findModule(NameKeyType)const;
@@ -620,6 +621,8 @@ class Rva002E7DF5;
 class Pathfinder
 {
 public:
+ Bool rva002F07F5(Object *,const Coord3D *);
+ Bool IsValidHordeMemberRegularMovement(Object *,const Coord3D *,const Coord3D *,const Coord3D *);
  Bool AdjustToNearestValidCell(Coord3D *);
  Bool AdjustToNearestGroundCell(Coord3D *);
 bool rva002ED313(Object*);
@@ -4836,4 +4839,72 @@ Bool Pathfinder::rva002EF3EE(Object *obj, Coord3D *dest, Object *target, Bool fl
 	}
 	*dest = adjustCellCenter(center, (Rva002E8C23Pair *)&info.targetCell, (PathfindLayerEnum)target->rva0028B511());
 	return false;
+}
+
+// Native 0x002F07F5..0x002F0A72, 637B RET8, directly after the rowed
+// IsValidHordeMemberRegularMovement (0x002F06A3), which it calls first with the
+// object's own position. It counts the other units in the object's footprint at
+// its current cell, then fails the destination footprint when a bridge-edge cell
+// (+0x0C bit 16) borders a cell of another layer, a cell fails the 0x002E6DC4
+// movement query, the cells hold as many other units as the old footprint, or an
+// occupant's AI (+0x258) has a positive +0x16C. Retail .data 0x00DBD318/0x00DBD328
+// hold the {-1,1,0,0}/{0,0,-1,1} neighbour deltas. The destination cell reuses
+// the origin ICoord2D through a block-scoped return temporary (retail frame 0x4C).
+Bool Pathfinder::rva002F07F5(Object *obj,const Coord3D *dest)
+{
+ const Coord3D *from=obj->getPosition();
+ if(!IsValidHordeMemberRegularMovement(obj,from,dest,from))return false;
+ Int lastX; Int lastY;
+ Int newCount=0;
+ Int below; Int above;Rva002EBCD6Split(obj,&below,&above);
+ Int layers[2];layers[0]=obj->rva0028B511();Int layerCount=1;
+ if(!(unsigned char)Rva002E6E6CGet(layers[0]) && reinterpret_cast<PathfinderOverlapTerrainView *>(TheTerrainLogic)->objectInteractsWithBridgeLayer(obj,layers[0])) {
+  layers[1]=1;layerCount=2;
+ }
+ Int oldCount=0;
+ ICoord2D cell;
+ {
+  Rva002EBC14Cell(&cell,obj,from);
+  Int x=cell.x-below; lastX=cell.x+above;
+  for(;x<lastX;++x) {
+   Int y=cell.y-below; lastY=cell.y+above;
+   for(;y<lastY;++y)
+    for(Int l=0;l<layerCount;++l) {
+     PathCollisionCell *c=reinterpret_cast<PathCollisionCell *>(getCell((PathfindLayerEnum)layers[l],x,y));
+     if(c && c->info)for(PathCollisionNode *n=c->info->occupants;n;n=n->next)if(n->object!=obj)++oldCount;
+    }
+  }
+ }
+ {ICoord2D tmp;cell=*Rva002EBC14Cell(&tmp,obj,dest);}
+ Int priority=obj->m_template->priority;Bool flag=obj->m_template->flag;char *ai=obj->m_258;
+ Rva002E8BCF query((const Rva002E8BCFSrc *)(ai+0x1CC),!flag,priority-1,obj->rva0028AFBB());
+ Int x=cell.x-below; lastX=cell.x+above;
+ for(;x<lastX;++x) {
+  Int y=cell.y-below; lastY=cell.y+above;
+  for(;y<lastY;++y)
+   for(Int l=0;l<layerCount;++l) {
+    Int layer=layers[l];PathfindCell *c=getCell((PathfindLayerEnum)layer,x,y);
+    if(!c)continue;
+    if(c->m_info & 0x10000) {
+     static Int deltaX[]={-1,1,0,0};static Int deltaY[]={0,0,-1,1};
+     for(Int i=0;i<4;++i) {
+      PathfindCell *neighbor=getCell((PathfindLayerEnum)layer,x+deltaX[i],y+deltaY[i]);
+      if(neighbor && ((neighbor->m_info>>4)&0x3F)!=layer)return false;
+     }
+    }
+    PathCollisionInfo *info=reinterpret_cast<PathCollisionCell *>(c)->info;
+    if(info) {
+     if(!((Rva002E6DC4 *)this)->rva002E6DC4(&query,c))return false;
+     for(PathCollisionNode *n=info->occupants;n;n=n->next) {
+      if(n->object==obj)continue;
+      ++newCount;
+      if(newCount>=oldCount)return false;
+      Object *effective=n->object->rva002931F5(true);if(!effective)effective=n->object;
+      char *other=effective->m_258;
+      if(other && *(Int *)(other+0x16C)>0)return false;
+     }
+    }
+   }
+ }
+ return true;
 }
