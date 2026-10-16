@@ -1,4 +1,13 @@
 // ?rva00311B70@Rva00311B70@@QAEXXZ
+// partial score=0.996 date=2026-10-16
+// W9-O2 (2026-10-16, claude-opus-5.5): size-exact 617 B, nd 2. Changes from the .87 bank: visible
+// __declspec(noinline) inline Coord3D::length/normalize (AIAttackApproachComputePath.cpp precedent), the scale
+// reads its components volatile in x,y,z order (retail's three mulss [len] memory operands), and the tail copies
+// the last record (coordSet) BEFORE 'delta = point' as WB 0x00EB38C0 does. Residue: one load of the tail store's
+// vector base (mov eax,[ebx+0x2c]) retail schedules before the delta.y load, ours after it. Inert: volatile
+// subsets (all others worse), const volatile view, interleaved volatile loads, dst reference early/late,
+// separate tail length/point locals, barriers around the final store, unsigned n, early n init, opaque length.
+// ?rva00311B70@Rva00311B70@@QAEXXZ
 // partial score=0.898497359258445 date=2026-10-13
 // 0x00311B70
 // partial score=0.86 date=2026-10-09
@@ -22,7 +31,23 @@ typedef int Int;
 
 static __forceinline void coordSet(Coord3D &c, const Coord3D *a) { c.x = a->x; c.y = a->y; c.z = a->z; }
 static __forceinline void coordSub(Coord3D &c, const Coord3D *a) { c.x -= a->x; c.y -= a->y; c.z -= a->z; }
-static __forceinline void coordScale(Coord3D &c, Real s) {float z=*(volatile float*)&c.z;float x=*(volatile float*)&c.x;float y=*(volatile float*)&c.y;c.x=x*s;c.y=y*s;c.z=z*s;}
+static __forceinline void coordScale(Coord3D &c, Real s) {c.x=*(volatile float*)&c.x*s;c.y=*(volatile float*)&c.y*s;c.z=*(volatile float*)&c.z*s;}
+#include <math.h>
+__declspec(noinline) inline float Coord3D::length() const
+{
+    return (float)sqrt(x * x + y * y + z * z);
+}
+__declspec(noinline) inline void Coord3D::normalize()
+{
+    float len = length();
+    if (len != 0.0f) {
+        float scale = 1.0f / len;
+        x *= scale;
+        y *= scale;
+        z *= scale;
+    }
+}
+
 
 struct Rva00311B70Point
 {
@@ -66,7 +91,7 @@ void Rva00311B70::rva00311B70()
 	Int n = m_points.size();
 	coordSet(point, &m_points[n - 2].m_pos); delta = point;
 	Coord3D beforeLast; coordSet(beforeLast, &m_points[n - 3].m_pos); coordSub(delta, &beforeLast);
-	length = delta.length(); delta = point;
-	Coord3D last; coordSet(last, &m_points[n - 1].m_pos); coordSub(delta, &last); delta.normalize(); coordScale(delta, length);
+	length = delta.length();
+	Coord3D last; coordSet(last, &m_points[n - 1].m_pos); delta = point; coordSub(delta, &last); delta.normalize(); coordScale(delta, length);
 	coordSub(point, &delta); m_points[n - 1].m_pos = point;
 }
