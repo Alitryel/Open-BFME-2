@@ -1457,6 +1457,17 @@ public:
 // Matrix storage the transform paths fill completely (no element constructors).
 struct TCRMatrixStorage { float m[12]; };
 
+// matrix3d.h's Matrix3D::Get_Translation(Vector3*), inlined into Render below. Called as
+// the Matrix3D member, this /O2 unit also emitted an unreferenced external COMDAT copy
+// (integer moves) that differs from retail's one x87 body (0x0009314A, ICF-shared with
+// Matrix4D::GetTranslationVector) and, first in link order, won the link for the units
+// whose copies are retail's. The body is unchanged; only the out-of-line name is local.
+class TCRTranslationView : public Matrix3D
+{
+public:
+	WWINLINE void Get_Translation(Vector3 * set) const { set->X = Row[0][3]; set->Y = Row[1][3]; set->Z = Row[2][3]; }
+};
+
 // dx8wrapper.h's Set_DX8_Render_State / Set_Material / Set_Shader, inlined into Render below.
 // They live in this derived helper rather than as DX8Wrapper:: definitions: an inline
 // definition of the header's out-of-line declaration made this /O2 unit emit external
@@ -1571,7 +1582,7 @@ void DX8TextureCategoryClass::Render(void)
 
 			((DX8MeshRendererClass *)RendererPtr00DF363C)->Peek_Camera()->Get_Transform().Get_Z_Vector(&camera_z_vector);
 			const Matrix3D & mesh_tm = mesh->Get_Transform();
-			mesh_tm.Get_Translation(&mesh_position);
+			((const TCRTranslationView &)mesh_tm).Get_Translation(&mesh_position);
 
 			tmp_world.Obj_Look_At(mesh_position,mesh_position + camera_z_vector,0.0f);
 			world_transform = &tmp_world;

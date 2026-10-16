@@ -5,6 +5,9 @@ template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 class Quaternion { public: float X,Y,Z,W; Quaternion &operator=(const Quaternion &q){X=q.X;Y=q.Y;Z=q.Z;W=q.W;return *this;} };
 class Vector3 { public: float X,Y,Z; Vector3(const Vector3 &v):X(v.X),Y(v.Y),Z(v.Z){} Vector3 &operator=(const Vector3 &v){X=v.X;Y=v.Y;Z=v.Z;return *this;} Vector3(float x,float y,float z):X(x),Y(y),Z(z){} };
 class Matrix3D { public: float M[3][4]; void Get_Translation(Vector3 *v) const {v->X=M[0][3];v->Y=M[1][3];v->Z=M[2][3];} };
+// The same accessor under a unit-local name, so this /O2 unit emits no external
+// Matrix3D::Get_Translation copy differing from retail's x87 body (0x0009314A).
+struct HTreeTranslationView : Matrix3D { void Get_Translation(Vector3 *v) const {v->X=M[0][3];v->Y=M[1][3];v->Z=M[2][3];} };
 Quaternion Build_Quaternion(const Matrix3D &);
 class PivotClass;
 class HTreeClass {
@@ -20,7 +23,7 @@ void HTreeClass::Control_Bone(int boneindex,const Matrix3D &relative_tm,bool wor
  if(bone==End || bone->Index!=boneindex) return;
  bone->WorldSpaceTranslation=world_space_translation;
  bone->Rotation=Build_Quaternion(relative_tm);
- relative_tm.Get_Translation(&bone->Translation);
+ ((const HTreeTranslationView &)relative_tm).Get_Translation(&bone->Translation);
 }
 
 void HTreeClass::Get_Bone_Control(int index,Matrix3D &out) const

@@ -22,6 +22,15 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "inttest.h"
 #include "coltest.h"
 
+// matrix3d.h's Matrix3D::Get_Translation(Vector3*) under a unit-local name: called as the
+// Matrix3D member, this unit also emitted an external integer-move COMDAT copy that differs
+// from retail's one x87 body (0x0009314A) and from the other units' copies. Body unchanged.
+class CastRayTranslationView : public Matrix3D
+{
+public:
+	WWINLINE void Get_Translation(Vector3 * set) const { set->X = Row[0][3]; set->Y = Row[1][3]; set->Z = Row[2][3]; }
+};
+
 class MeshGeometryClass : public RefCountClass
 {
 public:
@@ -76,11 +85,11 @@ bool MeshClass::Cast_Ray(RayCollisionTestClass & raytest)
 	// if aligned or oriented rotate the mesh so that it's aligned to the ray
 	if (Model->Get_Flag(MeshGeometryClass::ALIGNED)) {
 			Vector3 mesh_position;
-			world.Get_Translation(&mesh_position);
+			((const CastRayTranslationView &)world).Get_Translation(&mesh_position);
 			world.Obj_Look_At(mesh_position,mesh_position - raytest.Ray.Get_Dir(),0.0f);
 	} else if (Model->Get_Flag(MeshGeometryClass::ORIENTED)) {
 			Vector3 mesh_position;
-			world.Get_Translation(&mesh_position);
+			((const CastRayTranslationView &)world).Get_Translation(&mesh_position);
 			world.Obj_Look_At(mesh_position,raytest.Ray.Get_P0(),0.0f);
 	}
 

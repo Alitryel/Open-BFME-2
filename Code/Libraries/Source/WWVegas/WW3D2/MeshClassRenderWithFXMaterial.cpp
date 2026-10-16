@@ -14,6 +14,15 @@
 // spelling locally. The callback bytes do not establish an original row type.
 #define Vector4 Rva0047A6A9Row16
 #include "matrix3d.h"
+
+// matrix3d.h's Matrix3D::Get_Translation(Vector3*) under a unit-local name: called as the
+// Matrix3D member, this unit also emitted an external integer-move COMDAT copy that differs
+// from retail's one x87 body (0x0009314A) and from the other units' copies. Body unchanged.
+class FXMaterialTranslationView : public Matrix3D
+{
+public:
+	WWINLINE void Get_Translation(Vector3 * set) const { set->X = Row[0][3]; set->Y = Row[1][3]; set->Z = Row[2][3]; }
+};
 #undef Vector4
 typedef Rva0047A6A9Row16 Vector4;
 
@@ -372,7 +381,7 @@ void MeshClass::Render_With_FX_Material(Rva00087A93 method, int count)
 			Matrix4 inv;
 			view.Get_Inverse(inv);
 			Vector3 mesh_position;
-			Transform.Get_Translation(&mesh_position);
+			((const FXMaterialTranslationView &)Transform).Get_Translation(&mesh_position);
 			Vector3 target;
 			if (Peek_Model()->Get_Flag(MeshModelClass::ALIGNED)) {
 				target = mesh_position + Vector3(inv[0][2], inv[1][2], inv[2][2]);
