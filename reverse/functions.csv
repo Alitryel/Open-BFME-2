@@ -94447,3 +94447,4 @@ $L56807,,0x0075E1D9,14,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioM
 $L56804,,0x0075E1B2,11,Code/GameEngineDevice/Source/MilesAudioDevice/MilesAudioManager.cpp,matched,gen-funclet;parent=??1MilesAudioManager@@UAE@XZ; verified parent EH graph places this unwind cleanup here
 ?rva00032830@GeneralAllocator@Allocator@EA@@QAE_NPBXH@Z,,0x00032830,227,Code/GameEngine/Source/Common/System/rva00032830Rva00032830Farm.cpp,matched,
 ?setTerrainDecal@W3DModelDraw@@UAEXW4TerrainDecalType@@@Z,,0x000B9CE8,241,Code/GameEngineDevice/Source/W3DDevice/GameClient/Drawable/Draw/setTerrainDecalRva000B9CE8Farm.cpp,matched,
+?Get_Bone_Control@HTreeClass@@QBEXHAAVMatrix3D@@@Z,,0x001620D0,442,Code/Libraries/Source/WWVegas/WW3D2/Get_Bone_ControlRva001620D0Farm.cpp,matched,
