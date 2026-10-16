@@ -1,4 +1,4 @@
-// cl: /O1 /Ob1 /Oy- /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE
+// cl: /O1 /Ob1 /G7 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /arch:SSE
 // stlport
 // Native constructor2A8D49..2A8E64 builds the manager's2296B data member.
 // The two floats at840/844 form an observed initialization subobject: grouping
@@ -48,11 +48,6 @@ public:
 #include "../../../../Libraries/Include/Lib/BfmeE16.h"
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
-// Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL {
-template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
-}
 
 struct SkirmishScalePair {float zero,weight; __forceinline SkirmishScalePair():zero(0.0f),weight(0.1f){} };
 class Rva002A8D49
