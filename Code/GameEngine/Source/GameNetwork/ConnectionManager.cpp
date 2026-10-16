@@ -190,7 +190,10 @@ ConnectionManager::~ConnectionManager(void)
 
 //	m_transport = NULL; // Network will delete transports; we just forget them
 	if (m_transport != NULL) {
-		delete m_transport;
+		// Complete nonvirtual destructor plus global delete, spelled out: a
+		// delete-expression makes this unit emit its own ??_GTransport copy.
+		m_transport->Transport::~Transport();
+		::operator delete(m_transport);
 		m_transport = NULL;
 	}
 
@@ -297,7 +300,10 @@ Bool ConnectionManager::isPlayerConnected( Int playerID )
 // ?attachTransport@ConnectionManager@@ present-unmatched
 void ConnectionManager::attachTransport(Transport *transport) {
 	if (m_transport != NULL) {
-		delete m_transport;
+		// Complete nonvirtual destructor plus global delete, spelled out: a
+		// delete-expression makes this unit emit its own ??_GTransport copy.
+		m_transport->Transport::~Transport();
+		::operator delete(m_transport);
 		m_transport = NULL;
 	}
 	m_transport = transport;
