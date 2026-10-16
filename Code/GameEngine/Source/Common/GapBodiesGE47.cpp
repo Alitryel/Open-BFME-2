@@ -36,16 +36,26 @@ void Rva0015F560::rva0015F590(float a, float b, float c, float d)
 // --- 0x0015F920 (57B): an identity rotation (when asked) and a zero
 // translation; 0x0015F9A0 (56B): a four-word rotation and a three-word
 // translation copied in.
+struct GapVec3;
 struct GapQuat
 {
+ GapQuat() {}
+ GapQuat(float ax,float ay,float az,float aw):x(ax),y(ay),z(az),w(aw) {}
+ void assign(const GapQuat&v) {x=v.x;y=v.y;z=v.z;w=v.w;}
+
 	float x;
 	float y;
 	float z;
 	float w;
+ void Rotate(const GapVec3&v,GapVec3*out) const;
 };
 
 struct GapVec3
 {
+ GapVec3() {}
+ GapVec3(float ax,float ay,float az):x(ax),y(ay),z(az) {}
+ GapVec3& operator=(const GapVec3&v) {x=v.x;y=v.y;z=v.z;return *this;}
+
 	float x;
 	float y;
 	float z;
@@ -56,6 +66,7 @@ class Rva0015F920
 public:
 	Rva0015F920(bool identity);
 	Rva0015F920(const GapQuat &q, const GapVec3 &t);
+	static void rva0015F9E0(const Rva0015F920 &,const Rva0015F920 &,Rva0015F920 *);
 private:
 	GapQuat m_q;
 	GapVec3 m_t;
@@ -177,3 +188,31 @@ Rva0019AF00::Rva0019AF00()
 	m_y = 0.0f;
 	m_x = 0.0f;
 }
+
+
+// --- 0x0015F9E0 (567B, static): compose two rotation+translation pairs:
+// out.t = a.q rotating b.t, plus a.t; out.q = a.q * b.q. The expansion is
+// WWMath quat.h's result-pointer Rotate_Vector and the quaternion product in
+// the term order of the rowed neighbours 0x0015F6D0 / 0x0015F810 / 0x0015FC20
+// (donor shape; owner class and names unknown).
+// ?GapQuat::Rotate absent-from-retail
+inline void GapQuat::Rotate(const GapVec3&v,GapVec3*result) const {
+	float rx = w*v.x + (y*v.z - v.y*z);
+	float ry = w*v.y - (x*v.z - v.x*z);
+	float rz = w*v.z + (x*v.y - v.x*y);
+	float rw = -(x*v.x + y*v.y + z*v.z);
+	result->x = w*rx - rw*x + (y*rz - ry*z);
+	result->y = w*ry - rw*y - (x*rz - rx*z);
+	result->z = w*rz - rw*z + (x*ry - y*rx);
+}
+// ?GapVec3::operator+ absent-from-retail
+inline GapVec3 operator+(const GapVec3&a,const GapVec3&b) {return GapVec3(a.x+b.x,a.y+b.y,a.z+b.z);}
+// ?GapQuat::operator* absent-from-retail
+inline GapQuat operator*(const GapQuat&saved,const GapQuat&other) {
+	return GapQuat(other.w*saved.x + (saved.y*other.z - other.y*saved.z) + saved.w*other.x,
+		other.w*saved.y + saved.w*other.y - (saved.x*other.z - other.x*saved.z),
+		(saved.x*other.y - other.x*saved.y) + other.w*saved.z + saved.w*other.z,
+		other.w*saved.w - (other.z*saved.z + other.y*saved.y + other.x*saved.x));
+}
+
+void Rva0015F920::rva0015F9E0(const Rva0015F920&a,const Rva0015F920&b,Rva0015F920*out) {GapVec3 t; a.m_q.Rotate(b.m_t,&t);out->m_t=t+a.m_t;out->m_q.assign(a.m_q*b.m_q);}
