@@ -9,6 +9,22 @@
 // the rowed dtor 0x000A86CE. No EH frame. Callers (all MilesAudioManager
 // with ecx = this+0x9C): 0x00055FCA 0x0005B256 0x0005FA3C 0x000613A9.
 #include <hash_map>
+// Keep vector<void*> accessors inline without emitting this unit's COMDAT
+// copies: retail's out-of-line ones are the /Od bodies at 0x00023B90-0x00023C20.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void *const *vector<void*>::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void*>::operator[](size_t __n) { return *(begin() + __n); }
+template <> __declspec(dllimport) __forceinline
+void *const &vector<void*>::operator[](size_t __n) const { return *(begin() + __n); }
+}
 
 struct Rva00054EBEElement { char bytes[1]; bool operator<(const Rva00054EBEElement&)const; bool operator==(const Rva00054EBEElement&)const; };
 namespace _STL {template<> struct hash<Rva00054EBEElement> { unsigned operator()(const Rva00054EBEElement&) const; };}

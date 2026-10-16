@@ -37,6 +37,22 @@ namespace rts
 }
 
 #include <hash_map>
+// Keep vector<void*> accessors inline without emitting this unit's COMDAT
+// copies: retail's out-of-line ones are the /Od bodies at 0x00023B90-0x00023C20.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void *const *vector<void*>::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void*>::operator[](size_t __n) { return *(begin() + __n); }
+template <> __declspec(dllimport) __forceinline
+void *const &vector<void*>::operator[](size_t __n) const { return *(begin() + __n); }
+}
 
 struct Rva0002C9E7Value
 {

@@ -20,15 +20,21 @@
 #include <vector>
 #include <hash_map>
 #include <cstddef>
-// Suppress this TU's non-retail vector<void*> size copy (family2-LK3 row 17):
-// the retail copy serves the link. Plain declaration-only form (no __imp_).
+// Keep vector<void*> accessors inline without emitting this unit's COMDAT
+// copies: retail's out-of-line ones are the /Od bodies at 0x00023B90-0x00023C20.
 namespace _STL {
-template <> size_t vector<void*>::size() const;
-}
-// Suppress the TU's non-retail const-begin copy (row 47 family2-LK3): the
-// /Od retail copy in stlport_vector_voidptr.cpp serves the link instead.
-namespace _STL {
-template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::begin() { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void *const *vector<void*>::begin() const { return this->_M_start; }
+template <> __declspec(dllimport) __forceinline
+void **vector<void*>::end() { return this->_M_finish; }
+template <> __declspec(dllimport) __forceinline
+size_t vector<void*>::size() const { return size_t(this->_M_finish - this->_M_start); }
+template <> __declspec(dllimport) __forceinline
+void *&vector<void*>::operator[](size_t __n) { return *(begin() + __n); }
+template <> __declspec(dllimport) __forceinline
+void *const &vector<void*>::operator[](size_t __n) const { return *(begin() + __n); }
 }
 #include "ascii_string.h"
 struct BfmePod264 {
