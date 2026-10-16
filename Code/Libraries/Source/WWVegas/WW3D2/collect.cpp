@@ -86,7 +86,14 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Retail's RenderObjClass::Set_Force_Visible is BFME's out-of-line body
+// (0x0013B720, RenderObjSetForceVisible.cpp). The ZH rendobj.h this header
+// pulls in defines it inline, and the vtables this unit emits would make that
+// set/clear-bit copy the first one in link order; the macro leaves the virtual
+// declared only and moves the ZH body to an unreferenced non-virtual member.
+#define Set_Force_Visible(onoff) Set_Force_Visible(onoff); void Zh_Inline_Set_Force_Visible(onoff)
 #include "collect.h"
+#undef Set_Force_Visible
 #include "chunkio.h"
 #include "camera.h"
 #include "wwdebug.h"

@@ -57,7 +57,17 @@
 #include "dx8wrapper.h" // the bfmestages shim has to win the include guard over the ZH sibling
 // Preserve this TU's ZH layout while binding color-array calls to the native owner.
 #include "../../../../../reference/shims/dynamesh_color_link/meshmatdesc.h"
+// Retail's RenderObjClass::Set_Force_Visible is BFME's out-of-line body
+// (0x0013B720, RenderObjSetForceVisible.cpp) and Set_Additive the /O1 one at
+// 0x0006CF8C (RenderObjAccessors.cpp). The ZH rendobj.h this header pulls in
+// defines both inline, and the vtables this unit emits would make those copies
+// the first ones in link order; the macros leave the virtuals declared only and
+// move the ZH bodies to unreferenced non-virtual members.
+#define Set_Force_Visible(onoff) Set_Force_Visible(onoff); void Zh_Inline_Set_Force_Visible(onoff)
+#define Set_Additive(onoff) Set_Additive(onoff); void Zh_Inline_Set_Additive(onoff)
 #include "dynamesh.h"
+#undef Set_Additive
+#undef Set_Force_Visible
 #include "dx8vertexbuffer.h"
 #include "dx8indexbuffer.h"
 #include "dx8wrapper.h"

@@ -96,7 +96,25 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+// Retail compiles RenderObjClass's Set_Alpha, Set_Additive and the four
+// _bfme_ro_flag setters /O1 (0x0006CF6F..0x0006D000, held by HeightMap.cpp and
+// RenderObjAccessors.cpp). The BFME 1 rendobj.h this header pulls in defines
+// them inline, and the vtables this unit emits would make this unit's /O2
+// copies the first ones in link order; the macros leave the virtuals declared
+// only and move the inline bodies to unreferenced non-virtual members.
+#define Set_Alpha(onoff) Set_Alpha(onoff); void Bfme1_Inline_Set_Alpha(onoff)
+#define Set_Additive(onoff) Set_Additive(onoff); void Bfme1_Inline_Set_Additive(onoff)
+#define _bfme_ro_flag110(onoff) _bfme_ro_flag110(onoff); void Bfme1_Inline_flag110(onoff)
+#define _bfme_ro_flag112(onoff) _bfme_ro_flag112(onoff); void Bfme1_Inline_flag112(onoff)
+#define _bfme_ro_flag114(onoff) _bfme_ro_flag114(onoff); void Bfme1_Inline_flag114(onoff)
+#define _bfme_ro_flag116(onoff) _bfme_ro_flag116(onoff); void Bfme1_Inline_flag116(onoff)
 #include "distlod.h"
+#undef _bfme_ro_flag116
+#undef _bfme_ro_flag114
+#undef _bfme_ro_flag112
+#undef _bfme_ro_flag110
+#undef Set_Additive
+#undef Set_Alpha
 #include "nstrdup.h"
 #include "ww3d.h"
 #include "assetmgr.h"
