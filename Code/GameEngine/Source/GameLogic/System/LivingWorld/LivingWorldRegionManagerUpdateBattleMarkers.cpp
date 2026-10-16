@@ -46,6 +46,15 @@ class LivingWorldLogic;
 extern LivingWorldLogic *TheLivingWorldLogic;
 #define g_009FEF10 ((Rva002BA8F1Logic *)TheLivingWorldLogic)
 extern const void *const g_00BE433C[];
+// Retail's one-slot visitor table at VA 0x00BE433C (RVA 0x007E433C; see
+// RegionArmyComparatorView.h): its slot is 0x0020E779, rowed as
+// Rva0020E39D::rva0020E779 (VslotSmallBodiesAB.cpp). Defined here: nothing
+// else in the tree did.
+extern "C" void __identifier("?rva0020E779@Rva0020E39D@@QAE_NPAVRva003F409F@@@Z")();
+extern const void *const g_00BE433C[] =
+{
+	(const void *)&__identifier("?rva0020E779@Rva0020E39D@@QAE_NPAVRva003F409F@@@Z")
+};
 extern "C" const void *const __identifier("??_7Rva0020E394@@6B@")[];
 
 struct EmptyBase20EBA0
