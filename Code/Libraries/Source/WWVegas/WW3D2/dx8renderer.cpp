@@ -1345,51 +1345,175 @@ void DX8SkinFVFCategoryContainer::Reset()
 
 // ----------------------------------------------------------------------------
 
-// ?Render@DX8TextureCategoryClass@@ present-unmatched
+// BFME 2 DX8TextureCategoryClass::Render reads the mesh through these retail
+// vtable slots and fields (native 0x00146F50..0x00147F5A): Validate_Transform
+// +0x50, alpha +0x64, bounding sphere +0x104, two state queries +0x1A8/+0x1D8.
+struct TCRModelView
+{
+	char pad[0x18];
+	volatile unsigned char FlagBytes[4];	// +0x18 MeshGeometryClass flags, tested a byte at a time
+	int Get_Flag(int f) const { return f < 0x100 ? (FlagBytes[0] & f) : (FlagBytes[1] & (f >> 8)); }
+};
+class TCRMeshView
+{
+public:
+	virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03(); virtual void v04();
+	virtual void v05(); virtual void v06(); virtual void v07(); virtual void v08(); virtual void v09();
+	virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14();
+	virtual void v15(); virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
+	virtual void Validate_Transform(void) const;	// +0x50
+	virtual void v21(); virtual void v22(); virtual void v23(); virtual void v24();
+	virtual float Get_Alpha_Override(void);	// +0x64
+	virtual void v26(); virtual void v27(); virtual void v28(); virtual void v29();
+	virtual void v30(); virtual void v31(); virtual void v32(); virtual void v33(); virtual void v34();
+	virtual void v35(); virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39();
+	virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43(); virtual void v44();
+	virtual void v45(); virtual void v46(); virtual void v47(); virtual void v48(); virtual void v49();
+	virtual void v50(); virtual void v51(); virtual void v52(); virtual void v53(); virtual void v54();
+	virtual void v55(); virtual void v56(); virtual void v57(); virtual void v58(); virtual void v59();
+	virtual void v60(); virtual void v61(); virtual void v62(); virtual void v63(); virtual void v64();
+	virtual const SphereClass &Get_Bounding_Sphere(void) const;	// +0x104
+	virtual void v66(); virtual void v67(); virtual void v68(); virtual void v69();
+	virtual void v70(); virtual void v71(); virtual void v72(); virtual void v73(); virtual void v74();
+	virtual void v75(); virtual void v76(); virtual void v77(); virtual void v78(); virtual void v79();
+	virtual void v80(); virtual void v81(); virtual void v82(); virtual void v83(); virtual void v84();
+	virtual void v85(); virtual void v86(); virtual void v87(); virtual void v88(); virtual void v89();
+	virtual void v90(); virtual void v91(); virtual void v92(); virtual void v93(); virtual void v94();
+	virtual void v95(); virtual void v96(); virtual void v97(); virtual void v98(); virtual void v99();
+	virtual void v100(); virtual void v101(); virtual void v102(); virtual void v103(); virtual void v104();
+	virtual void v105();
+	virtual int Is_Depth_Sorted_Alpha(void);	// +0x1A8
+	virtual void v107(); virtual void v108(); virtual void v109();
+	virtual void v110(); virtual void v111(); virtual void v112(); virtual void v113(); virtual void v114();
+	virtual void v115(); virtual void v116(); virtual void v117();
+	virtual int Is_Additive(void);	// +0x1D8
+
+	const Matrix3D &Get_Transform(void) const { Validate_Transform(); return Transform; }
+	bool Is_Transform_Identity(void) const { Validate_Transform(); return IsTransformIdentity; }
+
+	char m_pad04[0x14];
+	Matrix3D Transform;	// +0x18
+	float ObjectScale;	// +0x48
+	char m_pad4C[0x74 - 0x4C];
+	bool IsTransformIdentity;	// +0x74
+	char m_pad75[0xBD - 0x75];
+	bool HardwareFog;	// +0xBD
+	char m_padBE[0xC4 - 0xBE];
+	MeshModelClass *Model;	// +0xC4
+	LightEnvironmentClass *LightEnvironment;	// +0xC8
+	char m_padCC[0x300 - 0xCC];
+	int BaseVertexOffset;	// +0x300
+	char m_pad304[0x310 - 0x304];
+	RenderObjClass **SkinContainer;	// +0x310
+};
+
+class BFME2RenderObjInheritedDataView
+{
+public:
+	void *Get_Inherited_Render_Data(void);
+};
+extern int G00DEDA78;
+
+struct BFME2TextureResource { unsigned Vtable; unsigned short Refs; void Release_Ref(); };
+struct BFME2TextureRef
+{
+	BFME2TextureResource *Ptr;
+	~BFME2TextureRef() { if (Ptr) Ptr->Release_Ref(); }
+};
+class BFME2TextureCategory
+{
+public:
+	BFME2TextureRef Get_Texture(int stage);
+};
+void BFME2Set_Texture(unsigned stage, const BFME2TextureRef &texture);
+
+// BFME 2 drives a D3D9 device: SetTextureStageState is vtable slot 67.
+class TCRStageStates : public DX8Wrapper
+{
+public:
+	static unsigned Get(unsigned stage, unsigned state) { return TextureStageStates[stage][state]; }
+	static WWINLINE void Set(unsigned stage, D3DTEXTURESTAGESTATETYPE state, unsigned value)
+	{
+		typedef HRESULT (__stdcall *SetTextureStageStateFn)(IDirect3DDevice8 *, DWORD, DWORD, DWORD);
+		if (TextureStageStates[stage][(unsigned int)state]==value) return;
+#ifdef MESH_RENDER_SNAPSHOT_ENABLED
+		if (WW3D::Is_Snapshot_Activated()) {
+			StringClass value_name(0,true);
+			Get_DX8_Texture_Stage_State_Value_Name(value_name,state,value);
+			SNAPSHOT_SAY(("DX8 - SetTextureStageState(stage: %d, state: %s, value: %s)\n",
+				stage,
+				Get_DX8_Texture_Stage_State_Name(state),
+				value_name));
+		}
+#endif
+		TextureStageStates[stage][(unsigned int)state]=value;
+		IDirect3DDevice8 *device = _Get_D3D_Device8();
+		(*(SetTextureStageStateFn **)device)[67](device, stage, state, value);
+		number_of_DX8_calls++;
+		DX8_RECORD_TEXTURE_STAGE_STATE_CHANGE();
+	}
+};
+
+// Matrix storage the transform paths fill completely (no element constructors).
+struct TCRMatrixStorage { float m[12]; };
+
+WWINLINE void DX8Wrapper::Set_DX8_Render_State(D3DRENDERSTATETYPE state, unsigned value)
+{
+	if (RenderStates[state]==value) return;
+#ifdef MESH_RENDER_SNAPSHOT_ENABLED
+	if (WW3D::Is_Snapshot_Activated()) {
+		StringClass value_name(0,true);
+		Get_DX8_Render_State_Value_Name(value_name,state,value);
+		SNAPSHOT_SAY(("DX8 - SetRenderState(state: %s, value: %s)\n",
+			Get_DX8_Render_State_Name(state),
+			value_name));
+	}
+#endif
+	RenderStates[state]=value;
+	DX8CALL(SetRenderState( state, value ));
+	DX8_RECORD_RENDER_STATE_CHANGE();
+}
+
+WWINLINE void DX8Wrapper::Set_Material(const VertexMaterialClass* material)
+{
+	REF_PTR_SET(render_state.material,const_cast<VertexMaterialClass*>(material));
+	render_state_changed|=MATERIAL_CHANGED;
+	SNAPSHOT_SAY(("DX8Wrapper::Set_Material(%s)\n",material ? material->Get_Name() : "NULL"));
+}
+
+WWINLINE void DX8Wrapper::Set_Shader(const ShaderClass& shader)
+{
+	if (!ShaderClass::ShaderDirty && ((unsigned&)shader==(unsigned&)render_state.shader)) {
+		return;
+	}
+	render_state.shader=shader;
+	render_state_changed|=SHADER_CHANGED;
+#ifdef MESH_RENDER_SNAPSHOT_ENABLED
+	StringClass str;
+#endif
+	SNAPSHOT_SAY(("DX8Wrapper::Set_Shader(%s)\n",shader.Get_Description(str)));
+}
+
 void DX8TextureCategoryClass::Render(void)
 {
-	#ifdef WWDEBUG
-	if (!WW3D::Expose_Prelit()) {
-	#endif
-
-		for (unsigned i=0;i<MeshMatDescClass::MAX_TEX_STAGES;++i) 
-		{
-			SNAPSHOT_SAY(("Set_Texture(%d,%s)\n",i,Peek_Texture(i) ? Peek_Texture(i)->Get_Texture_Name() : "NULL"));
-			DX8Wrapper::Set_Texture(i,Peek_Texture(i));
-		}
-
-	#ifdef WWDEBUG
+	for (unsigned i=0;i<2;++i)
+	{
+		BFME2Set_Texture(i,((BFME2TextureCategory *)this)->Get_Texture(i));
 	}
-	#endif
 
-	SNAPSHOT_SAY(("Set_Material(%s)\n",Peek_Material() ? Peek_Material()->Get_Name() : "NULL"));
-	VertexMaterialClass *vmaterial=(VertexMaterialClass *)Peek_Material();	//ugly cast from const but we'll restore it after changes so okay. -MW
+	VertexMaterialClass *vmaterial=(VertexMaterialClass *)Peek_Material();
 	DX8Wrapper::Set_Material(vmaterial);
 
-	SNAPSHOT_SAY(("Set_Shader(%x)\n",Get_Shader()));
 	ShaderClass theShader = Get_Shader();
-
-	//Setup an alpha blend version of this shader just in case it's needed. -MW
-	ShaderClass theAlphaShader = theShader;
-	theAlphaShader.Set_Src_Blend_Func(ShaderClass::SRCBLEND_SRC_ALPHA);
-	theAlphaShader.Set_Dst_Blend_Func(ShaderClass::DSTBLEND_ONE_MINUS_SRC_ALPHA);
-	//if we want to allow other translucent polygons behind this mesh, we need to disable z-write but
-	//this will cause sorting errors on this mesh.
-	//theAlphaShader.Set_Depth_Mask(ShaderClass::DEPTH_WRITE_DISABLE);
-
 	DX8Wrapper::Set_Shader(theShader);
 
 	if (m_gForceMultiply && theShader.Get_Dst_Blend_Func() == ShaderClass::DSTBLEND_ZERO) {
 		theShader.Set_Dst_Blend_Func(ShaderClass::DSTBLEND_SRC_COLOR);
 		theShader.Set_Src_Blend_Func(ShaderClass::SRCBLEND_ZERO);
 		DX8Wrapper::Set_Shader(theShader);
-		//VertexMaterialClass *material = VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_DIFFUSE);
-		//DX8Wrapper::Set_Material(material);
-		//REF_PTR_RELEASE(material);
 		DX8Wrapper::Apply_Render_State_Changes();
 		DX8Wrapper::Set_DX8_Render_State(D3DRS_SRCBLEND,D3DBLEND_DESTCOLOR);
 	}
-
 
 	bool renderTasksRemaining=false;
 
@@ -1398,115 +1522,55 @@ void DX8TextureCategoryClass::Render(void)
 
 	while (prt) {
 
-		/*
-		** Dig out the parameters for this render task
-		*/
 		DX8PolygonRendererClass * renderer = prt->Peek_Polygon_Renderer();
-		MeshClass * mesh = prt->Peek_Mesh();
-		
-		if (mesh->Get_Base_Vertex_Offset() == VERTEX_BUFFER_OVERFLOW)	//check if this mesh is valid
-		{	//skip this mesh so it gets rendered later after vertices are filled in.
+		TCRMeshView * mesh = (TCRMeshView *)prt->Peek_Mesh();
+
+		if (mesh->BaseVertexOffset == VERTEX_BUFFER_OVERFLOW)
+		{
 			last_prt = prt;
 			prt = prt->Get_Next_Visible();
 			renderTasksRemaining = true;
 			continue;
 		}
 
-		SNAPSHOT_SAY(("mesh = %s\n",mesh->Get_Name()));
-
-		#ifdef WWDEBUG	
-		// Debug rendering: if it exists, expose prelighting on this mesh by disabling all base textures.
-		if (WW3D::Expose_Prelit()) {
-			switch (mesh->Peek_Model()->Get_Flag (MeshGeometryClass::PRELIT_MASK)) {
-
-				unsigned i;
-
-				case MeshGeometryClass::PRELIT_VERTEX:
-					
-					// Disable texturing on all stages and passes.
-					for (i = 0; i < MeshMatDescClass::MAX_TEX_STAGES; i++) 
-					{
-						DX8Wrapper::Set_Texture (i, NULL);
-					}
-					break;
-
-				case MeshGeometryClass::PRELIT_LIGHTMAP_MULTI_PASS:
-					
-					// Disable texturing on all but the last pass.
-					if (pass == mesh->Peek_Model()->Get_Pass_Count() - 1) {
-						for (i = 0; i < MeshMatDescClass::MAX_TEX_STAGES; i++) 
-						{
-							DX8Wrapper::Set_Texture (i, Peek_Texture (i));
-						}
-					} else {
-						for (i = 0; i < MAX_TEXTURE_STAGES; i++) {
-							DX8Wrapper::Set_Texture (i, NULL);
-						}
-					}
-					break;
-
-				case MeshGeometryClass::PRELIT_LIGHTMAP_MULTI_TEXTURE:
-					
-					// Disable texturing on all but the zeroth stage of each pass.
-					DX8Wrapper::Set_Texture (0, Peek_Texture (0));
-					for (i = 1; i < MeshMatDescClass::MAX_TEX_STAGES; i++) 
-					{
-						DX8Wrapper::Set_Texture (i, NULL);
-					}
-					break;
-
-				default:
-					for (i = 0; i < MeshMatDescClass::MAX_TEX_STAGES; i++) 
-					{
-						DX8Wrapper::Set_Texture (i, Peek_Texture (i));
-					}
-					break;
+		if (DX8Wrapper::Get_Fog_Enable()) {
+			if (mesh->HardwareFog) {
+				if (theShader.Get_Fog_Func() == ShaderClass::FOG_DISABLE) {
+					theShader.Enable_Fog("HardwareFog");
+					DX8Wrapper::Set_Shader(theShader);
+				}
+			} else if (theShader.Get_Fog_Func() != ShaderClass::FOG_DISABLE) {
+				theShader.Set_Fog_Func(ShaderClass::FOG_DISABLE);
+				DX8Wrapper::Set_Shader(theShader);
 			}
 		}
-		#endif
 
-		/*
-		** If the user is not installing LightEnvironmentClasses, we leave the lighting render
-		** states untouched.  This way they can set a couple global lights that affect the entire scene.
-		*/
-		LightEnvironmentClass * lenv = mesh->Get_Lighting_Environment();
+		LightEnvironmentClass * lenv = mesh->LightEnvironment;
 		if (lenv != NULL) {
-			SNAPSHOT_SAY(("LightEnvironment, lights: %d\n",lenv->Get_Light_Count()));
 			DX8Wrapper::Set_Light_Environment(lenv);
 		}
-		else {
-			SNAPSHOT_SAY(("No light environment\n"));
-		}
 
-		/*
-		** Support for ALIGNED and ORIENTED camera modes
-		*/
 		const Matrix3D* world_transform = &mesh->Get_Transform();
 		bool identity=mesh->Is_Transform_Identity();
-		Matrix3D tmp_world;
+		TCRMatrixStorage tmp_storage;
+		Matrix3D &tmp_world = *(Matrix3D *)&tmp_storage;
 
-		if (mesh->Peek_Model()->Get_Flag(MeshModelClass::ALIGNED)) {
-			SNAPSHOT_SAY(("Camera mode ALIGNED\n"));
-
+		if (((TCRModelView *)mesh->Model)->Get_Flag(MeshModelClass::ALIGNED)) {
 			Vector3 mesh_position;
 			Vector3 camera_z_vector;
-			
-			TheDX8MeshRenderer.Peek_Camera()->Get_Transform().Get_Z_Vector(&camera_z_vector);
+
+			((DX8MeshRendererClass *)RendererPtr00DF363C)->Peek_Camera()->Get_Transform().Get_Z_Vector(&camera_z_vector);
 			const Matrix3D & mesh_tm = mesh->Get_Transform();
-			mesh_position.X = mesh_tm[0][3];
-			mesh_position.Y = mesh_tm[1][3];
-			mesh_position.Z = mesh_tm[2][3];
+			mesh_tm.Get_Translation(&mesh_position);
 
 			tmp_world.Obj_Look_At(mesh_position,mesh_position + camera_z_vector,0.0f);
 			world_transform = &tmp_world;
 
-		} else if (mesh->Peek_Model()->Get_Flag(MeshModelClass::ORIENTED)) {
-			SNAPSHOT_SAY(("Camera mode ORIENTED\n"));
-		
+		} else if (((TCRModelView *)mesh->Model)->Get_Flag(MeshModelClass::ORIENTED)) {
 			Vector3 mesh_position;
 			Vector3 camera_position;
 
-			const Matrix3D & camera_tm = TheDX8MeshRenderer.Peek_Camera()->Get_Transform();
+			const Matrix3D & camera_tm = ((DX8MeshRendererClass *)RendererPtr00DF363C)->Peek_Camera()->Get_Transform();
 			camera_position.X = camera_tm[0][3];
 			camera_position.Y = camera_tm[1][3];
 			camera_position.Z = camera_tm[2][3];
@@ -1517,109 +1581,90 @@ void DX8TextureCategoryClass::Render(void)
 
 			tmp_world.Obj_Look_At(mesh_position,camera_position,0.0f);
 			world_transform = &tmp_world;
-		
-		} else if (mesh->Peek_Model()->Get_Flag(MeshModelClass::SKIN)) {
-			SNAPSHOT_SAY(("Set world identity (for skin)\n"));
-			
-			tmp_world.Make_Identity();
-			world_transform = &tmp_world;
-			identity=true;
+
+		} else if (((TCRModelView *)mesh->Model)->Get_Flag(MeshModelClass::SKIN)) {
+			if (mesh->SkinContainer && *mesh->SkinContainer) {
+				RenderObjClass *container = *mesh->SkinContainer;
+				TCRMatrixStorage inverse_storage;
+				Matrix3D &inverse = *(Matrix3D *)&inverse_storage;
+				container->Get_Transform().Get_Inverse(inverse);
+				Matrix3D::Multiply(mesh->Get_Transform(),inverse,&tmp_world);
+				world_transform = &tmp_world;
+				identity=false;
+			} else {
+				identity=true;
+			}
 		}
 
-
 		if (identity) {
-			SNAPSHOT_SAY(("Set_World_Identity\n"));
 			DX8Wrapper::Set_World_Identity();
 		}
 		else {
-			SNAPSHOT_SAY(("Set_World_Transform\n"));
 			DX8Wrapper::Set_Transform(D3DTS_WORLD,*world_transform);
 		}
 
-		
-//--------------------------------------------------------------------
-		if (mesh->Get_ObjectScale() != 1.0f)
+		if (mesh->ObjectScale != 1.0f)
 			DX8Wrapper::Set_DX8_Render_State(D3DRS_NORMALIZENORMALS, TRUE);
-//--------------------------------------------------------------------
-		/*
-		** Render mesh using either sorting or immediate pipeline
-		*/
-		//(gth) this if statement's contents are not tabbed to avoid perforce merge problems...
-		if (!DX8RendererDebugger::Is_Enabled() || !mesh->Is_Disabled_By_Debugger()) {
 
-		if ((!!mesh->Peek_Model()->Get_Flag(MeshGeometryClass::SORT)) && WW3D::Is_Sorting_Enabled()) {
-			renderer->Render_Sorted(mesh->Get_Base_Vertex_Offset(),mesh->Get_Bounding_Sphere());
+		int oldInherited = G00DEDA78;
+		G00DEDA78 = (int)((BFME2RenderObjInheritedDataView *)mesh)->Get_Inherited_Render_Data();
+
+		if ((!!((TCRModelView *)mesh->Model)->Get_Flag(MeshGeometryClass::SORT)) && WW3D::Is_Sorting_Enabled()) {
+			int base_vertex_offset=mesh->BaseVertexOffset;
+			renderer->Render_Sorted(base_vertex_offset,mesh->Get_Bounding_Sphere());
 		} else {
-			//non-transparent mesh that will be rendered immediately.  Okay to adjust the shader/material
-			//if necessary
-			if (mesh->Get_Alpha_Override() != 1.0 || (mesh->Get_User_Data() && *(int *)mesh->Get_User_Data() == RenderObjClass::USER_DATA_MATERIAL_OVERRIDE))
-			{	//mesh has material override of some kind
-				//adjust the opacity of this model
-				float oldOpacity=vmaterial->Get_Opacity();
-				Vector3 oldDiffuse;
-				Vector2 oldUVOffset;
-				unsigned int oldUVOffsetSyncTime;
-				vmaterial->Get_Diffuse(&oldDiffuse);
-				LinearOffsetTextureMapperClass *oldMapper=(LinearOffsetTextureMapperClass *)vmaterial->Peek_Mapper();
-				if ( mesh->Get_User_Data() && *(int *)mesh->Get_User_Data() == RenderObjClass::USER_DATA_MATERIAL_OVERRIDE && oldMapper && oldMapper->Mapper_ID() == TextureMapperClass::MAPPER_ID_LINEAR_OFFSET)
-				{	RenderObjClass::Material_Override *matOverride=(RenderObjClass::Material_Override *)mesh->Get_User_Data();
-					oldUVOffsetSyncTime = oldMapper->Get_LastUsedSyncTime();
-					oldMapper->Set_LastUsedSyncTime(WW3D::Get_Sync_Time());	//make sure zero time passes for the mapper.
-					oldMapper->Get_Current_UV_Offset(oldUVOffset);
-					oldMapper->Set_Current_UV_Offset(matOverride->customUVOffset);
-				}
-				else
-					oldMapper=NULL;
-				if (mesh->Get_Alpha_Override() != 1.0)
-				{
-					if (mesh->Is_Additive())
-					{	//additvie blended mesh can't switch to alpha or we will get a black outline.
-						//so adjust diffuse color instead.
-						vmaterial->Set_Diffuse(mesh->Get_Alpha_Override(),mesh->Get_Alpha_Override(),mesh->Get_Alpha_Override());
-						theAlphaShader = theShader;	//keep using additive blending.
+			if (mesh->Get_Alpha_Override() < 1.0f)
+			{
+				ShaderClass theAlphaShader = theShader;
+				theAlphaShader.Set_Src_Blend_Func(ShaderClass::SRCBLEND_SRC_ALPHA);
+				theAlphaShader.Set_Dst_Blend_Func(ShaderClass::DSTBLEND_ONE_MINUS_SRC_ALPHA);
+				if (mesh->Is_Additive())
+					theAlphaShader.Set_Dst_Blend_Func(ShaderClass::DSTBLEND_ONE);
+				bool sortedAlpha = mesh->Is_Depth_Sorted_Alpha() != 0;
+				float alpha = mesh->Get_Alpha_Override();
+				if (sortedAlpha && alpha < 0.5f)
+					theAlphaShader.Set_Depth_Mask(ShaderClass::DEPTH_WRITE_DISABLE);
+				DX8Wrapper::Set_Shader(theAlphaShader);
+				DX8Wrapper::Apply_Render_State_Changes();
+
+				bool stageModulates = TCRStageStates::Get(1,D3DTSS_ALPHAOP) == D3DTOP_MODULATE;
+				if (stageModulates) {
+					TCRStageStates::Set(0,D3DTSS_ALPHAARG1,D3DTA_TFACTOR);
+					TCRStageStates::Set(0,D3DTSS_ALPHAOP,D3DTOP_SELECTARG1);
+				} else {
+					TCRStageStates::Set(1,D3DTSS_ALPHAARG1,D3DTA_CURRENT);
+					TCRStageStates::Set(1,D3DTSS_ALPHAARG2,D3DTA_TFACTOR);
+					TCRStageStates::Set(1,D3DTSS_ALPHAOP,D3DTOP_MODULATE);
+					if (TCRStageStates::Get(1,D3DTSS_COLOROP) == D3DTOP_DISABLE) {
+						TCRStageStates::Set(1,D3DTSS_COLORARG1,D3DTA_CURRENT);
+						TCRStageStates::Set(1,D3DTSS_COLOROP,D3DTOP_SELECTARG1);
 					}
-					vmaterial->Set_Opacity(mesh->Get_Alpha_Override());
-					DX8Wrapper::Set_Shader(theAlphaShader);
-					DX8Wrapper::Apply_Render_State_Changes();
-					DX8Wrapper::Set_DX8_Render_State(D3DRS_ALPHAREF,(int)((float)0x60*mesh->Get_Alpha_Override()));
-					renderer->Render(mesh->Get_Base_Vertex_Offset());
-					DX8Wrapper::Set_DX8_Render_State(D3DRS_ALPHAREF,0x60);
-					vmaterial->Set_Opacity(oldOpacity);	//restore previous value
-					vmaterial->Set_Diffuse(oldDiffuse.X,oldDiffuse.Y,oldDiffuse.Z);
-// ?Set_Shader@DX8Wrapper@@ present-unmatched
-					DX8Wrapper::Set_Shader(theShader);	//restore previous value
 				}
-				else
-					renderer->Render(mesh->Get_Base_Vertex_Offset());
-
-				if (oldMapper)	//did we override the uv offset?
-				{	oldMapper->Set_LastUsedSyncTime(oldUVOffsetSyncTime);
-					oldMapper->Set_Current_UV_Offset(oldUVOffset);
+				DX8Wrapper::Set_DX8_Render_State(D3DRS_TEXTUREFACTOR,((int)(alpha*255.0f))<<24);
+				DX8Wrapper::Set_DX8_Render_State(D3DRS_ALPHAREF,(int)((float)0x60*alpha));
+				{
+					int offset = mesh->BaseVertexOffset;
+					renderer->Render(offset);
 				}
-// ?Set_Material@DX8Wrapper@@ present-unmatched
-				DX8Wrapper::Set_Material(NULL);	//force a reset of vertex material since we secretly changed opacity
-// ?Set_Material@DX8Wrapper@@ present-unmatched
-				DX8Wrapper::Set_Material(vmaterial);	//restore previous material.
-			} 
-			else
-				renderer->Render(mesh->Get_Base_Vertex_Offset());
+				DX8Wrapper::Set_DX8_Render_State(D3DRS_ALPHAREF,0x60);
+				DX8Wrapper::Set_Shader(theShader);
+				ShaderClass::Invalidate();
+				DX8Wrapper::Set_Material(NULL);
+				DX8Wrapper::Set_Material(vmaterial);
+			}
+			else {
+				int offset = mesh->BaseVertexOffset;
+				renderer->Render(offset);
+			}
 		}
-//--------------------------------------------------------------------
-		if (mesh->Get_ObjectScale() != 1.0f)
+
+		G00DEDA78 = oldInherited;
+
+		if (mesh->ObjectScale != 1.0f)
 			DX8Wrapper::Set_DX8_Render_State(D3DRS_NORMALIZENORMALS, FALSE);
-//--------------------------------------------------------------------
 
-
-
-
-        } // (gth) non-tabbed to aviod per-force merge problems...
-
-		/*
-		** Move to the next render task.  Note that the delete should be fast because prt's are pooled
-		*/
 		PolyRenderTaskClass * next_prt = prt->Get_Next_Visible();
 
-		// remove from list, then delete
 		if (last_prt == NULL) {
 		   render_task_head = next_prt;
 		} else {
@@ -1631,11 +1676,29 @@ void DX8TextureCategoryClass::Render(void)
 	}
 
 	if (!renderTasksRemaining)
-	{	WWASSERT(!render_task_head);
+	{
 		Clear_Render_List();
 	}
 }
 
+
+// BFME 2's Render inlines the header accessors Zero Hour's Render reached out
+// of line. Their rows (placed from this unit's COMDAT copies) keep the copies
+// through this source-only anchor.
+// ?DX8TextureCategoryClass_AccessorAnchor absent-from-retail
+void DX8TextureCategoryClass_AccessorAnchor(
+	const float (RenderObjClass::*&object_scale)(void) const,
+	int (MeshClass::*&base_vertex_offset)(void),
+	LightEnvironmentClass *(MeshClass::*&lighting)(void),
+	TextureMapperClass *(VertexMaterialClass::*&mapper)(int),
+	void (LinearOffsetTextureMapperClass::*&uv_offset)(const Vector2 &))
+{
+	object_scale = &RenderObjClass::Get_ObjectScale;
+	base_vertex_offset = &MeshClass::Get_Base_Vertex_Offset;
+	lighting = &MeshClass::Get_Lighting_Environment;
+	mapper = &VertexMaterialClass::Peek_Mapper;
+	uv_offset = &LinearOffsetTextureMapperClass::Set_Current_UV_Offset;
+}
 
 // DX8MeshRendererClass constructor: BFME 2's body is the row 0x00145AA0 in DX8MeshRendererCtor.cpp;
 // Zero Hour's copy here duplicated it.

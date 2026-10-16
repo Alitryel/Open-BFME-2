@@ -18641,7 +18641,6 @@ uw_00766400,,0x00766400,14,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;obj
 uw_0076640e,,0x0076640E,14,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L2622
 uw_0076641c,,0x0076641C,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6451
 uw_0076643d,,0x0076643D,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L2764
-uw_00766480,,0x00766480,11,Code/gen_small/uw_gen_001.cpp,matched,gen-funclet;object-symbol=$L2737
 uw_00766560,,0x00766560,11,Code/gen_small/uw_gen_000.cpp,matched,gen-funclet;object-symbol=$L6442
 uw_0076656b,,0x0076656B,14,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L2609
 uw_00766579,,0x00766579,14,Code/gen_small/uw_gen_008.cpp,matched,gen-funclet;object-symbol=$L2609
@@ -94417,3 +94416,19 @@ $L8754,,0x00779FA2,10,Code/GameEngine/Source/GameLogic/Map/StandingWaterAreaLoad
 ?rva00384E77@Rva00384E77IntIntMap@@QAEAAV1@ABV1@@Z,,0x00384E77,18,Code/Libraries/Source/WWVegas/WWLib/stlport_map_int_int_assign_0038407F.cpp,matched,map<int;int> assignment wrapper: _M_t = x._M_t via the rowed tree assign 0x0038407F then return this; unreferenced; map operator= name spent at 0x002CF9CA
 ?erase@?$map@HVAsciiString@@U?$less@H@_STL@@V?$allocator@U?$pair@$$CBHVAsciiString@@@_STL@@@3@@_STL@@QAEIABH@Z,,0x00384E89,5,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp,matched,STLport map<Int;AsciiString>::erase(const key&) forwarder: tail jump to the rowed tree erase 0x00383F53; unreferenced out-of-line copy after the 0x00384E77 map assign; emitted by explicit member instantiation
 ?rva00488CF0@DozerAIUpdate@@UAEXXZ,,0x00488CF0,47,Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/DozerAIUpdateCtor.cpp,matched,DozerAIUpdate primary vslot 147 (vtable 0x0084B848 +0x24C; base slot empty 0x000B3FD0): +0x4A4 set tail-calls dozer interface vslot 27 (rowed 0x00489D09) else kills the +0x400 machine goal object; replaces interior rows 0x00488CFF and 0x00488D04
+?Render@DX8TextureCategoryClass@@QAEXXZ,,0x00146F50,4106,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,BFME2 body from retail 146F50..147F5A on the Zero Hour spine: two BFME2 texture refs; HardwareFog toggle; skin container inverse transform; inherited render data; alpha path via TFACTOR stage states; D3D9 SetTextureStageState slot 67
+uw_00766480,,0x00766480,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ;object-symbol=$L33430; verified parent EH graph places this unwind cleanup here
+__ehhandler$?Render@DX8TextureCategoryClass@@QAEXXZ,,0x0076651A,10,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,Compiler-emitted C++ EH handler of the rowed parent 0x00146F50 (FuncInfo VA 0x00D0AA60)
+$L33524,,0x0076648B,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L34880,,0x00766496,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L34965,,0x007664A1,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L34999,,0x007664AC,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L35033,,0x007664B7,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L35067,,0x007664C2,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L35101,,0x007664CD,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L35139,,0x007664D8,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L35173,,0x007664E3,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L35207,,0x007664EE,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L35241,,0x007664F9,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L35275,,0x00766504,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
+$L35382,,0x0076650F,11,Code/Libraries/Source/WWVegas/WW3D2/dx8renderer.cpp,matched,gen-funclet;parent=?Render@DX8TextureCategoryClass@@QAEXXZ; verified parent EH graph places this unwind cleanup here
