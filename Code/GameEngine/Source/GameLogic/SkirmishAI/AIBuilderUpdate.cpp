@@ -8,6 +8,12 @@
 #include "ascii_string.h"
 #include <vector>
 #include <list>
+// Keep vector<void*>::empty inline without emitting this unit's /O1 COMDAT
+// copy (retail's out-of-line accessors are the /Od bodies at 0x00023B90-0x00023C20).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+bool vector<void*>::empty() const { return this->_M_start == this->_M_finish; }
+}
 
 // Declaration-only: retail keeps one copy of this STLport member (rowed elsewhere); this unit calls it
 // rather than emitting its own.
@@ -69,7 +75,11 @@ class AIBuildable{public:int doCanMake(Player*);bool doBuild(Player*);};
 class AIUnitBuilder{public:Object*Rva005982EA(const AsciiString*,_STL::vector<ObjectID>*,bool);};
 struct Rva005996FFArg;
 class Rva005996FF{public:void unRegisterDozer(Rva005996FFArg*,bool);};
-class AIDozerManager{public:void*rva00599870(const Coord3D&,int);void rva00599EDC();char data[0x14];};
+class AIDozerManager{public:void rva00599EDC();char data[0x14];};
+// 0x00599870 is rowed as Rva005997CD::rva00599870 (Rva005997CDNearestPick.cpp),
+// the nearest-entry pick over the dozer manager; called by that row's name.
+struct Vec2;
+class Rva005997CD{public:ObjectID rva00599870(const Vec2*,bool);};
 // Existing dozer callee pin retains its opaque four-byte return spelling;
 // this caller consumes those bits as ObjectID without dereferencing them.
 class Rva004ECB19Entry{
@@ -113,7 +123,7 @@ void AIBuilder::update(){
     if(created){
     entry->producer08=created->id;assigned=true;}else{if(0){AsciiString unused;}entry->producer08=INVALID_OBJECT_ID;continue;}
    }
-   if(entry->slot04()&&entry->flag28){entry->producer08=(ObjectID)(unsigned)dozer140.rva00599870(entry->slot13(),0);assigned=true;}
+   if(entry->slot04()&&entry->flag28){entry->producer08=((Rva005997CD*)&dozer140)->rva00599870((const Vec2*)&entry->slot13(),false);assigned=true;}
    int can=((AIBuildable*)entry)->doCanMake(owner00);
    if(can==0||(can==8&&dozerCount>0)||can==2){
     Rva004ECB19Entry*selected=entry;
