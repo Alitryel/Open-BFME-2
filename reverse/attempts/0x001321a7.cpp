@@ -1,37 +1,14 @@
 // ?rva001321A7@BfmeThing937B@@QAEXPAX@Z
-// partial score=0.864789 date=2026-10-14
-// ?rva001321A7@BfmeThing937B@@QAEXPAX@Z
-// partial score=0.8597 date=2026-10-13
-// ?rva001321A7@BfmeThing937B@@QAEXPAX@Z
-// partial score=0.86 date=2026-10-13
-// ?rva001321A7@BfmeThing937B@@QAEXPAX@Z
-// partial score=0.827430394046116 date=2026-10-10
-// ?rva001321A7@BfmeThing937B@@QAEXPAX@Z
+// partial score=0.8419 date=2026-10-16
 // cl: /O1 /Ob1 /G7 /DNDEBUG /MD /EHsc
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-// Full reconstruction emits 1335B versus native1347B; fitness .827430394.
-// All actual callees now resolve. Remaining: initial this EBX vs ESI;
-// query-output and pitch stack slots (-1C/-18) exchanged; format-guard
-// branch placement; early dynamic-option extraction; loop/color stack roles.
-// 15 isolated source/configuration shapes: unsigned bitfields, bool/getter
-// temporaries, union flag view, format guards, pointer and local ordering,
-// coefficient read order, allocation product order and G6. No exact shape.
-// The actual QueryInterface GUID was read from retail: 85c31227-3de5-4f00-
-// 9b3a-f11ac38c18b5. Existing IID_TexSurface's zero initializer in the cursor
-// TU is a placeholder and must not be reused as link/data proof for this bank.
-// The matched Rva000B4653 helper returns an opaque pointer-typed DWORD:
-// native passes its raw bits to the RGB-unpack helper, not a dereference.
-// TextureRecolorSurfaceLock retains the native surface-reference lifetime.
-// Count0/1/2/3 BGR paths preserve alpha; A4R4G4B4 uses signed product/divide
-// of the entire input WORD followed by the native nibble masks. No invented
-// input-validation path or change to the retail iteration bounds.
-// Complete native 0x001321A7..0x001326EA (1347 bytes), RET 4.
-// WB 0x009D2F80 explicitly identifies TextureAsset::RecolorFactoryDecal::
-// RecolorTexture at texture.cpp:1129..1334. The ZH texture class does not
-// contain this BFME factory path; target/WB are the semantic source here.
-// All offsets, COM slots, packed flags and pixel arithmetic are retail facts.
-// The descriptive/neutral ABI names below reuse the existing helper providers.
+// WB twin 9D2F80 (texture.cpp 1129..1334): the pixel pass is switch(desc.Format)
+// {case 21; case 26}; retail lowers it as cmp 15/je, cmp 1A/jne, case-26 fall-in.
+// Case 26 follows the WB loops: for(y..,dst+=pitch/2-W,src+=sourcePitch/2-W)
+// for(x..,++dst,++src) reading *src; cl hoists sourcePitch/2 (sar in memory).
+// Emits 1354B vs 1347B. Remaining: the fmt==1A pixelSize block is still placed
+// behind the shared exit; frame-slot packing of -14/-20/-28/-2C differs (retail
+// keeps dst apart from bits, count in the pixelSize slot with and [mem],7, ebx=pitch
+// across the colour loop); volatile dstGap still needed for its [ebp+8] home.
 #include <string.h>
 void *operator new[](unsigned);
 struct TextureRecolorGUID 
@@ -231,8 +208,8 @@ void BfmeThing937B::rva001321A7(void *settings)
    return;
    
   }
-  unsigned char *source;
-  int sourcePitch;
+  unsigned char *source=0;
+  int sourcePitch=0;
   if(flags.dynamic()) 
   {
    if(!dynamicSource)return;
@@ -250,28 +227,9 @@ void BfmeThing937B::rva001321A7(void *settings)
   Rva00131D7D colors[3];
   for(unsigned i=0;i<count;++i)
   colors[i].rva00131D7D(reinterpret_cast<unsigned>(options->rva000B4653(i)));
-  if(desc.Format==26) 
+  switch(desc.Format)
   {
-   unsigned short *src=reinterpret_cast<unsigned short *>(source);
-   unsigned short *dst=reinterpret_cast<unsigned short *>(bits);
-   volatile int srcStride = sourcePitch/2;
-   for(unsigned y=desc.Height;y;--y) 
-   {
-    for(unsigned x=desc.Width;x;--x) 
-    {
-     unsigned short pixel=*src++;
-     *dst++=static_cast<unsigned short>((pixel&0xF000) | (((pixel*colors[0].red)/255)&0xF00) |
-     (((pixel*colors[0].green)/255)&0xF0) | (((pixel*colors[0].blue)/255)&0xF));
-     _ReadWriteBarrier();
-     
-    }
-    dst+=pitch/2-desc.Width;
-    src+=(srcStride ? srcStride : srcStride)-desc.Width;
-    
-   }
-   
-  }
-  else if(desc.Format==21) 
+  case 21:
   {
    unsigned char *src=source;
    unsigned char *dst=reinterpret_cast<unsigned char *>(bits);
@@ -289,7 +247,7 @@ void BfmeThing937B::rva001321A7(void *settings)
     for(unsigned x=desc.Width;x;--x,src+=4,dst+=4) 
     {
      unsigned red=src[2];
-     dst[0]=(red*((colors[0].blue) ? (colors[0].blue) : (colors[0].blue)))>>8;
+     dst[0]=(red*colors[0].blue)>>8;
      dst[1]=(red*colors[0].green)>>8;
      dst[2]=(red*colors[0].red)>>8;
      dst[3]=src[3];
@@ -303,7 +261,7 @@ void BfmeThing937B::rva001321A7(void *settings)
      unsigned red=src[2],green=src[1];
      dst[0]=TextureRecolorMin(((red*colors[0].blue)>>8)+((green*colors[1].blue)>>8),255U);
      dst[1]=TextureRecolorMin(((red*colors[0].green)>>8)+((green*colors[1].green)>>8),255U);
-     dst[2]=TextureRecolorMin(((red*(x ? (colors[0].red) : (colors[0].red)))>>8)+((green*colors[1].red)>>8),255U);
+     dst[2]=TextureRecolorMin(((red*colors[0].red)>>8)+((green*colors[1].red)>>8),255U);
      dst[3]=src[3];
      
     }
@@ -323,6 +281,18 @@ void BfmeThing937B::rva001321A7(void *settings)
     
    }
    
+  }
+  break;
+  case 26:
+  {
+   unsigned short *dst=reinterpret_cast<unsigned short *>(bits);
+   unsigned short *src=reinterpret_cast<unsigned short *>(source);
+   for(unsigned y=desc.Height;y;--y,dst+=pitch/2-desc.Width,src+=sourcePitch/2-desc.Width)
+   for(unsigned x=desc.Width;x;--x,++dst,++src)
+   *dst=static_cast<unsigned short>((*src&0xF000) | (((*src*colors[0].red)/255)&0xF00) |
+   (((*src*colors[0].green)/255)&0xF0) | (((*src*colors[0].blue)/255)&0xF));
+  }
+  break;
   }
   
  }
