@@ -1,16 +1,3 @@
-// ?updateSubObjects@W3DModelDraw@@UAEXXZ
-// partial score=0.9875 date=2026-10-15
-// ?updateSubObjects@W3DModelDraw@@UAEXXZ
-// partial score=0.9503 date=2026-10-13
-// ?updateSubObjects@W3DModelDraw@@UAEXXZ
-// partial score=0.9193255395683454 date=2026-10-10
-template<class T> static __forceinline T p4Operand(const T &v) 
-{
- return *(const volatile T*)&v;
- 
-}
-// ?updateSubObjects@W3DModelDraw@@UAEXXZ
-// partial score=0.87 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii
 // stlport
 //
@@ -177,13 +164,17 @@ static __forceinline void reportSubObject(const char *format, const char *name, 
  (*out << Debug::Format(format, name, templateName)).show(2);
  
 }
-#define SUBOBJECT_CRASH(format, a, b) do { \
+// The report is a plain braced block: spelled as do { } while (0), cl treats it
+// as a nested loop and hoists the "" literal of AsciiString::str() out of the
+// list walks into EBX, where retail reloads it per iteration and keeps the
+// iterator there.
+#define SUBOBJECT_CRASH(format, a, b) { \
 	if (bfmeRva000387C0()) { \
 		_bfme_debugRecordCallsite(1); \
 		TheSubObjectDebug->beginReport(); \
 		reportSubObject(format, a, b); \
 	} \
-} while (0)
+}
 class ThingTemplate
 
 {
@@ -335,7 +326,7 @@ void W3DModelDraw::updateSubObjects()
     SUBOBJECT_CRASH("*** ASSET ERROR: SubObject wildcard string %s must not have wildcard at beginning (%s)!\n",
     it->m_name.str(), getDrawable()->getTemplate()->getName().str());
     Int count = m_renderObject->Get_Num_Sub_Objects();
-    for (objIndex = 0; objIndex < (it?p4Operand(count):p4Operand(count)); ++objIndex)
+    for (objIndex = 0; objIndex < count; ++objIndex)
     
     {
      RenderObjClass *subObj = m_renderObject->Get_Sub_Object(objIndex);
@@ -427,9 +418,8 @@ void W3DModelDraw::updateSubObjects()
    else
    
    {
-    RenderObjClass * t1_live_subObj_425 = m_renderObject->Get_Sub_Object_By_Name(it->m_name.str(), &objIndex);
-    RenderObjClass * volatile subObj = t1_live_subObj_425;
-    if (t1_live_subObj_425)
+    RenderObjClass *subObj = m_renderObject->Get_Sub_Object_By_Name(it->m_name.str(), &objIndex);
+    if (subObj)
     
     {
      ((Rva000B3885 *)this)->rva000B38F9(it, subObj, objIndex);
