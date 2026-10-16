@@ -1,7 +1,5 @@
 // ?update@AimWeaponBehavior@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.9784 date=2026-10-13
 // ?update@AimWeaponBehavior@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.976 date=2026-10-13
 // Clean BFME1 cee35b7d8 AimWeaponBehaviorUpdate.cpp supplies update purpose
 // and MI hierarchy; target ctor45B226, module data45B1DD, pool45B198 and
 // tableC41948 independently establish Aim identity and data8/C/10/14.
@@ -178,13 +176,10 @@ UpdateSleepTime AimWeaponBehavior::update(){
   float denom=*chosen;
   const AimWeaponBehaviorModuleData*md=data;
   float pitch=delta.z/denom;
-  unsigned mask;
-  if(pitch>md->high)mask=0x40000;
-  else if(pitch<md->low)mask=0x100000;
-  else mask=0x80000;
-  aiming=true;
-  if(!(o->model.test(mask))){o->model.set(mask);o->rva0028AE6D();}
-  if(denom<md->nearRange){aiming=true;o->rva0028CFB2(static_cast<const Rva0028F59A&>(Rva0028F59A(0,182)).words,static_cast<const Rva0028F59A&>(Rva0028F59A(0,181)).words);}
+  if(pitch>md->high){aiming=true;if(!(o->model.test(0x40000))){o->model.set(0x40000);o->rva0028AE6D();}}
+  else if(pitch<md->low){aiming=true;if(!(o->model.test(0x100000))){o->model.set(0x100000);o->rva0028AE6D();}}
+  else {aiming=true;if(!(o->model.test(0x80000))){o->model.set(0x80000);o->rva0028AE6D();}}
+  if(denom<(*(volatile float*)&md->nearRange)){aiming=true;o->rva0028CFB2(static_cast<const Rva0028F59A&>(Rva0028F59A(0,182)).words,static_cast<const Rva0028F59A&>(Rva0028F59A(0,181)).words);}
   else if(denom>md->farRange){aiming=true;o->rva0028CFB2(static_cast<const Rva0028F59A&>(Rva0028F59A(0,181)).words,static_cast<const Rva0028F59A&>(Rva0028F59A(0,182)).words);}
   changed=true;
  }
