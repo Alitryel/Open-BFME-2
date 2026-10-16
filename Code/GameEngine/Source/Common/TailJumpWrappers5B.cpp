@@ -180,7 +180,7 @@ Rva005CC656::~Rva005CC656()
 //   0x00225A50  0x0060D0B3  Rva00225A50 -> XferSave
 //   0x002563CE  0x00255A42  Rva002563CE -> UpgradeModuleData
 //   0x002DB8BA  0x00131BE5  Rva002DB8BA -> Rva00131BE5
-//   0x003A972D  0x003A5817  Rva003A972D -> Rva003AEEB3
+//   0x003A972D  0x003A5817  Rva0055F98A -> Rva003AEEB3
 //   0x003ACB6F  0x003ABC0B  Rva003ACB6F -> Rva003ABC0B
 //   0x003ACB74  0x003ABC21  Rva003ACB74 -> Rva005E2D20
 //   0x003ACED6  0x003AB9FF  Rva003ACED6 -> Rva003AB9FF
@@ -417,13 +417,16 @@ public:
 	virtual ~Rva003AEEB3();
 };
 
-class __declspec(novtable) Rva003A972D : public Rva003AEEB3
+// Rva0055F98A (ctor 0x0055F98A, DefaultModuleDerivedSmartCtors.cpp): its
+// vftable 0x00C1D6C8 slot 0 is this dtor's scalar deleting dtor 0x003AEF18
+// and its base ctor is Rva003AEEB3's 0x0055BEE9, so the 5B dtor is its own.
+class __declspec(novtable) Rva0055F98A : public Rva003AEEB3
 {
 public:
-	virtual ~Rva003A972D();
+	virtual ~Rva0055F98A();
 };
 
-Rva003A972D::~Rva003A972D()
+Rva0055F98A::~Rva0055F98A()
 {
 }
 

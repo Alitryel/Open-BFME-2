@@ -78,3 +78,10 @@ Rva000EDA94::~Rva000EDA94()
 		}
 	}
 }
+
+// ??1Rva000EDA94Record@@QAE@XZ, retail 0x000B3FD0 (1B): the record element
+// destructor the eh vector destructor iterator is given is the shared bare
+// return (ICF-rowed as Region2D's destructor); defined here so it resolves.
+Rva000EDA94Record::~Rva000EDA94Record()
+{
+}
