@@ -209,6 +209,7 @@ public:
 	void rva006F8190();
 	void rva006F76B0();
 	void rva006F79B0(void *arg1, void *arg2);
+	void rva006F7A30();
 
 	BfmeQuery1279 *m_query;
 };
@@ -427,6 +428,34 @@ void AptDisplayList::rva006F79B0(void *arg1, void *arg2)
 				if (*(int *)((char *)node->pData + 4) < 0)
 					node->rva006E1C40(arg1, arg2);
 			}
+		}
+		node = node->m_next;
+	}
+}
+
+// ?rva006F7A30@AptDisplayList@@QAEXXZ @0x006F7A30 127B: same child walk;
+// rebuilds (0x006E2D60) defined kind-13/18 nodes and kind-14 nodes.
+void AptDisplayList::rva006F7A30()
+{
+	AptCIH *node = (AptCIH *)m_query->m_root->m_54;
+	for (;;) {
+		if (node == 0)
+			break;
+		// An inlined AptCIH.h "this" assertion the optimizer proves dead; its
+		// inline-asm break survives as retail's 'jmp $+3; int3' at 0x006F7A3C
+		// (the __debugbreak spelling leaves nothing). Line unknown: the dead
+		// report's strings are not emitted.
+		if (node == 0) {
+			g_bfmeAptAssertAtE17734("this", "c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h", 0);
+			if (g_bfmeAptBreakOnAssertAtDDC01C)
+				{__asm int 3}
+		}
+		if (!((const BfmeAptValue006DCD20 *)node)->isUndefined() &&
+			(((const Rva006DBB30SarDwordField *)node)->get() == 0xd ||
+			 ((const Rva006DBB30SarDwordField *)node)->get() == 0x12)) {
+			node->rva006E2D60();
+		} else if (rva006F6D60IsType14(node)) {
+			node->rva006E2D60();
 		}
 		node = node->m_next;
 	}

@@ -1,5 +1,10 @@
 // ?rva00520CD1@AptTimeLine@@QAEXXZ
-// partial score=0.816 date=2026-10-14
+// partial score=0.97 date=2026-10-16
+// ?rva00520CD1@AptTimeLine@@QAEXXZ
+// partial score=0.97 date=2026-10-16
+// ?rva00520CD1@AptTimeLine@@QAEXXZ
+// partial score=0.97 date=2026-10-16
+// W9-O3 2026-10-16: callees renamed to their rows (AptScoreScreen::PreCollectGameData 0x51C241, CollectAllPlayerData 0x51FA13, CollectPlayerData(Player*,const GameSlot*) 0x520792: the bank had 3 unresolved calls); volatile slot dropped (inert). nd 12 size exact: retail keeps slot (=0 home [ebp-0x1c], reload mov edi,[ebp-0x1c] on the not-found exit) in EDI after the j loop and spills tactical into the same home; ours keeps slot in memory and gives EDI to tactical. Inert: early-init tactical/slot at function scope, split decl, extra tactical copy, j-after-loop getSlot forms (worse).
 // ?rva00520CD1@AptTimeLine@@QAEXXZ
 // partial score=0.94614 date=2026-10-13
 // ?rva00520CD1@AptTimeLine@@QAEXXZ
@@ -15,7 +20,7 @@ extern template Rva00520211Element *_STL::vector<Rva00520211Element>::erase(Rva0
 extern template void _STL::vector<Rva00520211Element>::reserve(unsigned);
 class Rva00520703Vector {public:void resize(unsigned);};
 struct Rva0051C0E7;
-void Rva0051C241Fill(Rva0051C0E7*);
+class AptScoreScreen {public: static void PreCollectGameData(Rva0051C0E7*);};
 class IDBufferClass {public:void Enable_Two_Sided_Rendering(bool);};
 class ParticleSystem {public:bool isSaveable()const;};
 enum NameKeyType {NAMEKEY_INVALID=0};
@@ -40,9 +45,9 @@ extern int g_rva0059EB6FFlag;
 class StatsReporter {public:static void ProcessOnlineGameResults(Player*);};
 class Rva00520923Source;
 class AptTimeLine {public:
- void rva00520CD1();void rva00520792(Player*,GameSlot*);
+ void rva00520CD1();void CollectPlayerData(Player*,const GameSlot*);
  void CollectPlayerData(LivingWorldPlayer*,Rva00520923Source*);
- void rva0051FA13();
+ void CollectAllPlayerData();
  char pad000[0x280];void *m_stats;int m_mode;
  _STL::vector<Rva00520211Element> m_players;
  bool m_observer;char pad295[0x2c4-0x295];char m_extra[48];
@@ -61,7 +66,7 @@ void AptTimeLine::rva00520CD1()
   if(game) {
    for(int i=0;i<(int)TheLivingWorldLogic->m_players.size();++i) {
     LivingWorldPlayer *player=reinterpret_cast<LivingWorldPlayer*>(TheLivingWorldLogic->rva002B52A8(i));
-    GameSlot * volatile slot = 0;
+    GameSlot * slot = 0;
     for(int j=0;j<8;++j) {
      if(game->getSlot(j)->m_template==player->m_template) {slot=game->getSlot(j);break;}
     }
@@ -84,7 +89,7 @@ void AptTimeLine::rva00520CD1()
      AsciiString name=slot->m_name;
      if(!name.isEmpty()) {
       Player *player=ThePlayerList->findPlayerWithNameKey(TheNameKeyGenerator->nameToKey(name));
-      if(player && !player->rva002AA223())rva00520792(player,slot);
+      if(player && !player->rva002AA223())CollectPlayerData(player,slot);
      }
     }
    }
@@ -92,9 +97,9 @@ void AptTimeLine::rva00520CD1()
    reinterpret_cast<Rva00520703Vector*>(&m_players)->resize(1);
    Player *player=ThePlayerList->m_local;
    if(!player)return;
-   rva00520792(player,0);
+   CollectPlayerData(player,0);
   }
  }
- if(m_mode==1||m_mode==6||m_mode==7)Rva0051C241Fill(reinterpret_cast<Rva0051C0E7*>(m_extra));
- rva0051FA13();
+ if(m_mode==1||m_mode==6||m_mode==7)AptScoreScreen::PreCollectGameData(reinterpret_cast<Rva0051C0E7*>(m_extra));
+ CollectAllPlayerData();
 }
