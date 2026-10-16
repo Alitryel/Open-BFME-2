@@ -1,7 +1,5 @@
 // ?rva004693D9@Rva004693D9@@QAEXXZ
-// partial score=0.98 date=2026-10-13
 // ?rva004693D9@Rva004693D9@@QAEXXZ
-// partial score=0.98 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /ICode/Libraries/Include /Ireference/shims/bfme2_ascii
 // stlport
 // Native4693D9..46950D RET0; WB10B6D30 gives complete formation-center
@@ -49,13 +47,14 @@ void Rva004693D9::rva004693D9()
   if(type && (type->kinds109&8)) {preferred=offset;break;}
   offset+=ranks[i]->positions.size();
  }
+ float scale=0.0f;
  Coord2D center; center.x=0;center.y=0;
  int count=0,index=0;
  for(Rva004693D9Slot *p=slots.begin();p!=slots.end();++index,++p) {
   center.x+=p->position.x;center.y+=p->position.y;++count;
   if(index==preferred) {center=p->position;count=1;break;}
  }
- if(count) {float scale=1.0f/count;rva4693Scale(center,scale);}
+ if(count) {scale=1.0f/count;rva4693Scale(center,scale);}
  for(Rva004693D9Slot *p=slots.begin();p!=slots.end();++p) {
   rva4693Sub(p->position,center);
   p->original=p->position;
