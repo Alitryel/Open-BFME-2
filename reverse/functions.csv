@@ -48353,7 +48353,7 @@ _rva006D9D70Comparator,,0x006D9D70,203,Code/Libraries/Source/Apt/AptValue/Rva006
 ?Rva0033940F_Parse@INI@@SAXPAV1@PAX1PBX@Z,,0x0033940F,236,Code/GameEngine/Source/Common/System/INI_Rva0033940FParse.cpp,matched,INI parse via ThingFactory g_009FF000 with None and theDebug Format
 ??0Rva005DA353@@QAE@XZ,,0x005DA341,18,Code/GameEngine/Source/Common/Rva005EE2A0Derived.cpp,matched,vtable store plus base ctor caller 0x0058A6E1
 ??1?$vector@URva001D28F0Element@@V?$allocator@URva001D28F0Element@@@_STL@@@_STL@@QAE@XZ,,0x00689DB0,103,Code/Libraries/Source/WWVegas/WWLib/Rva00689DB0Finish.cpp,matched,Vector Rva001D28F0Element dtor 103B exact with /EHs (prior bank used /EHsc and lost the EH trylevel store)
-?Rva006FA020Validate@@YA_NXZ,,0x006FA020,224,Code/Libraries/Source/Apt/AptAnimationPoolBILValidate.cpp,matched,unlock lane BIL validation via AptAnimationPoolData layout and rowed callees
+?validateBIL@AptAnimationPoolData@@QAE_NXZ,,0x006FA020,224,Code/Libraries/Source/Apt/AptAnimationPoolBILValidate.cpp,matched,unlock lane BIL validation via AptAnimationPoolData layout and rowed callees
 ?removeTeamPrototypeFromList@TeamFactory@@QAEXPAVTeamPrototype@@@Z,,0x0039FE11,91,Code/GameEngine/Source/Common/RTS/TeamFactoryErasePrototype.cpp,matched,sibling findPrototype 0x0039FE6C plus caller 0x003A0CD1 plus rowed erase
 ??0Rva005DAA5A@@QAE@PAX@Z,,0x005DAA5A,18,Code/GameEngine/Source/Common/V3PolyCopyCtors.cpp,matched,holder vtable 0x008765A0 caller 0x005971A9
 ?rva0039F597@Rva0039EA4E@@QAEPAURva0039EA4ENode@@ABURva0039D8FBKey@@@Z,,0x0039F597,49,Code/GameEngine/Source/Common/RTS/Rva0039F597Find.cpp,matched,same map and less as 0x0039EA4E without trailing correction plus callers 0x0039FB77 0x003A2952

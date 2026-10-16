@@ -75,8 +75,8 @@ public:
 };
 class Rva006DBB60ShrNAndField {public:int get() const;};
 class Rva006E0DE0 {public:int rva006E0DE0(AptValue *);char data[8];};
-class AptAnimationPoolData {public:void removeFromBIL(AptCIH *);};
-class Rva006E3FF0Owner {public:void rva006E44F0(AptCIH *);};
+// 0x006E44F0 is rowed as AptAnimationPoolData::removeTimerFunctions.
+class AptAnimationPoolData {public:void removeFromBIL(AptCIH *);void removeTimerFunctions(AptCIH *);};
 class Rva006CD650 {public:void *rva006CD650();};
 class AptDisplayList {public:void clear(bool);};
 class Rva008981E0Value {public:int aptHasAll();};
@@ -209,7 +209,7 @@ void AptCIH::ClearCIH(int arg)
         }
     }
     if (((Rva006DBB30SarDwordField *)this)->get()==0x12 && !((BfmeAptValue006DCD20 *)this)->isUndefined())
-        ((Rva006E3FF0Owner *)g_bfmeAptPtrAtE176D0)->rva006E44F0(this);
+        ((AptAnimationPoolData *)g_bfmeAptPtrAtE176D0)->removeTimerFunctions(this);
     if (m_4C) {
         if ((unsigned char)arg==1 && ((Rva006DBB30SarDwordField *)this)->get()==0xD && !((BfmeAptValue006DCD20 *)this)->isUndefined()) {
             queueClipEvents(4,0,0);

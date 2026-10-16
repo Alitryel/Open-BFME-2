@@ -1,5 +1,7 @@
 // cl: /MD
-// ?Rva006FA020Validate@@YA_NXZ @0x006FA020 224B. Global BIL button validation.
+// ?validateBIL@AptAnimationPoolData@@QAE_NXZ @0x006FA020 224B. Global BIL button validation.
+// A thiscall pool member (AptAnimation.cpp calls it with ECX = the pool, its
+// ACHECK names validateBIL()); the body reads the global pool (gpPool), not this.
 // Evidence: unlock lane; AptAnimationPoolData layout count+0x10 list+0x14 stride28
 // shared with AptAnimationPoolDataBIL.cpp; assert lines 0x5D9/0x5E1 via
 // AptInput.cpp and 0xB5 via AptCIH.h shared with neighbours; rowed
@@ -34,8 +36,9 @@ struct AptAnimationPoolData {
     unsigned char _pad[16];
     int mBILCount;
     ButtonHitTestRecord *aButtonInstanceList;
+    bool validateBIL();
 };
-bool __cdecl Rva006FA020Validate()
+bool AptAnimationPoolData::validateBIL()
 {
     AptAnimationPoolData *pool = (AptAnimationPoolData *)g_bfmeAptPtrAtE176D0;
     int count = pool->mBILCount;
