@@ -1,5 +1,8 @@
 // ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
-// partial score=0.95 date=2026-10-15
+// partial score=0.97 date=2026-10-16
+// ?rva000BD6C2@W3DScriptedModelDraw@@QAEXXZ
+// partial score=0.97 date=2026-10-16
+// W9-O3 2026-10-16: farm best (nd 15) never advanced the events iterator (missing ++it: an infinite loop; retail 'add ebx,0x18' at 0xBD9DE) - fixed here, equal-arm hack dropped: 889/894 nd 20; residue: it kept in EBX with the [ebp-0x1c] spill/reload shared with the first nugget walk, push [ebx+0x15c] particle id, esp-save home. Landing blocked on the unrowed callee 0x0BB3E6 (fire FX event).
 // cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 // d3 seat4: hacks removed (no volatile object read, no equal-arm "it ? x : x" list-head ternary);
 // the non-loop FX triggers now set one Bool and call rva000BB3E6(event) once, which gives retail's
@@ -189,10 +192,11 @@ void W3DScriptedModelDraw::rva000BD6C2()
      for(ListNode*n=events.node->next;n!=events.node;n=n->next){
       EventNugget*e=reinterpret_cast<EventNugget*>(n->value);
       if(e->type==9){
-       BfmeParticleSystemHandle system=TheParticleSystemManager->findParticleSystemByID((ParticleSystemID)e->particle);
+       unsigned particleID=e->particle;
+       BfmeParticleSystemHandle system=TheParticleSystemManager->findParticleSystemByID((ParticleSystemID)particleID);
        if(system){reinterpret_cast<Rva001F3852ByteOneSetter*>(system.operator->())->enable();system->destroy();}
        ListNode *id=particleIDs.node->next;
-       for(;id!=particleIDs.node;id=id->next){if((unsigned)id->value==e->particle){particleIDs.erase(_STL::_List_iterator<BfmeStringRecord000B757D,_STL::_Nonconst_traits<BfmeStringRecord000B757D> >(id));break;}}
+       for(;id!=particleIDs.node;id=id->next){if((unsigned)id->value==particleID){particleIDs.erase(_STL::_List_iterator<BfmeStringRecord000B757D,_STL::_Nonconst_traits<BfmeStringRecord000B757D> >(id));break;}}
       }
      }
     }
