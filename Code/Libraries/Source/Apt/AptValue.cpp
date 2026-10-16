@@ -161,3 +161,6 @@ int AptValue::getHasClass() const { return 0; }
 
 // Native CEAED0 vtable slot(s) 4; canonical PDB name and ABI.
 bool AptValue::ContainsNativeHashVirtual() const { return false; }
+
+// Native CEAED0 vtable slot(s) 6; canonical PDB name and ABI.
+void AptValue::setHasClass(int) {}
