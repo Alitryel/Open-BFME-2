@@ -5296,7 +5296,6 @@ name,address,notes
 ?CommandRequiresAck@@YAHPAVNetCommandMsg@@@Z,0x00581229,callee of ?getAckCommandCount@FrameData@@QAEIXZ at retail 0x005DA621 read from its REL32 displacement; ICF alias onto the matched ?Rva00581229Get@@YAHPAURva00581229Msg@@@Z
 ?Compute_Ram_Size@MeshMatDescClass@@QAEHXZ,0x0015CAE0
 ?ConstructNetCommandMsgFromRawData@NetPacket@@SAPAVNetCommandRef@@PAEG@Z,0x00592607,donor_sweep: call target read from retail at the unique placement of the BFME 1 donor getReadyCommands (0x0058C2AD)
-?Consume@Rva005B7DC3Sub@@QAEXPAPAX@Z,0x0005548F,wrapper-call spelling for the 0x5B7DC3 sub-object consumer (thiscall 1 arg); target REL32 from retail call at 0x005B7DF1
 ?Control_Bone@HTreeClass@@QAEXHABVMatrix3D@@_N@Z,0x00162060,address read from the REL32 displacement at a placed body
 ?ConvertShortMapPathToLongMapPath@@YAXAAV?$StringBase@D@@0@Z,0x003BA06E,BFME2 extension of BFME1 CommandLine map normalizer; independently audited complete 453B body through RET3BA232; first string ref receives slash/token/.map reconstructed path; second string ref receives token plus timestamp label via format38150; cdecl two-reference ABI
 ?ConvertStringToBSTR@_com_util@@YGPAGPBD@Z,0x00654850,ghidra names this address ConvertStringToBSTR (328B); read from REL32 at placed _bstr_t ctor 0x176CD0
@@ -6101,7 +6100,6 @@ name,address,notes
 ?WriteParameter@Parameter@@QAEXAAVDataChunkOutput@@@Z,0x003B3A38,call site in Condition::WriteConditionDataChunk (0x3B428C) pushes chunkWriter (edi) then thiscall with Parameter* ([ebx]) matching ZH Parameter::WriteParameter(DataChunkOutput&); ghidra FUN_007b3a38 size 129 ends ret 4
 ?WriteScriptDataChunk@@YAXAAVDataChunkOutput@@PAVScriptList@@PAVScript@@@Z,0x003B5994,opens Script chunk v4; script slot of WriteScriptListDataChunk called with (out this [this+8]); calls OrCondition writer 0x3B4A3C like ZH Script writer
 ?XferObjectID@@YAAAVXfer@@PAV1@PAW4ObjectID@@@Z,0x003060B2,REL32 read at the byte-verified pair xfer 0x00547245; the body returns the result of its Xfer slot 0x94 call and 0x00547245 dispatches through that returned Xfer; same body as the void-spelled row
-?Xform@Rva005B7DC3Block@@QAEPAU1@XZ,0x005B72BE,wrapper-call spelling for the 0x5B7DC3 block transform (thiscall 0 args pointer result); target REL32 from retail call at 0x005B7DD8
 ?YFlip@Targa@@QAEXXZ,0x00613EF0,address read from the REL32 displacement at a placed body
 ?ZeroStuff@Cftp@@QAEXXZ,0x006C9ED0,Cftp member called from Cftp ctor after vtable install; ghidra 109 bytes
 ?_ALERT@@YAHPAUlua_State@@@Z,0x003333D1,Lua callback: LuaScriptEngine registration at 0x00338317 passes this address to luaV_Cclosure then lua_setglobal("_ALERT"); start follows a ret; name is the Lua global it is bound to
