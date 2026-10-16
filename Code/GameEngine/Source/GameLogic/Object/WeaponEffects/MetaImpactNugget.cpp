@@ -1,4 +1,4 @@
-// cl: /O1 /MD /EHsc /DNDEBUG /arch:SSE
+// cl: /O1 /MD /EHsc /DNDEBUG /arch:SSE /I.
 //
 // ?rva0050A1E9@Made002CC8A4@@QAEXPAXPAVObject@@@Z @ 0x0050A1E9 (434B), slot 15 of
 // Made002CC8A4 (MetaImpactNugget) vtable 0x008649A0; WB 0x10A71E0 MetaImpactNugget.cpp.
@@ -11,6 +11,8 @@
 // testStatus; pins bfmeHas1026, report, attemptDamage; TheGameLogic,
 // BfmeZeroRange, g_00C6499C, string literal.
 
+#include "Code/Libraries/Include/Lib/Coord3DInline.h"
+#include "Code/GameEngine/Source/Common/PartitionRangeQueryCallView.h"
 #include "../../../Common/GameLogicObjectLookupView.h"
 
 class Object;
@@ -47,6 +49,7 @@ class DamageInfo;
 class Object
 {
 public:
+	const Coord3D *getPosition() const { return &m_pos; }
 	Player *getControllingPlayer() const;
 	void kill(DamageType a, DeathType b);
 	bool rva0028C149(int attr, float *value, int arg);
@@ -55,7 +58,9 @@ public:
 public:
 	char m_pad00[4];
 	void *m_04;
-	char m_pad08[0x94 - 8];
+	float m_transform[3][4]; // +8; native fallback reads first column
+	Coord3D m_pos; // +0x38
+	char m_pad44[0x94 - 0x44];
 	unsigned int m_statusBits[4];
 };
 inline bool Object::testStatus(ObjectStatusTypes bit) const
@@ -148,7 +153,7 @@ class SelfIface
 {
 public:
 	virtual void v00();
-	virtual void v01();
+	virtual bool v01(int source, Object *obj);
 	virtual void v02();
 	virtual void v03();
 	virtual void v04();
@@ -162,6 +167,7 @@ public:
 	virtual void v12();
 	virtual void v13();
 	virtual unsigned char v14(const void *a, Object *b, const void *c);
+	virtual void v15(void *source, Object *obj);
 };
 
 class BfmeFixedStorage0004543D
@@ -185,6 +191,8 @@ class Rva00507823
 {
 public:
 	virtual ~Rva00507823();
+	virtual bool slot01(int source, Object *obj);
+	virtual void slot02(); virtual void slot03(); virtual void slot04(); virtual void slot05();
 	Rva00507823();
 private:
 	char m_pad[0x128 - 4];
@@ -194,6 +202,7 @@ class Made002CC8A4 : public Rva00507823
 public:
 	Made002CC8A4();
 	void rva0050A1E9(void *a, Object *b);
+	virtual void rva0050A4A2(void *source, const Coord3D *pos);
 private:
 	float m_128;
 	float m_12C;
@@ -277,5 +286,124 @@ tryDamage:
 		if (((SelfIface *)this)->v14(a, shooter, &info) != 1)
 			return;
 		shooter->attemptDamage((DamageInfo *)&info);
+	}
+}
+
+// Native751B virtual slot6 at50A4A2; range/cone operation on the same
+// independently owned nugget layout as slot15 above. Position38 and
+// fallback matrix-column offsets8/18/28 are target facts. Snapshot all
+// position components before source reads; retain native X/Y/Z subtraction.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+extern PartitionManager *ThePartitionManager;
+float Cos(float value);
+class WWMath
+{
+public:
+	static float __fastcall Inv_Sqrt(float val);
+};
+
+struct Vector3
+{
+	float X, Y, Z;
+	Vector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
+	void Set(float x, float y, float z) { X = x; Y = y; Z = z; }
+	float Length2() const { return X * X + Y * Y + Z * Z; }
+	static float Dot_Product(const Vector3 &a, const Vector3 &b) { return a.X * b.X + a.Y * b.Y + a.Z * b.Z; }
+};
+
+// This unit needs the header-inline SSE operation; retain the canonical
+// out-of-line Vector3::Normalize provider instead of emitting a second copy.
+static __forceinline void normalizeDirection(Vector3 &v)
+{
+ float len2 = v.Length2();
+ if (len2 != 0.0f) {
+  float oolen = WWMath::Inv_Sqrt(len2);
+  v.X *= oolen; v.Y *= oolen; v.Z *= oolen;
+ }
+}
+
+// The weapon source record handed to the nugget: its source ObjectID at +0x08.
+struct Rva0050A4A2Source
+{
+	unsigned char m_pad00[0x08];
+	ObjectID m_sourceID; // +0x08
+};
+
+// BFME 2's partition filter base (ctor 0x000421C8): a vptr and the +0x04 link.
+class Rva000421C8
+{
+public:
+	Rva000421C8() : m_next(0) {}
+	virtual ~Rva000421C8() {}
+	virtual bool allow(Object *obj) = 0;
+	virtual int getPlayerMask(); // native filter base has three slots
+	Rva000421C8 *m_next;
+};
+// The 224-bit KindOf mask and the one-bit mask builder 0x00045411.
+struct Rva00045411BitSet : public BfmeFixedStorage0004543D
+{
+	Rva00045411BitSet(int unused, int bit) throw();
+};
+template <int NUMBITS> class BitFlags;
+extern BitFlags<116> KINDOFMASK_NONE;
+// The out-of-line constructor 0x00395A35.
+class PartitionFilterRejectByKindOf : public Rva000421C8
+{
+public:
+	PartitionFilterRejectByKindOf(const BfmeFixedStorage0004543D &require, const BfmeFixedStorage0004543D &reject);
+	virtual bool allow(Object *obj);
+	BfmeFixedStorage0004543D m_require;
+	BfmeFixedStorage0004543D m_reject;
+};
+
+
+void Made002CC8A4::rva0050A4A2(void *source, const Coord3D *pos)
+{
+	if (!source || !pos)
+		return;
+	float radius = m_12C;
+	if (radius < 1.0f)
+		radius = 1.0f;
+	PartitionFilterRejectByKindOf filter(Rva00045411BitSet(0, 0x59), *(const BfmeFixedStorage0004543D *)&KINDOFMASK_NONE);
+	bool centerDistance = m_144 != 0.0f;
+	BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(pos, radius, centerDistance ? 1 : 3, &filter, 0);
+	Object *obj;
+	while ((obj = iter.next()) != 0)
+	{
+		if (!((SelfIface *)this)->v01((int)source, obj))
+			continue;
+		if (m_130 < 3.14159265359f)
+		{
+			Coord3D toObj;
+			toObj.set(obj->getPosition());
+			toObj.sub(pos);
+			Object *src = TheGameLogic->findObjectByID(((const Rva0050A4A2Source *)source)->m_sourceID);
+			if (!src)
+				continue;
+			float px = pos->x, py = pos->y, pz = pos->z;
+			_ReadWriteBarrier();
+			Coord3D diff;
+			diff.x = px - src->getPosition()->x;
+			diff.y = py - src->getPosition()->y;
+			diff.z = pz - src->getPosition()->z;
+			Coord3D tmp;
+			tmp.set(&diff);
+			Vector3 dir(diff.x, diff.y, diff.z);
+			if (tmp.length() == 0.0f)
+				dir.Set(src->m_transform[0][0], src->m_transform[1][0], src->m_transform[2][0]);
+			Vector3 toV(toObj.x, toObj.y, toObj.z);
+			normalizeDirection(dir);
+			normalizeDirection(toV);
+			float dot = Vector3::Dot_Product(toV, dir);
+			if (!(dot >= Cos(m_130)))
+			{
+				if (!m_134)
+					continue;
+			}
+			else if (m_134)
+				continue;
+		}
+		((SelfIface *)this)->v15(source, obj);
 	}
 }
