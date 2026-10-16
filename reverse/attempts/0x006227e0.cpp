@@ -1,6 +1,6 @@
 // ?refresh@Q1Receiver0134FAAC@@QAEXXZ
-// partial score=0.93 date=2026-10-16
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /D_STLP_NO_CSTD_FUNCTION_IMPORTS /Ireference/shims/bfmealloc /Ireference/shims/sweep   
+// partial score=0.979 date=2026-10-16
+// cl: /O2 /G6 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/shims/sweep
 // stlport
 //
 // BFME 1 donor 0x009EFF50 (3186 B); BFME 2 retail 0x006227E0, 3244 B. Identity: the address pin
@@ -31,6 +31,12 @@
 // per key) while the earlier local copy keeps the out-of-line 0x0003AFD0;
 // the +0x44 lookup result is a const_iterator (as in the matched
 // Queue_Keys_009EFBF0), which is what puts it in memory at retail's slot.
+//
+// Later evidence (0.979 bank): retail calls set (0x0006BF2A) and pending-tree
+// (0x00620A00, its int-key ICF twin) dtors out of line; pass 0 keeps +0x1A4
+// through Rva0061F910Set::retain (0x0061FAA0) and pass 1 subtracts through
+// 0x0061F910; the pending entry is pushed as an lvalue (reloaded in both
+// push_back paths); a right-associated s0 + (s1 + s2) size sum gets closest.
 
 #include <deque>
 #include <hash_map>
@@ -43,7 +49,8 @@ struct Rva001408C0Target;
 typedef Rva001408C0Target *Rva001408C0Key;
 typedef _STL::set<Rva001408C0Key> Rva001408C0Set;
 namespace _STL {
-template <> _Rb_tree<Rva001408C0Key, Rva001408C0Key, _Identity<Rva001408C0Key>, less<Rva001408C0Key>, allocator<Rva001408C0Key> >::~_Rb_tree();
+template <> _Rb_tree<Rva001408C0Key, Rva001408C0Key, _Identity<Rva001408C0Key>,
+	less<Rva001408C0Key>, allocator<Rva001408C0Key> >::~_Rb_tree();
 }
 
 struct Gen_t_009ee8e0_k4
@@ -103,16 +110,11 @@ public:
 	bool m_active;
 };
 
-class Rva009EC770Set
+class Rva0061F910Set
 {
 public:
-	Rva009EC770Set &rva009EC770(const Rva009EC770Set &other);
-};
-
-class Rva009EC5B0Set
-{
-public:
-	Rva009EC5B0Set &subtract(const Rva009EC5B0Set &other);
+	Rva0061F910Set &subtract(const Rva0061F910Set &other);
+	Rva0061F910Set &retain(const Rva0061F910Set &other);
 };
 
 class Rva009EF0D0Element
@@ -132,7 +134,7 @@ public:
 	virtual void slot2C();
 	virtual void slot30();
 	virtual void slot34();
-	virtual unsigned int slot38();
+	virtual int slot38();
 
 	union
 	{
@@ -156,13 +158,15 @@ struct Rva009EDBE0Value
 	Rva009EF0D0Element *m_entry;
 };
 
-namespace _STL {
-template <> _Rb_tree<unsigned int, pair<const unsigned int, Rva009EDBE0Value>, _Select1st<pair<const unsigned int, Rva009EDBE0Value> >, less<unsigned int>, allocator<pair<const unsigned int, Rva009EDBE0Value> > >::~_Rb_tree();
-}
 typedef _STL::multimap<unsigned int, Rva009EDBE0Value> Q1ReceiverPending;
+namespace _STL {
+template <> _Rb_tree<unsigned int, pair<const unsigned int, Rva009EDBE0Value>,
+	_Select1st<pair<const unsigned int, Rva009EDBE0Value> >, less<unsigned int>,
+	allocator<pair<const unsigned int, Rva009EDBE0Value> > >::~_Rb_tree();
+}
 typedef _STL::pair<const unsigned int, Rva009EDBE0Value> Q1ReceiverPendingPair;
 typedef _STL::hash_map<int, Rva009EF0D0Element *> Q1ReceiverAssetHash;
-typedef _STL::deque<Rva009EF0D0Element *> Q1ReceiverQueue;
+typedef _STL::deque<int> Q1ReceiverQueue;
 
 class Q1ReceiverLock
 {
@@ -188,8 +192,8 @@ public:
 private:
 	unsigned int m_thread;
 	unsigned char m_unmodelled_004[0x1C];
-	__int64 m_cost20;
-	__int64 m_budget28;
+	__int64 m_field20;
+	__int64 m_limit28;
 	unsigned int m_field30;
 	CRITICAL_SECTION m_lock2c;
 	Q1ReceiverAssetHash m_map44;
@@ -222,7 +226,7 @@ void Q1Receiver0134FAAC::refresh()
 	{
 		for (unsigned int i = 0; i < m_deques78[q].size(); ++i)
 		{
-			Rva009EF0D0Element *entry = m_deques78[q][i];
+			Rva009EF0D0Element *entry = (Rva009EF0D0Element *)m_deques78[q][i];
 			if ((known.m_set.get().find((Rva001408C0Key)entry->m_key08) !=
 					known.m_set.get().end()) == (q < 4))
 				continue;
@@ -239,7 +243,7 @@ void Q1Receiver0134FAAC::refresh()
 			else if (q == 4)
 			{
 				entry->m_queue = 3;
-				m_cost20 += entry->slot38();
+				m_field20 += (unsigned int)entry->slot38();
 				m_deques78[entry->m_queue].push_back(m_deques78[4][i]);
 				m_deques78[4][i] = m_deques78[4][m_deques78[4].size() - 1];
 				m_deques78[4].pop_back();
@@ -255,19 +259,19 @@ void Q1Receiver0134FAAC::refresh()
 		}
 	}
 
-	while ((m_cost20 >= m_budget28 || m_budget28 < 2) && pending.size() != 0)
+	while ((m_field20 >= m_limit28 || m_limit28 < 2) && pending.size() != 0)
 	{
 		Rva009EF0D0Element *entry = pending.begin()->second.m_entry;
 		pending.erase(pending.begin());
 		entry->m_queue = 4;
-		m_cost20 -= entry->slot38();
-		m_deques78[entry->m_queue].push_back(entry);
-		if (m_cost20 < 0)
-			m_cost20 = 0;
+		m_field20 -= (unsigned int)entry->slot38();
+		m_deques78[entry->m_queue].push_back((int)entry);
+		if (m_field20 < 0)
+			m_field20 = 0;
 	}
 
 	for (Q1ReceiverPending::iterator it = pending.begin(); it != pending.end(); ++it)
-		m_deques78[3].push_back(it->second.m_entry);
+		m_deques78[3].push_back(*(const int *)&it->second.m_entry);
 
 	for (int pass = 0; pass < 2; ++pass)
 	{
@@ -275,14 +279,14 @@ void Q1Receiver0134FAAC::refresh()
 		if (pass == 0)
 		{
 			keys = m_set1a4;
-			((Rva009EC770Set *)&keys)->rva009EC770(*(Rva009EC770Set *)&m_set190);
+			((Rva0061F910Set *)&keys)->retain(*(Rva0061F910Set *)&m_set190);
 			keys.m_tree.insert(m_set1b8.m_tree.begin(), m_set1b8.m_tree.end());
 			keys.m_active = true;
 		}
 		else
 		{
 			keys = m_set190;
-			((Rva009EC5B0Set *)&keys)->subtract(*(Rva009EC5B0Set *)&m_set1a4);
+			((Rva0061F910Set *)&keys)->subtract(*(Rva0061F910Set *)&m_set1a4);
 		}
 
 		for (Rva001408C0Set::iterator it = keys.m_tree.begin(); it != keys.m_tree.end(); ++it)
@@ -296,16 +300,16 @@ void Q1Receiver0134FAAC::refresh()
 					unsigned int flags = asset->m_word & 0xff00ffff;
 					asset->m_word = flags;
 					asset->m_word = flags | 0x2000000;
-					m_deques78[asset->m_queue].push_back(asset);
+					m_deques78[asset->m_queue].push_back((int)asset);
 				}
 			}
 		}
 
 		if (pass == 0)
-			m_field1e0 = m_deques78[0].size() + m_deques78[1].size() +
-				m_deques78[2].size();
+			m_field1e0 = m_deques78[0].size() + (m_deques78[1].size() +
+				m_deques78[2].size());
 		else
-			m_field1e4 = m_deques78[0].size() + m_deques78[1].size() +
-				m_deques78[2].size() - m_field1e0;
+			m_field1e4 = m_deques78[0].size() + (m_deques78[1].size() +
+				m_deques78[2].size()) - m_field1e0;
 	}
 }
