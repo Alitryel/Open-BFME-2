@@ -1,11 +1,7 @@
 // ?rva00232B7B@Keyboard@@QAEXXZ
-// partial score=0.908 date=2026-10-15
 // ?rva00232B7B@Keyboard@@QAEXXZ
-// partial score=0.93 date=2026-10-13
 // ?rva00232B7B@Keyboard@@QAEXXZ
-// partial score=0.93 date=2026-10-13
 // ?rva00232B7B@Keyboard@@QAEXXZ
-// partial score=0.93 date=2026-10-13
 // cl: /DNDEBUG /MD /EHsc /O1 /G7 /arch:SSE /Oy-
 // stlport
 // ?rva00232AE8@Keyboard@@AAEXXZ @0x00232AE8 147B. Clears key vector then re-adds flagged slots.
@@ -80,20 +76,23 @@ void Keyboard::rva00232AE8()
 // the entry, as retail lays it out.
 void Keyboard::rva00232B7B()
 {
-	_STL::vector<BfmeE8, _STL::allocator<BfmeE8> > *keys = &m_keys;
 	BfmeE8 e;
-	_STL::vector<BfmePod8, _STL::allocator<BfmePod8> > *pod =
-		(_STL::vector<BfmePod8, _STL::allocator<BfmePod8> > *)keys;
-	pod->erase(pod->begin(), pod->end());
+	{
+		_STL::vector<BfmePod8, _STL::allocator<BfmePod8> > *pod =
+			(_STL::vector<BfmePod8, _STL::allocator<BfmePod8> > *)&m_keys;
+		pod->erase(pod->begin(), pod->end());
+	}
 	for (;;)
 	{
 		while ((slot40(&e), e.m0 == 0xff))
 		{
 			rva00232AE8();
+			_STL::vector<BfmePod8, _STL::allocator<BfmePod8> > *pod =
+				(_STL::vector<BfmePod8, _STL::allocator<BfmePod8> > *)&m_keys;
 			pod->erase(pod->begin(), pod->end());
 		}
 		if (e.m0 == 0)
 			return;
-		keys->push_back(e);
+		m_keys.push_back(e);
 	}
 }
