@@ -1,4 +1,6 @@
 // ?moveVehicleToPos@AIGroup@@QAE_NPBUCoord3D@@W4CommandSourceType@@@Z
+// partial score=0.8700274897 date=2026-10-16
+// ?moveVehicleToPos@AIGroup@@QAE_NPBUCoord3D@@W4CommandSourceType@@@Z
 // partial score=0.8 date=2026-10-14
 // ?moveVehicleToPos@AIGroup@@QAE_NPBUCoord3D@@W4CommandSourceType@@@Z
 // partial score=0.5 date=2026-10-09
@@ -32,106 +34,83 @@ typedef float Real;
 typedef short Short;
 void __cdecl free(void *);
 enum CommandSourceType
-
 {
- CMD_FROM_PLAYER = 0
- 
+ CMD_FROM_PLAYER = 0, CMD_FROM_AI = 2
 }
 ;
 enum PathfindLayerEnum
-
 {
  LAYER_INVALID = 0,
  LAYER_GROUND = 1
- 
 }
 ;
 enum IterOrderType
-
 {
  ITER_FASTEST = 0,
  ITER_SORTED_NEAR_TO_FAR = 1,
  ITER_SORTED_FAR_TO_NEAR = 2
- 
 }
 ;
 namespace _STL
-
 {
  template <class T> class allocator
- 
  {
   public:
   allocator() 
   {
-   
   }
-  
  }
  ;
  template <class T, class A> class _Vector_base
- 
  {
   public:
   _Vector_base(const A &a);
   T *_M_start;
   T *_M_finish;
   T *_M_end_of_storage;
-  
  }
  ;
  template <class T, class A = allocator<T> > class vector : public _Vector_base<T, A>
- 
  {
   public:
   vector(const A &a = A()) : _Vector_base<T, A>(a) 
   {
-   
   }
   ~vector()
-  
   {
    if (this->_M_start)
    free(this->_M_start);
-   
   }
   unsigned int size() const 
   {
    return this->_M_finish - this->_M_start;
-   
   }
   T &operator[](unsigned int n) 
   {
    return *(this->_M_start + n);
-   
   }
   void push_back(const T &x);
   void pop_back() 
   {
    --this->_M_finish;
-   
   }
-  
  }
  ;
- 
 }
 class Rva0035149F;
 class LocomotorSet;
 class Object;
+class Rva00373EC6 { public: void rva00374815(); };
 class PathNode
-
 {
  public:
  PathNode *getNextOptimized() const 
  {
   return m_nextOpti;
-  
  }
  const Coord3D *getPosition() const 
  {
   return &m_pos;
-  
  }
  private:
  char m_pad00[0x08];
@@ -139,23 +118,19 @@ class PathNode
 // +0x08
  Coord3D m_pos;
 // +0x0C
- 
 }
 ;
 class Path
-
 {
  public:
  ~Path();
  PathNode *getFirstNode() const 
  {
   return m_path;
-  
  }
  PathNode *getLastNode() const 
  {
   return m_pathTail;
-  
  }
  private:
  char m_pad00[0x04];
@@ -163,23 +138,20 @@ class Path
 // +0x04
  PathNode *m_pathTail;
 // +0x08
- 
 }
 ;
 class AICommandInterface
-
 {
  public:
+ void aiIdle(CommandSourceType);
  void rva0036EE16(const Rva0035149F *path, Object *ignoreObject, CommandSourceType cmdSource);
 // aiFollowPath
- 
 }
 ;
 #define PAD_VIRTUALS10(p) \
 	virtual void p##0(); virtual void p##1(); virtual void p##2(); virtual void p##3(); virtual void p##4(); \
 	virtual void p##5(); virtual void p##6(); virtual void p##7(); virtual void p##8(); virtual void p##9();
 class AIUpdateInterface
-
 {
  public:
  PAD_VIRTUALS10(a0) PAD_VIRTUALS10(a1) PAD_VIRTUALS10(a2) PAD_VIRTUALS10(a3) PAD_VIRTUALS10(a4)
@@ -197,22 +169,18 @@ class AIUpdateInterface
  AICommandInterface *getCommandInterface() 
  {
   return (AICommandInterface *)m_command;
-  
  }
  Int getTmpValue() const 
  {
   return m_tmpInt;
-  
  }
  void setTmpValue(Int val) 
  {
   m_tmpInt = val;
-  
  }
  const LocomotorSet &getLocomotorSet() const 
  {
   return *(const LocomotorSet *)m_locomotorSet;
-  
  }
  private:
  char m_pad004[0x20 - 0x04];
@@ -224,17 +192,14 @@ class AIUpdateInterface
  char m_pad1D0[0x23C - 0x1D0];
  Int m_tmpInt;
 // +0x23C
- 
 }
 ;
 class ThingTemplate
-
 {
  public:
  Int isVehicle() const 
  {
   return m_kindOf109 & 0x02;
-  
  }
  private:
  char m_pad000[0x109];
@@ -243,36 +208,32 @@ class ThingTemplate
  char m_pad10A[3];
  unsigned char m_kindOf10D;
 // +0x10D
- 
 }
 ;
 class Object
-
 {
  public:
+ bool isMobile() const;
+ Rva00373EC6 *rva0028F4BC();
  const ThingTemplate *getTemplate() const 
  {
   return m_template;
-  
  }
  const Coord3D *getPosition() const 
  {
   return &m_pos;
-  
  }
  AIUpdateInterface *getAI() const 
  {
   return m_ai;
-  
  }
  Int isDisabledHeld() const 
  {
   return m_disabled1C8 & 0x08;
-  
  }
  void rva0028AD32();
 // remove the pathfind goal
- void rva0028ACEE(const Coord3D *pos, Int layer);
+ void rva0028ACEE(int pos, Int layer);
 // update the pathfind goal
  private:
  char m_pad000[0x04];
@@ -287,53 +248,44 @@ class Object
  char m_pad1C9[0x258 - 0x1C9];
  AIUpdateInterface *m_ai;
 // +0x258
- 
 }
 ;
 class SimpleObjectIterator
-
 {
  public:
  SimpleObjectIterator();
  virtual ~SimpleObjectIterator();
  virtual Object *first();
  virtual Object *next();
- void insert(Object *obj, Real data = 0.0f);
+ void insert(int obj, Real data = 0.0f);
  void rva0054B414();
 // makeEmpty
  void sort(IterOrderType order);
  private:
  char m_pad04[0x3C - 0x04];
- 
 }
 ;
 class Pathfinder
-
 {
  public:
- Bool adjustDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest, const Coord3D *groupDest);
- 
+ Bool AdjustDestination(Object *obj, const LocomotorSet &locomotorSet, Coord3D *dest, const Coord3D *groupDest);
 }
 ;
 class AI
-
 {
  public:
  Pathfinder *pathfinder() const 
  {
   return m_pathfinder;
-  
  }
  private:
  char m_pad00[0x10];
  Pathfinder *m_pathfinder;
 // +0x10
- 
 }
 ;
 extern AI *TheAI;
 class TerrainLogic
-
 {
  public:
  virtual void s0();
@@ -346,23 +298,20 @@ class TerrainLogic
  virtual Real getLayerHeight(Real x, Real y, PathfindLayerEnum layer, Coord3D *normal, Bool clip);
 // slot 7
  PathfindLayerEnum getLayerForDestination(Object *obj, const Coord3D *pos);
- 
 }
 ;
 extern TerrainLogic *TheTerrainLogic;
 struct BfmeListNode
-
 {
  BfmeListNode *m_next;
  BfmeListNode *m_prev;
  Object *m_data;
- 
 }
 ;
 class AIGroup
-
 {
  public:
+ void groupOneRing();
  Bool moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource);
  Bool getCenter(Coord3D *center);
  private:
@@ -372,21 +321,66 @@ class AIGroup
  char m_pad08[0x14 - 0x08];
  Path *m_groundPath;
 // +0x14
- 
 }
 ;
 static __forceinline void copyCoord(Coord3D &c, const Coord3D *p)
-
 {
  c.x = p->x;
  c.y = p->y;
  c.z = p->z;
- 
 }
 #define PATHFIND_CELL_SIZE_F 10.0f
 #define PATH_DIAMETER_IN_CELLS 4
-Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
+inline bool AIGroup::getCenter(Coord3D *center)
+{
+    int count = 0;
+    center->x = 0.0f;
+    center->y = 0.0f;
+    center->z = 0.0f;
 
+    BfmeListNode *i;
+    for (i = m_memberList->m_next; i != m_memberList; i=i->m_next)
+    {
+        if (i->m_data->isDisabledHeld())
+            continue; // don't bother counting riders in the center calculation
+        if (!i->m_data->isMobile())
+            continue;
+        AIUpdateInterface *ai = i->m_data->getAI();
+        if (ai)
+        {
+            const Coord3D *objPos = i->m_data->getPosition();
+            center->x += objPos->x;
+            center->y += objPos->y;
+            center->z += objPos->z;
+            ++count;
+        }
+    }
+
+    if (count == 0 && m_memberList->m_next != m_memberList)
+    {
+        for (i = m_memberList->m_next; i != m_memberList; i=i->m_next)
+        {
+            if (i->m_data->isDisabledHeld())
+                continue; // don't bother counting riders in the center calculation
+            const Coord3D *objPos = i->m_data->getPosition();
+            center->x = objPos->x + center->x;
+            center->y += objPos->y;
+            center->z += objPos->z;
+            ++count;
+        }
+    }
+
+    center->x /= count;
+    center->y /= count;
+    center->z /= count;
+    return count > 0;
+}
+
+
+#include <math.h>
+inline __declspec(noinline) float Coord2D::length()const{return(float)sqrt(x*x+y*y);}
+inline __declspec(noinline) void Coord2D::normalize(){float len=length();if(len!=0.0f){x/=len;y/=len;}}
+Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
 {
  if (m_groundPath == 0) return false;
  Real dx, dy;
@@ -402,40 +396,32 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
  PathNode *startNode = 0;
  PathNode *node;
  for (node = m_groundPath->getFirstNode(); node; node = node->getNextOptimized())
- 
  {
   Real dx = node->getPosition()->x - startPoint.x;
   Real dy = node->getPosition()->y - startPoint.y;
   if (dx * dx + dy * dy > farEnoughSqr)
-  
   {
    startNode = node;
    break;
-   
   }
-  
  }
  Coord3D endPoint;
  copyCoord(endPoint, m_groundPath->getLastNode()->getPosition());
  PathNode *endNode = 0;
  for (node = m_groundPath->getFirstNode(); node; node = node->getNextOptimized())
- 
  {
   Real dx = node->getPosition()->x - endPoint.x;
   Real dy = node->getPosition()->y - endPoint.y;
   if (dx * dx + dy * dy > farEnoughSqr)
   endNode = node;
-  
  }
  if (endNode == m_groundPath->getFirstNode())
  endNode = 0;
  if (startNode == 0 || endNode == 0)
- 
  {
   delete m_groundPath;
   m_groundPath = 0;
   return false;
-  
  }
  Coord2D startVector;
  startVector.x = startNode->getPosition()->x - startPoint.x;
@@ -460,7 +446,6 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
  SimpleObjectIterator *iter2 = new SimpleObjectIterator;
  BfmeListNode *i;
  for (i = m_memberList->m_next; i != m_memberList; i = i->m_next)
- 
  {
   if (i->m_data->isDisabledHeld())
   continue;
@@ -472,13 +457,13 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
   if (!i->m_data->getAI()->isDoingGroundMovement())
   continue;
   Coord3D unitPos;
-  i->m_data->rva0028AD32();
   copyCoord(unitPos, i->m_data->getPosition());
+  i->m_data->rva0028AD32();
   Real dx, dy;
   dx = unitPos.x - center.x;
   dy = unitPos.y - center.y;
 // Sort by the dot product of normal.
-  iter->insert(i->m_data, dx * startVectorNormal.x + dy * startVectorNormal.y);
+  iter->insert((int)i->m_data, dx * startVectorNormal.x + dy * startVectorNormal.y);
   unitsToPath++;
 // If units are closer to the end vector than the start vector, use the end vector.
   Real distToEndSqr;
@@ -491,42 +476,36 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
   distToStartSqr = dx * dx + dy * dy;
   if (distToStartSqr > distToEndSqr)
   useEndVector = true;
-  
  }
  Object *theUnit;
  if (useEndVector)
- 
  {
 // resort unsing the end vector.
   startVector = endVector;
   startVectorNormal = endVectorNormal;
   for (theUnit = iter->first(); theUnit; theUnit = iter->next())
-  iter2->insert(theUnit);
+  iter2->insert((int)theUnit);
   iter->rva0054B414();
   for (theUnit = iter2->first(); theUnit; theUnit = iter2->next())
-  
   {
    Coord3D unitPos;
    copyCoord(unitPos, theUnit->getPosition());
    dx = unitPos.x - center.x;
    dy = unitPos.y - center.y;
 // Sort by the dot product of normal.
-   iter->insert(theUnit, dx * startVectorNormal.x + dy * startVectorNormal.y);
-   
+   iter->insert((int)theUnit, dx * startVectorNormal.x + dy * startVectorNormal.y);
   }
   iter2->rva0054B414();
-  
  }
  iter->sort(ITER_SORTED_FAR_TO_NEAR);
  Int curIndex = 0;
  for (theUnit = iter->first(); theUnit; theUnit = iter->next())
- 
  {
   AIUpdateInterface *ai = theUnit->getAI();
   Int divisor = ((unitsToPath + 1) / numColumns);
   if (divisor < 1) divisor = 1;
   Int columnDelta = 1 - (curIndex / divisor);
-  _ReadWriteBarrier();
+
 // 0, 1 from left to right across column.
   if (columnDelta == 0) columnDelta = -1;
   divisor = ((unitsToPath + 1) / 3);
@@ -543,9 +522,8 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
   Real dx, dy;
   dx = theUnit->getPosition()->x - center.x;
   dy = theUnit->getPosition()->y - center.y;
-  iter2->insert(theUnit, dx * startVector.x + dy * startVector.y);
+  iter2->insert((int)theUnit, dx * startVector.x + dy * startVector.y);
   curIndex++;
-  
  }
  iter2->sort(ITER_SORTED_FAR_TO_NEAR);
 // Even out columns.
@@ -560,7 +538,6 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
  }
  ;
  for (theUnit = iter2->first(); theUnit; theUnit = iter2->next())
- 
  {
   AIUpdateInterface *ai = theUnit->getAI();
   Int tmp = ai->getTmpValue();
@@ -574,63 +551,46 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
   Int delta = 10000;
   Int best = -1;
   for (i = 0; i < 3; i += 2)
-  
   {
    if (column2[i] == min2)
-   
    {
     Int dx = (1 + columnDelta) - i;
     if (dx < 0) dx = -dx;
     if (dx < delta)
-    
     {
      delta = dx;
      best = i;
-     
     }
-    
    }
-   
   }
   if (best >= 0)
-  
   {
    column2[best]++;
    columnDelta = best - 1;
-   
   }
   delta = 10000;
   best = -1;
   for (i = 0; i < 3; i++)
-  
   {
    if (column3[i] == min3)
-   
    {
     Int dx = (1 + threeColumnDelta) - i;
     if (dx < 0) dx = -dx;
     if (dx < delta)
-    
     {
      delta = dx;
      best = i;
-     
     }
-    
    }
-   
   }
   if (best >= 0)
-  
   {
    column3[best]++;
    threeColumnDelta = best - 1;
-   
   }
   if (unitsToPath < 5)
   threeColumnDelta = columnDelta;
   ai->setTmpValue((threeColumnDelta << 16) | (columnDelta & 0x00ffff));
-  
  }
  curIndex = 0;
  Int columnFactor[5] = 
@@ -640,7 +600,6 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
  ;
  PathfindLayerEnum layer = TheTerrainLogic->getLayerForDestination(0, pos);
  for (theUnit = iter2->first(); theUnit; theUnit = iter2->next())
- 
  {
   AIUpdateInterface *ai = theUnit->getAI();
   Int tmp = ai->getTmpValue();
@@ -654,25 +613,20 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
   Coord3D prevPos;
   copyCoord(prevPos, theUnit->getPosition());
   while (node)
-  
   {
    Coord3D dest;
    copyCoord(dest, node->getPosition());
    PathNode *tmpNode;
    PathNode *nextNode = 0;
    for (tmpNode = node->getNextOptimized(); tmpNode; tmpNode = tmpNode->getNextOptimized())
-   
    {
     Real dx = tmpNode->getPosition()->x - dest.x;
     Real dy = tmpNode->getPosition()->y - dest.y;
     if (dx * dx + dy * dy > farEnoughSqr)
-    
     {
      nextNode = tmpNode;
      break;
-     
     }
-    
    }
    if (nextNode == 0) break;
    Coord2D cornerVectorNormal;
@@ -686,41 +640,32 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
    dest.x += offset * columnDelta * cornerVectorNormal.x;
    dest.y += offset * columnDelta * cornerVectorNormal.y;
    if (factor & 1)
-   
    {
     dest.x += 0.5f * PATHFIND_CELL_SIZE_F * cornerVectorNormal.x;
     dest.y += 0.5f * PATHFIND_CELL_SIZE_F * cornerVectorNormal.y;
-    
    }
    else
-   
    {
     dest.x -= 0.5f * PATHFIND_CELL_SIZE_F * cornerVectorNormal.x;
     dest.y -= 0.5f * PATHFIND_CELL_SIZE_F * cornerVectorNormal.y;
-    
    }
    Coord2D curVector;
    curVector.x = dest.x - prevPos.x;
    curVector.y = dest.y - prevPos.y;
 // Make sure that this dest is going in the same direction as the vector.
    if (cornerVector.x * curVector.x + cornerVector.y * curVector.y > 0)
-   
    {
     path.push_back(dest);
     prevPos = dest;
-    
    }
    node = node->getNextOptimized();
    for (tmpNode = previousNode->getNextOptimized(); tmpNode && tmpNode != node; tmpNode = tmpNode->getNextOptimized())
-   
    {
     Real dx = tmpNode->getPosition()->x - node->getPosition()->x;
     Real dy = tmpNode->getPosition()->y - node->getPosition()->y;
     if (dx * dx + dy * dy > farEnoughSqr)
     previousNode = tmpNode;
-    
    }
-   
   }
   Coord3D dest;
   copyCoord(dest, pos);
@@ -732,17 +677,14 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
   dest.x += offset * threeColumnDelta * endVectorNormal.x;
   dest.y += offset * threeColumnDelta * endVectorNormal.y;
   if (factor & 1)
-  
   {
    dest.x += PATHFIND_CELL_SIZE_F * endVectorNormal.x;
    dest.y += PATHFIND_CELL_SIZE_F * endVectorNormal.y;
-   
   }
   dest.x -= factor * offset * endVector.x;
   dest.y -= factor * offset * endVector.y;
   dest.z = TheTerrainLogic->getLayerHeight(dest.x, dest.y, layer, 0, true);
   while (path.size() > 0)
-  
   {
    Coord2D curVector;
    prevPos = path[path.size() - 1];
@@ -753,17 +695,27 @@ Bool AIGroup::moveVehicleToPos(const Coord3D *pos, CommandSourceType cmdSource)
    path.pop_back();
    else
    break;
-   
   }
-  TheAI->pathfinder()->adjustDestination(theUnit, ai->getLocomotorSet(), &dest, 0);
-  theUnit->rva0028ACEE(&dest, LAYER_GROUND);
+  TheAI->pathfinder()->AdjustDestination(theUnit, ai->getLocomotorSet(), &dest, 0);
+  theUnit->rva0028ACEE((int)&dest, LAYER_GROUND);
   path.push_back(dest);
   ai->getCommandInterface()->rva0036EE16((const Rva0035149F *)&path, 0, cmdSource);
-  
  }
  ::delete iter;
- if (0) { SimpleObjectIterator t1_dead; }
+
  ::delete iter2;
  return true;
- 
+}
+
+void AIGroup::groupOneRing()
+{
+ for (BfmeListNode *i=m_memberList->m_next; i!=m_memberList; i=i->m_next) {
+  Object *obj=i->m_data;
+  if (!obj) continue;
+  AIUpdateInterface *ai=obj->getAI();
+  Rva00373EC6 *module=obj->rva0028F4BC();
+  if (!module) continue;
+  if(ai) ai->getCommandInterface()->aiIdle(CMD_FROM_AI);
+  module->rva00374815();
+ }
 }
