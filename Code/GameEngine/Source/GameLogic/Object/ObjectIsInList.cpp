@@ -42,7 +42,7 @@ extern TerrainLogic *TheTerrainLogic;
 class Rva004DD843
 {
 public:
-	void rva004DE2ED();
+	bool rva004DE2ED();	// rowed 0x004DE2ED returns bool; this caller ignores it
 };
 
 class Object
