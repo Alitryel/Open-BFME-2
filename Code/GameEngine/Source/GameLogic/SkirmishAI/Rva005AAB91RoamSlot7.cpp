@@ -303,6 +303,13 @@ public:
 };
 extern Rva002A8F24 *g_00DFEEF8;
 
+// 0x004ED748 on the tactic base is rowed as AITactic::end(bool, bool).
+class AITactic
+{
+public:
+	void end(bool a, bool b);
+};
+
 class Rva004ECECD
 {
 public:
@@ -316,7 +323,6 @@ public:
 	virtual void update();
 	virtual void v8();
 	virtual Rva004ECECD *create();
-	void rva004ED748(int a, int b);
 };
 
 class Rva005DC73C : public Rva004ECECD
@@ -340,7 +346,7 @@ public:
 	virtual void xfer(Xfer *xfer);
 	virtual void v6();
 	virtual void update();
-	void rva005AAE3F(Object *unit);
+	void roam(Object *unit);	// 0x005AAE3F (row name)
 private:
 	bool m_roaming;		// +0x58
 };
@@ -355,9 +361,9 @@ void AIRoamingDefenseTactic::update()
 		Object *obj = TheGameLogic->findObjectByID(ids->m_begin[i]);
 		if (obj && obj->m_ai->isIdle() && !obj->testStatus(OBJECT_STATUS_5A)
 			&& obj->m_304 == m_owner->m_2EC) {
-			rva005AAE3F(obj);
+			roam(obj);
 			break;
 		}
 	}
-	rva004ED748(0, 0);
+	reinterpret_cast<AITactic *>(static_cast<Rva004ECECD *>(this))->end(false, false);
 }
