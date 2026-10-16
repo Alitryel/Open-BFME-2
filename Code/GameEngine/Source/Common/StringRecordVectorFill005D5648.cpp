@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /Ob2 /EHsc /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
-// ?Rva005D5648Fill@@YGXPAV?$vector@UBfmeStringRecord005D511F@@V?$allocator@UBfmeStringRecord005D511F@@@_STL@@@_STL@@PAVGameInfo@@@Z @0x005D5648 136B
+// ?rva005D5648@ChatWindowsLan@@QAEXPAV?$vector@UBfmeStringRecord005D511F@@V?$allocator@UBfmeStringRecord005D511F@@@_STL@@@_STL@@PAVGameInfo@@@Z @0x005D5648 136B
 // Fill a vector<BfmeStringRecord005D511F> from human game slots. Layout from
 // GameSlotSetState (name@0x30 ip@0x34 nat@0x38 port@0x3C) and the 5-arg ctor
 // row 0x005D516E plus push_back row 0x005D5548. Callers 0x005D5715 0x005D579A.
@@ -65,7 +65,16 @@ private:
 extern unsigned int g_00DB91B4;
 extern unsigned int g_00DB91B0;
 
-void __stdcall Rva005D5648Fill(_STL::vector<BfmeStringRecord005D511F> *vec, GameInfo *info)
+// A ChatWindowsLan member that never reads `this`: both retail callers in
+// ChatWindowsLan (0x005D5715 in 0x005D56D0 and 0x005D579A in 0x005D574C) load
+// ECX=this once for it and the GetLobbyPlayers member call they share.
+class ChatWindowsLan
+{
+public:
+    void rva005D5648(_STL::vector<BfmeStringRecord005D511F> *vec, GameInfo *info);
+};
+
+void ChatWindowsLan::rva005D5648(_STL::vector<BfmeStringRecord005D511F> *vec, GameInfo *info)
 {
     int i = 0;
     if (info == 0)

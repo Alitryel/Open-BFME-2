@@ -15667,7 +15667,6 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ??0ControlBarSchemeManager@@QAE@XZ,0x003200EB,callee of ?init@ControlBar@@UAEXXZ
 ?initObserverControls@ControlBar@@QAEXXZ,0x0050DE39,callee of ?init@ControlBar@@UAEXXZ
 ?postProcessCommands@ControlBar@@QAEXXZ,0x0031AC39,callee of ?init@ControlBar@@UAEXXZ
-?rva005D5648@ChatWindowsLan@@QAEXPAV?$vector@UBfmeStringRecord005D511F@@V?$allocator@UBfmeStringRecord005D511F@@@_STL@@@_STL@@PAVGameInfo@@@Z,0x005D5648,callee of ?rva005D574C@ChatWindowsLan@@QAE_NXZ
 ??1Rva001021F7@@QAE@XZ,0x00102188,callee of ?Rva001022C4Shutdown@@YAXXZ
 ??$swap_ranges@PAUTreeHintRef00217D4C@@PAU1@@_STL@@YAPAUTreeHintRef00217D4C@@PAU1@00@Z,0x004F6FFC,callee read from retail REL32 at 0x004F74EB in the TreeHintRef gcd __rotate 0x004F74A1; STLport swap_ranges over the intrusive handle compiles to the whole 38B native body calling the rowed swap 0x004F6542 and folds with the AsciiString twin; fold-proof=Code/Libraries/Source/WWVegas/WWLib/PAUTreeHintRef00217D4CRva004F9565.cpp
 ??$__rotate@PAUTreeHintRef00217D4C@@H@_STL@@YAPAUTreeHintRef00217D4C@@PAU1@00PAHABUrandom_access_iterator_tag@0@@Z,0x004F7A28,callee read from retail REL32 in rotate 0x004F8049; the random-access __rotate dispatcher over the TreeHintRef handle compiles to the whole native 27B body calling the rowed gcd __rotate 0x004F74A1 and folds with the AsciiString twin; fold-proof=Code/Libraries/Source/WWVegas/WWLib/PAUTreeHintRef00217D4CRva004F9565.cpp
