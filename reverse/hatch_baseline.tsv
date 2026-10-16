@@ -33793,12 +33793,6 @@ pin	reverse/symbols.csv	0x00A18234	1
 pin	reverse/symbols.csv	0x00A18238	1
 pragma_optimize	Code/GameEngine/Source/Common/Bfme/Rva0080EE80Query.cpp	"",off	1
 pragma_optimize	Code/GameEngine/Source/Common/Bfme/Rva0080EE80Query.cpp	"",on	1
-pragma_optimize	Code/GameEngine/Source/Common/Bfme/Rva0082AFF0Accessor.cpp	"y",off	1
-pragma_optimize	Code/GameEngine/Source/Common/Bfme/Rva0082AFF0Accessor.cpp	"y",on	1
-pragma_optimize	Code/GameEngine/Source/Common/Bfme/Rva0082BDA0_setByte.cpp	"y",off	1
-pragma_optimize	Code/GameEngine/Source/Common/Bfme/Rva0082BDA0_setByte.cpp	"y",on	1
-pragma_optimize	Code/GameEngine/Source/Common/Bfme5FiftyOne.cpp	"y",off	1
-pragma_optimize	Code/GameEngine/Source/Common/Bfme5FiftyOne.cpp	"y",on	1
 pragma_optimize	Code/GameEngine/Source/Common/Bfme5SmallTests.cpp	"",on	9
 pragma_optimize	Code/GameEngine/Source/Common/Bfme5SmallTests.cpp	"s",on	8
 pragma_optimize	Code/GameEngine/Source/Common/Bfme5SmallTests.cpp	"t",on	1
