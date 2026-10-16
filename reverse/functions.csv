@@ -7331,7 +7331,7 @@ _Rva008118C0,,0x0067D7C0,5,Code/Libraries/Source/DirtySock/Y5SmallHelpers.c,matc
 ??1Rva004C1EF7@@UAE@XZ,,0x004C1EF7,25,Code/GameEngine/Source/Common/Rva004BF951Derived.cpp,matched,opaque MI dtor
 ??1Rva004C2016@@UAE@XZ,,0x004C2016,25,Code/GameEngine/Source/Common/Rva004BF951Derived.cpp,matched,opaque MI dtor
 ??1Rva000CEB6F@@UAE@XZ,,0x000CEB6F,11,Code/GameEngine/Source/Common/Rva0049B47CDerived.cpp,matched,opaque derived dtor tail-jmp opaque fold base
-??1Rva00254C4B@@UAE@XZ,,0x00254C4B,11,Code/GameEngine/Source/Common/Rva0049B47CDerived.cpp,matched,opaque derived dtor
+??1Rva00252B68@@UAE@XZ,,0x00254C4B,11,Code/GameEngine/Source/Common/Rva0049B47CDerived.cpp,matched,opaque derived dtor
 ??1Rva00341E22@@UAE@XZ,,0x00341E22,11,Code/GameEngine/Source/Common/Rva0049B47CDerived.cpp,matched,opaque derived dtor
 ??1Rva00362EE3@@UAE@XZ,,0x00362EE3,11,Code/GameEngine/Source/Common/Rva0049B47CDerived.cpp,matched,opaque derived dtor
 ??1Rva004607E1@@UAE@XZ,,0x004607E1,18,Code/GameEngine/Source/Common/Rva0049B47CDerived.cpp,matched,opaque MI dtor two vptrs tail-jmp opaque fold base
@@ -11117,7 +11117,7 @@ _math_deg,,0x00748710,38,Code/Libraries/Source/Lua/lmathlib.c,matched,Lua math.d
 ?Rva00452D86Get@@YAHXZ,,0x00452D86,6,Code/GameEngine/Source/Common/GlobalGetterSingles.cpp,matched,A1 global dword getter over 0x00DC908C; prev C3; unclaimed standalone
 ?get@Rva00574AA5AddDwordField@@QBEHXZ,,0x00574AA5,7,Code/GameEngine/Source/Common/Disp8AddDwordFieldGetters.cpp,matched,disp8 add dword getter; opaque holder
 ??_GRva000CEB6F@@UAEPAXI@Z,,0x000CEF83,28,Code/GameEngine/Source/Common/Rva0049B47CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
-??_GRva00254C4B@@UAEPAXI@Z,,0x00254C2F,28,Code/GameEngine/Source/Common/Rva0049B47CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
+??_GRva00252B68@@UAEPAXI@Z,,0x00254C2F,28,Code/GameEngine/Source/Common/Rva0049B47CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva00341E22@@UAEPAXI@Z,,0x00342F41,28,Code/GameEngine/Source/Common/Rva0049B47CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ??_GRva00362EE3@@UAEPAXI@Z,,0x003630E6,28,Code/GameEngine/Source/Common/Rva0049B47CDerived.cpp,matched,scalar deleting-dtor thunk emitted via TU vtable; byte-exact
 ?name@Rva001F37BENamed@@QBEPBDXZ,,0x001F37BE,6,Code/GameEngine/Source/Common/SubsystemNameGetters.cpp,matched,literal name getter returning FXParticleInfo; vtable ref in .rdata; address-derived placeholder name
@@ -37664,7 +37664,7 @@ _VP6_UpdateContext,,0x001BC390,51,Code/Libraries/Source/VP6/FilterMath.cpp,match
 ??0Rva004BA1D0@@QAE@ABV0@@Z,,0x004BA1D0,73,Code/GameEngine/Source/Common/Rva004BA1D0Record.cpp,matched,copy ctor via rowed vector copy shares 0x2C layout with 0x004BA1C8
 ??1PropagandaTowerBehaviorModuleData@@UAE@XZ,,0x00481BCE,48,Code/GameEngine/Source/GameLogic/Object/Behavior/PropagandaTowerBehaviorModuleDataDtor.cpp,matched,PropagandaTowerBehaviorModuleData dtor via RunOffMap 48B precedent
 ??4SubsystemInterface@@QAEAAV0@ABV0@@Z,,0x00329880,31,Code/Libraries/Source/subsystem/SubsystemInterfaceCopy.cpp,matched,SubsystemInterface copy assign byte plus AsciiString via 0x366F0 vtable preserved
-??0Rva004CA125@@QAE@ABV0@@Z,,0x004CA125,24,Code/GameEngine/Source/Common/Rva004CA125Copy.cpp,matched,derived copy via rowed 004C9FBF plus vptr BEFE48 caller 004CA1D7
+??0Rva00252B68@@QAE@ABV0@@Z,,0x004CA125,24,Code/GameEngine/Source/Common/Rva004CA125Copy.cpp,matched,derived copy via rowed 004C9FBF plus vptr BEFE48 caller 004CA1D7
 ??_GRva004BA1C8@@QAEPAXI@Z,,0x004BA2CD,28,Code/GameEngine/Source/Common/FamilyDeletingDtors_muse-6293.cpp,matched,scalar deleting dtor calls rowed dtor 0x004BA1C8 plus rowed delete
 ?Rva004BA341DestroyRange@@YAXPAVRva004BA1C8@@0@Z,,0x004BA341,25,Code/GameEngine/Source/Common/Rva004BA1C8Record.cpp,matched,range destroy calls rowed dtor 0x004BA1C8 stride 0x2C
 ?_M_insert@?$_Rb_tree@UBfmePod20@@U1@U?$_Identity@UBfmePod20@@@_STL@@U?$less@UBfmePod20@@@3@V?$allocator@UBfmePod20@@@3@@_STL@@AAE?AU?$_Rb_tree_iterator@UBfmePod20@@U?$_Nonconst_traits@UBfmePod20@@@_STL@@@2@PAU_Rb_tree_node_base@2@0ABUBfmePod20@@0@Z,,0x004AF3E6,136,Code/Libraries/Source/WWVegas/WWLib/stlport_rb_tree_bfmepod20_insert.cpp,matched,RespawnRule 20B set insert via rowed create-node and Rebalance unsigned level key

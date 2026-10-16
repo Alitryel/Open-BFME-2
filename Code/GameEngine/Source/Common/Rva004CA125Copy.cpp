@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc
-// ??0Rva004CA125@@QAE@ABV0@@Z, retail 0x004CA125, 24 bytes.
+// ??0Rva00252B68@@QAE@ABV0@@Z, retail 0x004CA125, 24 bytes (copy ctor of the class whose ctor 0x00252B68 and dtor 0x00254C4B use the same vtable).
 // Derived copy ctor: calls rowed ??0Rva004C9FBF at 0x004C9FBF then installs
 // vptr 0xBEFE48 (Rva00252B68 vtable, DIR32). No extra members beyond the
 // 12-byte base (vptr plus two ints), so 24B (base call plus vptr plus return).
@@ -28,14 +28,14 @@ public:
 	Int m_field08;
 };
 
-class Rva004CA125 : public Rva004C9FBF
+class Rva00252B68 : public Rva004C9FBF
 {
 public:
-	Rva004CA125(const Rva004CA125 &other);
-	virtual ~Rva004CA125();
+	Rva00252B68(const Rva00252B68 &other);
+	virtual ~Rva00252B68();
 };
 
-Rva004CA125::Rva004CA125(const Rva004CA125 &other)
+Rva00252B68::Rva00252B68(const Rva00252B68 &other)
 	: Rva004C9FBF(other)
 {
 }

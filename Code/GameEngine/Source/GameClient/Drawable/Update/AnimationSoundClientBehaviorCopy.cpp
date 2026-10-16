@@ -1,7 +1,7 @@
 // cl: /DNDEBUG /MD /EHsc
 // ??0AnimationSoundClientBehavior@@QAE@ABV0@@Z, retail 0x004CA1C1, 98 bytes.
 // Target evidence: the body copy-constructs the 12-byte primary base through
-// the rowed Rva004CA125 copy ctor (0x004CA125), stores the folded secondary-
+// the rowed Rva00252B68 copy ctor (0x004CA125), stores the folded secondary-
 // base vftable C6FFFC at +0x0C, then the class vftables C5EE80 (+0x00) and
 // C5EE74 (+0x0C), copies +0x10 from the source, zeros the two list links at
 // +0x14/+0x18 and registers itself with the container global at VA 0x00E032D0
@@ -11,11 +11,11 @@
 // secondary base is modelled as a plain interface whose inline ctor stores the
 // folded vftable; member names beyond the offsets are not established.
 
-class Rva004CA125
+class Rva00252B68
 {
 public:
-	Rva004CA125(const Rva004CA125 &other);
-	virtual ~Rva004CA125();
+	Rva00252B68(const Rva00252B68 &other);
+	virtual ~Rva00252B68();
 
 private:
 	unsigned int m_field04;
@@ -43,7 +43,7 @@ public:
 
 extern Rva00432F23 *g_004C9DC9Container;
 
-class AnimationSoundClientBehavior : public Rva004CA125, public Rva004C9E33Iface
+class AnimationSoundClientBehavior : public Rva00252B68, public Rva004C9E33Iface
 {
 public:
 	AnimationSoundClientBehavior(const AnimationSoundClientBehavior &other);
@@ -58,7 +58,7 @@ private:
 
 AnimationSoundClientBehavior::AnimationSoundClientBehavior(
 	const AnimationSoundClientBehavior &other)
-	: Rva004CA125(other), m_float10(other.m_float10), m_next14(0), m_prev18(0)
+	: Rva00252B68(other), m_float10(other.m_float10), m_next14(0), m_prev18(0)
 {
 	if (g_004C9DC9Container)
 		g_004C9DC9Container->rva00432F7D((Rva00432F23Node *)this);
