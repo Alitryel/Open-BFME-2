@@ -7660,7 +7660,7 @@ name,address,notes
 ?bfmeClearAVHW@BfmeSubAVHW@@QAEXXZ,0x0066D890
 ?bfmeClearBVHW@BfmeSubBVHW@@QAEXXZ,0x0066CA50
 ?bfmeClearMembers@@YAXPAVLGA_MemberObj@@@Z,0x003ED7A2,callee read from the retail REL32 in placed BFME1-donor body ??4LargeGroupAudioKeyMap@@QAEAAV0@ABV0@@Z (0x003ED989)
-?bfmeClearVHX@Rva006609D0@@AAEXXZ,0x0054FC14,callee of ??1Rva006609D0@@UAE@XZ at retail 0x0054FFA5 read from its REL32 displacement; ICF alias onto the matched ?rva0054FC14@Rva0054FC14@@QAEXXZ body at this address
+?bfmeClearVHX@Rva0055011A@@AAEXXZ,0x0054FC14,callee of ??1Rva006609D0@@UAE@XZ at retail 0x0054FFA5 read from its REL32 displacement; ICF alias onto the matched ?rva0054FC14@Rva0054FC14@@QAEXXZ body at this address
 ?bfmeClearVUP@BfmeStrVUP@@QAEXXZ,0x00036410,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1
 ?bfmeClearYK@BfmeStringYK@@QAEXXZ,0x00036410,callee of 0Rva0034C5E0 (0x00356FDC) at the site its BFME1 donor calls it; may be an ICF alias
 ?bfmeClose@Gen009D1A40@@QAEXXZ,0x0060259A,donor_sweep: call target read from retail at a unique placement of a BFME 1 donor body compiled /O1

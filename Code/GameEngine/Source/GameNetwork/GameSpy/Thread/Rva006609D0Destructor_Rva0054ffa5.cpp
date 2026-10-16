@@ -87,10 +87,10 @@ public:
 	virtual ~Rva006609D0Base() {}
 };
 
-class Rva006609D0 : public Rva006609D0Base
+class Rva0055011A : public Rva006609D0Base
 {
 public:
-	virtual ~Rva006609D0();
+	virtual ~Rva0055011A();
 
 private:
 	void bfmeClearVHX( void );
@@ -107,8 +107,8 @@ private:
 	Rva006609D0LockHolder m_lockB0;
 };
 
-// ??1Rva006609D0@@UAE@XZ
-Rva006609D0::~Rva006609D0()
+// ??1Rva0055011A@@UAE@XZ
+Rva0055011A::~Rva0055011A()
 {
 	bfmeClearVHX();
 }
@@ -125,4 +125,4 @@ Rva006609D0::~Rva006609D0()
 //   0x00613A20 reads ??1MutexClass@@QAE@XZ
 #pragma comment(linker, "/alternatename:??1GameResultsCounter@@QAE@XZ=??1MutexClass@@QAE@XZ")
 //   0x0054FC14 reads ?rva0054FC14@Rva0054FC14@@QAEXXZ
-#pragma comment(linker, "/alternatename:?bfmeClearVHX@Rva006609D0@@AAEXXZ=?rva0054FC14@Rva0054FC14@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?bfmeClearVHX@Rva0055011A@@AAEXXZ=?rva0054FC14@Rva0054FC14@@QAEXXZ")
