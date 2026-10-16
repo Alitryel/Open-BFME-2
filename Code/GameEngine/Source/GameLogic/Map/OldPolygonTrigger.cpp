@@ -149,11 +149,19 @@ public:
 	virtual void setBoundary(const void *);
 };
 
-class Rva00308E63 : public TargetRef00217D4C
+// The standing water area: its ctor 0x00308E63 is rowed as
+// Rva0030902E::Rva0030902E(int), whose class has a virtual base, so the call
+// passes the hidden most-derived flag after the count. The empty virtual base
+// stands in for that base here; its vbptr takes +0x08.
+struct Rva0030902EVirtualBase
+{
+};
+
+class Rva0030902E : public TargetRef00217D4C, public virtual Rva0030902EVirtualBase
 {
 public:
-	Rva00308E63(int, bool);
-	char m_pad08[0x30 - 8];
+	Rva0030902E(int);
+	char m_pad0C[0x30 - 0x0C];
 	Rva0032927ABoundary m_boundary;
 	char m_pad34[0xdc - 0x34];
 };
@@ -161,7 +169,7 @@ public:
 class StandingWaterRef
 {
 public:
-	StandingWaterRef(Rva00308E63 *p) : m_ptr(p)
+	StandingWaterRef(Rva0030902E *p) : m_ptr(p)
 	{
 		if (m_ptr) ++m_ptr->references;
 	}
@@ -173,7 +181,7 @@ public:
 	{
 		if (m_ptr) ReleaseTreeHintRef00217D4C(m_ptr);
 	}
-	Rva00308E63 *m_ptr;
+	Rva0030902E *m_ptr;
 };
 
 class Rva0030912A
@@ -204,8 +212,8 @@ void *__cdecl operator new(unsigned int);
 void __cdecl rva0032927A(Rva003294B3Obj *record, int areaSet)
 {
 	Out *data = reinterpret_cast<Out *>(record);
-	StandingWaterRef water(new Rva00308E63(
-		data->m_polygon.m_pointsEnd - data->m_polygon.m_pointsBegin, true));
+	StandingWaterRef water(new Rva0030902E(
+		data->m_polygon.m_pointsEnd - data->m_polygon.m_pointsBegin));
 	void (Rva0032927ABoundary::*setBoundary)(const void *) =
 		&Rva0032927ABoundary::setBoundary;
 	(water.m_ptr->m_boundary.*setBoundary)(&data->m_polygon.m_pointsBegin);
@@ -422,7 +430,7 @@ bool Rva00329663::parse(DataChunkInput &file, DataChunkInfo *info)
 
 	if (info->m_version == 1)
 	{
-		StandingWaterRef water(new Rva00308E63(4, true));
+		StandingWaterRef water(new Rva0030902E(4));
 		PolygonalArea *boundary = reinterpret_cast<PolygonalArea *>(&water.m_ptr->m_boundary);
 		void (PolygonalArea::*setElevation)(int) = &PolygonalArea::setBoundaryElevationSlot;
 		(boundary->*setElevation)(7);

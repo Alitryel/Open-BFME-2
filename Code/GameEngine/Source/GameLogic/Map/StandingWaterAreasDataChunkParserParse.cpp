@@ -103,11 +103,19 @@ struct StandingWaterPoints
 	Int size() const { return m_finish - m_start; }
 };
 
-class Rva00308E63 : public WaterArea
+// The standing water area: its ctor 0x00308E63 is rowed as
+// Rva0030902E::Rva0030902E(int), whose class has a virtual base, so the call
+// passes the hidden most-derived flag after the count. The empty virtual base
+// stands in for that base here; its vbptr takes +0x08.
+struct Rva0030902EVirtualBase
+{
+};
+
+class Rva0030902E : public WaterArea, public virtual Rva0030902EVirtualBase
 {
 public:
-	Rva00308E63(Int, Bool);
-	char m_pad08[0x30 - 8];
+	Rva0030902E(Int);
+	char m_pad0C[0x30 - 0x0C];
 	Rva005CB283 m_polygon;							// +0x30
 	char m_pad31[0x38 - 0x31];
 	StandingWaterPoints m_points;					// +0x38
@@ -117,7 +125,7 @@ public:
 class StandingWaterRef
 {
 public:
-	StandingWaterRef(Rva00308E63 *p) : m_ptr(p)
+	StandingWaterRef(Rva0030902E *p) : m_ptr(p)
 	{
 		if (m_ptr) ++m_ptr->references;
 	}
@@ -129,8 +137,8 @@ public:
 	{
 		if (m_ptr) ReleaseTreeHintRef00217D4C(m_ptr);
 	}
-	Rva00308E63 *operator->() const { return m_ptr; }
-	Rva00308E63 *m_ptr;
+	Rva0030902E *operator->() const { return m_ptr; }
+	Rva0030902E *m_ptr;
 };
 
 class Rva00308765
@@ -177,7 +185,7 @@ Bool StandingWaterAreasDataChunkParser::parse(DataChunkInput &file, DataChunkInf
 	while (count > 0)
 	{
 		Int id = file.readInt();
-		StandingWaterRef water(new Rva00308E63(0, true));
+		StandingWaterRef water(new Rva0030902E(0));
 		water->parse(file, (void *)1);
 		for (Int i = 0; i < 2; ++i)
 			reinterpret_cast<Rva00308765 *>(water.m_ptr)->rva00308765(i, file.readAsciiString());
