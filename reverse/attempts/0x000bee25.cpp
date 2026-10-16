@@ -1,5 +1,5 @@
-// ?rva000BEE25@Rva000B8F5AOuter@@QAEXPAXMHHH@Z
-// partial score=0.9240816136964737 date=2026-10-16
+// ?rva000BEE25@Rva000B8F5AOuter@@QAEXPAXM_N11@Z
+// partial score=0.99 date=2026-10-16
 // stlport
 // cl: /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /Ireference/shims/bfmealloc /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii
 // Primary semantic references: pinned BF1 575ba2b04 ZH W3DModelDraw::doDrawModule
@@ -49,7 +49,7 @@ class ModelConditionFlags{public:bool rva000B3EB3()const;private:unsigned bits[1
 struct ModelStateView{int pad;ModelConditionFlags flags;char rest[0x5c-0x50];unsigned stateFlags;};
 struct ModelDataView{char pad[0x6b];bool requirePower;};
 __forceinline unsigned char Flag(unsigned value){return (value>>5)&1;}
-class Rva000B8F5AOuter{public:bool rva000BF9FC(void*,bool,int);void rva000BEE25(void*,float,int,int,int);};
+class Rva000B8F5AOuter{public:bool rva000BF9FC(void*,bool,int);void rva000BEE25(void*,float,bool,bool,bool);};
 class HAnimClass;
 class W3DScriptedModelDraw{public:void rva000B5D7F(HAnimClass*,unsigned char,int,float,float,float,unsigned char,float);void processAnimations();__forceinline Rva0027532F*GetDrawable(){return drawable;}
  char pad0[4];ModelDataView*data;Rva0027532F*drawable;char padc[0xc];ModelStateView*state;
@@ -104,10 +104,10 @@ void W3DScriptedModelDraw::processAnimations(){
  if(!((Rva000B3A68*)this)->rva000B3A68() && Rva000B2E4CComplete(render,&slots[0],transition) && render && state && whichAnimation!=-1){
   if(transition){void*next=((Rva000B4BED*)module)->rva000B4BED(signature);if(next){nextState=0;pending=false;((Rva000B8F5AOuter*)this)->rva000BF9FC(next,0,0);if(!nextState)transition=false;return;}else{transition=false;nextState=0;}}
   ModelStateView*cur=state;
-  if(!cur->flags.rva000B3EB3())((Rva000B8F5AOuter*)this)->rva000BEE25(cur,-1.0f,0,0,0);
-  else if(Flag(cur->stateFlags)){((Rva000B8F5AOuter*)this)->rva000BEE25(cur,-1.0f,0,0,0);changed=true;}
+  if(!cur->flags.rva000B3EB3())((Rva000B8F5AOuter*)this)->rva000BEE25(cur,-1.0f,false,false,false);
+  else if(Flag(cur->stateFlags)){((Rva000B8F5AOuter*)this)->rva000BEE25(cur,-1.0f,false,false,false);changed=true;}
  }
- if(reselect){reselect=false;((Rva000B8F5AOuter*)this)->rva000BEE25(0,-1.0f,0,0,0);}
+ if(reselect){reselect=false;((Rva000B8F5AOuter*)this)->rva000BEE25(0,-1.0f,false,false,false);}
  ((Rva000B5C41*)this)->rva000B5C41();((Rva000B7074*)this)->rva000B7074();
 }
 
@@ -142,6 +142,7 @@ class Rva000B9A0E {public:void rva000B9A0E(void*,int,int);};
 class Rva000B49F9 {public:unsigned char rva000B49F9();};
 class AnimConditionInfo {public:int rva000B495B();int pickRandomAnimation(int,int);};
 int __stdcall Rva000B3E96Get(int);
+struct AdjustRandom{int rva000B3E96(int);};
 float GetGameClientRandomValueReal(float,float,char*,int);
 struct AdjustAnimation {char names[12];AsciiString name,previousName;char pad14[4];float duration;int mode;float blend,minSpeed,maxSpeed;unsigned char flag;bool weaponTiming;char pad2e[0x40-0x2e];};
 template<class T>struct AdjustVector {T*first,*last,*capacity;int size()const{return last-first;}T&operator[](int i){return first[i];}};
@@ -207,18 +208,18 @@ class HAnimClass;
 static __forceinline unsigned char AdjustBit0(unsigned f){return f&1;}
 static __forceinline unsigned char AdjustBit1(unsigned f){return (f>>1)&1;}
 static __forceinline unsigned char AdjustBit2(unsigned f){return (f>>2)&1;}
-void Rva000B8F5AOuter::rva000BEE25(void *old,float fraction,int preserve,int force,int reset){
+void Rva000B8F5AOuter::rva000BEE25(void *old,float fraction,bool preserve,bool force,bool reset){
  AdjustView*s=(AdjustView*)this;
  if(!s->state||!s->model)return;
  Object*object=s->getDrawable()->getObject();AdjustData*data=s->data;
  bool scripted=!((StringBase<char>*)&s->state->script)->isEmpty();
  int oldIndex=s->selected;
- if((unsigned char)reset){old=0;oldIndex=-1;s->lastSelected=0;}
+ if(reset){old=0;oldIndex=-1;s->lastSelected=0;}
  int count=s->state->animations.size();AdjustAnimation*info=0;
  if(count<=0&&!scripted){
   if(s->render){((Rva000B3C61*)this)->rva000B3C61(0);((Rva000B3C61*)this)->rva000B3C61(1);s->render->clear();}s->selected=-1;return;
  }
- if(!(unsigned char)preserve){
+ if(!preserve){
   if(s->render&&count==0){((Rva000B3C61*)this)->rva000B3C61(0);((Rva000B3C61*)this)->rva000B3C61(1);s->render->clear();}
   s->selected=-1;
   if(scripted){
@@ -252,7 +253,7 @@ void Rva000B8F5AOuter::rva000BEE25(void *old,float fraction,int preserve,int for
   }
  }
  info=&s->state->animations[s->selected];
- if(!(unsigned char)force&&!(unsigned char)preserve&&((AdjustState*)old)==s->state&&!s->state->restart&&s->selected==oldIndex){if(((Rva000B3A68*)this)->rva000B3A68()||!Rva000B2E4CComplete((RenderAnimationObj*)s->render,&s->slots[0],false))return;}
+ if(!force&&!preserve&&((AdjustState*)old)==s->state&&!s->state->restart&&s->selected==oldIndex){if(((Rva000B3A68*)this)->rva000B3A68()||!Rva000B2E4CComplete((RenderAnimationObj*)s->render,&s->slots[0],false))return;}
  AdjustMotion*motion=0;
  if(data->fixedNumber)motion=(AdjustMotion*)((Rva000BE027Anim*)&s->state->animations[s->selected])->rva000BE027(s->model->name,s->model->variant,true,Rva000B2BA3Get((Rva000B2BE5Src*)s->getDrawable(),0));
  else if(data->numbered)motion=(AdjustMotion*)((Rva000BE027Anim*)&s->state->animations[s->selected])->rva000BE027(s->model->name,s->model->variant,true,Rva000B2BE5Get((Rva000B2BE5Src*)s->getDrawable(),s->numbering));
@@ -269,18 +270,19 @@ void Rva000B8F5AOuter::rva000BEE25(void *old,float fraction,int preserve,int for
  s->lastSelected=s->selected;
  if(!motion)return;
  int start=0,direction=1;
- if((unsigned char)preserve){start=(int)s->slots[0].frame;direction=s->slots[0].direction;}
+ if(preserve){start=(int)s->slots[0].frame;direction=s->slots[0].direction;}
  else {
   if(((AnimConditionInfo*)s->state)->rva000B495B()==6||((AnimConditionInfo*)s->state)->rva000B495B()==5){start=motion->frames()-1;direction=-1;}
-  if((unsigned char)force&&fraction>=0.0)start=(int)(fraction*motion->frames());
-  else if(AdjustBit0(s->state->flags)){if(((Rva000B49F9*)s->state)->rva000B49F9()&&((AdjustLOD*)TheGameLODManager)->limit>0)start=Rva000B3E96Get(motion->frames());else start=((AdjustVirtual*)this)->randomFrame(motion->frames());}
-  else if(AdjustBit1(s->state->flags))start=0;
-  else if(AdjustBit2(s->state->flags))start=motion->frames()-1;
-  else if((s->state->flags&0x1d0)&&((AdjustState*)old)&&((AdjustState*)old)!=s->state&&(((AdjustState*)old)->flags&0x1d0)&&(s->state->flags&((AdjustState*)old)->flags&0x1d0)&&fraction>=0.0)start=(int)(fraction*motion->frames());
+  if(force&&fraction>=0.0)start=(int)(fraction*motion->frames());
+  else{AdjustState*state=s->state;
+  if(AdjustBit0(state->flags)){if(((Rva000B49F9*)state)->rva000B49F9()&&((AdjustLOD*)TheGameLODManager)->limit>0)start=((AdjustRandom*)this)->rva000B3E96(motion->frames());else start=((AdjustVirtual*)this)->randomFrame(motion->frames());}
+  else if(AdjustBit1(state->flags))start=0;
+  else if(AdjustBit2(state->flags))start=motion->frames()-1;
+  else if((state->flags&0x1d0)&&((AdjustState*)old)&&((AdjustState*)old)!=state&&(((AdjustState*)old)->flags&0x1d0)&&(state->flags&((AdjustState*)old)->flags&0x1d0)&&fraction>=0.0)start=(int)(fraction*motion->frames());}
  }
  float rate=1.0f;
  if(info->minSpeed!=1.0f||info->maxSpeed!=1.0f)rate=GetGameClientRandomValueReal(info->minSpeed,info->maxSpeed,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngineDevice\\Source\\W3DDevice\\GameClient\\Drawable\\W3DScriptedModelDraw.cpp",0x1114);
- if(info->weaponTiming&&object){Weapon*w=object->getCurrentWeapon(0);if(w){int duration=(int)(info->duration*0.005f),time=duration;if(w->computeStatus(0)==3)time=((Rva002C9504BinarySubField*)w)->get();else{int before=w->getPreAttackDelay(object,0,0);time=before;time+=w->rva002C9D3B(object,0);}rate=(float)duration/(float)time;}}
+ if(info->weaponTiming&&object){Weapon*w=object->getCurrentWeapon(0);if(w){int duration=(int)(info->duration*0.005f),time;if(w->computeStatus(0)==3)time=((Rva002C9504BinarySubField*)w)->get();else time=w->getPreAttackDelay(object,0,0)+w->rva002C9D3B(object,0);rate=(float)duration/(float)time;}}
  float blend=info->blend;int mode=info->mode;
  if(s->sequential){rate=1;start=0;blend=0;if(mode==2&&count==1)mode=1;}
  float end=(float)direction*-0.00001f;end+=(float)start;
