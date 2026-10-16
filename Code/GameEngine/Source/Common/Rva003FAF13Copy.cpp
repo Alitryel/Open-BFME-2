@@ -31,6 +31,8 @@ class Rva003FAFB9 : public Snapshot {
 public:
     Rva003FAFB9(const Rva003FAFB9 &src);
     virtual ~Rva003FAFB9();
+protected:
+    virtual void xfer(Xfer *xfer); // Rva003FAFB9Dtor.cpp; slot 3 of every copy of this vtable
 private:
     AsciiString m_str04;
     float m_x08;
