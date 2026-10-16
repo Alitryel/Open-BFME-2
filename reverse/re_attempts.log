@@ -62400,3 +62400,4 @@ $L518	0x0076E4A5	11	landed	add_match verified Code/GameEngine/Source/GameClient/
 ?GetSnapshotName@Script@@MBEPBDXZ	0x003B3662	6	landed	add_match verified Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptDtor.cpp 6B; slot 2 of vtable 0x00C1F424; renamed from placeholder ?name@Rva003B3662Named (SubsystemNameGetters4.cpp retracted); six bytes mov eax Script-literal ret
 ?rva000EAFA4@W3DTreeBuffer@@QAE_NHPAURva000EAFA4Coord3@@PAMPAURva000EAFA4Coord2@@2@Z	0x000EAFA4	232	landed	add_match verified Code/GameEngine/Source/Common/rva000EAFA4Rva000EAFA4Farm.cpp 232B
 ?cellCallback@Rva002F18D4Info@@QAEHPAVPathfindCell@@0HH@Z	0x002F18D4	544	landed	add_match verified Code/GameEngine/Source/GameLogic/AI/cellCallbackRva002F18D4Farm.cpp 544B
+?rva004B959C@InheritUpgradeCreate@@QAEXXZ	0x004B959C	269	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/Update/rva004B959CRva004B959CFarm.cpp 269B

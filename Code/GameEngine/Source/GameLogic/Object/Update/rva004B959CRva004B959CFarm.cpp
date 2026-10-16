@@ -1,8 +1,8 @@
 // ?rva004B959C@InheritUpgradeCreate@@QAEXXZ
-// partial score=0.84 date=2026-10-15
 // ?rva004B959C@InheritUpgradeCreate@@QAEXXZ
-// partial score=0.8 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /EHsc /MD /DNDEBUG
+#include "../../../Common/PartitionRangeQueryCallView.h"
+#include "../../../Common/PartitionRangeQueryCallView.h"
 // ?rva004B959C@InheritUpgradeCreate@@QAEXXZ @0x004B959C 269B
 // InheritUpgradeCreate create work (the pinned body onBuildComplete 0x004B96A9 tail-calls, see
 // InheritUpgradeCreateOnBuildComplete.cpp): every object within the module data's range (+0x08) of this module's
@@ -14,7 +14,6 @@
 class Player;
 class Object;
 class ModuleData;
-
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
 
 class Rva000421C8
@@ -38,18 +37,7 @@ public:
 	bool m_match;
 };
 
-struct BfmeWideResult
-{
-	Object *next() throw();	// 0x00045623
-	~BfmeWideResult();	// 0x0004AA28
-	void *m_value;
-};
 
-class PartitionManager
-{
-public:
-	BfmeWideResult iterateObjectsInRange(const Coord3D *pos, float radius, int a, Rva000421C8 *filter, int b);	// 0x00625610
-};
 extern PartitionManager *ThePartitionManager;
 
 class UpgradeTemplate;
@@ -107,13 +95,15 @@ void InheritUpgradeCreate::rva004B959C()
 			BfmeWideResult hits = ThePartitionManager->iterateObjectsInRange(&self->m_pos, data->m_range, 1, &Rva002614ECFilter(data->m_pad8C, self->getControllingPlayer(), true), 0);
 			for (Object *other = hits.next(); other != 0; other = hits.next())
 			{
-				if (other->getControllingPlayer() != self->getControllingPlayer())
+				if (self->getControllingPlayer() != other->getControllingPlayer())
 					continue;
-				if (!((Rva002AA292 *)other->m_upgradeMask)->rva002AA292((const int *)data->m_mask))
+				const int *otherMask = other->m_upgradeMask;
+				const int *thisMask = (const int *)data->m_mask;
+				if (!((Rva002AA292 *)otherMask)->rva002AA292(thisMask))
 					continue;
 				for (int i = 0; i < 1024; ++i)
 				{
-					if (data->m_mask[i >> 5] & (1u << (i & 31)))
+					if (data->m_mask[(unsigned int)i >> 5] & (1u << (i & 31)))
 						self->rva00293077(TheUpgradeCenter->rva0026EEA0(i));
 				}
 			}
