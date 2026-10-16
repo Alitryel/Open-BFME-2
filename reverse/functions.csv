@@ -94270,3 +94270,4 @@ $L923,,0x007A8E96,15,Code/Libraries/Source/Apt/AptValue/AptValueConstructBuiltIn
 ?rva005E4116@Rva005E4116@@QAEHXZ,,0x005E4116,65,Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/rva005E4116Rva005E4116Farm.cpp,matched,
 ?rva006CE1C0@@YAXH@Z,,0x006CE1C0,443,Code/Libraries/Source/Apt/rva006CE1C0Rva006CE1C0Farm.cpp,matched,
 ?rva00273DCF@Drawable@@QAEXXZ,,0x00273DCF,421,Code/GameEngine/Source/GameClient/rva00273DCFRva00273DCFFarm.cpp,matched,
+?render@Rva000E0856@@QAEXPAVRenderContext@@@Z,,0x000E0856,621,Code/GameEngine/Source/Common/renderRva000E0856Farm.cpp,matched,

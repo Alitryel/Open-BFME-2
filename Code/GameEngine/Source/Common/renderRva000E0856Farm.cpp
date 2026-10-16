@@ -1,19 +1,14 @@
 // ?render@Rva000E0856@@QAEXPAVRenderContext@@@Z
-// partial score=0.9886323016757801 date=2026-10-15
 // ?render@Rva000E0856@@QAEXPAVRenderContext@@@Z
-// partial score=0.989 date=2026-10-15
 // ?render@Rva000E0856@@QAEXPAVRenderContext@@@Z
-// partial score=0.9741952894126807 date=2026-10-14
-// ?render@Rva000E0856@@QAEXPAVRenderContext@@@Z
-// partial score=0.9742 date=2026-10-10
-// cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
+// cl: /O1 /G7 /arch:SSE /MD /EHs /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 #include <stl/_hashtable.h>
 class BfmeVecHF {public:float x,y,z;};
 class Gen_0094AC70 {public:void bfmeSetPair(const BfmeVecHF*,const BfmeVecHF*);};
 class Matrix3D {public:float cells[12];};
 class LightEnvironmentClass {public:void Pre_Render_Update(const Matrix3D&);};
-#include "reference/shims/wwmath/Vector2.h"
+#include "../../../../reference/shims/wwmath/Vector2.h"
 class SegmentedLineClass {public:void rva0015E3E0(const Vector2&);};
 class CameraClass {public:
 virtual void slot0();
@@ -175,8 +170,9 @@ class Rva000E0856 {public:void render(RenderContext*);void*hint;SegmentedLineCla
 void Rva000E0856::render(RenderContext*ctx){
  if(!TheInGameUI||!TheInGameUI->mode)return;
  ((ArmorTable*)hash)->clear();
- float phase;
- Vector2 uv(0,phase=1.0f-(timeGetTime()%1000)/1000.0f);lines[2]->rva0015E3E0(uv);
+ float phase = (float)(timeGetTime()%1000);
+ phase = 1.0f-phase/1000.0f;
+ Vector2 uv(0,phase);lines[2]->rva0015E3E0(uv);
  uv.X=0;uv.Y=phase;lines[3]->rva0015E3E0(uv);
  BfmeVecHF one={1,1,1},zero={0,0,0};((Gen_0094AC70*)lights)->bfmeSetPair(&zero,&one);
  CameraClass*camera=(*(RenderContext* volatile *)&(ctx))->camera;camera->update();((LightEnvironmentClass*)lights)->Pre_Render_Update(camera->transform);
