@@ -100,6 +100,7 @@ class Rva0040450E
 public:
 	friend class AttributeModifierStore;
 	Rva0040450E();
+	~Rva0040450E();
 	void rva0040450E(int);
 	void rva00214917(AsciiString name);
 private:
@@ -108,7 +109,9 @@ private:
 	AsciiString m_name10;
 	unsigned int m_key14, m_word18;
 	Rva0042526Member m_1C, m_68;
-	unsigned char m_tailB4[0x20];
+	unsigned char m_tailB4[0x18];
+	unsigned char *m_storageCC;
+	unsigned char m_flagsD0[4];
 };
 
 Rva0040450E::Rva0040450E()
@@ -127,7 +130,7 @@ Rva0040450E *AttributeModifierStore::replaceModifier(Int index)
         return 0;
     Rva0040450E *oldModifier = (Rva0040450E *)m_modifiers[index];
     m_retired.push_back(reinterpret_cast<const ModuleData *const &>(oldModifier));
-    oldModifier->m_tailB4[0x1D] = 1;
+    oldModifier->m_flagsD0[1] = 1;
     Rva0040450E *modifier = new Rva0040450E;
     modifier->rva00214917(oldModifier->m_name10);
     modifier->m_key14 = oldModifier->m_key14;
@@ -174,13 +177,17 @@ private:
 };
 struct Rva004DFCB0Element { unsigned word0; };
 class Rva00214ACC { public: void rva00214ACC(Rva004DFCB0Element value); };
-class ModifierRecordScope {
-public:
-    __forceinline ModifierRecordScope() { ((Rva0040450E *)m_storage)->Rva0040450E::Rva0040450E(); }
-    __forceinline ~ModifierRecordScope() { ((Rva002146F7 *)m_storage)->~Rva002146F7(); }
-private:
-    unsigned m_storage[0xD4 / 4];
-};
+// Native parser214C4E destroys this exact D4 record at4043FF. Model
+// the owning fields directly so ordinary and EH exit share its full destructor.
+typedef char ModifierRecordSizeCheck[sizeof(Rva0040450E) == 0xD4 ? 1 : -1];
+Rva0040450E::~Rva0040450E()
+{
+    if (m_storageCC)
+    {
+        delete m_storageCC;
+        m_storageCC = 0;
+    }
+}
 void AttributeModifierStore::parseModifierListDefinition(INI *ini)
 {
     const char *name = ini->getNextToken(0);
@@ -195,7 +202,7 @@ void AttributeModifierStore::parseModifierListDefinition(INI *ini)
         modifier = store->replaceModifier(index);
         isNew = false;
     } else {
-        ModifierRecordScope temporary;
+        Rva0040450E temporary;
         ini->initFromINI(&temporary, (const FieldParse *)Rva00404715Get());
         return;
     }
