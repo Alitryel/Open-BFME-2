@@ -1,4 +1,4 @@
-// cl: /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /O1 /G7   /arch:SSE /DNDEBUG /MD /EHsc /I.
 // Native 2DE3C1..2DE4E6 is the load-game scope wrapper. WorldBuilder's
 // corresponding unnamed E6C210 body calls GameState::doLoadGame and carries
 // the same GUI labels; ZH loadGame supplies the purpose only. The existing
@@ -8,9 +8,16 @@
 // decrements TheGameLogic+1B4; the local access view states only that word.
 // s_inLoadGame spelling comes from WB's doLoadGame assertion and the ZH
 // static flag. Target DIR32 sites establish DFF090; image startup byte is 0.
-// Dispatcher2DD91A is unrowed: first Ghidra block466B has catch continuations.
-// Its actual body reaches RET DF4 at2DDC73 (860B total). This declaration
-// asserts the call ABI; it does not claim a recovered implementation.
+// Dispatcher 2DD91A..2DDC76 is 860 bytes, including both catch continuations;
+// the old 466-byte inventory entry stopped in the first catch. Its native
+// FuncInfo at RVA 920224 proves eleven states and seven cleanup funclets.
+// State 1 unwinds an otherwise empty loading-flag scope through 2DB9AC;
+// native normal exit inlines the same clear of TheGameLogic+6F. The scope,
+// stream, transfer, latch and filename lifetimes below follow that graph.
+// BFME 1 / ZH loadGame supplies the load and LatchRestore semantics; BFME 2
+// adds the two callbacks, stream header/version check, subtype dispatch,
+// video reset and campaign continuation. Field roles beyond those donor
+// relationships remain neutral target access views, not full class layouts.
 #include "unicode_string.h"
 #include "../../GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
@@ -58,8 +65,98 @@ public:
 void HideControlBar(bool);
 class GameWindow;
 void MessageBoxOk(UnicodeString title,UnicodeString text,void (*callback)());
-class GameState {
+class BfmeDfe6e4 { public: void _M_rva00625699(); };
+extern BfmeDfe6e4 *theBfmeDfe6e4;
+class Rva0023D46F {
+ BfmeDfe6e4 *counter;
 public:
+ Rva0023D46F(BfmeDfe6e4*);
+ ~Rva0023D46F() { if(counter) counter->_M_rva00625699(); }
+};
+class Rva00248558Scope { public: Rva00248558Scope(); ~Rva00248558Scope(); };
+class Rva002DCCFB { public: bool rva002DCCFB(UnicodeString); };
+class Rva002DC74A { public: UnicodeString rva002DC74A(const UnicodeString&)const; };
+class GameStateMap { public: void clearScratchPadMaps(); };
+extern void *g_Va00E030D8;
+class Xfer { public: virtual ~Xfer(); };
+class Rva0060C5FA:public Xfer {
+ char opaque04[0x1C];
+public: Rva0060C5FA(void*,void*,void*);
+};
+struct Rva0060C3C3Stream;
+class XferLoad { public: bool Open(Rva0060C3C3Stream*,int*); };
+class Rva0060C45E { public: void clear(); };
+class LoadFileView {
+public:
+ virtual void v0(); virtual void v1(); virtual void close(); virtual void v3();
+ virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
+ virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
+ virtual void v12(); virtual void v13(); virtual Rva0060C3C3Stream *getStream();
+};
+class File;
+class FileSystem { public: File *rva00600676(const unsigned short*,int,int); };
+extern FileSystem *TheFileSystem;
+class AudioManager; extern AudioManager *TheAudio;
+class GameLoadAudioView {
+public:
+ virtual void v0();virtual void v1();virtual void v2();virtual void v3();
+ virtual void v4();virtual void v5();virtual void v6();virtual void v7();
+ virtual void v8();virtual void v9();virtual void v10();virtual void v11();
+ virtual void v12();virtual void v13();virtual void slot14(int);
+ virtual void v15();virtual void v16();virtual void slot17(int,int,int);
+};
+class GhostObjectManager; extern GhostObjectManager *TheGhostObjectManager;
+struct GameLoadGhostView { char opaque[9]; bool saved; };
+class PartitionManager; extern PartitionManager *TheShroudManager;
+class GameLoadShroudView {
+public:
+ virtual void v0();virtual void v1();virtual void v2();virtual void v3();
+ virtual void v4();virtual void v5();virtual void v6();virtual void v7();
+ virtual void v8();virtual void v9();virtual void slot10();
+};
+class AI; extern AI *TheAI;
+class Rva002E713FOwner { public: void rva002E713F(); };
+struct GameLoadAIView { char opaque[0x10]; Rva002E713FOwner *owner; };
+class Display;extern Display *TheDisplay;
+struct GameLoadDisplayView { char opaque[0x114]; bool flag; };
+class VideoPlayerInterface;extern VideoPlayerInterface *TheVideoPlayer;
+class GameLoadVideoView {
+public:
+ virtual void v0();virtual void v1();virtual void v2();virtual void v3();
+ virtual void v4();virtual void v5();virtual void v6();virtual void v7();
+ virtual void v8();virtual void v9();virtual void v10();virtual void v11();
+ virtual void v12();virtual void v13();virtual void v14();virtual void v15();
+ virtual void v16();virtual void v17();virtual void v18();virtual void v19();
+ virtual void v20();virtual void v21();virtual void v22();virtual void v23();
+ virtual void v24();virtual void v25();virtual void v26();virtual void v27();
+ virtual void slot28();
+};
+class LinearCampaignManager;extern LinearCampaignManager *TheLinearCampaignManager;
+class Rva001EB75C { public:void rva001EB75C(); };
+struct GameLoadLogicFlags { char opaque[0x6F]; bool inLoad; char opaque70[0x125-0x70]; bool suspended; };
+#include "reference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/LatchRestore.h"
+enum SnapshotType {SNAPSHOT_SAVELOAD=0,SNAPSHOT_NATIVE3=3,SNAPSHOT_NATIVE4=4};
+struct StreamCloseView { virtual void v0();virtual void v1();virtual void close(); };
+__forceinline void streamClose(Rva0060C3C3Stream*s) {((StreamCloseView*)s)->close();}
+void InitRandom(unsigned);
+class Snapshot; class GameState;
+void Rva002DD908(Snapshot*,GameState*,unsigned);
+void Rva002DC66F(void*,GameState*,unsigned);
+
+class GameLoadLogicFlagScope {
+public:
+ GameLoadLogicFlagScope() { ((GameLoadLogicFlags*)TheGameLogic)->inLoad=true; }
+ ~GameLoadLogicFlagScope() { ((GameLoadLogicFlags*)TheGameLogic)->inLoad=false; }
+};
+
+class GameState {
+ char m_opaque[0x48];
+ int m_saveType;
+ char m_toE18[0xE18-0x4C];
+ bool m_isInLoadGame;
+public:
+ void xferSaveData(Xfer*,SnapshotType);
+ void rva002DC52B();
  int rva002DE3C1(TreeHintOpaque0043671B);
  int rva002DD91A(TreeHintOpaque0043671B);
  static bool s_inLoadGame;
@@ -80,4 +177,73 @@ int GameState::rva002DE3C1(TreeHintOpaque0043671B info)
   MessageBoxOk(TheGameText->fetch("GUI:Error"),msg,0);
  }
  return result;
+}
+int GameState::rva002DD91A(TreeHintOpaque0043671B info)
+{
+ // Keep the refusal return before the state test: cl 7.1 then shares its
+ // pop/epilogue with the earlier return in the same order as retail.
+ goto checkLoadState;
+missingFile:
+ return 2;
+checkLoadState:
+ if(!s_inLoadGame)return 3;
+ if(!((Rva002DCCFB*)this)->rva002DCCFB(info.filename))goto missingFile;
+ GameLoadLogicFlagScope inLoad;
+ {
+ Rva0023D46F countRef(theBfmeDfe6e4);
+ Rva00248558Scope scope;
+
+ bool campaignSave=((*(int*)((char*)&info+0x28))==1 || (*(int*)((char*)&info+0x28))==0);
+ if((*(int*)((char*)&info+0x28))==1 || (*(int*)((char*)&info+0x28))==4 || (*(int*)((char*)&info+0x28))==6)TheGameLogic->rva00376E92(false,false);
+ ((GameStateMap*)g_Va00E030D8)->clearScratchPadMaps();
+ UnicodeString path=((const Rva002DC74A*)this)->rva002DC74A(info.filename);
+ LoadFileView *file=(LoadFileView*)TheFileSystem->rva00600676(path.str(),0x41,0);
+ unsigned char error;
+ Rva0060C3C3Stream *stream;
+ if(!file) goto failed;
+ {
+  error=0;
+  stream=file->getStream();
+  { Rva0060C5FA load((void*)Rva002DD908,this,(void*)Rva002DC66F);
+  unsigned version;
+  if(!((XferLoad*)&load)->Open(stream,(int*)&version)) {
+   streamClose(stream);
+   return 4;
+  }
+  if(version>1) {streamClose(stream);return 4;}
+  ((LoadGameEngineResetView*)TheGameEngine)->reset();
+  ((GameLoadAudioView*)TheAudio)->slot14(2);
+  ((GameLoadGhostView*)TheGhostObjectManager)->saved=true;
+  { LatchRestore<bool> latch(m_isInLoadGame,true);
+  try {
+   switch((*(int*)((char*)&info+0x28))) {case 1:xferSaveData(&load,SNAPSHOT_NATIVE4);break;
+   case 6:xferSaveData(&load,SNAPSHOT_NATIVE3);break;
+   default:xferSaveData(&load,SNAPSHOT_SAVELOAD);}
+  }catch(...) {error=1;}
+  ((Rva0060C45E*)&load)->clear();
+  streamClose(stream);
+  ((GameLoadGhostView*)TheGhostObjectManager)->saved=false;
+  try {rva002DC52B();}catch(...) {error=1;}
+  ((GameLoadShroudView*)TheShroudManager)->slot10();
+  ((GameLoadAIView*)TheAI)->owner->rva002E713F();
+  }
+  }
+  if(error==1) {
+failed:
+   ((GameLoadDisplayView*)TheDisplay)->flag=true;
+   ((GameLoadVideoView*)TheVideoPlayer)->slot28();
+   TheGameLogic->rva00376E92(false,true);
+   ((GameLoadDisplayView*)TheDisplay)->flag=true;
+   ((GameLoadVideoView*)TheVideoPlayer)->slot28();
+   return 3;
+  }
+  if(m_saveType==4 || m_saveType==6) {
+   InitRandom(0);m_saveType=0;
+   ((GameLoadLogicFlags*)TheGameLogic)->suspended=true;
+  }
+  ((GameLoadAudioView*)TheAudio)->slot17(0x3F,7,0);
+  if(TheLinearCampaignManager && campaignSave)((Rva001EB75C*)TheLinearCampaignManager)->rva001EB75C();
+  return 0;
+ }
+ }
 }
