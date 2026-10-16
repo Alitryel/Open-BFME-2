@@ -19,6 +19,10 @@
 // TerrainRoadType::getRoadWidth, used here only as a call view) by the rowed
 // 0x004C20D5 distance test (reached as a member; pinned for this class).
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
+// Slot 38 reaches the rowed free-function distance test with its primary this
+// in ecx, which the body ignores: bind this unit's member spelling to that
+// body (cf. the symbols.csv pin documenting the thiscall evidence).
+#pragma comment(linker, "/alternatename:?Rva004C20D5IsWithin@PorcupineFormationBodyModule@@QAE_NMPBUCoord3D@@0@Z=?Rva004C20D5IsWithin@@YG_NMPBUCoord3D@@0@Z")
 // Call view for the existing folded fld [ecx+0x14]; ret provider at 0x0049CB57.
 class TerrainRoadType
 {
