@@ -24,3 +24,8 @@ struct BfmeStringRecord005ED5F3 *Rva005EDA8AVector::EraseRange(struct BfmeString
     m_finish = newFinish;
     return first;
 }
+
+// The retail call in this body reads 0x005ED869, an address the ledger already
+// carries as ??$__copy_ptrs@PAUBfmeStringRecord005ED5F3@@PAU1@@_STL@@YAPAUBfmeStringRecord005ED5F3@@PAU1@00U__false_type@0@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??$__copy_ptrs@PAUBfmeStringRecord005ED5F3@@PAU1@@_STL@@YAPAUBfmeStringRecord005ED5F3@@PAU1@00ABU__false_type@0@@Z=??$__copy_ptrs@PAUBfmeStringRecord005ED5F3@@PAU1@@_STL@@YAPAUBfmeStringRecord005ED5F3@@PAU1@00U__false_type@0@@Z")

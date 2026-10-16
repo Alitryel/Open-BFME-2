@@ -118,3 +118,8 @@ public:
 	projectile->setPosition(&worldPos);
 	projectile->getExperienceTracker()->setExperienceSink( launcher->getID() );
 }
+
+// The retail call in this body reads 0x003B23AF, an address the ledger already
+// carries as ?setLastCommandSource@AIUpdateInterface@@IAEXW4CommandSourceType@@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?setExperienceSink@ExperienceTracker@@QAEXW4ObjectID@@@Z=?setLastCommandSource@AIUpdateInterface@@IAEXW4CommandSourceType@@@Z")

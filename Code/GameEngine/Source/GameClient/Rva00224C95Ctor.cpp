@@ -41,3 +41,8 @@ Rva00224C95::Rva00224C95() : m_a(), m_b()
 	m_table.init();
 	m_flags = (unsigned char)((m_flags & 0xF4) | 4);
 }
+
+// The retail call in this body reads 0x00224C76, an address the ledger already
+// carries as ??0?$hash_map@HURva00224C76Element@@U?$hash@H@_STL@@U?$equal_to@H@3@V?$allocator@U?$pair@$$CBHURva00224C76Element@@@_STL@@@3@@_STL@@QAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?init@Rva00224C95Table@@QAEXXZ=??0?$hash_map@HURva00224C76Element@@U?$hash@H@_STL@@U?$equal_to@H@3@V?$allocator@U?$pair@$$CBHURva00224C76Element@@@_STL@@@3@@_STL@@QAE@XZ")

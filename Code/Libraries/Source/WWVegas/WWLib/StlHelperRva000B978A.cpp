@@ -22,3 +22,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct Rva000B978ARecord { Rva000B978ARecord(); Rva000B978ARecord(const Rva000B978ARecord&); ~Rva000B978ARecord(); Rva000B978ARecord&operator=(const Rva000B978ARecord&); private: char bytes[24]; };
 namespace _STL {template<> void _Construct<Rva000B978ARecord,Rva000B978ARecord>(Rva000B978ARecord*,const Rva000B978ARecord&);}
 template Rva000B978ARecord *_STL::__copy(Rva000B978ARecord*,Rva000B978ARecord*,Rva000B978ARecord*,const _STL::random_access_iterator_tag&,int*);
+
+// The retail call in this body reads 0x000B68F0, an address the ledger already
+// carries as ??0?$gslice_array@H@_STL@@QAE@ABV01@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??4Rva000B978ARecord@@QAEAAU0@ABU0@@Z=??0?$gslice_array@H@_STL@@QAE@ABV01@@Z")

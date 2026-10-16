@@ -48,3 +48,8 @@ void rva002B3F9F(void *self, int key)
 	((Rva002B3F9FSelf *)self)->m_flagC4 = 0;
 	ReleaseTreeHintRef00217D4C(&((Rva002B3F9FSelf *)self)->m_hintAC);
 }
+
+// The retail call in this body reads 0x0040CBD7, an address the ledger already
+// carries as ?GetEntry@ArmySummary@@QAE?AUArmySummaryEntryRef@@H@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva0040CBD7@Rva0040CBD7Vec@@QAEXPAPAXH@Z=?GetEntry@ArmySummary@@QAE?AUArmySummaryEntryRef@@H@Z")

@@ -23,3 +23,8 @@ bool W3DFontLibrary::rva002CEF6C(void *arg)
 	Rva0050CBA2 helper(arg);
 	return true;
 }
+
+// The retail call in this body reads 0x0050CBA2, an address the ledger already
+// carries as ?rva0050CBA2@Rva0050CBA2@@QAE_NPAX@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??0Rva0050CBA2@@QAE@PAX@Z=?rva0050CBA2@Rva0050CBA2@@QAE_NPAX@Z")

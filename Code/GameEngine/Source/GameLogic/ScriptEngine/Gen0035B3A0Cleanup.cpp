@@ -42,3 +42,8 @@ void Gen0035B3A0::cleanup(void)
 	m_at0C.cleanup();
 	m_at2C.cleanup();
 }
+
+// The retail call in this body reads 0x003B4982, an address the ledger already
+// carries as ?rva003B4982@Rva003B4982@@QAEXPAX@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?unlink@Gen0035B3A0@@QAEXPAX@Z=?rva003B4982@Rva003B4982@@QAEXPAX@Z")

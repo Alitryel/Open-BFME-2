@@ -84,3 +84,8 @@ private:
 Rva00171024::~Rva00171024(void)
 {
 }
+
+// The retail call in this body reads 0x00170D47, an address the ledger already
+// carries as ??1Rva00170AE4@@QAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??1?$_Rb_tree@HU?$pair@$$CBHUGen_t_0094cbf0_p16cd@@@_STL@@U?$_Select1st@U?$pair@$$CBHUGen_t_0094cbf0_p16cd@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHUGen_t_0094cbf0_p16cd@@@_STL@@@2@@_STL@@QAE@XZ=??1Rva00170AE4@@QAE@XZ")

@@ -25,3 +25,8 @@ private:
 Rva004E32F2::Rva004E32F2() : m_04(0), m_08(false)
 {
 }
+
+// The retail call in this body reads 0x005011C1, an address the ledger already
+// carries as ??0?$map@HUBfmePod24@@U?$less@H@_STL@@V?$allocator@U?$pair@$$CBHUBfmePod24@@@_STL@@@3@@_STL@@QAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??0BfmeVNITree@@QAE@XZ=??0?$map@HUBfmePod24@@U?$less@H@_STL@@V?$allocator@U?$pair@$$CBHUBfmePod24@@@_STL@@@3@@_STL@@QAE@XZ")

@@ -22,3 +22,8 @@ void __cdecl rva003C4B2D(void *a, void *b, void *c, void *d)
 		rva003BD4C3(b, c, d);
 	}
 }
+
+// The retail call in this body reads 0x003BD4C3, an address the ledger already
+// carries as ??$__unguarded_linear_insert@PAPAURva003C3AB0Item@@PAU1@URva003C3AB0Cmp@@@_STL@@YAXPAPAURva003C3AB0Item@@PAU1@URva003C3AB0Cmp@@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva003BD4C3@@YAXPAX00@Z=??$__unguarded_linear_insert@PAPAURva003C3AB0Item@@PAU1@URva003C3AB0Cmp@@@_STL@@YAXPAPAURva003C3AB0Item@@PAU1@URva003C3AB0Cmp@@@Z")

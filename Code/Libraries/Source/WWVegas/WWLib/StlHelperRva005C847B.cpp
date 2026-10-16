@@ -24,3 +24,8 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 struct Rva005C847BRecord { Rva005C847BRecord(); Rva005C847BRecord(const Rva005C847BRecord&); ~Rva005C847BRecord(); Rva005C847BRecord&operator=(const Rva005C847BRecord&); private: char bytes[72]; };
 namespace _STL {template<> void _Construct<Rva005C847BRecord,Rva005C847BRecord>(Rva005C847BRecord*,const Rva005C847BRecord&);}
 template void _STL::__destroy_aux(Rva005C847BRecord*,Rva005C847BRecord*,const _STL::__false_type&);
+
+// The retail call in this body reads 0x005C8FBD, an address the ledger already
+// carries as ??1Rva005C8FBD@@QAE@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??1Rva005C847BRecord@@QAE@XZ=??1Rva005C8FBD@@QAE@XZ")

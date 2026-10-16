@@ -25,3 +25,7 @@ void LivingWorldRegionManager::SetRegionReinforcements(int idx, int a2, int a3, 
 		return;
 	((Rva003F1AB9 *)p)->rva003F1AB9(a2, a3, a4, a5, a6, a7);
 }
+// The retail call in this body reads 0x003F1AB9, an address the ledger already
+// carries as ?rva003F1AB9@Rva003F1AB9Owner@@QAEXABV?$vector@HV?$allocator@H@_STL@@@_STL@@HHH_N1@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva003F1AB9@Rva003F1AB9@@QAEXHHHHHH@Z=?rva003F1AB9@Rva003F1AB9Owner@@QAEXABV?$vector@HV?$allocator@H@_STL@@@_STL@@HHH_N1@Z")

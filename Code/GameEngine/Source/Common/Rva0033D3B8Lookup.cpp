@@ -43,3 +43,8 @@ const char *Rva0033D3B8::rva0033D3B8(const AsciiString &key)
 		return 0;
 	return node->m_value;
 }
+
+// The retail call in this body reads 0x001F8437, an address the ledger already
+// carries as ??$_M_find@VAsciiString@@@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@H@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@H@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@H@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@H@_STL@@@1@ABVAsciiString@@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?find@Rva0033D3B8Map@@QAEPAUMapNode@@ABVAsciiString@@@Z=??$_M_find@VAsciiString@@@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@H@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@H@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@H@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@H@_STL@@@1@ABVAsciiString@@@Z")

@@ -21,3 +21,8 @@ bool __cdecl Rva003F1E87DeleteRange(Rva003F0C6C **first, Rva003F0C6C **last, Rva
 		h.doDelete(*first);
 	return h.flag;
 }
+
+// The retail call in this body reads 0x003F1A44, an address the ledger already
+// carries as ?Rva003F1A44Delete@@YGXPAVRva003F0C6C@@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?doDelete@Rva003F1E87Holder@@QAEXPAVRva003F0C6C@@@Z=?Rva003F1A44Delete@@YGXPAVRva003F0C6C@@@Z")

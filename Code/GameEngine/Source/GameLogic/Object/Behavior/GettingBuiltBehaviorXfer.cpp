@@ -365,3 +365,8 @@ void GettingBuiltBehavior::xfer( Xfer *xfer )
 	if (0)
 		throw 1;
 }
+
+// The retail call in this body reads 0x00453B06, an address the ledger already
+// carries as ?push_back@?$list@PAVRva00453B06Obj@@V?$allocator@PAVRva00453B06Obj@@@_STL@@@_STL@@QAEXABQAVRva00453B06Obj@@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?push_back@?$list@VRva004530ED@@V?$allocator@VRva004530ED@@@_STL@@@_STL@@QAEXABVRva004530ED@@@Z=?push_back@?$list@PAVRva00453B06Obj@@V?$allocator@PAVRva00453B06Obj@@@_STL@@@_STL@@QAEXABQAVRva00453B06Obj@@@Z")

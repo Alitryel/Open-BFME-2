@@ -18,3 +18,8 @@ void rva0042D4B3DeleteAnchor()
 	Rva0042D4B3 *p = new Rva0042D4B3;
 	delete p;
 }
+
+// The retail call in this body reads 0x00577E3E, an address the ledger already
+// carries as ?rva00577E3EForwardClear@Rva00577DE1OwningCell@@QAEXXZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??1Rva0042D4B3@@UAE@XZ=?rva00577E3EForwardClear@Rva00577DE1OwningCell@@QAEXXZ")

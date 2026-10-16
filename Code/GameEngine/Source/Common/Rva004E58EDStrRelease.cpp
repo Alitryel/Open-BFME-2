@@ -32,3 +32,8 @@ Rva004E58ED::~Rva004E58ED()
 {
 	((Rva00036E70Releaser *)&m_str)->release();
 }
+
+// The retail call in this body reads 0x00036E70, an address the ledger already
+// carries as ?releaseBuffer@?$StringBase@G@@AAEXXZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?release@Rva00036E70Releaser@@QAEXXZ=?releaseBuffer@?$StringBase@G@@AAEXXZ")

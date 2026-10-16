@@ -39,3 +39,8 @@ bool GameLogic::rva0023C8DA(unsigned char value)
 		result = m_armySummarySystem.rva0040F87E();
 	return result;
 }
+
+// The retail call in this body reads 0x0040F87E, an address the ledger already
+// carries as ?rva0040F87E@ArmySummarySystem@@QAEXXZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva0040F87E@ArmySummarySystem@@QAE_NXZ=?rva0040F87E@ArmySummarySystem@@QAEXXZ")

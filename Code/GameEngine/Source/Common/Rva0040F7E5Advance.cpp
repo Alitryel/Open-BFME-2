@@ -42,3 +42,8 @@ void ArmySummarySystem::CallArmyReinforcementIntoBattleByID(int key)
 		return;
 	p->rva0040F7E5();
 }
+
+// The retail call in this body reads 0x0040F497, an address the ledger already
+// carries as ?Load@ArmySummary@@QAEX_N0H@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva0040F497@@YGXHHH@Z=?Load@ArmySummary@@QAEX_N0H@Z")

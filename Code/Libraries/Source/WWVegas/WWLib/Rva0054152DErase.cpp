@@ -16,3 +16,8 @@ Rva0054107FRecord *eraseRva0054152DRange(Rva0054152DVec *vec, Rva0054107FRecord 
 {
 	return vec->erase(first, last);
 }
+
+// The retail call in this body reads 0x00541021, an address the ledger already
+// carries as ??0Rva00541021@@QAE@ABU0@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??4Rva0054107FRecord@@QAEAAU0@ABU0@@Z=??0Rva00541021@@QAE@ABU0@@Z")

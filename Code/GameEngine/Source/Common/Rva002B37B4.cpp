@@ -50,3 +50,8 @@ void Rva002B37B4::rva002B37B4(Rva002B37B4P1 *a1, Rva002B37B4P2 *a2)
 	m_b0->rva0020F2F1(a1, a2);
 	((Rva002B36BE *)this)->rva002B36BE(a1, a2, true);
 }
+
+// The retail call in this body reads 0x0020F2F1, an address the ledger already
+// carries as ?rva0020F2F1@@YGXPAXH@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva0020F2F1@Rva0020F2F1Helper@@QAEXPAX0@Z=?rva0020F2F1@@YGXPAXH@Z")

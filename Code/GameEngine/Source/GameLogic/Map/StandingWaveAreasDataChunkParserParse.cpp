@@ -222,3 +222,8 @@ Bool StandingWaveAreasDataChunkParser::parse(DataChunkInput &file, DataChunkInfo
 	}
 	return true;
 }
+
+// The retail call in this body reads 0x005CB283, an address the ledger already
+// carries as ?rva005CB283@Rva005CB283@@QAEXXZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva005CB283@Rva005CB283@@QAEXPBVRva0030B9DD@@@Z=?rva005CB283@Rva005CB283@@QAEXXZ")

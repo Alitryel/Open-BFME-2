@@ -21,3 +21,8 @@ void* Rva002FFFCA::rva002FFFCA(Object* object,const Coord3D* targetPosition,floa
     if(!((const Rva00003702CoordEqualityView*)targetPosition)->equals(*position)) flags|=0x100;
     return rva002FF07B(object,targetPosition,radius,flags,a,b,c);
 }
+
+// The retail call in this body reads 0x00003702, an address the ledger already
+// carries as ??8Coord3D@@QBE_NABV0@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?equals@Rva00003702CoordEqualityView@@QBE_NABUCoord3D@@@Z=??8Coord3D@@QBE_NABV0@@Z")

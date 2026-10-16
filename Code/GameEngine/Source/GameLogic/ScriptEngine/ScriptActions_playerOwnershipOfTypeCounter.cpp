@@ -168,3 +168,8 @@ void ScriptActions::rva003C5F1B(ScriptAction *pAction, Parameter *pTypeParm, Par
 	TheScriptEngine->bfmeCounter(pCounterParm->getString())->m_value = count;
 	pAction->setCustomFrame(TheScriptEngine->getFrameObjectCountChanged());
 }
+
+// The retail call in this body reads 0x00376C50, an address the ledger already
+// carries as ?rva00376C50@Rva00376C50Owner@@QAEIAAV?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@AAV?$vector@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@3@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?prepForPlayerCounting@ObjectTypes@@QAEHAAV?$vector@PBVThingTemplate@@V?$allocator@PBVThingTemplate@@@_STL@@@_STL@@AAV?$vector@HV?$allocator@H@_STL@@@3@@Z=?rva00376C50@Rva00376C50Owner@@QAEIAAV?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@AAV?$vector@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@3@@Z")

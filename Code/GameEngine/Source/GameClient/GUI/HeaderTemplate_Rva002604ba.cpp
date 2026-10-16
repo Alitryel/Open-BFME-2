@@ -121,3 +121,8 @@ HeaderTemplateString bfmeHeaderTemplateRegistryLanguage( void )
 {
 	return HeaderTemplateGetRegistryLanguage();
 }
+
+// The retail call in this body reads 0x00235029, an address the ledger already
+// carries as ?GetRegistryLanguage@@YA?AVAsciiString@@XZ. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?HeaderTemplateGetRegistryLanguage@@YA?AVHeaderTemplateString@@XZ=?GetRegistryLanguage@@YA?AVAsciiString@@XZ")

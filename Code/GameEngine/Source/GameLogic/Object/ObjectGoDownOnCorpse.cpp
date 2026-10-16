@@ -48,3 +48,8 @@ void Object::goDownOnCorpse(Object *corpse)
 	if (sp)
 		doSpecialPowerAtLocation(sp->rva002922A9Slot18(corpse->getPosition(), 2, 0));
 }
+
+// The retail call in this body reads 0x0028E0F9, an address the ledger already
+// carries as ?doSpecialPowerAtLocation@Object@@QAEXPBVSpecialPowerTemplate@@PBUCoord3D@@I_N@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?doSpecialPowerAtLocation@Object@@QAEXPAX@Z=?doSpecialPowerAtLocation@Object@@QAEXPBVSpecialPowerTemplate@@PBUCoord3D@@I_N@Z")

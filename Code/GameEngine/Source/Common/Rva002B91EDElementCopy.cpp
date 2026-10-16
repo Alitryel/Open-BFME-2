@@ -55,3 +55,8 @@ Rva002B91EDElement::Rva002B91EDElement(const Rva002B91EDElement &other) :
 	m_30(other.m_30)
 {
 }
+
+// The retail call in this body reads 0x002B72EC, an address the ledger already
+// carries as ??0?$_Rb_tree@URva002B72ECElement@@U1@U?$_Identity@URva002B72ECElement@@@_STL@@U?$less@URva002B72ECElement@@@3@V?$allocator@URva002B72ECElement@@@3@@_STL@@QAE@ABV01@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??0Rva002B5558@@QAE@ABV0@@Z=??0?$_Rb_tree@URva002B72ECElement@@U1@U?$_Identity@URva002B72ECElement@@@_STL@@U?$less@URva002B72ECElement@@@3@V?$allocator@URva002B72ECElement@@@3@@_STL@@QAE@ABV01@@Z")

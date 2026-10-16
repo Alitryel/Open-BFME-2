@@ -57,3 +57,8 @@ void LivingWorldBuilding::createIcon()
 	m_2C = new Rva0052B278(lookup, this, &m_48);
 	m_2C->rva0052B003(m_20 == -1);
 }
+
+// The retail call in this body reads 0x0052B003, an address the ledger already
+// carries as ?rva0052B003@Holder0052B003@@QAEXH@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva0052B003@Rva0052B278@@QAEX_N@Z=?rva0052B003@Holder0052B003@@QAEXH@Z")

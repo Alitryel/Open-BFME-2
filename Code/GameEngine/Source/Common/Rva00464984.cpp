@@ -28,3 +28,8 @@ Rva00464984Iterator Rva00464984::rva00464984(
 {
 	return ((Rva0046444E *)this)->rva0046444E(hint, value);
 }
+
+// The retail call in this body reads 0x0046444E, an address the ledger already
+// carries as ?insert_unique@?$_Rb_tree@HU?$pair@$$CBHURva0046444ERecord@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva0046444ERecord@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva0046444ERecord@@@_STL@@@2@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHURva0046444ERecord@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva0046444ERecord@@@_STL@@@2@@2@U32@ABU?$pair@$$CBHURva0046444ERecord@@@2@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?rva0046444E@Rva0046444E@@QAE?AVRva00464984Iterator@@V2@ABVRva00464984Pair@@@Z=?insert_unique@?$_Rb_tree@HU?$pair@$$CBHURva0046444ERecord@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva0046444ERecord@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva0046444ERecord@@@_STL@@@2@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBHURva0046444ERecord@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBHURva0046444ERecord@@@_STL@@@2@@2@U32@ABU?$pair@$$CBHURva0046444ERecord@@@2@@Z")

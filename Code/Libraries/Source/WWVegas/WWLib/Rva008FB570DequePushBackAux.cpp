@@ -66,3 +66,8 @@ void deque<Type, Allocator>::_M_push_back_aux_v(const Type &value)
 template void deque<Gen_t_008fb570_p8pod, allocator<Gen_t_008fb570_p8pod> >::_M_push_back_aux_v(
 	const Gen_t_008fb570_p8pod &);
 }
+
+// The retail call in this body reads 0x0073D5E0, an address the ledger already
+// carries as ?_M_reallocate_map@?$deque@HV?$allocator@H@_STL@@@_STL@@IAEXI_N@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?_M_reallocate_map@?$deque@UGen_t_008fb570_p8pod@@V?$allocator@UGen_t_008fb570_p8pod@@@_STL@@@_STL@@IAEXI_N@Z=?_M_reallocate_map@?$deque@HV?$allocator@H@_STL@@@_STL@@IAEXI_N@Z")

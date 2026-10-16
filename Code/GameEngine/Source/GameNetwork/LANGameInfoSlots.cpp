@@ -99,3 +99,8 @@ Bool LANGameInfo::amIHost(void) const
 		return false;
 	return m_LANSlot[0].isLocalPlayer();
 }
+
+// The retail call in this body reads 0x00447773, an address the ledger already
+// carries as ?rva00447773@Rva00447773@@QAEPAXH@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:?getConstLANSlot@LANGameInfo@@QBEPBVLANGameSlot@@H@Z=?rva00447773@Rva00447773@@QAEPAXH@Z")

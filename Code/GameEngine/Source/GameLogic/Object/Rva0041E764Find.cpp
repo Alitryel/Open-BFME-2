@@ -77,3 +77,8 @@ ArmorTemplate *Rva0041E764::rva0041E764(NameKeyType key)
 		return node->_M_val.second;
 	return 0;
 }
+
+// The retail call in this body reads 0x002888D4, an address the ledger already
+// carries as ??$_M_find@H@?$hashtable@U?$pair@$$CBHW4Relationship@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHW4Relationship@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHW4Relationship@@@_STL@@@2@@_STL@@ABEPAU?$_Hashtable_node@U?$pair@$$CBHW4Relationship@@@_STL@@@1@ABH@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??$_M_find@W4NameKeyType@@@?$hashtable@U?$pair@$$CBW4NameKeyType@@PAVArmorTemplate@@@_STL@@W4NameKeyType@@U?$hash@W4NameKeyType@@@rts@@U?$_Select1st@U?$pair@$$CBW4NameKeyType@@PAVArmorTemplate@@@_STL@@@2@U?$equal_to@W4NameKeyType@@@5@V?$allocator@U?$pair@$$CBW4NameKeyType@@PAVArmorTemplate@@@_STL@@@2@@_STL@@ABEPAU?$_Hashtable_node@U?$pair@$$CBW4NameKeyType@@PAVArmorTemplate@@@_STL@@@1@ABW4NameKeyType@@@Z=??$_M_find@H@?$hashtable@U?$pair@$$CBHW4Relationship@@@_STL@@HU?$hash@H@2@U?$_Select1st@U?$pair@$$CBHW4Relationship@@@_STL@@@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHW4Relationship@@@_STL@@@2@@_STL@@ABEPAU?$_Hashtable_node@U?$pair@$$CBHW4Relationship@@@_STL@@@1@ABH@Z")

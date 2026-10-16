@@ -21,3 +21,8 @@ Rva003ADC4F::Rva003ADC4F(const Rva003ADC4F &other)
 	*(const void **)((char *)this + 8) = __identifier("??_7?$ConcreteModuleTemplate@V?$DefaultModuleTag@$00@FXParticleSystem@@@FXParticleSystem@@6BSecondaryModuleBase@1@@");
 	*(const char **)((char *)this + 12) = "HZz";
 }
+
+// The retail call in this body reads 0x003ADC75, an address the ledger already
+// carries as ??0BfmeDerivedZL@@QAE@PAV0@@Z. Bind the donor spelling to that rowed owner so one
+// address keeps one definition and the unit links.
+#pragma comment(linker, "/alternatename:??0Rva003ADC75@@QAE@ABV0@@Z=??0BfmeDerivedZL@@QAE@PAV0@@Z")
