@@ -1,8 +1,8 @@
 // cl: -Oy- -GR- -EHsc-
 // ?Run@Rva005B5C70Box@@QAEXH@Z @0x005B5C70 132B: flagged entry apply.
 // Resolves the selected index through the rowed GetSelected, fetches the
-// entry through the rowed 3-arg getter, runs the pinned 3-arg consumer on
-// the +0x27C sub-object with the (a != 0) flag, stamps the byte +0x14, and
+// entry through the rowed 3-arg getter, runs the rowed AptMyHero consumer
+// 0x005B21DA on the +0x27C sub-object with the (a != 0) flag, stamps the byte +0x14, and
 // unless a set +0x48 entry meets a cleared global, fires the rowed UI
 // callback with the out-bool d. Rowed callees by matched names; the middle
 // params are unused padding. Targets from retail REL32/DIR32.
@@ -11,7 +11,6 @@ void __cdecl GadgetListBoxGetSelected(GameWindow *w, int *sel);
 void *GadgetListBoxGetItemData(GameWindow *listbox, int row, int column);
 class Rva00222A8BTarget;
 extern class BfmeAptWindowManager *g_bfmeAptWindowManager;
-extern const char g_rva005B5C70Str[];
 extern unsigned char g_rva005B5C02Flag;
 void __cdecl Rva004E6816Fire(Rva00222A8BTarget *t, void *p, const char *s, bool *b);
 
@@ -23,9 +22,13 @@ struct Rva005B5C70Entry
 	void M3(struct Rva005B5C70Obj *o, int z, int f);
 };
 
-struct Rva005B5C70Sub
+// The +0x27C sub-object is the AptMyHero panel; its rowed 0x005B21DA takes
+// the entry as a CreateAHeroData record.
+class CreateAHeroData;
+class AptMyHero
 {
-	void M3(Rva005B5C70Entry *e, int z, int f);
+public:
+	void rva005B21DA(CreateAHeroData *data, bool b, int flag);
 };
 
 struct Rva005B5C70Mid
@@ -52,10 +55,10 @@ void Rva005B5C70Box::Run(int a)
 	Rva005B5C70Entry *e = (Rva005B5C70Entry *)GadgetListBoxGetItemData(m_8, r, 0);
 	if (e == 0)
 		return;
-	Rva005B5C70Sub *s = (Rva005B5C70Sub *)m_4;
+	AptMyHero *s = (AptMyHero *)m_4;
 	int flag = (((unsigned char *)&a)[0] != 0);
-	s = (Rva005B5C70Sub *)((char *)s + 0x27c);
-	s->M3(e, 0, flag);
+	s = (AptMyHero *)((char *)s + 0x27c);
+	s->rva005B21DA((CreateAHeroData *)e, false, flag);
 	m_14 = 1;
 	if (e->m_48 == 0)
 		((unsigned char *)&a)[3] = 1;
@@ -64,5 +67,5 @@ void Rva005B5C70Box::Run(int a)
 		if (g_rva005B5C02Flag != 0)
 			((unsigned char *)&a)[3] = 1;
 	}
-	Rva004E6816Fire((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), m_4->m_274, g_rva005B5C70Str, (bool *)&((unsigned char *)&a)[3]);
+	Rva004E6816Fire((*(Rva00222A8BTarget **)&g_bfmeAptWindowManager), m_4->m_274, "EnableCustomizeButtons", (bool *)&((unsigned char *)&a)[3]);
 }

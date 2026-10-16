@@ -2,34 +2,44 @@
 // ?Run@Rva005B5C02Box@@QAEXXZ @0x005B5C02 110B: list-entry apply. Resolves
 // the selected index through the rowed GadgetListBoxGetSelected, fetches
 // the entry through the rowed 3-arg getter (literal 0 CSEd into ebx for
-// both the compare and the push), applies the +0x27C-adjusted use plus the
-// list add through pinned 1-arg callees unless a set +0x48 entry meets a
-// cleared global, and stamps +0x14. Rowed callees referenced by their
-// matched names; rest from retail REL32/DIR32.
+// both the compare and the push), copies the +0x27C record into the entry
+// (CreateAHeroData::operator=) and adds it to the manager's hero list
+// unless a set +0x48 entry meets a cleared global, and stamps +0x14. Rowed
+// callees referenced by their matched names; rest from retail REL32/DIR32.
 class GameWindow;
 void __cdecl GadgetListBoxGetSelected(GameWindow *w, int *sel);
 void *GadgetListBoxGetItemData(GameWindow *listbox, int row, int column);
 
 extern unsigned char g_rva005B5C02Flag;
-extern class CreateAHeroManager *TheCreateAHeroManager;
+
+// The entry is a CreateAHeroData record: the "use" call at 0x005B5C5A is its
+// rowed copy assignment 0x00409359 from the record at +0x27C.
+class CreateAHeroData
+{
+public:
+	CreateAHeroData &operator=(const CreateAHeroData &other);
+};
 
 struct Rva005B5C02Entry
 {
 	char pad[0x48];
 	unsigned char m_48;
-
-	void Use(void *s);
 };
 
+// The rowed bool-returning add 0x0040A384 (result unused here).
 struct Rva005B5C02List
 {
-	void Add(Rva005B5C02Entry *e);
+	bool Add(Rva005B5C02Entry *e);
 };
 
-struct Rva005B5C02Mgr
+// The manager's rowed hero-list fetch 0x0021F797.
+class Rva0040A3F9;
+class CreateAHeroManager
 {
-	Rva005B5C02List *List();
+public:
+	Rva0040A3F9 *rva0021F797();
 };
+extern CreateAHeroManager *TheCreateAHeroManager;
 
 struct Rva005B5C02Box
 {
@@ -53,8 +63,8 @@ void Rva005B5C02Box::Run()
 		return;
 	if (e->m_48 != 0 && g_rva005B5C02Flag == 0)
 		return;
-	Rva005B5C02List *l = (*(Rva005B5C02Mgr **)&TheCreateAHeroManager)->List();
-	e->Use((char *)m_4 + 0x27c);
+	Rva005B5C02List *l = (Rva005B5C02List *)TheCreateAHeroManager->rva0021F797();
+	*(CreateAHeroData *)e = *(const CreateAHeroData *)((char *)m_4 + 0x27c);
 	l->Add(e);
 	m_14 = 1;
 }
