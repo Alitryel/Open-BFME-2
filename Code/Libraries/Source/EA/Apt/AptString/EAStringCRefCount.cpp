@@ -75,6 +75,7 @@ public:
 	EAStringC Left(int count) const;
 	EAStringC Mid(int start) const;
 	EAStringC &rva006D59F0(const char *text);
+	EAStringC &TrimRight(const char *text);
 	EAStringC(const char *text);
 	EAStringC(unsigned int nSize);
 	EAStringC(unsigned int nSize, unsigned int fillChar);
@@ -705,6 +706,29 @@ EAStringC &EAStringC::rva006D59F0(const char *text)
 	}
 	EAStringC result;
 	result = Mid(i);
+	*this = result;
+	return *this;
+}
+
+// ?TrimRight@EAStringC@@QAEAAV1@PBD@Z, retail 0x006D5B50 (352B). Mirror of
+// rva006D59F0 from the end: counts the trailing characters found in the set
+// (backward strchr scan) and keeps Left(size - count) through a result temp;
+// EAString.cpp assert 0x59A (target strings). Name from the EAString donor
+// family (TrimLeft/TrimRight pair); the body is the right-hand trim.
+EAStringC &EAStringC::TrimRight(const char *text)
+{
+	if (!text) {
+		g_bfmeAptAssertAtE17734("pStrText != NULL", "C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\string\\EAString.cpp", 0x59A);
+		if (g_bfmeAptBreakOnAssertAtDDC01C) {__asm int 3}
+	}
+	unsigned i, size = m_pData->m_uSize;
+	const char *buffer = (const char *)(m_pData + 1) + size - 1;
+	for (i = 0; i < size; ++i) {
+		char c = *buffer--;
+		if (strchr(text, c) == 0) break;
+	}
+	EAStringC result;
+	result = Left(size - i);
 	*this = result;
 	return *this;
 }
