@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /MD /EHsc /Oy- /DNDEBUG
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG
 // stlport
 // Native472620..4726DD RET12,189B. Existing caller474B51 supplies the
 // output Coord3D, Object and one ABI word, and adjusts its receiver by-11C.

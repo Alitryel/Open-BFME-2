@@ -1,4 +1,4 @@
-// cl: /MD
+// cl: /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 // ??0Rva0022CA74@@QAE@XZ @0x0022CA74 33B
 // Derived ctor: baseConstruct via inlined base then vtable 0xBE2704 then
@@ -12,11 +12,6 @@
 #include "../../../Libraries/Include/Lib/BfmeE16.h"
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
-// Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL {
-template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
-}
 
 class BFME2NativeNetwork
 {

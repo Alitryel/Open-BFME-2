@@ -1,4 +1,4 @@
-// cl: /GX /MD /DNDEBUG /DWIN32 /D_WINDOWS
+// cl: /GX /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /DNDEBUG /DWIN32 /D_WINDOWS
 // stlport
 //
 // ??0AutoPickUpUpdateModuleData@@QAE@XZ, retail 0x00496308, 151 bytes.
@@ -26,11 +26,6 @@ extern int BfmeLogicFramesPerSecond;
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
-// Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
-// the kept copy serves the link. Plain declaration-only form (no __imp_).
-namespace _STL {
-template <> void _STLP_alloc_proxy<BfmeE16*, BfmeE16, allocator<BfmeE16> >::deallocate(BfmeE16*, size_t);
-}
 
 extern unsigned char g_00DFEFA4StoragePrototype[28];
 

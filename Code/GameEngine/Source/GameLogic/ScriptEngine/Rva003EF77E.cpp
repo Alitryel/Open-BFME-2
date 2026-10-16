@@ -1,4 +1,4 @@
-// cl: /O1 /Ob2 /GX- /Oy- /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
+// cl: /O1 /Ob2 /GX- /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 //
 // ??0Rva003EF77E@@QAE@XZ, retail 0x003EF77E, 97 bytes.
