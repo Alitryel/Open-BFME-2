@@ -1,7 +1,18 @@
 // ?initializeTeamTemplate@AISimpleSiegeTactic@@UAE_NPAVTeamPrototype@@H@Z
+// partial score=0.99 date=2026-10-16
+// ?initializeTeamTemplate@AISimpleSiegeTactic@@UAE_NPAVTeamPrototype@@H@Z
+// partial score=0.99 date=2026-10-16
+// W9-O1 2026-10-16: nd 31 -> 2, size exact 214, EH exact (scored with the region flags /O1 /arch:SSE /G7 written
+// out; the home TU gets them as region defaults). Lever: 'Player *owner = m_owner;' as a loop-body local right after
+// obj = get(idx) stops cl hoisting the constant 1 (two order stores + the true return) into EBX, so this stays in EDI,
+// objects in EBX and each order rematerialises xor eax,eax/inc eax as retail. Toy (ws/o1 build/o1/ch): the hoist needs
+// three uses of the constant; return obj != 0 or one store removes it. Residue: our owner load sits before the
+// 'test esi,esi' null test, retail loads [edi+0x24] after mov ecx,[esi+0x304]. Moving the local inside the null test,
+// a comma assignment in the condition, references/pointer-to-member, getters, continue forms all bring the hoist back.
+// ?initializeTeamTemplate@AISimpleSiegeTactic@@UAE_NPAVTeamPrototype@@H@Z
 // partial score=0.85 date=2026-10-16
 // W9-O3 2026-10-16: whole owner TU Rva005A9CB3Tactic.cpp + initializeTeamTemplate (slot 3) appended (declare it in AISimpleSiegeTactic). Retail semantics: skip!=0 -> return true (shared mov al,1 exit), so the body is 'if (!skip) { loop; if (!obj) return false; } return true;' (the farm best returned false for skip and was 8 B short). 218 vs 214, nd 31: only residue = cl hoists constant 1 into EBX (shared by the two order stores and the true return: mov al,bl) and spills this to [ebp-0x10]; retail keeps this in EDI, objects in EBX and rematerialises xor eax,eax/inc eax per order. Inert: continue-chain, chained/forwarded stores, store order, return 1, return obj!=0, self alias.
-// cl: /MD /GX /DNDEBUG /Ireference/shims/bfme2_ascii
+// cl: /O1 /arch:SSE /G7 /MD /GX /DNDEBUG /Ireference/shims/bfme2_ascii
 //
 // The "SimpleSiege" skirmish-AI tactic (vtable 0x00871E6C; ctor 0x005A9D33 in
 // Rva004ECECDTacticCtors.cpp, dtor 0x005A9CB3 and ??_G in
@@ -369,7 +380,8 @@ bool AISimpleSiegeTactic::initializeTeamTemplate(TeamPrototype *orders, int skip
 		Rva0025BFF8 *objects = *(Rva0025BFF8 **)g_00DFEEF8->rva002A8F24(m_owner);
 		for (unsigned int idx = 0; idx < ((IntMap *)objects)->bucket_count(); ++idx) {
 			obj = objects->rva0025BFF8(idx);
-			if (obj && obj->m_304 == m_owner->m_2EC
+			Player *owner = m_owner;
+			if (obj && obj->m_304 == owner->m_2EC
 				&& ((Rva005A9CB3Template *)obj->m_04)->m_520 == 7) {
 				Rva0039EA9C order;
 				order.m_00 = 1;
