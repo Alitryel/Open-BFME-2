@@ -1,5 +1,8 @@
 // ?Rva006CCB80CallFunction@@YAXPBDPAD0HZZ
-// partial score=0.975 date=2026-10-15
+// partial score=0.986 date=2026-10-16
+// ?Rva006CCB80CallFunction@@YAXPBDPAD0HZZ
+// partial score=0.986 date=2026-10-16
+// W9-O3 2026-10-16: semantics fixed - the old bank read va_arg from an UNINITIALISED va_list (va_start went to a copy) and kept a volatile function read; plain va_start(list,nNumParams) gives retail's lea ebx,[esp+0xbc] walker. SetString inlined as m_string=EAStringC(text) puts the temp in retail's [esp+0x1c] slot. nd 7 size exact: (1) context/name slots swapped (retail name [esp+0x10], context [esp+0x14]); (2) operator= arg: retail 'lea ecx,[tmp]; push ecx' (named temp) vs ours 'push eax' (the expression temp's ctor result) - a named temp moves its slot to 0x14. Inert: context=0 init (WB has it), name/value scope blocks, ctx alias, else-without-braces, const EAStringC& param SetString (worse).
 // ?Rva006CCB80CallFunction@@YAXPBDPAD0HZZ
 // partial score=0.97 date=2026-10-15
 // cl: /O2 /MD /EHsc
@@ -41,7 +44,7 @@ class AptCIH : public AptValue {};
 class AptString : public AptValue {public:static AptString *Create();
  // AptValue::SetString's body (rowed out of line at 0x006CBF70), which the
  // string-argument call helper 0x006CCB80 inlines.
- void setStringInline(const char *text) {EAStringC temp(text);m_string=temp;}
+ void setStringInline(const char *text) {m_string=EAStringC(text);}
  int m_04;EAStringC m_string;};
 class BfmeAptValue006DCD20;
 class AptBasePtrStack {public:int count,capacity;BfmeAptValue006DCD20 **elements;void Push(BfmeAptValue006DCD20 *);BfmeAptValue006DCD20 *At(int);void rva006FE920();};
@@ -756,8 +759,7 @@ void Rva006CCB80CallFunction(const char *function,char *result,const char *targe
  }
  AptString *apStrings[32];
  va_list list;
- va_list list_c10 = list;
- va_start(list_c10,nNumParams);
+ va_start(list,nNumParams);
  for(int i=0;i<nNumParams;i++) {
   apStrings[i]=AptString::Create();
   apStrings[i]->setStringInline(va_arg(list,const char *));
@@ -766,7 +768,7 @@ void Rva006CCB80CallFunction(const char *function,char *result,const char *targe
  for(int j=nNumParams-1;j>=0;j--)
   g_aptDateInterpreter.stack.Push((BfmeAptValue006DCD20 *)apStrings[j]);
  GAPCHECK(context,"pContext",0x504);
- EAStringC name((*(const char * volatile *)&(function)));
+ EAStringC name(function);
  AptValue *value=g_aptDateInterpreter.getVariable(context,0,&name,1,1,0);
  void *saved=AptPushStaticData();
  g_aptDateInterpreter.callFunction(context,value,nNumParams);
