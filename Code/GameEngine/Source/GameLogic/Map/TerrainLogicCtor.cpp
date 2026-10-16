@@ -233,3 +233,6 @@ class Waypoint;
 typedef _STL::pair<const unsigned int, Waypoint *> TerrainWaypointPair;
 typedef _STL::_Rb_tree_base<TerrainWaypointPair, _STL::allocator<TerrainWaypointPair> > TerrainWaypointTreeBase;
 template TerrainWaypointTreeBase::_Rb_tree_base(const _STL::allocator<TerrainWaypointPair> &);
+
+typedef _STL::_Rb_tree<unsigned int, TerrainWaypointPair, _STL::_Select1st<TerrainWaypointPair>, _STL::less<unsigned int>, _STL::allocator<TerrainWaypointPair> > TerrainWaypointTree;
+template TerrainWaypointTree::_Rb_tree(const _STL::less<unsigned int> &, const _STL::allocator<TerrainWaypointPair> &);
