@@ -1,5 +1,5 @@
 // cl: /MD
-// ??_GRva002AE627@@UAEPAXI@Z @0x002AF53E, 28B.
+// ??_GRva002AE5EB@@UAEPAXI@Z @0x002AF53E, 28B.
 // Scalar deleting dtor slot 0 of vtable 0x007FDDB4; calls rowed ??1 at
 // 0x002AE627 plus rowed delete at 0x0002FD60.
 

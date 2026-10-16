@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /Ireference/shims/moduledata
-// ??1Rva00205224@@UAE@XZ @0x00205224 63B: virtual dtor tearing down AsciiStrings at +0x10 then +0x0C via rowed releaseBuffer 0x00036410 then restoring Snapshot base vtable 0x00BBB554.
+// ??1Rva0020479E@@UAE@XZ @0x00205224 63B: virtual dtor tearing down AsciiStrings at +0x10 then +0x0C via rowed releaseBuffer 0x00036410 then restoring Snapshot base vtable 0x00BBB554.
 // Evidence: deleting dtor caller 0x00205208 (28B ??_G shape); same 63B shape as SlavedUpdateModuleDataDtor 0x00255FC1; base Snapshot BBB554.
 #include "ascii_string.h"
 

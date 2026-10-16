@@ -1,7 +1,7 @@
 // cl: /GX /MD /DNDEBUG /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
-// ??1Rva002AE627@@UAE@XZ, retail 0x002AE627, 48 bytes.
+// ??1Rva002AE5EB@@UAE@XZ, retail 0x002AE627, 48 bytes.
 // ModuleData dtor: destroys the vector at +0x20 through the rowed vector
 // Rva002A73B8 dtor at 0x002AE486 (state 0) then restores the Snapshot base
 // vtable 0x00BBB554. Empty derived body with EH prolog, no base call since
