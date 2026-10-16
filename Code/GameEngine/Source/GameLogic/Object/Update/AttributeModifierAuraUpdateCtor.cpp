@@ -25,8 +25,8 @@ extern "C" const void *const vtbl_00C50D20[];  // ??_7AttributeModifierAuraUpdat
 extern "C" const void *const vtbl_00C50CD8[];  // ??_7AttributeModifierAuraUpdate@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C50CD8=??_7AttributeModifierAuraUpdate@@6B@")
 
-extern "C" const void *const vtbl_00C49F78[];  // folded, 3 classes; via ??_7BroadcastStealthUpdate@@6BMiBase1@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C49F78=??_7BroadcastStealthUpdate@@6BMiBase1@@@")
+extern "C" const void *const vtbl_00C49F78[];  // folded, 3 classes; via ??_7Rva0049BFB7@@6BRva0024A797_Mid@@@ (a provider the tree emits)
+#pragma comment(linker, "/alternatename:_vtbl_00C49F78=??_7Rva0049BFB7@@6BRva0024A797_Mid@@@")
 
 class Thing;
 class ModuleData;

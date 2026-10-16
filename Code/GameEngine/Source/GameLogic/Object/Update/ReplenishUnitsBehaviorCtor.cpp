@@ -19,8 +19,8 @@
 
 extern "C" const void *const vtbl_00C49F20[];  // folded, 2 classes; via ??_7FireWeaponWhenDamagedBehavior@@6BUpgradeMux@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C49F20=??_7FireWeaponWhenDamagedBehavior@@6BUpgradeMux@@@")
-extern "C" const void *const vtbl_00C49F78[];  // folded, 3 classes; via ??_7BroadcastStealthUpdate@@6BMiBase1@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C49F78=??_7BroadcastStealthUpdate@@6BMiBase1@@@")
+extern "C" const void *const vtbl_00C49F78[];  // folded, 3 classes; via ??_7Rva0049BFB7@@6BRva0024A797_Mid@@@ (a provider the tree emits)
+#pragma comment(linker, "/alternatename:_vtbl_00C49F78=??_7Rva0049BFB7@@6BRva0024A797_Mid@@@")
 
 extern "C" const void *const vtbl_00C49F68[];  // ??_7ReplenishUnitsBehavior@@6BUpdateModule@@@
 #pragma comment(linker, "/alternatename:_vtbl_00C49F68=??_7ReplenishUnitsBehavior@@6BUpdateModule@@@")

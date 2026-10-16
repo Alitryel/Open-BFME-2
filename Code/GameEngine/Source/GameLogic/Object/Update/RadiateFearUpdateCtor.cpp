@@ -15,8 +15,8 @@
 // data flag at +0x08 (rowed giveSelfUpgrade 0x45230C). Row supersedes the
 // ctor pin.
 
-extern "C" const void *const vtbl_00C49F78[];  // folded, 3 classes; via ??_7BroadcastStealthUpdate@@6BMiBase1@@@
-#pragma comment(linker, "/alternatename:_vtbl_00C49F78=??_7BroadcastStealthUpdate@@6BMiBase1@@@")
+extern "C" const void *const vtbl_00C49F78[];  // folded, 3 classes; via ??_7Rva0049BFB7@@6BRva0024A797_Mid@@@ (a provider the tree emits)
+#pragma comment(linker, "/alternatename:_vtbl_00C49F78=??_7Rva0049BFB7@@6BRva0024A797_Mid@@@")
 
 extern "C" const void *const vtbl_00C50F68[];  // ??_7Rva0049BFB7@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C50F68=??_7Rva0049BFB7@@6B@")
