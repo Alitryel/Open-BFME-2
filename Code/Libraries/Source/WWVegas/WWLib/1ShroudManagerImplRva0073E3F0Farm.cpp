@@ -1,5 +1,4 @@
 // ??1ShroudManagerImpl@@QAE@XZ
-// partial score=0.97 date=2026-10-10
 // cl: /O2 /G7 /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc
 // stlport
 #include <deque>
@@ -19,6 +18,6 @@ class ShroudManagerImpl {
 public:~ShroudManagerImpl();
 };
 ShroudManagerImpl::~ShroudManagerImpl() {
- while(nodes){BfmeThingCDE *node=nodes;node->bfmeDtorCDE();::operator delete(node);}
+ while(nodes){if(nodes!=0){BfmeThingCDE *node=nodes;node->bfmeDtorCDE();::operator delete(node);}}
  delete[] elements;
 }
