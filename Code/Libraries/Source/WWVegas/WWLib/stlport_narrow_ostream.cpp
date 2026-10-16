@@ -21,6 +21,9 @@ namespace _STL { template <> void basic_ostream<char, char_traits<char> >::_M_pu
 namespace _STL { template <> void basic_ostream<char, char_traits<char> >::_M_put_nowiden(char const *); }
 namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ostream<char, char_traits<char> >::flush(); }
 namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ostream<char, char_traits<char> >::put(char); }
+// The float inserter's body belongs to stlport_narrow_ostream_put_num.cpp; leave
+// it declared so this unit emits no wrong copy ahead of the rowed one.
+namespace _STL { template <> basic_ostream<char, char_traits<char> > & basic_ostream<char, char_traits<char> >::operator<<(float); }
 // bfme link decl-only end
 
 // Retail's generic-widening init is owned by stlport_basic_ios_init.cpp.
