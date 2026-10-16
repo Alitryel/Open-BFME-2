@@ -170,3 +170,6 @@ AptValue *AptValue::objectMemberLookup(AptValue *const, const EAStringC *const) 
 
 // Native CEAED0 vtable slot(s) 8; canonical PDB name and ABI.
 bool AptValue::objectMemberSet(AptValue *const, const EAStringC *const, AptValue *const) { return false; }
+
+// Native CEAED0 vtable slot(s) 11; canonical PDB name and ABI.
+void AptValue::DestroyGCPointers() { SetDestroyedGC(); }

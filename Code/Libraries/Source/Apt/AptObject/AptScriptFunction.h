@@ -70,6 +70,8 @@ protected:
     AptValue(AptVirtualFunctionTable_Indices);
     virtual ~AptValue();
     unsigned int mnValueData;
+private:
+    void SetDestroyedGC(); // Native6DBD80 ORs destroyed-GC bit3.
 };
 // Native GC destructor6D6340 tail-calls the base without resetting a GC vptr.
 class __declspec(novtable) AptValueGC : public AptValue
