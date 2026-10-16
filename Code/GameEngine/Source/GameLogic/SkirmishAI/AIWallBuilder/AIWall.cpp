@@ -155,7 +155,7 @@ public:
 class UpgradeTemplate
 {
 public:
-	unsigned rva0026EF50(Player *player, Object *obj) const;	// 0x0026EF50
+	unsigned calcCostToBuild(Player *player, unsigned obj) const;	// 0x0026EF50, as rowed
 	const AsciiString &getName() const { return m_08; }
 	char m_pad00[0x08];
 	AsciiString m_08;	// +0x08 the name
@@ -175,10 +175,12 @@ public:
 	const CommandButton *getCommandButton(int i) const;	// 0x00409EE8
 };
 
-class ControlBar
+class ControlBar;
+// 0x0031D5F8 is rowed as Rva0031D5F8::rva0031D5F8 (ControlBar's command set lookup).
+class Rva0031D5F8
 {
 public:
-	const CommandSet *findCommandSet(const AsciiString &name);	// 0x0031D5F8
+	void *rva0031D5F8(const AsciiString *name);
 };
 extern ControlBar *TheControlBar;
 
@@ -186,7 +188,7 @@ class Object
 {
 public:
     Player *getControllingPlayer() const;
-	const AsciiString &getCommandSetString() const;	// 0x00290E67
+	const AsciiString *rva00290E67() const;	// 0x00290E67, the command set string
 	void *rva0028BC58(int arg);			// 0x0028BC58
 	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;	// 0x002940B9
 	int getID() const { return m_74; }
@@ -323,7 +325,7 @@ void AIWall::buildGate()
 		Rva0026119DFilter().link(&Rva00261409Filter(m_18, true, 2)), 1);
 	Object *other;
 	while ((other = hits.next()) != 0) {
-		const CommandSet *set = TheControlBar->findCommandSet(other->getCommandSetString());
+		const CommandSet *set = (const CommandSet *)((Rva0031D5F8 *)TheControlBar)->rva0031D5F8(other->rva00290E67());
 		if (!set)
 			continue;
 		if (other->m_280 != -1.0f)
@@ -341,7 +343,7 @@ void AIWall::buildGate()
 			if (!tmpl || !(tmpl->m_120 & 0x800))
 				continue;
 			if (other->affectedByUpgrade(upgrade)) {
-				m_14->m_2C = upgrade->rva0026EF50(m_18, other);
+				m_14->m_2C = upgrade->calcCostToBuild(m_18, (unsigned)other);
 				m_14->m_08 = other->getID();
 				m_14->m_30 = button;
 				m_14->setName(upgrade->getName());
