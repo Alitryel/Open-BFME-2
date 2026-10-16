@@ -168,6 +168,19 @@ typedef _STL::list<SuperweaponInfo *> SuperweaponList;
 typedef _STL::map<AsciiString, SuperweaponList> SuperweaponMap;
 typedef _STL::map<AsciiString, NamedTimerInfo *> NamedTimerMap;
 
+// The timer-map iterator increment only inlines here; keep it inline-only
+// (body verbatim). vector<ObjectID>::erase is called out of line by reset
+// and takes the kept copy (this unit's traits dispatch differs).
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+_Rb_tree_iterator<pair<const AsciiString, NamedTimerInfo *>, _Nonconst_traits<pair<const AsciiString, NamedTimerInfo *> > > &
+_Rb_tree_iterator<pair<const AsciiString, NamedTimerInfo *>, _Nonconst_traits<pair<const AsciiString, NamedTimerInfo *> > >::operator++()
+{ _M_node = _Rb_global_inst::_M_increment(_M_node); return *this; }
+}
+// bfme link decl-only begin
+namespace _STL { template <> ObjectID *vector<ObjectID, allocator<ObjectID> >::erase(ObjectID *, ObjectID *); }
+// bfme link decl-only end
+
 // Coord3D::zero, inline in ZH's BaseType.h; the canonical header lacks it.
 inline void zeroCoord3D( Coord3D &pos )
 {
