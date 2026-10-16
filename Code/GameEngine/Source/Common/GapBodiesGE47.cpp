@@ -55,6 +55,7 @@ struct GapVec3
  GapVec3() {}
  GapVec3(float ax,float ay,float az):x(ax),y(ay),z(az) {}
  GapVec3& operator=(const GapVec3&v) {x=v.x;y=v.y;z=v.z;return *this;}
+ GapVec3& operator+=(const GapVec3&v) {x+=v.x;y+=v.y;z+=v.z;return *this;}
 
 	float x;
 	float y;
@@ -67,6 +68,7 @@ public:
 	Rva0015F920(bool identity);
 	Rva0015F920(const GapQuat &q, const GapVec3 &t);
 	static void rva0015F9E0(const Rva0015F920 &,const Rva0015F920 &,Rva0015F920 *);
+	void rva0015FE80(const GapVec3 &v);
 private:
 	GapQuat m_q;
 	GapVec3 m_t;
@@ -216,3 +218,13 @@ inline GapQuat operator*(const GapQuat&saved,const GapQuat&other) {
 }
 
 void Rva0015F920::rva0015F9E0(const Rva0015F920&a,const Rva0015F920&b,Rva0015F920*out) {GapVec3 t; a.m_q.Rotate(b.m_t,&t);out->m_t=t+a.m_t;out->m_q.assign(a.m_q*b.m_q);}
+
+// --- 0x0015FE80 (322B): translate by v in the local frame: the rotation
+// applied to v (same Rotate_Vector spelling as the compose above) is added
+// to the translation.
+void Rva0015F920::rva0015FE80(const GapVec3 &v)
+{
+	GapVec3 t;
+	m_q.Rotate(v, &t);
+	m_t += t;
+}
