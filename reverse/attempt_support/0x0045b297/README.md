@@ -1,4 +1,9 @@
-# AimWeaponBehavior update: complete near-match, not recovery
+# AimWeaponBehavior update: historical near-match evidence
+
+Superseded by the verified recovery in commit `f3eade866d` at
+`Code/GameEngine/Source/GameLogic/Object/Behavior/updateRva0045B297Farm.cpp`.
+The stale banked candidate has been removed; the notes below preserve the earlier
+trial evidence and do not describe pending recovery work.
 
 Target RVA `0x0045B297`, 516 bytes, RET at `0x0045B49A`; next entry `0x0045B49B` is a separate float helper. Native constructor `0x0045B226` installs VA `0x00C418C0` at module+0x10; slot0 points to this entry. Interface receiver reads Object at -8, ModuleData at -0xC and aiming byte at +0x10. Named factory, pool and constructor support the owner independently of the donor.
 
