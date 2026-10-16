@@ -1,7 +1,24 @@
 // ?update@GiantBirdAIUpdate@@UAE?AW4UpdateSleepTime@@XZ
-// partial score=0.95 date=2026-10-14
+// partial score=0.99 date=2026-10-17
 // cl: /Ireference/shims/bfme2_ascii /O1 /arch:SSE /G7 /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
+//
+// update 0x0036B103 (1124 B) is 2 diff lines from exact: retail loads
+// m_56C.x [esi] right after the position's x [eax+0x38]; ours loads it after
+// the position's y. Two levers closed the rest (18 -> 2 lines):
+// - Object::GetRelativeAngle written inline in the class with its full
+//   matched body (WB: Object.h inline). cl still calls it (0x000B4542), but
+//   knows &prev is not captured, so the prev.z+4 store no longer holds the
+//   inline model-condition test behind it. The TU's GetRelativeAngle
+//   COMDAT is byte-exact (273 B). Landing must also make
+//   ObjectGetRelativeAngle.cpp's strong definition select-any (inline plus
+//   an anchor, as coord3d.cpp does for Normalize); check with link_check.
+// - prev copied with the plain setCoord: with GetRelativeAngle visible the
+//   XMM numbering (prev xmm5 xmm6 xmm3, pos.z xmm4) comes out as retail.
+// Inert for the last two lines: setCoord/addCoord/subCoord spelling,
+// operand order, forceinline, member helpers on a Coord3D subclass, copy
+// permutations of sum/pos/prev, prev before or after the add, an Object
+// pointer local, a visible normalize, by-value position copies.
 //
 // ?rva0036AE79@GiantBirdAIUpdate@@QAEXXZ, retail 0x0036AE79..0x0036B103
 // (650 bytes, EH): the grab toss of the giant bird, called only from the
@@ -33,6 +50,7 @@
 // field parse table 0x00C178D8; the function name is address-derived (WB
 // 0x00F3B0A0 is the same body, unnamed). The other field names and the
 // slot meanings are structural inferences.
+#include <math.h>
 #include "../../../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../../Include/GameLogic/ContainmentListView.h"
 #include "../../../../../Include/GameLogic/BfmeStoredAICommandView.h"
@@ -144,6 +162,7 @@ private:
 	unsigned char m_kindOf[0x20]; // +0x108
 };
 
+extern Real ACos(Real);
 class Thing
 {
 public:
@@ -151,6 +170,7 @@ public:
 	Real getHeightAboveTerrain() const;
 	void setOrientation(Real angle);
 	void getUnitDirectionVector3D(Coord3D &dir) const;
+	const Coord3D *getUnitDirectionVector2D() const;
 	void setPositionZ(Real z);
 	const ThingTemplateView *getTemplate() const { return m_template; }
 	const Matrix3D *getTransformMatrix() const { return &m_transform; }
@@ -248,7 +268,30 @@ public:
 		}
 	}
 	void setStatus(ObjectStatusTypes status, Bool set);
-	Real GetRelativeAngle(const Coord3D *pos) const;
+	Real GetRelativeAngle(const Coord3D *pos) const
+	{
+		Coord3D delta;
+		delta.x = pos->x - getPosition()->x;
+		delta.y = pos->y - getPosition()->y;
+		Real distance = (Real)sqrt(delta.x * delta.x + delta.y * delta.y);
+		if (distance == 0.0f)
+			return 0.0f;
+		Coord3D *dir = &delta;
+		Real scale = 1.0f / distance;
+		dir->x *= scale;
+		dir->y *= scale;
+		const Coord3D *facing = getUnitDirectionVector2D();
+		Real cosine = delta.x * facing->x;
+		cosine += delta.y * facing->y;
+		if (cosine < -1.0)
+			cosine = -1.0f;
+		else if (cosine > 1.0)
+			cosine = 1.0f;
+		Real angle = ACos(cosine);
+		if (delta.y * facing->x - delta.x * facing->y < 0.0f)
+			angle = -angle;
+		return angle;
+	}
 	Bool isEffectivelyDead() const { return (m_privateStatus & 1) != 0; }
 	ContainModuleInterface *getContain() const { return m_contain; }
 	BodyModuleInterface *getBodyModule() const { return m_body; }
