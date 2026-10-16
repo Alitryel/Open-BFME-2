@@ -12,6 +12,9 @@ class INI
 {
 public:
 	void initFromINIMultiProc(void *what, void (__cdecl *proc)(MultiIniFieldParse &));
+	static void parseReal(INI *, void *, void *, const void *);
+	static void parseInt(INI *, void *, void *, const void *);
+	static void parseBitString32(INI *, void *, void *, const void *);
 };
 class BuildableHeroListUpgradeModuleData
 {
@@ -99,6 +102,36 @@ ModuleData *ModuleFactoryDataAt00254DB3(INI *ini)
 }
 
 extern const FieldParse g_rva004A33BEFieldParseTable[];
+
+// Zero Hour's FieldParse record (INI.h).
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
+void Rva002567EAParse(INI *ini, void *instance, void *store, const void *userData);
+
+// The condition names at VA 0x00DCBB7C (RVA 0x009CBB7C) that the
+// PersistantConditions entry hands parseBitString32; null-terminated.
+const char *g_Va00DCBB7C[] =
+{
+	"ATTACKING", "MOVING", "USING_ABILITY", "FIRING_PRIMARY",
+	"FIRING_SECONDARY", "FIRING_TERTIARY", "FIRING_QUATERNARY",
+	"FIRING_QUINARY", "MOUNTED", "AWAY_FROM_TREES",
+	"HORDEBRAIN_NOT_STEALTHED", "PRIMARY_FORMATION", "TAKING_DAMAGE", 0
+};
+
+// Retail's table at VA 0x00C522C0 (RVA 0x008522C0), null-terminated.
+extern const FieldParse g_rva004A33BEFieldParseTable[] =
+{
+	{ "AllowKindOf", Rva002567EAParse, 0, 0x8 },
+	{ "Radius", INI::parseReal, 0, 0x24 },
+	{ "DelayBetweenUpdates", INI::parseInt, 0, 0x28 },
+	{ "PersistantConditions", INI::parseBitString32, g_Va00DCBB7C, 0x140 },
+	{ 0, 0, 0, 0 }
+};
 
 // ?rva004A33BE@@YAXAAVMultiIniFieldParse@@@Z @0x004A33BE (34B)
 void __declspec(noinline) rva004A33BE(MultiIniFieldParse &p)
