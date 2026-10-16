@@ -10,18 +10,22 @@
 
 #include "ascii_string.h"
 
-class Rva00217537
+// GameFont: FontLibrary::rva0021857E (0x0021857E) news this 0x20-byte font,
+// installs vtable 0x00BE5AAC (slot 0 the deleting dtor 0x00217545) and
+// deletes it through that slot; the class name is the ZH GameFont that
+// getFont allocates (donor fact). Was the opaque Rva00217537.
+class GameFont
 {
 public:
-	Rva00217537();
-	virtual ~Rva00217537();
+	GameFont();
+	virtual ~GameFont();
 
 private:
 	char m_pad04[4];
 	AsciiString m_member08;
 };
 
-Rva00217537::~Rva00217537()
+GameFont::~GameFont()
 {
 }
 
@@ -157,12 +161,16 @@ void Rva005C31FB::rva005C3209()
 // ??0Rva004E156B@@QAE@XZ
 Rva004E156B::Rva004E156B() {}
 
-// Native 0x002175BA..0x002175C7 (13B) is the ctor of Rva00217537 above:
+// Native 0x002175BA..0x002175C7 (13B) is the ctor of GameFont above:
 // it stores vtable 0x00BE5AAC (slot 0 the rowed ??_G 0x00217545)
 // and empties the string at +8, leaving +4 untouched. Same
-// default-ctor shape as Rva004E156B above; names stay address-owned.
-// ??0Rva00217537@@QAE@XZ
-Rva00217537::Rva00217537() {}
+// default-ctor shape as Rva004E156B above. getFont inlines the same
+// constructor, so it is an inline (select-any) body: FontLibraryFindRecord.cpp
+// emits the identical COMDAT copy. The anchor below keeps this one emitted.
+// ??0GameFont@@QAE@XZ
+__declspec(noinline) inline GameFont::GameFont() {}
+// ?bfmeAnchorGameFont absent-from-retail
+void bfmeAnchorGameFont(GameFont *p) { p->GameFont::GameFont(); }
 // Rva0030714F's identical mapping-constructor shape at 0x00307126 is
 // owned by System/DataChunk.cpp, which already emits its exact 13B body.
 
