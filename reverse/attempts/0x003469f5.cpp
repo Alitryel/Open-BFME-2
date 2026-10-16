@@ -1,10 +1,6 @@
 // ?rva003469F5@AIBurningDeathState@@QAE?AUCoord3D@@XZ
-// partial score=0.785 date=2026-10-15
-// ?rva003469F5@AIBurningDeathState@@QAE?AUCoord3D@@XZ
-// partial score=0.7835 date=2026-10-14
-// ?rva003469F5@AIBurningDeathState@@QAE?AUCoord3D@@XZ
-// partial score=0.8 date=2026-10-09
-// cl: /I. /G7 /O1 /DNDEBUG /MD /arch:SSE
+// partial score=0.99 date=2026-10-16
+// cl: /O1 /DNDEBUG /MD /arch:SSE
 //
 // AIBurningDeathState::update, retail 0x0035025B (111B), slot 6 of the state
 // vtable whose slot 4 is the sibling onEnter 0x0035017B.
@@ -22,9 +18,6 @@
 // (AIStates.cpp); StateReturnType values follow Zero Hour (CONTINUE 0,
 // SUCCESS -1, FAILURE -2). Structural inference: +0x20/+0x24 are the base
 // move's goal x/y.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-#include "Code/Libraries/Include/Lib/Coord3DCtorView.h"
 
 typedef unsigned int UnsignedInt;
 
@@ -40,7 +33,8 @@ enum StateExitType
 	EXIT_NORMAL = 0
 };
 
-#include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+#include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
+#include "../../Common/GameLogicObjectLookupView.h"
 
 class BfmeSubBGB
 {
@@ -48,16 +42,40 @@ public:
 	bool rva00298893();
 };
 
-class BurningLocomotorData {public:char prefix[0xFC];float radius;bool circular;};
-class BurningLocomotor {public:char prefix[4];BurningLocomotorData*info;};
-class BurningAI {public:char prefix[0x1F0];BurningLocomotor*current;};
+enum DisabledType { DISABLED_NATIVE_1 = 1 };
+class Rva00346BC0 { public: unsigned int words[4]; };
+extern unsigned g_Va00E01E08;
+class Drawable { public: void rva00272BE7(); };
+class Thing { public: Drawable *getDrawable() const; };
+class Rva262FF8PtrChaseField { public: int get() const; };
+template<int N> class BurningNativeSlots : public BurningNativeSlots<N-1> { public: virtual void gap(char (*)[N])=0; };
+template<> class BurningNativeSlots<0> {};
+class BurningAIView : public BurningNativeSlots<142> { public: virtual void slot142(int)=0; };
+
+class Rva0010CBits
+{
+public:
+	unsigned int testIndex(unsigned int bit) const { return m_words[bit >> 5] & (1U << (bit & 0x1f)); }
+	void setIndex(unsigned int bit) { m_words[bit >> 5] |= 1U << (bit & 0x1f); }
+private:
+	unsigned int m_words[20];
+};
 class Object
 {
 public:
 	void *getAI() const { return m_ai; }
+	const Coord3D *getPosition() const { return &m_position; }
+	bool clearDisabled(DisabledType);
+	void rva0028AE6D();
+	void rva0028CDEB(const Rva00346BC0 &,bool);
+	__forceinline void setConditionIndex(unsigned int mc) { if (m_conditionBits.testIndex(mc) == 0) { m_conditionBits.setIndex(mc); rva0028AE6D(); } }
 
 private:
-	unsigned char m_pad000[0x258];
+	unsigned char m_pad000[0x38];
+	Coord3D m_position;
+	unsigned char m_pad044[0x10C-0x44];
+	Rva0010CBits m_conditionBits;
+	unsigned char m_pad15C[0x258-0x15C];
 	void *m_ai; // +0x258
 };
 
@@ -106,12 +124,13 @@ protected:
 class AIBurningDeathState : public AIInternalMoveToState
 {
 public:
+	virtual StateReturnType onEnter();
 	virtual StateReturnType update();
 	Coord3D rva003469F5();
 
 private:
 	UnsignedInt m_deathFrame; // +0x4C
- Coord3D m_origin; // +0x50
+	Coord3D m_deathPosition; // +0x50
 };
 
 StateReturnType AIBurningDeathState::update()
@@ -136,47 +155,107 @@ StateReturnType AIBurningDeathState::update()
 	return STATE_CONTINUE;
 }
 
+// Native35017B..35025B RET0 and the same state vtable's onEnter slot.
+// Owner, AI, frame, initial position and condition word are native accesses;
+// goal-picker and base-entry ABIs are independently used by update above.
+// The unlabelled slot142 argument and condition word retain native identities.
+// The condition is bit 544 of the model-condition bits at +0x10C (word
+// +0x150), set once and notified through the rowed Object::rva0028AE6D; the
+// bitset spelling of ObjectConditionAndPassengerWeaponSet.cpp keeps retail's
+// direct [obj+0x150] operands (a raw word field CSEs the address into a LEA).
+StateReturnType AIBurningDeathState::onEnter()
+{
+    Object *obj = getMachineOwner();
+    if (!obj || !obj->getAI())
+        return STATE_FAILURE;
+    m_deathFrame = TheGameLogic->getFrame() +
+        ((Rva262FF8PtrChaseField *)obj->getAI())->get();
+    m_deathPosition = *getMachineOwner()->getPosition();
+    obj->clearDisabled(DISABLED_NATIVE_1);
+    obj->setConditionIndex(544);
+    obj->rva0028CDEB(*(const Rva00346BC0 *)&g_Va00E01E08, true);
+    TheGameLogic->deselectObject(obj, 0xfffff, true);
+    ((BurningAIView *)obj->getAI())->slot142(16);
+    Drawable *drawable = ((Thing *)obj)->getDrawable();
+    if (drawable)
+        drawable->rva00272BE7();
+    Coord3D goal = rva003469F5();
+    m_goalPosition.x = goal.x;
+    m_goalPosition.y = goal.y;
+    return AIInternalMoveToState::onEnter();
+}
+
+// 0x003469F5 (376 bytes, RET4 with the hidden Coord3D result): the burning
+// unit's next wander goal around its death position. Target facts: the
+// owner's AI (+0x258) current locomotor (+0x1F0) template (+4) radius (+0xFC)
+// and circular flag (+0x100); circular rotates (radius, 0, 0) by a random
+// angle in [0, 2pi), otherwise a +-REAL_TO_INT_FLOOR(radius / 10 + 0.5)
+// (default 3) cell offset of 10 units; the z of that offset is never set.
+// Lead facts: WorldBuilder twin 0xE33D80 (AIStates.cpp lines 0x4535..0x4542)
+// shows a Vector3 rotated by Vector3::Rotate_Z(angle) (sin then cos as
+// statements, then the two-argument rotate) and the result built from the
+// rotated vector and the death position. Member names are structural.
 extern "C" double __cdecl sin(double);
 extern "C" double __cdecl cos(double);
 extern "C" __declspec(dllimport) double __cdecl floor(double);
-struct BurningOffset {float x,y;};
-__forceinline void rotateBurningOffset(BurningOffset& v,float angle) {
- float sine=(float)sin(angle);float cosine=(float)cos(angle);
- float newX=v.x*cosine-v.y*sine;
- v.y=v.y*cosine+v.x*sine;v.x=newX;
+float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
+int GetGameLogicRandomValue(int lo, int hi, char *file, int line);
+static __forceinline float burningFloorf(float x) { return (float)floor((double)x); }
+static __forceinline long fast_float2long_round(float f)
+{
+	long i;
+	__asm {
+		fld [f]
+		fistp [i]
+	}
+	return i;
 }
-float GetGameLogicRandomValueReal(float,float,char*,int);
-int GetGameLogicRandomValue(int,int,char*,int);
+#define REAL_TO_INT_FLOOR(x) (fast_float2long_round(burningFloorf(x)))
+
+struct BurningVector3
+{
+	float X, Y, Z;
+	BurningVector3() {}
+	BurningVector3(float x, float y, float z) : X(x), Y(y), Z(z) {}
+	__forceinline void Rotate_Z(float angle)
+	{
+		float s = (float)sin((double)angle);
+		float c = (float)cos((double)angle);
+		Rotate_Z(s, c);
+	}
+	__forceinline void Rotate_Z(float s_angle, float c_angle)
+	{
+		float tmp_x = X;
+		float tmp_y = Y;
+		X = c_angle * tmp_x - s_angle * tmp_y;
+		Y = s_angle * tmp_x + c_angle * tmp_y;
+	}
+};
+struct BurningLocomotorTemplate { char m_pad00[0xFC]; float m_radius; bool m_circular; };
+struct BurningLocomotor { char m_pad00[4]; const BurningLocomotorTemplate *m_template; };
+struct BurningAI { char m_pad000[0x1F0]; BurningLocomotor *m_curLocomotor; };
+
 Coord3D AIBurningDeathState::rva003469F5()
 {
- int delta=3;
- BurningOffset pivot;
- BurningLocomotor* const volatile &loc=((BurningAI*)getMachineOwner()->getAI())->current;
- if(loc) {
-  BurningLocomotorData *info=loc->info;
-  pivot.x=info->radius;
-  const float &radius=pivot.x;
-  if(info->circular) {
-   float angle=GetGameLogicRandomValueReal(0.0f,6.2831854820251465f,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\AI\\AIStates.cpp",0x4535);
-   pivot.y=0.0f;
-   rotateBurningOffset(pivot,angle);
-   Coord3D result=m_origin;
-   result.x+=pivot.x;result.y+=pivot.y;
-   return result;
-  }
-  float rounded=(float)floor(radius*0.1f+0.5f);
-  int roundedInteger;
-  __asm {fld rounded
-         fistp roundedInteger}
-  delta=roundedInteger;
- }
- Coord3D offset;
- offset.x=(float)(GetGameLogicRandomValue(-delta,delta,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\AI\\AIStates.cpp",0x4541)*10);
- offset.y=(float)(GetGameLogicRandomValue(-delta,delta,"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\AI\\AIStates.cpp",0x4542)*10);
- Coord3D result;
- result.x=m_origin.x+offset.x;
- _ReadWriteBarrier();
- result.y=m_origin.y+offset.y;
- result.z=offset.z;
- return result;
+	BurningAI *ai = (BurningAI *)getMachineOwner()->getAI();
+	int delta = 3;
+	if (ai->m_curLocomotor)
+	{
+		float radius = ai->m_curLocomotor->m_template->m_radius;
+		if (ai->m_curLocomotor->m_template->m_circular)
+		{
+			BurningVector3 pivot(radius, 0.0f, 0.0f);
+			pivot.Rotate_Z(GetGameLogicRandomValueReal(0.0f, 6.2831855f, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\AI\\AIStates.cpp", 0x4535));
+			Coord3D result;
+			result.x = m_deathPosition.x + pivot.X;
+			result.y = m_deathPosition.y + pivot.Y;
+			result.z = m_deathPosition.z;
+			return result;
+		}
+		delta = REAL_TO_INT_FLOOR(radius / 10.0f + 0.5f);
+	}
+	BurningVector3 offset;
+	offset.X = GetGameLogicRandomValue(-delta, delta, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\AI\\AIStates.cpp", 0x4541) * 10 + m_deathPosition.x;
+	offset.Y = GetGameLogicRandomValue(-delta, delta, "C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\AI\\AIStates.cpp", 0x4542) * 10 + m_deathPosition.y;
+	return Coord3D(offset.X, offset.Y, offset.Z);
 }
