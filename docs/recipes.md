@@ -40,6 +40,11 @@ draft and `next_work.py` serves `wpo` candidates last.
   overloads keep compares in float (dword constant, pop before `fxch`).
   0x002E3978, AIFollowWaypointPathState::onEnter 0x0034ED7B,
   isPosDifferent/isAngleDifferent 0x0028B0A8/0x0028B119.
+  Calling `fabsf` directly is not the same as the `fabs(float)` overload: the
+  overload's extra inline level (it forwards to `fabsf`) puts the first
+  argument `pop ecx` after the `fxch`, and `fabsf` puts it before
+  (W3DBoatWakeModelDraw::doDrawModule 0x000D0D24). A double operand
+  anywhere in the subtraction moves both pops early instead.
 - **Typed struct arrays, not byte-offset arithmetic.** Indexing a modelled
   array reproduces retail's `[index+base]` operand order. The TheAudio volume
   loops 0x0005244A and 0x000524AA.
@@ -79,6 +84,13 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   retail's frame and registers (0.74 -> exact, Pathfinder::CanApproachToTarget
   0x002FA2DC). Try it first when a bank's slots and registers differ and the
   body copies a struct.
+
+- **Null-check spelling decides the order of the next block's loads.** After
+  `p = call(); if (!p) continue;` cl interleaved each load with its subtract
+  (`movss; subss; movss; subss`); `if (p) { ... } else continue;` gives the
+  same branches with the three loads first. A snippet shows the same split
+  with the pointer as a parameter (grouped) or a call result (interleaved).
+  0x0050A4A2 (Made002CC8A4 cone test).
 
 ## Stack-slot packing: what does not explain it
 
