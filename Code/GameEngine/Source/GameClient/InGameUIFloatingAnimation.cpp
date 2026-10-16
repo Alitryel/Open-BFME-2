@@ -77,6 +77,12 @@ Anim2D::Anim2D(Anim2DTemplate *animTemplate, Anim2DCollection *collectionSystem)
     m_cachedHeight=getCurrentFrameHeight();
     m_cachedWidth=getCurrentFrameWidth();
 }
+// Slot 2 of Anim2D's vtable 0x00C03358 (between the empty loadPostProcess
+// and xfer 0x002D71BD): returns the class name string 0x00C03368.
+const char *Anim2D::GetSnapshotName() const
+{
+    return "Anim2D";
+}
 class GlobalData;
 class GameClient;
 extern GlobalData *TheWritableGlobalData;
