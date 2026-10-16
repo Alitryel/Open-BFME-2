@@ -2,9 +2,9 @@
 // ?rva00235312@GlobalData@@QAE_NW4TimeOfDay@@0M@Z
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
-// GlobalData::setTimeOfDay, retail 0x002352BC (86 bytes). Zero Hour's
-// GlobalData.cpp body: select one of the five lit times of day and copy its
-// three terrain lights into the current ambient/diffuse/position arrays.
+// GlobalData blend between two lit times of day; GlobalData::setTimeOfDay
+// (0x002352BC) is rowed in GlobalDataSetTimeOfDay.cpp and supplies the
+// table/copy guide.
 // The GlobalData layout below carries only the members this body reaches,
 // at the offsets the retail body addresses: m_timeOfDay +0x134, the
 // [TIME_OF_DAY_COUNT][MAX_GLOBAL_LIGHTS] TerrainLighting table +0x140
@@ -50,24 +50,6 @@ private:
 	RGBColor m_terrainDiffuse[ MAX_GLOBAL_LIGHTS ];
 	Coord3D m_terrainLightPos[ MAX_GLOBAL_LIGHTS ];
 };
-
-// ?setTimeOfDay@GlobalData@@QAE_NW4TimeOfDay@@@Z @0x2352BC
-Bool GlobalData::setTimeOfDay( TimeOfDay tod )
-{
-	if( tod >= TIME_OF_DAY_COUNT || tod < TIME_OF_DAY_FIRST )
-	{
-		return false;
-	}
-
-	m_timeOfDay = tod;
-	for (Int i=0; i<MAX_GLOBAL_LIGHTS; i++)
-	{	m_terrainAmbient[i] = m_terrainLighting[ tod ][i].ambient;
-		m_terrainDiffuse[i] = m_terrainLighting[ tod ][i].diffuse;
-		m_terrainLightPos[i] = m_terrainLighting[ tod ][i].lightPos;
-	}
-
-	return true;
-}
 
 // Target1060 blend uses native erroneous red/blue stores; the setTimeOfDay
 // donor supplies the table/copy guide only. Original method name is unknown.
