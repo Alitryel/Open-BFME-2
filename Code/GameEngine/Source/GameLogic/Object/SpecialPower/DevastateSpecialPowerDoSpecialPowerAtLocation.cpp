@@ -58,6 +58,27 @@ public:
 	unsigned char m_flag18;
 };
 
+// The three TerrainLogic helpers this unit calls are rowed in their home
+// units; declare those identities so the references resolve at link time.
+// Rva0027D378Finish.cpp owns ?rva0027D378@Rva0027D378@@QAEHPAXH@Z,
+// BfmeConv624.cpp owns ?rva0027F108@BfmeThingCME@@QAEHPAXMHH@Z.
+class Rva0027D378
+{
+public:
+	int rva0027D378( void *thing, int limit );
+};
+
+class BfmeThingCME
+{
+public:
+	int rva0027F108( void *target, float radius, int a, int b );
+};
+
+// 0x0028447F's rowed body is the stdcall ?bfmeGo1035C@@YGXPAVBfmeX1035@@H@Z
+// (BfmeConv1035.cpp); retail's call site here passes TerrainLogic in ecx
+// which the body ignores, so bind this unit's member spelling to that body.
+#pragma comment(linker, "/alternatename:?rva0028447F@Rva004C82E5Terrain@@QAEXPAVBfmeX1035@@PBUCoord3D@@@Z=?bfmeGo1035C@@YGXPAVBfmeX1035@@H@Z")
+
 class Rva004C82E5Terrain
 {
 public:
@@ -227,7 +248,7 @@ void DevastateSpecialPower::doSpecialPowerAtLocation( const Coord3D *target, Uns
 	money = 0.0f;
 
 	BfmeX1035 *thing;
-	while( ( thing = reinterpret_cast<Rva004C82E5Terrain *>(TheTerrainLogic)->rva0027F108( target, data->m_radius, 0, 2 ) ) != 0 )
+	while( ( thing = (BfmeX1035 *)reinterpret_cast<BfmeThingCME *>(TheTerrainLogic)->rva0027F108( (void *)target, data->m_radius, 0, 2 ) ) != 0 )
 	{
 		if( thing->m_flag18 == 0 )
 			reinterpret_cast<Rva004C82E5Terrain *>(TheTerrainLogic)->rva0028447F( thing, target );
@@ -235,7 +256,7 @@ void DevastateSpecialPower::doSpecialPowerAtLocation( const Coord3D *target, Uns
 		if( data->m_fx )
 			FXList::doFXPos( data->m_fx, (const Coord3D *)thing );
 
-		UnsignedInt amount = (UnsignedInt)reinterpret_cast<Rva004C82E5Terrain *>(TheTerrainLogic)->rva0027D378( thing, 99999 );
+		UnsignedInt amount = (UnsignedInt)reinterpret_cast<Rva0027D378 *>(TheTerrainLogic)->rva0027D378( thing, 99999 );
 		UnsignedInt scale = (UnsignedInt)player->getSupplyBoxValue();
 		Real reward = (Real)( amount * scale );
 
