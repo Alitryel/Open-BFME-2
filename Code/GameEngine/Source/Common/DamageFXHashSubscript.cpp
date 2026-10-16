@@ -36,7 +36,9 @@ template <> vector<void *>::const_iterator _STL::vector<void *>::begin() const;
 template <> bool less<unsigned>::operator()(const unsigned &a, const unsigned &b) const;
 }
 class INI;
+struct FieldParse;
 class DamageFX { public:
+ const FieldParse *getFieldParse() const;
  class DFX { public: DFX(); char bytes[0x10]; };
  static void parseAmount(INI*,void*,void*,const void*);
  static void parseMajorFXList(INI*,void*,void*,const void*);
@@ -73,6 +75,12 @@ static const FieldParse DamageFXFields[] = {
  {"VeterancyThrottleTime",DamageFX::parseTime,TheVeterancyNames,0},
  {0,0,0,0}
 };
+// ZH DamageFX::getFieldParse returns this table; retail inlines it into
+// parseDamageFXDefinition and keeps this unreferenced copy at 0x00360911.
+const FieldParse *DamageFX::getFieldParse() const
+{
+ return DamageFXFields;
+}
 enum NameKeyType { NAMEKEY_INVALID=0, FORCE_NAMEKEY_LONG=0x7fffffff };
 class NameKeyGenerator { public: NameKeyType nameToKey(const char*); };
 extern NameKeyGenerator *TheNameKeyGenerator;
