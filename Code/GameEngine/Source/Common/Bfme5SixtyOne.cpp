@@ -84,6 +84,7 @@ class BfmeMsgVJH : public BfmeMsg
 {
 public:
 	BfmeMsgVJH( char *buffer, int size ) throw();
+	virtual ~BfmeMsgVJH();	// rowed out of line in BfmeMsgCtor.cpp
 
 private:
 	int m_field08;
