@@ -1,5 +1,5 @@
 // ?RecolorHouseColor@MeshClass@@UAEXABVRva0013101E@@PBD@Z
-// partial score=0.8246380186 date=2026-10-16
+// partial score=0.9072 date=2026-10-16
 // stlport
 #undef _CRTIMP
 #define _CRTIMP __declspec(dllimport)
@@ -56,13 +56,13 @@ struct RenderNode {void*Unknown;RenderNode*Next;void*Previous;DX8PolygonRenderer
 class TextureBaseClass{public:void Release_Ref();};
 class TextureClass:public TextureBaseClass{public:char pre[8];unsigned nameID;};
 template<class T>class RefCountPtr{public:T *p;~RefCountPtr(){if(p)p->Release_Ref();}};
-class BFME2ParticleTextureHandle{public:TextureClass *p;~BFME2ParticleTextureHandle(){if(p)p->Release_Ref();}};
+class BFME2ParticleTextureHandle:public RefCountPtr<TextureClass>{};
 class TextureAsset{public:static BFME2ParticleTextureHandle Get(const char *,int,int);static void RegisterRecolorForHouseColorDecal(void *,void *,void *);};
 class AssetReference{public:AssetReference(const AssetReference&);TextureClass *p;~AssetReference(){if(p)p->Release_Ref();}};
 class Rva0007B9EE{public:AssetReference rva0007B9EE() throw();};
 class Rva0015148D{public:void *rva0015148D();};
 class Rva00132A93{public:bool rva00132A93(void *);};
-class Rva0013101E{public:AsciiString rva001360EA()const;unsigned flags;};
+class Rva0013101E{public:AsciiString rva001360EA()const;bool specialValue() const {return m_c != 0;}unsigned m_a:3,m_b:27,m_c:1,m_keep:1;};
 bool Render_Obj_Exists(const char *);
 const char *Rva001363A1Get(unsigned);
 
@@ -93,8 +93,8 @@ virtual long __stdcall GetInt(EffectHandle,int*)=0;
 };
 #undef SLOT
 class ShaderClass{public:ShaderClass(){}ShaderClass(const ShaderClass&s):bits(s.bits){}unsigned bits;};
-class MeshMatDescClass{public:int passes;char gap04[0x94];ShaderClass shader[4];char gapA8[0x10];FXShaderSetup *setup;char gapBC[0x4C];void *setupArray;bool Uses_FX()const{return setup||setupArray;}FXShaderSetup *Get_FX()const{return setup;}void Set_Single_Texture(const RefCountPtr<TextureClass>&,int,int);void Set_Single_Shader(ShaderClass,int);};
-class MeshModelClass{public:virtual void Delete_This();int refs;char gap08[0x10];unsigned Flags;char gap1c[0x78];MeshMatDescClass *desc;char gap98[4];MultiListClass<DX8PolygonRendererClass> List;void Release_Ref(){--refs;if(refs==0)Delete_This();}RefCountPtr<TextureClass> Peek_Single_Texture(int,int)const;};
+class MeshMatDescClass{public:int passes;char gap04[0x94];ShaderClass shader[4];char gapA8[0x10];FXShaderSetup *setup;char gapBC[0x10];void *TextureArray00;char gapD0[0x38];void *setupArray;int Get_Pass_Count()const{return passes;}ShaderClass Get_Single_Shader(int pass=0)const{return shader[pass];}bool Has_Texture_Array00()const{return TextureArray00!=0;}bool Uses_FX()const{return setup||setupArray;}FXShaderSetup *Get_FX()const{return setup;}void Set_Single_Texture(const RefCountPtr<TextureClass>&,int,int);void Set_Single_Shader(ShaderClass,int);};
+class MeshModelClass{public:virtual void Delete_This();int refs;char gap08[0x10];unsigned Flags;char gap1c[0x78];MeshMatDescClass *desc;char gap98[4];MultiListClass<DX8PolygonRendererClass> List;void Release_Ref(){--refs;if(refs==0)Delete_This();}RefCountPtr<TextureClass> Peek_Single_Texture(int,int)const;void Set_Single_Texture(const RefCountPtr<TextureClass>&tex,int pass=0,int stage=0){desc->Set_Single_Texture(tex,pass,stage);}void Set_Single_Shader(ShaderClass shader,int pass=0){desc->Set_Single_Shader(shader,pass);}int Get_Pass_Count()const{return desc->Get_Pass_Count();}ShaderClass Get_Single_Shader(int pass=0)const{return desc->Get_Single_Shader(pass);}bool Has_Texture_Array00()const{return desc->Has_Texture_Array00();}};
 struct Rva00136090MeshHolder{MeshModelClass *pointer;~Rva00136090MeshHolder(){if(pointer)pointer->Release_Ref();}};
 Rva00136090MeshHolder Rva00136090MeshHold(MeshModelClass*);
 struct BfmeHandleUZA{TextureClass *p;~BfmeHandleUZA(){if(p)p->Release_Ref();}};
@@ -346,17 +346,16 @@ void MeshClass::RecolorHouseColor(const Rva0013101E &options,const char *exceptN
      }
     }
    }
-  }else if(mesh.pointer->desc->passes==1&&reinterpret_cast<void**>(mesh.pointer->desc)[0xCC/4]==0&&mesh.pointer->Peek_Single_Texture(0,0).p){
+  }else if(mesh.pointer->Get_Pass_Count()==1&&!mesh.pointer->Has_Texture_Array00()&&mesh.pointer->Peek_Single_Texture(0,0).p){
    BfmeHandleUZA texture=reinterpret_cast<BfmeThingAUZA*>(mesh.pointer)->bfmeGoAUZA(0,0);
-   const char *original=Rva001363A1Get(texture.p?texture.p->nameID:~0u);ShaderClass shader=mesh.pointer->desc->shader[0];
+   const char *original=Rva001363A1Get(texture.p?texture.p->nameID:~0u);ShaderClass shader=mesh.pointer->Get_Single_Shader();
    if(original){
     AsciiString name;name.format("#%s#%s",original,options.rva001360EA().str());name.toLower();
     if(!Render_Obj_Exists(name.str()))TextureAsset::RegisterRecolorForHouseColorDecal(const_cast<char*>(original),const_cast<char*>(name.str()),const_cast<Rva0013101E*>(&options));
-    BFME2ParticleTextureHandle replacement=TextureAsset::Get(name.str(),0,0);
-    mesh.pointer->desc->Set_Single_Texture(reinterpret_cast<RefCountPtr<TextureClass>&>(replacement),0,1);
-    shader.bits=(shader.bits&0xFFBFFFFF)|0x1A00000;mesh.pointer->desc->Set_Single_Shader(shader,0);
+    mesh.pointer->Set_Single_Texture(TextureAsset::Get(name.str(),0,0),0,1);
+    shader.bits=(shader.bits&0xFFBFFFFF)|0x1A00000;mesh.pointer->Set_Single_Shader(shader);
    }
   }
-  if(options.flags&0x40000000)recolored=true;
+  if(options.specialValue())recolored=true;
  }
 }
