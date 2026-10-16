@@ -28,10 +28,18 @@ public:
 // through AptBasePtrStack::At, so the object name is TU-local.
 extern AptBasePtrStack g_aptValueStackAtE182E0;
 
+class AptValue;
 class AptInteger
 {
 public:
-	static BfmeAptValue006DCD20 *Create(int value);
+	static AptValue *Create(int value);
+};
+
+// The growth helper 0x006D9500 is rowed as Rva006D9500::rva006D9500.
+class Rva006D9500
+{
+public:
+	void rva006D9500(int nCapacity);
 };
 
 // Value-object GC views shared with AptNativeHashMark.cpp: the shr-and-field
@@ -63,11 +71,13 @@ public:
 	void setGCMark(bool value);
 };
 
-// The Rva006D6360 base forwarder 0x006DCC00 (slot 0x34 native-hash mark).
-class Rva006D6360
+// The Rva006D6360 base forwarder 0x006DCC00 (slot 0x34 native-hash mark);
+// retail calls it through its one-jump vtable thunk 0x0070DFD0, rowed as
+// Rva0070DFD0::rva0070DFD0.
+class Rva0070DFD0
 {
 public:
-	void rva006DCC00();
+	void rva0070DFD0();
 };
 
 class BfmeAptValue006DCD20
@@ -120,8 +130,9 @@ extern "C" void __cdecl qsort(void *, unsigned int, unsigned int, int (__cdecl *
 
 // Scratch array handles published by the non-default sort path (VA 0x00E18044
 // and 0x00E18048).
-extern BfmeAptValue006DCD20 *g_rva006D9F00Handle;
-extern BfmeAptValue006DCD20 **g_rva006D9F00Data;
+// Only this unit's sort path and its comparators touch them; zero at load.
+BfmeAptValue006DCD20 *g_rva006D9F00Handle;
+BfmeAptValue006DCD20 **g_rva006D9F00Data;
 
 // ?rva006D9CE0@@YAPAVBfmeAptValue006DCD20@@PAV1@H@Z @0x006D9CE0 (143 bytes).
 // Prepends `count` interpreter-stack values to the array: the backing store is
@@ -136,7 +147,7 @@ BfmeAptValue006DCD20 *rva006D9CE0(BfmeAptValue006DCD20 *pValue, int count)
 	if (static_cast<unsigned char>(pValue->isArray()))
 	{
 		BfmeAptValue006DCD20 *array = pValue->rva006DCFA0();
-		array->rva006D9500(array->mnLength + count);
+		((Rva006D9500 *)array)->rva006D9500(array->mnLength + count);
 
 		if (count != 0)
 		{
@@ -150,7 +161,7 @@ BfmeAptValue006DCD20 *rva006D9CE0(BfmeAptValue006DCD20 *pValue, int count)
 			}
 		}
 
-		return AptInteger::Create(array->mnLength);
+		return (BfmeAptValue006DCD20 *)AptInteger::Create(array->mnLength);
 	}
 
 	return (*(BfmeAptValue006DCD20 * *)&gpUndefinedValue);
@@ -323,7 +334,7 @@ BfmeAptValue006DCD20 *rva006DA0C0(BfmeAptValue006DCD20 *pValue, int mode)
 // -> 0x006DCC00; callees At 0x006D8A50, get 0x006DBB40, setGCMark 0x006DBC50.
 void BfmeAptValue006DCD20::rva006D94A0()
 {
-	((Rva006D6360 *)this)->rva006DCC00();
+	((Rva0070DFD0 *)this)->rva0070DFD0();
 
 	for (int i = 0; i < mnLength; ++i)
 	{
