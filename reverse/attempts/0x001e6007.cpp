@@ -1,11 +1,5 @@
 // ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
-// partial score=0.8721671640448934 date=2026-10-14
-// ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
-// partial score=0.872167 date=2026-10-14
-// ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
-// partial score=0.866656 date=2026-10-09
-// ?rva001E6007@Rva001E46E1@@QAEXPAVObject@@PBUCoord3D@@MM@Z
-// partial score=0.75 date=2026-10-09
+// partial score=0.7977 date=2026-10-16
 // cl: /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /O1 /G7 /arch:SSE /ICode/Libraries/Include /DNDEBUG /MD /Oi-
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -552,7 +546,7 @@ static __forceinline void rva6007Set(Object *obj,unsigned bit)
 {
  if(!obj->m_flags10C.test(bit)){obj->m_flags10C.set(bit);obj->rva0028AE6D();}
 }
-static __forceinline float rva6007SlowDown(float actualSpeed,float minSpeed,float braking){float delta=actualSpeed-minSpeed;if(delta<=0.0f)return 0.0f;float frames=1.0f+delta/braking;float avg=delta*0.5f+minSpeed;return frames*avg*1.05f;}
+static inline float rva6007SlowDown(float actualSpeed,float minSpeed,float braking){float delta=actualSpeed-minSpeed;if(delta<=0.0f)return 0.0f;float frames=delta/braking+1.0f;float dist=(delta*0.5f+minSpeed)*frames;const float FUDGE=1.05f;return dist*FUDGE;}
 struct MoveCoordinate:Coord3D {__forceinline MoveCoordinate(float a,float b,float c){x=a;y=b;z=c;}};
 void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,float desiredSpeed)
 {
@@ -563,7 +557,7 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
  float braking=rva001E488A(obj);
  float minSpeed=m_data->m_28;
  float slowDownDist=rva6007SlowDown(actualSpeed,minSpeed,braking);
- if(((distance>slowDownDist*3.0f) ? (distance>slowDownDist*3.0f) : (distance>slowDownDist*3.0f)))m_flags44&=~1u;
+ if(distance>slowDownDist*3.0f)m_flags44&=~1u;
  float next=m_40-braking;
  if(next>desiredSpeed){goalSpeed=next;if(goalSpeed<braking)goalSpeed=braking;}
  if(slowDownDist>distance && !getFlag(4)){
@@ -571,7 +565,6 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
   goalSpeed=m_40-rva001E488A(obj);
   if(goalSpeed<braking)goalSpeed=braking;
  }
- MoveCoordinate newGoal(goal->x,goal->y,goal->z);
  if(goalSpeed>m_40 && !getFlag(0))m_40+=rva001E4845(obj);
  if(m_40>goalSpeed){m_40-=braking;if(m_40<goalSpeed)m_40=goalSpeed;}
  Coord3D pos;pos.x=goal->x;pos.y=goal->y;pos.z=goal->z;
@@ -585,9 +578,10 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
   path->DoAdvanceAlongPath(&pos,true);
   result=path->rva00364521((const Rva0008BB38FloatField*)this);
   if(path->m_count)--path->m_count;
-  newGoal.x=result.m_pos.x;newGoal.y=result.m_pos.y;newGoal.z=result.m_pos.z;
-  obj->m_198=newGoal;obj->m_1A6=true;
+  MoveCoordinate pathPos(result.m_pos.x,result.m_pos.y,result.m_pos.z);
+  obj->m_198=pathPos;obj->m_1A6=true;
  } else {
+  MoveCoordinate newGoal(goal->x,goal->y,goal->z);
   newGoal.x-=obj->m_pos38.x;newGoal.y-=obj->m_pos38.y;newGoal.z=0.0f;
   pos=*obj->getPosition();
   _ReadWriteBarrier();
@@ -599,8 +593,8 @@ void Rva001E46E1::rva001E6007(Object *obj,const Coord3D *goal,float distance,flo
  }
  pos.z=obj->m_pos38.z;
  const Coord3D *destination=(const Coord3D*)((Rva001E434A*)obj)->rva001E434A();
- newGoal.x=destination->x;newGoal.y=destination->y;newGoal.z=obj->m_pos38.z;
- obj->m_198=newGoal;obj->m_1A6=true;
+ MoveCoordinate nextPos(destination->x,destination->y,destination->z);nextPos.z=obj->m_pos38.z;
+ obj->m_198=nextPos;obj->m_1A6=true;
  m_matrix68[0][3]=pos.x;m_matrix68[1][3]=pos.y;m_matrix68[2][3]=pos.z;
  float acceleration=m_40-actualSpeed;
  float threshold=m_data->m_7C*maxSpeed;
