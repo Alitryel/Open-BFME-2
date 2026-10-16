@@ -22,18 +22,18 @@ public:
 class AptValue;
 class BfmeAptValue006DCD20 {
 public:
-    bool isString() const;
+    int isString() const;
     bool isUndefined() const;
     void *rva006E04A0() const;
     int isScriptFunction() const;
     BfmeAptValue006DCD20 *rva006DCEE0();
     void setGCRootCount(unsigned int);
     bool isCIH(bool) const;
-    bool rva006DCC60(bool) const;
+    int rva006DCC60(bool) const;
     BfmeAptValue006DCD20 *rva006DCF60(bool);
     BfmeAptValue006DCD20 *checkedString();
 };
-class AptCIH {public:bool rva006CFCD0()const;void *rva006E1170()const;int rva006E1F90(int);};
+class AptCIH {public:bool rva006CFCD0()const;void *rva006E1170()const;bool rva006E1F90(int);};
 struct AptNativeHash;
 class AptValue {public:virtual void AddRef();virtual void Release();virtual void ForceDelete();virtual AptNativeHash *GetNativeHashVirtual();virtual bool ContainsNativeHashVirtual() const;AptValue *findChild(const EAStringC *,AptValue *);};
 struct AptNativeHash {int mnTotalSize;void *mpData;AptValue *mp__proto__;AptValue *mpPrototype;unsigned int nEventHandlers;};
@@ -69,13 +69,13 @@ bool Rva006FB860::rva006FACA0(int event,int transition,void **out)
  AptCIH *context=*(AptCIH**)((char*)current+0x48);
  Rva0070B380 *hash=*(Rva0070B380**)((char*)context->rva006E1170()+0x10);
  BfmeAptValue006DCD20 *value=(BfmeAptValue006DCD20*)hash->lookup(*key);if(!value)return false;
- if(value->isString()) {
+ if((unsigned char)value->isString()) {
   EAStringC rest;BfmeAptValue006DCD20 *resolved;
   EAStringC *source=(EAStringC*)((char*)value->checkedString()+8);
   rva006FEC00((int)context,0,source,(int*)&resolved,&rest);
   if(resolved) {
    BfmeAptValue006DCD20 *node=resolved->rva006DCF60(false);
-   if(rest.rva006D3750()==0 && (node->rva006DCC60(false)||((AptCIH*)node)->rva006CFCD0())) *out=node;
+   if(rest.rva006D3750()==0 && ((unsigned char)node->rva006DCC60(false)||((AptCIH*)node)->rva006CFCD0())) *out=node;
    else if((int)rest.rva006D3750()>0 && ((AptCIH*)node)->rva006CFCD0()) {
     Rva0070B380 *members=*(Rva0070B380**)((char*)*(void**)((char*)node+0x4C)+0x10);
     BfmeAptValue006DCD20 *found=(BfmeAptValue006DCD20*)members->lookup(rest);if(found)value=found;
@@ -94,14 +94,18 @@ bool Rva006FB860::rva006FACA0(int event,int transition,void **out)
    return true;
   }
  } else ((AptValue*)value)->AddRef();
- if(value->rva006DCF60(false)->rva006DCC60(false)||((AptCIH*)value->rva006DCF60(false))->rva006CFCD0()) {
+ if((unsigned char)value->rva006DCF60(false)->rva006DCC60(false)||((AptCIH*)value->rva006DCF60(false))->rva006CFCD0()) {
   if(!((Rva006E3710*)g_bfmeAptPtrAtE176D0)->rva006E3710((Rva006E3710Node*)value->rva006DCF60(false))) *out=value->rva006DCF60(false);
  }
  ((AptValue*)value)->Release();return false;
 }
 
 struct AptInputEventName {unsigned int mask;int stringId;};
-extern AptInputEventName g_00DDC8EC[6];
+// The mouse-event table at 0x009DC8EC (.data, 48 B): six {mask, string-pool
+// index} pairs, values read from the image; only this unit reads it.
+AptInputEventName g_00DDC8EC[6] = {
+ { 0x80, 0x6A }, { 0x40, 0x69 }, { 0x10, 0x6C }, { 0x20, 0x6E }, { 0x8, 0x6D }, { 0x80000, 0x6F },
+};
 struct Rva006E0AC0Entry {int m_mask;int m_str;};
 extern Rva006E0AC0Entry g_00DDC2E8[];
 class Rva006E0D40 {public:void rva006E0D40();};
@@ -133,7 +137,7 @@ void Rva006FB860::rva006FAB40(BfmeAptValue006DCD20 *value,int mask,int arg)
   g_bfmeAptAssertAtE17734("pValue->ContainsNativeHashVirtual()","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptInput.cpp",0x483);
   if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak();
  }
- if(value->isCIH(false) && !((AptCIH*)value->rva006DCF60(false))->rva006E1F90(mask)) return;
+ if(value->isCIH(false) && !(((AptCIH*)value->rva006DCF60(false))->*reinterpret_cast<int (AptCIH::*)(int)>(&AptCIH::rva006E1F90))(mask)) return;
  if(!value->isCIH(false) && !(pValue->GetNativeHashVirtual()->nEventHandlers&mask) && !(pValue->GetNativeHashVirtual()->mp__proto__->GetNativeHashVirtual()->nEventHandlers&mask)) return;
  for(int i=0;i<6;i++) {
   if(g_00DDC8EC[i].mask&mask) {
@@ -168,7 +172,12 @@ class AptAnimationPoolData {public:void rva006E6540();};
 extern int g_00E17704;
 extern void (__cdecl *g_bfmeAptFreeAtE17784)(void *,int);
 struct AptButtonRoute {unsigned int mask;int stringId;int keyCode;};
-extern AptButtonRoute g_00DDC898[7];
+// The key-route table at 0x009DC898 (.data, 84 B): seven {mask, string-pool
+// index, key code} records, values read from the image; only this unit reads it.
+AptButtonRoute g_00DDC898[7] = {
+ { 0x800, 0x71, 0x1 }, { 0x400, 0x70, 0x0 }, { 0x1000, 0x72, 0x1 }, { 0x2000, 0x74, 0x1 },
+ { 0x4000, 0x73, 0x1 }, { 0x8000, 0x67, 0x0 }, { 0x10000, 0x66, 0x0 },
+};
 struct AptButtonFlags {char pad[0x10];unsigned int flags;};
 class AptButtonInstView {
 public:
