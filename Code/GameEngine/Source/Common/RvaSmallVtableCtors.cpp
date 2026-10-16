@@ -443,6 +443,31 @@ inline Rva0007DF07::Rva0007DF07()
 {
 }
 
+// ??0Rva0023DAE8@@QAE@H@Z @0x0023DAE8 15B (RET4, unused word), vtable VA
+// 0xbedaa0 (the refcounted node table Bfme5NodeMakers.cpp stores by address).
+// A Rva0007DF07: vtable 0xBEDAA0's slot 0 is the ICF-shared deleting dtor
+// 0x005FAA31, whose dtor 0x004E84A4 restores Rva0007DF07's vtable 0xbc6f20.
+// The inlined base zeroes +4 and its vptr store dies under the derived one;
+// the empty derived dtor reduces to the base's restore, byte for byte the
+// 0x004E84A4 body the linker folded it into (ICF alias row). Moved here from
+// GapLeavesSeat8.cpp: that unit's /G7 turns the inlined and-zero store into
+// a mov, while this unit's flags give retail's bytes for both.
+class Rva0023DAE8 : public Rva0007DF07
+{
+public:
+	Rva0023DAE8(int unused);
+	virtual ~Rva0023DAE8();
+};
+
+Rva0023DAE8::Rva0023DAE8(int)
+{
+}
+
+// ??1Rva0023DAE8@@UAE@XZ @0x004E84A4 7B: ICF-folded with the base restore.
+Rva0023DAE8::~Rva0023DAE8()
+{
+}
+
 // ??0Rva000A882D@@QAE@XZ @0x000A882D 13B, vtable VA 0xbc93a0
 class Rva000A882D : public RvaSmallVtableZeroBase
 {

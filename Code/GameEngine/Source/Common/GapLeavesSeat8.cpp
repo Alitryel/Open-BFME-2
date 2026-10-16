@@ -274,21 +274,8 @@ void Rva0023C4E3Clear()
 	g_00DFF004 = 0;
 }
 
-// --- 0x0023DAE8 (15B, RET4): a constructor taking an unused word that
-// installs vtable 0x00BEDAA0 (the refcounted node table Bfme5NodeMakers.cpp
-// stores by address) and zeroes the count at +4.
-class Rva0023DAE8
-{
-public:
-	Rva0023DAE8(int unused);
-	virtual void slot00();
-private:
-	int m_count;
-};
-Rva0023DAE8::Rva0023DAE8(int)
-	: m_count(0)
-{
-}
+// (0x0023DAE8, the vtable-0x00BEDAA0 constructor, lives in
+// RvaSmallVtableCtors.cpp beside its Rva0007DF07 base.)
 
 // --- 0x0027C218 (8B): the first word of the holder at VA 0x00DBD0F4.
 struct Rva0027C218HolderView
