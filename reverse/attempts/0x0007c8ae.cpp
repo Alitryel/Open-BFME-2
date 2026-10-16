@@ -1,5 +1,5 @@
 // ?UpdateShadowCamera@W3DShadowMapManager@@QAEXXZ
-// partial score=0.85 date=2026-10-16
+// partial score=0.86 date=2026-10-16
 // cl: /O1 /Og /arch:SSE /G7 /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
 // stlport
 // Native shadow map helper 0007C637..0007C8AE. WorldBuilder7EF110 embeds
@@ -413,7 +413,8 @@ void W3DShadowMapManager::UpdateShadowCamera()
 	lightTm.Get_Orthogonal_Inverse(lightInv);
 
 	AABoxClass box;
-	TheTerrainRenderObject->getShadowCameraBox(m_sceneCamera, &box);
+	CameraClass *sceneCamera = m_sceneCamera;
+	TheTerrainRenderObject->getShadowCameraBox(sceneCamera, &box);
 	float minZ = box.Center.Z - box.Extent.Z;
 	PlaneClass ground(Vector3(0.0f, 0.0f, -1.0f), ShadowMax(minZ, g_00DB447C.v2));
 	PlaneClass ceiling(Vector3(0.0f, 0.0f, 1.0f), box.Center.Z + box.Extent.Z + 400.0f);
@@ -447,9 +448,8 @@ void W3DShadowMapManager::UpdateShadowCamera()
 	PointList hullPts(count, blank);
 	for (unsigned i = 0; i < count; i++)
 		Matrix3D::Transform_Vector(lightTm, Vector3(hullData[i].X, hullData[i].Y, 0.0f), (Vector3 *)&hullPts[i]);
-	unsigned numPts = hullPts.size();
-	PointList groundPts(numPts, blank);
-	PointList ceilingPts(numPts, blank);
+	PointList groundPts(hullPts.size(), blank);
+	PointList ceilingPts(hullPts.size(), blank);
 	for (unsigned i = 0; i < count; i++) {
 		float t = 0.0f;
 		ground.Compute_Intersection((Vector3 &)hullPts[i], lightDir + (Vector3 &)hullPts[i], &t);
