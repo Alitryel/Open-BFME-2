@@ -16,13 +16,18 @@
 
 void __cdecl operator delete[](void *block);
 
-struct BfmeRva00161350Tag {};
-struct BfmeRva00161350Elem;
-
-// The copy helper the +0x1C member's clear reaches: copy(first, last, result)
-// with a by-reference dispatch tag, returning the new end.
-BfmeRva00161350Elem *__cdecl bfmeRva00161350(BfmeRva00161350Elem *first, BfmeRva00161350Elem *last,
-	BfmeRva00161350Elem *result, const BfmeRva00161350Tag &tag, int *distance);
+// The copy helper 0x00161350 is rowed as STLport's random-access __copy over
+// 36-byte BfmePod36 records (int distance); declared only, so the call keeps
+// that name. The element and tag take those spellings here.
+namespace _STL {
+struct random_access_iterator_tag;
+template <class _RandomAccessIter, class _OutputIter, class _Distance>
+_OutputIter __copy(_RandomAccessIter __first, _RandomAccessIter __last, _OutputIter __result,
+	const random_access_iterator_tag &, _Distance *);
+}
+struct BfmePod36;
+typedef BfmePod36 BfmeRva00161350Elem;
+namespace _STL { struct random_access_iterator_tag {}; }
 
 // The +0x1C member: start, finish, end of storage.  Clear is STLport's
 // erase(begin(), end()).
@@ -32,8 +37,8 @@ struct BfmeRva00166110
 	{
 		BfmeRva00161350Elem *first = Start;
 		BfmeRva00161350Elem *last = Finish;
-		BfmeRva00161350Tag tag;
-		BfmeRva00161350Elem *i = bfmeRva00161350(last, Finish, first, tag, (int *)0);
+		_STL::random_access_iterator_tag tag;
+		BfmeRva00161350Elem *i = _STL::__copy(last, Finish, first, tag, (int *)0);
 		Finish = i;
 	}
 	BfmeRva00161350Elem *Start;

@@ -14,9 +14,18 @@
 // clears a flag; retail follows the vector-erase shape.
 // Retail reloads End after the find loop; the volatile read reproduces that
 // second load, which /O2+G7 would otherwise CSE away.
-struct BfmeRva00161350Tag {};
-struct BfmeRva00161350Elem { int Index; unsigned char m_pad[32]; };
-BfmeRva00161350Elem *__cdecl bfmeRva00161350(BfmeRva00161350Elem *first, BfmeRva00161350Elem *last, BfmeRva00161350Elem *result, const BfmeRva00161350Tag &tag, int *distance);
+// The copy helper 0x00161350 is rowed as STLport's random-access __copy over
+// 36-byte BfmePod36 records (int distance); declared only, so the call keeps
+// that name. The element and tag take those spellings here.
+namespace _STL {
+struct random_access_iterator_tag;
+template <class _RandomAccessIter, class _OutputIter, class _Distance>
+_OutputIter __copy(_RandomAccessIter __first, _RandomAccessIter __last, _OutputIter __result,
+	const random_access_iterator_tag &, _Distance *);
+}
+namespace _STL { struct random_access_iterator_tag {}; }
+struct BfmePod36 { int Index; unsigned char m_pad[32]; };
+typedef BfmePod36 BfmeRva00161350Elem;
 class HTreeClass {
     char m_pad0[28];
     BfmeRva00161350Elem *Begin;
@@ -41,8 +50,8 @@ found:
     BfmeRva00161350Elem *finish = *(BfmeRva00161350Elem * volatile *)&End;
     BfmeRva00161350Elem *next = p + 1;
     if (next != finish) {
-        BfmeRva00161350Tag tag;
-        bfmeRva00161350(next, finish, p, tag, (int *)0);
+        _STL::random_access_iterator_tag tag;
+        _STL::__copy(next, finish, p, tag, (int *)0);
     }
     --End;
 }
