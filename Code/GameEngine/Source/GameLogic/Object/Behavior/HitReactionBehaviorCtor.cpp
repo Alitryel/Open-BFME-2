@@ -66,3 +66,11 @@ HitReactionBehavior::HitReactionBehavior(Thing *thing, const ModuleData *moduleD
 	m_24 = 0.0f;
 	setWakeFrame(m_object, UPDATE_SLEEP_NONE);
 }
+
+// ??1HitReactionBehavior@@UAE@XZ @0x00459154: vftable 0x00841004 slot 0 is its deleting dtor
+// 0x00459285 (formerly the placeholder Rva00459154 in Rva0024A797Derived.cpp).
+HitReactionBehavior::~HitReactionBehavior()
+{
+	m_p0C = &s_secondary0C;
+	m_p10 = &s_secondary10;
+}

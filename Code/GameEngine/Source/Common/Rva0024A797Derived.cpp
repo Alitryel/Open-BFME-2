@@ -169,22 +169,6 @@ Rva00458AAE::~Rva00458AAE()
 {
 }
 
-class Rva00459154_B2
-{
-public:
-	virtual void f2();
-};
-
-class Rva00459154 : public UpdateModule, public MiBase1, public Rva00459154_B2
-{
-public:
-	virtual ~Rva00459154();
-};
-
-Rva00459154::~Rva00459154()
-{
-}
-
 class Rva0047F92D_B2
 {
 public:
