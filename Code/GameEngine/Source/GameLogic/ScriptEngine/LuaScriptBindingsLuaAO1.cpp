@@ -19,7 +19,10 @@ extern "C" int lua_type( lua_State *state, int index );
 extern "C" const char *lua_tostring( lua_State *state, int index );
 extern "C" void lua_pushnil( lua_State *state );
 
-unsigned Rva00990030Lookup( lua_State *range, int index );
+// Row 0x00747190 (Rva00990030RecordLookup.cpp) spells its first argument as a
+// record range; the binding hands it the Lua state.
+struct Rva00990030Range;
+unsigned Rva00990030Lookup( Rva00990030Range *range, int index );
 
 extern "C" char _bfmeString10CF498[];
 
@@ -147,6 +150,9 @@ class StringBase
 public:
 	StringBase() { m_data = 0; }
 	StringBase( const T *text );
+	// Rowed at 0x000366F0 (StringBaseNarrowCopySet.cpp): retail's AsciiString
+	// copy assignment folds onto it, and the binding calls it there.
+	void set( const StringBase &other );
 
 	void *m_data;
 };
@@ -157,7 +163,7 @@ public:
 	AsciiString() {}
 	AsciiString( const char *text ) : StringBase<char>( text ) {}
 	~AsciiString() { releaseBuffer(); }
-	AsciiString &operator=( const AsciiString &text );
+	__forceinline AsciiString &operator=( const AsciiString &text ) { set( text ); return *this; }
 	const char *str() const
 	{
 		return m_data ? (const char *)m_data + 8 : "";
@@ -198,7 +204,7 @@ public:
 
 int LuaScriptEngine::ObjectDescription( lua_State *state )
 {
-	unsigned id = Rva00990030Lookup( state, 1 );
+	unsigned id = Rva00990030Lookup( (Rva00990030Range *)state, 1 );
 	if( !id && lua_type( state, 1 ) != 1 )
 	{
 		lua_pushnil( state );
@@ -232,7 +238,7 @@ public:
 };
 
 
-typedef unsigned NameKeyType;
+enum NameKeyType { NAMEKEY_INVALID = 0 };
 
 // upstream layout: inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include/Common/NameKeyGenerator.h
 class NameKeyGenerator
@@ -277,9 +283,11 @@ struct LuaDrawableState
 class LuaScriptEngine;
 extern LuaScriptEngine *TheLuaScriptEngine;
 
-struct BfmeCallJ63
+// The four-table event lookup, rowed at 0x00333918 (Rva00332E60.cpp).
+class Rva00332E60
 {
-	void *invoke( void *event );
+public:
+	void *rva00333918( int key );
 };
 
 // DispatchEvent's second argument is an Object pointer here.  Retail's
@@ -293,7 +301,7 @@ struct BfmeCallJ63
 // ?ObjectDispatchEvent@@YAHPAUlua_State@@@Z
 int ObjectDispatchEvent( lua_State *state )
 {
-	unsigned objectID = Rva00990030Lookup( state, 1 );
+	unsigned objectID = Rva00990030Lookup( (Rva00990030Range *)state, 1 );
 	if( !objectID && lua_type( state, 1 ) != 1 )
 		return 0;
 	Object *object = TheGameLogic->findObjectByID( (ObjectID)objectID );
@@ -301,7 +309,7 @@ int ObjectDispatchEvent( lua_State *state )
 		return 0;
 
 	DelayedLuaEventList eventList;
-	unsigned eventID = Rva00990030Lookup( state, 2 );
+	unsigned eventID = Rva00990030Lookup( (Rva00990030Range *)state, 2 );
 	if( !eventID && lua_type( state, 1 ) != 1 )
 		return 0;
 	const char *eventName = lua_tostring( state, 3 );
@@ -309,8 +317,8 @@ int ObjectDispatchEvent( lua_State *state )
 		return 0;
 
 	NameKeyType eventKey = TheNameKeyGenerator->nameToKey( eventName );
-	void *eventData = reinterpret_cast<BfmeCallJ63 *>(TheLuaScriptEngine)->invoke(
-		(void *)eventKey);
+	void *eventData = reinterpret_cast<Rva00332E60 *>(TheLuaScriptEngine)->rva00333918(
+		(int)eventKey);
 	if( eventData )
 	{
 		const char *text = lua_tostring( state, 4 );
