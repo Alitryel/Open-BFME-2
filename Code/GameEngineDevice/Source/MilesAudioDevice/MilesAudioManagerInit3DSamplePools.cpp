@@ -28,6 +28,10 @@ template <> list<int, allocator<int> >::iterator list<int, allocator<int> >::ins
 // COMDAT (one byte shape per TU flags); a file-static overload takes those
 // calls instead so this TU emits no external copy.
 #include <new>
+// bfme link decl-only begin
+namespace _STL { template <> _List_node<void *> * list<void *,allocator<void *> >::_M_create_node(void * const &); }
+namespace _STL { template <> _List_iterator<void *,_Nonconst_traits<void *> > list<void *,allocator<void *> >::insert(_List_iterator<void *,_Nonconst_traits<void *> >,void * const &); }
+// bfme link decl-only end
 namespace _STL {
 static inline void _Construct(int *__p, const int &__val)
 { new (__p) int(__val); }

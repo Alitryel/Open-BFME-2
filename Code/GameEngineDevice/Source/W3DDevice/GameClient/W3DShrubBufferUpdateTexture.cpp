@@ -25,16 +25,26 @@ class ProxyClass
 public:
 	class ProxyData
 	{
-	public:
-		void Release();
 	};
+};
+
+// Callees rowed under other class views: the 16-bit-count release 0x0061ED10
+// (TextureBaseClass::Release_Ref), the holder size getters 0x0013275A and
+// 0x00132784 (TextureBaseClass, a one-pointer view), and the packer's clear,
+// page lookup and result getter (0x00170EBC, 0x00171583, 0x00171625).
+class TextureBaseClass
+{
+public:
+	void Release_Ref();
+	int rva0013275A() const;
+	int rva00132784() const;
 };
 
 // One-pointer texture handles returned by value and released on scope exit.
 class BFME2ParticleTextureHandle
 {
 public:
-	~BFME2ParticleTextureHandle() { if (m_data) m_data->Release(); }
+	~BFME2ParticleTextureHandle() { if (m_data) ((TextureBaseClass *)m_data)->Release_Ref(); }
 	ProxyClass::ProxyData *m_data;
 };
 class TextureAsset
@@ -50,7 +60,7 @@ class HierarchyPrototype : public ProxyClass::ProxyData
 template <class T> class RefCountPtr
 {
 public:
-	~RefCountPtr() { if (m_data) m_data->Release(); }
+	~RefCountPtr() { if (m_data) ((TextureBaseClass *)m_data)->Release_Ref(); }
 	const RefCountPtr &operator=(const RefCountPtr &other);
 	T *m_data;
 };
@@ -63,17 +73,32 @@ class Rva00132D0FHolder : public RefCountPtr<HierarchyPrototype>
 {
 public:
 	using RefCountPtr<HierarchyPrototype>::operator=;
-	Int rva0013275A();
-	Int rva00132784();
+	const TextureBaseClass *texture() const { return (const TextureBaseClass *)this; }
+};
+
+class Rva00170EBC
+{
+public:
+	void rva00170EBC(Bool shadow);
+};
+class Rva00171583
+{
+public:
+	Bool rva00171583(const unsigned int &texture, Vec2 *topLeft, Vec2 *bottomRight);
+};
+class Rva00171024
+{
+public:
+	AssetReference rva00171625();
 };
 
 class TexturePacker
 {
 public:
-	void rva00170EBC(Bool shadow);
 	void rva00171067(const BFME2ParticleTextureHandle &texture);
-	Bool rva00171583(const BFME2ParticleTextureHandle &texture, Vec2 *topLeft, Vec2 *bottomRight);
-	AssetReference rva00171625();
+	Rva00170EBC *clearView() { return (Rva00170EBC *)this; }
+	Rva00171583 *lookupView() { return (Rva00171583 *)this; }
+	Rva00171024 *resultView() { return (Rva00171024 *)this; }
 private:
 	unsigned char m_bytes[0x28];
 };
@@ -150,8 +175,8 @@ private:
 
 void W3DShrubBuffer::updateTexture()
 {
-	m_packer.rva00170EBC(false);
-	m_shadowPacker.rva00170EBC(true);
+	m_packer.clearView()->rva00170EBC(false);
+	m_shadowPacker.clearView()->rva00170EBC(true);
 	Int i;
 	for (i = 0; i < m_numTypes; i++)
 	{
@@ -161,16 +186,16 @@ void W3DShrubBuffer::updateTexture()
 	}
 	for (i = 0; i < m_numTypes; i++)
 	{
-		m_packer.rva00171583(TextureAsset::Get(m_types[i].m_data->m_textureName.str(), 0, 0),
+		m_packer.lookupView()->rva00171583((const unsigned int &)TextureAsset::Get(m_types[i].m_data->m_textureName.str(), 0, 0),
 			&m_types[i].m_topLeft, &m_types[i].m_bottomRight);
 		if (m_types[i].m_doShadow)
-			m_shadowPacker.rva00171583(TextureAsset::Get(m_types[i].m_shadowTextureName.str(), 0, 0),
+			m_shadowPacker.lookupView()->rva00171583((const unsigned int &)TextureAsset::Get(m_types[i].m_shadowTextureName.str(), 0, 0),
 				&m_types[i].m_shadowTopLeft, &m_types[i].m_shadowBottomRight);
 	}
-	m_texture = m_packer.rva00171625();
-	m_shadowTexture = m_shadowPacker.rva00171625();
-	if (m_texture.rva0013275A() > 1024U || m_texture.rva00132784() > 1024U)
+	m_texture = m_packer.resultView()->rva00171625();
+	m_shadowTexture = m_shadowPacker.resultView()->rva00171625();
+	if (m_texture.texture()->rva0013275A() > 1024U || m_texture.texture()->rva00132784() > 1024U)
 		DEBUG_CRASH_REPORT("Combined shrub texture is bigger than 1024x1024. This will cause errors and significant slowdown on most graphics cards and has to be fixed!");
-	if (m_shadowTexture.rva0013275A() > 1024U || m_shadowTexture.rva00132784() > 1024U)
+	if (m_shadowTexture.texture()->rva0013275A() > 1024U || m_shadowTexture.texture()->rva00132784() > 1024U)
 		DEBUG_CRASH_REPORT("Combined shrub shadow texture is bigger than 1024x1024. This will cause errors and significant slowdown on most graphics cards and has to be fixed!");
 }

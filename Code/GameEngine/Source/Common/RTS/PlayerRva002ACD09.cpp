@@ -15,6 +15,13 @@
 // COMDAT (one byte shape per TU flags); a file-static overload takes those
 // calls instead so this TU emits no external copy.
 #include <new>
+// bfme link decl-only begin
+namespace _STL { template <> vector<unsigned int,allocator<unsigned int> > & vector<unsigned int,allocator<unsigned int> >::operator=(vector<unsigned int,allocator<unsigned int> > const &); }
+namespace _STL { template <> void vector<unsigned int,allocator<unsigned int> >::_M_clear(); }
+namespace _STL { template <> unsigned int * _STLP_alloc_proxy<unsigned int *,unsigned int,allocator<unsigned int> >::allocate(unsigned int); }
+namespace _STL { template <> void _STLP_alloc_proxy<unsigned int *,unsigned int,allocator<unsigned int> >::deallocate(unsigned int *,unsigned int); }
+namespace _STL { template <> void allocator<unsigned int>::deallocate(unsigned int *,unsigned int)const ; }
+// bfme link decl-only end
 namespace _STL {
 static inline void _Construct(int *__p, const int &__val)
 { new (__p) int(__val); }
