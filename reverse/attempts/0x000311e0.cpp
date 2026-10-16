@@ -1,11 +1,5 @@
 // ?rva000311E0@GeneralAllocator@Allocator@EA@@QAEIPBXIPADPAGI@Z
-// partial score=0.94 date=2026-10-12
-// ?rva000311E0@GeneralAllocator@Allocator@EA@@QAEIPBXIPADPAGI@Z
-// partial score=0.94 date=2026-10-12 MP3: direct-index loop (drop ap/wp pointers) + split-tails: 498B (+1B), first-diff +0x10 (je cascade). Left: grouped saves (ebx,ebp,esi upfront) vs split; w_hold/a_hold homed not regged.
-// ?rva000311E0@GeneralAllocator@Allocator@EA@@QAEIPBXIPADPAGI@Z
-// partial score=0.86 date=2026-10-10
-// ?rva000311E0@GeneralAllocator@Allocator@EA@@QAEIPBXIPADPAGI@Z
-// partial score=0.86379 date=2026-10-09
+// partial score=0.94 date=2026-10-16
 // BFME 2's memory-pool entry points. `namespace MemoryPool` is retail's own
 // name: every `_`-prefixed function here is exported under it
 // (reverse/exports.csv), and 0x00030730 resolves each export back out of the
@@ -66,6 +60,7 @@ extern "C" __declspec(dllimport) void *__stdcall TlsGetValue(unsigned long index
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void *section);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void *section);
 extern "C" __declspec(dllimport) int __stdcall VirtualFree(void *address, unsigned int size, unsigned int type);
+extern "C" __declspec(dllimport) int __cdecl _snprintf(char *buffer, unsigned int count, const char *format, ...);
 
 class MemoryPoolFactory;
 // placement unverified: no rowed DIR32 site yet; ZH initial value is null.
@@ -125,25 +120,40 @@ public:
 	// Donor PDB name; target allocator call sites and the size-bin thresholds
 	// support its role. Its parameter meaning is carried from the donor.
 	static unsigned int GetLargeBinIndexFromChunkSize(unsigned int size);
-	unsigned int rva000311E0(const void*,unsigned,char*,unsigned short*,unsigned);
 	bool rva00032830(const void *block, int addressType);	// ValidateAddress-like
 	bool rva00032920(const void *block);			// owns-address test
 	bool rva000329E0(int level);				// ValidateHeap-like
 	int rva000327E0(const void *blockData, unsigned int left, char *dst);
+	// Original address-derived spelling of the callee above, kept so the
+	// landed 0x000327E0 caller (which forwards positionally) still resolves
+	// through the existing 0x00031430 pin with byte-identical codegen.
 	int rva00031430(const void *block, unsigned int left, char *dst);
+	// True (block, dst, left) order proven by the WB debug build; the row
+	// below owns this name and address.
+	int rva00031430(const void *block, char *dst, unsigned int left);
+	unsigned int rva000311E0(const void *src, unsigned int count, char *ascii, unsigned short *wide, unsigned int cap);
 	unsigned int rva00032A20(const void *block);		// GetUsableSize-like
+	int rva00031D00(void *block);				// callee of 0x32160 (body unrecovered, address-derived name)
+	unsigned int rva00032160(void *block);		// locked 0x31D00 count plus fencepost bit and second-list membership test
+	unsigned int rva00032050(void *chunk, unsigned int flags);	// locked per-chunk check count (banked, unrecovered; address-derived name)
+	unsigned int rva000320E0(void *chunk, unsigned int flags, bool checkPrev, bool skipPrev);	// locked 0x32050 count plus free-chunk bits
 	unsigned int rva006C1D10(const void *block);		// fast usable-size with tail call to 0x32A20 caller 0x6C36FD
+	void *rva00031B60(const void *block);
 	void *rva00031680(const void *block);	// intrusive-list search unblocking 0x31BB0 0x31D00 0x32920
 	bool rva000316B0(void *block, bool release);	// conditional core-release callback / VirtualFree
 	int rva00031BF0(const void *block);
 	bool rva00031BB0(const void *block);	// small-block fencepost check via 0x31680 caller 0x3324E
 	void rva000338F0(void *block);				// Free-like
+	void rva000338D0(Snapshot *snapshot);			// snapshot release
 	void *rva00035080(unsigned int size, int flags);	// Malloc-like
 	void *rva00035190(void *block, unsigned int size, int flags);	// Realloc-like
 	void *rva00035210(unsigned int count, unsigned int size, int flags);	// Calloc-like
 	void *rva000353B0(void *context, int blockTypes, bool copy, void *storage, unsigned int storageSize);	// ReportBegin-like
+	void rva00032EC0(const void *block, BlockInfo *out);	// chunk -> BlockInfo for the report
 	const BlockInfo *rva00032F60(void *context, int blockTypes);	// ReportNext-like
 	void rva00033E90(void *context);			// ReportEnd-like
+	// ReportHeap-like walk over blocks of the given types (unrowed 0x00035540).
+	bool rva00035540(bool (*callback)(const BlockInfo *info, void *context), void *context, int blockTypes, bool copy, char *storage, unsigned int storageSize);
 
 private:
 	// Intrusive list node proven by 0x00031680 (size at +4 next at +0x18)
@@ -179,7 +189,18 @@ private:
 		unsigned char m_pad[0x18];
 		int volatile m_count;
 	};
-	unsigned char m_pad468[0x4E4 - (0x448 + sizeof(ListNode))];
+	unsigned char m_pad468[0x49C - (0x448 + sizeof(ListNode))];
+	// Second intrusive list proven by 0x00032160: sentinel embedded at +0x49C
+	// with its next pointer at +0xC; entries compare (node - *node) with the key.
+	// Only the offsets are target facts; the labels are descriptive.
+	struct RegionLink
+	{
+		unsigned int m_base;
+		unsigned char m_pad[8];
+		RegionLink *m_next;
+	};
+	RegionLink m_regions;
+	unsigned char m_pad4AC[0x4E4 - (0x49C + sizeof(RegionLink))];
 	Lock *m_4E4;
 };
 
@@ -287,6 +308,35 @@ void *GeneralAllocator::rva00031680(const void *block)
 	return 0;
 }
 
+// ?rva00031B60@GeneralAllocator@Allocator@EA@@QAEPAXPBX@Z @ 0x00031B60 (75B):
+// the chunk containing an address. A block whose first dword is zero, or that
+// no core region contains (0x00031680), yields null; otherwise the walk starts
+// at the region's first chunk and steps by the masked chunk size until the
+// next chunk would pass the address. Class proven by the ecx pass-through to
+// 0x00031680; the original method name is unknown.
+void *GeneralAllocator::rva00031B60(const void *block)
+{
+	if (*(const unsigned int *)block > 0)
+	{
+		void **node = (void **)rva00031680(block);
+		if (node != 0)
+		{
+			char *chunk = (char *)*node;
+			if ((unsigned int)block > (unsigned int)chunk)
+			{
+				char *next = chunk + (*(unsigned int *)(chunk + 4) & 0x7FFFFFF8);
+				while ((unsigned int)next < (unsigned int)block)
+				{
+					chunk = next;
+					next += *(unsigned int *)(next + 4) & 0x7FFFFFF8;
+				}
+				return chunk;
+			}
+		}
+	}
+	return 0;
+}
+
 // ?rva00031BB0@GeneralAllocator@Allocator@EA@@QAE_NPBX@Z @ 0x00031BB0 (51B):
 // small-block check calling 0x00031680 then requiring the address to lie in
 // the last 0x10 bytes of the containing node. Class proven by this
@@ -323,6 +373,132 @@ int GeneralAllocator::rva000327E0(const void *blockData, unsigned int left, char
 		++lock->m_count;
 	}
 	int result = rva00031430((const char *)blockData - 8, left, dst);
+	if (lock != 0)
+	{
+		--lock->m_count;
+		LeaveCriticalSection(lock);
+	}
+	return result;
+}
+
+// ?rva00031430@GeneralAllocator@Allocator@EA@@QAEHPBXPADI@Z @0x00031430 320B
+// Block-dump formatter: appends "addr/size/data/attr" lines for one heap
+// block into the caller's buffer, returning bytes appended. The WB debug
+// build of this same body proves the argument order (block, dst, left),
+// the hoisted block+8 data local, the zero-filled 256B text buffer passed
+// to the pinned 0x000311E0 hex formatter as (src,count,ascii,wide=0,
+// cap=0x100) with the "data:" line reading the text from its start, and the
+// if/else "mapped"/"internal" selection whose game.dat release shape is the two
+// ternaries below. Target facts: block+4 masked 0x7FFFFFF8 minus 8 is the
+// size; the same block+4 word carries flag bits 2/4 (attr line); this+0x474
+// is the %c separator reloaded for every _snprintf; thresholds
+// 0x12/0x1E/0x10A/0x18 gate each line. Declaring data before size keeps
+// block in EDX with retail's spill/lea schedule. The 0x000327E0 sibling
+// (same TU) forwards block-8 positionally into this same (block, dst, left)
+// order (its positionally-forwarded call is untouched; the original
+// address-derived overload declaration above keeps it resolving through the
+// existing pin with byte-identical codegen, and its row is unchanged since
+// the rel32 target address is the same).
+int GeneralAllocator::rva00031430(const void *block, char *dst, unsigned int left)
+{
+	char *start = dst;
+	const char *data = (const char *)block + 8;
+	unsigned int size = (*(const unsigned int *)((const char *)block + 4) & 0x7FFFFFF8) - 8;
+	if (left >= 0x12)
+	{
+		int n = _snprintf(dst, left, "addr: 0x%08x%c",
+			data, *(const unsigned char *)((const char *)this + 0x474));
+		dst += n;
+		left -= n;
+	}
+	if (left >= 0x1E)
+	{
+		int n = _snprintf(dst, left, "size: %10u (%8x)%c", size, size,
+			*(const unsigned char *)((const char *)this + 0x474));
+		dst += n;
+		left -= n;
+	}
+	if (left >= 0x10A)
+	{
+		char text[256] = { 0 };
+		rva000311E0(data, size, text, 0, 0x100);
+		int n = _snprintf(dst, left, "data: %s%c", text,
+			*(const unsigned char *)((const char *)this + 0x474));
+		dst += n;
+		left -= n;
+	}
+	unsigned int flags = *(const unsigned int *)((const char *)block + 4);
+	if ((flags & 4) || (flags & 2))
+	{
+		if (left >= 0x18)
+		{
+			const char *mapped = (flags & 2) ? "mapped" : "";
+			const char *which = (flags & 4) ? "internal" : "";
+			int n = _snprintf(dst, left, "attr: %s %s%c", which, mapped,
+				*(const unsigned char *)((const char *)this + 0x474));
+			dst += n;
+			left -= n;
+		}
+	}
+	return dst - start;
+}
+
+// ?rva00032160@GeneralAllocator@Allocator@EA@@QAEIPAX@Z @0x00032160 137B
+// Under the +0x4E4 lock: the 0x31D00 result, plus the inverted bit1 of the
+// block's second dword, plus one when the block's (address - first dword) key is
+// not found among the +0x49C list entries. The equal-arm on the membership
+// compare is a scheduling lever (retail keeps the sentinel test in its own branch).
+unsigned int GeneralAllocator::rva00032160(void *block)
+{
+	Lock *lock = m_4E4;
+	if (lock != 0)
+	{
+		EnterCriticalSection(lock);
+		++lock->m_count;
+	}
+
+	unsigned int result = rva00031D00(block);
+	result += ((unsigned char)~(((unsigned int *)block)[1] >> 1)) & 1 && 1;
+	RegionLink *sentinel = &m_regions;
+	RegionLink *cur = m_regions.m_next;
+	if (cur != sentinel)
+	{
+		unsigned int key = (unsigned int)block - *(unsigned int *)block;
+		do
+		{
+			if ((unsigned int)cur - *(unsigned int *)cur == key)
+				break;
+			cur = cur->m_next;
+		} while (cur != sentinel);
+	}
+	unsigned int total = result + ((block ? (cur == sentinel) : (cur == sentinel)));
+	if (lock != 0)
+	{
+		--lock->m_count;
+		LeaveCriticalSection(lock);
+	}
+	return total;
+}
+
+// ?rva000320E0@GeneralAllocator@Allocator@EA@@QAEIPAXI_N1@Z @0x000320E0 128B
+// Under the +0x4E4 lock: the 0x32050 count for the chunk, plus one when the
+// following chunk's in-use bit is clear (this chunk is free), plus one more
+// when the third argument is set, the fourth clear and the chunk's own
+// prev-in-use bit is clear. Argument labels are descriptive only.
+unsigned int GeneralAllocator::rva000320E0(void *chunk, unsigned int flags, bool checkPrev, bool skipPrev)
+{
+	Lock *lock = m_4E4;
+	if (lock != 0)
+	{
+		EnterCriticalSection(lock);
+		++lock->m_count;
+	}
+
+	unsigned int *header = (unsigned int *)chunk;
+	unsigned int isFree = ((unsigned char)~*((unsigned char *)chunk + (header[1] & 0x7FFFFFF8) + 4)) & 1 && 1;
+	unsigned int result = rva00032050(chunk, flags) + isFree;
+	if (checkPrev && !skipPrev)
+		result += ((unsigned char)~*((unsigned char *)chunk + 4)) & 1 && 1;
 	if (lock != 0)
 	{
 		--lock->m_count;
@@ -378,6 +554,54 @@ unsigned int GeneralAllocator::rva00032A20(const void *block)
 	return 0;
 }
 
+// ?rva00032EC0@GeneralAllocator@Allocator@EA@@QAEXPBXPAUBlockInfo@23@@Z
+// @0x00032EC0 151B, RET8. Fills one heap-report BlockInfo from a chunk; the
+// report iterator 0x00032F60 calls it with the chunk and its output slot.
+// Header at chunk+4: bit1 marks a mapped chunk, the masked size locates the
+// next chunk, whose header bit0 says this one is in use. An in-use chunk
+// reports type 2 with its payload (chunk+8) and usable size (0x32A20; a
+// mapped one also widens the core by the prefix at chunk+0); a free chunk
+// reports type 4 with payload chunk+0x10. Offsets and flags are target
+// evidence; the method's original name is unknown.
+void GeneralAllocator::rva00032EC0(const void *block, BlockInfo *out)
+{
+	const char *chunk = (const char *)block;
+	unsigned int size = *(const unsigned int *)(chunk + 4);
+	unsigned int mapped = size & 2;
+	size &= 0x7FFFFFF8;
+	if ((*(const unsigned char *)(chunk + size + 4) & 1) != 0)
+	{
+		void *data = (void *)(chunk + 8);
+		unsigned int usable = rva00032A20(data);
+		out->m_blockType = 2;
+		if (mapped != 0)
+		{
+			out->m_core = (void *)(chunk - *(const unsigned int *)chunk);
+			out->m_blockSize = *(const unsigned int *)chunk + size + 0x10;
+			out->m_data = data;
+			out->m_dataSize = usable;
+			out->m_mapped = true;
+		}
+		else
+		{
+			out->m_data = data;
+			out->m_blockSize = size;
+			out->m_core = (void *)chunk;
+			out->m_dataSize = usable;
+			out->m_mapped = false;
+		}
+	}
+	else
+	{
+		out->m_core = (void *)chunk;
+		out->m_blockSize = size;
+		out->m_blockType = 4;
+		out->m_data = (void *)(chunk + 0x10);
+		out->m_dataSize = (*(const unsigned int *)(chunk + 4) & 0x7FFFFFF8) - 0x10;
+		out->m_mapped = false;
+	}
+}
+
 // ?rva006C1D10@GeneralAllocator@Allocator@EA@@QAEIPBX@Z @0x006C1D10 59B
 // Fast usable-size: header at block-4, sign check tail-calls 0x32A20,
 // bit1 selects masked size else masked+4, then short at [size+block-0xA]
@@ -398,6 +622,17 @@ unsigned int GeneralAllocator::rva006C1D10(const void *block)
 	if (base >= (unsigned int)block)
 		return base - (unsigned int)block;
 	return rva00032A20(block);
+}
+
+// ?rva000338D0@GeneralAllocator@Allocator@EA@@QAEXPAUSnapshot@123@@Z @0x000338D0 31B
+// Releases a snapshot block: only when its magic is 'SNAP' (the value the
+// Snapshot constructor stores at +0) and the first state byte at +0xC is
+// clear does it tail-call Rva00033E90::freeBlock (pin 0x00033150) with the
+// same this. Reached through the thunk at 0x006C1D50. Name address-derived.
+void GeneralAllocator::rva000338D0(Snapshot *snapshot)
+{
+	if (snapshot->m_magic == 0x534E4150 && snapshot->m_state[0] == 0)
+		((::Rva00033E90 *)this)->freeBlock(snapshot);
 }
 
 // ?rva000338F0@GeneralAllocator@Allocator@EA@@QAEXPAX@Z @0x000338F0 63B
@@ -559,6 +794,32 @@ void _VerifyIntegrity()
 		g_heaps.m_allocators[i]->rva000329E0(3);
 }
 
+// 0x00030900 (16B): heap-report callback adding a block's data size to the
+// running total its context points at; always continues the walk.
+bool rva00030900(const EA::Allocator::BlockInfo *info, void *context)
+{
+	*(unsigned int *)context += info->m_dataSize;
+	return true;
+}
+
+// 0x00030910 (90B), unreferenced: the data bytes of every allocated block
+// (type 2) across all heaps, summed by walking each allocator's report with
+// the callback above and a 512-byte scratch buffer.
+unsigned int rva00030910()
+{
+	unsigned int total = 0;
+	char storage[0x200];
+	for (int i = 0; i <= g_heaps.m_count; ++i)
+		g_heaps.m_allocators[i]->rva00035540(rva00030900, &total, 2, false, storage, sizeof(storage));
+	return total;
+}
+
+// 0x00030970 (8B), unreferenced: raise the shut-down flag _Free tests.
+void rva00030970()
+{
+	g_heaps.m_shutDown = true;
+}
+
 void _Exit()
 {
 	if (--g_heaps.m_initCount != 0)
@@ -619,10 +880,6 @@ void *Rva00031790::rva00031790(void *param)
 	}
 	return this;
 }
-
-// Retail's data references in this unit's matched rows land on globals defined
-// under other spellings at the same addresses (addend-corrected DIR32). Bind them.
-#pragma comment(linker, "/alternatename:?g_heapTlsIndex@MemoryPool@@3KA=?g_Va00DB35A4@@3KA")
 
 // Native 0x00030D10..0x00030D4E, RET4: retain bit0 of word +4;
 // zero clears its size bits, otherwise clamp to 80, add 11, round down
@@ -687,6 +944,92 @@ int GeneralAllocator::rva00031BF0(const void* block) {
 }
 }
 
+// Export-named native _AddHeap at 000306B0..00030730. The table fields
+// are shared with the existing heap operations above; the +40D flag is
+// set while _Init accepts registrations. A compiler fence preserves retail
+// scheduling when linking the new record into its hash bucket.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
+namespace MemoryPool {
+extern unsigned int g_defaultHeapSize;
+void _AddHeap(unsigned int id, unsigned int size)
+{
+	if (!g_heaps.m_addingHeaps)
+		return;
+	int count = g_heaps.m_count;
+	if (count >= MAX_HEAPS)
+		return;
+	if (id == 0)
+	{
+		g_defaultHeapSize = size;
+		return;
+	}
+	HeapRecord **bucket = &g_heaps.m_buckets[id % HEAP_BUCKETS];
+	for (HeapRecord *record = *bucket; record != 0; record = record->m_next)
+	{
+		if (record->m_id == id)
+		{
+			record->m_size = size;
+			return;
+		}
+	}
+	HeapRecord *record = &g_heaps.m_records[count];
+	record->m_size = size;
+	HeapRecord *head = *bucket;
+	++count;
+	record->m_id = id;
+	g_heaps.m_count = count;
+	_ReadWriteBarrier();
+	record->m_next = head;
+	*bucket = record;
+}
+}
+
+// Retail 0x006C1BE0 (219 B, __stdcall ret 0x14), beside the allocator's
+// 0x006C1AA0 and GeneralAllocator 0x006C1D10: formats a source location into
+// a bounded buffer. It writes the file's base name (after the last '\\' or
+// '/'), then ", " and the line through sprintf("%d"), then, when a function
+// name is given, ", " and the name, copied up to the buffer end without a NUL
+// test as retail does; returns the characters written. Name address-derived.
+extern "C" __declspec(dllimport) int __cdecl sprintf(char *, const char *, ...);
+
+unsigned int __stdcall Rva006C1BE0FormatLocation(char *buffer, unsigned int size, const char *file, int line, const char *function)
+{
+	char *p = buffer;
+	char *end = buffer + size - 1;
+	*buffer = 0;
+	if (file)
+	{
+		const char *name = file + strlen(file);
+		while (name >= file && *name != '\\' && *name != '/')
+			--name;
+		++name;
+		while (p < end && *name)
+			*p++ = *name++;
+		if (p + 2 < end)
+		{
+			*p++ = ',';
+			*p++ = ' ';
+		}
+		char number[32];
+		sprintf(number, "%d", line);
+		for (const char *n = number; p < end && *n; )
+			*p++ = *n++;
+	}
+	if (function)
+	{
+		if (file && p + 2 < end)
+		{
+			*p++ = ',';
+			*p++ = ' ';
+		}
+		while (p < end)
+			*p++ = *function++;
+	}
+	*p = 0;
+	return p - buffer;
+}
+
 namespace EA {namespace Allocator {
 unsigned int GeneralAllocator::rva000311E0(const void *src_, unsigned int count, char *ascii, unsigned short *wide, unsigned int cap)
 {
@@ -722,13 +1065,11 @@ unsigned int GeneralAllocator::rva000311E0(const void *src_, unsigned int count,
 		a_hold[limit * 3 - 1] = '\t';
 	if (w_hold != 0)
 		w_hold[limit * 3 - 1] = '\t';
-	if (0 == limit)
-		goto fardone;
 	unsigned int i = 0;
 	while (i < limit)
 	{
-		unsigned char c = src[i];
-		char hi = hex[c >> 4];
+		const char c = (char)src[i];
+		char hi = hex[(unsigned char)c >> 4];
 		char lo = hex[c & 0xF];
 		if (0 != a_hold)
 		{
