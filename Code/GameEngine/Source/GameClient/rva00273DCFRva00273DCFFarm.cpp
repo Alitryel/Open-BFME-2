@@ -1,19 +1,13 @@
 // ?rva00273DCF@Drawable@@QAEXXZ
-// partial score=0.85 date=2026-10-13
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /I. /ICode/Libraries/Include
 #include "Lib/Coord3D.h"
 #include "Lib/Coord2D.h"
 #include "Lib/ICoord2D.h"
 #define BFME_SNAPSHOT_NAME_SLOT
-#include "reference/shims/moduledata/Common/Snapshot.h"
+#include "../../../../reference/shims/moduledata/Common/Snapshot.h"
 // ?rva00273755@Drawable@@QAEXXZ @0x00273755 179B: Drawable anim draw with verified retail literal 0.5f via rowed getter 0x00270BA8 and Anim2D width/height plus draw 0x002D7127; tail to 0x002736A8 on stale frame.
 // Evidence: offsets +0x354/+0x2C/+0x64 match Rva00270025 layout, TheGameLogic+0x40 frame check, m_460/m_468/m_46C rect math, callers 0x00279734, neighbours Drawable_rva00273648.
-class GameLogic
-{
-public:
-	unsigned char m_pad[0x40];
-	unsigned int m_frame;
-};
+#include "../Common/GameLogicObjectLookupView.h"
 extern GameLogic *TheGameLogic;
 
 class Anim2DTemplate;
@@ -258,7 +252,7 @@ void Drawable::rva00273755()
 		return;
 	if (((Rva00270BA8 *)this)->rva00270BA8()->m_items[10] == 0)
 		return;
-	unsigned int cur = TheGameLogic->m_frame;
+	unsigned int cur = TheGameLogic->getFrame();
 	unsigned int v = ((Rva00270BA8 *)this)->rva00270BA8()->m_vals[10];
 	if (v >= cur) {
 		int dw = m_468 - m_460;
@@ -331,7 +325,7 @@ void Drawable::rva00273DCF()
 	bool update = false;
 	float first = body->f4();
 	if (first != body->f6()) {
-		unsigned int frame = TheGameLogic->m_frame;
+		unsigned int frame = TheGameLogic->getFrame();
 		if (frame > BfmeHealingIconDisplayFrames && frame - body->f17() <= BfmeHealingIconDisplayFrames)
 			update = true;
 	}
@@ -343,20 +337,18 @@ void Drawable::rva00273DCF()
 		slot = (((const DrawableKindWordView *)self->m_template)->bits >> 8) & 2;
 
 	if (update) {
-		Rva00270025 *items = ((Rva00270BA8 *)self)->rva00270BA8();
-		if ((slot ? items->m_items[slot] : items->m_items[slot]) == 0) {
+		unsigned int idx = slot * 4;
+		if (*(Rva002D7127 **)((char *)((Rva00270BA8 *)self)->rva00270BA8()->m_items + idx) == 0) {
 			Anim2D *anim = new Anim2D((Anim2DTemplate *)s_animationTemplates[slot], TheAnim2DCollection);
-			items = ((Rva00270BA8 *)self)->rva00270BA8();
-			items->m_items[slot] = (Rva002D7127 *)anim;
+			*(Rva002D7127 **)((char *)((Rva00270BA8 *)self)->rva00270BA8()->m_items + idx) = (Rva002D7127 *)anim;
 		}
-		items = ((Rva00270BA8 *)self)->rva00270BA8();
-		if (items->m_items[slot] != 0) {
+		if (*(Rva002D7127 **)((char *)((Rva00270BA8 *)self)->rva00270BA8()->m_items + idx) != 0) {
 			int dw = self->m_468 - self->m_460;
-			int width = ((Rva00270BA8 *)self)->rva00270BA8()->m_items[slot]->getCurrentFrameWidth();
-			int height = ((Rva00270BA8 *)self)->rva00270BA8()->m_items[slot]->getCurrentFrameHeight();
+			int width = (*(Rva002D7127 **)((char *)((Rva00270BA8 *)self)->rva00270BA8()->m_items + idx))->getCurrentFrameWidth();
+			int height = (*(Rva002D7127 **)((char *)((Rva00270BA8 *)self)->rva00270BA8()->m_items + idx))->getCurrentFrameHeight();
 			int x = (int)((float)dw * 0.75f + (float)self->m_460 - (float)width * 0.5f);
 			int y = self->m_464 - height;
-			((Rva00270BA8 *)self)->rva00270BA8()->m_items[slot]->rva002D7127(x, y, width, height);
+			(*(Rva002D7127 **)((char *)((Rva00270BA8 *)self)->rva00270BA8()->m_items + idx))->rva002D7127(x, y, width, height);
 		}
 	} else if (self->m_354 != 0) {
 		self->m_354->rva0027006C((int)slot);

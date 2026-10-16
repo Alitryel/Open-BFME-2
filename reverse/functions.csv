@@ -94269,3 +94269,4 @@ $L923,,0x007A8E96,15,Code/Libraries/Source/Apt/AptValue/AptValueConstructBuiltIn
 ?slot38@TransportContain@@UAE_NPAVObject@@HH@Z,,0x00466EDE,258,Code/GameEngine/Source/GameLogic/Object/Contain/slot38Rva00466EDEFarm.cpp,matched,
 ?rva005E4116@Rva005E4116@@QAEHXZ,,0x005E4116,65,Code/GameEngine/Source/GameClient/LivingWorld/InGameUI/rva005E4116Rva005E4116Farm.cpp,matched,
 ?rva006CE1C0@@YAXH@Z,,0x006CE1C0,443,Code/Libraries/Source/Apt/rva006CE1C0Rva006CE1C0Farm.cpp,matched,
+?rva00273DCF@Drawable@@QAEXXZ,,0x00273DCF,421,Code/GameEngine/Source/GameClient/rva00273DCFRva00273DCFFarm.cpp,matched,
