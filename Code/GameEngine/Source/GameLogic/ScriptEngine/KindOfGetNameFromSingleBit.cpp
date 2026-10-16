@@ -13,6 +13,7 @@
 class KindOfMaskType
 {
 public:
+	static const char **getBitNames();
 	static const char *getNameFromSingleBit(int bitIndex);
 };
 
@@ -249,4 +250,12 @@ const char *KindOfMaskType::getNameFromSingleBit(int bitIndex)
 	if (bitIndex < 0 || bitIndex >= sizeof(TheKindOfBitNames) / sizeof(TheKindOfBitNames[0]) - 1)
 		return 0;
 	return TheKindOfBitNames[bitIndex];
+}
+
+// ZH BitFlags::getBitNames for the KindOf mask: returns the name table. Retail
+// keeps an unreferenced out-of-line copy at 0x003B31A7 (6 bytes) right after
+// a switch table.
+const char **KindOfMaskType::getBitNames()
+{
+	return TheKindOfBitNames;
 }
