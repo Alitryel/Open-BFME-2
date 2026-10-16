@@ -1,5 +1,5 @@
 // ?evaluate@Rva00160150@@QAEXAAURva00160240Pose@@MAAMMPAPAE@Z
-// partial score=0.7792358804 date=2026-10-16
+// partial score=0.82 date=2026-10-16
 // cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
 //
 // ?rva00160150@Rva00160150@@QBEXPAMHH@Z, retail 0x00160150 (113 bytes,
@@ -26,17 +26,18 @@ struct Rva00160240Pose {
  Quaternion Rotation;
  Vector3 Position;
  __forceinline Vector3 rotate(const Vector3 &v) const {
-  float a=(Rotation.Y*v.Z-v.Y**(const volatile float*)&Rotation.Z)+*(const volatile float*)&Rotation.W*v.X;
-  float b=*(const volatile float*)&Rotation.W*v.Y-(*(const volatile float*)&Rotation.X*v.Z-v.X**(const volatile float*)&Rotation.Z);
-  float c=(*(const volatile float*)&Rotation.X*v.Y-v.X*Rotation.Y)+*(const volatile float*)&Rotation.W*v.Z;
-  float d=0.0f-(*(const volatile float*)&Rotation.X*v.X+Rotation.Y*v.Y+*(const volatile float*)&Rotation.Z*v.Z);
-  return Vector3((Rotation.Y*c-*(const volatile float*)&Rotation.Z*b)+(*(const volatile float*)&Rotation.W*a-*(const volatile float*)&Rotation.X*d),
-    *(const volatile float*)&Rotation.W*b-Rotation.Y*d-(*(const volatile float*)&Rotation.X*c-*(const volatile float*)&Rotation.Z*a),
-    (*(const volatile float*)&Rotation.X*b-Rotation.Y*a)+(*(const volatile float*)&Rotation.W*c-*(const volatile float*)&Rotation.Z*d));
+  const Quaternion &q=Rotation;
+  float x=(q.Y*v.Z-q.Z*v.Y)+q.W*v.X;
+  float y=q.W*v.Y-(q.X*v.Z-q.Z*v.X);
+  float z=(q.X*v.Y-q.Y*v.X)+q.W*v.Z;
+  float w=0.0f-(q.Y*v.Y+q.X*v.X+q.Z*v.Z);
+  return Vector3((q.Y*z-q.Z*y)+(q.W*x-q.X*w),
+    (q.W*y-q.Y*w)-(q.X*z-q.Z*x),
+    (q.X*y-q.Y*x)+(q.W*z-q.Z*w));
  }
  __forceinline void Translate(const Vector3 &v){ Position+=rotate(v); }
- __forceinline void Rotate(const Quaternion &q,Quaternion &saved){
-  saved=Rotation;
+ __forceinline void Rotate(const Quaternion &q){
+  Quaternion saved(Rotation);
   Rotation.X=(saved.Y*q.Z-q.Y*saved.Z)+q.W*saved.X+saved.W*q.X;
   Rotation.Y=q.W*saved.Y+saved.W*q.Y-(saved.X*q.Z-q.X*saved.Z);
   Rotation.Z=(saved.X*q.Y-q.X*saved.Y)+q.W*saved.Z+saved.W*q.Z;
@@ -108,17 +109,15 @@ void Rva00160150::rva00160200(float *out, int frame, int extra) const
 void Rva00160150::evaluate(Rva00160240Pose &pose,float scale,float &fade,float frame,unsigned char **cursor)
 {
 
- struct Scratch { Quaternion saved,rotation;Vector3 translation; } scratch;
- Quaternion &rotation=scratch.rotation;
- Vector3 &translation=scratch.translation;
- if(((BFME2MotionChannel*)m_x))((BFME2MotionChannel*)m_x)->UnknownSlot3(frame,&translation.X,cursor);else translation.X=0;
- if(((BFME2MotionChannel*)m_y))((BFME2MotionChannel*)m_y)->UnknownSlot3(frame,&translation.Y,cursor);else translation.Y=0;
- if(((BFME2MotionChannel*)m_z))((BFME2MotionChannel*)m_z)->UnknownSlot3(frame,&translation.Z,cursor);else translation.Z=0;
- translation*=scale;
+ struct { Quaternion rotation; Vector3 translation; } s;
+ if(((BFME2MotionChannel*)m_x))((BFME2MotionChannel*)m_x)->UnknownSlot3(frame,&s.translation.X,cursor);else s.translation.X=0;
+ if(((BFME2MotionChannel*)m_y))((BFME2MotionChannel*)m_y)->UnknownSlot3(frame,&s.translation.Y,cursor);else s.translation.Y=0;
+ if(((BFME2MotionChannel*)m_z))((BFME2MotionChannel*)m_z)->UnknownSlot3(frame,&s.translation.Z,cursor);else s.translation.Z=0;
+ s.translation*=scale;
  if(((BFME2MotionChannel*)m_rotation)){
-  ((BFME2MotionChannel*)m_rotation)->UnknownSlot5(frame,&rotation,cursor);
-  pose.Translate(translation);
-  pose.Rotate(rotation,scratch.saved);
- }else pose.Translate(translation);
+  ((BFME2MotionChannel*)m_rotation)->UnknownSlot5(frame,&s.rotation,cursor);
+  pose.Translate(s.translation);
+  pose.Rotate(s.rotation);
+ }else pose.Translate(s.translation);
  if(((BFME2MotionChannel*)m_scale))((BFME2MotionChannel*)m_scale)->UnknownSlot3(frame,&fade,cursor);else fade=1.0f;
 }
