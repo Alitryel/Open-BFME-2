@@ -3,6 +3,11 @@
 // Pointer casts below retain the donor's null-string assignment semantics.
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
+// ZH's SidesList::getSkirmishSideInfo (ZH layout, throws on a bad index) is
+// not BFME 2's 0x002A98D1 (SidesList_getSkirmishSideInfo.cpp); only the
+// unreconstructed ZH initFromDict here calls it, out of line, and that copy
+// was the first in link order. Spell it under a unit-local name.
+#define getSkirmishSideInfo zhPlayerGetSkirmishSideInfo
 /*
 **	Command & Conquer Generals Zero Hour(tm)
 **	Copyright 2025 Electronic Arts Inc.
