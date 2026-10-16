@@ -1,15 +1,21 @@
 // ?FindClosestPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@PAU5@_NM4@Z
-// partial score=0.8559270516717326 date=2026-10-16
+// partial score=0.8988 date=2026-10-16
 // Owner patch for Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp; apply the unified diff below.
-// WB D48830 confirms float conversion of sqrt before adding25; real Coord3D helper bodies
-// are visible and their bytes match existing rows. Existing owner83/83 rows still exact.
-// Target remains2315B vs2338 and frameC8 vsC0.
+// r9 (claude-opus-5-5): 2339 B vs 2338, 726/727 instructions; exact-instruction ratio 0.8988, ebp-masked 0.9690.
+// Fixed since the 0.856 bank: goal->m_pathInfo cached in a local (retail edi) across findObjectByID in the
+// goalOnObstacle block; per-branch returns after the loop (return value in edi as retail).
+// Remaining: (A) return-0 block for !parent laid out at the function end (retail: inline jne/xor/jmp at the
+// check); (C) fild cost scheduled after sub eax,[edx] (retail before) and push 0xc after fld; (S) frame slots:
+// pairs swapped vs retail throughUnits/gotHierarchical (-0xe/-0xf), goal/dx spill (-0x30/-0x2c), hierarchical/
+// closest (-0x44/-0x48), closestOrder/bestScreenDistance (-0x60/-0x58); retail puts startIndex at -0x24 with the
+// int->float temp at -0x20 and clippedFrom at -0x78, ours clippedFrom -0x28, startIndex -0x74, temp -0x78.
+// Disproved for S: declaration order (gotHierarchical declared before throughUnits) and ZH local names change nothing.
 #if 0
 diff --git a/Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp b/Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp
-index 78cf23697d..ded6191f16 100644
+index 18fe8f5b19..6113603ded 100644
 --- a/Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp
 +++ b/Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp
-@@ -220,6 +220,7 @@ public:
+@@ -221,6 +221,7 @@ public:
  	Bool rvaBit16() const { return (Bool)((m_info >> 16) & 1); }
   PathfindCell *getParentCell(){return (PathfindCell *)((Rva002E6C79 *)this)->rva002E6C79();}
   Waypoint *getParentWaypoint()const {return m_pathInfo?m_pathInfo->parentWaypoint:0;}
@@ -17,7 +23,7 @@ index 78cf23697d..ded6191f16 100644
  
  private:
  	PathfinderGroundInfo *m_pathInfo;
-@@ -503,6 +504,7 @@ private:
+@@ -504,6 +505,7 @@ private:
  class PathfindZoneManager
  {
  public:
@@ -25,7 +31,7 @@ index 78cf23697d..ded6191f16 100644
  	void rva00531300();
  	void rva00531481();
  	void rva005314C6(Int x, Int y, unsigned char flag);
-@@ -661,6 +663,7 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
+@@ -664,6 +666,7 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
  	Path *InternalFindPath(Object *,const LocomotorSet &,const Coord3D *,const Coord3D *,HierarchicalPath *,Bool *);
  	Int rva002F83F5(PathfindCell *,PathfindCell *,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
  	Path *GetMoveAwayFromPath(Object *,Object *,Path *,Object *,Path *);
@@ -33,7 +39,7 @@ index 78cf23697d..ded6191f16 100644
  	Int ExamineNeighboringCellsForSidewaysAttack(PathfindCell *,const ICoord2D *,Int,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
  	Bool checkForMovement(Object *,TCheckMovementInfo &);
  	Bool rva002EDFF9(Object *,Coord3D *);
-@@ -3512,6 +3515,231 @@ Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToA
+@@ -3515,6 +3518,237 @@ Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToA
   m_isTunneling=false;rva002F40E7();return 0;
  }
  
@@ -131,7 +137,8 @@ index 78cf23697d..ded6191f16 100644
 +  if(hierarchical.path)gotHierarchical=true;
 +  else m_zoneManager.rva00531300();
 + }
-+ PathfindCell *goal=rva002E8BF8(TheTerrainLogic->getLayerForDestination(0,&destination),&destination);
++ PathfindLayerEnum destinationLayer=(PathfindLayerEnum)TheTerrainLogic->getLayerForDestination(0,&destination);
++ PathfindCell *goal=rva002E8BF8(destinationLayer,&destination);
 + if(!goal)return 0;
 + Bool goalOnObstacle=false;
 + if(m_ignoreObstacleID)
@@ -140,31 +147,32 @@ index 78cf23697d..ded6191f16 100644
 +  if(goalObj)
 +  {
 +   PathfindCell *ignoreCell=rva002E8BF8((PathfindLayerEnum)goalObj->rva0028B511(),(const Coord3D *)goalObj->position);
-+   if(goal->getObstacleID()==ignoreCell->getObstacleID() && goal->getObstacleID())
++   PathfinderGroundInfo *goalInfo=goal->m_pathInfo;
++   if((goalInfo?goalInfo->obstacleID:(ObjectID)0)==ignoreCell->getObstacleID() && (goalInfo?goalInfo->obstacleID:(ObjectID)0))
 +   {
-+    Object *newObstacle=TheGameLogic->findObjectByID(goal->getObstacleID());
++    Object *newObstacle=TheGameLogic->findObjectByID(goalInfo?goalInfo->obstacleID:(ObjectID)0);
 +    if(newObstacle && newObstacle->m_template->hasKind(35))
 +    {
-+     m_ignoreObstacleID=goal->getObstacleID();
++     m_ignoreObstacleID=goalInfo?goalInfo->obstacleID:(ObjectID)0;
 +     goalOnObstacle=true;
 +    }
 +    else
 +    {
-+     if(m_ignoreObstacleID==goal->getObstacleID())goalOnObstacle=true;
++     if(m_ignoreObstacleID==(goalInfo?goalInfo->obstacleID:(ObjectID)0))goalOnObstacle=true;
 +    }
 +   }
 +  }
 + }
-+ ICoord2D index;
-+ goal->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&index,true,&destination));
++ Bool startedStuck=m_isTunneling;
++ goal->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&startIndex,true,&destination));
 + if(parent!=goal)
 + {
-+  parent->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&index,true,&clippedFrom));
++  parent->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&startIndex,true,&clippedFrom));
 + }
 + parent->StartPathfind((Int)goal);
 + parent->m_pathInfo->totalCost=(unsigned short)rva002F0A72(parent,goal);
 + PathfindCell *closest=0;
-+ float closestMetric=8.5070587e37f;
++ float closestMetric=3.4028235e38f;
 + Int closestOrder=0;
 + float bestDistance=8.5070587e37f,bestScreenDistance=8.5070587e37f;
 + PathfinderSearchCellsVisited=0;
@@ -181,6 +189,7 @@ index 78cf23697d..ded6191f16 100644
 +    Path *path=BuildActualPath(obj,locos.getValidSurfaces(),from,goal,center,blocked,true);
 +    rva002F40E7();
 +    parent->ReleaseInfo();
++    goal->ReleaseInfo();
 +    return path;
 +   }
 +   foundGoal=true;
@@ -188,12 +197,13 @@ index 78cf23697d..ded6191f16 100644
 +   continue;
 +  }
 +  parent->PutOnClosedList(&m_closedList);
++  float dx,dy,distance;
 +  if(!m_isTunneling && bfmeWrapE6E90(obj,(void *)parent->getXIndex(),(void *)parent->getYIndex(),(void *)parent->getLayer(),(void *)radius,boolArg(center)) &&
-+  (!throughUnits || ((Rva002E6DC4 *)this)->rva002E6DC4(&movement,parent)))
++  (!startedStuck || ((Rva002E6DC4 *)this)->rva002E6DC4(&movement,parent)))
 +  {
-+   float dx=(float)abs(goal->getXIndex()-parent->getXIndex());
-+   float dy=(float)abs(goal->getYIndex()-parent->getYIndex());
-+   float distance=dy*dy+dx*dx;
++   dx=(float)abs(goal->getXIndex()-parent->getXIndex());
++   dy=(float)abs(goal->getYIndex()-parent->getYIndex());
++   distance=dy*dy+dx*dx;
 +   if(distance<bestDistance)
 +   {
 +    if(dx+dy>25.0f)
@@ -205,71 +215,69 @@ index 78cf23697d..ded6191f16 100644
 +    bestDistance=distance;
 +   }
 +   unsigned short cost=parent->m_pathInfo->costSoFar;
-+   distance=(cost*(cost*g_00DBD338))*multiplier+distance+(unsigned int)(((_STL::vector<Gen_p12pod> *)&m_1C1CC)->size()*10000U);
-+   float metric=distance;
++   distance+=(cost*(cost*g_00DBD338))*multiplier;
++   distance+=(unsigned int)(((_STL::vector<Gen_p12pod> *)&m_1C1CC)->size()*10000U);
 +   if(hierarchical.path)
 +   {
 +    Int order=((HierarchicalPath *)hierarchical.path)->lookUpPositionOnPath((const Coord3D *)parent->m_pathInfo);
-+    if(order>closestOrder || (order==closestOrder && metric<closestMetric))
++    if(order>closestOrder || (order==closestOrder && distance<closestMetric))
 +    {
-+     if(rva002EDFF9(obj,cellPointArg(Rva002E8C23Call(center,parent))))
++     PathfinderCellPoint cellCenter=Rva002E8C23Call(center,parent);
++     if(rva002EDFF9(obj,(Coord3D *)&cellCenter))
 +     {
 +      closest=parent;
 +      closestOrder=order;
-+      closestMetric=metric;
++      closestMetric=distance;
 +     }
 +    }
 +   }
-+   else if(metric<closestMetric)
++   else if(distance<closestMetric)
 +   {
-+    if(rva002EDFF9(obj,cellPointArg(Rva002E8C23Call(center,parent))))
++    PathfinderCellPoint cellCenter=Rva002E8C23Call(center,parent);
++    if(rva002EDFF9(obj,(Coord3D *)&cellCenter))
 +    {
 +     closest=parent;
-+     closestMetric=metric;
++     closestMetric=distance;
 +    }
 +   }
 +  }
-+  float dx=(float)abs(goal->getXIndex()-parent->getXIndex());
-+  float dy=(float)abs(goal->getYIndex()-parent->getYIndex());
-+  float distance=dy*dy+dx*dx;
-+  Bool stop=false;
-+  if(distance>bestScreenDistance){
++  dx=(float)abs(goal->getXIndex()-parent->getXIndex());
++  dy=(float)abs(goal->getYIndex()-parent->getYIndex());
++  distance=dy*dy+dx*dx;
++  if(distance>bestScreenDistance)
++  {
++   Bool stop=false;
 +   if(!gotHierarchical)stop=true;
 +   if(count>2000)stop=true;
++   if(distance<100.0f)stop=false;
++   if(stop)continue;
 +  }
-+  if(distance<100.0f)stop=false;
-+  if(!stop && !foundGoal)
++  if(!foundGoal)
 +  {
 +   CheckChangeLayers(parent,obj);
 +   count+=rva002F83F5(parent,goal,locos,human,center,radius,&startIndex,obj,0);
 +  }
 + }
-+ Path *path;
 + if(closest)
 + {
 +  m_isTunneling=false;
 +  adjusted.x=closest->getXIndex()*10+5.0f;
 +  adjusted.y=closest->getYIndex()*10+5.0f;
-+  path=BuildActualPath(obj,locos.getValidSurfaces(),from,closest,center,blocked,true);
++  Path *path=BuildActualPath(obj,locos.getValidSurfaces(),from,closest,center,blocked,true);
++  rva002F40E7();
++  goal->ReleaseInfo();
++  return path;
 + }
-+ else
-+ {
-+  m_isTunneling=false;
-+  path=0;
-+ }
++ m_isTunneling=false;
 + rva002F40E7();
 + goal->ReleaseInfo();
-+ return path;
++ return 0;
 +}
 +
  Path *Pathfinder::InternalFindPath(Object *obj, const LocomotorSet &locomotorSet, const Coord3D *from,
  	const Coord3D *rawTo, HierarchicalPath *hierarchicalPath, Bool *destinationAdjusted)
  {
 
-// Recovered function and visible helpers (owner declarations are required):
-inline __declspec(noinline) float Coord3D::length()const{return(float)sqrt(x*x+y*y+z*z);}
-inline __declspec(noinline) float Coord3D::GetLength()const{float a=x,b=y,c=z;return(float)sqrt(a*a+b*b+c*c);}
-inline __declspec(noinline) float Coord3D::Normalize(){float len=GetLength();float scale=1.0f/len;x*=scale;y*=scale;z*=scale;return len;}
 Path *Pathfinder::FindClosestPath(Object *obj,const LocomotorSet &locos,const Coord3D *from,
 Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
 {
@@ -348,7 +356,8 @@ Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
   if(hierarchical.path)gotHierarchical=true;
   else m_zoneManager.rva00531300();
  }
- PathfindCell *goal=rva002E8BF8(TheTerrainLogic->getLayerForDestination(0,&destination),&destination);
+ PathfindLayerEnum destinationLayer=(PathfindLayerEnum)TheTerrainLogic->getLayerForDestination(0,&destination);
+ PathfindCell *goal=rva002E8BF8(destinationLayer,&destination);
  if(!goal)return 0;
  Bool goalOnObstacle=false;
  if(m_ignoreObstacleID)
@@ -357,31 +366,32 @@ Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
   if(goalObj)
   {
    PathfindCell *ignoreCell=rva002E8BF8((PathfindLayerEnum)goalObj->rva0028B511(),(const Coord3D *)goalObj->position);
-   if(goal->getObstacleID()==ignoreCell->getObstacleID() && goal->getObstacleID())
+   PathfinderGroundInfo *goalInfo=goal->m_pathInfo;
+   if((goalInfo?goalInfo->obstacleID:(ObjectID)0)==ignoreCell->getObstacleID() && (goalInfo?goalInfo->obstacleID:(ObjectID)0))
    {
-    Object *newObstacle=TheGameLogic->findObjectByID(goal->getObstacleID());
+    Object *newObstacle=TheGameLogic->findObjectByID(goalInfo?goalInfo->obstacleID:(ObjectID)0);
     if(newObstacle && newObstacle->m_template->hasKind(35))
     {
-     m_ignoreObstacleID=goal->getObstacleID();
+     m_ignoreObstacleID=goalInfo?goalInfo->obstacleID:(ObjectID)0;
      goalOnObstacle=true;
     }
     else
     {
-     if(m_ignoreObstacleID==goal->getObstacleID())goalOnObstacle=true;
+     if(m_ignoreObstacleID==(goalInfo?goalInfo->obstacleID:(ObjectID)0))goalOnObstacle=true;
     }
    }
   }
  }
- ICoord2D index;
- goal->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&index,true,&destination));
+ Bool startedStuck=m_isTunneling;
+ goal->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&startIndex,true,&destination));
  if(parent!=goal)
  {
-  parent->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&index,true,&clippedFrom));
+  parent->allocateInfo((In002E6BA1 *)Rva002E7875WorldToCell(&startIndex,true,&clippedFrom));
  }
  parent->StartPathfind((Int)goal);
  parent->m_pathInfo->totalCost=(unsigned short)rva002F0A72(parent,goal);
  PathfindCell *closest=0;
- float closestMetric=8.5070587e37f;
+ float closestMetric=3.4028235e38f;
  Int closestOrder=0;
  float bestDistance=8.5070587e37f,bestScreenDistance=8.5070587e37f;
  PathfinderSearchCellsVisited=0;
@@ -398,6 +408,7 @@ Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
     Path *path=BuildActualPath(obj,locos.getValidSurfaces(),from,goal,center,blocked,true);
     rva002F40E7();
     parent->ReleaseInfo();
+    goal->ReleaseInfo();
     return path;
    }
    foundGoal=true;
@@ -405,12 +416,13 @@ Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
    continue;
   }
   parent->PutOnClosedList(&m_closedList);
+  float dx,dy,distance;
   if(!m_isTunneling && bfmeWrapE6E90(obj,(void *)parent->getXIndex(),(void *)parent->getYIndex(),(void *)parent->getLayer(),(void *)radius,boolArg(center)) &&
-  (!throughUnits || ((Rva002E6DC4 *)this)->rva002E6DC4(&movement,parent)))
+  (!startedStuck || ((Rva002E6DC4 *)this)->rva002E6DC4(&movement,parent)))
   {
-   float dx=(float)abs(goal->getXIndex()-parent->getXIndex());
-   float dy=(float)abs(goal->getYIndex()-parent->getYIndex());
-   float distance=dy*dy+dx*dx;
+   dx=(float)abs(goal->getXIndex()-parent->getXIndex());
+   dy=(float)abs(goal->getYIndex()-parent->getYIndex());
+   distance=dy*dy+dx*dx;
    if(distance<bestDistance)
    {
     if(dx+dy>25.0f)
@@ -422,62 +434,63 @@ Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
     bestDistance=distance;
    }
    unsigned short cost=parent->m_pathInfo->costSoFar;
-   distance=(cost*(cost*g_00DBD338))*multiplier+distance+(unsigned int)(((_STL::vector<Gen_p12pod> *)&m_1C1CC)->size()*10000U);
-   float metric=distance;
+   distance+=(cost*(cost*g_00DBD338))*multiplier;
+   distance+=(unsigned int)(((_STL::vector<Gen_p12pod> *)&m_1C1CC)->size()*10000U);
    if(hierarchical.path)
    {
     Int order=((HierarchicalPath *)hierarchical.path)->lookUpPositionOnPath((const Coord3D *)parent->m_pathInfo);
-    if(order>closestOrder || (order==closestOrder && metric<closestMetric))
+    if(order>closestOrder || (order==closestOrder && distance<closestMetric))
     {
-     if(rva002EDFF9(obj,cellPointArg(Rva002E8C23Call(center,parent))))
+     PathfinderCellPoint cellCenter=Rva002E8C23Call(center,parent);
+     if(rva002EDFF9(obj,(Coord3D *)&cellCenter))
      {
       closest=parent;
       closestOrder=order;
-      closestMetric=metric;
+      closestMetric=distance;
      }
     }
    }
-   else if(metric<closestMetric)
+   else if(distance<closestMetric)
    {
-    if(rva002EDFF9(obj,cellPointArg(Rva002E8C23Call(center,parent))))
+    PathfinderCellPoint cellCenter=Rva002E8C23Call(center,parent);
+    if(rva002EDFF9(obj,(Coord3D *)&cellCenter))
     {
      closest=parent;
-     closestMetric=metric;
+     closestMetric=distance;
     }
    }
   }
-  float dx=(float)abs(goal->getXIndex()-parent->getXIndex());
-  float dy=(float)abs(goal->getYIndex()-parent->getYIndex());
-  float distance=dy*dy+dx*dx;
-  Bool stop=false;
-  if(distance>bestScreenDistance){
+  dx=(float)abs(goal->getXIndex()-parent->getXIndex());
+  dy=(float)abs(goal->getYIndex()-parent->getYIndex());
+  distance=dy*dy+dx*dx;
+  if(distance>bestScreenDistance)
+  {
+   Bool stop=false;
    if(!gotHierarchical)stop=true;
    if(count>2000)stop=true;
+   if(distance<100.0f)stop=false;
+   if(stop)continue;
   }
-  if(distance<100.0f)stop=false;
-  if(!stop && !foundGoal)
+  if(!foundGoal)
   {
    CheckChangeLayers(parent,obj);
    count+=rva002F83F5(parent,goal,locos,human,center,radius,&startIndex,obj,0);
   }
  }
- Path *path;
  if(closest)
  {
   m_isTunneling=false;
   adjusted.x=closest->getXIndex()*10+5.0f;
   adjusted.y=closest->getYIndex()*10+5.0f;
-  path=BuildActualPath(obj,locos.getValidSurfaces(),from,closest,center,blocked,true);
+  Path *path=BuildActualPath(obj,locos.getValidSurfaces(),from,closest,center,blocked,true);
+  rva002F40E7();
+  goal->ReleaseInfo();
+  return path;
  }
- else
- {
-  m_isTunneling=false;
-  path=0;
- }
+ m_isTunneling=false;
  rva002F40E7();
  goal->ReleaseInfo();
- return path;
+ return 0;
 }
-
 
 #endif
