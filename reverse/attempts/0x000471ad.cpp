@@ -1,9 +1,5 @@
 // ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
-// partial score=0.857 date=2026-10-15
-// ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
-// partial score=0.8405 date=2026-10-14
-// ?Rva000471AD@W3DDisplay@@UAEXPBVImage@@MMMMMK@Z
-// partial score=0.6132989794 date=2026-10-09
+// partial score=0.9795 date=2026-10-16
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /ICode/GameEngineDevice/Source/W3DDevice/GameClient
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -11,58 +7,111 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" float __cdecl atan2f(float,float);
 extern "C" double __cdecl tan(double);
 const float ClockPi=3.14159265358979323846f;
-class Vector2{public:float X,Y;Vector2(){}Vector2(float x,float y):X(x),Y(y){}Vector2&operator=(const Vector2&v){X=v.X;Y=v.Y;return *this;}};
+class Vector2{public:float X,Y;Vector2&operator=(const Vector2&v){X=v.X;Y=v.Y;return *this;}};
 class RectClass{public:float Left,Top,Right,Bottom;};
-class Image{public:const RectClass*Get_Image_Coords()const{return &uv;}char gap[0x14];RectClass uv;};
+class Image{public:char gap[0x14];RectClass uv;};
 BFME2ParticleTextureHandle Rva000470D5(const Image*);
 class Rva000456C9{public:void rva000456C9(const RefCountPtr<TextureClass>*);};
 class Render2DClass{public:void Add_Tri(const Vector2&,const Vector2&,const Vector2&,const Vector2&,const Vector2&,const Vector2&,unsigned long);unsigned state;char gap04[0x44];bool active;};
 class W3DDisplay{public:virtual void Rva000471AD(const Image*,float,float,float,float,float,unsigned long);char gap04[0x164];Render2DClass*render;};
-void W3DDisplay::Rva000471AD(const Image*image,float startX,float startY,float endX,float endY,float percent,unsigned long color)
+inline float clockPi(){return 3.14159265358979323846f;}
+void W3DDisplay::Rva000471AD(const Image*image,float left,float top,float right,float bottom,float percent,unsigned long color)
 {
- if((image == 0))return;
- const RectClass*uv=image->Get_Image_Coords();if((uv == 0))return;
- const static float halfPi=ClockPi*0.5f;
- static float threeHalfPi=ClockPi*1.5f;
- static float twoPi=ClockPi*2.0f;
- float angle=twoPi-(percent * twoPi)*0.01f;
- if(angle<=0)return;if(angle>twoPi)angle=twoPi;
- render->state=2;render->active=true;
+ if(!image)return;
+ const RectClass*uv=&image->uv;
+ if(!uv)return;
+ static float halfPi=clockPi()/2.0f;
+ static float threeHalfPi=clockPi()*1.5f;
+ static float twoPi=clockPi()*2.0f;
+ float angle=twoPi-(twoPi*percent)*0.01f;
+ if(angle<=0.0f)return;
+ if(angle>twoPi)angle=twoPi;
+ render->state=2;
+ render->active=true;
  ((Rva000456C9*)render)->rva000456C9((const RefCountPtr<TextureClass>*)&Rva000470D5(image));
- float width=endX-startX,height=endY-startY;
- Vector2 center;float halfHeight=height*0.5f;center.Y=halfHeight+startY;
- const float halfWidth=width*0.5f;center.X=startX + halfWidth;
- const float ratioWidthHeight=width/height,ratioHeightWidth=height/width;
- const float halfU=(uv->Right-uv->Left)*0.5f,halfV=(uv->Bottom-uv->Top)*0.5f;
- Vector2 centerUV;centerUV.X=halfU + uv->Left;centerUV.Y=uv->Top+halfV;
- float cornerAngle=atan2f(width,height);
- Vector2 next(startX,startY),nextUV(uv->Left,uv->Top);
- Vector2 previous(center.X,startY),previousUV(centerUV.X,uv->Top);
+ float height=bottom-top;
+ float halfHeight=height*0.5f;
+ float width=right-left;
+ float halfWidth=width*0.5f;
+ Vector2 center={left+halfWidth,top+halfHeight};
+ float widthHeight=width/height;
+ float heightWidth=height/width;
+ float halfU=(uv->Right-uv->Left)*0.5f;
+ float halfV=(uv->Bottom-uv->Top)*0.5f;
+ Vector2 centerUV={uv->Left+halfU,uv->Top+halfV};
+ float corner=atan2f(width,height);
+ Vector2 end={left,top};
+ Vector2 endUV={uv->Left,uv->Top};
+ Vector2 start={center.X,top};
+ Vector2 startUV={centerUV.X,uv->Top};
  bool done=false;
- if(angle<=cornerAngle){double t=tan((double)angle);next.X=t * center.X-halfHeight;nextUV.X=centerUV.X-halfU*t*ratioHeightWidth;done=true;}
- render->Add_Tri(center,next,previous,centerUV,nextUV,previousUV,color);if(done)return;
- previous=next;previousUV=nextUV;next.Y=endY;nextUV.Y=uv->Bottom;
- if(angle <= ClockPi-cornerAngle){
-  if(angle>halfPi){double t=tan((double)(angle-halfPi));next.Y=center.Y+halfWidth*t;nextUV.Y=centerUV.Y+halfV*t*ratioWidthHeight;}
-  else{double t=tan((double)(halfPi-angle));next.Y=t * center.Y-halfWidth;nextUV.Y=centerUV.Y-halfV*t*ratioWidthHeight;}done=true;
+ if(angle<=corner){
+  float t=(float)tan(angle);
+  end.X=(float)(center.X-halfHeight*t);
+  endUV.X=(float)(centerUV.X-t*halfU*heightWidth);
+  done=true;
  }
- render->Add_Tri(center,next,previous,centerUV,nextUV,previousUV,color);if(done)return;
- previous=next;previousUV=nextUV;next.X=endX;nextUV.X=uv->Right;
- if(angle<=cornerAngle + ClockPi){
-  if(angle>ClockPi){double t=tan((double)(angle-ClockPi));next.X=center.X+halfHeight*t;nextUV.X=centerUV.X+halfU*t*ratioHeightWidth;}
-  else{double t=tan((double)(ClockPi-angle));next.X=t * center.X-halfHeight;nextUV.X=centerUV.X-halfU*t*ratioHeightWidth;}done=true;
+ render->Add_Tri(center,end,start,centerUV,endUV,startUV,color);
+ if(done)return;
+ float boundary2=3.14159265358979323846f-corner;
+ start.X=end.X;start.Y=top;startUV=endUV;
+ end.Y=bottom;endUV.Y=uv->Bottom;
+ if(angle<=boundary2){
+  if(angle>halfPi){
+   float t=(float)tan(angle-halfPi);
+   end.Y=(float)(center.Y+halfWidth*t);
+   endUV.Y=(float)(centerUV.Y+t*halfV*widthHeight);
+  }else{
+   float t=(float)tan(halfPi-angle);
+   end.Y=(float)(center.Y-halfWidth*t);
+   endUV.Y=(float)(centerUV.Y-t*halfV*widthHeight);
+  }
+  done=true;
  }
- render->Add_Tri(center,next,previous,centerUV,nextUV,previousUV,color);if(done)return;
- previous=next;previousUV=nextUV;next.Y=startY;nextUV.Y=uv->Top;
- if(angle <= twoPi-cornerAngle){
-  if(threeHalfPi < angle){double t=tan((double)(angle-threeHalfPi));next.Y=t * center.Y-halfWidth;nextUV.Y=centerUV.Y-halfV*t*ratioWidthHeight;}
-  else{double t=tan((double)(threeHalfPi-angle));next.Y=center.Y+halfWidth*t;nextUV.Y=centerUV.Y+halfV*t*ratioWidthHeight;}done=true;
+ render->Add_Tri(center,end,start,centerUV,endUV,startUV,color);
+ if(done)return;
+ float boundary3=corner+3.14159265358979323846f;
+ start=end;startUV=endUV;
+ end.X=right;endUV.X=uv->Right;
+ if(angle<=boundary3){
+  if(angle>3.14159265358979323846f){
+   float t=(float)tan(angle-3.14159265358979323846f);
+   end.X=(float)(center.X+halfHeight*t);
+   endUV.X=(float)(centerUV.X+t*halfU*heightWidth);
+  }else{
+   float t=(float)tan(3.14159265358979323846f-angle);
+   end.X=(float)(center.X-halfHeight*t);
+   endUV.X=(float)(centerUV.X-t*halfU*heightWidth);
+  }
+  done=true;
  }
- render->Add_Tri(center,next,previous,centerUV,nextUV,previousUV,color);if(done)return;
- previous=next;previousUV=nextUV;
- const double t=tan((double)(twoPi-angle));next.X=center.X+halfHeight*t;nextUV.X=centerUV.X+halfU*t*ratioHeightWidth;
- _ReadWriteBarrier();
- render->Add_Tri(center,next,previous,centerUV,nextUV,previousUV,color);
-
+ render->Add_Tri(center,end,start,centerUV,endUV,startUV,color);
+ if(done)return;
+ float boundary4=twoPi-corner;
+ start=end;startUV=endUV;
+ end.Y=top;endUV.Y=uv->Top;
+ if(angle<=boundary4){
+  if(angle>threeHalfPi){
+   float t=(float)tan(angle-threeHalfPi);
+   end.Y=(float)(center.Y-halfWidth*t);
+   endUV.Y=(float)(centerUV.Y-t*halfV*widthHeight);
+  }else{
+   float t=(float)tan(threeHalfPi-angle);
+   end.Y=(float)(center.Y+halfWidth*t);
+   endUV.Y=(float)(centerUV.Y+t*halfV*widthHeight);
+  }
+  done=true;
+ }
+ render->Add_Tri(center,end,start,centerUV,endUV,startUV,color);
+ if(done)return;
+ start=end;startUV=endUV;
+ end.X=center.X;endUV.X=centerUV.X;
+ float remaining=twoPi-angle;
+ if(remaining>0.0001f){
+  float t=(float)tan(remaining);
+  end.X=(float)(center.X+halfHeight*t);
+  endUV.X=(float)(centerUV.X+t*halfU*heightWidth);
+ }
+ render->Add_Tri(center,end,start,centerUV,endUV,startUV,color);
  if (0) throw 1;
 }
