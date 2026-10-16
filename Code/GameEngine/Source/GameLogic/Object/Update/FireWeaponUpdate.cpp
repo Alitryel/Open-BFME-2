@@ -107,10 +107,11 @@ enum ObjectID
 
 // WWMath Vector3 subset (WB 0x11D15EE.. names Vector3::Rotate_Z, vector3.h):
 // sin then cos as statements, then the WW3D two-argument rotate, X first.
-struct Vector3
+template <typename T = float>
+struct BasicVector3
 {
 	float x, y, z;
-	Vector3(float a, float b, float c) : x(a), y(b), z(c) {}
+	BasicVector3(float a, float b, float c) : x(a), y(b), z(c) {}
 	__forceinline void Rotate_Z(float angle)
 	{
 		float s = (float)sin((double)angle);
@@ -125,6 +126,7 @@ struct Vector3
 		y = s_angle * tmp_x + c_angle * tmp_y;
 	}
 };
+typedef BasicVector3<> Vector3;
 
 class Object
 {
