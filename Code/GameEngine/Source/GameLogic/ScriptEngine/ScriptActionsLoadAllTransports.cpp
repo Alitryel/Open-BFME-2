@@ -36,9 +36,11 @@ typedef unsigned int UnsignedInt;
 
 // Existing retail-compatible storage providers carry two 32-bit words.
 struct BfmeE8 { int a,b; };
-// Keep the shared overflow provider; this caller uses its verified push wrapper.
+// Keep the shared push provider 0x00539A2E: declared only, so this unit
+// emits neither push_back nor its overflow (the decl-only overflow alone
+// left a push_back copy that is not retail's body).
 namespace _STL {
-template <> void vector<BfmeE8, allocator<BfmeE8> >::_M_insert_overflow(BfmeE8 *, const BfmeE8 &, const __false_type &, size_t, bool);
+template <> void vector<BfmeE8, allocator<BfmeE8> >::push_back(const BfmeE8 &);
 }
 typedef _STL::pair<ObjectID,UnsignedInt> TransportPartitionEntry;
 typedef BfmeE8 TransportPartitionAssignment;

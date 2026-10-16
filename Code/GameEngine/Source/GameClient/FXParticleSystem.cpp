@@ -1,4 +1,4 @@
-// cl: /O1 /GX- /arch:SSE2
+// cl: /O1 /GX /arch:SSE2
 
 #include "../../../Libraries/Include/Lib/Region2D.h"
 
@@ -1436,7 +1436,7 @@ class ConcreteModuleTemplate : public TAG::TemplateType
 {
 public:
     ConcreteModuleTemplate();
-    __declspec(noinline) ConcreteModuleTemplate(const ConcreteModuleTemplate<TAG> &that);
+    __declspec(noinline) ConcreteModuleTemplate(const ConcreteModuleTemplate<TAG> &that) throw();
 
     virtual void v1();
     virtual typename TAG::TemplateType *clone() const;
@@ -1448,7 +1448,7 @@ ConcreteModuleTemplate<TAG>::ConcreteModuleTemplate()
 }
 
 template <class TAG>
-ConcreteModuleTemplate<TAG>::ConcreteModuleTemplate(const ConcreteModuleTemplate<TAG> &that)
+ConcreteModuleTemplate<TAG>::ConcreteModuleTemplate(const ConcreteModuleTemplate<TAG> &that) throw()
     : TAG::TemplateType(that)
 {
 }
@@ -1461,9 +1461,11 @@ void ConcreteModuleTemplate<TAG>::v1()
 // clone is one operator new and one call to the copy constructor. Keeping that
 // call is what the __declspec(noinline) above is for: retail does not inline the
 // copy constructor into clone, and MSVC 7.1 does at every optimization and
-// inline setting tried - /Ob1 breaks eleven other bodies in this unit and /EHsc
-// drags an unwind frame into clone that retail has not got. The marker stands in
-// for whatever kept retail's compiler out of it.
+// inline setting tried - /Ob1 breaks eleven other bodies in this unit. The marker
+// stands in for whatever kept retail's compiler out of it. The unit compiles with
+// /GX like retail: retail's EmissionVolumeInfo deleting dtor 0x001F3574 calls the
+// dtor out of line, which only EH codegen does. The copy constructor's throw()
+// keeps the delete-on-throw unwind frame out of clone, which retail has not got.
 template <class TAG>
 typename TAG::TemplateType *ConcreteModuleTemplate<TAG>::clone() const
 {

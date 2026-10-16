@@ -5,6 +5,11 @@
 // Evidence: caller 0x0030B9B4 with ecx this plus int arg; prev reserve same flags next clear same flags.
 #include <vector>
 struct BfmeE8 { int a[2]; };
+// bfme link decl-only begin
+// The rowed body calls reserve 0x0030B876 (stlport_vector_e8_allocate_copy.cpp);
+// this unit's /EH copy of its _M_allocate_and_copy is not retail's body.
+namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::reserve(unsigned int); }
+// bfme link decl-only end
 
 struct AreaPolygonBase
 {

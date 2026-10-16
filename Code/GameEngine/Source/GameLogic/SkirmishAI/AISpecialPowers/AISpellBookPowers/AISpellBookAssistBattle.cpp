@@ -16,6 +16,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 struct BfmeE8 { unsigned int a, b; };
+// bfme link decl-only begin
+// The rowed body calls the 8-byte push_back 0x00539A2E
+// (stlport_vector_e8_allocate_copy.cpp); this unit's /EH copy of its
+// _M_insert_overflow is not retail's 0x00057C80, so it emits neither.
+namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::push_back(BfmeE8 const &); }
+// bfme link decl-only end
 
 class GameLogic
 {
