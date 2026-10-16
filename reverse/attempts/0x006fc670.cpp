@@ -1,4 +1,6 @@
 // _BfmeAux006FC670
+// partial score=0.7854361288039632 date=2026-10-16
+// _BfmeAux006FC670
 // partial score=0.7564021298730943 date=2026-10-14
 // _BfmeAux006FC670
 // partial score=0.5 date=2026-10-14
@@ -326,13 +328,13 @@ extern "C" void BfmeAux006FC670(const unsigned char *incomingActionStream, int p
 					AptValue *pAtom = 0;
 					if (constantType == 1)
 					{
-                        AptConstantFile *constantBase=aConstantFile;
+                        AptConstantFile *const constantBase=aConstantFile;
 						RUNTIME_ASSERT((unsigned)aConstantFile->aConstants[nConstTableIndex].szString < 0xfffff, 0x1E5, "(unsigned)aConstantFile->aConstants[nConstTableIndex].szString < 0xfffff");
 						if (aConstantFile->aConstants[nConstTableIndex].szString)
-							*(int *)&aConstantFile->aConstants[nConstTableIndex].szString += (int)constantBase;
+							*(volatile int *)&aConstantFile->aConstants[nConstTableIndex].szString += (int)constantBase;
 						pAtom = (AptValue *)Rva0070DBB0Intern(aConstantFile->aConstants[nConstTableIndex].szString);
 						if (aConstantFile->aConstants[nConstTableIndex].szString)
-							*(int *)&aConstantFile->aConstants[nConstTableIndex].szString -= (int)constantBase;
+							*(volatile int *)&aConstantFile->aConstants[nConstTableIndex].szString -= (int)constantBase;
 					}
 					else if (constantType == 6)
 						pAtom = Rva008A4EA0MakeFloat(aConstantFile->aConstants[nConstTableIndex].fValue);
@@ -387,7 +389,7 @@ extern "C" void BfmeAux006FC670(const unsigned char *incomingActionStream, int p
 			{
 				RUNTIME_ASSERT((unsigned)pData->szUrl < 0xfffff, 0x238, "(unsigned)pData->szUrl < 0xfffff");
 				RELOCATE(pData->szUrl);
-				RUNTIME_ASSERT((eAction ? ((unsigned)pData->szWin < 0xfffff) : ((unsigned)pData->szWin < 0xfffff)), 0x239, "(unsigned)pData->szWin < 0xfffff");
+				RUNTIME_ASSERT((unsigned)pData->szWin < 0xfffff, 0x239, "(unsigned)pData->szWin < 0xfffff");
 				RELOCATE(pData->szWin);
 			}
 			break;

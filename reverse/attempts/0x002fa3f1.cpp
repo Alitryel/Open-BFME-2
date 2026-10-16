@@ -1,38 +1,40 @@
 // ?FindClosestPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@PAU5@_NM4@Z
-// partial score=0.84 date=2026-10-15
-// ?FindClosestPath@Pathfinder@@QAEPAVPath@@PAVObject@@ABVLocomotorSet@@PBUCoord3D@@PAU5@_NM4@Z
-// partial 2315 B vs retail 2338 B (byte-ratio 0.84, instruction-ratio 0.65; prior bank 2230 B)
-// cl: /O1 /DNDEBUG /MD /arch:SSE /G7 /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc
-// stlport
-// Apply to Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp: the git diff below (decl in class
-// Pathfinder, PathfindCell::getObstacleID, PathfindZoneManager::rva005312BE, PathNode getters) then the
-// function text (placed before Pathfinder::InternalFindPath). Uses current TU helpers; calls resolve.
-// Residue: this/parent register swap (retail esi=this edi=parent), x87 expr order for the
-// metric (retail adds distance before the size term), 25.0f fadd dword vs qword, shared return tail.
+// partial score=0.8559270516717326 date=2026-10-16
+// Owner patch for Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp; apply the unified diff below.
+// WB D48830 confirms float conversion of sqrt before adding25; real Coord3D helper bodies
+// are visible and their bytes match existing rows. Existing owner83/83 rows still exact.
+// Target remains2315B vs2338 and frameC8 vsC0.
 #if 0
 diff --git a/Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp b/Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp
-index 0cf4d6f261..5435077e33 100644
+index 78cf23697d..ded6191f16 100644
 --- a/Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp
 +++ b/Code/GameEngine/Source/GameLogic/Pathfinder/pathfinder.cpp
-@@ -220,4 +220,5 @@ public:
+@@ -220,6 +220,7 @@ public:
+ 	Bool rvaBit16() const { return (Bool)((m_info >> 16) & 1); }
   PathfindCell *getParentCell(){return (PathfindCell *)((Rva002E6C79 *)this)->rva002E6C79();}
   Waypoint *getParentWaypoint()const {return m_pathInfo?m_pathInfo->parentWaypoint:0;}
 + ObjectID getObstacleID() const { return m_pathInfo ? m_pathInfo->obstacleID : (ObjectID)0; }
  
  private:
-@@ -503,4 +504,5 @@ class PathfindZoneManager
+ 	PathfinderGroundInfo *m_pathInfo;
+@@ -503,6 +504,7 @@ private:
+ class PathfindZoneManager
  {
  public:
 +	void rva005312BE();
  	void rva00531300();
  	void rva00531481();
-@@ -659,4 +661,5 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
+ 	void rva005314C6(Int x, Int y, unsigned char flag);
+@@ -661,6 +663,7 @@ Bool rva002EEA8A(const ICoord2D*,Int,ICoord2D*,void*,Int);
+ 	Path *InternalFindPath(Object *,const LocomotorSet &,const Coord3D *,const Coord3D *,HierarchicalPath *,Bool *);
  	Int rva002F83F5(PathfindCell *,PathfindCell *,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
  	Path *GetMoveAwayFromPath(Object *,Object *,Path *,Object *,Path *);
 +	Path *FindClosestPath(Object *,const LocomotorSet &,const Coord3D *,Coord3D *,Bool,float,Bool);
  	Int ExamineNeighboringCellsForSidewaysAttack(PathfindCell *,const ICoord2D *,Int,const LocomotorSet &,Bool,Bool,Int,ICoord2D *,Object *,Int);
  	Bool checkForMovement(Object *,TCheckMovementInfo &);
-@@ -3510,4 +3513,226 @@ Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToA
+ 	Bool rva002EDFF9(Object *,Coord3D *);
+@@ -3512,6 +3515,231 @@ Path *Pathfinder::GetMoveAwayFromPath(Object *obj,Object *otherObj,Path *pathToA
+  m_isTunneling=false;rva002F40E7();return 0;
  }
  
 +extern float g_00DBD338;
@@ -48,6 +50,9 @@ index 0cf4d6f261..5435077e33 100644
 +};
 +// WB D48830 supplies FindClosestPath identity and target-specific stages;
 +// ZH findClosestPath supplies closest-cell and hierarchical search semantics.
++inline __declspec(noinline) float Coord3D::length()const{return(float)sqrt(x*x+y*y+z*z);}
++inline __declspec(noinline) float Coord3D::GetLength()const{float a=x,b=y,c=z;return(float)sqrt(a*a+b*b+c*c);}
++inline __declspec(noinline) float Coord3D::Normalize(){float len=GetLength();float scale=1.0f/len;x*=scale;y*=scale;z*=scale;return len;}
 +Path *Pathfinder::FindClosestPath(Object *obj,const LocomotorSet &locos,const Coord3D *from,
 +Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
 +{
@@ -193,7 +198,7 @@ index 0cf4d6f261..5435077e33 100644
 +   {
 +    if(dx+dy>25.0f)
 +    {
-+     double metric=sqrt((double)distance)+25.0f;
++     float metric=(float)sqrt((double)distance); metric+=25.0f;
 +     bestScreenDistance=(float)(metric*metric);
 +    }
 +    else bestScreenDistance=distance*4.0f;
@@ -259,20 +264,12 @@ index 0cf4d6f261..5435077e33 100644
 +
  Path *Pathfinder::InternalFindPath(Object *obj, const LocomotorSet &locomotorSet, const Coord3D *from,
  	const Coord3D *rawTo, HierarchicalPath *hierarchicalPath, Bool *destinationAdjusted)
+ {
 
-extern float g_00DBD338;
-class Rva0053476A;
-class Rva002EAD62 { public: void rva002EAD62(); };
-class Rva002EAD39 { public: void rva002EAD39(Rva0053476A *); };
-// Owner of the hierarchical path the closest search consults.
-struct PathfinderAttackHandle
-{
-	Path *path;
-	__forceinline PathfinderAttackHandle(Path *p) : path(p) {}
-	__forceinline ~PathfinderAttackHandle() { ((Rva002EAD62 *)this)->rva002EAD62(); }
-};
-// WB D48830 supplies FindClosestPath identity and target-specific stages;
-// ZH findClosestPath supplies closest-cell and hierarchical search semantics.
+// Recovered function and visible helpers (owner declarations are required):
+inline __declspec(noinline) float Coord3D::length()const{return(float)sqrt(x*x+y*y+z*z);}
+inline __declspec(noinline) float Coord3D::GetLength()const{float a=x,b=y,c=z;return(float)sqrt(a*a+b*b+c*c);}
+inline __declspec(noinline) float Coord3D::Normalize(){float len=GetLength();float scale=1.0f/len;x*=scale;y*=scale;z*=scale;return len;}
 Path *Pathfinder::FindClosestPath(Object *obj,const LocomotorSet &locos,const Coord3D *from,
 Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
 {
@@ -418,7 +415,7 @@ Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
    {
     if(dx+dy>25.0f)
     {
-     double metric=sqrt((double)distance)+25.0f;
+     float metric=(float)sqrt((double)distance); metric+=25.0f;
      bestScreenDistance=(float)(metric*metric);
     }
     else bestScreenDistance=distance*4.0f;
@@ -481,5 +478,6 @@ Coord3D *rawTo,Bool blocked,float multiplier,Bool moveAllies)
  goal->ReleaseInfo();
  return path;
 }
+
 
 #endif
