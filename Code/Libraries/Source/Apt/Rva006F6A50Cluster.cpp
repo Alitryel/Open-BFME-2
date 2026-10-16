@@ -1,4 +1,4 @@
-// cl: /DNDEBUG /MD
+// cl: /DNDEBUG /MD /EHsc
 //
 // Apt display-list / AptCIH neighbourhood cluster at 0x006F6A50.  Class
 // layouts come from the recovered BFME2 siblings in this directory
@@ -18,10 +18,14 @@ public:
 	int get() const;
 };
 
+class EAStringC {void*data;public:EAStringC(const char*);~EAStringC();EAStringC&operator=(const EAStringC&);bool IsEmpty()const;bool IsEqualTo(const EAStringC*)const;};
+struct AptCharacter;struct AptCharacterInst;
 class AptCIH
 {
 public:
 	virtual void v0();
+ virtual void Release();
+ void *rva006E1170()const;void rva006E1F00(int);
 	bool rva006E24E0();
 	bool rva006E24E0() const;
 	void rva006E2560(int arg);
@@ -31,11 +35,11 @@ public:
 	bool rva006CFCD0() const;
 	void ClearCIH(int arg);
 
-	char m_pad04[0x4c - 0x4];
-	void *pData;
+	char m_pad04[4];EAStringC name;char m_pad0c[0x48-0x0c];AptCIH *parent;
+ union {void *pData;AptCharacterInst *inst;};
 	AptCIH *m_prev;
 	AptCIH *m_next;
-	unsigned int m_key;
+	union {unsigned int m_key;struct {int depth:17;int created:14;unsigned high:1;};};
 };
 
 // ?rva006F7AC0@Rva006F7AC0List@@QAE_NXZ @0x006F7AC0 33B
@@ -91,6 +95,7 @@ public:
 	virtual void v1();
 	virtual void v2();
 	bool isUndefined() const;
+ void *rva006E0F40()const;
 	void setGCRootCount(unsigned int n);
 	int rva006E02B0() const;
 	unsigned int m_flags;
@@ -210,6 +215,8 @@ public:
 	void rva006F76B0();
 	void rva006F79B0(void *arg1, void *arg2);
 	void rva006F7A30();
+ void bfmeProcess1279(void*);
+ void instantiateCharacter(int,AptCharacter*,EAStringC*,AptCIH*,int,int,AptCIH**,int*);
 
 	BfmeQuery1279 *m_query;
 };
@@ -293,6 +300,7 @@ class AptNativeHash
 {
 public:
 	AptNativeHash(int size);
+ void Set(const EAStringC*const,AptValue*const);
 
 	static void *operator new(unsigned int size)
 	{
@@ -329,6 +337,7 @@ class Rva006F8D70 : public Rva006F8D70Base
 {
 public:
 	Rva006F8D70();
+ static void *operator new(unsigned n){return ((Rva006DB160*)g_pChainBlockAllocator)->allocBlock(n);}
 	virtual ~Rva006F8D70();
 
 	char m_pad18[4];
@@ -552,12 +561,7 @@ void AptDisplayList::rva006F76B0()
 // slot 3 lookup compare erase via 0x70B380/BfmeLookup; unlink+finish; flag
 // clears GC root + AptCIH 1; release-vector GC check; v1 then next.
 // Evidence: chain lane; callee 0x0070B2C0 just landed; LINK pin name.
-class EAStringC
-{
-public:
-	bool IsEmpty() const;
-	bool IsEqualTo(const EAStringC*)const;
-};
+
 struct BfmeKey1279
 {
 	EAStringC m_str;
@@ -751,3 +755,189 @@ AptCIH *BfmeQuery1279::rva006F6ED0(int key, int type, void *pData)
 	node->m4C = pData;
 	return rva006F6D60((AptCIH *)pPrev, (AptCIH *)node);
 }
+
+// ?instantiateCharacter@AptDisplayList@@QAEXHPAUAptCharacter@@PAVEAStringC@@PAVAptCIH@@HHPAPAV4@PAH@Z
+// @0x006F85E0 1417B. Target evidence: the in-body asserts name this TU
+// (pParent / pState at 0x254-0x255, NOT_REACHED at 0x2B9, the new-movie-clip
+// pool bound at 0x2F3, pCurCIH at 0x30B) and AptCIH.h's isSpriteInstBase()
+// accessor (line 0x7D). Queries the depth slot (0x006F6BB0), replaces or
+// revives the existing CIH, instantiates the inst by character type
+// (5/4/2 pool-new with sized-delete cleanup, states 0..2 of the EH frame;
+// 10/1/8 without cleanup), links it (0x006F6ED0 / 0x006F6FB0), names and
+// hashes it, queues movie clips in the pool or initialises text, then
+// binds parent, character and value. Codegen evidence: the 10/1/8 ctors
+// are this TU's own out-of-line bodies (0x006F7D80 / 0x006F7DA0, in the
+// TU's contiguous range), which is why their new-expressions carry no EH
+// state; the type-2 inst copies nine character fields; the type-5 flag
+// word is read, or-ed and written back (volatile), and the assert block
+// before the pool append reloads the pool pointer after its int3 join.
+// Field names past the asserted ones are structural, not target names.
+extern "C" void _ReadWriteBarrier();
+#pragma intrinsic(_ReadWriteBarrier)
+#define POOL_NEW static void *operator new(unsigned n){return ((Rva006DB160*)g_pChainBlockAllocator)->allocBlock(n);}
+#define POOL_DELETE static void operator delete(void*p,unsigned n){g_pChainBlockAllocator->freeBlock(p,n);}
+#define CHECK(c,s,l) if(!(c)){g_bfmeAptAssertAtE17734(s,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp",l);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}
+struct AptCharacter {int type;int value04,value08,value0c,value10,value14;int value18,value1c,value20,value24;char unknown28[0x34-0x28];const char*defaultText;const char*variable;};
+struct AptCharacterInst {const void*vtable;int value;int frame;AptCharacter*character;AptNativeHash*hash;int word14,word18;volatile unsigned word1c;int word20,word24;char unknown28[0x3c-0x28];int word3c;char unknown40[0x50-0x40];int word50,word54,word58,word5c;int word60,word64;char unknown68[0x78-0x68];};
+class Rva006ED150 {public:Rva006ED150();virtual ~Rva006ED150();char rest[0x30-4];};
+class Rva006F7140Derived:public Rva006ED150 {public:POOL_NEW POOL_DELETE Rva006F7140Derived(){} };
+class Rva006ED2A0 {public:Rva006ED2A0();char storage[0x78];POOL_NEW POOL_DELETE};
+
+// ??0Rva006F7D80@@QAE@XZ @0x006F7D80 27B and ??0Rva006F7DA0@@QAE@XZ
+// @0x006F7DA0 27B: store the vtable (0x008ED358 / 0x008ED364), -1 at +4
+// and zeros at +0xC +0x10 +0x14. Sole callers are the type-10/1 and type-8
+// paths of instantiateCharacter (pool sizes 0x18 and 0x1C); retail keeps
+// them out of line.
+extern const void *const g_00CED358[];
+extern const void *const g_00CED364[];
+class Rva006F7D80
+{
+public:
+    __declspec(noinline) Rva006F7D80();
+    POOL_NEW
+private:
+    const void *m_vtable;
+    int m_04;
+    int m_pad08;
+    int m_0c;
+    int m_10;
+    unsigned char m_14;
+};
+Rva006F7D80::Rva006F7D80()
+{
+    m_14 = 0;
+    m_04 = -1;
+    m_0c = 0;
+    m_10 = 0;
+    *(const void **)this = g_00CED358;
+}
+class Rva006F7DA0
+{
+public:
+    __declspec(noinline) Rva006F7DA0();
+    POOL_NEW
+private:
+    const void *m_vtable;
+    int m_04;
+    int m_pad08;
+    int m_0c;
+    int m_10;
+    unsigned char m_14;
+    char m_pad15[0x1c - 0x15];
+};
+Rva006F7DA0::Rva006F7DA0()
+{
+    m_14 = 0;
+    m_04 = -1;
+    m_0c = 0;
+    m_10 = 0;
+    *(const void **)this = g_00CED364;
+}
+class Rva006EBFF0 {public:void rva006EBE60(AptValue*);};
+struct TextInst {const void*vtable;int value;int frame;AptCharacter*character;char unknown10[8];EAStringC text,variable;char unknown20[0x6c-0x20];int flags;};
+class Rva006E34D0 {public:AptCIH**newInsts;int count;char unknown08[0xa4-8];int capacity;};
+extern Rva006E34D0*g_bfmeAptPtrAtE176D0;
+static __forceinline AptCharacterInst*spriteInst(AptCIH*p)
+{
+ if(!p->rva006CFCD0()) {
+  g_bfmeAptAssertAtE17734("isSpriteInstBase()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0x7d);
+  if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();
+ }
+ return (AptCharacterInst*)p->inst;
+}
+void AptDisplayList::instantiateCharacter(int depth,AptCharacter*character,EAStringC*name,AptCIH*parent,int replace,int value,AptCIH**out,int*created)
+{
+ CHECK(parent,"pParent",0x254);
+ CHECK(m_query,"pState",0x255);
+ bool isNew;
+ AptCIH*current=0;
+ AptCIH*previous,*existing;
+ m_query->bfmeQuery1279(depth,(int)name,(void**)&previous,(void**)&existing);
+ AptCharacter*definition=character;
+ if(existing) {
+  if(replace) {
+   if(existing){bfmeUnlinkNestedBE((BfmeNestedBE*)existing);bfmeProcess1279(existing);existing=0;}
+   isNew=true;
+  } else if(((BfmeAptValue006DCD20*)existing)->isUndefined()) {
+   if(name && name->IsEqualTo(&existing->name)) {((AptValue*)existing)->setIsDefined(true);current=existing;}
+   isNew=true;
+  } else {current=existing;isNew=false;goto finish;}
+ }
+ {
+  isNew=true;
+  AptCharacterInst*inst=0;
+  int type=13;
+  if(definition->type==5) {
+   inst=(AptCharacterInst*)new Rva006F7140Derived;
+   inst->word18=-1;
+   type=13;
+   inst->word1c|=0x03000000;
+  } else if(definition->type==4) {
+   inst=(AptCharacterInst*)new Rva006F8D70;
+   type=14;inst->word18=0;
+  } else if(definition->type==2) {
+   inst=(AptCharacterInst*)new Rva006ED2A0;
+   type=15;
+   inst->character=definition;
+   inst->word24=definition->value20;
+   inst->word60=definition->value24;
+   inst->word3c=definition->value1c;
+   inst->word64=definition->value18;
+   inst->word5c=definition->value14;
+   inst->word50=definition->value08;
+   inst->word58=definition->value10;
+   inst->word54=definition->value0c;
+  } else if(definition->type==10) {inst=(AptCharacterInst*)new Rva006F7D80;type=16;}
+  else if(definition->type==1) {inst=(AptCharacterInst*)new Rva006F7D80;type=12;}
+  else if(definition->type==8) {inst=(AptCharacterInst*)new Rva006F7DA0;type=17;}
+  else {CHECK(false,"NOT_REACHED",0x2b9);}
+  if(parent->rva006CFCD0()) {
+   inst->frame=spriteInst(parent)->word18;
+  } else inst->frame=-1;
+  if(!current) {
+   current=m_query->rva006F6ED0(depth,type,inst);
+  } else {
+   if(depth!=current->depth) {
+    bfmeUnlinkNestedBE((BfmeNestedBE*)current);
+    m_query->rva006F6FB0(depth,current);
+    current->Release();
+   }
+   current->inst=inst;
+  }
+  if(parent->rva006CFCD0())current->created=inst->frame;
+  else current->created=-1;
+  if(name) {
+   current->name=*name;
+   if(!name->IsEmpty()){AptNativeHash*hash=((AptCharacterInst*)parent->rva006E1170())->hash;hash->Set(name,(AptValue*)current);}
+  }
+  if(type==13 || type==14) {
+   if(!(g_bfmeAptPtrAtE176D0->count<g_bfmeAptPtrAtE176D0->capacity)) {
+    g_bfmeAptAssertAtE17734("gpPool->nNewInsts < gpPool->GetMaxNewMovieClips()","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp",0x2f3);
+    if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();
+    _ReadWriteBarrier();
+   }
+   g_bfmeAptPtrAtE176D0->newInsts[g_bfmeAptPtrAtE176D0->count]=current;
+   ++g_bfmeAptPtrAtE176D0->count;
+   current->v0();
+  } else if(type==15) {
+   TextInst*text=(TextInst*)((BfmeAptValue006DCD20*)current)->rva006E0F40();
+   if(text->character->defaultText){EAStringC str(text->character->defaultText);text->text=str;}
+   else {EAStringC str("");text->text=str;}
+   if(text->character->variable){EAStringC str(text->character->variable);text->variable=str;}
+   else {EAStringC str("");text->variable=str;}
+   ((Rva006EBFF0*)text)->rva006EBE60((AptValue*)parent);
+   text->flags=6;
+  }
+ }
+finish:
+ CHECK(current,"pCurCIH",0x30b);
+ parent->v0();
+ if(current->parent)current->parent->Release();
+ current->parent=parent;
+ current->inst->character=definition;
+ current->inst->value=value;
+ if(definition->type==4)current->rva006E1F00(1);
+ *out=current;
+ *created=isNew;
+}
+
