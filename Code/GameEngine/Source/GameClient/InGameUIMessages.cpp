@@ -659,11 +659,17 @@ void InGameUI::militarySubtitle( const AsciiString &label, int duration )
 	militarySubtitle( subtitle, duration );
 }
 
-template <typename T>
-inline T StringBase<T>::getCharAt( int index ) const throw()
+// getLineWidth and the subtitle members call getCharAt out of line, and their
+// register allocation needs its body compiled in this unit. Retail keeps the
+// speed-built copy at 0x00035760 (string_base_inline.cpp); this unit's /O1 copy
+// would tail-merge the returns and lose to it, so the body is built for speed.
+#pragma optimize("t", on)
+template <>
+inline unsigned short StringBase<unsigned short>::getCharAt( int index ) const throw()
 {
 	return m_data ? m_data->data[ index ] : 0;
 }
+#pragma optimize("", on)
 
 // Width of the line of text starting at start, measured on ds.
 static int getLineWidth( DisplayString *ds, const UnicodeString *text, int start )
