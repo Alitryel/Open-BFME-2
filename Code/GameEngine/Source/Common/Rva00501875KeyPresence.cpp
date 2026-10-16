@@ -118,3 +118,15 @@ int Rva00501875Owner::rva00501875(int key)
 	}
 	return best;
 }
+
+// Native parent 0x00501875 installs handler 0x00793CA1. Its FuncInfo
+// 0x00946A1C state 1 binds action 0x00793C99 to the local count map at
+// EBP-0x28: destroy it through 0x004FF992, which tails to the tree at
+// 0x004FF5F3. Keep the existing structural count type; no original mapped
+// type name is inferred. The discarded array-delete anchor retains the
+// implicit map destructor COMDAT without emitting another function.
+template _STL::map<int, Rva00501875Count>::~map();
+static void retainCountMapDtor(_STL::map<int, Rva00501875Count> *maps)
+{
+	delete[] maps;
+}
