@@ -41,7 +41,15 @@ namespace _STL
 class Rva005414E5Listener
 {
 public:
-	virtual void notify(void *, int);
+	virtual void notify00(void *, int);
+	virtual void notify04(void *, int);
+	virtual void notify08(void *, int);
+	virtual void notify0C(void *, int);
+	virtual void notify10(void *, int);
+	virtual void notify14(void *, int);
+	virtual void notify18(void *, int);
+	virtual void notify1C(void *, int);
+	virtual void notify20(void *, int);
 };
 
 class Rva005414E5List
@@ -53,12 +61,6 @@ private:
 	Rva005414E5Listener **m_end;
 	Rva005414E5Listener **m_capacity;
 	unsigned int m_index;
-};
-
-union Rva00541883Pmf
-{
-	int i;
-	void (Rva005414E5Listener::*m)(void *, int);
 };
 
 class Rva00541579
@@ -80,11 +82,7 @@ void Rva00541579::rva00541883(int key)
 		return;
 	if (!rva00541579(key))
 		return;
-	Rva00541883Pmf before;
-	before.i = 0x9CB27E;
-	m_list00.forEach(before.m, this, key);
+	m_list00.forEach(&Rva005414E5Listener::notify20, this, key);
 	((_STL::vector<Rva0054107FRecord, _STL::allocator<Rva0054107FRecord> > *)&m_begin10)->erase((Rva0054107FRecord *)&m_begin10[m_hint1C]);
-	Rva00541883Pmf after;
-	after.i = 0x9CB274;
-	m_list00.forEach(after.m, this, key);
+	m_list00.forEach(&Rva005414E5Listener::notify18, this, key);
 }

@@ -5,7 +5,8 @@
 // rowed 0x00541883 (same 0x9CB27E/0x9CB274 notify pair). Rejects
 // non-positive keys, validates the hint through the pinned 200B
 // locator 0x00541641 (sibling of banked 0x00541579), notifies through
-// rowed forEach 0x005414E5 with the raw pmf constant (union-punned),
+// rowed forEach 0x005414E5 with the member-function pointer (MSVC vcall thunks
+// ??_9@$BCA@AE / ??_9@$BBI@AE, slots +0x20 / +0x18),
 // shrinks the hinted element through the rowed 0x00541311 single-shrink
 // spelling on the +0x10 cursor subobject, then notifies again. The
 // hint*0x14 offset needs /G7 for the real imul. Names are generated.
@@ -18,7 +19,15 @@ public:
 class Rva005414E5Listener
 {
 public:
-	virtual void notify(void *, int);
+	virtual void notify00(void *, int);
+	virtual void notify04(void *, int);
+	virtual void notify08(void *, int);
+	virtual void notify0C(void *, int);
+	virtual void notify10(void *, int);
+	virtual void notify14(void *, int);
+	virtual void notify18(void *, int);
+	virtual void notify1C(void *, int);
+	virtual void notify20(void *, int);
 };
 
 class Rva005414E5List
@@ -30,12 +39,6 @@ private:
 	Rva005414E5Listener **m_end;
 	Rva005414E5Listener **m_capacity;
 	unsigned int m_index;
-};
-
-union Rva005418CBPmf
-{
-	int i;
-	void (Rva005414E5Listener::*m)(void *, int);
 };
 
 class Rva00541311
@@ -63,13 +66,9 @@ void Rva005418CB::rva005418CB(int key)
 		return;
 	if (!rva00541641(key))
 		return;
-	Rva005418CBPmf before;
-	before.i = 0x9CB27E;
-	m_list00.forEach(before.m, this, key);
+	m_list00.forEach(&Rva005414E5Listener::notify20, this, key);
 	int off = m_hint1C * 0x14;
 	Rva0054103E *elem = (Rva0054103E *)((char *)m_begin10 + off);
 	((Rva00541311 *)&m_begin10)->rva00541311(elem);
-	Rva005418CBPmf after;
-	after.i = 0x9CB274;
-	m_list00.forEach(after.m, this, key);
+	m_list00.forEach(&Rva005414E5Listener::notify18, this, key);
 }

@@ -5,7 +5,8 @@
 // the rowed 0x00541883 (Rva00541883Remove.cpp, same spelling): rejects
 // non-positive keys, validates the hint through the pinned locator
 // 0x0054034A, notifies the +0x00 listener list through rowed forEach
-// 0x005402DC with the raw pmf constant (union-punned), erases the hinted
+// 0x005402DC with the member-function pointer (MSVC vcall thunks
+// ??_9@$BCA@AE / ??_9@$BBI@AE, slots +0x20 / +0x18), erases the hinted
 // element through the rowed BfmePod40 vector erase 0x005401B4 over a
 // minimal view, then notifies again. Names are generated.
 struct BfmePod40
@@ -36,7 +37,15 @@ namespace _STL
 class Rva005402DCListener
 {
 public:
-	virtual void notify(void *, int);
+	virtual void notify00(void *, int);
+	virtual void notify04(void *, int);
+	virtual void notify08(void *, int);
+	virtual void notify0C(void *, int);
+	virtual void notify10(void *, int);
+	virtual void notify14(void *, int);
+	virtual void notify18(void *, int);
+	virtual void notify1C(void *, int);
+	virtual void notify20(void *, int);
 };
 
 class Rva005402DCList
@@ -48,12 +57,6 @@ private:
 	Rva005402DCListener **m_end;
 	Rva005402DCListener **m_capacity;
 	unsigned int m_index;
-};
-
-union Rva005404CFPmf
-{
-	int i;
-	void (Rva005402DCListener::*m)(void *, int);
 };
 
 class Rva0054034A
@@ -75,11 +78,7 @@ void Rva0054034A::rva005404CF(int key)
 		return;
 	if (!rva0054034A(key))
 		return;
-	Rva005404CFPmf before;
-	before.i = 0x9CB27E;
-	m_list00.forEach(before.m, this, key);
+	m_list00.forEach(&Rva005402DCListener::notify20, this, key);
 	((_STL::vector<BfmePod40, _STL::allocator<BfmePod40> > *)&m_begin10)->erase(&m_begin10[m_hint1C]);
-	Rva005404CFPmf after;
-	after.i = 0x9CB274;
-	m_list00.forEach(after.m, this, key);
+	m_list00.forEach(&Rva005402DCListener::notify18, this, key);
 }
