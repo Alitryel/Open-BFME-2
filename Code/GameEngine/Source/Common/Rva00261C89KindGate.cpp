@@ -18,9 +18,17 @@ private:
 	unsigned m_words[7];
 };
 extern unsigned g_00DFEAD4;
+// Owned here (its only reader); retail .bss zero-initializes it (VA 0x00DFEAD4).
+unsigned g_00DFEAD4 = 0;
 extern char g_00DFEA98;		// anchor only: 0x00DFEA98 + 4 spells the 9C object
+// Owned here (its only reader); retail .bss zero-initializes it (VA 0x00DFEA98).
+char g_00DFEA98 = 0;
 extern Rva002618A2 g_00DFEAB8;
+// Owned here (its only reader); retail .bss zero-initializes it (VA 0x00DFEAB8).
+Rva002618A2 g_00DFEAB8;
 extern Rva002618A2 g_00DFEA9C;
+// Owned here (its only reader); retail .bss zero-initializes it (VA 0x00DFEA9C).
+Rva002618A2 g_00DFEA9C;
 #define InitFlagsB (*(unsigned char *)&g_00DFEAD4)
 #define InitFlagsD g_00DFEAD4
 #define GlobalB8Init (&g_00DFEAB8)
