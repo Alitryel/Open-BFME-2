@@ -123,7 +123,13 @@ class Rva00568A20 { char m_pad[12]; public: Rva00568A20(const Rva00568A20 &); ~R
 // 4-byte element; push_back 0x00578425.
 struct Rva00578425Element { char m_pad[4]; public: Rva00578425Element(const Rva00578425Element &); ~Rva00578425Element(); };
 // 4-byte element; push_back 0x005E1E9B.
-struct Rva005E1E9BElement { char m_pad[4]; public: Rva005E1E9BElement(const Rva005E1E9BElement &); ~Rva005E1E9BElement(); };
+// Owning handle like Rva004F87BCElement: retail has no out-of-line element
+// dtor (its release is inlined into the scalar deleting dtor 0x005F8FCC).
+struct Rva005E1E9BElement {
+ TargetRef00217D4C *m_ptr;
+ Rva005E1E9BElement(const Rva005E1E9BElement &);
+ ~Rva005E1E9BElement() {if(m_ptr) ReleaseTreeHintRef00217D4C(m_ptr);}
+};
 // 4-byte element; push_back 0x005E2B0E.
 struct Rva005E2B0EElement { char m_pad[4]; public: Rva005E2B0EElement(const Rva005E2B0EElement &); ~Rva005E2B0EElement(); };
 // 36-byte element; push_back 0x005EB44A.
