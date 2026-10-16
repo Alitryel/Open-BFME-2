@@ -6,7 +6,9 @@
 // Pass (a->m_04, &a->m_08, "Ally", b, c); installs vtable
 // 0x00C79D78 by literal store (fixed-base game.dat, no reloc needed);
 // returns this; ret 0xC. Same shape as 0x005FA0F7 (vtable const differs).
-// TU-local view only.
+// TU-local view only. The vtable is Rva005FA141's (slot 0 its scalar deleting
+// dtor 0x005FA125), the table OpaqueScalarDeletingDtorsB18.cpp emits.
+extern "C" const void *__identifier("??_7Rva005FA141@@6B@")[];
 class AsciiString;
 struct Rva005F91F3Src;
 struct Rva005FA0C9A
@@ -36,6 +38,6 @@ Rva005FA0C9 *__fastcall rva005FA0C9Init(Rva005FA0C9 *o, int fwd, Rva005FA0C9A *a
 {
 	((StrategicHUD::PlayerPageFrame *)o)->StrategicHUD::PlayerPageFrame::PlayerPageFrame(a->m_04, *(const AsciiString *)&a->m_08,
 		"Ally", b, *(const Rva005F91F3Src *)c);
-	((int *)o)[0] = 0x00C79D78;
+	((int *)o)[0] = (int)__identifier("??_7Rva005FA141@@6B@");
 	return o;
 }
