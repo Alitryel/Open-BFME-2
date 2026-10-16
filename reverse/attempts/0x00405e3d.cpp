@@ -1,4 +1,16 @@
 // ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
+// partial score=0.955 date=2026-10-16
+// W9-O1 r1 (2026-10-16, claude-opus-5.5, 125 min): callee 0x2940B9 is now rowed as ?affectedByUpgrade@Object@@QBE_NPBVUpgradeTemplate@@@Z
+// (const) - the old rva002940B9 name left this bank UNRESOLVED; fixed below (nn10 / 3292 B, EH exact, same 3 hunks as r14).
+// Findings: (1) the sciences loop may be a plain `for (int i = 0; i < (unsigned)(end()-begin()); ++i)` - cl rotates it to exactly the
+// manual guard/do-while form (nn10 identical); (2) hero loop: guard `if (sciences.end()!=sciences.begin())` (operand order differs from the
+// loop test) keeps the guard WITHOUT the barrier (for/do/while all canonicalise) -> 3285 B nn12, residue is only the retail `mov ebx,eax`
+// copy (ours coalesces begin into ebx: `mov ebx,[ebp-0x5c]; cmp [ebp-0x58],ebx`); guard spelled like the loop test is threaded away.
+// (3) else-arm residue mechanism (toy build/o1/tz.py, z11 frame): cl hoists the common `end` load of both arms into the predecessor BEFORE
+// CSE, and CSE never flows from the predecessor into the jump-target arm, so `science = v[0]` reloads m_commandButton; with no inner guard
+// in the loop arm (toy q2) the arm keeps its own reload and [0] CSEs with it. 216-variant toy grid (first/guard/else/[0] spellings),
+// 180-variant real grid of the three size sites, IR-dead irsweep at 28 lines x 3 snippets, /O1 flag-order and /G6: all inert.
+// ?createContent@OldSchoolHelpBoxContentSource@@UAE?AUTreeHintRef00217D4C@@XZ
 // partial score=0.955 date=2026-10-15
 // W7-G1 r14 RECIPE (nn10 / 3292 B vs bank 3287 nn10; residue = 3 hunks, see below). Stack of levers on the previous bank:
 //  (1) bool requireAll / Player *payer locals with the assignment inside the call/comma (W7-ASTRA recipe): fixes the push-memory hunks;
@@ -270,7 +282,7 @@ public:
 	bool rva0028D491() const;
 	void *rva0028BC58(int which);
 	bool rva00290D2B(const UpgradeTemplate *upgrade) const;
-	bool rva002940B9(const UpgradeTemplate *upgrade);
+	bool affectedByUpgrade(const UpgradeTemplate *upgrade) const;
 	protected:
  Module *findModule(NameKeyType key) const;
 public:
@@ -582,7 +594,7 @@ _ReadWriteBarrier();
 				{
 					hasUpgrade = obj->rva00290D2B(upgrade);
 					if (isType7)
-						canUpgrade = !obj->rva002940B9(upgrade);
+						canUpgrade = !obj->affectedByUpgrade(upgrade);
 				}
 				else
 				{
@@ -598,7 +610,7 @@ _ReadWriteBarrier();
 							if (selObj)
 							{
 								hasUpgrade = hasUpgrade && selObj->rva00290D2B(upgrade);
-								canUpgrade = canUpgrade && !selObj->rva002940B9(upgrade);
+								canUpgrade = canUpgrade && !selObj->affectedByUpgrade(upgrade);
 							}
 						}
 						if (!hasUpgrade && !canUpgrade)
