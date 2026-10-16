@@ -4984,7 +4984,7 @@ name,address,notes
 ??1Rva009EBCE0AssetReference@@QAE@XZ,0x0017098D,TU-private view (RegistryPrototypeLookup.cpp) of a refcounted asset handle whose destructor - release the referent when non-null - is byte-identical to the rowed RefCountPtr<TextureClass> destructor and ICF-folded onto it; both unwind funclets 0x007A7410/0x007A7429 of the rowed Rva009EBCE0_GetPrototype destroy their handle by jumping here; the original class name is unknown
 ??1Rva00A86CE@@UAE@XZ,0x00A86CE,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0x51139; identity unproven, address-derived name
 ??1Rva00A897D@@UAE@XZ,0x00A897D,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0x51A2A; identity unproven, address-derived name
-??1Rva00A9CC7@@UAE@XZ,0x00A9CC7,opaque SEH dtor (mov-eax-cookie prologue, vptr 0xBC9400); called by scalar-deleting-dtor at 0xAA5B2; identity unproven, address-derived name
+??1W3DAptDisplayString@@UAE@XZ,0x00A9CC7,opaque SEH dtor (mov-eax-cookie prologue, vptr 0xBC9400); called by scalar-deleting-dtor at 0xAA5B2; identity unproven, address-derived name
 ??1Rva00AAD26@@UAE@XZ,0x00AAD26,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0xAB09C; identity unproven, address-derived name
 ??1Rva00AB15D@@UAE@XZ,0x00AB15D,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0xAB141; identity unproven, address-derived name
 ??1Rva00B0028@@UAE@XZ,0x00B0028,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0xB0238; identity unproven, address-derived name

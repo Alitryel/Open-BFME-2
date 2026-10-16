@@ -1,5 +1,5 @@
 // cl: /Ireference/shims/bfme2_ascii /MD /EHsc
-// ??1Rva00A9CC7@@UAE@XZ retail 0x000A9CC7 111B
+// ??1W3DAptDisplayString@@UAE@XZ retail 0x000A9CC7 111B
 // Own vptr BC9400; under EH state 1, when the AsciiString at +4 is not empty
 // (rowed isEmpty 0x00001E2F), the Apt window manager global
 // g_bfmeAptWindowManager (VA 0x00DFE4CC) gets the rowed
@@ -22,6 +22,7 @@ public:
 };
 
 class DisplayString;
+class UnicodeString;
 
 class DisplayStringManager
 {
@@ -46,23 +47,26 @@ public:
 
 extern DisplayStringManager *TheDisplayStringManager;
 
-class Rva00A9CC7Base
+class AptDisplayStringBase
 {
 public:
-	virtual ~Rva00A9CC7Base() {}
+	virtual ~AptDisplayStringBase() {}
 };
 
-class Rva00A9CC7 : public Rva00A9CC7Base
+class W3DAptDisplayString : public AptDisplayStringBase
 {
 public:
-	virtual ~Rva00A9CC7();
+	virtual ~W3DAptDisplayString();
+	// Slot 1 (rowed at 0x000AA7B2, W3DAptAux.cpp), declared so this unit's
+	// vtable COMDAT matches the constructor unit's.
+	virtual void SetText(const UnicodeString &text);
 
 private:
 	AsciiString m_name; // +0x04
 	DisplayString *m_display; // +0x08
 };
 
-Rva00A9CC7::~Rva00A9CC7()
+W3DAptDisplayString::~W3DAptDisplayString()
 {
 	if (!m_name.isEmpty())
 		((Rva00223D02 *)g_bfmeAptWindowManager)->rva00223D02(&m_name, reinterpret_cast<CreateAHeroData *>(this));

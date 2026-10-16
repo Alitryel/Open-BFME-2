@@ -17,7 +17,7 @@
 //   0x0007827B  0x00BC6778  FileFactoryClass
 //   0x0007DFF2  0x00BC6F24  Rva0007DFF2
 //   0x000906DE  0x00BC7E94  Rva000906DE
-//   0x000A8E9C  0x00BC93BC  Rva000A8E9C
+//   0x000A8E9C  0x00BC93BC  AptDisplayStringBase
 //   0x000A8EF6  0x00BC93DC  Rva000A8EF6
 //   0x000EF9D6  0x00BCEF94  HashableClass
 //   0x000EFA0E  0x00BCEF9C  Rva000EFA0E
@@ -166,29 +166,37 @@ Rva000906DE::~Rva000906DE()
 {
 }
 
-class Rva000A8E9C
+class AptDisplayStringBase
 {
 public:
-	Rva000A8E9C();
-	Rva000A8E9C(EmitVtableTag *);
-	virtual ~Rva000A8E9C();
+	AptDisplayStringBase();
+	AptDisplayStringBase(EmitVtableTag *);
+	virtual ~AptDisplayStringBase();
 };
 
-// ??0Rva000A8E9C@@QAE@XZ @0x000A9567 9B: the default constructor, storing the
-// class's own vtable and returning this.
-Rva000A8E9C::Rva000A8E9C()
+// ??0AptDisplayStringBase@@QAE@XZ @0x000A9567 9B: the default constructor, storing the
+// class's own vtable and returning this. Inline (selectany COMDAT) because the
+// W3DAptDisplayString units emit the same copy.
+inline AptDisplayStringBase::AptDisplayStringBase()
 {
 }
 
-// ?<Rva000A8E9C::Rva000A8E9C> absent-from-retail
-Rva000A8E9C::Rva000A8E9C(EmitVtableTag *)
+// ?<AptDisplayStringBase::AptDisplayStringBase> absent-from-retail
+AptDisplayStringBase::AptDisplayStringBase(EmitVtableTag *)
 {
 }
 
-// ??1Rva000A8E9C@@UAE@XZ @0x000A8E95 7B: the empty dtor, restoring the vtable;
-// the deleting dtor still expands it inline.
-Rva000A8E9C::~Rva000A8E9C()
+// ??1AptDisplayStringBase@@UAE@XZ @0x000A8E95 7B: the empty dtor, restoring the vtable;
+// the deleting dtor still expands it inline. Inline for the same reason.
+inline AptDisplayStringBase::~AptDisplayStringBase()
 {
+}
+
+// ?<bfmeKeepAptDisplayStringBase> absent-from-retail
+// Emits the two inline bodies above out of line, as the other units do.
+void bfmeKeepAptDisplayStringBase()
+{
+	AptDisplayStringBase base;
 }
 
 class Rva000A8EF6

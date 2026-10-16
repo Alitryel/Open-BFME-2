@@ -1829,7 +1829,7 @@ _Rva0088E1A0ShowAssertCrashDialog,0x0003D880,address,placeholder
 ??0Rva0036CA00Str@@QAE@ABV0@@Z,0x000A8C7C,address,placeholder
 ?clear@Rva000A8C9B@@QAEXXZ,0x000A8C9B,address,placeholder
 ??4Rva000A8CAE@@QAEAAV0@ABV0@@Z,0x000A8CAE,address,placeholder
-??_GRva000A8E9C@@UAEPAXI@Z,0x000A8E9C,address,placeholder
+??_GAptDisplayStringBase@@UAEPAXI@Z,0x000A8E9C,address,placeholder
 ??_GRva00782CB0@@UAEPAXI@Z,0x000A8EC9,address,placeholder
 ??_GRva000A8EF6@@UAEPAXI@Z,0x000A8EF6,address,placeholder
 ?Rva000A8F36Get@@YAHXZ,0x000A8F36,address,placeholder

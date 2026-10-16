@@ -172,7 +172,9 @@ class AptDisplayStringBase
 {
 public:
 	AptDisplayStringBase() {}
-	virtual ~AptDisplayStringBase();
+	// Empty and inline (rowed at 0x000A8E95): the deleting dtor expands it,
+	// the unwind funclet calls it.
+	virtual ~AptDisplayStringBase() {}
 };
 
 class W3DAptDisplayString : public AptDisplayStringBase
