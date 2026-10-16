@@ -15510,3 +15510,4 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ?b_0030a083@@YAXXZ,0x0030A083,gen-thunk body
 ?b_0031c79d@@YAXXZ,0x0031C79D,gen-thunk body
 ?b_004d9fb9@@YAXXZ,0x004D9FB9,gen-thunk body
+?rva005424C4@XmlNameSlotList@@QAEHXZ,0x005424C4,XmlNameSlotList element scanner tail-jumped to by finish 0x00542890 at 0x005428FD (REL32 read from retail); native 5424C4..5426DB unrowed; address-derived name

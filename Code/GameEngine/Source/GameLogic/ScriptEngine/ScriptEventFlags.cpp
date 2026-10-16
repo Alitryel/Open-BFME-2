@@ -50,7 +50,7 @@ public:
 	int count();
 	const char *tagAt(int index);
 	const char *nameAt(int index);
-	void finish();
+	int finish();								// 0x00542890 (retail returns EAX)
 };
 
 const char *XmlNameSlotList::tagAt(int index)
