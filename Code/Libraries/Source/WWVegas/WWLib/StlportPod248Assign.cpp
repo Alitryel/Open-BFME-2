@@ -9,11 +9,16 @@
 // rowed container assigns. Six vector slots at +0xAC step by 0xC. Returns this.
 #define _STLP_BFME_RB_MINMAX_IMPORT  // inline _Rb_tree_node_base::_S_minimum/_S_maximum without a COMDAT copy (vendor/stlport/stl/_tree.h)
 #include "ascii_string.h"
+// Native C1BE1/C1C20/C0417 free through30830 with an active C++ cleanup state.
+#include <stdlib.h>
+namespace _STL { void __cdecl free(void *block) throw(...); }
+#define free _STL::free
 // Declare the container assigns. Do not compile their bodies into this TU.
 #define _STLP_LINK_TIME_INSTANTIATION
 #include <map>
 #include <vector>
 #include <list>
+#undef free
 
 // _List_iterator comparisons otherwise instantiate the base-class
 // operator!= COMDAT (one byte shape per TU flags); exact-match free
