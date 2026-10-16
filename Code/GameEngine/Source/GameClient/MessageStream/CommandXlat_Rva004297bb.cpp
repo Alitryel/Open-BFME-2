@@ -707,6 +707,28 @@ static Object* iNeedAHero(Object* previous)
  return holder.hero;
 }
 
+// ZH isSystemMessage (static; defined here in BFME2), native429198..4291C8
+// (48B, RET 0): the message arrives in EAX, the private convention cl 7.1
+// picks for a file-static noinline function. BFME2 lists five system message
+// types (0x3EC, 0x447, 0x44A, 0x6BA, 0x6BB; ZH names four, their BFME2
+// numbering is not established here). No retail call reaches this copy, so a
+// source-only caller emits it.
+static __declspec(noinline) bool isSystemMessage(const GameMessage *msg)
+{
+ if(!msg) return false;
+ GameMessage::Type msgType=msg->getType();
+ switch(msgType) {
+  case 0x3EC: case 0x447: case 0x44A: case 0x6BA: case 0x6BB:
+   return true;
+ }
+ return false;
+}
+// ?isSystemMessageCaller absent-from-retail
+bool isSystemMessageCaller(const GameMessage *msg)
+{
+ return isSystemMessage(msg);
+}
+
 // ZH canObjectForceAttack, reference34f59164f6; native4291C8..429276
 // and WB00E79D50 preserve the three argument meanings. Native uses EDI/ESI
 // for the first two arguments; keeping the static noinline definition with

@@ -1796,11 +1796,24 @@ void DX8MeshRendererClass::Log_Statistics_String(bool only_visible)
 
 }
 
-static void Invalidate_FVF_Category_Container_List(FVFCategoryList& list)
+// Retail 0x00144620 (40B, RET 0) is this file-static helper on its own: the list
+// arrives in ESI, the private convention cl 7.1 picks for a file-static noinline
+// function, and each container is destroyed through slot 0 with the no-free flag
+// and its result freed by the global operator delete, which is what `::delete`
+// emits for a class with a virtual destructor (the same idiom the inlined copies
+// in DX8MeshRendererClass_Invalidate_Thunk.cpp show). The only retail calls are
+// inlined into Invalidate, so a source-only caller emits this copy.
+static __declspec(noinline) void Invalidate_FVF_Category_Container_List(FVFCategoryList& list)
 {
 	while (DX8FVFCategoryContainer* fvf_category=list.Remove_Head()) {
-		delete fvf_category;
+		::delete fvf_category;
 	}
+}
+
+// ?Invalidate_FVF_Category_Container_ListCaller absent-from-retail
+void Invalidate_FVF_Category_Container_ListCaller(FVFCategoryList& list)
+{
+	Invalidate_FVF_Category_Container_List(list);
 }
 
 // DX8MeshRendererClass::Invalidate: the byte-exact BFME2 definition is in

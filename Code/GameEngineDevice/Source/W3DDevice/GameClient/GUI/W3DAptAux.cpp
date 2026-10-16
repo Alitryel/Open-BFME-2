@@ -426,3 +426,24 @@ void *__fastcall BfmeHub982::rva00111312(int count)
 {
  return reinterpret_cast<W3DAptRenderer *>(this)->BeginTriangleList(count*2);
 }
+
+// Native A9192..A91D3 (65B, RET 0), between A90B0 and A91D3: a 2D affine
+// transform of one point (out = M * p + t with a six-float a/b/c/d/tx/ty
+// matrix, the Apt render-transform shape). Retail passes the matrix in EAX,
+// the point in ECX and the output in EDX with no stack arguments: the private
+// convention cl 7.1 picks for a file-static noinline function (the point-first
+// parameter order is the one that yields retail's operand order). No retail
+// call reaches this copy, so a source-only caller emits it. Names are neutral.
+struct Rva000A9192Matrix { float a, b, c, d, tx, ty; };
+struct Rva000A9192Point { float x, y; };
+static __declspec(noinline) void Rva000A9192TransformPoint(const Rva000A9192Point *p, const Rva000A9192Matrix *m, Rva000A9192Point *out)
+{
+	out->x = m->a * p->x + m->c * p->y + m->tx;
+	out->y = m->b * p->x + m->d * p->y + m->ty;
+}
+
+// ?Rva000A9192TransformPointCaller absent-from-retail
+void Rva000A9192TransformPointCaller(const Rva000A9192Point *p, const Rva000A9192Matrix *m, Rva000A9192Point *out)
+{
+	Rva000A9192TransformPoint(p, m, out);
+}
