@@ -30,3 +30,11 @@ Rva002606AFElem *Rva002606AF::erase(Rva002606AFElem *position)
 	((Rva002606AFDtor *)m_finish)->~Rva002606AFDtor();
 	return position;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x005B804E reads ??1?$StringBase@G@@AAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva002606AFDtor@@QAE@XZ=??1?$StringBase@G@@AAE@XZ")
+//   0x00260647 reads ?Rva00260647Copy@@YAPAUBfmeStringRecord002602A6@@PAU1@00@Z
+#pragma comment(linker, "/alternatename:??$__copy_ptrs@PBURva002606AFElem@@PAU1@@_STL@@YAPAURva002606AFElem@@PBU1@0PAU1@ABU__false_type@0@@Z=?Rva00260647Copy@@YAPAUBfmeStringRecord002602A6@@PAU1@00@Z")

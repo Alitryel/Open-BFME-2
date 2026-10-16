@@ -72,3 +72,11 @@ BfmeSlotJA *BfmeThing932A::bfmeGo932A()
 	}
 	return 0;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x00347460 reads ?update@AIInternalMoveToState@@UAE?AW4StateReturnType@@XZ
+#pragma comment(linker, "/alternatename:?bfmeTail932E@BfmeThing932E@@QAEXXZ=?update@AIInternalMoveToState@@UAE?AW4StateReturnType@@XZ")
+//   0x0034612C reads ?internalUpdate@AICombineState@@QAE?AW4StateReturnType@@XZ
+#pragma comment(linker, "/alternatename:?bfmeTest932E@BfmeThing932E@@QAEHXZ=?internalUpdate@AICombineState@@QAE?AW4StateReturnType@@XZ")

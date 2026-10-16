@@ -55,3 +55,11 @@ Rva005EC832Owner *Rva005EC832Owner::rva005EC832(int x)
 	m_product = new Rva005EC64E(this, x);
 	return this;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x005D4EA8 reads ?rva005D4EA8@Rva005D4EA8@@QAEPAXHH@Z
+#pragma comment(linker, "/alternatename:??0Rva005D4EA8@@QAE@HH@Z=?rva005D4EA8@Rva005D4EA8@@QAEPAXHH@Z")
+//   0x005EC64E reads ??0Impl@StrategicVeterancy@@QAE@PAV1@PAVData@1@@Z
+#pragma comment(linker, "/alternatename:??0Rva005EC64E@@QAE@PAVRva005EC832Owner@@H@Z=??0Impl@StrategicVeterancy@@QAE@PAV1@PAVData@1@@Z")

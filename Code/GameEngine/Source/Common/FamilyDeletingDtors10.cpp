@@ -78,3 +78,15 @@ void famgenDelete(StrategicHUD::ArmyUnitSwapperMovieClip::Impl *p) { delete p; }
 // Native005FF659..005FF675: scalar delete for the recovered clip Impl.
 #include "BattlePromptArmyPanelClipImplView.h"
 void famgenDelete(StrategicHUD::BattlePromptArmyPanelMovieClip::Impl *p) { delete p; }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x005CEFD3 reads ??1Rva005CEFD3@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva005CEFD3@@QAE@XZ=??1Rva005CEFD3@@UAE@XZ")
+//   0x005D07E1 reads ??1Rva005D0C87@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva005D07E1@@QAE@XZ=??1Rva005D0C87@@QAE@XZ")
+//   0x005E4925 reads ??1Rva005E4AE2@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva005E4925@@QAE@XZ=??1Rva005E4AE2@@UAE@XZ")
+//   0x005F3FFC reads ??1Rva005F3FFC@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva005F3FFC@@QAE@XZ=??1Rva005F3FFC@@UAE@XZ")

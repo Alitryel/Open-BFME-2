@@ -21,3 +21,11 @@ void __stdcall bfmeGoDGH(void *a, void *b)
 	if (s != 0)
 		s->bfmeRunDGH(b);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x003FD690 reads ?rva003FD690@Rva003FD690@@QAEXPBUCoord@@@Z
+#pragma comment(linker, "/alternatename:?bfmeRunDGH@BfmeSubDGH@@QAEXPAX@Z=?rva003FD690@Rva003FD690@@QAEXPBUCoord@@@Z")
+//   0x002120C2 reads ?rva002120C2@Rva002120A4@@QAEPAURva002120C2Entry@@ABVAsciiString@@@Z
+#pragma comment(linker, "/alternatename:?rva002120C2@@YGPAVBfmeSubDGH@@PAX@Z=?rva002120C2@Rva002120A4@@QAEPAURva002120C2Entry@@ABVAsciiString@@@Z")

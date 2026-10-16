@@ -150,3 +150,11 @@ void Rva002B2955::rva002B2955(int a, int b, int c, int d, int e, int f, int g)
 {
 	m_regionManager->SetRegionReinforcements(a, b, c, d, e, f, g);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0018C73C reads ?assign@Rva0018C73CWordVector@@QAEXURva005E59FCKeyIterator@@0ABUforward_iterator_tag@_STL@@@Z
+#pragma comment(linker, "/alternatename:?rva0018C73C@Rva0018C73C@@QAEXHHPAD@Z=?assign@Rva0018C73CWordVector@@QAEXURva005E59FCKeyIterator@@0ABUforward_iterator_tag@_STL@@@Z")
+//   0x00569F0C reads ?rva00569F0C@Rva00569F0CVec@@QAEXPAX0PA_N@Z
+#pragma comment(linker, "/alternatename:?rva00569F0C@Rva00569F0C@@QAEXHHPAD@Z=?rva00569F0C@Rva00569F0CVec@@QAEXPAX0PA_N@Z")

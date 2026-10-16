@@ -74,3 +74,13 @@ void parseEmotionNuggetCopyFrom( INI *ini, void *, void *store, const void * )
 
 	((BfmeThingVKC *)store)->bfmeCopyVKC( *(BfmeThingVKC *)source );
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x00037BA0 reads ??0?$StringBase@D@@AAE@PBD@Z
+#pragma comment(linker, "/alternatename:??0BfmeStringLiteralBase@@AAE@PBD@Z=??0?$StringBase@D@@AAE@PBD@Z")
+//   0x004DC788 reads ?rva004DC788@Rva004DC920@@QAEXABV1@@Z
+#pragma comment(linker, "/alternatename:?bfmeCopyVKC@BfmeThingVKC@@QAEXABV1@@Z=?rva004DC788@Rva004DC920@@QAEXABV1@@Z")
+//   0x00036410 reads ??1?$StringBase@D@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1BfmeEmotionName@@QAE@XZ=??1?$StringBase@D@@QAE@XZ")

@@ -93,3 +93,13 @@ struct BfmeThingEFH
 	char m_bfmeC;
 };
 
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x003336AD reads ?Rva003336ADGet@@YA_N_NPBD@Z
+#pragma comment(linker, "/alternatename:?bfmeTwoEFF@@YAXHPAX@Z=?Rva003336ADGet@@YA_N_NPBD@Z")
+//   0x007473B0 reads _lua_tostring
+#pragma comment(linker, "/alternatename:?bfmeOneEFF@@YAPAXPAXH@Z=_lua_tostring")
+//   0x003336AD reads ?Rva003336ADGet@@YA_N_NPBD@Z
+#pragma comment(linker, "/alternatename:?bfmeTwoEFFb@@YAXHPAX@Z=?Rva003336ADGet@@YA_N_NPBD@Z")

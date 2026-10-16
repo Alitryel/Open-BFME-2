@@ -79,3 +79,17 @@ void famgenDelete(Rva005D4FFC *p) { delete p; }
 // ??_GRva005E893E@@QAEPAXI@Z @0x005CE156 28B: calls pinned ~Rva005E893E 0x005E893E
 class Rva005E893E { public: ~Rva005E893E(); };
 void famgenDelete(Rva005E893E *p) { delete p; }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x00527CCE reads ??1Rva00527827@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00527CCE@@QAE@XZ=??1Rva00527827@@UAE@XZ")
+//   0x00578C43 reads ??1Palantir@StrategicHUD@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00578C43@@QAE@XZ=??1Palantir@StrategicHUD@@QAE@XZ")
+//   0x0057BD01 reads ??1SelectionDetailsUIImpl@StrategicHUD@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva0057BD01@@QAE@XZ=??1SelectionDetailsUIImpl@StrategicHUD@@QAE@XZ")
+//   0x005282BA reads ??1Impl@AptInGameSideCommandBar@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva005282BA@@QAE@XZ=??1Impl@AptInGameSideCommandBar@@QAE@XZ")
+//   0x005D3C2B reads ??1Rva005D3C2B@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva005D3C2B@@QAE@XZ=??1Rva005D3C2B@@UAE@XZ")

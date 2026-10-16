@@ -79,3 +79,13 @@ void Rva003733B5Obj::Start(int)
 	((Rva003733B5Base *)((char *)this - 0x20))->Init();
 	m_enabled = 1;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x00007850 reads ??0?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:?Init@Rva000BB3D7Part@@QAEXXZ=??0?$basic_string@DV?$char_traits@D@_STL@@V?$allocator@D@2@@_STL@@QAE@XZ")
+//   0x0033C432 reads ??0?$map@EHU?$less@E@_STL@@V?$allocator@U?$pair@$$CBEH@_STL@@@2@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:?Init@Rva004FFE72Part@@QAEXXZ=??0?$map@EHU?$less@E@_STL@@V?$allocator@U?$pair@$$CBEH@_STL@@@2@@_STL@@QAE@XZ")
+//   0x00082D6A reads ?rva00082D6A@Rva00082D6A@@QAEXXZ
+#pragma comment(linker, "/alternatename:?Init@Rva00082E1DBase@@QAEXXZ=?rva00082D6A@Rva00082D6A@@QAEXXZ")

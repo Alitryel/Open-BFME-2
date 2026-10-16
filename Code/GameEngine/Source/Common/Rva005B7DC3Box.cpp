@@ -48,3 +48,11 @@ void Rva005B7DC3Box::Run()
 	p->m_00 = 4;
 	m_0C.push_back(out);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0005548F reads ?push_back@?$list@HV?$allocator@H@_STL@@@_STL@@QAEXABH@Z
+#pragma comment(linker, "/alternatename:?Consume@Rva005B7DC3Sub@@QAEXPAPAX@Z=?push_back@?$list@HV?$allocator@H@_STL@@@_STL@@QAEXABH@Z")
+//   0x005B72BE reads ??0Rva0040C1F0@@QAE@XZ
+#pragma comment(linker, "/alternatename:?Xform@Rva005B7DC3Block@@QAEPAU1@XZ=??0Rva0040C1F0@@QAE@XZ")

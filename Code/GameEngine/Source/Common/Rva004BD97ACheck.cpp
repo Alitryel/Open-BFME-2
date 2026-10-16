@@ -29,3 +29,11 @@ int __stdcall rva004BD97A(int arg)
 		*(BfmeFixedStorage002CF0F0 *)&tmp);
 	return arg;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x002CF0F0 reads ??0BfmeFixedStorage002CF0F0@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:?helper@Rva004BD97AArg@@QAEXH@Z=??0BfmeFixedStorage002CF0F0@@QAE@ABV0@@Z")
+//   0x006291AE reads ?ji_006291ae@@YAXXZ
+#pragma comment(linker, "/alternatename:?rva006291AE@@YAXHHH@Z=?ji_006291ae@@YAXXZ")

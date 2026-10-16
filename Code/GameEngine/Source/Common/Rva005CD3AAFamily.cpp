@@ -103,3 +103,17 @@ void rva005CD563(Rva005CD1A9 *container, void *p1, void *p2, void *p3, void *p4)
 		container->AddItem(&copy);
 	}
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x005CD0C2 reads ?AddItem@Checklist@StrategicInGameUI@@QAEXABUChecklistItemRef@2@@Z
+#pragma comment(linker, "/alternatename:?AddItem@Rva005CD1A9@@QAEXPAUBfmeRefPtr@@@Z=?AddItem@Checklist@StrategicInGameUI@@QAEXABUChecklistItemRef@2@@Z")
+//   0x005CD257 reads ?setup84@Rva005CDMorph@@QAEPAV1@HHHHH@Z
+#pragma comment(linker, "/alternatename:??0Rva005CD257@@QAE@PAVRva005CD1A9@@PAX111@Z=?setup84@Rva005CDMorph@@QAEPAV1@HHHHH@Z")
+//   0x005CD2A3 reads ?setupA0@Rva005CDMorph@@QAEPAV1@HHHHH@Z
+#pragma comment(linker, "/alternatename:??0Rva005CD2A3@@QAE@PAVRva005CD1A9@@PAX111@Z=?setupA0@Rva005CDMorph@@QAEPAV1@HHHHH@Z")
+//   0x005CD2EF reads ?setupBC@Rva005CDMorph@@QAEPAV1@HHHHH@Z
+#pragma comment(linker, "/alternatename:??0Rva005CD2EF@@QAE@PAVRva005CD1A9@@PAX111@Z=?setupBC@Rva005CDMorph@@QAEPAV1@HHHHH@Z")
+//   0x005CD34B reads ?setupD8@Rva005CDMorph@@QAEPAV1@HHHHH@Z
+#pragma comment(linker, "/alternatename:??0Rva005CDMorph@@QAE@PAVRva005CD1A9@@PAX111@Z=?setupD8@Rva005CDMorph@@QAEPAV1@HHHHH@Z")

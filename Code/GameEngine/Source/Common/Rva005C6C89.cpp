@@ -46,3 +46,11 @@ void Rva005C6C7B::reset()
 	m_28 = 0.0f;
 	m_2c = 0.0f;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0033C432 reads ??0?$map@EHU?$less@E@_STL@@V?$allocator@U?$pair@$$CBEH@_STL@@@2@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:??0SubTree005C6B83@@QAE@XZ=??0?$map@EHU?$less@E@_STL@@V?$allocator@U?$pair@$$CBEH@_STL@@@2@@_STL@@QAE@XZ")
+//   0x005C6B83 reads ?clear@?$_Rb_tree@URva0027EA49@@U1@U?$_Identity@URva0027EA49@@@_STL@@U?$less@URva0027EA49@@@3@V?$allocator@URva0027EA49@@@3@@_STL@@QAEXXZ
+#pragma comment(linker, "/alternatename:?clear@SubTree005C6B83@@QAEXXZ=?clear@?$_Rb_tree@URva0027EA49@@U1@U?$_Identity@URva0027EA49@@@_STL@@U?$less@URva0027EA49@@@3@V?$allocator@URva0027EA49@@@3@@_STL@@QAEXXZ")

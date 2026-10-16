@@ -68,3 +68,11 @@ void *Rva0021DE75::rva0021DE75(void *a1)
 	void *r = table->rva0021DAA8(&deref, a1);
 	return ((Rva002191FEHost *)r)->rva002191FE();
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x002191FE reads ??4Rva002191FE@@QAEAAV0@ABV0@@Z
+#pragma comment(linker, "/alternatename:?rva002191FE@Rva002191FEHost@@QAEPAXXZ=??4Rva002191FE@@QAEAAV0@ABV0@@Z")
+//   0x0021DAA8 reads ?rva0021DAA8@Rva0021DAA8@@QAEAAUBfmeStringRecord00219B0B@@ABH@Z
+#pragma comment(linker, "/alternatename:?rva0021DAA8@Rva0021DE75Table@@QAEPAXPAX0@Z=?rva0021DAA8@Rva0021DAA8@@QAEAAUBfmeStringRecord00219B0B@@ABH@Z")

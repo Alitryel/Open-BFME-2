@@ -105,3 +105,21 @@ void famgenDelete(Rva004DCE8E *p) { delete p; }
 // ??_GRva004E364F@@QAEPAXI@Z @0x0052BBD7 28B
 class Rva004E364F { public: ~Rva004E364F(); };
 void famgenDelete(Rva004E364F *p) { delete p; }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x004D2344 reads ??1ConnectionManager@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva004D2344@@QAE@XZ=??1ConnectionManager@@QAE@XZ")
+//   0x00288B89 reads ??1?$pair@$$CBHV?$list@UBfmePod264@@V?$allocator@UBfmePod264@@@_STL@@@_STL@@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00288B89@@QAE@XZ=??1?$pair@$$CBHV?$list@UBfmePod264@@V?$allocator@UBfmePod264@@@_STL@@@_STL@@@_STL@@QAE@XZ")
+//   0x00289706 reads ?rva00289706@Rva00289706@@QAEXXZ
+#pragma comment(linker, "/alternatename:??1Rva00289706@@QAE@XZ=?rva00289706@Rva00289706@@QAEXXZ")
+//   0x0056A061 reads ??1LargeGroupAudioSoundKeyPair@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva0056A061@@QAE@XZ=??1LargeGroupAudioSoundKeyPair@@QAE@XZ")
+//   0x0042D92E reads ??1Impl@HUD@StrategicHUD@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva0042D92E@@QAE@XZ=??1Impl@HUD@StrategicHUD@@QAE@XZ")
+//   0x004E366E reads ?rva004E366E@Rva004E366E@@QAEXXZ
+#pragma comment(linker, "/alternatename:??1Rva004E364F@@QAE@XZ=?rva004E366E@Rva004E366E@@QAEXXZ")
+//   0x0053470B reads ??1Rva00534641@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva0053470B@@QAE@XZ=??1Rva00534641@@QAE@XZ")

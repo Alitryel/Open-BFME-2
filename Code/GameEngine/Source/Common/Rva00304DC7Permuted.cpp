@@ -19,3 +19,19 @@ Rva00304DC7Record& Rva00304DC7Map::operator[](const AsciiString&key) {
   i=insert(i,Rva00304DC7Entry(key,Rva00304DC7Record()));
  return i->value;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0022DBC6 reads ??1MapMetaData@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00304DC7Record@@QAE@XZ=??1MapMetaData@@QAE@XZ")
+//   0x0022DDF4 reads ??1Rva0022DDF4@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00304DC7Entry@@QAE@XZ=??1Rva0022DDF4@@QAE@XZ")
+//   0x00304DAA reads ?insert@?$map@VAsciiString@@UTreeHintOpaque00304573@@U?$less@VAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@@4@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@@2@@2@U32@ABU?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@2@@Z
+#pragma comment(linker, "/alternatename:?insert@Rva00304DC7Map@@AAE?AU?$_Rb_tree_iterator@URva00304DC7Entry@@U?$_Nonconst_traits@URva00304DC7Entry@@@_STL@@@_STL@@U23@ABURva00304DC7Entry@@@Z=?insert@?$map@VAsciiString@@UTreeHintOpaque00304573@@U?$less@VAsciiString@@@_STL@@V?$allocator@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@@4@@_STL@@QAE?AU?$_Rb_tree_iterator@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@U?$_Nonconst_traits@U?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@_STL@@@2@@2@U32@ABU?$pair@$$CBVAsciiString@@UTreeHintOpaque00304573@@@2@@Z")
+//   0x00303D6B reads ??0?$pair@$$CBVAsciiString@@VMapMetaData@@@_STL@@QAE@ABVAsciiString@@ABVMapMetaData@@@Z
+#pragma comment(linker, "/alternatename:??0Rva00304DC7Entry@@QAE@ABVAsciiString@@ABVRva00304DC7Record@@@Z=??0?$pair@$$CBVAsciiString@@VMapMetaData@@@_STL@@QAE@ABVAsciiString@@ABVMapMetaData@@@Z")
+//   0x003031D3 reads ??0MapMetaData@@QAE@XZ
+#pragma comment(linker, "/alternatename:??0Rva00304DC7Record@@QAE@XZ=??0MapMetaData@@QAE@XZ")
+//   0x00221B8D reads ?_M_lower_bound@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@UTreeHintOpaque002A484A@@@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@UTreeHintOpaque002A484A@@@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@UTreeHintOpaque002A484A@@@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UTreeHintOpaque002A484A@@@_STL@@@2@ABVAsciiString@@@Z
+#pragma comment(linker, "/alternatename:?lower_bound@Rva00304DC7Map@@AAEPAU?$_Rb_tree_node@URva00304DC7Entry@@@_STL@@ABVAsciiString@@@Z=?_M_lower_bound@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@UTreeHintOpaque002A484A@@@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@UTreeHintOpaque002A484A@@@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@UTreeHintOpaque002A484A@@@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@UTreeHintOpaque002A484A@@@_STL@@@2@ABVAsciiString@@@Z")

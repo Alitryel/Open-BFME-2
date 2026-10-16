@@ -79,3 +79,13 @@ void Holder0051FFF5::Rva0051FFF5(Xfer0051FFF5 *x)
 	char *tail = (char *)this + 0x44;
 	Rva0040E269(x, tail);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0040E269 reads ?Rva0040E269Xfer@@YAPAVXfer@@PAV1@PAV?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@@Z
+#pragma comment(linker, "/alternatename:?Rva0040E269@@YAXPAVXfer0051FFF5@@PAX@Z=?Rva0040E269Xfer@@YAPAVXfer@@PAV1@PAV?$vector@PBVModuleData@@V?$allocator@PBVModuleData@@@_STL@@@_STL@@@Z")
+//   0x004EE9E9 reads ?Rva004EE9E9XferVector@@YAPAVXfer@@PAV1@PAVRva004EE6D0@@@Z
+#pragma comment(linker, "/alternatename:?Rva004EE9E9@@YAXPAVXfer0051FFF5@@PAX@Z=?Rva004EE9E9XferVector@@YAPAVXfer@@PAV1@PAVRva004EE6D0@@@Z")
+//   0x0039C4F7 reads ?Rva0039C4F7XferSnapshotVector@@YAPAVXfer@@PAV1@PAVRva0039C1C3@@@Z
+#pragma comment(linker, "/alternatename:?Rva0039C4F7@@YAXPAVXfer0051FFF5@@PAX@Z=?Rva0039C4F7XferSnapshotVector@@YAPAVXfer@@PAV1@PAVRva0039C1C3@@@Z")

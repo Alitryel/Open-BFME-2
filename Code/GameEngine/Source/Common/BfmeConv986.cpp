@@ -131,3 +131,17 @@ void BfmeC986::groupGatherAndAttackInFormationToPosition(int a, int b, int c, in
 		return;
 	rva00372B09(a, 0x7FFFFFFF, b);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0036E357 reads ?rva0036E357@AIGroup@@QAE_NXZ
+#pragma comment(linker, "/alternatename:?bfmeReady986C@BfmeC986@@QAEDXZ=?rva0036E357@AIGroup@@QAE_NXZ")
+//   0x00371166 reads ?moveFormationToPos@AIGroup@@QAEXPBUCoord3D@@W4CommandSourceType@@H_N2@Z
+#pragma comment(linker, "/alternatename:?bfmeSend986C@BfmeC986@@QAEXHHHHH@Z=?moveFormationToPos@AIGroup@@QAEXPBUCoord3D@@W4CommandSourceType@@H_N2@Z")
+//   0x0036D6B4 reads ?rva0036D6B4@Rva0036ListOwner@@QAEXXZ
+#pragma comment(linker, "/alternatename:?bfmePrep986C@BfmeC986@@QAEXXZ=?rva0036D6B4@Rva0036ListOwner@@QAEXXZ")
+//   0x0036D3A3 reads ?computeGroundPath@AIGroup@@QAE_NPBUCoord3D@@W4CommandSourceType@@@Z
+#pragma comment(linker, "/alternatename:?rva0036D3A3@BfmeC986@@QAEDHH@Z=?computeGroundPath@AIGroup@@QAE_NPBUCoord3D@@W4CommandSourceType@@@Z")
+//   0x00372B09 reads ?groupAttackMoveToPosition@AIGroup@@QAEXPBUCoord3D@@HW4CommandSourceType@@@Z
+#pragma comment(linker, "/alternatename:?rva00372B09@BfmeC986@@QAEXHHH@Z=?groupAttackMoveToPosition@AIGroup@@QAEXPBUCoord3D@@HW4CommandSourceType@@@Z")

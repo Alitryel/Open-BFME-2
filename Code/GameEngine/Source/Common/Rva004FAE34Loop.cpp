@@ -76,3 +76,11 @@ void Rva004FAE34Owner::rva004FAE34(_STL::vector<ScienceType> *out)
 		off += 0x58;
 	} while (i < count);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x002E01C6 reads ?push_back@?$vector@W4NameKeyType@@V?$allocator@W4NameKeyType@@@_STL@@@_STL@@QAEXABW4NameKeyType@@@Z
+#pragma comment(linker, "/alternatename:?push_back@?$vector@W4EvaMessage@@V?$allocator@W4EvaMessage@@@_STL@@@_STL@@QAEXABW4EvaMessage@@@Z=?push_back@?$vector@W4NameKeyType@@V?$allocator@W4NameKeyType@@@_STL@@@_STL@@QAEXABW4NameKeyType@@@Z")
+//   0x002B3325 reads ?canBuildUnit@LivingWorldLogic@@QAE_NPAULivingWorldBuildingNuggetSpawnArmy@@H@Z
+#pragma comment(linker, "/alternatename:?rva002B3325@Rva002B3325@@QAE_NPAUArg54@@0@Z=?canBuildUnit@LivingWorldLogic@@QAE_NPAULivingWorldBuildingNuggetSpawnArmy@@H@Z")

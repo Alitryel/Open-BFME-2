@@ -18,3 +18,11 @@ void __stdcall bfmeGoBPC(BfmeThingBPC *one, void *two)
 	bfmeDoBPC(one, two);
 	one->bfmeSetBPC(3);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x00291C9B reads ?setDisabled@Object@@QAEXW4DisabledType@@@Z
+#pragma comment(linker, "/alternatename:?bfmeSetBPC@BfmeThingBPC@@QAEXH@Z=?setDisabled@Object@@QAEXW4DisabledType@@@Z")
+//   0x00478C2C reads ?onContaining@GarrisonContain@@UAEXPAVObject@@_N@Z
+#pragma comment(linker, "/alternatename:?bfmeDoBPC@@YGXPAVBfmeThingBPC@@PAX@Z=?onContaining@GarrisonContain@@UAEXPAVObject@@_N@Z")

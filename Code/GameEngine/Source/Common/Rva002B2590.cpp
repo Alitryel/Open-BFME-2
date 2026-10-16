@@ -67,3 +67,11 @@ bool Rva002B25BFOwner::rva002B25BF(int v)
 		return false;
 	return m_B0->rva0060EF3E(v);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x003EFE72 reads ?Rva003EFE72@@YGXHH@Z
+#pragma comment(linker, "/alternatename:?rva003EFE72@Rva002B2590P2@@QAEXPAX0@Z=?Rva003EFE72@@YGXHH@Z")
+//   0x003F0588 reads ?rva003F0588@LivingWorldRegion@@QAEPAXXZ
+#pragma comment(linker, "/alternatename:?rva003F0588@Rva002B2590P2@@QAEPAXXZ=?rva003F0588@LivingWorldRegion@@QAEPAXXZ")

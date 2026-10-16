@@ -134,3 +134,13 @@ void *Rva00504DF8::rva005049C6(const void *value)
     return Rva00504914Forward((Rva00504830Item *)m_begin,
         (Rva00504830Item *)m_finish, (const float *)value, *comp);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x005048B5 reads ??0?$vector@URva005048B5Record@@V?$allocator@URva005048B5Record@@@_STL@@@_STL@@QAE@ABV01@@Z
+#pragma comment(linker, "/alternatename:?rva005048B5@Rva005048B5@@QAEXPBX@Z=??0?$vector@URva005048B5Record@@V?$allocator@URva005048B5Record@@@_STL@@@_STL@@QAE@ABV01@@Z")
+//   0x0050492F reads ?rva0050492F@Rva0050492F@@QAEXPAU1@@Z
+#pragma comment(linker, "/alternatename:?rva0050492F@Rva0050492F@@QAEXPAVRva00504DF8Owner@@@Z=?rva0050492F@Rva0050492F@@QAEXPAU1@@Z")
+//   0x00504D57 reads ?insert@?$vector@URva00504755Record@@V?$allocator@URva00504755Record@@@_STL@@@_STL@@QAEPAURva00504755Record@@PAU3@ABU3@@Z
+#pragma comment(linker, "/alternatename:?rva00504D57@Rva00504DF8@@QAEPAXPAXPBX@Z=?insert@?$vector@URva00504755Record@@V?$allocator@URva00504755Record@@@_STL@@@_STL@@QAEPAURva00504755Record@@PAU3@ABU3@@Z")

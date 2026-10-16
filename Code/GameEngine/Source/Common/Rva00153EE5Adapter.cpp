@@ -37,3 +37,11 @@ void Rva00153EE5::rva00153EE5(int n)
 {
 	((Rva00153E6F *)this)->rva00153E6F(n, Rva00153EE5Tmp());
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x001538A8 reads ??0Rva00153729@@QAE@XZ
+#pragma comment(linker, "/alternatename:?rva001538A8@Rva001538A8@@QAEPAXXZ=??0Rva00153729@@QAE@XZ")
+//   0x00153E6F reads ?resize@Rva00153E6FVector@@QAEXIURva00153729@@@Z
+#pragma comment(linker, "/alternatename:?rva00153E6F@Rva00153E6F@@QAEXHURva00153EE5Tmp@@@Z=?resize@Rva00153E6FVector@@QAEXIURva00153729@@@Z")

@@ -85,3 +85,13 @@ void ScriptActions::bfmeLinkObjectsA70(void *k1, void *k2)
 		obj2->link(obj1, 0);
 	}
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x002AEA9F reads ?transferAssetsFromThat@Player@@QAEXPAV1@_N@Z
+#pragma comment(linker, "/alternatename:?link@BfmeLinkedObj@@QAEXPAV1@H@Z=?transferAssetsFromThat@Player@@QAEXPAV1@_N@Z")
+//   0x002A7B91 reads ?getPlayerFromMask@PlayerList@@QAEPAVPlayer@@H@Z
+#pragma comment(linker, "/alternatename:?findObj@BfmeMgrD74_Linked@@QAEPAVBfmeLinkedObj@@H@Z=?getPlayerFromMask@PlayerList@@QAEPAVPlayer@@H@Z")
+//   0x00357475 reads ?rva00357475@ScriptEngine@@QAEHABVAsciiString@@PA_N@Z
+#pragma comment(linker, "/alternatename:?findSomething@BfmeMgrF07@@QAEHPAXH@Z=?rva00357475@ScriptEngine@@QAEHABVAsciiString@@PA_N@Z")

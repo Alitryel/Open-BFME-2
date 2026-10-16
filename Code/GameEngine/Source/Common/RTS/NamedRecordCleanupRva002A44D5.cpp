@@ -80,3 +80,11 @@ void Rva002A44D5::rva002A44D5(const AsciiString &key)
         reinterpret_cast<Rva00056BC3 *>(&tree)->rva00056BC3(Rva00056BC3Iter(node));
     }
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x001F8437 reads ??$_M_find@VAsciiString@@@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@H@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@H@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@H@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@H@_STL@@@1@ABVAsciiString@@@Z
+#pragma comment(linker, "/alternatename:?rva001F8437@Rva001F8437@@QAEPAXABVAsciiString@@@Z=??$_M_find@VAsciiString@@@?$_Rb_tree@VAsciiString@@U?$pair@$$CBVAsciiString@@H@_STL@@U?$_Select1st@U?$pair@$$CBVAsciiString@@H@_STL@@@3@U?$less@VAsciiString@@@3@V?$allocator@U?$pair@$$CBVAsciiString@@H@_STL@@@3@@_STL@@ABEPAU?$_Rb_tree_node@U?$pair@$$CBVAsciiString@@H@_STL@@@1@ABVAsciiString@@@Z")
+//   0x00056BC3 reads ?erase@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@QAEXU?$_Rb_tree_iterator@VAsciiString@@U?$_Nonconst_traits@VAsciiString@@@_STL@@@2@@Z
+#pragma comment(linker, "/alternatename:?rva00056BC3@Rva00056BC3@@QAEXURva00056BC3Iter@@@Z=?erase@?$_Rb_tree@VAsciiString@@V1@U?$_Identity@VAsciiString@@@_STL@@U?$less@VAsciiString@@@3@V?$allocator@VAsciiString@@@3@@_STL@@QAEXU?$_Rb_tree_iterator@VAsciiString@@U?$_Nonconst_traits@VAsciiString@@@_STL@@@2@@Z")

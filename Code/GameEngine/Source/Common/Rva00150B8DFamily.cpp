@@ -272,3 +272,17 @@ struct Rva00150A8BArg
 	{
 	}
 };
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x00150BF9 reads ?resize@?$vector@URva00150C97Entry@@V?$allocator@URva00150C97Entry@@@_STL@@@_STL@@QAEXI@Z
+#pragma comment(linker, "/alternatename:?rva00150BF9@Rva00150BF9@@QAEXH@Z=?resize@?$vector@URva00150C97Entry@@V?$allocator@URva00150C97Entry@@@_STL@@@_STL@@QAEXI@Z")
+//   0x00150C22 reads ?resize@?$vector@URva00150CD0Entry@@V?$allocator@URva00150CD0Entry@@@_STL@@@_STL@@QAEXI@Z
+#pragma comment(linker, "/alternatename:?rva00150C22@Rva00150C22@@QAEXH@Z=?resize@?$vector@URva00150CD0Entry@@V?$allocator@URva00150CD0Entry@@@_STL@@@_STL@@QAEXI@Z")
+//   0x00150C4B reads ?resize@?$vector@URva00150D09Entry@@V?$allocator@URva00150D09Entry@@@_STL@@@_STL@@QAEXI@Z
+#pragma comment(linker, "/alternatename:?rva00150C4B@Rva00150C4B@@QAEXH@Z=?resize@?$vector@URva00150D09Entry@@V?$allocator@URva00150D09Entry@@@_STL@@@_STL@@QAEXI@Z")
+//   0x00150B8D reads ?resize@Rva00150C74Vector@@QAEXIURva00150D42Entry@@@Z
+#pragma comment(linker, "/alternatename:?rva00150B8D@Rva00150B8D@@QAEXHVRva0014DB9F@@@Z=?resize@Rva00150C74Vector@@QAEXIURva00150D42Entry@@@Z")
+//   0x0014DB9F reads ??0SourceNamespace_Shadow@FXShaderParameterSourceNamespaceSAS@@QAE@XZ
+#pragma comment(linker, "/alternatename:??0Rva0014DB9F@@QAE@XZ=??0SourceNamespace_Shadow@FXShaderParameterSourceNamespaceSAS@@QAE@XZ")

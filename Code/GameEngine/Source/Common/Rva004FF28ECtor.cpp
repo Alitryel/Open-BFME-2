@@ -45,3 +45,11 @@ int Rva004FF28EOwner::rva004FF28E(int a0, int a1, int a2, int a3, int a4)
 	((Rva0020E449 *)m_2C)->Rva0020E449::Rva0020E449(*(const Rva0020E449 *)a1);
 	return (int)this;
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x0020E449 reads ??0Rva0020E449@@QAE@ABV0@@Z
+#pragma comment(linker, "/alternatename:?rva0020E449Copy@Rva0020E449Caller@@QAEXH@Z=??0Rva0020E449@@QAE@ABV0@@Z")
+//   0x004FBC4D reads ??0Rva004FBCBE@@QAE@ABVUnicodeString@@0H@Z
+#pragma comment(linker, "/alternatename:?rva004FBC4D@Rva004FBC4D@@QAEXHHH@Z=??0Rva004FBCBE@@QAE@ABVUnicodeString@@0H@Z")

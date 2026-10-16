@@ -48,3 +48,13 @@ char BfmeOwnCO::bfmeGuardedCO(BfmeTargetCN *target, void *value)
 
 	return target->bfmeStepCN(0);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x00306D7B reads ?handle@Q1Forwardee0000871A@@QAEXH@Z
+#pragma comment(linker, "/alternatename:?bfmeCloseCN@BfmeInnerCN@@QAEXPAX@Z=?handle@Q1Forwardee0000871A@@QAEXH@Z")
+//   0x00307AC0 reads ?parse@DataChunkInput@@QAE_NPAX@Z
+#pragma comment(linker, "/alternatename:?bfmeStepCN@BfmeTargetCN@@QAEDH@Z=?parse@DataChunkInput@@QAE_NPAX@Z")
+//   0x00300359 reads ??0Gen004502D0ParserRegistration@@QAE@PAXPAVDataChunkInput@@PAVAsciiString@@@Z
+#pragma comment(linker, "/alternatename:??0BfmeScopeCO@@QAE@PAXPAVBfmeTargetCN@@0@Z=??0Gen004502D0ParserRegistration@@QAE@PAXPAVDataChunkInput@@PAVAsciiString@@@Z")

@@ -42,3 +42,13 @@ private:
 Rva00502D03::~Rva00502D03()
 {
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below. Bind the donor spelling to that owner so one
+// address keeps one definition and the unit links.
+//   0x005029CA reads ??1?$_Rb_tree@HU?$pair@$$CBHURva00501776@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00501776@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00501776@@@_STL@@@2@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00502D48@@QAE@XZ=??1?$_Rb_tree@HU?$pair@$$CBHURva00501776@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00501776@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00501776@@@_STL@@@2@@_STL@@QAE@XZ")
+//   0x0050298D reads ??1?$_Rb_tree@HU?$pair@$$CBHURva00501656@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00501656@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00501656@@@_STL@@@2@@_STL@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva004FFE96@@QAE@XZ=??1?$_Rb_tree@HU?$pair@$$CBHURva00501656@@@_STL@@U?$_Select1st@U?$pair@$$CBHURva00501656@@@_STL@@@2@U?$less@H@2@V?$allocator@U?$pair@$$CBHURva00501656@@@_STL@@@2@@_STL@@QAE@XZ")
+//   0x004FF630 reads ??1Rva004FF408@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva004FF630Member@@QAE@XZ=??1Rva004FF408@@QAE@XZ")
