@@ -8,6 +8,14 @@ struct FieldParse;
 
 class INI;
 
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
+
 class Rva000B937E
 {
 	public:
@@ -36,6 +44,7 @@ private:
 class INI
 {
 public:
+	static void Rva004CAB3D_ParseVoicePriority(INI *ini, void *instance, void *store, const void *userData);
 	void initFromINIMulti(void *object, const MultiIniFieldParse &parse);
 };
 
@@ -58,7 +67,17 @@ struct Rva004CB047Target
 	_STL::vector<BfmeObject544, _STL::allocator<BfmeObject544> > m_soundStates;
 };
 
-extern const FieldParse g_00C5F114[];
+void Rva0033DC9CParse(INI *ini, void *instance, void *store, const void *userData);
+
+// The sound state's own fields (.rdata 0x00C5F114, 3 entries read from
+// retail; the SoundState table 0x00C5F150 that stores this callback follows
+// it). Defined here, its only user.
+extern const FieldParse g_00C5F114[] =
+{
+	{ "UnitSpecificSounds", Rva0033DC9CParse, 0, 0x20C },
+	{ "VoicePriority", INI::Rva004CAB3D_ParseVoicePriority, 0, 0x218 },
+	{ 0, 0, 0, 0 }
+};
 int Rva0033A495Get(void);
 
 void Rva004CB047Parse(INI *ini, void *instance, void *store, const void *userData)

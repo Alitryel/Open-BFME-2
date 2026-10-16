@@ -28,10 +28,11 @@
 #include <string.h>
 #include "ascii_string.h"
 
+class INI;
 struct FieldParse
 {
 	const char *token;
-	void *parse;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
 	const void *userData;
 	int offset;
 };
@@ -39,6 +40,13 @@ struct FieldParse
 class INI
 {
 public:
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBitString32(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+	static void parseFXList(INI *ini, void *instance, void *store, const void *userData);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+	static void rva0002DE3C(INI *ini, void *instance, void *store, const void *userData);
+	static void Rva000C3B6EParse(INI *ini, void *instance, void *store, const void *userData);
 	const char *getNextTokenOrNull(const char *seps);
 	void initFromINI(void *what, const FieldParse *parseTable);
 };
@@ -91,6 +99,40 @@ struct Rva000C9146Position
 };
 
 extern FieldParse g_00DB4EA8[];
+
+void Rva000C838FParse(INI *ini, void *instance, void *store, const void *userData);
+void parseFXEvent(INI *ini, void *instance, void *store, const void *userData);
+void ParseScriptedAnimationParticleSysBone(INI *ini, void *instance, void *store, const void *userData);
+
+// The animation-state flag names (.data 0x00DB4E64, read from retail):
+// Zero Hour's W3DModelDraw ACBitsNames without PRISTINE_BONE_POS_IN_FINAL_FRAME.
+static const char *ACBitsNames[] =
+{
+	"RANDOMSTART", "START_FRAME_FIRST", "START_FRAME_LAST",
+	"ADJUST_HEIGHT_BY_CONSTRUCTION_PERCENT", "MAINTAIN_FRAME_ACROSS_STATES",
+	"RESTART_ANIM_WHEN_COMPLETE", "MAINTAIN_FRAME_ACROSS_STATES2",
+	"MAINTAIN_FRAME_ACROSS_STATES3", "MAINTAIN_FRAME_ACROSS_STATES4", 0
+};
+
+// The AnimationState field table (.data 0x00DB4EA8, 12 entries read from
+// retail); writable because this parser stores its userData into the first
+// entry before each use. Defined here, its only user.
+FieldParse g_00DB4EA8[] =
+{
+	{ "Animation", Rva000C838FParse, 0, 0x50 },
+	{ "StateName", INI::parseAsciiString, 0, 0x0 },
+	{ "Flags", INI::parseBitString32, ACBitsNames, 0x5C },
+	{ "ShareAnimation", INI::parseBool, 0, 0x64 },
+	{ "EnteringStateFX", INI::parseFXList, 0, 0x68 },
+	{ "BeginScript", INI::rva0002DE3C, 0, 0x6C },
+	{ "FrameForPristineBonePositions", INI::parseInt, 0, 0x60 },
+	{ "AllowRepeatInRandomPick", INI::parseBool, 0, 0x9D },
+	{ "FXEvent", parseFXEvent, 0, 0x0 },
+	{ "LuaEvent", INI::Rva000C3B6EParse, 0, 0x0 },
+	{ "ParticleSysBone", ParseScriptedAnimationParticleSysBone, 0, 0x0 },
+	{ "SimilarRestart", INI::parseBool, 0, 0x9C },
+	{ 0, 0, 0, 0 }
+};
 
 void rva000C9146(INI *ini, void *instance, void *store, const void *userData)
 {

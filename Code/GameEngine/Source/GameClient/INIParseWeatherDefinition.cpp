@@ -10,7 +10,14 @@
 // updateIniSettings (vtable slot 14, 0x00201165) reapplies the settings.
 // The 0xB4-byte object's constructor is 0x00201618 (banked, pinned).
 
-struct FieldParse;
+class INI;
+struct FieldParse
+{
+	const char *token;
+	void (*parse)(INI *ini, void *instance, void *store, const void *userData);
+	const void *userData;
+	int offset;
+};
 
 class INIException
 {
@@ -26,6 +33,13 @@ class INI
 {
 public:
 	static void parseWeatherDefinition(INI *ini);
+	static void parseAsciiString(INI *ini, void *instance, void *store, const void *userData);
+	static void parseBool(INI *ini, void *instance, void *store, const void *userData);
+	static void parseCoord2D(INI *ini, void *instance, void *store, const void *userData);
+	static void parseGameClientRandomVariable(INI *ini, void *instance, void *store, const void *userData);
+	static void parseInt(INI *ini, void *instance, void *store, const void *userData);
+	static void parseRGBColor(INI *ini, void *instance, void *store, const void *userData);
+	static void parseReal(INI *ini, void *instance, void *store, const void *userData);
 	void initFromINI(void *what, const FieldParse *parseTable);
 
 private:
@@ -106,6 +120,45 @@ extern OVERRIDE<WeatherSetting> TheWeatherSetting;
 extern SnowManager *TheSnowManager;
 extern unsigned char g_00E01EA8;
 extern const FieldParse g_00BE2C10[];	// the WeatherSetting field table
+
+// The WeatherSetting field table (.rdata 0x00BE2C10, 31 entries read from
+// retail: token, parser, no userData, field offset), defined here beside its
+// only user.
+extern const FieldParse g_00BE2C10[] =
+{
+	{ "SnowTexture", INI::parseAsciiString, 0, 0x18 },
+	{ "SnowFrequencyScaleX", INI::parseReal, 0, 0x1C },
+	{ "SnowFrequencyScaleY", INI::parseReal, 0, 0x20 },
+	{ "SnowAmplitude", INI::parseReal, 0, 0x24 },
+	{ "SnowPointSize", INI::parseReal, 0, 0x28 },
+	{ "SnowMaxPointSize", INI::parseReal, 0, 0x2C },
+	{ "SnowMinPointSize", INI::parseReal, 0, 0x30 },
+	{ "SnowQuadSize", INI::parseReal, 0, 0x34 },
+	{ "SnowBoxHeight", INI::parseReal, 0, 0x38 },
+	{ "SnowSpacing", INI::parseReal, 0, 0x3C },
+	{ "SnowSpeed", INI::parseReal, 0, 0x40 },
+	{ "SnowPointSprites", INI::parseBool, 0, 0x44 },
+	{ "SnowEnabled", INI::parseBool, 0, 0x45 },
+	{ "IsSnowing", INI::parseBool, 0, 0x46 },
+	{ "NumberTiles", INI::parseInt, 0, 0x48 },
+	{ "SnowXYSpeed", INI::parseCoord2D, 0, 0x4C },
+	{ "LightningEnabled", INI::parseBool, 0, 0x54 },
+	{ "LightningFactor", INI::parseGameClientRandomVariable, 0, 0x58 },
+	{ "LightningDuration", INI::parseInt, 0, 0x64 },
+	{ "LightningChance", INI::parseReal, 0, 0x68 },
+	{ "SpellEnabled", INI::parseBool, 0, 0x6C },
+	{ "SpellDuration", INI::parseInt, 0, 0x70 },
+	{ "RampControl", INI::parseCoord2D, 0, 0x74 },
+	{ "RampSpacing", INI::parseCoord2D, 0, 0x84 },
+	{ "RampSpeed", INI::parseCoord2D, 0, 0x7C },
+	{ "HardwareFogColor", INI::parseRGBColor, 0, 0x8C },
+	{ "HardwareFogEnable", INI::parseBool, 0, 0x98 },
+	{ "HardwareFogStart", INI::parseReal, 0, 0x9C },
+	{ "HardwareFogEnd", INI::parseReal, 0, 0xA0 },
+	{ "CloudTextureSize", INI::parseCoord2D, 0, 0xA4 },
+	{ "CloudOffsetPerSecond", INI::parseCoord2D, 0, 0xAC },
+	{ 0, 0, 0, 0 }
+};
 
 static WeatherSetting *g_ws() { return (WeatherSetting *)TheWeatherSetting.getNonOverloadedPointer(); }
 
