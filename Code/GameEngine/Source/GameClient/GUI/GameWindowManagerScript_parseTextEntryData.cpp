@@ -12,7 +12,7 @@
 // at +0x12 with maxTextLen as a word at +0x10.
 // BFME2 facts (all retail-measured):
 // - scanShort/scanBool are the GameWindowManagerScript file-statics at
-//   0x00314E6D/0x00314E42 (declared-not-defined here; pin/row resolve them).
+//   0x00314E6D/0x00314E42 (scanShort copied file-static here, scanBool declared).
 // - strtok rides the msvcr71 import at 0xBBA5EC (dllimport decl; the many
 //   call sites cache the import to esi like retail).
 // - seps " :,\n\r\t" lives at 0xC0C254.
@@ -41,13 +41,22 @@ struct EntryData
 };
 
 // scanShort/scanBool live in GameWindowManagerScript.cpp (file-statics at
-// 0x00314E6D/0x00314E42). Declared extern (not static: MSVC rejects
-// defined-never statics with C2129); the decorations are identical and the
-// pin/row resolve the addresses.
-Int scanShort(const char *source, Short &val);
+// 0x00314E6D/0x00314E42). scanBool is declared extern (its dedicated TU
+// defines it). scanShort's row owner (parseTextEntryData_Thunk.cpp) keeps
+// it file-static, so this unit carries its own internal-linkage copy, the
+// same 41 bytes as retail 0x00314E6D (noinline keeps the call out of line).
 Int scanBool(const char *source, Bool &val);
 
 extern "C" __declspec(dllimport) char *__cdecl strtok(char *str, const char *delimiters);
+extern "C" __declspec(dllimport) int __cdecl sscanf(const char *buf, const char *fmt, ...);
+
+static __declspec(noinline) Int scanShort(const char *source, Short &val)
+{
+	Int temp = 0;
+	Int ret = sscanf(source, "%d", &temp);
+	val = (Short)temp;
+	return ret;
+}
 
 // ?parseTextEntryData@@YA_NPADPAVWinInstanceData@@0PAX@Z
 static Bool parseTextEntryData(char *token, WinInstanceData *instData, char *buffer, void *data)
