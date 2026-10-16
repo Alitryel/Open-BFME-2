@@ -89,9 +89,9 @@ public:
 extern Rva00A00958Obj *g_Rva00A00958;
 // g_Rva00A00958: matched references place it at VA 0xe00958 (zero-filled .bss).
 Rva00A00958Obj * g_Rva00A00958;
-extern unsigned char g_Rva00A02D86;
-// g_Rva00A02D86: matched references place it at VA 0xe02d86 (zero-filled .bss).
-unsigned char g_Rva00A02D86;
+// TheDeepCRC (ZH GameLogic.cpp's -deepCRC switch): matched references place it
+// at VA 0xe02d86 (zero-filled .bss), next to TheLiteCRC.
+bool TheDeepCRC;
 extern bool TheLiteCRC;
 // g_Rva00A02D87: matched references place it at VA 0xe02d87 (zero-filled .bss).
 extern bool TheLiteCRC;
@@ -109,7 +109,7 @@ void Rva0023E7D9::rva0023F88C(int dummy)
 	g_Rva00A00958->virt09();
 	rva0023E7D9();
 	*(unsigned char *)((char *)this + 0x71) = 0;
-	if (g_Rva00A02D86 != 0)
+	if (TheDeepCRC)
 	{
 		(*(Rva009FE758Obj **)&TheWritableGlobalData)->m_c18 = 2;
 		return;

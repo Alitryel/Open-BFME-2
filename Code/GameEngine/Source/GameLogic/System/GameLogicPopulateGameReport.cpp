@@ -134,11 +134,7 @@ extern Bool TheXTaintCRC;
 //     (zero-filled .bss). Spelled that way here so the report's guard reads the
 //     one object retail has, rather than a second copy of it.
 //   TheDeepCRC           VA 0x00E02D86 - the byte Rva0023E7D9Clear.cpp defines
-//     and rows under retail's own address-derived name g_Rva00A02D86 (zero-
-//     filled .bss) and BfmeSetupAPB.cpp reaches as g_bfmeOnAPB. Read through
-//     that name here too: two distinct symbols cannot share an address, and
-//     the existing definition keeps its name while another unit still aliases
-//     it, so this borrows a name rather than inventing one.
+//     (zero-filled .bss), beside TheLiteCRC.
 //   TheDebugCRCFromFrame / UntilFrame  VA 0x00DC1164 / 0x00DC1168 - retail's own
 //     two words, both -1, inside .data's raw file bytes; the rowed body compares
 //     each against -1 and skips the argument when they match, which is the
@@ -150,7 +146,7 @@ extern Bool TheXTerrainLogicCRC;
 Bool TheXTerrainLogicCRC;
 extern unsigned char BfmeClientCRCCheckEnabled;
 #define TheVerifyClientCRC BfmeClientCRCCheckEnabled
-extern unsigned char g_Rva00A02D86;
+extern bool TheDeepCRC;
 extern Bool TheLiteCRC;
 extern Bool TheBinaryDeepCRC;
 Int TheDebugCRCFromFrame = -1;
@@ -261,7 +257,7 @@ void GameLogic::bfmePopulateGameReport(GameInfo *game, Int *localSlot)
 	if (TheXAICRC) reinterpret_cast<StringBase<char> *>(&m_commandLineArguments)->concat(" -xAICRC");
 	if (TheXLWCRC) reinterpret_cast<StringBase<char> *>(&m_commandLineArguments)->concat(" -xLWCRC");
 	if (TheVerifyClientCRC) reinterpret_cast<StringBase<char> *>(&m_commandLineArguments)->concat(" -verifyClientCRC");
-	if (g_Rva00A02D86) reinterpret_cast<StringBase<char> *>(&m_commandLineArguments)->concat(" -deepCRC");
+	if (TheDeepCRC) reinterpret_cast<StringBase<char> *>(&m_commandLineArguments)->concat(" -deepCRC");
 	if (TheLiteCRC) reinterpret_cast<StringBase<char> *>(&m_commandLineArguments)->concat(" -liteCRC");
 	if (TheBinaryDeepCRC) reinterpret_cast<StringBase<char> *>(&m_commandLineArguments)->concat(" -binaryDeepCRC");
 	if (TheDebugCRCFromFrame != -1)

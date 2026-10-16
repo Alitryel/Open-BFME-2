@@ -11,12 +11,12 @@
 // ?bfmeSetupAPB@@YAHXZ 0x00061380
 // The retail body updates g_bfmeFlagsAPB at 0x012A6FA0, marks the second CRC
 // mode at 0x012ED4E6, and rejects the mode pair through the shared INIException
-// text at 0x01075230 when g_bfmeOnAPB at 0x012ED4E5 is already set.
+// text at 0x01075230 when TheDeepCRC at 0x012ED4E5 is already set.
 
 typedef unsigned int UnsignedInt;
 
 extern unsigned int BFME2CommandFlags;
-extern bool g_bfmeOnAPB;
+extern bool TheDeepCRC;	// 0x00A02D86 (Rva0023E7D9Clear.cpp)
 extern bool TheLiteCRC;	// 0x00A02D87 (GameLogicInit.cpp)
 #include "Common/INIException.h"
 
@@ -24,16 +24,12 @@ int bfmeSetupAPB(void)
 {
 	TheLiteCRC = true;
 	BFME2CommandFlags |= 0x20000;
-	if (g_bfmeOnAPB)
+	if (TheDeepCRC)
 	{
 		throw INIException(3, "Do not specify both -deepCRC and -liteCRC in your commandline arguments.");
 	}
 	return 1;
 }
-
-// The global(s) below are defined elsewhere under another name at the same
-// address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:?g_bfmeOnAPB@@3_NA=?g_Rva00A02D86@@3EA")
 
 // The paired deep-CRC handler at retail 0x003B9BA1 (63 bytes).
 // The donor lite-CRC handler supplies the exception semantics; target writes
@@ -41,7 +37,7 @@ int bfmeSetupAPB(void)
 // records that behavior, without asserting the original source spelling.
 int bfmeSetupDeepCRC(void)
 {
-	g_bfmeOnAPB = true;
+	TheDeepCRC = true;
 	BFME2CommandFlags |= 0x10000;
 	if (TheLiteCRC)
 	{

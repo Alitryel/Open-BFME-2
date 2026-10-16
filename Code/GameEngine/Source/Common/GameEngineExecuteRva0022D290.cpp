@@ -378,10 +378,7 @@ extern int SavedClientFrame;
 unsigned EngineInitialFrameTime,EnginePreviousFrameTime,EngineFrameElapsedTime;
 unsigned EngineSleepTimeRemaining,EngineSleepTimeTotal;
 bool EngineLimitFrameRate;
-// TheDeepCRC's byte (VA 0x00E02D86) is defined by Rva0023E7D9Clear.cpp under
-// its address-derived name.
-extern unsigned char g_Rva00A02D86;
-extern bool TheLiteCRC;
+extern bool TheDeepCRC,TheLiteCRC;
 class GameEngine 
 
 {
@@ -518,7 +515,7 @@ void GameEngine::rva0022D290()
   if(GLOBAL_DATA->fastMode)EngineLimitFrameRate=false;
   oldScale=LOGIC_SCALE;
   EngineNetworkSlots *network=(EngineNetworkSlots*)TheNetwork;
-  if(!network || g_Rva00A02D86 || TheLiteCRC) LOGIC_SCALE=1.0f;
+  if(!network || TheDeepCRC || TheLiteCRC) LOGIC_SCALE=1.0f;
   else if(m_clientFramePeriod==1) 
   
   {
