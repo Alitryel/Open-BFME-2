@@ -115,6 +115,12 @@ void _bfmeMatrix4InitAnchor(Matrix4x4 &m, const Matrix3D &t) { m.Init(t); }
 #include "ww3d.h"
 #include "matrix4.h"
 #include "dx8wrapper.h"
+#include "colmath.h"
+// The out-of-line Overlap_Test(PlaneClass, Vector3) this unit emits must be
+// retail's size-optimized body (row 0x0007B638), so its header is read under /Os.
+#pragma optimize("s", on)
+#include "colmathplane.h"
+#pragma optimize("", on)
 #include "colmathinlines.h"
 
 
