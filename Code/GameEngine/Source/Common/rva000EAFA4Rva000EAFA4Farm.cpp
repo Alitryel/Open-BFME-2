@@ -1,8 +1,8 @@
 // ?rva000EAFA4@W3DTreeBuffer@@QAE_NHPAURva000EAFA4Coord3@@PAMPAURva000EAFA4Coord2@@2@Z
-// partial score=0.7250077471335605 date=2026-10-14
 // ?rva000EAFA4@W3DTreeBuffer@@QAE_NHPAURva000EAFA4Coord3@@PAMPAURva000EAFA4Coord2@@2@Z
-// partial score=0.93 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // W3DTreeBuffer method at retail 0x000EAFA4 (232 bytes, ret 0x14). Open-BFME-1 twin: W3DTreeBufferRva00733E30.cpp
 // (0x00733E30). BFME2 layout read from retail: 1200 records of 0xE8 at +0x5C0 (count +0x44540), 64 types of
 // 0x5C at +0x44558. Address-derived identity: no semantic method name is asserted. The output copies are
@@ -42,21 +42,24 @@ public:
 bool W3DTreeBuffer::rva000EAFA4(int index, Rva000EAFA4Coord3 *position,
     float *radius, Rva000EAFA4Coord2 *primary, Rva000EAFA4Coord2 *secondary)
 {
-    if (index < count) {
-        int typeIndex = records[index].type;
-        if (typeIndex >= 0 && records[index].visible &&
-            types[typeIndex].mesh && types[typeIndex].textureFlags[0] &&
-            !records[index].state) {
-            position->x = records[index].position.x;
-            position->y = records[index].position.y;
-            position->z = records[index].position.z;
-            float value = records[index].radius * records[index].scale * 0.9f;
-            if (60.0f < value) value = 60.0f;
-            *radius = value;
-            *primary = types[typeIndex].primary[1];
-            *secondary = types[typeIndex].secondary[1];
-            return true;
-        }
+    if (index >= count) {
+        return false;
     }
-    return false;
+    int typeIndex = records[index].type;
+    if (typeIndex < 0 || !records[index].visible ||
+        !types[typeIndex].mesh || !types[typeIndex].textureFlags[0] ||
+        records[index].state) {
+        return false;
+    }
+    float *pos = &records[index].position.x;
+    position->x = pos[0];
+    position->y = pos[1];
+    position->z = pos[2];
+    float value = records[index].radius * records[index].scale * 0.9f;
+    if (60.0f < value) value = 60.0f;
+    *radius = value;
+    *primary = types[typeIndex].primary[1];
+    _ReadWriteBarrier();
+    *secondary = types[typeIndex].secondary[1];
+    return true;
 }
