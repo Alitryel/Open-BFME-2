@@ -1,13 +1,12 @@
 // ?rva0010C841@W3DProjectedShadowManager@@QAEXPAUShadowRenderEntry10DF33@@HH@Z
-// partial score=0.62 date=2026-10-16
-// W9-O1 bank r1: W3DProjectedShadowManager single-decal queue 0x10C841 (4656 B) as a full helpers-TU variant
-// (Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowDecalHelpers.cpp + this body; it must live there:
-// it calls the private-ABI decalAxes/projectRanges helpers). WB 0x8C9A10 (14296 B debug) is the shape guide.
-// State: all calls resolve, size-exact 4656, nn 463/1213, structure-masked nd 133. Residue: the caster loop register
-// roles (retail zero constant in EDI and numVerts in ESI; ours zero in ESI so numVerts stays in memory), which cascades
-// into the Transform_Vector/src/index-copy register choices; m_type load into EAX before cmp 0x2000; &m_lastScanPosition
-// CSE for the delta loads; delta length-squared operand order. Tried inert: switch forms, declaration orders, hoists
-// with = 0 (casterObj hoist fixes casterObj/part/bridge slots but adds an init store), fail-path/release spellings.
+// partial score=0.63 date=2026-10-16
+// W9-O1 bank r2: W3DProjectedShadowManager single-decal queue 0x10C841 (4656 B) as a full helpers-TU variant
+// (Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/W3DProjectedShadowDecalHelpers.cpp + this body). WB 0x8C9A10 guide.
+// r2: scan delta copy-constructed member-wise + inline sub/lengthSqr (WB copies m_88 through a reference: BFME2 Coord3D has a
+// user copy ctor) -> CSE d address and square order now exact; queueDualDecal stays exact with the TU-local ScanDelta type.
+// State: all calls resolve, 4650/4656, nn 453, masked nd 123. Residue: caster-loop register roles (retail zero in EDI and
+// numVerts in ESI; ours zero in ESI, numVerts in memory) cascading into transform/src/index registers and term order;
+// m_type load into EAX before cmp 0x2000. Inert: switch forms, statement swaps (barrier sweep), decl orders/hoists.
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /ICode/Libraries/Include /ICode/GameEngine/Source
 // BFME 1 W3DProjectedShadowDecalHelpers.cpp, donor revision
 // 1399ad37d42ea52a63829e417c46a1ba9ed2cd20, compiled with BFME 2 flags above.
@@ -725,6 +724,17 @@ class Thing { public: Drawable *getDrawable() const; };
 class PartitionObjectView10C841 : public Thing {};
 float Rva000930C0(float x, float y);
 
+// Retail's Coord3D is copy-constructed member-wise (user copy constructor) with
+// header-inline sub/lengthSqr; this unit keeps the canonical POD Coord3D for its
+// other bodies, so the scan delta uses an equivalent local value type.
+struct ScanDelta10C841
+{
+	Real x, y, z;
+	ScanDelta10C841(const Coord3D &o) : x(o.x), y(o.y), z(o.z) {}
+	void sub(const Coord3D *p) { x -= p->x; y -= p->y; z -= p->z; }
+	Real lengthSqr() const { return x * x + y * y + z * z; }
+};
+
 struct ShadowGridOverlay10C841 { char m_pad[0x3c]; Real m_cellSize; };
 class TerrainResourceManager { public: void rva0035A61F(UnsignedInt *diffuse, Int x, Int y, Int playerIndex); };
 class GameLogic;
@@ -894,10 +904,9 @@ void W3DProjectedShadowManager::rva0010C841(ShadowRenderEntry10DF33 *shadow, Int
 	if (!useTerrainHeight)
 	{
 		AABoxClass box(objPos, Vector3(shadow->m_decalSizeX, shadow->m_decalSizeY, shadow->m_maxHeight));
-		Real dx = shadow->m_lastScanPosition.x - pos.x;
-		Real dy = shadow->m_lastScanPosition.y - pos.y;
-		Real dz = shadow->m_lastScanPosition.z - pos.z;
-		if (flushFlags == 0 && ThePartitionManager && dx * dx + dy * dy + dz * dz > 50.0f * 50.0f)
+		ScanDelta10C841 delta(shadow->m_lastScanPosition);
+		delta.sub(&pos);
+		if (flushFlags == 0 && ThePartitionManager && delta.lengthSqr() > 50.0f * 50.0f)
 		{
 			Real radius = sqrtf(shadow->m_decalSizeY * shadow->m_decalSizeY + shadow->m_decalSizeX * shadow->m_decalSizeX) + 50.0f;
 			BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(&pos, radius, 1,
