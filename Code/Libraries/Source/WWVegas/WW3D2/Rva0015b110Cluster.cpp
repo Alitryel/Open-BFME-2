@@ -38,10 +38,14 @@ public:
         if (m_ptr)
             m_ptr->AddRef();
     }
+    // Release through the pointer already loaded: retail's one out-of-line
+    // copy is 0x0007B724 (17 B, as MeshMatDescUniqueArrays.cpp builds it);
+    // re-reading m_ptr after the decrement emitted a 19-byte copy.
     ~RefPtr()
     {
-        if (m_ptr && m_ptr->Release() == 0)
-            m_ptr->Delete();
+        RefCountClass *p = m_ptr;
+        if (p && p->Release() == 0)
+            p->Delete();
     }
 };
 
