@@ -272,7 +272,7 @@ void __debugbreak();
 class EAStringC { public: EAStringC(const char *); ~EAStringC(); unsigned short *m_data; };
 class AptValue;
 class AptInteger { public: static AptValue *Create(int); };
-void rva008AF650Implementation(int,int,int);
+bool rva006EE6C0(AptValue *target, const EAStringC *name, AptValue *value);
 #define APTINPUT_CHECK(c,s,l) if (!(c)) { g_bfmeAptAssertAtE17734(s,"C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptInput.cpp",l); if (g_bfmeAptBreakOnAssertAtDDC01C) __debugbreak(); }
 // Retail FB5B0..FB840 ends in RET16 at FB83D (the queue omitted its three bytes).
 // The 20-byte table at FB840 is also emitted and checked against retail. WB
@@ -305,7 +305,7 @@ void Rva006FB860::rva006FB5B0(int x, int y, int packed, int field)
                         AptValue *arg=AptInteger::Create(delta);
                         EAStringC name("scroll");
                         value->rva006DCF60(false);
-                        rva008AF650Implementation((int)value,(int)&name,(int)arg);
+                        rva006EE6C0((AptValue *)value,&name,arg);
                     }
                 } else rva006FAB40(value,0x80000,packed);
                 break;

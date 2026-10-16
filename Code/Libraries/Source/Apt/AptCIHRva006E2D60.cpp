@@ -23,7 +23,7 @@ void __debugbreak();
 
 class AptCIH;
 class AptNativeHash;
-class AptDisplayList { public: void *state; };
+class AptDisplayList { public: void *state; void rva006F7A30(); };
 class AptMovie
 {
 public:
@@ -48,8 +48,7 @@ struct AptCharacterSpriteInstBase
 	int mnGotoAnded;
 	int mode;
 };
-class Rva006F7A30 { public: void rva006F7A30(); };
-struct Rva006E1090Target { unsigned char prefix[0x1c]; Rva006F7A30 list; };
+struct Rva006E1090Target { unsigned char prefix[0x1c]; AptDisplayList list; };
 class Rva006DBB30SarDwordField { public: int get() const; };
 
 class AptValue
@@ -122,7 +121,7 @@ void AptCIH::rva006E2D60()
 			queueClipEvents(1, g_00E17704, 1);
 			sprite->latched = 0;
 		}
-		((Rva006F7A30 *)&sprite->display)->rva006F7A30();
+		sprite->display.rva006F7A30();
 	} else if (isEditText()) {
 		Rva006E1090Target *target = (Rva006E1090Target *)rva006E1090();
 		target->list.rva006F7A30();

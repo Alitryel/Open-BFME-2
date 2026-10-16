@@ -64,7 +64,7 @@ public:
 class Weapon
 {
 public:
-	bool rva002CB933(Object *a, void *b, float f, int e);
+	bool isWithinAttackRange(const Object *source, const Object *target, float range, int mode) const;
 
 public:
 	unsigned char m_pad00[4];
@@ -160,7 +160,7 @@ void Object::rva00295FA9(Object *other)
 	if (getRelationship(other) != ENEMIES)
 		return;
 	Weapon *w = getCurrentWeapon(0);
-	if (w != 0 && w->m_4->get() && w->rva002CB933(this, other, 0.0f, 1))
+	if (w != 0 && w->m_4->get() && w->isWithinAttackRange(this, other, 0.0f, 1))
 		rva00295A84(other);
 	const Rva0028AC4EEntry *e = rva0028AC4E();
 	if (e != 0)
