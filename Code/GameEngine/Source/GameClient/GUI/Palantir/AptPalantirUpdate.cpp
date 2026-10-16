@@ -810,7 +810,7 @@ public:
 };
 extern Radar *TheRadar;
 
-class GlobalA04450;
+struct GlobalA04450;
 extern GlobalA04450 *g_Va00A04450;
 int Rva0050E9CDGet();
 
@@ -832,6 +832,9 @@ extern Rva0039B95FHolder *g_00E031E8;
 namespace _STL {
 template <> bool &map<int, bool, less<int>, allocator<pair<const int, bool> > >::operator[](const int &);
 }
+// The map<int,int> find path takes less<int> inline, as in retail; the
+// imported specialization keeps this TU from emitting its own copy.
+template <> __declspec(dllimport) __forceinline bool _STL::less<int>::operator()(const int &left, const int &right) const { return left < right; }
 
 class Rva00524A4C
 {
@@ -1038,7 +1041,8 @@ void AptPalantir::update()
 				{
 					Flag4 old; old.v = 0;
 					_STL::map<int, int>::iterator it = reinterpret_cast<_STL::map<int, int> &>(m_11c).find(i);
-					if (it != reinterpret_cast<_STL::map<int, int> &>(m_11c).end())
+					// Node compare: the iterator operator!= has two flag variants across units.
+					if (it._M_node != reinterpret_cast<_STL::map<int, int> &>(m_11c).end()._M_node)
 						old.v = *reinterpret_cast<unsigned char *>(&(*it).second);
 					Flag4 now; now.v = objectives->rva0042680D(i);
 					if (now.v != old.v)
