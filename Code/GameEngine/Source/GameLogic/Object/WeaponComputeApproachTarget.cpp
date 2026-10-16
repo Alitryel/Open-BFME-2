@@ -24,7 +24,12 @@
 // which loads all three components before the differences are stored.
 
 #include "Lib/Region3D.h"
+// math.h's x86 plain-inline atan2f would emit a TU-local _atan2f COMDAT that
+// loses to the retail home copy (Rva000422A0.cpp owns _atan2f, 0x000422CD).
+// Rename it away so the out-of-line calls bind the home copy.
+#define atan2f bfmeMathUnusedAtan2f
 #include <math.h>
+#undef atan2f
 
 typedef float Real;
 typedef int Int;
