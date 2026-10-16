@@ -642,27 +642,27 @@ protected:
 	void								Invalidate_Cached_Bounding_Volumes(void) const						{ Bits &= ~BOUNDING_VOLUMES_VALID; }
 	void								Validate_Cached_Bounding_Volumes(void)	const							{ Bits |= BOUNDING_VOLUMES_VALID; }
 
-	// BFME: retail bit layout differs — Is_Hidden tests 0x2000, Is_Really_Visible
-	// and Is_Not_Hidden_At_All mask 0x6000, Is_Force_Visible tests 0x8000, the
-	// cached-bounds getters test 0x20000, and the four _bfme_ro_flag pairs use
-	// 0x02000000/0x04000000/0x08000000/0x01000000.  All accessors of these bits
-	// are unmatched so the ZH values below are kept for now; a structural pass
-	// should reconcile the enum against the retail evidence.
+	// BFME: retail bit layout (as in bfme2renderobj and bfmerendobj): Is_Hidden
+	// 0x0006CF00 tests 0x2000, Is_Not_Hidden_At_All 0x0006CEEE masks 0x6000,
+	// Is_Force_Visible 0x0006CF40 0x8000, Is_Translucent 0x0006CF49 0x10000000,
+	// Is_Additive 0x0006CF83 0x00400000, Get_Bounding_Sphere 0x0006D028 tests
+	// 0x20000 (bounding volumes valid), Set_Sub_Objects_Match_LOD 0x001A30F0
+	// sets 0x00100000.
 	enum
 	{
 		COLL_TYPE_MASK =		0x000000FF,
 
 		IS_VISIBLE =					0x00000100,
-		IS_NOT_HIDDEN =				0x00000200,
-		IS_NOT_ANIMATION_HIDDEN =	0x00000400,
-		IS_FORCE_VISIBLE =			0x00000800,
-		BOUNDING_VOLUMES_VALID =	0x00002000,
-		IS_TRANSLUCENT =				0x00004000,			// is additive or alpha blended on any poly
+		IS_NOT_HIDDEN =				0x00002000,
+		IS_NOT_ANIMATION_HIDDEN =	0x00004000,
+		IS_FORCE_VISIBLE =			0x00008000,
+		BOUNDING_VOLUMES_VALID =	0x00020000,
+		IS_TRANSLUCENT =				0x10000000,			// is additive or alpha blended on any poly
 		IGNORE_LOD_COST =				0x00008000,			// used to define if we should ignore object from LOD calculations
-		SUBOBJS_MATCH_LOD =			0x00010000,			// force sub-objects to have same LOD level
-		SUBOBJ_TRANSFORMS_DIRTY =	0x00020000,			// my sub-objects need me to update their transform
+		SUBOBJS_MATCH_LOD =			0x00100000,			// force sub-objects to have same LOD level
+		SUBOBJ_TRANSFORMS_DIRTY =	0x00200000,			// my sub-objects need me to update their transform
 		IS_ALPHA = 0x00040000,	// added for Generals so we can default these meshes not to cast shadows. -MW
-		IS_ADDITIVE = 0x00100000,	//added for Generals so we quickly determine what type of blending is on the mesh. -MW
+		IS_ADDITIVE = 0x00400000,	//added for Generals so we quickly determine what type of blending is on the mesh. -MW
 		IS_SELF_SHADOWED =			0x00080000,			// the mesh is self shadowed
 		IS_CHEATER =            0x00100000,// the new cheat spy code uses these bits, since nothing else now does
 		IS_REALLY_VISIBLE =			IS_VISIBLE | IS_NOT_HIDDEN | IS_NOT_ANIMATION_HIDDEN,
