@@ -73,4 +73,30 @@ public:Rva002A8F24();virtual ~Rva002A8F24();virtual void init();virtual void res
  _STL::vector<ObjectID>heroIDs934;
  ObjectCreationList*owned940;
 };
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_OKToMemCpy<void *,void *> _IsOKToMemCpy<void *,void *>(void * *,void * *); }
+namespace _STL { template <> template <> void * * vector<void *,_STL::allocator<void *> >::_M_allocate_and_copy<void * *>(unsigned int,void * *,void * *); }
+namespace _STL { template <> _Vector_base<void *,_STL::allocator<void *> >::_Vector_base(_STL::allocator<void *> const &); }
+namespace _STL { template <> vector<void *,_STL::allocator<void *> >::vector(_STL::allocator<void *> const &); }
+namespace _STL { template <> _STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *,_STL::allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
+namespace _STL { template <> hashtable<_STL::pair<int const,Rva002A9706Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<int const,Rva002A9706Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva002A9706Element> > >::~hashtable(); }
+namespace _STL { template <> vector<void *,_STL::allocator<void *> >::~vector(); }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::_M_clear(); }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::_M_fill_insert(void * *,unsigned int,void * const &); }
+namespace _STL { template <> void hashtable<_STL::pair<int const,Rva002A9706Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<int const,Rva002A9706Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva002A9706Element> > >::_M_initialize_buckets(unsigned int); }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::_M_insert_overflow(void * *,void * const &,_STL::__true_type const &,unsigned int,bool); }
+namespace _STL { template <> unsigned int hashtable<_STL::pair<int const,Rva002A9706Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<int const,Rva002A9706Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva002A9706Element> > >::_M_next_size(unsigned int) const; }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::_M_set(void * *,void * *,void * *); }
+namespace _STL { template <> _STL::__true_type _OKToMemCpy<void *,void *>::_Ret(); }
+namespace _STL { template <> void * * _STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> >::allocate(unsigned int); }
+namespace _STL { template <> void * * allocator<void *>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> unsigned int vector<void *,_STL::allocator<void *> >::capacity() const; }
+namespace _STL { template <> void hashtable<_STL::pair<int const,Rva002A9706Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<int const,Rva002A9706Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva002A9706Element> > >::clear(); }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::insert(void * *,unsigned int,void * const &); }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::reserve(unsigned int); }
+namespace _STL { template <> hashtable<_STL::pair<int const,Rva002A9706Element>,int,_STL::hash<int>,_STL::_Select1st<_STL::pair<int const,Rva002A9706Element> >,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva002A9706Element> > >::hashtable(unsigned int,_STL::hash<int> const &,_STL::equal_to<int> const &,_STL::allocator<_STL::pair<int const,Rva002A9706Element> > const &); }
+namespace _STL { template <> hash_map<int,Rva002A9706Element,_STL::hash<int>,_STL::equal_to<int>,_STL::allocator<_STL::pair<int const,Rva002A9706Element> > >::hash_map(); }
+// bfme link decl-only end
 Rva002A8F24::Rva002A8F24():owned940(0){owned940=new ObjectCreationList;}

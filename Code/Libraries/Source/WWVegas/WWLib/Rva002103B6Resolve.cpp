@@ -41,6 +41,19 @@ private:
 	_STL::vector<ScienceType> m_dst2C;
 };
 
+// bfme link decl-only begin
+namespace _STL { template <> template <> ScienceType * vector<ScienceType,_STL::allocator<ScienceType> >::_M_allocate_and_copy<ScienceType *>(unsigned int,ScienceType *,ScienceType *); }
+namespace _STL { template <> void vector<ScienceType,_STL::allocator<ScienceType> >::_M_clear(); }
+namespace _STL { template <> void vector<ScienceType,_STL::allocator<ScienceType> >::_M_insert_overflow(ScienceType *,ScienceType const &,_STL::__false_type const &,unsigned int,bool); }
+namespace _STL { template <> ScienceType * _STLP_alloc_proxy<ScienceType *,ScienceType,_STL::allocator<ScienceType> >::allocate(unsigned int); }
+namespace _STL { template <> void * __node_alloc<1,0>::allocate(unsigned int); }
+namespace _STL { template <> ScienceType * allocator<ScienceType>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<ScienceType *,ScienceType,_STL::allocator<ScienceType> >::deallocate(ScienceType *,unsigned int); }
+namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned int); }
+namespace _STL { template <> void allocator<ScienceType>::deallocate(ScienceType *,unsigned int) const; }
+namespace _STL { template <> void vector<ScienceType,_STL::allocator<ScienceType> >::reserve(unsigned int); }
+namespace _STL { template <> void vector<ScienceType,_STL::allocator<ScienceType> >::push_back(ScienceType const &); }
+// bfme link decl-only end
 void LivingWorldRegionBonusRule::CacheRegionIDs(Rva00210390 *lookup)
 {
 	_STL::vector<ScienceType> &dst = m_dst2C;

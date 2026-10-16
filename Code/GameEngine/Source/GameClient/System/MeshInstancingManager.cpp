@@ -58,6 +58,34 @@ typedef _STL::_Ht_iterator<
 typedef MeshNameIterator::_Node MeshNameNode;
 typedef bool Bool;
 #include "subsystem_interface.h"
+// bfme link decl-only begin
+namespace _STL { template <> _STL::_OKToMemCpy<void *,void *> _IsOKToMemCpy<void *,void *>(void * *,void * *); }
+namespace _STL { template <> template <> void * * vector<void *,_STL::allocator<void *> >::_M_allocate_and_copy<void * *>(unsigned int,void * *,void * *); }
+namespace _STL { template <> _Vector_base<void *,_STL::allocator<void *> >::_Vector_base(_STL::allocator<void *> const &); }
+namespace _STL { template <> vector<void *,_STL::allocator<void *> >::vector(_STL::allocator<void *> const &); }
+namespace _STL { template <> _STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> >::~_STLP_alloc_proxy(); }
+namespace _STL { template <> _Vector_base<void *,_STL::allocator<void *> >::~_Vector_base(); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
+namespace _STL { template <> vector<void *,_STL::allocator<void *> >::~vector(); }
+namespace _STL { template <> void * & vector<void *,_STL::allocator<void *> >::operator[](unsigned int); }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::_M_clear(); }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::_M_fill_insert(void * *,unsigned int,void * const &); }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::_M_insert_overflow(void * *,void * const &,_STL::__true_type const &,unsigned int,bool); }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::_M_set(void * *,void * *,void * *); }
+namespace _STL { template <> _STL::__true_type _OKToMemCpy<void *,void *>::_Ret(); }
+namespace _STL { template <> void * * _STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> >::allocate(unsigned int); }
+namespace _STL { template <> void * __node_alloc<1,0>::allocate(unsigned int); }
+namespace _STL { template <> void * * allocator<void *>::allocate(unsigned int,void const *) const; }
+namespace _STL { template <> void * * vector<void *,_STL::allocator<void *> >::begin(); }
+namespace _STL { template <> unsigned int vector<void *,_STL::allocator<void *> >::capacity() const; }
+namespace _STL { template <> void _STLP_alloc_proxy<void * *,void *,_STL::allocator<void *> >::deallocate(void * *,unsigned int); }
+namespace _STL { template <> void __node_alloc<1,0>::deallocate(void *,unsigned int); }
+namespace _STL { template <> void allocator<void *>::deallocate(void * *,unsigned int) const; }
+namespace _STL { template <> void * * vector<void *,_STL::allocator<void *> >::end(); }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::insert(void * *,unsigned int,void * const &); }
+namespace _STL { template <> void vector<void *,_STL::allocator<void *> >::reserve(unsigned int); }
+namespace _STL { template <> unsigned int vector<void *,_STL::allocator<void *> >::size() const; }
+// bfme link decl-only end
 class Rva00056F61 { public: __declspec(nothrow) void *rva00056F61(const AsciiString *); };
 class Rva000427195 { public: void rva003A2A41(); };
 class Rva0041FA59 : public MeshNameMap
