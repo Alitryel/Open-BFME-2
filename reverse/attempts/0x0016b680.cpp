@@ -1,4 +1,6 @@
 // ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@PBVHTreeClass@@@Z
+// partial score=0.79 date=2026-10-16
+// ?get_deformed_vertices@MeshModelClass@@QAEXPAVVector3@@PBVHTreeClass@@@Z
 // partial score=0.7821317484 date=2026-10-16
 // cl: /I. /Ireference/shims/meshgeom /Ireference/shims/bfmerendobj /arch:SSE /G7 /DNDEBUG /MD /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // Compose with meshgeometry.cpp; target proof and provenance in re_attempts.log.
@@ -14,14 +16,15 @@ struct BfmeSkinPivot {char name[16];BfmeSkinPivot *parent;BfmeSkinTransform Base
 typedef char BfmeSkinPivotStride[sizeof(BfmeSkinPivot)==0x58?1:-1];
 struct BfmeSkinTreeView {public:char fields00[0x14];BfmeSkinPivot *pivots;};
 template<class T> struct BfmeSkinBuffer {char fields00[0xc];T *data;};
-static __forceinline Vector3 skinRotate(const Quaternion &q,const Vector3 &v) {
+static __forceinline void skinTransform(const BfmeSkinTransform &t,const Vector3 &v,Vector3 &o) {
+ const Quaternion &q=t.Rotation;
  float x=(v.Z*q.Y-v.Y*q.Z)+v.X*q.W;
  float y=q.W*v.Y-(q.X*v.Z-v.X*q.Z);
  float z=(v.Y*q.X-v.X*q.Y)+v.Z*q.W;
  float w=-(q.X*v.X+q.Y*v.Y+q.Z*v.Z);
- return Vector3((q.Y*z-y*q.Z)+(x*q.W-w*q.X),
-  (y*q.W-w*q.Y)-(q.X*z-x*q.Z),
-  (y*q.X-x*q.Y)+(z*q.W-w*q.Z));
+ o.X=(q.Y*z-y*q.Z)+(x*q.W-w*q.X)+t.Translation.X;
+ o.Y=(y*q.W-w*q.Y)-(q.X*z-x*q.Z)+t.Translation.Y;
+ o.Z=(y*q.X-x*q.Y)+(z*q.W-w*q.Z)+t.Translation.Z;
 }
 static __forceinline void skinMatrix(const BfmeSkinTransform &t,BfmeSkinMatrix &m) {
  const Quaternion &q=t.Rotation;
@@ -75,13 +78,11 @@ void MeshModelClass::get_deformed_vertices(Vector3 *dst,const HTreeClass *tree) 
    skinMatrix(((const BfmeSkinTreeView*)tree)->pivots[second].Current,b);
    skinScale(a,firstWeight);skinScale(b,secondWeight);
    Vector3 *v=source[0],*w=source[1],*out=dst;
-   int n=count;
-   if(n)do {skinBlend(a,*v++,b,*w++,*out++);}while(--n);
+   if(count){int n=count;do {skinBlend(a,*v++,b,*w++,*out++);}while(--n);}
   } else {
    const BfmeSkinTransform &t=((const BfmeSkinTreeView*)tree)->pivots[first].Current;
    Vector3 *v=source[0],*out=dst;
-   int n=count;
-   if(n)do {*out++=skinRotate(t.Rotation,*v++)+t.Translation;}while(--n);
+   if(count){int n=count;do {skinTransform(t,*v++,*out++);}while(--n);}
   }
   bone+=count;
   for(int k=0;k<streams;++k)source[k]+=count;
