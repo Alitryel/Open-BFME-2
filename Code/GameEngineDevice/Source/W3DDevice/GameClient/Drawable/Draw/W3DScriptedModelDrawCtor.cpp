@@ -27,6 +27,7 @@ class ObjectCreationList;
 struct Rva00B6CF1;
 struct BfmePod20;
 struct BridgeBehaviorListValue12;
+class Rva000BB694 { public: ~Rva000BB694(); };
 struct Rva000B2BE5Src;
 
 namespace _STL {
@@ -107,6 +108,25 @@ public:
 };
 
 typedef char ScriptedModelListHeaderSizeCheck[sizeof(Rva000C0DD8ListHeader) == 4 ? 1 : -1];
+
+// Native memberA8 has a 12B header whose empty construction folds at D3A71.
+// Its BBF50 wrapper destroys the trivial-payload tree through BB694. A folded
+// constructor does not establish AsciiString keys; retain only the lifetime ABI.
+class Rva000C0DD8TreeHeader
+{
+    typedef _STL::set<AsciiString, _STL::less<AsciiString>, _STL::allocator<AsciiString> > ConstructView;
+    unsigned int m_words[3];
+public:
+    __forceinline Rva000C0DD8TreeHeader()
+    {
+        reinterpret_cast<ConstructView *>(this)->ConstructView::set();
+    }
+    ~Rva000C0DD8TreeHeader()
+    {
+        reinterpret_cast<Rva000BB694 *>(this)->~Rva000BB694();
+    }
+};
+typedef char ScriptedModelTreeHeaderSizeCheck[sizeof(Rva000C0DD8TreeHeader) == 12 ? 1 : -1];
 
 // Pointer-chain handle at +0x1C: unlinked through 0x0004CBC0 when set.
 // 0x0004CBC0 is the handle unlink (row ?rva0004CBC0@RvaSmartPtr12@@QAEXXZ); the dtor is the inline null test around it.
@@ -332,7 +352,7 @@ private:
 	float m_9c;
 	bool m_a0;
 	int m_a4;
-	_STL::set<AsciiString, _STL::less<AsciiString>, _STL::allocator<AsciiString> > m_a8;
+	Rva000C0DD8TreeHeader m_a8;
 	AsciiString m_b4;
 	int m_b8;
 	int m_bc;
