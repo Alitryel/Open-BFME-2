@@ -1,9 +1,6 @@
 // ?cellCallback@Rva002F18D4Info@@QAEHPAVPathfindCell@@0HH@Z
-// partial score=0.856 date=2026-10-15
 // ?cellCallback@Rva002F18D4Info@@QAEHPAVPathfindCell@@0HH@Z
-// partial score=0.823 date=2026-10-15
 // ?cellCallback@Rva002F18D4Info@@QAEHPAVPathfindCell@@0HH@Z
-// partial score=0.9 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /ICode/Libraries/Include/Lib /ICode/GameEngine/Source/Common
 // Semantic guide BF1 f98983a7d PathfindObstacleCallbackDebb0.cpp and ZH
 // checkDestination obstacle exemption ladder. Native BF2 2F18D4..2F1AF4 RET16
@@ -56,9 +53,9 @@ public:
  int m_layerCount,m_runLength;
 };
 int Rva002F18D4Info::cellCallback(PathfindCell*previous,PathfindCell*current,int x,int y){
- if((unsigned char)Rva002E6E8AGet(current->getLayer())){m_layerCount++;m_runLength=0;m_hitLayer=true;}else m_runLength++;
+ if((unsigned char)Rva002E6E8AGet(current->getLayer())){*(volatile int*)&m_layerCount = m_layerCount+1;m_runLength *= 0;*(volatile bool*)&m_hitLayer = true;}else m_runLength++;
  if(m_skip>0){m_skip--;return 0;}
- if(current->getRawType()!=4)return 0;
+ if(current->getRawType()==4){}else return 0;
  if(current->IsObstaclePresent(m_obj->getID()))return 0;
  Object*other=m_other;
  if(other){
@@ -82,11 +79,16 @@ int Rva002F18D4Info::cellCallback(PathfindCell*previous,PathfindCell*current,int
    if(m_other){
     if(m_other->rva0028B511()!=1)return 0;
     if(ownerFlag){
-     float fx=(float)(x*10),fy=(float)(y*10);
-     const Coord3D*op=m_obj->getPosition();const Coord3D*pp=m_other->getPosition();
-     float dx=op->x-fx,dy=op->y-fy,px=pp->x-fx,py=pp->y-fy;
-     _ReadWriteBarrier();
-     float od=dy*dy+dx*dx,pd=py*py+px*px;
+     float fx=(float)(x*10);
+     float fy=(float)(y*10);
+     const Coord3D*op=m_obj->getPosition();
+     const Coord3D*pp=m_other->getPosition();
+     float dx=op->x-fx;
+     float dy=op->y-fy;
+     float px=pp->x-fx;
+     float py=pp->y-fy;
+     float od=(dx*dx)+(dy*dy);
+     float pd=(px*px)+(py*py);
      if(od < pd)return 0;
     }
    }
