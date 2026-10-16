@@ -70,6 +70,5 @@ const char *RadarObject::GetSnapshotName() const
 	return "RadarObject";
 }
 BFME_LITERAL_NAME_GETTER(Rva002DAB5ENamed, "TerrainVisual")
-BFME_LITERAL_NAME_GETTER(Rva002DE57FNamed, "GameState")
 BFME_LITERAL_NAME_GETTER(Rva002F21EBNamed, "Pathfinder")
 BFME_LITERAL_NAME_GETTER(Rva002FE03BNamed, "TAiData")

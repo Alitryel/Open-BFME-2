@@ -13,6 +13,8 @@
 // 0x0049B47C (slot 0 of 0x00C078F0 is the folded deleting destructor
 // 0x004A10FD that calls it). Donor-carried: the names and the bodies.
 
+// Slot 2 of the manager table 0x00C078F0 is retail's class-name getter.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 
 typedef int Int;
@@ -26,7 +28,7 @@ public:
 	virtual ~GhostObjectManager();
 
 protected:
-	virtual void crc( Xfer *xfer );
+	virtual const char *GetSnapshotName( void ) const;
 	virtual void xfer( Xfer *xfer );
 	virtual void loadPostProcess( void );
 
@@ -44,4 +46,16 @@ GhostObjectManager::GhostObjectManager( void )
 
 GhostObjectManager::~GhostObjectManager()
 {
+}
+
+// Table 0x00C078F0: slot 1 is the shared empty RET 0x000B3FD0 (Zero Hour's
+// GhostObjectManager::loadPostProcess is empty); slot 2 returns the
+// class-name string (0x00305947); slot 3 is xfer 0x0030594D.
+void GhostObjectManager::loadPostProcess( void )
+{
+}
+
+const char *GhostObjectManager::GetSnapshotName( void ) const
+{
+	return "GhostObjectManager";
 }
