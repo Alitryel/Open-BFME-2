@@ -58,7 +58,9 @@ struct ObjectStatusBits
 {
 	unsigned int m_bits[4];
 	__forceinline unsigned int test(int bit) const { return m_bits[bit >> 5] & (1u << (bit & 31)); }
-	__forceinline void set(int bit) { m_bits[bit >> 5] |= 1u << (bit & 31); }
+	// Imported-forceinline: inline everywhere, no COMDAT copy differing from
+	// GenericObjectCreationNuggetDoStuffToObj.cpp's (first in link order).
+	__declspec(dllimport) __forceinline void set(int bit) { m_bits[bit >> 5] |= 1u << (bit & 31); }
 	__forceinline void clear(int bit) { m_bits[bit >> 5] &= ~(1u << (bit & 31)); }
 };
 
