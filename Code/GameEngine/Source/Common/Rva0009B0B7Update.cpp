@@ -48,9 +48,11 @@ NUM clamp(NUM lo, NUM val, NUM hi);
 
 #include <math.h>
 
-extern float g_00DE5E00;
+// Owned here (its only reader); retail .data starts it at 0 (VA 0x00DE5E00).
+float g_00DE5E00 = 0;
 extern float g_00DE5E44;
-extern float g_00DB4AA8;
+// Owned here (its only reader); retail .data holds 1.0f (VA 0x00DB4AA8).
+float g_00DB4AA8 = 1.0f;
 
 
 class Rva0009D55BProduct

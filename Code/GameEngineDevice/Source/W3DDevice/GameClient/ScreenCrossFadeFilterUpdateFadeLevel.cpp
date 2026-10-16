@@ -1,8 +1,10 @@
 // cl: /O1 /MD /G7 /arch:SSE /EHsc /DNDEBUG
 // ?updateFadeLevel@ScreenCrossFadeFilter@@IAE_NXZ @0x000F633A 193B
 // Evidence: named lane pin, BFME1 donor W3DShaderManager.cpp ScreenCrossFadeFilter::updateFadeLevel, caller preRender 0x000F63FB, globals g_00DEBFF8 g_00DEBFFC g_00DEC000 g_00DEBFF4.
-extern int g_00DEBFF8;
-extern int g_00DEBFFC;
+// Fade direction and frame count, owned here (also set by W3DView::setFadeParameters
+// and GapBodiesGE31); retail .data starts both at 0 (VA 0x00DEBFF8, 0x00DEBFFC).
+int g_00DEBFF8 = 0;
+int g_00DEBFFC = 0;
 extern int g_00DEC000;
 // Owned here: incremented below; retail .data starts it at 0 (VA 0x009EC000).
 int g_00DEC000 = 0;

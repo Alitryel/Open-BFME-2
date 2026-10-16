@@ -257,8 +257,9 @@ void Rva0009D55BProduct::rva0009AD24(int enable)
 // Retail 0x0009AD4D (43B) and 0x0009AD78 (40B), vtable slots 40 and 41: set
 // the +0x138 velocity to the negated 0x00DE5E08 or to the 0x00DE5E04 rate,
 // replaced by a unit step when the flag is set.
-extern float g_00DE5E08;
-extern float g_00DE5E04;
+// Owned here: retail .data starts both at 0 (VA 0x00DE5E08, 0x00DE5E04).
+float g_00DE5E08 = 0;
+float g_00DE5E04 = 0;
 
 void Rva0009D55BProduct::rva0009AD4D(bool snap)
 {
@@ -276,7 +277,8 @@ void Rva0009D55BProduct::rva0009AD78(bool snap)
 
 // Retail 0x0009AF90 (21B), vtable slot 24 just before 0x0009AFA5: whether
 // the 0x00DE5E44 float has reached the position at +0x134.
-extern float g_00DE5E44;
+// Owned here (also read by Rva0009B0B7Update.cpp); retail .data starts it at 0 (VA 0x00DE5E44).
+float g_00DE5E44 = 0;
 
 bool Rva0009D55BProduct::rva0009AF90()
 {
