@@ -54,7 +54,12 @@ public: Rva000BB491(const Rva000BB491 &); ~Rva000BB491();
 private: int m_tail14;
 };
 typedef char Pod248Element24Size[sizeof(Rva000BB491)==24?1:-1];
-class Rva000BB4AC { char m[24]; public: Rva000BB4AC(const Rva000BB4AC &); ~Rva000BB4AC(); };
+class Rva000BB4ACRef;
+class Rva000BB4AC : public Rva000B9074 {
+public: Rva000BB4AC(const Rva000BB4AC &); ~Rva000BB4AC();
+private: Rva000BB4ACRef *m_ptr14;
+};
+typedef char Pod248RefElement24Size[sizeof(Rva000BB4AC)==24?1:-1];
 struct BfmeStringRecord000B950F { char m[24]; BfmeStringRecord000B950F(const BfmeStringRecord000B950F &); ~BfmeStringRecord000B950F(); };
 struct BfmeFixedObject60 { char m[60]; BfmeFixedObject60(const BfmeFixedObject60 &); ~BfmeFixedObject60(); };
 struct BfmePod32 { char m[32]; BfmePod32(const BfmePod32 &); ~BfmePod32(); };
@@ -87,6 +92,12 @@ public:
 namespace _STL {
 template <> void _Destroy<Rva000BB491 *>(Rva000BB491 *first, Rva000BB491 *last) {
  for (; first != last; ++first) first->~Rva000BB491();
+}
+}
+
+namespace _STL {
+template <> void _Destroy<Rva000BB4AC *>(Rva000BB4AC *first, Rva000BB4AC *last) {
+ for (; first != last; ++first) first->~Rva000BB4AC();
 }
 }
 
