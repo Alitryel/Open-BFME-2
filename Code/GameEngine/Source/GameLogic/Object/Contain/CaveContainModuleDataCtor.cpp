@@ -12,6 +12,12 @@
 // 0x00257714 which news 0x9C; the TimeForFullHeal factory shares this body
 // (fold) and that name stays unclaimed.
 
+// The retail vtable 0x00C43F40 is referenced by symbol so the store
+// carries a relocation instead of a hard-coded image address (link debt).
+// ModuleFactory.obj emits the ??_7 COMDAT this alias resolves to.
+extern "C" const void *const vtbl_00C43F40[];  // ??_7CaveContainModuleData@@6B@
+#pragma comment(linker, "/alternatename:_vtbl_00C43F40=??_7CaveContainModuleData@@6B@")
+
 class OpenContainModuleData
 {
 public:
@@ -32,7 +38,7 @@ private:
 inline CaveContainModuleData::CaveContainModuleData()
 {
 	m_caveIndexData = 0;
-	m_vtable = reinterpret_cast<void *>(0x00C43F40);
+	m_vtable = (void *)vtbl_00C43F40;
 }
 
 // Header inlines that the units including the header emit as select-any
