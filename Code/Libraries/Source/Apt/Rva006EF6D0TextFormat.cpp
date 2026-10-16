@@ -1,21 +1,16 @@
-// ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
-// partial score=0.9 date=2026-10-15
-// ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
-// partial score=0.886 date=2026-10-15
-// ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
-// partial score=0.85526 date=2026-10-14
+// cl: /O2 /DNDEBUG /MD /EHsc
+// Native Apt text-format callback 006EF6D0..006EF920 (592B, next native
+// prologue at 0x006EF920). Offsets measured from this body; the callback
+// identity is inferred from the argc==0 test, the 32B text-format state
+// allocation/copy (rowed ctors 0x006EB4B0 and 0x006ECEC0) and the
+// character-definition font lookup. Names remain address-derived. It is the
+// argc==0 sibling of Rva006EF920TextFormat; its delete and EAStringC funclets
+// and its EH handler fold with that body's (0x007A98F0..0x007A991E).
+// The AptCIH.h:0xA5 isCharacterInst() assertion is an inline accessor of the
+// handle (header file and line from the retail literal); written inline at
+// the call site instead, the context and temporaries swap ESI/EDI.
 void __debugbreak();
 #pragma intrinsic(__debugbreak)
-// ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
-// partial score=0.8764593201448871 date=2026-10-10
-extern "C" void _ReadWriteBarrier();
-#pragma intrinsic(_ReadWriteBarrier)
-// ?Rva006EF6D0TextFormat@@YAPAVAptValue@@PAV1@H@Z
-// partial score=0.8764593201 date=2026-10-09
-// cl: /O2 /DNDEBUG /MD /EHsc
-// Native Apt text-format callback at 006EF6D0..006EF920. Offsets measured
-// from this body; callback identity inferred from text-format allocation,
-// copying and character-definition strings. Names remain address-derived.
 extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char*,const char*,int);
 extern int g_bfmeAptBreakOnAssertAtDDC01C;
 static __forceinline void aptAssert(const char *test,const char *file,int line){
@@ -24,19 +19,26 @@ static __forceinline void aptAssert(const char *test,const char *file,int line){
 }
 class EAStringC {void *data;public:EAStringC(const char*);~EAStringC();EAStringC &operator=(const EAStringC&);};
 class Rva006DB160 {public:void *allocBlock(int);};
-class Rva006D2A60 {public:void *allocBlock(int);};
-extern Rva006DB160 *g_aptPoolAllocator;
+class Rva006DB270 {public:void freeBlock(void *,int);};
+class Rva006DB270;extern Rva006DB270 *g_pChainBlockAllocator;
+class Rva006D2A60 {public:void *allocBlock(int);void freeBlock(void *,int);};
 extern Rva006D2A60 *g_pChainBlockAllocatorF4;
 class AptValue;
 extern AptValue *gpUndefinedValue;
 class Rva006EB4B0 {
  char unknown00[32];public:
  Rva006EB4B0(AptValue*,float,int,int,int,int,int,int,AptValue*,int,int,int,int);
- static void *operator new(unsigned int size){return g_aptPoolAllocator->allocBlock(size);}
+ static void *operator new(unsigned int size){return ((Rva006DB160*)g_pChainBlockAllocator)->allocBlock(size);}
+ static void operator delete(void *p,unsigned int size){((Rva006DB270*)g_pChainBlockAllocator)->freeBlock(p,size);}
 };
-class Rva006ECFC0Owner {
+class Rva006D6470Owner {
+ char unknown00[32];
 public:
- char unknown00[32];EAStringC font;int size,color,align;
+ static void operator delete(void *p,unsigned int size){g_pChainBlockAllocatorF4->freeBlock(p,size);}
+};
+class Rva006ECFC0Owner:public Rva006D6470Owner {
+public:
+ EAStringC font;int size,color,align;
  char unknown30[16];
  Rva006ECFC0Owner(const Rva006EB4B0&);
  static void *operator new(unsigned int size){return g_pChainBlockAllocatorF4->allocBlock(size);}
@@ -49,7 +51,8 @@ struct NativeCharacter {char unknown00[12];NativeAnimation *definition;};
 struct TextDefinition {char unknown00[24];int fontIndex;};
 struct TextInstance {char unknown00[12];TextDefinition *definition;char unknown10[20];int color;char unknown28[20];int align;char unknown40[32];int size;int unknown64;Rva006EB4B0 *format;};
 class BfmeAptValue006DCD20 {public: void *rva006E0F40()const;};
-class AptCIH {public:bool IsCharacterInst()const;char unknown00[0x4C];NativeCharacter *character;};
+class AptCIH {public:bool IsCharacterInst()const;char unknown00[0x4C];NativeCharacter *character;
+ __forceinline NativeCharacter *getCharacter(){if(!IsCharacterInst())aptAssert("isCharacterInst()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0xA5);return character;}};
 class AptValue {public:AptCIH *c_cih(bool);};
 static __forceinline TextInstance *text(AptValue *context){return (TextInstance*)((const BfmeAptValue006DCD20*)context->c_cih(false))->rva006E0F40();}
 AptValue *Rva006EF6D0TextFormat(AptValue *context,int argc){
@@ -60,9 +63,7 @@ AptValue *Rva006EF6D0TextFormat(AptValue *context,int argc){
  }
  Rva006ECFC0Owner *value=new Rva006ECFC0Owner(*text(context)->format);
  if(value->color==-1)value->color=text(context)->color;
- AptCIH *cih=context->c_cih(false);
- if(!cih->IsCharacterInst())aptAssert("isCharacterInst()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0xA5);
- NativeFrameList *frames=(NativeFrameList*)(cih->character->definition->frameList+8);
+ NativeFrameList *frames=(NativeFrameList*)(context->c_cih(false)->getCharacter()->definition->frameList+8);
  if(text(context)->definition->fontIndex<frames->count && text(context)->definition->fontIndex!=-1 && frames->items[text(context)->definition->fontIndex]->type==3){
   EAStringC tmp(frames->items[text(context)->definition->fontIndex]->font);value->font=tmp;
  }else{EAStringC tmp("");value->font=tmp;}
