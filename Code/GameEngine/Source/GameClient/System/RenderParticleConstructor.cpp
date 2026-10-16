@@ -126,7 +126,7 @@ public:
 };
 struct Rva001408C0Target;
 typedef _STL::set<Rva001408C0Target*,_STL::less<Rva001408C0Target*>,_STL::allocator<Rva001408C0Target*> > AssetSet621;
-struct AssetList00208F90 {AssetSet621 prototypes;unsigned pad;bool changed;AssetList00208F90():pad(0),changed(true){} AssetList00208F90&operator<<(const AsciiString&);};
+class AssetList {public:AssetSet621 prototypes;unsigned pad;bool changed;AssetList():pad(0),changed(true){} AssetList&operator<<(const AsciiString&);};
 void bfmeMergeReceiverKeys(int);
 // Native parent constructs the 0x2C tail through 1FC0A0 and its EH
 // state1 destroys the same +0x94 storage through the existing 1FC0B6 owner.
@@ -311,7 +311,7 @@ Rva001FC0F1::Rva001FC0F1(const RvaSmartPtr12&system,const Rva001F376E&info)
   AsciiString name=((ParticleSystemModel621*)system.operator->())->module->modelName();
   if(!name.isEmpty()) {
    for(int i=4;i;--i)name.removeLastChar();
-   AssetList00208F90 assets;assets<<name;bfmeMergeReceiverKeys((int)&assets);
+   AssetList assets;assets<<name;bfmeMergeReceiverKeys((int)&assets);
    render=Create_Render_Obj(name.str());
    m_5c=((ParticleSystemModel621*)system.operator->())->module->modelValue();
    if(render){
