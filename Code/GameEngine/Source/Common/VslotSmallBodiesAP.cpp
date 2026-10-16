@@ -2,7 +2,7 @@
 //
 // Vtable-slot forwarders with no ledger owner and no Ghidra entry, batch
 // AP: each loads a member pointer (or takes a member's address) and
-// tail-jumps to an unrowed Ghidra-listed function, pinned in
+// tail-jumps to a Ghidra-listed function, pinned in
 // reverse/symbols.csv under an address-derived name with the argument count
 // its ret shows. Classes are address-derived and model only the member.
 
@@ -48,11 +48,14 @@ void Rva00078ADB::rva00078ADB(Int a0)
 	m_1C.rva00078AE3(reinterpret_cast<const Rva00078AE3*>(a0));
 }
 
-class Rva000B0F82
+class DataChunkInput;
+struct DataChunkInfo;
+class WorldHeightMap
 {
 public:
-	void rva000B0F82(Int a0, Int a1);
+	bool rva000B0F82(DataChunkInput &a0, DataChunkInfo *a1);
 };
+typedef WorldHeightMap Rva000B0F82;
 class Rva000B197C
 {
 public:
@@ -63,7 +66,7 @@ private:
 };
 void Rva000B197C::rva000B197C(Int a0, Int a1)
 {
-	m_0C->rva000B0F82(a0, a1);
+	m_0C->rva000B0F82(*(DataChunkInput *)a0, (DataChunkInfo *)a1);
 }
 
 class Rva005254C5
@@ -84,11 +87,12 @@ void Rva005259B1::rva005259B1(Int a0)
 	m_08.rva005254C5(a0);
 }
 
-class Rva00527BA2
+class Holder00527BA2
 {
 public:
-	void rva00527BA2(Int a0, Int a1, Int a2);
+	void Rva00527BA2(char *a0, Int a1, Int a2);
 };
+typedef Holder00527BA2 Rva00527BA2;
 class Rva00527B9A
 {
 public:
@@ -99,7 +103,7 @@ private:
 };
 void Rva00527B9A::rva00527B9A(Int a0, Int a1, Int a2)
 {
-	m_04->rva00527BA2(a0, a1, a2);
+	m_04->Rva00527BA2((char *)a0, a1, a2);
 }
 
 class Rva005394F0
@@ -120,11 +124,15 @@ void Rva00539611::rva00539611(Int a0, Int a1)
 	m_08->rva005394F0(a0, a1);
 }
 
-class Rva0053973F
+namespace InGameSimpleHelp
+{
+class Impl
 {
 public:
-	void rva0053973F(Int a0);
+	Int rva0053973F(Int a0);
 };
+}
+typedef InGameSimpleHelp::Impl Rva0053973F;
 class Rva005397D3
 {
 public:
@@ -138,11 +146,15 @@ void Rva005397D3::rva005397D3(Int a0)
 	m_08->rva0053973F(a0);
 }
 
-class Rva0056CA31
+struct FloatPair;
+class InGameCommandButtonHelp { public: class Impl; };
+class InGameCommandButtonHelp::Impl
 {
 public:
-	void rva0056CA31(Int a0);
+	Int SetWidthAndComputeHeight(Int a0);
+	void Render(const FloatPair &position, const FloatPair &size);
 };
+typedef InGameCommandButtonHelp::Impl Rva0056CA31;
 class Rva0056D2BD
 {
 public:
@@ -153,16 +165,9 @@ private:
 };
 void Rva0056D2BD::rva0056D2BD(Int a0)
 {
-	m_08->rva0056CA31(a0);
+	m_08->SetWidthAndComputeHeight(a0);
 }
 
-struct FloatPair;
-class InGameCommandButtonHelp { public: class Impl; };
-class InGameCommandButtonHelp::Impl
-{
-public:
-	void Render(const FloatPair &position, const FloatPair &size);
-};
 class Rva0056D2C5
 {
 public:
@@ -177,10 +182,11 @@ void Rva0056D2C5::rva0056D2C5(Int a0, Int a1)
 		*reinterpret_cast<const FloatPair *>(a1));
 }
 
+struct Rva005757F9Value;
 class Rva005757F9
 {
 public:
-	void rva005757F9(Int a0);
+	void rva005757F9(Rva005757F9Value *a0);
 };
 class Rva00575DBA
 {
@@ -192,7 +198,7 @@ private:
 };
 void Rva00575DBA::rva00575DBA(Int a0)
 {
-	m_08->rva005757F9(a0);
+	m_08->rva005757F9((Rva005757F9Value *)a0);
 }
 
 class Rva0057590E
@@ -249,11 +255,18 @@ void Rva00575DD2::rva00575DD2(Int a0)
 	m_08->rva00575A3F(a0);
 }
 
-class Rva00576D0D
+namespace StrategicInGameUI
+{
+namespace ResolveBattlesBehavior
+{
+class Impl
 {
 public:
-	void rva00576D0D();
+	void Update();
 };
+}
+}
+typedef StrategicInGameUI::ResolveBattlesBehavior::Impl Rva00576D0D;
 class Rva00576DCD
 {
 public:
@@ -264,7 +277,7 @@ private:
 };
 void Rva00576DCD::rva00576DCD()
 {
-	m_08->rva00576D0D();
+	m_08->Update();
 }
 
 class Rva0057718D
@@ -285,11 +298,13 @@ void Rva005772FA::rva005772FA()
 	m_08->rva0057718D();
 }
 
-class Rva005D46E3
+class UnicodeString;
+class Rva005D40A6
 {
 public:
-	void rva005D46E3(Int a0);
+	void rva005D46E3(const UnicodeString &a0);
 };
+typedef Rva005D40A6 Rva005D46E3;
 class Rva0057A362
 {
 public:
@@ -300,14 +315,16 @@ private:
 };
 void Rva0057A362::rva0057A362(Int a0)
 {
-	m_08.rva005D46E3(a0);
+	m_08.rva005D46E3(*(const UnicodeString *)a0);
 }
 
-class Rva005D3F8D
+class Rva005D3F93
 {
 public:
-	void rva005D3F8D();
+	unsigned char rva005D3F8D() const;
+	void rva005D3F93(bool a0);
 };
+typedef Rva005D3F93 Rva005D3F8D;
 class Rva0057A36A
 {
 public:
@@ -321,11 +338,6 @@ void Rva0057A36A::rva0057A36A()
 	m_08.rva005D3F8D();
 }
 
-class Rva005D3F93
-{
-public:
-	void rva005D3F93(Int a0);
-};
 class Rva0057A372
 {
 public:
@@ -336,13 +348,13 @@ private:
 };
 void Rva0057A372::rva0057A372(Int a0)
 {
-	m_08.rva005D3F93(a0);
+	m_08.rva005D3F93(*(bool *)&a0);
 }
 
 class Rva005D4E37
 {
 public:
-	void rva005D4E37(Int a0, Int a1, Int a2);
+	void rva005D4E37(Int a0, const char *a1, bool a2);
 };
 class Rva0057AA3D
 {
@@ -354,7 +366,7 @@ private:
 };
 void Rva0057AA3D::rva0057AA3D(Int a0, Int a1, Int a2)
 {
-	m_08.rva005D4E37(a0, a1, a2);
+	m_08.rva005D4E37(a0, (const char *)a1, *(bool *)&a2);
 }
 
 class Rva0059B428
@@ -450,7 +462,7 @@ void Rva005C359E::rva005C359E()
 class Rva005CB9D1
 {
 public:
-	void rva005CB9D1(Int a0);
+	bool rva005CB9D1(Int a0);
 };
 class Rva005CBAE6
 {
@@ -465,11 +477,12 @@ void Rva005CBAE6::rva005CBAE6(Int a0)
 	m_04.rva005CB9D1(a0);
 }
 
-class Rva005CEA1C
+class Rva005CEA1CHolder
 {
 public:
 	void rva005CEA1C();
 };
+typedef Rva005CEA1CHolder Rva005CEA1C;
 class Rva005CEA35
 {
 public:
