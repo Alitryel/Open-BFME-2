@@ -248,7 +248,7 @@ AptValue *callback006F2640(AptValue *context,int) {
 enum FactoryObjectAllocation { factoryObjectAllocation = sizeof(AptObject) };
 // ?operator new absent-from-retail
 inline void *operator new(unsigned int n,FactoryObjectAllocation){return g_pChainBlockAllocatorF4->allocBlock(n);}
-// ?operator delete absent-from-retail
+// Native6F12F0 pool-delete fold; the tag is a TU-local structural model.
 inline void operator delete(void *p,FactoryObjectAllocation size){g_pChainBlockAllocatorF4->freeBlock(p,size);}
 class Rva8D0D80String;class Rva8D0D80Value;
 class Rva8D0D80Table {public:void add(Rva8D0D80String *,Rva8D0D80Value *);};
