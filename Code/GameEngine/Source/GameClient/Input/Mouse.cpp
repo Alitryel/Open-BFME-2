@@ -210,112 +210,20 @@ CursorInfo::CursorInfo( void )
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??0Mouse@@ present-unmatched
-Mouse::Mouse( void )
+// Mouse::Mouse (0x001EEC97) and Mouse::~Mouse (0x001EE3DE) are matched in
+// Rva001EE3DEDtor.cpp with BFME 2's layout; this unit's ZH-layout copies
+// competed with them for ??0Mouse / ??1Mouse at link. Retail's Mouse ctor
+// hands ~CursorInfo (0x001EE376, rowed here) to the eh vector constructor
+// iterator; this local array construction is the same use, keeping the
+// implicit destructor emitted in its home unit.
+// ?MouseCursorInfoArrayAnchor absent-from-retail
+void MouseCursorInfoArrayAnchor()
 {
-	// device info
-	m_numButtons = 0;
-	m_numAxes = 0;
-	m_forceFeedback = FALSE;
-	
-	//Added By Sadullah Nader
-	//Initializations missing and needed
-	m_dragTolerance = 0;
-	m_dragTolerance3D = 0;
-	m_dragToleranceMS = 0;
-	//
-	
-	//m_tooltipString.clear();	// redundant
-	m_displayTooltip = FALSE;
-	m_tooltipDisplayString = NULL;
-  m_tooltipDelay = -1;  // default value
-	// initialize all the mouse io data
-	memset( m_mouseEvents, 0, sizeof( m_mouseEvents ) );
-	memset( &m_currMouse, 0, sizeof( m_currMouse ) );
-	memset( &m_prevMouse, 0, sizeof( m_prevMouse ) );
-
-	m_minX = 0;
-	m_maxX = 0;
-	m_minY = 0;
-	m_maxY = 0;
-	m_eventsThisFrame = 0;
-
-	m_inputFrame = 0;
-	m_deadInputFrame =0;
-
-	m_inputMovesAbsolute = FALSE;
-
-	m_currentCursor = ARROW;
-	if (TheGlobalData && TheGlobalData->m_winCursors)
-		m_currentRedrawMode = RM_WINDOWS;
-	else
-		m_currentRedrawMode = RM_W3D;//RM_WINDOWS;
-	m_visible = FALSE;
-	m_tooltipFontName = "Times New Roman";
-	m_tooltipFontSize = 12;
-	m_tooltipFontIsBold = FALSE;
-	m_tooltipAnimateBackground = TRUE;
-	m_tooltipFillTime = 50;
-	m_tooltipDelayTime = 50;
-
-#define setColor(x, r, g, b, a) { x.red = r; x.green = g; x.blue = b; x.alpha = a; }
-	setColor(m_tooltipColorText, 220, 220, 220, 255);
-	setColor(m_tooltipColorHighlight, 255, 255, 0, 255);
-	setColor(m_tooltipColorShadow, 0, 0, 0, 255);
-	setColor(m_tooltipColorBackground, 20, 20, 0, 127);
-	setColor(m_tooltipColorBorder, 0, 0, 0, 255);
-#undef setColor
-
-	m_tooltipWidth = 15.0f;
-	m_lastTooltipWidth = 0.0f;
-
-	m_useTooltipAltTextColor = FALSE;
-	m_useTooltipAltBackColor = FALSE;
-	m_adjustTooltipAltColor = FALSE;
-
-	m_orthoCamera = FALSE;
-	m_orthoZoom = 1.0f;
-
-	m_isTooltipEmpty = TRUE;
-
-	m_cursorTextDisplayString = NULL;
-	m_cursorTextColor.red   = 255;
-	m_cursorTextColor.green = 255;
-	m_cursorTextColor.blue  = 255;
-	m_cursorTextColor.alpha = 255;
-	m_cursorTextDropColor.red   = 255;
-	m_cursorTextDropColor.green = 255;
-	m_cursorTextDropColor.blue  = 255;
-	m_cursorTextDropColor.alpha = 255;
-	
-	m_highlightPos = 0;
-	m_highlightUpdateStart = 0;
-	m_stillTime = 0;
-	m_tooltipTextColor.red = 255;
-	m_tooltipTextColor.green = 255;
-	m_tooltipTextColor.blue = 255;
-	m_tooltipTextColor.alpha = 255;
-	m_tooltipBackColor.red = 0;
-	m_tooltipBackColor.green = 0;
-	m_tooltipBackColor.blue = 0;
-	m_tooltipBackColor.alpha = 255;
-
-}  // end Mouse
+	CursorInfo cursors[2];
+}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-// ??1Mouse@@ present-unmatched
-Mouse::~Mouse( void )
-{
-	if(m_tooltipDisplayString)
-		TheDisplayStringManager->freeDisplayString(m_tooltipDisplayString);
-	m_tooltipDisplayString = NULL;
-
-	if( m_cursorTextDisplayString )
-		TheDisplayStringManager->freeDisplayString( m_cursorTextDisplayString );
-	m_cursorTextDisplayString = NULL;
-
-}  // end ~Mouse
 
 /**Had to move this out of main init() because I need this data to properly initialize
 the Win32 version of the mouse (by preloading resources before D3D device is created).*/

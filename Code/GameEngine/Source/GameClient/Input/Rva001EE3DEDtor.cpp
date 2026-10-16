@@ -1,6 +1,6 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc
 //
-// ??1Rva001EE3DE@@UAE@XZ, retail 0x001EE3DE, 165 bytes.
+// ??1Mouse@@UAE@XZ, retail 0x001EE3DE, 165 bytes.
 // Virtual dtor: vtable 0x007E0358, manual release of ptr at +0x4FA8 via
 // DisplayManager global 0x009FEAD8 slot 0x3C (FreeEntry, Rva0025FC61 precedent),
 // Wide strings at +0x1300/+0x12FC/+0x12F8 and narrow at +0x126C via
@@ -69,13 +69,13 @@ public:
 
 // Retail identity is Mouse (vtable 0x00BE0358 is written by both the ctor
 // 0x001EEC97 and the dtor 0x001EE3DE, which share one ICF-folded FuncInfo
-// handler); the address-named view is kept so the unit does not compete with
-// Mouse.cpp's ZH-layout ??_7Mouse.
-class Rva001EE3DE : public SubsystemInterface
+// handler; Win32Mouse's ctor and dtor 0x000419E3 call them). Mouse.cpp keeps
+// the ZH-layout methods but no longer defines the ctor/dtor or needs ??_7Mouse.
+class Mouse : public SubsystemInterface
 {
 public:
-	Rva001EE3DE();
-	virtual ~Rva001EE3DE();
+	Mouse();
+	virtual ~Mouse();
 
 private:
 	unsigned char m_pad04[8];
@@ -145,10 +145,10 @@ private:
 	int m_value500C;						// 0x500C
 };
 
-// ??0Rva001EE3DE@@QAE@XZ, retail 0x001EEC97, 799 bytes: Mouse::Mouse. ZH's
+// ??0Mouse@@QAE@XZ, retail 0x001EEC97, 799 bytes: Mouse::Mouse. ZH's
 // statement order with BFME2's added members (0x4F9E..0x4FA1, 0x5000..0x500C)
 // and the explicit tooltip-string clears.
-Rva001EE3DE::Rva001EE3DE()
+Mouse::Mouse()
 {
 	m_numButtons = 0;
 	m_numAxes = 0;
@@ -247,7 +247,7 @@ Rva001EE3DE::Rva001EE3DE()
 	m_value500C = -1;
 }
 
-Rva001EE3DE::~Rva001EE3DE()
+Mouse::~Mouse()
 {
 	if (m_cursorTextDisplayString != 0)
 		g_009FEAD8->FreeEntry(m_cursorTextDisplayString);
