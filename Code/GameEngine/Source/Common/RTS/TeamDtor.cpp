@@ -31,6 +31,8 @@ namespace _STL {
 template <> _List_base<int, allocator<int> >::~_List_base();
 }
 #include "ascii_string.h"
+// Team's vtable slot 2 is retail's class-name getter (0x003A3709), not crc.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 
 // list<int> destruction otherwise instantiates per-TU deallocate
@@ -203,7 +205,7 @@ public:
 protected:
 	virtual ~Team();
 	virtual void loadPostProcess();
-	virtual void crc(Xfer *xfer);
+	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 private:
 	TeamPrototype *m_proto;			// +0x30
@@ -218,6 +220,13 @@ private:
 	_STL::list<int> m_xferMemberIDList;	// +0x12C
 	Rva002EE9B7 m_130;			// +0x130
 };
+
+// Slot 2 of Team's vtable (between loadPostProcess 0x003A2339 and xfer
+// 0x003A2072): returns the class-name string 0x00BEE898.
+const char *Team::GetSnapshotName() const
+{
+	return "Team";
+}
 
 Team::~Team()
 {

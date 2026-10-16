@@ -16,6 +16,8 @@
 #include <list>
 #include <set>
 #include "ascii_string.h"
+// Team's vtable slot 2 is retail's class-name getter (0x003A3709), not crc.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 
 
@@ -95,7 +97,7 @@ public:
 protected:
 	virtual ~Team();
 	virtual void loadPostProcess();
-	virtual void crc(Xfer *xfer);
+	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 private:
 	TeamPrototype *m_proto;			// +0x30
