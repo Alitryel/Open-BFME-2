@@ -1,9 +1,5 @@
 // ?exitObjectViaDoor@SiegeEngineContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.9049 date=2026-10-14
-// ?exitObjectViaDoor@SiegeEngineContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.91114 date=2026-10-14
-// ?exitObjectViaDoor@SiegeEngineContain@@UAEXPAVObject@@W4ExitDoorType@@@Z
-// partial score=0.85 date=2026-10-09
+// partial score=0.9508 date=2026-10-16
 // cl: /O1 /Ob2 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_CRTIMP= /Ireference/shims/bfmealloc /ICode/Libraries/Include /ICode/GameEngine/Source/Common
 // stlport
 // BF1 f989 OpenContainExitObjectViaDoor.cpp provides containment/path semantics.
@@ -14,7 +10,6 @@
 #include "Lib/Coord3DCtorView.h"
 #include <vector>
 #include "GameLogicObjectLookupView.h"
-template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 enum ExitDoorType { DOOR_1=0 };
 enum CommandSourceType { CMD_FROM_AI=2 };
 enum PathfindLayerEnum { LAYER_WALL=17 };
@@ -36,6 +31,10 @@ class AIUpdateInterface {public:
 class Thing {public:const Coord3D *getUnitDirectionVector2D()const;void setOrientation(float);};
 class Rva004C5772CmpBoolField {public:bool get()const;};
 struct SiegeExitTemplate {char pad[0x108];unsigned int kinds[7];};
+class ModelConditionFlags {public:
+ unsigned int test(unsigned int bit)const{return m_words[bit>>5]&(1U<<(bit&0x1f));}
+ void clear(unsigned int bit){m_words[bit>>5]&=~(1U<<(bit&0x1f));}
+ private:unsigned int m_words[19];};
 class Object:public Thing {public:
  Player *getControllingPlayer()const;
  Module *findModule(NameKeyType)const;
@@ -43,8 +42,9 @@ class Object:public Thing {public:
  void rva0028AE6D();void rva0028D412(const Matrix3D*);void rva0028B4CE(PathfindLayerEnum);
  void teleportTo(const Coord3D*,bool);void rva0028ACDC(const Coord3D*);
  char pad[4];SiegeExitTemplate *tmplate;char pad8[0x38-8];Coord3D position;float orientation;
- char pad48[0xcc-0x48];float radius;char padD0[0x118-0xd0];unsigned int flag118;
- char pad11C[0x258-0x11c];AIUpdateInterface *ai;
+ char pad48[0xcc-0x48];float radius;char padD0[0x10c-0xd0];ModelConditionFlags mcf;
+ char pad158[0x258-0x158];AIUpdateInterface *ai;
+ __forceinline void clearModelConditionState(unsigned int mc){if(mcf.test(mc)!=0){mcf.clear(mc);rva0028AE6D();}}
 };
 class Rva2225E0Filter {public:bool accepts(Object*,Player*);};
 struct SiegeExitData {char pad[0x18c];Rva2225E0Filter filter;char pad18d[3];int count;};
@@ -90,13 +90,13 @@ void SiegeEngineContain::exitObjectViaDoor(Object *exitObj,ExitDoorType door)
    remove(exitObj);Object *me=object();Coord3D pos;
    if(me->tmplate->kinds[4]&0x800){Matrix3D transform;
      me->getSingleLogicalBonePosition("Ladder04",&pos,&transform);
-     if(__vref(exitObj->flag118)&1){exitObj->flag118&=~1;exitObj->rva0028AE6D();}
+     exitObj->clearModelConditionState(3*32+0);
      exitObj->rva0028D412(&transform);exitObj->rva0028B4CE(LAYER_WALL);
      AIUpdateInterface *ai=exitObj->ai;TheAI->pathfinder->AddObjectToPathfindMap(exitObj);
      if(ai){if(exitObj->getControllingPlayer()->type==1){ai->ignoreObstacle(0);ai->commands()->aiHunt(CMD_FROM_AI);}else ai->commands()->aiIdle(CMD_FROM_AI);}
    }else{
-     Coord3D dest;{pos=me->position;Coord3D direction;const Coord3D *dir=me->getUnitDirectionVector2D();direction.x=dir->x;direction.y=dir->y;
-     const float &radius=me->radius;pos.x+=direction.x*radius;pos.y+=direction.y*radius;
+     Coord3D dest;{pos=me->position;Coord3D direction=*me->getUnitDirectionVector2D();
+     float radius=me->radius;pos.x+=direction.x*radius;pos.y+=direction.y*radius;
      pos.z=(TheAI->pathfinder ? TheAI->pathfinder : TheAI->pathfinder)->GetWallHeight(LAYER_WALL,&pos,0);
      dest=pos;pos.x+=direction.x*20.0f;pos.y+=direction.y*20.0f;
      dest.x+=direction.x*40.0f;dest.y+=direction.y*40.0f;}
