@@ -30,7 +30,7 @@ Coord3D Object::rva00265514(const Object *that) const {
     if (radiusSum >= distance)
         direction.zero();
     else
-        direction.scale((distance - radiusSum) / distance);
+        direction.scaleInlined((distance - radiusSum) / distance);
     return direction;
 }
 
@@ -45,6 +45,6 @@ Coord3D Object::Get2DBorderVectorTo(const Coord3D *position) const {
     if (radius >= distance)
         direction.zero();
     else
-        direction.scale((distance - radius) / distance);
+        direction.scaleInlined((distance - radius) / distance);
     return direction;
 }
