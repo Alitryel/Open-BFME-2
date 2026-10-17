@@ -57,3 +57,9 @@ void MilesAudioManager::rva00051353(const UnicodeString &text)
  }
  if(m_window)m_window->rva00260BBF(text,m_settings->m_atA4);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x00260BBF -> ?rva00260BBF@SubTitleWindow@@QAEXABV?$StringBase@G@@I@Z (defined by Code/Libraries/Source/WWVegas/WWLib/rva00260BBFRva00260BBFFarm.cpp)
+#pragma comment(linker, "/alternatename:?publish@Rva00435A40Sink@@QAEXABV?$StringBase@G@@I@Z=?rva00260BBF@SubTitleWindow@@QAEXABV?$StringBase@G@@I@Z")

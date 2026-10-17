@@ -235,3 +235,9 @@ void Rva0006EE46::rva0006EE46()
 	if (m_10)
 		Rva00118660Call(this, m_10);
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x0030B232 -> ?rva0030B232@AreaPolygonBase@@QAEXABVMatrix3D@@@Z (defined by Code/GameEngine/Source/Common/Rva0030B232Transform.cpp)
+#pragma comment(linker, "/alternatename:?rva0030B232@Rva0030B232@@QAEXH@Z=?rva0030B232@AreaPolygonBase@@QAEXABVMatrix3D@@@Z")

@@ -56,3 +56,9 @@ void Rva00113110Holder::rva00113151(void *incoming, float value)
 		((W3DTerrainBackground *)this)->setFlipRecursive(0, 0, m_callbackContext, value);
 	}
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x00112AD1 -> ?setFlipRecursive@W3DTerrainBackground@@QAEXHHHM@Z (defined by Code/GameEngineDevice/Source/W3DDevice/GameClient/W3DTerrainBackgroundSetFlipRecursiveTolerance.cpp)
+#pragma comment(linker, "/alternatename:?rva00112AD1@Rva00112AD1@@QAE_NHHHM@Z=?setFlipRecursive@W3DTerrainBackground@@QAEXHHHM@Z")

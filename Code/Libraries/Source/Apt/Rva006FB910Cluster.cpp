@@ -326,3 +326,9 @@ void Rva006FB860::rva006FB5B0(int x, int y, int packed, int field)
         }
     }
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x006EE6C0 -> ?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z (defined by Code/Libraries/Source/Apt/AptCharacterSetMember.cpp)
+#pragma comment(linker, "/alternatename:?rva008AF650Implementation@@YAXHHH@Z=?rva006EE6C0@@YA_NPAVAptValue@@PBVEAStringC@@0@Z")

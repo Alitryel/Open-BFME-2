@@ -71,3 +71,19 @@ void Rva006EE520::update(int frame)
 		self->m_manager->subTitles()->SetDisplayedStats(i);
 	}
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x00036E70 -> ?releaseBuffer@?$StringBase@G@@AAEXXZ
+#pragma comment(linker, "/alternatename:??1?$StringBase@G@@IAE@XZ=?releaseBuffer@?$StringBase@G@@AAEXXZ")
+//   0x000469CB -> ?GetColor@SubTitleManager@@QAEIH@Z
+#pragma comment(linker, "/alternatename:?getColor@SubtitleManager@@QBEIH@Z=?GetColor@SubTitleManager@@QAEIH@Z")
+//   0x00046906 -> ?GetText@SubTitleManager@@QAE?AVUnicodeString@@H@Z
+#pragma comment(linker, "/alternatename:?getText@Rva006ED3D0TextAccess@@QBE?AV?$StringBase@G@@H@Z=?GetText@SubTitleManager@@QAE?AVUnicodeString@@H@Z")
+//   0x000468AD -> ?HasBeenDisplayed@SubTitleManager@@QAE_NH@Z
+#pragma comment(linker, "/alternatename:?hasBeenDisplayed@SubtitleManager@@QBE_NH@Z=?HasBeenDisplayed@SubTitleManager@@QAE_NH@Z")
+//   0x00260BBF -> ?rva00260BBF@SubTitleWindow@@QAEXABV?$StringBase@G@@I@Z (defined by Code/Libraries/Source/WWVegas/WWLib/rva00260BBFRva00260BBFFarm.cpp)
+#pragma comment(linker, "/alternatename:?publish@Rva00435A40Sink@@QAEXABV?$StringBase@G@@I@Z=?rva00260BBF@SubTitleWindow@@QAEXABV?$StringBase@G@@I@Z")
+//   0x00046973 -> ?SetDisplayedStats@SubTitleManager@@QAEXH@Z
+#pragma comment(linker, "/alternatename:?setDisplayedStats@SubtitleManager@@QAEXH@Z=?SetDisplayedStats@SubTitleManager@@QAEXH@Z")

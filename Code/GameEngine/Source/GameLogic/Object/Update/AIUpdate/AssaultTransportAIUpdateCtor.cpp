@@ -61,3 +61,9 @@ AssaultTransportAIUpdate::AssaultTransportAIUpdate(Thing *thing, const ModuleDat
 	m_count43C = 0xA;
 	Rva0048F365Helper();
 }
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x0026E9BD -> ??0AIUpdateInterface@@QAE@PAVThing@@PBVModuleData@@@Z (defined by Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/AIUpdateInterfaceCtor.cpp)
+#pragma comment(linker, "/alternatename:??0Rva0026E9BDBase@@QAE@PAVThing@@PBVModuleData@@@Z=??0AIUpdateInterface@@QAE@PAVThing@@PBVModuleData@@@Z")
