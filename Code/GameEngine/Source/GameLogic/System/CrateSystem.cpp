@@ -99,6 +99,24 @@ public:
 #define DEFINE_VETERANCY_NAMES				// for TheVeterancyNames[]
 
 #include "GameLogic/CrateSystem.h"
+extern "C" {
+void __identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva002567EAParse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseCrateCreationEntry@CrateTemplate@@SAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva003396D3_ParseKillerScience@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x008162A0: 6 entries and the null terminator; every parser is a rowed code owner.
+const FieldParse CrateTemplate::TheCrateTemplateFieldParseTable[7] = {
+	{ "CreationChance", (INIFieldParseProc)&__identifier("?parseReal@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x14 },
+	{ "VeterancyLevel", (INIFieldParseProc)&__identifier("?parseIndexList@INI@@SAXPAV1@PAX1PBX@Z"), TheVeterancyNames, 0x18 },
+	{ "KilledByType", (INIFieldParseProc)&__identifier("?Rva002567EAParse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x1C },
+	{ "CrateObject", (INIFieldParseProc)&__identifier("?parseCrateCreationEntry@CrateTemplate@@SAXPAVINI@@PAX1PBX@Z"), 0, 0x0 },
+	{ "KillerScience", (INIFieldParseProc)&__identifier("?Rva003396D3_ParseKillerScience@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x38 },
+	{ "OwnedByMaker", (INIFieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x40 },
+	{ 0, 0, 0, 0 }
+};
 #include "Common/BitFlagsIO.h"
 
 extern CrateSystem *TheCrateSystem;
