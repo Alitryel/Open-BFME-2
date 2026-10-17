@@ -376,7 +376,7 @@ Bool GameInfo::isColorTaken(Int colorIdx, Int slotToIgnore) const
 
 // ?rva003FF3B5@GameInfo@@UAE_NXZ @0x003FF3B5 (46B):
 // GameInfo slot 19 (+0x4C) of vtable 0x008193C8 (the rowed copy ctor
-// ??0Rva00382FA7 stores the same vtable; its +0x18[8] block matches
+// ??0GameInfo stores the same vtable; its +0x18[8] block matches
 // m_slot[8] at +0x18). Scans 8 slots via rowed getConstSlot, skipping the
 // local slot reached through slot 13 (+0x34, getLocalSlotNum); inline
 // isHuman (m_state == 6 at +0x04) decides. Retail has no null check.

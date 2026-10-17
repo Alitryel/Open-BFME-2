@@ -2,7 +2,7 @@
 //
 // ??0GameSpyStagingRoom@@QAE@ABV0@@Z @0x003835F4 345B: GameSpyStagingRoom's
 // memberwise copy constructor (callers 0x003837A9 0x00385815 0x005AF87D
-// 0x005AF892 0x005AF8E1). Rowed base copy Rva00382FA7 (0x00382FA7), then the
+// 0x005AF892 0x005AF8E1). Rowed base copy GameInfo (0x00382FA7), then the
 // vtable 0x00C19440 (the GameSpyStagingRoom vtable: slot 0 is the rowed
 // ??_GGameSpyStagingRoom 0x00383768, slots 12..14 are the rowed ZH
 // amIHost/getLocalSlotNum/resetAccepted), the 8x0x1E0 slot array through the
@@ -12,10 +12,11 @@
 
 #include "ascii_string.h"
 
-struct Rva00382FA7
+class GameInfo
 {
-	Rva00382FA7(const Rva00382FA7 &other);
-	virtual ~Rva00382FA7();
+public:
+	GameInfo(const GameInfo &other);
+	virtual ~GameInfo();
 	char m_pad[0xDC - 4];
 };
 
@@ -29,7 +30,7 @@ private:
 	char m_pad[0x1E0 - 4];
 };
 
-class GameSpyStagingRoom : public Rva00382FA7
+class GameSpyStagingRoom : public GameInfo
 {
 public:
 	virtual ~GameSpyStagingRoom();

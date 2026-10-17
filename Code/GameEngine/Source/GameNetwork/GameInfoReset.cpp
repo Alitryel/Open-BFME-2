@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 // ?reset@GameInfo@@UAEXXZ @0x003FFF8F (267B):
 // GameInfo::reset, virtual slot 10 (+0x28) of vtable 0x008193C8 (rowed copy
-// ctor ??0Rva00382FA7@@QAE@ABU0@@Z sets it; slot 13 getLocalSlotNum rowed,
+// ctor ??0GameInfo@@QAE@ABV0@@Z sets it; slot 13 getLocalSlotNum rowed,
 // slot 19 rva003FF3B5 rowed in GameSlotApparent.cpp). BFME2 reset vs ZH donor
 // (GameInfo.cpp reset: NOMAP via temp, seed from GetTickCount, slots loop,
 // preorderMask clear): extra Unicode clear at +0x04, Version init at +0x90,
@@ -67,7 +67,17 @@ class GameInfo : public EmptyBase
 {
 public:
 	GameInfo();
-	virtual void reset();
+	virtual ~GameInfo();
+	virtual void bfmeVtSlot1() = 0;
+	virtual void bfmeVtSlot2() = 0;
+	virtual void bfmeVtSlot3() = 0;
+	virtual void bfmeVtSlot4() = 0;
+	virtual void bfmeVtSlot5() = 0;
+	virtual void bfmeVtSlot6() = 0;
+	virtual void bfmeVtSlot7() = 0;
+	virtual void bfmeVtSlot8() = 0;
+	virtual void bfmeVtSlot9() = 0;
+	virtual void reset(); // slot 10
 private:
 	UnicodeString m_04;
 	Int m_08;

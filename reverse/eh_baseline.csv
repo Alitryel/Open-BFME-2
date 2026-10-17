@@ -21,7 +21,6 @@ name,target_rva,verdict
 ??1Rva002CD4A6@@UAE@XZ,0x002CD4A6,bytes_differ
 ??0ObjectModule@@QAE@PAVThing@@PBVModuleData@@@Z,0x00306AA7,bytes_differ
 ??0DrawableModule@@QAE@PAVThing@@PBVModuleData@@@Z,0x00306B19,bytes_differ
-??0Rva00382FA7@@QAE@ABU0@@Z,0x00382FA7,bytes_differ
 ??0GameInfo@@QAE@XZ,0x00400A07,bytes_differ
 ??0Rva004147CF@@QAE@ABV0@@Z,0x004147CF,bytes_differ
 ??0GettingBuiltBehaviorModuleData@@QAE@XZ,0x0045324E,bytes_differ

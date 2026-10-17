@@ -7,13 +7,13 @@
 // (rowed 0x00036E70), destroys the eight 0x1D0-byte slots at +0xDC with
 // ~LANGameSlot 0x00447B0E, then runs the GameInfo base destructor 0x00400A7F
 // without re-storing the vtable (MSVC 7.1's implicit shape). The base is
-// rowed under its address name Rva00382FA7.
+// rowed as ??1GameInfo (formerly the address name Rva00382FA7).
 #include "unicode_string.h"
 
-class Rva00382FA7
+class GameInfo
 {
 public:
-    virtual ~Rva00382FA7();
+    virtual ~GameInfo();
     char m_pad[0xDC - 4];
 };
 
@@ -48,7 +48,7 @@ enum
     MAX_SLOTS = 8
 };
 
-class LANGameInfo : public Rva00382FA7
+class LANGameInfo : public GameInfo
 {
 public:
     void setSlot(int slotNum, LANGameSlot slotInfo);

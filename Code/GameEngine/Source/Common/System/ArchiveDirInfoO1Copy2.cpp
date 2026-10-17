@@ -1,6 +1,6 @@
-// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /Ireference/shims/moduledata
 //
-// ??0Rva00382FA7@@QAE@ABU0@@Z, retail 0x00382FA7, 295 bytes.
+// ??0GameInfo@@QAE@ABV0@@Z, retail 0x00382FA7, 295 bytes.
 // Copy ctor with vptr, UnicodeString at +0x04, ints/bytes, two rep-movsd
 // int blocks at +0x18[8] and +0x60[10], AsciiString at +0x40, ints, byte,
 // nested Rva00382574 at +0x90 via its rowed copy, tail ints and 4-dword block
@@ -33,16 +33,13 @@ struct IntBlock8 { int v[8]; };
 struct IntBlock10 { int v[10]; };
 struct IntBlock4 { int v[4]; };
 
-class EmptyBase
+class Xfer;
+#include "Common/Snapshot.h"
+
+class GameInfo : public Snapshot
 {
 public:
-	EmptyBase() {}
-	~EmptyBase();
-};
-
-struct Rva00382FA7 : public EmptyBase
-{
-	virtual ~Rva00382FA7();
+	virtual ~GameInfo();
 	UnicodeString m_04;
 	int m_08;
 	int m_0c;
@@ -70,15 +67,19 @@ struct Rva00382FA7 : public EmptyBase
 	int m_c8;
 	IntBlock4 m_cc;
 
-	Rva00382FA7(const Rva00382FA7 &other);
+	GameInfo(const GameInfo &other);
 public:
-	virtual void bfmeVtSlot1() = 0; // __purecall in every copy of this vtable
-	virtual void bfmeVtSlot2() = 0; // __purecall in every copy of this vtable
-	virtual void bfmeVtSlot3() = 0; // __purecall in every copy of this vtable
+	virtual void bfmeVtSlot4() = 0;
+	virtual void bfmeVtSlot5() = 0;
+	virtual void bfmeVtSlot6() = 0;
+	virtual void bfmeVtSlot7() = 0;
+	virtual void bfmeVtSlot8() = 0;
+	virtual void bfmeVtSlot9() = 0;
+	virtual void reset(); // slot 10
 };
 
-Rva00382FA7::Rva00382FA7(const Rva00382FA7 &other)
-	: EmptyBase()
+GameInfo::GameInfo(const GameInfo &other)
+	: Snapshot()
 	, m_04(other.m_04)
 	, m_08(other.m_08)
 	, m_0c(other.m_0c)

@@ -1,7 +1,7 @@
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHsc /Ireference/shims/moduledata
 //
-// ??1Rva00382FA7@@UAE@XZ @0x00400A7F 121B: GameInfo virtual dtor (Rva name keeps
-// pinned caller 0x003830CE and LINK GameSpyStagingRoomCopy); installs vtable
+// ??1GameInfo@@UAE@XZ @0x00400A7F 121B: GameInfo virtual dtor (formerly the address name
+// Rva00382FA7; name from ctor 0x00400A07 and the shared vtable); installs vtable
 // 0x008193C8 then destroys owned TreeHint ptr at +0xC8 via delete plus null,
 // Version at +0x90 via rowed 0x00002152, AsciiString at +0x40 via narrow
 // 0x00036410, UnicodeString at +0x04 via wide 0x00036E70, then inline Snapshot
@@ -27,10 +27,17 @@ public:
 class Xfer;
 #include "Common/Snapshot.h"
 
-class Rva00382FA7 : public Snapshot
+class GameInfo : public Snapshot
 {
 public:
-	virtual ~Rva00382FA7();
+	virtual ~GameInfo();
+	virtual void bfmeVtSlot4() = 0;
+	virtual void bfmeVtSlot5() = 0;
+	virtual void bfmeVtSlot6() = 0;
+	virtual void bfmeVtSlot7() = 0;
+	virtual void bfmeVtSlot8() = 0;
+	virtual void bfmeVtSlot9() = 0;
+	virtual void reset(); // slot 10
 private:
 	UnicodeString m_04;
 	int m_08;
@@ -62,7 +69,7 @@ private:
 	int m_CC[4];
 };
 
-Rva00382FA7::~Rva00382FA7()
+GameInfo::~GameInfo()
 {
 	if (m_C8 != 0)
 	{
