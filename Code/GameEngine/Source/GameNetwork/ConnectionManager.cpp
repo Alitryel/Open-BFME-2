@@ -184,68 +184,13 @@ void Rva004D2941MapInstantiationAnchor()
 /**
  * Le destructor.
  */
-// ??1ConnectionManager@@ present-unmatched
-ConnectionManager::~ConnectionManager(void)
+// ConnectionManager::~ConnectionManager is rowed in ConnectionManager_dtor.cpp; the Zero
+// Hour copy here was a non-retail second definition. It was also what emitted the
+// rowed map<unsigned short,int> dtor; this anchor keeps it emitted (no retail body).
+// ?bfmeAnchorFileProgressMapDtor absent-from-retail
+void bfmeAnchorFileProgressMapDtor(FileProgressMap *progress)
 {
-	if (m_localUser != NULL) {
-		m_localUser->deleteInstance();
-		m_localUser = NULL;
-	}
-
-//	m_transport = NULL; // Network will delete transports; we just forget them
-	if (m_transport != NULL) {
-		// Complete nonvirtual destructor plus global delete, spelled out: a
-		// delete-expression makes this unit emit its own ??_GTransport copy.
-		m_transport->Transport::~Transport();
-		::operator delete(m_transport);
-		m_transport = NULL;
-	}
-
-	for (Int i = 0; i < MAX_SLOTS; ++i) {
-		if (m_frameData[i] != NULL) {
-			m_frameData[i]->deleteInstance();
-			m_frameData[i] = NULL;
-		}
-	}
-
-	for (i = 0; i < NUM_CONNECTIONS; ++i) {
-		if (m_connections[i] != NULL) {
-			m_connections[i]->deleteInstance();
-			m_connections[i] = NULL;
-		}
-	}
-
-	if (TheDisconnectMenu != NULL) {
-		// This is done here since TheDisconnectMenu should only be there if we are in a network game.
-		delete TheDisconnectMenu;
-		TheDisconnectMenu = NULL;
-	}
-
-	if (m_disconnectManager != NULL) {
-		delete m_disconnectManager;
-		m_disconnectManager = NULL;
-	}
-
-	if (m_pendingCommands != NULL) {
-		m_pendingCommands->deleteInstance();
-		m_pendingCommands = NULL;
-	}
-
-	if (m_relayedCommands != NULL) {
-		m_relayedCommands->deleteInstance();
-		m_relayedCommands = NULL;
-	}
-
-	if (m_netCommandWrapperList != NULL) {
-		m_netCommandWrapperList->deleteInstance();
-		m_netCommandWrapperList = NULL;
-	}
-
-	s_fileCommandMap.clear();
-	s_fileRecipientMaskMap.clear();
-	for (i = 0; i < MAX_SLOTS; ++i) {
-		s_fileProgressMap[i].clear();
-	}
+	progress->~FileProgressMap();
 }
 
 /**
