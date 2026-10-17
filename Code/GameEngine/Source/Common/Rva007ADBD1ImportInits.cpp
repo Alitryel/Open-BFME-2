@@ -22,7 +22,7 @@ extern unsigned long g_00E063FC;
 // Read by 0x00325F14.
 extern unsigned int doubleClickTime;
 // Read by 0x0023027C.
-extern bool g_00DFE718;
+bool g_00DFE718 = false;  // retail 0x009FE718
 
 struct Rva007ADBD1ImportInits
 {
