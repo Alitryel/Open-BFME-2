@@ -100,6 +100,12 @@ inline void _Destroy(AsciiString * __first, AsciiString * __last)
 #include "GameLogic/Module/FlightDeckBehavior.h"
 #include "GameLogic/Module/JetAIUpdate.h"
 #include "GameLogic/Module/ProductionUpdate.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<2>::_S_maskbit(unsigned int); }
+namespace _STL { template <> bool bitset<45>::_Unchecked_test(unsigned int) const; }
+namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
+namespace _STL { template <> Coord3D * vector<Coord3D, allocator<Coord3D> >::erase(Coord3D *, Coord3D *); }
+// bfme link decl-only end
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.

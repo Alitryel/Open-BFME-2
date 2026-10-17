@@ -268,6 +268,11 @@ void ShowUnderlyingGUIElements( Bool show, const char *layoutFilename, const cha
 
 #include <vector>
 #include <set>
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
+namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *>::_Bit_iter(); }
+namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
+// bfme link decl-only end
 // Retail inlines the typed node comparison. Keep this unit from emitting
 // a conflicting external base-iterator comparison.
 namespace _STL {

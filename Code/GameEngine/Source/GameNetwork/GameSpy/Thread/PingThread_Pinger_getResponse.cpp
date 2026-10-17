@@ -64,6 +64,12 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include "Common/StackDump.h"
 #include "Common/SubsystemInterface.h"
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
+namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
+// bfme link decl-only end
 
 //-------------------------------------------------------------------------
 

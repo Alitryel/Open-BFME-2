@@ -10,6 +10,10 @@
 #include "ascii_string.h"
 #include <map>
 #include "../../Common/GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 
 struct TreeKey00242F5E { int m_id; AsciiString m_name; };
 struct TreeOpaqueMapped242F5E { unsigned int m_bits; };

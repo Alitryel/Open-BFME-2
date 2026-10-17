@@ -49,6 +49,17 @@ template <> void _STLP_alloc_proxy<char*, char, allocator<char> >::deallocate(ch
 }
 
 #include "GameNetwork/GameSpy/BuddyThread.h"
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(char const *, allocator<char> const &); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(char const *); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::assign(char const *, char const *); }
+namespace _STL { template <> char * __char_traits_base<char, int>::copy(char *, char const *, unsigned int); }
+namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
+namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
+// bfme link decl-only end
 
 class BuddyThreadClass : public ThreadClass
 {

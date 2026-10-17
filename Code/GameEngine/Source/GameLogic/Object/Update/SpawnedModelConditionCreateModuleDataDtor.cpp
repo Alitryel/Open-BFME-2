@@ -16,6 +16,10 @@
 struct BfmeStringHeadRecord160 { public: ~BfmeStringHeadRecord160(); };
 class Xfer;
 #include "../../../../../../reference/shims/moduledata/Common/Snapshot.h"
+// bfme link decl-only begin
+namespace _STL { template <> void __destroy_aux<BfmeStringHeadRecord160 *>(BfmeStringHeadRecord160 *, BfmeStringHeadRecord160 *, __false_type const &); }
+namespace _STL { template <> vector<BfmeStringHeadRecord160, allocator<BfmeStringHeadRecord160> >::~vector(); }
+// bfme link decl-only end
 class __declspec(novtable) SpawnedModelConditionCreateModuleData : public Snapshot
 {
 public:

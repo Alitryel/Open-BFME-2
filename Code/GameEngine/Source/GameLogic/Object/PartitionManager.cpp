@@ -131,6 +131,8 @@ namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_
 namespace _STL { template <> bitset<116> & bitset<116>::set(unsigned int); }
 namespace _STL { template <> bool bitset<45>::test(unsigned int) const; }
 template <> BitFlags<116>::BitFlags(BitFlags<116>::BogusInitType, int);
+namespace _STL { template <> vector<bool, allocator<bool> >::vector(allocator<bool> const &); }
+namespace _STL { template <> unsigned char * vector<unsigned char, allocator<unsigned char> >::erase(unsigned char *, unsigned char *); }
 // bfme link decl-only end
 
 // BFME 2's Object keeps its behavior list at +0x244 (the matched

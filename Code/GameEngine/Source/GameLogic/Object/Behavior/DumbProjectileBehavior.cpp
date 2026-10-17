@@ -54,6 +54,9 @@
 #include "GameLogic/Module/MissileAIUpdate.h"
 #include "GameLogic/Module/PhysicsUpdate.h"
 #include "GameLogic/Weapon.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 // BFME 2's Object keeps its behavior list at +0x244 (the matched
 // Object::findModule 0x0028B6D6 walks it there), its contain module at +0x250

@@ -81,6 +81,11 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "GameLogic/Object.h"
 #include "GameLogic/TerrainLogic.h"
 #include "Common/Team.h" 
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<2>::_S_maskbit(unsigned int); }
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
+// bfme link decl-only end
 // Reuse the verified Coord3D push-back specialization at2CE7DC.
 namespace _STL { template<> void vector<Coord3D>::push_back(const Coord3D&); }
 

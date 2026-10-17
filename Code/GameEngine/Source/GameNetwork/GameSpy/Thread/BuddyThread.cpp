@@ -86,6 +86,17 @@ private:
 
 #include "mutex.h"
 #include "thread.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+namespace _STL { template <> _Deque_base<BuddyResponse, allocator<BuddyResponse> >::~_Deque_base(); }
+namespace _STL { template <> void _Deque_base<BuddyRequest, allocator<BuddyRequest> >::_M_create_nodes(BuddyRequest **, BuddyRequest **); }
+namespace _STL { template <> void _Deque_base<BuddyResponse, allocator<BuddyResponse> >::_M_destroy_nodes(BuddyResponse **, BuddyResponse **); }
+namespace _STL { template <> void _Deque_base<BuddyRequest, allocator<BuddyRequest> >::_M_initialize_map(unsigned int); }
+namespace _STL { template <> void deque<BuddyRequest, allocator<BuddyRequest> >::_M_pop_front_aux(); }
+namespace _STL { template <> void deque<BuddyRequest, allocator<BuddyRequest> >::_M_push_back_aux_v(BuddyRequest const &); }
+namespace _STL { template <> void deque<BuddyRequest, allocator<BuddyRequest> >::_M_reallocate_map(unsigned int, bool); }
+namespace _STL { template <> BuddyRequest * allocator<BuddyRequest>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...

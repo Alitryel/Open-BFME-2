@@ -29,6 +29,12 @@ static inline const unsigned int &min(const unsigned int &a, const unsigned int 
 #define _CRTIMP
 #include "PreRTS.h"
 #include "PeerThreadRetail.h"
+// bfme link decl-only begin
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::erase(unsigned int, unsigned int); }
+namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
+namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
+// bfme link decl-only end
 namespace _STL { template <> string &string::append(const char *); }
 extern "C" void peerRetryWithNickA(PEER, const char *);
 extern GameSpyPeerMessageQueueInterface *TheGameSpyPeerMessageQueue;

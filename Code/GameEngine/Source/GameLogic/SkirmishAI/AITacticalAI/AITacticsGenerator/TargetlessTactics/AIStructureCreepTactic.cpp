@@ -232,6 +232,10 @@ extern GameLogic *TheGameLogic;
 #define COORD3D_DV_DTOR_INLINE
 #define COORD3D_DV_COPY_INLINE
 #include "../../../../../../../Libraries/Include/Lib/Coord3DDerivedView.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree_node<AsciiString> * _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::_M_create_node(AsciiString const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<AsciiString, _Nonconst_traits<AsciiString> >, bool> _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::insert_unique(AsciiString const &); }
+// bfme link decl-only end
 
 
 class Rva004EBF4B

@@ -50,6 +50,10 @@ public:
 };
 
 #include "ascii_string.h"
+// bfme link decl-only begin
+template <> unsigned int rts::hash<NameKeyType>::operator()(NameKeyType const &) const;
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 
 class NameKeyGenerator
 {

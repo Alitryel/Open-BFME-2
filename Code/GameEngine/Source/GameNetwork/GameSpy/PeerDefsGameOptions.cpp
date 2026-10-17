@@ -42,6 +42,9 @@ template <typename T> struct BfmeStringData
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(char const *); }
+// bfme link decl-only end
 
 namespace _STL
 {

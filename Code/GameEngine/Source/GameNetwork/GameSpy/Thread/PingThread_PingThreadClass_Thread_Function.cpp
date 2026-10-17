@@ -28,6 +28,14 @@ void __cdecl Rva00030830GameFree(void *);
 
 #include "GameNetwork/GameSpy/PingThread.h"
 #include "mutex.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
+namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
+// bfme link decl-only end
 
 // BFME 2's thread base (rowed ThreadClass members): name +0x04, id +0x44,
 // handle +0x48, priority +0x4C. Only the layout this body reads is needed.

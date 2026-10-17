@@ -41,6 +41,9 @@ struct RoamObjectTemplate{char pad[0x120];unsigned int bits;};
 class Object{public:char pad0[4];RoamObjectTemplate *objectTemplate;char pad8[0x38-8];Coord3D position;char pad44[0x258-0x44];RoamAI *ai;};
 int GetGameLogicRandomValue(int,int,char *,int);
 #include <math.h>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 // Arithmetic follows Zero Hour WWMath vector3.h; WB independently names
 // Vector3 Distance2/Length2/Rotate_Z in the target caller.
 struct RoamVector3 {

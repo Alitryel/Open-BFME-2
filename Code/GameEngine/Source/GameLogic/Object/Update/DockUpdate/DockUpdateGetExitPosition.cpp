@@ -59,6 +59,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include "GameLogic/PartitionManager.h"
 #include "GameLogic/Module/DockUpdate.h"
 #include "../../../../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
+namespace _STL { template <> void vector<bool, allocator<bool> >::_M_insert_aux(_Bit_iter<_Bit_reference, _Bit_reference *>, bool); }
+// bfme link decl-only end
 
 void DockUpdate::getExitPosition( Object* docker, Coord3D *position )
 {

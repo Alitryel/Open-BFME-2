@@ -71,6 +71,13 @@
 
 #include "WWDownload/Registry.h"
 #include "WWDownload/URLBuilder.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<QueuedDownload, allocator<QueuedDownload> >::~_List_base(); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> void _List_base<QueuedDownload, allocator<QueuedDownload> >::clear(); }
+namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
+namespace _STL { template <> void allocator<char>::deallocate(char *, unsigned int) const; }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...

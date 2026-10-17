@@ -13,6 +13,10 @@ extern "C" __declspec(dllimport) int __cdecl atoi(const char*);
 #include <string>
 #include <vector>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> vector<basic_string<char, char_traits<char>, allocator<char> >, allocator<basic_string<char, char_traits<char>, allocator<char> > > >::~vector(); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// bfme link decl-only end
 void __cdecl Rva00030830GameFree(void *);
 // Bind deallocation to the verified game allocator; retain imported atof/atoi.
 namespace _STL

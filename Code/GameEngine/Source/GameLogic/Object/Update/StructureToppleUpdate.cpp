@@ -61,6 +61,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "GameLogic/Weapon.h"
 #include "GameClient/Drawable.h"
 #include "GameClient/InGameUI.h"
+// bfme link decl-only begin
+namespace _STL { template <> AngleFXInfo * allocator<AngleFXInfo>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 
 // codegen otherwise instantiates the max<unsigned> COMDAT (one byte shape
 // per TU flags); a file-static overload takes those calls instead so this

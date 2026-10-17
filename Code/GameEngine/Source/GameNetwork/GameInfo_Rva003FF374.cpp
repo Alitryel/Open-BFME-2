@@ -64,6 +64,17 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 // StringBase<char> bodies).
 #include "string_base.h"
 #include "../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<Coord3D, allocator<Coord3D> >::_List_base(allocator<Coord3D> const &); }
+namespace _STL { template <> _Rb_tree_base<pair<AsciiString const, Coord3D>, allocator<pair<AsciiString const, Coord3D> > >::_Rb_tree_base(allocator<pair<AsciiString const, Coord3D> > const &); }
+namespace _STL { template <> _List_base<Coord3D, allocator<Coord3D> >::~_List_base(); }
+namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::~_Rb_tree(); }
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const, Coord3D> > * _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::_M_create_node(pair<AsciiString const, Coord3D> const &); }
+namespace _STL { template <> _List_node<Coord3D> * list<Coord3D, allocator<Coord3D> >::_M_create_node(Coord3D const &); }
+namespace _STL { template <> void _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::_M_erase(_Rb_tree_node<pair<AsciiString const, Coord3D> > *); }
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const, Coord3D> > * allocator<_Rb_tree_node<pair<AsciiString const, Coord3D> > >::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> void _List_base<Coord3D, allocator<Coord3D> >::clear(); }
+// bfme link decl-only end
 
 // ?set@?$StringBase@G@@QAEXABV1@@Z at 0x00888530
 // ?set@UnicodeString@@QAEXABV0@@Z present-unmatched

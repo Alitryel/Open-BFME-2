@@ -78,6 +78,15 @@ struct Rva00474483Entry {
 struct Rva00541021 { int m_field0; char m_rest[0x18]; };
 // 8-byte conditional descriptor returned by the rowed 46247D pair out-copy twin.
 #include "../../../../../Include/GameLogic/ContainmentListView.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<Rva00541021, Rva00541021>(Rva00541021 *, Rva00541021 const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
+namespace _STL { template <> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::~_Rb_tree(); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
+namespace _STL { template <> void _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::_M_empty_initialize(); }
+namespace _STL { template <> void _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::clear(); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(pair<int const, int> const &); }
+// bfme link decl-only end
 class Rva0046247DDescriptor { public: Rva0036AE51ListView rva0046247D(); };
 // Native 4746E5/474713: the returned conditional descriptor is a guarded
 // temporary - retail writes the constructed flag ([ebp-0x18] |= 1 before the

@@ -24,6 +24,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 #include "Code/GameEngine/Source/Common/GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> void vector<Object *, allocator<Object *> >::_M_insert_overflow(Object **, Object *const &, __true_type const &, unsigned int, bool); }
+namespace _STL { template <> void vector<Object *, allocator<Object *> >::push_back(Object *const &); }
+// bfme link decl-only end
 class Object;
 template<int N> class ProductionTransferSlots : public ProductionTransferSlots<N-1> {public:virtual void gap(char(*)[N])=0;};template<> class ProductionTransferSlots<0>{};
 class ProductionTransferResult : public ProductionTransferSlots<42> {public:virtual void slot42(Object*)=0;};

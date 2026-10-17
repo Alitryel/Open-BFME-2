@@ -19,6 +19,9 @@ typedef bool Bool;
 #include <list>
 #include "unicode_string.h"
 #include "../../../../../Libraries/Include/Lib/BfmeE16.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::~_Rb_tree(); }
+// bfme link decl-only end
 // bfme link decl-only BfmeE16
 namespace _STL { template <> vector<BfmeE16, allocator<BfmeE16> >::~vector(); }
 class Rva00330757Member {public:Rva00330757Member() throw();~Rva00330757Member() throw();char storage[16];};

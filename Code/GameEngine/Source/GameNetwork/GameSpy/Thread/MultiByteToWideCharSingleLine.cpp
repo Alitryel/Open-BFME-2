@@ -10,6 +10,12 @@
 // PeerResponse::text), 0x000AA966 and 9 more waiting on this body.
 
 #include <string>
+// bfme link decl-only begin
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > const &); }
+namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::_M_terminate_string(); }
+namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> unsigned int __char_traits_base<unsigned short, unsigned short>::length(unsigned short const *); }
+// bfme link decl-only end
 
 extern "C" unsigned int __cdecl strlen(const char *s);
 extern "C" void *__cdecl memset(void *dest, int c, unsigned int n);

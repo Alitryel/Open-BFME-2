@@ -13,6 +13,11 @@
 extern "C" void _ReadWriteBarrier();
 #pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<AsciiString *>(AsciiString *, AsciiString *); }
+namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
+namespace _STL { template <> vector<AsciiString, allocator<AsciiString> >::~vector(); }
+// bfme link decl-only end
 class Rva003623E5Filter
 {
 public:

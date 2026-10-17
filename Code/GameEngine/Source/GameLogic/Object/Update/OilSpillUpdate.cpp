@@ -52,6 +52,14 @@ class FXList;
 // Coord3D: shared header/view; no private copy.
 #define COORD3D_VIEW_INLINE
 #include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
+// bfme link decl-only begin
+namespace _STL { template <> Coord3D * __copy_backward<Coord3D *, Coord3D *, int>(Coord3D *, Coord3D *, Coord3D *, random_access_iterator_tag const &, int *); }
+namespace _STL { template <> void fill<Coord3D *, Coord3D>(Coord3D *, Coord3D *, Coord3D const &); }
+namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::_M_fill_insert(Coord3D *, unsigned int, Coord3D const &); }
+namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
+namespace _STL { template <> Coord3D * vector<Coord3D, allocator<Coord3D> >::erase(Coord3D *, Coord3D *); }
+namespace _STL { template <> void vector<Coord3D, allocator<Coord3D> >::resize(unsigned int); }
+// bfme link decl-only end
 
 inline Coord3D operator-(const Coord3D &a, const Coord3D &b)
 {

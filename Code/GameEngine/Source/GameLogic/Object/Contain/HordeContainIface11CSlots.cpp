@@ -4248,6 +4248,14 @@ void HordeContain::performReform()
 }
 
 #include "../../../../Include/GameLogic/ContainmentListView.h"
+// bfme link decl-only begin
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator++(); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
+namespace _STL { template <> _List_iterator<Object *, _Nonconst_traits<Object *> > list<Object *, allocator<Object *> >::insert(_List_iterator<Object *, _Nonconst_traits<Object *> >, Object *const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<int, _Nonconst_traits<int> >, bool> _Rb_tree<int, int, _Identity<int>, less<int>, allocator<int> >::insert_unique(int const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool> _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::insert_unique(pair<int const, int> const &); }
+// bfme link decl-only end
 
 // Native4726DD..472790 (179B), slot5 of +11C vftable C44C58.
 // The target first updates formation when set170 nonempty, resets target2A0,

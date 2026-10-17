@@ -16,6 +16,9 @@ void Rva00030830FreeAllocation(void *);
 #include <string>
 #include <map>
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+// bfme link decl-only end
 #undef free
 #pragma comment(linker, "/alternatename:?Rva00030830FreeAllocation@@YAXPAX@Z=_free")
 namespace _STL {

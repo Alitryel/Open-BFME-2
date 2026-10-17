@@ -69,6 +69,11 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 // vector<int> fill/insert otherwise instantiates the _Construct<int,int>
 // COMDAT; a file-static overload takes those calls instead.
 #include <new>
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<AsciiString, allocator<AsciiString> >::~_List_base(); }
+namespace _STL { template <> void _List_base<AsciiString, allocator<AsciiString> >::clear(); }
+namespace _STL { template <> _List_iterator<AsciiString, _Nonconst_traits<AsciiString> > list<AsciiString, allocator<AsciiString> >::insert(_List_iterator<AsciiString, _Nonconst_traits<AsciiString> >, AsciiString const &); }
+// bfme link decl-only end
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.

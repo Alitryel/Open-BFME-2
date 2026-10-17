@@ -22,6 +22,9 @@
 #include <vector>
 #include <map>
 #include <set>
+// bfme link decl-only begin
+namespace _STL { template <> bool less<int>::operator()(int const &, int const &) const; }
+// bfme link decl-only end
 enum ScienceType {SCIENCE_NONE=0};
 enum NameKeyType {NAMEKEY_NONE=0};
 class Rva0022C0CDSubsystem;extern Rva0022C0CDSubsystem*TheLivingWorldBuildingTemplateStore;

@@ -109,6 +109,11 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "GameLogic/TurretAI.h"
 #include "GameLogic/Weapon.h"
 #include "Common/Radar.h"									// For TheRadar
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<LocomotorSetType, pair<LocomotorSetType const, vector<LocomotorTemplate const *, allocator<LocomotorTemplate const *> > >, _Select1st<pair<LocomotorSetType const, vector<LocomotorTemplate const *, allocator<LocomotorTemplate const *> > > >, less<LocomotorSetType>, allocator<pair<LocomotorSetType const, vector<LocomotorTemplate const *, allocator<LocomotorTemplate const *> > > > >::~_Rb_tree(); }
+namespace _STL { template <> void _Rb_tree<LocomotorSetType, pair<LocomotorSetType const, vector<LocomotorTemplate const *, allocator<LocomotorTemplate const *> > >, _Select1st<pair<LocomotorSetType const, vector<LocomotorTemplate const *, allocator<LocomotorTemplate const *> > > >, less<LocomotorSetType>, allocator<pair<LocomotorSetType const, vector<LocomotorTemplate const *, allocator<LocomotorTemplate const *> > > > >::_M_erase(_Rb_tree_node<pair<LocomotorSetType const, vector<LocomotorTemplate const *, allocator<LocomotorTemplate const *> > > > *); }
+namespace _STL { template <> void _Rb_tree<LocomotorSetType, pair<LocomotorSetType const, vector<LocomotorTemplate const *, allocator<LocomotorTemplate const *> > >, _Select1st<pair<LocomotorSetType const, vector<LocomotorTemplate const *, allocator<LocomotorTemplate const *> > > >, less<LocomotorSetType>, allocator<pair<LocomotorSetType const, vector<LocomotorTemplate const *, allocator<LocomotorTemplate const *> > > > >::clear(); }
+// bfme link decl-only end
 // BFME 2's Object keeps its behavior list at +0x244 (the matched
 // Object::findModule 0x0028B6D6 walks it there), its contain module at +0x250
 // and its body module at +0x254; this tree's Zero Hour Object.h has +0x18C,

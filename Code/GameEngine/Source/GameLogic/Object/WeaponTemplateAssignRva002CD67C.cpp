@@ -40,6 +40,10 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "ascii_string.h"
 #include "../../../../Libraries/Include/Lib/Coord3D.h"
 #include "../../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
+// bfme link decl-only begin
+namespace _STL { template <> vector<Coord3D, allocator<Coord3D> > & vector<Coord3D, allocator<Coord3D> >::operator=(vector<Coord3D, allocator<Coord3D> > const &); }
+namespace _STL { template <> unsigned int vector<Coord3D, allocator<Coord3D> >::capacity() const; }
+// bfme link decl-only end
 
 struct BfmePod8
 {

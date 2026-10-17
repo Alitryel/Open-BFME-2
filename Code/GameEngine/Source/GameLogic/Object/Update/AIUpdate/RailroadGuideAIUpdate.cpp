@@ -82,6 +82,15 @@ inline void _Destroy(AsciiString * __first, AsciiString * __last)
 
 #ifdef RAILROAD_DESYNC_TEST
 #include "winbase.h"
+// bfme link decl-only begin
+namespace _STL { template <> AsciiString * __copy<AsciiString *, AsciiString *, int>(AsciiString *, AsciiString *, AsciiString *, random_access_iterator_tag const &, int *); }
+namespace _STL { template <> AsciiString * __uninitialized_copy<AsciiString const *, AsciiString *>(AsciiString const *, AsciiString const *, AsciiString *, __false_type const &); }
+namespace _STL { template <> vector<AsciiString, allocator<AsciiString> >::vector(vector<AsciiString, allocator<AsciiString> > const &); }
+namespace _STL { template <> vector<AsciiString, allocator<AsciiString> >::vector(allocator<AsciiString> const &); }
+namespace _STL { template <> unsigned long _Base_bitset<2>::_S_maskbit(unsigned int); }
+namespace _STL { template <> bool bitset<45>::_Unchecked_test(unsigned int) const; }
+namespace _STL { template <> AsciiString * vector<AsciiString, allocator<AsciiString> >::erase(AsciiString *, AsciiString *); }
+// bfme link decl-only end
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> COMDAT copies, so the calls bind the kept rowed copies.

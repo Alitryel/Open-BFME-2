@@ -61,6 +61,14 @@ template <typename T> struct BfmeStringData
 
 #include "ascii_string.h"
 #include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >, bool>::pair(_Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > const &, bool const &); }
+namespace _STL { template <> vector<UnicodeString, allocator<UnicodeString> >::~vector(); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator++(); }
+namespace _STL { template <> _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > > & _Rb_tree_iterator<pair<int const, int>, _Nonconst_traits<pair<int const, int> > >::operator--(); }
+namespace _STL { template <> _Rb_tree_node<pair<unsigned char const, short> > * _Rb_tree<unsigned char, pair<unsigned char const, short>, _Select1st<pair<unsigned char const, short> >, less<unsigned char>, allocator<pair<unsigned char const, short> > >::_M_create_node(pair<unsigned char const, short> const &); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, AsciiString> > * _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_M_create_node(pair<int const, AsciiString> const &); }
+// bfme link decl-only end
 
 namespace _STL
 {

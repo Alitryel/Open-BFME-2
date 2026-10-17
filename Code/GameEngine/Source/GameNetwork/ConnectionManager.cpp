@@ -97,6 +97,10 @@ static inline bool operator==(const _Rb_tree_iterator<T, LeftTraits>& a,
 #include "GameClient/InGameUI.h"
 // bfme link decl-only begin
 namespace _STL { template <> pair<_Rb_tree_iterator<pair<unsigned short const, unsigned char>, _Nonconst_traits<pair<unsigned short const, unsigned char> > >, bool> _Rb_tree<unsigned short, pair<unsigned short const, unsigned char>, _Select1st<pair<unsigned short const, unsigned char> >, less<unsigned short>, allocator<pair<unsigned short const, unsigned char> > >::insert_unique(pair<unsigned short const, unsigned char> const &); }
+namespace _STL { template <> pair<unsigned short const, unsigned char>::pair(unsigned short const &, unsigned char const &); }
+namespace _STL { template <> _Rb_tree<unsigned short, pair<unsigned short const, int>, _Select1st<pair<unsigned short const, int> >, less<unsigned short>, allocator<pair<unsigned short const, int> > >::~_Rb_tree(); }
+namespace _STL { template <> void _Rb_tree<unsigned short, pair<unsigned short const, int>, _Select1st<pair<unsigned short const, int> >, less<unsigned short>, allocator<pair<unsigned short const, int> > >::_M_erase(_Rb_tree_node<pair<unsigned short const, int> > *); }
+namespace _STL { template <> void _Rb_tree<unsigned short, pair<unsigned short const, int>, _Select1st<pair<unsigned short const, int> >, less<unsigned short>, allocator<pair<unsigned short const, int> > >::clear(); }
 // bfme link decl-only end
 
 class Rva004D272EMapHintInsert

@@ -21,6 +21,10 @@ extern "C" const void *const vtbl_00C40A10[];  // ??_7BridgeBehaviorModuleData@@
 #include <list>
 
 #include "../../../../../Libraries/Include/Lib/Coord3D.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<Coord3D, allocator<Coord3D> >::~_List_base(); }
+namespace _STL { template <> void _List_base<Coord3D, allocator<Coord3D> >::clear(); }
+// bfme link decl-only end
 
 class UpdateModuleData
 {

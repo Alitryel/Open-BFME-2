@@ -5,6 +5,10 @@
 #include "ascii_string.h"
 #include "MainMenuOnlineState.h"
 #include <string>
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
+// bfme link decl-only end
 #define online g_mainMenuOnlineState
 enum GHTTPBool {GHTTPFalse,GHTTPTrue};
 enum GHTTPResult {GHTTPSuccess};

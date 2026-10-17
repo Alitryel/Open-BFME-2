@@ -78,6 +78,9 @@ struct Coord3DCopy : Coord3D
     float lengthSqr() const { return x * x + y * y + z * z; }
 };
 #include "Coord2D.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 
 enum CommandSourceType
 {

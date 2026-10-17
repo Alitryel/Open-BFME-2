@@ -57,6 +57,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 
 #include "GameClient/Drawable.h"
 #include "GameClient/InGameUI.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...

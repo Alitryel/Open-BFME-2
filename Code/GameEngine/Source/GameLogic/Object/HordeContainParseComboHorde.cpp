@@ -24,6 +24,10 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 extern "C" int __cdecl strcmp(const char *, const char *);
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 class INI {
 public:
     char unknown[0x420];

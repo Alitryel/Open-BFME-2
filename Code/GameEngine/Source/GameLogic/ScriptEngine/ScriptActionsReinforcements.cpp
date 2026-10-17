@@ -27,6 +27,10 @@ enum CommandSourceType { CMD_FROM_SCRIPT = 1 };
 struct BfmeE8 { int a, b; };
 
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::_M_insert_overflow(BfmeE8 *, BfmeE8 const &, __false_type const &, unsigned int, bool); }
+namespace _STL { template <> void vector<BfmeE8, allocator<BfmeE8> >::push_back(BfmeE8 const &); }
+// bfme link decl-only end
 typedef _STL::vector<_STL::pair<ObjectID, unsigned int> > EntriesVec;
 typedef _STL::vector<BfmeE8> SolutionVec;
 namespace _STL {

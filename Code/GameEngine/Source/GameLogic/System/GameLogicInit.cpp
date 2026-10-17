@@ -118,6 +118,13 @@ template<> void _List_base<ObjectTOCEntry, Rva00245F79Allocator<ObjectTOCEntry> 
 }
 
 #include "../../../../Libraries/Include/Lib/Region3D.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<AsciiString *>(AsciiString *, AsciiString *); }
+namespace _STL { template <> void _Destroy<AsciiString>(AsciiString *); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::~basic_string(); }
+namespace _STL { template <> void _Rb_tree<int, pair<int const, int>, _Select1st<pair<int const, int> >, less<int>, allocator<pair<int const, int> > >::clear(); }
+// bfme link decl-only end
 
 void setFPMode(void);
 

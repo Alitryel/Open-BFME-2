@@ -75,6 +75,9 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "GameLogic/Module/SpawnBehavior.h"
 
 #include "GameLogic/Weapon.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 
 #ifdef _INTERNAL

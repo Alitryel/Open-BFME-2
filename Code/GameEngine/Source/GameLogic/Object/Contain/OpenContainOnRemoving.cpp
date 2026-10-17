@@ -17,6 +17,9 @@
 #include <set>
 #include "Common/BfmeAudioEventPrefix136.h"
 #include "GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Rb_tree<int, pair<int const, void *>, _Select1st<pair<int const, void *> >, less<int>, allocator<pair<int const, void *> > >::erase(_Rb_tree_iterator<pair<int const, void *>, _Nonconst_traits<pair<int const, void *> > >); }
+// bfme link decl-only end
 
 // map/set<int> internals otherwise instantiate the less<int>::operator()
 // COMDAT (one byte shape per TU flags); an explicit dllimport+forceinline

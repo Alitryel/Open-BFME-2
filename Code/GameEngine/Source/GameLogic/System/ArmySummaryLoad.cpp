@@ -104,6 +104,9 @@ public:char bytes00[0x64];AsciiString name;
 class ThingFactory {public:const ThingTemplate*findTemplate(const AsciiString&);};
 extern ThingFactory*TheThingFactory;
 #include "../../Common/GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> vector<Rva0040CB11Entry, allocator<Rva0040CB11Entry> >::vector(vector<Rva0040CB11Entry, allocator<Rva0040CB11Entry> > const &); }
+// bfme link decl-only end
 
 // A declaration-only specialization stops this TU emitting its own
 // vector<AsciiString> dtor COMDAT, so the call binds the kept copy.

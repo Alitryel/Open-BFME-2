@@ -46,6 +46,8 @@ namespace _STL { template <> void _STLP_alloc_proxy<_Rb_tree_node<AsciiString> *
 namespace _STL { template <> void _STLP_alloc_proxy<AsciiString *, AsciiString, allocator<AsciiString> >::deallocate(AsciiString *, unsigned int); }
 namespace _STL { template <> void allocator<_Rb_tree_node<AsciiString> >::deallocate(_Rb_tree_node<AsciiString> *, unsigned int) const; }
 namespace _STL { template <> void allocator<AsciiString>::deallocate(AsciiString *, unsigned int) const; }
+namespace _STL { template <> void _Destroy<AsciiString *>(AsciiString *, AsciiString *); }
+namespace _STL { template <> _Rb_tree_base<AsciiString, allocator<AsciiString> >::_Rb_tree_base(allocator<AsciiString> const &); }
 // bfme link decl-only end
 
 enum NameKeyType { NAMEKEY_INVALID = 0 };

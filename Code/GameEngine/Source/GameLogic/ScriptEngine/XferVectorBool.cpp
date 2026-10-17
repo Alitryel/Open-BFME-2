@@ -4,6 +4,11 @@
 // Evidence: chain lane every callee rowed or pinned; skeleton mirrors landed XferListInt 0x00206861; caller 0x004EF0C3.
 #define _STLP_NO_EXCEPTIONS 1
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *> copy<_Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *> >(_Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *>, _Bit_iter<_Bit_reference, _Bit_reference *>); }
+namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
+namespace _STL { template <> void vector<bool, allocator<bool> >::reserve(unsigned int); }
+// bfme link decl-only end
 
 typedef unsigned char UnsignedByte;
 typedef unsigned int UnsignedInt;

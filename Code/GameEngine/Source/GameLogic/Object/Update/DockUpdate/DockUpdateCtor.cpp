@@ -39,6 +39,11 @@ enum ObjectID
 };
 
 #include <stl/_bvector.h>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int * _Bvector_base<allocator<bool> >::_M_bit_alloc(unsigned int); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 
 // BFME's resize overload passes its fill value by value. The vendored STLport
 // headers use const references, so only these two element types are shadowed

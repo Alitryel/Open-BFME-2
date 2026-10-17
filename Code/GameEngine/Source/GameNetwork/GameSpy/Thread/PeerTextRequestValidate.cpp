@@ -30,6 +30,17 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 
 #include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::_M_construct_null(unsigned short *); }
+namespace _STL { template <> void basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::_M_construct_null_aux(unsigned short *, __true_type const &); }
+namespace _STL { template <> unsigned short * allocator<unsigned short>::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> void __char_traits_base<unsigned short, unsigned short>::assign(unsigned short &, unsigned short const &); }
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > & basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::assign(unsigned short const *, unsigned short const *); }
+namespace _STL { template <> unsigned short * __char_traits_base<unsigned short, unsigned short>::copy(unsigned short *, unsigned short const *, unsigned int); }
+namespace _STL { template <> unsigned short * basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::erase(unsigned short *, unsigned short *); }
+namespace _STL { template <> unsigned int __char_traits_base<unsigned short, unsigned short>::length(unsigned short const *); }
+namespace _STL { template <> unsigned short * __char_traits_base<unsigned short, unsigned short>::move(unsigned short *, unsigned short const *, unsigned int); }
+// bfme link decl-only end
 
 struct PeerRequest
 {
