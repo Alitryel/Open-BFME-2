@@ -1,6 +1,6 @@
 char g_00C59B20;
 
-// cl: /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB
+// cl: /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP=
 // stlport
 //
 // ??0TransitionDamageFXModuleData@@QAE@XZ, retail 0x004BA58A, 367 bytes.
@@ -14,18 +14,26 @@ char g_00C59B20;
 // callees rowed Vector_base 0x211E58 plus EraseRange 0x4BA399.
 
 #include <vector>
+#include "ascii_string.h"
+
+// Match the shared allocator's existing callers without emitting a competing
+// out-of-line malloc deallocator from this unit's template instantiations.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline
+void __malloc_alloc<0>::deallocate(void *__p, size_t)
+{
+    free((char *)__p);
+}
+}
 
 typedef int Int;
 
 struct TransitionDamageFXRecordA
 {
-	TransitionDamageFXRecordA();
-	~TransitionDamageFXRecordA();
-
 	void *m_value;
 	unsigned char m_locType;
 	unsigned char m_pad05[3];
-	unsigned char m_boneName[4];
+	AsciiString m_boneName;
 	unsigned char m_randomBone;
 	unsigned char m_pad0D[3];
 	float m_loc[3];
@@ -33,13 +41,10 @@ struct TransitionDamageFXRecordA
 
 struct TransitionDamageFXRecordB
 {
-	TransitionDamageFXRecordB();
-	~TransitionDamageFXRecordB();
-
 	void *m_value;
 	unsigned char m_locType;
 	unsigned char m_pad05[3];
-	unsigned char m_boneName[4];
+	AsciiString m_boneName;
 	unsigned char m_randomBone;
 	unsigned char m_pad0D[3];
 	float m_loc[3];
@@ -47,27 +52,22 @@ struct TransitionDamageFXRecordB
 
 struct TransitionDamageFXRecordC
 {
-	TransitionDamageFXRecordC();
-	~TransitionDamageFXRecordC();
-
 	void *m_value;
 	unsigned char m_locType;
 	unsigned char m_pad05[3];
-	unsigned char m_boneName[4];
+	AsciiString m_boneName;
 	unsigned char m_randomBone;
 	unsigned char m_pad0D[3];
 	float m_loc[3];
 };
 
-class TransitionSmallVec
-{
-public:
-	TransitionSmallVec();
-	~TransitionSmallVec();
-
-private:
-	unsigned char m_data[0x0C];
-};
+// BFME1 supplies the string/vector semantic lead. Native callbacks 4B9C46
+// and 577998 independently prove a zeroed, owned word at record offset 8;
+// both four-element header arrays use the vector constructor closure256646
+// and string-vector destructor2CC70. The original record names are unknown.
+typedef _STL::vector<AsciiString> TransitionSmallVec;
+typedef char TransitionRecordExtent[sizeof(TransitionDamageFXRecordA) == 0x1C ? 1 : -1];
+typedef char TransitionHeaderExtent[sizeof(TransitionSmallVec) == 0x0C ? 1 : -1];
 
 class Rva004BA1C8
 {
@@ -81,6 +81,14 @@ private:
 
 namespace _STL
 {
+
+// Keep these existing shared providers external; array construction still
+// emits the normal default-allocator closure from the STLport header.
+template <>
+_Vector_base<AsciiString, allocator<AsciiString> >::_Vector_base(
+	const allocator<AsciiString> &storage) throw();
+template <>
+vector<AsciiString, allocator<AsciiString> >::~vector();
 
 // Declared-only explicit specialization: keep the call external (resolved
 // through twin pin to the folded BfmeE16 base at 0x211E58) and nothrow
