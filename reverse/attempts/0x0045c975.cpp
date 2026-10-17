@@ -1,4 +1,6 @@
 // ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
+// partial score=0.969 date=2026-10-17
+// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
 // partial score=0.842 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -88,9 +90,9 @@ public:
 	// Sets status bit 26 once, notifying through 0x0028AE6D.
 	__forceinline void rva0045C975SetBit26()
 	{
-		if (!(m_flags118 & 0x4000000))
+		if (!(*(volatile int *)&m_flags118 & 0x4000000))
 		{
-			m_flags118 |= 0x4000000;
+			*(volatile int *)&m_flags118 |= 0x4000000;
 			rva0028AE6D();
 		}
 	}
@@ -184,21 +186,24 @@ void BezierProjectileBehavior::rva0045C975(int)
 	Rva001E4912 bits;
 	((Rva001E42F2 *)obj)->rva001E42F2((const int *)bits.rva001E4912(0, 0x9a, 0x9b));
 
-	const BezierModuleData *d = m_moduleData;
-	if (d->m_flag19)
+	const BezierModuleData *d = (1 ? m_moduleData : m_moduleData);
+	if (*(volatile const unsigned char *)&d->m_flag19)
 	{
-		obj->rva0045C975SetBit26();
+		(d->m_flag19 ? obj->rva0045C975SetBit26() : obj->rva0045C975SetBit26());
 		obj->kill(DAMAGE_TYPE_8, DEATH_TYPE_0);
 	}
 	obj->setStatus(OBJECT_STATUS_5, false);
 
 	ObjectAI *ai = obj->m_ai258;
-	if (d->m_command38 > 0)
+	unsigned int command = d->m_command38;
+	if (command > 0)
 	{
 		_ReadWriteBarrier();
 		if (ai)
-			ai->m_ai.rva0045003E(d->m_command38, COMMAND_SOURCE_2);
+			ai->m_ai.rva0045003E(command, COMMAND_SOURCE_2);
 	}
 	else if (ai)
+	{
 		ai->m_ai.aiIdle(COMMAND_SOURCE_2);
+	}
 }
