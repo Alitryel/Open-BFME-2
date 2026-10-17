@@ -1,5 +1,5 @@
 // ?instigateQuarrel@HordeContain@@UAEXHHUQuarrelPacket@@0@Z
-// partial score=0.8 date=2026-10-10
+// partial score=0.8 date=2026-10-17
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
 //
@@ -89,7 +89,11 @@ private:
 
 void HordeContain::instigateQuarrel(int low, int high, QuarrelPacket packetA, QuarrelPacket packetB)
 {
-	m_timers.clear();
+	// Native ctor46F543 models this same field (+24C = secondary+130)
+	// through the existing int/pointer tree view. The native call is286656,
+	// not the int/int clear21A917. Use that verified trivial-value clear;
+	// the timer's observed scalar bits do not establish its original C++ type.
+	((_STL::map<int, void *> *)&m_timers)->clear();
 	Rva0046247DPair outer;
 	UpdateModule *update = (UpdateModule *)((char *)this - 0x11C);
 	((Rva0046247D *)update)->rva0046247D(outer);
