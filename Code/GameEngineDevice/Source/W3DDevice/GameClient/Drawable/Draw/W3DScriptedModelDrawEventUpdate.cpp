@@ -200,7 +200,6 @@ void W3DScriptedModelDraw::rva000BD6C2()
   for(Rva000BB491*it=defaults->fx.begin();it!=defaults->fx.end();++it)rva000BB3E6(*it);
 }
 
-// ?W3DScriptedModelDraw::rva000BB3E6 present-unmatched
 void W3DScriptedModelDraw::rva000BB3E6(Rva000BB491 event)
 {
  if(!event.fx)return;
@@ -208,5 +207,11 @@ void W3DScriptedModelDraw::rva000BB3E6(Rva000BB491 event)
   BoneMatrix12 matrix;drawer->getBoneMatrix(&matrix,event.bone.str());
   Coord3D position;position.x=matrix.m[3];position.y=matrix.m[7];position.z=matrix.m[11];
   FXList::doFXPos(event.fx,&position,reinterpret_cast<const Matrix3D*>(&matrix),0,0);
- }else if(drawable->object)FXList::doFXObj(event.fx,reinterpret_cast<const Object*>(drawable->object),0);
+ }else{
+  // Retail first tests the owner word in memory and then reloads it for the
+  // FX call. Keep that first access observable while retaining the actual
+  // by-value record, whose complete destructor is part of native's EH graph.
+  volatile DrawableEventView *holder=drawable;
+  if(holder->object)FXList::doFXObj(event.fx,drawable->object?reinterpret_cast<const Object*>(drawable->object):0,0);
+ }
 }
