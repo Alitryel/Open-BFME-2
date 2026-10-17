@@ -81,3 +81,5 @@ typedef char HoldStateSize[(sizeof(TurretAIHoldTurretState) == 0x24) ? 1 : -1];
 TurretAIIdleState::~TurretAIIdleState() {}
 
 TurretAIIdleScanState::~TurretAIIdleScanState() {}
+
+TurretAIAimTurretState::~TurretAIAimTurretState() {}
