@@ -1,4 +1,6 @@
 // ?rva001B267B@BFME2Encoding2MotionChannel@@QAEXPAIIIPAVVector3@@1@Z
+// partial score=0.847 date=2026-10-17
+// ?rva001B267B@BFME2Encoding2MotionChannel@@QAEXPAIIIPAVVector3@@1@Z
 // partial score=0.75 date=2026-10-14
 // ?rva001B267B@BFME2Encoding2MotionChannel@@QAEXPAIIIPAVVector3@@1@Z
 // partial score=0.85 date=2026-10-13
@@ -99,23 +101,21 @@ void BFME2Encoding2MotionChannel::rva001B267B(unsigned int *state, unsigned int 
         fi0 = from & 0xF;
         from &= ~0xFu;
         for (int vi = 0; vi < 3; ++vi, packet += 17) {
-            filter = filtertable[*(packet ? packet : packet)] * Scale * 0.0625;
+            filter = filtertable[*(1 ? packet : packet)] * Scale * 0.0625;
             volatile unsigned int fi = fi0;
             { ;
-if ((fi ? fi : fi) < 16) do {
-                unsigned int f = from + fi;
+if ((1 ? fi : fi) < 16) do {
+                volatile unsigned int f = from + fi;
                 if (frame == f)
                     ((float *)value0)[vi] = ((float *)&last)[vi];
                 else if (f == frame + 1) {
                     ((float *)value1)[vi] = ((float *)&last)[vi];
                     break;
                 }
-                volatile int factor = (int)(packet ? packet : packet)[1 + fi] - 0x80;
-                ((float *)&last)[vi] += (float)factor * filter;
-            
- ++fi;
-} while ((fi ? fi : fi) < 16);
-}
+                volatile int factor = (int)(1 ? packet : packet)[1 + fi] - 0x80;
+                ((float *)&last)[vi] += (unsigned short)factor * filter;
+            } while ((1 ? fi : fi) < 16);
+        }
         }
         from += 16;
         if (from > frame)
