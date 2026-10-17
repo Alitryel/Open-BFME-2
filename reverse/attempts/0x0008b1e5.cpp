@@ -1,4 +1,6 @@
 // ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
+// partial score=0.973 date=2026-10-17
+// ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
 // partial score=0.9575 date=2026-10-14
 // ?pickDrawable@W3DView@@UAEPAVDrawable@@PBUICoord2D@@_NH@Z
 // partial score=0.92 date=2026-10-10
@@ -241,7 +243,7 @@ Drawable *W3DView::pickDrawable(const ICoord2D *screen, bool forceAttack, int pi
 
 	GameWindow *window = 0;
 	GameWindowManager *windowManager = TheWindowManager;
-	if (windowManager && !(TheGameLogic && TheGameLogic->rva00085124()))
+	if (windowManager && !(TheGameLogic->rva00085124()))
 		window = windowManager->getWindowUnderCursor(screen->x, screen->y, false);
 
 	while (window)
@@ -271,17 +273,39 @@ Drawable *W3DView::pickDrawable(const ICoord2D *screen, bool forceAttack, int pi
 	Rva0008A2A3Item *item = 0;
 	if (pickType & 0x100)
 	{
-		item = Rva0008A2A3Find(&hits, 0x184, true);
-		if (!item)
-			item = Rva0008A2A3Find(&hits, 0x104, true);
+		Rva0008A2A3Item *a = Rva0008A2A3Find(&hits, 0x184, true);
+		if (a != 0)
+		{
+			item = a;
+		}
+		else
+		{
+			Rva0008A2A3Item *b = Rva0008A2A3Find(&hits, 0x104, true);
+			if (b != 0)
+				item = b;
+		}
 	}
-	if (!item)
+	if (item == 0)
 	{
-		item = Rva0008A2A3Find(&hits, 0x84, true);
-		if (!item)
-			item = Rva0008A2A3Find(&hits, 0x14, true);
-		if (!item)
-			item = Rva0008A2A3Find(&hits, pickType, false);
+		Rva0008A2A3Item *c = Rva0008A2A3Find(&hits, 0x84, true);
+		if (c != 0)
+		{
+			item = c;
+		}
+		else
+		{
+			Rva0008A2A3Item *d = Rva0008A2A3Find(&hits, 0x14, true);
+			if (d != 0)
+			{
+				item = d;
+			}
+			else
+			{
+				Rva0008A2A3Item *e = Rva0008A2A3Find(&hits, pickType, false);
+				if (e != 0)
+					item = e;
+			}
+		}
 	}
 
 	if (item)
@@ -289,15 +313,19 @@ Drawable *W3DView::pickDrawable(const ICoord2D *screen, bool forceAttack, int pi
 		DrawableInfo *info = item->Get_User_Data();
 		if (info)
 		{
-			draw = info->m_drawable;
-			if (draw)
+			Drawable *infoDrawable = info->m_drawable;
+			draw = infoDrawable;
+			if (!infoDrawable)
+				goto afterHit;
 			{
 				Drawable *other = (Drawable *)((Rva0025DE76Slot *)draw)->rva000D43D0();
+				Rva0025DE76Slot *slot = (Rva0025DE76Slot*)draw;
 				if (other)
-					draw = ((Drawable *)((Rva0025DE76Slot *)draw)->rva000D43D0());
+					draw = other;
 				if (draw)
 					return draw;
 			}
+afterHit:;
 		}
 	}
 
