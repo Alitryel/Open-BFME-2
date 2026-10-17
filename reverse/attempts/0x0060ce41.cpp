@@ -1,4 +1,6 @@
 // ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z
+// partial score=0.864 date=2026-10-17
+// ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z
 // partial score=0.5 date=2026-10-14
 // ??8XferSave@@UAEAAVXfer@@AAVPooledString@@@Z
 // partial score=0.9 date=2026-10-14
@@ -171,10 +173,10 @@ Xfer &XferSave::operator==(PooledString &str)
 	if (!m_flag || str.m_text == 0 || *str.m_text == 0)
 		return *(Xfer *)this;
 	{
-		char marker = 0x44534352;
-		if (m_stream->write(&marker, 4) != 4)
+		struct { int v; unsigned char pad[3]; } marker;
+		marker.v = 0x44534352;
+		if (m_stream->write(&marker.v, 4) != 4)
 			throw XferException(1, 0);
-			_ReadWriteBarrier();
 	}
 	const char *key = str.m_text;
 	Rva0060CB2BNode *found = m_table.rva0060CB2B(key);
@@ -195,7 +197,8 @@ Xfer &XferSave::operator==(PooledString &str)
 			throw XferException(1, 0);
 		if (m_stream->write(key, length) != (int)length)
 			throw XferException(1, 0);
-		((XferSaveStringTable *)&m_table)->operator[](*(const NameKeyType *)&key) = (const Rva00427157 *)(m_28 + m_3C);
+		int offset = m_28 + m_3C;
+		((XferSaveStringTable *)&m_table)->operator[](*(const NameKeyType *)&key) = (const Rva00427157 *)offset;
 	}
 	return *(Xfer *)this;
 }
