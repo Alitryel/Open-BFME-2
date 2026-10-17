@@ -594,36 +594,8 @@ void Locomotor::crc( Xfer *xfer )
 	* Version Info:
 	* 1: Initial version */
 // ------------------------------------------------------------------------------------------------
-// ?Locomotor::xfer present-unmatched
-void Locomotor::xfer( Xfer *xfer )
-{
-	// version
-	const XferVersion currentVersion = 2;
-	XferVersion version = currentVersion;
-	xfer->xferVersion( &version, currentVersion );
-
-	if (version>=2) {
-		xfer->xferUnsignedInt(&m_donutTimer);
-	}
-
-	xfer->xferCoord3D(&m_maintainPos);
-	xfer->xferReal(&m_brakingFactor);
-	xfer->xferReal(&m_maxLift);
-	xfer->xferReal(&m_maxSpeed);
-	xfer->xferReal(&m_maxAccel);
-	xfer->xferReal(&m_maxBraking);
-	xfer->xferReal(&m_maxTurnRate);
-	xfer->xferReal(&m_closeEnoughDist);
-#ifdef CIRCLE_FOR_LANDING
-	DEBUG_CRASH(("not supported, must fix me"));
-#endif
-	xfer->xferUnsignedInt(&m_flags);
-	xfer->xferReal(&m_preferredHeight);
-	xfer->xferReal(&m_preferredHeightDamping);
-	xfer->xferReal(&m_angleOffset);
-	xfer->xferReal(&m_offsetIncrement);
-
-}  // end xfer
+// Locomotor::xfer is rowed in LocomotorXfer.cpp (0x00341E2D, the BFME2 body); Zero Hour's
+// member-by-member xfer here was a non-retail second definition.
 
 // ------------------------------------------------------------------------------------------------
 /** Load post process */

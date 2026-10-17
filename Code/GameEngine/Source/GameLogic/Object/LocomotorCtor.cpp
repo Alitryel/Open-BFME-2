@@ -88,9 +88,9 @@ class Locomotor : public Snapshot
 {
 public:
 	Locomotor(const LocomotorTemplate *tmpl, Bool unused);
-	virtual ~Locomotor();
 
 protected:
+	virtual ~Locomotor(); // protected, as rowed at 0x003067D2 (Locomotor.cpp)
 	virtual void crc(Xfer *xfer);
 	virtual void xfer(Xfer *xfer);
 	virtual void loadPostProcess();
