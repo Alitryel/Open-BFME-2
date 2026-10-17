@@ -499,3 +499,64 @@ int Rva0030BE96::rva0030BE96() const
 	const Rva0030BE96Range *range = (const Rva0030BE96Range *)((const char *)this - 0x28);
 	return (int)(range->m_end - range->m_begin) * 2;
 }
+
+// ---- fourth batch: constant returns and small leaves -------------------
+
+struct Rva00151406Const { static int get(); };
+int Rva00151406Const::get() { return 0x28; }
+
+struct Rva0028C53AConst { static int get(); };
+int Rva0028C53AConst::get() { return 0x68; }
+
+struct Rva0028C6F7Const { static int get(); };
+int Rva0028C6F7Const::get() { return 0x0B; }
+
+struct Rva0028C74FConst { static int get(); };
+int Rva0028C74FConst::get() { return 0x65; }
+
+struct Rva002B2431Const { static int get(); };
+int Rva002B2431Const::get() { return 6; }
+
+struct Rva0030D5EAConst { static int get(); };
+int Rva0030D5EAConst::get() { return 0x20; }
+
+struct Rva003182EFConst { static int get(); };
+int Rva003182EFConst::get() { return 0x0F; }
+
+struct Rva00584CAEConst { static int get(); };
+int Rva00584CAEConst::get() { return 0x0A; }
+
+// 0x0016CB40 (8B, cdecl): returns p + 0x10.
+void *__cdecl Rva0016CB40(char *p) { return p + 0x10; }
+
+// 0x00181490 (5B, RET4): empty 1-arg constructor returning this.
+class Rva00181490 { public: Rva00181490(int); };
+Rva00181490::Rva00181490(int) {}
+
+// 0x001B4E1B (6B): subtracts 8 from the dword at +0 and returns this.
+class Rva001B4E1B { public: Rva001B4E1B *rva001B4E1B(); private: int m_00; };
+Rva001B4E1B *Rva001B4E1B::rva001B4E1B() { m_00 -= 8; return this; }
+
+// 0x0039ADEC (7B, RET4): returns the float argument.
+class Rva0039ADEC { public: float rva0039ADEC(float x) const; };
+float Rva0039ADEC::rva0039ADEC(float x) const { return x; }
+
+// 0x0039D8CC (7B, RET16): returns the first of four dword arguments.
+class Rva0039D8CC { public: int rva0039D8CC(int a, int, int, int) const; };
+int Rva0039D8CC::rva0039D8CC(int a, int, int, int) const { return a; }
+
+// 0x00468A2F (7B): returns the float at +0x528.
+class Rva00468A2F { public: float get() const; private: char m_pad[0x528]; float m_528; };
+float Rva00468A2F::get() const { return m_528; }
+
+// 0x004DF980 (3B): returns the byte at +0.
+class Rva004DF980 { public: unsigned char get() const; private: unsigned char m_00; };
+unsigned char Rva004DF980::get() const { return m_00; }
+
+// 0x00299CCE (7B): returns (char *)this - 0x49C.
+class Rva00299CCE { public: void *get() const; };
+void *Rva00299CCE::get() const { return (char *)this - 0x49C; }
+
+// 0x00299CDD (7B): returns the float at -0x490.
+class Rva00299CDD { public: float get() const; };
+float Rva00299CDD::get() const { return *(const float *)((const char *)this - 0x490); }

@@ -858,7 +858,7 @@ class Rva001E6516 { public: void rva001E6516(Object *); };
 class Rva00077710Value { public: bool operator!=(const Rva00077710Value &) const; };
 struct Rva0039B24FInput;
 class Rva0039B24F { public: void rva0039B24F(Rva0039B24FInput *, bool, bool); };
-class Rva003BD306Target { public: void rva0039B28F(bool); };
+class Rva003BD306Target { public: void rva0039B28F(bool); void rva0039B2C7(int, bool); };
 class Overridable { public: const Overridable *friend_getFinalOverride() const; };
 class WeaponStore
 {
@@ -1158,3 +1158,20 @@ void Rva005048B0::rva005048B0(_STL::vector<AsciiString, _STL::allocator<AsciiStr
 class Rva006CC4D0 { public: void rva006CC4D0(); };
 void Rva006CC4D0::rva006CC4D0() { ((RenderObjClass *)this)->RenderObjClass::Update_Sub_Object_Transforms(); }
 
+bool __cdecl Rva0056815AAny();
+int __cdecl Rva0043C99AGet();
+class SiegeEngineContain { public: virtual void LoadPostProcess(); };
+
+// 0x003E549E (5B) -> Rva0056815AAny 0x0056815A.
+bool __cdecl Rva003E549E() { return Rva0056815AAny(); }
+
+// 0x003E54A3 (5B) -> Rva0043C99AGet 0x0043C99A.
+int __cdecl Rva003E54A3() { return Rva0043C99AGet(); }
+
+// 0x00468A2A (5B) -> Rva003BD306Target::rva0039B2C7 0x0039B2C7.
+class Rva00468A2A { public: void rva00468A2A(int a, bool b); };
+void Rva00468A2A::rva00468A2A(int a, bool b) { ((Rva003BD306Target *)this)->rva0039B2C7(a, b); }
+
+// 0x0047E38F (5B) -> SiegeEngineContain::LoadPostProcess 0x0047C173.
+class Rva0047E38F { public: void rva0047E38F(); };
+void Rva0047E38F::rva0047E38F() { ((SiegeEngineContain *)this)->SiegeEngineContain::LoadPostProcess(); }

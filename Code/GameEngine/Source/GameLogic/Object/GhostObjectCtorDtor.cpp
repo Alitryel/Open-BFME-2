@@ -36,8 +36,8 @@ class GeometryInfo;
 class Rva001B3E60VBase
 {
 public:
-	virtual const GeometryInfo *vslot00() const = 0;
-	virtual const Coord3D *vslot04() const = 0;
+	virtual const void *vslot00() const = 0;
+	virtual const void *vslot04() const = 0;
 	virtual Real vslot08() const = 0;
 	virtual void vslot0C( PartitionData *pd ) = 0;
 	virtual PartitionData *vslot10() const = 0;
@@ -77,8 +77,8 @@ public:
 	GhostObject();
 	virtual ~GhostObject();
 
-	virtual const GeometryInfo *vslot00() const;
-	virtual const Coord3D *vslot04() const;
+	virtual const void *vslot00() const;
+	virtual const void *vslot04() const;
 	virtual Real vslot08() const;
 	virtual void vslot0C( PartitionData *pd );
 	virtual PartitionData *vslot10() const;

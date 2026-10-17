@@ -345,3 +345,40 @@ DEFINE_THUNK_MAE(OrthoEmissionVelocityModule, xfer, 0x18, (Xfer *))
 // ?<CylindricalEmissionVelocityModule::CylindricalEmissionVelocityModule> absent-from-retail
 DEFINE_THUNK_MAE(CylindricalEmissionVelocityModule, xfer, 0x18, (Xfer *))
 }
+
+class Rva00299C99LeaGetter { public: void *get() const; };
+class Rva00299CA8DwordSlot { public: void set(int); int get() const; };
+class Rva00299CCE { public: void *get() const; };
+class Rva00299CDD { public: float get() const; };
+class Rva005E3AA2Mid { public: void fwd(); };
+class Rva005E3E41 { public: void rva005E3E41(); };
+class Rva005E4389 { public: void rva005E4389(); };
+class Rva005E51D3 { public: void rva005E51D3(); };
+
+class Rva00299C91 { public: void *rva00299C91() const; };
+void *Rva00299C91::rva00299C91() const { return ((const Rva00299C99LeaGetter *)((const char *)this - *(const int *)((const char *)this - 4)))->get(); }
+
+class Rva00299CA0 { public: void rva00299CA0(int a); };
+void Rva00299CA0::rva00299CA0(int a) { ((Rva00299CA8DwordSlot *)((char *)this - *(int *)((char *)this - 4)))->set(a); }
+
+class Rva00299CB2 { public: int rva00299CB2() const; };
+int Rva00299CB2::rva00299CB2() const { return ((const Rva00299CA8DwordSlot *)((const char *)this - *(const int *)((const char *)this - 4)))->get(); }
+
+class Rva00299CC6 { public: void *rva00299CC6() const; };
+void *Rva00299CC6::rva00299CC6() const { return ((const Rva00299CCE *)((const char *)this - *(const int *)((const char *)this - 4)))->get(); }
+
+class Rva00299CD5 { public: float rva00299CD5() const; };
+float Rva00299CD5::rva00299CD5() const { return ((const Rva00299CDD *)((const char *)this - *(const int *)((const char *)this - 4)))->get(); }
+
+class Rva005E3D84 { public: void rva005E3D84(); };
+void Rva005E3D84::rva005E3D84() { ((Rva005E3AA2Mid *)((char *)this - *(int *)((char *)this - 4)))->fwd(); }
+
+class Rva005E3ECB { public: void rva005E3ECB(); };
+void Rva005E3ECB::rva005E3ECB() { ((Rva005E3E41 *)((char *)this - *(int *)((char *)this - 4)))->rva005E3E41(); }
+
+class Rva005E4663 { public: void rva005E4663(); };
+void Rva005E4663::rva005E4663() { ((Rva005E4389 *)((char *)this - *(int *)((char *)this - 4)))->rva005E4389(); }
+
+class Rva005E5237 { public: void rva005E5237(); };
+void Rva005E5237::rva005E5237() { ((Rva005E51D3 *)((char *)this - *(int *)((char *)this - 4)))->rva005E51D3(); }
+
