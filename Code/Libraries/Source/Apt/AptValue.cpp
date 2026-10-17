@@ -13,10 +13,10 @@ class BfmeAptValue006DCD20 { public: bool isCIH(bool=false) const; int isObject(
 class Rva006DC9E0 { public: int rva006DC9E0(); };
 class BfmeN1034;
 class Rva0070A5C0 { public: BfmeN1034 *rva0070A5C0(int); };
-class AptValuePtrStack { public: int count,capacity; BfmeAptValue006DCD20 **elements; BfmeAptValue006DCD20 *rva006DE160(); };
+template<class T> class AptValuePtrStack { public: int count,capacity; T **elements; T *top(); };
 struct AptActionInterpreter;
 extern AptActionInterpreter g_aptDateInterpreter;
-struct FindChildInterpreterView { AptValuePtrStack args,withScope,unused,contexts; void *currentFunction; };
+struct FindChildInterpreterView { AptValuePtrStack<AptValue> args,withScope,unused,contexts; void *currentFunction; };
 struct FindChildFunctionView { char prefix[0x24]; AptValue *parentAnim; };
 struct FindChildCIHView { char prefix[0x48]; AptValue *parent; };
 struct FindChildObjectView { char prefix[0x1c]; unsigned int flags; };
@@ -46,10 +46,10 @@ static inline bool FindChildInherits(AptValue *value,AptValue *proto)
 }
 static __forceinline AptValue *FindChildThis(AptValue *self)
 {
- AptValue *context=(AptValue *)I->contexts.rva006DE160();
+ AptValue *context=I->contexts.top();
  if(context==self) return self;
- if(I->withScope.count>0 && !((AptValue *)I->withScope.rva006DE160())->isUndefined()) {
-  AptValue *pWithStkTop=(AptValue *)I->withScope.rva006DE160();
+ if(I->withScope.count>0 && !(I->withScope.top())->isUndefined()) {
+  AptValue *pWithStkTop=I->withScope.top();
   APT_ASSERT(pWithStkTop!=0,"pWithStkTop != NULL",0x42a);
   APT_ASSERT(pWithStkTop->ContainsNativeHashVirtual(),"pWithStkTop->ContainsNativeHashVirtual()",0x42b);
   if(context==pWithStkTop) return context;
@@ -61,7 +61,7 @@ static __forceinline AptValue *FindChildThis(AptValue *self)
   }
  }
  if(FindChildInherits(self,context)) return self;
- return (AptValue *)I->contexts.rva006DE160();
+ return I->contexts.top();
 }
 static __forceinline AptValue *FindChildRoot(AptValue *context)
 {
@@ -97,7 +97,7 @@ AptValue *AptValue::findChild(const EAStringC *name,AptValue *context)
   case 37: return g_shutdownAtE180BC;
   case 17: return (AptValue *)g_Rva01337A20;
   case 18: {
-   context=(AptValue *)I->contexts.rva006DE160();
+   context=I->contexts.top();
    AptNativeHash *h=context->GetNativeHashVirtual();
    if(h && h->mp__proto__) {
     AptValue *prototype=h->mp__proto__;
