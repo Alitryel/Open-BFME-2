@@ -64476,3 +64476,6 @@ _AnyRatioFrameScale	0x001BAF30	606	landed	add_match verified Code/Libraries/Sour
 ?Rva006017C9@@YAHH@Z	0x006017C9	17	landed	add_match verified Code/Libraries/Source/file/TextFile.cpp 17B; lookup character class from TextFileCharacterClasses table
 ?rva006F7AB0@AptDisplayList@@QAEXHPAX@Z	0x006F7AB0	13	landed	add_match verified Code/Libraries/Source/Apt/Rva006F6A50Cluster.cpp 13B; forwards second argument to bfmeProcess1279
 ??0Rva00260F77Filter@@QAE@PAVBfmeTargetAM@@_N@Z	0x00484144	29	landed	add_match verified Code/GameEngine/Source/Common/BfmeConv1739.cpp 29B; partition filter constructor storing vtable 0x00C49F14
+?rva00521B48@Rva00521B48@@QAEXHH@Z	0x00521B48	14	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 14B; vtable forwarder -0x27C then rowed AptSkirmish::InitCreateAHeroOnStartGame 0x005218AF
+?rva0059EF57@Rva0059EF57@@QAEXHHH@Z	0x0059EF57	11	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 11B; vtable forwarder -0x6C then rowed AptOnlineCustomMatch::UpdatePings 0x0059ED8B
+?rva005CF9B2@Rva005CF9B2@@QAEXXZ	0x005CF9B2	23	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 23B; vtable forwarder via +0xC pointer then rowed 0x0042D697 and 0x005CB265

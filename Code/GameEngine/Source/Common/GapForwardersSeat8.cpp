@@ -473,7 +473,6 @@ void Rva005E4663::rva005E4663() { ((Rva005E4389 *)((char *)this - *(int *)((char
 class Rva005E5237 { public: void rva005E5237(); };
 void Rva005E5237::rva005E5237() { ((Rva005E51D3 *)((char *)this - *(int *)((char *)this - 4)))->rva005E51D3(); }
 
-
 // --- 0x003ABF24 (8B): this-8 adjustor thunk of Rva003AA6BD's deleting
 // destructor, jumping to the rowed vector deleting destructor 0x003AA704.
 struct Rva003AA6BD_BaseA { virtual ~Rva003AA6BD_BaseA(); char m_pad[4]; };
@@ -529,3 +528,29 @@ protected:
 };
 // ?<Locomotor::Locomotor> absent-from-retail
 Locomotor::Locomotor(EmitVtableTag *) {}
+
+class AptSkirmish { public: void InitCreateAHeroOnStartGame(); };
+class Rva00521B48 { public: void rva00521B48(int, int); };
+void Rva00521B48::rva00521B48(int, int)
+{
+	((AptSkirmish *)((char *)this - 0x27C))->InitCreateAHeroOnStartGame();
+}
+
+class AptOnlineCustomMatch { public: void UpdatePings(); };
+class Rva0059EF57 { public: void rva0059EF57(int, int, int); };
+void Rva0059EF57::rva0059EF57(int, int, int)
+{
+	((AptOnlineCustomMatch *)((char *)this - 0x6C))->UpdatePings();
+}
+
+class Rva0042D697PtrChaseField { public: int get() const; };
+class Rva005CB265 { public: virtual int rva005CB265(); };
+struct Rva005CF9B2Mid { char m_pad[0xC]; Rva0042D697PtrChaseField *m_field; };
+class Rva005CF9B2 { public: void rva005CF9B2(); };
+void Rva005CF9B2::rva005CF9B2()
+{
+	Rva005CF9B2Mid *mid = *(Rva005CF9B2Mid **)((char *)this - 4);
+	int v = mid->m_field->get();
+	if (v)
+		((Rva005CB265 *)v)->Rva005CB265::rva005CB265();
+}
