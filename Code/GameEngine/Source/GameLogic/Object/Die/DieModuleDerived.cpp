@@ -205,3 +205,17 @@ Rva004C227A::~Rva004C227A()
 // each one has the same function in that slot (vftable addresses from matched vptr
 // stores). Bind them to the rows at those functions.
 #pragma comment(linker, "/alternatename:?f2@Rva004869FC_B2@@UAEXXZ=?onDie@SpecialPowerCompletionDie@@UAEXPBVDamageInfo@@@Z")
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f2@Rva0045CE6D_B2@@UAEXXZ=?onDie@InstantDeathBehavior@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004851FE_B2@@UAEXXZ=?onDie@RefundDie@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva00485425_B2@@UAEXXZ=?onDie@CreateCrateDie@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva0048593D_B2@@UAEXXZ=?rva00485C86@CreateObjectDieIfEldestKindof@@QAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva00486136_B2@@UAEXXZ=?onDie@CrushDie@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004864AA_B2@@UAEXXZ=?onDie@DestroyDie@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva00486579_B2@@UAEXXZ=?onDie@FXListDie@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva00486B56_B2@@UAEXXZ=?onDie@UpgradeDie@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva00486C76_B2@@UAEXXZ=?rva00486CF6@Rva00486B56@@UAEXPBVDamageInfo@@@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C227A_B2@@UAEXXZ=?onDie@HeroDie@@UAEXPBVDamageInfo@@@Z")

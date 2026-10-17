@@ -50,3 +50,8 @@ Rva0078B83::~Rva0078B83() throw()
 	if (m_2E8)
 		TheW3DHordeModelDrawManager->rva0007898BClear((Rva000789A0Outer *)this);
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f2@Rva0078B83_B2@@UAEXXZ=?rva000BFB76@Rva000BFB76Interface@@UAEXABVModelConditionFlags@@_NH@Z")

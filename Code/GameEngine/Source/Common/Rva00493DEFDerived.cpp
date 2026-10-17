@@ -345,3 +345,27 @@ public:
 Rva004C8A16::~Rva004C8A16()
 {
 }
+
+// Placeholder virtuals this unit's vftables hold.  In retail each such slot
+// holds a rowed function; the vftable's address is proven by the vptr stores in
+// the matched destructors, so bind the placeholder to that row's name.
+#pragma comment(linker, "/alternatename:?f2@Rva004C2656_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C29BB_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C3108_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C3905_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C4044_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C43A3_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C4508_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C48C6_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C4BD1_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C4DE9_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C5019_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C67A0_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C7B36_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C7C33_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C7EAE_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C8213_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C85A4_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C86E4_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C87F4_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
+#pragma comment(linker, "/alternatename:?f2@Rva004C8A16_B2@@UAEXXZ=?eq@Rva002687D0@@QBE_NH@Z")
