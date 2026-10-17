@@ -1,4 +1,6 @@
 // ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
+// partial score=0.897 date=2026-10-17
+// ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
 // partial score=0.93 date=2026-10-15
 // ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
 // partial score=0.9031 date=2026-10-15
@@ -11,6 +13,8 @@
 // ?rva003642DF@Path@@QAE?AURva003642DFResult@@M@Z
 // partial score=0.8836897052993261 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /I.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // ?rva003649B1@Path@@QAEXPBVPathNode@@@Z @0x003649B1 134B via Path append donor
 // Evidence: duplicate-position guard via ucomiss on +0xc/+0x10 vs tail; pool g_pathNodePool allocate plus rowed PathNode ctor with arg+0xc/layer+0x18 plus waypoint+0x20; linking head+4 tail+8 optimized+0xc matches PathAppendNode.
 #include <new>
@@ -168,37 +172,43 @@ Rva003642DFResult Path::rva003642DF(Real distance)
   last.x=0;last.y=0;last.z=0;return result;
  }
  result.m_node=current;
- if(!result.m_node)result.m_node=(Rva003642DFNode*)m_path;
+ if((1 ? result.m_node==0 : result.m_node==0))result.m_node=(Rva003642DFNode*)m_path;
  float t=fraction;
  Rva003642DFNode *next;
  while((next=result.m_node->optimized)!=0) {
-  Rva003642DFNode *node=result.m_node;
-  float length=(float)Rva00363CF3Distance(&next->position,&node->position);
+  float length=(float)Rva00363CF3Distance(&next->position,&result.m_node->position);
   float scale=1.0f;
   if(next->portal!=0x7fffffff) {
    PathPeekPortal *portal=TheTerrainLogic->getPortal(next->portal);
    if(portal) {
     if(portal->type==1 && (1.0f-t)*length>=distance)length=distance/(1.0f-t)-0.1f;
     else if(portal->type==3) {
-     scale=length/((float)fabs(next->position.z-node->position.z)+1.0f);
+     scale=length/((float)fabs(next->position.z-result.m_node->position.z)+1.0f);
      if(scale>1.0f)scale=1.0f;
      else if(scale<0.5f)scale*=0.85f;
     }
    }
   }
   float remain=(1.0f-t)*length;
-  node=result.m_node->optimized;
   if(remain>=distance*scale) {
    scale=scale/length;scale*=distance;scale+=t;float f=scale;
-   result.m_pos=node->position;
+   { Rva003642DFNode *opt = result.m_node->optimized; _ReadWriteBarrier(); *(volatile Rva003642DFNode**)&opt = opt; result.m_node->optimized = opt; }
+   _ReadWriteBarrier();
+   Rva003642DFNode *node=(Rva003642DFNode*)*(volatile Rva003642DFNode**)&result.m_node->optimized;
+   Coord3D optPos;
+   { Coord3D *s=&node->position; Coord3D *d=&optPos; d->x=s->x; d->y=s->y; d->z=s->z; }
+   _ReadWriteBarrier();
    Coord3D delta;
-   delta.x=result.m_pos.x-result.m_node->position.x;delta.y=result.m_pos.y-result.m_node->position.y;delta.z=result.m_pos.z-result.m_node->position.z;
+   delta.x=optPos.x-result.m_node->position.x;delta.y=optPos.y-result.m_node->position.y;delta.z=optPos.z-result.m_node->position.z;
    delta.x*=f;delta.y*=f;delta.z*=f;
-   result.m_pos.x=result.m_node->position.x;result.m_pos.y=result.m_node->position.y;result.m_pos.z=result.m_node->position.z;
-   result.m_pos.x+=delta.x;result.m_pos.y+=delta.y;result.m_pos.z+=delta.z;
+   result.m_pos.x=result.m_node->position.x+delta.x;
+   result.m_pos.y=result.m_node->position.y+delta.y;
+   result.m_pos.z=result.m_node->position.z+delta.z;
+   _ReadWriteBarrier();
+   result.m_pos=result.m_pos;
    last=result.m_pos;return result;
   }
-  distance-=remain/scale;t=0.0f;result.m_node=node;
+  distance-=remain/scale;t=0.0f;
  }
  result.m_node=(Rva003642DFNode*)m_pathTail;result.m_pos=result.m_node->position;last=result.m_pos;return result;
 }
