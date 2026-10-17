@@ -170,13 +170,13 @@ typedef _STL::set<AsciiString> IgnoreList;
 typedef _STL::map<Int, AsciiString> SavedIgnoreMap;
 // ICF twin respells: the GameSpy container default ctors are unrowed and fold
 // onto the rowed same-address instantiations below (25B each).
-struct Rva001DDBC6Record { char m_pad[8]; };
+struct Rva001DDBC6Record { char m_pad[1]; };	// one byte, as StlSweepR3Rva001DDBC6.cpp defines it
 typedef _STL::map<Int, Rva001DDBC6Record> GroupRoomMap;			// ctor 0x001DDBC6
 typedef _STL::map<unsigned char, int> StagingRoomMap;			// ctor 0x0033C432
 class DetailedArchivedDirectoryInfo { public: char m_pad[8]; };
 typedef _STL::map<AsciiString, DetailedArchivedDirectoryInfo> BuddyInfoMap;	// ctor 0x005B400A
 enum NameKeyType { NAMEKEY_INVALID_TWIN = 0 };
-struct PristineBoneInfo { char m_pad[8]; };
+struct PristineBoneInfo { char m_pad[52]; };	// 52 bytes, as the other PristineBoneInfo units define it
 typedef _STL::map<NameKeyType, PristineBoneInfo> PlayerInfoMap;		// ctor 0x004260FD
 typedef _STL::map<AsciiString, AsciiString> PreferenceMap;
 

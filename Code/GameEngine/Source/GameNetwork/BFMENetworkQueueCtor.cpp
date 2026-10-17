@@ -21,7 +21,7 @@ struct BfmeOpaqueOwnedRecord492
 {
 	BfmeOpaqueOwnedRecord492(const BfmeOpaqueOwnedRecord492 &that);
 	~BfmeOpaqueOwnedRecord492();
-	char m_body[0x210];
+	char m_body[0x1EC];	// 492 bytes, as PeerThread.cpp (rowed _Deque_base 0x5532FF) and StlportOwnedRecordDeque.cpp define it
 };
 
 class BFMENetworkQueue
