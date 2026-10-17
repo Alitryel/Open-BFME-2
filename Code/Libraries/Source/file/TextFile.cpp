@@ -21,3 +21,9 @@ void Rva006016C9Init() {
  TextFileCharacterClasses[';']=3;
  TextFileCharacterClasses['/']=4;
 }
+
+int __cdecl Rva006017C9(int c)
+{
+	return TextFileCharacterClasses[c & 0xff];
+}
+

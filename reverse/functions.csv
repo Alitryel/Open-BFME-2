@@ -96261,3 +96261,4 @@ _AnyRatioFrameScale,,0x001BAF30,606,Code/Libraries/Source/VP6/_AnyRatioFrameScal
 ?get@Rva0009854DRandomField@@QBEMXZ,,0x0009854D,8,Code/GameEngine/Source/Common/DispFloatFieldGetters.cpp,matched,add ecx 0x3c then tail jump to GameClientRandomVariable::getValue
 ?rva00462477@Rva00462477@@QBE_NXZ,,0x00462477,6,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,return BfmeAIExitDoorFlag
 ?rva001E4132@Rva001E4132@@QAEMMMMM@Z,,0x001E4132,21,Code/GameEngine/Source/Common/GapLeavesSeat8.cpp,matched,height delta divided by twice logic fps
+?Rva006017C9@@YAHH@Z,,0x006017C9,17,Code/Libraries/Source/file/TextFile.cpp,matched,lookup character class from TextFileCharacterClasses table
