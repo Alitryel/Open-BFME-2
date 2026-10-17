@@ -155,12 +155,19 @@ public:
 	virtual void rva0049C73ASlot0(int what, Object *obj, int a, int b, int c);
 };
 
+// 0x00450AE9 is the rowed SpecialAbilityUpdate::rva00450AE9 (bool, result
+// unused here), called on this unit's own receiver.
+class SpecialAbilityUpdate
+{
+public:
+	bool rva00450AE9();
+};
+
 class GiveUpgradeUpdate
 {
 public:
 	void GetDeliveryTarget();
 	unsigned char rva0049C8E9();
-	void rva00450AE9CallView();
 private:
 	const GiveUpgradeUpdateModuleData *getGiveUpgradeUpdateModuleData() const
 	{
@@ -222,6 +229,6 @@ void GiveUpgradeUpdate::GetDeliveryTarget()
 unsigned char GiveUpgradeUpdate::rva0049C8E9()
 {
     GetDeliveryTarget();
-    rva00450AE9CallView();
+    ((SpecialAbilityUpdate *)this)->rva00450AE9();
     return 0;
 }
