@@ -67,6 +67,7 @@ public:
 
 extern VideoPlayerInterface *TheVideoPlayer;
 extern const FieldParse Rva0081D7C0FieldParseTable[];
+#pragma comment(linker, "/alternatename:?Rva0081D7C0FieldParseTable@@3QBUFieldParse@@B=??_C@_01GBGANLPD@0?$AA@")
 
 class INIException
 {
