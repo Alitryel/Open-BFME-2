@@ -178,28 +178,7 @@ public:
 	void rva005BA02B();
 };
 
-void Rva005B9378::rva005B9378(int index, const UnicodeString &value)
-{
-	AsciiString key;
-	key.format("APT:TickerField_%d", index);
-	UnicodeString field = TheGameText->fetch(g_00DD3B90[index], 0);
-	field.concat(L":");
-	((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(key, field, false);
-	key.format("APT:TickerValue_%d", index);
-	((BfmeAptWindowManager *)TheRva00222A8BTarget)->bfmeSetText(key, value, false);
-}
 
-// ?rva005B942A@Rva005B9378@@QAEXHH@Z @0x005B942A 83B: one ticker numeric row.
-// Formats the integer value with L"%d" (g_Va007C9260) into a UnicodeString
-// temp, then hands it to rva005B9378 under the same index. Callers
-// (0x005B9591 with index 2 and 0x005B95A4 with index 3, plus 0x005BA0CB/E3)
-// pass this in ecx, which both bodies forward untouched.
-void Rva005B9378::rva005B942A(int index, int value)
-{
-	UnicodeString text;
-	text.format(g_Va007C9260, value);
-	rva005B9378(index, text);
-}
 
 // ?rva005BA02B@Rva005B9378@@QAEXXZ @0x005BA02B 466B: the ticker screen's
 // GameSpy update, Zero Hour's WOLGameSetupMenuUpdate response pump: buddy and
@@ -265,43 +244,6 @@ void Rva00548C1ACleanup();	// ZH GameSpyCloseAllOverlays
 void GSMessageBoxOk(UnicodeString title, UnicodeString message, void (*okFunc)());
 void TearDownGameSpy();
 
-void Rva005B9378::rva005BA02B()
-{
-	if (!TheGameSpyPeerMessageQueue)
-		return;
-
-	HandleBuddyResponses();
-	HandlePersistentStorageResponses();
-
-	int allowedMessages = TheGameSpyInfo->getMaxMessagesPerUpdate();
-	bool sawImportantMessage = false;
-	PeerResponse resp;
-	while (allowedMessages-- && !sawImportantMessage && TheGameSpyPeerMessageQueue->getResponse(resp))
-	{
-		rva005AF12F(&resp);
-		switch (resp.peerResponseType)
-		{
-		case 1:	// PEERRESPONSE_DISCONNECT
-			{
-				sawImportantMessage = true;
-				UnicodeString title, body;
-				AsciiString disconMunkee;
-				disconMunkee.format("GUI:GSDisconReason%d", resp.words[0]);
-				title = TheGameText->fetch("GUI:GSErrorTitle");
-				body = TheGameText->fetch(disconMunkee);
-				Rva00548C1ACleanup();
-				GSMessageBoxOk(title, body, 0);
-				TheShell->rva0035BEC7();
-				TearDownGameSpy();
-			}
-			break;
-		case 21:
-			rva005B942A(5, resp.words[6]);
-			rva005B942A(4, resp.words[7] < 1 ? 1 : resp.words[7]);
-			break;
-		}
-	}
-}
 
 // ?rva00513497@Rva00513497@@QAEXHVUnicodeString@@@Z @0x00513497 193B: the
 // disconnect screen's player name. It is set under
@@ -493,12 +435,6 @@ public:
 	void rva0043C8E4(int index, int state);
 };
 
-void Rva0043C8E4::rva0043C8E4(int index, int state)
-{
-	char number[4];
-	sprintf(number, "%d", index + 1);
-	TheRva00222A8BTarget->invoke(reinterpret_cast<void *>(AptPlayer::GetLevelIndex((GameWindow *)this)), "SetSpellButtonState", 2, number, (void *)g_00C3D700[state], 0, 0, 0);
-}
 
 // ??1Rva00582FC1@@UAE@XZ @0x00582FC1 84B (the existing pin's name): the file
 // transfer popup's destructor. It closes the popup through the rowed invoke
