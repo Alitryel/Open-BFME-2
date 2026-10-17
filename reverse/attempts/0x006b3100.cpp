@@ -1,4 +1,6 @@
 // ?ClosestPointOnLineSegment@@YA?AVCoord2D@@ABULineSegment2D@@ABV1@@Z
+// partial score=0.99 date=2026-10-17
+// ?ClosestPointOnLineSegment@@YA?AVCoord2D@@ABULineSegment2D@@ABV1@@Z
 // partial score=0.967 date=2026-10-15
 // cl: /O2 /MD /EHsc
 // ?ClosestPointOnLineSegment@@YA?AVCoord2D@@ABULineSegment2D@@ABV1@@Z, retail
@@ -19,8 +21,8 @@ public:
 	float x;
 	float y;
 };
-Coord2D operator-(Coord2D left, const Coord2D &right);
-Coord2D operator+(Coord2D left, const Coord2D &right);
+inline Coord2D operator-(Coord2D left, const Coord2D &right) { left.x -= right.x; left.y -= right.y; return left; }
+inline Coord2D operator+(Coord2D left, const Coord2D &right) { left.x += right.x; left.y += right.y; return left; }
 
 struct LineSegment2D {
 	Coord2D m_start;
@@ -30,14 +32,18 @@ Coord2D ClosestPointOnLineSegment(const LineSegment2D &segment, const Coord2D &p
 {
 	Coord2D direction = segment.m_end - segment.m_start;
 	Coord2D offset = point - segment.m_start;
-	float projection = direction.x * offset.x + direction.y * offset.y;
+	float projection = 0.0f;
+	float length = 0.0f;
+	float t = 0.0f;
+	projection = direction.x * offset.x + direction.y * offset.y;
 	if (projection <= 0.0f)
 		return segment.m_start;
-	float length = direction.x * direction.x + direction.y * direction.y;
+	length = direction.x * direction.x + direction.y * direction.y;
 	if (projection >= length)
 		return segment.m_end;
-	projection /= length;
+	t = projection / length;
 	Coord2D scaled(direction);
-	scaled *= projection;
+	scaled.x *= t;
+	scaled.y *= t;
 	return segment.m_start + scaled;
 }
