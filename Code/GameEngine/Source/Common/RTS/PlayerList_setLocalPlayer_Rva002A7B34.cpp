@@ -65,6 +65,17 @@ private:
 	Player *m_players[1];
 };
 
+void Rva002D7AE0LocalPlayerShroudCallback()
+{
+}
+
+void Rva002D7B18LocalPlayerTaintCallback()
+{
+}
+
+#pragma comment(linker, "/alternatename:?Rva002D7AE0LocalPlayerShroudCallback@@YAXXZ=?rva002D7AE0@@YAXHHH@Z")
+#pragma comment(linker, "/alternatename:?Rva002D7B18LocalPlayerTaintCallback@@YAXXZ=?rva002D7B18@@YAXHHH@Z")
+
 void PlayerList::setLocalPlayer(Player *player)
 {
 	// can't set local player to null -- if you try, you get neutral.
