@@ -43,10 +43,11 @@ class Rva00282021WaterLookup
 public:
 	void *rva00282021(const StringBase<char> &name);
 };
-class Rva0027CD63
+// The base update entry takes the same secondary +4 receiver as this slot.
+class TerrainLogic
 {
 public:
-	void rva0027CD63();
+	virtual void update();
 };
 
 // TerrainLogic's rowed position lookup 0x0028170E (TerrainLogicWaterLookup.cpp).
@@ -91,7 +92,7 @@ void *W3DTerrainLogic::rva00062AEC(const StringBase<char> &name)
 
 void W3DTerrainLogic::rva00062B97()
 {
-	reinterpret_cast<Rva0027CD63 *>(this)->rva0027CD63();
+	reinterpret_cast<TerrainLogic *>(this)->TerrainLogic::update();
 }
 
 // vftable 0x007C58E4, callee 0x0006B187

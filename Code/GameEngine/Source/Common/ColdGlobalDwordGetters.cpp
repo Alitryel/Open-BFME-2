@@ -518,10 +518,14 @@ public:
 // the distinct campaign-manager global at VA 0x00DFDC8C.
 class G00DFF080Obj;
 extern G00DFF080Obj *g_00DFF080;
-class Rva0027CD63 {
+// Native TerrainLogic subsystem table BFB28C slot10 names this update role.
+// This is an entry-ABI view: ECX is the secondary SubsystemInterface at +4,
+// so the observed flag/record/count offsets below are relative to that entry,
+// rather than offsets from TerrainLogic's complete-object Snapshot pointer.
+class TerrainLogic {
 public:
- void rva0027CD63();
- char pad00[0x40];
+ virtual void update();
+ char pad04[0x40-4];
  Bool m_bridgeDamageStatesChanged;
  char pad41[0x64 - 0x41];
  struct DynamicWaterEntry {
@@ -530,7 +534,7 @@ public:
  } m_waterToUpdate[64];
  Int m_numWaterToUpdate;
 };
-void Rva0027CD63::rva0027CD63( void )
+void TerrainLogic::update( void )
 {
 	m_bridgeDamageStatesChanged = false;
 
