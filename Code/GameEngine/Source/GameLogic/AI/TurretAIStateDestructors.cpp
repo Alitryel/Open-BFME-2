@@ -30,7 +30,9 @@ private:
 class __declspec(novtable) Rva004D7B70 : public State
 {
 public:
- virtual ~Rva004D7B70() {}
+ // Inline the proven State tail without emitting a second base provider;
+ // StateGetMachineGoalObject.cpp retains the existing complete definition.
+ __declspec(dllimport) __forceinline virtual ~Rva004D7B70() {}
 };
 
 class __declspec(novtable) TurretAIIdleState : public Rva004D7B70
@@ -77,3 +79,5 @@ typedef char RecenterStateSize[(sizeof(TurretAIRecenterTurretState) == 0x20) ? 1
 typedef char HoldStateSize[(sizeof(TurretAIHoldTurretState) == 0x24) ? 1 : -1];
 
 TurretAIIdleState::~TurretAIIdleState() {}
+
+TurretAIIdleScanState::~TurretAIIdleScanState() {}
