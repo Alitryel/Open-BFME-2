@@ -1,3 +1,6 @@
+char g_00C54FD8;
+char g_00C54FE8;
+
 // cl: /DNDEBUG /MD /GX-
 //
 // ??1RousingSpeechUpdate@@UAE@XZ, retail 0x004ACE96, 60 bytes. Virtual dtor
@@ -62,9 +65,9 @@ private:
 RousingSpeechUpdate::~RousingSpeechUpdate()
 {
 	Rva0029FB3BMember *member = (Rva0029FB3BMember *)((char *)this + 0x88);
-	*(const void **)this = (const void *)0x00C54FE8;
+	*(const void **)this = (const void *)(unsigned int)&g_00C54FE8;
 	*(const void **)((char *)this + 0x0C) = (const void *)((unsigned int)vtbl_00C4D640);
-	*(const void **)((char *)this + 0x10) = (const void *)0x00C54FD8;
+	*(const void **)((char *)this + 0x10) = (const void *)(unsigned int)&g_00C54FD8;
 	*(const void **)((char *)this + 0x20) = (const void *)((unsigned int)vtbl_00C552A4);
 	member->reset();
 	((PoolMember *)member)->Rva00268902();

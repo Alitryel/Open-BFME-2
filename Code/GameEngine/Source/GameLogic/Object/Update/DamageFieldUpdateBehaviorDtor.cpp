@@ -1,3 +1,6 @@
+char g_00C4D964;
+char g_00C4D970;
+
 // cl: /DNDEBUG /MD /GX-
 //
 // ??1DamageFieldUpdate@@UAE@XZ, retail 0x0049122C, 49 bytes. Virtual dtor
@@ -50,9 +53,9 @@ private:
 DamageFieldUpdate::~DamageFieldUpdate()
 {
 	Rva0029FB3BMember *member = (Rva0029FB3BMember *)((char *)this + 0x2C);
-	*(const void **)this = (const void *)0x00C4D970;
+	*(const void **)this = (const void *)(unsigned int)&g_00C4D970;
 	*(const void **)((char *)this + 0x0C) = (const void *)((unsigned int)vtbl_00BEFF90);
-	*(const void **)((char *)this + 0x10) = (const void *)0x00C4D964;
+	*(const void **)((char *)this + 0x10) = (const void *)(unsigned int)&g_00C4D964;
 	member->reset();
 	((PoolMember *)member)->Rva00268902();
 }

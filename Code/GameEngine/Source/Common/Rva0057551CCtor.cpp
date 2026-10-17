@@ -19,11 +19,13 @@ private:
 	int m_10;
 };
 
+void *g_00C6E614[1] = { 0 };
+
 Rva0057551C::Rva0057551C(void *a, void *b, void *c)
 {
 	m_10 = 0;
 	m_04 = a;
 	m_08 = b;
-	m_vtable = (void *)0x00C6E614;
+	m_vtable = (void *)g_00C6E614;
 	m_0c = c;
 }

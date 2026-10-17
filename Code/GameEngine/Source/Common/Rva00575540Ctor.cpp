@@ -18,11 +18,13 @@ private:
 	int m_10;
 };
 
+extern void *g_00C6E614[];
+
 Rva00575540::Rva00575540(void *a, void *b, void *c)
 {
 	m_0c = 0;
 	m_04 = a;
 	m_08 = b;
-	m_vtable = (void *)0x00C6E614;
+	m_vtable = (void *)g_00C6E614;
 	m_10 = (int)c;
 }

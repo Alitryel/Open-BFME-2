@@ -1,3 +1,6 @@
+char g_00BEFEA4;
+char g_00BEFEB0;
+
 // cl: /DNDEBUG /MD
 //
 // ??0UpgradeSoundSelectorClientBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,
@@ -40,6 +43,6 @@ UpgradeSoundSelectorClientBehavior::UpgradeSoundSelectorClientBehavior(Thing *th
 	Rva00252B68(thing, moduleData)
 {
 	*(unsigned int volatile *)((char *)this + 0xC) = ((unsigned int)vtbl_00BE2B78);
-	*(unsigned int *)this = 0x00BEFEB0;
-	*(unsigned int *)((char *)this + 0xC) = 0x00BEFEA4;
+	*(unsigned int *)this = (unsigned int)&g_00BEFEB0;
+	*(unsigned int *)((char *)this + 0xC) = (unsigned int)&g_00BEFEA4;
 }

@@ -1,3 +1,6 @@
+char g_00BEF9B0;
+char g_00BEFA7C;
+
 // cl: /DNDEBUG /MD
 //
 // ??0SpawnedModelConditionCreate@@QAE@PAVThing@@PBVModuleData@@@Z, retail
@@ -35,7 +38,7 @@ public:
 SpawnedModelConditionCreate::SpawnedModelConditionCreate(Thing *thing, const ModuleData *moduleData) :
 	CreateModule(thing, moduleData)
 {
-	*(unsigned int *)this = 0x00BEFA7C;
+	*(unsigned int *)this = (unsigned int)&g_00BEFA7C;
 	*(unsigned int *)((char *)this + 0xC) = ((unsigned int)vtbl_00BEF9C0);
-	*(unsigned int *)((char *)this + 0x10) = 0x00BEF9B0;
+	*(unsigned int *)((char *)this + 0x10) = (unsigned int)&g_00BEF9B0;
 }

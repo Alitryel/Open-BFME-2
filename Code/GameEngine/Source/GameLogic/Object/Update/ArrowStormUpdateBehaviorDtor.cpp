@@ -1,3 +1,6 @@
+char g_00C4D61C;
+char g_00C4D700;
+
 // cl: /DNDEBUG /MD /GX-
 //
 // ??1ArrowStormUpdate@@UAE@XZ, retail 0x004907C0, 49 bytes. Virtual dtor
@@ -76,9 +79,9 @@ void deleteArrowStormUpdate(ArrowStormUpdate *p)
 ArrowStormUpdate::~ArrowStormUpdate()
 {
 	Rva0029FB3BMember *member = (Rva0029FB3BMember *)((char *)this + 0x88);
-	*(const void **)this = (const void *)0x00C4D700;
+	*(const void **)this = (const void *)(unsigned int)&g_00C4D700;
 	*(const void **)((char *)this + 0x0C) = (const void *)((unsigned int)vtbl_00C4D640);
 	*(const void **)((char *)this + 0x10) = (const void *)((unsigned int)vtbl_00C4DEE8);
-	*(const void **)((char *)this + 0x20) = (const void *)0x00C4D61C;
+	*(const void **)((char *)this + 0x20) = (const void *)(unsigned int)&g_00C4D61C;
 	((PoolMember *)member)->Rva00268902();
 }

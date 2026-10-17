@@ -1,3 +1,5 @@
+char g_00BEFDB4;
+
 // cl: /DNDEBUG /MD
 //
 // ??0SpecialPowerTimerRefreshSpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z,
@@ -37,7 +39,7 @@ public:
 SpecialPowerTimerRefreshSpecialPower::SpecialPowerTimerRefreshSpecialPower(Thing *thing, const ModuleData *moduleData) :
 	SpecialPowerModule(thing, moduleData)
 {
-	*(unsigned int *)this = 0x00BEFDB4;
+	*(unsigned int *)this = (unsigned int)&g_00BEFDB4;
 	*(unsigned int *)((char *)this + 0xC) = ((unsigned int)vtbl_00BEFCF8);
 	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00C5E080);
 }

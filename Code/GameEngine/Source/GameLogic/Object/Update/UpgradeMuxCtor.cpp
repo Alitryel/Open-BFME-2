@@ -1,7 +1,9 @@
+char g_00C5FF10;
+
 // cl: /O1 /DNDEBUG /MD
 //
 // ??0UpgradeMux@@QAE@XZ, retail 0x004CE2A3, 13 bytes. UpgradeMux root
-// ctor (frameless leaf: installs vtable 0x00C5FF10 explicitly over the
+// ctor (frameless leaf: installs vtable (void *)&g_00C5FF10 explicitly over the
 // novtable model plus clears the executed flag at +4). Called this-direct
 // with no adjustment by 12 behavior-ctor sites (0x4525B8/0x45F5C5/
 // 0x460B12/0x48282B/0x482DA6/0x48424E/0x49B586/0x49C12C/0x4A3454/
@@ -24,7 +26,7 @@ private:
 
 // ??0UpgradeMux@@QAE@XZ @0x4CE2A3
 inline UpgradeMux::UpgradeMux()
-	: m_vtable(reinterpret_cast<void *>(0x00C5FF10)),
+	: m_vtable(reinterpret_cast<void *>((void *)&g_00C5FF10)),
 	  m_executed(false)
 {
 }

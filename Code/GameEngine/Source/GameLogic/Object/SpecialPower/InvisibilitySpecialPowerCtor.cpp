@@ -1,3 +1,6 @@
+char g_00C5C4B8;
+char g_00C5C51C;
+
 // cl: /DNDEBUG /MD
 //
 // ??0InvisibilitySpecialPower@@QAE@PAVThing@@PBVModuleData@@@Z, retail
@@ -35,7 +38,7 @@ public:
 InvisibilitySpecialPower::InvisibilitySpecialPower(Thing *thing, const ModuleData *moduleData) :
 	SpecialPowerModule(thing, moduleData)
 {
-	*(unsigned int *)this = 0x00C5C51C;
+	*(unsigned int *)this = (unsigned int)&g_00C5C51C;
 	*(unsigned int *)((char *)this + 0xC) = ((unsigned int)vtbl_00BEFCF8);
-	*(unsigned int *)((char *)this + 0x10) = 0x00C5C4B8;
+	*(unsigned int *)((char *)this + 0x10) = (unsigned int)&g_00C5C4B8;
 }

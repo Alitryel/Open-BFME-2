@@ -1,3 +1,5 @@
+
+char g_00BCCCF8;
 // cl: /DNDEBUG /MD
 //
 // ??0W3DTreeDraw@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x000CEB4D,
@@ -34,5 +36,5 @@ public:
 W3DTreeDraw::W3DTreeDraw(Thing *thing, const ModuleData *moduleData) :
 	DrawModule(thing, moduleData)
 {
-	*(unsigned int *)this = 0x00BCCCF8;
+	*(unsigned int *)this = (unsigned int)&g_00BCCCF8;
 }

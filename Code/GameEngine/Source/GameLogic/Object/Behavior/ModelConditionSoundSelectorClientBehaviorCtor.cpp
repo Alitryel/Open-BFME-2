@@ -1,3 +1,6 @@
+char g_00BF3210;
+char g_00BF3220;
+
 // cl: /DNDEBUG /MD
 //
 // ??0ModelConditionSoundSelectorClientBehavior@@QAE@PAVThing@@PBVModuleData@@@Z,
@@ -50,6 +53,6 @@ ModelConditionSoundSelectorClientBehavior::ModelConditionSoundSelectorClientBeha
 	// be eaten by the dead-store eliminator.
 	const void **p0C = &m_p0C;
 	*p0C = reinterpret_cast<const void *>(((unsigned int)vtbl_00BE2B78));
-	m_vtable = reinterpret_cast<const void *>(0x00BF3220);
-	m_p0C = reinterpret_cast<const void *>(0x00BF3210);
+	m_vtable = reinterpret_cast<const void *>((void *)&g_00BF3220);
+	m_p0C = reinterpret_cast<const void *>((void *)&g_00BF3210);
 }

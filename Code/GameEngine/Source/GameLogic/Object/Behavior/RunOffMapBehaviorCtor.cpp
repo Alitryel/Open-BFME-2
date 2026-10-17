@@ -1,3 +1,6 @@
+char g_00C4307C;
+char g_00C42FC0;
+
 // cl: /DNDEBUG /MD
 //
 // ??0RunOffMapBehavior@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x0046217B,
@@ -46,7 +49,7 @@ RunOffMapBehavior::RunOffMapBehavior(Thing *thing, const ModuleData *moduleData)
 	BehaviorModule(thing, moduleData)
 {
 	*(volatile unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00C1C780);
-	*(unsigned int *)this = 0x00C4307C;
-	*(unsigned int *)((char *)this + 0xC) = 0x00C42FC0;
+	*(unsigned int *)this = (unsigned int)&g_00C4307C;
+	*(unsigned int *)((char *)this + 0xC) = (unsigned int)&g_00C42FC0;
 	*(unsigned int *)((char *)this + 0x10) = ((unsigned int)vtbl_00C42F1C);
 }

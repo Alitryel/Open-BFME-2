@@ -1,3 +1,5 @@
+
+char g_00BC98B0;
 // cl: /DNDEBUG /MD
 //
 // ??0W3DDefaultDraw@@QAE@PAVThing@@PBVModuleData@@@Z, retail 0x000B21B3,
@@ -32,5 +34,5 @@ public:
 W3DDefaultDraw::W3DDefaultDraw(Thing *thing, const ModuleData *moduleData) :
 	DrawModule(thing, moduleData)
 {
-	*(unsigned int *)this = 0x00BC98B0;
+	*(unsigned int *)this = (unsigned int)&g_00BC98B0;
 }
