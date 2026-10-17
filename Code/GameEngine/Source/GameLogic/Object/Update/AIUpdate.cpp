@@ -150,20 +150,9 @@ template<> void _Destroy<BfmeRetailLocomotorPair>(BfmeRetailLocomotorPair*); }
 #endif
 
 //-------------------------------------------------------------------------------------------------
-AIUpdateModuleData::AIUpdateModuleData()
-{
-	//m_locomotorTemplates	-- nothing to do
-	for (int i = 0; i < MAX_TURRETS; i++)
-		m_turretData[i] = NULL;
-	m_autoAcquireEnemiesWhenIdle = 0;
-	m_moodAttackCheckRate = LOGICFRAMES_PER_SECOND * 2;
-#ifdef ALLOW_SURRENDER
-	m_surrenderDuration = LOGICFRAMES_PER_SECOND * 120;
-#endif
-
-  m_forbidPlayerCommands = FALSE;
-	m_turretsLinked = FALSE;
-}
+// AIUpdateModuleData::AIUpdateModuleData is rowed in AIUpdateModuleDataCtor.cpp; the
+// Zero Hour copy here duplicated it. Its member map's default ctor stays rowed here.
+template LocomotorTemplateMap::map();
 
 //-------------------------------------------------------------------------------------------------
 // AIUpdateModuleData::~AIUpdateModuleData: defined in AIUpdateModuleDataDtor.cpp (its row's unit).
