@@ -320,7 +320,9 @@ extern class Rva002872BA *TheTriggerManager;
 extern void *g_Va00E01EDC;
 extern class Rva002A8F24 *g_00DFEEF8;
 extern Rva0022BD25Subsystem *TheArmyDefinitionManager;
-extern class Rva0022BD9ASubsystem *g_00E03124;
+// TheBaseTemplateLibrary (0x00A03124): registered below by name; retail .data starts it at 0.
+class Rva0022BD9ASubsystem;
+Rva0022BD9ASubsystem *TheBaseTemplateLibrary = 0;
 extern class Rva003ED2A3Manager *g_manager;
 extern struct Rva005055DESrc *g_00E0311C;
 extern ActionManager *TheActionManager;
@@ -886,7 +888,7 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem((reinterpret_cast<Rva0022BC3BSubsystem *&>(g_Va00E01EDC)), "TheMineshaftPortalNetworkManager", new Rva0022BC3BSubsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022BCB0Subsystem *&>(g_00DFEEF8)), "TheSkirmishAIManager", new Rva0022BCB0Subsystem, 0);
 		initSubsystem(TheArmyDefinitionManager, "TheArmyDefinitionManager", new Rva0022BD25Subsystem, 0);
-		initSubsystem(g_00E03124, "TheBaseTemplateLibrary", new Rva0022BD9ASubsystem, 0);
+		initSubsystem(TheBaseTemplateLibrary, "TheBaseTemplateLibrary", new Rva0022BD9ASubsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022BE0FSubsystem *&>(g_manager)), "TheThreatFinderManager", new Rva0022BE0FSubsystem, 0);
 		initSubsystem((reinterpret_cast<Rva0022BE84Subsystem *&>(g_00E0311C)), "TheAITargetHeuristicLibrary", new Rva0022BE84Subsystem, 0);
 		ini.loadFile("CommandMap.ini", INI_LOAD_OVERWRITE, 0);

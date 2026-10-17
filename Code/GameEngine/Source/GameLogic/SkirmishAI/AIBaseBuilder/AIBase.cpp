@@ -376,7 +376,7 @@ public:
 	Rva0041E912Template *rva0041E764(NameKeyType key);
 	NameKeyType rva0041E971(Rva0041E912Template *tmpl);
 };
-extern Rva0022BD9ASubsystem *g_00E03124;
+extern Rva0022BD9ASubsystem *TheBaseTemplateLibrary;
 
 class AIBase
 {
@@ -472,10 +472,10 @@ void AIBase::DoXfer(Xfer *xfer)
 	*xfer == m_angle;
 	AsciiString name;
 	if (xfer->IsStoring() && m_10)
-		name = TheNameKeyGenerator->keyToName(g_00E03124->rva0041E971(m_10));
+		name = TheNameKeyGenerator->keyToName(TheBaseTemplateLibrary->rva0041E971(m_10));
 	*xfer == name;
 	if (xfer->IsLoading() && name != AsciiString::TheEmptyString)
-		m_10 = g_00E03124->rva0041E764(TheNameKeyGenerator->nameToKey(name));
+		m_10 = TheBaseTemplateLibrary->rva0041E764(TheNameKeyGenerator->nameToKey(name));
 	unsigned int count = m_items.size();
 	*xfer == count;
 	if (xfer->IsLoading()) {
@@ -533,7 +533,7 @@ Rva0041E912Template *AIBase::rva005ADCBE(int notFirst, const _STL::vector<Rva004
 void AIBase::loadBestFitTemplate(Coord3D *point, float angle, int notFirst)
 {
 	_STL::vector<Rva0041E912Template *> templates;
-	if (g_00E03124->rva0041E912(((Rva005AE26AOwner *)m_owner)->m_58, templates)) {
+	if (TheBaseTemplateLibrary->rva0041E912(((Rva005AE26AOwner *)m_owner)->m_58, templates)) {
 		Rva0041E912Template *chosen = rva005ADCBE(notFirst, templates);
 		if (chosen) {
 			m_10 = chosen;

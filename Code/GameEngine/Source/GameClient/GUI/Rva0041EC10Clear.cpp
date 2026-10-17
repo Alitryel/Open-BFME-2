@@ -49,15 +49,15 @@ private:
     Rva0041EA88 m_map20;
 };
 class Rva0022BD9ASubsystem;
-extern Rva0022BD9ASubsystem *g_00E03124;
+extern Rva0022BD9ASubsystem *TheBaseTemplateLibrary;
 
 void Rva0041F042::rva0041EC10()
 {
-    WindowVideoManager::WindowVideoMap::iterator it = ((Rva0041F042 *)g_00E03124)->m_map0C.begin();
-    for (; it != ((Rva0041F042 *)g_00E03124)->m_map0C.end(); ++it) {
+    WindowVideoManager::WindowVideoMap::iterator it = ((Rva0041F042 *)TheBaseTemplateLibrary)->m_map0C.begin();
+    for (; it != ((Rva0041F042 *)TheBaseTemplateLibrary)->m_map0C.end(); ++it) {
         Rva0041E875 *object = (Rva0041E875 *)it->second;
         delete object;
     }
-    ((Rva004DFC20 *)&((Rva0041F042 *)g_00E03124)->m_map0C)->clear();
-    ((Rva0041F042 *)g_00E03124)->m_map20.rva0041EA88();
+    ((Rva004DFC20 *)&((Rva0041F042 *)TheBaseTemplateLibrary)->m_map0C)->clear();
+    ((Rva0041F042 *)TheBaseTemplateLibrary)->m_map20.rva0041EA88();
 }

@@ -52,25 +52,25 @@ class ArmorTemplate {char body[152];};
 namespace rts {template<class T>struct hash {};template<class T>struct equal_to {};}
 typedef _STL::hashtable<_STL::pair<const NameKeyType,ArmorTemplate>,NameKeyType,rts::hash<NameKeyType>,_STL::_Select1st<_STL::pair<const NameKeyType,ArmorTemplate> >,rts::equal_to<NameKeyType>,_STL::allocator<_STL::pair<const NameKeyType,ArmorTemplate> > > ArmorHashtable;
 class Object;class ObjectLookupMap {public:Object**findSlot(int*);};
-class Rva0022BD9ASubsystem;extern Rva0022BD9ASubsystem*g_00E03124;
+class Rva0022BD9ASubsystem;extern Rva0022BD9ASubsystem*TheBaseTemplateLibrary;
 struct Rva0041EC73View {char prefix[12];char map0C[20];_STL::hash_map<int,_STL::vector<ScienceType> >map20;};
 void Rva0041EC73Load(INI*ini){
  Rva0041E732*value=new Rva0041E732;
  ini->initFromINI(value,fields);
  int sideKey=TheNameKeyGenerator->nameToKey(value->side);
 
- if(reinterpret_cast<ArmorHashtable*>(&reinterpret_cast<Rva0041EC73View*>(g_00E03124)->map20)->contains(reinterpret_cast<const NameKeyType&>(sideKey))==false){
+ if(reinterpret_cast<ArmorHashtable*>(&reinterpret_cast<Rva0041EC73View*>(TheBaseTemplateLibrary)->map20)->contains(reinterpret_cast<const NameKeyType&>(sideKey))==false){
   _STL::vector<ScienceType> empty;
-  reinterpret_cast<_STL::vector<Rva0021C21BElement>&>(reinterpret_cast<Rva0041EC73View*>(g_00E03124)->map20[sideKey])=reinterpret_cast<const _STL::vector<Rva0021C21BElement>&>(empty);
+  reinterpret_cast<_STL::vector<Rva0021C21BElement>&>(reinterpret_cast<Rva0041EC73View*>(TheBaseTemplateLibrary)->map20[sideKey])=reinterpret_cast<const _STL::vector<Rva0021C21BElement>&>(empty);
  }
  int mapKey=TheNameKeyGenerator->nameToKey(value->map);
 
- ObjectLookupMap *map=reinterpret_cast<ObjectLookupMap*>(&reinterpret_cast<Rva0041EC73View*>(g_00E03124)->map0C);
+ ObjectLookupMap *map=reinterpret_cast<ObjectLookupMap*>(&reinterpret_cast<Rva0041EC73View*>(TheBaseTemplateLibrary)->map0C);
  if(reinterpret_cast<ArmorHashtable*>(map)->contains(reinterpret_cast<const NameKeyType&>(mapKey))==false)
   *map->findSlot(&mapKey)=reinterpret_cast<Object*>(value);
  else delete reinterpret_cast<Rva0041E875*>(value);
 
- reinterpret_cast<Rva0041EC73View*>(g_00E03124)->map20[sideKey].push_back(reinterpret_cast<const ScienceType&>(mapKey));
+ reinterpret_cast<Rva0041EC73View*>(TheBaseTemplateLibrary)->map20[sideKey].push_back(reinterpret_cast<const ScienceType&>(mapKey));
 }
 
 // Native [41E912,41E96F) RET8: the side's base definitions. The side name's
@@ -81,9 +81,9 @@ void Rva0041EC73Load(INI*ini){
 struct Rva0041E912Entry {void*next;int key;int*begin;int*end;};
 bool __stdcall Rva0041E912Fill(const AsciiString &name,_STL::vector<const ModuleData*> *out){
  NameKeyType key=TheNameKeyGenerator->nameToKey(name);
- Rva0041E912Entry*entry=reinterpret_cast<Rva0041E912Entry*>(reinterpret_cast<ArmorHashtable*>(&reinterpret_cast<Rva0041EC73View*>(g_00E03124)->map20)->_M_find(key));
+ Rva0041E912Entry*entry=reinterpret_cast<Rva0041E912Entry*>(reinterpret_cast<ArmorHashtable*>(&reinterpret_cast<Rva0041EC73View*>(TheBaseTemplateLibrary)->map20)->_M_find(key));
  if(!entry) return false;
  for(int*it=entry->begin;it!=entry->end;++it)
-  out->push_back(*(const ModuleData**)(reinterpret_cast<ObjectLookupMap*>(&reinterpret_cast<Rva0041EC73View*>(g_00E03124)->map0C)->findSlot(it)));
+  out->push_back(*(const ModuleData**)(reinterpret_cast<ObjectLookupMap*>(&reinterpret_cast<Rva0041EC73View*>(TheBaseTemplateLibrary)->map0C)->findSlot(it)));
  return true;
 }
