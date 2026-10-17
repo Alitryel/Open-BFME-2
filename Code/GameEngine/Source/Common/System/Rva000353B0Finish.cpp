@@ -1,29 +1,37 @@
-// ?alloc@Rva000353B0@@QAEPAXPAXHHHH@Z @0x000353B0 57B.
-// Address-derived PANS allocate-or-recognise hook, sibling of the Rva00033E90
-// PANS block methods in Code/GameEngine/Source/Common/System/. A non-null first
-// argument must carry the "PANS" block signature and is returned as-is, else
-// NULL; a null first argument reaches the private four-argument allocator
-// pinned at 0x00034D10 and stamps +0x0D on success. Names are address-derived;
-// the default /O2 shape has no frame, so there is no // cl: line.
-class Rva000353B0
+// ?rva000353B0@GeneralAllocator@Allocator@EA@@QAEPAXPAXH_N0I@Z @0x000353B0 57B.
+// PPMalloc GeneralAllocator report open (ReportBegin-like), under the name
+// memory_pool.cpp's _Exit and _DumpFragmentation call. A non-null context
+// must carry the "PANS" block signature and is returned as-is, else NULL; a
+// null context takes a snapshot through the allocator at 0x00034D10 and
+// stamps +0x0D on success. Retail forwards the bool flag as the whole
+// argument dword, so the callee is declared with the bool it takes. Names are
+// address-derived; the default /O2 shape has no frame, so there is no // cl:
+// line.
+namespace EA
+{
+namespace Allocator
+{
+class GeneralAllocator
 {
 public:
-	void *rva00034d10(int a, int b, int c, int d);
-	void *alloc(void *block, int a, int b, int c, int d);
+	void *rva00034D10(int blockTypes, bool copy, void *storage, unsigned int storageSize);
+	void *rva000353B0(void *context, int blockTypes, bool copy, void *storage, unsigned int storageSize);
 };
+}
+}
 
-void *Rva000353B0::alloc(void *block, int a, int b, int c, int d)
+void *EA::Allocator::GeneralAllocator::rva000353B0(void *context, int blockTypes, bool copy, void *storage, unsigned int storageSize)
 {
 	void *result;
-	if (block != 0)
+	if (context != 0)
 	{
-		result = block;
-		if (*(int *)block != 0x534e4150)
+		result = context;
+		if (*(int *)context != 0x534e4150)
 			result = 0;
 	}
 	else
 	{
-		result = rva00034d10(a, b, c, d);
+		result = rva00034D10(blockTypes, copy, storage, storageSize);
 		if (result)
 			*((char *)result + 0xd) = 1;
 	}
