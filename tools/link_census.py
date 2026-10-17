@@ -1280,6 +1280,119 @@ def comdat_losers(objs, rows=None, stats=None, facts=None, referenced=None):
     return losers
 
 
+# keep_rule's `unreferenced` rule rightly charges no copy of a name the link
+# never keeps, but that also hid the commonest sign of a stale private class
+# view: a copy of a no-address inline the same length as the other units'
+# copy, a few displacement bytes off (Player::getPlayerIndex reading the wrong
+# member offset; AsciiString::str with Zero Hour's 4-byte string header). The
+# census still records those copies as a diagnostic, never as a blocker: they
+# change no LINKED figure, blocker count, history row or rules id.
+UNREFERENCED_COPIES = OUT / "unreferenced_copies.json"
+LAYOUT_DIFF_BYTES = 4  # at most this many bytes off, same length: layout-like
+
+
+def copy_kind(body, majority):
+    """(kind, differing bytes) of one COMDAT copy against the majority copy.
+
+    "layout" when it has the majority's length and at most LAYOUT_DIFF_BYTES
+    bytes differ (a member offset or a constant: a stale class view);
+    "relocation" when the bytes are equal and only the relocations differ (a
+    call or a vftable slot binding another name); "codegen" otherwise
+    (inlining, flags); "unclassified" when a body cannot be read."""
+    if body is None or majority is None:
+        return "unclassified", None
+    if len(body) != len(majority):
+        return "codegen", None
+    differ = sum(a != b for a, b in zip(body, majority))
+    if not differ:
+        return "relocation", 0
+    return ("layout" if differ <= LAYOUT_DIFF_BYTES else "codegen"), differ
+
+
+def majority_digest(digests):
+    """The most common digest of a name's copies (in link order); a tie goes
+    to the first in link order."""
+    counts = collections.Counter(digests)
+    best = max(counts.values())
+    return next(digest for digest in digests if counts[digest] == best)
+
+
+def comdat_section_bodies(obj, names, digests=False):
+    """{name: section bytes or None} for the COMDAT symbols `names` one object
+    defines ({name: (bytes, digest)} with `digests`); an unreadable object
+    gives nothing."""
+    import struct
+    read = getattr(obj, "read_bytes", None)
+    if read is None:
+        return {}
+    try:
+        return {symbol["name"]: (body, digest) if digests else body
+                for symbol, body, _, digest, _ in _comdat_sections(read()) if symbol["name"] in names}
+    except (OSError, struct.error, ValueError, IndexError):
+        return {}  # a diagnostic never fails a census or a check
+
+
+def unreferenced_differs(objs, facts, referenced):
+    """{object name: [entry]} for every COMDAT copy keep_rule's `unreferenced`
+    rule exempts that differs from the majority copy of its name: a name with
+    no retail address that nothing the link keeps references (`referenced`,
+    link_references; None, PREVIOUS_RULES, exempts nothing). Each entry is
+    {name, kind, bytes_differ, size, majority_size, majority_object}, kind by
+    copy_kind. Diagnostic only: it decides nothing a link is charged with."""
+    if referenced is None:
+        return {}
+    copies = collections.defaultdict(list)
+    for position, (found, _, _, _) in enumerate(facts):
+        for name, digest, _, verdict in found:
+            copies[name].append((position, digest, verdict))
+    wanted, plan = collections.defaultdict(set), []
+    for name, found in copies.items():
+        if name in referenced or any(verdict is not None for _, _, verdict in found):
+            continue
+        if len({digest for _, digest, _ in found}) < 2:
+            continue
+        major = majority_digest([digest for _, digest, _ in found])
+        model = next(position for position, digest, _ in found if digest == major)
+        wanted[model].add(name)
+        for position, digest, _ in found:
+            if digest != major:
+                wanted[position].add(name)
+                plan.append((name, position, model))
+    bodies = {}
+    for position, names in wanted.items():
+        for name, body in comdat_section_bodies(objs[position], names).items():
+            bodies[position, name] = body
+    out = collections.defaultdict(list)
+    for name, position, model in plan:
+        body, majority = bodies.get((position, name)), bodies.get((model, name))
+        kind, differ = copy_kind(body, majority)
+        out[objs[position].name].append({
+            "name": name, "kind": kind, "bytes_differ": differ, "size": None if body is None else len(body),
+            "majority_size": None if majority is None else len(majority), "majority_object": objs[model].name})
+    return {obj: sorted(entries, key=lambda entry: entry["name"]) for obj, entries in out.items()}
+
+
+def unreferenced_summary(by_source):
+    """{kind: copies} and {kind: units} over unreferenced_differs entries
+    keyed by source (or object)."""
+    copies, units = collections.Counter(), collections.Counter()
+    for entries in by_source.values():
+        kinds = collections.Counter(entry["kind"] for entry in entries)
+        copies.update(kinds)
+        units.update(kinds.keys())
+    return dict(copies), dict(units)
+
+
+def read_unreferenced_copies(path=None):
+    """{source: [entry]} from the last census's UNREFERENCED_COPIES ({} when
+    no census wrote one)."""
+    path = UNREFERENCED_COPIES if path is None else path
+    try:
+        return json.loads(path.read_text(encoding="utf-8")).get("units", {})
+    except (OSError, ValueError):
+        return {}
+
+
 def ledger_owners(rows, data=None):
     """{name: {object}}: the object of each ledger row naming it (its object
     symbol too), never an icf-owner over-claim or a scaffold row, and of each
@@ -1987,7 +2100,9 @@ def write_status(log, rows, present, meta, kept, publish=True):
     its object (comdat_losers: retail truth where the symbol has a retail
     address, else the copy link.exe keeps, the first in link order; since
     retail-truth-2 no copy of a name with no retail address that nothing the
-    link keeps references loses: keep_rule). Any hard-coded image address counts too
+    link keeps references loses: keep_rule, though such copies that differ
+    from the majority are still listed, as a diagnostic only, in
+    UNREFERENCED_COPIES and the index: unreferenced_differs). Any hard-coded image address counts too
     (link_debt.addresses): it links, but only while nothing moves.
 
     And since 2026-09-29 (wrong_selected), a file is not linked when any name
@@ -2022,6 +2137,7 @@ def write_status(log, rows, present, meta, kept, publish=True):
     # PREVIOUS_RULES charged every differing copy of a name with no retail
     # address, referenced or not: census_rebaseline.py records the figures.
     previous_losers = comdat_losers(present, rows, previous_stats, facts)
+    differs = unreferenced_differs(present, facts, referenced)
     results, exceptions = selection_verdicts(present, facts, owners, kept)
     wrong_selected, unknown_selected = {}, {}
     for obj, fact in zip(present, facts):
@@ -2094,8 +2210,15 @@ def write_status(log, rows, present, meta, kept, publish=True):
             unknown_only.add(source)
         blockers[source] = {"object": obj, "linked": not any(counts), "unresolved": sorted(unresolved.get(obj, ())),
                             "duplicates": sorted(duplicates.get(obj, ())), "losers": sorted(losers.get(obj, ())),
-                            "addresses": counts[3], "wrong_selected": wrong_selected.get(obj, [])}
+                            "addresses": counts[3], "wrong_selected": wrong_selected.get(obj, []),
+                            "unreferenced_differs": differs.get(obj, [])}
     clean = {source for source, r in out.items() if r["linked"] == "yes"}
+    stale = {source: entry["unreferenced_differs"] for source, entry in blockers.items()
+             if entry["unreferenced_differs"]}
+    stale_copies, stale_units = unreferenced_summary(stale)
+    print(f"link_census: diagnostic (no blocker): differing copies the unreferenced rule exempts, by kind: "
+          + ", ".join(f"{kind} {stale_copies[kind]:,} in {stale_units[kind]:,} units" for kind in sorted(stale_copies))
+          + (" (layout-like: a stale private class view?)" if stale_copies.get("layout") else ""))
 
     def accept():
         temp = STATUS.with_suffix(".csv.tmp")
@@ -2104,6 +2227,12 @@ def write_status(log, rows, present, meta, kept, publish=True):
             writer.writeheader()
             writer.writerows(out[s] for s in sorted(out))
         temp.replace(STATUS)
+        UNREFERENCED_COPIES.parent.mkdir(parents=True, exist_ok=True)
+        temp = UNREFERENCED_COPIES.with_suffix(".json.tmp")
+        temp.write_text(json.dumps({"meta": meta or {}, "rules": RULES, "layout_diff_bytes": LAYOUT_DIFF_BYTES,
+                                    "copies": stale_copies, "units_by_kind": stale_units, "units": stale},
+                                   indent=1, sort_keys=True), encoding="utf-8")
+        temp.replace(UNREFERENCED_COPIES)
         import link_check
         link_check.write_index(present, facts, blockers, {"runtime": runtime, "imported": imported, "stubs": thunks},
                                meta or {}, {"exceptions": exceptions, "owners": dict(owners)},

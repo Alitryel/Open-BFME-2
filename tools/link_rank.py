@@ -24,9 +24,17 @@ and reports:
            the units it blocks: what a fix moves overall
   near     units with at most --near blockers, largest first: the work list
 
+and, never as a blocker, the diagnostic the census keeps for copies its
+`unreferenced` rule exempts (link_census.unreferenced_differs):
+
+  V name   a copy of a no-address COMDAT nothing the link keeps references
+           that differs from the majority copy; layout-like (same length, a
+           few bytes off) is the signature of a stale private class view
+
 Usage:
   python3 tools/link_rank.py [--top N] [--near K] [--kind U|D|L|S|A] [--json PATH]
-  python3 tools/link_rank.py --file SOURCE     one unit's blockers
+  python3 tools/link_rank.py --file SOURCE     one unit's blockers (and V diagnostics)
+  python3 tools/link_rank.py --stale-views     units by layout-like V copies
 
 Run tools/link_census.py --history first; this reads the blockers it
 recorded (build/link_census/link_index.pkl) and never links anything itself.
@@ -70,6 +78,13 @@ def blockers():
     return out, sizes
 
 
+def stale_views():
+    """{source: [unreferenced_differs entry]} from the last census's index."""
+    import link_check
+    return {source: entry.get("unreferenced_differs", [])
+            for source, entry in link_check.census_blockers().items() if entry.get("unreferenced_differs")}
+
+
 def generated(source):
     return source.startswith(("Code/gen_asm/", "Code/gen_small/"))
 
@@ -81,8 +96,33 @@ def main(argv=None):
     parser.add_argument("--kind", choices="UDLSA")
     parser.add_argument("--file")
     parser.add_argument("--json", help="write {source: [[kind, name], ...]} here")
+    parser.add_argument("--stale-views", action="store_true",
+                        help="list units by layout-like V copies (diagnostic, not blockers), largest first")
+    parser.add_argument("--all-kinds", action="store_true",
+                        help="with --stale-views: count every V copy, codegen-like and relocation too")
     args = parser.parse_args(argv)
     found, sizes = blockers()
+    if args.stale_views:
+        views = stale_views()
+        names = collections.Counter()
+        listed = []
+        for source, entries in views.items():
+            picked = [e for e in entries if args.all_kinds or e["kind"] == "layout"]
+            if picked:
+                listed.append((source, picked))
+                names.update(e["name"] for e in picked)
+        listed.sort(key=lambda item: (-len(item[1]), -sizes[item[0]]))
+        linked = {s for s, b in found.items() if not b}
+        print(f"{len(listed):,} units hold {sum(len(p) for _, p in listed):,} "
+              f"{'differing' if args.all_kinds else 'layout-like'} unreferenced copies "
+              f"({sum(sizes[s] for s, _ in listed):,} matched bytes; diagnostic, not blockers)")
+        for source, picked in listed[:args.top]:
+            print(f"  {len(picked):4} {sizes[source]:8,} {'links' if source in linked else '     '}  {source}  "
+                  f"[{'; '.join(e['name'][:60] for e in picked[:3])}{'; ...' if len(picked) > 3 else ''}]")
+        print("\nnames:")
+        for name, count in names.most_common(args.top):
+            print(f"  {count:4} units  {name[:150]}")
+        return 0
     if args.json:
         Path(args.json).write_text(json.dumps({s: sorted(b) for s, b in found.items()}), encoding="utf-8")
     if args.file:
@@ -91,6 +131,9 @@ def main(argv=None):
               f"{'links' if not names else f'{len(names)} blocker(s)'}")
         for kind, name in names:
             print(f"  {kind} {name}")
+        for entry in stale_views().get(args.file, ()):
+            import link_check
+            print(f"  V {entry['name']}  ({link_check.describe_differ(entry)}; not a blocker)")
         return 0
     authored = {s: b for s, b in found.items() if not generated(s)}
     linked = [s for s, b in authored.items() if not b]

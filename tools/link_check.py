@@ -22,6 +22,11 @@ COMDAT copies with their retail-truth verdicts, and every file's blockers):
               definitions is not the ledger owner's). The holder is the one
               the census's /MAP showed, else the first definer in link order
 
+and, never a blocker, `diagnostic` lines: copies keep_rule's `unreferenced`
+rule exempts that differ from the majority copy, classified layout-like
+(same length, at most link_census.LAYOUT_DIFF_BYTES bytes off: a stale private
+class view), relocation or codegen-like (link_census.unreferenced_differs).
+
 These are the census's own rules and functions (Open-BFME-1's link_check.py,
 ported with them), so a file the census counts as linked is one this calls
 LINKS. It prints the file's LINKED bytes (its own authored + vendored bytes,
@@ -592,6 +597,7 @@ def check_object(obj, index, truth, source=None):
         # This object's references join the census's (refresh merged them
         # already when it replaced its definitions; merging twice adds nothing).
         add_references(index, [link_census.object_references(obj)], weaks, kept_copies(index, copies))
+    differs = []
     for name, digest, _, verdict in copies:
         found = [(i, d, v) for i, d, v in comdat.get(name, ()) if i != own]
         found.append((position, digest, verdict))
@@ -599,6 +605,10 @@ def check_object(obj, index, truth, source=None):
         loses, rule = link_census.keep_rule(found, is_referenced(index, name))
         if loses[position]:
             losers.append((name, rule, verdict))
+        elif rule == "unreferenced":
+            entry = unreferenced_differ(obj, name, digest, found, index)
+            if entry is not None:
+                differs.append(entry)
     addresses = []
     if source is not None:
         try:
@@ -607,7 +617,33 @@ def check_object(obj, index, truth, source=None):
             pass
     return {"unresolved": unresolved, "duplicates": duplicates, "comdat": losers, "addresses": addresses,
             "selected": wrong_selected(obj, (copies, defined, undefined, weaks), own, position, index,
-                                       common_names=common)}
+                                       common_names=common),
+            "unreferenced_differs": differs}
+
+
+def unreferenced_differ(obj, name, digest, found, index, tries=8):
+    """link_census.unreferenced_differs' entry for this object's copy of an
+    exempt name (`found`: every copy [(position, digest, verdict)] in link
+    order), or None when it is the majority copy. The majority body is read
+    from the first census object (of up to `tries`) whose current copy still
+    has the majority digest; none gives kind "unclassified". A diagnostic,
+    never a blocker."""
+    major = link_census.majority_digest([d for _, d, _ in found])
+    if digest == major:
+        return None
+    body = link_census.comdat_section_bodies(obj, {name}).get(name)
+    majority, holder = None, None
+    for position in [i for i, d, _ in found if d == major][:tries]:
+        if position >= len(index["objects"]):
+            continue
+        candidate = build.BUILD_DIR / index["objects"][position]
+        current = link_census.comdat_section_bodies(candidate, {name}, digests=True).get(name)
+        if current is not None and current[1] == major:
+            majority, holder = current[0], candidate.name
+            break
+    kind, differ = link_census.copy_kind(body, majority)
+    return {"name": name, "kind": kind, "bytes_differ": differ, "size": None if body is None else len(body),
+            "majority_size": None if majority is None else len(majority), "majority_object": holder}
 
 
 def new_variants(obj, index, truth, previous=None, rank=None):
@@ -797,7 +833,23 @@ def report(source, obj, result, index, now_bytes):
         print(f"  selected    {name}  (the definition the link keeps is not retail's)")
     if result["addresses"]:
         print(f"  addresses   {len(result['addresses'])} hard-coded image address(es), e.g. {result['addresses'][0]}")
+    for entry in result.get("unreferenced_differs", ()):
+        print(f"  diagnostic  {entry['name']}  ({describe_differ(entry)}; unreferenced, not a blocker)")
     return clean
+
+
+def describe_differ(entry):
+    """One line for an unreferenced_differs entry."""
+    if entry["kind"] == "layout":
+        return (f"layout-like: {entry['bytes_differ']} byte(s) differ from the majority copy, same length "
+                "-- a stale private class view?")
+    if entry["kind"] == "relocation":
+        return "relocations differ from the majority copy, bytes equal"
+    if entry["kind"] == "codegen":
+        if entry["bytes_differ"] is not None:
+            return f"codegen-like: {entry['bytes_differ']} of {entry['size']} bytes differ from the majority copy"
+        return f"codegen-like: {entry['size']} bytes against the majority copy's {entry['majority_size']}"
+    return "differs from the majority copy (unreadable)"
 
 
 def _git(*args, check=False):
