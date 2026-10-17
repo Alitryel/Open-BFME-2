@@ -46,6 +46,7 @@ namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, v
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 
 struct Rva002AF625Element {Rva002AF625Element();Rva002AF625Element(const Rva002AF625Element&);Rva002AF625Element&operator=(const Rva002AF625Element&);~Rva002AF625Element(){}char bytes[8]; bool operator==(const Rva002AF625Element&)const;};

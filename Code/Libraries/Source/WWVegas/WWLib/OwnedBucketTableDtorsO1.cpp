@@ -198,6 +198,7 @@ namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, v
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 struct Rva00148B27Element { char bytes[1]; };
 struct Rva002A9029Element { char bytes[1]; };

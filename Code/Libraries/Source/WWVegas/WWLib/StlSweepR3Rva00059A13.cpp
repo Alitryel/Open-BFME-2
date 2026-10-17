@@ -15,6 +15,7 @@ namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
 namespace _STL { template <> void *& vector<void *, allocator<void *> >::operator[](unsigned int); }
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin(); }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 
 struct Rva0005893DRecord {Rva0005893DRecord();Rva0005893DRecord(const Rva0005893DRecord&);~Rva0005893DRecord();Rva0005893DRecord&operator=(const Rva0005893DRecord&);char bytes[1];bool operator<(const Rva0005893DRecord&)const;bool operator==(const Rva0005893DRecord&)const;};

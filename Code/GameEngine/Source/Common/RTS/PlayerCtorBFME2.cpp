@@ -101,6 +101,7 @@ namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::ca
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 // Native ctor2AC340/dtor2AC366: Snapshot vptr, int+4, BfmeE16 vector+8.
 class Rva002AC340 : public Snapshot {

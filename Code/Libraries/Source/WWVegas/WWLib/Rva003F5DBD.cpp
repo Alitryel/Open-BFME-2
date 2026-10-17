@@ -24,6 +24,7 @@ namespace _STL { template <> vector<void *, allocator<void *> > & vector<void *,
 namespace _STL { template <> void vector<void *, allocator<void *> >::_M_clear(); }
 namespace _STL { template <> void ** allocator<void *>::allocate(unsigned int, void const *) const; }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::capacity() const; }
+namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 
 // vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte

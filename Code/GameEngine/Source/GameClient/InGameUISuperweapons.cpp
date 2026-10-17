@@ -78,6 +78,7 @@ namespace _STL { template <> void ** vector<void *, allocator<void *> >::begin()
 namespace _STL { template <> allocator<void *> vector<void *, allocator<void *> >::get_allocator() const; }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
 namespace _STL { template <> void vector<void *, allocator<void *> >::swap(vector<void *, allocator<void *> > &); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 enum ScienceType { SCIENCE_INVALID = -1 };
 typedef _STL::vector<ScienceType> ScienceVec;

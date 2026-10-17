@@ -38,6 +38,7 @@ namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); 
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
 namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::size() const; }
+namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 
 // vector<int>/char destruction otherwise instantiates per-TU allocator

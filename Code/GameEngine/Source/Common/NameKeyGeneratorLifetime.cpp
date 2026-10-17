@@ -18,6 +18,7 @@ typedef bool Bool;
 namespace _STL { template <> _STLP_alloc_proxy<void **, void *, allocator<void *> >::~_STLP_alloc_proxy(); }
 namespace _STL { template <> _Vector_base<void *, allocator<void *> >::~_Vector_base(); }
 namespace _STL { template <> vector<void *, allocator<void *> >::~vector(); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CRITICAL_SECTION*) throw();
 struct Rva0014918DElement {char bytes[8];};

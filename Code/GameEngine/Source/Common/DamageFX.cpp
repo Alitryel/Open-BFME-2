@@ -82,6 +82,7 @@ namespace _STL { template <> unsigned int vector<void *, allocator<void *> >::ca
 namespace _STL { template <> void ** vector<void *, allocator<void *> >::end(); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::insert(void **, unsigned int, void *const &); }
 namespace _STL { template <> void vector<void *, allocator<void *> >::reserve(unsigned int); }
+namespace _STL { template <> allocator<void *>::~allocator(); }
 // bfme link decl-only end
 
 // LINK-COMDAT: static FXList::doFXObj is kept as the /O1 copy from ToppleUpdate.cpp;
