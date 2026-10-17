@@ -1,6 +1,6 @@
 // cl: /MD
 // Scalar deleting destructors that retail reaches only through vtable slots,
-// so caller-based discovery never served them. All fifteen share the 28B
+// so caller-based discovery never served them. All thirteen share the 28B
 // shape (dtor call, flags byte test, conditional scalar delete through pinned
 // ??3@YAXPAX@Z 0x0002FD60, return this), same recipe as
 // FamilyDeletingDtors11.cpp and RvaDeletingDtorBatch04.cpp. Each dtor is
@@ -14,29 +14,44 @@
 //  0x005CFCD1 via dtor 0x005CF86B   0x005E57AD via dtor 0x005E57C9
 //  0x005EA28F via dtor 0x005EA2AB   0x00604A6F via dtor 0x00604A68
 //  0x005FAA31 via dtor 0x004E84A4
-//  0x0040C5DE via dtor 0x0040C39E   0x0040FD1C via dtor 0x0040FB4A
+//  0x0040C5DE via dtor 0x0040C39E
 //  0x004AF161 via dtor 0x004AF17D
-//  0x004BAF11 via dtor 0x004BAEC8   0x00558F6E via dtor 0x00557CCC
+//  0x004BAF11 via dtor 0x004BAEC8
+// (0x0040FD1C and 0x00558F6E belong to the virtual dtors rowed in Rva0040FB4ADtor.cpp
+// and Rva00557CCCDtor.cpp, which emit them with their vtables.)
 //  0x006022AE via dtor 0x006022CA
 
 // ABI-only declaration: no UpdateModule layout or local provider is emitted.
 class UpdateModule { public: virtual ~UpdateModule(); };
 
-class Rva002BEDA4 { public: ~Rva002BEDA4(); };
-class Rva00419B8D { public: ~Rva00419B8D(); };
-class Rva004318D8 { public: ~Rva004318D8(); };
-class Rva0057571C { public: ~Rva0057571C(); };
-class Rva005CF86B { public: ~Rva005CF86B(); };
-class Rva005E57C9 { public: ~Rva005E57C9(); };
-class Rva005EA2AB { public: ~Rva005EA2AB(); };
-class Rva00604A68 { public: ~Rva00604A68(); };
-class Rva004E84A4 { public: ~Rva004E84A4(); };
-class Rva0040C39E { public: ~Rva0040C39E(); };
-class Rva0040FB4A { public: ~Rva0040FB4A(); };
+// Each dtor is rowed at its address under another name (a virtual dtor, or an
+// ICF-folded setter/cleanup); forward to it so ??_G calls the rowed symbol.
+class Rva002BED74 { public: virtual ~Rva002BED74(); };
+class ArmySummaryEntry { public: virtual ~ArmySummaryEntry(); };
+class Rva004318C6 { public: virtual ~Rva004318C6(); };
+class EvacuateDamage { protected: virtual ~EvacuateDamage(); friend class Rva004BAEC8; };
+class Rva000419B8DDwordImmSetter { public: void apply(); };
+class Rva0004E84A4DwordImmSetter { public: void apply(); };
+class Rva00057571CDwordImmSetter { public: void apply(); };
+class Rva0005CF86BDwordImmSetter { public: void apply(); };
+class Rva0005E57C9DwordImmSetter { public: void apply(); };
+class Rva0005EA2ABDwordImmSetter { public: void apply(); };
+class Rva000604A68DwordImmSetter { public: void apply(); };
+class Rva006022CAFileCleanupForward { public: void cleanup(); };
+
+class Rva002BEDA4 { public: __declspec(dllimport) __forceinline ~Rva002BEDA4() { reinterpret_cast<Rva002BED74 *>(this)->Rva002BED74::~Rva002BED74(); } };
+class Rva00419B8D { public: __declspec(dllimport) __forceinline ~Rva00419B8D() { reinterpret_cast<Rva000419B8DDwordImmSetter *>(this)->apply(); } };
+class Rva004318D8 { public: __declspec(dllimport) __forceinline ~Rva004318D8() { reinterpret_cast<Rva004318C6 *>(this)->Rva004318C6::~Rva004318C6(); } };
+class Rva0057571C { public: __declspec(dllimport) __forceinline ~Rva0057571C() { reinterpret_cast<Rva00057571CDwordImmSetter *>(this)->apply(); } };
+class Rva005CF86B { public: __declspec(dllimport) __forceinline ~Rva005CF86B() { reinterpret_cast<Rva0005CF86BDwordImmSetter *>(this)->apply(); } };
+class Rva005E57C9 { public: __declspec(dllimport) __forceinline ~Rva005E57C9() { reinterpret_cast<Rva0005E57C9DwordImmSetter *>(this)->apply(); } };
+class Rva005EA2AB { public: __declspec(dllimport) __forceinline ~Rva005EA2AB() { reinterpret_cast<Rva0005EA2ABDwordImmSetter *>(this)->apply(); } };
+class Rva00604A68 { public: __declspec(dllimport) __forceinline ~Rva00604A68() { reinterpret_cast<Rva000604A68DwordImmSetter *>(this)->apply(); } };
+class Rva004E84A4 { public: __declspec(dllimport) __forceinline ~Rva004E84A4() { reinterpret_cast<Rva0004E84A4DwordImmSetter *>(this)->apply(); } };
+class Rva0040C39E { public: __declspec(dllimport) __forceinline ~Rva0040C39E() { reinterpret_cast<ArmySummaryEntry *>(this)->ArmySummaryEntry::~ArmySummaryEntry(); } };
 class Rva004AF17D { public: __declspec(noinline) ~Rva004AF17D(); };
-class Rva004BAEC8 { public: ~Rva004BAEC8(); };
-class Rva00557CCC { public: ~Rva00557CCC(); };
-class Rva006022CA { public: ~Rva006022CA(); };
+class Rva004BAEC8 { public: __declspec(dllimport) __forceinline ~Rva004BAEC8() { reinterpret_cast<EvacuateDamage *>(this)->EvacuateDamage::~EvacuateDamage(); } };
+class Rva006022CA { public: __declspec(dllimport) __forceinline ~Rva006022CA() { reinterpret_cast<Rva006022CAFileCleanupForward *>(this)->cleanup(); } };
 
 void operator delete(void *p);
 
@@ -50,10 +65,8 @@ void Rva005EA2AB_DeleteAnchor(Rva005EA2AB *p) { delete p; }
 void Rva00604A68_DeleteAnchor(Rva00604A68 *p) { delete p; }
 void Rva004E84A4_DeleteAnchor(Rva004E84A4 *p) { delete p; }
 void Rva0040C39E_DeleteAnchor(Rva0040C39E *p) { delete p; }
-void Rva0040FB4A_DeleteAnchor(Rva0040FB4A *p) { delete p; }
 void Rva004AF17D_DeleteAnchor(Rva004AF17D *p) { delete p; }
 void Rva004BAEC8_DeleteAnchor(Rva004BAEC8 *p) { delete p; }
-void Rva00557CCC_DeleteAnchor(Rva00557CCC *p) { delete p; }
 void Rva006022CA_DeleteAnchor(Rva006022CA *p) { delete p; }
 
 // Native 4AF17D..4AF182 is one complete JMP to the matched UpdateModule dtor.
