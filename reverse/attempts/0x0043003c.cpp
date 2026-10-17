@@ -1,4 +1,6 @@
 // ?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
+// partial score=0.278 date=2026-10-17
+// ?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
 // partial score=0.54 date=2026-10-15
 // ?translateGameMessage@SelectionTranslator@@UAE?AW4GameMessageDisposition@@PBVGameMessage@@@Z
 // partial seat s2 (claude-sonnet-5-5): BFME2 message numbering + native input guard.
@@ -15,6 +17,8 @@
 // ?areAllSelected@@YA_NABV?$list@PAVDrawable@@V?$allocator@PAVDrawable@@@_STL@@@_STL@@@Z
 // partial score=1.0 date=2026-10-11
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /D_WINDOWS /MD /EHsc /D_STLP_USE_STATIC_LIB /DBFME_STLP_NODE_ALLOC /Ireference/open-bfme-1/inputs/reference/shims/stlp_nodealloc /Ireference/open-bfme-1/inputs/reference/shims/sweep /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // Evidence bank only; no functions.csv recovery or production link claim.
 // Complete retail helper 0042FA0D..0042FA63 (86B), with private EBX list-ref input.
@@ -1278,6 +1282,7 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
     if (picked == NULL)
     break;
     if (!picked->isMassSelectable())
+    _ReadWriteBarrier();
     break;
     Object *pickedObj = picked->getObject();
     if (pickedObj == NULL || !pickedObj->isLocallyControlled())
@@ -1389,12 +1394,15 @@ GameMessageDisposition SelectionTranslator::translateGameMessage(const GameMessa
     break;
     
    }
-   IRegion2D selectionRegion = msg->getArgument(0)->pixelRegion;
+   struct { IRegion2D v; unsigned char pad[8]; } selWrap;
+   IRegion2D &selectionRegion = selWrap.v;
+   { _ReadWriteBarrier(); _ReadWriteBarrier(); selectionRegion = msg->getArgument(0)->pixelRegion; }
    Bool isPoint = (selectionRegion.height() == 0 && selectionRegion.width() == 0);
    DrawableList drawablesThatWillSelect;
-   PickDrawableStruct pds;
+ struct { PickDrawableStruct v; unsigned char pad[60]; } pdsWrap;
+ PickDrawableStruct &pds = pdsWrap.v;
    pds.drawableListToFill = &drawablesThatWillSelect;
-   TheTacticalView->iterateDrawablesInRegion(&selectionRegion, addDrawableToList, &pds);
+   { _ReadWriteBarrier(); TheTacticalView->iterateDrawablesInRegion(&selectionRegion, addDrawableToList, &pds); }
    if (drawablesThatWillSelect.empty())
    
    {
