@@ -1,17 +1,16 @@
-// ?Cast_Ray@BaseHeightMapRenderObjClass@@UAE_NAAVRayCollisionTestClass@@@Z
-// partial score=0.8 date=2026-10-17
-// ?Cast_Ray@BaseHeightMapRenderObjClass@@UAE_NAAVRayCollisionTestClass@@@Z
-// partial score=0.7108 date=2026-10-14
-// ?Cast_Ray@BaseHeightMapRenderObjClass@@UAE_NAAVRayCollisionTestClass@@@Z
-// partial score=0.8 date=2026-10-10
-// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /arch:SSE /DNDEBUG /DWIN32 /MD /EHsc    /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
+// cl: /FIzh_ascii.h /Ireference/shims/bfme2_ascii_zh /Ireference/shims/bfme2_ascii /O1 /G7 /arch:SSE /DNDEBUG /DWIN32 /MD /EHsc    /Ireference/shims/sweep /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // stlport
 // ?Cast_Ray@BaseHeightMapRenderObjClass@@UAE_NAAVRayCollisionTestClass@@@Z, retail
-// 0x0006BF62..0x0006C69F. Zero Hour's BaseHeightMapRenderObjClass::Cast_Ray
-// (BaseHeightMap.cpp) with BFME2's constants: the pick box overhangs the map
-// by 64 cells plus the border, heights are 16-bit (max 65535) scaled by
-// 10/256, and the clipped ray's cell box is scanned for the height range
-// before the per-cell triangle tests.
+// 0x0006BF62..0x0006C6A3 (1857 B). Semantic guide: Zero Hour's
+// BaseHeightMapRenderObjClass::Cast_Ray (BaseHeightMap.cpp), carried from donor
+// source. Target facts: the pick box overhangs the map by 64 cells plus the
+// border, heights are 16-bit (max 65535) scaled by 10/256 (BC596C), cell
+// indices map back to world X/Y as (k - border) * 10 (ZH's
+// ADJUST_FROM_INDEX_TO_REAL), samples come from the clamped lookup 0x0006653B.
+// Compiler evidence: /G7 (imul ecx,ecx,3); the sampler must be an inline body
+// the compiler sees but does not expand. It hoists m_map->m_border out of the
+// scan loop (retail 0x399) while xmm constants are still reloaded after every
+// call, which an out-of-line in-TU definition does not reproduce.
 
 #include "always.h"
 #include <math.h>
@@ -41,21 +40,32 @@ static inline Real bfmeCeilD(Real f) { double d = ceil(f); return (Real)d; }
 class Rva0006653B
 {
 public:
-	unsigned short rva0006653B(int x, int y);
+	unsigned short rva0006653B(int a, int b)
+	{
+		if (a < 0)
+			a = 0;
+		else if (a >= m_xExtent)
+			a = m_xExtent - 1;
+		if (b < 0)
+			b = 0;
+		else if (b >= m_yExtent)
+			b = m_yExtent - 1;
+		int d = m_xExtent;
+		unsigned short *t = m_data24;
+		return t[d * b + a];
+	}
 	char m_pad00[8];
 	Int m_xExtent;
 	Int m_yExtent;
 	Int m_border;
+	char m_pad14[0x24 - 0x14];
+	unsigned short *m_data24;
 };
 
 class BaseHeightMapRenderObjClass
 {
 public:
 	virtual bool Cast_Ray(RayCollisionTestClass &raytest);
-	inline unsigned short getClipHeight(Int x, Int y) const
-	{
-		return m_map->rva0006653B(x, y);
-	}
 
 private:
 	char m_pad04[0x37C0 - 4];
@@ -92,7 +102,6 @@ bool BaseHeightMapRenderObjClass::Cast_Ray(RayCollisionTestClass &raytest)
 	P0 = raytest.Ray.Get_P0();
 	P1 = raytest.Ray.Get_P1();
 	result.ComputeContactPoint=true;
-
 
 	Int p;
 	for (p=0; p<3; p++) {
@@ -142,7 +151,7 @@ bool BaseHeightMapRenderObjClass::Cast_Ray(RayCollisionTestClass &raytest)
 
 		for (j=StartCellY; j<=EndCellY; j++) {
 			for (i=StartCellX; i<=EndCellX; i++) {
-				Short cur = getClipHeight(i+m_map->m_border,j+m_map->m_border);
+				Short cur = m_map->rva0006653B(i+m_map->m_border,j+m_map->m_border);
 				if (cur<minHt) minHt = cur;
 				if (maxHt<cur) maxHt = cur;
 			}
@@ -170,19 +179,19 @@ bool BaseHeightMapRenderObjClass::Cast_Ray(RayCollisionTestClass &raytest)
 				//bottom triangle first
 				P0.X=ADJUST_FROM_INDEX_TO_REAL(X);
 				P0.Y=ADJUST_FROM_INDEX_TO_REAL(Y);
-				P0.Z=MAP_HEIGHT_SCALE*(float)getClipHeight(X, Y);
+				P0.Z=MAP_HEIGHT_SCALE*(float)m_map->rva0006653B(X, Y);
 
 				P1.X=ADJUST_FROM_INDEX_TO_REAL(X+1);
 				P1.Y=ADJUST_FROM_INDEX_TO_REAL(Y);
-				P1.Z=MAP_HEIGHT_SCALE*(float)getClipHeight(X+1, Y);
+				P1.Z=MAP_HEIGHT_SCALE*(float)m_map->rva0006653B(X+1, Y);
 
 				P2.X=ADJUST_FROM_INDEX_TO_REAL(X+1);
 				P2.Y=ADJUST_FROM_INDEX_TO_REAL(Y+1);
-				P2.Z=MAP_HEIGHT_SCALE*(float)getClipHeight(X+1, Y+1);
+				P2.Z=MAP_HEIGHT_SCALE*(float)m_map->rva0006653B(X+1, Y+1);
 
 				P3.X=ADJUST_FROM_INDEX_TO_REAL(X);
 				P3.Y=ADJUST_FROM_INDEX_TO_REAL(Y+1);
-				P3.Z=MAP_HEIGHT_SCALE*(float)getClipHeight(X, Y+1);
+				P3.Z=MAP_HEIGHT_SCALE*(float)m_map->rva0006653B(X, Y+1);
 
 				tri.V[0] = &P0; 
 				tri.V[1] = &P1;
