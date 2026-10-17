@@ -7,7 +7,8 @@
 // anything else that includes it: it takes Coord3D.h's include guard. The type stays a POD triple;
 // only the bodies below differ from the canonical declaration set. `#define COORD3D_INLINE_ASSIGN` first
 // adds the member-wise operator= (retail copies through three scalar moves instead of a block move). Inline members that a unit
-// never calls are not emitted.
+// never calls are not emitted. `#define COORD3D_INLINE_NOTHROW_ESTIMATE` first declares GetLengthEstimate2D throw(): for units
+// whose retail EH tables register no unwind state for a local live across the call (the estimate's body was visible there).
 #ifndef CANONICAL_COORD3D_H
 #define CANONICAL_COORD3D_H
 
@@ -20,7 +21,11 @@ struct Coord3D {
     bool operator==(const Coord3D &r);
     float GetLengthSqrd() const;
     float GetLength() const;
+#ifdef COORD3D_INLINE_NOTHROW_ESTIMATE
+    float GetLengthEstimate2D() const throw();
+#else
     float GetLengthEstimate2D() const;
+#endif
     float GetLength2D() const;
     float Normalize();
     float Normalize2D();
