@@ -80,15 +80,11 @@ public:
 private:
 	int m_04;
 };
-class Rva005E278EBase8
-{
-public:
-	virtual ~Rva005E278EBase8() {}
-};
+#include "../../Include/Common/Rva005CCC07Base.h"
 class LivingWorldLogic;
 #include "../../Include/Common/LivingWorldLogicObserver.h"
 
-class Rva005E278E : public Rva005E278EBase0, public Rva005E278EBase8, public LivingWorldLogicObserver
+class Rva005E278E : public Rva005E278EBase0, public Rva005CCC07Base, public LivingWorldLogicObserver
 {
 public:
 	virtual ~Rva005E278E();

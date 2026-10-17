@@ -19,11 +19,7 @@ public:
     ~StringBase() { releaseBuffer(); }
 };
 
-class Rva005CCC07Base
-{
-public:
-	virtual ~Rva005CCC07Base() {}
-};
+#include "../../Include/Common/Rva005CCC07Base.h"
 
 class Rva005CCC07 : public Rva005CCC07Base
 {
