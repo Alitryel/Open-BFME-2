@@ -1,4 +1,6 @@
 // ?Rva00525CC5@Holder00526309@@QAEXPAUObj00526309@@@Z
+// partial score=0.774 date=2026-10-17
+// ?Rva00525CC5@Holder00526309@@QAEXPAUObj00526309@@@Z
 // partial score=0.756 date=2026-10-15
 // ?Rva00525CC5@Holder00526309@@QAEXPAUObj00526309@@@Z
 // partial score=0.7 date=2026-10-14
@@ -53,7 +55,8 @@ public:
 void Holder00526309::Rva00525CC5(Obj00526309 *arg)
 {
 	Object *obj = reinterpret_cast<Object *>(arg);
-	if (!getButtonImage(obj->templ, obj))
+	ThingTemplate *templ = obj->templ;
+	if (!getButtonImage(templ, obj))
 		return;
 	for (HeroInfoList::iterator it = heroes.begin(); it != heroes.end(); ++it)
 	{
@@ -64,20 +67,28 @@ void Holder00526309::Rva00525CC5(Obj00526309 *arg)
 	HeroButtonInfo record;
 	record.unknown = ComputeObjectRank(obj);
 	record.flash = 0;
+	*(volatile int *)&record.id = id;
 	_ReadWriteBarrier();
-	record.id = id;
 	HeroInfoList::iterator where;
-	if (reinterpret_cast<GameLogicFrameView *>(TheGameLogic)->counter < 6)
+	ThingTemplate *const tmpl = obj->templ;
+	int rank = tmpl->rank638;
+	unsigned int cnt = *(volatile unsigned int*)&reinterpret_cast<GameLogicFrameView *>(TheGameLogic)->counter;
+	_ReadWriteBarrier();
+	if ((cnt < 6 ? true : true))
 	{
-		int rank = obj->templ->rank638;
 		HeroInfoList::iterator it = heroes.begin();
-		for (; it != heroes.end(); ++it)
+		HeroInfoList::iterator theEnd = heroes.end();
+		do
 		{
 			Object *other = TheGameLogic->findObjectByID((ObjectID)it->id);
 			if (other && rank < other->templ->rank638)
 				break;
+			++it;
+		} while (it != theEnd);
+		{
+			HeroInfoList::iterator inserted = heroes.insert(it, reinterpret_cast<const BfmePod12 &>(record));
+			where = inserted;
 		}
-		where = heroes.insert(it, reinterpret_cast<const BfmePod12 &>(record));
 	}
 	else
 	{
