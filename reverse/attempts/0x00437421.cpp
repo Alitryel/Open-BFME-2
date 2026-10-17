@@ -1,4 +1,6 @@
 // ?Rva00437421@@YAXXZ
+// partial score=0.99 date=2026-10-17
+// ?Rva00437421@@YAXXZ
 // partial score=0.9 date=2026-10-15
 // ?Rva00437421@@YAXXZ
 // partial score=0.75 date=2026-10-09
@@ -937,10 +939,8 @@ void Rva00437421()
     pattern += ((GameState *)TheGameState)->rva002DBC97(6);
 
     Rva0021C459 files;
-    UnicodeString directory =
-        ((Rva002DC267 *)TheGameState)->rva002DC267();
     ((Rva006007DAFileSystem *)TheFileSystem)->rva006007DA(
-        &directory, &pattern, (Rva0021C459 *)&files, true);
+        &((Rva002DC267 *)TheGameState)->rva002DC267(), &pattern, (Rva0021C459 *)&files, true);
 
     for (UnicodePathSet00437421::iterator it =
              ((UnicodePathSet00437421 *)&files)->begin();
@@ -958,8 +958,8 @@ void Rva00437421()
             continue;
 
         TreeHintOpaque0043671B hint;
-        hint.m_wordDEC = 0;
         hint.m_wordDF0 = 0;
+        hint.m_wordDEC = 0;
         hint.m_subobject = metadata;
         hint.m_text = *it;
         (*hints)[AsciiString(printedDigest)] = hint;
