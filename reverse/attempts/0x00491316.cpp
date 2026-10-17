@@ -1,4 +1,6 @@
 // ?update@DamageFieldUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.696 date=2026-10-17
+// ?update@DamageFieldUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.8368660154985625 date=2026-10-13
 // ?update@DamageFieldUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.6 date=2026-10-09
@@ -193,7 +195,7 @@ UpdateSleepTime DamageFieldUpdate::update()
 		}
 
 		BfmeWideResult iter = ThePartitionManager->iterateObjectsInRange(me->getPosition(), (Real)data->m_radius, 0,
-          Rva00BFBC90Filter(me,1,false).link(Rva0026119DFilter().link(Rva00BF91BCFilter(me).link(&Rva00BCECF0Filter(data->m_filterSpec,me->getControllingPlayer(),true)))),0);
+          Rva00BFBC90Filter(me,1,false).link(Rva00BF91BCFilter(me).link(Rva0026119DFilter().link(&Rva00BCECF0Filter(data->m_filterSpec,me->getControllingPlayer(),true)))),0);
 
 		Rva0029FB3BMember inRange((Rva0029FB3BAlloc()));
 		Rva0029FB3BMember gone((Rva0029FB3BAlloc()));
@@ -216,7 +218,7 @@ UpdateSleepTime DamageFieldUpdate::update()
 		}
 		for (IDNode *g = gone.m_node->m_next; g != gone.m_node; g = g->m_next)
 		{
-			BfmePod12 value;
+			BfmePod12 value = { 0 };
 			value.v[0] = g->m_value;
 			((_STL::list<BfmePod12, _STL::allocator<BfmePod12> > *)&m_victims)->remove(value);
 		}
