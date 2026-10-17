@@ -83,14 +83,156 @@ struct ListNode
 	void *m_ptrPlus8;
 };
 
+// Native 10473F..104956, ret 10. Points the camera at +0x18 straight down
+// (Rotate_X by -pi/2, then back along Z by the .data float 160.0 that only
+// this function reads), sets its viewport to the x/y/width/height pixel
+// rectangle over TheDisplay's size and a 50-degree view plane, then renders
+// it with the +0x14 owner through 0x00118660. The Matrix3D and Vector4
+// members are the WWMath donor's, forced inline as WWINLINE spells them (a
+// plain inline Matrix3D is called out of line at /O1); the bool constructor
+// and Translate_Z are dllimport so this unit emits no copy of either to
+// compete with retail's (0x0004C91A for the constructor). The display size is
+// one Vector2 built from getWidth() and getHeight(): its arguments run right
+// to left, which is retail's getHeight-first call order and float homes.
+class Vector4
+{
+public:
+	float X;
+	float Y;
+	float Z;
+	float W;
+	WWINLINE float &operator[](int i) { return (&X)[i]; }
+	WWINLINE void Set(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
+};
+
+class Matrix3D
+{
+public:
+	__declspec(dllimport) __forceinline explicit Matrix3D(bool init) { if (init) Make_Identity(); }
+	WWINLINE void Make_Identity(void)
+	{
+		Row[0].Set(1.0f, 0.0f, 0.0f, 0.0f);
+		Row[1].Set(0.0f, 1.0f, 0.0f, 0.0f);
+		Row[2].Set(0.0f, 0.0f, 1.0f, 0.0f);
+	}
+	WWINLINE void Rotate_X(float theta)
+	{
+		float tmp1, tmp2;
+		float s, c;
+
+		s = sinf(theta);
+		c = cosf(theta);
+
+		tmp1 = Row[0][1]; tmp2 = Row[0][2];
+		Row[0][1] = (float)( c*tmp1 + s*tmp2);
+		Row[0][2] = (float)(-s*tmp1 + c*tmp2);
+
+		tmp1 = Row[1][1]; tmp2 = Row[1][2];
+		Row[1][1] = (float)( c*tmp1 + s*tmp2);
+		Row[1][2] = (float)(-s*tmp1 + c*tmp2);
+
+		tmp1 = Row[2][1]; tmp2 = Row[2][2];
+		Row[2][1] = (float)( c*tmp1 + s*tmp2);
+		Row[2][2] = (float)(-s*tmp1 + c*tmp2);
+	}
+	__declspec(dllimport) __forceinline void Translate_Z(float z)
+	{
+		Row[0][3] += (float)(Row[0][2]*z);
+		Row[1][3] += (float)(Row[1][2]*z);
+		Row[2][3] += (float)(Row[2][2]*z);
+	}
+
+	Vector4 Row[3];
+};
+
+class CameraClass
+{
+public:
+	virtual void s00();
+	virtual void s01();
+	virtual void s02();
+	virtual void s03();
+	virtual void s04();
+	virtual void s05();
+	virtual void s06();
+	virtual void s07();
+	virtual void s08();
+	virtual void s09();
+	virtual void s10();
+	virtual void s11();
+	virtual void s12();
+	virtual void s13();
+	virtual void s14();
+	virtual void s15();
+	virtual void s16();
+	virtual void s17();
+	virtual void s18();
+	virtual void s19();
+	virtual void s20();
+	virtual void Set_Transform(const Matrix3D &m); // slot 21
+	void Set_Viewport(const Vector2 &min, const Vector2 &max);
+	void Set_View_Plane(float hfov, float vfov);
+};
+
+class Display
+{
+public:
+	virtual void f00();
+	virtual void f01();
+	virtual void f02();
+	virtual void f03();
+	virtual void f04();
+	virtual void f05();
+	virtual void f06();
+	virtual void f07();
+	virtual void f08();
+	virtual void f09();
+	virtual void f10();
+	virtual void f11();
+	virtual void f12();
+	virtual void f13();
+	virtual void f14();
+	virtual void f15();
+	virtual unsigned int getWidth(); // slot 16
+	virtual unsigned int getHeight(); // slot 17
+};
+extern Display *TheDisplay;
+static float s_cameraDistance = 160.0f;
+bool Rva00118660Call(void *owner, void *camera);
+
 class Rva001040D5 : public Rva00142960Base
 {
 public:
+	void rva0010473F(int x, int y, int width, int height);
 	virtual void rva00104956(unsigned int arg);
 private:
-	char m_pad04[0x60 - 0x04];
+	char m_pad04[0x14 - 0x04];
+	void *m_owner;
+	CameraClass *m_camera;
+	unsigned int m_active;
+	char m_pad20[0x60 - 0x20];
 	ListNode m_list;
 };
+
+void Rva001040D5::rva0010473F(int x, int y, int width, int height)
+{
+	if (m_active)
+	{
+		Matrix3D transform(true);
+		transform.Rotate_X(-1.5707963705062866f);
+		transform.Translate_Z(s_cameraDistance);
+		m_camera->Set_Transform(transform);
+		Vector2 scale((float)TheDisplay->getWidth(), (float)TheDisplay->getHeight());
+		Vector2 inv(1.0f / scale.X, 1.0f / scale.Y);
+		{
+			Vector2 low((float)x * inv.X, (float)y * inv.Y);
+			Vector2 high((float)width * inv.X + low.X, (float)height * inv.Y + low.Y);
+			m_camera->Set_Viewport(low, high);
+		}
+		m_camera->Set_View_Plane(0.87266463f, -1.0f);
+		Rva00118660Call(m_owner, m_camera);
+	}
+}
 
 void Rva001040D5::rva00104956(unsigned int arg)
 {
