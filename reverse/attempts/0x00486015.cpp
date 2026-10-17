@@ -1,4 +1,6 @@
 // ?onDie@DamageFilteredCreateObjectDie@@UAEXPBVDamageInfo@@@Z
+// partial score=0.974 date=2026-10-17
+// ?onDie@DamageFilteredCreateObjectDie@@UAEXPBVDamageInfo@@@Z
 // partial score=0.9 date=2026-10-15
 // ?onDie@DamageFilteredCreateObjectDie@@UAEXPBVDamageInfo@@@Z
 // partial score=0.829 date=2026-10-13
@@ -142,22 +144,26 @@ void DamageFilteredCreateObjectDie::onDie(const DamageInfo *damageInfo)
   if (!source) return;
   if (data->m_creationList)
    data->m_creationList->create(source,&object->position,0,0);
-   _ReadWriteBarrier();
   TheGameLogic->destroyObject(object);
  }
  else if (TheGameLogic->getFrame()-m_frame < data->m_timeWindow)
  {
-  if (m_playerValue != -1)
   {
-   Player *player=ThePlayerList->getNthPlayer(m_playerValue);
-   if (player && !((const Rva002AA22AByteField *)player)->get())
+   int playerValue = m_playerValue;
+   if (playerValue != -1)
    {
-    Object *source=player->rva002AC629();
-    if (source)
+    _ReadWriteBarrier();
+    _ReadWriteBarrier();
+    Player *player=ThePlayerList->getNthPlayer(playerValue);
+    if (player && !((const Rva002AA22AByteField *)player)->get())
     {
-     ObjectCreationList *creationList=data->m_creationList;
-     if (creationList) creationList->create(source,&object->position,0,0);
-     TheGameLogic->destroyObject(object);
+     ObjectCreationList *creationList = data->m_creationList;
+     Object *source=player->rva002AC629();
+     if (source)
+     {
+      if (creationList) creationList->create(source,&object->position,0,0);
+      TheGameLogic->destroyObject(object);
+     }
     }
    }
   }
