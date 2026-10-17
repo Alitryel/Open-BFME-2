@@ -1,6 +1,10 @@
 // ?rva0053841C@Rva0053841C@@QAEXPBURva0053841CArg@@@Z
+// partial score=0.397 date=2026-10-17
+// ?rva0053841C@Rva0053841C@@QAEXPBURva0053841CArg@@@Z
 // partial score=0.92 date=2026-10-07
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // ?rva0053841C@Rva0053841C@@QAEXPBURva0053841CArg@@@Z, retail 0x0053841C, 239 bytes.
 // Float4 range transform: for each 0x10 record, two dot-product pairs with
 // the 8-float argument, then flag +0x20 set. Caller 0x0030BC9E; no calls.
@@ -45,16 +49,17 @@ void Rva0053841C::rva0053841C(const Rva0053841CArg *arg)
 		float ey = p->y;
 		float ex2 = ex;
 		float nx = arg->m_00 * ex + arg->m_04 * ey + arg->m_08 * zero + arg->m_0C;
+		_ReadWriteBarrier();
 		float ny = arg->m_10 * ex2 + arg->m_14 * ey + arg->m_18 * zero + arg->m_1C;
 		p->y = ny;
 		p->x = nx;
-		float ez = p->z;
 		float ew = p->w;
+		float ez = p->z;
 		float ez2 = ez;
-		float nz = arg->m_00 * ez + arg->m_04 * ew + arg->m_08 * zero + arg->m_0C;
-		float nw = arg->m_10 * ez2 + arg->m_14 * ew + arg->m_18 * zero + arg->m_1C;
-		p->z = nz;
+		float nz = arg->m_00 * ez + arg->m_04 * ew + arg->m_0C;
+		float nw = arg->m_10 * ez2 + arg->m_14 * ew + arg->m_1C;
 		p->w = nw;
+		p->z = nz;
 	}
 	m_20 = true;
 }
