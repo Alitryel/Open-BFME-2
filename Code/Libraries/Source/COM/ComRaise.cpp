@@ -15,3 +15,9 @@ _com_error::_com_error(const _com_error& other)
 {
  if(info)info->AddRef();
 }
+
+_com_error::~_com_error()
+{
+ if(info)info->Release();
+ if(message)LocalFree((HLOCAL)message);
+}
