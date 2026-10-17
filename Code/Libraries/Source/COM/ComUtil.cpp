@@ -67,3 +67,38 @@ namespace _com_util {
   return output;
  }
 }
+
+// Native 654850..654997: 328-byte conversion with SEH-protected scratch allocation.
+extern "C" __declspec(dllimport) int __stdcall lstrlen(const char*);
+extern "C" __declspec(dllimport) int __stdcall MultiByteToWideChar(unsigned int,unsigned long,const char*,int,unsigned short*,int);
+extern "C" __declspec(dllimport) unsigned short *__stdcall SysAllocString(const unsigned short*);
+extern "C" void *__cdecl malloc(unsigned int);
+extern "C" void __cdecl free(void*);
+extern "C" void *__cdecl _alloca(unsigned int);
+#pragma intrinsic(_alloca)
+namespace _com_util {
+ unsigned short *__stdcall ConvertStringToBSTR(const char *source) {
+  if(!source)return 0;
+  int inputLength=lstrlen(source)+1;
+  int outputLength=MultiByteToWideChar(0,0,source,inputLength,0,0);
+  if(!outputLength) {
+   _com_issue_error((long)GetLastError()<=0 ? (long)GetLastError() : (long)((GetLastError()&0xffff)|0x80070000));
+   return 0;
+  }
+  unsigned short *temporary;
+  __try {
+   temporary=(unsigned short*)(outputLength<4096 ? _alloca(outputLength*2) : malloc(outputLength*2));
+  } __except(1) {temporary=0;}
+  if(!temporary) {_com_issue_error((long)0x8007000e);return 0;}
+  if(!MultiByteToWideChar(0,0,source,inputLength,temporary,outputLength)) {
+   if(outputLength>=4096)free(temporary);
+   _com_issue_error((long)GetLastError()<=0 ? (long)GetLastError() : (long)((GetLastError()&0xffff)|0x80070000));
+   return 0;
+  }
+  unsigned short *result=SysAllocString(temporary);
+  if(outputLength>=4096)free(temporary);
+  if(!result)_com_issue_error((long)0x8007000e);
+  return result;
+ }
+
+}
