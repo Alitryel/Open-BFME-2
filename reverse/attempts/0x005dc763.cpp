@@ -1,4 +1,6 @@
 // ?checkTarget@AITacticOffensive@@QAEEPAX@Z
+// partial score=0.955 date=2026-10-17
+// ?checkTarget@AITacticOffensive@@QAEEPAX@Z
 // partial score=0.9167 date=2026-10-15
 // ?checkTarget@AITacticOffensive@@QAEEPAX@Z
 // partial score=0.75 date=2026-10-07
@@ -118,37 +120,44 @@ private:
 unsigned char AITacticOffensive::checkTarget(void *targetPtr)
 {
 	Rva002C589B *target = (Rva002C589B *)targetPtr;
-	Rva005DC763Units *units = *(Rva005DC763Units **)g_00DFEEF8->rva002A8F24(m_player);
+	Rva005DC763Units *units;
 	Object *obj = 0;
+	{
+		void *owner = g_00DFEEF8->rva002A8F24(m_player);
+		units = *(Rva005DC763Units **)owner;
+	}
 	for (unsigned int i = 0; i < units->bucket_count(); ++i)
 	{
 		obj = ((Rva0025BFF8 *)units)->rva0025BFF8(i);
 		if (obj && (obj->getTemplate()->m_kindOf108 & 8) && !(obj->getTemplate()->m_kindOf108 & 4))
 		{
-			bool canReach;
+			unsigned char canReach = 0;
 			Object *structure = target->rva002C5DA6();
 			if (structure)
-				canReach = ((TheAI->pathfinder()->QuickDoesPathExistToStructure(obj, &obj->m_pos, structure, 0)));
+				*(volatile unsigned char*)&canReach = ((TheAI->pathfinder()->QuickDoesPathExistToStructure(obj, &obj->m_pos, structure, 0)));
 			else
 				canReach = TheAI->pathfinder()->QuickDoesPathExist(obj, &obj->m_pos, &target->m_pos, 0);
-			if (slot10() == canReach)
-				return false;
+			if ((slot10() ^ canReach) == 0)
+				return (1 ? false : false);
 			break;
 		}
 	}
 
-	if (obj == 0)
+	if (obj != 0)
+	{
+	}
+	else
 		return false;
-	if (g_00DFEEF8->rva002A8AB1(m_player)->m_16C != 0)
-		return true;
+	Rva002A8AB1Record *rec = g_00DFEEF8->rva002A8AB1(m_player);
+	unsigned char result = 1;
+	if (rec->m_16C != 0)
+		return 0;
 	Object *structure = target->rva002C5DA6();
 	if (structure == 0)
-		return true;
+		return 0;
 	if ((structure->getTemplate()->m_kindOf120 & 4) == 0)
-		return true;
-	if (structure->m_flags94 & 1)
-		return true;
-	if (structure->m_status438 & 1)
-		return true;
-	return false;
+		return 0;
+	if ((structure->m_flags94 & 1) == 1)
+		return 0;
+	return (structure->m_status438 & 1) ^ result;
 }
