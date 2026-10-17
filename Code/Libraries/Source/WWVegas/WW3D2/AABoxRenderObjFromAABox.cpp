@@ -38,9 +38,18 @@ inline void AABoxRenderObjClass::Set_Position(const Vector3 & v)
 	update_cached_box();
 }
 
+// matrix3d.h's Matrix3D::Get_Translation() under a unit-local name: called as the
+// Matrix3D member, this unit emitted an external copy that differs from the kept
+// retail one. Body unchanged (Matrix3D::Get_Translation view, 96f26b7c4d pattern).
+class AABoxTranslationView : public Matrix3D
+{
+public:
+	WWINLINE Vector3 Get_Translation(void) const { return Vector3(Row[0][3],Row[1][3],Row[2][3]); }
+};
+
 inline void AABoxRenderObjClass::update_cached_box(void)
 {
-	CachedBox.Center = Transform.Get_Translation() + ObjSpaceCenter;
+	CachedBox.Center = ((const AABoxTranslationView &)Transform).Get_Translation() + ObjSpaceCenter;
 	CachedBox.Extent = ObjSpaceExtent;
 }
 
