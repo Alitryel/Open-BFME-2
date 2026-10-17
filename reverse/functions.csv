@@ -36375,8 +36375,6 @@ _piChannelKickedA,,0x006AADF0,100,Code/GameEngine/Source/GameNetwork/GameSpy/pee
 ?Rva0052349BGet@@YAHXZ,,0x0052349B,6,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp,matched,B8-6 const-int returner batch; cold slice
 ?Rva005234A1Get@@YAHXZ,,0x005234A1,6,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp,matched,B8-6 const-int returner batch; cold slice
 ?Rva005234A7Get@@YAHXZ,,0x005234A7,6,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp,matched,B8-6 const-int returner batch; cold slice
-?Rva006C5E87Get@@YAHXZ,,0x006C5E87,6,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp,matched,B8-6 const-int returner batch; cold slice
-?Rva006C5E97Get@@YAHXZ,,0x006C5E97,6,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp,matched,B8-6 const-int returner batch; cold slice
 ??1FlammableUpdateModuleData@@UAE@XZ,,0x0048D075,73,Code/GameEngine/Source/GameLogic/Object/Update/FlammableUpdateModuleDataDtor.cpp,matched,FlammableUpdateModuleData dtor over Snapshot base with CameraMarker vector at +0x28 via pinned 0x48D003 and Release holder at +0x18 via rowed 0x50ED3; vtable C4C408 to base BBB554
 ??A?$map@HMU?$less@H@_STL@@V?$allocator@U?$pair@$$CBHM@_STL@@@2@@_STL@@QAEAAMABH@Z,,0x0033D042,73,Code/GameEngine/Source/Common/Thing/IntFloatMapSubscript.cpp,matched,Int-float map subscript via twin-pinned lower bound plus insert
 ??1LadderPref@@QAE@XZ,,0x005BA3C0,53,Code/GameEngine/Source/GameNetwork/GameSpy/OnlinePreferences.cpp,matched,LadderPref dtor tears down address through rowed 0x36410 then name through rowed releaseBuffer; enables the rowed copy ctor and the pending LadderPreferences write
@@ -96145,3 +96143,5 @@ __ehhandler$?rva00480093@ShareExperienceBehavior@@UAEXM@Z,,0x0078B967,10,Code/Ga
 ?rva0023D0A1@GameLogic@@QAEHH@Z,,0x0023D0A1,11,Code/GameEngine/Source/Common/RvaWideAdjustFwds.cpp,matched,GameLogic+0x184 ArmySummarySystem adjust then tail jump to rowed 0x0040D3D5
 ?rva00576105@Rva005756B6@@W3AEXPAUParent0057605D@@@Z,,0x0057616A,8,Code/GameEngine/Source/Common/GapForwardersSeat8.cpp,matched,adjustor thunk (this-4) to rowed slot-61 virtual rva00576105 at 0x00576105; vftable entry 0x0086E6F8
 ?rva005E6B8F@Rva005E6B8F@@W7AEXXZ,,0x005CDE79,8,Code/GameEngine/Source/Common/GapForwardersSeat8.cpp,matched,adjustor thunk (this-8) to rowed virtual rva005E6B8F at 0x005E6B8F; vftable entry 0x00875094
+?get@Rva006C5E80@@QBEPBDXZ,,0x006C5E80,13,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp,matched,char pointer at +0xC or the shared empty literal; supersedes the 6B null-arm row 0x006C5E87
+?get@Rva006C5E90@@QBEPBDXZ,,0x006C5E90,13,Code/GameEngine/Source/Common/ConstIntGetters7Addr.cpp,matched,char pointer at +0x8 or the shared empty literal; supersedes the 6B null-arm row 0x006C5E97

@@ -36,17 +36,35 @@ int Rva005234A7Get(void)
 // complete 27-byte selectors at 559F48 and 559F63. Internal case branches
 // target them; no independent function entry is proved.
 
-// ?Rva006C5E87Get@@YAHXZ @ 0x006c5e87 (6B): returns 0x00bbac1c.
-// Follows int3 padding. Opaque address-derived name.
-int Rva006C5E87Get(void)
+// ?get@Rva006C5E80@@QBEPBDXZ @ 0x006c5e80 and ?get@Rva006C5E90@@QBEPBDXZ
+// @ 0x006c5e90 (13B each, int3-padded): the char pointer at +0xC (+0x8) or
+// the shared "" literal 0x00bbac1c when null. No call, jump or data
+// reference in retail; owners unrecovered, address-derived names. The 6B
+// getters once rowed at 0x006c5e87 / 0x006c5e97 were their null arms.
+class Rva006C5E80
 {
-	return (int)"";
+public:
+	const char *get() const;
+private:
+	int m_00[3];
+	const char *m_0c;
+};
+
+const char *Rva006C5E80::get() const
+{
+	return m_0c ? m_0c : "";
 }
 
-// ?Rva006C5E97Get@@YAHXZ @ 0x006c5e97 (6B): returns 0x00bbac1c.
-// Follows int3 padding; same constant as the 0x006c5e87 getter above.
-// Opaque address-derived name.
-int Rva006C5E97Get(void)
+class Rva006C5E90
 {
-	return (int)"";
+public:
+	const char *get() const;
+private:
+	int m_00[2];
+	const char *m_08;
+};
+
+const char *Rva006C5E90::get() const
+{
+	return m_08 ? m_08 : "";
 }
