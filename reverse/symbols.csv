@@ -4198,7 +4198,7 @@ name,address,notes
 ??1Rva000C6D44Slot12@@QAE@XZ,0x0007FAB3,opaque 12B three-pointer slot dtor for Pod248 array +0xAC; retail ehvec 0x629110 size 0xC count 6 callback VA 0x47FAB3 at 0xC6D8F; per-slot copy via 0xBC3C4 vector60 assign (primary ledger RVA 0xBC3C4) proves vector-like shape; generic free-first-ptr ICF bytes not basic_string identity
 ??1Rva000C79C9@@UAE@XZ,0x000C79C9,opaque MI base dtor (SEH); 2 derived MI dtors tail-call it; identity unproven
 ??1Rva000D1BA6@@UAE@XZ,0x000D1BA6,opaque dtor; call target of retail scalar-deleting-dtor at 0xD208D (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
-??1Rva000D1E88@@UAE@XZ,0x000D1E88,opaque dtor; call target of retail scalar-deleting-dtor at 0xD1E6C (28B flag-test shape); Ghidra function start; identity unproven; address-derived name
+??1?$ShareBufferClass@I@@UAE@XZ,0x000D1E88,ShareBufferClass<unsigned> destructor; owner proven by the rowed ctor 0xD1DE2 vtable store 0xBCE330 (also the rowed copy ctor 0x15B000); renamed from the address-derived ??1Rva000D1E88@@UAE@XZ on 2026-10-17
 ??1Rva000E03E2@@UAE@XZ,0x000E03E2,opaque SEH dtor (mov-eax-cookie prologue); called by scalar-deleting-dtor at 0x6664B; identity unproven, address-derived name
 ??1Rva000E14BD@@UAE@XZ,0x000E14BD,"destructor the scalar deleting destructor 0x001F45C3 calls (REL32 at 0x001F45C6; vtable 0x00BC6F2C#0); opaque address name"
 ??1TerrainFXShaderParameterSourceNamespace@@UAE@XZ,0x000E19A3,opaque dtor; call target of retail scalar-deleting-dtor at 0xE1A1D (28B flag-test shape); Ghidra function start; identity unproven; address-derived name

@@ -1,6 +1,9 @@
 // cl: /DNDEBUG /MD /Ob2 /EHsc
 //
-// ShareBufferClass<unsigned>::ShareBufferClass, retail 0x00D1DE2 (110 bytes).
+// ShareBufferClass<unsigned>::ShareBufferClass, retail 0x00D1DE2 (110 bytes),
+// and its sibling destructor group in the same object: the scalar deleting
+// destructor at 0x00D1E6C (28 bytes) and the destructor at 0x00D1E88
+// (26 bytes, the vtable store 0xBCE330 identifies the instantiation).
 // Out-of-line dependency of MeshMatDescClass::Get_Color_Array (retail calls
 // it with the fresh 0x18-byte block, VertexCount and the
 // "MeshMatDescClass::ColorArray" message). BFME1 sweep sharebuf.h 3-arg
@@ -12,9 +15,11 @@
 // +0x08/+0x0C/+0x10/+0x14 behind the vtable (retail installs 0xBCE330).
 // RefCountClass resets NumRefs to 1 on copy. This unit builds at /O1: at
 // /O2 the compiler picks the frameless SEH prologue, while retail opens
-// with the ebp-frame __EH_prolog sequence.
+// with the ebp-frame __EH_prolog sequence; the /O1 cleanup form (pop ecx,
+// not add esp,4) is what retail's kept deleting destructor shows.
 
 void * __cdecl operator new[](unsigned int size);
+void __cdecl operator delete[](void *) throw();
 
 class RefCountClass
 {
@@ -30,11 +35,15 @@ private:
 	int m_refs;
 };
 
+// The canonical class view declares the destructor out of line. This unit
+// emits the instantiation retail keeps: the CPU's vptr stores around the
+// buffer free, no EH frame (the free cannot throw) and no null test.
 template <class T>
 class ShareBufferClass : public RefCountClass
 {
 public:
 	ShareBufferClass(int count, const char *msg, int alignment);
+	virtual ~ShareBufferClass();
 
 protected:
 	T *m_rawBuffer; // +0x08
@@ -60,6 +69,12 @@ ShareBufferClass<T>::ShareBufferClass(int count, const char *msg, int alignment)
 		m_array = (T *)(((unsigned int)m_rawBuffer + m_alignment - 1) &
 			~(m_alignment - 1));
 	}
+}
+
+template <> inline
+ShareBufferClass<unsigned>::~ShareBufferClass()
+{
+	::operator delete[](m_rawBuffer);
 }
 
 template ShareBufferClass<unsigned>::ShareBufferClass(int, const char *, int);
