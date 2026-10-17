@@ -35,6 +35,11 @@ void *__copy_trivial(const void *__first, const void *__last, void *__result) th
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include "GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<int, int>(int *, int const &); }
+namespace _STL { template <> int * fill_n<int *, unsigned int, int>(int *, unsigned int, int const &); }
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 
 template <class T> class Rva002444BEAllocator : public _STL::allocator<T> {};
 typedef _STL::vector<int, Rva002444BEAllocator<int> > SelectionIDs;

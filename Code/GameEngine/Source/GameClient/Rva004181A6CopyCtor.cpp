@@ -12,6 +12,13 @@
 struct BfmePod24 { int a[6]; };
 #include "ascii_string.h"
 #include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree_base<pair<int const, BfmePod24>, allocator<pair<int const, BfmePod24> > >::_Rb_tree_base(allocator<pair<int const, BfmePod24> > const &); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, BfmePod24> > * _Rb_tree<int, pair<int const, BfmePod24>, _Select1st<pair<int const, BfmePod24> >, less<int>, allocator<pair<int const, BfmePod24> > >::_M_copy(_Rb_tree_node<pair<int const, BfmePod24> > *, _Rb_tree_node<pair<int const, BfmePod24> > *); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, BfmePod24> > * _Rb_tree<int, pair<int const, BfmePod24>, _Select1st<pair<int const, BfmePod24> >, less<int>, allocator<pair<int const, BfmePod24> > >::_M_create_node(pair<int const, BfmePod24> const &); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 class BfmeFixedStorage002CF0F0 {
     char m_bytes[4];
 public:

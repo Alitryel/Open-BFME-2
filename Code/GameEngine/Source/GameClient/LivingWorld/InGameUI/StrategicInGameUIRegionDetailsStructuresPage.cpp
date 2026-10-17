@@ -14,6 +14,9 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 struct RGBColor;
 class Image;
 class LivingWorldBuildPlot;

@@ -108,6 +108,10 @@ static inline bool operator!=(const _Rb_tree_iterator<T, LeftTraits>& a,
 #include "GameNetwork/NAT.h"
 #include "GameNetwork/GUIUtil.h"
 #include "GameNetwork/GameSpy/GSConfig.h"
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
+// bfme link decl-only end
 
 void WOLDisplaySlotList( void );
 

@@ -268,6 +268,10 @@ extern "C" void _ReadWriteBarrier(void);
 namespace _STL { void __cdecl free(void *); }
 #include <vector>
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// bfme link decl-only end
 // Complete ZH ControlBarCommand.cpp is the semantic guide. Named target WB
 // 11180A0, assert file ControlBarCommand.cpp1005..1216, and native
 // 53CF65..53D3551008 establish the target deltas and ten-case jump table.

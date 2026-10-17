@@ -21,6 +21,10 @@ struct SBServer {
 };
 #include <map>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> SBServer & map<int, SBServer, less<int>, allocator<pair<int const, SBServer> > >::operator[](int const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<int const, SBServer>, _Nonconst_traits<pair<int const, SBServer> > >, bool> _Rb_tree<int, pair<int const, SBServer>, _Select1st<pair<int const, SBServer> >, less<int>, allocator<pair<int const, SBServer> > >::insert_unique(pair<int const, SBServer> const &); }
+// bfme link decl-only end
 
 
 // _Rb_tree_iterator comparisons otherwise instantiate the base-class

@@ -57,6 +57,9 @@ static inline bool operator!=(const _Rb_tree_iterator<Value, LeftTraits>& a,
 #include "unicode_string.h"
 #include "Common/Snapshot.h"
 #include "../Common/GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> ObjectID * vector<ObjectID, allocator<ObjectID> >::erase(ObjectID *, ObjectID *); }
+// bfme link decl-only end
 
 typedef int Color;
 

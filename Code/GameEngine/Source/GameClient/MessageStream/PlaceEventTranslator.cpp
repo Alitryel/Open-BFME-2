@@ -58,6 +58,9 @@ public:
 // constructor and destructor, member-wise copy constructor (the WWMath owner
 // view in coord3d.cpp).
 #include "../../Common/PlacementPositionValue.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
+// bfme link decl-only end
 
 class PickAndPlayInfo
 {

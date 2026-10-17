@@ -7,6 +7,10 @@
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 #include "unicode_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+namespace _STL { template <> void __malloc_alloc<0>::deallocate(void *, unsigned int); }
+// bfme link decl-only end
 
 class Rva0022300F
 {

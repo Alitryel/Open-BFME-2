@@ -100,6 +100,17 @@ namespace _STL
 #include "GameNetwork/GameSpyOverlay.h"
 
 #include "GameNetwork/WOLBrowser/WebBrowser.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<pair<AsciiString const, AsciiString>, pair<AsciiString const, AsciiString> >(pair<AsciiString const, AsciiString> *, pair<AsciiString const, AsciiString> const &); }
+namespace _STL { template <> pair<AsciiString const, AsciiString>::pair(pair<AsciiString const, AsciiString> const &); }
+namespace _STL { template <> pair<AsciiString const, AsciiString>::pair(AsciiString const &, AsciiString const &); }
+namespace _STL { template <> pair<AsciiString const, AsciiString>::~pair(); }
+namespace _STL { template <> AsciiString & map<AsciiString, AsciiString, less<AsciiString>, allocator<pair<AsciiString const, AsciiString> > >::operator[](AsciiString const &); }
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const, AsciiString> > * _Rb_tree<AsciiString, pair<AsciiString const, AsciiString>, _Select1st<pair<AsciiString const, AsciiString> >, less<AsciiString>, allocator<pair<AsciiString const, AsciiString> > >::_M_create_node(pair<AsciiString const, AsciiString> const &); }
+namespace _STL { template <> _Rb_tree_iterator<pair<AsciiString const, AsciiString>, _Nonconst_traits<pair<AsciiString const, AsciiString> > > _Rb_tree<AsciiString, pair<AsciiString const, AsciiString>, _Select1st<pair<AsciiString const, AsciiString> >, less<AsciiString>, allocator<pair<AsciiString const, AsciiString> > >::_M_insert(_Rb_tree_node_base *, _Rb_tree_node_base *, pair<AsciiString const, AsciiString> const &, _Rb_tree_node_base *); }
+namespace _STL { template <> _Rb_tree_iterator<pair<AsciiString const, AsciiString>, _Nonconst_traits<pair<AsciiString const, AsciiString> > > _Rb_tree<AsciiString, pair<AsciiString const, AsciiString>, _Select1st<pair<AsciiString const, AsciiString> >, less<AsciiString>, allocator<pair<AsciiString const, AsciiString> > >::insert_unique(_Rb_tree_iterator<pair<AsciiString const, AsciiString>, _Nonconst_traits<pair<AsciiString const, AsciiString> > >, pair<AsciiString const, AsciiString> const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<AsciiString const, AsciiString>, _Nonconst_traits<pair<AsciiString const, AsciiString> > >, bool> _Rb_tree<AsciiString, pair<AsciiString const, AsciiString>, _Select1st<pair<AsciiString const, AsciiString> >, less<AsciiString>, allocator<pair<AsciiString const, AsciiString> > >::insert_unique(pair<AsciiString const, AsciiString> const &); }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...

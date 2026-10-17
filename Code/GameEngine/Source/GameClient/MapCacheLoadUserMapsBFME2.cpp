@@ -6,6 +6,9 @@
 #include <set>
 #include <string.h>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree_base<AsciiString, allocator<AsciiString> >::_Rb_tree_base(allocator<AsciiString> const &); }
+// bfme link decl-only end
 
 // __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
 // COMDATs (one byte shape per TU malloc/free wiring); explicit

@@ -15,6 +15,27 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 
 #include <sstream>
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
+namespace _STL { template <> basic_ostream<char, char_traits<char> >::basic_ostream(basic_streambuf<char, char_traits<char> > *); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(); }
+namespace _STL { template <> basic_ostream<char, char_traits<char> >::~basic_ostream(); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::operator=(basic_string<char, char_traits<char>, allocator<char> > const &); }
+namespace _STL { template <> void basic_stringbuf<char, char_traits<char>, allocator<char> >::_M_append_buffer() const; }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > & basic_string<char, char_traits<char>, allocator<char> >::append(unsigned int, char); }
+namespace _STL { template <> void basic_ios<char, char_traits<char> >::clear(int); }
+namespace _STL { template <> char * basic_string<char, char_traits<char>, allocator<char> >::erase(char *, char *); }
+namespace _STL { template <> locale basic_ios<char, char_traits<char> >::imbue(locale const &); }
+namespace _STL { template <> void basic_ios<char, char_traits<char> >::init(basic_streambuf<char, char_traits<char> > *); }
+namespace _STL { template <> char * __char_traits_base<char, int>::move(char *, char const *, unsigned int); }
+namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::push_back(char); }
+namespace _STL { template <> basic_streambuf<char, char_traits<char> > * basic_ios<char, char_traits<char> >::rdbuf(basic_streambuf<char, char_traits<char> > *); }
+namespace _STL { template <> void basic_string<char, char_traits<char>, allocator<char> >::reserve(unsigned int); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > basic_ostringstream<char, char_traits<char>, allocator<char> >::str() const; }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> > basic_stringbuf<char, char_traits<char>, allocator<char> >::str() const; }
+namespace _STL { template <> char basic_ios<char, char_traits<char> >::widen(char) const; }
+// bfme link decl-only end
 
 class File {
 public:

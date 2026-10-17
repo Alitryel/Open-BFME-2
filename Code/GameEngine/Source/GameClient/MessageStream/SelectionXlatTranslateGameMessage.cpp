@@ -994,6 +994,12 @@ extern ObjectID TheObjectIDToDebug;
 #include "GameClient/SelectionInfo.h"
 #include "GameClient/SelectionXlat.h"
 #include "GameClient/TerrainVisual.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::_List_base(allocator<Drawable *> const &); }
+namespace _STL { template <> vector<Object *, allocator<Object *> >::vector(vector<Object *, allocator<Object *> > const &); }
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+// bfme link decl-only end
 
 // Retail compares typed list nodes inline, as in NetPacket.cpp.
 namespace _STL {

@@ -117,6 +117,20 @@ namespace _STL { template <> list<Coord3D, allocator<Coord3D> >::list(allocator<
 namespace _STL { template <> pair<AsciiString const, MapMetaData>::pair(AsciiString const &, MapMetaData const &); }
 namespace _STL { template <> _List_node<Coord3D> * list<Coord3D, allocator<Coord3D> >::_M_create_node(Coord3D const &); }
 namespace _STL { template <> pair<_Rb_tree_iterator<UnicodeString, _Const_traits<UnicodeString> >, bool> set<UnicodeString, rts::less_than_nocase<UnicodeString>, allocator<UnicodeString> >::insert(UnicodeString const &); }
+namespace _STL { template <> _List_base<Coord3D, allocator<Coord3D> >::_List_base(allocator<Coord3D> const &); }
+namespace _STL { template <> list<Coord3D, allocator<Coord3D> >::list(list<Coord3D, allocator<Coord3D> > const &); }
+namespace _STL { template <> map<AsciiString, Coord3D, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::map(map<AsciiString, Coord3D, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > > const &); }
+namespace _STL { template <> _List_base<Coord3D, allocator<Coord3D> >::~_List_base(); }
+namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::~_Rb_tree(); }
+namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > > & _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::operator=(_Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > > const &); }
+namespace _STL { template <> list<Coord3D, allocator<Coord3D> > & list<Coord3D, allocator<Coord3D> >::operator=(list<Coord3D, allocator<Coord3D> > const &); }
+namespace _STL { template <> map<AsciiString, Coord3D, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > > & map<AsciiString, Coord3D, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::operator=(map<AsciiString, Coord3D, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > > const &); }
+namespace _STL { template <> void _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::_M_erase(_Rb_tree_node<pair<AsciiString const, Coord3D> > *); }
+namespace _STL { template <> unsigned long _Base_bitset<4>::_S_maskbit(unsigned int); }
+namespace _STL { template <> void _List_base<Coord3D, allocator<Coord3D> >::clear(); }
+namespace _STL { template <> void _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::clear(); }
+namespace _STL { template <> _List_iterator<Coord3D, _Nonconst_traits<Coord3D> > list<Coord3D, allocator<Coord3D> >::insert(_List_iterator<Coord3D, _Nonconst_traits<Coord3D> >, Coord3D const &); }
+namespace _STL { template <> void list<Coord3D, allocator<Coord3D> >::push_back(Coord3D const &); }
 // bfme link decl-only end
 
 #ifdef _INTERNAL

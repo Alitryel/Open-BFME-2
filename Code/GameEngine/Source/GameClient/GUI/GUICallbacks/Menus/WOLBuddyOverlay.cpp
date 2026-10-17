@@ -86,6 +86,13 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "GameNetwork/GameSpy/PersistentStorageDefs.h"
 #include "GameNetwork/GameSpy/PersistentStorageThread.h"
 #include "GameNetwork/GameSpy/ThreadUtils.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::~_Rb_tree(); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, AsciiString> > * _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_M_clone_node(_Rb_tree_node<pair<int const, AsciiString> > *); }
+namespace _STL { template <> _Rb_tree_node<pair<int const, AsciiString> > * _Rb_tree<int, pair<int const, AsciiString>, _Select1st<pair<int const, AsciiString> >, less<int>, allocator<pair<int const, AsciiString> > >::_M_create_node(pair<int const, AsciiString> const &); }
+namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
+// bfme link decl-only end
 
 // Declaration-only: the rowed set<AsciiString> tree members are bound,
 // this TU emits no per-flag copy of them or of their allocator leaves.

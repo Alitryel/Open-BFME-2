@@ -77,6 +77,9 @@ public:
 extern ActionManager *TheActionManager;
 
 #include <list>
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
+// bfme link decl-only end
 // Keep the typed comparison local; the incidental base COMDAT differs from
 // the selected provider under this unit's compiler settings.
 namespace _STL {

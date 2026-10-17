@@ -30,6 +30,10 @@ template <> void **vector<void*>::end();
 #include "game_window.h"
 #include "video_player.h"
 #include "display.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Hashtable_node<pair<GameWindow const *const, WindowVideo *> > * _Hashtable_iterator<pair<GameWindow const *const, WindowVideo *>, GameWindow const *, WindowVideoManager::hashConstGameWindowPtr, _Select1st<pair<GameWindow const *const, WindowVideo *> >, equal_to<GameWindow const *>, allocator<pair<GameWindow const *const, WindowVideo *> > >::_M_skip_to_next(); }
+namespace _STL { template <> _Ht_iterator<pair<GameWindow const *const, WindowVideo *>, _Nonconst_traits<pair<GameWindow const *const, WindowVideo *> >, GameWindow const *, WindowVideoManager::hashConstGameWindowPtr, _Select1st<pair<GameWindow const *const, WindowVideo *> >, equal_to<GameWindow const *>, allocator<pair<GameWindow const *const, WindowVideo *> > > hashtable<pair<GameWindow const *const, WindowVideo *>, GameWindow const *, WindowVideoManager::hashConstGameWindowPtr, _Select1st<pair<GameWindow const *const, WindowVideo *> >, equal_to<GameWindow const *>, allocator<pair<GameWindow const *const, WindowVideo *> > >::begin(); }
+// bfme link decl-only end
 
 class Rva0041E875 { public: ~Rva0041E875(); };
 class Rva004DFC20 { public: void clear(); };

@@ -911,6 +911,19 @@ void InGameUI::createForceAttackHint( const GameMessage *msg )
 #include "Common/StateMachine.h"
 #include "GameLogic/Module/AIUpdate.h"
 #include "GameLogic/AIPathfind.h"
+// bfme link decl-only begin
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::_List_base(allocator<Drawable *> const &); }
+namespace _STL { template <> _List_base<SuperweaponInfo *, allocator<SuperweaponInfo *> >::_List_base(allocator<SuperweaponInfo *> const &); }
+namespace _STL { template <> list<Drawable *, allocator<Drawable *> >::list(allocator<Drawable *> const &); }
+namespace _STL { template <> list<SuperweaponInfo *, allocator<SuperweaponInfo *> >::list(list<SuperweaponInfo *, allocator<SuperweaponInfo *> > const &); }
+namespace _STL { template <> _List_base<Drawable *, allocator<Drawable *> >::~_List_base(); }
+namespace _STL { template <> _List_node<SuperweaponInfo *> * list<SuperweaponInfo *, allocator<SuperweaponInfo *> >::_M_create_node(SuperweaponInfo *const &); }
+namespace _STL { template <> void _Base_bitset<4>::_M_do_reset(); }
+namespace _STL { template <> void _List_base<Object *, allocator<Object *> >::clear(); }
+namespace _STL { template <> _List_iterator<Drawable *, _Nonconst_traits<Drawable *> > list<Drawable *, allocator<Drawable *> >::insert(_List_iterator<Drawable *, _Nonconst_traits<Drawable *> >, Drawable *const &); }
+namespace _STL { template <> _List_iterator<SuperweaponInfo *, _Nonconst_traits<SuperweaponInfo *> > list<SuperweaponInfo *, allocator<SuperweaponInfo *> >::insert(_List_iterator<SuperweaponInfo *, _Nonconst_traits<SuperweaponInfo *> >, SuperweaponInfo *const &); }
+namespace _STL { template <> void list<Drawable *, allocator<Drawable *> >::push_back(Drawable *const &); }
+// bfme link decl-only end
 #endif // AI_DEBUG_TOOLTIPS
 
 #endif // defined(_DEBUG) || defined(_INTERNAL)

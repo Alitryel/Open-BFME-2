@@ -98,6 +98,21 @@ static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
 #include "GameNetwork/IPEnumeration.h"
 #include "WWDownload/Registry.h"
 #include "../../../../../../../reference/shims/bfme_coord3d_construct_link/coord3d_construct_link.h"
+// bfme link decl-only begin
+template <> int max<int>(int, int);
+template <> int min<int>(int, int);
+namespace _STL { template <> _Rb_tree_base<pair<AsciiString const, Coord3D>, allocator<pair<AsciiString const, Coord3D> > >::_Rb_tree_base(allocator<pair<AsciiString const, Coord3D> > const &); }
+namespace _STL { template <> _String_base<char, allocator<char> >::_String_base(allocator<char> const &); }
+namespace _STL { template <> basic_string<char, char_traits<char>, allocator<char> >::basic_string(char const *, allocator<char> const &); }
+namespace _STL { template <> _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::~_Rb_tree(); }
+namespace _STL { template <> _String_base<char, allocator<char> >::~_String_base(); }
+namespace _STL { template <> AsciiString & map<AsciiString, AsciiString, less<AsciiString>, allocator<pair<AsciiString const, AsciiString> > >::operator[](AsciiString const &); }
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const, Coord3D> > * _Rb_tree<AsciiString, pair<AsciiString const, Coord3D>, _Select1st<pair<AsciiString const, Coord3D> >, less<AsciiString>, allocator<pair<AsciiString const, Coord3D> > >::_M_create_node(pair<AsciiString const, Coord3D> const &); }
+namespace _STL { template <> _Rb_tree_node<pair<AsciiString const, Coord3D> > * allocator<_Rb_tree_node<pair<AsciiString const, Coord3D> > >::allocate(unsigned int, void const *) const; }
+namespace _STL { template <> void _STLP_alloc_proxy<char *, char, allocator<char> >::deallocate(char *, unsigned int); }
+namespace _STL { template <> _List_iterator<Coord3D, _Nonconst_traits<Coord3D> > list<Coord3D, allocator<Coord3D> >::insert(_List_iterator<Coord3D, _Nonconst_traits<Coord3D> >, Coord3D const &); }
+namespace _STL { template <> pair<_Rb_tree_iterator<pair<AsciiString const, AsciiString>, _Nonconst_traits<pair<AsciiString const, AsciiString> > >, bool> _Rb_tree<AsciiString, pair<AsciiString const, AsciiString>, _Select1st<pair<AsciiString const, AsciiString> >, less<AsciiString>, allocator<pair<AsciiString const, AsciiString> > >::insert_unique(pair<AsciiString const, AsciiString> const &); }
+// bfme link decl-only end
 
 #ifdef _INTERNAL
 // for occasional debugging...

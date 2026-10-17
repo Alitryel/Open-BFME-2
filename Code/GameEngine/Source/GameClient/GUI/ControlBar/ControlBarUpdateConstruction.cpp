@@ -16,6 +16,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 }
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void * __malloc_alloc<0>::allocate(unsigned int); }
+// bfme link decl-only end
 
 typedef int Int;
 

@@ -20,6 +20,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #include <vector>
 #include "unicode_string.h"
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> _Bit_iter<_Bit_reference, _Bit_reference *>::_Bit_iter(); }
+// bfme link decl-only end
 
 extern "C" int __cdecl strcmp(const char *left, const char *right);
 extern "C" char *__cdecl strcpy(char *destination, const char *source) throw();

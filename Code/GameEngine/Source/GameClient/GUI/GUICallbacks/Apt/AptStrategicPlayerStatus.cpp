@@ -174,6 +174,9 @@ public:
 extern GameTextInterface *TheGameText;
 
 #include "../../../../../../Libraries/Include/Lib/RGBColor.h"
+// bfme link decl-only begin
+namespace _STL { template <> void vector<unsigned int, allocator<unsigned int> >::_M_set(unsigned int *, unsigned int *, unsigned int *); }
+// bfme link decl-only end
 
 struct Rva00523825Faction
 {
