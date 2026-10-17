@@ -1,4 +1,6 @@
 // ?rva005D95CF@Rva005EE816@@QAE_NPAVObject@@@Z
+// partial score=0.907 date=2026-10-17
+// ?rva005D95CF@Rva005EE816@@QAE_NPAVObject@@@Z
 // partial score=0.8999 date=2026-10-13
 // ?rva005D95CF@Rva005EE816@@QAE_NPAVObject@@@Z
 // partial score=0.8999 date=2026-10-05
@@ -106,12 +108,19 @@ bool Rva005EE816::rva005D95CF(Object *target)
 	if (other != 0) {
 		const Coord3D *pos = target->getPosition();
 		const Coord3D *otherPos = other->getPosition();
-		float r = getRadius() * 0.8f;
-		float dx = otherPos->x - pos->x;
 		float dy = otherPos->y - pos->y;
 		float dz = otherPos->z - pos->z;
-		if (dx * dx + dy * dy + dz * dz >= r * r)
-			return rva005EE8DD(otherPos, target);
+		float dx = otherPos->x - pos->x;
+		float qy = dy * dy;
+		float qz = dz * dz;
+		float qx = dx * dx;
+		float distSqr = qy + qz + qx;
+		float rr = getRadius();
+		{
+			float t = rr * 0.8f;
+			if (distSqr >= t * t)
+				return rva005EE8DD(otherPos, target);
+		}
 	}
 	return false;
 }
