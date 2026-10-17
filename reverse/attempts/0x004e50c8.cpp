@@ -1,4 +1,6 @@
 // ?rva004E50C8@Rva004E50C8@@QAEXXZ
+// partial score=0.99 date=2026-10-17
+// ?rva004E50C8@Rva004E50C8@@QAEXXZ
 // partial score=0.9933 date=2026-10-15
 // ?rva004E50C8@Rva004E50C8@@QAEXXZ
 // partial score=0.988 date=2026-10-13
@@ -50,7 +52,7 @@ void Rva004E50C8::rva004E50C8(){
     float mid=angle+step*0.5f;
     float localRadius=radius-pieceLength*0.5f;
     Coord3D point;memcpy(&point.x,&center.x,4);memcpy(&point.y,&center.y,4);point.z=center.z;
-    point.x+=sin((double)mid)*localRadius;point.y+=cos((double)mid)*localRadius;
+    point.x=(float)(point.x+(sin((double)mid)*localRadius));point.y+=cos((double)mid)*localRadius;
     Shadow*shadow=((CloudShadowFactoryView*)g_00DEC2D4)->create(&info);
     if(shadow){
      shadow->rotation=normalizeAngle(-mid);
