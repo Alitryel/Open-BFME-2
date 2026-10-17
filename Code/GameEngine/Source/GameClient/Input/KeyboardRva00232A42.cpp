@@ -5,7 +5,7 @@
 // resync over the m_keys vector walked as stride-8 KeyboardIO records.
 // Each record refreshes its kind-indexed m_keyStatus slot (flag/key/frame),
 // kind 0x0F sets the record flag when either status byte carries bit 2, and
-// seven kinds route through the pinned handler 0x00232763; then rowed
+// seven kinds route through translateKey 0x00232763; then rowed
 // checkKeyRepeat 0x002329D3 runs and nonzero modifiers OR into every
 // record. Per-statement kind re-reads (aliasing blocks CSE) plus the direct
 // slot indexing reproduce retail. Layout reuses Keyboard.cpp's proven
@@ -69,10 +69,10 @@ class Keyboard : public GameEngineDeletingBase
 {
 public:
 	void rva00232A42();
+	unsigned short translateKey(unsigned short keyCode);
 
 protected:
 	bool checkKeyRepeat();
-	void handleKind(unsigned short kind);
 	unsigned short m_modifiers; // +0x0C
 	unsigned char m_shift2Key; // +0x0E
 	_STL::_Vector_base<BfmeE16, _STL::allocator<BfmeE16> > m_keys; // +0x10
@@ -95,7 +95,7 @@ void Keyboard::rva00232A42()
 				rec->m_f1 = 1;
 		}
 		else if (kind == 0x3A || kind == 0x1D || kind == 0x9D || kind == 0x2A || kind == 0x36 || kind == 0x38 || kind == 0xB8) {
-			handleKind((unsigned short)kind);
+			translateKey((unsigned short)kind);
 		}
 		++rec;
 	}
