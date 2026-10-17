@@ -1,4 +1,6 @@
 // ?rva00477513@HordeTransportContain@@QAEXXZ
+// partial score=0.966 date=2026-10-17
+// ?rva00477513@HordeTransportContain@@QAEXXZ
 // partial score=0.947 date=2026-10-15
 // ?rva00477513@HordeTransportContain@@QAEXXZ
 // partial score=0.95 date=2026-10-15
@@ -210,10 +212,10 @@ void HordeTransportContain::rva00477513()
  ((Rva0046247D*)this)->rva0046247D(outer);
  for (IntList::iterator i=outer.objects->begin();i!=outer.objects->end();++i) 
  {
-  int element=*i;
-  _ReadWriteBarrier();
+  int element=*(volatile int*)&*i;
   Object *object=(Object *)element;
-  if (object->templateView->flags115 & 0x20) 
+  Object *testObject=(Object *)*(volatile int *)&element;
+  if (testObject->templateView->flags115 & 0x20) 
   {
    RiderContain *contain=(RiderContain*)((Rva0047A040Base9E0*)((char*)this+0x11D))->rva00588B8A(object);
    rva0047727E((Thing*)object);
