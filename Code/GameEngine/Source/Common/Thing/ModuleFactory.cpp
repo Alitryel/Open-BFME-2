@@ -366,8 +366,11 @@ ModuleFactory::~ModuleFactory( void )
 // ContainModuleDeletingDtors.cpp and CaveContainModuleDataFriendNew.cpp. The
 // SpawnBehavior and StructureBody data factories did the same (their ctor and
 // dtor copies, and StructureBody's ActiveBodyModuleData dtor); their deleting
-// dtors are emitted by FamilyDeletingDtors.cpp. UpgradeModule contributes only
-// its field parser. This compiler anchor is not a recovered retail function.
+// dtors are emitted by FamilyDeletingDtors.cpp. UpgradeModule and
+// TransitionDamageFX contribute only their field parsers, and
+// StructureCollapseUpdate nothing: no row here needs its data factory, which
+// emitted a non-retail dtor copy. This compiler anchor is not a recovered
+// retail function.
 #define BFME_EMIT_MODULE_INSTANCE(cls) *instances++ = &cls::friend_newModuleInstance
 #define BFME_EMIT_MODULE_DATA(cls) *data++ = &cls::friend_newModuleData
 // ?bfmeEmitModuleFactoryInlines absent-from-retail
@@ -389,7 +392,6 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 	BFME_EMIT_MODULE_INSTANCE( LaserUpdate );
 	BFME_EMIT_MODULE_INSTANCE( OCLUpdate );
 	BFME_EMIT_MODULE_DATA( StructureToppleUpdate );
-	BFME_EMIT_MODULE_DATA( StructureCollapseUpdate );
 	BFME_EMIT_MODULE_DATA( WorkerAIUpdate );
 	*parsers++ = &UpgradeModuleData::buildFieldParse;
 	BFME_EMIT_MODULE_DATA( GrantScienceUpgrade );
@@ -398,7 +400,7 @@ void bfmeEmitModuleFactoryInlines(NewModuleProc *instances, NewModuleDataProc *d
 	BFME_EMIT_MODULE_INSTANCE( SupplyWarehouseCreate );
 	BFME_EMIT_MODULE_INSTANCE( SpecialPowerCreate );
 	BFME_EMIT_MODULE_INSTANCE( GrantUpgradeCreate );
-	BFME_EMIT_MODULE_DATA( TransitionDamageFX );
+	*parsers++ = &TransitionDamageFXModuleData::buildFieldParse;
 	BFME_EMIT_MODULE_INSTANCE( FireWeaponCollide );
 	BFME_EMIT_MODULE_INSTANCE( SquishCollide );
 	*parsers++ = &UnitCrateCollideModuleData::buildFieldParse;

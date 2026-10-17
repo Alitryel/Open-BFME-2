@@ -1368,10 +1368,8 @@ private:
 	StateMachine *m_attackMoveMachine; // +0x54
 };
 
-Bool AIAttackMoveToState::rva00340F25() const
-{
-	return m_attackMoveMachine->isInAttackState() ? false : true;
-}
+// Defined (and rowed) in AIAttackApproachTargetStateOnEnter.cpp; a second
+// strong definition here made both units duplicate it.
 
 Real Cos(Real angle);
 Real Sin(Real angle);

@@ -26,6 +26,12 @@ class TeamFactory : public SubsystemInterface, public Snapshot
 public:
 	virtual ~TeamFactory();
 	void clear();
+protected:
+	// Snapshot slots of TeamFactoryCtor.cpp's table, declared so this TU's
+	// ??_7TeamFactory@@6BSnapshot@@@ is the same four-slot table.
+	virtual void loadPostProcess();
+	virtual void crc(Xfer *xfer);
+	virtual void xfer(Xfer *xfer);
 private:
 	char m_pad10[0xB0 - 0x10];
 	Rva0039F56E m_b0;

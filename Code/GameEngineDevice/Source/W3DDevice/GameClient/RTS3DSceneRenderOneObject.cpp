@@ -247,7 +247,9 @@ public:
 	}
 	void Add_Light(const LightClass &light);
 	void Pre_Render_Update(const Matrix3D &camera_tm);
-	const Vector3 &Get_Equivalent_Ambient(void) const { return OutputAmbient; }
+	// dllimport __forceinline: inlined with no COMDAT, so W3DScene.cpp's Zero Hour-layout copy
+	// (no retail address) is not a competing first copy for this unit.
+	__declspec(dllimport) __forceinline const Vector3 &Get_Equivalent_Ambient(void) const { return OutputAmbient; }
 	void Set_Output_Ambient(Vector3 &oa) { OutputAmbient = oa; }
 private:
 	char m_pad000[0x164];
@@ -345,8 +347,9 @@ public:
 	const Vector3 *getLightColor(void) { return (const Vector3 *)reinterpret_cast<Rva0027070C *>(this)->rva0027070C(); }
 	const Vector3 *getBaseColor(void) { return &m_baseColor; }
 	__declspec(dllimport) __forceinline Object *getObject(void) { return m_object; }
-	UnsignedInt getShroudClearFrame(void) { return m_shroudClearFrame; }
-	void setShroudClearFrame(UnsignedInt frame) { m_shroudClearFrame = frame; }
+	// dllimport __forceinline as Get_Equivalent_Ambient above (W3DScene.cpp's Zero Hour-layout copies).
+	__declspec(dllimport) __forceinline UnsignedInt getShroudClearFrame(void) { return m_shroudClearFrame; }
+	__declspec(dllimport) __forceinline void setShroudClearFrame(UnsignedInt frame) { m_shroudClearFrame = frame; }
 	Int getStealthLook(void) { return m_stealthLook; }
 	Real getSecondMaterialPassOpacity(void) { return m_secondMaterialPassOpacity; }
 	Bool hasAlphaReferenceOverride(void) { return m_alphaOverride; }

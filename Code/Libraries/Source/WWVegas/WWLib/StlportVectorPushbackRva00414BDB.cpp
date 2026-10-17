@@ -27,4 +27,6 @@ namespace _STL {
 template <> void _Construct<Rva00414BDBElement, Rva00414BDBElement>(Rva00414BDBElement *, const Rva00414BDBElement &);
 }
 
+// _Destroy is retail's 24-byte out-of-line body at 0x00414508 (StlportDestroyRva00414508.cpp); only declare it.
+namespace _STL { template <> void _Destroy<Rva00414BDBElement *>(Rva00414BDBElement *, Rva00414BDBElement *); }
 template void _STL::vector<Rva00414BDBElement>::push_back(const Rva00414BDBElement &);

@@ -125,6 +125,8 @@ template _STL::vector<Rva001ED0DE>::~vector();
 // Same 63B Destroy-plus-free shape: destroys the range through pinned
 // _Destroy at 0x00414508 then frees via 0x30830; caller at 0x00414B5B in 0x00414B40; unblocks 0x00414B40.
 struct Rva00414BDBElement { public: ~Rva00414BDBElement(); char m_pad[0x30]; };
+// _Destroy is retail's 24-byte out-of-line body at 0x00414508 (StlportDestroyRva00414508.cpp); only declare it.
+namespace _STL { template <> void _Destroy<Rva00414BDBElement *>(Rva00414BDBElement *, Rva00414BDBElement *); }
 template _STL::vector<Rva00414BDBElement>::~vector();
 
 // ??1?$vector@URvaPair0039973B@@V?$allocator@URvaPair0039973B@@@_STL@@@_STL@@QAE@XZ @0x0039973B 63B.

@@ -52,6 +52,11 @@ struct BfmePod52 { int a[13]; };
 inline bool operator==(const BfmePod52 &x, const BfmePod52 &y) { return x.a[0] == y.a[0]; }
 struct BfmePod72 { int a[18]; };
 inline bool operator==(const BfmePod72 &x, const BfmePod72 &y) { return x.a[0] == y.a[0]; }
+// bfme link decl-only begin
+// Retail's pair<const int,BfmePod72> ctor (0x002E00AF, StlportPairConstructFamily.cpp) copies through a
+// non-trivial BfmePod72 copy ctor: a different real type. This unit's unreferenced copy loop is not it.
+namespace _STL { template <> pair<const int, BfmePod72>::pair(const int &, const BfmePod72 &); }
+// bfme link decl-only end
 template class _STL::hash_set<int, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<int> >;
 template class _STL::hash_map<int, BfmePod16, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, BfmePod16> > >;
 template class _STL::hash_map<int, BfmePod20, _STL::hash<int>, _STL::equal_to<int>, _STL::allocator<_STL::pair<const int, BfmePod20> > >;

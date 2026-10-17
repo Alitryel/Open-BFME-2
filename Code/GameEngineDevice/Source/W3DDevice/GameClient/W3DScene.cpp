@@ -589,6 +589,14 @@ void RTS3DScene::renderSpecificDrawables(RenderInfoClass &rinfo, Int numDrawable
 //=============================================================================
 /** Renders a single drawable entity. */
 //=============================================================================
+// Unit-local view with the header's Set_Output_Ambient body: the inlined call left an
+// unreferenced Zero Hour-layout (+0x160) Set_Output_Ambient COMDAT that the link kept
+// ahead of retail's 0x0006E136; this by-product gets a name of its own.
+struct W3DSceneLightEnv : public LightEnvironmentClass
+{
+	void setOutputAmbient(Vector3 &oa) { OutputAmbient = oa; }
+};
+
 // ?RTS3DScene::renderOneObject present-unmatched
 void RTS3DScene::renderOneObject(RenderInfoClass &rinfo, RenderObjClass *robj, Int localPlayerIndex)
 {
@@ -708,7 +716,7 @@ void RTS3DScene::renderOneObject(RenderInfoClass &rinfo, RenderObjClass *robj, I
 			temp = lightEnv.Get_Equivalent_Ambient();
 			Vector3::Add(sumTint, temp, &temp );
 
-			lightEnv.Set_Output_Ambient( temp );
+			static_cast<W3DSceneLightEnv &>(lightEnv).setOutputAmbient( temp );
 
 		}
 		else // no funny coloring going on, so just add the lights normally

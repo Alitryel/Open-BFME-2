@@ -110,6 +110,11 @@ inline void _Destroy(AsciiString * __first, AsciiString * __last)
 // Reference those providers instead of emitting competing non-retail COMDATs.
 template<> int BitFlags<117>::countIntersection(const BitFlags<117> &that) const;
 template<> int BitFlags<117>::countInverseIntersection(const BitFlags<117> &that) const;
+// bfme link decl-only begin
+// Retail's _Base_bitset<4>::_M_do_and is ThingTemplate.cpp's 25-byte row (0x00331662); this
+// unit only emitted an unreferenced 29-byte copy, first in link order.
+namespace _STL { template <> void _Base_bitset<4>::_M_do_and(const _Base_bitset<4> &); }
+// bfme link decl-only end
 
 // CRT imports (no COMDATs); used by the manual Y-rotation post-multiply below.
 extern "C" double __cdecl sin(double);

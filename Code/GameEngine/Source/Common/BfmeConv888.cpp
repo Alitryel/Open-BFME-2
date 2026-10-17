@@ -90,7 +90,12 @@ struct BfmeNodeEYF
 	BfmeNodeEYF *m_bfmeNext;
 };
 
-BfmeNodeEYF *__cdecl bfmeMakeEYF(void *a, void *b);
+// The callee at 0x0030DC85 is rowed as the map-object chunk reader
+// (MapObjectReadRva0030DC85.cpp); called by that row's name and signature.
+class DataChunkInput;
+struct DataChunkInfo;
+class Rva0030DBD5;
+Rva0030DBD5 *__cdecl Rva0030DC85ReadMapObject(DataChunkInput &file, DataChunkInfo *info);
 
 struct BfmeThingEYF
 {
@@ -101,7 +106,7 @@ struct BfmeThingEYF
 
 bool BfmeThingEYF::bfmeGoEYF(void *a, void *b)
 {
-	BfmeNodeEYF *n = bfmeMakeEYF(a, b);
+	BfmeNodeEYF *n = (BfmeNodeEYF *)Rva0030DC85ReadMapObject(*(DataChunkInput *)a, (DataChunkInfo *)b);
 	if (n)
 	{
 		m_bfmeHead2->m_bfmeNext = n;

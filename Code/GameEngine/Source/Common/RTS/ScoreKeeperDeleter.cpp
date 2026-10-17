@@ -13,12 +13,18 @@
 // the vtable and with it the deleting destructor.
 
 struct EmitVtableTag;
+class Xfer;
 
 class ScoreKeeper
 {
 public:
 	ScoreKeeper(EmitVtableTag *);
 	virtual ~ScoreKeeper();
+	// The rest of ScoreKeeperCtorBFME2.cpp's table, declared so this TU's
+	// ??_7ScoreKeeper is the same four-slot table.
+	virtual void LoadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void DoXfer(Xfer *xfer);
 };
 
 // ?<ScoreKeeper::ScoreKeeper> absent-from-retail
