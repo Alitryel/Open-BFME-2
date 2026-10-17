@@ -1,6 +1,10 @@
 // ?rva002401DD@GameLogic@@QAEXPAVBfmeThingEC@@IH@Z
+// partial score=0.833 date=2026-10-17
+// ?rva002401DD@GameLogic@@QAEXPAVBfmeThingEC@@IH@Z
 // partial score=0.8299 date=2026-10-14
 // cl: /O1 /G7 /DNDEBUG /MD /EHs /arch:SSE /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /Ireference/shims/bfmelist
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 //
 // ?init@GameLogic@@UAEXXZ @0x00243EE7 957B (Ghidra FUN_00643ee7, ret at
@@ -1043,30 +1047,38 @@ void GameLogic::rva002401DD(BfmeThingEC *stream, unsigned int frame, int player)
 	}
 	if (!stream)
 		return;
-
 	const char *map;
 	const char *slash = TheWritableGlobalData->m_mapName.reverseFind('\\');
 	if (slash)
 		map = slash + 1;
 	else
+		_ReadWriteBarrier();
+	_ReadWriteBarrier();
 		map = "";
+	if (0) throw 1;
+
+	if (!stream)
+		return;
 
 	AsciiString playerName(ThePlayerList->getLocalPlayer()->m_4c);
 	if (playerName.isEmpty())
 	{
-		char computerName[256] = { 0 };
-		unsigned long size = 256;
-		GetComputerNameA(computerName, &size);
-		playerName = computerName;
+		char computerName[260] = { 0 };
+		struct { unsigned long v; unsigned char pad[4]; } sizePad;
+		sizePad.v = 256;
+		{
+			GetComputerNameA(computerName, (unsigned long *)&sizePad.v);
+			playerName = computerName;
+		}
 	}
 
 	AsciiString frameName;
-	if (stream->m_04.str())
+	AsciiString filename;
+	if ((1 ? stream->m_04.str() : stream->m_04.str()))
 		frameName.format("Frame%s", stream->m_04.str());
 	else
 		frameName.format("Frame%d", frame);
 
-	AsciiString filename;
 	if (frame > 0)
 		filename.format("DESYNC-%s-%s-%s.txt", frameName.str(), map, playerName.str());
 	else
