@@ -1,4 +1,4 @@
-// cl: /O1 /DNDEBUG /MD /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
+// cl: /O1 /arch:SSE /DNDEBUG /MD /Ireference/shims/bfme2_ascii /ICode/GameEngine/Include /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS
 // stlport
 // SpecialAbilityUpdate.cpp: bodies retail links from this TU (tu_map approved),
 // folded from three split units with these exact flags. The two
@@ -152,11 +152,14 @@ enum CommandSourceType
 {
 	CMD_FROM_AI = 2
 };
+class Object;
 class AICommandInterface
 {
 public:
 	virtual void aiDoCommand(const void *parms);
 	void aiIdle(CommandSourceType cmdSource);
+	void aiMoveToPositionSA(const Coord3D *pos, int cmdSource);
+	void rva0044FFD9(Object *obj, CommandSourceType cmdSource);
 	void rva0045003E(int value, CommandSourceType cmdSource);
 };
 // AIUpdateInterface: an update module whose AICommandInterface base is at +0x20.
@@ -164,10 +167,102 @@ class AIUpdateModuleView
 {
 public:
 	virtual void v00();
+	virtual void v01();
+	virtual void v02();
+	virtual void v03();
+	virtual void v04();
+	virtual void v05();
+	virtual void v06();
+	virtual void v07();
+	virtual void v08();
+	virtual void v09();
+	virtual void v10();
+	virtual void v11();
+	virtual void v12();
+	virtual void v13();
+	virtual void v14();
+	virtual void v15();
+	virtual void v16();
+	virtual void v17();
+	virtual void v18();
+	virtual void v19();
+	virtual void v20();
+	virtual void v21();
+	virtual void v22();
+	virtual void v23();
+	virtual void v24();
+	virtual void v25();
+	virtual void v26();
+	virtual void v27();
+	virtual void v28();
+	virtual void v29();
+	virtual void v30();
+	virtual void v31();
+	virtual void v32();
+	virtual void v33();
+	virtual void v34();
+	virtual void v35();
+	virtual void v36();
+	virtual void v37();
+	virtual void v38();
+	virtual void v39();
+	virtual void v40();
+	virtual void v41();
+	virtual void v42();
+	virtual void v43();
+	virtual void v44();
+	virtual void v45();
+	virtual void v46();
+	virtual void v47();
+	virtual void v48();
+	virtual void v49();
+	virtual void v50();
+	virtual void v51();
+	virtual void v52();
+	virtual void v53();
+	virtual void v54();
+	virtual void v55();
+	virtual void v56();
+	virtual void v57();
+	virtual void v58();
+	virtual void v59();
+	virtual void v60();
+	virtual void v61();
+	virtual void v62();
+	virtual void v63();
+	virtual void v64();
+	virtual void v65();
+	virtual void v66();
+	virtual void v67();
+	virtual void v68();
+	virtual void v69();
+	virtual void v70();
+	virtual void v71();
+	virtual void v72();
+	virtual void v73();
+	virtual void v74();
+	virtual void v75();
+	virtual void v76();
+	virtual void v77();
+	virtual void v78();
+	virtual void v79();
+	virtual void v80();
+	virtual void v81();
+	virtual void v82();
+	virtual void v83();
+	virtual void v84();
+	virtual void v85();
+	virtual void v86();
+	virtual void v87();
+	virtual void v88();
+	virtual void v89();
+	virtual bool rvaSlot168(); // +0x168
 	unsigned char m_pad04[0x20 - 4];
 };
 class AIUpdateInterface : public AIUpdateModuleView, public AICommandInterface
 {
+public:
+	void ignoreObstacle(const Object *obj);
 };
 class Object;
 class ContainModuleInterface
@@ -268,6 +363,14 @@ enum Relationship
 	ALLIES = 2
 };
 class Rva00373EC6;
+// Container whose flag byte +0x115 bit 0x20 redirects the special target.
+struct ApproachTargetContainer
+{
+	unsigned char m_pad00[4];
+	unsigned char *m_data; // +0x04
+	unsigned char m_pad08[0x74 - 8];
+	unsigned int m_targetID; // +0x74
+};
 class Object : public Thing
 {
 	friend class SpecialAbilityUpdate;
@@ -278,6 +381,8 @@ public:
 	Relationship getRelationship(const Object *that) const;
 	void rva0028CDEB(const Rva00346BC0 &mask, bool set);
 	bool isKindOf(KindOfType kindOf) const;
+	int rva0028B511() const;
+	bool getWorldspaceBestContactPoint(Coord3D *pos, const Coord3D *from, const char *bone, int a, int b, bool c) const;
 	// rowed 0x0028CFB2: clears the first mask's conditions, sets the second's
 	void rva0028CFB2(const int *clearMask, const int *setMask);
 	// Zero Hour's inline Object::clearAndSetModelConditionState.
@@ -319,8 +424,12 @@ public:
 	unsigned char *m_ai; // +0x258 AIUpdateInterface (command interface at +0x20)
 	AIUpdateInterface *getAI() const { return (AIUpdateInterface *)m_ai; }
 	void *getTeam() const { return m_team; }
-	unsigned char m_pad25C[0x304 - 0x25C];
+	unsigned char m_pad25C[0x274 - 0x25C];
+	ApproachTargetContainer *m_targetContainer; // +0x274
+	unsigned char m_pad278[0x304 - 0x278];
 	void *m_team; // +0x304
+	unsigned char m_pad308[0x484 - 0x308];
+	unsigned int m_specialTargetID; // +0x484
 protected:
 	Module *findModule(NameKeyType key) const;
 };
@@ -356,7 +465,9 @@ public:
 	unsigned int m_20; // +0x20
 	unsigned char m_pad24[0x38 - 0x24];
 	Overridable *m_specialPowerTemplate; // +0x38
-	unsigned char m_pad3C[0x54 - 0x3C];
+	unsigned char m_pad3C[0x4C - 0x3C];
+	float m_approachRange; // +0x4C
+	unsigned char m_pad50[0x54 - 0x50];
 	float m_packUnpackVariationFactor; // +0x54
 	unsigned char m_pad58[0x6C - 0x58];
 	int m_6C; // +0x6C ability condition selector (1..6)
@@ -371,6 +482,8 @@ public:
 	bool m_flipAfterUnpacking; // +0xAD
 	char m_pad0AE[2];
 	bool m_loseStealth; // +0xB0
+	unsigned char m_padB1[0xBC - 0xB1];
+	AsciiString m_targetBone; // +0xBC
 };
 float GetGameLogicRandomValueReal(float lo, float hi, char *file, int line);
 typedef unsigned int AudioHandle;
@@ -434,13 +547,20 @@ __forceinline void Object::clearAndSetModelConditionState(ModelConditionFlagType
 class SpecialAbilityUpdate : public BehaviorModule
 {
 public:
+	virtual void v01(); virtual void v02(); virtual void v03(); virtual void v04();
+	virtual void v05(); virtual void v06(); virtual void v07(); virtual void v08();
+	virtual void v09(); virtual void v10(); virtual void v11(); virtual void v12();
+	virtual void onExit(bool cleanup, bool b); // +0x34
 	SpecialPowerType getSpecialPowerType() const;
+	bool rva00450AE9();
+	bool rva0044E85E(Coord3D *pos, float range);
 protected:
 	bool handlePackingProcessing();
 public:
 	void rva0044EE07();
 	void rva0044EE80();
 	void rva0044F72E();
+	virtual void v14();
 	virtual void startPreparation();
 	virtual void startPacking(bool success);
 protected:
@@ -461,7 +581,12 @@ private:
 	AudioHandle m_packSoundHandle; // +0x38
 	unsigned int m_prepFrames; // +0x3C
 	ObjectID m_targetID; // +0x40
-	unsigned char m_pad44[0x84 - 0x44];
+	Coord3D m_targetPos; // +0x44
+	Coord3D m_previousTarget; // +0x50
+	unsigned char m_pad5C[0x78 - 0x5C];
+	unsigned int m_approachFrames; // +0x78
+	unsigned char m_pad7C[0x83 - 0x7C];
+	bool m_approached; // +0x83
 	unsigned int m_84; // +0x84
 };
 
@@ -730,6 +855,77 @@ class Rva0044E633
 public:
 	void *rva0044E633();
 };
+
+// SpecialAbilityUpdate::rva00450AE9, retail 0x00450AE9 (689 bytes): the
+// approach step. A target that has not moved 5 units in two seconds of
+// approach frames exits the ability; otherwise it moves the AI to the target
+// (bone contact point, offset approach position or attack-move helper) or to
+// the stored position.
+extern int BfmeLogicFramesPerSecond; // VA 0x00DBA4E4
+// Coord3D copy whose members load before the in-place subtraction stores.
+struct SaCoordCopy : Coord3D
+{
+	__forceinline SaCoordCopy(const Coord3D &o) { x = o.x; y = o.y; z = o.z; }
+	__forceinline void sub(const Coord3D *o) { x -= o->x; y -= o->y; z -= o->z; }
+};
+bool SpecialAbilityUpdate::rva00450AE9()
+{
+	Object *self=m_object;
+	const SpecialAbilityUpdateModuleData *data=(const SpecialAbilityUpdateModuleData*)m_moduleData;
+	if(m_approachFrames>BfmeLogicFramesPerSecond*2) {
+		Coord3D target={m_targetPos.x,m_targetPos.y,m_targetPos.z};
+		Object *obj=TheGameLogic->findObjectByID(m_targetID);
+		if(obj) target=obj->m_position;
+		SaCoordCopy delta=m_previousTarget;
+		delta.sub(&target);
+		if(delta.GetLength()<5.0f){onExit(false,true);return false;}
+	}
+	++m_approachFrames;
+	m_previousTarget=m_targetPos;
+	if(m_targetID!=INVALID_OBJECT_ID) {
+		Object *target=TheGameLogic->findObjectByID(m_targetID);
+		if(target) {
+			const Coord3D *targetPos=&target->m_position;
+			m_previousTarget=*targetPos;
+			Overridable *spTemplate=data->m_specialPowerTemplate;
+			bool moveToPosition=data->m_approachRange>50.0f;
+			if(spTemplate->friend_getFinalOverride()->m_val1C==0x27){
+				ApproachTargetContainer *c=target->m_targetContainer;
+				if(c && (c->m_data[0x115]&0x20)) self->m_specialTargetID=c->m_targetID;
+				else self->m_specialTargetID=m_targetID;
+			}
+			AIUpdateInterface *ai=self->getAI();
+			if(ai) {
+				if(!((const StringBase<char>*)&data->m_targetBone)->isEmpty()) {
+					Coord3D pos={0,0,0};
+					if(target->getWorldspaceBestContactPoint(&pos,&self->m_position,data->m_targetBone.str(),0,0x2A,true)){
+						ai->aiMoveToPositionSA(&pos,2);return true;
+					}
+				}
+				ai->ignoreObstacle(target);
+				if(!(target->m_base4[0x108]&0x80) && target->rva0028B511()!=1 && moveToPosition){
+					Coord3D pos={targetPos->x,targetPos->y,targetPos->z};
+					rva0044E85E(&pos,data->m_approachRange);
+					ai->aiMoveToPositionSA(&pos,2);
+					return true;
+				}
+				ai->rva0044FFD9(target,CMD_FROM_AI);
+				return true;
+			}
+		}
+	} else if(m_targetPos.x || m_targetPos.y || m_targetPos.z){
+		AIUpdateInterface *ai=self->getAI();
+		if(ai) {
+			int type=data->m_specialPowerTemplate->friend_getFinalOverride()->m_val1C;
+			if(type==0x38 && ai->rvaSlot168())self->setStatus((ObjectStatusTypes)0x5B,true);
+			ai->aiMoveToPositionSA(&m_targetPos,2);
+			if(type==0x2A)m_approached=true;
+			return true;
+		}
+	}
+	return false;
+}
+
 
 // SpecialAbilityUpdate::startPreparation, retail 0x00450D9A (755 bytes,
 // vtable slot 15; ArrowStormUpdate overrides it). Zero Hour's
