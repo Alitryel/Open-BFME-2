@@ -34,3 +34,5 @@ void __stdcall _com_issue_errorex(long hr,IUnknown *unknown,const _GUID& iid) {
 }
 
 void __stdcall _set_com_error_handler(ErrorHandler callback) {__errorPfn=callback;}
+
+void __stdcall _com_issue_error(long hr) {__errorPfn(hr,0);}
