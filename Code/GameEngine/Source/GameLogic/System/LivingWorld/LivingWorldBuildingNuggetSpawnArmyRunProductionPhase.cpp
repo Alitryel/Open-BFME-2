@@ -245,27 +245,6 @@ void LivingWorldBuildingNuggetSpawnArmy::runProductionPhase()
 	((Rva004FA659 *)this)->rva004FA659();
 }
 
-bool LivingWorldBuildingNuggetSpawnArmy::canQueueUnit(ObjectID id)
-{
-	unsigned int maxQueue = m_data->m_maxQueue;
-	if (m_queue.size() >= maxQueue)
-		return false;
-	SpawnArmy army(0);
-	LivingWorldPlayer *owner;
-	void *summary;
-	Rva004FA83ETemplate *tmpl;
-	bool result = false;
-	if (canProduce(id, &army))
-		result = ((Rva002B2646 *)TheLivingWorldLogic)->rva002B2646((Arg54 *)this, (Arg54 *)(int)id)
-		&& (owner = (LivingWorldPlayer *)getOwningPlayer()) != 0
-		&& owner->rva002E1155((Rva00319CED *)&army)
-		&& (summary = ((Rva00319CED *)&army)->rva004E23C1()) != 0
-		&& (tmpl = (Rva004FA83ETemplate *)((Rva0037DCA5 *)((Rva0040CB2CIndexedField *)summary)->get(0))->rva0037DC52()) != 0
-		&& ((tmpl->m_kind113 & 4) == 0
-			|| (((LivingWorldPlayer *)((Rva004E0705 *)m_building)->rva004E0705())->rva002E12F3(id)
-				&& !((LivingWorldPlayer *)((Rva004E0705 *)m_building)->rva004E0705())->HasArmyQueuedInAnyBuilding(*(void **)army.m_pad4C, 0, 0)));
-	return result;
-}
 
 // ?rva004FA6B5@Rva004FA992@@QAEHXZ @0x004FA6B5 131B. Totals rowed Rva00319CED::rva004E1755 (the
 // SpawnArmy's non-empty-key lookup to an int getter) over every queued unit the building can
