@@ -19,7 +19,16 @@ private:
 	UserParser *m_parser08;
 };
 
-extern const void *const g_00C3AF68[];
+// The retail table at RVA 0x0083AF68: 2 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003B241AOwner@@QAEPAXI@Z")();
+void __identifier("?invoke@Rva0041E6EB@@QAEXXZ")();
+}
+extern const void *const g_00C3AF68[2] = {
+	(const void *)&__identifier("??_GRva003B241AOwner@@QAEPAXI@Z"), // slot 0 0x0041E6F3
+	(const void *)&__identifier("?invoke@Rva0041E6EB@@QAEXXZ"), // slot 1 0x0041E6EB
+};
 
 class Rva0041E6BE : public DataChunkParser
 {

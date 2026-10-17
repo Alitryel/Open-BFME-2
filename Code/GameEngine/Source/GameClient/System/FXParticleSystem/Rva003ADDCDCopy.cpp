@@ -5,7 +5,20 @@ class Rva005EA430
 public:
 	Rva005EA430(const Rva005EA430 &other);
 };
-extern const void *const g_00C1D164[];
+// The retail table at RVA 0x0081D164: 6 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva003AE13C@@UAEPAXI@Z")();
+int __cdecl _purecall(void);
+}
+extern const void *const g_00C1D164[6] = {
+	(const void *)&__identifier("??_GRva003AE13C@@UAEPAXI@Z"), // slot 0 0x003AE16E
+	(const void *)&__identifier("_purecall"), // slot 1 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 3 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 4 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 5 0x0003B810
+};
 extern "C" char s_slot3E4first;
 class Rva0055BCD2
 {
