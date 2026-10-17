@@ -26,7 +26,8 @@ enum KindOfType
 
 enum ObjectStatusTypes
 {
-	OBJECT_STATUS_38 = 0x26
+	OBJECT_STATUS_38 = 0x26,
+	STATUS15 = 15, STATUS17 = 17
 };
 
 class ThingTemplate
@@ -43,14 +44,21 @@ public:
 	Real m_rangeScaleC; // +0x4B8
 };
 
+class Team;
+enum Relationship { ENEMIES = 0, NEUTRAL = 1, ALLIES = 2 };
+
 class Player
 {
 public:
 	int getPlayerIndex() const { return m_playerIndex; }
+	Relationship getRelationship(const Team *) const;
 
 private:
 	unsigned char m_pad00[0x54];
 	int m_playerIndex; // +0x54
+	unsigned char m_pad058[0x2EC - 0x58];
+public:
+	Team *team; // +0x2EC, target relationship calls
 };
 
 class Rva002AA21CDwordField
@@ -63,6 +71,7 @@ class PlayerList
 {
 public:
 	int getPlayersWithRelationship(int playerIndex, unsigned int relationships, bool includeSelf);
+	Player *getNthPlayer(int);
 };
 
 extern PlayerList *ThePlayerList;
@@ -112,6 +121,25 @@ public:
 	virtual Real getRangeOverrideB(); // +0x25C
 };
 
+class Object;
+struct ObjectNode {ObjectNode*next,*prev;Object*value;};
+struct ObjectList {ObjectNode*head;};
+struct ObjectListView {void*first;const ObjectList*list;};
+#define OBJECT_CONTAIN_V(n) virtual void s##n();
+#define OBJECT_CONTAIN_V10(n) OBJECT_CONTAIN_V(n##0) OBJECT_CONTAIN_V(n##1) OBJECT_CONTAIN_V(n##2) OBJECT_CONTAIN_V(n##3) OBJECT_CONTAIN_V(n##4) OBJECT_CONTAIN_V(n##5) OBJECT_CONTAIN_V(n##6) OBJECT_CONTAIN_V(n##7) OBJECT_CONTAIN_V(n##8) OBJECT_CONTAIN_V(n##9)
+class ContainView {public:
+ OBJECT_CONTAIN_V10(0) OBJECT_CONTAIN_V(10) OBJECT_CONTAIN_V(11) OBJECT_CONTAIN_V(12) OBJECT_CONTAIN_V(13) OBJECT_CONTAIN_V(14) OBJECT_CONTAIN_V(15) OBJECT_CONTAIN_V(16) OBJECT_CONTAIN_V(17) OBJECT_CONTAIN_V(18)
+ virtual Player*playerFor(Player*);
+ OBJECT_CONTAIN_V10(2) virtual ContainView*child();
+ OBJECT_CONTAIN_V(31) OBJECT_CONTAIN_V(32) OBJECT_CONTAIN_V(33) OBJECT_CONTAIN_V(34) OBJECT_CONTAIN_V(35) OBJECT_CONTAIN_V(36) OBJECT_CONTAIN_V(37) OBJECT_CONTAIN_V(38) OBJECT_CONTAIN_V(39) OBJECT_CONTAIN_V10(4) OBJECT_CONTAIN_V10(5)
+ OBJECT_CONTAIN_V(60) OBJECT_CONTAIN_V(61) OBJECT_CONTAIN_V(62) OBJECT_CONTAIN_V(63) OBJECT_CONTAIN_V(64) OBJECT_CONTAIN_V(65) virtual void listA(ObjectListView*);
+ OBJECT_CONTAIN_V(67) OBJECT_CONTAIN_V(68) virtual int countFor(int);virtual void listB(ObjectListView*);OBJECT_CONTAIN_V(71) OBJECT_CONTAIN_V(72) virtual int count();
+};
+
+#undef OBJECT_CONTAIN_V10
+#undef OBJECT_CONTAIN_V
+class Rva00373EC6 { public: char m_pad00[0x38]; int playerIndex; int active; };
+
 class ObjectThingBase
 {
 public:
@@ -135,6 +163,10 @@ class Object : public ObjectThingBase, public ObjectShroudClient
 {
 public:
 	Player *getControllingPlayer() const;
+	bool rva0028F518();
+	int rva002933CD();
+	Rva00373EC6 *rva0028F4BC();
+	bool rva00294471(void *player, int mode);
 	Real getShroudClearingRange() const;
 	bool testStatus(ObjectStatusTypes status) const;
 	Object *rva002931F5(bool flag);
@@ -147,7 +179,9 @@ public:
 private:
 	unsigned char m_pad06C[0x94 - 0x6C];
 	unsigned char m_flags94; // +0x94
-	unsigned char m_pad095[0x438 - 0x95];
+	unsigned char m_pad095[0x250 - 0x95];
+	ContainView *contain; // +0x250, native virtual containment queries
+	unsigned char m_pad254[0x438 - 0x254];
 	unsigned char m_privateStatus; // +0x438
 	unsigned char m_pad439[0x454 - 0x439];
 	bool m_hasRanges; // +0x454
@@ -196,4 +230,100 @@ if(!valid)fallback=-1.0f;else{
 }
 }
 *rangeA=*rangeB=*rangeC=fallback;
+}
+
+// Native 294471..2946AB, RET8: eligibility relative to a Player and mode.
+// The original method name remains unknown. Owned Object callers establish
+// the receiver; native getRelationship(Team) calls establish the player word.
+// WB control flow supports allied early-out, active/effect-owner checks,
+// child-container scan and first-rider relationship test. Target reads prove
+// template bytes113/115, contain250, team2EC and effect38/3C; no donor layout
+// or original virtual-slot names are inferred from byte matching.
+// Preserve the explicit inactive-path else: it selects native's early shared
+// false-return block, closing the saved 570-byte body's sole code-layout delta.
+bool Object::rva00294471(void *arg, int mode)
+{
+	Player *player = (Player *)arg;
+	if (mode == 1)
+	{
+		Player *owner = getControllingPlayer();
+		if (owner && player->getRelationship(owner->team) == ALLIES)
+			return false;
+	}
+	if (rva0028F518() || (testStatus(STATUS15) && !testStatus(STATUS17)))
+	{
+		if (!(m_template->m_kindOf[0x0B] & 1))
+			return false;
+		Rva00373EC6 *effect = rva0028F4BC();
+		if (effect && effect->active)
+		{
+			Player *owner = ThePlayerList->getNthPlayer(effect->playerIndex);
+			if (player && owner)
+				return (unsigned char)(player->getRelationship(owner->team) == ENEMIES);
+		}
+		if (mode == 1)
+		{
+			Player *owner = getControllingPlayer();
+			if (!owner || player->getRelationship(owner->team) != ENEMIES)
+				return false;
+		}
+		return true;
+	}
+	else
+	{
+		if (mode == 1)
+		{
+			Player *owner = getControllingPlayer();
+			if (!owner || player->getRelationship(owner->team) != ENEMIES)
+				return false;
+		}
+		if (m_template->m_kindOf[0x0D] & 0x20)
+		{
+			ContainView *base = contain;
+			if (base)
+			{
+				ContainView *sub = base->child();
+				if (sub)
+				{
+					ObjectListView view;
+					sub->listA(&view);
+					bool any = false;
+					ObjectNode *endNode = view.list->head;
+					for (ObjectNode *n = endNode->next; n != endNode; n = n->next)
+					{
+						Object *obj = n->value;
+						if (obj)
+						{
+							if (!obj->rva0028F518() || !obj->testStatus(STATUS15))
+								return true;
+							if ((unsigned char)obj->rva002933CD() || obj->testStatus(STATUS17))
+								return true;
+							any = true;
+						}
+					}
+					if (any)
+						return false;
+					return true;
+				}
+			}
+		}
+		ContainView *current = contain;
+		if (current)
+		{
+			Player *owner = current->playerFor(player);
+			if (current->count() == current->countFor(0))
+			{
+				ObjectListView view;
+				current->listB(&view);
+				ObjectNode *first = view.list->head->next;
+				if (first != view.list->head)
+				{
+					Object *obj = first->value;
+					if (obj && !(unsigned char)obj->rva002933CD() && !obj->testStatus(STATUS17) && owner && player->getRelationship(owner->team) == ENEMIES)
+						return false;
+				}
+			}
+		}
+		return true;
+	}
 }
