@@ -1,4 +1,6 @@
 // ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
+// partial score=0.99 date=2026-10-17
+// ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
 // partial score=0.9652564743478931 date=2026-10-14
 // ?rva0052E6E6@Pathfinder@@QAE_NHHPAVPathfindCell@@PAVPolygonTrigger@@H_N@Z
 // partial score=0.9652564743478931 date=2026-10-14
@@ -139,9 +141,11 @@ Bool Pathfinder::rva0052E6E6(Int x,Int y,PathfindCell *cell,PolygonTrigger *poly
    if(object&&cell->rva0052DFB1(reinterpret_cast<const Rva0052DFB1Arg *>(object)))zones.MarkDirty(x,y);
    
   }
-  Bool changed=reinterpret_cast<Rva0052E001 *>(cell)->rva0052E001(true);
-  changed|=reinterpret_cast<Rva00366500 *>(cell)->rva0036652D(0);
-  changed|=cell->SetType_Dirty(0);
+  unsigned char changed=reinterpret_cast<Rva0052E001 *>(cell)->rva0052E001(true);
+  unsigned char changed2=reinterpret_cast<Rva00366500 *>(cell)->rva0036652D(0);
+  changed=(unsigned char)(*(volatile unsigned char*)&changed|(unsigned char)changed2);
+  *(volatile unsigned char*)&changed = (unsigned char)changed;
+  changed|=(unsigned char)cell->SetType_Dirty(0);
   _ReadWriteBarrier();
   if(changed)zones.MarkDirty(x,y);
   cell->unpinch();
