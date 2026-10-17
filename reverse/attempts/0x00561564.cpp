@@ -1,8 +1,15 @@
 // ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
-// partial score=0.93 date=2026-10-17
+// partial score=0.978 date=2026-10-17
+// ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
+// partial score=0.93 date=2026-10-17 (parallel bank 9b921f7f77: WWMath-style Cross_Product, superseded)
 // ?doParticles@LightningDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.8239538373516954 date=2026-10-16
 // cl: /Ireference/shims/bfme2_ascii /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ob2
+// doParticles .978 (2026-10-17): WB 1429DF0 calls Coord3D::crossProduct(&C,&A,&B),(&A,&B,&C)
+// (TU-local inline twin); endpoint branch stores offset before out (WB 142a59d),
+// which moves the refresh IV onto offset; noise locals declared v1,v0,v2.
+// Residue: 5 cross-product operand load orders, offset.x term rotation and
+// out.x add operand order. Disproven: source FP term order, zero-init, out/offset decl order.
 // Primary clean donor: BFME1 LightningDrawModuleCtor005F4E90.cpp at 575ba2b04.
 // Target 561C34..561D31 RET8 and named LightningDraw publisher/getInstance
 // establish the constructor's family. Native calls ParticleModule55C86D and
@@ -12,10 +19,6 @@
 // canonical Coord3D storage. Its empty ctor is a whole3B relocation-free
 // twin of the owned47A6A9 coordinate ctor; the alias adds no unique bytes.
 // Actual C++ bases supply all three vtable stores and two EH cleanup states.
-// Cross frame: retail keeps &axisA in edi after normalize() and reads it through
-// [edi+n], which an inlined WWMath-style Cross_Product(const&,const&,Vec*) gives;
-// the else arm is donor out=offset=locs. Residue: the two cross products' SSE
-// operand picks (retail reuses B.z from xmm0, 8 B) and v0/v1 stack slots swapped.
 #include "Coord3D.h"
 #include "ascii_string.h"
 typedef int Int;
@@ -195,7 +198,7 @@ class LightningDrawModuleInfoBase {public:virtual ~LightningDrawModuleInfoBase()
 class LightningDrawModuleInfo:public LightningDrawModuleInfoBase {public:LightningDrawModuleInfo();virtual ~LightningDrawModuleInfo();virtual const char* GetSnapshotName();virtual void LoadPostProcess();virtual void DoXfer(class Xfer&);Rva00561C34RandomVariable a,b,c;float value;unsigned char flag;};
 class ParticleSystem;template<class T>class TrackingPtr{};
 class LightningDrawModuleTemplate {public:char pad[12];Rva00561C34RandomVariable a,b,c;float value;unsigned char flag;};
-class LightningDrawModule:public ParticleModule005F2CA0,public LightningDrawModuleInfo {public:LightningDrawModule(TrackingPtr<ParticleSystem>&,const LightningDrawModuleTemplate*);virtual ~LightningDrawModule();virtual int doParticles(::RenderInfoClass&,void*,int*);private: ::ParticleSystem* getSystem()const{return m_system?m_system:Make001FCBD7();}Rva00561C34Point pointsA[3][30];Rva00561C34Point pointsB[3][30];int count;struct Vec{float x,y,z;void Set(float a,float b,float c){x=a;y=b;z=c;}void normalize(){((Coord3D*)this)->normalize();}static void Cross(const Vec&a,const Vec&b,Vec*r){r->x=a.y*b.z-a.z*b.y;r->y=a.z*b.x-a.x*b.z;r->z=a.x*b.y-a.y*b.x;}} axisA,axisB,axisC;int tail;};
+class LightningDrawModule:public ParticleModule005F2CA0,public LightningDrawModuleInfo {public:LightningDrawModule(TrackingPtr<ParticleSystem>&,const LightningDrawModuleTemplate*);virtual ~LightningDrawModule();virtual int doParticles(::RenderInfoClass&,void*,int*);private: ::ParticleSystem* getSystem()const{return m_system?m_system:Make001FCBD7();}Rva00561C34Point pointsA[3][30];Rva00561C34Point pointsB[3][30];int count;struct Vec{float x,y,z;void Set(float a,float b,float c){x=a;y=b;z=c;}void normalize(){((Coord3D*)this)->normalize();}static void crossProduct(const Vec*a,const Vec*b,Vec*r){r->x=(a->y*b->z-a->z*b->y);r->y=(a->z*b->x-a->x*b->z);r->z=(a->x*b->y-a->y*b->x);}} axisA,axisB,axisC;int tail;};
 LightningDrawModule::LightningDrawModule(TrackingPtr<ParticleSystem>& system,const LightningDrawModuleTemplate* source):ParticleModule005F2CA0(&system,(void*)source),LightningDrawModuleInfo(){
  a=source->a;b=source->b;c=source->c;value=source->value;flag=source->flag;
  count=1;axisA.Set(1,0,0);axisB.Set(0,1,0);axisC.Set(0,1,0);tail=0;
@@ -238,16 +241,17 @@ int FXParticleSystem::LightningDrawModule::doParticles(RenderInfoClass& rinfo,vo
   if(refresh){
    axisA.Set(locs[n-1].X-locs[0].X,locs[n-1].Y-locs[0].Y,locs[n-1].Z-locs[0].Z);axisA.normalize();
    axisC.Set(0,0,1);
-   Vec::Cross(axisC,axisA,&axisB);
-   Vec::Cross(axisA,axisB,&axisC);
+   Vec::crossProduct(&axisC,&axisA,&axisB);
+   Vec::crossProduct(&axisA,&axisB,&axisC);
    for(int j=0;j<count;j++){ Rva00561C34Point *out=pointsA[j]; Rva00561C34Point *offset=pointsB[j]; for(int i=0;i<n;i++){
+    float v1=0,v0=0,v2=0;
     if(i!=0 && i!=n-1){
-     float v0=((GameClientRandomVariable*)&a)->getValue();
-     float v1=((GameClientRandomVariable*)&b)->getValue();
-     float v2=((GameClientRandomVariable*)&c)->getValue();
-     offset[i].x=v2*axisA.x+v0*axisB.x+v1*axisC.x;
-     offset[i].y=v2*axisA.y+v0*axisB.y+v1*axisC.y;
-     offset[i].z=v2*axisA.z+v0*axisB.z+v1*axisC.z;
+     v0=((GameClientRandomVariable*)&a)->getValue();
+     v1=((GameClientRandomVariable*)&b)->getValue();
+     v2=((GameClientRandomVariable*)&c)->getValue();
+     offset[i].x=v0*axisB.x+v1*axisC.x+v2*axisA.x;
+     offset[i].y=v0*axisB.y+v1*axisC.y+v2*axisA.y;
+     offset[i].z=v0*axisB.z+v1*axisC.z+v2*axisA.z;
      out[i].x=locs[i].X+offset[i].x;
      out[i].y=locs[i].Y+offset[i].y;
      out[i].z=locs[i].Z+offset[i].z;
