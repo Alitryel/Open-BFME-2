@@ -30,24 +30,10 @@ bool Rva000FBA0F::rva000FBA0F(bool *out, Int)
 
 // 0x00131CA5 and 0x00131D54 (texture tables beside 0x00131CDB): a new
 // 0x58-byte surface (rowed constructor 0x0013107A) at +0x14, then either the
-// +0x30/+0x34 words into its +0x44/+0x4C or the rowed loader 0x00131259 with
-// the +0x3C name.
-class Rva00131259
-{
-public:
-	virtual ~Rva00131259();
-	void rva00131259(const char *name);
-};
-class Rva0013107A : public Rva00131259
-{
-public:
-	Rva0013107A();
-	char m_pad04[0x40];
-	Int m_44;
-	Int m_48;
-	Int m_4C;
-	char m_pad50[0x08];
-};
+// +0x30/+0x34 words into its +0x44/+0x4C or the rowed loader
+// TextureAsset::Impl::PreLoad 0x00131259 with the +0x3C name. The surface
+// derives from that Impl so the loader call binds to the row's name.
+class Rva0013107A;
 //
 // Names: WorldBuilder's texture.cpp defines these three as the PreLoad of
 // TextureAsset's nested factories (Factory :1031, MissingFactory :1041,
@@ -57,6 +43,12 @@ public:
 class TextureAsset
 {
 public:
+	class Impl
+	{
+	public:
+		virtual ~Impl();
+		void PreLoad(const char *name);
+	};
 	class Factory;
 	class MissingFactory
 	{
@@ -80,6 +72,16 @@ public:
 		const char *m_3C;
 	};
 };
+class Rva0013107A : public TextureAsset::Impl
+{
+public:
+	Rva0013107A();
+	char m_pad04[0x40];
+	Int m_44;
+	Int m_48;
+	Int m_4C;
+	char m_pad50[0x08];
+};
 void TextureAsset::MissingFactory::PreLoad()
 {
 	m_impl = new Rva0013107A;
@@ -89,7 +91,7 @@ void TextureAsset::MissingFactory::PreLoad()
 void TextureAsset::RecolorFactoryDecal::PreLoad()
 {
 	m_impl = new Rva0013107A;
-	m_impl->rva00131259(m_3C);
+	m_impl->PreLoad(m_3C);
 }
 
 // 0x001E30F5: unless +0x14C is set, looks up the +0x154 name with the rowed
@@ -219,7 +221,7 @@ void TextureAsset::Factory::PreLoad()
 	m_impl->m_44 = m_30;
 	m_impl->m_4C = m_34;
 	m_impl->m_48 = m_38;
-	m_impl->rva00131259(m_18);
+	m_impl->PreLoad(m_18);
 }
 
 // 0x00105FE4 and 0x00106036: the rowed 0x00154320 (resp. 0x00154370) with
