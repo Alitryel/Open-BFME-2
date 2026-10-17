@@ -24,7 +24,11 @@ struct Rva002AF6C5Element { ~Rva002AF6C5Element(); };
 void famgenDelete(Rva002AF6C5Element *p) { delete p; }
 
 // ??_GBfmeStringHeadRecord148@@QAEPAXI@Z @0x3611d3
-class BfmeStringHeadRecord148 { public: ~BfmeStringHeadRecord148(); };
+// The 0x94-byte ObjectFilter record: its complete dtor is the row ??1Rva00360F55 (0x360FDB).
+// dllimport+forceinline: the call goes there by its row name and no stray
+// ??1BfmeStringHeadRecord148 copy is emitted (the WWLib views emit a wrong one).
+class Rva00360F55 { public: ~Rva00360F55(); };
+class BfmeStringHeadRecord148 { public: __declspec(dllimport) __forceinline ~BfmeStringHeadRecord148() { ((Rva00360F55 *)this)->~Rva00360F55(); } };
 void famgenDelete(BfmeStringHeadRecord148 *p) { delete p; }
 
 // ??_GBfmeNodeZ@@QAEPAXI@Z @0x3b4470
