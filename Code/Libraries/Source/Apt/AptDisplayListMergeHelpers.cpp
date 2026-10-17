@@ -5,19 +5,26 @@
 // The original helper spelling is unproven; callback/provider names are owned.
 class EAStringC {void *data;public:EAStringC();EAStringC(const char*);~EAStringC();EAStringC&operator=(const EAStringC&);bool IsEmpty()const;};
 class AptCIH;
-class AptValue {public:virtual void AddRef();virtual void Release();};
-class AptNativeHash {public:void Set(const EAStringC*const,AptValue*const);};
+class AptValue {public:virtual void AddRef();virtual void Release();bool isUndefined()const;};
+class Rva006DBB30SarDwordField {public:int get()const;};
+class AptNativeHash {public:void Set(const EAStringC*const,AptValue*const);AptValue *Lookup(const EAStringC*const)const;void Unset(const EAStringC*const);};
 struct AptCharacter {int type;AptCharacter *parent;char animation[8];};
-struct AptCharacterInst {char pad[12];AptCharacter *character;};
+struct AptCharacterInst {char pad[12];AptCharacter *character;int hash,unknown,frame;char rest[16];int dynamic;};
 class AptCharacterAnimation {public:void ExecuteInitActions(AptCIH*,int);};
 struct AptPlaceControl {int flags,depth,character;float matrix[6];int cxform[2];float ratio;const char *name;int clip;void *actions;};
 struct AptControl {int type;AptPlaceControl place;};
 struct AptControlInfo {int character;const float *matrix;const unsigned int *cxform;int actions;int ratio;int flags;short created,clip;};
 struct BfmeMatrix6 { int v[6]; };
 struct AptPseudoCIH_t {AptControl *control;AptControlInfo *info;AptPseudoCIH_t *next,*prev;int depth;};
-class AptCIH:public AptValue {public:char unknown04[4];EAStringC name;int matrix[6];float colors[8];int unknown44;AptCIH *parent;AptCharacterInst *inst;AptCIH *prev,*next;int depth:17;int created:14;unsigned top:1;short unknown5c;unsigned char changed;int GetDepth()const{return depth;}};
+extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char*,const char*,int);
+extern int g_bfmeAptBreakOnAssertAtDDC01C;
+void __debugbreak();
+#pragma intrinsic(__debugbreak)
+class AptCIH:public AptValue {public:char unknown04[4];EAStringC name;int matrix[6];float colors[8];int unknown44;AptCIH *parent;AptCharacterInst *inst;AptCIH *prev,*next;int depth:17;int created:14;unsigned top:1;short unknown5c;unsigned char changed;int GetDepth()const{return depth;}int GetCreatedOnFrame()const{return created;}AptCIH *GetDisplayListNext()const{return next;}bool GetASChanged()const{return (changed&1)!=0;}bool IsSpriteInstBase()const;int Type()const{return ((const Rva006DBB30SarDwordField *)this)->get();}AptCharacterInst *getSpriteInstBase()const{if(!IsSpriteInstBase()){g_bfmeAptAssertAtE17734("isSpriteInstBase()","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0x7d);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}return inst;}};
 class BfmeSubmitter1283 {public:void bfmeSubmitColors1283(int,int,int,int,int,int,int,const unsigned int*,int,int,int);};
-class AptDisplayList {public:AptCIH *rva006F91F0(AptPseudoCIH_t*,AptCIH*);__declspec(noinline) AptCIH *AddToDisplayList(AptNativeHash*,AptPseudoCIH_t*,AptCIH*);void bfmeProcess1279(void*);void rva006F9350(AptNativeHash*,AptCIH*,AptPseudoCIH_t*,AptCIH*);};
+struct AptDisplayListState {AptCIH *head;};
+class AptPseudoDisplayList {public:AptPseudoCIH_t *head;AptCIH *parent;};
+class AptDisplayList {public:AptDisplayListState *state;AptCIH *rva006F91F0(AptPseudoCIH_t*,AptCIH*);__declspec(noinline) AptCIH *AddToDisplayList(AptNativeHash*,AptPseudoCIH_t*,AptCIH*);void bfmeProcess1279(void*);__declspec(noinline) void rva006F9350(AptNativeHash*,AptCIH*,AptPseudoCIH_t*,AptCIH*);void mergeState(AptPseudoDisplayList*,AptNativeHash*,bool);};
 AptCIH *AptDisplayList::rva006F91F0(AptPseudoCIH_t *item,AptCIH *parent)
 {
  EAStringC name;
@@ -50,10 +57,6 @@ AptCIH *AptDisplayList::AddToDisplayList(AptNativeHash *hash,AptPseudoCIH_t *ite
  return result;
 }
 
-extern void (__cdecl *g_bfmeAptAssertAtE17734)(const char*,const char*,int);
-extern int g_bfmeAptBreakOnAssertAtDDC01C;
-void __debugbreak();
-#pragma intrinsic(__debugbreak)
 void bfmeUnpackTwoColors1280(float*,const unsigned int*);
 // Native6F9350..6F940A replaces a pseudo item, unless an unchanged-character
 // placement can update the original CIH's colors/matrix in place.
@@ -80,3 +83,91 @@ void AptDisplayList::rva006F9350(AptNativeHash *hash,AptCIH *original,AptPseudoC
  }
 }
 
+// Donor 34e2ed58628fb991 AptDisplayList depth-ordered merge semantics; native
+// 6F9410..6F97A9 asserts pNewControl == NULL at AptDisplayList.cpp:0x6C7 and is
+// the old PlaceObject2-only flow. Native E8 targets: 6DC010/6DBB30 AptValue
+// undefined/type (6DBB30 via its rowed accessor), 6CFCD0 sprite predicate, 6F67E0 type map, 6F7230 removal,
+// 6F7090 unlink, 6E2B40 finish, 70B380/70B2C0 name hash lookup/unset.
+class BfmeNestedBE;
+BfmeNestedBE *bfmeUnlinkNestedBE(BfmeNestedBE*);
+class BfmeNode1279 {public:void bfmeFinish1279();};
+int Rva006F67E0(int);
+class AptCIHHashOwner {public:virtual void v00();virtual void v01();virtual void v02();virtual AptNativeHash *Hash();};
+void AptDisplayList::mergeState(AptPseudoDisplayList *incoming,AptNativeHash *hash,bool ahead)
+{
+ AptPseudoCIH_t *control=incoming->head->next;
+ AptCIH *current=state->head->next;
+ while(current)
+ {
+  if(current->GetDepth()>=16384)
+  {
+   while(control && control->depth<current->GetDepth()){if(control->control->type==3)AddToDisplayList(hash,control,incoming->parent);control=control->next;}
+   if(!(control==0))
+   {
+    g_bfmeAptAssertAtE17734("pNewControl == NULL","C:\\projects\\bfme2patch103\\bfme2\\Code\\Libraries\\Source\\Apt\\AptDisplayList.cpp",0x6c7);
+    if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();
+   }
+   break;
+  }
+  if(control && control->depth==current->GetDepth())
+  {
+   if(!current->isUndefined() && (current->Type()==13 || current->Type()==18) && current->getSpriteInstBase()->dynamic){current=current->GetDisplayListNext();control=control->next;continue;}
+   AptCIH *next=current->GetDisplayListNext();
+   if(control->control->type==3)
+   {
+    if(control->info && (control->info->created==current->GetCreatedOnFrame() || current->Type()==18))
+    {
+     if(control->info->character==0)
+     {
+      if(!current->GetASChanged())
+      {
+       if(control->info->flags&8)bfmeUnpackTwoColors1280(current->colors,control->info->cxform);
+       if(control->info->flags&4)*(BfmeMatrix6 *)(void *)current->matrix=*(const BfmeMatrix6 *)(const void *)control->info->matrix;
+      }
+     }
+     else
+     {
+      int mappedType=Rva006F67E0(((AptCharacter *)control->info->character)->type);
+      if((current->Type()==mappedType && (AptCharacter *)control->info->character==current->inst->character && control->info->created==current->GetCreatedOnFrame())||current->Type()==18)
+      {
+       if(!current->GetASChanged())
+       {
+        if(control->info->flags&8)bfmeUnpackTwoColors1280(current->colors,control->info->cxform);
+        if(control->info->flags&4)*(BfmeMatrix6 *)(void *)current->matrix=*(const BfmeMatrix6 *)(const void *)control->info->matrix;
+       }
+      }
+      else rva006F9350(hash,current,control,incoming->parent);
+     }
+    }
+    else rva006F9350(hash,current,control,incoming->parent);
+   }
+   else bfmeProcess1279(current);
+   control=control->next;
+   current=next;
+  }
+  else if(control==0 || control->depth>current->GetDepth())
+  {
+   AptCIH *next=current->GetDisplayListNext();
+   if(!ahead)
+   {
+    if(!current->isUndefined())
+    {
+     if(current->parent)
+     {
+      AptNativeHash *lookup=((AptCIHHashOwner *)current->parent)->Hash();
+      EAStringC &key=current->name;
+      if(!key.IsEmpty() && lookup && lookup->Lookup(&key)==current)lookup->Unset(&key);
+     }
+     bfmeUnlinkNestedBE((BfmeNestedBE *)current);
+     ((BfmeNode1279 *)current)->bfmeFinish1279();
+    }
+   }
+   current=next;
+  }
+  else
+  {
+   while(control){if(control->depth>=current->GetDepth())break;if(control->control->type==3)AddToDisplayList(hash,control,incoming->parent);control=control->next;}
+  }
+ }
+ if(control){while(control){if(control->control->type==3)AddToDisplayList(hash,control,incoming->parent);control=control->next;}}
+}
