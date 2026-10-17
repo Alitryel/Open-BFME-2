@@ -37,3 +37,7 @@ _variant_t::_variant_t(long value,unsigned short tag)
 namespace _com_util {
  void CheckError(long hr) {if(hr<0)_com_issue_error(hr);}
 }
+
+// Native 654830..654841: VariantClear followed by the HRESULT check.
+extern "C" __declspec(dllimport) long __stdcall VariantClear(void*);
+_variant_t::~_variant_t() {_com_util::CheckError(VariantClear(this));}
