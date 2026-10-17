@@ -15859,3 +15859,4 @@ _D3DXLoadSurfaceFromFileInMemory@36,0x0062AF80,Native separate-alpha loader REL3
 ??1?$_List_base@PAVW3DProjectedShadow@@V?$allocator@PAVW3DProjectedShadow@@@_STL@@@_STL@@QAE@XZ,0x004EC395,ICF-folded STLport pointer-list helper called by 0x0010BE72 fold-proof=Code/GameEngineDevice/Source/W3DDevice/GameClient/Shadow/Rva0010C785TimedDecals.cpp
 ?rva00034D10@GeneralAllocator@Allocator@EA@@QAEPAXH_NPAXI@Z,0x00034D10,callee of ?rva000353B0@GeneralAllocator@Allocator@EA@@QAEPAXPAXH_N0I@Z
 ?rva00032B00@GeneralAllocator@Allocator@EA@@QAEPAXI@Z,0x00032B00,callee of ?rva000332D0@GeneralAllocator@Allocator@EA@@QAE_NPAXI_N100@Z
+?registerBuildable@Rva004EC276@@QAEXPAX@Z,0x004EC83F,retracted placeholder row; pin keeps InGameSimpleHelp resolved
