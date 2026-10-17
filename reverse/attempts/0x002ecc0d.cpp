@@ -1,6 +1,10 @@
 // ?rva002ECC0D@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
+// partial score=0.938 date=2026-10-17
+// ?rva002ECC0D@Pathfinder@@QAE_NPAVObject@@PBUCoord3D@@@Z
 // partial score=0.93 date=2026-10-12
 // cl: /ICode/Libraries/Include/Lib /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 //
 #include "Coord3D.h"
 
@@ -144,23 +148,26 @@ Bool Pathfinder::rva002ECC0D(Object *obj, const Coord3D *pos)
 			!flag, extent - 1, obj->rva0028AFBB());
 
 		Int start = -info.radius;
-		Int i = start;
 		Int j = start;
-		while (i < info.radius)
+		Int i = start;
+		while ((i < info.radius) ? true : false)
 		{
-			j = (start ? start : start);
+			Int cur = i;
+			j = (cur ? cur : cur);
 			if (j < info.radius)
 			{
-				Int x = info.cell.x + i;
+				Int x = *(volatile Int *)&info.cell.x + cur;
+				Int y0 = info.cell.y;
 				do
 				{
-					PathfindCell *c = getCell(info.layer, x, (start ? (info.cell.y + j) : (info.cell.y + j)));
+					Int jj = j;
+					PathfindCell *c = getCell(info.layer, x, y0 + jj);
 					if (c == 0)
 						return false;
 					if (!reinterpret_cast<Rva002E6DC4 *>(this)->rva002E6DC4(&loco, c))
 						return false;
-					j++;
-				} while (j < info.radius);
+					j = jj + 1;
+				} while (j < *(volatile Int *)&info.radius);
 			}
 			i++;
 		}
