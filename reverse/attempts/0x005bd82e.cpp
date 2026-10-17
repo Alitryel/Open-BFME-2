@@ -1,10 +1,6 @@
 // ?StartPatchCheck@@YAXXZ
-// partial score=0.99 date=2026-10-17
-// ?StartPatchCheck@@YAXXZ
-// partial score=0.9423 date=2026-10-13
-// ?StartPatchCheck@@YAXXZ
-// partial score=0.97 date=2026-10-08
-// cl: /O1 /Oa /G7 /arch:SSE /MD /EHs /DNDEBUG /Ireference/shims/bfme2_ascii /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /ICode/GameEngine/Source/Common
+// partial score=0.97 date=2026-10-17
+// cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_STLP_NO_EXCEPTIONS /ICode/GameEngine/Source/Common
 // stlport
 // BFME1 34f59164 MainMenuUtils.cpp is the primary reference.
 // WB158CC80 names startOnline and MainMenuUtils.cpp; native5BC887..5BCA60
@@ -15,8 +11,19 @@
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include <list>
-#include <string>
-class QueuedDownload { public: AsciiString server,userName,password,file,localFile,regKey;bool tryResume; };
+
+// _List_iterator comparisons otherwise instantiate the base-class
+// operator!= COMDAT (one byte shape per TU flags); exact-match free
+// overloads take those calls instead so this TU emits no external copy.
+namespace _STL {
+template <class _IterTp, class _LeftTraits, class _RightTraits>
+static inline bool operator!=(const _List_iterator<_IterTp, _LeftTraits> &a,
+                              const _List_iterator<_IterTp, _RightTraits> &b)
+{ return a._M_node != b._M_node; }
+}
+class QueuedDownload { public: AsciiString server,userName,password,file,localFile,regKey;bool tryResume;
+ // ?QueuedDownload::QueuedDownload present-unmatched
+ QueuedDownload() {} QueuedDownload(const QueuedDownload &); ~QueuedDownload(); };
 extern unsigned int g_Va00E0657C;
 #include "MainMenuOnlineState.h"
 #define online g_mainMenuOnlineState
@@ -25,7 +32,7 @@ class GameTextInterface {public:
 virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void v7();virtual void v8();virtual void v9();virtual void v10();virtual void v11();virtual void v12();virtual void v13();virtual void v14();virtual UnicodeString fetch(const char *,bool *exists=0);};
 extern GameTextInterface *TheGameText;
 class GameWindow;
-GameWindow *MessageBoxOk(UnicodeString,UnicodeString,void (*)());
+void MessageBoxOk(UnicodeString,UnicodeString,void (*)());
 void MessageBoxOkCancel(UnicodeString,UnicodeString,void (*)(),void (*)());
 void MessageBoxYesNo(UnicodeString,UnicodeString,void (*)(),void (*)());
 void b_00042a50();void Rva00516E92Enable();bool hasWriteAccess();
@@ -145,61 +152,6 @@ GHTTPBool configCallback(int request,GHTTPResult result,char *buffer,__int64 buf
  return GHTTPTrue;
 }
 
-// BFME1 34f59164 configHeadCallback; native 5BCC77..5BCFFB (900B). A
-// cached Config.txt of the advertised Content-Length is reloaded through
-// TheFileSystem (its size from File::size) instead of fopen; otherwise the
-// config is fetched blocking, as BFME2 passes GHTTPTrue to ghttpGet. The
-// second open reuses the first fname (native 5BCE39 reads it, not the new
-// one). /EHs: retail keeps EH states around the url strings' C free calls
-// (5BCF20..5BCF62). /Oa: the donor's state is file-static, so retail loads
-// File's vftable before storing the config pointer (5BCF83..5BCF8A).
-extern "C" const char *__cdecl ghttpGetHeaders(int request);
-typedef GHTTPBool (*ghttpCompletedCallback)(int,GHTTPResult,char *,__int64,void *);
-extern "C" int __cdecl ghttpGetA(const char *URL,GHTTPBool blocking,ghttpCompletedCallback completedCallback,void *param);
-namespace MainMenuCRT { extern "C" __declspec(dllimport) int __cdecl atoi(const char *); }
-void FormatURLFromRegistry(_STL::string &gameURL,_STL::string &mapURL,_STL::string &configURL,_STL::string &motdURL);
-GHTTPBool configHeadCallback(int request,GHTTPResult result,char *buffer,__int64 bufferLen,void *param)
-{
- if((int)param!=online.run)return GHTTPTrue;
- if(result==GHTTPSuccess){
-  AsciiString headers(ghttpGetHeaders(request));
-  AsciiString line;
-  while(headers.nextToken(&line,"\n\r")){
-   AsciiString key,val;
-   line.nextToken(&key,": ");
-   line.nextToken(&val,": \r\n");
-   if(key.compare("Content-Length")==0 && !val.isEmpty()){
-    int serverLen=MainMenuCRT::atoi(val.str());
-    int fileLen=0;
-    AsciiString fname;
-    fname.format("%s%s\\Config.txt",TheWritableGlobalData->rva002360DE().str(),"Online Files");
-    File *fp=TheFileSystem->openFile(fname.str(),0x41,0);
-    if(fp){fileLen=fp->size();fp->close();}
-    if(serverLen==fileLen){
-     --online.checks;
-     if(online.cancel && online.checks==0){b_00042a50();online.cancel=false;}
-     if(online.config){delete[] online.config;online.config=0;}
-     AsciiString fname2;
-     fname2.format("%s%s\\Config.txt",TheWritableGlobalData->rva002360DE().str(),"Online Files");
-     fp=TheFileSystem->openFile(fname.str(),0x41,0);
-     if(fp){
-      fp->read(online.config=new char[fileLen],fileLen);
-      online.config[fileLen-1]=0;
-      fp->close();
-      if(online.checks==0)startOnline();
-      return GHTTPTrue;
-     }
-    }
-   }
-  }
- }
- _STL::string gameURL,mapURL;
- _STL::string configURL,motdURL;
- FormatURLFromRegistry(gameURL,mapURL,configURL,motdURL);
- ghttpGetA(configURL.c_str(),GHTTPTrue,configCallback,param);
- return GHTTPTrue;
-}
-
 // BFME1 34f59164 CancelPatchCheckCallback; native 5BCFFB..5BD060 (101B).
 // BFME2 has no cancel window: it re-enables the menu, clears the checking
 // state and closes the pending dialog through the cancel flag.
@@ -224,6 +176,108 @@ void CancelPatchCheckCallbackAndReopenDropdown()
  CancelPatchCheckCallback();
 }
 
+// Complete named list providers5BC6D3/5BC6FE share the MainMenu O1/G7 settings.
+// The former byte-footprint views are removed from the generic list units.
+
+
+namespace _STL {template <> void _Construct<QueuedDownload>(QueuedDownload *,const QueuedDownload &);}
+template <> _STL::_List_node<QueuedDownload> *_STL::list<QueuedDownload>::_M_create_node(const QueuedDownload &x){
+ _STL::_List_node<QueuedDownload> *p=(_STL::_List_node<QueuedDownload> *)_STL::allocator<char>::allocate(sizeof(_STL::_List_node<QueuedDownload>),0);
+ _STL::_Construct(&p->_M_data,x);return p;
+}
+template _STL::list<QueuedDownload>::iterator _STL::list<QueuedDownload>::insert(_STL::list<QueuedDownload>::iterator,const QueuedDownload &);
+
+// BFME1 MainMenu downloader donor and WB158C240 source identity.
+// Native5BD0A7..5BD1F1 is the complete330-byte body. Named copy131 and
+// owned download/list providers preserve the native queue draining order.
+extern template void _STL::list<QueuedDownload>::pop_front();
+class DownloadManager {public:
+ void queueFileForDownload(AsciiString,AsciiString,AsciiString,AsciiString,AsciiString,AsciiString,bool);
+ long downloadNextQueuedFile();
+};
+extern DownloadManager *TheDownloadManager;
+class WindowLayout {public:
+ virtual void runInit(void *);
+ virtual void slot04();virtual void slot08();virtual void slot0C();
+ virtual void hide(bool);virtual void bringForward();
+};
+class GameWindowManager {public:
+#define SLOT(N) virtual void slot##N();
+ SLOT(00) SLOT(01) SLOT(02) SLOT(03) SLOT(04) SLOT(05) SLOT(06) SLOT(07) SLOT(08) SLOT(09)
+ SLOT(10) SLOT(11) SLOT(12) SLOT(13) SLOT(14) SLOT(15) SLOT(16) SLOT(17) SLOT(18) SLOT(19)
+ SLOT(20) SLOT(21) SLOT(22) SLOT(23) SLOT(24) SLOT(25) SLOT(26) SLOT(27) SLOT(28) SLOT(29) SLOT(30) SLOT(31)
+#undef SLOT
+ virtual WindowLayout *winCreateLayout(AsciiString);
+};
+extern GameWindowManager *TheWindowManager;
+void Rva00516E92Enable();
+void StartDownloadingPatches()
+{
+ if(downloads.empty()){Rva00516E92Enable();return;}
+ WindowLayout *layout=TheWindowManager->winCreateLayout("Menus/DownloadMenu.wnd");
+ layout->runInit(0);layout->hide(false);layout->bringForward();
+ Rva00516E92Enable();
+ if(!TheDownloadManager)return;
+ _STL::list<QueuedDownload>::iterator it=downloads.begin();
+ while(it!=downloads.end()){
+  QueuedDownload q=*it;
+  TheDownloadManager->queueFileForDownload(q.server,q.userName,q.password,q.file,q.localFile,q.regKey,q.tryResume);
+  downloads.pop_front();it=downloads.begin();
+ }
+ TheDownloadManager->downloadNextQueuedFile();
+}
+
+
+// BFME1 queuePatch is the primary parser guide. Retail5BD1F1..5BD425
+// confirms the native FTP fallback strings and duplicate local-file check.
+// The local unused mandatory parameter is optimized out with its caller.
+namespace MainMenuCRT {extern "C" __declspec(dllimport) int __cdecl atoi(const char *);}
+
+static void queuePatch(bool mandatory,AsciiString downloadURL){
+ QueuedDownload q;bool success=true;
+ AsciiString connectionType;success &= downloadURL.nextToken(&connectionType,":");
+ AsciiString server;success &= downloadURL.nextToken(&server,":/");
+ AsciiString user;success &= downloadURL.nextToken(&user,":@");
+ AsciiString pass;success &= downloadURL.nextToken(&pass,"@/");
+ AsciiString filePath;success &= downloadURL.nextToken(&filePath,"");
+ if(!success && !user.isEmpty()){filePath=user;user="anonymous";pass="ccgenerals";success=true;}
+ AsciiString fileStr=filePath;const char *slash=((const StringBase<char> &)(filePath)).reverseFind('/');if(slash)fileStr=slash+1;
+ AsciiString fileName="patches\\";fileName.concat(fileStr);
+ if(!success)return;
+ q.file=filePath;q.localFile=fileName;q.password=pass;q.regKey="";q.server=server;q.tryResume=true;q.userName=user;
+ _STL::list<QueuedDownload>::iterator it=downloads.begin();
+ while(it!=downloads.end()){if(it->localFile==q.localFile)return;++it;}
+ downloads.push_back(q);
+}
+
+GHTTPBool gamePatchCheckCallback(int request,GHTTPResult result,char *buffer,__int64 bufferLen,void *param){
+ if((int)param!=online.run)return GHTTPTrue;
+ --online.checks;
+ if(result!=GHTTPSuccess){
+  if(!online.checking)return GHTTPTrue;
+  online.cantConnect=true;
+  if(!online.checks)startOnline();
+  return GHTTPTrue;
+ }
+ AsciiString message=buffer,line;
+ while(message.nextToken(&line,"\r\n")){
+  AsciiString type,req,url;bool ok=true;
+  ok &= line.nextToken(&type," ");
+  ok &= line.nextToken(&req," ");
+  ok &= line.nextToken(&url," ");
+  if(ok && type.compare("patch")==0){
+   queuePatch(MainMenuCRT::atoi(req.str()),url);
+   if(MainMenuCRT::atoi(req.str()))online.mustDownload=true;
+  }else if(ok && type.compare("server")==0){}
+ }
+ if(!online.checks)startOnline();
+ return GHTTPTrue;
+}
+
+
+
+
+
 // BFME1 34f59164 StartPatchCheck; native 5BD82E..5BD910 (226B). BFME2 shows
 // the checking dialog as an untitled MessageBoxOk, takes the host to look up
 // from the registry's online server URL (InternetCrackUrlA) and runs the
@@ -238,16 +292,16 @@ extern "C" __declspec(dllimport) int __stdcall InternetCrackUrlA(const char *url
 extern "C" void *__cdecl memset(void *,int,unsigned);
 const char *GetRegistryOnlineServer();
 int Rva005BC4CEStart(int hostName);
-void reallyStartPatchCheck();
+void rva005BD6A7();
 void StartPatchCheck()
 {
- *(volatile unsigned char*)0x00E06574=1;
- online.cancel=true;
+ *(volatile bool *)&online.cancel=true;
+ online.checking=true;
  online.cantConnect=false;
  online.checks=0;
  online.run++;
  MessageBoxOk(UnicodeString(L""),TheGameText->fetch("GUI:CheckingForPatches"),CancelPatchCheckCallbackAndReopenDropdown);
- online.checking=true;
+ g_00E06576=1;
  MainMenuUrlComponents components;
  char hostName[512];
  memset(&components,0,sizeof(components));
@@ -257,7 +311,7 @@ void StartPatchCheck()
  if(InternetCrackUrlA(GetRegistryOnlineServer(),0,0,&components)){
   switch(Rva005BC4CEStart((int)hostName)){
   case 1: break;
-  case 2: reallyStartPatchCheck(); return;
+  case 2: rva005BD6A7(); return;
   default: return;
   }
  }
