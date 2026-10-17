@@ -11,21 +11,42 @@
 // retail, following SkirmishGameInfoDtor.cpp's established virtual ABI pattern.
 // STLport semantics: BFME1 donor0bef414b52a39a3ab1ec98dca60d8a214de4260e.
 // Existing callee names are retained; opaque record names preserve uncertainty.
-#include <string>
-#include <map>
-
-// __malloc_alloc<0> allocate/deallocate otherwise instantiate per-TU
-// COMDATs (one byte shape per TU malloc/free wiring); explicit
-// dllimport+forceinline specializations take those calls inline so this
-// TU emits no external copies.
+// Only destruction is used here. These views preserve STLport 4.5.3's
+// three-word string/map storage without instantiating unrelated allocator
+// helpers. The narrow string release is the already verified 14-byte body
+// at 0x00142D70 (stlport_narrow_num_get_double.cpp); the real map destructor
+// at 0x0038A5D1 is supplied by Rva0055011ACtor.cpp. Native parent accesses
+// and its complete EH graph independently constrain all member offsets.
 namespace _STL {
-template <> __declspec(dllimport) __forceinline
-void *__malloc_alloc<0>::allocate(size_t __n)
-{ void *__r = malloc(__n); if (!__r) __r = _S_oom_malloc(__n); return __r; }
-template <> __declspec(dllimport) __forceinline
-void __malloc_alloc<0>::deallocate(void *__p, size_t)
-{ free((char *)__p); }
+extern "C" void __cdecl free(void *);
+template <class T> class char_traits {};
+template <class T> class allocator {};
+template <class Char, class Traits = char_traits<Char>, class Alloc = allocator<Char> >
+class basic_string {
+    Char *m_start, *m_finish, *m_storageEnd;
+public:
+    __forceinline ~basic_string() { if (m_start) free(m_start); }
+};
+template <class T> struct less {};
+template <class First, class Second> struct pair;
+template <class Pair> struct _Select1st;
+template <class Key, class Value, class Extract, class Compare, class Alloc>
+class _Rb_tree {
+    void *m_storage[3];
+public:
+    ~_Rb_tree();
+};
+template <class Key, class Value, class Compare = less<Key>,
+    class Alloc = allocator<pair<const Key, Value> > >
+class map {
+    _Rb_tree<Key, pair<const Key, Value>, _Select1st<pair<const Key, Value> >,
+        Compare, Alloc> m_tree;
+public:
+    ~map() {}
+};
+typedef basic_string<char> string;
 }
+namespace std = _STL;
 class ThreadClass { public: virtual ~ThreadClass(); private: char pad[0x50]; };
 struct BfmeOpaqueOwnedRecord492 { ~BfmeOpaqueOwnedRecord492(); char bytes[492]; };
 struct Rva00388EAE { ~Rva00388EAE(); char bytes[12]; };
