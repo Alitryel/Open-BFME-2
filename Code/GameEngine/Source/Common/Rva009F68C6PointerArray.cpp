@@ -3,9 +3,8 @@
 
 // BFME releases this array through the CRT free import thunk at 0x00628F98
 // (jmp [msvcr71.dll!free]), not through the game's own _free at 0x00030830.
-// The thunk row is ?ji_00628F98@@YAXXZ (void(void)); it forwards the caller's
-// stack to CRT free, so the pushed pointer is passed through a cast.
-void __cdecl ji_00628f98();
+// CrtFree is the typed project name for this existing PE-proven import veneer.
+void __cdecl CrtFree(void *block);
 
 class Rva009F68C6PointerArray
 {
@@ -21,7 +20,7 @@ private:
 void Rva009F68C6PointerArray::RemoveAll()
 {
 	if (values != 0) {
-		((void (__cdecl *)(void *))&ji_00628f98)(values);
+		CrtFree(values);
 		values = 0;
 	}
 	count = 0;
