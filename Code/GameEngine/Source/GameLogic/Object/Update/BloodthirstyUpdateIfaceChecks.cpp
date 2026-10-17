@@ -276,24 +276,6 @@ bool BloodthirstyUpdate::isValidSacrifice(Object *obj)
 	return false;
 }
 
-void BloodthirstyUpdate::addSacrifice(Object *victim)
-{
-	Object *self = m_object;
-	if (victim == 0)
-		return;
-	Object *resolved = victim->rva002931F5(false);
-	if (resolved == 0)
-		return;
-	if (!isValidSacrifice(victim))
-		return;
-	++m_kills;
-	if (m_kills == 1)
-		resolved->setModelConditionStateForHorde(MODELCONDITION_40);
-	self->rva002931F5(false)->rva00294C1A(victim, true, m_moduleData->m_0C);
-	Rva250Module *module = resolved->getRva250();
-	if (module && module->rvaSlot69(0) == 1)
-		cancelSacrifice();
-}
 
 void BloodthirstyUpdate::cancelSacrifice()
 {
