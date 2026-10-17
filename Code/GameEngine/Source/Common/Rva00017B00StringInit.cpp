@@ -36,6 +36,9 @@ typedef basic_string<BfmeWChar, char_traits<BfmeWChar>, allocator<BfmeWChar> > B
 }
 
 #include <new>
+// bfme link decl-only begin
+namespace _STL { template <> basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> >::basic_string(basic_string<unsigned short, char_traits<unsigned short>, allocator<unsigned short> > const &); }
+// bfme link decl-only end
 
 // g_009DEEF0Static: matched references place it at VA 0xddeef0; zero-filled at retail, sized to the
 // 0xc-byte gap before the next known global there.

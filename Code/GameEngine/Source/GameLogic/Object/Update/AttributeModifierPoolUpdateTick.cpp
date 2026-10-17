@@ -15,6 +15,9 @@ extern "C" void _ReadWriteBarrier(void);
 #include <vector>
 #include "ascii_string.h"
 #include "GameEngine/Source/Common/GameLogicObjectLookupView.h"
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
 extern GameLogic *TheGameLogic;
 class Rva001E42F2 {public:void rva001E42F2(const int *);};

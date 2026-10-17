@@ -15,6 +15,9 @@
 #include <memory>
 #include <vector>
 #include <string>
+// bfme link decl-only begin
+namespace _STL { template <> vector<unsigned int, allocator<unsigned int> > * uninitialized_fill_n<vector<unsigned int, allocator<unsigned int> > *, unsigned int, vector<unsigned int, allocator<unsigned int> > >(vector<unsigned int, allocator<unsigned int> > *, unsigned int, vector<unsigned int, allocator<unsigned int> > const &); }
+// bfme link decl-only end
 
 class RvaSmartPtr12
 {

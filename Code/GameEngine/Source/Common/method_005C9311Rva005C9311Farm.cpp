@@ -3,6 +3,9 @@
 // stlport
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned int const & max<unsigned int>(unsigned int const &, unsigned int const &); }
+// bfme link decl-only end
 extern "C" __declspec(dllimport) double __cdecl ceil(double);
 struct FloatPair{FloatPair(){}FloatPair(float a,float b):x(a),y(b){}FloatPair(const FloatPair&p):x(p.x),y(p.y){}~FloatPair(){}float x,y;};
 class Rva005C8176{public:void*rva005C8176(FloatPair);};

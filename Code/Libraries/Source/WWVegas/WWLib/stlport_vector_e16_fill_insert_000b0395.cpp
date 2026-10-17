@@ -12,6 +12,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 }
 #include <vector>
 #include "../../../Include/Lib/BfmeE16.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
+// bfme link decl-only end
 // Suppress this TU's non-retail BfmeE16 proxy deallocate copy (family2-LK3 row 34):
 // the kept copy serves the link. Plain declaration-only form (no __imp_).
 namespace _STL {

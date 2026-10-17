@@ -29,6 +29,9 @@ template<> void _Construct<Rva0040CB11Entry, Rva0040CB11Entry>(Rva0040CB11Entry 
 template<> void _Destroy<Rva0040CB11Entry *>(Rva0040CB11Entry *, Rva0040CB11Entry *);
 }
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<Rva0040CB11Entry, Rva0040CB11Entry>(Rva0040CB11Entry *, Rva0040CB11Entry const &); }
+// bfme link decl-only end
 template <>
 inline void _STL::vector<Rva0040CB11Entry, _STL::allocator<Rva0040CB11Entry> >::reserve(size_type __n)
 {

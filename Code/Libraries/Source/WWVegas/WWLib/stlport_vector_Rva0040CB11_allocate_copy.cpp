@@ -38,6 +38,9 @@ namespace _STL {
 template<> void _Construct<Rva0040CB11Entry, Rva0040CB11Entry>(Rva0040CB11Entry *, const Rva0040CB11Entry &);
 }
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<Rva0040CB11Entry, Rva0040CB11Entry>(Rva0040CB11Entry *, Rva0040CB11Entry const &); }
+// bfme link decl-only end
 template<> void _STL::vector<Rva0040CB11Entry, _STL::allocator<Rva0040CB11Entry> >::_M_clear();
 // STLport 4.5.3 _vector.h at BFME 1 donor 6583b3c1ff21db4a561285717028fdafc780b7db.
 // Retail 0x004F8EAF..0x004F8F61: five arguments / ret 0x14; eight-byte

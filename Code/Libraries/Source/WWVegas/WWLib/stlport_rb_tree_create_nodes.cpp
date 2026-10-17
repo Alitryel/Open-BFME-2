@@ -245,6 +245,10 @@ template class _STL::_Rb_tree<int,_STL::pair<int const ,BfmePod24>,_STL::_Select
 template class _STL::_Rb_tree<int,_STL::pair<int const ,BfmePod52>,_STL::_Select1st<_STL::pair<int const ,BfmePod52> >,_STL::less<int>,_STL::allocator<_STL::pair<int const ,BfmePod52> > >;
 
 #include "ascii_string.h"
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<BfmeE16, BfmeE16>(BfmeE16 *, BfmeE16 const &); }
+namespace _STL { template <> _Rb_tree_base<pair<int const, BfmePod24>, allocator<pair<int const, BfmePod24> > >::_Rb_tree_base(allocator<pair<int const, BfmePod24> > const &); }
+// bfme link decl-only end
 
 // ?rva00417DFB@Rva00417DFB@@QAEXPAVINI@@PAX@Z @0x00417DFB 234B
 // Bitstring-list INI driver, same shape as the KindOf driver Rva00256499

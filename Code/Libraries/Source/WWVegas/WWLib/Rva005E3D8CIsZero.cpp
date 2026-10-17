@@ -23,6 +23,9 @@ struct SBServer
 };
 
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> void _Construct<pair<int const, SBServer>, pair<int const, SBServer> >(pair<int const, SBServer> *, pair<int const, SBServer> const &); }
+// bfme link decl-only end
 
 // Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper.
 namespace _STL {

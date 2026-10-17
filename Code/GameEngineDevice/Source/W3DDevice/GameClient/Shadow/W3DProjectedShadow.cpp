@@ -65,6 +65,9 @@
 #include "W3DDevice/GameClient/W3DShadow.h"
 #include "W3DDevice/GameClient/Heightmap.h"
 #include "ref_ptr.h"
+// bfme link decl-only begin
+template <> RefCountPtr<TextureClass> const & RefCountPtr<TextureClass>::operator=(RefCountPtr<TextureClass> const &);
+// bfme link decl-only end
 // Retail's RefCountPtr<TextureClass>::operator= (0x000424D0, rowed in
 // TextureStatisticsVector.cpp) releases through TextureBaseClass::Release_Ref
 // out of line; this unit's headers would inline RefCountClass's instead, so

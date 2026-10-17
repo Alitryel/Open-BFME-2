@@ -35,6 +35,11 @@ private:
 };
 
 #include <map>
+// bfme link decl-only begin
+namespace _STL { template <> void _Destroy<pair<long const, LadderPref> >(pair<long const, LadderPref> *); }
+namespace _STL { template <> _Rb_tree<long, pair<long const, LadderPref>, _Select1st<pair<long const, LadderPref> >, less<long>, allocator<pair<long const, LadderPref> > >::~_Rb_tree(); }
+namespace _STL { template <> void _Rb_tree<long, pair<long const, LadderPref>, _Select1st<pair<long const, LadderPref> >, less<long>, allocator<pair<long const, LadderPref> > >::_M_erase(_Rb_tree_node<pair<long const, LadderPref> > *); }
+// bfme link decl-only end
 
 class Rva00360D26Member
 {

@@ -16,6 +16,9 @@ static inline const unsigned int &max(const unsigned int &a, const unsigned int 
 #pragma optimize("", on)
 
 #include <vector>
+// bfme link decl-only begin
+namespace _STL { template <> unsigned char * allocator<unsigned char>::allocate(unsigned int, void const *) const; }
+// bfme link decl-only end
 
 
 
