@@ -299,19 +299,9 @@ UnicodeString getUnicodeTimeBuffer(SYSTEMTIME timeVal)
 // ------------------------------------------------------------------------------------------------
 /** Reset */
 // ------------------------------------------------------------------------------------------------a
-// ?reset@GameState@@ present-unmatched
-void GameState::reset( void )
-{
-
-	// clear the post process snapshot list
-	m_snapshotPostProcessList.clear();
-
-	// clear any available game 
-	clearAvailableGames();
-
-	m_isInLoadGame = FALSE;
-
-}  // end reset
+// GameState::reset is retail 0x002DEE9A (rowed in Rva002DEE9AClear.cpp): BFME2
+// clears two lists, runs 0x002DE311 and zeroes +0xE18. The Zero Hour body that
+// stood here is not retail's and would be the copy the link keeps.
 
 // ------------------------------------------------------------------------------------------------
 /** Clear any available games entries */
