@@ -10,7 +10,18 @@
 
 // Retail vtable VA 0x0087B6AC (packet: no name yet). Referenced, never emitted
 // here, so this TU contributes no vftable and no ??_G of its own.
-extern const void *const g_00C7B6AC[];
+// The retail table at RVA 0x0087B6AC: 3 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GThreadClass@@UAEPAXI@Z")();
+void __identifier("?Execute@ThreadClass@@UAEXXZ")();
+int __cdecl _purecall(void);
+}
+extern const void *const g_00C7B6AC[3] = {
+	(const void *)&__identifier("??_GThreadClass@@UAEPAXI@Z"), // slot 0 0x00610620
+	(const void *)&__identifier("?Execute@ThreadClass@@UAEXXZ"), // slot 1 0x006104B0
+	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
+};
 
 class __declspec(novtable) ThreadClass
 {
