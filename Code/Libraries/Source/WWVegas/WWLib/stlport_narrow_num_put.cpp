@@ -56,6 +56,8 @@ namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > _M_do
 namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > __put_integer<ostreambuf_iterator<char, char_traits<char> > >(char *, char *, ostreambuf_iterator<char, char_traits<char> >, ios_base &, int, char); }
 namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > num_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, void const *) const; }
 namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > num_put<char, ostreambuf_iterator<char, char_traits<char> > >::do_put(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, bool) const; }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > _M_do_put_float<char, ostreambuf_iterator<char, char_traits<char> >, long double>(ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, long double); }
+namespace _STL { template <> ostreambuf_iterator<char, char_traits<char> > __put_float<ostreambuf_iterator<char, char_traits<char> > >(char *, char *, ostreambuf_iterator<char, char_traits<char> >, ios_base &, char, char, char, const basic_string<char, char_traits<char>, allocator<char> > &); }
 // bfme link decl-only end
 // __copy_integer_and_fill<char> is owned by stlport_narrow_copy_integer_and_fill.cpp.
 // This unit's copy is not retail's and inlined sputc into an out-of-line
@@ -82,3 +84,8 @@ template class _STL::num_put<char, _STL::ostreambuf_iterator<char, _STL::char_tr
 // Keep the independently rowed range initializer even though the unused
 // copy constructor no longer instantiates it as a side effect.
 template void _STL::basic_string<char, _STL::char_traits<char>, _STL::allocator<char> >::_M_range_initialize<char *>(char *, char *);
+
+// The float writers are declared above (their rowed copies live in
+// stlport_narrow_num_get_double.cpp); the rowed find<char*,char> they used to
+// pull in stays emitted through this anchor.
+extern char *(*const _bfmeAnchorFindChar)(char *, char *, const char &) = &_STL::find<char *, char>;
