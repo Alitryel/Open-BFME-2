@@ -265,11 +265,19 @@ public:
 	bool shouldActivate(Object *source);	// 0x005D7D93
 };
 
+// WB names the 0x005D7558 body AISpellBookStructureBaseKill::enemyHasAFortress
+// (EA AISpellBookPowers/AISpellBookStructureBaseKill.cpp, asserts myAI/stats/
+// structureStats); its own TU holds the body.
+class AISpellBookStructureBaseKill
+{
+public:
+	bool enemyHasAFortress(Object *source);	// 0x005D7558
+};
+
 class Rva005EE816
 {
 public:
 	bool rva005EE8DD(const Coord3D *pos, Object *source);	// 0x005EE8DD
-	bool rva005D7558(Object *source);			// 0x005D7558
 	bool rva005D7D93(Object *source);			// 0x005D7D93
 	bool rva005D75BE(Object *source);
 	unsigned rva005D8C4C(Object *source);
@@ -297,7 +305,7 @@ bool Rva005EE816::rva005D75BE(Object *source)
 		if (hit)
 			return rva005EE8DD(hit->getPosition(), source);
 	}
-	return rva005D7558(source) ? false : ((AISpellBookStructureBreaker *)this)->shouldActivate(source);
+	return ((AISpellBookStructureBaseKill *)this)->enemyHasAFortress(source) ? false : ((AISpellBookStructureBreaker *)this)->shouldActivate(source);
 }
 
 // 0x005D8C4C: the corner of the square of the +0x10 radius (200 when unset) round
