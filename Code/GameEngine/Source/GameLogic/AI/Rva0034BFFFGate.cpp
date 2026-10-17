@@ -1,6 +1,9 @@
 // cl: /DNDEBUG /MD
-// ?rva0034BFFF@@YGXPAVObject@@@Z @0x0034BFFF 51B.
-// Stdcall weapon-state applier (single object arg): resolves the current
+// ?rva0034BFFF@AIChargeTargetState@@AAEXPAVObject@@@Z @0x0034BFFF 51B.
+// AIChargeTargetState::update (0x0034FE6E) calls it with the state in ECX;
+// the body never reads ECX, so the thiscall member compiles to the same
+// ret-4 bytes the earlier stdcall spelling did.
+// Weapon-state applier (single object arg): resolves the current
 // weapon through rowed getCurrentWeapon and, when present, applies the
 // rowed setStatus 0xD/1 pair plus the pinned 0x291916 hook on the +0x38
 // member. The slot temp zeroes via and (not mov).
@@ -25,7 +28,12 @@ public:
 	void fireCurrentWeapon(const Coord3D *position);
 };
 
-void __stdcall rva0034BFFF(Object *o)
+class AIChargeTargetState
+{
+	void rva0034BFFF(Object *o);
+};
+
+void AIChargeTargetState::rva0034BFFF(Object *o)
 {
 	WeaponSlotType st = WEAPONSLOT_0;
 	const Weapon *w = o->getCurrentWeapon(&st);

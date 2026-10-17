@@ -549,6 +549,16 @@ Real normalizeAngle(Real angle);
 #define COORD3D_VIEW_INLINE
 #include "../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
+// Coord3D::scale is retail's out-of-line 0x000036D1 (region.cpp); the rows
+// here inline it. Scaling through this TU-local helper keeps the inline
+// expansion without emitting a non-retail ??scale@Coord3D COMDAT copy.
+static inline void scaleInPlace(Coord3D &c, float s)
+{
+	c.x *= s;
+	c.y *= s;
+	c.z *= s;
+}
+
 // The contain module's slot 87 hands back the position an entering unit
 // walks to (BFME 1 donor: slot 82, its GetContainedObjectPosition typedef);
 // slot 86 is the donor's slot-81 getContainedObjectPosition, which
@@ -813,13 +823,20 @@ void AIFollowPathAsTeamState::onExit(StateExitType status)
 	ai->friend_setCurrentGoalPathIndex(-1);
 }
 
+// 0x003468F5: the goal-moved-past-50 test, rowed as Rva003468F5's member
+// (Rva003468F5RangeCheck.cpp); update calls it with the state in ECX.
+class Rva003468F5
+{
+public:
+	bool rva003468F5();
+};
+
 class AIChargeTargetState : public AIInternalMoveToState
 {
 public:
 	virtual void onExit(StateExitType status);
 	virtual StateReturnType update();
 private:
-	Bool rva003468F5();
 	Bool rva0034BF20();
 	void rva00346925(Object *source, Object *victim, AIUpdateInterface *ai);
 	void rva0034BFFF(Object *source);
@@ -849,7 +866,7 @@ StateReturnType AIChargeTargetState::update()
 	AIUpdateInterface *ai = source->getAI();
 	if (ai && (victim || source->isKindOf(KINDOF_BFME_84)) && m_bfmeValue50 > 0)
 	{
-		if (victim && rva003468F5() && !source->isKindOf(KINDOF_BFME_84))
+		if (victim && ((Rva003468F5 *)this)->rva003468F5() && !source->isKindOf(KINDOF_BFME_84))
 		{
 			source->rva0028AD32();
 			Coord3D goalPosition;
@@ -923,7 +940,7 @@ void AIChargeTargetState::rva00346925(Object *source, Object *victim, AIUpdateIn
 	dir.y -= source->getPosition()->y;
 	dir.z -= source->getPosition()->z;
 	dir.Normalize();
-	dir.scale(50.0f);
+	scaleInPlace(dir, 50.0f);
 	dir.add(victim->getPosition());
 	getMachine()->setGoalObject(0);
 	source->rva0028AD32();
@@ -997,7 +1014,7 @@ Bool AIAttackMeleeHordeApproachTargetState::rva00344D60(Coord3D *goal, Object *s
 	direction.z = 0.0f;
 	int count = -(int)(direction.length() * -0.05f) - 1;
 	direction.Normalize();
-	direction.scale(10.0f);
+	scaleInPlace(direction, 10.0f);
 	for (int i = 0; i < count; ++i)
 	{
 		if (TheAI->pathfinder()->IsHordeMeleeLinePassable(source, ai->getValidLocomotorSurfaces(),
@@ -1694,7 +1711,7 @@ Bool AIAttackMeleeHordeApproachTargetState::computePath()
 		{
 			delta.sub(source->getPosition());
 			delta.normalize();
-			delta.scale(source->getBoundingCircleRadius() * 0.7f);
+			scaleInPlace(delta, source->getBoundingCircleRadius() * 0.7f);
 			if (victim->rva0028B511() == 1)
 			{
 				Coord3D destination;

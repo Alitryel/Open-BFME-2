@@ -62605,7 +62605,7 @@ _rva005DE059,,0x005DE059,47,Code/GameEngine/Source/Common/Rva005DE059Loop.cpp,ma
 ?setUnitsVisionSpied@Player@@QAEX_NH@Z,,0x002ABA3D,94,Code/GameEngine/Source/Common/RTS/PlayerSetUnitsVisionSpied.cpp,matched,Generals donor setUnitsVisionSpied
 ?callHandleShroud@@YAHPAVObject@@PAX@Z,,0x002AA20F,13,Code/GameEngine/Source/Common/RTS/PlayerSetUnitsVisionSpied.cpp,matched,Generals donor callHandleShroud (BFME makeDirty)
 ?rva00346B6D@Rva00346B6D@@QAEXH@Z,,0x00346B6D,83,Code/GameEngine/Source/GameLogic/AI/Rva00346B6DSetup.cpp,matched,Damage setup via pinned member init plus field stores plus slot virtual double plus BBB8D8 global plus rowed attemptDamage; pins BBB8D8
-?rva0034BFFF@@YGXPAVObject@@@Z,,0x0034BFFF,54,Code/GameEngine/Source/GameLogic/AI/Rva0034BFFFGate.cpp,matched,Stdcall weapon-state applier via rowed getCurrentWeapon plus setStatus plus pinned 0x291916 hook; pins 0x291916
+?rva0034BFFF@AIChargeTargetState@@AAEXPAVObject@@@Z,,0x0034BFFF,54,Code/GameEngine/Source/GameLogic/AI/Rva0034BFFFGate.cpp,matched,AIChargeTargetState member (update 0x0034FE6E calls it with the state in ECX; body ignores ECX) weapon-state applier via rowed getCurrentWeapon plus setStatus plus pinned 0x291916 hook; pins 0x291916
 ??1Rva00359290@@UAE@XZ,,0x00359290,86,Code/GameEngine/Source/GameLogic/AI/Rva00359290Dtor.cpp,matched,Virtual scalar dtor via implicit vptr store plus member dtors plus base; vtable pin; no new member pins
 ?rva0036DC46@Rva0036ListOwner@@QAEXH@Z,,0x0036DC46,41,Code/GameEngine/Source/Common/Rva0036ListWalkers.cpp,matched,
 ?rva0036D6B4@Rva0036ListOwner@@QAEXXZ,,0x0036D6B4,64,Code/GameEngine/Source/Common/Rva0036ListWalkers.cpp,matched,
