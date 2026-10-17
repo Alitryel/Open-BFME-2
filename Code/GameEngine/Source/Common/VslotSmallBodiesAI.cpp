@@ -249,15 +249,7 @@ private:
 	Rva000B3FD0 *m_48;
 	Rva000B3FD0 *m_4C;
 };
-void Rva005785CD::rva005785CD()
-{
-	if (m_44 != 0)
-		m_44->rva005D2A53();
-	if (m_4C != 0)
-		m_4C->rva000B3FD0();
-	if (m_48 != 0)
-		m_48->rva000B3FD0();
-}
+
 
 // 0x0059B19A: the rowed length 0x00513E03 of the +0x04 object.
 class Rva00513E03
@@ -814,10 +806,6 @@ private:
 	int m_08;
 };
 
-Rva0057709A::Rva0057709A(int v) : Rva005CBA04(g_00E0660C), m_08(v)
-{
-	*(const void **)this = g_00C6E8A8;
-}
 
 // 0x0057B9D8 (?rva0057B9D8@Rva0057B9D8@@QAEXXZ), 25B: slot 4 of the table
 // at 0x0086F26C (neighbours -8/-4 are the rowed 0x0057B97C/0x0057B9D0 of the
