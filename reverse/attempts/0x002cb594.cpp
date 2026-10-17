@@ -1,8 +1,12 @@
 // ?getLinearPosition@@YAAAUCoord3D@@AAU1@ABV?$vector@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@HPBVObject@@@Z
+// partial score=0.586 date=2026-10-17
+// ?getLinearPosition@@YAAAUCoord3D@@AAU1@ABV?$vector@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@HPBVObject@@@Z
 // partial score=0.6 date=2026-10-15
 // ?getLinearPosition@@YAAAUCoord3D@@AAU1@ABV?$vector@UCoord3D@@V?$allocator@UCoord3D@@@_STL@@@_STL@@HPBVObject@@@Z
 // partial score=0.75252 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /Ireference/shims/bfmealloc /I.
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // WB BB9080 names getLinearPosition in Weapon.cpp. Native 2CB594..2CB65B:
 // ECX vector, EAX index, EDI Object, ESI output. Caller 2CE497 establishes
@@ -24,12 +28,17 @@ static __declspec(noinline) Coord3D &getLinearPosition(Coord3D &out,
     const std::vector<Coord3D> &positions, int index, const Object *object)
 {
     const Coord3D &point=positions[index];
-    float px=point.x, py=point.y;
+    struct { float v; unsigned char pad[3]; } pxs, pys;
+    pxs.v=point.x; pys.v=point.y;
+    float px=(1 ? pxs.v : pxs.v), py=(1 ? pys.v : pys.v);
     float angle=object->matrix.Get_Z_Rotation();
-    float sine=(float)sin(angle);
-    float cosine=(float)cos(angle);
+    struct { float v; unsigned char pad[3]; } ss, cs;
+    float sine=(float)(double)sin(angle);
+    ss.v=sine; cs.v=(float)(double)cos(angle);
+    float cosine=(1 ? cs.v : cs.v);
+    sine=(1 ? ss.v : ss.v);
+    float y=(object->position.y+cosine*py)+sine*px;
     float x=object->position.x+(cosine*px-sine*py);
-    float y=object->position.y+(cosine*py+sine*px);
     out.z=TheTerrainLogic->getGroundHeight(x,y,0);
     out.x=x; out.y=y;
     return out;
