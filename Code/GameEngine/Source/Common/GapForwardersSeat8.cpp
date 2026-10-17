@@ -486,3 +486,42 @@ public:
 };
 // ?<Rva003AA6BD::Rva003AA6BD> absent-from-retail
 Rva003AA6BD::Rva003AA6BD(EmitVtableTag *) {}
+
+// Deleting-destructor adjustor thunks (sub ecx, Off; jmp ??_E<Cls>): the jmp
+// goes through the class's weak vector deleting destructor, whose COFF
+// default is its rowed ??_G. The secondary base sits at Off; both bases are
+// novtable, so the view emits only the class's own tables.
+#define DEFINE_DTOR_THUNK(Cls, Off, Access) \
+	struct __declspec(novtable) Cls##_DtorBaseA { virtual ~Cls##_DtorBaseA(); char m_pad[(Off) - 4]; }; \
+	struct __declspec(novtable) Cls##_DtorBaseB { virtual ~Cls##_DtorBaseB(); }; \
+	class Cls : public Cls##_DtorBaseA, public Cls##_DtorBaseB \
+	{ \
+	public: \
+		Cls(EmitVtableTag *); \
+	Access: \
+		virtual ~Cls(); \
+	}; \
+	Cls::Cls(EmitVtableTag *) {}
+
+// --- 0x0051CC82 (11B): AptScoreScreen, table 0x00C66FA8 (the +0x218 screen
+// callback base) -> ??_G 0x0051CE56.
+// ?<Rva0051CBC6::Rva0051CBC6> absent-from-retail
+DEFINE_DTOR_THUNK(Rva0051CBC6, 0x218, public)
+// --- 0x004AB88F (8B): slot 11 of table 0x00C548B8 (the +0x24 base) ->
+// ??_G 0x004ABB1B.
+// ?<LargeGroupAudioUpdate::LargeGroupAudioUpdate> absent-from-retail
+DEFINE_DTOR_THUNK(LargeGroupAudioUpdate, 0x24, public)
+
+// --- 0x003067CA (8B): Locomotor's protected destructor, slot 0 of table
+// 0x00C07D3C (the +4 Snapshot base) -> ??_G 0x0030680E.
+struct __declspec(novtable) Locomotor_DtorBaseA { virtual ~Locomotor_DtorBaseA(); };
+struct __declspec(novtable) Locomotor_DtorBaseB { virtual ~Locomotor_DtorBaseB(); };
+class Locomotor : public Locomotor_DtorBaseA, public Locomotor_DtorBaseB
+{
+public:
+	Locomotor(EmitVtableTag *);
+protected:
+	virtual ~Locomotor();
+};
+// ?<Locomotor::Locomotor> absent-from-retail
+Locomotor::Locomotor(EmitVtableTag *) {}
