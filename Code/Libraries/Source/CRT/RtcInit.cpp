@@ -11,3 +11,6 @@ void __cdecl _RTC_InitBase() {
   _RTC_SetErrorFunc(_CRT_RTC_INIT(0,0,0,1,0));
  }
 }
+void __cdecl _RTC_Shutdown() {
+ _CRT_RTC_INIT(0,0,0,1,1);
+}
