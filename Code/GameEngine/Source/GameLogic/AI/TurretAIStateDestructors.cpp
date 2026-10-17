@@ -83,3 +83,5 @@ TurretAIIdleState::~TurretAIIdleState() {}
 TurretAIIdleScanState::~TurretAIIdleScanState() {}
 
 TurretAIAimTurretState::~TurretAIAimTurretState() {}
+
+TurretAIRecenterTurretState::~TurretAIRecenterTurretState() {}
