@@ -335,6 +335,22 @@ DEFINE_THUNK_MAE(Rva003AE0AF, xfer, 0x10, (Xfer *))
 DEFINE_THUNK_MAE(Rva003AE2A9, xfer, 0x10, (Xfer *))
 // ?<Rva005E62F1::Rva005E62F1> absent-from-retail
 DEFINE_THUNK_UAE(Rva005E62F1, rva0050B238, 0x20, (void *, unsigned int))
+// ?<Rva00562945::Rva00562945> absent-from-retail
+DEFINE_THUNK_UAE(Rva00562945, rva00562945, 0x18, (Xfer *))
+// ?<Rva00561527::Rva00561527> absent-from-retail
+DEFINE_THUNK_UAE(Rva00561527, rva00561527, 0x18, (Xfer *))
+// ?<Rva00563ED1::Rva00563ED1> absent-from-retail
+DEFINE_THUNK_UAE(Rva00563ED1, rva00563ED1, 0x20, (Xfer *))
+// ?<Rva00562233::Rva00562233> absent-from-retail
+DEFINE_THUNK_UAE(Rva00562233, rva00562233, 0x1C, (Xfer *))
+// ?<Rva005644A9::Rva005644A9> absent-from-retail
+DEFINE_THUNK_UAE(Rva005644A9, rva005644A9, 0x20, (Xfer *))
+// ?<Rva0056234A::Rva0056234A> absent-from-retail
+DEFINE_THUNK_UAE(Rva0056234A, rva0056234A, 0x0C, (Xfer *))
+// ?<Rva0055EFC5::Rva0055EFC5> absent-from-retail
+DEFINE_THUNK_UAE(Rva0055EFC5, rva0055EFC5, 0x0C, (Xfer *))
+// ?<Rva003A5757::Rva003A5757> absent-from-retail
+DEFINE_THUNK_UAE(Rva003A5757, rva003A5757, 0x1C, (Xfer *))
 
 namespace FXParticleSystem
 {

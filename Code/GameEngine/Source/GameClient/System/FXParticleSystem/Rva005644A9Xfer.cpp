@@ -1,5 +1,5 @@
 // cl: /MD
-// ?rva005644A9@Rva005644A9@@QAEXPAVXfer@@@Z, retail 0x005644A9, 96 bytes.
+// ?rva005644A9@Rva005644A9@@UAEXPAVXfer@@@Z, retail 0x005644A9, 96 bytes.
 // Chain xfer after 0x0056445E: Version1 via rowed 0x000053EE plus subobject at +0x20 via rowed TerrainCollisionModuleInfo xfer 0x0056445E plus bools at +0x1c +0x1d +0x34 +0x40 via Xfer slot 0x90 plus uint at +0x3c via Xfer slot 0x78. Caller at 0x003ABEC7. Pattern from PoisonedBehaviorXfer and Rva00564522Xfer.
 class AsciiString;
 class UnicodeString;
@@ -87,7 +87,7 @@ public:
 class Rva005644A9
 {
 public:
-	void rva005644A9(Xfer *xfer);
+	virtual void rva005644A9(Xfer *xfer);
 };
 
 void Rva005644A9::rva005644A9(Xfer *xfer)

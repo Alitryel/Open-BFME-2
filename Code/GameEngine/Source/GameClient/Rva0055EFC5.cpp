@@ -1,6 +1,6 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
 //
-// ?rva0055EFC5@Rva0055EFC5@@QAEXPAVXfer@@@Z 28B @0x0055EFC5: parent xfer
+// ?rva0055EFC5@Rva0055EFC5@@UAEXPAVXfer@@@Z 28B @0x0055EFC5: parent xfer
 // that calls rowed Version1 on the Xfer arg then the just-landed sub-xfer
 // 0x0055EF6E on the member at +0x0C. Chain of the 0x0055EF6E landing;
 // caller is an unclaimed getClass thunk.
@@ -20,9 +20,9 @@ public:
 class Rva0055EFC5
 {
 public:
-	void rva0055EFC5(Xfer *xfer);
+	virtual void rva0055EFC5(Xfer *xfer);
 private:
-	unsigned char m_pad00[0x0C];
+	unsigned char m_pad04[0x0C - 4];
 	Rva0055EF6E m_0c;
 };
 

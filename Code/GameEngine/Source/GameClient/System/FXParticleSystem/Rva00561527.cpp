@@ -1,5 +1,5 @@
 // cl: /DNDEBUG /MD /EHsc /Ob2
-// ?rva00561527@Rva00561527@@QAEXPAVXfer@@@Z @0x00561527 28B evidence: Version1 0x000053EE then Lightning xfer 0x005614D9 on base at +0x18; caller jmp 0x003ABBC6.
+// ?rva00561527@Rva00561527@@UAEXPAVXfer@@@Z @0x00561527 28B evidence: Version1 0x000053EE then Lightning xfer 0x005614D9 on base at +0x18; caller jmp 0x003ABBC6.
 // Honest-address wrapper (naming rule).
 class Xfer
 {
@@ -62,7 +62,7 @@ private:
 class Rva00561527 : public Pad018, public FXParticleSystem::LightningDrawModuleInfo
 {
 public:
-	void rva00561527(Xfer *xfer);
+	virtual void rva00561527(Xfer *xfer);
 };
 
 void Rva00561527::rva00561527(Xfer *xfer)

@@ -1,5 +1,5 @@
 // cl: /MD /Ireference/shims/bfme2_ascii
-// ?rva00563ED1@Rva00563ED1@@QAEXPAVXfer@@@Z, retail 0x00563ED1, 82 bytes.
+// ?rva00563ED1@Rva00563ED1@@UAEXPAVXfer@@@Z, retail 0x00563ED1, 82 bytes.
 // Chain of just-landed ?xfer@LifeEventModuleInfo@FXParticleSystem@@MAEXPAVXfer@@@Z
 // at 0x00563E72. IsLightCRC early-out via Xfer slot 0x10, Version1 via rowed
 // 0x000053EE, LifeEventModuleInfo subobject at +0x20 via rowed 0x00563E72,
@@ -145,7 +145,7 @@ struct Pad20
 class Rva00563ED1 : public Pad20, public FXParticleSystem::LifeEventModuleInfo
 {
 public:
-	void rva00563ED1(Xfer *xfer);
+	virtual void rva00563ED1(Xfer *xfer);
 
 private:
 	const void *m_38;
