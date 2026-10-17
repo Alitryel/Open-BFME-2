@@ -1,4 +1,6 @@
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
+// partial score=0.728 date=2026-10-17
+// ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.7874684447557369 date=2026-10-14
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.707 date=2026-10-09
@@ -221,8 +223,8 @@ static __forceinline unsigned short NextGlyphIndex(unsigned short *&glyph) {
 // 156540 are read from native calls. Real STLport word vector uses rowed resize824F9.
 // ?Rva00158E90@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z present-unmatched
 Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,int *hkY,bool justCalcExtents) {
-    float maxX=0;
     int hotKeyPosX=0,hotKeyPosY=0;
+    float maxX=0;
     bool calcHotKeyX=false;
     int length=(int)wcslen(text);
     BfmeWordVec glyphs;
@@ -233,21 +235,27 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
         reinterpret_cast<Rva0093C4A0Target *>(font->AlternateFont())->Check(text,glyph,length);
         active=font->AlternateFont();
     } else active=font;
-    glyph[length]=0xFFFF;
     Vector2 extent;
-    if (!CurSurface.m_surface) Rva00158990(active,text,glyph,justCalcExtents);
+    W3DRadarResetSurface *cur=&CurSurface;
+    glyph[length]=0xFFFF;
+    if ((1 ? (!cur->m_surface) : (!cur->m_surface))) Rva00158990(active,text,glyph,justCalcExtents);
         TextureOffset.Set(2,0);
         TextureStartX=2;
         unsigned short *locked=0;
         int stride=0;
+        { }
         if (!justCalcExtents) {
-            locked=(unsigned short *)reinterpret_cast<Rva00116680 *>(&CurSurface)->rva00116680(&stride,false);
+            locked=(unsigned short *)reinterpret_cast<Rva00116680 *>(cur)->rva00116680(&stride,false);
             if (!locked) return Vector2(0,0);
         }
         float char_height=active->Get_Char_Height();
+        unsigned short *glyphPtr=glyph;
+        unsigned short *curGlyph=glyph;
         while(text) {
             unsigned short ch=*text++;
-            unsigned short glyphCh=NextGlyphIndex(glyph);
+            unsigned short glyphCh=*glyphPtr;
+            ++glyphPtr;
+            (void)curGlyph;
             bool dontBlit=false;
             bool retry;
             float char_spacing;
@@ -259,7 +267,8 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                     if (calcHotKeyX) hotKeyPosX=0;
                     else hotKeyPosX=(int)(Cursor.X+TextureOffset.I-TextureStartX);
                     ch=*text++;
-                    glyphCh=NextGlyphIndex(glyph);
+                    glyphCh=*glyphPtr;
+                    ++glyphPtr;
                     dontBlit=true;
                 }
                 char_spacing=(float)active->Get_Glyph_Advance(glyphCh);
@@ -273,7 +282,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                     if (ch==' ' || ch==0x95) {
                         if (WrapWidth>0) {
                             const unsigned short *word=text;
-                            const unsigned short *wordGlyph=glyph;
+                            const unsigned short *wordGlyph=glyphPtr;
                             float word_width=char_spacing;
                             while (*word!=0 && *word>' ' && *word!=0x95) {
                                 if (ParseHotKey && *word=='&') {++word;++wordGlyph;}
@@ -284,18 +293,18 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                                 Cursor.X=0;
                                 Cursor.Y+=char_height;
                                 calcHotKeyX=true;
-                                do {ch=*text++;glyphCh=NextGlyphIndex(glyph);} while(ch==' ' || ch==0x95);
+                                do {ch=*text++;glyphCh=*glyphPtr;++glyphPtr;} while(ch==' ' || ch==0x95);
                                 retry=true;
                             }
                         }
                         if (ch==0x95) {
-                            do {ch=*text++;glyphCh=NextGlyphIndex(glyph);} while(ch==0x95);
+                            do {ch=*text++;glyphCh=*glyphPtr;++glyphPtr;} while(ch==0x95);
                             retry=true;
                         }
                     } else if (ch=='\n') {
                         Cursor.X=0;
                         Cursor.Y+=char_height;
-                        do {ch=*text++;glyphCh=NextGlyphIndex(glyph);} while(ch==' ');
+                        do {ch=*text++;glyphCh=*glyphPtr;++glyphPtr;} while(ch==' ');
                         retry=true;
                     } else if (wordBiggerThenLine && ch!=0) {
                         Cursor.X=0;
@@ -318,7 +327,7 @@ Vector2 Render2DSentenceClass::Rva00158E90(const unsigned short *text,int *hkX,i
                         reinterpret_cast<Member0C00739C70 *>(&CurSurface)->clear();
                         locked=0;
                     }
-                    Rva00158990(active,text,glyph,justCalcExtents);
+                    Rva00158990(active,text,glyphPtr,justCalcExtents);
                     if (!justCalcExtents) {
                         locked=(unsigned short *)reinterpret_cast<Rva00116680 *>(&CurSurface)->rva00116680(&stride,false);
                         if (!locked) return Vector2(0,0);
