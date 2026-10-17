@@ -43,3 +43,6 @@ InGameSimpleHelp::InGameSimpleHelp(const UnicodeString &title, const UnicodeStri
 	: m_impl(new Impl(this, title, text))
 {
 }
+
+#pragma comment(linker, "/alternatename:??1Rva005398CDRefCounted@@UAE@XZ=??1Coord2D@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1InGameSimpleHelp@@UAE@XZ=??1Coord2D@@QAE@XZ")
