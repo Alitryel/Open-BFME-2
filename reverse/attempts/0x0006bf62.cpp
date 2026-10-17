@@ -1,4 +1,6 @@
 // ?Cast_Ray@BaseHeightMapRenderObjClass@@UAE_NAAVRayCollisionTestClass@@@Z
+// partial score=0.8 date=2026-10-17
+// ?Cast_Ray@BaseHeightMapRenderObjClass@@UAE_NAAVRayCollisionTestClass@@@Z
 // partial score=0.7108 date=2026-10-14
 // ?Cast_Ray@BaseHeightMapRenderObjClass@@UAE_NAAVRayCollisionTestClass@@@Z
 // partial score=0.8 date=2026-10-10
@@ -11,8 +13,6 @@
 // 10/256, and the clipped ray's cell box is scanned for the height range
 // before the per-cell triangle tests.
 
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 #include "always.h"
 #include <math.h>
 #include <wwmath.h>
@@ -23,11 +23,10 @@ extern "C" void _ReadWriteBarrier(void);
 #include <lineseg.h>
 #include <vector3.h>
 #include <w3d_file.h>
-template<class T> static __forceinline T __cp(const T &x) { T t = x; return t; }
 
 #define MAP_XY_FACTOR 10.0f
 #define MAP_HEIGHT_SCALE (MAP_XY_FACTOR / 256.0f)
-#define ADJUST_FROM_INDEX_TO_REAL(k) ((k) * MAP_XY_FACTOR)
+#define ADJUST_FROM_INDEX_TO_REAL(k) ((k-m_map->m_border)*MAP_XY_FACTOR)
 
 typedef int Int;
 typedef float Real;
@@ -53,6 +52,10 @@ class BaseHeightMapRenderObjClass
 {
 public:
 	virtual bool Cast_Ray(RayCollisionTestClass &raytest);
+	inline unsigned short getClipHeight(Int x, Int y) const
+	{
+		return m_map->rva0006653B(x, y);
+	}
 
 private:
 	char m_pad04[0x37C0 - 4];
@@ -86,10 +89,10 @@ bool BaseHeightMapRenderObjClass::Cast_Ray(RayCollisionTestClass &raytest)
 	lineseg=raytest.Ray;
 
 	//Set initial ray endpoints
-	P0 = __cp(raytest.Ray).Get_P0();
+	P0 = raytest.Ray.Get_P0();
 	P1 = raytest.Ray.Get_P1();
 	result.ComputeContactPoint=true;
-	_ReadWriteBarrier();
+
 
 	Int p;
 	for (p=0; p<3; p++) {
@@ -139,7 +142,7 @@ bool BaseHeightMapRenderObjClass::Cast_Ray(RayCollisionTestClass &raytest)
 
 		for (j=StartCellY; j<=EndCellY; j++) {
 			for (i=StartCellX; i<=EndCellX; i++) {
-				Short cur = m_map->rva0006653B(i+m_map->m_border,j+m_map->m_border);
+				Short cur = getClipHeight(i+m_map->m_border,j+m_map->m_border);
 				if (cur<minHt) minHt = cur;
 				if (maxHt<cur) maxHt = cur;
 			}
@@ -166,20 +169,20 @@ bool BaseHeightMapRenderObjClass::Cast_Ray(RayCollisionTestClass &raytest)
 			for (X=StartCellX-offset; X<=EndCellX+offset; X++) {
 				//bottom triangle first
 				P0.X=ADJUST_FROM_INDEX_TO_REAL(X);
-				P0.Z=MAP_HEIGHT_SCALE*(float)m_map->rva0006653B(X, Y);
 				P0.Y=ADJUST_FROM_INDEX_TO_REAL(Y);
+				P0.Z=MAP_HEIGHT_SCALE*(float)getClipHeight(X, Y);
 
-				P1.Y=ADJUST_FROM_INDEX_TO_REAL(Y);
 				P1.X=ADJUST_FROM_INDEX_TO_REAL(X+1);
-				P1.Z=MAP_HEIGHT_SCALE*(float)m_map->rva0006653B(X+1, Y);
+				P1.Y=ADJUST_FROM_INDEX_TO_REAL(Y);
+				P1.Z=MAP_HEIGHT_SCALE*(float)getClipHeight(X+1, Y);
 
 				P2.X=ADJUST_FROM_INDEX_TO_REAL(X+1);
 				P2.Y=ADJUST_FROM_INDEX_TO_REAL(Y+1);
-				P2.Z=MAP_HEIGHT_SCALE*(float)m_map->rva0006653B(X+1, Y+1);
+				P2.Z=MAP_HEIGHT_SCALE*(float)getClipHeight(X+1, Y+1);
 
 				P3.X=ADJUST_FROM_INDEX_TO_REAL(X);
 				P3.Y=ADJUST_FROM_INDEX_TO_REAL(Y+1);
-				P3.Z=MAP_HEIGHT_SCALE*(float)m_map->rva0006653B(X, Y+1);
+				P3.Z=MAP_HEIGHT_SCALE*(float)getClipHeight(X, Y+1);
 
 				tri.V[0] = &P0; 
 				tri.V[1] = &P1;
@@ -189,7 +192,7 @@ bool BaseHeightMapRenderObjClass::Cast_Ray(RayCollisionTestClass &raytest)
 
 				tri.Compute_Normal();
 
-				hit = hit || (Bool)CollisionMath::Collide(raytest.Ray, tri, raytest.Result);
+				hit = (Bool)CollisionMath::Collide(raytest.Ray, tri, raytest.Result) || hit;
 
 				if (raytest.Result->StartBad)
 					return true;
@@ -203,7 +206,7 @@ bool BaseHeightMapRenderObjClass::Cast_Ray(RayCollisionTestClass &raytest)
 
 				tri.Compute_Normal();
 
-				hit = hit || (Bool)CollisionMath::Collide(raytest.Ray, tri, raytest.Result);
+				hit = (Bool)CollisionMath::Collide(raytest.Ray, tri, raytest.Result) || hit;
 
 				if (hit)
 					raytest.Result->SurfaceType = SURFACE_TYPE_DEFAULT;
