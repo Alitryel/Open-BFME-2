@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import add_match
 import add_match_batch
 import build
-from test_pe_imports import fixture_pe, scaffold_row, scaffold_source, thunk
+from test_pe_imports import fixture_pe, scaffold_row, scaffold_source, legacy_scaffold_source, thunk
 
 
 @pytest.fixture(params=["single", "batch"])
@@ -23,8 +23,8 @@ def admission(landing, request, tmp_path, monkeypatch):
     return add_match_batch.main
 
 
-@pytest.fixture
-def landing(tmp_path, monkeypatch):
+@pytest.fixture(params=["current", "legacy"])
+def landing(tmp_path, monkeypatch, request):
     data, slots = fixture_pe([("d3dx9_27.dll", "D3DXMatrixMultiply")])
     exe = tmp_path / "fixture.exe"
     exe.write_bytes(data)
@@ -33,7 +33,8 @@ def landing(tmp_path, monkeypatch):
     row = scaffold_row(slots[0])
     source = tmp_path / row["source"]
     source.parent.mkdir(parents=True)
-    source.write_text(scaffold_source(), encoding="utf-8")
+    source.write_text(legacy_scaffold_source() if request.param == "legacy" else scaffold_source(),
+                      encoding="utf-8")
     ledger = tmp_path / "reverse/functions.csv"
     ledger.parent.mkdir()
     header = "name,export_rva,target_rva,target_size,source,status,notes\n"
