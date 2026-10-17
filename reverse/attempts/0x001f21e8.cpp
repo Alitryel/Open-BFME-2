@@ -1,4 +1,6 @@
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
+// partial score=0.938 date=2026-10-17
+// ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.96 date=2026-10-15
 // ?rva001F21E8@Rva001F21E8@@QAEXPAUCoord3D@@@Z
 // partial score=0.974 date=2026-10-15
@@ -67,6 +69,7 @@ struct Rva001F21E8Waypoint {
  Rva001F21E8Waypoint*getNext() const {return next;}
 };
 void Rva001F21E8::rva001F21E8(Coord3D*position){
+ _ReadWriteBarrier();
  _STL::vector<Object*>matches;
  for(Object*node=TheTerrainLogic->getFirstWaypoint();node;node=(Object*)((Rva001F21E8Waypoint*)node)->getNext()){
   if(((Rva001F21E8Waypoint*)node)->getName().startsWith(prefix))matches.push_back(node);
