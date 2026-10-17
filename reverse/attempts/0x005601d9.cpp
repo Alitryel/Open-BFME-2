@@ -1,4 +1,6 @@
 // ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
+// partial score=0.83 date=2026-10-17
+// ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.873 date=2026-10-14
 // ?doParticles@QuadDrawModule@FXParticleSystem@@UAEHAAVRenderInfoClass@@PAXPAH@Z
 // partial score=0.8689438653277539 date=2026-10-09
@@ -71,7 +73,7 @@ int QuadDrawModule::doParticles(RenderInfoClass&rinfo,void*bounds,int*particleCo
   else if(axis==5){Vector3 axisv(p->axis.X,0.0f-p->axis.Y,p->axis.Z);D3DXMatrixRotationAxis((D3DXMATRIX*)&rotation,&axisv,angle);}
   else rotation.identity();
   for(int i=0;i<4;++i){Vector4&v=vertices[i];
-   float z=rotation.Row[2].X*__vref(v.X)+rotation.Row[2].Y*v.Y+rotation.Row[2].Z*v.Z+rotation.Row[2].W*v.W;float y=rotation.Row[1].X*v.X+rotation.Row[1].Y*v.Y+rotation.Row[1].Z*v.Z+rotation.Row[1].W*v.W;float w=rotation.Row[3].X*v.X+rotation.Row[3].Y*v.Y+rotation.Row[3].Z*v.Z+rotation.Row[3].W*v.W;float x=__vref(rotation.Row[0]).X*v.X+rotation.Row[0].Y*v.Y+rotation.Row[0].Z*v.Z+__vref(rotation.Row[0]).W*v.W;v.Set(x,y,z,w);
+   float w=rotation.Row[3].X*v.X+rotation.Row[3].Y*v.Y+rotation.Row[3].Z*v.Z+rotation.Row[3].W*v.W;float z=rotation.Row[2].X*__vref(v.X)+rotation.Row[2].Y*v.Y+rotation.Row[2].Z*v.Z+rotation.Row[2].W*v.W;float y=rotation.Row[1].X*v.X+rotation.Row[1].Y*v.Y+rotation.Row[1].Z*v.Z+rotation.Row[1].W*v.W;float x=__vref(rotation.Row[0]).X*v.X+rotation.Row[0].Y*v.Y+rotation.Row[0].Z*v.Z+__vref(rotation.Row[0]).W*v.W;v.Set(x,y,z,w);
   }
   Vector3 translation(pos->X,pos->Y,pos->Z);int start=count*4;
   for(int j=0;j<4;++j){Vector4&v=vertices[j];v.X+=translation.X;v.Y+=translation.Y;v.Z+=translation.Z;
