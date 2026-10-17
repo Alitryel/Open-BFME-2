@@ -95,109 +95,109 @@ public:
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
 #include "ascii_string.h"
-class Rva000B3F84Pair 
+class Rva000B3F84Pair
 {
- public: Rva000B3F84Pair() 
+ public: Rva000B3F84Pair()
  {
-  
+
  }
  const char *m_ptr;
  int m_len;
- 
+
 }
 ;
-struct WinMainTitlePair : Rva000B3F84Pair 
+struct WinMainTitlePair : Rva000B3F84Pair
 {
  operator AsciiString();
  Rva000B3F84Pair m_secondPair;
- 
+
 }
 ;
 Rva000B3F84Pair Rva00108B93Make(const char*);
 WinMainTitlePair operator+(const Rva000B3F84Pair&,const char*);
-class TextureBaseClass 
+class TextureBaseClass
 {
  public: void Release_Ref();
- 
+
 }
 ;
-class TextureClass : public TextureBaseClass 
+class TextureClass : public TextureBaseClass
 {
- 
+
 }
 ;
-template<class T> class RefCountPtr 
+template<class T> class RefCountPtr
 {
  public: T *m_ptr;
  const RefCountPtr& operator=(const RefCountPtr&);
  ~RefCountPtr()
  {
   if(m_ptr)m_ptr->Release_Ref();
-  
+
  }
- 
+
 }
 ;
-class BFME2ParticleTextureHandle : public RefCountPtr<TextureClass> 
+class BFME2ParticleTextureHandle : public RefCountPtr<TextureClass>
 {
- 
+
 }
 ;
 class TextureAsset {public: static BFME2ParticleTextureHandle Get(const char*,int,int);};
-namespace _STL 
+namespace _STL
 {
- class ios_base 
+ class ios_base
  {
   protected: void _M_clear_nothrow(int);
-  
+
  }
  ;
- 
+
 }
 class Rva0010BC90ShadowManager;
-class ShroudFilter : public _STL::ios_base 
+class ShroudFilter : public _STL::ios_base
 {
  friend class Rva0010BC90ShadowManager;
  public: unsigned prefix[3];
  int addressU,addressV;
- 
+
 }
 ;
-class ShroudTexture 
+class ShroudTexture
 {
  public: ShroudFilter *getFilter();
- 
+
 }
 ;
 class HAnimClass;
-class HAnimManagerClass 
+class HAnimManagerClass
 {
  public: HAnimClass *Get_Anim(const char*);
  bool Add_Anim(HAnimClass*);
- 
+
 }
 ;
-class Rva007AE680Name 
+class Rva007AE680Name
 {
  public: void setName(const char*);
- 
+
 }
 ;
-class W3DShadowTexture 
+class W3DShadowTexture
 {
  public: W3DShadowTexture();
  char prefix[0x30];
  RefCountPtr<TextureClass> texture;
  char tail[0xa4-0x34];
- 
+
 }
 ;
-class Rva0010BC90ShadowManager 
+class Rva0010BC90ShadowManager
 {
  public: char prefix[0x24c];
  HAnimManagerClass *manager;
  W3DShadowTexture *getTexture(const char*);
- 
+
 }
 ;
 
@@ -266,7 +266,7 @@ W3DShadowTexture *Rva0010BC90ShadowManager::getTexture(const char *name)
   _ReadWriteBarrier();
   *(volatile W3DShadowTexture **)&result = reinterpret_cast<W3DShadowTexture*>(tmp);
  }
- if (!result) 
+ if (!result)
  {
   BFME2ParticleTextureHandle texture=TextureAsset::Get(filename.str(),0,0);
   if(!texture.m_ptr) return 0;
@@ -278,8 +278,8 @@ W3DShadowTexture *Rva0010BC90ShadowManager::getTexture(const char *name)
   reinterpret_cast<Rva007AE680Name*>(result)->setName(filename.str());
   manager->Add_Anim(reinterpret_cast<HAnimClass*>(result));
   (1 ? result->texture : result->texture)=texture;
-  
+
  }
  return result;
- 
+
 }
