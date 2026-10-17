@@ -9652,7 +9652,6 @@ _CreatePostProcInstance,,0x001B6890,63,Code/Libraries/Source/VP6/PostProcInstanc
 ?initPool@Rva00803080@@QAEXXZ,,0x0066F120,71,Code/GameEngine/Source/GameNetwork/Rva008030C0FeslPoolInit.cpp,matched,BFME1 byte-identical donor; b1 0x008030C0
 ??0_ATL_BASE_MODULE70@ATL@@QAE@XZ,,0x00628CFE,26,Code/Libraries/Source/ATL/atlbasemodule.cpp,matched,vendored=atl-7.1;compiler-generated ctor of atlcore.h _ATL_BASE_MODULE70;atls.lib COMDAT places uniquely;was ??0Rva009F69B1@@QAE@XZ from a BFME1 donor
 ?bfmeOneSVA@BfmeThingSVA@@QAEXH@Z,,0x0002A380,29,Code/GameEngine/Source/Common/BfmeConv1302.cpp,matched,BFME1 byte-identical donor; b1 0x0082FAF0
-?rva008C3E70Adapter@@YGXHHH@Z,,0x006E058B,26,Code/GameEngine/Source/Common/Rva008C3E70CallAdapter.cpp,matched,BFME1 byte-identical donor; b1 0x008C3E70
 ?bfmeTwoSVA@BfmeThingSVA@@QAEXH@Z,,0x0002A120,29,Code/GameEngine/Source/Common/BfmeConv1302.cpp,matched,BFME1 byte-identical donor; b1 0x00830A30
 ?bfmeFwdVMT@BfmeStrVMT@@QAEXHH@Z,,0x0002A900,43,Code/GameEngine/Source/Common/BfmeConv1440.cpp,matched,BFME1 byte-identical donor; b1 0x00830F90
 ??1BfmeThingDGD@@QAE@XZ,,0x00664710,363,Code/GameEngine/Source/GameNetwork/BfmeThingDGDDestructor.cpp,matched,BFME1 byte-identical donor with vtable-anchor repair; b1 0x007F8090
