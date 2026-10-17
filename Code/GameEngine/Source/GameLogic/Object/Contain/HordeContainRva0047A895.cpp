@@ -49,7 +49,9 @@ public:
 class Matrix3D
 {
 public:
-	__forceinline explicit Matrix3D(bool init) { if (init) Make_Identity(); }
+	// Inlined at every use; retail's out-of-line copy (0x0004C91A) builds Row[] through
+	// a Vector4 ctor iterator this view lacks, so emit none here.
+	__declspec(dllimport) __forceinline explicit Matrix3D(bool init) { if (init) Make_Identity(); }
 	__forceinline void Make_Identity()
 	{
 		Row[0].Set(1.0f, 0.0f, 0.0f, 0.0f);
