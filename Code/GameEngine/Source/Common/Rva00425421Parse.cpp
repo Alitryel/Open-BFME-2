@@ -14,12 +14,16 @@ public:
 	void initFromINI(void *what, const FieldParse *parseTable);
 };
 
-void Rva004251C4Parse(void *a, void *b, void *c, const void *d);
+// The row parser is the rowed Rva004251C4Parse(INI *, Rva004251C4Table *)
+// (FormationAssistantParseFormation.cpp); the table stores it as a field parser.
+struct Rva004251C4Table;
+void Rva004251C4Parse(INI *ini, Rva004251C4Table *table);
+typedef void (*FieldParseProc)(void *, void *, void *, const void *);
 
 void __cdecl Rva00425421Parse(INI *ini, void *what)
 {
 	FieldParse table[2] = {
-		{ "Row", Rva004251C4Parse, 0, 0 },
+		{ "Row", (FieldParseProc)Rva004251C4Parse, 0, 0 },
 		{ 0, 0, 0, 0 },
 	};
 	ini->initFromINI(what, table);
