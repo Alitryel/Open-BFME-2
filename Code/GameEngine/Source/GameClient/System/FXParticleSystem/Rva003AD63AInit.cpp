@@ -27,7 +27,7 @@ private:
 struct Holder003AD63A
 {
 	Holder003AD63A() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::BoxEmissionVolumeTag>::getInstance(); }
-	~Holder003AD63A();
+	~Holder003AD63A() {}
 };
 void __cdecl Rva003AD63AInit()
 {

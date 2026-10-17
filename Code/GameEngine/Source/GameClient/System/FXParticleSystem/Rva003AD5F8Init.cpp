@@ -16,7 +16,7 @@ public:
 struct Holder003AD5F8
 {
 	Holder003AD5F8() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::PointTag>::getInstance(); }
-	~Holder003AD5F8();
+	~Holder003AD5F8() {}
 };
 void __cdecl Rva003AD5F8Init()
 {

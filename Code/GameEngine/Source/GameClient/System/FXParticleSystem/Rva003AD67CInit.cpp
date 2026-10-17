@@ -27,7 +27,7 @@ private:
 struct Holder003AD67C
 {
 	Holder003AD67C() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::CylinderEmissionVolumeTag>::getInstance(); }
-	~Holder003AD67C();
+	~Holder003AD67C() {}
 };
 void __cdecl Rva003AD67CInit()
 {

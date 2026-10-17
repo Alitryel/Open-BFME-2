@@ -27,7 +27,7 @@ private:
 struct Holder003AD574
 {
 	Holder003AD574() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::SphericalEmissionVelocityTag>::getInstance(); }
-	~Holder003AD574();
+	~Holder003AD574() {}
 };
 void __cdecl Rva003AD574Init()
 {

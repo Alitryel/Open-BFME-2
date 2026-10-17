@@ -27,7 +27,7 @@ private:
 struct Holder003AD69D
 {
 	Holder003AD69D() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::LightningEmissionTag>::getInstance(); }
-	~Holder003AD69D();
+	~Holder003AD69D() {}
 };
 void __cdecl Rva003AD69DInit()
 {

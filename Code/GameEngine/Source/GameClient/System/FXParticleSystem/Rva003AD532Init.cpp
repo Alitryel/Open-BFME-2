@@ -26,7 +26,7 @@ private:
 struct Holder003AD532
 {
 	Holder003AD532() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::TerrainCollisionTag>::getInstance(); }
-	~Holder003AD532();
+	~Holder003AD532() {}
 };
 void __cdecl Rva003AD532Init()
 {

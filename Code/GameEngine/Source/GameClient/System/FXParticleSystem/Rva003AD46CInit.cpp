@@ -16,7 +16,7 @@ public:
 struct Holder003AD46C
 {
 	Holder003AD46C() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::Tag0>::getInstance(); }
-	~Holder003AD46C();
+	~Holder003AD46C() {}
 };
 void __cdecl Rva003AD46CInit()
 {

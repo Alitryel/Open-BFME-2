@@ -28,7 +28,7 @@ private:
 struct Holder003AD511
 {
 	Holder003AD511() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::RenderObjectUpdateTag>::getInstance(); }
-	~Holder003AD511();
+	~Holder003AD511() {}
 };
 void __cdecl Rva003AD511Init()
 {

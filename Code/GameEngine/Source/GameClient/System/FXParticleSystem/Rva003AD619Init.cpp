@@ -27,7 +27,7 @@ private:
 struct Holder003AD619
 {
 	Holder003AD619() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::LineEmissionVolumeTag>::getInstance(); }
-	~Holder003AD619();
+	~Holder003AD619() {}
 };
 void __cdecl Rva003AD619Init()
 {

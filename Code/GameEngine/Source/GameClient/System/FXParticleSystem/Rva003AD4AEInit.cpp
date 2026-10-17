@@ -16,7 +16,7 @@ public:
 struct Holder003AD4AE
 {
 	Holder003AD4AE() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::Tag2>::getInstance(); }
-	~Holder003AD4AE();
+	~Holder003AD4AE() {}
 };
 void __cdecl Rva003AD4AEInit()
 {

@@ -28,7 +28,7 @@ private:
 struct Holder003AD4F0
 {
 	Holder003AD4F0() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::LifeEventTag>::getInstance(); }
-	~Holder003AD4F0();
+	~Holder003AD4F0() {}
 };
 void __cdecl Rva003AD4F0Init()
 {

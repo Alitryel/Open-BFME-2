@@ -16,7 +16,7 @@ public:
 struct Holder003AD553
 {
 	Holder003AD553() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::OrthoTag>::getInstance(); }
-	~Holder003AD553();
+	~Holder003AD553() {}
 };
 void __cdecl Rva003AD553Init()
 {

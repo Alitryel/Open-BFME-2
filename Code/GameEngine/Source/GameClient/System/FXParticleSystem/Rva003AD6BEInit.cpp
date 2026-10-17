@@ -27,7 +27,7 @@ private:
 struct Holder003AD6BE
 {
 	Holder003AD6BE() { FXParticleSystem::ConcreteModuleClass<FXParticleSystem::TerrainFireEmissionTag>::getInstance(); }
-	~Holder003AD6BE();
+	~Holder003AD6BE() {}
 };
 void __cdecl Rva003AD6BEInit()
 {
