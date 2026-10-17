@@ -1,5 +1,5 @@
+// cl: /O2
 // ?rva00032F60@GeneralAllocator@Allocator@EA@@QAEPBUBlockInfo@23@PAXH@Z
-// partial score=0.62 date=2026-10-15
 // BFME 2's memory-pool entry points. `namespace MemoryPool` is retail's own
 // name: every `_`-prefixed function here is exported under it
 // (reverse/exports.csv), and 0x00030730 resolves each export back out of the
@@ -631,7 +631,7 @@ const BlockInfo *GeneralAllocator::rva00032F60(void *context, int blockTypes)
 			{
 				ListNode *const core = (ListNode *)snapshot->m_values[0];
 				const char *chunkEnd = 0;
-				if (core->m_size)
+				if (((ListNode *)snapshot->m_values[0])->m_size)
 				{
 					chunkEnd = (const char *)core + core->m_size - 0x10;
 					if (snapshot->m_values[1])
@@ -641,7 +641,7 @@ const BlockInfo *GeneralAllocator::rva00032F60(void *context, int blockTypes)
 					while ((const char *)snapshot->m_values[1] != chunkEnd)
 					{
 						const char *chunk = (const char *)snapshot->m_values[1];
-						if ((blockTypes & 0x10) || !(*(const unsigned int *)(chunk + 4) & 4))
+						if ((blockTypes & 0x10) || (*(const unsigned char *)(chunk + 4) & 4) == 0)
 						{
 							if ((blockTypes & 6) == 6)
 								break;
@@ -687,14 +687,20 @@ const BlockInfo *GeneralAllocator::rva00032F60(void *context, int blockTypes)
 		else
 		{
 			BlockInfo *const info = (BlockInfo *)(snapshot + 1);
-			const unsigned int count = snapshot->m_values[3];
-			while (snapshot->m_values[4] < snapshot->m_values[3])
+			if (snapshot->m_values[4] < snapshot->m_values[3])
 			{
-				if (info[snapshot->m_values[4]].m_blockType & blockTypes)
-					break;
-				++snapshot->m_values[4];
+				bool found = false;
+				while (snapshot->m_values[4] < snapshot->m_values[3])
+				{
+					if (info[snapshot->m_values[4]].m_blockType & blockTypes)
+					{
+						found = true;
+						break;
+					}
+					++snapshot->m_values[4];
+				}
 			}
-			if (snapshot->m_values[4] < count)
+			if (snapshot->m_values[4] < snapshot->m_values[3])
 				return &info[snapshot->m_values[4]++];
 		}
 	}
