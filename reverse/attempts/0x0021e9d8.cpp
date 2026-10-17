@@ -1,4 +1,6 @@
 // ?rva0021E9D8@Rva0021E9D8@@QAEHIABVAsciiString@@00@Z
+// partial score=0.956 date=2026-10-17
+// ?rva0021E9D8@Rva0021E9D8@@QAEHIABVAsciiString@@00@Z
 // partial score=0.8399 date=2026-10-14
 // ?rva0021E9D8@Rva0021E9D8@@QAEHIABVAsciiString@@00@Z
 // partial score=0.8139 date=2026-10-14
@@ -46,15 +48,15 @@ public:
 
 int Rva0021E9D8::rva0021E9D8(unsigned int word, const AsciiString &a, const AsciiString &b, const AsciiString &c)
 {
-    int count = (int)((char *)records.end() - (char *)records.begin());
-    count >>= 4;
+    int count = (int)records.size();
+    if (0) throw 1;
     BfmeStringRecord002199C8 *found = rva0021D120(records.begin(), records.end(), a);
-    if (found == (count ? (records.end()) : (records.end()))) {
+    BfmeStringRecord002199C8 *e0 = records.end();
+    if (found == e0) {
         Rva0021A0C2 record(word, a, b, c);
         records.push_back(record);
     } else {
         count = (int)((char *)found - (char *)records.begin());
-        _ReadWriteBarrier();
         count >>= 4;
     }
     return count;
