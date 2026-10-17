@@ -1,4 +1,6 @@
 // ?rva0050B98F@Made002CCC2D@@QAEXPBUFadeInputPrefix@@H@Z
+// partial score=0.965 date=2026-10-17
+// ?rva0050B98F@Made002CCC2D@@QAEXPBUFadeInputPrefix@@H@Z
 // partial score=0.9169 date=2026-10-14
 // ?rva0050B98F@Made002CCC2D@@QAEXPBUFadeInputPrefix@@H@Z
 // partial score=0.9 date=2026-10-14
@@ -36,9 +38,9 @@ void Made002CCC2D::rva0050B98F(const FadeInputPrefix *input,int unused) {
   CreateMask mask;memset(&mask,0,sizeof(mask));
   Object *made=TheThingFactory->newObject(type,(((FadeObjectPrefix*)source)->team?((FadeObjectPrefix*)source)->team:((FadeObjectPrefix*)source)->team),&mask,false);
   Coord3D position;
-  position.x=((FadeObjectPrefix*)source)->position.x;
-  position.y=((FadeObjectPrefix*)source)->position.y;
-  position.z=((((FadeObjectPrefix*)source)->position.z) ? (((FadeObjectPrefix*)source)->position.z) : (((FadeObjectPrefix*)source)->position.z));
+  __vref(position.x)=((FadeObjectPrefix*)source)->position.x;
+  __vref(position.y)=((FadeObjectPrefix*)source)->position.y;
+  __vref(position.z)=((FadeObjectPrefix*)source)->position.z;
   _ReadWriteBarrier();
   Coord3D offset;__vref(offset.x)=offsetX;offset.y=offsetY;
   float angle=((FadeObjectPrefix*)source)->angle;
@@ -49,7 +51,6 @@ void Made002CCC2D::rva0050B98F(const FadeInputPrefix *input,int unused) {
   float dx=x*trig.c-y*trig.s;
   float dy=x*trig.s+y*trig.c;
   offset.x=dx;offset.y=dy;
-  _ReadWriteBarrier();
   position.x+=offset.x;position.y+=offset.y;
   position.z=((FadeTerrainPrefix*)TheTerrainLogic)->height(position.x,position.y,source->rva0028B511(),0,true);
   ((Thing*)made)->setPosition(&position);
