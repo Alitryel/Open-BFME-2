@@ -1,4 +1,5 @@
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /EHsc
+// Native EH action 0x7A1641 destroys the counted virtual base at +0x10 guarded by the most-derived constructor flag; the complete parent EH graph proves this 28B lifetime.
 // Native 5CE172..5CE1EB: primary +0, vbptr +4, base payload +8,
 // derived context +C, shared reference-counted virtual base +10.
 // The nonvirtual Rva005CC5E5 parent is independently proved by the
