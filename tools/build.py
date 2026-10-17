@@ -1793,8 +1793,9 @@ def load_symbol_map():
     symbol_map = {}
     for row in load_all_function_rows():
         # Compiler-local ordinals cannot resolve a call from another TU.
-        # Their EH references are resolved through the owning object's graph.
-        if re.fullmatch(r"\$L\d+", row["name"]):
+        # Their EH references are resolved through the owning object's graph;
+        # a `_$E<n>` callee resolves through local_static_candidates.
+        if re.fullmatch(r"\$L\d+|_\$E\d+", row["name"]):
             continue
         # An alias row that is not in the reviewed register is no evidence for
         # its name: admitting it made "rename a row via object-symbol=" a way
@@ -1816,7 +1817,7 @@ def load_symbol_map():
             for row in csv.DictReader(handle):
                 address = int(row["address"], 16)
                 name = row["name"]
-                if re.fullmatch(r"\$L\d+", name):
+                if re.fullmatch(r"\$L\d+|_\$E\d+", name):
                     continue
                 candidates = symbol_map.setdefault(name, [])
                 seen = members.get(name)
@@ -2233,7 +2234,7 @@ def funclet_candidates(path, row, target):
             if all(offset + 4 <= len(target) and any(
                     struct.pack("<i", address - (rva + offset + 4))
                     == target[offset:offset + 4]
-                    for address in symbol_map.get(symbol, ()))
+                    for address in call_candidates(symbol_map, symbol, row))
                    for offset, symbol in calls):
                 exact.append(name)
         hits = exact
@@ -2282,6 +2283,51 @@ def scoped_funclet_collision(row):
     stat = ledger.stat()
     return len(local_funclet_sources(str(ledger), stat.st_mtime_ns,
                                     stat.st_size).get(row["name"], set())) > 1
+
+
+@functools.lru_cache(maxsize=2)
+def local_static_bodies(path, mtime, size):
+    """{(name, source): [thunks..., body]} for the ledger's `_$E<n>` rows."""
+    found = {}
+    with Path(path).open(newline="", encoding="utf-8") as handle:
+        for row in csv.DictReader(handle):
+            if ledger_io.local_static(row):
+                key = (row["name"], row["source"].replace("\\", "/"))
+                found.setdefault(key, []).append(int(row["target_rva"], 16))
+    thunks = build_call_thunks() if found else {}
+    return {key: [address for body in bodies for address in thunks.get(body, []) + [body]]
+            for key, bodies in found.items()}
+
+
+def call_candidates(symbol_map, name, row):
+    """Addresses a relocation to `name` in `row`'s object may resolve to.
+
+    A `_$E<n>` callee is the caller's own TU's: another object's same-named
+    static is a different function, so only same-source rows are candidates.
+    """
+    if not ledger_io.LOCAL_STATIC.fullmatch(name):
+        return symbol_map.get(name, ())
+    if not FUNCTIONS.is_file():
+        return ()
+    stat = FUNCTIONS.stat()
+    return local_static_bodies(str(FUNCTIONS), stat.st_mtime_ns, stat.st_size).get(
+        (name, row["source"].replace("\\", "/")), ())
+
+
+def read_local_static(row, output, target_size):
+    """A `_$E<n>` row's bytes from its one local COFF definition, by its own name.
+
+    Its ledger name repeats across TUs, so neither another ordinal (the stale
+    initializer fallback) nor an external definition may stand in for it.
+    """
+    stat = output.stat()
+    _, _, symbols = _object_layout(str(output), stat.st_mtime_ns, stat.st_size)
+    defined = [symbol for symbol in symbols
+               if symbol["name"] == row["name"] and symbol["section"] > 0]
+    if len(defined) != 1 or defined[0].get("storage") != 3:
+        raise SystemExit(f"{row['name']} ({row['source']}): compiler-local static is not "
+                         "one local COFF definition in its object")
+    return read_object_symbol_bytes(output, row["name"], target_size, code_only=True)
 
 
 @functools.lru_cache(maxsize=1)
@@ -2500,6 +2546,8 @@ def compile_function(row, symbol_map, output, *, allow_weak=True):
     note = None
     if is_funclet_row(row, object_symbol):
         compiled, relocs, note = read_funclet(row, object_symbol, output, target)
+    elif ledger_io.local_static(row):
+        compiled, relocs = read_local_static(row, output, target_size)
     else:
         compiled, relocs = read_object_symbol_bytes(output, object_symbol, target_size, code_only=True)
 
@@ -2560,9 +2608,9 @@ def compile_function(row, symbol_map, output, *, allow_weak=True):
                         f"claims target_size {target_size}. The row's extent is wrong: raise "
                         "it to the real end of the function. This displacement is part of "
                         "this body, not of whatever follows it.")
-                if sym_name in symbol_map:
+                candidates = call_candidates(symbol_map, sym_name, row)
+                if candidates:
                     next_address = target_rva + offset + 4
-                    candidates = symbol_map[sym_name]
                     displacement = struct.pack("<i", candidates[0] - next_address)
                     for target_address in candidates[1:]:
                         if target[offset : offset + 4] == displacement:
@@ -2836,7 +2884,7 @@ def body_extent_problems(row, patch, symbol_map, output, row_starts):
             if not name.startswith("$") and (symbol.get("type") == 0x20
                                              or symbol.get("storage") == 2):
                 address = (got - addend - IMAGE_BASE) & 0xFFFFFFFF
-                if address not in symbol_map.get(name, ()):
+                if address not in call_candidates(symbol_map, name, row):
                     problems.append(("ltable", f"+0x{offset:x} function pointer {name}: "
                                                f"retail 0x{address:08X} is not that function"))
             else:
@@ -2847,9 +2895,9 @@ def body_extent_problems(row, patch, symbol_map, output, row_starts):
             resolved[offset:offset + 4] = retail[offset:offset + 4]
         elif offset >= size:
             width = RELOC_WIDTH.get(rtype, 4)
-            if rtype == REL32 and name in symbol_map:
+            if rtype == REL32 and call_candidates(symbol_map, name, row):
                 following = rva + offset + 4
-                for candidate in symbol_map[name]:
+                for candidate in call_candidates(symbol_map, name, row):
                     displacement = struct.pack("<i", candidate - following)
                     if displacement == retail[offset:offset + 4]:
                         break

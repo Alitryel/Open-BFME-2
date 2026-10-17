@@ -29,11 +29,30 @@ def local_funclet(row):
                 and not any(token.startswith("object-symbol=") for token in tokens))
 
 
+LOCAL_STATIC = re.compile(r"_\$E\d+")
+
+
+def local_static(row):
+    """A compiler-local `_$E<n>` initializer or atexit callback, never an alias.
+
+    Every object numbers its own, so two TUs' `_$E2` are different functions.
+    This identifies a ledger namespace only. The byte gate must read the row
+    from that name's single local COFF definition in the row's own object.
+    """
+    source = row.get("source", "").replace("\\", "/")
+    tokens = [token.strip() for token in row.get("notes", "").split(";")]
+    return bool(LOCAL_STATIC.fullmatch(row.get("name", ""))
+                and source.startswith("Code/") and source.endswith(".cpp")
+                and not source.startswith(("Code/gen_asm/", "Code/gen_small/"))
+                and not any(token.startswith(("object-symbol=", "gen-")) for token in tokens))
+
+
 def same_function_name(left, right):
     """External names are global; proven compiler labels belong to one TU."""
     if left["name"] != right["name"]:
         return False
-    if local_funclet(left) and local_funclet(right):
+    if (local_funclet(left) and local_funclet(right)
+            or local_static(left) and local_static(right)):
         return left["source"].replace("\\", "/") == right["source"].replace("\\", "/")
     return True
 
