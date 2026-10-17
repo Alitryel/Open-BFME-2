@@ -19,6 +19,8 @@
 #include <map>
 #include <string.h>
 
+// Native C1AE1C slot 2 is the TeamFactory name getter at 3A261E.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 class SubsystemInterface
@@ -46,7 +48,7 @@ public:
 
 protected:
 	virtual void loadPostProcess();
-	virtual void crc(Xfer *xfer);
+	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 
 private:

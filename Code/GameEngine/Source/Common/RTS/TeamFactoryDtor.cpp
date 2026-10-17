@@ -4,6 +4,8 @@
 // Layout: SubsystemInterface at +0 plus Snapshot at +0xC plus member at +0xB0 plus count. Evidence: unlock packet EH prolog plus singleton clear plus unblocks deleting dtor 0x003A398B; next Rva003A4322 dtor shares UAE pattern.
 class Xfer;
 
+// Native C1AE1C slot 2 is the TeamFactory name getter at 3A261E.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "../../../../../reference/shims/moduledata/Common/Snapshot.h"
 
 
@@ -45,7 +47,7 @@ protected:
 	// Snapshot slots of TeamFactoryCtor.cpp's table, declared so this TU's
 	// ??_7TeamFactory@@6BSnapshot@@@ is the same four-slot table.
 	virtual void loadPostProcess();
-	virtual void crc(Xfer *xfer);
+	virtual const char *GetSnapshotName() const;
 	virtual void xfer(Xfer *xfer);
 private:
 	char m_pad10[0xB0 - 0x10];
@@ -82,4 +84,11 @@ void TeamFactory::reset()
 
 void TeamFactory::update()
 {
+}
+
+// Native Snapshot slot 2: mov eax,TeamFactory-literal / ret (3A261E..3A2624).
+// Rehomed from the address-named getter; no new retail bytes claimed.
+const char *TeamFactory::GetSnapshotName() const
+{
+	return "TeamFactory";
 }

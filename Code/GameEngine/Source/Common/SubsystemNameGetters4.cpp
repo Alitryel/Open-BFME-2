@@ -43,7 +43,7 @@ BFME_LITERAL_NAME_GETTER(Rva0039143FNamed, "RadiusDecalUpdate")
 BFME_LITERAL_NAME_GETTER(Rva003957C0Named, "CastleMemberBehavior")
 BFME_LITERAL_NAME_GETTER(Rva0039C3A6Named, "ScoreKeeper")
 BFME_LITERAL_NAME_GETTER(Rva003A25ABNamed, "TeamRelationMap")
-BFME_LITERAL_NAME_GETTER(Rva003A261ENamed, "TeamFactory")
+// TeamFactory::GetSnapshotName is owned by RTS/TeamFactoryDtor.cpp.
 BFME_LITERAL_NAME_GETTER(Rva003B03EDNamed, "GPUParticleSystemStorageModule")
 // Rva003B3662 "Script" is Script::GetSnapshotName, rowed under its real
 // name from Code/GameEngine/Source/GameLogic/ScriptEngine/ScriptDtor.cpp.
