@@ -16,8 +16,67 @@ public:
     static void parseDeathTypeFlags(INI *, void *, void *, const void *);
 };
 extern const char *TheVeterancyNames[];
-extern const char * const BFME2DamageTypeNames[];
-extern const char * const BFME2DeathTypeNames[];
+// Owned here: parseDamageTypeFlags (0x338CD0) is the only reader of the .data table at VA 0x00DBE858
+// (retail's entries and NULL terminator, transcribed from the image).
+const char *BFME2DamageTypeNames[] = {
+    "FORCE",
+    "CRUSH",
+    "SLASH",
+    "PIERCE",
+    "SIEGE",
+    "STRUCTURAL",
+    "FLAME",
+    "HEALING",
+    "UNRESISTABLE",
+    "WATER",
+    "PENALTY",
+    "FALLING",
+    "TOPPLING",
+    "REFLECTED",
+    "PASSENGER",
+    "MAGIC",
+    "CHOP",
+    "HERO",
+    "SPECIALIST",
+    "URUK",
+    "HERO_RANGED",
+    "FLY_INTO",
+    "UNDEFINED",
+    "LOGICAL_FIRE",
+    "CAVALRY",
+    "CAVALRY_RANGED",
+    "POISON",
+    0
+};
+// Owned here: parseDeathTypeFlags (0x338D91) is the only reader of the .data table at VA 0x00DBE8D8
+// (retail's entries and NULL terminator, transcribed from the image).
+const char *BFME2DeathTypeNames[] = {
+    "NORMAL",
+    "NONE",
+    "CRUSHED",
+    "BURNED",
+    "EXPLODED",
+    "POISONED",
+    "TOPPLED",
+    "FLOODED",
+    "SUICIDED",
+    "LASERED",
+    "DETONATED",
+    "SPLATTED",
+    "POISONED_BETA",
+    "EXTRA_2",
+    "EXTRA_3",
+    "EXTRA_4",
+    "EXTRA_5",
+    "EXTRA_6",
+    "EXTRA_7",
+    "EXTRA_8",
+    "KNOCKBACK",
+    "SUPERNATURAL",
+    "FADED",
+    "SLAUGHTERED",
+    0
+};
 extern "C" __declspec(dllimport) int __cdecl _strcmpi(const char *, const char *);
 struct INIException { char *message; int code; INIException(int argCount, const char *format, ...); };
 extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__ThrowInfo *pThrowInfo);
