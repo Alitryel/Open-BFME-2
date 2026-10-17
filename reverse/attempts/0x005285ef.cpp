@@ -1,10 +1,14 @@
 // ?UpdateButtonVisiblity@Impl@AptInGameSideCommandBar@@QAE_NPAVObject@@@Z
+// partial score=0.951 date=2026-10-17
+// ?UpdateButtonVisiblity@Impl@AptInGameSideCommandBar@@QAE_NPAVObject@@@Z
 // partial score=0.6 date=2026-10-15
 // ?UpdateButtonVisiblity@Impl@AptInGameSideCommandBar@@QAE_NPAVObject@@@Z
 // partial score=0.75 date=2026-10-10
 // ?UpdateButtonVisiblity@Impl@AptInGameSideCommandBar@@QAE_NPAVObject@@@Z
 // partial score=0.75 date=2026-10-09
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/shims/bfme2_ascii
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // WorldBuilder 013C8490 names Impl::OnButtonFrameLoaded; retail
 // 005283F8..00528545 parses index/name and binds the movie in its slot.
 // Native constructor 005288C4 initializes fifteen 12-byte slots at +24;
@@ -238,28 +242,29 @@ AptInGameSideCommandBar::Impl::~Impl() {}
 
 bool AptInGameSideCommandBar::Impl::UpdateButtonVisiblity(Object *)
 {
- if(0){AsciiString unused;}
  int slotNum = 0;
  int showIndex = 0;
+ _ReadWriteBarrier();
  for (int i = 0; i < 32 && slotNum < 15; ++i) {
   GameWindow *window = ((SideBarControlBarView *)TheControlBar)->m_buttons[i];
   if (!window) continue;
   SideBarCommandButtonView *button = (SideBarCommandButtonView *)GadgetButtonGetData(window);
   if (!button || !button->m_display) continue;
   if (!m_buttons[slotNum].m_button.m_ptr) break;
-  if (slotNum < m_count && m_buttons[slotNum].m_key != i) HideButtons(slotNum);
+  if (slotNum >= m_count) goto append_button;
+  if (m_buttons[slotNum].m_key != i) HideButtons(slotNum);
+append_button:
   SideBarSlot &slot = m_buttons[slotNum];
   if (slotNum >= m_count) {
    Rva00525338Fire(g_bfmeAptWindowManager, (void *)m_level, m_prefixString.str(), "SetButtonState", &showIndex, (void *)"_show");
-   Rva005C3549 *updater = new Rva005C3549(slot.m_button.m_ptr, window, (void *)m_displayedObject);
+   Rva005C3549 *updater = new Rva005C3549((slotNum >= m_count ? m_buttons[slotNum].m_button.m_ptr : m_buttons[slotNum].m_button.m_ptr), window, (void *)m_displayedObject);
    ((Rva002BED91 *)&slot.m_updater)->set((TargetRef00217D4C *)updater);
    slot.m_key = i;
    m_count = slotNum + 1;
   } else {
    ((Rva005CCB83 *)slot.m_updater.m_ptr)->rva005CCB83((void *)m_displayedObject);
   }
-  ++slotNum;
-  showIndex = slotNum;
+  *(volatile int *)&slotNum = slotNum + 1;
  }
  HideButtons(slotNum);
  return slotNum > 0;
