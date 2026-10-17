@@ -318,7 +318,8 @@ struct Rva004452A8GlobalData
 
 void GadgetTextEntrySetText(GameWindow *window, UnicodeString text);
 
-// Unrowed 0x00437421 (482 bytes, no arguments), pinned by address.
+// 0x00437421 (482 bytes, no arguments): the saved-game digest index
+// rebuild, rowed in WWLib/stlport_rb_tree_hint_00436e3b.cpp with its map.
 void Rva00437421();
 
 // Window manager vslots 44 and 45 are registerTabList and clearTabList

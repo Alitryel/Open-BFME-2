@@ -25,7 +25,9 @@ bool operator<(const AsciiString &, const AsciiString &);
 struct BfmeSubobject0022CE19 {
     virtual ~BfmeSubobject0022CE19();
     unsigned char m_opaque[0xDE4];
+    BfmeSubobject0022CE19();
     BfmeSubobject0022CE19(const BfmeSubobject0022CE19 &);
+    BfmeSubobject0022CE19 &operator=(const BfmeSubobject0022CE19 &);
 };
 struct TreeHintOpaque0043671B {
     UnicodeString m_text;
@@ -34,6 +36,7 @@ struct TreeHintOpaque0043671B {
     TreeHintOpaque0043671B();
     TreeHintOpaque0043671B(const TreeHintOpaque0043671B &);
     ~TreeHintOpaque0043671B();
+    TreeHintOpaque0043671B &operator=(const TreeHintOpaque0043671B &);
 };
 inline TreeHintOpaque0043671B::TreeHintOpaque0043671B(const TreeHintOpaque0043671B &other)
     : m_text(other.m_text), m_subobject(other.m_subobject),
@@ -86,4 +89,93 @@ TreeHintOpaque0043671B *Rva004360B3(AsciiString key)
     if (found._M_node != table.end()._M_node)
         return &(*found).second;
     return 0;
+}
+
+// Retail 0x00437421 (482 bytes, no arguments), the last call of the LAN
+// lobby start-up InitTheLan (0x0044546D): it lists the save files of type 6,
+// reads each file's BFME2 metadata and indexes the entries whose digest is
+// nonzero by that digest's MD5 text in this map (0x004360B3 and 0x004361B3
+// search it the same way). The owning application type stays unresolved.
+#include <set>
+extern "C" int __cdecl strcmp(const char *left, const char *right);
+extern "C" void MD5Print(unsigned char digest[16], char output[33]);
+
+// The file-name set GameState::iterateSaveFiles also fills (its destructor
+// is rowed as ??1Rva0021C459 at 0x0021D5D5). Its elements are wide names,
+// but retail calls the shared set constructor 0x000D3A71, rowed under its
+// ICF fold name set<AsciiString>; the walk reads its nodes as wide names.
+typedef _STL::set<AsciiString, _STL::less<AsciiString>, _STL::allocator<AsciiString> > SetConstructorAlias00437421;
+// Only ~Rva0021C459 (0x0021D5D5) destroys the set; keep its tree's
+// destructor chain out of this unit as for the map's tree above.
+extern template _STL::_Rb_tree<AsciiString, AsciiString, _STL::_Identity<AsciiString>, _STL::less<AsciiString>, _STL::allocator<AsciiString> >::~_Rb_tree();
+class Rva0021C459 : public SetConstructorAlias00437421
+{
+public:
+    ~Rva0021C459();
+    // The tree header node, the set's first word (as iterateSaveFiles walks it).
+    _STL::_Rb_tree_node_base *header() const { return *reinterpret_cast<_STL::_Rb_tree_node_base *const *>(this); }
+};
+
+class Rva002DC267
+{
+public:
+    UnicodeString rva002DC267() const; // the save directory
+};
+
+// The 81-byte file-list provider 0x006007DA ignores ECX and takes four stack
+// words; call it as GameState::iterateSaveFiles does, with the file system
+// as the unused receiver.
+class Rva006007DAFileSystem {};
+void __stdcall Rva006007DAOpen(void *, void *, void *, void *);
+union NativeSaveEnumerationCall {
+    void (__stdcall *target)(void *, void *, void *, void *);
+    void (Rva006007DAFileSystem::*member)(const UnicodeString *, const UnicodeString *, Rva0021C459 *, bool);
+};
+
+class GameState
+{
+public:
+    void *rva002DBC97Get(int saveType);
+    bool getSaveGameInfoFromFile(UnicodeString filename, BfmeSubobject0022CE19 *metadata);
+};
+class FileSystem;
+extern GameState *TheGameState;
+extern FileSystem *TheFileSystem;
+
+void Rva00437421()
+{
+    if (TheGameState == 0)
+        return;
+
+    MapInsert00436e3b *hints = (MapInsert00436e3b *)&g_Va00E032EC;
+    hints->clear();
+
+    UnicodeString pattern(AsciiString("*"));
+    pattern += (const unsigned short *)TheGameState->rva002DBC97Get(6);
+
+    Rva0021C459 files;
+    NativeSaveEnumerationCall enumeration = {&Rva006007DAOpen};
+    (((Rva006007DAFileSystem *)TheFileSystem)->*enumeration.member)(
+        &((Rva002DC267 *)TheGameState)->rva002DC267(), &pattern, &files, true);
+
+    for (_STL::_Rb_tree_node_base *node = files.header()->_M_left; node != files.header();
+         node = _STL::_Rb_global<bool>::_M_increment(node))
+    {
+        BfmeSubobject0022CE19 metadata;
+        const UnicodeString &name = static_cast<_STL::_Rb_tree_node<UnicodeString> *>(node)->_M_value_field;
+        if (!TheGameState->getSaveGameInfoFromFile(name, &metadata))
+            continue;
+
+        char printedDigest[33];
+        MD5Print((unsigned char *)&metadata + 0xDA8, printedDigest);
+        if (strcmp(printedDigest, "00000000000000000000000000000000") == 0)
+            continue;
+
+        TreeHintOpaque0043671B hint;
+        hint.m_wordDF0 = 0;
+        hint.m_wordDEC = 0;
+        hint.m_subobject = metadata;
+        hint.m_text = name;
+        (*hints)[AsciiString(printedDigest)] = hint;
+    }
 }
