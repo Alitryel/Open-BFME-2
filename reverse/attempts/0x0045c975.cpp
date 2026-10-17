@@ -1,4 +1,6 @@
 // ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
+// partial score=0.97 date=2026-10-17
+// ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
 // partial score=0.969 date=2026-10-17
 // ?rva0045C975@BezierProjectileBehavior@@QAEXH@Z
 // partial score=0.842 date=2026-10-15
@@ -90,9 +92,10 @@ public:
 	// Sets status bit 26 once, notifying through 0x0028AE6D.
 	__forceinline void rva0045C975SetBit26()
 	{
-		if (!(*(volatile int *)&m_flags118 & 0x4000000))
+		if (!(m_flags118 & 0x4000000))
 		{
-			*(volatile int *)&m_flags118 |= 0x4000000;
+			_ReadWriteBarrier();
+			m_flags118 |= 0x4000000;
 			rva0028AE6D();
 		}
 	}
@@ -104,7 +107,7 @@ public:
 	char m_pad0[0x38];
 	Coord3D m_pos38; // +0x38
 	char m_pad44[0x118 - 0x44];
-	int m_flags118; // +0x118
+	unsigned int m_flags118; // +0x118
 	char m_pad11C[0x258 - 0x11C];
 	ObjectAI *m_ai258; // +0x258
 };
