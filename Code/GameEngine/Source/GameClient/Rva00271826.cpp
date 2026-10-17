@@ -6,7 +6,20 @@
 // +0x3C +0x40 +0x44 +0x48 +0x4C all zero; prev Rva00271779 same arch.
 // Evidence: vtable VA 0x007FAF68, 12 callers including 0x0027543B.
 
-extern const void *const g_007FAF68[];
+// The retail table at RVA 0x007FAF68: 4 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRadarObject@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?name@Rva00271892Named@@QBEPBDXZ")();
+void __identifier("?rva00271A0F@Rva00271A0F@@QAEXPAVXfer@@@Z")();
+}
+extern const void *const g_007FAF68[4] = {
+	(const void *)&__identifier("??_GRadarObject@@UAEPAXI@Z"), // slot 0 0x004A10FD
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("?name@Rva00271892Named@@QBEPBDXZ"), // slot 2 0x00271892
+	(const void *)&__identifier("?rva00271A0F@Rva00271A0F@@QAEXPAVXfer@@@Z"), // slot 3 0x00271A0F
+};
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)

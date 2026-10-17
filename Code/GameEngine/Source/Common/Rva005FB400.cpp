@@ -1,6 +1,17 @@
 // cl: /MD
 // ??0Rva005FB400@@QAE@PBX@Z @0x005FB400 24B: honest ctor storing vtable VA 0x00C79F24 at [this] plus zeroes +4 plus copies *arg to +8. Evidence: caller new 0xc at 0x005FB46F plus ret 4 plus precedent Rva005FB22BCtor same 24B shape.
-extern const void *const g_00C79F24[];
+// The retail table at RVA 0x00879F24: 3 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva004E84A4@@QAEPAXI@Z")();
+void __identifier("?clone@Rva005FB400@@QBE?AV?$RvaCloneResult@VRva005FB400@@@@XZ")();
+void __identifier("?rva005FB418@Rva005FB418@@QAE?AURvaF1Handle@@II@Z")();
+}
+extern const void *const g_00C79F24[3] = {
+	(const void *)&__identifier("??_GRva004E84A4@@QAEPAXI@Z"), // slot 0 0x005FAA31
+	(const void *)&__identifier("?clone@Rva005FB400@@QBE?AV?$RvaCloneResult@VRva005FB400@@@@XZ"), // slot 1 0x005FB4A1
+	(const void *)&__identifier("?rva005FB418@Rva005FB418@@QAE?AURvaF1Handle@@II@Z"), // slot 2 0x005FB418
+};
 template <class T> class RvaCloneResult {
 public: RvaCloneResult(T *p):pointer(p){if(p)++p->m_ref;} ~RvaCloneResult();
 private: T *pointer;

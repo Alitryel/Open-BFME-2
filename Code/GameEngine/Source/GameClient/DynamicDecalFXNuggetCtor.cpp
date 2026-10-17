@@ -46,7 +46,30 @@ protected:
 	unsigned char m_pad[0x148 - 8];
 };
 
-extern const void *const g_00BDD7A4[];
+// The retail table at RVA 0x007DD7A4: 10 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GCursorParticleSystemFXNugget@@UAEPAXI@Z")();
+void __identifier("?doFXPos@DynamicDecalFXNugget@@UBEXPBUCoord3D@@PBVMatrix3D@@M0@Z")();
+void __identifier("?doFXObj@DynamicDecalFXNugget@@UBEXPBVObject@@0@Z")();
+void __identifier("?rva001E1709@AttachedModelFXNugget@@UBEXAAVAssetList@@H@Z")();
+void __identifier("?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z")();
+void __identifier("?doFXPos@LaserFXNugget@@UBEXPBUCoord3D@@PBVMatrix3D@@M0@Z")();
+void __identifier("?doFXObj@LaserFXNugget@@UBEXPBVObject@@0@Z")();
+void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
+}
+extern const void *const g_00BDD7A4[10] = {
+	(const void *)&__identifier("??_GCursorParticleSystemFXNugget@@UAEPAXI@Z"), // slot 0 0x001E1152
+	(const void *)&__identifier("?doFXPos@DynamicDecalFXNugget@@UBEXPBUCoord3D@@PBVMatrix3D@@M0@Z"), // slot 1 0x001E0E43
+	(const void *)&__identifier("?doFXObj@DynamicDecalFXNugget@@UBEXPBVObject@@0@Z"), // slot 2 0x001E04BC
+	(const void *)&__identifier("?rva001E1709@AttachedModelFXNugget@@UBEXAAVAssetList@@H@Z"), // slot 3 0x001E1709
+	(const void *)&__identifier("?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z"), // slot 4 0x001DFF5D
+	(const void *)&__identifier("??_GCursorParticleSystemFXNugget@@UAEPAXI@Z"), // slot 5 0x001E1152
+	(const void *)&__identifier("?doFXPos@LaserFXNugget@@UBEXPBUCoord3D@@PBVMatrix3D@@M0@Z"), // slot 6 0x001E04FE
+	(const void *)&__identifier("?doFXObj@LaserFXNugget@@UBEXPBVObject@@0@Z"), // slot 7 0x001E05F9
+	(const void *)&__identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z"), // slot 8 0x0050B238
+	(const void *)&__identifier("?rva001DFF5D@Rva001DFEAABase@@UAE_NPAVObject@@0@Z"), // slot 9 0x001DFF5D
+};
 
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
