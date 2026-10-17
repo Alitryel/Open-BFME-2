@@ -13,11 +13,15 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
+// bfmeHeadersForSize: the headers' out-of-line inline copies that retail keeps are
+// the size-optimised bodies (decalsys.cpp pattern); the rows below keep the unit's flags.
+#pragma optimize("s", on)
 #include "rendobj.h"
 #include "aabox.h"
 #include "scene.h"
 #include "camera.h"
 #include "plane.h"
+#pragma optimize("", on)
 struct Gen_00943CF0_Node { Gen_00943CF0_Node *m_next; void *m_value; };
 struct SceneCollectCell { unsigned count; MultiListClass<RenderObjClass> objects; };
 typedef char SceneCollectCellSize[(sizeof(SceneCollectCell)==28)?1:-1];

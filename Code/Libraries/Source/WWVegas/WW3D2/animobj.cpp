@@ -12,6 +12,9 @@ struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
 static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
+// bfmeHeadersForSize: the headers' out-of-line inline copies that retail keeps are
+// the size-optimised bodies (decalsys.cpp pattern); the rows below keep the unit's flags.
+#pragma optimize("s", on)
 #include "rendobj.h"	// the verified BFME2 base object must win the include guard
 // Open-BFME-1's composite.h (donor 6583b3c1ff) must win its guard over Zero
 // Hour's: Zero Hour re-declares Cast_AABox / Cast_OBBox / Intersect_AABox as
@@ -88,6 +91,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include "ww3d.h"
 #include "wwmemlog.h"
 #include "animatedsoundmgr.h"
+#pragma optimize("", on)
 
 // Likewise for HTreeClass's scalar deleting destructor: retail links one copy,
 // the /O1-shaped body at 0x0017FADF (pop ecx after operator delete), where this

@@ -6,9 +6,13 @@
 // directory before the -I list, so the submodule copy would win the include
 // guard before reference/shims/bfmepool ever got a look in.  Same trap
 // dx8indexbuffer.cpp hit with dx8caps.h.
+// bfmeHeadersForSize: the headers' out-of-line inline copies that retail keeps are
+// the size-optimised bodies (decalsys.cpp pattern); the rows below keep the unit's flags.
+#pragma optimize("s", on)
 #include "mempool.h"
 #include "multilist.h"
 #include "wwmemlog.h"
+#pragma optimize("", on)
 
 // Retail keeps one MultiListNodeClass pool allocator (0x00610680); this unit calls it.
 template <> MultiListNodeClass *ObjectPoolClass<MultiListNodeClass, 256>::Allocate_Object_Memory(void);

@@ -13,6 +13,9 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #pragma optimize("", on)
 // Keep the MSVC float overloads local; the matched operations still inline.
 #define inline static inline
+// bfmeHeadersForSize: the headers' out-of-line inline copies that retail keeps are
+// the size-optimised bodies (decalsys.cpp pattern); the rows below keep the unit's flags.
+#pragma optimize("s", on)
 #include <math.h>
 #undef inline
 #define Matrix4x4 Matrix4  // BFME renamed it
@@ -83,6 +86,7 @@ static void bfmeVciAnchor() { BfmeVciAnchorElem anchor[2]; (void)anchor; }
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#pragma optimize("", on)
 
 
 const float EPSILON = 0.0001f;

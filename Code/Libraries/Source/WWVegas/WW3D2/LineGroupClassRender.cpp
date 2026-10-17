@@ -1,6 +1,9 @@
 // cl: /O2 /arch:SSE -DBFME_WWSTRING_NATIVE_CSTR_ASSIGN -Ireference/shims/wwstring_teardown/bfme -G7 -Ireference/shims/bfmerendobj -DNDEBUG -MD -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload -Ireference/open-bfme-1/game/Libraries/Source/Compression -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug -Ireference/shims/sweep -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WW3D2 -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWSaveLoad -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/Wwutil -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDownload -Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug -Ireference/open-bfme-1/game/Libraries/Source/Compression -Ireference/shims/sweep
 // Link view first: Vector3 Length/Normalize/ctor and the scalar operator* stay inline without emitting
 // /O2 copies that compete with retail's owners (0x000692B3, 0x0006924F, 0x006CD510, 0x00066382, 0x0007DFB3).
+// bfmeHeadersForSize: the headers' out-of-line inline copies that retail keeps are
+// the size-optimised bodies (decalsys.cpp pattern); the rows below keep the unit's flags.
+#pragma optimize("s", on)
 #include "../../../../../reference/shims/bfme_vector3_full_link/vector3_full_link.h"
 // Link view first: Vector4(x,y,z,w) stays inline without emitting an SSE
 // copy that competes with retail's integer-move owner (0x006D8A30).
@@ -71,6 +74,7 @@
 #include "wwdebug.h"
 #include "refcount.h"
 #include "dx8fvf.h"
+#pragma optimize("", on)
 const unsigned dynamic_fvf_type=D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX2|D3DFVF_DIFFUSE;
 class DX8Wrapper;
 class SortingRendererClass;
