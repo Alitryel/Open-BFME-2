@@ -100,6 +100,10 @@ void Transport::Rva004D5496(void)
 // ??1Transport@@QAE@XZ
 // retail 0x004494BA, 64 bytes. Runs the slot clearer, then the eight
 // slot destructors run through the vector destructor iterator.
+// Native handler 0x0078942F / FuncInfo 0x00937594 binds the complete
+// 24-byte action at 0x00789417 to m_slots[8] at +0x40E0C, stride 12.
+// The compiler emits it from this ordinary array lifetime; its whole body,
+// callback pointer and iterator relocation are verified with the parent.
 Transport::~Transport(void)
 {
 	Rva004D5496();
