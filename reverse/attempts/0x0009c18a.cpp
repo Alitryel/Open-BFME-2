@@ -1,4 +1,6 @@
 // ?rva0009C18A@Rva0009D55BProduct@@QAEXXZ
+// partial score=0.869 date=2026-10-17
+// ?rva0009C18A@Rva0009D55BProduct@@QAEXXZ
 // partial score=0.92 date=2026-10-15
 // ?rva0009C18A@Rva0009D55BProduct@@QAEXXZ
 // partial score=0.9041229309 date=2026-10-12
@@ -501,19 +503,19 @@ void Rva0009D55BProduct::rva0009C18A()
 	m_F8 = m_104;
 	float distance[2];
 	double tanX = tan(0.4363323152065277);
-	distance[0] = (m_170.hi.x - m_120) / tanX;
+	distance[0] = (float)((m_170.hi.x - m_120) / tanX);
 	double tanY = tan(0.4363323152065277);
-	_ReadWriteBarrier();
-	_ReadWriteBarrier();
-	distance[1] = (m_170.hi.y - m_120) * 1.333f / tanY;
+	distance[1] = (float)(((m_170.hi.y - m_120) * 1.333f) / tanY);
 	Matrix3D tm(true);
-	float drop = m_170.lo.getZ() - m_170.hi.getZ();
-	tm.Set_Z_Translation(-drop);
+	float drop = m_170.lo.z - m_170.hi.z;
+	float negDrop = -drop;
+	_ReadWriteBarrier();
+	_ReadWriteBarrier();
+	tm.Set_Z_Translation((1 ? negDrop : negDrop));
+	_ReadWriteBarrier();
 	m_170.lo.z = m_170.hi.z;
 	((Rva0009C18ARenderObj *)m_D4)->Set_Transform(tm);
-	float fitted=distance[0];
-	if(distance[1] > fitted) fitted=distance[1];
-	m_DC=fitted;
+	m_DC = distance[0] > distance[1] ? distance[1] : distance[0];
 	m_134 = 0.0f;
 	rva0009BAA4();
 	Coord3D corners[4];
