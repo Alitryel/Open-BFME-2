@@ -1,4 +1,6 @@
 // ?rva00031E60@GeneralAllocator@Allocator@EA@@QAEHPBX@Z
+// partial score=0.194 date=2026-10-17
+// ?rva00031E60@GeneralAllocator@Allocator@EA@@QAEHPBX@Z
 // partial score=0.179 date=2026-10-15
 // ?rva00031E60@GeneralAllocator@Allocator@EA@@QAEHPBX@Z
 // partial score=0.565 date=2026-10-15
@@ -90,19 +92,31 @@ int GeneralAllocator::rva00031E60(const void *block)
 		EnterCriticalSection(lock);
 		++lock->m_count;
 	}
-	unsigned int size = *(const unsigned int *)((const char *)block + 4) & 0x7FFFFFF8;
-	unsigned int blockEnd = size + (unsigned int)block;
+	unsigned int size = (*(const unsigned int *)((const char *)block + 4) & 0x7FFFFFF8);
+	_ReadWriteBarrier();
+	unsigned int blockEnd = (unsigned int)((const char *)block + size);
 	int score = probe31D00(block);
+	_ReadWriteBarrier();
 	unsigned int header = *(const unsigned int *)((const char *)block + 4);
-	unsigned int masked = header & 0x7FFFFFF8;
-	score += (*(const unsigned char *)(masked + (unsigned int)block + 4) & 1);
-	score += ((header >> 1) & 1);
-	if (!((unsigned int)block >= 0x10)) {
-		score += ((unsigned int)block > 4);
-	} else {
-		score += ((((unsigned int)block) & 7) != 0);
-		score += ((((unsigned int)block) & 7) != 0);
-		score += (*(const unsigned int *)blockEnd != (unsigned int)block);
+	unsigned int headerCopy = header;
+	{
+		unsigned int masked = headerCopy & 0x7FFFFFF8;
+		unsigned char b = *(const unsigned char *)(masked + (unsigned int)block + 4);
+		score += (b & 1);
+	}
+	_ReadWriteBarrier();
+	{
+		unsigned int shifted = (unsigned int)(headerCopy >> 1);
+		unsigned char c = (unsigned char)shifted;
+		score += (c & 1);
+	}
+	unsigned int blkValue = (unsigned int)block;
+	if ((blkValue >= 0x10)) {
+		unsigned char align7 = (unsigned char)(blkValue & 7);
+		int ba = (1 ? ((align7 != 0) ? 1 : 0) : ((align7 != 0) ? 1 : 0));
+		score += ba;
+		score += ba;
+		score += (*(const unsigned int *)blockEnd != blkValue);
 		score += (~header & 1);
 		if (block != m_head440)
 		{
