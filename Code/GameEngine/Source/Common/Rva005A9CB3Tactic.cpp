@@ -277,14 +277,6 @@ private:
 	unsigned int m_stage;	// +0x5C
 };
 
-bool AISimpleSiegeTactic::canRun(void *request)
-{
-	if (g_00DFEEF8->rva002A8AB1(m_owner)->rva002C6ACB()
-		&& checkTarget(request)
-		&& !((Rva005A9CB3Request *)request)->m_04)
-		return sideHasIdleSiegeWeapons();
-	return false;
-}
 
 void AISimpleSiegeTactic::xfer(Xfer *xfer)
 {
