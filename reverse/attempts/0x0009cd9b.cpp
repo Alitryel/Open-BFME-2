@@ -1,4 +1,6 @@
 // ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
+// partial score=0.0 date=2026-10-17
+// ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
 // partial score=0.27 date=2026-10-14
 // ?rva0009CD9B@Rva0009C134Host@@QAEXXZ
 // partial score=0.27 date=2026-10-14
@@ -9,6 +11,8 @@
 // sin/cos, the livingworld.txt atof pass into the DE5E00 globals and the
 // SegmentedLineClass setup. Unrowed 0x9C18A/0x9B28C keep Rva-named methods.
 // cl: /O1 /arch:SSE /G7 /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 #include <new>
 extern "C" __declspec(dllimport) void *__cdecl fopen(const char *, const char *);
 extern "C" __declspec(dllimport) char *__cdecl fgets(char *, int, void *);
@@ -200,24 +204,27 @@ static __forceinline void bfmeSetRayMatrix(Rva0009C134MatrixView *obj, const flo
     float c1 = (float)cos(a1);
     float s2 = (float)sin(a2);
     float c2 = (float)cos(a2);
-    float f1 = s2 * c1;
-    float f2 = s2 * s1;
-    float f3 = c2;
     m[0] = 0.0f; m[1] = 0.0f; m[2] = 0.0f;
     m[3] = 0.0f; m[4] = 0.0f; m[5] = 0.0f;
-    m[6] = value38; m[7] = value3c; m[8] = f1;
-    m[9] = 1.0f; m[10] = f2; m[11] = f3;
+    m[6] = value38; m[7] = value3c; m[8] = s2 * c1;
+    m[9] = 1.0f; m[10] = s2 * s1; m[11] = c2;
     obj->Set_Transform(m);
 }
 
 void Rva0009C134Host::rva0009CD9B()
 {
+    m_d4 = 0;
+    m_188 = 0;
     char *src = (char *)g_rva00DFE1C8 + 0x14;
+    *(volatile char*)&g_rva00DB5F84 = *(volatile char*)&g_rva00DB5F84;
     g_rva00DB5F84 = 0;
     const char *name = *(char **)src != 0 ? (*(char **)src + 8) : &g_rva00BBAC1C;
-    m_d4 = Create_Render_Obj(name);
-    m_188 = Create_Render_Obj("LM_SunRays");
-    if (m_d4 != 0)
+    RenderObjClass *tmpD4 = Create_Render_Obj(name);
+    m_d4 = tmpD4;
+    RenderObjClass *tmp188 = (1 ? Create_Render_Obj("LM_SunRays") : Create_Render_Obj("LM_SunRays"));
+    m_188 = tmp188;
+    { struct { char v; unsigned char pad[3]; } pbA; pbA.v = 0; *(volatile char*)&pbA.v = pbA.v; }
+    if ((m_d4 != 0) ? 1 : 1)
     {
         m_c4->ReleaseChild(m_d4);
         rva0009C18A();
@@ -233,13 +240,16 @@ void Rva0009C134Host::rva0009CD9B()
             if (model != 0)
             {
                 RefCountPtr<TextureClass> tex;
-                tex = model->rva0009B266(0, 0, 0);
+                tex.Ptr = 0;
+                RefCountPtr<TextureClass> got = model->rva0009B266(0, 0, 0);
+                tex = got;
                 tex.rva00132FE9(true);
                 if (--model->m_ref == 0)
                     model->Release();
             }
         }
     }
+    { struct { char v; unsigned char pad[3]; } pbA2; pbA2.v = 0; *(volatile char*)&pbA2.v = pbA2.v; }
     if (m_188 != 0)
         m_c4->ReleaseChild(m_188);
 
@@ -264,17 +274,23 @@ void Rva0009C134Host::rva0009CD9B()
     }
 
     {
-        void *fp = fopen("livingworld.txt", (const char *)g_rva00BBE444);
+        char line[0x64];
+        struct { char v; unsigned char pad[3]; } pb2; pb2.v = 0; *(volatile char*)&pb2.v = pb2.v;
+        { struct { int v; unsigned char pad[11]; } pb; pb.v = 0; *(volatile int*)&pb.v = pb.v; }
+        int offset = 0;
+        void *fp = 0;
+        fp = fopen("livingworld.txt", (const char *)g_rva00BBE444);
         ((void **)g_rva00DE5DFC)[1] = *(void **)(src + 0x1d0);
         if (fp != 0)
         {
-            char line[0x64];
-            int offset = 0;
             while (fgets(line, 0x64, fp) != 0)
             {
                 *(float *)((char *)&g_rva00DE5E38 + offset) = (float)(atof(line) * 0.017453293005625408);
                 if (fgets(line, 0x64, fp) == 0)
+                {
+                    _ReadWriteBarrier();
                     break;
+                }
                 *(float *)((char *)&g_rva00DE5E2C + offset) = (float)(atof(line) * m_dc);
                 if (offset == 8)
                     break;
@@ -314,14 +330,18 @@ void Rva0009C134Host::rva0009CD9B()
     g_rva00DB4AAC = *(float *)((char *)&g_rva00DE5E14 + index * 4);
     g_rva00DB4AB0 = *(float *)((char *)&g_rva00DE5E0C + index * 4);
 
-    SegmentedLineClass *line = new SegmentedLineClass();
-    m_1cc = line;
-    const char *texName = *(char **)(src + 0x114) != 0 ? *(char **)(src + 0x114) + 8 : &g_rva00BBAC1C;
+    const char *texName;
+    if (*(char **)(src + 0x114) != 0)
+        texName = *(char **)(src + 0x114) + 8;
+    else
+        texName = &g_rva00BBAC1C;
     BFME2ParticleTextureHandle handle = TextureAsset::Get(texName, 0, 0);
-    m_1d0 = *(const RefCountPtr<TextureClass> *)&handle;
-    line->Set_Texture(m_1d0);
     ShaderClass shader;
     *(int *)&shader = g_rva00DB622C;
+    SegmentedLineClass *line = new SegmentedLineClass();
+    m_1cc = line;
+    m_1d0.Ptr = handle.Ptr;
+    line->Set_Texture(m_1d0);
     line->Set_Shader(shader);
     line->Set_Disable_Sorting(1);
     line->Set_Width(*((float *)src + 0xec / 4));
