@@ -15,7 +15,8 @@
 // Source kept in the attempt file for the next seat.
 // Callee placeholders already admitted by address: ??0Rva003F8ED6@@QAE@H@Z
 // (0x003F8EA2), ?rva003F7C0C@Rva003F7C0C@@QAEXPAX@Z (0x003F7C0C).
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
@@ -77,7 +78,20 @@ namespace LivingWorldTutorial
 }
 
 extern const FieldParse g_00C373D8;
-extern const FieldParse g_00C37468;
+extern "C" {
+void __identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?ParseINI@SessionTask@LivingWorldTutorial@@SAXPAVINI@@PAURva003F7C0C@@@Z")();
+}
+// The retail table at 0x00837468: 4 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C37468[5] = {
+	{ "Audio", (FieldParseProc)&__identifier("?Rva00339900Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x8 },
+	{ "Text", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
+	{ "ClearPreviousText", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x19 },
+	{ "TaskAfterAudio", (FieldParseProc)&__identifier("?ParseINI@SessionTask@LivingWorldTutorial@@SAXPAVINI@@PAURva003F7C0C@@@Z"), 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
 
 void LivingWorldTutorial::SessionTask::ParseINI(INI *ini, Rva003F7C0C *outer)
 {
@@ -99,6 +113,6 @@ void LivingWorldTutorial::LogicTurn::ParseINI(INI *ini, Rva003F9004 *outer)
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F2576ThrowInfoAnchor); __assume(0);
 	}
 	Rva003F7EC7 *p = new Rva003F7EC7((outer->m_04?outer->m_04:outer->m_04));
-	ini->initFromINI(p, &g_00C37468);
+	ini->initFromINI(p, g_00C37468);
 	outer->rva003F9004((const ModuleData *)p);
 }
