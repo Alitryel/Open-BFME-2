@@ -1168,6 +1168,12 @@ bool __cdecl Rva003E549E() { return Rva0056815AAny(); }
 // 0x003E54A3 (5B) -> Rva0043C99AGet 0x0043C99A.
 int __cdecl Rva003E54A3() { return Rva0043C99AGet(); }
 
+struct GlobalA04450;
+extern GlobalA04450 *g_Va00A04450;
+
+// 0x003E54A8 (12B) -> test g_Va00A04450 != 0.
+bool __cdecl Rva003E54A8() { return g_Va00A04450 != 0; }
+
 // 0x00468A2A (5B) -> Rva003BD306Target::rva0039B2C7 0x0039B2C7.
 class Rva00468A2A { public: void rva00468A2A(int a, bool b); };
 void Rva00468A2A::rva00468A2A(int a, bool b) { ((Rva003BD306Target *)this)->rva0039B2C7(a, b); }
