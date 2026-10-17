@@ -1,4 +1,6 @@
 // ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
+// partial score=0.658 date=2026-10-17
+// ?do_put@?$money_put@GV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@_STL@@@_STL@@MBE?AV?$ostreambuf_iterator@GV?$char_traits@G@_STL@@@2@V32@_NAAVios_base@2@GABV?$basic_string@GV?$char_traits@G@_STL@@V?$allocator@G@2@@2@@Z
 // partial score=0.2693486590038314 date=2026-09-07
 // cl: /EHsc /MD /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC
 // stlport
@@ -128,6 +130,8 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   typedef moneypunct<_CharT, true>  _Punct_intl;
 
   locale __loc = __str.getloc();
+  volatile int _M_frame_pad = 0;
+  (void)_M_frame_pad;
   const _Ctype&      __c_type      = use_facet<_Ctype>(__loc) ;
   const _Punct&      __punct      = use_facet<_Punct>(__loc) ;
   const _Punct_intl& __punct_intl = use_facet<_Punct_intl>(__loc) ;
@@ -226,7 +230,7 @@ template <> _MoneyOut money_put<wchar_t, _MoneyOut>::do_put(_MoneyOut __s, bool 
   bool __generate_curr = (__str.flags() & ios_base::showbase) !=0;
   if (__generate_curr)
     __length += __curr_sym.size();
-  __declspec(align(8)) money_base::pattern __format =
+  money_base::pattern __format =
     __intl ? (__sign_policy.negative ? __punct_intl.neg_format() 
                             : __punct_intl.pos_format())
            : (__sign_policy.negative ? __punct.neg_format() 
