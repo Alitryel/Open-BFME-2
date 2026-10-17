@@ -126,16 +126,6 @@ bool PorcupineFormationBodyModule::rva004C2095()
 	return false;
 }
 
-void PorcupineFormationBodyModule::attemptDamage(DamageInfo *damageInfo)
-{
-	if (rva004C2095())
-	{
-		rva004C21A9(damageInfo);
-		ActiveBody::attemptDamage(damageInfo);
-	}
-	else
-		ActiveBody::attemptDamage(damageInfo);
-}
 
 bool PorcupineFormationBodyModule::rva004C2127(Object *other)
 {
