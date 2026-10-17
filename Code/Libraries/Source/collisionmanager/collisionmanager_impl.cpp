@@ -1,18 +1,18 @@
-// ?UpdateSort@CollisionManagerImpl@@QAEXXZ
-// partial score=0.81 date=2026-10-17
-// ?UpdateSort@CollisionManagerImpl@@QAEXXZ
-// partial score=0.787 date=2026-10-15
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
-// ?UpdateSort@CollisionManagerImpl@@QAEXXZ
-// partial score=0.78 date=2026-10-14
-// ?UpdateSort@CollisionManagerImpl@@QAEXXZ
-// partial score=0.78 date=2026-10-14
-// Draft from the BFME1 donor bank reference/open-bfme-1/targets/game/reverse/
-// attempts/0x009a3ad0.cpp (b1 0x009A3AD0 refresh) against WB 1804B90
-// CollisionManagerImpl::UpdateSort (collisionmanager_impl.cpp:467..607) and
-// retail 0x00759600 (1244B). Layouts are the rowed collision-family views.
-// cl: /O2 /DNDEBUG /MD
+// cl: /O2 /G6 /DNDEBUG /MD
+// collisionmanager_impl.cpp -- CollisionManagerImpl::UpdateSort, retail
+// 0x00759600 (1244 bytes). WorldBuilder names the function and its file (WB
+// 0x01804B90, collisionmanager_impl.cpp:467..607); BFME 1 has the same body at
+// b1 0x009A3AD0 (EA evidence name, chain+direct), whose banked donor draft
+// (reference/open-bfme-1 targets/game/reverse/attempts/0x009a3ad0.cpp) this
+// starts from. Each dirty data refreshes its coordinates; a moved one leaves
+// its three sorted axis lists (two 20-byte end points per axis from +0x24) and
+// is re-inserted by value, opening overlap pairs with every data whose
+// interval it crosses, or pushed to the list fronts while a rebuild is
+// pending. A small total move re-sorts the lists by insertion, adding and
+// removing overlap pairs as end points cross; otherwise every pair is dropped
+// and the lists are merge-sorted (0x007586F0) and swept again. Layout and
+// call targets are retail's (the rowed collision-family views); member names
+// are structural.
 
 typedef float Real;
 
@@ -36,7 +36,7 @@ struct Rva009A3AD0Endpoint
 	Rva009A3AD0Endpoint *m_prev;	// +0x00
 	Rva009A3AD0Endpoint *m_next;	// +0x04
 	Rva009A45A0CollisionData *m_node;	// +0x08
-	bool m_isMax : 1;	// +0x0c
+	unsigned int m_isMax : 1;	// +0x0c
 	Real m_value;	// +0x10
 
 	bool isMin() const { return !m_isMax; }
@@ -87,18 +87,11 @@ public:
 	void collectAll();
 };
 
-// 0x00759490 is rowed as Rva009A3540PairOwner::rva00759490 (the donor's
-// CollisionManagerImpl::_AddOverlap); 0x007586F0 is still an unrowed placeholder.
+// 0x00759490 is the rowed overlap-pair adder (WB CollisionManagerImpl::_AddOverlap).
 class Rva009A3540PairOwner
 {
 public:
 	void rva00759490(Rva009A3540OpaqueOwner *a, Rva009A3540OpaqueOwner *b);
-};
-
-class Rva007586F0Callee
-{
-public:
-	void rva007586F0();
 };
 
 class CollisionManagerImpl
@@ -107,9 +100,7 @@ public:
 	void UpdateSort();
 	void unlinkChain(Rva009A36F0Thing *thing);
 	void _RemoveOverlap(Rva009A3540OpaqueOwner *a, Rva009A3540OpaqueOwner *b);
-	void rva009A2750();
-	void insertSorted(Rva009A45A0CollisionData *node, Rva009A3AD0Interval *axis, Rva009A3AD0Endpoint **head);
-	void pushFront(Rva009A3AD0Interval *axis, Rva009A3AD0Endpoint **head);
+	void rva007586F0();
 
 	Rva009A45A0CollisionData *m_root;	// +0x00
 	unsigned int m_nodeCount;	// +0x04
@@ -119,90 +110,84 @@ public:
 	unsigned char m_table2[0xC068 - 0xAE10];
 	unsigned int m_axisCount;	// +0xc068
 	bool m_rebuild;	// +0xc06c
-};
 
-__forceinline void CollisionManagerImpl::insertSorted(Rva009A45A0CollisionData *node, Rva009A3AD0Interval *axis, Rva009A3AD0Endpoint **head)
-{
-	Rva009A3AD0Endpoint *cur = *head;
-	Rva009A3AD0Endpoint *prev = 0;
-	Rva009A45A0CollisionData *open = 0;
-	Real value = axis->m_max.m_value;
-	while (cur != 0 && !(cur->m_value > value))
+	__forceinline void insertSorted(Rva009A45A0CollisionData *node, Rva009A3AD0Interval *axis, Rva009A3AD0Endpoint **head)
 	{
-		if (cur->isMin())
+		Rva009A3AD0Endpoint *cur = *head;
+		Rva009A3AD0Endpoint *prev = 0;
+		Rva009A45A0CollisionData *open = 0;
+		Real value = axis->m_max.m_value;
+		while (cur != 0 && !(cur->m_value > value))
 		{
-			cur->m_node->m_openPrev = &open;
-			cur->m_node->m_openNext = open;
-			if (cur->m_node->m_openNext != 0)
-				cur->m_node->m_openNext->m_openPrev = &cur->m_node->m_openNext;
-			open = cur->m_node;
-		}
-		else
-		{
-			if (cur->m_node->m_openNext != 0)
-				cur->m_node->m_openNext->m_openPrev = cur->m_node->m_openPrev;
-			*cur->m_node->m_openPrev = cur->m_node->m_openNext;
-			cur->m_node->m_openPrev = 0;
-		}
-		prev = cur;
-		cur = cur->m_next;
-	}
-
-	axis->m_max.m_prev = prev;
-	axis->m_max.m_next = cur;
-	if (prev != 0)
-		prev->m_next = &axis->m_max;
-	else
-		*head = &axis->m_max;
-	if (cur != 0)
-		axis->m_max.m_next->m_prev = &axis->m_max;
-	prev = &axis->m_max;
-
-	if (cur != 0)
-	{
-		while (open != 0)
-		{
-			((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)open, (Rva009A3540OpaqueOwner *)node);
-			Rva009A45A0CollisionData *closed = open;
-			if (closed->m_openNext != 0)
-				closed->m_openNext->m_openPrev = closed->m_openPrev;
-			*closed->m_openPrev = closed->m_openNext;
-			closed->m_openPrev = 0;
-		}
-		value = axis->m_min.m_value;
-		do
-		{
-			if (!(cur->m_value < value))
-				break;
 			if (cur->isMin())
-				((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)cur->m_node, (Rva009A3540OpaqueOwner *)node);
+			{
+				cur->m_node->m_openPrev = &open;
+				cur->m_node->m_openNext = open;
+				if (cur->m_node->m_openNext != 0)
+					cur->m_node->m_openNext->m_openPrev = &cur->m_node->m_openNext;
+				open = cur->m_node;
+			}
+			else
+			{
+				if (cur->m_node->m_openNext != 0)
+					cur->m_node->m_openNext->m_openPrev = cur->m_node->m_openPrev;
+				*cur->m_node->m_openPrev = cur->m_node->m_openNext;
+				cur->m_node->m_openPrev = 0;
+			}
 			prev = cur;
 			cur = cur->m_next;
 		}
-		while (cur != 0);
+
+		axis->m_max.m_prev = prev;
+		axis->m_max.m_next = cur;
+		if (prev != 0)
+			prev->m_next = &axis->m_max;
+		else
+			*head = &axis->m_max;
+		if (cur != 0)
+			axis->m_max.m_next->m_prev = &axis->m_max;
+		prev = &axis->m_max;
+
+		if (cur != 0)
+		{
+			while (open != 0)
+			{
+				((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)open, (Rva009A3540OpaqueOwner *)node);
+				Rva009A45A0CollisionData *closed = open;
+				if (closed->m_openNext != 0)
+					closed->m_openNext->m_openPrev = closed->m_openPrev;
+				*closed->m_openPrev = closed->m_openNext;
+				closed->m_openPrev = 0;
+			}
+			value = axis->m_min.m_value;
+			do
+			{
+				if (!(cur->m_value < value))
+					break;
+				if (cur->isMin())
+					((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)cur->m_node, (Rva009A3540OpaqueOwner *)node);
+				prev = cur;
+				cur = cur->m_next;
+			}
+			while (cur != 0);
+		}
+
+		axis->m_min.m_prev = prev;
+		axis->m_min.m_next = cur;
+		prev->m_next = &axis->m_min;
+		if (cur != 0)
+			axis->m_min.m_next->m_prev = &axis->m_min;
 	}
 
-	axis->m_min.m_prev = prev;
-	axis->m_min.m_next = cur;
-	prev->m_next = &axis->m_min;
-	if (cur != 0)
-		axis->m_min.m_next->m_prev = &axis->m_min;
-}
-
-__forceinline void pushHead(Rva009A3AD0Endpoint *endpoint, Rva009A3AD0Endpoint **head)
-{
-	endpoint->m_prev = 0;
-	endpoint->m_next = *head;
-	if (endpoint->m_next != 0)
-		endpoint->m_next->m_prev = endpoint;
-	*head = endpoint;
-}
-
-__forceinline void CollisionManagerImpl::pushFront(Rva009A3AD0Interval *axis, Rva009A3AD0Endpoint **head)
-{
-	pushHead(&axis->m_min, head);
-	pushHead(&axis->m_max, head);
-}
+	__forceinline void pushFront(Rva009A3AD0Endpoint *endpoint, Rva009A3AD0Endpoint **head)
+	{
+		endpoint->m_prev = 0;
+		endpoint->m_next = *head;
+		if (endpoint->m_next != 0)
+			endpoint->m_next->m_prev = endpoint;
+		*head = endpoint;
+	}
+};
 
 void CollisionManagerImpl::UpdateSort()
 {
@@ -246,7 +231,10 @@ void CollisionManagerImpl::UpdateSort()
 				if (k < m_axisCount && !m_rebuild)
 					insertSorted(node, &node->m_intervals[k], &m_axisHeads[k]);
 				else
-					pushFront(&node->m_intervals[k], &m_axisHeads[k]);
+				{
+					pushFront(&node->m_intervals[k].m_min, &m_axisHeads[k]);
+					pushFront(&node->m_intervals[k].m_max, &m_axisHeads[k]);
+				}
 				++k;
 			}
 			while (k < 3);
@@ -283,22 +271,16 @@ void CollisionManagerImpl::UpdateSort()
 					continue;
 				}
 				Rva009A3AD0Endpoint *pos = cur;
-				if (cur->m_prev != 0)
+				while (pos->m_prev != 0 && pos->m_prev->m_value > cur->m_value)
 				{
-					do
-					{
-						Rva009A3AD0Endpoint *before = pos->m_prev;
-						if (!(before->m_value > cur->m_value))
-							break;
-						if (before->m_isMax && cur->isMin())
-							((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)before->m_node, (Rva009A3540OpaqueOwner *)cur->m_node);
-						else if (before->isMin() && cur->m_isMax)
-							_RemoveOverlap(
-								(Rva009A3540OpaqueOwner *)before->m_node,
-								(Rva009A3540OpaqueOwner *)cur->m_node);
-						pos = pos->m_prev;
-					}
-					while (pos->m_prev != 0);
+					Rva009A3AD0Endpoint *before = pos->m_prev;
+					if (before->m_isMax && cur->isMin())
+						((Rva009A3540PairOwner *)this)->rva00759490((Rva009A3540OpaqueOwner *)before->m_node, (Rva009A3540OpaqueOwner *)cur->m_node);
+					else if (before->isMin() && cur->m_isMax)
+						_RemoveOverlap(
+							(Rva009A3540OpaqueOwner *)before->m_node,
+							(Rva009A3540OpaqueOwner *)cur->m_node);
+					pos = pos->m_prev;
 				}
 
 				Rva009A3AD0Endpoint *next = cur->m_next;
@@ -329,7 +311,7 @@ void CollisionManagerImpl::UpdateSort()
 	((Rva00758B20 *)((char *)this + 0xAE10))->collectAll();
 	for (Rva009A45A0CollisionData *root = m_root; root != 0; root = root->m_rootNext)
 		root->m_rva009A3AD0_020 = 0;
-	((Rva007586F0Callee *)this)->rva007586F0();
+	rva007586F0();
 
 	for (unsigned int k = 0; k < m_axisCount; ++k)
 	{
