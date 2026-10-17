@@ -366,6 +366,7 @@ public:
 	virtual void v01(); virtual void v02(); virtual void v03(); virtual void v04();
 	virtual void v05(); virtual void v06(); virtual void v07();
 	virtual void onDelete(); // vslot 8
+	virtual Object *construct(const ThingTemplate *what, const Coord3D *pos, Real angle, Player *owningPlayer, Bool isRebuild, Int unused);
 	virtual void aiDoCommand(const AICommandParms *parms);
 	Int getCurrentStateID() const;
 	Bool isPathAvailable(const Coord3D *destination) const;
@@ -777,7 +778,8 @@ class DozerAIInterface
 {
 public:
 	virtual void onDelete() = 0; // vslot 0
-	virtual void slot1() = 0; virtual void slot2() = 0; virtual void slot3() = 0;
+	virtual Object *construct(const ThingTemplate *what, const Coord3D *pos, Real angle, Player *owningPlayer, Bool isRebuild, Int unused) = 0; // vslot 1
+	virtual void slot2() = 0; virtual void slot3() = 0;
 	virtual void slot4() = 0; virtual void slot5() = 0;
 	virtual Bool isTaskPending(DozerTask task) = 0; // vslot 6
 	virtual void slot7() = 0; virtual void slot8() = 0;

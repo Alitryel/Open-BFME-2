@@ -63366,3 +63366,27 @@ FUN_0062d53f	0x0022D53F	67	blocked	Served by a stale anchored_candidates.csv row
 ?rva004D1AA5@Rva004D1AA5@@QBE_NI@Z	0x004D1AA5	5	landed	add_match verified Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp 5B; 5B tail jump to rowed bitset<45>::_Unchecked_test 0x001E37E8
 ?rva005048B0@Rva005048B0@@QAEXAAV?$vector@VAsciiString@@V?$allocator@VAsciiString@@@_STL@@@_STL@@@Z	0x005048B0	5	landed	add_match verified Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp 5B; 5B tail jump to rowed vector<AsciiString>::swap 0x00567ECD
 ?rva006CC4D0@Rva006CC4D0@@QAEXXZ	0x006CC4D0	5	landed	add_match verified Code/GameEngine/Source/Common/GapJmpThunksSeat8.cpp 5B; 5B tail jump to rowed RenderObjClass::Update_Sub_Object_Transforms 0x0069E440
+?rva0023D012@Rva0023D012@@QAEHH@Z	0x0023D012	11	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 11B
+?rva0023D01D@Rva0023D01D@@QAEPBVAsciiString@@H@Z	0x0023D01D	11	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 11B
+?rva00566557@Rva00566557@@QAEXABVRva004E194E@@@Z	0x00566557	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?DoXfer@Rva003A57A9@@WM@AEXAAVXfer@@@Z	0x003A5A50	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?xfer@Rva003AE94E@@WBI@AEXPAVXfer@@@Z	0x003ABBFB	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?rva0055B30F@Rva0055B30F@@WBM@AEXPAVXfer@@@Z	0x003ABCA5	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?rva0055B951@Rva0055B951@@WBM@AEXPAVXfer@@@Z	0x003ABCF4	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?xfer@Rva0055EF39@@WBM@AEXPAVXfer@@@Z	0x003ABD63	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?rva0055F710@Rva0055F710@@WBM@AEXPAVXfer@@@Z	0x003ABDB8	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?DoXfer@Rva0055DB41@@WBM@AEXAAVXfer@@@Z	0x003ABF04	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?xfer@Rva0055CA8A@@OBM@AEXPAVXfer@@@Z	0x003ABFD1	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?rva0055CD38@Rva0055CD38@@WBM@AEXPAVXfer@@@Z	0x003AC02C	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?xfer@BoxEmissionVolumeModule@FXParticleSystem@@OBM@AEXPAVXfer@@@Z	0x003AC07F	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?rva0055D3F5@Rva0055D3F5@@WBM@AEXPAVXfer@@@Z	0x003AC0D2	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?xfer@OrthoEmissionVelocityModule@FXParticleSystem@@OBI@AEXPAVXfer@@@Z	0x003AC1E7	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?xfer@Rva003AF22E@@OBI@AEXPAVXfer@@@Z	0x003AC23B	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?xfer@CylindricalEmissionVelocityModule@FXParticleSystem@@OBI@AEXPAVXfer@@@Z	0x003AC28F	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?xfer@Rva0055B3D9@@WM@AEXPAVXfer@@@Z	0x003AC936	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?rva0055BB5C@Rva0055BB5C@@WM@AEXPAVXfer@@@Z	0x003AC9A7	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?rva0055F805@Rva0055F805@@WM@AEXPAVXfer@@@Z	0x003ACA1C	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?xfer@Rva003AE0AF@@OBA@AEXPAVXfer@@@Z	0x003ACA83	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?xfer@Rva003AE2A9@@OBA@AEXPAVXfer@@@Z	0x003ACB67	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?rva0050B238@Rva005E62F1@@WCA@AEXPAXI@Z	0x0046481D	8	landed	add_match verified Code/GameEngine/Source/Common/GapForwardersSeat8.cpp 8B
+?construct@WorkerAIUpdate@@WDOE@AEPAVObject@@PBVThingTemplate@@PBUCoord3D@@MPAVPlayer@@_NH@Z	0x004AA3A0	11	landed	add_match verified Code/GameEngine/Source/GameLogic/Object/Update/AIUpdate/WorkerAIUpdateCtor.cpp 11B

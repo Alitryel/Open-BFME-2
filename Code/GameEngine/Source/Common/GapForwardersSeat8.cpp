@@ -237,3 +237,111 @@ void Rva00313923::rva00313923(int value)
 {
 	((Rva00313923Manager *)TheWindowManager)->slot60(this, value);
 }
+
+// --- Additional receiver-adjust forwarders (8B and 11B) ---------------------
+class AsciiString;
+class Xfer;
+class Rva004E194E;
+
+class ArmySummarySystem
+{
+public:
+	int rva0040D025(int);
+	const AsciiString *rva0040D041(int);
+};
+
+namespace _STL
+{
+template <class T> class allocator;
+template <class T, class A> class vector
+{
+public:
+	void push_back(const T &);
+};
+}
+
+class Rva0023D012 { public: int rva0023D012(int a); private: char m_pad[0x184]; ArmySummarySystem m_184; };
+int Rva0023D012::rva0023D012(int a) { return m_184.rva0040D025(a); }
+
+class Rva0023D01D { public: const AsciiString *rva0023D01D(int a); private: char m_pad[0x184]; ArmySummarySystem m_184; };
+const AsciiString *Rva0023D01D::rva0023D01D(int a) { return m_184.rva0040D041(a); }
+
+class Rva00566557
+{
+public:
+	void rva00566557(const Rva004E194E &v);
+private:
+	char m_pad[0x6C];
+	_STL::vector<Rva004E194E, _STL::allocator<Rva004E194E> > m_6c;
+};
+void Rva00566557::rva00566557(const Rva004E194E &v) { m_6c.push_back(v); }
+
+struct EmitVtableTag;
+
+#define DEFINE_THUNK_UAE(Cls, Meth, Off, ArgDecl) \
+	struct Cls##_BaseA { virtual void Meth ArgDecl = 0; char m_pad[(Off) - 4]; }; \
+	struct Cls##_BaseB { virtual void Meth ArgDecl = 0; }; \
+	class Cls : public Cls##_BaseA, public Cls##_BaseB \
+	{ \
+	public: \
+		Cls(EmitVtableTag *); \
+		virtual void Meth ArgDecl; \
+	}; \
+	Cls::Cls(EmitVtableTag *) {}
+
+#define DEFINE_THUNK_MAE(Cls, Meth, Off, ArgDecl) \
+	struct Cls##_BaseA { protected: virtual void Meth ArgDecl = 0; char m_pad[(Off) - 4]; }; \
+	struct Cls##_BaseB { protected: virtual void Meth ArgDecl = 0; }; \
+	class Cls : public Cls##_BaseA, public Cls##_BaseB \
+	{ \
+	public: \
+		Cls(EmitVtableTag *); \
+	protected: \
+		virtual void Meth ArgDecl; \
+	}; \
+	Cls::Cls(EmitVtableTag *) {}
+
+// ?<Rva003A57A9::Rva003A57A9> absent-from-retail
+DEFINE_THUNK_UAE(Rva003A57A9, DoXfer, 0x0C, (Xfer &))
+// ?<Rva003AE94E::Rva003AE94E> absent-from-retail
+DEFINE_THUNK_UAE(Rva003AE94E, xfer, 0x18, (Xfer *))
+// ?<Rva0055B30F::Rva0055B30F> absent-from-retail
+DEFINE_THUNK_UAE(Rva0055B30F, rva0055B30F, 0x1C, (Xfer *))
+// ?<Rva0055B951::Rva0055B951> absent-from-retail
+DEFINE_THUNK_UAE(Rva0055B951, rva0055B951, 0x1C, (Xfer *))
+// ?<Rva0055EF39::Rva0055EF39> absent-from-retail
+DEFINE_THUNK_UAE(Rva0055EF39, xfer, 0x1C, (Xfer *))
+// ?<Rva0055F710::Rva0055F710> absent-from-retail
+DEFINE_THUNK_UAE(Rva0055F710, rva0055F710, 0x1C, (Xfer *))
+// ?<Rva0055DB41::Rva0055DB41> absent-from-retail
+DEFINE_THUNK_UAE(Rva0055DB41, DoXfer, 0x1C, (Xfer &))
+// ?<Rva0055CA8A::Rva0055CA8A> absent-from-retail
+DEFINE_THUNK_MAE(Rva0055CA8A, xfer, 0x1C, (Xfer *))
+// ?<Rva0055CD38::Rva0055CD38> absent-from-retail
+DEFINE_THUNK_UAE(Rva0055CD38, rva0055CD38, 0x1C, (Xfer *))
+// ?<Rva0055D3F5::Rva0055D3F5> absent-from-retail
+DEFINE_THUNK_UAE(Rva0055D3F5, rva0055D3F5, 0x1C, (Xfer *))
+// ?<Rva003AF22E::Rva003AF22E> absent-from-retail
+DEFINE_THUNK_MAE(Rva003AF22E, xfer, 0x18, (Xfer *))
+// ?<Rva0055B3D9::Rva0055B3D9> absent-from-retail
+DEFINE_THUNK_UAE(Rva0055B3D9, xfer, 0x0C, (Xfer *))
+// ?<Rva0055BB5C::Rva0055BB5C> absent-from-retail
+DEFINE_THUNK_UAE(Rva0055BB5C, rva0055BB5C, 0x0C, (Xfer *))
+// ?<Rva0055F805::Rva0055F805> absent-from-retail
+DEFINE_THUNK_UAE(Rva0055F805, rva0055F805, 0x0C, (Xfer *))
+// ?<Rva003AE0AF::Rva003AE0AF> absent-from-retail
+DEFINE_THUNK_MAE(Rva003AE0AF, xfer, 0x10, (Xfer *))
+// ?<Rva003AE2A9::Rva003AE2A9> absent-from-retail
+DEFINE_THUNK_MAE(Rva003AE2A9, xfer, 0x10, (Xfer *))
+// ?<Rva005E62F1::Rva005E62F1> absent-from-retail
+DEFINE_THUNK_UAE(Rva005E62F1, rva0050B238, 0x20, (void *, unsigned int))
+
+namespace FXParticleSystem
+{
+// ?<BoxEmissionVolumeModule::BoxEmissionVolumeModule> absent-from-retail
+DEFINE_THUNK_MAE(BoxEmissionVolumeModule, xfer, 0x1C, (Xfer *))
+// ?<OrthoEmissionVelocityModule::OrthoEmissionVelocityModule> absent-from-retail
+DEFINE_THUNK_MAE(OrthoEmissionVelocityModule, xfer, 0x18, (Xfer *))
+// ?<CylindricalEmissionVelocityModule::CylindricalEmissionVelocityModule> absent-from-retail
+DEFINE_THUNK_MAE(CylindricalEmissionVelocityModule, xfer, 0x18, (Xfer *))
+}
