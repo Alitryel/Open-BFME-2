@@ -1,4 +1,5 @@
 // ??0TeamPrototype@@QAE@PAVTeamFactory@@ABVAsciiString@@1PAVPlayer@@_NPAVDict@@H@Z
+// Native EH action 0x7818A6 destroys the 32 script-name strings at +0xAC with stride4; the complete parent EH graph proves this 24B lifetime.
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/moduledata /Ireference/shims/bfme2_ascii /ICode/Libraries/Include /DBFME_ASCII_DTOR_DECL
 // ZH Team.cpp (BFME1 reference575ba2b04743f190) supplies semantic structure.
 // Native offsets and WB identity are target evidence; opaque field labels and
