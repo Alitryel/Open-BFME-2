@@ -6,7 +6,8 @@
 // be specified" (string_xrefs.tsv). Sibling weapon parser at 0x00542997 uses
 // the same shape with its own table. Evidence: packet disassembly, caller
 // 0x00542BA1 (4 __cdecl args, caller cleans 0x10), prev/next flags.
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
@@ -14,8 +15,28 @@ public:
 	void initFromINI(void *what, const FieldParse *table);
 };
 
-extern const FieldParse g_00C69638;
-extern const FieldParse g_00C695B0;
+extern "C" {
+void __identifier("?Rva00427294Parse@@YAXPAVINI@@PAX11@Z")();
+void __identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z")();
+}
+// The retail table at 0x00869638: 3 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C69638[4] = {
+	{ "Armor", (FieldParseProc)&__identifier("?Rva00427294Parse@@YAXPAVINI@@PAX11@Z"), 0, 0x0 },
+	{ "RequiredUpgrades", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 0x4 },
+	{ "ExcludedUpgrades", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 0x84 },
+	{ 0, 0, 0, 0 }
+};
+extern "C" {
+void __identifier("?Rva00419726Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z")();
+}
+// The retail table at 0x008695B0: 3 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C695B0[4] = {
+	{ "Weapon", (FieldParseProc)&__identifier("?Rva00419726Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x0 },
+	{ "RequiredUpgrades", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 0x4 },
+	{ "ExcludedUpgrades", (FieldParseProc)&__identifier("?Rva0026F28BParse@@YAXPAVINI@@PAXPAI@Z"), 0, 0x84 },
+	{ 0, 0, 0, 0 }
+};
 
 struct INIException
 {
@@ -55,7 +76,7 @@ public:
 void __cdecl Rva00542B61Parse(INI *ini, void *a2, void *instance, void *a4)
 {
 	INIException e;
-	ini->initFromINI(instance, &g_00C69638);
+	ini->initFromINI(instance, g_00C69638);
 	if (*(void **)instance == 0)
 	{
 		rva002f681_fill(&e, 8, "AutoResolveArmor entry in Object block: Armor name MUST be specified");
@@ -83,7 +104,7 @@ void __cdecl Rva00542BA1Parse(INI *ini, void *a2, void *vecPtr, void *a4)
 void __cdecl Rva00542997Parse(INI *ini, void *a2, void *instance, void *a4)
 {
 	INIException e;
-	ini->initFromINI(instance, &g_00C695B0);
+	ini->initFromINI(instance, g_00C695B0);
 	if (*(void **)instance == 0)
 	{
 		rva002f681_fill(&e, 8, "AutoResolveWeapon entry in Object block: Weapon name MUST be specified");

@@ -12,10 +12,43 @@ extern "C" void _ReadWriteBarrier(void);
 class Thing;
 class ModuleData;
 
-extern const void *const g_008700C4[];
+// The retail table at RVA 0x008700C4: 12 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRva00484EF4@@UAEPAXI@Z")();
+void __identifier("?loadPostProcess@UpdateModule@@MAEXXZ")();
+void __identifier("?Rva0058902FGet@@YAHXZ")();
+void __identifier("?xfer@Rva00589051@@MAEXPAVXfer@@@Z")();
+int __cdecl _purecall(void);
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z")();
+void __identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z")();
+}
+extern const void *const g_008700C4[12] = {
+	(const void *)&__identifier("??_GRva00484EF4@@UAEPAXI@Z"), // slot 0 0x00589035
+	(const void *)&__identifier("?loadPostProcess@UpdateModule@@MAEXXZ"), // slot 1 0x0058B03E
+	(const void *)&__identifier("?Rva0058902FGet@@YAHXZ"), // slot 2 0x0058902F
+	(const void *)&__identifier("?xfer@Rva00589051@@MAEXPAVXfer@@@Z"), // slot 3 0x00589051
+	(const void *)&__identifier("_purecall"), // slot 4 0x0003B810
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 5 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 6 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 7 0x000B3FD0
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 8 0x000B3FD0
+	(const void *)&__identifier("?Add_Dependencies_To_List@RenderObjClass@@MAEXAAV?$DynamicVectorClass@VStringClass@@@@_N@Z"), // slot 9 0x0050B238
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 10 0x000D43D0
+	(const void *)&__identifier("?ControlBarInput@@YA?AW4WindowMsgHandledType@@PAVGameWindow@@III@Z"), // slot 11 0x000D43D0
+};
 extern const void *const g_00870008[];
 extern const void *const g_0084A50C[];
-extern const void *const g_0086FFFC[];
+// The retail table at RVA 0x0086FFFC: 2 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+int __cdecl _purecall(void);
+}
+extern const void *const g_0086FFFC[2] = {
+	(const void *)&__identifier("_purecall"), // slot 0 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 1 0x0003B810
+};
 
 class BehaviorModule
 {

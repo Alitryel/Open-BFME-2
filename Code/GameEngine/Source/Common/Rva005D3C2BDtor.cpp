@@ -30,8 +30,52 @@ private:
 	char m_pad[0xC];
 };
 
-extern const void *const g_00C7598C[];
-extern const void *const g_00C75908[];
+// The retail table at RVA 0x0087598C: 11 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?getDataLength@NetWrapperCommandMsg@@QAEIXZ")();
+void __identifier("?rva005D3CCD@Rva005D3B9A@@QAEXH@Z")();
+void __identifier("?get@Rva00373C9FByteField@@QBEEXZ")();
+void __identifier("?ShowCommandPoints@SelectionUIImpl@StrategicHUD@@QAEXHH@Z")();
+void __identifier("?HideCommandPoints@SelectionUIImpl@StrategicHUD@@QAEXXZ")();
+void __identifier("?get@Rva00091A25LeaField@@QBEPAXXZ")();
+void __identifier("?rva005D3DD5@Rva005D3CA6@@QAEXABUTreeHintRef00217D4C@@@Z")();
+void __identifier("?get@Rva00498802ByteField@@QBEEXZ")();
+void __identifier("?Show@SelectionUIImpl@StrategicHUD@@QAEXXZ")();
+void __identifier("?Hide@SelectionUIImpl@StrategicHUD@@QAEXXZ")();
+void __identifier("?rva005D3D97@SelectionUIImpl@StrategicHUD@@QAEXXZ")();
+}
+extern const void *const g_00C7598C[11] = {
+	(const void *)&__identifier("?getDataLength@NetWrapperCommandMsg@@QAEIXZ"), // slot 0 0x0030D377
+	(const void *)&__identifier("?rva005D3CCD@Rva005D3B9A@@QAEXH@Z"), // slot 1 0x005D3CCD
+	(const void *)&__identifier("?get@Rva00373C9FByteField@@QBEEXZ"), // slot 2 0x00373C9F
+	(const void *)&__identifier("?ShowCommandPoints@SelectionUIImpl@StrategicHUD@@QAEXHH@Z"), // slot 3 0x005D39EA
+	(const void *)&__identifier("?HideCommandPoints@SelectionUIImpl@StrategicHUD@@QAEXXZ"), // slot 4 0x005D3A55
+	(const void *)&__identifier("?get@Rva00091A25LeaField@@QBEPAXXZ"), // slot 5 0x00091A25
+	(const void *)&__identifier("?rva005D3DD5@Rva005D3CA6@@QAEXABUTreeHintRef00217D4C@@@Z"), // slot 6 0x005D3DD5
+	(const void *)&__identifier("?get@Rva00498802ByteField@@QBEEXZ"), // slot 7 0x00498802
+	(const void *)&__identifier("?Show@SelectionUIImpl@StrategicHUD@@QAEXXZ"), // slot 8 0x005D3CFA
+	(const void *)&__identifier("?Hide@SelectionUIImpl@StrategicHUD@@QAEXXZ"), // slot 9 0x005D3D4B
+	(const void *)&__identifier("?rva005D3D97@SelectionUIImpl@StrategicHUD@@QAEXXZ"), // slot 10 0x005D3D97
+};
+// The retail table at RVA 0x00875908: 11 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+int __cdecl _purecall(void);
+}
+extern const void *const g_00C75908[11] = {
+	(const void *)&__identifier("_purecall"), // slot 0 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 1 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 2 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 3 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 4 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 5 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 6 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 7 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 8 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 9 0x0003B810
+	(const void *)&__identifier("_purecall"), // slot 10 0x0003B810
+};
 
 class Rva005D3C2BBase
 {

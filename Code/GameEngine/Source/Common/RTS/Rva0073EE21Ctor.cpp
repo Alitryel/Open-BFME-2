@@ -18,8 +18,26 @@ public:
 };
 
 extern "C" const unsigned char __identifier("??_7Secondary005E7ED7@@6B@")[];
-extern const void *const g_00CF1538[];
-extern const void *const g_00CF1534[];
+// The retail table at RVA 0x008F1538: 3 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?lock@Rva0040EDB@@UAE_NH@Z")();
+void __identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ")();
+void __identifier("??_GRva0073EF24@@UAEPAXI@Z")();
+}
+extern const void *const g_00CF1538[3] = {
+	(const void *)&__identifier("?lock@Rva0040EDB@@UAE_NH@Z"), // slot 0 0x00040EF8
+	(const void *)&__identifier("?rva0050B5C6@Rva0050B5C6@@QAE_NXZ"), // slot 1 0x0050B5C6
+	(const void *)&__identifier("??_GRva0073EF24@@UAEPAXI@Z"), // slot 2 0x0073EF08
+};
+// The retail table at RVA 0x008F1534: 1 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_ERva0073EF24@@W7AEPAXI@Z")();
+}
+extern const void *const g_00CF1534[1] = {
+	(const void *)&__identifier("??_ERva0073EF24@@W7AEPAXI@Z"), // slot 0 0x0073EE4D
+};
 
 struct Rva0073EE21Member
 {

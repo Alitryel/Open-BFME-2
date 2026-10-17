@@ -80,7 +80,20 @@ void __stdcall Rva004E40A6Enable(int unused)
 // 0x004E4312; caller 0x004E432A uses +4 as flag byte.
 extern "C" int __cdecl atexit(void (__cdecl *routine)(void));
 extern void *g_Va00A0445C;
-extern const void *const g_00C621F0[];
+// The retail table at RVA 0x008621F0: 4 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRadarObject@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?name@Rva004E4007Named@@QBEPBDXZ")();
+void __identifier("?xfer@SpellStore@@MAEXPAVXfer@@@Z")();
+}
+extern const void *const g_00C621F0[4] = {
+	(const void *)&__identifier("??_GRadarObject@@UAEPAXI@Z"), // slot 0 0x004A10FD
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("?name@Rva004E4007Named@@QBEPBDXZ"), // slot 2 0x004E4007
+	(const void *)&__identifier("?xfer@SpellStore@@MAEXPAVXfer@@@Z"), // slot 3 0x0043C718
+};
 void __cdecl rva007B8F26();
 // g_Va00A0445C: matched references place it at VA 0xe0445c (zero-filled .bss).
 void * g_Va00A0445C;
@@ -202,7 +215,20 @@ unsigned char g_Va00A0331C;
 extern int g_Va00A03320;
 // g_Va00A03320: matched references place it at VA 0xe03320 (zero-filled .bss).
 int g_Va00A03320;
-extern const void *const g_00C3D690[];
+// The retail table at RVA 0x0083D690: 4 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GRadarObject@@UAEPAXI@Z")();
+void __identifier("??1BfmeRadarMapPoint@@QAE@XZ")();
+void __identifier("?name@Rva0043C712Named@@QBEPBDXZ")();
+void __identifier("?xfer@SpellStore@@MAEXPAVXfer@@@Z")();
+}
+extern const void *const g_00C3D690[4] = {
+	(const void *)&__identifier("??_GRadarObject@@UAEPAXI@Z"), // slot 0 0x004A10FD
+	(const void *)&__identifier("??1BfmeRadarMapPoint@@QAE@XZ"), // slot 1 0x000B3FD0
+	(const void *)&__identifier("?name@Rva0043C712Named@@QBEPBDXZ"), // slot 2 0x0043C712
+	(const void *)&__identifier("?xfer@SpellStore@@MAEXPAVXfer@@@Z"), // slot 3 0x0043C718
+};
 void __cdecl rva007B83E1();
 void *Rva0043C9B3Get(void)
 {

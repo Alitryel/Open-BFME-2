@@ -9,7 +9,8 @@
 // (Tutorial/PlayerDefeatCondition/TeamDefeatCondition/SpawnGenericBuilding/
 // SpawnGenericArmy/OwnershipSet), and the ctor and holder call displacements
 // are read from the retail bodies.
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
@@ -46,7 +47,14 @@ public:
 	void rva003F7BE9(const ModuleData *p);
 };
 
-extern const FieldParse g_00C37560;
+extern "C" {
+void __identifier("?Rva003F91A4Parse@@YAXPAVINI@@PAURva003F9048@@@Z")();
+}
+// The retail table at 0x00837560: 1 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C37560[2] = {
+	{ "Turn", (FieldParseProc)&__identifier("?Rva003F91A4Parse@@YAXPAVINI@@PAURva003F9048@@@Z"), 0, 0x0 },
+	{ 0, 0, 0, 0 }
+};
 
 void Rva003F9258Parse(INI *ini, Rva003F7BE9 *holder)
 {
@@ -55,7 +63,7 @@ void Rva003F9258Parse(INI *ini, Rva003F7BE9 *holder)
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F9258ThrowInfoAnchor); __assume(0);
 	}
 	Rva003F9258Data *p = new Rva003F9258Data;
-	ini->initFromINI(p, &g_00C37560);
+	ini->initFromINI(p, g_00C37560);
 	holder->rva003F7BE9((const ModuleData *)p);
 }
 
@@ -75,7 +83,18 @@ public:
 	void rva004FD37F(const ModuleData *p);
 };
 
-extern const FieldParse g_00C635D0;
+extern "C" {
+void __identifier("?Rva004FCB23Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x008635D0: 3 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C635D0[4] = {
+	{ "Teams", (FieldParseProc)&__identifier("?Rva004FCB23Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x4 },
+	{ "LoseIfCapitalLost", (FieldParseProc)&__identifier("?parseBool@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x14 },
+	{ "NumControlledRegionsLessOrEqualTo", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
+	{ 0, 0, 0, 0 }
+};
 
 void Rva004FD719Parse(INI *ini, Rva004FD37F *holder)
 {
@@ -84,7 +103,7 @@ void Rva004FD719Parse(INI *ini, Rva004FD37F *holder)
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F9258ThrowInfoAnchor); __assume(0);
 	}
 	Rva004FD719Data *p = new Rva004FD719Data;
-	ini->initFromINI(p, &g_00C635D0);
+	ini->initFromINI(p, g_00C635D0);
 	holder->rva004FD37F((const ModuleData *)p);
 }
 
@@ -107,7 +126,19 @@ public:
     void addTeamVictoryCondition(const TeamVictoryCondition *condition);
 };
 
-extern const FieldParse g_00C636D0;
+extern "C" {
+void __identifier("?Rva004FCB23Parse@@YAXPAVINI@@PAX1PBX@Z")();
+void __identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x008636D0: 4 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C636D0[5] = {
+	{ "Teams", (FieldParseProc)&__identifier("?Rva004FCB23Parse@@YAXPAVINI@@PAX1PBX@Z"), 0, 0x4 },
+	{ "NumControlledRegionsGreaterOrEqualTo", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
+	{ "ControlledRegions", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x14 },
+	{ "ControlledRegionsHeldForTurns", (FieldParseProc)&__identifier("?parseInt@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x20 },
+	{ 0, 0, 0, 0 }
+};
 
 void Rva004FD7FBParse(INI *ini, Rva004FD448 *holder)
 {
@@ -116,7 +147,7 @@ void Rva004FD7FBParse(INI *ini, Rva004FD448 *holder)
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F9258ThrowInfoAnchor); __assume(0);
 	}
 	Rva004FD7FBData *p = new Rva004FD7FBData;
-	ini->initFromINI(p, &g_00C636D0);
+	ini->initFromINI(p, g_00C636D0);
 	reinterpret_cast<LivingWorldScenario::Scenario *>(holder)->addTeamVictoryCondition(reinterpret_cast<const LivingWorldScenario::TeamVictoryCondition *>(p));
 }
 
@@ -136,7 +167,16 @@ public:
 	void rva0059E390(const ModuleData *p);
 };
 
-extern const FieldParse g_00C70FFC;
+extern "C" {
+void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x00870FFC: 2 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C70FFC[3] = {
+	{ "Buildings", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x4 },
+	{ "Region", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
+	{ 0, 0, 0, 0 }
+};
 
 void Rva0059E436Parse(INI *ini, Rva0059E390 *holder)
 {
@@ -145,7 +185,7 @@ void Rva0059E436Parse(INI *ini, Rva0059E390 *holder)
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F9258ThrowInfoAnchor); __assume(0);
 	}
 	Rva0059E436Data *p = new Rva0059E436Data;
-	ini->initFromINI(p, &g_00C70FFC);
+	ini->initFromINI(p, g_00C70FFC);
 	holder->rva0059E390((const ModuleData *)p);
 }
 
@@ -165,7 +205,16 @@ public:
 	void rva0059E3A7(const ModuleData *p);
 };
 
-extern const FieldParse g_00C71064;
+extern "C" {
+void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x00871064: 2 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C71064[3] = {
+	{ "Armies", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x4 },
+	{ "Region", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x10 },
+	{ 0, 0, 0, 0 }
+};
 
 void Rva0059E511Parse(INI *ini, Rva0059E3A7 *holder)
 {
@@ -174,7 +223,7 @@ void Rva0059E511Parse(INI *ini, Rva0059E3A7 *holder)
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F9258ThrowInfoAnchor); __assume(0);
 	}
 	Rva0059E511Data *p = new Rva0059E511Data;
-	ini->initFromINI(p, &g_00C71064);
+	ini->initFromINI(p, g_00C71064);
 	holder->rva0059E3A7((const ModuleData *)p);
 }
 
@@ -194,7 +243,20 @@ public:
 	void rva004FD4AE(const ModuleData *p);
 };
 
-extern const FieldParse g_00C710E8;
+extern "C" {
+void __identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z")();
+void __identifier("?Rva0059E436Parse@@YAXPAVINI@@PAVRva0059E390@@@Z")();
+void __identifier("?Rva0059E511Parse@@YAXPAVINI@@PAVRva0059E3A7@@@Z")();
+void __identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z")();
+}
+// The retail table at 0x008710E8: 4 entries and the null terminator; every parser is a rowed code owner.
+extern const FieldParse g_00C710E8[5] = {
+	{ "Regions", (FieldParseProc)&__identifier("?parseAsciiStringVector@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x1C },
+	{ "SpawnBuildings", (FieldParseProc)&__identifier("?Rva0059E436Parse@@YAXPAVINI@@PAVRva0059E390@@@Z"), 0, 0x0 },
+	{ "SpawnArmies", (FieldParseProc)&__identifier("?Rva0059E511Parse@@YAXPAVINI@@PAVRva0059E3A7@@@Z"), 0, 0x0 },
+	{ "StartRegion", (FieldParseProc)&__identifier("?parseAsciiString@INI@@SAXPAV1@PAX1PBX@Z"), 0, 0x28 },
+	{ 0, 0, 0, 0 }
+};
 
 void Rva0059E6D3Parse(INI *ini, Rva004FD4AE *holder)
 {
@@ -203,6 +265,6 @@ void Rva0059E6D3Parse(INI *ini, Rva004FD4AE *holder)
 		_CxxThrowException(&exc, (const _s__ThrowInfo *)&rva003F9258ThrowInfoAnchor); __assume(0);
 	}
 	Rva0059E6D3Data *p = new Rva0059E6D3Data;
-	ini->initFromINI(p, &g_00C710E8);
+	ini->initFromINI(p, g_00C710E8);
 	holder->rva004FD4AE((const ModuleData *)p);
 }
