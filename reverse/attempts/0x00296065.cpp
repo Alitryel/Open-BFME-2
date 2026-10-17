@@ -1,4 +1,6 @@
 // ?rva00296065@Object@@QAEXPAURva00297612Entry@@@Z
+// partial score=0.949 date=2026-10-17
+// ?rva00296065@Object@@QAEXPAURva00297612Entry@@@Z
 // partial score=0.9862 date=2026-10-15
 // ?rva00296065@Object@@QAEXPAURva00297612Entry@@@Z
 // partial score=0.915869 date=2026-10-15
@@ -53,15 +55,15 @@ void Object::rva00296065(Rva00297612Entry*entry){
   float resistance;AttributeModifierPoolUpdate*pool=findAttributeModifierPoolUpdate();if(pool)pool->rva00403382(10,&resistance,0);if(resistance>=1.0f)return;
   const Coord3D *shockVector=&entry->vector;float distance=shockVector->length();float percent=shockMin(1.0f,distance/entry->radius);
   float random=GetGameLogicRandomValueReal(0.85f,1.15f,(char*)shockFile,4093);
-  if(entry->radial){float extra=shockMax(0.0f,entry->extraDistance);Coord3D destination;destination.x=shockVector->x;destination.y=shockVector->y;destination.z=0.0f;destination.normalize();float scale=entry->radius+(entry->radius*extra*random*percent);destination.x*=scale;destination.y*=scale;destination.z*=scale;destination.x+=entry->origin.x;destination.y+=entry->origin.y;destination.z+=entry->origin.z;destination.z=TheTerrainLogic->getLayerHeight(destination.x,destination.y,TheTerrainLogic->getLayerForDestination(0,&destination),0,true);behavior->rva00390557(&destination,entry->secondary*random,((entry->amount)),0,0);}
+  if(entry->radial){float extra=shockMax(0.0f,entry->extraDistance);Coord3D destination;destination.x=shockVector->x;destination.y=shockVector->y;destination.z=0.0f;destination.normalize();float scale=entry->radius+(entry->radius*extra*random*percent);float dx=*(volatile float*)&destination.x;float dy=*(volatile float*)&destination.y;destination.x=dx*scale;destination.y=dy*scale;destination.z*=scale;destination.x+=entry->origin.x;destination.y+=entry->origin.y;destination.z+=entry->origin.z;destination.z=TheTerrainLogic->getLayerHeight(destination.x,destination.y,TheTerrainLogic->getLayerForDestination(0,&destination),0,true);behavior->rva00390557(&destination,entry->secondary*random,((entry->amount)),0,0);}
   else{float taper=1.0f-percent*(1.0f-entry->taper);Coord3D forceVector;forceVector.x=shockVector->x;forceVector.y=shockVector->y;forceVector.z=shockVector->z;forceVector.normalize();
-   if(!force){float scale=entry->amount*taper*random;forceVector.x*=scale;forceVector.y*=scale;forceVector.z*=scale;forceVector.z=forceVector.length()*entry->up*random;}
-   else{Object*source=TheGameLogic->findObjectByID(entry->source);if(source&&entry->radius>0.0f){float relative[3];float*point=((Rva001E438B*)this)->rva00261988(relative,(Rva001E438B*)source);float negativeHeight=point[2]*-1.0f;float factor=1.0f-(random ? negativeHeight : negativeHeight)/entry->radius;float scale=entry->amount*factor*taper*random;random=GetGameLogicRandomValueReal(0.65f,1.35f,(char*)shockFile,4169);if(factor<0.0f)scale*=2.0f;forceVector.x*=scale;forceVector.y*=scale;forceVector.z*=scale;float r=entry->radius;forceVector.z=(1.0f-((Rva000CBA20*)this)->distSq((Rva000CBA20Point*)&source->position)/(r*r))*0.5f*entry->amount*random;}}
+   if(!force){float scale=(1 ? entry->amount*taper*random : entry->amount*taper*random);float fx=forceVector.x;float fy=forceVector.y;forceVector.x=fx*scale;forceVector.y=fy*scale;forceVector.z*=scale;forceVector.z=forceVector.length()*(entry->up*random);}
+   else{Object*source=TheGameLogic->findObjectByID(entry->source);if(source&&entry->radius>0.0f){float relative[3];float*point=((Rva001E438B*)this)->rva00261988(relative,(Rva001E438B*)source);float negativeHeight=point[2]*-1.0f;float factor=1.0f-(random ? negativeHeight : negativeHeight)/entry->radius;float scale=entry->amount*factor*taper*random;random=GetGameLogicRandomValueReal(0.65f,1.35f,(char*)shockFile,4169);if(factor<0.0f)scale*=2.0f;forceVector.x*=scale;forceVector.y*=scale;forceVector.z*=scale;float r=entry->radius;forceVector.z=(1.0f-((Rva000CBA20*)this)->distSq((Rva000CBA20Point*)&source->position)/(r*r))*(0.5f*entry->amount*random);}}
    if(templ->kinds&0x80000000){if(forceVector.z>0.0f)forceVector.z=-forceVector.z;}else{if(forceVector.z<0.0f)forceVector.z=-forceVector.z;}((Rva003909FAObj*)behavior)->consume(&forceVector,0,0);
   }
   if(!getCondition(127))setCondition(127);behavior->rva00390629(true);
   if(ai&&ai->getCurrentStateID()==45){ShockBodyEntry*data=body->slot15();Object*source=TheGameLogic->findObjectByID(data?body->slot15()->source:INVALID_OBJECT_ID);if(source&&!(status&1))((Rva00294D61*)source)->report(this,1);kill(DAMAGE_UNKNOWN8,DEATH_UNKNOWN0);kill(DAMAGE_UNKNOWN8,DEATH_UNKNOWN0);}
-  if(ai)ai->slot153();rva0028AE9B(entry->visualState);
+  {AIUpdateInterface*aiCopy=ai;if(aiCopy)aiCopy->slot153();}rva0028AE9B(entry->visualState);
  }
 end:if(draw)draw->rva0027B18C(entry);
 }
