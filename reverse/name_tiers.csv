@@ -1512,7 +1512,7 @@ _Rva0088E1A0ShowAssertCrashDialog,0x0003D880,address,placeholder
 ?rva0008589E@Rva0008589E@@QAEPAV1@XZ,0x0008589E,address,placeholder
 ?rva000858C1@Rva000858C1@@QAEPAV1@XZ,0x000858C1,address,placeholder
 ?rva000858E4@Rva000858E4@@QAEMXZ,0x000858E4,address,placeholder
-?rva00085947@Rva00085947@@QAEXXZ,0x00085947,address,placeholder
+?rva00085947@Rva00085947@@UAEXXZ,0x00085947,address,placeholder
 ?rva00085B36@Rva00085B36Forwarder@@QAEXXZ,0x00085B36,address,placeholder
 ?rva00085F6A@Rva00085F6A@@QAE_NH@Z,0x00085F6A,address,placeholder
 ?rva00085FA8@Rva00085FA8@@QAEXPAM@Z,0x00085FA8,address,placeholder

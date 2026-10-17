@@ -1,5 +1,5 @@
 // cl: /MD /EHsc /DNDEBUG
-// ?rva00085947@Rva00085947@@QAEXXZ @0x00085947 174B thiscall method.
+// ?rva00085947@Rva00085947@@UAEXXZ @0x00085947 174B thiscall method.
 // Vtable slot 26 of the 187-slot vtable at VA 0x00BC7514 (same vtable as range-2
 // neighbours 0x86245/0x8B1E5/0x8CE2E/0x8A2EF/0x89E2A/0x86BC5/0x865DB/0x8691F).
 // Virtuals used: slot56(+0xE0,int) slot50(+0xC8,int,int,float,float)
@@ -324,7 +324,8 @@ public:
 	virtual void vslot109();
 	virtual void vslot110();
 	virtual void vslot111(RvaFloatPair *p);
-	void rva00085947();
+	// virtual: also reached through the this-0xB4 thunk 0x0008BD4E.
+	virtual void rva00085947();
 	bool rva000879A9(int v);
 	Vector3 *rva00087D42();
 	void rva0008D253();
