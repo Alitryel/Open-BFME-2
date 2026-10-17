@@ -1,4 +1,6 @@
 // ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ
+// partial score=0.895 date=2026-10-17
+// ?FlushSoftwareSkinnedRenderingTasks@FXShaderRenderer@@QAEXXZ
 // partial score=0.82 date=2026-10-15
 // cl: /O1 /G7 /MD /EHsc
 //
@@ -107,20 +109,22 @@ void FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks()
 	rva00174870((int)m_tasks.begin(), (int)m_tasks.end(), (int)&Rva001736A7Compare);
 
 	int remaining = 0;
-	for (Rva0017368ATask *it = m_tasks.begin(); it != m_tasks.end(); ++it)
+	Rva0017368ATask *it = m_tasks.begin();
+	do
 	{
 		Rva0017368AMesh *mesh = it->mesh;
-		Rva0017368AMesh **state = mesh->m_state;
-		if (state)
+		Rva0017368AMesh **state = (1 ? mesh->m_state : mesh->m_state);
+		if (!state || !*state)
 		{
-			if (*state)
-				continue;
-			*state = mesh;
+			if (state)
+				*state = mesh;
+			remaining += mesh->m_counts->m_vertexCount;
 		}
-		remaining += mesh->m_counts->m_vertexCount;
-	}
+		++it;
+	} while (it != m_tasks.end());
 
-	for (Rva0017368ATask *batch = m_tasks.begin(); batch != m_tasks.end(); )
+	Rva0017368ATask *batchInit = m_tasks.begin();
+	for (Rva0017368ATask *batch = batchInit; batch != m_tasks.end(); )
 	{
 		Rva0017368ATask *task = batch;
 		int budget = remaining;
@@ -129,15 +133,17 @@ void FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks()
 
 		int used = 0;
 		DynamicVBAccessClass vb(2, 5, (unsigned short)budget, 0);
+		used = 0;
 		{
 			DynamicVBAccessClass::WriteLock lock(&vb);
 			char *vertices = (char *)lock.Get_Data();
 			int offset = 0;
-			for (; task != m_tasks.end(); ++task)
+			for (; m_tasks.end() != task; ++task)
 			{
 				Rva0017368AMesh *mesh = task->mesh;
-				Rva0017368AMesh **state = mesh->m_state;
-				if (state == 0 || mesh == *state)
+				Rva0017368AMesh **state = (1 ? mesh->m_state : mesh->m_state);
+				Rva0017368AMesh *claimed = (state != 0 ? *state : *state);
+				if (mesh == claimed)
 				{
 					if (mesh->m_counts->m_vertexCount + used > budget)
 						break;
@@ -147,7 +153,7 @@ void FXShaderRenderer::FlushSoftwareSkinnedRenderingTasks()
 				}
 				mesh->m_vertexOffset = offset;
 			}
-			remaining -= used;
+			remaining = *(volatile int *)&remaining - used;
 		}
 		DX8Wrapper::Set_Vertex_Buffer(vb);
 		((Rva0017438B *)this)->rva0017438B((int)batch, (int)task);
