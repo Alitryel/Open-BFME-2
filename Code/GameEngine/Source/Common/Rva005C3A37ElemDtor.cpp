@@ -1,4 +1,4 @@
-// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /DBFME_ASCII_DTOR_DECL /EHsc /MD
+// cl: /O1 /G7 /arch:SSE /Ireference/shims/bfme2_ascii /EHsc /MD
 // Native005C39DE..005C39EB is a 13B three-word zero constructor.
 // Native005C39EB..005C3A37 is a complete 76B EH destructor: counted
 // words0/8 use the rowed7DEEF release; owning word4 uses rowed AD6F4.
