@@ -1,5 +1,4 @@
 // ?rva001DE9C4@Eva@@QAEHPBD@Z
-// partial score=0.9633 date=2026-10-15
 // cl: /O1 /arch:SSE /G7 /Ireference/shims/bfme2_ascii /DNDEBUG /MD /EHsc
 #include "ascii_string.h"
 class Rva00056F61;
@@ -52,8 +51,13 @@ int Eva::rva001DE9C4(const char *key)
 			it = Rva0041534BIter(m_table48.rva00056F61(&tmp), &m_table48);
 		}
 		if (it.m_node == 0)
-			throw INIException(3, "Expected a recognized Eva event name or 'None'; got '%s'", key);
-		id = *(int *)((char *)it.m_node + 8);
+			id = -1;
+		else
+		{
+			char *node = (char *)it.m_node;
+			int *value = (int *)(node + 8);
+			id = *value;
+		}
 	}
 	else
 	{
