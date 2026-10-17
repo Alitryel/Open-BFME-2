@@ -60,20 +60,9 @@ DefectorSpecialPowerModuleData::DefectorSpecialPowerModuleData( void )
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 
-	//static
-
- void DefectorSpecialPowerModuleData::buildFieldParse(MultiIniFieldParse& p)
-{
-	SpecialPowerModuleData::buildFieldParse( p );
-	
-	static const FieldParse dataFieldParse[] = 
-	{
-		{ "FatCursorRadius", INI::parseReal, NULL, offsetof( DefectorSpecialPowerModuleData, m_fatCursorRadius ) },
-		{ 0, 0, 0, 0 }
-	};
-	p.add(dataFieldParse);
-	
-}  // end buildFieldParse
+// DefectorSpecialPowerModuleData::buildFieldParse is rowed at 0x004C2970 with
+// BFME2's body (SpecialPowerModuleDataBuildFieldParse.cpp); the Zero Hour copy
+// here was a second, non-retail definition.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
