@@ -29,13 +29,16 @@ public:
 };
 
 extern "C" int __cdecl strcmp(const char *a, const char *b);
-extern const char *g_00DCF7E8[];
+// The retail table at RVA 0x009CF7E8: 2 string pointers.
+extern const char *g_00DCF7E8[2] = { "TARGETPOS", "OBJECTPOS" };
 
 struct Rva004CDF2BTrigger
 {
 	NameKeyType m_key;
 	int m_mode;
 };
+
+struct BfmeE8;
 
 namespace _STL
 {
@@ -52,6 +55,12 @@ private:
 	Rva004CDF2BTrigger *m_start;
 	Rva004CDF2BTrigger *m_finish;
 	Rva004CDF2BTrigger *m_endOfStorage;
+};
+// LINK: the push_back fold 0x00539A2E is rowed for vector<BfmeE8>, the same 8-byte element.
+template <> class vector<BfmeE8, allocator<BfmeE8> >
+{
+public:
+	void push_back(const BfmeE8 &x);
 };
 }
 
@@ -88,5 +97,5 @@ void Rva004CDF2BParse(INI *ini, void *instance, void *, const void *)
 			}
 		}
 	}
-	triggers.push_back(trigger);
+	((_STL::vector<BfmeE8, _STL::allocator<BfmeE8> > *)&triggers)->push_back(*(const BfmeE8 *)&trigger);
 }

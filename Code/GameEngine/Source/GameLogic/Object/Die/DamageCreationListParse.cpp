@@ -24,8 +24,12 @@ struct Rva004BFD83Entry
 	int m_deathType;
 };
 
-extern const char *g_00DCD7EC[];
-extern const char *g_00DCD7FC[];
+// The retail table at RVA 0x009CD7EC: 4 string pointers.
+extern const char *g_00DCD7EC[4] = { "NONE", "CATAPULT_ROCK", "TREBUCHET_ROCK", 0 };
+// The retail table at RVA 0x009CD7FC: 6 string pointers.
+extern const char *g_00DCD7FC[6] = { "NONE", "FRONT_DESTROYED", "RIGHT_DESTROYED", "BACK_DESTROYED", "LEFT_DESTROYED", 0 };
+
+struct PrereqUnitRec;
 
 namespace _STL
 {
@@ -41,6 +45,12 @@ private:
 	Rva004BFD83Entry *m_start;
 	Rva004BFD83Entry *m_finish;
 	Rva004BFD83Entry *m_endOfStorage;
+};
+// LINK: the push_back fold 0x002DF89B is rowed for vector<PrereqUnitRec>, the same element size.
+template <> class vector<PrereqUnitRec, allocator<PrereqUnitRec> >
+{
+public:
+	void push_back(const PrereqUnitRec &x);
 };
 }
 
@@ -68,5 +78,5 @@ void Rva004BFD83Parse(INI *ini, void *instance, void *, const void *)
 	else
 		entry.m_deathType = 0;
 
-	((Rva004BFD83Owner *)instance)->m_entries.push_back(entry);
+	((_STL::vector<PrereqUnitRec, _STL::allocator<PrereqUnitRec> > *)&((Rva004BFD83Owner *)instance)->m_entries)->push_back(*(const PrereqUnitRec *)&entry);
 }
