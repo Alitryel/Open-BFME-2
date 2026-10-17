@@ -1,4 +1,6 @@
 // ?rva006F7720Sub@AptAnimationPoolData@@QAEXPAXH@Z
+// partial score=0.779 date=2026-10-17
+// ?rva006F7720Sub@AptAnimationPoolData@@QAEXPAXH@Z
 // partial score=0.814 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -30,7 +32,7 @@ public:
  void rva006F7570(Rva006F7570Item*);
  void rva006F7600(int);
  AptDisplayNode *get(int i){DISPLAY_ASSERT(i>=0 && i<count,"i >= 0 && i < nElements",0x555);return items[i];}
- __forceinline void removeFront(){DISPLAY_ASSERT(count>0,"i >= 0 && i < nElements",0x54A);int i=0;int last=count-1;if(i<last){do{items[i]=items[i+1];++i;}while(i<count-1);}--count;}
+ __forceinline void removeFront(){int i=0;int last=count-1;DISPLAY_ASSERT(count>0,"i >= 0 && i < nElements",0x54A);if(i<last){do{items[i]=items[i+1];++i;}while(i<count-1);}--count;}
  AptDisplayNode *items[32];int count;
 };
 void rva006F7330(void*,void*,int);
@@ -47,6 +49,7 @@ void AptAnimationPoolData::rva006F7720Sub(void *context,int mode)
  // visitor's pointer result is discarded by this type-erased visitor API.
  AptDisplayVisitor visit;
  if(g_aptDisplayListRenderFlags&4)visit=(AptDisplayVisitor)rva006F73A0;else visit=rva006F7330;
+ _ReadWriteBarrier();
  while(item){
   if(!((BfmeAptValue006DCD20*)item)->isUndefined()){
    if(!item){g_bfmeAptAssertAtE17734("this","c:\\projects\\bfme2patch103\\bfme2\\code\\libraries\\source\\apt\\AptCIH.h",0xD8);if(g_bfmeAptBreakOnAssertAtDDC01C)__debugbreak();}
