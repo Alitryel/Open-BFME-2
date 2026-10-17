@@ -1,6 +1,10 @@
 // ?Build_Sentence_Not_Centered@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
+// partial score=0.651 date=2026-10-17
+// ?Build_Sentence_Not_Centered@Render2DSentenceClass@@AAE?AVVector2@@PBGPAH1_N@Z
 // partial score=0.66 date=2026-10-09
 // cl: /arch:SSE /G7 /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 
 void __cdecl operator delete[](void *) throw();
 #include "vector.h"
@@ -275,13 +279,14 @@ Vector2 Render2DSentenceClass::Build_Sentence_Not_Centered(const unsigned short 
                     }
                 }
                 if (!ch) break;
-            } while(retry);
+            } while((1 ? (retry) : (retry)));
             if (!ch) break;
             if (TextureOffset.I+char_spacing>=CurrTextureSize) {
                 if (!justCalcExtents) Record_Sentence_Chunk();
                 Cursor.X+=TextureOffset.I-TextureStartX;
                 maxX=max(maxX,Cursor.X);
                 TextureStartX=2;
+                _ReadWriteBarrier();
                 TextureOffset.I=TextureStartX;
                 TextureOffset.J+=char_height;
                 if (TextureOffset.J+char_height>=CurrTextureSize) {
