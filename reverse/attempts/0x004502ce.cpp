@@ -1,14 +1,10 @@
 // ?onExit@SpecialAbilityUpdate@@MAEX_N0@Z
-// partial score=0.988 date=2026-10-17
-// ?onExit@SpecialAbilityUpdate@@MAEX_N0@Z
 // partial score=0.9 date=2026-10-14
 // ?onExit@SpecialAbilityUpdate@@MAEX_N0@Z
 // partial score=0.98 date=2026-10-11
 // ?onExit@SpecialAbilityUpdate@@MAEX_N0@Z
 // partial score=0.98 date=2026-10-08
 // cl: /O1 /arch:SSE /G7 /DNDEBUG /MD /ICode/GameEngine/Source/GameLogic/Object/Update /ICode
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 // SpecialAbilityUpdate.cpp: bodies retail links from this TU (tu_map approved),
 // folded from three split units with these exact flags. The two
 // address-named helper classes keep their names (their rows are mangled with
@@ -464,21 +460,19 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 	Object *obj = getObject();
 	const SpecialAbilityUpdateModuleData *data = (const SpecialAbilityUpdateModuleData *)m_moduleData;
 	rva0044EE07();
-	_ReadWriteBarrier();
 	{
 		Rva0044EAF3 mask;
 		obj->clearStatus(*(const Rva00346BC0 *)mask.rva0044EAF3(0, 0x18, 0x46, 0x17));
 	}
-	Object *owner = (Object *)data;
-	AIUpdateInterface *ai = owner->m_ai;
+	AIUpdateInterface *ai = getObject()->getAI();
 	if (ai)
 	{
 		ai->m_3ca = false;
 		ai->rva0026331C();
 	}
-	(*(AudioManager * volatile *)&*(volatile unsigned char *)0x00DFE6E8)->removeAudioEvent(m_prepSoundLoop);
+	TheAudio->removeAudioEvent(m_prepSoundLoop);
 	m_prepSoundLoop = 1;
-	(*(AudioManager * volatile *)&*(volatile unsigned char *)0x00DFE6E8)->removeAudioEvent(m_38);
+	TheAudio->removeAudioEvent(m_38);
 	m_38 = 1;
 	endPreparation();
 	SpecialPowerModuleInterface *spm = obj->getSpecialPowerModule((const SpecialPowerTemplate *)data->m_specialPowerTemplate);
@@ -487,7 +481,7 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 	int type = data->m_specialPowerTemplate->friend_getFinalOverride()->m_val1C;
 	if (type == 0x28 || type == 0x27)
 	{
-		Object *target = (*(GameLogic * volatile *)0x00DFE78C)->findObjectByID(m_targetID);
+		Object *target = TheGameLogic->findObjectByID(m_targetID);
 		obj->m_484 = 0;
 		if (target)
 		{
@@ -505,9 +499,9 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 			if (a)
 			{
 				a->vslot43(target, data->m_2C, obj);
-				float value = (c->vslot05() * *(volatile float *)0x00BC292C) + data->m_30;
-				if (value > *(volatile float *)0x00BC292C)
-					value = *(volatile float *)0x00BC292C;
+				float value = c->vslot05() * 100.0f + data->m_30;
+				if ((data->m_28 ? (value > 100.0f) : (value > 100.0f)))
+					value = 100.0f;
 				c->vslot21(value, 0);
 				obj->setSpecialModelConditionState(data->m_24, data->m_28);
 				target->setSpecialModelConditionState(data->m_24, data->m_28);
@@ -520,19 +514,19 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 	}
 	else if (type == 0x80 || type == 0x8f)
 	{
-		static const NameKeyType key = (*(NameKeyGenerator * volatile *)0x00DF36A4)->nameToKey((const char *)0x00BF5D1C);
+		static const NameKeyType key = TheNameKeyGenerator->nameToKey("AutoHealBehavior");
 		AutoHealBehavior *heal = (AutoHealBehavior *)obj->findModule(key);
 		if (heal)
 			heal->stopHealing();
 	}
 	else if (type == 0x1d || type == 0x1a)
 	{
-		Object *target = (*(GameLogic * volatile *)0x00DFE78C)->findObjectByID(m_targetID);
+		Object *target = TheGameLogic->findObjectByID(m_targetID);
 		if (target && target->isKindOf(KINDOF_6E) && target->m_80 == getObject()->getID())
 		{
 			target->m_80 = INVALID_OBJECT_ID;
 			target->clearModelConditionState((ModelConditionFlagType)0x6e);
-			target->setSpecialModelConditionState((ModelConditionFlagType)0x6f, *(volatile unsigned int *)0x00E033D0);
+			target->setSpecialModelConditionState((ModelConditionFlagType)0x6f, g_00E033D0);
 		}
 	}
 	int exitCommand = b ? data->m_94 : data->m_90;
@@ -542,8 +536,8 @@ void SpecialAbilityUpdate::onExit(bool cleanup, bool b)
 		rva0044F72E();
 	if (m_82)
 	{
-		if ((1 ? obj->getAI() : obj->getAI()))
-			(1 ? obj->getAI() : obj->getAI())->aiIdle(CMD_FROM_AI);
+		if (obj->getAI())
+			obj->getAI()->aiIdle(CMD_FROM_AI);
 		m_82 = false;
 	}
 	if (!m_7c)
