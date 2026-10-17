@@ -1,4 +1,6 @@
 // ?Render@Render2DClass@@QAEXXZ
+// partial score=0.866 date=2026-10-17
+// ?Render@Render2DClass@@QAEXXZ
 // partial score=0.9 date=2026-10-14
 // ?Render@Render2DClass@@QAEXXZ
 // partial score=0.88542 date=2026-10-14
@@ -134,11 +136,9 @@ void Render2DClass::Render() {
     }
     DX8Wrapper::Set_Vertex_Buffer(vb);DX8Wrapper::Set_Index_Buffer(ib,0);
     BFME2Set_Texture(0,texture);
-    unsigned state=((render2DShaderBits & 0xFFFF3F1F) | (((render2DSrcBlend<<9)|render2DDstBlend)<<5)) &0xFFFFF8FF;
-    volatile unsigned extra = (render2DExtraShaderBits&0xFFFE6703) | (render2DShaderAlphaFlag<<15) |0x22302;
-    DX8Wrapper::SetShader(state|(extra<<3));
+    DX8Wrapper::SetShader((((render2DShaderBits & 0xFFFF3F1F) | (((render2DSrcBlend<<9)|render2DDstBlend)<<5)) &0xFFFFF8FF)|((((render2DExtraShaderBits&0xFFFE6703) | (render2DShaderAlphaFlag<<15) |0x22302)<<3)));
     DX8Wrapper::Draw_Triangles(0,indices.Count/3,0,vertices.Count);
     DX8Wrapper::SetView(view);DX8Wrapper::SetProjection(proj);
-    BFME2TextureRef empty;BFME2Set_Texture(0,empty);
+    BFME2Set_Texture(0,BFME2TextureRef());
 }
 }
