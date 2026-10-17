@@ -23,12 +23,15 @@ public:
 			++*(volatile int *)((char *)m_obj + 0x18);
 		}
 	}
+	// Out of line (the EH funclet's call) this is the release at 0x000317C0:
+	// one load of the lock pointer, so the count goes through ecx like retail.
 	~Rva00034C90Lock()
 	{
-		if (m_obj)
+		void *held = m_obj;
+		if (held)
 		{
-			--*(volatile int *)((char *)m_obj + 0x18);
-			LeaveCriticalSection(m_obj);
+			--*(volatile int *)((char *)held + 0x18);
+			LeaveCriticalSection(held);
 		}
 	}
 };
