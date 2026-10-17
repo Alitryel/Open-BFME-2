@@ -94,12 +94,44 @@ The region decides /O, /arch and /G for most units (`tools/flag_defaults.py`);
   previous store. Retail had loads first because each branch had its own array
   and call; cl shares the slot and merges the two calls, and the loads then
   hoist. Sas.AmbientLight Color 0x0014D5B0, about 30 earlier attempts.
+- **A struct offset, added and subtracted.** Retail's frame was one slot
+  larger (an unused dword beside `dx`), and its loop pointer sat on the last
+  array the body touched. Both came from a `MathCoord2D offset(c * dist,
+  s * dist)` applied with `operator+=` and `operator-=`. Scalar `dx`/`dy`
+  locals gave a 0x30 frame and a pointer on the first array.
+  Rva0010461F::rva00104359 0x00104359 (710 B), from nd 193.
+- **Convert in its own statement for `fild; fmulp`.** `size = (Real)a;
+  size = (Real)b * size / k;` stores the int before the call and loads it
+  late with `fild`; `(Real)b * (Real)a` folds into `fimul`. Same function.
+- **A float loaded once before the loop came from memory.** Sometimes retail
+  loads a constant into an XMM register before the loop and again only after
+  a call inside it. The source read a global into a local, and read it again
+  after the call. cl reloads a literal at its first use in each iteration
+  instead, however the local is spelt. 0x00100568, near-duplicate vertex
+  removal.
 - **Null-check spelling decides the order of the next block's loads.** After
   `p = call(); if (!p) continue;` cl interleaved each load with its subtract
   (`movss; subss; movss; subss`); `if (p) { ... } else continue;` gives the
   same branches with the three loads first. A snippet shows the same split
   with the pointer as a parameter (grouped) or a call result (interleaved).
   0x0050A4A2 (Made002CC8A4 cone test).
+
+## Linking
+
+`tools/link_check.py FILE` judges every COMDAT a unit emits, inlined or not:
+cl 7.1 emits each inline function the unit uses.
+
+- **`sinf`/`cosf` when the census flags `?sin@@YAMM@Z`.** The `<math.h>`
+  `sin(float)` and `cos(float)` overloads emit copies with `sinf` inlined,
+  which lose to retail's proven copies. Calling `sinf`/`cosf` directly
+  compiles to the same call sites and emits only `_sinf`/`_cosf`, which
+  retail agrees with. 0x00104359.
+- **A scoped `#pragma optimize("w", on)` for an `/Ow` unit's inline copies.**
+  When a unit's inline members (MathCoord2D's copy ctor) differ from the
+  copies an `/Ow` unit emits, and `/Ow` on the whole unit breaks the body,
+  wrap only the class definition and admit the two lines with
+  `tools/hatch_counters.py --admit`. Use it only for COMDATs with no retail
+  address. 0x00104359.
 
 ## Stack-slot packing: what does not explain it
 
@@ -140,6 +172,11 @@ tested together (13 banks, scratch compiles only). Do not retry these:
   shows the debug twin; its loop condition (top-tested, `break` after the
   call) is usually retail's under /O1. The first-match scan 0x002A8AB1,
   which 63 callers reach.
+- **Rewrite a goto bank from its COMDAT neighbours.** A unit's inline helpers
+  sit just before its functions in .text, so the neighbours name the source's
+  vocabulary. 0x00100568's bank was gotos and `_ReadWriteBarrier` at nd 118.
+  The `Equal_Within_Epsilon` copy at 0x0010022F pointed to a plain `while`
+  around a `for` that calls it, which reached nd 45 on the first compile.
 - **Fan-in first for repairs.** Fix the callee or spelling many rows share
   before single rows: calling SubsystemInterface's ctor through its one
   pinned `void` spelling restored 38 rows across 40 units; `link_rank.py`
