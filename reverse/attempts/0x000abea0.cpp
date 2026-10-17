@@ -1,4 +1,6 @@
 // ?readTiles@WorldHeightMap@@SA_NPAVInputStream@@0PAPAVTileData@@H@Z
+// partial score=0.846 date=2026-10-17
+// ?readTiles@WorldHeightMap@@SA_NPAVInputStream@@0PAPAVTileData@@H@Z
 // partial score=0.8438387991843012 date=2026-10-16
 // ?readTiles@WorldHeightMap@@SA_NPAVInputStream@@0PAPAVTileData@@H@Z
 // partial score=0.82 date=2026-10-14
@@ -13,8 +15,6 @@
 // GlobalData +49; TileData allocation 2AC0/refcount4/companion2AB4; 64-row
 // blocks; shared zero-initialized 256-byte default normal row.
 // Original helper/member names remain unknown and retain rowed RVA names.
-extern "C" void _ReadWriteBarrier(void);
-#pragma intrinsic(_ReadWriteBarrier)
 #include <string.h>
 void* __cdecl operator new(unsigned int);
 void* __cdecl operator new[](unsigned int);
@@ -106,12 +106,11 @@ bool WorldHeightMap::readTiles(InputStream*pStr,InputStream*nStr,TileData**tiles
     }
    }
   }
-  unsigned char*pBuf=buf; unsigned char*pNormal=nbuf;
-  _ReadWriteBarrier();
-  for(unsigned short i=0,width=64;i<numRows;i++,width+=64,pBuf+=256){
-   if(width>hdr.imageWidth)break;
-   tiles[i]->rva00111A05(pBuf,hdr.imageWidth*4);
-   if(tiles[i]->companion()){
+  for(int i=0;i<numRows;i++){
+   if((i+1)*64>hdr.imageWidth)break;
+   TileData**tile=&tiles[i];
+   (*tile)->rva00111A05(buf+i*256,hdr.imageWidth*4);
+   if((*tile)->companion()){
     const unsigned char*p;int stride;
     if(nbuf){p=nbuf+i*256;stride=hdr.imageWidth*4;}
     else{
@@ -120,11 +119,10 @@ bool WorldHeightMap::readTiles(InputStream*pStr,InputStream*nStr,TileData**tiles
      }
      p=defaultNormals;stride=0;
     }
-    tiles[i]->companion()->rva00111A05(p,stride);
+    (*tile)->companion()->rva00111A05(p,stride);
    }
   }
-  tiles+=(numRows ? *(volatile int*)&numRows : *(volatile int*)&numRows);
-  _ReadWriteBarrier();
+  tiles+=numRows;
  }
  operator delete[](nbuf);operator delete[](buf);
  return true;
