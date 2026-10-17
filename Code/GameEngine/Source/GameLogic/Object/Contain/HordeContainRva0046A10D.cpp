@@ -127,7 +127,8 @@ struct Rva0046A10DFrameView
     unsigned char m_pad00[0x40];
     unsigned int m_frame;
 };
-extern const int g_009BA4E4;
+// Logic frames per second, the data row at 0x009BA4E4 (ColdGlobalDwordGetters.cpp).
+extern int BfmeLogicFramesPerSecond;
 class AI;
 extern AI *TheAI;
 
@@ -142,7 +143,7 @@ void HordeContain::rva0046A10D()
     }
     if (!m_294)
         return;
-    if (m_290 + g_009BA4E4 * 3 >= ((Rva0046A10DFrameView *)TheGameLogic)->m_frame)
+    if (m_290 + BfmeLogicFramesPerSecond * 3 >= ((Rva0046A10DFrameView *)TheGameLogic)->m_frame)
         return;
     m_294 = false;
     m_121 = true;
