@@ -40,6 +40,10 @@ struct RGBAColorInt;
 
 // upstream layout: Xfer.cpp's Xfer. Every virtual is declared in Xfer.cpp's
 // order so this TU's vtable COMDAT is the same as Xfer.cpp's copy.
+// cl builds the by-product ??_GXfer with the inline state in force where the
+// class definition ends; inline_depth(0) there makes it call ~Xfer, as the
+// ledger's ??_GXfer (0x0060C8B1) does, while bodies below still inline it.
+#pragma inline_depth(0)
 class Xfer
 {
 public:
@@ -94,6 +98,7 @@ public:
 protected:
 	virtual void XferData(unsigned int type, void *data, unsigned int size) = 0;
 };
+#pragma inline_depth()
 
 // ?<bfmeXferVectorDeleteAnchor> absent-from-retail
 void bfmeXferVectorDeleteAnchor(Xfer *xfer)

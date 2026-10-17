@@ -99,6 +99,10 @@ public:
 struct XferUnknown11;
 
 // upstream layout: Code/GameEngine/Source/Common/System/Xfer.cpp (retail vtable 0x00BBB910)
+// cl builds the by-product ??_GXfer with the inline state in force where the
+// class definition ends; inline_depth(0) there makes it call ~Xfer, as the
+// ledger's ??_GXfer (0x0060C8B1) does, while bodies below still inline it.
+#pragma inline_depth(0)
 class Xfer
 {
 public:
@@ -155,6 +159,7 @@ public:
 protected:
     virtual void XferData(unsigned int type, void *data, unsigned int size) = 0;
 };
+#pragma inline_depth()
 
 class Xfer::Version
 {
