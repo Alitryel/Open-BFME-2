@@ -251,7 +251,8 @@ class FreelistProxyHead {public:void setup(const void*,void*);};
 class FreelistPool {public:void*pop();};
 extern FreelistPool g_freelistPool00DB8FEC;
 namespace _STL {
-template<> __declspec(noinline) _List_base<Object*,Rva001EB984PoolAllocator<Object*> >::_List_base(const Rva001EB984PoolAllocator<Object*>&a)
+// Select-any like every other unit's copy (rowed in StlportObjectFreelistListBaseCtor.cpp).
+template<> inline __declspec(noinline) _List_base<Object*,Rva001EB984PoolAllocator<Object*> >::_List_base(const Rva001EB984PoolAllocator<Object*>&a)
 {
  char dummy;
  ((FreelistProxyHead*)this)->setup(&dummy,0);
