@@ -1,4 +1,6 @@
 // ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z
+// partial score=0.935 date=2026-10-17
+// ?rva00307EDC@@YA_NPAVAsciiString@@PAURva00240000ByteVector@@@Z
 // partial score=0.86 date=2026-10-15
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /EHs /D_CRTIMP= /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc
 // stlport
@@ -117,7 +119,8 @@ bool rva00307EDC(AsciiString *path, Rva00240000ByteVector *data)
 	int size;
 	char *buffer;
 	{
-		Rva00307EDCFileCloser file(TheFileSystem->openFile(path->str(), 0x141, 0));
+		File *opened = TheFileSystem->openFile(path->str(), 0x141, 0);
+		Rva00307EDCFileCloser file(opened);
 		if (file.m_file == NULL)
 			return false;
 
@@ -135,10 +138,9 @@ bool rva00307EDC(AsciiString *path, Rva00240000ByteVector *data)
 	{
 		int uncompressedSize = CompressionManager::getUncompressedSize(buffer, size);
 		std::vector<char> uncompressed(uncompressedSize);
-		int result = CompressionManager::decompressData(buffer, size, &uncompressed[0], uncompressedSize);
-		if (result == 0)
+		if (CompressionManager::decompressData(buffer, size, &uncompressed[0], uncompressedSize) == 0)
 			return false;
-		if (result == uncompressedSize)
+		if (CompressionManager::decompressData(buffer, size, &uncompressed[0], uncompressedSize) == uncompressedSize)
 			bytes.swap(uncompressed);
 	}
 
