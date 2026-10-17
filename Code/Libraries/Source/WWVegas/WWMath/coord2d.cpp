@@ -454,6 +454,14 @@ inline Coord2D operator-(Coord2D left, const Coord2D &right)
     return left;
 }
 
+// The same native call chain ends in by-value addition at7DEC8.
+inline Coord2D operator+(Coord2D left, const Coord2D &right)
+{
+    left.x += right.x;
+    left.y += right.y;
+    return left;
+}
+
 // These are header inlines that the units including the header emit as
 // select-any copies, which plain definitions here collided with. The anchor
 // keeps this unit's copies for the rows; it is not retail code.
@@ -464,6 +472,7 @@ void _bfmeCoord2DInlineAnchor(Coord2D *c)
     Coord2D local;
     Coord2D copy(*c);
     copy = copy - local;
+    copy = copy + local;
     c->normalize();
     c->length();
     c->GetLengthSqrd();
