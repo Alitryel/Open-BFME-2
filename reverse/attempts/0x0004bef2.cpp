@@ -1,10 +1,14 @@
 // ?draw@W3DDisplay@@UAEXXZ
+// partial score=0.91 date=2026-10-17
+// ?draw@W3DDisplay@@UAEXXZ
 // partial score=0.9237 date=2026-10-14
 // ?draw@W3DDisplay@@UAEXXZ
 // partial score=0.92 date=2026-10-13
 // ?draw@W3DDisplay@@UAEXXZ
 // partial score=0.9213 date=2026-10-10
 // cl: /O1 /G7 /arch:SSE /MD /EHsc /Ireference/shims/bfme2_ascii /D_STLP_USE_STATIC_LIB /D_STLP_USE_MALLOC /D_CRTIMP= /ICode/GameEngine/Source/Common
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // ZH W3DDisplay::draw semantic guide; native 4BEF2..4C3D8.
 // BFME2 separates the full render into 4A462 and adds panorama captures.
@@ -242,13 +246,16 @@ void W3DDisplay::draw(){
    TheGlobalData->panoramaMode=true;TheGlobalData->panoramaScale=1.0f/TheGlobalData->panoramaCount;
    RECT2 rect;GetClientRect(ApplicationHWnd,(RECT*)&rect);POINT2 point;point.x=rect.left;point.y=rect.top;ClientToScreen(ApplicationHWnd,(POINT*)&point);rect.left=point.x;rect.top=point.y;point.x=rect.right;point.y=rect.bottom;ClientToScreen(ApplicationHWnd,(POINT*)&point);rect.right=point.x;rect.bottom=point.y;
    int width=rect.right-rect.left,height=rect.bottom-rect.top;int i=0;char*image=0;
-   if(!TheGlobalData->panoramaIndividual)image=new char[TheGlobalData->panoramaCount*height*width*3];
+   int imageArea=height*width;
+   if(!TheGlobalData->panoramaIndividual)image=new char[TheGlobalData->panoramaCount*imageArea*3];
    for(;i<TheGlobalData->panoramaCount;++i){
-    TheGlobalData->panoramaAngle=i*-6.28318530717958647692f/__vref(TheGlobalData->panoramaCount);
-    TheGlobalData->panoramaLast=(i==TheGlobalData->panoramaCount-1);
+    int panCount=TheGlobalData->panoramaCount;int panCopy=panCount;
+    *(volatile float *)&TheGlobalData->panoramaAngle=i*-6.28318530717958647692f/panCount;
+    *(volatile bool *)&TheGlobalData->panoramaLast=(i==TheGlobalData->panoramaCount-1);
     if(!rva0004A462(now))freezeTime=false;
+    { int panSaved=TheGlobalData->panoramaCount;
     if(TheGlobalData->panoramaIndividual){AsciiString name;name.format("sshot_panorama_%.2d_%.4d",i,captureIndex);takeScreenShot(name.str());}
-    else{int&count=TheGlobalData->panoramaCount;rva00045213(image+((i+count/2)%count)*width*3,count*width*3);}
+    else{int count2=panSaved;rva00045213(image+((i+count2/2)%count2)*width*3,count2*width*3);} }
    }
    if(!TheGlobalData->panoramaIndividual){rva00047BC0(image,TheGlobalData->panoramaCount*width,height,0);delete[]image;}
    ++captureIndex;--capturePending;TheGlobalData->panoramaMode=false;
