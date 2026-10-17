@@ -25,3 +25,9 @@ const char *__cdecl _RTC_GetErrDesc(_RTC_ErrorNumber errnum) {
  if(errnum<0 || errnum>=4)return 0;
  return _RTC_errlist[errnum];
 }
+
+extern int _RTC_ErrorLevels[4];
+int __cdecl _RTC_SetErrorType(_RTC_ErrorNumber errnum,int type) {
+ if(errnum<0 || errnum>=4)return -1;
+ int old=_RTC_ErrorLevels[errnum];_RTC_ErrorLevels[errnum]=type;return old;
+}

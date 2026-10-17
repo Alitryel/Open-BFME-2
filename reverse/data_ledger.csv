@@ -21802,7 +21802,7 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A1F4E8,80,.data,global,?g_Va00A1F4E8@@3IA,Code/GameEngine/Source/Common/Rva007B6880Thunks.cpp,owned,,1,1
 0x00A1F538,1,.data,global,_key1,Code/Libraries/Source/Lua/ldblib.c,owned,,1,2
 0x00A1F539,35,.data,global,_key2,Code/Libraries/Source/Lua/ldblib.c,owned,,1,2
-0x00A1F55C,84,.data,global,?g_Va00E1F55C@@3P6AHHPBDH00ZZA,,unowned,,0,1
+0x00A1F55C,84,.data,global,__RTC_ErrorReportFunc,Code/Libraries/Source/CRT/RtcGetErrorFunc.cpp,owned,,1,3
 0x00A1F5B0,4,.data,global,_piOldMangleStagingRooms,,unowned,,0,1
 0x00A1F5B4,12,.data,global,___GSIACResult,,unowned,,0,10
 0x00A1F5C0,64,.data,global,___GSIACGamename,,unowned,,0,4
