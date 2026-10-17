@@ -1,6 +1,10 @@
 // ?bfmeImplV23@BfmeStrV23@@QAEXPAD000@Z
+// partial score=0.459 date=2026-10-17
+// ?bfmeImplV23@BfmeStrV23@@QAEXPAD000@Z
 // partial score=0.667 date=2026-10-14
 // cl: /DNDEBUG /MD /EHsc /Od /Ob2 /D_STLP_USE_STATIC_LIB
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // ?bfmeImplV23@BfmeStrV23@@QAEXPAD000@Z @0x000284D0 848B, WB 0x6DA630 (848B,
 // byte-identical structure). STLport basic_string forward-range insert
@@ -43,8 +47,11 @@ void BfmeStrV23::bfmeImplV23(char *pos, char *first, char *last, char *arg3)
 			m_finish += n;
 			int len = p - n + 1;
 			char *dest = pos + n;
+			char *tmp = 0;
 			if (len != 0)
-				memmove(dest, pos, len);
+			{
+				tmp = _STL::rva004179B0(pos, pos + len, dest);
+			}
 			char *d = pos;
 			for (char *s = first; s != last; ++d, ++s)
 				_STL::rva0006D5370(*d, *s);
@@ -65,7 +72,13 @@ void BfmeStrV23::bfmeImplV23(char *pos, char *first, char *last, char *arg3)
 	{
 		int oldSize = (int)(m_finish - m_start);
 		int cap = (oldSize < n ? n : oldSize) + 1;
-		char *buf = (char *)_STL::rva00307F0(cap);
+		char *buf;
+		struct { char *a; char *b; char *c; char *d; unsigned char pad[0x30]; } fr;
+		fr.a = 0; fr.b = 0; fr.c = 0; fr.d = 0;
+		if (0)
+			throw 1;
+		(void)fr;
+		buf = (char *)_STL::rva00307F0(cap);
 		char *q = _STL::rva004179B0(m_start, pos, buf);
 		q = _STL::rva004179B0(first, last, q);
 		q = _STL::rva004179B0(pos, m_finish, q);
