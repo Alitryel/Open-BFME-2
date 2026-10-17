@@ -1,4 +1,6 @@
 // ??$decompress@$03@AdaptiveDeltaMotionChannelClass@@AAEXKPAMK0@Z
+// partial score=0.733 date=2026-10-17
+// ??$decompress@$03@AdaptiveDeltaMotionChannelClass@@AAEXKPAMK0@Z
 // partial score=0.8378 date=2026-10-14
 // cl: /Ireference/shims/bfmerendobj /Ireference/shims/bfmehcanim /Ob2 /G7 /arch:SSE /DNDEBUG /MD /EHsc /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/shims/sweep /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWLib /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WW3D2 /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWMath /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWSaveLoad /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/Wwutil /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDownload /Ireference/open-bfme-1/Code/Libraries/Source/WWVegas/WWDebug /Ireference/open-bfme-1/Code/Libraries/Source/Compression /Ireference/shims/sweep
 // The compiler-generated vector constructor iterator (??_H) takes the
@@ -404,9 +406,10 @@ void AdaptiveDeltaMotionChannelClass::decompress<4>(uint32 src_idx, float *srcda
 	float *src = srcdata;
 	uint32 start = src_idx;
 
-	if (src == NULL) {
+	if (srcdata == NULL) {
 		start = 0;
-		src = (float *) base;
+		src = (float *) Data;
+		base = (unsigned char *) Data;
 	}
 
 	if (frame_idx >= NumFrames) {
