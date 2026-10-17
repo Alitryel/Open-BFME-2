@@ -124,23 +124,6 @@ void BFME2Encoding1MotionChannel::UnknownSlot5(float frame, Quaternion *value, u
     }
 }
 
-void BFME2Encoding2MotionChannel::UnknownSlot5(float frame, Quaternion *value, unsigned char **cursor)
-{
-    int whole = (int)frame;
-    frame -= (float)whole;
-    if (cursor) {
-        unsigned int *cache = (unsigned int *)*cursor;
-        Quaternion *value0 = (Quaternion *)(cache + 1);
-        rva001B27AB((unsigned int *)value0, cache[0], whole, value0, value0 + 1);
-        cache[0] = whole;
-        BFME2_Nlerp(*value, value0[0], value0[1], frame);
-        *cursor += Components * 8 + 4;
-    } else {
-        Quaternion value0, value1;
-        rva001B27AB((unsigned int *)(EncodedHeader + 4), 0, whole, &value0, &value1);
-        BFME2_Nlerp(*value, value0, value1, frame);
-    }
-}
 
 void BFME2Encoding1MotionChannel::UnknownSlot4(float frame, Vector3 *value, unsigned char **cursor)
 {
@@ -165,25 +148,3 @@ void BFME2Encoding1MotionChannel::UnknownSlot4(float frame, Vector3 *value, unsi
     }
 }
 
-void BFME2Encoding2MotionChannel::UnknownSlot4(float frame, Vector3 *value, unsigned char **cursor)
-{
-    int whole = (int)frame;
-    frame -= (float)whole;
-    if (cursor) {
-        unsigned int *cache = (unsigned int *)*cursor;
-        Vector3 *value0 = (Vector3 *)(cache + 1);
-        Vector3 *value1 = value0 + 1;
-        rva001B267B((unsigned int *)value0, cache[0], whole, value0, value1);
-        cache[0] = whole;
-        value->X = Bfme_Lerp(value0->X, value1->X, frame);
-        value->Y = Bfme_Lerp(value0->Y, value1->Y, frame);
-        value->Z = Bfme_Lerp(value0->Z, value1->Z, frame);
-        *cursor += Components * 8 + 4;
-    } else {
-        Vector3 value0, value1;
-        rva001B267B((unsigned int *)(EncodedHeader + 4), 0, whole, &value0, &value1);
-        value->X = Bfme_Lerp(value0.X, value1.X, frame);
-        value->Y = Bfme_Lerp(value0.Y, value1.Y, frame);
-        value->Z = Bfme_Lerp(value0.Z, value1.Z, frame);
-    }
-}
