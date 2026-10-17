@@ -51,19 +51,11 @@ void *rva0002FC60(unsigned int size)
 extern void *g_00DE03F0;
 unsigned int rva00030860(void *block, unsigned int heap);
 
-unsigned int rva0002FC80(void *block)
-{
-	return rva00030860(block, ((unsigned int (__cdecl *)(void *))g_00DE03F0)(block));
-}
 
 // --- 0x0002FCA0 (24B): realloc through the resize slot VA 0x00DE0400 with
 // two zero words.
 extern void *g_00DE0400;
 
-void *rva0002FCA0(void *block, unsigned int size)
-{
-	return ((void *(__cdecl *)(void *, unsigned int, int, int))g_00DE0400)(block, size, 0, 0);
-}
 
 // --- 0x0002FCC0 (68B): strdup through the rowed allocator<char>::allocate.
 char *rva0002FCC0(const char *s)
@@ -118,12 +110,6 @@ namespace MemoryPool { void InitFunctionPointers(); }
 extern void *g_00DE040C;
 extern void *g_00DE0410;
 
-void rva0002FFA0()
-{
-	MemoryPool::InitFunctionPointers();
-	atexit((void (__cdecl *)(void))g_00DE040C);
-	((void (__cdecl *)(void))g_00DE0410)();
-}
 
 // --- 0x0002F980 (22B): the registry block's once-gate on its own, ahead of
 // the getters at 0x0002F9C0 that inline the same test; tail-jumps to the
