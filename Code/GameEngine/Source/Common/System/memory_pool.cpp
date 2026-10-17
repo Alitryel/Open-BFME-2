@@ -614,6 +614,111 @@ void GeneralAllocator::rva00032EC0(const void *block, BlockInfo *out)
 	}
 }
 
+// ?rva00032F60@GeneralAllocator@Allocator@EA@@QAEPBUBlockInfo@23@PAXH@Z @0x00032F60 490B
+// Report-next (PPMalloc ReportNext-like) over a 'SNAP' report context. Live
+// mode (+0x0E set) masks the types with +0x08, walks the core list (current
+// core +0x10, current chunk +0x14, sentinel this+0x448, cores linked through
+// +0x1C, chunk end core+size-0x10), skipping internal chunks (header bit 2)
+// unless type 0x10 is asked and matching in-use (2) or free (4) chunks; a
+// hit fills the report's BlockInfo at +0x24 through 0x00032EC0. With the
+// walk done and type 2 asked it reports the mapped list (+0x18, sentinel
+// this+0x49C, next +0x0C). Copy mode scans the stored 20-byte BlockInfo
+// array at +0x24 from index +0x20 below count +0x1C by type. Target bytes
+// supply every offset and branch; field labels are descriptive.
+static inline int rva00032F60ChunkInUse(const char *chunk)
+{
+	unsigned int size = *(const unsigned int *)(chunk + 4);
+	return (*(const unsigned char *)(chunk + (size & 0x7FFFFFF8) + 4) & 1) && !(size & 0x80000000);
+}
+
+const BlockInfo *GeneralAllocator::rva00032F60(void *context, int blockTypes)
+{
+	Snapshot *snapshot = (Snapshot *)context;
+	if (snapshot && snapshot->m_magic == 0x534E4150)
+	{
+		if (snapshot->m_state[2])
+		{
+			blockTypes &= (int)snapshot->m_arg2;
+			while ((ListNode *)snapshot->m_values[0] != &m_sentinel)
+			{
+				ListNode *const core = (ListNode *)snapshot->m_values[0];
+				const char *chunkEnd = 0;
+				if (((ListNode *)snapshot->m_values[0])->m_size)
+				{
+					chunkEnd = (const char *)core + core->m_size - 0x10;
+					if (snapshot->m_values[1])
+						snapshot->m_values[1] += *(const unsigned int *)(snapshot->m_values[1] + 4) & 0x7FFFFFF8;
+					else
+						snapshot->m_values[1] = core->m_unk0;
+					while ((const char *)snapshot->m_values[1] != chunkEnd)
+					{
+						const char *chunk = (const char *)snapshot->m_values[1];
+						if ((blockTypes & 0x10) || (*(const unsigned char *)(chunk + 4) & 4) == 0)
+						{
+							if ((blockTypes & 6) == 6)
+								break;
+							const int inUse = rva00032F60ChunkInUse(chunk);
+							int match;
+							if (blockTypes & 2)
+								match = inUse;
+							else if (blockTypes & 4)
+								match = !inUse;
+							else
+								match = false;
+							if (match)
+								break;
+						}
+						snapshot->m_values[1] = (unsigned int)chunk + (*(const unsigned int *)(chunk + 4) & 0x7FFFFFF8);
+					}
+					if ((const char *)snapshot->m_values[1] != chunkEnd)
+						break;
+				}
+				if (!core->m_size || (const char *)snapshot->m_values[1] == chunkEnd)
+				{
+					do
+						snapshot->m_values[0] = (unsigned int)((ListNode *)snapshot->m_values[0])->m_prev;
+					while ((ListNode *)snapshot->m_values[0] != &m_sentinel && !((ListNode *)snapshot->m_values[0])->m_size);
+					snapshot->m_values[1] = 0;
+				}
+			}
+			if ((ListNode *)snapshot->m_values[0] != &m_sentinel)
+			{
+				BlockInfo *const info = (BlockInfo *)(snapshot + 1);
+				rva00032EC0((const void *)snapshot->m_values[1], info);
+				return info;
+			}
+			if ((blockTypes & 2) && (RegionLink *)snapshot->m_values[2] != &m_regions)
+			{
+				RegionLink *const region = (RegionLink *)snapshot->m_values[2];
+				BlockInfo *const info = (BlockInfo *)(snapshot + 1);
+				rva00032EC0((const char *)region - region->m_base, info);
+				snapshot->m_values[2] = (unsigned int)((RegionLink *)snapshot->m_values[2])->m_next;
+				return info;
+			}
+		}
+		else
+		{
+			BlockInfo *const info = (BlockInfo *)(snapshot + 1);
+			if (snapshot->m_values[4] < snapshot->m_values[3])
+			{
+				bool found = false;
+				while (snapshot->m_values[4] < snapshot->m_values[3])
+				{
+					if (info[snapshot->m_values[4]].m_blockType & blockTypes)
+					{
+						found = true;
+						break;
+					}
+					++snapshot->m_values[4];
+				}
+			}
+			if (snapshot->m_values[4] < snapshot->m_values[3])
+				return &info[snapshot->m_values[4]++];
+		}
+	}
+	return 0;
+}
+
 // ?rva006C1D10@GeneralAllocator@Allocator@EA@@QAEIPBX@Z @0x006C1D10 59B
 // Fast usable-size: header at block-4, sign check tail-calls 0x32A20,
 // bit1 selects masked size else masked+4, then short at [size+block-0xA]
