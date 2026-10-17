@@ -1,5 +1,4 @@
 // _AnyRatioFrameScale
-// partial score=0.981981055248382 date=2026-10-16
 // cl: /O2 /G6 /DNDEBUG /MD
 // Clean room: reverse/vp6_cleanroom/specs/001baca0.md plus retail only.
 // No decoder source was consulted.
@@ -258,11 +257,13 @@ struct Vp6AnyRatioYUVConfig
 extern "C" int AnyRatioFrameScale(Vp6AnyRatioPostProc *pp, unsigned char *frame, Vp6AnyRatioYUVConfig *config, int yOffset, int uvOffset)
 {
 	int destWidth = pp->expandedWidth;
- int hRatio=*(const int*)&pp->hRatio;
-	int sourceWidth = (pp->expandedWidth * hRatio + (pp->hScale - 1)) / pp->hScale;
+	int hRatio = pp->hRatio;
+	int vRatio = pp->vRatio;
+	int vScale = pp->vScale;
+	int hScale = pp->hScale;
+	int sourceWidth = (pp->expandedWidth * hRatio + (hScale - 1)) / hScale;
 	int destHeight = pp->expandedHeight;
-int vRatio=pp->vRatio;
-	int sourceHeight = (pp->expandedHeight * vRatio + (pp->vScale - 1)) / pp->vScale;
+	int sourceHeight = (pp->expandedHeight * vRatio + (vScale - 1)) / vScale;
 	int paddedWidth;
 	int paddedHeight;
 	int result;
