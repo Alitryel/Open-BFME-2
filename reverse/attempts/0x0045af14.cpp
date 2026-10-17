@@ -1,4 +1,6 @@
 // ?update@DualWeaponBehavior@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.99 date=2026-10-17
+// ?update@DualWeaponBehavior@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.874 date=2026-10-14
 // ?update@DualWeaponBehavior@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.84653471026965 date=2026-10-14
@@ -281,19 +283,28 @@ UpdateSleepTime DualWeaponBehavior::update()
  const DualWeaponBehaviorModuleData *d = getDualWeaponBehaviorModuleData();
  Object *obj = getObject();
  AIUpdateInterface *ai = obj->getAIUpdateInterface();
- if ((d ? (!ai || obj->isEffectivelyDead()) : (!ai || obj->isEffectivelyDead()))) return UPDATE_SLEEP_FOREVER;
+ if ((d ? (!(!ai || !obj->isEffectivelyDead())) : (!(!ai || !obj->isEffectivelyDead())))) return UPDATE_SLEEP_FOREVER;
  if (obj->getWeaponSetFlags()->test(8)) return sleepTime();
  Object *container = obj->getContainer();
  if (container && !(container->getTemplate()->kindWord & 0x2000))
  return (closeRangeActive ? (sleepTime()) : (sleepTime()));
+ goto afterContainerRange;
+ afterContainerRange:;
  if (d->useHordeRangeWeapon && container && (container->getTemplate()->kindWord & 0x2000)) 
  
  {
-  if (container->getWeaponSetFlags()->test(7)) goto setCloseRange;
-  goto clearCloseRange;
+  if (container->getWeaponSetFlags()->test(7))
+  {
+   obj->setWeaponSetFlag(WEAPONSET_CLOSE);
+   obj->setCloseCondition();
+   return sleepTime();
+  }
+  obj->clearWeaponSetFlag(WEAPONSET_CLOSE);
+  obj->clearCloseCondition();
+  return sleepTime();
   
  }
- if (obj->isKindOf((KindOfType)0xcf)) return sleepTime();
+ if (!obj->isKindOf((KindOfType)0xcf)) { } else return sleepTime();
  if (!closeRangeActive) 
  
  {
@@ -302,7 +313,7 @@ UpdateSleepTime DualWeaponBehavior::update()
   if (d->useRealVictimRange && ai->getCurrentVictim()) 
   
   {
-   r1_vwrite(((&(victim)) ? (victim) : (victim))) = ai->getCurrentVictim();
+   victim = ai->getCurrentVictim();
    Coord3D delta;
    delta.x = obj->getPosition()->x - victim->getPosition()->x;
    delta.y = obj->getPosition()->y - victim->getPosition()->y;
@@ -316,14 +327,20 @@ UpdateSleepTime DualWeaponBehavior::update()
    victim = TheAI->findClosestEnemy(obj, range, 0x62, 0, 0, 0);
    
   }
-  if (victim && fabs((double)victim->getPosition()->z - obj->getPosition()->z) > range*0.5f)
+  if (victim && fabs((double)(victim->getPosition()->z - obj->getPosition()->z)) > (double)(range * 0.5f))
   victim = 0;
-  if (!(d->useCloseWhileMounted && obj->isKindOf((KindOfType)0xd6))) 
+  if ((d->useCloseWhileMounted && obj->isKindOf((KindOfType)0xd6))) 
   
   {
+   if (!obj->getWeaponSetFlags()->test(7))
+   {
+    obj->setWeaponSetFlag(WEAPONSET_CLOSE);
+    obj->setCloseCondition();
+    return sleepTime();
+   }
    unsigned int now = TheGameLogic->frame;
    int remaining = (int)(switchTimer + d->minimumSwitchTime - now);
-   if (remaining > 0) return (UpdateSleepTime)remaining;
+   if (remaining > 0) return (UpdateSleepTime)(remaining);
    switchTimer = now;
    if (!victim || victim->isEffectivelyDead()) 
    
@@ -336,14 +353,14 @@ UpdateSleepTime DualWeaponBehavior::update()
   }
   
  }
- if (obj->getWeaponSetFlags()->test(7)) return sleepTime();
- setCloseRange:
- obj->setWeaponSetFlag(WEAPONSET_CLOSE);
- obj->setCloseCondition();
- return sleepTime();
  clearCloseRange:
  obj->clearWeaponSetFlag(WEAPONSET_CLOSE);
  obj->clearCloseCondition();
  return sleepTime();
+ setCloseRange:
+ obj->setWeaponSetFlag(WEAPONSET_CLOSE);
+ obj->setCloseCondition();
+ if (obj->getWeaponSetFlags()->test(7)) return sleepTime();
+ goto setCloseRange;
  
 }
