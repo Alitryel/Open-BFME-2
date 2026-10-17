@@ -502,8 +502,10 @@ void AISkirmishPlayer::onUnitProduced(Object *factory, Object *unit)
 	AIPlayer::onUnitProduced(factory, unit);
 }
 
-// ?selectTeamToReinforce@AISkirmishPlayer@@MAE_NH@Z present-unmatched @0x004EF45A 5B: its tail-jump target, AIPlayer::selectTeamToReinforce 0x004F3DB1, is unrowed
-Bool AISkirmishPlayer::selectTeamToReinforce(Int minPriority)
+// ?selectTeamToReinforce@AISkirmishPlayer@@MAE_NH@Z present-unmatched @0x004EF45A 5B: its tail-jump target, AIPlayer::selectTeamToReinforce 0x004F3DB1, is unrowed.
+// Inline until then: nothing in this unit references it (the vtable is not emitted here),
+// so it is not emitted and the unit's other bodies link.
+inline Bool AISkirmishPlayer::selectTeamToReinforce(Int minPriority)
 {
 	return AIPlayer::selectTeamToReinforce(minPriority);
 }
