@@ -46,7 +46,12 @@ ROOT = Path(__file__).resolve().parents[1]
 REVERSE = (ROOT / "targets" / "game" / "reverse"
            if (ROOT / "targets" / "game" / "reverse").is_dir() else ROOT / "reverse")
 DEFAULT_OUT = ROOT / "build" / "refdb"
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
+# Version 1 snapshots (no function_ranges table) stay readable: fn() then marks a
+# containing-function answer as an unverified bounds candidate, never as exact.
+SUPPORTED_VERSIONS = (1, 2)
+RANGES = ("function_ranges", "function_ranges.tsv", ["func_rva", "start_rva", "end_rva_exclusive"],
+          "func_rva, start_rva")
 
 # (table, tsv, columns, primary order). Column order is the TSV field order.
 TABLES = [
@@ -63,7 +68,8 @@ TABLES = [
      "path, ord, kind, member"),
 ]
 INTEGER = {"size", "ranges", "thunk", "operand", "length", "case_index"}
-RVA = {"rva", "max_rva", "from_rva", "to_rva", "from_func", "func_rva", "jump_rva", "target_rva"}
+RVA = {"rva", "max_rva", "from_rva", "to_rva", "from_func", "func_rva", "jump_rva", "target_rva",
+       "start_rva", "end_rva_exclusive"}
 
 
 # ----------------------------------------------------------------- load
@@ -98,7 +104,11 @@ def _rows(path, columns):
 
 
 def load(tsv_dir, db_path):
-    """Build the snapshot from export_refdb.java's TSVs. Returns the meta dict."""
+    """Build the snapshot from export_refdb.java's TSVs. Returns the meta dict.
+
+    An export with function_ranges.tsv makes a version-2 snapshot with exact body
+    intervals (checked against each function's size and range count); one without
+    it makes a version-1 snapshot, byte-compatible with what older tools wrote."""
     tsv_dir, db_path = Path(tsv_dir), Path(db_path)
     meta = {}
     with (tsv_dir / "meta.tsv").open(encoding="utf-8") as handle:
@@ -109,9 +119,10 @@ def load(tsv_dir, db_path):
     partial = db_path.with_suffix(".partial")
     partial.unlink(missing_ok=True)
     digest = hashlib.sha256()
+    exact = (tsv_dir / RANGES[1]).exists()
     db = sqlite3.connect(partial)
     try:
-        for table, tsv, columns, order in TABLES:
+        for table, tsv, columns, order in TABLES + ([RANGES] if exact else []):
             db.execute(f"CREATE TABLE {table} ({', '.join(columns)})")
             rows = sorted(_rows(tsv_dir / tsv, columns),
                           key=lambda r: tuple((v is None, v if v is not None else 0) for v in r))
@@ -120,7 +131,9 @@ def load(tsv_dir, db_path):
             for row in rows:
                 digest.update(json.dumps(row).encode())
             meta[f"rows.{table}"] = str(len(rows))
-        meta["schema_version"] = str(SCHEMA_VERSION)
+        if exact:
+            _check_ranges(db)
+        meta["schema_version"] = str(SCHEMA_VERSION if exact else 1)
         meta["content_sha256"] = digest.hexdigest()
         db.execute("CREATE TABLE meta (key, value)")
         db.executemany("INSERT INTO meta VALUES (?, ?)", sorted(meta.items()))
@@ -131,12 +144,28 @@ def load(tsv_dir, db_path):
                           "CREATE INDEX switches_func ON switches(func_rva)",
                           "CREATE INDEX types_path ON types(path)"):
             db.execute(statement)
+        if exact:
+            db.execute("CREATE INDEX function_ranges_start ON function_ranges(start_rva)")
         db.commit()
         db.execute("VACUUM")
     finally:
         db.close()
     os.replace(partial, db_path)
     return meta
+
+
+def _check_ranges(db):
+    """Every function's exact intervals must agree with its size and range count."""
+    bad = db.execute(
+        "SELECT f.rva FROM functions f LEFT JOIN (SELECT func_rva, COUNT(*) n, "
+        "SUM(end_rva_exclusive - start_rva) total, MIN(start_rva) lo, MAX(end_rva_exclusive) hi "
+        "FROM function_ranges GROUP BY func_rva) r ON r.func_rva = f.rva "
+        "WHERE r.n IS NULL OR r.n != f.ranges OR r.total != f.size OR r.hi - 1 != f.max_rva "
+        "LIMIT 5").fetchall()
+    orphans = db.execute("SELECT func_rva FROM function_ranges WHERE func_rva NOT IN "
+                         "(SELECT rva FROM functions) LIMIT 5").fetchall()
+    if bad or orphans:
+        raise SystemExit(f"function_ranges disagree with functions: {bad or orphans}")
 
 
 # ----------------------------------------------------------------- export
@@ -221,6 +250,19 @@ def connect(db_path):
     return sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
 
 
+def schema_version(db):
+    """The snapshot's declared schema version, checked against the tables it must have."""
+    row = db.execute("SELECT value FROM meta WHERE key = 'schema_version'").fetchone()
+    version = int(row[0]) if row else 1
+    if version not in SUPPORTED_VERSIONS:
+        raise SystemExit(f"refdb schema version {version} is newer than this tool ({SUPPORTED_VERSIONS})")
+    has_ranges = db.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'function_ranges'"
+                            ).fetchone() is not None
+    if version >= 2 and not has_ranges:
+        raise SystemExit("refdb declares schema version 2 but has no function_ranges table")
+    return version
+
+
 def _dicts(cursor):
     names = [d[0] for d in cursor.description]
     return [{k: (f"{'-' if v < 0 else ''}0x{abs(v):08X}" if k in RVA and v is not None else v)
@@ -232,15 +274,37 @@ def parse_rva(text):
 
 
 def fn(db, key):
-    """The function at (or containing) an RVA, or every function with this name."""
-    if re.fullmatch(r"(0x)?[0-9A-Fa-f]+", key):
-        rva = parse_rva(key)
-        rows = _dicts(db.execute(
-            "SELECT * FROM functions WHERE rva <= ? AND max_rva >= ? ORDER BY rva DESC LIMIT 1",
-            (rva, rva)))
-    else:
+    """The function at (or containing) an RVA, or every function with this name.
+
+    Each row says how it was found in `containment`: `exact` (version 2: the RVA
+    lies inside one of the function's recorded body intervals, listed in `body`),
+    `entry` (the RVA is the function's entry), `bounds-candidate` (version 1 only:
+    entry <= RVA <= max address, which a gap between body ranges also satisfies; not
+    containment evidence) or `name`. A version-2 snapshot never reports a gap
+    address or an end-exclusive address as contained."""
+    if not re.fullmatch(r"(0x)?[0-9A-Fa-f]+", key):
         rows = _dicts(db.execute("SELECT * FROM functions WHERE name = ? ORDER BY rva", (key,)))
-    return rows
+        return [dict(r, containment="name") for r in rows]
+    rva = parse_rva(key)
+    if schema_version(db) >= 2:
+        rows = _dicts(db.execute(
+            "SELECT f.* FROM function_ranges r JOIN functions f ON f.rva = r.func_rva "
+            "WHERE r.start_rva <= ? AND r.end_rva_exclusive > ? ORDER BY f.rva", (rva, rva)))
+        for row in rows:
+            row["containment"] = "exact"
+            row["body"] = [[f"0x{s:08X}", f"0x{e:08X}"] for s, e in db.execute(
+                "SELECT start_rva, end_rva_exclusive FROM function_ranges WHERE func_rva = ? "
+                "ORDER BY start_rva", (parse_rva(row["rva"]),))]
+        if rows:
+            return rows
+        rows = _dicts(db.execute("SELECT * FROM functions WHERE rva = ?", (rva,)))
+        return [dict(r, containment="entry") for r in rows]
+    rows = _dicts(db.execute("SELECT * FROM functions WHERE rva = ?", (rva,)))
+    if rows:
+        return [dict(r, containment="entry") for r in rows]
+    rows = _dicts(db.execute(
+        "SELECT * FROM functions WHERE rva <= ? AND max_rva >= ? ORDER BY rva DESC LIMIT 1", (rva, rva)))
+    return [dict(r, containment="bounds-candidate") for r in rows]
 
 
 def callers(db, rva):
@@ -307,6 +371,27 @@ def _csv(path):
         return list(csv.DictReader(handle))
 
 
+TIER_FILES = {"export": "exports.csv", "ilt": "functions.csv", "reloc": "reloc_names.csv"}
+TIER_RVA = {"export": "rva", "ilt": "target_rva", "reloc": "target_rva"}
+
+
+def admits(tier, row):
+    """Whether one evidence row (a csv.DictReader dict) admits its name under `tier`.
+
+    The single statement of the tier rules; evidence_names(), tools/re_metadata.py
+    and its Java mirror (tools/ghidra/apply_metadata.java) all apply exactly this."""
+    name = row.get("name")
+    if not name or placeholder(name) or not row.get(TIER_RVA[tier]):
+        return False
+    if tier == "export":
+        return row.get("kind") in ("code", "function", "func") and row.get("section", ".text") == ".text"
+    if tier == "ilt":
+        return row.get("status") == "matched" and "ilt-verified=" in (row.get("notes") or "")
+    if tier == "reloc":
+        return "identity=real" in (row.get("notes") or "")
+    raise ValueError(f"unknown tier {tier}")
+
+
 def evidence_names(reverse=None):
     """{rva: (name, tier)} for names the repo holds on evidence, not on assertion.
 
@@ -318,23 +403,10 @@ def evidence_names(reverse=None):
     """
     reverse = Path(reverse or REVERSE)
     found = {}
-
-    def offer(rva_text, name, tier):
-        if not rva_text or not name or placeholder(name):
-            return
-        rva = int(rva_text, 16)
-        if rva not in found:
-            found[rva] = (name, tier)
-
-    for row in _csv(reverse / "exports.csv"):
-        if row.get("kind") in ("code", "function", "func") and row.get("section", ".text") == ".text":
-            offer(row.get("rva"), row.get("name"), "export")
-    for row in _csv(reverse / "functions.csv"):
-        if row.get("status") == "matched" and "ilt-verified=" in (row.get("notes") or ""):
-            offer(row.get("target_rva"), row.get("name"), "ilt")
-    for row in _csv(reverse / "reloc_names.csv"):
-        if "identity=real" in (row.get("notes") or ""):
-            offer(row.get("target_rva"), row.get("name"), "reloc")
+    for tier in ("export", "ilt", "reloc"):
+        for row in _csv(reverse / TIER_FILES[tier]):
+            if admits(tier, row):
+                found.setdefault(int(row[TIER_RVA[tier]], 16), (row["name"], tier))
     return found
 
 
@@ -436,6 +508,7 @@ def main(argv=None):
         for row in plan:
             tiers[row[3]] = tiers.get(row[3], 0) + 1
         print(json.dumps({"renames": len(plan), "by_tier": tiers}, indent=2))
+
     elif args.cmd == "sync-apply":
         gpr = Path(args.project)
         headless(ghidra_home(args.ghidra), java_home(args.java), gpr.parent, gpr.stem,

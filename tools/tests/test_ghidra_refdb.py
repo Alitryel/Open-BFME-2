@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """tools/ghidra_refdb.py: deterministic snapshot load, typed verbs, evidence-only name sync."""
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -100,3 +101,66 @@ def test_placeholders_never_sync():
     for name in ("FUN_00401000", "?rva00486F35@Rva00486F35@@QAEHXZ", "BfmeThing", "sub_4010A0"):
         assert refdb.placeholder(name), name
     assert not refdb.placeholder("?validateAudio@ThingTemplate@@IAEXXZ")
+
+
+# ----------------------------------------------------------------- schema version 2 (docs/re_metadata.md A08, A09)
+
+V2 = {
+    "meta.tsv": "program\tfx\nexecutable_sha256\tabc\nimage_base\t0x10000000\n",
+    "functions.tsv": ("0x00001000\t24\t0x0000102F\t2\tsplit\tDEFAULT\t0\t__cdecl\tint split(void)\n"
+                      "0x00001010\t8\t0x00001017\t1\tinner\tDEFAULT\t0\t__cdecl\tint inner(void)\n"),
+    "function_ranges.tsv": ("0x00001000\t0x00001000\t0x00001010\n0x00001000\t0x00001028\t0x00001030\n"
+                            "0x00001010\t0x00001010\t0x00001018\n"),
+}
+
+
+def _load(tmp_path, files, name="db.sqlite"):
+    tsv = tmp_path / ("tsv-" + name)
+    tsv.mkdir()
+    for n, text in files.items():
+        (tsv / n).write_text(text)
+    return refdb.load(tsv, tmp_path / name), tmp_path / name
+
+
+def test_a08_exact_ranges_never_contain_gaps_or_end_addresses(tmp_path):
+    meta, path = _load(tmp_path, V2)
+    assert meta["schema_version"] == "2" and meta["rows.function_ranges"] == "3"
+    db = refdb.connect(path)
+    for rva in ("0x1000", "0x100F", "0x1028", "0x102F"):
+        rows = refdb.fn(db, rva)
+        assert [(r["rva"], r["containment"]) for r in rows] == [("0x00001000", "exact")], rva
+    assert refdb.fn(db, "0x1000")[0]["body"] == [["0x00001000", "0x00001010"], ["0x00001028", "0x00001030"]]
+    assert [r["rva"] for r in refdb.fn(db, "0x1014")] == ["0x00001010"]            # inside the gap: the other function
+    assert refdb.fn(db, "0x1020") == []                                            # in the gap, owned by nobody
+    assert refdb.fn(db, "0x1030") == []                                            # end-exclusive
+    assert refdb.fn(db, "split")[0]["containment"] == "name"
+
+
+def test_a09_version_1_snapshots_stay_readable_and_say_so(tmp_path):
+    files = {k: v for k, v in V2.items() if k != "function_ranges.tsv"}
+    meta, path = _load(tmp_path, files)
+    assert meta["schema_version"] == "1" and "rows.function_ranges" not in meta
+    db = refdb.connect(path)
+    assert refdb.fn(db, "0x1000")[0]["containment"] == "entry"
+    gap = refdb.fn(db, "0x1020")
+    assert gap[0]["rva"] == "0x00001000" and gap[0]["containment"] == "bounds-candidate"
+    assert refdb.callers(db, "0x1000") == []
+
+
+def test_refdb_version_detection_and_consistency(tmp_path):
+    bad = dict(V2, **{"function_ranges.tsv": "0x00001000\t0x00001000\t0x00001010\n"})
+    with pytest.raises(SystemExit):
+        _load(tmp_path, bad, "bad.sqlite")
+    meta, path = _load(tmp_path, V2, "v2.sqlite")
+    raw = sqlite3.connect(path)
+    raw.execute("DROP TABLE function_ranges")
+    raw.commit()
+    raw.close()
+    with pytest.raises(SystemExit, match="no function_ranges"):
+        refdb.fn(refdb.connect(path), "0x1000")
+    raw = sqlite3.connect(path)
+    raw.execute("UPDATE meta SET value = '9' WHERE key = 'schema_version'")
+    raw.commit()
+    raw.close()
+    with pytest.raises(SystemExit, match="newer than this tool"):
+        refdb.fn(refdb.connect(path), "0x1000")

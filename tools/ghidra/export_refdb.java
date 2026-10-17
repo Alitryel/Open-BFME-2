@@ -1,8 +1,10 @@
 // Export the open program's analysis as TSV tables for tools/ghidra_refdb.py, which
 // loads them into a read-only SQLite reference snapshot:
 //   -postScript export_refdb.java <out_dir>
-// Writes functions.tsv, xrefs.tsv, strings.tsv, data.tsv, switches.tsv, types.tsv and
-// meta.tsv. Every table is written in address (or type-path) order and carries RVAs
+// Writes functions.tsv, function_ranges.tsv, xrefs.tsv, strings.tsv, data.tsv,
+// switches.tsv, types.tsv and meta.tsv. function_ranges.tsv lists every body interval
+// of every function as func_rva, start_rva, end_rva_exclusive (Ghidra's inclusive
+// maximum + 1): the exact containment evidence refdb schema version 2 queries. Every table is written in address (or type-path) order and carries RVAs
 // (VA - image base), so two runs over the same project produce identical files.
 // Never run against a project an owner has open: copy it first (ghidra_refdb.py does).
 //@category Export
@@ -17,6 +19,7 @@ import java.util.List;
 import ghidra.app.script.GhidraScript;
 import ghidra.program.model.address.Address;
 import ghidra.program.model.address.AddressIterator;
+import ghidra.program.model.address.AddressRange;
 import ghidra.program.model.data.Composite;
 import ghidra.program.model.data.DataType;
 import ghidra.program.model.data.DataTypeComponent;
@@ -79,12 +82,18 @@ public class export_refdb extends GhidraScript {
 			w.println("executable_path\t" + esc(currentProgram.getExecutablePath()));
 			w.println(String.format("image_base\t0x%08X", base));
 			w.println("language\t" + esc(currentProgram.getLanguageID().toString()));
+			w.println("compiler_spec\t" + esc(currentProgram.getCompilerSpec().getCompilerSpecID().toString()));
 		}
 
-		try (PrintWriter w = open(dir, "functions.tsv")) {
+		try (PrintWriter w = open(dir, "functions.tsv");
+				PrintWriter ranges = open(dir, "function_ranges.tsv")) {
 			FunctionIterator it = currentProgram.getFunctionManager().getFunctions(true);
 			while (it.hasNext() && !monitor.isCancelled()) {
 				Function f = it.next();
+				for (AddressRange r : f.getBody().getAddressRanges()) {
+					ranges.println(rva(f.getEntryPoint()) + "\t" + rva(r.getMinAddress()) + "\t"
+						+ String.format("0x%08X", r.getMaxAddress().getOffset() + 1 - base));
+				}
 				Address entry = f.getEntryPoint();
 				Address end = f.getBody().getMaxAddress();
 				w.println(rva(entry) + "\t" + f.getBody().getNumAddresses() + "\t"
