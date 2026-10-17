@@ -1,4 +1,6 @@
 // ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
+// partial score=0.86 date=2026-10-17
+// ?DoXfer@ScriptEngine@@UAEXPAVXfer@@@Z
 // partial score=0.75 date=2026-10-14
 // cl: /Ireference/shims/bfme2_ascii /Ireference/shims/bfmealloc /Ireference/shims/moduledata /O1 /EHs /D_BFME_RETAIL_TREE_INSERT_LAYOUT /D_STLP_NO_EXCEPTIONS /arch:SSE /G7 /DBFME_SNAPSHOT_CAPITALIZED_SLOTS
 // stlport
@@ -340,7 +342,8 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 	if (xfer->IsCRC())
 		return;
 
-	XferVersion version;
+	struct { XferVersion v; unsigned char pad[14]; } versionBuf;
+	XferVersion& version = versionBuf.v;
 	version.m_version = 1;
 	version.m_currentVersion = 5;
 	xfer->xferVersion(&version);
@@ -389,7 +392,8 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 	else
 	{
 		((Rva00206593 *)&m_counters)->rva00206EC7();
-		for (i = 0; i < countersSize; ++i)
+		i = 0;
+		while (i < countersSize)
 		{
 			ScriptKey key;
 			xfer->xferAsciiString(&key.first);
@@ -495,7 +499,7 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 			xfer->xferInt(&count);
 			ScriptDefaultIntMap::iterator pit = m_players.begin();
 			ScriptDefaultIntMap::iterator pend = m_players.end();
-			while (pit != pend)
+			while ((1 ? (pit != pend) : (pit != pend)))
 			{
 				ScriptKey key(pit->first);
 				Rva00203D4EChain((Rva00203D4EA *)xfer, &key);
@@ -524,11 +528,11 @@ void ScriptEngine::DoXfer(Xfer *xfer)
 	xfer->xferInt(&m_closeWindowTimer);
 
 	// named objects
-	UnsignedShort namedObjectsCount = m_namedObjects.size();
-	xfer->xferUnsignedShort(&namedObjectsCount);
 	AsciiString namedObjectName;
 	Object *obj;
 	ObjectID objectID;
+	UnsignedShort namedObjectsCount = m_namedObjects.size();
+	xfer->xferUnsignedShort(&namedObjectsCount);
 	if (xfer->IsStoring())
 	{
 		VecNamedRequests::iterator it;
