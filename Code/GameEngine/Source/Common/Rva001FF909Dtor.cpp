@@ -10,12 +10,18 @@
 // unwind map: SubsystemInterface (state 0), the +0x0C and +0x18 vectors
 // (states 1, 2) through the shared free-first-pointer body 0x0007FAB3.
 // Owner and element identities are not established.
+// The two vectors are spelled with their owned-object pointer type, not
+// vector<void *>, whose out-of-line destructor is the /Od body 0x00027370;
+// only the shared range erase is reached through the vector<void *> spelling.
 #include <vector>
 
+class Rva001FF909Owned;
 void __cdecl Rva00030830GameFree(void *);
 namespace _STL {
-template<> inline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start) Rva00030830GameFree(_M_start); }
+template<> inline _Vector_base<Rva001FF909Owned *, allocator<Rva001FF909Owned *> >::~_Vector_base() { if (_M_start) Rva00030830GameFree(_M_start); }
 template<> vector<void *>::iterator vector<void *>::erase(iterator first, iterator last);
+template <> __declspec(dllimport) __forceinline void **vector<void *>::begin() { return _M_start; }
+template <> __declspec(dllimport) __forceinline void **vector<void *>::end() { return _M_finish; }
 }
 
 class SubsystemInterface
@@ -38,20 +44,22 @@ class Rva001FF909 : public SubsystemInterface
 public:
 	virtual ~Rva001FF909();
 private:
-	_STL::vector<void *> m_first;		// +0x0C
-	_STL::vector<void *> m_second;		// +0x18
+	_STL::vector<Rva001FF909Owned *> m_first;	// +0x0C
+	_STL::vector<Rva001FF909Owned *> m_second;	// +0x18
 };
 
 Rva001FF909::~Rva001FF909()
 {
-	for (_STL::vector<void *>::iterator it = m_first.begin(); it != m_first.end(); )
+	for (_STL::vector<Rva001FF909Owned *>::iterator it = m_first.begin(); it != m_first.end(); )
 	{
-		Rva001FF909Owned *owned = static_cast<Rva001FF909Owned *>(*it++);
+		Rva001FF909Owned *owned = *it++;
 		if (owned)
 			::delete owned;
 	}
-	m_first.clear();
+	_STL::vector<void *> &first = reinterpret_cast<_STL::vector<void *> &>(m_first);
+	first.erase(first.begin(), first.end());
 	for (unsigned int i = 0; i < m_second.size(); ++i)
-		::delete static_cast<Rva001FF909Owned *>(m_second[i]);
-	m_second.clear();
+		::delete m_second[i];
+	_STL::vector<void *> &second = reinterpret_cast<_STL::vector<void *> &>(m_second);
+	second.erase(second.begin(), second.end());
 }

@@ -13,6 +13,10 @@
 // Existing STLport/bfmealloc source supplies container behavior. /EHs keeps
 // potentially throwing C free calls and the three retail unwind transitions;
 // the local vector reference preserves the address reused at erase.
+// The two pointer vectors are not vector<void *>: retail's unwind actions
+// for +0x08 and +0x1C jump to the 14-byte free-first-pointer body 0x0007FAB3,
+// not vector<void *>'s /Od destructor 0x00027370, so they are spelled with
+// the element pointer type the loops use and emit no vector<void *> copies.
 #include <vector>
 
 // vector<void*> begin/end otherwise instantiate per-TU COMDATs (one byte
@@ -41,18 +45,18 @@ class Rva004EB5E9 {
 public: virtual ~Rva004EB5E9();
 private:
  int count;
- _STL::vector<void *> owned8;
+ _STL::vector<Cleanup4EB5E9 *> owned8;
  Cleanup4EB5E9 *single;
  int unknown18;
- _STL::vector<void *> owned1C;
+ _STL::vector<Cleanup4EB5E9 *> owned1C;
  _STL::vector<BfmeE16> data28;
  int unknown34,unknown38,unknown3C,unknown40,uniqueID,argument;
 };
 Rva004EB5E9::~Rva004EB5E9()
 {
- void **end = owned1C.end();
- for (void **it=owned1C.begin();it != end;++it) {
-  Cleanup4EB5E9 *p = (Cleanup4EB5E9 *)*it;
+ Cleanup4EB5E9 **end = owned1C.end();
+ for (Cleanup4EB5E9 **it=owned1C.begin();it != end;++it) {
+  Cleanup4EB5E9 *p = *it;
   Rva002E3714Unlink((Rva002E36D5Node *)p);
   ((Rva0023D661 *)TheGameLogic)->rva0023D661((int)p);
   void *storage = 0;
@@ -61,13 +65,15 @@ Rva004EB5E9::~Rva004EB5E9()
  }
  count = 0;
  end = owned8.end();
- for (void **it=owned8.begin();it != end;++it) {
-  Cleanup4EB5E9 *p = (Cleanup4EB5E9 *)*it;
+ for (Cleanup4EB5E9 **it=owned8.begin();it != end;++it) {
+  Cleanup4EB5E9 *p = *it;
   void *storage = 0;
   if (p) storage = p->releaseStorage(0);
   ::operator delete(storage);
  }
- _STL::vector<void *> &v = owned8;
+ // The range erase is the shared four-byte-pointer instantiation retail
+ // calls; reach it through the vector<void *> spelling its row uses.
+ _STL::vector<void *> &v = reinterpret_cast<_STL::vector<void *> &>(owned8);
  v.erase(v.begin(),v.end());
  if (single) {
   void *storage = single->releaseStorage(0);

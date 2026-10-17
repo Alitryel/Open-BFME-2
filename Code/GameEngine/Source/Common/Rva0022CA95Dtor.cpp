@@ -6,12 +6,15 @@
 // 5 are the RIF reload notices in ReloadIniFileNotices.cpp). It deletes
 // every entry of its two pointer vectors at +0xC and +0x18 by index (entry
 // destructor rowed 0x004043FF); then both vectors' storage goes to GameFree
-// (unwind copies 0x0007FAB3) and SubsystemInterface dies last.
+// (unwind copies 0x0007FAB3) and SubsystemInterface dies last. The vectors
+// are spelled with their entry pointer type: vector<void *>'s out-of-line
+// destructor is the /Od body 0x00027370, not that unwind copy.
 #include <vector>
 
+class Rva002146F7;
 void __cdecl Rva00030830GameFree(void *);
 namespace _STL {
-template<> inline _Vector_base<void *, allocator<void *> >::~_Vector_base() { if (_M_start) Rva00030830GameFree(_M_start); }
+template<> inline _Vector_base<Rva002146F7 *, allocator<Rva002146F7 *> >::~_Vector_base() { if (_M_start) Rva00030830GameFree(_M_start); }
 }
 
 class SubsystemInterface
@@ -36,15 +39,15 @@ public:
 protected:
 	virtual ~Rva0022CA95();
 private:
-	_STL::vector<void *> m_first;		// +0x0C
-	_STL::vector<void *> m_second;		// +0x18
+	_STL::vector<Rva002146F7 *> m_first;	// +0x0C
+	_STL::vector<Rva002146F7 *> m_second;	// +0x18
 };
 
 Rva0022CA95::~Rva0022CA95()
 {
 	unsigned int i;
 	for (i = 0; i < m_first.size(); ++i)
-		delete static_cast<Rva002146F7 *>(m_first[i]);
+		delete m_first[i];
 	for (i = 0; i < m_second.size(); ++i)
-		delete static_cast<Rva002146F7 *>(m_second[i]);
+		delete m_second[i];
 }

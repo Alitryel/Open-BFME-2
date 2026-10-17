@@ -17,6 +17,10 @@
 // the delete casts to the rowed entry type. /EHs (not the neighbour's /EHsc)
 // is load-bearing: /EHsc omits the retail `mov byte [ebp-4],0` before the
 // free (138B), /EHs emits it (142B exact) because extern C free is throwing.
+// The member is spelled with its entry pointer type rather than vector<void *>:
+// retail's unwind action jumps to the 14-byte free-first-pointer body
+// 0x0007FAB3, not vector<void *>'s /Od destructor 0x00027370. The range erase
+// is still reached through the shared vector<void *> spelling.
 
 #include <vector>
 
@@ -53,7 +57,7 @@ public:
 	virtual ~ReplaceObjectUpdateModuleData();
 
 private:
-	_STL::vector<void *> m_vec; // +0xC8
+	_STL::vector<Rva004B2B2F *> m_vec; // +0xC8
 	float m_radius; // +0xD4
 	int m_count; // +0xD8
 	unsigned char m_flag; // +0xDC
@@ -61,11 +65,12 @@ private:
 
 ReplaceObjectUpdateModuleData::~ReplaceObjectUpdateModuleData()
 {
-	for (void **it = m_vec.begin(); it != m_vec.end(); ++it)
+	for (Rva004B2B2F **it = m_vec.begin(); it != m_vec.end(); ++it)
 	{
-		void *entry = *it;
+		Rva004B2B2F *entry = *it;
 		if (entry != 0)
-			delete reinterpret_cast<Rva004B2B2F *>(entry);
+			delete entry;
 	}
-	m_vec.clear();
+	_STL::vector<void *> &vec = reinterpret_cast<_STL::vector<void *> &>(m_vec);
+	vec.erase(vec.begin(), vec.end());
 }

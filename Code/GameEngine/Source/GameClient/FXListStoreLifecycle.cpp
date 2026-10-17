@@ -6,6 +6,10 @@
 // Keep existing address-derived linker owner used by the deleting wrapper.
 // Window-video begin/increment and Armor clear below are ABI provider views,
 // not claims that the target map stores those donor payloads.
+// The +0x20 nugget vector is not vector<void *>: retail's unwind action for it
+// jumps to the 14-byte free-first-pointer body 0x0007FAB3, not vector<void *>'s
+// /Od destructor 0x00027370, so it is spelled with its element pointer type;
+// its clear still reaches the shared four-byte-pointer range erase.
 #include <vector>
 
 #include <cstddef>
@@ -59,6 +63,8 @@ namespace _STL {void free(void *);}
 namespace _STL {
 template<> __forceinline void allocator<void *>::deallocate(pointer p,size_type n)const {if(p)_STL::free(p);}
 template<> __forceinline void _STLP_alloc_proxy<void **,void *,allocator<void *> >::deallocate(void **p,size_t n){__stl_alloc_rebind(static_cast<_Base&>(*this),(void **)0).deallocate(p,n);}
+template<> __forceinline void allocator<FxHeapObject *>::deallocate(pointer p,size_type n)const {if(p)_STL::free(p);}
+template<> __forceinline void _STLP_alloc_proxy<FxHeapObject **,FxHeapObject *,allocator<FxHeapObject *> >::deallocate(FxHeapObject **p,size_t n){__stl_alloc_rebind(static_cast<_Base&>(*this),(FxHeapObject **)0).deallocate(p,n);}
 }
 struct FxOwnedVector {
  void **first,**last,**limit;
@@ -74,7 +80,7 @@ struct Rva001E287F {
  void clear(){reinterpret_cast<NativeClearTable *>(this)->clear();}
 };
 class SubsystemInterface {public:virtual ~SubsystemInterface();char opaque04[8];};
-class Rva001E2AD9:public SubsystemInterface {public:virtual ~Rva001E2AD9();Rva001E287F map0C;_STL::vector<void *> nuggets20;};
+class Rva001E2AD9:public SubsystemInterface {public:virtual ~Rva001E2AD9();Rva001E287F map0C;_STL::vector<FxHeapObject *> nuggets20;};
 Rva001E2AD9::~Rva001E2AD9(){
  for(NativeBeginTable::iterator it=map0C.begin();it.node;++it){
   FxHeapObject *p=((FxMapNode *)it.node)->value;
@@ -82,10 +88,11 @@ Rva001E2AD9::~Rva001E2AD9(){
  }
  map0C.clear();
  for(unsigned i=0;i<nuggets20.size();++i){
-  FxHeapObject *p=(FxHeapObject *)nuggets20[i];
+  FxHeapObject *p=nuggets20[i];
   ::operator delete(p?p->destroyDelete(0):0);
  }
- nuggets20.clear();
+ _STL::vector<void *> &nuggets = reinterpret_cast<_STL::vector<void *> &>(nuggets20);
+ nuggets.erase(nuggets.begin(),nuggets.end());
 }
 
 typedef char FxStoreSizeCheck[sizeof(Rva001E2AD9)==0x2C ? 1 : -1];

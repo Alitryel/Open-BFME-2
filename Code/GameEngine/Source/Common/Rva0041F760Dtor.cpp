@@ -9,6 +9,10 @@
 // voidptr erase 0x31BD55 plus AsciiString erase 0x2CCFC plus AsciiString vector
 // dtor 0x2CC70 plus free 0x30830; deleting-dtor-shaped caller at 0x0041F855.
 // Precedents: Rva00416088Dtor plus StlportAsciiStringVectorDtor.
+// The +4 pointer array is not vector<void *>: retail's unwind action for it
+// jumps to the 14-byte free-first-pointer body 0x0007FAB3, not vector<void *>'s
+// /Od destructor 0x00027370, so it is spelled with its AsciiString element
+// pointers and emits no vector<void *> destructor copies.
 
 #include <vector>
 
@@ -57,7 +61,7 @@ public:
 	void *rva0041F855(unsigned int flags);
 private:
 	AsciiString m_00;
-	_STL::vector<void *, _STL::allocator<void *> > m_04;
+	_STL::vector<AsciiString *> m_04;
 	char m_pad10[0x14];
 	AsciiString m_24;
 	AsciiString m_28;
@@ -72,13 +76,15 @@ private:
 
 ArmyDefinition::~ArmyDefinition()
 {
-	for (_STL::vector<void *, _STL::allocator<void *> >::iterator it = m_04.begin(); it != m_04.end(); ++it)
+	for (_STL::vector<AsciiString *>::iterator it = m_04.begin(); it != m_04.end(); ++it)
 	{
-		void *elem = *it;
+		AsciiString *elem = *it;
 		if (elem != 0)
-			delete (AsciiString *)elem;
+			delete elem;
 	}
-	_STL::vector<void *, _STL::allocator<void *> > *pv04 = &m_04;
+	// The range erase is the shared four-byte-pointer instantiation 0x0031BD55.
+	_STL::vector<void *, _STL::allocator<void *> > *pv04 =
+		reinterpret_cast<_STL::vector<void *, _STL::allocator<void *> > *>(&m_04);
 	pv04->erase(pv04->begin(), pv04->end());
 	_STL::vector<AsciiString, _STL::allocator<AsciiString> > *pv8C = &m_8C;
 	pv8C->erase(pv8C->begin(), pv8C->end());
