@@ -1,24 +1,17 @@
 // cl: /MD /EHsc
-// ??1Rva00938C4@@UAE@XZ retail 0x000938C4 75B
+// ??1W3DSnowManager@@UAE@XZ retail 0x000938C4 75B (formerly the address name Rva00938C4)
 // The W3DSnowManager dtor shape (Zero Hour W3DSnow.cpp: ReleaseResources then
 // the snow texture ref): own vptr BC8144 (the W3DSnowManager vtable, see
 // ?update@W3DSnowManager slot 28); under EH state 1 the rowed
 // ?ReleaseResources@W3DSnowManager 0x000931D3; the texture holder at +0x78 is
 // released through the rowed ?Release_Ref@TextureClass 0x0061ED10 when set
 // (state 0); then the rowed base dtor ??1SnowManager@@UAE@XZ 0x0020156B.
-// Kept under the pinned address name that the rowed ??_GRva00938C4 0x00094626
-// already calls.
+// Its deleting dtor 0x00094626 is slot 0 of the same vtable.
 
 class TextureClass
 {
 public:
 	void Release_Ref();
-};
-
-class W3DSnowManager
-{
-public:
-	void ReleaseResources();
 };
 
 class SnowManager
@@ -42,17 +35,19 @@ public:
 	TextureClass *m_texture;
 };
 
-class Rva00938C4 : public SnowManager
+class W3DSnowManager : public SnowManager
 {
 public:
-	virtual ~Rva00938C4();
+	virtual ~W3DSnowManager();
+	virtual void init(); // slot 1, as W3DSnow.cpp's view
+	void ReleaseResources();
 
 private:
 	void *m_indexBuffer; // +0x74
 	Rva00938C4TextureRef m_snowTexture; // +0x78
 };
 
-Rva00938C4::~Rva00938C4()
+W3DSnowManager::~W3DSnowManager()
 {
-	((W3DSnowManager *)this)->ReleaseResources();
+	ReleaseResources();
 }
