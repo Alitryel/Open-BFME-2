@@ -176,26 +176,6 @@ void AptMessenger::GetSelectedPlayers(Int listIndex, Int a, Int b)
 			reinterpret_cast<_STL::vector<AsciiString> *>(b));
 }
 
-// Native 0x005AE90F..0x005AE990 RET0; AptMessenger::OnBttn_1 calls this
-// method on the screen receiver (rowed 0x005AEF32). The vector base ctor
-// is rowed at 0x00211E58, and GetSelectedPlayers writes to that vector.
-// OnlinePreferences.cpp independently identifies TheGameSpyInfo's slot0x7C
-// as getLocalProfileID. The remaining cdecl helper's application name is unknown.
-// STLport 4.5.3 vector<int> provides the 12-byte selection container;
-// /EHs preserves the observed cleanup state before free.
-void AptMessenger::rva005AE90F()
-{
-    if (TheGameSpyInfo) {
-        _STL::vector<int> selected;
-        GetSelectedPlayers(0, (int)&selected, 0);
-        for (_STL::vector<int>::iterator it = selected.begin();
-                it != selected.end(); ++it) {
-            int profile = *it;
-            if (profile != TheGameSpyInfo->getLocalProfileID())
-                Rva004177D5(profile);
-        }
-    }
-}
 
 // Native 0x005AE886..0x005AE90F RET0; OnBttn_0 selects this first-tab
 // action on the same screen receiver. Start from the 0.96 bank at
