@@ -30,6 +30,7 @@ class NameKeyGenerator
 public:
 	NameKeyType nameToKey(const char *name);
 	const AsciiString &keyToName(NameKeyType key);
+	static void parseStringAsNameKeyType(class INI *, void *, void *, const void *);
 };
 extern NameKeyGenerator *TheNameKeyGenerator;
 
@@ -39,6 +40,8 @@ class INI
 {
 public:
 	void initFromINI(void *what, const FieldParse *parseTable);
+	static void parseAsciiString(INI *, void *, void *, const void *);
+	static void parseBool(INI *, void *, void *, const void *);
 };
 
 class INIException
@@ -94,7 +97,27 @@ class ThingFactory { public: const ThingTemplate *findTemplate(const AsciiString
 class ThingFactory;
 extern ThingFactory *TheThingFactory;
 
-extern const FieldParse g_00DC1DD8[];
+// The ThingStat field table at 0x009C1DD8 (ten 16-byte entries and the null
+// terminator, between the trigger table 0x009C1DA8 and the object-award table
+// 0x009C1E88); every parser is rowed.
+typedef void (*ThingStatFieldParser)(INI *, void *, void *, const void *);
+struct FieldParse { const char *name; ThingStatFieldParser parse; const void *userData; unsigned offset; };
+void Rva00149002Parse(INI *, void *, void *, const void *);
+void Rva002567EAParse(INI *, void *, void *, const void *);
+#define BFME_INI_PARSER(name) reinterpret_cast<ThingStatFieldParser>(&name)
+extern const FieldParse g_00DC1DD8[11] = {
+	{ "StatName", BFME_INI_PARSER(NameKeyGenerator::parseStringAsNameKeyType), 0, 0x00 },
+	{ "ThingTemplateNames", &Rva00149002Parse, 0, 0x04 },
+	{ "ExcludedThings", &Rva00149002Parse, 0, 0x10 },
+	{ "KindOf", &Rva002567EAParse, 0, 0x1C },
+	{ "ExcludedKindOf", &Rva002567EAParse, 0, 0x38 },
+	{ "NameTag", BFME_INI_PARSER(INI::parseAsciiString), 0, 0x54 },
+	{ "DescriptionTag", BFME_INI_PARSER(INI::parseAsciiString), 0, 0x58 },
+	{ "MultiPlayerOnly", BFME_INI_PARSER(INI::parseBool), 0, 0x64 },
+	{ "PrimaryKey", BFME_INI_PARSER(INI::parseAsciiString), 0, 0x5C },
+	{ "SecondaryKey", BFME_INI_PARSER(INI::parseAsciiString), 0, 0x60 },
+	{ 0, 0, 0, 0 }
+};
 
 // StringBase<char>::str() (its own empty-string static, which the linker
 // folds onto the shared empty literal).
