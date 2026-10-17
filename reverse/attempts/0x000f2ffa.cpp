@@ -1,4 +1,6 @@
 // ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
+// partial score=0.894 date=2026-10-17
+// ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
 // partial score=0.969603329480937 date=2026-10-14
 // ?updateMeshVolume@W3DVolumetricShadow@@IAEXHHPBVMatrix3D@@ABVAABoxClass@@M@Z
 // partial score=0.97 date=2026-10-12
@@ -535,7 +537,9 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 	//change much based on object position.  Only the orientation to light matters.
 	Real cosAngle = fabs (Vector3::Dot_Product((Vector3 &)(prevXForm->operator [](0)),(Vector3 &)(objectToWorld.operator [](0))));
 	if (cosAngle >= cosAngleToCare)
-	{	cosAngle = fabs (Vector3::Dot_Product((Vector3 &)(prevXForm->operator [](1)),(Vector3 &)(objectToWorld.operator [](1))));
+	{	const Vector3 &rPa = (Vector3 &)(prevXForm->operator [](1));
+		const Vector3 &rOb = (Vector3 &)(objectToWorld.operator [](1));
+		cosAngle = fabs ((rPa.Y*rOb.Y + rPa.X*rOb.X) + rPa.Z*rOb.Z);
 		if (cosAngle >= cosAngleToCare)
 		{
 			cosAngle = fabs (Vector3::Dot_Product((Vector3 &)(prevXForm->operator [](2)),(Vector3 &)(objectToWorld.operator [](2))));
@@ -631,6 +635,7 @@ void W3DVolumetricShadow::updateMeshVolume(Int meshIndex, Int lightIndex, const 
 		Corners[4]=Corners[0]+lightRay*vectorScale;
 		vectorScaleMax *= length;
 
+		Corners[4] = (1 ? Corners[4] : Corners[4]);
 		lightRay = Corners[1] - lightPosWorld;	//vector light to corner
 		length= 1.0f/lightRay.Length();
 		lightRay *= length;
