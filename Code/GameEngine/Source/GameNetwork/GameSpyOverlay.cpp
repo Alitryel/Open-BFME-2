@@ -1,4 +1,4 @@
-// cl: -Ireference/shims/bfme2_ascii -DNDEBUG -DWIN32 -D_WINDOWS -DIN_ADDR=in_addr -MD -EHsc -Ireference/open-bfme-1/inputs/reference/shims/sweep -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad -Ireference/open-bfme-1/game/GameEngine/Source/GameNetwork
+// cl: /FIzh_ascii.h -Ireference/shims/bfme2_ascii_zh -Ireference/shims/bfme2_ascii -DNDEBUG -DWIN32 -D_WINDOWS -DIN_ADDR=in_addr -MD -EHsc -Ireference/open-bfme-1/inputs/reference/shims/sweep -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngine/Source -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/Compression -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/debug -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/GameEngineDevice/Include -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Main -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWLib -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WW3D2 -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWMath -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWDebug -Ireference/open-bfme-1/inputs/reference/CnC_Generals_Zero_Hour/GeneralsMD/Code/Libraries/Source/WWVegas/WWSaveLoad -Ireference/open-bfme-1/game/GameEngine/Source/GameNetwork
 // stlport
 #define Matrix4x4 Matrix4  // BFME renamed it
 /*
@@ -355,11 +355,7 @@ struct GameSpyOverlayLayoutView
 
 // winCreateLayout takes a BFME 2 AsciiString by value, built in its argument
 // slot through the inline const-char constructor that calls StringBase<char>'s
-// 0x00037BA0. This unit's Zero Hour AsciiString constructor is out of line,
-// so the argument uses the existing AsciiStringYU spelling of 0x00037BA0
-// behind an inline constructor.
-class AsciiStringYU { public: AsciiStringYU(const char *text); AsciiStringYU(const AsciiStringYU &); ~AsciiStringYU(); char *m_data; };
-struct GameSpyOverlayLayoutName : public AsciiStringYU { __forceinline GameSpyOverlayLayoutName(const char *s) : AsciiStringYU(s) {} };
+// 0x00037BA0 (the canonical header, force-included through zh_ascii.h).
 class GameSpyOverlayWindowManagerView
 {
 public:
@@ -371,7 +367,7 @@ public:
 	virtual void s50(); virtual void s54(); virtual void s58(); virtual void s5C();
 	virtual void s60(); virtual void s64(); virtual void s68(); virtual void s6C();
 	virtual void s70(); virtual void s74(); virtual void s78(); virtual void s7C();
-	virtual WindowLayout *winCreateLayout(GameSpyOverlayLayoutName filename);	// +0x80
+	virtual WindowLayout *winCreateLayout(AsciiString filename);	// +0x80
 };
 
 // Zero Hour's buddyTryReconnect, rowed at 0x00548B70 under this name.
@@ -410,7 +406,7 @@ void GameSpyOpenOverlay( GSOverlayType overlay )
 	}
 	else
 	{
-		G00A05F88[overlay] = (Rva00548B97Helper *)((GameSpyOverlayWindowManagerView *)TheWindowManager)->winCreateLayout( GameSpyOverlayLayoutName( gsOverlays[overlay] ) );
+		G00A05F88[overlay] = (Rva00548B97Helper *)((GameSpyOverlayWindowManagerView *)TheWindowManager)->winCreateLayout( AsciiString( gsOverlays[overlay] ) );
 		if (((GameSpyOverlayLayoutView *)G00A05F88[overlay])->m_window08)
 			((GameSpyOverlayLayoutView *)G00A05F88[overlay])->m_window08->m_field1F4 = 0;
 		((BFMEOverlayLayoutCloseView *)G00A05F88[overlay])->runInit( NULL );
