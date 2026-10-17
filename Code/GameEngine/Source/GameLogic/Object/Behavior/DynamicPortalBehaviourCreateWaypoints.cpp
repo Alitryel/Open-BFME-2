@@ -32,8 +32,9 @@
 #define COORD3D_VIEW_EXTERN_CTOR
 #include "../../../../../Libraries/Include/Lib/Coord3DCtorView.h"
 
-void Rva00030830GameFree(void *);
-template<> inline _STL::_Vector_base<unsigned int, _STL::allocator<unsigned int> >::~_Vector_base() { Rva00030830GameFree(this->_M_start); }
+// Use the existing STLport allocator teardown. The native 711-byte loop
+// remains exact; a private _Vector_base specialization emitted incompatible
+// vector destructor copies and prevented this otherwise matched unit linking.
 
 class Matrix3D;
 
