@@ -1,4 +1,5 @@
 // cl: /O1 /arch:SSE /MD /EHsc /DNDEBUG /Ireference/shims/subsystem_bfme2 /Ireference/shims/bfmelist /Ireference/shims/bfmealloc /Ireference/shims/bfme2_ascii /D_CRTIMP= /D_STLP_USE_STATIC_LIB /ICode/GameEngine/Include /ICode/Libraries/Include /Ireference/shims/moduledata
+// Native EH action 0x75D5F0 destroys the constructor lifetime of four8B radar points at +0x14E0; the complete parent EH graph proves this 24B lifetime.
 // stlport
 // Native [4FA1F,4FAFF), 224B. Constructor4F8EA, the217B resource
 // teardown and98B Radar base destructor establish this radar family.
