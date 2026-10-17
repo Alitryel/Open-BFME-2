@@ -159,29 +159,6 @@ private:
 	_STL::list<int> m_riders;
 };
 
-void Rva0047CE0CInterface::removeAndApplyForce(int)
-{
-	_STL::list<int>::iterator first = m_riders.begin();
-	while (first != m_riders.end()) {
-		Object *rider = (Object *)*first;
-		if (rider != 0) {
-			removeRider(rider, false);
-			Rva0047CE0COwner *owner = *(Rva0047CE0COwner **)((char *)this - 0x18);
-			Rva003909FAObj *physics = owner->m_physics;
-			if (physics != 0) {
-				Rva0047CE0CVector direction(owner->m_directionX, owner->m_directionY, 1.0f);
-				float magnitude = (float)GetGameLogicRandomValue(3, 8,
-					"C:\\projects\\bfme2patch103\\bfme2\\Code\\GameEngine\\Source\\GameLogic\\Object\\Contain\\HordeContain\\HordeSiegeEngineContain.cpp", 824);
-				direction.x *= magnitude;
-				direction.y *= magnitude;
-				direction.z *= magnitude;
-				Rva0047CE0CVector force = direction;
-				physics->consume(&force, 0, 0);
-			}
-		}
-		first = m_riders.begin();
-	}
-}
 
 class XferException
 {
@@ -229,13 +206,3 @@ void HordeSiegeEngineContain::LoadPostProcess()
     m_restoreIDs140.clear();
 }
 
-// Retail 0x0047D33A..0x0047D36A (48B), HordeSiegeEngineContain vtable entry
-// 112 (0x008474E8). WB 0x011AE860 shows the same three calls: the rider list
-// is copied by value through the containment-list copier 0x0036ADF9 into the
-// 0x00463A4D worker together with the address at +0x134, then 0x00477513
-// runs on the container. Method names are address-derived.
-void HordeSiegeEngineContain::rva0047D33A()
-{
-	rva00463A4D(*reinterpret_cast<ContainmentList *>(&m_riderObjects), (int)m_riderMap134);
-	rva00477513();
-}
