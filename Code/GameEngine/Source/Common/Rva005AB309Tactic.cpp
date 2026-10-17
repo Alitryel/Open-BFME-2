@@ -351,16 +351,3 @@ void AIReturnTheRingTactic::update()
 	}
 }
 
-void AIReturnTheRingTactic::run()
-{
-	if (!aiData(m_owner)->rva002C7196(AIReturnTheRingTactic_IsRunning)) {
-		Rva002A8AB1Record *record = g_00DFEEF8->rva002A8AB1(m_owner);
-		if (buildReturnTeam()) {
-			record->rva002C717E(AIReturnTheRingTactic_IsRunning, 1);
-			moveToFortress();
-			m_created = true;
-		}
-	}
-	if (!m_created)
-		end(0, 0);
-}
