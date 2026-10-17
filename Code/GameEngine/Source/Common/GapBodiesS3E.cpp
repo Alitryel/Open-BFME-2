@@ -35,28 +35,6 @@ void iniParseObjectFilter(INI *ini, void *instance, void *store, const void *use
 class Rva0022AD10Subsystem;
 extern Rva0022AD10Subsystem *TheFormationAssistant;
 
-// --- 0x00425B90 (302B): the formation assistant's INI block, parsed through
-// a table built on the stack into TheFormationAssistant.
-void rva00425B90(INI *ini)
-{
-	FieldParse dataFieldParse[] =
-	{
-		{ "DefaultPreviewObject", INI::Rva0033940F_Parse, 0, 0x0C },
-		{ "RowPadding", INI::parseReal, 0, 0x24 },
-		{ "ColumnPadding", INI::parseReal, 0, 0x28 },
-		{ "FacingArrowHeadTemplate", INI::Rva0033940F_Parse, 0, 0x10 },
-		{ "FacingArrowBodyTemplate", INI::Rva0033940F_Parse, 0, 0x14 },
-		{ "FacingArrowBaseTemplate", INI::Rva0033940F_Parse, 0, 0x18 },
-		{ "ActivationDragDistance", INI::parseReal, 0, 0x2C },
-		{ "ActivationTime", INI::parseReal, 0, 0x30 },
-		{ "UnitDefinition", rva00423FD8, 0, 0 },
-		{ "FormationTemplate", rva00425842, 0, 0 },
-		{ "FormationSelection", parseFormationSelectionCriteriaRva00424185, 0, 0 },
-		{ "ValidObjectFilter", iniParseObjectFilter, 0, 0x20 },
-		{ 0, 0, 0, 0 }
-	};
-	ini->initFromINI(TheFormationAssistant, dataFieldParse);
-}
 
 // --- 0x005742A1 / 0x0057A260 (18B each): table slots parsing an INI block
 // into this object through a static field table (retail 0x00C6E36C and
@@ -127,15 +105,7 @@ void rva004E12C4(INI *ini, void *instance, void *store, const void *userData)
 	ini->initFromINI(store, SpawnArmy::m_fieldParseTable);
 }
 
-void rva004E12EF(INI *ini, void *instance, void *store, const void *userData)
-{
-	ini->initFromINI(store, &g_00C61830);
-}
 
-void rva004E1342(INI *ini, void *instance, void *store, const void *userData)
-{
-	ini->initFromINI(store, &g_00C61884);
-}
 
 // --- 0x005CB288 / 0x005E3955 / 0x005E9F80 (18B each): more table slots
 // parsing an INI block into this object through static field tables (retail
@@ -233,12 +203,6 @@ struct Rva003F9CD2ManagerView
 	Rva003F9C11 *m_2C4;										// +0x2C4
 };
 
-void rva003F9CD2(INI *ini)
-{
-	Rva003F9C11 *record = new Rva003F9C11;
-	ini->initFromINI(record, Rva003F9C11::s_fieldParseTable);
-	((Rva003F9CD2ManagerView *)TheLivingWorldManager)->m_2C4 = record;
-}
 
 // Native 5742B3..5742CD (26B): a file-static helper in cl 7.1's SSE register
 // convention - the Rva002E0C2B object stays in ECX for the rowed 0x002E0C2B
