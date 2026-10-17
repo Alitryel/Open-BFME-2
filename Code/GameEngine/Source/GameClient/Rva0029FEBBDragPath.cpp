@@ -10,6 +10,14 @@
 // drag tolerance before the vec.x store as retail does. The list's push_back is ICF-folded with the rowed
 // list<BfmeSpecialPowerTimer8>::push_back (0x004DE74D, same 8-byte element), which this unit calls.
 #include <list>
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper
+// (retail keeps one _List_iterator_base::operator!=; BfmeAptScreenLanLobbyOnInitGadget.cpp pattern).
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 #include "Lib/Coord3D.h"
 #include "Lib/ICoord2D.h"
 #include "BfmeSpecialPowerTimer8.h"

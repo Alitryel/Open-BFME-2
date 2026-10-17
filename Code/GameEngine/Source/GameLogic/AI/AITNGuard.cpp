@@ -17,6 +17,14 @@
 // this unit; with it cl keeps this in EDI and the iterator in ESI, as retail
 // does, through Zero Hour's plain TheGameLogic spelling.
 #include <list>
+// Compare nodes locally so this TU does not emit a conflicting iterator-base wrapper
+// (retail keeps one _List_iterator_base::operator!=; BfmeAptScreenLanLobbyOnInitGadget.cpp pattern).
+namespace _STL {
+template <class T, class LeftTraits, class RightTraits>
+static inline bool operator!=(const _List_iterator<T, LeftTraits>& a,
+                              const _List_iterator<T, RightTraits>& b)
+{ return a._M_node != b._M_node; }
+}
 
 typedef bool Bool;
 typedef unsigned int UnsignedInt;
