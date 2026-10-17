@@ -43,14 +43,10 @@ public:
 	_STL::vector<SubtitleEntry *> m_entries;
 };
 
-class Rva00435A40Sink
+class SubTitleWindow
 {
 public:
-	void publish(const UnicodeString &text, unsigned int color);
-};
-
-class SubtitleSink : public Rva00435A40Sink
-{
+	void rva00260BBF(const UnicodeString &text, unsigned int color);
 };
 
 class Rva006EE520
@@ -61,7 +57,7 @@ public:
 private:
 	char m_pad00[0x184];
 	SubtitleManager *m_manager;
-	SubtitleSink *m_sink;
+	SubTitleWindow *m_sink;
 };
 
 void Rva006EE520::update(int frame)
@@ -79,7 +75,7 @@ void Rva006EE520::update(int frame)
 		if (self->m_manager->hasBeenDisplayed(i) || frame < startFrame)
 			continue;
 
-		self->m_sink->publish(self->m_manager->getText(i),
+		self->m_sink->rva00260BBF(self->m_manager->getText(i),
 			self->m_manager->getColor(i));
 		self->m_manager->setDisplayedStats(i);
 	}
