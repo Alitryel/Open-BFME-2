@@ -1,4 +1,6 @@
 // ?OnDeactivation@EmotionNugget@@QAEXXZ
+// partial score=0.949 date=2026-10-17
+// ?OnDeactivation@EmotionNugget@@QAEXXZ
 // partial score=0.93 date=2026-10-13
 // ?OnDeactivation@EmotionNugget@@QAEXXZ
 // partial score=0.93 date=2026-10-13
@@ -114,7 +116,7 @@ public:
 	bool addAttributeModifierToPool(const AsciiString &name, int value);
 public:
 	char m_pad00[0x124];
-	volatile unsigned int m_conditionWord124;
+	unsigned int m_conditionWord124;
 	char m_pad128[0x258 - 0x128];
 	AIUpdateInterface *m_ai258;
 };
@@ -174,9 +176,9 @@ void EmotionNugget::OnDeactivation()
 	}
 	if (m_entry->m_18 && m_key0C)
 	{
+		unsigned int frame = TheGameLogic->m_frame;
 		int duration = m_entry->m_18;
-
-		m_map20[m_key0C] = ((m_object ? TheGameLogic->m_frame : TheGameLogic->m_frame)) + duration;
+		m_map20[m_key0C] = duration + frame;
 	}
 	if (m_entry->m_fx38)
 	{
@@ -210,15 +212,16 @@ void EmotionNugget::OnDeactivation()
 		else
 			m_object->rva0028CFB2(&m_entry->m_a0, &m_entry->m_138);
 		Object *object = m_object;
-		if (object->m_conditionWord124 & 0x100)
+		volatile unsigned char *conditionByte = (volatile unsigned char *)((char *)object + 0x125);
+		if (*conditionByte != 0)
 		{
-			object->m_conditionWord124 &= ~0x100;
+			*(volatile unsigned int *)&object->m_conditionWord124 &= ~0x100u;
 			object->rva0028AE6D();
 		}
 	}
-	if (!((const StringBase<char> &)(m_entry->get())).isEmpty() && TheGameLogic->m_frame >= m_start30 + m_entry->m_40 && m_entry->m_flag44)
+	if (!((const StringBase<char> &)(m_entry->get())).isEmpty() && *(volatile unsigned int *)&TheGameLogic->m_frame >= m_start30 + *(volatile unsigned int *)&m_entry->m_40 && m_entry->m_flag44)
 	{
-		m_object->addAttributeModifierToPool(m_entry->get(), (m_object ? m_entry : m_entry)->m_48);
+		m_object->addAttributeModifierToPool(m_entry->get(), m_entry->m_48);
 	}
 	}
 }
