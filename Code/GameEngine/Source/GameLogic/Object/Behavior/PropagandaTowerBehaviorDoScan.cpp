@@ -151,7 +151,7 @@ class ObjectTracker
 {
 public:
 	ObjectTracker() : objectID(INVALID_ID), next(0) {}
-	virtual ~ObjectTracker();
+	virtual ~ObjectTracker() {} // inline-empty in retail: its ??_G (0x0048195F) only resets the vptr
 	ObjectID objectID;
 	ObjectTracker *next;
 };
