@@ -21,11 +21,10 @@ unsigned int g_Va00E06390;
 extern unsigned int g_Va00E063C8;
 // g_Va00E063C8: matched references place it at VA 0xe063c8 (zero-filled .bss).
 unsigned int g_Va00E063C8;
-#include "MainMenuOnlineState.h"
-// The flag word at VA E06558 and the independently observed MainMenuUtils
-// statics through E06574 share this owner. The old four-byte definition was
-// insufficient for the caller offsets; the view reserves their full storage.
-MainMenuOnlineState g_mainMenuOnlineState;
+// Only the startup flag word lives here (VA E06558). MainMenuUtils owns its
+// independent file-local state at E0655C..E06574; a 29-byte aggregate here
+// incorrectly made those statics alias arbitrary objects during compilation.
+unsigned int g_mainMenuStartupFlags;
 // E065B0 is the compiler-owned static-initializer guard in
 // ParasiticInGameCommandButton::Impl::Update. Its exact parent EH graph
 // supplies the reset at7A08F0 in Rva005C33DDWindowNotification.cpp.
@@ -88,7 +87,7 @@ unsigned int Rva0079D3AAClearFlag(void)
 
 unsigned int Rva0079FB9CClearFlag(void)
 {
-	return g_mainMenuOnlineState.flags &= 0xFFFFFFFEu;
+	return g_mainMenuStartupFlags &= 0xFFFFFFFEu;
 }
 
 unsigned int Rva007A0C2AClearFlag(void)

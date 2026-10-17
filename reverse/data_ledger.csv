@@ -21038,7 +21038,15 @@ address,size,section,kind,name,source,status,names,defs,refs
 0x00A06548,4,.data,global,?g_Va00E06548@@3HA,Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp,owned,,1,4
 0x00A0654C,4,.data,global,?g_00E0654C@@3HA,,unowned,,0,1
 0x00A06550,8,.data,global,?g_Va00E06550@@3HA,Code/GameEngine/Source/Common/ColdGlobalDwordGetters.cpp,provisional,?g_Va00E06550@@3HA;?g_Va00E06550@@3PAXA,1,8
-0x00A06558,29,.data,global,?g_mainMenuOnlineState@@3UMainMenuOnlineState@@A,Code/GameEngine/Source/Common/GlobalFlagClearers_E06x.cpp,owned,,1,73
+0x00A06558,4,.data,global,?g_mainMenuStartupFlags@@3IA,Code/GameEngine/Source/Common/GlobalFlagClearers_E06x.cpp,owned,,1,2
+0x00A0655C,4,.data,global,_checkingForPatchBeforeGameSpy,Code/GameEngine/Source/GameNetwork/GameSpy/MainMenuUtils.cpp,owned,,1,5
+0x00A06560,4,.data,global,_checksLeftBeforeOnline,Code/GameEngine/Source/GameNetwork/GameSpy/MainMenuUtils.cpp,owned,,1,18
+0x00A06564,4,.data,global,_timeThroughOnline,Code/GameEngine/Source/GameNetwork/GameSpy/MainMenuUtils.cpp,owned,,1,9
+0x00A06568,1,.data,global,_mustDownloadPatch,Code/GameEngine/Source/GameNetwork/GameSpy/MainMenuUtils.cpp,owned,,1,3
+0x00A06569,3,.data,global,_cantConnectBeforeOnline,Code/GameEngine/Source/GameNetwork/GameSpy/MainMenuUtils.cpp,owned,,1,6
+0x00A0656C,4,.data,global,_motdBeforeOnline,Code/GameEngine/Source/GameNetwork/GameSpy/MainMenuUtils.cpp,owned,,1,9
+0x00A06570,4,.data,global,_configBeforeOnline,Code/GameEngine/Source/GameNetwork/GameSpy/MainMenuUtils.cpp,owned,,1,14
+0x00A06574,1,.data,global,_cancelBeforeOnline,Code/GameEngine/Source/GameNetwork/GameSpy/MainMenuUtils.cpp,owned,,1,13
 0x00A06575,1,.data,global,?g_00E06575@@3EA,Code/GameEngine/Source/GameNetwork/Rva005BC4CEFinish.cpp,owned,,1,2
 0x00A06576,2,.data,global,?g_00E06576@@3EA,Code/GameEngine/Source/GameNetwork/Rva005BC4CEFinish.cpp,owned,,1,3
 0x00A06578,4,.data,global,?g_00E06578@@3PAXA,Code/GameEngine/Source/GameNetwork/Rva005BC4CEFinish.cpp,owned,,1,4

@@ -6,6 +6,11 @@
 // The accept callback is BFME2 shutdown behavior, not the donor downloader.
 // Shared AsciiString/UnicodeString and the existing MessageBox providers.
 
+// Retail string storage is released by the game allocator, not CRT free.
+// Its C++ throwing contract also preserves the native cleanup states.
+#include <stdlib.h>
+void __cdecl Rva00030830GameFree(void *);
+#define free Rva00030830GameFree
 #include "ascii_string.h"
 #include "unicode_string.h"
 #include <list>
@@ -23,8 +28,18 @@ class QueuedDownload { public: AsciiString server,userName,password,file,localFi
  // ?QueuedDownload::QueuedDownload present-unmatched
  QueuedDownload() {} QueuedDownload(const QueuedDownload &); ~QueuedDownload(); };
 extern unsigned int g_Va00E0657C;
-#include "MainMenuOnlineState.h"
-#define online g_mainMenuOnlineState
+// Native MainMenuUtils state consists of independent file-local variables.
+// Their addresses and widths are proven by the callbacks and DNS entry.
+// Keeping the consumers here lets cl distinguish them from a fetched vptr;
+// an external aggregate prevented StartPatchCheck from matching its stores.
+// VA E0655C: checking; E06560/E06564: checks/run; E06568/E06569: must/cant;
+// E0656C/E06570: owned buffers; E06574: cancellation flag.
+static bool checkingForPatchBeforeGameSpy;
+static int checksLeftBeforeOnline,timeThroughOnline;
+static bool mustDownloadPatch,cantConnectBeforeOnline;
+static char *motdBeforeOnline,*configBeforeOnline;
+static bool cancelBeforeOnline;
+
 #define downloads (*(_STL::list<QueuedDownload> *)&g_Va00E0657C)
 class GameTextInterface {public:
 virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void v7();virtual void v8();virtual void v9();virtual void v10();virtual void v11();virtual void v12();virtual void v13();virtual void v14();virtual UnicodeString fetch(const char *,bool *exists=0);};
@@ -42,28 +57,28 @@ void SetUpGameSpy(const char *,const char *);
 // ?startOnline@@YAXXZ @0x005BC887 473B
 void startOnline()
 {
- online.checking=false;
- if(online.cancel){b_00042a50();online.cancel=false;}
- if(online.cantConnect){
+ checkingForPatchBeforeGameSpy=false;
+ if(cancelBeforeOnline){b_00042a50();cancelBeforeOnline=false;}
+ if(cantConnectBeforeOnline){
   MessageBoxOk(TheGameText->fetch("GUI:CannotConnectToServservTitle"),TheGameText->fetch("GUI:CannotConnectToServserv"),noPatchBeforeOnlineCallback);
   Rva00516E92Enable();return;
  }
  if(downloads.size()){
   if(!hasWriteAccess()) MessageBoxOk(TheGameText->fetch("GUI:Error"),TheGameText->fetch("GUI:MustHaveAdminRights"),noPatchBeforeOnlineCallback);
-  else if(online.mustDownload) MessageBoxOkCancel(TheGameText->fetch("GUI:PatchAvailable"),TheGameText->fetch("GUI:MustPatchForOnline"),patchBeforeOnlineCallback,noPatchBeforeOnlineCallback);
+  else if(mustDownloadPatch) MessageBoxOkCancel(TheGameText->fetch("GUI:PatchAvailable"),TheGameText->fetch("GUI:MustPatchForOnline"),patchBeforeOnlineCallback,noPatchBeforeOnlineCallback);
   else MessageBoxYesNo(TheGameText->fetch("GUI:PatchAvailable"),TheGameText->fetch("GUI:CanPatchForOnline"),patchBeforeOnlineCallback,noPatchBeforeOnlineCallback);
   Rva00516E92Enable();return;
  }
  TheScriptEngine->rva00357DD2(TheShellHookNames[9]);
- SetUpGameSpy(online.motd,online.config);
- if(online.motd){delete[] online.motd;online.motd=0;}
- if(online.config){delete[] online.config;online.config=0;}
+ SetUpGameSpy(motdBeforeOnline,configBeforeOnline);
+ if(motdBeforeOnline){delete[] motdBeforeOnline;motdBeforeOnline=0;}
+ if(configBeforeOnline){delete[] configBeforeOnline;configBeforeOnline=0;}
 }
 
 extern template void _STL::_List_base<QueuedDownload,_STL::allocator<QueuedDownload> >::clear();
 void noPatchBeforeOnlineCallback() {
  downloads.clear();
- if(online.mustDownload || online.cantConnect) Rva00516E92Enable();
+ if(mustDownloadPatch || cantConnectBeforeOnline) Rva00516E92Enable();
  else startOnline();
 }
 
@@ -98,16 +113,16 @@ enum GHTTPBool {GHTTPFalse,GHTTPTrue};
 enum GHTTPResult {GHTTPSuccess};
 GHTTPBool motdCallback(int request,GHTTPResult result,char *buffer,__int64 bufferLen,void *param)
 {
- if((int)param!=online.run)return GHTTPTrue;
- if(online.motd){delete[] online.motd;online.motd=0;}
+ if((int)param!=timeThroughOnline)return GHTTPTrue;
+ if(motdBeforeOnline){delete[] motdBeforeOnline;motdBeforeOnline=0;}
  if(buffer && bufferLen>0){
-  online.motd=new char[(unsigned)bufferLen];
-  memcpy(online.motd,buffer,(unsigned)bufferLen);
-  online.motd[bufferLen-1]=0;
+  motdBeforeOnline=new char[(unsigned)bufferLen];
+  memcpy(motdBeforeOnline,buffer,(unsigned)bufferLen);
+  motdBeforeOnline[bufferLen-1]=0;
  }
- --online.checks;
- if(online.cancel && online.checks==0){b_00042a50();online.cancel=false;}
- if(online.checks==0)startOnline();
+ --checksLeftBeforeOnline;
+ if(cancelBeforeOnline && checksLeftBeforeOnline==0){b_00042a50();cancelBeforeOnline=false;}
+ if(checksLeftBeforeOnline==0)startOnline();
  return GHTTPTrue;
 }
 
@@ -127,26 +142,26 @@ class GlobalData { public: AsciiString rva002360DE(void) const; };
 extern GlobalData *TheWritableGlobalData;
 GHTTPBool configCallback(int request,GHTTPResult result,char *buffer,__int64 bufferLen,void *param)
 {
- if((int)param!=online.run)return GHTTPTrue;
- if(online.config){delete[] online.config;online.config=0;}
+ if((int)param!=timeThroughOnline)return GHTTPTrue;
+ if(configBeforeOnline){delete[] configBeforeOnline;configBeforeOnline=0;}
  if(result!=GHTTPSuccess || bufferLen<100){
-  if(!online.checking)return GHTTPTrue;
-  --online.checks;
-  if(online.cancel && online.checks==0){b_00042a50();online.cancel=false;}
-  online.cantConnect=true;
-  if(online.checks==0)startOnline();
+  if(!checkingForPatchBeforeGameSpy)return GHTTPTrue;
+  --checksLeftBeforeOnline;
+  if(cancelBeforeOnline && checksLeftBeforeOnline==0){b_00042a50();cancelBeforeOnline=false;}
+  cantConnectBeforeOnline=true;
+  if(checksLeftBeforeOnline==0)startOnline();
   return GHTTPTrue;
  }
- online.config=new char[(unsigned)bufferLen];
- memcpy(online.config,buffer,(unsigned)bufferLen);
- online.config[bufferLen-1]=0;
+ configBeforeOnline=new char[(unsigned)bufferLen];
+ memcpy(configBeforeOnline,buffer,(unsigned)bufferLen);
+ configBeforeOnline[bufferLen-1]=0;
  AsciiString fname;
  fname.format("%s%s\\Config.txt",TheWritableGlobalData->rva002360DE().str(),"Online Files");
  File *fp=TheFileSystem->openFile(fname.str(),0x4A,0);
- if(fp){fp->write(online.config,(int)bufferLen);fp->close();}
- --online.checks;
- if(online.cancel && online.checks==0){b_00042a50();online.cancel=false;}
- if(online.checks==0)startOnline();
+ if(fp){fp->write(configBeforeOnline,(int)bufferLen);fp->close();}
+ --checksLeftBeforeOnline;
+ if(cancelBeforeOnline && checksLeftBeforeOnline==0){b_00042a50();cancelBeforeOnline=false;}
+ if(checksLeftBeforeOnline==0)startOnline();
  return GHTTPTrue;
 }
 
@@ -158,12 +173,12 @@ void CancelPatchCheckCallback()
 {
  g_00E06576=0;
  Rva00516E92Enable();
- online.checking=false;
- online.checks=0;
- if(online.cancel){b_00042a50();online.cancel=false;}
+ checkingForPatchBeforeGameSpy=false;
+ checksLeftBeforeOnline=0;
+ if(cancelBeforeOnline){b_00042a50();cancelBeforeOnline=false;}
  downloads.clear();
- if(online.motd){delete[] online.motd;online.motd=0;}
- if(online.config){delete[] online.config;online.config=0;}
+ if(motdBeforeOnline){delete[] motdBeforeOnline;motdBeforeOnline=0;}
+ if(configBeforeOnline){delete[] configBeforeOnline;configBeforeOnline=0;}
 }
 
 // BFME1 34f59164 CancelPatchCheckCallbackAndReopenDropdown; native
@@ -249,12 +264,12 @@ static void queuePatch(bool mandatory,AsciiString downloadURL){
 }
 
 GHTTPBool gamePatchCheckCallback(int request,GHTTPResult result,char *buffer,__int64 bufferLen,void *param){
- if((int)param!=online.run)return GHTTPTrue;
- --online.checks;
+ if((int)param!=timeThroughOnline)return GHTTPTrue;
+ --checksLeftBeforeOnline;
  if(result!=GHTTPSuccess){
-  if(!online.checking)return GHTTPTrue;
-  online.cantConnect=true;
-  if(!online.checks)startOnline();
+  if(!checkingForPatchBeforeGameSpy)return GHTTPTrue;
+  cantConnectBeforeOnline=true;
+  if(!checksLeftBeforeOnline)startOnline();
   return GHTTPTrue;
  }
  AsciiString message=buffer,line;
@@ -265,13 +280,149 @@ GHTTPBool gamePatchCheckCallback(int request,GHTTPResult result,char *buffer,__i
   ok &= line.nextToken(&url," ");
   if(ok && type.compare("patch")==0){
    queuePatch(MainMenuCRT::atoi(req.str()),url);
-   if(MainMenuCRT::atoi(req.str()))online.mustDownload=true;
+   if(MainMenuCRT::atoi(req.str()))mustDownloadPatch=true;
   }else if(ok && type.compare("server")==0){}
  }
- if(!online.checks)startOnline();
+ if(!checksLeftBeforeOnline)startOnline();
  return GHTTPTrue;
 }
 
 
 
+
+
+// BFME1 34f59164 StartPatchCheck; native 5BD82E..5BD910 (226B). BFME2 shows
+// the checking dialog as an untitled MessageBoxOk, takes the host to look up
+// from the registry's online server URL (InternetCrackUrlA) and runs the
+// async lookup through Rva005BC4CEStart.
+struct MainMenuUrlComponents {
+ unsigned long dwStructSize; char *lpszScheme; unsigned long dwSchemeLength; int nScheme;
+ char *lpszHostName; unsigned long dwHostNameLength; unsigned short nPort;
+ char *lpszUserName; unsigned long dwUserNameLength; char *lpszPassword; unsigned long dwPasswordLength;
+ char *lpszUrlPath; unsigned long dwUrlPathLength; char *lpszExtraInfo; unsigned long dwExtraInfoLength;
+};
+extern "C" __declspec(dllimport) int __stdcall InternetCrackUrlA(const char *url,unsigned long length,unsigned long flags,MainMenuUrlComponents *components);
+extern "C" void *__cdecl memset(void *,int,unsigned);
+const char *GetRegistryOnlineServer();
+int Rva005BC4CEStart(int hostName);
+void rva005BD6A7();
+void StartPatchCheck()
+{
+ // Native writes this flag before loading GameText's vtable. Order this
+ // write as native does.
+ *(volatile bool *)&cancelBeforeOnline=true;
+ checkingForPatchBeforeGameSpy=true;
+ cantConnectBeforeOnline=false;
+ checksLeftBeforeOnline=0;
+ timeThroughOnline++;
+ MessageBoxOk(UnicodeString(L""),TheGameText->fetch("GUI:CheckingForPatches"),CancelPatchCheckCallbackAndReopenDropdown);
+ g_00E06576=1;
+ MainMenuUrlComponents components;
+ char hostName[512];
+ memset(&components,0,sizeof(components));
+ components.dwStructSize=sizeof(components);
+ components.lpszHostName=hostName;
+ components.dwHostNameLength=sizeof(hostName);
+ if(InternetCrackUrlA(GetRegistryOnlineServer(),0,0,&components)){
+  switch(Rva005BC4CEStart((int)hostName)){
+  case 1: break;
+  case 2: rva005BD6A7(); return;
+  default: return;
+  }
+ }
+ cantConnectBeforeOnline=true;
+ startOnline();
+}
+
+#include <new>
+// The native three-pointer STL string view already verified in the request
+// helper also serves configHeadCallback. Constructors bind to the existing
+// string providers; native cleanup uses the game free wrapper.
+// This keeps the original class identity and 12-byte layout without emitting
+// unrelated STL helper copies at this unit's compiler settings.
+namespace _STL {
+template<class C> class char_traits;
+template<class C,class T,class A> class basic_string {
+ C *start,*finish,*storageEnd;
+public:
+ basic_string(); basic_string(const basic_string &); basic_string(const C *,const A &);
+ ~basic_string(){if(start)Rva00030830GameFree(start);}
+ const C *c_str()const{return start;}
+ bool empty()const{return start==finish;}
+};
+}
+
+typedef _STL::basic_string<char,_STL::char_traits<char>,_STL::allocator<char> > PatchString;
+typedef GHTTPBool (*PatchHttpComplete)(int,GHTTPResult,char*,__int64,void*);
+extern "C" int ghttpGetA(const char*,GHTTPBool,PatchHttpComplete,void*);
+extern "C" int ghttpHeadA(const char*,GHTTPBool,PatchHttpComplete,void*);
+extern "C" int ghttpSetProxy(const char*);
+void FormatURLFromRegistry(PatchString&,PatchString&,PatchString&,PatchString&);
+bool GetStringFromRegistry(PatchString,PatchString,PatchString&);
+GHTTPBool configHeadCallback(int,GHTTPResult,char*,__int64,void*);
+void rva005BD64D();void Rva005BD5F3Add();
+extern "C" const char *__cdecl ghttpGetHeaders(int request);
+// BFME1 reallyStartPatchCheck supplies the HTTP categories and proxy flow.
+// Native5BD6A7..5BD82E proves the blocking calls and run/check ownership.
+// Rehomed with its original file-local state; the native STL string layout
+// and game allocator preserve the separately verified 391-byte body.
+void rva005BD6A7(){
+ checksLeftBeforeOnline=4;
+ unsigned char allocatorStorage[sizeof(_STL::allocator<char>)];
+ const _STL::allocator<char>&allocator=*new(allocatorStorage)_STL::allocator<char>();
+ PatchString gameURL,mapURL,configURL,motdURL;
+ FormatURLFromRegistry(gameURL,mapURL,configURL,motdURL);
+ PatchString proxy;
+ if(GetStringFromRegistry(PatchString("",allocator),PatchString("Proxy",allocator),proxy)&&!proxy.empty())ghttpSetProxy(proxy.c_str());
+ ghttpGetA(gameURL.c_str(),GHTTPTrue,gamePatchCheckCallback,(void*)timeThroughOnline);
+ ghttpGetA(mapURL.c_str(),GHTTPTrue,gamePatchCheckCallback,(void*)timeThroughOnline);
+ ghttpHeadA(configURL.c_str(),GHTTPTrue,configHeadCallback,(void*)timeThroughOnline);
+ ghttpGetA(motdURL.c_str(),GHTTPTrue,motdCallback,(void*)timeThroughOnline);
+ rva005BD64D();Rva005BD5F3Add();
+}
+
+// BFME1 configHeadCallback, native5BCC77..5BCFFB (900B). The second open
+// uses the first filename, as native does. Game-free calls retain the EH
+// states formerly obtained in a separate /EHs companion.
+GHTTPBool configHeadCallback(int request,GHTTPResult result,char *buffer,__int64 bufferLen,void *param)
+{
+ if((int)param!=timeThroughOnline)return GHTTPTrue;
+ if(result==GHTTPSuccess){
+  AsciiString headers(ghttpGetHeaders(request));
+  AsciiString line;
+  while(headers.nextToken(&line,"\n\r")){
+   AsciiString key,val;
+   line.nextToken(&key,": ");
+   line.nextToken(&val,": \r\n");
+   if(key.compare("Content-Length")==0 && !val.isEmpty()){
+    int serverLen=MainMenuCRT::atoi(val.str());
+    int fileLen=0;
+    AsciiString fname;
+    fname.format("%s%s\\Config.txt",TheWritableGlobalData->rva002360DE().str(),"Online Files");
+    File *fp=TheFileSystem->openFile(fname.str(),0x41,0);
+    if(fp){fileLen=fp->size();fp->close();}
+    if(serverLen==fileLen){
+     --checksLeftBeforeOnline;
+     if(cancelBeforeOnline && checksLeftBeforeOnline==0){b_00042a50();cancelBeforeOnline=false;}
+     if(configBeforeOnline){delete[] configBeforeOnline;configBeforeOnline=0;}
+     AsciiString fname2;
+     fname2.format("%s%s\\Config.txt",TheWritableGlobalData->rva002360DE().str(),"Online Files");
+     fp=TheFileSystem->openFile(fname.str(),0x41,0);
+     if(fp){
+      fp->read(configBeforeOnline=new char[fileLen],fileLen);
+      configBeforeOnline[fileLen-1]=0;
+      fp->close();
+      if(checksLeftBeforeOnline==0)startOnline();
+      return GHTTPTrue;
+     }
+    }
+   }
+  }
+ }
+ PatchString gameURL,mapURL;
+ PatchString configURL,motdURL;
+ FormatURLFromRegistry(gameURL,mapURL,configURL,motdURL);
+ ghttpGetA(configURL.c_str(),GHTTPTrue,configCallback,param);
+ return GHTTPTrue;
+}
 
