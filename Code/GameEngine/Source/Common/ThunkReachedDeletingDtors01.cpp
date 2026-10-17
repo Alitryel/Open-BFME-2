@@ -18,8 +18,13 @@
 //  0x005F06D3 via dtor 0x005F0584, thunk 0x005F05CF sub ecx,4
 //  0x005F5087 via dtor 0x005F501E, unreferenced
 
-class Rva00254024 { public: ~Rva00254024(); };
-class Rva005E7ED7View { public: ~Rva005E7ED7View(); };
+// Two dtors are rowed at their addresses as virtual dtors of other classes:
+// forward through imported inlines (same direct call, no stray copy).
+class GateProxyBehavior { public: virtual ~GateProxyBehavior(); };
+class Rva005E7ED7 { public: virtual ~Rva005E7ED7(); };
+
+class Rva00254024 { public: __declspec(dllimport) __forceinline ~Rva00254024() { reinterpret_cast<GateProxyBehavior *>(this)->GateProxyBehavior::~GateProxyBehavior(); } };
+class Rva005E7ED7View { public: __declspec(dllimport) __forceinline ~Rva005E7ED7View() { reinterpret_cast<Rva005E7ED7 *>(this)->Rva005E7ED7::~Rva005E7ED7(); } };
 class Rva005F0584 { public: ~Rva005F0584(); };
 class Rva005F501E { public: ~Rva005F501E(); };
 
