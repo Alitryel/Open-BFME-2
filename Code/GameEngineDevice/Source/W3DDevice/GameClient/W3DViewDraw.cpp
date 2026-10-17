@@ -28,7 +28,6 @@ class Vector3 { public: float X, Y, Z; Vector3(float x, float y, float z) { X = 
 class DX8Wrapper { public: static void Clear(bool clear_color, bool clear_z, bool clear_stencil, const Vector3 &color, float dest_alpha, float z = 1.0f, unsigned int stencil = 0); };
 
 class CameraClass;
-class Rva0006ED36 { public: void rva0006ED36(void *camera); void rva0006EE27(void *camera); };
 class RTS3DScene {
 public:
 	char m_pad00[0x18];
@@ -38,11 +37,11 @@ public:
 	int getCustomPassMode() { return m_customPassMode; }
 	void setCustomPassMode(int mode) { m_customPassMode = mode; }
 	void setExtraPassPolygonMode(int mode) { m_extraPassPolygonMode = mode; }
-	void doRender(CameraClass *camera) { ((Rva0006ED36 *)this)->rva0006ED36(camera); }
+	void doRender(CameraClass *camera); // 0x0006ED36 (Rva0006ED36Call.cpp)
 };
 class RTS2DScene {
 public:
-	void doRender(CameraClass *camera) { ((Rva0006ED36 *)this)->rva0006EE27(camera); }
+	void doRender(CameraClass *camera); // 0x0006EE27 (Rva0006ED36Call.cpp)
 };
 class W3DDisplay {
 public:

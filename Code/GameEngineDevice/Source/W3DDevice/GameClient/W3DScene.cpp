@@ -1324,14 +1324,8 @@ void RTS3DScene::removeDynamicLight(W3DDynamicLight * obj)
 //=============================================================================
 /** Render the scene */
 //=============================================================================
-// ?RTS3DScene::doRender present-unmatched
-void RTS3DScene::doRender( CameraClass * cam )
-{
-	m_camera = cam;
-	DRAW();
-	m_camera = NULL;
-
-}  // end Customized_Render
+// RTS3DScene::doRender is rowed at 0x0006ED36 (Rva0006ED36Call.cpp); the Zero Hour copy
+// here was a second definition.
 
 //=============================================================================
 // RTS3DScene::draw
@@ -1404,15 +1398,8 @@ void RTS2DScene::Customized_Render( RenderInfoClass &rinfo )
 //=============================================================================
 /** Render the scene */
 //=============================================================================
-// ?RTS2DScene::doRender present-unmatched
-void RTS2DScene::doRender( CameraClass * cam )
-{
-
-	m_camera = cam;
-	DRAW();
-	m_camera = NULL;
-
-}  // end Customized_Render
+// RTS2DScene::doRender is rowed at 0x0006EE27 (Rva0006ED36Call.cpp); the Zero Hour copy
+// here was a second definition.
 
 //=============================================================================
 // RTS2DScene::draw

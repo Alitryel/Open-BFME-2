@@ -58,15 +58,21 @@ public:
 	virtual void Remove_Render_Object(SegmentedLineClass *line);
 };
 
+class RTS2DScene;
+
 class W3DDisplay
 {
 public:
 	static RTS3DScene *m_3DScene;
+	static RTS2DScene *m_2DScene;
 };
 
 // Matched DIR32 references place W3DDisplay::m_3DScene at VA 0x00DE1B34;
 // the four retail bytes are zero, so the scene pointer starts null.
 RTS3DScene *W3DDisplay::m_3DScene = 0;
+// Its neighbour W3DDisplay::m_2DScene (VA 0x00DE1B38, W3DView::draw's DIR32
+// reference) is likewise a null-initialised static.
+RTS2DScene *W3DDisplay::m_2DScene = 0;
 
 class W3DLaserDraw : public DrawModule, public LaserDrawInterface
 {

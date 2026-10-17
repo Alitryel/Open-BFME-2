@@ -1,9 +1,8 @@
 // cl: /MD
 //
-// ?rva0006ED36@Rva0006ED36@@QAEXPAX@Z @0x0006ED36 (31B).
-// Stores arg at +0x814 then virtual slot 12 on member at +0x108 then clears.
-// Evidence: 7 callers in 0x87D42 family; ecx+0x814 store plus ecx+0x108
-// vtable call at +0x30 plus and [esi] 0 clear; ret 4 one void* arg.
+// RTS3DScene/RTS2DScene::doRender @0x0006ED36/0x0006EE27 (31B each).
+// Evidence: 7 callers in W3DView::draw; ecx+0x814 (+0x118) store plus ecx+0x108
+// vtable call at +0x30 plus and [esi] 0 clear; ret 4 one pointer arg.
 
 class Rva0006ED36Sub
 {
@@ -23,32 +22,49 @@ public:
 	virtual void rva0006ED55();
 };
 
-class Rva0006ED36
+// RTS3DScene::doRender (0x0006ED36) and RTS2DScene::doRender (0x0006EE27):
+// Zero Hour's "m_camera = cam; DRAW(); m_camera = NULL;" (W3DScene.cpp). Seven
+// calls in W3DView::draw (0x00087DA0) render through them. DRAW() is the
+// subsystem draw, slot 12 of the subsystem base at +0x108 (0x0006ED55 below
+// for the 3D scene); the camera sits at +0x814 (3D) and +0x118 (2D).
+class CameraClass;
+
+class RTS3DScene
 {
 public:
-	void rva0006ED36(void *p);
-	void rva0006EE27(void *p);
+	void doRender(CameraClass *cam);
 private:
 	char m_pad00[0x108];
-	Rva0006ED36Sub m_sub;
-	char m_pad10C[0x118 - 0x108 - 4];
-	void *m_slot118;
-	char m_pad11C[0x814 - 0x118 - 4];
-	void *m_slot814;
+	Rva0006ED36Sub m_subsystem;
+	char m_pad10C[0x814 - 0x108 - 4];
+	CameraClass *m_camera;
 };
 
-void Rva0006ED36::rva0006ED36(void *p)
+class RTS2DScene
 {
-	m_slot814 = p;
-	m_sub.rva0006ED55();
-	m_slot814 = 0;
+public:
+	void doRender(CameraClass *cam);
+private:
+	char m_pad00[0x108];
+	Rva0006ED36Sub m_subsystem;
+	char m_pad10C[0x118 - 0x108 - 4];
+	CameraClass *m_camera;
+};
+
+// ?RTS3DScene::doRender present-unmatched
+void RTS3DScene::doRender(CameraClass *cam)
+{
+	m_camera = cam;
+	m_subsystem.rva0006ED55();
+	m_camera = 0;
 }
 
-void Rva0006ED36::rva0006EE27(void *p)
+// ?RTS2DScene::doRender present-unmatched
+void RTS2DScene::doRender(CameraClass *cam)
 {
-	m_slot118 = p;
-	m_sub.rva0006ED55();
-	m_slot118 = 0;
+	m_camera = cam;
+	m_subsystem.rva0006ED55();
+	m_camera = 0;
 }
 
 // ?rva0006ED55@Rva0006ED55@@UAEXXZ @0x0006ED55 (26B): that slot 12 itself,
