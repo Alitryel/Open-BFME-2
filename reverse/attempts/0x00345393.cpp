@@ -1,4 +1,6 @@
 // ?computePath@AIAttackMeleeApproachState@@MAE_NXZ
+// partial score=0.556 date=2026-10-17
+// ?computePath@AIAttackMeleeApproachState@@MAE_NXZ
 // partial score=0.69971 date=2026-10-13
 // cl: /I. /O1 /G7 /arch:SSE /DNDEBUG /MD /EHsc
 //
@@ -992,27 +994,29 @@ Bool AIAttackMeleeApproachState::computePath()
 	critterDesyncLog("CritterDesync: ComputePath18");
 	Bool forceRepath = false;
 	AIUpdateInterface *ai = getMachineOwner()->getAI();
-	if (ai->m_bfmeBlocked16C > 0)
+	if (*(volatile int*)&ai->m_bfmeBlocked16C > 0)
 		return false;
 
 	if (m_waitingForPath)
 		return true;
-	if (!ai->getPath() && !ai->isWaitingForPath())
+	Path *path = ai->getPath();
+	unsigned int frame = TheGameLogic->getFrame();
+	if (!path && !ai->isWaitingForPath())
 		forceRepath = true;
-	else if (TheGameLogic->getFrame() - m_approachTimestamp < g_009BA4E4)
+	else if ((frame - m_approachTimestamp < g_009BA4E4))
 		return true;
-
-	m_approachTimestamp = TheGameLogic->getFrame();
-	if (getMachine()->getGoalObject())
+	m_approachTimestamp = frame;
+	Object *goalObject = getMachine()->getGoalObject();
+	if (goalObject)
 	{
 		Object *source = getMachineOwner();
-		if (!forceRepath && isSamePosition(source->getPosition(), &m_prevVictimPos,
-				getMachine()->getGoalObject()->getPosition()))
+		Object *victim = (1 ? getMachine()->getGoalObject() : getMachine()->getGoalObject());
+		Coord3D *prevPos = &m_prevVictimPos;
+		if (!forceRepath && isSamePosition(source->getPosition(), prevPos,
+				victim->getPosition()))
 			return true;
 		if (!source->getCurrentWeapon())
 			return false;
-		Object *victim = getMachine()->getGoalObject();
-		Coord3D *prevPos = &m_prevVictimPos;
 		*prevPos = *victim->getPosition();
 		if (source->rva0029493F(victim, 2))
 		{
