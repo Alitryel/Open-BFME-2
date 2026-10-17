@@ -135,6 +135,7 @@ public:
     void RemoveUpgrade(void *upgrade);
     void rva002E14E9(const BfmeFixedStorage128 &mask);
 
+	bool rva002E1155(Rva00319CED *unit);
 	void OnUnitDequeued(Rva00319CED *unit);
 	void SetColorIndex(Int color);
     void AddArmy(LivingWorldArmy *army);
@@ -162,6 +163,21 @@ private:
     unsigned char m_pad29C[0x2B4 - 0x29C];
     int m_conflictResolveType; // +2B4, native and WB case0
 };
+
+// Existing out-of-line player providers; their original method names are unknown.
+class Rva002E0C68 { public: Int rva002E0C68(); };
+class Rva002E0CD4 { public: Int get() const; };
+
+// Retail 2E1155..2E118E, RET4; WB DE4B30 has the same field and three calls.
+// canQueueUnit proves the LivingWorldPlayer receiver. The dequeuing sibling
+// identifies +298 as queued command points; count queued and active points
+// together with the new unit before comparing against the player's limit.
+bool LivingWorldPlayer::rva002E1155(Rva00319CED *unit)
+{
+    Int queuedCommandPoints = m_queuedCommandPoints;
+    return ((Rva002E0C68 *)this)->rva002E0C68() + queuedCommandPoints
+        + unit->rva004E1755() <= ((Rva002E0CD4 *)this)->get();
+}
 
 // LivingWorldPlayer::OnUnitDequeued, retail 0x002E0764.
 void LivingWorldPlayer::OnUnitDequeued(Rva00319CED *unit)
