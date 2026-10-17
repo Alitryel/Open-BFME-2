@@ -31,21 +31,25 @@ public:
 	void rva004E5821();
 };
 
+// Not vector<void *>: retail's unwind action for the member jumps to the
+// 14-byte free-first-pointer body 0x0007FAB3, not vector<void *>'s /Od
+// destructor 0x00027370; only the shared range erase uses that spelling.
 class Rva004E5A78
 {
 public:
-	_STL::vector<void *> m_vec;
+	_STL::vector<Rva004E5821 *> m_vec;
 	~Rva004E5A78();
 };
 
 Rva004E5A78::~Rva004E5A78()
 {
 	for (unsigned int i = 0; i < m_vec.size(); ++i) {
-		Rva004E5821 *p = (Rva004E5821 *)m_vec[i];
+		Rva004E5821 *p = m_vec[i];
 		if (p != 0) {
 			p->rva004E5821();
 			::operator delete(p);
 		}
 	}
-	m_vec.erase(m_vec.begin(), m_vec.end());
+	_STL::vector<void *> &erased = reinterpret_cast<_STL::vector<void *> &>(m_vec);
+	erased.erase(erased.begin(), erased.end());
 }

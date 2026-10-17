@@ -55,14 +55,17 @@ class Rva003B1546 : public SubsystemInterface {
 public:
 	virtual ~Rva003B1546();
 private:
-	_STL::vector<void *, _STL::allocator<void *> > m_vec;
+	// Not vector<void *>: retail's unwind action for +0x0C jumps to the
+	// 14-byte free-first-pointer body 0x0007FAB3, not vector<void *>'s /Od
+	// destructor 0x00027370; only the shared range erase uses that spelling.
+	_STL::vector<Rva003B1546Elem *> m_vec;
 	int m_18;
 };
 
 Rva003B1546::~Rva003B1546()
 {
 	for (unsigned i = 0; i < m_vec.size(); ++i) {
-		Rva003B1546Elem *p = (Rva003B1546Elem *)m_vec[i];
+		Rva003B1546Elem *p = m_vec[i];
 		void *mem;
 		if (p != 0)
 			mem = p->destroy(0);
@@ -70,7 +73,8 @@ Rva003B1546::~Rva003B1546()
 			mem = 0;
 		::operator delete(mem);
 	}
-	_STL::vector<void *, _STL::allocator<void *> > *pv = &m_vec;
+	_STL::vector<void *, _STL::allocator<void *> > *pv =
+		reinterpret_cast<_STL::vector<void *, _STL::allocator<void *> > *>(&m_vec);
 	pv->erase(pv->begin(), pv->end());
 	m_18 = 0;
 }

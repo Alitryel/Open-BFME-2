@@ -36,6 +36,17 @@ void **vector<void*>::end()
 
 void Rva00030830GameFree(void*);
 namespace _STL {template<> inline void allocator<void*>::deallocate(void**p,size_t)const{if(p)Rva00030830GameFree(p);}}
+// The two member vectors are not vector<void*>: retail's unwind actions for
+// +0x0C and +0x18 jump to the 14-byte free-first-pointer body 0x0007FAB3, not
+// vector<void*>'s /Od destructor 0x00027370. They are spelled with pointer
+// element types (the +0x0C element is not established) and the same
+// GameFree deallocation.
+class TeamOwnedPoly;
+struct Rva004E9657Entry0C;
+namespace _STL {
+template<> inline void allocator<TeamOwnedPoly*>::deallocate(TeamOwnedPoly**p,size_t)const{if(p)Rva00030830GameFree(p);}
+template<> inline void allocator<Rva004E9657Entry0C*>::deallocate(Rva004E9657Entry0C**p,size_t)const{if(p)Rva00030830GameFree(p);}
+}
 class Rva004E9419 {public:~Rva004E9419();void rva004E94A1();};
 struct TeamMapStorage {unsigned words[3];__forceinline ~TeamMapStorage(){reinterpret_cast<Rva004E9419*>(this)->~Rva004E9419();}};
 class Rva002C6E4E {public:~Rva002C6E4E() throw();};
@@ -44,8 +55,8 @@ class RvaVector {public:void**erase(void**,void**) throw();};
 class Rva004E9657 {
 public:~Rva004E9657();
  TeamMapStorage map00;
- _STL::vector<void*> vector0c;
- _STL::vector<void*> vector18;
+ _STL::vector<Rva004E9657Entry0C*> vector0c;
+ _STL::vector<TeamOwnedPoly*> vector18;
  bool flag24;
 };
 Rva004E9657::~Rva004E9657(){
@@ -54,7 +65,7 @@ Rva004E9657::~Rva004E9657(){
  Map::iterator end=map.end();
  for(Map::iterator i=map.begin();i!=end;++i)delete i->second;
  reinterpret_cast<Rva004E9419*>(&map00)->rva004E94A1();
- void**i=vector18.begin();void**end18=vector18.end();
- for(;i!=end18;)::delete reinterpret_cast<TeamOwnedPoly*>(*i);
- _ReadWriteBarrier();_STL::vector<void*>*vec=&vector18;reinterpret_cast<RvaVector*>(vec)->erase(vec->begin(),vec->end());
+ TeamOwnedPoly**i=vector18.begin();TeamOwnedPoly**end18=vector18.end();
+ for(;i!=end18;)::delete *i;
+ _ReadWriteBarrier();_STL::vector<void*>*vec=reinterpret_cast<_STL::vector<void*>*>(&vector18);reinterpret_cast<RvaVector*>(vec)->erase(vec->begin(),vec->end());
 }

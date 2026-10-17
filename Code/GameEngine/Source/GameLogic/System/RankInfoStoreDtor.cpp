@@ -12,11 +12,19 @@
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
 void Rva00030830FreeAllocation(void *);
+// The rank vector is spelled with a unit-local pointer element (kept apart
+// from RankInfoParse.cpp's vector<RankInfo *>), not vector<void *>:
+// retail's unwind action for +0x0C jumps to the 14-byte free-first-pointer
+// body 0x0007FAB3, not vector<void *>'s /Od destructor 0x00027370. Its clear
+// still reaches the shared vector<void *> range erase.
+struct Rva0022CA74Rank;
 namespace _STL {
-template<> inline void allocator<void *>::deallocate(void **p,unsigned int) const
+template<> inline void allocator<Rva0022CA74Rank *>::deallocate(Rva0022CA74Rank **p,unsigned int) const
 {
  if(p) Rva00030830FreeAllocation(p);
 }
+template <> __declspec(dllimport) __forceinline void **vector<void *>::begin() { return _M_start; }
+template <> __declspec(dllimport) __forceinline void **vector<void *>::end() { return _M_finish; }
 }
 class SubsystemInterface
 {
@@ -31,7 +39,7 @@ class Rva0022CA74 : public SubsystemInterface
 protected:
  virtual ~Rva0022CA74();
 private:
- std::vector<void *> ranks;
+ std::vector<Rva0022CA74Rank *> ranks;
 };
 Rva0022CA74::~Rva0022CA74()
 {
@@ -40,5 +48,6 @@ Rva0022CA74::~Rva0022CA74()
   RankInfo *r=(RankInfo *)ranks[i];
   if(r) ::delete r;
  }
- ranks.clear();
+ std::vector<void *> &cleared=reinterpret_cast<std::vector<void *> &>(ranks);
+ cleared.erase(cleared.begin(),cleared.end());
 }

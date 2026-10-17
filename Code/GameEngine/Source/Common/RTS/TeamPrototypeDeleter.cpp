@@ -15,6 +15,7 @@
 // the vtable and with it the deleting destructor.
 
 struct EmitVtableTag;
+class Xfer;
 
 class TeamPrototype
 {
@@ -22,6 +23,11 @@ public:
 	TeamPrototype(EmitVtableTag *);
 protected:
 	virtual ~TeamPrototype();
+	// The rest of vtable 0x00C1AE94 (TeamPrototypeCtor.cpp's rows), declared so
+	// this TU's ??_7TeamPrototype is the same four-slot table.
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
 };
 
 // ?<TeamPrototype::TeamPrototype> absent-from-retail

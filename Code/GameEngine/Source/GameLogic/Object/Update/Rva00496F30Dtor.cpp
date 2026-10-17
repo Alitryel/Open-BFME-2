@@ -14,6 +14,15 @@
 
 #include <vector>
 
+// The +4 member is spelled with its StringBase<char> pointers, not
+// vector<void *>: retail's unwind action jumps to the 14-byte
+// free-first-pointer body 0x0007FAB3, not vector<void *>'s /Od destructor
+// 0x00027370. The clear still reaches the shared vector<void *> range erase.
+namespace _STL {
+template <> __declspec(dllimport) __forceinline void **vector<void *>::begin() { return _M_start; }
+template <> __declspec(dllimport) __forceinline void **vector<void *>::end() { return _M_finish; }
+}
+
 template <typename T>
 class StringBase
 {
@@ -30,17 +39,18 @@ public:
 	~Rva00496F30();
 private:
 	int m_00;
-	_STL::vector<void *> m_vec;
+	_STL::vector<StringBase<char> *> m_vec;
 };
 
 Rva00496F30::~Rva00496F30()
 {
 	for (_STL::size_t i = 0; i < m_vec.size(); i++) {
-		StringBase<char> *p = (StringBase<char> *)m_vec[i];
+		StringBase<char> *p = m_vec[i];
 		if (p) {
 			p->releaseBuffer();
 			::operator delete(p);
 		}
 	}
-	m_vec.clear();
+	_STL::vector<void *> &cleared = reinterpret_cast<_STL::vector<void *> &>(m_vec);
+	cleared.erase(cleared.begin(), cleared.end());
 }

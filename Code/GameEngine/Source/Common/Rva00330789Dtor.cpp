@@ -66,14 +66,18 @@ public:
 
 private:
 	Rva0033066DList m_list;			// +0x00
-	_STL::vector<void *> m_vec;		// +0x10
+	// Not vector<void *>: retail's unwind action for +0x10 jumps to the
+	// 14-byte free-first-pointer body 0x0007FAB3, not vector<void *>'s /Od
+	// destructor 0x00027370. A unit-local element spelling keeps its
+	// instantiations apart from other units' vector<CreateAHeroData *>.
+	_STL::vector<struct Rva003306B0Entry *> m_vec;	// +0x10
 };
 
 Rva003306B0::~Rva003306B0()
 {
 	for (;;) {
-		void **begin = *(void **volatile *)&m_vec;
-		if (begin == (void **)m_vec.end())
+		Rva003306B0Entry **begin = *(Rva003306B0Entry **volatile *)&m_vec;
+		if (begin == m_vec.end())
 			break;
 		rva003306B0((CreateAHeroData *)*m_vec.begin());
 	}

@@ -1,27 +1,29 @@
 // cl: /Oy- /DNDEBUG /MD /EHsc
 // stlport
 // ?removeObject@AIStatBase@@QAE_NPAX@Z, retail 0x0025BF8C, 59 bytes.
-// Vector find-and-erase returning bool: loads CreateAHeroData* at arg+0x74 into
+// Vector find-and-erase returning bool: loads the ObjectID at arg+0x74 into
 // a stack temp (mov eax,[ebp+8]; mov eax,[eax+0x74]; mov [ebp+8],eax), finds it
-// in the vector<CreateAHeroData*> at this+4 via rowed find at 0x0020E873, erases
+// in the vector<ObjectID> at this+4 via rowed find at 0x0020E873, erases
 // via rowed erase at 0x0025BF5D when present, returns 1 else 0 (mov al,1 / xor al).
 // Callers (4 at 0x005960F1 etc.) pass a holder with hero at +0x74; unblocks 4.
 // Prev is VectorObjectIDFillInsert, next is Rva0025BFE3 ctor; EBP frame needs /Oy-.
 #define _STLP_BFME_COPY_TRIVIAL_EXTERN  // call retail's one __copy_trivial (vendor/stlport/stl/_algobase.h)
 #include <vector>
-class CreateAHeroData;
+// The vectors hold ObjectIDs: the key is read from Object+0x74 (the object's ID), and
+// retail's erase 0x0025BF5D is the enum (false_type) vector<ObjectID>::erase row.
+enum ObjectID { INVALID_ID = 0 };
 class AIStatBase
 {
 public:
 	bool removeObject(void *arg);
 private:
 	char m_pad[4];
-	_STL::vector<CreateAHeroData *> m_vec04;
+	_STL::vector<ObjectID> m_vec04;
 };
 bool AIStatBase::removeObject(void *arg)
 {
-	CreateAHeroData *hero = *(CreateAHeroData **)((char *)arg + 0x74);
-	_STL::vector<CreateAHeroData *>::iterator it =
+	ObjectID hero = *(ObjectID *)((char *)arg + 0x74);
+	_STL::vector<ObjectID>::iterator it =
 		_STL::find(m_vec04.begin(), m_vec04.end(), hero);
 	if (it != m_vec04.end()) {
 		m_vec04.erase(it);
@@ -44,7 +46,7 @@ class AIStructureStats : public AIStatBase
 public:
 	bool UnRegister(void *holder);
 private:
-	_STL::vector<CreateAHeroData *> m_vec10;
+	_STL::vector<ObjectID> m_vec10;
 };
 bool AIStructureStats::UnRegister(void *holder)
 {
@@ -53,8 +55,8 @@ bool AIStructureStats::UnRegister(void *holder)
 		void *inner = *(void **)((char *)holder + 4);
 		if ((((unsigned char *)inner)[0x123] & 1) != 0)
 		{
-			CreateAHeroData *hero = *(CreateAHeroData **)((char *)holder + 0x74);
-			_STL::vector<CreateAHeroData *>::iterator it =
+			ObjectID hero = *(ObjectID *)((char *)holder + 0x74);
+			_STL::vector<ObjectID>::iterator it =
 				_STL::find(m_vec10.begin(), m_vec10.end(), hero);
 			if (it != m_vec10.end())
 			{

@@ -1,8 +1,8 @@
-// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX /Oy- /Op
+// cl: /DNDEBUG /DWIN32 /D_WINDOWS /MD /GX /Op
 //
 // ??0FirewallHelperClass@@QAE@XZ, retail 0x00594cdd, 154 bytes. Banked partial (score 0.92) closed by tools/permute.py;
 // the body is the banked one up to statement/operand order and local types.
-// Evidence: vtable 0x00870A2C at [this]; layout matches ZH FirewallHelper.h (spareSockets 8x8 at +0x14, manglers 4 at +0x54, sparePorts/mangledPorts at +0x68/+0x78, packetID +0x88, messages 8x30 at +0x8A length at +0x14, state/timeouts at +0x17C..+0x18C); timeGetTime IAT + div/div global g_00DD31F4; caller 0x00595143.
+// Evidence: vtable 0x00870A2C at [this]; layout matches ZH FirewallHelper.h (spareSockets 8x8 at +0x14, manglers 4 at +0x54, sparePorts/mangledPorts at +0x68/+0x78, packetID +0x88, messages 8x30 at +0x8A length at +0x14, state/timeouts at +0x17C..+0x18C); timeGetTime IAT + div/div static m_sourcePortPool; caller 0x00595143.
 class UDP;
 
 #pragma pack(push, 1)
@@ -35,7 +35,6 @@ struct SpareSocketStruct
 };
 
 extern "C" __declspec(dllimport) unsigned long __stdcall timeGetTime(void);
-extern unsigned int g_00DD31F4;
 
 class FirewallHelperClass
 {
@@ -44,6 +43,7 @@ public:
 	virtual ~FirewallHelperClass();
 
 private:
+	static int m_sourcePortPool;	// 0x009D31F4 (FirewallHelperDetection.cpp)
 	int m_behavior;
 	int m_lastBehavior;
 	int m_sourcePortAllocationDelta;
@@ -61,6 +61,20 @@ private:
 	int m_numResponses;
 	int m_currentTry;
 };
+
+class Rva0059515C
+{
+public:
+	void rva0059515C();
+};
+
+// The dtor (row 0x00595390, Rva00595D0BFirewall.cpp) is reset() 0x0059515C; retail's
+// vtable ??_G (0x00595D0B) inlines it, so this view must see the same body.
+// ??1FirewallHelperClass@@UAE@XZ present-unmatched
+inline FirewallHelperClass::~FirewallHelperClass()
+{
+	((Rva0059515C *)this)->rva0059515C();
+}
 
 FirewallHelperClass::FirewallHelperClass()
 {
@@ -85,5 +99,5 @@ FirewallHelperClass::FirewallHelperClass()
 	for (int i = 0; 4 > i; ++i)
 		m_manglers[i] = 0;
 	m_currentState = 0;
-	g_00DD31F4 = timeGetTime() / 1000 % 1000 + 0x1000;
+	m_sourcePortPool = timeGetTime() / 1000 % 1000 + 0x1000;
 }

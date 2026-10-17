@@ -5,7 +5,10 @@
 // _Vector_base dtor 0x0047FAB3), then the strings at +0x54/+0x58/+0x5C. The
 // attempt had folded the two vectors into a forceinline base destructor, which
 // dropped their states. The element type of the two vectors is not known from
-// this body (only their storage is freed); void * stands in.
+// this body (only their storage is freed); an opaque pointer stands in. It is
+// not void *: vector<void *>'s out-of-line destructor is the /Od body
+// 0x00027370, not the 14-byte free-first-pointer body 0x0007FAB3 retail's
+// unwind actions jump to.
 // ??1Rva0040AFF3@@QAE@XZ retail 0x0040AFF3 117B
 // Evidence: EH dtor releases StringBase<D> at +0x60 +0x5C +0x58 +0x54 via 0x00036410 then frees +0x10 +0x4 via 0x00030830; deleting dtor caller 0x0040B2E1; precedent Rva002E5791Dtor
 template <typename T> class StringBase
@@ -25,11 +28,12 @@ template <> StringBase<char>::~StringBase();
 
 #include <vector>
 
+struct Rva0040AFF3Element;
 struct Rva0040AFF3
 {
 	int m_00;
-	_STL::vector<void *> m_vec04;
-	_STL::vector<void *> m_vec10;
+	_STL::vector<Rva0040AFF3Element *> m_vec04;
+	_STL::vector<Rva0040AFF3Element *> m_vec10;
 	char m_pad1C[0x54 - 0x1C];
 	StringBase<char> m_str54;
 	StringBase<char> m_str58;

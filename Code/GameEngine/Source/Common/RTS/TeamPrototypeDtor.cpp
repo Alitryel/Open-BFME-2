@@ -26,6 +26,8 @@
 template <typename T> struct BfmeStringData;
 
 #include "ascii_string.h"
+// Slot 2 is the class-name getter, as in TeamPrototypeCtor.cpp.
+#define BFME_SNAPSHOT_NAME_SLOT
 #include "Common/Snapshot.h"
 
 class Team
@@ -67,6 +69,11 @@ public:
 
 protected:
 	virtual ~TeamPrototype();
+	// The rest of vtable 0x00C1AE94 (TeamPrototypeCtor.cpp's rows), declared so
+	// this TU's ??_7TeamPrototype is the same four-slot table.
+	virtual void loadPostProcess();
+	virtual const char *GetSnapshotName() const;
+	virtual void xfer(Xfer *);
 
 private:
 	TeamFactory *m_factory; // +0x04

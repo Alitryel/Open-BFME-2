@@ -1,4 +1,4 @@
-// cl: /DBFME_ASCII_DTOR_DECL /Ireference/shims/bfme2_ascii /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /D_BFME_RETAIL_TREE_INSERT_LAYOUT
+// cl: /Ireference/shims/bfme2_ascii /EHs /MD /D_CRTIMP= /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /Ireference/shims/bfmealloc /D_BFME_RETAIL_TREE_INSERT_LAYOUT
 // stlport
 // ??0Rva002215F4@@QAE@PAXABVAsciiString@@@Z, retail 0x002215D5 31B.
 // Caller 0x00221635 allocates 12 bytes and calls this with its this pointer and
@@ -15,6 +15,10 @@
 
 _STL::map<int, void *, _STL::less<int>, _STL::allocator<_STL::pair<const int, void *> > > *Rva002213D9Get();
 struct NoCaseTreeValue4 { char m_body[4]; };
+// bfme link decl-only begin
+// The set erase is the row at 0x00056BC3; instantiating it here would emit erase, _Destroy and ??_G copies.
+namespace _STL { template <> void _Rb_tree<AsciiString, AsciiString, _Identity<AsciiString>, less<AsciiString>, allocator<AsciiString> >::erase(_Rb_tree_iterator<AsciiString, _Nonconst_traits<AsciiString> >); }
+// bfme link decl-only end
 
 class Rva002214A6 {
 public:
