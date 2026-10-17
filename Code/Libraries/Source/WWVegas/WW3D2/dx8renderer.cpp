@@ -783,40 +783,8 @@ class Vertex_Split_Table
 	bool allocated_polygon_array;
 
 public:
-	Vertex_Split_Table(MeshModelClass* mmc_)
-		:
-		mmc(mmc_),
-		npatch_enable(false),
-		allocated_polygon_array(false)
-	{
-		if (DX8Wrapper::Get_Current_Caps()->Support_NPatches() && mmc->Needs_Vertex_Normals()) {
-			if (mmc->Get_Flag(MeshGeometryClass::ALLOW_NPATCHES)) {
-				npatch_enable=true;
-			}
-		}
-
-		const GapFillerClass* gap_filler=mmc->Get_Gap_Filler();
-		polygon_count=mmc->Get_Polygon_Count();
-		if (gap_filler) polygon_count+=gap_filler->Get_Polygon_Count();
-//		if (mmc->Get_Gap_Filler_Polygon_Count()) {
-			allocated_polygon_array=true;
-			polygon_array=W3DNEWARRAY TriIndex[polygon_count];
-			memcpy(
-				polygon_array,
-				mmc->Get_Polygon_Array(),
-				mmc->Get_Polygon_Count()*sizeof(TriIndex));
-			if (gap_filler) {
-				memcpy(
-					polygon_array+mmc->Get_Polygon_Count(),
-					gap_filler->Get_Polygon_Array(),
-					gap_filler->Get_Polygon_Count()*sizeof(TriIndex));
-			}
-//		}
-//		else {
-//			polygon_array=const_cast<TriIndex*>(mmc->Get_Polygon_Array());
-//		}
-
-	}
+	// BFME 2's constructor is the row 0x001454D0 in VertexSplitTableConstructorBFME.cpp.
+	Vertex_Split_Table(MeshModelClass* mmc_);
 
 	~Vertex_Split_Table()
 	{
