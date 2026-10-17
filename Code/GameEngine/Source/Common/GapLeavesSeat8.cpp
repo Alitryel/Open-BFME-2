@@ -594,3 +594,16 @@ void Rva001513E5::set()
 {
 	m_flags7 |= 4;
 }
+
+// 0x0018C0F9 (5B): returns dword at +0 minus 2
+class Rva0018C0F9
+{
+public:
+	int get() const;
+private:
+	int m_val;
+};
+int Rva0018C0F9::get() const
+{
+	return m_val - 2;
+}
