@@ -77,10 +77,10 @@ public:
 class Weapon
 {
 public:
-	// 0x002C9BE4: two-object range forwarder (the source and the victim's
-	// position go to 0x002C9BC3 on the same receiver).  WorldBuilder calls its
-	// twin with the current weapon as receiver here.
-	float rva002C9BE4(const Object *source, const Object *victim) const;
+	// 0x002C9BE4 (PartitionManager_Rva002C9C37.cpp): the range against the victim's
+	// position.  WorldBuilder calls its twin with the current weapon as
+	// receiver here.
+	float getAttackRange(const Object *source, const Object *victim) const;
 };
 
 class Rva000421C8
@@ -120,7 +120,7 @@ bool Rva003543BF::rva003543BF(Object *obj, Object *target)
 	Weapon *weapon = obj->getCurrentWeapon(0);
 	if (weapon)
 	{
-		float weaponRange = weapon->rva002C9BE4(obj, target);
+		float weaponRange = weapon->getAttackRange(obj, target);
 		if (range > weaponRange)
 			range = weaponRange;
 	}
@@ -156,8 +156,3 @@ bool Rva003543BF::rva003543BF(Object *obj, Object *target)
 	}
 	return false;
 }
-
-// The retail call in this body reads 0x002C9BE4, an address the ledger already
-// carries as ?getRelativeAngle2D@PartitionManager@@QAEMPBVObject@@0@Z. Bind the donor spelling to that rowed owner so one
-// address keeps one definition and the unit links.
-#pragma comment(linker, "/alternatename:?rva002C9BE4@Weapon@@QBEMPBVObject@@0@Z=?getRelativeAngle2D@PartitionManager@@QAEMPBVObject@@0@Z")

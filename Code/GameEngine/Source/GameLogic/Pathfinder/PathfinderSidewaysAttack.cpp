@@ -319,6 +319,7 @@ class Weapon
 {
 public:
 	bool isWithinAttackRange(Object*,const Coord3D*,Object*,const Coord3D*,float,bool);
+	float getAttackDistance(const Object *source, const Object *victimObj, const Coord3D *victimPos) const;	// 0x002C9C37
 };
 class Rva002C9B80Owner
 {
@@ -922,7 +923,7 @@ Path *Pathfinder::FindAttackPathSideways(Object *obj, const LocomotorSet &locos,
 	{
 		m_zoneManager.rva00531300();
 	}
-	Int attackDistance = (Int)((PartitionManager *)weapon)->rva002C9C37(obj, victim, (void *)victimPos) + 30;
+	Int attackDistance = (Int)((Weapon *)weapon)->getAttackDistance(obj, victim, victimPos) + 30;
 	Bool checkLOS;
 	if (!victim)
 		checkLOS = true;
@@ -939,7 +940,7 @@ Path *Pathfinder::FindAttackPathSideways(Object *obj, const LocomotorSet &locos,
 	parent->StartPathfind(0);
 	ICoord2D goalIndex;
 	Rva002E7875WorldToCell(&goalIndex, true, victim ? victim->getPosition() : victimPos);
-	Int sideOffset = (Int)((PartitionManager *)weapon)->rva002C9C37(obj, victim, (void *)victimPos) - 10;
+	Int sideOffset = (Int)((Weapon *)weapon)->getAttackDistance(obj, victim, victimPos) - 10;
 	AddToOpenList(parent);
 	unsigned int count = 0;
 	PathfinderSearchCellsVisited = 0;

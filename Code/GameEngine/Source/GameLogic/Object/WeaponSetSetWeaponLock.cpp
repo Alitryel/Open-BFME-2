@@ -315,7 +315,7 @@ class Weapon { public:
  bool isWithinTargetPitch(const Object *,const Object *) const;
  float rva002C957E() const;
  bool rva002C969D(const void *,int);
- float rva002C9BE4(const Object *,const Object *) const;
+ float getAttackRange(const Object *,const Object *) const; // 0x002C9BE4
  WeaponTemplate *m_template; unsigned m_ownerID;
  char padC[0x4c-0xc]; bool m_pitch;
 };
@@ -977,7 +977,7 @@ bool WeaponSet::chooseBestWeaponForTarget(const Object *obj, const Object *victi
 		float distance = delta.length();
 
 		float damage = canAffect ? 1.0f : 0.0f;
-		float attackRange = weapon->rva002C9BE4(obj, victim);
+		float attackRange = weapon->getAttackRange(obj, victim);
 		float minRange = weapon->rva002C957E();
 
 		bool weaponIsReady = (status == READY_TO_FIRE || status == (WeaponStatus)4);

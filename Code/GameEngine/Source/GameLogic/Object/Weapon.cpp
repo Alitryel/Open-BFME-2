@@ -1741,24 +1741,7 @@ Bool Weapon::isGoalPosWithinAttackRange(const Object *source, const Coord3D* goa
 // Weapon::getAttackRange is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/Weapon_Weapon_getAttackRange.cpp (0x002C9BF8).
 
 //-------------------------------------------------------------------------------------------------
-// ?getAttackDistance@Weapon@@ present-unmatched
-Real Weapon::getAttackDistance(const Object *source, const Object *victimObj, const Coord3D* victimPos) const
-{ 
-	Real range = getAttackRange(source);
-
-	if (victimObj != NULL)
-	{
-	#ifdef ATTACK_RANGE_IS_2D
-		range += source->getGeometryInfo().getBoundingCircleRadius();
-		range += victimObj->getGeometryInfo().getBoundingCircleRadius();
-	#else
-		range += source->getGeometryInfo().getBoundingSphereRadius();
-		range += victimObj->getGeometryInfo().getBoundingSphereRadius();
-	#endif
-	}
-
-	return range;
-}
+// Weapon::getAttackDistance is defined with its retail-matched body in Code/GameEngine/Source/GameLogic/Object/PartitionManager_Rva002C9C37.cpp (0x002C9C37).
 
 //-------------------------------------------------------------------------------------------------
 // ?estimateWeaponDamage@Weapon@@ present-unmatched
