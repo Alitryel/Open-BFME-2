@@ -8,7 +8,8 @@ int g_00DEBFFC = 0;
 extern int g_00DEC000;
 // Owned here: incremented below; retail .data starts it at 0 (VA 0x009EC000).
 int g_00DEC000 = 0;
-extern float g_00DEBFF4;
+// Fade level (0x009EBFF4), zero-initialized like its g_00DEBFF8/g_00DEBFFC neighbours.
+float g_00DEBFF4 = 0;
 extern float g_Va00BBB8D8;
 
 class TacticalView
@@ -292,7 +293,8 @@ static inline BfmeTacticalView *tacticalView() { return (BfmeTacticalView *)TheT
 // Existing opaque global spelling; its first four-byte texture handle is
 // independently consumed by Peek_D3D_Base_Texture at native F65ED.
 class BfmeSrcUDC;
-extern BfmeSrcUDC *g_bfmeObjUDC;
+// The cross-fade mask texture (0x009EC008), set by init and released by shutdown.
+BfmeSrcUDC *g_bfmeObjUDC = 0;
 
 
 
@@ -319,7 +321,7 @@ public:
 	virtual Int shutdown();
 	virtual Bool preRender(Bool &, CustomScenePassModes &);
 	virtual Bool postRender(FilterModes, Coord2D &, Bool &, Coord2D *);
-	virtual Bool setup(FilterModes);
+	virtual Bool setup(FilterModes) { return false; } // slot 4: retail folds it into a shared return-false body (0x005CB9FA)
 protected:
 	virtual Int set(FilterModes);
 public:
@@ -559,7 +561,10 @@ class ShroudFilter {public:void SetMip(int mode);char pad00[0xc];int m_minFilter
 class ShroudTexture {public:ShroudFilter *getFilter(void);};
 enum FilterTypes {FT_NULL_FILTER=0,FT_VIEW_BW_FILTER,FT_VIEW_MOTION_BLUR_FILTER,FT_VIEW_CROSSFADE,FT_MAX=10};
 extern W3DFilterInterface *W3DFilters[FT_MAX];
-extern ScreenCrossFadeFilter screenCrossFadeFilter;
+// The filter instance (0x009B5A64): retail initializes it statically (its .data word is
+// the vtable pointer), as this plain definition compiles.
+ScreenCrossFadeFilter screenCrossFadeFilter;
+Bool ScreenCrossFadeFilter::m_skipRender = false;
 
 Int ScreenCrossFadeFilter::init()
 {
