@@ -81,7 +81,8 @@ public:
 	void rva0023D028();
 	void rva0023D033();
 	int rva0023D0A1(int value);
-	void rva0023D03E();
+	// noinline: Rva002B293F below tail-jumps it as retail does.
+	__declspec(noinline) void rva0023D03E();
 	void rva0023D054(int a, int b, Rva0040D2FDVec *out);
 	const AsciiString *rva0023D05F(int value);
  const AsciiString *rva0023D06A(int value);
@@ -232,3 +233,31 @@ void GameLogic::rva0023D03E()
 // carries as ?CallArmyReinforcementIntoBattleByID@ArmySummarySystem@@QAEXH@Z. Bind the donor spelling to that rowed owner so one
 // address keeps one definition and the unit links.
 #pragma comment(linker, "/alternatename:?method@Rva0040FAFESub@@QAEHH@Z=?CallArmyReinforcementIntoBattleByID@ArmySummarySystem@@QAEXH@Z")
+
+// ?rva002B293F@Rva002B293F@@QAEXXZ, native 0x002B293F..0x002B2955 (22B): the
+// rowed 0x0020EE5C clear on the +0xB0 pointee, then a tail jump to the rowed
+// GameLogic 0x0023D03E forwarder above on TheGameLogic (the gen gap thunk
+// once rowed at 0x002B2950 was that jmp). No referencing site found;
+// address-derived name.
+class Rva0020EE5C
+{
+public:
+	void rva0020EE5C();
+};
+
+extern GameLogic *TheGameLogic;
+
+class Rva002B293F
+{
+public:
+	void rva002B293F();
+private:
+	char m_pad00[0xB0];
+	Rva0020EE5C *m_b0;
+};
+
+void Rva002B293F::rva002B293F()
+{
+	m_b0->rva0020EE5C();
+	TheGameLogic->rva0023D03E();
+}

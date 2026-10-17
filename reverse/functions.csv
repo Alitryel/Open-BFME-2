@@ -94525,7 +94525,6 @@ $L45932,,0x00798593,11,Code/GameEngine/Source/GameNetwork/GameSpy/LadderDefs.cpp
 ?j_001df428@@YAXXZ,,0x001DF428,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x001DF2D3
 ?j_001e6f22@@YAXXZ,,0x001E6F22,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x001E6731
 ?j_001f887e@@YAXXZ,,0x001F887E,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x001F8810
-?j_002b2950@@YAXXZ,,0x002B2950,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x0023D03E
 ?j_00359269@@YAXXZ,,0x00359269,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00358FA5
 ?j_0035980c@@YAXXZ,,0x0035980C,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x003597C3
 ?j_00383ead@@YAXXZ,,0x00383EAD,5,Code/gen_small/gthunks_000_admitted.cpp,matched,gen-thunk;gap;target=0x00383A28
@@ -96151,3 +96150,4 @@ __ehhandler$?rva00480093@ShareExperienceBehavior@@UAEXM@Z,,0x0078B967,10,Code/Ga
 ?rva00576388@Rva005756B6@@W3AEXPAUParent00575EEA@@@Z,,0x00576446,8,Code/GameEngine/Source/Common/GapForwardersSeat8.cpp,matched,adjustor thunk (this-4) to rowed slot-60 virtual rva00576388; vftable entry 0x0086E6F4
 ?rva00576323@Rva005756B6@@W3AEXPAUParent00575E4E@@@Z,,0x0057644E,8,Code/GameEngine/Source/Common/GapForwardersSeat8.cpp,matched,adjustor thunk (this-4) to rowed slot-62 virtual rva00576323
 ?rva00181230@Rva00181230@@QBEHXZ,,0x00181230,21,Code/GameEngine/Source/Common/ConstIntGetters8.cpp,matched,byte at +4 and dword at +8 both clear -> 1 else 0; supersedes the 6B true-arm row 0x0018123C
+?rva002B293F@Rva002B293F@@QAEXXZ,,0x002B293F,22,Code/GameEngine/Source/Common/RvaWideAdjustFwds.cpp,matched,rowed 0x0020EE5C clear on the +0xB0 pointee then tail jump to GameLogic 0x0023D03E on TheGameLogic; the gen gap thunk 0x002B2950 was its tail jmp
