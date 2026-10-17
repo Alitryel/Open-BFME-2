@@ -27,9 +27,102 @@ extern "C" const void *const vtbl_00C1C780[];  // folded, 49 classes; via ??_7?$
 extern "C" const void *const vtbl_00C6FFFC[];  // folded, 10 classes; via ??_7?$CategoryModuleClass@$00@FXParticleSystem@@6B@
 #pragma comment(linker, "/alternatename:_vtbl_00C6FFFC=??_7?$CategoryModuleClass@$00@FXParticleSystem@@6B@")
 
-extern const void *const g_00CE3018[];
-extern const void *const g_00CE3010[];
-extern const void *const g_00CE3008[];
+// The retail table at RVA 0x008E3018: 36 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("??_GGen007F86D0@@UAEPAXI@Z")();
+void __identifier("?Set_Y_Translation@Matrix3D@@QAEXM@Z")();
+void __identifier("?setValue@Rva007F5700ValueAndState@@QAEXH@Z")();
+void __identifier("?setList0@Rva007F8200Owner@@QAEXPAPAXH@Z")();
+void __identifier("?setList1@Rva007F8200Owner@@QAEXPAPAXH@Z")();
+void __identifier("?setList2@Rva007F8200Owner@@QAEXPAPAXH@Z")();
+void __identifier("?rva007F8400@BfmeThingDGD@@UAEXEHPAX@Z")();
+void __identifier("?request@Rva007F7030@@QAEXHH@Z")();
+void __identifier("?isReadyAtThree@Rva007F57C0ThresholdPredicate@@QBEHXZ")();
+void __identifier("?isReady@Rva007F57C0ThresholdPredicate@@QBEHXZ")();
+void __identifier("?bfmeIsThree@Gen_007F57E0@@QBEHXZ")();
+void __identifier("?bfmeIsFive@Gen_007F57E0@@QBEHXZ")();
+void __identifier("?reset@Rva007F70D0Owner@@QAEXXZ")();
+void __identifier("?requestRegionCount@Rva007F7A00Browser@@QAEXXZ")();
+void __identifier("?get@Rva00661FD0DwordField@@QBEHXZ")();
+void __identifier("?get@Rva007F70F0@@QAEPAXH@Z")();
+void __identifier("?bfmeFind@Gen_007F7110@@QBEPAVBfmeSlotDV@@PAX@Z")();
+void __identifier("?reset@Rva007F7140Owner@@QAEXXZ")();
+void __identifier("?request@Rva007F7AE0Owner@@QAEXHHHHHHHHPB_JIPAPBDI@Z")();
+void __identifier("?get@Rva0066D5D0DwordField@@QBEHXZ")();
+void __identifier("?get@Rva007F7160@@QAEPAXH@Z")();
+void __identifier("?bfmeFind@Gen_007F7180@@QBEPAVBfmeSlotEH@@PAX@Z")();
+void __identifier("?rva006638A0@BfmeThingDGD@@QAEXHH@Z")();
+void __identifier("?requestEntry@BfmeThingZI@@QAEXHH@Z")();
+void __identifier("?get@Rva0066F540DwordField@@QBEHXZ")();
+void __identifier("?bfmeGoVJP@BfmeThingVJP@@QAEXHHHHHHH_NHHHHH@Z")();
+void __identifier("?bfmeGoVJU@BfmeThingVJU@@QAEXXZ")();
+void __identifier("?request@Rva007F8650Owner@@QAEXXZ")();
+void __identifier("?bfmeGoVJS@BfmeThingVJS@@QAEXHHH@Z")();
+void __identifier("?rva007F5E00@Rva007F5D10GameBrowser@@QAEXHPBD@Z")();
+void __identifier("?bfmeGoVJO@BfmeThingVJO@@QAEXH@Z")();
+void __identifier("?wrap@Rva007F5FB0@@UAEXPAX000@Z")();
+void __identifier("?bfmeGoVJN@BfmeThingVJN@@QAEXHHHHH@Z")();
+void __identifier("?bfmeGoVJR@BfmeThingVJR@@QAEXHHHH@Z")();
+void __identifier("?bfmeGoVJQ@BfmeThingVJQ@@QAEXH@Z")();
+void __identifier("?requestHostedGame@Rva007F5920Owner@@QAEXHH@Z")();
+}
+extern const void *const g_00CE3018[36] = {
+	(const void *)&__identifier("??_GGen007F86D0@@UAEPAXI@Z"), // slot 0 0x00664D50
+	(const void *)&__identifier("?Set_Y_Translation@Matrix3D@@QAEXM@Z"), // slot 1 0x00665600
+	(const void *)&__identifier("?setValue@Rva007F5700ValueAndState@@QAEXH@Z"), // slot 2 0x00661EB0
+	(const void *)&__identifier("?setList0@Rva007F8200Owner@@QAEXPAPAXH@Z"), // slot 3 0x00664880
+	(const void *)&__identifier("?setList1@Rva007F8200Owner@@QAEXPAPAXH@Z"), // slot 4 0x00664920
+	(const void *)&__identifier("?setList2@Rva007F8200Owner@@QAEXPAPAXH@Z"), // slot 5 0x006649C0
+	(const void *)&__identifier("?rva007F8400@BfmeThingDGD@@UAEXEHPAX@Z"), // slot 6 0x00664A80
+	(const void *)&__identifier("?request@Rva007F7030@@QAEXHH@Z"), // slot 7 0x00663720
+	(const void *)&__identifier("?isReadyAtThree@Rva007F57C0ThresholdPredicate@@QBEHXZ"), // slot 8 0x00661F50
+	(const void *)&__identifier("?isReady@Rva007F57C0ThresholdPredicate@@QBEHXZ"), // slot 9 0x00661F70
+	(const void *)&__identifier("?bfmeIsThree@Gen_007F57E0@@QBEHXZ"), // slot 10 0x00661F90
+	(const void *)&__identifier("?bfmeIsFive@Gen_007F57E0@@QBEHXZ"), // slot 11 0x00661FB0
+	(const void *)&__identifier("?reset@Rva007F70D0Owner@@QAEXXZ"), // slot 12 0x006637C0
+	(const void *)&__identifier("?requestRegionCount@Rva007F7A00Browser@@QAEXXZ"), // slot 13 0x00664080
+	(const void *)&__identifier("?get@Rva00661FD0DwordField@@QBEHXZ"), // slot 14 0x00661FD0
+	(const void *)&__identifier("?get@Rva007F70F0@@QAEPAXH@Z"), // slot 15 0x006637E0
+	(const void *)&__identifier("?bfmeFind@Gen_007F7110@@QBEPAVBfmeSlotDV@@PAX@Z"), // slot 16 0x00663800
+	(const void *)&__identifier("?reset@Rva007F7140Owner@@QAEXXZ"), // slot 17 0x00663830
+	(const void *)&__identifier("?request@Rva007F7AE0Owner@@QAEXHHHHHHHHPB_JIPAPBDI@Z"), // slot 18 0x00664160
+	(const void *)&__identifier("?get@Rva0066D5D0DwordField@@QBEHXZ"), // slot 19 0x0066D5D0
+	(const void *)&__identifier("?get@Rva007F7160@@QAEPAXH@Z"), // slot 20 0x00663850
+	(const void *)&__identifier("?bfmeFind@Gen_007F7180@@QBEPAVBfmeSlotEH@@PAX@Z"), // slot 21 0x00663870
+	(const void *)&__identifier("?rva006638A0@BfmeThingDGD@@QAEXHH@Z"), // slot 22 0x006638A0
+	(const void *)&__identifier("?requestEntry@BfmeThingZI@@QAEXHH@Z"), // slot 23 0x00663A50
+	(const void *)&__identifier("?get@Rva0066F540DwordField@@QBEHXZ"), // slot 24 0x0066F540
+	(const void *)&__identifier("?bfmeGoVJP@BfmeThingVJP@@QAEXHHHHHHH_NHHHHH@Z"), // slot 25 0x00662320
+	(const void *)&__identifier("?bfmeGoVJU@BfmeThingVJU@@QAEXXZ"), // slot 26 0x00663AB0
+	(const void *)&__identifier("?request@Rva007F8650Owner@@QAEXXZ"), // slot 27 0x00664CD0
+	(const void *)&__identifier("?bfmeGoVJS@BfmeThingVJS@@QAEXHHH@Z"), // slot 28 0x006623D0
+	(const void *)&__identifier("?rva007F5E00@Rva007F5D10GameBrowser@@QAEXHPBD@Z"), // slot 29 0x006625A0
+	(const void *)&__identifier("?bfmeGoVJO@BfmeThingVJO@@QAEXH@Z"), // slot 30 0x006626A0
+	(const void *)&__identifier("?wrap@Rva007F5FB0@@UAEXPAX000@Z"), // slot 31 0x00662750
+	(const void *)&__identifier("?bfmeGoVJN@BfmeThingVJN@@QAEXHHHHH@Z"), // slot 32 0x00662780
+	(const void *)&__identifier("?bfmeGoVJR@BfmeThingVJR@@QAEXHHHH@Z"), // slot 33 0x006627F0
+	(const void *)&__identifier("?bfmeGoVJQ@BfmeThingVJQ@@QAEXH@Z"), // slot 34 0x006628C0
+	(const void *)&__identifier("?requestHostedGame@Rva007F5920Owner@@QAEXHH@Z"), // slot 35 0x00662980
+};
+// The retail table at RVA 0x008E3010: 1 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?request@Rva007F62F0ConnectRequest@@QAEXHPAXPAH@Z")();
+}
+extern const void *const g_00CE3010[1] = {
+	(const void *)&__identifier("?request@Rva007F62F0ConnectRequest@@QAEXHPAXPAH@Z"), // slot 0 0x00662A80
+};
+// The retail table at RVA 0x008E3008: 2 slots, each a rowed code owner (the next
+// word is not a code address or starts another ledger datum).
+extern "C" {
+void __identifier("?rva00664370@Rva00664370@@UAEXHPAURva00664370Probe@@@Z")();
+void __identifier("?set@Rva007F63D0@@QAEXPAHPBURva007F63D0Src@@H@Z")();
+}
+extern const void *const g_00CE3008[2] = {
+	(const void *)&__identifier("?rva00664370@Rva00664370@@UAEXHPAURva00664370Probe@@@Z"), // slot 0 0x00664370
+	(const void *)&__identifier("?set@Rva007F63D0@@QAEXPAHPBURva007F63D0Src@@H@Z"), // slot 1 0x00662B60
+};
 
 struct BfmeVciAnchorElem { BfmeVciAnchorElem(); };
 #pragma optimize("gsy", on)
