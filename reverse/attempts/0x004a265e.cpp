@@ -1,4 +1,6 @@
 // ?update@SlavedUpdate@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.976 date=2026-10-17
+// ?update@SlavedUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.988 date=2026-10-15
 // ?update@SlavedUpdate@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.988 date=2026-10-15
@@ -1330,7 +1332,7 @@ UpdateSleepTime SlavedUpdate::update()
 	}
 
 	Int healthPercentage = 100;
-	if (data->m_repairRatePerSecond > 0.0f)
+	if (data->m_repairRatePerSecond > *(const float *)&g_Va00E03BBC)
 	{
 		BodyModuleInterface *body = master->getBodyModule();
 		if (body)
@@ -1378,8 +1380,9 @@ UpdateSleepTime SlavedUpdate::update()
 		return UPDATE_SLEEP_NONE;
 	}
 
+	Coord3D pinnedPosition = { 0, 0, 0 };
 	Vector3 v = *master->getTransformMatrix() * Vector3(data->m_guardPositionOffset.x, data->m_guardPositionOffset.y, data->m_guardPositionOffset.z);
-	Coord3D pinnedPosition = *(Coord3D *)&v;
+	*(Vector3 *)&pinnedPosition = v;
 
 	if (data->m_fadeOutRange)
 	{
