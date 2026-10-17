@@ -1,4 +1,6 @@
 // ?rva000317F0@GeneralAllocator@Allocator@EA@@QAEXHI@Z
+// partial score=0.99 date=2026-10-17
+// ?rva000317F0@GeneralAllocator@Allocator@EA@@QAEXHI@Z
 // partial score=0.99 date=2026-10-15
 // Bank for 0x000317F0: full memory_pool.cpp with the SetOption body (search rva000317F0).
 // Needs: __forceinline guard ctor/dtor, __declspec(noinline) on rva00031790, nothrow LeaveCriticalSection decl (unverified vs the other 37 rows).
@@ -1021,7 +1023,7 @@ void GeneralAllocator::rva000317F0(int option, unsigned int value)
 		break;
 	case 6:
 	{
-		Rva000317F0Guard guard(m_4E4);
+		Rva000317F0Guard guard((Lock *)(void *)((char *)this + 0x4E4));
 		((Rva00034C90 *)this)->rva00033930();
 		((Rva00030D10 *)this)->rva00030D10(value);
 		break;
