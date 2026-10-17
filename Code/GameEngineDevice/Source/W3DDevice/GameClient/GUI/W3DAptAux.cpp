@@ -74,19 +74,6 @@ private:
 	static UnsignedInt s_syncTime1;			// 0x00DE6178
 };
 
-// W3DAptAux::PostDraw, retail 0x000A9071.
-void W3DAptAux::PostDraw()
-{
-	if (s_renderer)
-	{
-		s_renderer->rva001116E2();
-		Rva00118990();
-		g_Va00DB5FB0 = 0;
-		g_Va00DEC49C = 0.0f;
-		WW3D::Sync(s_syncTime0);
-		WW3D::Sync(s_syncTime1);
-	}
-}
 
 // getNameAndIndex, retail 0x000AA73A. Splits "...\\name123.ext" into the
 // trailing frame index (parsed with "%d.") and either the full path or the
@@ -205,29 +192,6 @@ static inline Real roundToPixel(Real value)
 	return (Real)(Int)(value + 0.5f);
 }
 
-// w3dCustomControlRender, retail 0x000AA645.
-void w3dCustomControlRender(const char *name, Int arg1, AptRenderingUnit *renderingUnit, Int arg3)
-{
-	if (!renderingUnit)
-		return;
-	AptShapeContainer *shapes = renderingUnit->getShapes();
-	if (!shapes)
-		return;
-	rebuildMask();
-	int savedCallback = g_Va00DB5FC8;
-	g_Va00DB5FC8 = (int)&Rva000A90B0;
-	W3DAptAux::s_renderer->bfmeBegin982C();
-	shapes->m_transform = g_aptRenderTransform;
-	Coord2D topLeft, bottomRight;
-	shapes->getRenderRegion(topLeft, bottomRight);
-	topLeft.x = roundToPixel(topLeft.x);
-	topLeft.y = roundToPixel(topLeft.y);
-	bottomRight.x = roundToPixel(bottomRight.x);
-	bottomRight.y = roundToPixel(bottomRight.y);
-	((AptPlayer *)g_bfmeAptWindowManager)->OnCustomRender(name, (int)&topLeft, (int)&bottomRight, arg1, arg3);
-	g_Va00DB5FC8 = savedCallback;
-	W3DAptAux::s_renderer->bfmeEnd982C();
-}
 
 // WB 8A7590 names w3dDrawRenderingUnit at W3DAptAux.cpp lines968..973.
 // Native AA8D1..AA966 proves the 149B cdecl boundary, renderer guard,
@@ -245,22 +209,7 @@ struct Rva00785FD0Node;
 extern unsigned int g_Va00DE6194;
 #define g_rva00785FD0Queue (*(Rva00785FD0Node * *)&g_Va00DE6194)
 extern char g_rva00785FD0Dirty;
-void w3dDrawRenderingUnit(AptRenderingUnit *renderingUnit,Int mode)
-{
- if(!W3DAptAux::s_renderer || !renderingUnit) return;
- AptShapeContainer *const renderShape=renderingUnit->getShapes();
- AptShapeContainer *shapes=renderShape;
- if(!renderShape) return;
- renderShape->m_transform=g_aptRenderTransform;
- // The existing flush names the sentinel pointer; the list header is that
- // one pointer, and the native queue stores AptShapeContainer pointers.
- _STL::list<AptShapeContainer*> &queue=*(_STL::list<AptShapeContainer*>*)&g_rva00785FD0Queue;
- switch(mode) {
- case 1: queue.insert(queue.end(),shapes);g_rva00785FD0Dirty=1;return;
- case -1: if(!queue.empty()) {queue.remove(shapes);g_rva00785FD0Dirty=1;return;}
- case 0: rebuildMask();((Rva00785FD0Item*)renderShape)->cleanup();return;
- }
-}
+
 
 // Native ABA2F installs A91D3 at the Apt allocator callback slot E17728.
 // The complete five-byte tail jump reaches the verified array allocator.
