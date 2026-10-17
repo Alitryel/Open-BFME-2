@@ -152,7 +152,14 @@ public:
 	
 };
 
-struct CreateMask {_STL::bitset<128> bits;};
+// newObject's third argument: a 16-byte bit mask, zeroed when constructed
+// (the same spelling as GameLogicInit.cpp and the other creators).
+extern "C" void *__cdecl memset(void *, int, unsigned int);
+struct CreateMask
+{
+	CreateMask() { memset(m_bits, 0, sizeof(m_bits)); }
+	unsigned int m_bits[4];
+};
 class ThingFactory {public:
  const ThingTemplate *findTemplate(const AsciiString &name);
  Object *newObject(const ThingTemplate *,Team *,const CreateMask *,Bool);
