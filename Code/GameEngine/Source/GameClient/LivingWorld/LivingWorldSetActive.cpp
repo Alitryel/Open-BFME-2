@@ -120,7 +120,7 @@ struct LivingWorldLODManagerView
 
 class GameMessage { public: void appendBooleanArgument(bool value); };
 class MessageStream;
-extern MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 class LivingWorldMessageStreamView
 {
 public:
@@ -191,7 +191,7 @@ void LivingWorld::rva002BF391(bool active)
 			((LivingWorldGlobalDataView *)TheWritableGlobalData)->m_60 = true;
 			((LivingWorldShadowManagerView *)TheW3DShadowManager)->m_08 = -1;
 		}
-		GameMessage *msg = ((LivingWorldMessageStreamView *)MessageStreamSubsystem)->appendMessage(0x3EC);
+		GameMessage *msg = ((LivingWorldMessageStreamView *)TheMessageStream)->appendMessage(0x3EC);
 		msg->appendBooleanArgument(true);
 		((LivingWorldInGameUIView *)TheInGameUI)->slot68();
 		((LivingWorldControlBarView *)TheControlBar)->slot10();

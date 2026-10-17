@@ -248,7 +248,7 @@ extern TerrainRoadCollection *TheTerrainRoads;
 extern GlobalWeatherSystem *TheGlobalWeatherSystem;
 extern class Rva00DFF024Registry *TheRva00DFF024Registry;
 extern ModuleFactory *TheModuleFactory;
-extern class MessageStream *MessageStreamSubsystem;
+extern class MessageStream *TheMessageStream;
 extern SidesList *TheSidesList;
 extern CaveSystem *TheCaveSystem;
 extern RankInfoStore *TheRankInfoStore;
@@ -820,7 +820,7 @@ void GameEngine::init(Int argc, char *argv[])
 		initSubsystem(TheGlobalWeatherSystem, "TheGlobalWeatherSystem", new GlobalWeatherSystem, 0);
 		initSubsystem((reinterpret_cast<FunctionLexicon *&>(TheRva00DFF024Registry)), "TheFunctionLexicon", createFunctionLexicon(), 0);
 		initSubsystem(TheModuleFactory, "TheModuleFactory", createModuleFactory(), 0);
-		initSubsystem(MessageStreamSubsystem, "TheMessageStream", createMessageStream(), 0);
+		initSubsystem(TheMessageStream, "TheMessageStream", createMessageStream(), 0);
 		initSubsystem(TheSidesList, "TheSidesList", new SidesList, 0);
 		initSubsystem(TheCaveSystem, "TheCaveSystem", new CaveSystem, 0);
 		initSubsystem(TheRankInfoStore, "TheRankInfoStore", new RankInfoStore, (Xfer *)&xferCRC);
@@ -934,7 +934,7 @@ void GameEngine::init(Int argc, char *argv[])
 					const MapMetaData *md = 0;
 					if (TheMapCache)
 						md = TheMapCache->findMap(TheGlobalData->m_initialFile);
-					GameMessage *msg = MessageStreamSubsystem->appendMessage(0x1E);
+					GameMessage *msg = TheMessageStream->appendMessage(0x1E);
 					if (md && md->m_isMultiplayer)
 					{
 						if (!(*(GameInfo * *)&TheSkirmishGameInfo))
