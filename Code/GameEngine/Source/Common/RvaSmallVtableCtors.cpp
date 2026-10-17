@@ -2007,18 +2007,6 @@ Rva0052B106::Rva0052B106()
 {
 }
 
-// ??0Rva00550918@@QAE@XZ @0x00550918 9B, vtable VA 0x00c6ac08
-class Rva00550918
-{
-public:
-	Rva00550918();
-	virtual ~Rva00550918() {}
-};
-
-Rva00550918::Rva00550918()
-{
-}
-
 // ??0Rva0056775B@@QAE@XZ @0x0056775B 9B, vtable VA 0x00c6ce84
 class Rva0056775B
 {

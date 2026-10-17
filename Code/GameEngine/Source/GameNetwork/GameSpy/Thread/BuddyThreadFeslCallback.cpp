@@ -60,3 +60,8 @@ void Rva00550918::rva00550921(int event, unsigned int opaque, const int *error)
   TheGameSpyBuddyMessageQueue->addResponse(response);
  }
 }
+
+// Existing9B constructor moved from the small-constructor collection so its
+// emitted one-slot vtable contains the proven event callback above. The old
+// empty virtual-destructor view put an unrelated deleting destructor there.
+Rva00550918::Rva00550918() {}
