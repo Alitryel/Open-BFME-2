@@ -1,4 +1,5 @@
 // flags: region default (reverse/retail_inventory/flag_regions.csv)
+// stlport
 // ??1Rva004F69C3@@QAE@XZ, retail 0x004F69C3, 19 bytes.
 // Holder dtor releasing TargetRef at +0xAC of pointee at +4 via rowed
 // fastcall 0x0007DEEF. Same shape as Rva002B2F97 holder with int pad at +0.
@@ -12,6 +13,8 @@ struct TargetRef00217D4C
 };
 
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C *p);
+
+#include <vector>
 
 struct Rva004F69C3Target
 {
@@ -35,17 +38,8 @@ inline Rva004F69C3::~Rva004F69C3()
 		ReleaseTreeHintRef00217D4C(&m_04->m_ac);
 }
 
-// ??1Rva0040D8B0@@QAE@XZ @0x0040D8B0 8B holder dtor forwarder to
-// rowed ??1Rva004F69C3@@QAE@XZ (0x004F69C3). No callers. Honest address name.
-class Rva0040D8B0
-{
-public:
-	~Rva0040D8B0();
-private:
-	char m_pad[4];
-	Rva004F69C3 *m_member;
-};
-Rva0040D8B0::~Rva0040D8B0()
-{
-	m_member->~Rva004F69C3();
-}
+// ?pop_back@?$vector@URva004F69C3@@V?$allocator@URva004F69C3@@@_STL@@@_STL@@QAEXXZ
+// @0x0040D8AC 12B: STLport pop_back of the 8-byte holder vector (--_M_finish,
+// then the inline single-object _Destroy tail-jumps the dtor above). Instantiated
+// here so the dtor stays referenced.
+template void _STL::vector<Rva004F69C3>::pop_back();
