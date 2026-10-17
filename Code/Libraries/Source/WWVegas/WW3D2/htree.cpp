@@ -775,23 +775,7 @@ void HTreeClass::Combo_Update
 
 // HTreeClass::Control_Bone: defined in htree_control.cpp (its row's unit).
 
-// ?Get_Bone_Control@HTreeClass@@ present-unmatched
-void HTreeClass::Get_Bone_Control(int boneindex, Matrix3D & relative_tm) const
-{
-	assert(boneindex >= 0);
-	assert(boneindex < NumPivots);
-
-	//
-	//	Return the bone's control transform to the caller
-	//
-	if (Pivot[boneindex].IsCaptured) {
-		relative_tm = Pivot[boneindex].CapTransform;
-	} else {
-		relative_tm.Make_Identity ();
-	}
-
-	return ;
-}
+// HTreeClass::Get_Bone_Control (0x001620D0) is rowed in Get_Bone_ControlRva001620D0Farm.cpp; a second definition here would not link.
 
 // ?Alter_Avatar_HTree@HTreeClass@@ present-unmatched
 HTreeClass * HTreeClass::Alter_Avatar_HTree( const HTreeClass *tree, Vector3 &scale)
