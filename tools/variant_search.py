@@ -73,6 +73,22 @@ def fitness(compiled, target):
             + 0.3 * ratio(ours, theirs) + 0.2 * ratio(compiled, target))
 
 
+def non_exact_fitness(compiled, target):
+    """fitness() for a candidate that is not verified exact, kept strictly below the
+    1.0 only a verified exact may carry (identical bytes with unresolved references,
+    or a near miss rounded up, must not tie with a real match)."""
+    return min(round(fitness(compiled, target), 5), 0.99999)
+
+
+def rank(result):
+    """Selection key: verified exactness first, numeric fitness second."""
+    return (bool(result.get("exact")), result.get("fitness", -1.0))
+
+
+def better(candidate, incumbent):
+    return rank(candidate) > rank(incumbent)
+
+
 def classify(compiled, target):
     """'exact', 'regalloc' (only register choice differs), or 'structural'."""
     if compiled == target:
@@ -136,19 +152,31 @@ class Scorer:
             return {"fitness": -1.0, "exact": False, "class": f"error: {str(error)[:120]}"}
         compiled, target = got["bytes"], got["target"]
         exact = compiled == target and not got["unresolved"]
-        return {"fitness": 1.0 if exact else round(fitness(compiled, target), 5),
+        return {"fitness": 1.0 if exact else non_exact_fitness(compiled, target),
                 "exact": exact, "class": "exact" if exact else classify(compiled, target),
                 "compiled": compiled, "target": target}
 
 
 def score_all(texts, make_scorer, jobs):
-    """Score candidates in parallel, one scorer (and directory) per worker slot."""
+    """Score candidates in parallel, one scorer (and directory) per worker slot.
+
+    A task borrows an idle scorer from a pool and returns it when done, so no two
+    concurrent tasks ever share a Scorer (its counter and c<n>.cpp/.obj paths)."""
+    import queue
     scorers = [make_scorer(i) for i in range(max(1, min(jobs, len(texts))))]
+    idle = queue.Queue()
+    for scorer in scorers:
+        idle.put(scorer)
+
+    def run(text):
+        scorer = idle.get()
+        try:
+            return scorer(text)
+        finally:
+            idle.put(scorer)
     results = [None] * len(texts)
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(scorers)) as pool:
-        futures = {}
-        for i, text in enumerate(texts):
-            futures[pool.submit(scorers[i % len(scorers)], text)] = i
+        futures = {pool.submit(run, text): i for i, text in enumerate(texts)}
         for future in concurrent.futures.as_completed(futures):
             results[futures[future]] = future.result()
     return results
@@ -270,7 +298,7 @@ def blind_phase(best_text, best, make_scorer, trials, jobs, seed):
             batch.append(text)
         spent += len(batch)
         for text, result in zip(batch, score_all(batch, make_scorer, jobs)):
-            if result["fitness"] > best["fitness"]:
+            if better(result, best):
                 best_text, best = text, result
     return best_text, best, spent
 
@@ -312,8 +340,8 @@ def search(source, symbol, rva, size, *, model, n=12, rounds=4, jobs=12, templat
         scored = score_all(variants, make_scorer, jobs)
         for i, (text, res) in enumerate(zip(variants, scored)):
             (out / f"r{number}-v{i:02d}.cpp").write_text(text, encoding="latin-1", errors="replace")
-        top = max(range(len(scored)), key=lambda i: scored[i]["fitness"])
-        improved = scored[top]["fitness"] > best["fitness"]
+        top = max(range(len(scored)), key=lambda i: rank(scored[i]))
+        improved = better(scored[top], best)
         if improved:
             best_text, best = variants[top], scored[top]
         history.append((number, best["fitness"], best["class"]))
