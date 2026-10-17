@@ -1,4 +1,4 @@
-// cl: /MD /GX /DNDEBUG /Oy-
+// cl: /MD /GX /DNDEBUG
 //
 // ??0TerrainResourceBehaviorModuleData@@QAE@XZ, retail 0x0048202F, 91 bytes.
 // EH ctor over the Income table 0xC494F0 (Radius@8, MaxIncome@C,
