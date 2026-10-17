@@ -1,4 +1,6 @@
 // ?rawTile@Rva000ADDCEWorldHeightMapView@@QAE_NFHPAEHH@Z
+// partial score=0.408 date=2026-10-17
+// ?rawTile@Rva000ADDCEWorldHeightMapView@@QAE_NFHPAEHH@Z
 // partial score=0.5 date=2026-10-14
 // ?rawTile@Rva000ADDCEWorldHeightMapView@@QAE_NFHPAEHH@Z
 // partial score=0.6 date=2026-10-08
@@ -23,18 +25,20 @@ private:
  char prefix[0xb0];
  TileData *tiles[0x1000];
 };
-// ?expandTerrainRGB555 present-unmatched
-static __forceinline unsigned int expandTerrainRGB555(unsigned int value) {
- unsigned int low=value<<3;
- low=(low&0xff)|((low<<3)&0xff00);
- unsigned int color=(value>>10)<<19;
- color=(color&0xffff0000)|(low&0xffff);
- return color+((color>>5)&0x003f3f3f);
+inline unsigned int expandTerrainRGB555(unsigned int value) {
+ unsigned short lowPart = static_cast<unsigned short>(value << 3);
+ unsigned short shifted = static_cast<unsigned short>(lowPart << 3);
+ unsigned int merged = (static_cast<unsigned int>(shifted) << 8) | lowPart;
+ unsigned int color = static_cast<unsigned int>(value >> 10) << 19;
+ color |= merged;
+ return color + ((color >> 5) & 0x003f3f3f);
 }
 // ?rawTile@Rva000ADDCEWorldHeightMapView@@QAE_NFHPAEHH@Z present-unmatched
 bool Rva000ADDCEWorldHeightMapView::rawTile(short tile,int width,
  unsigned char *buffer,int bytes,int mode) {
  TileData *source=0;
+ int savedBytes = bytes;
+ *(volatile int*)&savedBytes = savedBytes;
  if(tile/4<0x1000) {
   source=tiles[tile/4];
   if(mode==1) {
@@ -43,10 +47,11 @@ bool Rva000ADDCEWorldHeightMapView::rawTile(short tile,int width,
    if(!source) return false;
   }
  }
- int destinationBytes=width*width*4;
+ int ww = (1 ? width*width : width*width);
+ int destinationBytes=(mode ? ww*4 : ww*4);
  if(bytes<destinationBytes) return false;
  if(!source) return false;
- int sourceWidth=width*2;
+ int sourceWidth=(1 ? width*2 : width*2);
  if(!source->hasRGBDataForWidth(sourceWidth)) return false;
  unsigned short *pixels=reinterpret_cast<unsigned short *>(source->getRGBDataForWidth(sourceWidth));
  if(tile&1) pixels+=width;
