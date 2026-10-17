@@ -1,6 +1,10 @@
 // ?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z
+// partial score=0.273 date=2026-10-17
+// ?rva0016E450@Rva0016E450Source@@QAEPAXPAH@Z
 // partial score=0.7 date=2026-10-08
 // cl: /O2 /G7 /arch:SSE /DNDEBUG /MD /EHs /D_STLP_USE_STATIC_LIB /D_STLP_NO_EXCEPTIONS /D_CRTIMP= /Ireference/shims/bfmealloc /Ireference/open-bfme-1/game/Libraries/Source/WWVegas/WWLib
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // stlport
 // Whole retail GetEdges:16E450..16EAEC,1692B,RET4. WB A0F6A0,
 // meshgeometry.cpp1944 proves vertex welding, directed edge pairing and
@@ -115,6 +119,7 @@ void *Rva0016E450Source::rva0016E450(int *edgeCount)
      GEOMETRY_REPORT(" shares an edge with more than two triangles, this will cause shadow bugs.");
      warned=true;
     }
+    _ReadWriteBarrier();
     edgeTable.table[key]=i;
    }
   }
