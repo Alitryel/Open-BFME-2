@@ -790,29 +790,4 @@ class ObjectCollisionAI {public:
 virtual void launch();
 };
 static const char *const collisionRockNames[3]={"NONE","CATAPULT_ROCK","TREBUCHET_ROCK"};
-void Object::rva00291A8C(float degrees,float magnitude,float vertical,const AsciiString &rock)
-{
- ObjectCollisionPhysics *physics=*reinterpret_cast<ObjectCollisionPhysics**>(reinterpret_cast<char*>(this)+0x25c);
- if(!physics)return;
- if(physics->blocked)return;
- if(*reinterpret_cast<const float*>(reinterpret_cast<const char*>(m_template)+0x610)>=100.0f)return;
- degrees*=0.017453292f;
- volatile float x=cos(degrees);
- float y=sin(degrees);
- Coord3D force;
- force.z=magnitude*vertical;
- force.x=x*magnitude;
- force.y=y*magnitude;
- reinterpret_cast<Rva003909FAObj*>(physics)->consume(&force,0,0);
- reinterpret_cast<PhysicsBehavior*>(physics)->rva00390629(true);
- if(!testCollision(95)){
-  setCollision(95);rva0028AE6D();
- }
- AIUpdateInterface *listener=ai;
- if(listener)reinterpret_cast<ObjectCollisionAI*>(listener)->launch();
- int index=0;
- for(int i=0;i<3;++i){
-  if(reinterpret_cast<const StringBase<char>*>(&rock)->compare(collisionRockNames[i])==0){index=i;break;}
- }
- rva0028AE9B(index);
-}
+
