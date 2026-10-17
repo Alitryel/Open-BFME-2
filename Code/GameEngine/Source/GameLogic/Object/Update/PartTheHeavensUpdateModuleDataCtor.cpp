@@ -25,7 +25,7 @@
 class Rva00504EADCurve
 {
 public:
-	void set(float a, float b, float c, float d);
+	bool set(float a, float b, float c, float d);
 };
 
 class Rva002BF807 : public Rva00504EADCurve

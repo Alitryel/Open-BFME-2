@@ -23,7 +23,7 @@ public:
 class Rva00504EADCurve
 {
 public:
-	void set(float time, float value, float inTangent, float outTangent);
+	bool set(float time, float value, float inTangent, float outTangent);
 	int m_a;
 	int m_b;
 };

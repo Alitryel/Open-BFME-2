@@ -16,7 +16,7 @@ public:
 class Rva00504EADCurve
 {
 public:
-	void set(float time, float value, float inTangent, float outTangent);
+	bool set(float time, float value, float inTangent, float outTangent);
 	char m_pad[8];
 };
 struct Rva002BFBF7

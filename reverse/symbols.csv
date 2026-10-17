@@ -11068,7 +11068,7 @@ name,address,notes
 ?set@Rva003600D6Holder@@QAEXPAVRva0035FF76@@@Z,0x005F69CE,ICF twin of rowed dup_005f69ce 10B setter stores holder+0x10; call site 0x0036011B in factory 0x003600D6 matches retail
 ?set@Rva00360298Holder@@QAEXPAVRva00360243@@@Z,0x005F69CE,ICF twin of rowed dup_005f69ce 10B setter stores holder+0x10; call site 0x003602DD in factory 0x00360298 matches retail
 ?set@Rva004893C0ByteSetter@@QAEXXZ,0x001DBB82,callee of ?rva00565170@@YAHH_N@Z at retail 0x003FEBDA read from its REL32 displacement; ICF alias of the matched ?enable@Rva001DBB82OneSetter@@QAEXXZ body at this address
-?set@Rva00504EADCurve@@QAEXMMMM@Z,0x00504EAD,BFME2 function-curve key insert taking float tangents; REL32 at 0x00504FDB in addKey 0x00504F09
+?set@Rva00504EADCurve@@QAE_NMMMM@Z,0x00504EAD,BFME2 function-curve key insert taking float tangents; REL32 at 0x00504FDB in addKey 0x00504F09; bool owner (mov al,[eax+4] before ret 0x10)
 ?set@Rva00802040Buf@@QAEXPAX@Z,0x006645D0
 ?set@UnicodeString@@QAEXABV1@@Z,0x00037150,TU spelling alias of the StringBase<wchar_t>::set(const StringBase &) pin at 0x00037150; REL32 at 0x005E093D in the DownloadManager ctor 0x005E08AB
 ?setActive@Script@@QAEX_N@Z,0x0006EDE3,ICF twin of dup 0x0006EDE3 via NetPacket 0x0058E047 same 10B setter
