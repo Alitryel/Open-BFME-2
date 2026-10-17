@@ -1,6 +1,10 @@
 // ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NHABVMatrix3D@@PAV2@@Z
+// partial score=0.0 date=2026-10-17
+// ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NHABVMatrix3D@@PAV2@@Z
 // partial score=0.6 date=2026-09-15
 // cl: /G7 /arch:SSE /DNDEBUG /MD /EHsc
+extern "C" void _ReadWriteBarrier(void);
+#pragma intrinsic(_ReadWriteBarrier)
 // ?Simple_Evaluate_Pivot@HTreeClass@@QBE_NHABVMatrix3D@@PAV2@@Z
 //
 // HTreeClass::Simple_Evaluate_Pivot at 0x001606E0 (1144 bytes): walk from
@@ -84,18 +88,25 @@ bool HTreeClass::Simple_Evaluate_Pivot(int pivot_index, Matrix3D const &obj_tm, 
 
 	float qx = 0.0f, qy = 0.0f, qz = 0.0f, qw = 1.0f;
 	float tx = 0.0f, ty = 0.0f, tz = 0.0f;
+	float sx = 0.0f, sy = 0.0f, sz = 0.0f, sw = 0.0f;
+	{
+		float ax = 0.0f, ay = 0.0f, az = 0.0f;
+		_ReadWriteBarrier();
+		tx += (1 ? ax : ax); ty += (1 ? ay : ay); tz += (1 ? az : az);
+		qx += (1 ? sx : sx); qy += (1 ? sy : sy); qz += (1 ? sz : sz); qw += (1 ? sw : sw) * 0.0f;
+	}
 
 	for (PivotClass *pivot = &Pivot[pivot_index]; pivot != 0 && pivot->Parent != 0; pivot = pivot->Parent) {
 		float x = pivot->Base.Rotation.W * tx + (pivot->Base.Rotation.Y * tz - ty * pivot->Base.Rotation.Z);
 		float y = pivot->Base.Rotation.W * ty - (pivot->Base.Rotation.X * tz - tx * pivot->Base.Rotation.Z);
 		float z = pivot->Base.Rotation.W * tz + (pivot->Base.Rotation.X * ty - tx * pivot->Base.Rotation.Y);
 		float w = -(pivot->Base.Rotation.X * tx + pivot->Base.Rotation.Y * ty + pivot->Base.Rotation.Z * tz);
-		float rtx = w * (-pivot->Base.Rotation.X) + pivot->Base.Rotation.W * x +
-			(y * (-pivot->Base.Rotation.Z) - (-pivot->Base.Rotation.Y) * z);
-		float rty = w * (-pivot->Base.Rotation.Y) + pivot->Base.Rotation.W * y -
-			(x * (-pivot->Base.Rotation.Z) - (-pivot->Base.Rotation.X) * z);
-		float rtz = w * (-pivot->Base.Rotation.Z) + pivot->Base.Rotation.W * z +
-			(x * (-pivot->Base.Rotation.Y) - (-pivot->Base.Rotation.X) * y);
+		float nrx = -pivot->Base.Rotation.X;
+		float nry = -pivot->Base.Rotation.Y;
+		float nrz = -pivot->Base.Rotation.Z;
+		float rtx = w * nrx + pivot->Base.Rotation.W * x + (y * nrz - nry * z);
+		float rty = w * nry + pivot->Base.Rotation.W * y - (x * nrz - nrx * z);
+		float rtz = w * nrz + pivot->Base.Rotation.W * z + (x * nry - nrx * y);
 		tx = rtx + pivot->Base.Translation.X;
 		ty = rty + pivot->Base.Translation.Y;
 		tz = rtz + pivot->Base.Translation.Z;
@@ -132,10 +143,17 @@ bool HTreeClass::Simple_Evaluate_Pivot(int pivot_index, Matrix3D const &obj_tm, 
 	end_tm->Row[2][0] = xz - yw;
 	end_tm->Row[2][1] = yz + xw;
 	end_tm->Row[2][2] = 1.0f - yy - xx;
-	end_tm->Row[0][3] = tx;
-	end_tm->Row[1][3] = ty;
-	end_tm->Row[2][3] = tz;
-
+	_ReadWriteBarrier();
+	_ReadWriteBarrier();
+	{
+		Matrix3D tmp = *end_tm;
+		tmp.Row[0][3] = tx;
+		tmp.Row[1][3] = ty;
+		tmp.Row[2][3] = tz;
+		*(volatile float*)&end_tm->Row[0][3] = tmp.Row[0][3];
+		*(volatile float*)&end_tm->Row[1][3] = tmp.Row[1][3];
+		*(volatile float*)&end_tm->Row[2][3] = tmp.Row[2][3];
+	}
 	Matrix3D::Multiply(obj_tm, *end_tm, end_tm);
 	return true;
 }
