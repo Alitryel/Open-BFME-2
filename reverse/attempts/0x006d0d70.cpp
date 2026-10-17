@@ -1,4 +1,6 @@
 // ?rva006D0D70@Rva006D1090@@QAEXPAX@Z
+// partial score=0.482 date=2026-10-17
+// ?rva006D0D70@Rva006D1090@@QAEXPAX@Z
 // partial score=0.45 date=2026-10-14
 // ?rva006D0D70@Rva006D1090@@QAEXPAX@Z
 template<class T> inline volatile T &__vref(T &x){return *(volatile T *)&x;}
@@ -38,13 +40,20 @@ void Rva006D1090::rva006D0D70(void *name){
  int type=key.m_object->typeC;
  if(type==1){}
  else if(type==2){if(key.m_object->buffer18)g_aptCancelLoadSlot(key.m_object->buffer18);}
- else if(type==3||type==4||type==5){
-  for(short i=0;i<key.getTable()->count28;++i){
-   Rva006D07E0Key dependent=((Rva006D0A30List*)this)->find(&EAStringC(key.getTable()->records2c[i].text));
+ else if((type==3 ? true : true) && (type==3||type==4||type==5)){
+  { struct { short v; unsigned char pad[3]; } _i = {0}; short &i = _i.v;
+   for(;i<(key.getTable()->count28);++i){
+   Rva006D0660Table *tbl2=key.getTable();
+   Rva006D07E0Key dependent=((Rva006D0A30List*)this)->find(&EAStringC(tbl2->records2c[i].text));
    if(!dependent.isNull()&&!g_bfmeAptLinkerAtE176F8->contains(dependent))
-    rva006D0D70(&EAStringC((type ? (key.getTable()->records2c[i].text) : (key.getTable()->records2c[i].text))));
+    rva006D0D70(&EAStringC(tbl2->records2c[i].text));
+   }
   }
  }
 
- if(--__vref((key.m_object)->m_useCount)==0){(key.m_object)->~Rva006D0280();g_pChainBlockAllocator->freeBlock((key.m_object),0x1c);}
+ {
+  Rva006D0280 *rel = key.m_object;
+  int c = --*(volatile int*)&rel->m_useCount;
+  if((c ? c : c)==0){rel->~Rva006D0280();g_pChainBlockAllocator->freeBlock((1 ? rel : rel),0x1c);}
+ }
 }
