@@ -87,18 +87,11 @@ struct Rva005FB418
 	RvaF1Handle rva005FB418(unsigned int first, unsigned int second);
 };
 
-RvaF1Handle Rva005CE2D3::rva005CE2D3(unsigned int argument)
-{
-	return RvaF1Handle(new Rva005E8DCF(argument, &m_context));
-}
 RvaF1Handle Rva005CEA92::rva005CEA92(unsigned int argument)
 {
 	return RvaF1Handle(new Rva005E91A9(argument, &m_context));
 }
-RvaF1Handle Rva005FB418::rva005FB418(unsigned int first, unsigned int second)
-{
-	return RvaF1Handle(new Rva006004C1(first, second, &m_context));
-}
+
 
 // Native 005E5D4D..005E5DA1 and 005E5DA1..005E5DF5 each return a
 // one-word handle through a hidden pointer (ret 8). Both allocate 40 bytes,
@@ -279,10 +272,6 @@ struct Rva005E9849
 	RvaF1Handle rva005E9849(unsigned int first, unsigned int second);
 };
 
-RvaF1Handle Rva005E9761::rva005E9761(unsigned int first, unsigned int second)
-{
-	return RvaF1Handle(new Rva005FB14E(first, second, &m_context));
-}
 RvaF1Handle Rva005E97D5::rva005E97D5(unsigned int first, unsigned int second)
 {
 	return RvaF1Handle(new Rva005FB204(first, second, &m_context));
