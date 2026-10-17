@@ -8,14 +8,9 @@
 // +0x10=0x7530 +0x14=0xEA60 clears first-dword loop then helpers then flag
 // +0x10C=1. Caller 0x0006CD0F.
 
-struct Rva000D3A8AElemA
-{
-	Rva000D3A8AElemA();
-	~Rva000D3A8AElemA();
-	void *m_ptr; // +0x00
-	int m_04; // +0x04
-	int m_08; // +0x08
-};
+class Rva000D3A17Resource;
+#include "../../../../reference/shims/bfme2_ascii/ascii_string.h"
+#include "../../Include/Common/Rva000D3A8AElemA.h"
 
 // Lifetime-only STLport view of this native tree. D3A8A supplies D3A71/D3991
 // for ten12B elements at +94; D3991 tail-calls the owned D3945 tree destructor.
@@ -65,7 +60,7 @@ Rva000D3A17::Rva000D3A17()
 	m_14 = 0xea60;
 	m_10 = 0x7530;
 	for (int i = 0; i < 10; ++i)
-		m_refs[i].m_ptr = 0;
+		m_refs[i].pointer = 0;
 	rva000D3A17();
 	((W3DBuffBuffer *)this)->allocateBuffBuffers();
 	m_10c = 1;

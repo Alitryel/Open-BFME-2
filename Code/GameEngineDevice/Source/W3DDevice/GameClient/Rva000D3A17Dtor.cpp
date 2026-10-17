@@ -9,17 +9,7 @@
 // The nonvirtual deleting wrapper at665BF calls this complete destructor.
 class Rva000D3A17Resource { public: virtual void Delete_This()=0; int references; };
 #include "ascii_string.h"
-struct Rva000D3A8AElemA
-{
-    Rva000D3A8AElemA();
-    Rva000D3A17Resource *pointer;
-    AsciiString name;
-    unsigned char flag;
-    // ?Rva000D3A8AElemA::~Rva000D3A8AElemA present-unmatched
-    // Native array callback folds onto the existing 8B CameraMarker cleanup
-    // at29D7C2: string member at+4 and the same releaseBuffer relocation.
-    ~Rva000D3A8AElemA() {}
-};
+#include "../../../../GameEngine/Include/Common/Rva000D3A8AElemA.h"
 class Rva000D20A9 {public: ~Rva000D20A9(); private: void *head; int count;};
 struct Rva000D3A8AElemB {Rva000D20A9 tree; int extra; ~Rva000D3A8AElemB() {} };
 class Rva0074011F {public: void rva0074011F(); private: void *first,*second; };
