@@ -291,11 +291,8 @@ Int ConnectionManager::getPingsRecieved()
 	return (m_disconnectManager)?m_disconnectManager->getPingsRecieved():0;
 }
 
-// ?isPlayerConnected@ConnectionManager@@ present-unmatched
-Bool ConnectionManager::isPlayerConnected( Int playerID )
-{
-	return ( playerID == m_localSlot || (m_connections[playerID] && !m_connections[playerID]->isQuitting()) );
-}
+// ConnectionManager::isPlayerConnected is rowed with BFME2's body in
+// ConnectionManager_processPlayerLeave.cpp.
 
 // ?attachTransport@ConnectionManager@@ present-unmatched
 void ConnectionManager::attachTransport(Transport *transport) {
@@ -1643,18 +1640,8 @@ void ConnectionManager::sendLocalCommandDirect(NetCommandMsg* msg,UnsignedByte r
  msg->detach();
 }
 
-Int ConnectionManager::getNumPlayers()
-{
-	Int retval = 0;
-	for (Int i = 0; i < MAX_SLOTS; ++i)
-	{
-		if (isPlayerConnected(i)) {
-			++retval;
-		}
-	}
-
-	return retval;
-}
+// ConnectionManager::getNumPlayers (0x004CF926) is rowed beside isPlayerConnected
+// in ConnectionManager_processPlayerLeave.cpp.
 
 // BFME1 4adca1fbe7315fb2d128d1c87c7b7c7470248a46 native_connection_timing.cpp.
 // Native 004CF9DF..004CFAC0; WB 01392F60 notifyOthersOfCurrentFrame.

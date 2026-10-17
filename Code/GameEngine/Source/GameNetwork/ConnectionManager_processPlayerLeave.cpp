@@ -132,6 +132,7 @@ public:
 	PlayerLeaveCode processPlayerLeave(UnsignedByte playerID);
 	PlayerLeaveCode disconnectPlayer(Int slot);
 	Bool isPlayerConnected(Int playerID);
+	Int getNumPlayers();
 	void sendLocalCommandDirect(NetCommandMsg *msg, UnsignedByte relay);
 
 private:
@@ -147,6 +148,23 @@ Bool ConnectionManager::isPlayerConnected(Int playerID)
 {
 	return playerID == m_localSlot ||
 		(m_connections[playerID] != 0 && m_connections[playerID]->getQuitState() == -1);
+}
+
+// ?getNumPlayers@ConnectionManager@@QAEHXZ, retail 0x004CF926 (26 bytes): Zero
+// Hour's count of connected slots. It needs isPlayerConnected compiled earlier
+// in its unit (the loop keeps its counter across the call), so it lives here
+// beside that row rather than in ConnectionManager.cpp.
+Int ConnectionManager::getNumPlayers()
+{
+	Int retval = 0;
+	for (Int i = 0; i < MAX_SLOTS; ++i)
+	{
+		if (isPlayerConnected(i)) {
+			++retval;
+		}
+	}
+
+	return retval;
 }
 
 PlayerLeaveCode ConnectionManager::processPlayerLeave(UnsignedByte playerID)
