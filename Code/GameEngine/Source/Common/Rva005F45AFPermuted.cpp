@@ -81,12 +81,20 @@ struct TreeHintRef00217D4C {
  TargetRef00217D4C *m_ptr;
 };
 class Rva001524CA { public: TreeHintRef00217D4C rva001524CA(); };
-class Rva005F4710 {
+// StrategicInGameUI::ArmyUnitIcon's slot-3 override of its virtual base
+// (C794AC slot 3 reaches it through the vtordisp thunk 0x005F4889, which
+// StrategicInGameUIArmyUnitIconLifetime.cpp emits). Its receiver is that
+// virtual-base subobject (+0x20), so this flat view keeps retail's
+// base-relative reads: owner -1C, unit -18, vbptr -20; the fallback calls the
+// base's own slot-3 body 0x001524CA through the vbptr.
+namespace StrategicInGameUI {
+class ArmyUnitIcon {
 public:
- TreeHintRef00217D4C rva005F4710();
+ virtual TreeHintRef00217D4C rva005F4710();
  __forceinline const AsciiString &getName() const { return (*(EntryNameView4710 **)((char *)this-0x18))->name; }
 };
-TreeHintRef00217D4C Rva005F4710::rva005F4710()
+}
+TreeHintRef00217D4C StrategicInGameUI::ArmyUnitIcon::rva005F4710()
 {
  const AsciiString *key=&getName();
  if(!((const StringBase<char> *)key)->isEmpty()) {
