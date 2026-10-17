@@ -52,7 +52,8 @@ class BuddyRequest
 public:
 	enum
 	{
-		BUDDYREQUEST_ADDBUDDY = 5
+		BUDDYREQUEST_ADDBUDDY = 5,
+		BUDDYREQUEST_OKADD = 7
 	};
 	Int buddyRequestType; // +0x00
 	Int id; // +0x04 (arg.addbuddy.id)
@@ -88,6 +89,11 @@ public:
 };
 
 typedef _STL::map<Int, Int> BuddyInfoMap;
+
+// Buddy request map value view. Retail's key erase 0x00385CBA calls the
+// range erase 0x00384ED4, rowed under this tree; the record is opaque.
+struct Rva00384ED4Record { char word; };
+typedef _STL::map<Int, Rva00384ED4Record> BuddyRequestMap;
 
 class GameSpyInfoInterface
 {
@@ -125,7 +131,30 @@ extern GameTextInterface *TheGameText;
 extern unsigned char g_Va00A0308C;
 extern int g_Va00A03090;
 
-void Rva004177D5(Int profileID);
+// ?Rva004177D5@@YAXH@Z retail 0x004177D5..0x004178C1 (236 bytes cdecl EH).
+// The BFME 2 form of Zero Hour's AcceptBuddyRequest (WOLBuddyOverlay.cpp),
+// reached from RequestBuddyAdd below when the profile is already a pending
+// request: queue BUDDYREQUEST_OKADD, erase the profile from the request map
+// (key erase 0x00385CBA), then queue the add-buddy request with
+// GUI:BuddyAddReq. The fetched text temporary reuses the dead argument slot.
+void Rva004177D5(Int profileID)
+{
+	BuddyRequest request;
+	request.buddyRequestType = BuddyRequest::BUDDYREQUEST_OKADD;
+	request.id = profileID;
+	TheGameSpyBuddyMessageQueue->addRequest(request);
+
+	((BuddyRequestMap *)TheGameSpyInfo->getBuddyRequestMap())->erase(profileID);
+
+	BuddyRequest addRequest;
+	addRequest.buddyRequestType = BuddyRequest::BUDDYREQUEST_ADDBUDDY;
+	addRequest.id = profileID;
+	UnicodeString text;
+	text = TheGameText->fetch("GUI:BuddyAddReq");
+	wcsncpy(addRequest.text, text.str(), MAX_BUDDY_CHAT_LEN);
+	addRequest.text[MAX_BUDDY_CHAT_LEN - 1] = 0;
+	TheGameSpyBuddyMessageQueue->addRequest(addRequest);
+}
 
 void Rva004178C1(Int profileID, const AsciiString &nick)
 {

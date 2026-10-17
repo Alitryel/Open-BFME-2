@@ -40,3 +40,7 @@ namespace _STL {template<>struct __type_traits<Rva00384ED4Record>:__type_traits_
 
 // Instantiate the recovered member; retain only its required template dependencies.
 template void _STL::_Rb_tree<int, _STL::pair<int const, Rva00384ED4Record>, _STL::_Select1st<_STL::pair<int const, Rva00384ED4Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00384ED4Record> > >::erase(_STL::_Rb_tree_iterator<_STL::pair<int const, Rva00384ED4Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva00384ED4Record> > >, _STL::_Rb_tree_iterator<_STL::pair<int const, Rva00384ED4Record>, _STL::_Nonconst_traits<_STL::pair<int const, Rva00384ED4Record> > >);
+// Key erase of the same tree at retail 0x00385CBA: equal_range, distance, then
+// the range erase above (its native call target 0x00384ED4). Buddy and buddy
+// request map consumers (0x003871F6, 0x00416C69, 0x004177D5) pass the profile.
+template unsigned int _STL::_Rb_tree<int, _STL::pair<int const, Rva00384ED4Record>, _STL::_Select1st<_STL::pair<int const, Rva00384ED4Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00384ED4Record> > >::erase(int const &);

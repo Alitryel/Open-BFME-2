@@ -87,11 +87,9 @@ class Rva004E9B70 {public:int words[7];Rva004E9B70 &operator=(const Rva004E9B70 
 class Gen_004E9FD0 {public:unsigned words[7];};
 typedef _STL::map<int,Gen_004E9FD0> BuddyValueMap;
 namespace _STL {template<> Gen_004E9FD0 &BuddyValueMap::operator[](const int &);}
-// Existing key-only tree erase wrapper. The retail caller passes a profile
-// word; unconstrained provider payload bytes remain its opaque ABI view.
-struct Rva00385CBAElement {char bytes[8];};
-namespace _STL {template<> unsigned _Rb_tree<Rva00385CBAElement,Rva00385CBAElement,_Identity<Rva00385CBAElement>,less<Rva00385CBAElement>,allocator<Rva00385CBAElement> >::erase(const Rva00385CBAElement &);}
-typedef _STL::_Rb_tree<Rva00385CBAElement,Rva00385CBAElement,_STL::_Identity<Rva00385CBAElement>,_STL::less<Rva00385CBAElement>,_STL::allocator<Rva00385CBAElement> > RequestEraseTree;
+struct Rva00384ED4Record;
+typedef _STL::_Rb_tree<int, _STL::pair<int const, Rva00384ED4Record>, _STL::_Select1st<_STL::pair<int const, Rva00384ED4Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00384ED4Record> > > RequestEraseTree;
+namespace _STL {template<> unsigned RequestEraseTree::erase(const int &);}
 struct BuddyResponse {
  int type,profile,result;
  union {
@@ -177,7 +175,7 @@ void HandleBuddyResponses()
   if(it!=map->end()){seen=true;oldStatus=value(map,resp.profile).status;}
   BuddyInfo info;info.country=resp.arg.status.country;info.email=resp.arg.status.email;info.name=resp.arg.status.nick;info.id=resp.profile;info.status=newStatus;
   info.statusString=UnicodeString(MultiByteToWideCharSingleLine(resp.arg.status.text).c_str());info.location=UnicodeString(MultiByteToWideCharSingleLine(resp.arg.status.location).c_str());*(Rva004E9B70 *)&value(map,resp.profile)=*(const Rva004E9B70 *)&info;
-  if(TheGameSpyInfo->hasBuddyRequest(resp.profile)){map=TheGameSpyInfo->getBuddyRequestMap();if(map->find(resp.profile)!=map->end()){BuddyRequest request;request.type=7;request.profile=resp.profile;TheGameSpyBuddyMessageQueue->addRequest(request);((RequestEraseTree *)map)->erase(*(const Rva00385CBAElement *)&resp.profile);}}
+  if(TheGameSpyInfo->hasBuddyRequest(resp.profile)){map=TheGameSpyInfo->getBuddyRequestMap();if(map->find(resp.profile)!=map->end()){BuddyRequest request;request.type=7;request.profile=resp.profile;TheGameSpyBuddyMessageQueue->addRequest(request);((RequestEraseTree *)map)->erase(resp.profile);}}
   Rva00381900(0);BuddyMessage message;message.timestamp=0;message.recipient=TheGameSpyInfo->getLocalProfileID();message.recipientNick=TheGameSpyInfo->getLocalBaseName();message.senderNick=info.name;
   if((newStatus==0&&seen)||(newStatus==1&&(oldStatus==0||!seen))){AsciiString marker;marker.format("Buddy:%lsNotification",info.statusString.str());g_Va00A0308C=true;if(newStatus!=0)++g_Va00A03090;message.message=TheGameText->fetch(marker);message.message.format(&message.message,message.senderNick.str());Rva00416A5DPush(*(const BfmeStringRecord00415F34 *)&message);Rva00416589(*(const BfmeStringRecord00415F34 *)&message);}
   else if(newStatus==4&&!seen){g_Va00A0308C=true;++g_Va00A03090;message.message=TheGameText->fetch("Buddy:OnlineNotification");message.message.format(&message.message,message.senderNick.str());Rva00416A5DPush(*(const BfmeStringRecord00415F34 *)&message);Rva00416589(*(const BfmeStringRecord00415F34 *)&message);}

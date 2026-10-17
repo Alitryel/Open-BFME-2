@@ -1685,12 +1685,9 @@ void GameSpyInfo::rva00382D39(Rva00382D39Input *source,AsciiString oldNick)
  updatePlayerInfo(player,oldNick);
 }
 
-// The existing erase owner has an opaque address-derived key type. Only a
-// declaration is used here; native785CBA consumers pass the four-byte key
-// by reference, and no Element layout is asserted or instantiated here.
-struct Rva00385CBAElement;
-typedef _STL::_Rb_tree<Rva00385CBAElement,Rva00385CBAElement,_STL::_Identity<Rva00385CBAElement>,_STL::less<Rva00385CBAElement>,_STL::allocator<Rva00385CBAElement> > Rva00385CBATree;
-namespace _STL {template<> unsigned int Rva00385CBATree::erase(const Rva00385CBAElement&);}
+struct Rva00384ED4Record;
+typedef _STL::_Rb_tree<int, _STL::pair<int const, Rva00384ED4Record>, _STL::_Select1st<_STL::pair<int const, Rva00384ED4Record> >, _STL::less<int>, _STL::allocator<_STL::pair<int const, Rva00384ED4Record> > > Rva00385CBATree;
+namespace _STL {template<> unsigned int Rva00385CBATree::erase(const int&);}
 void GameSpyInfo::rva003871F6(Int id)
 {
  const Int profileID=id;
@@ -1702,10 +1699,10 @@ void GameSpyInfo::rva003871F6(Int id)
  else{
   request.type=8;TheGameSpyBuddyMessageQueue->addRequest(request);
   Rva00385CBATree *pending=(Rva00385CBATree*)TheGameSpyInfo->getBuddyRequestMap();
-  pending->erase((const Rva00385CBAElement&)id);
+  pending->erase(id);
  }
  Rva00385CBATree *map=(Rva00385CBATree*)(buddy?TheGameSpyInfo->getBuddyMap():TheGameSpyInfo->getBuddyRequestMap());
- map->erase((const Rva00385CBAElement&)id);
+ map->erase(id);
 }
 
 // Rva003839D9::rva003839D9 (address-named view)

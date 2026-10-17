@@ -26267,7 +26267,7 @@ rva,size,kind,tu,confidence,by,evidence,source
 0x00385BE1,56,code,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp,approved,C,C=0x00385B1C..0x00385C19,Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp
 0x00385C19,132,code,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp,approved,C,C=0x00385B1C..0x00385C9D,Code/GameEngine/Source/Common/UserPreferences.cpp
 0x00385C9D,29,code,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp,approved,C,C=0x00385B1C..0x00385CBA,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefsGroupRoomMapOperator.cpp
-0x00385CBA,73,code,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp,approved,C,C=0x00385B1C..0x00385D03,Code/Libraries/Source/WWVegas/WWLib/StlSweepW4Rva00385CBA.cpp
+0x00385CBA,73,code,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp,approved,C,C=0x00385B1C..0x00385D03,Code/Libraries/Source/WWVegas/WWLib/StlSweepR3Rva00384ED4.cpp
 0x00385D03,29,code,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp,approved,C,C=0x00385B1C..0x00385D20,Code/GameEngine/Source/Common/Open2Rec4F1120MapInsert.cpp
 0x00385D20,5,code,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp,approved,C,C=0x00385B1C..0x00385D25,Code/GameEngine/Source/Common/RvaTreeDtorFamily.cpp
 0x00385D25,261,code,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp,approved,Z,Z=Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp N=Code/GameEngine/Source/GameNetwork/GameSpy/GameSpyInfo.cpp,Code/GameEngine/Source/GameNetwork/GameSpy/PeerDefs.cpp
