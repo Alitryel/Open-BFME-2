@@ -1,4 +1,6 @@
 // ?rva0044776F@Rva0044776F@@QAEXPAXMMMMKH@Z
+// partial score=0.187 date=2026-10-17
+// ?rva0044776F@Rva0044776F@@QAEXPAXMMMMKH@Z
 // partial score=0.414 date=2026-10-15
 extern "C" void _ReadWriteBarrier(void);
 #pragma intrinsic(_ReadWriteBarrier)
@@ -71,28 +73,25 @@ void Rva0044776F::rva0044776F(void *texture, float x1, float y1, float x2, float
 {
     if (texture == 0)
         return;
-    Render2DClass *r2d = m_render;
-    r2d->m_48 = 1;
+    m_render->m_48 = 1;
     switch (mode)
     {
-    case 0: r2d->m_0 = 0; break;
-    case 1: r2d->m_0 = 3; break;
-    case 3: r2d->m_0 = 1; break;
-    case 4: r2d->m_0 = 4; break;
-    case 5: r2d->m_0 = 6; break;
+    case 0: m_render->m_0 = 0; break;
+    case 1: m_render->m_0 = 3; break;
+    case 3: m_render->m_0 = 1; break;
+    case 4: m_render->m_0 = 4; break;
+    case 5: m_render->m_0 = 6; break;
     default: break;
     }
 
-    BFME2ParticleTextureHandle handle = BFME_GET_PARTICLE_TEXTURE(texture);
-    ((Rva000456C9 *)r2d)->rva000456C9(&handle);
-    handle.~BFME2ParticleTextureHandle();
+    ((Rva000456C9 *)m_render)->rva000456C9(&BFME_GET_PARTICLE_TEXTURE(texture));
 
     float *tex = (float *)((char *)texture + 0x14);
+    unsigned int texFlag = *(unsigned int *)((char *)texture + 0x30);
     float u0 = tex[0];
     float v0 = tex[1];
     float u1 = tex[2];
     float v1 = tex[3];
-    unsigned int texFlag = *(unsigned int *)((char *)texture + 0x30);
 
     Vector2 p0, p1, p2, p3, p4, p5;
     RectClass screenRect, uvRect;
@@ -122,7 +121,9 @@ void Rva0044776F::rva0044776F(void *texture, float x1, float y1, float x2, float
             return;
         float a, b, c, d;
         float U0, U1, V0, V1;
+        _ReadWriteBarrier();
         a = x1 > (float)m_16c ? x1 : (float)m_16c;
+        _ReadWriteBarrier();
         b = x2 < (float)m_174 ? x2 : (float)m_174;
         c = y1 > (float)m_170 ? y1 : (float)m_170;
         d = y2 < (float)m_178 ? y2 : (float)m_178;
@@ -153,14 +154,14 @@ void Rva0044776F::rva0044776F(void *texture, float x1, float y1, float x2, float
 
     if ((texFlag & 1) != 0)
     {
-        r2d->Add_Tri(p0, p1, p2, p3, p4, p5, color);
-        r2d->Add_Tri(p2, p3, p4, p5, p0, p1, color);
+        m_render->Add_Tri(p0, p1, p2, p3, p4, p5, color);
+        m_render->Add_Tri(p2, p3, p4, p5, p0, p1, color);
     }
     else
     {
-        r2d->Add_Quad(screenRect, uvRect, color, color, color, color);
+        m_render->Add_Quad(screenRect, uvRect, color, color, color, color);
     }
 
     if (mode != 2)
-        r2d->m_0 = 2;
+        m_render->m_0 = 2;
 }
