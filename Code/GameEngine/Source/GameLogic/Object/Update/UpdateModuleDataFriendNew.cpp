@@ -28,14 +28,6 @@ private:
 	unsigned char m_pad[0x15C - 4];
 };
 
-// ?friend_newModuleData@DynamicPortalBehaviourModuleData@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *DynamicPortalBehaviourModuleData::friend_newModuleData(INI *ini)
-{
-	DynamicPortalBehaviourModuleData *data = new DynamicPortalBehaviourModuleData;
-	if (ini)
-		ini->initFromINIMultiProc(data, DynamicPortalBehaviourModuleData::buildFieldParse);
-	return reinterpret_cast<ModuleData *>(data);
-}
 
 class FakePathfindPortalBehaviourModuleData
 {
@@ -511,14 +503,6 @@ private:
 	unsigned char m_pad[0x38 - 4];
 };
 
-// ?friend_newModuleData@FadeAndDieOrnamentUpdateModuleData@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *FadeAndDieOrnamentUpdateModuleData::friend_newModuleData(INI *ini)
-{
-	FadeAndDieOrnamentUpdateModuleData *data = new FadeAndDieOrnamentUpdateModuleData;
-	if (ini)
-		ini->initFromINIMultiProc(data, FadeAndDieOrnamentUpdateModuleData::buildFieldParse);
-	return reinterpret_cast<ModuleData *>(data);
-}
 
 class StructureCollapseUpdateModuleData
 {
@@ -553,14 +537,6 @@ private:
 	unsigned char m_pad[0x94 - 4];
 };
 
-// ?friend_newModuleData@WorkerAIUpdateModuleData@@SAPAVModuleData@@PAVINI@@@Z
-ModuleData *WorkerAIUpdateModuleData::friend_newModuleData(INI *ini)
-{
-	WorkerAIUpdateModuleData *data = new WorkerAIUpdateModuleData;
-	if (ini)
-		ini->initFromINIMultiProc(data, WorkerAIUpdateModuleData::buildFieldParse);
-	return reinterpret_cast<ModuleData *>(data);
-}
 
 class RespawnUpdateModuleData
 {
