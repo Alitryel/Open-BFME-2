@@ -9,12 +9,14 @@
 // Body provenance: placeholder Rva003F2576Parse.cpp (matched), itself built from
 // landed callees initFromINI 0x0002DE78, new 0x0002FDA0, Rva003F1FB6 ctor
 // 0x003F1FB6, holder 0x003F255C, INIException 0x0002F681; table VA 0x00C36EE0.
-struct FieldParse;
+typedef void (*FieldParseProc)(class INI *, void *, void *, const void *);
+struct FieldParse { const char *token; FieldParseProc parse; const void *userData; int offset; };
 
 class INI
 {
 public:
 	void initFromINI(void *what, const FieldParse *table);
+	static void parseInt(INI *, void *, void *, const void *);
 };
 
 class ModuleData;
@@ -50,7 +52,14 @@ extern "C" void __stdcall _CxxThrowException(void *pExceptionObject, const _s__T
 struct Rva003F2576ThrowInfoAnchor { int a; int b; int c; int d; };
 static const Rva003F2576ThrowInfoAnchor rva003F2576ThrowInfoAnchor = { 0, 0, 0, 0 };
 
-extern const FieldParse g_00C36EE0;
+extern const char *const LivingWorldBuildingTypeNames[];
+void Rva00339D26Parse(INI *, void *, void *, const void *);
+// The retail table at 0x00836EE0: 2 entries and the null terminator; every parser is rowed.
+extern const FieldParse g_00C36EE0[3] = {
+	{ "Buildings", &Rva00339D26Parse, LivingWorldBuildingTypeNames, 0x0 },
+	{ "NumberAllowed", (FieldParseProc)&INI::parseInt, 0, 0xC },
+	{ 0, 0, 0, 0 }
+};
 
 class LivingWorldRegion
 {
@@ -75,6 +84,6 @@ void LivingWorldRegion::ModuleData::BuildingRestriction::ParseINI(INI *ini, void
 	}
 	Rva003F255C *holder = &reinterpret_cast<Rva003F2576Outer *>(outer)->m_holder;
 	Rva003F1FB6 *p = new Rva003F1FB6;
-	ini->initFromINI(p, &g_00C36EE0);
+	ini->initFromINI(p, g_00C36EE0);
 	holder->rva003F255C((const ::ModuleData *)p);
 }
