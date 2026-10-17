@@ -391,6 +391,16 @@ DEFINE_THUNK_UAE(Rva00085947, rva00085947, 0xB4, ())
 DEFINE_THUNK_UAE(W3DView, init, 0xB4, ())
 // ?<Rva0030817A::Rva0030817A> absent-from-retail
 DEFINE_THUNK_UAE(Rva0030817A, rva0030817A, 0x30, (int))
+struct Rva004543A9LeaNegSbbField_BaseA { virtual int get() const = 0; char m_pad[0x14 - 4]; };
+struct Rva004543A9LeaNegSbbField_BaseB { virtual int get() const = 0; };
+class Rva004543A9LeaNegSbbField : public Rva004543A9LeaNegSbbField_BaseA, public Rva004543A9LeaNegSbbField_BaseB
+{
+public:
+	Rva004543A9LeaNegSbbField(EmitVtableTag *);
+	virtual int get() const;
+};
+// ?<Rva004543A9LeaNegSbbField::Rva004543A9LeaNegSbbField> absent-from-retail
+Rva004543A9LeaNegSbbField::Rva004543A9LeaNegSbbField(EmitVtableTag *) {}
 struct Rva00472444Mask;
 // ?<Rva00472444::Rva00472444> absent-from-retail
 DEFINE_THUNK_UAE(Rva00472444, rva00472444, 0xFC, (const Rva00472444Mask &, const AsciiString *))

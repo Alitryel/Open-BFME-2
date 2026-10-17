@@ -12454,7 +12454,7 @@ _rva0060E7F0,0x00211245,address,placeholder
 ?rva00453F31@GettingBuiltBehavior@@UAEXH@Z,0x00453F31,address,placeholder
 ?rva0045427E@GettingBuiltBehavior@@QAEXXZ,0x0045427E,address,placeholder
 ?Rva004543A3Get@@YAHXZ,0x004543A3,address,placeholder
-?get@Rva004543A9LeaNegSbbField@@QBEHXZ,0x004543A9,address,placeholder
+?get@Rva004543A9LeaNegSbbField@@UBEHXZ,0x004543A9,address,placeholder
 ?rva004543CA@GettingBuiltBehavior@@UAEXH@Z,0x004543CA,address,placeholder
 ?rva004543D5@GettingBuiltBehavior@@UAEX_N@Z,0x004543D5,address,placeholder
 ?rva00454430@GettingBuiltBehavior@@UAEXXZ,0x00454430,address,placeholder
