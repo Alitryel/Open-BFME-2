@@ -2524,43 +2524,7 @@ Bool W3DModelDraw::updateBonesForClientParticleSystems()
 
 
 //-------------------------------------------------------------------------------------------------
-// ?setTerrainDecal@W3DModelDraw@@ present-unmatched
-void W3DModelDraw::setTerrainDecal(TerrainDecalType type)
-{
-	if (m_terrainDecal)
-		m_terrainDecal->release();
-
-	m_terrainDecal = NULL;
-
-	if (type == TERRAIN_DECAL_NONE || type >= TERRAIN_DECAL_MAX)
-		//turning off decals on this object. (or bad value.)
-		return;
-
-	const ThingTemplate *tmplate=getDrawable()->getTemplate();
-
-	//create a new terrain decal
-	Shadow::ShadowTypeInfo decalInfo;
-	decalInfo.allowUpdates = FALSE;	//shadow image will never update
-	decalInfo.allowWorldAlign = TRUE;	//shadow image will wrap around world objects
-	decalInfo.m_type = SHADOW_ALPHA_DECAL;
-
-	//decalInfo.m_type = SHADOW_ADDITIVE_DECAL;//temporary kluge to test graphics
-
-	if (type == TERRAIN_DECAL_SHADOW_TEXTURE)
-		strcpy(decalInfo.m_ShadowName,tmplate->getShadowTextureName().str());
-	else
-		strcpy(decalInfo.m_ShadowName,TerrainDecalTextureName[type]);
-	decalInfo.m_sizeX = tmplate->getShadowSizeX();
-	decalInfo.m_sizeY = tmplate->getShadowSizeY();
-	decalInfo.m_offsetX = tmplate->getShadowOffsetX();
-	decalInfo.m_offsetY = tmplate->getShadowOffsetY();
-	if (TheProjectedShadowManager)
-		m_terrainDecal = TheProjectedShadowManager->addDecal(m_renderObject,&decalInfo);
-	if (m_terrainDecal)
-	{	m_terrainDecal->enableShadowInvisible(m_fullyObscuredByShroud);
-		m_terrainDecal->enableShadowRender(m_shadowEnabled);
-	}
-}
+// W3DModelDraw::setTerrainDecal is rowed in its home unit; this copy was a duplicate definition.
 
 //-------------------------------------------------------------------------------------------------
 // setTerrainDecalSize and setTerrainDecalOpacity live in W3DModelDrawTerrainDecal.cpp: retail

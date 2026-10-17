@@ -139,17 +139,7 @@ public:
 	void rva0055F000();
 };
 
-Rva0055F218::Rva0055F218(unsigned int a, struct Src0055F218 &src)
-	: Rva0055EFE1(a), Rva0055F218Sub()
-{
-	*(void **)this = (void *)g_00C1D1D4;
-	*(void **)((char *)this + 8) = (void *)&s_slot3E4first;
-	m_v = (void *)g_00C1D1E4;
-	float v = src.m_var30.getValue();
-	m_f = v;
-	m_b14 = src.m_3C;
-	m_b15 = src.m_3D;
-}
+// Rva0055F218::Rva0055F218 is rowed in its home unit; this copy was a duplicate definition.
 
 void Rva0055F218::rva0055F000()
 {

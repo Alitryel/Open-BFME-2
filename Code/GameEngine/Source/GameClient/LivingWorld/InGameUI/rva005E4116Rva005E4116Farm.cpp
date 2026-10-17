@@ -70,14 +70,7 @@ class Rva005F6022ByteChaseField {public:unsigned char get()const;};
 namespace StrategicInGameUI {UnicodeString GetTooltipText(int);}
 struct RGBColor;class Mouse {public:void rva001EEA6D(UnicodeString,int,const RGBColor*,float);};extern Mouse*TheMouse;
 class Rva005E6B3E {public:void rva005E6B3E();char unknown0[4];void*clip;char unknown8[0x10];Rva005E4300Entry*entry;};
-void Rva005E6B3E::rva005E6B3E(){
- ((Rva005E549E*)((char*)clip+0xC))->Rva005E549E::rva005E549E();
- if(((Rva005F6022ByteChaseField*)clip)->get()){
-  Rva005E3967Template*t=StrategicInGameUI::Rva005E3967(entry);
-  int kind=t->archetype;
-  TheMouse->rva001EEA6D(StrategicInGameUI::GetTooltipText(kind),-1,0,1.0f);
- }
-}
+// Rva005E6B3E::rva005E6B3E is rowed in its home unit; this copy was a duplicate definition.
 
 struct TargetRef00217D4C {void*vtable;int count;};
 void __fastcall ReleaseTreeHintRef00217D4C(TargetRef00217D4C*);
@@ -90,11 +83,7 @@ namespace StrategicInGameUI {TreeHintRef00217D4C Rva005E6A23(const Rva005E4300En
 class Rva003FE20FBase {public:virtual void slot1(void*);};
 class Rva005E4157 {public:void rva005E4157(int);};
 class Rva005E6AD8 {public:void rva005E6AD8();char pad0[4];void*clip;Rva003FE20FBase*owner;char padC[8];int value;Rva005E4300Entry*entry;TreeHintRef00217D4C held;};
-void Rva005E6AD8::rva005E6AD8(){
- held=StrategicInGameUI::Rva005E6A23(entry);
- if(held.m_ptr)owner->Rva003FE20FBase::slot1(&held);
- ((Rva005E4157*)((char*)clip+0xC))->rva005E4157(value);
-}
+// Rva005E6AD8::rva005E6AD8 is rowed in its home unit; this copy was a duplicate definition.
 
 // Native5E6CA1..5E6D0D, called by the listener constructor at5E6DFA.
 // The caller consumes count then entry from the hidden return object.
@@ -170,19 +159,7 @@ class Rva005E4087 {public:void rva005E4087(int);
  char pad0[0x10];Rva005E4087Context *context;int unknown14;Rva005F2A32 *clip;
  char pad1[0x28-0x1C];int selected;
 };
-void Rva005E4087::rva005E4087(int key) {
- if(key!=selected) {
-  const Rva005E4300Entry *entry=(const Rva005E4300Entry*)context->index->get(key);
-  Rva005E3967Template *type=StrategicInGameUI::Rva005E3967(entry);
-  clip->rva005F3272(*(const UnicodeString*)((Rva0037DCA5*)entry)->rva0040C65D(context->playerID));
-  clip->rva005F2F41(entry->rank);
-  float progress=StrategicInGameUI::Rva005E3F0A(entry);
-  if(progress>=0.0f)clip->rva005F2F49(progress);
-  else clip->rva005F2A42();
-  clip->rva005F2F5C(type->cost);
-  selected=key;
- }
-}
+// Rva005E4087::rva005E4087 is rowed in its home unit; this copy was a duplicate definition.
 
 class GameWindow;
 bool __cdecl Rva00381458(int channel, const UnicodeString &msg, GameWindow *window);
@@ -198,9 +175,7 @@ private:
  int m_00;
  Rva005D57EBInner *m_04;
 };
-bool Rva005D57EB::rva005D57EB(const UnicodeString &msg, GameWindow *window) {
- return m_04->send(msg, window);
-}
+// Rva005D57EB::rva005D57EB is rowed in its home unit; this copy was a duplicate definition.
 
 
 
@@ -251,12 +226,5 @@ struct Rva005E69D0Selection {char pad0[4];Rva005F6037ByteChaseField *clip;char p
 class Rva005E69D0 {public:__declspec(noinline) int rva005E415F();int rva005E69D0();
  char pad0[0x10];Rva005E4116 *sum;Rva005E69D0Selection *selection;
 };
-int Rva005E69D0::rva005E415F() {
- return sum->rva005E4116();
-}
-int Rva005E69D0::rva005E69D0() {
- int total=rva005E415F();
- if(selection->clip->get())
-  total+=StrategicInGameUI::Rva005E3967(selection->entry)->cost;
- return total;
-}
+// Rva005E69D0::rva005E415F is rowed in its home unit; this copy was a duplicate definition.
+// Rva005E69D0::rva005E69D0 is rowed in its home unit; this copy was a duplicate definition.

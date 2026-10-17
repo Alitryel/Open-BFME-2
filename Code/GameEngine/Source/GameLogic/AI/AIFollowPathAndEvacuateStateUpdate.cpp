@@ -539,31 +539,8 @@ class AIMoveToAndEvacuateState : public AIMoveToState
  
 }
 ;
-void AIMoveToAndEvacuateState::onExit(StateExitType status)
-
-{
- AIInternalMoveToState::onExit(status);
- Rva0033FA79Do((const Object0033FA79 *)getMachineOwner());
- 
-}
-StateReturnType AIMoveToAndEvacuateState::update()
-
-{
- StateReturnType status = AIMoveToState::update();
- Object *owner = getMachineOwner();
- if (owner->getAI()->getPath() != 0)
- 
- {
-  Rva003642DFResult end = owner->getAI()->getPath()->rva003642DF(owner->getBfmeRealB8() * 0.9f);
-  if (!TheAI->pathfinder()->IsBuildRestrictedCell(&end.m_pos, false, false, 1))
-  status = STATE_SUCCESS;
-  
- }
- if (status == STATE_SUCCESS)
- rva003532BF(owner, getMachine(), rva00354B2ESlot18());
- return status;
- 
-}
+// AIMoveToAndEvacuateState::onExit is rowed in its home unit; this copy was a duplicate definition.
+// AIMoveToAndEvacuateState::update is rowed in its home unit; this copy was a duplicate definition.
 class AIMoveForBoarding : public AIMoveToAndEvacuateState
 
 {
@@ -573,29 +550,8 @@ class AIMoveForBoarding : public AIMoveToAndEvacuateState
  
 }
 ;
-StateReturnType AIMoveForBoarding::onEnter()
-
-{
- Rva0033FA64Do((const Object0033FA64 *)getMachineOwner());
- return AIMoveToState::onEnter();
- 
-}
-StateReturnType AIMoveForBoarding::update()
-
-{
- StateReturnType status = AIMoveToState::update();
- Object *owner = getMachineOwner();
- if (owner->getAI()->getPath() != 0)
- 
- {
-  Rva003642DFResult end = owner->getAI()->getPath()->rva003642DF(owner->getBfmeRealB8());
-  if (!TheAI->pathfinder()->IsBuildRestrictedCell(&end.m_pos, false, false, 1))
-  status = STATE_SUCCESS;
-  
- }
- return status;
- 
-}
+// AIMoveForBoarding::onEnter is rowed in its home unit; this copy was a duplicate definition.
+// AIMoveForBoarding::update is rowed in its home unit; this copy was a duplicate definition.
 class AIFollowPathState : public AIInternalMoveToState
 
 {
@@ -618,20 +574,8 @@ class AIFollowPathAndEvacuateState : public AIFollowPathState
  
 }
 ;
-StateReturnType AIFollowPathAndEvacuateState::onEnter()
-
-{
- Rva0033FA64Do((const Object0033FA64 *)getMachineOwner());
- return AIFollowPathState::onEnter();
- 
-}
-void AIFollowPathAndEvacuateState::onExit(StateExitType status)
-
-{
- AIFollowPathState::onExit(status);
- Rva0033FA79Do((const Object0033FA79 *)getMachineOwner());
- 
-}
+// AIFollowPathAndEvacuateState::onEnter is rowed in its home unit; this copy was a duplicate definition.
+// AIFollowPathAndEvacuateState::onExit is rowed in its home unit; this copy was a duplicate definition.
 StateReturnType AIFollowPathAndEvacuateState::update()
 
 {

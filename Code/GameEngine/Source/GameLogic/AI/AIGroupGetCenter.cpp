@@ -194,50 +194,7 @@ private:
 // compiler seeing its body (retail calls recompute after it without reloading
 // ECX), and computeGroundPath below only calls it.
 
-Bool AIGroup::getCenter(Coord3D *center)
-{
-	Int count = 0;
-	center->x = 0.0f;
-	center->y = 0.0f;
-	center->z = 0.0f;
-
-	std::list<Object *>::iterator i;
-	for (i = m_memberList.begin(); i != m_memberList.end(); ++i)
-	{
-		if ((*i)->isDisabledByHeld())
-			continue;	// don't bother counting riders in the center calculation
-		if (!(*i)->isMobile())
-			continue;
-		AIUpdateInterface *ai = (*i)->getAIUpdateInterface();
-		if (ai)
-		{
-			const Coord3D *objPos = (*i)->getPosition();
-			center->x += objPos->x;
-			center->y += objPos->y;
-			center->z += objPos->z;
-			++count;
-		}
-	}
-
-	if (count == 0 && !m_memberList.empty())
-	{
-		for (i = m_memberList.begin(); i != m_memberList.end(); ++i)
-		{
-			if ((*i)->isDisabledByHeld())
-				continue;	// don't bother counting riders in the center calculation
-			const Coord3D *objPos = (*i)->getPosition();
-			center->x = objPos->x + center->x;
-			center->y += objPos->y;
-			center->z += objPos->z;
-			++count;
-		}
-	}
-
-	center->x /= count;
-	center->y /= count;
-	center->z /= count;
-	return count > 0;
-}
+// AIGroup::getCenter is rowed in its home unit; this copy was a duplicate definition.
 
 // ?computeGroundPath@AIGroup@@QAE_NPBUCoord3D@@W4CommandSourceType@@@Z,
 // retail 0x0036D3A3, 785B. WorldBuilder lead AIGroup::computeGroundPath

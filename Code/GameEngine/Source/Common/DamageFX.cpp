@@ -169,23 +169,7 @@ ConstFXListPtr DamageFX::getDamageFXList(DamageType t, Real damageAmount, const 
 }
 
 //-------------------------------------------------------------------------------------------------
-// ?DamageFX::getFieldParse present-unmatched
-const FieldParse* DamageFX::getFieldParse() const
-{
-	static const FieldParse myFieldParse[] = 
-	{
-		{ "AmountForMajorFX",						parseAmount,			NULL, 0 },
-		{ "MajorFX",										parseMajorFXList,	NULL, 0 },
-		{ "MinorFX",										parseMinorFXList,	NULL, 0 },
-		{ "ThrottleTime",								parseTime,				NULL, 0 },
-		{ "VeterancyAmountForMajorFX",	parseAmount,			TheVeterancyNames, 0 },
-		{ "VeterancyMajorFX",						parseMajorFXList,	TheVeterancyNames, 0 },
-		{ "VeterancyMinorFX",						parseMinorFXList,	TheVeterancyNames, 0 },
-		{ "VeterancyThrottleTime",			parseTime,				TheVeterancyNames, 0 },
-		{ 0, 0, 0,0 }
-	};
-	return myFieldParse;
-}
+// DamageFX::getFieldParse is rowed in its home unit; this copy was a duplicate definition.
 
 //-------------------------------------------------------------------------------------------Static
 static void parseCommonStuff(

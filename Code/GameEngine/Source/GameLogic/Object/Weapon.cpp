@@ -1449,37 +1449,10 @@ void WeaponStore::deleteAllDelayedDamage()
 }
 
 // ------------------------------------------------------------------------------------------------
-// ?resetWeaponTemplates@WeaponStore@@ present-unmatched
-void WeaponStore::resetWeaponTemplates( void )
-{
-
-	for (Int i = 0; i < m_weaponTemplateVector.size(); i++)
-	{
-		WeaponTemplate* wt = m_weaponTemplateVector[i];
-		wt->reset();
-	}
-
-}
+// WeaponStore::resetWeaponTemplates is rowed in its home unit; this copy was a duplicate definition.
 
 //-------------------------------------------------------------------------------------------------
-// ?reset@WeaponStore@@ present-unmatched
-void WeaponStore::reset()
-{
-	// clean up any overriddes.
-	for (Int i = 0; i < m_weaponTemplateVector.size(); ++i)
-	{
-		WeaponTemplate *wt = m_weaponTemplateVector[i];
-		if (wt->isOverride()) 
-		{
-			WeaponTemplate *override = wt;
-			wt = wt->friend_clearNextTemplate();
-			override->deleteInstance();
-		}
-	}
-
-	deleteAllDelayedDamage();
-	resetWeaponTemplates();
-}
+// WeaponStore::reset is rowed in its home unit; this copy was a duplicate definition.
 
 //-------------------------------------------------------------------------------------------------
 // ?setDelayedDamage@WeaponStore@@ present-unmatched

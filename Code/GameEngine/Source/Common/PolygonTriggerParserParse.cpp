@@ -67,12 +67,7 @@ class Rva00330C50 : public virtual Rva00330C50Interface
  
 }
 ;
-Rva00330C50::Rva00330C50() : container(0)
-
-{
- changed = true;
- 
-}
+// Rva00330C50::Rva00330C50 is rowed in its home unit; this copy was a duplicate definition.
 class AreaPolygonBase 
 {
  public: void reserve(int);

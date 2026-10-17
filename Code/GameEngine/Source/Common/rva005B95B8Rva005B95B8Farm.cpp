@@ -25,12 +25,7 @@ private:
 	UnicodeString m_64;	// +0x64
 };
 
-void AptOnlineHome::rva005B947D(int index, int a, int b)
-{
-	UnicodeString tmp;
-	tmp.format(g_00C73BD0, a, m_64.str(), b);
-	((Rva005B9378 *)this)->rva005B9378(index, tmp);
-}
+// AptOnlineHome::rva005B947D is rowed in its home unit; this copy was a duplicate definition.
 
 struct FactionStatBlock
 {

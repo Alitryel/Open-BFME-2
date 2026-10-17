@@ -91,17 +91,7 @@ extern const Real g_00BC2A10 = 8.0f;
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
 // byte-exact reconstruction: Code/GameEngine/Source/Common/BridgeBehaviorModuleDataDestructorThunk.cpp
-// ??1BridgeBehaviorModuleData@@UAE@XZ present-unmatched
-BridgeBehaviorModuleData::~BridgeBehaviorModuleData( void )
-{
-
-	// clear the fx list
-	m_fx.clear();
-
-	// clear the ocl list
-	m_ocl.clear();
-
-}  // end ~BridgeBehaviorModuleData
+// BridgeBehaviorModuleData::~BridgeBehaviorModuleData is rowed in its home unit; this copy was a duplicate definition.
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------

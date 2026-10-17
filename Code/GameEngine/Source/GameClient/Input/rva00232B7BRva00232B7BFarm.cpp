@@ -43,30 +43,7 @@ private:
 	int m_inputFrame;
 };
 
-void Keyboard::rva00232AE8()
-{
-	*(unsigned short *)&m_slots[15] = 1;
-	*(unsigned char *)((char *)&m_slots[15] - 1) = 1;
-	*(int *)((char *)&m_slots[15] + 2) = m_inputFrame;
-	_STL::vector<BfmePod8, _STL::allocator<BfmePod8> > *pod = (_STL::vector<BfmePod8, _STL::allocator<BfmePod8> > *)&m_keys;
-	pod->erase(pod->begin(), pod->end());
-	for (int i = 0; i < 256; ++i) {
-		if (i == 15)
-			continue;
-		if ((m_slots[i].m0 & 2) == 0)
-			continue;
-		BfmeE8 e;
-		e.m0 = (unsigned char)i;
-		e.m2 = 1;
-		e.m1 = 0;
-		e.m4 = m_inputFrame;
-		m_keys.push_back(e);
-	}
-	if (!m_keys.empty()) {
-		rva00232A42();
-		slot3C();
-	}
-}
+// Keyboard::rva00232AE8 is rowed in its home unit; this copy was a duplicate definition.
 
 // ?rva00232B7B@Keyboard@@QAEXXZ @0x00232B7B 76B. Keyboard erase-and-pump
 // loop: erase the key list, then pump 8-byte entries from virtual slot

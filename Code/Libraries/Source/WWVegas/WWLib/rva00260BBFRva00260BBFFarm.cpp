@@ -125,84 +125,8 @@ class SubTitleWindow
  
 }
 ;
-SubTitleWindow::SubTitleWindow(GameFont *font, float f2, float f3, int i4, int count, int i6, int i7)
-: m_00(0)
-, m_04(font)
-, m_vec()
-, m_14(4)
-, m_18(i6)
-, m_1c(0)
-, m_20(i4)
-, m_24(count)
-, m_28(0)
-, m_2c(i7)
-, m_30(0)
-, m_34(0)
-, m_38(0)
-, m_3c(0)
-, m_40(0)
-, m_44(0.0f)
-, m_48(0.0f)
-, m_4c(0.0f)
-, m_50(0.0f)
-, m_54(0.0f)
-, m_58(0.0f)
-, m_5c(0.0f)
-, m_60(0.0f)
-, m_64(0.0f)
-, m_68(0.0f)
-
-{
- m_34 = new DisplayString *[count];
- m_38 = new DisplayString *[m_24];
- for (int i = 0; i < m_24; ++i) 
- {
-  m_34[i] = TheDisplayStringManager->newDisplayString();
-  m_34[i]->setFont(m_04);
-  
- }
- int w;
- int h;
- 
- {
-  m_34[0]->setText(UnicodeString((const unsigned short*)L" "));
-  m_34[0]->getSize(&w, &h);
-  m_30=h;
-  m_48=(float)h*(1.0f/15.0f);
-  m_4c=f2;
-  m_50=f3-(float)((m_24-1)*h);
-  m_54=(float)m_20+f2;
-  m_58=f3;
-  m_5c=(float)(h>>1)+f2;
-  m_60=(float)(h>>1)+m_50;
-  m_64=(float)m_20-(float)h+m_5c;
-  m_68=(float)((m_24-2)*h)+m_60;
-  
- }
- ((_STL::vector<const ModuleData *>*)&g_bfmeBegKA)->push_back((const ModuleData *)this);
- DisplayString *cur = TheDisplayStringManager->newDisplayString();
- m_00 = cur;
- cur->setFont(font);
- 
-}
-SubTitleWindow::~SubTitleWindow() 
-{
- if(TheDisplayStringManager) 
- {
-  for(int i=0;i<m_24;++i)
-  TheDisplayStringManager->freeDisplayString(m_34[i]);
-  if(m_00)
-  TheDisplayStringManager->freeDisplayString(m_00);
-  
- }
- m_00=0;
- delete[] m_34;
- SubTitleWindow *self=this;
- SubTitleWindow **found=_STL::find((SubTitleWindow**)g_bfmeBegKA,(SubTitleWindow**)g_bfmeEndKA,self);
- if(found!=(SubTitleWindow**)g_bfmeEndKA)
- ((_STL::vector<void*>*)&g_bfmeBegKA)->erase((void**)found);
- 
-}
+// SubTitleWindow::SubTitleWindow is rowed in its home unit; this copy was a duplicate definition.
+// SubTitleWindow::~SubTitleWindow is rowed in its home unit; this copy was a duplicate definition.
 __forceinline bool SubtitleSeparator(unsigned short c)
 {
  return c==0x20||c==0x95;

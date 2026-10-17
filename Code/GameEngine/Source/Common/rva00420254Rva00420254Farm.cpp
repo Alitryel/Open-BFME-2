@@ -53,21 +53,10 @@ private:
     bool m_field91;
 };
 
-VictoryConditions::~VictoryConditions()
-{
-	rva00420110();
-}
+// VictoryConditions::~VictoryConditions is rowed in its home unit; this copy was a duplicate definition.
 
 class Rva0041FE86 { public: void rva0041FE86(); };
-VictoryConditions::VictoryConditions()
-{
-    m_endGameShowing = false;
-    m_endGameShowTime = 0;
-    m_field8C = 0;
-    m_field90 = false;
-    m_field91 = false;
-    ((Rva0041FE86 *)this)->rva0041FE86();
-}
+// VictoryConditions::VictoryConditions is rowed in its home unit; this copy was a duplicate definition.
 typedef char NativeVictorySize[sizeof(VictoryConditions)==0x94 ? 1 : -1];
 
 // Constructor identity: WorldBuilder identifies the C3BA28 family as

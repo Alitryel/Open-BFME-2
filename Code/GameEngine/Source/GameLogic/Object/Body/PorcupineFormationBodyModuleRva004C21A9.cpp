@@ -155,13 +155,7 @@ public:
 	bool Rva004C20D5IsWithin(float range, const Coord3D *a, const Coord3D *b);
 };
 
-bool PorcupineFormationBodyModule::rva004C2095()
-{
-	Object *obj = m_object;
-	if (obj && obj->getContainedBy() && obj->getContainedBy()->getContain())
-		obj->getContainedBy()->getContain()->rvaSlot31();
-	return false;
-}
+// PorcupineFormationBodyModule::rva004C2095 is rowed in its home unit; this copy was a duplicate definition.
 
 void PorcupineFormationBodyModule::rva004C21A9(DamageInfo *damageInfo)
 {
@@ -182,33 +176,6 @@ void PorcupineFormationBodyModule::rva004C21A9(DamageInfo *damageInfo)
 	}
 }
 
-void PorcupineFormationBodyModule::attemptDamage(DamageInfo *damageInfo)
-{
-	if (rva004C2095())
-	{
-		rva004C21A9(damageInfo);
-		ActiveBody::attemptDamage(damageInfo);
-	}
-	else
-		ActiveBody::attemptDamage(damageInfo);
-}
+// PorcupineFormationBodyModule::attemptDamage is rowed in its home unit; this copy was a duplicate definition.
 
-bool PorcupineFormationBodyModule::rva004C2127(Object *other)
-{
-	if (!rva004C2095())
-		return true;
-	Object *self = m_object;
-	if (self == 0)
-		return true;
-	const PorcupineFormationBodyModuleData *data = (const PorcupineFormationBodyModuleData *)m_moduleData;
-	if (data == 0)
-		return true;
-	if (data->m_level == 0 || data->m_level < other->rva00294815())
-		return true;
-	const WeaponTemplate *weapon = data->m_weapon;
-	if (weapon == 0)
-		return false;
-	if (Rva004C20D5IsWithin(((TerrainRoadType *)weapon)->getRoadWidth(), self->getPosition(), other->getPosition()))
-		TheWeaponStore->rva002CE964(data->m_weapon, self, other);
-	return false;
-}
+// PorcupineFormationBodyModule::rva004C2127 is rowed in its home unit; this copy was a duplicate definition.
