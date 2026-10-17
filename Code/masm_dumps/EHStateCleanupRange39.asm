@@ -338,18 +338,6 @@ cleanup_done_00797944:
     ret
 ?rva00797944@@YAXXZ ENDP
 
-; Unwind@00b97c59: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x005C6C7B.
-PUBLIC ?rva00797c59@@YAXXZ
-?rva00797c59@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1Rva005C6C7B@@UAE@XZ
-?rva00797c59@@YAXXZ ENDP
-
 ; Unwind@00b97d25 at RVA 0x00797D25; 20-byte masked-add cleanup adds 4 to [ebp-16] and tail-jumps to the folded vector dtor at 0x0007FAB3.
 PUBLIC ?rva00797D25@@YAXXZ
 ?rva00797D25@@YAXXZ PROC
@@ -786,54 +774,6 @@ PUBLIC ?rva0079B018@@YAXXZ
     jmp ?apply@Rva00574293DwordImmSetter@@QAEXXZ
 ?rva0079B018@@YAXXZ ENDP
 
-; Unwind@00b9b03e at RVA 0x0079B03E; 20-byte funclet adds 4 to [ebp-10h] (zero stays zero) and tail-jumps to apply at 0x0057428C.
-PUBLIC ?rva0079B03E@@YAXXZ
-?rva0079B03E@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-10h]
-    mov eax, DWORD PTR [ebp-10h]
-    add eax, 4
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ?apply@Rva0057428CDwordImmSetter@@QAEXXZ
-?rva0079B03E@@YAXXZ ENDP
-
-; Unwind@00b9b052 at RVA 0x0079B052; 20-byte funclet adds 8 to [ebp-10h] (zero stays zero) and tail-jumps to apply at 0x005E186A.
-PUBLIC ?rva0079B052@@YAXXZ
-?rva0079B052@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-10h]
-    mov eax, DWORD PTR [ebp-10h]
-    add eax, 8
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ?apply@Rva0005E186ADwordImmSetter@@QAEXXZ
-?rva0079B052@@YAXXZ ENDP
-
-; Unwind@00b9b066 at RVA 0x0079B066; 20-byte funclet adds 0Ch to [ebp-10h] (zero stays zero) and tail-jumps to apply at 0x005E186A.
-PUBLIC ?rva0079B066@@YAXXZ
-?rva0079B066@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-10h]
-    mov eax, DWORD PTR [ebp-10h]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ?apply@Rva0005E186ADwordImmSetter@@QAEXXZ
-?rva0079B066@@YAXXZ ENDP
-
-; Unwind@00b9b07a at RVA 0x0079B07A; 20-byte funclet adds 10h to [ebp-10h] (zero stays zero) and tail-jumps to apply at 0x00574265.
-PUBLIC ?rva0079B07A@@YAXXZ
-?rva0079B07A@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-10h]
-    mov eax, DWORD PTR [ebp-10h]
-    add eax, 10h
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ?apply@Rva000574265DwordImmSetter@@QAEXXZ
-?rva0079B07A@@YAXXZ ENDP
-
 ; Unwind@00b9b22a at RVA 0x0079B22A; 20-byte funclet adds 8 to [ebp-10h] (zero stays zero) and tail-jumps to apply at 0x003F3F7C.
 PUBLIC ?rva0079B22A@@YAXXZ
 ?rva0079B22A@@YAXXZ PROC
@@ -893,18 +833,6 @@ PUBLIC ?rva0079B2B0@@YAXXZ
     and ecx, eax
     jmp ?apply@Rva0005D23FEDwordImmSetter@@QAEXXZ
 ?rva0079B2B0@@YAXXZ ENDP
-
-; Unwind@00b9b2c4 at RVA 0x0079B2C4; 20-byte funclet adds 0Ch to [ebp-10h] (zero stays zero) and tail-jumps to dtor at 0x005CD1A9.
-PUBLIC ?rva0079B2C4@@YAXXZ
-?rva0079B2C4@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-10h]
-    mov eax, DWORD PTR [ebp-10h]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1Rva005CD1A9@@UAE@XZ
-?rva0079B2C4@@YAXXZ ENDP
 
 ; Unwind@00b9b2d8 at RVA 0x0079B2D8; 20-byte funclet adds 14h to [ebp-10h] (zero stays zero) and tail-jumps to apply at 0x005753E2.
 PUBLIC ?rva0079B2D8@@YAXXZ
@@ -1270,18 +1198,6 @@ cleanup_done_0079D32A:
     ret
 ?rva0079D32A@@YAXXZ ENDP
 
-; Unwind@00b9d40b: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x00506B28.
-PUBLIC ?rva0079d40b@@YAXXZ
-?rva0079d40b@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ?apply@Rva00506B28DwordImmSetter@@QAEXXZ
-?rva0079d40b@@YAXXZ ENDP
-
 ; Unwind@00b9d501 at RVA 0x0079D501; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-28], then loads the cleanup pointer from [ebp+8] and tail-jumps to AsciiString at 0x0048BA39.
 PUBLIC ?rva0079D501@@YAXXZ
@@ -1295,18 +1211,6 @@ PUBLIC ?rva0079D501@@YAXXZ
 cleanup_done_0079D501:
     ret
 ?rva0079D501@@YAXXZ ENDP
-
-; Unwind@00b9d5dd at RVA 0x0079D5DD; 20-byte funclet adds 0Ch to [ebp-10h] (zero stays zero) and tail-jumps to apply at 0x00506B28.
-PUBLIC ?rva0079D5DD@@YAXXZ
-?rva0079D5DD@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-10h]
-    mov eax, DWORD PTR [ebp-10h]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ?apply@Rva00506B28DwordImmSetter@@QAEXXZ
-?rva0079D5DD@@YAXXZ ENDP
 
 ; Unwind@00b9d7e8 at RVA 0x0079D7E8; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-20], then loads the cleanup pointer from [ebp+8] and tail-jumps to AsciiString at 0x0048BA39.
@@ -1376,18 +1280,6 @@ PUBLIC ?rva0079DC5B@@YAXXZ
     jmp ??1Rva004444D2@@UAE@XZ
 ?rva0079DC5B@@YAXXZ ENDP
 
-; Unwind@00b9dc6f at RVA 0x0079DC6F; 20-byte funclet adds 6Ch to [ebp-10h] (zero stays zero) and tail-jumps to apply at 0x0059EB3A.
-PUBLIC ?rva0079DC6F@@YAXXZ
-?rva0079DC6F@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-10h]
-    mov eax, DWORD PTR [ebp-10h]
-    add eax, 6Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ?apply@Rva0059EB3ADwordImmSetter@@QAEXXZ
-?rva0079DC6F@@YAXXZ ENDP
-
 ; Unwind@00b9e339 at RVA 0x0079E339; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-20], then takes the cleanup object address at [ebp-40] and tail-jumps to AsciiString at 0x0048BA39.
 PUBLIC ?rva0079E339@@YAXXZ
@@ -1417,33 +1309,7 @@ cleanup_done_0079E352:
 ?rva0079E352@@YAXXZ ENDP
 
 ; Unwind@00b9ee86 at RVA 0x0079EE86; 24-byte interval ends at RET.
-; Retail calls matched MSVC 7.1 vector destructor iterator 0x00629110 with object base [ebp-28] + 0x174, element size 12, count 2 and destructor pointer 0x0047FAB3.
-PUBLIC ?rva0079EE86@@YAXXZ
-?rva0079EE86@@YAXXZ PROC
-    push 0047FAB3h
-    push 2
-    push 12
-    mov eax, DWORD PTR [ebp-28]
-    add eax, 174h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva0079EE86@@YAXXZ ENDP
-
 ; Unwind@00b9ef60 at RVA 0x0079EF60; 24-byte interval ends at RET.
-; Retail calls matched MSVC 7.1 vector destructor iterator 0x00629110 with object base [ebp-20] + 0x174, element size 12, count 2 and destructor pointer 0x0047FAB3.
-PUBLIC ?rva0079EF60@@YAXXZ
-?rva0079EF60@@YAXXZ PROC
-    push 0047FAB3h
-    push 2
-    push 12
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 174h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva0079EF60@@YAXXZ ENDP
-
 ; Unwind@00b9f01a at RVA 0x0079F01A; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-16], then loads the cleanup pointer from [ebp+8] and tail-jumps to UnicodeString at 0x005B804E.
 PUBLIC ?rva0079F01A@@YAXXZ
@@ -1869,18 +1735,6 @@ PUBLIC ?rva007A17AC@@YAXXZ
     and ecx, eax
     jmp ?apply@Rva002B2294DwordImmSetter@@QAEXXZ
 ?rva007A17AC@@YAXXZ ENDP
-
-; Unwind@00ba17dd at RVA 0x007A17DD; 20-byte funclet adds 8 to [ebp-14h] (zero stays zero) and tail-jumps to apply at 0x00238D97.
-PUBLIC ?rva007A17DD@@YAXXZ
-?rva007A17DD@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-14h]
-    mov eax, DWORD PTR [ebp-14h]
-    add eax, 8
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ?apply@Rva00238D97DwordImmSetter@@QAEXXZ
-?rva007A17DD@@YAXXZ ENDP
 
 ; Unwind@00ba1a16 at RVA 0x007A1A16; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-28], then loads the cleanup pointer from [ebp+8] and tail-jumps to UnicodeString at 0x005B804E.
@@ -2512,19 +2366,6 @@ PUBLIC ?rva007A4374@@YAXXZ
     ret
 ?rva007A4374@@YAXXZ ENDP
 
-; Unwind@00ba43b2 at RVA 0x007A43B2; 22-byte eh-vector-dtor passes [ebp-32]+1Ch with size 12 count 2 and raw dtor VA 0x009EB28A.
-PUBLIC ?rva007A43B2@@YAXXZ
-?rva007A43B2@@YAXXZ PROC
-    push 009EB28Ah
-    push 2
-    push 0Ch
-    mov eax, DWORD PTR [ebp-32]
-    add eax, 1Ch
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva007A43B2@@YAXXZ ENDP
-
 ; Unwind@00ba4645 at RVA 0x007A4645; 19-byte eh-vector-dtor passes [ebp-72] with size 12 count 2 and raw dtor VA 0x009EC919.
 PUBLIC ?rva007A4645@@YAXXZ
 ?rva007A4645@@YAXXZ PROC
@@ -2995,33 +2836,7 @@ cleanup_done_007A75D0:
 ?rva007A75D0@@YAXXZ ENDP
 
 ; Unwind@00ba770c at RVA 0x007A770C; 24-byte interval ends at RET.
-; Retail calls matched MSVC 7.1 vector destructor iterator 0x00629110 with object base [ebp-24] + 0x80, element size 40, count 7 and destructor pointer 0x00B3C8C0.
-PUBLIC ?rva007A770C@@YAXXZ
-?rva007A770C@@YAXXZ PROC
-    push 00B3C8C0h
-    push 7
-    push 40
-    mov eax, DWORD PTR [ebp-24]
-    add eax, 80h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva007A770C@@YAXXZ ENDP
-
 ; Unwind@00ba7786 at RVA 0x007A7786; 24-byte interval ends at RET.
-; Retail calls matched MSVC 7.1 vector destructor iterator 0x00629110 with object base [ebp-40] + 0x80, element size 40, count 7 and destructor pointer 0x00B3C8C0.
-PUBLIC ?rva007A7786@@YAXXZ
-?rva007A7786@@YAXXZ PROC
-    push 00B3C8C0h
-    push 7
-    push 40
-    mov eax, DWORD PTR [ebp-40]
-    add eax, 80h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva007A7786@@YAXXZ ENDP
-
 ; Unwind@00ba78f8 at RVA 0x007A78F8; 25-byte interval ends at RET.
 ; Retail tests and clears bit 0 at [ebp-16], then loads the cleanup pointer from [ebp+4] and tail-jumps to matched BfmeWideResult destructor at 0x0004AA28.
 PUBLIC ?rva007A78F8@@YAXXZ

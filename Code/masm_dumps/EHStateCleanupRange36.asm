@@ -948,18 +948,6 @@ cleanup_done_0076B9A7:
     ret
 ?rva0076B9A7@@YAXXZ ENDP
 
-; Unwind@00b6cd69: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x0049B47C.
-PUBLIC ?rva0076CD69@@YAXXZ
-?rva0076CD69@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1Gen_uw_0049b47c@@QAE@XZ
-?rva0076CD69@@YAXXZ ENDP
-
 ; Unwind@00b6d075: 22-byte eh-vector-dtor target passes [ebp-0E4h] with size 4 count 20 and raw destructor VA 0x00607F08.
 PUBLIC ?rva0076D075@@YAXXZ
 ?rva0076D075@@YAXXZ PROC
@@ -1044,19 +1032,6 @@ PUBLIC ?rva00771F74@@YAXXZ
     jmp ??1Gen_uw_0049b47c@@QAE@XZ
 ?rva00771F74@@YAXXZ ENDP
 
-; Unwind@00b720d9: eh-vector-dtor cleanup adds 70h to [ebp-20] and passes it to 0047FAB3h.
-PUBLIC ?rva007720D9@@YAXXZ
-?rva007720D9@@YAXXZ PROC
-    push 0047FAB3h
-    push 3
-    push 0Ch
-    mov eax, DWORD PTR [ebp-20]
-    add eax, 70h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva007720D9@@YAXXZ ENDP
-
 ; Unwind@00b72128: eh-vector-dtor cleanup adds 70h to [ebp-16] and passes it to 0047FAB3h.
 PUBLIC ?rva00772128@@YAXXZ
 ?rva00772128@@YAXXZ PROC
@@ -1069,18 +1044,6 @@ PUBLIC ?rva00772128@@YAXXZ
     call ??_M@YGXPAXIHP6EX0@Z@Z
     ret
 ?rva00772128@@YAXXZ ENDP
-
-PUBLIC ?rva00773F6A@@YAXXZ
-?rva00773F6A@@YAXXZ PROC
-    push 0069D7C2h
-    push 4
-    push 18h
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 10h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva00773F6A@@YAXXZ ENDP
 
 ; Unwind@00b75816: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x0049B47C.
 PUBLIC ?rva00775816@@YAXXZ
@@ -1154,18 +1117,6 @@ PUBLIC ?rva0077836F@@YAXXZ
     ret
 ?rva0077836F@@YAXXZ ENDP
 
-; Unwind@00b7918e: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x0049B47C.
-PUBLIC ?rva0077918e@@YAXXZ
-?rva0077918e@@YAXXZ PROC
-    mov ecx, DWORD PTR [ebp-16]
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 0Ch
-    neg ecx
-    sbb ecx, ecx
-    and ecx, eax
-    jmp ??1Gen_uw_0049b47c@@QAE@XZ
-?rva0077918e@@YAXXZ ENDP
-
 ; Unwind@00b7a855: masked-add cleanup adds 0Ch to [ebp-16] and tail-jumps to 0x0049B47C.
 PUBLIC ?rva0077a855@@YAXXZ
 ?rva0077a855@@YAXXZ PROC
@@ -1178,16 +1129,5 @@ PUBLIC ?rva0077a855@@YAXXZ
     jmp ??1Gen_uw_0049b47c@@QAE@XZ
 ?rva0077a855@@YAXXZ ENDP
 
-PUBLIC ?rva0077BB8F@@YAXXZ
-?rva0077BB8F@@YAXXZ PROC
-    push 0072D4C0h
-    push 14h
-    push 60h
-    mov eax, DWORD PTR [ebp-16]
-    add eax, 40h
-    push eax
-    call ??_M@YGXPAXIHP6EX0@Z@Z
-    ret
-?rva0077BB8F@@YAXXZ ENDP
 _TEXT ENDS
 END
