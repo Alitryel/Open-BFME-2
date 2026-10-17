@@ -3,6 +3,9 @@
 // ?notifyOfMemberDeath@HordeContain@@UAEXPAVObject@@@Z
 // partial score=0.8211008385075881 date=2026-10-16
 // cl: /Ireference/shims/bfme2_ascii /O1 /DNDEBUG /MD /D_CRTIMP= /arch:SSE /EHs /D_STLP_USE_STATIC_LIB /Ireference/shims/bfmealloc /G7 /Ireference/shims/bfmelist /D_STLP_NO_EXCEPTIONS /DWIN32 /D_WINDOWS
+// Rebase merge 2026-10-17 (opus): a parallel bank (refreshDeathDrawable(Object*) helper taking the owner,
+// `UpdateModule *update` local, HordeDeathBody* body local, deathData local) compiles to the IDENTICAL 567 B
+// as this body: same lone residual (slot-96 call via lea ecx,[ebx+0x11c] instead of esi). Neither spelling helps.
 // stlport
 #include "ascii_string.h"
 namespace _STL {
