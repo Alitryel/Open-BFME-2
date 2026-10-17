@@ -1,4 +1,6 @@
 // ?onComingOutOfShroud@Drawable@@QAEXXZ
+// partial score=0.741 date=2026-10-17
+// ?onComingOutOfShroud@Drawable@@QAEXXZ
 // partial score=0.804 date=2026-10-15
 // ?onComingOutOfShroud@Drawable@@AAEXXZ
 // partial score=0.87 date=2026-10-13
@@ -213,6 +215,11 @@ void Drawable::onComingOutOfShroud()
 	Object *obj = m_object;
 	Object *target = obj;
 	const ThingTemplate *tmpl = m_template;
+	Object *lateObj = obj;
+	int maskShared = 0x80;
+	*(volatile int*)&maskShared = 0x80;
+	*(volatile Object**)&lateObj = obj;
+	*(volatile const ThingTemplate**)&tmpl = tmpl;
 	Player *localPlayer = ThePlayerList ? ThePlayerList->getLocalPlayer() : 0;
 	if (!tmpl || !obj || !localPlayer || !TheGameLogic || TheGameLogic->getFrame() <= 5)
 		return;
@@ -256,8 +263,10 @@ void Drawable::onComingOutOfShroud()
 			}
 		}
 
-		int mask80 = 0x80;
-		if (((tmpl->m_kindOf[0] & mask80) != 0) && !(m_status & 0x40)) {
+		struct { int v; unsigned char pad[3]; } mask80 = { 0x80 };
+		*(volatile int *)&mask80.v = 0x80;
+		lateObj = target;
+		if (((tmpl->m_kindOf[0] & mask80.v) != 0) && !(m_status & 0x40)) {
 			static NameKeyType key_CastleMemberBehavior = TheNameKeyGenerator->nameToKey("CastleMemberBehavior");
 			Module *member = target->findModule(key_CastleMemberBehavior);
 			if (member) {
@@ -282,8 +291,8 @@ void Drawable::onComingOutOfShroud()
 			}
 		}
 
-		if (!(m_status & mask80) && !target->isEffectivelyDead()) {
-			m_status |= mask80;
+		if (!(m_status & mask80.v) && !lateObj->isEffectivelyDead()) {
+			m_status |= mask80.v;
 			int event = tmpl->m_revealedEvent;
 			if (event != -1) {
 				Object *nearest = ((Drawable *)target)->rva00272AD5();
