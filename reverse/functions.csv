@@ -35493,7 +35493,6 @@ _Rva001CA000Vp6WideAccum,,0x001CA000,4240,Code/GameEngine/Source/Common/Rva001CA
 ?ji_006298b6@@YAXXZ,,0x006298B6,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA5CC;dll=msvcr71.dll;import=_CIasin;target=_CIasin
 ?ji_006298d4@@YAXXZ,,0x006298D4,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA5B8;dll=msvcr71.dll;import=tolower;target=tolower
 ?ji_006298da@@YAXXZ,,0x006298DA,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA5B4;dll=msvcr71.dll;import=toupper;target=toupper
-?ji_0062991c@@YAXXZ,,0x0062991C,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA588;dll=msvcr71.dll;import=_controlfp;target=_controlfp
 ?ji_0062992e@@YAXXZ,,0x0062992E,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA57C;dll=msvcr71.dll;import=atan2;target=atan2
 ?ji_00629934@@YAXXZ,,0x00629934,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA578;dll=msvcr71.dll;import=ceil;target=ceil
 ?ji_0062993a@@YAXXZ,,0x0062993A,6,Code/gen_small/imports_000.cpp,matched,gen-import;slot=0x00BBA574;dll=msvcr71.dll;import=tan;target=tan
@@ -96333,3 +96332,4 @@ __RTC_SetErrorFunc,,0x0075ACD1,16,Code/Libraries/Source/CRT/RtcGetErrorFunc.cpp,
 ?_RTC_GetErrorFunc@@YAP6AHHPBDH00ZZPBX@Z,,0x0075ACE1,6,Code/Libraries/Source/CRT/RtcGetErrorFunc.cpp,matched,Existing C++ getter data repair; ordinary6B body shares original private __RTC_ErrorReportFunc with setter; address-named external and artificial emission helper removed
 __RTC_GetErrDesc,,0x0075AC98,24,Code/Libraries/Source/CRT/RtcGetErrorFunc.cpp,matched,Authored from native userapi.obj identity and full24B; signed index guard0..3; native private16B four-string descriptor table atDDDFF4 preserved; complete literal values separately verified
 __RTC_SetErrorType,,0x0075ACB0,33,Code/Libraries/Source/CRT/RtcGetErrorFunc.cpp,matched,Authored from native userapi.obj identity and complete33B; signed index0..3 swaps existing external _RTC_ErrorLevels int table; original error.obj remains its provider; complete four-body userapi member now C++
+__controlfp,,0x0062991C,6,Code/Libraries/Source/CRT/ControlFp.cpp,matched,Typed real C++ import veneer; public float.h unsigned32 two-argument cdecl ABI; original fp8 REL32 and retail PE msvcr71 _controlfp IAT BBA588 independently prove identity; replaces anonymous import scaffold
