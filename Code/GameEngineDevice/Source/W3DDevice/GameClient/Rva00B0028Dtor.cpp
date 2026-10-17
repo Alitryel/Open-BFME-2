@@ -1,4 +1,5 @@
 // cl: /O1 /MD /EHsc
+// Native EH action 0x7612FA destroys two texture references at +0x120D8; the complete 528B destructor EH graph proves this 24B lifetime.
 // ??1Rva00B0028@@UAE@XZ, retail 0x000B0028..0x000B0238 (528 bytes, EH):
 // by shape BFME2's WorldHeightMap::~WorldHeightMap (address-derived name kept
 // to agree with the pin its scalar deleting destructor 0x000B0238 calls; own
