@@ -62,13 +62,13 @@ Rva0059EA42::Rva0059EA42(EmitVtableTag *)
 {
 }
 
-// Bases at +0x60 and +0x6C: their tables (0x00C713B8, 0x00C713AC) hold the
+// Novtable bases at +0x60 and +0x6C: their tables (0x00C713B8, 0x00C713AC) hold the
 // this-adjusting deleting-destructor thunks 0x005A00D6 (sub ecx, 0x60; slot 0)
 // and 0x005A00DE (sub ecx, 0x6C; slot 2), target evidence for both; the
 // derived Rva005BA23A and Rva005BA2CB tables repeat that shape.
-class Rva005A0009Base0 { public: virtual ~Rva005A0009Base0(); private: char m_unmodelled04[0x60 - 0x04]; };
-class Rva005A0009Base60 { public: virtual ~Rva005A0009Base60(); private: char m_unmodelled64[0x6C - 0x64]; };
-class Rva005A0009Base6C { public: virtual void slot0(); virtual void slot1(); virtual ~Rva005A0009Base6C(); };
+class __declspec(novtable) Rva005A0009Base0 { public: virtual ~Rva005A0009Base0(); private: char m_unmodelled04[0x60 - 0x04]; };
+class __declspec(novtable) Rva005A0009Base60 { public: virtual ~Rva005A0009Base60(); private: char m_unmodelled64[0x6C - 0x64]; };
+class __declspec(novtable) Rva005A0009Base6C { public: virtual void slot0(); virtual void slot1(); virtual ~Rva005A0009Base6C(); };
 class Rva005A0009 : public Rva005A0009Base0, public Rva005A0009Base60, public Rva005A0009Base6C
 {
 public:
