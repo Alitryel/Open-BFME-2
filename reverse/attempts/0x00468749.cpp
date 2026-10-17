@@ -1,4 +1,6 @@
 // ?update@TransportContain@@UAE?AW4UpdateSleepTime@@XZ
+// partial score=0.99 date=2026-10-17
+// ?update@TransportContain@@UAE?AW4UpdateSleepTime@@XZ
 // partial score=0.9923155416012559 date=2026-10-14
 // cl: /O1 /G7 /arch:SSE /DNDEBUG /MD /I.
 //
@@ -195,10 +197,7 @@ UpdateSleepTime TransportContain::update()
 				BodyModuleInterface *body = object->m_body;
 				if (body->getHealth() < body->getMaxHealth())
 				{
-					float regen = body->getMaxHealth();
-					regen *= md->m_healthRegen;
-					regen *= g_secondsPerLogicFrame;
-					regen *= 0.01f;
+					float regen = (body->getMaxHealth() * md->m_healthRegen * 0.01f) * g_secondsPerLogicFrame;
 					object->attemptHealing(regen, m_object);
 				}
 			}
