@@ -121,3 +121,23 @@ Rva0010F7EE::Rva0010F7EE(EmitVtableTag *) {}
 class Rva0010F83E { public: Rva0010F83E(EmitVtableTag *); virtual ~Rva0010F83E(); };
 // ?<Rva0010F83E::Rva0010F83E> absent-from-retail
 Rva0010F83E::Rva0010F83E(EmitVtableTag *) {}
+
+// Each retail call in this body reads an address the ledger already carries
+// under the rowed name below; bind the donor spelling to that owner so one
+// address keeps one definition.
+//   0x000C2980 -> ??1Rva000C2980@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva000C2980@@UAE@XZ=??1Rva000C2980@@QAE@XZ")
+//   0x000D1BA6 -> ??1Rva006DABB0@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva000D1BA6@@UAE@XZ=??1Rva006DABB0@@UAE@XZ")
+//   0x000E5033 -> ??1Gen_uw_000e5033@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva000E5033@@UAE@XZ=??1Gen_uw_000e5033@@QAE@XZ")
+//   0x000E6C6F -> ??1Rva000E6AC0@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva000E6C6F@@UAE@XZ=??1Rva000E6AC0@@UAE@XZ")
+//   0x000EFC45 -> ??1Geometry@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva000EFC45@@UAE@XZ=??1Geometry@@QAE@XZ")
+//   0x000F26DC -> ??1W3DVolumetricShadow@@UAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva000F26DC@@UAE@XZ=??1W3DVolumetricShadow@@UAE@XZ")
+//   0x000F2797 -> ??1W3DShadowGeometryManager@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva000F2797@@UAE@XZ=??1W3DShadowGeometryManager@@QAE@XZ")
+//   0x00142FE0 -> ??1RenderInfoClass@@QAE@XZ
+#pragma comment(linker, "/alternatename:??1Rva00142FE0@@UAE@XZ=??1RenderInfoClass@@QAE@XZ")
