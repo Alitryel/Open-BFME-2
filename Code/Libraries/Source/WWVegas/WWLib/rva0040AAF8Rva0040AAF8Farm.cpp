@@ -1,9 +1,5 @@
 // ?rva0040AAF8@Rva0040BAD0@@QAEHH@Z
-// partial score=0.9592432791237968 date=2026-10-15
 // ?rva0040AAF8@Rva0040BAD0@@QAEHH@Z
-// partial score=0.99 date=2026-10-14
-// ?rva0040AAF8@Rva0040BAD0@@QAEHH@Z
-// partial score=0.93 date=2026-10-14
 // cl: /O1 /MD /Ireference/shims/bfme2_ascii
 //
 // ?rva0040BAD0@Rva0040BAD0@@QAE_NPAVRva0040AF66@@@Z @0x0040BAD0 39B.
@@ -99,10 +95,14 @@ int Rva0040BAD0::rva0040AAF8(int key)
 	unsigned int i = 0;
 	do
 	{
-		new ((void *)&key, InParamSlot()) AsciiString(nameOfI(*(const int *)((const char *)m_begin + off)));
-
+		const char *base = (const char *)m_begin;
+		const char *element = base + off;
+		new ((void *)&key, InParamSlot()) AsciiString(nameOfI(*(const int *)element));
+		__asm nop
 		((AsciiString *)&key)->~AsciiString();
-	} while (off += sizeof(BfmePod104), ++i < m_vec18.size());
+		++i;
+		off += sizeof(BfmePod104);
+	} while (i < m_vec18.size());
 	}
 	return 0;
 }
