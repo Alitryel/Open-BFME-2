@@ -268,3 +268,14 @@ void _Init()
 }
 }
 
+
+// Retail 0x000327D0 (13 bytes): the assertion callback the allocator
+// constructor above installs at +0x4B8 with the allocator as its +0x4BC
+// context. It writes the expression to the debugger and breaks; the context
+// argument is unused (the default assertion handler of EA's allocator).
+extern "C" __declspec(dllimport) void __stdcall OutputDebugStringA(const char *text);
+void Rva000327D0Assertion(const char *expression)
+{
+    OutputDebugStringA(expression);
+    __debugbreak();
+}
