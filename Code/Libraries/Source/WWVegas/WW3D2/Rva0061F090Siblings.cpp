@@ -21,4 +21,4 @@ int __cdecl rva0061F090()
 
 // The global(s) below are defined elsewhere under another name at the same
 // address (the census owner of that DIR32 target); bind this unit's spelling.
-#pragma comment(linker, "/alternatename:_g_bfme00E09C0C=?TheInvokeRegistry@@3PAVGen_009EBA60Target@@A")
+#pragma comment(linker, "/alternatename:_g_bfme00E09C0C=?TheQ1Receiver@@3PAVQ1Receiver0134FAAC@@A")

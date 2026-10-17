@@ -14,7 +14,7 @@ public:
 
 // Retail vtable VA 0x0109689C; the alternate name defines no table.
 extern "C" void *bfmeVftPartitionFilterPlayerAffiliation[];
-#pragma comment(linker, "/alternatename:_bfmeVftPartitionFilterPlayerAffiliation=??_7PartitionFilterPlayerAffiliation@@6B@")
+#pragma comment(linker, "/alternatename:_bfmeVftPartitionFilterPlayerAffiliation=??_7Rva00261409Filter@@6B@")
 
 Rva00160CE0 &Rva00160CE0::set(int a, int b, char c)
 {

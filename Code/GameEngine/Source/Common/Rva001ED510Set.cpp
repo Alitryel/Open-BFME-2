@@ -1,7 +1,7 @@
 // cl: -Ireference/open-bfme-1/game/GameEngine/Source/Common
 
 extern "C" const void *bfmeVftPartitionFilterValidCommandButtonTarget[];
-#pragma comment(linker, "/alternatename:_bfmeVftPartitionFilterValidCommandButtonTarget=??_7PartitionFilterValidCommandButtonTarget@@6B@")
+#pragma comment(linker, "/alternatename:_bfmeVftPartitionFilterValidCommandButtonTarget=??_7Rva002614BCFilter@@6B@")
 
 class Rva001ED510
 {
