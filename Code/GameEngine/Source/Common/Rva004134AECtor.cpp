@@ -21,7 +21,7 @@ private:
 	char m_pad04[8];
 };
 
-class LadderPref { public: char m_opaque[0x2C]; };
+class LadderPref { public: char m_opaque[0x10]; };	// 16 bytes: the retail copy ctor 0x5BA3F5 copies +0, +4, +8 (short), +0xC
 
 class Rva004134AE : public SubsystemInterface
 {

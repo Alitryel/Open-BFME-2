@@ -23,6 +23,7 @@ enum ScienceType
 
 class LadderPref
 {
+	char m_opaque[0x10];	// 16 bytes: the retail copy ctor 0x5BA3F5 copies +0, +4, +8 (short), +0xC
 };
 
 class BfmeFixedStorage002CF0F0
