@@ -1,4 +1,6 @@
 // ?findProductionTarget@AIFarmKillSquad@@QAEPAVObject@@PAX@Z
+// partial score=0.548 date=2026-10-17
+// ?findProductionTarget@AIFarmKillSquad@@QAEPAVObject@@PAX@Z
 // partial score=0.45 date=2026-10-14
 // ?findProductionTarget@AIFarmKillSquad@@QAEPAVObject@@PAX@Z
 // partial score=0.75 date=2026-10-09
@@ -411,7 +413,14 @@ Object *AIFarmKillSquad::findProductionTarget(void *player)
 				byDistance.insert(_STL::pair<const float, Object *>(distance, obj));
 			}
 		}
-		return (0 != byDistance.size()) ? (((holder->m_08 ? (--byDistance.end()) : (--byDistance.end())))->second) : (0);
+		{
+			Object *nearest = 0;
+			if (0 != byDistance.size()) {
+				_STL::map<float, Object *>::iterator last = holder->m_08 ? (--byDistance.end()) : (--byDistance.end());
+				nearest = last->second;
+			}
+			return nearest;
+		}
 	}
 	if (ids.empty())
 		return 0;
