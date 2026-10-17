@@ -82,3 +82,63 @@ public:
 Rva004D7B70::~Rva004D7B70()
 {
 }
+
+// The five turret-state complete destructors share this existing State prefix.
+// Native constructors4D7B98/4D7BBF/4D7BEA/4D7C0D/4D7C30 install respectively
+// C607D8/C60830/C60890/C608F0/C60950. Each slot0 is deleting destructor4D8507,
+// which calls the same complete5B State cleanup4D7B93. The named constructors
+// and ZH TurretAI.cpp guide identity; native tables independently prove lifetime.
+// These destructor-only novtable views retain the target32B prefix and scalar
+// tails at20. Their constructor file continues to own the table definitions.
+class __declspec(novtable) TurretAIIdleState : public Rva004D7B70
+{
+public:
+ virtual ~TurretAIIdleState();
+private:
+ unsigned int m_nextIdleScan;
+};
+
+class __declspec(novtable) TurretAIIdleScanState : public Rva004D7B70
+{
+public:
+ virtual ~TurretAIIdleScanState();
+private:
+ float m_desiredAngle;
+};
+
+class __declspec(novtable) TurretAIAimTurretState : public Rva004D7B70
+{
+public:
+ virtual ~TurretAIAimTurretState();
+};
+
+class __declspec(novtable) TurretAIRecenterTurretState : public Rva004D7B70
+{
+public:
+ virtual ~TurretAIRecenterTurretState();
+};
+
+class __declspec(novtable) TurretAIHoldTurretState : public Rva004D7B70
+{
+public:
+ virtual ~TurretAIHoldTurretState();
+private:
+ unsigned int m_timestamp;
+};
+
+typedef char StatePrefixSize[(sizeof(State) == 0x20) ? 1 : -1];
+typedef char IdleStateSize[(sizeof(TurretAIIdleState) == 0x24) ? 1 : -1];
+typedef char IdleScanStateSize[(sizeof(TurretAIIdleScanState) == 0x24) ? 1 : -1];
+typedef char AimStateSize[(sizeof(TurretAIAimTurretState) == 0x20) ? 1 : -1];
+typedef char RecenterStateSize[(sizeof(TurretAIRecenterTurretState) == 0x20) ? 1 : -1];
+typedef char HoldStateSize[(sizeof(TurretAIHoldTurretState) == 0x24) ? 1 : -1];
+
+TurretAIIdleState::~TurretAIIdleState() {}
+
+TurretAIIdleScanState::~TurretAIIdleScanState() {}
+
+TurretAIAimTurretState::~TurretAIAimTurretState() {}
+
+TurretAIRecenterTurretState::~TurretAIRecenterTurretState() {}
+
+TurretAIHoldTurretState::~TurretAIHoldTurretState() {}
