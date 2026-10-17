@@ -45,3 +45,8 @@ private:
  std::string s490;
 };
 Rva0038ADE2::~Rva0038ADE2() {}
+
+// Native unwind action 0x0078059A belongs to this destructor's complete
+// EH graph. It destroys names[8] at owner+0xD0 with 12-byte stride, through
+// the ordinary std::string member lifetime above. Its independent 24-byte
+// boundary and compiler-emitted code/relocations are verified as a whole.
